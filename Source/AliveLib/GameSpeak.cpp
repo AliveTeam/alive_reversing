@@ -156,7 +156,7 @@ BaseGameObject* GameSpeak::vdtor_421870(signed int flags)
     dtor_4218A0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

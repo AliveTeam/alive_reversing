@@ -124,7 +124,7 @@ Switch* Switch::vdtor_4D5AD0(signed int flags)
     dtor_4D5B00();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

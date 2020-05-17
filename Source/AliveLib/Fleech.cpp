@@ -279,7 +279,7 @@ int CC Fleech::CreateFromSaveState_42DD50(const BYTE* pBuffer)
         ResourceManager::LoadResourceFile_49C170("FLEEBLOW.BAN", nullptr);
     }
 
-    auto pFleech = alive_new<Fleech>();
+    auto pFleech = ae_new<Fleech>();
     pFleech->ctor_429DC0(pTlv, pState->field_40_tlvInfo);
     pFleech->field_C_objectId = pState->field_4_obj_id;
 
@@ -548,7 +548,7 @@ void Fleech::M_Sleeping_0_42F0B0()
 
                 if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
                 {
-                    auto pSnoozeParticle = alive_new<SnoozeParticle>();
+                    auto pSnoozeParticle = ae_new<SnoozeParticle>();
                     if (pSnoozeParticle)
                     {
                         const FP yPos = (field_CC_sprite_scale * FP_FromInteger(-20)) + field_BC_ypos;
@@ -1122,7 +1122,7 @@ void Fleech::M_DeathByFalling_16_42FCE0()
 {
     if (field_10C_health > FP_FromInteger(0))
     {
-        auto pBlood = alive_new<Blood>();
+        auto pBlood = ae_new<Blood>();
         if (pBlood)
         {
             pBlood->ctor_40F0B0(field_B8_xpos, field_BC_ypos - FP_FromInteger(8), FP_FromInteger(0), -FP_FromInteger(5), field_CC_sprite_scale, 50);
@@ -1157,7 +1157,7 @@ void Fleech::M_SleepingWithTongue_17_42F370()
                 Sound_430520(FleechSound::SleepingExhale_4);
                 if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
                 {
-                    auto pSnoozeParticle = alive_new<SnoozeParticle>();
+                    auto pSnoozeParticle = ae_new<SnoozeParticle>();
                     if (pSnoozeParticle)
                     {
                         const FP yPos = (field_CC_sprite_scale * FP_FromInteger(-20)) + field_BC_ypos;
@@ -1199,7 +1199,7 @@ void Fleech::M_Consume_18_42FDF0()
 
         for (int i = 0; i < 3; i++)
         {
-            auto pDove = alive_new<Dove>();
+            auto pDove = ae_new<Dove>();
             if (pDove)
             {
                 pDove->ctor_41F660(5516, 41, 20u, 60, field_B8_xpos, field_BC_ypos + FP_FromInteger(10), field_CC_sprite_scale);
@@ -1267,7 +1267,7 @@ Fleech* Fleech::vdtor_42A140(signed int flags)
     dtor_42A3A0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -1814,7 +1814,7 @@ void Fleech::Init_42A170()
     
     vStackOnObjectsOfType_425840(Types::eFleech_50);
     
-    field_E0_pShadow = alive_new<Shadow>();
+    field_E0_pShadow = ae_new<Shadow>();
     if (field_E0_pShadow)
     {
         field_E0_pShadow->ctor_4AC990();
@@ -1974,7 +1974,7 @@ void Fleech::TongueUpdate_42BD30()
                 case 0:
                 {
                     Sound_430520(FleechSound::LickTarget_10);
-                    auto pBlood = alive_new<Blood>();
+                    auto pBlood = ae_new<Blood>();
                     if (pBlood)
                     {
                         pBlood->ctor_40F0B0(
@@ -2340,7 +2340,7 @@ __int16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
     {
         Sound_430520(FleechSound::Scared_7);
         field_10C_health = FP_FromInteger(0);
-        auto pGibsMem = alive_new<Gibs>();
+        auto pGibsMem = ae_new<Gibs>();
         if (pGibsMem)
         {
             pGibsMem->ctor_40FB40(10, field_B8_xpos, field_BC_ypos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
@@ -2348,7 +2348,7 @@ __int16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
 
         PSX_RECT bRect = {};
         vGetBoundingRect_424FD0(&bRect, 1);
-        auto pBloodMem = alive_new<Blood>();
+        auto pBloodMem = ae_new<Blood>();
         if (pBloodMem)
         {
             pBloodMem->ctor_40F0B0(
@@ -2381,7 +2381,7 @@ __int16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
 
     case Types::eScrab_112:
     {
-        auto pGibsMem2 = alive_new<Gibs>();
+        auto pGibsMem2 = ae_new<Gibs>();
         if (pGibsMem2)
         {
             pGibsMem2->ctor_40FB40(10, field_B8_xpos, field_BC_ypos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
@@ -2389,7 +2389,7 @@ __int16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
 
         if (static_cast<BaseAliveGameObject*>(pFrom)->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
         {
-            auto pBloodMem2 = alive_new<Blood>();
+            auto pBloodMem2 = ae_new<Blood>();
             if (pBloodMem2)
             {
                 pBloodMem2->ctor_40F0B0(field_B8_xpos, field_BC_ypos - FP_FromInteger(8), -FP_FromInteger(5), -FP_FromInteger(5), field_CC_sprite_scale, 50);
@@ -2397,7 +2397,7 @@ __int16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
         }
         else
         {
-            auto pBloodMem3 = alive_new<Blood>();
+            auto pBloodMem3 = ae_new<Blood>();
             if (pBloodMem3)
             {
                 pBloodMem3->ctor_40F0B0(field_B8_xpos, field_BC_ypos - FP_FromInteger(8), FP_FromInteger(5), -FP_FromInteger(5), field_CC_sprite_scale, 50);

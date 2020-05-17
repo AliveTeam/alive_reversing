@@ -256,7 +256,7 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
     field_1E0 = 0;
     field_1E4 = 0;
 
-    field_E0_pShadow = alive_new<Shadow>();
+    field_E0_pShadow = ae_new<Shadow>();
     if (field_E0_pShadow)
     {
         field_E0_pShadow->ctor_4AC990();
@@ -359,7 +359,7 @@ int CC FlyingSlig::CreateFromSaveState_437E40(const BYTE* pBuffer)
         ResourceManager::LoadResourceFile_49C170("DOGBLOW.BAN", nullptr);
     }
 
-    auto pFlyingSlig = alive_new<FlyingSlig>();
+    auto pFlyingSlig = ae_new<FlyingSlig>();
     pFlyingSlig->ctor_4342B0(pTlv, pSaveState->field_3C_tlvInfo);
     pFlyingSlig->field_FC_pPathTLV = nullptr;
     pFlyingSlig->field_100_pCollisionLine = nullptr;
@@ -637,7 +637,7 @@ FlyingSlig* FlyingSlig::vdtor_434870(signed int flags)
     dtor_434990();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -1085,7 +1085,7 @@ __int16 FlyingSlig::vTakeDamage_434C90(BaseGameObject* pFrom)
             return 1;
         }
         BlowUp_436510();
-        auto pExplosion = alive_new<Explosion>();
+        auto pExplosion = ae_new<Explosion>();
         if (!pExplosion)
         {
             return 1;
@@ -2353,7 +2353,7 @@ void FlyingSlig::ThrowGrenade_43A1E0()
         grenadeXVel = -grenadeXVel;
     }
 
-    auto pGrenade = alive_new<Grenade>();
+    auto pGrenade = ae_new<Grenade>();
     if (pGrenade)
     {
         pGrenade->ctor_447F70(grenadeXPos + field_B8_xpos, grenadeYPos + field_BC_ypos, 0, 1, 0, this);
@@ -2386,13 +2386,13 @@ void FlyingSlig::ThrowGrenade_43A1E0()
 void FlyingSlig::BlowUp_436510()
 {
     MusicController::sub_47FD60(MusicController::MusicTypes::eType0, this, 0, 0);
-    auto pGibs = alive_new<Gibs>();
+    auto pGibs = ae_new<Gibs>();
     if (pGibs)
     {
         pGibs->ctor_40FB40(1, field_B8_xpos, field_BC_ypos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
     }
 
-    auto pBlood = alive_new<Blood>();
+    auto pBlood = ae_new<Blood>();
     if (pBlood)
     {
         pBlood->ctor_40F0B0(field_B8_xpos, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale), FP_FromInteger(0), FP_FromInteger(0), field_CC_sprite_scale, 20);
@@ -3169,7 +3169,7 @@ __int16 FlyingSlig::CollisionUp_43A640(FP velY)
         {
             Sfx_Slig_GameSpeak_4C04F0(sGnFrame_5C1B84 & 1 ? SligSpeak::Ouch2_14 : SligSpeak::Ouch1_13, 127, Math_RandomRange_496AB0(256, 512), this);
             field_154 = (Math_NextRandom() & 3) + sGnFrame_5C1B84 + 10;
-            auto pBurst = alive_new<ParticleBurst>();
+            auto pBurst = ae_new<ParticleBurst>();
             if (pBurst)
             {
                 pBurst->ctor_41CF50(
@@ -3329,7 +3329,7 @@ __int16 FlyingSlig::CollisionLeftRight_43AC80(FP velX)
         {
             Sfx_Slig_GameSpeak_4C04F0(sGnFrame_5C1B84 & 1 ? SligSpeak::Ouch2_14 : SligSpeak::Ouch1_13, 127, Math_RandomRange_496AB0(256, 512), this);
             field_154 = (Math_NextRandom() & 3) + sGnFrame_5C1B84 + 10;
-            auto pBurst = alive_new<ParticleBurst>();
+            auto pBurst = ae_new<ParticleBurst>();
             if (pBurst)
             {
                 pBurst->ctor_41CF50(sparkX, hitY + (FP_FromInteger(16) * field_CC_sprite_scale), 5u, field_CC_sprite_scale, BurstType::eSmallPurpleSparks_6, 9);

@@ -56,7 +56,7 @@ signed int CC FlyingSligSpawner::CreateFromSaveState_43B690(const BYTE* pBuffer)
     const auto pState = reinterpret_cast<const FlyingSligSpawner_State*>(pBuffer);
 
     auto pTlv = static_cast<Path_FlyingSligSpawner*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4_tlvInfo));
-    auto pFlyingSligSpawner = alive_new<FlyingSligSpawner>();
+    auto pFlyingSligSpawner = ae_new<FlyingSligSpawner>();
     if (pFlyingSligSpawner)
     {
         pFlyingSligSpawner->ctor_433D50(pTlv, pState->field_4_tlvInfo);
@@ -80,7 +80,7 @@ FlyingSligSpawner* FlyingSligSpawner::vdtor_433DE0(signed int flags)
     dtor_434030();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -137,7 +137,7 @@ void FlyingSligSpawner::vUpdate_433E10()
                 return;
             }
 
-            auto pNewSlig = alive_new<FlyingSlig>();
+            auto pNewSlig = ae_new<FlyingSlig>();
             if (!pNewSlig)
             {
                 field_6_flags.Set(BaseGameObject::eDead_Bit3);

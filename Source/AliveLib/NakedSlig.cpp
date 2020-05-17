@@ -132,7 +132,7 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo)
     field_1D8_obj_id = -1;
     field_1E4_pPantsOrWingsTlv = 0;
 
-    field_E0_pShadow = alive_new<Shadow>();
+    field_E0_pShadow = ae_new<Shadow>();
     if (field_E0_pShadow)
     {
         field_E0_pShadow->ctor_4AC990();
@@ -268,7 +268,7 @@ int CC NakedSlig::CreateFromSaveState_41AE80(const BYTE* pBuffer)
         ResourceManager::LoadResourceFile_49C170("SLGBLOW.BAN", nullptr);
     }
 
-    auto pNakedSlig = alive_new<NakedSlig>();
+    auto pNakedSlig = ae_new<NakedSlig>();
     pNakedSlig->ctor_418C70(pTlv, pState->field_44_tlvInfo);
 
     pNakedSlig->field_C_objectId = pState->field_4_obj_id;
@@ -782,7 +782,7 @@ NakedSlig* NakedSlig::vdtor_418FB0(signed int flags)
     dtor_418FE0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -1235,7 +1235,7 @@ __int16 NakedSlig::AI_4_GetKilled_41A880()
 
     case 2:
     {
-        auto pGibs = alive_new<Gibs>();
+        auto pGibs = ae_new<Gibs>();
         if (pGibs)
         {
             pGibs->ctor_40FB40(
@@ -1248,7 +1248,7 @@ __int16 NakedSlig::AI_4_GetKilled_41A880()
                 0);
         }
 
-        auto pBlood = alive_new<Blood>();
+        auto pBlood = ae_new<Blood>();
         if (pBlood)
         {
             pBlood->ctor_40F0B0(
@@ -1319,7 +1319,7 @@ __int16 NakedSlig::AI_4_GetKilled_41A880()
         else
         {
             Abe_SFX_2_457A40(15, 0, 0x7FFF, this);
-            auto pScreenShake = alive_new<ScreenShake>();
+            auto pScreenShake = ae_new<ScreenShake>();
             if (pScreenShake)
             {
                 pScreenShake->ctor_4ACF70(0, 0);
@@ -1391,7 +1391,7 @@ void NakedSlig::M_UsingButton_1_41B890()
 
                 SFX_Play_46FA90(114u, 0);
 
-                auto pWalkingSlig = alive_new<Slig>();
+                auto pWalkingSlig = ae_new<Slig>();
                 if (pWalkingSlig)
                 {
                     pWalkingSlig->ctor_4B1370(static_cast<Path_Slig*>(field_1E4_pPantsOrWingsTlv), sPath_dword_BB47C0->TLVInfo_From_TLVPtr_4DB7C0(field_1E4_pPantsOrWingsTlv));
@@ -1420,7 +1420,7 @@ void NakedSlig::M_UsingButton_1_41B890()
 
                 SFX_Play_46FA90(113u, 0);
 
-                auto pFlyingSlig = alive_new<FlyingSlig>();
+                auto pFlyingSlig = ae_new<FlyingSlig>();
                 if (pFlyingSlig)
                 {
                     pFlyingSlig->ctor_4342B0(static_cast<Path_FlyingSlig*>(field_1E4_pPantsOrWingsTlv), sPath_dword_BB47C0->TLVInfo_From_TLVPtr_4DB7C0(field_1E4_pPantsOrWingsTlv));
@@ -1670,7 +1670,7 @@ void NakedSlig::M_Snoozing_9_41BD80()
             field_BC_ypos,
             0))
         {
-            auto pSnoozeParticle = alive_new<SnoozeParticle>();
+            auto pSnoozeParticle = ae_new<SnoozeParticle>();
             if (pSnoozeParticle)
             {
                 FP xOff = {};

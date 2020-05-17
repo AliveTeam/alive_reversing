@@ -55,7 +55,7 @@ SligSpawner* SligSpawner::vdtor_409800(signed int flags)
     dtor_409A70();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -118,7 +118,7 @@ void SligSpawner::vUpdate_409830()
             Path_TLV* pSpawnerTlv = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(field_28_tlv.field_8_top_left.field_0_x, field_28_tlv.field_8_top_left.field_2_y, field_28_tlv.field_8_top_left.field_0_x, field_28_tlv.field_8_top_left.field_2_y, TlvTypes::SligSpawner_37);
             if (pSpawnerTlv)
             {
-                auto pSligMem = alive_new<Slig>();
+                auto pSligMem = ae_new<Slig>();
                 if (pSligMem)
                 {
                     pSligMem->ctor_4B1370(static_cast<Path_Slig*>(pSpawnerTlv), field_20_tlv_info);
@@ -161,7 +161,7 @@ int CC SligSpawner::CreateFromSaveState_409B10(const BYTE* pBuffer)
 {
     auto pState = reinterpret_cast<const Slig_Spawner_State*>(pBuffer);
     auto pTlv = static_cast<Path_Slig*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4_tlvInfo));
-    auto pSpawner = alive_new<SligSpawner>();
+    auto pSpawner = ae_new<SligSpawner>();
     pSpawner->ctor_409740(pTlv, pState->field_4_tlvInfo);
     pSpawner->field_38_state = pState->field_8_state;
     pSpawner->field_3C_spawned_slig_obj_id = pState->field_C_spawned_slig_obj_id;

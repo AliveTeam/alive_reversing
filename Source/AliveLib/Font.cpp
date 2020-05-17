@@ -79,7 +79,7 @@ namespace Alive
         field_30_poly_count = maxCharLength;
 #if DEVELOPER_MODE // Use normal memory allocating for fonts, so we don't overload the resource heap
         auto db = new void*[1];
-        db[0] = alive_new_malloc(sizeof(Poly_FT4) * 2 * maxCharLength);
+        db[0] = ae_new_malloc_4954D0(sizeof(Poly_FT4) * 2 * maxCharLength);
         field_20_fnt_poly_block_ptr = reinterpret_cast<BYTE**>(db);
 #else
         field_20_fnt_poly_block_ptr = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_FntP, fontContext->field_C_resource_id, sizeof(Poly_FT4) * 2 * maxCharLength);
@@ -95,7 +95,7 @@ namespace Alive
 
 #if DEVELOPER_MODE 
         auto db = reinterpret_cast<void**>(field_20_fnt_poly_block_ptr);
-        alive_delete_free(*db);
+        ae_delete_free_495540(*db);
         delete[] db;
 #else
         ResourceManager::FreeResource_49C330(field_20_fnt_poly_block_ptr);

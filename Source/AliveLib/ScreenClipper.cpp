@@ -80,7 +80,7 @@ BaseGameObject* ScreenClipper::vdtor_416E00(signed int flags)
     dtor_416E30();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

@@ -49,7 +49,7 @@ EXPORT signed int CC TimerTrigger::CreateFromSaveState_4CDF70(const BYTE* pData)
     auto pState = reinterpret_cast<const TimerTrigger_State*>(pData);
 
     Path_TimerTrigger* pTlv = static_cast<Path_TimerTrigger*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4_tlvInfo));
-    auto pTimerTrigger = alive_new<TimerTrigger>();
+    auto pTimerTrigger = ae_new<TimerTrigger>();
     if (pTimerTrigger)
     {
         pTimerTrigger->ctor_4CDC20(pTlv, pState->field_4_tlvInfo);
@@ -66,7 +66,7 @@ TimerTrigger* TimerTrigger::vdtor_4CDD00(signed int flags)
     dtor_4CDD30();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

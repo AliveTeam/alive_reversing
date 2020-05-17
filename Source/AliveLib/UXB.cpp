@@ -309,7 +309,7 @@ EXPORT void UXB::vOnPickUpOrSlapped_4DF540()
 
 void UXB::vOnThrowableHit_4DF7B0(BaseGameObject* /*pFrom*/)
 {
-    auto pBomb = alive_new<BaseBomb>();
+    auto pBomb = ae_new<BaseBomb>();
     if (pBomb)
     {
         pBomb->ctor_423E70(
@@ -353,7 +353,7 @@ __int16 UXB::vTakeDamage_4DF850(BaseGameObject* pFrom)
 
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 
-    auto pMem = alive_new<BaseBomb>();
+    auto pMem = ae_new<BaseBomb>();
     if (pMem)
     {
         pMem->ctor_423E70(
@@ -394,7 +394,7 @@ BaseGameObject* UXB::vdtor_4DEEA0(signed int flags)
     dtor_4DEF60();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -409,7 +409,7 @@ void UXB::Update_4DF030()
         {
             if (v3 == 1 && sGnFrame_5C1B84 >= field_124_next_state_frame)
             {
-                auto explosion = alive_new<BaseBomb>();
+                auto explosion = ae_new<BaseBomb>();
                 if (explosion)
                 {
                     explosion->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
@@ -609,7 +609,7 @@ EXPORT int CC UXB::CreateFromSaveState_4DFAE0(const BYTE* __pSaveState)
         ResourceManager::LoadResourceFile_49C170("EXPLODE.BND", 0);
     }
 
-    UXB* pUXB = alive_new<UXB>();
+    UXB* pUXB = ae_new<UXB>();
     if (pUXB)
     {
         pUXB->ctor_4DE9A0(uxbPath, pSaveState->field_4_tlv);

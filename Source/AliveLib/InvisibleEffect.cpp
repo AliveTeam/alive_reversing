@@ -18,14 +18,14 @@ EXPORT InvisibleEffect* InvisibleEffect::ctor_45F280(BaseAliveGameObject* pTarge
 
     field_44_objId = pTarget->field_8_object_id;
 
-    field_24_pAlloc = reinterpret_cast<WORD*>(alive_malloc_non_zero(pTarget->field_20_animation.field_90_pal_depth * sizeof(WORD)));
+    field_24_pAlloc = reinterpret_cast<WORD*>(ae_malloc_non_zero_4954F0(pTarget->field_20_animation.field_90_pal_depth * sizeof(WORD)));
     Pal_Copy_483560(
         pTarget->field_20_animation.field_8C_pal_vram_xy,
         pTarget->field_20_animation.field_90_pal_depth,
         field_24_pAlloc,
         &field_28);
 
-    field_30_pPalAlloc = reinterpret_cast<WORD*>(alive_malloc_non_zero(pTarget->field_20_animation.field_90_pal_depth * sizeof(WORD)));
+    field_30_pPalAlloc = reinterpret_cast<WORD*>(ae_malloc_non_zero_4954F0(pTarget->field_20_animation.field_90_pal_depth * sizeof(WORD)));
     Pal_Copy_483560(
         pTarget->field_20_animation.field_8C_pal_vram_xy,
         pTarget->field_20_animation.field_90_pal_depth,
@@ -56,12 +56,12 @@ EXPORT void InvisibleEffect::dtor_45F410()
 
     if (field_24_pAlloc)
     {
-        alive_non_zero_free(field_24_pAlloc);
+        ae_non_zero_free_495560(field_24_pAlloc);
     }
 
     if (field_30_pPalAlloc)
     {
-        alive_non_zero_free(field_30_pPalAlloc);
+        ae_non_zero_free_495560(field_30_pPalAlloc);
     }
 
     BaseGameObject_dtor_4DBEC0();
@@ -251,7 +251,7 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
             pTarget->field_114_flags.Clear(Flags_114::e114_Bit8_bInvisible);
 
             field_1C_update_delay = 1;
-            auto pFlicker = alive_new<PossessionFlicker>();
+            auto pFlicker = ae_new<PossessionFlicker>();
             if (pFlicker)
             {
                 pFlicker->ctor_4319E0(pTarget, 16, 255, 128, 128);
@@ -278,7 +278,7 @@ EXPORT BaseGameObject* InvisibleEffect::vdtor_45F3E0(signed int flags)
     dtor_45F410();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

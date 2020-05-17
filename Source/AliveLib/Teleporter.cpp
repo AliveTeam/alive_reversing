@@ -60,7 +60,7 @@ Teleporter* Teleporter::vdtor_4DC350(signed int flags)
     dtor_4DC380();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -83,7 +83,7 @@ void Teleporter::vScreenChanged_4DCE80()
 
 Electrocute* CC Teleporter::Create_ElectrocuteEffect_4DCEB0()
 {
-    auto pObj = alive_new<Electrocute>();
+    auto pObj = ae_new<Electrocute>();
     pObj->ctor_4E5E80(sControlledCharacter_5C1B8C, TRUE, FALSE);
     return pObj;
 }
@@ -123,7 +123,7 @@ void Teleporter::SpawnRingSparks(Path_Teleporter_Data* pTlvData)
             sparkY = yOrg + (sparkOffs.field_2_y);
         }
 
-        auto pSpark = alive_new<Spark>();
+        auto pSpark = ae_new<Spark>();
         if (pSpark)
         {
             pSpark->ctor_4CBBB0(FP_FromInteger(sparkX), FP_FromInteger(sparkY), FP_FromInteger(1), 9, -31, 159, 1);
@@ -203,7 +203,7 @@ void Teleporter::vUpdate_4DC400()
                         128u,
                         128u);
 
-                    auto pParticleBurst = alive_new<ParticleBurst>();
+                    auto pParticleBurst = ae_new<ParticleBurst>();
                     if (pParticleBurst)
                     {
                         pParticleBurst->ctor_41CF50(
@@ -227,7 +227,7 @@ void Teleporter::vUpdate_4DC400()
                         128u,
                         128u);
 
-                    auto pParticleBurst = alive_new<ParticleBurst>();
+                    auto pParticleBurst = ae_new<ParticleBurst>();
                     if (pParticleBurst)
                     {
                         pParticleBurst->ctor_41CF50(
@@ -368,7 +368,7 @@ void Teleporter::vUpdate_4DC400()
         // Spawn the falling "red" sparks from Abe's feet that appear after you've arrived at the destination
         if (sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(0.5))
         {
-            auto pParticleBurst = alive_new<ParticleBurst>();
+            auto pParticleBurst = ae_new<ParticleBurst>();
             if (pParticleBurst)
             {
                 pParticleBurst->ctor_41CF50(
@@ -382,7 +382,7 @@ void Teleporter::vUpdate_4DC400()
         }
         else
         {
-            auto pParticleBurst = alive_new<ParticleBurst>();
+            auto pParticleBurst = ae_new<ParticleBurst>();
             if (pParticleBurst)
             {
                 pParticleBurst->ctor_41CF50(

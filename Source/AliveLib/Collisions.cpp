@@ -17,7 +17,7 @@ Collisions* Collisions::ctor_418930(const CollisionInfo* pCollisionInfo, const B
     field_C_max_count = pCollisionInfo->field_10_num_collision_items + 40;
 
     // Allocate memory for collisions array
-    field_0_pArray = reinterpret_cast<PathLine*>(alive_malloc_non_zero(field_C_max_count * sizeof(PathLine)));
+    field_0_pArray = reinterpret_cast<PathLine*>(ae_malloc_non_zero_4954F0(field_C_max_count * sizeof(PathLine)));
 
     // Copy collision line data out of Path resource
     memcpy(field_0_pArray, &pPathRes[pCollisionInfo->field_C_collision_offset], field_4_current_item_count * sizeof(PathLine));
@@ -35,12 +35,12 @@ Collisions* Collisions::ctor_418930(const CollisionInfo* pCollisionInfo, const B
 
 void Collisions::dtor_4189F0()
 {
-    alive_non_zero_free(field_0_pArray);
+    ae_non_zero_free_495560(field_0_pArray);
 }
 
 void CC Collisions::Factory_4188A0(const CollisionInfo* pCollisionInfo, const BYTE* pPathRes)
 {
-    sCollisions_DArray_5C1128 = alive_new<Collisions>();
+    sCollisions_DArray_5C1128 = ae_new<Collisions>();
     if (sCollisions_DArray_5C1128)
     {
         sCollisions_DArray_5C1128->ctor_418930(pCollisionInfo, pPathRes);
@@ -525,7 +525,7 @@ namespace Test
             0x039d
         };
 
-        c.field_0_pArray = reinterpret_cast<PathLine*>(alive_malloc_non_zero(1 * sizeof(PathLine)));
+        c.field_0_pArray = reinterpret_cast<PathLine*>(ae_malloc_non_zero_4954F0(1 * sizeof(PathLine)));
         memcpy(c.field_0_pArray, &test, 1 * sizeof(PathLine));
         c.field_4_current_item_count = 1;
         c.field_C_max_count = 1;

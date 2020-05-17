@@ -420,16 +420,16 @@ EXPORT void CC Init_Sound_DynamicArrays_And_Others_43BDB0()
     sGnFrame_5C1B84 = 0;
     sbLoadingInProgress_5C1B96 = 0;
 
-    ObjList_5C1B78 = alive_new<DynamicArrayT<BaseGameObject>>(); // For trap doors/dynamic platforms?
+    ObjList_5C1B78 = ae_new<DynamicArrayT<BaseGameObject>>(); // For trap doors/dynamic platforms?
     ObjList_5C1B78->ctor_40CA60(20);
 
-    ObjList_5BD4D8 = alive_new<DynamicArray>();
+    ObjList_5BD4D8 = ae_new<DynamicArray>();
     ObjList_5BD4D8->ctor_40CA60(10); // Never seems to be used?
 
-    sShadowZone_dArray_5C1B80 = alive_new<DynamicArrayT<ShadowZone>>();
+    sShadowZone_dArray_5C1B80 = ae_new<DynamicArrayT<ShadowZone>>();
     sShadowZone_dArray_5C1B80->ctor_40CA60(4);
 
-    gBaseAliveGameObjects_5C1B7C = alive_new<DynamicArrayT<BaseAliveGameObject>>();
+    gBaseAliveGameObjects_5C1B7C = ae_new<DynamicArrayT<BaseAliveGameObject>>();
     gBaseAliveGameObjects_5C1B7C->ctor_40CA60(20);
 
     ResourceManager::Init_49BCE0();
@@ -451,7 +451,7 @@ EXPORT void CC SYS_EventsPump_494580()
 
 EXPORT void CC DDCheat_Allocate_415320()
 {
-    auto pDDCheat = alive_new<DDCheat>();
+    auto pDDCheat = ae_new<DDCheat>();
     pDDCheat->ctor_4153C0();
 }
 
@@ -497,20 +497,20 @@ EXPORT void CC Game_Run_466D40()
     PSX_CdSetDebug_4FB330(0);
     Input_Pads_Reset_4FA960(); // starts card/pads on psx ver
 
-    gBaseGameObject_list_BB47C4 = alive_new<DynamicArrayT<BaseGameObject>>();
+    gBaseGameObject_list_BB47C4 = ae_new<DynamicArrayT<BaseGameObject>>();
     gBaseGameObject_list_BB47C4->ctor_40CA60(50);
 
-    gObjList_drawables_5C1124 = alive_new<DynamicArrayT<BaseGameObject>>();
+    gObjList_drawables_5C1124 = ae_new<DynamicArrayT<BaseGameObject>>();
     gObjList_drawables_5C1124->ctor_40CA60(30);
 
-    gFG1List_5D1E28 = alive_new<DynamicArrayT<FG1>>();
+    gFG1List_5D1E28 = ae_new<DynamicArrayT<FG1>>();
     gFG1List_5D1E28->ctor_40CA60(4);
 
 
-    gObjList_animations_5C1A24 = alive_new<DynamicArrayT<AnimationBase>>();
+    gObjList_animations_5C1A24 = ae_new<DynamicArrayT<AnimationBase>>();
     gObjList_animations_5C1A24->ctor_40CA60(30);
 
-    pResourceManager_5C1BB0 = alive_new<ResourceManager>();
+    pResourceManager_5C1BB0 = ae_new<ResourceManager>();
     pResourceManager_5C1BB0->ctor_464910();
 
     Init_Sound_DynamicArrays_And_Others_43BDB0();
@@ -525,7 +525,7 @@ EXPORT void CC Game_Run_466D40()
     gMap_5C3030.field_24_camera_offset.field_4_y = FP_FromInteger(0);
     gMap_5C3030.field_24_camera_offset.field_0_x = FP_FromInteger(0);
 
-    pScreenManager_5BB5F4 = alive_new<ScreenManager>();
+    pScreenManager_5BB5F4 = ae_new<ScreenManager>();
     pScreenManager_5BB5F4->ctor_40E3E0(camera.field_C_pCamRes, &gMap_5C3030.field_24_camera_offset);
 
     pScreenManager_5BB5F4->DecompressToVRam_40EF60((unsigned __int16 **)camera.field_C_pCamRes);
@@ -550,10 +550,10 @@ EXPORT void CC Game_Run_466D40()
     gMap_5C3030.Init_4803F0(LevelIds::eMenu_0, 1, cameraId, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
 
     DDCheat_Allocate_415320();
-    pEventSystem_5BC11C = alive_new<GameSpeak>();
+    pEventSystem_5BC11C = ae_new<GameSpeak>();
     pEventSystem_5BC11C->ctor_421820();
 
-    pCheatController_5BC120 = alive_new<CheatController>();
+    pCheatController_5BC120 = ae_new<CheatController>();
     pCheatController_5BC120->ctor_421BD0();
 
     if (gDebugHelpersEnabled)
@@ -574,55 +574,55 @@ EXPORT void CC Game_Run_466D40()
     if (gObjList_animations_5C1A24)
     {
         gObjList_animations_5C1A24->dtor_40CAD0();
-        alive_delete_free(gObjList_animations_5C1A24);
+        ae_delete_free_495540(gObjList_animations_5C1A24);
     }
 
     if (gObjList_drawables_5C1124)
     {
         gObjList_drawables_5C1124->dtor_40CAD0();
-        alive_delete_free(gObjList_drawables_5C1124);
+        ae_delete_free_495540(gObjList_drawables_5C1124);
     }
 
     if (gFG1List_5D1E28)
     {
         gFG1List_5D1E28->dtor_40CAD0();
-        alive_delete_free(gFG1List_5D1E28);
+        ae_delete_free_495540(gFG1List_5D1E28);
     }
 
     if (gBaseGameObject_list_BB47C4)
     {
         gBaseGameObject_list_BB47C4->dtor_40CAD0();
-        alive_delete_free(gBaseGameObject_list_BB47C4);
+        ae_delete_free_495540(gBaseGameObject_list_BB47C4);
     }
 
     if (ObjList_5C1B78)
     {
         ObjList_5C1B78->dtor_40CAD0();
-        alive_delete_free(ObjList_5C1B78);
+        ae_delete_free_495540(ObjList_5C1B78);
     }
 
     if (ObjList_5BD4D8)
     {
         ObjList_5BD4D8->dtor_40CAD0();
-        alive_delete_free(ObjList_5BD4D8);
+        ae_delete_free_495540(ObjList_5BD4D8);
     }
 
     if (sShadowZone_dArray_5C1B80)
     {
         sShadowZone_dArray_5C1B80->dtor_40CAD0();
-        alive_delete_free(sShadowZone_dArray_5C1B80);
+        ae_delete_free_495540(sShadowZone_dArray_5C1B80);
     }
 
     if (gBaseAliveGameObjects_5C1B7C)
     {
         gBaseAliveGameObjects_5C1B7C->dtor_40CAD0();
-        alive_delete_free(gBaseAliveGameObjects_5C1B7C);
+        ae_delete_free_495540(gBaseAliveGameObjects_5C1B7C);
     }
 
     if (sCollisions_DArray_5C1128)
     {
         sCollisions_DArray_5C1128->dtor_4189F0();
-        alive_delete_free(sCollisions_DArray_5C1128);
+        ae_delete_free_495540(sCollisions_DArray_5C1128);
     }
 
     pMusicController_5C3020 = nullptr; // Note: OG bug - should have been set to nullptr after shutdown call?

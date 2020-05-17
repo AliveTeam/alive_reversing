@@ -112,7 +112,7 @@ Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, DWORD tlvInfo)
 
     vStackOnObjectsOfType_425840(Types::eSlurg_129);
     field_DC_bApplyShadows |= 2u;
-    field_E0_pShadow = alive_new<Shadow>();
+    field_E0_pShadow = ae_new<Shadow>();
 
     if (field_E0_pShadow)
     {
@@ -158,7 +158,7 @@ signed int CC Slurg::CreateFromSaveState_4C8DF0(const BYTE* pData)
         ResourceManager::LoadResourceFile_49C170("SLURG.BAN", nullptr);
     }
 
-    auto pSlurg = alive_new<Slurg>();
+    auto pSlurg = ae_new<Slurg>();
     if (pSlurg)
     {
         pSlurg->ctor_4C84E0(pTlv, pState->field_24_tlvInfo);
@@ -194,7 +194,7 @@ Slurg* Slurg::vdtor_4C8760(signed int flags)
 
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -214,7 +214,7 @@ void Slurg::Burst_4C8AE0()
     field_11C_state = Slurg_States::State_2_Burst;
     field_20_animation.Set_Animation_Data_409C80(2808, 0);
     
-    auto pBlood = alive_new<Blood>();
+    auto pBlood = ae_new<Blood>();
     if (pBlood)
     {
         pBlood->ctor_40F0B0(
@@ -467,7 +467,7 @@ void SlurgSpawner::vUpdate_4C83C0()
         {
             field_3E_delay_counter = 0;
             field_40_spawned_count++;
-            auto pSlurg = alive_new<Slurg>();
+            auto pSlurg = ae_new<Slurg>();
             if (pSlurg)
             {
                 pSlurg->ctor_4C84E0(field_24_slurg_tlv, 0xFFFFFFFF);
@@ -486,7 +486,7 @@ SlurgSpawner* SlurgSpawner::vdtor_4C8370(signed int flags)
     dtor_4C83A0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

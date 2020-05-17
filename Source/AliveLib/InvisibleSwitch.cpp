@@ -51,7 +51,7 @@ InvisibleSwitch* InvisibleSwitch::vdtor_45FAF0(signed int flags)
     dtor_45FB20();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -68,7 +68,7 @@ void InvisibleSwitch::vUpdate_45FBA0()
             // Fire alarm if set
             if (field_3A_set_off_alarm)
             {
-                auto pAlarm = alive_new<Alarm>();
+                auto pAlarm = ae_new<Alarm>();
                 if (pAlarm)
                 {
                     pAlarm->ctor_4091F0(150, 0, 30, 39);

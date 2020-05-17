@@ -37,7 +37,7 @@ int CC ScrabSpawner::CreateFromSaveState_4ABEB0(const BYTE* pBuffer)
 {
     const auto pState = reinterpret_cast<const ScrabSpawner_State*>(pBuffer);
     auto pTlv = static_cast<Path_Scrab_Spawner*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4_tlvInfo));
-    auto pScrabSpawner = alive_new<ScrabSpawner>();
+    auto pScrabSpawner = ae_new<ScrabSpawner>();
     pScrabSpawner->ctor_4AB450(pTlv, pState->field_4_tlvInfo);
     pScrabSpawner->field_38_state = pState->field_8_state;
     pScrabSpawner->field_3C_spawned_scrab_id = pState->field_C_spawned_scrab_id;
@@ -65,7 +65,7 @@ ScrabSpawner* ScrabSpawner::vdtor_4AB4E0(signed int flags)
     dtor_4AB720();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -145,7 +145,7 @@ void ScrabSpawner::vUpdate_4AB510()
 
                 if (pTlv)
                 {
-                    auto pNewScrab = alive_new<Scrab>();
+                    auto pNewScrab = ae_new<Scrab>();
                     pNewScrab->ctor_4A3C40(pTlv, field_20_tlvInfo, field_26_spawn_scale);
 
                     SFX_Play_46FA90(111u, 0);

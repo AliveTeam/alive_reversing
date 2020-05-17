@@ -39,7 +39,7 @@ int CC LiftMover::CreateFromSaveState_40D180(const BYTE* pData)
     auto pState = reinterpret_cast<const LiftMover_State*>(pData);
 
     Path_LiftMover* pTlv = static_cast<Path_LiftMover*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4_tlvInfo));
-    auto pLiftMover = alive_new<LiftMover>();
+    auto pLiftMover = ae_new<LiftMover>();
     if (pLiftMover)
     {
         pLiftMover->ctor_40CCD0(pTlv, pState->field_4_tlvInfo);
@@ -236,7 +236,7 @@ LiftMover* LiftMover::vdtor_40CD70(signed int flags)
     dtor_40CDA0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

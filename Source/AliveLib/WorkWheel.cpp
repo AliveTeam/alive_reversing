@@ -118,7 +118,7 @@ WorkWheel* WorkWheel::vdtor_4E3820(signed int flags)
     dtor_4E3850();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -139,7 +139,7 @@ int CC WorkWheel::CreateFromSaveState_4E3B10(const BYTE* pState)
         ResourceManager::LoadResourceFile_49C170("WORKWHEL.BAN", nullptr);
     }
 
-    auto pWheel = alive_new<WorkWheel>();
+    auto pWheel = ae_new<WorkWheel>();
     if (pWheel)
     {
         pWheel->ctor_4E35D0(pTlv, pData->field_4_tlvInfo);

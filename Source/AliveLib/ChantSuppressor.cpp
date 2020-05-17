@@ -110,7 +110,7 @@ private:
         dtor_416550();
         if (flags & 1)
         {
-            alive_delete_free(this);
+            ae_delete_free_495540(this);
         }
         return this;
     }
@@ -189,7 +189,7 @@ ChantSuppressor* ChantSuppressor::vdtor_4664B0(signed int flags)
     dtor_4664E0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -232,7 +232,7 @@ signed __int16 ChantSuppressor::vTakeDamage_466BB0(BaseGameObject* pFrom)
 
     if (pFrom->field_4_typeId == Types::eMineCar_89 || pFrom->field_4_typeId == Types::eType_104 || pFrom->field_4_typeId == Types::eShrykull_121)
     {
-        auto pExplosionMem = alive_new<Explosion>();
+        auto pExplosionMem = ae_new<Explosion>();
         if (pExplosionMem)
         {
             pExplosionMem->ctor_4A1200(
@@ -242,7 +242,7 @@ signed __int16 ChantSuppressor::vTakeDamage_466BB0(BaseGameObject* pFrom)
                 0);
         }
 
-        auto pGibsMem = alive_new<Gibs>();
+        auto pGibsMem = ae_new<Gibs>();
         if (pGibsMem)
         {
             pGibsMem->ctor_40FB40(
@@ -275,7 +275,7 @@ void ChantSuppressor::vUpdate_4665A0()
             {
                 if (static_cast<int>(sGnFrame_5C1B84) == field_120_timer - 5 || static_cast<int>(sGnFrame_5C1B84) == field_120_timer - 1)
                 {
-                    auto pFlash1 = alive_new<Flash>();
+                    auto pFlash1 = ae_new<Flash>();
                     if (pFlash1)
                     {
                         pFlash1->ctor_428570(39, 255, 0, 0, 1, 3, 1);
@@ -283,7 +283,7 @@ void ChantSuppressor::vUpdate_4665A0()
                 }
                 if (static_cast<int>(sGnFrame_5C1B84) == field_120_timer - 4)
                 {
-                    auto pFlash2 = alive_new<Flash>();
+                    auto pFlash2 = ae_new<Flash>();
                     if (pFlash2)
                     {
                         pFlash2->ctor_428570(39, 255, 0, 0, 1, 1, 1);
@@ -314,7 +314,7 @@ void ChantSuppressor::vUpdate_4665A0()
             const FP xpos = FP_FromInteger((bRect.x + bRect.w) / 2);
             const FP ypos = FP_FromInteger((bRect.y + bRect.h) / 2);
 
-            auto pZapLine = alive_new<ZapLine>();
+            auto pZapLine = ae_new<ZapLine>();
             if (pZapLine)
             {
                 pZapLine->ctor_4CC690(
@@ -327,7 +327,7 @@ void ChantSuppressor::vUpdate_4665A0()
                     28);
             }
 
-            auto v14 = alive_new<PossessionFlicker>();
+            auto v14 = ae_new<PossessionFlicker>();
             if (v14)
             {
                 v14->ctor_4319E0(sActiveHero_5C1B68, 8, 255, 100, 100);
@@ -341,13 +341,13 @@ void ChantSuppressor::vUpdate_4665A0()
             field_120_timer = sGnFrame_5C1B84 + 8;
             field_11C_state = 2;
 
-            auto pScreenShake = alive_new<ScreenShake>();
+            auto pScreenShake = ae_new<ScreenShake>();
             if (pScreenShake)
             {
                 pScreenShake->ctor_4ACF70(1, 0);
             }
 
-            auto pUnknownObj = alive_new<Sparks>();
+            auto pUnknownObj = ae_new<Sparks>();
             if (pUnknownObj)
             {
                 pUnknownObj->ctor_416390(field_B8_xpos, field_BC_ypos - (FP_FromInteger(8) * field_CC_sprite_scale), field_CC_sprite_scale);
@@ -357,7 +357,7 @@ void ChantSuppressor::vUpdate_4665A0()
                 pUnknownObj->field_D0_r = 255;
             }
 
-            auto pUnknownObj2 = alive_new<Sparks>();
+            auto pUnknownObj2 = ae_new<Sparks>();
             if (pUnknownObj2)
             {
                 pUnknownObj2->ctor_416390(field_B8_xpos, field_BC_ypos - (FP_FromInteger(8) * field_CC_sprite_scale), field_CC_sprite_scale);
@@ -369,7 +369,7 @@ void ChantSuppressor::vUpdate_4665A0()
 
             for (int i = 0; i < 9; i++)
             {
-                auto pUnknownObj4 = alive_new<Sparks>();
+                auto pUnknownObj4 = ae_new<Sparks>();
                 if (pUnknownObj4)
                 {
                     pUnknownObj4->ctor_416390(xpos, ypos, field_CC_sprite_scale);

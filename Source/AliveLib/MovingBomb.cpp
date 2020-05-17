@@ -101,7 +101,7 @@ MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, int tlvInfo)
         field_B8_xpos = hitX;
     }
 
-    field_E0_pShadow = alive_new<Shadow>();
+    field_E0_pShadow = ae_new<Shadow>();
     if (field_E0_pShadow)
     {
         field_E0_pShadow->ctor_4AC990();
@@ -145,7 +145,7 @@ MovingBomb* MovingBomb::vdtor_470040(signed int flags)
     dtor_4700C0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -245,13 +245,13 @@ __int16 MovingBomb::vTakeDamage_470990(BaseGameObject* pFrom)
     case Types::eShrykull_121:
     {
         field_10C_health = FP_FromInteger(0);
-        auto pExplosion = alive_new<Explosion>();
+        auto pExplosion = ae_new<Explosion>();
         if (pExplosion)
         {
             pExplosion->ctor_4A1200(field_B8_xpos, field_BC_ypos, field_CC_sprite_scale, 0);
         }
 
-        auto pGibs = alive_new<Gibs>();
+        auto pGibs = ae_new<Gibs>();
         if (pGibs)
         {
             pGibs->ctor_40FB40(5, field_B8_xpos, field_BC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 0);
@@ -467,7 +467,7 @@ void MovingBomb::vUpdate_4701E0()
             
             field_10C_health = FP_FromInteger(0);
 
-            auto pExplosion = alive_new<Explosion>();
+            auto pExplosion = ae_new<Explosion>();
             if (pExplosion)
             {
                 pExplosion->ctor_4A1200(
@@ -477,7 +477,7 @@ void MovingBomb::vUpdate_4701E0()
                     0);
             }
 
-            auto pGibs = alive_new<Gibs>();
+            auto pGibs = ae_new<Gibs>();
             if (pGibs)
             {
                 pGibs->ctor_40FB40(

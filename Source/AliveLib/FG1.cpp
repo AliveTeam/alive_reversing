@@ -130,7 +130,7 @@ BaseGameObject* FG1::vdtor_49A1E0(signed int flags)
     dtor_49A540();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

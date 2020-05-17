@@ -82,7 +82,7 @@ ElectricWall* ElectricWall::vdtor_421F70(signed int flags)
     dtor_421FA0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -211,7 +211,7 @@ void ElectricWall::vUpdate_422030()
                         {
                             pObj->field_114_flags.Set(Flags_114::e114_Bit7_Electrocuted);
 
-                            auto pElectrocute = alive_new<Electrocute>();
+                            auto pElectrocute = ae_new<Electrocute>();
                             if (pElectrocute)
                             {
                                 pElectrocute->ctor_4E5E80(pObj, 1, 1);
@@ -221,7 +221,7 @@ void ElectricWall::vUpdate_422030()
 
                             SFX_Play_46FC20(39u, 127, soundDirection, field_CC_sprite_scale);
 
-                            auto pFlash = alive_new<Flash>();
+                            auto pFlash = ae_new<Flash>();
                             if (pFlash)
                             {
                                 pFlash->ctor_428570(39, 0xFFu, 0xFFu, 0xFFu, 1, 3, 1);

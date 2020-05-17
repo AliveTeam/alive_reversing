@@ -169,10 +169,10 @@ void Map::ScreenChange_480B80()
 
 void Map::RemoveObjectsWithPurpleLight_480740(__int16 bParam)
 {
-    auto pObjectsWithLightsArray = alive_new<DynamicArrayT<BaseAnimatedWithPhysicsGameObject>>();
+    auto pObjectsWithLightsArray = ae_new<DynamicArrayT<BaseAnimatedWithPhysicsGameObject>>();
     pObjectsWithLightsArray->ctor_40CA60(16);
 
-    auto pPurpleLightArray = alive_new<DynamicArrayT<Particle>>();
+    auto pPurpleLightArray = ae_new<DynamicArrayT<Particle>>();
     pPurpleLightArray->ctor_40CA60(16);
 
     bool bAddedALight = false;
@@ -317,13 +317,13 @@ void Map::RemoveObjectsWithPurpleLight_480740(__int16 bParam)
     if (pObjectsWithLightsArray)
     {
         pObjectsWithLightsArray->dtor_40CAD0();
-        alive_delete_free(pObjectsWithLightsArray);
+        ae_delete_free_495540(pObjectsWithLightsArray);
     }
 
     if (pPurpleLightArray)
     {
         pPurpleLightArray->dtor_40CAD0();
-        alive_delete_free(pPurpleLightArray);
+        ae_delete_free_495540(pPurpleLightArray);
     }
 }
 
@@ -496,7 +496,7 @@ CameraPos Map::GetDirection_4811A0(int level, int path, FP xpos, FP ypos)
 
 void Map::Init_4803F0(LevelIds level, __int16 path, __int16 camera, CameraSwapEffects screenChangeEffect, __int16 a6, __int16 forceChange)
 {
-    sPath_dword_BB47C0 = alive_new<Path>();
+    sPath_dword_BB47C0 = ae_new<Path>();
     sPath_dword_BB47C0->ctor_4DB170();
 
     field_2C_camera_array[0] = 0;
@@ -540,7 +540,7 @@ void Map::Shutdown_4804E0()
         if (field_2C_camera_array[i])
         {
             field_2C_camera_array[i]->dtor_480E00();
-            alive_delete_free(field_2C_camera_array[i]);
+            ae_delete_free_495540(field_2C_camera_array[i]);
             field_2C_camera_array[i] = nullptr;
         }
     }
@@ -551,7 +551,7 @@ void Map::Shutdown_4804E0()
     if (sPath_dword_BB47C0)
     {
         sPath_dword_BB47C0->dtor_4DB1A0();
-        alive_delete_free(sPath_dword_BB47C0);
+        ae_delete_free_495540(sPath_dword_BB47C0);
     }
     sPath_dword_BB47C0 = nullptr;
     
@@ -647,7 +647,7 @@ void Map::GoTo_Camera_481890()
             if (field_2C_camera_array[i])
             {
                 field_2C_camera_array[i]->dtor_480E00();
-                alive_delete_free(field_2C_camera_array[i]);
+                ae_delete_free_495540(field_2C_camera_array[i]);
                 field_2C_camera_array[i] = nullptr;
             }
         }
@@ -714,7 +714,7 @@ void Map::GoTo_Camera_481890()
             SND_Load_VABS_4CA350(pathData.field_8_pMusicInfo, pathData.field_10_reverb);
             SND_Load_Seqs_4CAED0(sSeqData_558D50.mSeqs, pathData.field_C_bsq_file_name);
 
-            auto pBackgroundMusic = alive_new<BackgroundMusic>();
+            auto pBackgroundMusic = ae_new<BackgroundMusic>();
             if (pBackgroundMusic)
             {
                 pBackgroundMusic->ctor_4CB110(pathData.field_14_bg_music_id);
@@ -798,10 +798,10 @@ void Map::GoTo_Camera_481890()
         if (sCollisions_DArray_5C1128)
         {
             sCollisions_DArray_5C1128->dtor_4189F0();
-            alive_delete_free(sCollisions_DArray_5C1128);
+            ae_delete_free_495540(sCollisions_DArray_5C1128);
         }
 
-        sCollisions_DArray_5C1128 = alive_new<Collisions>();
+        sCollisions_DArray_5C1128 = ae_new<Collisions>();
         if (sCollisions_DArray_5C1128)
         {
             sCollisions_DArray_5C1128->ctor_418930(pPathRec_1->field_8_pCollisionData, *field_54_path_res_array.field_0_pPathRecs[field_2_current_path]);
@@ -844,7 +844,7 @@ void Map::GoTo_Camera_481890()
         if (field_40_stru_5[i])
         {
             field_40_stru_5[i]->dtor_480E00();
-            alive_delete_free(field_40_stru_5[i]);
+            ae_delete_free_495540(field_40_stru_5[i]);
             field_40_stru_5[i] = nullptr;
         }
     }
@@ -859,7 +859,7 @@ void Map::GoTo_Camera_481890()
     // Create the screen manager if it hasn't already been done (probably should have always been done by this point though?)
     if (!pScreenManager_5BB5F4)
     {
-        pScreenManager_5BB5F4 = alive_new<ScreenManager>();
+        pScreenManager_5BB5F4 = ae_new<ScreenManager>();
         if (pScreenManager_5BB5F4)
         {
             pScreenManager_5BB5F4->ctor_40E3E0(field_2C_camera_array[0]->field_C_pCamRes, &field_24_camera_offset);
@@ -917,7 +917,7 @@ void Map::GoTo_Camera_481890()
         {
             if (!field_20)
             {
-                auto obj = alive_new<CameraSwapper>();
+                auto obj = ae_new<CameraSwapper>();
                 if (obj)
                 {
                     obj->ctor_4E5000(field_2C_camera_array[0]->field_C_pCamRes, field_10_screen_change_effect, 368 / 2, 240 / 2);
@@ -961,7 +961,7 @@ Camera* Map::GetCamera(CameraPos pos)
 
 void Map::CreateScreenTransistionForTLV(Path_TLV* pTlv)
 {
-    auto obj = alive_new<CameraSwapper>();
+    auto obj = ae_new<CameraSwapper>();
     if (obj)
     {
         // TODO: Refactor
@@ -1018,7 +1018,7 @@ void Map::Create_FG1s_480F10()
             ResourceManager::Header* pHeader = ResourceManager::Get_Header_49C410(ppRes);
             if (pHeader->field_8_type == ResourceManager::Resource_FG1)
             {
-                FG1* pFG1 = alive_new<FG1>();
+                FG1* pFG1 = ae_new<FG1>();
                 pFG1->ctor_499FC0(ppRes);
             }
         }
@@ -1150,7 +1150,7 @@ BaseGameObject* CC Map::FMV_Camera_Change_482650(BYTE** ppBits, Map* pMap, Level
         DWORD pos2 = 0;
         DWORD pos3 = 0;
         Get_fmvs_sectors_494460(pFmvRec1->field_0_pName, pFmvRec2->field_0_pName, pFmvRec3->field_0_pName, &pos1, &pos2, &pos3);
-        CameraSwapper* pSwapperMem3 = alive_new<CameraSwapper>();
+        CameraSwapper* pSwapperMem3 = ae_new<CameraSwapper>();
         if (pSwapperMem3)
         {
             return pSwapperMem3->ctor_4E4ED0(
@@ -1184,7 +1184,7 @@ BaseGameObject* CC Map::FMV_Camera_Change_482650(BYTE** ppBits, Map* pMap, Level
         DWORD cdPos2 = 0;
         Get_fmvs_sectors_494460(pFmvRec1->field_0_pName, pFmvRec2->field_0_pName, 0, &cdPos1, &cdPos2, 0);
         sLevelId_dword_5CA408 = static_cast<int>(lvlId); // HACK
-        CameraSwapper* pSwapperMem2 = alive_new<CameraSwapper>();
+        CameraSwapper* pSwapperMem2 = ae_new<CameraSwapper>();
         if (pSwapperMem2)
         {
             return pSwapperMem2->ctor_4E4DC0(
@@ -1208,7 +1208,7 @@ BaseGameObject* CC Map::FMV_Camera_Change_482650(BYTE** ppBits, Map* pMap, Level
         DWORD cdPos = 0;
         Get_fmvs_sectors_494460(pFmvRec1->field_0_pName, 0, 0, &cdPos, 0, 0);
         sLevelId_dword_5CA408 = static_cast<int>(lvlId); // HACK
-        CameraSwapper* pSwapperMem = alive_new<CameraSwapper>();
+        CameraSwapper* pSwapperMem = ae_new<CameraSwapper>();
         if (pSwapperMem)
         {
             return pSwapperMem->ctor_4E4CA0(
@@ -1262,7 +1262,7 @@ Camera* Map::Create_Camera_4829E0(__int16 xpos, __int16 ypos, int /*a4*/)
         return nullptr;
     }
 
-    Camera* newCamera = alive_new<Camera>();
+    Camera* newCamera = ae_new<Camera>();
     newCamera->ctor_480DD0();
 
     // Copy in the camera name from the Path resource and append .CAM

@@ -27,7 +27,7 @@ install:
 
 artifacts:
  - path: '**\AliveExe.pdb'
- - path: '**\AliveDll.pdb'
+ - path: '**\AliveDllAE.pdb'
  - path: '**\AliveDllAO.pdb'
  - path: build\*.zip
    name: AR-$(configuration)-$(APPVEYOR_REPO_COMMIT)

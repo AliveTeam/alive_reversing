@@ -646,7 +646,7 @@ BaseGameObject* MainMenuController::vdtor_4CEF00(signed int flags)
     dtor_4CEF30();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -823,7 +823,7 @@ signed int MainMenuController::AbeSpeak_Update_4D2D20(DWORD input_held)
         {
             // Spawn chant star/flare particle at random locations around abes head
             field_F4_resources.field_0_resources[MenuResIds::eOptionFlare] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOptflareResID, FALSE, FALSE);
-            Particle* pParticle = alive_new<Particle>();
+            Particle* pParticle = ae_new<Particle>();
             if (pParticle)
             {
                 const short randX = Math_RandomRange_496AB0(-40, 40) + 184;
@@ -1470,7 +1470,7 @@ signed int MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_held)
             
             dword_55C128 = -1;
 
-            auto pMovie = alive_new<Movie>();
+            auto pMovie = ae_new<Movie>();
             if (pMovie)
             {
                 pMovie->ctor_4DFDE0(v14->field_4_id, input_held, v14->field_6_flags & 1, v14->field_8, v14->field_A_volume);
@@ -1744,7 +1744,7 @@ signed int MainMenuController::LoadNewGame_Update_4D0920(DWORD /*input*/)
             
             if (!pPauseMenu_5C9300)
             {
-                pPauseMenu_5C9300 = alive_new<PauseMenu>();
+                pPauseMenu_5C9300 = ae_new<PauseMenu>();
                 if (pPauseMenu_5C9300)
                 {
                     pPauseMenu_5C9300->ctor_48FB80();
@@ -1753,7 +1753,7 @@ signed int MainMenuController::LoadNewGame_Update_4D0920(DWORD /*input*/)
 
             if (sActiveHero_5C1B68 == spAbe_554D5C)
             {
-                sActiveHero_5C1B68 = alive_new<Abe>();
+                sActiveHero_5C1B68 = ae_new<Abe>();
                 if (sActiveHero_5C1B68)
                 {
                     sActiveHero_5C1B68->ctor_44AD10(58808, 85, 57, 55);
@@ -1808,7 +1808,7 @@ signed int MainMenuController::LoadNewGame_Update_4D0920(DWORD /*input*/)
 
     if (!pPauseMenu_5C9300)
     {
-        pPauseMenu_5C9300 = alive_new<PauseMenu>();
+        pPauseMenu_5C9300 = ae_new<PauseMenu>();
         if (pPauseMenu_5C9300)
         {
             pPauseMenu_5C9300->ctor_48FB80();
@@ -1817,7 +1817,7 @@ signed int MainMenuController::LoadNewGame_Update_4D0920(DWORD /*input*/)
 
     if (sActiveHero_5C1B68 == spAbe_554D5C)
     {
-        sActiveHero_5C1B68 = alive_new<Abe>();
+        sActiveHero_5C1B68 = ae_new<Abe>();
         if (sActiveHero_5C1B68)
         {
             sActiveHero_5C1B68->ctor_44AD10(58808, 85, 57, 55);
@@ -1893,7 +1893,7 @@ EXPORT signed int MainMenuController::BackStory_Or_NewGame_Update_4D1C60(DWORD i
             Get_fmvs_sectors_494460(pFmvRecord->field_0_pName, nullptr, nullptr, &fmvSector, 0, 0);
             sLevelId_dword_5CA408 = 0;
 
-            auto pMovie = alive_new<Movie>();
+            auto pMovie = ae_new<Movie>();
             if (pMovie)
             {
                 pMovie->ctor_4DFDE0(
@@ -2087,7 +2087,7 @@ signed int MainMenuController::LoadDemo_Update_4D1040(DWORD)
 
         if (sActiveHero_5C1B68 == spAbe_554D5C)
         {
-            auto abe = alive_new<Abe>();
+            auto abe = ae_new<Abe>();
             if (abe)
             {
                 sActiveHero_5C1B68 = abe->ctor_44AD10(58808, 85, 57, 55);
@@ -3103,7 +3103,7 @@ signed int MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 return 1;
             }
 
-            field_208_transition_obj = alive_new<MainMenuTransition>();
+            field_208_transition_obj = ae_new<MainMenuTransition>();
             if (field_208_transition_obj)
             {
                 field_208_transition_obj->ctor_464110(40, 1, 0, 16, 2);
@@ -3120,7 +3120,7 @@ signed int MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 return 1;
             }
 
-            field_208_transition_obj = alive_new<MainMenuTransition>();
+            field_208_transition_obj = ae_new<MainMenuTransition>();
             if (field_208_transition_obj)
             {
                 field_208_transition_obj->ctor_464110(40, 1, 0, 16, 1);
@@ -3128,7 +3128,7 @@ signed int MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 return 1;
             }
         }
-        // alive_new failure case
+        // ae_new failure case
         field_21E_bChangeScreen = 2;
         return 1;
 
@@ -3188,7 +3188,7 @@ signed int MainMenuController::ChangeScreenAndIntroLogic_4CF640()
             sLevelId_dword_5CA408 = 0;
 
             // Create a movie object for the GTI logo
-            auto pMovie = alive_new<Movie>();
+            auto pMovie = ae_new<Movie>();
             if (pMovie)
             {
                 pMovie->ctor_4DFDE0(
@@ -3219,7 +3219,7 @@ signed int MainMenuController::ChangeScreenAndIntroLogic_4CF640()
             // Create movie object for the DD logo
             Get_fmvs_sectors_494460("DDLOGO.STR", 0, 0, &v34, 0, 0);
             sLevelId_dword_5CA408 = 0;
-            pMovie = alive_new<Movie>();
+            pMovie = ae_new<Movie>();
 
             if (pMovie)
             {

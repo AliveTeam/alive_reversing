@@ -106,7 +106,7 @@ FartMachine* FartMachine::vdtor_413290(signed int flags)
     dtor_413330();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

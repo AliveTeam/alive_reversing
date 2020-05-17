@@ -167,7 +167,7 @@ signed int CC Glukkon::CreateFromSaveState_442830(const BYTE* pData)
             break;
     }
 
-    auto pGlukkon = alive_new<Glukkon>();
+    auto pGlukkon = ae_new<Glukkon>();
     if (pGlukkon)
     {
         pGlukkon->ctor_43F030(pTlv, pSaveState->field_44_tlvInfo);
@@ -1697,7 +1697,7 @@ __int16 Glukkon::AI_3_PlayerControlled_441A30()
             sVisitedBonewerks_5C1C02 = 1;
         }
 
-        auto pDeathFadeOutMem = alive_new<DeathFadeOut>();
+        auto pDeathFadeOutMem = ae_new<DeathFadeOut>();
         if (pDeathFadeOutMem)
         {
             field_208_obj_id = pDeathFadeOutMem->ctor_427030(40, 1, 0, 8, 2)->field_8_object_id;
@@ -1768,7 +1768,7 @@ __int16 Glukkon::AI_3_PlayerControlled_441A30()
         DWORD pos = 0;
         Get_fmvs_sectors_494460(pFmvRec->field_0_pName, 0, 0, &pos, 0, 0);
 
-        auto pMovie = alive_new<Movie>();
+        auto pMovie = ae_new<Movie>();
         if (pMovie)
         {
             pMovie->ctor_4DFDE0(pFmvRec->field_4_id, pos, pFmvRec->field_6_flags & 1, pFmvRec->field_8, pFmvRec->field_A_volume);
@@ -1886,7 +1886,7 @@ __int16 Glukkon::AI_4_Death_442010()
 
     case 2:
     {
-        auto pGibs = alive_new<Gibs>();
+        auto pGibs = ae_new<Gibs>();
         if (pGibs)
         {
             pGibs->ctor_40FB40(
@@ -1899,7 +1899,7 @@ __int16 Glukkon::AI_4_Death_442010()
                 0);
         }
 
-        auto pBlood = alive_new<Blood>();
+        auto pBlood = ae_new<Blood>();
         if (pBlood)
         {
             pBlood->ctor_40F0B0(
@@ -2026,7 +2026,7 @@ __int16 Glukkon::AI_5_WaitToSpawn_442490()
             {
                 const short sparkX = FP_GetExponent(FP_FromInteger(p.field_0_x) + field_B8_xpos + FP_FromInteger(13));
                 const short sparkY = FP_GetExponent(field_BC_ypos + FP_FromInteger(p.field_2_y) - FP_FromInteger(11));
-                auto pSpark = alive_new<Spark>();
+                auto pSpark = ae_new<Spark>();
                 if (pSpark)
                 {
                     pSpark->ctor_4CBBB0(FP_FromInteger(sparkX), FP_FromInteger(sparkY), FP_FromInteger(1), 9, -31, 159, 1);
@@ -2041,7 +2041,7 @@ __int16 Glukkon::AI_5_WaitToSpawn_442490()
                 FP_FromInteger((bRect.y + bRect.h) / 2) + (field_CC_sprite_scale * FP_FromInteger(60)),
                 field_CC_sprite_scale);
 
-            auto pParticleBurst = alive_new<ParticleBurst>();
+            auto pParticleBurst = ae_new<ParticleBurst>();
             if (pParticleBurst)
             {
                 pParticleBurst->ctor_41CF50(
@@ -2153,7 +2153,7 @@ void Glukkon::Init_43F260()
 
     if (!field_E0_pShadow)
     {
-        field_E0_pShadow = alive_new<Shadow>();
+        field_E0_pShadow = ae_new<Shadow>();
         if (field_E0_pShadow)
         {
             field_E0_pShadow->ctor_4AC990();
@@ -2166,7 +2166,7 @@ Glukkon* Glukkon::vdtor_43F230(signed int flags)
     dtor_43F570();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -3143,7 +3143,7 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
         case BulletType::Type_0:
         case BulletType::Type_2:
         {
-            auto pBlood1 = alive_new<Blood>();
+            auto pBlood1 = ae_new<Blood>();
             if (pBlood1)
             {
                 const FP yRand = (FP_FromInteger(Math_NextRandom() % 16)) - FP_FromInteger(8);
@@ -3159,7 +3159,7 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
                     12);
             }
 
-            auto pBlood2 = alive_new<Blood>();
+            auto pBlood2 = ae_new<Blood>();
             if (pBlood2)
             {
                 const FP xPos = (field_CC_sprite_scale * (pBullet->field_30 <= FP_FromInteger(0) ? -FP_FromInteger(12) : FP_FromInteger(12)));
@@ -3177,7 +3177,7 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
         case BulletType::Type_1:
         case BulletType::ZBullet_3:
         {
-            auto pBlood2 = alive_new<Blood>();
+            auto pBlood2 = ae_new<Blood>();
             if (pBlood2)
             {
                 pBlood2->ctor_40F0B0(

@@ -75,7 +75,7 @@ void DeathBirdParticle::Update_43EE70()
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             // Yes so magic it into a dove
-            auto pDove = alive_new<Dove>();
+            auto pDove = ae_new<Dove>();
             if (pDove)
             {
                 pDove->ctor_41F660(
@@ -124,7 +124,7 @@ DeathBirdParticle* DeathBirdParticle::vdtor_43EE20(signed int flags)
     dtor_43EE50();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

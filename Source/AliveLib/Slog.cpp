@@ -301,7 +301,7 @@ int CC Slog::CreateFromSaveState_4C54F0(const BYTE* pBuffer)
         ResourceManager::LoadResourceFile_49C170("DOGKNFD.BAN", nullptr);
     }
 
-    auto pSlog = alive_new<Slog>();
+    auto pSlog = ae_new<Slog>();
 
     if (pState->field_40_tlvInfo == 0xFFFF)
     {
@@ -1074,7 +1074,7 @@ void Slog::M_Sleeping_15_4C6D60()
     {
         if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
         {
-            auto pSnoozeParticle = alive_new<SnoozeParticle>();
+            auto pSnoozeParticle = ae_new<SnoozeParticle>();
             if (pSnoozeParticle)
             {
                 FP xOff = {};
@@ -1272,7 +1272,7 @@ void Slog::M_Eating_20_4C75F0()
     if (field_20_animation.field_92_current_frame == 3 && !field_20_animation.field_4_flags.Get(AnimFlags::eBit19_LoopBackwards))
     {
         SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(65, 66)), 100);
-        auto pBlood = alive_new<Blood>();
+        auto pBlood = ae_new<Blood>();
         if (pBlood)
         {
             pBlood->ctor_40F0B0(
@@ -2923,7 +2923,7 @@ void Slog::Init_4C46A0()
     }
 
     MapFollowMe_408D10(FALSE);
-    field_E0_pShadow = alive_new<Shadow>();
+    field_E0_pShadow = ae_new<Shadow>();
     if (field_E0_pShadow)
     {
         field_E0_pShadow->ctor_4AC990();
@@ -3047,7 +3047,7 @@ Slog* Slog::vdtor_4C4510(signed int flags)
     dtor_4C49A0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -3450,7 +3450,7 @@ __int16 Slog::vTakeDamage_4C4B80(BaseGameObject* pFrom)
         case BulletType::Type_2:
             if (pBullet->field_30 <= FP_FromInteger(0))
             {
-                auto pBlood = alive_new<Blood>();
+                auto pBlood = ae_new<Blood>();
                 if (pBlood)
                 {
                     pBlood->ctor_40F0B0(
@@ -3463,7 +3463,7 @@ __int16 Slog::vTakeDamage_4C4B80(BaseGameObject* pFrom)
             }
             else
             {
-                auto pBlood = alive_new<Blood>();
+                auto pBlood = ae_new<Blood>();
                 if (pBlood)
                 {
                     pBlood->ctor_40F0B0(
@@ -3479,7 +3479,7 @@ __int16 Slog::vTakeDamage_4C4B80(BaseGameObject* pFrom)
         case BulletType::Type_1:
         case BulletType::ZBullet_3:
         {
-            auto pBlood = alive_new<Blood>();
+            auto pBlood = ae_new<Blood>();
             if (pBlood)
             {
                 pBlood->ctor_40F0B0(
@@ -3514,7 +3514,7 @@ __int16 Slog::vTakeDamage_4C4B80(BaseGameObject* pFrom)
     {
         Sfx_4C7D30(SlogSound::DeathWhine_9);
         field_10C_health = FP_FromInteger(0);
-        auto pGibs = alive_new<Gibs>();
+        auto pGibs = ae_new<Gibs>();
         if (pGibs)
         {
             pGibs->ctor_40FB40(2, field_B8_xpos, field_BC_ypos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
@@ -3522,7 +3522,7 @@ __int16 Slog::vTakeDamage_4C4B80(BaseGameObject* pFrom)
 
         PSX_RECT bRect = {};
         vGetBoundingRect_424FD0(&bRect, 1);
-        auto pBlood = alive_new<Blood>();
+        auto pBlood = ae_new<Blood>();
         if (pBlood)
         {
             pBlood->ctor_40F0B0(

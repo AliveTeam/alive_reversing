@@ -283,14 +283,14 @@ CircularFade* CircularFade::vdtor_4CE0D0(signed int flags)
     dtor_4CE080();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
 
 CircularFade* CC Make_Circular_Fade_4CE8C0(FP xpos, FP ypos, FP scale, __int16 direction, char destroyOnDone, char setBit8)
 {
-    auto pFade = alive_new<CircularFade>();
+    auto pFade = ae_new<CircularFade>();
     if (!pFade)
     {
         return nullptr;

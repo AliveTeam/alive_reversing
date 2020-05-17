@@ -70,7 +70,7 @@ SlapLockWhirlWind* SlapLockWhirlWind::ctor_43D7E0(__int16 doorNumber, __int16 sw
 
     if (bFoundTarget)
     {
-        auto pWhirlWind = alive_new<OrbWhirlWind>();
+        auto pWhirlWind = ae_new<OrbWhirlWind>();
         if (pWhirlWind)
         {
             pWhirlWind->ctor_4E3C90(xpos, ypos, scale, 1);
@@ -113,7 +113,7 @@ SlapLockWhirlWind* SlapLockWhirlWind::vdtor_43DA40(signed int flags)
     dtor_43DA70();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -306,7 +306,7 @@ int CC SlapLock::CreateFromSaveState_43EA00(const BYTE* pBuffer)
         ResourceManager::LoadResourceFile_49C170("GHOSTTRP.BAN", nullptr);
     }
 
-    auto pSlapLock = alive_new<SlapLock>();
+    auto pSlapLock = ae_new<SlapLock>();
     if (pSlapLock)
     {
         pSlapLock->ctor_43DC80(pTlv, pState->field_4_tlvInfo);
@@ -330,7 +330,7 @@ SlapLock* SlapLock::vdtor_43DED0(signed int flags)
     dtor_43DF00();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -562,7 +562,7 @@ void SlapLock::vUpdate_43DF90()
             }
             else
             {
-                auto pFlicker = alive_new<PossessionFlicker>();
+                auto pFlicker = ae_new<PossessionFlicker>();
                 if (pFlicker)
                 {
                     pFlicker->ctor_4319E0(sActiveHero_5C1B68, 8, 128, 255, 128);
@@ -648,7 +648,7 @@ __int16 SlapLock::vTakeDamage_43E5D0(BaseGameObject* pFrom)
     if (field_130_has_ghost)
     {
         field_130_has_ghost = 0;
-        auto pSlapWhirlWind = alive_new<SlapLockWhirlWind>();
+        auto pSlapWhirlWind = ae_new<SlapLockWhirlWind>();
         if (pSlapWhirlWind)
         {
             pSlapWhirlWind->ctor_43D7E0(
@@ -670,7 +670,7 @@ __int16 SlapLock::vTakeDamage_43E5D0(BaseGameObject* pFrom)
     SFX_Play_46FA90(106u, 0, field_CC_sprite_scale);
     Event_Broadcast_422BC0(kEventLoudNoise, this);
 
-    auto pParticleBurst = alive_new<ParticleBurst>();
+    auto pParticleBurst = ae_new<ParticleBurst>();
     if (pParticleBurst)
     {
         pParticleBurst->ctor_41CF50(

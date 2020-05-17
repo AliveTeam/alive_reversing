@@ -1,8 +1,14 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   BaseGameObject.hpp
+   BaseGameObject.cpp
+   DynamicArray.hpp
+   DynamicArray.cpp
    Game.hpp
    Game.cpp
+   stdlib.hpp
+   stdlib.cpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx_ao.h stdafx_ao.cpp AliveLibSrcAO)

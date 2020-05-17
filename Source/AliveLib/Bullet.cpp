@@ -93,7 +93,7 @@ Bullet* Bullet::vdtor_4145E0(signed int flags)
     BaseGameObject_dtor_4DBEC0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -239,7 +239,7 @@ void Bullet::vUpdate_413560()
 
                         if (field_30 <= FP_FromInteger(0))
                         {
-                            auto pSpark = alive_new<Spark>();
+                            auto pSpark = ae_new<Spark>();
                             if (pSpark)
                             {
                                 pSpark->ctor_4CBBB0(
@@ -254,7 +254,7 @@ void Bullet::vUpdate_413560()
                         }
                         else
                         {
-                            auto pSpark = alive_new<Spark>();
+                            auto pSpark = ae_new<Spark>();
                             if (pSpark)
                             {
                                 pSpark->ctor_4CBBB0(
@@ -288,7 +288,7 @@ void Bullet::vUpdate_413560()
 
             if (field_30 <= FP_FromInteger(0))
             {
-                auto pSpark = alive_new<Spark>();
+                auto pSpark = ae_new<Spark>();
                 if (pSpark)
                 {
                     pSpark->ctor_4CBBB0(
@@ -300,7 +300,7 @@ void Bullet::vUpdate_413560()
             }
             else
             {
-                auto pSpark = alive_new<Spark>();
+                auto pSpark = ae_new<Spark>();
                 if (pSpark)
                 {
                     pSpark->ctor_4CBBB0(
@@ -330,7 +330,7 @@ void Bullet::vUpdate_413560()
 
                 if (field_30 <= FP_FromInteger(0))
                 {
-                    auto pSpark = alive_new<Spark>();
+                    auto pSpark = ae_new<Spark>();
                     if (pSpark)
                     {
                         pSpark->ctor_4CBBB0(
@@ -346,7 +346,7 @@ void Bullet::vUpdate_413560()
                 }
                 else
                 {
-                    auto pSparkMem = alive_new<Spark>();
+                    auto pSparkMem = ae_new<Spark>();
                     if (pSparkMem)
                     {
                         pSparkMem->ctor_4CBBB0(
@@ -417,7 +417,7 @@ void Bullet::vUpdate_413560()
             FP_FromInteger(rect.h),
             &field_24_pLine, &hitX, &hitY, 0x400) == 1)
         {
-            auto pSpark = alive_new<Spark>();
+            auto pSpark = ae_new<Spark>();
             if (pSpark)
             {
                 pSpark->ctor_4CBBB0(hitX, hitY, FP_FromInteger(1), 9, -31, 159, 0);
@@ -467,7 +467,7 @@ void Bullet::vUpdate_413560()
                 sActiveHero_5C1B68->field_BC_ypos + FP_FromInteger(10),
                 &field_24_pLine, &hitX, &hitY, 1024) == 1)
             {
-                auto pSpark = alive_new<Spark>();
+                auto pSpark = ae_new<Spark>();
                 if (pSpark)
                 {
                     pSpark->ctor_4CBBB0(hitX, hitY, FP_FromInteger(1), 9, -31, 159, 0);

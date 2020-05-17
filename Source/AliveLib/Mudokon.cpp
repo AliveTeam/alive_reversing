@@ -608,7 +608,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
     field_160_delayed_speak = MudSounds::eNone;
     field_162_maxXOffset = field_DA_xOffset;
     
-    field_E0_pShadow = alive_new<Shadow>();
+    field_E0_pShadow = ae_new<Shadow>();
     if (field_E0_pShadow)
     {
         field_E0_pShadow->ctor_4AC990();
@@ -727,7 +727,7 @@ int CC Mudokon::CreateFromSaveState_4717C0(const BYTE* pBuffer)
         ResourceManager::LoadResourceFile_49C170("ABEWORK.BAN", nullptr);
     }
 
-    auto pMud = alive_new<Mudokon>();
+    auto pMud = ae_new<Mudokon>();
     pMud->ctor_474F30(pTlv, pState->field_40_tlvInfo);
 
     if (pState->field_3D_bIsPlayer)
@@ -1251,7 +1251,7 @@ Mudokon* Mudokon::vdtor_475770(signed int flags)
     Mudokon::dtor_475B60();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -1393,7 +1393,7 @@ __int16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
         case BulletType::Type_0:
         case BulletType::Type_2:
         {
-            auto pBloodFromShot = alive_new<Blood>();
+            auto pBloodFromShot = ae_new<Blood>();
             if (pBloodFromShot)
             {
                 pBloodFromShot->ctor_40F0B0(
@@ -1432,7 +1432,7 @@ __int16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
             }
 
             // Nothing saved us, get shot
-            auto pBloodMem = alive_new<Blood>();
+            auto pBloodMem = ae_new<Blood>();
             if (pBloodMem)
             {
                 pBloodMem->ctor_40F0B0(
@@ -1492,7 +1492,7 @@ __int16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
 
         if (field_16A_flags.Get(Flags::eBit4_blind))
         {
-            auto pMudGibs1 = alive_new<Gibs>();
+            auto pMudGibs1 = ae_new<Gibs>();
             if (pMudGibs1)
             {
                 pMudGibs1->ctor_40FB40(
@@ -1505,7 +1505,7 @@ __int16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
                     0);
             }
 
-            auto pMudGibs2 = alive_new<Gibs>();
+            auto pMudGibs2 = ae_new<Gibs>();
             if (pMudGibs2)
             {
                 pMudGibs2->ctor_40FB40(
@@ -1520,7 +1520,7 @@ __int16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
         }
         else
         {
-            auto pMudGibs1 = alive_new<Gibs>();
+            auto pMudGibs1 = ae_new<Gibs>();
             if (pMudGibs1)
             {
                 pMudGibs1->ctor_40FB40(
@@ -1533,7 +1533,7 @@ __int16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
                     0);
             }
 
-            auto pMudGibs2 = alive_new<Gibs>();
+            auto pMudGibs2 = ae_new<Gibs>();
             if (pMudGibs2)
             {
                 pMudGibs2->ctor_40FB40(
@@ -1580,7 +1580,7 @@ __int16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
             vGetBoundingRect_424FD0(&bRect, 1);
 
             auto pFleech = static_cast<BaseAliveGameObject*>(pFrom);
-            auto pBloodFromFleech = alive_new<Blood>();
+            auto pBloodFromFleech = ae_new<Blood>();
             if (pBloodFromFleech)
             {
                 pBloodFromFleech->ctor_40F0B0(
@@ -2022,7 +2022,7 @@ __int16 Mudokon::AI_GiveRings_0_470C10()
             if (field_168_ring_type == RingTypes::eExplosive_Emit_Effect_2)
             {
                 // Red flicker
-                auto pFlicker = alive_new<PossessionFlicker>();
+                auto pFlicker = ae_new<PossessionFlicker>();
                 if (pFlicker)
                 {
                     pFlicker->ctor_4319E0(this, 10, 255, 128, 128);
@@ -2031,7 +2031,7 @@ __int16 Mudokon::AI_GiveRings_0_470C10()
             else
             {
                 // Greenish flicker
-                auto pFlicker = alive_new<PossessionFlicker>();
+                auto pFlicker = ae_new<PossessionFlicker>();
                 if (pFlicker)
                 {
                     pFlicker->ctor_4319E0(this, 10, 255, 255, 32);
@@ -5174,7 +5174,7 @@ __int16 Mudokon::AI_FallAndSmackDeath_7_471600()
         if (static_cast<int>(sGnFrame_5C1B84) > field_194_timer)
         {
             Abe_SFX_2_457A40(15, 0, 32767, this);
-            auto pShake = alive_new<ScreenShake>();
+            auto pShake = ae_new<ScreenShake>();
             if (pShake)
             {
                 pShake->ctor_4ACF70(0, 0);
@@ -5502,7 +5502,7 @@ __int16 Mudokon::AI_Sick_9_47A910()
         {
             field_114_flags.Clear(Flags_114::e114_Bit3_Can_Be_Possessed);
             field_108_next_motion = Mud_Motion::StandIdle_0_4724E0;
-            auto pFlicker = alive_new<PossessionFlicker>();
+            auto pFlicker = ae_new<PossessionFlicker>();
             if (pFlicker)
             {
                 pFlicker->ctor_4319E0(this, 8, 155, 255, 32);
@@ -5890,7 +5890,7 @@ void Mudokon::Chisel_11_4732D0()
             {
                 SFX_Play_46FA90(91, 0, field_CC_sprite_scale);
 
-                auto pSpark = alive_new<Spark>();
+                auto pSpark = ae_new<Spark>();
                 if (pSpark)
                 {
                     FP sparkY = {};
@@ -6456,7 +6456,7 @@ void Mudokon::JumpMid_36_474570()
 
         SND_SEQ_Play_4CAB10(SeqId::SaveTriggerMusic_31, 1, 127, 127);
 
-        auto pMusicTrigger = alive_new<MusicTrigger>();
+        auto pMusicTrigger = ae_new<MusicTrigger>();
         if (pMusicTrigger)
         {
             pMusicTrigger->ctor_47FF10(5, 0, 0, 0);

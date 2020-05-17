@@ -111,7 +111,7 @@ EXPORT void CC Error_ShowErrorStackToUser_4F2A70(bool bDisplayAll)
     if (bDisplayAll)
     {
         // Add all errors to one huge message and display it
-        char* allocatedString = reinterpret_cast<char*>(alive_malloc(sErrorIndex_BBC564 * 256));
+        char* allocatedString = reinterpret_cast<char*>(ae_malloc_4F4E60(sErrorIndex_BBC564 * 256));
         if (allocatedString)
         {
             allocatedString[0] = 0;
@@ -125,7 +125,7 @@ EXPORT void CC Error_ShowErrorStackToUser_4F2A70(bool bDisplayAll)
                 strcat(allocatedString, buffer);
             }
             Error_DisplayMessageBox_4F2C80("Error", 0, allocatedString);
-            alive_free(allocatedString);
+            ae_free_4F4EA0(allocatedString);
             sErrorIndex_BBC564 = 0;
         }
     }

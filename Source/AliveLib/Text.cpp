@@ -65,7 +65,7 @@ EXPORT BaseGameObject* Text::vdtor_46AED0(signed int flags)
     dtor_46AF00();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -167,7 +167,7 @@ EXPORT char CC Display_Full_Screen_Message_Blocking_465820(int /*not_used*/, int
         return 0;
     }
 
-    auto pTextObj = alive_new<Text>();
+    auto pTextObj = ae_new<Text>();
     if (pTextObj)
     {
         const char* pMsg = nullptr;
@@ -193,7 +193,7 @@ EXPORT char CC Display_Full_Screen_Message_Blocking_465820(int /*not_used*/, int
 
         // Dead due to early return ??
     case 1:
-        pTextObj2 = alive_new<Text>();
+        pTextObj2 = ae_new<Text>();
         if (pTextObj2)
         {
             pTextObj2->ctor_46ADA0("or esc to skip the movie", 1, 0);
@@ -202,7 +202,7 @@ EXPORT char CC Display_Full_Screen_Message_Blocking_465820(int /*not_used*/, int
         break;
 
     case 2:
-        pTextObj2 = alive_new<Text>();
+        pTextObj2 = ae_new<Text>();
         if (pTextObj2)
         {
             pTextObj2->ctor_46ADA0("or esc to skip the demo", 1, 0);

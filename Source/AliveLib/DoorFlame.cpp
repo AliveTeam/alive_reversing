@@ -129,7 +129,7 @@ public:
         dtor_45D9E0();
         if (flags & 1)
         {
-            alive_delete_free(this);
+            ae_delete_free_495540(this);
         }
         return this;
     }
@@ -346,7 +346,7 @@ private:
         dtor_45DFC0();
         if (flags & 1)
         {
-            alive_delete_free(this);
+            ae_delete_free_495540(this);
         }
         return this;
     }
@@ -402,7 +402,7 @@ DoorFlame* DoorFlame::ctor_45E460(Path_DoorFlame* pTlv, int tlvInfo)
     
     field_FE_2_random = Math_NextRandom() % 2;
     
-    auto pFlameSparks = alive_new<FlameSparks>();
+    auto pFlameSparks = ae_new<FlameSparks>();
     if (pFlameSparks)
     {
         pFlameSparks->ctor_45DE00(field_B8_xpos, field_BC_ypos);
@@ -417,7 +417,7 @@ DoorFlame* DoorFlame::vdtor_45E690(signed int flags)
     dtor_45E6C0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -538,7 +538,7 @@ void DoorFlame::vUpdate_45E830()
 
         if (!pFireBackgroundGlow)
         {
-            pFireBackgroundGlow = alive_new<FireBackgroundGlow>();
+            pFireBackgroundGlow = ae_new<FireBackgroundGlow>();
             if (pFireBackgroundGlow)
             {
                 pFireBackgroundGlow->ctor_45D890(

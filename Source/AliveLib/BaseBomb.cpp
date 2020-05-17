@@ -57,14 +57,14 @@ BaseBomb * BaseBomb::ctor_423E70(FP x, FP y, int /*unused*/, FP scale)
     field_B8_xpos = x;
     field_BC_ypos = y;
 
-    ScreenShake * pScreenShake = alive_new<ScreenShake>();
+    ScreenShake * pScreenShake = ae_new<ScreenShake>();
 
     if (pScreenShake)
     {
         pScreenShake->ctor_4ACF70(1, 0);
     }
 
-    ParticleBurst * pParticleBurst2 = alive_new<ParticleBurst>();
+    ParticleBurst * pParticleBurst2 = ae_new<ParticleBurst>();
     if (pParticleBurst2)
     {
         pParticleBurst2->ctor_41CF50(
@@ -129,7 +129,7 @@ void BaseBomb::vUpdate_424180()
         break;
     case 3:
     {
-        ParticleBurst * pParticleBurst = alive_new<ParticleBurst>();
+        ParticleBurst * pParticleBurst = ae_new<ParticleBurst>();
         if (pParticleBurst)
         {
             pParticleBurst->ctor_41CF50(
@@ -141,7 +141,7 @@ void BaseBomb::vUpdate_424180()
                 13);
         }
 
-        Flash * pFlash = alive_new<Flash>();
+        Flash * pFlash = ae_new<Flash>();
 
         if (pFlash)
         {
@@ -159,7 +159,7 @@ void BaseBomb::vUpdate_424180()
     }
     case 4:
     {
-        Flash * pFlash = alive_new<Flash>();
+        Flash * pFlash = ae_new<Flash>();
 
         if (pFlash)
         {
@@ -170,7 +170,7 @@ void BaseBomb::vUpdate_424180()
     }
     case 7:
     {
-        ParticleBurst * pParticleBurst = alive_new<ParticleBurst>();
+        ParticleBurst * pParticleBurst = ae_new<ParticleBurst>();
 
         if (pParticleBurst)
         {
@@ -183,7 +183,7 @@ void BaseBomb::vUpdate_424180()
                 13);
         }
 
-        Flash * pFlash = alive_new<Flash>();
+        Flash * pFlash = ae_new<Flash>();
 
         if (pFlash)
         {
@@ -203,7 +203,7 @@ void BaseBomb::vUpdate_424180()
 
         if (pResourceAnim1)
         {
-            Particle * pParticle = alive_new<Particle>();
+            Particle * pParticle = ae_new<Particle>();
             if (pParticle)
             {
                 pParticle->ctor_4CC4C0(
@@ -235,7 +235,7 @@ BaseBomb* BaseBomb::vdtor_424130(signed int flags)
 
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

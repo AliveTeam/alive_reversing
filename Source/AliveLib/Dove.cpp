@@ -207,7 +207,7 @@ Dove* Dove::vdtor_41F630(signed int flags)
     dtor_41F870();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

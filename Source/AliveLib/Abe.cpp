@@ -737,7 +737,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     sControlledCharacter_5C1B8C = this;
 
     // Create shadow
-    field_E0_pShadow = alive_new<Shadow>();
+    field_E0_pShadow = ae_new<Shadow>();
     if (field_E0_pShadow)
     {
         field_E0_pShadow->ctor_4AC990();
@@ -900,7 +900,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     Abe* pAbe = sActiveHero_5C1B68;
     if (sActiveHero_5C1B68 == spAbe_554D5C)
     {
-        pAbe = alive_new<Abe>();
+        pAbe = ae_new<Abe>();
         if (pAbe)
         {
             pAbe->ctor_44AD10(58808, 85, 57, 55);
@@ -1152,7 +1152,7 @@ BaseGameObject* Abe::vdtor_44B350(signed int flags)
     dtor_44B380();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -1249,7 +1249,7 @@ void Abe::Update_449DC0()
                 field_170_invisible_timer = sGnFrame_5C1B84 + 2;
             }
 
-            auto pClass = alive_new<InvisibleEffect>();
+            auto pClass = ae_new<InvisibleEffect>();
             pClass->ctor_45F280(this);
             field_178_invisible_effect_id = pClass->field_8_object_id;
             pClass->sub_45FA00();
@@ -1583,7 +1583,7 @@ void Abe::Update_449DC0()
             field_144_auto_say_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
 
             // Do the death jingle
-            alive_new<MusicTrigger>()->ctor_47FF10(1, 0, 90, 0);
+            ae_new<MusicTrigger>()->ctor_47FF10(1, 0, 90, 0);
         }
 
         if (Event_Get_422C00(kEventMudokonComfort))
@@ -2127,7 +2127,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
         field_D2_g = 30;
         field_D0_r = 30;
 
-        auto pGibs = alive_new<Gibs>();
+        auto pGibs = ae_new<Gibs>();
         pGibs->ctor_40FB40(
             0,
             field_B8_xpos,
@@ -2138,7 +2138,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
             0);
 
         // Note Check on word_5CC88C <= 3846 appeared always true, removed.
-        auto pMoreGibs = alive_new<Gibs>();
+        auto pMoreGibs = ae_new<Gibs>();
         pMoreGibs->ctor_40FB40(
             0,
             field_B8_xpos,
@@ -2174,7 +2174,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
             field_D2_g = 30;
             field_D0_r = 30;
 
-            auto pGibs = alive_new<Gibs>();
+            auto pGibs = ae_new<Gibs>();
             pGibs->ctor_40FB40(
                 0,
                 field_B8_xpos,
@@ -2264,7 +2264,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
             PSX_RECT bRect = {};
             vGetBoundingRect_424FD0(&bRect, 1);
 
-            auto pBlood = alive_new<Blood>();
+            auto pBlood = ae_new<Blood>();
             if (pBlood)
             {
                 pBlood->ctor_40F0B0(
@@ -2341,7 +2341,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
             PSX_RECT bRect = {};
             vGetBoundingRect_424FD0(&bRect, 1);
 
-            auto pBlood = alive_new<Blood>();
+            auto pBlood = ae_new<Blood>();
             if (pBlood)
             {
                 pBlood->ctor_40F0B0(
@@ -3282,7 +3282,7 @@ void Abe::State_0_Idle_44EEB0()
 
             if (!bThrowableIndicatorExists_5C112C)
             {
-                ThrowableTotalIndicator* pThrowable = alive_new<ThrowableTotalIndicator>();
+                ThrowableTotalIndicator* pThrowable = ae_new<ThrowableTotalIndicator>();
                 if (pThrowable)
                 {
                     const FP xOffSet = ((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) ? FP_FromInteger(15) : FP_FromInteger(-15)) * field_CC_sprite_scale;
@@ -4121,7 +4121,7 @@ void Abe::State_17_CrouchIdle_456BC0()
         field_158_throwable_id = Make_Throwable_49AF30(field_B8_xpos, field_BC_ypos - FP_FromInteger(40), 0)->field_8_object_id;
         if (!bThrowableIndicatorExists_5C112C)
         {
-            auto pRockCountGraphic = alive_new<ThrowableTotalIndicator>();
+            auto pRockCountGraphic = ae_new<ThrowableTotalIndicator>();
             if (pRockCountGraphic)
             {
                 const FP yOff = field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(-30));
@@ -5613,7 +5613,7 @@ void Abe::State_56_FallAndCrunchDeath_4591F0()
         else if (static_cast<int>(sGnFrame_5C1B84) == field_128.field_0_gnFrame - 24)
         {
             SFX_Play_46FA90(64u, 85);
-            auto pShake = alive_new<ScreenShake>();
+            auto pShake = ae_new<ScreenShake>();
             if (pShake)
             {
                 pShake->ctor_4ACF70(1, 0);
@@ -5660,7 +5660,7 @@ void Abe::State_57_Dead_4589A0()
         field_128.field_0_gnFrame = sGnFrame_5C1B84 + 30;
         if (field_FC_pPathTLV && field_FC_pPathTLV->field_4_type == 4) // TODO: constant
         {
-            auto pBird = alive_new<DeathBirdParticle>();
+            auto pBird = ae_new<DeathBirdParticle>();
             if (pBird)
             {
                 const FP ypos = FP_FromInteger(Math_NextRandom() % 10) + field_BC_ypos + FP_FromInteger(15);
@@ -5675,7 +5675,7 @@ void Abe::State_57_Dead_4589A0()
         }
         else
         {
-            auto pBird = alive_new<DeathBirdParticle>();
+            auto pBird = ae_new<DeathBirdParticle>();
             if (pBird)
             {
                 const FP ypos = FP_FromInteger(Math_NextRandom() % 10) + field_BC_ypos + FP_FromInteger(15);
@@ -5696,7 +5696,7 @@ void Abe::State_57_Dead_4589A0()
         {
             if (field_FC_pPathTLV && field_FC_pPathTLV->field_4_type == 4) // TODO: Constant
             {
-                auto pBird = alive_new<DeathBirdParticle>();
+                auto pBird = ae_new<DeathBirdParticle>();
                 if (pBird)
                 {
                     const FP ypos = FP_FromInteger(Math_NextRandom() % 10) + field_BC_ypos + FP_FromInteger(15);
@@ -5711,7 +5711,7 @@ void Abe::State_57_Dead_4589A0()
             }
             else
             {
-                auto pBird = alive_new<DeathBirdParticle>();
+                auto pBird = ae_new<DeathBirdParticle>();
                 if (pBird)
                 {
                     const FP ypos = FP_FromInteger(Math_NextRandom() % 10) + field_BC_ypos + FP_FromInteger(15);
@@ -5764,7 +5764,7 @@ void Abe::State_57_Dead_4589A0()
             pDeathFade_1->field_6_flags.Set(BaseGameObject::eDead_Bit3);
             field_148_fade_obj_id = -1;
         }
-        auto pDeathFade = alive_new<DeathFadeOut>();
+        auto pDeathFade = ae_new<DeathFadeOut>();
         if (pDeathFade)
         {
             pDeathFade->ctor_427030(40, 1, 0, 8, 2);
@@ -6721,7 +6721,7 @@ void Abe::State_84_FallLandDie_45A420()
     {
         SFX_Play_46FA90(0x40u, 85);
         SND_SEQ_Play_4CAB10(SeqId::HitBottomOfDeathPit_9, 1, 95, 95);
-        auto pShake = alive_new<ScreenShake>();
+        auto pShake = ae_new<ScreenShake>();
         if (pShake)
         {
             pShake->ctor_4ACF70(1, 0);
@@ -6852,7 +6852,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
                 Get_fmvs_sectors_494460(pFmvRec->field_0_pName, 0, 0, &pos, 0, 0);
                 sLevelId_dword_5CA408 = static_cast<DWORD>(gMap_5C3030.field_0_current_level);
 
-                Movie* pMovie = alive_new<Movie>();
+                Movie* pMovie = ae_new<Movie>();
                 if (pMovie)
                 {
                     pMovie->ctor_4DFDE0(pFmvRec->field_4_id, pos, pFmvRec->field_6_flags & 1, pFmvRec->field_8, pFmvRec->field_A_volume);
@@ -6866,7 +6866,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
                 field_120_state = 4;
                 pCircularFade->field_6_flags.Set(BaseGameObject::eDead_Bit3);
                 field_14C_circular_fade_id = -1;
-                DeathFadeOut* pFade33 = alive_new<DeathFadeOut>();
+                DeathFadeOut* pFade33 = ae_new<DeathFadeOut>();
                 if (pFade33)
                 {
                     pFade33->ctor_427030(40, 0, 0, 8, 2);
@@ -6929,7 +6929,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
                 field_120_state = 4;
 
                 pFade->field_6_flags.Set(BaseGameObject::eDead_Bit3);
-                pFade = alive_new<DeathFadeOut>();
+                pFade = ae_new<DeathFadeOut>();
 
                 if (pFade)
                 {
@@ -7520,7 +7520,7 @@ void Abe::State_112_Chant_45B1C0()
                 InvisibleEffect* pInvisible = static_cast<InvisibleEffect*>(sObjectIds_5C1B70.Find_449CF0(field_178_invisible_effect_id));
                 if (!pInvisible || pInvisible->field_6_flags.Get(BaseGameObject::eDead_Bit3))
                 {
-                    pInvisible = alive_new<InvisibleEffect>();
+                    pInvisible = ae_new<InvisibleEffect>();
                     if (pInvisible)
                     {
                         pInvisible->ctor_45F280(this);
@@ -7597,7 +7597,7 @@ void Abe::State_112_Chant_45B1C0()
             {
                 if (!pOrbWhirlWind)
                 {
-                    auto pWhirlWind = alive_new<OrbWhirlWind>();
+                    auto pWhirlWind = ae_new<OrbWhirlWind>();
                     if (pWhirlWind)
                     {
                         const FP yPos = field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(38));
@@ -7653,7 +7653,7 @@ void Abe::State_112_Chant_45B1C0()
             pObj->field_CC_sprite_scale,
             pObj);
 
-        auto pClass_544FC8 = alive_new<PossessionFlicker>();
+        auto pClass_544FC8 = ae_new<PossessionFlicker>();
         if (pClass_544FC8)
         {
             pClass_544FC8->ctor_4319E0(sActiveHero_5C1B68, 30, 128, 255, 255);
@@ -7732,7 +7732,7 @@ void Abe::State_112_Chant_45B1C0()
             field_1AC_flags.Set(Flags_1AC::e1AC_Bit9_bLaughAtChantEnd);
         }
 
-        auto pFlicker = alive_new<PossessionFlicker>();
+        auto pFlicker = ae_new<PossessionFlicker>();
         if (pFlicker)
         {
             pFlicker->ctor_4319E0(sControlledCharacter_5C1B8C, 60, 128, 255, 255);
@@ -7750,7 +7750,7 @@ void Abe::State_112_Chant_45B1C0()
             return;
         }
 
-        auto pFlicker = alive_new<PossessionFlicker>();
+        auto pFlicker = ae_new<PossessionFlicker>();
         if (pFlicker)
         {
             pFlicker->ctor_4319E0(sControlledCharacter_5C1B8C, 15, 128, 255, 255);
@@ -8161,7 +8161,7 @@ void Abe::State_119_To_Shrykull_45A990()
 
             field_120_state = 1;
  
-            auto pShryZapper = alive_new<Shrykull>();
+            auto pShryZapper = ae_new<Shrykull>();
             if (pShryZapper)
             {
                 pShryZapper->ctor_4AEA20();
@@ -8290,7 +8290,7 @@ void Abe::State_127_TurnWheelLoop_456750()
         {
             field_120_state = eMapChanging;
             SND_SEQ_Play_4CAB10(SeqId::SaveTriggerMusic_31, 1, 127, 127);
-            auto pMusicTrigger = alive_new<MusicTrigger>();
+            auto pMusicTrigger = ae_new<MusicTrigger>();
             if (pMusicTrigger)
             {
                 pMusicTrigger->ctor_47FF10(5, 0, 0, 0);
@@ -8491,7 +8491,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, int fpY, int bStandToCrouch
             field_1A2_rock_or_bone_count += static_cast<char>(static_cast<BaseThrowable*>(pSlapableOrCollectable)->VGetCount_448080()); // TOOD: Check types are correct
             if (!bThrowableIndicatorExists_5C112C)
             {
-                auto pThrowableIndicator = alive_new<ThrowableTotalIndicator>();
+                auto pThrowableIndicator = ae_new<ThrowableTotalIndicator>();
                 if (pThrowableIndicator)
                 {
                     FP yoff = (field_CC_sprite_scale * FP_FromInteger(-30)) + field_BC_ypos;
@@ -8631,7 +8631,7 @@ void Abe::TryHoist_44ED30()
 
 void CC Abe::Create_Fart_421D20()
 {
-    auto pFart = alive_new<EvilFart>();
+    auto pFart = ae_new<EvilFart>();
     pFart->ctor_422E30();
 }
 
@@ -9417,7 +9417,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
             {
                 if (pBullet->field_20_type != BulletType::Type_1 && pBullet->field_20_type != BulletType::ZBullet_3)
                 {
-                    auto pSpark = alive_new<Spark>();
+                    auto pSpark = ae_new<Spark>();
                     if (pSpark)
                     {
                         pSpark->ctor_4CBBB0(hitX, hitY, field_CC_sprite_scale, 9, -31, 159, 0);
@@ -9444,7 +9444,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
             {
                 bloodXOff = FP_FromInteger(24);
             }
-            auto pBlood = alive_new<Blood>();
+            auto pBlood = ae_new<Blood>();
             if (pBlood)
             {
                 pBlood->ctor_40F0B0(field_B8_xpos, pBullet->field_2C_ypos, bloodXOff, FP_FromInteger(0), field_CC_sprite_scale, 50);
@@ -9525,7 +9525,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
                 field_108_next_motion = eAbeStates::State_109_Shot_Rolling_455550;
             }
 
-            auto pBlood = alive_new<Blood>();
+            auto pBlood = ae_new<Blood>();
             if (pBlood)
             {
                 pBlood->ctor_40F0B0(field_B8_xpos, yOff + field_BC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), 50);

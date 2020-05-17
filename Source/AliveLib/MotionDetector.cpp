@@ -40,7 +40,7 @@ MotionDetectorLaser* MotionDetectorLaser::vdtor_468360(signed int flags)
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -106,7 +106,7 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvIn
         if (pTlv->field_18_start_on)
         {
             field_100_state = States::eState_2_Go_Left;
-            pLaser = alive_new<MotionDetectorLaser>();
+            pLaser = ae_new<MotionDetectorLaser>();
             if (pLaser)
             {
                 pLaser->ctor_468290(field_11C_y1_fp, field_120_y2_fp, field_CC_sprite_scale, 36);
@@ -115,7 +115,7 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvIn
         else
         {
             field_100_state = States::eState_0_Go_Right;
-            pLaser = alive_new<MotionDetectorLaser>();
+            pLaser = ae_new<MotionDetectorLaser>();
             if (pLaser)
             {
                 pLaser->ctor_468290(field_114_x1_fp, field_120_y2_fp, field_CC_sprite_scale, 36);
@@ -165,7 +165,7 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvIn
     field_174_speed = FP_FromInteger(2);
     field_100_state = States::eState_0_Go_Right;
 
-    auto pLaserMem = alive_new<MotionDetectorLaser>();
+    auto pLaserMem = ae_new<MotionDetectorLaser>();
     if (pLaserMem)
     {
         pLaserMem->ctor_468290(pOwner->field_B8_xpos, pOwner->field_BC_ypos, field_CC_sprite_scale, 36);
@@ -205,7 +205,7 @@ MotionDetector* MotionDetector::vdtor_468850(signed int flags)
     dtor_468880();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -412,7 +412,7 @@ void MotionDetector::vUpdate_468A90()
                             // Trigger alarms if its not already blasting
                             if (alarmInstanceCount_5C1BB4 == 0)
                             {
-                                auto pAlarmMem = alive_new<Alarm>();
+                                auto pAlarmMem = ae_new<Alarm>();
                                 if (pAlarmMem)
                                 {
                                     pAlarmMem->ctor_4091F0(field_10C_alarm_ticks, field_10A_alarm_id, 0, 39);

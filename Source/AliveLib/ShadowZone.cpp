@@ -134,7 +134,7 @@ ShadowZone* ShadowZone::vdtor_463A70(signed int flags)
     dtor_463BB0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

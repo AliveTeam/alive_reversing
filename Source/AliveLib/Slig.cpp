@@ -60,7 +60,7 @@ int CC Animation_OnFrame_Slig_4C0600(void* pObj, signed __int16* pData)
     Bullet* pBullet = nullptr;
     if (pSlig->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        pBullet = alive_new<Bullet>();
+        pBullet = ae_new<Bullet>();
         if (pBullet)
         {
             pBullet->ctor_414540(pSlig, bulletType, pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, FP_FromInteger(-640), 0, pSlig->field_CC_sprite_scale, 0);
@@ -74,7 +74,7 @@ int CC Animation_OnFrame_Slig_4C0600(void* pObj, signed __int16* pData)
         }
         else
         {
-            auto pShell = alive_new<BulletShell>();
+            auto pShell = ae_new<BulletShell>();
             if (pShell)
             {
                 pShell->ctor_4AD340(pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, 0, pSlig->field_CC_sprite_scale);
@@ -84,7 +84,7 @@ int CC Animation_OnFrame_Slig_4C0600(void* pObj, signed __int16* pData)
     }
     else
     {
-        pBullet = alive_new<Bullet>();
+        pBullet = ae_new<Bullet>();
         if (pBullet)
         {
             pBullet->ctor_414540(pSlig, bulletType, pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, FP_FromInteger(640), 0, pSlig->field_CC_sprite_scale, 0);
@@ -98,7 +98,7 @@ int CC Animation_OnFrame_Slig_4C0600(void* pObj, signed __int16* pData)
         }
         else
         {
-            auto pShell = alive_new<BulletShell>();
+            auto pShell = ae_new<BulletShell>();
             if (pShell)
             {
                 pShell->ctor_4AD340(pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, 1, pSlig->field_CC_sprite_scale);
@@ -455,7 +455,7 @@ Slig* Slig::ctor_4B1370(Path_Slig* pTlv, int tlvInfo)
     field_142 = 0;
     field_140 = 0;
 
-    field_E0_pShadow = alive_new<Shadow>();
+    field_E0_pShadow = ae_new<Shadow>();
     if (field_E0_pShadow)
     {
         field_E0_pShadow->ctor_4AC990();
@@ -703,7 +703,7 @@ int CC Slig::CreateFromSaveState_4B3B50(const BYTE* pBuffer)
         ResourceManager::LoadResourceFile_49C170("SHADOW.BAN", nullptr);
     }
 
-    auto pSlig = alive_new<Slig>();
+    auto pSlig = ae_new<Slig>();
     pSlig->ctor_4B1370(pTlv, pState->field_5C_tlvInfo);
 
     if (pState->field_40_bActiveChar)
@@ -1713,7 +1713,7 @@ void Slig::M_Sleeping_32_4B89A0()
             Slig_SoundEffect_4BFFE0(5, this);
             if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
             {
-                auto pSnoozeParticle = alive_new<SnoozeParticle>();
+                auto pSnoozeParticle = ae_new<SnoozeParticle>();
                 if (pSnoozeParticle)
                 {
                     FP xOff = {};
@@ -1745,7 +1745,7 @@ void Slig::M_Sleeping_32_4B89A0()
             field_BC_ypos,
             0))
         {
-            auto pSnoozeParticle = alive_new<SnoozeParticle>();
+            auto pSnoozeParticle = ae_new<SnoozeParticle>();
             if (pSnoozeParticle)
             {
                 FP xOff = {};
@@ -2003,7 +2003,7 @@ void Slig::M_Possess_37_4B72C0()
                 xOff = -xOff;
             }
 
-            auto pGibs = alive_new<Gibs>();
+            auto pGibs = ae_new<Gibs>();
             if (pGibs)
             {
                 pGibs->ctor_40FB40(
@@ -2156,7 +2156,7 @@ void Slig::M_ShootZ_42_4B7560()
     {
         if (sControlledCharacter_5C1B8C == this)
         {
-            auto pBullet = alive_new<Bullet>();
+            auto pBullet = ae_new<Bullet>();
             if (pBullet)
             {
                 pBullet->ctor_414540(
@@ -2172,7 +2172,7 @@ void Slig::M_ShootZ_42_4B7560()
         }
         else
         {
-            auto pBullet = alive_new<Bullet>();
+            auto pBullet = ae_new<Bullet>();
             if (pBullet)
             {
                 pBullet->ctor_414540(
@@ -2672,7 +2672,7 @@ __int16 Slig::AI_DeathDropDeath_3_4BC1E0()
 
     Abe_SFX_2_457A40(15, 0, 0x7FFF, this);
 
-    auto pScreenShake = alive_new<ScreenShake>();
+    auto pScreenShake = ae_new<ScreenShake>();
     if (pScreenShake)
     {
         pScreenShake->ctor_4ACF70(0, 0);
@@ -4899,7 +4899,7 @@ Slig* Slig::vdtor_4B1790(signed int flags)
     dtor_4B1CF0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -5374,7 +5374,7 @@ void Slig::ToStand_4B4A20()
 
 void Slig::BlowUp_4B8020()
 {
-    auto pGibs = alive_new<Gibs>();
+    auto pGibs = ae_new<Gibs>();
     if (pGibs)
     {
         pGibs->ctor_40FB40(
@@ -5387,7 +5387,7 @@ void Slig::BlowUp_4B8020()
             0);
     }
 
-    auto pBlood = alive_new<Blood>();
+    auto pBlood = ae_new<Blood>();
     if (pBlood)
     {
         pBlood->ctor_40F0B0(
@@ -7013,7 +7013,7 @@ __int16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
         case BulletType::Type_0:
         case BulletType::Type_2:
         {
-            auto pBlood1 = alive_new<Blood>();
+            auto pBlood1 = ae_new<Blood>();
             if (pBlood1)
             {
                 const FP yOff = FP_FromInteger(Math_NextRandom() % 16) - FP_FromInteger(8);
@@ -7023,7 +7023,7 @@ __int16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
                 pBlood1->ctor_40F0B0(xPos + field_B8_xpos, yPos, xOff, yOff, field_CC_sprite_scale, 12);
             }
 
-            auto pBlood2 = alive_new<Blood>();
+            auto pBlood2 = ae_new<Blood>();
             if (pBlood2)
             {
                 const FP xOff = pBullet->field_30 <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6);
@@ -7065,7 +7065,7 @@ __int16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
                 return 0;
             }
 
-            auto pBlood = alive_new<Blood>();
+            auto pBlood = ae_new<Blood>();
             if (pBlood)
             {
                 pBlood->ctor_40F0B0(field_B8_xpos, field_BC_ypos - (FP_FromInteger(25) * field_CC_sprite_scale), FP_FromInteger(0), FP_FromInteger(0), field_CC_sprite_scale, 25);
@@ -7121,7 +7121,7 @@ __int16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
             return 1;
         }
 
-        auto pGibs = alive_new<Gibs>();
+        auto pGibs = ae_new<Gibs>();
         if (pGibs)
         {
             pGibs->ctor_40FB40(1, field_B8_xpos, field_BC_ypos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);

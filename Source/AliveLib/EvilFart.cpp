@@ -128,7 +128,7 @@ int CC EvilFart::CreateFromSaveState_4281C0(const BYTE* pBuffer)
     ResourceManager::LoadResourceFile_49C170("EXPLO2.BAN", nullptr);
     ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", nullptr);
 
-    auto pFart = alive_new<EvilFart>();
+    auto pFart = ae_new<EvilFart>();
     pFart->ctor_422E30();
 
     if (pState->field_2C.Get(EvilFart_State::eBit1_bControlled))
@@ -360,7 +360,7 @@ void EvilFart::vUpdate_423100()
         {
             if (!field_118_bBlowUp)
             {
-                auto pIndicatorMem = alive_new<ThrowableTotalIndicator>();
+                auto pIndicatorMem = ae_new<ThrowableTotalIndicator>();
                 if (pIndicatorMem)
                 {
                     pIndicatorMem->ctor_431CB0(
@@ -580,7 +580,7 @@ void EvilFart::vUpdate_423100()
 
 void EvilFart::BlowUp()
 {
-    auto pExplosionMem2 = alive_new<Explosion>();
+    auto pExplosionMem2 = ae_new<Explosion>();
     if (pExplosionMem2)
     {
         pExplosionMem2->ctor_4A1200(
@@ -618,7 +618,7 @@ EvilFart* EvilFart::vdtor_4230D0(signed int flags)
     dtor_423D80();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

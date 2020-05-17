@@ -45,7 +45,7 @@ Bone* Bone::ctor_4112C0(FP xpos, FP ypos, __int16 countId)
     field_11C_state = BoneStates::eState_0_spawned;
     field_11E_volume_modifier = 0;
 
-    field_E0_pShadow = alive_new<Shadow>();
+    field_E0_pShadow = ae_new<Shadow>();
     if (field_E0_pShadow)
     {
         field_E0_pShadow->ctor_4AC990();
@@ -112,7 +112,7 @@ int CC Bone::CreateFromSaveState_412C10(const BYTE* pData)
 {
     auto pState = reinterpret_cast<const Bone_SaveState*>(pData);
 
-    auto pBone = alive_new<Bone>();
+    auto pBone = ae_new<Bone>();
     pBone->ctor_4112C0(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A_count);
 
     pBone->field_C_objectId = pState->field_4_obj_id;
@@ -169,7 +169,7 @@ Bone* Bone::vdtor_411580(signed int flags)
 
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -683,7 +683,7 @@ BoneBag* BoneBag::ctor_4125C0(Path_BoneBag* pTlv, int tlvInfo)
     field_120_allow_sound = 1;
     field_122_force_play_sound = 1;
 
-    field_E0_pShadow = alive_new<Shadow>();
+    field_E0_pShadow = ae_new<Shadow>();
     if (field_E0_pShadow)
     {
         field_E0_pShadow->ctor_4AC990();
@@ -716,7 +716,7 @@ BoneBag* BoneBag::vdtor_4127C0(signed int flags)
     dtor_4127F0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -805,13 +805,13 @@ void BoneBag::vUpdate_412880()
         }
         else
         {
-            gpThrowableArray_5D1E2C = alive_new<ThrowableArray>();
+            gpThrowableArray_5D1E2C = ae_new<ThrowableArray>();
             gpThrowableArray_5D1E2C->ctor_49A630();
         }
 
         gpThrowableArray_5D1E2C->Add_49A7A0(field_11E_count);
         
-        auto pBone = alive_new<Bone>();
+        auto pBone = ae_new<Bone>();
         pBone->ctor_4112C0(field_B8_xpos, field_BC_ypos - FP_FromInteger(30), field_11E_count);
         
         pBone->field_CC_sprite_scale = field_CC_sprite_scale;

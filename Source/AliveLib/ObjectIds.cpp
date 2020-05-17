@@ -35,19 +35,19 @@ void ObjectIds::Destructor()
             field_4_pBuffer[i] = pCurrent->field_8_pNext;
 
             // Now free current, repeat until everything is gone
-            alive_delete_free(pCurrent);
+            ae_delete_free_495540(pCurrent);
         }
     }
 
     // Free the backing array
-    alive_non_zero_free(field_4_pBuffer);
+    ae_non_zero_free_495560(field_4_pBuffer);
 }
 
 void ObjectIds::ctor_449AE0(unsigned int size)
 {
     // Allocate the array and set all items to nullptr
     field_0_buffer_size = size;
-    field_4_pBuffer = reinterpret_cast<ObjectId_Record**>(alive_malloc_non_zero(sizeof(ObjectId_Record*) * size));
+    field_4_pBuffer = reinterpret_cast<ObjectId_Record**>(ae_malloc_non_zero_4954F0(sizeof(ObjectId_Record*) * size));
     for (unsigned int i = 0; i < field_0_buffer_size; i++)
     {
         field_4_pBuffer[i] = nullptr;
@@ -83,7 +83,7 @@ ObjectId_Record* ObjectIds::Find_By_Id_449BC0(TObjectId_KeyType idToFind, Object
 void ObjectIds::Insert_449C10(TObjectId_KeyType nextId, BaseGameObject* pGameObj)
 {
     // Create new record
-    ObjectId_Record* pRec = alive_new<ObjectId_Record>();
+    ObjectId_Record* pRec = ae_new<ObjectId_Record>();
     pRec->field_0_id = nextId;
     pRec->field_4_obj_ptr = pGameObj;
 
@@ -120,7 +120,7 @@ signed __int16 ObjectIds::Remove_449C60(TObjectId_KeyType idToRemove)
     }
 
     // Free the found record
-    alive_delete_free(pFound);
+    ae_delete_free_495540(pFound);
 
     return 1;
 }

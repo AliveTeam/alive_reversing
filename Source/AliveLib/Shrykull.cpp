@@ -38,7 +38,7 @@ Shrykull* Shrykull::ctor_4AEA20()
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, sActiveHero_5C1B68->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX));
 
-    field_E0_pShadow = alive_new<Shadow>();
+    field_E0_pShadow = ae_new<Shadow>();
     field_E0_pShadow->ctor_4AC990();
     
     field_12E_bUnknown = 0;
@@ -81,7 +81,7 @@ Shrykull* Shrykull::vdtor_4AEB90(signed int flags)
     dtor_4AEBC0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -197,7 +197,7 @@ void Shrykull::vUpdate_4AEDE0()
                 }
                 else
                 {
-                    auto pZapLineMem = alive_new<ZapLine>();
+                    auto pZapLineMem = ae_new<ZapLine>();
                     if (pZapLineMem)
                     {
                         pZapLineMem->ctor_4CC690(
@@ -213,7 +213,7 @@ void Shrykull::vUpdate_4AEDE0()
                 field_12C_bElectrocute = Electrocute_4AED10(pObj);
                 if (field_12C_bElectrocute)
                 {
-                    auto pElectrocute = alive_new<Electrocute>();
+                    auto pElectrocute = ae_new<Electrocute>();
                     if (pElectrocute)
                     {
                         pElectrocute->ctor_4E5E80(pObj, 0, 1);
@@ -226,7 +226,7 @@ void Shrykull::vUpdate_4AEDE0()
                     }
                 }
 
-                auto pFlicker1 = alive_new<PossessionFlicker>();
+                auto pFlicker1 = ae_new<PossessionFlicker>();
                 if (pFlicker1)
                 {
                     pFlicker1->ctor_4319E0(pObj, 8, 255, 255, 255);
@@ -237,7 +237,7 @@ void Shrykull::vUpdate_4AEDE0()
                     FP_FromInteger((objRect.y + objRect.h) / 2),
                     RingTypes::eShrykull_Pulse_Large_5, pObj->field_CC_sprite_scale);
 
-                auto pFlicker2 = alive_new<PossessionFlicker>();
+                auto pFlicker2 = ae_new<PossessionFlicker>();
                 if (pFlicker2)
                 {
                     pFlicker2->ctor_4319E0(this, 8, 255, 255, 255);
@@ -330,7 +330,7 @@ void Shrykull::vUpdate_4AEDE0()
 
                 if (static_cast<int>(sGnFrame_5C1B84) == field_120_timer)
                 {
-                    auto pParticleBurst = alive_new<ParticleBurst>();
+                    auto pParticleBurst = ae_new<ParticleBurst>();
                     if (pParticleBurst)
                     {
                         pParticleBurst->ctor_41CF50(
@@ -339,7 +339,7 @@ void Shrykull::vUpdate_4AEDE0()
                             20, field_CC_sprite_scale, BurstType::eBigPurpleSparks_2, 13);
                     }
 
-                    auto pFlash = alive_new<Flash>();
+                    auto pFlash = ae_new<Flash>();
                     if (pFlash)
                     {
                         pFlash->ctor_428570(39, 255u, 255u, 255u, 1, 3u, 1);

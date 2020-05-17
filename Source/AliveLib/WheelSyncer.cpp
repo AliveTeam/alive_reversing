@@ -113,7 +113,7 @@ WheelSyncer* WheelSyncer::vdtor_466120(signed int flags)
     dtor_466150();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

@@ -161,7 +161,7 @@ TorturedMudokon* TorturedMudokon::vdtor_47BE30(signed int flags)
     dtor_47C380();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -246,7 +246,7 @@ void TorturedMudokon::vUpdate_47BF80()
 
     if (field_20_animation.field_92_current_frame == 6 && field_20_animation.field_E_frame_change_counter == field_20_animation.field_10_frame_delay)
     {
-        auto pFlash = alive_new<Flash>();
+        auto pFlash = ae_new<Flash>();
         if (pFlash)
         {
             pFlash->ctor_428570(39, rgbBase + 50, rgbBase + 50, rgbBase + 110, 1, 1, 1);
@@ -269,7 +269,7 @@ void TorturedMudokon::vUpdate_47BF80()
 
     if (field_20_animation.field_92_current_frame >= 7 && !Math_RandomRange_496AB0(0, 10))
     {
-        auto pFlash = alive_new<Flash>();
+        auto pFlash = ae_new<Flash>();
         if (pFlash)
         {
             pFlash->ctor_428570(39, rgbBase + 10, rgbBase + 10, rgbBase + 50, 1, 1u, 1);

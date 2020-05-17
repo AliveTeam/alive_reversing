@@ -49,7 +49,7 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, __int16 count)
     field_118_count = count;
     field_11C_state = MeatStates::State_0;
 
-    field_E0_pShadow = alive_new<Shadow>();
+    field_E0_pShadow = ae_new<Shadow>();
     if (field_E0_pShadow)
     {
         field_E0_pShadow->ctor_4AC990();
@@ -164,7 +164,7 @@ Meat* Meat::vdtor_4696C0(signed int flags)
     dtor_4696F0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -499,7 +499,7 @@ MeatSack* MeatSack::ctor_46A410(Path_MeatSack* pTlv, int tlvInfo)
 
     field_11E_num_items = pTlv->field_18_num_items;
 
-    field_E0_pShadow = alive_new<Shadow>();
+    field_E0_pShadow = ae_new<Shadow>();
     if (field_E0_pShadow)
     {
         field_E0_pShadow->ctor_4AC990();
@@ -532,7 +532,7 @@ int CC Meat::CreateFromSaveState_46A9E0(const BYTE* pBuffer)
 {
     const auto pState = reinterpret_cast<const Meat_SaveState*>(pBuffer);
 
-    auto pMeat = alive_new<Meat>();
+    auto pMeat = ae_new<Meat>();
     pMeat->ctor_4694A0(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A_count);
 
     pMeat->field_C_objectId = pState->field_4_obj_id;
@@ -579,7 +579,7 @@ MeatSack* MeatSack::vdtor_46A5E0(signed int flags)
     dtor_46A610();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -653,13 +653,13 @@ void MeatSack::vUpdate_46A6A0()
             }
             else
             {
-                gpThrowableArray_5D1E2C = alive_new<ThrowableArray>();
+                gpThrowableArray_5D1E2C = ae_new<ThrowableArray>();
                 gpThrowableArray_5D1E2C->ctor_49A630();
             }
 
             gpThrowableArray_5D1E2C->Add_49A7A0(field_11E_num_items);
 
-            auto pMeat = alive_new<Meat>();
+            auto pMeat = ae_new<Meat>();
             if (pMeat)
             {
                 pMeat->ctor_4694A0(field_B8_xpos, field_BC_ypos - FP_FromInteger(30), field_11E_num_items);

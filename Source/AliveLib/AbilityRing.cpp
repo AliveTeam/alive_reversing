@@ -14,7 +14,7 @@
 
 AbilityRing * CC AbilityRing::Factory_482F80(FP xpos, FP ypos, RingTypes type, FP scale)
 {
-    auto pRing = alive_new<AbilityRing>();
+    auto pRing = ae_new<AbilityRing>();
     pRing->ctor_49C730(xpos, ypos, type, scale);
     return pRing;
 }
@@ -282,7 +282,7 @@ void AbilityRing::VSetTarget(BaseGameObject* pTarget)
 int CC AbilityRing::CreateFromSaveState_49DF90(const BYTE* pBuffer)
 {
     auto pState = reinterpret_cast<const AbilityRing_State*>(pBuffer);
-    auto pRing = alive_new<AbilityRing>();
+    auto pRing = ae_new<AbilityRing>();
     if (pRing)
     {
         pRing->ctor_49C730(pState->field_4_xpos, pState->field_8_ypos, pState->field_C_ring_type, pState->field_10_scale);
@@ -315,7 +315,7 @@ AbilityRing* AbilityRing::vdtor_49D080(signed int flags)
     dtor_49D0B0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -421,7 +421,7 @@ void AbilityRing::vUpdate_49D160()
             SFX_Play_46FA90(0x54u, 0);
             if (field_284_ring_type == RingTypes::eExplosive_Give_3)
             {
-                auto v26 = alive_new<PossessionFlicker>();
+                auto v26 = ae_new<PossessionFlicker>();
                 if (v26)
                 {
                     v26->ctor_4319E0(sActiveHero_5C1B68, 8, 255, 128, 128);

@@ -111,7 +111,7 @@ BaseGameObject* BaseAliveGameObject::vdtor_408210(signed int flags)
     dtor_4080B0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

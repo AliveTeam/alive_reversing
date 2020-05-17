@@ -34,7 +34,7 @@ EXPORT void CC CreateGameEnderController_43B7A0()
     }
 
     // Otherwise create one
-    auto pGameEnderController = alive_new<GameEnderController>();
+    auto pGameEnderController = ae_new<GameEnderController>();
     if (pGameEnderController)
     {
         pGameEnderController->ctor_43B840();
@@ -45,7 +45,7 @@ EXPORT void CC CreateGameEnderController_43B7A0()
 int CC GameEnderController::CreateFromSaveState_43BD10(const BYTE* pBuffer)
 {
     auto pState = reinterpret_cast<const GameEnderController_State*>(pBuffer);
-    auto pGameEnderController = alive_new<GameEnderController>();
+    auto pGameEnderController = ae_new<GameEnderController>();
     if (pGameEnderController)
     {
         pGameEnderController->ctor_43B840();
@@ -91,7 +91,7 @@ GameEnderController* GameEnderController::vdtor_43B8D0(signed int flags)
     BaseGameObject_dtor_4DBEC0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

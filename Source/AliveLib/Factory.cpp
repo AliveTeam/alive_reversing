@@ -119,7 +119,7 @@ EXPORT void CC Factory_MainMenuController_4D6DB0(Path_TLV* pTlv, Path* /*pPath*/
         }
         else
         {
-            auto pMainMenuController = alive_new<MainMenuController>();
+            auto pMainMenuController = ae_new<MainMenuController>();
             if (pMainMenuController)
             {
                 pMainMenuController->ctor_4CE9A0(pTlv, tlvOffsetLevelIdPathId);
@@ -142,7 +142,7 @@ EXPORT void CC Factory_Hoist_4D9E90(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfo
     else if (pHoistTlv->field_10_type == Path_Hoist::Type::eOffScreen)
     {
         // Its an off screen hoist so create the falling rocks effect
-        auto pHoistFallingRocks = alive_new<HoistRocksEffect>();
+        auto pHoistFallingRocks = ae_new<HoistRocksEffect>();
         if (pHoistFallingRocks)
         {
             pHoistFallingRocks->ctor_45D270(pHoistTlv, tlvOffsetLevelIdPathId.all);
@@ -217,7 +217,7 @@ EXPORT void CC Factory_Door_4D6F00(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOf
     }
     else
     {
-        auto pDoor = alive_new<Door>();
+        auto pDoor = ae_new<Door>();
         if (pDoor)
         {
             pDoor->ctor_41E250(static_cast<Path_Door*>(pTlv), tlvOffsetLevelIdPathId.all);
@@ -229,7 +229,7 @@ EXPORT void CC Factory_Shadow_4D7200(Path_TLV* pTlv, Path* pPath, TlvItemInfoUni
 {
     if (loadmode != 1 && loadmode != 2)
     {
-        auto pShadowZone = alive_new<ShadowZone>();
+        auto pShadowZone = ae_new<ShadowZone>();
         if (pShadowZone)
         {
             pShadowZone->ctor_463900(static_cast<Path_ShadowZone*>(pTlv), pPath, tlvInfo.all);
@@ -327,7 +327,7 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
         // TODO: Meaning of the data in field_1_unknown for lift point
         if (pLiftTlv->field_1_unknown & 2 || (pLiftTlv->field_1_unknown == 0 && pLiftTlv->field_12_bstart_point))
         {
-            auto pLiftPoint = alive_new<LiftPoint>();
+            auto pLiftPoint = ae_new<LiftPoint>();
             if (pLiftPoint)
             {
                 pLiftPoint->ctor_461030(pLiftTlv, tlvOffsetLevelIdPathId.all);
@@ -361,7 +361,7 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
                             pLiftPointIter->field_12_bstart_point)
                         {
 
-                            auto pLiftPoint = alive_new<LiftPoint>();
+                            auto pLiftPoint = ae_new<LiftPoint>();
                             if (pLiftPoint)
                             {
                                 pLiftPoint->ctor_461030(pLiftPointIter, tlvOffsetLevelIdPathId.all);
@@ -376,7 +376,7 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
             }
 
             // Default to original
-            auto pLiftPoint = alive_new<LiftPoint>();
+            auto pLiftPoint = ae_new<LiftPoint>();
             if (pLiftPoint)
             {
                 pLiftPoint->ctor_461030(pLiftTlv, tlvOffsetLevelIdPathId.all);
@@ -397,7 +397,7 @@ EXPORT void CC Factory_ExpressWell_4D7D90(Path_TLV* pTlv, Path* /*pPath*/, TlvIt
         Path_Well_Base* pWellTlv = static_cast<Path_Well_Base*>(pTlv);
         const FP xpos = FP_FromInteger(pWellTlv->field_8_top_left.field_0_x);
         const FP ypos = FP_FromInteger(pWellTlv->field_8_top_left.field_2_y + 5);
-        auto pExpressWell = alive_new<Well>();
+        auto pExpressWell = ae_new<Well>();
         if (pExpressWell)
         {
             pExpressWell->ctor_4E2BE0(pWellTlv, xpos, ypos, tlvOffsetLevelIdPathId.all);
@@ -416,7 +416,7 @@ EXPORT void CC Factory_Dove_4D7E90(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvIn
 
         for (int i = 0; i < pDoveTlv->field_10_dove_count; i++)
         {
-            auto pDove = alive_new<Dove>();
+            auto pDove = ae_new<Dove>();
             if (pDove)
             {
                 pDove->ctor_41F430(5580, 41, 20, 60, tlvInfo.all, pDoveTlv->field_14_scale != 0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
@@ -452,7 +452,7 @@ EXPORT void CC Factory_RockSack_4D8040(Path_TLV* pTlv, Path*, TlvItemInfoUnion t
     }
     else
     {
-        auto pRockSack = alive_new<RockSack>();
+        auto pRockSack = ae_new<RockSack>();
         if (pRockSack)
         {
             pRockSack->ctor_49F100(static_cast<Path_RockSack*>(pTlv), tlvInfo.all);
@@ -483,7 +483,7 @@ EXPORT void CC Factory_FallingItem_4D81B0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
     }
     else
     {
-        auto pFallingItem = alive_new<FallingItem>();
+        auto pFallingItem = ae_new<FallingItem>();
         if (pFallingItem)
         {
             pFallingItem->ctor_4272C0(static_cast<Path_FallingItem*>(pTlv), tlvInfo.all);
@@ -513,7 +513,7 @@ EXPORT void CC Factory_PullRingRope_4D8320(Path_TLV* pTlv, Path*, TlvItemInfoUni
     }
     else
     {
-        auto pRope = alive_new<PullRingRope>();
+        auto pRope = ae_new<PullRingRope>();
         if (pRope)
         {
             pRope->ctor_49B2D0(static_cast<Path_PullRingRope*>(pTlv), tlvOffsetLevelIdPathId.all);
@@ -546,7 +546,7 @@ EXPORT void CC Factory_TimedMine_4D87C0(Path_TLV* pTlv, Path* /*pPath*/, TlvItem
     }
     else
     {
-        auto pMine = alive_new<TimedMine>();
+        auto pMine = ae_new<TimedMine>();
         if (pMine)
         {
             pMine->ctor_410600(mine_tlv, tlvOffsetLevelIdPathId);
@@ -594,7 +594,7 @@ EXPORT void CC Factory_Slig_4D7BC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvIn
     }
     else
     {
-        auto pSlig = alive_new<Slig>();
+        auto pSlig = ae_new<Slig>();
         if (pSlig)
         {
             pSlig->ctor_4B1370(pSligTlv, tlvInfo.all);
@@ -625,7 +625,7 @@ EXPORT void CC Factory_Slog_4D8B20(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvIn
     }
     else
     {
-        auto pSlog = alive_new<Slog>();
+        auto pSlog = ae_new<Slog>();
         if (pSlog)
         {
             pSlog->ctor_4C42E0(static_cast<Path_Slog*>(pTlv), tlvInfo.all);
@@ -642,7 +642,7 @@ EXPORT void CC Factory_Switch_4D8CF0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlv
     }
     else
     {
-        auto pSwitch = alive_new<Switch>();
+        auto pSwitch = ae_new<Switch>();
         if (pSwitch)
         {
             pSwitch->ctor_4D5860(static_cast<Path_Switch*>(pTlv), tlvInfo.all);
@@ -668,7 +668,7 @@ EXPORT void CC Factory_ChantSuppressor_Orb_4D8D80(Path_TLV* pTlv, Path*, TlvItem
     }
     else
     {
-        auto pChantSuppressor = alive_new<ChantSuppressor>();
+        auto pChantSuppressor = ae_new<ChantSuppressor>();
         if (pChantSuppressor)
         {
             pChantSuppressor->ctor_466350(pChantSuppressorTlv, tlvInfo.all);
@@ -689,7 +689,7 @@ EXPORT void CC Factory_AbeStart_4D9030(Path_TLV* pTlv, Path*, TlvItemInfoUnion, 
     {
         if (!pPauseMenu_5C9300)
         {
-            pPauseMenu_5C9300 = alive_new<PauseMenu>();
+            pPauseMenu_5C9300 = ae_new<PauseMenu>();
             if (pPauseMenu_5C9300)
             {
                 pPauseMenu_5C9300->ctor_48FB80();
@@ -698,7 +698,7 @@ EXPORT void CC Factory_AbeStart_4D9030(Path_TLV* pTlv, Path*, TlvItemInfoUnion, 
 
         if (sActiveHero_5C1B68 == spAbe_554D5C)
         {
-            sActiveHero_5C1B68 = alive_new<Abe>();
+            sActiveHero_5C1B68 = ae_new<Abe>();
             if (sActiveHero_5C1B68)
             {
                 sActiveHero_5C1B68->ctor_44AD10(58808, 85, 57, 55);
@@ -739,7 +739,7 @@ EXPORT void CC Factory_Mine_4D8890(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoU
     }
     else
     {
-        auto pMine = alive_new<Mine>();
+        auto pMine = ae_new<Mine>();
         if (pMine)
         {
             pMine->ctor_46B120(mine_tlv, tlvOffsetLevelIdPathId);
@@ -784,7 +784,7 @@ EXPORT void CC Factory_UXB_4D8960(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUn
     }
     else
     {
-        auto pUXB = alive_new<UXB>();
+        auto pUXB = ae_new<UXB>();
         if (pUXB)
         {
             pUXB->ctor_4DE9A0(uxb_tlv, tlvOffsetLevelIdPathId);
@@ -812,7 +812,7 @@ EXPORT void CC Factory_Paramite_4D9190(Path_TLV* pTlv, Path*, TlvItemInfoUnion t
     }
     else
     {
-        auto pParamite = alive_new<Paramite>();
+        auto pParamite = ae_new<Paramite>();
         if (pParamite)
         {
             pParamite->ctor_4879B0(static_cast<Path_Paramite*>(pTlv), tlvInfo.all);
@@ -857,7 +857,7 @@ EXPORT void CC Factory_BirdPortal_4D9AA0(Path_TLV* pTlv, Path*, TlvItemInfoUnion
     }
     else if (SwitchStates_Get_466020(pBirdPortalTlv->field_20_create_id))
     {
-        auto pBirdPortal = alive_new<BirdPortal>();
+        auto pBirdPortal = ae_new<BirdPortal>();
         if (pBirdPortal)
         {
             pBirdPortal->ctor_497E00(pBirdPortalTlv, tlvInfo.all);
@@ -892,7 +892,7 @@ EXPORT void CC Factory_TrapDoor_4D9B90(Path_TLV* pTlv, Path* , TlvItemInfoUnion 
     }
     else
     {
-        auto pTrapDoor = alive_new<TrapDoor>();
+        auto pTrapDoor = ae_new<TrapDoor>();
         if (pTrapDoor)
         {
             // TODO: OG bug - actually passes Path* instead of Map* .. probably works because this parameter never gets used!
@@ -939,7 +939,7 @@ EXPORT void CC Factory_SligBoundLeft_4D7740(Path_TLV* pTlv, Path*, TlvItemInfoUn
             {
                 pTlvIter->field_0_flags.Set(TLV_Flags::eBit1_Created);
                 pTlvIter->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
-                auto pSlig = alive_new<Slig>();
+                auto pSlig = ae_new<Slig>();
                 if (pSlig)
                 {
                     tlvInfo.parts.tlvOffset += 
@@ -978,7 +978,7 @@ EXPORT void CC Factory_FootSwitch_4D9D00(Path_TLV* pTlv, Path*, TlvItemInfoUnion
     }
     else
     {
-        auto pFootSwitch = alive_new<FootSwitch>();
+        auto pFootSwitch = ae_new<FootSwitch>();
         if (pFootSwitch)
         {
             pFootSwitch->ctor_4DE090(static_cast<Path_FootSwitch*>(pTlv), tlvInfo.all);
@@ -997,7 +997,7 @@ EXPORT void CC Factory_MotionDetector_4D9E40(Path_TLV* pTlv, Path*, TlvItemInfoU
 {
     if (loadMode != 1 && loadMode != 2)
     {
-        auto pMotionDetector = alive_new<MotionDetector>();
+        auto pMotionDetector = ae_new<MotionDetector>();
         if (pMotionDetector)
         {
             pMotionDetector->ctor_4683B0(static_cast<Path_MotionDetector*>(pTlv), tlvInfo.all, nullptr);
@@ -1015,7 +1015,7 @@ EXPORT void CC Factory_SligSpawner_4D79F0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
     }
     else
     {
-        auto pSlig = alive_new<SligSpawner>();
+        auto pSlig = ae_new<SligSpawner>();
         if (pSlig)
         {
             pSlig->ctor_409740(pSligTlv, tlvInfo.all);
@@ -1031,7 +1031,7 @@ EXPORT void CC Factory_ElectricWall_4DA020(Path_TLV* pTlv, Path*, TlvItemInfoUni
     }
     else
     {
-        auto pElectricWall = alive_new<ElectricWall>();
+        auto pElectricWall = ae_new<ElectricWall>();
         if (pElectricWall)
         {
             pElectricWall->ctor_421DA0(static_cast<Path_ElectricWall*>(pTlv), tlvInfo.all);
@@ -1044,7 +1044,7 @@ EXPORT void CC Factory_LiftMover_4DA090(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
 {
     if (loadmode != 1 && loadmode != 2)
     {
-        auto pLiftMover = alive_new<LiftMover>();
+        auto pLiftMover = ae_new<LiftMover>();
         if (pLiftMover)
         {
             pLiftMover->ctor_40CCD0(static_cast<Path_LiftMover*>(pTlv), tlvInfo.all);
@@ -1066,7 +1066,7 @@ EXPORT void CC Factory_MeatSack_4D8140(Path_TLV* pTlv, Path*, TlvItemInfoUnion t
     }
     else
     {
-        auto pMeatSack = alive_new<MeatSack>();
+        auto pMeatSack = ae_new<MeatSack>();
         if (pMeatSack)
         {
             pMeatSack->ctor_46A410(static_cast<Path_MeatSack*>(pTlv), tlvInfo.all);
@@ -1098,7 +1098,7 @@ EXPORT void CC Factory_Scrab_4D9200(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvI
     }
     else
     {
-        auto pScrab = alive_new<Scrab>();
+        auto pScrab = ae_new<Scrab>();
         if (pScrab)
         {
             pScrab->ctor_4A3C40(static_cast<Path_Scrab*>(pTlv), tlvInfo.all, 0);
@@ -1122,7 +1122,7 @@ EXPORT void CC Factory_InvisibleSwitch_4D6E40(Path_TLV* pTlv, Path*, TlvItemInfo
 {
     if (loadMode != 1 && loadMode != 2)
     {
-        auto pInvisibleSwitch = alive_new<InvisibleSwitch>();
+        auto pInvisibleSwitch = ae_new<InvisibleSwitch>();
         if (pInvisibleSwitch)
         {
             pInvisibleSwitch->ctor_45FA70(static_cast<Path_InvisibleSwitch*>(pTlv), tlvInfo.all);
@@ -1172,7 +1172,7 @@ EXPORT void CC Factory_Mudokon_4D8EC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
     }
     else
     {
-        auto pMud = alive_new<Mudokon>();
+        auto pMud = ae_new<Mudokon>();
         if (pMud)
         {
             pMud->ctor_474F30(pMudTlv, tlvInfo.all);
@@ -1192,7 +1192,7 @@ EXPORT void CC Factory_DoorFlame_4D70D0(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
     }
     else
     {
-        auto pDoorFlame = alive_new<DoorFlame>();
+        auto pDoorFlame = ae_new<DoorFlame>();
         if (pDoorFlame)
         {
             pDoorFlame->ctor_45E460(static_cast<Path_DoorFlame*>(pTlv), tlvInfo.all);
@@ -1212,7 +1212,7 @@ EXPORT void CC Factory_MovingBomb_4D8A50(Path_TLV* pTlv, Path*, TlvItemInfoUnion
     }
     else
     {
-        auto pMovingBomb = alive_new<MovingBomb>();
+        auto pMovingBomb = ae_new<MovingBomb>();
         if (pMovingBomb)
         {
             pMovingBomb->ctor_46FD40(pMovingBombTlv, tlvInfo.all);
@@ -1228,7 +1228,7 @@ EXPORT void CC Factory_TimerTrigger_4DA0E0(Path_TLV* pTlv, Path*, TlvItemInfoUni
 {
     if (loadmode != 1 && loadmode != 2)
     {
-        auto pTimerTrigger = alive_new<TimerTrigger>();
+        auto pTimerTrigger = ae_new<TimerTrigger>();
         if (pTimerTrigger)
         {
             pTimerTrigger->ctor_4CDC20(static_cast<Path_TimerTrigger*>(pTlv), tlvInfo.all);
@@ -1244,7 +1244,7 @@ EXPORT void CC Factory_SecurityDoor_4DA150(Path_TLV* pTlv, Path*, TlvItemInfoUni
     }
     else
     {
-        auto pSecurityDoor = alive_new<SecurityDoor>();
+        auto pSecurityDoor = ae_new<SecurityDoor>();
         if (pSecurityDoor)
         {
             pSecurityDoor->ctor_4ABFC0(static_cast<Path_SecurityDoor*>(pTlv), tlvInfo.all);
@@ -1272,7 +1272,7 @@ EXPORT void CC Factory_GrenadeMachine_4DA1C0(Path_TLV* pTlv, Path*, TlvItemInfoU
     }
     else
     {
-        auto pBoomMachine = alive_new<BoomMachine>();
+        auto pBoomMachine = ae_new<BoomMachine>();
         if (pBoomMachine)
         {
             pBoomMachine->ctor_445B30(pTlvBooMachine, tlvInfo.all);
@@ -1284,7 +1284,7 @@ EXPORT void CC Factory_BackgroundAnimation_4D84F0(Path_TLV* pTlv, Path* /*pPath*
 {
     if (loadmode != 1 && loadmode != 2)
     {
-        auto pAnim = alive_new<BackgroundAnimation>();
+        auto pAnim = ae_new<BackgroundAnimation>();
         if (pAnim)
         {
             pAnim->ctor_40D270(reinterpret_cast<BackgroundAnimation_TLV*>(pTlv), tlvOffsetLevelIdPathId);
@@ -1300,7 +1300,7 @@ EXPORT void CC Factory_LCD_4D6CF0(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUn
         return;
     }
 
-    auto pLCD = alive_new<LCDScreen>();
+    auto pLCD = ae_new<LCDScreen>();
     if (pLCD)
     {
         pLCD->ctor_460680(reinterpret_cast<Path_LCDScreen*>(pTlv), tlvOffsetLevelIdPathId);
@@ -1324,7 +1324,7 @@ EXPORT void CC Factory_CreditsController_4D6D60(Path_TLV* pTlv , Path*, TlvItemI
 { 
     if (loadmode != 1 && loadmode != 2 && !sDoesCreditsControllerExist_5C1B90)
     {
-        auto pCreditsController = alive_new<CreditsController>();
+        auto pCreditsController = ae_new<CreditsController>();
         if (pCreditsController)
         {
             pCreditsController->ctor_418A10(pTlv, tlvInfo.all);
@@ -1341,7 +1341,7 @@ EXPORT void CC Factory_StatusBoard_4DA3C0(Path_TLV* pTlv, Path* /*pPath*/, TlvIt
         Map::LoadResource_4DBE00("LCDFONT.FNT", ResourceManager::ResourceType::Resource_Font, 2, loadmode); // TODO: Add to resource ID enum
         return;
     }
-    auto pStatsSign = alive_new<StatsSign>();
+    auto pStatsSign = ae_new<StatsSign>();
     if (pStatsSign)
     {
         pStatsSign->ctor_47B600(reinterpret_cast<Path_StatsSign*>(pTlv), tlvOffsetLevelIdPathId);
@@ -1352,7 +1352,7 @@ EXPORT void CC Factory_WheelSyncer_4DA430(Path_TLV* pTlv, Path*, TlvItemInfoUnio
 {
     if (loadmode != 1 && loadmode != 2)
     {
-        auto pWheelSyncer = alive_new<WheelSyncer>();
+        auto pWheelSyncer = ae_new<WheelSyncer>();
         if (pWheelSyncer)
         {
             pWheelSyncer->ctor_466090(static_cast<Path_WheelSyncer*>(pTlv), tlvOffsetLevelIdPathId.all);
@@ -1364,7 +1364,7 @@ EXPORT void CC Factory_MusicTrigger_4D71B0(Path_TLV* pTlv, Path*, TlvItemInfoUni
 {
     if (loadmode != 1 && loadmode != 2)
     {
-        auto pMusicTrigger = alive_new<MusicTrigger>();
+        auto pMusicTrigger = ae_new<MusicTrigger>();
         if (pMusicTrigger)
         {
             pMusicTrigger->ctor_47FE40(static_cast<Path_MusicTrigger*>(pTlv), tlvOffsetLevelIdPathId.all);
@@ -1382,7 +1382,7 @@ EXPORT void CC Factory_SlogSpawner_4D8BB0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
     }
     else
     {
-        auto pSlogSpawner = alive_new<SlogSpawner>();
+        auto pSlogSpawner = ae_new<SlogSpawner>();
         if (pSlogSpawner)
         {
             pSlogSpawner->ctor_4C7FF0(static_cast<Path_SlogSpawner*>(pTlv), tlvInfo.all);
@@ -1399,7 +1399,7 @@ EXPORT void CC Factory_GasCountdown_4DA480(Path_TLV* pTlv, Path*, TlvItemInfoUni
     }
     else
     {
-        auto pCountDown = alive_new<GasCountDown>();
+        auto pCountDown = ae_new<GasCountDown>();
         if (pCountDown)
         {
             pCountDown->ctor_417010(static_cast<Path_GasCountDown*>(pTlv), tlvInfo.all);
@@ -1413,7 +1413,7 @@ EXPORT void CC Factory_GasEmitter_4D8540(Path_TLV* pTlv, Path*, TlvItemInfoUnion
 { 
     if (loadMode != 1 && loadMode != 2)
     {
-        auto pGasEmitter = alive_new<GasEmitter>();
+        auto pGasEmitter = ae_new<GasEmitter>();
         if (pGasEmitter)
         {
             pGasEmitter->ctor_43CAA0(static_cast<Path_GasEmitter*>(pTlv), tlvInfo.all);
@@ -1425,7 +1425,7 @@ EXPORT void CC Factory_SlogHut_4DA500(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
 {
     if (loadMode != 1 && loadMode != 2)
     {
-        auto pSlogHut = alive_new<SlogHut>();
+        auto pSlogHut = ae_new<SlogHut>();
         if (pSlogHut)
         {
             pSlogHut->ctor_4C4070(static_cast<Path_SlogHut*>(pTlv), tlvInfo.all);
@@ -1481,7 +1481,7 @@ EXPORT void CC Factory_Glukkon_4DA550(Path_TLV* pTlv , Path*, TlvItemInfoUnion t
     }
     else
     {
-        auto pGlukkon = alive_new<Glukkon>();
+        auto pGlukkon = ae_new<Glukkon>();
         if (pGlukkon)
         {
             pGlukkon->ctor_43F030(static_cast<Path_Glukkon*>(pTlv), tlvInfo.all);
@@ -1503,7 +1503,7 @@ EXPORT void CC Factory_Water_4DA730(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvI
     }
     else
     {
-        auto pWater = alive_new<Water>();
+        auto pWater = ae_new<Water>();
         if (pWater)
         {
             pWater->ctor_4E02C0(static_cast<Path_Water*>(pTlv), tlvInfo.all);
@@ -1522,7 +1522,7 @@ EXPORT void CC Factory_WorkWheel_4D6B20(Path_TLV* pTlv , Path*, TlvItemInfoUnion
     }
     else
     {
-        auto pWheel = alive_new<WorkWheel>();
+        auto pWheel = ae_new<WorkWheel>();
         if (pWheel)
         {
             pWheel->ctor_4E35D0(static_cast<Path_Wheel*>(pTlv), tlvInfo.all);
@@ -1536,7 +1536,7 @@ EXPORT void CC Create_Gas_4DA8B0(__int16 layer, int neverUsed, Path_TLV* pTlv, i
 {
     if (!gGasInstanceCount_5BC214)
     {
-        auto pGas = alive_new<LaughingGas>();
+        auto pGas = ae_new<LaughingGas>();
         if (pGas)
         {
             pGas->ctor_432400(layer, neverUsed, static_cast<Path_LaughingGas*>(pTlv), tlvInfo);
@@ -1579,7 +1579,7 @@ EXPORT void CC Factory_FlyingSlig_4D92E0(Path_TLV* pTlv, Path*, TlvItemInfoUnion
     }
     else
     {
-        auto pFlyingSlig = alive_new<FlyingSlig>();
+        auto pFlyingSlig = ae_new<FlyingSlig>();
         if (pFlyingSlig)
         {
             pFlyingSlig->ctor_4342B0(static_cast<Path_FlyingSlig*>(pTlv), tlvInfo.all);
@@ -1599,7 +1599,7 @@ EXPORT void CC Factory_Fleech_4D8C30(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlv
         gMap_5C3030.field_2_current_path != 9 || 
         gMap_5C3030.field_4_current_camera != 4)
     {
-        auto pFleech = alive_new<Fleech>();
+        auto pFleech = ae_new<Fleech>();
         if (pFleech)
         {
             pFleech->ctor_429DC0(static_cast<Path_Fleech*>(pTlv), tlvInfo.all);
@@ -1615,7 +1615,7 @@ EXPORT void CC Factory_Slurgs_4DA950(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlv
     }
     else
     {
-        auto pSlurg = alive_new<Slurg>();
+        auto pSlurg = ae_new<Slurg>();
         if (pSlurg)
         {
             pSlurg->ctor_4C84E0(static_cast<Path_Slurg*>(pTlv), tlvInfo.all);
@@ -1643,7 +1643,7 @@ EXPORT void CC Factory_SlamDoor_4DA9C0(Path_TLV* pTlv, Path*, TlvItemInfoUnion t
     }
     else
     {
-        auto pSlamDoor = alive_new<SlamDoor>();
+        auto pSlamDoor = ae_new<SlamDoor>();
         if (pSlamDoor)
         {
             pSlamDoor->ctor_4AF700(static_cast<Path_SlamDoor*>(pTlv), tlvInfo);
@@ -1655,7 +1655,7 @@ EXPORT void CC Factory_LevelLoader_4D6BB0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
 {
     if (loadmode != 1 && loadmode != 2)
     {
-        auto pLevelLoader = alive_new<LevelLoader>();
+        auto pLevelLoader = ae_new<LevelLoader>();
         if (pLevelLoader)
         {
             pLevelLoader->ctor_4DD330(static_cast<Path_LevelLoader*>(pTlv), tlvInfo.all);
@@ -1671,7 +1671,7 @@ EXPORT void CC Factory_DemoSpawnPoint_4D6990(Path_TLV* , Path*, TlvItemInfoUnion
         {
             if (!sDemoObj_dword_5D1E20)
             {
-                auto pDemoPlayback = alive_new<DemoPlayback>();
+                auto pDemoPlayback = ae_new<DemoPlayback>();
                 pDemoPlayback->ctor();
             }
         }
@@ -1682,7 +1682,7 @@ EXPORT void CC Factory_Teleporter_4DAA90(Path_TLV* pTlv, Path*, TlvItemInfoUnion
 {
     if (loadmode != 1 && loadmode != 2)
     {
-        auto pTeleporter = alive_new<Teleporter>();
+        auto pTeleporter = ae_new<Teleporter>();
         if (pTeleporter)
         {
             pTeleporter->ctor_4DC1E0(static_cast<Path_Teleporter*>(pTlv), tlvInfo.all);
@@ -1698,7 +1698,7 @@ EXPORT void CC Factory_SlurgSpawner_4DAB50(Path_TLV* pTlv, Path*, TlvItemInfoUni
     }
     else
     {
-        auto pSlurgSpawner = alive_new<SlurgSpawner>();
+        auto pSlurgSpawner = ae_new<SlurgSpawner>();
         if (pSlurgSpawner)
         {
             pSlurgSpawner->ctor_4C82E0(static_cast<Path_SlurgSpawner*>(pTlv), tlvInfo.all);
@@ -1716,7 +1716,7 @@ EXPORT void CC Factory_Grinder_4DABC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
     }
     else
     {
-        auto pGrinder = alive_new<Grinder>();
+        auto pGrinder = ae_new<Grinder>();
         if (pGrinder)
         {
             pGrinder->ctor_4200D0(static_cast<Path_Grinder*>(pTlv), tlvInfo.all);
@@ -1732,7 +1732,7 @@ EXPORT void CC Factory_ColorfulMeter_4DAC60(Path_TLV* pTlv, Path*, TlvItemInfoUn
     }
     else
     {
-        auto pMeter = alive_new<ColourfulMeter>();
+        auto pMeter = ae_new<ColourfulMeter>();
         if (pMeter)
         {
             pMeter->ctor_43CE40(static_cast<Path_ColourfulMeter*>(pTlv), tlvInfo.all);
@@ -1761,7 +1761,7 @@ EXPORT void CC Factory_FlyingSligSpawner_4D9440(Path_TLV* pTlv, Path*, TlvItemIn
     }
     else
     {
-        auto pFlyingSligSpawner = alive_new<FlyingSligSpawner>();
+        auto pFlyingSligSpawner = ae_new<FlyingSligSpawner>();
         if (pFlyingSligSpawner)
         {
             pFlyingSligSpawner->ctor_433D50(static_cast<Path_FlyingSligSpawner*>(pTlv), tlvInfo.all);
@@ -1781,7 +1781,7 @@ EXPORT void CC Factory_MineCar_4DACD0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
     }
     else
     {
-        auto pMineCar = alive_new<MineCar>();
+        auto pMineCar = ae_new<MineCar>();
         if (pMineCar)
         {
             pMineCar->ctor_46BC80(static_cast<Path_MineCar*>(pTlv), tlvInfo.all, 0, 0, 0);
@@ -1807,7 +1807,7 @@ EXPORT void CC Factory_BoneBag_4D80B0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
     }
     else
     {
-        auto pBoneBag = alive_new<BoneBag>();
+        auto pBoneBag = ae_new<BoneBag>();
         if (pBoneBag)
         {
             pBoneBag->ctor_4125C0(static_cast<Path_BoneBag*>(pTlv), tlvInfo.all);
@@ -1839,7 +1839,7 @@ EXPORT void CC Factory_ExplosionSet_4DADC0(Path_TLV* pTlv, Path*, TlvItemInfoUni
     {
         if (!pExplosionSet_5BBF68)
         {
-            auto pExplosionSet = alive_new<ExplosionSet>();
+            auto pExplosionSet = ae_new<ExplosionSet>();
             if (pExplosionSet)
             {
                 pExplosionSet->ctor_414CA0();
@@ -1854,7 +1854,7 @@ EXPORT void CC Factory_MultiSwitchController_4D6C00(Path_TLV* pTlv, Path*, TlvIt
 {
     if (loadmode != 1 && loadmode != 2)
     {
-        auto pMultiSwitchController = alive_new<MultiSwitchController>();
+        auto pMultiSwitchController = ae_new<MultiSwitchController>();
         if (pMultiSwitchController)
         {
             pMultiSwitchController->ctor_4D60E0(static_cast<Path_MultiSwitchController*>(pTlv), tlvInfo.all);
@@ -1870,7 +1870,7 @@ EXPORT void CC Factory_StatusLight_4DA7E0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
     }
     else
     {
-        auto pStatusLight = alive_new<StatusLight>();
+        auto pStatusLight = ae_new<StatusLight>();
         if (pStatusLight)
         {
             pStatusLight->ctor_4D5250(static_cast<Path_StatusLight*>(pTlv), tlvInfo.all);
@@ -1886,7 +1886,7 @@ EXPORT void CC Factory_SlapLock_4DAF20(Path_TLV* pTlv, Path*, TlvItemInfoUnion t
     }
     else
     {
-        auto pSlapLock = alive_new<SlapLock>();
+        auto pSlapLock = ae_new<SlapLock>();
         if (pSlapLock)
         {
             pSlapLock->ctor_43DC80(static_cast<Path_SlapLock*>(pTlv), tlvInfo.all);
@@ -1902,7 +1902,7 @@ EXPORT void CC Factory_ParamiteWebLine_4D9120(Path_TLV* pTlv, Path*, TlvItemInfo
     }
     else
     {
-        auto pWebLine = alive_new<ParamiteWebLine>();
+        auto pWebLine = ae_new<ParamiteWebLine>();
         if (pWebLine)
         {
             pWebLine->ctor_4E1FC0(static_cast<Path_ParamiteWebLine*>(pTlv), tlvInfo.all);
@@ -1914,7 +1914,7 @@ EXPORT void CC Factory_Alarm_4DAF90(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfo
 {
     if (loadmode != 1 && loadmode != 2)
     {
-        auto pAlarm = alive_new<Alarm>();
+        auto pAlarm = ae_new<Alarm>();
         if (pAlarm)
         {
             pAlarm->ctor_409300(static_cast<Path_Alarm*>(pTlv), tlvOffsetLevelIdPathId.all);
@@ -1935,7 +1935,7 @@ EXPORT void CC Factory_FartMachine_4DA2B0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
     }
     else
     {
-        auto pFartMachine = alive_new<FartMachine>();
+        auto pFartMachine = ae_new<FartMachine>();
         if (pFartMachine)
         {
             pFartMachine->ctor_413060(static_cast<Path_FartMachine*>(pTlv), tlvInfo.all);
@@ -1952,7 +1952,7 @@ EXPORT void CC Factory_ScrabSpawner_4D9270(Path_TLV* pTlv, Path*, TlvItemInfoUni
     }
     else
     {
-        auto pScrabSpawner = alive_new<ScrabSpawner>();
+        auto pScrabSpawner = ae_new<ScrabSpawner>();
         if (pScrabSpawner)
         {
             pScrabSpawner->ctor_4AB450(static_cast<Path_Scrab_Spawner*>(pTlv), tlvInfo.all);
@@ -1982,7 +1982,7 @@ EXPORT void CC Factory_NakedSlig_4D95A0(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
     }
     else
     {
-        auto pNakedSlig = alive_new<NakedSlig>();
+        auto pNakedSlig = ae_new<NakedSlig>();
         if (pNakedSlig)
         {
             pNakedSlig->ctor_418C70(static_cast<Path_NakedSlig*>(pTlv), tlvInfo.all);
@@ -2001,7 +2001,7 @@ EXPORT void CC Factory_SligGetPants_4D9700(Path_TLV* pTlv, Path*, TlvItemInfoUni
     }
     else
     {
-        auto pSligGetPantsAndWings = alive_new<SligGetPantsAndWings>();
+        auto pSligGetPantsAndWings = ae_new<SligGetPantsAndWings>();
         if (pSligGetPantsAndWings)
         {
             pSligGetPantsAndWings->ctor_465BF0(pTlv, tlvInfo.all);
@@ -2018,7 +2018,7 @@ EXPORT void CC Factory_SligGetWings_4D9900(Path_TLV* pTlv, Path*, TlvItemInfoUni
     }
     else
     {
-        auto pSligGetPantsAndWings = alive_new<SligGetPantsAndWings>();
+        auto pSligGetPantsAndWings = ae_new<SligGetPantsAndWings>();
         if (pSligGetPantsAndWings)
         {
             pSligGetPantsAndWings->ctor_465BF0(pTlv, tlvInfo.all);
@@ -2041,7 +2041,7 @@ EXPORT void CC Factory_Greeter_4DAFE0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
     }
     else
     {
-        auto pGreeter = alive_new<Greeter>();
+        auto pGreeter = ae_new<Greeter>();
         if (pGreeter)
         {
             pGreeter->ctor_4465B0(static_cast<Path_Greeter*>(pTlv), tlvInfo.all);
@@ -2058,7 +2058,7 @@ EXPORT void CC Factory_NakedSligButton_4DB100(Path_TLV* pTlv, Path*, TlvItemInfo
     }
     else
     {
-        auto pSligButton = alive_new<NakedSligButton>();
+        auto pSligButton = ae_new<NakedSligButton>();
         if (pSligButton)
         {
             pSligButton->ctor_4148F0(static_cast<Path_NakedSligButton*>(pTlv), tlvInfo.all);
@@ -2074,7 +2074,7 @@ EXPORT void CC Factory_GlukkonSwitch_4DA670(Path_TLV* pTlv, Path*, TlvItemInfoUn
     }
     else
     {
-        auto pGlukkonSwitch = alive_new<GlukkonSwitch>();
+        auto pGlukkonSwitch = ae_new<GlukkonSwitch>();
         if (pGlukkonSwitch)
         {
             pGlukkonSwitch->ctor_444E60(static_cast<Path_GlukkonSwitch*>(pTlv), tlvInfo.all);
@@ -2090,7 +2090,7 @@ EXPORT void CC Factory_DoorBlocker_4DAAE0(Path_TLV* pTlv , Path*, TlvItemInfoUni
     }
     else
     {
-        auto pDoorBlocker = alive_new<DoorBlocker>();
+        auto pDoorBlocker = ae_new<DoorBlocker>();
         if (pDoorBlocker)
         {
             pDoorBlocker->ctor_41F0A0(static_cast<Path_DoorBlocker*>(pTlv), tlvInfo.all);
@@ -2110,7 +2110,7 @@ EXPORT void CC Factory_TorturedMudokon_4D8430(Path_TLV* pTlv, Path*, TlvItemInfo
         }
         else
         {
-            auto pTorturedMud = alive_new<TorturedMudokon>();
+            auto pTorturedMud = ae_new<TorturedMudokon>();
             if (pTorturedMud)
             {
                 pTorturedMud->ctor_47BC60(static_cast<Path_TorturedMudokon*>(pTlv), tlvInfo.all);
@@ -2127,7 +2127,7 @@ EXPORT void CC Factory_TrainDoor_4D6E90(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
     }
     else
     {
-        auto pTrainDoor = alive_new<TrainDoor>();
+        auto pTrainDoor = ae_new<TrainDoor>();
         if (pTrainDoor)
         {
             pTrainDoor->ctor_4DD090(static_cast<Path_TrainDoor*>(pTlv), tlvInfo.all);

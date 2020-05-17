@@ -105,7 +105,7 @@ public:
         Destruct();
         if (flags & 1)
         {
-            alive_delete_free(this);
+            ae_delete_free_495540(this);
         }
         return this;
     }
@@ -312,7 +312,7 @@ public:
         Destruct();
         if (flags & 1)
         {
-            alive_delete_free(this);
+            ae_delete_free_495540(this);
         }
         return this;
     }
@@ -505,7 +505,7 @@ void Command_Murder(const std::vector<std::string>& /*args*/)
         {
             auto aliveObj = ((BaseAliveGameObject*)pBaseGameObject);
 
-            auto explosion = alive_new<BaseBomb>();
+            auto explosion = ae_new<BaseBomb>();
             if (explosion)
             {
                 explosion->ctor_423E70(aliveObj->field_B8_xpos, aliveObj->field_BC_ypos, 0, aliveObj->field_CC_sprite_scale);
@@ -644,7 +644,7 @@ void Command_LoadSave(const std::vector<std::string>& args)
 {
 	if (pPauseMenu_5C9300 == nullptr)
 	{
-		pPauseMenu_5C9300 = alive_new<PauseMenu>();
+		pPauseMenu_5C9300 = ae_new<PauseMenu>();
 		pPauseMenu_5C9300->ctor_48FB80();
 		pPauseMenu_5C9300->field_1C_update_delay = 0;
 	}
@@ -917,7 +917,7 @@ public:
         Destruct();
         if (flags & 1)
         {
-            alive_delete_free(this);
+            ae_delete_free_495540(this);
         }
         return this;
     }
@@ -1833,7 +1833,7 @@ public:
         Destruct();
         if (flags & 1)
         {
-            alive_delete_free(this);
+            ae_delete_free_495540(this);
         }
         return this;
     }
@@ -1983,7 +1983,7 @@ public:
         Destruct();
         if (flags & 1)
         {
-            alive_delete_free(this);
+            ae_delete_free_495540(this);
         }
         return this;
     }
@@ -2100,9 +2100,9 @@ void DebugHelpers_Init()
 
     //if (IsAlive())
     {
-        alive_new<ObjectDebugger>();
-        alive_new<DebugConsole>();
-        alive_new<DebugPathRenderer>();
+        ae_new<ObjectDebugger>();
+        ae_new<DebugConsole>();
+        ae_new<DebugPathRenderer>();
 
         DEV_CONSOLE_MESSAGE_C("Debug Console Active. Open with ~ (Tilde)", 7, 0, 150, 255);
     }
@@ -2110,8 +2110,8 @@ void DebugHelpers_Init()
 
 //#if RENDER_TEST
     // Test rendering diff prim types
-   // alive_new<RenderTest>(); // Will get nuked at LVL/Path change
-   //alive_new<AnimRenderTest>();
+   // ae_new<RenderTest>(); // Will get nuked at LVL/Path change
+   //ae_new<AnimRenderTest>();
 //#endif
 }
 

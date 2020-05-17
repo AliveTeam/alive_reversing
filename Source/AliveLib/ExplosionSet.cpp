@@ -101,7 +101,7 @@ ExplosionSet* ExplosionSet::vdtor_414D80(signed int flags)
     dtor_414DB0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -218,7 +218,7 @@ void ExplosionSet::vUpdate_414E30()
                 }
             }
 
-            auto pFallingItem = alive_new<FallingItem>();
+            auto pFallingItem = ae_new<FallingItem>();
             if (pFallingItem)
             {
                 pFallingItem->ctor_427560(xpos, field_48_tlv_rect.y, field_50_scale < FP_FromInteger(1), 0, 0, 1, 0);
@@ -229,7 +229,7 @@ void ExplosionSet::vUpdate_414E30()
 
             if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1 && Math_RandomRange_496AB0(1, 5) >= 4)
             {
-                auto pExplosion = alive_new<Explosion>();
+                auto pExplosion = ae_new<Explosion>();
                 if (pExplosion)
                 {
                     const FP explodeX = FP_FromInteger(Math_RandomRange_496AB0(field_48_tlv_rect.y + 20, field_48_tlv_rect.y + 230));

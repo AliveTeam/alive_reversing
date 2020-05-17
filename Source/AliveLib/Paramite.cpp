@@ -225,7 +225,7 @@ Paramite* Paramite::ctor_4879B0(Path_Paramite* pTlv, int tlvInfo)
     field_DC_bApplyShadows |= 2u;
     field_15C = field_DA_xOffset;
 
-    field_E0_pShadow = alive_new<Shadow>();
+    field_E0_pShadow = ae_new<Shadow>();
     if (field_E0_pShadow)
     {
         field_E0_pShadow->ctor_4AC990();
@@ -302,7 +302,7 @@ int CC Paramite::CreateFromSaveState_4855A0(const BYTE* pBuffer)
         ResourceManager::LoadResourceFile_49C170("PARAMITE.BND", nullptr);
     }
 
-    auto pParamite = alive_new<Paramite>();
+    auto pParamite = ae_new<Paramite>();
     if (pParamite)
     {
         pParamite->ctor_4879B0(pTlv, pState->field_3C_tlvInfo);
@@ -2004,7 +2004,7 @@ __int16 Paramite::AI_SurpriseWeb_3_4851B0()
             field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
             field_130_timer = sGnFrame_5C1B84 + field_12E_drop_delay;
-            auto pNewWeb = alive_new<ParamiteWeb>();
+            auto pNewWeb = ae_new<ParamiteWeb>();
             if (pNewWeb)
             {
                 field_11C_web_id = pNewWeb->ctor_4E1840(field_B8_xpos, FP_GetExponent(field_BC_ypos) - 20, FP_GetExponent(field_BC_ypos) - 10, field_CC_sprite_scale)->field_8_object_id;
@@ -2489,7 +2489,7 @@ __int16 Paramite::AI_DeathDrop_7_484FF0()
 
         Abe_SFX_2_457A40(15, 0, 0x7FFF, this);
 
-        auto pScreenShake = alive_new<ScreenShake>();
+        auto pScreenShake = ae_new<ScreenShake>();
         if (pScreenShake)
         {
             pScreenShake->ctor_4ACF70(0, 0);
@@ -2969,7 +2969,7 @@ __int16 Paramite::AI_ParamiteSpawn_9_48ED80()
             {
                 field_C8_vely = FP_FromInteger(0);
                 field_106_current_motion = eParamiteMotions::M_SurpriseWeb_33_48D760;
-                auto pWeb = alive_new<ParamiteWeb>();
+                auto pWeb = ae_new<ParamiteWeb>();
                 if (pWeb)
                 {
                     field_11C_web_id = pWeb->ctor_4E1840(
@@ -3014,7 +3014,7 @@ __int16 Paramite::AI_ParamiteSpawn_9_48ED80()
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
                 field_C8_vely = FP_FromInteger(0);
                 field_106_current_motion = eParamiteMotions::M_SurpriseWeb_33_48D760;
-                auto pWeb = alive_new<ParamiteWeb>();
+                auto pWeb = ae_new<ParamiteWeb>();
                 if (pWeb)
                 {
                     field_11C_web_id = pWeb->ctor_4E1840(
@@ -3862,7 +3862,7 @@ void Paramite::M_Falling_11_48B200()
                     field_106_current_motion = eParamiteMotions::M_Death_41_48D8E0;
                     field_130_timer = sGnFrame_5C1B84 + 90;
 
-                    auto pBlood = alive_new<Blood>();
+                    auto pBlood = ae_new<Blood>();
                     if (pBlood)
                     {
                         pBlood->ctor_40F0B0(field_B8_xpos, field_BC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 50);
@@ -4990,7 +4990,7 @@ void Paramite::M_Eating_40_48A0F0()
                 auto pSlurg = static_cast<BaseAliveGameObject*>(FindObjectOfType_425180(Types::eSlurg_129, gridBlock + field_B8_xpos, field_BC_ypos));
                 if (pSlurg)
                 {
-                    auto pBlood = alive_new<Blood>();
+                    auto pBlood = ae_new<Blood>();
                     if (pBlood)
                     {
                         pBlood->ctor_40F0B0(pSlurg->field_B8_xpos, pSlurg->field_BC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 30);
@@ -5166,7 +5166,7 @@ Paramite* Paramite::vdtor_487F90(signed int flags)
     dtor_487FC0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -5200,7 +5200,7 @@ void Paramite::vUpdate_4871B0()
 
         if (field_11C_web_id != -1)
         {
-            auto pWeb = alive_new<ParamiteWeb>();
+            auto pWeb = ae_new<ParamiteWeb>();
             if (pWeb)
             {
                 pWeb->ctor_4E1840(
@@ -5550,7 +5550,7 @@ __int16 Paramite::vTakeDamage_488250(BaseGameObject* pFrom)
     case Types::eExplosion_109:
     {
         Event_Broadcast_422BC0(kEventMudokonComfort | kEventSpeaking, this);
-        auto pGibs = alive_new<Gibs>();
+        auto pGibs = ae_new<Gibs>();
         if (pGibs)
         {
             pGibs->ctor_40FB40(2, field_B8_xpos, field_BC_ypos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
@@ -5598,7 +5598,7 @@ __int16 Paramite::vTakeDamage_488250(BaseGameObject* pFrom)
         field_106_current_motion = eParamiteMotions::M_Death_41_48D8E0;
         vUpdateAnim_487170();
 
-        auto pBlood = alive_new<Blood>();
+        auto pBlood = ae_new<Blood>();
         if (pBlood)
         {
             pBlood->ctor_40F0B0(field_B8_xpos, field_BC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 50);
@@ -5625,7 +5625,7 @@ __int16 Paramite::vTakeDamage_488250(BaseGameObject* pFrom)
         field_106_current_motion = eParamiteMotions::M_Death_41_48D8E0;
         vUpdateAnim_487170();
 
-        auto pBlood = alive_new<Blood>();
+        auto pBlood = ae_new<Blood>();
         if (pBlood)
         {
             pBlood->ctor_40F0B0(field_B8_xpos, field_BC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 50);

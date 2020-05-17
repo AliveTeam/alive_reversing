@@ -40,7 +40,7 @@ EXPORT void CC Game_ShowLoadingIcon_482D80()
     }
     PSX_Display_Buffer dispBuffer = {};
 
-    Particle* pParticle = alive_new<Particle>();
+    Particle* pParticle = ae_new<Particle>();
     pParticle->ctor_4CC4C0(FP_FromInteger(0), FP_FromInteger(0), 900, 50, 38, ppLoadingAnimRes);
 
     // TODO: May need to clear all other low word bits ?
@@ -98,7 +98,7 @@ BaseGameObject* ResourceManager::vdtor_4649B0(signed int flags)
     dtor_4649E0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -296,18 +296,18 @@ void ResourceManager::OnResourceLoaded_464CE0()
             }
         }
         fileSectionsArrayIter.Remove_At_Iter_40CCA0();
-        alive_delete_free(pFilePart);
+        ae_delete_free_495540(pFilePart);
     }
 
     // Remove from pending files
     field_20_files_pending_loading.Remove_Item(field_2C_pFileItem);
 
     // Free/destruct the removed item
-    alive_non_zero_free(field_2C_pFileItem->field_0_fileName);
+    ae_non_zero_free_495560(field_2C_pFileItem->field_0_fileName);
     if (field_2C_pFileItem)
     {
         field_2C_pFileItem->dtor_464EA0();
-        alive_delete_free(field_2C_pFileItem);
+        ae_delete_free_495540(field_2C_pFileItem);
     }
     field_2C_pFileItem = nullptr;
 }
@@ -359,7 +359,7 @@ void ResourceManager::LoadResource_464EE0(const char* pFileItem, DWORD type, DWO
 
                 if (found)
                 {
-                    auto pNewFilePart = alive_new<ResourceManager_FilePartRecord_18>();
+                    auto pNewFilePart = ae_new<ResourceManager_FilePartRecord_18>();
                     pNewFilePart->field_0_type = type;
                     pNewFilePart->field_10_pFn = pFn;
                     pNewFilePart->field_8_pCamera = pCamera;
@@ -373,7 +373,7 @@ void ResourceManager::LoadResource_464EE0(const char* pFileItem, DWORD type, DWO
         }
         else if (type == pFileRec->field_8_type && resourceID == pFileRec->field_C_id)
         {
-            auto pNewFilePart = alive_new<ResourceManager_FilePartRecord_18>();
+            auto pNewFilePart = ae_new<ResourceManager_FilePartRecord_18>();
             pNewFilePart->field_0_type = type;
             pNewFilePart->field_10_pFn = pFn;
             pNewFilePart->field_8_pCamera = pCamera;
@@ -385,15 +385,15 @@ void ResourceManager::LoadResource_464EE0(const char* pFileItem, DWORD type, DWO
         }
     }
 
-    auto pNewFileRec = alive_new<ResourceManager_FileRecord_1C>();
+    auto pNewFileRec = ae_new<ResourceManager_FileRecord_1C>();
     pNewFileRec->field_10_file_sections_dArray.ctor_40CA60(3);
-    pNewFileRec->field_0_fileName = reinterpret_cast<char*>(alive_malloc_non_zero(strlen(pFileItem) + 1));
+    pNewFileRec->field_0_fileName = reinterpret_cast<char*>(ae_malloc_non_zero_4954F0(strlen(pFileItem) + 1));
     strcpy(pNewFileRec->field_0_fileName, pFileItem);
     pNewFileRec->field_4_pResourcesToLoadList = 0;
     pNewFileRec->field_8_type = type;
     pNewFileRec->field_C_id = resourceID;
 
-    auto pNewFilePart1 = alive_new<ResourceManager_FilePartRecord_18>();
+    auto pNewFilePart1 = ae_new<ResourceManager_FilePartRecord_18>();
     pNewFilePart1->field_8_pCamera = pCamera;
     pNewFilePart1->field_C_fn_arg_pCamera = pFnArg;
     pNewFilePart1->field_10_pFn = pFn;
@@ -460,14 +460,14 @@ void ResourceManager::LoadResourcesFromList_465150(const char* pFileName, Resour
     }
 
     // Create a new record or use the one we found
-    auto pNewFileRec = pFoundFileRecord ? pFoundFileRecord : alive_new<ResourceManager_FileRecord_1C>();
+    auto pNewFileRec = pFoundFileRecord ? pFoundFileRecord : ae_new<ResourceManager_FileRecord_1C>();
     if (!pFoundFileRecord)
     {
         // Only do ctor stuff if we created a new record
 
         // TODO: De-inline ctor
         pNewFileRec->field_10_file_sections_dArray.ctor_40CA60(3);
-        pNewFileRec->field_0_fileName = reinterpret_cast<char*>(alive_malloc_non_zero(strlen(pFileName) + 1));
+        pNewFileRec->field_0_fileName = reinterpret_cast<char*>(ae_malloc_non_zero_4954F0(strlen(pFileName) + 1));
         strcpy(pNewFileRec->field_0_fileName, pFileName);
         pNewFileRec->field_4_pResourcesToLoadList = pTypeAndIdList;
         pNewFileRec->field_8_type = 0;
@@ -477,7 +477,7 @@ void ResourceManager::LoadResourcesFromList_465150(const char* pFileName, Resour
     // Create a file part record for each item
     for (int i = 0; i < pTypeAndIdList->field_0_count; i++)
     {
-        auto pNewFilePart = alive_new<ResourceManager_FilePartRecord_18>();
+        auto pNewFilePart = ae_new<ResourceManager_FilePartRecord_18>();
         pNewFilePart->field_0_type = pTypeAndIdList->field_4_items[i].field_0_type;
         pNewFilePart->field_4_id = pTypeAndIdList->field_4_items[i].field_4_res_id;
         pNewFilePart->field_8_pCamera = pCamera;
@@ -496,20 +496,20 @@ void ResourceManager::LoadResourcesFromList_465150(const char* pFileName, Resour
 
 void ResourceManager::LoadResourceFile_465460(const char* filename, Camera* pCam, Camera* a4, ResourceManager::TLoaderFn pFn, __int16 a6)
 {
-    auto pFileRecord = alive_new<ResourceManager_FileRecord_1C>();
+    auto pFileRecord = ae_new<ResourceManager_FileRecord_1C>();
     if (pFileRecord)
     {
         // TODO: De-inline this ctor
         pFileRecord->field_10_file_sections_dArray.ctor_40CA60(3);
     }
 
-    pFileRecord->field_0_fileName = reinterpret_cast<char*>(alive_malloc_non_zero(strlen(filename) + 1));
+    pFileRecord->field_0_fileName = reinterpret_cast<char*>(ae_malloc_non_zero_4954F0(strlen(filename) + 1));
     strcpy(pFileRecord->field_0_fileName, filename);
     pFileRecord->field_4_pResourcesToLoadList = 0;
     pFileRecord->field_8_type = 0;
     pFileRecord->field_C_id = 0;
 
-    auto pFilePart = alive_new<ResourceManager_FilePartRecord_18>();
+    auto pFilePart = ae_new<ResourceManager_FilePartRecord_18>();
     // TODO: De-inline this ctor
     pFilePart->field_8_pCamera = pCam;
     pFilePart->field_C_fn_arg_pCamera = a4;
@@ -573,16 +573,16 @@ void ResourceManager::Shutdown_465610()
                 break;
             }
             fileSectionsIter.Remove_At_Iter_40CCA0();
-            alive_delete_free(pFileSection);
+            ae_delete_free_495540(pFileSection);
 
             fileSectionIdx = fileSectionsIter.field_4_idx;
         }
 
         iter.Remove_At_Iter_40CCA0();
-        alive_non_zero_free(pFileRec->field_0_fileName);
+        ae_non_zero_free_495560(pFileRec->field_0_fileName);
 
         pFileRec->dtor_464EA0();
-        alive_delete_free(pFileRec);
+        ae_delete_free_495540(pFileRec);
 
         fileIdx = iter.field_4_idx;
     }
@@ -620,16 +620,16 @@ void ResourceManager::Free_Resources_For_Camera_4656F0(const Camera* pCamera)
                 if (pFilePartItem->field_C_fn_arg_pCamera == pCamera)
                 {
                     filePartsIter.Remove_At_Iter_40CCA0();
-                    alive_delete_free(pFilePartItem);
+                    ae_delete_free_495540(pFilePartItem);
                 }
             }
 
             if (pFileItem->field_10_file_sections_dArray.IsEmpty())
             {
                 filesIter.Remove_At_Iter_40CCA0();
-                alive_non_zero_free(pFileItem->field_0_fileName);
+                ae_non_zero_free_495560(pFileItem->field_0_fileName);
                 pFileItem->dtor_464EA0();
-                alive_delete_free(pFileItem);
+                ae_delete_free_495540(pFileItem);
             }
         }
     }

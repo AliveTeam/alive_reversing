@@ -87,7 +87,7 @@ public:
         dtor_4E4300();
         if (flags & 1)
         {
-            alive_delete_free(this);
+            ae_delete_free_495540(this);
         }
         return this;
     }
@@ -451,7 +451,7 @@ void OrbWhirlWind::vUpdate_4E3E20()
     {
         if (!(field_20 % 4))
         {
-            auto pParticle = alive_new<OrbWhirlWindParticle>();
+            auto pParticle = ae_new<OrbWhirlWindParticle>();
             if (pParticle)
             {
                 pParticle->ctor_4E40C0(
@@ -505,7 +505,7 @@ OrbWhirlWind* OrbWhirlWind::vdtor_4E3D50(signed int flags)
     dtor_4E3D80();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

@@ -440,7 +440,7 @@ EXPORT void CC SsVabTransBody_4FC840(VabBodyRecord* pVabBody, __int16 vabId)
             if (SND_New_4EEFF0(pEntry, sampleLen, 44100, 16, 0) == 0)
             {
                 // Allocate a temp buffer to read sounds.dat bytes into
-                void* pTempBuffer = alive_malloc(sampleLen * pEntry->field_1D_blockAlign);
+                void* pTempBuffer = ae_malloc_4F4E60(sampleLen * pEntry->field_1D_blockAlign);
                 if (pTempBuffer)
                 {
                     // Read the sample data
@@ -450,7 +450,7 @@ EXPORT void CC SsVabTransBody_4FC840(VabBodyRecord* pVabBody, __int16 vabId)
                         // Load it into the sound buffer
                         SND_Load_4EF680(pEntry, pTempBuffer, sampleLen);
                     }
-                    alive_free(pTempBuffer);
+                    ae_free_4F4EA0(pTempBuffer);
                 }
             }
         }

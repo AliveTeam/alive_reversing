@@ -136,7 +136,7 @@ Well* Well::vdtor_4E2CA0(signed int flags)
     dtor_4E3090();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -186,7 +186,7 @@ void Well::vUpdate_4E2F60()
             // Random chance of leaves emitting
             if ( Well_NextRandom() < 10)
             {
-                auto pLeaf = alive_new<Leaf>();
+                auto pLeaf = ae_new<Leaf>();
                 if (pLeaf)
                 {
                     pLeaf->ctor_4E3120(

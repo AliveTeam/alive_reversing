@@ -162,7 +162,7 @@ Mine* Mine::vdtor_46B4C0(signed int flags)
     dtor_46B4F0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -202,7 +202,7 @@ void Mine::Update_46B5D0()
     {
         if (field_118 == 1 && sGnFrame_5C1B84 >= field_120_gnframe)
         {
-            auto explosion = alive_new<BaseBomb>();
+            auto explosion = ae_new<BaseBomb>();
             if (explosion)
             {
                 explosion->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
@@ -285,7 +285,7 @@ void Mine::vOnPickUpOrSlapped_46B880()
 
 void Mine::vOnThrowableHit_46BA40(BaseGameObject* /*pFrom*/)
 {
-    auto pBomb = alive_new<BaseBomb>();
+    auto pBomb = ae_new<BaseBomb>();
     if (pBomb)
     {
         pBomb->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
@@ -312,7 +312,7 @@ signed __int16 Mine::vTakeDamage_46BB20(BaseGameObject* pFrom)
     case Types::eExplosion_109:
     case Types::eMudokon_110:
     case Types::eShrykull_121:
-        auto pBomb = alive_new<BaseBomb>();
+        auto pBomb = ae_new<BaseBomb>();
         if (pBomb)
         {
             pBomb->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);

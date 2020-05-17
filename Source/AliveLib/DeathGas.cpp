@@ -109,7 +109,7 @@ DeathGas* DeathGas::vdtor_43C240(signed int flags)
     dtor_43C270();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

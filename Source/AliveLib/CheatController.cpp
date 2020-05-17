@@ -73,7 +73,7 @@ BaseGameObject* CheatController::vdtor_421C10(signed int flags)
     dtor_421C40();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

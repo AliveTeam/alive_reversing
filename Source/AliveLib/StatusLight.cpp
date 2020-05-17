@@ -146,7 +146,7 @@ StatusLight* StatusLight::vdtor_4D5500(signed int flags)
     dtor_4D5790();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

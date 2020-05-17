@@ -220,7 +220,7 @@ ParticleBurst* ParticleBurst::vdtor_41D4E0(signed int flags)
     dtor_41D510();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

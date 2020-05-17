@@ -122,7 +122,7 @@ FootSwitch* FootSwitch::vdtor_4DE240(signed int flags)
     dtor_4DE670();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -167,7 +167,7 @@ void FootSwitch::vUpdate_4DE270()
 
             field_20_animation.Set_Animation_Data_409C80(sFootSwitchData_547D60[static_cast<int>(gMap_5C3030.field_0_current_level)].field_4_frameTableOffset, nullptr);
 
-            auto pParticleBurst = alive_new<ParticleBurst>();
+            auto pParticleBurst = ae_new<ParticleBurst>();
             if (pParticleBurst)
             {
                 pParticleBurst->ctor_41CF50(
@@ -203,7 +203,7 @@ void FootSwitch::vUpdate_4DE270()
 
         if (field_104_bUnknown)
         {
-            auto pSpark = alive_new<Spark>();
+            auto pSpark = ae_new<Spark>();
             if (pSpark)
             {
                 pSpark->ctor_4CBBB0(
@@ -216,7 +216,7 @@ void FootSwitch::vUpdate_4DE270()
                     0);
             }
 
-            auto pParticleBurst = alive_new<ParticleBurst>();
+            auto pParticleBurst = ae_new<ParticleBurst>();
             if (pParticleBurst)
             {
                 pParticleBurst->ctor_41CF50(

@@ -47,15 +47,15 @@ EXPORT BaseThrowable* CCSTD Make_Throwable_49AF30(FP xpos, FP ypos, short count)
     switch (word_55FAFC[gMap_5C3030.field_22])
     {
     case Types::eBone_11:
-        return alive_new<Bone>()->ctor_4112C0(xpos, ypos, count);
+        return ae_new<Bone>()->ctor_4112C0(xpos, ypos, count);
     case Types::eType_24:
-        return alive_new<Grenade>()->ctor_447F70(xpos, ypos, count, 0, 1, 0);
+        return ae_new<Grenade>()->ctor_447F70(xpos, ypos, count, 0, 1, 0);
     case Types::eGrenade_65:
-        return alive_new<Grenade>()->ctor_447F70(xpos, ypos, count, 0, 0, 0);
+        return ae_new<Grenade>()->ctor_447F70(xpos, ypos, count, 0, 0, 0);
     case Types::eMeat_84:
-        return alive_new<Meat>()->ctor_4694A0(xpos, ypos, count);
+        return ae_new<Meat>()->ctor_4694A0(xpos, ypos, count);
     case Types::eRock_105:
-        return alive_new<Rock>()->ctor_49E150(xpos, ypos, count);
+        return ae_new<Rock>()->ctor_49E150(xpos, ypos, count);
     default:
         return nullptr;
     }

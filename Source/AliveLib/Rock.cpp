@@ -65,7 +65,7 @@ Rock* Rock::ctor_49E150(FP xpos, FP ypos, __int16 count)
 
     field_11E_vol = 0;
 
-    field_E0_pShadow = alive_new<Shadow>();
+    field_E0_pShadow = ae_new<Shadow>();
     if (field_E0_pShadow)
     {
         field_E0_pShadow->ctor_4AC990();
@@ -136,7 +136,7 @@ Rock* Rock::vdtor_49E370(signed int flags)
     dtor_49E3A0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -514,7 +514,7 @@ int CC Rock::CreateFromSaveState_49F720(const BYTE* pData)
 {
     auto pState = reinterpret_cast<const RockSaveState*>(pData);
 
-    auto pRock = alive_new<Rock>();
+    auto pRock = ae_new<Rock>();
     pRock->ctor_49E150(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A_count);
 
     pRock->field_C_objectId = pState->field_4_obj_id;
@@ -605,7 +605,7 @@ RockSack* RockSack::ctor_49F100(Path_RockSack* pTlv, int tlvInfo)
     field_120 = 1;
     field_122 = 1;
 
-    field_E0_pShadow = alive_new<Shadow>();
+    field_E0_pShadow = ae_new<Shadow>();
     if (field_E0_pShadow)
     {
         field_E0_pShadow->ctor_4AC990();
@@ -635,7 +635,7 @@ RockSack* RockSack::vdtor_49F2E0(signed int flags)
     dtor_49F310();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -721,13 +721,13 @@ void RockSack::vUpdate_49F3A0()
             }
             else
             {
-                gpThrowableArray_5D1E2C = alive_new<ThrowableArray>();
+                gpThrowableArray_5D1E2C = ae_new<ThrowableArray>();
                 gpThrowableArray_5D1E2C->ctor_49A630();
             }
 
             gpThrowableArray_5D1E2C->Add_49A7A0(field_11E_num_rocks);
 
-            auto pRock = alive_new<Rock>();
+            auto pRock = ae_new<Rock>();
             if (pRock)
             {
                 pRock->ctor_49E150(field_B8_xpos, field_BC_ypos - FP_FromInteger(30), field_11E_num_rocks);

@@ -160,7 +160,7 @@ Leaf* Leaf::vdtor_4E32E0(signed int flags)
 
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

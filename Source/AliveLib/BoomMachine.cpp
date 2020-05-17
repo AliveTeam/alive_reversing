@@ -69,7 +69,7 @@ private:
         BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
         if (flags & 1)
         {
-            alive_delete_free(this);
+            ae_delete_free_495540(this);
         }
         return this;
     }
@@ -101,7 +101,7 @@ private:
 
                 if (!gpThrowableArray_5D1E2C)
                 {
-                    auto pNewArray = alive_new<ThrowableArray>();
+                    auto pNewArray = ae_new<ThrowableArray>();
                     if (pNewArray)
                     {
                         gpThrowableArray_5D1E2C = pNewArray->ctor_49A630();
@@ -110,7 +110,7 @@ private:
 
                 gpThrowableArray_5D1E2C->Add_49A7A0(field_FC_numGrenades);
 
-                auto pGrenade = alive_new<Grenade>();
+                auto pGrenade = ae_new<Grenade>();
                 if (pGrenade)
                 {
                     FP directedScale = {};
@@ -176,7 +176,7 @@ BoomMachine* BoomMachine::ctor_445B30(Path_BoomMachine* pTlv, int tlvInfo)
     field_B8_xpos = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2))  + FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
-    auto pNozzel = alive_new<GrenadeMachineNozzel>();
+    auto pNozzel = ae_new<GrenadeMachineNozzel>();
     if (pNozzel)
     {
         pNozzel->ctor_4456F0(
@@ -301,7 +301,7 @@ BoomMachine* BoomMachine::vdtor_445E10(signed int flags)
     dtor_445E40();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

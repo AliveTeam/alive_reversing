@@ -59,7 +59,7 @@ SlogHut* SlogHut::vdtor_4C4100(signed int flags)
     dtor_4C4130();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -78,7 +78,7 @@ void SlogHut::vUpdate_4C41B0()
 
     if (!SwitchStates_Get_466020(field_30_switch_id) && static_cast<int>(sGnFrame_5C1B84) > field_34_z_timer)
     {
-        auto pSnoozeParticle = alive_new<SnoozeParticle>();
+        auto pSnoozeParticle = ae_new<SnoozeParticle>();
         if (pSnoozeParticle)
         {
             pSnoozeParticle->ctor_4B06F0(field_20_xpos, field_24_ypos, 39, field_28_scale);

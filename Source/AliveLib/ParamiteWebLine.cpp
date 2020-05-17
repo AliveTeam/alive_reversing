@@ -88,7 +88,7 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, int tl
     }
 
     field_F4_anim_segment_count = (field_F6_piece_length + field_FA_bottom - field_F8_top) / field_F6_piece_length;
-    field_FC = reinterpret_cast<AnimationUnknown*>(alive_malloc_non_zero(sizeof(AnimationUnknown) * field_F4_anim_segment_count));
+    field_FC = reinterpret_cast<AnimationUnknown*>(ae_malloc_non_zero_4954F0(sizeof(AnimationUnknown) * field_F4_anim_segment_count));
     for (int i = 0; i < field_F4_anim_segment_count; i++)
     {
         new (&field_FC[i]) AnimationUnknown(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
@@ -180,7 +180,7 @@ ParamiteWebLine* ParamiteWebLine::vdtor_4E2460(signed int flags)
     dtor_4E2490();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -188,7 +188,7 @@ ParamiteWebLine* ParamiteWebLine::vdtor_4E2460(signed int flags)
 void ParamiteWebLine::dtor_4E2490()
 {
     SetVTable(this, 0x547FA0);
-    alive_non_zero_free(field_FC);
+    ae_non_zero_free_495560(field_FC);
     field_108_anim_flare.vCleanUp_40C630();
     Path::TLV_Reset_4DB8E0(field_100, -1, 0, 0);
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();

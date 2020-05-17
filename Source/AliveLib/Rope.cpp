@@ -142,7 +142,7 @@ Rope* Rope::vdtor_4A0D80(signed int flags)
     dtor_4A0DB0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

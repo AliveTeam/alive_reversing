@@ -78,7 +78,7 @@ PullRingRope* PullRingRope::ctor_49B2D0(Path_PullRingRope* pTlv, int tlvInfo)
     field_10A_sound_direction = pTlv->field_1C_sound_direction;
     field_FC_ring_puller_id = -1;
 
-    auto pRope = alive_new<Rope>();
+    auto pRope = ae_new<Rope>();
     if (pRope)
     {
         pRope->ctor_4A0A70(
@@ -131,7 +131,7 @@ PullRingRope* PullRingRope::vdtor_49B630(signed int flags)
     dtor_49B660();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

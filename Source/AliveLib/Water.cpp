@@ -226,7 +226,7 @@ Water* Water::vdtor_4E0850(signed int flags)
     dtor_4E0880();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -523,7 +523,7 @@ void Water::vUpdate_4E0B50()
 
                         if (!(splash_time % 4) && !field_13C_not_in_camera_count)
                         {
-                            auto pParticle = alive_new<Particle>();
+                            auto pParticle = ae_new<Particle>();
                             if (pParticle)
                             {
                                 pParticle->ctor_4CC4C0(

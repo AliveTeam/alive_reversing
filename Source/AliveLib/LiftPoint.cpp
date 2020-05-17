@@ -177,7 +177,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, int tlvInfo)
         const FP km10 = FP_FromInteger(-10);
 
 
-        auto pRope1 = alive_new<Rope>();
+        auto pRope1 = ae_new<Rope>();
         if (pRope1)
         {
             pRope1->ctor_4A0A70(
@@ -189,7 +189,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, int tlvInfo)
             field_138_rope1_id = pRope1->field_8_object_id;
         }
 
-        auto pRope2 = alive_new<Rope>();
+        auto pRope2 = ae_new<Rope>();
         if (pRope2)
         {
             pRope2->ctor_4A0A70(
@@ -334,7 +334,7 @@ int CC LiftPoint::CreateFromSaveState_4630F0(const BYTE* pData)
         break;
     }
 
-    auto pLiftPoint = alive_new<LiftPoint>();
+    auto pLiftPoint = ae_new<LiftPoint>();
     if (pLiftPoint)
     {
         pLiftPoint->ctor_461030(pTlv, pState->field_C_tlvInfo);
@@ -1052,7 +1052,7 @@ LiftPoint* LiftPoint::vdtor_4619D0(signed int flags)
     dtor_4624E0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

@@ -50,7 +50,7 @@ EXPORT BaseGameObject* Particle::vdtor_4CC5D0(signed int flags)
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -68,7 +68,7 @@ BaseGameObject* Particle::VDestructor(signed int flags)
 EXPORT Particle* CC New_Particle_426F40(FP xpos, FP ypos, FP scale)
 {
     BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID, FALSE, FALSE);
-    auto pParticle = alive_new<Particle>();
+    auto pParticle = ae_new<Particle>();
 
     if (!pParticle)
     {
@@ -96,7 +96,7 @@ EXPORT Particle* CC New_Particle_426F40(FP xpos, FP ypos, FP scale)
 EXPORT Particle* CC New_Particle_426AA0(FP xpos, FP ypos, FP velX, FP velY, FP scale, __int16 layer, BYTE r, BYTE b, BYTE g)
 {
     BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 0, 0);
-    auto pParticle = alive_new<Particle>();
+    auto pParticle = ae_new<Particle>();
     if (!pParticle)
     {
         return nullptr;
@@ -149,7 +149,7 @@ EXPORT void CC New_Particles_426C70(FP xpos, FP ypos, FP scale, __int16 count, B
         FP randX = (FP_FromInteger(Math_RandomRange_496AB0(-3, 3)) * scale) + xpos;
         FP particleY = (FP_FromInteger(6 * (i + 1) / 2 * (1 - 2 * (i % 2))) * scale) + ypos;
         BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSquibSmokeResID, 0, 0);
-        auto pParticle = alive_new<Particle>();
+        auto pParticle = ae_new<Particle>();
         if (pParticle)
         {
             pParticle->ctor_4CC4C0(randX, particleY, 5084, 61, 44, ppRes);
@@ -202,7 +202,7 @@ void CC New_Particle_4269B0(FP xpos, FP ypos, FP scale)
 {
     BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kZflashResID, 0, 0);
 
-    auto pParticle = alive_new<Particle>();
+    auto pParticle = ae_new<Particle>();
     if (pParticle)
     {
         pParticle->ctor_4CC4C0(xpos, ypos, 2832, 126, 44, ppRes);
@@ -226,7 +226,7 @@ void CC New_Particle_4269B0(FP xpos, FP ypos, FP scale)
 void CC New_Particle_426890(FP xpos, FP ypos, char direction, FP scale)
 {
     BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kBigflashResID, 0, 0);
-    auto pParticle = alive_new<Particle>();
+    auto pParticle = ae_new<Particle>();
     if (pParticle)
     {
         pParticle->ctor_4CC4C0(xpos, ypos, 960, 86, 17, ppRes);

@@ -22,7 +22,7 @@ CameraSwapper* CameraSwapper::ctor_4E4CA0(BYTE** ppCamRes, int movieSector, int 
 
     PSX_ResetCallBack_4FAA20();
 
-    Movie* pMovie = alive_new<Movie>();
+    Movie* pMovie = ae_new<Movie>();
     if (pMovie)
     {
         pMovie->ctor_4DFDE0(movieId, movieSector, movieFlag, movieFlags, movieVol);
@@ -42,7 +42,7 @@ CameraSwapper* CameraSwapper::ctor_4E4DC0(BYTE** ppCamRes, int moviePos1, int mo
     
     PSX_ResetCallBack_4FAA20();
 
-    Movie* pMovie = alive_new<Movie>();
+    Movie* pMovie = ae_new<Movie>();
     if (pMovie)
     {
         pMovie->ctor_4DFDE0(movieId1, moviePos1, movieFlag1, movieFlags1, movieVol1);
@@ -67,7 +67,7 @@ CameraSwapper* CameraSwapper::ctor_4E4ED0(BYTE** ppCamRes, int moviePos1, int mo
     Init_4E50C0(ppCamRes, CameraSwapEffects::eEffect10_3_FMV);
 
     PSX_ResetCallBack_4FAA20();
-    Movie* pMovie = alive_new<Movie>();
+    Movie* pMovie = ae_new<Movie>();
     if (pMovie)
     {
         pMovie->ctor_4DFDE0(movieId1, moviePos1, movieFlag1, movieFlags1, movieVol1);
@@ -128,7 +128,7 @@ BaseGameObject* CameraSwapper::vdtor_4E4D90(signed int flags)
     dtor_4E5790();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -190,7 +190,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
 
         pScreenManager_5BB5F4->field_44 = 1;
 
-        field_34_pSubObject = alive_new<ScreenClipper>();
+        field_34_pSubObject = ae_new<ScreenClipper>();
         field_34_pSubObject->ctor_416D60(xy, wh, 0);
         break;
 
@@ -208,7 +208,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
 
         pScreenManager_5BB5F4->field_44 = 1;
 
-        field_34_pSubObject = alive_new<ScreenClipper>();
+        field_34_pSubObject = ae_new<ScreenClipper>();
         field_34_pSubObject->ctor_416D60(xy, wh, 0);
         break;
 
@@ -226,7 +226,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
 
         pScreenManager_5BB5F4->field_44 = 1;
 
-        field_34_pSubObject = alive_new<ScreenClipper>();
+        field_34_pSubObject = ae_new<ScreenClipper>();
         field_34_pSubObject->ctor_416D60(xy, wh, 0);
         break;
 
@@ -244,7 +244,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
 
         pScreenManager_5BB5F4->field_44 = 1;
 
-        field_34_pSubObject = alive_new<ScreenClipper>();
+        field_34_pSubObject = ae_new<ScreenClipper>();
         field_34_pSubObject->ctor_416D60(xy, wh, 0);
         break;
 
@@ -262,7 +262,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         wh.field_0_x = gPsxDisplay_5C1130.field_0_width / 2;
         wh.field_2_y = gPsxDisplay_5C1130.field_2_height;
 
-        field_34_pSubObject = alive_new<ScreenClipper>();
+        field_34_pSubObject = ae_new<ScreenClipper>();
         field_34_pSubObject->ctor_416D60(xy, wh, 0);
         break;
 
@@ -280,7 +280,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         wh.field_0_x = gPsxDisplay_5C1130.field_0_width;
         wh.field_2_y = gPsxDisplay_5C1130.field_2_height / 2;
 
-        field_34_pSubObject = alive_new<ScreenClipper>();
+        field_34_pSubObject = ae_new<ScreenClipper>();
         field_34_pSubObject->ctor_416D60(xy, wh, 0);
         break;
 
@@ -320,7 +320,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         xy.field_0_x = gPsxDisplay_5C1130.field_0_width - 1;
         xy.field_2_y = gPsxDisplay_5C1130.field_2_height - 1;
 
-        field_34_pSubObject = alive_new<ScreenClipper>();
+        field_34_pSubObject = ae_new<ScreenClipper>();
         field_34_pSubObject->ctor_416D60(xy, { 1, 1 }, 0);
 
         // "Whoosh" door sound effect
@@ -333,7 +333,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
     case CameraSwapEffects::eEffect10_3_FMV:
         pScreenManager_5BB5F4->field_44 = 1;
 
-        field_34_pSubObject = alive_new<ScreenClipper>();
+        field_34_pSubObject = ae_new<ScreenClipper>();
         field_34_pSubObject->ctor_416D60({0, 0}, {1, 1}, 0);
         break;
 
@@ -511,7 +511,7 @@ void CameraSwapper::vUpdate_4E5850()
         // When no movie is playing start the next one
         if (sMovie_ref_count_BB4AE4 == 0)
         {
-            auto pMovie = alive_new<Movie>();
+            auto pMovie = ae_new<Movie>();
             if (pMovie)
             {
                 pMovie->ctor_4DFDE0(
@@ -539,7 +539,7 @@ void CameraSwapper::vUpdate_4E5850()
         // When no movie is playing start the next one
         if (sMovie_ref_count_BB4AE4 == 0)
         {
-            auto pMovie = alive_new<Movie>();
+            auto pMovie = ae_new<Movie>();
             if (pMovie)
             {
                 pMovie->ctor_4DFDE0(

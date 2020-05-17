@@ -96,7 +96,7 @@ ParamiteWeb* ParamiteWeb::vdtor_4E1AF0(signed int flags)
     dtor_4E1B20();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

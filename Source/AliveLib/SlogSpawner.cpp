@@ -54,7 +54,7 @@ SlogSpawner* SlogSpawner::vdtor_4C8080(signed int flags)
     BaseGameObject_dtor_4DBEC0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -77,7 +77,7 @@ void SlogSpawner::vUpdate_4C80D0()
         if (SwitchStates_Get_466020(field_3E_switch_id))
         {
             field_30_spawn_timer = (field_3C_spawn_time + sGnFrame_5C1B84) + Math_NextRandom() % 8;
-            auto pSlog = alive_new<Slog>();
+            auto pSlog = ae_new<Slog>();
             pSlog->ctor_4C4540(field_28_xpos, field_2C_ypos, field_34_scale != 0 ? FP_FromDouble(0.5) : FP_FromInteger(1), field_40_listen_to_sligs, field_42_jump_delay);
             pSlog->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_3A_direction & 1);
 

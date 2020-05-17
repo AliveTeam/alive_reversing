@@ -143,7 +143,7 @@ BaseGameObject* ThrowableArray::vdtor_49A6C0(signed int flags)
     dtor_49A6F0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -280,7 +280,7 @@ void ThrowableArray::Add_49A7A0(__int16 count)
 signed int CC ThrowableArray::CreateFromSaveState_49B200(const BYTE* pState)
 {
     LoadRockTypes_49AB30(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path);
-    auto pArray = alive_new<ThrowableArray>();
+    auto pArray = ae_new<ThrowableArray>();
     if (pArray)
     {
         pArray->ctor_49A630();

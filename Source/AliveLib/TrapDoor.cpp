@@ -216,7 +216,7 @@ signed int CC TrapDoor::CreateFromSaveState_4DDED0(const BYTE* pData)
         break;
     }
 
-    auto pTrapDoor = alive_new<TrapDoor>();
+    auto pTrapDoor = ae_new<TrapDoor>();
     if (pTrapDoor)
     {
         pTrapDoor->ctor_4DD570(pTlv, nullptr, pState->field_8_tlvInfo);
@@ -237,7 +237,7 @@ EXPORT BaseGameObject* TrapDoor::vdtor_4DD8A0(signed int flags)
     dtor_4DD8D0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

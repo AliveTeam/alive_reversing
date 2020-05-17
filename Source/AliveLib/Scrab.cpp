@@ -207,7 +207,7 @@ Scrab* Scrab::ctor_4A3C40(Path_Scrab* pTlv, int tlvInfo, __int16 spawnedScale)
 
     ToPatrol_4AA600();
 
-    field_E0_pShadow = alive_new<Shadow>();
+    field_E0_pShadow = ae_new<Shadow>();
     if (field_E0_pShadow)
     {
         field_E0_pShadow->ctor_4AC990();
@@ -317,7 +317,7 @@ int CC Scrab::CreateFromSaveState_4A70A0(const BYTE* pBuffer)
         ResourceManager::LoadResourceFile_49C170("SCRAB.BND", nullptr);
     }
 
-    auto pScrab = alive_new<Scrab>();
+    auto pScrab = ae_new<Scrab>();
     pScrab->ctor_4A3C40(pTlv, pState->field_44_tlvInfo, 0);
     pScrab->field_C_objectId = pState->field_4_obj_id;
 
@@ -519,7 +519,7 @@ Scrab* Scrab::vdtor_4A41B0(signed int flags)
     dtor_4A42B0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

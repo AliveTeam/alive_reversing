@@ -96,7 +96,7 @@ DoorBlocker* DoorBlocker::vdtor_41F220(signed int flags)
     dtor_41F310();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

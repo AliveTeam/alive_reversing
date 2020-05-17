@@ -99,7 +99,7 @@ ColourfulMeter* ColourfulMeter::vdtor_43D050(signed int flags)
     dtor_43D080();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

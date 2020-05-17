@@ -92,7 +92,7 @@ Spark* Spark::ctor_4CBBB0(FP xpos, FP ypos, FP scale, unsigned __int8 count, __i
         {
             // Normal drill/grinder type sparks
             BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID);
-            auto pParticle = alive_new<Particle>();
+            auto pParticle = ae_new<Particle>();
             if (pParticle)
             {
                 pParticle->ctor_4CC4C0(
@@ -299,7 +299,7 @@ Spark* Spark::vdtor_4CBE30(signed int flags)
     dtor_4CBE60();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

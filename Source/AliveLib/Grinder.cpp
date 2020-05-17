@@ -237,7 +237,7 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
     field_104_tlv = tlvInfo;
     field_10C_audio_channels_mask = 0;
 
-    auto pShadow = alive_new<Shadow>();
+    auto pShadow = ae_new<Shadow>();
     if (pShadow)
     {
         pShadow->ctor_4AC990();
@@ -299,7 +299,7 @@ signed int CC Grinder::CreateFromSaveState_421600(const BYTE* pData)
         ResourceManager::LoadResourceFile_49C170("DRILL.BAN", 0);
     }
 
-    auto pGrinder = alive_new<Grinder>();
+    auto pGrinder = ae_new<Grinder>();
     if (pGrinder)
     {
         pGrinder->ctor_4200D0(pTlv, pState->field_8_tlvInfo);
@@ -489,7 +489,7 @@ Grinder* Grinder::vdtor_4206A0(signed int flags)
     dtor_420B60();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -610,7 +610,7 @@ void Grinder::EmitSparks_4206D0()
         {
             if (field_FA_direction == GrinderDirection::eRight_1)
             {
-                auto pSpark1 = alive_new<Spark>();
+                auto pSpark1 = ae_new<Spark>();
                 if (pSpark1)
                 {
                     pSpark1->ctor_4CBBB0(
@@ -623,7 +623,7 @@ void Grinder::EmitSparks_4206D0()
                         0);
                 }
 
-                auto pSpark2 = alive_new<Spark>();
+                auto pSpark2 = ae_new<Spark>();
                 if (pSpark2)
                 {
                     pSpark2->ctor_4CBBB0(
@@ -638,7 +638,7 @@ void Grinder::EmitSparks_4206D0()
             }
             else if (field_FA_direction == GrinderDirection::eLeft_2)
             {
-                auto pSpark1 = alive_new<Spark>();
+                auto pSpark1 = ae_new<Spark>();
                 if (pSpark1)
                 {
                     pSpark1->ctor_4CBBB0(
@@ -651,7 +651,7 @@ void Grinder::EmitSparks_4206D0()
                         0);
                 }
 
-                auto pSpark2 = alive_new<Spark>();
+                auto pSpark2 = ae_new<Spark>();
                 if (pSpark2)
                 {
                     pSpark2->ctor_4CBBB0(
@@ -666,7 +666,7 @@ void Grinder::EmitSparks_4206D0()
             }
             else if (field_FA_direction == GrinderDirection::eDown_0)
             {
-                auto pSpark1 = alive_new<Spark>();
+                auto pSpark1 = ae_new<Spark>();
                 if (pSpark1)
                 {
                     pSpark1->ctor_4CBBB0(
@@ -679,7 +679,7 @@ void Grinder::EmitSparks_4206D0()
                         0);
                 }
 
-                auto pSpark2 = alive_new<Spark>();
+                auto pSpark2 = ae_new<Spark>();
                 if (pSpark2)
                 {
                     pSpark2->ctor_4CBBB0(
@@ -754,7 +754,7 @@ __int16 Grinder::DamageTouchingObjects_421060()
         return 1;
     }
 
-    auto pBlood = alive_new<Blood>();
+    auto pBlood = ae_new<Blood>();
     if (pBlood)
     {
         pBlood->ctor_40F0B0(
@@ -766,7 +766,7 @@ __int16 Grinder::DamageTouchingObjects_421060()
             50);
     }
 
-    auto pBlood2 = alive_new<Blood>();
+    auto pBlood2 = ae_new<Blood>();
     if (pBlood2)
     {
         pBlood2->ctor_40F0B0(
@@ -778,7 +778,7 @@ __int16 Grinder::DamageTouchingObjects_421060()
             50);
     }
 
-    auto pBlood3 = alive_new<Blood>();
+    auto pBlood3 = ae_new<Blood>();
     if (pBlood3)
     {
         pBlood3->ctor_40F0B0(

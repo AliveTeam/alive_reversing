@@ -45,7 +45,7 @@ void LevelLoader::vUpdate_4DD400()
         {
             if (SwitchStates_Get_466020(field_20_id))
             {
-                auto pFade = alive_new<DeathFadeOut>();
+                auto pFade = ae_new<DeathFadeOut>();
                 if (pFade)
                 {
                     pFade->ctor_427030(40, 1, 1, 32, 2);
@@ -91,7 +91,7 @@ LevelLoader* LevelLoader::vdtor_4DD3B0(signed int flags)
     dtor_4DD3E0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

@@ -279,7 +279,7 @@ SlamDoor * SlamDoor::vdtor_4AFD20(signed int flags)
     dtor_4B0620();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -511,7 +511,7 @@ int CC SlamDoor::CreateFromSaveState_4C08B0(const BYTE * pData)
         }
     }
 
-    SlamDoor * pSlamDoor = alive_new<SlamDoor>();
+    SlamDoor * pSlamDoor = ae_new<SlamDoor>();
     if (pSlamDoor)
     {
         pSlamDoor->ctor_4AF700(static_cast<Path_SlamDoor*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pSaveState->field_4_tlv.all)), pSaveState->field_4_tlv);

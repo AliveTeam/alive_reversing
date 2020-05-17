@@ -73,7 +73,7 @@ MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, int tlvInfo, int /*a4*/, int /
 
     field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
 
-    field_E0_pShadow = alive_new<Shadow>();
+    field_E0_pShadow = ae_new<Shadow>();
     if (field_E0_pShadow)
     {
         field_E0_pShadow->ctor_4AC990();
@@ -167,7 +167,7 @@ int CC MineCar::CreateFromSaveState_467740(const BYTE* pBuffer)
         ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", nullptr);
     }
 
-    auto pMineCar = alive_new<MineCar>();
+    auto pMineCar = ae_new<MineCar>();
     if (pMineCar)
     {
         pMineCar->ctor_46BC80(pTlv, pState->field_4C_tlvInfo, 0, 0, 0);
@@ -358,7 +358,7 @@ MineCar* MineCar::vdtor_46BF50(signed int flags)
     dtor_46F2A0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -1350,7 +1350,7 @@ void MineCar::State_3()
             WallHit_408750(FP_FromInteger(0), (field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale))
         {
             field_C4_velx = FP_FromInteger(0);
-            auto pParticleBurst = alive_new<ParticleBurst>();
+            auto pParticleBurst = ae_new<ParticleBurst>();
             if (pParticleBurst)
             {
                 pParticleBurst->ctor_41CF50(
@@ -1369,7 +1369,7 @@ void MineCar::State_3()
             WallHit_408750(FP_FromInteger(0), -((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale)))
         {
             field_C4_velx = FP_FromInteger(0);
-            auto pParticleBurst2 = alive_new<ParticleBurst>();
+            auto pParticleBurst2 = ae_new<ParticleBurst>();
             if (pParticleBurst2)
             {
                 pParticleBurst2->ctor_41CF50(
@@ -1390,7 +1390,7 @@ void MineCar::State_3()
         field_BC_ypos = hitY;
         field_F8_LastLineYPos = hitY;
         field_C8_vely = (-field_C8_vely *  FP_FromDouble(0.2));
-        auto pParticleBurst3 = alive_new<ParticleBurst>();
+        auto pParticleBurst3 = ae_new<ParticleBurst>();
         if (pParticleBurst3)
         {
             pParticleBurst3->ctor_41CF50(sControlledCharacter_5C1B8C->field_B8_xpos, sControlledCharacter_5C1B8C->field_BC_ypos, 5u, FP_FromInteger(1), BurstType::eBigRedSparks_3, 9);
@@ -1400,7 +1400,7 @@ void MineCar::State_3()
         {
             SFX_Play_46FBA0(101u, 127, 0, field_CC_sprite_scale);
             SFX_Play_46FBA0(47u, 127, 0, field_CC_sprite_scale);
-            auto pScreenShake = alive_new<ScreenShake>();
+            auto pScreenShake = ae_new<ScreenShake>();
             if (pScreenShake)
             {
                 pScreenShake->ctor_4ACF70(0, 0);

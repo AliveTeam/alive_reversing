@@ -99,7 +99,7 @@ BirdPortal* BirdPortal::vdtor_498050(signed int flags)
     dtor_4980A0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -241,7 +241,7 @@ void BirdPortal::vUpdate_498280()
                 BYTE** ppLightRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kPortliteResID, TRUE, FALSE);
                 if (ppLightRes)
                 {
-                    auto pParticle = alive_new<Particle>();
+                    auto pParticle = ae_new<Particle>();
                     if (pParticle)
                     {
                         pParticle->ctor_4CC4C0(
@@ -306,7 +306,7 @@ void BirdPortal::vUpdate_498280()
             if (static_cast<int>(sGnFrame_5C1B84) >= field_5C_timer)
             {
                 field_5C_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(4, 12);
-                auto pDove_1 = alive_new<Dove>();
+                auto pDove_1 = ae_new<Dove>();
                 if (pDove_1)
                 {
                     pDove_1->ctor_41F660(
@@ -360,7 +360,7 @@ void BirdPortal::vUpdate_498280()
             BYTE** ppLightRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPortlitResID);
             if (ppLightRes)
             {
-                auto pParticle = alive_new<Particle>();
+                auto pParticle = ae_new<Particle>();
                 if (pParticle)
                 {
                     pParticle->ctor_4CC4C0(
@@ -400,7 +400,7 @@ void BirdPortal::vUpdate_498280()
 
     case States::State_12:
     {
-        auto pFlash_1 = alive_new<Flash>();
+        auto pFlash_1 = ae_new<Flash>();
         if (pFlash_1)
         {
             pFlash_1->ctor_428570(40, 255u, 255u, 255u, 1, 3u, 1);
@@ -411,7 +411,7 @@ void BirdPortal::vUpdate_498280()
 
     case States::State_13:
     {
-        auto pFlash = alive_new<Flash>();
+        auto pFlash = ae_new<Flash>();
         if (pFlash)
         {
             pFlash->ctor_428570(40, 255u, 255u, 255u, 1, 0, 1);
@@ -422,7 +422,7 @@ void BirdPortal::vUpdate_498280()
 
     case States::State_14:
     {
-        auto pFlash_2 = alive_new<Flash>();
+        auto pFlash_2 = ae_new<Flash>();
         if (pFlash_2)
         {
             pFlash_2->ctor_428570(40, 255u, 255u, 255u, 0, 0, 1);
@@ -456,7 +456,7 @@ void BirdPortal::vUpdate_498280()
             gPsxDisplay_5C1130.field_2_height,
             pScreenManager_5BB5F4->field_3A_idx);
 
-        auto pNewTerminator1 = alive_new<BirdPortalTerminator>();
+        auto pNewTerminator1 = ae_new<BirdPortalTerminator>();
         if (pNewTerminator1)
         {
             pNewTerminator1->ctor_497960(
@@ -466,7 +466,7 @@ void BirdPortal::vUpdate_498280()
                 field_24_portal_type);
         }
 
-        auto pNewTerminator2 = alive_new<BirdPortalTerminator>();
+        auto pNewTerminator2 = ae_new<BirdPortalTerminator>();
         if (pNewTerminator2)
         {
             pNewTerminator2->ctor_497960(
@@ -736,7 +736,7 @@ int CC BirdPortal::CreateFromSaveState_499C90(const BYTE* pBuffer)
         }
     }
 
-    auto pPortal = alive_new<BirdPortal>();
+    auto pPortal = ae_new<BirdPortal>();
     pPortal->ctor_497E00(pTlv, pSaveState->field_4_tlvInfo);
     pPortal->field_1C_update_delay = 1;
     pPortal->field_82_num_muds_for_shrykul -= pSaveState->field_3_mud_count;
@@ -810,7 +810,7 @@ signed __int16 BirdPortal::vsub_499430(__int16 bUnknown)
     }
 
     // Clip objects entering portal?
-    auto pClipper1 = alive_new<ScreenClipper>();
+    auto pClipper1 = ae_new<ScreenClipper>();
     if (pClipper1)
     {
         pClipper1->ctor_416D60(xy, wh, 0);
@@ -826,7 +826,7 @@ signed __int16 BirdPortal::vsub_499430(__int16 bUnknown)
     }
 
     // Clip whole screen when "in" the portal?
-    auto pClipper2 = alive_new<ScreenClipper>();
+    auto pClipper2 = ae_new<ScreenClipper>();
     if (pClipper2)
     {
         pClipper2->ctor_416D60(PSX_Point{ 0,0 }, PSX_Point{ 640 , 240 }, 0);
@@ -883,7 +883,7 @@ void BirdPortal::vGiveShrukul_499680(__int16 bPlaySound)
             field_5C_timer = sGnFrame_5C1B84 + 12;
             field_84 = 0;
 
-            field_88_pWhirlWind = alive_new<OrbWhirlWind>();
+            field_88_pWhirlWind = ae_new<OrbWhirlWind>();
             if (field_88_pWhirlWind)
             {
                 field_88_pWhirlWind->ctor_4E3C90(
@@ -1105,7 +1105,7 @@ void BirdPortal::CreateDovesAndShrykullNumber_497B50()
 {
     for (BYTE i = 0; i < ALIVE_COUNTOF(field_44_dove_ids); i++)
     {
-        auto pDove = alive_new<Dove>();
+        auto pDove = ae_new<Dove>();
         if (pDove)
         {
             pDove->ctor_41F660(5516, 41, 20u, 60, field_2C_xpos, field_30_ypos, field_60_scale);
@@ -1127,7 +1127,7 @@ void BirdPortal::CreateDovesAndShrykullNumber_497B50()
 
     if (field_24_portal_type == PortalType::eShrykull_2)
     {
-        auto pIndicator = alive_new<ThrowableTotalIndicator>();
+        auto pIndicator = ae_new<ThrowableTotalIndicator>();
         if (pIndicator)
         {
             pIndicator->ctor_431CB0(
@@ -1161,14 +1161,14 @@ void BirdPortal::GoAwayIfType100_499220()
 
 void BirdPortal::CreateTerminators_497D10()
 {
-    auto pTerminator1 = alive_new<BirdPortalTerminator>();
+    auto pTerminator1 = ae_new<BirdPortalTerminator>();
     if (pTerminator1)
     {
         pTerminator1->ctor_497960(field_2C_xpos, field_30_ypos, field_60_scale, field_24_portal_type);
         field_6C_terminator_id = pTerminator1->field_8_object_id;
     }
 
-    auto pTerminator2 = alive_new<BirdPortalTerminator>();
+    auto pTerminator2 = ae_new<BirdPortalTerminator>();
     if (pTerminator2)
     {
         pTerminator2->ctor_497960(field_2C_xpos, field_30_ypos, field_60_scale, field_24_portal_type);
@@ -1249,7 +1249,7 @@ BaseAnimatedWithPhysicsGameObject* BirdPortalTerminator::vdtor_497A70(signed int
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

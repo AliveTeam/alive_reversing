@@ -167,7 +167,7 @@ void TimedMine::Update_410A80()
 
         if (sGnFrame_5C1B84 >= field_120_gnframe)
         {
-            auto explosion = alive_new<BaseBomb>();
+            auto explosion = ae_new<BaseBomb>();
             if (explosion)
             {
                 explosion->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
@@ -301,7 +301,7 @@ TimedMine* TimedMine::vdtor_4108B0(signed int flags)
     dtor_410970();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -333,7 +333,7 @@ __int16 TimedMine::vTakeDamage_410FA0(BaseGameObject* pFrom)
     case Types::eShrykull_121:
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        auto pExplosion = alive_new<BaseBomb>();
+        auto pExplosion = ae_new<BaseBomb>();
         if (pExplosion)
         {
             pExplosion->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
@@ -349,7 +349,7 @@ __int16 TimedMine::vTakeDamage_410FA0(BaseGameObject* pFrom)
 
 void TimedMine::vOnThrowableHit_410F00(BaseGameObject* /*pHitBy*/)
 {
-    auto pExplosion = alive_new<BaseBomb>();
+    auto pExplosion = ae_new<BaseBomb>();
     if (pExplosion)
     {
         pExplosion->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);

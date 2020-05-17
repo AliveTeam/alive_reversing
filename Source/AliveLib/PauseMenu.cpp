@@ -525,7 +525,7 @@ BaseGameObject* PauseMenu::vdtor_48FCB0(signed int flags)
     dtor_48FCE0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -996,7 +996,7 @@ void PauseMenu::RestartPath()
 
         if (!gpThrowableArray_5D1E2C)
         {
-            gpThrowableArray_5D1E2C = alive_new<ThrowableArray>();
+            gpThrowableArray_5D1E2C = ae_new<ThrowableArray>();
             gpThrowableArray_5D1E2C->ctor_49A630();
         }
 
@@ -1198,7 +1198,7 @@ void PauseMenu::Page_Save_Update_491210()
             if (hFile)
             {
                 fwrite(&sActiveQuicksaveData_BAF7F8, sizeof(Quicksave), 1u, hFile);
-                alive_fclose(hFile);
+                ae_fclose_520CBE(hFile);
                 sSavedGameToLoadIdx_BB43FC = 0;
             }
             word12C_flags &= ~1u;
@@ -1433,16 +1433,16 @@ void PauseMenu::Page_Load_Update_490D50()
         {
             strcpy(saveFileName, sSaveFileRecords_BB31D8[sSavedGameToLoadIdx_BB43FC].field_0_fileName);
             strcat(saveFileName, ".sav");
-            FILE* hFile = alive_fopen(saveFileName, "rb");
+            FILE* hFile = ae_fopen_520C64(saveFileName, "rb");
             if (hFile)
             {
-                alive_fread(&sActiveQuicksaveData_BAF7F8, sizeof(Quicksave), 1u, hFile);
+                ae_fread_520B5C(&sActiveQuicksaveData_BAF7F8, sizeof(Quicksave), 1u, hFile);
                 sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(0);
                 sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(0);
                 Quicksave_LoadActive_4C9170();
                 word12C_flags &= ~1u;
                 // TODO: OG bug, file handle is leaked
-                alive_fclose(hFile);
+                ae_fclose_520CBE(hFile);
             }
             SFX_Play_46FA90(84u, 90);
         }
@@ -1461,7 +1461,7 @@ void PauseMenu::Page_Load_Update_490D50()
         {
             strcpy(saveFileName, sSaveFileRecords_BB31D8[sSavedGameToLoadIdx_BB43FC].field_0_fileName);
             strcat(saveFileName, ".sav");
-            alive_remove(saveFileName);
+            ae_remove_520B27(saveFileName);
             Quicksave_FindSaves_4D4150();
         }
     }

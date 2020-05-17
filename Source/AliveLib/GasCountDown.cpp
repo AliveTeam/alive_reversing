@@ -86,7 +86,7 @@ GasCountDown* GasCountDown::ctor_417010(Path_GasCountDown* pTlv, int tlvInfo)
             field_74_time_left = 0;
         }
 
-        auto pAlarm = alive_new<Alarm>();
+        auto pAlarm = ae_new<Alarm>();
         if (pAlarm)
         {
             pAlarm->ctor_4091F0(field_76_time, 0, 0, 39);
@@ -136,7 +136,7 @@ GasCountDown* GasCountDown::vdtor_4171F0(signed int flags)
     dtor_417220();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -210,7 +210,7 @@ void GasCountDown::DealDamage()
         gGasOn_5C1C00 = TRUE;
         if (!gDeathGasCount_5BD24C)
         {
-            auto pGasEffect = alive_new<DeathGas>();
+            auto pGasEffect = ae_new<DeathGas>();
             if (pGasEffect)
             {
                 pGasEffect->ctor_43C030(39, 2);
@@ -238,7 +238,7 @@ void GasCountDown::vUpdate_4172E0()
         !SwitchStates_Get_466020(field_72_stop_trigger_id))
     {
         sGasTimer_5C1BE8 = sGnFrame_5C1B84;
-        auto pAlarm = alive_new<Alarm>();
+        auto pAlarm = ae_new<Alarm>();
         if (pAlarm)
         {
             pAlarm->ctor_4091F0(field_76_time, 0, 0, 39);

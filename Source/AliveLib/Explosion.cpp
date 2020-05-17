@@ -52,7 +52,7 @@ Explosion* Explosion::ctor_4A1200(FP xpos, FP ypos, FP scale, __int16 bSmall)
     field_B8_xpos = xpos;
     field_BC_ypos = ypos;
 
-    auto pScreenShake = alive_new<ScreenShake>();
+    auto pScreenShake = ae_new<ScreenShake>();
     if (pScreenShake)
     {
         pScreenShake->ctor_4ACF70(word_5C1BB6 ? 0 : 1, field_F4_bSmall);
@@ -148,7 +148,7 @@ void Explosion::DealBlastDamage_4A1BD0(PSX_RECT* pRect)
 
             if (direction == CameraPos::eCamLeft_3)
             {
-                auto pGibs = alive_new<Gibs>();
+                auto pGibs = ae_new<Gibs>();
                 if (pGibs)
                 {
                     pGibs->ctor_40FB40(1, field_B8_xpos + FP_FromInteger(656), field_BC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), 0);
@@ -156,7 +156,7 @@ void Explosion::DealBlastDamage_4A1BD0(PSX_RECT* pRect)
             }
             else if (direction == CameraPos::eCamRight_4)
             {
-                auto pGibs = alive_new<Gibs>();
+                auto pGibs = ae_new<Gibs>();
                 if (pGibs)
                 {
                     pGibs->ctor_40FB40(1, field_B8_xpos - FP_FromInteger(656), field_BC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), 0);
@@ -188,7 +188,7 @@ void Explosion::vUpdate_4A1510()
 
     case 4:
     {
-        auto pFlash = alive_new<Flash>();
+        auto pFlash = ae_new<Flash>();
         if (pFlash)
         {
             pFlash->ctor_428570(39, 255u, 255u, 255u, 1, 1, 1);
@@ -212,13 +212,13 @@ void Explosion::vUpdate_4A1510()
 
     case 8:
     {
-        auto pParticleBurst = alive_new<ParticleBurst>();
+        auto pParticleBurst = ae_new<ParticleBurst>();
         if (pParticleBurst)
         {
             pParticleBurst->ctor_41CF50(field_B8_xpos, field_BC_ypos, field_F4_bSmall ? 6 : 20, field_F8_scale, BurstType::eBigRedSparks_3, field_F4_bSmall ? 11 : 13);
         }
 
-        auto pFlash = alive_new<Flash>();
+        auto pFlash = ae_new<Flash>();
         if (pFlash)
         {
             pFlash->ctor_428570(39, 255u, 255u, 255u, 1, 3u, 1);
@@ -249,7 +249,7 @@ void Explosion::vUpdate_4A1510()
             Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
         if (ppRes)
         {
-            auto pParticle = alive_new<Particle>();
+            auto pParticle = ae_new<Particle>();
             if (pParticle)
             {
                 pParticle->ctor_4CC4C0(field_B8_xpos, field_BC_ypos, field_F4_bSmall ? 14108 : 51156,
@@ -303,7 +303,7 @@ Explosion* Explosion::vdtor_4A14C0(signed int flags)
     dtor_4A14F0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

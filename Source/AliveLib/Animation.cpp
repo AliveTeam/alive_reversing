@@ -80,7 +80,7 @@ EXPORT int CC Animation_OnFrame_Common_4561B0(void* pObjPtr, signed __int16* pDa
         ypos -= FP_FromInteger(5);
     }
 
-    auto pPartical = alive_new<Particle>();
+    auto pPartical = ae_new<Particle>();
     if (pPartical)
     {
         pPartical->ctor_4CC4C0(xpos, ypos, 4488, 61, 44, ppAnimData);
@@ -149,7 +149,7 @@ EXPORT int CC Animation_OnFrame_Common_434130(void* pObjPtr, signed __int16* pDa
         pObj->field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    auto pParticle = alive_new<Particle>();
+    auto pParticle = ae_new<Particle>();
     if (pParticle)
     {
         pParticle->ctor_4CC4C0(xpos, ypos, 5264, 61, 44, ppAnimRes);
@@ -211,7 +211,7 @@ int CC Animation_OnFrame_Slog_4C3030(void* pObjPtr, signed __int16* pPoints)
 
     const FP bloodY = (pSlog->field_CC_sprite_scale * FP_FromInteger(pPoints[1])) + pSlog->field_BC_ypos;
     
-    auto pBlood = alive_new<Blood>();
+    auto pBlood = ae_new<Blood>();
     if (pBlood)
     {
         pBlood->ctor_40F0B0(

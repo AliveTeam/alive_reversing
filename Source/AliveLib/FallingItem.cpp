@@ -102,7 +102,7 @@ EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, int tlvInfo
         field_144_created_gnFrame = sGnFrame_5C1B84;
     }
 
-    field_E0_pShadow = alive_new<Shadow>();
+    field_E0_pShadow = ae_new<Shadow>();
     if (field_E0_pShadow)
     {
         field_E0_pShadow->ctor_4AC990();
@@ -178,7 +178,7 @@ FallingItem* FallingItem::ctor_427560(__int16 xpos, __int16 ypos, __int16 scale,
         field_144_created_gnFrame = sGnFrame_5C1B84;
     }
 
-    field_E0_pShadow = alive_new<Shadow>();
+    field_E0_pShadow = ae_new<Shadow>();
     if (field_E0_pShadow)
     {
         field_E0_pShadow->ctor_4AC990();
@@ -218,7 +218,7 @@ FallingItem* FallingItem::vdtor_427530(signed int flags)
     dtor_427EB0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -360,7 +360,7 @@ EXPORT void FallingItem::vUpdate_427780()
         field_134_bHitGrinderOrMineCar = FALSE;
         field_11C_state = State::eState_4_Smashed;
 
-        auto pShake = alive_new<ScreenShake>();
+        auto pShake = ae_new<ScreenShake>();
         if (pShake)
         {
             pShake->ctor_4ACF70(0, field_CC_sprite_scale == FP_FromDouble(0.5));
@@ -368,7 +368,7 @@ EXPORT void FallingItem::vUpdate_427780()
 
         if (gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8)
         {
-            auto pPart = alive_new<ParticleBurst>();
+            auto pPart = ae_new<ParticleBurst>();
             if (pPart)
             {
                 pPart->ctor_41CF50(
@@ -380,7 +380,7 @@ EXPORT void FallingItem::vUpdate_427780()
                     13);
             }
 
-            auto pParticle = alive_new<Particle>();
+            auto pParticle = ae_new<Particle>();
             if (pParticle)
             {
                 BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 0, 0);
@@ -398,7 +398,7 @@ EXPORT void FallingItem::vUpdate_427780()
         }
         else
         {
-            auto pPartBurst = alive_new<ParticleBurst>();
+            auto pPartBurst = ae_new<ParticleBurst>();
             if (pPartBurst)
             {
                 pPartBurst->ctor_41CF50(

@@ -85,7 +85,7 @@ BaseGameObject* ScreenManager::vdtor_40E460(signed int flags)
     dtor_40E490();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -680,7 +680,7 @@ namespace Test
 {
     static void DirtyBitTests()
     {
-        gBaseGameObject_list_BB47C4 = alive_new<DynamicArrayT<BaseGameObject>>();
+        gBaseGameObject_list_BB47C4 = ae_new<DynamicArrayT<BaseGameObject>>();
         gBaseGameObject_list_BB47C4->ctor_40CA60(50);
 
         ScreenManager sm;

@@ -348,7 +348,7 @@ int CC MusicController::Create_47FC40()
         return 0;
     }
 
-    pMusicController_5C3020 = alive_new<MusicController>();
+    pMusicController_5C3020 = ae_new<MusicController>();
     if (pMusicController_5C3020)
     {
         // NOTE: OG bug - only ctor was guarded by null check
@@ -464,7 +464,7 @@ BaseGameObject* MusicController::vdtor_47EF20(signed int flags)
     dtor_47EF50();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

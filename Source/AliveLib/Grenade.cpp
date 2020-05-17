@@ -95,7 +95,7 @@ void Grenade::VTimeToExplodeRandom_411490()
 int CC Grenade::CreateFromSaveState_449410(const BYTE* pBuffer)
 {
     auto pState = reinterpret_cast<const Grenade_SaveState*>(pBuffer);
-    auto pGrenade = alive_new<Grenade>();
+    auto pGrenade = ae_new<Grenade>();
 
     pGrenade->ctor_447F70(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A, 0, 0, 0);
     pGrenade->field_C_objectId = pState->field_4_obj_id;
@@ -277,7 +277,7 @@ void Grenade::vTimeToExplodeRandom_4480A0()
 
 void Grenade::BlowUp_4483C0(__int16 bSmallExplosion)
 {
-    auto pExplosion = alive_new<Explosion>();
+    auto pExplosion = ae_new<Explosion>();
     if (pExplosion)
     {
         pExplosion->ctor_4A1200(
@@ -292,7 +292,7 @@ void Grenade::BlowUp_4483C0(__int16 bSmallExplosion)
 
     field_120_state = GrenadeStates::eState_6_WaitForExplodeEnd;
 
-    auto pGibs = alive_new<Gibs>();
+    auto pGibs = ae_new<Gibs>();
     if (pGibs)
     {
         pGibs->ctor_40FB40(5, field_B8_xpos, field_BC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, bSmallExplosion);
@@ -320,7 +320,7 @@ Grenade* Grenade::vdtor_4480E0(signed int flags)
 
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

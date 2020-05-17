@@ -390,7 +390,7 @@ Door* Door::vdtor_41E9D0(signed int flags)
     dtor_41EA00();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -452,7 +452,7 @@ void Door::vUpdate_41EBE0()
                 if (!SwitchStates_Get_466020(field_100_switch_id) && field_F8_door_type == DoorTypes::eType_2)
                 {
                     SND_SEQ_Play_4CAB10(SeqId::SecretMusic_32, 1, 127, 127);
-                    auto pMusicTrigger = alive_new<MusicTrigger>();
+                    auto pMusicTrigger = ae_new<MusicTrigger>();
                     if (pMusicTrigger)
                     {
                         pMusicTrigger->ctor_47FF10(5, 0, 0, 0);
@@ -613,7 +613,7 @@ TrainDoor* TrainDoor::vdtor_4DD1D0(signed int flags)
     dtor_4DD200();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }

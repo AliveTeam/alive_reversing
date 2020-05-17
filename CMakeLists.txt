@@ -59,7 +59,6 @@ add_subdirectory(Source/AliveLibCommon)
 add_subdirectory(Source/AliveLibAO)
 add_subdirectory(Source/AliveLib)
 add_subdirectory(Source/AliveExe)
-add_subdirectory(Source/Tools)
 
 if (WIN32)
     add_subdirectory(Source/AliveDll)

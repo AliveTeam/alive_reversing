@@ -103,7 +103,7 @@ private:
         dtor_4229F0();
         if (flags & 1)
         {
-            alive_delete_free(this);
+            ae_delete_free_495540(this);
         }
         return this;
     }
@@ -180,7 +180,7 @@ Electrocute* Electrocute::ctor_4E5E80(BaseAliveGameObject* pTargetObj, __int16 b
     case Types::eGlukkon_67:
     case Types::eAbe_69:
     case Types::eSlig_125:
-        field_40_pPalData = reinterpret_cast<WORD*>(alive_malloc_non_zero(sizeof(WORD) * pTargetObj->field_20_animation.field_90_pal_depth));
+        field_40_pPalData = reinterpret_cast<WORD*>(ae_malloc_non_zero_4954F0(sizeof(WORD) * pTargetObj->field_20_animation.field_90_pal_depth));
         Pal_Copy_483560(
             pTargetObj->field_20_animation.field_8C_pal_vram_xy,
             pTargetObj->field_20_animation.field_90_pal_depth,
@@ -206,7 +206,7 @@ Electrocute* Electrocute::vdtor_4E6060(signed int flags)
     dtor_4E6090();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -227,7 +227,7 @@ void Electrocute::dtor_4E6090()
 
     if (field_40_pPalData)
     {
-        alive_non_zero_free(field_40_pPalData);
+        ae_non_zero_free_495560(field_40_pPalData);
     }
 
     // NOTE: omitted vtable vTbl_IClass_548128
@@ -278,7 +278,7 @@ void Electrocute::vUpdate_4E6240()
             break;
 
         case 1:
-            field_30_pPalOverwriters[0] = alive_new<PalleteOverwriter>();
+            field_30_pPalOverwriters[0] = ae_new<PalleteOverwriter>();
             if (field_30_pPalOverwriters[0])
             {
                 field_30_pPalOverwriters[0]->ctor_4228D0(
@@ -287,7 +287,7 @@ void Electrocute::vUpdate_4E6240()
                     static_cast<short>(Pal_Make_Colour_4834C0(255u, 255, 255, 1)));
             }
 
-            field_30_pPalOverwriters[1] = alive_new<PalleteOverwriter>();
+            field_30_pPalOverwriters[1] = ae_new<PalleteOverwriter>();
             if (field_30_pPalOverwriters[1])
             {
                 field_30_pPalOverwriters[1]->ctor_4228D0(
@@ -300,7 +300,7 @@ void Electrocute::vUpdate_4E6240()
 
             if (field_3C_extraOverwriter)
             {
-                field_30_pPalOverwriters[2] = alive_new<PalleteOverwriter>();
+                field_30_pPalOverwriters[2] = ae_new<PalleteOverwriter>();
                 if (field_30_pPalOverwriters[2])
                 {
                     field_30_pPalOverwriters[2]->ctor_4228D0(

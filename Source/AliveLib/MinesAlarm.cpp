@@ -14,7 +14,7 @@ void CC MinesAlarm::Create_4177F0(int timer)
 {
     if (!bCreated_5BC030)
     {
-        auto pMinesAlarm = alive_new<MinesAlarm>();
+        auto pMinesAlarm = ae_new<MinesAlarm>();
         if (pMinesAlarm)
         {
             pMinesAlarm->ctor_417870(timer);
@@ -25,7 +25,7 @@ void CC MinesAlarm::Create_4177F0(int timer)
 int CC MinesAlarm::CreateFromSaveState_417740(const BYTE* pBuffer)
 {
     auto pState = reinterpret_cast<const MinesAlarm_State*>(pBuffer);
-    auto pMinesAlarm = alive_new<MinesAlarm>();
+    auto pMinesAlarm = ae_new<MinesAlarm>();
     if (pMinesAlarm)
     {
         pMinesAlarm->ctor_417870(pState->field_4_timer);
@@ -82,7 +82,7 @@ BaseGameObject* MinesAlarm::vdtor_4178B0(signed int flags)
     dtor_4178E0();
     if (flags & 1)
     {
-        alive_delete_free(this);
+        ae_delete_free_495540(this);
     }
     return this;
 }
@@ -114,7 +114,7 @@ void MinesAlarm::vUpdate_417910()
     {
         if (!pExplosionSet_5BBF68)
         {
-            auto pExplosionSet = alive_new<ExplosionSet>();
+            auto pExplosionSet = ae_new<ExplosionSet>();
             if (pExplosionSet)
             {
                 pExplosionSet->ctor_414CA0();
