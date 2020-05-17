@@ -11,7 +11,7 @@ bool RunningAsInjectedDll()
 
 extern "C"
 {
-    EXPORT void CC ForceThisDllToLoadInExoddusExe()
+    EXPORT void CC ForceThisDllToLoadInAbeWinExe()
     {
         // Never called because:
         // The patched Exoddus.exe loads this Dll and its WinMain calls this function but:
