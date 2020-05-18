@@ -4,10 +4,12 @@ An open source reimplementation of Oddworld: Abe's Exoddus.
 ## Discord/discussion/patreon server:
 https://discord.gg/khs6KKS
 
-## Patreons:
+## Patreons/supporters:
 - HTML_Earth
 - SligStorm
 - THEONLYDarkShadow
+- RoryF
+- LegnaX
 
 ## Contributing
 If you'd like to contribute to our reverse engineering efforts, make sure to follow our reverse engineering guidelines:
