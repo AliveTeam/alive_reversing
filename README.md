@@ -1,5 +1,5 @@
 # Alive_Reversing
-An open source reimplementation of Oddworld: Abe's Exoddus.
+An open source Re-implementation of Oddworld: Abe's Exoddus and Oddworld: Abe's Oddysee.
 
 ## Discord/discussion/patreon server:
 https://discord.gg/khs6KKS
@@ -52,25 +52,41 @@ If you'd like to contribute to our reverse engineering efforts, make sure to fol
  - Real-world Decompilation with IDA Pro https://www.youtube.com/watch?v=vb18UVF4a_o&index=1&list=PLQgy5xfkFQv2FyKPwYHkgy25yCyy7JGWG
  - Time lapse decompliation of a function from this project. See description for more hints, possibly play at a slower speed to see roughly what is going on. https://www.youtube.com/watch?v=pxm3F_pQHMk&feature=youtu.be
 
+## Cloning the source code & basic setup
+- Clone the repository with the `--recursive` option so that submodules are cloned.
+```
+git clone https://github.com/AliveTeam/alive_reversing.git --recursive
+```
+- Download [SDL2](https://www.libsdl.org/release/SDL2-devel-2.0.5-VC.zip).
+- Create a build directory in the repository root.
+- Create a SDL2 directory in the build directory.
+
 ### How to build
-- Clone the repo with the `--recursive` option so that submodules are cloned.
-- Download [SDL2](https://www.libsdl.org/release/SDL2-devel-2.0.5-VC.zip)
-- Create a `build` directory in `repo root`
-- Create a `SDL2` directory in the `build directory`
-- Extract `SDL2-devel-2.0.5-VC.zip` into freshly created `SDL2 directory`
-- Open a visual studio developer command prompt and `cd` into the `build` directory
-- Run `cmake .. -DSDL2_DIR=`**c:\ALIVE_REPO_ROOT**`\build\SDL2`
-- Run `msbuild /p:Configuration=Debug;Platform=Win32 ar.sln /m` to compile
-- Note that the output dll is hard coded to output at `C:\GOG Games\Abes Exoddus\AliveDll.dll`
-- Note that you need to either obtain a modified copy of `Exoddus.exe` or modify `Exoddus.exe` yourself to add `AliveDll.dll` to the imports list
+Extract `SDL2-devel-2.0.5-VC.zip` into freshly created `SDL2` directory
+Open a visual studio developer command prompt and `cd` into the `build` directory
+
+Run:
+```
+cmake .. -DSDL2_DIR=c:\alive_reversing\build\SDL2
+``` 
+(replace the directory with your own if it's not the same)
+
+Run:
+```
+msbuild /p:Configuration=Debug;Platform=Win32 ar.sln /m
+``` 
+to compile
 
 ### How to build using only VS2017 IDE
-- Clone the repo with the `--recursive` option so that submodules are cloned.
 - Download [SDL2](https://www.libsdl.org/release/SDL2-devel-2.0.5-VC.zip)
-- Extract it some where.
+- Extract `SDL2-devel-2.0.5-VC.zip` somewhere.
 - Launch VS2017.
-- Goto `File` -> `Open` -> `CMake`. Then choose the `CMakeLists.txt` from the root of this cloned git repo.
+- Goto `File` -> `Open` -> `CMake`. Then choose the `CMakeLists.txt` from the root of this cloned git repository.
 - Goto `CMake` -> `Change CMake settings` -> `CMakeLists.txt`.
 - Then choose `x86-debug` and click `select`.
-- This will open `CMakeSettings.json`, edit the line `cmakeCommandArgs` to contain `-DSDL2_DIR=Path_To_SDL2_Dir` and then click `generate` in the top yellow warning bar.
+- This will open `CMakeSettings.json`, edit the line `cmakeCommandArgs` to contain `-DSDL2_DIR=PATH_TO_YOUR_SDL2_DIRECTORY` and then click `generate` in the top yellow warning bar.
 - `CMake` -> `Build all` should now work.
+
+### Notes
+- The output dll is hard coded to output at `C:\GOG Games\Abes Exoddus\AliveDll.dll`
+- You need to either obtain a modified copy of `Exoddus.exe` or modify `Exoddus.exe` yourself to add `AliveDll.dll` to the imports list
