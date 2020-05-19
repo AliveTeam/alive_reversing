@@ -62,8 +62,8 @@ git clone https://github.com/AliveTeam/alive_reversing.git --recursive
 - Create a SDL2 directory in the build directory.
 
 ### How to build
-Extract `SDL2-devel-2.0.5-VC.zip` into freshly created `SDL2` directory
-Open a visual studio developer command prompt and `cd` into the `build` directory
+- Extract `SDL2-devel-2.0.5-VC.zip` into freshly created `SDL2` directory
+- Open a visual studio developer command prompt and `cd` into the `build` directory
 
 Run:
 ```
@@ -71,11 +71,10 @@ cmake .. -DSDL2_DIR=c:\alive_reversing\build\SDL2
 ``` 
 (replace the directory with your own if it's not the same)
 
-Run:
 ```
 msbuild /p:Configuration=Debug;Platform=Win32 ar.sln /m
 ``` 
-to compile
+to compile.
 
 ### How to build using only VS2017 IDE
 - Download [SDL2](https://www.libsdl.org/release/SDL2-devel-2.0.5-VC.zip)
