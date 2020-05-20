@@ -12,8 +12,6 @@ void Game_ForceLink()
 }
 
 
-ALIVE_VAR(1, 0x504618, class DynamicArray*, gObjList_drawables_504618, nullptr);
-
 
 struct Animation
 {
@@ -242,42 +240,3 @@ EXPORT void ResourceManager_Request_446C90(const char *, int , int , __int16 , i
 }
 
 ALIVE_VAR(1, 0x508BF4, BYTE, byte_508BF4, 0);
-
-struct Map
-{
-    __int16 field_0_current_level;
-    __int16 field_2_current_path;
-    __int16 field_4_current_camera;
-    __int16 field_6_state;
-    __int16 field_8_force_load;
-    __int16 field_A_level;
-    __int16 field_C_path;
-    __int16 field_E_camera;
-    __int16 field_10_screenChangeEffect;
-    __int16 field_12_fmv_base_id;
-    __int16 field_14_direction;
-    __int16 field_16;
-    int field_18_pAliveObj;
-    __int16 field_1C_cameraSwapEffect;
-    __int16 field_1E_door;
-    __int16 field_20;
-    __int16 field_22;
-    __int16 field_24;
-    __int16 field_26_door;
-    __int16 field_28_cd_or_overlay_num;
-    __int16 field_2A;
-    FP field_2C_camera_offset_x;
-    FP field_30_camera_offset_y;
-    int field_34_camera_array[5];
-    int field_48_stru_5[5];
-    int field_5C_path_res_array[30];
-    int field_D4;
-    __int16 field_D8;
-    __int16 field_DA;
-    __int16 field_DC;
-    __int16 field_DE;
-    int field_E0;
-};
-ALIVE_ASSERT_SIZEOF(Map, 0xE4);
-
-ALIVE_VAR(1, 0x507BA8, Map, gMap_507BA8, {});

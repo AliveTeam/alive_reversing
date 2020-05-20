@@ -9,6 +9,12 @@ SET(AliveLibSrcAO
    Game.cpp
    stdlib.hpp
    stdlib.cpp
+   EffectBase.hpp
+   EffectBase.cpp
+   Primitives.hpp
+   Primitives.cpp
+   Map.hpp
+   Map.cpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx_ao.h stdafx_ao.cpp AliveLibSrcAO)
