@@ -6,24 +6,6 @@
 
 void Primitives_ForceLink() { }
 
-ALIVE_VAR(1, 0xBD146C, BYTE, byte_BD146C, 0);
-
-static void SetCode(PrimHeader* pPrim, BYTE code)
-{
-    pPrim->rgb_code.code_or_pad = code;
-#if !_WIN32 || _WIN64
-    pPrim->hackPtr = nullptr;
-#endif
-}
-static void SetUnknown(PrimHeader* pPrim)
-{
-    pPrim->header.mNormal.field_5_unknown = byte_BD146C;
-}
-
-static void SetNumLongs(PrimHeader* pPrim, char numLongs)
-{
-    pPrim->header.mNormal.field_4_num_longs = numLongs;
-}
 
 void CC Init_SetTPage_4F5B60(Prim_SetTPage* pPrim, int /*notUsed1*/, int /*notUsed2*/, int tpage)
 {
@@ -34,7 +16,6 @@ void CC Init_SetTPage_4F5B60(Prim_SetTPage* pPrim, int /*notUsed1*/, int /*notUs
 
 void CC Init_PrimClipper_4F5B80(Prim_PrimClipper* pPrim, const PSX_RECT* pClipRect)
 {
-    // The memory layout of this is crazy..
     SetUnknown(&pPrim->mBase);
     SetCode(&pPrim->mBase, PrimTypeCodes::ePrimClipper);
     pPrim->field_C_x = pClipRect->x;
@@ -51,19 +32,6 @@ void CC InitType_ScreenOffset_4F5BB0(Prim_ScreenOffset* pPrim, const PSX_Pos16* 
     pPrim->field_E_yoff = pOffset->y;
 }
 
-void Init_Sprt_8(Prim_Sprt_8* pPrim)
-{
-    SetNumLongs(&pPrim->mBase.header, 99);
-    SetUnknown(&pPrim->mBase.header);
-    SetCode(&pPrim->mBase.header, PrimTypeCodes::eSprt8);
-}
-
-void Init_Sprt_16(Prim_Sprt_16* pPrim)
-{
-    SetNumLongs(&pPrim->mBase.header, 99);
-    SetUnknown(&pPrim->mBase.header);
-    SetCode(&pPrim->mBase.header, PrimTypeCodes::eSprt16);
-}
 
 void CC Sprt_Init_4F8910(Prim_Sprt* pPrim)
 {
@@ -72,100 +40,7 @@ void CC Sprt_Init_4F8910(Prim_Sprt* pPrim)
     SetCode(&pPrim->mBase.header, PrimTypeCodes::eSprt);
 }
 
-// Note: Inlined everywhere in real game
-void PolyF3_Init(Poly_F3* pPrim)
-{
-    SetNumLongs(&pPrim->mBase.header, 4);
-    SetUnknown(&pPrim->mBase.header);
-    SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyF3);
-}
 
-void PolyFT3_Init(Poly_FT3* pPrim)
-{
-    SetNumLongs(&pPrim->mBase.header, 99);
-    SetUnknown(&pPrim->mBase.header);
-    SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyFT3);
-}
-
-void PolyGT3_Init(Poly_GT3* pPrim)
-{
-    SetNumLongs(&pPrim->mBase.header, 99);
-    SetUnknown(&pPrim->mBase.header);
-    SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyGT3);
-}
-
-void Line_F2_Init(Line_F2* pPrim)
-{
-    SetNumLongs(&pPrim->mBase.header, 4);
-    SetUnknown(&pPrim->mBase.header);
-    SetCode(&pPrim->mBase.header, PrimTypeCodes::eLineF2);
-}
-
-void Line_F3_Init(Line_F3* pPrim)
-{
-    SetNumLongs(&pPrim->mBase.header, 4);
-    SetUnknown(&pPrim->mBase.header);
-    SetCode(&pPrim->mBase.header, PrimTypeCodes::eLineF3);
-}
-
-void Line_F4_Init(Line_F4* pPrim)
-{
-    SetNumLongs(&pPrim->mBase.header, 4);
-    SetUnknown(&pPrim->mBase.header);
-    SetCode(&pPrim->mBase.header, PrimTypeCodes::eLineF4);
-}
-
-// Note: Inlined everywhere in real game
-void LineG2_Init(Line_G2* pPrim)
-{
-    SetNumLongs(&pPrim->mBase.header, 4);
-    SetUnknown(&pPrim->mBase.header);
-    SetCode(&pPrim->mBase.header, PrimTypeCodes::eLineG2);
-}
-
-void LineG3_Init(Line_G3* pPrim)
-{
-    SetNumLongs(&pPrim->mBase.header, 4);
-    SetUnknown(&pPrim->mBase.header);
-    SetCode(&pPrim->mBase.header, PrimTypeCodes::eLineG3);
-}
-
-// Note: Inlined everywhere in real game
-void LineG4_Init(Line_G4* pPrim)
-{
-    SetNumLongs(&pPrim->mBase.header, 9);
-    SetUnknown(&pPrim->mBase.header);
-    SetCode(&pPrim->mBase.header, PrimTypeCodes::eLineG4);
-    pPrim->field_28_pad = 0x55555555;
-}
-
-void Init_Tile1(Prim_Tile_1* pPrim)
-{
-    SetNumLongs(&pPrim->mBase.header, 99);
-    SetUnknown(&pPrim->mBase.header);
-    SetCode(&pPrim->mBase.header, PrimTypeCodes::eTile1);
-}
-
-void Init_Tile8(Prim_Tile_8* pPrim)
-{
-    SetNumLongs(&pPrim->mBase.header, 99);
-    SetUnknown(&pPrim->mBase.header);
-    SetCode(&pPrim->mBase.header, PrimTypeCodes::eTile8);
-}
-
-void Init_Tile16(Prim_Tile_16* pPrim)
-{
-    SetNumLongs(&pPrim->mBase.header, 99);
-    SetUnknown(&pPrim->mBase.header);
-    SetCode(&pPrim->mBase.header, PrimTypeCodes::eTile16);
-}
-
-void Init_Tile(Prim_Tile* pPrim)
-{
-    SetNumLongs(&pPrim->mBase.header, 99);
-    SetUnknown(&pPrim->mBase.header);
-    SetCode(&pPrim->mBase.header, PrimTypeCodes::eTile);
-}
 
 void CC PolyG3_Init_4F8890(Poly_G3* pPrim)
 {

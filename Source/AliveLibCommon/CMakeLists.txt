@@ -7,6 +7,8 @@ SET(AliveLibSrcCommon
     Function.cpp
     Function.hpp
     FunctionFwd.hpp
+    Primitives_common.hpp
+    Primitives_common.cpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx_common.h stdafx_common.cpp AliveLibSrcCommon)

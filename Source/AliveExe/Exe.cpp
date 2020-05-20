@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include <iostream>
+#include <string>
 
 #if _WIN32
 #include <windows.h>
@@ -16,10 +17,32 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     ExportHooker hooker(hInstance);
     hooker.Apply();
 
+#ifdef AE_EXE
+    LOG_INFO("AE standalone starting...");
     // In the real game these are called before main, but shouldn't really matter in this case
-    Static_Inits();
-
+    Static_Inits_AE();
     return WinMain_4EE631(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
+#elif AO_EXE
+    LOG_INFO("AO standalone starting...");
+    // TODO: Reverse the entry point function
+    return 0;
+#else
+    // Default to AE but allow switching to AO with a command line, if AO is anywhere in the command line then assume we want to run AO
+    if (strstr(lpCmdLine, "AO"))
+    {
+        LOG_INFO("AO standalone starting...");
+        // TODO: Reverse the entry point function
+        return 0;
+    }
+    else
+    {
+        LOG_INFO("AE standalone starting...");
+        // In the real game these are called before main, but shouldn't really matter in this case
+        Static_Inits_AE();
+        return WinMain_4EE631(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
+    }
+    return 0;
+#endif
 }
 #else
 
@@ -28,15 +51,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #if __ANDROID__
 extern "C" __attribute__((visibility("default"))) int SDL_main(int argc, char** argv)
 #else
-int main()
+int main(int argc, char** argv)
 #endif
 {
-    // In the real game these are called before main, but shouldn't really matter in this case
-    Static_Inits();
-
-    // TOOD: Convert command line arguments to what WinMain_4EE631 expects
-    char cmdArgsHack[2] = "";
-    return WinMain_4EE631(0, 0, cmdArgsHack, 1);
+    std::string args;
+    for (int i = 0; i < argc; i++)
+    {
+        args += argv[i] + " ";
+    }
+    return WinMain(0, 0, args.c_str(), 1);
 }
 #endif
 

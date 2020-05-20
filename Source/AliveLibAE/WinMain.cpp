@@ -103,7 +103,7 @@ void Winmain_ForceLink()
 
 // Manual calls to construct global static objects when not running as dll/injected into the real game.
 // There are only a very small amount of global static constructors to call.
-EXPORT void Static_Inits()
+EXPORT void Static_Inits_AE()
 {
     static_ObjectIds_init_43EC30();
     Static_init_dynamic_array_41F3A0();
