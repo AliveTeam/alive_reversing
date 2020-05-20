@@ -5,8 +5,9 @@
 #if _WIN32
 #include <windows.h>
 #include "ExportHooker.hpp"
-#include "WinMain.hpp"
 #endif
+
+#include "WinMain.hpp"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
