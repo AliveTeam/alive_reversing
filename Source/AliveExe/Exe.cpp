@@ -6,6 +6,7 @@
 #include <windows.h>
 #include "ExportHooker.hpp"
 #include "WinMain.hpp"
+#endif
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
@@ -14,8 +15,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     SetConsoleTitleA("Debug Console");
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
     RedirectIoStream(true);
+
+#if _WIN32
     ExportHooker hooker(hInstance);
     hooker.Apply();
+#endif
 
 #ifdef AE_EXE
     LOG_INFO("AE standalone starting...");
@@ -44,9 +48,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     return 0;
 #endif
 }
-#else
-
-#include "WinMain.hpp"
 
 #if __ANDROID__
 extern "C" __attribute__((visibility("default"))) int SDL_main(int argc, char** argv)
@@ -57,11 +58,10 @@ int main(int argc, char** argv)
     std::string args;
     for (int i = 0; i < argc; i++)
     {
-        args += argv[i] + " ";
+        args += argv[i] + std::string(" ");
     }
-    return WinMain(0, 0, args.c_str(), 1);
+    return WinMain(0, 0, const_cast<LPSTR>(args.c_str()), 1);
 }
-#endif
 
 bool RunningAsInjectedDll()
 {
