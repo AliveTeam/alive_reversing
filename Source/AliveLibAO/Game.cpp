@@ -6,6 +6,14 @@
 #include "../AliveLibAE/FixedPoint.hpp"
 #include "BaseGameObject.hpp"
 
+START_NS_AO
+
+ALIVE_VAR(1, 0x507670, int, gnFrameCount_507670, 0);
+ALIVE_VAR(1, 0x504618, DynamicArray*, gObjList_drawables_504618, nullptr);
+
+END_NS_AO
+
+
 void Game_ForceLink()
 {
 

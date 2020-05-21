@@ -11,7 +11,7 @@ class EffectBase : public BaseGameObject
 public:
     EXPORT EffectBase *ctor_461550(__int16 layer, char abr);
 
-private:
+protected:
 
     __int16 field_10_path_id;
     __int16 field_12_level_id;

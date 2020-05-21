@@ -125,7 +125,6 @@ SET(AliveLibAESrc
     Compression.cpp
     FG1.hpp
     FG1.cpp
-    BitField.hpp
     Particle.hpp
     Particle.cpp
     Movie.hpp
