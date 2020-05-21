@@ -1,6 +1,7 @@
 #pragma once
 
 #include "FunctionFwd.hpp"
+#include "BitField.hpp"
 
 void AliveLibAO_ForceLink();
 
@@ -8,9 +9,34 @@ EXPORT void CC Remove_Item_417350(void*);
 
 START_NS_AO
 
+
+enum class Types : __int16
+{
+    eNone_0 = 0,
+    eAlarm_1 = 1,
+
+    eEffectBase_79 = 79,
+};
+
 class BaseGameObject
 {
 public:
+    enum Options
+    {
+        // TODO: Check as objects are reversed - assumed to be the same as AE for now
+        eListAddFailed_Bit1 = 0x001,
+        eUpdatable_Bit2 = 0x002,
+        eDead_Bit3 = 0x004,
+        eDrawable_Bit4 = 0x008,
+        eIsBaseAnimatedWithPhysicsObj_Bit5 = 0x010,
+        eIsBaseAliveGameObject_Bit6 = 0x020,
+        eCanExplode_Bit7 = 0x040,
+        eInteractive_Bit8 = 0x080,
+        eSurviveDeathReset_Bit9 = 0x100,
+        eUpdateDuringCamSwap_Bit10 = 0x200,
+        eCantKill_Bit11 = 0x400
+    };
+
     EXPORT BaseGameObject* ctor_487E10(__int16 arraySize);
     EXPORT void dtor_487DF0();
 
@@ -37,8 +63,8 @@ public:
     }
 
 public:
-    __int16 field_4_typeId;
-    unsigned __int16 field_6_flags;
+    Types field_4_typeId;
+    BitField16<Options> field_6_flags;
     int field_8_update_delay;
     char field_C_bCanKill;
     char field_D;

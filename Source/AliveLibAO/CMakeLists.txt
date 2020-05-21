@@ -15,6 +15,8 @@ SET(AliveLibSrcAO
    Primitives.cpp
    Map.hpp
    Map.cpp
+   Alarm.hpp
+   Alarm.cpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx_ao.h stdafx_ao.cpp AliveLibSrcAO)

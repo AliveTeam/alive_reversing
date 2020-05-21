@@ -9,6 +9,7 @@ SET(AliveLibSrcCommon
     FunctionFwd.hpp
     Primitives_common.hpp
     Primitives_common.cpp
+    BitField.hpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx_common.h stdafx_common.cpp AliveLibSrcCommon)

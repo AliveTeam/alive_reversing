@@ -53,15 +53,14 @@ Alarm* Alarm::ctor_4091F0(__int16 a2, __int16 switchId, __int16 a4, __int16 laye
 {
     ctor_4AB7A0(layer, 3);
 
-    SetVTable(this, 0x544074); // vTbl_GlukkonPanic_544074
+    SetVTable(this, 0x544074);
     field_4_typeId = Types::eAlarm_1;
 
     field_78_r_value = 0;
     field_90_state = eState_1_AfterConstructed;
     field_84_tlvOffsetLevelPathCamId = 0xFFFF;
-    const int v7 = sGnFrame_5C1B84 + a4;
-    field_7C_15_timer = v7;
-    field_80_duration_timer = v7 + a2;
+    field_7C_15_timer = sGnFrame_5C1B84 + a4;
+    field_80_duration_timer = field_7C_15_timer + a2;
     field_88_switch_id = switchId;
 
     alarmInstanceCount_5C1BB4++;
