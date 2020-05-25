@@ -346,7 +346,7 @@ void DDCheat::Update_415780()
         {
             DebugStr_4F5560(
                 "\n%sP%dC%d gnframe=%5d",
-                sPathData_559660.paths[static_cast<int>(gMap_5C3030.field_0_current_level)].field_18_lvl_name,
+                sPathData_559660.paths[static_cast<int>(gMap_5C3030.field_0_current_level)].field_14_lvl_name,
                 gMap_5C3030.field_2_current_path,
                 gMap_5C3030.field_4_current_camera,
                 sGnFrame_5C1B84);

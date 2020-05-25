@@ -67,8 +67,8 @@ public:
     BitField16<Options> field_6_flags;
     int field_8_update_delay;
     char field_C_bCanKill;
-    char field_D;
-    __int16 field_E;
+    char field_D; // pad ?
+    __int16 field_E; // ??
 };
 ALIVE_ASSERT_SIZEOF(BaseGameObject, 0x10);
 

@@ -7,7 +7,8 @@
 #include "ExportHooker.hpp"
 #endif
 
-#include "WinMain.hpp"
+#include "../AliveLibAE/WinMain.hpp"
+#include "../AliveLibAO/WinMain.hpp"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
@@ -29,15 +30,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     return WinMain_4EE631(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
 #elif AO_EXE
     LOG_INFO("AO standalone starting...");
-    // TODO: Reverse the entry point function
-    return 0;
+    Static_Inits_AO();
+    return WinMain_48EF50(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
 #else
     // Default to AE but allow switching to AO with a command line, if AO is anywhere in the command line then assume we want to run AO
     if (strstr(lpCmdLine, "AO"))
     {
         LOG_INFO("AO standalone starting...");
-        // TODO: Reverse the entry point function
-        return 0;
+        Static_Inits_AO();
+        return WinMain_48EF50(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
     }
     else
     {

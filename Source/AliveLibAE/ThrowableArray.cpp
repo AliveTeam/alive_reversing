@@ -21,7 +21,7 @@ void CCSTD FreeResourceArray_49AEC0(DynamicArrayT<BYTE*>* pArray)
 void CC LoadRockTypes_49AB30(LevelIds levelNumber, unsigned __int16 pathNumber)
 {
     BOOL bDoLoadingLoop = FALSE;
-    const BYTE throwableTypeIdx = LOBYTE(Path_Get_Bly_Record_460F30(levelNumber, pathNumber)->field_C);
+    const BYTE throwableTypeIdx = LOBYTE(Path_Get_Bly_Record_460F30(levelNumber, pathNumber)->field_C_overlay_id);
 
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbepickResID, 0, 0))
     {

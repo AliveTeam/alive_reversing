@@ -585,7 +585,7 @@ void Command_Teleport(const std::vector<std::string>& args)
         bool found = false;
         for (short i = 0; i < sizeof(sPathData_559660.paths) / sizeof(PathRoot);i++)
         {
-            if (!strcmpi(sPathData_559660.paths[i].field_18_lvl_name, args[0].c_str()))
+            if (!strcmpi(sPathData_559660.paths[i].field_14_lvl_name, args[0].c_str()))
             {
                 level = i;
                 found = true;
@@ -679,7 +679,7 @@ void Command_DDV(const std::vector<std::string>& args)
             break;
         }
 
-        if (!Display_Full_Screen_Message_Blocking_465820(sPathData_559660.paths[sLevelId_dword_5CA408].field_1C_unused, 1))
+        if (!Display_Full_Screen_Message_Blocking_465820(sPathData_559660.paths[sLevelId_dword_5CA408].field_1A_unused, 1))
         {
             break;
         }
