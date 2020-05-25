@@ -30,15 +30,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     return WinMain_4EE631(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
 #elif AO_EXE
     LOG_INFO("AO standalone starting...");
-    Static_Inits_AO();
-    return WinMain_48EF50(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
+    AO::Static_Inits_AO();
+    return AO::WinMain_48EF50(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
 #else
     // Default to AE but allow switching to AO with a command line, if AO is anywhere in the command line then assume we want to run AO
     if (strstr(lpCmdLine, "AO"))
     {
         LOG_INFO("AO standalone starting...");
-        Static_Inits_AO();
-        return WinMain_48EF50(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
+        AO::Static_Inits_AO();
+        return AO::WinMain_48EF50(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
     }
     else
     {

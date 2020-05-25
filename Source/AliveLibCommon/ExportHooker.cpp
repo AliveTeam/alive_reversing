@@ -315,7 +315,8 @@ void ExportHooker::OnExport(PCHAR pszName, PVOID pCode)
                 // The code below treats this var as a function causing false positive of duplicated addresses. Therefore this hack filters out global static
                 // done booleans that have been exported for unknown reasons.
                 // This can also have for kAddr.
-                LOG_WARNING("Ignoring done static boolean which has for some reason been exported " << exportedFunctionName);
+                // Log turned off for now as its a bit spammy in AO
+                //LOG_WARNING("Ignoring done static boolean which has for some reason been exported " << exportedFunctionName);
                 return;
             }
 
