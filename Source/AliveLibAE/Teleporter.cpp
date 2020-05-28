@@ -168,7 +168,7 @@ void Teleporter::vUpdate_4DC400()
         field_30_state = States::eState_Into_Teleporter_1;
         field_50_objId = Teleporter::Create_ElectrocuteEffect_4DCEB0()->field_8_object_id;
 
-        SFX_Play_46FBA0(49u, 60, -400);
+        SFX_Play_46FBA0(SoundEffect::Zap1_49, 60, -400);
         sControlledCharacter_5C1B8C->field_114_flags.Set(Flags_114::e114_Bit10);
         
         SpawnRingSparks(&field_34_mTlvData);
@@ -293,7 +293,7 @@ void Teleporter::vUpdate_4DC400()
             }
         }
         
-        SFX_Play_46FBA0(0x31u, 60, -300, tlvData.field_1C_scale != 0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
+        SFX_Play_46FBA0(SoundEffect::Zap1_49, 60, -300, tlvData.field_1C_scale != 0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
         SpawnRingSparks(&tlvData);
 
         if (tlvData.field_1C_scale)

@@ -332,7 +332,7 @@ void SecurityDoor::vUpdate_4AC380()
         field_12A = 1;
         SwitchStates_Set_465FF0(field_FA_id, 1);
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
-        SFX_Play_46FBA0(88u, 127, -700);
+        SFX_Play_46FBA0(SoundEffect::GlukkonSwitchBleh_88, 127, -700);
         field_F8_state = 1;
         field_124_timer = sGnFrame_5C1B84 + 15;
         return;
@@ -342,7 +342,7 @@ void SecurityDoor::vUpdate_4AC380()
         {
             return;
         }
-        SFX_Play_46FBA0(38u, 60, -720);
+        SFX_Play_46FBA0(SoundEffect::SecurityDoorDeny_38, 60, -720);
         field_F8_state = 13;
         field_124_timer = sGnFrame_5C1B84 + 15;
         return;
@@ -352,7 +352,7 @@ void SecurityDoor::vUpdate_4AC380()
         {
             return;
         }
-        SFX_Play_46FBA0(87u, 127, -1000);
+        SFX_Play_46FBA0(SoundEffect::SecurityDoorLaugh_87, 127, -1000);
         field_F8_state = 0;
         field_124_timer = sGnFrame_5C1B84 + 90;
         return;

@@ -130,9 +130,9 @@ void GasEmitter::vUpdate_43CB70()
 
         if (!sMainGasEmitter_5BD4C8)
         {
-            SFX_Play_46FA90(82u, 127);
+            SFX_Play_46FA90(SoundEffect::Gas1_82, 127);
             sMainGasEmitter_5BD4C8 = this;
-            sGasEmiterAudioMask_5BD4CC = SFX_Play_46FA90(83u, 127);
+            sGasEmiterAudioMask_5BD4CC = SFX_Play_46FA90(SoundEffect::Gas2_83, 127);
         }
 
     }

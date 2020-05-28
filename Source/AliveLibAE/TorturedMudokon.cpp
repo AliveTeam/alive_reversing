@@ -252,7 +252,7 @@ void TorturedMudokon::vUpdate_47BF80()
             pFlash->ctor_428570(39, rgbBase + 50, rgbBase + 50, rgbBase + 110, 1, 1, 1);
         }
         field_18C.field_4_flags.Set(AnimFlags::eBit3_Render);
-        SFX_Play_46FA90(39, 70);
+        SFX_Play_46FA90(SoundEffect::ElectricZap_39, 70);
         const short sndRnd = Math_RandomRange_496AB0(0, 3) - 1;
         if (sndRnd)
         {

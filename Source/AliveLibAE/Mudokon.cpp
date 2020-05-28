@@ -1468,7 +1468,7 @@ __int16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
         Event_Broadcast_422BC0(kEventMudokonDied, this);
         if (pFrom->field_4_typeId == Types::eGasClock_23)
         {
-            SFX_Play_46FBA0(81u, 127, 128);
+            SFX_Play_46FBA0(SoundEffect::Choke_81, 127, 128);
         }
         else
         {
@@ -1596,8 +1596,8 @@ __int16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
             field_106_current_motion = Mud_Motion::KnockForward_45_474180;
 
             VUpdateAnimRes_474D80();
-            SFX_Play_46FA90(64u, 127);
-            SFX_Play_46FA90(47u, 90);
+            SFX_Play_46FA90(SoundEffect::KillEffect_64, 127);
+            SFX_Play_46FA90(SoundEffect::FallingItemHit_47, 90);
         }
         else
         {
@@ -4990,7 +4990,7 @@ __int16 Mudokon::AI_ShrivelDeath_5_4714A0()
                 2, 128, 128, 128);
 
             // Fizzle sound
-            SFX_Play_46FBA0(79, 25, FP_GetExponent(FP_FromInteger(2200) * field_CC_sprite_scale));
+            SFX_Play_46FBA0(SoundEffect::Vaporize_79, 25, FP_GetExponent(FP_FromInteger(2200) * field_CC_sprite_scale));
         }
     }
 
@@ -5888,7 +5888,7 @@ void Mudokon::Chisel_11_4732D0()
         {
             if (sGnFrame_5C1B84 & 1)
             {
-                SFX_Play_46FA90(91, 0, field_CC_sprite_scale);
+                SFX_Play_46FA90(SoundEffect::Chisel_91, 0, field_CC_sprite_scale);
 
                 auto pSpark = ae_new<Spark>();
                 if (pSpark)
@@ -5969,11 +5969,11 @@ void Mudokon::CrouchScrub_14_473560()
     {
         if (field_20_animation.field_92_current_frame == 2)
         {
-            SFX_Play_46FA90(71, 0);
+            SFX_Play_46FA90(SoundEffect::Clean1_71, 0);
         }
         else if (field_20_animation.field_92_current_frame == 6)
         {
-            SFX_Play_46FA90(72, 0);
+            SFX_Play_46FA90(SoundEffect::Clean2_72, 0);
         }
     }
 
@@ -6437,7 +6437,7 @@ void Mudokon::JumpMid_36_474570()
     auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds_5C1B70.Find_449CF0(field_11C_bird_portal_id));
     if (field_20_animation.field_92_current_frame == 5)
     {
-        SFX_Play_46FBA0(17u, 40, 2400);
+        SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
     }
 
     PSX_RECT rect = {};

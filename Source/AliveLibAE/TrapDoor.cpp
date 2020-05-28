@@ -270,8 +270,8 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
                 gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9 ||
                 gMap_5C3030.field_0_current_level == LevelIds::eBrewery_Ender_10)
             {
-                SFX_Play_46FC20(0x50u, 45, direction);
-                SFX_Play_46FC20(0x4Cu, 90, direction);
+                SFX_Play_46FC20(SoundEffect::IndustrialTrigger_80, 45, direction);
+                SFX_Play_46FC20(SoundEffect::IndustrialNoise1_76, 90, direction);
             }
         }
         break;
@@ -279,7 +279,7 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
     case TrapDoorState::eState_1:
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            SFX_Play_46FC20(0x2Bu, 70, direction);
+            SFX_Play_46FC20(SoundEffect::TrapdoorOpen_43, 70, direction);
             field_136_state = TrapDoorState::eState_2;
             field_130_stay_open_time2 = field_13C_stay_open_time;
         }
@@ -304,8 +304,8 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
                 gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9 ||
                 gMap_5C3030.field_0_current_level == LevelIds::eBrewery_Ender_10)
             {
-                SFX_Play_46FC20(0x4Eu, 60, direction);
-                SFX_Play_46FC20(0x4Du, 90, direction);
+                SFX_Play_46FC20(SoundEffect::IndustrialNoise3_78, 60, direction);
+                SFX_Play_46FC20(SoundEffect::IndustrialNoise2_77, 90, direction);
             }
         }
         break;
@@ -313,7 +313,7 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
     case TrapDoorState::eState_3:
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            SFX_Play_46FC20(0x2Au, 70, direction);
+            SFX_Play_46FC20(SoundEffect::TrapdoorClose_42, 70, direction);
             Add_To_Collisions_Array_4DDA20();
             field_136_state = TrapDoorState::eState_0;
             SwitchStates_Set_465FF0(field_134_switch_idx, field_138_switch_state == 0);

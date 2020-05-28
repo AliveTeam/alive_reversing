@@ -721,7 +721,7 @@ void Command_Ring(const std::vector<std::string>& args)
         FP_FromInteger((rect.y + rect.h) / 2),
         static_cast<RingTypes>(ringType), sActiveHero_5C1B68->field_CC_sprite_scale);
 
-    SFX_Play_46FBA0(0x11u, 25, 2650);
+    SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 25, 2650);
 }
 
 struct DebugKeyBinds

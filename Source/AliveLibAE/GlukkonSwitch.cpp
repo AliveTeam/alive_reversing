@@ -286,7 +286,7 @@ void GlukkonSwitch::vUpdate_445200()
         {
             return;
         }
-        SFX_Play_46FBA0(0x58u, 127, -700); //Bleh!
+        SFX_Play_46FBA0(SoundEffect::GlukkonSwitchBleh_88, 127, -700); //Bleh!
         Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak::Laugh_7, 127, -200, 0);
         field_20_animation.Set_Animation_Data_409C80(1528, nullptr);
         SwitchStates_Do_Operation_465F00(field_FA_ok_id, SwitchOp::eToggle_2);

@@ -399,7 +399,7 @@ void MotionDetector::vUpdate_468A90()
                     {
                         if (sGnFrame_5C1B84 % 2)
                         {
-                            SFX_Play_46FA90(50, 45);
+                            SFX_Play_46FA90(SoundEffect::Zap2_50, 45);
                         }
                     }
 
@@ -483,7 +483,7 @@ void MotionDetector::vUpdate_468A90()
                     field_C0_path_number,
                     field_B8_xpos,
                     field_BC_ypos);
-                SFX_Play_46FC20(52, 0, soundDirection, field_CC_sprite_scale);
+                SFX_Play_46FC20(SoundEffect::MenuNavigation_52, 0, soundDirection, field_CC_sprite_scale);
             }
             else
             {
@@ -508,7 +508,7 @@ void MotionDetector::vUpdate_468A90()
                     field_C0_path_number,
                     field_B8_xpos,
                     field_BC_ypos);
-                SFX_Play_46FC20(52, 0, soundDirection, field_CC_sprite_scale);
+                SFX_Play_46FC20(SoundEffect::MenuNavigation_52, 0, soundDirection, field_CC_sprite_scale);
             }
             else
             {

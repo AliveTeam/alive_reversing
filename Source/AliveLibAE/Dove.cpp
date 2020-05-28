@@ -304,7 +304,7 @@ void Dove::vUpdate_41FAE0()
             if (!bExtraSeqStarted_5BC10C)
             {
                 bExtraSeqStarted_5BC10C = 13;
-                SFX_Play_46FA90(13u, 0);
+                SFX_Play_46FA90(SoundEffect::Dove_13, 0);
             }
         }
 

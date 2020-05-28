@@ -380,7 +380,7 @@ void Greeter::BounceBackFromShot_447B10()
     field_20_animation.Set_Animation_Data_409C80(50236, nullptr);
 
     const CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos);
-    SFX_Play_46FC20(121, 0, soundDirection, field_CC_sprite_scale);
+    SFX_Play_46FC20(SoundEffect::GreeterKnockback_121, 0, soundDirection, field_CC_sprite_scale);
 }
 
 void Greeter::HandleRollingAlong_447860()
@@ -587,8 +587,8 @@ void Greeter::ZapTarget_447320(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
         field_B8_xpos,
         field_BC_ypos);
 
-    SFX_Play_46FC20(49, 0, soundDirection, field_CC_sprite_scale);
-    SFX_Play_46FC20(50, 0, soundDirection, field_CC_sprite_scale);
+    SFX_Play_46FC20(SoundEffect::Zap1_49, 0, soundDirection, field_CC_sprite_scale);
+    SFX_Play_46FC20(SoundEffect::Zap2_50, 0, soundDirection, field_CC_sprite_scale);
     
     RandomishSpeak_447A70(GreeterSpeak::Laugh_3);
 
@@ -687,7 +687,7 @@ void Greeter::vUpdate_4469B0()
                 field_C0_path_number,
                 field_B8_xpos,
                 field_BC_ypos);
-            SFX_Play_46FC20(31, 10, soundDirection, field_CC_sprite_scale);
+            SFX_Play_46FC20(SoundEffect::WheelSqueak_31, 10, soundDirection, field_CC_sprite_scale);
         }
 
         field_C8_vely = FP_FromInteger(0);
@@ -775,7 +775,7 @@ void Greeter::vUpdate_4469B0()
                 field_C0_path_number,
                 field_B8_xpos,
                 field_BC_ypos);
-            SFX_Play_46FC20(31u, 10, soundDirection2, field_CC_sprite_scale);
+            SFX_Play_46FC20(SoundEffect::WheelSqueak_31, 10, soundDirection2, field_CC_sprite_scale);
         }
 
         field_C4_velx = -(field_CC_sprite_scale * FP_FromInteger(5));
@@ -863,7 +863,7 @@ void Greeter::vUpdate_4469B0()
                 field_B8_xpos,
                 hitY);
 
-            SFX_Play_46FC20(120, 0, soundDirection3, field_CC_sprite_scale);
+            SFX_Play_46FC20(SoundEffect::GreeterLand_120, 0, soundDirection3, field_CC_sprite_scale);
             if (field_C8_vely > -FP_FromInteger(1))
             {
                 field_C8_vely = FP_FromInteger(0);

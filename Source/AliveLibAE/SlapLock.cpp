@@ -139,7 +139,7 @@ void SlapLockWhirlWind::vUpdate_43DA90()
             if (!(static_cast<int>(sGnFrame_5C1B84) % 10))
             {
                 SFX_Play_46FBA0(
-                    108u,
+                    SoundEffect::FlyingSpirit2_108,
                     static_cast<short>(127 - (static_cast<int>(sGnFrame_5C1B84) - field_40_timer) / 2),
                     4 * (sGnFrame_5C1B84 - field_40_timer));
             }
@@ -156,11 +156,11 @@ void SlapLockWhirlWind::vUpdate_43DA90()
             {
                 if (static_cast<int>(sGnFrame_5C1B84) % 20)
                 {
-                    SFX_Play_46FA90(0x6Bu, 0);
+                    SFX_Play_46FA90(SoundEffect::FlyingSpirit1_107, 0);
                 }
                 else
                 {
-                    SFX_Play_46FA90(0x6Cu, 0);
+                    SFX_Play_46FA90(SoundEffect::FlyingSpirit2_108, 0);
                 }
             }
 
@@ -448,7 +448,7 @@ void SlapLock::vUpdate_43DF90()
 
             field_20_animation.Set_Animation_Data_409C80(6976, 0);
             field_120_state = SlapLockStates::State_1;
-            SFX_Play_46FA90(0x69u, 0);
+            SFX_Play_46FA90(SoundEffect::SpiritLockShake_105, 0);
             return;
 
         case SlapLockStates::State_1:
@@ -667,7 +667,7 @@ __int16 SlapLock::vTakeDamage_43E5D0(BaseGameObject* pFrom)
 
     field_120_state = SlapLockStates::State_2;
     SwitchStates_Do_Operation_465F00(field_118_pTlv->field_1E_option_id, SwitchOp::eToggle_2);
-    SFX_Play_46FA90(106u, 0, field_CC_sprite_scale);
+    SFX_Play_46FA90(SoundEffect::SpiritLockBreak_106, 0, field_CC_sprite_scale);
     Event_Broadcast_422BC0(kEventLoudNoise, this);
 
     auto pParticleBurst = ae_new<ParticleBurst>();

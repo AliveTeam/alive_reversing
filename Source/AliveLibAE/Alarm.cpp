@@ -166,7 +166,7 @@ void Alarm::vUpdate_409460()
         }
 
         field_90_state = eState_2_Enabling;
-        SFX_Play_46FA90(0x26u, 0);
+        SFX_Play_46FA90(SoundEffect::SecurityDoorDeny_38, 0);
         field_80_duration_timer = sGnFrame_5C1B84 + field_8A_duration;
         field_6E_r = field_78_r_value;
         break;
@@ -185,7 +185,7 @@ void Alarm::vUpdate_409460()
             }
 
             field_90_state = eState_2_Enabling;
-            SFX_Play_46FA90(0x26u, 0);
+            SFX_Play_46FA90(SoundEffect::SecurityDoorDeny_38, 0);
 
             if (!field_88_switch_id)
             {
@@ -210,7 +210,7 @@ void Alarm::vUpdate_409460()
         field_78_r_value = 100;
         field_90_state = eState_3_OnFlash;
         field_7C_15_timer = sGnFrame_5C1B84 + 15;
-        SFX_Play_46FA90(0x26u, 0);
+        SFX_Play_46FA90(SoundEffect::SecurityDoorDeny_38, 0);
         field_6E_r = field_78_r_value;
         break;
 
@@ -250,7 +250,7 @@ void Alarm::vUpdate_409460()
             if (static_cast<int>(sGnFrame_5C1B84) > field_7C_15_timer)
             {
                 field_90_state = eState_2_Enabling;
-                SFX_Play_46FA90(0x26u, 0);
+                SFX_Play_46FA90(SoundEffect::SecurityDoorDeny_38, 0);
             }
             field_6E_r = field_78_r_value;
         }

@@ -109,7 +109,7 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
             field_C0_path_number,
             field_B8_xpos,
             field_BC_ypos);
-        field_10C_audio_channels_mask = SFX_Play_46FC20(0x61u, 25, direction);
+        field_10C_audio_channels_mask = SFX_Play_46FC20(SoundEffect::DrillMovement_97, 25, direction);
     }
 
     switch (field_FA_direction)
@@ -357,7 +357,7 @@ void Grinder::vUpdate_420C50()
 
                 field_128_flags.Clear(Flags::eBit5);
                 field_11C_speed2 = field_118_speed;
-                field_10C_audio_channels_mask = SFX_Play_46FC20(97u, 25, soundDirection);
+                field_10C_audio_channels_mask = SFX_Play_46FC20(SoundEffect::DrillMovement_97, 25, soundDirection);
                 return;
             }
         }
@@ -386,14 +386,14 @@ void Grinder::vUpdate_420C50()
 
             field_128_flags.Set(Flags::eBit5);
             field_11C_speed2 = field_120_off_speed;
-            field_10C_audio_channels_mask = SFX_Play_46FC20(97u, 25, soundDirection);
+            field_10C_audio_channels_mask = SFX_Play_46FC20(SoundEffect::DrillMovement_97, 25, soundDirection);
         }
         break;
 
     case GrinderStates::State_1_Going_Down:
         if (!field_10C_audio_channels_mask)
         {
-            field_10C_audio_channels_mask = SFX_Play_46FC20(0x61u, 25, soundDirection);
+            field_10C_audio_channels_mask = SFX_Play_46FC20(SoundEffect::DrillMovement_97, 25, soundDirection);
         }
 
         DamageTouchingObjects_421060();
@@ -402,7 +402,7 @@ void Grinder::vUpdate_420C50()
         if (field_124_xyoff <= FP_FromInteger(0))
         {
             field_F4_state = GrinderStates::State_2_GoingUp;
-            SFX_Play_46FC20(99u, 50, soundDirection, FP_FromInteger(1));
+            SFX_Play_46FC20(SoundEffect::DrillCollision_99, 50, soundDirection, FP_FromInteger(1));
         }
         EmitSparks_4206D0();
         break;
@@ -410,7 +410,7 @@ void Grinder::vUpdate_420C50()
     case GrinderStates::State_2_GoingUp:
         if (!field_10C_audio_channels_mask)
         {
-            field_10C_audio_channels_mask = SFX_Play_46FC20(0x61u, 25, soundDirection);
+            field_10C_audio_channels_mask = SFX_Play_46FC20(SoundEffect::DrillMovement_97, 25, soundDirection);
         }
 
         DamageTouchingObjects_421060();
@@ -425,7 +425,7 @@ void Grinder::vUpdate_420C50()
             }
 
             field_F4_state = GrinderStates::State_0_Restart_Cycle;
-            SFX_Play_46FC20(0x63u, 50, soundDirection);
+            SFX_Play_46FC20(SoundEffect::DrillCollision_99, 50, soundDirection);
 
             short max_off = 0;
             short min_off = 0;
@@ -790,9 +790,9 @@ __int16 Grinder::DamageTouchingObjects_421060()
             50);
     }
 
-    SFX_Play_46FBA0(99u, 127, -500);
-    SFX_Play_46FA90(64u, 127);
-    SFX_Play_46FBA0(64u, 127, -700);
+    SFX_Play_46FBA0(SoundEffect::DrillCollision_99, 127, -500);
+    SFX_Play_46FA90(SoundEffect::KillEffect_64, 127);
+    SFX_Play_46FBA0(SoundEffect::KillEffect_64, 127, -700);
 
     return 1;
 

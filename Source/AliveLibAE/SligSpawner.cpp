@@ -126,7 +126,7 @@ void SligSpawner::vUpdate_409830()
 
                 field_3C_spawned_slig_obj_id = pSligMem->field_8_object_id;
                 field_38_state = 1;
-                SFX_Play_46FA90(114u, 0);
+                SFX_Play_46FA90(SoundEffect::SligSpawn_114, 0);
             }
 
             if (!(field_26_flags & 2))

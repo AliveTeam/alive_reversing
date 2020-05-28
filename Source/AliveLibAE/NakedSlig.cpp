@@ -1126,7 +1126,7 @@ __int16 NakedSlig::AI_3_Possesed_41A5B0()
             return field_208_brain_sub_state;
         }
         field_1AC_timer = sGnFrame_5C1B84 + 30;
-        SFX_Play_46FA90(17, 0);
+        SFX_Play_46FA90(SoundEffect::PossessEffect_17, 0);
         Set_AnimAndMotion_419890(NakedSligMotion::M_Shaking_12_418C30, TRUE);
         return 2;
 
@@ -1224,7 +1224,7 @@ __int16 NakedSlig::AI_4_GetKilled_41A880()
                 2, 
                 128u, 128u, 128u);
 
-            SFX_Play_46FBA0(79u, 25, FP_GetExponent((FP_FromInteger(2200) * field_CC_sprite_scale)));
+            SFX_Play_46FBA0(SoundEffect::Vaporize_79, 25, FP_GetExponent((FP_FromInteger(2200) * field_CC_sprite_scale)));
         }
 
         if (field_1AC_timer < static_cast<int>(sGnFrame_5C1B84))
@@ -1269,8 +1269,8 @@ __int16 NakedSlig::AI_4_GetKilled_41A880()
             128u,
             128u);
 
-        SFX_Play_46FA90(64u, 128, field_CC_sprite_scale);
-        SFX_Play_46FA90(47u, 90, field_CC_sprite_scale);
+        SFX_Play_46FA90(SoundEffect::KillEffect_64, 128, field_CC_sprite_scale);
+        SFX_Play_46FA90(SoundEffect::FallingItemHit_47, 90, field_CC_sprite_scale);
 
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
@@ -1373,7 +1373,7 @@ void NakedSlig::M_UsingButton_1_41B890()
     {
         if (field_20_animation.field_92_current_frame == 7)
         {
-            SFX_Play_46FA90(93, 0);
+            SFX_Play_46FA90(SoundEffect::NakedSligTransformStart_93, 0);
         }
 
         if (static_cast<int>(sGnFrame_5C1B84) == field_1AC_timer - 1)
@@ -1389,7 +1389,7 @@ void NakedSlig::M_UsingButton_1_41B890()
             {
                 // Transform to a walking slig
 
-                SFX_Play_46FA90(114u, 0);
+                SFX_Play_46FA90(SoundEffect::SligSpawn_114, 0);
 
                 auto pWalkingSlig = ae_new<Slig>();
                 if (pWalkingSlig)
@@ -1418,7 +1418,7 @@ void NakedSlig::M_UsingButton_1_41B890()
             {
                 // Transform to a flying slig
 
-                SFX_Play_46FA90(113u, 0);
+                SFX_Play_46FA90(SoundEffect::FlyingSligSpawn_113, 0);
 
                 auto pFlyingSlig = ae_new<FlyingSlig>();
                 if (pFlyingSlig)

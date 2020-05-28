@@ -247,11 +247,11 @@ EXPORT void FallingItem::vUpdate_427780()
         {
             if (field_D6_scale == 1)
             {
-                SFX_Play_46FA90(0x4Au, 45);
+                SFX_Play_46FA90(SoundEffect::FallingItemPresence1_74, 45);
             }
             else
             {
-                SFX_Play_46FA90(0x4Au, 20);
+                SFX_Play_46FA90(SoundEffect::FallingItemPresence1_74, 20);
             }
         }
 
@@ -259,11 +259,11 @@ EXPORT void FallingItem::vUpdate_427780()
         {
             if (field_D6_scale == 1)
             {
-                SFX_Play_46FA90(0x4Bu, 45);
+                SFX_Play_46FA90(SoundEffect::FallingItemPresence2_75, 45);
             }
             else
             {
-                SFX_Play_46FA90(0x4Bu, 20);
+                SFX_Play_46FA90(SoundEffect::FallingItemPresence2_75, 20);
             }
         }
     }
@@ -299,11 +299,11 @@ EXPORT void FallingItem::vUpdate_427780()
             field_12E_do_sound_in_state_3_falling = TRUE;
             if (field_D6_scale == 1)
             {
-                field_140_sound_channels = SFX_Play_46FBA0(0x17u, 50, -2600);
+                field_140_sound_channels = SFX_Play_46FBA0(SoundEffect::AirStream_23, 50, -2600);
             }
             else
             {
-                field_140_sound_channels = SFX_Play_46FBA0(0x17u, 25, -2600);
+                field_140_sound_channels = SFX_Play_46FBA0(SoundEffect::AirStream_23, 25, -2600);
             }
         }
         break;
@@ -317,11 +317,11 @@ EXPORT void FallingItem::vUpdate_427780()
                 field_12E_do_sound_in_state_3_falling = FALSE;
                 if (field_D6_scale == 1)
                 {
-                    SFX_Play_46FBA0(0x17u, 127, -1300);
+                    SFX_Play_46FBA0(SoundEffect::AirStream_23, 127, -1300);
                 }
                 else
                 {
-                    SFX_Play_46FBA0(0x17u, 64, -1300);
+                    SFX_Play_46FBA0(SoundEffect::AirStream_23, 64, -1300);
                 }
             }
         }
@@ -421,15 +421,15 @@ field_140_sound_channels = 0;
         }
 
         Event_Broadcast_422BC0(kEventLoudNoise, this);
-        SFX_Play_46FA90(0x3Eu, 0, field_CC_sprite_scale);
+        SFX_Play_46FA90(SoundEffect::FallingItemLand_62, 0, field_CC_sprite_scale);
 
         if (field_D6_scale == 1)
         {
-            SFX_Play_46FBA0(0x2Fu, 110, -1536);
+            SFX_Play_46FBA0(SoundEffect::FallingItemHit_47, 110, -1536);
         }
         else
         {
-            SFX_Play_46FBA0(0x2Fu, 55, -1536);
+            SFX_Play_46FBA0(SoundEffect::FallingItemHit_47, 55, -1536);
         }
 
         if (field_11E_id)

@@ -82,7 +82,7 @@ void SlogSpawner::vUpdate_4C80D0()
             pSlog->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_3A_direction & 1);
 
             ++field_24_tlv_saved_slog_count;
-            SFX_Play_46FA90(115u, 0);
+            SFX_Play_46FA90(SoundEffect::SlogSpawn_115, 0);
 
             if (field_24_tlv_saved_slog_count >= field_36_max_slogs)
             {

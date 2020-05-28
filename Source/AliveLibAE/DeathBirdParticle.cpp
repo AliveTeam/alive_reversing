@@ -102,7 +102,7 @@ void DeathBirdParticle::Update_43EE70()
 
             if (field_FC_playSound)
             {
-                SFX_Play_46FA90(0xFu, 0);
+                SFX_Play_46FA90(SoundEffect::AbeDove_15, 0);
             }
         }
 

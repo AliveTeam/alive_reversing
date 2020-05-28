@@ -121,7 +121,7 @@ void BirdPortal::vUpdate_498280()
     {
         if (field_28_state > States::State_4 && field_28_state < States::State_11)
         {
-            field_90_sfx_ret = SFX_Play_46FC20(58, 45, direction);
+            field_90_sfx_ret = SFX_Play_46FC20(SoundEffect::PortalOpening_58, 45, direction);
         }
     }
 
@@ -135,7 +135,7 @@ void BirdPortal::vUpdate_498280()
     case States::State_1:
         if (static_cast<int>(sGnFrame_5C1B84) >= field_5C_timer)
         {
-            SFX_Play_46FA90(0xDu, 35, field_60_scale);
+            SFX_Play_46FA90(SoundEffect::Dove_13, 35, field_60_scale);
             field_5C_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(24, 40);
         }
 
@@ -159,7 +159,7 @@ void BirdPortal::vUpdate_498280()
             field_28_state = States::State_2;
             field_5C_timer = sGnFrame_5C1B84 + 15;
             Event_Broadcast_422BC0(GetEvent_499A70(), this);
-            SFX_Play_46FA90(0xDu, 70, field_60_scale);
+            SFX_Play_46FA90(SoundEffect::Dove_13, 70, field_60_scale);
         }
         else if (IsScaredAway_4992A0() || Event_Get_422C00(kEventShooting))
         {
@@ -179,7 +179,7 @@ void BirdPortal::vUpdate_498280()
             {
                 pThrowableIndicator->field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
-            SFX_Play_46FA90(13u, 70, field_60_scale);
+            SFX_Play_46FA90(SoundEffect::Dove_13, 70, field_60_scale);
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
         break;
@@ -217,8 +217,8 @@ void BirdPortal::vUpdate_498280()
             pTerminator2->field_20_animation.Set_Animation_Data_409C80(4068, 0);
             field_5C_timer = sGnFrame_5C1B84 + 12;
             field_28_state = States::State_5;
-            field_90_sfx_ret = SFX_Play_46FA90(0x3Au, 0, field_60_scale);
-            SFX_Play_46FBA0(0x54u, 115, 300, field_60_scale);
+            field_90_sfx_ret = SFX_Play_46FA90(SoundEffect::PortalOpening_58, 0, field_60_scale);
+            SFX_Play_46FBA0(SoundEffect::IngameTransition_84, 115, 300, field_60_scale);
         }
         break;
 
@@ -265,7 +265,7 @@ void BirdPortal::vUpdate_498280()
 
                     if (direction == CameraPos::eCamCurrent_0)
                     {
-                        SFX_Play_46FBA0(0x29u, 50, 2400, field_60_scale);
+                        SFX_Play_46FBA0(SoundEffect::BirdPortalSpark_41, 50, 2400, field_60_scale);
                     }
                 }
                 ResourceManager::FreeResource_49C330(ppLightRes);
@@ -319,7 +319,7 @@ void BirdPortal::vUpdate_498280()
                         field_60_scale);
                 }
 
-                SFX_Play_46FA90(0xDu, 70, field_60_scale);
+                SFX_Play_46FA90(SoundEffect::Dove_13, 70, field_60_scale);
                 pDove_1->field_CC_sprite_scale = field_60_scale;
                 pDove_1->AsJoin_41F940(sActiveHero_5C1B68->field_B8_xpos, FP_FromInteger(Math_RandomRange_496AB0(-36, 4)) + sActiveHero_5C1B68->field_BC_ypos);
 
@@ -382,7 +382,7 @@ void BirdPortal::vUpdate_498280()
             pTerminator2->field_6_flags.Set(BaseGameObject::eDead_Bit3);
             field_6C_terminator_id = -1;
             field_70_terminator_id = -1;
-            SFX_Play_46FBA0(0x34u, 100, -1800, field_60_scale);
+            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 100, -1800, field_60_scale);
         }
         break;
 
@@ -479,7 +479,7 @@ void BirdPortal::vUpdate_498280()
         field_6C_terminator_id = pNewTerminator1->field_8_object_id;
         field_70_terminator_id = pNewTerminator2->field_8_object_id;
         field_28_state = States::State_18;
-        field_90_sfx_ret = SFX_Play_46FA90(58u, 0, field_60_scale);
+        field_90_sfx_ret = SFX_Play_46FA90(SoundEffect::PortalOpening_58, 0, field_60_scale);
     }
         break;
 
@@ -909,7 +909,7 @@ void BirdPortal::vGiveShrukul_499680(__int16 bPlaySound)
 
         if (bPlaySound)
         {
-            SFX_Play_46FBA0(52u, 70, -1600, field_60_scale);
+            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 70, -1600, field_60_scale);
         }
     }
 }

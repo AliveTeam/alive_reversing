@@ -213,7 +213,7 @@ void ParamiteWebLine::vUpdate_4E2A50()
         if (field_1A0 >field_FA_bottom)
         {
             field_1A0 = field_F8_top;
-            SFX_Play_46FA90(static_cast<char>(Math_RandomRange_496AB0(103, 104)), Math_RandomRange_496AB0(40, 80));
+            SFX_Play_46FA90(static_cast<char>(Math_RandomRange_496AB0(SoundEffect::WebDrop1_103, SoundEffect::WebDrop2_104)), Math_RandomRange_496AB0(40, 80));
             field_106_wobble_pos = field_F8_top;
             return;
         }

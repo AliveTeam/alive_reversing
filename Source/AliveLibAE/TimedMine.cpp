@@ -152,7 +152,7 @@ void TimedMine::Update_410A80()
         {
             field_1BC = sGnFrame_5C1B84;
             const CameraPos soundDir = gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos);
-            SFX_Play_46FC20(2u, 50, soundDir);
+            SFX_Play_46FC20(SoundEffect::GreenTick_2, 50, soundDir);
 
             // TODO: Modulus ?
             if (((field_120_gnframe - sGnFrame_5C1B84) & 0xFFFFFFF8) >= 144)
@@ -376,6 +376,6 @@ void TimedMine::vOnPickUpOrSlapped_410E30()
         field_20_animation.Set_Animation_Data_409C80(848, 0);
         field_120_gnframe = sGnFrame_5C1B84 + field_11A_explode_timeout;
         field_124_animation.Set_Animation_Data_409C80(556, 0);
-        SFX_Play_46FA90(2u, 0);
+        SFX_Play_46FA90(SoundEffect::GreenTick_2, 0);
     }
 }

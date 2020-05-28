@@ -1405,7 +1405,7 @@ signed int MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_held)
         if (field_230_selected_entry_index > 0 && field_254 == FP_FromInteger(0))
         {
             field_230_selected_entry_index--;
-            SFX_Play_46FBA0(52u, 35, 400);
+            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
     else if (inputToUse & (InputCommands::eRight | InputCommands::eDown))
@@ -1413,7 +1413,7 @@ signed int MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_held)
         if (field_230_selected_entry_index < sMenuItemCount_561538 - 1 && field_254 == FP_FromInteger(0))
         {
             field_230_selected_entry_index++;
-            SFX_Play_46FBA0(52u, 35, 400);
+            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
 
@@ -1429,7 +1429,7 @@ signed int MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_held)
             {
                 field_230_selected_entry_index -= 3;
             }
-            SFX_Play_46FBA0(0x34u, 35, 400);
+            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
     else if (inputToUse & 0x40000000)
@@ -1444,7 +1444,7 @@ signed int MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_held)
             {
                 field_230_selected_entry_index += 3;
             }
-            SFX_Play_46FBA0(0x34u, 35, 400);
+            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
 
@@ -2171,7 +2171,7 @@ signed int MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
         if (field_230_selected_entry_index > 0 && field_254 == FP_FromInteger(0))
         {
             field_230_selected_entry_index--;
-            SFX_Play_46FBA0(0x34u, 35, 400);
+            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
     else if (input_or_field_204 & 0xA)
@@ -2179,7 +2179,7 @@ signed int MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
         if (field_230_selected_entry_index < sMenuItemCount_561538 - 1 && field_254 == FP_FromInteger(0))
         {
             field_230_selected_entry_index++;
-            SFX_Play_46FBA0(0x34u, 35, 400);
+            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
 
@@ -2192,7 +2192,7 @@ signed int MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
             {
                 field_230_selected_entry_index = 0;
             }
-            SFX_Play_46FBA0(0x34u, 35, 400);
+            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
     else if (input_or_field_204 & 0x40000000)
@@ -2204,7 +2204,7 @@ signed int MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
             {
                 field_230_selected_entry_index = sMenuItemCount_561538 - 1;
             }
-            SFX_Play_46FBA0(0x34u, 35, 400);
+            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
 
@@ -2282,7 +2282,7 @@ EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
 
     if (indexChanged)
     {
-        SFX_Play_46FBA0(0x34u, 35, 400);
+        SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
     }
 
     if (input & InputCommands::eUnPause_OrConfirm)
@@ -2399,7 +2399,7 @@ signed int MainMenuController::AbeMotions_Update_4D1F50(DWORD input)
     // To the game speak screen
     if (input & 0x100000)
     {
-        SFX_Play_46FBA0(52u, 35, 400);
+        SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         return 2;
     }
 
@@ -2560,7 +2560,7 @@ signed int MainMenuController::ControllerMenu_Update_4D16D0(DWORD input)
         if (selectedControllerEntry_BB43F4 > 0 && sTextYPos_BB43F0 == FP_FromInteger(0))
         {
             selectedControllerEntry_BB43F4--;
-            SFX_Play_46FBA0(52u, 45, 400);
+            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
         }
     }
     else if (input & InputCommands::eDown)
@@ -2568,7 +2568,7 @@ signed int MainMenuController::ControllerMenu_Update_4D16D0(DWORD input)
         if (selectedControllerEntry_BB43F4 < controllerCount_55E838 - 1 && sTextYPos_BB43F0 == FP_FromInteger(0))
         {
             selectedControllerEntry_BB43F4++;
-            SFX_Play_46FBA0(52u, 45, 400);
+            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
         }
     }
 
@@ -2651,7 +2651,7 @@ signed int MainMenuController::RemapInput_Update_4D1820(DWORD input)
                 sButtonToRemapIdx_BB43EC--;
             }
 
-            SFX_Play_46FBA0(52u, 45, 400);
+            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
         }
 
         if (input & InputCommands::eDown)
@@ -2667,7 +2667,7 @@ signed int MainMenuController::RemapInput_Update_4D1820(DWORD input)
             {
                 sButtonToRemapIdx_BB43EC = 0;
             }
-            SFX_Play_46FBA0(52u, 45, 400);
+            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
         }
 
         if (input & InputCommands::eLeft)
@@ -2676,7 +2676,7 @@ signed int MainMenuController::RemapInput_Update_4D1820(DWORD input)
             {
                 sButtonToRemapIdx_BB43EC -= 4;
             }
-            SFX_Play_46FBA0(52u, 45, 400);
+            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
         }
 
         if (input & InputCommands::eRight)
@@ -2685,7 +2685,7 @@ signed int MainMenuController::RemapInput_Update_4D1820(DWORD input)
             {
                 sButtonToRemapIdx_BB43EC += 4;
             }
-            SFX_Play_46FBA0(52u, 45, 400);
+            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
         }
 
         if (input & 0x200000)
@@ -2942,7 +2942,7 @@ void MainMenuController::HandleMainMenuUpdate()
 
                     field_158_animation.Set_Animation_Data_409C80(pPage->field_18_buttons[field_1FC_button_index].field_8_anim_frame_offset, 0);
 
-                    SFX_Play_46FBA0(0x34u, 35, 400);
+                    SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
                 }
 
                 if (inputHeld & (eRight | eDown))
@@ -2965,7 +2965,7 @@ void MainMenuController::HandleMainMenuUpdate()
                     }
 
                     field_158_animation.Set_Animation_Data_409C80(pPage->field_18_buttons[field_1FC_button_index].field_8_anim_frame_offset, 0);
-                    SFX_Play_46FBA0(0x34u, 35, 400);
+                    SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
                 }
             }
         }

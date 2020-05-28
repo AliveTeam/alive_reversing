@@ -187,7 +187,7 @@ EXPORT void MovingBomb::BlowUp_470070()
     field_118_state = 6;
     field_C8_vely = FP_FromInteger(0);
     field_120_timer = sGnFrame_5C1B84 + 1;
-    SFX_Play_46FA90(2u, 100, field_CC_sprite_scale);
+    SFX_Play_46FA90(SoundEffect::GreenTick_2, 100, field_CC_sprite_scale);
 }
 
 void MovingBomb::vRender_4707D0(int** ot)
@@ -355,11 +355,11 @@ void MovingBomb::vUpdate_4701E0()
                 {
                     if (field_118_state == 4)
                     {
-                        field_130_sound_channels = SFX_Play_46FA90(48u, 55, field_CC_sprite_scale);
+                        field_130_sound_channels = SFX_Play_46FA90(SoundEffect::SecurityOrb_48, 55, field_CC_sprite_scale);
                     }
                     else
                     {
-                        field_130_sound_channels = SFX_Play_46FA90(48u, 80, field_CC_sprite_scale);
+                        field_130_sound_channels = SFX_Play_46FA90(SoundEffect::SecurityOrb_48, 80, field_CC_sprite_scale);
                     }
                     dword_5C300C = this;
                 }
@@ -372,7 +372,7 @@ void MovingBomb::vUpdate_4701E0()
                     }
                     else
                     {
-                        field_130_sound_channels = SFX_Play_46FA90(48u, 12, field_CC_sprite_scale);
+                        field_130_sound_channels = SFX_Play_46FA90(SoundEffect::SecurityOrb_48, 12, field_CC_sprite_scale);
                         dword_5C300C = this;
                     }
                 }
@@ -463,7 +463,7 @@ void MovingBomb::vUpdate_4701E0()
     case 6:
         if (field_120_timer <= static_cast<int>(sGnFrame_5C1B84))
         {
-            SFX_Play_46FA90(2u, 100, field_CC_sprite_scale);
+            SFX_Play_46FA90(SoundEffect::GreenTick_2, 100, field_CC_sprite_scale);
             
             field_10C_health = FP_FromInteger(0);
 
