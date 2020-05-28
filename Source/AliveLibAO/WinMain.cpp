@@ -204,7 +204,7 @@ static void Main_ParseCommandLineArguments()
     Sys_WindowClass_Register_48E9E0("ABE_WINCLASS", "Abe's Oddworld Oddysee 2.0", 32, 64, 640, 480); // Nice window title lol
     Sys_Set_Hwnd_48E340(Sys_GetWindowHandle_48E930());
 
-    LPSTR pCmdLine = GetCommandLine_48E920();
+    const LPSTR pCmdLine = GetCommandLine_48E920();
     if (pCmdLine)
     {
         if (!memcmp(pCmdLine, "-it_is_me_your_father", 22u))
@@ -221,39 +221,35 @@ static void Main_ParseCommandLineArguments()
 
     if (!pCmdLine)
     {
-        goto LABEL_26;
-    }
-
-    if (!_strcmpi(pCmdLine, "-interline"))
-    {
-        PSX_DispEnv_Set_48D900(1);
-        PSX_EMU_Set_screen_mode_499910(1);
-        byte_508BFC = 0;
-        goto LABEL_15;
-    }
-
-    if (!_strcmpi(pCmdLine, "-vstretch"))
-    {
-        PSX_DispEnv_Set_48D900(0);
-        PSX_EMU_Set_screen_mode_499910(0);
-        byte_508BFC = 0;
-        goto LABEL_15;
-    }
-
-    if (_strcmpi(pCmdLine, "-vdouble"))
-    {
-    LABEL_26:
         PSX_DispEnv_Set_48D900(2);
         PSX_EMU_Set_screen_mode_499910(2);
     }
     else
     {
-        PSX_DispEnv_Set_48D900(0);
-        PSX_EMU_Set_screen_mode_499910(0);
-        byte_508BFC = 1;
+        if (_strcmpi(pCmdLine, "-interline") == 0)
+        {
+            PSX_DispEnv_Set_48D900(1);
+            PSX_EMU_Set_screen_mode_499910(1);
+            byte_508BFC = 0;
+        }
+        else if (_strcmpi(pCmdLine, "-vstretch") == 0)
+        {
+            PSX_DispEnv_Set_48D900(0);
+            PSX_EMU_Set_screen_mode_499910(0);
+            byte_508BFC = 0;;
+        }
+        else if (_strcmpi(pCmdLine, "-vdouble") == 0)
+        {
+            PSX_DispEnv_Set_48D900(0);
+            PSX_EMU_Set_screen_mode_499910(0);
+            byte_508BFC = 1;
+        }
+        else
+        {
+            PSX_DispEnv_Set_48D900(2);
+            PSX_EMU_Set_screen_mode_499910(2);
+        }
     }
-LABEL_15:
-
 
     Init_VGA_AndPsxVram();
 
