@@ -148,7 +148,7 @@ void ScrabSpawner::vUpdate_4AB510()
                     auto pNewScrab = ae_new<Scrab>();
                     pNewScrab->ctor_4A3C40(pTlv, field_20_tlvInfo, field_26_spawn_scale);
 
-                    SFX_Play_46FA90(111u, 0);
+                    SFX_Play_46FA90(SoundEffect::ScrabSpawn_111, 0);
 
                     field_38_state = 1;
                     field_3C_spawned_scrab_id = pNewScrab->field_8_object_id;

@@ -1348,7 +1348,7 @@ __int16 Paramite::AI_Death_1_484CD0()
                 field_BC_ypos - FP_FromInteger(6),
                 field_CC_sprite_scale / FP_FromInteger(2),
                 2, 128, 128, 128);
-            SFX_Play_46FBA0(79, 25, FP_GetExponent(FP_FromInteger(2200) * field_CC_sprite_scale));
+            SFX_Play_46FBA0(SoundEffect::Vaporize_79, 25, FP_GetExponent(FP_FromInteger(2200) * field_CC_sprite_scale));
         }
     }
     
@@ -2961,7 +2961,7 @@ __int16 Paramite::AI_ParamiteSpawn_9_48ED80()
         if (SwitchStates_Get_466020(field_14C_id))
         {
             field_178_flags.Set(Flags_178::eBit6);
-            SFX_Play_46FA90(110u, 0);
+            SFX_Play_46FA90(SoundEffect::ParamiteSpawn_110, 0);
             field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
             field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
 
@@ -3087,7 +3087,7 @@ void Paramite::M_Idle_0_489FB0()
     {
         field_106_current_motion = eParamiteMotions::M_GetDepossessedBegin_29_48D9D0;
         field_138 = sGnFrame_5C1B84 + 30;
-        SFX_Play_46FA90(17u, 0);
+        SFX_Play_46FA90(SoundEffect::PossessEffect_17, 0);
     }
     else if (sInputObject_5BD4E0.isHeld(sInputKey_GameSpeak1_555104))
     {
@@ -3362,7 +3362,7 @@ void Paramite::M_Running_3_48AA00()
         {
             if (field_20_animation.field_92_current_frame == 3)
             {
-                SFX_Play_46FBA0(28u, 45, -600);
+                SFX_Play_46FBA0(SoundEffect::PickupItem_28, 45, -600);
             }
             else
             {
@@ -3601,7 +3601,7 @@ void Paramite::M_Hop_5_48B5B0()
 
             if (field_20_animation.field_92_current_frame == 3)
             {
-                SFX_Play_46FBA0(28u, 50, -500);
+                SFX_Play_46FBA0(SoundEffect::PickupItem_28, 50, -500);
             }
             else if (field_20_animation.field_92_current_frame == 12)
             {
@@ -3901,7 +3901,7 @@ void Paramite::M_JumpUpBegin_12_48BE40()
     }
     else if (field_20_animation.field_92_current_frame == 3)
     {
-        SFX_Play_46FBA0(28u, 50, -500);
+        SFX_Play_46FBA0(SoundEffect::PickupItem_28, 50, -500);
     }
 }
 
@@ -4186,7 +4186,7 @@ void Paramite::M_GameSpeakBegin_20_48C010()
                     {
                         if (pObj->field_10C_health > FP_FromInteger(0))
                         {
-                            SFX_Play_46FA90(64u, 0);
+                            SFX_Play_46FA90(SoundEffect::KillEffect_64, 0);
                             Abe_SFX_457EC0(MudSounds::eHurt2_9, 0, 0, pObj);
                         }
                         pObj->VTakeDamage_408730(this);
@@ -4999,13 +4999,13 @@ void Paramite::M_Eating_40_48A0F0()
                 }
                 else
                 {
-                    SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(65, 66)), 0);
+                    SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(SoundEffect::Eating1_65, SoundEffect::Eating2_66)), 0);
                 }
             }
         }
         else
         {
-            SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(65, 66)), 0);
+            SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(SoundEffect::Eating1_65, SoundEffect::Eating2_66)), 0);
         }
     }
 

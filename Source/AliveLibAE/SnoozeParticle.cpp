@@ -183,7 +183,7 @@ void SnoozeParticle::Update_4B0980()
                 }
                 else
                 {
-                    SFX_Play_46FA90(4, 0, field_38_scale);
+                    SFX_Play_46FA90(SoundEffect::ZPop_4, 0, field_38_scale);
                     field_6_flags.Set(BaseGameObject::eDead_Bit3);
                 }
                 break;

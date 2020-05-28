@@ -512,7 +512,7 @@ void DoorFlame::vUpdate_45E830()
         if (!pFlameControllingTheSound_5C2C6C)
         {
             pFlameControllingTheSound_5C2C6C = this;
-            field_100_sounds_mask = SFX_Play_46FA90(59u, 40);
+            field_100_sounds_mask = SFX_Play_46FA90(SoundEffect::Fire_59, 40);
         }
 
         if (--field_FE_2_random <= 0)

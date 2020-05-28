@@ -116,7 +116,7 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
                 }
             }
 
-            SFX_Play_46FA90(84, 0);
+            SFX_Play_46FA90(SoundEffect::IngameTransition_84, 0);
             break;
 
         case RingTypes::eExplosive_Give_3:
@@ -418,7 +418,7 @@ void AbilityRing::vUpdate_49D160()
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
             field_254_left = FP_FromInteger(0);
-            SFX_Play_46FA90(0x54u, 0);
+            SFX_Play_46FA90(SoundEffect::IngameTransition_84, 0);
             if (field_284_ring_type == RingTypes::eExplosive_Give_3)
             {
                 auto v26 = ae_new<PossessionFlicker>();

@@ -81,7 +81,7 @@ private:
         case 1:
             if (static_cast<int>(sGnFrame_5C1B84) > field_F8_timer)
             {
-                SFX_Play_46FBA0(4, 60, -1800);
+                SFX_Play_46FBA0(SoundEffect::ZPop_4, 60, -1800);
                 field_F4_state = 0;
             }
             break;
@@ -97,7 +97,7 @@ private:
         case 3:
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
             {
-                SFX_Play_46FBA0(28u, 127, -900);
+                SFX_Play_46FBA0(SoundEffect::PickupItem_28, 127, -900);
 
                 if (!gpThrowableArray_5D1E2C)
                 {
@@ -251,7 +251,7 @@ void BoomMachine::vUpdate_445F50()
 
         if (field_20_animation.field_92_current_frame == 3)
         {
-            SFX_Play_46FBA0(3u, 25, -1200);
+            SFX_Play_46FBA0(SoundEffect::RedTick_3, 25, -1200);
         }
     }
 }

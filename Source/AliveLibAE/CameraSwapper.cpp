@@ -324,7 +324,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         field_34_pSubObject->ctor_416D60(xy, { 1, 1 }, 0);
 
         // "Whoosh" door sound effect
-        SFX_Play_46FA90(84u, 127);
+        SFX_Play_46FA90(SoundEffect::IngameTransition_84, 127);
     }
     break;
 

@@ -422,15 +422,15 @@ void ParticleBurst::vUpdate_41D590()
             const BYTE next_rand = Math_NextRandom();
             if (next_rand < 43)
             {
-                SFX_Play_46FC20(27u, volume, CameraPos::eCamLeft_3);
+                SFX_Play_46FC20(SoundEffect::ParticleBurst_27, volume, CameraPos::eCamLeft_3);
             }
             else if (next_rand >= 85)
             {
-                SFX_Play_46FC20(27u, volume, CameraPos::eCamRight_4);
+                SFX_Play_46FC20(SoundEffect::ParticleBurst_27, volume, CameraPos::eCamRight_4);
             }
             else
             {
-                SFX_Play_46FC20(27u, volume, CameraPos::eCamCurrent_0);
+                SFX_Play_46FC20(SoundEffect::ParticleBurst_27, volume, CameraPos::eCamCurrent_0);
             }
         }
     }

@@ -217,7 +217,7 @@ void Mine::Update_46B5D0()
         {
             if (onScreen)
             {
-                SFX_Play_46FA90(3u, 35);
+                SFX_Play_46FA90(SoundEffect::RedTick_3, 35);
                 sMineSFXOwner_5C3008 = this;
             }
             else

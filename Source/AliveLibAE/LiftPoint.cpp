@@ -597,8 +597,8 @@ void LiftPoint::vUpdate_461AE0()
                 field_C8_vely = FP_FromInteger(0);
                 field_12C_bMoving &= ~1u;
                 field_280_flags.Clear(LiftFlags::eBit5_bMoveToFloorLevel);
-                SFX_Play_46FA90(0x1Eu, 0);
-                SFX_Play_46FBA0(0x1Eu, 80, -2000);
+                SFX_Play_46FA90(SoundEffect::LiftStop_30, 0);
+                SFX_Play_46FBA0(SoundEffect::LiftStop_30, 80, -2000);
                 Event_Broadcast_422BC0(kEventNoise, this);
                 Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
             }
@@ -830,12 +830,12 @@ void LiftPoint::vUpdate_461AE0()
     {
         if (field_13C_lift_wheel.field_92_current_frame == 1 && field_13C_lift_wheel.field_4_flags.Get(AnimFlags::eBit2_Animate))
         {
-            SFX_Play_46FA90(0x1Fu, 0);
+            SFX_Play_46FA90(SoundEffect::WheelSqueak_31, 0);
         }
     }
     else if (field_13C_lift_wheel.field_92_current_frame == 1 && field_13C_lift_wheel.field_4_flags.Get(AnimFlags::eBit2_Animate) && sGnFrame_5C1B84 & 1)
     {
-        SFX_Play_46FA90(0x1Fu, 0);
+        SFX_Play_46FA90(SoundEffect::WheelSqueak_31, 0);
     }
 
     if ((field_C2_lvl_number != gMap_5C3030.field_0_current_level || field_C0_path_number != gMap_5C3030.field_2_current_path || Event_Get_422C00(kEventDeathReset)) 
@@ -897,8 +897,8 @@ void LiftPoint::vStayOnFloor_461A00(__int16 floor, Path_LiftPoint* pTlv)
     if (!floor)
     {
         field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y + -field_120);
-        SFX_Play_46FA90(0x1Eu, 0);
-        SFX_Play_46FBA0(0x1Eu, 80, -2000);
+        SFX_Play_46FA90(SoundEffect::LiftStop_30, 0);
+        SFX_Play_46FBA0(SoundEffect::LiftStop_30, 80, -2000);
     }
 
     field_12C_bMoving &= ~1;

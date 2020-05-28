@@ -619,7 +619,7 @@ void Glukkon::M_Jump_4_443030()
 
     if (field_20_animation.field_92_current_frame == 0)
     {
-        SFX_Play_46FBA0(28u, 50, -900);
+        SFX_Play_46FBA0(SoundEffect::PickupItem_28, 50, -900);
         field_F8_LastLineYPos = field_BC_ypos;
         if (pPlatform)
         {
@@ -863,7 +863,7 @@ void Glukkon::M_DeathFall_8_443760()
 {
     if (field_20_animation.field_92_current_frame == 0)
     {
-        SFX_Play_46FA90(64, 85);
+        SFX_Play_46FA90(SoundEffect::KillEffect_64, 85);
     }
 }
 
@@ -1677,7 +1677,7 @@ __int16 Glukkon::AI_3_PlayerControlled_441A30()
             if (Input_IsChanting_45F260() && field_106_current_motion != eGlukkonMotions::M_Jump_4_443030 && !field_1E2_bUnknown)
             {
                 field_1D4_timer = sGnFrame_5C1B84 + 30;
-                SFX_Play_46FA90(17u, 0);
+                SFX_Play_46FA90(SoundEffect::PossessEffect_17, 0);
                 SetAnim_43F9C0(10, TRUE);
                 return 2;
             }
@@ -1793,7 +1793,7 @@ __int16 Glukkon::AI_3_PlayerControlled_441A30()
         SND_Restart_4CB0E0();
         pScreenManager_5BB5F4->field_40_flags |= 0x10000;
         field_1D4_timer = sGnFrame_5C1B84 + 30;
-        SFX_Play_46FA90(17u, 0);
+        SFX_Play_46FA90(SoundEffect::PossessEffect_17, 0);
         SetAnim_43F9C0(10, TRUE);
         return 2;
 
@@ -1878,7 +1878,7 @@ __int16 Glukkon::AI_4_Death_442010()
                     (field_CC_sprite_scale / FP_FromInteger(2)), 
                     2, 0x80u, 0x80u, 0x80u);
 
-                SFX_Play_46FBA0(79u, 25, FP_GetExponent(FP_FromInteger(2200) * field_CC_sprite_scale));
+                SFX_Play_46FBA0(SoundEffect::Vaporize_79, 25, FP_GetExponent(FP_FromInteger(2200) * field_CC_sprite_scale));
             }
             return field_210;
         }
@@ -1920,8 +1920,8 @@ __int16 Glukkon::AI_4_Death_442010()
             128u,
             128u);
 
-        SFX_Play_46FA90(0x40u, 128, field_CC_sprite_scale);
-        SFX_Play_46FA90(0x2Fu, 90, field_CC_sprite_scale);
+        SFX_Play_46FA90(SoundEffect::KillEffect_64, 128, field_CC_sprite_scale);
+        SFX_Play_46FA90(SoundEffect::FallingItemHit_47, 90, field_CC_sprite_scale);
 
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
@@ -2020,7 +2020,7 @@ __int16 Glukkon::AI_5_WaitToSpawn_442490()
 
         if (field_1A8_tlvData.field_1E_spawn_direction == 3)
         {
-            SFX_Play_46FBA0(49u, 60, -300);
+            SFX_Play_46FBA0(SoundEffect::Zap1_49, 60, -300);
 
             for (const auto& p : v00554768)
             {
@@ -2057,7 +2057,7 @@ __int16 Glukkon::AI_5_WaitToSpawn_442490()
         }
         else
         {
-            SFX_Play_46FA90(112u, 0);
+            SFX_Play_46FA90(SoundEffect::GlukkonSpawn_112, 0);
             Speak_444640(GlukkonSpeak::Heh_5);
             return 2;
         }

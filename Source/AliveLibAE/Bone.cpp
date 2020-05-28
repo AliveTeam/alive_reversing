@@ -273,7 +273,7 @@ __int16 Bone::OnCollision_412140(BaseAnimatedWithPhysicsGameObject* pObj)
     pObj->VOnThrowableHit(this);
 
     field_130_hit_object |= 1u;
-    SFX_Play_46FA90(24u, 80);
+    SFX_Play_46FA90(SoundEffect::RockBounceOnMine_24, 80);
 
     if (pObj->field_4_typeId == Types::eMine_88 || pObj->field_4_typeId == Types::eUXB_143)
     {
@@ -409,7 +409,7 @@ void Bone::InTheAir_4116C0()
                 {
                     vol = 40;
                 }
-                SFX_Play_46FA90(26u, vol);
+                SFX_Play_46FA90(SoundEffect::RockBounce_26, vol);
                 Event_Broadcast_422BC0(kEventNoise, this);
                 Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                 field_11E_volume_modifier++;
@@ -427,7 +427,7 @@ void Bone::InTheAir_4116C0()
                 {
                     vol = 40;
                 }
-                SFX_Play_46FA90(26u, vol);
+                SFX_Play_46FA90(SoundEffect::RockBounce_26, vol);
                 Event_Broadcast_422BC0(kEventNoise, this);
                 Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
             }
@@ -451,7 +451,7 @@ void Bone::InTheAir_4116C0()
                 {
                     vol = 40;
                 }
-                SFX_Play_46FA90(26u, vol);
+                SFX_Play_46FA90(SoundEffect::RockBounce_26, vol);
                 Event_Broadcast_422BC0(kEventNoise, this);
                 Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
             }
@@ -470,7 +470,7 @@ void Bone::InTheAir_4116C0()
                 {
                     vol = 40;
                 }
-                SFX_Play_46FA90(26u, vol);
+                SFX_Play_46FA90(SoundEffect::RockBounce_26, vol);
                 Event_Broadcast_422BC0(kEventNoise, this);
                 Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
             }
@@ -743,7 +743,7 @@ void BoneBag::vUpdate_412880()
             {
                 field_120_allow_sound = 0;
                 field_122_force_play_sound = 0;
-                SFX_Play_46FBA0(29u, 24, Math_RandomRange_496AB0(-2400, -2200));
+                SFX_Play_46FBA0(SoundEffect::SackWobble_29, 24, Math_RandomRange_496AB0(-2400, -2200));
             }
         }
     }
@@ -819,7 +819,7 @@ void BoneBag::vUpdate_412880()
         
         pBone->VThrow_49E460(field_124_velX, field_128_velY);
        
-        SFX_Play_46FA90(25u, 0);
+        SFX_Play_46FA90(SoundEffect::SackHit_25, 0);
         Abe_SFX_2_457A40(7, 0, 0x7FFF, 0);
 
         if (sActiveHero_5C1B68->field_106_current_motion == 31)

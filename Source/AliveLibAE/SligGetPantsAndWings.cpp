@@ -75,7 +75,7 @@ void SligGetPantsAndWings::vUpdate_465DD0()
         if (static_cast<int>(sGnFrame_5C1B84) > field_FC_timer)
         {
             field_F4_state = 2;
-            SFX_Play_46FA90(92, 0);
+            SFX_Play_46FA90(SoundEffect::NakedSligTransformEnd_92, 0);
             field_20_animation.Set_Animation_Data_409C80(4364, nullptr);
         }
         break;

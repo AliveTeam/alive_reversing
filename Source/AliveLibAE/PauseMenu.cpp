@@ -663,7 +663,7 @@ public:
     void ClosePauseMenu()
     {
         pPauseMenu_5C9300->word12C_flags &= ~1;
-        SFX_Play_46FBA0(0x11u, 40, 2400);
+        SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
         SND_Restart_4CB0E0();
         customMenuStack.clear();
     }
@@ -677,7 +677,7 @@ public:
             {
                 index = 0;
             }
-            SFX_Play_46FBA0(0x34u, 45, 400);
+            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
 
             CompileEntries();
         }
@@ -687,19 +687,19 @@ public:
             {
                 index = static_cast<int>(entries->size()) - 1;
             }
-            SFX_Play_46FBA0(0x34u, 45, 400);
+            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
 
             CompileEntries();
         }
         else if (input & InputCommands::eBack)
         {
-            SFX_Play_46FBA0(0x11u, 40, 2400);
+            SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
             GoBack(pm);
         }
         else if (input & InputCommands::eUnPause_OrConfirm)
         {
             (*entries)[index].callback(this);
-            SFX_Play_46FA90(0x54u, 90);
+            SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
             CompileEntries();
         }
 
@@ -1004,7 +1004,7 @@ void PauseMenu::RestartPath()
     }
 
     word12C_flags &= ~1;
-    SFX_Play_46FBA0(0x11u, 40, 3400);
+    SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 3400);
     SND_Restart_4CB0E0();
 }
 
@@ -1019,7 +1019,7 @@ void PauseMenu::Page_Main_Update_4903E0()
         {
             field_134_Index_Main = MainPages::ePage_Continue_0;
         }
-        SFX_Play_46FBA0(0x34u, 45, 400);
+        SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
     }
 
     if (sInputObject_5BD4E0.isHeld(InputCommands::eUp))
@@ -1028,7 +1028,7 @@ void PauseMenu::Page_Main_Update_4903E0()
         {
             field_134_Index_Main = MainPages::ePage_Quit_7;
         }
-        SFX_Play_46FBA0(0x34u, 45, 400);
+        SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
     }
 
     field_144_active_menu.field_C_selected_index = field_134_Index_Main;
@@ -1036,7 +1036,7 @@ void PauseMenu::Page_Main_Update_4903E0()
     if (sInputObject_5BD4E0.isHeld(InputCommands::eBack))
     {
         word12C_flags &= ~1u;
-        SFX_Play_46FBA0(0x11u, 40, 2400);
+        SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
         SND_Restart_4CB0E0();
     }
     else if (sInputObject_5BD4E0.isHeld(InputCommands::eUnPause_OrConfirm))
@@ -1045,13 +1045,13 @@ void PauseMenu::Page_Main_Update_4903E0()
         {
         case MainPages::ePage_Continue_0:
             word12C_flags &= ~1u;
-            SFX_Play_46FBA0(0x11u, 40, 2400);
+            SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
             SND_Restart_4CB0E0();
             return;
 
         case MainPages::ePage_QuickSave_1:
             word12C_flags &= ~1u;
-            SFX_Play_46FBA0(0x11u, 40, 2400);
+            SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
             SND_Restart_4CB0E0();
             Quicksave_4C90D0();
             return;
@@ -1074,7 +1074,7 @@ void PauseMenu::Page_Main_Update_4903E0()
         case MainPages::ePage_Save_4:
             field_136 = 5;
             field_144_active_menu = sPM_Page_Save_5465C8;
-            SFX_Play_46FA90(0x54u, 90);
+            SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
             field_13C_save_state = SaveState::ReadingInput_0;
             word12C_flags &= ~0xA;
             field_13E = -1;
@@ -1098,7 +1098,7 @@ void PauseMenu::Page_Main_Update_4903E0()
             Quicksave_FindSaves_4D4150();
             field_136 = 4;
             field_144_active_menu = sPM_Page_Load_546628;
-            SFX_Play_46FA90(0x54u, 90);
+            SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
             word12C_flags &= ~0xA;
             field_13C_save_state = SaveState::ReadingInput_0;
             word12C_flags |= 0x400;
@@ -1120,7 +1120,7 @@ void PauseMenu::Page_Main_Update_4903E0()
             return;
         }
 
-        SFX_Play_46FA90(0x54u, 90);
+        SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
     }
 }
 
@@ -1130,7 +1130,7 @@ void PauseMenu::Page_ControlsActions_Update_48FA60()
     {
         field_136 = 0;
         field_144_active_menu = sPM_Page_Main_5465B0;
-        SFX_Play_46FBA0(17u, 40, 2400);
+        SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
     }
 
     if (sInputObject_5BD4E0.isHeld(0x100000))
@@ -1139,14 +1139,14 @@ void PauseMenu::Page_ControlsActions_Update_48FA60()
         if (prev < 6)
         {
             field_144_active_menu.field_8_menu_items = sControlActionsPages_55DE40[prev];
-            SFX_Play_46FA90(84u, 90);
+            SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
         }
         else
         {
             field_138 = 0;
             field_136 = 0;
             field_144_active_menu = sPM_Page_Main_5465B0;
-            SFX_Play_46FBA0(17u, 40, 2400);
+            SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
         }
     }
 }
@@ -1157,13 +1157,13 @@ void PauseMenu::Page_ReallyQuit_Update_490930()
     {
         field_136 = 0;
         field_144_active_menu = sPM_Page_Main_5465B0;
-        SFX_Play_46FBA0(17u, 40, 2400);
+        SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
     }
 
     if (sInputObject_5BD4E0.isHeld(0x100000))
     {
         word12C_flags &= ~1u;
-        SFX_Play_46FBA0(17u, 40, 2400);
+        SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
 
         if (pPauseMenu_5C9300 && pPauseMenu_5C9300 == this)
         {
@@ -1202,7 +1202,7 @@ void PauseMenu::Page_Save_Update_491210()
                 sSavedGameToLoadIdx_BB43FC = 0;
             }
             word12C_flags &= ~1u;
-            SFX_Play_46FBA0(17u, 40, 2400);
+            SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
             SND_Restart_4CB0E0();
         }
         else
@@ -1215,14 +1215,14 @@ void PauseMenu::Page_Save_Update_491210()
         if (sInputObject_5BD4E0.isHeld(InputCommands::eUnPause_OrConfirm))
         {
             // Enter - do the save and don't return to the confirm overwrite
-            SFX_Play_46FBA0(17u, 40, 2400);
+            SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
             field_13C_save_state = SaveState::DoSave_4;
             bWriteSaveFile_5C937C = true;
         }
         else if (sInputObject_5BD4E0.isHeld(InputCommands::eBack))
         {
             // Escape - cancel save
-            SFX_Play_46FA90(84u, 90);
+            SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
             field_13C_save_state = SaveState::ReadingInput_0;
             strcat(sSaveString_5C931C, sArrowStr_55E398);
             Input_DisableInputForPauseMenuAndDebug_4EDDC0();
@@ -1248,7 +1248,7 @@ void PauseMenu::Page_Save_Update_491210()
             return;
         // Escape - cancel
         case VK_ESCAPE:
-            SFX_Play_46FBA0(17u, 40, 2400);
+            SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
             field_136 = 0;
             field_144_active_menu = sPM_Page_Main_5465B0;
             Input_Reset_492660();
@@ -1259,13 +1259,13 @@ void PauseMenu::Page_Save_Update_491210()
             if (stringLen > 1)
             {
                 // Replace arrow with null terminator
-                SFX_Play_46FA90(84u, 90);
+                SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
                 sSaveString_5C931C[stringLen -1] = 0;
                 field_13C_save_state = SaveState::DoSave_4;
                 Input_Reset_492660();
                 return;
             }
-            SFX_Play_46FA90(39u, 0);
+            SFX_Play_46FA90(SoundEffect::ElectricZap_39, 0);
             return;
 
         // Backspace - delete
@@ -1275,10 +1275,10 @@ void PauseMenu::Page_Save_Update_491210()
                 // Replace last char with arrow
                 sSaveString_5C931C[stringLen -2] = kArrowChar;
                 sSaveString_5C931C[stringLen -1] = 0;
-                SFX_Play_46FA90(28u, 0);
+                SFX_Play_46FA90(SoundEffect::PickupItem_28, 0);
                 return;
             }
-            SFX_Play_46FA90(39u, 0);
+            SFX_Play_46FA90(SoundEffect::ElectricZap_39, 0);
             return;
         }
 
@@ -1288,12 +1288,12 @@ void PauseMenu::Page_Save_Update_491210()
             // Don't allow space at the start of the name, and don't allow 2 constitutive spaces.
             if (newInput[0] == ' ' && (stringLen == 1 || sSaveString_5C931C[stringLen -2] == newInput[0]))
             {
-                SFX_Play_46FBA0(17u, 30, 2600);
+                SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 30, 2600);
             }
             // Also don't allow the name length to be over 20 chars
             else if (stringLen > 20)
             {
-                SFX_Play_46FBA0(17u, 30, 2400);
+                SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 30, 2400);
             }
             // Append new input char
             else
@@ -1301,12 +1301,12 @@ void PauseMenu::Page_Save_Update_491210()
                 sSaveString_5C931C[stringLen -1] = newInput[0]; // Replace arrow with input
                 sSaveString_5C931C[stringLen] = kArrowChar;    // Replace null with arrow
                 sSaveString_5C931C[stringLen +1] = 0;           // Append new null
-                SFX_Play_46FA90(26u, 0);
+                SFX_Play_46FA90(SoundEffect::RockBounce_26, 0);
             }
         }
         else
         {
-            SFX_Play_46FBA0(17u, 70, 2200);
+            SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 70, 2200);
         }
     }
 }
@@ -1344,7 +1344,7 @@ void PauseMenu::Page_Status_Update_4916A0()
         // Go back to the main page
         field_136 = 0;
         field_144_active_menu = sPM_Page_Main_5465B0;
-        SFX_Play_46FBA0(17u, 40, 2400);
+        SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
     }
 }
 
@@ -1380,7 +1380,7 @@ void PauseMenu::Page_Load_Update_490D50()
         {
             sSavedGameToLoadIdx_BB43FC--;
         }
-        SFX_Play_46FBA0(0x34u, 35, 400);
+        SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         return;
     }
 
@@ -1392,7 +1392,7 @@ void PauseMenu::Page_Load_Update_490D50()
         {
             sSavedGameToLoadIdx_BB43FC++;
         }
-        SFX_Play_46FBA0(0x34u, 35, 400);
+        SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         return;
     }
 
@@ -1407,7 +1407,7 @@ void PauseMenu::Page_Load_Update_490D50()
             sSavedGameToLoadIdx_BB43FC = 0;
         }
 
-        SFX_Play_46FBA0(0x34u, 35, 400);
+        SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         return;
     }
 
@@ -1420,7 +1420,7 @@ void PauseMenu::Page_Load_Update_490D50()
         {
             sSavedGameToLoadIdx_BB43FC = sTotalSaveFilesCount_BB43E0 - 1;
         }
-        SFX_Play_46FBA0(0x34u, 35, 400);
+        SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         return;
     }
 
@@ -1444,7 +1444,7 @@ void PauseMenu::Page_Load_Update_490D50()
                 // TODO: OG bug, file handle is leaked
                 ae_fclose_520CBE(hFile);
             }
-            SFX_Play_46FA90(84u, 90);
+            SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
         }
     }
     // Go back (esc)
@@ -1452,7 +1452,7 @@ void PauseMenu::Page_Load_Update_490D50()
     {
         field_136 = 0;
         memcpy(&field_144_active_menu, &sPM_Page_Main_5465B0, sizeof(field_144_active_menu));
-        SFX_Play_46FBA0(0x11u, 40, 2400);
+        SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
     }
     // Delete (del)
     else if (inputHeld & 0x10000000)
@@ -1587,7 +1587,7 @@ void PauseMenu::Update_48FD80()
                 && pHero->field_1A8_portal_id == -1)
             {
                 SND_StopAll_4CB060();
-                SFX_Play_46FBA0(0x11u, 40, 2400);
+                SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
                 sub_4A2B70();
                 field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
                 field_134_Index_Main = MainPages::ePage_Continue_0;

@@ -1271,7 +1271,7 @@ void Slog::M_Eating_20_4C75F0()
 
     if (field_20_animation.field_92_current_frame == 3 && !field_20_animation.field_4_flags.Get(AnimFlags::eBit19_LoopBackwards))
     {
-        SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(65, 66)), 100);
+        SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(SoundEffect::Eating1_65, SoundEffect::Eating2_66)), 100);
         auto pBlood = ae_new<Blood>();
         if (pBlood)
         {
@@ -2789,7 +2789,7 @@ __int16 Slog::AI_Death_3_4C3250()
             field_BC_ypos - FP_FromInteger(6),
             field_CC_sprite_scale / FP_FromInteger(2),
             2, 128u, 128u, 128u);
-        SFX_Play_46FBA0(79u, 25, FP_GetExponent(FP_FromInteger(2200) * field_CC_sprite_scale));
+        SFX_Play_46FBA0(SoundEffect::Vaporize_79, 25, FP_GetExponent(FP_FromInteger(2200) * field_CC_sprite_scale));
     }
 
     if (field_CC_sprite_scale < FP_FromInteger(0))

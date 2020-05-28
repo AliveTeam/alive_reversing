@@ -83,8 +83,8 @@ void DoorBlocker::vUpdate_41F250()
         }
         else if (SwitchStates_Get_466020(field_11A_switch_id))
         {
-            SFX_Play_46FBA0(0x39u, 100, 900);
-            SFX_Play_46FBA0(0x39u, 100, -100);
+            SFX_Play_46FBA0(SoundEffect::DoorEffect_57, 100, 900);
+            SFX_Play_46FBA0(SoundEffect::DoorEffect_57, 100, -100);
             field_20_animation.Set_Animation_Data_409C80(1608, 0);
             field_118_bDone |= 1u;
         }

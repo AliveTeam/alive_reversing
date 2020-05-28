@@ -227,7 +227,7 @@ void Slurg::Burst_4C8AE0()
     }
 
     Event_Broadcast_422BC0(kEventLoudNoise, this);
-    SFX_Play_46FA90(89, 127, field_130_scale);
+    SFX_Play_46FA90(SoundEffect::SlurgKill_89, 127, field_130_scale);
 
     if (field_11A_switch_id > 1)
     {
@@ -294,7 +294,7 @@ void Slurg::vUpdate_4C8790()
         if (!field_20_animation.field_92_current_frame
             && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
         {
-            SFX_Play_46FA90(90u, 0);
+            SFX_Play_46FA90(SoundEffect::SlurgStop_90, 0);
         }
 
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))

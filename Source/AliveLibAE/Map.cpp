@@ -221,7 +221,7 @@ void Map::RemoveObjectsWithPurpleLight_480740(__int16 bParam)
 
     if (bAddedALight)
     {
-        SFX_Play_46FBA0(17u, 40, 2400);
+        SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
 
         for (int counter = 0; counter < 12; counter++)
         {

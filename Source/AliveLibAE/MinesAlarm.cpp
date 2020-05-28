@@ -107,7 +107,7 @@ void MinesAlarm::vUpdate_417910()
     {
         if (!(--sTimerValue_5C1BFC % 30u))
         {
-            SFX_Play_46FBA0(3u, 55, -1000);
+            SFX_Play_46FBA0(SoundEffect::RedTick_3, 55, -1000);
         }
     }
     else

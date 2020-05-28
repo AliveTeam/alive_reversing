@@ -2399,8 +2399,8 @@ void FlyingSlig::BlowUp_436510()
     }
 
     New_Particles_426C70(field_B8_xpos, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale), field_CC_sprite_scale, 3, 128u, 128u, 128u);
-    SFX_Play_46FA90(64u, 128, field_CC_sprite_scale);
-    SFX_Play_46FA90(47u, 90, field_CC_sprite_scale);
+    SFX_Play_46FA90(SoundEffect::KillEffect_64, 128, field_CC_sprite_scale);
+    SFX_Play_46FA90(SoundEffect::FallingItemHit_47, 90, field_CC_sprite_scale);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
@@ -2514,7 +2514,7 @@ BYTE** FlyingSlig::ResBlockForMotion_4350F0(int /*motion*/)
 
 void FlyingSlig::ToChantShake_436270()
 {
-    SFX_Play_46FA90(17, 0);
+    SFX_Play_46FA90(SoundEffect::PossessEffect_17, 0);
     VSetMotion_4081C0(eFlyingSligMotions::M_Possession_9_434290);
     SetBrain(&FlyingSlig::AI_DePossession_14_436180);
     field_14C_timer = sGnFrame_5C1B84 + 45;

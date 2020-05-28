@@ -1995,7 +1995,7 @@ __int16 Scrab::AI_Death_3_4A62B0()
             field_CC_sprite_scale / FP_FromInteger(2), 
             2, 
             128u, 128u, 128u);
-        SFX_Play_46FBA0(79u, 25, FP_GetExponent(FP_FromInteger(2200) * field_CC_sprite_scale));
+        SFX_Play_46FBA0(SoundEffect::Vaporize_79, 25, FP_GetExponent(FP_FromInteger(2200) * field_CC_sprite_scale));
     }
 
     if (field_12C_timer < static_cast<int>(sGnFrame_5C1B84))
@@ -2072,7 +2072,7 @@ void Scrab::M_Stand_0_4A8220()
         if (Input_IsChanting_45F260() && !field_164)
         {
             field_130 = sGnFrame_5C1B84 + 30;
-            SFX_Play_46FA90(17, 0);
+            SFX_Play_46FA90(SoundEffect::PossessEffect_17, 0);
             field_106_current_motion = eScrabMotions::M_GetDepossessedBegin_28_4AA200;
             return;
         }
@@ -2526,7 +2526,7 @@ void Scrab::M_HopBegin_5_4A96C0()
         field_B8_xpos += field_C4_velx;
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            SFX_Play_46FBA0(28, 50, -800);
+            SFX_Play_46FBA0(SoundEffect::PickupItem_28, 50, -800);
             field_F8_LastLineYPos = field_BC_ypos;
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
@@ -2837,7 +2837,7 @@ void Scrab::M_RunJumpBegin_12_4A99C0()
 {
     if (field_20_animation.field_92_current_frame == 1)
     {
-        SFX_Play_46FBA0(0x1Cu, 50, -800);
+        SFX_Play_46FBA0(SoundEffect::PickupItem_28, 50, -800);
     }
     
     Event_Broadcast_422BC0(kEventNoise, this);
@@ -3029,7 +3029,7 @@ void Scrab::M_GetEaten_19_4AA3E0()
 {
     if (field_20_animation.field_92_current_frame == 3)
     {
-        SFX_Play_46FBA0(28u, 120, -1000);
+        SFX_Play_46FBA0(SoundEffect::PickupItem_28, 120, -1000);
     }
 }
 
@@ -3054,7 +3054,7 @@ void Scrab::M_Stamp_21_4A9CC0()
         }
 
         Sound_4AADB0(ScrabSound::HitCollision_4, 0, 0x7FFF, 1);
-        SFX_Play_46FBA0(64, 60, Math_RandomRange_496AB0(-255, 255));
+        SFX_Play_46FBA0(SoundEffect::KillEffect_64, 60, Math_RandomRange_496AB0(-255, 255));
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -3985,8 +3985,8 @@ __int16 Scrab::vTakeDamage_4A45E0(BaseGameObject* pFrom)
         break;
 
     default:
-        SFX_Play_46FA90(64u, 127);
-        SFX_Play_46FA90(47u, 90);
+        SFX_Play_46FA90(SoundEffect::KillEffect_64, 127);
+        SFX_Play_46FA90(SoundEffect::FallingItemHit_47, 90);
         break;
     }
 
@@ -4176,7 +4176,7 @@ void Scrab::KillTarget_4A7F20(BaseAliveGameObject* pTarget)
                                                 if (pObj->VTakeDamage_408730(this))
                                                 {
                                                     bKilledTarget = true;
-                                                    SFX_Play_46FA90(64u, 0);
+                                                    SFX_Play_46FA90(SoundEffect::KillEffect_64, 0);
                                                     if (pObj->field_4_typeId == Types::eAbe_69)
                                                     {
                                                         Abe_SFX_457EC0(MudSounds::eHurt2_9, 0, 0, sActiveHero_5C1B68);

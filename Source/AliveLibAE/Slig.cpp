@@ -70,7 +70,7 @@ int CC Animation_OnFrame_Slig_4C0600(void* pObj, signed __int16* pData)
 
         if (pSlig->field_CC_sprite_scale == FP_FromDouble(0.5))
         {
-            SFX_Play_46FA90(5u, 85);
+            SFX_Play_46FA90(SoundEffect::SligShoot_5, 85);
         }
         else
         {
@@ -79,7 +79,7 @@ int CC Animation_OnFrame_Slig_4C0600(void* pObj, signed __int16* pData)
             {
                 pShell->ctor_4AD340(pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, 0, pSlig->field_CC_sprite_scale);
             }
-            SFX_Play_46FA90(5u, 0);
+            SFX_Play_46FA90(SoundEffect::SligShoot_5, 0);
         }
     }
     else
@@ -94,7 +94,7 @@ int CC Animation_OnFrame_Slig_4C0600(void* pObj, signed __int16* pData)
 
         if (pSlig->field_CC_sprite_scale == FP_FromDouble(0.5))
         {
-            SFX_Play_46FA90(5u, 85);
+            SFX_Play_46FA90(SoundEffect::SligShoot_5, 85);
         }
         else
         {
@@ -103,7 +103,7 @@ int CC Animation_OnFrame_Slig_4C0600(void* pObj, signed __int16* pData)
             {
                 pShell->ctor_4AD340(pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, 1, pSlig->field_CC_sprite_scale);
             }
-            SFX_Play_46FA90(5u, 0);
+            SFX_Play_46FA90(SoundEffect::SligShoot_5, 0);
         }
     }
 
@@ -859,7 +859,7 @@ void Slig::M_StandIdle_0_4B4EC0()
                 {
                     field_106_current_motion = eSligMotions::M_Depossessing_36_4B7F30;
                     field_12C = sGnFrame_5C1B84 + 30;
-                    SFX_Play_46FA90(17, 0);
+                    SFX_Play_46FA90(SoundEffect::PossessEffect_17, 0);
                     return;
                 }
             }
@@ -1613,11 +1613,11 @@ void Slig::M_Recoil_19_4B8270()
     }
     else if (field_CC_sprite_scale == FP_FromDouble(0.5))
     {
-        SFX_Play_46FA90(5u, 85);
+        SFX_Play_46FA90(SoundEffect::SligShoot_5, 85);
     }
     else
     {
-        SFX_Play_46FA90(5u, 0);
+        SFX_Play_46FA90(SoundEffect::SligShoot_5, 0);
     }
 }
 
@@ -2026,13 +2026,13 @@ void Slig::M_Possess_37_4B72C0()
 
             if (field_CC_sprite_scale == FP_FromDouble(0.5))
             {
-                SFX_Play_46FA90(64u, 80);
-                SFX_Play_46FA90(47u, 60);
+                SFX_Play_46FA90(SoundEffect::KillEffect_64, 80);
+                SFX_Play_46FA90(SoundEffect::FallingItemHit_47, 60);
             }
             else
             {
-                SFX_Play_46FA90(64u, 127);
-                SFX_Play_46FA90(47u, 90);
+                SFX_Play_46FA90(SoundEffect::KillEffect_64, 127);
+                SFX_Play_46FA90(SoundEffect::FallingItemHit_47, 90);
             }
 
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
@@ -2120,7 +2120,7 @@ void Slig::M_LandingFatal_41_4B4680()
     if (field_20_animation.field_92_current_frame == 0)
     {
         SND_SEQ_Play_4CAB10(SeqId::HitBottomOfDeathPit_9, 1, 65, 65);
-        SFX_Play_46FA90(64u, 80);
+        SFX_Play_46FA90(SoundEffect::KillEffect_64, 80);
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -2191,11 +2191,11 @@ void Slig::M_ShootZ_42_4B7560()
 
         if (field_CC_sprite_scale == FP_FromDouble(0.5))
         {
-            SFX_Play_46FA90(5u, 85);
+            SFX_Play_46FA90(SoundEffect::SligShoot_5, 85);
         }
         else
         {
-            SFX_Play_46FA90(5u, 0);
+            SFX_Play_46FA90(SoundEffect::SligShoot_5, 0);
         }
 
         // The doves don't like bullets
@@ -2393,7 +2393,7 @@ void Slig::M_Beat_51_4B6C00()
 {
     if (field_20_animation.field_92_current_frame == 5)
     {
-        SFX_Play_46FBA0(0x17u, 90, -300);
+        SFX_Play_46FBA0(SoundEffect::AirStream_23, 90, -300);
     }
 
     if (field_20_animation.field_92_current_frame == 8)
@@ -2432,7 +2432,7 @@ void Slig::M_Beat_51_4B6C00()
                     {
                         pObj->VTakeDamage_408730(this);
                         Event_Broadcast_422BC0(kEventNoise, this);
-                        SFX_Play_46FA90(47u, 60);
+                        SFX_Play_46FA90(SoundEffect::FallingItemHit_47, 60);
                         return;
                     }
                 }
@@ -2475,7 +2475,7 @@ __int16 Slig::AI_Death_0_4BBFB0()
             const FP xOff = (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale);
             New_Particles_426C70(xOff + field_B8_xpos, (field_BC_ypos - FP_FromInteger(6)), (field_CC_sprite_scale / FP_FromInteger(2)), 2, 128u, 128u, 128u);
             const FP sndPitch = (FP_FromInteger(2200) * field_CC_sprite_scale);
-            SFX_Play_46FBA0(79u, 25, FP_GetExponent(sndPitch));
+            SFX_Play_46FBA0(SoundEffect::Vaporize_79, 25, FP_GetExponent(sndPitch));
         }
     }
     else if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
@@ -5410,13 +5410,13 @@ void Slig::BlowUp_4B8020()
 
     if (field_CC_sprite_scale == FP_FromDouble(0.5))
     {
-        SFX_Play_46FA90(64u, 80);
-        SFX_Play_46FA90(47u, 60);
+        SFX_Play_46FA90(SoundEffect::KillEffect_64, 80);
+        SFX_Play_46FA90(SoundEffect::FallingItemHit_47, 60);
     }
     else
     {
-        SFX_Play_46FA90(64u, 127);
-        SFX_Play_46FA90(47u, 90);
+        SFX_Play_46FA90(SoundEffect::KillEffect_64, 127);
+        SFX_Play_46FA90(SoundEffect::FallingItemHit_47, 90);
     }
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
@@ -5730,7 +5730,7 @@ __int16 Slig::GetNextMotionIncGameSpeak_4B5080(int input)
                 return -1;
             }
             field_12C = sGnFrame_5C1B84 + 30;
-            SFX_Play_46FA90(17u, 0);
+            SFX_Play_46FA90(SoundEffect::PossessEffect_17, 0);
             return eSligMotions::M_Depossessing_36_4B7F30;
         }
 
@@ -7127,7 +7127,7 @@ __int16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
             pGibs->ctor_40FB40(1, field_B8_xpos, field_BC_ypos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
         }
         field_10C_health = FP_FromInteger(0);
-        SFX_Play_46FA90(0x2Fu, 90);
+        SFX_Play_46FA90(SoundEffect::FallingItemHit_47, 90);
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         field_1C_update_delay = 40;
@@ -7246,8 +7246,8 @@ __int16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
         {
             return 1;
         }
-        SFX_Play_46FA90(0x40u, 127);
-        SFX_Play_46FA90(0x2Fu, 90);
+        SFX_Play_46FA90(SoundEffect::KillEffect_64, 127);
+        SFX_Play_46FA90(SoundEffect::FallingItemHit_47, 90);
         break;
     }
 

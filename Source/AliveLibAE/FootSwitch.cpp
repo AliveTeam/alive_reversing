@@ -185,12 +185,12 @@ void FootSwitch::vUpdate_4DE270()
                 gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6 ||
                 gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9)
             {
-                SFX_Play_46FBA0(0x50u, 30, 400);
-                SFX_Play_46FBA0(0x4Cu, 60, 800);
+                SFX_Play_46FBA0(SoundEffect::IndustrialTrigger_80, 30, 400);
+                SFX_Play_46FBA0(SoundEffect::IndustrialNoise1_76, 60, 800);
             }
             else
             {
-                SFX_Play_46FA90(0x37u, 0);
+                SFX_Play_46FA90(SoundEffect::FootSwitchPress_55, 0);
             }
 
         }

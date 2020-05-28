@@ -100,7 +100,7 @@ void NakedSligButton::vUpdate_414B20()
 
     if (field_102_in_use == 1)
     {
-        SFX_Play_46FA90(63, 0);
+        SFX_Play_46FA90(SoundEffect::LeverPull_63, 0);
         Event_Broadcast_422BC0(kEventNoise, this);
         Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
 

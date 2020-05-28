@@ -270,7 +270,7 @@ void Bullet::vUpdate_413560()
 
                         if (Math_RandomRange_496AB0(0, 100) < 90)
                         {
-                            SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(0, 1)), volume);
+                            SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
                         }
                     }
 
@@ -313,7 +313,7 @@ void Bullet::vUpdate_413560()
 
             if (Math_RandomRange_496AB0(0, 100) < 90)
             {
-                SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(0, 1)), volume);
+                SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
             }
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
             return;
@@ -363,7 +363,7 @@ void Bullet::vUpdate_413560()
 
                 if (Math_RandomRange_496AB0(0, 100) < 90)
                 {
-                    SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(0, 1)), volume);
+                    SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
                 }
             }
 
@@ -380,7 +380,7 @@ void Bullet::vUpdate_413560()
 
         if (Math_RandomRange_496AB0(0, 100) < 70)
         {
-            SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(0, 1)), volume);
+            SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
         }
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
         return;
@@ -424,7 +424,7 @@ void Bullet::vUpdate_413560()
             }
             New_Particles_426C70(hitX, hitY, FP_FromInteger(1), 3, 128u, 128u, 128u);
         }
-        SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(0, 1)), 75);
+        SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), 75);
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
         return;
     }
@@ -474,7 +474,7 @@ void Bullet::vUpdate_413560()
                 }
                 New_Particles_426C70(hitX, hitY, FP_FromInteger(1), 3, 128u, 128u, 128u);
             }
-            SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(0, 1)), 75);
+            SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), 75);
         }
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
         return;
@@ -488,7 +488,7 @@ void Bullet::vUpdate_413560()
 
 void Bullet::PlayBulletSounds(short vol)
 {
-    SFX_Play_46FBA0(23u, vol, 2000);
-    SFX_Play_46FBA0(36u, vol, Math_RandomRange_496AB0(300, 700));
-    SFX_Play_46FBA0(64u, vol, Math_RandomRange_496AB0(900, 1400));
+    SFX_Play_46FBA0(SoundEffect::AirStream_23, vol, 2000);
+    SFX_Play_46FBA0(SoundEffect::MeatBounce_36, vol, Math_RandomRange_496AB0(300, 700));
+    SFX_Play_46FBA0(SoundEffect::KillEffect_64, vol, Math_RandomRange_496AB0(900, 1400));
 }

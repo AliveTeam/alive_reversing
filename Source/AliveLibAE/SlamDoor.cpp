@@ -304,8 +304,8 @@ void SlamDoor::vUpdate_4AFD50()
                 {
                     field_6_flags.Set(BaseGameObject::eDead_Bit3);
                 }
-                SFX_Play_46FBA0(57, 100, 900);
-                SFX_Play_46FBA0(57, 100, -100);
+                SFX_Play_46FBA0(SoundEffect::DoorEffect_57, 100, 900);
+                SFX_Play_46FBA0(SoundEffect::DoorEffect_57, 100, -100);
                 field_118_flags.Set(SlamDoor_Flags_118::e118_Bit3_bLastFrame);
             }
         }
@@ -318,8 +318,8 @@ void SlamDoor::vUpdate_4AFD50()
             if (!field_118_flags.Get(SlamDoor_Flags_118::e118_Bit3_bLastFrame))
             {
                 field_118_flags.Set(SlamDoor_Flags_118::e118_Bit3_bLastFrame);
-                SFX_Play_46FBA0(57, 100, 900);
-                SFX_Play_46FBA0(57, 100, -100);
+                SFX_Play_46FBA0(SoundEffect::DoorEffect_57, 100, 900);
+                SFX_Play_46FBA0(SoundEffect::DoorEffect_57, 100, -100);
             }
         }
     }

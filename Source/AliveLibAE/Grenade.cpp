@@ -329,7 +329,7 @@ signed __int16 Grenade::TimeToBlowUp_448350()
 {
     if (!(--field_122_explode_timer % 16))
     {
-        SFX_Play_46FA90(2, 0);
+        SFX_Play_46FA90(SoundEffect::GreenTick_2, 0);
     }
 
     if (field_122_explode_timer != 0)
@@ -572,7 +572,7 @@ __int16 Grenade::InTheAir_4484F0(__int16 blowUpOnFloorTouch)
             {
                 vol = 40;
             }
-            SFX_Play_46FA90(68u, vol);
+            SFX_Play_46FA90(SoundEffect::GrenadeBounce_68, vol);
             Event_Broadcast_422BC0(kEventNoise, this);
             Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
             Event_Broadcast_422BC0(kEventSpeaking, this);
@@ -607,7 +607,7 @@ __int16 Grenade::InTheAir_4484F0(__int16 blowUpOnFloorTouch)
                     vol = 40;
                 }
 
-                SFX_Play_46FA90(68u, vol);
+                SFX_Play_46FA90(SoundEffect::GrenadeBounce_68, vol);
                 ++field_124;
 
                 Event_Broadcast_422BC0(kEventNoise, this);
@@ -641,7 +641,7 @@ __int16 Grenade::InTheAir_4484F0(__int16 blowUpOnFloorTouch)
                 {
                     vol = 40;
                 }
-                SFX_Play_46FA90(68u, vol);
+                SFX_Play_46FA90(SoundEffect::GrenadeBounce_68, vol);
                 Event_Broadcast_422BC0(kEventNoise, this);
                 Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                 Event_Broadcast_422BC0(kEventSpeaking, this);
@@ -660,7 +660,7 @@ __int16 Grenade::InTheAir_4484F0(__int16 blowUpOnFloorTouch)
                 {
                     vol = 40;
                 }
-                SFX_Play_46FA90(68u, vol);
+                SFX_Play_46FA90(SoundEffect::GrenadeBounce_68, vol);
                 Event_Broadcast_422BC0(kEventNoise, this);
                 Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                 Event_Broadcast_422BC0(kEventSpeaking, this);
@@ -709,7 +709,7 @@ __int16 Grenade::OnCollision_BounceOff_448F90(BaseGameObject* pHit)
 
     pHit2->VOnThrowableHit(this);
 
-    SFX_Play_46FA90(24u, 0);
+    SFX_Play_46FA90(SoundEffect::RockBounceOnMine_24, 0);
     return 0;
 }
 
