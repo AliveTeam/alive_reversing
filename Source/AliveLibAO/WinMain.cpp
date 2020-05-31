@@ -8,6 +8,8 @@
 #include "DynamicArray.hpp"
 #include "Game.hpp"
 #include "Map.hpp"
+#include "Animation.hpp"
+#include "FixedPoint_common.hpp"
 
 START_NS_AO
 
@@ -21,6 +23,164 @@ void Static_Inits_AO()
 
 }
 
+
+struct PSX_Pad
+{
+    unsigned __int16 field_0_pressed;
+    unsigned __int8 field_2;
+    char field_3;
+    __int16 field_4;
+    unsigned __int16 field_6_held;
+    int field_8;
+};
+ALIVE_ASSERT_SIZEOF(PSX_Pad, 0xC);
+
+class InputObject
+{
+public:
+    EXPORT void InitPad_4331A0(unsigned int /*padCount*/)
+    {
+        NOT_IMPLEMENTED();
+    }
+
+    EXPORT void Update_433250()
+    {
+        NOT_IMPLEMENTED();
+    }
+
+    static EXPORT void CC Shutdown_433230()
+    {
+        NOT_IMPLEMENTED();
+    }
+
+    PSX_Pad field_0_pads[2];
+    BYTE** field_18_demo_res;
+    int field_1C_demo_command_index;
+    __int16 field_20_demo_playing;
+    __int16 field_22;
+    int field_24_command;
+    int field_28_command_duration;
+    int field_2C;
+};
+ALIVE_ASSERT_SIZEOF(InputObject, 0x30);
+
+class GameSpeak : public BaseGameObject
+{
+public:
+    EXPORT GameSpeak* ctor_40F990()
+    {
+        NOT_IMPLEMENTED();
+        return this;
+    }
+
+    EXPORT GameSpeak* Vdtor_40FB50(signed int /*flags*/)
+    {
+        NOT_IMPLEMENTED();
+        return this;
+    }
+
+    virtual BaseGameObject* VDestructor(signed int flags) override
+    {
+        return Vdtor_40FB50(flags);
+    }
+
+    __int16 field_10;
+    __int16 field_12;
+    int field_14;
+    int field_18_idx;
+    char field_1C[32];
+};
+ALIVE_ASSERT_SIZEOF(GameSpeak, 0x3C);
+
+class CheatController : public BaseGameObject
+{
+public:
+    EXPORT CheatController* ctor_40FBF0()
+    {
+        NOT_IMPLEMENTED();
+        return this;
+    }
+
+    EXPORT CheatController* Vdtor_40FCD0(signed int /*flags*/)
+    {
+        NOT_IMPLEMENTED();
+        return this;
+    }
+
+    virtual BaseGameObject* VDestructor(signed int flags) override
+    {
+        return Vdtor_40FCD0(flags);
+    }
+
+    __int16 field_10;
+    __int16 field_12;
+};
+ALIVE_ASSERT_SIZEOF(CheatController, 0x14);
+
+class DDCheat : public BaseGameObject
+{
+public:
+    static EXPORT void ClearProperties_4095B0()
+    {
+        NOT_IMPLEMENTED();
+    }
+
+    int field_10;
+    int field_14;
+    int field_18;
+    int field_1C;
+    int field_20;
+    int field_24;
+};
+ALIVE_ASSERT_SIZEOF(DDCheat, 0x28);
+
+struct PSX_Display_Buffer
+{
+    PSX_DRAWENV field_0_draw_env;
+    PSX_DISPENV field_5C_disp_env;
+    int* field_70_ot_buffer[256];
+};
+ALIVE_ASSERT_SIZEOF(PSX_Display_Buffer, 0x470);
+
+struct PSX_Display_Params;
+
+class PsxDisplay
+{
+public:
+
+    EXPORT PsxDisplay* ctor_40DAB0(PSX_Display_Params* /*pParams*/)
+    {
+        NOT_IMPLEMENTED();
+        return this;
+    }
+
+    EXPORT void PSX_Display_Render_OT_40DD20()
+    {
+        NOT_IMPLEMENTED();
+    }
+
+    unsigned __int16 field_0_width;
+    unsigned __int16 field_2_height;
+    __int16 field_4_bpp;
+    __int16 field_6_max_buffers;
+    unsigned __int16 field_8_buffer_size;
+    unsigned __int16 field_A_buffer_index;
+    PSX_Display_Buffer field_C_drawEnv[2];
+};
+ALIVE_ASSERT_SIZEOF(PsxDisplay, 0x8EC);
+
+struct PSX_Display_Params
+{
+    __int16 field_0_width;
+    __int16 field_2_height;
+    __int16 field_4_bpp;
+    __int16 field_6_max_buffers;
+    __int16 field_8_buffer_size;
+    __int16 field_A_k32;
+    __int16 field_C_k1;
+    __int16 field_E;
+};
+ALIVE_ASSERT_SIZEOF(PSX_Display_Params, 0x10);
 
 ALIVE_VAR(1, 0x9F771C, HINSTANCE, sInstance_9F771C, 0);
 ALIVE_VAR(1, 0x9F7784, HINSTANCE, sPrevInstance_9F7784, 0);
@@ -318,152 +478,77 @@ EXPORT void CC Game_Init_LoadingIcon_445E30()
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC Game_Loop_437630()
+EXPORT void CC Events_Reset_Active_417320()
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC Game_Free_LoadingIcon_445E80()
-{
-    NOT_IMPLEMENTED();
-}
+ALIVE_VAR(1, 0x507B78, short, sBreakGameLoop_507B78, 0);
+ALIVE_VAR(1, 0x507668, short, sNumCamSwappers_507668, 0);
 
-struct PSX_Display_Buffer
+ALIVE_VAR(1, 0x505564, DynamicArrayT<AnimationBase>*, gObjList_animations_505564, nullptr);
+
+
+struct DirtyBits
 {
-    PSX_DRAWENV field_0_draw_env;
-    PSX_DISPENV field_5C_disp_env;
-    int field_70_ot_buffer[256];
+    __int16 field_0[20];
 };
-ALIVE_ASSERT_SIZEOF(PSX_Display_Buffer, 0x470);
+ALIVE_ASSERT_SIZEOF(DirtyBits, 0x28);
 
-struct PSX_Display_Params;
-
-class PsxDisplay
+class ScreenManager : public BaseGameObject
 {
 public:
 
-    EXPORT PsxDisplay* ctor_40DAB0(PSX_Display_Params* /*pParams*/)
-    {
-        NOT_IMPLEMENTED();
-        return this;
-    }
-
-    unsigned __int16 field_0_width;
-    unsigned __int16 field_2_height;
-    __int16 field_4_bpp;
-    __int16 field_6_max_buffers;
-    unsigned __int16 field_8_buffer_size;
-    unsigned __int16 field_A_buffer_index;
-    PSX_Display_Buffer field_C_drawEnv[2];
-};
-ALIVE_ASSERT_SIZEOF(PsxDisplay, 0x8EC);
-
-struct PSX_Display_Params
-{
-    __int16 field_0_width;
-    __int16 field_2_height;
-    __int16 field_4_bpp;
-    __int16 field_6_max_buffers;
-    __int16 field_8_buffer_size;
-    __int16 field_A_k32;
-    __int16 field_C_k1;
-    __int16 field_E;
-};
-ALIVE_ASSERT_SIZEOF(PSX_Display_Params, 0x10);
-
-struct PSX_Pad
-{
-    unsigned __int16 field_0_pressed;
-    unsigned __int8 field_2;
-    char field_3;
-    __int16 field_4;
-    unsigned __int16 field_6_held;
-    int field_8;
-};
-ALIVE_ASSERT_SIZEOF(PSX_Pad, 0xC);
-
-class InputObject
-{
-public:
-    EXPORT void InitPad_4331A0(unsigned int /*padCount*/)
-    {
-        NOT_IMPLEMENTED();
-    }
-
-    static EXPORT void CC Shutdown_433230()
-    {
-        NOT_IMPLEMENTED();
-    }
-
-    PSX_Pad field_0_pads[2];
-    BYTE** field_18_demo_res;
-    int field_1C_demo_command_index;
-    __int16 field_20_demo_playing;
-    __int16 field_22;
-    int field_24_command;
-    int field_28_command_duration;
-    int field_2C;
-};
-ALIVE_ASSERT_SIZEOF(InputObject, 0x30);
-
-class GameSpeak : public BaseGameObject
-{
-public:
-    EXPORT GameSpeak* ctor_40F990()
-    {
-        NOT_IMPLEMENTED();
-        return this;
-    }
-
-    virtual BaseGameObject* VDestructor(signed int /*flags*/) override
-    {
-        return this;
-    }
-
-    __int16 field_10;
-    __int16 field_12;
-    int field_14;
-    int field_18_idx;
-    char field_1C[32];
-};
-ALIVE_ASSERT_SIZEOF(GameSpeak, 0x3C);
-
-class CheatController : public BaseGameObject
-{
-public:
-    EXPORT CheatController* ctor_40FBF0()
-    {
-        NOT_IMPLEMENTED();
-        return this;
-    }
-
-    virtual BaseGameObject* VDestructor(signed int /*flags*/) override
-    {
-        return this;
-    }
-
-    __int16 field_10;
-    __int16 field_12;
-};
-ALIVE_ASSERT_SIZEOF(CheatController, 0x14);
-
-class DDCheat : public BaseGameObject
-{
-public:
-    static EXPORT void ClearProperties_4095B0()
-    {
-        NOT_IMPLEMENTED();
-    }
-
-    int field_10;
-    int field_14;
+    FP_Point* field_10_pCamPos;
+    __int16 field_14;
+    unsigned __int16 field_16;
     int field_18;
     int field_1C;
-    int field_20;
+    __int16 field_20;
+    __int16 field_22;
     int field_24;
+    int field_28;
+    __int16 field_2C;
+    unsigned __int16 field_2E_idx;
+    unsigned __int16 field_30;
+    unsigned __int16 field_32;
+    __int16 field_34;
+    __int16 field_36_flags;
+    int field_38;
+    int field_3C;
+    int field_40;
+    int field_44;
+    int field_48;
+    int field_4C;
+    int field_50;
+    int field_54;
+    DirtyBits field_58[6];
 };
-ALIVE_ASSERT_SIZEOF(DDCheat, 0x28);
+ALIVE_ASSERT_SIZEOF(ScreenManager, 0x148);
 
+ALIVE_VAR(1, 0x4FF7C8, ScreenManager*, pScreenManager_4FF7C8, nullptr);
+
+EXPORT void CC DebugFont_Flush_487F50()
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT int CC PSX_DrawSync_496750(int /*mode*/)
+{
+    return 0;
+}
+
+EXPORT int CC PSX_VSync_496620(int )
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT int CC PSX_ClearImage_496020(const PSX_RECT* /*pRect*/, __int16 /*r*/, unsigned __int8 /*g*/, unsigned __int8 /*b*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
 
 ALIVE_VAR(1, 0x507698, short, gAttract_507698, 0);
 ALIVE_VAR(1, 0x507B0C, int, gTimeOut_NotUsed_507B0C, 0);
@@ -473,8 +558,132 @@ ALIVE_VAR(1, 0x4BB830, PSX_Display_Params, gPsxDisplayParams_4BB830, kDisplayPar
 ALIVE_VAR(1, 0x504C78, PsxDisplay, gPsxDisplay_504C78, {});
 ALIVE_VAR(1, 0x5009E8, InputObject, sInputObject_5009E8, {});
 
+class BaseAliveGameObject;
 
-ALIVE_VAR(1, 0x505564, DynamicArrayT<void>*, gObjList_animations_505564, nullptr); // TODO: Add types
+class ResourceManager
+{
+public:
+    static EXPORT void CC CancelPendingResourcesFor_41EA60(BaseAliveGameObject* /*pObj*/)
+    {
+        NOT_IMPLEMENTED();
+    }
+};
+
+
+EXPORT void CC Game_Loop_437630()
+{
+    sBreakGameLoop_507B78 = 0;
+
+    while (!sBreakGameLoop_507B78 && !gBaseGameObject_list_9F2DF0->Empty())
+    {
+        Events_Reset_Active_417320();
+
+        // Update objects
+        for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+        {
+            BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
+            if (!pObjIter)
+            {
+                break;
+            }
+
+            if (pObjIter->field_6_flags.Get(BaseGameObject::eUpdatable_Bit2) && 
+                !pObjIter->field_6_flags.Get(BaseGameObject::eDead_Bit3) && 
+                (sNumCamSwappers_507668 == 0 || pObjIter->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+            {
+                if (pObjIter->field_8_update_delay > 0)
+                {
+                    pObjIter->field_8_update_delay--;
+                }
+                else
+                {
+                    pObjIter->VUpdate();
+                }
+            }
+        }
+
+        // Animate everything
+        if (sNumCamSwappers_507668 <= 0)
+        {
+            AnimationBase::AnimateAll_4034F0(gObjList_animations_505564);
+        }
+
+        // Render objects
+        int** ppOt = gPsxDisplay_504C78.field_C_drawEnv[gPsxDisplay_504C78.field_A_buffer_index].field_70_ot_buffer;
+
+        for (int i=0; i < gObjList_drawables_504618->Size(); i++)
+        {
+            BaseGameObject* pDrawable = gObjList_drawables_504618->ItemAt(i);
+            if (!pDrawable)
+            {
+                break;
+            }
+
+            if (!pDrawable->field_6_flags.Get(BaseGameObject::eDead_Bit3) && pDrawable->field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
+            {
+                pDrawable->VRender(ppOt);
+            }
+        }
+
+        DebugFont_Flush_487F50();
+        PSX_DrawSync_496750(0);
+        pScreenManager_4FF7C8->VRender(ppOt);
+        SYS_EventsPump_44FF90();
+
+        gPsxDisplay_504C78.PSX_Display_Render_OT_40DD20();
+
+        // Destroy objects with certain flags
+        for (int i=0; i< gBaseGameObject_list_9F2DF0->Size(); i++)
+        {
+            BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+            if (!pObj)
+            {
+                break;
+            }
+
+            if (pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3) && pObj->field_C_bCanKill == 0)
+            {
+                gBaseGameObject_list_9F2DF0->RemoveAt(i);
+                pObj->VDestructor(1);
+            }
+        }
+
+        gMap_507BA8.ScreenChange_4444D0();
+        sInputObject_5009E8.Update_433250();
+
+        if (sNumCamSwappers_507668 == 0)
+        {
+            gnFrameCount_507670++;
+        }
+    }  // Main loop end
+
+    const PSX_RECT rect = { 0, 0, 368, 480 };
+    PSX_ClearImage_496020(&rect, 0, 0, 0);
+    PSX_DrawSync_496750(0);
+    PSX_VSync_496620(0);
+    ResourceManager::CancelPendingResourcesFor_41EA60(0);
+
+    for (int i=0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    {
+        BaseGameObject* pObjToKill = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        if (!pObjToKill)
+        {
+            break;
+        }
+
+        if (pObjToKill->field_C_bCanKill == 0)
+        {
+            gBaseGameObject_list_9F2DF0->RemoveAt(i);
+            pObjToKill->VDestructor(1);
+        }
+    }
+}
+
+EXPORT void CC Game_Free_LoadingIcon_445E80()
+{
+    NOT_IMPLEMENTED();
+}
+
 ALIVE_VAR(1, 0x4FF954, GameSpeak*, pEventSystem_4FF954, nullptr);
 ALIVE_VAR(1, 0x4FF958, CheatController*, pCheatController_4FF958, nullptr);
 
@@ -542,7 +751,7 @@ EXPORT void Game_Run_4373D0()
     gObjList_drawables_504618 = ao_new<DynamicArrayT<BaseGameObject>>();
     gObjList_drawables_504618->ctor_4043E0(80);
 
-    gObjList_animations_505564 = ao_new<DynamicArrayT<void>>();
+    gObjList_animations_505564 = ao_new<DynamicArrayT<AnimationBase>>();
     gObjList_animations_505564->ctor_4043E0(80);
 
     Init_Sound_DynamicArrays_And_Others_41CD20();

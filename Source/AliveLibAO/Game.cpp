@@ -96,13 +96,6 @@ ALIVE_ASSERT_SIZEOF(BaseAnimatedObj, 0xD4);
 
 
 
-class ResourceManager
-{
-public:
-
-};
-
-
 
 ALIVE_VAR(1, 0xAC6420, int*, psxemu_videomem_AC6420, nullptr);
 
@@ -235,11 +228,6 @@ char sStatsSignFontPalette_4CD570[32] =
     0xA5, 0x14, 0xE7, 0x1C, 0x08, 0x21, 0x29, 0x25, 0x4A, 0x29,
     0x6B, 0x2D, 0x8C, 0x31, 0xAD, 0x35, 0xEF, 0x3D, 0x10, 0x42,
     0x73, 0x4E };
-
-EXPORT void ResourceManager_Request_446C90(const char *, int , int , __int16 , int )
-{
-    NOT_IMPLEMENTED();
-}
 
 ALIVE_VAR(1, 0x508BF4, BYTE, byte_508BF4, 0);
 

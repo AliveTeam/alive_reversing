@@ -11,7 +11,12 @@ EXPORT void Map::Init_443EE0(__int16 /*level*/, __int16 /*path*/, __int16 /*came
     NOT_IMPLEMENTED();
 }
 
-EXPORT void AO::Map::Shutdown_443F90()
+EXPORT void Map::ScreenChange_4444D0()
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void Map::Shutdown_443F90()
 {
     NOT_IMPLEMENTED();
 }

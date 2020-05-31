@@ -11,6 +11,8 @@ public:
 
     EXPORT void Shutdown_443F90();
 
+    EXPORT void ScreenChange_4444D0();
+
     unsigned __int16 field_0_current_level;
     unsigned __int16 field_2_current_path;
     __int16 field_4_current_camera;

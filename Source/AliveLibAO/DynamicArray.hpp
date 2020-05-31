@@ -49,6 +49,24 @@ public:
     {
         field_0_array[idx] = itemToSet;
     }
+
+    int Size() const
+    {
+        return field_4_used_size;
+    }
+
+    bool Empty() const
+    {
+        return field_4_used_size == 0;
+    }
+
+    void RemoveAt(int idx)
+    {
+        field_4_used_size--;
+
+        // Overwrite the items to remove with the item from the end
+        field_0_array[idx] = field_0_array[field_4_used_size];
+    }
 };
 
 END_NS_AO
