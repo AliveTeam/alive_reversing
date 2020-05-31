@@ -2,6 +2,7 @@
 
 #include "FunctionFwd.hpp"
 #include "BitField.hpp"
+#include "DynamicArray.hpp"
 
 void AliveLibAO_ForceLink();
 
@@ -72,6 +73,6 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(BaseGameObject, 0x10);
 
-ALIVE_VAR_EXTERN(class DynamicArray*, gBaseGameObject_list_9F2DF0);
+ALIVE_VAR_EXTERN(DynamicArrayT<BaseGameObject>*, gBaseGameObject_list_9F2DF0);
 
 END_NS_AO

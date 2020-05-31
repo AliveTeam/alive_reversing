@@ -13,40 +13,6 @@ struct FP_RECT
 };
 ALIVE_ASSERT_SIZEOF(FP_RECT, 4 * 4);
 
-struct PSX_DISPENV
-{
-    PSX_RECT disp;
-    PSX_RECT screen;
-    char isinter;
-    char isrgb24;
-    char pad0;
-    char pad1;
-};
-// TODO: Size
-
-struct PSX_DR_ENV
-{
-    int field_0_tag;
-    int field_4_code[15];
-};
-// TODO: Size
-
-struct PSX_DRAWENV
-{
-    PSX_RECT field_0_clip;
-    __int16 field_8_ofs[2];
-    PSX_RECT field_C_tw;
-    unsigned __int16 field_14_tpage;
-    char field_16_dtd;
-    char field_17_dfe;
-    char field_18_isbg;
-    char field_19_r0;
-    char field_1A_g0;
-    char field_1B_b0;
-    PSX_DR_ENV field_1C_dr_env;
-};
-// TODO: Size
-
 using TPsxEmuCallBack = std::add_pointer<int(DWORD)>::type;
 
 EXPORT void CC PSX_DispEnv_Set_4ED960(int mode);

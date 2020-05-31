@@ -26,7 +26,7 @@ DynamicArray* DynamicArray::ctor_4043E0(__int16 startingSize)
 
 void DynamicArray::dtor_404440()
 {
-    Mem_Free_450770(field_0_array);
+    ao_delete_free_450770(field_0_array);
 }
 
 __int16 DynamicArray::Push_Back_404450(void *item)
@@ -52,7 +52,7 @@ __int16 DynamicArray::Push_Back_404450(void *item)
         memcpy(pNewArray, field_0_array, field_4_used_size * sizeof(void*));
 
         // Free old array + assign new values
-        Mem_Free_450770(field_0_array);
+        ao_delete_free_450770(field_0_array);
         field_0_array = pNewArray;
         field_6_max_size = newSizeElements;
     }

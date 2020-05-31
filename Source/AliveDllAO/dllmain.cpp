@@ -35,9 +35,7 @@ BOOL WINAPI DllMain(
     _In_ LPVOID    /*lpvReserved*/
     )
 {
-    Game_ForceLink();
     AliveLibAO_ForceLink();
-
 
     if (fdwReason == DLL_PROCESS_ATTACH)
     {

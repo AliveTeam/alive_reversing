@@ -9,10 +9,7 @@
 START_NS_AO
 
 ALIVE_VAR(1, 0x507670, int, gnFrameCount_507670, 0);
-ALIVE_VAR(1, 0x504618, DynamicArray*, gObjList_drawables_504618, nullptr);
-
-END_NS_AO
-
+ALIVE_VAR(1, 0x504618, DynamicArrayT<BaseGameObject>*, gObjList_drawables_504618, nullptr);
 
 void Game_ForceLink()
 {
@@ -102,10 +99,7 @@ ALIVE_ASSERT_SIZEOF(BaseAnimatedObj, 0xD4);
 class ResourceManager
 {
 public:
-    EXPORT void static CC Free_447540(void*)
-    {
-        NOT_IMPLEMENTED();
-    }
+
 };
 
 
@@ -248,3 +242,6 @@ EXPORT void ResourceManager_Request_446C90(const char *, int , int , __int16 , i
 }
 
 ALIVE_VAR(1, 0x508BF4, BYTE, byte_508BF4, 0);
+
+END_NS_AO
+

@@ -2,6 +2,12 @@
 #include "WinMain.hpp"
 #include "Function.hpp"
 #include "bmp.hpp"
+#include "Psx_common.hpp"
+#include "stdlib.hpp"
+#include "BaseGameObject.hpp"
+#include "DynamicArray.hpp"
+#include "Game.hpp"
+#include "Map.hpp"
 
 START_NS_AO
 
@@ -275,9 +281,317 @@ EXPORT void CC Errors_Display_48E050()
     NOT_IMPLEMENTED();
 }
 
-EXPORT void Game_Run_4373D0()
+EXPORT void SYS_EventsPump_44FF90()
 {
     NOT_IMPLEMENTED();
+}
+
+EXPORT int DebugOut_495990(const char*, ...)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT int PSX_ResetCallBack_49AFB0()
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC Init_Sound_DynamicArrays_And_Others_41CD20()
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC Input_Init_44EB60()
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC DDCheat_Allocate_409560()
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC Game_Init_LoadingIcon_445E30()
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC Game_Loop_437630()
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC Game_Free_LoadingIcon_445E80()
+{
+    NOT_IMPLEMENTED();
+}
+
+struct PSX_Display_Buffer
+{
+    PSX_DRAWENV field_0_draw_env;
+    PSX_DISPENV field_5C_disp_env;
+    int field_70_ot_buffer[256];
+};
+ALIVE_ASSERT_SIZEOF(PSX_Display_Buffer, 0x470);
+
+struct PSX_Display_Params;
+
+class PsxDisplay
+{
+public:
+
+    EXPORT PsxDisplay* ctor_40DAB0(PSX_Display_Params* /*pParams*/)
+    {
+        NOT_IMPLEMENTED();
+        return this;
+    }
+
+    unsigned __int16 field_0_width;
+    unsigned __int16 field_2_height;
+    __int16 field_4_bpp;
+    __int16 field_6_max_buffers;
+    unsigned __int16 field_8_buffer_size;
+    unsigned __int16 field_A_buffer_index;
+    PSX_Display_Buffer field_C_drawEnv[2];
+};
+ALIVE_ASSERT_SIZEOF(PsxDisplay, 0x8EC);
+
+struct PSX_Display_Params
+{
+    __int16 field_0_width;
+    __int16 field_2_height;
+    __int16 field_4_bpp;
+    __int16 field_6_max_buffers;
+    __int16 field_8_buffer_size;
+    __int16 field_A_k32;
+    __int16 field_C_k1;
+    __int16 field_E;
+};
+ALIVE_ASSERT_SIZEOF(PSX_Display_Params, 0x10);
+
+struct PSX_Pad
+{
+    unsigned __int16 field_0_pressed;
+    unsigned __int8 field_2;
+    char field_3;
+    __int16 field_4;
+    unsigned __int16 field_6_held;
+    int field_8;
+};
+ALIVE_ASSERT_SIZEOF(PSX_Pad, 0xC);
+
+class InputObject
+{
+public:
+    EXPORT void InitPad_4331A0(unsigned int /*padCount*/)
+    {
+        NOT_IMPLEMENTED();
+    }
+
+    static EXPORT void CC Shutdown_433230()
+    {
+        NOT_IMPLEMENTED();
+    }
+
+    PSX_Pad field_0_pads[2];
+    BYTE** field_18_demo_res;
+    int field_1C_demo_command_index;
+    __int16 field_20_demo_playing;
+    __int16 field_22;
+    int field_24_command;
+    int field_28_command_duration;
+    int field_2C;
+};
+ALIVE_ASSERT_SIZEOF(InputObject, 0x30);
+
+class GameSpeak : public BaseGameObject
+{
+public:
+    EXPORT GameSpeak* ctor_40F990()
+    {
+        NOT_IMPLEMENTED();
+        return this;
+    }
+
+    virtual BaseGameObject* VDestructor(signed int /*flags*/) override
+    {
+        return this;
+    }
+
+    __int16 field_10;
+    __int16 field_12;
+    int field_14;
+    int field_18_idx;
+    char field_1C[32];
+};
+ALIVE_ASSERT_SIZEOF(GameSpeak, 0x3C);
+
+class CheatController : public BaseGameObject
+{
+public:
+    EXPORT CheatController* ctor_40FBF0()
+    {
+        NOT_IMPLEMENTED();
+        return this;
+    }
+
+    virtual BaseGameObject* VDestructor(signed int /*flags*/) override
+    {
+        return this;
+    }
+
+    __int16 field_10;
+    __int16 field_12;
+};
+ALIVE_ASSERT_SIZEOF(CheatController, 0x14);
+
+class DDCheat : public BaseGameObject
+{
+public:
+    static EXPORT void ClearProperties_4095B0()
+    {
+        NOT_IMPLEMENTED();
+    }
+
+    int field_10;
+    int field_14;
+    int field_18;
+    int field_1C;
+    int field_20;
+    int field_24;
+};
+ALIVE_ASSERT_SIZEOF(DDCheat, 0x28);
+
+
+ALIVE_VAR(1, 0x507698, short, gAttract_507698, 0);
+ALIVE_VAR(1, 0x507B0C, int, gTimeOut_NotUsed_507B0C, 0);
+ALIVE_VAR(1, 0x507B10, int, gFileOffset_NotUsed_507B10, 0);
+const PSX_Display_Params kDisplayParams = { 640, 240, 16, 1, 42, 32, 1, 0 };
+ALIVE_VAR(1, 0x4BB830, PSX_Display_Params, gPsxDisplayParams_4BB830, kDisplayParams);
+ALIVE_VAR(1, 0x504C78, PsxDisplay, gPsxDisplay_504C78, {});
+ALIVE_VAR(1, 0x5009E8, InputObject, sInputObject_5009E8, {});
+
+
+ALIVE_VAR(1, 0x505564, DynamicArrayT<void>*, gObjList_animations_505564, nullptr); // TODO: Add types
+ALIVE_VAR(1, 0x4FF954, GameSpeak*, pEventSystem_4FF954, nullptr);
+ALIVE_VAR(1, 0x4FF958, CheatController*, pCheatController_4FF958, nullptr);
+
+EXPORT int CC PSX_ResetGraph_4987E0(int /*mode*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT int CC PSX_StopCallBack_49AFC0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT int CC PSX_CdControlB_49BB40(int, int, int)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT void CC SND_Shutdown_476EC0()
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC SND_Reset_Ambiance_4765E0()
+{
+    NOT_IMPLEMENTED();
+}
+
+class MusicController
+{
+public:
+    // TODO: Class data
+
+    static EXPORT void Shutdown_4437E0()
+    {
+        NOT_IMPLEMENTED();
+    }
+};
+
+
+EXPORT void Game_Run_4373D0()
+{
+    SYS_EventsPump_44FF90();
+
+    gAttract_507698 = 0;
+    gTimeOut_NotUsed_507B0C = 6000;
+    gFileOffset_NotUsed_507B10 = 34;
+
+    DebugOut_495990("Abe's Oddysee Attract=%d Timeout=%d FileOffset=%d DA Track=NA\n", 0, 200, 34);
+    SYS_EventsPump_44FF90();
+    PSX_ResetCallBack_49AFB0();
+
+    //Nop_49BAF0();
+    //Nop_49BB50();
+
+    gPsxDisplay_504C78.ctor_40DAB0(&gPsxDisplayParams_4BB830);
+    sInputObject_5009E8.InitPad_4331A0(1);
+
+    gBaseGameObject_list_9F2DF0 = ao_new<DynamicArrayT<BaseGameObject>>();
+    gBaseGameObject_list_9F2DF0->ctor_4043E0(90);
+
+    gObjList_drawables_504618 = ao_new<DynamicArrayT<BaseGameObject>>();
+    gObjList_drawables_504618->ctor_4043E0(80);
+
+    gObjList_animations_505564 = ao_new<DynamicArrayT<void>>();
+    gObjList_animations_505564->ctor_4043E0(80);
+
+    Init_Sound_DynamicArrays_And_Others_41CD20();
+    Input_Init_44EB60();
+
+    gMap_507BA8.Init_443EE0(0, 1, 10, 0, 0, 0);
+
+    DDCheat_Allocate_409560();
+
+    pEventSystem_4FF954 = ao_new<GameSpeak>();
+    pEventSystem_4FF954->ctor_40F990();
+
+    pCheatController_4FF958 = ao_new<CheatController>();
+    pCheatController_4FF958->ctor_40FBF0();
+
+    Game_Init_LoadingIcon_445E30();
+    Game_Loop_437630();
+    Game_Free_LoadingIcon_445E80();
+
+    DDCheat::ClearProperties_4095B0();
+
+    gMap_507BA8.Shutdown_443F90();
+
+    if (gObjList_animations_505564)
+    {
+        gObjList_animations_505564->dtor_404440();
+        ao_delete_free_447540(gObjList_animations_505564);
+    }
+
+    if (gObjList_drawables_504618)
+    {
+        gObjList_drawables_504618->dtor_404440();
+        ao_delete_free_447540(gObjList_drawables_504618);
+    }
+
+    if (gBaseGameObject_list_9F2DF0)
+    {
+        gBaseGameObject_list_9F2DF0->dtor_404440();
+        ao_delete_free_447540(gBaseGameObject_list_9F2DF0);
+    }
+
+    MusicController::Shutdown_4437E0();
+    SND_Reset_Ambiance_4765E0();
+    SND_Shutdown_476EC0();
+    PSX_CdControlB_49BB40(8, 0, 0);
+    PSX_ResetCallBack_49AFB0();
+    PSX_StopCallBack_49AFC0();
+    InputObject::Shutdown_433230();
+    PSX_ResetGraph_4987E0(3);
+
+    DebugOut_495990("Abe's Oddysee Demo Done\n");
 }
 
 EXPORT void CC Game_SetExitCallBack_48E040(void*)

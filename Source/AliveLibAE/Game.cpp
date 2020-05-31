@@ -71,7 +71,7 @@ ALIVE_VAR(1, 0x5CA4D2, bool, byte_5CA4D2, false);
 ALIVE_VAR(1, 0x5CA4E0, int, dword_5CA4E0, 0);
 
 // Fps calcs
-ALIVE_VAR(1, 0xBD0F08, char, byte_BD0F08, 0);
+ALIVE_VAR(1, 0xBD0F08, char, bQuitting_BD0F08, 0);
 ALIVE_VAR(1, 0x55EFDC, double, sFps_55EFDC, 0.0);
 ALIVE_VAR(1, 0x5CA4DC, int, sFrameDiff_5CA4DC, 0);
 ALIVE_VAR(1, 0xC2D03C, int, sNumRenderedPrims_C2D03C, 0);
@@ -272,7 +272,7 @@ EXPORT int CC Game_End_Frame_4950F0(DWORD flags)
 
     if (Sys_PumpMessages_4EE4F4())
     {
-        byte_BD0F08 = 1;
+        bQuitting_BD0F08 = 1;
         exit(0);
     }
     sub_4FBA20();
@@ -443,7 +443,7 @@ EXPORT void CC SYS_EventsPump_494580()
 {
     if (Sys_PumpMessages_4EE4F4())
     {
-        byte_BD0F08 = 1;
+        bQuitting_BD0F08 = 1;
         exit(0);
     }
     sub_4FBA20();

@@ -41,7 +41,10 @@ static BOOL CALLBACK EnumExports(PVOID pContext, ULONG /*nOrdinal*/, PCHAR pszNa
 void ExportHooker::Apply(bool saveImplementedFuncs /*= false*/)
 {
 #if defined(_WIN32) && !defined(_WIN64)
-    CheckVars(); // Check for dup vars or vars that overlap in address space
+    if (RunningAsInjectedDll())
+    {
+        CheckVars(); // Check for dup vars or vars that overlap in address space
+    }
 
     if (!DetourEnumerateExports(mhInstance, this, EnumExports))
     {
