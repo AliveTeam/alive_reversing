@@ -289,11 +289,13 @@ EXPORT void SYS_EventsPump_44FF90()
 EXPORT int DebugOut_495990(const char*, ...)
 {
     NOT_IMPLEMENTED();
+    return 0;
 }
 
 EXPORT int PSX_ResetCallBack_49AFB0()
 {
     NOT_IMPLEMENTED();
+    return 0;
 }
 
 EXPORT void CC Init_Sound_DynamicArrays_And_Others_41CD20()
