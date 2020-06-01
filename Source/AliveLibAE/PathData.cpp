@@ -1182,7 +1182,7 @@ ALIVE_VAR(1, 0x559660, PathRootContainer, sPathData_559660, pathData);
 
 const char* CdLvlName(LevelIds lvlId)
 {
-    return sPathData_559660.paths[static_cast<int>(lvlId)].field_22_lvl_name_cd;
+    return sPathData_559660.paths[static_cast<int>(lvlId)].field_20_lvl_name_cd;
 }
 
 const PathBlyRec* CC Path_Get_Bly_Record_460F30(LevelIds lvlId, unsigned __int16 pathId)
@@ -1197,5 +1197,5 @@ FmvInfo* CC Path_Get_FMV_Record_460F70(LevelIds lvlId, unsigned __int16 fmvId)
 
 void CC Path_Format_CameraName_460FB0(char* pStrBuffer, LevelIds levelId, __int16 pathId, __int16 cameraId)
 {
-    sprintf(pStrBuffer, "%sP%02dC%02d.CAM", sPathData_559660.paths[static_cast<int>(levelId)].field_18_lvl_name, pathId, cameraId);
+    sprintf(pStrBuffer, "%sP%02dC%02d.CAM", sPathData_559660.paths[static_cast<int>(levelId)].field_14_lvl_name, pathId, cameraId);
 }

@@ -4,7 +4,6 @@
 #include "Factory.hpp"
 #include "Collisions.hpp"
 
-// TODO: Rename to whatever they really are Mines, Necrum etc
 enum class LevelIds : __int16
 {
     eNone = -1,
@@ -23,7 +22,7 @@ enum class LevelIds : __int16
     eFeeCoDepot_Ender_12 = 12,
     eBarracks_Ender_13 = 13,
     eBonewerkz_Ender_14 = 14,
-    e15 = 15,
+    eNotUsed15 = 15, // Probably test level?
     eCredits_16 = 16
 };
 
@@ -74,7 +73,7 @@ struct PathBlyRec
     const char *field_0_blyName;
     const PathData *field_4_pPathData;
     const CollisionInfo *field_8_pCollisionData;
-    WORD field_C;
+    WORD field_C_overlay_id;
     WORD field_E;
 };
 
@@ -93,18 +92,18 @@ struct PathRoot
     SoundBlockInfo* field_8_pMusicInfo;
     const char* field_C_bsq_file_name;
     __int16 field_10_reverb;
-    __int16 field_14_bg_music_id;
-    const char* field_18_lvl_name;
-    __int16 field_1A_num_paths;
-    __int16 field_1C_unused; // message to disply to change cd ??
-    int field_1E;
-    const char* field_22_lvl_name_cd;
-    int field_26;
-    const char* field_2A_ovl_name_cd;
-    int field_2E;
-    const char* field_32_mov_name_cd;
-    const char* field_36_idx_name;
-    const char* field_3A_bnd_name;
+    __int16 field_12_bg_music_id;
+    const char* field_14_lvl_name;
+    __int16 field_18_num_paths;
+    __int16 field_1A_unused; // message to display to change cd ??
+    int field_1C;
+    const char* field_20_lvl_name_cd;
+    int field_24;
+    const char* field_28_ovl_name_cd;
+    int field_2C;
+    const char* field_30_mov_name_cd;
+    const char* field_34_idx_name;
+    const char* field_38_bnd_name;
 };
 
 struct PathRootContainer

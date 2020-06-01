@@ -3,6 +3,7 @@
 #include "ExportHooker.hpp"
 #include "BaseGameObject.hpp"
 #include "Game.hpp"
+#include "..\AliveLibAO\WinMain.hpp"
 
 bool RunningAsInjectedDll()
 {
@@ -21,8 +22,8 @@ extern "C"
         // 4. Therefore the patched WinMain that jmp's to this function is overwritten before 
         // it can ever be executed.
         LOG_ERROR("Entry point was not hooked!");
-        //Winmain_ForceLink(); // Else the entire AliveLibAO will be discarded by the linker because there are 0 calls to any of it
-        //abort();
+        AO::WinMain_ForceLink(); // Else the entire AliveLibAO will be discarded by the linker because there are 0 calls to any of it
+        abort();
     }
 }
 
@@ -34,9 +35,7 @@ BOOL WINAPI DllMain(
     _In_ LPVOID    /*lpvReserved*/
     )
 {
-    Game_ForceLink();
     AliveLibAO_ForceLink();
-
 
     if (fdwReason == DLL_PROCESS_ATTACH)
     {

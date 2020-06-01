@@ -12,7 +12,7 @@ EXPORT void CC Remove_Item_417350(void*)
 
 START_NS_AO
 
-ALIVE_VAR(1, 0x9F2DF0, DynamicArray*, gBaseGameObject_list_9F2DF0, nullptr);
+ALIVE_VAR(1, 0x9F2DF0, DynamicArrayT<BaseGameObject>*, gBaseGameObject_list_9F2DF0, nullptr);
 
 BaseGameObject* BaseGameObject::ctor_487E10(__int16 arraySize)
 {
@@ -44,7 +44,7 @@ BaseGameObject* BaseGameObject::ctor_487E10(__int16 arraySize)
         return this;
     }
 
-    if (!gBaseGameObject_list_9F2DF0->Push_Back_404450(this))
+    if (!gBaseGameObject_list_9F2DF0->Push_Back(this))
     {
         field_6_flags.Set(Options::eListAddFailed_Bit1);
     }

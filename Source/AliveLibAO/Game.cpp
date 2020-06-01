@@ -9,10 +9,7 @@
 START_NS_AO
 
 ALIVE_VAR(1, 0x507670, int, gnFrameCount_507670, 0);
-ALIVE_VAR(1, 0x504618, DynamicArray*, gObjList_drawables_504618, nullptr);
-
-END_NS_AO
-
+ALIVE_VAR(1, 0x504618, DynamicArrayT<BaseGameObject>*, gObjList_drawables_504618, nullptr);
 
 void Game_ForceLink()
 {
@@ -97,16 +94,6 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(BaseAnimatedObj, 0xD4);
 
-
-
-class ResourceManager
-{
-public:
-    EXPORT void static CC Free_447540(void*)
-    {
-        NOT_IMPLEMENTED();
-    }
-};
 
 
 
@@ -242,9 +229,7 @@ char sStatsSignFontPalette_4CD570[32] =
     0x6B, 0x2D, 0x8C, 0x31, 0xAD, 0x35, 0xEF, 0x3D, 0x10, 0x42,
     0x73, 0x4E };
 
-EXPORT void ResourceManager_Request_446C90(const char *, int , int , __int16 , int )
-{
-    NOT_IMPLEMENTED();
-}
-
 ALIVE_VAR(1, 0x508BF4, BYTE, byte_508BF4, 0);
+
+END_NS_AO
+

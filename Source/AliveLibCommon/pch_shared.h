@@ -56,6 +56,11 @@ struct POINT
     LONG y;
 };
 
+using HWND = void*; // Temp as is the rest of this till all win32 junk is nuked
+using IDirectDrawSurface = void*;
+using WPARAM = unsigned int;
+using LPARAM = unsigned int;
+
 #define LRESULT
 
 #define VK_NUMPAD0        0x60

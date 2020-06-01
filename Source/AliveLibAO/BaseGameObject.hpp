@@ -2,6 +2,7 @@
 
 #include "FunctionFwd.hpp"
 #include "BitField.hpp"
+#include "DynamicArray.hpp"
 
 void AliveLibAO_ForceLink();
 
@@ -67,11 +68,11 @@ public:
     BitField16<Options> field_6_flags;
     int field_8_update_delay;
     char field_C_bCanKill;
-    char field_D;
-    __int16 field_E;
+    char field_D; // pad ?
+    __int16 field_E; // ??
 };
 ALIVE_ASSERT_SIZEOF(BaseGameObject, 0x10);
 
-ALIVE_VAR_EXTERN(class DynamicArray*, gBaseGameObject_list_9F2DF0);
+ALIVE_VAR_EXTERN(DynamicArrayT<BaseGameObject>*, gBaseGameObject_list_9F2DF0);
 
 END_NS_AO

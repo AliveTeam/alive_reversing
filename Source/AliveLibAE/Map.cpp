@@ -659,7 +659,7 @@ void Map::GoTo_Camera_481890()
             stru_5C3110.Free_433130();
 
             // Free all but the first ?
-            for (int i = 1; i <= sPathData_559660.paths[static_cast<int>(field_0_current_level)].field_1A_num_paths; ++i)
+            for (int i = 1; i <= sPathData_559660.paths[static_cast<int>(field_0_current_level)].field_18_num_paths; ++i)
             {
                 ResourceManager::FreeResource_49C330(field_54_path_res_array.field_0_pPathRecs[i]);
                 field_54_path_res_array.field_0_pPathRecs[i] = nullptr;
@@ -680,27 +680,27 @@ void Map::GoTo_Camera_481890()
         const PathRoot& pathData = sPathData_559660.paths[static_cast<int>(field_A_level)];
 
         // Open LVL
-        while (!sLvlArchive_5BC520.Open_Archive_432E80(pathData.field_22_lvl_name_cd))
+        while (!sLvlArchive_5BC520.Open_Archive_432E80(pathData.field_20_lvl_name_cd))
         {
             if (word_5C1BA0)
             {
                 // NOTE: Dead branch? Given no attract directory exists
                 char fileName[256] = {};
                 strcpy(fileName, "ATTRACT");
-                strcat(fileName, pathData.field_22_lvl_name_cd);
+                strcat(fileName, pathData.field_20_lvl_name_cd);
                 if (sLvlArchive_5BC520.Open_Archive_432E80(fileName))
                 {
                     break;
                 }
             }
-            Display_Full_Screen_Message_Blocking_465820(pathData.field_1C_unused, 0);
+            Display_Full_Screen_Message_Blocking_465820(pathData.field_1A_unused, 0);
         }
 
         // Open Path BND
-        ResourceManager::LoadResourceFile_49C170(pathData.field_3A_bnd_name, 0);
+        ResourceManager::LoadResourceFile_49C170(pathData.field_38_bnd_name, 0);
 
         // Get pointer to each PATH
-        for (int i = 1; i <= pathData.field_1A_num_paths; ++i)
+        for (int i = 1; i <= pathData.field_18_num_paths; ++i)
         {
             field_54_path_res_array.field_0_pPathRecs[i] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, TRUE, FALSE);
         }
@@ -717,7 +717,7 @@ void Map::GoTo_Camera_481890()
             auto pBackgroundMusic = ae_new<BackgroundMusic>();
             if (pBackgroundMusic)
             {
-                pBackgroundMusic->ctor_4CB110(pathData.field_14_bg_music_id);
+                pBackgroundMusic->ctor_4CB110(pathData.field_12_bg_music_id);
             }
         }
 
@@ -928,13 +928,12 @@ void Map::GoTo_Camera_481890()
                 // TODO: Add template helpers
                 
                 // Teleporter transition
-                Path_Teleporter* pTeleporterTlv = reinterpret_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes::Teleporter_88, 0));
-                Path_Teleporter_Data teleporterData = {};
-                memcpy(&teleporterData, &pTeleporterTlv->field_10_data, sizeof(Path_Teleporter_Data));
+                Path_Teleporter* pTeleporterTlv = static_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes::Teleporter_88, 0));
+                Path_Teleporter_Data teleporterData = pTeleporterTlv->field_10_data;
                 while (teleporterData.field_10_id != sActiveHero_5C1B68->field_1A0_door_id)
                 {
-                    pTeleporterTlv = reinterpret_cast<Path_Teleporter*>(Path::TLV_Next_Of_Type_4DB720(pTeleporterTlv, TlvTypes::Teleporter_88));
-                    memcpy(&teleporterData, &pTeleporterTlv->field_10_data, sizeof(Path_Teleporter_Data));
+                    pTeleporterTlv = static_cast<Path_Teleporter*>(Path::TLV_Next_Of_Type_4DB720(pTeleporterTlv, TlvTypes::Teleporter_88));
+                    teleporterData = pTeleporterTlv->field_10_data;
                 }
 
                 CreateScreenTransistionForTLV(pTeleporterTlv);
@@ -942,8 +941,8 @@ void Map::GoTo_Camera_481890()
         }
     }
 
-    word_5C1BAA = 0;
-    dword_5C1BAC = 0;
+    bHideLoadingIcon_5C1BAA = 0;
+    loading_ticks_5C1BAC = 0;
 
     field_8_force_load = 0;
 
@@ -997,7 +996,7 @@ void Map::Get_Abe_Spawn_Pos_4806D0(PSX_Point* pPoint)
 __int16 Map::Get_Path_Unknown_480710()
 {
     // TODO: Probably need to redo field_C data as 1 bytes instead of a word
-    return Path_Get_Bly_Record_460F30(field_A_level, field_C_path)->field_C & 0xFF;
+    return Path_Get_Bly_Record_460F30(field_A_level, field_C_path)->field_C_overlay_id & 0xFF;
 }
 
 void Map::Create_FG1s_480F10()

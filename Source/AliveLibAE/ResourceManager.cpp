@@ -16,8 +16,8 @@ ALIVE_VAR(1, 0xab4a04, DWORD, sManagedMemoryUsedSize_AB4A04, 0);
 ALIVE_VAR(1, 0xab4a08, DWORD, sPeakedManagedMemUsage_AB4A08, 0);
 
 ALIVE_VAR(1, 0x5C1B96, short, sbLoadingInProgress_5C1B96, 0);
-ALIVE_VAR(1, 0x5C1BAA, short, word_5C1BAA, 0);
-ALIVE_VAR(1, 0x5C1BAC, int, dword_5C1BAC, 0);
+ALIVE_VAR(1, 0x5C1BAA, short, bHideLoadingIcon_5C1BAA, 0);
+ALIVE_VAR(1, 0x5C1BAC, int, loading_ticks_5C1BAC, 0);
 ALIVE_VAR(1, 0xAB49F4, short, sResources_Pending_Loading_AB49F4, 0);
 ALIVE_VAR(1, 0xAB4A0C, short, sAllocationFailed_AB4A0C, 0);
 
@@ -68,7 +68,7 @@ EXPORT void CC Game_ShowLoadingIcon_482D80()
     PSX_SetDefDispEnv_4F55A0(&dispBuffer.field_5C_disp_env, 0, 0, 640, 240);
     PSX_PutDispEnv_4F5890(&dispBuffer.field_5C_disp_env);
     pParticle->field_6_flags.Set(BaseGameObject::eDead_Bit3);
-    word_5C1BAA = 1;
+    bHideLoadingIcon_5C1BAA = 1;
 }
 
 ResourceManager* ResourceManager::ctor_464910()
@@ -531,8 +531,8 @@ void ResourceManager::LoadingLoop_465590(__int16 bShowLoadingIcon)
         SYS_EventsPump_494580();
         VUpdate();  // vLoadFile_StateMachine_464A70 - process loading of files
         PSX_VSync_4F6170(0);
-        const int ticks = dword_5C1BAC++ + 1;
-        if (bShowLoadingIcon && !word_5C1BAA && ticks > 180)
+        const int ticks = loading_ticks_5C1BAC++ + 1;
+        if (bShowLoadingIcon && !bHideLoadingIcon_5C1BAA && ticks > 180)
         {
             // Render everything in the ordering table including the loading icon
             Game_ShowLoadingIcon_482D80();

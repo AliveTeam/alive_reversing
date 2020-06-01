@@ -17,6 +17,12 @@ SET(AliveLibSrcAO
    Map.cpp
    Alarm.hpp
    Alarm.cpp
+   WinMain.hpp
+   WinMain.cpp
+   PathData.hpp
+   PathData.cpp
+   bmp.hpp
+   Animation.hpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx_ao.h stdafx_ao.cpp AliveLibSrcAO)

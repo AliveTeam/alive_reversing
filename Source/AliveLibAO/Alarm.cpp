@@ -37,7 +37,7 @@ EXPORT Alarm * Alarm::ctor_402570(__int16 a2, __int16 switchId, __int16 a4, __in
     }
     else
     {
-        gObjList_drawables_504618->Remove_Item_404520(this);
+        gObjList_drawables_504618->Remove_Item(this);
         field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
     }
     return this;

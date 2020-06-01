@@ -8,13 +8,18 @@ EXPORT void* alloc_450740(size_t)
     return nullptr;
 }
 
-EXPORT void* alloc_447520(size_t)
+EXPORT void ao_delete_free_450770(void*)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void* CC ao_new_malloc_447520(int /*size*/)
 {
     NOT_IMPLEMENTED();
     return nullptr;
 }
 
-EXPORT void Mem_Free_450770(void*)
+EXPORT void CC ao_delete_free_447540(void* /*pMemory*/)
 {
     NOT_IMPLEMENTED();
 }

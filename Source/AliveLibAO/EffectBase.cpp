@@ -12,7 +12,7 @@ EffectBase* EffectBase::ctor_461550(__int16 layer, char abr)
     ctor_487E10(1);
     SetVTable(this, 0x4BC900);
     field_4_typeId = Types::eEffectBase_79;
-    gObjList_drawables_504618->Push_Back_404450(this);
+    gObjList_drawables_504618->Push_Back(this);
     field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
     field_10_path_id = gMap_507BA8.field_2_current_path;
     field_12_level_id = gMap_507BA8.field_0_current_level;

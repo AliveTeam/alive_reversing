@@ -2059,7 +2059,7 @@ signed int MainMenuController::LoadDemo_Update_4D1040(DWORD)
         char lvFilename[256] = {};
         strcpy(lvFilename, "ATTRACT");
         memset(&lvFilename[8], 0, 0xF8u);
-        strcpy(&lvFilename[7], sPathData_559660.paths[levelId].field_22_lvl_name_cd);
+        strcpy(&lvFilename[7], sPathData_559660.paths[levelId].field_20_lvl_name_cd);
         auto lvFilenameNoPrefix = &lvFilename[7];
 
         while (!MainMenuController::checkIfDemoFileExists_4D1430(lvFilenameNoPrefix) && !MainMenuController::checkIfDemoFileExists_4D1430(lvFilename))
@@ -2069,7 +2069,7 @@ signed int MainMenuController::LoadDemo_Update_4D1040(DWORD)
             {
                 dword_55C128 = -1;
             }
-            if (!Display_Full_Screen_Message_Blocking_465820(sPathData_559660.paths[levelId].field_1C_unused, 2))
+            if (!Display_Full_Screen_Message_Blocking_465820(sPathData_559660.paths[levelId].field_1A_unused, 2))
             {
                 field_1F8_page_timeout = 0;
                 return word_5C1B9C != 0 ? 30 : 1;
