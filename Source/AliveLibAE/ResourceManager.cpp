@@ -312,7 +312,7 @@ void ResourceManager::OnResourceLoaded_464CE0()
     field_2C_pFileItem = nullptr;
 }
 
-void ResourceManager::ResourceManager_FileRecord_1C::dtor_464EA0()
+void ResourceManager::ResourceManager_FileRecord::dtor_464EA0()
 {
     field_10_file_sections_dArray.dtor_40CAD0();
 }
@@ -336,7 +336,7 @@ void ResourceManager::LoadResource_464EE0(const char* pFileItem, DWORD type, DWO
 
     for (int i=0; i<field_20_files_pending_loading.Size(); i++)
     {
-        ResourceManager_FileRecord_1C* pFileRec = field_20_files_pending_loading.ItemAt(i);
+        ResourceManager_FileRecord* pFileRec = field_20_files_pending_loading.ItemAt(i);
         if (!pFileRec)
         {
             break;
@@ -385,7 +385,7 @@ void ResourceManager::LoadResource_464EE0(const char* pFileItem, DWORD type, DWO
         }
     }
 
-    auto pNewFileRec = ae_new<ResourceManager_FileRecord_1C>();
+    auto pNewFileRec = ae_new<ResourceManager_FileRecord>();
     pNewFileRec->field_10_file_sections_dArray.ctor_40CA60(3);
     pNewFileRec->field_0_fileName = reinterpret_cast<char*>(ae_malloc_non_zero_4954F0(strlen(pFileItem) + 1));
     strcpy(pNewFileRec->field_0_fileName, pFileItem);
@@ -443,10 +443,10 @@ void ResourceManager::LoadResourcesFromList_465150(const char* pFileName, Resour
     }
 
     // Check if we already have a file record or not
-    ResourceManager_FileRecord_1C* pFoundFileRecord = nullptr;
+    ResourceManager_FileRecord* pFoundFileRecord = nullptr;
     for (int fileIdx1=0; fileIdx1 < field_20_files_pending_loading.Size(); fileIdx1++)
     {
-        ResourceManager_FileRecord_1C* pFileRec = field_20_files_pending_loading.ItemAt(fileIdx1);
+        ResourceManager_FileRecord* pFileRec = field_20_files_pending_loading.ItemAt(fileIdx1);
         if (!pFileRec)
         {
             break;
@@ -460,7 +460,7 @@ void ResourceManager::LoadResourcesFromList_465150(const char* pFileName, Resour
     }
 
     // Create a new record or use the one we found
-    auto pNewFileRec = pFoundFileRecord ? pFoundFileRecord : ae_new<ResourceManager_FileRecord_1C>();
+    auto pNewFileRec = pFoundFileRecord ? pFoundFileRecord : ae_new<ResourceManager_FileRecord>();
     if (!pFoundFileRecord)
     {
         // Only do ctor stuff if we created a new record
@@ -494,9 +494,9 @@ void ResourceManager::LoadResourcesFromList_465150(const char* pFileName, Resour
     }
 }
 
-void ResourceManager::LoadResourceFile_465460(const char* filename, Camera* pCam, Camera* a4, ResourceManager::TLoaderFn pFn, __int16 a6)
+void ResourceManager::LoadResourceFile_465460(const char* filename, Camera* pCam, Camera* pCam2, ResourceManager::TLoaderFn pFn, __int16 bAddUseCount)
 {
-    auto pFileRecord = ae_new<ResourceManager_FileRecord_1C>();
+    auto pFileRecord = ae_new<ResourceManager_FileRecord>();
     if (pFileRecord)
     {
         // TODO: De-inline this ctor
@@ -512,11 +512,11 @@ void ResourceManager::LoadResourceFile_465460(const char* filename, Camera* pCam
     auto pFilePart = ae_new<ResourceManager_FilePartRecord_18>();
     // TODO: De-inline this ctor
     pFilePart->field_8_pCamera = pCam;
-    pFilePart->field_C_fn_arg_pCamera = a4;
+    pFilePart->field_C_fn_arg_pCamera = pCam2;
     pFilePart->field_10_pFn = pFn;
     pFilePart->field_0_type = 0;
     pFilePart->field_4_id = 0;
-    pFilePart->field_14_bAddUseCount = a6;
+    pFilePart->field_14_bAddUseCount = bAddUseCount;
     // Add the part to the file
     pFileRecord->field_10_file_sections_dArray.Push_Back(pFilePart);
 
@@ -551,7 +551,7 @@ void ResourceManager::Shutdown_465610()
     while (fileIdx < pFilesArray->Size())
     {
         // Iterate and clear out the file parts in this item
-        ResourceManager_FileRecord_1C* pFileRec = pFilesArray->ItemAt(fileIdx);
+        ResourceManager_FileRecord* pFileRec = pFilesArray->ItemAt(fileIdx);
         iter.field_4_idx = fileIdx + 1;
         if (!pFileRec)
         {
@@ -595,7 +595,7 @@ void ResourceManager::Free_Resources_For_Camera_4656F0(const Camera* pCamera)
     filesIter.field_4_idx = 0;
     while (filesIter.field_4_idx < filesIter.field_0_pDynamicArray->field_4_used_size)
     {
-        ResourceManager_FileRecord_1C* pFileItem = field_20_files_pending_loading.ItemAt(filesIter.field_4_idx);
+        ResourceManager_FileRecord* pFileItem = field_20_files_pending_loading.ItemAt(filesIter.field_4_idx);
         filesIter.field_4_idx++;
 
         if (!pFileItem)

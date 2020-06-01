@@ -360,13 +360,16 @@ void ExportHooker::OnExport(PCHAR pszName, PVOID pCode)
                 else
                 {
                     auto it = mUsedAddrs.find(addr);
-                    if (it != std::end(mUsedAddrs))
+                    // Addresses can be dup'd in standalone as we have all of AO/AE address space mixed
+                    if (RunningAsInjectedDll())
                     {
-                        std::stringstream s;
-                        s << "Duplicated impl function for address " << std::hex << "0x" << addr << " already used by " << it->second.Name() << " when checking " << exportedFunctionName;
-                        HOOK_FATAL(s.str().c_str());
+                        if (it != std::end(mUsedAddrs))
+                        {
+                            std::stringstream s;
+                            s << "Duplicated impl function for address " << std::hex << "0x" << addr << " already used by " << it->second.Name() << " when checking " << exportedFunctionName;
+                            HOOK_FATAL(s.str().c_str());
+                        }
                     }
-
 
                     ExportInformation exportInfo = GetExportInformation(pCode, exportedFunctionName);
                     mExports.push_back({ exportedFunctionName, pCode, addr, addr, exportInfo.mIsImplemented });

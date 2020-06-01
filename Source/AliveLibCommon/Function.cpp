@@ -28,9 +28,9 @@ struct TVarInfo
     const char* mName;
 };
 
-static std::set<TVarInfo>& Vars()
+static std::vector<TVarInfo>& Vars()
 {
-    static std::set<TVarInfo> v;
+    static std::vector<TVarInfo> v;
     return v;
 }
 
@@ -40,20 +40,36 @@ void CheckVars()
 
     const auto& vars = Vars();
 
+    std::set<DWORD> usedAddrs;
+    std::vector<std::string> dupVars;
+    for (const auto& varToCheck : vars)
+    {
+        auto it = usedAddrs.find(varToCheck.mAddr);
+        if (it != std::end(usedAddrs))
+        {
+            std::stringstream s;
+            s << "Var at addr 0x" << std::hex << varToCheck.mAddr << " (" << varToCheck.mName << ") is defined more than once";
+            dupVars.push_back(s.str());
+        }
+        usedAddrs.insert(varToCheck.mAddr);
+    }
+
+    for (const auto& err : dupVars)
+    {
+        LOG_ERROR(err);
+    }
+
+    if (!dupVars.empty())
+    {
+        HOOK_FATAL("Duplicated vars found");
+    }
+
     for (const auto& varToCheck : vars)
     {
         for (const auto& var : vars)
         {
             if (&varToCheck != &var)
             {
-                if (varToCheck.mAddr == var.mAddr)
-                {
-                    // Var has been defined twice
-                    std::stringstream s;
-                    s << "Var at addr 0x" << std::hex << varToCheck.mAddr << " (" << varToCheck.mName << ") is defined more than once (" << var.mName << ")";
-                    HOOK_FATAL(s.str().c_str());
-                }
-
                 // TODO: check size of varToCheck within range
                 const DWORD varStart = var.mAddr;
                 const DWORD varEnd = var.mAddr + var.mSize;
@@ -80,7 +96,7 @@ bool operator < (const TVarInfo& lhs, const TVarInfo& rhs)
 
 AliveVar::AliveVar(const char* name, DWORD addr, DWORD sizeInBytes, bool isPointerType, bool isConstData)
 {
-    Vars().insert({ addr, sizeInBytes, isPointerType, isConstData, name });
+    Vars().push_back({ addr, sizeInBytes, isPointerType, isConstData, name });
 }
 
 ScopedDetour::~ScopedDetour()

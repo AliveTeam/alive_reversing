@@ -44,7 +44,6 @@ ALIVE_VAR(1, 0x5C2EF8, int, sGamepadCapFlags_5C2EF8, 0);
 ALIVE_VAR(1, 0x5c2d10, tagJOYCAPSA, sJoystickCaps_5C2D10, {});
 ALIVE_VAR(1, 0x5c2ea8, joyinfoex_tag, sJoystickInfo_5C2EA8, {});
 #endif
-ALIVE_VAR(1, 0x5c2f00, UINT, sJoyID_5C2F00, 0);
 
 ALIVE_ARY(1, 0xBD2F60, unsigned char, 256, sInputKeyStates_BD2F60, {});
 ALIVE_VAR(1, 0xBBB9D0, BYTE, sInputEnabled_BBB9D0, 0);
@@ -303,7 +302,7 @@ void Input_GetJoyState_Impl(float *pX1, float *pY1, float *pX2, float *pY2, DWOR
         sJoystickInfo_5C2EA8.dwSize = 52;
         sJoystickInfo_5C2EA8.dwFlags = sJoystickCapFlags_5C2EDC;
 
-        if (joyGetPosEx(sJoyID_5C2F00, &sJoystickInfo_5C2EA8))
+        if (joyGetPosEx(sJoystickID_5C2F00, &sJoystickInfo_5C2EA8))
         {
             sJoystickEnabled_5C2EF4 = false;
             return;
@@ -1514,7 +1513,7 @@ EXPORT void Input_InitJoyStick_460080()
         if (!joyGetDevCapsA(i, &sJoystickCaps_5C2D10, sizeof(tagJOYCAPSA)))
         {
             sJoystickEnabled_5C2EF4 = true;
-            sJoyID_5C2F00 = i;
+            sJoystickID_5C2F00 = i;
             break;
         }
     }

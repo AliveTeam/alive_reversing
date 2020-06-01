@@ -332,7 +332,7 @@ void Map::Handle_PathTransition_481610()
     Path_ChangeTLV* pPathChangeTLV = nullptr;
     if (field_18_pAliveObj)
     {
-        pPathChangeTLV = reinterpret_cast<Path_ChangeTLV*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        pPathChangeTLV = static_cast<Path_ChangeTLV*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
             FP_GetExponent(field_18_pAliveObj->field_B8_xpos),
             FP_GetExponent(field_18_pAliveObj->field_BC_ypos),
             FP_GetExponent(field_18_pAliveObj->field_B8_xpos),

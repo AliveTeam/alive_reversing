@@ -21,8 +21,6 @@ struct OtUnknown
 ALIVE_ARY(1, 0xBD0D88, OtUnknown, 32, sOt_Stack_BD0D88, {});
 ALIVE_VAR(1, 0xBD0C08, int, sOtIdxRollOver_BD0C08, 0);
 
-ALIVE_VAR(1, 0xC2D03C, int, dword_C2D03C, 0);
-
 
 ALIVE_VAR(1, 0x578318, short, sActiveTPage_578318, -1);
 ALIVE_VAR(1, 0xbd0f0c, DWORD, sTexture_page_x_BD0F0C, 0);
@@ -106,7 +104,7 @@ struct OT_Prim
 };
 ALIVE_ASSERT_SIZEOF(OT_Prim, 380); // could be up to 380
 
-ALIVE_ARY(1, 0x0, BYTE, 380, byte_BD0C0C, {});
+ALIVE_ARY(1, 0xBD0C0C, BYTE, 380, byte_BD0C0C, {});
 
 ALIVE_VAR(1, 0x578330, OT_Prim*, off_578330, reinterpret_cast<OT_Prim*>(&byte_BD0C0C[0]));
 
