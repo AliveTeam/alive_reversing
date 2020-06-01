@@ -52,9 +52,11 @@ struct PathFunctionTable
     TPathFunctionFn object_funcs[256];
 };
 
+using TTempFn = void(CC*)();
+
 struct PathData
 {
-    void *field_0; // fn
+    TTempFn field_0;
     __int16 field_4;
     __int16 field_6;
     __int16 field_8;
