@@ -191,8 +191,8 @@ ALIVE_VAR_EXTERN(ResourceManager*, pResourceManager_5C1BB0);
 ALIVE_VAR_EXTERN(DWORD, sManagedMemoryUsedSize_AB4A04);
 ALIVE_VAR_EXTERN(DWORD, sPeakedManagedMemUsage_AB4A08);
 ALIVE_VAR_EXTERN(short, sbLoadingInProgress_5C1B96);
-ALIVE_VAR_EXTERN(short, word_5C1BAA);
-ALIVE_VAR_EXTERN(int, dword_5C1BAC);
+ALIVE_VAR_EXTERN(short, bHideLoadingIcon_5C1BAA);
+ALIVE_VAR_EXTERN(int, loading_ticks_5C1BAC);
 
 enum ResourceID
 {
