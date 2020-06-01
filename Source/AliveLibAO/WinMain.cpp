@@ -805,12 +805,16 @@ EXPORT void Game_Run_4373D0()
     DebugOut_495990("Abe's Oddysee Demo Done\n");
 }
 
-EXPORT void CC Game_SetExitCallBack_48E040(void*)
+using TExitGameCB = std::add_pointer<void CC()>::type;
+
+EXPORT void CC Game_SetExitCallBack_48E040(TExitGameCB)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC Sys_SetWindowProc_Filter_48E950(void*)
+using TFilter = std::add_pointer<int CC(HWND, UINT, WPARAM, LPARAM)>::type;
+
+EXPORT void CC Sys_SetWindowProc_Filter_48E950(TFilter)
 {
     NOT_IMPLEMENTED();
 }

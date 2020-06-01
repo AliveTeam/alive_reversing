@@ -4,7 +4,7 @@ START_NS_AO
 
 #if USE_SDL2
 #include "SDL.h"
-using TSurfaceType = ::SDL_Surface;
+using TSurfaceType = SDL_Surface;
 #else
 using TSurfaceType = IDirectDrawSurface;
 #endif
