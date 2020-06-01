@@ -42,7 +42,6 @@ unsigned char pal_560F80[] =
 ALIVE_VAR(1, 0x5c1bee, char, sEnableCheatLevelSelect_5C1BEE, 0);
 ALIVE_VAR(1, 0x5c1bec, char, sEnableCheatFMV_5C1BEC, 0);
 
-ALIVE_VAR(1, 0x5C1BEC, short, word_5C1BEC, {});
 ALIVE_VAR(1, 0x5c1b9e, __int16, word_5C1B9E, 0);
 
 ALIVE_VAR(1, 0x561538, short, sMenuItemCount_561538, 0);
@@ -596,7 +595,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
 
     sSavedKilledMudsPerPath_5C1B50 = {};
 
-    word_5C1BEC = 0;
+    sEnableCheatFMV_5C1BEC = 0;
     sEnableCheatLevelSelect_5C1BEE = 0;
     sKilledMudokons_5C1BC0 = 0;
     sRescuedMudokons_5C1BC2 = 0;

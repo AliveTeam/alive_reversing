@@ -84,3 +84,4 @@ private:
 ALIVE_ASSERT_SIZEOF(ExplosionSet, 0x60);
 
 ALIVE_VAR_EXTERN(ExplosionSet*, pExplosionSet_5BBF68);
+ALIVE_VAR_EXTERN(short, bEnabled_5C1BB6);

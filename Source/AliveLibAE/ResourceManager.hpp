@@ -90,7 +90,7 @@ public:
     };
     ALIVE_ASSERT_SIZEOF(ResourceManager_FilePartRecord_18, 0x18);
 
-    struct ResourceManager_FileRecord_1C
+    struct ResourceManager_FileRecord
     {
         char* field_0_fileName;
         ResourcesToLoadList* field_4_pResourcesToLoadList;
@@ -100,7 +100,7 @@ public:
 
         EXPORT void dtor_464EA0();
     };
-    ALIVE_ASSERT_SIZEOF(ResourceManager_FileRecord_1C, 0x1C);
+    ALIVE_ASSERT_SIZEOF(ResourceManager_FileRecord, 0x1C);
 
     EXPORT ResourceManager* ctor_464910();
     EXPORT BaseGameObject* vdtor_4649B0(signed int flags);
@@ -174,8 +174,8 @@ private:
         State_Load_Completed = 6
     };
 
-    DynamicArrayT<ResourceManager_FileRecord_1C> field_20_files_pending_loading;
-    ResourceManager_FileRecord_1C* field_2C_pFileItem;
+    DynamicArrayT<ResourceManager_FileRecord> field_20_files_pending_loading;
+    ResourceManager_FileRecord* field_2C_pFileItem;
     int field_30_start_sector;
     int field_34_num_sectors;
     BYTE** field_38_ppRes;
