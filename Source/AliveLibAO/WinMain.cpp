@@ -10,6 +10,7 @@
 #include "Map.hpp"
 #include "Animation.hpp"
 #include "FixedPoint_common.hpp"
+#include "..\AliveLibAE\config.h" // TODO: Change location
 
 START_NS_AO
 
@@ -249,9 +250,56 @@ EXPORT signed int CC PSX_EMU_Set_Cd_Emulation_Paths_49B000(const char* /*pPath1*
     return 0;
 }
 
-EXPORT int CC Sys_WindowClass_Register_48E9E0(LPCSTR /*lpClassName*/, LPCSTR /*lpWindowName*/, int /*X*/, int /*Y*/, int /*nWidth*/, int /*nHeight*/)
+EXPORT LRESULT CALLBACK Window_Proc_48EB10(HWND /*hWnd*/, UINT /*Msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
     NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT int CC Sys_WindowClass_Register_48E9E0(LPCSTR lpClassName, LPCSTR lpWindowName, int X, int Y, int nWidth, int nHeight)
+{
+    WNDCLASSA wndClass = {};
+    wndClass.style = 3;
+    wndClass.lpfnWndProc = Window_Proc_48EB10;
+    wndClass.cbClsExtra = 0;
+    wndClass.cbWndExtra = 0;
+    wndClass.hInstance = sInstance_9F771C;
+    wndClass.hIcon = LoadIconA(sInstance_9F771C, (LPCSTR)0x65);
+    wndClass.hCursor = LoadCursorA(sInstance_9F771C, (LPCSTR)0x7F00);
+    wndClass.hbrBackground = 0;
+    wndClass.lpszMenuName = lpClassName;
+    wndClass.lpszClassName = lpClassName;
+    RegisterClassA(&wndClass);
+
+    DWORD style = WS_CAPTION | WS_VISIBLE;
+#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+    style |= WS_OVERLAPPEDWINDOW;
+#endif
+
+    HWND hwnd = CreateWindowExA(0, lpClassName, lpWindowName, style, X, Y, nWidth, nHeight, 0, 0, sInstance_9F771C, 0);
+    if (!hwnd)
+    {
+        return -1;
+    }
+
+    //dword_9F7720 = 0;
+    gHwnd_9F7724 = hwnd;
+
+#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+#else
+    SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, nWidth, nHeight, 0x204u);
+    RECT rect = {};
+    GetClientRect(hwnd, &rect);
+    if (nWidth != rect.right || nHeight != rect.bottom)
+    {
+        SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, nWidth + nWidth - rect.right, nHeight + nHeight - rect.bottom, 0x204u);
+    }
+#endif
+
+    ShowWindow(hwnd, sCmdShow_9F772C);
+    UpdateWindow(hwnd);
+    ShowCursor(TRUE);
+
     return 0;
 }
 
@@ -317,8 +365,22 @@ EXPORT void CC Sys_Set_Hwnd_48E340(HWND hwnd)
 
 static void Init_VGA_AndPsxVram()
 {
-    VGA_FullScreenSet_490160(1);
+    BOOL bFullScreen = TRUE;
+#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+    LOG_INFO("Force window mode hack");
+    bFullScreen = FALSE;
+#endif
+    VGA_FullScreenSet_490160(bFullScreen);
+
+#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+    const LONG oldWinStyle = GetWindowLongA(Sys_GetWindowHandle_48E930(), GWL_STYLE);
+#endif
     VGA_DisplaySet_490230(640u, 480u, 16, 1, 0);
+#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+    // VGA_DisplaySet_490230 resets the window style - put it back to something sane
+    SetWindowLongA(Sys_GetWindowHandle_48E930(), GWL_STYLE, oldWinStyle);
+#endif
+
     RECT rect = {};
     rect.left = 0;
     rect.top = 0;
@@ -430,9 +492,151 @@ EXPORT void PSX_EMU_VideoDeAlloc_49A550()
     NOT_IMPLEMENTED();
 }
 
-EXPORT int CC Sys_WindowMessageHandler_4503B0(HWND /*hWnd*/, UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
+EXPORT int MessageBox_48E3F0(const char* /*pTitle*/, int /*lineNumber*/, const char* /*pMsg*/, ...)
 {
     NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT void Input_InitKeyStateArray_48E5F0()
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC Input_SetKeyState_48E610(int /*key*/, char /*bIsDown*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT int CC Dirty_Rects_48D910(int , int , int , int )
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT int CC Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+    int tmpResult; // esi
+    int result; // eax
+    RECT clientRect; // [esp+8h] [ebp-50h]
+    PAINTSTRUCT paintStruct; // [esp+18h] [ebp-40h]
+
+    tmpResult = 0;
+
+    switch (msg)
+    {
+    case WM_PAINT:
+        BeginPaint(hWnd, &paintStruct);
+        GetClientRect(hWnd, &clientRect);
+        PatBlt(paintStruct.hdc, 0, 0, clientRect.right, clientRect.bottom, BLACKNESS);// use pal 0
+        EndPaint(hWnd, &paintStruct);
+        Dirty_Rects_48D910(0, 0, 640, 240);
+        return 1;
+
+    case WM_CLOSE:
+        // TODO
+        // return -(MessageBoxA(hWnd, Text, Caption, 0x124u) != 6); 
+        return 0;
+
+    case WM_KEYDOWN:
+        if (wParam == VK_F1)
+        {
+            MessageBox_48E3F0(
+                "About Abe",
+                -1,
+                "Oddworld Abe's Oddysee 2.0\nPC version by Digital Dialect\n\nBuild date: %s %s\n",
+                "Oct 22 1997",
+                "14:32:52");
+            Input_InitKeyStateArray_48E5F0();
+        }
+        Input_SetKeyState_48E610(wParam, 1);
+        return 0;
+
+    case WM_SETCURSOR:
+        SetCursor((HCURSOR)1);
+        return -1;
+
+    case WM_INITMENUPOPUP:
+        if ((unsigned int)lParam >> 16)
+        {
+            return -1;
+        }
+        break;
+
+#ifndef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+    case WM_NCLBUTTONDOWN:
+        // Prevent window being moved when click + dragged
+        return -1;
+#endif
+    }
+
+    if (msg <= 0x20)
+    {
+        return 0;
+    }
+
+    if (msg > WM_KEYDOWN)
+    {
+        if (msg > WM_SYSKEYDOWN)
+        {
+            if (msg > WM_TIMER)
+            {
+                if (msg > 0x212)
+                {
+                    if (msg < 0x231 || msg > 0x232)
+                    {
+                        return 0;
+                    }
+                }
+                else if (msg < 0x211)
+                {
+                    if (msg == WM_INITMENUPOPUP && (unsigned int)lParam >> 16)
+                    {
+                        return -1;
+                    }
+                    return 0;
+                }
+                Input_InitKeyStateArray_48E5F0();
+                return 0;
+            }
+
+            if (msg == WM_TIMER)
+            {
+                return 1;
+            }
+
+            if (msg != WM_SYSKEYUP)
+            {
+                return 0;
+            }
+
+            if (wParam == 18 || wParam == 32)
+            {
+                tmpResult = -1;
+            }
+            Input_SetKeyState_48E610(wParam, 0);
+            result = tmpResult;
+        }
+        else
+        {
+            if (msg != WM_SYSKEYDOWN)
+            {
+                if (msg != WM_KEYUP)
+                {
+                    return 0;
+                }
+                Input_SetKeyState_48E610(wParam, 0);
+                return 1;
+            }
+            if (wParam == 18 || wParam == 32)
+            {
+                tmpResult = -1;
+            }
+            Input_SetKeyState_48E610(wParam, 1);
+            result = tmpResult;
+        }
+    }
+
     return 0;
 }
 
