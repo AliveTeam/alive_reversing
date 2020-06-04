@@ -167,7 +167,7 @@ void Map::ScreenChange_480B80()
     }
 }
 
-void Map::RemoveObjectsWithPurpleLight_480740(__int16 bParam)
+void Map::RemoveObjectsWithPurpleLight_480740(__int16 bMakeInvisible)
 {
     auto pObjectsWithLightsArray = ae_new<DynamicArrayT<BaseAnimatedWithPhysicsGameObject>>();
     pObjectsWithLightsArray->ctor_40CA60(16);
@@ -225,7 +225,7 @@ void Map::RemoveObjectsWithPurpleLight_480740(__int16 bParam)
 
         for (int counter = 0; counter < 12; counter++)
         {
-            if (bParam)
+            if (bMakeInvisible)
             {
                 if (counter == 4)
                 {
@@ -296,7 +296,7 @@ void Map::RemoveObjectsWithPurpleLight_480740(__int16 bParam)
             gPsxDisplay_5C1130.PSX_Display_Render_OT_41DDF0();
         }
 
-        if (bParam)
+        if (bMakeInvisible)
         {
             // Make all the objects that had lights visible again
             for (int i = 0; i < pObjectsWithLightsArray->Size(); i++)
@@ -820,7 +820,7 @@ void Map::GoTo_Camera_481890()
         field_40_stru_5[i] = field_2C_camera_array[i];
         field_2C_camera_array[i] = nullptr;
     }
-
+    
     field_2C_camera_array[0] = Create_Camera_4829E0(field_D0_cam_x_idx,      field_D2_cam_y_idx,         1);
     field_2C_camera_array[3] = Create_Camera_4829E0(field_D0_cam_x_idx - 1,  field_D2_cam_y_idx,         0);
     field_2C_camera_array[4] = Create_Camera_4829E0(field_D0_cam_x_idx + 1,  field_D2_cam_y_idx,         0);
