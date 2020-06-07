@@ -1631,7 +1631,7 @@ void Fleech::vScreenChanged_42A4C0()
 {
     if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || 
         gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path ||
-        gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710())
+        gMap_5C3030.field_22 != gMap_5C3030.GetOverlayId_480710())
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
         field_11C_obj_id = -1;

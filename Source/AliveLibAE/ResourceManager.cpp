@@ -124,7 +124,7 @@ void ResourceManager::vLoadFile_StateMachine_464A70()
 
             LvlFileRecord* pLvlFileRec1 = sLvlArchive_5BC520.Find_File_Record_433160(field_2C_pFileItem->field_0_fileName);
             field_34_num_sectors = pLvlFileRec1->field_10_num_sectors;
-            field_30_start_sector = pLvlFileRec1->field_C_start_sector + sLvlArchive_5BC520.field_4;
+            field_30_start_sector = pLvlFileRec1->field_C_start_sector + sLvlArchive_5BC520.field_4_cd_pos;
             PSX_Pos_To_CdLoc_4FADD0(field_30_start_sector, &field_44_cdLoc);
 
             sbLoadingInProgress_5C1B96 = 1;

@@ -10,6 +10,8 @@
 #include "Map.hpp"
 #include "Animation.hpp"
 #include "FixedPoint_common.hpp"
+#include "ScreenManager.hpp"
+#include "ResourceManager.hpp"
 #include "..\AliveLibAE\config.h" // TODO: Change location
 
 START_NS_AO
@@ -548,7 +550,11 @@ EXPORT int CC Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam
         }
         Input_SetKeyState_48E610(wParam, 1);
         return 0;
-        
+    
+    case WM_KEYUP:
+        Input_SetKeyState_48E610(wParam, 0);
+        break;
+
     case WM_SETCURSOR:
     {
         static auto hCursor = LoadCursor(nullptr, IDC_ARROW);
@@ -659,45 +665,6 @@ ALIVE_VAR(1, 0x507668, short, sNumCamSwappers_507668, 0);
 ALIVE_VAR(1, 0x505564, DynamicArrayT<AnimationBase>*, gObjList_animations_505564, nullptr);
 
 
-struct DirtyBits
-{
-    __int16 field_0[20];
-};
-ALIVE_ASSERT_SIZEOF(DirtyBits, 0x28);
-
-class ScreenManager : public BaseGameObject
-{
-public:
-
-    FP_Point* field_10_pCamPos;
-    __int16 field_14;
-    unsigned __int16 field_16;
-    int field_18;
-    int field_1C;
-    __int16 field_20;
-    __int16 field_22;
-    int field_24;
-    int field_28;
-    __int16 field_2C;
-    unsigned __int16 field_2E_idx;
-    unsigned __int16 field_30;
-    unsigned __int16 field_32;
-    __int16 field_34;
-    __int16 field_36_flags;
-    int field_38;
-    int field_3C;
-    int field_40;
-    int field_44;
-    int field_48;
-    int field_4C;
-    int field_50;
-    int field_54;
-    DirtyBits field_58[6];
-};
-ALIVE_ASSERT_SIZEOF(ScreenManager, 0x148);
-
-ALIVE_VAR(1, 0x4FF7C8, ScreenManager*, pScreenManager_4FF7C8, nullptr);
-
 EXPORT void CC DebugFont_Flush_487F50()
 {
     NOT_IMPLEMENTED();
@@ -729,16 +696,6 @@ ALIVE_VAR(1, 0x504C78, PsxDisplay, gPsxDisplay_504C78, {});
 ALIVE_VAR(1, 0x5009E8, InputObject, sInputObject_5009E8, {});
 
 class BaseAliveGameObject;
-
-class ResourceManager
-{
-public:
-    static EXPORT void CC CancelPendingResourcesFor_41EA60(BaseAliveGameObject* /*pObj*/)
-    {
-        NOT_IMPLEMENTED();
-    }
-};
-
 
 EXPORT void CC Game_Loop_437630()
 {
@@ -927,7 +884,7 @@ EXPORT void Game_Run_4373D0()
     Init_Sound_DynamicArrays_And_Others_41CD20();
     Input_Init_44EB60();
 
-    gMap_507BA8.Init_443EE0(0, 1, 10, 0, 0, 0);
+    gMap_507BA8.Init_443EE0(0, 1, 10, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
 
     DDCheat_Allocate_409560();
 

@@ -2,8 +2,7 @@
 #include "PathData.hpp"
 #include "Function.hpp"
 
-struct Path_TLV;
-class Path;
+START_NS_AO
 
 struct SoundBlockInfo
 {
@@ -11,87 +10,6 @@ struct SoundBlockInfo
     const char *field_4_vab_body_name;
     int field_8_vab_id;
     BYTE *field_C_pVabHeader;
-};
-
-struct FmvInfo
-{
-    const char *field_0_pName;
-    unsigned __int16 field_4;
-    __int16 field_6;
-    __int16 field_8_stop_music;
-    __int16 field_A;
-    __int16 field_C_volume;
-    __int16 field_E;
-};
-
-struct TlvOffsetLevelIdPathId
-{
-    WORD tlvOffset;
-    BYTE levelId;
-    BYTE pathId;
-};
-
-struct TlvOffsetCombinedLevelIdPathId
-{
-    WORD tlvOffset;
-    WORD levelIdPathId;
-};
-
-union TlvItemInfoUnion
-{
-    DWORD all;
-    TlvOffsetCombinedLevelIdPathId combined;
-    TlvOffsetLevelIdPathId parts;
-};
-ALIVE_ASSERT_SIZEOF(TlvItemInfoUnion, 4);
-
-using TPathFunctionFn = void(CC*)(Path_TLV*, Path*, TlvItemInfoUnion, __int16);
-
-struct PathFunctionTable
-{
-    TPathFunctionFn object_funcs[256];
-};
-
-using TTempFn = void(CC*)();
-
-struct PathData
-{
-    TTempFn field_0;
-    __int16 field_4;
-    __int16 field_6;
-    __int16 field_8;
-    __int16 field_A;
-    __int16 field_C;
-    __int16 field_E;
-    __int16 field_10;
-    __int16 field_12;
-    int field_14_offset;
-    int field_18;
-    PathFunctionTable field_1C_object_funcs;
-};
-
-using TCollisionsFactory = std::add_pointer<void(Path_TLV*, Path*, TlvItemInfoUnion, __int16)>::type;
-
-struct CollisionInfo
-{
-    TCollisionsFactory field_0_fn_ptr;
-    __int16 field_4_left;
-    __int16 field_6_right;
-    __int16 field_8_top;
-    __int16 field_A_bottom;
-    unsigned int field_C_collision_offset;
-    unsigned int field_10_num_collision_items;
-    unsigned int field_14_grid_width;
-    unsigned int field_18_grid_height;
-};
-
-struct PathBlyRec
-{
-    const char *field_0_blyName;
-    const PathData *field_4_pPathData;
-    const CollisionInfo *field_8_pCollisionData;
-    WORD field_C_overlay_id;
-    WORD field_E;
 };
 
 struct PathRoot
@@ -124,13 +42,11 @@ const PathBlyRec knullptrPathBlyRec = {};
 const SoundBlockInfo knullptrSoundBlockInfo = {};
 const FmvInfo knullptrFmvInfo = {};
 
-const PathFunctionTable kObjectFactory = {};
-
 class Collisions
 {
 public:
 
-    static void CC Factory_40CEC0(Path_TLV*, Path*, TlvItemInfoUnion, __int16) {}
+    static void CC Factory_40CEC0(Path_TLV*, Map*, TlvItemInfoUnion, __int16) {}
 };
 
 void sub_402560() {}
@@ -946,3 +862,20 @@ PathRootContainer gMapData_4CAB58 =
         { g_D2_Paths_4C95E0, g_D2_Fmvs_4C9270,    g_D2_SoundBlock_4C96A0, "D2SEQ.BSQ", 23, 1, "D7", 11, 0, 35, "\\D7.LVL;1", 34, "\\D7.OVL;1", 33, "\\D2.MOV;1", "D2.IDX", "D7PATH.BND" }
     }
 };
+
+const PathBlyRec* CC Path_Get_Bly_Record_434650(unsigned __int16 level, unsigned __int16 path)
+{
+    return &gMapData_4CAB58.paths[level].field_0_pBlyArrayPtr[path];
+}
+
+FmvInfo* CC Path_Get_FMV_Record_434680(unsigned __int16 levelId, unsigned __int16 fmvId)
+{
+    return &gMapData_4CAB58.paths[levelId].field_4_pFmvArray[fmvId];
+}
+
+int CC Path_Format_CameraName_4346B0(char* pNameBuffer, __int16 level, __int16 path, __int16 camera)
+{
+    return sprintf(pNameBuffer, "%sP%02dC%02d.CAM", gMapData_4CAB58.paths[level].field_14_lvl_name, path, camera);
+}
+
+END_NS_AO

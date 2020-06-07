@@ -494,7 +494,7 @@ CameraPos Map::GetDirection_4811A0(int level, int path, FP xpos, FP ypos)
     }
 }
 
-void Map::Init_4803F0(LevelIds level, __int16 path, __int16 camera, CameraSwapEffects screenChangeEffect, __int16 a6, __int16 forceChange)
+void Map::Init_4803F0(LevelIds level, __int16 path, __int16 camera, CameraSwapEffects screenChangeEffect, __int16 fmvBaseId, __int16 forceChange)
 {
     sPath_dword_BB47C0 = ae_new<Path>();
     sPath_dword_BB47C0->ctor_4DB170();
@@ -513,7 +513,7 @@ void Map::Init_4803F0(LevelIds level, __int16 path, __int16 camera, CameraSwapEf
 
     field_8_force_load = 0;
 
-    SetActiveCam_480D30(level, path, camera, screenChangeEffect, a6, forceChange);
+    SetActiveCam_480D30(level, path, camera, screenChangeEffect, fmvBaseId, forceChange);
     GoTo_Camera_481890();
     
     field_6_state = 0;
@@ -525,7 +525,7 @@ void Map::Shutdown_4804E0()
     stru_5C3110.Free_433130();
 
     // Free Path resources
-    for (int i = 0; i < 30; i++)
+    for (int i = 0; i < ALIVE_COUNTOF(field_54_path_res_array.field_0_pPathRecs); i++)
     {
         if (field_54_path_res_array.field_0_pPathRecs[i])
         {
@@ -535,7 +535,7 @@ void Map::Shutdown_4804E0()
     }
 
     // Free cameras
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < ALIVE_COUNTOF(field_2C_camera_array); i++)
     {
         if (field_2C_camera_array[i])
         {
@@ -561,12 +561,16 @@ void Map::Shutdown_4804E0()
 
 void Map::Reset_4805D0()
 {
-    field_2C_camera_array[0] = 0;
-    field_2C_camera_array[1] = 0;
-    field_2C_camera_array[2] = 0;
-    field_2C_camera_array[3] = 0;
-    field_2C_camera_array[4] = 0;
-    memset(&field_54_path_res_array, 0, sizeof(field_54_path_res_array));
+    for (int i = 0; i < ALIVE_COUNTOF(field_2C_camera_array); i++)
+    {
+        field_2C_camera_array[i] = nullptr;
+    }
+    field_2C_camera_array[0] = nullptr;
+
+    for (int i = 0; i < ALIVE_COUNTOF(field_54_path_res_array.field_0_pPathRecs); i++)
+    {
+        field_54_path_res_array.field_0_pPathRecs[i] = nullptr;
+    }
     field_CC = 1;
     field_CE_free_all_anim_and_palts = 0;
     field_D8_restore_quick_save = 0;
@@ -634,7 +638,7 @@ void Map::GoTo_Camera_481890()
         || field_C_path != field_2_current_path
         || field_8_force_load)
     {
-        field_22 = Get_Path_Unknown_480710();
+        field_22 = GetOverlayId_480710();
     }
 
     if (field_A_level != field_0_current_level || field_8_force_load)
@@ -993,7 +997,7 @@ void Map::Get_Abe_Spawn_Pos_4806D0(PSX_Point* pPoint)
     pPoint->field_2_y = field_D4_ptr->field_1C_abe_start_ypos;
 }
 
-__int16 Map::Get_Path_Unknown_480710()
+__int16 Map::GetOverlayId_480710()
 {
     // TODO: Probably need to redo field_C data as 1 bytes instead of a word
     return Path_Get_Bly_Record_460F30(field_A_level, field_C_path)->field_C_overlay_id & 0xFF;

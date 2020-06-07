@@ -127,7 +127,7 @@ void WheelSyncer::dtor_466150()
 
 void WheelSyncer::vScreenChanged_466310()
 {
-    if (gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710())
+    if (gMap_5C3030.field_22 != gMap_5C3030.GetOverlayId_480710())
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }

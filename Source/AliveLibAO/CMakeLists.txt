@@ -23,6 +23,12 @@ SET(AliveLibSrcAO
    PathData.cpp
    bmp.hpp
    Animation.hpp
+   ResourceManager.hpp
+   ResourceManager.cpp
+   ScreenManager.hpp
+   ScreenManager.cpp
+   Factory.hpp
+   Factory.cpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx_ao.h stdafx_ao.cpp AliveLibSrcAO)

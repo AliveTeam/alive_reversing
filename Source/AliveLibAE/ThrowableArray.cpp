@@ -188,7 +188,7 @@ void ThrowableArray::vScreenChange_49AAA0()
 {
     if (gMap_5C3030.field_A_level != LevelIds::eMenu_0 && gMap_5C3030.field_A_level != LevelIds::eCredits_16)
     {
-        if (word_55FAFC[gMap_5C3030.field_22] != word_55FAFC[gMap_5C3030.Get_Path_Unknown_480710()])
+        if (word_55FAFC[gMap_5C3030.field_22] != word_55FAFC[gMap_5C3030.GetOverlayId_480710()])
         {
             if (!(field_22_flags & 1))
             {

@@ -286,7 +286,7 @@ void Explosion::vUpdate_4A1510()
 
 void Explosion::vScreenChanged_4A1EE0()
 {
-    if (gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710())
+    if (gMap_5C3030.field_22 != gMap_5C3030.GetOverlayId_480710())
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
