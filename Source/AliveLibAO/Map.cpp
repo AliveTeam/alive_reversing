@@ -200,4 +200,10 @@ void Map::Loader_446590(__int16 camX, __int16 camY, int loadMode, __int16 typeTo
     }
 }
 
+EXPORT BYTE* Map::TLV_Reset_446870(unsigned int /*a2*/, __int16 /*a3*/, unsigned __int8 /*a4*/, char /*a5*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
 END_NS_AO

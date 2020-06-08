@@ -66,6 +66,8 @@ public:
 
     EXPORT void Loader_446590(__int16 camX, __int16 camY, int loadMode, __int16 typeToLoad);
 
+    EXPORT BYTE* TLV_Reset_446870(unsigned int a2, __int16 a3, unsigned __int8 a4, char a5);
+
     __int16 field_0_current_level;
     __int16 field_2_current_path;
     __int16 field_4_current_camera;

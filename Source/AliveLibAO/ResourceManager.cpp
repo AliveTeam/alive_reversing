@@ -19,5 +19,12 @@ __int16 CC ResourceManager::FreeResource_455550(BYTE** /*ppRes*/)
     NOT_IMPLEMENTED();
 }
 
+void CC ResourceManager::LoadResource_446C90(const char* /*pFileName*/, int /*type*/, int /*resourceId*/, __int16 /*loadMode*/, __int16 /*bDontLoad*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 END_NS_AO
+
+
 

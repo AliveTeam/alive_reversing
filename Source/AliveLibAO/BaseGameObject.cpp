@@ -52,10 +52,11 @@ BaseGameObject* BaseGameObject::ctor_487E10(__int16 arraySize)
     return this;
 }
 
-void BaseGameObject::dtor_487DF0()
+BaseGameObject* BaseGameObject::dtor_487DF0()
 {
     SetVTable(this, 0x4BD488); // vTable_BaseGameObject_4BD488
     Remove_Item_417350(this);
+    return this;
 }
 
 END_NS_AO

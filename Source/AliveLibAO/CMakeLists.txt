@@ -29,6 +29,10 @@ SET(AliveLibSrcAO
    ScreenManager.cpp
    Factory.hpp
    Factory.cpp
+   GasCountDown.hpp
+   GasCountDown.cpp
+   Font.hpp
+   Font.cpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx_ao.h stdafx_ao.cpp AliveLibSrcAO)
