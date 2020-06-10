@@ -23,7 +23,7 @@ BaseGameObject* GasCountDown::dtor_40C050()
     return dtor_487DF0();
 }
 
-BaseGameObject* GasCountDown::Vdtor_40BF40(int flags)
+BaseGameObject* GasCountDown::Vdtor_40C3F0(int flags)
 {
     dtor_40C050();
     if (flags & 1)
@@ -35,8 +35,7 @@ BaseGameObject* GasCountDown::Vdtor_40BF40(int flags)
 
 BaseGameObject* GasCountDown::VDestructor(int flags)
 {
-    return Vdtor_40BF40(flags);
+    return Vdtor_40C3F0(flags);
 }
 
 END_NS_AO
-

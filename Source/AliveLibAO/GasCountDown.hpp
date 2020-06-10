@@ -23,7 +23,7 @@ public:
 
     virtual BaseGameObject* VDestructor(int flags) override;
 
-    EXPORT BaseGameObject* Vdtor_40BF40(int flags);
+    EXPORT BaseGameObject* Vdtor_40C3F0(int flags);
 
     FontContext field_10_font_context;
     AliveFont field_20_font;
