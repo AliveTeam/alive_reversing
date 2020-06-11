@@ -7,7 +7,9 @@
 
 START_NS_AO
 
-ALIVE_VAR(1, 0x5c1bb4, short, alarmInstanceCount_5076A8, 0);
+void Alarm_ForceLink() { }
+
+ALIVE_VAR(1, 0x5076A8, short, alarmInstanceCount_5076A8, 0);
 
 EXPORT Alarm * Alarm::ctor_402570(__int16 a2, __int16 switchId, __int16 a4, __int16 layer)
 {
@@ -31,11 +33,9 @@ EXPORT Alarm * Alarm::ctor_402570(__int16 a2, __int16 switchId, __int16 a4, __in
     field_60_g = 0;
     field_62_b = 0;
 
-    if (gMap_507BA8.field_0_current_level != 5 && gMap_507BA8.field_0_current_level != 6)
-    {
-        return this;
-    }
-    else
+    // Disable red screen flashing in the stock yards
+    if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 ||
+        gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
     {
         gObjList_drawables_504618->Remove_Item(this);
         field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);

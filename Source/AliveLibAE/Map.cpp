@@ -96,75 +96,77 @@ void Map::ScreenChange_Common()
 
 void Map::ScreenChange_480B80()
 {
-    if (field_6_state)
+    if (field_6_state == 0)
     {
-        if (sMap_bDoPurpleLightEffect_5C311C)
+        return;
+    }
+
+    if (sMap_bDoPurpleLightEffect_5C311C)
+    {
+        RemoveObjectsWithPurpleLight_480740(1);
+    }
+
+    PSX_DrawSync_4F6280(0);
+
+    for (int i = 0; i < 2; i++) // Not sure why this is done twice?
+    {
+        DynamicArrayIter iter = {};
+        iter.field_4_idx = 0;
+        iter.field_0_pDynamicArray = gBaseGameObject_list_BB47C4;
+
+        while (iter.field_4_idx < iter.field_0_pDynamicArray->field_4_used_size)
         {
-            RemoveObjectsWithPurpleLight_480740(1);
-        }
-
-        PSX_DrawSync_4F6280(0);
-
-        for (int i = 0; i < 2; i++) // Not sure why this is done twice?
-        {
-            DynamicArrayIter iter = {};
-            iter.field_4_idx = 0;
-            iter.field_0_pDynamicArray = gBaseGameObject_list_BB47C4;
-
-            while (iter.field_4_idx < iter.field_0_pDynamicArray->field_4_used_size)
+            BaseGameObject* pItem = gBaseGameObject_list_BB47C4->ItemAt(iter.field_4_idx);
+            ++iter.field_4_idx;
+            if (!pItem)
             {
-                BaseGameObject* pItem = gBaseGameObject_list_BB47C4->ItemAt(iter.field_4_idx);
-                ++iter.field_4_idx;
-                if (!pItem)
-                {
-                    break;
-                }
+                break;
+            }
 
-                pItem->VScreenChanged();
+            pItem->VScreenChanged();
 
-                // Did the screen change kill the object?
-                if (pItem->field_6_flags.Get(BaseGameObject::eDead_Bit3))
-                {
-                    iter.Remove_At_Iter_40CCA0();
-                    pItem->VDestructor(1);
-                }
+            // Did the screen change kill the object?
+            if (pItem->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+            {
+                iter.Remove_At_Iter_40CCA0();
+                pItem->VDestructor(1);
             }
         }
+    }
 
-        ResourceManager::NoEffect_49C700();
+    ResourceManager::NoEffect_49C700();
 
-        //dword_5CA4A8 = 0; // TODO: Never used?
+    //dword_5CA4A8 = 0; // TODO: Never used?
 
-        // TODO: Refactor this logic
-        if (!sMap_bDoPurpleLightEffect_5C311C && field_A_level == field_0_current_level)
-        {
-            ScreenChange_Common();
-            return;
-        }
+    // TODO: Refactor this logic
+    if (!sMap_bDoPurpleLightEffect_5C311C && field_A_level ==field_0_current_level)
+    {
+        ScreenChange_Common();
+        return;
+    }
 
-        if (field_A_level != field_0_current_level)
-        {
-            SsUtAllKeyOff_4FDFE0(0);
-        }
+    if (field_A_level != field_0_current_level)
+    {
+        SsUtAllKeyOff_4FDFE0(0);
+    }
 
-        if (field_A_level != LevelIds::eNone)
-        {
-            if (field_A_level == LevelIds::eCredits_16)
-            {
-                sSoundChannelsMask_5C3120 = 0;
-                ScreenChange_Common();
-                return;
-            }
-        }
-        else if (field_0_current_level == LevelIds::eMenu_0)
+    if (field_A_level != LevelIds::eNone)
+    {
+        if (field_A_level == LevelIds::eCredits_16)
         {
             sSoundChannelsMask_5C3120 = 0;
             ScreenChange_Common();
             return;
         }
-        sSoundChannelsMask_5C3120 = SND_4CA5D0(0, 0, 36, 70, 0, 0);
-        ScreenChange_Common();
     }
+    else if (field_0_current_level == LevelIds::eMenu_0)
+    {
+        sSoundChannelsMask_5C3120 = 0;
+        ScreenChange_Common();
+        return;
+    }
+    sSoundChannelsMask_5C3120 = SND_4CA5D0(0, 0, 36, 70, 0, 0);
+    ScreenChange_Common();
 }
 
 void Map::RemoveObjectsWithPurpleLight_480740(__int16 bMakeInvisible)
@@ -614,7 +616,7 @@ void Map::GoTo_Camera_481890()
                     }
                 }
             }
-        } while (!(pFmvRet->field_6_flags.Get(BaseGameObject::eDead_Bit3)));
+        } while (!pFmvRet->field_6_flags.Get(BaseGameObject::eDead_Bit3));
 
         if (sSoundChannelsMask_5C3120)
         {
@@ -646,7 +648,7 @@ void Map::GoTo_Camera_481890()
         pResourceManager_5C1BB0->LoadingLoop_465590(bShowLoadingIcon);
         
         // Free all cameras
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < ALIVE_COUNTOF(field_2C_camera_array); i++)
         {
             if (field_2C_camera_array[i])
             {
@@ -819,7 +821,7 @@ void Map::GoTo_Camera_481890()
     }
 
     // Copy camera array and blank out the source
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < ALIVE_COUNTOF(field_40_stru_5); i++)
     {
         field_40_stru_5[i] = field_2C_camera_array[i];
         field_2C_camera_array[i] = nullptr;
@@ -832,7 +834,7 @@ void Map::GoTo_Camera_481890()
     field_2C_camera_array[2] = Create_Camera_4829E0(field_D0_cam_x_idx,      field_D2_cam_y_idx + 1,     0);
  
     // Free resources for each camera
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < ALIVE_COUNTOF(field_40_stru_5); i++)
     {
         if (field_40_stru_5[i])
         {
@@ -843,7 +845,7 @@ void Map::GoTo_Camera_481890()
     pResourceManager_5C1BB0->LoadingLoop_465590(bShowLoadingIcon);
 
     // Free each camera itself
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < ALIVE_COUNTOF(field_40_stru_5); i++)
     {
         if (field_40_stru_5[i])
         {

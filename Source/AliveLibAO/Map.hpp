@@ -2,6 +2,9 @@
 
 #include "FunctionFwd.hpp"
 #include "Psx_common.hpp"
+#include "FixedPoint_common.hpp"
+#include "PathData.hpp"
+#include "BaseGameObject.hpp"
 
 START_NS_AO
 
@@ -9,6 +12,42 @@ void Map_ForceLink();
 
 struct PathData;
 class Camera;
+
+enum class CameraSwapEffects : __int16;
+
+// TODO move to another file
+class CameraSwapper : public BaseGameObject
+{
+public:
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+
+    EXPORT CameraSwapper* Vdtor_48D380(signed int flags);
+
+    EXPORT CameraSwapper* ctor_48C7A0(BYTE** ppBits, CameraSwapEffects changeEffect, __int16 xpos, __int16 ypos);
+
+    int field_10;
+    int field_14;
+    int field_18;
+    int field_1C;
+    int field_20;
+    int field_24;
+    __int16 field_28;
+    __int16 field_2A;
+    int field_2C;
+    __int16 field_30;
+    __int16 field_32;
+    __int16 field_34;
+    __int16 field_36;
+    __int16 field_38;
+    __int16 field_3A;
+    __int16 field_3C;
+    __int16 field_3E;
+    __int16 field_40;
+    __int16 field_42;
+    int field_44;
+};
+ALIVE_ASSERT_SIZEOF(CameraSwapper, 0x48);
+
 
 struct Map_PathsArray
 {
@@ -51,12 +90,12 @@ ALIVE_ASSERT_SIZEOF(Path_TLV, 0x18);
 class Map
 {
 public:
-    EXPORT void Init_443EE0(__int16 level, __int16 path, __int16 camera, CameraSwapEffects screenChangeEffect, __int16 fmvBaseId, __int16 forceChange);
+    EXPORT void Init_443EE0(LevelIds level, __int16 path, __int16 camera, CameraSwapEffects screenChangeEffect, __int16 fmvBaseId, __int16 forceChange);
     
     EXPORT void Shutdown_443F90();
     void Reset();
     
-    EXPORT __int16 SetActiveCam_444660(__int16 level, __int16 path, __int16 cam, CameraSwapEffects screenChangeEffect, __int16 fmvBaseId, __int16 forceChange);
+    EXPORT __int16 SetActiveCam_444660(LevelIds level, __int16 path, __int16 cam, CameraSwapEffects screenChangeEffect, __int16 fmvBaseId, __int16 forceChange);
 
     EXPORT __int16 GetOverlayId_4440B0();
 
@@ -68,12 +107,33 @@ public:
 
     EXPORT BYTE* TLV_Reset_446870(unsigned int a2, __int16 a3, unsigned __int8 a4, char a5);
 
-    __int16 field_0_current_level;
+    EXPORT void RemoveObjectsWithPurpleLight_4440D0(__int16 bMakeInvisible);
+
+    EXPORT void Handle_PathTransition_444DD0();
+
+    void ScreenChange_Common();
+
+    EXPORT void Get_map_size_444870(PSX_Point* pPoint);
+
+    EXPORT void GetCurrentCamCoords_444890(PSX_Point* pPoint);
+    __int16 GetOverlayId();
+
+    EXPORT static CameraSwapper* CC FMV_Camera_Change_4458D0(BYTE** ppBits, Map* pMap, LevelIds levelId);
+
+    EXPORT void Create_FG1s_4447D0();
+
+    EXPORT Camera* Create_Camera_445BE0(__int16 xpos, __int16 ypos, int a4);
+
+    EXPORT void RestoreObjectStates_446A90(__int16* pSaveData);
+
+    EXPORT void Load_Path_Items_445DA0(Camera* pCamera, __int16 kZero);
+
+    LevelIds field_0_current_level;
     __int16 field_2_current_path;
     __int16 field_4_current_camera;
     __int16 field_6_state;
     __int16 field_8_force_load;
-    __int16 field_A_level;
+    LevelIds field_A_level;
     __int16 field_C_path;
     __int16 field_E_camera;
     CameraSwapEffects field_10_screenChangeEffect;
@@ -89,17 +149,16 @@ public:
     unsigned __int16 field_26_max_cams_y;
     __int16 field_28_cd_or_overlay_num;
     __int16 field_2A;
-    int field_2C_camera_offset;
-    int field_30;
+    FP_Point field_2C_camera_offset;
     Camera* field_34_camera_array[5];
-    int field_48_stru_5[5];
+    Camera* field_48_stru_5[5];
     Map_PathsArray field_5C_path_res_array;
-    PathData* field_D4_pPathData;
+    const PathData* field_D4_pPathData;
     __int16 field_D8;
     __int16 field_DA;
-    __int16 field_DC;
+    __int16 field_DC_free_all_anim_and_palts;
     __int16 field_DE;
-    int field_E0_save_data;
+    __int16* field_E0_save_data;
 };
 
 ALIVE_ASSERT_SIZEOF(Map, 0xE4);

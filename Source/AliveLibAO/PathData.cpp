@@ -4,40 +4,6 @@
 
 START_NS_AO
 
-struct SoundBlockInfo
-{
-    const char *field_0_vab_header_name;
-    const char *field_4_vab_body_name;
-    int field_8_vab_id;
-    BYTE *field_C_pVabHeader;
-};
-
-struct PathRoot
-{
-    const PathBlyRec* field_0_pBlyArrayPtr;
-    FmvInfo* field_4_pFmvArray;
-    SoundBlockInfo* field_8_pMusicInfo;
-    const char* field_C_bsq_file_name;
-    __int16 field_10_reverb;
-    __int16 field_12_bg_music_id;
-    const char* field_14_lvl_name;
-    __int16 field_18_num_paths;
-    __int16 field_1A_unused; // message to display to change cd ??
-    int field_1C;
-    const char* field_20_lvl_name_cd;
-    int field_24;
-    const char* field_28_ovl_name_cd;
-    int field_2C;
-    const char* field_30_mov_name_cd;
-    const char* field_34_idx_name;
-    const char* field_38_bnd_name;
-};
-
-struct PathRootContainer
-{
-    PathRoot paths[16];
-};
-
 const PathBlyRec knullptrPathBlyRec = {};
 const SoundBlockInfo knullptrSoundBlockInfo = {};
 const FmvInfo knullptrFmvInfo = {};
@@ -863,19 +829,19 @@ PathRootContainer gMapData_4CAB58 =
     }
 };
 
-const PathBlyRec* CC Path_Get_Bly_Record_434650(unsigned __int16 level, unsigned __int16 path)
+const PathBlyRec* CC Path_Get_Bly_Record_434650(LevelIds level, unsigned __int16 path)
 {
-    return &gMapData_4CAB58.paths[level].field_0_pBlyArrayPtr[path];
+    return &gMapData_4CAB58.paths[static_cast<int>(level)].field_0_pBlyArrayPtr[path];
 }
 
-FmvInfo* CC Path_Get_FMV_Record_434680(unsigned __int16 levelId, unsigned __int16 fmvId)
+FmvInfo* CC Path_Get_FMV_Record_434680(LevelIds levelId, unsigned __int16 fmvId)
 {
-    return &gMapData_4CAB58.paths[levelId].field_4_pFmvArray[fmvId];
+    return &gMapData_4CAB58.paths[static_cast<int>(levelId)].field_4_pFmvArray[fmvId];
 }
 
-int CC Path_Format_CameraName_4346B0(char* pNameBuffer, __int16 level, __int16 path, __int16 camera)
+int CC Path_Format_CameraName_4346B0(char* pNameBuffer, LevelIds level, __int16 path, __int16 camera)
 {
-    return sprintf(pNameBuffer, "%sP%02dC%02d.CAM", gMapData_4CAB58.paths[level].field_14_lvl_name, path, camera);
+    return sprintf(pNameBuffer, "%sP%02dC%02d.CAM", gMapData_4CAB58.paths[static_cast<int>(level)].field_14_lvl_name, path, camera);
 }
 
 END_NS_AO

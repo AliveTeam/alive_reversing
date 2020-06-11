@@ -659,8 +659,8 @@ EXPORT void Factory_GasCountDown_487BE0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("LCDFONT.FNT",  ResourceManager::Resource_Font, 2, loadMode, 0);
-        ResourceManager::LoadResource_446C90("ABEGAS.BAN", ResourceManager::Resource_Animation, 118, loadMode, 0);
+        ResourceManager::LoadResource_446C90("LCDFONT.FNT",  ResourceManager::Resource_Font, 2, loadMode);
+        ResourceManager::LoadResource_446C90("ABEGAS.BAN", ResourceManager::Resource_Animation, 118, loadMode);
     }
     else
     {

@@ -33,6 +33,12 @@ SET(AliveLibSrcAO
    GasCountDown.cpp
    Font.hpp
    Font.cpp
+   Psx.hpp
+   Psx.cpp
+   Midi.hpp
+   Midi.cpp
+   BaseAnimatedWithPhysicsGameObject.hpp
+   BaseAliveGameObject.hpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx_ao.h stdafx_ao.cpp AliveLibSrcAO)

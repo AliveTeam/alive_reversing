@@ -6,6 +6,8 @@
 
 START_NS_AO
 
+enum class LevelIds : __int16;
+
 class EffectBase : public BaseGameObject
 {
 public:
@@ -14,7 +16,7 @@ public:
 protected:
 
     __int16 field_10_path_id;
-    __int16 field_12_level_id;
+    LevelIds field_12_level_id;
     Prim_Tile field_14_tile[2];
     Prim_SetTPage field_3C_tPage[2];
     __int16 field_5C_layer;

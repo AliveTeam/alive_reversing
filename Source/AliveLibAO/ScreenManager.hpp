@@ -38,6 +38,18 @@ ALIVE_ASSERT_SIZEOF(DirtyBits, 0x28);
 class ScreenManager : public BaseGameObject
 {
 public:
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+
+    EXPORT ScreenManager* vdtor_407290(signed int flags);
+
+    EXPORT ScreenManager* ctor_406830(BYTE** ppBits, FP_Point* pCameraOffset);
+
+    EXPORT void MoveImage_406C40();
+
+    EXPORT void InvalidateRect_406CC0(int x, int y, signed int width, signed int height);
+
+    EXPORT void DecompressToVRam_407110(unsigned __int16** ppBits);
+
     FP_Point* field_10_pCamPos;
     __int16 field_14;
     unsigned __int16 field_16;

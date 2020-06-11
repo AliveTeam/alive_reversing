@@ -12,6 +12,8 @@
 #include "FixedPoint_common.hpp"
 #include "ScreenManager.hpp"
 #include "ResourceManager.hpp"
+#include "Psx.hpp"
+#include "Alarm.hpp"
 #include "..\AliveLibAE\config.h" // TODO: Change location
 
 START_NS_AO
@@ -617,11 +619,6 @@ EXPORT void CC Errors_Display_48E050()
     NOT_IMPLEMENTED();
 }
 
-EXPORT void SYS_EventsPump_44FF90()
-{
-    NOT_IMPLEMENTED();
-}
-
 EXPORT int DebugOut_495990(const char*, ...)
 {
     NOT_IMPLEMENTED();
@@ -659,8 +656,10 @@ EXPORT void CC Events_Reset_Active_417320()
     NOT_IMPLEMENTED();
 }
 
+ALIVE_VAR_EXTERN(short, sNumCamSwappers_507668); // TODO: Move to own file
+
+
 ALIVE_VAR(1, 0x507B78, short, sBreakGameLoop_507B78, 0);
-ALIVE_VAR(1, 0x507668, short, sNumCamSwappers_507668, 0);
 
 ALIVE_VAR(1, 0x505564, DynamicArrayT<AnimationBase>*, gObjList_animations_505564, nullptr);
 
@@ -668,17 +667,6 @@ ALIVE_VAR(1, 0x505564, DynamicArrayT<AnimationBase>*, gObjList_animations_505564
 EXPORT void CC DebugFont_Flush_487F50()
 {
     NOT_IMPLEMENTED();
-}
-
-EXPORT int CC PSX_DrawSync_496750(int /*mode*/)
-{
-    return 0;
-}
-
-EXPORT int CC PSX_VSync_496620(int )
-{
-    NOT_IMPLEMENTED();
-    return 0;
 }
 
 EXPORT int CC PSX_ClearImage_496020(const PSX_RECT* /*pRect*/, __int16 /*r*/, unsigned __int8 /*g*/, unsigned __int8 /*b*/)
@@ -770,7 +758,7 @@ EXPORT void CC Game_Loop_437630()
 
             if (pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3) && pObj->field_C_bCanKill == 0)
             {
-                gBaseGameObject_list_9F2DF0->RemoveAt(i);
+                i = gBaseGameObject_list_9F2DF0->RemoveAt(i);
                 pObj->VDestructor(1);
             }
         }
@@ -800,7 +788,7 @@ EXPORT void CC Game_Loop_437630()
 
         if (pObjToKill->field_C_bCanKill == 0)
         {
-            gBaseGameObject_list_9F2DF0->RemoveAt(i);
+            i = gBaseGameObject_list_9F2DF0->RemoveAt(i);
             pObjToKill->VDestructor(1);
         }
     }
@@ -884,7 +872,7 @@ EXPORT void Game_Run_4373D0()
     Init_Sound_DynamicArrays_And_Others_41CD20();
     Input_Init_44EB60();
 
-    gMap_507BA8.Init_443EE0(0, 1, 10, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+    gMap_507BA8.Init_443EE0(LevelIds::eMenu_0, 1, 10, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
 
     DDCheat_Allocate_409560();
 
@@ -953,6 +941,8 @@ EXPORT void CC Game_ExitGame_450730()
 
 EXPORT void Game_Main_450050()
 {
+    Alarm_ForceLink();
+
     Main_ParseCommandLineArguments();
     Game_SetExitCallBack_48E040(Game_ExitGame_450730);
     Sys_SetWindowProc_Filter_48E950(Sys_WindowMessageHandler_4503B0);

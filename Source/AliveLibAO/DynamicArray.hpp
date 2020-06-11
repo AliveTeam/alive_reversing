@@ -60,12 +60,14 @@ public:
         return field_4_used_size == 0;
     }
 
-    void RemoveAt(int idx)
+    int RemoveAt(int idx)
     {
         field_4_used_size--;
 
         // Overwrite the items to remove with the item from the end
         field_0_array[idx] = field_0_array[field_4_used_size];
+
+        return idx - 1;
     }
 };
 
