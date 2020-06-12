@@ -432,23 +432,23 @@ void Water::vUpdate_4E0B50()
         case State::State_4:
             if (field_148_bHitTimeout & 1)
             {
-                if (field_124_tlv_data.field_10_max_drops <= 0)
+                if (field_124_tlv_data.field_10_max_drops <= 0) // Someone created a water object in the map with no particles
                 {
                     field_6_flags.Set(BaseGameObject::eDead_Bit3);
                 }
                 else
                 {
-                    bool found = false;
+                    bool foundDisabledWaterParticle = false;
                     for (int i = 0; i < field_124_tlv_data.field_10_max_drops; i++)
                     {
                         if (!field_F8_pWaterRes[i].field_18_enabled)
                         {
-                            found = true;
+                            foundDisabledWaterParticle = true;
                             break;
                         }
                     }
 
-                    if (!found)
+                    if (foundDisabledWaterParticle)
                     {
                         field_6_flags.Set(BaseGameObject::eDead_Bit3);
                     }
@@ -483,7 +483,7 @@ void Water::vUpdate_4E0B50()
                         // TODO refactor
                         pWaterRes->field_14_delta_z.fpValue -= pWaterRes->field_14_delta_z.fpValue >> 3;
                         pWaterRes->field_C_delta_x.fpValue -= pWaterRes->field_C_delta_x.fpValue >> 3;
-                        if (!pWaterRes->field_1A_splash_time)
+                        if (pWaterRes->field_1A_splash_time == 0)
                         {
                             Disable_Water_Particle_4E0B10(i);
                         }
@@ -518,10 +518,10 @@ void Water::vUpdate_4E0B50()
                             pWaterRes->field_1A_splash_time = 15;
                         }
 
-                        short splash_time = field_138_splash_time;
-                        field_138_splash_time = splash_time + 1;
+                        short old_splash_time = field_138_splash_time;
+                        field_138_splash_time = old_splash_time + 1;
 
-                        if (!(splash_time % 4) && !field_13C_not_in_camera_count)
+                        if (!(old_splash_time % 4) && !field_13C_not_in_camera_count)
                         {
                             auto pParticle = ae_new<Particle>();
                             if (pParticle)
