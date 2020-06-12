@@ -26,6 +26,11 @@ enum class LevelIds : __int16
     eDesertEscape = 15,
 };
 
+enum TlvTypes
+{
+    Door_6 = 6,
+};
+
 struct Path_TLV;
 class Map;
 

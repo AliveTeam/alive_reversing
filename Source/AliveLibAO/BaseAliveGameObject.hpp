@@ -5,6 +5,9 @@
 
 START_NS_AO
 
+void BaseAliveGameObject_ForceLink();
+
+
 struct Path_TLV;
 class LiftPoint;
 
@@ -27,6 +30,8 @@ public:
     virtual void VOn_TLV_Collision(Path_TLV* pTlv);
     virtual void VCheckCollisionLineStillValid(int distance);
     virtual void VOnPickUpOrSlapped2();
+
+    EXPORT void VCheckCollisionLineStillValid_401A90(int distance);
 
     int field_D4_pad[4];
     __int16 field_E4;

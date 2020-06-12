@@ -9,12 +9,14 @@
 #include "Game.hpp"
 #include "Midi.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "Door.hpp"
+#include "Abe.hpp"
 
 START_NS_AO
 
 void Map_ForceLink() {}
 
-ALIVE_VAR(1, 0x507678, BaseAliveGameObject*, gAbe_507678, nullptr);
+ALIVE_VAR(1, 0x507678, Abe*, sActiveHero_507678, nullptr);
 ALIVE_VAR(1, 0x507680, BaseAliveGameObject*, gElum_507680, nullptr);
 ALIVE_VAR(1, 0x50767C, BaseAliveGameObject*, sControlledCharacter_50767C, nullptr);
 
@@ -318,7 +320,7 @@ public:
         ao_delete_free_447540(field_0);
     }
 
-    EXPORT Collisions* ctor_40CF30(const CollisionInfo* /*pCollisionInfo*/, BYTE** /*ppPathData*/)
+    EXPORT Collisions* ctor_40CF30(const CollisionInfo* /*pCollisionInfo*/, const BYTE* /*ppPathData*/)
     {
         NOT_IMPLEMENTED();
         return this;
@@ -587,6 +589,17 @@ __int16 Map::GetOverlayId()
     return Path_Get_Bly_Record_434650(field_A_level, field_C_path)->field_C_overlay_id;
 }
 
+Path_TLV* CCSTD AO::Map::TLV_Next_Of_Type_446500(Path_TLV* /*pTlv*/, unsigned __int16 /*type*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
+Path_TLV* AO::Map::TLV_First_Of_Type_In_Camera_4464A0(unsigned __int16 /*type*/, int /*camX*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
 
 EXPORT void AO::Map::Load_Path_Items_445DA0(Camera* /*pCamera*/, __int16 /*kZero*/)
 {
@@ -611,8 +624,6 @@ void AO::Map::Create_FG1s_4447D0()
 
 void Map::GoTo_Camera_445050()
 {
-    NOT_IMPLEMENTED();
-
     __int16 bShowLoadingIcon = FALSE;
 
     //dword_507CA4 = 0; // never read
@@ -740,62 +751,50 @@ void Map::GoTo_Camera_445050()
         field_C_path = 1;
     }
 
-    const auto levelId = this->field_A_level;
 
     const auto old_current_path = field_2_current_path;
-    field_DA = field_C_path != old_current_path || levelId != field_0_current_level;
     const auto old_current_path2 = old_current_path;
     const auto old_current_level = field_0_current_level;
+
+    field_DA_bMapChanged = field_C_path != old_current_path || field_A_level != field_0_current_level;
+
     field_4_current_camera = field_E_camera;
     field_2_current_path = field_C_path;
-    field_0_current_level = levelId;
-    const PathBlyRec* pPathRecord = Path_Get_Bly_Record_434650(levelId, field_C_path);
-    const PathData* pPathData = pPathRecord->field_4_pPathData;
-    const auto pPathRecord2 = pPathRecord;
-    field_D4_pPathData = pPathData;
-    const auto bRight = pPathData->field_6_bRight;
-    const auto grid_height = pPathData->field_E_grid_height;
-    field_24_max_cams_x = (pPathData->field_8_bTop - pPathData->field_4_bLeft) / pPathData->field_C_grid_width;
-    field_26_max_cams_y = (pPathData->field_A_bBottom - bRight) / grid_height;
-    
-    const int kNameBufferSize = 8;
-    char camNameBuffer[20] = {};
-    Path_Format_CameraName_4346B0(camNameBuffer, levelId, field_C_path, field_E_camera);
-    
-    const auto camsX = field_24_max_cams_x;
-    const auto camsX2 = camsX;
-    const auto totalCams = kNameBufferSize * field_26_max_cams_y * camsX;
+    field_0_current_level = field_A_level;
 
-    int pCamPathIter = 0;
-    if (totalCams <= 0)
+    const PathBlyRec* pPathRecord = Path_Get_Bly_Record_434650(field_A_level, field_C_path);
+    field_D4_pPathData = pPathRecord->field_4_pPathData;
+    field_24_max_cams_x = (field_D4_pPathData->field_8_bTop - field_D4_pPathData->field_4_bLeft) / field_D4_pPathData->field_C_grid_width;
+    field_26_max_cams_y = (field_D4_pPathData->field_A_bBottom - field_D4_pPathData->field_6_bRight) / field_D4_pPathData->field_E_grid_height;
+    
+    char camNameBuffer[20] = {};
+    Path_Format_CameraName_4346B0(camNameBuffer, field_A_level, field_C_path, field_E_camera);
+    
+    const auto totalCams = field_26_max_cams_y * field_24_max_cams_x;
+
+    int camIdx = 0;
+    if (totalCams > 0)
     {
-        pCamPathIter = 0;
-    }
-    else
-    {
-        auto curPathCamName = 0;
         auto ppPathRes = field_5C_path_res_array.field_0_pPathRecs[field_C_path];
-        pCamPathIter = 0;
-        auto pPathRes = *ppPathRes;
-        do
+        auto pName = reinterpret_cast<CameraName*>(&(*ppPathRes)[0]);
+        for (camIdx=0; camIdx < totalCams; camIdx++)
         {
-            if (!strncmp((const char*)&pPathRes[curPathCamName], camNameBuffer, kNameBufferSize))
+            if (!strncmp(pName->name, camNameBuffer, sizeof(CameraName)))
             {
                 break;
             }
-            pCamPathIter += kNameBufferSize;
-            curPathCamName = pCamPathIter;
-        } while (pCamPathIter < totalCams);
+            pName++;
+        }
     }
 
-    const auto camX_idx = static_cast<short>((pCamPathIter / kNameBufferSize) % camsX2);
-    const auto camY_idx = static_cast<short>((pCamPathIter / kNameBufferSize) / camsX2);
+    const auto camX_idx = static_cast<short>(camIdx % field_24_max_cams_x);
+    const auto camY_idx = static_cast<short>(camIdx / field_24_max_cams_x);
   
     field_20_camX_idx = camX_idx;
     field_22_camY_idx = camY_idx;
 
-    field_2C_camera_offset.field_0_x = FP_FromInteger(camX_idx * pPathData->field_C_grid_width + 440);
-    field_2C_camera_offset.field_4_y = FP_FromInteger(camY_idx * pPathData->field_E_grid_height + 240);
+    field_2C_camera_offset.field_0_x = FP_FromInteger(camX_idx * field_D4_pPathData->field_C_grid_width + 440);
+    field_2C_camera_offset.field_4_y = FP_FromInteger(camY_idx * field_D4_pPathData->field_E_grid_height + 240);
 
     if (old_current_path2 != field_2_current_path || old_current_level != field_0_current_level)
     {
@@ -806,7 +805,7 @@ void Map::GoTo_Camera_445050()
         }
 
         sCollisions_DArray_504C6C = ao_new<Collisions>();
-        sCollisions_DArray_504C6C->ctor_40CF30(pPathRecord2->field_8_pCollisionData, field_5C_path_res_array.field_0_pPathRecs[field_2_current_path]);
+        sCollisions_DArray_504C6C->ctor_40CF30(pPathRecord->field_8_pCollisionData, *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path]);
     }
 
     if (field_E0_save_data)
@@ -867,9 +866,9 @@ void Map::GoTo_Camera_445050()
 
     if (old_current_path2 != field_2_current_path || old_current_level != field_0_current_level)
     {
-        if (gAbe_507678 && field_2_current_path == gAbe_507678->field_B0_path)
+        if (sActiveHero_507678 && field_2_current_path == sActiveHero_507678->field_B0_path)
         {
-            gAbe_507678->VCheckCollisionLineStillValid(10);
+            sActiveHero_507678->VCheckCollisionLineStillValid(10);
         }
 
         if (gElum_507680 && sControlledCharacter_50767C != gElum_507680 && field_2_current_path == gElum_507680->field_B0_path)
@@ -897,24 +896,21 @@ void Map::GoTo_Camera_445050()
     {
         if (field_1E_door)
         {
-            /*
-            for (pTlvIter = TLV_First_Of_Type_In_Camera_4464A0(6u, 0);
-                pTlvIter->field_20_door_number != gAbe_507678->field_196_door_id;
-                pTlvIter = TLV_Next_Of_Type_446500(&pTlvIter, 6u))
+            Path_Door* pTlvIter = static_cast<Path_Door*>(TLV_First_Of_Type_In_Camera_4464A0(TlvTypes::Door_6, 0));
+            while (pTlvIter->field_20_door_number != sActiveHero_507678->field_196_door_id)
             {
-                ;
+                pTlvIter = static_cast<Path_Door*>(TLV_Next_Of_Type_446500(pTlvIter, TlvTypes::Door_6));
             }
+
+            const auto pCamPos = pScreenManager_4FF7C8->field_10_pCamPos;
+            const auto xpos = pScreenManager_4FF7C8->field_14 + ((pTlvIter->field_10 + pTlvIter->field_14) / 2) - FP_GetExponent(pCamPos->field_0_x);
+            const auto ypos = pScreenManager_4FF7C8->field_16 + pTlvIter->field_12  - FP_GetExponent(pCamPos->field_4_y);
             auto pCameraSwapperMem = ao_new<CameraSwapper>();
             pCameraSwapperMem->ctor_48C7A0(
                 field_34_camera_array[0]->field_C_ppBits,
                 field_10_screenChangeEffect,
-                pScreenManager_4FF7C8->field_14
-                + (pTlvIter->field_10 + pTlvIter->field_14) / 
-                - (pScreenManager_4FF7C8->field_10_pCamPos->field_0_x, 6),
-                pScreenManager_4FF7C8->field_16
-                + pTlvIter->field_12
-                - FP_FromInteger(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y));
-            */
+                static_cast<short>(xpos),
+                static_cast<short>(ypos));
         }
         else
         {

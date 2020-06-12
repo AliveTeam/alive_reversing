@@ -14,6 +14,7 @@
 #include "PossessionFlicker.hpp"
 #include "Particle.hpp"
 #include "ParticleBurst.hpp"
+#include "Door.hpp"
 
 int CC SlapLockWhirlWind::CreateFromSaveState_43DC20(const BYTE* pBuffer)
 {

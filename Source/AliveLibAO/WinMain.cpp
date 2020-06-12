@@ -14,6 +14,7 @@
 #include "ResourceManager.hpp"
 #include "Psx.hpp"
 #include "Alarm.hpp"
+#include "BaseAliveGameObject.hpp"
 #include "..\AliveLibAE\config.h" // TODO: Change location
 
 START_NS_AO
@@ -942,6 +943,7 @@ EXPORT void CC Game_ExitGame_450730()
 EXPORT void Game_Main_450050()
 {
     Alarm_ForceLink();
+    BaseAliveGameObject_ForceLink();
 
     Main_ParseCommandLineArguments();
     Game_SetExitCallBack_48E040(Game_ExitGame_450730);

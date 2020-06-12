@@ -200,30 +200,6 @@ enum class CameraPos : __int16;
 
 EXPORT void CC Stop_slig_sounds_4CBA70(CameraPos direction, char kZero);
 
-struct Path_Door : public Path_TLV
-{
-    LevelIds field_10_level;
-    __int16 field_12_path;
-    __int16 field_14_camera;
-    __int16 field_16_scale;
-    __int16 field_18_door_number;
-    __int16 field_1A_id;
-    __int16 field_1C_target_door_number;
-    __int16 field_1E_type;
-    __int16 field_20_start_state;
-    __int16 field_22_hubs[8];
-    __int16 field_32_wipe_effect;
-    __int16 field_34_movie_number;
-    __int16 field_36_x_offset;
-    __int16 field_38_y_offset;
-    __int16 field_3A_wipe_x_org;
-    __int16 field_3C_wipe_y_org;
-    __int16 field_3E_abe_direction;
-    __int16 field_40_close_after_use;
-    __int16 field_42_cancel_throwables;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Door, 0x44);
-
 struct Path_Teleporter_Data
 {
     __int16 field_10_id;

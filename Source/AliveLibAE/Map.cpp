@@ -22,6 +22,7 @@
 #include "Events.hpp"
 #include "Movie.hpp"
 #include "Particle.hpp"
+#include "Door.hpp"
 #include "Sound/PsxSpuApi.hpp"
 #include <assert.h>
 
@@ -911,10 +912,10 @@ void Map::GoTo_Camera_481890()
             // TODO: Add template helpers
 
             // Door transition
-            Path_Door* pDoorTlv = reinterpret_cast<Path_Door*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes::Door_5, 0));
+            Path_Door* pDoorTlv = static_cast<Path_Door*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes::Door_5, 0));
             while (pDoorTlv->field_18_door_number != sActiveHero_5C1B68->field_1A0_door_id)
             {
-                pDoorTlv = reinterpret_cast<Path_Door*>(Path::TLV_Next_Of_Type_4DB720(pDoorTlv, TlvTypes::Door_5));
+                pDoorTlv = static_cast<Path_Door*>(Path::TLV_Next_Of_Type_4DB720(pDoorTlv, TlvTypes::Door_5));
             }
 
             CreateScreenTransistionForTLV(pDoorTlv);

@@ -3,11 +3,13 @@
 #include "BaseGameObject.hpp"
 #include "Animation.hpp"
 #include "FixedPoint_common.hpp"
+#include "Psx_common.hpp"
 #include "FunctionFwd.hpp"
 
 START_NS_AO
 
 class Shadow;
+class BaseAliveGameObject;
 
 class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
 {

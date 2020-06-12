@@ -8,10 +8,7 @@ START_NS_AO
 class AnimationBase
 {
 public:
-    static EXPORT void CC AnimateAll_4034F0(DynamicArrayT<AnimationBase>* /*pAnimList*/)
-    {
-        NOT_IMPLEMENTED();
-    }
+    static EXPORT void CC AnimateAll_4034F0(DynamicArrayT<AnimationBase>* pAnimList);
 };
 
 class Animation : public AnimationBase

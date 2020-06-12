@@ -23,6 +23,7 @@ SET(AliveLibSrcAO
    PathData.cpp
    bmp.hpp
    Animation.hpp
+   Animation.cpp
    ResourceManager.hpp
    ResourceManager.cpp
    ScreenManager.hpp
@@ -39,6 +40,7 @@ SET(AliveLibSrcAO
    Midi.cpp
    BaseAnimatedWithPhysicsGameObject.hpp
    BaseAliveGameObject.hpp
+   BaseAliveGameObject.cpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx_ao.h stdafx_ao.cpp AliveLibSrcAO)

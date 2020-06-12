@@ -15,6 +15,12 @@ class Camera;
 
 enum class CameraSwapEffects : __int16;
 
+struct CameraName
+{
+    char name[8];
+};
+ALIVE_ASSERT_SIZEOF(CameraName, 8);
+
 // TODO move to another file
 class CameraSwapper : public BaseGameObject
 {
@@ -128,6 +134,10 @@ public:
 
     EXPORT void Load_Path_Items_445DA0(Camera* pCamera, __int16 kZero);
 
+    EXPORT Path_TLV* TLV_First_Of_Type_In_Camera_4464A0(unsigned __int16 type, int camX);
+
+    EXPORT Path_TLV* CCSTD TLV_Next_Of_Type_446500(Path_TLV* pTlv, unsigned __int16 type);
+
     LevelIds field_0_current_level;
     __int16 field_2_current_path;
     __int16 field_4_current_camera;
@@ -155,7 +165,7 @@ public:
     Map_PathsArray field_5C_path_res_array;
     const PathData* field_D4_pPathData;
     __int16 field_D8;
-    __int16 field_DA;
+    __int16 field_DA_bMapChanged;
     __int16 field_DC_free_all_anim_and_palts;
     __int16 field_DE;
     __int16* field_E0_save_data;
