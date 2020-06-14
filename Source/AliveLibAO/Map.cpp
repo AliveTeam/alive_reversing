@@ -947,6 +947,11 @@ __int16 Map::GetOverlayId()
     return Path_Get_Bly_Record_434650(field_A_level, field_C_path)->field_C_overlay_id;
 }
 
+Path_TLV* AO::Map::Get_First_TLV_For_Offsetted_Camera_4463B0(__int16 /*camX*/, __int16 /*camY*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
 
 void AO::Map::Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos /*direction*/, __int16 /*cam_x_idx*/, __int16 /*cam_y_idx*/)
 {
@@ -1232,10 +1237,24 @@ Path_TLV* CCSTD AO::Map::TLV_Next_Of_Type_446500(Path_TLV* /*pTlv*/, unsigned __
     return nullptr;
 }
 
-Path_TLV* AO::Map::TLV_First_Of_Type_In_Camera_4464A0(unsigned __int16 /*type*/, int /*camX*/)
+Path_TLV* AO::Map::TLV_First_Of_Type_In_Camera_4464A0(unsigned __int16 type, int camX)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    Path_TLV* pTlvIter = Get_First_TLV_For_Offsetted_Camera_4463B0(static_cast<short>(camX), 0);
+    if (!pTlvIter)
+    {
+        return nullptr;
+    }
+
+    while (pTlvIter->field_4_type != type)
+    {
+        pTlvIter =  Path_TLV::Next_446460(pTlvIter);
+        if (!pTlvIter)
+        {
+            return nullptr;
+        }
+    }
+
+    return pTlvIter;
 }
 
 EXPORT void AO::Map::Load_Path_Items_445DA0(Camera* /*pCamera*/, __int16 /*kZero*/)
@@ -1626,7 +1645,8 @@ void Map::GoTo_Camera_445050()
 void Map::Loader_446590(__int16 camX, __int16 camY, int loadMode, __int16 typeToLoad)
 {
     // Get a pointer to the array of index table offsets
-    const int* indexTable = reinterpret_cast<const int*>(*field_5C_path_res_array.field_0_pPathRecs[field_2_current_path] + field_D4_pPathData->field_18_object_index_table_offset);
+    BYTE* pPathRes = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
+    const int* indexTable = reinterpret_cast<const int*>(pPathRes + field_D4_pPathData->field_18_object_index_table_offset);
 
     // Calculate the index of the offset we want for the given camera at x/y
     int objectTableIdx = indexTable[camX + (camY * field_24_max_cams_x)];
@@ -1636,46 +1656,43 @@ void Map::Loader_446590(__int16 camX, __int16 camY, int loadMode, __int16 typeTo
         return;
     }
 
-    DWORD* pPathData = (DWORD*)*field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
-    Path_TLV* pTlvIter = (Path_TLV*)((char*)pPathData + objectTableIdx + field_D4_pPathData->field_14_offset);
-    if (pTlvIter->field_2_length < 24u || pTlvIter->field_2_length > 480u)
-    {
-        pTlvIter->field_0_flags |= 4u;
-    }
+    BYTE* ptr = pPathRes + objectTableIdx + field_D4_pPathData->field_14_offset;
+    Path_TLV* pPathTLV = reinterpret_cast<Path_TLV*>(ptr);
+    pPathTLV->RangeCheck();
 
-    if (pTlvIter->field_4_type <= 0x100000 && pTlvIter->field_2_length <= 0x2000u && *(DWORD*)&pTlvIter->field_8_top_left <= 0x1000000)
+    if (pPathTLV->field_4_type <= 0x100000 && pPathTLV->field_2_length <= 0x2000u && *(DWORD*)&pPathTLV->field_8_top_left <= 0x1000000) // TODO: top left checking seems wrong
     {
         while (1)
         {
-            if ((typeToLoad == -1 || typeToLoad == pTlvIter->field_4_type) && (loadMode || !(pTlvIter->field_0_flags & 3)))
+            if (typeToLoad == -1 || typeToLoad == pPathTLV->field_4_type)
             {
-                TlvItemInfoUnion data;
-                data.parts.tlvOffset = static_cast<WORD>(objectTableIdx);
-                data.parts.levelId = static_cast<BYTE>(field_0_current_level);
-                data.parts.pathId = static_cast<BYTE>(field_2_current_path);
-                
-                // Call the factory to construct the item
-                field_D4_pPathData->field_1C_object_funcs.object_funcs[pTlvIter->field_4_type](pTlvIter, this, data, static_cast<short>(loadMode));
-
-                if (!loadMode)
+                if (loadMode || !(pPathTLV->field_0_flags.Get(TLV_Flags::eBit1_Created) || pPathTLV->field_0_flags.Get(TLV_Flags::eBit2_Unknown)))
                 {
-                    pTlvIter->field_0_flags |= 3u;
+                    TlvItemInfoUnion data;
+                    data.parts.tlvOffset = static_cast<WORD>(objectTableIdx);
+                    data.parts.levelId = static_cast<BYTE>(field_0_current_level);
+                    data.parts.pathId = static_cast<BYTE>(field_2_current_path);
+
+                    // Call the factory to construct the item
+                    field_D4_pPathData->field_1C_object_funcs.object_funcs[pPathTLV->field_4_type](pPathTLV, this, data, static_cast<short>(loadMode));
+
+                    if (!loadMode)
+                    {
+                        pPathTLV->field_0_flags.Set(TLV_Flags::eBit1_Created);
+                        pPathTLV->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
+                    }
                 }
             }
 
-            if (((unsigned __int8)pTlvIter->field_0_flags >> 2) & 1)
+            // End of TLV list for current camera
+            if (pPathTLV->field_0_flags.Get(TLV_Flags::eBit3_End_TLV_List))
             {
                 break;
             }
 
-            const auto tlv_len = pTlvIter->field_2_length;
-            pTlvIter = (Path_TLV*)((char*)pTlvIter + tlv_len);
-            objectTableIdx += tlv_len;
-
-            if (pTlvIter->field_2_length < 24u || pTlvIter->field_2_length > 480u)
-            {
-                pTlvIter->field_0_flags |= 4u;
-            }
+            objectTableIdx += pPathTLV->field_2_length;
+            pPathTLV = Path_TLV::Next_446460(pPathTLV);
+            pPathTLV->RangeCheck();
         }
     }
 }
@@ -1721,6 +1738,19 @@ EXPORT CameraSwapper* CameraSwapper::ctor_48C7A0(BYTE** /*ppBits*/, CameraSwapEf
 {
     NOT_IMPLEMENTED();
     return this;
+}
+
+Path_TLV* CCSTD Path_TLV::Next_446460(Path_TLV* pTlv)
+{
+    if (pTlv->field_0_flags.Get(TLV_Flags::eBit3_End_TLV_List))
+    {
+        return nullptr;
+    }
+
+    // Skip length bytes to get to the start of the next TLV
+    BYTE* ptr = reinterpret_cast<BYTE*>(pTlv);
+    BYTE* pNext = ptr + pTlv->field_2_length;
+    return reinterpret_cast<Path_TLV*>(pNext);
 }
 
 END_NS_AO

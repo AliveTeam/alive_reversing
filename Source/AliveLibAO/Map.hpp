@@ -79,9 +79,16 @@ enum class CameraSwapEffects : __int16
     eEffect11 = 11                  // Unknown, has special handing in the map object
 };
 
+enum TLV_Flags
+{
+    eBit1_Created = 0x1,
+    eBit2_Unknown = 0x2,
+    eBit3_End_TLV_List = 0x4,
+};
+
 struct Path_TLV
 {
-    char field_0_flags;
+    BitField8<TLV_Flags> field_0_flags;
     char field_1_unknown;
     __int16 field_2_length;
     int field_4_type;
@@ -91,6 +98,18 @@ struct Path_TLV
     __int16 field_12;
     __int16 field_14;
     __int16 field_16;
+
+    // Note: Part of Path object in AE
+    EXPORT static Path_TLV* CCSTD Next_446460(Path_TLV* pTlv);
+
+    // Some strange self terminate check that is inlined everywhere
+    void RangeCheck()
+    {
+        if (field_2_length < 24u || field_2_length > 480u)
+        {
+            field_0_flags.Set(eBit3_End_TLV_List);
+        }
+    }
 };
 ALIVE_ASSERT_SIZEOF(Path_TLV, 0x18);
 
@@ -177,6 +196,9 @@ public:
 
     // NOTE: Part of Path object in AE
     EXPORT void Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos direction, __int16 cam_x_idx, __int16 cam_y_idx);
+
+    // NOTE: Part of Path object in AE
+    EXPORT Path_TLV* Get_First_TLV_For_Offsetted_Camera_4463B0(__int16 camX, __int16 camY);
 
     LevelIds field_0_current_level;
     __int16 field_2_current_path;
