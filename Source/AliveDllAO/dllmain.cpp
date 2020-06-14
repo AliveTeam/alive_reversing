@@ -24,7 +24,6 @@ extern "C"
         // it can ever be executed.
         LOG_ERROR("Entry point was not hooked!");
         AO::WinMain_ForceLink(); // Else the entire AliveLibAO will be discarded by the linker because there are 0 calls to any of it
-        //AO::Map_ForceLink();
         abort();
     }
 }

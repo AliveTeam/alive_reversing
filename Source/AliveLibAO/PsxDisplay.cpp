@@ -14,7 +14,7 @@ EXPORT PsxDisplay* PsxDisplay::ctor_40DAB0(const PSX_Display_Params* /*pParams*/
     return this;
 }
 
-EXPORT void AO::PsxDisplay::PSX_Display_Render_OT_40DD20()
+EXPORT void PsxDisplay::PSX_Display_Render_OT_40DD20()
 {
     NOT_IMPLEMENTED();
 }

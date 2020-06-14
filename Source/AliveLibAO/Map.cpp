@@ -547,7 +547,7 @@ __int16 Map::GetOverlayId_4440B0()
     return Path_Get_Bly_Record_434650(field_A_level, field_C_path)->field_C_overlay_id;
 }
 
-void AO::Map::Handle_PathTransition_444DD0()
+void Map::Handle_PathTransition_444DD0()
 {
     Path_ChangeTLV* pTlv = nullptr;
     if (field_18_pAliveObj)
@@ -680,7 +680,7 @@ void AO::Map::Handle_PathTransition_444DD0()
     }
 }
 
-void AO::Map::RemoveObjectsWithPurpleLight_4440D0(__int16 bMakeInvisible)
+void Map::RemoveObjectsWithPurpleLight_4440D0(__int16 bMakeInvisible)
 {
     auto pObjectsWithLightsArray = ao_new<DynamicArrayT<BaseAnimatedWithPhysicsGameObject>>();
     pObjectsWithLightsArray->ctor_4043E0(16);
@@ -843,7 +843,7 @@ void AO::Map::RemoveObjectsWithPurpleLight_4440D0(__int16 bMakeInvisible)
     }
 }
 
-void AO::Map::ScreenChange_Common()
+void Map::ScreenChange_Common()
 {
     if (field_6_state == 1)
     {
@@ -861,7 +861,7 @@ void AO::Map::ScreenChange_Common()
     gSndChannels_507CA0 = 0;
 }
 
-void AO::Map::ScreenChange_4444D0()
+void Map::ScreenChange_4444D0()
 {
     if (field_6_state == 0)
     {
@@ -948,18 +948,18 @@ __int16 Map::GetOverlayId()
     return Path_Get_Bly_Record_434650(field_A_level, field_C_path)->field_C_overlay_id;
 }
 
-Path_TLV* AO::Map::Get_First_TLV_For_Offsetted_Camera_4463B0(__int16 /*camX*/, __int16 /*camY*/)
+Path_TLV* Map::Get_First_TLV_For_Offsetted_Camera_4463B0(__int16 /*camX*/, __int16 /*camY*/)
 {
     NOT_IMPLEMENTED();
     return nullptr;
 }
 
-void AO::Map::Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos /*direction*/, __int16 /*cam_x_idx*/, __int16 /*cam_y_idx*/)
+void Map::Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos /*direction*/, __int16 /*cam_x_idx*/, __int16 /*cam_y_idx*/)
 {
     NOT_IMPLEMENTED();
 }
 
-void AO::Map::Start_Sounds_For_Objects_In_Near_Cameras_4467D0()
+void Map::Start_Sounds_For_Objects_In_Near_Cameras_4467D0()
 {
     SND_Reset_Ambiance_4765E0();
 
@@ -984,12 +984,12 @@ void AO::Map::Start_Sounds_For_Objects_In_Near_Cameras_4467D0()
     }
 }
 
-AO::Camera* AO::Map::GetCamera(CameraPos pos)
+Camera* Map::GetCamera(CameraPos pos)
 {
     return field_34_camera_array[static_cast<int>(pos)];
 }
 
-signed __int16 AO::Map::SetActiveCameraDelayed_444CA0(MapDirections direction, BaseAliveGameObject* pObj, __int16 swapEffect)
+signed __int16 Map::SetActiveCameraDelayed_444CA0(MapDirections direction, BaseAliveGameObject* pObj, __int16 swapEffect)
 {
     Path_ChangeTLV* pPathChangeTLV = nullptr;
     CameraSwapEffects convertedSwapEffect = CameraSwapEffects::eEffect0_InstantChange;
@@ -1067,7 +1067,7 @@ signed __int16 AO::Map::SetActiveCameraDelayed_444CA0(MapDirections direction, B
     return 1;
 }
 
-__int16 AO::Map::Is_Point_In_Current_Camera_4449C0(int level, int path, FP xpos, FP ypos, __int16 width)
+__int16 Map::Is_Point_In_Current_Camera_4449C0(int level, int path, FP xpos, FP ypos, __int16 width)
 {
     if (static_cast<LevelIds>(level) != field_0_current_level || path != field_2_current_path) // TODO: Remove when 100%
     {
@@ -1082,7 +1082,7 @@ __int16 AO::Map::Is_Point_In_Current_Camera_4449C0(int level, int path, FP xpos,
     return Rect_Location_Relative_To_Active_Camera_4448C0(&rect, width) == CameraPos::eCamCurrent_0;
 }
 
-signed __int16 AO::Map::Get_Camera_World_Rect_444C30(CameraPos camIdx, PSX_RECT* pRect)
+signed __int16 Map::Get_Camera_World_Rect_444C30(CameraPos camIdx, PSX_RECT* pRect)
 {
     if (camIdx < CameraPos::eCamCurrent_0 || camIdx > CameraPos::eCamRight_4)
     {
@@ -1112,7 +1112,7 @@ signed __int16 AO::Map::Get_Camera_World_Rect_444C30(CameraPos camIdx, PSX_RECT*
     return 1;
 }
 
-CameraPos AO::Map::Rect_Location_Relative_To_Active_Camera_4448C0(PSX_RECT* pRect, __int16 width)
+CameraPos Map::Rect_Location_Relative_To_Active_Camera_4448C0(PSX_RECT* pRect, __int16 width)
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
@@ -1157,7 +1157,7 @@ CameraPos AO::Map::Rect_Location_Relative_To_Active_Camera_4448C0(PSX_RECT* pRec
     return CameraPos::eCamLeft_3;
 }
 
-CameraPos AO::Map::GetDirection_444A40(int level, int path, FP xpos, FP ypos)
+CameraPos Map::GetDirection_444A40(int level, int path, FP xpos, FP ypos)
 {
     if (level != static_cast<int>(field_0_current_level))
     {
@@ -1226,19 +1226,19 @@ CameraPos AO::Map::GetDirection_444A40(int level, int path, FP xpos, FP ypos)
     }
 }
 
-EXPORT Path_TLV* AO::Map::TLV_Get_At_446260(__int16 /*xpos*/, __int16 /*ypos*/, __int16 /*width*/, __int16 /*height*/, unsigned __int16 /*typeToFind*/)
+EXPORT Path_TLV* Map::TLV_Get_At_446260(__int16 /*xpos*/, __int16 /*ypos*/, __int16 /*width*/, __int16 /*height*/, unsigned __int16 /*typeToFind*/)
 {
     NOT_IMPLEMENTED();
     return nullptr;
 }
 
-Path_TLV* CCSTD AO::Map::TLV_Next_Of_Type_446500(Path_TLV* /*pTlv*/, unsigned __int16 /*type*/)
+Path_TLV* CCSTD Map::TLV_Next_Of_Type_446500(Path_TLV* /*pTlv*/, unsigned __int16 /*type*/)
 {
     NOT_IMPLEMENTED();
     return nullptr;
 }
 
-Path_TLV* AO::Map::TLV_First_Of_Type_In_Camera_4464A0(unsigned __int16 type, int camX)
+Path_TLV* Map::TLV_First_Of_Type_In_Camera_4464A0(unsigned __int16 type, int camX)
 {
     Path_TLV* pTlvIter = Get_First_TLV_For_Offsetted_Camera_4463B0(static_cast<short>(camX), 0);
     if (!pTlvIter)
@@ -1258,17 +1258,17 @@ Path_TLV* AO::Map::TLV_First_Of_Type_In_Camera_4464A0(unsigned __int16 type, int
     return pTlvIter;
 }
 
-EXPORT void AO::Map::Load_Path_Items_445DA0(Camera* /*pCamera*/, __int16 /*kZero*/)
+EXPORT void Map::Load_Path_Items_445DA0(Camera* /*pCamera*/, __int16 /*kZero*/)
 {
     NOT_IMPLEMENTED();
 }
 
-void AO::Map::RestoreObjectStates_446A90(__int16* /*pSaveData*/)
+void Map::RestoreObjectStates_446A90(__int16* /*pSaveData*/)
 {
     NOT_IMPLEMENTED();
 }
 
-Camera* AO::Map::Create_Camera_445BE0(__int16 xpos, __int16 ypos, int /*a4*/)
+Camera* Map::Create_Camera_445BE0(__int16 xpos, __int16 ypos, int /*a4*/)
 {
     // Check min bound
     if (xpos < 0 || ypos < 0)
@@ -1339,7 +1339,7 @@ Camera* AO::Map::Create_Camera_445BE0(__int16 xpos, __int16 ypos, int /*a4*/)
     return newCamera;
 }
 
-void AO::Map::Create_FG1s_4447D0()
+void Map::Create_FG1s_4447D0()
 {
     pScreenManager_4FF7C8->UnsetDirtyBits_FG1_406EF0();
 
@@ -1725,31 +1725,31 @@ EXPORT BYTE* Map::TLV_Reset_446870(unsigned int /*a2*/, __int16 /*a3*/, unsigned
 }
 
 
-CameraSwapper* CC AO::Map::FMV_Camera_Change_4458D0(BYTE** /*ppBits*/, Map* /*pMap*/, LevelIds /*levelId*/)
+CameraSwapper* CC Map::FMV_Camera_Change_4458D0(BYTE** /*ppBits*/, Map* /*pMap*/, LevelIds /*levelId*/)
 {
     NOT_IMPLEMENTED();
     return nullptr;
 }
 
-void AO::Map::GetCurrentCamCoords_444890(PSX_Point* pPoint)
+void Map::GetCurrentCamCoords_444890(PSX_Point* pPoint)
 {
     pPoint->field_0_x = field_D4_pPathData->field_C_grid_width * field_20_camX_idx;
     pPoint->field_2_y = field_D4_pPathData->field_E_grid_height * field_22_camY_idx;
 }
 
-void AO::Map::Get_map_size_444870(PSX_Point* pPoint)
+void Map::Get_map_size_444870(PSX_Point* pPoint)
 {
     pPoint->field_0_x = field_D4_pPathData->field_8_bTop;
     pPoint->field_2_y = field_D4_pPathData->field_A_bBottom;
 }
 
 
-AO::BaseGameObject* AO::CameraSwapper::VDestructor(signed int flags)
+BaseGameObject* CameraSwapper::VDestructor(signed int flags)
 {
     return Vdtor_48D380(flags);
 }
 
-EXPORT CameraSwapper* AO::CameraSwapper::Vdtor_48D380(signed int /*flags*/)
+EXPORT CameraSwapper* CameraSwapper::Vdtor_48D380(signed int /*flags*/)
 {
     NOT_IMPLEMENTED();
     return this;

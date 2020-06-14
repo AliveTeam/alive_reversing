@@ -6,7 +6,7 @@ START_NS_AO
 
 ALIVE_VAR(1, 0x4FF7C8, ScreenManager*, pScreenManager_4FF7C8, nullptr);
 
-EXPORT Camera* AO::Camera::ctor_4446E0()
+EXPORT Camera* Camera::ctor_4446E0()
 {
     field_0_array.ctor_4043E0(10);
     field_30_flags &= ~1u;
@@ -19,38 +19,38 @@ EXPORT void Camera::dtor_444700()
     NOT_IMPLEMENTED();
 }
 
-EXPORT void AO::ScreenManager::MoveImage_406C40()
+EXPORT void ScreenManager::MoveImage_406C40()
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT void AO::ScreenManager::DecompressToVRam_407110(unsigned __int16** /*ppBits*/)
+EXPORT void ScreenManager::DecompressToVRam_407110(unsigned __int16** /*ppBits*/)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT void AO::ScreenManager::InvalidateRect_406CC0(int /*x*/, int /*y*/, signed int /*width*/, signed int /*height*/)
+EXPORT void ScreenManager::InvalidateRect_406CC0(int /*x*/, int /*y*/, signed int /*width*/, signed int /*height*/)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT ScreenManager* AO::ScreenManager::ctor_406830(BYTE** /*ppBits*/, FP_Point* /*pCameraOffset*/)
+EXPORT ScreenManager* ScreenManager::ctor_406830(BYTE** /*ppBits*/, FP_Point* /*pCameraOffset*/)
 {
     NOT_IMPLEMENTED();
     return this;
 }
 
-AO::BaseGameObject* ScreenManager::VDestructor(signed int flags)
+BaseGameObject* ScreenManager::VDestructor(signed int flags)
 {
     return vdtor_407290(flags);
 }
 
-void AO::ScreenManager::UnsetDirtyBits_FG1_406EF0()
+void ScreenManager::UnsetDirtyBits_FG1_406EF0()
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT ScreenManager* AO::ScreenManager::vdtor_407290(signed int /*flags*/)
+EXPORT ScreenManager* ScreenManager::vdtor_407290(signed int /*flags*/)
 {
     NOT_IMPLEMENTED();
     return this;

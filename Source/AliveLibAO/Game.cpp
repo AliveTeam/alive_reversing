@@ -16,7 +16,7 @@ void Game_ForceLink()
 
 }
 
-EXPORT void AO::SYS_EventsPump_44FF90()
+EXPORT void SYS_EventsPump_44FF90()
 {
     NOT_IMPLEMENTED();
 }

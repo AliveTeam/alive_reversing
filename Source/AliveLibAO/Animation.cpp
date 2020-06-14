@@ -4,7 +4,7 @@
 
 START_NS_AO
 
-void CC AO::AnimationBase::AnimateAll_4034F0(DynamicArrayT<AnimationBase>* /*pAnimList*/)
+void CC AnimationBase::AnimateAll_4034F0(DynamicArrayT<AnimationBase>* /*pAnimList*/)
 {
     NOT_IMPLEMENTED();
 }

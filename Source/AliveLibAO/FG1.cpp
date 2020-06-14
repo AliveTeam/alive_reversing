@@ -10,12 +10,12 @@ EXPORT FG1* FG1::ctor_4539C0(unsigned __int8** /*ppRes*/)
     return this;
 }
 
-AO::BaseGameObject* AO::FG1::VDestructor(signed int flags)
+BaseGameObject* FG1::VDestructor(signed int flags)
 {
     return Vdtor_453E90(flags);
 }
 
-EXPORT FG1* AO::FG1::Vdtor_453E90(signed int /*flags*/)
+EXPORT FG1* FG1::Vdtor_453E90(signed int /*flags*/)
 {
     NOT_IMPLEMENTED();
     return this;

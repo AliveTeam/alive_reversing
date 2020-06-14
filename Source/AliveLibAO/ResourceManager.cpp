@@ -21,6 +21,7 @@ void CC ResourceManager::Reclaim_Memory_455660(DWORD /*sizeToReclaim*/)
 __int16 CC ResourceManager::FreeResource_455550(BYTE** /*ppRes*/)
 {
     NOT_IMPLEMENTED();
+    return 0;
 }
 
 void CC ResourceManager::LoadResource_446C90(const char* /*pFileName*/, int /*type*/, int /*resourceId*/, __int16 /*loadMode*/, __int16 /*bDontLoad*/)
@@ -28,35 +29,36 @@ void CC ResourceManager::LoadResource_446C90(const char* /*pFileName*/, int /*ty
     NOT_IMPLEMENTED();
 }
 
-AO::ResourceManager::Header* CC AO::ResourceManager::Get_Header_455620(BYTE** ppRes)
+ResourceManager::Header* CC ResourceManager::Get_Header_455620(BYTE** ppRes)
 {
     return reinterpret_cast<Header*>((*ppRes - sizeof(Header)));
 }
 
-EXPORT void CC AO::ResourceManager::Free_Resources_For_Camera_447170(Camera* /*pCamera*/)
+EXPORT void CC ResourceManager::Free_Resources_For_Camera_447170(Camera* /*pCamera*/)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC AO::ResourceManager::Free_Resource_Of_Type_455810(int /*type*/)
+EXPORT void CC ResourceManager::Free_Resource_Of_Type_455810(int /*type*/)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT __int16 CC AO::ResourceManager::LoadResourceFile_455270(const char* /*filename*/, Camera* /*pCam*/, int /*allocMethod*/)
+EXPORT __int16 CC ResourceManager::LoadResourceFile_455270(const char* /*filename*/, Camera* /*pCam*/, int /*allocMethod*/)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-EXPORT void CC AO::ResourceManager::LoadingLoop_41EAD0(__int16 /*bShowLoadingIcon*/)
+EXPORT void CC ResourceManager::LoadingLoop_41EAD0(__int16 /*bShowLoadingIcon*/)
 {
     NOT_IMPLEMENTED();
 }
 
-BYTE** CC AO::ResourceManager::GetLoadedResource_4554F0(int /*type*/, int /*resourceId*/, __int16 /*addUseCount*/, __int16 /*bLock*/)
+BYTE** CC ResourceManager::GetLoadedResource_4554F0(int /*type*/, int /*resourceId*/, __int16 /*addUseCount*/, __int16 /*bLock*/)
 {
     NOT_IMPLEMENTED();
+    return nullptr;
 }
 
 void CC Game_ShowLoadingIcon_445EB0()
