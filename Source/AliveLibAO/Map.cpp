@@ -1409,7 +1409,7 @@ void Map::GoTo_Camera_445050()
 
     if (field_0_current_level != LevelIds::eMenu_0)
     {
-        if ((field_A_level != field_0_current_level || field_C_path != field_2_current_path && field_10_screenChangeEffect == CameraSwapEffects::eEffect5_1_FMV))
+        if (field_A_level != field_0_current_level || (field_C_path != field_2_current_path && field_10_screenChangeEffect == CameraSwapEffects::eEffect5_1_FMV))
         {
             Game_ShowLoadingIcon_445EB0();
         }

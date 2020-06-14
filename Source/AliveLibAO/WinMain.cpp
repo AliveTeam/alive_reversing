@@ -209,6 +209,7 @@ EXPORT signed int CC PSX_EMU_Set_Cd_Emulation_Paths_49B000(const char* /*pPath1*
     return 0;
 }
 
+#ifdef _WIN32
 EXPORT LRESULT CALLBACK Window_Proc_48EB10(HWND /*hWnd*/, UINT /*Msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
     NOT_IMPLEMENTED();
@@ -261,6 +262,7 @@ EXPORT int CC Sys_WindowClass_Register_48E9E0(LPCSTR lpClassName, LPCSTR lpWindo
 
     return 0;
 }
+#endif
 
 EXPORT void CC PSX_EMU_Init_49A1D0(char /*bUnknown*/)
 {
@@ -388,7 +390,9 @@ static void Main_ParseCommandLineArguments()
     }
 
     PSX_EMU_Set_Cd_Emulation_Paths_49B000(".", cdDrivePath, 0);
+#ifdef _WIN32
     Sys_WindowClass_Register_48E9E0("ABE_WINCLASS", "Abe's Oddworld Oddysee 2.0", 32, 64, 640, 480); // Nice window title lol
+#endif
     Sys_Set_Hwnd_48E340(Sys_GetWindowHandle_48E930());
 
     const LPSTR pCmdLine = GetCommandLine_48E920();
@@ -473,6 +477,7 @@ EXPORT int CC Add_Dirty_Area_48D910(int , int , int , int )
     return 0;
 }
 
+#ifdef _WIN32
 EXPORT int CC Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     LRESULT ret = 0;
@@ -568,6 +573,7 @@ EXPORT int CC Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam
     }
     return ret;
 }
+#endif
 
 EXPORT void CC Errors_Display_48E050()
 {
@@ -894,7 +900,9 @@ EXPORT void Game_Main_450050()
 
     Main_ParseCommandLineArguments();
     Game_SetExitCallBack_48E040(Game_ExitGame_450730);
+#ifdef _WIN32
     Sys_SetWindowProc_Filter_48E950(Sys_WindowMessageHandler_4503B0);
+#endif
     Game_Run_4373D0();
 
     // TODO: AE inlined calls here (pull AE's code into another func)
