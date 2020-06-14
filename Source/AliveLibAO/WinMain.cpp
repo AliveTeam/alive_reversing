@@ -155,7 +155,7 @@ ALIVE_VAR(1, 0x508BFC, char, byte_508BFC, 0);
 
 
 
-EXPORT int CC VGA_FullScreenSet_490160(bool /*bFullScreen*/)
+EXPORT int CC VGA_FullScreenSet_490160(BOOL /*bFullScreen*/)
 {
     NOT_IMPLEMENTED();
     return 0;
