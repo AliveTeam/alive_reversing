@@ -17,6 +17,11 @@
 #include "BaseAliveGameObject.hpp"
 #include "PsxDisplay.hpp"
 #include "AmbientSound.hpp"
+#include "MusicController.hpp"
+#include "GameSpeak.hpp"
+#include "Input.hpp"
+#include "DDCheat.hpp"
+#include "CheatController.hpp"
 #include "../AliveLibAE/config.h" // TODO: Change location
 
 START_NS_AO
@@ -30,117 +35,6 @@ void Static_Inits_AO()
 {
 
 }
-
-
-struct PSX_Pad
-{
-    unsigned __int16 field_0_pressed;
-    unsigned __int8 field_2;
-    char field_3;
-    __int16 field_4;
-    unsigned __int16 field_6_held;
-    int field_8;
-};
-ALIVE_ASSERT_SIZEOF(PSX_Pad, 0xC);
-
-class InputObject
-{
-public:
-    EXPORT void InitPad_4331A0(unsigned int /*padCount*/)
-    {
-        NOT_IMPLEMENTED();
-    }
-
-    EXPORT void Update_433250()
-    {
-        NOT_IMPLEMENTED();
-    }
-
-    static EXPORT void CC Shutdown_433230()
-    {
-        NOT_IMPLEMENTED();
-    }
-
-    PSX_Pad field_0_pads[2];
-    BYTE** field_18_demo_res;
-    int field_1C_demo_command_index;
-    __int16 field_20_demo_playing;
-    __int16 field_22;
-    int field_24_command;
-    int field_28_command_duration;
-    int field_2C;
-};
-ALIVE_ASSERT_SIZEOF(InputObject, 0x30);
-
-class GameSpeak : public BaseGameObject
-{
-public:
-    EXPORT GameSpeak* ctor_40F990()
-    {
-        NOT_IMPLEMENTED();
-        return this;
-    }
-
-    EXPORT GameSpeak* Vdtor_40FB50(signed int /*flags*/)
-    {
-        NOT_IMPLEMENTED();
-        return this;
-    }
-
-    virtual BaseGameObject* VDestructor(signed int flags) override
-    {
-        return Vdtor_40FB50(flags);
-    }
-
-    __int16 field_10;
-    __int16 field_12;
-    int field_14;
-    int field_18_idx;
-    char field_1C[32];
-};
-ALIVE_ASSERT_SIZEOF(GameSpeak, 0x3C);
-
-class CheatController : public BaseGameObject
-{
-public:
-    EXPORT CheatController* ctor_40FBF0()
-    {
-        NOT_IMPLEMENTED();
-        return this;
-    }
-
-    EXPORT CheatController* Vdtor_40FCD0(signed int /*flags*/)
-    {
-        NOT_IMPLEMENTED();
-        return this;
-    }
-
-    virtual BaseGameObject* VDestructor(signed int flags) override
-    {
-        return Vdtor_40FCD0(flags);
-    }
-
-    __int16 field_10;
-    __int16 field_12;
-};
-ALIVE_ASSERT_SIZEOF(CheatController, 0x14);
-
-class DDCheat : public BaseGameObject
-{
-public:
-    static EXPORT void ClearProperties_4095B0()
-    {
-        NOT_IMPLEMENTED();
-    }
-
-    int field_10;
-    int field_14;
-    int field_18;
-    int field_1C;
-    int field_20;
-    int field_24;
-};
-ALIVE_ASSERT_SIZEOF(DDCheat, 0x28);
 
 ALIVE_VAR(1, 0x9F771C, HINSTANCE, sInstance_9F771C, 0);
 ALIVE_VAR(1, 0x9F7784, HINSTANCE, sPrevInstance_9F7784, 0);
@@ -784,19 +678,6 @@ EXPORT void CC SND_Shutdown_476EC0()
 {
     NOT_IMPLEMENTED();
 }
-
-
-class MusicController
-{
-public:
-    // TODO: Class data
-
-    static EXPORT void Shutdown_4437E0()
-    {
-        NOT_IMPLEMENTED();
-    }
-};
-
 
 EXPORT void Game_Run_4373D0()
 {

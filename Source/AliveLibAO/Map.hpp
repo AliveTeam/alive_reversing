@@ -13,47 +13,13 @@ void Map_ForceLink();
 struct PathData;
 class Camera;
 class BaseAliveGameObject;
-
-enum class CameraSwapEffects : __int16;
+class CameraSwapper;
 
 struct CameraName
 {
     char name[8];
 };
 ALIVE_ASSERT_SIZEOF(CameraName, 8);
-
-// TODO move to another file
-class CameraSwapper : public BaseGameObject
-{
-public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
-
-    EXPORT CameraSwapper* Vdtor_48D380(signed int flags);
-
-    EXPORT CameraSwapper* ctor_48C7A0(BYTE** ppBits, CameraSwapEffects changeEffect, __int16 xpos, __int16 ypos);
-
-    int field_10;
-    int field_14;
-    int field_18;
-    int field_1C;
-    int field_20;
-    int field_24;
-    __int16 field_28;
-    __int16 field_2A;
-    int field_2C;
-    __int16 field_30;
-    __int16 field_32;
-    __int16 field_34;
-    __int16 field_36;
-    __int16 field_38;
-    __int16 field_3A;
-    __int16 field_3C;
-    __int16 field_3E;
-    __int16 field_40;
-    __int16 field_42;
-    int field_44;
-};
-ALIVE_ASSERT_SIZEOF(CameraSwapper, 0x48);
 
 
 struct Map_PathsArray

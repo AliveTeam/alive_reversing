@@ -80,7 +80,7 @@ struct PathBlyRec
 struct FmvInfo
 {
     const char* field_0_pName;
-    unsigned __int16 field_4;
+    unsigned __int16 field_4_id;
     __int16 field_6;
     __int16 field_8_stop_music;
     __int16 field_A;
