@@ -1238,7 +1238,7 @@ Camera* Map::Create_Camera_4829E0(__int16 xpos, __int16 ypos, int /*a4*/)
     }
 
     // Return existing camera if we already have one
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < ALIVE_COUNTOF(field_40_stru_5); i++)
     {
         if (field_40_stru_5[i]
             && field_40_stru_5[i]->field_1A_level == field_0_current_level
@@ -1253,8 +1253,8 @@ Camera* Map::Create_Camera_4829E0(__int16 xpos, __int16 ypos, int /*a4*/)
     }
 
     // Get a pointer to the camera name from the Path resource
-    BYTE* pPathData = *field_54_path_res_array.field_0_pPathRecs[field_2_current_path];
-    CameraName* pCamName = reinterpret_cast<CameraName*>(&pPathData[(xpos + (ypos * sPath_dword_BB47C0->field_6_cams_on_x)) * sizeof(CameraName)]);
+    const BYTE* pPathData = *field_54_path_res_array.field_0_pPathRecs[field_2_current_path];
+    auto pCamName = reinterpret_cast<const CameraName*>(&pPathData[(xpos + (ypos * sPath_dword_BB47C0->field_6_cams_on_x)) * sizeof(CameraName)]);
 
     // Empty/blank camera in the map array
     if (!pCamName->name[0])

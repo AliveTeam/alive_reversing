@@ -1217,10 +1217,75 @@ void AO::Map::RestoreObjectStates_446A90(__int16* /*pSaveData*/)
     NOT_IMPLEMENTED();
 }
 
-Camera* AO::Map::Create_Camera_445BE0(__int16 /*xpos*/, __int16 /*ypos*/, int /*a4*/)
+Camera* AO::Map::Create_Camera_445BE0(__int16 xpos, __int16 ypos, int /*a4*/)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    // Check min bound
+    if (xpos < 0 || ypos < 0)
+    {
+        return nullptr;
+    }
+
+    // Check max bounds
+    if (xpos >= field_24_max_cams_x || ypos >= field_26_max_cams_y)
+    {
+        return nullptr;
+    }
+
+    // Return existing camera if we already have one
+    for (int i = 0; i < ALIVE_COUNTOF(field_48_stru_5); i++)
+    {
+        if (field_48_stru_5[i]
+            && field_48_stru_5[i]->field_1A_level == field_0_current_level
+            && field_48_stru_5[i]->field_18_path == field_2_current_path
+            && field_48_stru_5[i]->field_14_cam_x == xpos
+            && field_48_stru_5[i]->field_16_cam_y == ypos)
+        {
+            auto pTemp = field_48_stru_5[i];
+            field_48_stru_5[i] = nullptr;
+            if (sActiveHero_507678 && sActiveHero_507678->field_FC_state == 61)
+            {
+                pTemp->field_30_flags |= 2u;
+            }
+            return pTemp;
+        }
+    }
+
+    // Get a pointer to the camera name from the Path resource
+    const BYTE* pPathData = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
+    auto pCamName = reinterpret_cast<const CameraName*>(&pPathData[(sizeof(CameraName) * (xpos + field_24_max_cams_x * ypos))]);
+
+    // Empty/blank camera in the map array
+    if (!pCamName->name[0])
+    {
+        return nullptr;
+    }
+
+    auto newCamera = ao_new<Camera>();
+    newCamera->ctor_4446E0();
+
+    // Copy in the camera name from the Path resource and append .CAM
+    memset(newCamera->field_1E_fileName, 0, sizeof(newCamera->field_1E_fileName));
+    strncpy(newCamera->field_1E_fileName, pCamName->name, ALIVE_COUNTOF(CameraName::name));
+    strcat(newCamera->field_1E_fileName, ".CAM");
+
+    newCamera->field_14_cam_x = xpos;
+    newCamera->field_16_cam_y = ypos;
+
+    newCamera->field_30_flags &= ~1u;
+
+    newCamera->field_1A_level = field_0_current_level;
+    newCamera->field_18_path = field_2_current_path;
+
+    // Calculate hash/resource ID of the camera
+    newCamera->field_10_resId =
+        1 * (pCamName->name[7] - '0') +
+        10 * (pCamName->name[6] - '0') +
+        100 * (pCamName->name[4] - '0') +
+        1000 * (pCamName->name[3] - '0');
+
+    newCamera->field_1C = field_4_current_camera;
+
+    return newCamera;
 }
 
 void AO::Map::Create_FG1s_4447D0()

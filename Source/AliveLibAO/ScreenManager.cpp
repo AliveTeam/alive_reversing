@@ -6,6 +6,14 @@ START_NS_AO
 
 ALIVE_VAR(1, 0x4FF7C8, ScreenManager*, pScreenManager_4FF7C8, nullptr);
 
+EXPORT Camera* AO::Camera::ctor_4446E0()
+{
+    field_0_array.ctor_4043E0(10);
+    field_30_flags &= ~1u;
+    field_C_ppBits = nullptr;
+    return this;
+}
+
 EXPORT void Camera::dtor_444700()
 {
     NOT_IMPLEMENTED();

@@ -170,7 +170,6 @@ public:
 
     EXPORT signed __int16 SetActiveCameraDelayed_444CA0(MapDirections direction, BaseAliveGameObject* pObj, __int16 swapEffect);
 
-
     Camera* GetCamera(CameraPos pos);
 
     LevelIds field_0_current_level;

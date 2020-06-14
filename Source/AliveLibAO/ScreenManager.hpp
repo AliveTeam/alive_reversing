@@ -6,9 +6,13 @@
 
 START_NS_AO
 
+enum class LevelIds : __int16;
+
 class Camera
 {
 public:
+    EXPORT Camera* ctor_4446E0();
+
     EXPORT void dtor_444700();
 
     DynamicArray field_0_array;
@@ -16,8 +20,8 @@ public:
     int field_10_resId;
     __int16 field_14_cam_x;
     __int16 field_16_cam_y;
-    __int16 field_18;
-    __int16 field_1A;
+    __int16 field_18_path;
+    LevelIds field_1A_level;
     __int16 field_1C;
     char field_1E_fileName[6];
     int field_24;
