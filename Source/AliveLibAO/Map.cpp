@@ -14,6 +14,7 @@
 #include "PsxDisplay.hpp"
 #include "FixedPoint.hpp"
 #include "AmbientSound.hpp"
+#include "FG1.hpp"
 
 START_NS_AO
 
@@ -1340,7 +1341,27 @@ Camera* AO::Map::Create_Camera_445BE0(__int16 xpos, __int16 ypos, int /*a4*/)
 
 void AO::Map::Create_FG1s_4447D0()
 {
-    NOT_IMPLEMENTED();
+    pScreenManager_4FF7C8->UnsetDirtyBits_FG1_406EF0();
+
+    Camera* pCamera = field_34_camera_array[0];
+    for (int i = 0; i < pCamera->field_0_array.Size(); i++)
+    {
+        BYTE** ppRes = pCamera->field_0_array.ItemAt(i);
+        if (!ppRes)
+        {
+            break;
+        }
+
+        if (*ppRes)
+        {
+            ResourceManager::Header* pHeader = ResourceManager::Get_Header_455620(ppRes);
+            if (pHeader->field_8_type == ResourceManager::Resource_FG1)
+            {
+                FG1* pFG1 = ao_new<FG1>();
+                pFG1->ctor_4539C0(ppRes);
+            }
+        }
+    }
 }
 
 void Map::GoTo_Camera_445050()

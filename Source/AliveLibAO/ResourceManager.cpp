@@ -28,6 +28,10 @@ void CC ResourceManager::LoadResource_446C90(const char* /*pFileName*/, int /*ty
     NOT_IMPLEMENTED();
 }
 
+AO::ResourceManager::Header* CC AO::ResourceManager::Get_Header_455620(BYTE** ppRes)
+{
+    return reinterpret_cast<Header*>((*ppRes - sizeof(Header)));
+}
 
 EXPORT void CC AO::ResourceManager::Free_Resources_For_Camera_447170(Camera* /*pCamera*/)
 {

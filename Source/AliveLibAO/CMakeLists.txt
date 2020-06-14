@@ -47,6 +47,8 @@ SET(AliveLibSrcAO
    FixedPoint.cpp
    AmbientSound.hpp
    AmbientSound.cpp
+   FG1.hpp
+   FG1.cpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx_ao.h stdafx_ao.cpp AliveLibSrcAO)

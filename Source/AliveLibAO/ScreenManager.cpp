@@ -45,6 +45,10 @@ AO::BaseGameObject* ScreenManager::VDestructor(signed int flags)
     return vdtor_407290(flags);
 }
 
+void AO::ScreenManager::UnsetDirtyBits_FG1_406EF0()
+{
+    NOT_IMPLEMENTED();
+}
 
 EXPORT ScreenManager* AO::ScreenManager::vdtor_407290(signed int /*flags*/)
 {

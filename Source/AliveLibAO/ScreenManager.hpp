@@ -15,7 +15,7 @@ public:
 
     EXPORT void dtor_444700();
 
-    DynamicArray field_0_array;
+    DynamicArrayT<BYTE*> field_0_array;
     BYTE** field_C_ppBits;
     int field_10_resId;
     __int16 field_14_cam_x;
@@ -53,6 +53,8 @@ public:
     EXPORT void InvalidateRect_406CC0(int x, int y, signed int width, signed int height);
 
     EXPORT void DecompressToVRam_407110(unsigned __int16** ppBits);
+
+    EXPORT void UnsetDirtyBits_FG1_406EF0();
 
     FP_Point* field_10_pCamPos;
     __int16 field_14;
