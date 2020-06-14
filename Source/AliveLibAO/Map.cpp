@@ -15,6 +15,14 @@
 #include "FixedPoint.hpp"
 #include "AmbientSound.hpp"
 #include "FG1.hpp"
+#include "Movie.hpp"
+#include "BackgroundMusic.hpp"
+#include "MusicController.hpp"
+#include "CameraSwapper.hpp"
+#include "Particle.hpp"
+#include "LvlArchive.hpp"
+#include "Collisions.hpp"
+#include "Events.hpp"
 
 START_NS_AO
 
@@ -32,32 +40,6 @@ struct SwitchStates
 };
 
 ALIVE_VAR(1, 0x505568, SwitchStates, sSwitchStates_505568, {});
-
-
-class BackgroundMusic : public BaseGameObject
-{
-public:
-    virtual BaseGameObject* VDestructor(signed int flags) override
-    {
-        return Vdtor_476A80(flags);
-    }
-
-    EXPORT BackgroundMusic* Vdtor_476A80(signed int /*flags*/)
-    {
-        NOT_IMPLEMENTED();
-        return this;
-    }
-
-    EXPORT BackgroundMusic* ctor_476370(__int16 /*musicId*/)
-    {
-        NOT_IMPLEMENTED();
-        return this;
-    }
-
-    __int16 field_10_music_id;
-    //__int16 field_12_padding;
-};
-ALIVE_ASSERT_SIZEOF(BackgroundMusic, 0x14);
 
 
 struct OverlayRecord
@@ -317,30 +299,6 @@ OpenSeqHandle g_SeqTable_4C9E70[165] =
 };
 
 
-
-class Collisions
-{
-public:
-    EXPORT void dtor_40CFB0()
-    {
-        ao_delete_free_447540(field_0);
-    }
-
-    EXPORT Collisions* ctor_40CF30(const CollisionInfo* /*pCollisionInfo*/, const BYTE* /*ppPathData*/)
-    {
-        NOT_IMPLEMENTED();
-        return this;
-    }
-
-    void* field_0;
-    int field_4;
-    int field_8;
-    int field_C;
-};
-ALIVE_ASSERT_SIZEOF(Collisions, 0x10);
-
-ALIVE_VAR(1, 0x504C6C, Collisions*, sCollisions_DArray_504C6C, nullptr);
-
 EXPORT void CC SND_Kill_4774A0(int /*mask*/)
 {
     NOT_IMPLEMENTED();
@@ -361,34 +319,6 @@ EXPORT int CC SFX_Play_43AE60(unsigned __int8 /*sfxId*/, int /*volume*/, int /*p
 {
     NOT_IMPLEMENTED();
     return 0;
-}
-
-class Particle : public BaseAnimatedWithPhysicsGameObject
-{
-public:
-    int field_D4;
-    int field_D8;
-    int field_DC;
-    int field_E0;
-    int field_E4_scale_amount;
-};
-ALIVE_ASSERT_SIZEOF(Particle, 0xE8);
-
-EXPORT Particle* CC New_Particle_419D00(FP /*xpos*/, FP /*ypos*/, FP /*scale*/)
-{
-    NOT_IMPLEMENTED();
-    return nullptr;
-}
-
-enum Event : __int16
-{
-    kEventDeathReset_4 = 4,
-};
-
-EXPORT BaseGameObject* CC Event_Get_417250(__int16 /*eventType*/)
-{
-    NOT_IMPLEMENTED();
-    return nullptr;
 }
 
 struct Path_ChangeTLV : public Path_TLV
@@ -442,29 +372,6 @@ void Map::Init_443EE0(LevelIds level, __int16 path, __int16 camera, CameraSwapEf
 
     field_6_state = 0;
 }
-
-class LvlArchive
-{
-public:
-    EXPORT void OpenArchive_41BC60(int /*pos*/)
-    {
-        NOT_IMPLEMENTED();
-    }
-
-    EXPORT __int16 Free_41BEB0()
-    {
-        NOT_IMPLEMENTED();
-        return 0;
-    }
-
-private:
-    BYTE** field_0_0x2800_res;
-    int field_4_cd_pos;
-};
-ALIVE_ASSERT_SIZEOF(LvlArchive, 0x8);
-
-ALIVE_VAR(1, 0x4FFD60, LvlArchive, sLvlArchive_4FFD60, {});
-ALIVE_VAR(1, 0x507C90, LvlArchive, stru_507C90, {});
 
 void Map::Shutdown_443F90()
 {
@@ -1725,10 +1632,106 @@ EXPORT BYTE* Map::TLV_Reset_446870(unsigned int /*a2*/, __int16 /*a3*/, unsigned
 }
 
 
-CameraSwapper* CC Map::FMV_Camera_Change_4458D0(BYTE** /*ppBits*/, Map* /*pMap*/, LevelIds /*levelId*/)
+CameraSwapper* CC Map::FMV_Camera_Change_4458D0(BYTE** ppBits, Map* pMap, LevelIds levelId)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    if (pMap->field_12_fmv_base_id > 10000u)
+    {
+        // TODO: Check division is correct
+        FmvInfo* pFmvRec1 = Path_Get_FMV_Record_434680(levelId, pMap->field_12_fmv_base_id / 10000);
+        FmvInfo* pFmvRec2 = Path_Get_FMV_Record_434680(levelId, pMap->field_12_fmv_base_id / 100 % 100);
+        FmvInfo* pFmvRec3 = Path_Get_FMV_Record_434680(levelId, pMap->field_12_fmv_base_id % 100);
+
+        if (pFmvRec1->field_8_stop_music || pFmvRec2->field_8_stop_music || pFmvRec3->field_8_stop_music)
+        {
+            BackgroundMusic::Stop_476290();
+            MusicController::EnableMusic_443900(0);
+        }
+
+        DWORD pos1 = 0;
+        DWORD pos2 = 0;
+        DWORD pos3 = 0;
+        Get_fmvs_sectors_44FEB0(
+            pFmvRec1->field_0_pName,
+            pFmvRec2->field_0_pName,
+            pFmvRec3->field_0_pName,
+            &pos1,
+            &pos2,
+            &pos3);
+
+        auto pCameraSwapper = ao_new<CameraSwapper>();
+        return pCameraSwapper->ctor_48C6B0(
+            ppBits,
+            pos1,
+            pFmvRec1->field_4_id,
+            pos2,
+            pFmvRec2->field_4_id,
+            pos3,
+            pFmvRec3->field_4_id,
+
+            pFmvRec1->field_6,
+            pFmvRec1->field_A,
+            pFmvRec1->field_C_volume,
+
+            pFmvRec2->field_6,
+            pFmvRec2->field_A,
+            pFmvRec2->field_C_volume,
+
+            pFmvRec3->field_6,
+            pFmvRec3->field_A,
+            pFmvRec3->field_C_volume);
+    }
+    else if (pMap->field_12_fmv_base_id > 100u)
+    {
+        // Double FMV
+        FmvInfo* pFmvRec1 = Path_Get_FMV_Record_434680(levelId, pMap->field_12_fmv_base_id / 100);
+        FmvInfo* pFmvRec2 = Path_Get_FMV_Record_434680(levelId, pMap->field_12_fmv_base_id % 100);
+        if (pFmvRec1->field_8_stop_music || pFmvRec2->field_8_stop_music)
+        {
+            BackgroundMusic::Stop_476290();
+            MusicController::EnableMusic_443900(0);
+        }
+
+        DWORD cdPos1 = 0;
+        DWORD cdPos2 = 0;
+        Get_fmvs_sectors_44FEB0(pFmvRec1->field_0_pName, pFmvRec2->field_0_pName, 0, &cdPos1, &cdPos2, 0);
+
+        auto pCameraSwapperMem = ao_new<CameraSwapper>();
+        return pCameraSwapperMem->ctor_48C5E0(
+            ppBits,
+            cdPos1,
+            pFmvRec1->field_4_id,
+            cdPos2,
+            pFmvRec2->field_4_id,
+
+            pFmvRec1->field_6,
+            pFmvRec1->field_A,
+            pFmvRec1->field_C_volume,
+
+            pFmvRec2->field_6,
+            pFmvRec2->field_A,
+            pFmvRec2->field_C_volume);
+    }
+    else // < 100
+    {
+        // Single FMV
+        FmvInfo* pFmvRecord = Path_Get_FMV_Record_434680(levelId, pMap->field_12_fmv_base_id);
+        if (pFmvRecord->field_8_stop_music)
+        {
+            BackgroundMusic::Stop_476290();
+            MusicController::EnableMusic_443900(0);
+        }
+
+        DWORD cdPos = 0;
+        Get_fmvs_sectors_44FEB0(pFmvRecord->field_0_pName, 0, 0, &cdPos, 0, 0);
+        auto pCameraSwapperMem = ao_new<CameraSwapper>();
+        return pCameraSwapperMem->ctor_48C540(
+                ppBits,
+            cdPos,
+                pFmvRecord->field_4_id,
+                pFmvRecord->field_6,
+                pFmvRecord->field_A,
+                pFmvRecord->field_C_volume);
+    }
 }
 
 void Map::GetCurrentCamCoords_444890(PSX_Point* pPoint)
@@ -1741,24 +1744,6 @@ void Map::Get_map_size_444870(PSX_Point* pPoint)
 {
     pPoint->field_0_x = field_D4_pPathData->field_8_bTop;
     pPoint->field_2_y = field_D4_pPathData->field_A_bBottom;
-}
-
-
-BaseGameObject* CameraSwapper::VDestructor(signed int flags)
-{
-    return Vdtor_48D380(flags);
-}
-
-EXPORT CameraSwapper* CameraSwapper::Vdtor_48D380(signed int /*flags*/)
-{
-    NOT_IMPLEMENTED();
-    return this;
-}
-
-EXPORT CameraSwapper* CameraSwapper::ctor_48C7A0(BYTE** /*ppBits*/, CameraSwapEffects /*changeEffect*/, __int16 /*xpos*/, __int16 /*ypos*/)
-{
-    NOT_IMPLEMENTED();
-    return this;
 }
 
 Path_TLV* CCSTD Path_TLV::Next_446460(Path_TLV* pTlv)

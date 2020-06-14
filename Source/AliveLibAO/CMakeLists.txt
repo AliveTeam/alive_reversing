@@ -49,6 +49,30 @@ SET(AliveLibSrcAO
    AmbientSound.cpp
    FG1.hpp
    FG1.cpp
+   Movie.hpp
+   Movie.cpp
+   BackgroundMusic.hpp
+   BackgroundMusic.cpp
+   MusicController.hpp
+   MusicController.cpp
+   CameraSwapper.hpp
+   CameraSwapper.cpp
+   Particle.hpp
+   Particle.cpp
+   LvlArchive.hpp
+   LvlArchive.cpp
+   Collisions.hpp
+   Collisions.cpp
+   Events.hpp
+   Events.cpp
+   Input.hpp
+   Input.cpp
+   GameSpeak.hpp
+   GameSpeak.cpp
+   DDCheat.hpp
+   DDCheat.cpp
+   CheatController.hpp
+   CheatController.cpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx_ao.h stdafx_ao.cpp AliveLibSrcAO)
