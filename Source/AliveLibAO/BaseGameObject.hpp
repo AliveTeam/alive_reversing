@@ -39,7 +39,7 @@ public:
     };
 
     EXPORT BaseGameObject* ctor_487E10(__int16 arraySize);
-    EXPORT void dtor_487DF0();
+    EXPORT BaseGameObject* dtor_487DF0();
 
     virtual BaseGameObject* VDestructor(signed int flags) = 0;
 

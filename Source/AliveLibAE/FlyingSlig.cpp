@@ -650,7 +650,7 @@ void FlyingSlig::VScreenChanged()
 void FlyingSlig::vScreenChanged_434C10()
 {
     if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level ||
-        gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710() ||
+        gMap_5C3030.field_22 != gMap_5C3030.GetOverlayId_480710() ||
         (gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path &&
         (this != sControlledCharacter_5C1B8C ||
         field_17E_flags.Get(Flags_17E::eBit13_Persistant))))

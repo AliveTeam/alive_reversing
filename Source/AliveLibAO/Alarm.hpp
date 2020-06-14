@@ -5,6 +5,9 @@
 
 START_NS_AO
 
+void Alarm_ForceLink();
+
+
 class Alarm : public EffectBase
 {
 public:

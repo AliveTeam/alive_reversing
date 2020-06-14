@@ -9,11 +9,11 @@ void Map_ForceLink();
 
 EXPORT void CC static_map_init_4802D0();
 
-struct Map_120
+struct Map_PathsArray
 {
     BYTE** field_0_pPathRecs[30];
 };
-ALIVE_ASSERT_SIZEOF(Map_120, 120);
+ALIVE_ASSERT_SIZEOF(Map_PathsArray, 120);
 
 class BaseAliveGameObject;
 class Camera;
@@ -92,7 +92,7 @@ public:
 
     Camera* field_2C_camera_array[5];
     Camera* field_40_stru_5[5];
-    Map_120 field_54_path_res_array;
+    Map_PathsArray field_54_path_res_array;
 
     __int16 field_CC;
     __int16 field_CE_free_all_anim_and_palts;
@@ -107,7 +107,7 @@ public:
     EXPORT void ScreenChange_480B80();
     EXPORT void RemoveObjectsWithPurpleLight_480740(__int16 a2);
     EXPORT void Handle_PathTransition_481610();
-    EXPORT void Init_4803F0(LevelIds level, __int16 path, __int16 camera, CameraSwapEffects screenChangeEffect, __int16 a6, __int16 forceChange);
+    EXPORT void Init_4803F0(LevelIds level, __int16 path, __int16 camera, CameraSwapEffects screenChangeEffect, __int16 fmvBaseId, __int16 forceChange);
     EXPORT void Shutdown_4804E0();
     EXPORT void Reset_4805D0();
     EXPORT void GoTo_Camera_481890();
@@ -115,7 +115,7 @@ public:
     EXPORT void Get_map_size_480640(PSX_Point* pPoint);
     EXPORT void GetCurrentCamCoords_480680(PSX_Point* pPoint);
     EXPORT void Get_Abe_Spawn_Pos_4806D0(PSX_Point* pPoint);
-    EXPORT __int16 Get_Path_Unknown_480710();
+    EXPORT __int16 GetOverlayId_480710();
     EXPORT void Create_FG1s_480F10();
     EXPORT CameraPos Rect_Location_Relative_To_Active_Camera_480FE0(PSX_RECT* pRect);
     EXPORT signed __int16 SetActiveCam_480D30(LevelIds level, __int16 path, __int16 cam, CameraSwapEffects screenChangeEffect, __int16 fmvBaseId, __int16 forceChange);
@@ -153,4 +153,4 @@ ALIVE_ASSERT_SIZEOF(Map, 0xDC);
 
 ALIVE_VAR_EXTERN(Map, gMap_5C3030);
 ALIVE_VAR_EXTERN(__int16, sMap_bDoPurpleLightEffect_5C311C);
-extern const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_55D55C[12];
+extern const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_55D55C[10];

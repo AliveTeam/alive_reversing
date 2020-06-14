@@ -12,4 +12,7 @@ class BaseGameObject;
 ALIVE_VAR_EXTERN(int, gnFrameCount_507670);
 ALIVE_VAR_EXTERN(DynamicArrayT<BaseGameObject>*, gObjList_drawables_504618);
 
+EXPORT void SYS_EventsPump_44FF90();
+
+
 END_NS_AO

@@ -23,6 +23,32 @@ SET(AliveLibSrcAO
    PathData.cpp
    bmp.hpp
    Animation.hpp
+   Animation.cpp
+   ResourceManager.hpp
+   ResourceManager.cpp
+   ScreenManager.hpp
+   ScreenManager.cpp
+   Factory.hpp
+   Factory.cpp
+   GasCountDown.hpp
+   GasCountDown.cpp
+   Font.hpp
+   Font.cpp
+   Psx.hpp
+   Psx.cpp
+   Midi.hpp
+   Midi.cpp
+   BaseAnimatedWithPhysicsGameObject.hpp
+   BaseAliveGameObject.hpp
+   BaseAliveGameObject.cpp
+   PsxDisplay.hpp
+   PsxDisplay.cpp
+   FixedPoint.hpp
+   FixedPoint.cpp
+   AmbientSound.hpp
+   AmbientSound.cpp
+   FG1.hpp
+   FG1.cpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx_ao.h stdafx_ao.cpp AliveLibSrcAO)

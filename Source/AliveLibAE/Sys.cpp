@@ -333,7 +333,7 @@ EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wP
         PAINTSTRUCT paint = {};
         BeginPaint(hWnd, &paint);
         GetClientRect(hWnd, &rect);
-        PatBlt(paint.hdc, 0, 0, rect.right, rect.bottom, 0x42u); // TODO: Constants
+        PatBlt(paint.hdc, 0, 0, rect.right, rect.bottom, BLACKNESS); // use pal 0
         EndPaint(hWnd, &paint);
         Add_Dirty_Area_4ED970(0, 0, 640, 240);
     }
@@ -382,7 +382,7 @@ EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wP
         return ret;
 
     case WM_SETCURSOR:
-        SetCursor(0);
+        SetCursor(nullptr);
         return -1;
 
     case WM_NCLBUTTONDOWN:
@@ -430,7 +430,7 @@ EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wP
         {
             ret = -1;
         }
-        Input_SetKeyState_4EDD80(static_cast<int>(wParam), 1);
+        Input_SetKeyState_4EDD80(wParam, 1);
         break;
 
     case WM_SYSKEYUP:
@@ -439,7 +439,7 @@ EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wP
         {
             ret = -1;
         }
-        Input_SetKeyState_4EDD80(static_cast<int>(wParam), 0);
+        Input_SetKeyState_4EDD80(wParam, 0);
         break;
 
     case WM_TIMER:

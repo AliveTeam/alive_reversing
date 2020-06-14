@@ -134,15 +134,15 @@ Path_TLV* CCSTD Path::Next_TLV_4DB6A0(Path_TLV* pTlv)
 
 Path_TLV* Path::TLV_First_Of_Type_In_Camera_4DB6D0(unsigned __int16 objectType, __int16 camX)
 {
-    Path_TLV* pTlv = Path::Get_First_TLV_For_Offsetted_Camera_4DB610(camX, 0);
+    Path_TLV* pTlv = Get_First_TLV_For_Offsetted_Camera_4DB610(camX, 0);
     if (!pTlv)
     {
-        return 0;
+        return nullptr;
     }
 
     while (pTlv->field_4_type != objectType)
     {
-        pTlv = Path::Next_TLV_4DB6A0(pTlv);
+        pTlv = Next_TLV_4DB6A0(pTlv);
         if (!pTlv)
         {
             return nullptr;

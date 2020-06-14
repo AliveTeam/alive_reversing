@@ -1,50 +1,236 @@
 #pragma once
 
 #include "FunctionFwd.hpp"
+#include "Psx_common.hpp"
+#include "FixedPoint_common.hpp"
+#include "PathData.hpp"
+#include "BaseGameObject.hpp"
 
 START_NS_AO
+
+void Map_ForceLink();
+
+struct PathData;
+class Camera;
+class BaseAliveGameObject;
+
+enum class CameraSwapEffects : __int16;
+
+struct CameraName
+{
+    char name[8];
+};
+ALIVE_ASSERT_SIZEOF(CameraName, 8);
+
+// TODO move to another file
+class CameraSwapper : public BaseGameObject
+{
+public:
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+
+    EXPORT CameraSwapper* Vdtor_48D380(signed int flags);
+
+    EXPORT CameraSwapper* ctor_48C7A0(BYTE** ppBits, CameraSwapEffects changeEffect, __int16 xpos, __int16 ypos);
+
+    int field_10;
+    int field_14;
+    int field_18;
+    int field_1C;
+    int field_20;
+    int field_24;
+    __int16 field_28;
+    __int16 field_2A;
+    int field_2C;
+    __int16 field_30;
+    __int16 field_32;
+    __int16 field_34;
+    __int16 field_36;
+    __int16 field_38;
+    __int16 field_3A;
+    __int16 field_3C;
+    __int16 field_3E;
+    __int16 field_40;
+    __int16 field_42;
+    int field_44;
+};
+ALIVE_ASSERT_SIZEOF(CameraSwapper, 0x48);
+
+
+struct Map_PathsArray
+{
+    BYTE** field_0_pPathRecs[30];
+};
+ALIVE_ASSERT_SIZEOF(Map_PathsArray, 120);
+
+// TODO: Assuming the same values as AE - test this
+enum class CameraSwapEffects : __int16
+{
+    eEffect0_InstantChange = 0,
+    eEffect1_LeftToRight = 1,       // Left to right
+    eEffect2_RightToLeft = 2,       // Right to left
+    eEffect3_TopToBottom = 3,       // Top to bottom
+    eEffect4_BottomToTop = 4,       // Bottom to top
+    eEffect5_1_FMV = 5,             // Play single fmv
+    eEffect6_VerticalSplit = 6,     // Screen splits from the middle and moves out up/down
+    eEffect7_HorizontalSplit = 7,   // Screen splits from the middle and moves out left/right
+    eEffect8_BoxOut = 8,            // A rect "grows" out from the centre of the screen
+    eEffect9_2_FMV = 9,             // Play 2 fmvs
+    eEffect10_3_FMV = 10,           // Play 3 fmvs - apparently just taking an array of fmvs is too simple ?
+    eEffect11 = 11                  // Unknown, has special handing in the map object
+};
+
+enum TLV_Flags
+{
+    eBit1_Created = 0x1,
+    eBit2_Unknown = 0x2,
+    eBit3_End_TLV_List = 0x4,
+};
+
+struct Path_TLV
+{
+    BitField8<TLV_Flags> field_0_flags;
+    char field_1_unknown;
+    __int16 field_2_length;
+    int field_4_type;
+    PSX_Point field_8_top_left;
+    PSX_Point field_C_bottom_right;
+    __int16 field_10;
+    __int16 field_12;
+    __int16 field_14;
+    __int16 field_16;
+
+    // Note: Part of Path object in AE
+    EXPORT static Path_TLV* CCSTD Next_446460(Path_TLV* pTlv);
+
+    // Some strange self terminate check that is inlined everywhere
+    void RangeCheck()
+    {
+        if (field_2_length < 24u || field_2_length > 480u)
+        {
+            field_0_flags.Set(eBit3_End_TLV_List);
+        }
+    }
+};
+ALIVE_ASSERT_SIZEOF(Path_TLV, 0x18);
+
+enum class CameraPos : __int16
+{
+    eCamInvalid_m1 = -1,
+    eCamCurrent_0 = 0,
+    eCamTop_1 = 1,
+    eCamBottom_2 = 2,
+    eCamLeft_3 = 3,
+    eCamRight_4 = 4,
+    eCamNone_5 = 5,   // Not "in" the camera
+};
 
 class Map
 {
 public:
-    EXPORT void Init_443EE0(__int16 level, __int16 path, __int16 camera, __int16 screenChangeEffect, __int16 a6, __int16 forceChange);
+    enum class MapDirections : __int16
+    {
+        eMapLeft_0 = 0,
+        eMapRight_1 = 1,
+        eMapTop_2 = 2,
+        eMapBottom_3 = 3,
+    };
 
+    EXPORT void Init_443EE0(LevelIds level, __int16 path, __int16 camera, CameraSwapEffects screenChangeEffect, __int16 fmvBaseId, __int16 forceChange);
+    
     EXPORT void Shutdown_443F90();
+    void Reset();
+    
+    EXPORT __int16 SetActiveCam_444660(LevelIds level, __int16 path, __int16 cam, CameraSwapEffects screenChangeEffect, __int16 fmvBaseId, __int16 forceChange);
+
+    EXPORT __int16 GetOverlayId_4440B0();
 
     EXPORT void ScreenChange_4444D0();
 
-    unsigned __int16 field_0_current_level;
-    unsigned __int16 field_2_current_path;
+    EXPORT void GoTo_Camera_445050();
+
+    EXPORT void Loader_446590(__int16 camX, __int16 camY, int loadMode, __int16 typeToLoad);
+
+    EXPORT BYTE* TLV_Reset_446870(unsigned int a2, __int16 a3, unsigned __int8 a4, char a5);
+
+    EXPORT void RemoveObjectsWithPurpleLight_4440D0(__int16 bMakeInvisible);
+
+    EXPORT void Handle_PathTransition_444DD0();
+
+    void ScreenChange_Common();
+
+    EXPORT void Get_map_size_444870(PSX_Point* pPoint);
+
+    EXPORT void GetCurrentCamCoords_444890(PSX_Point* pPoint);
+    __int16 GetOverlayId();
+
+    EXPORT static CameraSwapper* CC FMV_Camera_Change_4458D0(BYTE** ppBits, Map* pMap, LevelIds levelId);
+
+    EXPORT void Create_FG1s_4447D0();
+
+    EXPORT Camera* Create_Camera_445BE0(__int16 xpos, __int16 ypos, int a4);
+
+    EXPORT void RestoreObjectStates_446A90(__int16* pSaveData);
+
+    EXPORT void Load_Path_Items_445DA0(Camera* pCamera, __int16 kZero);
+
+    EXPORT Path_TLV* TLV_First_Of_Type_In_Camera_4464A0(unsigned __int16 type, int camX);
+
+    EXPORT Path_TLV* CCSTD TLV_Next_Of_Type_446500(Path_TLV* pTlv, unsigned __int16 type);
+
+    EXPORT Path_TLV* TLV_Get_At_446260(__int16 xpos, __int16 ypos, __int16 width, __int16 height, unsigned __int16 typeToFind);
+
+    EXPORT CameraPos GetDirection_444A40(int level, int path, FP xpos, FP ypos);
+
+    EXPORT CameraPos Rect_Location_Relative_To_Active_Camera_4448C0(PSX_RECT* pRect, __int16 width);
+
+    EXPORT signed __int16 Get_Camera_World_Rect_444C30(CameraPos camIdx, PSX_RECT* pRect);
+
+    EXPORT __int16 Is_Point_In_Current_Camera_4449C0(int level, int path, FP xpos, FP ypos, __int16 width);
+
+    EXPORT signed __int16 SetActiveCameraDelayed_444CA0(MapDirections direction, BaseAliveGameObject* pObj, __int16 swapEffect);
+
+    Camera* GetCamera(CameraPos pos);
+
+    // NOTE: Global func in AE
+    EXPORT void Start_Sounds_For_Objects_In_Near_Cameras_4467D0();
+
+    // NOTE: Part of Path object in AE
+    EXPORT void Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos direction, __int16 cam_x_idx, __int16 cam_y_idx);
+
+    // NOTE: Part of Path object in AE
+    EXPORT Path_TLV* Get_First_TLV_For_Offsetted_Camera_4463B0(__int16 camX, __int16 camY);
+
+    LevelIds field_0_current_level;
+    __int16 field_2_current_path;
     __int16 field_4_current_camera;
     __int16 field_6_state;
     __int16 field_8_force_load;
-    __int16 field_A_level;
+    LevelIds field_A_level;
     __int16 field_C_path;
     __int16 field_E_camera;
-    __int16 field_10_screenChangeEffect;
+    CameraSwapEffects field_10_screenChangeEffect;
     __int16 field_12_fmv_base_id;
-    __int16 field_14_direction;
+    MapDirections field_14_direction;
     __int16 field_16;
-    int field_18_pAliveObj;
-    __int16 field_1C_cameraSwapEffect;
+    BaseAliveGameObject* field_18_pAliveObj;
+    CameraSwapEffects field_1C_cameraSwapEffect;
     __int16 field_1E_door;
     __int16 field_20_camX_idx;
     __int16 field_22_camY_idx;
-    __int16 field_24_max_cams_x;
-    __int16 field_26_max_cams_y;
+    unsigned __int16 field_24_max_cams_x;
+    unsigned __int16 field_26_max_cams_y;
     __int16 field_28_cd_or_overlay_num;
     __int16 field_2A;
-    int field_2C_camera_offset;
-    int field_30;
-    int field_34_camera_array[5];
-    int field_48_stru_5[5];
-    int field_5C_path_res_array[30];
-    int field_D4_tlv_start_offset;
+    FP_Point field_2C_camera_offset;
+    Camera* field_34_camera_array[5];
+    Camera* field_48_stru_5[5];
+    Map_PathsArray field_5C_path_res_array;
+    const PathData* field_D4_pPathData;
     __int16 field_D8;
-    __int16 field_DA;
-    __int16 field_DC;
+    __int16 field_DA_bMapChanged;
+    __int16 field_DC_free_all_anim_and_palts;
     __int16 field_DE;
-    int field_E0;
+    __int16* field_E0_save_data;
 };
 
 ALIVE_ASSERT_SIZEOF(Map, 0xE4);

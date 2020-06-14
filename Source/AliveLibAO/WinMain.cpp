@@ -10,6 +10,14 @@
 #include "Map.hpp"
 #include "Animation.hpp"
 #include "FixedPoint_common.hpp"
+#include "ScreenManager.hpp"
+#include "ResourceManager.hpp"
+#include "Psx.hpp"
+#include "Alarm.hpp"
+#include "BaseAliveGameObject.hpp"
+#include "PsxDisplay.hpp"
+#include "AmbientSound.hpp"
+#include "../AliveLibAE/config.h" // TODO: Change location
 
 START_NS_AO
 
@@ -134,54 +142,6 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(DDCheat, 0x28);
 
-struct PSX_Display_Buffer
-{
-    PSX_DRAWENV field_0_draw_env;
-    PSX_DISPENV field_5C_disp_env;
-    int* field_70_ot_buffer[256];
-};
-ALIVE_ASSERT_SIZEOF(PSX_Display_Buffer, 0x470);
-
-struct PSX_Display_Params;
-
-class PsxDisplay
-{
-public:
-
-    EXPORT PsxDisplay* ctor_40DAB0(PSX_Display_Params* /*pParams*/)
-    {
-        NOT_IMPLEMENTED();
-        return this;
-    }
-
-    EXPORT void PSX_Display_Render_OT_40DD20()
-    {
-        NOT_IMPLEMENTED();
-    }
-
-    unsigned __int16 field_0_width;
-    unsigned __int16 field_2_height;
-    __int16 field_4_bpp;
-    __int16 field_6_max_buffers;
-    unsigned __int16 field_8_buffer_size;
-    unsigned __int16 field_A_buffer_index;
-    PSX_Display_Buffer field_C_drawEnv[2];
-};
-ALIVE_ASSERT_SIZEOF(PsxDisplay, 0x8EC);
-
-struct PSX_Display_Params
-{
-    __int16 field_0_width;
-    __int16 field_2_height;
-    __int16 field_4_bpp;
-    __int16 field_6_max_buffers;
-    __int16 field_8_buffer_size;
-    __int16 field_A_k32;
-    __int16 field_C_k1;
-    __int16 field_E;
-};
-ALIVE_ASSERT_SIZEOF(PSX_Display_Params, 0x10);
-
 ALIVE_VAR(1, 0x9F771C, HINSTANCE, sInstance_9F771C, 0);
 ALIVE_VAR(1, 0x9F7784, HINSTANCE, sPrevInstance_9F7784, 0);
 ALIVE_VAR(1, 0x9F772C, int, sCmdShow_9F772C, 0);
@@ -195,7 +155,7 @@ ALIVE_VAR(1, 0x508BFC, char, byte_508BFC, 0);
 
 
 
-EXPORT int CC VGA_FullScreenSet_490160(bool /*bFullScreen*/)
+EXPORT int CC VGA_FullScreenSet_490160(BOOL /*bFullScreen*/)
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -249,11 +209,60 @@ EXPORT signed int CC PSX_EMU_Set_Cd_Emulation_Paths_49B000(const char* /*pPath1*
     return 0;
 }
 
-EXPORT int CC Sys_WindowClass_Register_48E9E0(LPCSTR /*lpClassName*/, LPCSTR /*lpWindowName*/, int /*X*/, int /*Y*/, int /*nWidth*/, int /*nHeight*/)
+#ifdef _WIN32
+EXPORT LRESULT CALLBACK Window_Proc_48EB10(HWND /*hWnd*/, UINT /*Msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
+
+EXPORT int CC Sys_WindowClass_Register_48E9E0(LPCSTR lpClassName, LPCSTR lpWindowName, int X, int Y, int nWidth, int nHeight)
+{
+    WNDCLASSA wndClass = {};
+    wndClass.style = 3;
+    wndClass.lpfnWndProc = Window_Proc_48EB10;
+    wndClass.cbClsExtra = 0;
+    wndClass.cbWndExtra = 0;
+    wndClass.hInstance = sInstance_9F771C;
+    wndClass.hIcon = LoadIconA(sInstance_9F771C, (LPCSTR)0x65);
+    wndClass.hCursor = LoadCursorA(sInstance_9F771C, (LPCSTR)0x7F00);
+    wndClass.hbrBackground = 0;
+    wndClass.lpszMenuName = lpClassName;
+    wndClass.lpszClassName = lpClassName;
+    RegisterClassA(&wndClass);
+
+    DWORD style = WS_CAPTION | WS_VISIBLE;
+#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+    style |= WS_OVERLAPPEDWINDOW;
+#endif
+
+    HWND hwnd = CreateWindowExA(0, lpClassName, lpWindowName, style, X, Y, nWidth, nHeight, 0, 0, sInstance_9F771C, 0);
+    if (!hwnd)
+    {
+        return -1;
+    }
+
+    //dword_9F7720 = 0;
+    gHwnd_9F7724 = hwnd;
+
+#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+#else
+    SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, nWidth, nHeight, 0x204u);
+    RECT rect = {};
+    GetClientRect(hwnd, &rect);
+    if (nWidth != rect.right || nHeight != rect.bottom)
+    {
+        SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, nWidth + nWidth - rect.right, nHeight + nHeight - rect.bottom, 0x204u);
+    }
+#endif
+
+    ShowWindow(hwnd, sCmdShow_9F772C);
+    UpdateWindow(hwnd);
+    ShowCursor(TRUE);
+
+    return 0;
+}
+#endif
 
 EXPORT void CC PSX_EMU_Init_49A1D0(char /*bUnknown*/)
 {
@@ -317,8 +326,24 @@ EXPORT void CC Sys_Set_Hwnd_48E340(HWND hwnd)
 
 static void Init_VGA_AndPsxVram()
 {
-    VGA_FullScreenSet_490160(1);
+    BOOL bFullScreen = TRUE;
+#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+    LOG_INFO("Force window mode hack");
+    bFullScreen = FALSE;
+#endif
+    VGA_FullScreenSet_490160(bFullScreen);
+
+#ifdef _WIN32
+#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+    const LONG oldWinStyle = GetWindowLongA(Sys_GetWindowHandle_48E930(), GWL_STYLE);
+#endif
     VGA_DisplaySet_490230(640u, 480u, 16, 1, 0);
+#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+    // VGA_DisplaySet_490230 resets the window style - put it back to something sane
+    SetWindowLongA(Sys_GetWindowHandle_48E930(), GWL_STYLE, oldWinStyle);
+#endif
+#endif
+
     RECT rect = {};
     rect.left = 0;
     rect.top = 0;
@@ -367,7 +392,9 @@ static void Main_ParseCommandLineArguments()
     }
 
     PSX_EMU_Set_Cd_Emulation_Paths_49B000(".", cdDrivePath, 0);
+#ifdef _WIN32
     Sys_WindowClass_Register_48E9E0("ABE_WINCLASS", "Abe's Oddworld Oddysee 2.0", 32, 64, 640, 480); // Nice window title lol
+#endif
     Sys_Set_Hwnd_48E340(Sys_GetWindowHandle_48E930());
 
     const LPSTR pCmdLine = GetCommandLine_48E920();
@@ -430,18 +457,127 @@ EXPORT void PSX_EMU_VideoDeAlloc_49A550()
     NOT_IMPLEMENTED();
 }
 
-EXPORT int CC Sys_WindowMessageHandler_4503B0(HWND /*hWnd*/, UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
+EXPORT int MessageBox_48E3F0(const char* /*pTitle*/, int /*lineNumber*/, const char* /*pMsg*/, ...)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-EXPORT void CC Errors_Display_48E050()
+EXPORT void Input_InitKeyStateArray_48E5F0()
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT void SYS_EventsPump_44FF90()
+EXPORT void CC Input_SetKeyState_48E610(int /*key*/, char /*bIsDown*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT int CC Add_Dirty_Area_48D910(int , int , int , int )
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+#ifdef _WIN32
+EXPORT int CC Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+    LRESULT ret = 0;
+
+    switch (msg)
+    {
+    case WM_PAINT:
+    {
+        RECT rect = {};
+        PAINTSTRUCT paint = {};
+        BeginPaint(hWnd, &paint);
+        GetClientRect(hWnd, &rect);
+        PatBlt(paint.hdc, 0, 0, rect.right, rect.bottom, BLACKNESS); // use pal 0
+        EndPaint(hWnd, &paint);
+        Add_Dirty_Area_48D910(0, 0, 640, 240);
+    }
+     return 1;
+
+    case WM_CLOSE:
+        return (MessageBoxA(hWnd, "Do you really want to quit ?", "Abe's Oddysee", MB_DEFBUTTON2 | MB_ICONQUESTION | MB_YESNO) == IDNO) ? -1 : 0;
+
+    case WM_KEYDOWN:
+        if (wParam == VK_F1)
+        {
+            MessageBox_48E3F0(
+                "About Abe",
+                -1,
+                "Oddworld Abe's Oddysee 2.0\nPC version by Digital Dialect\n\nBuild date: %s %s\n",
+                "Oct 22 1997",
+                "14:32:52");
+            Input_InitKeyStateArray_48E5F0();
+        }
+        Input_SetKeyState_48E610(wParam, 1);
+        return 0;
+    
+    case WM_KEYUP:
+        Input_SetKeyState_48E610(wParam, 0);
+        break;
+
+    case WM_SETCURSOR:
+    {
+        static auto hCursor = LoadCursor(nullptr, IDC_ARROW);
+        SetCursor(hCursor);
+    }
+    return -1;
+
+#ifndef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+    case WM_NCLBUTTONDOWN:
+        // Prevent window being moved when click + dragged
+        return -1;
+#endif
+
+    case WM_ACTIVATE:
+    case WM_SETFOCUS:
+    case WM_KILLFOCUS:
+    case WM_ENTERMENULOOP:
+    case WM_EXITMENULOOP:
+    case WM_ENTERSIZEMOVE:
+    case WM_EXITSIZEMOVE:
+        Input_InitKeyStateArray_48E5F0();
+        break;
+
+    case WM_INITMENUPOPUP:
+        // TODO: Constants for wParam
+        if ((unsigned int)lParam >> 16)
+        {
+            return -1;
+        }
+        break;
+
+    case WM_SYSKEYDOWN:
+        // TODO: Constants for wParam
+        if (wParam == 18 || wParam == 32)
+        {
+            ret = -1;
+        }
+        Input_SetKeyState_48E610(wParam, 1);
+        break;
+
+    case WM_SYSKEYUP:
+        // TODO: Constants for wParam
+        if (wParam == 18 || wParam == 32)
+        {
+            ret = -1;
+        }
+        Input_SetKeyState_48E610(wParam, 0);
+        break;
+
+    case WM_TIMER:
+        return 1;
+    default:
+        return ret;
+    }
+    return ret;
+}
+#endif
+
+EXPORT void CC Errors_Display_48E050()
 {
     NOT_IMPLEMENTED();
 }
@@ -483,65 +619,17 @@ EXPORT void CC Events_Reset_Active_417320()
     NOT_IMPLEMENTED();
 }
 
+ALIVE_VAR_EXTERN(short, sNumCamSwappers_507668); // TODO: Move to own file
+
+
 ALIVE_VAR(1, 0x507B78, short, sBreakGameLoop_507B78, 0);
-ALIVE_VAR(1, 0x507668, short, sNumCamSwappers_507668, 0);
 
 ALIVE_VAR(1, 0x505564, DynamicArrayT<AnimationBase>*, gObjList_animations_505564, nullptr);
 
 
-struct DirtyBits
-{
-    __int16 field_0[20];
-};
-ALIVE_ASSERT_SIZEOF(DirtyBits, 0x28);
-
-class ScreenManager : public BaseGameObject
-{
-public:
-
-    FP_Point* field_10_pCamPos;
-    __int16 field_14;
-    unsigned __int16 field_16;
-    int field_18;
-    int field_1C;
-    __int16 field_20;
-    __int16 field_22;
-    int field_24;
-    int field_28;
-    __int16 field_2C;
-    unsigned __int16 field_2E_idx;
-    unsigned __int16 field_30;
-    unsigned __int16 field_32;
-    __int16 field_34;
-    __int16 field_36_flags;
-    int field_38;
-    int field_3C;
-    int field_40;
-    int field_44;
-    int field_48;
-    int field_4C;
-    int field_50;
-    int field_54;
-    DirtyBits field_58[6];
-};
-ALIVE_ASSERT_SIZEOF(ScreenManager, 0x148);
-
-ALIVE_VAR(1, 0x4FF7C8, ScreenManager*, pScreenManager_4FF7C8, nullptr);
-
 EXPORT void CC DebugFont_Flush_487F50()
 {
     NOT_IMPLEMENTED();
-}
-
-EXPORT int CC PSX_DrawSync_496750(int /*mode*/)
-{
-    return 0;
-}
-
-EXPORT int CC PSX_VSync_496620(int )
-{
-    NOT_IMPLEMENTED();
-    return 0;
 }
 
 EXPORT int CC PSX_ClearImage_496020(const PSX_RECT* /*pRect*/, __int16 /*r*/, unsigned __int8 /*g*/, unsigned __int8 /*b*/)
@@ -553,22 +641,9 @@ EXPORT int CC PSX_ClearImage_496020(const PSX_RECT* /*pRect*/, __int16 /*r*/, un
 ALIVE_VAR(1, 0x507698, short, gAttract_507698, 0);
 ALIVE_VAR(1, 0x507B0C, int, gTimeOut_NotUsed_507B0C, 0);
 ALIVE_VAR(1, 0x507B10, int, gFileOffset_NotUsed_507B10, 0);
-const PSX_Display_Params kDisplayParams = { 640, 240, 16, 1, 42, 32, 1, 0 };
-ALIVE_VAR(1, 0x4BB830, PSX_Display_Params, gPsxDisplayParams_4BB830, kDisplayParams);
-ALIVE_VAR(1, 0x504C78, PsxDisplay, gPsxDisplay_504C78, {});
 ALIVE_VAR(1, 0x5009E8, InputObject, sInputObject_5009E8, {});
 
 class BaseAliveGameObject;
-
-class ResourceManager
-{
-public:
-    static EXPORT void CC CancelPendingResourcesFor_41EA60(BaseAliveGameObject* /*pObj*/)
-    {
-        NOT_IMPLEMENTED();
-    }
-};
-
 
 EXPORT void CC Game_Loop_437630()
 {
@@ -643,7 +718,7 @@ EXPORT void CC Game_Loop_437630()
 
             if (pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3) && pObj->field_C_bCanKill == 0)
             {
-                gBaseGameObject_list_9F2DF0->RemoveAt(i);
+                i = gBaseGameObject_list_9F2DF0->RemoveAt(i);
                 pObj->VDestructor(1);
             }
         }
@@ -673,7 +748,7 @@ EXPORT void CC Game_Loop_437630()
 
         if (pObjToKill->field_C_bCanKill == 0)
         {
-            gBaseGameObject_list_9F2DF0->RemoveAt(i);
+            i = gBaseGameObject_list_9F2DF0->RemoveAt(i);
             pObjToKill->VDestructor(1);
         }
     }
@@ -710,10 +785,6 @@ EXPORT void CC SND_Shutdown_476EC0()
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC SND_Reset_Ambiance_4765E0()
-{
-    NOT_IMPLEMENTED();
-}
 
 class MusicController
 {
@@ -757,7 +828,7 @@ EXPORT void Game_Run_4373D0()
     Init_Sound_DynamicArrays_And_Others_41CD20();
     Input_Init_44EB60();
 
-    gMap_507BA8.Init_443EE0(0, 1, 10, 0, 0, 0);
+    gMap_507BA8.Init_443EE0(LevelIds::eMenu_0, 1, 10, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
 
     DDCheat_Allocate_409560();
 
@@ -826,9 +897,14 @@ EXPORT void CC Game_ExitGame_450730()
 
 EXPORT void Game_Main_450050()
 {
+    Alarm_ForceLink();
+    BaseAliveGameObject_ForceLink();
+
     Main_ParseCommandLineArguments();
     Game_SetExitCallBack_48E040(Game_ExitGame_450730);
+#ifdef _WIN32
     Sys_SetWindowProc_Filter_48E950(Sys_WindowMessageHandler_4503B0);
+#endif
     Game_Run_4373D0();
 
     // TODO: AE inlined calls here (pull AE's code into another func)

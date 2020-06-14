@@ -44,7 +44,7 @@ public:
 private:
     BYTE** field_0_0x2800_res;
 public:
-    DWORD field_4;
+    DWORD field_4_cd_pos;
 };
 ALIVE_ASSERT_SIZEOF(LvlArchive, 0x8);
 
