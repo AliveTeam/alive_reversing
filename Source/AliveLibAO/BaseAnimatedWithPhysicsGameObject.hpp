@@ -11,6 +11,8 @@ START_NS_AO
 class Shadow;
 class BaseAliveGameObject;
 
+enum class LevelIds : __int16;
+
 class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
 {
 public:
@@ -31,10 +33,10 @@ public:
     FP field_A8_xpos;
     FP field_AC_ypos;
     __int16 field_B0_path;
-    __int16 field_B2_level;
+    LevelIds field_B2_level;
     int field_B4_velx;
     int field_B8_vely;
-    int field_BC_scale;
+    FP field_BC_scale;
     __int16 field_C0_r;
     __int16 field_C2_g;
     __int16 field_C4_b;

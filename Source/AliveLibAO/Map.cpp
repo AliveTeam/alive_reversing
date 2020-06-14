@@ -345,6 +345,39 @@ EXPORT void CC SsUtAllKeyOff_49EDE0(int /*a1*/)
     NOT_IMPLEMENTED();
 }
 
+EXPORT int CC ConvertScale_41FA10(FP /*scale*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+struct Path_ChangeTLV : public Path_TLV
+{
+    LevelIds field_18_level;
+    __int16 field_1A_path;
+    __int16 field_1C_camera;
+    __int16 field_1E_movie;
+    unsigned __int16 field_20_wipe;
+    __int16 field_22_scale;
+};
+ALIVE_ASSERT_SIZEOF(Path_ChangeTLV, 0x24);
+
+
+// Map Path_ChangeTLV::field_18_wipe to CameraSwapEffects
+const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_4CDC78[10] =
+{
+    CameraSwapEffects::eEffect5_1_FMV,
+    CameraSwapEffects::eEffect2_RightToLeft,
+    CameraSwapEffects::eEffect1_LeftToRight,
+    CameraSwapEffects::eEffect4_BottomToTop,
+    CameraSwapEffects::eEffect3_TopToBottom,
+    CameraSwapEffects::eEffect8_BoxOut,
+    CameraSwapEffects::eEffect6_VerticalSplit,
+    CameraSwapEffects::eEffect7_HorizontalSplit,
+    CameraSwapEffects::eEffect11,
+    CameraSwapEffects::eEffect0_InstantChange
+};
+
 ALIVE_VAR(1, 0x507BA8, Map, gMap_507BA8, {});
 ALIVE_VAR(1, 0x507C9C, short, sMap_bDoPurpleLightEffect_507C9C, 0);
 ALIVE_VAR(1, 0x507CA0, int, gSndChannels_507CA0, 0);
@@ -476,7 +509,135 @@ __int16 Map::GetOverlayId_4440B0()
 
 void AO::Map::Handle_PathTransition_444DD0()
 {
-    NOT_IMPLEMENTED();
+    Path_ChangeTLV* pTlv = nullptr;
+    if (field_18_pAliveObj)
+    {
+        pTlv = static_cast<Path_ChangeTLV*>(TLV_Get_At_446260(
+            FP_GetExponent(field_18_pAliveObj->field_A8_xpos),
+            FP_GetExponent(field_18_pAliveObj->field_AC_ypos),
+            FP_GetExponent(field_18_pAliveObj->field_A8_xpos),
+            FP_GetExponent(field_18_pAliveObj->field_AC_ypos),
+            TlvTypes::PathTransition_1));
+    }
+
+    if (field_18_pAliveObj && pTlv)
+    {
+        field_A_level = pTlv->field_18_level;
+        field_C_path = pTlv->field_1A_path;
+        field_E_camera = pTlv->field_1C_camera;
+        field_12_fmv_base_id = pTlv->field_1E_movie;
+       
+        field_10_screenChangeEffect = kPathChangeEffectToInternalScreenChangeEffect_4CDC78[pTlv->field_20_wipe];
+        
+        field_18_pAliveObj->field_B2_level = pTlv->field_18_level;
+        field_18_pAliveObj->field_B0_path = pTlv->field_1A_path;
+        GoTo_Camera_445050();
+
+        switch (pTlv->field_22_scale)
+        {
+        case 0:
+            sActiveHero_507678->field_BC_scale = FP_FromInteger(1);
+            sActiveHero_507678->field_10_anim.field_C_layer = 32;
+            if (gElum_507680)
+            {
+                gElum_507680->field_BC_scale = sActiveHero_507678->field_BC_scale;
+                gElum_507680->field_10_anim.field_C_layer = 28;
+            }
+            break;
+
+        case 1:
+            sActiveHero_507678->field_BC_scale = FP_FromDouble(0.5);
+            sActiveHero_507678->field_10_anim.field_C_layer = 13;
+            if (gElum_507680)
+            {
+                gElum_507680->field_BC_scale = sActiveHero_507678->field_BC_scale;
+                gElum_507680->field_10_anim.field_C_layer = 9;
+            }
+            break;
+
+        default:
+            LOG_ERROR("Invalid scale " << pTlv->field_22_scale);
+            break;
+        }
+
+        CameraPos remapped = CameraPos::eCamInvalid_m1;
+        switch (field_14_direction)
+        {
+        case MapDirections::eMapLeft_0:
+            remapped = CameraPos::eCamLeft_3;
+            break;
+        case MapDirections::eMapRight_1:
+            remapped = CameraPos::eCamRight_4;
+            break;
+        case MapDirections::eMapTop_2:
+            remapped = CameraPos::eCamTop_1;
+            break;
+        case MapDirections::eMapBottom_3:
+            remapped = CameraPos::eCamBottom_2;
+            break;
+        }
+
+        field_18_pAliveObj->VOnPathTransition(
+            field_D4_pPathData->field_C_grid_width * field_20_camX_idx,
+            field_D4_pPathData->field_E_grid_height * field_22_camY_idx,
+            remapped);
+    }
+    else
+    {
+        switch (field_14_direction)
+        {
+        case Map::MapDirections::eMapLeft_0:
+            field_20_camX_idx--;
+            if (field_18_pAliveObj)
+            {
+                field_18_pAliveObj->VSetXSpawn(
+                    field_20_camX_idx * field_D4_pPathData->field_C_grid_width,
+                    ConvertScale_41FA10(field_18_pAliveObj->field_BC_scale) - 1);
+            }
+            field_10_screenChangeEffect = CameraSwapEffects::eEffect2_RightToLeft;
+            break;
+        case MapDirections::eMapRight_1:
+            field_20_camX_idx++;
+            if (field_18_pAliveObj)
+            {
+                field_18_pAliveObj->VSetXSpawn(field_20_camX_idx * field_D4_pPathData->field_C_grid_width,
+                    1);
+            }
+            field_10_screenChangeEffect = CameraSwapEffects::eEffect1_LeftToRight;
+            break;
+        case MapDirections::eMapTop_2:
+            field_22_camY_idx--;
+            if (field_18_pAliveObj)
+            {
+                field_18_pAliveObj->VSetYSpawn(field_22_camY_idx * field_D4_pPathData->field_E_grid_height,
+                    1);
+            }
+            field_10_screenChangeEffect = CameraSwapEffects::eEffect4_BottomToTop;
+            break;
+        case MapDirections::eMapBottom_3:
+            field_22_camY_idx++;
+            if (field_18_pAliveObj)
+            {
+                field_18_pAliveObj->VSetYSpawn(field_22_camY_idx * field_D4_pPathData->field_E_grid_height,
+                    2);
+            }
+            field_10_screenChangeEffect = CameraSwapEffects::eEffect3_TopToBottom;
+            break;
+        default:
+            break;
+        }
+
+        const DWORD pCamNameOffset = (sizeof(CameraName) * (field_20_camX_idx + field_22_camY_idx * field_24_max_cams_x));
+        const BYTE* pPathRes = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
+        auto pCameraName = reinterpret_cast<const CameraName*>(pPathRes + pCamNameOffset);
+
+        // Convert the 2 digit camera number string to an integer
+        field_E_camera = 
+            1 * (pCameraName->name[7] - '0') +
+            10 * (pCameraName->name[6] - '0');
+
+        GoTo_Camera_445050();
+    }
 }
 
 void AO::Map::RemoveObjectsWithPurpleLight_4440D0(__int16 /*bMakeInvisible*/)
@@ -587,6 +748,13 @@ void AO::Map::ScreenChange_4444D0()
 __int16 Map::GetOverlayId()
 {
     return Path_Get_Bly_Record_434650(field_A_level, field_C_path)->field_C_overlay_id;
+}
+
+
+EXPORT Path_TLV* AO::Map::TLV_Get_At_446260(__int16 /*xpos*/, __int16 /*ypos*/, __int16 /*width*/, __int16 /*height*/, unsigned __int16 /*typeToFind*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
 }
 
 Path_TLV* CCSTD AO::Map::TLV_Next_Of_Type_446500(Path_TLV* /*pTlv*/, unsigned __int16 /*type*/)
@@ -753,7 +921,6 @@ void Map::GoTo_Camera_445050()
 
 
     const auto old_current_path = field_2_current_path;
-    const auto old_current_path2 = old_current_path;
     const auto old_current_level = field_0_current_level;
 
     field_DA_bMapChanged = field_C_path != old_current_path || field_A_level != field_0_current_level;
@@ -796,7 +963,7 @@ void Map::GoTo_Camera_445050()
     field_2C_camera_offset.field_0_x = FP_FromInteger(camX_idx * field_D4_pPathData->field_C_grid_width + 440);
     field_2C_camera_offset.field_4_y = FP_FromInteger(camY_idx * field_D4_pPathData->field_E_grid_height + 240);
 
-    if (old_current_path2 != field_2_current_path || old_current_level != field_0_current_level)
+    if (old_current_path != field_2_current_path || old_current_level != field_0_current_level)
     {
         if (sCollisions_DArray_504C6C)
         {
@@ -864,7 +1031,7 @@ void Map::GoTo_Camera_445050()
     
     Loader_446590(field_20_camX_idx, field_22_camY_idx, 0, -1);
 
-    if (old_current_path2 != field_2_current_path || old_current_level != field_0_current_level)
+    if (old_current_path != field_2_current_path || old_current_level != field_0_current_level)
     {
         if (sActiveHero_507678 && field_2_current_path == sActiveHero_507678->field_B0_path)
         {

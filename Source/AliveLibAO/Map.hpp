@@ -12,6 +12,7 @@ void Map_ForceLink();
 
 struct PathData;
 class Camera;
+class BaseAliveGameObject;
 
 enum class CameraSwapEffects : __int16;
 
@@ -93,9 +94,28 @@ struct Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_TLV, 0x18);
 
+enum class CameraPos : __int16
+{
+    eCamInvalid_m1 = -1,
+    eCamCurrent_0 = 0,
+    eCamTop_1 = 1,
+    eCamBottom_2 = 2,
+    eCamLeft_3 = 3,
+    eCamRight_4 = 4,
+    eCamNone_5 = 5,   // Not "in" the camera
+};
+
 class Map
 {
 public:
+    enum class MapDirections : __int16
+    {
+        eMapLeft_0 = 0,
+        eMapRight_1 = 1,
+        eMapTop_2 = 2,
+        eMapBottom_3 = 3,
+    };
+
     EXPORT void Init_443EE0(LevelIds level, __int16 path, __int16 camera, CameraSwapEffects screenChangeEffect, __int16 fmvBaseId, __int16 forceChange);
     
     EXPORT void Shutdown_443F90();
@@ -138,6 +158,8 @@ public:
 
     EXPORT Path_TLV* CCSTD TLV_Next_Of_Type_446500(Path_TLV* pTlv, unsigned __int16 type);
 
+    EXPORT Path_TLV* TLV_Get_At_446260(__int16 xpos, __int16 ypos, __int16 width, __int16 height, unsigned __int16 typeToFind);
+
     LevelIds field_0_current_level;
     __int16 field_2_current_path;
     __int16 field_4_current_camera;
@@ -148,9 +170,9 @@ public:
     __int16 field_E_camera;
     CameraSwapEffects field_10_screenChangeEffect;
     __int16 field_12_fmv_base_id;
-    __int16 field_14_direction;
+    MapDirections field_14_direction;
     __int16 field_16;
-    int field_18_pAliveObj;
+    BaseAliveGameObject* field_18_pAliveObj;
     __int16 field_1C_cameraSwapEffect;
     __int16 field_1E_door;
     __int16 field_20_camX_idx;

@@ -11,6 +11,8 @@ void BaseAliveGameObject_ForceLink();
 struct Path_TLV;
 class LiftPoint;
 
+enum class CameraPos : __int16;
+
 class BaseAliveGameObject : public BaseAnimatedWithPhysicsGameObject
 {
 public:
@@ -25,7 +27,7 @@ public:
     virtual void VSetMotion(__int16 state);
     virtual void VSetXSpawn(__int16 camWorldX, int screenXPos);
     virtual void VSetYSpawn(int camWorldY, __int16 bLeft);
-    virtual void VSetPlacement(__int16 camWorldX, int camWorldY, int direction);
+    virtual void VOnPathTransition(__int16 camWorldX, int camWorldY, CameraPos direction);
     virtual __int16 VTakeDamage(BaseGameObject* pFrom);
     virtual void VOn_TLV_Collision(Path_TLV* pTlv);
     virtual void VCheckCollisionLineStillValid(int distance);

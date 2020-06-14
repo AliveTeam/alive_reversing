@@ -28,6 +28,7 @@ enum class LevelIds : __int16
 
 enum TlvTypes
 {
+    PathTransition_1 = 1,
     Door_6 = 6,
 };
 

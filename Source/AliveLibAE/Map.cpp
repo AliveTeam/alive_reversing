@@ -44,7 +44,7 @@ struct Path_ChangeTLV : public Path_TLV
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ChangeTLV, 0x1C);
 
 // Map Path_ChangeTLV::field_18_wipe to CameraSwapEffects
-const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_55D55C[12] =
+const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_55D55C[10] =
 { 
     CameraSwapEffects::eEffect5_1_FMV,
     CameraSwapEffects::eEffect2_RightToLeft,
@@ -55,8 +55,6 @@ const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_55D55C[12]
     CameraSwapEffects::eEffect6_VerticalSplit,
     CameraSwapEffects::eEffect7_HorizontalSplit,
     CameraSwapEffects::eEffect11,
-    CameraSwapEffects::eEffect0_InstantChange,
-    CameraSwapEffects::eEffect0_InstantChange,
     CameraSwapEffects::eEffect0_InstantChange
 };
 
@@ -349,24 +347,28 @@ void Map::Handle_PathTransition_481610()
         field_C_path = pPathChangeTLV->field_12_path;
         field_E_camera = pPathChangeTLV->field_14_camera;
         field_12_fmv_base_id = pPathChangeTLV->field_16_movie;
+
         field_10_screen_change_effect = kPathChangeEffectToInternalScreenChangeEffect_55D55C[pPathChangeTLV->field_18_wipe];
+
         field_18_pAliveObj->field_C2_lvl_number = field_A_level;
         field_18_pAliveObj->field_C0_path_number = field_C_path;
         GoTo_Camera_481890();
 
-        // Translate TLV scale to internal scale?
-        if (pPathChangeTLV->field_1A_scale > 0)
+        switch (pPathChangeTLV->field_1A_scale)
         {
-            if (pPathChangeTLV->field_1A_scale -1 == 0)
-            {
-                sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(0.5);
-                sActiveHero_5C1B68->field_20_animation.field_C_render_layer = 13;
-            }
-        }
-        else
-        {
+        case 0:
             sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
             sActiveHero_5C1B68->field_20_animation.field_C_render_layer = 32;
+            break;
+
+        case 1:
+            sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(0.5);
+            sActiveHero_5C1B68->field_20_animation.field_C_render_layer = 13;
+            break;
+
+        default:
+            LOG_ERROR("Invalid scale " << pPathChangeTLV->field_1A_scale);
+            break;
         }
 
         CameraPos remapped = CameraPos::eCamInvalid_m1;
@@ -415,9 +417,9 @@ void Map::Handle_PathTransition_481610()
             break;
         }
 
-        DWORD pCamNameOffset = sizeof(CameraName) * (field_D0_cam_x_idx + (field_D2_cam_y_idx * sPath_dword_BB47C0->field_6_cams_on_x));
-        BYTE* pPathRes = *field_54_path_res_array.field_0_pPathRecs[field_2_current_path];
-        CameraName* pCameraName = reinterpret_cast<CameraName*>(pPathRes + pCamNameOffset);
+        const DWORD pCamNameOffset = sizeof(CameraName) * (field_D0_cam_x_idx + (field_D2_cam_y_idx * sPath_dword_BB47C0->field_6_cams_on_x));
+        const BYTE* pPathRes = *field_54_path_res_array.field_0_pPathRecs[field_2_current_path];
+        auto pCameraName = reinterpret_cast<const CameraName*>(pPathRes + pCamNameOffset);
 
         // Convert the 2 digit camera number string to an integer
         field_E_camera =
