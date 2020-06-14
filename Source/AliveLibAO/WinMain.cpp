@@ -333,6 +333,7 @@ static void Init_VGA_AndPsxVram()
 #endif
     VGA_FullScreenSet_490160(bFullScreen);
 
+#ifdef _WIN32
 #ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
     const LONG oldWinStyle = GetWindowLongA(Sys_GetWindowHandle_48E930(), GWL_STYLE);
 #endif
@@ -340,6 +341,7 @@ static void Init_VGA_AndPsxVram()
 #ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
     // VGA_DisplaySet_490230 resets the window style - put it back to something sane
     SetWindowLongA(Sys_GetWindowHandle_48E930(), GWL_STYLE, oldWinStyle);
+#endif
 #endif
 
     RECT rect = {};
