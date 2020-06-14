@@ -6,6 +6,9 @@ START_NS_AO
 
 void BaseAliveGameObject_ForceLink() {}
 
+
+ALIVE_VAR(1, 0x4FC8A0, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_4FC8A0, nullptr);
+
 void AO::BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(int /*distance*/)
 {
     NOT_IMPLEMENTED();

@@ -15,6 +15,7 @@
 #include "Psx.hpp"
 #include "Alarm.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "PsxDisplay.hpp"
 #include "..\AliveLibAE\config.h" // TODO: Change location
 
 START_NS_AO
@@ -139,54 +140,6 @@ public:
     int field_24;
 };
 ALIVE_ASSERT_SIZEOF(DDCheat, 0x28);
-
-struct PSX_Display_Buffer
-{
-    PSX_DRAWENV field_0_draw_env;
-    PSX_DISPENV field_5C_disp_env;
-    int* field_70_ot_buffer[256];
-};
-ALIVE_ASSERT_SIZEOF(PSX_Display_Buffer, 0x470);
-
-struct PSX_Display_Params;
-
-class PsxDisplay
-{
-public:
-
-    EXPORT PsxDisplay* ctor_40DAB0(PSX_Display_Params* /*pParams*/)
-    {
-        NOT_IMPLEMENTED();
-        return this;
-    }
-
-    EXPORT void PSX_Display_Render_OT_40DD20()
-    {
-        NOT_IMPLEMENTED();
-    }
-
-    unsigned __int16 field_0_width;
-    unsigned __int16 field_2_height;
-    __int16 field_4_bpp;
-    __int16 field_6_max_buffers;
-    unsigned __int16 field_8_buffer_size;
-    unsigned __int16 field_A_buffer_index;
-    PSX_Display_Buffer field_C_drawEnv[2];
-};
-ALIVE_ASSERT_SIZEOF(PsxDisplay, 0x8EC);
-
-struct PSX_Display_Params
-{
-    __int16 field_0_width;
-    __int16 field_2_height;
-    __int16 field_4_bpp;
-    __int16 field_6_max_buffers;
-    __int16 field_8_buffer_size;
-    __int16 field_A_k32;
-    __int16 field_C_k1;
-    __int16 field_E;
-};
-ALIVE_ASSERT_SIZEOF(PSX_Display_Params, 0x10);
 
 ALIVE_VAR(1, 0x9F771C, HINSTANCE, sInstance_9F771C, 0);
 ALIVE_VAR(1, 0x9F7784, HINSTANCE, sPrevInstance_9F7784, 0);
@@ -679,9 +632,6 @@ EXPORT int CC PSX_ClearImage_496020(const PSX_RECT* /*pRect*/, __int16 /*r*/, un
 ALIVE_VAR(1, 0x507698, short, gAttract_507698, 0);
 ALIVE_VAR(1, 0x507B0C, int, gTimeOut_NotUsed_507B0C, 0);
 ALIVE_VAR(1, 0x507B10, int, gFileOffset_NotUsed_507B10, 0);
-const PSX_Display_Params kDisplayParams = { 640, 240, 16, 1, 42, 32, 1, 0 };
-ALIVE_VAR(1, 0x4BB830, PSX_Display_Params, gPsxDisplayParams_4BB830, kDisplayParams);
-ALIVE_VAR(1, 0x504C78, PsxDisplay, gPsxDisplay_504C78, {});
 ALIVE_VAR(1, 0x5009E8, InputObject, sInputObject_5009E8, {});
 
 class BaseAliveGameObject;

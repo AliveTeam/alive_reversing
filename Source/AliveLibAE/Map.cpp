@@ -226,20 +226,17 @@ void Map::RemoveObjectsWithPurpleLight_480740(__int16 bMakeInvisible)
 
         for (int counter = 0; counter < 12; counter++)
         {
-            if (bMakeInvisible)
+            if (bMakeInvisible && counter == 4)
             {
-                if (counter == 4)
+                // Make all the objects that have lights invisible now that the lights have been rendered for a few frames
+                for (int i = 0; i < pObjectsWithLightsArray->Size(); i++)
                 {
-                    // Make all the objects that have lights invisible now that the lights have been rendered for a few frames
-                    for (int i = 0; i < pObjectsWithLightsArray->Size(); i++)
+                    BaseAnimatedWithPhysicsGameObject* pObj = pObjectsWithLightsArray->ItemAt(i);
+                    if (!pObj)
                     {
-                        BaseAnimatedWithPhysicsGameObject* pObj = pObjectsWithLightsArray->ItemAt(i);
-                        if (!pObj)
-                        {
-                            break;
-                        }
-                        pObj->field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                        break;
                     }
+                    pObj->field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
                 }
             }
 
@@ -1035,12 +1032,7 @@ void Map::Create_FG1s_480F10()
 
 signed __int16 Map::Get_Camera_World_Rect_481410(CameraPos camIdx, PSX_RECT* pRect)
 {
-    if (camIdx < CameraPos::eCamCurrent_0)
-    {
-        return 0;
-    }
-
-    if (camIdx > CameraPos::eCamRight_4)
+    if (camIdx < CameraPos::eCamCurrent_0 || camIdx > CameraPos::eCamRight_4)
     {
         return 0;
     }
@@ -1071,7 +1063,7 @@ __int16 Map::Is_Point_In_Current_Camera_4810D0(int level, int path, FP xpos, FP 
     const FP calculated_width = (width != 0) ? FP_FromInteger(6) : FP_FromInteger(0);
     if (static_cast<LevelIds>(level) != field_0_current_level || path != field_2_current_path) // TODO: Remove when 100%
     {
-        return 0;
+        return FALSE;
     }
 
     PSX_RECT rect = {};
@@ -1105,7 +1097,7 @@ EXPORT CameraPos Map::Rect_Location_Relative_To_Active_Camera_480FE0(PSX_RECT* p
 
     if (pRect->w >= camX)
     {
-        if (pRect->h < camY)     // return 1 or 0
+        if (pRect->h < camY)
         {
             return CameraPos::eCamTop_1;
         }
@@ -1357,10 +1349,10 @@ void CC Map::LoadResourcesFromList_4DBE70(const char* pFileName, ResourceManager
     }
 }
 
-signed __int16 Map::SetActiveCameraDelayed_4814A0(MapDirections direction, BaseAliveGameObject* pObj, __int16 kMinus1)
+signed __int16 Map::SetActiveCameraDelayed_4814A0(MapDirections direction, BaseAliveGameObject* pObj, __int16 swapEffect)
 {
     Path_ChangeTLV* pPathChangeTLV = nullptr;
-    CameraSwapEffects unknown = CameraSwapEffects::eEffect0_InstantChange;
+    CameraSwapEffects convertedSwapEffect = CameraSwapEffects::eEffect0_InstantChange;
     if (pObj)
     {
         pPathChangeTLV = reinterpret_cast<Path_ChangeTLV*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
@@ -1376,14 +1368,15 @@ signed __int16 Map::SetActiveCameraDelayed_4814A0(MapDirections direction, BaseA
         field_A_level = pPathChangeTLV->field_10_level;
         field_C_path = pPathChangeTLV->field_12_path;
         field_E_camera = pPathChangeTLV->field_14_camera;
-        if (kMinus1 < 0)
+        if (swapEffect < 0)
         {
             // Map the TLV/editor value of screen change to the internal screen change
-            unknown = kPathChangeEffectToInternalScreenChangeEffect_55D55C[pPathChangeTLV->field_18_wipe];
+            convertedSwapEffect = kPathChangeEffectToInternalScreenChangeEffect_55D55C[pPathChangeTLV->field_18_wipe];
         }
         else
         {
-            unknown = static_cast<CameraSwapEffects>(kMinus1); // TODO: Correct ??
+            // If not negative then its an actual swap effect
+            convertedSwapEffect = static_cast<CameraSwapEffects>(swapEffect);
         }
     }
     else
@@ -1418,16 +1411,16 @@ signed __int16 Map::SetActiveCameraDelayed_4814A0(MapDirections direction, BaseA
 
         field_A_level = field_0_current_level;
         field_C_path = field_2_current_path;
-        unknown = static_cast<CameraSwapEffects>(kMinus1); // TODO: Correct ??
+        convertedSwapEffect = static_cast<CameraSwapEffects>(swapEffect); // TODO: Correct ??
     }
 
     field_14_direction = direction;
     field_18_pAliveObj = pObj;
-    field_1C = unknown;
+    field_1C = convertedSwapEffect;
     field_6_state = 1;
     sMap_bDoPurpleLightEffect_5C311C = 0;
     
-    if (unknown == CameraSwapEffects::eEffect5_1_FMV || unknown == CameraSwapEffects::eEffect11)
+    if (convertedSwapEffect == CameraSwapEffects::eEffect5_1_FMV || convertedSwapEffect == CameraSwapEffects::eEffect11)
     {
         sMap_bDoPurpleLightEffect_5C311C = 1;
     }

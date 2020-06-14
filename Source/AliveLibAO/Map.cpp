@@ -11,8 +11,12 @@
 #include "BaseAliveGameObject.hpp"
 #include "Door.hpp"
 #include "Abe.hpp"
+#include "PsxDisplay.hpp"
+#include "FixedPoint.hpp"
 
 START_NS_AO
+
+class BaseGameObject;
 
 void Map_ForceLink() {}
 
@@ -351,6 +355,40 @@ EXPORT int CC ConvertScale_41FA10(FP /*scale*/)
     return 0;
 }
 
+EXPORT int CC SFX_Play_43AE60(unsigned __int8 /*sfxId*/, int /*volume*/, int /*pitch*/, BaseAnimatedWithPhysicsGameObject* /*pObj*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+class Particle : public BaseAnimatedWithPhysicsGameObject
+{
+public:
+    int field_D4;
+    int field_D8;
+    int field_DC;
+    int field_E0;
+    int field_E4_scale_amount;
+};
+ALIVE_ASSERT_SIZEOF(Particle, 0xE8);
+
+EXPORT Particle* CC New_Particle_419D00(FP /*xpos*/, FP /*ypos*/, FP /*scale*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
+enum Event : __int16
+{
+    kEventDeathReset_4 = 4,
+};
+
+EXPORT BaseGameObject* CC Event_Get_417250(__int16 /*eventType*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
 struct Path_ChangeTLV : public Path_TLV
 {
     LevelIds field_18_level;
@@ -640,9 +678,167 @@ void AO::Map::Handle_PathTransition_444DD0()
     }
 }
 
-void AO::Map::RemoveObjectsWithPurpleLight_4440D0(__int16 /*bMakeInvisible*/)
+void AO::Map::RemoveObjectsWithPurpleLight_4440D0(__int16 bMakeInvisible)
 {
-    NOT_IMPLEMENTED();
+    auto pObjectsWithLightsArray = ao_new<DynamicArrayT<BaseAnimatedWithPhysicsGameObject>>();
+    pObjectsWithLightsArray->ctor_4043E0(16);
+
+    auto pPurpleLightArray = ao_new<DynamicArrayT<Particle>>();
+    pPurpleLightArray->ctor_4043E0(16);
+
+    bool bAddedALight = false;
+    for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    {
+        auto pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
+        if (!pObjIter)
+        {
+            break;
+        }
+
+        if (pObjIter->field_6_flags.Get(BaseGameObject::eDrawable_Bit4)
+            && pObjIter->field_10A_flags & 0x20
+            && pObjIter->field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render)
+            && !pObjIter->field_6_flags.Get(BaseGameObject::eDead_Bit3)
+            && pObjIter != sControlledCharacter_50767C)
+        {
+            bool bAdd = false;
+            if (pObjIter->field_B2_level == field_0_current_level
+                && pObjIter->field_B0_path == field_2_current_path)
+            {
+                PSX_RECT rect = {};
+                rect.x = FP_GetExponent(pObjIter->field_A8_xpos);
+                rect.w = FP_GetExponent(pObjIter->field_A8_xpos);
+                rect.y = FP_GetExponent(pObjIter->field_AC_ypos);
+                rect.h = FP_GetExponent(pObjIter->field_AC_ypos);
+                bAdd = Rect_Location_Relative_To_Active_Camera_4448C0(&rect, 0) == CameraPos::eCamCurrent_0;
+            }
+
+            if (bAdd)
+            {
+                pObjectsWithLightsArray->Push_Back(pObjIter);
+
+                PSX_RECT objRect = {};
+                pObjIter->VGetBoundingRect(&objRect, 1);
+
+                const FP k60Scaled = pObjIter->field_BC_scale * FP_FromInteger(60);
+                auto pPurpleLight = New_Particle_419D00(
+                    FP_FromInteger((objRect.x + objRect.w) / 2),
+                    FP_FromInteger((objRect.y + objRect.h) / 2) + k60Scaled,
+                    pObjIter->field_BC_scale);
+
+                if (pPurpleLight)
+                {
+                    pPurpleLightArray->Push_Back(pPurpleLight);
+                    bAddedALight = true;
+                }
+            }
+        }
+    }
+
+    if (bAddedALight)
+    {
+        SFX_Play_43AE60(21u, 40, 2400, 0);
+
+        const auto kTotal = bMakeInvisible != 0 ? 12 : 4;
+        for (int counter = 0; counter < kTotal; counter++)
+        {
+            if (bMakeInvisible && counter == 4)
+            {
+                // Make all the objects that have lights invisible now that the lights have been rendered for a few frames
+                for (int i = 0; i < pObjectsWithLightsArray->Size(); i++)
+                {
+                    BaseAnimatedWithPhysicsGameObject* pObj = pObjectsWithLightsArray->ItemAt(i);
+                    if (!pObj)
+                    {
+                        break;
+                    }
+                    pObj->field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                }
+            }
+
+            for (int i = 0; i < pPurpleLightArray->Size(); i++)
+            {
+                Particle* pLight = pPurpleLightArray->ItemAt(i);
+                if (!pLight)
+                {
+                    break;
+                }
+
+                if (!pLight->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+                {
+                    pLight->VUpdate();
+                }
+            }
+
+            // TODO/HACK what is the point of the double loop? Why not do both in 1 iteration ??
+            for (int i = 0; i < pPurpleLightArray->Size(); i++)
+            {
+                Particle* pLight = pPurpleLightArray->ItemAt(i);
+                if (!pLight)
+                {
+                    break;
+                }
+
+                if (!pLight->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+                {
+                    pLight->field_10_anim.vDecode();
+                }
+            }
+
+            for (int i = 0; i < gObjList_drawables_504618->Size(); i++)
+            {
+                BaseGameObject* pDrawable = gObjList_drawables_504618->ItemAt(i);
+                if (!pDrawable)
+                {
+                    break;
+                }
+
+                if (!pDrawable->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+                {
+                    // TODO: Seems strange to check this flag, how did it get in the drawable list if its not a drawable ??
+                    if (pDrawable->field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
+                    {
+                        pDrawable->VRender(gPsxDisplay_504C78.field_C_drawEnv[gPsxDisplay_504C78.field_A_buffer_index].field_70_ot_buffer);
+                    }
+
+                }
+            }
+
+            PSX_DrawSync_496750(0);
+            pScreenManager_4FF7C8->VRender(gPsxDisplay_504C78.field_C_drawEnv[gPsxDisplay_504C78.field_A_buffer_index].field_70_ot_buffer);
+            SYS_EventsPump_44FF90();
+            gPsxDisplay_504C78.PSX_Display_Render_OT_40DD20();
+        }
+
+        if (bMakeInvisible)
+        {
+            // Make all the objects that had lights visible again
+            for (int i = 0; i < pObjectsWithLightsArray->Size(); i++)
+            {
+                BaseAnimatedWithPhysicsGameObject* pObj = pObjectsWithLightsArray->ItemAt(i);
+                if (!pObj)
+                {
+                    break;
+                }
+                pObj->field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+            }
+        }
+    }
+
+    pObjectsWithLightsArray->field_4_used_size = 0;
+    pPurpleLightArray->field_4_used_size = 0;
+
+    if (pObjectsWithLightsArray)
+    {
+        pObjectsWithLightsArray->dtor_404440();
+        ao_delete_free_447540(pObjectsWithLightsArray);
+    }
+
+    if (pPurpleLightArray)
+    {
+        pPurpleLightArray->dtor_404440();
+        ao_delete_free_447540(pPurpleLightArray);
+    }
 }
 
 void AO::Map::ScreenChange_Common()
@@ -750,6 +946,248 @@ __int16 Map::GetOverlayId()
     return Path_Get_Bly_Record_434650(field_A_level, field_C_path)->field_C_overlay_id;
 }
 
+
+AO::Camera* AO::Map::GetCamera(CameraPos pos)
+{
+    return field_34_camera_array[static_cast<int>(pos)];
+}
+
+signed __int16 AO::Map::SetActiveCameraDelayed_444CA0(MapDirections direction, BaseAliveGameObject* pObj, __int16 swapEffect)
+{
+    Path_ChangeTLV* pPathChangeTLV = nullptr;
+    CameraSwapEffects convertedSwapEffect = CameraSwapEffects::eEffect0_InstantChange;
+    if (pObj)
+    {
+        pPathChangeTLV = static_cast<Path_ChangeTLV*>(TLV_Get_At_446260(
+            FP_GetExponent(pObj->field_A8_xpos),
+            FP_GetExponent(pObj->field_AC_ypos),
+            FP_GetExponent(pObj->field_A8_xpos),
+            FP_GetExponent(pObj->field_AC_ypos),
+            TlvTypes::PathTransition_1));
+    }
+
+    if (pObj && pPathChangeTLV)
+    {
+        field_A_level = pPathChangeTLV->field_18_level;
+        field_C_path = pPathChangeTLV->field_1A_path;
+        field_E_camera = pPathChangeTLV->field_1C_camera;
+        if (swapEffect < 0)
+        {
+            // Map the TLV/editor value of screen change to the internal screen change
+            convertedSwapEffect = kPathChangeEffectToInternalScreenChangeEffect_4CDC78[pPathChangeTLV->field_20_wipe];
+        }
+        else
+        {
+            // If not negative then its an actual swap effect
+            convertedSwapEffect = static_cast<CameraSwapEffects>(swapEffect);
+        }
+    }
+    else
+    {
+        switch (direction)
+        {
+        case MapDirections::eMapLeft_0:
+            if (!GetCamera(CameraPos::eCamLeft_3))
+            {
+                return 0;
+            }
+            break;
+        case MapDirections::eMapRight_1:
+            if (!GetCamera(CameraPos::eCamRight_4))
+            {
+                return 0;
+            }
+            break;
+        case MapDirections::eMapBottom_3:
+            if (!GetCamera(CameraPos::eCamBottom_2))
+            {
+                return 0;
+            }
+            break;
+        case MapDirections::eMapTop_2:
+            if (!GetCamera(CameraPos::eCamTop_1))
+            {
+                return 0;
+            }
+            break;
+        }
+
+        field_C_path = field_2_current_path;
+        field_A_level = field_0_current_level;
+    }
+    
+    field_14_direction = direction;
+    field_18_pAliveObj = pObj;
+    field_1C_cameraSwapEffect = convertedSwapEffect;
+    field_6_state = 1;
+    sMap_bDoPurpleLightEffect_507C9C = 0;
+    
+    if (field_1C_cameraSwapEffect == CameraSwapEffects::eEffect5_1_FMV || field_1C_cameraSwapEffect == CameraSwapEffects::eEffect11)
+    {
+        sMap_bDoPurpleLightEffect_507C9C = 1;
+    }
+
+    return 1;
+}
+
+__int16 AO::Map::Is_Point_In_Current_Camera_4449C0(int level, int path, FP xpos, FP ypos, __int16 width)
+{
+    if (static_cast<LevelIds>(level) != field_0_current_level || path != field_2_current_path) // TODO: Remove when 100%
+    {
+        return FALSE;
+    }
+    
+    PSX_RECT rect = {};
+    rect.x = FP_GetExponent(xpos);
+    rect.w = FP_GetExponent(xpos);
+    rect.y = FP_GetExponent(ypos);
+    rect.h = FP_GetExponent(ypos);
+    return Rect_Location_Relative_To_Active_Camera_4448C0(&rect, width) == CameraPos::eCamCurrent_0;
+}
+
+signed __int16 AO::Map::Get_Camera_World_Rect_444C30(CameraPos camIdx, PSX_RECT* pRect)
+{
+    if (camIdx < CameraPos::eCamCurrent_0 || camIdx > CameraPos::eCamRight_4)
+    {
+        return 0;
+    }
+
+    Camera* pCamera = field_34_camera_array[static_cast<int>(camIdx)];
+    if (!pCamera)
+    {
+        return 0;
+    }
+
+    if (!pRect)
+    {
+        return 1;
+    }
+
+    __int16 cam_x_pos = field_D4_pPathData->field_C_grid_width * pCamera->field_14_cam_x;
+    cam_x_pos += 120;
+
+    const __int16 cam_y_pos = field_D4_pPathData->field_E_grid_height * pCamera->field_16_cam_y;
+
+    pRect->x = cam_x_pos;
+    pRect->y = cam_y_pos + 120;
+    pRect->w = cam_x_pos + 640;
+    pRect->h = cam_y_pos + 360;
+    return 1;
+}
+
+CameraPos AO::Map::Rect_Location_Relative_To_Active_Camera_4448C0(PSX_RECT* pRect, __int16 width)
+{
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        return CameraPos::eCamNone_5;
+    }
+
+    FP xTweak = {};
+    FP yTweak = {};
+    if (width)
+    {
+        xTweak = FP_FromInteger(234);
+        yTweak = FP_FromInteger(150);
+    }
+    else
+    {
+        xTweak = FP_FromInteger(184);
+        yTweak = FP_FromInteger(120);
+    }
+
+    if (pRect->x > FP_GetExponent(field_2C_camera_offset.field_0_x + xTweak))
+    {
+        return CameraPos::eCamRight_4;
+    }
+
+    if (pRect->y > FP_GetExponent(field_2C_camera_offset.field_4_y + yTweak))
+    {
+        return CameraPos::eCamBottom_2;
+    }
+
+    if (pRect->w >= FP_GetExponent(field_2C_camera_offset.field_0_x - xTweak))
+    {
+        if (pRect->h < FP_GetExponent(field_2C_camera_offset.field_4_y - yTweak))
+        {
+            return CameraPos::eCamTop_1;
+        }
+        else
+        {
+            return CameraPos::eCamCurrent_0;
+        }
+    }
+
+    return CameraPos::eCamLeft_3;
+}
+
+CameraPos AO::Map::GetDirection_444A40(int level, int path, FP xpos, FP ypos)
+{
+    if (level != static_cast<int>(field_0_current_level))
+    {
+        return CameraPos::eCamInvalid_m1;
+    }
+
+    if (path != field_2_current_path)
+    {
+        return CameraPos::eCamInvalid_m1;
+    }
+
+    PSX_RECT rect = {};
+    rect.x = FP_GetExponent(xpos);
+    rect.w = FP_GetExponent(xpos);
+    rect.y = FP_GetExponent(ypos);
+    rect.h = FP_GetExponent(ypos);
+
+    CameraPos ret = Rect_Location_Relative_To_Active_Camera_4448C0(&rect, 0);
+
+    PSX_RECT camWorldRect = {};
+    if (!Get_Camera_World_Rect_444C30(ret, &camWorldRect))
+    {
+        return CameraPos::eCamInvalid_m1;
+    }
+
+    const FP x = FP_FromInteger(camWorldRect.x);
+    const FP y = FP_FromInteger(camWorldRect.y);
+    const FP w = FP_FromInteger(camWorldRect.w);
+    const FP h = FP_FromInteger(camWorldRect.h);
+
+    switch (ret)
+    {
+    case CameraPos::eCamCurrent_0:
+        return ret;
+
+    case CameraPos::eCamTop_1:
+        if (ypos < y || xpos < x || xpos > w)
+        {
+            return CameraPos::eCamInvalid_m1;
+        }
+        return ypos > h ? CameraPos::eCamCurrent_0 : ret;
+
+    case CameraPos::eCamBottom_2:
+        if (ypos > h || xpos < x || xpos > w)
+        {
+            return CameraPos::eCamInvalid_m1;
+        }
+        return ypos < y ? CameraPos::eCamCurrent_0 : ret;
+
+    case CameraPos::eCamLeft_3:
+        if (xpos < x || ypos < y || ypos > h)
+        {
+            return CameraPos::eCamInvalid_m1;
+        }
+        return xpos > w ? CameraPos::eCamCurrent_0 : ret;
+
+    case CameraPos::eCamRight_4:
+        if (xpos > w || ypos < y || ypos > h)
+        {
+            return CameraPos::eCamInvalid_m1;
+        }
+        return xpos < x ? CameraPos::eCamCurrent_0 : ret;
+
+    default:
+        return CameraPos::eCamInvalid_m1;
+    }
+}
 
 EXPORT Path_TLV* AO::Map::TLV_Get_At_446260(__int16 /*xpos*/, __int16 /*ypos*/, __int16 /*width*/, __int16 /*height*/, unsigned __int16 /*typeToFind*/)
 {

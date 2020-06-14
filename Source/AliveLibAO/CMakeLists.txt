@@ -41,6 +41,10 @@ SET(AliveLibSrcAO
    BaseAnimatedWithPhysicsGameObject.hpp
    BaseAliveGameObject.hpp
    BaseAliveGameObject.cpp
+   PsxDisplay.hpp
+   PsxDisplay.cpp
+   FixedPoint.hpp
+   FixedPoint.cpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx_ao.h stdafx_ao.cpp AliveLibSrcAO)

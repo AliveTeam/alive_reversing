@@ -160,6 +160,19 @@ public:
 
     EXPORT Path_TLV* TLV_Get_At_446260(__int16 xpos, __int16 ypos, __int16 width, __int16 height, unsigned __int16 typeToFind);
 
+    EXPORT CameraPos GetDirection_444A40(int level, int path, FP xpos, FP ypos);
+
+    EXPORT CameraPos Rect_Location_Relative_To_Active_Camera_4448C0(PSX_RECT* pRect, __int16 width);
+
+    EXPORT signed __int16 Get_Camera_World_Rect_444C30(CameraPos camIdx, PSX_RECT* pRect);
+
+    EXPORT __int16 Is_Point_In_Current_Camera_4449C0(int level, int path, FP xpos, FP ypos, __int16 width);
+
+    EXPORT signed __int16 SetActiveCameraDelayed_444CA0(MapDirections direction, BaseAliveGameObject* pObj, __int16 swapEffect);
+
+
+    Camera* GetCamera(CameraPos pos);
+
     LevelIds field_0_current_level;
     __int16 field_2_current_path;
     __int16 field_4_current_camera;
@@ -173,7 +186,7 @@ public:
     MapDirections field_14_direction;
     __int16 field_16;
     BaseAliveGameObject* field_18_pAliveObj;
-    __int16 field_1C_cameraSwapEffect;
+    CameraSwapEffects field_1C_cameraSwapEffect;
     __int16 field_1E_door;
     __int16 field_20_camX_idx;
     __int16 field_22_camY_idx;
