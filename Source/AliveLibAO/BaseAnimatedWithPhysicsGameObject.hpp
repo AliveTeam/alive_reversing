@@ -16,17 +16,17 @@ enum class LevelIds : __int16;
 class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
 {
 public:
-    virtual void VOnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArray* pObjList, int startingPointIdx, void* pFn);
-    virtual PSX_RECT* VGetBoundingRect(PSX_RECT* pRect, int pointIdx);
-    virtual __int16 VIsObjNearby(int radius, BaseAliveGameObject* pOtherObj);
+    virtual void VOnCollisionWith(PSX_Point /*xy*/, PSX_Point /*wh*/, DynamicArray* /*pObjList*/, int /*startingPointIdx*/, void* /*pFn*/) {}
+    virtual PSX_RECT* VGetBoundingRect(PSX_RECT* /*pRect*/, int /*pointIdx*/) {}
+    virtual __int16 VIsObjNearby(int /*radius*/, BaseAliveGameObject* /*pOtherObj*/) {}
     
-    virtual __int16 VIsObj_GettingNear_On_X(BaseAnimatedWithPhysicsGameObject* pOther);
+    virtual __int16 VIsObj_GettingNear_On_X(BaseAnimatedWithPhysicsGameObject* /*pOther*/) {}
 
-    virtual __int16 VIsFacingMe(BaseAliveGameObject* pOther);
+    virtual __int16 VIsFacingMe(BaseAliveGameObject* /*pOther*/) {}
 
-    virtual __int16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther);
+    virtual __int16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* /*pOther*/) {}
 
-    virtual void VStackOnObjectsOfType(unsigned __int16 typeToFind);
+    virtual void VStackOnObjectsOfType(unsigned __int16 /*typeToFind*/) {}
 
 
     Animation field_10_anim;

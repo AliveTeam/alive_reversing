@@ -90,9 +90,10 @@ enum AnimFlags
 class AnimationBase
 {
 public:
-    virtual void vDecode();
-    virtual void vRender(int xpos, int ypos, int** pOt, __int16 width, signed int height);
-    virtual void vCleanUp(); // TODO: pure
+    // TODO: Non empty so standalone builds
+    virtual void vDecode() {}
+    virtual void vRender(int /*xpos*/, int /*ypos*/, int** /*pOt*/, __int16 /*width*/, signed int /*height*/) {}
+    virtual void vCleanUp() {} // TODO: pure
 
     static EXPORT void CC AnimateAll_4034F0(DynamicArrayT<AnimationBase>* pAnimList);
 };
