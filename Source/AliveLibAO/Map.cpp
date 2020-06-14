@@ -855,10 +855,27 @@ __int16 Map::GetOverlayId()
     return Path_Get_Bly_Record_434650(field_A_level, field_C_path)->field_C_overlay_id;
 }
 
-Path_TLV* Map::Get_First_TLV_For_Offsetted_Camera_4463B0(__int16 /*camX*/, __int16 /*camY*/)
+Path_TLV* Map::Get_First_TLV_For_Offsetted_Camera_4463B0(__int16 cam_x_idx, __int16 cam_y_idx)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    const auto camX = cam_x_idx + field_20_camX_idx;
+    const auto camY = cam_y_idx + field_22_camY_idx;
+
+    if (camX >= field_24_max_cams_x || camX < 0 || camY >= field_26_max_cams_y || camY < 0)
+    {
+        return nullptr;
+    }
+    
+    BYTE* pPathData = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
+    const int* indexTable = reinterpret_cast<const int*>(pPathData + field_D4_pPathData->field_18_object_index_table_offset);
+    const int indexTableEntry = indexTable[(camX + (camY * field_24_max_cams_x))];
+    if (indexTableEntry == -1 || indexTableEntry >= 0x100000)
+    {
+        return nullptr;
+    }
+
+    Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(pPathData + indexTableEntry + field_D4_pPathData->field_14_offset);
+    pTlv->RangeCheck();
+    return pTlv;
 }
 
 void Map::Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos /*direction*/, __int16 /*cam_x_idx*/, __int16 /*cam_y_idx*/)
