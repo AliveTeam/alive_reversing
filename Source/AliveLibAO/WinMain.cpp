@@ -16,6 +16,7 @@
 #include "Alarm.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "PsxDisplay.hpp"
+#include "AmbientSound.hpp"
 #include "..\AliveLibAE\config.h" // TODO: Change location
 
 START_NS_AO
@@ -776,10 +777,6 @@ EXPORT void CC SND_Shutdown_476EC0()
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC SND_Reset_Ambiance_4765E0()
-{
-    NOT_IMPLEMENTED();
-}
 
 class MusicController
 {

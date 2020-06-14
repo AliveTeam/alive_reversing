@@ -172,6 +172,12 @@ public:
 
     Camera* GetCamera(CameraPos pos);
 
+    // NOTE: Global func in AE
+    EXPORT void Start_Sounds_For_Objects_In_Near_Cameras_4467D0();
+
+    // NOTE: Part of Path object in AE
+    EXPORT void Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos direction, __int16 cam_x_idx, __int16 cam_y_idx);
+
     LevelIds field_0_current_level;
     __int16 field_2_current_path;
     __int16 field_4_current_camera;

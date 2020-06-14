@@ -13,6 +13,7 @@
 #include "Abe.hpp"
 #include "PsxDisplay.hpp"
 #include "FixedPoint.hpp"
+#include "AmbientSound.hpp"
 
 START_NS_AO
 
@@ -946,6 +947,36 @@ __int16 Map::GetOverlayId()
     return Path_Get_Bly_Record_434650(field_A_level, field_C_path)->field_C_overlay_id;
 }
 
+
+void AO::Map::Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos /*direction*/, __int16 /*cam_x_idx*/, __int16 /*cam_y_idx*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void AO::Map::Start_Sounds_For_Objects_In_Near_Cameras_4467D0()
+{
+    SND_Reset_Ambiance_4765E0();
+
+    if (Get_Camera_World_Rect_444C30(CameraPos::eCamLeft_3, nullptr))
+    {
+        Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos::eCamLeft_3, field_20_camX_idx - 1, field_22_camY_idx);
+    }
+
+    if (Get_Camera_World_Rect_444C30(CameraPos::eCamRight_4, nullptr))
+    {
+        Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos::eCamRight_4, field_20_camX_idx + 1, field_22_camY_idx);
+    }
+
+    if (Get_Camera_World_Rect_444C30(CameraPos::eCamTop_1, nullptr))
+    {
+        Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos::eCamTop_1, field_20_camX_idx, field_22_camY_idx - 1);
+    }
+
+    if (Get_Camera_World_Rect_444C30(CameraPos::eCamBottom_2, nullptr))
+    {
+        Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos::eCamBottom_2, field_20_camX_idx, field_22_camY_idx + 1);
+    }
+}
 
 AO::Camera* AO::Map::GetCamera(CameraPos pos)
 {

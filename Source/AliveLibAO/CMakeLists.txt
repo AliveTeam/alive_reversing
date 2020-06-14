@@ -45,6 +45,8 @@ SET(AliveLibSrcAO
    PsxDisplay.cpp
    FixedPoint.hpp
    FixedPoint.cpp
+   AmbientSound.hpp
+   AmbientSound.cpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx_ao.h stdafx_ao.cpp AliveLibSrcAO)
