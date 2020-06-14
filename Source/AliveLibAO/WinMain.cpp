@@ -17,7 +17,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "PsxDisplay.hpp"
 #include "AmbientSound.hpp"
-#include "..\AliveLibAE\config.h" // TODO: Change location
+#include "../AliveLibAE/config.h" // TODO: Change location
 
 START_NS_AO
 
