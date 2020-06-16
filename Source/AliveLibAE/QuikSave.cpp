@@ -269,7 +269,7 @@ ALIVE_VAR(1, 0x5c1bbc, WORD, word_5C1BBC, 0);
 
 ALIVE_VAR(1, 0xbb234c, WORD, sQuickSave_saved_switchResetters_count_BB234C, 0);
 
-void QuikSave_RestoreObjectStates_D481890_4C9BE0(const BYTE* pSaveData)
+void QuikSave_RestoreBlyData_D481890_4C9BE0(const BYTE* pSaveData)
 {
     const WORD* pSaveData2 = reinterpret_cast<const WORD*>(pSaveData);
 

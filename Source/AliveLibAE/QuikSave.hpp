@@ -80,6 +80,6 @@ EXPORT void CC Quicksave_4C90D0();
 EXPORT void CC Quicksave_ReadWorldInfo_4C9490(const Quicksave_WorldInfo* pInfo);
 EXPORT void CC Quicksave_SaveWorldInfo_4C9310(Quicksave_WorldInfo* pInfo);
 EXPORT void CC Quicksave_FindSaves_4D4150();
-void QuikSave_RestoreObjectStates_D481890_4C9BE0(const BYTE* pSaveData);
+void QuikSave_RestoreBlyData_D481890_4C9BE0(const BYTE* pSaveData);
 EXPORT void CC Quicksave_SaveSwitchResetterStates_4C9870();
 EXPORT void CC Quicksave_RestoreSwitchResetterStates_4C9A30();
