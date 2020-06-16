@@ -614,7 +614,7 @@ void Movie::Init_4DFF60(int id, CdlLOC* pCdPos, __int16 bUnknown, __int16 flags,
 
     ++sMovie_ref_count_BB4AE4;
 
-    field_3C = 0;
+    field_3C_unused = 0;
 
     if (bUnknown & 1)
     {
@@ -629,7 +629,7 @@ void Movie::Init_4DFF60(int id, CdlLOC* pCdPos, __int16 bUnknown, __int16 flags,
     field_44_cd_loc_min = pCdPos->field_0_minute;
     field_45_cd_loc_sec = pCdPos->field_1_second;
     field_20 &= ~3;
-    field_46 = pCdPos->field_2_sector;
+    field_46_cd_loc_sector = pCdPos->field_2_sector;
     
     sMovie_Kill_SEQs_563A88 = 1;
     

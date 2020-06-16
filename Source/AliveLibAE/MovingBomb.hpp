@@ -49,16 +49,16 @@ private:
 
 private:
     __int16 field_118_state;
-    __int16 field_11A;
+    __int16 field_11A_padding;
     int field_11C_tlvInfo;
     int field_120_timer;
     FP field_124_speed;
     __int16 field_128_switch_id;
     __int16 field_12A_min;
     __int16 field_12C_max;
-    __int16 field_12E;
+    __int16 field_12E_padding;
     int field_130_sound_channels;
-    __int16 field_134;
+    __int16 field_134_disable_resources;
     __int16 field_136_persist_offscreen;
 };
 ALIVE_ASSERT_SIZEOF(MovingBomb, 0x138);

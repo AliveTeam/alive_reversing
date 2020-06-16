@@ -72,7 +72,7 @@ EXPORT BaseAliveGameObject* BaseAliveGameObject::ctor_408240(short resourceArray
     field_110_id = -1;
     field_106_current_motion = 0;
     field_108_next_motion = 0;
-    field_F4 = 0;
+    field_F4_previous_motion = 0;
     field_F6_anim_frame = 0;
     field_F8_LastLineYPos = FP_FromInteger(0);
     field_10A = 0;

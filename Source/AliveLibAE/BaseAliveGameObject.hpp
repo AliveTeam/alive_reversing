@@ -82,7 +82,7 @@ protected:
 public:
     EXPORT __int16 OnTrapDoorIntersection_408BA0(PlatformBase* pOther);
 public:
-    __int16 field_F4;
+    __int16 field_F4_previous_motion;
     __int16 field_F6_anim_frame;
     FP field_F8_LastLineYPos;
     Path_TLV* field_FC_pPathTLV;

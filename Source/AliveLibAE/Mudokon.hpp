@@ -54,7 +54,7 @@ struct Path_Mudokon : public Path_TLV
     __int16 field_28_bGets_depressed;
     __int16 field_2A_ring_timeout;
     __int16 field_2C_bInstant_power_up;
-    __int16 field_2E_pad;
+    __int16 field_2E_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Mudokon, 0x30);
 
@@ -62,9 +62,9 @@ enum class Mud_Emotion : __int16
 {
     eNormal_0 = 0,
     eAngry_1 = 1,
-    eUnknown_2 = 2,
+    eAggressive_2 = 2,
     eSad_3 = 3,
-    eUnknown_4 = 4,
+    eSuicidal_4 = 4,
     eHappy_5 = 5, // TODO: Not used ??
     eWired_6 = 6,
     eSick_7 = 7
@@ -75,21 +75,21 @@ enum class MudAction : __int16
     eHelloOrAllYa_0 = 0,
     eFollowMe_1 = 1,
     eWait_2 = 2,
-    eUnknown_3 = 3,
-    eUnknown_4 = 4,
-    eUnknown_5 = 5,
+    eUnused_3 = 3,
+    eStopIt_4 = 4,
+    eUnused_5 = 5,
     eFart_6 = 6,
     eSlapOrWater_7 = 7,
     eSorry_8 = 8,
     eMudAbuse_9 = 9,
     eComfort_10 = 10,
-    eUnknown_11 = 11,
+    eSmackIntoWall_11 = 11,
     eLaugh_12 = 12,
     eDuck_13 = 13,
     eMudDied_14 = 14,
     eUnknown_15 = 15,
     eUnknown_16 = 16,
-    eUnknown_17 = 17,
+    eNone_17 = 17,
 };
 
 
@@ -217,61 +217,61 @@ struct Mudokon_State
     __int16 field_32_next_motion;
     __int16 field_34_lastLineYPos;
     __int16 field_36_line_type;
-    __int16 field_38;
-    __int16 field_3A;
-    char field_3C;
+    __int16 field_38_padding;
+    __int16 field_3A_padding;
+    char field_3C_can_be_possessed;
     char field_3D_bIsPlayer;
     __int16 field_3E;
     int field_40_tlvInfo;
-    FP field_44;
-    int field_48;
+    FP field_44_velx_slow_by;
+    int field_48_unused;
     int field_4C_portal_id;
     __int16 field_50_angry_trigger;
-    __int16 field_52;
+    __int16 field_52_padding;
     int field_54;
-    int field_58;
-    __int16 field_5C;
+    int field_58_angry_timer;
+    __int16 field_5C_unused;
     __int16 field_5E_voice_pitch;
     int field_60_wheel_id;
-    int field_64;
+    int field_64_unused;
     MudSounds field_68;
     __int16 field_6A_maxXOffset;
 
 
     enum Flags_6A
     {
-        eBit1 = 0x1,
-        eBit2 = 0x2,
-        eBit3 = 0x4,
-        eBit4 = 0x8,
-        eBit5 = 0x10,
-        eBit6 = 0x20,
-        eBit7 = 0x40,
-        eBit8 = 0x80,
-        eBit9 = 0x100,
-        eBit10 = 0x200,
-        eBit11 = 0x400,
-        eBit12 = 0x800,
-        eBit13 = 0x1000,
-        eBit14 = 0x2000,
-        eBit15 = 0x4000,
-        eBit16 = 0x8000
+        eBit1_padding = 0x1,
+        eBit2_unused = 0x2,
+        eBit3_padding = 0x4,
+        eBit4_not_rescued = 0x8,
+        eBit5_save_state = 0x10,
+        eBit6_alerted = 0x20,
+        eBit7_blind = 0x40,
+        eBit8_following = 0x80,
+        eBit9_standing_for_sad_or_angry = 0x100,
+        eBit10_stopped_at_wheel = 0x200,
+        eBit11_do_angry = 0x400,
+        eBit12_seen_while_sick = 0x800,
+        eBit13_stop_trigger = 0x1000,
+        eBit14_unused = 0x2000,
+        eBit15_reset_to_previous_motion = 0x4000,
+        eBit16_get_depressed = 0x8000
     };
     BitField16<Flags_6A> field_6C;
 
     enum Flags_6E
     {
-        e6E_Bit1 = 0x1,
+        e6E_Bit1_alert_enemies = 0x1,
         e6E_Bit2 = 0x2,
-        e6E_Bit3 = 0x4,
-        e6E_Bit4 = 0x8,
+        e6E_Bit3_make_sad_noise = 0x4,
+        e6E_Bit4_ring_timeout = 0x8,
         e6E_Bit5 = 0x10,
         e6E_Bit6 = 0x20
     };
     BitField16<Flags_6E> field_6E;
 
-    __int16 field_70;
-    __int16 field_72;
+    __int16 field_70_sub_state2;
+    __int16 field_72_stand_idle_timer;
     MudAction field_74_delayed_speak;
     Mud_Emotion field_76_emo_tlb;
     GameSpeakEvents field_78;
@@ -468,7 +468,7 @@ private:
     EXPORT void ToStand_4724A0();
 
     EXPORT __int16 FindWheel_4777B0(FP xpos, FP ypos);
-    EXPORT __int16 sub_477AF0(MudAction action);
+    EXPORT __int16 GetAISubStateResponse_477AF0(MudAction action);
     EXPORT __int16 StopAtWheel_477880();
     EXPORT void StandingKnockBack_473190();
     EXPORT __int16 IsMotionUnknown_4730F0();
@@ -495,31 +495,31 @@ private:
     EXPORT static const MudEmotionTableEntry* CCSTD GetResponseEntry_471790(int idx);
 
 private:
-    int field_118;
+    int field_118_tlvInfo;
     int field_11C_bird_portal_id;
     __int16 field_120_angry_trigger;
-    __int16 field_122;
+    __int16 field_122_padding;
     int field_124;
     int field_128_angry_timer;
-    int field_12C;
-    __int16 field_130;
-    __int16 field_132;
+    int field_12C_unused;
+    __int16 field_130_unused;
+    __int16 field_132_padding;
     FP field_134_xVelSlowBy;
-    int field_138;
+    int field_138_unused;
     __int16 field_13C_voice_pitch;
-    __int16 field_13E;
-    int field_140;
-    int field_144;
-    __int16 field_148;
-    __int16 field_14A;
-    __int16 field_14C;
-    __int16 field_14E;
-    __int16 field_150;
-    __int16 field_152;
-    __int16 field_154;
-    __int16 field_156;
+    __int16 field_13E_padding;
+    int field_140_last_event_index;
+    int field_144_padding;
+    __int16 field_148_padding;
+    __int16 field_14A_padding;
+    __int16 field_14C_padding;
+    __int16 field_14E_padding;
+    __int16 field_150_padding;
+    __int16 field_152_padding;
+    __int16 field_154_unused;
+    __int16 field_156_unused;
     int field_158_wheel_id;
-    int field_15C;
+    int field_15C_unused;
     MudSounds field_160_delayed_speak;
     __int16 field_162_maxXOffset;
     int field_164_ring_timeout;
@@ -527,55 +527,55 @@ private:
 
     enum Flags
     {
-        eBit1 = 0x1,
+        eBit1_not_rescued = 0x1,
         eBit2_save_state = 0x2,
-        eBit3_Alerted = 0x4,
+        eBit3_alerted = 0x4,
         eBit4_blind = 0x8,
-        eBit5 = 0x10,
-        eBit6_StandingForSadOrAngry = 0x20,
-        eBit7_StoppedAtWheel = 0x40,
-        eBit8_DoAngry = 0x80,
-        eBit9 = 0x100,
+        eBit5_following = 0x10,
+        eBit6_standing_for_sad_or_angry = 0x20,
+        eBit7_stopped_at_wheel = 0x40,
+        eBit8_do_angry = 0x80,
+        eBit9_seen_while_sick = 0x100,
         eBit10_stop_trigger = 0x200,
         eBit11_get_depressed = 0x400,
-        eBit12 = 0x800,
-        eBit13 = 0x1000,
-        eBit14 = 0x2000,
+        eBit12_alert_enemies = 0x800,
+        eBit13 = 0x1000, // TODO: It's only unset until it's checked, then set. Relates to MudAction::eUnknown_15 and MudAction::eUnknown_16. It's only set when a Glukkon makes a loud noise on the same screen as the Mudokon.
+        eBit14_make_sad_noise = 0x2000,
         eBit15_ring_timeout = 0x4000,
         eBit16_instant_power_up = 0x8000,
-        eBit17 = 0x10000,
-        eBit18 = 0x20000,
-        eBit19 = 0x40000,
-        eBit20 = 0x80000,
-        eBit21 = 0x100000,
-        eBit22 = 0x200000,
-        eBit23 = 0x400000,
-        eBit24 = 0x800000,
-        eBit25 = 0x1000000,
+        eBit17_padding = 0x10000,
+        eBit18_padding = 0x20000,
+        eBit19_padding = 0x40000,
+        eBit20_padding = 0x80000,
+        eBit21_padding = 0x100000,
+        eBit22_padding = 0x200000,
+        eBit23_padding = 0x400000,
+        eBit24_padding = 0x800000,
+        eBit25_padding = 0x1000000,
     };
     BitField16<Flags> field_16A_flags;
     __int16 field_16C;
-    __int16 field_16E;
-    __int16 field_170;
-    __int16 field_172;
-    __int16 field_174;
-    __int16 field_176;
+    __int16 field_16E_padding;
+    __int16 field_170_padding;
+    __int16 field_172_padding;
+    __int16 field_174_padding;
+    __int16 field_176_padding;
     __int16 field_178_sub_state2;
     __int16 field_17A_rescue_id;
-    __int16 field_17C;
+    __int16 field_17C_stand_idle_timer;
     MudAction field_17E_delayed_speak;
     Mud_Emotion field_180_emo_tbl;
     GameSpeakEvents field_182;
     Mud_Motion field_184_next_motion2;
-    __int16 field_186;
+    __int16 field_186_padding;
     const struct MudEmotionTableEntry* field_188_pTblEntry;
-    __int16 field_18C;
+    __int16 field_18C_unused;
 public:
     Mud_AI_State field_18E_ai_state;
 private:
     __int16 field_190_sub_state;
-    __int16 field_192;
+    __int16 field_192_reset_to_previous_motion;
     int field_194_timer;
-    int field_198;
+    int field_198_turning_wheel_timer;
 };
 ALIVE_ASSERT_SIZEOF(Mudokon, 0x19C);

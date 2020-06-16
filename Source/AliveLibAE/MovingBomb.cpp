@@ -74,8 +74,8 @@ MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, int tlvInfo)
 
     SetTint_425600(&stru_55C734[0], gMap_5C3030.field_0_current_level);
 
-    field_134 = pTlv->field_1A_disable_resources;
-    if (!(field_134 & 1))
+    field_134_disable_resources = pTlv->field_1A_disable_resources;
+    if (!(field_134_disable_resources & 1))
     {
         Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
     }
