@@ -33,6 +33,7 @@ void Map_ForceLink() {}
 ALIVE_VAR(1, 0x507678, Abe*, sActiveHero_507678, nullptr);
 ALIVE_VAR(1, 0x507680, BaseAliveGameObject*, gElum_507680, nullptr);
 ALIVE_VAR(1, 0x50767C, BaseAliveGameObject*, sControlledCharacter_50767C, nullptr);
+ALIVE_VAR(1, 0x507C98, Camera*, sCameraBeingLoaded_507C98, nullptr);
 
 struct SwitchStates
 {
@@ -873,14 +874,43 @@ Path_TLV* Map::Get_First_TLV_For_Offsetted_Camera_4463B0(__int16 cam_x_idx, __in
         return nullptr;
     }
 
-    Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(pPathData + indexTableEntry + field_D4_pPathData->field_14_offset);
+    Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(pPathData + indexTableEntry + field_D4_pPathData->field_14_object_offset);
     pTlv->RangeCheck();
     return pTlv;
 }
 
-void Map::Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos /*direction*/, __int16 /*cam_x_idx*/, __int16 /*cam_y_idx*/)
+void Map::Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos direction, __int16 cam_x_idx, __int16 cam_y_idx)
 {
-    NOT_IMPLEMENTED();
+    Path_TLV* pTlv = Get_First_TLV_For_Offsetted_Camera_4463B0(cam_x_idx, cam_y_idx);
+    if (pTlv)
+    {
+        for (;;)
+        {
+            const auto cam_global_left = field_D4_pPathData->field_C_grid_width * cam_x_idx;
+            const auto cam_y_grid_top = field_D4_pPathData->field_E_grid_height * cam_y_idx;
+
+            if (pTlv->field_C_sound_pos.field_0_x >= cam_global_left &&
+                pTlv->field_C_sound_pos.field_0_x <= cam_global_left + field_D4_pPathData->field_C_grid_width)
+            {
+                if (pTlv->field_C_sound_pos.field_2_y >= cam_y_grid_top &&
+                    pTlv->field_C_sound_pos.field_2_y <= cam_y_grid_top + field_D4_pPathData->field_E_grid_height)
+                {
+                    if (!(pTlv->field_0_flags.Get(TLV_Flags::eBit1_Created) && !(pTlv->field_0_flags.Get(TLV_Flags::eBit2_Unknown))))
+                    {
+                        Start_Sounds_for_TLV_476640(direction, pTlv);
+                    }
+                }
+            }
+
+            if (pTlv->field_0_flags.Get(TLV_Flags::eBit3_End_TLV_List))
+            {
+                break;
+            }
+
+            pTlv->RangeCheck();
+            pTlv = Path_TLV::Next_446460(pTlv);
+        }
+    }
 }
 
 void Map::Start_Sounds_For_Objects_In_Near_Cameras_4467D0()
@@ -1150,16 +1180,161 @@ CameraPos Map::GetDirection_444A40(int level, int path, FP xpos, FP ypos)
     }
 }
 
-EXPORT Path_TLV* Map::TLV_Get_At_446260(__int16 /*xpos*/, __int16 /*ypos*/, __int16 /*width*/, __int16 /*height*/, unsigned __int16 /*typeToFind*/)
+EXPORT Path_TLV* Map::TLV_Get_At_446260(__int16 xpos, __int16 ypos, __int16 width, __int16 height, unsigned __int16 typeToFind)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    int right = 0;
+    int left = 0;
+    if (xpos >= width)
+    {
+        right = width;
+        left = xpos;
+    }
+    else
+    {
+        right = xpos;
+        left = width;
+    }
+
+    int top = 0;
+    int bottom = 0;
+    if (ypos >= height)
+    {
+        top = height;
+        bottom = ypos;
+    }
+    else
+    {
+        top = ypos;
+        bottom = height;
+    }
+
+    const int grid_cell_y = top / field_D4_pPathData->field_E_grid_height;
+    const int grid_cell_x = (right / field_D4_pPathData->field_C_grid_width);
+   
+    // Check within map bounds
+    if (grid_cell_x >= field_24_max_cams_x)
+    {
+        return nullptr;
+    }
+
+    if (grid_cell_y >= field_26_max_cams_y)
+    {
+        return nullptr;
+    }
+
+    // Get the offset to where the TLV list starts for this camera cell
+    const int* indexTable = reinterpret_cast<const int*>(*field_5C_path_res_array.field_0_pPathRecs[field_2_current_path] + field_D4_pPathData->field_18_object_index_table_offset);
+
+    int indexTableEntry = indexTable[(grid_cell_x + (grid_cell_y * field_24_max_cams_x))];
+    if (indexTableEntry == -1 || indexTableEntry >= 0x100000)
+    {
+        return nullptr;
+    }
+
+    Path_TLV* pTlvIter = reinterpret_cast<Path_TLV*>(*field_5C_path_res_array.field_0_pPathRecs[field_2_current_path] + indexTableEntry + field_D4_pPathData->field_14_object_offset);
+    pTlvIter->RangeCheck();
+
+    while (right > pTlvIter->field_14_bottom_right.field_0_x
+        || left < pTlvIter->field_10_top_left.field_0_x
+        || bottom < pTlvIter->field_10_top_left.field_2_y
+        || top > pTlvIter->field_14_bottom_right.field_2_y
+        || pTlvIter->field_4_type != typeToFind)
+    {
+        if (pTlvIter->field_0_flags.Get(eBit3_End_TLV_List))
+        {
+            return nullptr;
+        }
+
+        pTlvIter = Path_TLV::Next_446460(pTlvIter);
+        pTlvIter->RangeCheck();
+    }
+    return pTlvIter;
 }
 
-Path_TLV* CCSTD Map::TLV_Next_Of_Type_446500(Path_TLV* /*pTlv*/, unsigned __int16 /*type*/)
+Path_TLV* Map::TLV_Get_At_446060(Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP height)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    bool bContinue = true;
+
+    const auto xpos_converted = FP_GetExponent(xpos);
+    const auto ypos_converted = FP_GetExponent(ypos);
+    auto width_converted = FP_GetExponent(width);
+    auto height_converted = FP_GetExponent(height);
+
+    if (xpos_converted < 0 || ypos_converted < 0)
+    {
+        bContinue = false;
+    }
+
+    if (width_converted < 0 || height_converted < 0)
+    {
+        width_converted = FP_GetExponent(xpos);
+        height_converted = FP_GetExponent(ypos);
+    }
+
+    if (!pTlv)
+    {
+        const PathData* pPathData = field_D4_pPathData;
+
+        const auto camX = xpos_converted / pPathData->field_C_grid_width;
+        const auto camY = ypos_converted / pPathData->field_E_grid_height;
+
+        if (camX >= field_24_max_cams_x || camY >= field_26_max_cams_y)
+        {
+            return nullptr;
+        }
+
+        if (camX < 0 || camY < 0)
+        {
+            return nullptr;
+        }
+
+        BYTE* ppPathRes = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
+        const int* pIndexTable = reinterpret_cast<const int*>(ppPathRes + pPathData->field_18_object_index_table_offset);
+        const int indexTableEntry = pIndexTable[camX + (field_24_max_cams_x * camY)];
+
+        if (indexTableEntry == -1 || indexTableEntry >= 0x100000)
+        {
+            return nullptr;
+        }
+
+        pTlv = reinterpret_cast<Path_TLV*>(&ppPathRes[pPathData->field_14_object_offset + indexTableEntry]);
+        pTlv->RangeCheck();
+
+        if (!bContinue || 
+            (xpos_converted <= pTlv->field_14_bottom_right.field_0_x &&
+             width_converted >= pTlv->field_10_top_left.field_0_x &&
+             height_converted >= pTlv->field_10_top_left.field_2_y &&
+             ypos_converted <= pTlv->field_14_bottom_right.field_2_y))
+        {
+            return pTlv;
+        }
+    }
+
+    if (pTlv->field_0_flags.Get(eBit3_End_TLV_List))
+    {
+        return nullptr;
+    }
+
+    while (1)
+    {
+        pTlv = Path_TLV::Next_446460(pTlv);
+        pTlv->RangeCheck();
+
+        if (!bContinue|| 
+            (xpos_converted <= pTlv->field_14_bottom_right.field_0_x &&
+            width_converted >= pTlv->field_10_top_left.field_0_x &&
+            height_converted >= pTlv->field_10_top_left.field_2_y &&
+            ypos_converted <= pTlv->field_14_bottom_right.field_2_y))
+        {
+            break;
+        }
+
+        if (pTlv->field_0_flags.Get(eBit3_End_TLV_List))
+        {
+            return 0;
+        }
+    }
+    return pTlv;
 }
 
 Path_TLV* Map::TLV_First_Of_Type_In_Camera_4464A0(unsigned __int16 type, int camX)
@@ -1182,9 +1357,38 @@ Path_TLV* Map::TLV_First_Of_Type_In_Camera_4464A0(unsigned __int16 type, int cam
     return pTlvIter;
 }
 
-EXPORT void Map::Load_Path_Items_445DA0(Camera* /*pCamera*/, __int16 /*kZero*/)
+void Map::Load_Path_Items_445DA0(Camera* pCamera, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (!pCamera)
+    {
+        return;
+    }
+
+    // Is camera resource loaded check
+    if (!(pCamera->field_30_flags & 1))
+    {
+        if (loadMode == 0)
+        {
+            // Async camera load
+            ResourceManager::LoadResourceFile_4551E0(
+                pCamera->field_1E_fileName,
+                Camera::On_Loaded_4447A0,
+                pCamera,
+                pCamera);
+            sCameraBeingLoaded_507C98 = pCamera;
+            Loader_446590(pCamera->field_14_cam_x, pCamera->field_16_cam_y, 1, -1);
+        }
+        else
+        {
+            // Blocking camera load
+            ResourceManager::LoadResourceFile_455270(pCamera->field_1E_fileName, pCamera, 0);
+            pCamera->field_30_flags |= 1u;
+            pCamera->field_C_ppBits = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Bits, pCamera->field_10_resId, 1, 0);
+            sCameraBeingLoaded_507C98 = pCamera;
+            Loader_446590(pCamera->field_14_cam_x, pCamera->field_16_cam_y, 2, -1);
+        }
+        sCameraBeingLoaded_507C98 = nullptr;
+    }
 }
 
 void Map::RestoreObjectStates_446A90(__int16* /*pSaveData*/)
@@ -1564,12 +1768,12 @@ void Map::GoTo_Camera_445050()
             Path_Door* pTlvIter = static_cast<Path_Door*>(TLV_First_Of_Type_In_Camera_4464A0(TlvTypes::Door_6, 0));
             while (pTlvIter->field_20_door_number != sActiveHero_507678->field_196_door_id)
             {
-                pTlvIter = static_cast<Path_Door*>(TLV_Next_Of_Type_446500(pTlvIter, TlvTypes::Door_6));
+                pTlvIter = static_cast<Path_Door*>(Path_TLV::TLV_Next_Of_Type_446500(pTlvIter, TlvTypes::Door_6));
             }
 
             const auto pCamPos = pScreenManager_4FF7C8->field_10_pCamPos;
-            const auto xpos = pScreenManager_4FF7C8->field_14 + ((pTlvIter->field_10 + pTlvIter->field_14) / 2) - FP_GetExponent(pCamPos->field_0_x);
-            const auto ypos = pScreenManager_4FF7C8->field_16 + pTlvIter->field_12  - FP_GetExponent(pCamPos->field_4_y);
+            const auto xpos = pScreenManager_4FF7C8->field_14 + ((pTlvIter->field_10_top_left.field_0_x + pTlvIter->field_14_bottom_right.field_0_x) / 2) - FP_GetExponent(pCamPos->field_0_x);
+            const auto ypos = pScreenManager_4FF7C8->field_16 + pTlvIter->field_10_top_left.field_2_y - FP_GetExponent(pCamPos->field_4_y);
             auto pCameraSwapperMem = ao_new<CameraSwapper>();
             pCameraSwapperMem->ctor_48C7A0(
                 field_34_camera_array[0]->field_C_ppBits,
@@ -1601,11 +1805,11 @@ void Map::Loader_446590(__int16 camX, __int16 camY, int loadMode, __int16 typeTo
         return;
     }
 
-    BYTE* ptr = pPathRes + objectTableIdx + field_D4_pPathData->field_14_offset;
+    BYTE* ptr = pPathRes + objectTableIdx + field_D4_pPathData->field_14_object_offset;
     Path_TLV* pPathTLV = reinterpret_cast<Path_TLV*>(ptr);
     pPathTLV->RangeCheck();
 
-    if (pPathTLV->field_4_type <= 0x100000 && pPathTLV->field_2_length <= 0x2000u && *(DWORD*)&pPathTLV->field_8_top_left <= 0x1000000) // TODO: top left checking seems wrong
+    if (pPathTLV->field_4_type <= 0x100000 && pPathTLV->field_2_length <= 0x2000u && pPathTLV->field_8 <= 0x1000000)
     {
         while (1)
         {
@@ -1642,10 +1846,41 @@ void Map::Loader_446590(__int16 camX, __int16 camY, int loadMode, __int16 typeTo
     }
 }
 
-EXPORT BYTE* Map::TLV_Reset_446870(unsigned int /*a2*/, __int16 /*a3*/, unsigned __int8 /*a4*/, char /*a5*/)
+EXPORT void Map::TLV_Reset_446870(unsigned int tlvOffset_levelId_PathId, __int16 hiFlags, char bSetCreated, char bBit2)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    TlvItemInfoUnion data;
+    data.all = tlvOffset_levelId_PathId;
+
+    if (data.parts.levelId == static_cast<int>(field_0_current_level))
+    {
+        const auto pBlyRec = Path_Get_Bly_Record_434650(static_cast<LevelIds>(data.parts.levelId), data.parts.pathId);
+
+        Path_TLV* pTlv = reinterpret_cast<Path_TLV*>((*field_5C_path_res_array.field_0_pPathRecs[data.parts.pathId]) + pBlyRec->field_4_pPathData->field_14_object_offset + data.parts.tlvOffset);
+
+        if (bBit2 & 1)
+        {
+            pTlv->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
+        }
+        else
+        {
+            pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
+        }
+
+        if (bSetCreated & 1)
+        {
+            pTlv->field_0_flags.Set(TLV_Flags::eBit1_Created);
+        }
+        else
+        {
+            pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
+        }
+
+        if (hiFlags != -1)
+        {
+            // Seems to be a blob per TLV specific bits
+            pTlv->field_1_unknown = static_cast<BYTE>(hiFlags);
+        }
+    }
 }
 
 
@@ -1774,6 +2009,30 @@ Path_TLV* CCSTD Path_TLV::Next_446460(Path_TLV* pTlv)
     BYTE* ptr = reinterpret_cast<BYTE*>(pTlv);
     BYTE* pNext = ptr + pTlv->field_2_length;
     return reinterpret_cast<Path_TLV*>(pNext);
+}
+
+EXPORT Path_TLV* CCSTD Path_TLV::TLV_Next_Of_Type_446500(Path_TLV* pTlv, unsigned __int16 type)
+{
+    pTlv->RangeCheck();
+
+    pTlv = Path_TLV::Next_446460(pTlv);
+    pTlv->RangeCheck();
+    if (!pTlv)
+    {
+        return nullptr;
+    }
+
+    while (pTlv->field_4_type != type)
+    {
+        pTlv = Path_TLV::Next_446460(pTlv);
+        pTlv->RangeCheck();
+        if (!pTlv)
+        {
+            return nullptr;
+        }
+    }
+
+    return pTlv;
 }
 
 END_NS_AO

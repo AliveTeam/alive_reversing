@@ -58,15 +58,16 @@ struct Path_TLV
     char field_1_unknown;
     __int16 field_2_length;
     int field_4_type;
-    PSX_Point field_8_top_left;
-    PSX_Point field_C_bottom_right;
-    __int16 field_10;
-    __int16 field_12;
-    __int16 field_14;
-    __int16 field_16;
+    int field_8;
+    PSX_Point field_C_sound_pos;
+    PSX_Point field_10_top_left;
+    PSX_Point field_14_bottom_right;
 
     // Note: Part of Path object in AE
     EXPORT static Path_TLV* CCSTD Next_446460(Path_TLV* pTlv);
+
+
+    EXPORT static Path_TLV* CCSTD TLV_Next_Of_Type_446500(Path_TLV* pTlv, unsigned __int16 type);
 
     // Some strange self terminate check that is inlined everywhere
     void RangeCheck()
@@ -116,7 +117,7 @@ public:
 
     EXPORT void Loader_446590(__int16 camX, __int16 camY, int loadMode, __int16 typeToLoad);
 
-    EXPORT BYTE* TLV_Reset_446870(unsigned int a2, __int16 a3, unsigned __int8 a4, char a5);
+    EXPORT void TLV_Reset_446870(unsigned int tlvOffset_levelId_PathId, __int16 hiFlags, char bSetCreated, char bBit2);
 
     EXPORT void RemoveObjectsWithPurpleLight_4440D0(__int16 bMakeInvisible);
 
@@ -141,9 +142,9 @@ public:
 
     EXPORT Path_TLV* TLV_First_Of_Type_In_Camera_4464A0(unsigned __int16 type, int camX);
 
-    EXPORT Path_TLV* CCSTD TLV_Next_Of_Type_446500(Path_TLV* pTlv, unsigned __int16 type);
-
     EXPORT Path_TLV* TLV_Get_At_446260(__int16 xpos, __int16 ypos, __int16 width, __int16 height, unsigned __int16 typeToFind);
+
+    EXPORT Path_TLV* TLV_Get_At_446060(Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP height);
 
     EXPORT CameraPos GetDirection_444A40(int level, int path, FP xpos, FP ypos);
 

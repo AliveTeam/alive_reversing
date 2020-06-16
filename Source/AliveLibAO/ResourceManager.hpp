@@ -1,5 +1,6 @@
 #pragma once
 
+#include "BaseGameObject.hpp"
 #include "FunctionFwd.hpp"
 
 START_NS_AO
@@ -19,6 +20,7 @@ public:
         Resource_Path = 0x68746150,
         Resource_Palt = 0x746C6150,
         Resource_FG1 = 0x20314746,
+        Resource_Bits = 0x73746942,
     };
 
     struct Header
@@ -30,6 +32,23 @@ public:
         DWORD field_C_id;
     };
     ALIVE_ASSERT_SIZEOF(Header, 0x10);
+
+    class ResourceManager_FileRecord : public BaseGameObject
+    {
+    public:
+        int field_10;
+        int field_14_fn;
+        int field_18;
+        int field_1C_array;
+        int field_20;
+        int field_24;
+        __int16 field_28_state;
+        __int16 field_2A;
+        int field_2C;
+    };
+    ALIVE_ASSERT_SIZEOF(ResourceManager_FileRecord, 0x30);
+
+    using TLoaderFn = std::add_pointer<void CC(Camera*)>::type;
 
     static EXPORT void CC CancelPendingResourcesFor_41EA60(BaseAliveGameObject* pObj);
 
@@ -44,6 +63,8 @@ public:
     static EXPORT void CC LoadingLoop_41EAD0(__int16 bShowLoadingIcon);
 
     static EXPORT __int16 CC LoadResourceFile_455270(const char* filename, Camera* pCam, int allocMethod);
+
+    static EXPORT ResourceManager_FileRecord* CC LoadResourceFile_4551E0(const char* pFileName, TLoaderFn fnOnLoad, Camera* pCamera1, Camera* pCamera2);
 
     static EXPORT void CC Free_Resource_Of_Type_455810(int type);
 

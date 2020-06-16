@@ -182,7 +182,7 @@ Path_TLV* Path::TLV_Get_At_4DB4B0(__int16 xpos, __int16 ypos, __int16 width, __i
         bottom = height;
     }
 
-    const int gird_cell_y = (top + bottom) / (2 * field_C_pPathData->field_C_grid_height);
+    const int grid_cell_y = (top + bottom) / (2 * field_C_pPathData->field_C_grid_height);
     const int grid_cell_x = (right + left) / (2 * field_C_pPathData->field_A_grid_width);
     
     // Check within map bounds
@@ -191,14 +191,14 @@ Path_TLV* Path::TLV_Get_At_4DB4B0(__int16 xpos, __int16 ypos, __int16 width, __i
         return nullptr;
     }
 
-    if (gird_cell_y >= field_8_cams_on_y)
+    if (grid_cell_y >= field_8_cams_on_y)
     {
         return nullptr;
     }
 
     // Get the offset to where the TLV list starts for this camera cell
     const int* indexTable = reinterpret_cast<const int*>(*field_10_ppRes + field_C_pPathData->field_16_object_indextable_offset);
-    const int indexTableEntry = indexTable[(grid_cell_x + (gird_cell_y * field_6_cams_on_x))];
+    const int indexTableEntry = indexTable[(grid_cell_x + (grid_cell_y * field_6_cams_on_x))];
     if (indexTableEntry == -1)
     {
         return nullptr;
@@ -252,25 +252,21 @@ Path_TLV* Path::TLV_Get_At_4DB290(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h)
             return nullptr;
         }
 
-        if (camX < 0)
-        {
-            return nullptr;
-        }
-
-        if ((ypos_converted + height_converted) / (2 * pPathData->field_C_grid_height) < 0)
+        if (camX < 0 || camY < 0)
         {
             return nullptr;
         }
 
         BYTE* pPathRes = *field_10_ppRes;
-        // TODO: Refactor to common method
-        const int indexTableEntry = *(int *)&pPathRes[4 * (camX + (field_6_cams_on_x * camY)) + pPathData->field_16_object_indextable_offset];
+        const int* pIndexTable = reinterpret_cast<const int*>(pPathRes + pPathData->field_16_object_indextable_offset);
+        const int indexTableEntry = pIndexTable[camX + (field_6_cams_on_x * camY)];
+        
         if (indexTableEntry == -1)
         {
             return nullptr;
         }
 
-        pTlv = (Path_TLV *)&pPathRes[pPathData->field_12_object_offset + indexTableEntry];
+        pTlv = reinterpret_cast<Path_TLV*>(&pPathRes[pPathData->field_12_object_offset + indexTableEntry]);
         if (!xyPosValid ||
             (xpos_converted <= pTlv->field_C_bottom_right.field_0_x &&
             width_converted >= pTlv->field_8_top_left.field_0_x &&
@@ -390,7 +386,6 @@ EXPORT void CCSTD Path::TLV_Reset_4DB8E0(unsigned int tlvOffset_levelId_PathId, 
 
             if (hiFlags != -1)
             {
-                // NOTE: Real game seems to have this as top 8 flags.. but only used as a byte ??
                 // Seems to be a blob per TLV specific bits
                 pTlv->field_1_unknown = static_cast<BYTE>(hiFlags);
             }
