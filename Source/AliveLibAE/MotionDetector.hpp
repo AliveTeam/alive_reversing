@@ -15,7 +15,7 @@ struct Path_MotionDetector : public Path_TLV
     __int16 field_1C_disable_id;
     __int16 field_1E_alarm_id;
     __int16 field_20_alarm_ticks;
-    __int16 field_22;
+    __int16 field_22_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MotionDetector, 0x24);
 

@@ -950,7 +950,7 @@ void Slig::M_Walking_2_4B5BC0()
                 if (sInputKey_Run_5550E8 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
                 {
                     field_124 = 1;
-                    field_F4 = 4;
+                    field_F4_previous_motion = eSligMotions::M_Running_4_4B6000;
                     field_F6_anim_frame = (field_20_animation.field_92_current_frame - 5) != 0 ? 13 : 5;
                     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                     {
@@ -1373,7 +1373,7 @@ void Slig::M_SlidingToStand_8_4B6520()
 					((!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) && sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4))))
                 {
                     field_F6_anim_frame = field_20_animation.field_92_current_frame;
-                    field_F4 = 9;
+                    field_F4_previous_motion = eSligMotions::M_SlidingTurn_9_4B6680;
                     field_124 = 1;
                 }
             }
@@ -1592,7 +1592,7 @@ void Slig::M_Recoil_19_4B8270()
                 if (sInputObject_5BD4E0.isPressed(sInputKey_ThrowItem_5550F4))
                 {
                     field_C4_velx = FP_FromInteger(0);
-                    field_F4 = 6;
+                    field_F4_previous_motion = eSligMotions::M_Shoot_6_4B55A0;
                     field_12C = sGnFrame_5C1B84 + 60;
                     field_F6_anim_frame = 2;
                     field_124 = 1;
@@ -5099,7 +5099,7 @@ void Slig::vUpdate_4B17C0()
         }
         else if (field_124)
         {
-            field_106_current_motion = field_F4;
+            field_106_current_motion = field_F4_previous_motion;
             vUpdateAnim_4B1320();
             field_20_animation.SetFrame_409D50(field_F6_anim_frame);
             field_124 = 0;
@@ -6501,7 +6501,7 @@ void Slig::PlayerControlRunningSlideStopOrTurn1_4B8790()
         return;
     }
 
-    field_F4 = 2;
+    field_F4_previous_motion = eSligMotions::M_Walking_2_4B5BC0;
     field_F6_anim_frame = 15;
     field_124 = 1;
 
@@ -6557,7 +6557,7 @@ void Slig::PlayerControlRunningSlideStopOrTurn1_4B85D0()
         return;
     }
 
-    field_F4 = 2;
+    field_F4_previous_motion = eSligMotions::M_Walking_2_4B5BC0;
     field_F6_anim_frame = 6;
     field_124 = 1;
 

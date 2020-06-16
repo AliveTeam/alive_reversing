@@ -190,8 +190,8 @@ Paramite* Paramite::ctor_4879B0(Path_Paramite* pTlv, int tlvInfo)
     field_144_attack_duration = pTlv->field_1A_attack_duration;
     field_14C_id = pTlv->field_1E_id;
 
-    field_178_flags.Set(Flags_178::eBit1, pTlv->field_20_hiss_before_attack & 1);
-    field_178_flags.Clear(Flags_178::eBit2);
+    field_178_flags.Set(Flags_178::eBit1_Hissing, pTlv->field_20_hiss_before_attack & 1);
+    field_178_flags.Clear(Flags_178::eBit2_Running);
     field_178_flags.Set(Flags_178::eBit4, pTlv->field_22_delete_when_far_away & 1);
     field_178_flags.Clear(Flags_178::eBit5);
     field_178_flags.Set(Flags_178::eBit8, pTlv->field_24_deadly_scratch & 1);
@@ -308,7 +308,7 @@ int CC Paramite::CreateFromSaveState_4855A0(const BYTE* pBuffer)
         pParamite->ctor_4879B0(pTlv, pState->field_3C_tlvInfo);
     }
 
-    if (pState->field_76_flags.Get(Paramite_State::eBit1))
+    if (pState->field_76_flags.Get(Paramite_State::eBit1_Unused))
     {
         sControlledCharacter_5C1B8C = pParamite;
     }
@@ -377,7 +377,7 @@ int CC Paramite::CreateFromSaveState_4855A0(const BYTE* pBuffer)
     pParamite->field_154 = InputObject::Command_To_Raw_45EE40(pState->field_72_input);
     pParamite->field_158 = pState->field_74;
 
-    pParamite->field_178_flags.Set(Flags_178::eBit2, pState->field_76_flags.Get(Paramite_State::eBit2));
+    pParamite->field_178_flags.Set(Flags_178::eBit2_Running, pState->field_76_flags.Get(Paramite_State::eBit2_Running));
     pParamite->field_178_flags.Set(Flags_178::eBit3, pState->field_76_flags.Get(Paramite_State::eBit3));
     pParamite->field_178_flags.Set(Flags_178::eBit5, pState->field_76_flags.Get(Paramite_State::eBit4));
     pParamite->field_178_flags.Set(Flags_178::eBit6, pState->field_76_flags.Get(Paramite_State::eBit5));
@@ -444,7 +444,7 @@ int Paramite::vGetSaveState_48F220(Paramite_State* pState)
     }
 
     pState->field_76_flags.Clear();
-    pState->field_76_flags.Set(Paramite_State::eBit1, this == sControlledCharacter_5C1B8C);
+    pState->field_76_flags.Set(Paramite_State::eBit1_Unused, this == sControlledCharacter_5C1B8C);
 
     pState->field_3C_tlvInfo = field_140_tlvInfo;
     pState->field_40_obj_id = ResolveId(field_118);
@@ -481,7 +481,7 @@ int Paramite::vGetSaveState_48F220(Paramite_State* pState)
     pState->field_72_input = InputObject::Raw_To_Command_45EF70(field_154);
     pState->field_74 = field_158;
 
-    pState->field_76_flags.Set(Paramite_State::eBit2, field_178_flags.Get(Flags_178::eBit2));
+    pState->field_76_flags.Set(Paramite_State::eBit2_Running, field_178_flags.Get(Flags_178::eBit2_Running));
     pState->field_76_flags.Set(Paramite_State::eBit3, field_178_flags.Get(Flags_178::eBit3));
     pState->field_76_flags.Set(Paramite_State::eBit5, field_178_flags.Get(Flags_178::eBit4));
     pState->field_76_flags.Set(Paramite_State::eBit6, field_178_flags.Get(Flags_178::eBit5));
@@ -1491,7 +1491,7 @@ __int16 Paramite::AI_ChasingAbe_State_6()
         return field_12C_brain_ret;
     }
 
-    if (field_178_flags.Get(Flags_178::eBit1))
+    if (field_178_flags.Get(Flags_178::eBit1_Hissing))
     {
         field_108_next_motion = eParamiteMotions::M_Hiss1_22_48C3E0;
     }
@@ -1514,7 +1514,7 @@ __int16 Paramite::AI_ChasingAbe_State_4()
         return field_12C_brain_ret;
     }
 
-    if (field_178_flags.Get(Flags_178::eBit1))
+    if (field_178_flags.Get(Flags_178::eBit1_Hissing))
     {
         field_130_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(0, 6);
         return AI_ChasingAbe::eState2_ToWarning_2;
@@ -1770,7 +1770,7 @@ __int16 Paramite::AI_ChasingAbe_State_5(BaseAliveGameObject* pObj)
         }
     }
 
-    if (field_130_timer > static_cast<int>(sGnFrame_5C1B84) && field_178_flags.Get(Flags_178::eBit1))
+    if (field_130_timer > static_cast<int>(sGnFrame_5C1B84) && field_178_flags.Get(Flags_178::eBit1_Hissing))
     {
         return field_12C_brain_ret;
     }
@@ -1922,7 +1922,7 @@ __int16 Paramite::AI_ChasingAbe_State_0(BaseAliveGameObject * pObj)
     {
         if (vIsFacingMe_4254A0(pObj))
         {
-            if (field_178_flags.Get(Flags_178::eBit1))
+            if (field_178_flags.Get(Flags_178::eBit1_Hissing))
             {
                 field_130_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(0, 6);
                 return AI_ChasingAbe::eState2_ToWarning_2;
@@ -3253,8 +3253,8 @@ void Paramite::M_Walking_2_48A2D0()
             {
                 if (sInputObject_5BD4E0.isPressed(sInputKey_Run_5550E8))
                 {
-                    field_178_flags.Set(Flags_178::eBit2);
-                    field_F4 = 3;
+                    field_178_flags.Set(Flags_178::eBit2_Running);
+                    field_F4_previous_motion = eParamiteMotions::M_Running_3_48AA00;
                     field_F6_anim_frame = 11;
                 }
 
@@ -3271,8 +3271,8 @@ void Paramite::M_Walking_2_48A2D0()
 
             if (field_108_next_motion == eParamiteMotions::M_Running_3_48AA00)
             {
-                field_178_flags.Set(Flags_178::eBit2);
-                field_F4 = 3;
+                field_178_flags.Set(Flags_178::eBit2_Running);
+                field_F4_previous_motion = eParamiteMotions::M_Running_3_48AA00;
                 field_F6_anim_frame = 11;
                 field_108_next_motion = -1;
                 if (!field_178_flags.Get(Flags_178::eBit3))
@@ -3637,8 +3637,8 @@ void Paramite::M_UNKNOWN_6_48A930()
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_178_flags.Set(Flags_178::eBit2);
-        field_F4 = 3;
+        field_178_flags.Set(Flags_178::eBit2_Running);
+        field_F4_previous_motion = eParamiteMotions::M_Running_3_48AA00;
         field_F6_anim_frame = 2;
     }
 
@@ -3745,8 +3745,8 @@ void Paramite::M_RunBegin_9_48AF10()
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_178_flags.Set(Flags_178::eBit2);
-        field_F4 = 3;
+        field_178_flags.Set(Flags_178::eBit2_Running);
+        field_F4_previous_motion = eParamiteMotions::M_Running_3_48AA00;
         field_F6_anim_frame = 2;
     }
 
@@ -5416,12 +5416,12 @@ void Paramite::vUpdate_4871B0()
 
             if (oldMotion == field_106_current_motion)
             {
-                if (field_178_flags.Get(Flags_178::eBit2))
+                if (field_178_flags.Get(Flags_178::eBit2_Running))
                 {
-                    field_106_current_motion = field_F4;
+                    field_106_current_motion = field_F4_previous_motion;
                     vUpdateAnim_487170();
                     field_20_animation.SetFrame_409D50(field_F6_anim_frame);
-                    field_178_flags.Clear(Flags_178::eBit2);
+                    field_178_flags.Clear(Flags_178::eBit2_Running);
                 }
             }
             else

@@ -1354,7 +1354,7 @@ void Fleech::vUpdate_42AB20()
         {
             if (field_128)
             {
-                field_106_current_motion = field_F4;
+                field_106_current_motion = field_F4_previous_motion;
                 SetAnim_429D80();
                 field_20_animation.SetFrame_409D50(field_F6_anim_frame);
                 field_128 = 0;

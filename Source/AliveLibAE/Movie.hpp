@@ -23,18 +23,18 @@ private:
 
     __int16 field_20;
     __int16 field_22_param5;
-    int field_24;
-    int field_28;
+    int field_24_padding;
+    int field_28_padding;
     BYTE** field_2C_ppRes;
-    int field_30;
-    int field_34;
+    int field_30_padding;
+    int field_34_padding;
     int field_38_param_1;
-    int field_3C;
-    int field_40;
+    int field_3C_unused;
+    int field_40_padding;
     char field_44_cd_loc_min;
     char field_45_cd_loc_sec;
-    char field_46;
-    char field_47;
+    char field_46_cd_loc_sector;
+    char field_47_padding;
 };
 ALIVE_ASSERT_SIZEOF(Movie, 0x48);
 

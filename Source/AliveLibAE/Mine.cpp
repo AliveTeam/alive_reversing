@@ -71,7 +71,7 @@ Mine * Mine::ctor_46B120(Path_Mine * pPath, TlvItemInfoUnion tlv)
 
     Animation_Init_424E10(784, 38, 0xDu, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kLandmineResID), 1, 1u);
 
-    field_118 = 0;
+    field_118_detonating = 0;
     field_6_flags.Set(Options::eInteractive_Bit8);
     field_6_flags.Set(Options::eCanExplode_Bit7);
 
@@ -170,7 +170,7 @@ Mine* Mine::vdtor_46B4C0(signed int flags)
 void Mine::dtor_46B4F0()
 {
     SetVTable(this, 0x546164); // vTbl_Mine_546164
-    if (field_118 == 1)
+    if (field_118_detonating == 1)
     {
         Path::TLV_Reset_4DB8E0(field_11C_tlv.all, -1, 0, 1);
     }
@@ -198,9 +198,9 @@ void Mine::Update_46B5D0()
         field_BC_ypos,
         0);
 
-    if (field_118)
+    if (field_118_detonating)
     {
-        if (field_118 == 1 && sGnFrame_5C1B84 >= field_120_gnframe)
+        if (field_118_detonating == 1 && sGnFrame_5C1B84 >= field_120_gnframe)
         {
             auto explosion = ae_new<BaseBomb>();
             if (explosion)
@@ -227,11 +227,11 @@ void Mine::Update_46B5D0()
         }
         if (Mine::IsColliding_46B8C0())
         {
-            field_118 = 1;
+            field_118_detonating = 1;
             field_120_gnframe = sGnFrame_5C1B84;
         }
     }
-    if (field_118 != 1)
+    if (field_118_detonating != 1)
     {
         BaseGameObject * pEventObj = Event_Get_422C00(kEventDeathReset);
         if (pEventObj || field_C2_lvl_number != gMap_5C3030.field_0_current_level ||
@@ -276,9 +276,9 @@ void Mine::ScreenChanged_46BAE0()
 
 void Mine::vOnPickUpOrSlapped_46B880()
 {
-    if (field_118 != 1)
+    if (field_118_detonating != 1)
     {
-        field_118 = 1;
+        field_118_detonating = 1;
         field_120_gnframe = sGnFrame_5C1B84 + 5;
     }
 }
@@ -290,8 +290,9 @@ void Mine::vOnThrowableHit_46BA40(BaseGameObject* /*pFrom*/)
     {
         pBomb->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
     }
+
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
-    field_118 = 1;
+    field_118_detonating = 1;
 }
 
 signed __int16 Mine::vTakeDamage_46BB20(BaseGameObject* pFrom)
@@ -317,8 +318,9 @@ signed __int16 Mine::vTakeDamage_46BB20(BaseGameObject* pFrom)
         {
             pBomb->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
         }
+
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        field_118 = 1;
+        field_118_detonating = 1;
         field_120_gnframe = sGnFrame_5C1B84;
         return 1;
     }

@@ -150,8 +150,8 @@ struct Paramite_State
 
     enum Flags_76 : __int16
     {
-        eBit1 = 0x1,
-        eBit2 = 0x2,
+        eBit1_Unused = 0x1,
+        eBit2_Running = 0x2,
         eBit3 = 0x4,
         eBit4 = 0x8,
         eBit5 = 0x10,
@@ -452,8 +452,8 @@ private:
     __int16 field_176;
     enum Flags_178 : __int16
     {
-        eBit1 = 0x1,
-        eBit2 = 0x2,
+        eBit1_Hissing = 0x1,
+        eBit2_Running = 0x2,
         eBit3 = 0x4,
         eBit4 = 0x8,
         eBit5 = 0x10,

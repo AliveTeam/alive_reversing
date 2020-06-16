@@ -800,7 +800,7 @@ void Scrab::vUpdate_4A3530()
             }
             else if (field_11E)
             {
-                field_106_current_motion = field_F4;
+                field_106_current_motion = field_F4_previous_motion;
                 vUpdateAnim_4A34F0();
                 field_20_animation.SetFrame_409D50(field_F6_anim_frame);
                 field_11E = 0;
