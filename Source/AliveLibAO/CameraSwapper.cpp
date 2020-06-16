@@ -7,11 +7,13 @@ START_NS_AO
 CameraSwapper* CameraSwapper::ctor_48C540(BYTE** /*ppBits*/, int /*movieId*/, int /*movieFlag*/, __int16 /*movieFlags*/, int /*a6*/, __int16 /*a7*/)
 {
     NOT_IMPLEMENTED();
+    return this;
 }
 
 CameraSwapper* CameraSwapper::ctor_48C5E0(BYTE** /*ppBits*/, int /*moviePos1*/, int /*movieId1*/, int /*moviePos2*/, int /*movieFlag1*/, __int16 /*movieFlags1*/, int /*movieVol1*/, __int16 /*movieFlag2*/, __int16 /*movieFlag2_1*/, __int16 /*movieFlags2_1*/, __int16 /*movieVol2*/)
 {
     NOT_IMPLEMENTED();
+    return this;
 }
 
 CameraSwapper* CameraSwapper::ctor_48C6B0(BYTE** /*ppBits*/, int /*moviePos1*/, int /*movieIds1*/, int /*moviePos2*/, int /*movieId2*/, int /*moviePos3*/, int /*movieId3*/, __int16 /*movieFlag1*/, int /*movieFlags1*/, __int16 /*movieVol1*/, __int16 /*movieFlag2*/, __int16 /*movieFlags2*/, __int16 /*movieVol2*/, __int16 /*movieFlag3*/, __int16 /*movieFlags3*/, __int16 /*movieVol3*/)
