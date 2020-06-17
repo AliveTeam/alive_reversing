@@ -354,6 +354,32 @@ ALIVE_VAR(1, 0x507C9C, short, sMap_bDoPurpleLightEffect_507C9C, 0);
 ALIVE_VAR(1, 0x507CA0, int, gSndChannels_507CA0, 0);
 ALIVE_VAR(1, 0x507668, short, sNumCamSwappers_507668, 0);
 
+
+void Map::ctor_static_443E10()
+{
+    gMap_507BA8.ctor();
+    atexit(Map::dtor_static_443E60);
+}
+
+
+void Map::dtor_static_443E60()
+{
+    gMap_507BA8.Shutdown_443F90();
+}
+
+void Map::ctor()
+{
+    for (int i = 0; i < ALIVE_COUNTOF(field_34_camera_array); i++)
+    {
+        field_34_camera_array[i] = nullptr;
+    }
+
+    field_5C_path_res_array = {};
+    field_D8 = 1;
+    field_DC_free_all_anim_and_palts = 0;
+    field_E0_save_data = nullptr;
+}
+
 void Map::Init_443EE0(LevelIds level, __int16 path, __int16 camera, CameraSwapEffects screenChangeEffect, __int16 fmvBaseId, __int16 forceChange)
 {
     field_34_camera_array[0] = nullptr;
@@ -877,6 +903,74 @@ Path_TLV* Map::Get_First_TLV_For_Offsetted_Camera_4463B0(__int16 cam_x_idx, __in
     Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(pPathData + indexTableEntry + field_D4_pPathData->field_14_object_offset);
     pTlv->RangeCheck();
     return pTlv;
+}
+
+void Map::SaveBlyData_446900(BYTE* pSaveBuffer)
+{
+    memcpy(pSaveBuffer, sSwitchStates_505568.mData, 256u);
+
+    BYTE* pAfterSwitchStates = pSaveBuffer + 256;
+    short path_number_start = 1;
+
+    if (gMapData_4CAB58.paths[static_cast<int>(field_0_current_level)].field_18_num_paths >= 1)
+    {
+        auto ppPathRes = &field_5C_path_res_array.field_0_pPathRecs[1];
+        do
+        {
+            auto pPathRec = Path_Get_Bly_Record_434650(field_0_current_level, path_number_start);
+            if (pPathRec->field_0_blyName)
+            {
+                auto pPathData = pPathRec->field_4_pPathData;
+                auto pPathRes = **ppPathRes;
+                
+                if ((pPathData->field_A_bBottom - pPathData->field_6_bRight) / pPathData->field_E_grid_height * 
+                   ((pPathData->field_8_bTop - pPathData->field_4_bLeft)  / pPathData->field_C_grid_width) > 0)
+                {
+                    int* pIndexTable = reinterpret_cast<int*>(&pPathRes[pPathData->field_18_object_index_table_offset]);
+                    int totalCellsCount = (pPathData->field_A_bBottom - pPathData->field_6_bRight) / pPathData->field_E_grid_height *
+                                         ((pPathData->field_8_bTop - pPathData->field_4_bLeft) / pPathData->field_C_grid_width);
+                    do
+                    {
+                        int index_table_value = *pIndexTable;
+                        if (*pIndexTable != -1 && index_table_value < 0x100000)
+                        {
+                            Path_TLV* pTlv = (Path_TLV*)&pPathRes[pPathData->field_14_object_offset + index_table_value];
+                            pTlv->RangeCheck();
+
+                            while (1)
+                            {
+                                if (pTlv->field_0_flags.Get(eBit1_Created))
+                                {
+                                    pTlv->field_0_flags.Clear(eBit1_Created);
+                                    pTlv->field_0_flags.Clear(eBit2_Unknown);
+                                }
+
+                                // Save the flags
+                                *pAfterSwitchStates = pTlv->field_0_flags.Raw().all;
+                                pAfterSwitchStates++;
+                                *pAfterSwitchStates = pTlv->field_1_unknown;
+                                pAfterSwitchStates++;
+
+                                if (pTlv->field_0_flags.Get(eBit3_End_TLV_List))
+                                {
+                                    break;
+                                }
+                                
+                                index_table_value += pTlv->field_2_length;
+
+                                pTlv = Path_TLV::Next_446460(pTlv);
+                                pTlv->RangeCheck();
+                            }
+                        }
+                        pIndexTable++;
+                        totalCellsCount--;
+                    } while (totalCellsCount != 0);
+                }
+            }
+            path_number_start++;
+            ppPathRes++;
+        } while (path_number_start <= gMapData_4CAB58.paths[static_cast<int>(field_0_current_level)].field_18_num_paths);
+    }
 }
 
 void Map::Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos direction, __int16 cam_x_idx, __int16 cam_y_idx)

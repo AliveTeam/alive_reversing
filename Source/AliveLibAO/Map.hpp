@@ -102,6 +102,11 @@ public:
         eMapBottom_3 = 3,
     };
 
+    EXPORT static void ctor_static_443E10();
+    EXPORT static void dtor_static_443E60();
+
+    void ctor();
+
     EXPORT void Init_443EE0(LevelIds level, __int16 path, __int16 camera, CameraSwapEffects screenChangeEffect, __int16 fmvBaseId, __int16 forceChange);
     
     EXPORT void Shutdown_443F90();
@@ -166,6 +171,8 @@ public:
 
     // NOTE: Part of Path object in AE
     EXPORT Path_TLV* Get_First_TLV_For_Offsetted_Camera_4463B0(__int16 camX, __int16 camY);
+
+    EXPORT void SaveBlyData_446900(BYTE* pSaveBuffer);
 
     LevelIds field_0_current_level;
     __int16 field_2_current_path;
