@@ -23,6 +23,8 @@
 #include "LvlArchive.hpp"
 #include "Collisions.hpp"
 #include "Events.hpp"
+#include "SwitchStates.hpp"
+#include "Sfx.hpp"
 
 START_NS_AO
 
@@ -34,14 +36,6 @@ ALIVE_VAR(1, 0x507678, Abe*, sActiveHero_507678, nullptr);
 ALIVE_VAR(1, 0x507680, BaseAliveGameObject*, gElum_507680, nullptr);
 ALIVE_VAR(1, 0x50767C, BaseAliveGameObject*, sControlledCharacter_50767C, nullptr);
 ALIVE_VAR(1, 0x507C98, Camera*, sCameraBeingLoaded_507C98, nullptr);
-
-struct SwitchStates
-{
-    char mData[256];
-};
-
-ALIVE_VAR(1, 0x505568, SwitchStates, sSwitchStates_505568, {});
-
 
 struct OverlayRecord
 {
@@ -311,12 +305,6 @@ EXPORT void CC SsUtAllKeyOff_49EDE0(int /*a1*/)
 }
 
 EXPORT int CC ConvertScale_41FA10(FP /*scale*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-EXPORT int CC SFX_Play_43AE60(unsigned __int8 /*sfxId*/, int /*volume*/, int /*pitch*/, BaseAnimatedWithPhysicsGameObject* /*pObj*/)
 {
     NOT_IMPLEMENTED();
     return 0;

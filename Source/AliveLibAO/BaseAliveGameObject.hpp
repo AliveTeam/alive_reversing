@@ -16,6 +16,10 @@ enum class CameraPos : __int16;
 class BaseAliveGameObject : public BaseAnimatedWithPhysicsGameObject
 {
 public:
+    EXPORT BaseAliveGameObject* ctor_401090();
+
+    EXPORT BaseAliveGameObject* dtor_401000();
+
     // TODO: Non empty so standalone builds
 
     // TODO: Part of base?
@@ -30,7 +34,7 @@ public:
     virtual void VSetXSpawn(__int16 /*camWorldX*/, int /*screenXPos*/) {}
     virtual void VSetYSpawn(int /*camWorldY*/, __int16 /*bLeft*/) {}
     virtual void VOnPathTransition(__int16 /*camWorldX*/, int /*camWorldY*/, CameraPos /*direction*/) {}
-    virtual __int16 VTakeDamage(BaseGameObject* /*pFrom*/) {}
+    virtual __int16 VTakeDamage(BaseGameObject* /*pFrom*/) { return 0; }
     virtual void VOn_TLV_Collision(Path_TLV* /*pTlv*/) {}
     virtual void VCheckCollisionLineStillValid(int /*distance*/) {}
     virtual void VOnPickUpOrSlapped2() {}
@@ -48,7 +52,7 @@ public:
     LiftPoint* field_F8_pLiftPoint;
     __int16 field_FC_state;
     __int16 field_FE_next_state;
-    int field_100_health;
+    FP field_100_health;
     __int16 field_104_pending_resource_count;
     __int16 field_106_shot;
     __int16 field_108_bMotionChanged;
