@@ -87,5 +87,5 @@ to compile.
 - `CMake` -> `Build all` should now work.
 
 ### Notes
-- The output dll is hard coded to output at the locations AO_ROOT and AE_ROOT environmental variables, if they're not set to  `C:\GOG Games\Abes Exoddus\AliveDllAE.dll` and `C:\GOG Games\Abes Exoddus\AliveDllAO.dll`, accordingly.
+- The output dll is hard coded to output at the locations AO_ROOT and AE_ROOT environmental variables, if they're not set to  `C:\GOG Games\Abes Exoddus\AliveDllAO.dll` and `C:\GOG Games\Abes Exoddus\AliveDllAE.dll`, accordingly.
 - You need to either obtain a modified copy of `Exoddus.exe` or modify `Exoddus.exe` yourself to add `AliveDll.dll` to the imports list
