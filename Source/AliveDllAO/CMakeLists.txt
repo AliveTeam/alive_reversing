@@ -26,7 +26,7 @@ endif()
 if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
     add_custom_command(TARGET AliveDllAO
                        POST_BUILD
-					   COMMENT "Copying to game dir $ENV{AO_ROOT}"
+                       COMMENT "Copying to game dir $ENV{AO_ROOT}"
                        COMMAND if not exist  "$ENV{AO_ROOT}" mkdir "$ENV{AO_ROOT}"
                        COMMAND copy /y "$(OutDir)$(TargetName)$(TargetExt)" "$ENV{AO_ROOT}\\AliveDllAO.dll"
                        COMMAND copy /y "$(OutDir)$(TargetName).map" "$ENV{AO_ROOT}\\AliveDllAO.map")
