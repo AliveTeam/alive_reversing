@@ -48,7 +48,7 @@ struct PathData
     __int16 field_E_grid_height;
     __int16 field_10;
     __int16 field_12;
-    int field_14_offset;
+    int field_14_object_offset;
     int field_18_object_index_table_offset;
     PathFunctionTable field_1C_object_funcs;
 };

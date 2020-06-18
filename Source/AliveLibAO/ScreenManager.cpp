@@ -19,6 +19,12 @@ EXPORT void Camera::dtor_444700()
     NOT_IMPLEMENTED();
 }
 
+
+EXPORT void CC Camera::On_Loaded_4447A0(Camera* /*pThis*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 EXPORT void ScreenManager::MoveImage_406C40()
 {
     NOT_IMPLEMENTED();

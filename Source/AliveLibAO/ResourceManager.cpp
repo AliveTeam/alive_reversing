@@ -50,6 +50,13 @@ EXPORT __int16 CC ResourceManager::LoadResourceFile_455270(const char* /*filenam
     return 0;
 }
 
+
+EXPORT ResourceManager::ResourceManager_FileRecord* CC ResourceManager::LoadResourceFile_4551E0(const char* /*pFileName*/, TLoaderFn /*fnOnLoad*/, Camera* /*pCamera1*/, Camera* /*pCamera2*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
 EXPORT void CC ResourceManager::LoadingLoop_41EAD0(__int16 /*bShowLoadingIcon*/)
 {
     NOT_IMPLEMENTED();

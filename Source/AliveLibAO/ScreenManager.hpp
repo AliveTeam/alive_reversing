@@ -15,6 +15,8 @@ public:
 
     EXPORT void dtor_444700();
 
+    EXPORT static void CC On_Loaded_4447A0(Camera* pThis);
+
     DynamicArrayT<BYTE*> field_0_array;
     BYTE** field_C_ppBits;
     int field_10_resId;

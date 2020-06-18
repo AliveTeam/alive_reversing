@@ -816,7 +816,7 @@ void Map::GoTo_Camera_481890()
 
     if (field_D8_restore_quick_save)
     {
-        QuikSave_RestoreObjectStates_D481890_4C9BE0(field_D8_restore_quick_save);
+        QuikSave_RestoreBlyData_D481890_4C9BE0(field_D8_restore_quick_save);
         field_D8_restore_quick_save = nullptr;
     }
 
