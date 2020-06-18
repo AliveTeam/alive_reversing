@@ -21,21 +21,28 @@ if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
    target_link_libraries(AliveDllAO Detours)
 endif()
 
+if (NOT DEFINED ENV{AO_ROOT})
+    message(WARNING "No AO_ROOT environment variable found, resorting to the default path")
+    set(AO_PATH "C:\\GOG Games\\AO" )
+else()
+	file(TO_CMAKE_PATH $ENV{AO_ROOT} AO_PATH)
+endif()
+
 # Ninja will die when it sees $(OutDir) as it does not understand what it means, therefore if using msvc only
 # use these vars if its msvc and a native vcxproj.
 if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
     add_custom_command(TARGET AliveDllAO
                        POST_BUILD
-                       COMMAND if not exist  "C:\\GOG Games\\AO" mkdir "C:\\GOG Games\\AO"
-                       COMMAND copy /y "$(OutDir)$(TargetName)$(TargetExt)" "C:\\GOG Games\\AO\\AliveDllAO.dll"
-                       COMMAND copy /y "$(OutDir)$(TargetName).map" "C:\\GOG Games\\AO\\AliveDllAO.map"
-                       COMMENT "Copying to game dir")
+                       COMMENT "Copying to game dir ${AO_PATH}"
+                       COMMAND if not exist "${AO_PATH}" mkdir "${AO_PATH}"
+                       COMMAND copy /y "$(OutDir)$(TargetName)$(TargetExt)" "${AO_PATH}\\AliveDllAO.dll"
+                       COMMAND copy /y "$(OutDir)$(TargetName).map" "${AO_PATH}\\AliveDllAO.map")
 endif()
 
 export(TARGETS AliveDllAO FILE AliveDllAO.cmake)
 install(TARGETS AliveDllAO DESTINATION .)
 
-install(FILES "C:\\GOG Games\\AO\\AliveDllAO.map" DESTINATION ".")
+install(FILES "${AO_PATH}\\AliveDllAO.map" DESTINATION ".")
 
 if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
     if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
