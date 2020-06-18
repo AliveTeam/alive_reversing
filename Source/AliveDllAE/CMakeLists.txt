@@ -34,8 +34,8 @@ if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
                        POST_BUILD
                        COMMENT "Copying to game dir ${AE_PATH}"
                        COMMAND if not exist "${AE_PATH}" mkdir "${AE_PATH}"
-                       COMMAND copy /y "$(OutDir)$(TargetName)$(TargetExt)" "${AE_PATH}\\AliveDllE.dll"
-                       COMMAND copy /y "$(OutDir)$(TargetName).map" "${AE_PATH}\\AliveDllE.map")
+                       COMMAND copy /y "$(OutDir)$(TargetName)$(TargetExt)" "${AE_PATH}\\AliveDllAE.dll"
+                       COMMAND copy /y "$(OutDir)$(TargetName).map" "${AE_PATH}\\AliveDllAE.map")
 endif()
 
 export(TARGETS AliveDllAE FILE AliveDllAE.cmake)
