@@ -25,10 +25,11 @@ endif()
 if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
     add_custom_command(TARGET AliveDllAE
                        POST_BUILD
-                       COMMAND if not exist  "C:\\GOG Games\\Abes Exoddus" mkdir "C:\\GOG Games\\Abes Exoddus"
-                       COMMAND copy /y "$(OutDir)$(TargetName)$(TargetExt)" "C:\\GOG Games\\Abes Exoddus\\AliveDllAE.dll"
-                       COMMAND copy /y "$(OutDir)$(TargetName).map" "C:\\GOG Games\\Abes Exoddus\\AliveDllAE.map"
-                       COMMENT "Copying to game dir")
+					   COMMENT "Copying to game dir $ENV{AE_ROOT}"
+                       COMMAND if not exist  "$ENV{AE_ROOT}" mkdir "$ENV{AE_ROOT}"
+                       COMMAND copy /y "$(OutDir)$(TargetName)$(TargetExt)" "$ENV{AE_ROOT}\\AliveDllAO.dll"
+                       COMMAND copy /y "$(OutDir)$(TargetName).map" "$ENV{AE_ROOT}\\AliveDllAO.map"
+					   )
 endif()
 
 export(TARGETS AliveDllAE FILE AliveDllAE.cmake)

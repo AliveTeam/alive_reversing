@@ -26,16 +26,16 @@ endif()
 if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
     add_custom_command(TARGET AliveDllAO
                        POST_BUILD
-                       COMMAND if not exist  "C:\\GOG Games\\AO" mkdir "C:\\GOG Games\\AO"
-                       COMMAND copy /y "$(OutDir)$(TargetName)$(TargetExt)" "C:\\GOG Games\\AO\\AliveDllAO.dll"
-                       COMMAND copy /y "$(OutDir)$(TargetName).map" "C:\\GOG Games\\AO\\AliveDllAO.map"
-                       COMMENT "Copying to game dir")
+					   COMMENT "Copying to game dir $ENV{AO_ROOT}"
+                       COMMAND if not exist  "$ENV{AO_ROOT}" mkdir "$ENV{AO_ROOT}"
+                       COMMAND copy /y "$(OutDir)$(TargetName)$(TargetExt)" "$ENV{AO_ROOT}\\AliveDllAO.dll"
+                       COMMAND copy /y "$(OutDir)$(TargetName).map" "$ENV{AO_ROOT}\\AliveDllAO.map")
 endif()
 
 export(TARGETS AliveDllAO FILE AliveDllAO.cmake)
 install(TARGETS AliveDllAO DESTINATION .)
 
-install(FILES "C:\\GOG Games\\AO\\AliveDllAO.map" DESTINATION ".")
+install(FILES "$ENV{AO_ROOT}\\AliveDllAO.map" DESTINATION ".")
 
 if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
     if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
