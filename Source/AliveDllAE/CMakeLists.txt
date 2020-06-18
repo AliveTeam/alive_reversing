@@ -22,7 +22,9 @@ endif()
 
 if (NOT DEFINED ENV{AE_ROOT})
     message(WARNING "No AE_ROOT environment variable found, resorting to the default path")
-    set(ENV{AE_ROOT} "C:\\GOG Games\\Abes Exoddus" )
+    set(AE_PATH "C:\\GOG Games\\Abes Exoddus" )
+else()
+    set(AE_PATH $ENV{AE_ROOT} )
 endif()
 
 # Ninja will die when it sees $(OutDir) as it does not understand what it means, therefore if using msvc only
@@ -30,16 +32,16 @@ endif()
 if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
     add_custom_command(TARGET AliveDllAE
                        POST_BUILD
-                       COMMENT "Copying to game dir $ENV{AE_ROOT}"
-                       COMMAND if not exist  "$ENV{AE_ROOT}" mkdir "$ENV{AE_ROOT}"
-                       COMMAND copy /y "$(OutDir)$(TargetName)$(TargetExt)" "$ENV{AE_ROOT}\\AliveDllE.dll"
-                       COMMAND copy /y "$(OutDir)$(TargetName).map" "$ENV{AE_ROOT}\\AliveDllE.map")
+                       COMMENT "Copying to game dir ${AE_PATH}"
+                       COMMAND if not exist "${AE_PATH}" mkdir "${AE_PATH}"
+                       COMMAND copy /y "$(OutDir)$(TargetName)$(TargetExt)" "${AE_PATH}\\AliveDllE.dll"
+                       COMMAND copy /y "$(OutDir)$(TargetName).map" "${AE_PATH}\\AliveDllE.map")
 endif()
 
 export(TARGETS AliveDllAE FILE AliveDllAE.cmake)
 install(TARGETS AliveDllAE DESTINATION .)
 
-install(FILES "$ENV{AE_ROOT}\\AliveDllAE.map" DESTINATION ".")
+install(FILES "${AE_PATH}\\AliveDllAE.map" DESTINATION ".")
 
 if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
     if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
