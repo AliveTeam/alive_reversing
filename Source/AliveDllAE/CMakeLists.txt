@@ -28,14 +28,13 @@ if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
 					   COMMENT "Copying to game dir $ENV{AE_ROOT}"
                        COMMAND if not exist  "$ENV{AE_ROOT}" mkdir "$ENV{AE_ROOT}"
                        COMMAND copy /y "$(OutDir)$(TargetName)$(TargetExt)" "$ENV{AE_ROOT}\\AliveDllAO.dll"
-                       COMMAND copy /y "$(OutDir)$(TargetName).map" "$ENV{AE_ROOT}\\AliveDllAO.map"
-					   )
+                       COMMAND copy /y "$(OutDir)$(TargetName).map" "$ENV{AE_ROOT}\\AliveDllAO.map")
 endif()
 
 export(TARGETS AliveDllAE FILE AliveDllAE.cmake)
 install(TARGETS AliveDllAE DESTINATION .)
 
-install(FILES "C:\\GOG Games\\Abes Exoddus\\AliveDllAE.map" DESTINATION ".")
+install(FILES "$ENV{AE_ROOT}\\AliveDllAE.map" DESTINATION ".")
 
 if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
     if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
