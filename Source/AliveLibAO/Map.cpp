@@ -907,69 +907,104 @@ Path_TLV* Map::Get_First_TLV_For_Offsetted_Camera_4463B0(__int16 cam_x_idx, __in
 
 void Map::SaveBlyData_446900(BYTE* pSaveBuffer)
 {
-    memcpy(pSaveBuffer, sSwitchStates_505568.mData, 256u);
+    memcpy(pSaveBuffer, sSwitchStates_505568.mData, sizeof(sSwitchStates_505568.mData));
 
-    BYTE* pAfterSwitchStates = pSaveBuffer + 256;
-    short path_number_start = 1;
-
-    if (gMapData_4CAB58.paths[static_cast<int>(field_0_current_level)].field_18_num_paths >= 1)
+    BYTE* pAfterSwitchStates = pSaveBuffer + sizeof(sSwitchStates_505568.mData);
+    for (short i = 1; i <= gMapData_4CAB58.paths[static_cast<int>(field_0_current_level)].field_18_num_paths; i++)
     {
-        auto ppPathRes = &field_5C_path_res_array.field_0_pPathRecs[1];
-        do
+        const PathBlyRec* pPathRec = Path_Get_Bly_Record_434650(field_0_current_level, i);
+        if (pPathRec->field_0_blyName)
         {
-            auto pPathRec = Path_Get_Bly_Record_434650(field_0_current_level, path_number_start);
-            if (pPathRec->field_0_blyName)
+            auto ppPathRes = field_5C_path_res_array.field_0_pPathRecs[i];
+            const PathData* pPathData = pPathRec->field_4_pPathData;
+
+            const int totalCellsCount = 
+                (pPathData->field_A_bBottom - pPathData->field_6_bRight) / pPathData->field_E_grid_height *
+                ((pPathData->field_8_bTop - pPathData->field_4_bLeft) / pPathData->field_C_grid_width);
+
+            for (int j = 0; j < totalCellsCount; j++)
             {
-                auto pPathData = pPathRec->field_4_pPathData;
-                auto pPathRes = **ppPathRes;
-                
-                if ((pPathData->field_A_bBottom - pPathData->field_6_bRight) / pPathData->field_E_grid_height * 
-                   ((pPathData->field_8_bTop - pPathData->field_4_bLeft)  / pPathData->field_C_grid_width) > 0)
+                const int* pIndexTable = reinterpret_cast<const int*>(&(*ppPathRes)[pPathData->field_18_object_index_table_offset]);
+
+                if (pIndexTable[j] != -1 && pIndexTable[j] < 0x100000)
                 {
-                    int* pIndexTable = reinterpret_cast<int*>(&pPathRes[pPathData->field_18_object_index_table_offset]);
-                    int totalCellsCount = (pPathData->field_A_bBottom - pPathData->field_6_bRight) / pPathData->field_E_grid_height *
-                                         ((pPathData->field_8_bTop - pPathData->field_4_bLeft) / pPathData->field_C_grid_width);
-                    do
+                    Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(&(*ppPathRes)[pPathData->field_14_object_offset + pIndexTable[j]]);
+                    pTlv->RangeCheck();
+
+                    for (;;)
                     {
-                        int index_table_value = *pIndexTable;
-                        if (*pIndexTable != -1 && index_table_value < 0x100000)
+                        if (pTlv->field_0_flags.Get(eBit1_Created))
                         {
-                            Path_TLV* pTlv = (Path_TLV*)&pPathRes[pPathData->field_14_object_offset + index_table_value];
-                            pTlv->RangeCheck();
-
-                            while (1)
-                            {
-                                if (pTlv->field_0_flags.Get(eBit1_Created))
-                                {
-                                    pTlv->field_0_flags.Clear(eBit1_Created);
-                                    pTlv->field_0_flags.Clear(eBit2_Unknown);
-                                }
-
-                                // Save the flags
-                                *pAfterSwitchStates = pTlv->field_0_flags.Raw().all;
-                                pAfterSwitchStates++;
-                                *pAfterSwitchStates = pTlv->field_1_unknown;
-                                pAfterSwitchStates++;
-
-                                if (pTlv->field_0_flags.Get(eBit3_End_TLV_List))
-                                {
-                                    break;
-                                }
-                                
-                                index_table_value += pTlv->field_2_length;
-
-                                pTlv = Path_TLV::Next_446460(pTlv);
-                                pTlv->RangeCheck();
-                            }
+                            pTlv->field_0_flags.Clear(eBit1_Created);
+                            pTlv->field_0_flags.Clear(eBit2_Unknown);
                         }
-                        pIndexTable++;
-                        totalCellsCount--;
-                    } while (totalCellsCount != 0);
+
+                        // Save the flags
+                        *pAfterSwitchStates = pTlv->field_0_flags.Raw().all;
+                        pAfterSwitchStates++;
+                        *pAfterSwitchStates = pTlv->field_1_unknown;
+                        pAfterSwitchStates++;
+
+                        if (pTlv->field_0_flags.Get(eBit3_End_TLV_List))
+                        {
+                            break;
+                        }
+
+                        pTlv = Path_TLV::Next_446460(pTlv);
+                        pTlv->RangeCheck();
+                    }
                 }
             }
-            path_number_start++;
-            ppPathRes++;
-        } while (path_number_start <= gMapData_4CAB58.paths[static_cast<int>(field_0_current_level)].field_18_num_paths);
+        }
+    }
+}
+
+void Map::RestoreBlyData_446A90(const BYTE* pSaveData)
+{
+    memcpy(sSwitchStates_505568.mData, pSaveData, sizeof(sSwitchStates_505568.mData));
+    const BYTE* pAfterSwitchStates = pSaveData + sizeof(sSwitchStates_505568.mData);
+
+    for (short i = 1; i <= gMapData_4CAB58.paths[static_cast<int>(field_0_current_level)].field_18_num_paths; i++)
+    {
+        auto ppPathRes = field_5C_path_res_array.field_0_pPathRecs[i];
+        const PathBlyRec* pPathRec = Path_Get_Bly_Record_434650(field_0_current_level, i);
+        if (pPathRec->field_0_blyName)
+        {
+            const PathData* pPathData = pPathRec->field_4_pPathData;
+            const int* pIndexTable = reinterpret_cast<const int*>(&(*ppPathRes)[pPathData->field_18_object_index_table_offset]);
+            const int totalCameraCount = 
+                (pPathData->field_8_bTop - pPathData->field_4_bLeft) / pPathData->field_C_grid_width *
+                ((pPathData->field_A_bBottom - pPathData->field_6_bRight) / pPathData->field_E_grid_height);
+
+            for (int j = 0; j < totalCameraCount; j++)
+            {
+                const int index_table_value = pIndexTable[j];
+                if (index_table_value != -1 && index_table_value < 0x100000)
+                {
+                    auto pTlv = reinterpret_cast<Path_TLV*>(&(*ppPathRes)[pPathData->field_14_object_offset + index_table_value]);
+                    for (;;)
+                    {
+                        pTlv->RangeCheck();
+                        pTlv->field_0_flags.Raw().all = *pAfterSwitchStates;
+                        pAfterSwitchStates++;
+
+                        pTlv->field_1_unknown = *pAfterSwitchStates;
+                        pAfterSwitchStates++;
+                        if (pTlv->field_0_flags.Get(eBit3_End_TLV_List))
+                        {
+                            break;
+                        }
+
+                        pTlv = Path_TLV::Next_NoCheck(pTlv);
+                        pTlv->RangeCheck();
+                        if (pTlv->field_2_length == 0)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -1485,11 +1520,6 @@ void Map::Load_Path_Items_445DA0(Camera* pCamera, __int16 loadMode)
     }
 }
 
-void Map::RestoreObjectStates_446A90(__int16* /*pSaveData*/)
-{
-    NOT_IMPLEMENTED();
-}
-
 Camera* Map::Create_Camera_445BE0(__int16 xpos, __int16 ypos, int /*a4*/)
 {
     // Check min bound
@@ -1773,8 +1803,8 @@ void Map::GoTo_Camera_445050()
 
     if (field_E0_save_data)
     {
-        RestoreObjectStates_446A90(field_E0_save_data);
-        field_E0_save_data = 0;
+        RestoreBlyData_446A90(field_E0_save_data);
+        field_E0_save_data = nullptr;
     }
 
     // Copy camera array and blank out the source
@@ -2099,6 +2129,12 @@ Path_TLV* CCSTD Path_TLV::Next_446460(Path_TLV* pTlv)
         return nullptr;
     }
 
+    return Next_NoCheck(pTlv);
+}
+
+
+Path_TLV* Path_TLV::Next_NoCheck(Path_TLV* pTlv)
+{
     // Skip length bytes to get to the start of the next TLV
     BYTE* ptr = reinterpret_cast<BYTE*>(pTlv);
     BYTE* pNext = ptr + pTlv->field_2_length;
