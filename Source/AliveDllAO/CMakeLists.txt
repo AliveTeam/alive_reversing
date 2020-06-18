@@ -25,7 +25,7 @@ if (NOT DEFINED ENV{AO_ROOT})
     message(WARNING "No AO_ROOT environment variable found, resorting to the default path")
     set(AO_PATH "C:\\GOG Games\\AO" )
 else()
-    set(AO_PATH $ENV{AO_ROOT} )
+	file(TO_CMAKE_PATH $ENV{AO_ROOT} AO_PATH)
 endif()
 
 # Ninja will die when it sees $(OutDir) as it does not understand what it means, therefore if using msvc only

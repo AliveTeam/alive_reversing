@@ -24,7 +24,7 @@ if (NOT DEFINED ENV{AE_ROOT})
     message(WARNING "No AE_ROOT environment variable found, resorting to the default path")
     set(AE_PATH "C:\\GOG Games\\Abes Exoddus" )
 else()
-    set(AE_PATH $ENV{AE_ROOT} )
+	file(TO_CMAKE_PATH $ENV{AE_ROOT} AE_PATH)
 endif()
 
 # Ninja will die when it sees $(OutDir) as it does not understand what it means, therefore if using msvc only
