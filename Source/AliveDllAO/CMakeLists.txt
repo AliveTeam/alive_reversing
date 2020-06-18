@@ -21,6 +21,11 @@ if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
    target_link_libraries(AliveDllAO Detours)
 endif()
 
+if (NOT DEFINED ENV{AO_ROOT})
+    message(WARNING "No AO_ROOT environment variable found, resorting to the default path")
+    set(ENV{AO_ROOT} "C:\\GOG Games\\AO" )
+endif()
+
 # Ninja will die when it sees $(OutDir) as it does not understand what it means, therefore if using msvc only
 # use these vars if its msvc and a native vcxproj.
 if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")

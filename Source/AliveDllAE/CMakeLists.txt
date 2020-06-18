@@ -20,6 +20,11 @@ if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
    target_link_libraries(AliveDllAE Detours)
 endif()
 
+if (NOT DEFINED ENV{AE_ROOT})
+    message(WARNING "No AE_ROOT environment variable found, resorting to the default path")
+    set(ENV{AE_ROOT} "C:\\GOG Games\\Abes Exoddus" )
+endif()
+
 # Ninja will die when it sees $(OutDir) as it does not understand what it means, therefore if using msvc only
 # use these vars if its msvc and a native vcxproj.
 if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
@@ -27,8 +32,8 @@ if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
                        POST_BUILD
                        COMMENT "Copying to game dir $ENV{AE_ROOT}"
                        COMMAND if not exist  "$ENV{AE_ROOT}" mkdir "$ENV{AE_ROOT}"
-                       COMMAND copy /y "$(OutDir)$(TargetName)$(TargetExt)" "$ENV{AE_ROOT}\\AliveDllAO.dll"
-                       COMMAND copy /y "$(OutDir)$(TargetName).map" "$ENV{AE_ROOT}\\AliveDllAO.map")
+                       COMMAND copy /y "$(OutDir)$(TargetName)$(TargetExt)" "$ENV{AE_ROOT}\\AliveDllE.dll"
+                       COMMAND copy /y "$(OutDir)$(TargetName).map" "$ENV{AE_ROOT}\\AliveDllE.map")
 endif()
 
 export(TARGETS AliveDllAE FILE AliveDllAE.cmake)
