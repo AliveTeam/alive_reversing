@@ -50,7 +50,7 @@ public:
     Path_TLV* field_F0_pTlv;
     int field_F4_pLine;
     LiftPoint* field_F8_pLiftPoint;
-    __int16 field_FC_state;
+    __int16 field_FC_state; //todo enum
     __int16 field_FE_next_state;
     FP field_100_health;
     __int16 field_104_pending_resource_count;

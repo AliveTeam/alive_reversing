@@ -26,7 +26,7 @@ EXPORT RollingBallStopper* RollingBallStopper::ctor_43BCE0(Path_RollingBallStopp
 
     if (pTlv->field_1A_scale == 1)
     {
-        field_BC_scale = FP_FromDouble(0.5);
+        field_BC_sprite_scale = FP_FromDouble(0.5);
         field_C6 = 0;
     }
 
@@ -160,11 +160,11 @@ void RollingBallStopper::VUpdate_43BF70()
         break;
 
     case 1:
-        field_B8_vely += (field_BC_scale * FP_FromInteger(25));
-        if (field_B8_vely <= (field_BC_scale * FP_FromInteger(70)))
+        field_B8_vely += (field_BC_sprite_scale * FP_FromInteger(25));
+        if (field_B8_vely <= (field_BC_sprite_scale * FP_FromInteger(70)))
         {
             field_A8_xpos += field_B4_velx;
-            field_AC_ypos += (field_BC_scale * FP_FromInteger(25));
+            field_AC_ypos += (field_BC_sprite_scale * FP_FromInteger(25));
         }
         else
         {

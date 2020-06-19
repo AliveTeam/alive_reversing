@@ -25,7 +25,7 @@ BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::ctor_417C1
     field_C4_b = 105;
     field_C2_g = 105;
     field_C0_r = 105;
-    field_BC_scale = FP_FromInteger(1);
+    field_BC_sprite_scale = FP_FromInteger(1);
     field_C6 = 1;
     field_C8 = 5;
 
@@ -39,6 +39,11 @@ BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::ctor_417C1
 }
 
 void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(int /*frameTableOffset*/, int /*maxW*/, int /*maxH*/, BYTE** /*ppAnimData*/, __int16 /*a6*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(int** /*ot*/)
 {
     NOT_IMPLEMENTED();
 }

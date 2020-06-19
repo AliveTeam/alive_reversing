@@ -498,21 +498,21 @@ void Map::Handle_PathTransition_444DD0()
         switch (pTlv->field_22_scale)
         {
         case 0:
-            sActiveHero_507678->field_BC_scale = FP_FromInteger(1);
+            sActiveHero_507678->field_BC_sprite_scale = FP_FromInteger(1);
             sActiveHero_507678->field_10_anim.field_C_layer = 32;
             if (gElum_507680)
             {
-                gElum_507680->field_BC_scale = sActiveHero_507678->field_BC_scale;
+                gElum_507680->field_BC_sprite_scale = sActiveHero_507678->field_BC_sprite_scale;
                 gElum_507680->field_10_anim.field_C_layer = 28;
             }
             break;
 
         case 1:
-            sActiveHero_507678->field_BC_scale = FP_FromDouble(0.5);
+            sActiveHero_507678->field_BC_sprite_scale = FP_FromDouble(0.5);
             sActiveHero_507678->field_10_anim.field_C_layer = 13;
             if (gElum_507680)
             {
-                gElum_507680->field_BC_scale = sActiveHero_507678->field_BC_scale;
+                gElum_507680->field_BC_sprite_scale = sActiveHero_507678->field_BC_sprite_scale;
                 gElum_507680->field_10_anim.field_C_layer = 9;
             }
             break;
@@ -554,7 +554,7 @@ void Map::Handle_PathTransition_444DD0()
             {
                 field_18_pAliveObj->VSetXSpawn(
                     field_20_camX_idx * field_D4_pPathData->field_C_grid_width,
-                    ConvertScale_41FA10(field_18_pAliveObj->field_BC_scale) - 1);
+                    ConvertScale_41FA10(field_18_pAliveObj->field_BC_sprite_scale) - 1);
             }
             field_10_screenChangeEffect = CameraSwapEffects::eEffect2_RightToLeft;
             break;
@@ -644,11 +644,11 @@ void Map::RemoveObjectsWithPurpleLight_4440D0(__int16 bMakeInvisible)
                 PSX_RECT objRect = {};
                 pObjIter->VGetBoundingRect(&objRect, 1);
 
-                const FP k60Scaled = pObjIter->field_BC_scale * FP_FromInteger(60);
+                const FP k60Scaled = pObjIter->field_BC_sprite_scale * FP_FromInteger(60);
                 auto pPurpleLight = New_Particle_419D00(
                     FP_FromInteger((objRect.x + objRect.w) / 2),
                     FP_FromInteger((objRect.y + objRect.h) / 2) + k60Scaled,
-                    pObjIter->field_BC_scale);
+                    pObjIter->field_BC_sprite_scale);
 
                 if (pPurpleLight)
                 {

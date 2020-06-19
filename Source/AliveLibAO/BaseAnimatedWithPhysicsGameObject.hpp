@@ -20,6 +20,8 @@ public:
 
     EXPORT void Animation_Init_417FD0(int frameTableOffset, int maxW, int maxH, BYTE** ppAnimData, __int16 a6);
 
+    EXPORT void VRender_417DA0(int** ot);
+
     virtual void VOnCollisionWith(PSX_Point /*xy*/, PSX_Point /*wh*/, DynamicArray* /*pObjList*/, int /*startingPointIdx*/, void* /*pFn*/) {}
     virtual PSX_RECT* VGetBoundingRect(PSX_RECT* /*pRect*/, int /*pointIdx*/) { return nullptr;  }
     virtual __int16 VIsObjNearby(int /*radius*/, BaseAliveGameObject* /*pOtherObj*/) { return 0; }
@@ -40,7 +42,7 @@ public:
     LevelIds field_B2_level;
     FP field_B4_velx;
     FP field_B8_vely;
-    FP field_BC_scale;
+    FP field_BC_sprite_scale;
     __int16 field_C0_r;
     __int16 field_C2_g;
     __int16 field_C4_b;

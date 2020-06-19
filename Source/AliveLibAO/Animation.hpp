@@ -1,6 +1,7 @@
 #pragma once
 
 #include "FunctionFwd.hpp"
+#include "FixedPoint.hpp"
 #include "DynamicArray.hpp"
 #include "BitField.hpp"
 
@@ -108,7 +109,7 @@ public:
     // TODO: Above data part of base ?
 
     int field_10;
-    int field_14;
+    FP field_14_scale;
     int field_18;
     int field_1C_fn_ptrs;
     int field_20;
