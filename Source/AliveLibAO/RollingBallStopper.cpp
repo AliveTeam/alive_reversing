@@ -100,8 +100,8 @@ EXPORT RollingBallStopper* RollingBallStopper::ctor_43BCE0(Path_RollingBallStopp
         pNewLine = sCollisions_DArray_504C6C->Add_Dynamic_Collision_Line_40C8A0(x1, y1 - 35, x1, y1, 5);
     }
     field_118_pLine = pNewLine;
+     */
     return this;
-    */
 }
 
 BaseGameObject* RollingBallStopper::Vdtor_43C160(signed int flags)
