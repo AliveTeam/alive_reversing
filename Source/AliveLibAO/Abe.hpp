@@ -1,6 +1,7 @@
 #pragma once
 
 #include "FunctionFwd.hpp"
+#include "stdafx_ao.h"
 #include "BaseAliveGameObject.hpp"
 
 START_NS_AO;
@@ -71,6 +72,22 @@ public:
     __int16 field_2AA;
     int field_2AC;
     int field_2B0;
+
+
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual void VUpdate() override;
+    virtual void VRender(int** pOrderingTable) override;
+    virtual void VScreenChanged() override;
+
+    // Virtual impls
+    EXPORT BaseGameObject* vdtor_422A70(signed int flags);
+    EXPORT void vUpdate_41FDB0();
+    EXPORT void vRender_420F30(int** pOrderingTable);
+    EXPORT void vScreenChanged_422640();
+
+    EXPORT Abe* ctor_420770(int frameTableOffset, int a3, int a4, int a5);
 };
+
+ALIVE_VAR_EXTERN(Abe*, sActiveHero_5C1B68);
 
 END_NS_AO;

@@ -70,6 +70,10 @@ SET(AliveLibSrcAO
    Input.cpp
    GameSpeak.hpp
    GameSpeak.cpp
+   Abe.hpp
+   Abe.cpp
+   PauseMenu.hpp
+   PauseMenu.cpp
    DDCheat.hpp
    DDCheat.cpp
    CheatController.hpp
