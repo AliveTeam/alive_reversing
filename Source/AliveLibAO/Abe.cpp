@@ -43,9 +43,18 @@ void Abe::vUpdate_41FDB0()
     NOT_IMPLEMENTED();
 }
 
-void Abe::vRender_420F30(int** /*pOrderingTable*/)
+void Abe::vRender_420F30(int** pOrderingTable)
 {
-    NOT_IMPLEMENTED();
+    // When in death shrivel don't reset scale else can't shrivel into a black blob
+    if (!(field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel)))
+    {
+        field_10_anim.field_14_scale = field_BC_sprite_scale;
+    }
+
+    if (field_FC_state != 15 && field_FC_state != 81 && field_FC_state != 75)
+    {
+        VRender_417DA0(pOrderingTable);
+    }
 }
 
 void Abe::vScreenChanged_422640()

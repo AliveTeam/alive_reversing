@@ -9,6 +9,24 @@ START_NS_AO;
 class DeathFadeOut;
 class OrbWhirlWind;
 
+enum Flags_2A8
+{
+    e2A8_Bit1 = 0x1,
+    e2A8_Bit2 = 0x2,
+    e2A8_Bit3_Fall_To_Well = 0x4, //todo verify
+    e2A8_Bit4 = 0x8,
+    e2A8_Bit5 = 0x10,
+    e2A8_Bit6_bShrivel = 0x20,
+    e2A8_Bit7 = 0x40,
+    e2A8_Bit8 = 0x80,
+    e2A8_Bit9_bLaughAtChantEnd = 0x100, //todo verify
+    e2A8_Bit10 = 0x200,
+    e2A8_Bit11 = 0x400,
+    e2A8_Bit12 = 0x800,
+    e2A8_eBit13 = 0x1000,
+    e2A8_eBit14 = 0x2000,
+};
+
 class Abe : public BaseAliveGameObject
 {
 public:
@@ -79,7 +97,7 @@ public:
     __int16 field_19E;
     int field_1A0;
     BYTE** field_1A4_resources[65];
-    __int16 field_2A8_flags;
+    BitField16<Flags_2A8> field_2A8_flags;
     __int16 field_2AA;
     int field_2AC;
     int field_2B0;
