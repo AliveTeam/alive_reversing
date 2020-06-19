@@ -688,7 +688,7 @@ void Map::GoTo_Camera_481890()
         // Open LVL
         while (!sLvlArchive_5BC520.Open_Archive_432E80(pathData.field_20_lvl_name_cd))
         {
-            if (word_5C1BA0)
+            if (gAttract_5C1BA0)
             {
                 // NOTE: Dead branch? Given no attract directory exists
                 char fileName[256] = {};

@@ -685,7 +685,7 @@ EXPORT void CC Factory_Pulley_4D6A20(Path_TLV* , Path*, TlvItemInfoUnion, __int1
 
 EXPORT void CC Factory_AbeStart_4D9030(Path_TLV* pTlv, Path*, TlvItemInfoUnion, __int16 loadmode)
 {
-    if (loadmode != 1 && loadmode != 2 && !word_5C1BA0)
+    if (loadmode != 1 && loadmode != 2 && !gAttract_5C1BA0)
     {
         if (!pPauseMenu_5C9300)
         {
@@ -1667,7 +1667,7 @@ EXPORT void CC Factory_DemoSpawnPoint_4D6990(Path_TLV* , Path*, TlvItemInfoUnion
 { 
     if (loadMode != 1 && loadMode != 2)
     {
-        if (word_5C1BA0)
+        if (gAttract_5C1BA0)
         {
             if (!sDemoObj_dword_5D1E20)
             {

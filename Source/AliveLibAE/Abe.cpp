@@ -1730,7 +1730,7 @@ void Abe::vScreenChanged_44D240()
     // Level has changed?
     if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level)
     {
-        if (gMap_5C3030.field_A_level == LevelIds::eMines_1 && !word_5C1BA0)
+        if (gMap_5C3030.field_A_level == LevelIds::eMines_1 && !gAttract_5C1BA0)
         {
             field_128.field_18_say = MudSounds::eHelloNeutral_3;
             field_144_auto_say_timer = sGnFrame_5C1B84 + 35;

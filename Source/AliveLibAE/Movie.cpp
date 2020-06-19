@@ -666,7 +666,7 @@ void Movie::vUpdate_4E0030()
     {
         while (!DDV_Play_493210(sMovieNames_5CA348.mNames[sMovieNameIdx_5CA4C4].mName))
         {
-            if (word_5C1BA0)
+            if (gAttract_5C1BA0)
             {
                 break;
             }

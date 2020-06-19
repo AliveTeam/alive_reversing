@@ -83,7 +83,7 @@ ALIVE_VAR(1, 0x554D5C, Abe*, spAbe_554D5C, &stru_5C2A4C);
 
 
 ALIVE_VAR(1, 0x5C2F6C, DWORD, dword_5C2F6C, 0);
-ALIVE_VAR(1, 0x5C1BA0, WORD, word_5C1BA0, 0);
+ALIVE_VAR(1, 0x5C1BA0, WORD, gAttract_5C1BA0, 0);
 ALIVE_VAR(1, 0x5C2F70, DWORD, dword_5C2F70, 0);
 
 
@@ -487,7 +487,7 @@ EXPORT void CC Game_Run_466D40()
     // Begin start up
     SYS_EventsPump_494580();
     dword_5C2F6C = 6000;
-    word_5C1BA0 = 0;
+    gAttract_5C1BA0 = 0;
     dword_5C2F70 = 34;
     SYS_EventsPump_494580();
 

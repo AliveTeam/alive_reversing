@@ -599,7 +599,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     sEnableCheatLevelSelect_5C1BEE = 0;
     sKilledMudokons_5C1BC0 = 0;
     sRescuedMudokons_5C1BC2 = 0;
-    word_5C1BA0 = 0;
+    gAttract_5C1BA0 = 0;
     sSavedKilledMudsPerPath_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerPath_5C1B50.mData)-1]= 0;
     sFeeco_Restart_KilledMudCount_5C1BC6 = 0;
     sFeecoRestart_SavedMudCount_5C1BC8 = 0;
@@ -2098,7 +2098,7 @@ signed int MainMenuController::LoadDemo_Update_4D1040(DWORD)
         }
         sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(0);
         sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(0);
-        word_5C1BA0 = 1;
+        gAttract_5C1BA0 = 1;
 
         if (field_208_transition_obj)
         {
@@ -2146,7 +2146,7 @@ signed int MainMenuController::LoadDemo_Update_4D1040(DWORD)
 
 signed int MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
 {
-    word_5C1BA0 = 0;
+    gAttract_5C1BA0 = 0;
     word_5C1B9C = 0;
 
     int input_or_field_204 = input;

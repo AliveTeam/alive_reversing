@@ -5,6 +5,9 @@
 #include "ResourceManager.hpp"
 #include "stdlib.hpp"
 #include "RollingBallStopper.hpp"
+#include "Game.hpp"
+#include "Abe.hpp"
+#include "PauseMenu.hpp"
 
 START_NS_AO
 
@@ -230,9 +233,30 @@ EXPORT void Factory_HoneySack_485EF0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemI
 }
 
 
-EXPORT void Factory_AbeStart_486050(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_AbeStart_486050(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 loadmode)
 {
-    NOT_IMPLEMENTED();
+    if (loadmode != 1 && loadmode != 2 && !gAttract_507698)
+    {
+        if (!pPauseMenu_5080E0)
+        {
+            pPauseMenu_5080E0 = ao_new<PauseMenu>();
+            if (pPauseMenu_5080E0)
+            {
+                pPauseMenu_5080E0->ctor_48FB80();
+            }
+        }
+
+        if (!sActiveHero_5C1B68)
+        {
+            sActiveHero_5C1B68 = ao_new<Abe>();
+            if (sActiveHero_5C1B68)
+            {
+                sActiveHero_5C1B68->ctor_420770(58808, 85, 57, 55);
+                sActiveHero_5C1B68->field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
+                sActiveHero_5C1B68->field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+            }
+        }
+    }
 }
 
 

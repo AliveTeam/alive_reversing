@@ -674,7 +674,7 @@ void Command_DDV(const std::vector<std::string>& args)
     std::string filePath = args[0] + ".STR";
     while (!DDV_Play_493210(filePath.c_str()))
     {
-        if (word_5C1BA0)
+        if (gAttract_5C1BA0)
         {
             break;
         }
