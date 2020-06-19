@@ -1,4 +1,4 @@
-#pragma once
+#include "stdafx_ao.h"
 #include "Function.hpp"
 #include "PauseMenu.hpp"
 

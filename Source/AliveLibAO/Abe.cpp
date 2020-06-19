@@ -1,5 +1,4 @@
-#pragma once
-
+#include "stdafx_ao.h"
 #include "Function.hpp"
 #include "Abe.hpp"
 
