@@ -30,11 +30,13 @@ void Abe::VScreenChanged()
 Abe* Abe::ctor_420770(int /*frameTableOffset*/, int /*a3*/, int /*a4*/, int /*a5*/)
 {
     NOT_IMPLEMENTED();
+    return nullptr;
 }
 
 BaseGameObject* Abe::vdtor_422A70(signed int /*flags*/)
 {
     NOT_IMPLEMENTED();
+    return nullptr;
 }
 
 void Abe::vUpdate_41FDB0()
