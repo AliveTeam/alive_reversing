@@ -4,6 +4,7 @@
 #include "GasCountDown.hpp"
 #include "ResourceManager.hpp"
 #include "stdlib.hpp"
+#include "RollingBallStopper.hpp"
 
 START_NS_AO
 
@@ -354,24 +355,32 @@ EXPORT void Factory_SligLeftBound_482520(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvI
     NOT_IMPLEMENTED();
 }
 
-
 EXPORT void Factory_InvisibleZone_Null_481840(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
 {
     NOT_IMPLEMENTED();
 }
 
-
-EXPORT void Factory_RollingBallStopper_486B90(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_RollingBallStopper_486B90(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        ResourceManager::LoadResource_446C90("F2STNSCK.BAN", ResourceManager::Resource_Animation, 2003, loadMode);
+    }
+    else if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2003, FALSE, FALSE))
+    {
+        auto pRollingBallStopper = ao_new<RollingBallStopper>();
+        pRollingBallStopper->ctor_43BCE0(static_cast<Path_RollingBallStopper*>(pTlv), tlvOffsetLevelIdPathId.all);
+    }
+    else
+    {
+        gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+    }
 }
-
 
 EXPORT void Factory_FootSwitch_486C60(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
 {
     NOT_IMPLEMENTED();
 }
-
 
 EXPORT void Factory_SecurityOrb_486D50(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
 {

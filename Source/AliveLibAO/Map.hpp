@@ -65,7 +65,7 @@ struct Path_TLV
 
     // Note: Part of Path object in AE
     EXPORT static Path_TLV* CCSTD Next_446460(Path_TLV* pTlv);
-
+    static Path_TLV* Next_NoCheck(Path_TLV* pTlv);
 
     EXPORT static Path_TLV* CCSTD TLV_Next_Of_Type_446500(Path_TLV* pTlv, unsigned __int16 type);
 
@@ -141,7 +141,7 @@ public:
 
     EXPORT Camera* Create_Camera_445BE0(__int16 xpos, __int16 ypos, int a4);
 
-    EXPORT void RestoreObjectStates_446A90(__int16* pSaveData);
+    EXPORT void RestoreBlyData_446A90(const BYTE* pSaveData);
 
     EXPORT void Load_Path_Items_445DA0(Camera* pCamera, __int16 kZero);
 
@@ -204,7 +204,7 @@ public:
     __int16 field_DA_bMapChanged;
     __int16 field_DC_free_all_anim_and_palts;
     __int16 field_DE;
-    __int16* field_E0_save_data;
+    BYTE* field_E0_save_data;
 };
 
 ALIVE_ASSERT_SIZEOF(Map, 0xE4);

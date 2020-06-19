@@ -308,6 +308,10 @@ static void Main_ParseCommandLineArguments()
                 PSX_EMU_Set_screen_mode_499910(2);
             }
         }
+        // Force DDCheat
+#if DEVELOPER_MODE
+        gDDCheatMode_508BF8 = 1;
+#endif
     }
 
     if (!pCmdLine)

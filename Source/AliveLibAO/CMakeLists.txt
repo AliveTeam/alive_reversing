@@ -39,6 +39,7 @@ SET(AliveLibSrcAO
    Midi.hpp
    Midi.cpp
    BaseAnimatedWithPhysicsGameObject.hpp
+   BaseAnimatedWithPhysicsGameObject.cpp
    BaseAliveGameObject.hpp
    BaseAliveGameObject.cpp
    PsxDisplay.hpp
@@ -73,6 +74,12 @@ SET(AliveLibSrcAO
    DDCheat.cpp
    CheatController.hpp
    CheatController.cpp
+   RollingBallStopper.hpp
+   RollingBallStopper.cpp
+   SwitchStates.hpp
+   SwitchStates.cpp
+   Sfx.hpp
+   Sfx.cpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx_ao.h stdafx_ao.cpp AliveLibSrcAO)

@@ -2,6 +2,8 @@
 
 #include "FunctionFwd.hpp"
 
+struct PSX_RECT;
+
 START_NS_AO
 
 struct CollisionInfo;
@@ -19,6 +21,8 @@ public:
     int field_C;
 };
 ALIVE_ASSERT_SIZEOF(Collisions, 0x10);
+
+EXPORT PSX_RECT* CCSTD Rect_Clear_40C920(PSX_RECT* pRect);
 
 ALIVE_VAR_EXTERN(Collisions*, sCollisions_DArray_504C6C);
 
