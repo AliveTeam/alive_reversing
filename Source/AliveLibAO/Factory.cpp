@@ -12,6 +12,26 @@
 
 START_NS_AO
 
+template<size_t arraySize>
+struct CompileTimeResourceList
+{
+    int field_0_count = arraySize;
+    ResourceManager::ResourcesToLoadList_Entry field_4_items[arraySize];
+
+    CompileTimeResourceList(std::initializer_list<ResourceManager::ResourcesToLoadList_Entry> elements)
+    {
+        std::copy(std::begin(elements), std::end(elements), std::begin(field_4_items));
+    }
+
+    // HACK: Cast to memory layout compatible type as we can't pass template types into
+    // ResourceManager (this can be fixed when everything is decompiled by using a
+    // more sane compile time resource list type).
+    ResourceManager::ResourcesToLoadList* AsList()
+    {
+        return reinterpret_cast<ResourceManager::ResourcesToLoadList*>(this);
+    }
+};
+
 EXPORT void Factory_ContinuePoint_Null_4817D0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
 {
     NOT_IMPLEMENTED();
@@ -460,19 +480,16 @@ EXPORT void Factory_ChimeLock_4870D0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemI
     NOT_IMPLEMENTED();
 }
 
-
-ResourcesToLoadList unk_4BD418[4] = { //todo
-    { 3, 0x6D696E41 },
-    { 200, 0x6D696E41 },
-    { 230, 0x6D696E41 },
-    { 216, 0 }
-};
-
 EXPORT void Factory_ElumStart_Unknown_4873D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResourcesFromList_446E80("ELMSTART.BND", unk_4BD418, loadMode, 0);
+        static CompileTimeResourceList<3> kResources({
+            { ResourceManager::Resource_Animation, 200 },
+            { ResourceManager::Resource_Animation, 230 },
+            { ResourceManager::Resource_Animation, 216 },
+            });
+        ResourceManager::LoadResourcesFromList_446E80("ELMSTART.BND", kResources.AsList(), loadMode, 0);
     }
     else
     {

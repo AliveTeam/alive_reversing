@@ -10,24 +10,24 @@ class Camera;
 
 EXPORT void CC Game_ShowLoadingIcon_445EB0();
 
-struct ResourcesToLoadList_Entry
-{
-    DWORD field_0_type;
-    DWORD field_4_res_id;
-};
-ALIVE_ASSERT_SIZEOF(ResourcesToLoadList_Entry, 0x8);
-
-// TODO: Replace/combine with CompileTimeResourceList when everything is decompiled
-struct ResourcesToLoadList
-{
-    int field_0_count;
-    ResourcesToLoadList_Entry field_4_items[1];
-};
-ALIVE_ASSERT_SIZEOF(ResourcesToLoadList, 12);
-
 class ResourceManager
 {
 public:
+    struct ResourcesToLoadList_Entry
+    {
+        DWORD field_0_type;
+        DWORD field_4_res_id;
+    };
+    ALIVE_ASSERT_SIZEOF(ResourcesToLoadList_Entry, 0x8);
+
+    // TODO: Replace/combine with CompileTimeResourceList when everything is decompiled
+    struct ResourcesToLoadList
+    {
+        int field_0_count;
+        ResourcesToLoadList_Entry field_4_items[1];
+    };
+    ALIVE_ASSERT_SIZEOF(ResourcesToLoadList, 12);
+
     enum ResourceType : DWORD
     {
         Resource_Animation = 0x6D696E41,
@@ -93,5 +93,11 @@ public:
 ALIVE_VAR_EXTERN(short, bHideLoadingIcon_5076A0);
 ALIVE_VAR_EXTERN(int, loading_ticks_5076A4);
 
+enum ResourceID
+{
+    kUnknownResID_200 = 200,
+    kUnknownResID_216 = 216,
+    kUnknownResID_230 = 230
+};
 
 END_NS_AO
