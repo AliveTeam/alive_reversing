@@ -686,7 +686,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_122 = -1;
     field_20_animation.field_C_render_layer = 32;
     field_198_has_evil_fart = 0;
-    field_1A2_rock_or_bone_count = 0;
+    field_1A2_throwable_count = 0;
     field_158_throwable_id = -1;
     field_154_possesed_object_id = -1;
     field_150_OrbWhirlWind_id = -1;
@@ -971,7 +971,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_128.field_12_mood = pSaveState->mood;
     sActiveHero_5C1B68->field_128.field_18_say = pSaveState->say;
     sActiveHero_5C1B68->field_144_auto_say_timer = pSaveState->auto_say_timer;
-    sActiveHero_5C1B68->field_1A2_rock_or_bone_count = pSaveState->field_6c_rock_bone_count;
+    sActiveHero_5C1B68->field_1A2_throwable_count = pSaveState->field_6c_rock_bone_count;
     sActiveHero_5C1B68->field_168_ring_pulse_timer = pSaveState->ring_pulse_timer;
     sActiveHero_5C1B68->field_16C_bHaveShrykull = pSaveState->bHaveShrykull;
 
@@ -1699,7 +1699,7 @@ void Abe::ToKnockback_44E700(__int16 bUnknownSound, __int16 bDelayedAnger)
             field_158_throwable_id = -1;
             if (!gInfiniteGrenades_5C1BDE)
             {
-                field_1A2_rock_or_bone_count++;
+                field_1A2_throwable_count++;
             }
         }
     }
@@ -1741,15 +1741,15 @@ void Abe::vScreenChanged_44D240()
 
         if (gMap_5C3030.field_0_current_level != LevelIds::eNone)
         {
-            if (field_1A2_rock_or_bone_count > 0)
+            if (field_1A2_throwable_count > 0)
             {
                 if (gpThrowableArray_5D1E2C)
                 {
-                    gpThrowableArray_5D1E2C->Remove_49AA00(field_1A2_rock_or_bone_count);
+                    gpThrowableArray_5D1E2C->Remove_49AA00(field_1A2_throwable_count);
                 }
             }
 
-            field_1A2_rock_or_bone_count = 0;
+            field_1A2_throwable_count = 0;
 
             if (field_168_ring_pulse_timer > 0 && field_16C_bHaveShrykull)
             {
@@ -1891,7 +1891,7 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
     pSaveState->say = field_128.field_18_say;
     pSaveState->auto_say_timer = field_144_auto_say_timer;
     pSaveState->ring_pulse_timer = field_168_ring_pulse_timer;
-    pSaveState->field_6c_rock_bone_count = field_1A2_rock_or_bone_count;
+    pSaveState->field_6c_rock_bone_count = field_1A2_throwable_count;
     pSaveState->bHaveShrykull = static_cast<char>(field_16C_bHaveShrykull);
     pSaveState->bHaveInvisiblity = static_cast<char>(field_16E_bHaveInvisiblity);
 
@@ -2202,7 +2202,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
         }
 
         // The zap makes Abe drop his stuff everywhere
-        for (int i = 0; i < field_1A2_rock_or_bone_count; i++)
+        for (int i = 0; i < field_1A2_throwable_count; i++)
         {
             BaseThrowable* pThrowable = Make_Throwable_49AF30(
                 field_B8_xpos,
@@ -2218,7 +2218,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
             pThrowable->field_D6_scale = field_D6_scale;
             pThrowable->VTimeToExplodeRandom_411490(); // Start count down ?
         }
-        field_1A2_rock_or_bone_count = 0;
+        field_1A2_throwable_count = 0;
         break;
 
     case Types::eRockSpawner_48:
@@ -3273,7 +3273,7 @@ void Abe::State_0_Idle_44EEB0()
                 field_106_current_motion = HandleDoAction_455BD0();
             }
         }
-        else if (field_1A2_rock_or_bone_count > 0 || gInfiniteGrenades_5C1BDE)
+        else if (field_1A2_throwable_count > 0 || gInfiniteGrenades_5C1BDE)
         {
             field_158_throwable_id = Make_Throwable_49AF30(
                 field_B8_xpos,
@@ -3292,7 +3292,7 @@ void Abe::State_0_Idle_44EEB0()
                         field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(-50)),
                         field_20_animation.field_C_render_layer,
                         field_20_animation.field_14_scale,
-                        field_1A2_rock_or_bone_count,
+                        field_1A2_throwable_count,
                         TRUE);
                 }
             }
@@ -3301,7 +3301,7 @@ void Abe::State_0_Idle_44EEB0()
 
             if (!gInfiniteGrenades_5C1BDE)
             {
-                field_1A2_rock_or_bone_count--;
+                field_1A2_throwable_count--;
             }
         }
         else
@@ -4116,7 +4116,7 @@ void Abe::State_17_CrouchIdle_456BC0()
     // Crouching throw stuff
     if (sInputKey_ThrowItem_5550F4 & held
         && field_106_current_motion == eAbeStates::State_17_CrouchIdle_456BC0
-        && (field_1A2_rock_or_bone_count > 0 || gInfiniteGrenades_5C1BDE))
+        && (field_1A2_throwable_count > 0 || gInfiniteGrenades_5C1BDE))
     {
         field_158_throwable_id = Make_Throwable_49AF30(field_B8_xpos, field_BC_ypos - FP_FromInteger(40), 0)->field_8_object_id;
         if (!bThrowableIndicatorExists_5C112C)
@@ -4131,7 +4131,7 @@ void Abe::State_17_CrouchIdle_456BC0()
                     yOff,
                     field_20_animation.field_C_render_layer,
                     field_20_animation.field_14_scale,
-                    field_1A2_rock_or_bone_count,
+                    field_1A2_throwable_count,
                     1);
             }
         }
@@ -4140,7 +4140,7 @@ void Abe::State_17_CrouchIdle_456BC0()
 
         if (!gInfiniteGrenades_5C1BDE)
         {
-            field_1A2_rock_or_bone_count--;
+            field_1A2_throwable_count--;
         }
     }
     else
@@ -7306,7 +7306,7 @@ void Abe::State_104_RockThrowStandingHold_455DF0()
         field_106_current_motion = eAbeStates::State_106_RockThrowStandingEnd_455F20;
         if (!gInfiniteGrenades_5C1BDE)
         {
-            field_1A2_rock_or_bone_count++;
+            field_1A2_throwable_count++;
         }
     }
 }
@@ -7355,7 +7355,7 @@ void Abe::State_107_RockThrowCrouchingHold_454410()
         field_106_current_motion = eAbeStates::State_17_CrouchIdle_456BC0;
         if (!gInfiniteGrenades_5C1BDE)
         {
-            field_1A2_rock_or_bone_count++;
+            field_1A2_throwable_count++;
         }
     }
 }
@@ -7858,10 +7858,10 @@ void Abe::State_114_DoorEnter_459470()
 
         if (pDoorTlv->field_42_cancel_throwables)
         {
-            if (field_1A2_rock_or_bone_count > 0 && gpThrowableArray_5D1E2C)
+            if (field_1A2_throwable_count > 0 && gpThrowableArray_5D1E2C)
             {
-                gpThrowableArray_5D1E2C->Remove_49AA00(field_1A2_rock_or_bone_count);
-                field_1A2_rock_or_bone_count = 0;
+                gpThrowableArray_5D1E2C->Remove_49AA00(field_1A2_throwable_count);
+                field_1A2_throwable_count = 0;
             }
         }
 
@@ -8488,7 +8488,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, int fpY, int bStandToCrouch
         case Types::eMeat_84:
         case Types::eRock_105:
             field_106_current_motion = eAbeStates::State_111_GrabRock_4564A0;
-            field_1A2_rock_or_bone_count += static_cast<char>(static_cast<BaseThrowable*>(pSlapableOrCollectable)->VGetCount_448080()); // TOOD: Check types are correct
+            field_1A2_throwable_count += static_cast<char>(static_cast<BaseThrowable*>(pSlapableOrCollectable)->VGetCount_448080()); // TOOD: Check types are correct
             if (!bThrowableIndicatorExists_5C112C)
             {
                 auto pThrowableIndicator = ae_new<ThrowableTotalIndicator>();
@@ -8501,7 +8501,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, int fpY, int bStandToCrouch
                         yoff,
                         field_20_animation.field_C_render_layer,
                         field_20_animation.field_14_scale,
-                        field_1A2_rock_or_bone_count,
+                        field_1A2_throwable_count,
                         1);
                 }
             }

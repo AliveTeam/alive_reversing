@@ -94,7 +94,7 @@ public:
     __int16 field_194_camera;
     __int16 field_196_door_id;
     int field_198;
-    char field_19C;
+    char field_19C_throwable_count;
     char field_19D;
     __int16 field_19E;
     int field_1A0;

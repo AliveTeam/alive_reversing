@@ -11,7 +11,7 @@ public:
     EXPORT void VUpdate_4542B0();
     EXPORT void vScreenChange_454300();
 
-    EXPORT void sub_4540D0(char);
+    EXPORT void Remove_4540D0(char);
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;

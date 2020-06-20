@@ -91,11 +91,11 @@ void Abe::vScreenChanged_422640()
         SetTint_418750(sTintTable_Abe_4C6438, static_cast<short>(gMap_507BA8.field_A_level));
         if (gMap_507BA8.field_0_current_level != LevelIds::eMenu_0)
         {
-            if (field_19C && gpThrowableArray_50E26C)
+            if (field_19C_throwable_count > 0 && gpThrowableArray_50E26C)
             {
-                gpThrowableArray_50E26C->sub_4540D0(field_19C);
+                gpThrowableArray_50E26C->Remove_4540D0(field_19C_throwable_count);
             }
-            field_19C = 0;
+            field_19C_throwable_count = 0;
 
             ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::ResourceType::Resource_Palt, 350, 0, 0));
 

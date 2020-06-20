@@ -42,7 +42,7 @@ void ThrowableArray::vScreenChange_454300()
     NOT_IMPLEMENTED();
 }
 
-void ThrowableArray::sub_4540D0(char)
+void ThrowableArray::Remove_4540D0(char)
 {
     NOT_IMPLEMENTED();
 }

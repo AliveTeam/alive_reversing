@@ -822,7 +822,7 @@ std::vector<CustomPauseMenuItem> devCheatsMenuItems({
     { "Destroy All Objects", [](CustomPauseMenu * pm) { DestroyAllObjects(); pm->ClosePauseMenu(); DEV_CONSOLE_MESSAGE("Destroyed All Objects", 4); } },
     { "Save All Mudokons", [](CustomPauseMenu *) { sRescuedMudokons_5C1BC2 = 300; sKilledMudokons_5C1BC0 = 0; DEV_CONSOLE_MESSAGE("(CHEAT) Saved all Mudokons", 4); } },
     { "Kill All Mudokons", [](CustomPauseMenu *) { sRescuedMudokons_5C1BC2 = 0; sKilledMudokons_5C1BC0 = 300; DEV_CONSOLE_MESSAGE("(CHEAT) Killed all Mudokons", 4); }  },
-    { "Give Rocks", [](CustomPauseMenu *) { sActiveHero_5C1B68->field_1A2_rock_or_bone_count = 99; DEV_CONSOLE_MESSAGE("(CHEAT) Got Bones", 4); }  },
+    { "Give Rocks", [](CustomPauseMenu *) { sActiveHero_5C1B68->field_1A2_throwable_count = 99; DEV_CONSOLE_MESSAGE("(CHEAT) Got Bones", 4); }  },
     { "Open All Doors", [](CustomPauseMenu * pm) {  pm->ClosePauseMenu(); Cheat_OpenAllDoors(); } },
     { "Invisible", [](CustomPauseMenu * pm) { DEV_CONSOLE_MESSAGE("(CHEAT) Invisibility!", 4);  pm->ClosePauseMenu(); sActiveHero_5C1B68->field_170_invisible_timer = 65535; sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit9);  sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit8_bInvisible); } },
     { "Give Explosive Fart", [](CustomPauseMenu * pm) {
@@ -988,7 +988,7 @@ void PauseMenu::RestartPath()
         1);
 
     gMap_5C3030.field_8_force_load = TRUE;
-    if (sActiveHero_5C1B68->field_1A2_rock_or_bone_count)
+    if (sActiveHero_5C1B68->field_1A2_throwable_count)
     {
         LoadRockTypes_49AB30(
             sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_4_level,
@@ -1000,7 +1000,7 @@ void PauseMenu::RestartPath()
             gpThrowableArray_5D1E2C->ctor_49A630();
         }
 
-        gpThrowableArray_5D1E2C->Add_49A7A0(sActiveHero_5C1B68->field_1A2_rock_or_bone_count);
+        gpThrowableArray_5D1E2C->Add_49A7A0(sActiveHero_5C1B68->field_1A2_throwable_count);
     }
 
     word12C_flags &= ~1;
