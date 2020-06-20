@@ -157,6 +157,11 @@ public:
 
     EXPORT signed __int16 Get_Camera_World_Rect_444C30(CameraPos camIdx, PSX_RECT* pRect);
 
+    __int16 Is_Point_In_Current_Camera_4449C0(LevelIds level, int path, FP xpos, FP ypos, __int16 width)
+    {
+        return Is_Point_In_Current_Camera_4449C0(static_cast<int>(level), path, xpos, ypos, width);
+    }
+
     EXPORT __int16 Is_Point_In_Current_Camera_4449C0(int level, int path, FP xpos, FP ypos, __int16 width);
 
     EXPORT signed __int16 SetActiveCameraDelayed_444CA0(MapDirections direction, BaseAliveGameObject* pObj, __int16 swapEffect);

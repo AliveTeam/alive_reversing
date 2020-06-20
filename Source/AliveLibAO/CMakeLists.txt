@@ -88,6 +88,10 @@ SET(AliveLibSrcAO
    ThrowableArray.cpp
    Elum.hpp
    Elum.cpp
+   ZBall.hpp
+   ZBall.cpp
+   RollingBallShaker.hpp
+   RollingBallShaker.cpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx_ao.h stdafx_ao.cpp AliveLibSrcAO)

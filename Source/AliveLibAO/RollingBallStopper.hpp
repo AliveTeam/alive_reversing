@@ -6,6 +6,8 @@
 
 START_NS_AO
 
+struct PathLine;
+
 struct Path_RollingBallStopper : public Path_TLV
 {
     __int16 field_18_id_on;
@@ -34,7 +36,7 @@ public:
     __int16 field_112_state;
     unsigned __int16 field_114_switch_on_id;
     unsigned __int16 field_116_switch_id_off;
-    PSX_RECT* field_118_pLine; // TODO: Actually a path line
+    PathLine* field_118_pLine;
 };
 ALIVE_ASSERT_SIZEOF(RollingBallStopper, 0x11C);
 

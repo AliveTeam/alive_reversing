@@ -53,5 +53,10 @@ void BaseAnimatedWithPhysicsGameObject::SetTint_418750(const TintEntry* /*pTintA
     NOT_IMPLEMENTED();
 }
 
-END_NS_AO
+BaseGameObject* BaseAnimatedWithPhysicsGameObject::dtor_417D10()
+{
+    NOT_IMPLEMENTED();
+    return this;
+}
 
+END_NS_AO

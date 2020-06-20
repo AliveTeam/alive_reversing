@@ -7,6 +7,8 @@
 
 START_NS_AO
 
+using TFrameCallBackType = short* (CC*)(void*, __int16*);
+
 // TODO: Assumed to be the same as AE - test this, some do match
 enum AnimFlags
 {
@@ -102,6 +104,9 @@ public:
 class Animation : public AnimationBase
 {
 public:
+
+    EXPORT void SetFrame_402AC0(unsigned __int16 frame);
+
     BitField32<AnimFlags> field_4_flags;
     int field_8; // r,g,b mode ?
     __int16 field_C_layer;
@@ -111,7 +116,7 @@ public:
     int field_10;
     FP field_14_scale;
     int field_18;
-    int field_1C_fn_ptrs;
+    TFrameCallBackType* field_1C_fn_ptrs;
     int field_20;
     int field_24;
     int field_28;
@@ -144,7 +149,7 @@ public:
     __int16 field_8C_vram_x_pal;
     __int16 field_8E_vram_y_pal;
     __int16 field_90_pal_depth;
-    __int16 field_92;
+    __int16 field_92_current_frame;
     int field_94;
 };
 ALIVE_ASSERT_SIZEOF(Animation, 0x98);

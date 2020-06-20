@@ -16,8 +16,11 @@ enum class Types : __int16
     eNone_0 = 0,
     eAlarm_1 = 1,
 
+    eRollingBallStopperShaker_58 = 58,
     eRollingBallStopper_60 = 60,
     eEffectBase_79 = 79,
+
+    eZBall_92 = 92,
 };
 
 class BaseGameObject
