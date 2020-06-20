@@ -34,7 +34,6 @@ class BaseGameObject;
 void Map_ForceLink() {}
 
 ALIVE_VAR(1, 0x507678, Abe*, sActiveHero_507678, nullptr);
-ALIVE_VAR_EXTERN(Elum*, gElum_507680);
 ALIVE_VAR_EXTERN(BaseAliveGameObject*, sControlledCharacter_50767C);
 ALIVE_VAR(1, 0x507C98, Camera*, sCameraBeingLoaded_507C98, nullptr);
 
