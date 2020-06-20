@@ -47,4 +47,9 @@ void Elum::vScreenChange_411340()
     NOT_IMPLEMENTED();
 }
 
+void Elum::Spawn_410E90(TlvItemInfoUnion)
+{
+    NOT_IMPLEMENTED();
+}
+
 END_NS_AO;

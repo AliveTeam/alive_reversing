@@ -7,6 +7,7 @@
 #include "RollingBallStopper.hpp"
 #include "Game.hpp"
 #include "Abe.hpp"
+#include "Elum.hpp"
 #include "PauseMenu.hpp"
 
 START_NS_AO
@@ -460,9 +461,25 @@ EXPORT void Factory_ChimeLock_4870D0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemI
 }
 
 
-EXPORT void Factory_ElumStart_Unknown_4873D0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+ResourcesToLoadList unk_4BD418[4] = { //todo
+    { 3, 0x6D696E41 },
+    { 200, 0x6D696E41 },
+    { 230, 0x6D696E41 },
+    { 216, 0 }
+};
+
+EXPORT void Factory_ElumStart_Unknown_4873D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        ResourceManager::LoadResourcesFromList_446E80("ELMSTART.BND", unk_4BD418, loadMode, 0);
+    }
+    else
+    {
+        Elum::Spawn_410E90(tlvOffsetLevelIdPathId);
+        gElum_507680->field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
+        gElum_507680->field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
+    }
 }
 
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "FunctionFwd.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "Factory.hpp"
 
 START_NS_AO;
 
@@ -11,6 +12,8 @@ public:
     EXPORT void VUpdate_4102A0();
     EXPORT void VRender_410E40(int** pOrderingTable);
     EXPORT void vScreenChange_411340();
+
+    EXPORT static void Elum::Spawn_410E90(TlvItemInfoUnion);
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;

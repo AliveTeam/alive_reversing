@@ -10,6 +10,21 @@ class Camera;
 
 EXPORT void CC Game_ShowLoadingIcon_445EB0();
 
+struct ResourcesToLoadList_Entry
+{
+    DWORD field_0_type;
+    DWORD field_4_res_id;
+};
+ALIVE_ASSERT_SIZEOF(ResourcesToLoadList_Entry, 0x8);
+
+// TODO: Replace/combine with CompileTimeResourceList when everything is decompiled
+struct ResourcesToLoadList
+{
+    int field_0_count;
+    ResourcesToLoadList_Entry field_4_items[1];
+};
+ALIVE_ASSERT_SIZEOF(ResourcesToLoadList, 12);
+
 class ResourceManager
 {
 public:
@@ -69,6 +84,8 @@ public:
     static EXPORT void CC Free_Resource_Of_Type_455810(int type);
 
     static EXPORT void CC Free_Resources_For_Camera_447170(Camera* pCamera);
+
+    static EXPORT void CC LoadResourcesFromList_446E80(const char* pFileName, ResourcesToLoadList* pList, __int16 loadMode, __int16);
 
     static EXPORT Header* CC Get_Header_455620(BYTE** ppRes);
 };
