@@ -17,8 +17,11 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable) override;
     virtual void VScreenChanged() override;
+
+    __int16 field_10;
+    __int16 field_12;
 };
-//ALIVE_ASSERT_SIZEOF(ThrowableArray, 0x30); todo
+ALIVE_ASSERT_SIZEOF(ThrowableArray, 0x14);
 
 ALIVE_VAR_EXTERN(ThrowableArray*, gpThrowableArray_50E26C);
 
