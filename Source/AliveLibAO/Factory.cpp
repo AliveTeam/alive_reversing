@@ -8,6 +8,7 @@
 #include "Game.hpp"
 #include "Abe.hpp"
 #include "PauseMenu.hpp"
+#include "ZBall.hpp"
 
 START_NS_AO
 
@@ -95,9 +96,24 @@ EXPORT void Factory_RockSack_483680(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemIn
 }
 
 
-EXPORT void Factory_ZBall_483890(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_ZBall_483890(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        if (gMap_507BA8.field_0_current_level == LevelIds::eForestTemple_4)
+        {
+            ResourceManager::LoadResource_446C90("F2ZBALL.BAN", ResourceManager::Resource_Animation, 2001, loadMode);
+            ResourceManager::LoadResource_446C90("ABEKNOKZ.BAN", ResourceManager::Resource_Animation, 28, loadMode);
+        }
+    }
+    else
+    {
+        auto pZBall = ao_new<ZBall>();
+        if (pZBall)
+        {
+            pZBall->ctor_478590(static_cast<Path_ZBall*>(pTlv), tlvOffsetLevelIdPathId.all);
+        }
+    }
 }
 
 

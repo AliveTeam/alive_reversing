@@ -6,6 +6,12 @@ START_NS_AO
 
 void BaseAliveGameObject_ForceLink() {}
 
+FP CC Grid_Scale_41FA30(FP /*scale*/)
+{
+    NOT_IMPLEMENTED();
+    return {};
+}
+
 ALIVE_VAR(1, 0x4FC8A0, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_4FC8A0, nullptr);
 
 BaseAliveGameObject* BaseAliveGameObject::ctor_401090()
@@ -40,6 +46,12 @@ BaseAliveGameObject* BaseAliveGameObject::dtor_401000()
 {
     NOT_IMPLEMENTED();
     return this;
+}
+
+__int16 BaseAliveGameObject::sub_401D30(__int16 /*a2*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
 }
 
 void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(int /*distance*/)

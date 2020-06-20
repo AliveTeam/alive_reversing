@@ -84,6 +84,10 @@ SET(AliveLibSrcAO
    SwitchStates.cpp
    Sfx.hpp
    Sfx.cpp
+   ZBall.hpp
+   ZBall.cpp
+   RollingBallShaker.hpp
+   RollingBallShaker.cpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx_ao.h stdafx_ao.cpp AliveLibSrcAO)

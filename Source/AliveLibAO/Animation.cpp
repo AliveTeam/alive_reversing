@@ -9,5 +9,9 @@ void CC AnimationBase::AnimateAll_4034F0(DynamicArrayT<AnimationBase>* /*pAnimLi
     NOT_IMPLEMENTED();
 }
 
-END_NS_AO
+void Animation::SetFrame_402AC0(unsigned __int16 /*frame*/)
+{
+    NOT_IMPLEMENTED();
+}
 
+END_NS_AO

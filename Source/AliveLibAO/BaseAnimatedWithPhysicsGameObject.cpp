@@ -48,5 +48,10 @@ void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(int** /*ot*/)
     NOT_IMPLEMENTED();
 }
 
-END_NS_AO
+BaseGameObject* BaseAnimatedWithPhysicsGameObject::dtor_417D10()
+{
+    NOT_IMPLEMENTED();
+    return this;
+}
 
+END_NS_AO

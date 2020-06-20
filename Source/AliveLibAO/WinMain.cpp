@@ -22,6 +22,7 @@
 #include "Input.hpp"
 #include "DDCheat.hpp"
 #include "CheatController.hpp"
+#include "RollingBallShaker.hpp"
 #include "../AliveLibAE/config.h" // TODO: Change location
 
 START_NS_AO
@@ -38,6 +39,11 @@ void Static_Inits_AO()
     //FontContext::static_ctor_41C010();
     Map::ctor_static_443E10();
     //LvlArchive::ctor_static_443E70();
+}
+
+void ForceLinks()
+{
+    RollingBallShaker_ForceLink();
 }
 
 ALIVE_VAR(1, 0x9F771C, HINSTANCE, sInstance_9F771C, 0);
@@ -802,6 +808,7 @@ EXPORT void Game_Main_450050()
 
 EXPORT int CALLBACK WinMain_48EF50(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
+    ForceLinks();
     sInstance_9F771C = hInstance;
     sPrevInstance_9F7784 = hPrevInstance;
     sCmdShow_9F772C = nShowCmd;
