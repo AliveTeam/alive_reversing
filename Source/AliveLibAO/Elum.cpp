@@ -72,6 +72,7 @@ void Elum::Spawn_410E90(TlvItemInfoUnion tlvInfo)
 Elum* Elum::ctor_410870(int, anythingForTheTimeBeing, anythingForTheTimeBeing, int, TlvItemInfoUnion /*tlvInfo*/)
 {
     NOT_IMPLEMENTED();
+    return nullptr;
 }
 
 END_NS_AO;
