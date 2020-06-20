@@ -41,6 +41,8 @@ public:
     EXPORT void vRender_420F30(int** pOrderingTable);
     EXPORT void vScreenChanged_422640();
 
+    EXPORT void sub_42F4C0();
+
     __int16 field_10C;
     __int16 field_10E;
     __int16 field_110_state;
@@ -92,7 +94,7 @@ public:
     __int16 field_194_camera;
     __int16 field_196_door_id;
     int field_198;
-    char field_19C;
+    char field_19C_throwable_count;
     char field_19D;
     __int16 field_19E;
     int field_1A0;

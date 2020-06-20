@@ -25,6 +25,7 @@
 #include "Events.hpp"
 #include "SwitchStates.hpp"
 #include "Sfx.hpp"
+#include "Elum.hpp"
 
 START_NS_AO
 
@@ -33,8 +34,7 @@ class BaseGameObject;
 void Map_ForceLink() {}
 
 ALIVE_VAR(1, 0x507678, Abe*, sActiveHero_507678, nullptr);
-ALIVE_VAR(1, 0x507680, BaseAliveGameObject*, gElum_507680, nullptr);
-ALIVE_VAR(1, 0x50767C, BaseAliveGameObject*, sControlledCharacter_50767C, nullptr);
+ALIVE_VAR_EXTERN(BaseAliveGameObject*, sControlledCharacter_50767C);
 ALIVE_VAR(1, 0x507C98, Camera*, sCameraBeingLoaded_507C98, nullptr);
 
 struct OverlayRecord
@@ -491,8 +491,8 @@ void Map::Handle_PathTransition_444DD0()
        
         field_10_screenChangeEffect = kPathChangeEffectToInternalScreenChangeEffect_4CDC78[pTlv->field_20_wipe];
         
-        field_18_pAliveObj->field_B2_level = pTlv->field_18_level;
-        field_18_pAliveObj->field_B0_path = pTlv->field_1A_path;
+        field_18_pAliveObj->field_B2_lvl_number = pTlv->field_18_level;
+        field_18_pAliveObj->field_B0_path_number = pTlv->field_1A_path;
         GoTo_Camera_445050();
 
         switch (pTlv->field_22_scale)
@@ -626,8 +626,8 @@ void Map::RemoveObjectsWithPurpleLight_4440D0(__int16 bMakeInvisible)
             && pObjIter != sControlledCharacter_50767C)
         {
             bool bAdd = false;
-            if (pObjIter->field_B2_level == field_0_current_level
-                && pObjIter->field_B0_path == field_2_current_path)
+            if (pObjIter->field_B2_lvl_number == field_0_current_level
+                && pObjIter->field_B0_path_number == field_2_current_path)
             {
                 PSX_RECT rect = {};
                 rect.x = FP_GetExponent(pObjIter->field_A8_xpos);
@@ -1847,12 +1847,12 @@ void Map::GoTo_Camera_445050()
 
     if (old_current_path != field_2_current_path || old_current_level != field_0_current_level)
     {
-        if (sActiveHero_507678 && field_2_current_path == sActiveHero_507678->field_B0_path)
+        if (sActiveHero_507678 && field_2_current_path == sActiveHero_507678->field_B0_path_number)
         {
             sActiveHero_507678->VCheckCollisionLineStillValid(10);
         }
 
-        if (gElum_507680 && sControlledCharacter_50767C != gElum_507680 && field_2_current_path == gElum_507680->field_B0_path)
+        if (gElum_507680 && sControlledCharacter_50767C != gElum_507680 && field_2_current_path == gElum_507680->field_B0_path_number)
         {
             gElum_507680->VCheckCollisionLineStillValid(10);
         }

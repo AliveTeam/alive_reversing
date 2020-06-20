@@ -189,8 +189,8 @@ void ZBall::VUpdate_478720()
     field_E8_bFrameAbove12 = field_10_anim.field_92_current_frame >= 13;
 
     if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
-        field_B2_level,
-        field_B0_path,
+        field_B2_lvl_number,
+        field_B0_path_number,
         field_A8_xpos,
         field_AC_ypos,
         0))

@@ -84,6 +84,10 @@ SET(AliveLibSrcAO
    SwitchStates.cpp
    Sfx.hpp
    Sfx.cpp
+   ThrowableArray.hpp
+   ThrowableArray.cpp
+   Elum.hpp
+   Elum.cpp
    ZBall.hpp
    ZBall.cpp
    RollingBallShaker.hpp

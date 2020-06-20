@@ -596,7 +596,7 @@ public:
     __int16 field_19C_to_path;
     __int16 field_19E_to_camera;
     __int16 field_1A0_door_id;
-    char field_1A2_rock_or_bone_count;
+    char field_1A2_throwable_count;
     char field_1A3_throw_direction;
     __int16 field_1A4_portal_sub_state;
     __int16 field_1A6;
