@@ -8,6 +8,12 @@ START_NS_AO;
 class Elum : public BaseAliveGameObject
 {
 public:
+    struct anythingForTheTimeBeing
+    {
+        __int16 field_0;
+        __int16 field_2;
+    };
+
     EXPORT BaseGameObject* Vdtor_411710(signed int flags);
     EXPORT void VUpdate_4102A0();
     EXPORT void VRender_410E40(int** pOrderingTable);
@@ -19,6 +25,8 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable) override;
     virtual void VScreenChanged() override;
+
+    EXPORT Elum* ctor_410870(int a2, anythingForTheTimeBeing a3, anythingForTheTimeBeing a4, int a5, TlvItemInfoUnion a6);
 
     __int16 field_10C;
     __int16 field_10E;
