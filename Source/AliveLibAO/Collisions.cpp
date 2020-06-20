@@ -19,6 +19,12 @@ Collisions* Collisions::ctor_40CF30(const CollisionInfo* /*pCollisionInfo*/, con
     return this;
 }
 
+PathLine* Collisions::Add_Dynamic_Collision_Line_40C8A0(__int16 /*x1*/, __int16 /*y1*/, __int16 /*x2*/, __int16 /*y2*/, char /*mode*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
 PSX_RECT* CCSTD Rect_Clear_40C920(PSX_RECT* pRect)
 {
     pRect->x = 0;

@@ -8,6 +8,8 @@ START_NS_AO
 void BaseAliveGameObject_ForceLink();
 
 
+EXPORT FP CC Grid_Scale_41FA30(FP scale);
+
 struct Path_TLV;
 class LiftPoint;
 
@@ -19,6 +21,8 @@ public:
     EXPORT BaseAliveGameObject* ctor_401090();
 
     EXPORT BaseAliveGameObject* dtor_401000();
+
+    EXPORT __int16 sub_401D30(__int16 a2);
 
     // TODO: Non empty so standalone builds
 
