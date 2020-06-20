@@ -18,6 +18,8 @@ enum class Types : __int16
 
     eRollingBallStopper_60 = 60,
     eEffectBase_79 = 79,
+
+    eZBall_92 = 92,
 };
 
 class BaseGameObject

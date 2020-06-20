@@ -16,16 +16,11 @@ enum class LevelIds : __int16;
 class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
 {
 public:
-    EXPORT BaseAnimatedWithPhysicsGameObject* ctor_417C10();
-
-    EXPORT void Animation_Init_417FD0(int frameTableOffset, int maxW, int maxH, BYTE** ppAnimData, __int16 a6);
-
-    EXPORT void VRender_417DA0(int** ot);
 
     virtual void VOnCollisionWith(PSX_Point /*xy*/, PSX_Point /*wh*/, DynamicArray* /*pObjList*/, int /*startingPointIdx*/, void* /*pFn*/) {}
-    virtual PSX_RECT* VGetBoundingRect(PSX_RECT* /*pRect*/, int /*pointIdx*/) { return nullptr;  }
+    virtual PSX_RECT* VGetBoundingRect(PSX_RECT* /*pRect*/, int /*pointIdx*/) { return nullptr; }
     virtual __int16 VIsObjNearby(int /*radius*/, BaseAliveGameObject* /*pOtherObj*/) { return 0; }
-    
+
     virtual __int16 VIsObj_GettingNear_On_X(BaseAnimatedWithPhysicsGameObject* /*pOther*/) { return 0; }
 
     virtual __int16 VIsFacingMe(BaseAliveGameObject* /*pOther*/) { return 0; }
@@ -34,6 +29,14 @@ public:
 
     virtual void VStackOnObjectsOfType(unsigned __int16 /*typeToFind*/) {}
 
+
+    EXPORT BaseAnimatedWithPhysicsGameObject* ctor_417C10();
+
+    EXPORT void Animation_Init_417FD0(int frameTableOffset, int maxW, int maxH, BYTE** ppAnimData, __int16 a6);
+
+    EXPORT void VRender_417DA0(int** ot);
+
+    EXPORT BaseGameObject* dtor_417D10();
 
     Animation field_10_anim;
     FP field_A8_xpos;
