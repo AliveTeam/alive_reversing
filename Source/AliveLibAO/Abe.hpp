@@ -41,7 +41,7 @@ public:
     EXPORT void vRender_420F30(int** pOrderingTable);
     EXPORT void vScreenChanged_422640();
 
-    EXPORT void Abe::sub_42F4C0();
+    EXPORT void sub_42F4C0();
 
     __int16 field_10C;
     __int16 field_10E;
