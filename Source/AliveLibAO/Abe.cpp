@@ -97,7 +97,7 @@ void Abe::vScreenChanged_422640()
             }
             field_19C = 0;
 
-            ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0('tlaP', 350, 0, 0));
+            ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::ResourceType::Resource_Palt, 350, 0, 0));
 
             if (field_168 && field_16C)
             {
