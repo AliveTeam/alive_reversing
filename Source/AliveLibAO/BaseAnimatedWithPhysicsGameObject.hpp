@@ -11,6 +11,15 @@ START_NS_AO
 class Shadow;
 class BaseAliveGameObject;
 
+struct TintEntry
+{
+    signed __int8 field_0_level;
+    unsigned __int8 field_1_r;
+    unsigned __int8 field_2_g;
+    unsigned __int8 field_3_b;
+};
+ALIVE_ASSERT_SIZEOF(TintEntry, 0x4);
+
 enum class LevelIds : __int16;
 
 class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
@@ -34,12 +43,14 @@ public:
 
     virtual void VStackOnObjectsOfType(unsigned __int16 /*typeToFind*/) {}
 
+    EXPORT void SetTint_418750(const TintEntry* pTintArray, __int16 levelId);
+
 
     Animation field_10_anim;
     FP field_A8_xpos;
     FP field_AC_ypos;
-    __int16 field_B0_path;
-    LevelIds field_B2_level;
+    __int16 field_B0_path_number;
+    LevelIds field_B2_lvl_number;
     FP field_B4_velx;
     FP field_B8_vely;
     FP field_BC_sprite_scale;

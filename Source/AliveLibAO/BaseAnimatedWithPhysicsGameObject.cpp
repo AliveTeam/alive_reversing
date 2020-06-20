@@ -13,8 +13,8 @@ BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::ctor_417C1
     SetVTable(this, 0x4BAA38);
 
     field_CC |= 1u;
-    field_B0_path = gMap_507BA8.field_2_current_path;
-    field_B2_level = gMap_507BA8.field_0_current_level;
+    field_B0_path_number = gMap_507BA8.field_2_current_path;
+    field_B2_lvl_number = gMap_507BA8.field_0_current_level;
 
     field_B4_velx = FP_FromInteger(0);
     field_A8_xpos = FP_FromInteger(0);
@@ -44,6 +44,11 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(int /*frameTableOf
 }
 
 void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(int** /*ot*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void BaseAnimatedWithPhysicsGameObject::SetTint_418750(const TintEntry* /*pTintArray*/, __int16 /*levelId*/)
 {
     NOT_IMPLEMENTED();
 }
