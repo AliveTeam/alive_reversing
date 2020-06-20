@@ -13,7 +13,7 @@ public:
     EXPORT void VRender_410E40(int** pOrderingTable);
     EXPORT void vScreenChange_411340();
 
-    EXPORT static void Elum::Spawn_410E90(TlvItemInfoUnion);
+    EXPORT static void Spawn_410E90(TlvItemInfoUnion);
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
