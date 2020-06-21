@@ -30,6 +30,25 @@ anim_enum = {
     0x1000000 : "AnimFlags::eBit25_bDecompressDone",
 }
 
+field_10A_enum = {
+    0x1 :  "Flags_10A::eBit1",
+    0x2 :  "Flags_10A::eBit2",
+    0x4 :  "Flags_10A::eBit3",
+    0x8 :  "Flags_10A::eBit4",
+    0x10 : "Flags_10A::eBit5",
+    0x20 : "Flags_10A::eBit6",
+    0x40 : "Flags_10A::eBit7",
+    0x80 : "Flags_10A::eBit8",
+    0x100 : "Flags_10A::eBit9",
+    0x200 : "Flags_10A::eBit10",
+    0x400 : "Flags_10A::eBit11",
+    0x800 : "Flags_10A::eBit12",
+    0x1000 : "Flags_10A::eBit13",
+    0x2000 : "Flags_10A::eBit14",
+    0x4000 : "Flags_10A::eBit15",
+    0x8000 : "Flags_10A::eBit16",
+}
+
 base_game_object_enum = {
     0x1 :  "Options::eListAddFailed_Bit1",
     0x2 :  "Options::eUpdatable_Bit2",
@@ -171,23 +190,29 @@ def process(line):
 
             if isClear:
                 if base == 10:
-                    hexStr = str(hex(int(extractedLit[0], base)))[2:].upper()
+                    hexStr = "0x" + str(hex(int(extractedLit[0], base)))[2:].upper()
                 else:
                     hexStr = extractedLit[0]
 
                 bitcount = int(((len(hexStr)-2) / 2) * 8)
-                if bitcount < 16:
-                    bitcount = 16
+
+                if bitcount < 8:
+                    bitcount = 8
                 inverted = str(bit_not(int(hexStr, 16), bitcount))
                 print("Inverted: " + hexStr + " to " + inverted + " bitcount " + str(bitcount))
-                extractedLit[0] = inverted
+                if base == 16:
+                    extractedLit[0] = hex(int(inverted))
+                else:
+                    extractedLit[0] = inverted
+
+            print("Final val " + extractedLit[0] + " in base " + str(base))
 
             if line.find("field_10_anim.field_4_flags") != -1:
                 numberAsEnumBits = number2Enum(int(extractedLit[0], base), anim_enum)
             elif line.find("field_6_flags") != -1:
                 numberAsEnumBits = number2Enum(int(extractedLit[0], base), base_game_object_enum)
             elif line.find("field_10A_flags") != -1:
-                numberAsEnumBits = number2Enum(int(extractedLit[0], base), base_game_object_enum)
+                numberAsEnumBits = number2Enum(int(extractedLit[0], base), field_10A_enum)
 
             startPos = pos
             endPos = startPos + extractedLit[1]
@@ -341,49 +366,31 @@ def AsFP(input):
         return "FP_FromDouble(" + str(fpV) + ");"
 
 def tests():
-    check(process("LOBYTE(this->field_0_mBase.field_0_mBase.field_6_flags) |= 0x20u;"), "field_6_flags.Set(Options::eIsBaseAliveGameObject_Bit6);")
-
-    check(GetLiteral("~0x8u;"), ["0xFFF7", 5])
+    check(process("LOWORD(this->field_0_mBase.field_0_mBase.field_10_anim.field_4_flags) &= ~4u;"), "field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);")
+    check(process("LOWORD(this->field_0_mBase.field_0_mBase.field_6_flags) &= 0xDFu;"), "field_6_flags.Clear(Options::eIsBaseAliveGameObject_Bit6);")
     check(process("LOBYTE(this->field_0_mBase.field_0_mBase.field_10_anim.field_4_flags) &= ~0x4u;"), "field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);")
-
-
+    check(process("LOBYTE(this->field_0_mBase.field_0_mBase.field_6_flags) |= 0x20u;"), "field_6_flags.Set(Options::eIsBaseAliveGameObject_Bit6);")
+    check(GetLiteral("~0x8u;"), ["0xFFF7", 5])
     check(GetLiteral("~8u;"), ["65527", 3])
 
-    #check(process("LOWORD(this->field_0_mBase.field_0_mBase.field_6_flags) &= 0xDFu;"), "field_6_flags.Clear(Options::eIsBaseAliveGameObject_Bit6);")
-    #check(process("this->field_10A_flags &= ~0x3Fu;"), "field_10A_flags.Clear(0x3F);")
-    
-    check(process("LOWORD(this->field_0_mBase.field_0_mBase.field_10_anim.field_4_flags) &= ~4u;"), "field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);")
+    check(process("this->field_10A_flags &= ~0x3Fu;"), "field_10A_flags.Clear(Flags_10A::eBit1 | Flags_10A::eBit2 | Flags_10A::eBit3 | Flags_10A::eBit4 | Flags_10A::eBit5 | Flags_10A::eBit6);")
+
     check(process("LOWORD(this->field_0_mBase.field_0_mBase.field_10_anim.field_4_flags) |= 4u;"), "field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);")
     check(process("Animation::SetFrame_402AC0(&this->field_0_mBase.field_10_anim, (v10 >> 1) + 1);"), "field_10_anim.SetFrame_402AC0((v10 >> 1) + 1);")
-
-
     check(GetLiteral("4u"), ["4", 2])
     check(GetLiteral("0x20u"), ["0x20", 5])
     check(GetLiteral("0x280000"), ["0x280000", 8])
-
     check(GetLiteral("123"), ["123", 3])
     check(GetLiteral("0xFFFBu;"), ["0xFFFB", 7])
-
-   
- 
-
-
     check(process("Animation::Get_FrameHeader_403A00(&this->field_0_mBase.field_10_anim, -1)"), "field_10_anim.Get_FrameHeader_403A00(-1)")
-
     check(process("int __cdecl SND_477330()"), "EXPORT int CC SND_477330()")
-
     check(process("DynamicArray::Remove_Item_404520(pBaseAliveGameObjsList, this);"), "pBaseAliveGameObjsList->Remove_Item(this);")
     check(process("DynamicArray::Push_Back_404450(pBaseAliveGameObjsList, this);"), "pBaseAliveGameObjsList->Push_Back(this);")
-
     check(extractHexOrDecString("0x280000);"), "0x280000")
-
     check(process("v5 = Math_FixedPoint_Multiply_451040(this->field_0_mBase.field_0_mBase.field_BC_scale, 2621440);"), "v5 = Math_FixedPoint_Multiply_451040(field_BC_scale, 2621440); // FP_FromInteger(40);")
     check(process("v5 = Math_FixedPoint_Multiply_451040(this->field_0_mBase.field_0_mBase.field_BC_scale, 0x280000);"), "v5 = Math_FixedPoint_Multiply_451040(field_BC_scale, 0x280000); // FP_FromInteger(40);")
-
     check(process("v5 = Math_FixedPoint_Divide_450FB0(this->field_0_mBase.field_0_mBase.field_BC_scale, 2621440);"), "v5 = Math_FixedPoint_Divide_450FB0(field_BC_scale, 2621440); // FP_FromInteger(40);")
     check(process("v5 = Math_FixedPoint_Divide_450FB0(this->field_0_mBase.field_0_mBase.field_BC_scale, 0x280000);"), "v5 = Math_FixedPoint_Divide_450FB0(field_BC_scale, 0x280000); // FP_FromInteger(40);")
-    
-
     check(number2Enum(4, anim_enum), "AnimFlags::eBit3_Render")
     check(number2Enum(0x3, anim_enum), "AnimFlags::eBit1 | AnimFlags::eBit2_Animate")
     check(process("this->field_0_mBase.field_0_VTbl = (BaseGameObject_VTable_Union *)&vTbl_LiftMover_5440D4;"), "SetVTable(this, 0x5440D4);")
@@ -412,5 +419,7 @@ def main():
         win32clipboard.SetClipboardText(new_lines)
     win32clipboard.CloseClipboard()
 
+print("Run tests")
 tests()
+print("Run main")
 main()
