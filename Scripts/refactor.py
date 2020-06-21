@@ -69,9 +69,15 @@ def process(line):
             args = "()"
         line = "EXPORT " + beforeThisCall + afterThisCall + args
 
+    pos = line.find(" __cdecl ")
+    if pos != -1:
+        line = "EXPORT " + line
+        line = line.replace(" __cdecl ", " CC ")
+
     line = line.replace("field_0_mBase.", "")
     line = line.replace("&this->field_0_mBase", "this")
     line = line.replace("this->", "")
+
     line = line.replace("LOBYTE(field_6_flags) |= 4u", "field_6_flags.Set(BaseGameObject::eDead)")
 
     line = line.replace("1835626049", "ResourceManager::Resource_Animation")
@@ -87,12 +93,17 @@ def process(line):
     line = line.replace("field_B4_velx = 0;", "field_B4_velx = FP_FromInteger(0);")
     line = line.replace("field_B8_vely = 0;", "field_B8_vely = FP_FromInteger(0);")
     line = line.replace("field_BC_sprite_scale = 0;", "field_BC_sprite_scale = FP_FromInteger(0);")
+    line = line.replace("field_100_health = 0;", "field_100_health = FP_FromInteger(0);")
 
     line = line.replace("field_A8_xpos = 0x10000;", "field_A8_xpos = FP_FromInteger(1);")
     line = line.replace("field_AC_ypos = 0x10000;", "field_AC_ypos = FP_FromInteger(1);")
     line = line.replace("field_B4_velx = 0x10000;", "field_B4_velx = FP_FromInteger(1);")
     line = line.replace("field_B8_vely = 0x10000;", "field_B8_vely = FP_FromInteger(1);")
     line = line.replace("field_BC_sprite_scale = 0x10000;", "field_BC_sprite_scale = FP_FromInteger(1);")
+    line = line.replace("field_100_health = 0x10000;", "field_100_health = FP_FromInteger(1);")
+    line = line.replace("field_F4_pLine = 0;", "field_F4_pLine = nullptr;")
+    line = line.replace("field_F0_pTlv = 0;", "field_F0_pTlv = nullptr;")
+    line = line.replace("field_F8_pLiftPoint = 0;", "field_F8_pLiftPoint = nullptr;")
 
     line = line.replace(" == 0x8000 ", " == FP_FromDouble(0.5) ")
     line = line.replace(" == 0x10000 ", " == FP_FromInteger(1) ")
@@ -107,33 +118,78 @@ def process(line):
 
     pos = line.find("DynamicArray::Remove_Item_404520")
     if pos != -1:
-        # todo
-        pass
+        argStartPos = line.find("(")
+        argEndPos = line.find(",")
+        arg = line[argStartPos+1 : argEndPos].strip()
+        line = arg + "->Remove_Item(" + line[argEndPos+1:].strip()
 
     pos = line.find("DynamicArray::Push_Back_404450")
     if pos != -1:
-        # todo
-        pass
+        argStartPos = line.find("(")
+        argEndPos = line.find(",")
+        arg = line[argStartPos+1 : argEndPos].strip()
+        line = arg + "->Push_Back(" + line[argEndPos+1:].strip()
 
-    pos = line.find("field_10_anim.field_4_flags")
+    pos = line.find("Animation::Get_FrameHeader_403A00")
     if pos != -1:
+        argStartPos = line.find("(")
+        argEndPos = line.find(",")
+        arg = line[argStartPos+2 : argEndPos].strip()  # +2 to remove &
+        line = arg + ".Get_FrameHeader_403A00(" + line[argEndPos+1:].strip()
+
+    pos = line.find("Animation::SetFrame_402AC0")
+    if pos != -1:
+        argStartPos = line.find("(")
+        argEndPos = line.find(",")
+        arg = line[argStartPos+2 : argEndPos].strip()  # +2 to remove &
+        line = arg + ".SetFrame_402AC0(" + line[argEndPos+1:].strip()
+
+    if line.find("field_10_anim.field_4_flags") != -1 or line.find("field_6_flags") != -1 or line.find("field_10A_flags") != -1:
+        isSet = False
+        isClear = False
+        posStart = 0
         pos = line.find("&=")
-        if pos != -1 and line.find("HI") == -1:
+        if pos != -1:
+            posStart = pos
+            isClear = True
+
+        pos = line.find("|=")
+        if pos != -1:
+            posStart = pos
+            isSet = True
+        pos = posStart
+
+        if isSet or isClear and line.find("HI") == -1:
             # Flags are being cleared
             flagsLiteral = line[pos+2 :].strip()
             extractedLit = GetLiteral(flagsLiteral)
             base = 10
             if hasHexChar(extractedLit[0]) or extractedLit[0].startswith("0x"):
                 base = 16
-            numberAsEnumBits = number2Enum(int(extractedLit[0], base), anim_enum)
+
+            if line.find("field_10_anim.field_4_flags") != -1:
+                numberAsEnumBits = number2Enum(int(extractedLit[0], base), anim_enum)
+            elif line.find("field_6_flags") != -1:
+                numberAsEnumBits = number2Enum(int(extractedLit[0], base), base_game_object_enum)
+            elif line.find("field_10A_flags") != -1:
+                numberAsEnumBits = number2Enum(int(extractedLit[0], base), base_game_object_enum)
 
             startPos = pos
             endPos = startPos + extractedLit[1]
 
             lineBefore = line[:startPos]
             lineAfter = line[endPos+3:]
-            line = lineBefore.strip() + ".Clear(" + numberAsEnumBits + ")" + lineAfter
+
+            if isClear:
+                line = lineBefore.strip() + ".Clear(" + numberAsEnumBits + ")" + lineAfter
+            else:
+                line = lineBefore.strip() + ".Set(" + numberAsEnumBits + ")" + lineAfter
+
             line = line.replace("LOWORD(field_10_anim.field_4_flags)", "field_10_anim.field_4_flags")
+            line = line.replace("LOBYTE(field_10_anim.field_4_flags)", "field_10_anim.field_4_flags")
+
+            line = line.replace("LOWORD(field_6_flags)", "field_6_flags")
+            line = line.replace("LOBYTE(field_6_flags)", "field_6_flags")
 
     tmp = ""
     pos = line.find("Math_FixedPoint_Multiply_451040")
@@ -196,10 +252,14 @@ def GetLiteral(line):
     ret = ""
     strLen = 0
     startPos = 0
+    oldLine = line
+    addHexPrefix = False
+
     if line.startswith("~"):
         startPos = 1
         strLen = 1
     elif line.startswith("0x"):
+        addHexPrefix = True
         startPos = 2
         strLen = 2
 
@@ -212,8 +272,11 @@ def GetLiteral(line):
         ret = str(bit_not(int(ret, 16), bitcount))
 
     if ret != "":
-        if line[strLen-1] == 'u':
-            strLen = strLen + 1
+        if strLen < len(oldLine):
+            if oldLine[strLen] == 'u':
+                strLen = strLen + 1
+        if addHexPrefix:
+            ret = "0x" + ret
 
     return [ret, strLen]
 
@@ -227,6 +290,8 @@ def number2Enum(num, enumVals):
     ret = ""
     for b in bits(num):
         v = enumVals.get(b)
+        if v is None:
+            print("Error: Could not find an enum value for " + str(b))
         if ret != "":
             ret = ret + " | "
         ret = ret + v
@@ -240,25 +305,41 @@ def AsFP(input):
         return "FP_FromDouble(" + str(fpV) + ");"
 
 def tests():
-    # TODO
-    # Animation::SetFrame_402AC0(&this->field_0_mBase.field_10_anim, (v10 >> 1) + 1);
-    # Animation::Get_FrameHeader_403A00(&this->field_0_mBase.field_10_anim, -1);
+    #check(process("LOWORD(this->field_0_mBase.field_0_mBase.field_6_flags) &= 0xDFu;"), "field_6_flags.Clear(Options::eIsBaseAliveGameObject_Bit6);")
+    #check(process("this->field_10A_flags &= ~0x3Fu;"), "field_10A_flags.Clear(0x3F);")
 
+    check(GetLiteral("0x20u"), ["0x20", 5])
+    check(GetLiteral("0x280000"), ["0x280000", 8])
+    check(GetLiteral("~4u;"), ["4", 3])
     check(GetLiteral("123"), ["123", 3])
+    check(GetLiteral("4u"), ["4", 2])
+    check(GetLiteral("0xFFFBu;"), ["0x4", 7])
+
+    check(process("LOWORD(this->field_0_mBase.field_0_mBase.field_10_anim.field_4_flags) |= 4u;"), "field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);")
+
+ 
+    check(process("LOBYTE(this->field_0_mBase.field_0_mBase.field_6_flags) |= 0x20u;"), "field_6_flags.Set(Options::eIsBaseAliveGameObject_Bit6);")
+
+    check(process("Animation::SetFrame_402AC0(&this->field_0_mBase.field_10_anim, (v10 >> 1) + 1);"), "field_10_anim.SetFrame_402AC0((v10 >> 1) + 1);")
+
+    check(process("Animation::Get_FrameHeader_403A00(&this->field_0_mBase.field_10_anim, -1)"), "field_10_anim.Get_FrameHeader_403A00(-1)")
+
+    check(process("int __cdecl SND_477330()"), "EXPORT int CC SND_477330()")
+
+    check(process("DynamicArray::Remove_Item_404520(pBaseAliveGameObjsList, this);"), "pBaseAliveGameObjsList->Remove_Item(this);")
+    check(process("DynamicArray::Push_Back_404450(pBaseAliveGameObjsList, this);"), "pBaseAliveGameObjsList->Push_Back(this);")
+
     check(extractHexOrDecString("0x280000);"), "0x280000")
 
     check(process("v5 = Math_FixedPoint_Multiply_451040(this->field_0_mBase.field_0_mBase.field_BC_scale, 2621440);"), "v5 = Math_FixedPoint_Multiply_451040(field_BC_scale, 2621440); // FP_FromInteger(40);")
     check(process("v5 = Math_FixedPoint_Multiply_451040(this->field_0_mBase.field_0_mBase.field_BC_scale, 0x280000);"), "v5 = Math_FixedPoint_Multiply_451040(field_BC_scale, 0x280000); // FP_FromInteger(40);")
 
-    # TODO: Flag setting + handle HIWORD/HIBYTE and constant bit shifting
-    # LOBYTE(field_10_anim.field_4_flags) |= 0x10u;
-
     check(process("v5 = Math_FixedPoint_Divide_450FB0(this->field_0_mBase.field_0_mBase.field_BC_scale, 2621440);"), "v5 = Math_FixedPoint_Divide_450FB0(field_BC_scale, 2621440); // FP_FromInteger(40);")
     check(process("v5 = Math_FixedPoint_Divide_450FB0(this->field_0_mBase.field_0_mBase.field_BC_scale, 0x280000);"), "v5 = Math_FixedPoint_Divide_450FB0(field_BC_scale, 0x280000); // FP_FromInteger(40);")
-
-    check(GetLiteral("~4u;"), ["4", 3])
-    check(GetLiteral("0xFFFBu;"), ["4", 6])
+    
     check(process("LOWORD(this->field_0_mBase.field_0_mBase.field_10_anim.field_4_flags) &= ~4u;"), "field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);")
+    check(process("LOBYTE(this->field_0_mBase.field_0_mBase.field_10_anim.field_4_flags) &= ~0x4u;"), "field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);")
+
     check(number2Enum(4, anim_enum), "AnimFlags::eBit3_Render")
     check(number2Enum(0x3, anim_enum), "AnimFlags::eBit1 | AnimFlags::eBit2_Animate")
     check(process("this->field_0_mBase.field_0_VTbl = (BaseGameObject_VTable_Union *)&vTbl_LiftMover_5440D4;"), "SetVTable(this, 0x5440D4);")
@@ -267,7 +348,6 @@ def tests():
     check(process("Event_Broadcast_417220(1, &this->field_0_mBase.field_0_mBase.field_0_mBase);"), "Event_Broadcast_417220(1, this);")
     check(process("LOBYTE(this->field_0_mBase.field_0_mBase.field_6_flags) |= 4u;"), "field_6_flags.Set(BaseGameObject::eDead);")
     check(process("Map::TLV_Reset_446870(&gMap_507BA8, a3, -1, 0, 0);"), "gMap_507BA8.TLV_Reset_446870(a3, -1, 0, 0);")
-
 
 def main():
     # get clipboard data
@@ -289,4 +369,4 @@ def main():
     win32clipboard.CloseClipboard()
 
 tests()
-#main()
+main()
