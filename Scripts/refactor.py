@@ -68,7 +68,10 @@ def check(transformed, expected):
     print(expected)
     assert transformed == expected
 
+doneFuncSig = False
+
 def process(line):
+    global doneFuncSig
     pos = line.find("field_0_VTbl")
     if pos == -1:
         pos = line.find("field_0_VTable")
@@ -79,7 +82,8 @@ def process(line):
          line = "SetVTable(this, 0x" + addr + ");"
 
     pos = line.find("__thiscall")
-    if pos != -1:
+    if pos != -1 and not doneFuncSig:
+        doneFuncSig = True
         beforeThisCall = line[0: pos]
         afterThisCall = line[pos + 11: line.find("(")]
         args = line[line.find("(") : line.rfind(")")+1]
@@ -89,10 +93,29 @@ def process(line):
             args = "()"
         line = "EXPORT " + beforeThisCall + afterThisCall + args
 
+        if afterThisCall.lower().find("::vscreenchanged_") != -1 or afterThisCall.lower().find("::vscreenchange_") != -1:
+            print("Add vscreenchanged stub")
+            className = afterThisCall[:afterThisCall.find("::")].strip()
+            funcName = afterThisCall[afterThisCall.find("::")+2:].strip()
+            print(className)
+            print(funcName)
+            # Add virtual stub to call this
+            vScreenChangedStub = """
+virtual void VScreenChanged() override
+{
+    replace_me();
+}
+"""
+            vScreenChangedStubEdited = vScreenChangedStub.replace("VScreenChanged()", className + "::VScreenChanged()");
+            vScreenChangedStubEdited = vScreenChangedStubEdited.replace("replace_me", funcName)
+            line = vScreenChangedStubEdited + "\n" + line
+
     pos = line.find(" __cdecl ")
-    if pos != -1:
+    if pos != -1 and not doneFuncSig:
         line = "EXPORT " + line
         line = line.replace(" __cdecl ", " CC ")
+        doneFuncSig = True
+        
 
     line = line.replace("field_0_mBase.", "")
     line = line.replace("&this->field_0_mBase", "this")
@@ -115,6 +138,9 @@ def process(line):
     line = line.replace("field_BC_sprite_scale = 0;", "field_BC_sprite_scale = FP_FromInteger(0);")
     line = line.replace("field_100_health = 0;", "field_100_health = FP_FromInteger(0);")
 
+    line = line.replace("field_BC_sprite_scale = 0x8000;", "field_BC_sprite_scale = FP_FromDouble(0.5);")
+
+
     line = line.replace("field_A8_xpos = 0x10000;", "field_A8_xpos = FP_FromInteger(1);")
     line = line.replace("field_AC_ypos = 0x10000;", "field_AC_ypos = FP_FromInteger(1);")
     line = line.replace("field_B4_velx = 0x10000;", "field_B4_velx = FP_FromInteger(1);")
@@ -135,6 +161,11 @@ def process(line):
     line = line.replace("return BaseAliveGameObject::dtor_401000(this)", "return dtor_401000()")
     line = line.replace("return BaseAnimatedWithPhysicsGameObject::dtor_417D10(this)", "return dtor_417D10()")
     line = line.replace("return BaseGameObject::dtor_487DF0(this)", "return dtor_487DF0()")
+
+    line = line.replace("Map::GetOverlayId_4440B0(&gMap_507BA8)", "gMap_507BA8.GetOverlayId_4440B0()")
+    line = line.replace("Animation::ctor_402A40(&field_10_anim,", "field_10_anim.ctor_402A40(")
+
+
 
     pos = line.find("DynamicArray::Remove_Item_404520")
     if pos != -1:
@@ -269,7 +300,7 @@ def extractHexOrDecString(line):
     for c in line:
         if c.isspace():
             continue
-        elif c.isnumeric():
+        elif c in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']:
             ret = ret + c
         elif c in ['A', 'B', 'C', 'D', 'E', 'F']:
             ret = ret + c
@@ -366,6 +397,10 @@ def AsFP(input):
         return "FP_FromDouble(" + str(fpV) + ");"
 
 def tests():
+    global doneFuncSig
+    #check(process("void __thiscall BaseGameObject::VScreenChanged_487E70(BaseGameObject *this)"), "")
+
+    
     check(process("LOWORD(this->field_0_mBase.field_0_mBase.field_10_anim.field_4_flags) &= ~4u;"), "field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);")
     check(process("LOWORD(this->field_0_mBase.field_0_mBase.field_6_flags) &= 0xDFu;"), "field_6_flags.Clear(Options::eIsBaseAliveGameObject_Bit6);")
     check(process("LOBYTE(this->field_0_mBase.field_0_mBase.field_10_anim.field_4_flags) &= ~0x4u;"), "field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);")
@@ -383,7 +418,9 @@ def tests():
     check(GetLiteral("123"), ["123", 3])
     check(GetLiteral("0xFFFBu;"), ["0xFFFB", 7])
     check(process("Animation::Get_FrameHeader_403A00(&this->field_0_mBase.field_10_anim, -1)"), "field_10_anim.Get_FrameHeader_403A00(-1)")
+    doneFuncSig = False
     check(process("int __cdecl SND_477330()"), "EXPORT int CC SND_477330()")
+
     check(process("DynamicArray::Remove_Item_404520(pBaseAliveGameObjsList, this);"), "pBaseAliveGameObjsList->Remove_Item(this);")
     check(process("DynamicArray::Push_Back_404450(pBaseAliveGameObjsList, this);"), "pBaseAliveGameObjsList->Push_Back(this);")
     check(extractHexOrDecString("0x280000);"), "0x280000")
@@ -394,7 +431,11 @@ def tests():
     check(number2Enum(4, anim_enum), "AnimFlags::eBit3_Render")
     check(number2Enum(0x3, anim_enum), "AnimFlags::eBit1 | AnimFlags::eBit2_Animate")
     check(process("this->field_0_mBase.field_0_VTbl = (BaseGameObject_VTable_Union *)&vTbl_LiftMover_5440D4;"), "SetVTable(this, 0x5440D4);")
+
+    doneFuncSig = False
     check(process("signed __int16 __thiscall Elum::sub_411E40(_DWORD *this)"), "EXPORT signed __int16 Elum::sub_411E40()")
+
+    doneFuncSig = False
     check(process("signed __int16 __thiscall Elum::sub_411E40(_DWORD *this, int asdf)"), "EXPORT signed __int16 Elum::sub_411E40(int asdf)")
     check(process("Event_Broadcast_417220(1, &this->field_0_mBase.field_0_mBase.field_0_mBase);"), "Event_Broadcast_417220(1, this);")
     check(process("LOBYTE(this->field_0_mBase.field_0_mBase.field_6_flags) |= 4u;"), "field_6_flags.Set(BaseGameObject::eDead);")
