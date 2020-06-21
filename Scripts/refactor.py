@@ -72,14 +72,6 @@ doneFuncSig = False
 
 def process(line):
     global doneFuncSig
-    pos = line.find("field_0_VTbl")
-    if pos == -1:
-        pos = line.find("field_0_VTable")
-
-    if pos != -1:
-         parts = line.replace(";", "").split("_")
-         addr = parts[len(parts)-1]
-         line = "SetVTable(this, 0x" + addr + ");"
 
     pos = line.find("__thiscall")
     if pos != -1 and not doneFuncSig:
@@ -143,10 +135,13 @@ virtual void VScreenChanged() override
     line = line.replace("LOBYTE(field_6_flags) |= 4u", "field_6_flags.Set(BaseGameObject::eDead)")
 
     line = line.replace("1835626049", "ResourceManager::Resource_Animation")
-    line = line.replace("0x6D696E41", "ResourceManager::Resource_Animation")
+    line = line.replace("0x746C6150", "ResourceManager::Resource_Animation")
     line = line.replace("'minA'", "ResourceManager::Resource_Animation")
 
-    line = line.replace("'minA'", "ResourceManager::Resource_Animation")
+    line = line.replace("1953259856", "ResourceManager::Resource_Palt")
+    line = line.replace("0x6D696E41", "ResourceManager::Resource_Palt")
+    line = line.replace("'tlaP'", "ResourceManager::Resource_Palt")
+
 
     line = line.replace("Map::TLV_Reset_446870(&gMap_507BA8, ", "gMap_507BA8.TLV_Reset_446870(")
 
@@ -184,7 +179,16 @@ virtual void VScreenChanged() override
     line = line.replace("Map::GetOverlayId_4440B0(&gMap_507BA8)", "gMap_507BA8.GetOverlayId_4440B0()")
     line = line.replace("Animation::ctor_402A40(&field_10_anim,", "field_10_anim.ctor_402A40(")
 
+    line = line.replace("BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(this,", "Animation_Init_417FD0(")
 
+    pos = line.find("field_0_VTbl")
+    if pos == -1:
+        pos = line.find("field_0_VTable")
+
+    if pos != -1 and line.find(".") == -1:
+         parts = line.replace(";", "").split("_")
+         addr = parts[len(parts)-1]
+         line = "SetVTable(this, 0x" + addr + ");"
 
     pos = line.find("DynamicArray::Remove_Item_404520")
     if pos != -1:
@@ -229,7 +233,7 @@ virtual void VScreenChanged() override
             isSet = True
         pos = posStart
 
-        if isSet or isClear and line.find("HI") == -1:
+        if isSet or isClear and line.find("HI") == -1 and line.find("BYTE1") == -1 and line.find("BYTE2") == -1 and line.find("BYTE3") == -1:
             # Flags are being cleared
             flagsLiteral = line[pos+2 :].strip()
             extractedLit = GetLiteral(flagsLiteral)
@@ -420,6 +424,8 @@ def tests():
     #check(process("TrapDoor *__thiscall TrapDoor::VDtor_4887D0(TrapDoor *this, char flags)"), "")
     #check(process("void __thiscall BaseGameObject::VScreenChanged_487E70(BaseGameObject *this)"), "")
 
+    # TODO: Handle byte macros
+    # BYTE1(this->field_0_mBase.field_0_mBase.field_10_anim.field_4_flags) |= 0x40u;
     
     check(process("LOWORD(this->field_0_mBase.field_0_mBase.field_10_anim.field_4_flags) &= ~4u;"), "field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);")
     check(process("LOWORD(this->field_0_mBase.field_0_mBase.field_6_flags) &= 0xDFu;"), "field_6_flags.Clear(Options::eIsBaseAliveGameObject_Bit6);")
