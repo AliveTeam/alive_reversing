@@ -83,6 +83,7 @@ def process(line):
 
     pos = line.find("__thiscall")
     if pos != -1 and not doneFuncSig:
+        print("Looks like signature: " + line)
         doneFuncSig = True
         beforeThisCall = line[0: pos]
         afterThisCall = line[pos + 11: line.find("(")]
@@ -93,6 +94,24 @@ def process(line):
             args = "()"
         line = "EXPORT " + beforeThisCall + afterThisCall + args
 
+        if afterThisCall.lower().find("::vdtor_") != -1:
+            print("Add vdtor stub")
+            className = afterThisCall[:afterThisCall.find("::")].strip()
+            funcName = afterThisCall[afterThisCall.find("::")+2:].strip()
+            print(className)
+            print(funcName)
+            # Add virtual stub to call this
+            vDtorChangedStub = """
+virtual BaseGameObject* VDestructor(signed int flags) override
+{
+    return replace_me(flags);
+}
+"""
+            vDtorChangedStubEdited = vDtorChangedStub.replace("VDestructor(signed int flags)", className + "::VDestructor(signed int flags)");
+            vDtorChangedStubEdited = vDtorChangedStubEdited.replace("replace_me", funcName)
+            line = vDtorChangedStubEdited + "\n" + line
+            line = line.replace("(char flags)", "(signed int flags)")
+        
         if afterThisCall.lower().find("::vscreenchanged_") != -1 or afterThisCall.lower().find("::vscreenchange_") != -1:
             print("Add vscreenchanged stub")
             className = afterThisCall[:afterThisCall.find("::")].strip()
@@ -398,6 +417,7 @@ def AsFP(input):
 
 def tests():
     global doneFuncSig
+    #check(process("TrapDoor *__thiscall TrapDoor::VDtor_4887D0(TrapDoor *this, char flags)"), "")
     #check(process("void __thiscall BaseGameObject::VScreenChanged_487E70(BaseGameObject *this)"), "")
 
     
@@ -440,7 +460,8 @@ def tests():
     check(process("Event_Broadcast_417220(1, &this->field_0_mBase.field_0_mBase.field_0_mBase);"), "Event_Broadcast_417220(1, this);")
     check(process("LOBYTE(this->field_0_mBase.field_0_mBase.field_6_flags) |= 4u;"), "field_6_flags.Set(BaseGameObject::eDead);")
     check(process("Map::TLV_Reset_446870(&gMap_507BA8, a3, -1, 0, 0);"), "gMap_507BA8.TLV_Reset_446870(a3, -1, 0, 0);")
-
+    doneFuncSig = False
+    
 def main():
     # get clipboard data
     win32clipboard.OpenClipboard()
