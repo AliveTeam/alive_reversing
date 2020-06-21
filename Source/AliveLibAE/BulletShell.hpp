@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-struct PathLine;
+class PathLine;
 
 class BulletShell : public BaseAnimatedWithPhysicsGameObject
 {

@@ -620,7 +620,7 @@ void Map::RemoveObjectsWithPurpleLight_4440D0(__int16 bMakeInvisible)
         }
 
         if (pObjIter->field_6_flags.Get(BaseGameObject::eDrawable_Bit4)
-            && pObjIter->field_10A_flags & 0x20
+            && pObjIter->field_10A_flags.Get(Flags_10A::e10A_Bit6)
             && pObjIter->field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render)
             && !pObjIter->field_6_flags.Get(BaseGameObject::eDead_Bit3)
             && pObjIter != sControlledCharacter_50767C)

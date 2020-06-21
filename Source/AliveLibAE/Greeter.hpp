@@ -61,7 +61,7 @@ struct Greeter_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Greeter_State, 0x50);
 
-struct PathLine;
+class PathLine;
 
 enum class GreeterSpeak : __int16
 {

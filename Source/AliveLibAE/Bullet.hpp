@@ -5,7 +5,7 @@
 #include "FixedPoint.hpp"
 #include "Psx.hpp"
 
-struct PathLine;
+class PathLine;
 
 enum class LevelIds : __int16;
 

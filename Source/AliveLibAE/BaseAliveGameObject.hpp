@@ -9,7 +9,7 @@
 EXPORT int CC SnapToXGrid_449930(FP scale, int x);
 
 struct Path_TLV;
-struct PathLine;
+class PathLine;
 
 class PlatformBase;
 class BirdPortal;
