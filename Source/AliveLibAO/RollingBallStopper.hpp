@@ -6,7 +6,7 @@
 
 START_NS_AO
 
-struct PathLine;
+class PathLine;
 
 struct Path_RollingBallStopper : public Path_TLV
 {

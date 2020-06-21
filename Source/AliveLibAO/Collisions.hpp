@@ -5,8 +5,9 @@
 
 START_NS_AO
 
-struct PathLine
+class PathLine
 {
+public:
     PSX_RECT field_0_rect;
     char field_8_type;
     char field_9;
