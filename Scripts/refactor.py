@@ -46,6 +46,7 @@ base_game_object_enum = {
 
 def check(transformed, expected):
     print(transformed)
+    print(expected)
     assert transformed == expected
 
 def process(line):
@@ -163,9 +164,23 @@ def process(line):
             # Flags are being cleared
             flagsLiteral = line[pos+2 :].strip()
             extractedLit = GetLiteral(flagsLiteral)
+            print("Obtained literal: " + extractedLit[0] + " from " + flagsLiteral)
             base = 10
             if hasHexChar(extractedLit[0]) or extractedLit[0].startswith("0x"):
                 base = 16
+
+            if isClear:
+                if base == 10:
+                    hexStr = str(hex(int(extractedLit[0], base)))[2:].upper()
+                else:
+                    hexStr = extractedLit[0]
+
+                bitcount = int(((len(hexStr)-2) / 2) * 8)
+                if bitcount < 16:
+                    bitcount = 16
+                inverted = str(bit_not(int(hexStr, 16), bitcount))
+                print("Inverted: " + hexStr + " to " + inverted + " bitcount " + str(bitcount))
+                extractedLit[0] = inverted
 
             if line.find("field_10_anim.field_4_flags") != -1:
                 numberAsEnumBits = number2Enum(int(extractedLit[0], base), anim_enum)
@@ -255,7 +270,15 @@ def GetLiteral(line):
     oldLine = line
     addHexPrefix = False
 
-    if line.startswith("~"):
+    invert = False
+
+    if line.startswith("~0x"):
+        invert = True
+        addHexPrefix = True
+        startPos = 3
+        strLen = 3
+    elif line.startswith("~"):
+        invert = True
         startPos = 1
         strLen = 1
     elif line.startswith("0x"):
@@ -264,19 +287,32 @@ def GetLiteral(line):
         strLen = 2
 
     line = line[startPos:]
+    #print("Without prefix: " + line)
+
     ret = extractHexOrDecString(line)
     strLen = strLen + len(ret)
 
-    if hasHexChar(ret):
-        bitcount = int((len(ret) / 2) * 8)
-        ret = str(bit_not(int(ret, 16), bitcount))
+    #print("Without prefix: " + line + " extracted: " + ret)
+   
+    if invert:
+        if addHexPrefix:
+            bitcount = int((len(ret) / 2) * 8)
+            if bitcount < 16:
+                bitcount = 16
+            tmp = "0x" + hex(bit_not(int(ret, 16), bitcount)).upper()[2:]
+            print("Inverting " + ret + " with bitcount " + str(bitcount) + " to " + tmp)
+            ret = tmp
+        else:
+            bitcount = 16
+            ret = str(bit_not(int(ret, 10), bitcount))
+    else:
+        if addHexPrefix:
+            ret = "0x" + ret
 
     if ret != "":
         if strLen < len(oldLine):
             if oldLine[strLen] == 'u':
                 strLen = strLen + 1
-        if addHexPrefix:
-            ret = "0x" + ret
 
     return [ret, strLen]
 
@@ -305,22 +341,32 @@ def AsFP(input):
         return "FP_FromDouble(" + str(fpV) + ");"
 
 def tests():
-    #check(process("LOWORD(this->field_0_mBase.field_0_mBase.field_6_flags) &= 0xDFu;"), "field_6_flags.Clear(Options::eIsBaseAliveGameObject_Bit6);")
-    #check(process("this->field_10A_flags &= ~0x3Fu;"), "field_10A_flags.Clear(0x3F);")
-
-    check(GetLiteral("0x20u"), ["0x20", 5])
-    check(GetLiteral("0x280000"), ["0x280000", 8])
-    check(GetLiteral("~4u;"), ["4", 3])
-    check(GetLiteral("123"), ["123", 3])
-    check(GetLiteral("4u"), ["4", 2])
-    check(GetLiteral("0xFFFBu;"), ["0x4", 7])
-
-    check(process("LOWORD(this->field_0_mBase.field_0_mBase.field_10_anim.field_4_flags) |= 4u;"), "field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);")
-
- 
     check(process("LOBYTE(this->field_0_mBase.field_0_mBase.field_6_flags) |= 0x20u;"), "field_6_flags.Set(Options::eIsBaseAliveGameObject_Bit6);")
 
+    check(GetLiteral("~0x8u;"), ["0xFFF7", 5])
+    check(process("LOBYTE(this->field_0_mBase.field_0_mBase.field_10_anim.field_4_flags) &= ~0x4u;"), "field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);")
+
+
+    check(GetLiteral("~8u;"), ["65527", 3])
+
+    #check(process("LOWORD(this->field_0_mBase.field_0_mBase.field_6_flags) &= 0xDFu;"), "field_6_flags.Clear(Options::eIsBaseAliveGameObject_Bit6);")
+    #check(process("this->field_10A_flags &= ~0x3Fu;"), "field_10A_flags.Clear(0x3F);")
+    
+    check(process("LOWORD(this->field_0_mBase.field_0_mBase.field_10_anim.field_4_flags) &= ~4u;"), "field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);")
+    check(process("LOWORD(this->field_0_mBase.field_0_mBase.field_10_anim.field_4_flags) |= 4u;"), "field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);")
     check(process("Animation::SetFrame_402AC0(&this->field_0_mBase.field_10_anim, (v10 >> 1) + 1);"), "field_10_anim.SetFrame_402AC0((v10 >> 1) + 1);")
+
+
+    check(GetLiteral("4u"), ["4", 2])
+    check(GetLiteral("0x20u"), ["0x20", 5])
+    check(GetLiteral("0x280000"), ["0x280000", 8])
+
+    check(GetLiteral("123"), ["123", 3])
+    check(GetLiteral("0xFFFBu;"), ["0xFFFB", 7])
+
+   
+ 
+
 
     check(process("Animation::Get_FrameHeader_403A00(&this->field_0_mBase.field_10_anim, -1)"), "field_10_anim.Get_FrameHeader_403A00(-1)")
 
@@ -337,8 +383,6 @@ def tests():
     check(process("v5 = Math_FixedPoint_Divide_450FB0(this->field_0_mBase.field_0_mBase.field_BC_scale, 2621440);"), "v5 = Math_FixedPoint_Divide_450FB0(field_BC_scale, 2621440); // FP_FromInteger(40);")
     check(process("v5 = Math_FixedPoint_Divide_450FB0(this->field_0_mBase.field_0_mBase.field_BC_scale, 0x280000);"), "v5 = Math_FixedPoint_Divide_450FB0(field_BC_scale, 0x280000); // FP_FromInteger(40);")
     
-    check(process("LOWORD(this->field_0_mBase.field_0_mBase.field_10_anim.field_4_flags) &= ~4u;"), "field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);")
-    check(process("LOBYTE(this->field_0_mBase.field_0_mBase.field_10_anim.field_4_flags) &= ~0x4u;"), "field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);")
 
     check(number2Enum(4, anim_enum), "AnimFlags::eBit3_Render")
     check(number2Enum(0x3, anim_enum), "AnimFlags::eBit1 | AnimFlags::eBit2_Animate")
