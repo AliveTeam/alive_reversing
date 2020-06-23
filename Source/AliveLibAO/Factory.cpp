@@ -285,14 +285,14 @@ EXPORT void Factory_AbeStart_486050(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUn
             }
         }
 
-        if (!sActiveHero_5C1B68)
+        if (!sActiveHero_507678)
         {
-            sActiveHero_5C1B68 = ao_new<Abe>();
-            if (sActiveHero_5C1B68)
+            sActiveHero_507678 = ao_new<Abe>();
+            if (sActiveHero_507678)
             {
-                sActiveHero_5C1B68->ctor_420770(58808, 85, 57, 55);
-                sActiveHero_5C1B68->field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
-                sActiveHero_5C1B68->field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+                sActiveHero_507678->ctor_420770(58808, 85, 57, 55);
+                sActiveHero_507678->field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
+                sActiveHero_507678->field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
             }
         }
     }

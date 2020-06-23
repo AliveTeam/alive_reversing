@@ -6,6 +6,9 @@
 #include "Shadow.hpp"
 #include "Collisions.hpp"
 #include "Math.hpp"
+#include "Abe.hpp"
+#include "Events.hpp"
+#include "MusicController.hpp"
 
 START_NS_AO
 
@@ -19,7 +22,7 @@ TintEntry stru_4CFB10[3] =
   { -1, 102u, 127u, 118u }
 };
 
-short* CC Animation_OnFrame_Slig_46F610(void*, __int16* )
+EXPORT short* CC Animation_OnFrame_Slig_46F610(void*, __int16* )
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -42,10 +45,10 @@ Slig* Slig::ctor_464D40(Path_Slig* pTlv, int tlvInfo)
 
     SetVTable(this, 0x4BCA70);
 
-    memset(field_210_resources, 0, sizeof(field_210_resources));
+    field_210_resources = {};
 
     BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 412, 1, 0);
-    field_210_resources[0] = ppRes;
+    field_210_resources.res[0] = ppRes;
     Animation_Init_417FD0(
         132740,
         160,
@@ -153,18 +156,15 @@ Slig* Slig::ctor_464D40(Path_Slig* pTlv, int tlvInfo)
 
 BaseAliveGameObject* Slig::dtor_465320()
 {
-    NOT_IMPLEMENTED();
-
     SetVTable(this, 0x4BCA70);
 
-    /*
     if (sControlledCharacter_50767C == this)
     {
         if (field_14E_level != gMap_507BA8.field_0_current_level
             || field_150_path != gMap_507BA8.field_2_current_path
             || field_152_camera != gMap_507BA8.field_4_current_camera)
         {
-            Event_Broadcast_417220(7, this);
+            Event_Broadcast_417220(kEvent_7, this);
         }
 
         sControlledCharacter_50767C = sActiveHero_507678;
@@ -179,7 +179,6 @@ BaseAliveGameObject* Slig::dtor_465320()
                 0,
                 0);
     }
-    */
 
     auto pTlv = gMap_507BA8.TLV_Get_At_446260(
         field_174_tlv.field_C_sound_pos.field_0_x,
@@ -202,23 +201,14 @@ BaseAliveGameObject* Slig::dtor_465320()
         pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
     }
 
-    /*
-    ppResourcesIter = field_210_resources;
-    k17Counter = 17;
-    do
+    for (BYTE**& ppRes : field_210_resources.res)
     {
-        if (field_10_anim.field_20_ppBlock != *ppResourcesIter)
+        if (ppRes && field_10_anim.field_20_ppBlock != ppRes)
         {
-            if (*ppResourcesIter)
-            {
-                ResourceManager::FreeResource_455550(*ppResourcesIter);
-                *ppResourcesIter = 0;
-            }
+            ResourceManager::FreeResource_455550(ppRes);
+            ppRes = nullptr;
         }
-        ++ppResourcesIter;
-        --k17Counter;
-    } while (k17Counter);
-    */
+    }
 
     return dtor_401000(); // Note: Empty dtor skipped
 }

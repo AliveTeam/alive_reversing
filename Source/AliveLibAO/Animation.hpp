@@ -126,7 +126,7 @@ public:
     FP field_14_scale;
     int field_18;
     TFrameCallBackType* field_1C_fn_ptrs;
-    int field_20;
+    BYTE** field_20_ppBlock;
     int field_24;
     int field_28;
     int field_2C;

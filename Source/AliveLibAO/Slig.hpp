@@ -43,6 +43,11 @@ struct Path_Slig : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_Slig, 0x58);
 
+struct SligResources
+{
+    BYTE** res[17];
+};
+
 class Slig : public BaseAliveGameObject
 {
 public:
@@ -114,7 +119,7 @@ public:
     int field_208;
     __int16 field_20C;
     __int16 field_20E;
-    BYTE** field_210_resources[17];
+    SligResources field_210_resources;
     __int16 field_254;
     __int16 field_256;
     int field_258;

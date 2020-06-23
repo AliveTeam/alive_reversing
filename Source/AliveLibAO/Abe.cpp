@@ -8,7 +8,7 @@
 
 START_NS_AO;
 
-ALIVE_VAR(1, 0x5C1B68, Abe*, sActiveHero_5C1B68, nullptr);
+ALIVE_VAR(1, 0x507678, Abe*, sActiveHero_507678, nullptr);
 ALIVE_VAR(1, 0x50767C, BaseAliveGameObject*, sControlledCharacter_50767C, nullptr);
 
 BaseGameObject* Abe::VDestructor(signed int flags)
