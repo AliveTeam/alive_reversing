@@ -107,6 +107,7 @@ public:
     EXPORT Abe* ctor_420770(int frameTableOffset, int a3, int a4, int a5);
 };
 
-ALIVE_VAR_EXTERN(Abe*, sActiveHero_5C1B68);
+ALIVE_VAR_EXTERN(Abe*, sActiveHero_507678);
+ALIVE_VAR_EXTERN(BaseAliveGameObject*, sControlledCharacter_50767C);
 
 END_NS_AO;

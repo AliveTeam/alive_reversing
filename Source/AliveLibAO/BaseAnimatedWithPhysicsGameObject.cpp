@@ -26,7 +26,7 @@ BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::ctor_417C1
     field_C2_g = 105;
     field_C0_r = 105;
     field_BC_sprite_scale = FP_FromInteger(1);
-    field_C6 = 1;
+    field_C6_scale = 1;
     field_C8 = 5;
 
     field_6_flags.Clear(Options::eCanExplode_Bit7);
@@ -59,4 +59,17 @@ BaseGameObject* BaseAnimatedWithPhysicsGameObject::dtor_417D10()
     return this;
 }
 
+__int16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(TintEntry* /*pTintArray*/, LevelIds /*level_id*/, int /*resourceID*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType_418930(unsigned __int16 /*typeToFind*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 END_NS_AO
+
+
