@@ -3,13 +3,12 @@
 #include "BellHammer.hpp"
 #include "ResourceManager.hpp"
 #include "stdlib.hpp"
+#include "Elum.hpp"
 
 START_NS_AO
 
 BellHammer* BellHammer::ctor_405010(Path_BellHammer* pTlv, int tlvInfo)
 {
-    NOT_IMPLEMENTED();
-
     ctor_417C10();
     SetVTable(this, 0x4BA120);
 
@@ -47,7 +46,7 @@ BellHammer* BellHammer::ctor_405010(Path_BellHammer* pTlv, int tlvInfo)
     }
 
     field_EC_pending_resource_count = 0;
-    /*
+
     if (gElum_507680)
     {
         return this;
@@ -56,27 +55,26 @@ BellHammer* BellHammer::ctor_405010(Path_BellHammer* pTlv, int tlvInfo)
     if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 216, 0, 0))
     {
         field_EC_pending_resource_count++;
-        ResourceManager::LoadResourceFile_4551E0("ELMFALL.BAN", BellHammer::OnResLoaded_405210, this, nullptr);
+        ResourceManager::LoadResourceFile("ELMFALL.BAN", BellHammer::OnResLoaded_405210, this);
     }
 
     if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 200, 0, 0))
     {
         field_EC_pending_resource_count++;
-        ResourceManager::LoadResourceFile_4551E0("ELMBASIC.BAN", BellHammer::OnResLoaded_405210, this, nullptr);
+        ResourceManager::LoadResourceFile("ELMBASIC.BAN", BellHammer::OnResLoaded_405210, this);
     }
 
     if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 222, 0, 0))
     {
         field_EC_pending_resource_count++;
-        ResourceManager::LoadResourceFile_4551E0("ELMPRMNT.BAN", BellHammer::OnResLoaded_405210, this, nullptr);
+        ResourceManager::LoadResourceFile("ELMPRMNT.BAN", BellHammer::OnResLoaded_405210, this);
     }
 
     if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 115, 0, 0))
     {
         field_EC_pending_resource_count++;
-        ResourceManager::LoadResourceFile_4551E0("ANEPRMNT.BAN", BellHammer::OnResLoaded_405210, this, nullptr);
+        ResourceManager::LoadResourceFile("ANEPRMNT.BAN", BellHammer::OnResLoaded_405210, this);
     }
-    */
 
     return this;
 }
