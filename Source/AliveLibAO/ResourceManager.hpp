@@ -65,7 +65,7 @@ public:
 
     using TLoaderFn = std::add_pointer<void CC(Camera*)>::type;
 
-    static EXPORT void CC CancelPendingResourcesFor_41EA60(BaseAliveGameObject* pObj);
+    static EXPORT void CC CancelPendingResourcesFor_41EA60(BaseGameObject* pObj);
 
     static EXPORT void CC Reclaim_Memory_455660(DWORD sizeToReclaim);
 
