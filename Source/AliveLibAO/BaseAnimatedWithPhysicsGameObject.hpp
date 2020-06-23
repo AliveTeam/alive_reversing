@@ -67,8 +67,7 @@ public:
     __int16 field_C6_scale;
     __int16 field_C8;
     __int16 field_CA;
-    char field_CC;
-    char field_CD;
+    WORD field_CC;
     char field_CE;
     char field_CF;
     Shadow* field_D0_pShadow;

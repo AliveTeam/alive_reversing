@@ -11,7 +11,7 @@ void SwitchStates_Set(unsigned __int16 idx, char value)
     sSwitchStates_505568.mData[idx] = value;
 }
 
-int SwitchStates_Get(unsigned __int16 idx)
+short SwitchStates_Get(unsigned __int16 idx)
 {
     if (idx == 0)
     {

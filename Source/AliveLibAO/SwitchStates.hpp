@@ -10,7 +10,7 @@ struct SwitchStates
 };
 
 void SwitchStates_Set(unsigned __int16 idx, char value);
-int SwitchStates_Get(unsigned __int16 idx);
+short SwitchStates_Get(unsigned __int16 idx);
 
 ALIVE_VAR_EXTERN(SwitchStates, sSwitchStates_505568);
 

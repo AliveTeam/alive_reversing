@@ -32,4 +32,11 @@ BYTE Math_NextRandom()
     return sRandomBytes_4BBE30[sRandomSeed_50A228++];
 }
 
+short CC Math_RandomRange_450F20(signed short /*min*/, signed short /*max*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 END_NS_AO
+

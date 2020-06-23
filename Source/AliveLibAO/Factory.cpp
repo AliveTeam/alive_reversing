@@ -15,6 +15,9 @@
 #include "Bat.hpp"
 #include "BellHammer.hpp"
 #include "LiftMover.hpp"
+#include "BackgroundAnimation.hpp"
+#include "DoorLight.hpp"
+#include "LightEffect.hpp"
 
 START_NS_AO
 
@@ -173,12 +176,17 @@ EXPORT void Factory_PullRingRope_483DA0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvIt
     NOT_IMPLEMENTED();
 }
 
-
-EXPORT void Factory_BackgroundAnimation_4840A0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_BackgroundAnimation_4840A0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode != 1 && loadMode != 2)
+    {
+        auto pBackgroundAnimation = ao_new<BackgroundAnimation>();
+        if (pBackgroundAnimation)
+        {
+            pBackgroundAnimation->ctor_405A90(static_cast<Path_BackgroundAnimation*>(pTlv), tlvOffsetLevelIdPathId.all);
+        }
+    }
 }
-
 
 EXPORT void Factory_Honey_4844A0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
 {
@@ -911,9 +919,128 @@ EXPORT void Factory_Music_482020(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoU
 }
 
 
-EXPORT void Factory_LightEffect_484170(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_LightEffect_484170(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    auto pPathLightTlv = static_cast<Path_LightEffect*>(pTlv);
+    if (loadMode == 1 || loadMode == 2)
+    {
+        switch (pPathLightTlv->field_18_type)
+        {
+        case Path_LightEffect::Type::Star_0:
+            ResourceManager::LoadResource_446C90("STAR.BAN", ResourceManager::Resource_Animation, 1039, loadMode);
+            break;
+
+        case Path_LightEffect::Type::RedGoldGlow_1:
+            ResourceManager::LoadResource_446C90("GOLDGLOW.BAN", ResourceManager::Resource_Animation, 6011, loadMode);
+            break;
+
+        case Path_LightEffect::Type::GreenGlow_2:
+            ResourceManager::LoadResource_446C90("GRENGLOW.BAN", ResourceManager::Resource_Animation, 6010, loadMode);
+            break;
+
+        case Path_LightEffect::Type::FlintGlow_3:
+            ResourceManager::LoadResource_446C90("FLNTGLOW.BAN", ResourceManager::Resource_Animation, 6028, loadMode);
+            break;
+
+        case Path_LightEffect::Type::FlintDoor_4:
+            ResourceManager::LoadResource_446C90("HUBLIGHT.BAN", ResourceManager::Resource_Animation, 6031, loadMode);
+            ResourceManager::LoadResource_446C90("HUBRED.BAN", ResourceManager::Resource_Animation, 6032, loadMode);
+            break;
+
+        case Path_LightEffect::Type::FlintHub_5:
+            ResourceManager::LoadResource_446C90("HUBLIGHT.BAN", ResourceManager::Resource_Animation, 6031, loadMode);
+            ResourceManager::LoadResource_446C90("HUBRED.BAN", ResourceManager::Resource_Animation, 6032, loadMode);
+            break;
+
+        default:
+            return;
+        }
+    }
+    else
+    {
+        switch (pPathLightTlv->field_18_type)
+        {
+        case Path_LightEffect::Type::Star_0:
+            if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1039, 0, 0))
+            {
+                auto pLight = ao_new<LightEffect>();
+                if (pLight)
+                {
+                    pLight->ctor_4064C0(pPathLightTlv, tlvOffsetLevelIdPathId.all);
+                }
+            }
+            else
+            {
+                gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            }
+            break;
+
+        case Path_LightEffect::Type::RedGoldGlow_1:
+            if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6011, 0, 0))
+            {
+                auto pLight = ao_new<DoorLight>();
+                if (pLight)
+                {
+                    pLight->ctor_405D90(pPathLightTlv, tlvOffsetLevelIdPathId.all);
+                }
+            }
+            else
+            {
+                gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            }
+            break;
+
+        case Path_LightEffect::Type::GreenGlow_2:
+            if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6010, 0, 0))
+            {
+                auto pLight = ao_new<DoorLight>();
+                if (pLight)
+                {
+                    pLight->ctor_405D90(pPathLightTlv, tlvOffsetLevelIdPathId.all);
+                }
+            }
+            else
+            {
+                gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            }
+            break;
+
+        case Path_LightEffect::Type::FlintGlow_3:
+            if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6028, 0, 0))
+            {
+                auto pLight = ao_new<DoorLight>();
+                if (pLight)
+                {
+                    pLight->ctor_405D90(pPathLightTlv, tlvOffsetLevelIdPathId.all);
+                }
+            }
+            else
+            {
+                gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            }
+            break;
+
+        case Path_LightEffect::Type::FlintDoor_4:
+        case Path_LightEffect::Type::FlintHub_5:
+            if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6031, 0, 0) &&
+                ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6032, 0, 0))
+            {
+                auto pLight = ao_new<DoorLight>();
+                if (pLight)
+                {
+                    pLight->ctor_405D90(pPathLightTlv, tlvOffsetLevelIdPathId.all);
+                }
+            }
+            else
+            {
+                gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            }
+            break;
+
+        default:
+            return;
+        }
+    }
 }
 
 
