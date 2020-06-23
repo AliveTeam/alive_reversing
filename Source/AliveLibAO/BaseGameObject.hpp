@@ -16,7 +16,10 @@ enum class Types : __int16
     eNone_0 = 0,
     eAlarm_1 = 1,
 
+    eBackgroundAnimation_5 = 5,
     eBat_6 = 6,
+    eLiftMover_7 = 7,
+
     eBellHammer_27 = 27,
 
     eRollingBallStopperShaker_58 = 58,
@@ -68,7 +71,7 @@ public:
 
     }
 
-    virtual void VUnknown()
+    virtual void VStopAudio()
     {
 
     }
@@ -77,7 +80,7 @@ public:
     Types field_4_typeId;
     BitField16<Options> field_6_flags;
     int field_8_update_delay;
-    char field_C_bCanKill;
+    char field_C_refCount;
     char field_D; // pad ?
     __int16 field_E; // ??
 };

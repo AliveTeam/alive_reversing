@@ -9,6 +9,14 @@ START_NS_AO
 
 using TFrameCallBackType = short* (CC*)(void*, __int16*);
 
+struct AnimHeader
+{
+    __int16 field_0_max_w;
+    __int16 field_2_max_h;
+    int field_4_frame_table_offset;
+};
+ALIVE_ASSERT_SIZEOF(AnimHeader, 0x8);
+
 struct AnimationHeader
 {
     // Meta data - the offset where this record was read from

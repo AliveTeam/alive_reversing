@@ -15,6 +15,11 @@ EXPORT signed __int16 CC SND_Load_VABS_477040(SoundBlockInfo* /*pSoundBlockInfo*
     return 0;
 }
 
+EXPORT void CC SND_Stop_Channels_Mask_4774A0(int /*mask*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 EXPORT void CC SND_Load_Seqs_477AB0(OpenSeqHandle* /*pSeqTable*/, const char* /*bsqFileName*/)
 {
     NOT_IMPLEMENTED();

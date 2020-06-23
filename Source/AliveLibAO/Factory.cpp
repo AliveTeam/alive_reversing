@@ -14,6 +14,7 @@
 #include "Slig.hpp"
 #include "Bat.hpp"
 #include "BellHammer.hpp"
+#include "LiftMover.hpp"
 
 START_NS_AO
 
@@ -85,9 +86,16 @@ EXPORT void Factory_ShadowZone_482080(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItem
 }
 
 
-EXPORT void Factory_LiftPoint_4820F0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode != 1 && loadMode != 2)
+    {
+        auto pLiftMover = ao_new<LiftMover>();
+        if (pLiftMover)
+        {
+            pLiftMover->ctor_4054E0(static_cast<Path_LiftMover*>(pTlv), tlvOffsetLevelIdPathId.all);
+        }
+    }
 }
 
 

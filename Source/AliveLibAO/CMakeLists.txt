@@ -1,6 +1,10 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   BackgroundAnimation.hpp
+   BackgroundAnimation.cpp
+   LiftMover.hpp
+   LiftMover.cpp
    BellHammer.hpp
    BellHammer.cpp
    Bat.hpp

@@ -30,7 +30,7 @@ EXPORT LiftMover* LiftMover::ctor_40CCD0(Path_LiftMover* pTlv, int tlvInfo)
     }
 
     field_30_state = LiftMoverStates::e0;
-    field_32_bMoveInProgress = 0;
+    field_32_bMoveInProgress = FALSE;
     return this;
 }
 

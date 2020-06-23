@@ -26,20 +26,21 @@ BackgroundAnimation* BackgroundAnimation::ctor_40D270(BackgroundAnimation_TLV* p
     SetVTable(this, 0x5440F0); // vTbl_BackgroundAnimation_5440F0
 
     field_4_typeId = Types::eBackgroundAnimation_7;
-    field_F8_arg_a3 = tlvInfo;
+    field_F8_tlvInfo = tlvInfo;
 
     field_F4_res = reinterpret_cast<AnimHeader**>(Add_Resource_4DC130(ResourceManager::Resource_Animation, pPathParams->field_10_res_id));
     if (!field_F4_res)
     {
         field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        return this;
     }
 
     field_B8_xpos = FP_FromInteger(pPathParams->field_8_top_left.field_0_x);
     field_BC_ypos = FP_FromInteger(pPathParams->field_8_top_left.field_2_y);
 
-    field_FC_xpos = FP_FromInteger(pPathParams->field_8_top_left.field_0_x);
-    field_100_ypos = FP_FromInteger(pPathParams->field_8_top_left.field_2_y);
+    field_FC_animXPos = FP_FromInteger(pPathParams->field_8_top_left.field_0_x);
+    field_100_animYPos = FP_FromInteger(pPathParams->field_8_top_left.field_2_y);
 
     Animation_Init_424E10(
         (*field_F4_res)->field_4_frame_table_offset,
@@ -49,11 +50,7 @@ BackgroundAnimation* BackgroundAnimation::ctor_40D270(BackgroundAnimation_TLV* p
         1,
         1u);
 
-    field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-    if (pPathParams->field_12_is_semi_trans & 1)
-    {
-        field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-    }
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans, pPathParams->field_12_is_semi_trans & 1);
     field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
 
     field_20_animation.field_B_render_mode = static_cast<BYTE>(pPathParams->field_14_semi_trans_mode);
@@ -85,8 +82,8 @@ void BackgroundAnimation::vUpdate_40D450()
     }
     else
     {
-        field_B8_xpos = FP_FromInteger(sTweakX_5C1BD0) + field_FC_xpos;
-        field_BC_ypos = FP_FromInteger(sTweakY_5C1BD4) + field_100_ypos;
+        field_B8_xpos = FP_FromInteger(sTweakX_5C1BD0) + field_FC_animXPos;
+        field_BC_ypos = FP_FromInteger(sTweakY_5C1BD4) + field_100_animYPos;
     }
 }
 
@@ -98,7 +95,7 @@ void BackgroundAnimation::vScreenChanged_40D550()
 void BackgroundAnimation::dtor_40D4C0()
 {
     SetVTable(this, 0x5440F0); // vTbl_BackgroundAnimation_5440F0
-    Path::TLV_Reset_4DB8E0(field_F8_arg_a3.all, -1, 0, 0);
+    Path::TLV_Reset_4DB8E0(field_F8_tlvInfo.all, -1, 0, 0);
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 

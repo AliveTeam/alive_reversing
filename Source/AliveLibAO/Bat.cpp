@@ -59,7 +59,7 @@ Bat* Bat::ctor_4046E0(Path_Bat* pTlv, int tlvInfo)
     }
 
     field_F4_state = 0;
-    field_10C = 0;
+    field_10C = nullptr;
     field_F6_attack_duration = pTlv->field_1E_attack_duration;
 
     return this;
@@ -70,7 +70,7 @@ BaseGameObject* Bat::dtor_404870()
     SetVTable(this, 0x4BA0E8);
     if (field_10C)
     {
-        field_10C->field_C_bCanKill--;
+        field_10C->field_C_refCount--;
     }
     gMap_507BA8.TLV_Reset_446870(field_F0_tlvInfo, -1, 0, 0);
     return dtor_417D10();
