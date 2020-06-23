@@ -12,6 +12,8 @@
 #include "ZBall.hpp"
 #include "SligSpawner.hpp"
 #include "Slig.hpp"
+#include "Bat.hpp"
+#include "BellHammer.hpp"
 
 START_NS_AO
 
@@ -212,9 +214,23 @@ EXPORT void Factory_Switch_485370(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfo
 }
 
 
-EXPORT void Factory_BellHammer_4854B0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_BellHammer_4854B0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode != 1 && loadMode != 2)
+    {
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1019, 0, 0))
+        {
+            auto pBellHammer = ao_new<BellHammer>();
+            if (pBellHammer)
+            {
+                pBellHammer->ctor_405010(static_cast<Path_BellHammer*>(pTlv), tlvOffsetLevelIdPathId.all);
+            }
+        }
+        else
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        }
+    }
 }
 
 
@@ -365,9 +381,24 @@ EXPORT void Factory_Paramite_4861F0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemIn
 }
 
 
-EXPORT void Factory_Bat_486630(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_Bat_486630(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        ResourceManager::LoadResource_446C90("BATBASIC.BAN", ResourceManager::Resource_Animation, 63, loadMode);
+    }
+    else if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 63, 0, 0))
+    {
+        auto pBat = ao_new<Bat>();
+        if (pBat)
+        {
+            pBat->ctor_4046E0(static_cast<Path_Bat*>(pTlv), tlvOffsetLevelIdPathId.all);
+        }
+    }
+    else
+    {
+        gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+    }
 }
 
 

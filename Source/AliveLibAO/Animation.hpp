@@ -9,6 +9,27 @@ START_NS_AO
 
 using TFrameCallBackType = short* (CC*)(void*, __int16*);
 
+struct AnimationHeader
+{
+    // Meta data - the offset where this record was read from
+    WORD field_0_fps;            // Seems to be 0x1 or 0x2
+    short field_2_num_frames;      // Number of frames in the set
+
+                                       // If loop flag set then this is the frame to loop back to
+    short field_4_loop_start_frame;
+
+    // These where reversed by editing data in memory on PSX version
+    enum eFlags
+    {
+        eFlipXFlag = 0x4,
+        eFlipYFlag = 0x8,
+        eNeverUnload = 0x1,
+        eLoopFlag = 0x2
+    };
+    WORD field_6_flags;
+    DWORD mFrameOffsets[1]; // Reading past 1 is UB.. will need to change this later (copy out the data or something)
+};
+
 // TODO: Assumed to be the same as AE - test this, some do match
 enum AnimFlags
 {
@@ -106,6 +127,7 @@ class BaseGameObject;
 class Animation : public AnimationBase
 {
 public:
+    EXPORT signed __int16 Set_Animation_Data_402A40(int frameTable, BYTE** resBlock);
 
     EXPORT void SetFrame_402AC0(unsigned __int16 frame);
 
@@ -119,12 +141,12 @@ public:
     char field_B_render_mode;
 
     __int16 field_C_layer;
-    __int16 field_E; // frame counter ?
+    __int16 field_E_frame_change_counter;
     // TODO: Above data part of base ?
 
-    int field_10;
+    int field_10_frame_delay;
     FP field_14_scale;
-    int field_18;
+    int field_18_frame_table_offset;
     TFrameCallBackType* field_1C_fn_ptrs;
     BYTE** field_20_ppBlock;
     int field_24;
