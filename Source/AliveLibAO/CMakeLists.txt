@@ -1,6 +1,14 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   Math.hpp
+   Math.cpp
+   Shadow.hpp
+   Shadow.cpp
+   Slig.hpp
+   Slig.cpp
+   SligSpawner.hpp
+   SligSpawner.cpp
    BaseGameObject.hpp
    BaseGameObject.cpp
    DynamicArray.hpp

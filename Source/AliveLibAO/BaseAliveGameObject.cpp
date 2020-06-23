@@ -52,15 +52,16 @@ BaseAliveGameObject* BaseAliveGameObject::dtor_401000()
     return this;
 }
 
-__int16 BaseAliveGameObject::sub_401D30(__int16 /*a2*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
 void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(int /*distance*/)
 {
     NOT_IMPLEMENTED();
 }
 
+__int16 BaseAliveGameObject::MapFollowMe_401D30(__int16 /*snapToGrid*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 END_NS_AO
+

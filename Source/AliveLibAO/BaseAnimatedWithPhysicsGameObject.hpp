@@ -49,6 +49,10 @@ public:
 
     EXPORT BaseGameObject* dtor_417D10();
 
+    EXPORT __int16 SetBaseAnimPaletteTint_4187C0(TintEntry* pTintArray, LevelIds level_id, int resourceID);
+
+    EXPORT void VStackOnObjectsOfType_418930(unsigned __int16 typeToFind);
+
     Animation field_10_anim;
     FP field_A8_xpos;
     FP field_AC_ypos;
@@ -60,7 +64,7 @@ public:
     __int16 field_C0_r;
     __int16 field_C2_g;
     __int16 field_C4_b;
-    __int16 field_C6;
+    __int16 field_C6_scale;
     __int16 field_C8;
     __int16 field_CA;
     char field_CC;

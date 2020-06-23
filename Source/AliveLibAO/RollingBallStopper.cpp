@@ -25,7 +25,7 @@ EXPORT RollingBallStopper* RollingBallStopper::ctor_43BCE0(Path_RollingBallStopp
     if (pTlv->field_1A_scale == 1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_C6 = 0;
+        field_C6_scale = 0;
     }
 
     field_116_switch_id_off = pTlv->field_1C_id_off;
@@ -66,7 +66,7 @@ EXPORT RollingBallStopper* RollingBallStopper::ctor_43BCE0(Path_RollingBallStopp
     }
 
     const auto oldXPos = field_A8_xpos;
-    sub_401D30(1);
+    MapFollowMe_401D30(TRUE);
     field_A8_xpos = oldXPos;
     
     FP lineXPos = {};

@@ -101,14 +101,23 @@ public:
     static EXPORT void CC AnimateAll_4034F0(DynamicArrayT<AnimationBase>* pAnimList);
 };
 
+class BaseGameObject;
+
 class Animation : public AnimationBase
 {
 public:
 
     EXPORT void SetFrame_402AC0(unsigned __int16 frame);
 
+    EXPORT signed __int16 Init_402D20(int frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, unsigned __int16 maxW, unsigned __int16 maxH, BYTE** ppAnimData, unsigned __int8 bFlag_17, signed int b_StartingAlternationState, char bEnable_flag10_alternating);
+
     BitField32<AnimFlags> field_4_flags;
-    int field_8; // r,g,b mode ?
+    
+    char field_8;
+    char field_9;
+    char field_A;
+    char field_B_render_mode;
+
     __int16 field_C_layer;
     __int16 field_E; // frame counter ?
     // TODO: Above data part of base ?

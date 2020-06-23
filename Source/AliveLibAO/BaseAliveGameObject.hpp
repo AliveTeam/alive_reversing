@@ -44,8 +44,6 @@ public:
 
     EXPORT BaseAliveGameObject* dtor_401000();
 
-    EXPORT __int16 sub_401D30(__int16 a2);
-
     // TODO: Non empty so standalone builds
 
     // TODO: Part of base?
@@ -66,6 +64,8 @@ public:
     virtual void VOnPickUpOrSlapped2() {}
 
     EXPORT void VCheckCollisionLineStillValid_401A90(int distance);
+
+    EXPORT __int16 MapFollowMe_401D30(__int16 snapToGrid);
 
     int field_D4_pad[4];
     __int16 field_E4;

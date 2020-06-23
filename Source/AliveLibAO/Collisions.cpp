@@ -25,6 +25,13 @@ PathLine* Collisions::Add_Dynamic_Collision_Line_40C8A0(__int16 /*x1*/, __int16 
     return nullptr;
 }
 
+
+signed __int16 Collisions::RayCast_40C410(FP /*X1_16_16*/, FP /*Y1_16_16*/, FP /*X2_16_16*/, FP /*Y2_16_16*/, PathLine** /*ppLine*/, FP* /*hitX*/, FP* /*hitY*/, unsigned int /*modeMask*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 PSX_RECT* CCSTD Rect_Clear_40C920(PSX_RECT* pRect)
 {
     pRect->x = 0;
