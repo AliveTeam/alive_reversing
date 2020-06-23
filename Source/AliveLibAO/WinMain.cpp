@@ -624,7 +624,7 @@ EXPORT void CC Game_Loop_437630()
                 break;
             }
 
-            if (pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3) && pObj->field_C_bCanKill == 0)
+            if (pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3) && pObj->field_C_refCount == 0)
             {
                 i = gBaseGameObject_list_9F2DF0->RemoveAt(i);
                 pObj->VDestructor(1);
@@ -654,7 +654,7 @@ EXPORT void CC Game_Loop_437630()
             break;
         }
 
-        if (pObjToKill->field_C_bCanKill == 0)
+        if (pObjToKill->field_C_refCount == 0)
         {
             i = gBaseGameObject_list_9F2DF0->RemoveAt(i);
             pObjToKill->VDestructor(1);

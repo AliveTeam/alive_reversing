@@ -291,12 +291,6 @@ OpenSeqHandle g_SeqTable_4C9E70[165] =
   { nullptr, 0, 0, 0, 0, 0, 0 }
 };
 
-
-EXPORT void CC SND_Kill_4774A0(int /*mask*/)
-{
-    NOT_IMPLEMENTED();
-}
-
 EXPORT void CC SsUtAllKeyOff_49EDE0(int /*a1*/)
 {
     NOT_IMPLEMENTED();
@@ -777,7 +771,7 @@ void Map::ScreenChange_Common()
     }
 
     field_6_state = 0;
-    SND_Kill_4774A0(gSndChannels_507CA0);
+    SND_Stop_Channels_Mask_4774A0(gSndChannels_507CA0);
     gSndChannels_507CA0 = 0;
 }
 
@@ -808,7 +802,7 @@ void Map::ScreenChange_4444D0()
             pItem->VScreenChanged();
             if (pItem->field_6_flags.Get(BaseGameObject::eDead_Bit3))
             {
-                if (pItem->field_C_bCanKill == 0)
+                if (pItem->field_C_refCount == 0)
                 {
                     j = gBaseGameObject_list_9F2DF0->RemoveAt(j);
                     pItem->VDestructor(1);
@@ -827,7 +821,7 @@ void Map::ScreenChange_4444D0()
 
         if (pItem->field_6_flags.Get(BaseGameObject::eDead_Bit3))
         {
-            if (pItem->field_C_bCanKill == 0)
+            if (pItem->field_C_refCount == 0)
             {
                 i = gBaseGameObject_list_9F2DF0->RemoveAt(i);
                 pItem->VDestructor(1);

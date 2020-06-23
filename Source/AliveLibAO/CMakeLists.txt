@@ -1,6 +1,14 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   LightEffect.hpp
+   LightEffect.cpp
+   DoorLight.hpp
+   DoorLight.cpp
+   BackgroundAnimation.hpp
+   BackgroundAnimation.cpp
+   LiftMover.hpp
+   LiftMover.cpp
    BellHammer.hpp
    BellHammer.cpp
    Bat.hpp

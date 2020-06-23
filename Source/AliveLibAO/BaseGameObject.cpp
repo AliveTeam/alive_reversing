@@ -25,7 +25,7 @@ BaseGameObject* BaseGameObject::ctor_487E10(__int16 arraySize)
 
     field_8_update_delay = 0;
     field_4_typeId = Types::eNone_0;
-    field_C_bCanKill = 0;
+    field_C_refCount = 0;
 
     field_6_flags.Clear(BaseGameObject::Options::eListAddFailed_Bit1);
     field_6_flags.Clear(BaseGameObject::Options::eDead_Bit3);
