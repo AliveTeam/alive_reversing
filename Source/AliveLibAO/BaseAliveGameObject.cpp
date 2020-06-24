@@ -6,7 +6,7 @@ START_NS_AO
 
 void BaseAliveGameObject_ForceLink() {}
 
-FP CC Grid_Scale_41FA30(FP /*scale*/)
+FP CC ScaleToGridSize_41FA30(FP /*scale*/)
 {
     NOT_IMPLEMENTED();
     return {};

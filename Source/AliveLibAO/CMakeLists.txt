@@ -1,6 +1,10 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   LiftPoint.hpp
+   LiftPoint.cpp
+   TimedMine.hpp
+   TimedMine.cpp
    Blood.hpp
    Blood.cpp
    LightEffect.hpp

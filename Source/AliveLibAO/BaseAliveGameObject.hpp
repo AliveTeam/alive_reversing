@@ -9,7 +9,7 @@ START_NS_AO
 void BaseAliveGameObject_ForceLink();
 
 
-EXPORT FP CC Grid_Scale_41FA30(FP scale);
+EXPORT FP CC ScaleToGridSize_41FA30(FP scale);
 
 struct Path_TLV;
 class LiftPoint;
@@ -67,7 +67,10 @@ public:
 
     EXPORT __int16 MapFollowMe_401D30(__int16 snapToGrid);
 
-    int field_D4_pad[4];
+    FP field_D4;
+    FP field_DC;
+    FP field_E0;
+    FP field_D8;
     __int16 field_E4;
     __int16 field_E6_last_state;
     int field_E8_last_frame;

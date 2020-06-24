@@ -19,6 +19,7 @@ enum class Types : __int16
     eBackgroundAnimation_5 = 5,
     eBat_6 = 6,
     eLiftMover_7 = 7,
+    eTimedMine_8 = 8,
 
     eBellHammer_27 = 27,
 
