@@ -88,9 +88,6 @@ TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, int tlvInfo)
 
 BaseGameObject* TimedMine::dtor_408690()
 {
-    NOT_IMPLEMENTED();
-
-    /*
     SetVTable(this, 0x4BA2C8);
     if (field_10C != 1 || static_cast<int>(gnFrameCount_507670) < field_114_timer)
     {
@@ -111,7 +108,6 @@ BaseGameObject* TimedMine::dtor_408690()
     }
 
     field_6_flags.Clear(Options::eInteractive_Bit8);
-    */
     return dtor_401000();
 }
 

@@ -21,6 +21,10 @@ enum class Types : __int16
     eLiftMover_7 = 7,
     eTimedMine_8 = 8,
 
+    eBullet_10 = 10,
+
+    eSpark_15 = 15,
+
     eBellHammer_27 = 27,
 
     eRollingBallStopperShaker_58 = 58,

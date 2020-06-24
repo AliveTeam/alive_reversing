@@ -356,6 +356,8 @@ SET(AliveLibAESrc
     TouchController.hpp
     ScopedSeq.cpp
     ScopedSeq.hpp
+    Sparks.hpp
+    Sparks.cpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx.h stdafx.cpp AliveLibAESrc)

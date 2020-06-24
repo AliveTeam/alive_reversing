@@ -1,6 +1,14 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   Sparks.hpp
+   Sparks.cpp
+   Spark.hpp
+   Spark.cpp
+   Bullet.hpp
+   Bullet.cpp
+   PlatformBase.hpp
+   PlatformBase.cpp
    LiftPoint.hpp
    LiftPoint.cpp
    TimedMine.hpp
