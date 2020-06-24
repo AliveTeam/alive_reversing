@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   Blood.hpp
+   Blood.cpp
    LightEffect.hpp
    LightEffect.cpp
    DoorLight.hpp

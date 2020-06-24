@@ -305,7 +305,9 @@ virtual void VScreenChanged() override
                 base = 10
                 if hasHexChar(tmp) or tmp.startswith("0x"):
                     base = 16
-                line = line + " // " + AsFP(int(tmp, base))
+                if tmp.strip() != "":
+                    print("Converting " + tmp)
+                    line = line + " // " + AsFP(int(tmp, base))
 
     return line
 

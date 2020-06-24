@@ -60,4 +60,16 @@ signed __int16 Animation::Init_402D20(int /*frameTableOffset*/, DynamicArray* /*
     return 0;
 }
 
+__int16 Animation::Get_Frame_Count_403540()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+FrameInfoHeader* Animation::Get_FrameHeader_403A00(int /*frame*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
 END_NS_AO

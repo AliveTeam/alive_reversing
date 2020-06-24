@@ -1876,8 +1876,8 @@ void Map::GoTo_Camera_445050()
             }
 
             const auto pCamPos = pScreenManager_4FF7C8->field_10_pCamPos;
-            const auto xpos = pScreenManager_4FF7C8->field_14 + ((pTlvIter->field_10_top_left.field_0_x + pTlvIter->field_14_bottom_right.field_0_x) / 2) - FP_GetExponent(pCamPos->field_0_x);
-            const auto ypos = pScreenManager_4FF7C8->field_16 + pTlvIter->field_10_top_left.field_2_y - FP_GetExponent(pCamPos->field_4_y);
+            const auto xpos = pScreenManager_4FF7C8->field_14_xpos + ((pTlvIter->field_10_top_left.field_0_x + pTlvIter->field_14_bottom_right.field_0_x) / 2) - FP_GetExponent(pCamPos->field_0_x);
+            const auto ypos = pScreenManager_4FF7C8->field_16_ypos + pTlvIter->field_10_top_left.field_2_y - FP_GetExponent(pCamPos->field_4_y);
             auto pCameraSwapperMem = ao_new<CameraSwapper>();
             pCameraSwapperMem->ctor_48C7A0(
                 field_34_camera_array[0]->field_C_ppBits,

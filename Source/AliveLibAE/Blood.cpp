@@ -61,8 +61,10 @@ Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 
     {
         field_F8_pResBuf = reinterpret_cast<BloodParticle*>(*field_F4_ppResBuf);
         field_128_timer = 0;
+
         field_B8_xpos = xpos - FP_FromInteger(12);
         field_BC_ypos = ypos - FP_FromInteger(12);
+
         field_11E_xpos = FP_GetExponent(xpos - FP_FromInteger(12) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
         field_120_ypos = FP_GetExponent(ypos - FP_FromInteger(12) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
 

@@ -23,6 +23,7 @@
 #include "DDCheat.hpp"
 #include "CheatController.hpp"
 #include "RollingBallShaker.hpp"
+#include "Blood.hpp"
 #include "../AliveLibAE/config.h" // TODO: Change location
 
 START_NS_AO
@@ -44,6 +45,7 @@ void Static_Inits_AO()
 void ForceLinks()
 {
     RollingBallShaker_ForceLink();
+    Blood_ForceLink();
 }
 
 ALIVE_VAR(1, 0x9F771C, HINSTANCE, sInstance_9F771C, 0);
