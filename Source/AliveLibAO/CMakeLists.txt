@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   PsxRender.hpp
+   PsxRender.cpp
    Sparks.hpp
    Sparks.cpp
    Spark.hpp

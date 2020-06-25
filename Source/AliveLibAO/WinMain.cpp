@@ -521,7 +521,13 @@ EXPORT void CC DDCheat_Allocate_409560()
 
 EXPORT void CC Game_Init_LoadingIcon_445E30()
 {
-    NOT_IMPLEMENTED();
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 8010, 1, 0);
+    if (!ppRes)
+    {
+        ResourceManager::LoadResourceFile_455270("LOADING.BAN", nullptr, 0);
+        ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 8010, 1, 0);
+    }
+    ResourceManager::Set_Header_Flags_4557D0(ppRes, ResourceManager::ResourceHeaderFlags::eNeverFree);
 }
 
 EXPORT void CC Events_Reset_Active_417320()
@@ -666,7 +672,11 @@ EXPORT void CC Game_Loop_437630()
 
 EXPORT void CC Game_Free_LoadingIcon_445E80()
 {
-    NOT_IMPLEMENTED();
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 8010, 0, 0);
+    if (ppRes)
+    {
+        ResourceManager::FreeResource_455550(ppRes);
+    }
 }
 
 ALIVE_VAR(1, 0x4FF954, GameSpeak*, pEventSystem_4FF954, nullptr);
@@ -725,7 +735,13 @@ EXPORT void Game_Run_4373D0()
     Init_Sound_DynamicArrays_And_Others_41CD20();
     Input_Init_44EB60();
 
+#if DEVELOPER_MODE
+    // Boot directly to the "abe hello" screen
+    gMap_507BA8.Init_443EE0(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+#else
+    // Normal copy right screen boot
     gMap_507BA8.Init_443EE0(LevelIds::eMenu_0, 1, 10, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+#endif
 
     DDCheat_Allocate_409560();
 
