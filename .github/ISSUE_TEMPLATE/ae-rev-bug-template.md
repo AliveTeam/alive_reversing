@@ -1,8 +1,8 @@
 ---
-name: Rev bug
-about: Report issue that only occurs in reversed game VS original game
-title: ''
-labels: bug
+name: AE Rev Bug
+about: Report issue that only occurs in the reversed AE game VS original AE game
+title: 'AE Rev Bug - '
+labels: AE Bug
 assignees: ''
 
 ---
