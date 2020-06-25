@@ -8,6 +8,10 @@ START_NS_AO
 class Particle : public BaseAnimatedWithPhysicsGameObject
 {
 public:
+    EXPORT Particle* ctor_478880(FP xpos, FP ypos, int animFrameTableOffset, int maxW, int maxH, BYTE** ppAnimData);
+
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+
     int field_D4;
     int field_D8;
     int field_DC;

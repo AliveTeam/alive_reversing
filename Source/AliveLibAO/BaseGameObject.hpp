@@ -35,6 +35,7 @@ enum class Types : __int16
 
     eSligSpawner_91 = 91,
     eZBall_92 = 92,
+    eParticle_93 = 93,
 };
 
 class BaseGameObject

@@ -37,6 +37,7 @@ public:
         Resource_FG1 = 0x20314746,
         Resource_Bits = 0x73746942,
         Resource_Blood = 0x64756C42,
+        Resource_Sprx = 0x78727053,
     };
 
     struct Header
