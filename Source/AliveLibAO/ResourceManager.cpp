@@ -50,6 +50,12 @@ EXPORT __int16 CC ResourceManager::LoadResourceFile_455270(const char* /*filenam
 }
 
 
+EXPORT BYTE** CC ResourceManager::Allocate_New_Locked_Resource_454F80(int /*type*/, int /*id*/, int /*size*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
 EXPORT ResourceManager::ResourceManager_FileRecord* CC ResourceManager::LoadResourceFile_4551E0(const char* /*pFileName*/, TLoaderFn /*fnOnLoad*/, Camera* /*pCamera1*/, Camera* /*pCamera2*/)
 {
     NOT_IMPLEMENTED();

@@ -72,11 +72,11 @@ EXPORT RollingBallStopper* RollingBallStopper::ctor_43BCE0(Path_RollingBallStopp
     FP lineXPos = {};
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        lineXPos = (Grid_Scale_41FA30(field_BC_sprite_scale) / FP_FromInteger(2)) + FP_NoFractional(oldXPos);
+        lineXPos = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2)) + FP_NoFractional(oldXPos);
     }
     else
     {
-        lineXPos = FP_NoFractional(oldXPos) - (Grid_Scale_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
+        lineXPos = FP_NoFractional(oldXPos) - (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
     }
 
     const auto x1 = FP_GetExponent(lineXPos);

@@ -4,6 +4,7 @@
 #include "FixedPoint.hpp"
 #include "DynamicArray.hpp"
 #include "BitField.hpp"
+#include "Psx.hpp"
 
 START_NS_AO
 
@@ -36,6 +37,47 @@ struct AnimationHeader
     };
     WORD field_6_flags;
     DWORD mFrameOffsets[1]; // Reading past 1 is UB.. will need to change this later (copy out the data or something)
+};
+
+struct FrameHeader
+{
+    DWORD field_0_clut_offset;
+    BYTE field_4_width;
+    BYTE field_5_height;
+    BYTE field_6_colour_depth;
+    BYTE field_7_compression_type;
+    WORD field_8_width2;
+    WORD mHeight2;
+};
+
+struct Point
+{
+    __int16 x = 0;
+    __int16 y = 0;
+};
+
+
+
+struct OffsetAndBoundingRect
+{
+    Point mOffset;
+    Point mMin;
+    Point mMax;
+};
+
+union PointsUnion
+{
+    PointsUnion() {}
+    OffsetAndBoundingRect offsetAndRect;
+    Point points[3];
+};
+
+struct FrameInfoHeader
+{
+    DWORD field_0_frame_header_offset;
+    short field_4_magic;
+    short field_6_count;
+    PointsUnion field_8_data;
 };
 
 // TODO: Assumed to be the same as AE - test this, some do match
@@ -141,12 +183,16 @@ public:
 
     EXPORT signed __int16 Init_402D20(int frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, unsigned __int16 maxW, unsigned __int16 maxH, BYTE** ppAnimData, unsigned __int8 bFlag_17, signed int b_StartingAlternationState, char bEnable_flag10_alternating);
 
+    EXPORT __int16 Get_Frame_Count_403540();
+
+    EXPORT FrameInfoHeader* Get_FrameHeader_403A00(int frame);
+
     BitField32<AnimFlags> field_4_flags;
     
-    char field_8;
-    char field_9;
-    char field_A;
-    char field_B_render_mode;
+    BYTE field_8_r;
+    BYTE field_9_g;
+    BYTE field_A_b;
+    BYTE field_B_render_mode;
 
     __int16 field_C_layer;
     __int16 field_E_frame_change_counter;
@@ -181,12 +227,8 @@ public:
     int field_78;
     int field_7C;
     int field_80;
-    __int16 field_84;
-    __int16 field_86;
-    __int16 field_88;
-    __int16 field_8A;
-    __int16 field_8C_vram_x_pal;
-    __int16 field_8E_vram_y_pal;
+    PSX_RECT field_84_vram_rect;
+    PSX_Point field_8C_pal_vram_xy;
     __int16 field_90_pal_depth;
     __int16 field_92_current_frame;
     int field_94;

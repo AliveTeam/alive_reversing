@@ -14,6 +14,7 @@ EXPORT Camera* Camera::ctor_4446E0()
     return this;
 }
 
+
 EXPORT void Camera::dtor_444700()
 {
     NOT_IMPLEMENTED();
@@ -40,10 +41,23 @@ EXPORT void ScreenManager::InvalidateRect_406CC0(int /*x*/, int /*y*/, signed in
     NOT_IMPLEMENTED();
 }
 
-EXPORT ScreenManager* ScreenManager::ctor_406830(BYTE** /*ppBits*/, FP_Point* /*pCameraOffset*/)
+ScreenManager* ScreenManager::ctor_406830(BYTE** ppBits, FP_Point* pCameraOffset)
+{
+    ctor_487E10(1);
+    SetVTable(this, 0x4BA230);
+
+    field_10_pCamPos = pCameraOffset;
+
+    field_6_flags.Set(Options::eSurviveDeathReset_Bit9);
+    field_6_flags.Set(Options::eUpdateDuringCamSwap_Bit10);
+
+    Init_4068A0(ppBits);
+    return this;
+}
+
+void ScreenManager::Init_4068A0(BYTE** /*ppBits*/)
 {
     NOT_IMPLEMENTED();
-    return this;
 }
 
 BaseGameObject* ScreenManager::VDestructor(signed int flags)

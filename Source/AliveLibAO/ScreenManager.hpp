@@ -50,6 +50,8 @@ public:
 
     EXPORT ScreenManager* ctor_406830(BYTE** ppBits, FP_Point* pCameraOffset);
 
+    EXPORT void Init_4068A0(BYTE** ppBits);
+
     EXPORT void MoveImage_406C40();
 
     EXPORT void InvalidateRect_406CC0(int x, int y, signed int width, signed int height);
@@ -59,8 +61,8 @@ public:
     EXPORT void UnsetDirtyBits_FG1_406EF0();
 
     FP_Point* field_10_pCamPos;
-    __int16 field_14;
-    unsigned __int16 field_16;
+    __int16 field_14_xpos;
+    unsigned __int16 field_16_ypos;
     int field_18;
     int field_1C;
     __int16 field_20;

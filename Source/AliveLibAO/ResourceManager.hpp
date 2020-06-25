@@ -36,6 +36,8 @@ public:
         Resource_Palt = 0x746C6150,
         Resource_FG1 = 0x20314746,
         Resource_Bits = 0x73746942,
+        Resource_Blood = 0x64756C42,
+        Resource_Sprx = 0x78727053,
     };
 
     struct Header
@@ -78,6 +80,8 @@ public:
     static EXPORT void CC LoadingLoop_41EAD0(__int16 bShowLoadingIcon);
 
     static EXPORT __int16 CC LoadResourceFile_455270(const char* filename, Camera* pCam, int allocMethod);
+
+    static EXPORT BYTE** CC Allocate_New_Locked_Resource_454F80(int type, int id, int size);
 
     template<class T, class Y>
     static EXPORT ResourceManager_FileRecord* CC LoadResourceFile(const char* pFileName, T pOnLoadFn, Y* pOnLoadFnArgument, Y* pCamera2 = nullptr)

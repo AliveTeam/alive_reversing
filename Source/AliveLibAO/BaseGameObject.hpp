@@ -19,6 +19,11 @@ enum class Types : __int16
     eBackgroundAnimation_5 = 5,
     eBat_6 = 6,
     eLiftMover_7 = 7,
+    eTimedMine_8 = 8,
+
+    eBullet_10 = 10,
+
+    eSpark_15 = 15,
 
     eBellHammer_27 = 27,
 
@@ -30,6 +35,7 @@ enum class Types : __int16
 
     eSligSpawner_91 = 91,
     eZBall_92 = 92,
+    eParticle_93 = 93,
 };
 
 class BaseGameObject
