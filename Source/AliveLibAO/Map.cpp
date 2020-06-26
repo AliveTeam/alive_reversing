@@ -898,29 +898,31 @@ void Map::SaveBlyData_446900(BYTE* pSaveBuffer)
             auto ppPathRes = field_5C_path_res_array.field_0_pPathRecs[i];
             const PathData* pPathData = pPathRec->field_4_pPathData;
 
-            const int totalCellsCount = 
-                (pPathData->field_A_bBottom - pPathData->field_6_bRight) / pPathData->field_E_grid_height *
-                ((pPathData->field_8_bTop - pPathData->field_4_bLeft) / pPathData->field_C_grid_width);
+            const int widthCount = (pPathData->field_8_bTop - pPathData->field_4_bLeft) / pPathData->field_C_grid_width;
+            const int heightCount = (pPathData->field_A_bBottom - pPathData->field_6_bRight) / pPathData->field_E_grid_height;
+            const int totalCameraCount = widthCount * heightCount;
+            const int* pIndexTable = reinterpret_cast<const int*>(&(*ppPathRes)[pPathData->field_18_object_index_table_offset]);
 
-            for (int j = 0; j < totalCellsCount; j++)
+            for (int j = 0; j < totalCameraCount; j++)
             {
-                const int* pIndexTable = reinterpret_cast<const int*>(&(*ppPathRes)[pPathData->field_18_object_index_table_offset]);
-
-                if (pIndexTable[j] != -1 && pIndexTable[j] < 0x100000)
+                const int tlvOffset = pIndexTable[j];
+                if (tlvOffset != -1 && tlvOffset < 0x100000)
                 {
-                    Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(&(*ppPathRes)[pPathData->field_14_object_offset + pIndexTable[j]]);
+                    BYTE* ptr = &(*ppPathRes)[pPathData->field_14_object_offset + tlvOffset];
+                    Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(ptr);
                     pTlv->RangeCheck();
 
                     for (;;)
                     {
-                        if (pTlv->field_0_flags.Get(eBit1_Created))
+                        BitField8<TLV_Flags> flags = pTlv->field_0_flags;
+                        if (flags.Get(eBit1_Created))
                         {
-                            pTlv->field_0_flags.Clear(eBit1_Created);
-                            pTlv->field_0_flags.Clear(eBit2_Unknown);
+                            flags.Clear(eBit1_Created);
+                            flags.Clear(eBit2_Unknown);
                         }
 
                         // Save the flags
-                        *pAfterSwitchStates = pTlv->field_0_flags.Raw().all;
+                        *pAfterSwitchStates = flags.Raw().all;
                         pAfterSwitchStates++;
                         *pAfterSwitchStates = pTlv->field_1_unknown;
                         pAfterSwitchStates++;

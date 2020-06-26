@@ -20,6 +20,14 @@ public:
     };
     ALIVE_ASSERT_SIZEOF(ResourcesToLoadList_Entry, 0x8);
 
+
+    enum ResourceHeaderFlags : __int16
+    {
+        eLocked = 0x1,
+        eOnlyAHeader = 0x2,
+        eNeverFree = 0x4
+    };
+
     // TODO: Replace/combine with CompileTimeResourceList when everything is decompiled
     struct ResourcesToLoadList
     {
@@ -82,6 +90,8 @@ public:
     static EXPORT __int16 CC LoadResourceFile_455270(const char* filename, Camera* pCam, int allocMethod);
 
     static EXPORT BYTE** CC Allocate_New_Locked_Resource_454F80(int type, int id, int size);
+
+    static EXPORT void CC Set_Header_Flags_4557D0(BYTE** ppRes, __int16 flags);
 
     template<class T, class Y>
     static EXPORT ResourceManager_FileRecord* CC LoadResourceFile(const char* pFileName, T pOnLoadFn, Y* pOnLoadFnArgument, Y* pCamera2 = nullptr)

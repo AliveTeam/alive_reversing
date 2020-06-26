@@ -390,7 +390,7 @@ EXPORT void CCSTD Quicksave_SaveBlyData_4C9660(BYTE* pSaveBuffer)
                 const int* indexTable = reinterpret_cast<const int*>(*ppPathRes + pPathData->field_16_object_indextable_offset);
                 for (int j = 0; j < totalCameraCount; j++)
                 {
-                    int tlvOffset = indexTable[j];
+                    const int tlvOffset = indexTable[j];
                     if (tlvOffset != -1)
                     {
                         BYTE* ptr = &(*ppPathRes)[pPathData->field_12_object_offset + tlvOffset];
