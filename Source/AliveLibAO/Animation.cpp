@@ -4,6 +4,36 @@
 
 START_NS_AO
 
+void AnimationBase::vDecode()
+{
+    VDecode_403550();
+}
+
+void AnimationBase::VDecode_403550()
+{
+    NOT_IMPLEMENTED();
+}
+
+void AO::AnimationBase::vRender(int xpos, int ypos, int** pOt, __int16 width, __int16 height)
+{
+    VRender_403AE0(xpos, ypos, pOt, width, height);
+}
+
+void AnimationBase::VRender_403AE0(int /*xpos*/, int /*ypos*/, int** /*ppOt*/, __int16 /*width*/, __int16 /*height*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void AnimationBase::vCleanUp()
+{
+    VCleanUp_403F40();
+}
+
+void AnimationBase::VCleanUp_403F40()
+{
+    NOT_IMPLEMENTED();
+}
+
 void CC AnimationBase::AnimateAll_4034F0(DynamicArrayT<AnimationBase>* /*pAnimList*/)
 {
     NOT_IMPLEMENTED();

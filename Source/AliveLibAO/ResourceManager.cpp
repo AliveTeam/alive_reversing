@@ -95,7 +95,7 @@ void CC Game_ShowLoadingIcon_445EB0()
         }
 
         pParticle->field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-        pParticle->field_10_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+        pParticle->field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
 
         pParticle->field_10_anim.field_C_layer = 0;
 
