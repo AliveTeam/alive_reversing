@@ -165,9 +165,18 @@ class AnimationBase
 {
 public:
     // TODO: Non empty so standalone builds
-    virtual void vDecode() {}
-    virtual void vRender(int /*xpos*/, int /*ypos*/, int** /*pOt*/, __int16 /*width*/, signed int /*height*/) {}
-    virtual void vCleanUp() {} // TODO: pure
+    virtual void vDecode();
+
+    EXPORT void VDecode_403550();
+
+    virtual void vRender(int xpos, int ypos, int** pOt, __int16 width, __int16 height);
+
+    EXPORT void VRender_403AE0(int /*xpos*/, int /*ypos*/, int** /*ppOt*/, __int16 /*width*/, __int16 /*height*/);
+
+    // TODO: pure
+    virtual void vCleanUp();
+
+    EXPORT void VCleanUp_403F40();
 
     static EXPORT void CC AnimateAll_4034F0(DynamicArrayT<AnimationBase>* pAnimList);
 };
