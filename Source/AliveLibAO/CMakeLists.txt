@@ -1,6 +1,10 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   Bells.hpp
+   Bells.cpp
+   ChimeLock.hpp
+   ChimeLock.cpp
    PsxRender.hpp
    PsxRender.cpp
    Sparks.hpp
