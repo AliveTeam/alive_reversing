@@ -19,6 +19,7 @@
 #include "DoorLight.hpp"
 #include "LightEffect.hpp"
 #include "TimedMine.hpp"
+#include "ChimeLock.hpp"
 
 START_NS_AO
 
@@ -758,9 +759,25 @@ EXPORT void Factory_LiftMover_487580(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
 }
 
 
-EXPORT void Factory_ChimeLock_4870D0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_ChimeLock_4870D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode != 1 && loadMode != 2)
+    {
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2005, 0, 0) &&
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2024, 0, 0))
+        {
+            auto pChimeLock = ao_new<ChimeLock>();
+            if (pChimeLock)
+            {
+                pChimeLock->ctor_40AB20(static_cast<Path_ChimeLock*>(pTlv), tlvOffsetLevelIdPathId.all);
+            }
+
+        }
+        else
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        }
+    }
 }
 
 EXPORT void Factory_ElumStart_Unknown_4873D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)

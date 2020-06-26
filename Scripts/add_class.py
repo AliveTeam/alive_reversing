@@ -1,7 +1,7 @@
 import os
 print os.getcwd()
 
-className = "test"
+className = "Bells"
 
 cmakePath = os.getcwd() + "\..\Source\AliveLibAO\CMakeLists.txt"
 print(cmakePath)
@@ -53,4 +53,4 @@ END_NS_AO
 c.write(c_data.replace("replace_me.hpp", className + ".hpp"))
 c.close()
          
-print("cheers lads")
+print("class " + className + " has been added, cheers lads")
