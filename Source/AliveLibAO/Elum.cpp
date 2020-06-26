@@ -2,6 +2,9 @@
 #include "Function.hpp"
 #include "Elum.hpp"
 #include "stdlib.hpp"
+#include "Map.hpp"
+#include "ResourceManager.hpp"
+#include "LiftPoint.hpp"
 
 START_NS_AO;
 
@@ -10,6 +13,68 @@ ALIVE_VAR(1, 0x507680, Elum*, gElum_507680, nullptr);
 BaseGameObject* Elum::VDestructor(signed int flags)
 {
     return Vdtor_411710(flags);
+}
+
+Elum* Elum::Vdtor_411710(signed int flags)
+{
+    dtor_410BC0();
+    if (flags & 1)
+    {
+        ao_delete_free_447540(this);
+    }
+    return this;
+}
+
+EXPORT BaseGameObject *Elum::dtor_410BC0()
+{
+    SetVTable(this, 0x4BA8F8);
+
+    for (BYTE**& ppRes : field_174_resources.res)
+    {
+        if (ppRes && field_10_anim.field_20_ppBlock != ppRes)
+        {
+            ResourceManager::FreeResource_455550(ppRes);
+        }
+    }
+
+    gElum_507680 = nullptr;
+    Vsub_412700();
+
+    ResourceManager::FreeResource_455550(
+        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 115, 0, 0)
+    );
+
+    if (field_104_pending_resource_count)
+    {
+        ResourceManager::CancelPendingResourcesFor_41EA60(this);
+    }
+    field_104_pending_resource_count = 0;
+
+    const int anims[] = { 230, 222, 220, 221 };
+    for (int anim : anims)
+    {
+        ResourceManager::FreeResource_455550(
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, anim, 1, 0)
+        );
+    }
+
+    return dtor_base_416FE0();
+}
+
+void Elum::Vsub_412700()
+{
+    if (field_F8_pLiftPoint)
+    {
+        field_F8_pLiftPoint->VRemove(this);
+        field_F8_pLiftPoint->field_C_refCount--;
+        field_F8_pLiftPoint = nullptr;
+    }
+}
+
+BaseAliveGameObject* Elum::dtor_base_416FE0()
+{
+    SetVTable(this, 0x4BA970);
+    return dtor_401000();
 }
 
 void Elum::VUpdate()
@@ -27,20 +92,19 @@ void Elum::VScreenChanged()
     vScreenChange_411340();
 }
 
-BaseGameObject* Elum::Vdtor_411710(signed int /*flags*/)
-{
-    NOT_IMPLEMENTED();
-    return nullptr;
-}
-
 void Elum::VUpdate_4102A0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Elum::VRender_410E40(int** /*ot*/)
+void Elum::VRender_410E40(int** ot)
 {
-    NOT_IMPLEMENTED();
+    if (field_B2_lvl_number == gMap_507BA8.field_0_current_level
+        && field_B0_path_number == gMap_507BA8.field_2_current_path
+        && !field_8_update_delay)
+    {
+        VRender_417DA0(ot);
+    }
 }
 
 void Elum::vScreenChange_411340()

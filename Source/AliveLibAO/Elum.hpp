@@ -14,7 +14,7 @@ public:
         __int16 field_2;
     };
 
-    EXPORT BaseGameObject* Vdtor_411710(signed int flags);
+    EXPORT Elum* Vdtor_411710(signed int flags);
     EXPORT void VUpdate_4102A0();
     EXPORT void VRender_410E40(int** pOrderingTable);
     EXPORT void vScreenChange_411340();
@@ -27,6 +27,17 @@ public:
     virtual void VScreenChanged() override;
 
     EXPORT Elum* ctor_410870(int a2, anythingForTheTimeBeing a3, anythingForTheTimeBeing a4, int a5, TlvItemInfoUnion a6);
+    EXPORT BaseGameObject* dtor_410BC0();
+
+    EXPORT void Vsub_412700();
+
+    EXPORT BaseAliveGameObject* dtor_base_416FE0();
+
+
+    struct ElumResources
+    {
+        BYTE** res[31];
+    };
 
     __int16 field_10C;
     __int16 field_10E;
@@ -66,7 +77,7 @@ public:
     __int16 field_16E;
     __int16 field_170;
     __int16 field_172;
-    BYTE **field_174_resources[31];
+    ElumResources field_174_resources;
     int field_1F0;
 };
 ALIVE_ASSERT_SIZEOF(Elum, 0x1F4);
