@@ -4,6 +4,7 @@
 #include "stdlib.hpp"
 #include "Map.hpp"
 #include "ResourceManager.hpp"
+#include "LiftPoint.hpp"
 
 START_NS_AO;
 
@@ -33,11 +34,10 @@ EXPORT BaseGameObject *Elum::dtor_410BC0()
         if (ppRes && field_10_anim.field_20_ppBlock != ppRes)
         {
             ResourceManager::FreeResource_455550(ppRes);
-            ppRes = nullptr;
         }
     }
 
-    gElum_507680 = 0;
+    gElum_507680 = nullptr;
     Vsub_412700();
 
     ResourceManager::FreeResource_455550(
@@ -54,26 +54,21 @@ EXPORT BaseGameObject *Elum::dtor_410BC0()
     for (int anim : anims)
     {
         ResourceManager::FreeResource_455550(
-            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, anim, 0, 0)
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, anim, 1, 0)
         );
     }
+
     return dtor_base_416FE0();
 }
 
 void Elum::Vsub_412700()
 {
-    NOT_IMPLEMENTED();
-    //LiftPoint *v2; // ecx
-    //LiftPoint *v3; // eax
-
-    //v2 = field_F8_pLiftPoint;
-    //if (v2)
-    //{
-    //    ((void(__stdcall *)(Elum *))v2->field_0_VTable->Grenade.Grenade__Vsub_453EC0)(this);
-    //    v3 = field_F8_pLiftPoint;
-    //    field_F8_pLiftPoint = nullptr;
-    //    --v3->field_C_bCanKill;
-    //}
+    if (field_F8_pLiftPoint)
+    {
+        field_F8_pLiftPoint->VRemove(this);
+        field_F8_pLiftPoint->field_C_refCount--;
+        field_F8_pLiftPoint = nullptr;
+    }
 }
 
 BaseAliveGameObject* Elum::dtor_base_416FE0()
