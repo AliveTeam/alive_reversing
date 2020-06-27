@@ -19,19 +19,19 @@ Bells* Bells::ctor_40A650(BellType bellType, FP xpos, FP ypos, FP scale)
     
     switch (bellType)
     {
+    case BellType::eType_0:
+        field_EA_sound = 0;
+        Animation_Init_417FD0(19240, 49, 46, ppRes, 1);
+        break;
+
     case BellType::eType_1:
         field_EA_sound = 1;
         Animation_Init_417FD0(19368, 49, 46, ppRes, 1);
         break;
-
     case BellType::eType_2:
         field_EA_sound = 2;
         Animation_Init_417FD0(19252, 49, 46, ppRes, 1);
-
-    case BellType::eType_0:
-    default:
-        field_EA_sound = 0;
-        Animation_Init_417FD0(19240, 49, 46, ppRes, 1);
+        break;
     }
 
     field_CC &= ~1u;

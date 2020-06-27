@@ -6,7 +6,7 @@
 
 START_NS_AO
 
-enum class BellType
+enum class BellType : __int16
 {
     eType_0 = 0,
     eType_1 = 1,

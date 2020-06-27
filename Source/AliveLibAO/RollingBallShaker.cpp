@@ -5,6 +5,7 @@
 #include "stdlib.hpp"
 #include "PsxDisplay.hpp"
 #include "ScreenManager.hpp"
+#include "Primitives.hpp"
 
 void RollingBallShaker_ForceLink() {}
 
@@ -65,11 +66,6 @@ void RollingBallShaker::VUpdate_436260()
 }
 
 EXPORT void CC InitType_ScreenOffset_496000(Prim_ScreenOffset* /*pPrim*/, const PSX_Point* /*pOffset*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-EXPORT void CC OrderingTable_Add_498A80(int** /*ppOt*/, PrimHeader* /*pItem*/)
 {
     NOT_IMPLEMENTED();
 }
