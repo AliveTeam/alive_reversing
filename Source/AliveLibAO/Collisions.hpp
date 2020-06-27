@@ -24,9 +24,11 @@ struct CollisionInfo;
 class Collisions
 {
 public:
+    EXPORT static void CC Factory_40CEC0(const CollisionInfo* pCollisionInfo, const BYTE* pPathData);
+
     EXPORT void dtor_40CFB0();
 
-    EXPORT Collisions* ctor_40CF30(const CollisionInfo* pCollisionInfo, const BYTE* ppPathData);
+    EXPORT Collisions* ctor_40CF30(const CollisionInfo* pCollisionInfo, const BYTE* pPathData);
 
     EXPORT PathLine* Add_Dynamic_Collision_Line_40C8A0( __int16 x1, __int16 y1, __int16 x2, __int16 y2, char mode);
 

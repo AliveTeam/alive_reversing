@@ -1,6 +1,7 @@
 #include "stdafx_ao.h"
 #include "PathData.hpp"
 #include "Function.hpp"
+#include "Collisions.hpp"
 
 START_NS_AO
 
@@ -8,12 +9,6 @@ const PathBlyRec knullptrPathBlyRec = {};
 const SoundBlockInfo knullptrSoundBlockInfo = {};
 const FmvInfo knullptrFmvInfo = {};
 
-class Collisions
-{
-public:
-
-    static void CC Factory_40CEC0(Path_TLV*, Map*, TlvItemInfoUnion, __int16) {}
-};
 
 void sub_402560() {}
 

@@ -54,7 +54,9 @@ struct PathData
     PathFunctionTable field_1C_object_funcs;
 };
 
-using TCollisionsFactory = std::add_pointer<void(Path_TLV*, Map*, TlvItemInfoUnion, __int16)>::type;
+struct CollisionInfo;
+
+using TCollisionsFactory = std::add_pointer<void(const CollisionInfo* pCollisionInfo, const BYTE* pPathData)>::type;
 
 struct CollisionInfo
 {
