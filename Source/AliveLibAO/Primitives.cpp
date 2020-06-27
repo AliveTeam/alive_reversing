@@ -38,4 +38,14 @@ void CC Sprt_Init(Prim_Sprt* pPrim)
     SetCode(&pPrim->mBase.header, PrimTypeCodes::eSprt);
 }
 
+void CC Init_PrimClipper_495FD0(Prim_PrimClipper* /*pPrim*/, const PSX_RECT* /*pClipRect*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void CC AO::OrderingTable_Add_498A80(int** /*ppOt*/, PrimHeader* /*pItem*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 END_NS_AO

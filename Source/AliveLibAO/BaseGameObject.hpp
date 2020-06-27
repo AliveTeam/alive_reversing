@@ -31,6 +31,8 @@ enum class Types : __int16
 
     eRollingBallStopperShaker_58 = 58,
     eRollingBallStopper_60 = 60,
+
+    eScreenClipper_78 = 78,
     eEffectBase_79 = 79,
     
     eSlig_88 = 88,

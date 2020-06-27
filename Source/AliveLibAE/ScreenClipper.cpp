@@ -40,12 +40,12 @@ void ScreenClipper::VRender(int** ot)
 
 void ScreenClipper::VScreenChanged()
 {
-
+    // Empty
 }
 
 void ScreenClipper::VUpdate()
 {
-
+    // Empty
 }
 
 void ScreenClipper::vRender_416F70(int** ot)
