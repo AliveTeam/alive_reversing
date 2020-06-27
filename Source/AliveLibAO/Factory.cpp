@@ -21,6 +21,7 @@
 #include "TimedMine.hpp"
 #include "ChimeLock.hpp"
 #include "CreditsController.hpp"
+#include "Meat.hpp"
 
 START_NS_AO
 
@@ -801,9 +802,38 @@ EXPORT void Factory_ElumStart_Unknown_4873D0(Path_TLV* pTlv, Map* /*pMap*/, TlvI
 }
 
 
-EXPORT void Factory_MeatSack_483790(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_MeatSack_483790(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        static CompileTimeResourceList<3> kResources(
+        { 
+            { ResourceManager::Resource_Animation, 12 },
+            { ResourceManager::Resource_Animation, 14 },
+            { ResourceManager::Resource_Animation, 2023 } 
+        });
+
+        ResourceManager::LoadResourcesFromList_446E80("MTHROW.BND", kResources.AsList(), loadMode, 0);
+        if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
+        {
+            ResourceManager::LoadResource_446C90("E1BAG.BAN", ResourceManager::Resource_Palt, 1002, loadMode);
+        }
+    }
+    else
+    {
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 4002, 0, 0))
+        {
+            auto pMeatSack = ao_new<MeatSack>();
+            if (pMeatSack)
+            {
+                pMeatSack->ctor_4390F0(static_cast<Path_MeatSack*>(pTlv), tlvOffsetLevelIdPathId.all);
+            }
+        }
+        else
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        }
+    }
 }
 
 
