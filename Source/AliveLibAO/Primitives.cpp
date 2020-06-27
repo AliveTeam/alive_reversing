@@ -43,7 +43,7 @@ void CC Init_PrimClipper_495FD0(Prim_PrimClipper* /*pPrim*/, const PSX_RECT* /*p
     NOT_IMPLEMENTED();
 }
 
-void CC AO::OrderingTable_Add_498A80(int** /*ppOt*/, PrimHeader* /*pItem*/)
+void CC OrderingTable_Add_498A80(int** /*ppOt*/, PrimHeader* /*pItem*/)
 {
     NOT_IMPLEMENTED();
 }
