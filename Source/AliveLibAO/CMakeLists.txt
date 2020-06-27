@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   CreditsController.hpp
+   CreditsController.cpp
    ScreenClipper.hpp
    ScreenClipper.cpp
    Bells.hpp

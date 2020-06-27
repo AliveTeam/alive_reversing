@@ -20,6 +20,7 @@
 #include "LightEffect.hpp"
 #include "TimedMine.hpp"
 #include "ChimeLock.hpp"
+#include "CreditsController.hpp"
 
 START_NS_AO
 
@@ -980,9 +981,19 @@ EXPORT void Factory_HandStone_487480(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemI
 }
 
 
-EXPORT void Factory_CreditsController_481A50(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_CreditsController_481A50(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode != 1 && loadMode != 2)
+    {
+        if (!gCreditsControllerExists_507684)
+        {
+            auto pCreditsController = ao_new<CreditsController>();
+            if (pCreditsController)
+            {
+                pCreditsController->ctor_40CFC0(static_cast<Path_TLV*>(pTlv), tlvOffsetLevelIdPathId.all);
+            }
+        }
+    }
 }
 
 
