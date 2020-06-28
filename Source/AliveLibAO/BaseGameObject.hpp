@@ -34,6 +34,8 @@ enum class Types : __int16
 
     eBellHammer_27 = 27,
 
+    ePalOverwriter_29 = 29,
+
     eMeatStack_55 = 55,
 
     eRollingBallStopperShaker_58 = 58,
