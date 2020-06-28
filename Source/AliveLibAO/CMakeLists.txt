@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   MusicTrigger.hpp
+   MusicTrigger.cpp
    Dove.hpp
    Dove.cpp
    ElectricWall.hpp

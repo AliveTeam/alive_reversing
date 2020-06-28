@@ -25,6 +25,7 @@
 #include "ElectricWall.hpp"
 #include "Dove.hpp"
 #include "Math.hpp"
+#include "MusicTrigger.hpp"
 
 START_NS_AO
 
@@ -1099,12 +1100,17 @@ EXPORT void Factory_487B80(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /
     NOT_IMPLEMENTED();
 }
 
-
-EXPORT void Factory_Music_482020(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_MusicTrigger_482020(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode != 1 && loadMode != 2)
+    {
+        auto pMusicTrigger = ao_new<MusicTrigger>();
+        if (pMusicTrigger)
+        {
+            pMusicTrigger->ctor_4439F0(static_cast<Path_MusicTrigger*>(pTlv), tlvOffsetLevelIdPathId.all);
+        }
+    }
 }
-
 
 EXPORT void Factory_LightEffect_484170(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
@@ -1401,7 +1407,7 @@ const PathFunctionTable kObjectFactory =
     Factory_Preloader_Null_4817A0,
     Factory_StatusBoard_487AF0,
     Factory_487B80,
-    Factory_Music_482020,
+    Factory_MusicTrigger_482020,
     Factory_LightEffect_484170,
     Factory_SlogSpawner_4851D0,
     Factory_GasCountDown_487BE0,
