@@ -36,6 +36,10 @@ enum class Types : __int16
 
     ePalOverwriter_29 = 29,
 
+    eSecurityClaw_31 = 31,
+
+    eClaw_48 = 48,
+
     SecurityOrb_53 = 53,
 
     eMeatStack_55 = 55,

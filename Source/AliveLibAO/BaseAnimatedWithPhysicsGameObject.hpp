@@ -38,7 +38,7 @@ public:
 
     virtual void VStackOnObjectsOfType(unsigned __int16 /*typeToFind*/) {}
 
-    EXPORT void SetTint_418750(const TintEntry* pTintArray, __int16 levelId);
+    EXPORT void SetTint_418750(const TintEntry* pTintArray, LevelIds levelId);
 
 
     EXPORT BaseAnimatedWithPhysicsGameObject* ctor_417C10();

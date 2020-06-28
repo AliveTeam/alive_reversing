@@ -1,0 +1,66 @@
+#pragma once
+
+#include "FunctionFwd.hpp"
+#include "Map.hpp"
+#include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "Primitives.hpp"
+
+START_NS_AO
+
+struct Path_MotionDetector : public Path_TLV
+{
+    __int16 field_18_scale;
+    __int16 field_1A_device_x;
+    __int16 field_1C_device_y;
+    __int16 field_1E_speed_x256;
+    __int16 field_20_start_on;
+    __int16 field_22_draw_flare;
+    __int16 field_24_disable_id;
+    __int16 field_26_alarm_id;
+    __int16 field_28_alarm_ticks;
+    __int16 field_2A_padding;
+};
+ALIVE_ASSERT_SIZEOF(Path_MotionDetector, 0x2C);
+
+class MotionDetectorLaser : public BaseAnimatedWithPhysicsGameObject
+{
+public:
+    int field_D4[4];
+};
+ALIVE_ASSERT_SIZEOF(MotionDetectorLaser, 0xE4);
+
+class MotionDetector : public BaseAnimatedWithPhysicsGameObject
+{
+public:
+    EXPORT void SetDontComeBack_437E00(__int16 bDontComeBack);
+
+    EXPORT BaseGameObject* dtor_437D70();
+
+
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+
+    EXPORT MotionDetector* Vdtor_438530(signed int flags);
+    int field_D4[4];
+    int field_E4_tlvInfo;
+    __int16 field_E8_state;
+    __int16 field_EA_pad;
+    int field_EC_disable_id;
+    unsigned __int16 field_F0_alarm_id;
+    __int16 field_F2_alarm_trigger;
+    __int16 field_F4_alarm_time;
+    __int16 field_F6_bDontComeBack;
+    int field_F8;
+    int field_FC;
+    int field_100;
+    int field_104;
+    MotionDetectorLaser* field_108_pLaser;
+    int field_10C_prims[12];
+    Prim_SetTPage field_13C_tPage[2];
+    int field_15C_speed;
+    __int16 field_160_bObjectInLaser;
+    __int16 field_162_pad;
+};
+ALIVE_ASSERT_SIZEOF(MotionDetector, 0x164);
+
+END_NS_AO
+

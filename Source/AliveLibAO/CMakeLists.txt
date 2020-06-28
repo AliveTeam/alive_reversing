@@ -1,6 +1,10 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   MotionDetector.hpp
+   MotionDetector.cpp
+   SecurityClaw.hpp
+   SecurityClaw.cpp
    SecurityOrb.hpp
    SecurityOrb.cpp
    Electrocute.hpp

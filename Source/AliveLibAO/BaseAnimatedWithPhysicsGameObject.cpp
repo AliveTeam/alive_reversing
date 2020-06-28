@@ -48,7 +48,7 @@ void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(int** /*ot*/)
     NOT_IMPLEMENTED();
 }
 
-void BaseAnimatedWithPhysicsGameObject::SetTint_418750(const TintEntry* /*pTintArray*/, __int16 /*levelId*/)
+void BaseAnimatedWithPhysicsGameObject::SetTint_418750(const TintEntry* /*pTintArray*/, LevelIds /*levelId*/)
 {
     NOT_IMPLEMENTED();
 }
