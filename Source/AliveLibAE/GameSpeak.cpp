@@ -77,13 +77,12 @@ GameSpeak* GameSpeak::ctor_421820()
 
 __int16 GameSpeak::sub_4219E0(BYTE* pBuffer, __int16 max_idx, signed __int16 src_idx)
 {
-
     if (src_idx == -1)
     {
         src_idx = static_cast<short>(field_28_last_event_index - max_idx);
         if (src_idx < 0)
         {
-            src_idx = src_idx + 32;
+            src_idx += ALIVE_COUNTOF(field_2C_event_buffer);
         }
     }
 
@@ -92,20 +91,26 @@ __int16 GameSpeak::sub_4219E0(BYTE* pBuffer, __int16 max_idx, signed __int16 src
     {
         if (field_2C_event_buffer[src_idx] == -1)
         {
+            bool bContinue = true;
             while (src_idx != field_28_last_event_index)
             {
                 src_idx++;
-                if (src_idx == 32)
+                if (src_idx == ALIVE_COUNTOF(field_2C_event_buffer))
                 {
                     src_idx = 0;
                 }
 
                 if (field_2C_event_buffer[src_idx] != -1)
                 {
+                    bContinue = false;
                    break;
                 }
             }
-            return 2;
+
+            if (bContinue)
+            {
+                return 2;
+            }
         }
 
         if (pBuffer[dst_idx] != field_2C_event_buffer[src_idx])
@@ -124,7 +129,7 @@ __int16 GameSpeak::sub_4219E0(BYTE* pBuffer, __int16 max_idx, signed __int16 src
         }
 
         src_idx++;
-        if (src_idx == 32)
+        if (src_idx == ALIVE_COUNTOF(field_2C_event_buffer))
         {
             src_idx = 0;
         }
@@ -135,12 +140,9 @@ __int16 GameSpeak::sub_4219E0(BYTE* pBuffer, __int16 max_idx, signed __int16 src
 int CC GameSpeak::sub_421970(int code, BYTE* pBufffer)
 {
     const __int16 len = Code_Length_4C9DB0(code);
-    if (len >= 0)
+    for (short idx = 0; idx < len; idx++)
     {
-        for (short idx = 0; idx < len; idx++)
-        {
-            pBufffer[idx] = static_cast<BYTE>(Code_LookUp_4C9E40(code, idx, len));
-        }
+        pBufffer[idx] = static_cast<BYTE>(Code_LookUp_4C9E40(code, idx, len));
     }
     return len;
 }
@@ -201,7 +203,7 @@ void GameSpeak::PushEvent_Impl(GameSpeakEvents event)
     field_28_last_event_index++;
 
     // Wrap around
-    if (field_28_last_event_index >= sizeof(field_2C_event_buffer))
+    if (field_28_last_event_index >= ALIVE_COUNTOF(field_2C_event_buffer))
     {
         field_28_last_event_index = 0;
     }

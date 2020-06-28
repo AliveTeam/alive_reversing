@@ -679,7 +679,6 @@ EXPORT void CC Game_Free_LoadingIcon_445E80()
     }
 }
 
-ALIVE_VAR(1, 0x4FF954, GameSpeak*, pEventSystem_4FF954, nullptr);
 ALIVE_VAR(1, 0x4FF958, CheatController*, pCheatController_4FF958, nullptr);
 
 EXPORT int CC PSX_ResetGraph_4987E0(int /*mode*/)

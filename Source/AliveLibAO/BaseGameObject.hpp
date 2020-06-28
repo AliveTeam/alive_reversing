@@ -29,6 +29,7 @@ enum class Types : __int16
 
     eBird_22 = 22,
 
+    eGameSpeak_24 = 24,
     eElectricWall_25 = 25,
 
     eBellHammer_27 = 27,
