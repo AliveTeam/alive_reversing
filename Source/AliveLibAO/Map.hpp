@@ -151,6 +151,11 @@ public:
 
     EXPORT Path_TLV* TLV_Get_At_446060(Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP height);
 
+    CameraPos GetDirection(LevelIds level, int path, FP xpos, FP ypos)
+    {
+        return GetDirection_444A40(static_cast<int>(level), path, xpos, ypos);
+    }
+
     EXPORT CameraPos GetDirection_444A40(int level, int path, FP xpos, FP ypos);
 
     EXPORT CameraPos Rect_Location_Relative_To_Active_Camera_4448C0(PSX_RECT* pRect, __int16 width);

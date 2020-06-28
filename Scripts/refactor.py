@@ -100,6 +100,7 @@ virtual BaseGameObject* VDestructor(signed int flags) override
 }
 """
             #vDtorChangedStubEdited = vDtorChangedStub.replace("VDestructor(signed int flags)", className + "::VDestructor(signed int flags)");
+            vDtorChangedStubEdited = vDtorChangedStub
             vDtorChangedStubEdited = vDtorChangedStubEdited.replace("replace_me", funcName)
             line = vDtorChangedStubEdited + "\n" + line
             line = line.replace("(char flags)", "(signed int flags)")
@@ -118,6 +119,7 @@ virtual void VScreenChanged() override
 }
 """
             #vScreenChangedStubEdited = vScreenChangedStub.replace("VScreenChanged()", className + "::VScreenChanged()");
+            vScreenChangedStubEdited = vScreenChangedStub
             vScreenChangedStubEdited = vScreenChangedStubEdited.replace("replace_me", funcName)
             line = vScreenChangedStubEdited + "\n" + line
 

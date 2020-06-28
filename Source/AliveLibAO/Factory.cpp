@@ -22,6 +22,7 @@
 #include "ChimeLock.hpp"
 #include "CreditsController.hpp"
 #include "Meat.hpp"
+#include "ElectricWall.hpp"
 
 START_NS_AO
 
@@ -742,9 +743,23 @@ EXPORT void CC Factory_SligSpawner_482A00(Path_TLV* pTlv, Map* /*pMap*/, TlvItem
     }
 }
 
-EXPORT void Factory_ElectricWall_4874E0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_ElectricWall_4874E0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode != 1 && loadMode != 2)
+    {
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6000, 0, 0))
+        {
+            auto pElectricWall = ao_new<ElectricWall>();
+            if (pElectricWall)
+            {
+                pElectricWall->ctor_40FCF0(static_cast<Path_ElectricWall*>(pTlv), tlvOffsetLevelIdPathId.all);
+            }
+        }
+        else
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        }
+    }
 }
 
 

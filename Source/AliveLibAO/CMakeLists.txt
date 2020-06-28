@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   ElectricWall.hpp
+   ElectricWall.cpp
    Meat.hpp
    Meat.cpp
    CreditsController.hpp
