@@ -26,6 +26,7 @@
 #include "Dove.hpp"
 #include "Math.hpp"
 #include "MusicTrigger.hpp"
+#include "SecurityOrb.hpp"
 
 START_NS_AO
 
@@ -368,11 +369,65 @@ EXPORT void Factory_StartController_Null_4817E0(Path_TLV* /*pTlv*/, Map* /*pMap*
 }
 
 
-EXPORT void Factory_SecurityEye_485550(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_SecurityOrb_485550(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
-}
+    auto pSecurityOrbTlv = static_cast<Path_SecurityOrb*>(pTlv);
+    const auto disabledResources = pSecurityOrbTlv->field_1A_disable_resources;
+    if (loadMode == 1 || loadMode == 2)
+    {
+        ResourceManager::LoadResource_446C90("F2MAMORB.BAN", ResourceManager::Resource_Animation, 2006, loadMode, 0);
+        ResourceManager::LoadResource_446C90("SPLINE.BAN", ResourceManager::Resource_Animation, 355, loadMode, 0);
+        ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, 25, loadMode, disabledResources & 1);
+        ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, 576, loadMode, disabledResources & 2);
+        ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, 217, loadMode, disabledResources & 4);
+        ResourceManager::LoadResource_446C90("METAL.BAN", ResourceManager::Resource_Animation, 365, loadMode, disabledResources & 0x10);
+        ResourceManager::LoadResource_446C90("EXPLO2.BAN", ResourceManager::Resource_Animation, 301, loadMode, disabledResources & 0x20);
+    }
+    else
+    {
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2006, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
 
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 355, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        if (!(disabledResources & 1) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 25, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        if (!(disabledResources & 2) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 576, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        if (!(disabledResources & 0x10) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 365, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        if (!(disabledResources & 0x20) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 301, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        auto pSecurityEye = ao_new<SecurityOrb>();
+        if (pSecurityEye)
+        {
+            pSecurityEye->ctor_436C80(pSecurityOrbTlv, tlvOffsetLevelIdPathId.all);
+        }
+    }
+}
 
 EXPORT void Factory_Null_4817F0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
 {
@@ -604,7 +659,7 @@ EXPORT void Factory_FootSwitch_486C60(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItem
     NOT_IMPLEMENTED();
 }
 
-EXPORT void Factory_SecurityOrb_486D50(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_SecurityClaw_486D50(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -1331,7 +1386,7 @@ const PathFunctionTable kObjectFactory =
     Factory_Switch_485370,
     Factory_BellHammer_4854B0,
     Factory_StartController_Null_4817E0,
-    Factory_SecurityEye_485550,
+    Factory_SecurityOrb_485550,
     Factory_Null_4817F0,
     Factory_Null_487070,
     Factory_LiftMud_4857D0,
@@ -1363,7 +1418,7 @@ const PathFunctionTable kObjectFactory =
     Factory_InvisibleZone_Null_481840,
     Factory_RollingBallStopper_486B90,
     Factory_FootSwitch_486C60,
-    Factory_SecurityOrb_486D50,
+    Factory_SecurityClaw_486D50,
     Factory_MotionDector_486FD0,
     Factory_Null_4870A0,
     Factory_Null_481C70,

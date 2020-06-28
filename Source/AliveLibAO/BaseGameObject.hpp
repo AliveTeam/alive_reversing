@@ -36,14 +36,20 @@ enum class Types : __int16
 
     ePalOverwriter_29 = 29,
 
+    SecurityOrb_53 = 53,
+
     eMeatStack_55 = 55,
 
     eRollingBallStopperShaker_58 = 58,
     eRollingBallStopper_60 = 60,
 
+    e69 = 69,
+
     eScreenClipper_78 = 78,
     eEffectBase_79 = 79,
     
+    e85 = 85,
+
     eSlig_88 = 88,
 
     eSligSpawner_91 = 91,

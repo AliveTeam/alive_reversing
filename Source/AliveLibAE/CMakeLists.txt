@@ -254,8 +254,8 @@ SET(AliveLibAESrc
     GasEmitter.hpp
     DemoPlayback.cpp
     DemoPlayback.hpp
-    ChantSuppressor.cpp
-    ChantSuppressor.hpp
+    SecurityOrb.cpp
+    SecurityOrb.hpp
     Explosion.hpp
     Explosion.cpp
     Greeter.hpp

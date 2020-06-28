@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   SecurityOrb.hpp
+   SecurityOrb.cpp
    Electrocute.hpp
    Electrocute.cpp
    MusicTrigger.hpp
