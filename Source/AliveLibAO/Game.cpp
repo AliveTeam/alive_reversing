@@ -8,7 +8,7 @@
 
 START_NS_AO
 
-ALIVE_VAR(1, 0x507670, int, gnFrameCount_507670, 0);
+ALIVE_VAR(1, 0x507670, unsigned int, gnFrameCount_507670, 0);
 ALIVE_VAR(1, 0x504618, DynamicArrayT<BaseGameObject>*, gObjList_drawables_504618, nullptr);
 
 void Game_ForceLink()

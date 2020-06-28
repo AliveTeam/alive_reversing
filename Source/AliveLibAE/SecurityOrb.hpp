@@ -4,17 +4,17 @@
 #include "BaseAliveGameObject.hpp"
 #include "FunctionFwd.hpp"
 
-struct Path_ChantSuppressor : public Path_TLV
+struct Path_SecurityOrb : public Path_TLV
 {
     __int16 field_10_scale;
     __int16 field_12_disabled_resources;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ChantSuppressor, 0x14);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SecurityOrb, 0x14);
 
-class ChantSuppressor : public BaseAliveGameObject
+class SecurityOrb : public BaseAliveGameObject
 {
 public:
-    EXPORT ChantSuppressor* ctor_466350(Path_ChantSuppressor* pTlv, int tlvInfo);
+    EXPORT SecurityOrb* ctor_466350(Path_SecurityOrb* pTlv, int tlvInfo);
 
     virtual BaseGameObject* VDestructor(signed int flags) override
     {
@@ -42,7 +42,7 @@ public:
     }
 
 private:
-    EXPORT ChantSuppressor* vdtor_4664B0(signed int flags);
+    EXPORT SecurityOrb* vdtor_4664B0(signed int flags);
 
     EXPORT void dtor_4664E0();
 
@@ -59,4 +59,4 @@ private:
     int field_120_timer;
     int field_124_sound_channels_mask;
 };
-ALIVE_ASSERT_SIZEOF(ChantSuppressor, 0x128);
+ALIVE_ASSERT_SIZEOF(SecurityOrb, 0x128);

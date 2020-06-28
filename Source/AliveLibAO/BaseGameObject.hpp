@@ -27,18 +27,33 @@ enum class Types : __int16
     eChimeLock_14 = 14,
     eSpark_15 = 15,
 
+    eBird_22 = 22,
+
+    eGameSpeak_24 = 24,
     eElectricWall_25 = 25,
 
     eBellHammer_27 = 27,
+
+    ePalOverwriter_29 = 29,
+
+    eSecurityClaw_31 = 31,
+
+    eClaw_48 = 48,
+
+    SecurityOrb_53 = 53,
 
     eMeatStack_55 = 55,
 
     eRollingBallStopperShaker_58 = 58,
     eRollingBallStopper_60 = 60,
 
+    e69 = 69,
+
     eScreenClipper_78 = 78,
     eEffectBase_79 = 79,
     
+    e85 = 85,
+
     eSlig_88 = 88,
 
     eSligSpawner_91 = 91,

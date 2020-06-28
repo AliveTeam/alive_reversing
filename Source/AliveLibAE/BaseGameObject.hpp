@@ -91,7 +91,7 @@ enum class Types : __int16
     eSligGetPantsOrWings_80 = 80,
     eMudokon2_81 = 81,
     eType_82 = 82,
-    eAntiChant_83 = 83,
+    eSecurityOrb_83 = 83,
     eMeat_84 = 84,
     eMeatSack_85 = 85,
     eType_86 = 86,

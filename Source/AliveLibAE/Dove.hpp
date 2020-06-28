@@ -4,7 +4,7 @@
 #include "FunctionFwd.hpp"
 #include "Path.hpp"
 
-EXPORT void CC Static_init_dynamic_array_41F3A0();
+EXPORT void CC Dove_static_ctor_41F3A0();
 
 struct Path_Dove : public Path_TLV
 {

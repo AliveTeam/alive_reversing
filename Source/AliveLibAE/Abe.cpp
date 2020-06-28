@@ -2190,7 +2190,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
         break;
 
     case Types::eType_47:
-    case Types::eAntiChant_83:
+    case Types::eSecurityOrb_83:
         field_128.field_18_say = MudSounds::eAnger_5;
         field_144_auto_say_timer = sGnFrame_5C1B84 + 27;
         if (field_106_current_motion != eAbeStates::State_123_LiftGrabIdle_45A6A0 &&

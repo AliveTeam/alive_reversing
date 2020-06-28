@@ -25,4 +25,15 @@ EXPORT void CC SND_Load_Seqs_477AB0(OpenSeqHandle* /*pSeqTable*/, const char* /*
     NOT_IMPLEMENTED();
 }
 
+EXPORT signed __int16 CC SND_SEQ_PlaySeq_4775A0(unsigned __int16 /*idx*/, int /*repeatCount*/, __int16 /*bDontStop*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT void CC SND_Seq_Stop_477A60(unsigned __int16 /*idx*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 END_NS_AO

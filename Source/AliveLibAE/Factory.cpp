@@ -42,7 +42,7 @@
 #include "ElectricWall.hpp"
 #include "GasEmitter.hpp"
 #include "DemoPlayback.hpp"
-#include "ChantSuppressor.hpp"
+#include "SecurityOrb.hpp"
 #include "Greeter.hpp"
 #include "MotionDetector.hpp"
 #include "FlyingSlig.hpp"
@@ -652,15 +652,15 @@ EXPORT void CC Factory_Switch_4D8CF0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlv
 
 EXPORT void CC Factory_Null_4D69E0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 
-EXPORT void CC Factory_ChantSuppressor_Orb_4D8D80(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+EXPORT void CC Factory_SecurityOrb_4D8D80(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
 {
-    Path_ChantSuppressor* pChantSuppressorTlv = static_cast<Path_ChantSuppressor*>(pTlv);
-    const __int16 disabledResources = pChantSuppressorTlv->field_12_disabled_resources;
+    Path_SecurityOrb* pSecurityOrbTlv = static_cast<Path_SecurityOrb*>(pTlv);
+    const __int16 disabledResources = pSecurityOrbTlv->field_12_disabled_resources;
     if (loadMode == 1 || loadMode == 2)
     {
-        gMap_5C3030.LoadResource_4DBE00("MAIMORB.BAN", ResourceManager::Resource_Animation, ResourceID::kMaimGameResID, loadMode, 0);
-        gMap_5C3030.LoadResource_4DBE00("SPLINE.BAN", ResourceManager::Resource_Animation, ResourceID::kSplineResID, loadMode, 0); // TODO: Res id constants
-        gMap_5C3030.LoadResource_4DBE00("SPARKS.BAN", ResourceManager::Resource_Animation, ResourceID::kSparksResID, loadMode, 0);
+        gMap_5C3030.LoadResource_4DBE00("MAIMORB.BAN", ResourceManager::Resource_Animation, ResourceID::kMaimGameResID, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("SPLINE.BAN", ResourceManager::Resource_Animation, ResourceID::kSplineResID, loadMode); // TODO: Res id constants
+        gMap_5C3030.LoadResource_4DBE00("SPARKS.BAN", ResourceManager::Resource_Animation, ResourceID::kSparksResID, loadMode);
         gMap_5C3030.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, loadMode, disabledResources & 1);
         gMap_5C3030.LoadResource_4DBE00("DOGBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, loadMode, disabledResources & 2);
         gMap_5C3030.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, ResourceID::kMetalResID, loadMode, disabledResources & 0x10);
@@ -668,10 +668,10 @@ EXPORT void CC Factory_ChantSuppressor_Orb_4D8D80(Path_TLV* pTlv, Path*, TlvItem
     }
     else
     {
-        auto pChantSuppressor = ae_new<ChantSuppressor>();
-        if (pChantSuppressor)
+        auto pSecurityOrb = ae_new<SecurityOrb>();
+        if (pSecurityOrb)
         {
-            pChantSuppressor->ctor_466350(pChantSuppressorTlv, tlvInfo.all);
+            pSecurityOrb->ctor_466350(pSecurityOrbTlv, tlvInfo.all);
         }
     }
 }
@@ -990,7 +990,7 @@ EXPORT void CC Factory_ChantSuppressor_WithArms_4D9E10(Path_TLV* pTlv, Path* pPa
 {
     // TODO: Most of the code for the chant suppressor with arms is still in the game
     // check if it can be re-added at some point.
-    Factory_ChantSuppressor_Orb_4D8D80(pTlv, pPath, tlvInfo, loadMode);
+    Factory_SecurityOrb_4D8D80(pTlv, pPath, tlvInfo, loadMode);
 }
 
 EXPORT void CC Factory_MotionDetector_4D9E40(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
@@ -2157,7 +2157,7 @@ const PathFunctionTable kObjectFactory =
         Factory_Slog_4D8B20,
         Factory_Switch_4D8CF0,
         Factory_Null_4D69E0,
-        Factory_ChantSuppressor_Orb_4D8D80,
+        Factory_SecurityOrb_4D8D80,
         Factory_Null_4D6A00,
         Factory_Pulley_4D6A20,
         Factory_AbeStart_4D9030,

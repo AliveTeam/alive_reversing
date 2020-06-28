@@ -38,5 +38,16 @@ short CC Math_RandomRange_450F20(signed short /*min*/, signed short /*max*/)
     return 0;
 }
 
-END_NS_AO
+FP CC Math_Sine_451110(BYTE /*v*/)
+{
+    NOT_IMPLEMENTED();
+    return {};
+}
 
+FP CC Math_Cosine_4510A0(BYTE /*v*/)
+{
+    NOT_IMPLEMENTED();
+    return {};
+}
+
+END_NS_AO

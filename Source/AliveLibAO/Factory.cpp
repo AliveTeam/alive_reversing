@@ -23,6 +23,11 @@
 #include "CreditsController.hpp"
 #include "Meat.hpp"
 #include "ElectricWall.hpp"
+#include "Dove.hpp"
+#include "Math.hpp"
+#include "MusicTrigger.hpp"
+#include "SecurityOrb.hpp"
+#include "SecurityClaw.hpp"
 
 START_NS_AO
 
@@ -118,9 +123,47 @@ EXPORT void Factory_WellExpress_483340(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvIte
 }
 
 
-EXPORT void Factory_Dove_4834C0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_Dove_4834C0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode != 1 && loadMode != 2)
+    {
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 60, 0, 0))
+        {
+            auto pDoveTlv = static_cast<Path_Dove*>(pTlv);
+
+
+            const short width = pDoveTlv->field_14_bottom_right.field_0_x - pDoveTlv->field_10_top_left.field_0_x;
+            const short height = pDoveTlv->field_14_bottom_right.field_2_y - pDoveTlv->field_10_top_left.field_2_y;
+
+            for (int i = 0; i < pDoveTlv->field_18_dove_count; i++)
+            {
+                auto pDove = ao_new<Dove>();
+                if (pDove)
+                {
+                    pDove->ctor_40EE50(5052, 41, 20, 60, tlvOffsetLevelIdPathId.all, 
+                        pDoveTlv->field_1C_scale != 0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
+                }
+
+                short ypos = 0;
+                if (pDoveTlv->field_1A_pixel_perfect)
+                {
+                    pDove->field_A8_xpos = FP_FromInteger(pDoveTlv->field_10_top_left.field_0_x);
+                    ypos = pDoveTlv->field_14_bottom_right.field_2_y;
+                }
+                else
+                {
+                    pDove->field_A8_xpos = FP_FromInteger((pDoveTlv->field_14_bottom_right.field_0_x + width * Math_NextRandom()) / 256);
+                    ypos = (pDoveTlv->field_14_bottom_right.field_2_y + height * Math_NextRandom()) / 256;
+                }
+
+                pDove->field_AC_ypos = FP_FromInteger(ypos) + FP_FromInteger(10);
+            }
+        }
+        else
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        }
+    }
 }
 
 
@@ -327,11 +370,65 @@ EXPORT void Factory_StartController_Null_4817E0(Path_TLV* /*pTlv*/, Map* /*pMap*
 }
 
 
-EXPORT void Factory_SecurityEye_485550(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_SecurityOrb_485550(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
-}
+    auto pSecurityOrbTlv = static_cast<Path_SecurityOrb*>(pTlv);
+    const auto disabledResources = pSecurityOrbTlv->field_1A_disable_resources;
+    if (loadMode == 1 || loadMode == 2)
+    {
+        ResourceManager::LoadResource_446C90("F2MAMORB.BAN", ResourceManager::Resource_Animation, 2006, loadMode, 0);
+        ResourceManager::LoadResource_446C90("SPLINE.BAN", ResourceManager::Resource_Animation, 355, loadMode, 0);
+        ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, 25, loadMode, disabledResources & 1);
+        ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, 576, loadMode, disabledResources & 2);
+        ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, 217, loadMode, disabledResources & 4);
+        ResourceManager::LoadResource_446C90("METAL.BAN", ResourceManager::Resource_Animation, 365, loadMode, disabledResources & 0x10);
+        ResourceManager::LoadResource_446C90("EXPLO2.BAN", ResourceManager::Resource_Animation, 301, loadMode, disabledResources & 0x20);
+    }
+    else
+    {
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2006, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
 
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 355, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        if (!(disabledResources & 1) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 25, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        if (!(disabledResources & 2) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 576, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        if (!(disabledResources & 0x10) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 365, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        if (!(disabledResources & 0x20) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 301, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        auto pSecurityEye = ao_new<SecurityOrb>();
+        if (pSecurityEye)
+        {
+            pSecurityEye->ctor_436C80(pSecurityOrbTlv, tlvOffsetLevelIdPathId.all);
+        }
+    }
+}
 
 EXPORT void Factory_Null_4817F0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
 {
@@ -563,9 +660,63 @@ EXPORT void Factory_FootSwitch_486C60(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItem
     NOT_IMPLEMENTED();
 }
 
-EXPORT void Factory_SecurityOrb_486D50(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_SecurityClaw_486D50(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    auto pSecurityClawTlv = static_cast<Path_SecurityClaw*>(pTlv);
+    const auto disabledResources = pSecurityClawTlv->field_1E_disabled_resources;
+
+    if (loadMode == 1 || loadMode == 2)
+    {
+        ResourceManager::LoadResource_446C90("F2EYEORB.BAN", ResourceManager::Resource_Animation, 2008, loadMode);
+        ResourceManager::LoadResource_446C90("SPLINE.BAN", ResourceManager::Resource_Animation, 355, loadMode);
+        ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, 25, loadMode, disabledResources & 1);
+        ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, 576, loadMode, disabledResources & 2);
+        ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, 217, loadMode, disabledResources & 4);
+        ResourceManager::LoadResource_446C90("METAL.BAN", ResourceManager::Resource_Animation, 365, loadMode, disabledResources & 0x10);
+        ResourceManager::LoadResource_446C90("EXPLO2.BAN", ResourceManager::Resource_Animation, 301, loadMode, disabledResources & 0x20);
+    }
+    else
+    {
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2008, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 355, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        if (!(disabledResources & 1) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 25, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        if (!(disabledResources & 2) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 576, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        if (!(disabledResources & 0x10) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 365, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        if (!(disabledResources & 0x20) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 301, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        }
+
+        auto pSecurityOrb = ao_new<SecurityClaw>();
+        if (pSecurityOrb)
+        {
+            pSecurityOrb->ctor_418A70(pSecurityClawTlv, tlvOffsetLevelIdPathId.all);
+        }
+    }
 }
 
 
@@ -1059,12 +1210,17 @@ EXPORT void Factory_487B80(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /
     NOT_IMPLEMENTED();
 }
 
-
-EXPORT void Factory_Music_482020(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_MusicTrigger_482020(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode != 1 && loadMode != 2)
+    {
+        auto pMusicTrigger = ao_new<MusicTrigger>();
+        if (pMusicTrigger)
+        {
+            pMusicTrigger->ctor_4439F0(static_cast<Path_MusicTrigger*>(pTlv), tlvOffsetLevelIdPathId.all);
+        }
+    }
 }
-
 
 EXPORT void Factory_LightEffect_484170(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
@@ -1285,7 +1441,7 @@ const PathFunctionTable kObjectFactory =
     Factory_Switch_485370,
     Factory_BellHammer_4854B0,
     Factory_StartController_Null_4817E0,
-    Factory_SecurityEye_485550,
+    Factory_SecurityOrb_485550,
     Factory_Null_4817F0,
     Factory_Null_487070,
     Factory_LiftMud_4857D0,
@@ -1317,7 +1473,7 @@ const PathFunctionTable kObjectFactory =
     Factory_InvisibleZone_Null_481840,
     Factory_RollingBallStopper_486B90,
     Factory_FootSwitch_486C60,
-    Factory_SecurityOrb_486D50,
+    Factory_SecurityClaw_486D50,
     Factory_MotionDector_486FD0,
     Factory_Null_4870A0,
     Factory_Null_481C70,
@@ -1361,7 +1517,7 @@ const PathFunctionTable kObjectFactory =
     Factory_Preloader_Null_4817A0,
     Factory_StatusBoard_487AF0,
     Factory_487B80,
-    Factory_Music_482020,
+    Factory_MusicTrigger_482020,
     Factory_LightEffect_484170,
     Factory_SlogSpawner_4851D0,
     Factory_GasCountDown_487BE0,

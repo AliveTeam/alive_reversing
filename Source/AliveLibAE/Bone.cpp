@@ -247,7 +247,7 @@ __int16 Bone::OnCollision_412140(BaseAnimatedWithPhysicsGameObject* pObj)
         return 1;
     }
 
-    if (pObj->field_4_typeId == Types::eAntiChant_83 && sControlledCharacter_5C1B8C->field_D6_scale != pObj->field_D6_scale)
+    if (pObj->field_4_typeId == Types::eSecurityOrb_83 && sControlledCharacter_5C1B8C->field_D6_scale != pObj->field_D6_scale)
     {
         return 1;
     }

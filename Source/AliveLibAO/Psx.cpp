@@ -32,3 +32,9 @@ EXPORT void CC PSX_PutDispEnv_495CE0(PSX_DISPENV* /*pDispEnv*/)
 {
     NOT_IMPLEMENTED();
 }
+
+EXPORT int CC PSX_LoadImage16_4962A0(const PSX_RECT* /*pRect*/, BYTE* /*pData*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}

@@ -15,12 +15,12 @@ ALIVE_VAR(1, 0x5bc112, short, bTheOneControllingTheMusic_5BC112, 0);
 ALIVE_VAR(1, 0x5BC100, DynamicArrayT<Dove>, gDovesArray_5BC100, {});
 ALIVE_VAR(1, 0x5BC110, BYTE, byte_5BC110, 0);
 
-EXPORT void CC Static_ctor_dynamic_array_41F3C0()
+EXPORT void CC Dove_static_ctor_41F3C0()
 {
     gDovesArray_5BC100.ctor_40CA60(3);
 }
 
-EXPORT void CC Static_dtor_dynamic_array_41F400()
+EXPORT void CC Dove_static_dtor_41F400()
 {
     // Flag to guard against multiple destruction - although seems impossible given its in the table once
     if (!(byte_5BC110 & 1))
@@ -30,10 +30,10 @@ EXPORT void CC Static_dtor_dynamic_array_41F400()
     }
 }
 
-EXPORT void CC Static_init_dynamic_array_41F3A0()
+EXPORT void CC Dove_static_ctor_41F3A0()
 {
-    Static_ctor_dynamic_array_41F3C0();
-    atexit(Static_dtor_dynamic_array_41F400);
+    Dove_static_ctor_41F3C0();
+    atexit(Dove_static_dtor_41F400);
 }
 
 Dove* Dove::ctor_41F430(int frameTableOffset, int maxW, unsigned __int16 maxH, int resourceID, int tlvInfo, FP scale)
@@ -137,7 +137,7 @@ Dove* Dove::ctor_41F660(int frameTableOffset, int maxW, __int16 maxH, int resour
 
     field_C8_vely = FP_FromInteger(-4 - (Math_NextRandom() & 3));
     field_FE_state = State::State_1_FlyAway;
-    field_FC_keepInGlobalArray = 1;
+    field_FC_keepInGlobalArray = TRUE;
     field_F4_counter = 0;
 
     field_B8_xpos = xpos;
@@ -226,8 +226,8 @@ void Dove::AsACircle_41F980(FP xpos, FP ypos, BYTE angle)
     field_FE_state = State::State_3_Circle;
 
     // TODO: Result thrown away.. some old removed behavior ??
-    //(Math_Sine_496DD0(field_10C) * FP_FromInteger(30)) * field_CC_sprite_scale;
-    //(Math_Cosine_496CD0(field_10C) * FP_FromInteger(35)) * field_CC_sprite_scale;
+    //(Math_Sine_496DD0(field_10C_angle) * FP_FromInteger(30)) * field_CC_sprite_scale;
+    //(Math_Cosine_496CD0(field_10C_angle) * FP_FromInteger(35)) * field_CC_sprite_scale;
 }
 
 void Dove::AsJoin_41F940(FP xpos, FP ypos)
@@ -421,6 +421,6 @@ void CC Dove::All_FlyAway_41FA60(__int16 a1)
     if (bTheOneControllingTheMusic_5BC112)
     {
         SND_SEQ_Stop_4CAE60(SeqId::NecrumAmbient2_17);
-        bTheOneControllingTheMusic_5BC112 = 0;
+        bTheOneControllingTheMusic_5BC112 = FALSE;
     }
 }

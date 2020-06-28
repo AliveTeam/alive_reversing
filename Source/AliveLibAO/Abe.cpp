@@ -88,7 +88,7 @@ void Abe::vScreenChanged_422640()
     // Level has changed?
     if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level)
     {
-        SetTint_418750(sTintTable_Abe_4C6438, static_cast<short>(gMap_507BA8.field_A_level));
+        SetTint_418750(sTintTable_Abe_4C6438, gMap_507BA8.field_A_level);
         if (gMap_507BA8.field_0_current_level != LevelIds::eMenu_0)
         {
             if (field_19C_throwable_count > 0 && gpThrowableArray_50E26C)
