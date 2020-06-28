@@ -477,7 +477,9 @@ MeatSack* MeatSack::ctor_46A410(Path_MeatSack* pTlv, int tlvInfo)
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
     field_124_velX = FP_FromRaw(pTlv->field_12_xVel << 8);
-    field_128_velY = -FP_FromRaw(256 * pTlv->field_14_yVel);
+
+    // Throw the meat up into the air as it falls from the sack
+    field_128_velY = -FP_FromRaw(pTlv->field_14_yVel << 8);
 
     if (!pTlv->field_10_side)
     {

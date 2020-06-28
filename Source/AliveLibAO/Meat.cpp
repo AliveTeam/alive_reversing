@@ -11,7 +11,9 @@ MeatSack* MeatSack::ctor_4390F0(Path_MeatSack* pTlv, int tlvInfo)
 {
     ctor_401090();
     SetVTable(this, 0x4BB930);
+
     field_4_typeId = Types::eMeatStack_55;
+
     BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 4002, 1, 0);
     Animation_Init_417FD0(
         15688,
@@ -29,7 +31,9 @@ MeatSack* MeatSack::ctor_4390F0(Path_MeatSack* pTlv, int tlvInfo)
     field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
 
     field_118_velX = FP_FromRaw(pTlv->field_1A_x_vel << 8);
-    field_11C_velY = -FP_FromRaw(-256 * pTlv->field_1C_y_vel);
+
+    // Throw the meat up into the air as it falls from the sack
+    field_11C_velY = -FP_FromRaw(pTlv->field_1C_y_vel << 8);
 
     if (!pTlv->field_18_side)
     {
@@ -48,6 +52,7 @@ MeatSack* MeatSack::ctor_4390F0(Path_MeatSack* pTlv, int tlvInfo)
         field_10_anim.field_C_layer = 27;
         field_C6_scale = 1;
     }
+
     field_112_num_items = pTlv->field_20_amount_of_meat;
 
     field_D0_pShadow = ao_new<Shadow>();
@@ -55,6 +60,7 @@ MeatSack* MeatSack::ctor_4390F0(Path_MeatSack* pTlv, int tlvInfo)
     {
         field_D0_pShadow->ctor_461FB0();
     }
+
     return this;
 }
 
