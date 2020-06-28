@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "ChantSuppressor.hpp"
+#include "SecurityOrb.hpp"
 #include "Sound/Midi.hpp"
 #include "stdlib.hpp"
 #include "Gibs.hpp"
@@ -17,7 +17,7 @@
 #include "Function.hpp"
 #include "Sparks.hpp"
 
-const TintEntry sChantOrbTints_55C1EC[18] =
+const TintEntry sSecurityOrbTints_55C1EC[18] =
 {
     { 1u, 127u, 127u, 127u },
     { 2u, 137u, 137u, 137u },
@@ -40,19 +40,19 @@ const TintEntry sChantOrbTints_55C1EC[18] =
 };
 
 
-ChantSuppressor* ChantSuppressor::ctor_466350(Path_ChantSuppressor* pTlv, int tlvInfo)
+SecurityOrb* SecurityOrb::ctor_466350(Path_SecurityOrb* pTlv, int tlvInfo)
 {
     ctor_408240(0);
     SetVTable(this, 0x545F3C);
     
-    field_4_typeId = Types::eAntiChant_83;
+    field_4_typeId = Types::eSecurityOrb_83;
 
     field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
 
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMaimGameResID);
     Animation_Init_424E10(2228, 53, 28u, ppRes, 1, 1u);
     
-    SetTint_425600(sChantOrbTints_55C1EC, gMap_5C3030.field_0_current_level);
+    SetTint_425600(sSecurityOrbTints_55C1EC, gMap_5C3030.field_0_current_level);
 
     field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
@@ -79,7 +79,7 @@ ChantSuppressor* ChantSuppressor::ctor_466350(Path_ChantSuppressor* pTlv, int tl
     return this;
 }
 
-ChantSuppressor* ChantSuppressor::vdtor_4664B0(signed int flags)
+SecurityOrb* SecurityOrb::vdtor_4664B0(signed int flags)
 {
     dtor_4664E0();
     if (flags & 1)
@@ -89,7 +89,7 @@ ChantSuppressor* ChantSuppressor::vdtor_4664B0(signed int flags)
     return this;
 }
 
-void ChantSuppressor::dtor_4664E0()
+void SecurityOrb::dtor_4664E0()
 {
     SetVTable(this, 0x545F3C);
 
@@ -110,12 +110,12 @@ void ChantSuppressor::dtor_4664E0()
     dtor_4080B0();
 }
 
-void ChantSuppressor::vScreenChanged_466D20()
+void SecurityOrb::vScreenChanged_466D20()
 {
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-signed __int16 ChantSuppressor::vTakeDamage_466BB0(BaseGameObject* pFrom)
+signed __int16 SecurityOrb::vTakeDamage_466BB0(BaseGameObject* pFrom)
 {
     if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
@@ -154,7 +154,7 @@ signed __int16 ChantSuppressor::vTakeDamage_466BB0(BaseGameObject* pFrom)
     return 1;
 }
 
-void ChantSuppressor::vUpdate_4665A0()
+void SecurityOrb::vUpdate_4665A0()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {

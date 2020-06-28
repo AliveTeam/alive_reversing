@@ -56,7 +56,7 @@ EXPORT void CC Factory_Slig_4D7BC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvIn
 EXPORT void CC Factory_Slog_4D8B20(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode);
 EXPORT void CC Factory_Switch_4D8CF0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode);
 EXPORT void CC Factory_Null_4D69E0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode);
-EXPORT void CC Factory_ChantSuppressor_Orb_4D8D80(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode);
+EXPORT void CC Factory_SecurityOrb_4D8D80(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode);
 EXPORT void CC Factory_Null_4D6A00(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode);
 EXPORT void CC Factory_Pulley_4D6A20(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode);
 EXPORT void CC Factory_AbeStart_4D9030(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode);
