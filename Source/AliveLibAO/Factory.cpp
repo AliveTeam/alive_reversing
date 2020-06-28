@@ -23,6 +23,8 @@
 #include "CreditsController.hpp"
 #include "Meat.hpp"
 #include "ElectricWall.hpp"
+#include "Dove.hpp"
+#include "Math.hpp"
 
 START_NS_AO
 
@@ -118,9 +120,47 @@ EXPORT void Factory_WellExpress_483340(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvIte
 }
 
 
-EXPORT void Factory_Dove_4834C0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_Dove_4834C0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode != 1 && loadMode != 2)
+    {
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 60, 0, 0))
+        {
+            auto pDoveTlv = static_cast<Path_Dove*>(pTlv);
+
+
+            const short width = pDoveTlv->field_14_bottom_right.field_0_x - pDoveTlv->field_10_top_left.field_0_x;
+            const short height = pDoveTlv->field_14_bottom_right.field_2_y - pDoveTlv->field_10_top_left.field_2_y;
+
+            for (int i = 0; i < pDoveTlv->field_18_dove_count; i++)
+            {
+                auto pDove = ao_new<Dove>();
+                if (pDove)
+                {
+                    pDove->ctor_40EE50(5052, 41, 20, 60, tlvOffsetLevelIdPathId.all, 
+                        pDoveTlv->field_1C_scale != 0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
+                }
+
+                short ypos = 0;
+                if (pDoveTlv->field_1A_pixel_perfect)
+                {
+                    pDove->field_A8_xpos = FP_FromInteger(pDoveTlv->field_10_top_left.field_0_x);
+                    ypos = pDoveTlv->field_14_bottom_right.field_2_y;
+                }
+                else
+                {
+                    pDove->field_A8_xpos = FP_FromInteger((pDoveTlv->field_14_bottom_right.field_0_x + width * Math_NextRandom()) / 256);
+                    ypos = (pDoveTlv->field_14_bottom_right.field_2_y + height * Math_NextRandom()) / 256;
+                }
+
+                pDove->field_AC_ypos = FP_FromInteger(ypos) + FP_FromInteger(10);
+            }
+        }
+        else
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        }
+    }
 }
 
 

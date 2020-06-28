@@ -106,7 +106,7 @@ void Winmain_ForceLink()
 EXPORT void Static_Inits_AE()
 {
     static_ObjectIds_init_43EC30();
-    Static_init_dynamic_array_41F3A0();
+    Dove_static_ctor_41F3A0();
     LvlArchive_Static_init_432E00();
     static_map_init_4802D0();
     static_lvl_init_480350();
