@@ -99,7 +99,8 @@ virtual BaseGameObject* VDestructor(signed int flags) override
     return replace_me(flags);
 }
 """
-            vDtorChangedStubEdited = vDtorChangedStub.replace("VDestructor(signed int flags)", className + "::VDestructor(signed int flags)");
+            #vDtorChangedStubEdited = vDtorChangedStub.replace("VDestructor(signed int flags)", className + "::VDestructor(signed int flags)");
+            vDtorChangedStubEdited = vDtorChangedStub
             vDtorChangedStubEdited = vDtorChangedStubEdited.replace("replace_me", funcName)
             line = vDtorChangedStubEdited + "\n" + line
             line = line.replace("(char flags)", "(signed int flags)")
@@ -117,7 +118,8 @@ virtual void VScreenChanged() override
     replace_me();
 }
 """
-            vScreenChangedStubEdited = vScreenChangedStub.replace("VScreenChanged()", className + "::VScreenChanged()");
+            #vScreenChangedStubEdited = vScreenChangedStub.replace("VScreenChanged()", className + "::VScreenChanged()");
+            vScreenChangedStubEdited = vScreenChangedStub
             vScreenChangedStubEdited = vScreenChangedStubEdited.replace("replace_me", funcName)
             line = vScreenChangedStubEdited + "\n" + line
 
@@ -132,7 +134,7 @@ virtual void VScreenChanged() override
     line = line.replace("&this->field_0_mBase", "this")
     line = line.replace("this->", "")
 
-    line = line.replace("LOBYTE(field_6_flags) |= 4u", "field_6_flags.Set(BaseGameObject::eDead)")
+    line = line.replace("LOBYTE(field_6_flags) |= 4u", "field_6_flags.Set(BaseGameObject::eDead_Bit3)")
 
     line = line.replace("1835626049", "ResourceManager::Resource_Animation")
     line = line.replace("0x746C6150", "ResourceManager::Resource_Animation")
@@ -466,7 +468,7 @@ def tests():
     doneFuncSig = False
     check(process("signed __int16 __thiscall Elum::sub_411E40(_DWORD *this, int asdf)"), "EXPORT signed __int16 Elum::sub_411E40(int asdf)")
     check(process("Event_Broadcast_417220(1, &this->field_0_mBase.field_0_mBase.field_0_mBase);"), "Event_Broadcast_417220(1, this);")
-    check(process("LOBYTE(this->field_0_mBase.field_0_mBase.field_6_flags) |= 4u;"), "field_6_flags.Set(BaseGameObject::eDead);")
+    check(process("LOBYTE(this->field_0_mBase.field_0_mBase.field_6_flags) |= 4u;"), "field_6_flags.Set(BaseGameObject::eDead_Bit3);")
     check(process("Map::TLV_Reset_446870(&gMap_507BA8, a3, -1, 0, 0);"), "gMap_507BA8.TLV_Reset_446870(a3, -1, 0, 0);")
     doneFuncSig = False
     

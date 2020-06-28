@@ -24,7 +24,7 @@ LightEffect* LightEffect::ctor_4064C0(Path_LightEffect* pTlv, int tlvInfo)
     field_F4_rnd3 = Math_RandomRange_450F20(96, 128);
     field_F8_rnd4 = Math_RandomRange_450F20(190, 255);
 
-    field_CC &= ~1u;
+    field_CC_bApplyShadows &= ~1u;
 
     field_10_anim.field_4_flags.Set(AnimFlags::eBit20_use_xy_offset);
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);

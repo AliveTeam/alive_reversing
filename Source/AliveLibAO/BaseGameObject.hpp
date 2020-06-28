@@ -27,7 +27,11 @@ enum class Types : __int16
     eChimeLock_14 = 14,
     eSpark_15 = 15,
 
+    eElectricWall_25 = 25,
+
     eBellHammer_27 = 27,
+
+    eMeatStack_55 = 55,
 
     eRollingBallStopperShaker_58 = 58,
     eRollingBallStopper_60 = 60,

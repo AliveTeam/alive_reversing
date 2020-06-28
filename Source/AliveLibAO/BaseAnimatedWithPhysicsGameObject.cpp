@@ -12,7 +12,7 @@ BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::ctor_417C1
     SetVTable(&field_10_anim, 0x4BA2B8);
     SetVTable(this, 0x4BAA38);
 
-    field_CC |= 1u;
+    field_CC_bApplyShadows |= 1u;
     field_B0_path_number = gMap_507BA8.field_2_current_path;
     field_B2_lvl_number = gMap_507BA8.field_0_current_level;
 

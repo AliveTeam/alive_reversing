@@ -34,7 +34,7 @@ Bells* Bells::ctor_40A650(BellType bellType, FP xpos, FP ypos, FP scale)
         break;
     }
 
-    field_CC &= ~1u;
+    field_CC_bApplyShadows &= ~1u;
     field_BC_sprite_scale = scale;
 
     field_A8_xpos = xpos;

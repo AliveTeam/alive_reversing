@@ -21,7 +21,7 @@ Sparks* Sparks::ctor_40A3A0(FP xpos, FP ypos, FP scale)
     field_10_anim.field_9_g = 80;
     field_10_anim.field_8_r = 80;
 
-    field_CC &= ~1u;
+    field_CC_bApplyShadows &= ~1u;
 
     field_10_anim.field_C_layer = 37;
     field_10_anim.field_B_render_mode = 1;

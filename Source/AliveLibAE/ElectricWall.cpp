@@ -22,7 +22,7 @@ ElectricWall* ElectricWall::ctor_421DA0(Path_ElectricWall* pTlv, int tlvInfo)
 
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kElecwallResID);
     Animation_Init_424E10(15384, 50, 80, ppRes, 1, 1);
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit7_SwapXY);
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_B_render_mode = 1;
     field_20_animation.field_C_render_layer = 36;
 
