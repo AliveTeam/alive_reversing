@@ -102,4 +102,9 @@ FrameInfoHeader* Animation::Get_FrameHeader_403A00(int /*frame*/)
     return nullptr;
 }
 
+EXPORT void Animation::LoadPal_403090(BYTE** /*pPalData*/, int /*palOffset*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 END_NS_AO

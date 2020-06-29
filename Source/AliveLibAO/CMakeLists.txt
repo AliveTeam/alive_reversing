@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   Gibs.hpp
+   Gibs.cpp
    ScreenShake.hpp
    ScreenShake.cpp
    Explosion.hpp

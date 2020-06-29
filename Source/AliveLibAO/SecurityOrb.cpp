@@ -4,6 +4,8 @@
 #include "ResourceManager.hpp"
 #include "Midi.hpp"
 #include "stdlib.hpp"
+#include "Explosion.hpp"
+#include "Gibs.hpp"
 
 START_NS_AO
 
@@ -91,11 +93,8 @@ void SecurityOrb::VScreenChanged_4373A0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-signed __int16 SecurityOrb::VTakeDamage_437280(BaseGameObject* /*pFrom*/)
+signed __int16 SecurityOrb::VTakeDamage_437280(BaseGameObject* pFrom)
 {
-    NOT_IMPLEMENTED();
-
-    /*
     if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
         return 0;
@@ -122,8 +121,8 @@ signed __int16 SecurityOrb::VTakeDamage_437280(BaseGameObject* /*pFrom*/)
                 5,
                 field_A8_xpos,
                 field_AC_ypos,
-                0,
-                0,
+                FP_FromInteger(0),
+                FP_FromInteger(0),
                 field_BC_sprite_scale);
         }
         field_100_health = FP_FromInteger(0);
@@ -131,10 +130,10 @@ signed __int16 SecurityOrb::VTakeDamage_437280(BaseGameObject* /*pFrom*/)
         break;
 
     default:
+        break;
     }
 
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
-    */
 
     return 1;
 }
