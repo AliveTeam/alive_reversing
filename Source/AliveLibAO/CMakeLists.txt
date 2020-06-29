@@ -1,6 +1,10 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   ScreenShake.hpp
+   ScreenShake.cpp
+   Explosion.hpp
+   Explosion.cpp
    MotionDetector.hpp
    MotionDetector.cpp
    SecurityClaw.hpp

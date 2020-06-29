@@ -49,9 +49,13 @@ enum class Types : __int16
 
     e69 = 69,
 
+    eExplosion_74 = 74,
+
     eScreenClipper_78 = 78,
     eEffectBase_79 = 79,
     
+    ScreenShake_82 = 82,
+
     e85 = 85,
 
     eSlig_88 = 88,
