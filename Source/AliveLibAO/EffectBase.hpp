@@ -13,6 +13,12 @@ class EffectBase : public BaseGameObject
 public:
     EXPORT EffectBase *ctor_461550(__int16 layer, char abr);
 
+    EXPORT BaseGameObject* dtor_461630();
+
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+
+    EXPORT EffectBase* Vdtor_461750(signed int flags);
+
 protected:
 
     __int16 field_10_path_id;

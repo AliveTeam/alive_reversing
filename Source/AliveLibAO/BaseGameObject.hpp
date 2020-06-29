@@ -54,6 +54,7 @@ enum class Types : __int16
     eScreenClipper_78 = 78,
     eEffectBase_79 = 79,
     
+    eFlash_81 = 81,
     ScreenShake_82 = 82,
 
     e85 = 85,

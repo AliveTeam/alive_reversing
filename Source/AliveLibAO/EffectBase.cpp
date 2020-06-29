@@ -4,6 +4,7 @@
 #include "DynamicArray.hpp"
 #include "Map.hpp"
 #include "Game.hpp"
+#include "stdlib.hpp"
 
 START_NS_AO
 
@@ -21,6 +22,28 @@ EffectBase* EffectBase::ctor_461550(__int16 layer, char abr)
     field_5C_layer = layer;
     field_64_bSemiTrans = 1;
     return this;
+}
+
+BaseGameObject* EffectBase::dtor_461630()
+{
+    SetVTable(this, 0x4BC900);
+    gObjList_drawables_504618->Remove_Item(this);
+    return dtor_487DF0();
+}
+
+EffectBase* EffectBase::Vdtor_461750(signed int flags)
+{
+    dtor_461630();
+    if (flags & 1)
+    {
+        ao_delete_free_447540(this);
+    }
+    return this;
+}
+
+BaseGameObject* EffectBase::VDestructor(signed int flags)
+{
+    return Vdtor_461750(flags);
 }
 
 END_NS_AO
