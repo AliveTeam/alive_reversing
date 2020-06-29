@@ -54,6 +54,7 @@ enum class Types : __int16
     eScreenClipper_78 = 78,
     eEffectBase_79 = 79,
     
+    eDeathFadeOut_80 = 80, // TODO: Actually eMainMenuTransistion in AE, shared?
     eFlash_81 = 81,
     ScreenShake_82 = 82,
 

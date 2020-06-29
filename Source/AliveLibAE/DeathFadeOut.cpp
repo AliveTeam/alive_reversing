@@ -65,7 +65,7 @@ void DeathFadeOut::Init_427140(__int16 layer, __int16 direction, __int16 destroy
     }
     field_80_destroy_on_done = destroyOnDone;
 
-    if (!direction)
+    if (direction == 0)
     {
         field_7A_speed = -speed;
     }

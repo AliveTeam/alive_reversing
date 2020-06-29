@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   DeathFadeOut.hpp
+   DeathFadeOut.cpp
    Flash.hpp
    Flash.cpp
    Gibs.hpp
