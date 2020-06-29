@@ -11,11 +11,12 @@
 EXPORT ScreenShake* ScreenShake::ctor_4ACF70(__int16 enableShakeEvent, __int16 softerShakes)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
-    field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
-
     SetVTable(this, 0x547070); // vTbl_ScreenShake_547070
 
     field_4_typeId = Types::eScreenShake_118;
+
+    field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
+
     field_44_softerShakes = softerShakes;
     field_40_shakeNumber = 16;
     field_42_enableShakeEvent = enableShakeEvent;

@@ -196,6 +196,8 @@ public:
 
     EXPORT FrameInfoHeader* Get_FrameHeader_403A00(int frame);
 
+    EXPORT void LoadPal_403090(BYTE** pPalData, int palOffset);
+
     BitField32<AnimFlags> field_4_flags;
     
     BYTE field_8_r;

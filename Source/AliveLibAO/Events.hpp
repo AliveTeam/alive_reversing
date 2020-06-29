@@ -10,6 +10,7 @@ enum Event : __int16
 {
     kEventDeathReset_4 = 4,
     kEvent_7 = 7,
+    kEventScreenShake_19 = 19,
 };
 
 EXPORT BaseGameObject* CC Event_Get_417250(__int16 eventType);
