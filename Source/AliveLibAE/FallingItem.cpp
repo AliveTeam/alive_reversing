@@ -80,7 +80,7 @@ EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, int tlvInfo
     field_122_num_items_remaining = pTlv->field_16_number_of_items;
     field_134_bHitGrinderOrMineCar = FALSE;
     field_12C_reset_id = pTlv->field_18_reset_id;
-    field_12E_do_sound_in_state_3_falling = TRUE;
+    field_12E_do_sound_in_state_falling = TRUE;
 
     field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
@@ -163,7 +163,7 @@ FallingItem* FallingItem::ctor_427560(__int16 xpos, __int16 ypos, __int16 scale,
 
     field_12C_reset_id = resetId;
     field_134_bHitGrinderOrMineCar = FALSE;
-    field_12E_do_sound_in_state_3_falling = TRUE;
+    field_12E_do_sound_in_state_falling = TRUE;
     field_B8_xpos = xFixed;
     field_BC_ypos = yFixed;
     field_138_xpos = xFixed;
@@ -296,7 +296,7 @@ EXPORT void FallingItem::vUpdate_427780()
         if (static_cast<int>(sGnFrame_5C1B84) >= field_128_delay_timer)
         {
             field_11C_state = State::eState_3_Falling;
-            field_12E_do_sound_in_state_3_falling = TRUE;
+            field_12E_do_sound_in_state_falling = TRUE;
             if (field_D6_scale == 1)
             {
                 field_140_sound_channels = SFX_Play_46FBA0(SoundEffect::AirStream_23, 50, -2600);
@@ -310,11 +310,11 @@ EXPORT void FallingItem::vUpdate_427780()
 
     case State::eState_3_Falling:
     {
-        if (field_12E_do_sound_in_state_3_falling)
+        if (field_12E_do_sound_in_state_falling)
         {
             if (field_BC_ypos >= sActiveHero_5C1B68->field_BC_ypos - FP_FromInteger(240 / 2))
             {
-                field_12E_do_sound_in_state_3_falling = FALSE;
+                field_12E_do_sound_in_state_falling = FALSE;
                 if (field_D6_scale == 1)
                 {
                     SFX_Play_46FBA0(SoundEffect::AirStream_23, 127, -1300);

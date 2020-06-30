@@ -71,7 +71,7 @@ private:
     //__int16 field_126_pad;
     int field_128_delay_timer;
     __int16 field_12C_reset_id;
-    __int16 field_12E_do_sound_in_state_3_falling;
+    __int16 field_12E_do_sound_in_state_falling;
     FP field_130_yPosStart;
     __int16 field_134_bHitGrinderOrMineCar;
     //__int16 field_136_pad;
