@@ -41,7 +41,7 @@ static FP GibRand(FP scale)
     return FP_FromRaw((Math_NextRandom() - 128) << 13) * scale;
 }
 
-EXPORT Gibs* Gibs::ctor_407B20(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
+Gibs* Gibs::ctor_407B20(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
 {
     ctor_417C10();
 
@@ -51,15 +51,14 @@ EXPORT Gibs* Gibs::ctor_407B20(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, 
     }
     SetVTable(this, 0x4BA280);
 
-    const Gib_Data* pGibData = &kGibData_4C30B0[gibType];
-    field_E4_pGibData = pGibData;
-    BYTE** ppAnimData = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, pGibData->field_14_resource_id, 1, 0);
+    field_E4_pGibData = &kGibData_4C30B0[gibType];
+    BYTE** ppAnimData = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, field_E4_pGibData->field_14_resource_id, 1, 0);
 
     // The base class renders the head gib
     Animation_Init_417FD0(
-        pGibData->field_0_head,
-        static_cast<short>(pGibData->field_C_max_w),
-        static_cast<short>(pGibData->field_10_max_h),
+        field_E4_pGibData->field_0_head,
+        static_cast<short>(field_E4_pGibData->field_C_max_w),
+        static_cast<short>(field_E4_pGibData->field_10_max_h),
         ppAnimData,
         1);
 
@@ -123,7 +122,7 @@ EXPORT Gibs* Gibs::ctor_407B20(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, 
         SetTint_418750(sMudGibTints_4CD320, gMap_507BA8.field_0_current_level);
     }
 
-    field_5C4_parts_used_count = 4;
+    field_5C4_parts_used_count = 7;
 
     GibPart* pPart = &field_F4_parts[0];
     for (short i = 0; i < field_5C4_parts_used_count; i++)
@@ -166,16 +165,13 @@ EXPORT Gibs* Gibs::ctor_407B20(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, 
                 return this;
             }
         }
-   
-        // TODO: Check which bit this is
-        // eBit25_bDecompressDone
-        // eBit17
-        //*(_WORD*)pGibPartOff &= ~1u; // 0x10000 0x1000000 // flags + 2 bytes
-        pPart->field_18_anim.field_4_flags.Clear(AnimFlags::eBit25_bDecompressDone);
 
         pPart->field_18_anim.field_C_layer = field_10_anim.field_C_layer;
         pPart->field_18_anim.field_14_scale = scale;
+
+        pPart->field_18_anim.field_4_flags.Clear(AnimFlags::eBit17); // Else the gibs seem to kill meat grinders and other objects ??
         pPart->field_18_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+        pPart->field_18_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
         pPart->field_18_anim.field_8_r = static_cast<BYTE>(field_C0_r);
         pPart->field_18_anim.field_9_g = static_cast<BYTE>(field_C2_g);
@@ -197,8 +193,6 @@ EXPORT Gibs* Gibs::ctor_407B20(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, 
             pPart->field_14_dz = GibRand(scale) / FP_FromInteger(2);
         }
 
-        pPart->field_18_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-
         if (ppPal)
         {
             pPart->field_18_anim.LoadPal_403090(ppPal, 0);
@@ -208,6 +202,7 @@ EXPORT Gibs* Gibs::ctor_407B20(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, 
     }
 
     return this;
+
 }
 
 BaseGameObject* Gibs::dtor_408040()
