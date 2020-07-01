@@ -35,7 +35,7 @@ public:
 
     static EXPORT int CC sub_40FA60(int code, BYTE* pBuffer);
 
-    EXPORT signed __int16 sub_40FAA0(BYTE* pBuffer, __int16 max_idx, int src_idx);
+    EXPORT signed __int16 sub_40FAA0(BYTE* pBuffer, __int16 max_idx, signed __int16 src_idx);
 
     GameSpeakEvents field_10_last_event;
     __int16 field_12;
