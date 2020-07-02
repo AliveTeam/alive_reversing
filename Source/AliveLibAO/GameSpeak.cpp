@@ -114,7 +114,6 @@ void GameSpeak::PushEvent_Impl(GameSpeakEvents event)
         field_18_last_event_index = 0;
     }
 
-    // TODO: This isn't ever used ??
     field_1C_event_buffer[field_18_last_event_index] = static_cast<char>(event);
     field_10_last_event = event;
 }
@@ -126,9 +125,13 @@ void GameSpeak::VUpdate()
 
 void GameSpeak::VUpdate_40FA20()
 {
-    if (field_10_last_event != GameSpeakEvents::eNone_m1 && gnFrameCount_507670 > field_14_last_event_frame)
+    // If the last thing pushed wasn't nothing and its been around for a while then set the last event to nothing
+    if (field_10_last_event != GameSpeakEvents::eNone_m1)
     {
-        PushEvent_Impl(GameSpeakEvents::eNone_m1);
+        if (gnFrameCount_507670 > field_14_last_event_frame)
+        {
+            PushEvent_Impl(GameSpeakEvents::eNone_m1);
+        }
     }
 }
 
@@ -142,7 +145,7 @@ int CC GameSpeak::sub_40FA60(int code, BYTE* pBuffer)
     return len;
 }
 
-signed __int16 GameSpeak::sub_40FAA0(BYTE* pBuffer, __int16 max_idx, int src_idx)
+signed __int16 GameSpeak::sub_40FAA0(BYTE* pBuffer, __int16 max_idx, signed __int16 src_idx)
 {
     if (src_idx == -1)
     {
