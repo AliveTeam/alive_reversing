@@ -290,36 +290,30 @@ void SecurityDoor::vUpdate_4AC380()
 
     case 10:
     {
-        const int v15 = pEventSystem_5BC11C->sub_4219E0(field_108_stru, field_118_max_idx, field_11A_event_idx);
-        if (v15 == 1)
+        switch (pEventSystem_5BC11C->MatchBuffer_4219E0(field_108_stru, field_118_max_idx, field_11A_event_idx))
         {
-            field_F8_state = 11;
-            field_124_timer = sGnFrame_5C1B84 + 15;
-        }
-        else if (v15 == 0)
-        {
+        case GameSpeakMatch::eNoMatch_0:
             field_F8_state = 12;
             field_124_timer = sGnFrame_5C1B84 + 15;
-        }
-        else
-        {
-            if (field_104_event_idx == pEventSystem_5BC11C->field_28_last_event_index)
-            {
-                if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::eNone_m1)
-                {
-                    field_F8_state = 12;
-                    field_124_timer = sGnFrame_5C1B84;
-                }
-            }
-            else
+            break;
+
+        case GameSpeakMatch::eFullMatch_1:
+            field_F8_state = 11;
+            field_124_timer = sGnFrame_5C1B84 + 15;
+            break;
+
+        case GameSpeakMatch::ePartMatch_2:
+            if (field_104_event_idx != pEventSystem_5BC11C->field_28_last_event_index)
             {
                 field_104_event_idx = pEventSystem_5BC11C->field_28_last_event_index;
-                if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::eNone_m1)
-                {
-                    field_F8_state = 12;
-                    field_124_timer = sGnFrame_5C1B84;
-                }
             }
+
+            if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::eNone_m1)
+            {
+                field_F8_state = 12;
+                field_124_timer = sGnFrame_5C1B84;
+            }
+            break;
         }
         return;
     }

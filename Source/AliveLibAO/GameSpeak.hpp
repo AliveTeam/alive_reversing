@@ -11,6 +11,13 @@ enum class GameSpeakEvents : __int16
     eNone_m1 = -1,
 };
 
+enum class GameSpeakMatch : __int16
+{
+    eNoMatch_0 = 0,
+    eFullMatch_1 = 1,
+    ePartMatch_2 = 2,
+};
+
 class GameSpeak : public BaseGameObject
 {
 public:
@@ -35,7 +42,7 @@ public:
 
     static EXPORT int CC sub_40FA60(int code, BYTE* pBuffer);
 
-    EXPORT signed __int16 sub_40FAA0(BYTE* pBuffer, __int16 max_idx, signed __int16 src_idx);
+    EXPORT GameSpeakMatch MatchBuffer_40FAA0(BYTE* pBuffer, __int16 bufferLen, signed __int16 bufferStartIdx);
 
     GameSpeakEvents field_10_last_event;
     __int16 field_12;
