@@ -73,7 +73,7 @@ namespace Alive
     void Font::ctor_433590(int maxCharLength, const BYTE *palette, Font_Context *fontContext)
     {
         field_34_font_context = fontContext;
-        Pal_Allocate_483110(&field_28_palette_rect, 0x10u);
+        Pal_Allocate_483110(&field_28_palette_rect, 16u);
         PSX_RECT rect = { field_28_palette_rect.x , field_28_palette_rect.y, 16, 1 };
         PSX_LoadImage16_4F5E20(&rect, palette);
         field_30_poly_count = maxCharLength;

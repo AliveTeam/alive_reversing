@@ -1,6 +1,8 @@
 #include "stdafx_ao.h"
 #include "Font.hpp"
 #include "Function.hpp"
+#include "ResourceManager.hpp"
+#include "VRam.hpp"
 
 START_NS_AO
 
@@ -17,9 +19,18 @@ EXPORT void FontContext::dtor_41C110()
     NOT_IMPLEMENTED();
 }
 
-EXPORT AliveFont* AliveFont::ctor_41C170(int /*a2*/, BYTE* /*pPal*/, FontContext* /*pContext*/)
+AliveFont* AliveFont::ctor_41C170(int maxCharLength, const BYTE* palette, FontContext* fontContext)
 {
-    NOT_IMPLEMENTED();
+    field_34_font_context = fontContext;
+    Pal_Allocate_4476F0(&field_28_palette_rect, 16u);
+    PSX_RECT rect = { field_28_palette_rect.x, field_28_palette_rect.y, 16, 1 };
+    PSX_LoadImage16_4962A0(&rect, palette);
+    field_30_poly_count = maxCharLength;
+    field_20_fnt_poly_block_ptr = ResourceManager::Allocate_New_Locked_Resource_454F80(
+        ResourceManager::Resource_FntP,
+        fontContext->field_C_resource_id,
+        sizeof(Poly_FT4) * 2 * maxCharLength);
+    field_24_fnt_poly_array = reinterpret_cast<Poly_FT4*>(*field_20_fnt_poly_block_ptr);
     return this;
 }
 
@@ -35,9 +46,13 @@ EXPORT int AliveFont::DrawString_41C360(int**, const char*, __int16, __int16, in
     return 0;
 }
 
-EXPORT void AliveFont::dtor_41C130()
+void AliveFont::dtor_41C130()
 {
-    NOT_IMPLEMENTED();
+    PSX_Point palPoint = { field_28_palette_rect.x, field_28_palette_rect.y };
+    Pal_Free_447870(palPoint, field_28_palette_rect.w);
+    field_28_palette_rect.x = 0;
+
+    ResourceManager::FreeResource_455550(field_20_fnt_poly_block_ptr);
 }
 
 END_NS_AO
