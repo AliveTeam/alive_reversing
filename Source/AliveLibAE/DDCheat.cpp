@@ -12,7 +12,7 @@
 
 void DDCheat_ForceLink() { }
 
-ALIVE_VAR(1, 0x5c1be6, int, sDoorsOpen_5C1BE6, 0);
+ALIVE_VAR(1, 0x5c1be6, __int16, sDoorsOpen_5C1BE6, 0);
 ALIVE_VAR(1, 0x5c1bd0, int, sTweakX_5C1BD0, 0);
 ALIVE_VAR(1, 0x5c1bd4, int, sTweakY_5C1BD4, 0);
 ALIVE_VAR(1, 0x5c1bc2, __int16, sRescuedMudokons_5C1BC2, 0);
@@ -50,8 +50,13 @@ ALIVE_VAR_EXTERN(DWORD, sLevelId_dword_5CA408);
 
 EXPORT void DDCheat_SaveScreenshot_415550() { NOT_IMPLEMENTED(); }
 
-#define DDCHEAT_PROPERTY_LIST_SIZE 10
-ALIVE_ARY(1, 0x5BBF78, DDCheatProperty, DDCHEAT_PROPERTY_LIST_SIZE, DDCheatProperties_5BBF78, {});
+struct DDCheatProperties
+{
+    DDCheatProperty props[10];
+};
+
+
+ALIVE_VAR(1, 0x5BBF78, DDCheatProperties, DDCheatProperties_5BBF78, {});
 
 ALIVE_ARY(1, 0x550f64, const char*, 17, sTeleportLevelNameTable_550F64,{
     "Start screen",
@@ -196,19 +201,19 @@ DDCheat* DDCheat::ctor_4153C0()
     field_30 = 0;
     field_34 = 0;
 
-    memset(DDCheatProperties_5BBF78, 0, sizeof(DDCheatProperty) * DDCHEAT_PROPERTY_LIST_SIZE);
+    ClearProperties_415390();
 
     // The code below allows changing of certain variables in memory using in game controls.
     // There's no code using any of this in the retail final build as the compiler occluded it.
     // But, the Exoddus Demo does in fact have the code, so it's possible to reimplement it
     // in the future.
-    AddPropertyEntry_004162C0("Doors Open ", 4, (int *)&sDoorsOpen_5C1BE6);
-    AddPropertyEntry_004162C0("Tweak X ", 6, &sTweakX_5C1BD0);
-    AddPropertyEntry_004162C0("Tweak Y ", 6, &sTweakY_5C1BD4);
-    AddPropertyEntry_004162C0("RescuedMudokons ", 4, (int *)&sRescuedMudokons_5C1BC2);
-    AddPropertyEntry_004162C0("Visited Bonewerks ", 1, (int *)&sVisitedBonewerks_5C1C02);
-    AddPropertyEntry_004162C0("Visited Barracks ", 1, (int *)&sVisitedBarracks_5C1C04);
-    AddPropertyEntry_004162C0("Visited Feeco Ender ", 1, (int *)&sVisitedFeecoEnder_5C1C06);
+    AddPropertyEntry("Doors Open ", DDCheatValueType::eShort_4, &sDoorsOpen_5C1BE6);
+    AddPropertyEntry("Tweak X ", DDCheatValueType::eInt_6, &sTweakX_5C1BD0);
+    AddPropertyEntry("Tweak Y ", DDCheatValueType::eInt_6, &sTweakY_5C1BD4);
+    AddPropertyEntry("RescuedMudokons ", DDCheatValueType::eShort_4, &sRescuedMudokons_5C1BC2);
+    AddPropertyEntry("Visited Bonewerks ", DDCheatValueType::eShort_1, &sVisitedBonewerks_5C1C02);
+    AddPropertyEntry("Visited Barracks ", DDCheatValueType::eShort_1, &sVisitedBarracks_5C1C04);
+    AddPropertyEntry("Visited Feeco Ender ", DDCheatValueType::eShort_1, &sVisitedFeecoEnder_5C1C06);
 
 #if FORCE_DDCHEAT
     sCommandLine_DDCheatEnabled_5CA4B5 = true;
@@ -234,26 +239,23 @@ BaseGameObject* DDCheat::vdtor_415500(signed int flags)
     return this;
 }
 
-void DDCheat::AddPropertyEntry_004162C0(const char * text, int unknown, int * valuePtr)
+void DDCheat::AddPropertyEntry(const char* text, DDCheatValueType valueType, DDCheatValue valuePtr)
 {
-    for (int i = 0; i < DDCHEAT_PROPERTY_LIST_SIZE; i++)
+    for (auto& prop : DDCheatProperties_5BBF78.props)
     {
-        if (DDCheatProperties_5BBF78[i].Name == nullptr)
+        if (prop.Name == nullptr)
         {
-            DDCheatProperties_5BBF78[i].Name = text;
-            DDCheatProperties_5BBF78[i].Unknown = unknown; // property type ?
-            DDCheatProperties_5BBF78[i].ValuePtr = valuePtr;
-            break;
+            prop.Name = text;
+            prop.ValueType = valueType;
+            prop.ValuePtr = valuePtr;
+            return;
         }
     }
 }
 
 void CC DDCheat::ClearProperties_415390()
 {
-    for (int i = 0; i < DDCHEAT_PROPERTY_LIST_SIZE; i++)
-    {
-        DDCheatProperties_5BBF78[i].Name = nullptr;
-    }
+    DDCheatProperties_5BBF78 = {};
 }
 
 void DDCheat::DebugStr_4F5560(const char* pFormatStr, ...)
