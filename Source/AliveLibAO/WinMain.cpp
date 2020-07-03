@@ -516,7 +516,11 @@ EXPORT void CC Input_Init_44EB60()
 
 EXPORT void CC DDCheat_Allocate_409560()
 {
-    NOT_IMPLEMENTED();
+    auto pDDCheat = ao_new<DDCheat>();
+    if (pDDCheat)
+    {
+        pDDCheat->ctor_4095D0();
+    }
 }
 
 EXPORT void CC Game_Init_LoadingIcon_445E30()
@@ -679,7 +683,6 @@ EXPORT void CC Game_Free_LoadingIcon_445E80()
     }
 }
 
-ALIVE_VAR(1, 0x4FF958, CheatController*, pCheatController_4FF958, nullptr);
 
 EXPORT int CC PSX_ResetGraph_4987E0(int /*mode*/)
 {

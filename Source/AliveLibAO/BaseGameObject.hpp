@@ -23,6 +23,7 @@ enum class Types : __int16
 
     eBullet_10 = 10,
 
+    eDDCheat_12 = 12,
     eBells_13 = 13,
     eChimeLock_14 = 14,
     eSpark_15 = 15,

@@ -6,14 +6,50 @@
 #include "Input.hpp"
 #include "Function.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "FixedPoint.hpp"
 
 void DDCheat_ForceLink();
 
+enum class DDCheatValueType : int
+{
+    eShort_1 = 1,
+    eInt_2 = 2,
+    eShort_4 = 4,
+    eInt_6 = 6,
+};
+
+union DDCheatValue
+{
+    int* pInt;
+    short* pShort;
+    FP* pFixedPoint;
+
+    DDCheatValue()
+    {
+        pInt = nullptr;
+    }
+
+    DDCheatValue(int* v)
+    {
+        pInt = v;
+    }
+
+    DDCheatValue(short* v)
+    {
+        pShort = v;
+    }
+
+    DDCheatValue(FP* v)
+    {
+        pFixedPoint = v;
+    }
+};
+
 struct DDCheatProperty
 {
-    const char * Name;
-    int Unknown;
-    int * ValuePtr;
+    const char* Name;
+    DDCheatValueType ValueType;
+    DDCheatValue ValuePtr;
 };
 ALIVE_ASSERT_SIZEOF(DDCheatProperty, 12);
 
@@ -49,7 +85,7 @@ public:
     EXPORT void dtor_415530();
     EXPORT BaseGameObject* vdtor_415500(signed int flags);
 
-    EXPORT static void AddPropertyEntry_004162C0(const char *text, int unknown, int *valuePtr);
+    EXPORT static void AddPropertyEntry(const char* text, DDCheatValueType valueType, DDCheatValue valuePtr);
     static EXPORT void CC ClearProperties_415390();
     static EXPORT void DebugStr_4F5560(const char *pFormatStr, ...);
 

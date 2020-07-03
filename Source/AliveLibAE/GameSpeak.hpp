@@ -68,6 +68,13 @@ enum class GameSpeakEvents : __int16
     eUnknown_54 = 54,
 };
 
+enum class GameSpeakMatch : __int16
+{
+    eNoMatch_0 = 0,
+    eFullMatch_1 = 1,
+    ePartMatch_2 = 2,
+};
+
 class GameSpeak : public BaseGameObject
 {
 public:
@@ -81,7 +88,7 @@ public:
 
     EXPORT GameSpeak* ctor_421820();
 
-    EXPORT __int16 sub_4219E0(BYTE* pBuffer, __int16 max_idx, signed __int16 src_idx);
+    EXPORT GameSpeakMatch MatchBuffer_4219E0(BYTE* pBuffer, __int16 max_idx, signed __int16 src_idx);
 
     EXPORT static int CC sub_421970(int code, BYTE* pBufffer);
 

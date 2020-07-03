@@ -7,11 +7,9 @@
 #include "stdlib.hpp"
 #include "Events.hpp"
 #include "Sfx.hpp"
+#include "DDCheat.hpp"
 
 START_NS_AO
-
-ALIVE_VAR(1, 0x5076D8, int, gTweak_X_5076D8, 0);
-ALIVE_VAR(1, 0x5076DC, int, gTweak_Y_5076DC, 0);
 
 BackgroundAnimation* BackgroundAnimation::ctor_405A90(Path_BackgroundAnimation* pTlv, int tlvInfo)
 {

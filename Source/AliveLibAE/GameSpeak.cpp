@@ -75,7 +75,7 @@ GameSpeak* GameSpeak::ctor_421820()
     return this;
 }
 
-__int16 GameSpeak::sub_4219E0(BYTE* pBuffer, __int16 max_idx, signed __int16 src_idx)
+GameSpeakMatch GameSpeak::MatchBuffer_4219E0(BYTE* pBuffer, __int16 max_idx, signed __int16 src_idx)
 {
     if (src_idx == -1)
     {
@@ -89,7 +89,7 @@ __int16 GameSpeak::sub_4219E0(BYTE* pBuffer, __int16 max_idx, signed __int16 src
     __int16 dst_idx = 0;
     while (1)
     {
-        if (field_2C_event_buffer[src_idx] == -1)
+        if (field_2C_event_buffer[src_idx] == static_cast<char>(GameSpeakEvents::eNone_m1))
         {
             bool bContinue = true;
             while (src_idx != field_28_last_event_index)
@@ -109,23 +109,23 @@ __int16 GameSpeak::sub_4219E0(BYTE* pBuffer, __int16 max_idx, signed __int16 src
 
             if (bContinue)
             {
-                return 2;
+                return GameSpeakMatch::ePartMatch_2;
             }
         }
 
         if (pBuffer[dst_idx] != field_2C_event_buffer[src_idx])
         {
-            return 0;
+            return GameSpeakMatch::eNoMatch_0;
         }
 
         if (dst_idx == max_idx - 1)
         {
-            return 1;
+            return GameSpeakMatch::eFullMatch_1;
         }
 
         if (src_idx == field_28_last_event_index)
         {
-            return 2;
+            return GameSpeakMatch::ePartMatch_2;
         }
 
         src_idx++;

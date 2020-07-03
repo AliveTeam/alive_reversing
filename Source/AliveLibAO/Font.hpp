@@ -2,6 +2,8 @@
 
 #include "FunctionFwd.hpp"
 #include "FixedPoint_common.hpp"
+#include "Psx.hpp"
+#include "Primitives.hpp"
 
 START_NS_AO
 
@@ -18,7 +20,7 @@ public:
     __int16 field_2;
     int field_4;
     int field_8;
-    __int16 field_C;
+    __int16 field_C_resource_id;
     __int16 field_E;
 };
 
@@ -26,7 +28,7 @@ public:
 class AliveFont
 {
 public:
-    EXPORT AliveFont* ctor_41C170(int /*a2*/, BYTE* /*pPal*/, FontContext* /*pContext*/);
+    EXPORT AliveFont* ctor_41C170(int maxCharLength, const BYTE* palette, FontContext* fontContext);
 
     EXPORT unsigned int MeasureWidth_41C2B0(const char* /*pStr*/);
 
@@ -34,22 +36,13 @@ public:
 
     EXPORT void dtor_41C130();
 
-
-    int field_0;
-    int field_4;
-    int field_8;
-    int field_C;
-    int field_10;
-    int field_14;
-    int field_18;
-    int field_1C;
-    int field_20;
-    int field_24;
-    __int16 field_28;
-    __int16 field_2A;
-    int field_2C;
-    int field_30;
-    FontContext* field_34_pFontContext;
+    byte gap0[32];
+    BYTE** field_20_fnt_poly_block_ptr;
+    Poly_FT4* field_24_fnt_poly_array;
+    PSX_RECT field_28_palette_rect;
+    int field_30_poly_count;
+    FontContext* field_34_font_context;
 };
+ALIVE_ASSERT_SIZEOF(AliveFont, 0x38);
 
 END_NS_AO

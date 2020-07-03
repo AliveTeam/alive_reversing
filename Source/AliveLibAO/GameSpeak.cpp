@@ -6,7 +6,7 @@
 
 START_NS_AO
 
-const int dword_4CFFCC[12] =
+const int dword_4CFFCC[11] =
 {
     0,
     1,
@@ -18,8 +18,7 @@ const int dword_4CFFCC[12] =
     1000000,
     10000000,
     100000000,
-    1000000000,
-    -1
+    1000000000
 };
 
 
@@ -145,65 +144,65 @@ int CC GameSpeak::sub_40FA60(int code, BYTE* pBuffer)
     return len;
 }
 
-signed __int16 GameSpeak::sub_40FAA0(BYTE* pBuffer, __int16 max_idx, signed __int16 src_idx)
+GameSpeakMatch GameSpeak::MatchBuffer_40FAA0(BYTE* pBuffer, __int16 bufferLen, signed __int16 bufferStartIdx)
 {
-    if (src_idx == -1)
+    if (bufferStartIdx == -1)
     {
-        src_idx = static_cast<short>(field_18_last_event_index - max_idx);
-        if (src_idx < 0)
+        bufferStartIdx = static_cast<short>(field_18_last_event_index - bufferLen);
+        if (bufferStartIdx < 0)
         {
-            src_idx += ALIVE_COUNTOF(field_1C_event_buffer);
+            bufferStartIdx += ALIVE_COUNTOF(field_1C_event_buffer);
         }
     }
 
-    __int16 dst_idx = 0;
+    __int16 pBufferIdx = 0;
     while (1)
     {
-        if (field_1C_event_buffer[src_idx] == -1)
+        while (field_1C_event_buffer[bufferStartIdx] == static_cast<char>(GameSpeakEvents::eNone_m1))
         {
-            bool bContinue = true;
-            while (src_idx != field_18_last_event_index)
+            // Hit the end of events?
+            if (bufferStartIdx == field_18_last_event_index)
             {
-                src_idx++;
-                if (src_idx == ALIVE_COUNTOF(field_1C_event_buffer))
-                {
-                    src_idx = 0;
-                }
-
-                if (field_1C_event_buffer[src_idx] != -1)
-                {
-                    bContinue = false;
-                    break;
-                }
+                // Partial match as we got to the end but ran out of events
+                return GameSpeakMatch::ePartMatch_2;
             }
 
-            if (bContinue)
+            // To next event
+            bufferStartIdx++;
+            if (bufferStartIdx == ALIVE_COUNTOF(field_1C_event_buffer))
             {
-                return 2;
+                bufferStartIdx = 0;
             }
         }
 
-        if (pBuffer[dst_idx] != field_1C_event_buffer[src_idx])
+        if (pBuffer[pBufferIdx] != field_1C_event_buffer[bufferStartIdx])
         {
-            return 0;
+            // Buffers didn't match
+            return GameSpeakMatch::eNoMatch_0;
         }
 
-        if (dst_idx == max_idx - 1)
+        if (pBufferIdx == bufferLen - 1)
         {
-            return 1;
+            // Buffers have fully matched
+            return GameSpeakMatch::eFullMatch_1;
         }
 
-        if (src_idx == field_18_last_event_index)
+        // Hit the end of events?
+        if (bufferStartIdx == field_18_last_event_index)
         {
-            return 2;
+            // Partial match as we got to the end but ran out of events
+            return GameSpeakMatch::ePartMatch_2;
         }
 
-        src_idx++;
-        if (src_idx == ALIVE_COUNTOF(field_1C_event_buffer))
+        // To next event
+        bufferStartIdx++;
+        if (bufferStartIdx == ALIVE_COUNTOF(field_1C_event_buffer))
         {
-            src_idx = 0;
+            bufferStartIdx = 0;
         }
-        dst_idx++;
+
+        // To next source event
+        pBufferIdx++;
     }
 }
 
