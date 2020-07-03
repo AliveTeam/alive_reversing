@@ -5,6 +5,7 @@
 #include "DynamicArray.hpp"
 #include "BitField.hpp"
 #include "Psx.hpp"
+#include "Primitives.hpp"
 
 START_NS_AO
 
@@ -179,6 +180,16 @@ public:
     EXPORT void VCleanUp_403F40();
 
     static EXPORT void CC AnimateAll_4034F0(DynamicArrayT<AnimationBase>* pAnimList);
+
+    BitField32<AnimFlags> field_4_flags;
+
+    BYTE field_8_r;
+    BYTE field_9_g;
+    BYTE field_A_b;
+    BYTE field_B_render_mode;
+
+    __int16 field_C_layer;
+    __int16 field_E_frame_change_counter;
 };
 
 class BaseGameObject;
@@ -197,17 +208,6 @@ public:
     EXPORT FrameInfoHeader* Get_FrameHeader_403A00(int frame);
 
     EXPORT void LoadPal_403090(BYTE** pPalData, int palOffset);
-
-    BitField32<AnimFlags> field_4_flags;
-    
-    BYTE field_8_r;
-    BYTE field_9_g;
-    BYTE field_A_b;
-    BYTE field_B_render_mode;
-
-    __int16 field_C_layer;
-    __int16 field_E_frame_change_counter;
-    // TODO: Above data part of base ?
 
     int field_10_frame_delay;
     FP field_14_scale;
@@ -245,5 +245,30 @@ public:
     int field_94;
 };
 ALIVE_ASSERT_SIZEOF(Animation, 0x98);
+
+
+// TODO: Figure out how this differs from the standard Animation
+class AnimationUnknown : public AnimationBase
+{
+public:
+    virtual void vDecode() override;
+
+    virtual void vRender(int xpos, int ypos, int** pOt, __int16 width, __int16 height) override;
+
+    virtual void vCleanUp() override;
+
+    // New virtual
+    virtual EXPORT void VRender2_403FD0(int xpos, int ypos, int** ppOt);
+
+private:
+
+public:
+    Poly_FT4 field_10_polys[2];
+    Animation* field_68_anim_ptr;
+    FP field_6C_scale;
+};
+ALIVE_ASSERT_SIZEOF(AnimationUnknown, 0x70);
+
+
 
 END_NS_AO
