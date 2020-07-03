@@ -39,6 +39,8 @@ enum class Types : __int16
 
     eSecurityClaw_31 = 31,
 
+    eAbe_43 = 43,
+
     eClaw_48 = 48,
 
     SecurityOrb_53 = 53,
@@ -66,6 +68,8 @@ enum class Types : __int16
     eSligSpawner_91 = 91,
     eZBall_92 = 92,
     eParticle_93 = 93,
+
+    eElectrocute_103 = 103,
 };
 
 class BaseGameObject
