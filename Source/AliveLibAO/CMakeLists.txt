@@ -1,6 +1,10 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   BulletShell.hpp
+   BulletShell.cpp
+   IdSplitter.hpp
+   IdSplitter.cpp
    BellSong.hpp
    BellSong.cpp
    HoneySack.hpp

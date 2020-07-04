@@ -54,7 +54,7 @@ BulletShell* BulletShell::ctor_4AD340(FP xpos, FP ypos, __int16 direction, FP sc
             field_C4_velx = FP_FromInteger(Math_RandomRange_496AB0(3, 6));
         }
         field_C8_vely = FP_FromInteger(Math_RandomRange_496AB0(-4, -1));
-        field_100 = FP_FromInteger(1);
+        field_100_speed = FP_FromInteger(1);
     }
     return this;
 }
@@ -96,7 +96,7 @@ void BulletShell::vUpdate_4AD550()
     field_B8_xpos += field_C4_velx;
     field_BC_ypos += field_C8_vely;
 
-    field_C8_vely += field_100;
+    field_C8_vely += field_100_speed;
 
     FP hitX = {};
     FP hitY = {};

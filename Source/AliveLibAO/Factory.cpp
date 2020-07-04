@@ -32,6 +32,7 @@
 #include "BeeNest.hpp"
 #include "Honey.hpp"
 #include "HoneySack.hpp"
+#include "IdSplitter.hpp"
 
 START_NS_AO
 
@@ -1235,9 +1236,16 @@ EXPORT void Factory_ScrabNoFall_Null_481890(Path_TLV* /*pTlv*/, Map* /*pMap*/, T
 }
 
 
-EXPORT void Factory_IdSplitter_4875E0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_IdSplitter_4875E0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode != 1 && loadMode != 2)
+    {
+        auto pIdSplitter = ao_new<IdSplitter>();
+        if (pIdSplitter)
+        {
+            pIdSplitter->ctor_479B40(static_cast<Path_IdSplitter*>(pTlv), tlvOffsetLevelIdPathId.all);
+        }
+    }
 }
 
 
