@@ -41,6 +41,9 @@ enum class Types : __int16
 
     eAbe_43 = 43,
 
+    eHoneySack_45 = 45,
+
+    eHoney_47 = 47,
     eClaw_48 = 48,
 
     SecurityOrb_53 = 53,
@@ -51,6 +54,8 @@ enum class Types : __int16
     eRollingBallStopper_60 = 60,
 
     e69 = 69,
+
+    eRollingBall_72 = 72,
 
     eExplosion_74 = 74,
 
@@ -70,6 +75,7 @@ enum class Types : __int16
     eParticle_93 = 93,
 
     eBeeSwarm_95 = 95,
+    eBeeNest_96 = 96,
 
     eElectrocute_103 = 103,
 };

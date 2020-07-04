@@ -28,6 +28,10 @@
 #include "MusicTrigger.hpp"
 #include "SecurityOrb.hpp"
 #include "SecurityClaw.hpp"
+#include "BeeSwarmHole.hpp"
+#include "BeeNest.hpp"
+#include "Honey.hpp"
+#include "HoneySack.hpp"
 
 START_NS_AO
 
@@ -229,9 +233,35 @@ EXPORT void Factory_BackgroundAnimation_4840A0(Path_TLV* pTlv, Map* /*pMap*/, Tl
     }
 }
 
-EXPORT void Factory_Honey_4844A0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_Honey_4844A0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        ResourceManager::LoadResource_446C90("ELMHONEY.BAN", ResourceManager::Resource_Animation, 203, loadMode);
+        ResourceManager::LoadResource_446C90("ELMWASP.BAN", ResourceManager::Resource_Animation, 204, loadMode);
+        ResourceManager::LoadResource_446C90("HONEY.BAN", ResourceManager::Resource_Animation, 337, loadMode);
+    }
+    else
+    {
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 203, 0, 0) &&
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 204, 0, 0))
+        {
+            auto pHoney = ao_new<Honey>();
+            if (pHoney)
+            {
+                const auto midPoint = (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2;
+                pHoney->ctor_431E30(
+                    FP_FromInteger(midPoint + pTlv->field_C_sound_pos.field_0_x),
+                    FP_FromInteger(pTlv->field_C_sound_pos.field_2_y + 24));
+
+                pHoney->field_E4_tlvInfo = tlvOffsetLevelIdPathId.all;
+            }
+        }
+        else
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        }
+    }
 }
 
 
@@ -454,9 +484,25 @@ EXPORT void Factory_Null_482EB0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUn
 }
 
 
-EXPORT void Factory_SwarmHole_485E20(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_BeeSwarmHole_485E20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        ResourceManager::LoadResource_446C90("ABEWASP.BAN", ResourceManager::Resource_Animation, 16, loadMode, 0);
+        ResourceManager::LoadResource_446C90("WASP.BAN", ResourceManager::Resource_Animation, 61, loadMode, 0);
+        if (gMap_507BA8.field_0_current_level == LevelIds::eForest_3 || gMap_507BA8.field_0_current_level == LevelIds::eDesert_8)
+        {
+            ResourceManager::LoadResource_446C90("ELMWASP.BAN", ResourceManager::Resource_Animation, 204, loadMode, 0);
+        }
+    }
+    else
+    {
+        auto pBeeSwarmHole = ao_new<BeeSwarmHole>();
+        if (pBeeSwarmHole)
+        {
+            pBeeSwarmHole->ctor_4782B0(static_cast<Path_BeeSwarmHole*>(pTlv), tlvOffsetLevelIdPathId.all);
+        }
+    }
 }
 
 
@@ -466,11 +512,45 @@ EXPORT void Factory_Pulley_Null_481800(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvIte
 }
 
 
-EXPORT void Factory_HoneySack_485EF0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_HoneySack_485EF0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
-}
+    if (loadMode == 1 || loadMode == 2)
+    {
+        ResourceManager::LoadResource_446C90("HONEY.BAN", ResourceManager::Resource_Animation, 337, loadMode);
+    }
+    else
+    {
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1013, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
 
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 61, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 16, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 337, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        auto pHoneySack = ao_new<HoneySack>();
+        if (pHoneySack)
+        {
+            pHoneySack->ctor_42BD10(static_cast<Path_HoneySack*>(pTlv), tlvOffsetLevelIdPathId.all);
+        }
+    }
+}
 
 EXPORT void Factory_AbeStart_486050(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 loadmode)
 {
@@ -525,13 +605,30 @@ EXPORT void Factory_SlingMud_485A30(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemIn
 
 EXPORT void Factory_HoneyDrip_Null_481820(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
-
-EXPORT void Factory_Bees_486150(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_BeeNest_486150(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        static CompileTimeResourceList<2> kResources =
+        {
+           { ResourceManager::Resource_Animation, 61 }, 
+           { ResourceManager::Resource_Animation, 16 }
+        };
+
+        ResourceManager::LoadResourcesFromList_446E80("SWARMHOL.BND", kResources.AsList(), loadMode, 0);
+        ResourceManager::LoadResource_446C90("ELMWASP.BAN", ResourceManager::Resource_Animation, 204, loadMode);
+    }
+    else
+    {
+        auto pBeeNest = ao_new<BeeNest>();
+        if (pBeeNest)
+        {
+            pBeeNest->ctor_480E20(static_cast<Path_BeeNest*>(pTlv), tlvOffsetLevelIdPathId.all);
+        }
+    }
 }
 
 
@@ -1446,7 +1543,7 @@ const PathFunctionTable kObjectFactory =
     Factory_Null_487070,
     Factory_LiftMud_4857D0,
     Factory_Null_482EB0,
-    Factory_SwarmHole_485E20,
+    Factory_BeeSwarmHole_485E20,
     Factory_Pulley_Null_481800,
     Factory_HoneySack_485EF0,
     Factory_AbeStart_486050,
@@ -1455,7 +1552,7 @@ const PathFunctionTable kObjectFactory =
     Factory_ElumWall_487370,
     Factory_SlingMud_485A30,
     Factory_HoneyDrip_Null_481820,
-    Factory_Bees_486150,
+    Factory_BeeNest_486150,
     Factory_Null_487080,
     Factory_Well_4834A0,
     Factory_Mine_4848D0,

@@ -45,13 +45,8 @@ public:
     EXPORT BaseAliveGameObject* dtor_401000();
 
     // TODO: Non empty so standalone builds
-
-    // TODO: Part of base?
-    virtual void VOnPickUpOrSlapped() {}
-
-    // TODO: Part of base?
-    virtual void VOnThrowableHit(BaseGameObject* /*pFrom*/) {}
-
+    
+    // TODO: HACK call the impls here
     virtual void VUnPosses() {}
     virtual void VPossessed() {}
     virtual void VSetMotion(__int16 /*state*/) {}
