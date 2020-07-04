@@ -38,3 +38,9 @@ EXPORT int CC PSX_LoadImage16_4962A0(const PSX_RECT* /*pRect*/, const BYTE* /*pD
     NOT_IMPLEMENTED();
     return 0;
 }
+
+EXPORT signed int CC PSX_StoreImage_496320(const PSX_RECT* /*rect*/, WORD* /*pData*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}

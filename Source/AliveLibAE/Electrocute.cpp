@@ -215,11 +215,11 @@ void Electrocute::dtor_4E6090()
 {
     SetVTable(this, 0x548100); // vTbl_Class_548100
 
-    for (int i = 0; i < field_2E_overwriter_count; i++)
+    for (auto& pPalOverwriter : field_30_pPalOverwriters)
     {
-        if (field_30_pPalOverwriters[i])
+        if (pPalOverwriter)
         {
-            field_30_pPalOverwriters[i]->VDestructor(1);
+            pPalOverwriter->VDestructor(1);
         }
     }
 
@@ -358,11 +358,11 @@ void Electrocute::vUpdate_4E6240()
             break;
         }
 
-        for (int i = 0; i < field_2E_overwriter_count; i++)
+        for (auto& pPalOverwriter : field_30_pPalOverwriters)
         {
-            if (field_30_pPalOverwriters[i])
+            if (pPalOverwriter)
             {
-                field_30_pPalOverwriters[i]->VUpdate();
+                pPalOverwriter->VUpdate();
             }
         }
     }
@@ -371,12 +371,12 @@ void Electrocute::vUpdate_4E6240()
 
 void Electrocute::vStop_4E6150()
 {
-    for (int i=0; i < field_2E_overwriter_count; i++)
+    for (auto& pPalOverwriter : field_30_pPalOverwriters)
     {
-        if (field_30_pPalOverwriters[i])
+        if (pPalOverwriter)
         {
-            field_30_pPalOverwriters[i]->VDestructor(1);
-            field_30_pPalOverwriters[i] = nullptr;
+            pPalOverwriter->VDestructor(1);
+            pPalOverwriter = nullptr;
         }
     }
 

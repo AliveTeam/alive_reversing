@@ -17,3 +17,5 @@ EXPORT void CC PSX_SetDefDispEnv_4959D0(PSX_DISPENV* pOutEnv, __int16 x, __int16
 EXPORT void CC PSX_PutDispEnv_495CE0(PSX_DISPENV* pDispEnv);
 
 EXPORT int CC PSX_LoadImage16_4962A0(const PSX_RECT* pRect, const BYTE* pData);
+
+EXPORT signed int CC PSX_StoreImage_496320(const PSX_RECT* rect, WORD* pData);

@@ -14,7 +14,7 @@ void AnimationBase::VDecode_403550()
     NOT_IMPLEMENTED();
 }
 
-void AO::AnimationBase::vRender(int xpos, int ypos, int** pOt, __int16 width, __int16 height)
+void AnimationBase::vRender(int xpos, int ypos, int** pOt, __int16 width, __int16 height)
 {
     VRender_403AE0(xpos, ypos, pOt, width, height);
 }
@@ -103,6 +103,26 @@ FrameInfoHeader* Animation::Get_FrameHeader_403A00(int /*frame*/)
 }
 
 EXPORT void Animation::LoadPal_403090(BYTE** /*pPalData*/, int /*palOffset*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void AnimationUnknown::vCleanUp()
+{
+    // Empty @ 404280
+}
+
+void AnimationUnknown::vRender(int /*xpos*/, int /*ypos*/, int** /*pOt*/, __int16 /*width*/, __int16 /*height*/)
+{
+    // Empty @ 402A20
+}
+
+void AnimationUnknown::vDecode()
+{
+    // Empty @ 402A10
+}
+
+void AnimationUnknown::VRender2_403FD0(int /*xpos*/, int /*ypos*/, int** /*ppOt*/)
 {
     NOT_IMPLEMENTED();
 }
