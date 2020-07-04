@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   HoneyDrip.hpp
+   HoneyDrip.cpp
    BeeNest.hpp
    BeeNest.cpp
    BeeSwarmHole.hpp

@@ -543,9 +543,8 @@ EXPORT void Factory_SlingMud_485A30(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemIn
 
 EXPORT void Factory_HoneyDrip_Null_481820(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
-
 
 EXPORT void Factory_BeeNest_486150(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
