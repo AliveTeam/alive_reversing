@@ -26,24 +26,11 @@ struct BeeSwarmParticles
     BeeSwarmParticle bees[25];
 };
 
-struct Path_BeeSwarmHole : public Path_TLV
-{
-    __int16 field_18_what_to_spawn;
-    __int16 field_1A_interval;
-    __int16 field_1C_id;
-    __int16 field_1E_movement_type;
-    __int16 field_20_size;
-    __int16 field_22_chase_time;
-    __int16 field_24_speed;
-    __int16 field_26_scale;
-};
-ALIVE_ASSERT_SIZEOF(Path_BeeSwarmHole, 0x28);
-
 class BeeSwarm : public BaseAnimatedWithPhysicsGameObject
 {
 public:
 
-    EXPORT BeeSwarm* ctor_47FC60(FP xpos, FP ypos, int speed, signed __int16 numBees, int chaseTicks);
+    EXPORT BeeSwarm* ctor_47FC60(FP xpos, FP ypos, FP speed, signed __int16 numBees, int chaseTicks);
 
     EXPORT BaseGameObject* dtor_47FDF0();
 
@@ -55,7 +42,7 @@ public:
 
     EXPORT void VScreenChange_480D40();
 
-    EXPORT void FollowLine_47FF10(PathLine* pLine, FP target_x, FP target_y, int speed);
+    EXPORT void FollowLine_47FF10(PathLine* pLine, FP target_x, FP target_y, FP speed);
 
     EXPORT void Chase_47FEB0(BaseAliveGameObject* pChaseTarget);
 
@@ -67,7 +54,7 @@ public:
     FP field_D6C_ypos;
     FP field_D70_chase_target_x;
     FP field_D74_chase_target_y;
-    int field_D78_speed;
+    FP field_D78_speed;
     int field_D7C;
     __int16 field_D80_state;
     __int16 field_D82;
@@ -81,7 +68,7 @@ public:
     int field_DA0_timer;
     int field_DA4;
     PathLine* field_DA8_pLine;
-    int field_DAC_line_follow_speed;
+    FP field_DAC_line_follow_speed;
 };
 ALIVE_ASSERT_SIZEOF(BeeSwarm, 0xDB0);
 

@@ -28,6 +28,7 @@
 #include "MusicTrigger.hpp"
 #include "SecurityOrb.hpp"
 #include "SecurityClaw.hpp"
+#include "BeeSwarmHole.hpp"
 
 START_NS_AO
 
@@ -454,9 +455,25 @@ EXPORT void Factory_Null_482EB0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUn
 }
 
 
-EXPORT void Factory_SwarmHole_485E20(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_BeeSwarmHole_485E20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        ResourceManager::LoadResource_446C90("ABEWASP.BAN", ResourceManager::Resource_Animation, 16, loadMode, 0);
+        ResourceManager::LoadResource_446C90("WASP.BAN", ResourceManager::Resource_Animation, 61, loadMode, 0);
+        if (gMap_507BA8.field_0_current_level == LevelIds::eForest_3 || gMap_507BA8.field_0_current_level == LevelIds::eDesert_8)
+        {
+            ResourceManager::LoadResource_446C90("ELMWASP.BAN", ResourceManager::Resource_Animation, 204, loadMode, 0);
+        }
+    }
+    else
+    {
+        auto pBeeSwarmHole = ao_new<BeeSwarmHole>();
+        if (pBeeSwarmHole)
+        {
+            pBeeSwarmHole->ctor_4782B0(static_cast<Path_BeeSwarmHole*>(pTlv), tlvOffsetLevelIdPathId.all);
+        }
+    }
 }
 
 
@@ -1446,7 +1463,7 @@ const PathFunctionTable kObjectFactory =
     Factory_Null_487070,
     Factory_LiftMud_4857D0,
     Factory_Null_482EB0,
-    Factory_SwarmHole_485E20,
+    Factory_BeeSwarmHole_485E20,
     Factory_Pulley_Null_481800,
     Factory_HoneySack_485EF0,
     Factory_AbeStart_486050,

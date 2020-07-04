@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   BeeSwarmHole.hpp
+   BeeSwarmHole.cpp
    BeeSwarm.hpp
    BeeSwarm.cpp
    VRam.hpp

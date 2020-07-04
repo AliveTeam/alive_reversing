@@ -14,7 +14,7 @@ ALIVE_VAR(1, 0x5076B0, short, gBeeInstanceCount_5076B0, 0);
 ALIVE_VAR(1, 0x5076AC, short, word_5076AC, 0);
 
 
-BeeSwarm* BeeSwarm::ctor_47FC60(FP xpos, FP ypos, int speed, signed __int16 numBees, int chaseTicks)
+BeeSwarm* BeeSwarm::ctor_47FC60(FP xpos, FP ypos, FP speed, signed __int16 numBees, int chaseTicks)
 {
     ctor_417C10();
 
@@ -155,7 +155,7 @@ void BeeSwarm::VScreenChange_480D40()
     }
 }
 
-void BeeSwarm::FollowLine_47FF10(PathLine* pLine, FP target_x, FP target_y, int speed)
+void BeeSwarm::FollowLine_47FF10(PathLine* pLine, FP target_x, FP target_y, FP speed)
 {
     field_DA8_pLine = pLine;
     field_DAC_line_follow_speed = speed;
