@@ -34,6 +34,7 @@
 #include "HoneySack.hpp"
 #include "IdSplitter.hpp"
 #include "PullRingRope.hpp"
+#include "InvisibleSwitch.hpp"
 
 START_NS_AO
 
@@ -1197,9 +1198,16 @@ EXPORT void Factory_Null_4871C0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUn
 }
 
 
-EXPORT void Factory_InvisibleSwitch_481C10(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_InvisibleSwitch_481C10(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode != 1 && loadMode != 2)
+    {
+        auto pInvisibleSwitch = ao_new<InvisibleSwitch>();
+        if (pInvisibleSwitch)
+        {
+            pInvisibleSwitch->ctor_4334E0(static_cast<Path_InvisibleSwitch*>(pTlv), tlvOffsetLevelIdPathId.all);
+        }
+    }
 }
 
 
