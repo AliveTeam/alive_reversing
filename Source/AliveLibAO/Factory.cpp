@@ -30,6 +30,7 @@
 #include "SecurityClaw.hpp"
 #include "BeeSwarmHole.hpp"
 #include "BeeNest.hpp"
+#include "Honey.hpp"
 
 START_NS_AO
 
@@ -231,9 +232,35 @@ EXPORT void Factory_BackgroundAnimation_4840A0(Path_TLV* pTlv, Map* /*pMap*/, Tl
     }
 }
 
-EXPORT void Factory_Honey_4844A0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_Honey_4844A0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        ResourceManager::LoadResource_446C90("ELMHONEY.BAN", ResourceManager::Resource_Animation, 203, loadMode, 0);
+        ResourceManager::LoadResource_446C90("ELMWASP.BAN", ResourceManager::Resource_Animation, 204, loadMode, 0);
+        ResourceManager::LoadResource_446C90("HONEY.BAN", ResourceManager::Resource_Animation, 337, loadMode, 0);
+    }
+    else
+    {
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 203, 0, 0) &&
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 204, 0, 0))
+        {
+            auto pHoney = ao_new<Honey>();
+            if (pHoney)
+            {
+                const auto midPoint = (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2;
+                pHoney->ctor_431E30(
+                    FP_FromInteger(midPoint + pTlv->field_C_sound_pos.field_0_x),
+                    FP_FromInteger(pTlv->field_C_sound_pos.field_2_y + 24));
+
+                pHoney->field_E4_tlvInfo = tlvOffsetLevelIdPathId.all;
+            }
+        }
+        else
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        }
+    }
 }
 
 
