@@ -29,6 +29,7 @@
 #include "SecurityOrb.hpp"
 #include "SecurityClaw.hpp"
 #include "BeeSwarmHole.hpp"
+#include "BeeNest.hpp"
 
 START_NS_AO
 
@@ -546,9 +547,27 @@ EXPORT void Factory_HoneyDrip_Null_481820(Path_TLV* /*pTlv*/, Map* /*pMap*/, Tlv
 }
 
 
-EXPORT void Factory_Bees_486150(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_BeeNest_486150(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        static CompileTimeResourceList<2> kResources =
+        {
+           { ResourceManager::Resource_Animation, 61 }, 
+           { ResourceManager::Resource_Animation, 16 }
+        };
+
+        ResourceManager::LoadResourcesFromList_446E80("SWARMHOL.BND", kResources.AsList(), loadMode, 0);
+        ResourceManager::LoadResource_446C90("ELMWASP.BAN", ResourceManager::Resource_Animation, 204, loadMode);
+    }
+    else
+    {
+        auto pBeeNest = ao_new<BeeNest>();
+        if (pBeeNest)
+        {
+            pBeeNest->ctor_480E20(static_cast<Path_BeeNest*>(pTlv), tlvOffsetLevelIdPathId.all);
+        }
+    }
 }
 
 
@@ -1472,7 +1491,7 @@ const PathFunctionTable kObjectFactory =
     Factory_ElumWall_487370,
     Factory_SlingMud_485A30,
     Factory_HoneyDrip_Null_481820,
-    Factory_Bees_486150,
+    Factory_BeeNest_486150,
     Factory_Null_487080,
     Factory_Well_4834A0,
     Factory_Mine_4848D0,

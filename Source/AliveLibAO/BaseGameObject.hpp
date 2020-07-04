@@ -72,6 +72,7 @@ enum class Types : __int16
     eParticle_93 = 93,
 
     eBeeSwarm_95 = 95,
+    eBeeNest_96 = 96,
 
     eElectrocute_103 = 103,
 };
