@@ -1,6 +1,18 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   InvisibleSwitch.hpp
+   InvisibleSwitch.cpp
+   Rope.hpp
+   Rope.cpp
+   PullRingRope.hpp
+   PullRingRope.cpp
+   BulletShell.hpp
+   BulletShell.cpp
+   IdSplitter.hpp
+   IdSplitter.cpp
+   BellSong.hpp
+   BellSong.cpp
    HoneySack.hpp
    HoneySack.cpp
    Honey.hpp

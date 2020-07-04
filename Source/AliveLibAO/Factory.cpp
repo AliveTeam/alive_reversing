@@ -32,6 +32,9 @@
 #include "BeeNest.hpp"
 #include "Honey.hpp"
 #include "HoneySack.hpp"
+#include "IdSplitter.hpp"
+#include "PullRingRope.hpp"
+#include "InvisibleSwitch.hpp"
 
 START_NS_AO
 
@@ -216,9 +219,47 @@ EXPORT void Factory_Null_482E80(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUn
 }
 
 
-EXPORT void Factory_PullRingRope_483DA0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_PullRingRope_483DA0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        switch (gMap_507BA8.field_0_current_level)
+        {
+        case LevelIds::eRuptureFarms_1:
+        case LevelIds::eBoardRoom_12:
+        case LevelIds::eRuptureFarmsReturn_13:
+            ResourceManager::LoadResource_446C90("R1ROPES.BAN", ResourceManager::Resource_Animation, 1000, loadMode);
+            ResourceManager::LoadResource_446C90("R1PULRNG.BAN", ResourceManager::Resource_Animation, 1014, loadMode);
+            break;
+
+        case LevelIds::eDesert_8:
+        case LevelIds::eDesertTemple_9:
+            ResourceManager::LoadResource_446C90("D1ROPES.BAN", ResourceManager::Resource_Animation, 1000, loadMode);
+            ResourceManager::LoadResource_446C90("PULLRING.BAN", ResourceManager::Resource_Animation, 1014, loadMode);
+            break;
+
+        default:
+            ResourceManager::LoadResource_446C90("ROPES.BAN", ResourceManager::Resource_Animation, 1000, loadMode);
+            ResourceManager::LoadResource_446C90("PULLRING.BAN", ResourceManager::Resource_Animation, 1014, loadMode);
+            break;
+        }
+    }
+    else
+    {
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1014, 0, 0) &&
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1000, 0, 0))
+        {
+            auto pPullRingRope = ao_new<PulllRingRope>();
+            if (pPullRingRope)
+            {
+                pPullRingRope->ctor_4546B0(static_cast<Path_PullRingRope*>(pTlv), tlvOffsetLevelIdPathId.all);
+            }
+        }
+        else
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        }
+    }
 }
 
 EXPORT void Factory_BackgroundAnimation_4840A0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
@@ -707,9 +748,12 @@ EXPORT void Factory_BirdPortalExit_486700(Path_TLV* /*pTlv*/, Map* /*pMap*/, Tlv
 }
 
 
-EXPORT void Factory_BellSong_487450(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_BellSong_487450(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode != 1 && loadMode != 2)
+    {
+        gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+    }
 }
 
 
@@ -1154,9 +1198,16 @@ EXPORT void Factory_Null_4871C0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUn
 }
 
 
-EXPORT void Factory_InvisibleSwitch_481C10(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_InvisibleSwitch_481C10(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode != 1 && loadMode != 2)
+    {
+        auto pInvisibleSwitch = ao_new<InvisibleSwitch>();
+        if (pInvisibleSwitch)
+        {
+            pInvisibleSwitch->ctor_4334E0(static_cast<Path_InvisibleSwitch*>(pTlv), tlvOffsetLevelIdPathId.all);
+        }
+    }
 }
 
 
@@ -1232,9 +1283,16 @@ EXPORT void Factory_ScrabNoFall_Null_481890(Path_TLV* /*pTlv*/, Map* /*pMap*/, T
 }
 
 
-EXPORT void Factory_IdSplitter_4875E0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_IdSplitter_4875E0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode != 1 && loadMode != 2)
+    {
+        auto pIdSplitter = ao_new<IdSplitter>();
+        if (pIdSplitter)
+        {
+            pIdSplitter->ctor_479B40(static_cast<Path_IdSplitter*>(pTlv), tlvOffsetLevelIdPathId.all);
+        }
+    }
 }
 
 

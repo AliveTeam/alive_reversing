@@ -21,6 +21,6 @@ private:
     __int16 field_FA;
     __int16 field_FC_hitCount;
     __int16 field_FE;
-    FP field_100;
+    FP field_100_speed;
 };
 ALIVE_ASSERT_SIZEOF(BulletShell, 0x104);

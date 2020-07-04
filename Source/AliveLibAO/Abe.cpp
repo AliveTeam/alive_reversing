@@ -119,4 +119,10 @@ int CC Abe_SFX_2_42A220(unsigned __int8 /*sfxId*/, signed int /*volume*/, int /*
     return 0;
 }
 
+int CC Abe_SFX_42A4D0(unsigned __int8 /*idx*/, int /*volume*/, int /*pitch*/, BaseAliveGameObject* /*pHero*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 END_NS_AO;
