@@ -110,4 +110,6 @@ public:
 ALIVE_VAR_EXTERN(Abe*, sActiveHero_507678);
 ALIVE_VAR_EXTERN(BaseAliveGameObject*, sControlledCharacter_50767C);
 
+EXPORT int CC Abe_SFX_2_42A220(unsigned __int8 sfxId, signed int volume, int pitchMin, BaseAliveGameObject* pAliveObj);
+
 END_NS_AO;

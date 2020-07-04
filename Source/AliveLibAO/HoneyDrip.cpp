@@ -3,6 +3,7 @@
 #include "HoneyDrip.hpp"
 #include "ResourceManager.hpp"
 #include "Sfx.hpp"
+#include "stdlib.hpp"
 
 START_NS_AO
 
@@ -49,5 +50,14 @@ void HoneyDrip::VUpdate_431DC0()
     }
 }
 
-END_NS_AO
+BaseGameObject* HoneyDrip::VDestructor(signed int flags)
+{
+    dtor_417D10();
+    if (flags & 1)
+    {
+        ao_delete_free_447540(this);
+    }
+    return this;
+}
 
+END_NS_AO

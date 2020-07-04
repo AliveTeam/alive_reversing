@@ -30,6 +30,7 @@ enum TlvTypes
 {
     PathTransition_1 = 1,
     Door_6 = 6,
+    HoneyDripTarget_42 = 42,
     Slig_66 = 66,
 };
 

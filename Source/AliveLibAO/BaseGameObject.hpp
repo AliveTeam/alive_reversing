@@ -41,6 +41,8 @@ enum class Types : __int16
 
     eAbe_43 = 43,
 
+    eHoneySack_45 = 45,
+
     eHoney_47 = 47,
     eClaw_48 = 48,
 

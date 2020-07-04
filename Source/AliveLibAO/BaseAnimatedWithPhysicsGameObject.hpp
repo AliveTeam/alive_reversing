@@ -38,6 +38,11 @@ public:
 
     virtual void VStackOnObjectsOfType(unsigned __int16 /*typeToFind*/) {}
 
+    virtual void VOnPickUpOrSlapped() {}
+
+    virtual void VOnThrowableHit(BaseGameObject* /*pFrom*/) {}
+
+
     EXPORT void SetTint_418750(const TintEntry* pTintArray, LevelIds levelId);
 
 

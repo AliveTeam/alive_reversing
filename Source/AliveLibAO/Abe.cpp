@@ -113,4 +113,10 @@ void Abe::vScreenChanged_422640()
     }
 }
 
+int CC Abe_SFX_2_42A220(unsigned __int8 /*sfxId*/, signed int /*volume*/, int /*pitchMin*/, BaseAliveGameObject* /*pAliveObj*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 END_NS_AO;

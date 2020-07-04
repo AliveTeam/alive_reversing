@@ -14,6 +14,8 @@ public:
 
     EXPORT void VUpdate_431DC0();
 
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+
     int field_D4[4];
     __int16 field_E4_bSoundPlaying;
     __int16 field_E6;
