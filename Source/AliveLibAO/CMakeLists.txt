@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   BellSong.hpp
+   BellSong.cpp
    HoneySack.hpp
    HoneySack.cpp
    Honey.hpp
