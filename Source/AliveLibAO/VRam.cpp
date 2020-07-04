@@ -37,6 +37,7 @@ void CC Pal_Set_447990(PSX_Point xy, __int16 w, const BYTE* palData, PSX_RECT* r
 unsigned int CC Pal_Make_Colour_447950(BYTE /*r*/, BYTE /*g*/, BYTE /*b*/, __int16 /*bOpaque*/)
 {
     NOT_IMPLEMENTED();
+    return 0;
 }
 
 END_NS_AO
