@@ -70,8 +70,8 @@ private:
     EXPORT void dtor_4DD8D0();
 
 private:
-    __int16 field_12C;
-    __int16 field_12E;
+    __int16 field_12C_unused;
+    __int16 field_12E_padding;
     int field_130_stay_open_time2;
     __int16 field_134_switch_idx;
     TrapDoorState field_136_state;

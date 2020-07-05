@@ -97,7 +97,7 @@ int CC Grenade::CreateFromSaveState_449410(const BYTE* pBuffer)
     auto pState = reinterpret_cast<const Grenade_SaveState*>(pBuffer);
     auto pGrenade = ae_new<Grenade>();
 
-    pGrenade->ctor_447F70(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A, 0, 0, 0);
+    pGrenade->ctor_447F70(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A_savedcount, 0, 0, 0);
     pGrenade->field_C_objectId = pState->field_4_obj_id;
 
     pGrenade->field_B8_xpos = pState->field_8_xpos;
@@ -122,7 +122,7 @@ int CC Grenade::CreateFromSaveState_449410(const BYTE* pBuffer)
 
     pGrenade->field_114_flags.Set(Flags_114::e114_Bit9);
     pGrenade->field_104_collision_line_type = pState->field_28_line_type;
-    pGrenade->field_118_count = pState->field_2A;
+    pGrenade->field_118_count = pState->field_2A_savedcount;
     pGrenade->field_120_state = pState->field_2C_state;
     pGrenade->field_124 = pState->field_2E;
     pGrenade->field_128_xpos = pState->field_34_xpos;
@@ -167,7 +167,7 @@ int Grenade::GetSaveState_4496B0(Grenade_SaveState* pState)
     }
 
     pState->field_24_base_id = field_110_id;
-    pState->field_2A = field_118_count;
+    pState->field_2A_savedcount = field_118_count;
     pState->field_2C_state = field_120_state;
     pState->field_2E = field_124;
     pState->field_34_xpos = field_128_xpos;

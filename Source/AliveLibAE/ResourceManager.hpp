@@ -86,7 +86,7 @@ public:
         Camera* field_C_fn_arg_pCamera;
         TLoaderFn field_10_pFn;
         __int16 field_14_bAddUseCount;
-        __int16 field_16;
+        __int16 field_16_padding;
     };
     ALIVE_ASSERT_SIZEOF(ResourceManager_FilePartRecord_18, 0x18);
 
