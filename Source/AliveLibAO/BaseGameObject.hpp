@@ -44,6 +44,8 @@ enum class Types : __int16
 
     eFootSwitch36 = 36,
 
+    eDeathBird_38 = 38,
+
     eAbe_43 = 43,
 
     eHoneySack_45 = 45,
