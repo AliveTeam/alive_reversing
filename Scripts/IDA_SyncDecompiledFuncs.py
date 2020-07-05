@@ -103,11 +103,11 @@ def sync_function_colour(address, functionData):
 def main():
     functionDataDict = {}
 
-    with open('C:\GOG Games\AO\decompiled_functions.txt', 'r') as f:
+    with open('C:\GOG Games\Abes Oddysee\decompiled_functions.txt', 'r') as f:
         for line in f:
             AddDecompiled(LineToInt(line), functionDataDict)
 
-    with open('C:\GOG Games\AO\stubbed_functions.txt', 'r') as f:
+    with open('C:\GOG Games\Abes Oddysee\stubbed_functions.txt', 'r') as f:
         for line in f:
             AddStubbed(LineToInt(line), functionDataDict)
 

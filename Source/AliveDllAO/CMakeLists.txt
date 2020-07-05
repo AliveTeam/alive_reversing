@@ -23,7 +23,7 @@ endif()
 
 if (NOT DEFINED ENV{AO_ROOT})
     message(WARNING "No AO_ROOT environment variable found, resorting to the default path")
-    set(AO_PATH "C:\\GOG Games\\AO" )
+    set(AO_PATH "C:\\GOG Games\\Abes Oddysee" )
 else()
 	file(TO_CMAKE_PATH $ENV{AO_ROOT} AO_PATH)
 endif()
