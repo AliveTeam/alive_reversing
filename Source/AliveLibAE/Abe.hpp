@@ -240,7 +240,7 @@ struct Abe_SaveState
     char anim_render_layer;
     char bAnimRender;
     char bDrawable;
-    char field_2F;
+    char field_2F_padding;
     FP field_30_health;
     WORD field_34_animation_num;
     WORD next_motion;
@@ -250,8 +250,8 @@ struct Abe_SaveState
     WORD bElectrocuted;
     WORD word42;
     char field_44_is_abe_controlled;
-    char field_45;
-    __int16 field_46;
+    char field_45_padding;
+    __int16 field_46_padding;
     FP dword48;
     DWORD dword4C;
     DWORD dword50;
@@ -269,7 +269,7 @@ struct Abe_SaveState
     WORD prev_held;
     WORD released_buttons;
     WORD word74;
-    __int16 field_76;
+    __int16 field_76_padding;
     DWORD dword78;
     DWORD fade_obj_id;
     DWORD circular_fade_id;
@@ -283,8 +283,8 @@ struct Abe_SaveState
     WORD wordA0;
     WORD wordA2;
     char byteA4;
-    char field_A5;
-    __int16 field_A6;
+    char field_A5_padding;
+    __int16 field_A6_padding;
     DWORD hand_stone_type;
     WORD fmv_id;
     WORD cam_id_1;
@@ -304,7 +304,7 @@ struct Abe_SaveState
     char field_ca_throw_direction;
     char field_CB;
     WORD wordCC;
-    __int16 field_CE;
+    __int16 field_CE_padding;
     DWORD bird_portal_id;
     enum Flags_D4
     {

@@ -507,7 +507,7 @@ void Map::Init_4803F0(LevelIds level, __int16 path, __int16 camera, CameraSwapEf
     field_2C_camera_array[3] = 0;
     field_2C_camera_array[4] = 0;
 
-    field_22 = -1;
+    field_22_overlayID = -1;
 
     field_4_current_camera = static_cast<short>(-1);
     field_2_current_path = static_cast<short>(-1);
@@ -573,7 +573,7 @@ void Map::Reset_4805D0()
     {
         field_54_path_res_array.field_0_pPathRecs[i] = nullptr;
     }
-    field_CC = 1;
+    field_CC_unused = 1;
     field_CE_free_all_anim_and_palts = 0;
     field_D8_restore_quick_save = 0;
 }
@@ -640,7 +640,7 @@ void Map::GoTo_Camera_481890()
         || field_C_path != field_2_current_path
         || field_8_force_load)
     {
-        field_22 = GetOverlayId_480710();
+        field_22_overlayID = GetOverlayId_480710();
     }
 
     if (field_A_level != field_0_current_level || field_8_force_load)

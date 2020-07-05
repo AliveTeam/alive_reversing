@@ -79,14 +79,14 @@ public:
     unsigned __int16 field_12_fmv_base_id;
 
     MapDirections field_14_direction;
-    __int16 field_16;
+    __int16 field_16_padding;
 
     BaseAliveGameObject *field_18_pAliveObj;
 
     CameraSwapEffects field_1C;
     __int16 field_1E_door;
     __int16 field_20;
-    __int16 field_22;
+    __int16 field_22_overlayID;
 
     FP_Point field_24_camera_offset;
 
@@ -94,7 +94,7 @@ public:
     Camera* field_40_stru_5[5];
     Map_PathsArray field_54_path_res_array;
 
-    __int16 field_CC;
+    __int16 field_CC_unused;
     __int16 field_CE_free_all_anim_and_palts;
 
     __int16 field_D0_cam_x_idx;

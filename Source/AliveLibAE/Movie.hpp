@@ -21,7 +21,7 @@ public:
 private:
     EXPORT void DeInit_4E0210();
 
-    __int16 field_20;
+    __int16 field_20_unused;
     __int16 field_22_param5;
     int field_24_padding;
     int field_28_padding;

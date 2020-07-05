@@ -37,7 +37,7 @@ MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, int tlvInfo, int /*a4*/, int /
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
     field_DC_bApplyShadows |= 2u;
-    field_1BE = 0;
+    field_1BE_unused = 0;
     field_20_animation.field_C_render_layer = 26;
     field_CC_sprite_scale = FP_FromInteger(1);
     field_D6_scale = 1;
@@ -84,7 +84,7 @@ MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, int tlvInfo, int /*a4*/, int /
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
 
-    field_1C0 = 0;
+    field_1C0_unused = 0;
     field_1C2_falling_counter = 0;
 
     // What was pressed before we started to move
@@ -295,8 +295,8 @@ int CC MineCar::CreateFromSaveState_467740(const BYTE* pBuffer)
 
     pMineCar->field_11C_state = pState->field_50_state;
     pMineCar->field_1BC_turn_direction = pState->field_52_turn_direction;
-    pMineCar->field_1BE = pState->field_54;
-    pMineCar->field_1C0 = pState->field_56;
+    pMineCar->field_1BE_unused = pState->field_54_unused;
+    pMineCar->field_1C0_unused = pState->field_56_unused;
 
     pMineCar->field_1C2_falling_counter = pState->field_58_falling_counter;
 
@@ -806,8 +806,8 @@ int MineCar::vGetSaveState_467E10(MineCar_SaveState* pState)
     pState->field_50_state = field_11C_state;
 
     pState->field_52_turn_direction = field_1BC_turn_direction;
-    pState->field_54 = field_1BE;
-    pState->field_56 = field_1C0;
+    pState->field_54_unused = field_1BE_unused;
+    pState->field_56_unused = field_1C0_unused;
 
     pState->field_58_falling_counter = field_1C2_falling_counter;
     pState->field_5C_frame_mod_16 = field_1C8_frame_mod_16;

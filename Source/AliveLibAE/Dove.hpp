@@ -40,7 +40,7 @@ private:
 
 private:
     __int16 field_F4_counter;
-    __int16 field_F6;
+    __int16 field_F6_padding;
     int field_F8_tlvInfo;
     __int16 field_FC_keepInGlobalArray;
     enum class State : __int16

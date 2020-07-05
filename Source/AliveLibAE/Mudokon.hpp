@@ -221,14 +221,14 @@ struct Mudokon_State
     __int16 field_3A_padding;
     char field_3C_can_be_possessed;
     char field_3D_bIsPlayer;
-    __int16 field_3E;
+    __int16 field_3E_padding;
     int field_40_tlvInfo;
     FP field_44_velx_slow_by;
     int field_48_unused;
     int field_4C_portal_id;
     __int16 field_50_angry_trigger;
     __int16 field_52_padding;
-    int field_54;
+    int field_54_savedfield124; //TODO: Find out what field_124 is. It appears to be some sort of timer. -- Nemin (5/7/2020)
     int field_58_angry_timer;
     __int16 field_5C_unused;
     __int16 field_5E_voice_pitch;

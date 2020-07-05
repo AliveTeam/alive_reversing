@@ -190,7 +190,7 @@ EXPORT void CC Factory_Door_4D6F00(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOf
 
         case LevelIds::eBarracks_6:
         case LevelIds::eBarracks_Ender_13:
-            if (gMap_5C3030.field_22 == 108)
+            if (gMap_5C3030.field_22_overlayID == 108)
             {
                 Map::LoadResource_4DBE00("SHDOOR.BAN", ResourceManager::Resource_Animation, ResourceID::kF2p3dorResID, loadmode, FALSE);
             }
