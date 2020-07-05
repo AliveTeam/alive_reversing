@@ -14,10 +14,10 @@
 struct TrapDoor_Data
 {
     int field_0;
-    int field_4;
+    int field_4_maxW;
     int field_8;
     int field_C;
-    __int16 field_10;
+    __int16 field_10_maxH;
     __int16 field_12_frame_table_offset;
 };
 
@@ -105,7 +105,7 @@ EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, int tlvIn
     field_4_typeId = Types::eTrapDoor_142;
     field_C_objectId = tlvInfo;
 
-    field_12C &= ~1u;
+    field_12C_unused &= ~1u;
 
     field_130_stay_open_time2 = field_13C_stay_open_time;
     field_134_switch_idx = pTlv->field_10_id;
@@ -122,7 +122,7 @@ EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, int tlvIn
     else
     {
         field_136_state = TrapDoorState::eState_0;
-        frameTableOffset = sTrapDoorData_547B78[levelIdx].field_4;
+        frameTableOffset = sTrapDoorData_547B78[levelIdx].field_4_maxW;
     }
 
     field_13E_set_switch_on_dead = pTlv->field_14_self_closing;
@@ -140,8 +140,8 @@ EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, int tlvIn
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kP6c1trapResID);
 
     AddDynamicCollision_4971C0(
-        sTrapDoorData_547B78[levelIdx].field_4,
-        sTrapDoorData_547B78[levelIdx].field_10,
+        sTrapDoorData_547B78[levelIdx].field_4_maxW,
+        sTrapDoorData_547B78[levelIdx].field_10_maxH,
         sTrapDoorData_547B78[levelIdx].field_12_frame_table_offset,
         ppRes,
         pTlv,

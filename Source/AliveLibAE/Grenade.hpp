@@ -40,14 +40,14 @@ struct Grenade_SaveState
         eBit7 = 0x40,
     };
     BitField16<Flags_20> field_20_flags;
-    __int16 field_22;
+    __int16 field_22_padding;
     int field_24_base_id;
     __int16 field_28_line_type;
-    __int16 field_2A;
+    __int16 field_2A_savedcount;
     GrenadeStates field_2C_state;
     __int16 field_2E;
     __int16 field_30_explode_timer;
-    __int16 field_32;
+    __int16 field_32_padding;
     FP field_34_xpos;
     FP field_38_ypos;
 };

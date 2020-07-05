@@ -17,10 +17,10 @@ private:
     EXPORT void vUpdate_4AD550();
 private:
     PathLine *field_F4_pLine;
-    __int16 field_F8;
-    __int16 field_FA;
+    __int16 field_F8_padding;
+    __int16 field_FA_padding;
     __int16 field_FC_hitCount;
-    __int16 field_FE;
+    __int16 field_FE_padding;
     FP field_100_speed;
 };
 ALIVE_ASSERT_SIZEOF(BulletShell, 0x104);
