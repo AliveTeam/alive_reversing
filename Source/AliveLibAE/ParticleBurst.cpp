@@ -142,25 +142,9 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int unknown
                 field_F8_pRes[i].field_18_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
                 field_F8_pRes[i].field_18_anim.field_4_flags.Set(AnimFlags::eBit25_bDecompressDone); // TODO: HIWORD &= ~0x0100u ??
 
-                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit15_bSemiTrans))
-                {
-                    field_F8_pRes[i].field_18_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-                }
-                else
-                {
-                    field_F8_pRes[i].field_18_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+                 field_F8_pRes[i].field_18_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans, field_20_animation.field_4_flags.Get(AnimFlags::eBit15_bSemiTrans));
 
-                }
-
-                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit16_bBlending))
-                {
-                    field_F8_pRes[i].field_18_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
-                }
-                else
-                {
-                    field_F8_pRes[i].field_18_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
-
-                }
+                field_F8_pRes[i].field_18_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending, field_20_animation.field_4_flags.Get(AnimFlags::eBit16_bBlending));
 
                 if (type == BurstType::eBigPurpleSparks_2)
                 {

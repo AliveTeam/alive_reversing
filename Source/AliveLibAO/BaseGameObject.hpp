@@ -28,6 +28,8 @@ enum class Types : __int16
     eChimeLock_14 = 14,
     eSpark_15 = 15,
 
+    eParticleBurst_19 = 19,
+
     eBird_22 = 22,
 
     eGameSpeak_24 = 24,
@@ -38,6 +40,9 @@ enum class Types : __int16
     ePalOverwriter_29 = 29,
 
     eSecurityClaw_31 = 31,
+    eRockSpawner_32 = 32,
+
+    eFootSwitch36 = 36,
 
     eAbe_43 = 43,
 

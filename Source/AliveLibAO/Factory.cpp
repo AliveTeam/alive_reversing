@@ -35,6 +35,9 @@
 #include "IdSplitter.hpp"
 #include "PullRingRope.hpp"
 #include "InvisibleSwitch.hpp"
+#include "FallingItem.hpp"
+#include "FootSwitch.hpp"
+#include "HoistRocksEffect.hpp"
 
 START_NS_AO
 
@@ -76,9 +79,46 @@ EXPORT void Factory_ContinueZone_Null_481830(Path_TLV* /*pTlv*/, Map* /*pMap*/, 
 }
 
 
-EXPORT void Factory_Hoist_487230(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_Hoist_487230(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        ResourceManager::LoadResource_446C90("ABEHOIST.BAN", ResourceManager::Resource_Animation, 42, loadMode);
+        switch (gMap_507BA8.field_0_current_level)
+        {
+        case LevelIds::eRuptureFarms_1:
+        case LevelIds::eRuptureFarmsReturn_13:
+            ResourceManager::LoadResource_446C90("DRPSPRK.BAN", ResourceManager::Resource_Animation, 357, loadMode);
+            break;
+
+        case LevelIds::eForest_3:
+        case LevelIds::eDesert_8:
+            ResourceManager::LoadResource_446C90("ANEEDGE.BAN", ResourceManager::Resource_Animation, 108, loadMode);
+            ResourceManager::LoadResource_446C90("DRPROCK.BAN", ResourceManager::Resource_Animation, 357, loadMode);
+            break;
+
+        default:
+            ResourceManager::LoadResource_446C90("DRPROCK.BAN", ResourceManager::Resource_Animation, 357, loadMode);
+            break;
+        }
+    }
+    else
+    {
+        auto pHoistTlv = static_cast<Path_Hoist*>(pTlv);
+        if (pHoistTlv->field_18_hoist_type == Path_Hoist::Type::eOffScreen)
+        {
+            auto pHoistRocksEffect = ao_new<HoistRocksEffect>();
+            if (pHoistRocksEffect)
+            {
+                pHoistRocksEffect->ctor_431820(pHoistTlv, tlvOffsetLevelIdPathId.all);
+            }
+            // OG issue, no reset on failure ??
+        }
+        else
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        }
+    }
 }
 
 
@@ -201,9 +241,106 @@ EXPORT void Factory_ZBall_483890(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion
 }
 
 
-EXPORT void Factory_FallingItem_483940(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_FallingItem_483940(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        switch (gMap_507BA8.field_0_current_level)
+        {
+        case LevelIds::eRuptureFarms_1:
+        case LevelIds::eRuptureFarmsReturn_13:
+            ResourceManager::LoadResource_446C90("R1BARREL.BAN", ResourceManager::Resource_Animation, 2007, loadMode);
+            ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, 358, loadMode);
+            ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, 2035, loadMode);
+            ResourceManager::LoadResource_446C90("R1MEAT.BAN", ResourceManager::Resource_Animation, 6014, loadMode);
+            break;
+
+        case LevelIds::eLines_2:
+        case LevelIds::eBoardRoom_12:
+            ResourceManager::LoadResource_446C90("F2ROCK.BAN", ResourceManager::Resource_Animation, 2007, loadMode);
+            ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, 358, loadMode);
+            ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, 2035, loadMode);
+            ResourceManager::LoadResource_446C90("DEBRIS00.BAN", ResourceManager::Resource_Animation, 1105, loadMode);
+            break;
+
+        case LevelIds::eStockYards_5:
+            ResourceManager::LoadResource_446C90("F2ROCK.BAN", ResourceManager::Resource_Animation, 2007, loadMode);
+            ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, 358, loadMode);
+            ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, 2035, loadMode);
+            ResourceManager::LoadResource_446C90("DEBRIS00.BAN", ResourceManager::Resource_Animation, 1105, loadMode);
+            break;
+
+        case LevelIds::eDesert_8:
+        case LevelIds::eDesertTemple_9:
+        case LevelIds::eDesertEscape:
+            ResourceManager::LoadResource_446C90("F2ROCK.BAN", ResourceManager::Resource_Animation, 2007, loadMode);
+            ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, 358, loadMode);
+            ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, 2035, loadMode);
+            ResourceManager::LoadResource_446C90("DEBRIS00.BAN", ResourceManager::Resource_Animation, 1105, loadMode);
+            break;
+
+        default:
+            ResourceManager::LoadResource_446C90("F2ROCK.BAN", ResourceManager::Resource_Animation, 2007, loadMode);
+            ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, 358, loadMode);
+            ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, 2035, loadMode);
+            ResourceManager::LoadResource_446C90("DEBRIS00.BAN", ResourceManager::Resource_Animation, 1105, loadMode);
+            break;
+        }
+    }
+    else
+    {
+        switch (gMap_507BA8.field_0_current_level)
+        {
+        case LevelIds::eRuptureFarms_1:
+        case LevelIds::eRuptureFarmsReturn_13:
+            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6014, 0, 0))
+            {
+                gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+                return;
+            }
+            break;
+
+        case LevelIds::eLines_2:
+            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1105, 0, 0))
+            {
+                gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+                return;
+            }
+            break;
+
+        case LevelIds::eStockYards_5:
+        case LevelIds::eDesert_8:
+        case LevelIds::eDesertTemple_9:
+            if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1105, 0, 0))
+            {
+                gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+                return;
+            }
+            break;
+
+        default:
+            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1105, 0, 0))
+            {
+                gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+                return;
+            }
+        }
+
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2007, 0, 0) &&
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 358, 0, 0) &&
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2035, 0, 0))
+        {
+            auto pFallingItem = ao_new<FallingItem>();
+            if (pFallingItem)
+            {
+                pFallingItem->ctor_419F30(static_cast<Path_FallingItem*>(pTlv), tlvOffsetLevelIdPathId.all);
+            }
+        }
+        else
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        }
+    }
 }
 
 
@@ -796,9 +933,27 @@ EXPORT void Factory_RollingBallStopper_486B90(Path_TLV* pTlv, Map* /*pMap*/, Tlv
     }
 }
 
-EXPORT void Factory_FootSwitch_486C60(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_FootSwitch_486C60(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        ResourceManager::LoadResource_446C90("TRIGGER.BAN", ResourceManager::Resource_Animation, 2010, loadMode);
+    }
+    else
+    {
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2010, 0, 0))
+        {
+            auto pFootSwitch = ao_new<FootSwitch>();
+            if (pFootSwitch)
+            {
+                pFootSwitch->ctor_4887F0(static_cast<Path_FootSwitch*>(pTlv), tlvOffsetLevelIdPathId.all);
+            }
+        }
+        else
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        }
+    }
 }
 
 EXPORT void Factory_SecurityClaw_486D50(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
