@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   PossessionFlicker.hpp
+   PossessionFlicker.cpp
    HoistRocksEffect.hpp
    HoistRocksEffect.cpp
    FootSwitch.hpp
