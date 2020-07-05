@@ -131,8 +131,8 @@ private:
     int field_6C_frame_num;
     int* field_70_frame_sizes_array;
     int* field_74_pCurrentFrameSize;
-    int field_78;
-    int field_7C;
+    int field_78_padding;
+    int field_7C_padding;
     int* field_80_raw_frame_data;
     int field_84_max_frame_size;
     int field_88_audio_data_offset;

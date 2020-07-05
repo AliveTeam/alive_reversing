@@ -618,17 +618,17 @@ void Movie::Init_4DFF60(int id, CdlLOC* pCdPos, __int16 bUnknown, __int16 flags,
 
     if (bUnknown & 1)
     {
-        field_20 |= 4; // TODO: Strongly type these flags
+        field_20_unused |= 4; // TODO: Strongly type these flags
     }
     else
     {
-        field_20 &= ~4;
+        field_20_unused &= ~4;
     }
 
     field_38_param_1 = id;
     field_44_cd_loc_min = pCdPos->field_0_minute;
     field_45_cd_loc_sec = pCdPos->field_1_second;
-    field_20 &= ~3;
+    field_20_unused &= ~3;
     field_46_cd_loc_sector = pCdPos->field_2_sector;
     
     sMovie_Kill_SEQs_563A88 = 1;

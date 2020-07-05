@@ -66,8 +66,8 @@ struct MineCar_SaveState
     int field_4C_tlvInfo;
     MineCarStates field_50_state;
     MineCarDirs field_52_turn_direction;
-    __int16 field_54;
-    __int16 field_56;
+    __int16 field_54_unused; // TODO: These two save and restore two other variables, that are unused, field_1BE and field_1C0. -- Nemin (5/7/2020)
+    __int16 field_56_unused;
     __int16 field_58_falling_counter;
     __int16 field_5A_bAbeInCar;
     int field_5C_frame_mod_16;
@@ -136,8 +136,8 @@ private:
 public:
     MineCarDirs field_1BC_turn_direction;
 private:
-    __int16 field_1BE;
-    __int16 field_1C0;
+    __int16 field_1BE_unused;
+    __int16 field_1C0_unused;
     __int16 field_1C2_falling_counter;
     __int16 field_1C4_velx_index;
     __int16 field_1C6_padding;

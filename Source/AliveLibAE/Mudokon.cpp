@@ -791,7 +791,7 @@ int CC Mudokon::CreateFromSaveState_4717C0(const BYTE* pBuffer)
     pMud->field_104_collision_line_type = pState->field_36_line_type;
     pMud->field_11C_bird_portal_id = pState->field_4C_portal_id;
     pMud->field_120_angry_trigger = pState->field_50_angry_trigger;
-    pMud->field_124 = pState->field_54;
+    pMud->field_124 = pState->field_54_savedfield124;
     pMud->field_128_angry_timer = pState->field_58_angry_timer;
     pMud->field_130_unused = pState->field_5C_unused;
     pMud->field_13C_voice_pitch = pState->field_5E_voice_pitch;
@@ -935,7 +935,7 @@ int Mudokon::vGetSaveState_47B080(Mudokon_State* pState)
     }
 
     pState->field_50_angry_trigger = field_120_angry_trigger;
-    pState->field_54 = field_124;
+    pState->field_54_savedfield124 = field_124;
     pState->field_58_angry_timer = field_128_angry_timer;
     pState->field_5C_unused = field_130_unused;
     pState->field_5E_voice_pitch = field_13C_voice_pitch;

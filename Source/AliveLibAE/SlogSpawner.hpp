@@ -33,7 +33,7 @@ private:
 private:
     int field_20_tlvInfo;
     __int16 field_24_tlv_saved_slog_count;
-    __int16 field_26;
+    __int16 field_26_padding;
     FP field_28_xpos;
     FP field_2C_ypos;
     int field_30_spawn_timer;

@@ -44,7 +44,7 @@ const Types word_55FAFC[252] =
 
 EXPORT BaseThrowable* CCSTD Make_Throwable_49AF30(FP xpos, FP ypos, short count)
 {
-    switch (word_55FAFC[gMap_5C3030.field_22])
+    switch (word_55FAFC[gMap_5C3030.field_22_overlayID])
     {
     case Types::eBone_11:
         return ae_new<Bone>()->ctor_4112C0(xpos, ypos, count);

@@ -69,7 +69,7 @@ void MultiSwitchController::dtor_4D61D0()
 
 void MultiSwitchController::vScreenChanged_4D6860()
 {
-    if (gMap_5C3030.field_22 != gMap_5C3030.GetOverlayId_480710())
+    if (gMap_5C3030.field_22_overlayID != gMap_5C3030.GetOverlayId_480710())
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }

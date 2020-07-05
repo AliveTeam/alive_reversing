@@ -42,7 +42,7 @@ struct EvilFart_State
 
     __int16 field_2E_alive_timer;
     FartStates field_30_state;
-    __int16 field_32;
+    __int16 field_32_padding;
     int field_34_timer;
     int field_38_timer;
 };

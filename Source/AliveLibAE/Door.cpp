@@ -223,7 +223,7 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, int tlvInfo)
 
     if (field_FC_current_state == eOpen_0)
     {
-        if (gMap_5C3030.field_22 == 108)
+        if (gMap_5C3030.field_22_overlayID == 108)
         {
             Animation_Init_424E10(
                 6616,
@@ -246,7 +246,7 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, int tlvInfo)
     }
     else
     {
-        if (gMap_5C3030.field_22 == 108)
+        if (gMap_5C3030.field_22_overlayID == 108)
         {
             Animation_Init_424E10(
                 6604,
@@ -321,7 +321,7 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, int tlvInfo)
     FP yAdjustHack = {};
     if ((gMap_5C3030.field_0_current_level != LevelIds::eBarracks_6 &&
         gMap_5C3030.field_0_current_level != LevelIds::eBarracks_Ender_13) ||
-        gMap_5C3030.field_22 == 108)
+        gMap_5C3030.field_22_overlayID == 108)
     {
         if (gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 ||
             gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_Ender_14)
@@ -474,7 +474,7 @@ void Door::vUpdate_41EBE0()
                 || (field_FE_start_state == 1 && !SwitchStates_Get_466020(field_100_switch_id)))
             {
                 field_FC_current_state = eClosing_3;
-                if (gMap_5C3030.field_22 == 108)
+                if (gMap_5C3030.field_22_overlayID == 108)
                 {
                     field_20_animation.Set_Animation_Data_409C80(6616, nullptr);
                 }
@@ -498,7 +498,7 @@ void Door::vUpdate_41EBE0()
                 (field_FE_start_state == eOpen_0 && !SwitchStates_Get_466020(field_100_switch_id)))
             {
                 field_FC_current_state = eOpening_2;
-                if (gMap_5C3030.field_22 == 108)
+                if (gMap_5C3030.field_22_overlayID == 108)
                 {
                     field_20_animation.Set_Animation_Data_409C80(6616, nullptr);
                 }
