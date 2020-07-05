@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   RollingBall.hpp
+   RollingBall.cpp
    Leaf.hpp
    Leaf.cpp
    DeathBirdParticle.hpp
