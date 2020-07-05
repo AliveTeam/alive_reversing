@@ -55,8 +55,7 @@ PullRingRope* PullRingRope::ctor_49B2D0(Path_PullRingRope* pTlv, int tlvInfo)
     field_100_state = State::eState_0;
     field_F4_stay_in_state_ticks = 0;
 
-    const FP ropeLength = FP_FromInteger(pTlv->field_14_length_of_rope);
-    field_BC_ypos += ropeLength;
+    field_BC_ypos += FP_FromInteger(pTlv->field_14_length_of_rope);
 
     if (pTlv->field_16_scale == 1)
     {
@@ -83,7 +82,7 @@ PullRingRope* PullRingRope::ctor_49B2D0(Path_PullRingRope* pTlv, int tlvInfo)
     {
         pRope->ctor_4A0A70(
             FP_GetExponent(field_B8_xpos + FP_FromInteger(2)),
-            FP_GetExponent(field_BC_ypos - ropeLength),
+            FP_GetExponent(field_BC_ypos) - pTlv->field_14_length_of_rope,
             FP_GetExponent(field_BC_ypos),
             field_CC_sprite_scale);
 
