@@ -43,9 +43,7 @@ PulllRingRope* PulllRingRope::ctor_4546B0(Path_PullRingRope* pTlv, int tlvInfo)
     field_EC_state = 0;
     field_E4_stay_in_state_ticks = 0;
 
-    const FP ropeLength = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y + 24);
-
-    field_AC_ypos += FP_FromInteger(pTlv->field_1C_rope_length) + ropeLength;
+    field_AC_ypos += FP_FromInteger(pTlv->field_1C_rope_length) + FP_FromInteger(pTlv->field_C_sound_pos.field_2_y + 24);
     field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x + 12);
 
     if (pTlv->field_1E_scale == 1)
@@ -73,7 +71,7 @@ PulllRingRope* PulllRingRope::ctor_4546B0(Path_PullRingRope* pTlv, int tlvInfo)
     {
         field_F8_pRope->ctor_458520(
             FP_GetExponent(field_A8_xpos + FP_FromInteger((lvl_x_off + 1))),
-            FP_GetExponent(field_AC_ypos - ropeLength),
+            FP_GetExponent(field_AC_ypos) - pTlv->field_1C_rope_length,
             FP_GetExponent(field_AC_ypos + (FP_FromInteger(field_C8))),
             field_BC_sprite_scale);
 
