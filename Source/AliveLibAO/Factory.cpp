@@ -37,6 +37,7 @@
 #include "InvisibleSwitch.hpp"
 #include "FallingItem.hpp"
 #include "FootSwitch.hpp"
+#include "HoistRocksEffect.hpp"
 
 START_NS_AO
 
@@ -78,9 +79,46 @@ EXPORT void Factory_ContinueZone_Null_481830(Path_TLV* /*pTlv*/, Map* /*pMap*/, 
 }
 
 
-EXPORT void Factory_Hoist_487230(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_Hoist_487230(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        ResourceManager::LoadResource_446C90("ABEHOIST.BAN", ResourceManager::Resource_Animation, 42, loadMode);
+        switch (gMap_507BA8.field_0_current_level)
+        {
+        case LevelIds::eRuptureFarms_1:
+        case LevelIds::eRuptureFarmsReturn_13:
+            ResourceManager::LoadResource_446C90("DRPSPRK.BAN", ResourceManager::Resource_Animation, 357, loadMode);
+            break;
+
+        case LevelIds::eForest_3:
+        case LevelIds::eDesert_8:
+            ResourceManager::LoadResource_446C90("ANEEDGE.BAN", ResourceManager::Resource_Animation, 108, loadMode);
+            ResourceManager::LoadResource_446C90("DRPROCK.BAN", ResourceManager::Resource_Animation, 357, loadMode);
+            break;
+
+        default:
+            ResourceManager::LoadResource_446C90("DRPROCK.BAN", ResourceManager::Resource_Animation, 357, loadMode);
+            break;
+        }
+    }
+    else
+    {
+        auto pHoistTlv = static_cast<Path_Hoist*>(pTlv);
+        if (pHoistTlv->field_18_hoist_type == Path_Hoist::Type::eOffScreen)
+        {
+            auto pHoistRocksEffect = ao_new<HoistRocksEffect>();
+            if (pHoistRocksEffect)
+            {
+                pHoistRocksEffect->ctor_431820(pHoistTlv, tlvOffsetLevelIdPathId.all);
+            }
+            // OG issue, no reset on failure ??
+        }
+        else
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        }
+    }
 }
 
 

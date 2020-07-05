@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   HoistRocksEffect.hpp
+   HoistRocksEffect.cpp
    FootSwitch.hpp
    FootSwitch.cpp
    FallingItem.hpp
