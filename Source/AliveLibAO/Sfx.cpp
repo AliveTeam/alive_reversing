@@ -16,4 +16,10 @@ int CC SFX_Play_43AD70(unsigned __int8 /*sfxId*/, int /*a2*/, int /*a3*/)
     return 0;
 }
 
+int CC SFX_Play_43ADE0(unsigned __int8 /*sfxId*/, int /*leftVol*/, int /*rightVol*/, BaseAliveGameObject* /*pObj*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 END_NS_AO
