@@ -83,7 +83,7 @@ FallingItem* FallingItem::ctor_419F30(Path_FallingItem* pTlv, int tlvInfo)
     field_128_xpos = FP_FromInteger((pTlv->field_14_bottom_right.field_0_x + pTlv->field_10_top_left.field_0_x) / 2);
     field_12C_ypos = FP_FromInteger(pTlv->field_14_bottom_right.field_2_y);
 
-    field_124_yPosStart = field_12C_ypos;
+    field_124_yPosStart = field_AC_ypos;
     field_110_state = 0;
     field_130_sound_channels = 0;
 
