@@ -8741,7 +8741,7 @@ __int16 Abe::HandleDoAction_455BD0()
             }
 
             Switch* pSwitch = static_cast<Switch*>(FindObjectOfType_425180(Types::eLever_139, ypos, xpos));
-            if (!pSwitch || !(pSwitch->Vsub_4D6050(field_B8_xpos < pSwitch->field_B8_xpos)))
+            if (!pSwitch || !(pSwitch->VPull_4D6050(field_B8_xpos < pSwitch->field_B8_xpos)))
             {
                 return eAbeStates::State_34_DunnoBegin_44ECF0;
             }

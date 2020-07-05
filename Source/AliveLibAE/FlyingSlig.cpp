@@ -1681,7 +1681,7 @@ void FlyingSlig::M_LeverPull_7_439150()
         auto pSwitch = static_cast<Switch*>(sObjectIds_5C1B70.Find_449CF0(field_158_obj_id));
         if (pSwitch)
         {
-            pSwitch->Vsub_4D6050(field_B8_xpos < pSwitch->field_B8_xpos);
+            pSwitch->VPull_4D6050(field_B8_xpos < pSwitch->field_B8_xpos);
         }
         field_158_obj_id = -1;
     }
