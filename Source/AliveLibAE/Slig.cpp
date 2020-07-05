@@ -2862,7 +2862,7 @@ __int16 Slig::AI_ListeningToGlukkon_PullingLever()
     {
         if (field_106_current_motion == eSligMotions::M_PullLever_45_4B8950)
         {
-            pLever->Vsub_4D6050(field_B8_xpos < pLever->field_B8_xpos);
+            pLever->VPull_4D6050(field_B8_xpos < pLever->field_B8_xpos);
             field_108_next_motion = eSligMotions::M_StandIdle_0_4B4EC0;
             return AI_ListeningToGlukkon_States::IdleListening_1;
         }
@@ -5621,7 +5621,7 @@ __int16 Slig::HandlePlayerControlled_4B7800()
         auto pSwitch = static_cast<Switch*>(FindObjectOfType_425180(Types::eLever_139, switchYPos, switchXPos));
         if (pSwitch && !field_114_flags.Get(Flags_114::e114_Bit10))
         {
-            pSwitch->Vsub_4D6050(field_B8_xpos < pSwitch->field_B8_xpos);
+            pSwitch->VPull_4D6050(field_B8_xpos < pSwitch->field_B8_xpos);
             field_106_current_motion = eSligMotions::M_PullLever_45_4B8950;
             return 1;
         }

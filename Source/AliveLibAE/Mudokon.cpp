@@ -4464,7 +4464,7 @@ __int16 Mudokon::AI_ListeningToAbe_State_11()
     {
         field_108_next_motion = -1;
         auto pSwitch = static_cast<Switch*>(pLever);
-        pSwitch->Vsub_4D6050(field_B8_xpos < pSwitch->field_B8_xpos);
+        pSwitch->VPull_4D6050(field_B8_xpos < pSwitch->field_B8_xpos);
         field_16A_flags.Clear(Flags::eBit5_following);
 
         if (field_10_resources_array.ItemAt(2))
@@ -5283,7 +5283,7 @@ __int16 Mudokon::AI_AngryWorker_8_47E910()
         if (pLever)
         {
             field_108_next_motion = Mud_Motion::PullLever_10_473020;
-            pLever->Vsub_4D6050(field_B8_xpos < pLever->field_B8_xpos);
+            pLever->VPull_4D6050(field_B8_xpos < pLever->field_B8_xpos);
         }
     }
         return AI_AngryWorker::eState8_PullingLever_2;

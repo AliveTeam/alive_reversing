@@ -39,6 +39,7 @@
 #include "FootSwitch.hpp"
 #include "HoistRocksEffect.hpp"
 #include "RollingBall.hpp"
+#include "Switch.hpp"
 
 START_NS_AO
 
@@ -312,7 +313,7 @@ EXPORT void Factory_FallingItem_483940(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
         case LevelIds::eStockYards_5:
         case LevelIds::eDesert_8:
         case LevelIds::eDesertTemple_9:
-            if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1105, 0, 0))
+            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1105, 0, 0))
             {
                 gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
                 return;
@@ -547,9 +548,44 @@ EXPORT void Factory_Slog_485030(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUn
 }
 
 
-EXPORT void Factory_Switch_485370(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_Switch_485370(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        switch (gMap_507BA8.field_0_current_level)
+        {
+        case LevelIds::eRuptureFarms_1:
+        case LevelIds::eStockYards_5:
+        case LevelIds::eStockYardsReturn_6:
+        case LevelIds::eBoardRoom_12:
+        case LevelIds::eRuptureFarmsReturn_13:
+            ResourceManager::LoadResource_446C90("R1SWITCH.BAN", ResourceManager::Resource_Animation, 1009, loadMode);
+            break;
+
+        case LevelIds::eLines_2:
+            ResourceManager::LoadResource_446C90("L1SWITCH.BAN", ResourceManager::Resource_Animation, 1009, loadMode);
+            break;
+
+        case LevelIds::eDesert_8:
+        case LevelIds::eDesertTemple_9:
+        case LevelIds::eDesertEscape:
+            ResourceManager::LoadResource_446C90("SWITCH1.BAN", ResourceManager::Resource_Animation, 1009, loadMode);
+            break;
+
+        default:
+            ResourceManager::LoadResource_446C90("SWITCH1.BAN", ResourceManager::Resource_Animation, 1009, loadMode);
+            break;
+        }
+        ResourceManager::LoadResource_446C90("ABEPULL.BAN", ResourceManager::Resource_Animation, 11, loadMode);
+    }
+    else
+    {
+        auto pSwitch = ao_new<Switch>();
+        if (pSwitch)
+        {
+            pSwitch->ctor_481110(static_cast<Path_Switch*>(pTlv), tlvOffsetLevelIdPathId.all);
+        }
+    }
 }
 
 

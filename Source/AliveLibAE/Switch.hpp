@@ -26,14 +26,14 @@ public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    virtual __int16 Vsub_4D6050(__int16 a2);
+    virtual __int16 VPull_4D6050(__int16 a2);
     EXPORT Switch* ctor_4D5860(Path_Switch* pTlv, DWORD tlvInfo);
 private:
     EXPORT void dtor_4D5B00();
     EXPORT Switch* vdtor_4D5AD0(signed int flags);
     EXPORT void vUpdate_4D5C00();
     EXPORT void vScreenChanged_4D5B90();
-    EXPORT __int16 vsub_4D6050( __int16 a2);
+    EXPORT __int16 vPull_4D6050( __int16 a2);
 private:
     __int16 field_F4_trigger_id;
     __int16 field_F6; // pad

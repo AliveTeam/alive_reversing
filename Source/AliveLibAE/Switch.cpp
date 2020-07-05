@@ -46,9 +46,9 @@ void Switch::VScreenChanged()
     vScreenChanged_4D5B90();
 }
 
-__int16 Switch::Vsub_4D6050(__int16 a2)
+__int16 Switch::VPull_4D6050(__int16 a2)
 {
-    return vsub_4D6050(a2);
+    return vPull_4D6050(a2);
 }
 
 Switch* Switch::ctor_4D5860(Path_Switch* pTlv, DWORD tlvInfo)
@@ -296,7 +296,7 @@ void Switch::vUpdate_4D5C00()
     }
 }
 
-__int16 Switch::vsub_4D6050(__int16 a2)
+__int16 Switch::vPull_4D6050(__int16 a2)
 {
     if (field_F8_state != 0)
     {
