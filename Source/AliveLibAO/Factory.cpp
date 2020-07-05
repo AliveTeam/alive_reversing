@@ -313,7 +313,7 @@ EXPORT void Factory_FallingItem_483940(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
         case LevelIds::eStockYards_5:
         case LevelIds::eDesert_8:
         case LevelIds::eDesertTemple_9:
-            if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1105, 0, 0))
+            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1105, 0, 0))
             {
                 gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
                 return;
