@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   ParticleBurst.hpp
+   ParticleBurst.cpp
    InvisibleSwitch.hpp
    InvisibleSwitch.cpp
    Rope.hpp
