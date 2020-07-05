@@ -46,7 +46,7 @@ Leaf* Leaf::ctor_4E3120(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
     field_C4_velx = xVel * field_CC_sprite_scale;
     field_C8_vely = yVel * field_CC_sprite_scale;
 
-    ++sLeafRandIdx_563AA4;
+    sLeafRandIdx_563AA4++;
 
     field_F4_bHitSomething &= ~1u;
 
