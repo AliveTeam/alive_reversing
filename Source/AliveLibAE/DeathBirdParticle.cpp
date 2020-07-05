@@ -105,7 +105,6 @@ void DeathBirdParticle::Update_43EE70()
                 SFX_Play_46FA90(SoundEffect::AbeDove_15, 0);
             }
         }
-
         break;
     }
 
