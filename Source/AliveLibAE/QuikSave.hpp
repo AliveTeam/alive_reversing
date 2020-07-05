@@ -44,7 +44,7 @@ struct Quicksave_WorldInfo
     __int16 field_36_visited_feeco_ender;
     int field_38_gas_timer;
     __int16 field_3C_bBulletProof;
-    __int16 field_3E;
+    __int16 field_3E_padding;
 };
 ALIVE_ASSERT_SIZEOF(Quicksave_WorldInfo, 0x40);
 

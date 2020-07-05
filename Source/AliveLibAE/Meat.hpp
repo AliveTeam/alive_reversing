@@ -40,7 +40,7 @@ struct Meat_SaveState
     __int16 field_2E_pad;
     FP field_30_xpos;
     FP field_34_ypos;
-    int field_38;
+    int field_38_savedfield12C; // TODO: Figure out what field_12C is. -- Nemin (5/7/2020)
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Meat_SaveState, 60);
 
@@ -86,7 +86,7 @@ private:
     FP field_120_xpos;
     FP field_124_ypos;
     int field_128_timer;
-    int field_12C;
+    int field_12C_deadtimer;
 public:
     PathLine* field_130_pLine;
 };

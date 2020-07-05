@@ -327,9 +327,9 @@ int CC Fleech::CreateFromSaveState_42DD50(const BYTE* pBuffer)
     pFleech->field_104_collision_line_type = pState->field_3A_line_type;
     pFleech->field_118_tlvInfo = pState->field_40_tlvInfo;
     pFleech->field_11C_obj_id = pState->field_44_obj_id;
-    pFleech->field_120 = pState->field_48;
-    pFleech->field_178_tongue_state = pState->field_4A;
-    pFleech->field_17A_tongue_sub_state = pState->field_4C;
+    pFleech->field_120_unused = pState->field_48_unused;
+    pFleech->field_178_tongue_state = pState->field_4A_save_tongue_state;
+    pFleech->field_17A_tongue_sub_state = pState->field_4C_save_tongue_sub_state;
     pFleech->field_17C = pState->field_4E;
     pFleech->field_17E = pState->field_50;
     pFleech->field_180_tongue_x = pState->field_52;
@@ -458,9 +458,9 @@ int Fleech::vGetSaveState_42FF80(Fleech_State* pState)
     }
 
     pState->field_40_tlvInfo = field_118_tlvInfo;
-    pState->field_48 = field_120;
-    pState->field_4A = field_178_tongue_state;
-    pState->field_4C = field_17A_tongue_sub_state;
+    pState->field_48_unused = field_120_unused;
+    pState->field_4A_save_tongue_state = field_178_tongue_state;
+    pState->field_4C_save_tongue_sub_state = field_17A_tongue_sub_state;
     pState->field_4E = field_17C;
     pState->field_50 = field_17E;
     pState->field_52 = field_180_tongue_x;
@@ -3791,7 +3791,7 @@ __int16 Fleech::AI_ChasingAbe_State_0(BaseAliveGameObject* pObj)
         }
         field_11C_obj_id = pMudOrAbe->field_8_object_id;
     }
-    field_120 = 0;
+    field_120_unused = 0;
     field_15E = 0;
     field_108_next_motion = eFleechMotions::M_Crawl_4_42E960;
     Sound_430520(FleechSound::PatrolCry_0);

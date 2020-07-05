@@ -43,7 +43,7 @@ struct Path_Fleech : public Path_TLV
     __int16 field_28_unused;
     __int16 field_2A_allow_wake_up_id;
     __int16 field_2C_persistant;
-    __int16 field_2E;
+    __int16 field_2E_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Fleech, 0x30);
 
@@ -76,9 +76,9 @@ struct Fleech_State
     int field_3C_id;
     int field_40_tlvInfo;
     int field_44_obj_id;
-    __int16 field_48;
-    __int16 field_4A;
-    __int16 field_4C;
+    __int16 field_48_unused; //TODO: Saves and sets another unused field, field_120 -- Nemin (7/5/2020)
+    __int16 field_4A_save_tongue_state;
+    __int16 field_4C_save_tongue_sub_state;
     __int16 field_4E;
     __int16 field_50;
     __int16 field_52;
@@ -320,7 +320,7 @@ public:
 private:
     int field_118_tlvInfo;
     int field_11C_obj_id;
-    __int16 field_120;
+    __int16 field_120_unused;
     __int16 field_122;
     __int16 field_124_brain_state;
     unsigned __int16 field_126_state;

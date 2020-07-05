@@ -44,7 +44,7 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, __int16 count)
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
 
-    field_12C = sGnFrame_5C1B84 + 600;
+    field_12C_deadtimer = sGnFrame_5C1B84 + 600;
     field_130_pLine = 0;
     field_118_count = count;
     field_11C_state = MeatStates::State_0;
@@ -399,7 +399,7 @@ void Meat::vUpdate_469BA0()
         case MeatStates::State_4_WaitForPickUp:
             if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
             {
-                field_12C = sGnFrame_5C1B84 + 600;
+                field_12C_deadtimer = sGnFrame_5C1B84 + 600;
             }
 
             if (static_cast<int>(sGnFrame_5C1B84) > field_128_timer && !v2)
@@ -411,7 +411,7 @@ void Meat::vUpdate_469BA0()
                     FP_FromDouble(0.3), 36);
                 field_128_timer = Math_NextRandom() % 16 + sGnFrame_5C1B84 + 60;
             }
-            if (field_12C < (signed int)sGnFrame_5C1B84)
+            if (field_12C_deadtimer < (signed int)sGnFrame_5C1B84)
             {
                 field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
@@ -572,7 +572,7 @@ int CC Meat::CreateFromSaveState_46A9E0(const BYTE* pBuffer)
     pMeat->field_120_xpos = pState->field_30_xpos;
     pMeat->field_124_ypos = pState->field_34_ypos;
 
-    pMeat->field_12C = pState->field_38;
+    pMeat->field_12C_deadtimer = pState->field_38_savedfield12C;
     return sizeof(Meat_SaveState);
 }
 
@@ -717,7 +717,7 @@ int Meat::vGetSaveState_46AC40(Meat_SaveState* pState)
     pState->field_30_xpos = field_120_xpos;
     pState->field_34_ypos = field_124_ypos;
 
-    pState->field_38 = field_12C;
+    pState->field_38_savedfield12C = field_12C_deadtimer;
 
     return sizeof(Meat_SaveState);
 }

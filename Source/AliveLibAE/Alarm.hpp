@@ -21,13 +21,13 @@ private:
     EXPORT void vUpdate_409460();
 private:
     __int16 field_78_r_value;
-    __int16 field_7A;
+    __int16 field_7A_padding;
     int field_7C_15_timer;
     int field_80_duration_timer;
     int field_84_tlvOffsetLevelPathCamId;
     __int16 field_88_switch_id;
     WORD field_8A_duration;
-    int field_8C;
+    int field_8C_padding;
     enum States : __int16
     {
         eState_0_WaitForSwitchEnable = 0,
@@ -38,7 +38,7 @@ private:
         eState_5_Disabled = 5,
     };
     States field_90_state;
-    __int16 field_92;
+    __int16 field_92_padding;
 };
 ALIVE_ASSERT_SIZEOF(Alarm, 0x94);
 
