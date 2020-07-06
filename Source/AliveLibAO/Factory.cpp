@@ -40,6 +40,7 @@
 #include "HoistRocksEffect.hpp"
 #include "RollingBall.hpp"
 #include "Switch.hpp"
+#include "SecurityDoor.hpp"
 
 START_NS_AO
 
@@ -1512,9 +1513,27 @@ EXPORT void Factory_IdSplitter_4875E0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
 }
 
 
-EXPORT void Factory_SecurityDoor_487790(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_SecurityDoor_487790(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        ResourceManager::LoadResource_446C90("R1SDOS.BAN", ResourceManager::Resource_Animation, 6027, loadMode);
+    }
+    else
+    {
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6027, 0, 0))
+        {
+            auto pSecurityDoor = ao_new<SecurityDoor>();
+            if (pSecurityDoor)
+            {
+                pSecurityDoor->ctor_461840(static_cast<Path_SecurityDoor*>(pTlv), tlvOffsetLevelIdPathId.all);
+            }
+        }
+        else
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        }
+    }
 }
 
 

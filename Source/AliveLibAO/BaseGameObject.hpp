@@ -38,6 +38,7 @@ enum class Types : __int16
     eBellHammer_27 = 27,
 
     ePalOverwriter_29 = 29,
+    eBaseBomb_30 = 30,
 
     eSecurityClaw_31 = 31,
     eRockSpawner_32 = 32,
