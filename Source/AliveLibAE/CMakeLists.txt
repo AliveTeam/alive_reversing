@@ -165,6 +165,8 @@ SET(AliveLibAESrc
     AbilityRing.hpp
     OrbWhirlWind.cpp
     OrbWhirlWind.hpp
+    OrbWhirlWindParticle.cpp
+    OrbWhirlWindParticle.hpp
     Blood.cpp
     Blood.hpp
     Masher.hpp
