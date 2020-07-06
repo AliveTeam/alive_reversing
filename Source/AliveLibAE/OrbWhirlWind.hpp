@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Function.hpp"
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
+#include "OrbWhirlWindParticle.hpp"
 
 enum class ParticlesState: __int16
 {
@@ -10,8 +10,6 @@ enum class ParticlesState: __int16
     eCreated = 1,
     eActive = 2
 };
-
-class OrbWhirlWindParticle;
 
 class OrbWhirlWind : public BaseGameObject
 {
