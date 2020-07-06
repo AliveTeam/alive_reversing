@@ -109,7 +109,7 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo)
 {
     ctor_408240(2);
 
-    field_1DC = -1;
+    field_1DC_unused = -1;
     SetVTable(this, 0x5446A8);
     field_4_typeId = Types::eCrawlingSlig_26;
 
@@ -121,11 +121,11 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo)
 
     field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
 
-    field_1CC = 0;
+    field_1CC_unused = 0;
     field_1AC_timer = 0;
-    field_1C8 = 0;
+    field_1C8_say_help_timer = 0;
     field_1B8_bChanting = 0;
-    field_1C4 = 0;
+    field_1C4_unused_counter = 0;
     field_1C0_speak = SligSpeak::None;
     field_1D0_slig_button_id = -1;
     field_1D4_obj_id = -1;
@@ -186,7 +186,7 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo)
         field_1E0_locker_direction = field_1E8_tlv.field_16_locker_direction;
     }
 
-    field_1C6 = field_1E8_tlv.field_18_panic_id;
+    field_1C6_unused = field_1E8_tlv.field_18_panic_id;
 
     FP hitX = {};
     FP hitY = {};
@@ -286,7 +286,7 @@ int CC NakedSlig::CreateFromSaveState_41AE80(const BYTE* pBuffer)
     pNakedSlig->field_C4_velx = pState->field_10_velx;
     pNakedSlig->field_C8_vely = pState->field_14_vely;
 
-    pNakedSlig->field_1B0 = pState->field_58;
+    pNakedSlig->field_1B0_velx_scale_factor = pState->field_58_velx_scale_factor;
 
     pNakedSlig->field_C0_path_number = pState->field_18_path_number;
     pNakedSlig->field_C2_lvl_number = pState->field_1A_lvl_number;
@@ -320,7 +320,7 @@ int CC NakedSlig::CreateFromSaveState_41AE80(const BYTE* pBuffer)
     pNakedSlig->field_10C_health = pState->field_30_health;
     pNakedSlig->field_106_current_motion = pState->field_34_cur_motion;
     pNakedSlig->field_108_next_motion = pState->field_36_next_motion;
-    pNakedSlig->field_F8_LastLineYPos = FP_FromInteger(pState->field_38_unknown);
+    pNakedSlig->field_F8_LastLineYPos = FP_FromInteger(pState->field_38_last_line_ypos);
     pNakedSlig->field_114_flags.Set(Flags_114::e114_Bit9);
     pNakedSlig->field_1AC_timer = pState->field_54_timer;
     pNakedSlig->field_104_collision_line_type = pState->field_3A_line_type;
@@ -331,14 +331,14 @@ int CC NakedSlig::CreateFromSaveState_41AE80(const BYTE* pBuffer)
     pNakedSlig->field_1BA_prev_level = pState->field_60_prev_leve;
     pNakedSlig->field_1BC_prev_path = pState->field_62_prev_path;
     pNakedSlig->field_1BE_prev_camera = pState->field_64_prev_camera;
-    pNakedSlig->field_1B4 = pState->field_68;
+    pNakedSlig->field_1B4_unused = pState->field_68_unused;
     pNakedSlig->field_1D0_slig_button_id = pState->field_6C_slig_button_id;
     pNakedSlig->field_1D4_obj_id = pState->field_70_obj_id;
     pNakedSlig->field_1D8_obj_id = pState->field_74_obj_id;
     pNakedSlig->field_1C0_speak = pState->field_78_speak;
     pNakedSlig->field_1C2_pitch = pState->field_66_pitch;
-    pNakedSlig->field_1C4 = pState->field_7A;
-    pNakedSlig->field_1C8 = pState->field_7C;
+    pNakedSlig->field_1C4_unused_counter = pState->field_7A_unused_counter;
+    pNakedSlig->field_1C8_say_help_timer = pState->field_7C_say_help_timer;
 
     return sizeof(NakedSlig_State);
 }
@@ -358,7 +358,7 @@ int NakedSlig::vGetSaveState_41C9A0(NakedSlig_State* pState)
     pState->field_10_velx = field_C4_velx;
     pState->field_14_vely = field_C8_vely;
 
-    pState->field_58 = field_1B0;
+    pState->field_58_velx_scale_factor = field_1B0_velx_scale_factor;
 
     pState->field_18_path_number = field_C0_path_number;
     pState->field_1A_lvl_number = field_C2_lvl_number;
@@ -379,7 +379,7 @@ int NakedSlig::vGetSaveState_41C9A0(NakedSlig_State* pState)
     pState->field_3A_line_type = -1;
 
     // TODO: Check correct
-    pState->field_38_unknown = FP_GetExponent(field_F8_LastLineYPos);
+    pState->field_38_last_line_ypos = FP_GetExponent(field_F8_LastLineYPos);
   
     if (field_100_pCollisionLine)
     {
@@ -408,13 +408,13 @@ int NakedSlig::vGetSaveState_41C9A0(NakedSlig_State* pState)
     pState->field_62_prev_path = field_1BC_prev_path;
     pState->field_64_prev_camera = field_1BE_prev_camera;
     pState->field_66_pitch = field_1C2_pitch;
-    pState->field_68 = field_1B4;
+    pState->field_68_unused = field_1B4_unused;
     pState->field_6C_slig_button_id = field_1D0_slig_button_id;
     pState->field_70_obj_id = field_1D4_obj_id;
     pState->field_74_obj_id = field_1D8_obj_id;
     pState->field_78_speak = field_1C0_speak;
-    pState->field_7A = field_1C4;
-    pState->field_7C = field_1C8;
+    pState->field_7A_unused_counter = field_1C4_unused_counter;
+    pState->field_7C_say_help_timer = field_1C8_say_help_timer;
     return sizeof(NakedSlig_State);
 }
 
@@ -457,9 +457,9 @@ void NakedSlig::UpdateAnimBlock_419900()
 
 BYTE** NakedSlig::GetAnimBlock_419950(int /*currentMotion*/)
 {
-    if (field_1CC)
+    if (field_1CC_unused)
     {
-        field_1CC = 0;
+        field_1CC_unused = 0;
     }
     return field_10_resources_array.ItemAt(0);
 }
@@ -794,7 +794,7 @@ BOOL NakedSlig::PanicOn_419810()
 
 void NakedSlig::ToIdle_41C070()
 {
-    field_1B0 = FP_FromInteger(0);
+    field_1B0_velx_scale_factor = FP_FromInteger(0);
     field_C4_velx = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);
     Set_AnimAndMotion_419890(NakedSligMotion::M_Idle_0_41B260, FALSE);
@@ -816,9 +816,9 @@ __int16 NakedSlig::AI_0_Sleeping_419DE0()
     {
         if (!(static_cast<int>(sGnFrame_5C1B84) % 16))
         {
-            if (field_1C4 > 0)
+            if (field_1C4_unused_counter > 0)
             {
-                field_1C4--;
+                field_1C4_unused_counter--;
             }
         }
 
@@ -932,12 +932,12 @@ __int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
         }
         else
         {
-            if (Math_NextRandom() >= 10u || static_cast<int>(sGnFrame_5C1B84) <= field_1C8)
+            if (Math_NextRandom() >= 10u || static_cast<int>(sGnFrame_5C1B84) <= field_1C8_say_help_timer)
             {
                 return field_208_brain_sub_state;
             }
             field_108_next_motion = NakedSligMotion::M_Speaking_8_41BF70;
-            field_1C8 = sGnFrame_5C1B84 + 60;
+            field_1C8_say_help_timer = sGnFrame_5C1B84 + 60;
             field_1C0_speak = SligSpeak::Help_10;
             return 4;
         }
@@ -1038,13 +1038,13 @@ __int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
             return 3;
         }
 
-        if (Math_NextRandom() >= 10u || static_cast<int>(sGnFrame_5C1B84) <= field_1C8)
+        if (Math_NextRandom() >= 10u || static_cast<int>(sGnFrame_5C1B84) <= field_1C8_say_help_timer)
         {
             return field_208_brain_sub_state;
         }
 
         field_108_next_motion = NakedSligMotion::M_Speaking_8_41BF70;
-        field_1C8 = sGnFrame_5C1B84 + 60;
+        field_1C8_say_help_timer = sGnFrame_5C1B84 + 60;
         field_1C0_speak = SligSpeak::Help_10;
         return 9;
 
@@ -1548,7 +1548,7 @@ void NakedSlig::M_Falling_5_41B650()
 {
     if (field_C4_velx > FP_FromInteger(0))
     {
-        field_C4_velx = field_C4_velx - (field_CC_sprite_scale * field_1B0);
+        field_C4_velx = field_C4_velx - (field_CC_sprite_scale * field_1B0_velx_scale_factor);
         if (field_C4_velx < FP_FromInteger(0))
         {
             field_C4_velx = FP_FromInteger(0);
@@ -1556,7 +1556,7 @@ void NakedSlig::M_Falling_5_41B650()
     }
     else if (field_C4_velx < FP_FromInteger(0))
     {
-        field_C4_velx = (field_CC_sprite_scale * field_1B0) + field_C4_velx;
+        field_C4_velx = (field_CC_sprite_scale * field_1B0_velx_scale_factor) + field_C4_velx;
         if (field_C4_velx > FP_FromInteger(0))
         {
             field_C4_velx = FP_FromInteger(0);
@@ -2030,7 +2030,7 @@ __int16 NakedSlig::CanCrawl_41C5D0()
 
     if (sControlledCharacter_5C1B8C == this && WallHit_408750(field_CC_sprite_scale * FP_FromInteger(30), gridScale))
     {
-        field_1B0 = FP_FromInteger(0);
+        field_1B0_velx_scale_factor = FP_FromInteger(0);
         field_C8_vely = FP_FromInteger(0);
         Set_AnimAndMotion_419890(10, TRUE);
         const int snappedX = SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos));
@@ -2074,7 +2074,7 @@ void NakedSlig::MoveOnLine_41C3D0()
             {
                 Set_AnimAndMotion_419890(NakedSligMotion::M_StartFalling_4_41B620, TRUE);
             }
-            field_1B0 = FP_FromInteger(1);
+            field_1B0_velx_scale_factor = FP_FromInteger(1);
             field_B8_xpos = field_B8_xpos + field_C4_velx;
         }
     }

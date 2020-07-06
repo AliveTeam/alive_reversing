@@ -85,10 +85,10 @@ private:
     WORD field_20_vol;
     WORD field_22_vol;
     LevelIds field_24_currentLevelID;
-    __int16 field_26;
+    __int16 field_26_padding;
     int field_28_object_id;
     __int16 field_2C_flags_and_seq_idx;
-    __int16 field_2E;
+    __int16 field_2E_padding;
     DWORD field_30_music_time;
     DWORD field_34_music_start_time;
     DWORD field_38;
@@ -103,7 +103,7 @@ private:
     WORD field_52_target_volume;
     DWORD field_54_music_volume_change_time;
     BitField16<Flags_58> field_58_flags;
-    WORD field_60_pad;
+    WORD field_60_padding;
 };
 ALIVE_ASSERT_SIZEOF(MusicController, 0x5C);
 

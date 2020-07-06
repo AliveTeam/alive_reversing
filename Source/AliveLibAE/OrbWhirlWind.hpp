@@ -4,12 +4,19 @@
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 
+enum class ParticlesState: __int16
+{
+    eCreating = 0,
+    eCreated = 1,
+    eActive = 2
+};
+
 class OrbWhirlWindParticle;
 
 class OrbWhirlWind : public BaseGameObject
 {
 public:
-    EXPORT OrbWhirlWind* ctor_4E3C90(FP xpos, FP ypos, FP scale, __int16 bUnknown);
+    EXPORT OrbWhirlWind* ctor_4E3C90(FP xpos, FP ypos, FP scale, __int16 bIsMudokonSpirit);
     EXPORT void ToSpin_4E3FD0(FP xpos, FP ypos, FP scale, BaseGameObject* pObj);
     EXPORT void ToStop_4E4050();
 
@@ -23,9 +30,9 @@ private:
     EXPORT void dtor_4E3D80();
     EXPORT OrbWhirlWind* vdtor_4E3D50(signed int flags);
 private:
-    int field_20;
-    __int16 field_24;
-    __int16 field_26_bUnknown;
+    int field_20_particle_spawn_counter;
+    ParticlesState field_24_particles_state;
+    __int16 field_26_is_mudokon_spirit;
     __int16 field_28_particleIdx;
     //__int16 field_2A; // padding ?
     OrbWhirlWindParticle* field_2C_particles[16];

@@ -58,7 +58,7 @@ enum class SligSpeak : signed char;
 struct NakedSlig_State
 {
     Types field_0_type;
-    __int16 field_2_pad;
+    __int16 field_2_padding;
     int field_4_obj_id;
     FP field_8_xpos;
     FP field_C_ypos;
@@ -79,35 +79,35 @@ struct NakedSlig_State
     FP field_30_health;
     __int16 field_34_cur_motion;
     __int16 field_36_next_motion;
-    __int16 field_38_unknown;
+    __int16 field_38_last_line_ypos;
     __int16 field_3A_line_type;
-    __int16 field_3C;
-    __int16 field_3E;
+    __int16 field_3C_padding;
+    __int16 field_3E_padding;
     char field_40_bIsControlled;
-    char field_41;
-    __int16 field_42;
+    char field_41_padding;
+    __int16 field_42_padding;
     int field_44_tlvInfo;
     int field_48_ai_idx;
-    __int16 field_4C;
-    __int16 field_4E;
+    __int16 field_4C_padding;
+    __int16 field_4E_padding;
     __int16 field_50_brain_sub_state;
-    __int16 field_52;
+    __int16 field_52_padding;
     int field_54_timer;
-    FP field_58;
-    __int16 field_5C;
+    FP field_58_velx_scale_factor;
+    __int16 field_5C_padding;
     __int16 field_5E_bChanting;
     LevelIds field_60_prev_leve;
     __int16 field_62_prev_path;
     __int16 field_64_prev_camera;
     __int16 field_66_pitch;
-    int field_68;
+    int field_68_unused;
     int field_6C_slig_button_id;
     int field_70_obj_id;
     int field_74_obj_id;
     SligSpeak field_78_speak;
-    char field_79;
-    __int16 field_7A;
-    int field_7C;
+    char field_79_padding;
+    __int16 field_7A_unused_counter;
+    int field_7C_say_help_timer;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(NakedSlig_State, 0x80);
 
@@ -242,10 +242,10 @@ private:
     __int16 field_1A6_g;
     __int16 field_1A8_b;
 
-    __int16 field_1AA;
+    __int16 field_1AA_padding;
     int field_1AC_timer;
-    FP field_1B0;
-    int field_1B4;
+    FP field_1B0_velx_scale_factor; // TODO: Not sure if this is an accurate name, but can't think of anything better.
+    int field_1B4_unused;
 
     __int16 field_1B8_bChanting;
 
@@ -254,23 +254,23 @@ private:
     __int16 field_1BE_prev_camera;
 
     SligSpeak field_1C0_speak;
-    char field_1C1; // pad ?? 
+    char field_1C1_padding;
     __int16 field_1C2_pitch;
-    __int16 field_1C4;
-    __int16 field_1C6;
-    int field_1C8;
-    __int16 field_1CC;
-    __int16 field_1CE;
+    __int16 field_1C4_unused_counter;
+    __int16 field_1C6_unused;
+    int field_1C8_say_help_timer;
+    __int16 field_1CC_unused;
+    __int16 field_1CE_padding;
     int field_1D0_slig_button_id;
     int field_1D4_obj_id;
     int field_1D8_obj_id;
-    int field_1DC;
+    int field_1DC_unused;
     Path_NakedSlig::LockerDirection field_1E0_locker_direction;
-    __int16 field_1E2;
+    __int16 field_1E2_padding;
     Path_TLV* field_1E4_pPantsOrWingsTlv;
     Path_NakedSlig field_1E8_tlv;
     TNakedSligAIFn field_204_brain_state;
     __int16 field_208_brain_sub_state;
-    __int16 field_20A;
+    __int16 field_20A_padding;
 };
 ALIVE_ASSERT_SIZEOF(NakedSlig, 0x20C);
