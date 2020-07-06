@@ -230,26 +230,13 @@ int CircularFade::vsub_4CE300(__int16 direction, char destroyOnDone) // TODO: Li
 {
     ++sNum_CamSwappers_5C1B66;
 
-    if (direction)
-    {
-        field_F4_flags.Set(Flags::eBit1_FadeIn);
-    }
-    else
-    {
-        field_F4_flags.Clear(Flags::eBit1_FadeIn);
-    }
+    field_F4_flags.Set(Flags::eBit1_FadeIn, direction);
 
     field_F4_flags.Clear(Flags::eBit2_Done);
     field_F4_flags.Clear(Flags::eBit4_NeverSet);
 
-    if (destroyOnDone)
-    {
-        field_F4_flags.Set(Flags::eBit3_DestroyOnDone);
-    }
-    else
-    {
-        field_F4_flags.Clear(Flags::eBit3_DestroyOnDone);
-    }
+
+    field_F4_flags.Set(Flags::eBit3_DestroyOnDone, destroyOnDone);
 
     if (field_F4_flags.Get(Flags::eBit1_FadeIn))
     {
