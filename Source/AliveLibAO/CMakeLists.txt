@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   SecurityDoor.hpp
+   SecurityDoor.cpp
    BaseBomb.hpp
    BaseBomb.cpp
    Switch.hpp
