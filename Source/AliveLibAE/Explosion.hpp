@@ -30,6 +30,6 @@ private:
     __int16 field_F4_bSmall;
     //__int16 field_F6_pad;
     FP field_F8_scale;
-    FP field_FC;
+    FP field_FC_explosion_size;
 };
 ALIVE_ASSERT_SIZEOF(Explosion, 0x100);

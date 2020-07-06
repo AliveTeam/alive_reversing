@@ -602,8 +602,8 @@ RockSack* RockSack::ctor_49F100(Path_RockSack* pTlv, int tlvInfo)
     }
 
     field_11E_num_rocks = pTlv->field_18_num_rocks;
-    field_120 = 1;
-    field_122 = 1;
+    field_120_can_play_wobble_sound = 1;
+    field_122_force_wobble_sound = 1;
 
     field_E0_pShadow = ae_new<Shadow>();
     if (field_E0_pShadow)
@@ -661,19 +661,19 @@ void RockSack::vUpdate_49F3A0()
 
     if (field_20_animation.field_92_current_frame == 2)
     {
-        if (field_120)
+        if (field_120_can_play_wobble_sound)
         {
-            if (Math_NextRandom() < 40u || field_122)
+            if (Math_NextRandom() < 40u || field_122_force_wobble_sound)
             {
-                field_120 = 0;
-                field_122 = 0;
+                field_120_can_play_wobble_sound = 0;
+                field_122_force_wobble_sound = 0;
                 SFX_Play_46FBA0(SoundEffect::SackWobble_29, 24, Math_RandomRange_496AB0(-2400, -2200));
             }
         }
     }
     else
     {
-        field_120 = 1;
+        field_120_can_play_wobble_sound = 1;
     }
 
     if (field_11C)

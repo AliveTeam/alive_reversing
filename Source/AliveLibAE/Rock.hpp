@@ -113,8 +113,8 @@ private:
     int field_118_tlvInfo;
     __int16 field_11C;
     __int16 field_11E_num_rocks;
-    __int16 field_120;
-    __int16 field_122;
+    __int16 field_120_can_play_wobble_sound;
+    __int16 field_122_force_wobble_sound; // Makes sure RockSacks play the sound when you first encounter them. Unused afterwards. -- Nemin (6/7/2020)
     FP field_124_x_vel;
     FP field_128_y_vel;
 };

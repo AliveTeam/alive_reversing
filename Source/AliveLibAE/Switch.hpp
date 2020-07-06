@@ -36,16 +36,16 @@ private:
     EXPORT __int16 vPull_4D6050( __int16 a2);
 private:
     __int16 field_F4_trigger_id;
-    __int16 field_F6; // pad
+    __int16 field_F6_padding;
     // TODO: Make enum
     __int16 field_F8_state;
-    //__int16 field_FA; // pad
+    //__int16 field_FA_padding;
     int field_FC_tlvInfo;
     __int16 field_100_flags;
     SwitchOp field_102_target_action;
     __int16 field_104_on_sound;
     __int16 field_106_off_sound;
     __int16 field_108_sound_direction;
-    //__int16 field_10A; // pad
+    //__int16 field_10A_padding;
 };
 ALIVE_ASSERT_SIZEOF(Switch, 0x10C);

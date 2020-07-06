@@ -58,7 +58,7 @@ FG1* FG1::ctor_499FC0(BYTE** pFG1Res)
     FG1ResourceBlockHeader* pHeader = reinterpret_cast<FG1ResourceBlockHeader*>(*pFG1Res);
 
     // So we can extract out the count of chunks and allocate a resource for it
-    field_20 = 0;
+    field_20_unused = 0;
     field_28_render_block_count = static_cast<short>(pHeader->mCount);
     field_2C_ptr = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_CHNK, 0, pHeader->mCount * sizeof(Fg1Block));
     field_30_chnk_res = reinterpret_cast<Fg1Block*>(*field_2C_ptr);

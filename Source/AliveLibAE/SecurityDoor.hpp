@@ -44,7 +44,7 @@ private:
     __int16 field_FA_id;
     int field_FC_code_converted;
     __int16 field_100_code_len;
-    __int16 field_102;
+    __int16 field_102_padding;
     int field_104_event_idx;
     BYTE field_108_stru[16];
     __int16 field_118_max_idx;
@@ -53,6 +53,6 @@ private:
     PSX_Point field_120_bottom_right;
     int field_124_timer;
     __int16 field_128_max_idx;
-    __int16 field_12A;
+    __int16 field_12A_unused; // Gets set to 1 in vUpdate, but isn't used anywhere else. -- Nemin (6/7/2020)
 };
 ALIVE_ASSERT_SIZEOF(SecurityDoor, 0x12C);

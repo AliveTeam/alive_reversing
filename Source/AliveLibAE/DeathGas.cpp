@@ -66,7 +66,7 @@ DeathGas* DeathGas::ctor_43C030(__int16 layer, __int16 amount)
 
     field_28_layer = layer;
     field_20_total = 0;
-    field_22 = 0;
+    field_22_unused = 0;
 
     for (int i = 0; i < 2; i++)
     {
@@ -152,7 +152,7 @@ void DeathGas::vUpdate_43C300()
 
 void DeathGas::vRender_43C350(int** pOt)
 {
-    field_22 += 2;
+    field_22_unused += 2;
 
     for (int i = 0; i < 2; i++)
     {

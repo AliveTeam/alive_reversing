@@ -40,11 +40,11 @@ Explosion* Explosion::ctor_4A1200(FP xpos, FP ypos, FP scale, __int16 bSmall)
 
     if (field_F4_bSmall)
     {
-        field_FC = scale * FP_FromDouble(0.5);
+        field_FC_explosion_size = scale * FP_FromDouble(0.5);
     }
     else
     {
-        field_FC = scale;
+        field_FC_explosion_size = scale;
     }
 
     field_DC_bApplyShadows &= ~1u;
@@ -58,10 +58,10 @@ Explosion* Explosion::ctor_4A1200(FP xpos, FP ypos, FP scale, __int16 bSmall)
     }
 
     PSX_RECT rect = {};
-    rect.x = FP_GetExponent(FP_FromInteger(-10) * field_FC);
-    rect.y = FP_GetExponent(FP_FromInteger(10) * field_FC);
-    rect.w = FP_GetExponent(FP_FromInteger(-10) * field_FC);
-    rect.h = FP_GetExponent(FP_FromInteger(10) * field_FC);
+    rect.x = FP_GetExponent(FP_FromInteger(-10) * field_FC_explosion_size);
+    rect.y = FP_GetExponent(FP_FromInteger(10) * field_FC_explosion_size);
+    rect.w = FP_GetExponent(FP_FromInteger(-10) * field_FC_explosion_size);
+    rect.h = FP_GetExponent(FP_FromInteger(10) * field_FC_explosion_size);
 
     DealBlastDamage_4A1BD0(&rect);
 
@@ -178,10 +178,10 @@ void Explosion::vUpdate_4A1510()
     switch (field_20_animation.field_92_current_frame)
     {
     case 2:
-        rect.x = FP_GetExponent(FP_FromInteger(-20) * field_FC);
-        rect.w = FP_GetExponent(FP_FromInteger(20) * field_FC);
-        rect.y = FP_GetExponent(FP_FromInteger(-20) * field_FC);
-        rect.h = FP_GetExponent(FP_FromInteger(10) * field_FC);
+        rect.x = FP_GetExponent(FP_FromInteger(-20) * field_FC_explosion_size);
+        rect.w = FP_GetExponent(FP_FromInteger(20) * field_FC_explosion_size);
+        rect.y = FP_GetExponent(FP_FromInteger(-20) * field_FC_explosion_size);
+        rect.h = FP_GetExponent(FP_FromInteger(10) * field_FC_explosion_size);
         DealBlastDamage_4A1BD0(&rect);
         break;
 
@@ -192,20 +192,20 @@ void Explosion::vUpdate_4A1510()
         {
             pFlash->ctor_428570(39, 255u, 255u, 255u, 1, 1, 1);
         }
-        rect.x = FP_GetExponent(FP_FromInteger(-38) * field_FC);
-        rect.w = FP_GetExponent(FP_FromInteger(38) * field_FC);
-        rect.y = FP_GetExponent(FP_FromInteger(-38) * field_FC);
-        rect.h = FP_GetExponent(FP_FromInteger(19) * field_FC);
+        rect.x = FP_GetExponent(FP_FromInteger(-38) * field_FC_explosion_size);
+        rect.w = FP_GetExponent(FP_FromInteger(38) * field_FC_explosion_size);
+        rect.y = FP_GetExponent(FP_FromInteger(-38) * field_FC_explosion_size);
+        rect.h = FP_GetExponent(FP_FromInteger(19) * field_FC_explosion_size);
         DealBlastDamage_4A1BD0(&rect);
     }
     break;
 
     case 3:
     case 6:
-        rect.x = FP_GetExponent(FP_FromInteger(-60) * field_FC);
-        rect.w = FP_GetExponent(FP_FromInteger(60) * field_FC);
-        rect.y = FP_GetExponent(FP_FromInteger(-60) * field_FC);
-        rect.h = FP_GetExponent(FP_FromInteger(30) * field_FC);
+        rect.x = FP_GetExponent(FP_FromInteger(-60) * field_FC_explosion_size);
+        rect.w = FP_GetExponent(FP_FromInteger(60) * field_FC_explosion_size);
+        rect.y = FP_GetExponent(FP_FromInteger(-60) * field_FC_explosion_size);
+        rect.h = FP_GetExponent(FP_FromInteger(30) * field_FC_explosion_size);
         DealBlastDamage_4A1BD0(&rect);
         break;
 

@@ -190,7 +190,7 @@ public:
     __int16 field_4_cameraId;
     unsigned __int16 field_6_cams_on_x;
     unsigned __int16 field_8_cams_on_y;
-    __int16 field_A;
+    __int16 field_A_padding;
     const PathData* field_C_pPathData;
     BYTE** field_10_ppRes;
 };

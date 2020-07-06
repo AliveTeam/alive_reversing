@@ -25,7 +25,7 @@ private:
     __int16 field_42_enableShakeEvent;
     __int16 field_44_softerShakes;
 
-    __int16 field_46; // Apparently not used
-    int field_48;     // Apparently not used
+    __int16 field_46_padding;
+    int field_48_padding;
 };
 ALIVE_ASSERT_SIZEOF(ScreenShake, 0x4C);

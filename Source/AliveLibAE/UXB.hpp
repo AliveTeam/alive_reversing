@@ -22,7 +22,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_UXB, 0x1c);
 struct SaveState_UXB
 {
     __int16 field_0_id;
-    __int16 field_2;
+    __int16 field_2_padding;
     TlvItemInfoUnion field_4_tlv;
     DWORD field_8_next_state_frame;
     WORD field_c_uxb_118;

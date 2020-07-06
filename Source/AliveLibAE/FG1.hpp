@@ -8,10 +8,10 @@
 struct Fg1Block
 {
     Poly_FT4 field_0_polys[2];
-    int field_58;
-    int field_5C;
-    int field_60;
-    __int16 field_64;
+    int field_58_padding;
+    int field_5C_padding;
+    int field_60_padding;
+    __int16 field_64_padding;
     unsigned __int16 field_66_mapped_layer;
     int field_68_array_of_height[16];
 };
@@ -36,7 +36,7 @@ public:
     EXPORT void dtor_49A540();
     EXPORT __int16 Convert_Chunk_To_Render_Block_49A210(const Fg1Chunk* pChunk, Fg1Block* pBlock);
 
-    int field_20;
+    int field_20_unused;
     LevelIds field_24_level_id;
     __int16 field_26_path_id;
     __int16 field_28_render_block_count;

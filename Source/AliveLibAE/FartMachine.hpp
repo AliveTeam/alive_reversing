@@ -36,8 +36,8 @@ private:
 public:
     __int16 field_144_total_brew_count;
 private:
-    __int16 field_146;
-    int field_148;
+    __int16 field_146_padding;
+    int field_148_padding;
     Animation field_14C_anim;
     __int16 field_1E4_remaining_brew_count;
     __int16 field_1E6_cam_id;
