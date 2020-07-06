@@ -52,37 +52,36 @@ BaseBomb * BaseBomb::ctor_423E70(FP x, FP y, int /*unused*/, FP scale)
         field_20_animation.field_C_render_layer = 17;
     }
 
-    field_DC_bApplyShadows &= 0xFFFEu;
+    field_DC_bApplyShadows &= ~1;
     field_CC_sprite_scale = scale * FP_FromDouble(2.75);
     field_B8_xpos = x;
     field_BC_ypos = y;
 
-    ScreenShake * pScreenShake = ae_new<ScreenShake>();
-
+    auto pScreenShake = ae_new<ScreenShake>();
     if (pScreenShake)
     {
         pScreenShake->ctor_4ACF70(1, 0);
     }
 
-    ParticleBurst * pParticleBurst2 = ae_new<ParticleBurst>();
-    if (pParticleBurst2)
+    auto pParticleBurst = ae_new<ParticleBurst>();
+    if (pParticleBurst)
     {
-        pParticleBurst2->ctor_41CF50(
-            this->field_B8_xpos,
-            this->field_BC_ypos,
-            0x23u,
-            this->field_f4_scale,
+        pParticleBurst->ctor_41CF50(
+            field_B8_xpos,
+            field_BC_ypos,
+            35,
+            field_f4_scale,
             BurstType::eFallingRocks_0,
             13);
     }
 
-    PSX_RECT damageRect = {
+    PSX_RECT damageRect = 
+    {
         FP_GetExponent(FP_FromInteger(-10) * field_f4_scale),
         FP_GetExponent(FP_FromInteger(-10) * field_f4_scale),
         FP_GetExponent(FP_FromInteger(10) * field_f4_scale),
         FP_GetExponent(FP_FromInteger(10) * field_f4_scale)
     };
-
     DealDamageRect_4247A0(&damageRect);
 
     static int dword_5BC1FC = 0;
@@ -94,7 +93,7 @@ BaseBomb * BaseBomb::ctor_423E70(FP x, FP y, int /*unused*/, FP scale)
 
 void BaseBomb::vUpdate_424180()
 {
-    PSX_RECT Rect;
+    PSX_RECT rect = {};
 
     Event_Broadcast_422BC0(kEventShooting, this);
     Event_Broadcast_422BC0(kEventLoudNoise, this);
@@ -103,30 +102,29 @@ void BaseBomb::vUpdate_424180()
     switch (this->field_20_animation.field_92_current_frame)
     {
     case 0:
-        
-        Rect.x = FP_GetExponent(FP_FromInteger(-30) * field_f4_scale);
-        Rect.w = FP_GetExponent(FP_FromInteger(30) * field_f4_scale);
-        Rect.y = FP_GetExponent(FP_FromInteger(-20) * field_f4_scale);
-        Rect.h = FP_GetExponent(FP_FromInteger(20) * field_f4_scale);
-        DealDamageRect_4247A0(&Rect);
+        rect.x = FP_GetExponent(FP_FromInteger(-30) * field_f4_scale);
+        rect.w = FP_GetExponent(FP_FromInteger(30) * field_f4_scale);
+        rect.y = FP_GetExponent(FP_FromInteger(-20) * field_f4_scale);
+        rect.h = FP_GetExponent(FP_FromInteger(20) * field_f4_scale);
+        DealDamageRect_4247A0(&rect);
         break;
+
     case 1:
-        Rect.x = FP_GetExponent(FP_FromInteger(-50) * field_f4_scale);
-        Rect.w = FP_GetExponent(FP_FromInteger(50) * field_f4_scale);
-        Rect.y = FP_GetExponent(FP_FromInteger(-30) * field_f4_scale);
-        Rect.h = FP_GetExponent(FP_FromInteger(30) * field_f4_scale);
-        DealDamageRect_4247A0(&Rect);
-
+        rect.x = FP_GetExponent(FP_FromInteger(-50) * field_f4_scale);
+        rect.w = FP_GetExponent(FP_FromInteger(50) * field_f4_scale);
+        rect.y = FP_GetExponent(FP_FromInteger(-30) * field_f4_scale);
+        rect.h = FP_GetExponent(FP_FromInteger(30) * field_f4_scale);
+        DealDamageRect_4247A0(&rect);
         break;
+
     case 2:
-        Rect.x = FP_GetExponent(FP_FromInteger(-80) * field_f4_scale);
-        Rect.w = FP_GetExponent(FP_FromInteger(80) * field_f4_scale);
-        Rect.y = FP_GetExponent(FP_FromInteger(-40) * field_f4_scale);
-        Rect.h = FP_GetExponent(FP_FromInteger(40) * field_f4_scale);
-
-        DealDamageRect_4247A0(&Rect);
-
+        rect.x = FP_GetExponent(FP_FromInteger(-80) * field_f4_scale);
+        rect.w = FP_GetExponent(FP_FromInteger(80) * field_f4_scale);
+        rect.y = FP_GetExponent(FP_FromInteger(-40) * field_f4_scale);
+        rect.h = FP_GetExponent(FP_FromInteger(40) * field_f4_scale);
+        DealDamageRect_4247A0(&rect);
         break;
+
     case 3:
     {
         ParticleBurst * pParticleBurst = ae_new<ParticleBurst>();
@@ -141,69 +139,64 @@ void BaseBomb::vUpdate_424180()
                 13);
         }
 
-        Flash * pFlash = ae_new<Flash>();
-
+        Flash* pFlash = ae_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_428570(39, 0xFFu, 0xFFu, 0xFFu, 1, 3u, 1);
+            pFlash->ctor_428570(39, 255, 255, 255, 1, 3u, 1);
         }
 
-        Rect.x = FP_GetExponent(FP_FromInteger(-113) * field_f4_scale);
-        Rect.w = FP_GetExponent(FP_FromInteger(113) * field_f4_scale);
-        Rect.y = FP_GetExponent(FP_FromInteger(-50) * field_f4_scale);
-        Rect.h = FP_GetExponent(FP_FromInteger(50) * field_f4_scale);
-
-        DealDamageRect_4247A0(&Rect);
-
+        rect.x = FP_GetExponent(FP_FromInteger(-113) * field_f4_scale);
+        rect.w = FP_GetExponent(FP_FromInteger(113) * field_f4_scale);
+        rect.y = FP_GetExponent(FP_FromInteger(-50) * field_f4_scale);
+        rect.h = FP_GetExponent(FP_FromInteger(50) * field_f4_scale);
+        DealDamageRect_4247A0(&rect);
         break;
     }
+
     case 4:
     {
-        Flash * pFlash = ae_new<Flash>();
-
+        Flash* pFlash = ae_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_428570(39, 0xFFu, 0xFFu, 0xFFu, 1, 1u, 1);
+            pFlash->ctor_428570(39, 255, 255, 255, 1, 1u, 1);
         }
-
         break;
     }
+
     case 7:
     {
-        ParticleBurst * pParticleBurst = ae_new<ParticleBurst>();
-
+        ParticleBurst* pParticleBurst = ae_new<ParticleBurst>();
         if (pParticleBurst)
         {
             pParticleBurst->ctor_41CF50(
                 field_B8_xpos,
                 field_BC_ypos,
-                0x14u,
+                20u,
                 field_CC_sprite_scale,
                 BurstType::eBigRedSparks_3,
                 13);
         }
 
-        Flash * pFlash = ae_new<Flash>();
-
+        Flash* pFlash = ae_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_428570(39, 0xFFu, 0xFFu, 0xFFu, 1, 3u, 1);
+            pFlash->ctor_428570(39, 255, 255, 255, 1, 3u, 1);
         }
-
         break;
     }
+
     default:
         break;
     }
+
     if (field_20_animation.field_92_current_frame == 3)
     {
-        BYTE** pResourceAnim1 = Add_Resource_4DC130(
+        BYTE** ppRes = Add_Resource_4DC130(
             ResourceManager::Resource_Animation,
             ResourceID::kBgexpldResID);
-
-        if (pResourceAnim1)
+        if (ppRes)
         {
-            Particle * pParticle = ae_new<Particle>();
+            Particle* pParticle = ae_new<Particle>();
             if (pParticle)
             {
                 pParticle->ctor_4CC4C0(
@@ -212,12 +205,12 @@ void BaseBomb::vUpdate_424180()
                     51588,
                     214,
                     49,
-                    pResourceAnim1);
+                    ppRes);
             }
             pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
-            pParticle->field_DC_bApplyShadows &= 0xFFFEu;
+            pParticle->field_DC_bApplyShadows &= ~1;
             pParticle->field_20_animation.field_B_render_mode = 1;
-            pParticle->field_CC_sprite_scale = field_CC_sprite_scale * FP_FromDouble(0.6999969);
+            pParticle->field_CC_sprite_scale = field_CC_sprite_scale * FP_FromDouble(0.7);
         }
     }
 
