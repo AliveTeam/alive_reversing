@@ -27,7 +27,7 @@ Bullet* Bullet::ctor_414540(BaseAliveGameObject* pParent, BulletType type, FP xp
     field_34 = a7;
     field_44 = a9;
     field_30 = xDist;
-    field_22 = 0;
+    field_22_unused = 0;
     return this;
 }
 

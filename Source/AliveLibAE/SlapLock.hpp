@@ -77,7 +77,7 @@ struct SlapLock_State
     __int16 field_2;
     int field_4_tlvInfo;
     char field_8_tlv_state;
-    char field_9;
+    char field_9_padding;
     SlapLockStates field_A_state;
     int field_C_timer1;
     int field_10_obj_id;

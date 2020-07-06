@@ -61,8 +61,8 @@ private:
     State field_FC_state;
     __int16 field_FE_2_random;
     int field_100_sounds_mask;
-    __int16 field_104;
-    __int16 field_106;
+    __int16 field_104_padding;
+    __int16 field_106_padding;
     int field_108_fire_background_glow_id;
     int field_10C_flame_sparks_id;
 };

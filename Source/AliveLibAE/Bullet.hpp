@@ -40,7 +40,7 @@ private:
 public:
     BulletType field_20_type;
 private:
-    __int16 field_22;
+    __int16 field_22_unused;
     PathLine* field_24_pLine;
     FP field_28_xpos;
 public:

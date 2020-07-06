@@ -34,16 +34,16 @@ public:
     __int16 field_26_g;
     __int16 field_28_b;
 private:
-    __int16 field_2A_pad; // NOTE: Crashes if commented out - why?
+    __int16 field_2A_padding; // NOTE: Crashes if commented out - why?
     __int16 field_2C_bKillTarget;
     __int16 field_2E_overwriter_count;
     PalleteOverwriter* field_30_pPalOverwriters[3];
     __int16 field_3C_extraOverwriter;
-    __int16 field_3E;
+    __int16 field_3E_padding;
     WORD* field_40_pPalData;
     __int16 field_44_state;
-    __int16 field_46_pad;   // Ditto
-    int field_48;
+    __int16 field_46_padding;   // Ditto
+    int field_48_padding;
     PSX_RECT field_4C_pal_rect;
 };
 ALIVE_ASSERT_SIZEOF(Electrocute, 0x54);

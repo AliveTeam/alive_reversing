@@ -19,7 +19,7 @@ struct WorkWheel_SaveState
     __int16 field_8_snd_counter;
     // pad
     WheelStates field_C_state;
-    __int16 field_E; // not used ?
+    __int16 field_E_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(WorkWheel_SaveState, 0x10);
 
@@ -60,7 +60,7 @@ private:
 private:
     int field_F4_tlv_info;
     __int16 field_F8_id;
-    __int16 field_FA;
+    __int16 field_FA_padding;
     WheelStates field_FC_state;
     __int16 field_FE_duration;
     unsigned __int16 field_100_on_counter;

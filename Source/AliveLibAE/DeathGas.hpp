@@ -30,12 +30,12 @@ private:
     EXPORT void vRender_43C350(int** pOt);
 private:
     __int16 field_20_total;
-    __int16 field_22;
+    __int16 field_22_unused; // Gets increased by two every vUpdate_43C300. Isn't used anywhere else -- Nemin (6/7/2020)
     __int16 field_24_amount;
     __int16 field_26_flag;
     __int16 field_28_layer;
-    __int16 field_2A;
-    __int16 field_2C;
-    __int16 field_2E;
+    __int16 field_2A_padding;
+    __int16 field_2C_padding;
+    __int16 field_2E_padding;
 };
 ALIVE_ASSERT_SIZEOF(DeathGas, 0x30);
