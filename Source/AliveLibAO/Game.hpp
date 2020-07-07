@@ -19,5 +19,6 @@ ALIVE_VAR_EXTERN(short, sBreakGameLoop_507B78);
 
 EXPORT void SYS_EventsPump_44FF90();
 
+EXPORT void CC Init_GameStates_41CEC0();
 
 END_NS_AO

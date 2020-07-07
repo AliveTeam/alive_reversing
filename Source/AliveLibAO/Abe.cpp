@@ -5,6 +5,9 @@
 #include "ThrowableArray.hpp"
 #include "Elum.hpp"
 #include "ResourceManager.hpp"
+#include "Shadow.hpp"
+#include "Game.hpp"
+#include "stdlib.hpp"
 
 START_NS_AO;
 
@@ -201,6 +204,21 @@ int CC Abe_SFX_42A4D0(unsigned __int8 /*idx*/, int /*volume*/, int /*pitch*/, Ba
     return 0;
 }
 
+int CC GridXMidPos_41FA60(FP scale, int xpos)
+{
+    if (scale == FP_FromDouble(0.5))
+    {
+        return 13 * xpos + 245;
+    }
+
+    if (scale == FP_FromInteger(1))
+    {
+        return 25 * xpos + 240;
+    }
+
+    return 440;
+}
+
 BaseGameObject* Abe::VDestructor(signed int flags)
 {
     return vdtor_422A70(flags);
@@ -221,10 +239,169 @@ void Abe::VScreenChanged()
     vScreenChanged_422640();
 }
 
-Abe* Abe::ctor_420770(int /*frameTableOffset*/, int /*a3*/, int /*a4*/, int /*a5*/)
+const TintEntry sTintTable_Abe_4C6438[] =
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    { 5, 25u, 25u, 25u },
+    { 6, 25u, 25u, 25u },
+    { 8, 125u, 125u, 95u },
+    { 9, 120u, 120u, 90u },
+    { -1, 102u, 102u, 102u }
+};
+
+
+Abe* Abe::ctor_420770(int frameTableOffset, int /*r*/, int /*g*/, int /*b*/)
+{
+    ctor_401090();
+
+    SetVTable(this, 0x4BB158);
+
+    field_4_typeId = Types::eAbe_43;
+
+    field_6_flags.Set(Options::eSurviveDeathReset_Bit9);
+
+    Init_GameStates_41CEC0();
+    
+    // Zero out the resource array
+    field_1A4_resources = {};
+
+    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 10, 1, 0))
+    {
+        ResourceManager::LoadResourceFile_455270("ABEBSIC.BAN", nullptr, 0);
+        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 10, 1, 0);
+    }
+
+    field_1A4_resources.res[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 10, 0, 0);
+
+    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 55, 1, 0))
+    {
+        ResourceManager::LoadResourceFile_455270("ABEBSIC1.BAN", nullptr, 0);
+        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 55, 1, 0);
+    }
+
+    field_1A4_resources.res[45] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 55, 0, 0);
+
+    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 43, 1, 0))
+    {
+        ResourceManager::LoadResourceFile_455270("ABEEDGE.BAN", nullptr, 0);
+        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 43, 1, 0);
+    }
+
+    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 27, 1, 0))
+    {
+        ResourceManager::LoadResourceFile_455270("ABEKNFD.BAN", nullptr, 0);
+        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 27, 1, 0);
+    }
+
+    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 48, 1, 0))
+    {
+        ResourceManager::LoadResourceFile_455270("ABEOMM.BAN", nullptr, 0);
+        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 48, 1, 0);
+    }
+
+    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 26, 1, 0))
+    {
+        ResourceManager::LoadResourceFile_455270("ABEKNBK.BAN", nullptr, 0);
+        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 26, 1, 0);
+    }
+
+    ResourceManager::LoadResourceFile_455270("ABENOELM.BND", nullptr, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 20, 1, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 19, 1, 0);
+    ResourceManager::LoadResourceFile_455270("OMMFLARE.BAN", nullptr, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 312, 1, 0);
+    ResourceManager::LoadResourceFile_455270("SQBSMK.BAN", nullptr, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 354, 1, 0);
+    ResourceManager::LoadResourceFile_455270("BLOODROP.BAN", nullptr, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 366, 1, 0);
+    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2035, 0, 0))
+    {
+        ResourceManager::LoadResourceFile_455270("SHADOW.BAN", nullptr, 0);
+    }
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2035, 1, 0);
+    ResourceManager::LoadResourceFile_455270("DEADFLR.BAN", nullptr, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 349, 1, 0);
+    ResourceManager::LoadResourceFile_455270("DOVBASIC.BAN", nullptr, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 60, 1, 0);
+    
+    field_128 = 45;
+    Animation_Init_417FD0(frameTableOffset, 135, 80, field_1A4_resources.res[45], 1);
+
+    field_10_anim.field_1C_fn_ptrs = kAbe_Anim_Frame_Fns_4CEBEC;
+
+    PSX_Point pPoint = {};
+    gMap_507BA8.GetCurrentCamCoords_444890(&pPoint);
+    field_A8_xpos = FP_FromInteger(pPoint.field_0_x + GridXMidPos_41FA60(field_BC_sprite_scale, 4));
+    field_AC_ypos = FP_FromInteger(pPoint.field_2_y + 240);
+    field_120 = 0;
+    field_124 = 0;
+    field_E8_LastLineYPos = field_AC_ypos;
+    field_B4_velx = FP_FromInteger(0);
+    field_B8_vely = FP_FromInteger(0);
+    field_F4_pLine = nullptr;
+    field_FC_current_motion = eAbeStates::State_3_Fall_42E7F0;
+
+    field_112 = -1;
+    field_10_anim.field_C_layer = 32;
+    field_15C_pUnknown = nullptr;
+    field_19C_throwable_count = 0;
+    field_198_pThrowable = nullptr;
+    field_1A0_portal = 0;
+    field_158_pDeathFadeout = nullptr;
+    field_164_pCircularFade = nullptr;
+    field_188_pOrbWhirlWind = nullptr;
+    field_18C_pObjToPosses = nullptr;
+    field_138 = 0;
+    field_13C = 0;
+    field_13A = 0;
+    field_13E = 0;
+    field_140 = -1;
+    field_10A_flags.Set(Flags_10A::e10A_Bit4);
+
+    // TODO: Bitflags
+    field_2AA_flags &= ~0x1Fu;
+
+    field_14C = field_BC_sprite_scale;
+    field_144 = gMap_507BA8.field_0_current_level;
+    field_142 = -1;
+    field_148 = 0;
+    field_14A = 0;
+    field_146 = 0;
+    field_150 = 0;
+    field_154 = 0;
+
+    field_2A8_flags.Raw().all = 0;
+    field_2A8_flags.Set(Flags_2A8::e2A8_Bit8);
+
+    // Changes Abe's "default" colour depending on the level we are in
+    SetTint_418750(sTintTable_Abe_4C6438, gMap_507BA8.field_0_current_level);
+
+    field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);   
+    field_10_anim.field_B_render_mode = 0;
+
+    field_10C_prev_held = 0; // lowest to base class
+    field_E6_last_state = 0;
+    field_110_state = 0;
+    field_168_ring_pulse_timer = 0;
+    field_114_gnFrame = gnFrameCount_507670;
+    field_F0_pTlv = nullptr;
+    field_160_pRope = nullptr;
+    field_F8_pLiftPoint = nullptr;
+    field_130_say = -1;
+    field_134_auto_say_timer = 0;
+    field_EC_oldY = 1;
+    field_12A = 161;
+
+    // Set Abe to be the current player controlled object
+    sControlledCharacter_50767C = this;
+
+    // Create shadow
+    field_D0_pShadow = ao_new<Shadow>();
+    if (field_D0_pShadow)
+    {
+        field_D0_pShadow->ctor_461FB0();
+    }
+
+    return this;
 }
 
 BaseGameObject* Abe::vdtor_422A70(signed int /*flags*/)
@@ -246,7 +423,11 @@ void Abe::vRender_420F30(int** pOrderingTable)
         field_10_anim.field_14_scale = field_BC_sprite_scale;
     }
 
-    if (field_FC_state != 15 && field_FC_state != 78 && field_FC_state != 81 && field_FC_state != 84 && field_FC_state != 75)
+    if (field_FC_current_motion != eAbeStates::State_15_Null_42A210 &&
+        field_FC_current_motion != eAbeStates::State_78_InsideWellLocal_4310A0 &&
+        field_FC_current_motion != eAbeStates::State_81_InsideWellExpress_431320 &&
+        field_FC_current_motion != eAbeStates::State_84_431080 &&
+        field_FC_current_motion != eAbeStates::State_75_ToInsideOfAWellLocal_431090)
     {
         VRender_417DA0(pOrderingTable);
     }
@@ -256,15 +437,6 @@ void Abe::Free_Shrykull_Resources_42F4C0()
 {
     NOT_IMPLEMENTED();
 }
-
-const TintEntry sTintTable_Abe_4C6438[5] =
-{
-    { 5, 25u, 25u, 25u },
-    { 6, 25u, 25u, 25u },
-    { 8, 125u, 125u, 95u },
-    { 9, 120u, 120u, 90u },
-    { -1, 102u, 102u, 102u }
-};
 
 void Abe::vScreenChanged_422640()
 {

@@ -14,7 +14,11 @@ ALIVE_VAR(1, 0x4FF7D8, DDCheatProperties, DDCheatProperties_4FF7D8, {});
 ALIVE_VAR(1, 0x5076FC, int, gDoorsOpen_5076FC, 0);
 ALIVE_VAR(1, 0x5076D8, int, gTweak_X_5076D8, 0);
 ALIVE_VAR(1, 0x5076DC, int, gTweak_Y_5076DC, 0);
+
 ALIVE_VAR(1, 0x5076C0, short, sRescuedMudokons_5076C0, 0);
+ALIVE_VAR(1, 0x5076BC, short, sKilledMudokons_5076BC, 0);
+
+
 
 DDCheat* DDCheat::ctor_4095D0()
 {

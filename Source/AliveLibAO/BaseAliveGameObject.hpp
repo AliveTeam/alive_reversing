@@ -68,13 +68,13 @@ public:
     FP field_D8;
     __int16 field_E4;
     __int16 field_E6_last_state;
-    int field_E8_last_frame;
+    FP field_E8_LastLineYPos;
     __int16 field_EC_oldY;
     __int16 field_EE_type;
     Path_TLV* field_F0_pTlv;
     PathLine* field_F4_pLine;
     LiftPoint* field_F8_pLiftPoint;
-    __int16 field_FC_state; //todo enum
+    __int16 field_FC_current_motion;
     __int16 field_FE_next_state;
     FP field_100_health;
     __int16 field_104_pending_resource_count;

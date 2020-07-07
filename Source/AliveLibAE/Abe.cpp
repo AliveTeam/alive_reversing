@@ -567,7 +567,7 @@ EXPORT int CC GridXMidPos_4498F0(FP scale, int unknown)
 
 ALIVE_VAR(1, 0x5c1b8c, BaseAliveGameObject*, sControlledCharacter_5C1B8C, nullptr);
 
-Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
+Abe* Abe::ctor_44AD10(int frameTableOffset, int /*r*/, int /*g*/, int /*b*/)
 {
     const int kResourceArraySize = 28;
 

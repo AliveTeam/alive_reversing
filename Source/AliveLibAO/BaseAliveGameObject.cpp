@@ -34,11 +34,11 @@ BaseAliveGameObject *BaseAliveGameObject::ctor_401090()
     field_106_shot = 0;
     field_108_bMotionChanged = 0;
     field_EC_oldY = 0;
-    field_FC_state = 0;
+    field_FC_current_motion = 0;
     field_FE_next_state = 0;
     field_E4 = 0;
     field_E6_last_state = 0;
-    field_E8_last_frame = 0;
+    field_E8_LastLineYPos = FP_FromInteger(0);
     field_104_pending_resource_count = 0;
     gBaseAliveGameObjects_4FC8A0->Push_Back(this);
     field_6_flags.Set(Options::eIsBaseAliveGameObject_Bit6);

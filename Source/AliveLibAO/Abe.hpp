@@ -204,6 +204,10 @@ enum Flags_2A8
     e2A8_eBit14 = 0x2000,
 };
 
+struct AbeResources
+{
+    BYTE **res[65];
+};
 
 class Abe : public BaseAliveGameObject
 {
@@ -409,16 +413,16 @@ public:
     __int16 field_13E;
     __int16 field_140;
     __int16 field_142;
-    __int16 field_144;
+    LevelIds field_144;
     __int16 field_146;
     __int16 field_148;
     __int16 field_14A;
-    int field_14C;
+    FP field_14C;
     int field_150;
     __int16 field_154;
     __int16 field_156;
     DeathFadeOut* field_158_pDeathFadeout;
-    int field_15C_pUnknown;
+    void* field_15C_pUnknown;
     PulllRingRope* field_160_pRope;
     CircularFade* field_164_pCircularFade;
     int field_168_ring_pulse_timer;
@@ -443,7 +447,7 @@ public:
     char field_19D;
     __int16 field_19E;
     BirdPortal* field_1A0_portal;
-    BYTE** field_1A4_resources[65];
+    AbeResources field_1A4_resources;
     BitField16<Flags_2A8> field_2A8_flags;
     __int16 field_2AA_flags;
     int field_2AC_pSaveData;
@@ -459,5 +463,7 @@ ALIVE_VAR_EXTERN(BaseAliveGameObject*, sControlledCharacter_50767C);
 EXPORT int CC Abe_SFX_2_42A220(unsigned __int8 sfxId, signed int volume, int pitchMin, BaseAliveGameObject* pAliveObj);
 
 EXPORT int CC Abe_SFX_42A4D0(unsigned __int8 idx, int volume, int pitch, BaseAliveGameObject* pHero);
+
+EXPORT int CC GridXMidPos_41FA60(FP scale, int xpos);
 
 END_NS_AO;

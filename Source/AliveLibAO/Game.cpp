@@ -3,8 +3,10 @@
 #include "logger.hpp"
 #include "Function.hpp"
 #include <set>
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "FixedPoint.hpp"
 #include "BaseGameObject.hpp"
+#include "SwitchStates.hpp"
+#include "DDCheat.hpp"
 
 START_NS_AO
 
@@ -21,6 +23,26 @@ EXPORT void SYS_EventsPump_44FF90()
     NOT_IMPLEMENTED();
 }
 
+ALIVE_VAR(1, 0x5076CC, short, gbKillUnsavedMudsDone_5076CC, 0);
+
+// TODO: Move to game ender controller for AO sync
+ALIVE_VAR(1, 0x5076C4, short, gRestartRuptureFarmsKilledMuds_5076C4, 0);
+ALIVE_VAR(1, 0x5076C8, short, gRestartRuptureFarmsSavedMuds_5076C8, 0);
+
+
+ALIVE_VAR(1, 0x5076D0, short, gOldKilledMuds_5076D0, 0);
+ALIVE_VAR(1, 0x5076D4, short, gOldSavedMuds_5076D4, 0);
+
+
+EXPORT void CC Init_GameStates_41CEC0()
+{
+    sKilledMudokons_5076BC = gRestartRuptureFarmsKilledMuds_5076C4;
+    sRescuedMudokons_5076C0 = gRestartRuptureFarmsSavedMuds_5076C8;
+    sSwitchStates_505568 = {};
+    gOldKilledMuds_5076D0 = 0;
+    gOldSavedMuds_5076D4 = 0;
+    gbKillUnsavedMudsDone_5076CC = 0;
+}
 
 ALIVE_VAR(1, 0xAC6420, int*, psxemu_videomem_AC6420, nullptr);
 

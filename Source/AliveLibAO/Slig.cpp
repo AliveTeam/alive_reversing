@@ -22,19 +22,6 @@ TintEntry stru_4CFB10[3] =
   { -1, 102u, 127u, 118u }
 };
 
-EXPORT short* CC Animation_OnFrame_Slig_46F610(void*, __int16* )
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-// TODO: Needs to be part of 1 array like in AE
-TFrameCallBackType sSligFrameCallBacks_4CEBF0[] =
-{ 
-    Animation_OnFrame_Slig_46F610
-};
-
-
 Slig* Slig::ctor_464D40(Path_Slig* pTlv, int tlvInfo)
 {
     ctor_401090(); // Note: Empty base skipped
@@ -72,7 +59,7 @@ Slig* Slig::ctor_464D40(Path_Slig* pTlv, int tlvInfo)
     field_158 = 0;
     field_154 = 0;
     field_F8_pLiftPoint = nullptr;
-    field_FC_state = 7;
+    field_FC_current_motion = 7;
     field_11E = 0;
     field_144 = 0;
     field_12C = 0;
@@ -96,7 +83,7 @@ Slig* Slig::ctor_464D40(Path_Slig* pTlv, int tlvInfo)
     field_13A = -1;
     field_138 = 0;
 
-    field_10_anim.field_1C_fn_ptrs = sSligFrameCallBacks_4CEBF0;
+    field_10_anim.field_1C_fn_ptrs = kSlig_Anim_Frame_Fns_4CEBF0;
 
     if (pTlv->field_18_scale == 0)
     {
@@ -128,7 +115,7 @@ Slig* Slig::ctor_464D40(Path_Slig* pTlv, int tlvInfo)
         &hitY,
         field_BC_sprite_scale != FP_FromDouble(0.5) ? 1 : 0x10) == 1)
     {
-        field_FC_state = 0;
+        field_FC_current_motion = 0;
         field_AC_ypos = hitY;
     }
 
