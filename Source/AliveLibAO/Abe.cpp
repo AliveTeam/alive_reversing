@@ -8,6 +8,12 @@
 #include "Shadow.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
+#include "Midi.hpp"
+#include "CircularFade.hpp"
+#include "DeathFadeOut.hpp"
+//#include "Grenade.hpp"
+//#include "OrbWhirlWind.hpp"
+#include "PullRingRope.hpp"
 
 START_NS_AO;
 
@@ -404,10 +410,130 @@ Abe* Abe::ctor_420770(int frameTableOffset, int /*r*/, int /*g*/, int /*b*/)
     return this;
 }
 
-BaseGameObject* Abe::vdtor_422A70(signed int /*flags*/)
+BaseGameObject* Abe::dtor_420C80()
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    SetVTable(this, 0x4BB158);
+    
+    SND_Seq_Stop_477A60(11u);
+
+    BYTE** ppRes = nullptr;
+
+    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 10, 0, 0);
+    if (ppRes)
+    {
+        if (field_10_anim.field_20_ppBlock != ppRes)
+        {
+            ResourceManager::FreeResource_455550(ppRes);
+        }
+    }
+
+    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 55, 0, 0);
+    if (ppRes)
+    {
+        if (field_10_anim.field_20_ppBlock != ppRes)
+        {
+            ResourceManager::FreeResource_455550(ppRes);
+        }
+    }
+
+    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 43, 0, 0);
+    ResourceManager::FreeResource_455550(ppRes);
+
+    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 20, 0, 0);
+    ResourceManager::FreeResource_455550(ppRes);
+
+    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 26, 0, 0);
+    ResourceManager::FreeResource_455550(ppRes);
+
+    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 27, 0, 0);
+    ResourceManager::FreeResource_455550(ppRes);
+
+    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 48, 0, 0);
+    ResourceManager::FreeResource_455550(ppRes);
+
+    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 19, 0, 0);
+    ResourceManager::FreeResource_455550(ppRes);
+
+    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 312, 0, 0);
+    ResourceManager::FreeResource_455550(ppRes);
+
+    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 366, 0, 0);
+    ResourceManager::FreeResource_455550(ppRes);
+
+    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2035, 0, 0);
+    ResourceManager::FreeResource_455550(ppRes);
+
+    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 349, 0, 0);
+    ResourceManager::FreeResource_455550(ppRes);
+
+    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 60, 0, 0);
+    ResourceManager::FreeResource_455550(ppRes);
+
+    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 354, 0, 0);
+    ResourceManager::FreeResource_455550(ppRes);
+
+    if (field_158_pDeathFadeout)
+    {
+        field_158_pDeathFadeout->field_C_refCount--;
+        field_158_pDeathFadeout->field_6_flags.Set(Options::eDead_Bit3);
+        field_158_pDeathFadeout = nullptr;
+    }
+
+    if (field_15C_pUnknown)
+    {
+        field_15C_pUnknown->field_C_refCount--;
+        field_15C_pUnknown->field_6_flags.Set(Options::eDead_Bit3);
+        field_15C_pUnknown = nullptr;
+    }
+
+    if (field_160_pRope)
+    {
+        field_160_pRope->field_C_refCount--;
+        field_160_pRope->field_6_flags.Set(Options::eDead_Bit3);
+        field_160_pRope = nullptr;
+    }
+
+    if (field_164_pCircularFade)
+    {
+        field_164_pCircularFade->field_C_refCount--;
+        field_164_pCircularFade->field_6_flags.Set(Options::eDead_Bit3);
+        field_164_pCircularFade = nullptr;
+    }
+
+    if (field_188_pOrbWhirlWind)
+    {
+        field_188_pOrbWhirlWind->field_C_refCount--;
+        field_188_pOrbWhirlWind->field_6_flags.Set(Options::eDead_Bit3);
+        field_188_pOrbWhirlWind = nullptr;
+    }
+
+    if (field_18C_pObjToPosses)
+    {
+        field_18C_pObjToPosses->field_C_refCount--;
+        field_18C_pObjToPosses->field_6_flags.Set(Options::eDead_Bit3);
+        field_18C_pObjToPosses = nullptr;
+    }
+
+    if (field_198_pThrowable)
+    {
+        field_198_pThrowable->field_C_refCount--;
+        field_198_pThrowable->field_6_flags.Set(Options::eDead_Bit3);
+        field_198_pThrowable = nullptr;
+    }
+
+    sActiveHero_507678 = nullptr;
+
+    return dtor_401000();
+}
+
+BaseGameObject* Abe::vdtor_422A70(signed int flags)
+{
+    dtor_420C80();
+    if (flags & 1)
+    {
+        ao_delete_free_447540(this);
+    }
+    return this;
 }
 
 void Abe::vUpdate_41FDB0()

@@ -211,7 +211,11 @@ struct AbeResources
 
 class Abe : public BaseAliveGameObject
 {
-public:
+public: 
+    EXPORT Abe* ctor_420770(int frameTableOffset, int a3, int a4, int a5);
+
+    EXPORT BaseGameObject* dtor_420C80();
+
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable) override;
@@ -422,7 +426,7 @@ public:
     __int16 field_154;
     __int16 field_156;
     DeathFadeOut* field_158_pDeathFadeout;
-    void* field_15C_pUnknown;
+    BaseGameObject* field_15C_pUnknown; // TODO: Figure out derived type
     PulllRingRope* field_160_pRope;
     CircularFade* field_164_pCircularFade;
     int field_168_ring_pulse_timer;
@@ -436,13 +440,13 @@ public:
     int field_17C;
     int field_180;
     int field_184;
-    OrbWhirlWind* field_188_pOrbWhirlWind;
+    BaseGameObject* field_188_pOrbWhirlWind; // TODO: OrbWhirlWind
     BaseAliveGameObject* field_18C_pObjToPosses;
     __int16 field_190_level;
     __int16 field_192_path;
     __int16 field_194_camera;
     __int16 field_196_door_id;
-    Grenade* field_198_pThrowable;
+    BaseGameObject* field_198_pThrowable; // TODO: Grenade/throwable
     char field_19C_throwable_count;
     char field_19D;
     __int16 field_19E;
@@ -453,7 +457,7 @@ public:
     int field_2AC_pSaveData;
     int field_2B0;
 
-    EXPORT Abe* ctor_420770(int frameTableOffset, int a3, int a4, int a5);
+
 };
 ALIVE_ASSERT_SIZEOF(Abe, 0x2B4);
 
