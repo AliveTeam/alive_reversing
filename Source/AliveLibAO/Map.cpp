@@ -1527,7 +1527,7 @@ Camera* Map::Create_Camera_445BE0(__int16 xpos, __int16 ypos, int /*a4*/)
         {
             auto pTemp = field_48_stru_5[i];
             field_48_stru_5[i] = nullptr;
-            if (sActiveHero_507678 && sActiveHero_507678->field_FC_state == 61)
+            if (sActiveHero_507678 && sActiveHero_507678->field_FC_current_motion == eAbeStates::State_61_Respawn_42CD20)
             {
                 pTemp->field_30_flags |= 2u;
             }

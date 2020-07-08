@@ -12,10 +12,6 @@ START_NS_AO
 ALIVE_VAR(1, 0x9F1DCC, ZBall*, gCenter_ZBall_9F1DCC, nullptr);
 ALIVE_VAR(1, 0x9F1DD0, ZBall*, gOutZBall_9F1DD0, nullptr);
 
-EXPORT short* CC Animation_OnFrame_ZBallSmacker_41FB00(void* pZBall, short* pData);
-
-ALIVE_VAR(1, 0x4CEBF8, TFrameCallBackType, gZBallFrameCallBacks_4CEBF8, Animation_OnFrame_ZBallSmacker_41FB00);
-
 EXPORT short* CC Animation_OnFrame_ZBallSmacker_41FB00(void* pObj, short* pData)
 {
     auto pZBall = static_cast<ZBall*>(pObj);
@@ -111,7 +107,7 @@ ZBall* ZBall::ctor_478590(Path_ZBall* pTlv, int tlvInfo)
     }
 
     field_E4_tlvInfo = tlvInfo;
-    field_10_anim.field_1C_fn_ptrs = &gZBallFrameCallBacks_4CEBF8;
+    field_10_anim.field_1C_fn_ptrs = kZBall_Anim_Frame_Fns_4CEBF8;
 
     return this;
 }

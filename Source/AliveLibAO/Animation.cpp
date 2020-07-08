@@ -4,6 +4,31 @@
 
 START_NS_AO
 
+EXPORT short *CC Animation_OnFrame_Slig_46F610(void *, __int16 *)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT short* CC Animation_OnFrame_ZBallSmacker_41FB00(void* pObj, short* pData);
+
+EXPORT short *CC Slog_OnFrame_471FD0(void *, __int16 *)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT short *CC Abe_OnFrame_429E30(void *, __int16 *)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+TFrameCallBackType kAbe_Anim_Frame_Fns_4CEBEC[] = { Abe_OnFrame_429E30 };
+TFrameCallBackType kSlig_Anim_Frame_Fns_4CEBF0[] = {Animation_OnFrame_Slig_46F610};
+TFrameCallBackType kSlog_Anim_Frame_Fns_4CEBF4[] = { Slog_OnFrame_471FD0 };
+TFrameCallBackType kZBall_Anim_Frame_Fns_4CEBF8[] = { Animation_OnFrame_ZBallSmacker_41FB00 };
+
 void AnimationBase::vDecode()
 {
     VDecode_403550();

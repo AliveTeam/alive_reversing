@@ -28,9 +28,14 @@ enum class LevelIds : __int16
 
 enum TlvTypes
 {
+    ContinuePoint_0 = 0,
     PathTransition_1 = 1,
+
+    DeathDrop_5 = 5,
     Door_6 = 6,
+
     HoneyDripTarget_42 = 42,
+
     Slig_66 = 66,
 };
 

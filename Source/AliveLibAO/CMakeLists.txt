@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   ThrowableTotalIndicator.hpp
+   ThrowableTotalIndicator.cpp
    CircularFade.hpp
    CircularFade.cpp
    SecurityDoor.hpp

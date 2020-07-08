@@ -8,8 +8,17 @@ class BaseGameObject;
 
 enum Event : __int16
 {
+    kEvent_0 = 0,
+    kEvent_1 = 1,
+
     kEventDeathReset_4 = 4,
+
     kEvent_7 = 7,
+
+    kEvent_10 = 10,
+
+    kEvent_14 = 14,
+
     kEventScreenShake_19 = 19,
 };
 

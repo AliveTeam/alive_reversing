@@ -56,12 +56,12 @@
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
 
 #define MAKE_STRINGS(VAR) #VAR,
-const char* const sAbeStateNames[130] =
+const char* const sAbeStateNames[] =
 {
     ABE_STATES_ENUM(MAKE_STRINGS)
 };
 
-TAbeStateFunction sAbeStateMachineTable_554910[130] =
+const TAbeStateFunction sAbeStateMachineTable_554910[] =
 {
     &Abe::State_0_Idle_44EEB0,
     &Abe::State_1_WalkLoop_44FBA0,
@@ -567,7 +567,7 @@ EXPORT int CC GridXMidPos_4498F0(FP scale, int unknown)
 
 ALIVE_VAR(1, 0x5c1b8c, BaseAliveGameObject*, sControlledCharacter_5C1B8C, nullptr);
 
-Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
+Abe* Abe::ctor_44AD10(int frameTableOffset, int /*r*/, int /*g*/, int /*b*/)
 {
     const int kResourceArraySize = 28;
 
@@ -1730,6 +1730,7 @@ void Abe::vScreenChanged_44D240()
     // Level has changed?
     if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level)
     {
+        // Hack to make Abe say hello in the first screen of the mines
         if (gMap_5C3030.field_A_level == LevelIds::eMines_1 && !gAttract_5C1BA0)
         {
             field_128.field_18_say = MudSounds::eHelloNeutral_3;
@@ -1779,6 +1780,7 @@ void Abe::vScreenChanged_44D240()
         }
     }
 
+    // If level or path changed then kill rings and farts
     if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path)
     {
         field_168_ring_pulse_timer = 0;

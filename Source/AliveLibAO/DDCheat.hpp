@@ -78,4 +78,7 @@ ALIVE_ASSERT_SIZEOF(DDCheat, 0x28);
 ALIVE_VAR_EXTERN(int, gTweak_X_5076D8);
 ALIVE_VAR_EXTERN(int, gTweak_Y_5076DC);
 
+ALIVE_VAR_EXTERN(short, sRescuedMudokons_5076C0);
+ALIVE_VAR_EXTERN(short, sKilledMudokons_5076BC);
+
 END_NS_AO

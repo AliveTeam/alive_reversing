@@ -16,8 +16,15 @@ ALIVE_VAR_EXTERN(DynamicArrayT<BaseGameObject>*, gObjList_drawables_504618);
 ALIVE_VAR_EXTERN(DynamicArrayT<AnimationBase>*, gObjList_animations_505564);
 ALIVE_VAR_EXTERN(short, sBreakGameLoop_507B78);
 
+ALIVE_VAR_EXTERN(short, gRestartRuptureFarmsKilledMuds_5076C4);
+ALIVE_VAR_EXTERN(short, gRestartRuptureFarmsSavedMuds_5076C8);
+
+ALIVE_VAR_EXTERN(short, gOldKilledMuds_5076D0);
+ALIVE_VAR_EXTERN(short, gOldSavedMuds_5076D4);
+
 
 EXPORT void SYS_EventsPump_44FF90();
 
+EXPORT void CC Init_GameStates_41CEC0();
 
 END_NS_AO

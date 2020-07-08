@@ -21,6 +21,7 @@ struct TintEntry
 ALIVE_ASSERT_SIZEOF(TintEntry, 0x4);
 
 enum class LevelIds : __int16;
+enum class CameraPos : __int16;
 
 class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
 {
@@ -38,6 +39,7 @@ public:
 
     virtual void VStackOnObjectsOfType(unsigned __int16 /*typeToFind*/) {}
 
+    // TODO !!
     virtual void VOnPickUpOrSlapped() {}
 
     virtual void VOnThrowableHit(BaseGameObject* /*pFrom*/) {}
@@ -57,6 +59,8 @@ public:
     EXPORT __int16 SetBaseAnimPaletteTint_4187C0(TintEntry* pTintArray, LevelIds level_id, int resourceID);
 
     EXPORT void VStackOnObjectsOfType_418930(unsigned __int16 typeToFind);
+
+    EXPORT CameraPos Is_In_Current_Camera_417CC0();
 
     Animation field_10_anim;
     FP field_A8_xpos;

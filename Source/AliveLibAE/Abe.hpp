@@ -514,7 +514,6 @@ public:
     
     EXPORT void FleechDeath_459350();
 
-
     EXPORT void ToDie_4588D0();
     EXPORT void ToIdle_44E6B0();
     EXPORT void PickUpThrowabe_Or_PressBomb_454090(FP fpX, int fpY, int bStandToCrouch);
