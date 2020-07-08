@@ -70,6 +70,12 @@ void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType_418930(unsigned __
     NOT_IMPLEMENTED();
 }
 
+
+EXPORT CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera_417CC0()
+{
+    PSX_RECT rect = {};
+    VGetBoundingRect(&rect, 1);
+    return gMap_507BA8.Rect_Location_Relative_To_Active_Camera_4448C0(&rect, 0);
+}
+
 END_NS_AO
-
-

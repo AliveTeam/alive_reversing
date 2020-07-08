@@ -62,6 +62,8 @@ public:
 
     EXPORT __int16 MapFollowMe_401D30(__int16 snapToGrid);
 
+    EXPORT void SetActiveCameraDelayedFromDir_401C90();
+
     FP field_D4;
     FP field_DC;
     FP field_E0;

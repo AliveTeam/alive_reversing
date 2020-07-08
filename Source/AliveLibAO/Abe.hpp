@@ -255,6 +255,8 @@ public:
 
     EXPORT BOOL IsStanding_41FC10();
 
+    EXPORT void FollowLift_42EE90();
+
     // States
     EXPORT void State_0_Idle_423520();
     EXPORT void State_1_WalkLoop_423F90();

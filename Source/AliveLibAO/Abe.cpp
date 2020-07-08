@@ -17,6 +17,7 @@
 #include "ThrowableTotalIndicator.hpp"
 #include "Events.hpp"
 #include "DDCheat.hpp"
+#include "LiftPoint.hpp"
 
 START_NS_AO;
 
@@ -643,6 +644,20 @@ BOOL Abe::IsStanding_41FC10()
         || field_FC_current_motion == eAbeStates::State_160_4233A0
         || field_FC_current_motion == eAbeStates::State_161_4233E0
         || field_FC_current_motion == eAbeStates::State_164_PoisonGasDeath_42A120;
+}
+
+void Abe::FollowLift_42EE90()
+{
+    if (field_F8_pLiftPoint)
+    {
+        field_B8_vely = field_F8_pLiftPoint->field_B8_vely;
+        if (field_F8_pLiftPoint->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+        {
+            field_F8_pLiftPoint->VOnPickUpOrSlapped();
+            field_2A8_flags.Set(Flags_2A8::e2A8_Bit1);
+        }
+        SetActiveCameraDelayedFromDir_401C90();
+    }
 }
 
 void Abe::vScreenChanged_422640()
