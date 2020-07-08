@@ -660,6 +660,22 @@ void Abe::FollowLift_42EE90()
     }
 }
 
+void Abe::ExitShrykull_42F440(__int16 bResetRingTimer)
+{
+    field_10_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
+    field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+
+    field_FC_current_motion = eAbeStates::State_163_ShrykullEnd_42F520;
+
+    field_108_bMotionChanged = 1;
+    field_114_gnFrame = 1;
+
+    if (bResetRingTimer)
+    {
+        field_168_ring_pulse_timer = 0;
+    }
+}
+
 void Abe::vScreenChanged_422640()
 {
     if (sControlledCharacter_50767C == this || 

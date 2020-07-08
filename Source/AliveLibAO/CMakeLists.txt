@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   BackgroundGlukkon.hpp
+   BackgroundGlukkon.cpp
    ThrowableTotalIndicator.hpp
    ThrowableTotalIndicator.cpp
    CircularFade.hpp

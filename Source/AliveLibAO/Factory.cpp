@@ -41,6 +41,7 @@
 #include "RollingBall.hpp"
 #include "Switch.hpp"
 #include "SecurityDoor.hpp"
+#include "BackgroundGlukkon.hpp"
 
 START_NS_AO
 
@@ -1776,9 +1777,32 @@ EXPORT void Factory_SlogHut_487C80(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInf
 }
 
 
-EXPORT void Factory_Glukkon_487CE0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_BackgroundGlukkon_487CE0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        static CompileTimeResourceList<5> kResources =
+        {
+          { ResourceManager::Resource_Animation, 800 },
+          { ResourceManager::Resource_Palt, 825 },
+          { ResourceManager::Resource_Palt, 826 },
+          { ResourceManager::Resource_Palt, 827 },
+          { ResourceManager::Resource_Palt, 828 }
+        };
+
+
+        ResourceManager::LoadResourcesFromList_446E80("GLUKKON.BND", kResources.AsList(), loadMode, 0);
+        ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, 576, loadMode);
+        ResourceManager::LoadResource_446C90("EXPLO2.BAN", ResourceManager::Resource_Animation, 301, loadMode);
+    }
+    else
+    {
+        auto pBackgroundGlukkon = ao_new<BackgroundGlukkon>();
+        if (pBackgroundGlukkon)
+        {
+            pBackgroundGlukkon->ctor_41DBD0(static_cast<Path_Glukkon*>(pTlv), tlvOffsetLevelIdPathId.all);
+        }
+    }
 }
 
 
@@ -1914,7 +1938,7 @@ const PathFunctionTable kObjectFactory =
     Factory_RingCancel_4818D0,
     Factory_GasEmitter_484110,
     Factory_SlogHut_487C80,
-    Factory_Glukkon_487CE0,
+    Factory_BackgroundGlukkon_487CE0,
     Factory_KillUnsavedMuds_487DA0,
     Factory_SoftLanding_Null_4817C0,
     Factory_ResetPath_Null_4818A0,
