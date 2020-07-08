@@ -42,6 +42,7 @@
 #include "Switch.hpp"
 #include "SecurityDoor.hpp"
 #include "BackgroundGlukkon.hpp"
+#include "Rock.hpp"
 
 START_NS_AO
 
@@ -218,9 +219,40 @@ EXPORT void Factory_Dove_4834C0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
 }
 
 
-EXPORT void Factory_RockSack_483680(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_RockSack_483680(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        static CompileTimeResourceList<3> kResources =
+        {
+            { ResourceManager::Resource_Animation, 12 },
+            { ResourceManager::Resource_Animation, 14 },
+            { ResourceManager::Resource_Animation, 350 }
+        };
+
+        ResourceManager::LoadResourcesFromList_446E80("RTHROW.BND", kResources.AsList(), loadMode, 0);
+        if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || 
+            gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
+        {
+            ResourceManager::LoadResource_446C90("E1BAG.BAN", ResourceManager::Resource_Palt, 1002, loadMode);
+            ResourceManager::LoadResource_446C90("EPUIROCK.BAN", ResourceManager::Resource_Palt, 350, loadMode);
+        }
+    }
+    else
+    {
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1002, 0, 0))
+        {
+            auto pRockSack = ao_new<RockSack>();
+            if (pRockSack)
+            {
+                pRockSack->ctor_4573F0(static_cast<Path_RockSack*>(pTlv), tlvOffsetLevelIdPathId.all);
+            }
+        }
+        else
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        }
+    }
 }
 
 

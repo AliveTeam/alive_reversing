@@ -69,6 +69,7 @@ enum class Types : __int16
     e69 = 69,
 
     eRollingBall_72 = 72,
+    eRockSack_71 = 71,
     eRope_73 = 73,
     eExplosion_74 = 74,
 
