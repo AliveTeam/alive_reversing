@@ -1,7 +1,6 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "Abe.hpp"
-#include "Map.hpp"
 #include "ThrowableArray.hpp"
 #include "Elum.hpp"
 #include "ResourceManager.hpp"
@@ -14,8 +13,25 @@
 //#include "Grenade.hpp"
 //#include "OrbWhirlWind.hpp"
 #include "PullRingRope.hpp"
+#include "ScreenManager.hpp"
+#include "ThrowableTotalIndicator.hpp"
+#include "Events.hpp"
+#include "DDCheat.hpp"
 
 START_NS_AO;
+
+// TODO: Move out to own file
+ALIVE_ARY(1, 0x505668, BYTE, 8192, gSaveBuffer_505668, {});
+
+class Demo
+{
+public:
+    EXPORT static void CC Save_459490(BYTE* /*pBuffer*/)
+    {
+        // This is actually a game save
+        NOT_IMPLEMENTED();
+    }
+};
 
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_423520);
 
@@ -245,6 +261,12 @@ void Abe::VScreenChanged()
     vScreenChanged_422640();
 }
 
+
+void Abe::VOn_TLV_Collision(Path_TLV *pTlv)
+{
+    VOn_Tlv_Collision_421130(pTlv);
+}
+
 const TintEntry sTintTable_Abe_4C6438[] =
 {
     { 5, 25u, 25u, 25u },
@@ -356,24 +378,22 @@ Abe* Abe::ctor_420770(int frameTableOffset, int /*r*/, int /*g*/, int /*b*/)
     field_164_pCircularFade = nullptr;
     field_188_pOrbWhirlWind = nullptr;
     field_18C_pObjToPosses = nullptr;
-    field_138 = 0;
-    field_13C = 0;
-    field_13A = 0;
-    field_13E = 0;
-    field_140 = -1;
+    field_138_zone_top_left = {};
+    field_13C_zone_bottom_right = {};
+    field_140_saved_camera = -1;
     field_10A_flags.Set(Flags_10A::e10A_Bit4);
 
     // TODO: Bitflags
     field_2AA_flags &= ~0x1Fu;
 
-    field_14C = field_BC_sprite_scale;
-    field_144 = gMap_507BA8.field_0_current_level;
-    field_142 = -1;
-    field_148 = 0;
-    field_14A = 0;
-    field_146 = 0;
-    field_150 = 0;
-    field_154 = 0;
+    field_14C_saved_sprite_scale = field_BC_sprite_scale;
+    field_144_saved_level = gMap_507BA8.field_0_current_level;
+    field_142_saved_path = -1;
+    field_148_clear_from_id = 0;
+    field_14A_clear_to_id = 0;
+    field_146_zone_number = 0;
+    field_150_saved_ring_timer = 0;
+    field_154_bSavedHaveShrykull = 0;
 
     field_2A8_flags.Raw().all = 0;
     field_2A8_flags.Set(Flags_2A8::e2A8_Bit8);
@@ -564,6 +584,67 @@ void Abe::Free_Shrykull_Resources_42F4C0()
     NOT_IMPLEMENTED();
 }
 
+void Abe::FreeElumRes_420F80()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::ToDeathDropFall_42C3D0()
+{
+    NOT_IMPLEMENTED();
+}
+
+BOOL Abe::IsStanding_41FC10()
+{
+    return field_FC_current_motion == eAbeStates::State_0_Idle_423520
+        || field_FC_current_motion == eAbeStates::State_1_WalkLoop_423F90
+        || field_FC_current_motion == eAbeStates::State_27_RunSlideStop_425B60
+        || field_FC_current_motion == eAbeStates::State_28_RunTurn_425CE0
+        || field_FC_current_motion == eAbeStates::State_35_RunLoop_425060
+        || field_FC_current_motion == eAbeStates::State_2_StandingTurn_426040
+        || field_FC_current_motion == eAbeStates::State_36_DunnoBegin_423260
+        || field_FC_current_motion == eAbeStates::State_37_DunnoMid_4232C0
+        || field_FC_current_motion == eAbeStates::State_38_DunnoEnd_423310
+        || field_FC_current_motion == eAbeStates::State_4_WalkToIdle_4243C0
+        || field_FC_current_motion == eAbeStates::State_5_MidWalkToIdle_424490
+        || field_FC_current_motion == eAbeStates::State_6_WalkBegin_424300
+        || field_FC_current_motion == eAbeStates::State_41_StandingToRun_425530
+        || field_FC_current_motion == eAbeStates::State_42_SneakLoop_424BB0
+        || field_FC_current_motion == eAbeStates::State_43_WalkToSneak_424790
+        || field_FC_current_motion == eAbeStates::State_44_SneakToWalk_4249A0
+        || field_FC_current_motion == eAbeStates::State_45_MidWalkToSneak_424890
+        || field_FC_current_motion == eAbeStates::State_46_MidSneakToWalk_424AA0
+        || field_FC_current_motion == eAbeStates::State_47_SneakBegin_424ED0
+        || field_FC_current_motion == eAbeStates::State_48_SneakToIdle_424F80
+        || field_FC_current_motion == eAbeStates::State_49_MidSneakToIdle_424FF0
+        || field_FC_current_motion == eAbeStates::State_50_WalkToRun_424560
+        || field_FC_current_motion == eAbeStates::State_51_MidWalkToRun_424670
+        || field_FC_current_motion == eAbeStates::State_52_RunToWalk_4255E0
+        || field_FC_current_motion == eAbeStates::State_53_MidRunToWalk_4256E0
+        || field_FC_current_motion == eAbeStates::State_54_RunTurnToRun_425EA0
+        || field_FC_current_motion == eAbeStates::State_55_RunTurnToWalk_425F70
+        || field_FC_current_motion == eAbeStates::State_58_ToSpeak_42F8D0
+        || field_FC_current_motion == eAbeStates::State_7_Speak_42F950
+        || field_FC_current_motion == eAbeStates::State_8_Speak_42F9D0
+        || field_FC_current_motion == eAbeStates::State_9_Speak_42FA50
+        || field_FC_current_motion == eAbeStates::State_10_Speak_42FAD0
+        || field_FC_current_motion == eAbeStates::State_11_Speak_42FB50
+        || field_FC_current_motion == eAbeStates::State_12_Speak_42FBD0
+        || field_FC_current_motion == eAbeStates::State_13_Speak_42FC50
+        || field_FC_current_motion == eAbeStates::State_14_Speak_42FCD0
+        || field_FC_current_motion == eAbeStates::State_101_LeverUse_429970
+        || field_FC_current_motion == eAbeStates::State_140_BeesStruggling_423F30
+        || field_FC_current_motion == eAbeStates::State_143_RockThrowStandingThrow_429FD0
+        || field_FC_current_motion == eAbeStates::State_142_RockThrowStandingHold_429CE0
+        || field_FC_current_motion == eAbeStates::State_144_RockThrowStandingEnd_429DE0
+        || field_FC_current_motion == eAbeStates::State_150_Chant_42FD50
+        || field_FC_current_motion == eAbeStates::State_151_ChantEnd_430530
+        || field_FC_current_motion == eAbeStates::State_159_423360
+        || field_FC_current_motion == eAbeStates::State_160_4233A0
+        || field_FC_current_motion == eAbeStates::State_161_4233E0
+        || field_FC_current_motion == eAbeStates::State_164_PoisonGasDeath_42A120;
+}
+
 void Abe::vScreenChanged_422640()
 {
     if (sControlledCharacter_50767C == this || 
@@ -606,6 +687,96 @@ void Abe::vScreenChanged_422640()
             // Remove Abe for menu/credits levels?
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
+    }
+}
+
+
+
+void Abe::VOn_Tlv_Collision_421130(Path_TLV *pTlv)
+{
+    while (pTlv)
+    {
+        if (pTlv->field_4_type == TlvTypes::ContinuePoint_0)
+        {
+            Path_ContinuePoint* pContinuePointTlv = static_cast<Path_ContinuePoint*>(pTlv);
+
+            if ((pContinuePointTlv->field_18_zone_number != field_146_zone_number ||
+                field_144_saved_level != gMap_507BA8.field_0_current_level) &&
+                !field_10A_flags.Get(Flags_10A::e10A_Bit5) &&
+                field_FC_current_motion != eAbeStates::State_156_DoorEnter_42D370)
+            {
+                field_146_zone_number = pContinuePointTlv->field_18_zone_number;
+                field_148_clear_from_id = pContinuePointTlv->field_1A_clear_from_id;
+                field_14A_clear_to_id = pContinuePointTlv->field_1C_clear_to_id;
+
+                field_138_zone_top_left = pContinuePointTlv->field_10_top_left;
+                field_13C_zone_bottom_right = pContinuePointTlv->field_14_bottom_right;
+
+                field_14C_saved_sprite_scale = field_BC_sprite_scale;
+
+                field_2A8_flags.Set(Flags_2A8::e2A8_eBit16_abe_spawn_dir, pContinuePointTlv->field_20_abe_direction & 1);
+
+                const auto bHaveShry = field_168_ring_pulse_timer - gnFrameCount_507670;
+                field_150_saved_ring_timer = bHaveShry < 0 ? 0 : bHaveShry;
+                field_154_bSavedHaveShrykull = field_16C_bHaveShrykull;
+
+                field_144_saved_level = gMap_507BA8.field_0_current_level;
+                field_142_saved_path = gMap_507BA8.field_2_current_path;
+                field_140_saved_camera = gMap_507BA8.field_4_current_camera;
+
+                if (gRestartRuptureFarmsSavedMuds_5076C8 == 0 &&
+                    gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13 &&
+                    gMap_507BA8.field_2_current_path == 19 &&
+                    gMap_507BA8.field_4_current_camera == 3)
+                {
+                    gRestartRuptureFarmsKilledMuds_5076C4 = sKilledMudokons_5076BC;
+                    gRestartRuptureFarmsSavedMuds_5076C8 = sRescuedMudokons_5076C0;
+                }
+                gOldKilledMuds_5076D0 = sKilledMudokons_5076BC;
+                gOldSavedMuds_5076D4 = sRescuedMudokons_5076C0;
+
+                Demo::Save_459490(gSaveBuffer_505668);
+
+                const FP camXPos = FP_NoFractional(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
+
+                FP indicator_xpos = {};
+                if (field_A8_xpos - camXPos >= FP_FromInteger(384 / 2)) // mid screen x
+                {
+                    indicator_xpos = field_A8_xpos - ScaleToGridSize_41FA30(field_BC_sprite_scale);
+                }
+                else
+                {
+                    indicator_xpos = ScaleToGridSize_41FA30(field_BC_sprite_scale) + field_A8_xpos;
+                }
+                const FP indicator_ypos = field_AC_ypos + (field_BC_sprite_scale * FP_FromInteger(-50));
+
+                auto pCheckpointIndicator = ao_new<ThrowableTotalIndicator>();
+                if (pCheckpointIndicator)
+                {
+                    pCheckpointIndicator->ctor_41B520(indicator_xpos, indicator_ypos, field_10_anim.field_C_layer,
+                        field_10_anim.field_14_scale, 11, 1);
+                }
+            }
+        }
+        else if (pTlv->field_4_type == TlvTypes::DeathDrop_5)
+        {
+            Abe_SFX_42A4D0(17u, 0, 0, this);
+
+            Event_Broadcast_417220(kEvent_0, this);
+            Event_Broadcast_417220(kEvent_10, this);
+            Event_Broadcast_417220(kEvent_14, this);
+            Event_Broadcast_417220(kEvent_1, this);
+
+            if (!field_1A4_resources.res[0] && sControlledCharacter_50767C != this)
+            {
+                sControlledCharacter_50767C = sActiveHero_507678;
+                FreeElumRes_420F80();
+            }
+            ToDeathDropFall_42C3D0();
+        }
+
+        // To next TLV
+        pTlv = gMap_507BA8.TLV_Get_At_446060(pTlv, field_A8_xpos, field_AC_ypos, field_A8_xpos, field_AC_ypos);
     }
 }
 

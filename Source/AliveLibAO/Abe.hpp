@@ -3,6 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "stdafx_ao.h"
 #include "BaseAliveGameObject.hpp"
+#include "Map.hpp"
 
 START_NS_AO;
 
@@ -202,7 +203,20 @@ enum Flags_2A8
     e2A8_Bit12 = 0x800,
     e2A8_eBit13 = 0x1000,
     e2A8_eBit14 = 0x2000,
+    e2A8_eBit15 = 0x4000,
+    e2A8_eBit16_abe_spawn_dir = 0x8000,
 };
+
+struct Path_ContinuePoint : public Path_TLV
+{
+    __int16 field_18_zone_number;
+    __int16 field_1A_clear_from_id;
+    __int16 field_1C_clear_to_id;
+    __int16 field_1E_elum_restarts;
+    __int16 field_20_abe_direction;
+    __int16 field_22_pad;
+};
+ALIVE_ASSERT_SIZEOF(Path_ContinuePoint, 0x24);
 
 struct AbeResources
 {
@@ -221,13 +235,25 @@ public:
     virtual void VRender(int** pOrderingTable) override;
     virtual void VScreenChanged() override;
 
+    virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
+
     // Virtual impls
     EXPORT BaseGameObject* vdtor_422A70(signed int flags);
     EXPORT void vUpdate_41FDB0();
     EXPORT void vRender_420F30(int** pOrderingTable);
     EXPORT void vScreenChanged_422640();
 
+    EXPORT void VOn_Tlv_Collision_421130(Path_TLV *pTlv);
+
+
+    // Non virtuals
     EXPORT void Free_Shrykull_Resources_42F4C0();
+
+    EXPORT void FreeElumRes_420F80();
+
+    EXPORT void ToDeathDropFall_42C3D0();
+
+    EXPORT BOOL IsStanding_41FC10();
 
     // States
     EXPORT void State_0_Idle_423520();
@@ -411,19 +437,17 @@ public:
     __int16 field_130_say;
     __int16 field_132;
     int field_134_auto_say_timer;
-    __int16 field_138;
-    __int16 field_13A;
-    __int16 field_13C;
-    __int16 field_13E;
-    __int16 field_140;
-    __int16 field_142;
-    LevelIds field_144;
-    __int16 field_146;
-    __int16 field_148;
-    __int16 field_14A;
-    FP field_14C;
-    int field_150;
-    __int16 field_154;
+    PSX_Point field_138_zone_top_left;
+    PSX_Point field_13C_zone_bottom_right;
+    __int16 field_140_saved_camera;
+    __int16 field_142_saved_path;
+    LevelIds field_144_saved_level;
+    __int16 field_146_zone_number;
+    __int16 field_148_clear_from_id;
+    __int16 field_14A_clear_to_id;
+    FP field_14C_saved_sprite_scale;
+    int field_150_saved_ring_timer; // todo: check
+    __int16 field_154_bSavedHaveShrykull;
     __int16 field_156;
     DeathFadeOut* field_158_pDeathFadeout;
     BaseGameObject* field_15C_pUnknown; // TODO: Figure out derived type
