@@ -257,6 +257,7 @@ public:
 
     EXPORT void FollowLift_42EE90();
 
+    EXPORT void ExitShrykull_42F440(__int16 bResetRingTimer);
     // States
     EXPORT void State_0_Idle_423520();
     EXPORT void State_1_WalkLoop_423F90();

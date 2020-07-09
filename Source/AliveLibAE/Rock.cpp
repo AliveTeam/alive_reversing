@@ -568,7 +568,7 @@ RockSack* RockSack::ctor_49F100(Path_RockSack* pTlv, int tlvInfo)
     
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kP2c2bagResID);
 
-    //Set RockSack idle anim speed
+    //  Set RockSack idle anim speed
     auto pAnimationHeader = reinterpret_cast<AnimationHeader*>(*ppRes + 29748);
     pAnimationHeader->field_0_fps = 0;
 
@@ -738,7 +738,7 @@ void RockSack::vUpdate_49F3A0()
             SFX_Play_46FA90(SoundEffect::SackHit_25, 0);
             Abe_SFX_2_457A40(7, 0, 0x7FFF, 0);
 
-            if (sActiveHero_5C1B68->field_106_current_motion == 31)
+            if (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_31_RunJumpMid_452C10)
             {
                 field_20_animation.Set_Animation_Data_409C80(29700, nullptr);
             }

@@ -49,6 +49,9 @@ enum class Types : __int16
 
     eDeathBird_38 = 38,
 
+    eGrenade_40 = 40,
+
+    eBackgroundGlukkon_42 = 42,
     eAbe_43 = 43,
 
     eHoneySack_45 = 45,
@@ -57,6 +60,7 @@ enum class Types : __int16
     eClaw_48 = 48,
 
     SecurityOrb_53 = 53,
+    eMeat_54 = 54,
 
     eMeatStack_55 = 55,
 
@@ -67,6 +71,8 @@ enum class Types : __int16
 
     e69 = 69,
 
+    eRock_70 = 70,
+    eRockSack_71 = 71,
     eRollingBall_72 = 72,
     eRope_73 = 73,
     eExplosion_74 = 74,

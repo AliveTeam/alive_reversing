@@ -1,6 +1,12 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   Throwable.hpp
+   Throwable.cpp
+   Rock.hpp
+   Rock.cpp
+   BackgroundGlukkon.hpp
+   BackgroundGlukkon.cpp
    ThrowableTotalIndicator.hpp
    ThrowableTotalIndicator.cpp
    CircularFade.hpp
