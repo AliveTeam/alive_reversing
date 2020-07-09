@@ -16,6 +16,7 @@
 #include "Events.hpp"
 #include "MotionDetector.hpp"
 #include "Function.hpp"
+#include "Bullet.hpp"
 
 EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, int tlvInfo)
 {
@@ -452,7 +453,47 @@ EXPORT signed __int16 Greeter::vTakeDamage_447C20(BaseGameObject* pFrom)
 
     switch (pFrom->field_4_typeId)
     {
+    case Types::eBullet_15:
+        if (static_cast<Bullet*>(pFrom)->field_30 <= FP_FromInteger(0))
+        {
+            field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+        }
+        else
+        {
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+        }
+
+        if (++field_12C <= 10)
+        {
+            BounceBackFromShot_447B10();
+        }
+        else
+        {
+            BlowUp_447E50();
+        }
+        return 1;
+
     case Types::eGrinder_30:
+    case Types::eElectricWall_39:
+        if (static_cast<BaseAnimatedWithPhysicsGameObject*>(pFrom)->field_20_animation.field_10_frame_delay <= 0)
+        {
+            field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+        }
+        else
+        {
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+        }
+
+        if (++field_12C <= 10)
+        {
+            BounceBackFromShot_447B10();
+        }
+        else
+        {
+            BlowUp_447E50();
+        }
+        return 1;
+
     case Types::eBaseBomb_46:
     case Types::eRockSpawner_48:
     case Types::eType_86:
@@ -472,25 +513,6 @@ EXPORT signed __int16 Greeter::vTakeDamage_447C20(BaseGameObject* pFrom)
         return 1;
 
     default:
-        // Seems that this can be eElectricWall_39 - maybe others ??
-        LOG_WARNING("This might be wrong - greeter default damage case, can this only be a slig ?? type is " << static_cast<int>(pFrom->field_4_typeId));
-        if (static_cast<BaseAnimatedWithPhysicsGameObject*>(pFrom)->field_20_animation.field_10_frame_delay <= 0)
-        {
-            field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
-        }
-        else
-        {
-            field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
-        }
-
-        if (++field_12C <= 10)
-        {
-            BounceBackFromShot_447B10();
-        }
-        else
-        {
-            BlowUp_447E50();
-        }
         return 1;
     }
 }
