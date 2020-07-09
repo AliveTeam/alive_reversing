@@ -511,6 +511,9 @@ EXPORT signed __int16 Greeter::vTakeDamage_447C20(BaseGameObject* pFrom)
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         BlowUp_447E50();
         return 1;
+
+    default:
+        return 1;
     }
 }
 
