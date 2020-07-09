@@ -511,27 +511,6 @@ EXPORT signed __int16 Greeter::vTakeDamage_447C20(BaseGameObject* pFrom)
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         BlowUp_447E50();
         return 1;
-
-    default:
-        LOG_WARNING("This might be wrong - greeter default damage case, type is " << static_cast<int>(pFrom->field_4_typeId));
-        if (static_cast<BaseAnimatedWithPhysicsGameObject*>(pFrom)->field_20_animation.field_10_frame_delay <= 0)
-        {
-            field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
-        }
-        else
-        {
-            field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
-        }
-
-        if (++field_12C <= 10)
-        {
-            BounceBackFromShot_447B10();
-        }
-        else
-        {
-            BlowUp_447E50();
-        }
-        return 1;
     }
 }
 
