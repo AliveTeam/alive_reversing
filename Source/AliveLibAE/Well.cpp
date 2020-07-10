@@ -13,8 +13,9 @@ ALIVE_VAR(1, 0x563aa0, DWORD, sWellRndSeed_563AA0, 4);
 Well* Well::ctor_4E2BE0(Path_Well_Base* pTlv, FP xpos, FP ypos, int tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
-    field_20_tlvInfo = tlvInfo;
     SetVTable(this, 0x547FE8); // vTbl_ExpressWell_547FE8
+
+    field_20_tlvInfo = tlvInfo;
     field_4_typeId = Types::eWell_147;
 
     if (pTlv->field_4_type == TlvTypes::LocalWell_8)

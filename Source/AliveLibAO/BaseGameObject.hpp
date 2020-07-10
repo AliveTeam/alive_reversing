@@ -22,7 +22,6 @@ enum class Types : __int16
     eTimedMine_8 = 8,
 
     eBullet_10 = 10,
-
     eDDCheat_12 = 12,
     eBells_13 = 13,
     eChimeLock_14 = 14,
@@ -95,6 +94,8 @@ enum class Types : __int16
     eBeeSwarm_95 = 95,
     eBeeNest_96 = 96,
     eLever_97 = 97,
+
+    eWell_101 = 101,
 
     eElectrocute_103 = 103,
 };

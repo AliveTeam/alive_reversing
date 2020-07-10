@@ -43,6 +43,7 @@
 #include "SecurityDoor.hpp"
 #include "BackgroundGlukkon.hpp"
 #include "Rock.hpp"
+#include "Well.hpp"
 
 START_NS_AO
 
@@ -169,9 +170,29 @@ EXPORT void Factory_Null_483D90(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUn
 }
 
 
-EXPORT void Factory_WellExpress_483340(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_WellExpress_483340(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        ResourceManager::LoadResource_446C90("ABEWELL.BAN", ResourceManager::Resource_Animation, 47, loadMode);
+        ResourceManager::LoadResource_446C90("WELLLEAF.BAN", ResourceManager::Resource_Animation, 341, loadMode);
+    }
+    else
+    {
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 47, 0, 0) &&
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 341, 0, 0))
+        {
+            const FP xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+            const FP ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+            auto pWell = ao_new<Well>();
+            if (pWell)
+            {
+                pWell->ctor_48AEE0(static_cast<Path_Well_Base*>(pTlv), xpos, ypos, tlvOffsetLevelIdPathId.all);
+                return;
+            }
+        }
+        gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+    }
 }
 
 
@@ -887,9 +908,9 @@ EXPORT void Factory_Null_487080(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUn
 }
 
 
-EXPORT void Factory_Well_4834A0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_Well_4834A0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    Factory_WellExpress_483340(pTlv, pMap, tlvOffsetLevelIdPathId, loadMode);
 }
 
 

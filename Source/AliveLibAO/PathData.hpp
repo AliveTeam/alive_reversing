@@ -31,10 +31,14 @@ enum TlvTypes
     ContinuePoint_0 = 0,
     PathTransition_1 = 1,
 
+    LocalWell_11 = 11,
+
     DeathDrop_5 = 5,
     Door_6 = 6,
 
     HoneyDripTarget_42 = 42,
+
+    WellExpress_45 = 45,
 
     Slig_66 = 66,
 };

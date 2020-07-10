@@ -18,6 +18,8 @@
 #include "Events.hpp"
 #include "DDCheat.hpp"
 #include "LiftPoint.hpp"
+#include "Well.hpp"
+#include "Input.hpp"
 
 START_NS_AO;
 
@@ -210,6 +212,8 @@ const TAbeStateFunction sAbeStateMachineTable_4C5F08[] =
     &Abe::State_163_ShrykullEnd_42F520,
     &Abe::State_164_PoisonGasDeath_42A120
 };
+
+const InputCommands sInputKey_Up_4C6598 = eUp;
 
 ALIVE_VAR(1, 0x507678, Abe*, sActiveHero_507678, nullptr);
 ALIVE_VAR(1, 0x50767C, BaseAliveGameObject*, sControlledCharacter_50767C, nullptr);
@@ -674,6 +678,52 @@ void Abe::ExitShrykull_42F440(__int16 bResetRingTimer)
     {
         field_168_ring_pulse_timer = 0;
     }
+}
+
+__int16 Abe::RunTryEnterWell_425880()
+{
+    if (!sInputObject_5009E8.isPressed(sInputKey_Up_4C6598) ||
+        field_10_anim.field_92_current_frame < 4)
+    {
+        return 0;
+    }
+
+    auto pWellLocal = static_cast<Path_Well_Local*>(gMap_507BA8.TLV_Get_At_446260(
+        FP_GetExponent(field_A8_xpos),
+        FP_GetExponent(field_AC_ypos),
+        FP_GetExponent(field_A8_xpos),
+        FP_GetExponent(field_AC_ypos),
+        TlvTypes::LocalWell_11));
+    if (pWellLocal)
+    {
+        if (pWellLocal->field_18_scale == 0 && field_BC_sprite_scale == FP_FromInteger(1) ||
+            pWellLocal->field_18_scale == 1 && field_BC_sprite_scale == FP_FromDouble(0.5))
+        {
+            field_2A8_flags.Clear(Flags_2A8::e2A8_Bit4_Fall_To_Well);
+            field_F0_pTlv = pWellLocal;
+            field_FC_current_motion = eAbeStates::State_77_WellBegin_430F10;
+            return 1;
+        }
+    }
+
+    auto pWellExpress = static_cast<Path_Well_Express*>(gMap_507BA8.TLV_Get_At_446260(
+        FP_GetExponent(field_A8_xpos),
+        FP_GetExponent(field_AC_ypos),
+        FP_GetExponent(field_A8_xpos),
+        FP_GetExponent(field_AC_ypos),
+        TlvTypes::WellExpress_45));
+    if (pWellExpress)
+    {
+        if (pWellExpress->field_18_scale == 0 && field_BC_sprite_scale == FP_FromInteger(1) ||
+            pWellExpress->field_18_scale == 1 && field_BC_sprite_scale == FP_FromDouble(0.5))
+        {
+            field_2A8_flags.Clear(Flags_2A8::e2A8_Bit4_Fall_To_Well);
+            field_F0_pTlv = pWellExpress;
+            field_FC_current_motion = eAbeStates::State_80_430EF0;
+        }
+    }
+
+    return 0;
 }
 
 void Abe::vScreenChanged_422640()
@@ -1183,17 +1233,28 @@ void Abe::State_73_RollingKnockback_4291D0()
 
 void Abe::State_74_JumpIntoWell_430EC0()
 {
-    NOT_IMPLEMENTED();
+    field_D0_pShadow->field_14_flags.Clear(Shadow::Flags::eBit2_Enabled);
+
+    if (field_BC_sprite_scale == FP_FromDouble(0.5))
+    {
+        field_10_anim.field_C_layer = 3;
+    }
+    else
+    {
+        field_10_anim.field_C_layer = 22;
+    }
+
+    State_77_WellBegin_430F10();
 }
 
 void Abe::State_75_ToInsideOfAWellLocal_431090()
 {
-    NOT_IMPLEMENTED();
+    State_78_InsideWellLocal_4310A0();
 }
 
 void Abe::State_76_ToWellShotOut_431720()
 {
-    NOT_IMPLEMENTED();
+    State_79_WellShotOut_431730();
 }
 
 void Abe::State_77_WellBegin_430F10()

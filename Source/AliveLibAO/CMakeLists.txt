@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   Well.hpp
+   Well.cpp
    Throwable.hpp
    Throwable.cpp
    Rock.hpp

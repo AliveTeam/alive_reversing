@@ -5,8 +5,6 @@
 
 START_NS_AO
 
-ALIVE_VAR(1, 0x4D148C, BYTE, sLeafRandIdx_4D148C, 8);
-
 class Leaf : public BaseAnimatedWithPhysicsGameObject
 {
 public:
