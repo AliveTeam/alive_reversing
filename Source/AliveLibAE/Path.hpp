@@ -297,7 +297,7 @@ struct Path_Well_Local : public Path_Well_Base
     __int16 field_20_emit_leaves;
     __int16 field_22_leaf_x;
     __int16 field_24_leaf_y;
-    __int16 field_26;
+    __int16 field_26_pad;
 };
 // TODO: Size
 

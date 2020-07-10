@@ -31,6 +31,8 @@ enum TlvTypes
     ContinuePoint_0 = 0,
     PathTransition_1 = 1,
 
+    LocalWell_11 = 11,
+
     DeathDrop_5 = 5,
     Door_6 = 6,
 
