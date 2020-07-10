@@ -192,7 +192,7 @@ enum Flags_2A8
     e2A8_Bit1 = 0x1,
     e2A8_Bit2 = 0x2,
     e2A8_Bit3_Fall_To_Well = 0x4, //todo verify
-    e2A8_Bit4 = 0x8,
+    e2A8_Bit4_Fall_To_Well = 0x8,
     e2A8_Bit5 = 0x10,
     e2A8_Bit6_bShrivel = 0x20,
     e2A8_Bit7 = 0x40,
@@ -258,6 +258,9 @@ public:
     EXPORT void FollowLift_42EE90();
 
     EXPORT void ExitShrykull_42F440(__int16 bResetRingTimer);
+
+    EXPORT __int16 RunTryEnterWell_425880();
+
     // States
     EXPORT void State_0_Idle_423520();
     EXPORT void State_1_WalkLoop_423F90();

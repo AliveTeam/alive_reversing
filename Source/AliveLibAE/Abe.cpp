@@ -9047,14 +9047,14 @@ __int16 Abe::RunTryEnterDoor_451220()
 
 __int16 Abe::RunTryEnterWell_451060()
 {
-    if (!(sInputKey_Up_5550D8 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed) ||
+    if (!sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8) ||
         field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted) ||
         field_20_animation.field_92_current_frame < 4)
     {
         return 0;
     }
 
-    Path_Well_Local* pWellLocal = static_cast<Path_Well_Local*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+    auto pWellLocal = static_cast<Path_Well_Local*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
         FP_GetExponent(field_B8_xpos),
         FP_GetExponent(field_BC_ypos),
         FP_GetExponent(field_B8_xpos),
@@ -9075,7 +9075,7 @@ __int16 Abe::RunTryEnterWell_451060()
         }
     }
 
-    Path_Well_Express* pWellExpress = static_cast<Path_Well_Express*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+    auto pWellExpress = static_cast<Path_Well_Express*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
         FP_GetExponent(field_B8_xpos),
         FP_GetExponent(field_BC_ypos),
         FP_GetExponent(field_B8_xpos),

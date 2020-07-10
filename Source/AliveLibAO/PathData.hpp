@@ -38,6 +38,8 @@ enum TlvTypes
 
     HoneyDripTarget_42 = 42,
 
+    WellExpress_45 = 45,
+
     Slig_66 = 66,
 };
 

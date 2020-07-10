@@ -561,7 +561,6 @@ EXPORT int CC PSX_ClearImage_496020(const PSX_RECT* /*pRect*/, __int16 /*r*/, un
 ALIVE_VAR(1, 0x507698, short, gAttract_507698, 0);
 ALIVE_VAR(1, 0x507B0C, int, gTimeOut_NotUsed_507B0C, 0);
 ALIVE_VAR(1, 0x507B10, int, gFileOffset_NotUsed_507B10, 0);
-ALIVE_VAR(1, 0x5009E8, InputObject, sInputObject_5009E8, {});
 
 class BaseAliveGameObject;
 
