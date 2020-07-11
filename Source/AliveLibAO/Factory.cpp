@@ -44,6 +44,7 @@
 #include "BackgroundGlukkon.hpp"
 #include "Rock.hpp"
 #include "Well.hpp"
+#include "SlogHut.hpp"
 
 START_NS_AO
 
@@ -1824,9 +1825,16 @@ EXPORT void Factory_GasEmitter_484110(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItem
 }
 
 
-EXPORT void Factory_SlogHut_487C80(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_SlogHut_487C80(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode != 1 && loadMode != 2)
+    {
+        auto pSlogHut = ao_new<SlogHut>();
+        if (pSlogHut)
+        {
+            pSlogHut->ctor_472C80(static_cast<Path_SlogHut*>(pTlv), tlvOffsetLevelIdPathId.all);
+        }
+    }
 }
 
 
