@@ -10,7 +10,7 @@ struct Path_TrapDoor : public Path_TLV
     __int16 field_12_start_state;
     __int16 field_14_self_closing;
     __int16 field_16_scale;
-    __int16 field_18_des_level;
+    __int16 field_18_dest_level;
     __int16 field_1A_direction;
     __int16 field_1C_anim_offset;
     __int16 field_1E_stay_open_time;

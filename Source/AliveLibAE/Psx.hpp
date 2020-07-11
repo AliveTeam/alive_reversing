@@ -55,14 +55,6 @@ EXPORT int CC PSX_CD_OpenFile_4FAE80(const char* pFileName, int bTryAllPaths);
 
 EXPORT void CC sub_4945B0();
 
-struct CdlLOC
-{
-    unsigned __int8 field_0_minute;
-    unsigned __int8 field_1_second;
-    unsigned __int8 field_2_sector;
-    char field_3_track;
-};
-ALIVE_ASSERT_SIZEOF(CdlLOC, 0x4);
 
 EXPORT CdlLOC* CC PSX_Pos_To_CdLoc_4FADD0(int pos, CdlLOC* pLoc);
 EXPORT int CC PSX_CdLoc_To_Pos_4FAE40(const CdlLOC* pLoc);
