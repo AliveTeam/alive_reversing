@@ -132,6 +132,12 @@ EXPORT void Animation::LoadPal_403090(BYTE** /*pPalData*/, int /*palOffset*/)
     NOT_IMPLEMENTED();
 }
 
+
+EXPORT void Animation::Get_Frame_Rect_402B50(PSX_RECT* /*pRect*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 void AnimationUnknown::vCleanUp()
 {
     // Empty @ 404280

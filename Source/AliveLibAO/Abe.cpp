@@ -11,7 +11,7 @@
 #include "CircularFade.hpp"
 #include "DeathFadeOut.hpp"
 //#include "Grenade.hpp"
-//#include "OrbWhirlWind.hpp"
+#include "OrbWhirlWind.hpp"
 #include "PullRingRope.hpp"
 #include "ScreenManager.hpp"
 #include "ThrowableTotalIndicator.hpp"

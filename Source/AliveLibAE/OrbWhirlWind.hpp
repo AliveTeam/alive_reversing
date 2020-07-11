@@ -4,16 +4,16 @@
 #include "FixedPoint.hpp"
 #include "OrbWhirlWindParticle.hpp"
 
-enum class ParticlesState: __int16
-{
-    eCreating = 0,
-    eCreated = 1,
-    eActive = 2
-};
-
 class OrbWhirlWind : public BaseGameObject
 {
 public:
+    enum class ParticlesState : __int16
+    {
+        eCreating = 0,
+        eCreated = 1,
+        eActive = 2
+    };
+
     EXPORT OrbWhirlWind* ctor_4E3C90(FP xpos, FP ypos, FP scale, __int16 bIsMudokonSpirit);
     EXPORT void ToSpin_4E3FD0(FP xpos, FP ypos, FP scale, BaseGameObject* pObj);
     EXPORT void ToStop_4E4050();

@@ -1,33 +1,39 @@
 #pragma once
 
-#include "Animation.hpp"
+#include "FunctionFwd.hpp"
 #include "Animation.hpp"
 #include "FixedPoint.hpp"
 
-class BaseGameObject;
+START_NS_AO
+
+class BaseAliveGameObject;
 
 class OrbWhirlWindParticle
 {
 public:
-    EXPORT OrbWhirlWindParticle* ctor_4E40C0(FP xpos, FP ypos, FP scale, __int16 bIsMudokonSpirit);
-    EXPORT int IsActive_4E4370();
-    EXPORT void Spin_4E4A10(FP xpos, FP ypos, FP scale, BaseGameObject* pObj);
-    EXPORT void ToStop_4E4AD0();
-    
+    EXPORT OrbWhirlWindParticle* ctor_48BC10(FP xpos, FP ypos, FP scale);
+
     // WARNING: Not a derived type - keep virtuals in order for BC
-    EXPORT virtual OrbWhirlWindParticle* vdtor_4E42D0(char flags);
-    EXPORT virtual void VUpdate_4E4510();
-    EXPORT virtual void VRender_4E4B10(int** ppOt);
+    virtual EXPORT OrbWhirlWindParticle* Vdtor_48C510(signed int flags);
 
-private:
-    EXPORT void dtor_4E4300();
-    EXPORT void CalculateRenderProperties_4E4390(__int16 bStarted);
-    EXPORT void SetActive_4E4340(unsigned __int8 active);
+    virtual EXPORT void VUpdate_48BF00();
 
-private:
-    __int16 field_4_flags;
-    __int16 field_6_padding;
-    Animation field_8_Anim;
+    EXPORT void SetActive(unsigned __int8 active);
+
+    virtual EXPORT void VRender_48C430(int** ppOt);
+
+    // NOTE: inlined
+    int IsActive();
+
+    // NOTE: inlined
+    void ToStop();
+
+    EXPORT void sub_48BDC0(__int16 a2);
+
+    void Spin(FP xpos, FP ypos, BaseAliveGameObject* pObj);
+
+    int field_4_flags;
+    Animation field_8_anim;
     FP field_A0_xpos_render_offset;
     FP field_A4_ypos_render_offset;
     FP field_A8_render_as_scale;
@@ -42,31 +48,31 @@ private:
         State_3_SpinAtTarget = 3,
         State_4_Stop = 4,
     };
-
     State field_B4_state;
 
     __int16 field_B6_unused;
     int field_B8_render_angle;
     __int16 field_BC_counter;
     __int16 field_BE_max;
-    FP field_C0_current_scale;
+    FP field_C0_scale;
     FP field_C4_randomized_scale;
     FP field_C8_scale_offset_fly_to_target;
     FP field_CC_xpos_mid;
     FP field_D0_ypos_mid;
     FP field_D4_radiusX;
-    FP field_D8_radiusY;
+    FP field_D8_radiosY;
     int field_DC_position_timer;
     FP field_E0_yMove;
-    BaseGameObject* field_E4_pObj;
+    BaseAliveGameObject* field_E4_pObj;
     FP field_E8_xpos;
     FP field_EC_ypos;
     FP field_F0_scale;
     FP field_F4_xpos_offset;
     FP field_F8_ypos_offset;
     FP field_FC_xpos_offset2;
-    FP field_100_ypos_offset2;
-    FP field_104_scale_offset_spin_at_target;
-    BYTE** field_108_res;
+    FP field_100;
 };
-ALIVE_ASSERT_SIZEOF(OrbWhirlWindParticle, 0x10C);
+ALIVE_ASSERT_SIZEOF(OrbWhirlWindParticle, 0x104);
+
+END_NS_AO
+

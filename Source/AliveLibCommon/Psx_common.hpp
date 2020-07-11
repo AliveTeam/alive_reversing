@@ -2,6 +2,15 @@
 
 #include "FunctionFwd.hpp"
 
+struct CdlLOC
+{
+    unsigned __int8 field_0_minute;
+    unsigned __int8 field_1_second;
+    unsigned __int8 field_2_sector;
+    char field_3_track;
+};
+ALIVE_ASSERT_SIZEOF(CdlLOC, 0x4);
+
 struct PSX_RECT
 {
     short x, y, w, h;

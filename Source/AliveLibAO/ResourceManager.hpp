@@ -2,6 +2,7 @@
 
 #include "BaseGameObject.hpp"
 #include "FunctionFwd.hpp"
+#include "Psx.hpp"
 
 START_NS_AO
 
@@ -70,8 +71,7 @@ public:
         int field_20;
         int field_24;
         __int16 field_28_state;
-        __int16 field_2A;
-        int field_2C;
+        CdlLOC field_2A;
     };
     ALIVE_ASSERT_SIZEOF(ResourceManager_FileRecord, 0x30);
 

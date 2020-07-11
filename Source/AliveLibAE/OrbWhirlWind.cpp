@@ -91,30 +91,7 @@ void OrbWhirlWind::vRender_4E3F80(int** ppOt)
 
 void OrbWhirlWind::vUpdate_4E3E20()
 {
-    if (field_24_particles_state > ParticlesState::eCreating) // Not normally how this would be written, but it's to preserve behaviour.
-    {
-        if (field_24_particles_state == ParticlesState::eActive)
-        {
-            bool hasInactiveParticles = false;
-            for (int i = 0; i < field_28_particleIdx; i++)
-            {
-                if (field_2C_particles[i])
-                {
-                    if (!field_2C_particles[i]->IsActive_4E4370())
-                    {
-                        hasInactiveParticles = true;
-                        break;
-                    }
-                }
-            }
-
-            if (!hasInactiveParticles)
-            {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
-            }
-        }
-    }
-    else
+    if (field_24_particles_state == ParticlesState::eCreating)
     {
         if (!(field_20_particle_spawn_counter % 4))
         {
@@ -137,6 +114,26 @@ void OrbWhirlWind::vUpdate_4E3E20()
         }
 
         ++field_20_particle_spawn_counter;
+    }
+    else if (field_24_particles_state == ParticlesState::eActive)
+    {
+        bool hasInactiveParticles = false;
+        for (int i = 0; i < field_28_particleIdx; i++)
+        {
+            if (field_2C_particles[i])
+            {
+                if (!field_2C_particles[i]->IsActive_4E4370())
+                {
+                    hasInactiveParticles = true;
+                    break;
+                }
+            }
+        }
+
+        if (!hasInactiveParticles)
+        {
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        }
     }
 
     for (int i = 0; i < field_28_particleIdx; i++)

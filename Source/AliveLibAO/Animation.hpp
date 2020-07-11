@@ -215,6 +215,8 @@ public:
 
     EXPORT void LoadPal_403090(BYTE** pPalData, int palOffset);
 
+    EXPORT void Get_Frame_Rect_402B50(PSX_RECT* pRect);
+
     int field_10_frame_delay;
     FP field_14_scale;
     int field_18_frame_table_offset;
