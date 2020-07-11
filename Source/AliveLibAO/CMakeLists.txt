@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   BirdPortal.hpp
+   BirdPortal.cpp
    SlogHut.hpp
    SlogHut.cpp
    OrbWhirlWindParticle.hpp
