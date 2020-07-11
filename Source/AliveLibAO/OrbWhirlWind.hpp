@@ -12,6 +12,13 @@ class BaseAliveGameObject;
 class OrbWhirlWind : public BaseGameObject
 {
 public:
+    enum class ParticlesState : __int16
+    {
+        eCreating = 0,
+        eCreated = 1,
+        eActive = 2
+    };
+
     EXPORT OrbWhirlWind* ctor_48B870(FP xpos, FP ypos, FP scale);
 
     EXPORT BaseGameObject* dtor_48B910();
@@ -33,8 +40,8 @@ public:
 
     EXPORT void ToStop_48BBB0();
 
-    int field_10;
-    __int16 field_14;
+    int field_10_particle_spawn_counter;
+    ParticlesState field_14_particles_state;
     __int16 field_16_particleIdx;
     OrbWhirlWindParticle* field_18_particles[16];
     FP field_58_xpos_mid;

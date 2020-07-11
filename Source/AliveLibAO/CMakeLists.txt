@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   OrbWhirlWindParticle.hpp
+   OrbWhirlWindParticle.cpp
    OrbWhirlWind.hpp
    OrbWhirlWind.cpp
    Well.hpp
