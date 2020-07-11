@@ -34,6 +34,7 @@ enum class Types : __int16
     eGameSpeak_24 = 24,
     eElectricWall_25 = 25,
 
+    e26 = 26,
     eBellHammer_27 = 27,
 
     ePalOverwriter_29 = 29,
@@ -58,6 +59,7 @@ enum class Types : __int16
     eHoney_47 = 47,
     eClaw_48 = 48,
 
+    e52 = 52,
     SecurityOrb_53 = 53,
     eMeat_54 = 54,
 
@@ -65,6 +67,11 @@ enum class Types : __int16
 
     eRollingBallStopperShaker_58 = 58,
     eRollingBallStopper_60 = 60,
+
+    e62 = 62,
+
+    eBirdPortal_65 = 65,
+    e66 = 66,
 
     ePullRingRope_68 = 68,
 
@@ -75,6 +82,8 @@ enum class Types : __int16
     eRollingBall_72 = 72,
     eRope_73 = 73,
     eExplosion_74 = 74,
+
+    e77 = 77,
 
     eScreenClipper_78 = 78,
     eEffectBase_79 = 79,

@@ -22,4 +22,10 @@ int CC SFX_Play_43ADE0(unsigned __int8 /*sfxId*/, int /*leftVol*/, int /*rightVo
     return 0;
 }
 
+int CC SFX_Play_43AED0(unsigned __int8 /*sfxId*/, signed int /*volume*/, CameraPos /*direction*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 END_NS_AO

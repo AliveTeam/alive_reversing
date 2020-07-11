@@ -1,6 +1,12 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   AbilityRing.hpp
+   AbilityRing.cpp
+   BirdPortal.hpp
+   BirdPortal.cpp
+   SlogHut.hpp
+   SlogHut.cpp
    OrbWhirlWindParticle.hpp
    OrbWhirlWindParticle.cpp
    OrbWhirlWind.hpp

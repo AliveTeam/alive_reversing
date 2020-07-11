@@ -40,6 +40,8 @@ enum TlvTypes
 
     WellExpress_45 = 45,
 
+    BirdPortalExit_53 = 53,
+
     Slig_66 = 66,
 };
 

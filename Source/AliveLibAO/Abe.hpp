@@ -261,6 +261,12 @@ public:
 
     EXPORT __int16 RunTryEnterWell_425880();
 
+    EXPORT void sub_430510(__int16 a2);
+
+    EXPORT static BaseAliveGameObject* CC FindObjectToPosses_421410();
+
+    EXPORT static void CC Get_Shrykull_Resources_42F480();
+
     // States
     EXPORT void State_0_Idle_423520();
     EXPORT void State_1_WalkLoop_423F90();
