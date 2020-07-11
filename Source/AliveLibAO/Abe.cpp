@@ -726,6 +726,51 @@ __int16 Abe::RunTryEnterWell_425880()
     return 0;
 }
 
+void Abe::sub_430510(__int16 a2)
+{
+    if (a2)
+    {
+        field_110_state = 6;
+    }
+    else
+    {
+        field_110_state = 0;
+    }
+}
+
+BaseAliveGameObject* CC Abe::FindObjectToPosses_421410()
+{
+    for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    {
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        {
+            if (pObj->field_10A_flags.Get(Flags_10A::e10A_Bit1_Can_Be_Possessed))
+            {
+                if (pObj->field_4_typeId == Types::eSlig_88 &&
+                    pObj->Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0 &&
+                    pObj->field_100_health > FP_FromInteger(0))
+                {
+                    return pObj;
+                }
+            }
+        }
+    }
+    return nullptr;
+}
+
+void CC Abe::Get_Shrykull_Resources_42F480()
+{
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 117, 1, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 121, 1, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 355, 1, 0);
+}
+
 void Abe::vScreenChanged_422640()
 {
     if (sControlledCharacter_50767C == this || 

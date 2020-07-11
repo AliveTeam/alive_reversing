@@ -45,6 +45,7 @@
 #include "Rock.hpp"
 #include "Well.hpp"
 #include "SlogHut.hpp"
+#include "BirdPortal.hpp"
 
 START_NS_AO
 
@@ -966,9 +967,78 @@ EXPORT void Factory_MovieStone_Null_487430(Path_TLV* /*pTlv*/, Map* /*pMap*/, Tl
 }
 
 
-EXPORT void Factory_BirdPortal_486710(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_BirdPortal_486710(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    auto pBirdPortalTlv = static_cast<Path_BirdPortal*>(pTlv);
+    if (loadMode == 1 || loadMode == 2)
+    {
+        static CompileTimeResourceList<3> kResources1 =
+        {
+            { ResourceManager::Resource_Animation, 313 },
+            { ResourceManager::Resource_Animation, 351 },
+            { ResourceManager::Resource_Animation, 353 }
+        };
+        ResourceManager::LoadResourcesFromList_446E80("PORTAL.BND", kResources1.AsList(), loadMode, 0);
+
+        if (pBirdPortalTlv->field_24_portal_type == PortalType::eShrykull_2)
+        {
+            static CompileTimeResourceList<2> kResources2 =
+            {
+                { ResourceManager::Resource_Animation, 117 },
+                { ResourceManager::Resource_Animation, 121 }
+            };
+            ResourceManager::LoadResourcesFromList_446E80("SHRYPORT.BND", kResources2.AsList(), loadMode, 0);
+            ResourceManager::LoadResource_446C90("SPLINE.BAN", ResourceManager::Resource_Animation, 355, loadMode);
+        }
+    }
+    else
+    {
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 313, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 60, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        if (pBirdPortalTlv->field_24_portal_type != PortalType::eShrykull_2)
+        {
+            auto pBirdPortal = ao_new<BirdPortal>();
+            if (pBirdPortal)
+            {
+                pBirdPortal->ctor_4520A0(pBirdPortalTlv, tlvOffsetLevelIdPathId.all);
+            }
+            return;
+        }
+
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 117, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 121, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 355, 0, 0))
+        {
+            auto pBirdPortal = ao_new<BirdPortal>();
+            if (pBirdPortal)
+            {
+                pBirdPortal->ctor_4520A0(pBirdPortalTlv, tlvOffsetLevelIdPathId.all);
+            }
+            return;
+        }
+
+        gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+    }
 }
 
 

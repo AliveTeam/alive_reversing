@@ -273,7 +273,7 @@ void BirdPortal::vUpdate_498280()
         }
         else
         {
-            VGiveShrukul_499680(0); // TODO: Check correct VCall
+            VGiveShrukul_499680(0);
             if (field_28_state != States::State_7)
             {
                 field_28_state = States::State_22;
@@ -341,7 +341,7 @@ void BirdPortal::vUpdate_498280()
         {
             sActiveHero_5C1B68->Get_Shrykull_Resources_45AA20();
             sActiveHero_5C1B68->field_168_ring_pulse_timer = sGnFrame_5C1B84 + 32000;
-            sActiveHero_5C1B68->field_16C_bHaveShrykull = 1;
+            sActiveHero_5C1B68->field_16C_bHaveShrykull = TRUE;
             sActiveHero_5C1B68->field_16E_bHaveInvisiblity = 0;
             field_28_state = States::State_10;
             if (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_112_Chant_45B1C0)
@@ -400,10 +400,10 @@ void BirdPortal::vUpdate_498280()
 
     case States::State_12:
     {
-        auto pFlash_1 = ae_new<Flash>();
-        if (pFlash_1)
+        auto pFlash = ae_new<Flash>();
+        if (pFlash)
         {
-            pFlash_1->ctor_428570(40, 255u, 255u, 255u, 1, 3u, 1);
+            pFlash->ctor_428570(40, 255u, 255u, 255u, 1, 3u, 1);
         }
         field_28_state = States::State_13;
     }
@@ -422,10 +422,10 @@ void BirdPortal::vUpdate_498280()
 
     case States::State_14:
     {
-        auto pFlash_2 = ae_new<Flash>();
-        if (pFlash_2)
+        auto pFlash = ae_new<Flash>();
+        if (pFlash)
         {
-            pFlash_2->ctor_428570(40, 255u, 255u, 255u, 0, 0, 1);
+            pFlash->ctor_428570(40, 255u, 255u, 255u, 0, 0, 1);
         }
         field_28_state = States::State_15;
         field_5C_timer = sGnFrame_5C1B84 + 5;

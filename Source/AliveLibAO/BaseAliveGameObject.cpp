@@ -22,7 +22,7 @@ BaseAliveGameObject *BaseAliveGameObject::ctor_401090()
     
     SetVTable(this, 0x4BA000);
 
-    field_10A_flags.Clear(Flags_10A::e10A_Bit1);
+    field_10A_flags.Clear(Flags_10A::e10A_Bit1_Can_Be_Possessed);
     field_10A_flags.Clear(Flags_10A::e10A_Bit2);
     field_10A_flags.Clear(Flags_10A::e10A_Bit3);
     field_10A_flags.Clear(Flags_10A::e10A_Bit4);
