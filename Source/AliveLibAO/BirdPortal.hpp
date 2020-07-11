@@ -80,6 +80,28 @@ public:
 
     EXPORT void VGiveShrukul_4535A0(__int16 bPlaySound);
 
+    virtual void VScreenChanged() override;
+
+    EXPORT void VScreenChanged_4538E0();
+
+    virtual void VStopAudio() override;
+
+    EXPORT void VStopAudio_4532C0();
+
+    EXPORT void Vsub_453570();
+
+    EXPORT BOOL VStateIs6_453700();
+
+    EXPORT BOOL VStateIs16_453710();
+
+    EXPORT void VExitPortal_453720();
+
+    EXPORT BOOL VStateIs20_453800();
+
+    EXPORT void Vsub_453810();
+
+    EXPORT void VMudSaved_453830();
+
     PortalType field_10_portal_type;
     PortalSide field_12_side;
     enum class States : __int16
