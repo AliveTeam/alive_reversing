@@ -470,7 +470,7 @@ public:
     int field_17C;
     int field_180;
     int field_184;
-    BaseGameObject* field_188_pOrbWhirlWind; // TODO: OrbWhirlWind
+    OrbWhirlWind* field_188_pOrbWhirlWind;
     BaseAliveGameObject* field_18C_pObjToPosses;
     __int16 field_190_level;
     __int16 field_192_path;

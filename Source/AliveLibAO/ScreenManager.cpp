@@ -70,6 +70,11 @@ void ScreenManager::UnsetDirtyBits_FG1_406EF0()
     NOT_IMPLEMENTED();
 }
 
+void ScreenManager::InvalidateRect_406E40(int /*x*/, int /*y*/, signed int /*width*/, signed int /*height*/, int /*idx*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 EXPORT ScreenManager* ScreenManager::vdtor_407290(signed int /*flags*/)
 {
     NOT_IMPLEMENTED();

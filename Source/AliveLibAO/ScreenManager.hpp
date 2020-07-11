@@ -60,6 +60,8 @@ public:
 
     EXPORT void UnsetDirtyBits_FG1_406EF0();
 
+    EXPORT void InvalidateRect_406E40(int x, int y, signed int width, signed int height, int idx);
+
     FP_Point* field_10_pCamPos;
     __int16 field_14_xpos;
     unsigned __int16 field_16_ypos;
