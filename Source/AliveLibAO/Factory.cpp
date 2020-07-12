@@ -50,6 +50,7 @@
 #include "DoorFlame.hpp"
 #include "BoomMachine.hpp"
 #include "GasEmitter.hpp"
+#include "MotionDetector.hpp"
 
 START_NS_AO
 
@@ -1207,9 +1208,23 @@ EXPORT void Factory_SecurityClaw_486D50(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
 }
 
 
-EXPORT void Factory_MotionDector_486FD0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_MotionDector_486FD0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode != 1 && loadMode != 2)
+    {
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 349, 0, 0))
+        {
+            auto pMotionDetector = ao_new<MotionDetector>();
+            if (pMotionDetector)
+            {
+                pMotionDetector->ctor_437A50(static_cast<Path_MotionDetector*>(pTlv), tlvOffsetLevelIdPathId.all);
+            }
+        }
+        else
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        }
+    }
 }
 
 
