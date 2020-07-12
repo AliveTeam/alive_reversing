@@ -8,6 +8,9 @@ START_NS_AO
 
 ALIVE_VAR(1, 0x4FFD68, FontContext, sFontContext_4FFD68, {});
 
+ALIVE_VAR(1, 0x5080E4, short, sDisableFontFlicker_5080E4, 0);
+
+
 EXPORT __int16 FontContext::LoadFontType_41C040(int)
 {
     NOT_IMPLEMENTED();

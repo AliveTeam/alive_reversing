@@ -25,13 +25,27 @@ public:
 
     EXPORT BaseGameObject* Vdtor_40C3F0(int flags);
 
+    virtual void VScreenChanged() override;
+
+    EXPORT void VScreenChanged_40C3C0();
+
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_40C0E0();
+
+    void DealDamage();
+
+    virtual void VRender(int** ppOt) override;
+
+    EXPORT void VRender_40C2F0(int** ppOt);
+
     FontContext field_10_font_context;
     AliveFont field_20_font;
     int field_58_tlvInfo;
-    __int16 field_5C;
-    __int16 field_5E;
+    __int16 field_5C_xpos;
+    __int16 field_5E_ypos;
     unsigned __int16 field_60_switch_id;
-    __int16 field_62;
+    __int16 field_62_time_left;
 };
 ALIVE_ASSERT_SIZEOF(GasCountDown, 0x64);
 

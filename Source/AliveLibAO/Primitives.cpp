@@ -48,4 +48,9 @@ void CC OrderingTable_Add_498A80(int** /*ppOt*/, PrimHeader* /*pItem*/)
     NOT_IMPLEMENTED();
 }
 
+void CC PolyG4_Init_498890(Poly_G4* /*pPoly*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 END_NS_AO
