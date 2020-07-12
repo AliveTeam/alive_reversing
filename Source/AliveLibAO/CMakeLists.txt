@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   SlogSpawner.hpp
+   SlogSpawner.cpp
    AbilityRing.hpp
    AbilityRing.cpp
    BirdPortal.hpp
