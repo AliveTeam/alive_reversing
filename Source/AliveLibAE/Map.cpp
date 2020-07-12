@@ -1168,15 +1168,15 @@ BaseGameObject* CC Map::FMV_Camera_Change_482650(BYTE** ppBits, Map* pMap, Level
             pFmvRec3->field_4_id,
 
             pFmvRec1->field_6_flags & 1,
-            pFmvRec1->field_8,
+            pFmvRec1->field_8_flags,
             pFmvRec1->field_A_volume,
 
             pFmvRec2->field_6_flags & 1,
-            pFmvRec2->field_8,
+            pFmvRec2->field_8_flags,
             pFmvRec2->field_A_volume,
 
             pFmvRec3->field_6_flags & 1,
-            pFmvRec3->field_8,
+            pFmvRec3->field_8_flags,
             pFmvRec3->field_A_volume);
     }
     else if (pMap->field_12_fmv_base_id >= 100u)
@@ -1197,11 +1197,11 @@ BaseGameObject* CC Map::FMV_Camera_Change_482650(BYTE** ppBits, Map* pMap, Level
             pFmvRec2->field_4_id,
 
             pFmvRec1->field_6_flags & 1,
-            pFmvRec1->field_8,
+            pFmvRec1->field_8_flags,
             pFmvRec1->field_A_volume,
 
             pFmvRec2->field_6_flags & 1,
-            pFmvRec2->field_8,
+            pFmvRec2->field_8_flags,
             pFmvRec2->field_A_volume);
     }
     else // < 100
@@ -1217,7 +1217,7 @@ BaseGameObject* CC Map::FMV_Camera_Change_482650(BYTE** ppBits, Map* pMap, Level
             cdPos,
             pFmvRec1->field_4_id,
             pFmvRec1->field_6_flags & 1,
-            pFmvRec1->field_8,
+            pFmvRec1->field_8_flags,
             pFmvRec1->field_A_volume);
     }
 }

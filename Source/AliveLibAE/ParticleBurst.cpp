@@ -22,7 +22,7 @@ struct ParticleBurst_Item
 ALIVE_ASSERT_SIZEOF(ParticleBurst_Item, 0x88);
 
 
-ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int unknown_count1, FP scale, BurstType type, signed __int16 a7)
+ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int numOfParticles, FP scale, BurstType type, signed __int16 count)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x5447DC);
@@ -30,27 +30,27 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int unknown
     field_4_typeId = Types::eParticleBurst_29;
 
     // TODO: Check it
-    if (unknown_count1 > 5)
+    if (numOfParticles > 5)
     {
-        unknown_count1 /= 2;
+        numOfParticles /= 2;
     }
 
-    if (a7 > 13)
+    if (count > 13)
     {
-        a7 = 13;
+        count = 13;
     }
-    else if (a7 <= 0)
+    else if (count <= 0)
     {
-        a7 = 1;
+        count = 1;
     }
 
-    field_106_count = a7;
+    field_106_count = count;
     field_CC_sprite_scale = scale;
-    field_F4_ppRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::ResourceType::Resource_3DGibs, 0, sizeof(ParticleBurst_Item) * unknown_count1);
+    field_F4_ppRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::ResourceType::Resource_3DGibs, 0, sizeof(ParticleBurst_Item) * numOfParticles);
     if (field_F4_ppRes)
     {
         field_F8_pRes = reinterpret_cast<ParticleBurst_Item*>(*field_F4_ppRes);
-        for (DWORD i = 0; i < unknown_count1; i++)
+        for (DWORD i = 0; i < numOfParticles; i++)
         {
             // Placement new each element
             new (&field_F8_pRes[i]) ParticleBurst_Item();
@@ -128,12 +128,12 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int unknown
                 field_20_animation.field_C_render_layer = 20;
             }
 
-            field_FC_count = static_cast<short>(unknown_count1);
+            field_FC_number_of_particles = static_cast<short>(numOfParticles);
             field_100_timer = sGnFrame_5C1B84 + 91;
             field_B8_xpos = xpos;
             field_BC_ypos = ypos;
 
-            for (DWORD i = 0; i < unknown_count1; i++)
+            for (DWORD i = 0; i < numOfParticles; i++)
             {
                 field_F8_pRes[i].field_18_anim.field_68_anim_ptr = &field_20_animation;
                 field_F8_pRes[i].field_18_anim.field_C_render_layer = field_20_animation.field_C_render_layer;
@@ -228,7 +228,7 @@ void ParticleBurst::vRender_41D7B0(int** pOt)
         const FP camX = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x;
         const FP camY = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
       
-        for (int i = 0; i < field_FC_count; i++)
+        for (int i = 0; i < field_FC_number_of_particles; i++)
         {
             if (field_F8_pRes[i].field_0_x < camX)
             {
@@ -372,7 +372,7 @@ void ParticleBurst::vRender_41D7B0(int** pOt)
 void ParticleBurst::vUpdate_41D590()
 {
     const int v3 = field_CC_sprite_scale != FP_FromInteger(1) ? 2 : 4;
-    for (int i = 0; i < field_FC_count; i++)
+    for (int i = 0; i < field_FC_number_of_particles; i++)
     {
         field_F8_pRes[i].field_0_x += field_F8_pRes[i].field_C_x_speed;
         field_F8_pRes[i].field_4_y += field_F8_pRes[i].field_10_y_speed;

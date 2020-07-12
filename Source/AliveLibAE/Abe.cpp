@@ -6857,7 +6857,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
                 Movie* pMovie = ae_new<Movie>();
                 if (pMovie)
                 {
-                    pMovie->ctor_4DFDE0(pFmvRec->field_4_id, pos, pFmvRec->field_6_flags & 1, pFmvRec->field_8, pFmvRec->field_A_volume);
+                    pMovie->ctor_4DFDE0(pFmvRec->field_4_id, pos, pFmvRec->field_6_flags & 1, pFmvRec->field_8_flags, pFmvRec->field_A_volume);
                 }
                 field_120_state = 2;
             }

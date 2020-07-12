@@ -15,11 +15,11 @@ ParamiteWeb* ParamiteWeb::ctor_4E1840(FP xpos, __int16 bottom, __int16 top, FP s
 
     if (scale == FP_FromInteger(1))
     {
-        field_F6 = 15;
+        field_F6_segment_length = 15;
     }
     else
     {
-        field_F6 = 7;
+        field_F6_segment_length = 7;
     }
     Animation_Init_424E10(148, 5, 16, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kWebResID), 1, 1u);
 
@@ -48,14 +48,14 @@ ParamiteWeb* ParamiteWeb::ctor_4E1840(FP xpos, __int16 bottom, __int16 top, FP s
     field_BC_ypos = FP_FromInteger(top);
     field_F8_ttl = bottom;
 
-    field_F4 = 240 / field_F6;
+    field_F4_number_of_segments = 240 / field_F6_segment_length;
 
-    field_FC = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_Web, 0, sizeof(AnimationUnknown) * (field_F4));
-    field_100 = reinterpret_cast<AnimationUnknown*>(*field_FC);
+    field_FC_ppRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_Web, 0, sizeof(AnimationUnknown) * (field_F4_number_of_segments));
+    field_100_pRes = reinterpret_cast<AnimationUnknown*>(*field_FC_ppRes);
 
-    for (int i = 0; i < field_F4; i++)
+    for (int i = 0; i < field_F4_number_of_segments; i++)
     {
-        AnimationUnknown* pSegment = &field_100[i];
+        AnimationUnknown* pSegment = &field_100_pRes[i];
         pSegment = new (pSegment) AnimationUnknown(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
         SetVTable(pSegment, 0x5447CC);
         pSegment->field_4_flags.Set(AnimFlags::eBit3_Render);
@@ -104,7 +104,7 @@ ParamiteWeb* ParamiteWeb::vdtor_4E1AF0(signed int flags)
 void ParamiteWeb::dtor_4E1B20()
 {
     SetVTable(this, 0x547F58);
-    ResourceManager::FreeResource_49C330(field_FC);
+    ResourceManager::FreeResource_49C330(field_FC_ppRes);
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
@@ -145,7 +145,7 @@ void ParamiteWeb::vRender_4E1BA0(int** pOt)
             short ypos_int = FP_GetExponent(field_BC_ypos);
             if (ypos_int > field_FA_ttl_remainder)
             {
-                ypos_int = field_FA_ttl_remainder + (ypos_int - field_FA_ttl_remainder) % field_F6;
+                ypos_int = field_FA_ttl_remainder + (ypos_int - field_FA_ttl_remainder) % field_F6_segment_length;
             }
 
             const short x_start = FP_GetExponent(field_B8_xpos - cam_x);
@@ -153,7 +153,7 @@ void ParamiteWeb::vRender_4E1BA0(int** pOt)
             short y_start = FP_GetExponent((FP_FromInteger(ypos_int)) - cam_y);
             if (y_start > 240)
             {
-                y_start = y_start % field_F6 + 240;
+                y_start = y_start % field_F6_segment_length + 240;
                 ypos_int = FP_GetExponent(cam_y + FP_FromInteger(y_start));
             }
 
@@ -172,21 +172,21 @@ void ParamiteWeb::vRender_4E1BA0(int** pOt)
 
             if (y_start >= minY)
             {
-                while (idx <field_F4)
+                while (idx < field_F4_number_of_segments)
                 {
                     short r = 128;
                     short g = 128;
                     short b = 128;
-                    ShadowZone::ShadowZones_Calculate_Colour_463CE0(FP_GetExponent(field_B8_xpos), ypos_int - (idx * field_F6), field_D6_scale, &r, &g, &b);
-                    field_100[idx].field_8_r = static_cast<BYTE>(r);
-                    field_100[idx].field_9_g = static_cast<BYTE>(g);
-                    field_100[idx].field_A_b = static_cast<BYTE>(b);
-                    field_100[idx].vRender_40B820(x_start, y_start, pOt, 0, 0);
+                    ShadowZone::ShadowZones_Calculate_Colour_463CE0(FP_GetExponent(field_B8_xpos), ypos_int - (idx * field_F6_segment_length), field_D6_scale, &r, &g, &b);
+                    field_100_pRes[idx].field_8_r = static_cast<BYTE>(r);
+                    field_100_pRes[idx].field_9_g = static_cast<BYTE>(g);
+                    field_100_pRes[idx].field_A_b = static_cast<BYTE>(b);
+                    field_100_pRes[idx].vRender_40B820(x_start, y_start, pOt, 0, 0);
                     PSX_RECT rect = {};
-                    field_100[idx].GetRenderedSize_40C980(&rect);
+                    field_100_pRes[idx].GetRenderedSize_40C980(&rect);
                     pScreenManager_5BB5F4->InvalidateRect_40EC90(rect.x, rect.y, rect.w, rect.h, pScreenManager_5BB5F4->field_3A_idx);
-                    ClipPoly_Vertically_4A09E0(&field_100[idx].field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index], minY, maxY);
-                    y_start -= field_F6;
+                    ClipPoly_Vertically_4A09E0(&field_100_pRes[idx].field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index], minY, maxY);
+                    y_start -= field_F6_segment_length;
                     idx++;
                     if (y_start < minY)
                     {

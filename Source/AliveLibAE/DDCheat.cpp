@@ -171,7 +171,7 @@ void DDCheat::Menu_Movies_416000()
                 movieToPlayInfo->field_4_id,
                 pos,
                 movieToPlayInfo->field_6_flags & 1,
-                movieToPlayInfo->field_8,
+                movieToPlayInfo->field_8_flags,
                 movieToPlayInfo->field_A_volume
             );
         }

@@ -1771,7 +1771,7 @@ __int16 Glukkon::AI_3_PlayerControlled_441A30()
         auto pMovie = ae_new<Movie>();
         if (pMovie)
         {
-            pMovie->ctor_4DFDE0(pFmvRec->field_4_id, pos, pFmvRec->field_6_flags & 1, pFmvRec->field_8, pFmvRec->field_A_volume);
+            pMovie->ctor_4DFDE0(pFmvRec->field_4_id, pos, pFmvRec->field_6_flags & 1, pFmvRec->field_8_flags, pFmvRec->field_A_volume);
         }
     }
         return 5;
