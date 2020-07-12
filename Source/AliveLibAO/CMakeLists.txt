@@ -1,6 +1,10 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   ZapLine.hpp
+   ZapLine.cpp
+   Shrykull.hpp
+   Shrykull.cpp
    GasEmitter.hpp
    GasEmitter.cpp
    BoomMachine.hpp
