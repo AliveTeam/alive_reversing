@@ -11,7 +11,7 @@
     ENTRY(M_Running_3_48AA00) \
     ENTRY(M_Turn_4_48B180) \
     ENTRY(M_Hop_5_48B5B0) \
-    ENTRY(M_UNKNOWN_6_48A930) \
+    ENTRY(M_Unused_6_48A930) \
     ENTRY(M_WalkRunTransition_7_48B0C0) \
     ENTRY(M_WalkEnd_8_48A870) \
     ENTRY(M_RunBegin_9_48AF10) \
@@ -23,7 +23,7 @@
     ENTRY(M_RopePull_15_48D930) \
     ENTRY(M_CloseAttack_16_48DDA0) \
     ENTRY(M_Landing_17_48B590) \
-    ENTRY(M_UNKNOWN_18_48DF60) \
+    ENTRY(M_Unused_18_48DF60) \
     ENTRY(M_Knockback_19_48BF50) \
     ENTRY(M_GameSpeakBegin_20_48C010) \
     ENTRY(M_PreHiss_21_48C180) \
@@ -47,7 +47,7 @@
     ENTRY(M_WebLeaveUp_39_48D8C0) \
     ENTRY(M_Eating_40_48A0F0) \
     ENTRY(M_Death_41_48D8E0) \
-    ENTRY(M_UNKNOWN_42_48D900) \
+    ENTRY(M_Squawk_42_48D900) \
     ENTRY(M_Attack_43_48DB70)
 
 #define MAKE_ENUM(VAR) VAR,
@@ -71,7 +71,7 @@ struct Path_Paramite : public Path_TLV
     __int16 field_20_hiss_before_attack;
     __int16 field_22_delete_when_far_away;
     __int16 field_24_deadly_scratch;
-    __int16 field_26;
+    __int16 field_26_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Paramite, 0x28);
 
@@ -118,45 +118,45 @@ struct Paramite_State
     __int16 field_22_flip_x;
     __int16 field_24_current_motion;
     __int16 field_26_anim_current_frame;
-    __int16 field_28;
-    char field_2A_anim_bit4;
-    char field_2B_bit8;
+    __int16 field_28_frame_change_counter;
+    char field_2A_render;
+    char field_2B_drawable;
     FP field_2C_health;
     __int16 field_30_current_motion;
     __int16 field_32_next_motion;
     __int16 field_34_last_line_ypos;
     __int16 field_36_line_type;
-    __int16 field_38;
-    __int16 field_3A;
+    __int16 field_38_padding;
+    __int16 field_3A_padding;
     int field_3C_tlvInfo;
-    int field_40_obj_id;
-    int field_44_obj_id;
+    int field_40_meat_id;
+    int field_44_web_id;
     int field_48_obj_id;
-    int field_4C_obj_id;
+    int field_4C_pull_ring_rope_id;
     int field_50_ai_idx;
-    __int16 field_54;
-    __int16 field_56;
+    __int16 field_54_padding;
+    __int16 field_56_padding;
     __int16 field_58_brain_ret;
-    __int16 field_5A;
+    __int16 field_5A_padding;
     int field_5C_timer;
-    int field_60;
-    FP field_64;
+    int field_60_depossession_timer;
+    FP field_64_velx_offset;
     int field_68_timer;
     LevelIds field_6C_return_level;
     __int16 field_6E_return_path;
     __int16 field_70_return_camera;
     __int16 field_72_input;
-    __int16 field_74;
+    __int16 field_74_next_brain_ret;
 
     enum Flags_76 : __int16
     {
-        eBit1_Unused = 0x1,
-        eBit2_Running = 0x2,
-        eBit3 = 0x4,
-        eBit4 = 0x8,
-        eBit5 = 0x10,
-        eBit6 = 0x20,
-        eBit7 = 0x40,
+        eBit1_unused = 0x1,
+        eBit2_running = 0x2,
+        eBit3_hissed_or_left_screen = 0x4,
+        eBit4_prevent_depossession = 0x8,
+        eBit5_spawned = 0x10,
+        eBit6_alerted = 0x20,
+        eBit7_can_be_possessed = 0x40,
     };
 
     BitField16<Flags_76> field_76_flags;
@@ -222,72 +222,72 @@ private:
 public:
     EXPORT __int16 AI_Patrol_0_4835B0();
 
-    __int16 AI_Patrol_State_12(BaseAliveGameObject* pObj);
+    __int16 AI_Patrol_State_Idle_12(BaseAliveGameObject* pObj);
 
-    __int16 AI_Patrol_State_5(BaseAliveGameObject* pObj);
+    __int16 AI_Patrol_State_StopApproachingAbe_5(BaseAliveGameObject* pObj);
 
-    __int16 AI_Patrol_State_4(BaseAliveGameObject* pObj);
+    __int16 AI_Patrol_State_ApproachingAbe_4(BaseAliveGameObject* pObj);
 
-    __int16 AI_Patrol_State_3(BaseAliveGameObject* pObj);
+    __int16 AI_Patrol_State_RunningFromAbe_3(BaseAliveGameObject* pObj);
 
-    __int16 AI_Patrol_State_8(BaseAliveGameObject* pObj);
+    __int16 AI_Patrol_State_StuckToWall_8(BaseAliveGameObject* pObj);
 
-    __int16 AI_Patrol_State_1(BaseAliveGameObject* pObj);
+    __int16 AI_Patrol_State_IdleForAbe_1(BaseAliveGameObject* pObj);
 
-    __int16 AI_Patrol_State_2(BaseAliveGameObject* pObj);
+    __int16 AI_Patrol_State_FearingAbe_2(BaseAliveGameObject* pObj);
 
     EXPORT __int16 AI_Death_1_484CD0();
     EXPORT __int16 AI_ChasingAbe_2_4859D0();
 
-    __int16 AI_ChasingAbe_State_15();
+    __int16 AI_ChasingAbe_State_Panic_15();
 
-    __int16 AI_ChasingAbe_State_14();
+    __int16 AI_ChasingAbe_State_Idle_14();
 
-    __int16 AI_ChasingAbe_State9();
+    __int16 AI_ChasingAbe_State_TurningWhileChasing_9();
 
-    __int16 AI_ChasingAbe_State_13();
+    __int16 AI_ChasingAbe_State_Eating_13();
 
-    __int16 AI_ChasingAbe_State_8();
+    __int16 AI_ChasingAbe_State_Jumping_8();
 
-    __int16 AI_ChasingAbe_State_6();
+    __int16 AI_ChasingAbe_State_QuickAttack_6();
 
-    __int16 AI_ChasingAbe_State_3();
+    __int16 AI_ChasingAbe_State_Warning_3();
 
-    __int16 AI_ChasingAbe_State_4();
+    __int16 AI_ChasingAbe_State_CloseAttack_4();
 
-    __int16 AI_ChasingAbe_State_2();
+    __int16 AI_ChasingAbe_State_ToWarning_2();
 
-    __int16 AI_ChasingAbe_State_11(BaseAliveGameObject* pObj);
+    __int16 AI_ChasingAbe_State_Walking_11(BaseAliveGameObject* pObj);
 
-    __int16 AI_ChasingAbe_State_7(BaseAliveGameObject* pObj);
+    __int16 AI_ChasingAbe_State_Chasing_7(BaseAliveGameObject* pObj);
 
-    __int16 AI_ChasingAbe_State_12(BaseAliveGameObject * pObj);
+    __int16 AI_ChasingAbe_State_WalkingToHop_12(BaseAliveGameObject * pObj);
 
-    __int16 AI_ChasingAbe_State_10(BaseAliveGameObject* pObj);
+    __int16 AI_ChasingAbe_State_Turning_10(BaseAliveGameObject* pObj);
 
-    __int16 AI_ChasingAbe_State_5(BaseAliveGameObject* pObj);
+    __int16 AI_ChasingAbe_State_ToChasing_5(BaseAliveGameObject* pObj);
 
-    __int16 AI_ChasingAbe_State_1(BaseAliveGameObject* pObj);
+    __int16 AI_ChasingAbe_State_Attacking_1(BaseAliveGameObject* pObj);
 
-    __int16 AI_ChasingAbe_State_0(BaseAliveGameObject * pObj);
+    __int16 AI_ChasingAbe_State_Inactive_0(BaseAliveGameObject * pObj);
 
     EXPORT __int16 AI_SurpriseWeb_3_4851B0();
-    EXPORT __int16 AI_UNKNOWN_4_48F8F0();
+    EXPORT __int16 AI_Unused_4_48F8F0();
     EXPORT __int16 AI_SpottedMeat_5_486880();
 
-    __int16 AI_SpottedMeat_State_6(Meat* pMeat);
+    __int16 AI_SpottedMeat_State_Eating_6(Meat* pMeat);
 
-    __int16 AI_SpottedMeat_State_5(Meat* pMeat);
+    __int16 AI_SpottedMeat_State_AttentiveToMeat_5(Meat* pMeat);
 
-    __int16 AI_SpottedMeat_State_4(Meat* pMeat);
+    __int16 AI_SpottedMeat_State_Turning_4(Meat* pMeat);
 
-    __int16 AI_SpottedMeat_State_3();
+    __int16 AI_SpottedMeat_State_Jumping_3();
 
-    __int16 AI_SpottedMeat_State_2(Meat* pMeat);
+    __int16 AI_SpottedMeat_State_Walking_2(Meat* pMeat);
 
-    __int16 AI_SpottedMeat_State_1(Meat* pMeat);
+    __int16 AI_SpottedMeat_State_Running_1(Meat* pMeat);
 
-    __int16 AI_SpottedMeat_State_0(Meat* pMeat);
+    __int16 AI_SpottedMeat_State_Idle_0(Meat* pMeat);
 
     EXPORT __int16 AI_Possessed_6_484BC0();
     EXPORT __int16 AI_DeathDrop_7_484FF0();
@@ -301,7 +301,7 @@ public:
     EXPORT void M_Running_3_48AA00();
     EXPORT void M_Turn_4_48B180();
     EXPORT void M_Hop_5_48B5B0();
-    EXPORT void M_UNKNOWN_6_48A930();
+    EXPORT void M_Unused_6_48A930();
     EXPORT void M_WalkRunTransition_7_48B0C0();
     EXPORT void M_WalkEnd_8_48A870();
     EXPORT void M_RunBegin_9_48AF10();
@@ -313,7 +313,7 @@ public:
     EXPORT void M_RopePull_15_48D930();
     EXPORT void M_CloseAttack_16_48DDA0();
     EXPORT void M_Landing_17_48B590();
-    EXPORT void M_UNKNOWN_18_48DF60();
+    EXPORT void M_Unused_18_48DF60();
     EXPORT void M_Knockback_19_48BF50();
     EXPORT void M_GameSpeakBegin_20_48C010();
     EXPORT void M_PreHiss_21_48C180();
@@ -337,7 +337,7 @@ public:
     EXPORT void M_WebLeaveUp_39_48D8C0();
     EXPORT void M_Eating_40_48A0F0();
     EXPORT void M_Death_41_48D8E0();
-    EXPORT void M_UNKNOWN_42_48D900();
+    EXPORT void M_Squawk_42_48D900();
     EXPORT void M_Attack_43_48DB70();
 
 private:
@@ -415,18 +415,18 @@ private:
 
 
 private:
-    int field_118;
+    int field_118_meat_id;
     int field_11C_web_id;
     int field_120_obj_id;
-    int field_124;
+    int field_124_pull_ring_rope_id;
     TParamiteAIFn field_128_fn_brainState;
     __int16 field_12C_brain_ret;
     __int16 field_12E_drop_delay;
     int field_130_timer;
     __int16 field_134_meat_eating_time;
     __int16 field_136_attack_delay;
-    int field_138;
-    FP field_13C;
+    int field_138_depossession_timer;
+    FP field_13C_velx_offset;
     int field_140_tlvInfo;
     int field_144_attack_duration;
     int field_148_timer;
@@ -434,41 +434,41 @@ private:
     LevelIds field_14E_return_level;
     __int16 field_150_return_path;
     __int16 field_152_return_camera;
-    int field_154;
-    __int16 field_158;
-    __int16 field_15A;
-    __int16 field_15C;
-    __int16 field_15E;
-    int field_160;
-    __int16 field_164;
-    __int16 field_166;
-    __int16 field_168;
-    __int16 field_16A;
-    __int16 field_16C;
-    __int16 field_16E;
-    __int16 field_170;
-    __int16 field_172;
-    __int16 field_174;
-    __int16 field_176;
+    int field_154_input;
+    __int16 field_158_next_brain_ret;
+    __int16 field_15A_paramite_next_motion;
+    __int16 field_15C_paramite_xOffset;
+    __int16 field_15E_padding;
+    int field_160_last_event_index;
+    __int16 field_164_padding;
+    __int16 field_166_padding;
+    __int16 field_168_padding;
+    __int16 field_16A_padding;
+    __int16 field_16C_padding;
+    __int16 field_16E_padding;
+    __int16 field_170_padding;
+    __int16 field_172_padding;
+    __int16 field_174_unused;
+    __int16 field_176_unused;
     enum Flags_178 : __int16
     {
-        eBit1_Hissing = 0x1,
-        eBit2_Running = 0x2,
-        eBit3 = 0x4,
-        eBit4 = 0x8,
-        eBit5 = 0x10,
-        eBit6 = 0x20,
-        eBit7 = 0x40,
-        eBit8 = 0x80,
-        eBit9 = 0x100,
-        eBit10 = 0x200,
-        eBit11 = 0x400,
-        eBit12 = 0x800,
-        eBit13 = 0x1000,
-        eBit14 = 0x2000,
-        eBit15 = 0x4000,
+        eBit1_hissing = 0x1,
+        eBit2_running = 0x2,
+        eBit3_hissed_or_left_screen = 0x4,
+        eBit4_out_of_sight = 0x8,
+        eBit5_prevent_depossession = 0x10,
+        eBit6_spawned = 0x20,
+        eBit7_alerted = 0x40,
+        eBit8_attacking_fleech = 0x80,
+        eBit9_padding = 0x100,
+        eBit10_padding = 0x200,
+        eBit11_padding = 0x400,
+        eBit12_padding = 0x800,
+        eBit13_padding = 0x1000,
+        eBit14_padding = 0x2000,
+        eBit15_padding = 0x4000,
     };
     BitField16<Flags_178> field_178_flags;
-    __int16 field_17A;
+    __int16 field_17A_padding;
 };
 ALIVE_ASSERT_SIZEOF(Paramite, 0x17C);

@@ -27,13 +27,13 @@ private:
 
     EXPORT void vRender_4E1BA0(int** pOt);
 public:
-    __int16 field_F4;
-    __int16 field_F6;
+    __int16 field_F4_number_of_segments;
+    __int16 field_F6_segment_length;
     __int16 field_F8_ttl;
     __int16 field_FA_ttl_remainder;
-    BYTE** field_FC;
-    AnimationUnknown* field_100;
+    BYTE** field_FC_ppRes;
+    AnimationUnknown* field_100_pRes;
     __int16 field_104_bEnabled;
-    __int16 field_106;
+    __int16 field_106_padding;
 };
 ALIVE_ASSERT_SIZEOF(ParamiteWeb, 0x108);

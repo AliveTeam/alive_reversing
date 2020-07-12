@@ -219,7 +219,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Teleporter_Data, 0x16);
 struct Path_Teleporter : public Path_TLV
 {
     Path_Teleporter_Data field_10_data;
-    __int16 field_26_pad; // Actually padding here as the game won't copy these 2 bytes, but its included in the TLV length
+    __int16 field_26_padding; // Actually padding here as the game won't copy these 2 bytes, but its included in the TLV length
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Teleporter, 0x28); // 0x10 for base
 
@@ -297,7 +297,7 @@ struct Path_Well_Local : public Path_Well_Base
     __int16 field_20_emit_leaves;
     __int16 field_22_leaf_x;
     __int16 field_24_leaf_y;
-    __int16 field_26_pad;
+    __int16 field_26_padding;
 };
 // TODO: Size
 

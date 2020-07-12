@@ -22,7 +22,7 @@ enum class LevelIds : __int16
     eFeeCoDepot_Ender_12 = 12,
     eBarracks_Ender_13 = 13,
     eBonewerkz_Ender_14 = 14,
-    eNotUsed15 = 15, // Probably test level?
+    eNotUsed_15 = 15, // Probably test level?
     eCredits_16 = 16
 };
 
@@ -31,7 +31,7 @@ struct FmvInfo
     const char* field_0_pName;
     unsigned __int16 field_4_id;
     __int16 field_6_flags;
-    unsigned __int16 field_8;
+    unsigned __int16 field_8_flags;
     __int16 field_A_volume; // usually 127 ?
 };
 ALIVE_ASSERT_SIZEOF(FmvInfo, 0xC);
@@ -74,7 +74,7 @@ struct PathBlyRec
     const PathData *field_4_pPathData;
     const CollisionInfo *field_8_pCollisionData;
     WORD field_C_overlay_id;
-    WORD field_E;
+    WORD field_E_padding;
 };
 
 struct SoundBlockInfo
@@ -96,11 +96,11 @@ struct PathRoot
     const char* field_14_lvl_name;
     __int16 field_18_num_paths;
     __int16 field_1A_unused; // message to display to change cd ??
-    int field_1C;
+    int field_1C_padding;
     const char* field_20_lvl_name_cd;
-    int field_24;
+    int field_24_padding;
     const char* field_28_ovl_name_cd;
-    int field_2C;
+    int field_2C_padding;
     const char* field_30_mov_name_cd;
     const char* field_34_idx_name;
     const char* field_38_bnd_name;

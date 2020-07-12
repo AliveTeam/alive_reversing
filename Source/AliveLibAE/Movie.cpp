@@ -605,7 +605,7 @@ void Movie::VScreenChanged()
     // Null sub 0x4E02A0
 }
 
-void Movie::Init_4DFF60(int id, CdlLOC* pCdPos, __int16 bUnknown, __int16 flags, __int16 vol)
+void Movie::Init_4DFF60(int id, CdlLOC* pCdPos, __int16 bUnknown, __int16 flags, __int16 volume)
 {
     field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
@@ -639,19 +639,19 @@ void Movie::Init_4DFF60(int id, CdlLOC* pCdPos, __int16 bUnknown, __int16 flags,
     }
     word_BB4AB2 = 2;
 
-    field_22_param5 = vol;
+    field_22_volume = volume;
 
     ResourceManager::Reclaim_Memory_49C470(0);
 }
 
-Movie* Movie::ctor_4DFDE0(int id, DWORD pos, __int16 a4, __int16 a5, __int16 volume)
+Movie* Movie::ctor_4DFDE0(int id, DWORD pos, __int16 bUnknown, __int16 flags, __int16 volume)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x547EF4); // vTbl_Movie_547EF4
 
     CdlLOC cdLoc = {};
     PSX_Pos_To_CdLoc_4FADD0(pos, &cdLoc);
-    Init_4DFF60(id, &cdLoc, a4, a5, volume);
+    Init_4DFF60(id, &cdLoc, bUnknown, flags, volume);
     return this;
 }
 

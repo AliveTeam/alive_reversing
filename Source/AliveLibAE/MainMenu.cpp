@@ -1463,8 +1463,8 @@ signed int MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_held)
         MenuFMV* v12 = &pDemosOrFmvs_BB4414.mFmvRec[field_230_selected_entry_index];
         if (v12->field_A_fmv_id >= 0)
         {
-            FmvInfo* v14 = Path_Get_FMV_Record_460F70(v12->field_4_level_id, v12->field_A_fmv_id);
-            Get_fmvs_sectors_494460(v14->field_0_pName, 0, 0, &input_held, 0, 0);
+            FmvInfo* pFmvRecord = Path_Get_FMV_Record_460F70(v12->field_4_level_id, v12->field_A_fmv_id);
+            Get_fmvs_sectors_494460(pFmvRecord->field_0_pName, 0, 0, &input_held, 0, 0);
             sLevelId_dword_5CA408 = static_cast<DWORD>(v12->field_4_level_id);
             
             dword_55C128 = -1;
@@ -1472,7 +1472,7 @@ signed int MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_held)
             auto pMovie = ae_new<Movie>();
             if (pMovie)
             {
-                pMovie->ctor_4DFDE0(v14->field_4_id, input_held, v14->field_6_flags & 1, v14->field_8, v14->field_A_volume);
+                pMovie->ctor_4DFDE0(pFmvRecord->field_4_id, input_held, pFmvRecord->field_6_flags & 1, pFmvRecord->field_8_flags, pFmvRecord->field_A_volume);
             }
 
             while (sMovie_ref_count_BB4AE4)
@@ -1899,7 +1899,7 @@ EXPORT signed int MainMenuController::BackStory_Or_NewGame_Update_4D1C60(DWORD i
                     pFmvRecord->field_4_id,
                     input_held,
                     pFmvRecord->field_6_flags & 1,
-                    pFmvRecord->field_8,
+                    pFmvRecord->field_8_flags,
                     pFmvRecord->field_A_volume);
             }
 
@@ -3194,7 +3194,7 @@ signed int MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                     pFmvRecord->field_4_id,
                     v34,
                     pFmvRecord->field_6_flags & 1,
-                    pFmvRecord->field_8,
+                    pFmvRecord->field_8_flags,
                     pFmvRecord->field_A_volume);
             }
 
@@ -3226,7 +3226,7 @@ signed int MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                     pFmvRecord->field_4_id,
                     v34,
                     pFmvRecord->field_6_flags & 1,
-                    pFmvRecord->field_8,
+                    pFmvRecord->field_8_flags,
                     pFmvRecord->field_A_volume);
             }
 
