@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   DoorFlame.hpp
+   DoorFlame.cpp
    SlogSpawner.hpp
    SlogSpawner.cpp
    AbilityRing.hpp

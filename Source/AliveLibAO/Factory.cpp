@@ -47,6 +47,7 @@
 #include "SlogHut.hpp"
 #include "BirdPortal.hpp"
 #include "SlogSpawner.hpp"
+#include "DoorFlame.hpp"
 
 START_NS_AO
 
@@ -1566,9 +1567,29 @@ EXPORT void Factory_SligZCover_Null_481850(Path_TLV* /*pTlv*/, Map* /*pMap*/, Tl
 }
 
 
-EXPORT void Factory_DoorFlame_481E80(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_DoorFlame_481E80(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        ResourceManager::LoadResource_446C90("FIRE.BAN", ResourceManager::Resource_Animation, 304, loadMode, 0);
+        ResourceManager::LoadResource_446C90("GLOW1.BAN", ResourceManager::Resource_Animation, 361, loadMode, 0);
+    }
+    else
+    {
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 304, 0, 0) &&
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 361, 0, 0))
+        {
+            auto pDoorFlame = ao_new<DoorFlame>();
+            if (pDoorFlame)
+            {
+                pDoorFlame->ctor_432860(static_cast<Path_DoorFlame*>(pTlv), tlvOffsetLevelIdPathId.all);
+            }
+        }
+        else
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        }
+    }
 }
 
 

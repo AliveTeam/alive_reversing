@@ -217,6 +217,10 @@ public:
 
     EXPORT void Get_Frame_Rect_402B50(PSX_RECT* pRect);
 
+    EXPORT void Get_Frame_Width_Height_403E80(short* pWidth, short* pHeight);
+
+    EXPORT void Get_Frame_Offset_403EE0(short* pOffX, short* pOffY);
+
     int field_10_frame_delay;
     FP field_14_scale;
     int field_18_frame_table_offset;

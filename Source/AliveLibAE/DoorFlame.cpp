@@ -441,11 +441,7 @@ void DoorFlame::dtor_45E6C0()
         field_10C_flame_sparks_id = -1;
     }
 
-    if (pFlameControllingTheSound_5C2C6C == this)
-    {
-        pFlameControllingTheSound_5C2C6C = 0;
-        SND_Stop_Channels_Mask_4CA810(field_100_sounds_mask);
-    }
+    vStopAudio_45E7E0();
 
     Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, -1, 0, 0);
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
