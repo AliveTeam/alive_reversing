@@ -49,6 +49,7 @@
 #include "SlogSpawner.hpp"
 #include "DoorFlame.hpp"
 #include "BoomMachine.hpp"
+#include "GasEmitter.hpp"
 
 START_NS_AO
 
@@ -2005,9 +2006,16 @@ EXPORT void Factory_RingCancel_4818D0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItem
 }
 
 
-EXPORT void Factory_GasEmitter_484110(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_GasEmitter_484110(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode != 1 && loadMode != 2)
+    {
+        auto pGasEmitter = ao_new<GasEmitter>();
+        if (pGasEmitter)
+        {
+            pGasEmitter->ctor_41D760(static_cast<Path_GasEmitter*>(pTlv), tlvOffsetLevelIdPathId.all);
+        }
+    }
 }
 
 

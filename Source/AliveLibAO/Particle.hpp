@@ -22,5 +22,6 @@ ALIVE_ASSERT_SIZEOF(Particle, 0xE8);
 
 EXPORT Particle* CC New_Particle_419D00(FP xpos, FP ypos, FP scale);
 
+EXPORT void CC New_Particles_419A80(FP xpos, FP ypos, FP scale, __int16 count, __int16 type);
 
 END_NS_AO

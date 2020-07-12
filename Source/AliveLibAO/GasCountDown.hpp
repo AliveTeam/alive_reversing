@@ -49,4 +49,6 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(GasCountDown, 0x64);
 
+ALIVE_VAR_EXTERN(short, gGasOn_4FF888);
+
 END_NS_AO

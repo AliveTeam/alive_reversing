@@ -5,12 +5,16 @@
 
 START_NS_AO
 
-EXPORT Particle* CC New_Particle_419D00(FP /*xpos*/, FP /*ypos*/, FP /*scale*/)
+Particle* CC New_Particle_419D00(FP /*xpos*/, FP /*ypos*/, FP /*scale*/)
 {
     NOT_IMPLEMENTED();
     return nullptr;
 }
 
+void CC New_Particles_419A80(FP /*xpos*/, FP /*ypos*/, FP /*scale*/, __int16 /*count*/, __int16 /*type*/)
+{
+    NOT_IMPLEMENTED();
+}
 
 Particle* Particle::ctor_478880(FP xpos, FP ypos, int animFrameTableOffset, int maxW, int maxH, BYTE** ppAnimData)
 {
