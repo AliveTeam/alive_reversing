@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   BoomMachine.hpp
+   BoomMachine.cpp
    DeathGas.hpp
    DeathGas.cpp
    DoorFlame.hpp

@@ -48,6 +48,7 @@
 #include "BirdPortal.hpp"
 #include "SlogSpawner.hpp"
 #include "DoorFlame.hpp"
+#include "BoomMachine.hpp"
 
 START_NS_AO
 
@@ -1690,9 +1691,51 @@ EXPORT void Factory_Null_487440(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUn
 }
 
 
-EXPORT void Factory_GrenadeMachine_487860(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_GrenadeMachine_487860(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    auto pBoomMachineTlv = static_cast<Path_BoomMachine*>(pTlv);
+    const auto disabledResources = pBoomMachineTlv->field_1C_disabled_resources;
+    if (loadMode == 1 || loadMode == 2)
+    {
+        static CompileTimeResourceList<3> kResources =
+        {
+            { ResourceManager::Resource_Animation, 14 },
+            { ResourceManager::Resource_Animation, 12 },
+            { ResourceManager::Resource_Animation, 6005 }
+        };
+        ResourceManager::LoadResourcesFromList_446E80("GTHROW.BND", kResources.AsList(), loadMode, 0);
+        ResourceManager::LoadResource_446C90("EXPLO2.BAN", ResourceManager::Resource_Animation, 301, loadMode);
+        ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, 25, loadMode);
+        ResourceManager::LoadResource_446C90("METAL.BAN", ResourceManager::Resource_Animation, 365, loadMode);
+        ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, 576, loadMode, disabledResources & 2);
+        return;
+    }
+
+    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6008, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6009, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 21, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 14, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 12, 0, 0) || 
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6005, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 301, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 25, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 365, 0, 0))
+    {
+        gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        return;
+    }
+
+    if (!(disabledResources & 2) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 576, 0, 0))
+    {
+        gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        return;
+    }
+
+    auto pGrenadeMachine = ao_new<BoomMachine>();
+    if (pGrenadeMachine)
+    {
+        pGrenadeMachine->ctor_41E420(pBoomMachineTlv, tlvOffsetLevelIdPathId.all);
+    }
 }
 
 
