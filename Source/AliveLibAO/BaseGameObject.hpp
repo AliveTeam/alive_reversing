@@ -26,6 +26,7 @@ enum class Types : __int16
     eBells_13 = 13,
     eChimeLock_14 = 14,
     eSpark_15 = 15,
+    eGasClock_16 = 16,
 
     eParticleBurst_19 = 19,
 
@@ -50,7 +51,7 @@ enum class Types : __int16
     eDeathBird_38 = 38,
 
     eGrenade_40 = 40,
-
+    eGrenadeMachine_41 = 41,
     eBackgroundGlukkon_42 = 42,
     eAbe_43 = 43,
 
@@ -82,6 +83,7 @@ enum class Types : __int16
     eRollingBall_72 = 72,
     eRope_73 = 73,
     eExplosion_74 = 74,
+    e75 = 75,
 
     e77 = 77,
 

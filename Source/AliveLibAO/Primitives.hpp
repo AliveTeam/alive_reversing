@@ -20,4 +20,6 @@ EXPORT void CC Init_PrimClipper_495FD0(Prim_PrimClipper* pPrim, const PSX_RECT* 
 
 EXPORT void CC OrderingTable_Add_498A80(int** ppOt, PrimHeader* pItem);
 
+EXPORT void CC PolyG4_Init_498890(Poly_G4* pPoly);
+
 END_NS_AO

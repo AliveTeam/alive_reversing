@@ -45,4 +45,7 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(AliveFont, 0x38);
 
+ALIVE_VAR_EXTERN(short, sDisableFontFlicker_5080E4);
+
+
 END_NS_AO
