@@ -4036,12 +4036,12 @@ void Paramite::M_RopePull_15_48D930()
 {
     auto pPullRingRope = static_cast<PullRingRope*>(sObjectIds_5C1B70.Find_449CF0(field_124_pull_ring_rope_id));
     if (!pPullRingRope || 
-        ((pPullRingRope && pPullRingRope->Vsub_49BC90()) && 
+        ((pPullRingRope && pPullRingRope->VIsNotBeingPulled_49BC90()) && 
         (sControlledCharacter_5C1B8C == this || field_108_next_motion == eParamiteMotions::M_Falling_11_48B200)))
     {
         if (pPullRingRope)
         {
-            pPullRingRope->Vsub_49B610();
+            pPullRingRope->VMarkAsPulled_49B610();
         }
         field_124_pull_ring_rope_id = -1;
         field_C8_vely = FP_FromInteger(0);

@@ -77,7 +77,7 @@ ALIVE_ARY(1, 0xC27640, DebugTexts, 4, sTexts_C27640, {});
 
 EXPORT void CC DebugFont_Reset_4F8B40()
 {
-    memset(sTexts_C27640, 0, sizeof(DebugTexts)*4); // 8240u
+    memset(sTexts_C27640, 0, sizeof(DebugTexts) * 4); // 8240u
     sFntCount_BD0F28 = 0;
 }
 
@@ -162,7 +162,7 @@ EXPORT void CC DebugFont_Flush_4DD050()
 
 namespace Test
 {
-    static void Test_sub_4F8AB0()
+    static void Test_DebugFont_4F8AB0()
     {
         DebugFont_Reset_4F8B40();
 
@@ -187,7 +187,7 @@ namespace Test
 
     void PsxDisplayTests()
     {
-        Test_sub_4F8AB0();
+        Test_DebugFont_4F8AB0();
     }
 }
 
@@ -221,7 +221,7 @@ void PsxDisplay::ctor_41DC30()
     PSX_SetVideoMode_4FA8F0();
     field_0_width = 640;
     field_2_height = 240;
-    field_4 = 0;
+    field_4_unused = 0;
     field_6_bpp = 16;
     field_8_max_buffers = 1;
     field_A_buffer_size = 43;
@@ -296,7 +296,7 @@ void PsxDisplay::PSX_Display_Render_OT_41DDF0()
             else
             {
                 pScreenManager_5BB5F4->sub_40EE10();
-                byte_BD0F20 = 1;
+                turn_off_rendering_BD0F20 = 1;
             }
             PSX_VSync_4F6170(2);
         }

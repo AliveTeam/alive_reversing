@@ -387,7 +387,7 @@ void DumpMenus()
         menuAddr << std::hex << a.address;
         
         int count = 0;
-        PauseMenuPageEntry * c = reinterpret_cast<PauseMenuPageEntry *>(a.address);
+        PauseMenuPageEntry* c = reinterpret_cast<PauseMenuPageEntry*>(a.address);
 
         while (c->field_8_text)
         {
@@ -397,7 +397,7 @@ void DumpMenus()
         
         output << "PauseMenuPageEntry PauseMenu__PageEntryList_" + a.name + "_" + menuAddr.str() + "[" + std::to_string(count + 1) + "] =\n{\n";
         
-        PauseMenuPageEntry * e = reinterpret_cast<PauseMenuPageEntry *>(a.address);
+        PauseMenuPageEntry* e = reinterpret_cast<PauseMenuPageEntry*>(a.address);
 
         while (e->field_8_text)
         {
@@ -463,7 +463,7 @@ void PauseMenu::VRender(int** pOrderingTable)
 
 void PauseMenu::VScreenChanged()
 {
-    vsub_490D30();
+    Remove_At_Credits_Screen_490D30();
 }
 
 PauseMenu::PauseMenu()
@@ -491,12 +491,12 @@ PauseMenu * PauseMenu::ctor_48FB80()
 
     gObjList_drawables_5C1124->Push_Back(this);
 
-    field_136 = 0;
-    field_138 = 0;
-    field_13A = 0;
+    field_136_unused = 0;
+    field_138_control_action_page_index = 0;
+    field_13A_unused = 0;
     field_13C_save_state = SaveState::ReadingInput_0;
-    field_13E = 0;
-    field_140 = 0;
+    field_13E_unused = 0;
+    field_140_unused = 0;
 
     field_F4_font.ctor_433590(256, pal_554474, &sFont1Context_5BC5C8);
     
@@ -537,9 +537,9 @@ void PauseMenu::Init_491760()
     ResourceManager::LoadResourceFile_49C170("EMOANGRY.BAN", 0);
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAngryiconResID);
     ResourceManager::LoadResourceFile_49C170("EMONORM.BAN", 0);
-    BYTE **v2 = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kNormaliconResID);
+    BYTE **ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kNormaliconResID);
 
-    if (field_158_animation.Init_40A030(1248, gObjList_animations_5C1A24, this, 54, 47, v2, 1, 0, 0))
+    if (field_158_animation.Init_40A030(1248, gObjList_animations_5C1A24, this, 54, 47, ppAnimData, 1, 0, 0))
     {
         this->field_158_animation.field_C_render_layer = field_20_animation.field_C_render_layer;
         this->field_158_animation.field_14_scale = field_CC_sprite_scale;
@@ -553,16 +553,16 @@ void PauseMenu::Init_491760()
     }
 }
 
-void PauseMenu::Render_490BD0(int ** ot)
+void PauseMenu::Render_490BD0(int** ot)
 {
-    field_142 = 0;
+    field_142_poly_offset = 0;
 
     // Render the page
     (this->*field_144_active_menu.field_4_fn_render)(ot, &field_144_active_menu);
     
     // Draw a full screen polygon that "dims" out the screen while paused
-    Prim_SetTPage* pTPage = &field_1F0[gPsxDisplay_5C1130.field_C_buffer_index];
-    Poly_F4* pPolys = &field_210[gPsxDisplay_5C1130.field_C_buffer_index];
+    Prim_SetTPage* pTPage = &field_1F0_primitives[gPsxDisplay_5C1130.field_C_buffer_index];
+    Poly_F4* pPolys = &field_210_polygons[gPsxDisplay_5C1130.field_C_buffer_index];
     PolyF4_Init_4F8830(pPolys);
     Poly_Set_SemiTrans_4F8A60(&pPolys->mBase.header, TRUE);
     Poly_Set_Blending_4F8A20(&pPolys->mBase.header, FALSE);
@@ -580,7 +580,7 @@ void PauseMenu::Render_490BD0(int ** ot)
     pScreenManager_5BB5F4->InvalidateRect_40EC90(0, 0, 640, 240, pScreenManager_5BB5F4->field_3A_idx);
 }
 
-EXPORT void PauseMenu::vsub_490D30()
+EXPORT void PauseMenu::Remove_At_Credits_Screen_490D30()
 {
     if (gMap_5C3030.field_A_level == LevelIds::eCredits_16)
     {
@@ -594,16 +594,16 @@ EXPORT void PauseMenu::vsub_490D30()
 class CustomPauseMenu;
 struct CustomPauseMenuItem
 {
-    const char * text;
-    std::function<void(CustomPauseMenu *)> callback;
+    const char* text;
+    std::function<void(CustomPauseMenu*)> callback;
 };
 
-std::vector<CustomPauseMenu *> customMenuStack;
+std::vector<CustomPauseMenu*> customMenuStack;
 
 class CustomPauseMenu
 {
 public:
-    CustomPauseMenu(std::vector<CustomPauseMenuItem> * items, const char * titleStr)
+    CustomPauseMenu(std::vector<CustomPauseMenuItem>* items, const char* titleStr)
     {
         entries = items;
         title = std::string(titleStr);
@@ -654,7 +654,7 @@ public:
         mMenuPage.field_10_background_b = 127;
     }
 
-    void SetText(char * text)
+    void SetText(char* text)
     {
         (*entries)[index].text = text;
         compiledEntries[index].field_8_text = text;
@@ -668,7 +668,7 @@ public:
         customMenuStack.clear();
     }
 
-    void Update(PauseMenu * pm)
+    void Update(PauseMenu* pm)
     {
         auto input = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
         if (input & InputCommands::eDown)
@@ -713,13 +713,13 @@ public:
         SetLastPageStack(pPauseMenu_5C9300);
     }
 
-    void GoBack(PauseMenu * pm)
+    void GoBack(PauseMenu* pm)
     {
         customMenuStack.pop_back();
         SetLastPageStack(pm);
     }
 
-    void SetLastPageStack(PauseMenu * pm)
+    void SetLastPageStack(PauseMenu* pm)
     {
         if (customMenuStack.size() > 0)
             memcpy(&pm->field_144_active_menu, &customMenuStack[customMenuStack.size() - 1]->mMenuPage, sizeof(pm->field_144_active_menu));
@@ -728,7 +728,7 @@ public:
     }
 
 public:
-    std::vector<CustomPauseMenuItem> * entries;
+    std::vector<CustomPauseMenuItem>* entries;
     int index = 0;
     int scrollDownIndex = 0;
     int maxScrollDown = 5;
@@ -818,13 +818,13 @@ void DestroyAllObjects()
 }
 
 std::vector<CustomPauseMenuItem> devCheatsMenuItems({
-    { "Destroy Alive Objs", [](CustomPauseMenu * pm) { DestroyAliveObjects(); pm->ClosePauseMenu(); DEV_CONSOLE_MESSAGE("Destroyed Alive Objects", 4); } },
-    { "Destroy All Objects", [](CustomPauseMenu * pm) { DestroyAllObjects(); pm->ClosePauseMenu(); DEV_CONSOLE_MESSAGE("Destroyed All Objects", 4); } },
-    { "Save All Mudokons", [](CustomPauseMenu *) { sRescuedMudokons_5C1BC2 = 300; sKilledMudokons_5C1BC0 = 0; DEV_CONSOLE_MESSAGE("(CHEAT) Saved all Mudokons", 4); } },
-    { "Kill All Mudokons", [](CustomPauseMenu *) { sRescuedMudokons_5C1BC2 = 0; sKilledMudokons_5C1BC0 = 300; DEV_CONSOLE_MESSAGE("(CHEAT) Killed all Mudokons", 4); }  },
-    { "Give Rocks", [](CustomPauseMenu *) { sActiveHero_5C1B68->field_1A2_throwable_count = 99; DEV_CONSOLE_MESSAGE("(CHEAT) Got Bones", 4); }  },
-    { "Open All Doors", [](CustomPauseMenu * pm) {  pm->ClosePauseMenu(); Cheat_OpenAllDoors(); } },
-    { "Invisible", [](CustomPauseMenu * pm) { DEV_CONSOLE_MESSAGE("(CHEAT) Invisibility!", 4);  pm->ClosePauseMenu(); sActiveHero_5C1B68->field_170_invisible_timer = 65535; sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit9);  sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit8_bInvisible); } },
+    { "Destroy Alive Objs", [](CustomPauseMenu* pm) { DestroyAliveObjects(); pm->ClosePauseMenu(); DEV_CONSOLE_MESSAGE("Destroyed Alive Objects", 4); } },
+    { "Destroy All Objects", [](CustomPauseMenu* pm) { DestroyAllObjects(); pm->ClosePauseMenu(); DEV_CONSOLE_MESSAGE("Destroyed All Objects", 4); } },
+    { "Save All Mudokons", [](CustomPauseMenu*) { sRescuedMudokons_5C1BC2 = 300; sKilledMudokons_5C1BC0 = 0; DEV_CONSOLE_MESSAGE("(CHEAT) Saved all Mudokons", 4); } },
+    { "Kill All Mudokons", [](CustomPauseMenu*) { sRescuedMudokons_5C1BC2 = 0; sKilledMudokons_5C1BC0 = 300; DEV_CONSOLE_MESSAGE("(CHEAT) Killed all Mudokons", 4); }  },
+    { "Give Rocks", [](CustomPauseMenu*) { sActiveHero_5C1B68->field_1A2_throwable_count = 99; DEV_CONSOLE_MESSAGE("(CHEAT) Got Bones", 4); }  },
+    { "Open All Doors", [](CustomPauseMenu* pm) {  pm->ClosePauseMenu(); Cheat_OpenAllDoors(); } },
+    { "Invisible", [](CustomPauseMenu* pm) { DEV_CONSOLE_MESSAGE("(CHEAT) Invisibility!", 4);  pm->ClosePauseMenu(); sActiveHero_5C1B68->field_170_invisible_timer = 65535; sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit9);  sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit8_bInvisible); } },
     { "Give Explosive Fart", [](CustomPauseMenu * pm) {
         DEV_CONSOLE_MESSAGE("(CHEAT) Oh man that stinks.", 4);
         pm->ClosePauseMenu();
@@ -871,15 +871,13 @@ void PauseMenu_ForceLink() {
     if (RunningAsInjectedDll())
     {
         //DumpMenus();
-
-        
     }
 
     devTeleportMenuItems.clear();
 
     for (int i = 0; i < 17; i++)
     {
-        devTeleportMenuItems.push_back({ gPerLvlData_561700[i].field_0_display_name, [](CustomPauseMenu * pm) {
+        devTeleportMenuItems.push_back({ gPerLvlData_561700[i].field_0_display_name, [](CustomPauseMenu* pm) {
             const auto levelSelectEntry = gPerLvlData_561700[pm->index];
             pm->ClosePauseMenu();
             sActiveHero_5C1B68->field_106_current_motion = eAbeStates::State_3_Fall_459B60;
@@ -911,10 +909,10 @@ void PauseMenu_ForceLink() {
 #endif
 }
 
-void PauseMenu::Page_Base_Render_490A50(int ** ot, PauseMenu::PauseMenuPage * mp)
+void PauseMenu::Page_Base_Render_490A50(int** ot, PauseMenu::PauseMenuPage* mp)
 {
     int i = 0;
-    PauseMenuPageEntry * e = &mp->field_8_menu_items[i];
+    PauseMenuPageEntry* e = &mp->field_8_menu_items[i];
 
     while (e->field_8_text)
     {
@@ -947,7 +945,7 @@ void PauseMenu::Page_Base_Render_490A50(int ** ot, PauseMenu::PauseMenuPage * mp
             }
         }
 
-        field_142 = static_cast<short>(field_F4_font.DrawString_4337D0(
+        field_142_poly_offset = static_cast<short>(field_F4_font.DrawString_4337D0(
             ot,
             textFormatted,
             x, // X
@@ -959,7 +957,7 @@ void PauseMenu::Page_Base_Render_490A50(int ** ot, PauseMenu::PauseMenuPage * mp
             static_cast<char>(glow + e->field_C_r),
             static_cast<char>(glow + e->field_D_g),
             static_cast<char>(glow + e->field_E_b),
-            field_142,
+            field_142_poly_offset,
             FP_FromDouble(1.0),
             640,
             0));
@@ -1015,23 +1013,23 @@ void PauseMenu::Page_Main_Update_4903E0()
 {
     if (sInputObject_5BD4E0.isHeld(InputCommands::eDown))
     {
-        if (++field_134_Index_Main > MainPages::ePage_Quit_7)
+        if (++field_134_index_main > MainPages::ePage_Quit_7)
         {
-            field_134_Index_Main = MainPages::ePage_Continue_0;
+            field_134_index_main = MainPages::ePage_Continue_0;
         }
         SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
     }
 
     if (sInputObject_5BD4E0.isHeld(InputCommands::eUp))
     {
-        if (--field_134_Index_Main < MainPages::ePage_Continue_0)
+        if (--field_134_index_main < MainPages::ePage_Continue_0)
         {
-            field_134_Index_Main = MainPages::ePage_Quit_7;
+            field_134_index_main = MainPages::ePage_Quit_7;
         }
         SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
     }
 
-    field_144_active_menu.field_C_selected_index = field_134_Index_Main;
+    field_144_active_menu.field_C_selected_index = field_134_index_main;
 
     if (sInputObject_5BD4E0.isHeld(InputCommands::eBack))
     {
@@ -1041,7 +1039,7 @@ void PauseMenu::Page_Main_Update_4903E0()
     }
     else if (sInputObject_5BD4E0.isHeld(InputCommands::eUnPause_OrConfirm))
     {
-        switch (field_134_Index_Main)
+        switch (field_134_index_main)
         {
         case MainPages::ePage_Continue_0:
             word12C_flags &= ~1u;
@@ -1056,30 +1054,30 @@ void PauseMenu::Page_Main_Update_4903E0()
             Quicksave_4C90D0();
             return;
 
-        case MainPages::ePage_2:
+        case MainPages::ePage_Controls_2:
 #if DEVELOPER_MODE
             devMenu.Activate();
 #else
-            field_136 = 1;
+            field_136_unused = 1;
             field_144_active_menu = sPM_Page_Controls_Actions_546610;
-            field_138 = 0;
+            field_138_control_action_page_index = 0;
 #endif
             break;
 
         case MainPages::ePage_Status_3:
-            field_136 = 3;
+            field_136_unused = 3;
             field_144_active_menu = sPM_Page_Status_5465F8;
             break;
 
         case MainPages::ePage_Save_4:
-            field_136 = 5;
+            field_136_unused = 5;
             field_144_active_menu = sPM_Page_Save_5465C8;
             SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
             field_13C_save_state = SaveState::ReadingInput_0;
             word12C_flags &= ~0xA;
-            field_13E = -1;
+            field_13E_unused = -1;
             word12C_flags |= 0x400;
-            field_13A = 0;
+            field_13A_unused = 0;
             Quicksave_4C90D0();
             // Set the default save name to be the current level/path/camera
             Path_Format_CameraName_460FB0(
@@ -1096,14 +1094,14 @@ void PauseMenu::Page_Main_Update_4903E0()
 
         case MainPages::ePage_Load_5:
             Quicksave_FindSaves_4D4150();
-            field_136 = 4;
+            field_136_unused = 4;
             field_144_active_menu = sPM_Page_Load_546628;
             SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
             word12C_flags &= ~0xA;
             field_13C_save_state = SaveState::ReadingInput_0;
             word12C_flags |= 0x400;
-            field_13E = -1;
-            field_13A = 0;
+            field_13E_unused = -1;
+            field_13A_unused = 0;
             return;
 
         case MainPages::ePage_RestartPath_6:
@@ -1111,9 +1109,9 @@ void PauseMenu::Page_Main_Update_4903E0()
             return;
 
         case MainPages::ePage_Quit_7:
-            field_136 = 2;
+            field_136_unused = 2;
             field_144_active_menu = sPM_Page_ReallyQuit_5465E0;
-            field_134_Index_Main = MainPages::ePage_Continue_0;
+            field_134_index_main = MainPages::ePage_Continue_0;
             break;
 
         default:
@@ -1128,14 +1126,14 @@ void PauseMenu::Page_ControlsActions_Update_48FA60()
 {
     if (sInputObject_5BD4E0.isHeld(InputCommands::eBack))
     {
-        field_136 = 0;
+        field_136_unused = 0;
         field_144_active_menu = sPM_Page_Main_5465B0;
         SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
     }
 
     if (sInputObject_5BD4E0.isHeld(0x100000))
     {
-        const int prev = ++field_138;
+        const int prev = ++field_138_control_action_page_index;
         if (prev < 6)
         {
             field_144_active_menu.field_8_menu_items = sControlActionsPages_55DE40[prev];
@@ -1143,8 +1141,8 @@ void PauseMenu::Page_ControlsActions_Update_48FA60()
         }
         else
         {
-            field_138 = 0;
-            field_136 = 0;
+            field_138_control_action_page_index = 0;
+            field_136_unused = 0;
             field_144_active_menu = sPM_Page_Main_5465B0;
             SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
         }
@@ -1155,7 +1153,7 @@ void PauseMenu::Page_ReallyQuit_Update_490930()
 {
     if (sInputObject_5BD4E0.isHeld(InputCommands::eBack))
     {
-        field_136 = 0;
+        field_136_unused = 0;
         field_144_active_menu = sPM_Page_Main_5465B0;
         SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
     }
@@ -1249,7 +1247,7 @@ void PauseMenu::Page_Save_Update_491210()
         // Escape - cancel
         case VK_ESCAPE:
             SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
-            field_136 = 0;
+            field_136_unused = 0;
             field_144_active_menu = sPM_Page_Main_5465B0;
             Input_Reset_492660();
             return;
@@ -1342,7 +1340,7 @@ void PauseMenu::Page_Status_Update_4916A0()
     if (sInputObject_5BD4E0.isHeld(0x300000))
     {
         // Go back to the main page
-        field_136 = 0;
+        field_136_unused = 0;
         field_144_active_menu = sPM_Page_Main_5465B0;
         SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
     }
@@ -1427,7 +1425,7 @@ void PauseMenu::Page_Load_Update_490D50()
     // Load save (enter)
     if (inputHeld & InputCommands::eUnPause_OrConfirm)
     {
-        field_136 = 0;
+        field_136_unused = 0;
         memcpy(&field_144_active_menu, &sPM_Page_Main_5465B0, sizeof(field_144_active_menu));
         if (sTotalSaveFilesCount_BB43E0)
         {
@@ -1450,7 +1448,7 @@ void PauseMenu::Page_Load_Update_490D50()
     // Go back (esc)
     else if (inputHeld & InputCommands::eBack)
     {
-        field_136 = 0;
+        field_136_unused = 0;
         memcpy(&field_144_active_menu, &sPM_Page_Main_5465B0, sizeof(field_144_active_menu));
         SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
     }
@@ -1467,7 +1465,7 @@ void PauseMenu::Page_Load_Update_490D50()
     }
 }
 
-void PauseMenu::Page_Load_Render_4910A0(int ** ot, PauseMenuPage * mp)
+void PauseMenu::Page_Load_Render_4910A0(int** ot, PauseMenuPage* mp)
 {
     int saveIdx = sSavedGameToLoadIdx_BB43FC - 2;
     for (int i = 0; i < 6; i++)
@@ -1590,11 +1588,11 @@ void PauseMenu::Update_48FD80()
                 SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
                 sub_4A2B70();
                 field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
-                field_134_Index_Main = MainPages::ePage_Continue_0;
-                field_136 = 0;
+                field_134_index_main = MainPages::ePage_Continue_0;
+                field_136_unused = 0;
                 word12C_flags = (word12C_flags & ~8) | 1;
                 field_12E_selected_glow = 40;
-                field_130 = 8;
+                field_130_selected_glow_counter = 8;
                 Path_Format_CameraName_460FB0(
                     sScreenStringBuffer_5C92F0,
                     gMap_5C3030.field_0_current_level,
@@ -1683,27 +1681,27 @@ void PauseMenu::Update_48FD80()
                         gPsxDisplay_5C1130.PSX_Display_Render_OT_41DDF0();
                         sInputObject_5BD4E0.Update_45F040();
 
-                        if (field_130 > 0)
+                        if (field_130_selected_glow_counter > 0)
                         {
                             field_12E_selected_glow += 8;
                         }
 
-                        if (field_12E_selected_glow <= 120 || field_130 <= 0)
+                        if (field_12E_selected_glow <= 120 || field_130_selected_glow_counter <= 0)
                         {
-                            if (field_130 <= 0)
+                            if (field_130_selected_glow_counter <= 0)
                             {
                                 field_12E_selected_glow -= 8;
                                 if (field_12E_selected_glow < 40)
                                 {
-                                    field_130 = -field_130;
-                                    field_12E_selected_glow += field_130;
+                                    field_130_selected_glow_counter = -field_130_selected_glow_counter;
+                                    field_12E_selected_glow += field_130_selected_glow_counter;
                                 }
                             }
                         }
                         else
                         {
-                            field_130 = -field_130;
-                            field_12E_selected_glow += field_130;
+                            field_130_selected_glow_counter = -field_130_selected_glow_counter;
+                            field_12E_selected_glow += field_130_selected_glow_counter;
                         }
 
                         (this->*field_144_active_menu.field_0_fn_update)();

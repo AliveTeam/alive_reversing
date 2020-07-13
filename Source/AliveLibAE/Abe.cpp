@@ -3930,7 +3930,7 @@ void Abe::State_14_HoistIdle_452440()
             {
                 if (gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapTop_2, this, -1))
                 {
-                    sub_4945B0();
+                    PSX_Prevent_Rendering_4945B0();
                     field_106_current_motion = eAbeStates::State_68_ToOffScreenHoist_454B80;
                     return;
                 }
@@ -6190,11 +6190,11 @@ void Abe::State_70_RingRopePullHang_455AF0()
     PullRingRope* pPullRing = static_cast<PullRingRope*>(sObjectIds_5C1B70.Find_449CF0(field_15C_pull_rope_id));
     if (pPullRing)
     {
-        if (!pPullRing->Vsub_49BC90())
+        if (!pPullRing->VIsNotBeingPulled_49BC90())
         {
             return;
         }
-        pPullRing->Vsub_49B610();
+        pPullRing->VMarkAsPulled_49B610();
     }
 
     field_15C_pull_rope_id = -1;

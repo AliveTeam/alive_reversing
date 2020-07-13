@@ -119,8 +119,8 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, int tlvInfo)
     const FP oldX = field_B8_xpos;
     MapFollowMe_408D10(TRUE);
     const short xSnapDelta = FP_GetExponent(field_B8_xpos - oldX);
-    field_11C -= xSnapDelta;
-    field_11E -= xSnapDelta;
+    field_11C_x_offset -= xSnapDelta;
+    field_11E_width_offset -= xSnapDelta;
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
@@ -656,7 +656,7 @@ void LiftPoint::vUpdate_461AE0()
             if (pLiftTlv)
             {
                 sub_461000(pLiftTlv);
-                field_270_floorYLevel = FP_FromInteger(pLiftTlv->field_8_top_left.field_2_y + -field_120);
+                field_270_floorYLevel = FP_FromInteger(pLiftTlv->field_8_top_left.field_2_y + -field_120_y_offset);
             }
             else
             {
@@ -896,7 +896,7 @@ void LiftPoint::vStayOnFloor_461A00(__int16 floor, Path_LiftPoint* pTlv)
 {
     if (!floor)
     {
-        field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y + -field_120);
+        field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y + -field_120_y_offset);
         SFX_Play_46FA90(SoundEffect::LiftStop_30, 0);
         SFX_Play_46FBA0(SoundEffect::LiftStop_30, 80, -2000);
     }

@@ -53,7 +53,7 @@ EXPORT void CC PSX_SetDrawEnv_Impl_4FE420(int x, int y, int w, int h, int unknow
 EXPORT void CC PSX_CD_Normalize_FileName_4FAD90(char* pNormalized, const char* pFileName);
 EXPORT int CC PSX_CD_OpenFile_4FAE80(const char* pFileName, int bTryAllPaths);
 
-EXPORT void CC sub_4945B0();
+EXPORT void CC PSX_Prevent_Rendering_4945B0();
 
 
 EXPORT CdlLOC* CC PSX_Pos_To_CdLoc_4FADD0(int pos, CdlLOC* pLoc);
@@ -63,14 +63,14 @@ EXPORT int CC PSX_CD_File_Read_4FB210(int numSectors, void* pBuffer);
 EXPORT int CC PSX_CD_FileIOWait_4FB260(int bASync);
 
 ALIVE_VAR_EXTERN(Bitmap, sPsxVram_C1D160);
-ALIVE_VAR_EXTERN(BYTE, byte_BD0F20);
+ALIVE_VAR_EXTERN(BYTE, turn_off_rendering_BD0F20);
 ALIVE_VAR_EXTERN(PSX_DRAWENV, sPSX_EMU_DrawEnvState_C3D080);
 ALIVE_VAR_EXTERN(BYTE, sPsxEMU_show_vram_BD1465);
 ALIVE_VAR_EXTERN(Bitmap*, spBitmap_C2D038);
 
 ALIVE_VAR_EXTERN(TPsxEmuCallBack, sPsxEmu_EndFrameFnPtr_C1D17C);
 ALIVE_VAR_EXTERN(BYTE, bDontUseXYOffsetInRender_BD1464);
-ALIVE_VAR_EXTERN(Bitmap, stru_C1D1A0);
+ALIVE_VAR_EXTERN(Bitmap, sBitmap_C1D1A0);
 ALIVE_VAR_EXTERN(int, sVGA_DisplayType_BD1468);
 
 ALIVE_ARY_EXTERN(char, 128, sCdEmu_Path1_C14620);
