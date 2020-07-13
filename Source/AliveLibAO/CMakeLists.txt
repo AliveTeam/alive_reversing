@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   ParamiteWeb.hpp
+   ParamiteWeb.cpp
    ZapLine.hpp
    ZapLine.cpp
    Shrykull.hpp
