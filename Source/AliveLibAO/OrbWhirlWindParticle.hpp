@@ -28,7 +28,7 @@ public:
     // NOTE: inlined
     void ToStop();
 
-    EXPORT void sub_48BDC0(__int16 a2);
+    EXPORT void CalculateRenderProperties_48BDC0(__int16 bStarted);
 
     void Spin(FP xpos, FP ypos, BaseAliveGameObject* pObj);
 
@@ -54,7 +54,7 @@ public:
     int field_B8_render_angle;
     __int16 field_BC_counter;
     __int16 field_BE_max;
-    FP field_C0_scale;
+    FP field_C0_current_scale;
     FP field_C4_randomized_scale;
     FP field_C8_scale_offset_fly_to_target;
     FP field_CC_xpos_mid;
@@ -70,7 +70,7 @@ public:
     FP field_F4_xpos_offset;
     FP field_F8_ypos_offset;
     FP field_FC_xpos_offset2;
-    FP field_100;
+    FP field_104_scale_offset_spin_at_target;
 };
 ALIVE_ASSERT_SIZEOF(OrbWhirlWindParticle, 0x104);
 

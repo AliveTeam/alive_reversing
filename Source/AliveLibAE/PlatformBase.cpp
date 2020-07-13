@@ -62,10 +62,10 @@ void PlatformBase::AddDynamicCollision_4971C0(int maxW, int maxH, unsigned __int
         pTlv->field_8_top_left.field_2_y,
         32);
 
-    field_11C = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_0_x) - field_B8_xpos);
-    field_11E = FP_GetExponent(FP_FromInteger(pTlv->field_C_bottom_right.field_0_x) - field_B8_xpos);
-    field_120 = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_2_y) - field_BC_ypos);
-    field_122 = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_2_y) - field_BC_ypos);
+    field_11C_x_offset = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_0_x) - field_B8_xpos);
+    field_11E_width_offset = FP_GetExponent(FP_FromInteger(pTlv->field_C_bottom_right.field_0_x) - field_B8_xpos);
+    field_120_y_offset = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_2_y) - field_BC_ypos);
+    field_122_height_offset = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_2_y) - field_BC_ypos);
 
     if (!ObjList_5C1B78->Push_Back(this))
     {
@@ -91,10 +91,10 @@ void PlatformBase::dtor_4973E0()
 
 void PlatformBase::SyncCollisionLinePosition_4974E0()
 {
-    field_124_pCollisionLine->field_0_rect.x = FP_GetExponent(FP_FromInteger(field_11C) + field_B8_xpos);
-    field_124_pCollisionLine->field_0_rect.w = FP_GetExponent(FP_FromInteger(field_11E) + field_B8_xpos);
-    field_124_pCollisionLine->field_0_rect.y = FP_GetExponent(field_BC_ypos + FP_FromInteger(field_120));
-    field_124_pCollisionLine->field_0_rect.h = FP_GetExponent(field_BC_ypos + FP_FromInteger(field_122));
+    field_124_pCollisionLine->field_0_rect.x = FP_GetExponent(FP_FromInteger(field_11C_x_offset) + field_B8_xpos);
+    field_124_pCollisionLine->field_0_rect.w = FP_GetExponent(FP_FromInteger(field_11E_width_offset) + field_B8_xpos);
+    field_124_pCollisionLine->field_0_rect.y = FP_GetExponent(field_BC_ypos + FP_FromInteger(field_120_y_offset));
+    field_124_pCollisionLine->field_0_rect.h = FP_GetExponent(field_BC_ypos + FP_FromInteger(field_122_height_offset));
 }
 
 void PlatformBase::vRemoveCount_4975E0(BaseAliveGameObject* /*pObj*/)

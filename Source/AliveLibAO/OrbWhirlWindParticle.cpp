@@ -11,24 +11,24 @@
 
 START_NS_AO
 
-void OrbWhirlWindParticle::sub_48BDC0(__int16 a2)
+void OrbWhirlWindParticle::CalculateRenderProperties_48BDC0(__int16 bStarted)
 {
     field_B8_render_angle += field_BC_counter;
 
-    if (a2 && field_BC_counter <= field_BE_max && !(gnFrameCount_507670 % 3))
+    if (bStarted && field_BC_counter <= field_BE_max && !(gnFrameCount_507670 % 3))
     {
         field_BC_counter++;
     }
-    else if (!a2 && field_BC_counter >= 1 && !(gnFrameCount_507670 % 3))
+    else if (!bStarted && field_BC_counter >= 1 && !(gnFrameCount_507670 % 3))
     {
         field_BC_counter--;
         field_D4_radiusX += FP_FromInteger(4);
     }
 
-    field_A0_xpos_render_offset = ((field_C0_scale * field_D4_radiusX) * Math_Sine_451110(static_cast<BYTE>(field_B8_render_angle))) + field_CC_xpos_mid;
-    field_A4_ypos_render_offset = ((field_C0_scale * field_D8_radiosY) * Math_Cosine_4510A0(static_cast<BYTE>(field_B8_render_angle))) + field_D0_ypos_mid;
-    field_A8_render_as_scale = (field_C0_scale * field_C4_randomized_scale);
-    if (field_C0_scale > FP_FromDouble(0.599))
+    field_A0_xpos_render_offset = ((field_C0_current_scale * field_D4_radiusX) * Math_Sine_451110(static_cast<BYTE>(field_B8_render_angle))) + field_CC_xpos_mid;
+    field_A4_ypos_render_offset = ((field_C0_current_scale * field_D8_radiosY) * Math_Cosine_4510A0(static_cast<BYTE>(field_B8_render_angle))) + field_D0_ypos_mid;
+    field_A8_render_as_scale = (field_C0_current_scale * field_C4_randomized_scale);
+    if (field_C0_current_scale > FP_FromDouble(0.599))
     {
         field_8_anim.field_C_layer = 32;
     }
@@ -95,7 +95,7 @@ void OrbWhirlWindParticle::VUpdate_48BF00()
     switch (field_B4_state)
     {
     case State::State_0_Start:
-        sub_48BDC0(1);
+        CalculateRenderProperties_48BDC0(1);
         break;
 
     case State::State_1_Spin:
@@ -107,7 +107,7 @@ void OrbWhirlWindParticle::VUpdate_48BF00()
                 field_D4_radiusX -= FP_FromInteger(2);
                 field_D8_radiosY -= FP_FromInteger(1);
             }
-            sub_48BDC0(1);
+            CalculateRenderProperties_48BDC0(1);
         }
         else
         {
@@ -121,10 +121,10 @@ void OrbWhirlWindParticle::VUpdate_48BF00()
                 field_F0_scale = field_CC_xpos_mid;
                 field_FC_xpos_offset2 = field_D0_ypos_mid;
                 field_F4_xpos_offset = field_D0_ypos_mid;
-                field_C8_scale_offset_fly_to_target = (field_E4_pObj->field_BC_sprite_scale - field_C0_scale) / FP_FromInteger(16);
+                field_C8_scale_offset_fly_to_target = (field_E4_pObj->field_BC_sprite_scale - field_C0_current_scale) / FP_FromInteger(16);
                 field_DC_position_timer = gnFrameCount_507670 + 16;
                 field_B4_state = State::State_2_FlyToTarget;
-                sub_48BDC0(1);
+                CalculateRenderProperties_48BDC0(1);
             }
         }
         break;
@@ -136,35 +136,35 @@ void OrbWhirlWindParticle::VUpdate_48BF00()
         }
         else
         {
-            PSX_RECT v44 = {};
-            field_E4_pObj->VGetBoundingRect(&v44, 1);
+            PSX_RECT bRect = {};
+            field_E4_pObj->VGetBoundingRect(&bRect, 1);
 
-            const FP v19 = FP_FromInteger((v44.x + v44.w) / 2);
-            const FP v20 = FP_FromInteger((v44.y + v44.h) / 2);
+            const FP xpos = FP_FromInteger((bRect.x + bRect.w) / 2);
+            const FP ypos = FP_FromInteger((bRect.y + bRect.h) / 2);
 
             if (static_cast<int>(gnFrameCount_507670) < field_DC_position_timer)
             {
-                field_C0_scale += field_C8_scale_offset_fly_to_target;
+                field_C0_current_scale += field_C8_scale_offset_fly_to_target;
                 const FP v25 = FP_FromInteger(16 - (field_DC_position_timer + gnFrameCount_507670)) / FP_FromInteger(16);
-                field_F8_ypos_offset = ((v19 - field_F0_scale) * v25) + field_F0_scale;
-                field_FC_xpos_offset2 = ((v20 - field_F4_xpos_offset) * v25) + field_F4_xpos_offset;
-                field_CC_xpos_mid = field_F8_ypos_offset + ((FP_FromInteger(32) * field_C0_scale) * Math_Sine_451110(FP_GetExponent(FP_FromInteger(128) * v25) & 0xFF));
-                field_D0_ypos_mid = field_FC_xpos_offset2 + ((FP_FromInteger(32) * field_C0_scale) * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(128) * v25) & 0xFF));
+                field_F8_ypos_offset = ((xpos - field_F0_scale) * v25) + field_F0_scale;
+                field_FC_xpos_offset2 = ((ypos - field_F4_xpos_offset) * v25) + field_F4_xpos_offset;
+                field_CC_xpos_mid = field_F8_ypos_offset + ((FP_FromInteger(32) * field_C0_current_scale) * Math_Sine_451110(FP_GetExponent(FP_FromInteger(128) * v25) & 0xFF));
+                field_D0_ypos_mid = field_FC_xpos_offset2 + ((FP_FromInteger(32) * field_C0_current_scale) * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(128) * v25) & 0xFF));
             }
             else
             {
-                field_F8_ypos_offset = v19;
-                field_FC_xpos_offset2 = v20;
-                field_CC_xpos_mid = v19;
-                field_D0_ypos_mid = v20;
+                field_F8_ypos_offset = xpos;
+                field_FC_xpos_offset2 = ypos;
+                field_CC_xpos_mid = xpos;
+                field_D0_ypos_mid = ypos;
                 field_B8_render_angle = 192;
                 field_D4_radiusX = FP_FromInteger(40);
                 field_AC_radiusX_offset = field_D4_radiusX / FP_FromInteger(32);
-                field_100 = field_C0_scale * FP_FromInteger(Math_RandomRange_450F20(-16, 16));
+                field_104_scale_offset_spin_at_target = field_C0_current_scale * FP_FromInteger(Math_RandomRange_450F20(-16, 16));
                 field_DC_position_timer = gnFrameCount_507670 + 32;
                 field_B4_state = State::State_3_SpinAtTarget;
             }
-            sub_48BDC0(1);
+            CalculateRenderProperties_48BDC0(1);
         }
         break;
 
@@ -173,12 +173,12 @@ void OrbWhirlWindParticle::VUpdate_48BF00()
         {
             SetActive(IsActive() ? 0 : 1);
         }
-        field_D0_ypos_mid = (field_100 * Math_Cosine_4510A0(
+        field_D0_ypos_mid = (field_104_scale_offset_spin_at_target * Math_Cosine_4510A0(
             FP_GetExponent(
                 FP_FromInteger(128) *
                 FP_FromInteger(32 - (field_DC_position_timer + gnFrameCount_507670)) / FP_FromInteger(32)) & 0xFF)) + field_FC_xpos_offset2;
         field_D4_radiusX -= field_AC_radiusX_offset;
-        sub_48BDC0(1);
+        CalculateRenderProperties_48BDC0(1);
         break;
 
     case State::State_4_Stop:
@@ -186,7 +186,7 @@ void OrbWhirlWindParticle::VUpdate_48BF00()
         {
             SetActive(IsActive() ? 0 : 1);
         }
-        sub_48BDC0(0);
+        CalculateRenderProperties_48BDC0(0);
         break;
 
     default:
@@ -236,9 +236,9 @@ OrbWhirlWindParticle* OrbWhirlWindParticle::ctor_48BC10(FP xpos, FP ypos, FP sca
     field_E0_yMove = ypos - FP_FromInteger(16);
     field_D4_radiusX = FP_FromInteger(Math_RandomRange_450F20(37, 43));
     field_D8_radiosY = FP_FromDouble(0.25) * field_D4_radiusX;
-    field_C0_scale = scale;
+    field_C0_current_scale = scale;
     field_C4_randomized_scale = FP_FromInteger(Math_RandomRange_450F20(7, 10)) / FP_FromInteger(10);
-    field_A8_render_as_scale = field_C0_scale * field_C4_randomized_scale;
+    field_A8_render_as_scale = field_C0_current_scale * field_C4_randomized_scale;
     return this;
 }
 
@@ -248,7 +248,7 @@ void OrbWhirlWindParticle::Spin(FP xpos, FP ypos, BaseAliveGameObject* pObj)
     field_B4_state = State::State_1_Spin;
     field_E4_pObj = pObj;
 
-    field_B0_ypos_increment = (field_C0_scale * field_E0_yMove - field_D0_ypos_mid) / FP_FromInteger(16);
+    field_B0_ypos_increment = (field_C0_current_scale * field_E0_yMove - field_D0_ypos_mid) / FP_FromInteger(16);
     field_E8_xpos = xpos;
     field_EC_ypos = ypos;
 }

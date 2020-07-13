@@ -26,7 +26,7 @@ ALIVE_VAR(1, 0x578318, short, sActiveTPage_578318, -1);
 ALIVE_VAR(1, 0xbd0f0c, DWORD, sTexture_page_x_BD0F0C, 0);
 ALIVE_VAR(1, 0xbd0f10, DWORD, sTexture_page_y_BD0F10, 0);
 ALIVE_VAR(1, 0xbd0f14, DWORD, sTexture_mode_BD0F14, 0);
-ALIVE_VAR(1, 0x57831c, DWORD, dword_57831C, 10);
+ALIVE_VAR(1, 0x57831c, DWORD, tpage_width_57831C, 10);
 ALIVE_VAR(1, 0xBD0F18, DWORD, sTexture_page_abr_BD0F18, 0);
 ALIVE_VAR(1, 0xbd0f1c, WORD *, sTPage_src_ptr_BD0F1C, nullptr);
 
@@ -3379,7 +3379,7 @@ EXPORT void CC PSX_DrawOTag_4F6540(int** pOT)
 {
     if (!sPsxEmu_EndFrameFnPtr_C1D17C || !sPsxEmu_EndFrameFnPtr_C1D17C(0))
     {
-        if (byte_BD0F20 || !BMP_Lock_4F1FF0(&sPsxVram_C1D160))
+        if (turn_off_rendering_BD0F20 || !BMP_Lock_4F1FF0(&sPsxVram_C1D160))
         {
             if (sPsxEmu_EndFrameFnPtr_C1D17C)
             {
@@ -3393,7 +3393,7 @@ EXPORT void CC PSX_DrawOTag_4F6540(int** pOT)
 
         if (bDontUseXYOffsetInRender_BD1464)
         {
-            if (!BMP_Lock_4F1FF0(&stru_C1D1A0))
+            if (!BMP_Lock_4F1FF0(&sBitmap_C1D1A0))
             {
                 BMP_unlock_4F2100(&sPsxVram_C1D160);
                 if (sPsxEmu_EndFrameFnPtr_C1D17C)
@@ -3402,7 +3402,7 @@ EXPORT void CC PSX_DrawOTag_4F6540(int** pOT)
                 }
                 return;
             }
-            spBitmap_C2D038 = &stru_C1D1A0;
+            spBitmap_C2D038 = &sBitmap_C1D1A0;
             drawEnv_of1 = 0;
             drawEnv_of0 = 0;
         }
@@ -3420,7 +3420,7 @@ EXPORT void CC PSX_DrawOTag_4F6540(int** pOT)
 
         if (bDontUseXYOffsetInRender_BD1464)
         {
-            BMP_unlock_4F2100(&stru_C1D1A0);
+            BMP_unlock_4F2100(&sBitmap_C1D1A0);
         }
 
         BMP_unlock_4F2100(&sPsxVram_C1D160);
@@ -3455,7 +3455,7 @@ EXPORT void CC PSX_TPage_Change_4F6430(__int16 tPage)
 
         // NOTE: Branch guarded by dword_BD2250[tPage & 31] removed as it is never written
 
-        dword_57831C = 10;
+        tpage_width_57831C = 10;
         sTPage_src_ptr_BD0F1C = reinterpret_cast<WORD*>(sPsxVram_C1D160.field_4_pLockedPixels) + (sTexture_page_x_BD0F0C + (sTexture_page_y_BD0F10 * 1024));
     }
 }
@@ -3834,11 +3834,11 @@ EXPORT void CC PSX_EMU_Render_SPRT_8bit_51F660(const PSX_RECT* pRect, int u, int
 
 EXPORT void CC PSX_EMU_Render_SPRT_16bit_51FA30(const PSX_RECT* pRect, int u, int v, unsigned __int8 r, unsigned __int8 g, unsigned __int8 b, int /*clut*/, char bSemiTrans)
 {
-    const int texture_row_width = (1 << dword_57831C) - pRect->w;
+    const int texture_row_width = (1 << tpage_width_57831C) - pRect->w;
     const unsigned int line_pitch = (unsigned int)spBitmap_C2D038->field_10_locked_pitch >> 1;
     const unsigned int pitch_remainder = line_pitch - pRect->w;
 
-    const WORD* pTexture_src = &sTPage_src_ptr_BD0F1C[u + (v << dword_57831C)];// dword_57831C = tpage width/bpp? becomes / 1024 ?
+    const WORD* pTexture_src = &sTPage_src_ptr_BD0F1C[u + (v << tpage_width_57831C)];// tpage_width_57831C = tpage width/bpp? becomes / 1024 ?
     WORD* pVram_start = reinterpret_cast<WORD*>(spBitmap_C2D038->field_4_pLockedPixels) + (pRect->x + (line_pitch * pRect->y));
     WORD* pVram_end = &pVram_start[(pRect->w - 1) + line_pitch * (pRect->h - 1)];
 
@@ -4358,7 +4358,7 @@ namespace Test
         sTexture_page_x_BD0F0C = 0;
         sTexture_page_y_BD0F10 = 0;
         sTexture_mode_BD0F14 = 0;
-        dword_57831C = 0;
+        tpage_width_57831C = 0;
 
         for (DWORD i = 0; i < 3; i++)
         {
@@ -4370,7 +4370,7 @@ namespace Test
             ASSERT_EQ(sTexture_page_y_BD0F10, (i == 0) ? 0u : 256u);
             ASSERT_EQ(sTexture_mode_BD0F14, i);
             ASSERT_EQ(sTexture_page_abr_BD0F18, 3 - i);
-            ASSERT_EQ(dword_57831C, 10u);
+            ASSERT_EQ(tpage_width_57831C, 10u);
         }
     }
 

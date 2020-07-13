@@ -34,11 +34,11 @@ ALIVE_VAR(1, 0xBDCD54, BYTE*, sPsx_drawenv_buffer_BDCD54, nullptr);
 ALIVE_VAR(1, 0xBD1465, BYTE, sPsxEMU_show_vram_BD1465, 0);
 
 ALIVE_VAR(1, 0xC1D160, Bitmap, sPsxVram_C1D160, {});
-ALIVE_VAR(1, 0xC1D1A0, Bitmap, stru_C1D1A0, {}); // Note: never used?
+ALIVE_VAR(1, 0xC1D1A0, Bitmap, sBitmap_C1D1A0, {}); // Note: never used?
 
 ALIVE_VAR(1, 0xC2D060, PSX_DISPENV, sLastDispEnv_C2D060, {});
 ALIVE_VAR(1, 0xBD146D, BYTE, sScreenMode_BD146D, 0);
-ALIVE_VAR(1, 0xBD0F20, BYTE, byte_BD0F20, 0);
+ALIVE_VAR(1, 0xBD0F20, BYTE, turn_off_rendering_BD0F20, 0);
 ALIVE_VAR(1, 0x578324, BYTE, byte_578324, 1);
 
 
@@ -217,7 +217,7 @@ ALIVE_VAR(1, 0xC2D038, Bitmap*, spBitmap_C2D038, nullptr);
 EXPORT void CC PSX_EMU_Init_4F9CD0(bool bShowVRam)
 {
     memset(&sPsxVram_C1D160, 0, sizeof(sPsxVram_C1D160));
-    memset(&stru_C1D1A0, 0, sizeof(stru_C1D1A0));
+    memset(&sBitmap_C1D1A0, 0, sizeof(sBitmap_C1D1A0));
 
     sPsxEmu_EndFrameFnPtr_C1D17C = nullptr;
     sPsxEmu_put_disp_env_callback_C1D184 = nullptr;
@@ -435,7 +435,7 @@ EXPORT void CC PSX_EMU_VideoDeAlloc_4FA010()
         Bmp_Free_4F1950(&sPsxVram_C1D160);
         if (bDontUseXYOffsetInRender_BD1464)
         {
-            Bmp_Free_4F1950(&stru_C1D1A0);
+            Bmp_Free_4F1950(&sBitmap_C1D1A0);
             bDontUseXYOffsetInRender_BD1464 = 0;
         }
         sbBitmapsAllocated_BD145C = false;
@@ -458,7 +458,7 @@ EXPORT void CC PSX_PutDispEnv_Impl_4F5640(const PSX_DISPENV* pDispEnv, char a2)
         BMP_unlock_4F2100(&sPsxVram_C1D160);
     }
 
-    if (!byte_BD0F20 && byte_578324)
+    if (!turn_off_rendering_BD0F20 && byte_578324)
     {
         if (sPsxEMU_show_vram_BD1465)
         {
@@ -479,7 +479,7 @@ EXPORT void CC PSX_PutDispEnv_Impl_4F5640(const PSX_DISPENV* pDispEnv, char a2)
             rect.left = 0;
             rect.right = sLastDispEnv_C2D060.disp.w;
             rect.bottom = sLastDispEnv_C2D060.disp.h;
-            pBmp = &stru_C1D1A0;
+            pBmp = &sBitmap_C1D1A0;
         }
         else
         {
@@ -840,9 +840,9 @@ EXPORT void CC PSX_DispEnv_Set_4ED960(int mode)
     sDispEnv_mode_BBB9C4 = mode;
 }
 
-EXPORT void CC sub_4945B0()
+EXPORT void CC PSX_Prevent_Rendering_4945B0()
 {
-    byte_BD0F20 = 1;
+    turn_off_rendering_BD0F20 = 1;
 }
 
 // If mode is 1, game doesn't frame cap at all. If it is greater than 1, then it caps to (60 / mode) fps.

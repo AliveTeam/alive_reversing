@@ -227,7 +227,7 @@ EXPORT int CC Game_End_Frame_4950F0(DWORD flags)
 {
     if (flags & 1)
     {
-        byte_BD0F20 = 0;
+        turn_off_rendering_BD0F20 = 0;
         return 0;
     }
 

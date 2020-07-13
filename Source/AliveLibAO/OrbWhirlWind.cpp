@@ -53,8 +53,8 @@ void OrbWhirlWind::VUpdate_48B990()
             if (pParticle)
             {
                 pParticle->ctor_48BC10(
-                    field_58_xpos_mid,
-                    field_5C_ypos_mid,
+                    field_58_xpos,
+                    field_5C_ypos,
                     field_60_scale);
             }
             field_18_particles[field_16_particleIdx++] = pParticle;
@@ -141,8 +141,8 @@ OrbWhirlWind* OrbWhirlWind::ctor_48B870(FP xpos, FP ypos, FP scale)
 
     field_4_typeId = Types::eNone_0;
 
-    field_58_xpos_mid = xpos;
-    field_5C_ypos_mid = ypos;
+    field_58_xpos = xpos;
+    field_5C_ypos = ypos;
     field_60_scale = scale;
 
     field_14_particles_state = ParticlesState::eCreating;

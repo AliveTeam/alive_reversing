@@ -38,7 +38,7 @@ struct PauseMenuPageEntry
     __int16 field_2_x;
     __int16 field_4_y;
     __int16 field_6_unknown;
-    const char *field_8_text;
+    const char* field_8_text;
     unsigned char field_C_r;
     unsigned char field_D_g;
     unsigned char field_E_b;
@@ -67,7 +67,7 @@ public:
     EXPORT void Update_48FD80();
     EXPORT void Render_490BD0(int** ot);
 
-    EXPORT void vsub_490D30();
+    EXPORT void Remove_At_Credits_Screen_490D30();
 
     EXPORT void Page_Main_Update_4903E0();
     EXPORT void Page_Base_Render_490A50(int** ot, PauseMenuPage* mp);
@@ -100,9 +100,9 @@ public:
         char field_E_background_r;
         char field_F_background_g;
         char field_10_background_b;
-        char field_11;
-        char field_12;
-        char field_13;
+        char field_11_padding;
+        char field_12_padding;
+        char field_13_padding;
     };
     ALIVE_ASSERT_SIZEOF(PauseMenu::PauseMenuPage, 0x14);
 
@@ -113,14 +113,14 @@ public:
     Alive::Font field_F4_font;
     __int16 word12C_flags;
     __int16 field_12E_selected_glow;
-    __int16 field_130;
-    __int16 field_132;
+    __int16 field_130_selected_glow_counter;
+    __int16 field_132_padding;
 
     enum MainPages : __int16
     {
         ePage_Continue_0 = 0,
         ePage_QuickSave_1 = 1,
-        ePage_2 = 2,
+        ePage_Controls_2 = 2,
         ePage_Status_3 = 3,
         ePage_Save_4 = 4,
         ePage_Load_5 = 5,
@@ -128,10 +128,10 @@ public:
         ePage_Quit_7 = 7,
     };
 
-    /*MainPages*/ __int16 field_134_Index_Main;
-    __int16 field_136;
-    __int16 field_138;
-    __int16 field_13A;
+    /*MainPages*/ __int16 field_134_index_main;
+    __int16 field_136_unused;
+    __int16 field_138_control_action_page_index;
+    __int16 field_13A_unused;
 
     enum class SaveState : __int16
     {
@@ -141,14 +141,14 @@ public:
     };
     SaveState field_13C_save_state;
 
-    __int16 field_13E;
-    __int16 field_140;
-    __int16 field_142;
+    __int16 field_13E_unused;
+    __int16 field_140_unused;
+    __int16 field_142_poly_offset;
     PauseMenu::PauseMenuPage field_144_active_menu;
     Animation field_158_animation;
-    Prim_SetTPage field_1F0[2];
-    Poly_F4 field_210[2];
-    Prim_SetTPage field_248[2]; // Not used ??
+    Prim_SetTPage field_1F0_primitives[2];
+    Poly_F4 field_210_polygons[2];
+    Prim_SetTPage field_248_padding[2];
 };
 ALIVE_ASSERT_SIZEOF(PauseMenu, 0x268);
 

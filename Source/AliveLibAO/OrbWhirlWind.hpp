@@ -44,8 +44,8 @@ public:
     ParticlesState field_14_particles_state;
     __int16 field_16_particleIdx;
     OrbWhirlWindParticle* field_18_particles[16];
-    FP field_58_xpos_mid;
-    FP field_5C_ypos_mid;
+    FP field_58_xpos;
+    FP field_5C_ypos;
     FP field_60_scale;
 };
 ALIVE_ASSERT_SIZEOF(OrbWhirlWind, 0x64);

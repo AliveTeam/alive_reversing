@@ -27,10 +27,10 @@ private:
 
 protected:
     int field_118_count;
-    __int16 field_11C;
-    __int16 field_11E;
-    __int16 field_120;
-    __int16 field_122;
+    __int16 field_11C_x_offset;
+    __int16 field_11E_width_offset;
+    __int16 field_120_y_offset;
+    __int16 field_122_height_offset;
     PathLine* field_124_pCollisionLine;
     int field_128_tlvInfo;
 };

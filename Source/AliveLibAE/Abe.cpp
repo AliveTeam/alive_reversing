@@ -2069,7 +2069,14 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
 
     if (CantBeDamaged_44BAB0())
     {
-        return 0;
+        // Fixes a bug where Abe can trigger a bomb in front of an open door and enter the door at the same time, preventing him from being killed by the bomb.
+        if (((pFrom->field_4_typeId != Types::eBaseBomb_46 || pFrom->field_4_typeId != Types::eExplosion_109) && field_106_current_motion != eAbeStates::State_114_DoorEnter_459470) ||
+            (pFrom->field_4_typeId == Types::eBullet_15 && field_106_current_motion == eAbeStates::State_114_DoorEnter_459470))
+        {
+            return 0;
+        }
+
+        LOG_INFO("Trying to enter a door while hitting a bomb or explosion.");
     }
 
     if (gAbeBulletProof_5C1BDA)
@@ -3930,7 +3937,7 @@ void Abe::State_14_HoistIdle_452440()
             {
                 if (gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapTop_2, this, -1))
                 {
-                    sub_4945B0();
+                    PSX_Prevent_Rendering_4945B0();
                     field_106_current_motion = eAbeStates::State_68_ToOffScreenHoist_454B80;
                     return;
                 }
@@ -6190,11 +6197,11 @@ void Abe::State_70_RingRopePullHang_455AF0()
     PullRingRope* pPullRing = static_cast<PullRingRope*>(sObjectIds_5C1B70.Find_449CF0(field_15C_pull_rope_id));
     if (pPullRing)
     {
-        if (!pPullRing->Vsub_49BC90())
+        if (!pPullRing->VIsNotBeingPulled_49BC90())
         {
             return;
         }
-        pPullRing->Vsub_49B610();
+        pPullRing->VMarkAsPulled_49B610();
     }
 
     field_15C_pull_rope_id = -1;
