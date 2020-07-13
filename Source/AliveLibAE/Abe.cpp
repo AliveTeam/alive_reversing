@@ -2069,14 +2069,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
 
     if (CantBeDamaged_44BAB0())
     {
-        // Fixes a bug where Abe can trigger a bomb in front of an open door and enter the door at the same time, preventing him from being killed by the bomb.
-        if (((pFrom->field_4_typeId != Types::eBaseBomb_46 || pFrom->field_4_typeId != Types::eExplosion_109) && field_106_current_motion != eAbeStates::State_114_DoorEnter_459470) ||
-            (pFrom->field_4_typeId == Types::eBullet_15 && field_106_current_motion == eAbeStates::State_114_DoorEnter_459470))
-        {
-            return 0;
-        }
-
-        LOG_INFO("Trying to enter a door while hitting a bomb or explosion.");
+        return 0;
     }
 
     if (gAbeBulletProof_5C1BDA)
