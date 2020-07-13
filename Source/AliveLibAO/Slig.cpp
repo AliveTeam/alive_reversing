@@ -220,5 +220,21 @@ void Slig::Init_46B890()
     NOT_IMPLEMENTED();
 }
 
-END_NS_AO
+void Slig::VUpdate_Real_465050()
+{
+    NOT_IMPLEMENTED();
+}
 
+void Slig::VUpdate_465050()
+{
+    const __int16 oldMotion = field_FC_current_motion;
+
+    VUpdate_Real_465050();
+
+    if (oldMotion != field_FC_current_motion)
+    {
+        LOG_INFO("oldMotion = " << oldMotion << " newMotion = " << field_FC_current_motion);
+    }
+}
+
+END_NS_AO

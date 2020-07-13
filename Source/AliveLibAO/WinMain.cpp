@@ -24,6 +24,11 @@
 #include "CheatController.hpp"
 #include "RollingBallShaker.hpp"
 #include "Blood.hpp"
+#include "Paramite.hpp"
+#include "Scrab.hpp"
+#include "Slog.hpp"
+#include "Mudokon.hpp"
+#include "SlingMudokon.hpp"
 #include "../AliveLibAE/config.h" // TODO: Change location
 
 START_NS_AO
@@ -46,6 +51,11 @@ void ForceLinks()
 {
     RollingBallShaker_ForceLink();
     Blood_ForceLink();
+    Paramite_ForceLink();
+    Scrab_ForceLink();
+    Slog_ForceLink();
+    Mud_ForceLink();
+    SlingMud_ForceLink();
 }
 
 ALIVE_VAR(1, 0x9F771C, HINSTANCE, sInstance_9F771C, 0);
