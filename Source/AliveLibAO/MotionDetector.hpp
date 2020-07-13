@@ -25,6 +25,14 @@ ALIVE_ASSERT_SIZEOF(Path_MotionDetector, 0x2C);
 class MotionDetectorLaser : public BaseAnimatedWithPhysicsGameObject
 {
 public:
+    virtual void VScreenChanged() override
+    {
+        // Empty
+    }
+
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+
+
     int field_D4[4];
 };
 ALIVE_ASSERT_SIZEOF(MotionDetectorLaser, 0xE4);
@@ -32,9 +40,22 @@ ALIVE_ASSERT_SIZEOF(MotionDetectorLaser, 0xE4);
 class MotionDetector : public BaseAnimatedWithPhysicsGameObject
 {
 public:
+    EXPORT MotionDetector* ctor_437A50(Path_MotionDetector* pTlv, int tlvInfo);
+
     EXPORT void SetDontComeBack_437E00(__int16 bDontComeBack);
 
     EXPORT BaseGameObject* dtor_437D70();
+
+
+    virtual void VScreenChanged() override
+    {
+        VScreenChanged_438520();
+    }
+
+    EXPORT void VScreenChanged_438520()
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
 
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
@@ -49,14 +70,14 @@ public:
     __int16 field_F2_alarm_trigger;
     __int16 field_F4_alarm_time;
     __int16 field_F6_bDontComeBack;
-    int field_F8;
-    int field_FC;
-    int field_100;
-    int field_104;
+    FP field_F8;
+    FP field_FC;
+    FP field_100;
+    FP field_104;
     MotionDetectorLaser* field_108_pLaser;
     int field_10C_prims[12];
     Prim_SetTPage field_13C_tPage[2];
-    int field_15C_speed;
+    FP field_15C_speed;
     __int16 field_160_bObjectInLaser;
     __int16 field_162_pad;
 };

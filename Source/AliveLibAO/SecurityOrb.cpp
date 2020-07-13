@@ -103,7 +103,7 @@ signed __int16 SecurityOrb::VTakeDamage_437280(BaseGameObject* pFrom)
     switch (pFrom->field_4_typeId)
     {
     case Types::e69:
-    case Types::e85:
+    case Types::eShrykull_85:
     {
         auto pExplosion = ao_new<Explosion>();
         if (pExplosion)

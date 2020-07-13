@@ -1,6 +1,14 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   StatsSign.hpp
+   StatsSign.cpp
+   ParamiteWeb.hpp
+   ParamiteWeb.cpp
+   ZapLine.hpp
+   ZapLine.cpp
+   Shrykull.hpp
+   Shrykull.cpp
    GasEmitter.hpp
    GasEmitter.cpp
    BoomMachine.hpp
