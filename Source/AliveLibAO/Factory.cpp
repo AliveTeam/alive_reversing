@@ -51,6 +51,7 @@
 #include "BoomMachine.hpp"
 #include "GasEmitter.hpp"
 #include "MotionDetector.hpp"
+#include "StatsSign.hpp"
 
 START_NS_AO
 
@@ -1803,9 +1804,20 @@ EXPORT void Factory_Preloader_Null_4817A0(Path_TLV* /*pTlv*/, Map* /*pMap*/, Tlv
 }
 
 
-EXPORT void Factory_StatusBoard_487AF0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_StatusBoard_487AF0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        ResourceManager::LoadResource_446C90("LCDFONT.FNT", 'tnoF', 2, loadMode, 0);
+    }
+    else
+    {
+        auto pStatusBoard = ao_new<StatsSign>();
+        if (pStatusBoard)
+        {
+            pStatusBoard->ctor_4418E0(static_cast<Path_StatusBoard*>(pTlv), tlvOffsetLevelIdPathId.all);
+        }
+    }
 }
 
 

@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   StatsSign.hpp
+   StatsSign.cpp
    ParamiteWeb.hpp
    ParamiteWeb.cpp
    ZapLine.hpp
