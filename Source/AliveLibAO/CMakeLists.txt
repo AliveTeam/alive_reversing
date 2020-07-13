@@ -1,6 +1,18 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   SlingMudokon.hpp
+   SlingMudokon.cpp
+   Mudokon.hpp
+   Mudokon.cpp
+   Slig.hpp
+   Slig.cpp
+   Slog.hpp
+   Slog.cpp
+   Scrab.hpp
+   Scrab.cpp
+   Paramite.hpp
+   Paramite.cpp
    StatsSign.hpp
    StatsSign.cpp
    ParamiteWeb.hpp

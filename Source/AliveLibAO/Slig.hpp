@@ -55,12 +55,15 @@ public:
     
     EXPORT BaseAliveGameObject* dtor_465320();
 
-
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
     EXPORT Slig* Vdtor_465DC0(signed int flags);
 
     EXPORT void Init_46B890();
+
+    EXPORT void VUpdate_Real_465050();
+
+    EXPORT void VUpdate_465050();
 
     __int16 field_10C;
     __int16 field_10E;
