@@ -122,69 +122,69 @@ enum Mud_AI_State : unsigned __int16
 // speak generic appears 3 times :(
 enum Mud_Motion : unsigned __int16
 {
-    StandIdle_0_4724E0,
-    Walking_1_4728B0,
-    TurnAroundStanding_2_472BF0,
+    M_Idle_0_4724E0,
+    M_WalkLoop_1_4728B0,
+    M_StandingTurn_2_472BF0,
 
     // NOTE: 3-6 are all the same entry, added to avoid compile issue mentioned above.
-    Speak_Generic_3_472FA0,
-    Speak_Generic_4_472FA0,
-    Speak_Generic_5_472FA0,
-    Speak_Generic_6_472FA0,
+    M_Speak_3_472FA0,
+    M_Speak_4_472FA0,
+    M_Speak_5_472FA0,
+    M_Speak_6_472FA0,
 
-    StandToWalk_7_472AB0,
-    WalkingToStand_8_472B30,
-    jWalkingToStand_8_472BD0,
-    PullLever_10_473020,
-    Chisel_11_4732D0,
-    StartChisel_12_473500,
-    StopChisel_13_473530,
-    CrouchScrub_14_473560,
-    CrouchIdle_15_474040,
-    CrouchTurn_16_4740E0,
-    StandToCrouch_17_474120,
-    CrouchToStand_18_474150,
-    StandingToRun1_19_473600,
-    StandingToRun2_20_4736D0,
-    Running_21_473720,
-    RunToWalk1_22_4738E0,
-    RunToWalk2_23_4739B0,
-    RunSlideStop_24_473A00,
-    RunSlideTurn_25_473AA0,
-    RunTurn_26_473BB0,
-    Sneaking_27_473C40,
-    WalkToSneak1_28_473D60,
-    SneakingToWalk_29_473E20,
-    WalkToSneak2_30_473EE0,
-    SneakingToWalk2_31_473F30,
-    StandToSneaking_32_473F80,
-    SneakingToStand1_33_473FF0,
-    SneakingToStand2_34_474020,
-    JumpStart_35_474460,
-    JumpMid_36_474570,
-    WalkToRun_37_4749A0,
-    Slap_38_474AA0,
-    StartHoistJumpUp_39_4748E0,
-    HoistFallToFloor_40_474780,
+    M_WalkBegin_7_472AB0,
+    M_WalkToIdle_8_472B30,
+    M_MidWalkToIdle_9_472BD0,
+    M_LeverUse_10_473020,
+    M_Chisel_11_4732D0,
+    M_StartChisel_12_473500,
+    M_StopChisel_13_473530,
+    M_CrouchScrub_14_473560,
+    M_CrouchIdle_15_474040,
+    M_CrouchTurn_16_4740E0,
+    M_StandToCrouch_17_474120,
+    M_CrouchToStand_18_474150,
+    M_WalkToRun_19_473600,
+    M_MidWalkToRun_20_4736D0,
+    M_RunLoop_21_473720,
+    M_RunToWalk_22_4738E0,
+    M_MidRunToWalk_23_4739B0,
+    M_RunSlideStop_24_473A00,
+    M_RunTurn_25_473AA0,
+    M_RunTurnToRun_26_473BB0,
+    M_SneakLoop_27_473C40,
+    M_WalkToSneak_28_473D60,
+    M_SneakToWalk_29_473E20,
+    M_MidWalkToSneak_30_473EE0,
+    M_MidSneakToWalk_31_473F30,
+    M_SneakBegin_32_473F80,
+    M_SneakToIdle_33_473FF0,
+    M_MidSneakToIdle_34_474020,
+    M_JumpBegin_35_474460,
+    M_JumpMid_36_474570,
+    M_WalkToRun_37_4749A0,
+    M_Punch_38_474AA0,
+    M_HoistBegin_39_4748E0,
+    M_HoistLand_40_474780,
     HitFloorStanding1_41_474960,
     HitFloorStanding2_42_4743F0,
-    StandToDunno_43_472790,
-    DunnoToStand_44_4727B0,
-    KnockForward_45_474180,
-    StandToKnockBack_46_4742A0,
-    StandUpFromKnockedBack_47_474380,
-    FallLedgeBegin_48_4743C0,
-    Fall_49_472C60,
-    Chanting_50_473040,
-    ChantToStand_51_4730D0,
-    ToDuck_52_474A20,
-    Duck_53_474A40,
-    DuckToCrouch_54_474A80,
-    DuckKnockBack_55_474250,
-    SlapOwnHead_56_4727D0,
-    TurnWheelBegin_57_474C00,
-    TurnWheelLoop_58_474CC0,
-    TurnWheelEnd_59_474D30
+    M_DunnoBegin_43_472790,
+    M_DunnoEnd_44_4727B0,
+    M_KnockForward_45_474180,
+    M_Knockback_46_4742A0,
+    M_KnockbackGetUp_47_474380,
+    M_FallOffEdge_48_4743C0,
+    M_Fall_49_472C60,
+    M_Chant_50_473040,
+    M_ChantEnd_51_4730D0,
+    M_ToDuck_52_474A20,
+    M_Duck_53_474A40,
+    M_DuckToCrouch_54_474A80,
+    M_DuckKnockback_55_474250,
+    M_SlapOwnHead_56_4727D0,
+    M_TurnWheelBegin_57_474C00,
+    M_TurnWheelLoop_58_474CC0,
+    M_TurnWheelEnd_59_474D30
 };
 
 enum class MudAction : __int16;
@@ -396,63 +396,63 @@ public: // AI states
     EXPORT __int16 AI_Sick_9_47A910();
 
 public: // Motion states
-   EXPORT void StandIdle_0_4724E0();
-   EXPORT void Walking_1_4728B0();
-   EXPORT void TurnAroundStanding_2_472BF0();
-   EXPORT void Speak_Generic_472FA0();
-   EXPORT void StandToWalk_7_472AB0();
-   EXPORT void WalkingToStand_8_472B30();
-   EXPORT void jWalkingToStand_8_472BD0();
-   EXPORT void PullLever_10_473020();
-   EXPORT void Chisel_11_4732D0();
-   EXPORT void StartChisel_12_473500();
-   EXPORT void StopChisel_13_473530();
-   EXPORT void CrouchScrub_14_473560();
-   EXPORT void CrouchIdle_15_474040();
-   EXPORT void CrouchTurn_16_4740E0();
-   EXPORT void StandToCrouch_17_474120();
-   EXPORT void CrouchToStand_18_474150();
-   EXPORT void StandingToRun1_19_473600();
-   EXPORT void StandingToRun2_20_4736D0();
-   EXPORT void Running_21_473720();
-   EXPORT void RunToWalk1_22_4738E0();
-   EXPORT void RunToWalk2_23_4739B0();
-   EXPORT void RunSlideStop_24_473A00();
-   EXPORT void RunSlideTurn_25_473AA0();
-   EXPORT void RunTurn_26_473BB0();
-   EXPORT void Sneaking_27_473C40();
-   EXPORT void WalkToSneak1_28_473D60();
-   EXPORT void SneakingToWalk_29_473E20();
-   EXPORT void WalkToSneak2_30_473EE0();
-   EXPORT void SneakingToWalk2_31_473F30();
-   EXPORT void StandToSneaking_32_473F80();
-   EXPORT void SneakingToStand1_33_473FF0();
-   EXPORT void SneakingToStand2_34_474020();
-   EXPORT void JumpStart_35_474460();
-   EXPORT void JumpMid_36_474570();
-   EXPORT void WalkToRun_37_4749A0();
-   EXPORT void Slap_38_474AA0();
-   EXPORT void StartHoistJumpUp_39_4748E0();
-   EXPORT void HoistFallToFloor_40_474780();
+   EXPORT void M_Idle_0_4724E0();
+   EXPORT void M_WalkLoop_1_4728B0();
+   EXPORT void M_StandingTurn_2_472BF0();
+   EXPORT void M_Speak_472FA0();
+   EXPORT void M_WalkBegin_7_472AB0();
+   EXPORT void M_WalkToIdle_8_472B30();
+   EXPORT void M_MidWalkToIdle_9_472BD0();
+   EXPORT void M_LeverUse_10_473020();
+   EXPORT void M_Chisel_11_4732D0();
+   EXPORT void M_StartChisel_12_473500();
+   EXPORT void M_StopChisel_13_473530();
+   EXPORT void M_CrouchScrub_14_473560();
+   EXPORT void M_CrouchIdle_15_474040();
+   EXPORT void M_CrouchTurn_16_4740E0();
+   EXPORT void M_StandToCrouch_17_474120();
+   EXPORT void M_CrouchToStand_18_474150();
+   EXPORT void M_WalkToRun_19_473600();
+   EXPORT void M_MidWalkToRun_20_4736D0();
+   EXPORT void M_RunLoop_21_473720();
+   EXPORT void M_RunToWalk_22_4738E0();
+   EXPORT void M_MidRunToWalk_23_4739B0();
+   EXPORT void M_RunSlideStop_24_473A00();
+   EXPORT void M_RunTurn_25_473AA0();
+   EXPORT void M_RunTurnToRun_26_473BB0();
+   EXPORT void M_SneakLoop_27_473C40();
+   EXPORT void M_WalkToSneak_28_473D60();
+   EXPORT void M_SneakToWalk_29_473E20();
+   EXPORT void M_MidWalkToSneak_30_473EE0();
+   EXPORT void M_MidSneakToWalk_31_473F30();
+   EXPORT void M_SneakBegin_32_473F80();
+   EXPORT void M_SneakToIdle_33_473FF0();
+   EXPORT void M_MidSneakToIdle_34_474020();
+   EXPORT void M_JumpBegin_35_474460();
+   EXPORT void M_JumpMid_36_474570();
+   EXPORT void M_WalkToRun_37_4749A0();
+   EXPORT void M_Punch_38_474AA0();
+   EXPORT void M_HoistBegin_39_4748E0();
+   EXPORT void M_HoistLand_40_474780();
    EXPORT void HitFloorStanding1_41_474960();
    EXPORT void HitFloorStanding2_42_4743F0();
-   EXPORT void StandToDunno_43_472790();
-   EXPORT void DunnoToStand_44_4727B0();
-   EXPORT void KnockForward_45_474180();
+   EXPORT void M_DunnoBegin_43_472790();
+   EXPORT void M_DunnoEnd_44_4727B0();
+   EXPORT void M_KnockForward_45_474180();
    EXPORT void KnockedBackToStandUp_46_4742A0();
-   EXPORT void StandUpFromKnockedBack_47_474380();
-   EXPORT void FallLedgeBegin_48_4743C0();
-   EXPORT void Fall_49_472C60();
-   EXPORT void Chanting_50_473040();
-   EXPORT void ChantToStand_51_4730D0();
-   EXPORT void ToDuck_52_474A20();
-   EXPORT void Duck_53_474A40();
-   EXPORT void DuckToCrouch_54_474A80();
-   EXPORT void DuckKnockBack_55_474250();
-   EXPORT void SlapOwnHead_56_4727D0();
-   EXPORT void TurnWheelBegin_57_474C00();
-   EXPORT void TurnWheelLoop_58_474CC0();
-   EXPORT void TurnWheelEnd_59_474D30();
+   EXPORT void M_KnockbackGetUp_47_474380();
+   EXPORT void M_FallOffEdge_48_4743C0();
+   EXPORT void M_Fall_49_472C60();
+   EXPORT void M_Chant_50_473040();
+   EXPORT void M_ChantEnd_51_4730D0();
+   EXPORT void M_ToDuck_52_474A20();
+   EXPORT void M_Duck_53_474A40();
+   EXPORT void M_DuckToCrouch_54_474A80();
+   EXPORT void M_DuckKnockback_55_474250();
+   EXPORT void M_SlapOwnHead_56_4727D0();
+   EXPORT void M_TurnWheelBegin_57_474C00();
+   EXPORT void M_TurnWheelLoop_58_474CC0();
+   EXPORT void M_TurnWheelEnd_59_474D30();
 
 private:
     EXPORT __int16 StableDelay_477570();
