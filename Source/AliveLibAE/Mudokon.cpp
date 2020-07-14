@@ -113,12 +113,12 @@ const TMudAIStateFunction sMudokon_AI_Table_55CDF0[10] =
     ENTRY(M_Punch_38_474AA0) \
     ENTRY(M_HoistBegin_39_4748E0) \
     ENTRY(M_HoistLand_40_474780) \
-    ENTRY(HitFloorStanding1_41_474960) \
-    ENTRY(HitFloorStanding2_42_4743F0) \
+    ENTRY(M_LandSoft1_41_474960) \
+    ENTRY(M_LandSoft2_42_4743F0) \
     ENTRY(M_DunnoBegin_43_472790) \
     ENTRY(M_DunnoEnd_44_4727B0) \
     ENTRY(M_KnockForward_45_474180) \
-    ENTRY(KnockedBackToStandUp_46_4742A0) \
+    ENTRY(M_Knockback_46_4742A0) \
     ENTRY(M_KnockbackGetUp_47_474380) \
     ENTRY(M_FallOffEdge_48_4743C0) \
     ENTRY(M_Fall_49_472C60) \
@@ -364,12 +364,12 @@ const TMudStateFunction sMudokon_motion_states_55CE18[60] =
     &Mudokon::M_Punch_38_474AA0,
     &Mudokon::M_HoistBegin_39_4748E0,
     &Mudokon::M_HoistLand_40_474780,
-    &Mudokon::HitFloorStanding1_41_474960,
-    &Mudokon::HitFloorStanding2_42_4743F0,
+    &Mudokon::M_LandSoft1_41_474960,
+    &Mudokon::M_LandSoft2_42_4743F0,
     &Mudokon::M_DunnoBegin_43_472790,
     &Mudokon::M_DunnoEnd_44_4727B0,
     &Mudokon::M_KnockForward_45_474180,
-    &Mudokon::KnockedBackToStandUp_46_4742A0,
+    &Mudokon::M_Knockback_46_4742A0,
     &Mudokon::M_KnockbackGetUp_47_474380,
     &Mudokon::M_FallOffEdge_48_4743C0,
     &Mudokon::M_Fall_49_472C60,
@@ -1579,7 +1579,7 @@ __int16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
             field_16A_flags.Clear(Flags::eBit2_save_state);
             field_18E_ai_state = Mud_AI_State::AI_ShrivelDeath_5_4714A0;
             field_194_timer = sGnFrame_5C1B84 + 90;
-            field_106_current_motion = M_Knockback_46_4742A0;
+            field_106_current_motion = Mud_Motion::M_Knockback_46_4742A0;
             field_108_next_motion = -1;
             Event_Broadcast_422BC0(kEventMudokonDied, this);
             SetPal_4772D0(Mud_Emotion::eNormal_0);
@@ -6589,7 +6589,7 @@ void Mudokon::M_HoistLand_40_474780()
             field_BC_ypos = FP_NoFractional(hitY + FP_FromDouble(0.5));
             MapFollowMe_408D10(TRUE);
             field_100_pCollisionLine = pLine;
-            field_106_current_motion = Mud_Motion::HitFloorStanding1_41_474960;
+            field_106_current_motion = Mud_Motion::M_LandSoft1_41_474960;
             vGetBoundingRect_424FD0(&bRect, 1);
             vOnCollisionWith_424EE0(
                 { bRect.x, static_cast<short>(bRect.y + 5) },
@@ -6604,7 +6604,7 @@ void Mudokon::M_HoistLand_40_474780()
     }
 }
 
-void Mudokon::HitFloorStanding1_41_474960()
+void Mudokon::M_LandSoft1_41_474960()
 {
     if (field_20_animation.field_92_current_frame == 2)
     {
@@ -6617,7 +6617,7 @@ void Mudokon::HitFloorStanding1_41_474960()
     }
 }
 
-void Mudokon::HitFloorStanding2_42_4743F0()
+void Mudokon::M_LandSoft2_42_4743F0()
 {
     ToFalling_472320();
 
@@ -6685,7 +6685,7 @@ void Mudokon::M_KnockForward_45_474180()
     }
 }
 
-void Mudokon::KnockedBackToStandUp_46_4742A0()
+void Mudokon::M_Knockback_46_4742A0()
 {
     if (field_20_animation.field_92_current_frame == 12)
     {
@@ -6708,7 +6708,7 @@ void Mudokon::KnockedBackToStandUp_46_4742A0()
     {
         M_Fall_49_472C60();
 
-        if (field_106_current_motion == Mud_Motion::M_KnockForward_45_474180 || field_106_current_motion == Mud_Motion::HitFloorStanding2_42_4743F0)
+        if (field_106_current_motion == Mud_Motion::M_KnockForward_45_474180 || field_106_current_motion == Mud_Motion::M_LandSoft2_42_4743F0)
         {
             field_106_current_motion = Mud_Motion::M_Knockback_46_4742A0;
         }
@@ -6789,7 +6789,7 @@ void Mudokon::M_Fall_49_472C60()
                 (field_BC_ypos - field_F8_LastLineYPos < (field_CC_sprite_scale * FP_FromInteger(180)) &&
                 (field_10C_health > FP_FromInteger(0) || gAbeBulletProof_5C1BDA)))
             {
-                field_106_current_motion = Mud_Motion::HitFloorStanding2_42_4743F0;
+                field_106_current_motion = Mud_Motion::M_LandSoft2_42_4743F0;
             }
             else
             {

@@ -166,8 +166,8 @@ enum Mud_Motion : unsigned __int16
     M_Punch_38_474AA0,
     M_HoistBegin_39_4748E0,
     M_HoistLand_40_474780,
-    HitFloorStanding1_41_474960,
-    HitFloorStanding2_42_4743F0,
+    M_LandSoft1_41_474960,
+    M_LandSoft2_42_4743F0,
     M_DunnoBegin_43_472790,
     M_DunnoEnd_44_4727B0,
     M_KnockForward_45_474180,
@@ -434,12 +434,12 @@ public: // Motion states
    EXPORT void M_Punch_38_474AA0();
    EXPORT void M_HoistBegin_39_4748E0();
    EXPORT void M_HoistLand_40_474780();
-   EXPORT void HitFloorStanding1_41_474960();
-   EXPORT void HitFloorStanding2_42_4743F0();
+   EXPORT void M_LandSoft1_41_474960();
+   EXPORT void M_LandSoft2_42_4743F0();
    EXPORT void M_DunnoBegin_43_472790();
    EXPORT void M_DunnoEnd_44_4727B0();
    EXPORT void M_KnockForward_45_474180();
-   EXPORT void KnockedBackToStandUp_46_4742A0();
+   EXPORT void M_Knockback_46_4742A0();
    EXPORT void M_KnockbackGetUp_47_474380();
    EXPORT void M_FallOffEdge_48_4743C0();
    EXPORT void M_Fall_49_472C60();
