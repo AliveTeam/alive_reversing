@@ -44,7 +44,7 @@ enum class Types : __int16
     eSecurityClaw_31 = 31,
     eRockSpawner_32 = 32,
 
-
+    eFlintLockFire_34 = 34,
     eThrowableTotalIndicator_35 = 35,
     eFootSwitch36 = 36,
 

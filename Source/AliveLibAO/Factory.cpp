@@ -52,6 +52,7 @@
 #include "GasEmitter.hpp"
 #include "MotionDetector.hpp"
 #include "StatsSign.hpp"
+#include "FlintLockFire.hpp"
 
 START_NS_AO
 
@@ -1512,9 +1513,33 @@ EXPORT void Factory_Scrab_4863E0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoU
 }
 
 
-EXPORT void Factory_FlintLockFire_487640(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_FlintLockFire_487640(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        ResourceManager::LoadResource_446C90("FIRE.BAN", ResourceManager::Resource_Animation, 304, loadMode);
+    }
+    else 
+    {
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2017, 0, 0) &&
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2028, 0, 0) &&
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 304, 0, 0))
+        {
+            auto pFlintlockFire = ao_new<FlintLockFire>();
+            if (pFlintlockFire)
+            {
+                pFlintlockFire->ctor_41AA90(static_cast<Path_FlintLockFire*>(pTlv), tlvOffsetLevelIdPathId.all);
+            }
+            else
+            {
+                gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            }
+        }
+        else
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        }
+    }
 }
 
 
