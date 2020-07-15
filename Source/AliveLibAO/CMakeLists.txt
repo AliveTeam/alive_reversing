@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   Grenade.hpp
+   Grenade.cpp
    FlintLockFire.hpp
    FlintLockFire.cpp
    SlingMudokon.hpp
