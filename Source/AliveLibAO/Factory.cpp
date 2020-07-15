@@ -53,6 +53,7 @@
 #include "MotionDetector.hpp"
 #include "StatsSign.hpp"
 #include "FlintLockFire.hpp"
+#include "MeatSaw.hpp"
 
 START_NS_AO
 
@@ -1654,11 +1655,30 @@ EXPORT void Factory_MovingBombStopper_Null_484DF0(Path_TLV* /*pTlv*/, Map* /*pMa
 }
 
 
-EXPORT void Factory_MeatSaw_483F70(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_MeatSaw_483F70(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        ResourceManager::LoadResource_446C90("R1METSAW.BAN", ResourceManager::Resource_Animation, 6003, loadMode);
+        ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, 25, loadMode);
+    }
+    else 
+    {
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6003, 0, 0) &&
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 25, 0, 0))
+        {
+            auto pMeatSaw = ao_new<MeatSaw>();
+            if (pMeatSaw)
+            {
+                pMeatSaw->ctor_439570(static_cast<Path_MeatSaw*>(pTlv), tlvOffsetLevelIdPathId.all);
+            }
+        }
+        else
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        }
+    }
 }
-
 
 EXPORT void Factory_MudPathTrans_Null_4818B0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
 {

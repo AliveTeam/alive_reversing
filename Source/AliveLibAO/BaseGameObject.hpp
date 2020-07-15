@@ -65,6 +65,7 @@ enum class Types : __int16
     eMeat_54 = 54,
 
     eMeatStack_55 = 55,
+    eMeatSaw_56 = 56,
 
     eRollingBallStopperShaker_58 = 58,
     eGreeterBody_59 = 59,
