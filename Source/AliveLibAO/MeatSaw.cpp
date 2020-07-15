@@ -86,18 +86,19 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, int tlvInfo)
     field_C8 = 0;
     field_F4 = 0;
 
-    if (pTlv->field_22_type == 2)
+    if (pTlv->field_22_type == 1)
     {
-        field_1A8_flags &= ~3u;
+        field_1A8_flags &= ~2;
+        field_1A8_flags |= 1;
     }
-    else if (pTlv->field_22_type == 1)
+    else if (pTlv->field_22_type == 2)
     {
         field_1A8_flags |= 3u;
     }
     else // 0
     {
-        field_1A8_flags &= ~2;
-        field_1A8_flags |= 1;
+        field_1A8_flags &= ~3u;
+       
     }
 
     field_EA_speed1 = pTlv->field_24_speed;
@@ -133,7 +134,7 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, int tlvInfo)
     field_EC_off_speed = pTlv->field_28_off_speed;
     field_FC_max_time_off2 = pTlv->field_2C_max_time_off2;
 
-    if ((pTlv->field_1_unknown) == 256)
+    if (pTlv->field_1_unknown)
     {
         field_F0_switch_value = field_F0_switch_value == 0;
         field_F2_switch_value = field_F2_switch_value == 0;
