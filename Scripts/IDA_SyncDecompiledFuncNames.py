@@ -22,7 +22,12 @@ def EnsureKey(address, dict):
 def AddFunction(line, dict):
     address = LineToInt(line.split('=')[0])
     EnsureKey(address, dict)
-    dict[address] = line.split('=')[1].strip()
+    funcName = line.split('=')[1].strip()
+    # Remove AO::
+    pos = funcName.find("::")
+    if pos != -1:
+        funcName = funcName[pos+2:]
+    dict[address] = funcName
 
 def sync_function_name(adddress, name):
     if ida_func_exists(adddress):
@@ -34,7 +39,7 @@ def sync_function_name(adddress, name):
 def main():
     functionDataDict = {}
 
-    with open('C:\\GOG Games\\Abes Exoddus\\function_names.txt', 'r') as f:
+    with open('C:\\GOG Games\\Abes Oddysee\\function_names.txt', 'r') as f:
         for line in f:
             AddFunction(line, functionDataDict)
 

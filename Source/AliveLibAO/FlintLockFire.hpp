@@ -1,0 +1,51 @@
+#pragma once
+
+#include "FunctionFwd.hpp"
+#include "Map.hpp"
+#include "BaseAnimatedWithPhysicsGameObject.hpp"
+
+START_NS_AO
+
+struct Path_FlintLockFire : public Path_TLV
+{
+    __int16 field_18_scale;
+    __int16 field_1A_id;
+};
+ALIVE_ASSERT_SIZEOF(Path_FlintLockFire, 0x1C);
+
+class FlintLockFire : public BaseAnimatedWithPhysicsGameObject
+{
+public:
+    EXPORT FlintLockFire* ctor_41AA90(Path_FlintLockFire* pTlv, int tlvInfo);
+
+    EXPORT BaseGameObject* dtor_41AE20();
+
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+
+    EXPORT FlintLockFire* Vdtor_41B500(signed int flags);
+
+    virtual void VStopAudio() override;
+
+    EXPORT void VStopAudio_41B0C0();
+
+    virtual void VScreenChanged() override;
+
+    EXPORT void VScreenChanged_41B0B0();
+
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_41AEE0();
+
+    int field_D4[4];
+    __int16 field_E4_state;
+    __int16 field_E6_switch_id;
+    int field_E8_tlvInfo;
+    int field_EC_sound;
+    Animation field_F0_anim;
+    Animation field_188_anim;
+    Animation field_220_anim;
+};
+ALIVE_ASSERT_SIZEOF(FlintLockFire, 0x2B8);
+
+END_NS_AO
+
