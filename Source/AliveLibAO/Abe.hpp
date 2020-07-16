@@ -247,7 +247,7 @@ public:
 
 
     // Non virtuals
-    EXPORT void Free_Shrykull_Resources_42F4C0();
+    static EXPORT void Free_Shrykull_Resources_42F4C0();
 
     EXPORT void FreeElumRes_420F80();
 
