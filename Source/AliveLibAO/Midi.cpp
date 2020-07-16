@@ -39,6 +39,7 @@ EXPORT void CC SND_Seq_Stop_477A60(unsigned __int16 /*idx*/)
 EXPORT signed __int16 CC SND_SEQ_Play_477760(unsigned __int16 /*idx*/, int /*repeatCount*/, __int16 /*volLeft*/, __int16 /*volRight*/)
 {
     NOT_IMPLEMENTED();
+    return 0;
 }
 
 END_NS_AO
