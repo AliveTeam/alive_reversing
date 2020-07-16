@@ -98,6 +98,7 @@ enum class Types : __int16
 
     eShrykull_85 = 85,
 
+    eSnoozParticle_87 = 87,
     eSlig_88 = 88,
 
     eSligSpawner_91 = 91,
@@ -107,6 +108,7 @@ enum class Types : __int16
     eBeeSwarm_95 = 95,
     eBeeNest_96 = 96,
     eLever_97 = 97,
+    eTrapDoor_98 = 98,
 
     eWell_101 = 101,
 

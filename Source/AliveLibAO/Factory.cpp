@@ -54,6 +54,8 @@
 #include "StatsSign.hpp"
 #include "FlintLockFire.hpp"
 #include "MeatSaw.hpp"
+#include "TrapDoor.hpp"
+#include "Abe.hpp"
 
 START_NS_AO
 
@@ -871,9 +873,17 @@ EXPORT void Factory_Null_486140(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUn
 }
 
 
-EXPORT void Factory_ElumWall_487370(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_ElumWall_487370(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        ResourceManager::LoadResource_446C90("ELMKNBK.BAN", ResourceManager::Resource_Animation, 215, loadMode, 0);
+        ResourceManager::LoadResource_446C90("ANEKNBK.BAN", ResourceManager::Resource_Animation, 106, loadMode, 0);
+    }
+    else
+    {
+        gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+    }
 }
 
 
@@ -1065,9 +1075,48 @@ EXPORT void Factory_BellSong_487450(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemIn
 }
 
 
-EXPORT void Factory_TrapDoor_4868E0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_TrapDoor_4868E0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        switch (gMap_507BA8.field_0_current_level)
+        {
+        case LevelIds::eRuptureFarms_1:
+        case LevelIds::eBoardRoom_12:
+        case LevelIds::eRuptureFarmsReturn_13:
+            ResourceManager::LoadResource_446C90("R1TRAP.BAN", ResourceManager::Resource_Animation, 1004, loadMode, 0);
+            break;
+        case LevelIds::eLines_2:
+            ResourceManager::LoadResource_446C90("P6C1TRAP.BAN", ResourceManager::Resource_Animation, 1004, loadMode, 0);
+            break;
+        case LevelIds::eStockYards_5:
+            ResourceManager::LoadResource_446C90("P6C1TRAP.BAN", ResourceManager::Resource_Animation, 1004, loadMode, 0);
+            break;
+        case LevelIds::eDesert_8:
+        case LevelIds::eDesertTemple_9:
+        case LevelIds::eDesertEscape:
+            ResourceManager::LoadResource_446C90("D2TRAP.BAN", ResourceManager::Resource_Animation, 1004, loadMode, 0);
+            break;
+        default:
+            ResourceManager::LoadResource_446C90("P6C1TRAP.BAN", ResourceManager::Resource_Animation, 1004, loadMode, 0);
+            break;
+        }
+    }
+    else
+    {
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1004, 0, 0))
+        {
+            auto pTrapDoor = ao_new<TrapDoor>();
+            if (pTrapDoor)
+            {
+                pTrapDoor->ctor_488010(static_cast<Path_TrapDoor*>(pTlv), pMap, tlvOffsetLevelIdPathId.all);
+            }
+        }
+        else
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        }
+    }
 }
 
 
@@ -2079,10 +2128,34 @@ EXPORT void Factory_GasCountDown_487BE0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
     }
 }
 
-
-EXPORT void Factory_RingCancel_4818D0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+struct Path_RingCancel : public Path_TLV
 {
-    NOT_IMPLEMENTED();
+    __int16 field_18_bShrykull_remove;
+    __int16 field_1A_pad;
+};
+ALIVE_ASSERT_SIZEOF(Path_RingCancel, 0x1C);
+
+EXPORT void Factory_RingCancel_4818D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
+{
+    if (loadMode != 1 && loadMode != 2)
+    {
+        if (static_cast<Path_RingCancel*>(pTlv)->field_18_bShrykull_remove)
+        {
+            if (sActiveHero_507678->field_168_ring_pulse_timer)
+            {
+                if (sActiveHero_507678->field_16C_bHaveShrykull)
+                {
+                    Abe::Free_Shrykull_Resources_42F4C0();
+                    sActiveHero_507678->field_168_ring_pulse_timer = 0;
+                }
+            }
+        }
+        else if (!sActiveHero_507678->field_16C_bHaveShrykull)
+        {
+            sActiveHero_507678->field_168_ring_pulse_timer = 0;
+        }
+        gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+    }
 }
 
 

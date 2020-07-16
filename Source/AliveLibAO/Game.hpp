@@ -22,6 +22,7 @@ ALIVE_VAR_EXTERN(short, gRestartRuptureFarmsSavedMuds_5076C8);
 ALIVE_VAR_EXTERN(short, gOldKilledMuds_5076D0);
 ALIVE_VAR_EXTERN(short, gOldSavedMuds_5076D4);
 
+ALIVE_VAR_EXTERN(DynamicArrayT<BaseGameObject>*, ObjListPlatforms_50766C);
 
 EXPORT void SYS_EventsPump_44FF90();
 
