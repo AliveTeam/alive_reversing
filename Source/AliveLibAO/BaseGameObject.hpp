@@ -98,6 +98,7 @@ enum class Types : __int16
 
     eShrykull_85 = 85,
 
+    eSnoozParticle_87 = 87,
     eSlig_88 = 88,
 
     eSligSpawner_91 = 91,
