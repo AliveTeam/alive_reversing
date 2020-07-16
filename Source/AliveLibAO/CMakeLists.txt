@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   TrapDoor.hpp
+   TrapDoor.cpp
    MeatSaw.hpp
    MeatSaw.cpp
    Grenade.hpp

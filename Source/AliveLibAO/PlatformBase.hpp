@@ -5,6 +5,8 @@
 
 START_NS_AO
 
+class Map;
+
 class PlatformBase : public BaseAliveGameObject
 {
 public:
@@ -16,6 +18,10 @@ public:
 
     EXPORT void VRemove_451680(BaseAliveGameObject* pObj);
 
+    EXPORT void AddDynamicCollision_4512C0(int maxW, int maxH, int frameTableOffset, BYTE** ppAnimData, Path_TLV* pTlv, Map* pMap, int tlvInfo);
+
+    EXPORT BaseGameObject* dtor_451490();
+
     int field_10C;
     int field_110;
     int field_114_count;
@@ -25,7 +31,7 @@ public:
     __int16 field_11E;
     PathLine* field_120_pCollisionLine;
     int field_124;
-    int field_128;
+    int field_128_tlvInfo;
 };
 ALIVE_ASSERT_SIZEOF(PlatformBase, 0x12C);
 

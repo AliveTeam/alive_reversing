@@ -12,7 +12,7 @@ void BaseAliveGameObject_ForceLink();
 EXPORT FP CC ScaleToGridSize_41FA30(FP scale);
 
 struct Path_TLV;
-class LiftPoint;
+class PlatformBase;
 class PathLine;
 
 enum class CameraPos : __int16;
@@ -56,7 +56,7 @@ public:
     virtual __int16 VTakeDamage(BaseGameObject* /*pFrom*/) { return 0; }
     virtual void VOn_TLV_Collision(Path_TLV* /*pTlv*/) {}
     virtual void VCheckCollisionLineStillValid(int /*distance*/) {}
-    virtual void VOnPickUpOrSlapped2() {}
+    virtual void VOnTrapDoorOpen() {}
 
     EXPORT void VCheckCollisionLineStillValid_401A90(int distance);
 
@@ -75,7 +75,7 @@ public:
     __int16 field_EE_type;
     Path_TLV* field_F0_pTlv;
     PathLine* field_F4_pLine;
-    LiftPoint* field_F8_pLiftPoint;
+    PlatformBase* field_F8_pLiftPoint;
     __int16 field_FC_current_motion;
     __int16 field_FE_next_state;
     FP field_100_health;

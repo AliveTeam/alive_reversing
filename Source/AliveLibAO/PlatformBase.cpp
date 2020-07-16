@@ -1,6 +1,9 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "PlatformBase.hpp"
+#include "Map.hpp"
+#include "Collisions.hpp"
+#include "Game.hpp"
 
 START_NS_AO
 
@@ -17,6 +20,29 @@ void PlatformBase::VRemove(BaseAliveGameObject* pObj)
 void PlatformBase::VRemove_451680(BaseAliveGameObject* /*pObj*/)
 {
     field_114_count--;
+}
+
+void PlatformBase::AddDynamicCollision_4512C0(int /*maxW*/, int /*maxH*/, int /*frameTableOffset*/, BYTE** /*ppAnimData*/, Path_TLV* /*pTlv*/, Map*  /*pMap*/, int /*tlvInfo*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+BaseGameObject* PlatformBase::dtor_451490()
+{
+    SetVTable(this, 0x4BBF30);
+
+    ObjListPlatforms_50766C->Remove_Item(this);
+
+    if (field_120_pCollisionLine)
+    {
+        if (gMap_507BA8.field_0_current_level == field_B2_lvl_number &&
+            gMap_507BA8.field_2_current_path == field_B0_path_number)
+        {
+            Rect_Clear_40C920(&field_120_pCollisionLine->field_0_rect);
+        }
+    }
+
+    return dtor_401000();
 }
 
 void PlatformBase::VAdd_4515D0(BaseAliveGameObject* /*pObj*/)

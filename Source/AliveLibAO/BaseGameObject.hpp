@@ -107,6 +107,7 @@ enum class Types : __int16
     eBeeSwarm_95 = 95,
     eBeeNest_96 = 96,
     eLever_97 = 97,
+    eTrapDoor_98 = 98,
 
     eWell_101 = 101,
 

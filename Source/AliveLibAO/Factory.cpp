@@ -54,6 +54,7 @@
 #include "StatsSign.hpp"
 #include "FlintLockFire.hpp"
 #include "MeatSaw.hpp"
+#include "TrapDoor.hpp"
 
 START_NS_AO
 
@@ -1065,9 +1066,48 @@ EXPORT void Factory_BellSong_487450(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemIn
 }
 
 
-EXPORT void Factory_TrapDoor_4868E0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_TrapDoor_4868E0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        switch (gMap_507BA8.field_0_current_level)
+        {
+        case LevelIds::eRuptureFarms_1:
+        case LevelIds::eBoardRoom_12:
+        case LevelIds::eRuptureFarmsReturn_13:
+            ResourceManager::LoadResource_446C90("R1TRAP.BAN", ResourceManager::Resource_Animation, 1004, loadMode, 0);
+            break;
+        case LevelIds::eLines_2:
+            ResourceManager::LoadResource_446C90("P6C1TRAP.BAN", ResourceManager::Resource_Animation, 1004, loadMode, 0);
+            break;
+        case LevelIds::eStockYards_5:
+            ResourceManager::LoadResource_446C90("P6C1TRAP.BAN", ResourceManager::Resource_Animation, 1004, loadMode, 0);
+            break;
+        case LevelIds::eDesert_8:
+        case LevelIds::eDesertTemple_9:
+        case LevelIds::eDesertEscape:
+            ResourceManager::LoadResource_446C90("D2TRAP.BAN", ResourceManager::Resource_Animation, 1004, loadMode, 0);
+            break;
+        default:
+            ResourceManager::LoadResource_446C90("P6C1TRAP.BAN", ResourceManager::Resource_Animation, 1004, loadMode, 0);
+            break;
+        }
+    }
+    else
+    {
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1004, 0, 0))
+        {
+            auto pTrapDoor = ao_new<TrapDoor>();
+            if (pTrapDoor)
+            {
+                pTrapDoor->ctor_488010(static_cast<Path_TrapDoor*>(pTlv), pMap, tlvOffsetLevelIdPathId.all);
+            }
+        }
+        else
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        }
+    }
 }
 
 
