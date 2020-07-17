@@ -193,8 +193,8 @@ const TAbeStateFunction sAbeStateMachineTable_4C5F08[] =
     &Abe::State_144_RockThrowStandingEnd_429DE0,
     &Abe::State_145_RockThrowCrouchingHold_428930,
     &Abe::State_146_RockThrowCrouchingThrow_4289F0,
-    &Abe::State_147_ShotRolling_4295C0,
-    &Abe::State_148_Shot_4296A0,
+    &Abe::State_147_ZShotRolling_4295C0,
+    &Abe::State_148_ZShot_4296A0,
     &Abe::State_149_PickupItem_42A030,
     &Abe::State_150_Chant_42FD50,
     &Abe::State_151_ChantEnd_430530,
@@ -1652,12 +1652,12 @@ void Abe::State_146_RockThrowCrouchingThrow_4289F0()
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_147_ShotRolling_4295C0()
+void Abe::State_147_ZShotRolling_4295C0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_148_Shot_4296A0()
+void Abe::State_148_ZShot_4296A0()
 {
     NOT_IMPLEMENTED();
 }

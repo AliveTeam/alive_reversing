@@ -305,7 +305,7 @@ signed __int16 MotionDetector::IsInLaser_468980(BaseAliveGameObject* pWho, BaseG
             pWho->field_106_current_motion == eAbeStates::State_67_LedgeHang_454E20 ||
             pWho->field_106_current_motion == eAbeStates::State_60_4A3200 ||
             pWho->field_106_current_motion == eAbeStates::State_57_Dead_4589A0 ||
-            pWho->field_106_current_motion == eAbeStates::State_117_In_MineCar_4587C0 ||
+            pWho->field_106_current_motion == eAbeStates::State_117_InMineCar_4587C0 ||
             pWho->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted) ||
             sDDCheat_FlyingEnabled_5C2C08)
         {

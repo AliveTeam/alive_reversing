@@ -920,7 +920,7 @@ void MineCar::State_0_ParkedWithoutAbe()
     PSX_RECT abeRect = {};
     sActiveHero_5C1B68->vGetBoundingRect_424FD0(&abeRect, 1);
 
-    if (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_117_In_MineCar_4587C0 &&
+    if (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_117_InMineCar_4587C0 &&
         PSX_Rects_overlap_4FA0B0(&carRect, &abeRect) && 
         sActiveHero_5C1B68->field_CC_sprite_scale == field_CC_sprite_scale)
     {
@@ -951,7 +951,7 @@ void MineCar::State_1_ParkedWithAbe()
     VCheckCollisionLineStillValid_408A40(10);
 
     //Abe exits minecar
-    if (sActiveHero_5C1B68->field_106_current_motion != eAbeStates::State_117_In_MineCar_4587C0)
+    if (sActiveHero_5C1B68->field_106_current_motion != eAbeStates::State_117_InMineCar_4587C0)
     {
         sActiveHero_5C1B68->field_B8_xpos = field_B8_xpos;
         sActiveHero_5C1B68->field_BC_ypos = field_BC_ypos;
