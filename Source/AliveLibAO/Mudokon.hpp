@@ -2,6 +2,7 @@
 
 #include "FunctionFwd.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "Map.hpp"
 
 void Mud_ForceLink();
 
@@ -78,11 +79,61 @@ enum eMudStates : int
     MUD_STATES_ENUM(MAKE_ENUM)
 };
 
+struct Path_Mud : public Path_TLV
+{
+    __int16 field_18_scale;
+    __int16 field_1A_job;
+    __int16 field_1C_direction;
+    __int16 field_1E_voice_adjust;
+    __int16 field_20_rescue_id;
+    __int16 field_22_deaf;
+    __int16 field_24_disabled_resources;
+    __int16 field_26_persist;
+};
+ALIVE_ASSERT_SIZEOF(Path_Mud, 0x28);
+
+struct Path_Ring_Mud : public Path_TLV
+{
+    __int16 field_18_facing;
+    __int16 field_1A_abe_must_be_same_direction;
+    __int16 field_1C_scale;
+    __int16 field_1E_silent;
+    __int16 field_20_code1;
+    __int16 field_22_code2;
+    __int16 field_24_action;
+    __int16 field_26_ring_timeout;
+    __int16 field_28_instant_powerup;
+    __int16 field_2A_pad;
+};
+ALIVE_ASSERT_SIZEOF(Path_Ring_Mud, 0x2C);
+
+struct Path_Lift_Mud : public Path_TLV
+{
+    __int16 field_18_how_far_to_walk;
+    __int16 field_1A_lift_id;
+    __int16 field_1C_direction;
+    __int16 field_1E_silent;
+    __int16 field_20_scale;
+    __int16 field_22_code1;
+    __int16 field_24_code2;
+    __int16 field_26_pad;
+};
+ALIVE_ASSERT_SIZEOF(Path_Lift_Mud, 0x28);
+
+class LiftPoint;
+class BirdPortal;
+
+struct Mudokon_Resources
+{
+    BYTE** res[15];
+};
 
 class Mudokon : public BaseAliveGameObject
 {
 public:
-    EXPORT void VUpdate_Real_43F560();
+    EXPORT Mudokon* ctor_43EED0(Path_TLV* pTlv, int tlvInfo);
+
+    virtual void VUpdate() override;
 
     EXPORT void VUpdate_43F560();
 
@@ -155,7 +206,8 @@ public:
     EXPORT void State_62_Choke_43ED70();
 
     int field_10C;
-    int field_110;
+    short field_110;
+    short field_112;
     int field_114;
     int field_118;
     int field_11C;
@@ -170,16 +222,37 @@ public:
     __int16 field_13C;
     __int16 field_13E;
     int field_140;
-    __int16 field_144;
+
+    enum Flags_144
+    {
+        e144_Bit1 = 0x1,
+        e144_Bit2 = 0x2,
+        e144_Bit3 = 0x4,
+        e144_Bit4_bSnapToGrid = 0x8,
+        e144_Bit5 = 0x10,
+        e144_Bit6_bDeaf = 0x20,
+        e144_Bit7 = 0x40,
+        e144_Bit8 = 0x80,
+        e144_Bit9 = 0x100,
+        e144_Bit10 = 0x200,
+        e144_Bit11_bPersist = 0x400,
+        e144_Bit12 = 0x800,
+        e144_eBit13 = 0x1000,
+        e144_eBit14 = 0x2000,
+        e144_eBit15 = 0x4000,
+        e144_eBit16 = 0x8000,
+    };
+    BitField16<Flags_144> field_144_flags;
+
     __int16 field_146;
-    int field_148[15];
+    Mudokon_Resources field_148_res_array;
     __int16 field_184;
     __int16 field_186;
     __int16 field_188;
     __int16 field_18A;
     int field_18C;
     int field_190;
-    int field_194;
+    LiftPoint* field_194_pLiftPoint;
     __int16 field_198;
     __int16 field_19A;
     __int16 field_19C;
@@ -188,18 +261,18 @@ public:
     __int16 field_1A2;
     int field_1A4;
     __int16 field_1A8;
-    __int16 field_1AA;
-    int field_1AC;
+    unsigned __int16 field_1AA;
+    BirdPortal* field_1AC_pBirdPortal;
     __int16 field_1B0;
-    __int16 field_1B2;
+    __int16 field_1B2_switch_id;
     __int16 field_1B4;
     __int16 field_1B6;
     __int16 field_1B8;
-    __int16 field_1BA;
+    __int16 field_1BA_sub_state;
     __int16 field_1BC;
     __int16 field_1BE;
-    int field_1C0;
-    __int16 field_1C4;
+    int field_1C0_timer;
+    __int16 field_1C4_bDoPathTrans;
     __int16 field_1C6;
 };
 ALIVE_ASSERT_SIZEOF(Mudokon, 0x1C8);

@@ -36,13 +36,19 @@ enum TlvTypes
     DeathDrop_5 = 5,
     Door_6 = 6,
 
+    LiftMud_32 = 32,
+
     HoneyDripTarget_42 = 42,
 
     WellExpress_45 = 45,
 
+    RingMud_50 = 50,
+
     BirdPortalExit_53 = 53,
 
     Slig_66 = 66,
+
+    Mud_82 = 82,
 };
 
 struct Path_TLV;

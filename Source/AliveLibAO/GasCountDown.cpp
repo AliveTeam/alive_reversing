@@ -190,7 +190,7 @@ void GasCountDown::DealDamage()
                     break;
                 }
 
-                if (pObj->field_4_typeId == Types::e75)
+                if (pObj->field_4_typeId == Types::eMudokon_75)
                 {
                     pObj->VTakeDamage(this);
                 }

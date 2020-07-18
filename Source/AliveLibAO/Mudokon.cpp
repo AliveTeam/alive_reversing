@@ -1,6 +1,12 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "Mudokon.hpp"
+#include "GameSpeak.hpp"
+#include "ResourceManager.hpp"
+#include "Shadow.hpp"
+#include "stdlib.hpp"
+#include "Collisions.hpp"
+#include "Game.hpp"
 
 void Mud_ForceLink() {}
 
@@ -84,22 +90,261 @@ const TMudStateFunction gMudMotions_4CD470[] =
     &Mudokon::State_62_Choke_43ED70,
 };
 
-
-void Mudokon::VUpdate_Real_43F560()
+static const TintEntry sMudTints_4CD320[] =
 {
-    NOT_IMPLEMENTED();
+    { 5, 25u, 25u, 25u },
+    { 6, 25u, 25u, 25u },
+    { -1, 87u, 103u, 67u }
+};
+
+Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, int tlvInfo)
+{
+    ctor_401090();
+    SetVTable(this, 0x4BBB28);
+    field_4_typeId = Types::eMudokon_52;
+
+    field_128 = -1;
+    field_13E = -1;
+    field_FE_next_state = -1;
+    field_13C = 0;
+    field_1C0_timer = 0;
+    field_1B8 = 0;
+    field_1BA_sub_state = 0;
+    field_EC_oldY = 3;
+    field_1BC = 0;
+    field_124 = 0;
+    field_148_res_array = {};
+
+    field_148_res_array.res[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 55, 1, 0);
+    Animation_Init_417FD0(55968, 135, 80, field_148_res_array.res[0], 1);
+
+    field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+
+    field_10A_flags.Set(Flags_10A::e10A_Bit4);
+    field_10A_flags.Set(Flags_10A::e10A_Bit6);
+
+    field_144_flags.Clear(Flags_144::e144_Bit6_bDeaf);
+    field_144_flags.Clear(Flags_144::e144_Bit7);
+    field_144_flags.Clear(Flags_144::e144_Bit8);
+    field_144_flags.Clear(Flags_144::e144_Bit9);
+    field_144_flags.Clear(Flags_144::e144_Bit10);
+
+    field_1B6 = 0;
+    field_198 = 0;
+
+    SetTint_418750(sMudTints_4CD320, field_B2_lvl_number);
+
+    int scale = 0;
+    switch (pTlv->field_4_type)
+    {
+    case TlvTypes::LiftMud_32:
+    {
+        auto liftMudTlv = static_cast<Path_Lift_Mud*>(pTlv);
+
+        field_148_res_array.res[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 53, 1, 0);
+
+
+        field_18C = liftMudTlv->field_18_how_far_to_walk << 16;
+        field_110 = liftMudTlv->field_1A_lift_id;
+
+        field_144_flags.Set(Flags_144::e144_Bit5, liftMudTlv->field_1C_direction); // TODO: Check
+        field_144_flags.Clear(Flags_144::e144_Bit4_bSnapToGrid);
+        field_144_flags.Clear(Flags_144::e144_Bit11_bPersist);
+
+        field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, liftMudTlv->field_1C_direction == 0); // TODO: Check direction
+
+        field_186 = liftMudTlv->field_1E_silent;
+        field_184 = 1;
+        field_1B8 = 0;
+        field_188 = 5;
+
+        field_1A4 = Code_Convert_476000(liftMudTlv->field_22_code1, liftMudTlv->field_24_code2);
+        field_1A8 = Code_Length_475FD0(field_1A4);
+
+        scale = liftMudTlv->field_20_scale;
+    }
+    break;
+
+    case TlvTypes::RingMud_50:
+    {
+        auto ringMudTlv = static_cast<Path_Ring_Mud*>(pTlv);
+
+        field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, ringMudTlv->field_18_facing == 0); // TODO: Check
+        field_184 = 0;
+        field_186 = ringMudTlv->field_1E_silent;
+        field_198 = ringMudTlv->field_1A_abe_must_be_same_direction == 0;
+        field_1B8 = 2;
+
+        if (ringMudTlv->field_24_action == 0)
+        {
+            // Pull switch
+            field_148_res_array.res[2] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 11, 1, 0);
+            field_188 = 6;
+        }
+        else
+        {
+            // Give ring
+            field_148_res_array.res[9] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 48, 1, 0);
+            field_188 = 7;
+        }
+
+        field_1AA = ringMudTlv->field_26_ring_timeout;
+        field_1A4 = Code_Convert_476000(ringMudTlv->field_20_code1, ringMudTlv->field_22_code2);
+        field_1A8 = Code_Length_475FD0(field_1A4);
+
+        field_144_flags.Set(Flags_144::e144_Bit10, ringMudTlv->field_28_instant_powerup & 1);
+        field_144_flags.Clear(Flags_144::e144_Bit4_bSnapToGrid);
+        field_144_flags.Clear(Flags_144::e144_Bit11_bPersist);
+
+
+        scale = ringMudTlv->field_1C_scale;
+    }
+    break;
+
+    case TlvTypes::Mud_82:
+    {
+        auto mudTlv = static_cast<Path_Mud*>(pTlv);
+
+        if (mudTlv->field_1A_job == 0)
+        {
+            // stand scrub
+            field_1B8 = 8;
+            field_148_res_array.res[3] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 511, 1, 0);
+        }
+        else if (mudTlv->field_1A_job == 1)
+        {
+            // sit scrub
+            field_1B8 = 9;
+        }
+        else if (mudTlv->field_1A_job == 2)
+        {
+            // chant
+            field_1B8 = 14;
+            field_148_res_array.res[12] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 516, 1, 0);
+        }
+
+        field_148_res_array.res[10] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 514, 1, 0);
+        field_148_res_array.res[13] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 517, 1, 0);
+        field_148_res_array.res[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 510, 1, 0);
+        field_148_res_array.res[5] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 10, 1, 0);
+        field_148_res_array.res[6] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 27, 1, 0);
+        field_148_res_array.res[7] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 26, 1, 0);
+        field_148_res_array.res[8] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 43, 1, 0);
+        field_148_res_array.res[14] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 118, 1, 0);
+
+
+        field_124 = mudTlv->field_1E_voice_adjust;
+        field_4_typeId = Types::eMudokon_75;
+        field_1B2_switch_id = mudTlv->field_20_rescue_id;
+
+        field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, mudTlv->field_1C_direction == 0); // TODO: Check
+  
+        // TODO: Check these as well
+        field_144_flags.Set(Flags_144::e144_Bit11_bPersist, mudTlv->field_26_persist & 1);
+        field_144_flags.Set(Flags_144::e144_Bit6_bDeaf, mudTlv->field_22_deaf & 1);
+        field_144_flags.Set(Flags_144::e144_Bit4_bSnapToGrid);
+
+        field_1B4 = 0;
+
+        scale = mudTlv->field_18_scale;
+
+    }
+    break;
+    }
+
+    field_FC_current_motion = eMudStates::State_0_Idle_43CA70;
+
+    if (scale == 1)
+    {
+        field_BC_sprite_scale = FP_FromDouble(0.5);
+        field_10_anim.field_C_layer = 13;
+        field_C6_scale = 0;
+    }
+    else
+    {
+        field_BC_sprite_scale = FP_FromInteger(1);
+        field_10_anim.field_C_layer = 32;
+        field_C6_scale = 1;
+    }
+
+    FP hitX = {};
+    FP hitY = {};
+    const __int16 bHit = sCollisions_DArray_504C6C->RayCast_40C410(
+        FP_FromInteger(pTlv->field_10_top_left.field_0_x),
+        FP_FromInteger(pTlv->field_10_top_left.field_2_y),
+        FP_FromInteger(pTlv->field_14_bottom_right.field_0_x),
+        FP_FromInteger(pTlv->field_14_bottom_right.field_2_y),
+        &field_F4_pLine,
+        &hitX,
+        &hitY,
+        field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70);
+
+    field_A8_xpos = FP_FromInteger((pTlv->field_10_top_left.field_0_x + pTlv->field_14_bottom_right.field_0_x) / 2);
+
+    if (bHit)
+    {
+        field_AC_ypos = hitY;
+        if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
+        {
+            PSX_RECT bRect = {};
+            VGetBoundingRect(&bRect, 1);
+            VOnCollisionWith(
+                PSX_Point{ bRect.x, bRect.y },
+                PSX_Point{ bRect.w + 5, bRect.h }, // TODO: Check + 5
+                ObjListPlatforms_50766C,
+                1,
+                (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+        }
+    }
+
+    field_E8_LastLineYPos = field_AC_ypos;
+
+    if (field_1B8 == 9 || field_1B8 == 8)
+    {
+        field_144_flags.Set(Flags_144::e144_Bit7);
+        MapFollowMe_401D30(field_144_flags.Get(Flags_144::e144_Bit4_bSnapToGrid));
+    }
+    else
+    {
+        field_144_flags.Clear(Flags_144::e144_Bit7);
+    }
+
+    field_144_flags.Set(Flags_144::e144_Bit2);
+
+    field_19A = 99;
+    field_19C = 99;
+    field_1BA_sub_state = 0;
+    field_1A0 = 0;
+    field_10C = tlvInfo;
+    field_1C4_bDoPathTrans = FALSE;
+
+    if (field_188 == 6)
+    {
+        field_A8_xpos += FP_FromInteger(8);
+    }
+
+    field_1AC_pBirdPortal = nullptr;
+    field_194_pLiftPoint = nullptr;
+
+    field_D0_pShadow = ao_new<Shadow>();
+    if (field_D0_pShadow)
+    {
+        field_D0_pShadow->ctor_461FB0();
+    }
+
+    VUpdate();
+
+    return this;
+}
+
+void Mudokon::VUpdate()
+{
+    VUpdate_43F560();
 }
 
 void Mudokon::VUpdate_43F560()
 {
-    const __int16 oldMotion = field_FC_current_motion;
-
-    VUpdate_Real_43F560();
-
-    if (oldMotion != field_FC_current_motion)
-    {
-        LOG_INFO("oldMotion = " << oldMotion << " newMotion = " << field_FC_current_motion);
-    }
+  NOT_IMPLEMENTED();
 }
 
 void Mudokon::State_0_Idle_43CA70()

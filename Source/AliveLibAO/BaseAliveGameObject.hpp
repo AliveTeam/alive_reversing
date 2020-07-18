@@ -64,6 +64,8 @@ public:
 
     EXPORT void SetActiveCameraDelayedFromDir_401C90();
 
+    EXPORT signed __int16 OnTrapDoorIntersection_401C10(PlatformBase* pPlatform);
+
     FP field_D4;
     FP field_DC;
     FP field_E0;

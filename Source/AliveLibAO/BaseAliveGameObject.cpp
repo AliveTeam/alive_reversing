@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "Map.hpp"
 #include "Abe.hpp"
+#include "PlatformBase.hpp"
 
 START_NS_AO
 
@@ -103,6 +104,23 @@ void BaseAliveGameObject::SetActiveCameraDelayedFromDir_401C90()
             return;
         }
     }
+}
+
+signed __int16 BaseAliveGameObject::OnTrapDoorIntersection_401C10(PlatformBase* pPlatform)
+{
+    PSX_RECT rect = {};
+
+    pPlatform->VGetBoundingRect(&rect, 1);
+    if ( FP_GetExponent(field_A8_xpos) < rect.x ||  FP_GetExponent(field_A8_xpos) > rect.w || FP_GetExponent(field_AC_ypos) > rect.h)
+    {
+        return 1;
+    }
+
+    field_F8_pLiftPoint = pPlatform;
+    field_F8_pLiftPoint->VAdd(this);
+    field_F8_pLiftPoint->field_C_refCount++;
+
+    return 1;
 }
 
 END_NS_AO
