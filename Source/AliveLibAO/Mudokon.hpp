@@ -91,9 +91,12 @@ public:
     EXPORT void State_1_WalkLoop_43CC80();
     EXPORT void State_2_StandingTurn_43D050();
     EXPORT void State_3_Speak_43D440();
-    EXPORT void State_4_Speak_43D440();
-    EXPORT void State_5_Speak_43D440();
-    EXPORT void State_6_Speak_43D440();
+
+    // Not exported as same func as 3
+    void State_4_Speak_43D440();
+    void State_5_Speak_43D440();
+    void State_6_Speak_43D440();
+
     EXPORT void State_7_WalkBegin_43CE60();
     EXPORT void State_8_WalkToIdle_43CEF0();
     EXPORT void State_9_MidWalkToIdle_43CFA0();

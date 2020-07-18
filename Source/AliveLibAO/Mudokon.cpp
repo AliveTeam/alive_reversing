@@ -19,10 +19,13 @@ const TMudStateFunction gMudMotions_4CD470[] =
     &Mudokon::State_0_Idle_43CA70,
     &Mudokon::State_1_WalkLoop_43CC80,
     &Mudokon::State_2_StandingTurn_43D050,
+
+    // All the same func
     &Mudokon::State_3_Speak_43D440,
     &Mudokon::State_4_Speak_43D440,
     &Mudokon::State_5_Speak_43D440,
     &Mudokon::State_6_Speak_43D440,
+
     &Mudokon::State_7_WalkBegin_43CE60,
     &Mudokon::State_8_WalkToIdle_43CEF0,
     &Mudokon::State_9_MidWalkToIdle_43CFA0,
