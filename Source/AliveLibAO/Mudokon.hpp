@@ -133,9 +133,29 @@ class Mudokon : public BaseAliveGameObject
 public:
     EXPORT Mudokon* ctor_43EED0(Path_TLV* pTlv, int tlvInfo);
 
+    EXPORT BaseGameObject* dtor_43F6A0();
+
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+
+    EXPORT Mudokon* Vdtor_440230(signed int flags);
+
     virtual void VUpdate() override;
 
+    virtual void VOnTrapDoorOpen() override;
+
+    EXPORT void VOnTrapDoorOpen_43C9F0();
+
+    virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
+
+    EXPORT void VOnTlvCollision_43FD90(Path_TLV* pTlv);
+
     EXPORT void VUpdate_43F560();
+
+    EXPORT virtual void VUpdateResBlock_43EDB0();
+
+    EXPORT BYTE** GetResBlockForMotion_43EDE0(__int16 motion);
+
+    EXPORT void DoPathTrans_43FE00();
 
     // States
     EXPORT void State_0_Idle_43CA70();
@@ -205,6 +225,23 @@ public:
     EXPORT void State_61_DuckKnockback_43E6E0();
     EXPORT void State_62_Choke_43ED70();
 
+    // Brain states
+    EXPORT short Brain_0_441DE0();
+    EXPORT short Brain_1_441E90();
+    EXPORT short Brain_2_441CA0();
+    EXPORT short Brain_3_441510();
+    EXPORT short Brain_4_441260();
+    EXPORT short Brain_5_43C180();
+    EXPORT short Brain_6_43C250();
+    EXPORT short Brain_7_43C2F0();
+    EXPORT short Brain_8_441F40();
+    EXPORT short Brain_9_4422A0();
+    EXPORT short Brain_10_440300();
+    EXPORT short Brain_11_43C5F0();
+    EXPORT short Brain_12_440FD0();
+    EXPORT short Brain_13_43C700();
+    EXPORT short Brain_14_442710();
+
     int field_10C;
     short field_110;
     short field_112;
@@ -267,7 +304,7 @@ public:
     __int16 field_1B2_switch_id;
     __int16 field_1B4;
     __int16 field_1B6;
-    __int16 field_1B8;
+    __int16 field_1B8_brain_idx;
     __int16 field_1BA_sub_state;
     __int16 field_1BC;
     __int16 field_1BE;

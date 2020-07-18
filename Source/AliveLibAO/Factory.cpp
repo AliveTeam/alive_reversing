@@ -56,6 +56,7 @@
 #include "MeatSaw.hpp"
 #include "TrapDoor.hpp"
 #include "Abe.hpp"
+#include "Mudokon.hpp"
 
 START_NS_AO
 
@@ -754,9 +755,29 @@ EXPORT void Factory_Null_487070(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUn
 }
 
 
-EXPORT void Factory_LiftMud_4857D0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_LiftMud_4857D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        ResourceManager::LoadResource_446C90("ABEBSIC1.BAN", ResourceManager::Resource_Animation, 55, loadMode);
+        ResourceManager::LoadResource_446C90("ABELIFT.BAN", ResourceManager::Resource_Animation, 53, loadMode);
+    }
+    else 
+    {
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 55, 0, 0) && 
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 53, 0, 0))
+        {
+            auto pMud = ao_new<Mudokon>();
+            if (pMud)
+            {
+                pMud->ctor_43EED0(pTlv, tlvOffsetLevelIdPathId.all);
+            }
+        }
+        else
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        }
+    }
 }
 
 
@@ -973,9 +994,30 @@ EXPORT void Factory_Bat_486630(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
 }
 
 
-EXPORT void Factory_RingMud_4858F0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_RingMud_4858F0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        ResourceManager::LoadResource_446C90("ABEBSIC1.BAN", ResourceManager::Resource_Animation, 55, loadMode);
+        ResourceManager::LoadResource_446C90("ABEPULL.BAN", ResourceManager::Resource_Animation, 11, loadMode);
+        ResourceManager::LoadResource_446C90("ABEOMM.BAN", ResourceManager::Resource_Animation, 48, loadMode);
+    }
+    else 
+    {
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 55, 0, 0) &&
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 11, 0, 0))
+        {
+            auto pMud = ao_new<Mudokon>();
+            if (pMud)
+            {
+                pMud->ctor_43EED0(pTlv, tlvOffsetLevelIdPathId.all);
+            }
+        }
+        else
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        }
+    }
 }
 
 
@@ -1647,10 +1689,100 @@ EXPORT void Factory_InvisibleSwitch_481C10(Path_TLV* pTlv, Map* /*pMap*/, TlvIte
     }
 }
 
-
-EXPORT void Factory_WorkerMud_485B20(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_WorkerMud_485B20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    auto pMudTlv = static_cast<Path_Mud*>(pTlv);
+    if (loadMode != 1 && loadMode != 2)
+    {
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 55, 0, 0) ||
+            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 10, 0, 0) ||
+            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 27, 0, 0) ||
+            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 26, 0, 0) ||
+            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 43, 0, 0) ||
+            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 510, 0, 0) ||
+            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 514, 0, 0) ||
+            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 517, 0, 0)
+            )
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        switch (pMudTlv->field_1A_job)
+        {
+        case 0:
+            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 511, 0, 0))
+            {
+                gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+                return;
+            }
+            break;
+
+        case 2:
+            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 516, 0, 0))
+            {
+                gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+                return;
+            }
+            break;
+        }
+
+        auto pMud = ao_new<Mudokon>();
+        if (pMud)
+        {
+            pMud->ctor_43EED0(pTlv, tlvOffsetLevelIdPathId.all);
+        }
+    }
+    else
+    {
+        ResourceManager::LoadResource_446C90("ABEBSIC1.BAN", ResourceManager::Resource_Animation, 55, loadMode);
+        ResourceManager::LoadResource_446C90("ABEBSIC.BAN", ResourceManager::Resource_Animation, 10, loadMode);
+        ResourceManager::LoadResource_446C90("ABEKNFD.BAN", ResourceManager::Resource_Animation, 27, loadMode);
+        ResourceManager::LoadResource_446C90("ABEKNBK.BAN", ResourceManager::Resource_Animation, 26, loadMode);
+        ResourceManager::LoadResource_446C90("ABEEDGE.BAN", ResourceManager::Resource_Animation, 43, loadMode);
+        ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, 2035, loadMode);
+
+        switch (pMudTlv->field_1A_job)
+        {
+        case 0:
+        {
+            static CompileTimeResourceList<3> kResources =
+            {
+                { ResourceManager::Resource_Animation, 514 },
+                { ResourceManager::Resource_Animation, 510 },
+                { ResourceManager::Resource_Animation, 517 }
+            };
+            ResourceManager::LoadResource_446C90("MUDCHSL.BAN", ResourceManager::Resource_Animation, 511, loadMode);
+            ResourceManager::LoadResourcesFromList_446E80("MUDWORK.BND", kResources.AsList(), loadMode, 0);
+        }
+            break;
+
+        case 1:
+        {
+            static CompileTimeResourceList<3> kResources =
+            {
+                { ResourceManager::Resource_Animation, 514 },
+                { ResourceManager::Resource_Animation, 510 },
+                { ResourceManager::Resource_Animation, 517 }
+            };
+            ResourceManager::LoadResourcesFromList_446E80("MUDWORK.BND", kResources.AsList(), loadMode, 0);
+        }
+            break;
+
+        case 2:
+        {
+            static CompileTimeResourceList<4> kResources =
+            {
+                { ResourceManager::Resource_Animation, 516 },
+                { ResourceManager::Resource_Animation, 514 },
+                { ResourceManager::Resource_Animation, 510 },
+                { ResourceManager::Resource_Animation, 517 }
+            };
+            ResourceManager::LoadResourcesFromList_446E80("MUDLOTUS.BND", kResources.AsList(), loadMode, 0);
+        }
+            break;
+        }
+    }
 }
 
 
