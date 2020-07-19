@@ -23,11 +23,21 @@ ALIVE_ASSERT_SIZEOF(TintEntry, 0x4);
 enum class LevelIds : __int16;
 enum class CameraPos : __int16;
 
+#ifdef _MSC_VER
+// NOTE: __single_inheritance required to workaround MSVC code gen bug
+// https://stackoverflow.com/questions/8676879/member-function-pointer-runtime-error-the-value-of-esp-was-not-properly-saved
+class __single_inheritance BaseAnimatedWithPhysicsGameObject;
+#else
+class BaseAnimatedWithPhysicsGameObject;
+#endif
+
+using TCollisionCallBack = __int16(BaseGameObject::*)(BaseGameObject*); // Typically points to something in the derived type.. pretty strange, probably also why its a function pointer
+
 class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
 {
 public:
 
-    virtual void VOnCollisionWith(PSX_Point /*xy*/, PSX_Point /*wh*/, DynamicArray* /*pObjList*/, int /*startingPointIdx*/, void* /*pFn*/) {}
+    virtual void VOnCollisionWith(PSX_Point /*xy*/, PSX_Point /*wh*/, DynamicArray* /*pObjList*/, int /*startingPointIdx*/, TCollisionCallBack /*pFn*/) {}
     virtual PSX_RECT* VGetBoundingRect(PSX_RECT* /*pRect*/, int /*pointIdx*/) { return nullptr; }
     virtual __int16 VIsObjNearby(int /*radius*/, BaseAliveGameObject* /*pOtherObj*/) { return 0; }
 

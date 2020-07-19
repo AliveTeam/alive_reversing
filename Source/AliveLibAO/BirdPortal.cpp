@@ -804,7 +804,7 @@ __int16 BirdPortal::IsScaredAway_4532E0()
         {
         case Types::e26:
         case Types::eAbe_43:
-        case Types::e52:
+        case Types::eMudokon_52:
         case Types::e62:
         case Types::e77:
         case Types::eSlig_88:

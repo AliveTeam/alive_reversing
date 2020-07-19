@@ -60,7 +60,7 @@ enum class Types : __int16
     eHoney_47 = 47,
     eClaw_48 = 48,
 
-    e52 = 52,
+    eMudokon_52 = 52,
     SecurityOrb_53 = 53,
     eMeat_54 = 54,
 
@@ -85,7 +85,7 @@ enum class Types : __int16
     eRollingBall_72 = 72,
     eRope_73 = 73,
     eExplosion_74 = 74,
-    e75 = 75,
+    eMudokon_75 = 75,
     eRedLaser_76 = 76,
     e77 = 77,
 
@@ -100,6 +100,7 @@ enum class Types : __int16
 
     eSnoozParticle_87 = 87,
     eSlig_88 = 88,
+    e89 = 89,
 
     eSligSpawner_91 = 91,
     eZBall_92 = 92,

@@ -3,6 +3,8 @@
 #include "Function.hpp"
 #include "Map.hpp"
 #include "Abe.hpp"
+#include "PlatformBase.hpp"
+#include "Collisions.hpp"
 
 START_NS_AO
 
@@ -103,6 +105,63 @@ void BaseAliveGameObject::SetActiveCameraDelayedFromDir_401C90()
             return;
         }
     }
+}
+
+signed __int16 BaseAliveGameObject::OnTrapDoorIntersection_401C10(PlatformBase* pPlatform)
+{
+    PSX_RECT rect = {};
+
+    pPlatform->VGetBoundingRect(&rect, 1);
+    if ( FP_GetExponent(field_A8_xpos) < rect.x ||  FP_GetExponent(field_A8_xpos) > rect.w || FP_GetExponent(field_AC_ypos) > rect.h)
+    {
+        return 1;
+    }
+
+    field_F8_pLiftPoint = pPlatform;
+    field_F8_pLiftPoint->VAdd(this);
+    field_F8_pLiftPoint->field_C_refCount++;
+
+    return 1;
+}
+
+__int16 BaseAliveGameObject::WallHit_401930(FP offY, FP offX)
+{
+    PathLine* pLine = nullptr;
+    return sCollisions_DArray_504C6C->RayCast_40C410(
+        field_A8_xpos,
+        field_AC_ypos - offY,
+        field_A8_xpos + offX,
+        field_AC_ypos - offY,
+        &pLine,
+        &offX,
+        &offY,
+        field_BC_sprite_scale != FP_FromDouble(0.5) ? 6 : 0x60) != 0;
+}
+
+__int16 BaseAliveGameObject::InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* hitY, FP vely)
+{
+    field_B8_vely += (field_BC_sprite_scale * vely);
+
+    if (field_B8_vely > (field_BC_sprite_scale * FP_FromInteger(20)))
+    {
+        field_B8_vely = (field_BC_sprite_scale * FP_FromInteger(20));
+    }
+
+    const FP old_xpos = field_A8_xpos;
+    const FP old_ypos = field_AC_ypos;
+
+    field_A8_xpos += field_B4_velx;
+    field_AC_ypos += field_B8_vely;
+
+    return sCollisions_DArray_504C6C->RayCast_40C410(
+        old_xpos,
+        old_ypos,
+        field_A8_xpos,
+        field_AC_ypos,
+        ppLine,
+        hitX,
+        hitY,
+        field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70);
 }
 
 END_NS_AO

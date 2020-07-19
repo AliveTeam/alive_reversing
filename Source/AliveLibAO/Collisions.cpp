@@ -49,4 +49,10 @@ PSX_RECT* CCSTD Rect_Clear_40C920(PSX_RECT* pRect)
     return pRect;
 }
 
+PathLine* PathLine::MoveOnLine_40CA20(FP* /*xpos*/, FP* /*ypos*/, FP /*velX*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
 END_NS_AO
