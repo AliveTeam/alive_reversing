@@ -135,6 +135,8 @@ public:
 
     EXPORT BaseGameObject* dtor_43F6A0();
 
+    void KillLiftPoint();
+
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
     EXPORT Mudokon* Vdtor_440230(signed int flags);
@@ -153,9 +155,29 @@ public:
 
     EXPORT virtual void VUpdateResBlock_43EDB0();
 
+    virtual void VScreenChanged() override;
+
+    EXPORT void VScreenChanged_43FFC0();
+
+    virtual __int16 VTakeDamage(BaseGameObject* pFrom) override;
+
+    EXPORT __int16 VTakeDamage_43F830(BaseGameObject* pFrom);
+
+    __int16 DoSmashDamage();
+
+    void KillBirdPortal();
+
     EXPORT BYTE** GetResBlockForMotion_43EDE0(__int16 motion);
 
     EXPORT void DoPathTrans_43FE00();
+
+    EXPORT void ToIdle_43CA40();
+
+    EXPORT void CheckFloorGone_43C9B0();
+
+    EXPORT static __int16 CC IsAbeSneaking_43D660(Mudokon* pMud);
+
+    EXPORT void ToKnockBack_43D6E0();
 
     // States
     EXPORT void State_0_Idle_43CA70();
@@ -267,12 +289,12 @@ public:
         e144_Bit3 = 0x4,
         e144_Bit4_bSnapToGrid = 0x8,
         e144_Bit5 = 0x10,
-        e144_Bit6_bDeaf = 0x20,
+        e144_Bit6_bPersist = 0x20,
         e144_Bit7 = 0x40,
         e144_Bit8 = 0x80,
         e144_Bit9 = 0x100,
         e144_Bit10 = 0x200,
-        e144_Bit11_bPersist = 0x400,
+        e144_Bit11_bDeaf = 0x400,
         e144_Bit12 = 0x800,
         e144_eBit13 = 0x1000,
         e144_eBit14 = 0x2000,

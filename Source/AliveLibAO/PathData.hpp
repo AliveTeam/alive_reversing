@@ -49,6 +49,8 @@ enum TlvTypes
     Slig_66 = 66,
 
     Mud_82 = 82,
+
+    MudPathTrans_89 = 89,
 };
 
 struct Path_TLV;
