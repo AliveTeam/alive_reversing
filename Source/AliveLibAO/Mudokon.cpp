@@ -327,7 +327,7 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, int tlvInfo)
             VGetBoundingRect(&bRect, 1);
             VOnCollisionWith(
                 PSX_Point{ bRect.x, bRect.y },
-                PSX_Point{ bRect.w + 5, bRect.h }, // TODO: Check + 5
+                PSX_Point{ static_cast<short>(bRect.w + 5), bRect.h }, // TODO: Check + 5
                 ObjListPlatforms_50766C,
                 1,
                 (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
@@ -1088,8 +1088,8 @@ void Mudokon::MoveOnLine_43C7E0()
                 PSX_RECT bRect = {};
                 VGetBoundingRect(&bRect, 1);
                 VOnCollisionWith(
-                    PSX_Point{bRect.x, bRect.y + 5},
-                    PSX_Point{bRect.w, bRect.h + 5},
+                    PSX_Point{bRect.x, static_cast<short>(bRect.y + 5)},
+                    PSX_Point{bRect.w, static_cast<short>(bRect.h + 5)},
                     ObjListPlatforms_50766C,
                     1,
                     (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
