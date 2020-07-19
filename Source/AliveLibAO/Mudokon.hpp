@@ -179,6 +179,10 @@ public:
 
     EXPORT void ToKnockBack_43D6E0();
 
+    EXPORT void SlowOnX_43C920(FP amount);
+
+    EXPORT void MoveOnLine_43C7E0();
+
     // States
     EXPORT void State_0_Idle_43CA70();
     EXPORT void State_1_WalkLoop_43CC80();
@@ -269,7 +273,7 @@ public:
     short field_112;
     int field_114;
     int field_118;
-    int field_11C;
+    FP field_11C;
     int field_120;
     __int16 field_124;
     __int16 field_126;

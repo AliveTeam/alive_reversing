@@ -66,6 +66,10 @@ public:
 
     EXPORT signed __int16 OnTrapDoorIntersection_401C10(PlatformBase* pPlatform);
 
+    EXPORT __int16 WallHit_401930(FP offY, FP offX);
+
+    EXPORT __int16 InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* hitY, FP vely);
+
     FP field_D4;
     FP field_DC;
     FP field_E0;

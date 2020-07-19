@@ -16,6 +16,8 @@ public:
     char field_B;
     int field_C;
     int field_10;
+
+    EXPORT PathLine* MoveOnLine_40CA20(FP* xpos, FP* ypos, FP velX);
 };
 ALIVE_ASSERT_SIZEOF(PathLine, 20);
 
