@@ -28,4 +28,9 @@ bool InputObject::isPressed(DWORD command)
   return (this->field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed & command) != 0;
 }
 
+BOOL CC Input_IsChanting_4334C0()
+{
+    return (sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed & 5) == 5;
+}
+
 END_NS_AO

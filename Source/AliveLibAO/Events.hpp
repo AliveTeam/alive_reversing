@@ -22,6 +22,7 @@ enum Event : __int16
 
     kEvent_14 = 14,
     kEvent_15 = 15,
+    kEvent_16 = 16,
 
     kEventScreenShake_19 = 19,
 };

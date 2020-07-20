@@ -75,7 +75,7 @@ public:
     FP field_E0;
     FP field_D8;
     __int16 field_E4;
-    __int16 field_E6_last_state;
+    __int16 field_E6_last_anim_frame;
     FP field_E8_LastLineYPos;
     __int16 field_EC_oldY;
     __int16 field_EE_type;

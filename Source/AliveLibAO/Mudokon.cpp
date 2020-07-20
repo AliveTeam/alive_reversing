@@ -23,8 +23,6 @@ void Mud_ForceLink() {}
 
 START_NS_AO
 
-ALIVE_VAR(1, 0x5076E4, short, gAbeInvunerableCheat_5076E4, 0);
-
 using TMudStateFunction = decltype(&Mudokon::State_0_Idle_43CA70);
 
 #define MAKE_STRINGS(VAR) #VAR,
@@ -502,14 +500,14 @@ void Mudokon::VUpdate_43F560()
 
         if (old_motion == eMudStates::State_10_Unused_43D4D0)
         {
-            field_10_anim.SetFrame_402AC0(field_E6_last_state);
+            field_10_anim.SetFrame_402AC0(field_E6_last_anim_frame);
         }
     }
     else if (field_1BC)
     {
         field_FC_current_motion = field_E4;
         VUpdateResBlock_43EDB0();
-        field_10_anim.SetFrame_402AC0(field_E6_last_state);
+        field_10_anim.SetFrame_402AC0(field_E6_last_anim_frame);
         field_1BC = 0;
     }
 
@@ -1661,7 +1659,7 @@ void Mudokon::State_28_MidRunToWalk_43DA40()
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         field_E4 = eMudStates::State_29_RunLoop_43DB10;
-        field_E6_last_state = eMudStates::State_8_WalkToIdle_43CEF0;
+        field_E6_last_anim_frame = eMudStates::State_8_WalkToIdle_43CEF0;
         field_1BC = 1;
     }
 
@@ -1810,7 +1808,7 @@ void Mudokon::State_31_MidRunToWalk_43DE10()
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         field_E4 = 1;
-        field_E6_last_state = 9;
+        field_E6_last_anim_frame = 9;
         field_1BC = 1;
     }
 
@@ -2024,7 +2022,7 @@ void Mudokon::State_38_MidWalkToSneak_43E380()
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         field_E4 = eMudStates::State_35_SneakLoop_43E0F0;
-        field_E6_last_state = 10;
+        field_E6_last_anim_frame = 10;
         field_1BC = 1;
     }
 
@@ -2052,7 +2050,7 @@ void Mudokon::State_39_MidSneakToWalk_43E430()
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         field_E4 = eMudStates::State_1_WalkLoop_43CC80;
-        field_E6_last_state = 9;
+        field_E6_last_anim_frame = 9;
         field_1BC = 1;
     }
 

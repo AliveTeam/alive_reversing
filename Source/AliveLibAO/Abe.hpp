@@ -185,7 +185,7 @@ class OrbWhirlWind;
 class BirdPortal;
 class PulllRingRope;
 class CircularFade;
-class Grenade;
+class BaseThrowable;
 
 enum Flags_2A8
 {
@@ -200,11 +200,11 @@ enum Flags_2A8
     e2A8_Bit9_bLaughAtChantEnd = 0x100, //todo verify
     e2A8_Bit10 = 0x200,
     e2A8_Bit11 = 0x400,
-    e2A8_Bit12 = 0x800,
-    e2A8_eBit13 = 0x1000,
-    e2A8_eBit14 = 0x2000,
-    e2A8_eBit15 = 0x4000,
-    e2A8_eBit16_abe_spawn_dir = 0x8000,
+    e2A8_Bit12_bParamoniaDone = 0x800,
+    e2A8_eBit13_bScrabinaDone = 0x1000,
+    e2A8_eBit14_bGotShrykullFromBigFace = 0x2000,
+    e2A8_eBit15_bGiveShrykullFromBigFace = 0x4000,
+    e2A8_eBit16_AbeSpawnDir = 0x8000,
 };
 
 struct Path_ContinuePoint : public Path_TLV
@@ -237,6 +237,10 @@ public:
 
     virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
 
+    virtual void VOnTrapDoorOpen() override;
+
+    EXPORT void VOnTrapDoorOpen_42EED0();
+
     // Virtual impls
     EXPORT BaseGameObject* vdtor_422A70(signed int flags);
     EXPORT void vUpdate_41FDB0();
@@ -266,6 +270,12 @@ public:
     EXPORT static BaseAliveGameObject* CC FindObjectToPosses_421410();
 
     EXPORT static void CC Get_Shrykull_Resources_42F480();
+
+    EXPORT void ToDieFinal_42C400();
+
+    EXPORT void ToKnockback_422D90(__int16 bUnknownSound, __int16 bDelayedAnger);
+
+    EXPORT BYTE** StateToAnimResource_4204F0(int motion);
 
     // States
     EXPORT void State_0_Idle_423520();
@@ -437,7 +447,7 @@ public:
     __int16 field_10C_prev_held;
     __int16 field_10E;
     __int16 field_110_state;
-    __int16 field_112;
+    __int16 field_112_prev_motion;
     int field_114_gnFrame;
     int field_118;
     int field_11C_regen_health_timer;
@@ -482,7 +492,7 @@ public:
     __int16 field_192_path;
     __int16 field_194_camera;
     __int16 field_196_door_id;
-    BaseGameObject* field_198_pThrowable; // TODO: Grenade/throwable
+    BaseThrowable* field_198_pThrowable;
     char field_19C_throwable_count;
     char field_19D;
     __int16 field_19E;
@@ -499,6 +509,7 @@ ALIVE_ASSERT_SIZEOF(Abe, 0x2B4);
 
 ALIVE_VAR_EXTERN(Abe*, sActiveHero_507678);
 ALIVE_VAR_EXTERN(BaseAliveGameObject*, sControlledCharacter_50767C);
+ALIVE_VAR_EXTERN(short, gAbeInvunerableCheat_5076E4);
 
 EXPORT int CC Abe_SFX_2_42A220(unsigned __int8 sfxId, signed int volume, int pitchMin, BaseAliveGameObject* pAliveObj);
 
