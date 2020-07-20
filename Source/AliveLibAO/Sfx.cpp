@@ -10,7 +10,7 @@ int CC SFX_Play_43AE60(unsigned __int8 /*sfxId*/, int /*volume*/, int /*pitch*/,
     return 0;
 }
 
-int CC SFX_Play_43AD70(unsigned __int8 /*sfxId*/, int /*a2*/, int /*a3*/)
+int CC SFX_Play_43AD70(unsigned __int8 /*sfxId*/, int /*a2*/, BaseGameObject* /*a3*/)
 {
     NOT_IMPLEMENTED();
     return 0;

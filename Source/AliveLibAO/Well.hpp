@@ -12,15 +12,15 @@ struct Path_Well_Base : public Path_TLV
     __int16 field_1A_trigger_id;
     __int16 field_1C_well_id;
     __int16 field_1E_res_id;
+    __int16 field_20_exit_x;
+    __int16 field_22_exit_y;
+    __int16 field_24_off_level_or_dx;
+    __int16 field_26_off_path_or_dy;
 };
-ALIVE_ASSERT_SIZEOF(Path_Well_Base, 0x20);
+ALIVE_ASSERT_SIZEOF(Path_Well_Base, 0x28);
 
 struct Path_Well_Express : public Path_Well_Base
 {
-    __int16 field_20_exit_x;
-    __int16 field_22_exit_y;
-    __int16 field_24_off_level;
-    __int16 field_26_off_path;
     __int16 field_28_off_camera;
     __int16 field_2A_off_well_id;
     __int16 field_2C_on_level;
@@ -36,10 +36,6 @@ ALIVE_ASSERT_SIZEOF(Path_Well_Express, 0x3C);
 
 struct Path_Well_Local : public Path_Well_Base
 {
-    __int16 field_20_exit_x;
-    __int16 field_22_exit_y;
-    __int16 field_24_off_dx;
-    __int16 field_26_off_dy;
     __int16 field_28_on_dx;
     __int16 field_2A_on_dy;
     __int16 field_2C_emit_leaves;

@@ -191,15 +191,15 @@ enum Flags_2A8
 {
     e2A8_Bit1 = 0x1,
     e2A8_Bit2 = 0x2,
-    e2A8_Bit3_Fall_To_Well = 0x4, //todo verify
+    e2A8_Bit3 = 0x4,
     e2A8_Bit4_Fall_To_Well = 0x8,
     e2A8_Bit5 = 0x10,
     e2A8_Bit6_bShrivel = 0x20,
     e2A8_Bit7 = 0x40,
     e2A8_Bit8 = 0x80,
-    e2A8_Bit9_bLaughAtChantEnd = 0x100, //todo verify
+    e2A8_Bit9 = 0x100,
     e2A8_Bit10 = 0x200,
-    e2A8_Bit11 = 0x400,
+    e2A8_Bit11_bLaughAtChantEnd = 0x400,
     e2A8_Bit12_bParamoniaDone = 0x800,
     e2A8_eBit13_bScrabinaDone = 0x1000,
     e2A8_eBit14_bGotShrykullFromBigFace = 0x2000,
@@ -276,6 +276,8 @@ public:
     EXPORT void ToKnockback_422D90(__int16 bUnknownSound, __int16 bDelayedAnger);
 
     EXPORT BYTE** StateToAnimResource_4204F0(int motion);
+
+    EXPORT void ToIdle_422D50();
 
     // States
     EXPORT void State_0_Idle_423520();

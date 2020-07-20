@@ -1344,6 +1344,17 @@ BYTE** Abe::StateToAnimResource_4204F0(int /*motion*/)
     return nullptr;
 }
 
+void Abe::ToIdle_422D50()
+{
+    field_120 = 0;
+    field_B4_velx = FP_FromInteger(0);
+    field_B8_vely = FP_FromInteger(0);
+    field_114_gnFrame = gnFrameCount_507670;
+    field_FC_current_motion = eAbeStates::State_0_Idle_423520;
+    field_10C_prev_held = 0;
+    field_10E = 0;
+}
+
 void Abe::vScreenChanged_422640()
 {
     if (sControlledCharacter_50767C == this || 
@@ -1661,7 +1672,21 @@ void Abe::State_35_RunLoop_425060()
 
 void Abe::State_36_DunnoBegin_423260()
 {
-    NOT_IMPLEMENTED();
+    FollowLift_42EE90();
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        Abe_SFX_42A4D0(15u, 0, 0, this);
+
+        if (sInputObject_5009E8.isPressed(sInputKey_DoAction_4C65A4 | sInputKey_ThrowItem_4C65B4))
+        {
+            field_FC_current_motion = eAbeStates::State_37_DunnoMid_4232C0;
+        }
+        else
+        {
+            field_FC_current_motion = eAbeStates::State_38_DunnoEnd_423310;
+        }
+    }
 }
 
 void Abe::State_37_DunnoMid_4232C0()
@@ -1671,7 +1696,12 @@ void Abe::State_37_DunnoMid_4232C0()
 
 void Abe::State_38_DunnoEnd_423310()
 {
-    NOT_IMPLEMENTED();
+    FollowLift_42EE90();
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToIdle_422D50();
+    }
 }
 
 void Abe::State_39_CrouchTurn_4288C0()
@@ -1880,14 +1910,132 @@ void Abe::State_77_WellBegin_430F10()
     NOT_IMPLEMENTED();
 }
 
+ALIVE_VAR(1, 0x4C73CC, FP, gPointlessWellScale_4C73CC, FP_FromDouble(1.8));
+
 void Abe::State_78_InsideWellLocal_4310A0()
 {
-    NOT_IMPLEMENTED();
+    const int v2 = field_114_gnFrame;
+    field_114_gnFrame--;
+
+    if (!v2)
+    {
+        field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(
+            FP_GetExponent(field_A8_xpos),
+            FP_GetExponent(field_AC_ypos),
+            FP_GetExponent(field_A8_xpos),
+            FP_GetExponent(field_AC_ypos),
+            TlvTypes::LocalWell_11);
+
+        if (!field_F0_pTlv)
+        {
+            field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(
+                FP_GetExponent(field_A8_xpos),
+                FP_GetExponent(field_AC_ypos),
+                FP_GetExponent(field_A8_xpos),
+                FP_GetExponent(field_AC_ypos),
+                TlvTypes::WellExpress_45);
+        }
+
+        auto pWellBase = static_cast<Path_Well_Base*>(field_F0_pTlv);
+
+        field_120 = 0;
+
+        if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit4_Fall_To_Well))
+        {
+            field_B4_velx = (field_BC_sprite_scale * (FP_FromInteger(pWellBase->field_20_exit_x) / FP_FromInteger(100)));
+            field_B8_vely = (field_BC_sprite_scale * (FP_FromInteger(pWellBase->field_22_exit_y) / FP_FromInteger(100)));
+            field_2A8_flags.Clear(Flags_2A8::e2A8_Bit4_Fall_To_Well);
+        }
+        else
+        {
+            if (SwitchStates_Get(pWellBase->field_1A_trigger_id))
+            {
+                auto pLocalWell = static_cast<Path_Well_Local*>(field_F0_pTlv);
+                field_B4_velx = (field_BC_sprite_scale * FP_FromInteger(pLocalWell->field_28_on_dx) / FP_FromInteger(100));
+                field_B8_vely = (field_BC_sprite_scale * FP_FromInteger(pLocalWell->field_2A_on_dy) / FP_FromInteger(100));
+            }
+            else
+            {
+                field_B4_velx = (field_BC_sprite_scale * FP_FromInteger(pWellBase->field_24_off_level_or_dx) * FP_FromInteger(100));
+                field_B8_vely = (field_BC_sprite_scale * FP_FromInteger(pWellBase->field_26_off_path_or_dy) / FP_FromInteger(100));
+            }
+        }
+
+        MapFollowMe_401D30(1);
+
+        field_AC_ypos += field_B8_vely;
+        gPointlessWellScale_4C73CC = FP_FromDouble(1.8);
+
+        if (field_B4_velx >= FP_FromInteger(0))
+        {
+            field_10_anim.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+        }
+        else
+        {
+            field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+        }
+
+        SFX_Play_43AD70(24u, 0, this);
+
+        field_FC_current_motion++; // ARGH todo figure out what the actual motion should be, 79 ??
+
+        if (field_BC_sprite_scale == FP_FromDouble(0.5))
+        {
+            field_10_anim.field_C_layer = 3;
+        }
+        else
+        {
+            field_10_anim.field_C_layer = 22;
+        }
+
+        field_F4_pLine = nullptr;
+    }
 }
 
 void Abe::State_79_WellShotOut_431730()
 {
-    NOT_IMPLEMENTED();
+    if (field_B8_vely >= FP_FromInteger(0))
+    {
+        State_3_Fall_42E7F0();
+    }
+    else
+    {
+        field_B8_vely += (field_BC_sprite_scale * gPointlessWellScale_4C73CC);
+
+        field_A8_xpos += field_B4_velx;
+        field_AC_ypos += field_B8_vely;
+
+        SetActiveCameraDelayedFromDir_401C90();
+        field_F0_pTlv = gMap_507BA8.TLV_Get_At_446060(
+            nullptr,
+            field_A8_xpos,
+            field_AC_ypos,
+            field_A8_xpos,
+            field_AC_ypos);
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted)
+        || field_FC_current_motion != eAbeStates::State_79_WellShotOut_431730
+        && field_FC_current_motion != eAbeStates::State_85_431710
+        && field_FC_current_motion != eAbeStates::State_76_ToWellShotOut_431720)
+    {
+        if (field_BC_sprite_scale == FP_FromDouble(0.5))
+        {
+            field_10_anim.field_C_layer = 13;
+        }
+        else
+        {
+            field_10_anim.field_C_layer = 32;
+        }
+
+        field_D0_pShadow->field_14_flags.Set(Shadow::eBit2_Enabled);
+    }
+
+    if (field_FC_current_motion == eAbeStates::State_86_FallLandDie_42EDD0)
+    {
+        field_100_health = FP_FromInteger(1);
+        field_FC_current_motion = eAbeStates::State_98_LandSoft_42ED40;
+    }
 }
 
 void Abe::State_80_430EF0()
@@ -1902,7 +2050,62 @@ void Abe::State_81_InsideWellExpress_431320()
 
 void Abe::State_82_WellExpressShotOut_4315A0()
 {
-    NOT_IMPLEMENTED();
+    PSX_Point camCoords = {};
+    gMap_507BA8.GetCurrentCamCoords_444890(&camCoords);
+    Path_Well_Base* pWell = nullptr;
+    Path_TLV* pTlvIter = nullptr;
+    do
+    {
+        pTlvIter = gMap_507BA8.TLV_Get_At_446060(
+            pTlvIter,
+            FP_FromInteger(camCoords.field_0_x + 256),
+            FP_FromInteger(camCoords.field_2_y + 120),
+            FP_FromInteger(camCoords.field_0_x + 624),
+            FP_FromInteger(camCoords.field_2_y + 360));
+        if (!pTlvIter)
+        {
+            break;
+        }
+
+        if ((pTlvIter->field_4_type == TlvTypes::LocalWell_11 || pTlvIter->field_4_type == TlvTypes::WellExpress_45) &&
+            static_cast<Path_Well_Base*>(pTlvIter)->field_1C_well_id == field_196_door_id)
+        {
+            pWell = static_cast<Path_Well_Base*>(pTlvIter);
+            break;
+        }
+    } while (pTlvIter);
+
+
+    field_B2_lvl_number = gMap_507BA8.field_0_current_level;
+    field_B0_path_number = gMap_507BA8.field_2_current_path;
+
+    if (pWell)
+    {
+        if (pWell->field_18_scale == 1)
+        {
+            field_BC_sprite_scale = FP_FromDouble(0.5);
+            field_C6_scale = 0;
+        }
+        else
+        {
+            field_BC_sprite_scale = FP_FromInteger(1);
+            field_C6_scale = 1;
+        }
+
+        field_FC_current_motion = eAbeStates::State_78_InsideWellLocal_4310A0;
+
+        field_F0_pTlv = pWell;
+        field_A8_xpos = FP_FromInteger((pWell->field_10_top_left.field_0_x + pWell->field_14_bottom_right.field_0_x) / 2);
+        field_AC_ypos = FP_FromInteger(pWell->field_14_bottom_right.field_2_y);
+        field_2A8_flags.Set(Flags_2A8::e2A8_Bit4_Fall_To_Well);
+    }
+    else
+    {
+        field_A8_xpos = FP_FromInteger(camCoords.field_0_x + 450);
+        field_AC_ypos = FP_FromInteger(camCoords.field_2_y + 320);
+        field_B4_velx = (field_BC_sprite_scale * -FP_FromDouble(2.7));
+        field_B8_vely = (field_BC_sprite_scale * -FP_FromInteger(15));
+    }
 }
 
 void Abe::State_83_430F00()
@@ -1912,7 +2115,7 @@ void Abe::State_83_430F00()
 
 void Abe::State_84_431080()
 {
-    NOT_IMPLEMENTED();
+    State_78_InsideWellLocal_4310A0();
 }
 
 void Abe::State_85_431710()
@@ -1957,7 +2160,10 @@ void Abe::State_88_HandstoneBegin_430590()
 
 void Abe::State_89_HandstoneEnd_430E80()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    {
+        field_FC_current_motion = eAbeStates::State_0_Idle_423520;
+    }
 }
 
 void Abe::State_90_GrenadeMachineUse_430EA0()
@@ -2329,7 +2535,23 @@ void Abe::State_150_Chant_42FD50()
 
 void Abe::State_151_ChantEnd_430530()
 {
-    NOT_IMPLEMENTED();
+    SND_Seq_Stop_477A60(11u);
+
+    FollowLift_42EE90();
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit11_bLaughAtChantEnd))
+        {
+            field_FC_current_motion = eAbeStates::State_12_Speak_42FBD0;
+            Abe_SFX_42A4D0(8u, 0, 0, this);
+            field_2A8_flags.Clear(Flags_2A8::e2A8_Bit11_bLaughAtChantEnd);
+        }
+        else
+        {
+            ToIdle_422D50();
+        }
+    }
 }
 
 void Abe::State_152_ElumFallOffEdge_42E030()
