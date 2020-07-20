@@ -2034,7 +2034,7 @@ EXPORT void Factory_StatusBoard_487AF0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("LCDFONT.FNT", 'tnoF', 2, loadMode, 0);
+        ResourceManager::LoadResource_446C90("LCDFONT.FNT", ResourceManager::Resource_Font, 2, loadMode);
     }
     else
     {

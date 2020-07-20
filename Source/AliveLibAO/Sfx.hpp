@@ -6,6 +6,7 @@ START_NS_AO
 
 class BaseAnimatedWithPhysicsGameObject;
 class BaseAliveGameObject;
+class BaseGameObject;
 
 enum class CameraPos : __int16;
 

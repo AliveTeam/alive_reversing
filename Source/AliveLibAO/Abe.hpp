@@ -155,8 +155,8 @@ START_NS_AO;
     ENTRY(State_144_RockThrowStandingEnd_429DE0) \
     ENTRY(State_145_RockThrowCrouchingHold_428930) \
     ENTRY(State_146_RockThrowCrouchingThrow_4289F0) \
-    ENTRY(State_147_ZShotRolling_4295C0) \
-    ENTRY(State_148_ZShot_4296A0) \
+    ENTRY(State_147_ShotRolling_4295C0) \
+    ENTRY(State_148_Shot_4296A0) \
     ENTRY(State_149_PickupItem_42A030) \
     ENTRY(State_150_Chant_42FD50) \
     ENTRY(State_151_ChantEnd_430530) \
@@ -278,6 +278,10 @@ public:
     EXPORT BYTE** StateToAnimResource_4204F0(int motion);
 
     EXPORT void ToIdle_422D50();
+
+    EXPORT void sub_422FC0();
+
+    EXPORT void ElumFree_4228F0();
 
     // States
     EXPORT void State_0_Idle_423520();
@@ -427,8 +431,8 @@ public:
     EXPORT void State_144_RockThrowStandingEnd_429DE0();
     EXPORT void State_145_RockThrowCrouchingHold_428930();
     EXPORT void State_146_RockThrowCrouchingThrow_4289F0();
-    EXPORT void State_147_ZShotRolling_4295C0();
-    EXPORT void State_148_ZShot_4296A0();
+    EXPORT void State_147_ShotRolling_4295C0();
+    EXPORT void State_148_Shot_4296A0();
     EXPORT void State_149_PickupItem_42A030();
     EXPORT void State_150_Chant_42FD50();
     EXPORT void State_151_ChantEnd_430530();

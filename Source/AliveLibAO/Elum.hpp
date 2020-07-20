@@ -91,7 +91,13 @@ public:
 
     EXPORT void Vsub_412700();
 
+    // TODO: Add new virtuals
+
+    EXPORT void Vsub_416120();
+
     EXPORT BaseAliveGameObject* dtor_base_416FE0();
+
+    EXPORT BYTE** GetResBlock_410D00(int currentMotion);
 
     // States
     EXPORT void State_0_Respawn_414C60();
@@ -153,7 +159,7 @@ public:
 
     __int16 field_10C;
     __int16 field_10E;
-    int field_110;
+    int field_110_timer;
     int field_114;
     int field_118;
     int field_11C;
