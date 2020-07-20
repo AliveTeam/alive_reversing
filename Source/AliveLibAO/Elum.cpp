@@ -5,6 +5,7 @@
 #include "Map.hpp"
 #include "ResourceManager.hpp"
 #include "LiftPoint.hpp"
+#include "Game.hpp"
 
 START_NS_AO;
 
@@ -67,6 +68,61 @@ const TElumStateFunction sElum_motion_table_4C5148[] =
     &Elum::State_50_Knockback_415DC0
 };
 
+const int gElumFrameTables_4C5218[52] =
+{
+    117036,
+    117036,
+    117036,
+    117152,
+    116980,
+    117112,
+    117132,
+    116928,
+    116948,
+    117068,
+    117288,
+    117464,
+    117232,
+    117092,
+    117496,
+    117496,
+    117496,
+    117112,
+    117132,
+    117036,
+    117036,
+    40404,
+    40428,
+    40376,
+    40484,
+    19988,
+    20044,
+    49620,
+    47728,
+    17568,
+    127896,
+    127924,
+    127956,
+    127980,
+    128000,
+    128048,
+    128128,
+    128168,
+    128068,
+    127876,
+    127816,
+    127796,
+    127836,
+    127856,
+    18132,
+    18188,
+    18160,
+    18236,
+    7460,
+    7460,
+    21280,
+    0
+};
 
 BaseGameObject* Elum::VDestructor(signed int flags)
 {
@@ -129,12 +185,32 @@ void Elum::Vsub_412700()
     }
 }
 
+void Elum::Vsub_416120()
+{
+    field_118 = 0;
+    field_110_timer = gnFrameCount_507670;
+    field_B4_velx = FP_FromInteger(0);
+    field_B8_vely = FP_FromInteger(0);
+    field_FC_current_motion = eElumStates::State_1_Idle_412990;
+    field_10E = 0;
+    MapFollowMe_401D30(1);
+    field_10_anim.Set_Animation_Data_402A40(
+        gElumFrameTables_4C5218[field_FC_current_motion],
+        GetResBlock_410D00(field_FC_current_motion));
+}
+
 BaseAliveGameObject* Elum::dtor_base_416FE0()
 {
     SetVTable(this, 0x4BA970);
     return dtor_401000();
 }
 
+
+BYTE** Elum::GetResBlock_410D00(int /*currentMotion*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
 
 void Elum::State_0_Respawn_414C60()
 {
