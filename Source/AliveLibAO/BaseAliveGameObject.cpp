@@ -41,7 +41,7 @@ BaseAliveGameObject *BaseAliveGameObject::ctor_401090()
     field_FC_current_motion = 0;
     field_FE_next_state = 0;
     field_E4 = 0;
-    field_E6_last_state = 0;
+    field_E6_last_anim_frame = 0;
     field_E8_LastLineYPos = FP_FromInteger(0);
     field_104_pending_resource_count = 0;
     gBaseAliveGameObjects_4FC8A0->Push_Back(this);
