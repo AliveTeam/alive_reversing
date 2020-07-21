@@ -93,11 +93,11 @@ BaseGameObject* HoneySack::dtor_42BF20()
 
     if (field_E8_state == 0)
     {
-        gMap_507BA8.TLV_Reset_446870(field_E4_tlvInfo, FP_GetExponent(field_AC_ypos - field_FC_ypos2), 0, 0);
+        gMap_507BA8.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
     }
     else
     {
-        gMap_507BA8.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
+        gMap_507BA8.TLV_Reset_446870(field_E4_tlvInfo, FP_GetExponent(field_AC_ypos - field_FC_ypos2), 0, 0);
     }
 
     if (field_F0_pBee)
