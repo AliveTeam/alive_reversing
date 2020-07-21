@@ -1246,7 +1246,7 @@ BaseAliveGameObject* CC Abe::FindObjectToPosses_421410()
         {
             if (pObj->field_10A_flags.Get(Flags_10A::e10A_Bit1_Can_Be_Possessed))
             {
-                if (pObj->field_4_typeId == Types::eSlig_88 &&
+                if (pObj->field_4_typeId != Types::eSlig_88 ||
                     pObj->Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0 &&
                     pObj->field_100_health > FP_FromInteger(0))
                 {
