@@ -44,7 +44,7 @@ EXPORT RollingBallStopper* RollingBallStopper::ctor_43BCE0(Path_RollingBallStopp
     field_10C_tlvInfo = tlvInfo;
 
     // Check its enabled ?
-    if (pTlv->field_1_unknown == 0x100) // TODO: Check is correct byte
+    if (pTlv->field_1_unknown)
     {
         field_AC_ypos += field_BC_sprite_scale * FP_FromInteger(70);
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
