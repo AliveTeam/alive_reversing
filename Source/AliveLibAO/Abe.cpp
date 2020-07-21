@@ -2007,7 +2007,7 @@ void Abe::State_78_InsideWellLocal_4310A0()
             }
             else
             {
-                field_B4_velx = (field_BC_sprite_scale * FP_FromInteger(pWellBase->field_24_off_level_or_dx) * FP_FromInteger(100));
+                field_B4_velx = (field_BC_sprite_scale * FP_FromInteger(pWellBase->field_24_off_level_or_dx) / FP_FromInteger(100));
                 field_B8_vely = (field_BC_sprite_scale * FP_FromInteger(pWellBase->field_26_off_path_or_dy) / FP_FromInteger(100));
             }
         }
