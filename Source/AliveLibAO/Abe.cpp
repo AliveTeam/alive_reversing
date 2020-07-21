@@ -1287,7 +1287,7 @@ void Abe::ToKnockback_422D90(__int16 bUnknownSound, __int16 bDelayedAnger)
             field_188_pOrbWhirlWind = nullptr;
         }
 
-        if (field_B4_velx > FP_FromInteger(0))
+        if (field_B4_velx != FP_FromInteger(0))
         {
             field_A8_xpos -= field_B4_velx;
         }
