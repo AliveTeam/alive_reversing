@@ -126,7 +126,10 @@ BaseGameObject* OrbWhirlWind::dtor_48B910()
 
     for (auto& obj : field_18_particles)
     {
-        obj->Vdtor_48C510(1);
+        if (obj)
+        {
+            obj->Vdtor_48C510(1);
+        }
     }
 
     gOrbWhirlWind_instace_count_9F30A0--;
