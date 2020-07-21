@@ -93,7 +93,7 @@ public:
     // Brains
     EXPORT __int16 Brain_45C370();
 
-    using TBrainType = decltype(&Brain_45C370);
+    using TBrainType = decltype(&Scrab::Brain_45C370);
 
     TBrainType field_10C_fn;
     __int16 field_110_brain_ret;
