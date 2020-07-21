@@ -230,47 +230,47 @@ void ThrowableArray::Add_49A7A0(__int16 count)
 
             field_22_flags |= 4u;
         }
+    }
 
-        if (field_22_flags & 1)
+    if (field_20_count == 0 || (field_22_flags & 1))
+    {
+        if (!(field_22_flags & 2))
         {
-            if (!(field_22_flags & 2))
+            switch (word_55FAFC[gMap_5C3030.field_22_overlayID])
             {
-                switch (word_55FAFC[gMap_5C3030.field_22_overlayID])
-                {
-                case Types::eBone_11:
-                    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_591);
-                    break;
+            case Types::eBone_11:
+                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_591);
+                break;
 
-                case Types::eType_24:
-                    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalResID);
-                    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID);
-                    Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kGrenadeResID);
-                    break;
+            case Types::eType_24:
+                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalResID);
+                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID);
+                Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kGrenadeResID);
+                break;
 
-                case Types::eGrenade_65:
-                    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
-                    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
-                    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID);
-                    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalResID);
-                    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID);
-                    Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kGrenadeResID);
-                    break;
+            case Types::eGrenade_65:
+                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
+                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
+                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID);
+                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalResID);
+                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID);
+                Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kGrenadeResID);
+                break;
 
-                case Types::eMeat_84:
-                    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMeatResID);
-                    break;
+            case Types::eMeat_84:
+                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMeatResID);
+                break;
 
-                case Types::eRock_105:
-                    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAberockResID);
-                    Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kAberockResID);
-                    break;
+            case Types::eRock_105:
+                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAberockResID);
+                Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kAberockResID);
+                break;
 
-                default:
-                    break;
-                }
-
-                field_22_flags |= 2u;
+            default:
+                break;
             }
+
+            field_22_flags |= 2u;
         }
     }
 
