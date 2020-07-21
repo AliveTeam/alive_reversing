@@ -145,7 +145,7 @@ void OrbWhirlWindParticle::VUpdate_48BF00()
             if (static_cast<int>(gnFrameCount_507670) < field_DC_position_timer)
             {
                 field_C0_current_scale += field_C8_scale_offset_fly_to_target;
-                const FP v25 = FP_FromInteger(16 - (field_DC_position_timer + gnFrameCount_507670)) / FP_FromInteger(16);
+                const FP v25 = FP_FromInteger(16 - (field_DC_position_timer - gnFrameCount_507670)) / FP_FromInteger(16);
                 field_F8_ypos_offset = ((xpos - field_F0_scale) * v25) + field_F0_scale;
                 field_FC_xpos_offset2 = ((ypos - field_F4_xpos_offset) * v25) + field_F4_xpos_offset;
                 field_CC_xpos_mid = field_F8_ypos_offset + ((FP_FromInteger(32) * field_C0_current_scale) * Math_Sine_451110(FP_GetExponent(FP_FromInteger(128) * v25) & 0xFF));

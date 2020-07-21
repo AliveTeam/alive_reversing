@@ -242,37 +242,37 @@ void ThrowableArray::Add_453F70(__int16 count)
             ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 14, 1, 0);
             field_12_flags |= 4;
         }
+    }
 
-        if (field_12_flags & 1)
+    if (field_10_count == 0 || (field_12_flags & 1))
+    {
+        if (!(field_12_flags & 2))
         {
-            if (!(field_12_flags & 2))
+            switch (word_4CF158[gMap_507BA8.field_28_cd_or_overlay_num])
             {
-                switch (word_4CF158[gMap_507BA8.field_28_cd_or_overlay_num])
-                {
-                case Types::eGrenade_40:
-                    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 301, 1, 0);
-                    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 25, 1, 0);
-                    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 576, 1, 0);
-                    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 365, 1, 0);
-                    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6005, 1, 0);
-                    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, 6005, 1, 0);
-                    break;
+            case Types::eGrenade_40:
+                ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 301, 1, 0);
+                ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 25, 1, 0);
+                ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 576, 1, 0);
+                ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 365, 1, 0);
+                ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6005, 1, 0);
+                ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, 6005, 1, 0);
+                break;
 
-                case Types::eMeat_54:
-                    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2023, 1, 0);
-                    break;
+            case Types::eMeat_54:
+                ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2023, 1, 0);
+                break;
 
-                case Types::eRock_70:
-                    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 350, 1, 0);
-                    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, 350, 1, 0);
-                    break;
+            case Types::eRock_70:
+                ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 350, 1, 0);
+                ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, 350, 1, 0);
+                break;
 
-                default:
-                    break;
-                }
-
-                field_12_flags |= 2;
+            default:
+                break;
             }
+
+            field_12_flags |= 2;
         }
     }
 

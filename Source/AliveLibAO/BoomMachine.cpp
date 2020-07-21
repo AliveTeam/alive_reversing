@@ -52,17 +52,17 @@ void BoomMachine::Vsub_41E6F0()
 {
     if (Vsub_41E840())
     {
-        if (!field_EC_pNozzel->field_E4_state)
+        if (field_EC_pNozzel->field_E4_state == 0)
         {
-            field_EC_pNozzel->field_E4_state = 1;
+            field_EC_pNozzel->field_E4_state = 2;
             field_EC_pNozzel->field_E8 = gnFrameCount_507670 + 10;
         }
     }
     else
     {
-        if (!field_EC_pNozzel->field_E4_state)
+        if (field_EC_pNozzel->field_E4_state == 0)
         {
-            field_EC_pNozzel->field_E4_state = 2;
+            field_EC_pNozzel->field_E4_state = 1;
             field_EC_pNozzel->field_E8 = gnFrameCount_507670 + 10;
         }
     }
