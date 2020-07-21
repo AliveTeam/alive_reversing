@@ -48,9 +48,15 @@ enum eScrabStates : int
 class Scrab : public BaseAliveGameObject
 {
 public:
-    EXPORT void VUpdate_Real_45B360();
-
     EXPORT void VUpdate_45B360();
+
+    EXPORT void ToStand_45E310();
+
+    EXPORT void VUpdateResBlock_45B330();
+
+    EXPORT BYTE** ResBlockForMotion_45BB30(__int16 motion);
+
+    EXPORT void sub_45E580();
 
     // States
     EXPORT void State_0_Empty_45E3D0();
@@ -84,19 +90,24 @@ public:
     EXPORT void State_28_LegKick_45FF60();
     EXPORT void State_29_DeathBegin_45FFA0();
 
-    int field_10C_fn;
-    __int16 field_110;
+    // Brains
+    EXPORT __int16 Brain_45C370();
+
+    using TBrainType = decltype(&Brain_45C370);
+
+    TBrainType field_10C_fn;
+    __int16 field_110_brain_ret;
     __int16 field_112;
     __int16 field_114;
     __int16 field_116;
-    int field_118;
+    int field_118_timer;
     BaseGameObject* field_11C;
     BaseAliveGameObject* field_120;
     int field_124;
     int field_128;
     int field_12C;
     __int16 field_130;
-    __int16 field_132;
+    __int16 field_132_res_block_idx;
     int field_134;
     int field_138;
     int field_13C;
@@ -106,8 +117,8 @@ public:
     __int16 field_148;
     __int16 field_14A;
     int field_14C;
-    int field_150_resources[14];
-    __int16 field_188;
+    BYTE** field_150_resources[14];
+    __int16 field_188_flags;
     __int16 field_18A;
 };
 ALIVE_ASSERT_SIZEOF(Scrab, 0x18C);

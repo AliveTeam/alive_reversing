@@ -18,6 +18,8 @@ ALIVE_VAR(1, 0x5076DC, int, gTweak_Y_5076DC, 0);
 ALIVE_VAR(1, 0x5076C0, short, sRescuedMudokons_5076C0, 0);
 ALIVE_VAR(1, 0x5076BC, short, sKilledMudokons_5076BC, 0);
 
+ALIVE_VAR(1, 0x5076E0, short, word_5076E0, 0);
+
 
 
 DDCheat* DDCheat::ctor_4095D0()
@@ -81,6 +83,12 @@ void DDCheat::AddPropertyEntry(const char* text, DDCheatValueType valueType, DDC
             return;
         }
     }
+}
+
+int DebugOut_495990(const char* /*pStr*/, ...)
+{
+    NOT_IMPLEMENTED();
+    return 0;
 }
 
 END_NS_AO

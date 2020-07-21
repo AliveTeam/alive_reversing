@@ -502,12 +502,6 @@ EXPORT void CC Errors_Display_48E050()
     NOT_IMPLEMENTED();
 }
 
-EXPORT int DebugOut_495990(const char*, ...)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
 EXPORT int PSX_ResetCallBack_49AFB0()
 {
     NOT_IMPLEMENTED();
