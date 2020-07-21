@@ -40,4 +40,15 @@ unsigned int CC Pal_Make_Colour_447950(BYTE /*r*/, BYTE /*g*/, BYTE /*b*/, __int
     return 0;
 }
 
+void CC Vram_free_450CE0(PSX_Point /*xy*/, PSX_Point /*wh*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+__int16 CC vram_alloc_450B20(unsigned __int16 /*width*/, __int16 /*height*/, unsigned __int16 /*colourDepth*/, PSX_RECT* /*pRect*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 END_NS_AO

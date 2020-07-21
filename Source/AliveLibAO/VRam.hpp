@@ -15,4 +15,8 @@ EXPORT void CC Pal_Set_447990(PSX_Point xy, __int16 w, const BYTE* palData, PSX_
 
 EXPORT unsigned int CC Pal_Make_Colour_447950(BYTE r, BYTE g, BYTE b, __int16 bOpaque);
 
+EXPORT void CC Vram_free_450CE0(PSX_Point xy, PSX_Point wh);
+
+EXPORT __int16 CC vram_alloc_450B20(unsigned __int16 width, __int16 height, unsigned __int16 colourDepth, PSX_RECT* pRect);
+
 END_NS_AO

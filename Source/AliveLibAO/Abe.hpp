@@ -5,7 +5,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
 
-START_NS_AO;
+START_NS_AO
 
 #define ABE_STATES_ENUM(ENTRY) \
     ENTRY(State_0_Idle_423520) \

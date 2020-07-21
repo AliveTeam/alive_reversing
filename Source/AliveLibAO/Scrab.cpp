@@ -1,6 +1,12 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "Scrab.hpp"
+#include "Function.hpp"
+#include "Map.hpp"
+#include "Events.hpp"
+#include "Abe.hpp"
+#include "Collisions.hpp"
+#include "VRam.hpp"
+#include "DDCheat.hpp"
 
 void Scrab_ForceLink() {}
 
@@ -42,21 +48,225 @@ const TScrabStateFunction sScrabMotionTable_4CF690[] =
     &Scrab::State_29_DeathBegin_45FFA0,
 };
 
-void Scrab::VUpdate_Real_45B360()
+const int sScrabFrameTables_4CF708[30] =
 {
-    NOT_IMPLEMENTED();
-}
+    168644,
+    168644,
+    168548,
+    168676,
+    168740,
+    168796,
+    168844,
+    168868,
+    168908,
+    168644,
+    168932,
+    168952,
+    168972,
+    168868,
+    168908,
+    168992,
+    24136,
+    1324,
+    1324,
+    11060,
+    16944,
+    17012,
+    11380,
+    30940,
+    26664,
+    19544,
+    19600,
+    8212,
+    14228,
+    12724
+};
+
 
 void Scrab::VUpdate_45B360()
 {
-    const __int16 oldMotion = field_FC_current_motion;
-
-    VUpdate_Real_45B360();
-
-    if (oldMotion != field_FC_current_motion)
+    if (Event_Get_417250(kEventDeathReset_4))
     {
-        LOG_INFO("oldMotion = " << oldMotion << " newMotion = " << field_FC_current_motion);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
+
+    if (!(field_188_flags & 8))
+    {
+        FP hitX = {};
+        FP hitY = {};
+        if (sCollisions_DArray_504C6C->RayCast_40C410(
+            field_A8_xpos,
+            field_AC_ypos,
+            field_A8_xpos,
+            field_AC_ypos + FP_FromInteger(30),
+            &field_F4_pLine,
+            &hitX,
+            &hitY,
+            field_BC_sprite_scale != FP_FromDouble(0.5) ? 1 : 0x10) == 1)
+        {
+            field_AC_ypos = hitY;
+
+            ToStand_45E310();
+
+            if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
+            {
+                sub_45E580();
+            }
+
+            field_188_flags |= 8u;
+        }
+    }
+    
+    const FP hero_xd = FP_Abs(field_A8_xpos - sActiveHero_507678->field_A8_xpos);
+    const FP hero_yd = FP_Abs(field_AC_ypos - sActiveHero_507678->field_AC_ypos);
+
+    if (hero_xd > FP_FromInteger(2048) || hero_yd > FP_FromInteger(960))
+    {
+        field_10_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+        field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+        if (field_10_anim.field_84_vram_rect.w)
+        {
+            Vram_free_450CE0(
+                PSX_Point{ field_10_anim.field_84_vram_rect.x, field_10_anim.field_84_vram_rect.y },
+                PSX_Point{ field_10_anim.field_84_vram_rect.w, field_10_anim.field_84_vram_rect.h });
+            field_10_anim.field_84_vram_rect.w = 0;
+        }
+    }
+    else
+    {
+        if (field_100_health > FP_FromInteger(0))
+        {
+            if (!field_10_anim.field_84_vram_rect.w)
+            {
+                vram_alloc_450B20(168, 69, 8u, &field_10_anim.field_84_vram_rect);
+            }
+            field_10_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
+            field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+        }
+        
+        const auto old_motion = field_FC_current_motion;
+
+        field_110_brain_ret = (this->*field_10C_fn)();
+     
+        if (!word_5076E0)
+        {
+            DebugOut_495990(
+                "Scrab %d %d %d %d\n",
+                field_110_brain_ret,
+                field_118_timer,
+                field_FC_current_motion,
+                field_FE_next_state);
+        }
+
+
+        const FP old_x = field_A8_xpos;
+        const FP old_y = field_AC_ypos;
+
+        (this->*sScrabMotionTable_4CF690[field_FC_current_motion])();
+
+        if (old_x != field_A8_xpos || old_y != field_AC_ypos)
+        {
+            field_F0_pTlv = gMap_507BA8.TLV_Get_At_446060(
+                nullptr,
+                field_A8_xpos,
+                field_AC_ypos,
+                field_A8_xpos,
+                field_AC_ypos);
+            VOn_TLV_Collision(field_F0_pTlv);
+        }
+
+        if (old_motion != field_FC_current_motion || field_188_flags & 0x10)
+        {
+            field_188_flags &= ~0x10u;
+            VUpdateResBlock_45B330();
+
+            if (old_motion != eScrabStates::State_0_Empty_45E3D0)
+            {
+                field_10_anim.SetFrame_402AC0(field_E6_last_anim_frame);
+            }
+        }
+        else if (field_112)
+        {
+            field_FC_current_motion = field_E4;
+            VUpdateResBlock_45B330();
+            field_10_anim.SetFrame_402AC0(field_E6_last_anim_frame);
+            field_112 = 0;
+        }
+    }
+}
+
+void Scrab::ToStand_45E310()
+{
+    field_128 = 0;
+    field_B4_velx = FP_FromInteger(0);
+    field_B8_vely = FP_FromInteger(0);
+    field_FC_current_motion = eScrabStates::State_1_Stand_45E620;
+    MapFollowMe_401D30(1);
+}
+
+void Scrab::VUpdateResBlock_45B330()
+{
+    field_10_anim.Set_Animation_Data_402A40(
+        sScrabFrameTables_4CF708[field_FC_current_motion],
+        ResBlockForMotion_45BB30(field_FC_current_motion));
+}
+
+BYTE** Scrab::ResBlockForMotion_45BB30(__int16 motion)
+{
+    if (motion < eScrabStates::State_16_Stamp_45F920)
+    {
+        field_132_res_block_idx = 0;
+    }
+    else if (motion < eScrabStates::State_17_Empty_45F9C0)
+    {
+        field_132_res_block_idx = 6;
+    }
+    else if (motion < eScrabStates::State_19_Unused_45F9D0)
+    {
+        field_132_res_block_idx = 8;
+    }
+    else if (motion < eScrabStates::State_20_HowlBegin_45FA60)
+    {
+        field_132_res_block_idx = 10;
+    }
+    else if (motion < eScrabStates::State_22_Shriek_45FB00)
+    {
+        field_132_res_block_idx = 5;
+    }
+    else if (motion < eScrabStates::State_23_ScrabBattleAnim_45FBA0)
+    {
+        field_132_res_block_idx = 9;
+    }
+    else if (motion < eScrabStates::State_24_FeedToGulp_45FC30)
+    {
+        field_132_res_block_idx = 4;
+    }
+    else if (motion < eScrabStates::State_25_ToFeed_45FCE0)
+    {
+        field_132_res_block_idx = 11;
+    }
+    else if (motion < eScrabStates::State_27_AttackLunge_45FDF0)
+    {
+        field_132_res_block_idx = 1;
+    }
+    else if (motion < eScrabStates::State_28_LegKick_45FF60)
+    {
+        field_132_res_block_idx = 2;
+    }
+    else if (motion >= eScrabStates::State_29_DeathBegin_45FFA0)
+    {
+        field_132_res_block_idx = motion >= 30 ? 0 : 13;
+    }
+    else
+    {
+        field_132_res_block_idx = 3;
+    }
+    return field_150_resources[field_132_res_block_idx];
+}
+
+void Scrab::sub_45E580()
+{
+    NOT_IMPLEMENTED();
 }
 
 void Scrab::State_0_Empty_45E3D0()
@@ -207,6 +417,12 @@ void Scrab::State_28_LegKick_45FF60()
 void Scrab::State_29_DeathBegin_45FFA0()
 {
     NOT_IMPLEMENTED();
+}
+
+__int16 Scrab::Brain_45C370()
+{
+    NOT_IMPLEMENTED();
+    return 0;
 }
 
 

@@ -6,6 +6,7 @@
 
 START_NS_AO
 
+EXPORT int DebugOut_495990(const char* pStr, ...);
 
 enum class DDCheatValueType : int
 {
@@ -80,5 +81,6 @@ ALIVE_VAR_EXTERN(int, gTweak_Y_5076DC);
 
 ALIVE_VAR_EXTERN(short, sRescuedMudokons_5076C0);
 ALIVE_VAR_EXTERN(short, sKilledMudokons_5076BC);
+ALIVE_VAR_EXTERN(short, word_5076E0);
 
 END_NS_AO
