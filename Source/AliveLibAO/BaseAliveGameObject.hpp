@@ -3,6 +3,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "FunctionFwd.hpp"
 #include "BitField.hpp"
+#include "Psx.hpp"
 
 START_NS_AO
 
@@ -70,10 +71,7 @@ public:
 
     EXPORT __int16 InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* hitY, FP vely);
 
-    FP field_D4;
-    FP field_DC;
-    FP field_E0;
-    FP field_D8;
+    FP_RECT field_E4_collection_rect;
     __int16 field_E4;
     __int16 field_E6_last_anim_frame;
     FP field_E8_LastLineYPos;

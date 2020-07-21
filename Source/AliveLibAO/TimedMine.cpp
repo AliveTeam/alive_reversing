@@ -28,7 +28,7 @@ TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, int tlvInfo)
 
     field_6_flags.Set(Options::eInteractive_Bit8);
     field_1B8 &= ~1u;
-    field_10C = 0;
+    field_10C_armed = 0;
 
     if (pTlv->field_1C_scale == 1)
     {
@@ -68,7 +68,7 @@ TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, int tlvInfo)
         field_6_flags.Set(Options::eListAddFailed_Bit1);
     }
 
-    field_10E = pTlv->field_1E_ticks_before_explode;
+    field_10E_explode_timeout = pTlv->field_1E_ticks_before_explode;
     field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x + 12);
     field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y + 24);
 
@@ -76,10 +76,10 @@ TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, int tlvInfo)
     field_110_tlvInfo = tlvInfo;
 
     SetBaseAnimPaletteTint_4187C0(stru_4C3140, gMap_507BA8.field_0_current_level, 1005);
-    field_D4 = field_A8_xpos - (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
-    field_DC = field_A8_xpos + (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2)); 
-    field_E0 = field_AC_ypos;
-    field_D8 = field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale);
+    field_E4_collection_rect.x = field_A8_xpos - (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
+    field_E4_collection_rect.w = field_A8_xpos + (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2)); 
+    field_E4_collection_rect.h = field_AC_ypos;
+    field_E4_collection_rect.y = field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale);
 
     field_6_flags.Set(Options::eInteractive_Bit8);
     field_F8_pLiftPoint = nullptr;
@@ -89,7 +89,7 @@ TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, int tlvInfo)
 BaseGameObject* TimedMine::dtor_408690()
 {
     SetVTable(this, 0x4BA2C8);
-    if (field_10C != 1 || static_cast<int>(gnFrameCount_507670) < field_114_timer)
+    if (field_10C_armed != 1 || static_cast<int>(gnFrameCount_507670) < field_114_timer)
     {
         gMap_507BA8.TLV_Reset_446870(field_110_tlvInfo, -1, 0, 0);
     }
