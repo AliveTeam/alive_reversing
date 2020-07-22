@@ -389,7 +389,7 @@ BaseGameObject* Mudokon::dtor_43F6A0()
     }
 
     KillBirdPortal();
-    KillLiftPoint();
+    KillLiftPoint_194();
 
     if (!field_144_flags.Get(Flags_144::e144_Bit2) ||
         field_100_health <= FP_FromInteger(0) ||
@@ -432,7 +432,7 @@ BaseGameObject* Mudokon::dtor_43F6A0()
     return dtor_401000();
 }
 
-void Mudokon::KillLiftPoint()
+void Mudokon::KillLiftPoint_194()
 {
     if (field_194_pLiftPoint)
     {
@@ -606,7 +606,7 @@ void Mudokon::VScreenChanged_43FFC0()
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
         KillBirdPortal();
-        KillLiftPoint();
+        KillLiftPoint_194();
         return;
     }
 
@@ -629,7 +629,7 @@ void Mudokon::VScreenChanged_43FFC0()
         // Wasn't a path trans and path changed, die
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
         KillBirdPortal();
-        KillLiftPoint();
+        KillLiftPoint_194();
     }
 }
 
@@ -1078,18 +1078,19 @@ void Mudokon::MoveOnLine_43C7E0()
             if (field_F4_pLine->field_8_type != 32 && field_F4_pLine->field_8_type != 36)
             {
                 field_F8_pLiftPoint->VRemove(this);
-                KillLiftPoint();
+                field_F8_pLiftPoint->field_C_refCount--;
+                field_F8_pLiftPoint = nullptr;
             }
         }
-        else
+        else 
         {
             if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
             {
                 PSX_RECT bRect = {};
                 VGetBoundingRect(&bRect, 1);
                 VOnCollisionWith(
-                    PSX_Point{bRect.x, static_cast<short>(bRect.y + 5)},
-                    PSX_Point{bRect.w, static_cast<short>(bRect.h + 5)},
+                    PSX_Point{ bRect.x, static_cast<short>(bRect.y + 5) },
+                    PSX_Point{ bRect.w, static_cast<short>(bRect.h + 5) },
                     ObjListPlatforms_50766C,
                     1,
                     (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);

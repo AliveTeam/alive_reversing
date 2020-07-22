@@ -135,7 +135,7 @@ public:
 
     EXPORT BaseGameObject* dtor_43F6A0();
 
-    void KillLiftPoint();
+    void KillLiftPoint_194();
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
