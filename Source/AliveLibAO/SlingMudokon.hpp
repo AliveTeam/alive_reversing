@@ -7,12 +7,39 @@ void SlingMud_ForceLink();
 
 START_NS_AO
 
+#define SLING_MUD_STATES_ENUM(ENTRY) \
+    ENTRY(State_0_Idle_46FCB0) \
+    ENTRY(State_1_Angry_46FCF0) \
+    ENTRY(State_2_Speak_46FD70) \
+    ENTRY(State_3_ShootStart_46FD90) \
+    ENTRY(State_4_ShootEnd_46FEA0) \
+    ENTRY(State_5_AngryToIdle_46FD50)
+
+#define MAKE_ENUM(VAR) VAR,
+enum eSlingMudStates : int
+{
+    SLING_MUD_STATES_ENUM(MAKE_ENUM)
+};
+
 class SlingMudokon : public BaseAliveGameObject
 {
 public:
     EXPORT void VUpdate_Real_46FBF0();
 
     EXPORT void VUpdate_46FBF0();
+
+    // States
+    EXPORT void State_0_Idle_46FCB0();
+
+    EXPORT void State_1_Angry_46FCF0();
+
+    EXPORT void State_2_Speak_46FD70();
+
+    EXPORT void State_3_ShootStart_46FD90();
+
+    EXPORT void State_4_ShootEnd_46FEA0();
+
+    EXPORT void State_5_AngryToIdle_46FD50();
 
     int field_10C;
     int field_110;
