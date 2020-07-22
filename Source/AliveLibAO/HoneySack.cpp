@@ -93,11 +93,11 @@ BaseGameObject* HoneySack::dtor_42BF20()
 
     if (field_E8_state == 0)
     {
-        gMap_507BA8.TLV_Reset_446870(field_E4_tlvInfo, FP_GetExponent(field_AC_ypos - field_FC_ypos2), 0, 0);
+        gMap_507BA8.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
     }
     else
     {
-        gMap_507BA8.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
+        gMap_507BA8.TLV_Reset_446870(field_E4_tlvInfo, FP_GetExponent(field_AC_ypos - field_FC_ypos2), 0, 0);
     }
 
     if (field_F0_pBee)
@@ -152,7 +152,6 @@ void HoneySack::VUpdate()
 {
     VUpdate_42BFE0();
 }
-
 
 void HoneySack::VUpdate_42BFE0()
 {
@@ -210,7 +209,8 @@ void HoneySack::VUpdate_42BFE0()
             field_B8_vely += FP_FromInteger(1);
         }
 
-        field_AC_ypos = field_B8_vely + field_AC_ypos;
+        const FP oldY = field_AC_ypos;
+        field_AC_ypos += field_B8_vely;
 
         if (field_F0_pBee)
         {
@@ -221,15 +221,16 @@ void HoneySack::VUpdate_42BFE0()
         PathLine* pLine = nullptr;
         FP hitX = {};
         FP hitY = {};
+
         if (sCollisions_DArray_504C6C->RayCast_40C410(
             field_A8_xpos,
-            field_AC_ypos,
+            oldY,
             field_A8_xpos,
             field_AC_ypos,
             &pLine,
             &hitX,
             &hitY,
-            field_BC_sprite_scale == FP_FromInteger(1) ? 0x10 : 0x01)) // TODO: Might be wrong
+            field_BC_sprite_scale == FP_FromInteger(1) ? 0x01 : 0x10))
         {
             SFX_Play_43AD70(38u, 90, 0);
             Abe_SFX_2_42A220(6u, 90, -1000, nullptr);

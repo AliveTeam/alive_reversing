@@ -7,12 +7,6 @@
 
 void Psx_ForceLink();
 
-struct FP_RECT
-{
-    FP x, y, w, h;
-};
-ALIVE_ASSERT_SIZEOF(FP_RECT, 4 * 4);
-
 using TPsxEmuCallBack = std::add_pointer<int(DWORD)>::type;
 
 EXPORT void CC PSX_DispEnv_Set_4ED960(int mode);

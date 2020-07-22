@@ -1,6 +1,7 @@
 #pragma once
 
 #include "FunctionFwd.hpp"
+#include "FixedPoint_common.hpp"
 
 struct CdlLOC
 {
@@ -16,6 +17,12 @@ struct PSX_RECT
     short x, y, w, h;
 };
 ALIVE_ASSERT_SIZEOF(PSX_RECT, 8);
+
+struct FP_RECT
+{
+    FP x, y, w, h;
+};
+ALIVE_ASSERT_SIZEOF(FP_RECT, 4 * 4);
 
 struct PSX_Point
 {

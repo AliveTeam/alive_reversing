@@ -28,8 +28,8 @@ public:
 
     EXPORT TimedMine* Vdtor_408E10(signed int flags);
 
-    __int16 field_10C;
-    unsigned __int16 field_10E;
+    __int16 field_10C_armed;
+    unsigned __int16 field_10E_explode_timeout;
     int field_110_tlvInfo;
     int field_114_timer;
     Animation field_118_anim;

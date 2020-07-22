@@ -485,9 +485,16 @@ void Map::Handle_PathTransition_444DD0()
         
         field_18_pAliveObj->field_B2_lvl_number = pTlv->field_18_level;
         field_18_pAliveObj->field_B0_path_number = pTlv->field_1A_path;
+        
+        // TODO: Probably OG bug, when changing camera/path the TLV pointer can become invalid
+        // resulting in a corrupted scale value ?
+        // Pointer points to the Path res which is invalid after ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Path, i, TRUE, FALSE);
+        // is called. Happens even if calling real func below.
+        const __int16 scale = pTlv->field_22_scale;
+
         GoTo_Camera_445050();
 
-        switch (pTlv->field_22_scale)
+        switch (scale)
         {
         case 0:
             sActiveHero_507678->field_BC_sprite_scale = FP_FromInteger(1);

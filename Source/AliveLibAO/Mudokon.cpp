@@ -187,7 +187,7 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, int tlvInfo)
         field_144_flags.Clear(Flags_144::e144_Bit4_bSnapToGrid);
         field_144_flags.Clear(Flags_144::e144_Bit11_bDeaf);
 
-        field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, liftMudTlv->field_1C_direction == 0); // TODO: Check direction
+        field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, liftMudTlv->field_1C_direction);
 
         field_186 = liftMudTlv->field_1E_silent;
         field_184 = 1;
@@ -325,8 +325,8 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, int tlvInfo)
             PSX_RECT bRect = {};
             VGetBoundingRect(&bRect, 1);
             VOnCollisionWith(
-                PSX_Point{ bRect.x, bRect.y },
-                PSX_Point{ static_cast<short>(bRect.w + 5), bRect.h }, // TODO: Check + 5
+                PSX_Point{ bRect.x, static_cast<short>(bRect.y + 5) },
+                PSX_Point{ bRect.w, static_cast<short>(bRect.h + 5) },
                 ObjListPlatforms_50766C,
                 1,
                 (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
@@ -599,33 +599,34 @@ void Mudokon::VScreenChanged()
 
 void Mudokon::VScreenChanged_43FFC0()
 {
-    if (gMap_507BA8.field_0_current_level == gMap_507BA8.field_A_level &&
-        gMap_507BA8.field_28_cd_or_overlay_num == gMap_507BA8.GetOverlayId_4440B0() &&
-        field_144_flags.Get(Flags_144::e144_Bit6_bPersist))
+    // Map/overlay changed or mud shouldn't persist
+    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level ||
+        gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0() ||
+        !field_144_flags.Get(Flags_144::e144_Bit6_bPersist))
     {
-        if (gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path)
-        {
-            // See if we need to go to the next path
-            auto pTlv = gMap_507BA8.TLV_Get_At_446060(nullptr, field_A8_xpos, field_AC_ypos, field_A8_xpos, field_AC_ypos);
-            while (pTlv)
-            {
-                if (pTlv->field_4_type != TlvTypes::MudPathTrans_89)
-                {
-                     field_1C4_bDoPathTrans = TRUE;
-                     return;
-                }
-                pTlv = gMap_507BA8.TLV_Get_At_446060(pTlv, field_A8_xpos, field_AC_ypos, field_A8_xpos, field_AC_ypos);
-            }
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        KillBirdPortal();
+        KillLiftPoint();
+        return;
+    }
 
-            // Wasn't a path trans
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-            KillBirdPortal();
-            KillLiftPoint();
+    // Path changed?
+    if (gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path)
+    {
+        // See if we need to go to the next path
+        auto pTlv = gMap_507BA8.TLV_Get_At_446060(nullptr, field_A8_xpos, field_AC_ypos, field_A8_xpos, field_AC_ypos);
+        while (pTlv)
+        {
+            if (pTlv->field_4_type == TlvTypes::MudPathTrans_89)
+            {
+                // Gonna go to the next path
+                field_1C4_bDoPathTrans = TRUE;
+                return;
+            }
+            pTlv = gMap_507BA8.TLV_Get_At_446060(pTlv, field_A8_xpos, field_AC_ypos, field_A8_xpos, field_AC_ypos);
         }
 
-    }
-    else
-    {
+        // Wasn't a path trans and path changed, die
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
         KillBirdPortal();
         KillLiftPoint();
