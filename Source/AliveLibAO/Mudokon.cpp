@@ -1073,27 +1073,21 @@ void Mudokon::MoveOnLine_43C7E0()
 
     if (field_F4_pLine)
     {
-        if (field_F8_pLiftPoint)
+        if (field_F8_pLiftPoint && field_F4_pLine->field_8_type != 32 && field_F4_pLine->field_8_type != 36)
         {
-            if (field_F4_pLine->field_8_type != 32 && field_F4_pLine->field_8_type != 36)
-            {
-                field_F8_pLiftPoint->VRemove(this);
-                KillLiftPoint();
-            }
+            field_F8_pLiftPoint->VRemove(this);
+            KillLiftPoint();
         }
-        else
+        else if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
         {
-            if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
-            {
-                PSX_RECT bRect = {};
-                VGetBoundingRect(&bRect, 1);
-                VOnCollisionWith(
-                    PSX_Point{bRect.x, static_cast<short>(bRect.y + 5)},
-                    PSX_Point{bRect.w, static_cast<short>(bRect.h + 5)},
-                    ObjListPlatforms_50766C,
-                    1,
-                    (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
-            }
+            PSX_RECT bRect = {};
+            VGetBoundingRect(&bRect, 1);
+            VOnCollisionWith(
+                PSX_Point{ bRect.x, static_cast<short>(bRect.y + 5) },
+                PSX_Point{ bRect.w, static_cast<short>(bRect.h + 5) },
+                ObjListPlatforms_50766C,
+                1,
+                (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
         }
     }
     else
