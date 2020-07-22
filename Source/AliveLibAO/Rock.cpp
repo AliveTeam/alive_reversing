@@ -54,8 +54,8 @@ RockSack* RockSack::ctor_4573F0(Path_RockSack* pTlv, int tlvInfo)
     field_10C_tlvInfo = tlvInfo;
     field_110 = 0;
     field_CC_bApplyShadows &= ~1u;
-    field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
-    field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
+    field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
+    field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
     field_118_x_vel = FP_FromRaw(pTlv->field_1A_x_vel << 8);
     field_11C_y_vel = FP_FromRaw(-256 * pTlv->field_1C_y_vel);
 
