@@ -35,12 +35,12 @@ def main():
     totalDecompiledFuncs = 0
     totalDecompiledInstructions = 0
     
-    funcsToImplement = toAddressList(downloadFile("https://gist.githubusercontent.com/paulsapps/71951b013063e30e675151da8958a2a7/raw/12635e56aed832d73890b65025e97ffd2fee054b/gistfile1.txt"))
-    totalTodoFuncs = 0
-    totalTodoInstructions = 0
+    #funcsToImplement = toAddressList(downloadFile("https://gist.githubusercontent.com/paulsapps/71951b013063e30e675151da8958a2a7/raw/12635e56aed832d73890b65025e97ffd2fee054b/gistfile1.txt"))
+    #totalTodoFuncs = 0
+    #totalTodoInstructions = 0
 
-    totalTodoDoneFuncs = 0
-    totalTodoDoneInstructions = 0
+    #totalTodoDoneFuncs = 0
+    #totalTodoDoneInstructions = 0
 
     for segea in Segments():
         for funcea in Functions(segea, SegEnd(segea)):
@@ -61,20 +61,20 @@ def main():
                 totalLibFuncsInstructions = totalLibFuncsInstructions + instructions
 
             # Only count towards required impl if not already impl'd and isn't marked as lib func
-            if funcea in funcsToImplement:
-                if ida_get_function_colour(funcea) == 0xEEFFF0:
-                    totalTodoDoneFuncs = totalTodoDoneFuncs + 1
-                    totalTodoDoneInstructions = totalTodoDoneInstructions + instructions
-                    totalTodoFuncs = totalTodoFuncs + 1
-                    totalTodoInstructions = totalTodoInstructions + instructions
-                    continue
-                
-                if GetFunctionFlags(funcea) & FUNC_LIB:
-                    print functionName + " has been marked as a lib function, skipping"
-                    continue
+            #if funcea in funcsToImplement:
+            #    if ida_get_function_colour(funcea) == 0xEEFFF0:
+            #        totalTodoDoneFuncs = totalTodoDoneFuncs + 1
+            #        totalTodoDoneInstructions = totalTodoDoneInstructions + instructions
+            #        totalTodoFuncs = totalTodoFuncs + 1
+            #        totalTodoInstructions = totalTodoInstructions + instructions
+            #        continue
+            #    
+            #    if GetFunctionFlags(funcea) & FUNC_LIB:
+            #        print functionName + " has been marked as a lib function, skipping"
+            #        continue
 
-                totalTodoFuncs = totalTodoFuncs + 1
-                totalTodoInstructions = totalTodoInstructions + instructions
+            #    totalTodoFuncs = totalTodoFuncs + 1
+            #    totalTodoInstructions = totalTodoInstructions + instructions
 
     print "total funcs " + str(totalFuncs) + " insts " + str(totalInstructions)
     print "total lib funcs " + str(totalLibFuncs) + " insts " + str(totalLibFuncsInstructions)
@@ -85,13 +85,13 @@ def main():
 
     print "total without lib funcs " + str(totalFuncsNoLibs) + " insts " + str(totalInstructionsNoLibs)
 
-    print "total todo funcs " + str(totalTodoFuncs) + " insts " + str(totalTodoInstructions)
+    #print "total todo funcs " + str(totalTodoFuncs) + " insts " + str(totalTodoInstructions)
 
     print "overall complete funcs %.2f" % ((float(totalDecompiledFuncs) / float(totalFuncsNoLibs)) * 100.0) + "% (" + str(totalDecompiledFuncs) + "/" + str(totalFuncsNoLibs) + ")"
     print "overall complete insts %.2f" % ((float(totalDecompiledInstructions) / float(totalInstructionsNoLibs)) * 100.0) + "% (" + str(totalDecompiledInstructions) + "/" + str(totalInstructionsNoLibs) + ")"
     
-    print "next milestone complete funcs %.2f" % ((float(totalTodoDoneFuncs) / float(totalTodoFuncs)) * 100.0) + "% (" + str(totalTodoDoneFuncs) + "/" + str(totalTodoFuncs) + ")"
-    print "next milestone complete insts %.2f" % ((float(totalTodoDoneInstructions) / float(totalTodoInstructions)) * 100.0) + "% (" + str(totalTodoDoneInstructions) + "/" + str(totalTodoInstructions) + ")"
+    #print "next milestone complete funcs %.2f" % ((float(totalTodoDoneFuncs) / float(totalTodoFuncs)) * 100.0) + "% (" + str(totalTodoDoneFuncs) + "/" + str(totalTodoFuncs) + ")"
+    #print "next milestone complete insts %.2f" % ((float(totalTodoDoneInstructions) / float(totalTodoInstructions)) * 100.0) + "% (" + str(totalTodoDoneInstructions) + "/" + str(totalTodoInstructions) + ")"
 
     #for func in funcsToImplement:
     #    print "required func is " + func

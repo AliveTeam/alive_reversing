@@ -75,14 +75,21 @@ void ExportHooker::Apply(bool saveImplementedFuncs /*= false*/)
 
             if (e.mIsImplemented)
             {
-                implementedStream << e.mGameFunctionAddr << "\n";
+                if (mRealStubs.find(e.mGameFunctionAddr) == std::end(mRealStubs))
+                {
+                    implementedStream << e.mGameFunctionAddr << "\n";
+                }
+                else
+                {
+                    LOG_INFO("Don't mark " << buffer << " as implemented as it has a real stub");
+                    stubbedStream << e.mGameFunctionAddr << "\n";
+                }
             }
             else
             {
                 stubbedStream << e.mGameFunctionAddr << "\n";
             }
         }
-
     }
 
     if (RunningAsInjectedDll())
