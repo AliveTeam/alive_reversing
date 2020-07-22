@@ -389,7 +389,7 @@ BaseGameObject* Mudokon::dtor_43F6A0()
     }
 
     KillBirdPortal();
-    KillLiftPoint();
+    KillLiftPoint_194();
 
     if (!field_144_flags.Get(Flags_144::e144_Bit2) ||
         field_100_health <= FP_FromInteger(0) ||
@@ -432,7 +432,7 @@ BaseGameObject* Mudokon::dtor_43F6A0()
     return dtor_401000();
 }
 
-void Mudokon::KillLiftPoint()
+void Mudokon::KillLiftPoint_194()
 {
     if (field_194_pLiftPoint)
     {
@@ -606,7 +606,7 @@ void Mudokon::VScreenChanged_43FFC0()
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
         KillBirdPortal();
-        KillLiftPoint();
+        KillLiftPoint_194();
         return;
     }
 
@@ -629,7 +629,7 @@ void Mudokon::VScreenChanged_43FFC0()
         // Wasn't a path trans and path changed, die
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
         KillBirdPortal();
-        KillLiftPoint();
+        KillLiftPoint_194();
     }
 }
 
@@ -1060,8 +1060,6 @@ void Mudokon::SlowOnX_43C920(FP amount)
 
 void Mudokon::MoveOnLine_43C7E0()
 {
-    NOT_IMPLEMENTED();
-
     CheckFloorGone_43C9B0();
 
     const FP old_xpos = field_A8_xpos;
@@ -1080,7 +1078,8 @@ void Mudokon::MoveOnLine_43C7E0()
             if (field_F4_pLine->field_8_type != 32 && field_F4_pLine->field_8_type != 36)
             {
                 field_F8_pLiftPoint->VRemove(this);
-                KillLiftPoint();
+                field_F8_pLiftPoint->field_C_refCount--;
+                field_F8_pLiftPoint = nullptr;
             }
         }
         else 
