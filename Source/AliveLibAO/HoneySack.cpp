@@ -226,7 +226,7 @@ void HoneySack::VUpdate_42BFE0()
             field_A8_xpos,
             oldY,
             field_A8_xpos,
-            oldY,
+            field_AC_ypos,
             &pLine,
             &hitX,
             &hitY,
