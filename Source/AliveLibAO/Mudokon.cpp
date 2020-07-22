@@ -599,33 +599,34 @@ void Mudokon::VScreenChanged()
 
 void Mudokon::VScreenChanged_43FFC0()
 {
-    if (gMap_507BA8.field_0_current_level == gMap_507BA8.field_A_level &&
-        gMap_507BA8.field_28_cd_or_overlay_num == gMap_507BA8.GetOverlayId_4440B0() &&
-        field_144_flags.Get(Flags_144::e144_Bit6_bPersist))
+    // Map/overlay changed or mud shouldn't persist
+    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level ||
+        gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0() ||
+        !field_144_flags.Get(Flags_144::e144_Bit6_bPersist))
     {
-        if (gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path)
-        {
-            // See if we need to go to the next path
-            auto pTlv = gMap_507BA8.TLV_Get_At_446060(nullptr, field_A8_xpos, field_AC_ypos, field_A8_xpos, field_AC_ypos);
-            while (pTlv)
-            {
-                if (pTlv->field_4_type != TlvTypes::MudPathTrans_89)
-                {
-                     field_1C4_bDoPathTrans = TRUE;
-                     return;
-                }
-                pTlv = gMap_507BA8.TLV_Get_At_446060(pTlv, field_A8_xpos, field_AC_ypos, field_A8_xpos, field_AC_ypos);
-            }
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        KillBirdPortal();
+        KillLiftPoint();
+        return;
+    }
 
-            // Wasn't a path trans
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-            KillBirdPortal();
-            KillLiftPoint();
+    // Path changed?
+    if (gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path)
+    {
+        // See if we need to go to the next path
+        auto pTlv = gMap_507BA8.TLV_Get_At_446060(nullptr, field_A8_xpos, field_AC_ypos, field_A8_xpos, field_AC_ypos);
+        while (pTlv)
+        {
+            if (pTlv->field_4_type == TlvTypes::MudPathTrans_89)
+            {
+                // Gonna go to the next path
+                field_1C4_bDoPathTrans = TRUE;
+                return;
+            }
+            pTlv = gMap_507BA8.TLV_Get_At_446060(pTlv, field_A8_xpos, field_AC_ypos, field_A8_xpos, field_AC_ypos);
         }
 
-    }
-    else
-    {
+        // Wasn't a path trans and path changed, die
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
         KillBirdPortal();
         KillLiftPoint();
