@@ -17,10 +17,70 @@ ALIVE_VAR(1, 0x9F11C0, int, dword_9F11C0, 0);
 
 TintEntry stru_4CFB10[3] =
 {
-  { 5, 127u, 127u, 127u },
-  { 6, 127u, 127u, 127u },
-  { -1, 102u, 127u, 118u }
+    { 5, 127u, 127u, 127u },
+    { 6, 127u, 127u, 127u },
+    { -1, 102u, 127u, 118u }
 };
+
+using TSligStateFunction = decltype(&Slig::State_0_StandIdle_467640);
+
+const TSligStateFunction sSligMotionTable_4CF960[] =
+{
+    &Slig::State_0_StandIdle_467640,
+    &Slig::State_1_StandToWalk_4695D0,
+    &Slig::State_2_Walking_469130,
+    &Slig::State_3_StandToRun_469C00,
+    &Slig::State_4_Running_469690,
+    &Slig::State_5_TurnAroundStanding_469C80,
+    &Slig::State_6_Shoot_468820,
+    &Slig::State_7_Falling_46A1A0,
+    &Slig::State_8_Unknown_4673E0,
+    &Slig::State_9_SlidingToStand_469DF0,
+    &Slig::State_10_SlidingTurn_469F10,
+    &Slig::State_11_SlidingTurnToWalk_46A120,
+    &Slig::State_12_SlidingTurnToRun_46A160,
+    &Slig::State_13_Reload_4687B0,
+    &Slig::State_14_ShootToStand_468810,
+    &Slig::State_15_SteppingToStand_469080,
+    &Slig::State_16_StandingToStep_468FD0,
+    &Slig::State_17_DepossessingAbort_468750,
+    &Slig::State_18_GameSpeak_467B10,
+    &Slig::State_19_WalkToStand_469610,
+    &Slig::State_20_Recoil_468D30,
+    &Slig::State_21_SpeakHereBoy_467BD0,
+    &Slig::State_22_SpeakHi_467C90,
+    &Slig::State_23_SpeakFreeze_467D50,
+    &Slig::State_24_SpeakGitIm_467E10,
+    &Slig::State_25_SpeakLaugh_467ED0,
+    &Slig::State_26_SpeakBullshit1_467F90,
+    &Slig::State_27_SpeakLookOut_468050,
+    &Slig::State_28_SpeakBullshit2_468110,
+    &Slig::State_29_SpeakPanic_4681D0,
+    &Slig::State_30_SpeakWhat_468290,
+    &Slig::State_31_SpeakAIFreeze_468350,
+    &Slig::State_32_Blurgh_468410,
+    &Slig::State_33_Sleeping_46A410,
+    &Slig::State_34_SleepingToStand_46A5F0,
+    &Slig::State_35_Knockback_46A720,
+    &Slig::State_36_KnockbackToStand_46A7F0,
+    &Slig::State_37_Depossessing_4684D0,
+    &Slig::State_38_Possess_46B050,
+    &Slig::State_39_OutToFall_46A9E0,
+    &Slig::State_40_FallingInitiate_46AA60,
+    &Slig::State_41_LandingSoft_46A390,
+    &Slig::State_42_LandingFatal_46AFE0,
+    &Slig::State_43_ShootZ_468E30,
+    &Slig::State_44_ShootZtoStand_468F70,
+    &Slig::State_45_Smash_46A990,
+    &Slig::State_46_PullLever_46A590,
+    &Slig::State_47_LiftUp_4665A0,
+    &Slig::State_48_LiftDown_4665C0,
+    &Slig::State_49_LiftGrip_4663A0,
+    &Slig::State_50_LiftUngrip_466460,
+    &Slig::State_51_LiftGrip_466480,
+    &Slig::State_52_Beat_46AA90,
+};
+
 
 Slig* Slig::ctor_464D40(Path_Slig* pTlv, int tlvInfo)
 {
@@ -235,6 +295,271 @@ void Slig::VUpdate_465050()
     {
         LOG_INFO("oldMotion = " << oldMotion << " newMotion = " << field_FC_current_motion);
     }
+}
+
+void Slig::State_0_StandIdle_467640()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_1_StandToWalk_4695D0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_2_Walking_469130()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_3_StandToRun_469C00()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_4_Running_469690()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_5_TurnAroundStanding_469C80()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_6_Shoot_468820()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_7_Falling_46A1A0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_8_Unknown_4673E0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_9_SlidingToStand_469DF0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_10_SlidingTurn_469F10()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_11_SlidingTurnToWalk_46A120()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_12_SlidingTurnToRun_46A160()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_13_Reload_4687B0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_14_ShootToStand_468810()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_15_SteppingToStand_469080()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_16_StandingToStep_468FD0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_17_DepossessingAbort_468750()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_18_GameSpeak_467B10()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_19_WalkToStand_469610()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_20_Recoil_468D30()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_21_SpeakHereBoy_467BD0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_22_SpeakHi_467C90()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_23_SpeakFreeze_467D50()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_24_SpeakGitIm_467E10()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_25_SpeakLaugh_467ED0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_26_SpeakBullshit1_467F90()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_27_SpeakLookOut_468050()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_28_SpeakBullshit2_468110()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_29_SpeakPanic_4681D0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_30_SpeakWhat_468290()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_31_SpeakAIFreeze_468350()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_32_Blurgh_468410()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_33_Sleeping_46A410()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_34_SleepingToStand_46A5F0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_35_Knockback_46A720()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_36_KnockbackToStand_46A7F0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_37_Depossessing_4684D0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_38_Possess_46B050()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_39_OutToFall_46A9E0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_40_FallingInitiate_46AA60()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_41_LandingSoft_46A390()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_42_LandingFatal_46AFE0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_43_ShootZ_468E30()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_44_ShootZtoStand_468F70()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_45_Smash_46A990()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_46_PullLever_46A590()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_47_LiftUp_4665A0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_48_LiftDown_4665C0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_49_LiftGrip_4663A0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_50_LiftUngrip_466460()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_51_LiftGrip_466480()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::State_52_Beat_46AA90()
+{
+    NOT_IMPLEMENTED();
 }
 
 END_NS_AO
