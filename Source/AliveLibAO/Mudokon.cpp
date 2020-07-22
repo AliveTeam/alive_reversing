@@ -187,7 +187,7 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, int tlvInfo)
         field_144_flags.Clear(Flags_144::e144_Bit4_bSnapToGrid);
         field_144_flags.Clear(Flags_144::e144_Bit11_bDeaf);
 
-        field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, liftMudTlv->field_1C_direction == 0); // TODO: Check direction
+        field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, liftMudTlv->field_1C_direction);
 
         field_186 = liftMudTlv->field_1E_silent;
         field_184 = 1;
