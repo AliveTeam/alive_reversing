@@ -106,14 +106,13 @@ public:
 
     EXPORT void Calc_Rect_432010()
     {
+        PSX_Point xy = {};
+
         __int16 frameW = 0;
         __int16 frameH = 0;
 
-        __int16 off_x = 0;
-        __int16 off_y = 0;
-
         field_10_anim.Get_Frame_Width_Height_403E80(&frameW, &frameH);
-        field_10_anim.Get_Frame_Offset_403EE0(&off_x, &off_y);
+        field_10_anim.Get_Frame_Offset_403EE0(&xy.field_0_x, &xy.field_2_y);
 
         const auto& pCamPos = pScreenManager_4FF7C8->field_10_pCamPos;
         const FP screenX = FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) + field_A8_xpos - pCamPos->field_0_x;
@@ -122,18 +121,19 @@ public:
         const FP frameWScaled = (FP_FromInteger(frameW) * field_BC_sprite_scale);
         const FP frameHScaled = (FP_FromInteger(frameH) * field_BC_sprite_scale);
 
-        const int offXScaled = FP_GetExponent(FP_FromInteger(off_x) * field_BC_sprite_scale);
-        const int offYScaled = FP_GetExponent(FP_FromInteger(off_y) * field_BC_sprite_scale);
+        const int offXScaled = FP_GetExponent(FP_FromInteger(xy.field_0_x) * field_BC_sprite_scale);
+        const int offYScaled = FP_GetExponent(FP_FromInteger(xy.field_2_y) * field_BC_sprite_scale);
         
          // TODO: Refactor PSX <> PC width conversion
         const FP frameWScaled_converted = ((frameWScaled * FP_FromInteger(23)) + FP_FromInteger(20)) / FP_FromInteger(40); 
+        // Why isn't this converted ??
+        //const short offXScaled_converted = FP_GetExponent(((FP_FromInteger(offXScaled) * FP_FromInteger(23)) + FP_FromInteger(20)) / FP_FromInteger(40));
 
-        // OG BUG: OffXScaled not converted ??
-
-        field_E4_xPos = screenX + FP_FromInteger((Math_NextRandom() % 3 - offXScaled));
-        field_E8_yPos = screenY + FP_FromInteger((Math_NextRandom() % 3 - offYScaled));
-        field_EC_xOff = screenX + FP_FromInteger(((offXScaled + FP_GetExponent(frameWScaled_converted)) - (Math_NextRandom() % 3)));
-        field_F0_yOff = screenY + FP_FromInteger(((offYScaled + FP_GetExponent(frameHScaled)) - (Math_NextRandom() % 3)));
+     
+        field_E4_xPos = screenX + FP_FromInteger(offXScaled) + FP_FromInteger(Math_NextRandom() % 3);
+        field_E8_yPos = screenY + FP_FromInteger(offYScaled) + FP_FromInteger((Math_NextRandom() % 3));
+        field_EC_xOff = screenX + FP_FromInteger(offXScaled) + frameWScaled_converted + FP_FromInteger(Math_NextRandom() % 3);
+        field_F0_yOff = screenY + FP_FromInteger(offYScaled) + frameHScaled + FP_FromInteger(Math_NextRandom() % 3);
     }
 
     int field_D4[4];
