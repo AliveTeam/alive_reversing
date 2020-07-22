@@ -7,12 +7,72 @@ void Slog_ForceLink();
 
 START_NS_AO
 
+#define SLOG_STATES_ENUM(ENTRY) \
+    ENTRY(State_0_Idle_4742E0) \
+    ENTRY(State_1_Walk_4743F0) \
+    ENTRY(State_2_Run_4749A0) \
+    ENTRY(State_3_TurnAround_474C70) \
+    ENTRY(State_4_Fall_4750C0) \
+    ENTRY(State_5_Unknown_474070) \
+    ENTRY(State_6_MoveHeadUpwards_474220) \
+    ENTRY(State_7_SlideTurn_474DB0) \
+    ENTRY(State_8_StopRunning_474EC0) \
+    ENTRY(State_9_StartWalking_474690) \
+    ENTRY(State_10_EndWalking_4747D0) \
+    ENTRY(State_11_Land_475AB0) \
+    ENTRY(State_12_Unknown_475B50) \
+    ENTRY(State_13_StartFastBarking_475B70) \
+    ENTRY(State_14_EndFastBarking_475BB0) \
+    ENTRY(State_15_Empty_475290) \
+    ENTRY(State_16_Sleeping_4752E0) \
+    ENTRY(State_17_FallAsleep_475510) \
+    ENTRY(State_18_WakeUp_475460) \
+    ENTRY(State_19_JumpForwards_475610) \
+    ENTRY(State_20_JumpUpwards_475890) \
+    ENTRY(State_21_Eating_475900) \
+    ENTRY(State_22_Empty_475A90) \
+    ENTRY(State_23_Scratch_475550) \
+    ENTRY(State_24_Growl_475590)
+
+#define MAKE_ENUM(VAR) VAR,
+enum eSlogStates : int
+{
+    SLOG_STATES_ENUM(MAKE_ENUM)
+};
+
 class Slog : public BaseAliveGameObject
 {
 public:
     EXPORT void VUpdate_Real_4739C0();
 
     EXPORT void VUpdate_4739C0();
+
+    // States
+    EXPORT void State_0_Idle_4742E0();
+    EXPORT void State_1_Walk_4743F0();
+    EXPORT void State_2_Run_4749A0();
+    EXPORT void State_3_TurnAround_474C70();
+    EXPORT void State_4_Fall_4750C0();
+    EXPORT void State_5_Unknown_474070();
+    EXPORT void State_6_MoveHeadUpwards_474220();
+    EXPORT void State_7_SlideTurn_474DB0();
+    EXPORT void State_8_StopRunning_474EC0();
+    EXPORT void State_9_StartWalking_474690();
+    EXPORT void State_10_EndWalking_4747D0();
+    EXPORT void State_11_Land_475AB0();
+    EXPORT void State_12_Unknown_475B50();
+    EXPORT void State_13_StartFastBarking_475B70();
+    EXPORT void State_14_EndFastBarking_475BB0();
+    EXPORT void State_15_Empty_475290();
+    EXPORT void State_16_Sleeping_4752E0();
+    EXPORT void State_17_FallAsleep_475510();
+    EXPORT void State_18_WakeUp_475460();
+    EXPORT void State_19_JumpForwards_475610();
+    EXPORT void State_20_JumpUpwards_475890();
+    EXPORT void State_21_Eating_475900();
+    EXPORT void State_22_Empty_475A90();
+    EXPORT void State_23_Scratch_475550();
+    EXPORT void State_24_Growl_475590();
 
     BaseAliveGameObject* field_10C;
     int field_110;
