@@ -113,7 +113,7 @@ Slig* Slig::ctor_464D40(Path_Slig* pTlv, int tlvInfo)
     field_118 = 0;
     field_11C = -1;
     field_10C = 0;
-    field_10E = 0;
+    field_10E_brain_state = 0;
     field_FE_next_state = 0;
     field_EC_oldY = 3;
     field_158 = 0;
@@ -287,13 +287,19 @@ void Slig::VUpdate_Real_465050()
 
 void Slig::VUpdate_465050()
 {
-    const __int16 oldMotion = field_FC_current_motion;
+    const __int16 oldBrainState = field_10E_brain_state;
+    const auto oldBrain = field_1F8_fn;
 
     VUpdate_Real_465050();
-
-    if (oldMotion != field_FC_current_motion)
+    
+    if (oldBrain != field_1F8_fn)
     {
-        LOG_INFO("oldMotion = " << oldMotion << " newMotion = " << field_FC_current_motion);
+        LOG_INFO("oldBrain = " << oldBrain << " newBrain = " << field_1F8_fn);
+    }
+
+    if (oldBrainState != field_10E_brain_state)
+    {
+        LOG_INFO("oldBrainState = " << oldBrainState << " newBrainState = " << field_10E_brain_state);
     }
 }
 

@@ -182,7 +182,7 @@ public:
     EXPORT void State_52_Beat_46AA90();
 
     __int16 field_10C;
-    __int16 field_10E;
+    __int16 field_10E_brain_state;
     __int16 field_110;
     __int16 field_112;
     int field_114;
@@ -231,7 +231,7 @@ public:
     int field_1EC;
     int field_1F0;
     int field_1F4;
-    int field_1F8_fn;
+    unsigned int field_1F8_fn;
     int field_1FC;
     int field_200;
     int field_204;
