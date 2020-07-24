@@ -523,4 +523,17 @@ EXPORT int CC Abe_SFX_42A4D0(unsigned __int8 idx, int volume, int pitch, BaseAli
 
 EXPORT int CC GridXMidPos_41FA60(FP scale, int xpos);
 
+enum InputCommands : unsigned int;
+
+extern const InputCommands sInputKey_Right_4C6590;
+extern const InputCommands sInputKey_Left_4C6594;
+extern const InputCommands sInputKey_Up_4C6598;
+extern const InputCommands sInputKey_Down_4C659C;
+extern const InputCommands sInputKey_Hop_4C65A0;
+extern const InputCommands sInputKey_DoAction_4C65A4;
+extern const InputCommands sInputKey_Run_4C65A8;
+extern const InputCommands sInputKey_Sneak_4C65AC;
+extern const InputCommands sInputKey_FartRoll_4C65B0;
+extern const InputCommands sInputKey_ThrowItem_4C65B4;
+
 END_NS_AO;

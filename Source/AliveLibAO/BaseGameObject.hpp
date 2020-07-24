@@ -35,7 +35,7 @@ enum class Types : __int16
     eGameSpeak_24 = 24,
     eElectricWall_25 = 25,
 
-    e26 = 26,
+    eElum_26 = 26,
     eBellHammer_27 = 27,
 
     ePalOverwriter_29 = 29,

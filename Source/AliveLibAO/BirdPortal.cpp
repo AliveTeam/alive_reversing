@@ -802,7 +802,7 @@ __int16 BirdPortal::IsScaredAway_4532E0()
 
         switch (pObj->field_4_typeId)
         {
-        case Types::e26:
+        case Types::eElum_26:
         case Types::eAbe_43:
         case Types::eMudokon_52:
         case Types::e62:
