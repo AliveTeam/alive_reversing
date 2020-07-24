@@ -1235,7 +1235,64 @@ void Elum::State_18_Unknown_4136A0()
 
 void Elum::State_19_Dead_415F90()
 {
-    NOT_IMPLEMENTED();
+    if (sActiveHero_507678->field_100_health > FP_FromInteger(0))
+    {
+        if (!sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel) &&
+            sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit8) &&
+            field_104_pending_resource_count == 0)
+        {
+            field_A8_xpos = FP_FromInteger(field_138_continue_rect.x);
+            field_AC_ypos = FP_FromInteger(field_138_continue_rect.y);
+
+            field_B8_vely = FP_FromInteger(0);
+            field_B4_velx = FP_FromInteger(0);
+
+            field_B2_lvl_number = field_14A_continue_level;
+            field_B0_path_number = field_148_continue_path;
+            field_BC_sprite_scale = field_150_continue_sprite_scale;
+
+            field_128_brain_idx = 0;
+            field_12A_brain_state = 6;
+            field_122 = 1;
+
+            if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(field_14A_continue_level, field_148_continue_path, field_A8_xpos, field_AC_ypos, 0))
+            {
+                Sfx_416E10(2u, this);
+            }
+
+            field_170_flags &= ~9u;
+            field_110_timer = gnFrameCount_507670;
+
+            field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, sActiveHero_507678->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX));
+
+            if (field_170_flags & 2)
+            {
+                if (field_14C_continue_camera < field_146)
+                {
+                    field_170_flags &= ~2;
+                }
+            }
+
+            field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+
+            field_E8_LastLineYPos = field_AC_ypos;
+            field_FC_current_motion = 0;
+            field_FE_next_state = -1;
+            field_F4_pLine = nullptr;
+            field_100_health = FP_FromInteger(1);
+
+            if ( field_174_resources.res[20])
+            {
+                ResourceManager::FreeResource_455550( field_174_resources.res[20]);
+                field_174_resources.res[20] = nullptr;
+            }
+
+            if (!field_174_resources.res[30])
+            {
+                Vsub_411260();
+            }
+        }
+    }
 }
 
 void Elum::State_20_Fall_415F70()
