@@ -82,5 +82,6 @@ ALIVE_VAR_EXTERN(int, gTweak_Y_5076DC);
 ALIVE_VAR_EXTERN(short, sRescuedMudokons_5076C0);
 ALIVE_VAR_EXTERN(short, sKilledMudokons_5076BC);
 ALIVE_VAR_EXTERN(short, word_5076E0);
+ALIVE_VAR_EXTERN(short, sDDCheat_FlyingEnabled_50771C);
 
 END_NS_AO

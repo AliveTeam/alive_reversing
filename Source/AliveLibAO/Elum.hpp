@@ -144,6 +144,13 @@ public:
 
     EXPORT static void CC Sfx_416E10(unsigned __int8 direction, BaseAliveGameObject* pObj);
 
+    EXPORT void FindHoney_411600();
+
+    // Brains
+    EXPORT __int16 Brain_0_WithoutAbe_416190();
+
+    EXPORT __int16 Brain_1_HoneyAddiction_411730();
+
     // States
     EXPORT void State_0_Respawn_414C60();
     EXPORT void State_1_Idle_412990();

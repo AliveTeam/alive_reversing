@@ -175,7 +175,7 @@ START_NS_AO
     ENTRY(State_164_PoisonGasDeath_42A120)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eAbeStates : int
+enum eAbeStates : short
 {
     ABE_STATES_ENUM(MAKE_ENUM)
 };
@@ -282,6 +282,10 @@ public:
     EXPORT void sub_422FC0();
 
     EXPORT void ElumFree_4228F0();
+
+    EXPORT eAbeStates DoGameSpeak_42F5C0(unsigned __int16 input);
+
+    EXPORT void SyncToElum_42D850(__int16 elumMotion);
 
     // States
     EXPORT void State_0_Idle_423520();
@@ -478,7 +482,7 @@ public:
     __int16 field_154_bSavedHaveShrykull;
     __int16 field_156;
     DeathFadeOut* field_158_pDeathFadeout;
-    BaseGameObject* field_15C_pUnknown; // TODO: Figure out derived type
+    BaseThrowable* field_15C_pThrowable;
     PulllRingRope* field_160_pRope;
     CircularFade* field_164_pCircularFade;
     int field_168_ring_pulse_timer;

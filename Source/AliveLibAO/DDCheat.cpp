@@ -19,6 +19,7 @@ ALIVE_VAR(1, 0x5076C0, short, sRescuedMudokons_5076C0, 0);
 ALIVE_VAR(1, 0x5076BC, short, sKilledMudokons_5076BC, 0);
 
 ALIVE_VAR(1, 0x5076E0, short, word_5076E0, 0);
+ALIVE_VAR(1, 0x50771C, short, sDDCheat_FlyingEnabled_50771C, 0);
 
 
 
