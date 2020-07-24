@@ -164,4 +164,9 @@ __int16 BaseAliveGameObject::InAirCollision_4019C0(PathLine** ppLine, FP* hitX, 
         field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70);
 }
 
+void CC BaseAliveGameObject::OnResourceLoaded_4019A0(BaseAliveGameObject* ppRes)
+{
+    ppRes->field_104_pending_resource_count--;
+}
+
 END_NS_AO

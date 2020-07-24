@@ -71,6 +71,8 @@ public:
 
     EXPORT __int16 InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* hitY, FP vely);
 
+    EXPORT static void CC OnResourceLoaded_4019A0(BaseAliveGameObject* ppRes);
+
     FP_RECT field_E4_collection_rect;
     __int16 field_E4;
     __int16 field_E6_last_anim_frame;

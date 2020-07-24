@@ -1,7 +1,9 @@
 #pragma once
+
 #include "FunctionFwd.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Factory.hpp"
+#include "Map.hpp"
 
 START_NS_AO;
 
@@ -64,6 +66,14 @@ enum eElumStates : int
     ELUM_STATES_ENUM(MAKE_ENUM)
 };
 
+struct Path_ElumPathTrans : public Path_TLV
+{
+    LevelIds field_18_level;
+    __int16 field_1A_path;
+    __int16 field_1C_camera;
+    __int16 field_1E_pad;
+};
+ALIVE_ASSERT_SIZEOF(Path_ElumPathTrans, 0x20);
 
 class Elum : public BaseAliveGameObject
 {
@@ -89,15 +99,50 @@ public:
     EXPORT Elum* ctor_410870(int a2, anythingForTheTimeBeing a3, anythingForTheTimeBeing a4, int a5, TlvItemInfoUnion a6);
     EXPORT BaseGameObject* dtor_410BC0();
 
+    virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
+
+    EXPORT void VOn_TLV_Collision_410F10(Path_TLV* pTlv);
+
+    virtual __int16 VTakeDamage(BaseGameObject* pFrom) override;
+
+    EXPORT __int16 VTakeDamage_411020(BaseGameObject* pFrom);
+
     EXPORT void Vsub_412700();
 
     // TODO: Add new virtuals
+    EXPORT void Vsub_411260();
+
+    EXPORT void Vsub_411200();
 
     EXPORT void Vsub_416120();
 
+    EXPORT void Vsub_411300();
+
+    EXPORT void Vsub_4112B0();
+
     EXPORT BaseAliveGameObject* dtor_base_416FE0();
 
-    EXPORT BYTE** GetResBlock_410D00(int currentMotion);
+    EXPORT BYTE** GetResBlock_410D00(short currentMotion);
+
+    EXPORT void WalkLeft_412FA0();
+
+    EXPORT void WalkRight_4130D0();
+
+    EXPORT void SlowOnX_414210(FP amount);
+
+    void CheckLiftPointGoneAndSetCamera();
+
+    EXPORT void MoveOnLine_412580(__int16 xLookAhead);
+
+    EXPORT void SetAbeAsPlayer_412520(__int16 abeMotion);
+
+    EXPORT __int16 ToNextState_4120F0();
+
+    EXPORT __int16 ToNextStateAbeControlled_411E40();
+
+    EXPORT void HandleElumPathTrans_411460();
+
+    EXPORT static void CC Sfx_416E10(unsigned __int8 direction, BaseAliveGameObject* pObj);
 
     // States
     EXPORT void State_0_Respawn_414C60();
@@ -147,6 +192,9 @@ public:
     EXPORT void State_44_ScratchBegin_412730();
     EXPORT void State_45_ScratchLoop_4127B0();
     EXPORT void State_46_ScratchEnd_412800();
+
+    void ToIdle();
+
     EXPORT void State_47_Unknown_415A30();
     EXPORT void State_48_AbeMoutingBegin_415C40();
     EXPORT void State_49_AbeUnmountingBegin_415D00();
@@ -166,24 +214,23 @@ public:
     __int16 field_120;
     __int16 field_122;
     __int16 field_124;
-    __int16 field_126;
-    __int16 field_128_idx;
-    __int16 field_12A_state;
-    __int16 field_12C;
-    __int16 field_12E;
+    __int16 field_126_res_idx;
+    __int16 field_128_brain_idx;
+    __int16 field_12A_brain_state;
+    __int16 field_12C_honey_xpos;
+    __int16 field_12E_honey_ypos;
     int field_130;
     int field_134;
-    int field_138;
-    int field_13C;
-    __int16 field_140;
-    __int16 field_142;
+    PSX_RECT field_138_continue_rect;
+    __int16 field_140_continue_zone_number;
+    __int16 field_142_zone_number;
     __int16 field_144;
     __int16 field_146;
-    __int16 field_148;
-    __int16 field_14A;
-    __int16 field_14C;
+    __int16 field_148_continue_path;
+    LevelIds field_14A_continue_level;
+    __int16 field_14C_continue_camera;
     __int16 field_14E;
-    int field_150;
+    FP field_150_continue_sprite_scale;
     __int16 field_154;
     __int16 field_156;
     int field_158;
@@ -193,10 +240,10 @@ public:
     int field_168;
     __int16 field_16C;
     __int16 field_16E;
-    __int16 field_170;
+    __int16 field_170_flags;
     __int16 field_172;
     ElumResources field_174_resources;
-    int field_1F0;
+    int field_1F0_tlvInfo;
 };
 ALIVE_ASSERT_SIZEOF(Elum, 0x1F4);
 
