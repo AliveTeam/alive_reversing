@@ -32,7 +32,6 @@
 START_NS_AO;
 
 ALIVE_VAR(1, 0x5076E4, short, gAbeInvunerableCheat_5076E4, 0);
-ALIVE_VAR(1, 0x50771C, short, sDDCheat_FlyingEnabled_50771C, 0);
 
 
 // TODO: Move out to own file
@@ -1404,6 +1403,11 @@ eAbeStates Abe::DoGameSpeak_42F5C0(unsigned __int16 /*input*/)
 {
     NOT_IMPLEMENTED();
     return eAbeStates::State_0_Idle_423520;
+}
+
+void Abe::SyncToElum_42D850(__int16 /*elumMotion*/)
+{
+    NOT_IMPLEMENTED();
 }
 
 void Abe::vScreenChanged_422640()

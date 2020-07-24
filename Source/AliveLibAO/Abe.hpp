@@ -285,6 +285,8 @@ public:
 
     EXPORT eAbeStates DoGameSpeak_42F5C0(unsigned __int16 input);
 
+    EXPORT void SyncToElum_42D850(__int16 elumMotion);
+
     // States
     EXPORT void State_0_Idle_423520();
     EXPORT void State_1_WalkLoop_423F90();
