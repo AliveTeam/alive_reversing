@@ -43,8 +43,11 @@ class BaseAliveGameObject : public BaseAnimatedWithPhysicsGameObject
 public:
     EXPORT BaseAliveGameObject* ctor_401090();
 
-    EXPORT BaseAliveGameObject* dtor_401000();
+    EXPORT BaseGameObject* dtor_401000();
 
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+
+    EXPORT BaseGameObject* Vdtor_402540(signed int flags);
     // TODO: Non empty so standalone builds
     
     // TODO: HACK call the impls here
@@ -59,6 +62,8 @@ public:
     virtual void VCheckCollisionLineStillValid(int /*distance*/) {}
     virtual void VOnTrapDoorOpen() {}
 
+    
+
     EXPORT void VCheckCollisionLineStillValid_401A90(int distance);
 
     EXPORT __int16 MapFollowMe_401D30(__int16 snapToGrid);
@@ -72,6 +77,16 @@ public:
     EXPORT __int16 InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* hitY, FP vely);
 
     EXPORT static void CC OnResourceLoaded_4019A0(BaseAliveGameObject* ppRes);
+
+    EXPORT void VSetXSpawn_401150(__int16 camWorldX, int screenXPos);
+
+    EXPORT void VSetYSpawn_401380(int camWorldY, __int16 bLeft);
+
+    EXPORT __int16 IsBeeSwarmChasingMe_4022B0();
+
+    EXPORT void VSetMotion_402520(__int16 state);
+
+    EXPORT void sub_4020D0();
 
     FP_RECT field_E4_collection_rect;
     __int16 field_E4;

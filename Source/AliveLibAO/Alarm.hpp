@@ -12,6 +12,21 @@ class Alarm : public EffectBase
 {
 public:
     EXPORT Alarm* ctor_402570(__int16 a2, __int16 switchId, __int16 a4, __int16 layer);
+
+    EXPORT BaseGameObject* dtor_402630();
+
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+
+    EXPORT Alarm* Vdtor_402830(signed int flags);
+
+    virtual void VScreenChanged() override;
+
+    EXPORT void VScreenChanged_402810();
+
+    virtual void VRender(int** ppOt) override;
+
+    EXPORT void VRender_4027F0(int** ppOt);
+
 private:
     __int16 field_68_r_value;
     __int16 field_6A_state;

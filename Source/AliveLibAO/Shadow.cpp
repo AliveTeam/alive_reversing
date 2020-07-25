@@ -31,5 +31,9 @@ EXPORT Shadow* Shadow::ctor_461FB0()
     return this;
 }
 
-END_NS_AO
+void Shadow::dtor_462030()
+{
+    field_18_animation.vCleanUp();
+}
 
+END_NS_AO

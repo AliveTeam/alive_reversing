@@ -4,6 +4,9 @@
 #include "Map.hpp"
 #include "DynamicArray.hpp"
 #include "Function.hpp"
+#include "SwitchStates.hpp"
+#include "stdlib.hpp"
+#include "CameraSwapper.hpp"
 
 START_NS_AO
 
@@ -41,6 +44,55 @@ EXPORT Alarm * Alarm::ctor_402570(__int16 a2, __int16 switchId, __int16 a4, __in
         field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
     }
     return this;
+}
+
+BaseGameObject* Alarm::dtor_402630()
+{
+    SetVTable(this, 0x4BA060);
+    alarmInstanceCount_5076A8--;
+    SwitchStates_Set(field_74_switch_id, 0);
+    return dtor_461630();
+}
+
+BaseGameObject* Alarm::VDestructor(signed int flags)
+{
+    return Vdtor_402830(flags);
+}
+
+Alarm* Alarm::Vdtor_402830(signed int flags)
+{
+    dtor_402630();
+    if (flags & 1)
+    {
+        ao_delete_free_447540(this);
+    }
+    return this;
+}
+
+void Alarm::VScreenChanged_402810()
+{
+    if (gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+}
+
+void Alarm::VRender_4027F0(int** ppOt)
+{
+    if (!sNumCamSwappers_507668)
+    {
+        EffectBase::VRender_461690(ppOt);
+    }
+}
+
+void Alarm::VRender(int** ppOt)
+{
+    VRender_4027F0(ppOt);
+}
+
+void Alarm::VScreenChanged()
+{
+    VScreenChanged_402810();
 }
 
 END_NS_AO

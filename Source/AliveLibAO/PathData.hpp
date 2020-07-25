@@ -36,6 +36,8 @@ enum TlvTypes
     DeathDrop_5 = 5,
     Door_6 = 6,
 
+    StartController_28 = 28,
+
     LiftMud_32 = 32,
 
     HoneyDripTarget_42 = 42,

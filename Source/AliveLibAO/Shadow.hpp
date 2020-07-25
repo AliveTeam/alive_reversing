@@ -12,6 +12,8 @@ class Shadow
 public:
     EXPORT Shadow* ctor_461FB0();
 
+    EXPORT void dtor_462030();
+
     __int16 field_0;
     __int16 field_2;
     __int16 field_4;
