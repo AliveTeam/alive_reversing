@@ -54,7 +54,7 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int numOfPa
         {
             // Placement new each element
             new (&field_F8_pRes[i]) ParticleBurst_Item();
-            SetVTable(&field_F8_pRes[i], 0x5447CC);
+            SetVTable(&field_F8_pRes[i].field_18_anim, 0x5447CC);
         }
 
         field_104_type = type;

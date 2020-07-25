@@ -26,22 +26,22 @@ static inline FP Random_Speed(FP scale)
     return FP_FromRaw((Math_NextRandom() - 128) << 13) * scale;
 }
 
-ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, __int16 unknown_count1, FP scale, BurstType type)
+ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, __int16 particleCount, FP scale, BurstType type)
 {
     ctor_417C10();
     SetVTable(this, 0x4BA480);
     field_4_typeId = Types::eParticleBurst_19;
     field_BC_sprite_scale = scale;
 
-    field_E4_ppRes = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::ResourceType::Resource_3DGibs, 0, sizeof(ParticleBurst_Item) * unknown_count1);
+    field_E4_ppRes = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::ResourceType::Resource_3DGibs, 0, sizeof(ParticleBurst_Item) * particleCount);
     if (field_E4_ppRes)
     {
         field_E8_pRes = reinterpret_cast<ParticleBurst_Item*>(*field_E4_ppRes);
-        for (int i = 0; i < unknown_count1; i++)
+        for (int i = 0; i < particleCount; i++)
         {
             // Placement new each element
-            new (&field_E4_ppRes[i]) ParticleBurst_Item();
-            SetVTable(&field_E4_ppRes[i], 0x4BA470);
+            new (&field_E8_pRes[i]) ParticleBurst_Item();
+            SetVTable(&field_E8_pRes[i].field_18_anim, 0x4BA470);
         }
 
         field_F4_type = type;
@@ -107,12 +107,12 @@ ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, __int16 unknown_coun
                 field_10_anim.field_C_layer = 20;
             }
 
-            field_EC_count = unknown_count1;
+            field_EC_count = particleCount;
             field_F0_timer = gnFrameCount_507670 + 91;
             field_A8_xpos = xpos;
             field_AC_ypos = ypos;
 
-            for (int i = 0; i < unknown_count1; i++)
+            for (int i = 0; i < particleCount; i++)
             {
                 field_E8_pRes[i].field_18_anim.field_68_anim_ptr = &field_10_anim;
                 field_E8_pRes[i].field_18_anim.field_C_layer = field_10_anim.field_C_layer;
