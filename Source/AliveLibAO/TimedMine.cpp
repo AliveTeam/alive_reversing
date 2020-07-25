@@ -5,6 +5,7 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 #include "LiftPoint.hpp"
+#include "BaseBomb.hpp"
 
 START_NS_AO
 
@@ -124,6 +125,63 @@ TimedMine* TimedMine::Vdtor_408E10(signed int flags)
         ao_delete_free_447540(this);
     }
     return this;
+}
+
+void TimedMine::VScreenChanged()
+{
+    VScreenChanged_408DD0();
+}
+
+void TimedMine::VScreenChanged_408DD0()
+{
+    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level ||
+        gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path)
+    {
+        field_6_flags.Set(Options::eDead_Bit3);
+    }
+
+    if (field_10C_armed != 1)
+    {
+        field_6_flags.Set(Options::eDead_Bit3);
+    }
+}
+
+__int16 TimedMine::VTakeDamage(BaseGameObject* pFrom)
+{
+    return VTakeDamage_408B90(pFrom);
+}
+
+__int16 TimedMine::VTakeDamage_408B90(BaseGameObject* pFrom)
+{
+    if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    {
+        return 0;
+    }
+
+    switch (pFrom->field_4_typeId)
+    {
+    case Types::eAbe_43:
+    case Types::e69:
+    case Types::eExplosion_74:
+    case Types::eShrykull_85:
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        auto pBaseBomb = ao_new<BaseBomb>();
+        if (pBaseBomb)
+        {
+            pBaseBomb->ctor_4173A0(
+                field_A8_xpos,
+                field_AC_ypos,
+                0,
+                field_BC_sprite_scale);
+        }
+        field_10C_armed = 1;
+        field_114_timer = gnFrameCount_507670;
+        return 1;
+    }
+    default:
+        return 0;
+    }
 }
 
 END_NS_AO
