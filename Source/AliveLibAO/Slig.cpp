@@ -201,7 +201,7 @@ Slig* Slig::ctor_464D40(Path_Slig* pTlv, int tlvInfo)
     return this;
 }
 
-BaseAliveGameObject* Slig::dtor_465320()
+BaseGameObject* Slig::dtor_465320()
 {
     SetVTable(this, 0x4BCA70);
 

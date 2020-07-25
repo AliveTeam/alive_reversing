@@ -4,6 +4,8 @@
 
 START_NS_AO
 
+ALIVE_VAR(1, 0x507668, short, sNumCamSwappers_507668, 0);
+
 CameraSwapper* CameraSwapper::ctor_48C540(BYTE** /*ppBits*/, int /*movieId*/, int /*movieFlag*/, __int16 /*movieFlags*/, int /*a6*/, __int16 /*a7*/)
 {
     NOT_IMPLEMENTED();

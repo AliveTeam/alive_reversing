@@ -378,7 +378,7 @@ void Elum::Vsub_4112B0()
     field_174_resources.res[22] = nullptr;
 }
 
-BaseAliveGameObject* Elum::dtor_base_416FE0()
+BaseGameObject* Elum::dtor_base_416FE0()
 {
     SetVTable(this, 0x4BA970);
     return dtor_401000();

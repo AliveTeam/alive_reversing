@@ -302,17 +302,6 @@ EXPORT int CC ConvertScale_41FA10(FP /*scale*/)
     return 0;
 }
 
-struct Path_ChangeTLV : public Path_TLV
-{
-    LevelIds field_18_level;
-    __int16 field_1A_path;
-    __int16 field_1C_camera;
-    __int16 field_1E_movie;
-    unsigned __int16 field_20_wipe;
-    __int16 field_22_scale;
-};
-ALIVE_ASSERT_SIZEOF(Path_ChangeTLV, 0x24);
-
 
 // Map Path_ChangeTLV::field_18_wipe to CameraSwapEffects
 const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_4CDC78[10] =
@@ -332,8 +321,6 @@ const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_4CDC78[10]
 ALIVE_VAR(1, 0x507BA8, Map, gMap_507BA8, {});
 ALIVE_VAR(1, 0x507C9C, short, sMap_bDoPurpleLightEffect_507C9C, 0);
 ALIVE_VAR(1, 0x507CA0, int, gSndChannels_507CA0, 0);
-ALIVE_VAR(1, 0x507668, short, sNumCamSwappers_507668, 0);
-
 
 void Map::ctor_static_443E10()
 {

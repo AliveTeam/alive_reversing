@@ -89,7 +89,7 @@ public:
     EXPORT void VRender_410E40(int** pOrderingTable);
     EXPORT void vScreenChange_411340();
 
-    EXPORT static void Spawn_410E90(TlvItemInfoUnion);
+    EXPORT static void Spawn_410E90(TlvItemInfoUnion tlvInfo);
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
@@ -120,7 +120,7 @@ public:
 
     EXPORT void Vsub_4112B0();
 
-    EXPORT BaseAliveGameObject* dtor_base_416FE0();
+    EXPORT BaseGameObject* dtor_base_416FE0();
 
     EXPORT BYTE** GetResBlock_410D00(short currentMotion);
 

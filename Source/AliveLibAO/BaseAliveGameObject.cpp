@@ -5,6 +5,9 @@
 #include "Abe.hpp"
 #include "PlatformBase.hpp"
 #include "Collisions.hpp"
+#include "BeeSwarm.hpp"
+#include "stdlib.hpp"
+#include "ResourceManager.hpp"
 
 START_NS_AO
 
@@ -50,9 +53,38 @@ BaseAliveGameObject *BaseAliveGameObject::ctor_401090()
 }
 
 
-BaseAliveGameObject* BaseAliveGameObject::dtor_401000()
+BaseGameObject* BaseAliveGameObject::dtor_401000()
 {
-    NOT_IMPLEMENTED();
+    SetVTable(this, 0x4BA000);
+    gBaseAliveGameObjects_4FC8A0->Remove_Item(this);
+
+    if (field_F8_pLiftPoint)
+    {
+        field_F8_pLiftPoint->VRemove(this);
+        field_F8_pLiftPoint->field_C_refCount--;
+        field_F8_pLiftPoint = nullptr;
+    }
+
+    if (field_104_pending_resource_count)
+    {
+        ResourceManager::CancelPendingResourcesFor_41EA60(this);
+    }
+
+    return dtor_417D10();
+}
+
+BaseGameObject* BaseAliveGameObject::VDestructor(signed int flags)
+{
+    return Vdtor_402540(flags);
+}
+
+BaseGameObject* BaseAliveGameObject::Vdtor_402540(signed int flags)
+{
+    dtor_401000();
+    if (flags & 1)
+    {
+        ao_delete_free_447540(this);
+    }
     return this;
 }
 
@@ -167,6 +199,179 @@ __int16 BaseAliveGameObject::InAirCollision_4019C0(PathLine** ppLine, FP* hitX, 
 void CC BaseAliveGameObject::OnResourceLoaded_4019A0(BaseAliveGameObject* ppRes)
 {
     ppRes->field_104_pending_resource_count--;
+}
+
+void BaseAliveGameObject::VSetXSpawn_401150(__int16 camWorldX, int screenXPos)
+{
+    const FP old_x = field_A8_xpos;
+    const FP old_y = field_AC_ypos;
+
+    field_A8_xpos = FP_FromInteger(camWorldX + GridXMidPos_41FA60(field_BC_sprite_scale, screenXPos));
+
+    field_F0_pTlv = gMap_507BA8.TLV_Get_At_446060(0, field_A8_xpos, old_y, field_A8_xpos, old_y);
+
+    if (field_F8_pLiftPoint)
+    {
+        field_F8_pLiftPoint->field_A8_xpos += (field_A8_xpos - old_x);
+
+        field_F4_pLine->field_0_rect.x += FP_GetExponent(field_A8_xpos - old_x);
+        field_F4_pLine->field_0_rect.w += FP_GetExponent(field_A8_xpos - old_x);
+        field_F4_pLine->field_0_rect.y = field_F4_pLine->field_0_rect.y;
+        field_F4_pLine->field_0_rect.h = field_F4_pLine->field_0_rect.h;
+    }
+    else
+    {
+        PathLine* pLine = nullptr;
+        FP hitX = {};
+        FP hitY = {};
+        if (field_F4_pLine)
+        {
+            if (sCollisions_DArray_504C6C->RayCast_40C410(
+                field_A8_xpos,
+                old_y - FP_FromInteger(40),
+                field_A8_xpos,
+                old_y + FP_FromInteger(40),
+                &pLine,
+                &hitX,
+                &hitY,
+                1 << field_F4_pLine->field_8_type))
+            {
+                field_F4_pLine = pLine;
+                field_AC_ypos = hitY;
+            }
+            else
+            {
+                field_F0_pTlv = gMap_507BA8.TLV_First_Of_Type_In_Camera_4464A0(TlvTypes::StartController_28, 0);
+                if (field_F0_pTlv
+                    && sCollisions_DArray_504C6C->RayCast_40C410(
+                        field_A8_xpos,
+                        FP_FromInteger(field_F0_pTlv->field_10_top_left.field_2_y),
+                        field_A8_xpos,
+                        FP_FromInteger(field_F0_pTlv->field_14_bottom_right.field_2_y),
+                        &pLine,
+                        &hitX,
+                        &hitY,
+                        1 << field_F4_pLine->field_8_type))
+                {
+                    field_F4_pLine = pLine;
+                    field_AC_ypos = hitY;
+                }
+                else
+                {
+                    field_F4_pLine = nullptr;
+                }
+            }
+        }
+        else
+        {
+            if (sCollisions_DArray_504C6C->RayCast_40C410(
+                field_A8_xpos,
+                field_E8_LastLineYPos - FP_FromInteger(40),
+                field_A8_xpos,
+                field_E8_LastLineYPos + FP_FromInteger(40),
+                &pLine,
+                &hitX,
+                &hitY,
+                field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70))
+            {
+                field_AC_ypos += hitY - field_E8_LastLineYPos;
+            }
+        }
+    }
+}
+
+void BaseAliveGameObject::VSetYSpawn_401380(int camWorldY, __int16 bLeft)
+{
+    const FP oldx = field_A8_xpos;
+    const FP oldy = field_AC_ypos;
+
+    auto pFrameHeader = reinterpret_cast<FrameHeader*>(&(*field_10_anim.field_20_ppBlock)[field_10_anim.Get_FrameHeader_403A00(-1)->field_0_frame_header_offset]);
+
+    if (bLeft == 1)
+    {
+        field_AC_ypos = FP_FromInteger(pFrameHeader->field_5_height + camWorldY + 356);
+    }
+    else
+    {
+        field_AC_ypos = FP_FromInteger(camWorldY + 124);
+    }
+
+    field_F0_pTlv = gMap_507BA8.TLV_Get_At_446060(
+        nullptr,
+        field_A8_xpos,
+        field_AC_ypos,
+        field_A8_xpos,
+        field_AC_ypos);
+
+    if (field_F8_pLiftPoint)
+    {
+        field_F8_pLiftPoint->field_A8_xpos += field_A8_xpos - oldx;
+        field_F8_pLiftPoint->field_AC_ypos += field_AC_ypos - oldy;
+
+        field_F4_pLine->field_0_rect.x += FP_GetExponent(field_A8_xpos - oldx);
+        field_F4_pLine->field_0_rect.w += FP_GetExponent(field_A8_xpos - oldx);
+        field_F4_pLine->field_0_rect.y += FP_GetExponent(field_AC_ypos - oldy);
+        field_F4_pLine->field_0_rect.h += FP_GetExponent(field_AC_ypos - oldy);
+    }
+}
+
+__int16 BaseAliveGameObject::IsBeeSwarmChasingMe_4022B0()
+{
+    for (int i=0; i<gBaseGameObject_list_9F2DF0->Size(); i++)
+    {
+        auto pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_4_typeId == Types::eBeeSwarm_95)
+        {
+            if (static_cast<BeeSwarm*>(pObj)->field_D98_pChaseTarget == this)
+            {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+void BaseAliveGameObject::VSetMotion_402520(__int16 state)
+{
+    field_108_bMotionChanged = TRUE;
+    field_FC_current_motion = state;
+}
+
+void BaseAliveGameObject::sub_4020D0()
+{
+    auto pPathTrans = static_cast<Path_ChangeTLV*>(gMap_507BA8.TLV_Get_At_446260(
+        FP_GetExponent(field_A8_xpos),
+        FP_GetExponent(field_AC_ypos),
+        FP_GetExponent(field_A8_xpos),
+        FP_GetExponent(field_AC_ypos),
+        TlvTypes::PathTransition_1));
+
+    if (pPathTrans)
+    {
+        if (pPathTrans->field_22_scale == 1)
+        {
+            if (field_BC_sprite_scale != FP_FromDouble(0.5))
+            {
+                field_BC_sprite_scale = FP_FromDouble(0.5);
+                field_C6_scale = 0;
+                field_B4_velx = (field_B4_velx * FP_FromDouble(0.5));
+            }
+        }
+        else if (pPathTrans->field_22_scale == 0)
+        {
+            if (field_BC_sprite_scale != FP_FromInteger(1))
+            {
+                field_BC_sprite_scale = FP_FromInteger(1);
+                field_C6_scale = 1;
+                field_B4_velx = (field_B4_velx * FP_FromInteger(2));
+            }
+        }
+    }
 }
 
 END_NS_AO

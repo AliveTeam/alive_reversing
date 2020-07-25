@@ -59,11 +59,29 @@ void AnimationBase::VCleanUp_403F40()
     NOT_IMPLEMENTED();
 }
 
-void CC AnimationBase::AnimateAll_4034F0(DynamicArrayT<AnimationBase>* /*pAnimList*/)
+void CC AnimationBase::AnimateAll_4034F0(DynamicArrayT<AnimationBase>* pAnimList)
 {
-    NOT_IMPLEMENTED();
-}
+    for (int i = 0; i < pAnimList->Size(); i++)
+    {
+        auto pAnim = pAnimList->ItemAt(i);
+        if (!pAnim)
+        {
+            break;
+        }
 
+        if (pAnim->field_4_flags.Get(AnimFlags::eBit2_Animate))
+        {
+            if (pAnim->field_E_frame_change_counter > 0)
+            {
+                pAnim->field_E_frame_change_counter--;
+                if (pAnim->field_E_frame_change_counter == 0)
+                {
+                    pAnim->vDecode();
+                }
+            }
+        }
+    }
+}
 
 signed __int16 Animation::Set_Animation_Data_402A40(int frameTableOffset, BYTE** pAnimRes)
 {
@@ -127,9 +145,38 @@ FrameInfoHeader* Animation::Get_FrameHeader_403A00(int /*frame*/)
     return nullptr;
 }
 
-EXPORT void Animation::LoadPal_403090(BYTE** /*pPalData*/, int /*palOffset*/)
+void Animation::LoadPal_403090(BYTE** pPalData, int palOffset)
 {
-    NOT_IMPLEMENTED();
+    if (pPalData)
+    {
+        PSX_RECT rect = {};
+        BYTE* pPalDataOffset = &(*pPalData)[palOffset];
+        switch (field_90_pal_depth)
+        {
+        case 16:
+            rect.x = field_8C_pal_vram_xy.field_0_x;
+            rect.y = field_8C_pal_vram_xy.field_2_y;
+            rect.w = 16;
+            break;
+
+        case 64:
+            rect.x = field_8C_pal_vram_xy.field_0_x;
+            rect.y = field_8C_pal_vram_xy.field_2_y;
+            rect.w = 64;
+            break;
+
+        case 256:
+            rect.x = field_8C_pal_vram_xy.field_0_x;
+            rect.y = field_8C_pal_vram_xy.field_2_y;
+            rect.w = 256;
+            break;
+
+        default:
+            return;
+        }
+        rect.h = 1;
+        PSX_LoadImage16_4962A0(&rect, pPalDataOffset + 4);
+    }
 }
 
 

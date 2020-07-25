@@ -29,6 +29,7 @@
 #include "Slog.hpp"
 #include "Mudokon.hpp"
 #include "SlingMudokon.hpp"
+#include "CameraSwapper.hpp"
 #include "../AliveLibAE/config.h" // TODO: Change location
 
 START_NS_AO
@@ -542,8 +543,6 @@ EXPORT void CC Events_Reset_Active_417320()
 {
     NOT_IMPLEMENTED();
 }
-
-ALIVE_VAR_EXTERN(short, sNumCamSwappers_507668); // TODO: Move to own file
 
 
 ALIVE_VAR(1, 0x507B78, short, sBreakGameLoop_507B78, 0);

@@ -2,6 +2,9 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Function.hpp"
 #include "Map.hpp"
+#include "stdlib.hpp"
+#include "Shadow.hpp"
+#include "Game.hpp"
 
 START_NS_AO
 
@@ -55,8 +58,23 @@ void BaseAnimatedWithPhysicsGameObject::SetTint_418750(const TintEntry* /*pTintA
 
 BaseGameObject* BaseAnimatedWithPhysicsGameObject::dtor_417D10()
 {
-    NOT_IMPLEMENTED();
-    return this;
+    SetVTable(this, 0x4BAA38);
+
+    if (!field_6_flags.Get(BaseGameObject::eListAddFailed_Bit1))
+    {
+        if (field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
+        {
+            gObjList_drawables_504618->Remove_Item(this);
+            field_10_anim.vCleanUp();
+        }
+
+        if (field_D0_pShadow)
+        {
+            field_D0_pShadow->dtor_462030();
+            ao_delete_free_447540(field_D0_pShadow);
+        }
+    }
+    return dtor_487DF0();
 }
 
 __int16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(TintEntry* /*pTintArray*/, LevelIds /*level_id*/, int /*resourceID*/)

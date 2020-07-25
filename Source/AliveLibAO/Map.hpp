@@ -80,6 +80,17 @@ struct Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_TLV, 0x18);
 
+struct Path_ChangeTLV : public Path_TLV
+{
+    LevelIds field_18_level;
+    __int16 field_1A_path;
+    __int16 field_1C_camera;
+    __int16 field_1E_movie;
+    unsigned __int16 field_20_wipe;
+    __int16 field_22_scale;
+};
+ALIVE_ASSERT_SIZEOF(Path_ChangeTLV, 0x24);
+
 enum class CameraPos : __int16
 {
     eCamInvalid_m1 = -1,

@@ -28,6 +28,14 @@ public:
 
     EXPORT TimedMine* Vdtor_408E10(signed int flags);
 
+    virtual void VScreenChanged() override;
+
+    EXPORT void VScreenChanged_408DD0();
+
+    virtual __int16 VTakeDamage(BaseGameObject* pFrom);
+
+    EXPORT __int16 VTakeDamage_408B90(BaseGameObject* pFrom);
+
     __int16 field_10C_armed;
     unsigned __int16 field_10E_explode_timeout;
     int field_110_tlvInfo;
