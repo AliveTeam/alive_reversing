@@ -1,6 +1,7 @@
 #include "stdafx_ao.h"
 #include "ScreenManager.hpp"
 #include "Function.hpp"
+#include "ResourceManager.hpp"
 
 START_NS_AO
 
@@ -21,9 +22,10 @@ EXPORT void Camera::dtor_444700()
 }
 
 
-EXPORT void CC Camera::On_Loaded_4447A0(Camera* /*pThis*/)
+EXPORT void CC Camera::On_Loaded_4447A0(Camera* pThis)
 {
-    NOT_IMPLEMENTED();
+    pThis->field_30_flags |= 1u;
+    pThis->field_C_ppBits = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Bits, pThis->field_10_resId, 1, 0);
 }
 
 EXPORT void ScreenManager::MoveImage_406C40()

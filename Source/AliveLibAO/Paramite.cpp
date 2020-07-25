@@ -1,6 +1,8 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "Paramite.hpp"
+#include "Math.hpp"
+#include "Sfx.hpp"
 
 void Paramite_ForceLink() {}
 
@@ -53,6 +55,27 @@ void Paramite::VUpdate_44A490()
     {
         LOG_INFO("oldMotion = " << oldMotion << " newMotion = " << field_FC_current_motion);
     }
+}
+
+
+void Paramite::ToIdle_44B580()
+{
+    field_10_anim.field_4_flags.Clear(AnimFlags::eBit6_FlipY);
+    field_10_anim.field_4_flags.Clear(AnimFlags::eBit7_SwapXY);
+
+    field_124 = 0;
+    field_B4_velx = FP_FromInteger(0);
+    field_B8_vely = FP_FromInteger(0);
+    
+    field_FC_current_motion = eParamiteStates::State_0_Idle_44B900;
+
+    MapFollowMe_401D30(1);
+}
+
+__int16 Paramite::sub_44B320()
+{
+    NOT_IMPLEMENTED();
+    return 0;
 }
 
 void Paramite::State_0_Idle_44B900()
@@ -172,7 +195,15 @@ void Paramite::State_22_Unknown_44D8F0()
 
 void Paramite::State_23_Eating_44B970()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_92_current_frame == 5)
+    {
+        SFX_Play_43AD70(static_cast<unsigned char>(Math_RandomRange_450F20(79, 80)), 0, 0);
+    }
+
+    if (field_FE_next_state != -1 && !sub_44B320())
+    {
+        ToIdle_44B580();
+    }
 }
 
 void Paramite::State_24_Struggle_44DB70()

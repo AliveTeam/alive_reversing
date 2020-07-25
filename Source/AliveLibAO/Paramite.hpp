@@ -50,6 +50,10 @@ public:
 
     EXPORT void VUpdate_44A490();
 
+    EXPORT void ToIdle_44B580();
+
+    EXPORT __int16 sub_44B320();
+
     // States
     EXPORT void State_0_Idle_44B900();
     EXPORT void State_1_WalkBegin_44BCA0();
