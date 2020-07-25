@@ -27,17 +27,21 @@ public:
     EXPORT void VScreenChanged_4054B0();
     EXPORT BellHammer* Vdtor_4054C0(signed int flags);
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_405320();
+
     static EXPORT void CC OnResLoaded_405210(BellHammer* pThis);
 
     int field_D4;
     int field_D8;
     int field_DC;
     int field_E0;
-    unsigned __int16 field_E4;
-    __int16 field_E6;
+    unsigned __int16 field_E4_state;
+    __int16 field_E6_switch_id;
     int field_E8_tlvInfo;
     int field_EC_pending_resource_count;
-    int field_F0;
+    int field_F0_bSpawnElum;
 };
 ALIVE_ASSERT_SIZEOF(BellHammer, 0xF4);
 
