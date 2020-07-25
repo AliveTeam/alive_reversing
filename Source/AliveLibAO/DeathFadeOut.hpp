@@ -22,7 +22,7 @@ public:
 
     EXPORT void VRender_419ED0(int** ppOt);
 
-    BaseGameObject* VDestructor(signed int flags);
+    BaseGameObject* VDestructor(signed int flags) override;
 
     __int16 field_68_current_fade_rgb;
     __int16 field_6A_speed;

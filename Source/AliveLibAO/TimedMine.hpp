@@ -32,7 +32,7 @@ public:
 
     EXPORT void VScreenChanged_408DD0();
 
-    virtual __int16 VTakeDamage(BaseGameObject* pFrom);
+    virtual __int16 VTakeDamage(BaseGameObject* pFrom) override;
 
     EXPORT __int16 VTakeDamage_408B90(BaseGameObject* pFrom);
 

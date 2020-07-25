@@ -1923,7 +1923,7 @@ void Abe::State_59_DeathDropFall_42CBE0()
                 pScreenShake->ctor_4624D0(1);
             }
         }
-        else if (gnFrameCount_507670 >= gnFrameCount_507670)
+        else if (static_cast<int>(gnFrameCount_507670) >= field_118)
         {
             field_2A8_flags.Set(Flags_2A8::e2A8_Bit6_bShrivel);
             field_FC_current_motion = eAbeStates::State_60_Dead_42C4C0;
