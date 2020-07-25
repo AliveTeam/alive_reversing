@@ -6,6 +6,8 @@
 #include "stdlib.hpp"
 #include "Midi.hpp"
 #include "MotionDetector.hpp"
+#include "Gibs.hpp"
+#include "Explosion.hpp"
 
 START_NS_AO
 
@@ -167,6 +169,84 @@ SecurityClaw* SecurityClaw::Vdtor_419700(signed int flags)
         ao_delete_free_447540(this);
     }
     return this;
+}
+
+void SecurityClaw::VScreenChanged()
+{
+    VScreenChange_4196F0();
+}
+
+void SecurityClaw::VScreenChange_4196F0()
+{
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+}
+
+__int16 SecurityClaw::VTakeDamage(BaseGameObject* pFrom)
+{
+    return VTakeDamage_419520(pFrom);
+}
+
+__int16 SecurityClaw::VTakeDamage_419520(BaseGameObject* pFrom)
+{
+    if (!field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    {
+        if (pFrom->field_4_typeId == Types::e69 || pFrom->field_4_typeId == Types::eShrykull_85)
+        {
+            field_12C_pDetector = 0;
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+
+            auto pExplosion = ao_new<Explosion>();
+            if (pExplosion)
+            {
+                pExplosion->ctor_458B80(
+                    field_A8_xpos,
+                    field_AC_ypos - field_BC_sprite_scale * FP_FromInteger(5),
+                    field_BC_sprite_scale);
+            }
+
+            auto pGibs = ao_new<Gibs>();
+            if (pGibs)
+            {
+                pGibs->ctor_407B20(
+                    5,
+                    field_A8_xpos,
+                    field_AC_ypos + FP_FromInteger(50),
+                    FP_FromInteger(0),
+                    FP_FromInteger(0),
+                    field_BC_sprite_scale);
+            }
+        }
+        else
+        {
+            field_12C_pDetector = 0;
+            
+            auto pGibs = ao_new<Gibs>();
+            if (pGibs)
+            {
+                pGibs->ctor_407B20(
+                    5,
+                    field_A8_xpos,
+                    field_AC_ypos + FP_FromInteger(50),
+                    FP_FromInteger(0),
+                    FP_FromInteger(0),
+                    field_BC_sprite_scale);
+            }
+
+            pGibs = ao_new<Gibs>();
+            if (pGibs)
+            {
+                pGibs->ctor_407B20(
+                    5,
+                    field_A8_xpos,
+                    field_AC_ypos + FP_FromInteger(50),
+                    FP_FromInteger(0),
+                    FP_FromInteger(0),
+                    field_BC_sprite_scale);
+            }
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        }
+    }
+    return 1;
 }
 
 END_NS_AO

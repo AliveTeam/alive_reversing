@@ -40,7 +40,13 @@ public:
 
     EXPORT SecurityClaw* Vdtor_419700(signed int flags);
 
+    virtual void VScreenChanged() override;
 
+    EXPORT void VScreenChange_4196F0();
+
+    virtual __int16 VTakeDamage(BaseGameObject* pFrom) override;
+
+    EXPORT __int16 VTakeDamage_419520(BaseGameObject* pFrom);
 
     int field_10C_tlvInfo;
     __int16 field_110_state;
