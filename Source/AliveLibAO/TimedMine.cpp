@@ -77,10 +77,10 @@ TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, int tlvInfo)
     field_110_tlvInfo = tlvInfo;
 
     SetBaseAnimPaletteTint_4187C0(stru_4C3140, gMap_507BA8.field_0_current_level, 1005);
-    field_E4_collection_rect.x = field_A8_xpos - (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
-    field_E4_collection_rect.w = field_A8_xpos + (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2)); 
-    field_E4_collection_rect.h = field_AC_ypos;
-    field_E4_collection_rect.y = field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale);
+    field_D4_collection_rect.x = field_A8_xpos - (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
+    field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2)); 
+    field_D4_collection_rect.h = field_AC_ypos;
+    field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale);
 
     field_6_flags.Set(Options::eInteractive_Bit8);
     field_F8_pLiftPoint = nullptr;

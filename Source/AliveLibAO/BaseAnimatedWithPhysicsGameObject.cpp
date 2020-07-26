@@ -23,14 +23,14 @@ BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::ctor_417C1
     field_A8_xpos = FP_FromInteger(0);
     field_B8_vely = FP_FromInteger(0);
     field_AC_ypos = FP_FromInteger(0);
-    field_CA = 0;
+    field_CA_xOffset = 0;
     field_D0_pShadow = nullptr;
     field_C4_b = 105;
     field_C2_g = 105;
     field_C0_r = 105;
     field_BC_sprite_scale = FP_FromInteger(1);
     field_C6_scale = 1;
-    field_C8 = 5;
+    field_C8_yOffset = 5;
 
     field_6_flags.Clear(Options::eCanExplode_Bit7);
     field_6_flags.Clear(Options::eInteractive_Bit8);

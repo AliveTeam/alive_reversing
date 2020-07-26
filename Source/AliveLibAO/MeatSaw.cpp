@@ -83,7 +83,7 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, int tlvInfo)
     field_E6_max_rise_time = pTlv->field_1E_max_rise_time;
     field_EE_switch_id = pTlv->field_20_id;
 
-    field_C8 = 0;
+    field_C8_yOffset = 0;
     field_F4 = 0;
 
     if (pTlv->field_22_type == 1)

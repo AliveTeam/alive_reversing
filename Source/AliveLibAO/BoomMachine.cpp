@@ -183,7 +183,7 @@ BoomMachine* BoomMachine::ctor_41E420(Path_BoomMachine* pTlv, int tlvInfo)
         field_E8_state = 0;
     }
 
-    field_C8 = 0;
+    field_C8_yOffset = 0;
     return this;
 }
 

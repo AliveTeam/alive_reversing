@@ -53,7 +53,7 @@ ParamiteWeb* ParamiteWeb::ctor_48A920(FP xpos, __int16 bottom, __int16 top, FP s
     SetVTable(this, 0x4BD6F8);
     field_4_typeId = Types::eRope_73;
 
-    field_C8 = 0;
+    field_C8_yOffset = 0;
 
     if (scale == FP_FromInteger(1))
     {

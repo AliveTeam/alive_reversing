@@ -72,7 +72,7 @@ PulllRingRope* PulllRingRope::ctor_4546B0(Path_PullRingRope* pTlv, int tlvInfo)
         field_F8_pRope->ctor_458520(
             FP_GetExponent(field_A8_xpos + FP_FromInteger((lvl_x_off + 1))),
             FP_GetExponent(field_AC_ypos) - pTlv->field_1C_rope_length,
-            FP_GetExponent(field_AC_ypos + (FP_FromInteger(field_C8))),
+            FP_GetExponent(field_AC_ypos + (FP_FromInteger(field_C8_yOffset))),
             field_BC_sprite_scale);
 
         field_F8_pRope->field_C_refCount++;

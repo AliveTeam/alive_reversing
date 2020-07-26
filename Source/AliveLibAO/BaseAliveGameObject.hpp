@@ -23,7 +23,7 @@ enum Flags_10A
     e10A_Bit1_Can_Be_Possessed = 0x1,
     e10A_Bit2 = 0x2,
     e10A_Bit3 = 0x4,
-    e10A_Bit4 = 0x8,
+    e10A_Bit4_SetOffExplosives = 0x8,
     e10A_Bit5 = 0x10,
     e10A_Bit6 = 0x20,
     e10A_Bit7 = 0x40,
@@ -88,7 +88,7 @@ public:
 
     EXPORT void sub_4020D0();
 
-    FP_RECT field_E4_collection_rect;
+    FP_RECT field_D4_collection_rect;
     __int16 field_E4;
     __int16 field_E6_last_anim_frame;
     FP field_E8_LastLineYPos;

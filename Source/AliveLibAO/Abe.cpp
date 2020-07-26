@@ -599,7 +599,7 @@ Abe* Abe::ctor_420770(int frameTableOffset, int /*r*/, int /*g*/, int /*b*/)
     field_138_zone_top_left = {};
     field_13C_zone_bottom_right = {};
     field_140_saved_camera = -1;
-    field_10A_flags.Set(Flags_10A::e10A_Bit4);
+    field_10A_flags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
 
     // TODO: Bitflags
     field_2AA_flags &= ~0x1Fu;
