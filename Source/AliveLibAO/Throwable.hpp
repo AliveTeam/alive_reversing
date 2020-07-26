@@ -26,12 +26,12 @@ public:
 
     virtual __int16 VCanThrow()
     {
-
+        return 0;
     }
 
     virtual __int16 VIsFalling()
     {
-
+        return 0;
     }
 
     virtual void VTimeToExplodeRandom()
@@ -41,7 +41,7 @@ public:
 
     virtual __int16 VGetCount()
     {
-
+        return 0;
     }
 
     virtual void VToDead()

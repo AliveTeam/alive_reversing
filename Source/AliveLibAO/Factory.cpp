@@ -57,6 +57,7 @@
 #include "TrapDoor.hpp"
 #include "Abe.hpp"
 #include "Mudokon.hpp"
+#include "HintFly.hpp"
 
 START_NS_AO
 
@@ -1879,9 +1880,16 @@ EXPORT void Factory_481FB0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /
 }
 
 
-EXPORT void Factory_HintFly_4819E0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_HintFly_4819E0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode != 1 && loadMode != 2)
+    {
+        auto pHintFly = ao_new<HintFly>();
+        if (pHintFly)
+        {
+            pHintFly->ctor_42A820(static_cast<Path_HintFly*>(pTlv), tlvOffsetLevelIdPathId.all);
+        }
+    }
 }
 
 
