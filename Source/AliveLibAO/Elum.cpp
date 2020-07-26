@@ -2184,7 +2184,7 @@ Elum* Elum::ctor_410870(int, anythingForTheTimeBeing, anythingForTheTimeBeing, i
         field_10_anim.field_C_layer = 9;
     }
 
-    field_10A_flags.Set(Flags_10A::e10A_Bit4);
+    field_10A_flags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
     field_170_flags &= ~0x5Au;
 
     field_F8_pLiftPoint = nullptr;

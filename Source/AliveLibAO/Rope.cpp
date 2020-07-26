@@ -36,7 +36,7 @@ Rope* Rope::ctor_458520(unsigned __int16 left, __int16 top, unsigned __int16 bot
     SetVTable(this, 0x4BC1E0);
     field_4_typeId = Types::eRope_73;
 
-    field_C8 = 0;
+    field_C8_yOffset = 0;
 
     if (scale == FP_FromInteger(1))
     {

@@ -84,11 +84,10 @@ public:
     __int16 field_C2_g;
     __int16 field_C4_b;
     __int16 field_C6_scale;
-    __int16 field_C8;
-    __int16 field_CA;
+    __int16 field_C8_yOffset;
+    __int16 field_CA_xOffset;
     WORD field_CC_bApplyShadows;
-    char field_CE;
-    char field_CF;
+    __int16 field_CE_pad;
     Shadow* field_D0_pShadow;
 };
 ALIVE_ASSERT_SIZEOF(BaseAnimatedWithPhysicsGameObject, 0xD4);

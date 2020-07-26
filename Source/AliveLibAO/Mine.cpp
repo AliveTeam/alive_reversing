@@ -277,11 +277,11 @@ void Mine::VRender_43A970(int** ppOt)
     {
         field_118_animation.vRender(
             FP_GetExponent(field_A8_xpos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x)),
-            FP_GetExponent(field_AC_ypos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_C8)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+            FP_GetExponent(field_AC_ypos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_C8_yOffset)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
             ppOt,
             0,
             0);
-        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+        BaseAnimatedWithPhysicsGameObject::VRender_417DA0(ppOt);
     }
 }
 
@@ -359,7 +359,7 @@ __int16 Mine::IsColliding_43AA60()
             break;
         }
 
-        if (pObj->field_10A_flags.Get(Flags_10A::e10A_Bit4))
+        if (pObj->field_10A_flags.Get(Flags_10A::e10A_Bit4_SetOffExplosives))
         {
             if (pObj->field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
             {

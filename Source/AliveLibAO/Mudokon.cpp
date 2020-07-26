@@ -156,7 +156,7 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, int tlvInfo)
 
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
-    field_10A_flags.Set(Flags_10A::e10A_Bit4);
+    field_10A_flags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
     field_10A_flags.Set(Flags_10A::e10A_Bit6);
 
     field_144_flags.Clear(Flags_144::e144_Bit6_bPersist);

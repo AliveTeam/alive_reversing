@@ -1091,7 +1091,7 @@ EXPORT void Factory_Mine_4848D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
             return;
         }
 
-        if (disabledResources & 2 || !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 576, 0, 0))
+        if (!(disabledResources & 2) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 576, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;

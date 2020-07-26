@@ -105,7 +105,7 @@ Slig* Slig::ctor_464D40(Path_Slig* pTlv, int tlvInfo)
 
     field_10A_flags.Clear(Flags_10A::e10A_Bit2);
     field_10A_flags.Set(Flags_10A::e10A_Bit1_Can_Be_Possessed);
-    field_10A_flags.Set(Flags_10A::e10A_Bit4);
+    field_10A_flags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
 
     field_4_typeId = Types::eSlig_88;
 

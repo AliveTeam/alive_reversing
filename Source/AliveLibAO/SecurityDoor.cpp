@@ -55,7 +55,7 @@ SecurityDoor* SecurityDoor::ctor_461840(Path_SecurityDoor* pTlv, int tlvInfo)
 
     field_E4_tlvInfo = tlvInfo;
 
-    field_C8 = 0;
+    field_C8_yOffset = 0;
     field_10_anim.field_C_layer = 22;
 
     if (pTlv->field_18_scale == 1)

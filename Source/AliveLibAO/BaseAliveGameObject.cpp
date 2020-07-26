@@ -30,7 +30,7 @@ BaseAliveGameObject *BaseAliveGameObject::ctor_401090()
     field_10A_flags.Clear(Flags_10A::e10A_Bit1_Can_Be_Possessed);
     field_10A_flags.Clear(Flags_10A::e10A_Bit2);
     field_10A_flags.Clear(Flags_10A::e10A_Bit3);
-    field_10A_flags.Clear(Flags_10A::e10A_Bit4);
+    field_10A_flags.Clear(Flags_10A::e10A_Bit4_SetOffExplosives);
     field_10A_flags.Clear(Flags_10A::e10A_Bit5);
     field_10A_flags.Clear(Flags_10A::e10A_Bit6);
 

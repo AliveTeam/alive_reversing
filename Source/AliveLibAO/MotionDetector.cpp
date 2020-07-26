@@ -18,7 +18,7 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, int tlvIn
 
     field_10_anim.field_B_render_mode = 1;
     field_10_anim.field_C_layer = 36;
-    field_C8 = 0;
+    field_C8_yOffset = 0;
     field_C0_r = 64;
     field_C4_b = 0;
     field_C2_g = 0;
@@ -66,7 +66,7 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, int tlvIn
             pMotionDetectors->field_A8_xpos = field_F8;
             pMotionDetectors->field_AC_ypos = field_104;
             pMotionDetectors->field_BC_sprite_scale = field_BC_sprite_scale;
-            pMotionDetectors->field_C8 = 0;
+            pMotionDetectors->field_C8_yOffset = 0;
             field_108_pLaser = pMotionDetectors;
         }
     }
@@ -91,7 +91,7 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, int tlvIn
             pMotionDetectors->field_A8_xpos = field_F8;
             pMotionDetectors->field_AC_ypos = field_104;
             pMotionDetectors->field_BC_sprite_scale = field_BC_sprite_scale;
-            pMotionDetectors->field_C8 = 0;
+            pMotionDetectors->field_C8_yOffset = 0;
             field_108_pLaser = pMotionDetectors;
         }
     }
