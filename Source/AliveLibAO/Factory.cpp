@@ -58,6 +58,7 @@
 #include "Abe.hpp"
 #include "Mudokon.hpp"
 #include "HintFly.hpp"
+#include "Door.hpp"
 
 START_NS_AO
 
@@ -154,9 +155,72 @@ EXPORT void Factory_DeathDrop_Null_4817B0(Path_TLV* /*pTlv*/, Map* /*pMap*/, Tlv
 }
 
 
-EXPORT void Factory_Door_481C80(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_Door_481C80(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        static CompileTimeResourceList<3> kResources =
+        {
+            { ResourceManager::Resource_Animation, 2012 },
+            { ResourceManager::Resource_Animation, 2019 },
+            { ResourceManager::Resource_Animation, 2018 }
+        };
+        ResourceManager::LoadResource_446C90("ABEDOOR.BAN", ResourceManager::Resource_Animation, 45, loadMode);
+        switch (gMap_507BA8.field_0_current_level)
+        {
+        case LevelIds::eRuptureFarms_1:
+        case LevelIds::eBoardRoom_12:
+        case LevelIds::eRuptureFarmsReturn_13:
+            ResourceManager::LoadResourcesFromList_446E80("RDOOR.BND", kResources.AsList(), loadMode, 0);
+            break;
+
+        case LevelIds::eLines_2:
+            ResourceManager::LoadResourcesFromList_446E80("LDOOR.BND", kResources.AsList(), loadMode, 0);
+            break;
+
+        case LevelIds::eDesert_8:
+        case LevelIds::eDesertTemple_9:
+        case LevelIds::eDesertEscape:
+            ResourceManager::LoadResourcesFromList_446E80("DDOOR.BND", kResources.AsList(), loadMode, 0);
+            break;
+
+        default:
+            ResourceManager::LoadResourcesFromList_446E80("FDOOR.BND", kResources.AsList(), loadMode, 0);
+            break;
+        }
+    }
+    else
+    {
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 45, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2012, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2019, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2018, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        auto pDoor = ao_new<Door>();
+        if (pDoor)
+        {
+            pDoor->ctor_40E010(static_cast<Path_Door*>(pTlv), tlvOffsetLevelIdPathId.all);
+        }
+    }
 }
 
 
