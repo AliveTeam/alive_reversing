@@ -16,7 +16,8 @@ struct Path_Mine
     __int16 field_12_pattern;
     __int16 field_14_scale;
     __int16 field_16_disabled_resources;
-    int field_18_persists_offscreen;
+    __int16 field_18_persists_offscreen;
+    __int16 pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_Mine, 0x1C);
 

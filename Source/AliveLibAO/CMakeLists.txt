@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   Mine.hpp
+   Mine.cpp
    Door.hpp
    Door.cpp
    HintFly.hpp
