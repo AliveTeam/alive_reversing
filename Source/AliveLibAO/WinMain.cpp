@@ -30,6 +30,7 @@
 #include "Mudokon.hpp"
 #include "SlingMudokon.hpp"
 #include "CameraSwapper.hpp"
+#include "HintFly.hpp"
 #include "../AliveLibAE/config.h" // TODO: Change location
 
 START_NS_AO
@@ -57,6 +58,7 @@ void ForceLinks()
     Slog_ForceLink();
     Mud_ForceLink();
     SlingMud_ForceLink();
+    HintFly_ForceLink();
 }
 
 ALIVE_VAR(1, 0x9F771C, HINSTANCE, sInstance_9F771C, 0);

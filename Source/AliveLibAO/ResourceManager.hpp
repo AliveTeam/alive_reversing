@@ -49,6 +49,7 @@ public:
         Resource_Sprx = 0x78727053,
         Resource_FntP = 0x50746E46,
         Resource_3DGibs = 0x65444433,
+        Resource_HintFly = 0x796C4648,
     };
 
     struct Header
