@@ -1,7 +1,9 @@
 #pragma once
 
-#include "PathData.hpp"
 #include "FunctionFwd.hpp"
+#include "PathData.hpp"
+#include "Map.hpp"
+#include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 START_NS_AO
 
@@ -28,5 +30,34 @@ struct Path_Door : public Path_TLV
     __int16 field_46_abe_direction;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Door, 0x48);
+
+class Door : public BaseAnimatedWithPhysicsGameObject
+{
+public:
+    EXPORT Door* ctor_40E010(Path_Door* pTlv, int tlvInfo);
+
+    EXPORT BaseGameObject* dtor_40E710();
+
+    virtual void VScreenChanged() override;
+
+    EXPORT void VScreenChanged_40EDE0();
+
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+
+    EXPORT Door* Vdtor_40EDF0(signed int flags);
+
+
+
+    int field_D4[4];
+    int field_E4_tlvInfo;
+    __int16 field_E8_start_state;
+    __int16 field_EA_door_number;
+    __int16 field_EC_current_state;
+    __int16 field_EE_door_closed;
+    __int16 field_F0_switch_id;
+    __int16 field_F2_hubs_ids[8];
+    __int16 field_102_pad;
+};
+ALIVE_ASSERT_SIZEOF(Door, 0x104);
 
 END_NS_AO

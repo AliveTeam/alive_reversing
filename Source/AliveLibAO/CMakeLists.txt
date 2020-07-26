@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   Door.hpp
+   Door.cpp
    HintFly.hpp
    HintFly.cpp
    SnoozeParticle.hpp

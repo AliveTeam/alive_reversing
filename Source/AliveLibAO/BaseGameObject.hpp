@@ -30,6 +30,7 @@ enum class Types : __int16
 
     eParticleBurst_19 = 19,
 
+    eDoor_21 = 21,
     eBird_22 = 22,
 
     eGameSpeak_24 = 24,
