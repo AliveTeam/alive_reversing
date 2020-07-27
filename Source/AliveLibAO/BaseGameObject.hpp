@@ -102,7 +102,7 @@ enum class Types : __int16
     eSnoozParticle_87 = 87,
     eSlig_88 = 88,
     e89 = 89,
-
+    SlingMud_90 = 90,
     eSligSpawner_91 = 91,
     eZBall_92 = 92,
     eParticle_93 = 93,
