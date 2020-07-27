@@ -71,7 +71,7 @@ enum class Types : __int16
     eRollingBallStopperShaker_58 = 58,
     eGreeterBody_59 = 59,
     eRollingBallStopper_60 = 60,
-
+    ePauseMenu_61 = 61,
     e62 = 62,
 
     eBirdPortal_65 = 65,
