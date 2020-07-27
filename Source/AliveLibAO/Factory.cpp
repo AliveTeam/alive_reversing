@@ -61,6 +61,7 @@
 #include "Door.hpp"
 #include "Mine.hpp"
 #include "SlingMudokon.hpp"
+#include "MainMenu.hpp"
 
 START_NS_AO
 
@@ -2028,9 +2029,42 @@ EXPORT void Factory_MudPathTrans_Null_4818B0(Path_TLV* /*pTlv*/, Map* /*pMap*/, 
 }
 
 
-EXPORT void Factory_MenuController_481AC0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_MenuController_481AC0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (gMainMenuInstanceCount_9F2DE0 == 0)
+    {
+        if (loadMode == 1 || loadMode == 2)
+        {
+             static CompileTimeResourceList<4> kResources =
+            {
+                { ResourceManager::Resource_Animation, 132 },
+                { ResourceManager::Resource_Animation, 8002 },
+                { ResourceManager::Resource_Animation, 367 },
+                { ResourceManager::Resource_Palt, 8003 }
+            };
+            ResourceManager::LoadResourcesFromList_446E80("STARTANM.BND", kResources.AsList(), loadMode, 0);
+        }
+        else if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 132, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        }
+        else if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 8002, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        }
+        else if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 367, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        }
+        else
+        {
+            auto pMenu = ao_new<Menu>();
+            if (pMenu)
+            {
+                pMenu->ctor_47A6F0(pTlv, tlvOffsetLevelIdPathId.all);
+            }
+        }
+    }
 }
 
 
