@@ -4,10 +4,12 @@
 
 START_NS_AO
 
+enum class CameraPos : __int16;
+
 class ScopedSeq
 {
 public:
-    EXPORT ScopedSeq* ctor_476400(char ambianceId, __int16 direction);
+    EXPORT ScopedSeq* ctor_476400(char ambianceId, CameraPos direction);
 
     virtual ScopedSeq* VDtor(int flags);
 

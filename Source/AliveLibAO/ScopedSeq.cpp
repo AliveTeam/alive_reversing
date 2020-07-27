@@ -4,24 +4,25 @@
 #include "Midi.hpp"
 #include "stdlib.hpp"
 #include "Midi.hpp"
+#include "Map.hpp"
 
 START_NS_AO
 
-ScopedSeq* ScopedSeq::ctor_476400(char ambianceId, __int16 direction)
+ScopedSeq* ScopedSeq::ctor_476400(char ambianceId, CameraPos direction)
 {
     SetVTable(this, 0x4BCD44);
 
     short volLeft = 0;
     short volRight = 0;
 
-    if (direction == 3)
+    if (direction == CameraPos::eCamLeft_3)
     {
         volLeft = 1;
         volRight = 0;
     }
     else
     {
-        volLeft = direction != 4 ? 1 : 0;
+        volLeft = direction != CameraPos::eCamRight_4 ? 1 : 0;
         volRight = 1;
     }
 
