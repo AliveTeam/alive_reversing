@@ -36,6 +36,9 @@ enum TlvTypes
     DeathDrop_5 = 5,
     Door_6 = 6,
 
+    Slig_24 = 24,
+    Slog_25 = 25,
+
     StartController_28 = 28,
 
     LiftMud_32 = 32,
@@ -44,14 +47,19 @@ enum TlvTypes
 
     WellExpress_45 = 45,
 
+    Paramite_48 = 48,
+
     RingMud_50 = 50,
 
     BirdPortalExit_53 = 53,
 
     Slig_66 = 66,
 
+    Scrab_72 = 72,
+
     Mud_82 = 82,
 
+    MeatSaw_88 = 88,
     MudPathTrans_89 = 89,
 
     ElumPathTrans_99 = 99,

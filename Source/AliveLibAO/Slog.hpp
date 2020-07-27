@@ -2,10 +2,26 @@
 
 #include "FunctionFwd.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "Map.hpp"
 
 void Slog_ForceLink();
 
 START_NS_AO
+
+struct Path_Slog : public Path_TLV
+{
+    __int16 field_18_scale;
+    __int16 field_1A_direction;
+    __int16 field_1C_wakeup_anger;
+    __int16 field_1E_bark_anger;
+    __int16 field_20_sleeps;
+    __int16 field_22_chase_anger;
+    __int16 field_24_jump_attack_delay;
+    __int16 field_26_disabled_resources;
+    __int16 field_28_anger_trigger_id;
+    __int16 field_2A_pad;
+};
+ALIVE_ASSERT_SIZEOF(Path_Slog, 0x2C);
 
 #define SLOG_STATES_ENUM(ENTRY) \
     ENTRY(State_0_Idle_4742E0) \

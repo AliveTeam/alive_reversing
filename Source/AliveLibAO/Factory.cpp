@@ -60,6 +60,7 @@
 #include "HintFly.hpp"
 #include "Door.hpp"
 #include "Mine.hpp"
+#include "SlingMudokon.hpp"
 
 START_NS_AO
 
@@ -974,9 +975,24 @@ EXPORT void Factory_ElumWall_487370(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemIn
 }
 
 
-EXPORT void Factory_SlingMud_485A30(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_SlingMud_485A30(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode != 1 && loadMode != 2)
+    {
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 508, 0, 0) ||
+            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 314, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        }
+        else
+        {
+            auto pSlingMud = ao_new<SlingMudokon>();
+            if (pSlingMud)
+            {
+                pSlingMud->ctor_46F940(static_cast<Path_SlingMud*>(pTlv), tlvOffsetLevelIdPathId.all);
+            }
+        }
+    }
 }
 
 
