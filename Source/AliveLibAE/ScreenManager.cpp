@@ -8,6 +8,7 @@
 #include "vlctable.hpp"
 #include "Primitives.hpp"
 #include "VRam.hpp"
+#include "Psx.hpp"
 
 ALIVE_VAR(1, 0x5BB5F4, ScreenManager*, pScreenManager_5BB5F4, nullptr);
 ALIVE_ARY(1, 0x5b86c8, SprtTPage, 300, sSpriteTPageBuffer_5B86C8, {});
@@ -193,7 +194,6 @@ namespace Oddlib
     struct BitsLogic
     {
         BitsLogic()
-            : param1(0), param2(0), param3(0), param4(0)
         {
 
         }
@@ -223,14 +223,14 @@ namespace Oddlib
         }
 
         // Read from the cam file data
-        int bits[3]; // Used outside
+        int bits[3] = {}; // Used outside
 
-        int param1;
-        int param2;
-        int param3;
+        int param1 = 0;
+        int param2 = 0;
+        int param3 = 0;
 
         // Only used out of the loop
-        int param4;
+        int param4 = 0;
     };
 
     const auto red_mask = 0xF800;
@@ -426,38 +426,80 @@ void ScreenManager::write_4_pixel_block(const Oddlib::BitsLogic& aR, const Oddli
     }
 }
 
+const int kStripSize = 16;
+const int kNumStrips = 640 / kStripSize;
+
+static bool IsHackedAOCamera(WORD** ppBits)
+{
+    // If they are its a "hacked" camera from paulsapps level editor. This editor used an
+    // injected dll to replace camera images. So this code here replicates that so "old" mods
+    // can still work.
+
+    // Check if all the segments are the same specific size
+    WORD* pIter = *ppBits;
+    int countOf7680SizedSegments = 0;
+    for (int i = 0; i < kNumStrips; i++)
+    {
+        const WORD stripSize = *pIter;
+        pIter++;
+        if (stripSize == 7680)
+        {
+            countOf7680SizedSegments++;
+        }
+        pIter += (stripSize / sizeof(WORD));
+    }
+
+    return countOf7680SizedSegments == kNumStrips;
+}
+
 void ScreenManager::DecompressToVRam_40EF60(WORD** ppBits)
 {
-    BYTE** ppVlc = ResourceManager::Alloc_New_Resource_49BED0(ResourceManager::Resource_VLC, 0, 0x7E00); // 4 KB
-    if (ppVlc)
+    if (IsHackedAOCamera(ppBits))
     {
-        if (BMP_Lock_4F1FF0(&sPsxVram_C1D160))
+        LOG_INFO("Applying AO camera");
+
+        WORD* pIter = *ppBits;
+        for (int i = 0; i < kNumStrips; i++)
         {
-            const int kStripSize = 16;
-            const int kNumStrips = 640 / kStripSize;
+            const WORD stripSize = *pIter;
+            pIter++;
 
-            WORD* pIter = *ppBits;
-            for (int i = 0; i < kNumStrips; i++)
-            {
-                WORD stripSize = *pIter;
-                pIter++;
-
-                if (stripSize > 0)
-                {
-                    vlc_decode(pIter, reinterpret_cast<WORD*>(*ppVlc));
-                    process_segment(reinterpret_cast<WORD*>(*ppVlc), i * kStripSize);
-                }
-
-                pIter += (stripSize / sizeof(WORD));
-            }
-            BMP_unlock_4F2100(&sPsxVram_C1D160);
+            const PSX_RECT rect = { static_cast<short>(i * kStripSize), 256 + 16, kStripSize, 240 };
+            PSX_LoadImage_4F5FB0(&rect, reinterpret_cast<const BYTE*>(pIter));
+            pIter += (stripSize / sizeof(WORD));
         }
-        ResourceManager::FreeResource_49C330(ppVlc);
-        UnsetDirtyBits_40EDE0(0);
-        UnsetDirtyBits_40EDE0(1);
-        UnsetDirtyBits_40EDE0(2);
-        UnsetDirtyBits_40EDE0(3);
     }
+    else
+    {
+        BYTE** ppVlc = ResourceManager::Alloc_New_Resource_49BED0(ResourceManager::Resource_VLC, 0, 0x7E00); // 4 KB
+        if (ppVlc)
+        {
+            if (BMP_Lock_4F1FF0(&sPsxVram_C1D160))
+            {
+                WORD* pIter = *ppBits;
+                for (int i = 0; i < kNumStrips; i++)
+                {
+                    const WORD stripSize = *pIter;
+                    pIter++;
+
+                    if (stripSize > 0)
+                    {
+                        vlc_decode(pIter, reinterpret_cast<WORD*>(*ppVlc));
+                        process_segment(reinterpret_cast<WORD*>(*ppVlc), i * kStripSize);
+                    }
+
+                    pIter += (stripSize / sizeof(WORD));
+                }
+                BMP_unlock_4F2100(&sPsxVram_C1D160);
+            }
+            ResourceManager::FreeResource_49C330(ppVlc);
+        }
+    }
+
+    UnsetDirtyBits_40EDE0(0);
+    UnsetDirtyBits_40EDE0(1);
+    UnsetDirtyBits_40EDE0(2);
+    UnsetDirtyBits_40EDE0(3);
 }
 
 ScreenManager* ScreenManager::ctor_40E3E0(BYTE** ppBits, FP_Point* pCameraOffset)
@@ -678,7 +720,7 @@ void ScreenManager::AddCurrentSPRT_TPage(int **ot)
 
 namespace Test
 {
-    static void DirtyBitTests()
+    void DirtyBitTests()
     {
         gBaseGameObject_list_BB47C4 = ae_new<DynamicArrayT<BaseGameObject>>();
         gBaseGameObject_list_BB47C4->ctor_40CA60(50);
@@ -709,7 +751,7 @@ namespace Test
 
     void ScreenManagerTests()
     {
-        DirtyBitTests();
+        //DirtyBitTests();
     }
 }
 
