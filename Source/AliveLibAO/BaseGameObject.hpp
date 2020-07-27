@@ -55,7 +55,7 @@ enum class Types : __int16
     eGrenadeMachine_41 = 41,
     eBackgroundGlukkon_42 = 42,
     eAbe_43 = 43,
-
+    MainMenuFade_44 = 44,
     eHoneySack_45 = 45,
 
     eHoney_47 = 47,
@@ -71,7 +71,7 @@ enum class Types : __int16
     eRollingBallStopperShaker_58 = 58,
     eGreeterBody_59 = 59,
     eRollingBallStopper_60 = 60,
-
+    ePauseMenu_61 = 61,
     e62 = 62,
 
     eBirdPortal_65 = 65,

@@ -53,4 +53,11 @@ void CC PolyG4_Init_498890(Poly_G4* /*pPoly*/)
     NOT_IMPLEMENTED();
 }
 
+void CC Prim_Init_Poly_G3_498870(Poly_G3* pPrim)
+{
+    SetNumLongs(&pPrim->mBase.header, 6);
+    SetUnknown(&pPrim->mBase.header);
+    SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyG3);
+}
+
 END_NS_AO

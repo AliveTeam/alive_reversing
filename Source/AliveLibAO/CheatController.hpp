@@ -25,4 +25,9 @@ ALIVE_ASSERT_SIZEOF(CheatController, 0x14);
 
 ALIVE_VAR_EXTERN(CheatController*, pCheatController_4FF958);
 
+ALIVE_VAR_EXTERN(short, sEnableFartGasCheat_507704);
+ALIVE_VAR_EXTERN(short, sVoiceCheat_507708);
+ALIVE_VAR_EXTERN(short, sEnableCheatFMV_50770C);
+ALIVE_VAR_EXTERN(short, sEnableCheatLevelSelect_507710);
+
 END_NS_AO
