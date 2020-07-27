@@ -9,7 +9,7 @@ START_NS_AO;
 class PauseMenu : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT PauseMenu* ctor_48FB80();
+    EXPORT PauseMenu* ctor_44DEA0();
 
     EXPORT BaseGameObject* dtor_44DF40();
 

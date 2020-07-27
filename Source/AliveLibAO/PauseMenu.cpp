@@ -46,7 +46,7 @@ const BYTE byte_4C5EE8[32] =
 };
 
 
-PauseMenu* PauseMenu::ctor_48FB80()
+PauseMenu* PauseMenu::ctor_44DEA0()
 {
     ctor_417C10();
     SetVTable(this, 0x4BBD68);

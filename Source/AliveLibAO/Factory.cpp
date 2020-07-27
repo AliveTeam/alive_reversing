@@ -932,7 +932,7 @@ EXPORT void Factory_AbeStart_486050(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUn
             pPauseMenu_5080E0 = ao_new<PauseMenu>();
             if (pPauseMenu_5080E0)
             {
-                pPauseMenu_5080E0->ctor_48FB80();
+                pPauseMenu_5080E0->ctor_44DEA0();
             }
         }
 
