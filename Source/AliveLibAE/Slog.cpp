@@ -208,12 +208,12 @@ Slog* Slog::ctor_4C42E0(Path_Slog* pTlv, int tlvInfo)
 
     if (field_160_flags.Get(Flags_160::eBit7))
     {
-        field_106_current_motion = 15;
+        field_106_current_motion = eSlogMotions::M_Sleeping_15_4C6D60;
         SetAnimFrame_4C42A0();
     }
     else
     {
-        field_106_current_motion = 0;
+        field_106_current_motion = eSlogMotions::M_Idle_0_4C5F90;
     }
     
     VUpdate();

@@ -38,6 +38,57 @@ const TSlogStateFunction sSlogMotionTable_4CFD30[] =
     &Slog::State_24_Growl_475590,
 };
 
+const int dword_4CFDD8[6] = { 14784, 14832, 14808, 37952, 38008, 38112 };
+
+
+Slog* Slog::ctor_472EE0(Path_Slog* pTlv, int tlvInfo)
+{
+    ctor_401090();
+    SetVTable(this, 0x4BCBC8);
+
+    field_148 = -1;
+
+    field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
+    field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
+
+    if (pTlv->field_18_scale == 0)
+    {
+        field_BC_sprite_scale = FP_FromInteger(1);
+    }
+    else
+    {
+        field_BC_sprite_scale = FP_FromDouble(0.5);
+    }
+
+    Init_473130();
+
+    field_138_tlvInfo = tlvInfo;
+    field_114_brain_idx = 1;
+    field_176 = 1;
+
+    field_158_bark_anger = pTlv->field_1E_bark_anger;
+
+    field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1A_direction == 0);
+
+    field_15A = pTlv->field_1E_bark_anger + pTlv->field_20_sleeps + pTlv->field_22_chase_anger;
+    field_15C = pTlv->field_1E_bark_anger + pTlv->field_20_sleeps + pTlv->field_22_chase_anger;
+    field_10C = 0;
+    field_17E = pTlv->field_1C_wakeup_anger;
+    field_170 = pTlv->field_24_jump_attack_delay;
+    field_168 = pTlv->field_28_anger_trigger_id;
+
+    if (pTlv->field_1C_wakeup_anger)
+    {
+        field_FC_current_motion = eSlogStates::State_16_Sleeping_4752E0;
+        field_13C_res_idx = 1;
+        field_10_anim.Set_Animation_Data_402A40(dword_4CFDD8[0], field_180_resources[2]);
+    }
+    else
+    {
+        field_FC_current_motion = eSlogStates::State_0_Idle_4742E0;
+    }
+    return this;
+}
 
 void Slog::VUpdate_Real_4739C0()
 {
@@ -54,6 +105,11 @@ void Slog::VUpdate_4739C0()
     {
         LOG_INFO("oldMotion = " << oldMotion << " newMotion = " << field_FC_current_motion);
     }
+}
+
+void Slog::Init_473130()
+{
+    NOT_IMPLEMENTED();
 }
 
 void Slog::State_0_Idle_4742E0()

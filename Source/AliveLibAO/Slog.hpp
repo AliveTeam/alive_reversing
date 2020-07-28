@@ -59,9 +59,13 @@ enum eSlogStates : int
 class Slog : public BaseAliveGameObject
 {
 public:
+    EXPORT Slog* ctor_472EE0(Path_Slog* pTlv, int tlvInfo);
+
     EXPORT void VUpdate_Real_4739C0();
 
     EXPORT void VUpdate_4739C0();
+
+    EXPORT void Init_473130();
 
     // States
     EXPORT void State_0_Idle_4742E0();
@@ -92,7 +96,7 @@ public:
 
     BaseAliveGameObject* field_10C;
     int field_110;
-    __int16 field_114;
+    __int16 field_114_brain_idx;
     __int16 field_116;
     __int16 field_118;
     __int16 field_11A;
@@ -105,8 +109,8 @@ public:
     int field_130;
     __int16 field_134;
     __int16 field_136;
-    int field_138;
-    __int16 field_13C;
+    int field_138_tlvInfo;
+    __int16 field_13C_res_idx;
     __int16 field_13E;
     int field_140;
     int field_144;
@@ -115,7 +119,7 @@ public:
     int field_150;
     __int16 field_154;
     __int16 field_156;
-    __int16 field_158;
+    __int16 field_158_bark_anger;
     __int16 field_15A;
     __int16 field_15C;
     __int16 field_15E;
@@ -132,12 +136,7 @@ public:
     __int16 field_17A;
     __int16 field_17C;
     __int16 field_17E;
-    int field_180;
-    int field_184;
-    int field_188;
-    int field_18C;
-    int field_190;
-    int field_194;
+    BYTE** field_180_resources[6];
 };
 ALIVE_ASSERT_SIZEOF(Slog, 0x198);
 
