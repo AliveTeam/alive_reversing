@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   UXB.hpp
+   UXB.cpp
    StringFormatters.hpp
    StringFormatters.cpp
    LCDScreen.hpp
