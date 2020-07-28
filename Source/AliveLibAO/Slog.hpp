@@ -79,6 +79,8 @@ public:
 
     EXPORT void ToJump_473FB0();
 
+    EXPORT void Sfx_475BD0(int idx);
+
     // States
     EXPORT void State_0_Idle_4742E0();
     EXPORT void State_1_Walk_4743F0();
@@ -136,7 +138,7 @@ public:
     __int16 field_15C;
     __int16 field_15E;
     int field_160;
-    int field_164;
+    int field_164_timer;
     __int16 field_168;
     __int16 field_16A;
     BaseAliveGameObject* field_16C;
