@@ -1,6 +1,11 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "Slog.hpp"
+#include "Abe.hpp"
+#include "MusicController.hpp"
+#include "ResourceManager.hpp"
+#include "stdlib.hpp"
+#include "Midi.hpp"
 
 void Slog_ForceLink() {}
 
@@ -40,6 +45,7 @@ const TSlogStateFunction sSlogMotionTable_4CFD30[] =
 
 const int dword_4CFDD8[6] = { 14784, 14832, 14808, 37952, 38008, 38112 };
 
+ALIVE_VAR(1, 0x9F11C8, short, gNumSlogs_9F11C8, 0);
 
 Slog* Slog::ctor_472EE0(Path_Slog* pTlv, int tlvInfo)
 {
@@ -90,6 +96,109 @@ Slog* Slog::ctor_472EE0(Path_Slog* pTlv, int tlvInfo)
     return this;
 }
 
+Slog* Slog::ctor_473050(FP xpos, FP ypos, FP scale)
+{
+    ctor_401090();
+    SetVTable(this, 0x4BCBC8);
+
+    field_148 = -1;
+
+    field_A8_xpos = xpos;
+    field_AC_ypos = ypos;
+    field_BC_sprite_scale = scale;
+
+    Init_473130();
+
+    field_116_brain_state = 0;
+
+    field_10C = sControlledCharacter_50767C;
+    field_176 = 0;
+    sControlledCharacter_50767C->field_C_refCount++;
+    field_17E = 0;
+    field_158_bark_anger = 0;
+
+    field_170 = 0;
+    field_168 = 0;
+    field_FC_current_motion = 0;
+    field_138_tlvInfo = 0xFFFF;
+    field_114_brain_idx = 2;
+    field_15A = 10;
+    field_15C = 20;
+
+    return this;
+}
+
+BaseGameObject* Slog::VDestructor(signed int flags)
+{
+    return Vdtor_473CB0(flags);
+}
+
+Slog* Slog::Vdtor_473CB0(signed int flags)
+{
+    dtor_473370();
+    if (flags & 1)
+    {
+        ao_delete_free_447540(this);
+    }
+    return this;
+}
+
+BaseGameObject* Slog::dtor_473370()
+{
+    SetVTable(this, 0x4BCBC8);
+
+    if (field_10C)
+    {
+        field_10C->field_C_refCount--;
+        field_10C = nullptr;
+    }
+
+    if (field_14C)
+    {
+        field_14C->field_C_refCount--;
+        field_14C = nullptr;
+    }
+
+    if (field_16C)
+    {
+        field_16C->field_C_refCount--;
+        field_16C = nullptr;
+    }
+
+    if (field_138_tlvInfo != 0xFFFF)
+    {
+        if (field_100_health <= FP_FromInteger(0))
+        {
+            gMap_507BA8.TLV_Reset_446870(field_138_tlvInfo, -1, 0, 1);
+        }
+        else
+        {
+            gMap_507BA8.TLV_Reset_446870(field_138_tlvInfo, -1, 0, 0);
+        }
+    }
+
+    for (int i = 1; i < ALIVE_COUNTOF(field_180_resources); i++)
+    {
+        if (field_10_anim.field_20_ppBlock != field_180_resources[i])
+        {
+            if (field_180_resources[i])
+            {
+                ResourceManager::FreeResource_455550(field_180_resources[i]);
+                field_180_resources[i] = nullptr;
+            }
+        }
+    }
+
+    MusicController::sub_443810(0, this, 0, 0);
+
+    if (!field_178)
+    {
+        gNumSlogs_9F11C8--;
+    }
+
+    return dtor_401000();
+}
+
 void Slog::VUpdate_Real_4739C0()
 {
     NOT_IMPLEMENTED();
@@ -112,9 +221,67 @@ void Slog::Init_473130()
     NOT_IMPLEMENTED();
 }
 
-void Slog::State_0_Idle_4742E0()
+__int16 Slog::ToNextMotion_473CE0()
 {
     NOT_IMPLEMENTED();
+    return 0;
+}
+
+void Slog::ToJump_473FB0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slog::State_0_Idle_4742E0()
+{
+    if (!ToNextMotion_473CE0())
+    {
+        if (field_FE_next_state == eSlogStates::State_19_JumpForwards_475610)
+        {
+            ToJump_473FB0();
+        }
+        else if (field_FE_next_state == -1)
+        {
+            if (field_FC_current_motion != eSlogStates::State_0_Idle_4742E0)
+            {
+                if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                    field_B2_lvl_number,
+                    field_B0_path_number,
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    0))
+                {
+                    SND_SEQ_PlaySeq_4775A0(17, 1, 0);
+                }
+
+                if (gMap_507BA8.GetDirection(
+                    field_B2_lvl_number,
+                    field_B0_path_number,
+                    field_A8_xpos,
+                    field_AC_ypos) >= CameraPos::eCamCurrent_0
+                    && gMap_507BA8.GetDirection(
+                        field_B2_lvl_number,
+                        field_B0_path_number,
+                        field_A8_xpos,
+                        field_AC_ypos) >= CameraPos::eCamCurrent_0)
+                {
+                    if (MusicController::sub_443840(0, 0, 0) == 9)
+                    {
+                        MusicController::sub_443810(9, this, 0, 0);
+                    }
+                    else
+                    {
+                        MusicController::sub_443810(7, this, 0, 0);
+                    }
+                }
+            }
+        }
+        else
+        {
+            field_FC_current_motion = field_FE_next_state;
+            field_FE_next_state = -1;
+        }
+    }
 }
 
 void Slog::State_1_Walk_4743F0()

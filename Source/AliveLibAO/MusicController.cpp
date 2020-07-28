@@ -9,6 +9,12 @@ EXPORT void CC MusicController::sub_443810(signed __int16 /*a1*/, BaseGameObject
     NOT_IMPLEMENTED();
 }
 
+EXPORT __int16 CC MusicController::sub_443840(WORD* /*seq1*/, WORD* /*seq2*/, WORD* /*seqTime*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 EXPORT void MusicController::Shutdown_4437E0()
 {
     NOT_IMPLEMENTED();
