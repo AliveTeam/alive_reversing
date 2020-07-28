@@ -7,6 +7,11 @@
 #include "Collisions.hpp"
 #include "VRam.hpp"
 #include "DDCheat.hpp"
+#include "Shadow.hpp"
+#include "ResourceManager.hpp"
+#include "stdlib.hpp"
+#include "MusicController.hpp"
+#include "PlatformBase.hpp"
 
 void Scrab_ForceLink() {}
 
@@ -82,6 +87,181 @@ const int sScrabFrameTables_4CF708[30] =
     12724
 };
 
+Scrab* Scrab::ctor_45B5F0(Path_Scrab* pTlv, int tlvInfo)
+{
+    ctor_401090();
+    SetVTable(this, 0x4BC710);
+
+    field_4_typeId = Types::eScrab_77;
+    
+    for (int i = 0; i < ALIVE_COUNTOF(field_150_resources); i++)
+    {
+        field_150_resources[i] = nullptr;
+    }
+
+    field_150_resources[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 700, 1, 0);
+    field_150_resources[11] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 711, 1, 0);
+    field_150_resources[6] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 706, 1, 0);
+    field_150_resources[8] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 708, 1, 0);
+    field_150_resources[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 701, 1, 0);
+    field_150_resources[10] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 710, 1, 0);
+    field_150_resources[5] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 705, 1, 0);
+    field_150_resources[2] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 702, 1, 0);
+    field_150_resources[9] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 709, 1, 0);
+    field_150_resources[3] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 703, 1, 0);
+    field_150_resources[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 704, 1, 0);
+    field_150_resources[13] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 713, 1, 0);
+    
+    Animation_Init_417FD0(
+        168644,
+        168,
+        69,
+        field_150_resources[0],
+        1);
+
+    
+    field_10A_flags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
+
+    field_132_res_block_idx = 0;
+    field_118_timer = 0;
+    
+    field_10C_fn = &Scrab::Brain_460020;
+
+    field_110_brain_ret = 0;
+    field_FE_next_state = 0;
+    field_F8_pLiftPoint = nullptr;
+    field_FC_current_motion = 1;
+    field_112 = 0;
+
+    field_11C_pObj1 = nullptr;
+    field_120_pObj2 = nullptr;
+
+    field_140 = 0;
+
+    field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x + 12);
+    field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
+
+    if (pTlv->field_18_scale == 1)
+    {
+        field_BC_sprite_scale = FP_FromDouble(0.5);
+        field_10_anim.field_C_layer = 8;
+        field_C6_scale = 0;
+    }
+    else
+    {
+        field_BC_sprite_scale = FP_FromInteger(1);
+        field_10_anim.field_C_layer = 27;
+        field_C6_scale = 1;
+    }
+
+    field_114_attack_delay = pTlv->field_1A_attack_delay;
+    field_116_patrol_type = pTlv->field_1C_patrol_type;
+    field_144_left_min_delay = pTlv->field_1E_left_min_delay;
+    field_146_left_max_delay = pTlv->field_20_left_max_delay;
+    field_148_right_min_delay = pTlv->field_22_right_min_delay;
+    field_14A_right_max_delay = pTlv->field_24_right_max_delay;
+
+    field_138_attack_duration = pTlv->field_26_attack_duration;
+
+    field_188_flags = 32 * ( pTlv->field_2A_roar_randomly & 1) | (field_188_flags & ~0x11 | 4) & ~0x28;
+
+    FP hitX = {};
+    FP hitY = {};
+    if (sCollisions_DArray_504C6C->RayCast_40C410(
+        field_A8_xpos,
+        field_AC_ypos,
+        field_A8_xpos,
+        field_AC_ypos + FP_FromInteger(30),
+        &field_F4_pLine,
+        &hitX,
+        &hitY,
+        field_BC_sprite_scale != FP_FromDouble(0.5) ? 1 : 0x10) == 1)
+    {
+        field_AC_ypos = hitY;
+        ToStand_45E310();
+
+        if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
+        {
+            sub_45E580();
+        }
+
+        field_188_flags |= 8u;
+    }
+
+    field_10A_flags.Set(Flags_10A::e10A_Bit6);
+
+    field_C0_r = 127;
+    field_C2_g = 127;
+    field_C4_b = 127;
+
+    field_130 = 0;
+
+    field_134_tlvInfo = tlvInfo;
+
+    field_D0_pShadow = ao_new<Shadow>();
+    if (field_D0_pShadow)
+    {
+        field_D0_pShadow->ctor_461FB0();
+    }
+
+    return this;
+}
+
+BaseGameObject* Scrab::dtor_45BA50()
+{
+    SetVTable(this, 0x4BC710);
+
+    if (field_11C_pObj1)
+    {
+        field_11C_pObj1->field_C_refCount--;
+    }
+
+    if (field_120_pObj2)
+    {
+        field_120_pObj2->field_C_refCount--;
+    }
+
+    VOnTrapDoorOpen_45E5E0();
+
+    for (int i = 0; i < ALIVE_COUNTOF(field_150_resources); i++)
+    {
+        if (field_10_anim.field_20_ppBlock != field_150_resources[i])
+        {
+            if (field_150_resources[i])
+            {
+                ResourceManager::FreeResource_455550(field_150_resources[i]);
+            }
+        }
+    }
+
+    if (field_100_health <= FP_FromInteger(0))
+    {
+        gMap_507BA8.TLV_Reset_446870(field_134_tlvInfo, -1, 0, 1);
+    }
+    else
+    {
+        gMap_507BA8.TLV_Reset_446870(field_134_tlvInfo, -1, 0, 0);
+    }
+
+    MusicController::sub_443810(0, this, 0, 0);
+
+    return dtor_401000();
+}
+
+BaseGameObject* Scrab::VDestructor(signed int flags)
+{
+    return Vdtor_45C310(flags);
+}
+
+Scrab* Scrab::Vdtor_45C310(signed int flags)
+{
+    dtor_45BA50();
+    if (flags & 1)
+    {
+        ao_delete_free_447540(this);
+    }
+    return this;
+}
 
 void Scrab::VUpdate_45B360()
 {
@@ -269,6 +449,26 @@ void Scrab::sub_45E580()
     NOT_IMPLEMENTED();
 }
 
+
+void Scrab::VOnTrapDoorOpen()
+{
+    VOnTrapDoorOpen_45E5E0();
+}
+
+void Scrab::VOnTrapDoorOpen_45E5E0()
+{
+    if (field_F8_pLiftPoint)
+    {
+        field_F8_pLiftPoint->VRemove(this);
+        field_F8_pLiftPoint->field_C_refCount--;
+        field_F8_pLiftPoint = nullptr;
+
+        field_FC_current_motion = eScrabStates::State_15_ToFall_45F180;
+
+        field_188_flags |= 0x10u;
+    }
+}
+
 void Scrab::State_0_Empty_45E3D0()
 {
     NOT_IMPLEMENTED();
@@ -425,6 +625,10 @@ __int16 Scrab::Brain_45C370()
     return 0;
 }
 
+__int16 Scrab::Brain_460020()
+{
+    NOT_IMPLEMENTED();
+}
 
 END_NS_AO
 

@@ -2,6 +2,7 @@
 
 #include "FunctionFwd.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "Map.hpp"
 
 void Paramite_ForceLink();
 
@@ -42,6 +43,21 @@ enum eParamiteStates : int
 };
 
 class ParamiteWeb;
+
+struct Path_Paramite : public Path_TLV
+{
+    __int16 field_18_scale;
+    __int16 field_1A_entrance_type;
+    __int16 field_1C_attack_delay;
+    __int16 field_1E_meat_eating_time;
+    __int16 field_20_attack_duration;
+    __int16 field_22_disabled_resources;
+    __int16 field_24_id;
+    __int16 field_26_hiss_before_attack;
+    __int16 field_28_unload_when_far_away;
+    __int16 field_2A_pad;
+};
+ALIVE_ASSERT_SIZEOF(Path_Paramite, 0x2C);
 
 class Paramite : public BaseAliveGameObject
 {

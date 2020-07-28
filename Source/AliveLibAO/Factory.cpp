@@ -66,6 +66,7 @@
 #include "Slog.hpp"
 #include "LCDScreen.hpp"
 #include "UXB.hpp"
+#include "Scrab.hpp"
 
 START_NS_AO
 
@@ -1887,9 +1888,51 @@ EXPORT void Factory_MeatSack_483790(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUn
 }
 
 
-EXPORT void Factory_Scrab_4863E0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_Scrab_4863E0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        static CompileTimeResourceList<12> kResources(
+        {
+            { ResourceManager::Resource_Animation, 700 },
+            { ResourceManager::Resource_Animation, 706 },
+            { ResourceManager::Resource_Animation, 708 },
+            { ResourceManager::Resource_Animation, 710 },
+            { ResourceManager::Resource_Animation, 705 },
+            { ResourceManager::Resource_Animation, 709 },
+            { ResourceManager::Resource_Animation, 704 },
+            { ResourceManager::Resource_Animation, 711 },
+            { ResourceManager::Resource_Animation, 701 },
+            { ResourceManager::Resource_Animation, 702 },
+            { ResourceManager::Resource_Animation, 703 },
+            { ResourceManager::Resource_Animation, 713 }
+        });
+        ResourceManager::LoadResourcesFromList_446E80("SCRAB.BND", kResources.AsList(), loadMode, 0);
+        return;
+    }
+
+    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 710, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 708, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 706, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 700, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 705, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 709, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 704, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 711, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 701, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 702, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 703, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 713, 0, 0))
+    {
+        gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        return;
+    }
+
+    auto pScrab = ao_new<Scrab>();
+    if (pScrab)
+    {
+        pScrab->ctor_45B5F0(static_cast<Path_Scrab*>(pTlv), tlvOffsetLevelIdPathId.all);
+    }
 }
 
 

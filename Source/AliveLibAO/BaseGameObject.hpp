@@ -88,7 +88,7 @@ enum class Types : __int16
     eExplosion_74 = 74,
     eMudokon_75 = 75,
     eRedLaser_76 = 76,
-    e77 = 77,
+    eScrab_77 = 77,
 
     eScreenClipper_78 = 78,
     eEffectBase_79 = 79,
