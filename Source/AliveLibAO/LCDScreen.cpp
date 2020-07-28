@@ -8,7 +8,7 @@
 
 START_NS_AO
 
-const BYTE gLCDFontPal_4C75A8[32] =
+const BYTE sLCDScreen_Palette_4C75A8[32] =
 {
     0u,
     0u,
@@ -44,7 +44,7 @@ const BYTE gLCDFontPal_4C75A8[32] =
     216u
 };
 
-const BYTE word_4C7588[16] =
+const BYTE sLCDScreen_Palette2_4C7588[32] =
 {
     0u,
     0u,
@@ -61,7 +61,23 @@ const BYTE word_4C7588[16] =
     33u,
     132u,
     5u,
-    132u
+    132u,
+    57u,
+    231u,
+    140u,
+    177u,
+    19u,
+    148u,
+    100u,
+    206u,
+    101u,
+    206u,
+    215u,
+    152u,
+    20u,
+    161u,
+    24u,
+    216u
 };
 
 const char* sLCDMessageTable_4C7420[90] =
@@ -173,15 +189,11 @@ LCDScreen* LCDScreen::ctor_433F60(Path_LCDScreen* pTlv, int tlvInfo)
     field_2AC_message_1_id = pTlv->field_18_message_1_id;
 
     field_50_font_context.LoadFontType_41C040(2);
-    field_60_font.ctor_41C170(60, gLCDFontPal_4C75A8, &field_50_font_context);
+    field_60_font.ctor_41C170(60, sLCDScreen_Palette_4C75A8, &field_50_font_context);
     Pal_Allocate_4476F0(&field_98_pal_rect, 16u);
 
-    PSX_RECT rect = {};
-    rect.x = field_98_pal_rect.x;
-    rect.y = field_98_pal_rect.y;
-    rect.w = 16;
-    rect.h = 1;
-    PSX_LoadImage16_4962A0(&rect, word_4C7588);
+    const PSX_RECT palSize = { field_98_pal_rect.x, field_98_pal_rect.y,16, 1 };
+    PSX_LoadImage16_4962A0(&palSize, sLCDScreen_Palette2_4C7588);
 
     if (dword_508A60 || field_2AC_message_1_id != 62)
     {
