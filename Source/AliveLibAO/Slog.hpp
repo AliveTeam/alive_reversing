@@ -59,9 +59,27 @@ enum eSlogStates : int
 class Slog : public BaseAliveGameObject
 {
 public:
+    EXPORT Slog* ctor_472EE0(Path_Slog* pTlv, int tlvInfo);
+
+    EXPORT Slog* ctor_473050(FP xpos, FP ypos, FP scale);
+
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+
+    EXPORT Slog* Vdtor_473CB0(signed int flags);
+
+    EXPORT BaseGameObject* dtor_473370();
+
     EXPORT void VUpdate_Real_4739C0();
 
     EXPORT void VUpdate_4739C0();
+
+    EXPORT void Init_473130();
+
+    EXPORT __int16 ToNextMotion_473CE0();
+
+    EXPORT void ToJump_473FB0();
+
+    EXPORT void Sfx_475BD0(int idx);
 
     // States
     EXPORT void State_0_Idle_4742E0();
@@ -92,8 +110,8 @@ public:
 
     BaseAliveGameObject* field_10C;
     int field_110;
-    __int16 field_114;
-    __int16 field_116;
+    __int16 field_114_brain_idx;
+    __int16 field_116_brain_state;
     __int16 field_118;
     __int16 field_11A;
     int field_11C;
@@ -105,8 +123,8 @@ public:
     int field_130;
     __int16 field_134;
     __int16 field_136;
-    int field_138;
-    __int16 field_13C;
+    int field_138_tlvInfo;
+    __int16 field_13C_res_idx;
     __int16 field_13E;
     int field_140;
     int field_144;
@@ -115,15 +133,15 @@ public:
     int field_150;
     __int16 field_154;
     __int16 field_156;
-    __int16 field_158;
+    __int16 field_158_bark_anger;
     __int16 field_15A;
     __int16 field_15C;
     __int16 field_15E;
     int field_160;
-    int field_164;
+    int field_164_timer;
     __int16 field_168;
     __int16 field_16A;
-    int field_16C;
+    BaseAliveGameObject* field_16C;
     __int16 field_170;
     __int16 field_172;
     __int16 field_174;
@@ -132,12 +150,7 @@ public:
     __int16 field_17A;
     __int16 field_17C;
     __int16 field_17E;
-    int field_180;
-    int field_184;
-    int field_188;
-    int field_18C;
-    int field_190;
-    int field_194;
+    BYTE** field_180_resources[6];
 };
 ALIVE_ASSERT_SIZEOF(Slog, 0x198);
 
