@@ -9,6 +9,7 @@
 #include "Sfx.hpp"
 #include "DDCheat.hpp"
 #include "CheatController.hpp"
+#include "LCDScreen.hpp"
 
 START_NS_AO
 
@@ -257,7 +258,6 @@ ALIVE_VAR(1, 0x507688, short, sFontLoaded_507688, 0);
 ALIVE_VAR(1, 0x4D0228, short, sListCount_4D0228, -1);
 
 
-ALIVE_VAR(1, 0x508A60, int, dword_508A60, 0);
 ALIVE_VAR(1, 0x4CE598, int, dword_4CE598, 0);
 ALIVE_VAR(1, 0x5079A4, int, dword_5079A4, 0);
 

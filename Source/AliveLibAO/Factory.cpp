@@ -64,6 +64,7 @@
 #include "MainMenu.hpp"
 #include "DDCheat.hpp"
 #include "Slog.hpp"
+#include "LCDScreen.hpp"
 
 START_NS_AO
 
@@ -2234,9 +2235,20 @@ EXPORT void Factory_GrenadeMachine_487860(Path_TLV* pTlv, Map* /*pMap*/, TlvItem
 }
 
 
-EXPORT void Factory_LCD_481950(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_LCD_481950(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        ResourceManager::LoadResource_446C90("LCDFONT.FNT", ResourceManager::Resource_Font, 2, loadMode);
+    }
+    else
+    {
+        auto pLCD = ao_new<LCDScreen>();
+        if (pLCD)
+        {
+            pLCD->ctor_433F60(static_cast<Path_LCDScreen*>(pTlv), tlvOffsetLevelIdPathId.all);
+        }
+    }
 }
 
 

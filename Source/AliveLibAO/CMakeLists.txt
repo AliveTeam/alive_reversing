@@ -1,6 +1,10 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   StringFormatters.hpp
+   StringFormatters.cpp
+   LCDScreen.hpp
+   LCDScreen.cpp
    MainMenu.hpp
    MainMenu.cpp
    Mine.hpp
