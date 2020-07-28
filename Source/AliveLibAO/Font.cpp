@@ -9,6 +9,7 @@ START_NS_AO
 ALIVE_VAR(1, 0x4FFD68, FontContext, sFontContext_4FFD68, {});
 
 ALIVE_VAR(1, 0x5080E4, short, sDisableFontFlicker_5080E4, 0);
+ALIVE_VAR(1, 0x508BF4, BYTE, sFontDrawScreenSpace_508BF4, 0);
 
 
 EXPORT __int16 FontContext::LoadFontType_41C040(int)
@@ -38,6 +39,12 @@ AliveFont* AliveFont::ctor_41C170(int maxCharLength, const BYTE* palette, FontCo
 }
 
 EXPORT unsigned int AliveFont::MeasureWidth_41C2B0(const char* /*pStr*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT int AliveFont::MeasureWidth_41C200(char /*a2*/)
 {
     NOT_IMPLEMENTED();
     return 0;

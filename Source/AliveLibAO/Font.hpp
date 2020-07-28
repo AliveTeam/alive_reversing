@@ -32,6 +32,8 @@ public:
 
     EXPORT unsigned int MeasureWidth_41C2B0(const char* /*pStr*/);
 
+    EXPORT int MeasureWidth_41C200(char a2);
+
     EXPORT int DrawString_41C360(int**, const char*, __int16, __int16, int, int, int, int, unsigned char, unsigned char, unsigned char, int, FP, int, int);
 
     EXPORT void dtor_41C130();
@@ -47,6 +49,6 @@ ALIVE_ASSERT_SIZEOF(AliveFont, 0x38);
 
 ALIVE_VAR_EXTERN(FontContext, sFontContext_4FFD68);
 ALIVE_VAR_EXTERN(short, sDisableFontFlicker_5080E4);
-
+ALIVE_VAR_EXTERN(BYTE, sFontDrawScreenSpace_508BF4);
 
 END_NS_AO
