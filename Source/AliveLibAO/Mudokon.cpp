@@ -730,7 +730,7 @@ __int16 Mudokon::VTakeDamage_43F830(BaseGameObject* pFrom)
         Event_Broadcast_417220(kEvent_15, sActiveHero_507678);
          return DoSmashDamage();
 
-    case Types::e77:
+    case Types::eScrab_77:
         return DoSmashDamage();
 
     case Types::eShrykull_85:

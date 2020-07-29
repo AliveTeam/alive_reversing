@@ -805,8 +805,8 @@ __int16 BirdPortal::IsScaredAway_4532E0()
         case Types::eElum_26:
         case Types::eAbe_43:
         case Types::eMudokon_52:
-        case Types::e62:
-        case Types::e77:
+        case Types::eParamite_62:
+        case Types::eScrab_77:
         case Types::eSlig_88:
             if (pObj->field_B0_path_number != field_66_path)
             {

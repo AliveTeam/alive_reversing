@@ -2,6 +2,7 @@
 
 #include "FunctionFwd.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "Map.hpp"
 
 void Scrab_ForceLink();
 
@@ -45,9 +46,32 @@ enum eScrabStates : int
     SCRAB_STATES_ENUM(MAKE_ENUM)
 };
 
+struct Path_Scrab : public Path_TLV
+{
+    __int16 field_18_scale;
+    __int16 field_1A_attack_delay;
+    __int16 field_1C_patrol_type;
+    __int16 field_1E_left_min_delay;
+    __int16 field_20_left_max_delay;
+    __int16 field_22_right_min_delay;
+    __int16 field_24_right_max_delay;
+    __int16 field_26_attack_duration;
+    __int16 field_28_disable_resources;
+    __int16 field_2A_roar_randomly;
+};
+ALIVE_ASSERT_SIZEOF(Path_Scrab, 0x2C);
+
 class Scrab : public BaseAliveGameObject
 {
 public:
+    EXPORT Scrab* ctor_45B5F0(Path_Scrab* pTlv, int tlvInfo);
+
+    EXPORT BaseGameObject* dtor_45BA50();
+
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+
+    EXPORT Scrab* Vdtor_45C310(signed int flags);
+
     EXPORT void VUpdate_45B360();
 
     EXPORT void ToStand_45E310();
@@ -57,6 +81,10 @@ public:
     EXPORT BYTE** ResBlockForMotion_45BB30(__int16 motion);
 
     EXPORT void sub_45E580();
+
+    virtual void VOnTrapDoorOpen() override;
+
+    EXPORT void VOnTrapDoorOpen_45E5E0();
 
     // States
     EXPORT void State_0_Empty_45E3D0();
@@ -93,29 +121,31 @@ public:
     // Brains
     EXPORT __int16 Brain_45C370();
 
+    EXPORT __int16 Brain_460020();
+
     using TBrainType = decltype(&Scrab::Brain_45C370);
 
     TBrainType field_10C_fn;
     __int16 field_110_brain_ret;
     __int16 field_112;
-    __int16 field_114;
-    __int16 field_116;
+    __int16 field_114_attack_delay;
+    __int16 field_116_patrol_type;
     int field_118_timer;
-    BaseGameObject* field_11C;
-    BaseAliveGameObject* field_120;
+    BaseGameObject* field_11C_pObj1;
+    BaseAliveGameObject* field_120_pObj2;
     int field_124;
     int field_128;
     int field_12C;
     __int16 field_130;
     __int16 field_132_res_block_idx;
-    int field_134;
-    int field_138;
+    int field_134_tlvInfo;
+    int field_138_attack_duration;
     int field_13C;
     int field_140;
-    __int16 field_144;
-    __int16 field_146;
-    __int16 field_148;
-    __int16 field_14A;
+    __int16 field_144_left_min_delay;
+    __int16 field_146_left_max_delay;
+    __int16 field_148_right_min_delay;
+    __int16 field_14A_right_max_delay;
     int field_14C;
     BYTE** field_150_resources[14];
     __int16 field_188_flags;

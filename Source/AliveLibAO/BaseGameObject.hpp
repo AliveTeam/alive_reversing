@@ -72,7 +72,7 @@ enum class Types : __int16
     eGreeterBody_59 = 59,
     eRollingBallStopper_60 = 60,
     ePauseMenu_61 = 61,
-    e62 = 62,
+    eParamite_62 = 62,
 
     eBirdPortal_65 = 65,
     e66 = 66,
@@ -88,7 +88,7 @@ enum class Types : __int16
     eExplosion_74 = 74,
     eMudokon_75 = 75,
     eRedLaser_76 = 76,
-    e77 = 77,
+    eScrab_77 = 77,
 
     eScreenClipper_78 = 78,
     eEffectBase_79 = 79,
@@ -111,6 +111,7 @@ enum class Types : __int16
     eBeeNest_96 = 96,
     eLever_97 = 97,
     eTrapDoor_98 = 98,
+    eUXB_99 = 99,
 
     eWell_101 = 101,
 

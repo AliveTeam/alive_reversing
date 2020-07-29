@@ -83,7 +83,7 @@ __int16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(TintEnt
     return 0;
 }
 
-void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType_418930(unsigned __int16 /*typeToFind*/)
+void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType_418930(Types /*typeToFind*/)
 {
     NOT_IMPLEMENTED();
 }

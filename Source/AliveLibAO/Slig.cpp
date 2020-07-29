@@ -183,7 +183,7 @@ Slig* Slig::ctor_464D40(Path_Slig* pTlv, int tlvInfo)
 
     Init_46B890();
     
-    VStackOnObjectsOfType_418930(static_cast<short>(Types::eSlig_88));
+    VStackOnObjectsOfType_418930(Types::eSlig_88);
 
     field_10A_flags.Set(Flags_10A::e10A_Bit6);
 
