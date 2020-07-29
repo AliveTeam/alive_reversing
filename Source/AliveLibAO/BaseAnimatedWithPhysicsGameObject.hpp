@@ -47,7 +47,7 @@ public:
 
     virtual __int16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* /*pOther*/) { return 0; }
 
-    virtual void VStackOnObjectsOfType(unsigned __int16 /*typeToFind*/) {}
+    virtual void VStackOnObjectsOfType(Types typeToFind) { VStackOnObjectsOfType_418930(typeToFind); }
 
     // TODO !!
     virtual void VOnPickUpOrSlapped() {}
@@ -68,7 +68,7 @@ public:
 
     EXPORT __int16 SetBaseAnimPaletteTint_4187C0(TintEntry* pTintArray, LevelIds level_id, int resourceID);
 
-    EXPORT void VStackOnObjectsOfType_418930(unsigned __int16 typeToFind);
+    EXPORT void VStackOnObjectsOfType_418930(Types typeToFind);
 
     EXPORT CameraPos Is_In_Current_Camera_417CC0();
 

@@ -55,13 +55,25 @@ struct Path_Paramite : public Path_TLV
     __int16 field_24_id;
     __int16 field_26_hiss_before_attack;
     __int16 field_28_unload_when_far_away;
-    __int16 field_2A_pad;
+    __int16 field_2A_unknown;
 };
 ALIVE_ASSERT_SIZEOF(Path_Paramite, 0x2C);
 
 class Paramite : public BaseAliveGameObject
 {
 public:
+    EXPORT Paramite* ctor_44A7A0(Path_Paramite* pTlv, int tlvInfo);
+
+    EXPORT BaseGameObject* dtor_44AB00();
+
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+
+    EXPORT Paramite* Vdtor_44B300(signed int flags);
+
+    virtual void VOnTrapDoorOpen() override;
+
+    EXPORT void VOnTrapDoorOpen_44B8C0();
+
     EXPORT void VUpdate_Real_44A490();
 
     EXPORT void VUpdate_44A490();
@@ -69,6 +81,11 @@ public:
     EXPORT void ToIdle_44B580();
 
     EXPORT __int16 sub_44B320();
+
+    // Brains
+    EXPORT __int16 Brain_447A10();
+
+    EXPORT __int16 Brain_448D00();
 
     // States
     EXPORT void State_0_Idle_44B900();
@@ -98,29 +115,32 @@ public:
     EXPORT void State_24_Struggle_44DB70();
     EXPORT void State_25_Death_44DB90();
 
-    int field_10C_fn;
+    using TBrain = decltype(&Paramite::Brain_447A10);
+
+    TBrain field_10C_fn;
     __int16 field_110_state;
-    __int16 field_112;
+    __int16 field_112_meat_eating_time;
     int field_114;
     int field_118;
-    __int16 field_11C;
-    __int16 field_11E;
+    __int16 field_11C_attack_duration;
+    __int16 field_11E_attack_delay;
     int field_120;
     int field_124;
     __int16 field_128;
     __int16 field_12A;
     int field_12C;
     int field_130;
-    int field_134;
+    int field_134_disabled_resources;
     int field_138;
-    __int16 field_13C;
-    __int16 field_13E;
+    __int16 field_13C_hiss_before_attack;
+    __int16 field_13E_unload_when_far_away;
     __int16 field_140;
     __int16 field_142;
-    int field_144;
-    int field_148;
+    __int16 field_144;
+    __int16 field_146;
+    BaseGameObject* field_148_pUnknown;
     ParamiteWeb* field_14C_pWeb;
-    int field_150_resources[16];
+    BYTE** field_150_resources[16];
 };
 ALIVE_ASSERT_SIZEOF(Paramite, 0x190);
 

@@ -67,6 +67,7 @@
 #include "LCDScreen.hpp"
 #include "UXB.hpp"
 #include "Scrab.hpp"
+#include "Paramite.hpp"
 
 START_NS_AO
 
@@ -1255,10 +1256,45 @@ EXPORT void Factory_Uxb_484B70(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
     }
 }
 
-
-EXPORT void Factory_Paramite_4861F0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_Paramite_4861F0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode == 1 || loadMode == 2)
+    {
+        static CompileTimeResourceList<9> kResources =
+        {
+            { ResourceManager::Resource_Animation, 600 },
+            { ResourceManager::Resource_Animation, 605 },
+            { ResourceManager::Resource_Animation, 614 },
+            { ResourceManager::Resource_Animation, 604 },
+            { ResourceManager::Resource_Animation, 609 },
+            { ResourceManager::Resource_Animation, 601 },
+            { ResourceManager::Resource_Animation, 615 },
+            { ResourceManager::Resource_Animation, 610 },
+            { ResourceManager::Resource_Animation, 2034 }
+        };
+        ResourceManager::LoadResourcesFromList_446E80("PARAMITE.BND", kResources.AsList(), loadMode, 0);
+        return;
+    }
+
+    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 600, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 605, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 614, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 604, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 609, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 601, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 615, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 610, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2034, 0, 0))
+    {
+        gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        return;
+    }
+
+    auto pParamite = ao_new<Paramite>();
+    if (pParamite)
+    {
+        pParamite->ctor_44A7A0(static_cast<Path_Paramite*>(pTlv), tlvOffsetLevelIdPathId.all);
+    }
 }
 
 
