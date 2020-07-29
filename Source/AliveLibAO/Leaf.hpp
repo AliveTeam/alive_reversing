@@ -18,7 +18,7 @@ public:
 
     EXPORT void VUpdate_48B650();
 
-    BaseGameObject* VDestructor(signed int flags);
+    BaseGameObject* VDestructor(signed int flags) override;
 
     int field_D4[4];
     __int16 field_E4_bHitSomething;

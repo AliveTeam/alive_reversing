@@ -57,13 +57,13 @@ ScreenWave* ScreenWave::ctor_462A70(FP xpos, FP ypos, __int16 layer, FP width, F
     field_38_screen_ypos = FP_GetExponent(ypos) - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
 
     // TODO: This needs to be checked, my brain melted halfway
-    const auto v1 = std::abs(field_36_screen_xpos) + std::abs(field_38_screen_ypos);
-    const auto v2 = std::abs(field_36_screen_xpos - gPsxDisplay_504C78.field_0_width) + std::abs(field_38_screen_ypos);
+    const __int16 v1 = static_cast<__int16>(std::abs(field_36_screen_xpos) + std::abs(field_38_screen_ypos));
+    const __int16 v2 = static_cast<__int16>(std::abs(field_36_screen_xpos - gPsxDisplay_504C78.field_0_width) + std::abs(field_38_screen_ypos));
 
-    const auto v3 = std::abs(field_36_screen_xpos) + std::abs(field_38_screen_ypos - gPsxDisplay_504C78.field_2_height);
-    const auto v4 = std::abs(field_36_screen_xpos - gPsxDisplay_504C78.field_0_width) + std::abs(field_38_screen_ypos - gPsxDisplay_504C78.field_2_height);
+    const __int16 v3 = static_cast<__int16>(std::abs(field_36_screen_xpos) + std::abs(field_38_screen_ypos - gPsxDisplay_504C78.field_2_height));
+    const __int16 v4 = static_cast<__int16>(std::abs(field_36_screen_xpos - gPsxDisplay_504C78.field_0_width) + std::abs(field_38_screen_ypos - gPsxDisplay_504C78.field_2_height));
 
-    field_34_max_radius = static_cast<__int16 >(std::max(std::max(v1, v2), std::max(v3, v4)));
+    field_34_max_radius = static_cast<__int16>(std::max(std::max(v1, v2), std::max(v3, v4)));
 
     if (radius > 0)
     {
