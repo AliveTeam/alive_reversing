@@ -628,6 +628,7 @@ __int16 Scrab::Brain_45C370()
 __int16 Scrab::Brain_460020()
 {
     NOT_IMPLEMENTED();
+    return 0;
 }
 
 END_NS_AO
