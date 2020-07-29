@@ -150,7 +150,7 @@ namespace Alive
             const short widthScaled = static_cast<short>(charWidth * FP_GetDouble(scale));
             const short heightScaled = static_cast<short>(charHeight * FP_GetDouble(scale));
 
-            PolyFT4_Init_4F8870(poly);
+            PolyFT4_Init(poly);
             Poly_Set_SemiTrans_4F8A60(&poly->mBase.header, bSemiTrans);
             Poly_Set_Blending_4F8A20(&poly->mBase.header, blendMode);
 

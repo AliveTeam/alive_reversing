@@ -33,6 +33,14 @@ void Init_Sprt_16(Prim_Sprt_16* pPrim)
     SetCode(&pPrim->mBase.header, PrimTypeCodes::eSprt16);
 }
 
+
+void PolyFT4_Init(Poly_FT4* pPrim)
+{
+    SetNumLongs(&pPrim->mBase.header, 9);
+    SetUnknown(&pPrim->mBase.header);
+    SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyFT4);
+}
+
 // Note: Inlined everywhere in real game
 void PolyF3_Init(Poly_F3* pPrim)
 {

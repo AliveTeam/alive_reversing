@@ -155,7 +155,7 @@ __int16 FG1::Convert_Chunk_To_Render_Block_49A210(const Fg1Chunk* pChunk, Fg1Blo
     {
         rPoly = {};
 
-        PolyFT4_Init_4F8870(&rPoly);
+        PolyFT4_Init(&rPoly);
 
         Poly_Set_SemiTrans_4F8A60(&rPoly.mBase.header, FALSE);
         Poly_Set_Blending_4F8A20(&rPoly.mBase.header, TRUE);

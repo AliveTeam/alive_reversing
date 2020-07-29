@@ -96,7 +96,7 @@ enum class Types : __int16
     eDeathFadeOut_80 = 80, // TODO: Actually eMainMenuTransistion in AE, shared?
     eFlash_81 = 81,
     ScreenShake_82 = 82,
-
+    eScreenWave_83 = 83,
     eShrykull_85 = 85,
 
     eSnoozParticle_87 = 87,

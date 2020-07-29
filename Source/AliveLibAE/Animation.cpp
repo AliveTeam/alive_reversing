@@ -488,7 +488,7 @@ void Animation::vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, sig
     }
 
     Poly_FT4* pPoly = &field_2C_ot_data[gPsxDisplay_5C1130.field_C_buffer_index];
-    PolyFT4_Init_4F8870(pPoly);
+    PolyFT4_Init(pPoly);
     Poly_Set_SemiTrans_4F8A60(&pPoly->mBase.header, field_4_flags.Get(AnimFlags::eBit15_bSemiTrans));
     Poly_Set_Blending_4F8A20(&pPoly->mBase.header, field_4_flags.Get(AnimFlags::eBit16_bBlending));
     SetRGB0(pPoly, field_8_r, field_9_g, field_A_b);

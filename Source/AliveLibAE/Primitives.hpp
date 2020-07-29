@@ -13,7 +13,7 @@ EXPORT void CC Sprt_Init_4F8910(Prim_Sprt* pPrim);
 EXPORT void CC PolyG3_Init_4F8890(Poly_G3* pPoly);
 EXPORT void CC PolyG4_Init_4F88B0(Poly_G4* pPoly);
 EXPORT void CC PolyF4_Init_4F8830(Poly_F4* pPoly);
-EXPORT void CC PolyFT4_Init_4F8870(Poly_FT4* pPoly);
+
 void PolyGT4_Init(Poly_GT4* pPoly);
 
 EXPORT void CC Init_SetTPage_4F5B60(Prim_SetTPage* pPrim, int /*notUsed1*/, int /*notUsed2*/, int tpage);

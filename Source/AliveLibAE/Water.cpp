@@ -114,7 +114,7 @@ Water* Water::ctor_4E02C0(Path_Water* pTlv, int tlvInfo)
                 // HACK/OG BUG: PC only uses first poly ??
                 Poly_FT4* pPoly = field_F8_pWaterRes[i].field_20_polys;
 
-                PolyFT4_Init_4F8870(pPoly);
+                PolyFT4_Init(pPoly);
                 Poly_Set_SemiTrans_4F8A60(&pPoly->mBase.header, TRUE);
                 Poly_Set_Blending_4F8A20(&pPoly->mBase.header, TRUE);
 

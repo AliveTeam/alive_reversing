@@ -1415,7 +1415,7 @@ private:
         {
             for (short i = 0; i < 4; i++)
             {
-                PolyFT4_Init_4F8870(&mPolyFT4[i]);
+                PolyFT4_Init(&mPolyFT4[i]);
 
                 TimInfo timInfo = {};
                 if (i == 0)
@@ -2058,7 +2058,7 @@ private:
 
         for (short i = 0; i < 1; i++)
         {
-            PolyFT4_Init_4F8870(&mPolyFT4[i]);
+            PolyFT4_Init(&mPolyFT4[i]);
 
             SetRGB0(&mPolyFT4[i], 127, 127, 127);
             SetTPage(&mPolyFT4[i], 0);

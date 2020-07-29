@@ -32,6 +32,7 @@
 #include "CameraSwapper.hpp"
 #include "HintFly.hpp"
 #include "ZapLine.hpp"
+#include "ScreenWave.hpp"
 #include "../AliveLibAE/config.h" // TODO: Change location
 
 START_NS_AO
@@ -61,6 +62,7 @@ void ForceLinks()
     SlingMud_ForceLink();
     HintFly_ForceLink();
     ZapLine_ForceLink();
+    Forcelink_ScreenWave();
 }
 
 ALIVE_VAR(1, 0x9F771C, HINSTANCE, sInstance_9F771C, 0);

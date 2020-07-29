@@ -63,13 +63,6 @@ void CC PolyF4_Init_4F8830(Poly_F4* pPrim)
     SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyF4);
 }
 
-void CC PolyFT4_Init_4F8870(Poly_FT4* pPrim)
-{
-    SetNumLongs(&pPrim->mBase.header, 9);
-    SetUnknown(&pPrim->mBase.header);
-    SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyFT4);
-}
-
 void PolyGT4_Init(Poly_GT4* pPrim)
 {
     SetNumLongs(&pPrim->mBase.header, 99); // TODO: Num longs never used by anything? 
