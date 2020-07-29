@@ -106,7 +106,7 @@ enum class Types : __int16
     eSligSpawner_91 = 91,
     eZBall_92 = 92,
     eParticle_93 = 93,
-
+    eZapLine_94 = 94,
     eBeeSwarm_95 = 95,
     eBeeNest_96 = 96,
     eLever_97 = 97,
