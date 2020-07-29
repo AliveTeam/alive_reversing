@@ -36,7 +36,7 @@ public:
 
     EXPORT __int16 VTakeDamage_43AC40(BaseGameObject* pFrom);
 
-    virtual void VOnThrowableHit(BaseGameObject* pFrom);
+    virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
 
     EXPORT void VOnThrowableHit_43AB90(BaseGameObject* pFrom);
 

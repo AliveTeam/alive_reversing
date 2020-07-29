@@ -4409,7 +4409,7 @@ namespace Test
             memset(off_578330, 0, 380);
 
             Poly_FT4 polyFT4 = {};
-            PolyFT4_Init_4F8870(&polyFT4);
+            PolyFT4_Init(&polyFT4);
             SetRGB0(&polyFT4, 255, 0, 255);
             SetXY0(&polyFT4, 20, 50);
             SetXY1(&polyFT4, 20, 50 + 50);

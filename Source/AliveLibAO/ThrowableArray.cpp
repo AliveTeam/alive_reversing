@@ -77,6 +77,9 @@ EXPORT void CC LoadRockTypes_454370(LevelIds levelNumber, unsigned __int16 path)
             ResourceManager::LoadResourceFile_4551E0("PUIROCK.BAN", 0, 0, 0);
         }
         break;
+
+    default:
+        break;
     }
 
     if (bDoLoadingLoop)

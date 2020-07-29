@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   ScreenWave.hpp
+   ScreenWave.cpp
    UXB.hpp
    UXB.cpp
    StringFormatters.hpp
