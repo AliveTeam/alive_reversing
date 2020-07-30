@@ -68,6 +68,7 @@
 #include "UXB.hpp"
 #include "Scrab.hpp"
 #include "Paramite.hpp"
+#include "MovingBomb.hpp"
 
 START_NS_AO
 
@@ -2191,9 +2192,46 @@ EXPORT void Factory_SwitchStates_4871D0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvIt
 }
 
 
-EXPORT void Factory_MovingBomb_484E00(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_MovingBomb_484E00(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    auto pMovingBombTlv = static_cast<Path_MovingBomb*>(pTlv);
+
+    if (loadMode == 1 || loadMode == 2)
+    {
+        ResourceManager::LoadResource_446C90("D1MBOMB.BAN", ResourceManager::Resource_Animation, 3006, loadMode, 0);
+        ResourceManager::LoadResource_446C90("EXPLO2.BAN", ResourceManager::Resource_Animation, 301, loadMode, 0);
+        ResourceManager::LoadResource_446C90("METAL.BAN", ResourceManager::Resource_Animation, 365, loadMode, 0);
+        ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, 25, loadMode, pMovingBombTlv->field_22_disabled_resources & 1);
+        ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, 217, loadMode, pMovingBombTlv->field_22_disabled_resources & 4);
+
+        if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
+        {
+            ResourceManager::LoadResource_446C90("ABEE1PAL.BAN", ResourceManager::Resource_Palt, 25, loadMode, 0);
+            ResourceManager::LoadResource_446C90("DOGE1PAL.BAN", ResourceManager::Resource_Palt, 576, loadMode, 0);
+        }
+    }
+    else
+    {
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 3006, 0, 0) ||
+            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 301, 0, 0) ||
+            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 365, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        if (!(pMovingBombTlv->field_22_disabled_resources & 1) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 25, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        auto pMovingBomb = ao_new<MovingBomb>();
+        if (pMovingBomb)
+        {
+            pMovingBomb->ctor_43AFE0(pMovingBombTlv, tlvOffsetLevelIdPathId.all);
+        }
+    }
 }
 
 

@@ -112,7 +112,7 @@ enum class Types : __int16
     eLever_97 = 97,
     eTrapDoor_98 = 98,
     eUXB_99 = 99,
-
+    eMovie_100 = 100,
     eWell_101 = 101,
 
     eElectrocute_103 = 103,
