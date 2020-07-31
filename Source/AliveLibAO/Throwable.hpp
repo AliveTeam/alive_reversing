@@ -19,7 +19,7 @@ public:
 
     }
 
-    virtual void VThrow_41ED90(FP /*velX*/, FP /*velY*/)
+    virtual void VThrow(FP /*velX*/, FP /*velY*/)
     {
 
     }
