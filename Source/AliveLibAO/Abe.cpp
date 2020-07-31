@@ -1516,6 +1516,35 @@ void Abe::CrouchingGameSpeak_427F90()
     NOT_IMPLEMENTED();
 }
 
+void Abe::FallOnBombs_4231B0()
+{
+    PSX_RECT bOurRect = {};
+    VGetBoundingRect(&bOurRect, 1);
+
+    for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    {
+        BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
+        if (!pObjIter)
+        {
+            break;
+        }
+
+        if (pObjIter->field_4_typeId == Types::eMine_57 || pObjIter->field_4_typeId == Types::eUXB_99)
+        {
+            PSX_RECT objRect = {};
+            pObjIter->VGetBoundingRect(&objRect, 1);
+
+            if (bOurRect.x <= objRect.w
+                && bOurRect.w >= objRect.x
+                && bOurRect.h >= objRect.y
+                && bOurRect.y <= objRect.h)
+            {
+                pObjIter->VTakeDamage(this);
+            }
+        }
+    }
+}
+
 void Abe::vScreenChanged_422640()
 {
     if (sControlledCharacter_50767C == this || 
@@ -2832,7 +2861,28 @@ void Abe::State_128_KnockForward_429330()
 
 void Abe::State_129_RollingKnockForward_4294F0()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_92_current_frame == 12)
+    {
+        FallOnBombs_4231B0();
+    }
+
+    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEvent_10, this);
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    {
+        if (field_114_gnFrame <= static_cast<int>(gnFrameCount_507670))
+        {
+            if (field_100_health > FP_FromInteger(0) || gAbeInvunerableCheat_5076E4)
+            {
+                field_FC_current_motion = eAbeStates::State_130_KnockForwardGetUp_429560;
+            }
+            else
+            {
+                ToDieFinal_42C400();
+            }
+        }
+    }
 }
 
 void Abe::State_130_KnockForwardGetUp_429560()

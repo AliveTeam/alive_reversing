@@ -291,6 +291,8 @@ public:
 
     EXPORT void CrouchingGameSpeak_427F90();
 
+    EXPORT void FallOnBombs_4231B0();
+
     // States
     EXPORT void State_0_Idle_423520();
     EXPORT void State_1_WalkLoop_423F90();
