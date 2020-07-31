@@ -190,7 +190,7 @@ virtual void VScreenChanged() override
 
     line = line.replace("(LOBYTE(field_10_anim.field_4_flags) >> 4) & 1", "field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX)")
 
-    line = line.replace("(field_10_anim.field_4_flags & 0x20000)", "(field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))")
+    line = line.replace("( field_10_anim.field_4_flags & 0x20000 )", "(field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))")
 
 
 #if ((LOBYTE(field_10_anim.field_4_flags) >> 4) & 1)
