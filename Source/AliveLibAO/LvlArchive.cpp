@@ -23,6 +23,17 @@ EXPORT void CC LvlArchive::dtor_static_41BBB0()
     }
 }
 
+EXPORT void CC LvlArchive::ctor_static_443E70()
+{
+    atexit(dtor_static_443E80);
+}
+
+
+EXPORT void CC LvlArchive::dtor_static_443E80()
+{
+    stru_507C90.Free_41BEB0();
+}
+
 EXPORT void LvlArchive::OpenArchive_41BC60(int /*pos*/)
 {
     NOT_IMPLEMENTED();
