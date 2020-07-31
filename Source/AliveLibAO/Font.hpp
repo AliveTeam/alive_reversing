@@ -10,6 +10,10 @@ START_NS_AO
 class FontContext
 {
 public:
+    EXPORT static void CC static_ctor_41C010();
+
+    EXPORT static void CC static_dtor_41C020();
+
     EXPORT __int16 LoadFontType_41C040(int);
 
 
@@ -18,7 +22,7 @@ public:
 
     __int16 field_0;
     __int16 field_2;
-    int field_4;
+    PSX_Point field_4;
     int field_8;
     __int16 field_C_resource_id;
     __int16 field_E;

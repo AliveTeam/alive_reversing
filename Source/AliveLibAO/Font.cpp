@@ -12,6 +12,19 @@ ALIVE_VAR(1, 0x5080E4, short, sDisableFontFlicker_5080E4, 0);
 ALIVE_VAR(1, 0x508BF4, BYTE, sFontDrawScreenSpace_508BF4, 0);
 
 
+void CC FontContext::static_ctor_41C010()
+{
+    atexit(static_dtor_41C020);
+}
+
+void CC FontContext::static_dtor_41C020()
+{
+    if (sFontContext_4FFD68.field_0)
+    {
+        Vram_free_450CE0({ sFontContext_4FFD68.field_0, sFontContext_4FFD68.field_2 }, sFontContext_4FFD68.field_4);
+    }
+}
+
 EXPORT __int16 FontContext::LoadFontType_41C040(int)
 {
     NOT_IMPLEMENTED();
