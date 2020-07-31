@@ -26,7 +26,7 @@ enum class LevelIds : __int16
     eDesertEscape = 15,
 };
 
-enum TlvTypes
+enum TlvTypes : __int16
 {
     ContinuePoint_0 = 0,
     PathTransition_1 = 1,

@@ -8,6 +8,7 @@
 #include "BeeSwarm.hpp"
 #include "stdlib.hpp"
 #include "ResourceManager.hpp"
+#include "Game.hpp"
 
 START_NS_AO
 
@@ -88,9 +89,69 @@ BaseGameObject* BaseAliveGameObject::Vdtor_402540(signed int flags)
     return this;
 }
 
-void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(int /*distance*/)
+void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(int distance)
 {
-    NOT_IMPLEMENTED();
+    if (field_F4_pLine)
+    {
+        PathLine* pLine = nullptr;
+        FP hitX = {};
+        FP hitY = {};
+
+        const int mask = field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70;
+        if (sCollisions_DArray_504C6C->RayCast_40C410(
+            field_A8_xpos,
+            field_AC_ypos - FP_FromInteger(distance),
+            field_A8_xpos,
+            field_AC_ypos + FP_FromInteger(distance),
+            &pLine,
+            &hitX,
+            &hitY,
+            mask))
+        {
+            field_F4_pLine = pLine;
+            field_AC_ypos = hitY;
+            if (field_F8_pLiftPoint)
+            {
+                if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
+                {
+                    field_F8_pLiftPoint->field_C_refCount--;
+                    field_F8_pLiftPoint = nullptr;
+
+                    PSX_RECT bRect = {};
+                    VGetBoundingRect(&bRect, 1);
+                    bRect.y += 5;
+                    bRect.h += 5;
+
+                    VOnCollisionWith(
+                        { bRect.x, bRect.y },
+                        { bRect.w, bRect.h },
+                        ObjListPlatforms_50766C,
+                        1,
+                        (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                }
+            }
+        }
+        else
+        {
+            field_F0_pTlv = gMap_507BA8.TLV_First_Of_Type_In_Camera_4464A0(TlvTypes::StartController_28, 0);
+            if (field_F0_pTlv)
+            {
+                if (sCollisions_DArray_504C6C->RayCast_40C410(
+                    field_A8_xpos,
+                    FP_FromInteger(field_F0_pTlv->field_10_top_left.field_2_y),
+                    field_A8_xpos,
+                    FP_FromInteger(field_F0_pTlv->field_14_bottom_right.field_2_y),
+                    &pLine,
+                    &hitX,
+                    &hitY,
+                    mask))
+                {
+                    field_F4_pLine = pLine;
+                    field_AC_ypos = hitY;
+                }
+            }
+        }
+    }
 }
 
 __int16 BaseAliveGameObject::MapFollowMe_401D30(__int16 /*snapToGrid*/)

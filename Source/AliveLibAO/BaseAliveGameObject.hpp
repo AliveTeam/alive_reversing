@@ -63,9 +63,6 @@ public:
     virtual void VOnTrapDoorOpen() {}
 
     
-
-    EXPORT void VCheckCollisionLineStillValid_401A90(int distance);
-
     EXPORT __int16 MapFollowMe_401D30(__int16 snapToGrid);
 
     EXPORT void SetActiveCameraDelayedFromDir_401C90();
@@ -89,6 +86,8 @@ public:
     EXPORT void sub_4020D0();
 
     EXPORT static BaseGameObject* CC FindObjectOfType_418280(Types typeToFind, FP xpos, FP ypos);
+
+    EXPORT void VCheckCollisionLineStillValid_401A90(int distance);
 
     FP_RECT field_D4_collection_rect;
     __int16 field_E4;
