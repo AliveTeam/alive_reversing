@@ -88,6 +88,8 @@ public:
 
     EXPORT void sub_4020D0();
 
+    EXPORT static BaseGameObject* CC FindObjectOfType_418280(Types typeToFind, FP xpos, FP ypos);
+
     FP_RECT field_D4_collection_rect;
     __int16 field_E4;
     __int16 field_E6_last_anim_frame;

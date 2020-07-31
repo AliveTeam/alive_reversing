@@ -374,4 +374,36 @@ void BaseAliveGameObject::sub_4020D0()
     }
 }
 
+BaseGameObject* CC BaseAliveGameObject::FindObjectOfType_418280(Types typeToFind, FP xpos, FP ypos)
+{
+    const int xpos_int = FP_GetExponent(xpos);
+    const int ypos_int = FP_GetExponent(ypos);
+
+    for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    {
+        BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_4_typeId == typeToFind)
+        {
+            auto pObj2 = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
+
+            PSX_RECT bRect = {};
+            pObj2->VGetBoundingRect(&bRect, 1);
+
+            if (xpos_int >= bRect.x &&
+                xpos_int <= bRect.w &&
+                ypos_int >= bRect.y &&
+                ypos_int <= bRect.h)
+            {
+                return pObj;
+            }
+        }
+    }
+    return nullptr;
+}
+
 END_NS_AO
