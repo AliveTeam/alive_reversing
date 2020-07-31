@@ -25,7 +25,12 @@ EXPORT void CC InputObject::Shutdown_433230()
 
 bool InputObject::isPressed(DWORD command)
 {
-  return (this->field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed & command) != 0;
+    return (this->field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed & command) != 0;
+}
+
+bool InputObject::isHeld(DWORD command)
+{
+    return (this->field_0_pads[sCurrentControllerIndex_5076B8].field_6_held & command) != 0;
 }
 
 BOOL CC Input_IsChanting_4334C0()

@@ -183,6 +183,18 @@ virtual void VScreenChanged() override
 
     line = line.replace("BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(this,", "Animation_Init_417FD0(")
 
+    line = line.replace("( (BYTE2(field_10_anim.field_4_flags) >> 1) & 1 )", "(field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))")
+
+    line = line.replace("Event_Broadcast_417220(0, this)", "Event_Broadcast_417220(kEvent_0, this)")
+    line = line.replace("Event_Broadcast_417220(10, this)", "Event_Broadcast_417220(kEvent_10, this)")
+
+    line = line.replace("(LOBYTE(field_10_anim.field_4_flags) >> 4) & 1", "field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX)")
+
+    line = line.replace("( field_10_anim.field_4_flags & 0x20000 )", "(field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))")
+
+
+#if ((LOBYTE(field_10_anim.field_4_flags) >> 4) & 1)
+    
     pos = line.find("field_0_VTbl")
     if pos == -1:
         pos = line.find("field_0_VTable")

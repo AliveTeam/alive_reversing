@@ -13,6 +13,10 @@ public:
 
     EXPORT BaseGameObject* dtor_41ECD0();
 
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+
+    EXPORT Grenade* Vdtor_41F9F0(signed int flags);
+
     __int16 field_110_state;
     __int16 field_112_explode_timer;
     int field_114;

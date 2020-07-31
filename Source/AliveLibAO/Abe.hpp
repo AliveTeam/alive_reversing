@@ -287,6 +287,14 @@ public:
 
     EXPORT void SyncToElum_42D850(__int16 elumMotion);
 
+    EXPORT void PickUpThrowabe_Or_PressBomb_428260(FP fpX, int fpY, __int16 bStandToCrouch);
+
+    EXPORT void CrouchingGameSpeak_427F90();
+
+    EXPORT void FallOnBombs_4231B0();
+
+    EXPORT __int16 ToLeftRightMovement_422AA0();
+
     // States
     EXPORT void State_0_Idle_423520();
     EXPORT void State_1_WalkLoop_423F90();
@@ -455,7 +463,7 @@ public:
     EXPORT void State_164_PoisonGasDeath_42A120();
 
     __int16 field_10C_prev_held;
-    __int16 field_10E;
+    __int16 field_10E_released_buttons;
     __int16 field_110_state;
     __int16 field_112_prev_motion;
     int field_114_gnFrame;
