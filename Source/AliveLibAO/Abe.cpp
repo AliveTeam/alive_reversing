@@ -2441,7 +2441,21 @@ void Abe::State_71_KnockbackGetUp_429240()
 
 void Abe::State_72_PushWall_4292A0()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEvent_10, this);
+
+    if (field_10_anim.field_92_current_frame == 10)
+    {
+        if (Math_NextRandom() <= 127u)
+        {
+            Abe_SFX_2_42A220(10u, 0, 0x7FFF, this);
+        }
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToIdle_422D50();
+    }
 }
 
 void Abe::State_73_RollingKnockback_4291D0()
