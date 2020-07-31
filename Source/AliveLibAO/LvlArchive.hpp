@@ -4,9 +4,14 @@
 
 START_NS_AO
 
+
 class LvlArchive
 {
 public:
+    EXPORT static void CC ctor_static_41BBA0();
+
+    EXPORT static void CC dtor_static_41BBB0();
+
     EXPORT void OpenArchive_41BC60(int pos);
 
     EXPORT __int16 Free_41BEB0();

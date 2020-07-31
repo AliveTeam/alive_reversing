@@ -33,6 +33,9 @@
 #include "HintFly.hpp"
 #include "ZapLine.hpp"
 #include "ScreenWave.hpp"
+#include "Dove.hpp"
+#include "LvlArchive.hpp"
+#include "Font.hpp"
 #include "../AliveLibAE/config.h" // TODO: Change location
 
 START_NS_AO
@@ -44,11 +47,11 @@ void WinMain_ForceLink()
 
 void Static_Inits_AO()
 {
-    //Dove::static_ctor_40EE10();
-    //LvlArchive::ctor_static_41BBA0();
-    //FontContext::static_ctor_41C010();
+    Dove_static_ctor_40EE10();
+    LvlArchive::ctor_static_41BBA0();
+    FontContext::static_ctor_41C010();
     Map::ctor_static_443E10();
-    //LvlArchive::ctor_static_443E70();
+    LvlArchive::ctor_static_41BBA0();
 }
 
 void ForceLinks()
