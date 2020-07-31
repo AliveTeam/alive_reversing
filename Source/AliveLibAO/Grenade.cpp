@@ -90,5 +90,19 @@ BaseGameObject* Grenade::dtor_41ECD0()
     return dtor_401000();
 }
 
-END_NS_AO
+BaseGameObject* Grenade::VDestructor(signed int flags)
+{
+    return Vdtor_41F9F0(flags);
+}
 
+Grenade* Grenade::Vdtor_41F9F0(signed int flags)
+{
+    dtor_41ECD0();
+    if (flags & 1)
+    {
+        ao_delete_free_447540(this);
+    }
+    return this;
+}
+
+END_NS_AO

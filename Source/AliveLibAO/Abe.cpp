@@ -28,6 +28,7 @@
 #include "Math.hpp"
 #include "Input.hpp"
 #include "Grenade.hpp"
+#include "Collisions.hpp"
 
 START_NS_AO;
 
@@ -1355,7 +1356,7 @@ void Abe::ToIdle_422D50()
     field_114_gnFrame = gnFrameCount_507670;
     field_FC_current_motion = eAbeStates::State_0_Idle_423520;
     field_10C_prev_held = 0;
-    field_10E = 0;
+    field_10E_released_buttons = 0;
 }
 
 void Abe::sub_422FC0()
@@ -1406,6 +1407,111 @@ eAbeStates Abe::DoGameSpeak_42F5C0(unsigned __int16 /*input*/)
 }
 
 void Abe::SyncToElum_42D850(__int16 /*elumMotion*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+
+void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, int fpY, __int16 bStandToCrouch)
+{
+     BaseAliveGameObject* pSlapableOrCollectable = nullptr;
+    for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    {
+        BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_6_flags.Get(BaseGameObject::eInteractive_Bit8))
+        {
+            BaseAliveGameObject* pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
+            if (fpX >= pAliveObj->field_D4_collection_rect.x &&
+                fpX <= pAliveObj->field_D4_collection_rect.w)
+            {
+                const FP yPos = FP_FromInteger(fpY);
+                if (yPos >= pAliveObj->field_D4_collection_rect.y &&
+                    yPos <= pAliveObj->field_D4_collection_rect.h)
+                {
+                    pSlapableOrCollectable = pAliveObj;
+                    pSlapableOrCollectable->field_C_refCount++;
+                    field_15C_pThrowable = static_cast<BaseThrowable*>(pSlapableOrCollectable);
+                    break;
+                }
+            }
+        }
+    }
+
+    
+    if (pSlapableOrCollectable)
+    {
+        bool tryToSlapOrCollect = false;
+
+        switch (pSlapableOrCollectable->field_4_typeId)
+        {
+        case Types::eTimedMine_8:
+        case Types::eUXB_99:
+            field_FC_current_motion = eAbeStates::State_127_SlapBomb_429A20;
+            if (bStandToCrouch)
+            {
+                field_15C_pThrowable = nullptr;
+                field_15C_pThrowable->field_C_refCount;
+            }
+            tryToSlapOrCollect = true;
+            break;
+
+        case Types::eGrenade_40:
+        case Types::eMeat_54:
+        case Types::eRock_70:
+            field_FC_current_motion = eAbeStates::State_149_PickupItem_42A030;
+            field_19C_throwable_count += static_cast<char>(field_15C_pThrowable->VGetCount());
+
+            if (!bThrowableIndicatorExists_504C70)
+            {
+                auto pThrowableIndicator = ao_new<ThrowableTotalIndicator>();
+                if (pThrowableIndicator)
+                {
+                    const FP v16 = (field_BC_sprite_scale * FP_FromInteger(-30)) + field_AC_ypos;
+                    pThrowableIndicator->ctor_41B520(
+                        (field_BC_sprite_scale * FP_FromInteger(0)) + field_A8_xpos,
+                        v16,
+                        field_10_anim.field_C_layer,
+                        field_10_anim.field_14_scale,
+                        field_19C_throwable_count,
+                        1);
+                }
+            }
+            tryToSlapOrCollect = true;
+            break;
+
+        case Types::eMine_57:
+            field_15C_pThrowable = nullptr;
+            field_15C_pThrowable->field_C_refCount;
+            tryToSlapOrCollect = true;
+            break;
+
+        default:
+            return;
+        }
+
+        if (tryToSlapOrCollect)
+        {
+            if (field_FC_current_motion == eAbeStates::State_149_PickupItem_42A030)
+            {
+                if (bStandToCrouch)
+                {
+                    SFX_Play_43AD70(33u, 0, this);
+                    field_15C_pThrowable->field_C_refCount--;
+                    field_15C_pThrowable->VOnPickUpOrSlapped();
+                    field_15C_pThrowable = nullptr;
+                    field_FC_current_motion = eAbeStates::State_19_CrouchIdle_4284C0;
+                }
+            }
+        }
+    }
+}
+
+void Abe::CrouchingGameSpeak_427F90()
 {
     NOT_IMPLEMENTED();
 }
@@ -1642,7 +1748,155 @@ void Abe::State_18_HoistLand_426EB0()
 
 void Abe::State_19_CrouchIdle_4284C0()
 {
-    NOT_IMPLEMENTED();
+    if (!field_F4_pLine)
+    {
+        field_FC_current_motion = eAbeStates::State_100_RollOffLedge_429950;
+        return;
+    }
+
+    FollowLift_42EE90();
+
+    if ((sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed & 5) == 5 &&
+        sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_6_held & 5)
+    {
+        Abe_SFX_42A4D0(15u, 0, 0, this);
+        field_FC_current_motion = eAbeStates::State_23_CrouchSpeak_428A90;
+        return;
+    }
+
+    // Crouching game speak
+    CrouchingGameSpeak_427F90();
+
+    field_10C_prev_held = 0;
+    field_10E_released_buttons = 0;
+
+    if (field_FC_current_motion == eAbeStates::State_22_CrouchSpeak_428A30 || field_FC_current_motion == eAbeStates::State_23_CrouchSpeak_428A90)
+    {
+        Event_Broadcast_417220(kEvent_1, this);
+        return;
+    }
+
+
+    // Hit bombs/pick up items ?
+    if (sInputObject_5009E8.isHeld(sInputKey_DoAction_4C65A4))
+    {
+        if (!sInputObject_5009E8.isPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
+        {
+            FP gridSize = {};
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit10_alternating_flag))
+            {
+                gridSize = -ScaleToGridSize_41FA30(field_BC_sprite_scale);
+            }
+            else
+            {
+                gridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
+            }
+
+            PickUpThrowabe_Or_PressBomb_428260(
+                gridSize + field_A8_xpos,
+                FP_GetExponent(field_AC_ypos - FP_FromInteger(5)),
+                0);
+        }
+    }
+
+
+    // Crouching throw stuff
+    if (sInputObject_5009E8.isHeld(sInputKey_ThrowItem_4C65B4))
+    {
+        if (field_FC_current_motion == eAbeStates::State_19_CrouchIdle_4284C0)
+        {
+            if (field_19C_throwable_count > 0 || gInfiniteGrenades_5076EC)
+            {
+                field_198_pThrowable = Make_Throwable_454560(
+                    field_A8_xpos,
+                    field_A8_xpos - FP_FromInteger(40),
+                    0);
+
+                if (!bThrowableIndicatorExists_504C70)
+                {
+                    auto pRockCountGraphic = ao_new<ThrowableTotalIndicator>();
+                    if (pRockCountGraphic)
+                    {
+                        const FP yOff = field_AC_ypos + (field_BC_sprite_scale * FP_FromInteger(-30));
+                        const FP xOff = field_BC_sprite_scale * (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(-10) : FP_FromInteger(10));
+                        pRockCountGraphic->ctor_41B520(
+                            field_A8_xpos + xOff,
+                            yOff,
+                            field_10_anim.field_C_layer,
+                            field_10_anim.field_14_scale,
+                            field_19C_throwable_count,
+                            1);
+                    }
+                }
+
+                field_FC_current_motion = eAbeStates::State_145_RockThrowCrouchingHold_428930;
+
+                if (!gInfiniteGrenades_5076EC)
+                {
+                    field_19C_throwable_count--;
+                }
+
+                return;
+            }
+        }
+
+        if (!field_19C_throwable_count && !gInfiniteGrenades_5076EC)
+        {
+            Abe_SFX_42A4D0(15u, 0, 0, this);
+            field_FC_current_motion = eAbeStates::State_23_CrouchSpeak_428A90;
+            return;
+        }
+    }
+
+     // Try to stand up
+    if (sInputObject_5009E8.isHeld(sInputKey_Up_4C6598) || sInputObject_5009E8.isHeld(sInputKey_FartRoll_4C65B0))
+    {
+        PathLine* pLine = nullptr;
+        FP hitX = {};
+        FP hitY = {};
+        if (!sCollisions_DArray_504C6C->RayCast_40C410(
+            field_A8_xpos,
+            field_AC_ypos,
+            field_A8_xpos,
+            field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(60)),
+            &pLine,
+            &hitX,
+            &hitY,
+            field_BC_sprite_scale != FP_FromDouble(0.5) ? 8 : 0x80))
+        {
+            field_FC_current_motion = eAbeStates::State_20_CrouchToStand_428AF0;
+            return;
+        }
+    }
+
+    // Crouching turns
+    if (sInputObject_5009E8.isPressed(sInputKey_Right_4C6590))
+    {
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            field_FC_current_motion = eAbeStates::State_39_CrouchTurn_4288C0;
+        }
+        else
+        {
+            field_FC_current_motion = eAbeStates::State_24_RollBegin_427A20;
+            field_10E_released_buttons = 0;
+        }
+    }
+
+    if (sInputObject_5009E8.isPressed(sInputKey_Left_4C6594))
+    {
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            field_FC_current_motion = eAbeStates::State_24_RollBegin_427A20;
+            field_10E_released_buttons = 0;
+        }
+        else
+        {
+            field_FC_current_motion = eAbeStates::State_39_CrouchTurn_4288C0;
+        }
+    }
+
+
 }
 
 void Abe::State_20_CrouchToStand_428AF0()
@@ -2594,7 +2848,7 @@ void Abe::State_130_KnockForwardGetUp_429560()
         field_114_gnFrame = gnFrameCount_507670;
         field_FC_current_motion = eAbeStates::State_0_Idle_423520;
         field_10C_prev_held = 0;
-        field_10E = 0;
+        field_10E_released_buttons = 0;
     }
 }
 

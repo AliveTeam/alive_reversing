@@ -7,6 +7,10 @@ START_NS_AO
 
 extern const Types word_4CF158[];
 
+class BaseThrowable;
+
+EXPORT BaseThrowable* CCSTD Make_Throwable_454560(FP xpos, FP ypos, __int16 count);
+
 class BaseThrowable : public BaseAliveGameObject
 {
 public:

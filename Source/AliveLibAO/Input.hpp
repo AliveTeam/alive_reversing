@@ -73,6 +73,8 @@ public:
     int field_2C;
 
     bool isPressed(DWORD command);
+
+    bool isHeld(DWORD command);
 };
 ALIVE_ASSERT_SIZEOF(InputObject, 0x30);
 
