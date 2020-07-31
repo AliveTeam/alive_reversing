@@ -27,6 +27,9 @@ public:
 
     EXPORT void VRender_4027F0(int** ppOt);
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_402660();
 private:
     __int16 field_68_r_value;
     __int16 field_6A_state;

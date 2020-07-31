@@ -7,6 +7,8 @@
 #include "SwitchStates.hpp"
 #include "stdlib.hpp"
 #include "CameraSwapper.hpp"
+#include "Events.hpp"
+#include "Sfx.hpp"
 
 START_NS_AO
 
@@ -83,6 +85,97 @@ void Alarm::VRender_4027F0(int** ppOt)
     {
         EffectBase::VRender_461690(ppOt);
     }
+}
+
+
+void Alarm::VUpdate()
+{
+    VUpdate_402660();
+}
+
+void Alarm::VUpdate_402660()
+{
+    Event_Broadcast_417220(kEvent_17, this);
+
+    if (field_10_path_id != gMap_507BA8.field_2_current_path ||
+        field_12_level_id != gMap_507BA8.field_0_current_level ||
+        static_cast<int>(gnFrameCount_507670) > field_70_duration_timer)
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        return;
+    }
+
+    switch (field_6A_state)
+    {
+    case 0:
+        if (Event_Get_417250(kEvent_3))
+        {
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            return;
+        }
+
+        if (static_cast<int>(gnFrameCount_507670) > field_6C_15_timer)
+        {
+            field_6A_state = 1;
+
+            SFX_Play_43AD70(45u, 0, 0);
+
+            if (field_74_switch_id)
+            {
+                SwitchStates_Set(field_74_switch_id, 1);
+            }
+        }
+        break;
+
+    case 1:
+        field_68_r_value += 25;
+
+        if (field_68_r_value >= 100)
+        {
+            field_68_r_value = 100;
+            field_6C_15_timer = gnFrameCount_507670 + 15;
+            field_6A_state = 2;
+            SFX_Play_43AD70(45u, 0, 0);
+        }
+        break;
+
+    case 2:
+        if (static_cast<int>(gnFrameCount_507670) > field_6C_15_timer)
+        {
+            field_6A_state = 3;
+        }
+        break;
+
+    case 3:
+        field_68_r_value -= 25;
+
+        if (field_68_r_value <= 0)
+        {
+            field_68_r_value = 0;
+            field_6C_15_timer = gnFrameCount_507670 + 15;
+            field_6A_state = 4;
+        }
+        break;
+
+    case 4:
+        if (Event_Get_417250(kEvent_3))
+        {
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            return;
+        }
+
+        if (static_cast<int>(gnFrameCount_507670) > field_6C_15_timer)
+        {
+            field_6A_state = 1;
+            SFX_Play_43AD70(45u, 0, 0);
+        }
+        break;
+
+    default:
+        break;
+    }
+
+    field_5E_r = field_68_r_value;
 }
 
 void Alarm::VRender(int** ppOt)

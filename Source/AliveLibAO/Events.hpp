@@ -11,6 +11,7 @@ enum Event : __int16
     kEvent_0 = 0,
     kEvent_1 = 1,
 
+    kEvent_3 = 3,
     kEventDeathReset_4 = 4,
     kEvent_5 = 5,
     kEventResetting_6 = 6,
@@ -24,6 +25,7 @@ enum Event : __int16
     kEvent_14 = 14,
     kEvent_15 = 15,
     kEvent_16 = 16,
+    kEvent_17 = 17,
 
     kEventScreenShake_19 = 19,
 };
