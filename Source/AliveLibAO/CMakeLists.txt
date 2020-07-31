@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   GameEnderController.hpp
+   GameEnderController.cpp
    MovingBomb.hpp
    MovingBomb.cpp
    ScreenWave.hpp

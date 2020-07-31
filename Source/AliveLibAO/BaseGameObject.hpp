@@ -48,7 +48,7 @@ enum class Types : __int16
     eFlintLockFire_34 = 34,
     eThrowableTotalIndicator_35 = 35,
     eFootSwitch36 = 36,
-
+    eGameEnderController_37 = 37,
     eDeathBird_38 = 38,
 
     eGrenade_40 = 40,
