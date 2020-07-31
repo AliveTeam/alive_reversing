@@ -1545,6 +1545,12 @@ void Abe::FallOnBombs_4231B0()
     }
 }
 
+__int16 Abe::ToLeftRightMovement_422AA0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 void Abe::vScreenChanged_422640()
 {
     if (sControlledCharacter_50767C == this || 
@@ -1935,7 +1941,16 @@ void Abe::State_20_CrouchToStand_428AF0()
 
 void Abe::State_21_StandToCrouch_427F40()
 {
-    NOT_IMPLEMENTED();
+    FollowLift_42EE90();
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        PickUpThrowabe_Or_PressBomb_428260(
+            field_A8_xpos,
+            FP_GetExponent(field_AC_ypos - FP_FromInteger(5)),
+            1);
+        field_FC_current_motion = eAbeStates::State_19_CrouchIdle_4284C0;
+    }
 }
 
 void Abe::State_22_CrouchSpeak_428A30()
@@ -1950,7 +1965,33 @@ void Abe::State_23_CrouchSpeak_428A90()
 
 void Abe::State_24_RollBegin_427A20()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+    }
+    else
+    {
+        field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+    }
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(20), field_B4_velx))
+    {
+        ToKnockback_422D90(1, 1);
+
+        field_FC_current_motion = eAbeStates::State_73_RollingKnockback_4291D0;
+    }
+    else
+    {
+        sub_422FC0();
+
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            if (field_FC_current_motion == eAbeStates::State_24_RollBegin_427A20)
+            {
+                field_FC_current_motion = eAbeStates::State_25_RollLoop_427BB0;
+            }
+        }
+    }
 }
 
 void Abe::State_25_RollLoop_427BB0()
@@ -1960,7 +2001,28 @@ void Abe::State_25_RollLoop_427BB0()
 
 void Abe::State_26_RollEnd_427EA0()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEvent_10, this);
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(20), field_B4_velx))
+    {
+        ToKnockback_422D90(1, 1);
+        field_FC_current_motion = eAbeStates::State_73_RollingKnockback_4291D0;
+    }
+    else
+    {
+        sub_422FC0();
+
+        if (field_FC_current_motion == eAbeStates::State_26_RollEnd_427EA0)
+        {
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                MapFollowMe_401D30(1);
+                field_FC_current_motion = eAbeStates::State_19_CrouchIdle_4284C0;
+                field_B4_velx = FP_FromInteger(0);
+            }
+        }
+    }
 }
 
 void Abe::State_27_RunSlideStop_425B60()
@@ -1985,7 +2047,25 @@ void Abe::State_30_HopMid_4264D0()
 
 void Abe::State_31_HopLand_426940()
 {
-    NOT_IMPLEMENTED();
+    FollowLift_42EE90();
+
+    if (field_10_anim.field_92_current_frame == 2  &&
+        sInputObject_5009E8.isPressed(sInputKey_Hop_4C65A0))
+    {
+        field_2A8_flags.Set(Flags_2A8::e2A8_Bit2);
+        field_E4 = eAbeStates::State_29_HopBegin_4267B0;
+        field_E6_last_anim_frame = 5;
+    }
+    else
+    {
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            if (!ToLeftRightMovement_422AA0())
+            {
+                ToIdle_422D50();
+            }
+        }
+    }
 }
 
 void Abe::State_32_RunJumpBegin_427440()
@@ -2055,7 +2135,35 @@ void Abe::State_39_CrouchTurn_4288C0()
 
 void Abe::State_40_RunToRoll_427AE0()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEvent_10, this);
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+    }
+    else
+    {
+        field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+    }
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(20), field_B4_velx))
+    {
+        ToKnockback_422D90(1, 1);
+        field_FC_current_motion = eAbeStates::State_73_RollingKnockback_4291D0;
+    }
+    else
+    {
+        sub_422FC0();
+
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            if (field_FC_current_motion == eAbeStates::State_40_RunToRoll_427AE0)
+            {
+                field_FC_current_motion = eAbeStates::State_25_RollLoop_427BB0;
+            }
+        }
+    }
 }
 
 void Abe::State_41_StandingToRun_425530()
@@ -2146,12 +2254,42 @@ void Abe::State_55_RunTurnToWalk_425F70()
 
 void Abe::State_56_RunJumpLandRun_4278E0()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEvent_10, this);
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), field_B4_velx))
+    {
+        ToIdle_422D50();
+    }
+    else
+    {
+        sub_422FC0();
+
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_FC_current_motion = eAbeStates::State_35_RunLoop_425060;
+        }
+    }
 }
 
 void Abe::State_57_RunJumpLand_Walk_427980()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEvent_10, this);
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), field_B4_velx))
+    {
+        ToIdle_422D50();
+    }
+    else
+    {
+        sub_422FC0();
+
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_FC_current_motion = eAbeStates::State_1_WalkLoop_423F90;
+        }
+    }
 }
 
 void Abe::State_58_ToSpeak_42F8D0()
@@ -2699,7 +2837,17 @@ void Abe::State_98_LandSoft_42ED40()
 
 void Abe::State_99_LedgeHoistUp_426DC0()
 {
-    NOT_IMPLEMENTED();
+    FollowLift_42EE90();
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_E8_LastLineYPos = field_AC_ypos;
+        field_B8_vely = (field_BC_sprite_scale * FP_FromInteger(-8)) * FP_FromDouble(1.3);
+        field_AC_ypos += field_B8_vely;
+        VOnTrapDoorOpen();
+        field_FC_current_motion = eAbeStates::State_17_HoistIdle_4269E0;
+        field_F4_pLine = nullptr;
+    }
 }
 
 void Abe::State_100_RollOffLedge_429950()

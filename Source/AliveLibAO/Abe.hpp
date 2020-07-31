@@ -293,6 +293,8 @@ public:
 
     EXPORT void FallOnBombs_4231B0();
 
+    EXPORT __int16 ToLeftRightMovement_422AA0();
+
     // States
     EXPORT void State_0_Idle_423520();
     EXPORT void State_1_WalkLoop_423F90();
