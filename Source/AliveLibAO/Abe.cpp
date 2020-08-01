@@ -4091,57 +4091,57 @@ void Abe::State_103_ElumIdle_42DCD0()
 
 void Abe::State_104_ElumRunSlideStop_42DF00()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_105_ElumRunTurn_42DF10()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_106_42DF20()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_107_ElumHopBegin_42DF30()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_108_ElumHopMid_42DF40()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_109_ElumHopLand_42DF50()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_110_ElumRunJumpBegin_42DF60()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_111_ElumRunJumpMid_42DF70()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_112_ElumRunJumpLand_42DF80()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_113_ElumTurn_42DF90()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_114_ElumRunLoop_42DFA0()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_115_ElumSpeak_4299F0()
@@ -4156,42 +4156,42 @@ void Abe::State_115_ElumSpeak_4299F0()
 
 void Abe::State_116_42DFB0()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_117_ElumWalkBegin_42DFC0()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_118_ElumRunBegin_42DFD0()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_119_42DFE0()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_120_ElumRunToWalk_42DFF0()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_121_ElumMidRunToWalk_42E000()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_122_ElumRunTurnToRun_42E010()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_123_ElumRunTurnToWalk_42E020()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_124_ElumWalkEnd_42DCB0()
@@ -4206,7 +4206,7 @@ void Abe::State_125_ElumMidWalkEnd_42DCC0()
 
 void Abe::State_126_ElumBeesStruggling_42E080()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_127_SlapBomb_429A20()
@@ -4580,22 +4580,22 @@ void Abe::State_151_ChantEnd_430530()
 
 void Abe::State_152_ElumFallOffEdge_42E030()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_153_ElumFall_42E040()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_154_ElumLand_42E050()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_155_ElumJumpToFall_42E060()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_156_DoorEnter_42D370()
@@ -4622,7 +4622,7 @@ void Abe::State_157_DoorExit_42D780()
 
 void Abe::State_158_ElumKnockback_42E070()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_159_423360()
