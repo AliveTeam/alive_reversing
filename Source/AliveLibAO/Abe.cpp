@@ -4730,7 +4730,22 @@ void Abe::State_162_ToShrykull_42F410()
 
 void Abe::State_163_ShrykullEnd_42F520()
 {
-    NOT_IMPLEMENTED();
+    if (field_114_gnFrame)
+    {
+        field_114_gnFrame = field_114_gnFrame - 1;
+    }
+    else if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    {
+        if (!field_168_ring_pulse_timer)
+        {
+            ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 117, 0, 0));
+            ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 121, 0, 0));
+            ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 355, 0, 0));
+        }
+
+        field_FC_current_motion = eAbeStates::State_9_Speak_42FA50;
+        Abe_SFX_42A4D0(8u, 0, 0, this);
+    }
 }
 
 void Abe::State_164_PoisonGasDeath_42A120()
