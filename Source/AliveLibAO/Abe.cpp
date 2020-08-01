@@ -2958,7 +2958,31 @@ void Abe::State_43_WalkToSneak_424790()
 
 void Abe::State_44_SneakToWalk_4249A0()
 {
-    NOT_IMPLEMENTED();
+    field_10C_prev_held |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
+    
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(9));
+    }
+    else
+    {
+        field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(9));
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_FC_current_motion = eAbeStates::State_1_WalkLoop_423F90;
+    }
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), field_B4_velx))
+    {
+        ToIdle_422D50();
+        MapFollowMe_401D30(1);
+    }
+    else
+    {
+        sub_422FC0();
+    }
 }
 
 void Abe::State_45_MidWalkToSneak_424890()
