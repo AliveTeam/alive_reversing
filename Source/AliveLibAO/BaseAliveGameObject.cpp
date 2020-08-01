@@ -15,12 +15,6 @@ START_NS_AO
 
 void BaseAliveGameObject_ForceLink() {}
 
-FP CC ScaleToGridSize_41FA30(FP /*scale*/)
-{
-    NOT_IMPLEMENTED();
-    return {};
-}
-
 ALIVE_VAR(1, 0x4FC8A0, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_4FC8A0, nullptr);
 
 BaseAliveGameObject *BaseAliveGameObject::ctor_401090()

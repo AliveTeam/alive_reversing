@@ -10,7 +10,6 @@ START_NS_AO
 void BaseAliveGameObject_ForceLink();
 
 
-EXPORT FP CC ScaleToGridSize_41FA30(FP scale);
 
 struct Path_TLV;
 class PlatformBase;
