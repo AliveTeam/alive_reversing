@@ -308,6 +308,8 @@ public:
 
     EXPORT static void CC Load_Basic_Resources_4228A0();
 
+    EXPORT void LoadMountElumResources_42E690();
+
     // States
     EXPORT void State_0_Idle_423520();
     EXPORT void State_1_WalkLoop_423F90();

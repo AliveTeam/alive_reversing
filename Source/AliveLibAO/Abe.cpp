@@ -2029,6 +2029,33 @@ void CC Abe::Load_Basic_Resources_4228A0()
     }
 }
 
+void Abe::LoadMountElumResources_42E690()
+{
+    ResourceManager::FreeResource_455550(field_1A4_resources.res[0]);
+    field_1A4_resources.res[0] = nullptr;
+
+    field_1A4_resources.res[10] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 20, 0, 0);
+    ResourceManager::FreeResource_455550(field_1A4_resources.res[10]);
+    field_1A4_resources.res[10] = nullptr;
+
+    field_1A4_resources.res[38] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 48, 0, 0);
+    ResourceManager::FreeResource_455550(field_1A4_resources.res[38]);
+    field_1A4_resources.res[38] = nullptr;
+
+    field_1A4_resources.res[9] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 19, 0, 0);
+    ResourceManager::FreeResource_455550(field_1A4_resources.res[9]);
+    field_1A4_resources.res[9] = nullptr;
+
+    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 115, 0, 0))
+    {
+        ResourceManager::LoadResourceFile_455270("ANEPRMNT.BAN", 0, 0);
+        field_1A4_resources.res[61] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 115, 1, 0);
+    }
+
+    field_104_pending_resource_count++;
+    ResourceManager::LoadResourceFile("ANEMOUNT.BND", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
+}
+
 void Abe::vScreenChanged_422640()
 {
     if (sControlledCharacter_50767C == this || 
