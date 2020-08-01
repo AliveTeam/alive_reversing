@@ -21,6 +21,7 @@
 #include "MusicTrigger.hpp"
 #include "SwitchStates.hpp"
 #include "Particle.hpp"
+#include "CameraSwapper.hpp"
 
 void Mud_ForceLink() {}
 
@@ -1420,12 +1421,20 @@ void Mudokon::State_9_MidWalkToIdle_43CFA0()
 
 void Mudokon::State_10_Unused_43D4D0()
 {
-    NOT_IMPLEMENTED();
+    if (sNumCamSwappers_507668 <= 0)
+    {
+        field_FC_current_motion = field_E4;
+        if (field_F8_pLiftPoint)
+        {
+            field_A8_xpos = FP_FromInteger((field_F4_pLine->field_0_rect.x + field_F4_pLine->field_0_rect.w) / 2);
+            field_AC_ypos = FP_FromInteger(field_F4_pLine->field_0_rect.y);
+        }
+    }
 }
 
 void Mudokon::State_11_Null_43D350()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Mudokon::State_12_LiftUse_43D360()
@@ -2402,7 +2411,32 @@ void Mudokon::State_51_Fall_43D0D0()
 
 void Mudokon::State_52_Chant_43D520()
 {
-    NOT_IMPLEMENTED();
+    if (!(gnFrameCount_507670 % -4))
+    {
+        const FP rndX = FP_FromInteger(40 * Math_NextRandom() / 256 - 20);
+        const FP rndY = FP_FromInteger(30 * Math_NextRandom() / 256 + 30);
+
+        New_Particle_4198E0(
+            field_A8_xpos + (field_BC_sprite_scale * rndX),
+            field_AC_ypos - (field_BC_sprite_scale * rndY),
+            field_BC_sprite_scale,
+            0);
+    }
+
+    if (!SND_SsIsEos_DeInlined_477930(12u))
+    {
+        SND_SEQ_Play_477760(12u, 1, 50, 50);
+    }
+
+    if (field_FE_next_state == eMudStates::State_0_Idle_43CA70)
+    {
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            SND_Seq_Stop_477A60(12u);
+            field_FC_current_motion = eMudStates::State_53_ChantEnd_43D640;
+            field_FE_next_state = -1;
+        }
+    }
 }
 
 void Mudokon::State_53_ChantEnd_43D640()
