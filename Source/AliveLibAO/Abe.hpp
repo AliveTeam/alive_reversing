@@ -186,6 +186,7 @@ class BirdPortal;
 class PulllRingRope;
 class CircularFade;
 class BaseThrowable;
+class Rope;
 
 enum Flags_2A8
 {
@@ -275,7 +276,7 @@ public:
 
     EXPORT void ToKnockback_422D90(__int16 bUnknownSound, __int16 bDelayedAnger);
 
-    EXPORT BYTE** StateToAnimResource_4204F0(int motion);
+    EXPORT BYTE** StateToAnimResource_4204F0(short motion);
 
     EXPORT void ToIdle_422D50();
 
@@ -298,6 +299,21 @@ public:
     EXPORT void MoveWithVelocity_4257F0(FP speed);
 
     EXPORT void ToNewElumSyncMotion_422520(short elum_frame);
+
+    EXPORT void SetActiveControlledCharacter_421480();
+
+    EXPORT Rope* GetPullRope_422580();
+
+    EXPORT void Free_Resources_422870();
+
+    EXPORT static void CC Load_Basic_Resources_4228A0();
+
+    EXPORT void LoadMountElumResources_42E690();
+
+    EXPORT void ElumKnockForward_42E780(int not_used);
+
+    EXPORT __int16 TryMountElum_42E600();
+
 
     // States
     EXPORT void State_0_Idle_423520();

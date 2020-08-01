@@ -13,7 +13,6 @@ START_NS_AO
 ALIVE_VAR(1, 0x5076B0, short, gBeeInstanceCount_5076B0, 0);
 ALIVE_VAR(1, 0x5076AC, short, word_5076AC, 0);
 
-
 BeeSwarm* BeeSwarm::ctor_47FC60(FP xpos, FP ypos, FP speed, signed __int16 numBees, int chaseTicks)
 {
     ctor_417C10();

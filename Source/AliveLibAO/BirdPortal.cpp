@@ -517,7 +517,7 @@ void BirdPortal::VUpdate_4523D0()
         }
         else
         {
-            VGiveShrukul_4535A0(0);
+            VGiveShrukull_4535A0(0);
             if (field_14_state != States::State_7)
             {
                 field_14_state = States::State_22;
@@ -828,11 +828,11 @@ __int16 BirdPortal::IsScaredAway_4532E0()
     return FALSE;
 }
 
-void BirdPortal::VGiveShrukul_4535A0(__int16 bPlaySound)
+void BirdPortal::VGiveShrukull_4535A0(__int16 bPlaySound)
 {
     if (field_10_portal_type == PortalType::eShrykull_2 && field_56_num_muds_for_shrykul <= 0)
     {
-        field_14_state = States::State_6;
+        field_14_state = States::State_7;
         field_30_timer = gnFrameCount_507670 + 12;
         field_58 = 0;
 

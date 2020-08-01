@@ -157,18 +157,18 @@ RollingBall* RollingBall::ctor_4578C0(Path_RollingBall* pTlv, int tlvInfo)
 }
 
 // Something to do with skipping gaps across camera ??
-FP CC sub_418590(FP xpos, FP xvel, __int16 xMargin, WORD* pResult)
+EXPORT FP CC sub_418590(FP xpos, FP xvel, __int16 xMargin, WORD* pResult)
 {
-    const int v1 = FP_GetExponent(xpos - FP_FromInteger(256)) / 512;
+    const FP v1 = xpos - FP_FromInteger(256);
 
-    const FP v4 = xpos - FP_FromInteger(v1);
-    const FP v5 = FP_FromInteger(FP_GetExponent(xpos) % v1);
+    const FP xDiv = FP_FromInteger(FP_GetExponent(v1) / 512);
+    const FP xMod = FP_FromInteger(FP_GetExponent(v1) % 512);
     
-    const int v6 = v1 % 2;
+    const int xDivEven = FP_GetExponent(xDiv) % 2;
 
     FP result = {};
-    if ((!v6 || v5 >= FP_FromInteger(xMargin - 512)) &&
-         (v6 || v5 <= FP_FromInteger(xMargin + 368)))
+    if ((!xDivEven || xMod >= FP_FromInteger(xMargin - 512)) &&
+         (xDivEven || xMod <= FP_FromInteger(xMargin + 368)))
     {
         *pResult = 0;
         result = xpos;
@@ -176,19 +176,19 @@ FP CC sub_418590(FP xpos, FP xvel, __int16 xMargin, WORD* pResult)
     else if (xvel <= FP_FromInteger(0))
     {
         *pResult = 1;
-        result = FP_FromInteger((v4.fpValue << 9) + xMargin + 112);
+        result = FP_FromInteger((xDiv.fpValue << 9) + xMargin + 112);
     }
     else
     {
-        if (v6)
+        if (xDivEven)
         {
             *pResult = 2;
-             result = FP_FromInteger((v4.fpValue << 9) - xMargin + 768);
+             result = FP_FromInteger((xDiv.fpValue << 9) - xMargin + 768);
         }
         else
         {
             *pResult = 2;
-             result = FP_FromInteger((v4.fpValue << 9) - xMargin + 1280);
+             result = FP_FromInteger((xDiv.fpValue << 9) - xMargin + 1280);
         }
     }
     return result;

@@ -2809,7 +2809,7 @@ EXPORT void Factory_KillUnsavedMuds_487DA0(Path_TLV* /*pTlv*/, Map* /*pMap*/, Tl
         if (!gbKillUnsavedMudsDone_5076CC)
         {
             gbKillUnsavedMudsDone_5076CC = 1;
-            sKilledMudokons_5076BC -= 28;
+            sKilledMudokons_5076BC = 28 - sRescuedMudokons_5076C0;
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 1);
         }
     }
