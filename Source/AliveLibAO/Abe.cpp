@@ -32,6 +32,7 @@
 #include "BirdPortal.hpp"
 #include "Rope.hpp"
 #include "BeeSwarm.hpp"
+#include "Shrykull.hpp"
 
 START_NS_AO;
 
@@ -4709,7 +4710,22 @@ void Abe::State_161_4233E0()
 
 void Abe::State_162_ToShrykull_42F410()
 {
-    NOT_IMPLEMENTED();
+    if (field_110_state == 0)
+    {
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_10_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+            field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+
+            field_110_state = 1;
+
+            auto pShrykull = ao_new<Shrykull>();
+            if (pShrykull)
+            {
+                pShrykull->ctor_463880();
+            }
+        }
+    }
 }
 
 void Abe::State_163_ShrykullEnd_42F520()
