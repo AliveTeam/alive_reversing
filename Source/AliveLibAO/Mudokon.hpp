@@ -183,6 +183,8 @@ public:
 
     EXPORT void MoveOnLine_43C7E0();
 
+    EXPORT __int16 FindBirdPortal_440250();
+
     // States
     EXPORT void State_0_Idle_43CA70();
     EXPORT void State_1_WalkLoop_43CC80();
@@ -267,6 +269,7 @@ public:
     EXPORT short Brain_12_440FD0();
     EXPORT short Brain_13_43C700();
     EXPORT short Brain_14_442710();
+    EXPORT short Brain_15_43C5D0();
 
     int field_10C;
     short field_110;

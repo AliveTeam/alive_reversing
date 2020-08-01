@@ -62,6 +62,7 @@ enum class Types : __int16
     eClaw_48 = 48,
 
     eMudokon_52 = 52,
+    eLiftPoint_51 = 51,
     SecurityOrb_53 = 53,
     eMeat_54 = 54,
 
