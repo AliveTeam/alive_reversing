@@ -15,6 +15,7 @@ EXPORT FP CC ScaleToGridSize_41FA30(FP scale);
 struct Path_TLV;
 class PlatformBase;
 class PathLine;
+class BirdPortal;
 
 enum class CameraPos : __int16;
 
@@ -88,6 +89,8 @@ public:
     EXPORT static BaseGameObject* CC FindObjectOfType_418280(Types typeToFind, FP xpos, FP ypos);
 
     EXPORT void VCheckCollisionLineStillValid_401A90(int distance);
+
+    EXPORT BirdPortal* IntoBirdPortal_402350(__int16 distance);
 
     FP_RECT field_D4_collection_rect;
     __int16 field_E4;

@@ -9,6 +9,7 @@
 #include "stdlib.hpp"
 #include "ResourceManager.hpp"
 #include "Game.hpp"
+#include "BirdPortal.hpp"
 
 START_NS_AO
 
@@ -152,6 +153,64 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(int distance)
             }
         }
     }
+}
+
+BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(__int16 distance)
+{
+    for (int i=0; i<gBaseGameObject_list_9F2DF0->Size(); i++)
+    {
+        BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        if (!pObjIter)
+        {
+            break;
+        }
+
+        if (pObjIter->field_4_typeId == Types::eBirdPortal_65)
+        {
+            auto pPortal = static_cast<BirdPortal*>(pObjIter);
+            if (pPortal->field_18_xpos >= field_A8_xpos)
+            {
+                if (pPortal->field_12_side == PortalSide::eLeft_1)
+                {
+                    if (pPortal->field_18_xpos - field_A8_xpos <= (ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(distance)))
+                    {
+                        if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                        {
+                            if (FP_Abs(field_AC_ypos - pPortal->field_28_ypos) < field_BC_sprite_scale * FP_FromInteger(10))
+                            {
+                                if (pPortal->Vsub_4533E0(1))
+                                {
+                                    field_10_anim.field_C_layer = field_BC_sprite_scale != FP_FromInteger(1) ? 11 : 30;
+                                    return pPortal;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else 
+            {
+                if (pPortal->field_12_side == PortalSide::eRight_0)
+                {
+                    if (field_A8_xpos - pPortal->field_18_xpos <= (ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(distance)))
+                    {
+                        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                        {
+                            if (FP_Abs(field_AC_ypos - pPortal->field_28_ypos) < (field_BC_sprite_scale * FP_FromInteger(10)))
+                            {
+                                if (pPortal->Vsub_4533E0(1))
+                                {
+                                    field_10_anim.field_C_layer = field_BC_sprite_scale != FP_FromInteger(1) ? 11 : 30;
+                                    return pPortal;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return 0;
 }
 
 __int16 BaseAliveGameObject::MapFollowMe_401D30(__int16 /*snapToGrid*/)

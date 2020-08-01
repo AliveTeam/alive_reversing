@@ -102,6 +102,8 @@ public:
 
     EXPORT void VMudSaved_453830();
 
+    EXPORT __int16 Vsub_4533E0(__int16 bUnknown);
+
     PortalType field_10_portal_type;
     PortalSide field_12_side;
     enum class States : __int16

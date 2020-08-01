@@ -1025,4 +1025,10 @@ void BirdPortal::VMudSaved_453830()
     field_56_num_muds_for_shrykul--;
 }
 
+__int16 BirdPortal::Vsub_4533E0(__int16 /*bUnknown*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 END_NS_AO

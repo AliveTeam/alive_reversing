@@ -11,7 +11,7 @@ struct PSX_Pad
     char field_3;
     __int16 field_4;
     unsigned __int16 field_6_held;
-    int field_8;
+    int field_8_released;
 };
 ALIVE_ASSERT_SIZEOF(PSX_Pad, 0xC);
 
@@ -75,6 +75,8 @@ public:
     bool isPressed(DWORD command);
 
     bool isHeld(DWORD command);
+
+    bool isReleased(DWORD command);
 };
 ALIVE_ASSERT_SIZEOF(InputObject, 0x30);
 
