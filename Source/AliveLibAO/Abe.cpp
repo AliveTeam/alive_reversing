@@ -2602,7 +2602,43 @@ void Abe::State_31_HopLand_426940()
 
 void Abe::State_32_RunJumpBegin_427440()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEvent_10, this);
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), field_B4_velx))
+    {
+        ToKnockback_422D90(1, 1);
+    }
+    else
+    {
+        FollowLift_42EE90();
+
+        field_A8_xpos += field_B4_velx;
+        if (field_10_anim.field_92_current_frame == 0)
+        {
+            Abe_SFX_2_42A220(11u, 0, 0x7FFF, this);
+        }
+
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_E8_LastLineYPos = field_AC_ypos;
+
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                field_B4_velx = (field_BC_sprite_scale * FP_FromDouble(-7.6));
+            }
+            else
+            {
+                field_B4_velx = (field_BC_sprite_scale * FP_FromDouble(7.6));
+            }
+
+            field_B8_vely = (field_BC_sprite_scale * FP_FromDouble(-9.6));
+            field_AC_ypos += field_B8_vely;
+            VOnTrapDoorOpen();
+            field_FC_current_motion = eAbeStates::State_33_RunJumpMid_426FA0;
+            field_F4_pLine = nullptr;
+        }
+    }
 }
 
 void Abe::State_33_RunJumpMid_426FA0()
