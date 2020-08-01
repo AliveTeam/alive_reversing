@@ -1973,6 +1973,12 @@ void Abe::ToNewElumSyncMotion_422520(short elum_frame)
     field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, gElum_507680->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX));
 }
 
+void Abe::SetActiveControlledCharacter_421480()
+{
+    field_2A8_flags.Set(Flags_2A8::e2A8_Bit7);
+    sControlledCharacter_50767C = this;
+}
+
 void Abe::vScreenChanged_422640()
 {
     if (sControlledCharacter_50767C == this || 

@@ -299,6 +299,8 @@ public:
 
     EXPORT void ToNewElumSyncMotion_422520(short elum_frame);
 
+    EXPORT void SetActiveControlledCharacter_421480();
+
     // States
     EXPORT void State_0_Idle_423520();
     EXPORT void State_1_WalkLoop_423F90();
