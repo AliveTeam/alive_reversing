@@ -31,6 +31,7 @@
 #include "Collisions.hpp"
 #include "BirdPortal.hpp"
 #include "Rope.hpp"
+#include "BeeSwarm.hpp"
 
 START_NS_AO;
 
@@ -3961,7 +3962,11 @@ void Abe::State_139_ElumMountBegin_42E090()
 
 void Abe::State_140_BeesStruggling_423F30()
 {
-    NOT_IMPLEMENTED();
+    State_0_Idle_423520();
+    if ((!gBeeInstanceCount_5076B0 || !word_5076AC) && field_FC_current_motion == eAbeStates::State_140_BeesStruggling_423F30)
+    {
+        ToIdle_422D50();
+    }
 }
 
 void Abe::State_141_BeesStrugglingOnLift_42F390()
