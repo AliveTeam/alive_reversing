@@ -197,7 +197,7 @@ BaseGameObject* Slog::dtor_473370()
         }
     }
 
-    MusicController::sub_443810(0, this, 0, 0);
+    MusicController::sub_443810(MusicController::MusicTypes::eType0, this, 0, 0);
 
     if (!field_178)
     {
@@ -280,11 +280,11 @@ void Slog::State_0_Idle_4742E0()
                 {
                     if (MusicController::sub_443840(0, 0, 0) == 9)
                     {
-                        MusicController::sub_443810(9, this, 0, 0);
+                        MusicController::sub_443810(MusicController::MusicTypes::eType9, this, 0, 0);
                     }
                     else
                     {
-                        MusicController::sub_443810(7, this, 0, 0);
+                        MusicController::sub_443810(MusicController::MusicTypes::eType7, this, 0, 0);
                     }
                 }
             }
@@ -428,7 +428,7 @@ void Slog::State_17_FallAsleep_475510()
         }
     }
 
-    MusicController::sub_443810(0, this, 0, 0);
+    MusicController::sub_443810(MusicController::MusicTypes::eType0, this, 0, 0);
 }
 
 void Slog::State_18_WakeUp_475460()
@@ -448,7 +448,7 @@ void Slog::State_20_JumpUpwards_475890()
         field_B0_path_number,
         field_A8_xpos,
         field_AC_ypos) >= CameraPos::eCamCurrent_0)
-        MusicController::sub_443810(9, this, 0, 0);
+        MusicController::sub_443810(MusicController::MusicTypes::eType9, this, 0, 0);
 
     if (field_10_anim.field_92_current_frame == 5)
     {

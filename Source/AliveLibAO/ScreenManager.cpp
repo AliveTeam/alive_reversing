@@ -18,7 +18,21 @@ EXPORT Camera* Camera::ctor_4446E0()
 
 EXPORT void Camera::dtor_444700()
 {
-    NOT_IMPLEMENTED();
+    ResourceManager::FreeResource_455550(field_C_ppBits);
+
+    for (int i = 0; i < field_0_array.Size(); i++)
+    {
+        BYTE** ppRes = field_0_array.ItemAt(i);
+        if (!ppRes)
+        {
+            break;
+        }
+
+        ResourceManager::FreeResource_455550(ppRes);
+        i = field_0_array.RemoveAt(i);
+    }
+
+    field_0_array.dtor_404440();
 }
 
 

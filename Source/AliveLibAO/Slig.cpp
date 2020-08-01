@@ -215,7 +215,7 @@ BaseGameObject* Slig::dtor_465320()
         }
 
         sControlledCharacter_50767C = sActiveHero_507678;
-        MusicController::sub_443810(0, this, 0, 0);
+        MusicController::sub_443810(MusicController::MusicTypes::eType0, this, 0, 0);
 
         if (gMap_507BA8.field_A_level != LevelIds::eMenu_0 && gMap_507BA8.field_A_level != LevelIds::eNone)
             gMap_507BA8.SetActiveCam_444660(

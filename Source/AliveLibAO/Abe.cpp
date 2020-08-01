@@ -1095,7 +1095,7 @@ void Abe::ToDeathDropFall_42C3D0()
     field_FC_current_motion = eAbeStates::State_59_DeathDropFall_42CBE0;
     field_114_gnFrame = 0;
     field_100_health = FP_FromInteger(0);
-    MusicController::sub_443810(0, this, 1, 0);
+    MusicController::sub_443810(MusicController::MusicTypes::eType0, this, 1, 0);
 }
 
 BOOL Abe::IsStanding_41FC10()
@@ -1276,7 +1276,7 @@ void Abe::ToDieFinal_42C400()
     field_FC_current_motion = eAbeStates::State_60_Dead_42C4C0;
     field_114_gnFrame = 0;
     field_100_health = FP_FromInteger(0);
-    MusicController::sub_443810(14, this, 1, 0);
+    MusicController::sub_443810(MusicController::MusicTypes::eType14, this, 1, 0);
 }
 
 void Abe::ToKnockback_422D90(__int16 bUnknownSound, __int16 bDelayedAnger)
@@ -2597,7 +2597,7 @@ void Abe::State_59_DeathDropFall_42CBE0()
             field_FC_current_motion = eAbeStates::State_60_Dead_42C4C0;
             field_114_gnFrame = 0;
             field_100_health = FP_FromInteger(0);
-            MusicController::sub_443810(14, this, 1, 0);
+            MusicController::sub_443810(MusicController::MusicTypes::eType14, this, 1, 0);
         }
     }
 }

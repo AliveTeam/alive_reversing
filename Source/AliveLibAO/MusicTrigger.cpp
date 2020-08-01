@@ -3,6 +3,9 @@
 #include "MusicTrigger.hpp"
 #include "SwitchStates.hpp"
 #include "stdlib.hpp"
+#include "Events.hpp"
+#include "MusicController.hpp"
+#include "Game.hpp"
 
 START_NS_AO
 
@@ -111,7 +114,7 @@ BaseGameObject* MusicTrigger::dtor_443C20()
     SetVTable(this, 0x4BBBC0);
     if (field_14_flags & 4)
     {
-        MusicController::sub_443810(0, this, 0, 0);
+        MusicController::sub_443810(MusicController::MusicTypes::eType0, this, 0, 0);
     }
     return dtor_487DF0();
 }
@@ -152,7 +155,68 @@ void MusicTrigger::VUpdate()
 
 void MusicTrigger::VUpdate_443C90()
 {
-    NOT_IMPLEMENTED();
+    if (Event_Get_417250(kEvent_3))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        if (field_10_tlvInfo >= 0)
+        {
+            gMap_507BA8.TLV_Reset_446870(field_10_tlvInfo, -1, 0, 0);
+        }
+    }
+
+    if ( field_14_flags & 1 )
+    {
+        if (SwitchStates_Get(field_1E_id))
+        {
+            field_14_flags &= ~1u;
+
+            MusicController::sub_443810(
+                field_1C_music_type,
+                this,
+                ((unsigned __int8)field_14_flags >> 2) & 1,
+                1);
+            field_14_flags |= 2u;
+
+            if (field_18_counter >= 0)
+            {
+                field_18_counter += gnFrameCount_507670;
+            }
+        }
+    }
+    else
+    {
+        if ( !(field_14_flags & 2) )
+        {
+            MusicController::sub_443810(field_1C_music_type, this, (field_14_flags >> 2) & 1, 1);
+            field_14_flags |= 2u;
+            field_18_counter += gnFrameCount_507670;
+            return;
+        }
+
+        if ( field_18_counter < 0 )
+        {
+            if (!SwitchStates_Get(field_1E_id))
+            {
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                return;
+            }
+
+            if (field_18_counter < 0)
+            {
+                 MusicController::sub_443810(field_1C_music_type, this, (field_14_flags >> 2) & 1, 0);
+                 return;
+            }
+        }
+
+        if (static_cast<int>(gnFrameCount_507670) < field_18_counter)
+        {
+            MusicController::sub_443810(field_1C_music_type, this, (field_14_flags >> 2) & 1, 0);
+        }
+        else
+        {
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        }
+    }
 }
 
 END_NS_AO
