@@ -4017,7 +4017,10 @@ void Abe::State_89_HandstoneEnd_430E80()
 
 void Abe::State_90_GrenadeMachineUse_430EA0()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    {
+        field_FC_current_motion = eAbeStates::State_0_Idle_423520;
+    }
 }
 
 void Abe::State_91_FallingFromGrab_429780()

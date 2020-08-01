@@ -78,7 +78,7 @@ public:
 
     EXPORT __int16 IsScaredAway_4532E0();
 
-    EXPORT void VGiveShrukul_4535A0(__int16 bPlaySound);
+    EXPORT void VGiveShrukull_4535A0(__int16 bPlaySound);
 
     virtual void VScreenChanged() override;
 
