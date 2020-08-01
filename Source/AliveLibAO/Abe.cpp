@@ -30,6 +30,7 @@
 #include "Grenade.hpp"
 #include "Collisions.hpp"
 #include "BirdPortal.hpp"
+#include "Rope.hpp"
 
 START_NS_AO;
 
@@ -1977,6 +1978,35 @@ void Abe::SetActiveControlledCharacter_421480()
 {
     field_2A8_flags.Set(Flags_2A8::e2A8_Bit7);
     sControlledCharacter_50767C = this;
+}
+
+Rope* Abe::GetPullRope_422580()
+{
+    for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    {
+        BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_4_typeId == Types::ePullRingRope_68)
+        {
+            Rope* pRope = static_cast<Rope*>(pObj);
+
+            PSX_RECT bRect = {};
+            pRope->VGetBoundingRect(&bRect, 1);
+
+            if ((field_AC_ypos - pRope->field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(80))) <= FP_FromInteger(0))
+            {
+                if (field_A8_xpos > FP_FromInteger(bRect.x) && field_A8_xpos < FP_FromInteger(bRect.w))
+                {
+                    return pRope;
+                }
+            }
+        }
+    }
+    return nullptr;
 }
 
 void Abe::vScreenChanged_422640()

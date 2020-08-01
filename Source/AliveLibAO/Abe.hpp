@@ -186,6 +186,7 @@ class BirdPortal;
 class PulllRingRope;
 class CircularFade;
 class BaseThrowable;
+class Rope;
 
 enum Flags_2A8
 {
@@ -300,6 +301,8 @@ public:
     EXPORT void ToNewElumSyncMotion_422520(short elum_frame);
 
     EXPORT void SetActiveControlledCharacter_421480();
+
+    EXPORT Rope* GetPullRope_422580();
 
     // States
     EXPORT void State_0_Idle_423520();
