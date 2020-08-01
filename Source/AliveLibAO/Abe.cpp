@@ -1415,7 +1415,8 @@ void Abe::SyncToElum_42D850(__int16 /*elumMotion*/)
 
 void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, int fpY, __int16 bStandToCrouch)
 {
-     BaseAliveGameObject* pSlapableOrCollectable = nullptr;
+    LOG_INFO("fpX = " << FP_GetDouble(fpX) << " fpY = " << fpY << " bStandTo = " << bStandToCrouch);
+    BaseAliveGameObject* pSlapableOrCollectable = nullptr;
     for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
@@ -1443,7 +1444,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, int fpY, __int16 bStandToCr
         }
     }
 
-    
+
     if (pSlapableOrCollectable)
     {
         bool tryToSlapOrCollect = false;
@@ -1882,7 +1883,7 @@ void Abe::State_19_CrouchIdle_4284C0()
         if (!sInputObject_5009E8.isPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
         {
             FP gridSize = {};
-            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit10_alternating_flag))
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
                 gridSize = -ScaleToGridSize_41FA30(field_BC_sprite_scale);
             }
@@ -1947,7 +1948,7 @@ void Abe::State_19_CrouchIdle_4284C0()
         }
     }
 
-     // Try to stand up
+    // Try to stand up
     if (sInputObject_5009E8.isHeld(sInputKey_Up_4C6598) || sInputObject_5009E8.isHeld(sInputKey_FartRoll_4C65B0))
     {
         PathLine* pLine = nullptr;
@@ -2202,7 +2203,7 @@ void Abe::State_39_CrouchTurn_4288C0()
         {
             field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
 
-            if (field_FE_next_state == -1)
+            if (field_FE_next_state == eAbeStates::State_0_Idle_423520)
             {
                 field_FC_current_motion = eAbeStates::State_19_CrouchIdle_4284C0;
             }
