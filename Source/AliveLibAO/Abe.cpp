@@ -2067,6 +2067,32 @@ void Abe::ElumKnockForward_42E780(int /*not_used*/)
     gElum_507680->field_154 = 1;
 }
 
+__int16 Abe::TryMountElum_42E600()
+{
+    if (gElum_507680)
+    {
+        if (FP_Abs(field_A8_xpos - gElum_507680->field_A8_xpos) <= FP_FromInteger(2) && FP_Abs(field_AC_ypos - gElum_507680->field_AC_ypos) <= FP_FromInteger(2))
+        {
+            if (gElum_507680->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) != field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                field_FE_next_state = eAbeStates::State_139_ElumMountBegin_42E090;
+                return eAbeStates::State_2_StandingTurn_426040;
+            }
+
+            if (gElum_507680->field_FC_current_motion != eElumStates::State_1_Idle_412990
+                || gElum_507680->field_128_brain_idx == 1
+                || gElum_507680->field_170_flags & 1)
+            {
+                return eAbeStates::State_0_Idle_423520;
+            }
+
+            LoadMountElumResources_42E690();
+            return eAbeStates::State_139_ElumMountBegin_42E090;
+        }
+    }
+    return eAbeStates::State_0_Idle_423520;
+}
+
 void Abe::vScreenChanged_422640()
 {
     if (sControlledCharacter_50767C == this || 
