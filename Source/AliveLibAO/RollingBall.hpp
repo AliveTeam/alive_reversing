@@ -35,6 +35,10 @@ public:
 
     EXPORT void VUpdate_457AF0();
 
+    EXPORT void SpeedUpOrDown_458410();
+
+    EXPORT void CrushThingsInTheWay_458310();
+
     int field_10C_tlvInfo;
     unsigned __int16 field_110_release_switch_id;
     __int16 field_112_state;
