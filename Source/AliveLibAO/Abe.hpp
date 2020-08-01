@@ -310,6 +310,8 @@ public:
 
     EXPORT void LoadMountElumResources_42E690();
 
+    EXPORT void ElumKnockForward_42E780(int not_used);
+
     // States
     EXPORT void State_0_Idle_423520();
     EXPORT void State_1_WalkLoop_423F90();

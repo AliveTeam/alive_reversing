@@ -2056,6 +2056,17 @@ void Abe::LoadMountElumResources_42E690()
     ResourceManager::LoadResourceFile("ANEMOUNT.BND", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
 }
 
+void Abe::ElumKnockForward_42E780(int /*not_used*/)
+{
+    ToKnockback_422D90(1, 1);
+    field_FC_current_motion = eAbeStates::State_128_KnockForward_429330;
+    field_FE_next_state = eAbeStates::State_0_Idle_423520;
+    field_108_bMotionChanged = 1;
+    field_10_anim.Set_Animation_Data_402A40(sAbeFrameOffsetTable_4C61A0[field_FC_current_motion], StateToAnimResource_4204F0(eAbeStates::State_128_KnockForward_429330));
+    sControlledCharacter_50767C = sActiveHero_507678;
+    gElum_507680->field_154 = 1;
+}
+
 void Abe::vScreenChanged_422640()
 {
     if (sControlledCharacter_50767C == this || 
