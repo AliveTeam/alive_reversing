@@ -42,4 +42,10 @@ EXPORT signed __int16 CC SND_SEQ_Play_477760(unsigned __int16 /*idx*/, int /*rep
     return 0;
 }
 
+EXPORT __int16 CC SND_SsIsEos_DeInlined_477930(unsigned __int16 /*idx*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 END_NS_AO

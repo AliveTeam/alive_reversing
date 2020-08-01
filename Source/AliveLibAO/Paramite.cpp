@@ -207,7 +207,7 @@ BaseGameObject* Paramite::dtor_44AB00()
 
     SND_Seq_Stop_477A60(30u);
     
-    MusicController::sub_443810(0, this, 0, 0);
+    MusicController::sub_443810(MusicController::MusicTypes::eType0, this, 0, 0);
 
     return dtor_401000();
 }

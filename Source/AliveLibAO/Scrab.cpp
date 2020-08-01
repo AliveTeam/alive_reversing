@@ -243,7 +243,7 @@ BaseGameObject* Scrab::dtor_45BA50()
         gMap_507BA8.TLV_Reset_446870(field_134_tlvInfo, -1, 0, 0);
     }
 
-    MusicController::sub_443810(0, this, 0, 0);
+    MusicController::sub_443810(MusicController::MusicTypes::eType0, this, 0, 0);
 
     return dtor_401000();
 }

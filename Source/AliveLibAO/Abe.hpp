@@ -297,6 +297,8 @@ public:
 
     EXPORT void MoveWithVelocity_4257F0(FP speed);
 
+    EXPORT void ToNewElumSyncMotion_422520(short elum_frame);
+
     // States
     EXPORT void State_0_Idle_423520();
     EXPORT void State_1_WalkLoop_423F90();
