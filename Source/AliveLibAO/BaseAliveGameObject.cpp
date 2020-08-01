@@ -90,6 +90,57 @@ BaseGameObject* BaseAliveGameObject::Vdtor_402540(signed int flags)
     return this;
 }
 
+void BaseAliveGameObject::VUnPosses()
+{
+    // Empty
+}
+
+void BaseAliveGameObject::VPossessed()
+{
+    // Empty
+}
+
+void BaseAliveGameObject::VSetMotion(__int16 state)
+{
+    VSetMotion_402520(state);
+}
+
+void BaseAliveGameObject::VSetXSpawn(__int16 camWorldX, int screenXPos)
+{
+    VSetXSpawn_401150(camWorldX, screenXPos);
+}
+
+void BaseAliveGameObject::VSetYSpawn(int camWorldY, __int16 bLeft)
+{
+    VSetYSpawn_401380(camWorldY, bLeft);
+}
+
+void BaseAliveGameObject::VOnPathTransition(__int16 camWorldX, int camWorldY, CameraPos direction)
+{
+    VOnPathTransition_401470(camWorldX, camWorldY, direction);
+}
+
+__int16 BaseAliveGameObject::VTakeDamage(BaseGameObject* /*pFrom*/)
+{
+    // Empty
+    return 0;
+}
+
+void BaseAliveGameObject::VOn_TLV_Collision(Path_TLV* /*pTlv*/)
+{
+    // Empty
+}
+
+void BaseAliveGameObject::VCheckCollisionLineStillValid(int distance)
+{
+    VCheckCollisionLineStillValid_401A90(distance);
+}
+
+void BaseAliveGameObject::VOnTrapDoorOpen()
+{
+    // Empty
+}
+
 void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(int distance)
 {
     if (field_F4_pLine)
@@ -211,6 +262,11 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(__int16 distance)
         }
     }
     return 0;
+}
+
+void BaseAliveGameObject::VOnPathTransition_401470(__int16 /*camWorldX*/, int /*camWorldY*/, CameraPos /*direction*/)
+{
+    NOT_IMPLEMENTED();
 }
 
 __int16 BaseAliveGameObject::MapFollowMe_401D30(__int16 /*snapToGrid*/)

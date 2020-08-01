@@ -49,21 +49,29 @@ public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
     EXPORT BaseGameObject* Vdtor_402540(signed int flags);
-    // TODO: Non empty so standalone builds
-    
-    // TODO: HACK call the impls here
-    virtual void VUnPosses() {}
-    virtual void VPossessed() {}
-    virtual void VSetMotion(__int16 /*state*/) {}
-    virtual void VSetXSpawn(__int16 /*camWorldX*/, int /*screenXPos*/) {}
-    virtual void VSetYSpawn(int /*camWorldY*/, __int16 /*bLeft*/) {}
-    virtual void VOnPathTransition(__int16 /*camWorldX*/, int /*camWorldY*/, CameraPos /*direction*/) {}
-    virtual __int16 VTakeDamage(BaseGameObject* /*pFrom*/) { return 0; }
-    virtual void VOn_TLV_Collision(Path_TLV* /*pTlv*/) {}
-    virtual void VCheckCollisionLineStillValid(int /*distance*/) {}
-    virtual void VOnTrapDoorOpen() {}
 
-    
+    virtual void VUnPosses();
+
+    virtual void VPossessed();
+
+    virtual void VSetMotion(__int16 state);
+
+    virtual void VSetXSpawn(__int16 camWorldX, int screenXPos);
+
+    virtual void VSetYSpawn(int camWorldY, __int16 bLeft);
+
+    virtual void VOnPathTransition(__int16 camWorldX, int camWorldY, CameraPos direction);
+
+    virtual __int16 VTakeDamage(BaseGameObject* pFrom);
+
+    virtual void VOn_TLV_Collision(Path_TLV* pTlv);
+
+    virtual void VCheckCollisionLineStillValid(int distance);
+
+    virtual void VOnTrapDoorOpen();
+
+    EXPORT void VOnPathTransition_401470(__int16 camWorldX, int camWorldY, CameraPos direction);
+
     EXPORT __int16 MapFollowMe_401D30(__int16 snapToGrid);
 
     EXPORT void SetActiveCameraDelayedFromDir_401C90();
