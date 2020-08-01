@@ -33,6 +33,11 @@ bool InputObject::isHeld(DWORD command)
     return (this->field_0_pads[sCurrentControllerIndex_5076B8].field_6_held & command) != 0;
 }
 
+bool InputObject::isReleased(DWORD command)
+{
+     return (this->field_0_pads[sCurrentControllerIndex_5076B8].field_8_released & command) != 0;
+}
+
 BOOL CC Input_IsChanting_4334C0()
 {
     return (sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed & 5) == 5;

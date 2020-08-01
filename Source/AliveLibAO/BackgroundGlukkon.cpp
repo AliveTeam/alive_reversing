@@ -3,6 +3,12 @@
 #include "BackgroundGlukkon.hpp"
 #include "ResourceManager.hpp"
 #include "stdlib.hpp"
+#include "Explosion.hpp"
+#include "Math.hpp"
+#include "Sfx.hpp"
+#include "Abe.hpp"
+#include "Events.hpp"
+#include "Game.hpp"
 
 START_NS_AO
 
@@ -80,5 +86,156 @@ void BackgroundGlukkon::VScreenChanged_41E0E0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-END_NS_AO
+__int16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
+{
+    return VTakeDamage_41DF80(pFrom);
+}
 
+__int16 BackgroundGlukkon::VTakeDamage_41DF80(BaseGameObject* pFrom)
+{
+    if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    {
+        return 0;
+    }
+
+    if (pFrom->field_4_typeId == Types::eShrykull_85)
+    {
+        field_10_anim.Set_Animation_Data_402A40(46232, 0);
+        const auto rndVol = Math_RandomRange_450F20(110, 127);
+        const auto rndPitch = (75 * (Math_NextRandom() % 4)) + 200;
+
+        if (Math_NextRandom() >= 128u)
+        {
+            SFX_Play_43AE60(106u, rndVol, rndPitch, 0);
+        }
+        else
+        {
+            SFX_Play_43AE60(105u, rndVol, rndPitch, 0);
+        }
+
+        field_10_anim.Set_Animation_Data_402A40(46232, 0);
+        field_110_state = 7;
+    }
+    else if (pFrom->field_4_typeId == Types::eElectrocute_103 && field_100_health > FP_FromInteger(0))
+    {
+        field_100_health = FP_FromInteger(0);
+        auto pExplosion = ao_new<Explosion>();
+        if (pExplosion)
+        {
+            pExplosion->ctor_458B80(
+                field_A8_xpos,
+                field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(40)),
+                field_BC_sprite_scale);
+        }
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+    return 1;
+}
+
+void BackgroundGlukkon::VUpdate()
+{
+    VUpdate_41DD60();
+}
+
+void BackgroundGlukkon::VUpdate_41DD60()
+{
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+
+    switch (field_110_state)
+    {
+    case 0:
+        field_110_state = 1;
+        field_118_timer1 = gnFrameCount_507670 + Math_RandomRange_450F20(20, 40);
+        break;
+
+    case 1:
+        field_110_state = 2;
+        field_114_timer2 = gnFrameCount_507670 + Math_RandomRange_450F20(12, 20);
+        break;
+
+    case 2:
+        if (static_cast<int>(gnFrameCount_507670) > field_114_timer2)
+        {
+            const auto rndVol = Math_RandomRange_450F20(110, 127);
+            const auto rndPitch =  ((Math_NextRandom() % 4) * 128) + 200;
+
+            switch (Math_NextRandom() % 5)
+            {
+            case 0:
+                if (sActiveHero_507678->field_100_health <= FP_FromInteger(0))
+                {
+                    field_10_anim.Set_Animation_Data_402A40(46272, 0);
+                    SFX_Play_43AE60(103u, rndVol, rndPitch, 0);
+                }
+                else
+                {
+                    field_10_anim.Set_Animation_Data_402A40(46128, 0);
+                    SFX_Play_43AE60(101u, rndVol, rndPitch, 0);
+                }
+                field_110_state = 3;
+                break;
+
+            case 1:
+                if (sActiveHero_507678->field_100_health <= FP_FromInteger(0))
+                {
+                    field_10_anim.Set_Animation_Data_402A40(46272, 0);
+                    SFX_Play_43AE60(103u, rndVol, rndPitch, 0);
+                }
+                else
+                {
+                    field_10_anim.Set_Animation_Data_402A40(46180, 0);
+                    SFX_Play_43AE60(102u, rndVol, rndPitch, 0);
+                }
+                field_110_state = 3;
+                break;
+
+            case 2:
+                if (sActiveHero_507678->field_100_health <= FP_FromInteger(0))
+                {
+                    field_10_anim.Set_Animation_Data_402A40(46272, 0);
+                    SFX_Play_43AE60(103u, rndVol, rndPitch, 0);
+                }
+                else
+                {
+                    field_10_anim.Set_Animation_Data_402A40(46128, 0);
+                    SFX_Play_43AE60(105u, rndVol, rndPitch, 0);
+                }
+                field_110_state = 3;
+                break;
+
+            case 3:
+                if (sActiveHero_507678->field_100_health > FP_FromInteger(0))
+                {
+                    field_10_anim.Set_Animation_Data_402A40(46180, 0);
+                    SFX_Play_43AE60(106u, rndVol, rndPitch, 0);
+                }
+                field_110_state = 3;
+                break;
+
+            case 4:
+                return;
+
+            default:
+                field_110_state = 3;
+                break;
+            }
+        }
+        break;
+
+    case 3:
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_10_anim.Set_Animation_Data_402A40(46096, 0);
+            field_110_state = 1;
+        }
+        break;
+
+    default:
+        return;
+    }
+}
+
+END_NS_AO

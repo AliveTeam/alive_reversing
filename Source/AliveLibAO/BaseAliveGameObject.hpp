@@ -10,11 +10,11 @@ START_NS_AO
 void BaseAliveGameObject_ForceLink();
 
 
-EXPORT FP CC ScaleToGridSize_41FA30(FP scale);
 
 struct Path_TLV;
 class PlatformBase;
 class PathLine;
+class BirdPortal;
 
 enum class CameraPos : __int16;
 
@@ -48,23 +48,28 @@ public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
     EXPORT BaseGameObject* Vdtor_402540(signed int flags);
-    // TODO: Non empty so standalone builds
-    
-    // TODO: HACK call the impls here
-    virtual void VUnPosses() {}
-    virtual void VPossessed() {}
-    virtual void VSetMotion(__int16 /*state*/) {}
-    virtual void VSetXSpawn(__int16 /*camWorldX*/, int /*screenXPos*/) {}
-    virtual void VSetYSpawn(int /*camWorldY*/, __int16 /*bLeft*/) {}
-    virtual void VOnPathTransition(__int16 /*camWorldX*/, int /*camWorldY*/, CameraPos /*direction*/) {}
-    virtual __int16 VTakeDamage(BaseGameObject* /*pFrom*/) { return 0; }
-    virtual void VOn_TLV_Collision(Path_TLV* /*pTlv*/) {}
-    virtual void VCheckCollisionLineStillValid(int /*distance*/) {}
-    virtual void VOnTrapDoorOpen() {}
 
-    
+    virtual void VUnPosses();
 
-    EXPORT void VCheckCollisionLineStillValid_401A90(int distance);
+    virtual void VPossessed();
+
+    virtual void VSetMotion(__int16 state);
+
+    virtual void VSetXSpawn(__int16 camWorldX, int screenXPos);
+
+    virtual void VSetYSpawn(int camWorldY, __int16 bLeft);
+
+    virtual void VOnPathTransition(__int16 camWorldX, int camWorldY, CameraPos direction);
+
+    virtual __int16 VTakeDamage(BaseGameObject* pFrom);
+
+    virtual void VOn_TLV_Collision(Path_TLV* pTlv);
+
+    virtual void VCheckCollisionLineStillValid(int distance);
+
+    virtual void VOnTrapDoorOpen();
+
+    EXPORT void VOnPathTransition_401470(__int16 camWorldX, int camWorldY, CameraPos direction);
 
     EXPORT __int16 MapFollowMe_401D30(__int16 snapToGrid);
 
@@ -87,6 +92,12 @@ public:
     EXPORT void VSetMotion_402520(__int16 state);
 
     EXPORT void sub_4020D0();
+
+    EXPORT static BaseGameObject* CC FindObjectOfType_418280(Types typeToFind, FP xpos, FP ypos);
+
+    EXPORT void VCheckCollisionLineStillValid_401A90(int distance);
+
+    EXPORT BirdPortal* IntoBirdPortal_402350(__int16 distance);
 
     FP_RECT field_D4_collection_rect;
     __int16 field_E4;

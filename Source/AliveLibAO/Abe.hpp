@@ -295,6 +295,8 @@ public:
 
     EXPORT __int16 ToLeftRightMovement_422AA0();
 
+    EXPORT void MoveWithVelocity_4257F0(FP speed);
+
     // States
     EXPORT void State_0_Idle_423520();
     EXPORT void State_1_WalkLoop_423F90();
@@ -512,7 +514,7 @@ public:
     __int16 field_196_door_id;
     BaseThrowable* field_198_pThrowable;
     char field_19C_throwable_count;
-    char field_19D;
+    char field_19D_throw_direction;
     __int16 field_19E;
     BirdPortal* field_1A0_portal;
     AbeResources field_1A4_resources;

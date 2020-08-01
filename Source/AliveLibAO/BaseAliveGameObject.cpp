@@ -8,16 +8,12 @@
 #include "BeeSwarm.hpp"
 #include "stdlib.hpp"
 #include "ResourceManager.hpp"
+#include "Game.hpp"
+#include "BirdPortal.hpp"
 
 START_NS_AO
 
 void BaseAliveGameObject_ForceLink() {}
-
-FP CC ScaleToGridSize_41FA30(FP /*scale*/)
-{
-    NOT_IMPLEMENTED();
-    return {};
-}
 
 ALIVE_VAR(1, 0x4FC8A0, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_4FC8A0, nullptr);
 
@@ -88,7 +84,181 @@ BaseGameObject* BaseAliveGameObject::Vdtor_402540(signed int flags)
     return this;
 }
 
-void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(int /*distance*/)
+void BaseAliveGameObject::VUnPosses()
+{
+    // Empty
+}
+
+void BaseAliveGameObject::VPossessed()
+{
+    // Empty
+}
+
+void BaseAliveGameObject::VSetMotion(__int16 state)
+{
+    VSetMotion_402520(state);
+}
+
+void BaseAliveGameObject::VSetXSpawn(__int16 camWorldX, int screenXPos)
+{
+    VSetXSpawn_401150(camWorldX, screenXPos);
+}
+
+void BaseAliveGameObject::VSetYSpawn(int camWorldY, __int16 bLeft)
+{
+    VSetYSpawn_401380(camWorldY, bLeft);
+}
+
+void BaseAliveGameObject::VOnPathTransition(__int16 camWorldX, int camWorldY, CameraPos direction)
+{
+    VOnPathTransition_401470(camWorldX, camWorldY, direction);
+}
+
+__int16 BaseAliveGameObject::VTakeDamage(BaseGameObject* /*pFrom*/)
+{
+    // Empty
+    return 0;
+}
+
+void BaseAliveGameObject::VOn_TLV_Collision(Path_TLV* /*pTlv*/)
+{
+    // Empty
+}
+
+void BaseAliveGameObject::VCheckCollisionLineStillValid(int distance)
+{
+    VCheckCollisionLineStillValid_401A90(distance);
+}
+
+void BaseAliveGameObject::VOnTrapDoorOpen()
+{
+    // Empty
+}
+
+void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(int distance)
+{
+    if (field_F4_pLine)
+    {
+        PathLine* pLine = nullptr;
+        FP hitX = {};
+        FP hitY = {};
+
+        const int mask = field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70;
+        if (sCollisions_DArray_504C6C->RayCast_40C410(
+            field_A8_xpos,
+            field_AC_ypos - FP_FromInteger(distance),
+            field_A8_xpos,
+            field_AC_ypos + FP_FromInteger(distance),
+            &pLine,
+            &hitX,
+            &hitY,
+            mask))
+        {
+            field_F4_pLine = pLine;
+            field_AC_ypos = hitY;
+            if (field_F8_pLiftPoint)
+            {
+                if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
+                {
+                    field_F8_pLiftPoint->field_C_refCount--;
+                    field_F8_pLiftPoint = nullptr;
+
+                    PSX_RECT bRect = {};
+                    VGetBoundingRect(&bRect, 1);
+                    bRect.y += 5;
+                    bRect.h += 5;
+
+                    VOnCollisionWith(
+                        { bRect.x, bRect.y },
+                        { bRect.w, bRect.h },
+                        ObjListPlatforms_50766C,
+                        1,
+                        (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                }
+            }
+        }
+        else
+        {
+            field_F0_pTlv = gMap_507BA8.TLV_First_Of_Type_In_Camera_4464A0(TlvTypes::StartController_28, 0);
+            if (field_F0_pTlv)
+            {
+                if (sCollisions_DArray_504C6C->RayCast_40C410(
+                    field_A8_xpos,
+                    FP_FromInteger(field_F0_pTlv->field_10_top_left.field_2_y),
+                    field_A8_xpos,
+                    FP_FromInteger(field_F0_pTlv->field_14_bottom_right.field_2_y),
+                    &pLine,
+                    &hitX,
+                    &hitY,
+                    mask))
+                {
+                    field_F4_pLine = pLine;
+                    field_AC_ypos = hitY;
+                }
+            }
+        }
+    }
+}
+
+BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(__int16 distance)
+{
+    for (int i=0; i<gBaseGameObject_list_9F2DF0->Size(); i++)
+    {
+        BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        if (!pObjIter)
+        {
+            break;
+        }
+
+        if (pObjIter->field_4_typeId == Types::eBirdPortal_65)
+        {
+            auto pPortal = static_cast<BirdPortal*>(pObjIter);
+            if (pPortal->field_18_xpos >= field_A8_xpos)
+            {
+                if (pPortal->field_12_side == PortalSide::eLeft_1)
+                {
+                    if (pPortal->field_18_xpos - field_A8_xpos <= (ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(distance)))
+                    {
+                        if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                        {
+                            if (FP_Abs(field_AC_ypos - pPortal->field_28_ypos) < field_BC_sprite_scale * FP_FromInteger(10))
+                            {
+                                if (pPortal->Vsub_4533E0(1))
+                                {
+                                    field_10_anim.field_C_layer = field_BC_sprite_scale != FP_FromInteger(1) ? 11 : 30;
+                                    return pPortal;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else 
+            {
+                if (pPortal->field_12_side == PortalSide::eRight_0)
+                {
+                    if (field_A8_xpos - pPortal->field_18_xpos <= (ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(distance)))
+                    {
+                        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                        {
+                            if (FP_Abs(field_AC_ypos - pPortal->field_28_ypos) < (field_BC_sprite_scale * FP_FromInteger(10)))
+                            {
+                                if (pPortal->Vsub_4533E0(1))
+                                {
+                                    field_10_anim.field_C_layer = field_BC_sprite_scale != FP_FromInteger(1) ? 11 : 30;
+                                    return pPortal;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return 0;
+}
+
+void BaseAliveGameObject::VOnPathTransition_401470(__int16 /*camWorldX*/, int /*camWorldY*/, CameraPos /*direction*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -372,6 +542,38 @@ void BaseAliveGameObject::sub_4020D0()
             }
         }
     }
+}
+
+BaseGameObject* CC BaseAliveGameObject::FindObjectOfType_418280(Types typeToFind, FP xpos, FP ypos)
+{
+    const int xpos_int = FP_GetExponent(xpos);
+    const int ypos_int = FP_GetExponent(ypos);
+
+    for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    {
+        BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_4_typeId == typeToFind)
+        {
+            auto pObj2 = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
+
+            PSX_RECT bRect = {};
+            pObj2->VGetBoundingRect(&bRect, 1);
+
+            if (xpos_int >= bRect.x &&
+                xpos_int <= bRect.w &&
+                ypos_int >= bRect.y &&
+                ypos_int <= bRect.h)
+            {
+                return pObj;
+            }
+        }
+    }
+    return nullptr;
 }
 
 END_NS_AO

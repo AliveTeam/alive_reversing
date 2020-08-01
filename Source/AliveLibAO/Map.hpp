@@ -156,7 +156,7 @@ public:
 
     EXPORT void Load_Path_Items_445DA0(Camera* pCamera, __int16 kZero);
 
-    EXPORT Path_TLV* TLV_First_Of_Type_In_Camera_4464A0(unsigned __int16 type, int camX);
+    EXPORT Path_TLV* TLV_First_Of_Type_In_Camera_4464A0(TlvTypes type, int camX);
 
     EXPORT Path_TLV* TLV_Get_At_446260(__int16 xpos, __int16 ypos, __int16 width, __int16 height, unsigned __int16 typeToFind);
 

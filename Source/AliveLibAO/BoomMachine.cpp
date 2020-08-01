@@ -8,6 +8,7 @@
 #include "Sfx.hpp"
 #include "ThrowableArray.hpp"
 #include "Game.hpp"
+#include "Grenade.hpp"
 
 START_NS_AO
 
@@ -21,7 +22,68 @@ public:
 
     EXPORT void VUpdate_41E220()
     {
-        NOT_IMPLEMENTED();
+        switch (field_E4_state)
+        {
+        case 1:
+            if (static_cast<int>(gnFrameCount_507670) > field_E8)
+            {
+                SFX_Play_43AE60(5u, 60, -1800, 0);
+                field_E4_state = 0;
+            }
+            break;
+
+        case 2:
+            if (static_cast<int>(gnFrameCount_507670) > field_E8)
+            {
+                field_E4_state = 3;
+                field_10_anim.Set_Animation_Data_402A40(3588, 0);
+            }
+            break;
+
+        case 3:
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                SFX_Play_43AE60(33u, 127, -900, 0);
+                if (!gpThrowableArray_50E26C)
+                {
+                    gpThrowableArray_50E26C = ao_new<ThrowableArray>();
+                    if (gpThrowableArray_50E26C)
+                    {
+                        gpThrowableArray_50E26C->ctor_453EE0();
+                    }
+                }
+
+                gpThrowableArray_50E26C->Add_453F70(field_EC_num_grenades);
+
+                auto pNewNade = ao_new<Grenade>();
+                if (pNewNade)
+                {
+                    const FP scaled = (FP_FromInteger(-6) * field_BC_sprite_scale);
+                    FP sprite_scale = {};
+                    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                    {
+                        sprite_scale = -sprite_scale;
+                    }
+                    else
+                    {
+                        sprite_scale = field_BC_sprite_scale;
+                    }
+       
+                    pNewNade->ctor_41EBD0(
+                        field_A8_xpos + (FP_FromInteger(6) * sprite_scale),
+                        field_AC_ypos + scaled,
+                        field_EC_num_grenades);
+                }
+
+                pNewNade->VThrow(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromDouble(-0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
+
+                field_10_anim.Set_Animation_Data_402A40(3616, 0);
+                field_E4_state = 0;
+            }
+            break;
+        default:
+            return;
+        }
     }
 
     virtual void VScreenChanged() override
