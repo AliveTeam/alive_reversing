@@ -2722,7 +2722,24 @@ void Abe::State_40_RunToRoll_427AE0()
 
 void Abe::State_41_StandingToRun_425530()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_FC_current_motion = eAbeStates::State_35_RunLoop_425060;
+    }
+
+    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEvent_10, this);
+
+    field_10C_prev_held |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), field_B4_velx))
+    {
+        ToIdle_422D50();
+    }
+    else
+    {
+        sub_422FC0();
+    }
 }
 
 void Abe::State_42_SneakLoop_424BB0()
