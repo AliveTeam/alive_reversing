@@ -480,7 +480,19 @@ void Mudokon::VUpdate_43F560()
     }
 
     const auto old_motion = field_FC_current_motion;
+    const auto old_brain = field_1B8_brain_idx;
+    const auto old_brain_sub_state = field_1BA_sub_state;
     field_1BA_sub_state = (this->*gMudBrains_4CD430[field_1B8_brain_idx])();
+
+    if (old_brain != field_1B8_brain_idx)
+    {
+        // Main brain state changed
+        LOG_INFO("Brain changed from " << old_brain << " to " << field_1B8_brain_idx);
+    }
+    else if (old_brain_sub_state == field_1BA_sub_state)
+    {
+        LOG_INFO("Brain sub state changed from " << old_brain_sub_state << " to " << field_1BA_sub_state);
+    }
 
     const FP oldX = field_A8_xpos;
     const FP oldY = field_AC_ypos;
