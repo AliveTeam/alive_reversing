@@ -304,6 +304,10 @@ public:
 
     EXPORT Rope* GetPullRope_422580();
 
+    EXPORT void Free_Resources_422870();
+
+    EXPORT static void CC Load_Basic_Resources_4228A0();
+
     // States
     EXPORT void State_0_Idle_423520();
     EXPORT void State_1_WalkLoop_423F90();

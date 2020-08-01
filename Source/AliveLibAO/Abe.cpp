@@ -2009,6 +2009,25 @@ Rope* Abe::GetPullRope_422580()
     return nullptr;
 }
 
+void Abe::Free_Resources_422870()
+{
+    if (field_1A4_resources.res[0])
+    {
+        ResourceManager::FreeResource_455550(field_1A4_resources.res[0]);
+        field_1A4_resources.res[0] = nullptr;
+    }
+}
+
+void CC Abe::Load_Basic_Resources_4228A0()
+{
+    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 10, 0, 0) &&
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 10, 1, 0))
+    {
+        ResourceManager::LoadResourceFile_455270("ABEBSIC.BAN", 0, 0);
+        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 10, 1, 0);
+    }
+}
+
 void Abe::vScreenChanged_422640()
 {
     if (sControlledCharacter_50767C == this || 
