@@ -18,6 +18,9 @@
 #include "Math.hpp"
 #include "Bullet.hpp"
 #include "Sfx.hpp"
+#include "MusicTrigger.hpp"
+#include "SwitchStates.hpp"
+#include "Particle.hpp"
 
 void Mud_ForceLink() {}
 
@@ -2107,12 +2110,87 @@ void Mudokon::State_42_MidSneakToIdle_43E560()
 
 void Mudokon::State_43_JumpBegin_43E870()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEvent_10, this);
+
+    CheckFloorGone_43C9B0();
+
+    field_A8_xpos += field_B4_velx;
+
+    if (field_10_anim.field_92_current_frame == 0)
+    {
+        Abe_SFX_2_42A220(11u, 0, 0x7FFF, this);
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_E8_LastLineYPos = field_AC_ypos;
+
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            field_B4_velx = field_BC_sprite_scale * FP_FromDouble(-7.6);
+        }
+        else
+        {
+            field_B4_velx = field_BC_sprite_scale * FP_FromDouble(7.6);
+        }
+
+        field_B8_vely =  (field_BC_sprite_scale * FP_FromDouble(-9.6));
+        field_AC_ypos += field_B8_vely;
+        VOnTrapDoorOpen();
+        field_FC_current_motion = eMudStates::State_44_JumpMid_43E960;
+        field_F4_pLine = nullptr;
+    }
 }
 
 void Mudokon::State_44_JumpMid_43E960()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEvent_10, this);
+
+    if (field_10_anim.field_92_current_frame == 5)
+    {
+        SFX_Play_43AE60(21u, 40, 2400, 0);
+    }
+
+    PSX_RECT bRect = {};
+    VGetBoundingRect(&bRect, 1);
+
+    if (field_B4_velx > FP_FromInteger(0) && (FP_FromInteger(bRect.x) > field_1AC_pBirdPortal->field_18_xpos) ||
+        (field_B4_velx < FP_FromInteger(0) && FP_FromInteger(bRect.w) < field_1AC_pBirdPortal->field_18_xpos))
+    {
+        field_144_flags.Clear(Flags_144::e144_Bit2);
+        field_144_flags.Clear(Flags_144::e144_Bit6_bPersist);
+
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        field_B8_vely = FP_FromInteger(0);
+        field_B4_velx = FP_FromInteger(0);
+
+        SND_SEQ_Play_477760(45u, 1, 127, 127);
+
+
+        auto pMusicMem = ao_new<MusicTrigger>();
+        if (pMusicMem)
+        {
+            pMusicMem->ctor_443A60(5, 0, 0, 300);
+        }
+
+        sRescuedMudokons_5076C0++;
+
+        if (field_1AC_pBirdPortal)
+        {
+            field_1AC_pBirdPortal->VMudSaved_453830();
+        }
+
+        if (field_1B2_switch_id)
+        {
+            SwitchStates_Set(field_1B2_switch_id, 1);
+        }
+    }
+
+    field_B8_vely += (field_BC_sprite_scale * FP_FromDouble(1.8));
+    field_A8_xpos += field_B4_velx;
+    field_AC_ypos += field_B8_vely;
 }
 
 void Mudokon::State_45_ToRunToPortal_43EB00()
@@ -2384,7 +2462,38 @@ void Mudokon::State_58_StruggleToCrouchChant_43EC00()
 
 void Mudokon::State_59_CrouchChant_43EC20()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        if (field_FE_next_state != -1)
+        {
+            field_FE_next_state = -1;
+            field_FC_current_motion = eMudStates::State_60_CrouchChantToSruggle_43ED50;
+        }
+    }
+
+    if ((gnFrameCount_507670 % 8) == 0)
+    {
+        const FP rndX = FP_FromInteger(30 * Math_NextRandom() / 256 - 10);
+        const FP rndY = FP_FromInteger(20 * Math_NextRandom() / 256 + 10);
+
+        New_Particle_4198E0(
+            field_A8_xpos + (field_BC_sprite_scale * rndX),
+            field_AC_ypos - (field_BC_sprite_scale * rndY),
+            field_BC_sprite_scale,
+            0);
+    }
+
+    if (!SND_SsIsEos_DeInlined_477930(12u))
+    {
+        if (field_BC_sprite_scale == FP_FromDouble(0.5))
+        {
+            SND_SEQ_Play_477760(12u, 1, 30, 30);
+        }
+        else
+        {
+            SND_SEQ_Play_477760(12u, 1, 50, 50);
+        }
+    }
 }
 
 void Mudokon::State_60_CrouchChantToSruggle_43ED50()

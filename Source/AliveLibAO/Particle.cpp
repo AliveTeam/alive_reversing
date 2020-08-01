@@ -2,6 +2,7 @@
 #include "Function.hpp"
 #include "Particle.hpp"
 #include "stdlib.hpp"
+#include "ResourceManager.hpp"
 
 START_NS_AO
 
@@ -14,6 +15,32 @@ Particle* CC New_Particle_419D00(FP /*xpos*/, FP /*ypos*/, FP /*scale*/)
 void CC New_Particles_419A80(FP /*xpos*/, FP /*ypos*/, FP /*scale*/, __int16 /*count*/, __int16 /*type*/)
 {
     NOT_IMPLEMENTED();
+}
+
+void CC New_Particle_4198E0(FP xpos, FP ypos, FP scale, __int16 layer)
+{
+    auto pParticle = ao_new<Particle>();
+    if (pParticle)
+    {
+        pParticle->ctor_478880(xpos, ypos, 1492, 38, 21, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 312, 1, 0));
+        pParticle->field_CC_bApplyShadows &= ~1u;
+        pParticle->field_10_anim.field_B_render_mode = 1;
+
+        if (layer)
+        {
+            pParticle->field_10_anim.field_C_layer = layer;
+        }
+        else if (scale == FP_FromInteger(1))
+        {
+            pParticle->field_10_anim.field_C_layer = 36;
+        }
+        else
+        {
+            pParticle->field_10_anim.field_C_layer = 17;
+        }
+
+        pParticle->field_BC_sprite_scale = scale;
+    }
 }
 
 Particle* Particle::ctor_478880(FP xpos, FP ypos, int animFrameTableOffset, int maxW, int maxH, BYTE** ppAnimData)
