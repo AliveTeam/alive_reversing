@@ -3175,7 +3175,26 @@ void Abe::State_54_RunTurnToRun_425EA0()
 
 void Abe::State_55_RunTurnToWalk_425F70()
 {
-    NOT_IMPLEMENTED();
+    field_10C_prev_held |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
+    
+    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEvent_10, this);
+
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), field_B4_velx))
+    {
+        ToIdle_422D50();
+    }
+    else
+    {
+        sub_422FC0();
+
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_FC_current_motion = eAbeStates::State_1_WalkLoop_423F90;
+            field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+        }
+    }
 }
 
 void Abe::State_56_RunJumpLandRun_4278E0()
