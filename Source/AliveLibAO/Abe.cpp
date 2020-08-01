@@ -2715,7 +2715,31 @@ void Abe::State_42_SneakLoop_424BB0()
 
 void Abe::State_43_WalkToSneak_424790()
 {
-    NOT_IMPLEMENTED();
+    field_10C_prev_held |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
+    
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(10));
+    }
+    else
+    {
+        field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(10));
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_FC_current_motion = eAbeStates::State_42_SneakLoop_424BB0;
+    }
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), field_B4_velx))
+    {
+        ToIdle_422D50();
+        MapFollowMe_401D30(1);
+    }
+    else
+    {
+        sub_422FC0();
+    }
 }
 
 void Abe::State_44_SneakToWalk_4249A0()
@@ -2766,7 +2790,36 @@ void Abe::State_50_WalkToRun_424560()
 
 void Abe::State_51_MidWalkToRun_424670()
 {
-    NOT_IMPLEMENTED();
+    field_10C_prev_held |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
+
+    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEvent_10, this);
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+    }
+    else
+    {
+        field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_2A8_flags.Set(Flags_2A8::e2A8_Bit2);
+        field_E4 = 35;
+        field_E6_last_anim_frame = 8;
+    }
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), field_B4_velx))
+    {
+        ToIdle_422D50();
+        MapFollowMe_401D30(1);
+    }
+    else
+    {
+        sub_422FC0();
+    }
 }
 
 void Abe::State_52_RunToWalk_4255E0()
