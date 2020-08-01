@@ -2202,7 +2202,7 @@ void Abe::State_39_CrouchTurn_4288C0()
         {
             field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
 
-            if (field_FE_next_state == -1)
+            if (field_FE_next_state == eAbeStates::State_0_Idle_423520)
             {
                 field_FC_current_motion = eAbeStates::State_19_CrouchIdle_4284C0;
             }
