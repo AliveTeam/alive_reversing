@@ -1082,9 +1082,11 @@ void Abe::vRender_420F30(int** pOrderingTable)
     }
 }
 
-void Abe::Free_Shrykull_Resources_42F4C0()
+void CC Abe::Free_Shrykull_Resources_42F4C0()
 {
-    NOT_IMPLEMENTED();
+    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 117, 0, 0));
+    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 121, 0, 0));
+    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 355, 0, 0));
 }
 
 void Abe::FreeElumRes_420F80()
