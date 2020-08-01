@@ -1086,7 +1086,84 @@ void Abe::Free_Shrykull_Resources_42F4C0()
 
 void Abe::FreeElumRes_420F80()
 {
-    NOT_IMPLEMENTED();
+    if (field_FC_current_motion == eAbeStates::State_139_ElumMountBegin_42E090)
+    {
+        field_2AA_flags |= 4u;
+    }
+    else
+    {
+        field_2AA_flags &= ~4u;
+    }
+
+    if (field_FC_current_motion == eAbeStates::State_136_ElumMountEnd_42E110)
+    {
+        field_2AA_flags |= 8u;
+    }
+    else
+    {
+        field_2AA_flags &= ~8u;
+    }
+
+    if (field_FC_current_motion == eAbeStates::State_137_ElumUnmountBegin_42E2B0)
+    {
+        field_2AA_flags |= 0x10u;
+    }
+    else
+    {
+        field_2AA_flags &= ~0x10u;
+    }
+
+    ElumFree_4228F0();
+
+    while (!ResourceManager::FreeResource_455550(field_1A4_resources.res[58]))
+    {
+        // Empty
+    }
+ 
+    field_1A4_resources.res[58] = nullptr;
+    ResourceManager::FreeResource_455550(field_1A4_resources.res[46]);
+
+    field_1A4_resources.res[46] = nullptr;
+    if (gElum_507680)
+    {
+        gElum_507680->Vsub_411200();
+    }
+
+    if (field_FC_current_motion != eAbeStates::State_138_ElumUnmountEnd_42E390)
+    {
+        field_104_pending_resource_count++;
+        ResourceManager::LoadResourceFile("ABEBSIC.BAN", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
+
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 115, 0, 0))
+        {
+            field_104_pending_resource_count++;
+            ResourceManager::LoadResourceFile("ANEPRMNT.BAN", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
+        }
+
+        if (gElum_507680)
+        {
+            if (gElum_507680->field_144)
+            {
+                field_104_pending_resource_count++;
+                ResourceManager::LoadResourceFile("ELMPRMNT.BAN", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
+
+                if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 230, 0, 0))
+                {
+                    field_104_pending_resource_count++;
+                    ResourceManager::LoadResourceFile("ELMALONE.BAN", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
+                }
+            }
+        }
+
+        field_104_pending_resource_count++;
+        ResourceManager::LoadResourceFile("ABENOELM.BND", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
+
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 48, 0, 0))
+        {
+            field_104_pending_resource_count++;
+            ResourceManager::LoadResourceFile("ABEOMM.BAN", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
+        }
+    }
 }
 
 void Abe::ToDeathDropFall_42C3D0()
@@ -1343,10 +1420,167 @@ void Abe::ToKnockback_422D90(__int16 bUnknownSound, __int16 bDelayedAnger)
     }
 }
 
-BYTE** Abe::StateToAnimResource_4204F0(int /*motion*/)
+BYTE** Abe::StateToAnimResource_4204F0(short motion)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    short res_idx = 0;
+
+    if (motion < eAbeStates::State_15_Null_42A210)
+    {
+        res_idx = 45;
+    }
+    else if (motion < eAbeStates::State_64_LedgeAscend_428B60)
+    {
+        res_idx = 0;
+    }
+    else if (motion < eAbeStates::State_70_Knockback_428FB0)
+    {
+        res_idx = 32;
+    }
+    else if (motion < eAbeStates::State_74_JumpIntoWell_430EC0)
+    {
+        res_idx = 16;
+    }
+    else if (motion < eAbeStates::State_86_FallLandDie_42EDD0)
+    {
+        res_idx = 37;
+    }
+    else if (motion < eAbeStates::State_87_428FA0)
+    {
+        res_idx = 9;
+    }
+    else if (motion < eAbeStates::State_88_HandstoneBegin_430590)
+    {
+        res_idx = 10;
+    }
+    else if (motion < eAbeStates::State_91_FallingFromGrab_429780)
+    {
+        res_idx = 11;
+    }
+    else if (motion < eAbeStates::State_101_LeverUse_429970)
+    {
+        res_idx = 33;
+    }
+    else if (motion < eAbeStates::State_102_ElumWalkLoop_42DCA0)
+    {
+        res_idx = 1;
+    }
+    else if (motion < eAbeStates::State_127_SlapBomb_429A20)
+    {
+        res_idx = 46;
+    }
+    else if (motion < eAbeStates::State_128_KnockForward_429330)
+    {
+        res_idx = 3;
+    }
+    else if (motion < eAbeStates::State_131_LiftUseUp_42F150)
+    {
+        res_idx = 17;
+    }
+    else if (motion < eAbeStates::State_136_ElumMountEnd_42E110)
+    {
+        res_idx = 43;
+    }
+    else if (motion < eAbeStates::State_137_ElumUnmountBegin_42E2B0)
+    {
+        res_idx = 56;
+    }
+    else if (motion < eAbeStates::State_138_ElumUnmountEnd_42E390)
+    {
+        res_idx = 58;
+    }
+    else if (motion < eAbeStates::State_139_ElumMountBegin_42E090)
+    {
+        res_idx = 59;
+    }
+    else if (motion < eAbeStates::State_140_BeesStruggling_423F30)
+    {
+        res_idx = 61;
+    }
+    else if (motion < eAbeStates::State_142_RockThrowStandingHold_429CE0)
+    {
+        res_idx = 6;
+    }
+    else if (motion < eAbeStates::State_147_ShotRolling_4295C0)
+    {
+        res_idx = 4;
+    }
+    else if (motion < eAbeStates::State_149_PickupItem_42A030)
+    {
+        res_idx = 18;
+    }
+    else if (motion < eAbeStates::State_150_Chant_42FD50)
+    {
+        res_idx = 2;
+    }
+    else if (motion < eAbeStates::State_152_ElumFallOffEdge_42E030)
+    {
+        res_idx = 38;
+    }
+    else if (motion < eAbeStates::State_156_DoorEnter_42D370)
+    {
+        res_idx = 54;
+    }
+    else if (motion < eAbeStates::State_158_ElumKnockback_42E070)
+    {
+        res_idx = 35;
+    }
+    else if (motion < eAbeStates::State_159_423360)
+    {
+        res_idx = 52;
+    }
+    else if (motion < eAbeStates::State_160_4233A0)
+    {
+        res_idx = 22;
+    }
+    else if (motion < eAbeStates::State_161_4233E0)
+    {
+        res_idx = 23;
+    }
+    else if (motion < eAbeStates::State_162_ToShrykull_42F410)
+    {
+        res_idx = 21;
+    }
+    else if (motion >= eAbeStates::State_164_PoisonGasDeath_42A120)
+    {
+        res_idx = 64;
+        if (motion >= 165)
+        {
+            res_idx = motion;
+        }
+    }
+    else
+    {
+        res_idx = 63;
+    }
+
+
+    if (res_idx == field_128)
+    {
+        return field_1A4_resources.res[field_128];
+    }
+
+    if (field_128)
+    {
+        if (field_128 != 45 && field_128 != 46)
+        {
+            ResourceManager::FreeResource_455550(field_1A4_resources.res[field_128]);
+            field_1A4_resources.res[field_128] = nullptr;
+        }
+    }
+    if (res_idx)
+    {
+        if (res_idx != 45 && res_idx != 46)
+        {
+            int v7 = res_idx + 10;
+            if (res_idx >= 46)
+            {
+                v7 = res_idx + 54;
+            }
+            field_1A4_resources.res[res_idx] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, v7, 1, 0);
+        }
+    }
+    field_128 = res_idx;
+    return field_1A4_resources.res[res_idx];
 }
 
 void Abe::ToIdle_422D50()

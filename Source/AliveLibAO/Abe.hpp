@@ -275,7 +275,7 @@ public:
 
     EXPORT void ToKnockback_422D90(__int16 bUnknownSound, __int16 bDelayedAnger);
 
-    EXPORT BYTE** StateToAnimResource_4204F0(int motion);
+    EXPORT BYTE** StateToAnimResource_4204F0(short motion);
 
     EXPORT void ToIdle_422D50();
 
