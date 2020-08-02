@@ -40,6 +40,10 @@ public:
 
     EXPORT void GetColourAmount_435E40(FP* pOut, __int16 xpos, __int16 ypos);
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_435F80();
+
     int field_10_tlvInfo;
     LevelIds field_14_level;
     __int16 field_16_path;

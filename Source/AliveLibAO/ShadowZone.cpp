@@ -3,6 +3,7 @@
 #include "ShadowZone.hpp"
 #include "stdlib.hpp"
 #include "FixedPoint.hpp"
+#include "Events.hpp"
 
 START_NS_AO
 
@@ -74,6 +75,19 @@ ShadowZone* ShadowZone::Vdtor_436180(signed int flags)
 void ShadowZone::VScreenChanged()
 {
     VScreenChanged_435FE0();
+}
+
+void ShadowZone::VUpdate()
+{
+    VUpdate_435F80();
+}
+
+void ShadowZone::VUpdate_435F80()
+{
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
 }
 
 void ShadowZone::VScreenChanged_435FE0()
