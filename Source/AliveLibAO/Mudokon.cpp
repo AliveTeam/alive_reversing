@@ -1142,7 +1142,7 @@ __int16 Mudokon::FindBirdPortal_440250()
     if (FP_Abs(field_1AC_pBirdPortal->field_18_xpos - field_A8_xpos) < FP_FromInteger(gPsxDisplay_504C78.field_0_width) ||
         FP_Abs(field_1AC_pBirdPortal->field_28_ypos - field_AC_ypos) < FP_FromInteger(10))
     {
-        if (field_1AC_pBirdPortal->field_10_portal_type == PortalType::eWorker_1 || field_1AC_pBirdPortal->field_10_portal_type == PortalType::eShrykull_2)
+        if (field_1AC_pBirdPortal->field_10_portal_type == PortalType::eWorker_1 && field_1AC_pBirdPortal->field_10_portal_type == PortalType::eShrykull_2)
         {
             sActiveHero_507678->sub_430510(1);
             field_1AC_pBirdPortal->field_C_refCount++;
