@@ -20,8 +20,8 @@ ShadowZone* ShadowZone::ctor_435D30(Path_ShadowZone* pTlv, Map* /*pMap*/, int tl
 
     field_10_tlvInfo = tlvInfo;
 
-    field_20_mid_x = pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x / 2;
-    field_22_mid_y = pTlv->field_14_bottom_right.field_2_y - pTlv->field_10_top_left.field_2_y / 2;
+    field_20_mid_x = (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2;
+    field_22_mid_y = (pTlv->field_14_bottom_right.field_2_y - pTlv->field_10_top_left.field_2_y) / 2;
 
     field_18_centre_x = field_20_mid_x + pTlv->field_10_top_left.field_0_x;
     field_1A_centre_y = field_22_mid_y + pTlv->field_10_top_left.field_2_y;
