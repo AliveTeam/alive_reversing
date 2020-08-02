@@ -11,7 +11,7 @@ void OneShotSwitchIdSetter::VScreenChanged()
     VScreenChanged_432F00();
 }
 
-EXPORT BaseGameObject* OneShotSwitchIdSetter::Vdtor_432F10(signed int flags)
+BaseGameObject* OneShotSwitchIdSetter::Vdtor_432F10(signed int flags)
 {
     dtor_432EA0();
     if (flags & 1)
