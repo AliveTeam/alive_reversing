@@ -297,7 +297,7 @@ __int16 Elum::VTakeDamage_411020(BaseGameObject* pFrom)
         }
         return 1;
 
-    case Types::e69:
+    case Types::eAbilityRing_69:
         return 0;
 
     case Types::eBeeSwarm_95:

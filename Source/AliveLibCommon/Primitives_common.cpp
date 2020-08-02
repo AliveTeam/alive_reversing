@@ -41,6 +41,13 @@ void PolyFT4_Init(Poly_FT4* pPrim)
     SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyFT4);
 }
 
+void PolyF4_Init(Poly_F4* pPrim)
+{
+    SetNumLongs(&pPrim->mBase.header, 5);
+    SetUnknown(&pPrim->mBase.header);
+    SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyF4);
+}
+
 // Note: Inlined everywhere in real game
 void PolyF3_Init(Poly_F3* pPrim)
 {

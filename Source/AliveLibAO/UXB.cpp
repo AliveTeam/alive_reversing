@@ -289,7 +289,7 @@ __int16 UXB::VTakeDamage_489AB0(BaseGameObject* pFrom)
         }
         break;
 
-    case Types::e69:
+    case Types::eAbilityRing_69:
     case Types::eExplosion_74:
     case Types::eShrykull_85:
         break;

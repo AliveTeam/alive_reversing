@@ -571,3 +571,5 @@ void Init_Sprt_8(Prim_Sprt_8* pPrim);
 void Init_Sprt_16(Prim_Sprt_16* pPrim);
 
 void PolyFT4_Init(Poly_FT4* pPrim);
+
+void PolyF4_Init(Poly_F4* pPrim);
