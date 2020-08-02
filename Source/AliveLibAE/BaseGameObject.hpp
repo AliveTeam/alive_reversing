@@ -112,7 +112,7 @@ enum class Types : __int16
     eFG1_101 = 101,
     eType_102 = 102,
     ePullRope_103 = 103,
-    eType_104 = 104,
+    eAbilityRing_104 = 104,
     eRock_105 = 105,
     eRockSack_106 = 106,
     eType_107 = 107,

@@ -5611,7 +5611,7 @@ __int16 Paramite::vTakeDamage_488250(BaseGameObject* pFrom)
     }
         return 0;
 
-    case Types::eType_104:
+    case Types::eAbilityRing_104:
         return 0;
 
     default:

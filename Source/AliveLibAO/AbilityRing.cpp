@@ -49,6 +49,7 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, __int16 type)
     SetVTable(this, 0x4BC090);
 
     field_4_typeId = Types::eAbilityRing_69;
+    field_278_pTarget_obj = nullptr;
     gObjList_drawables_504618->Push_Back(this);
     field_6_flags.Set(Options::eDrawable_Bit4);
 
@@ -62,13 +63,12 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, __int16 type)
         field_23C_xpos = xpos;
         field_240_ypos = ypos;
 
-        field_278_pTarget_obj = nullptr;
-
+ 
         field_25E_screenX = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
         field_260_screenY = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
 
-        field_262_screenXPos = FP_GetExponent(xpos) - field_260_screenY;
-        field_264_screenYPos = FP_GetExponent(ypos) - field_25E_screenX;
+        field_262_screenXPos = FP_GetExponent(xpos) - field_25E_screenX;
+        field_264_screenYPos = FP_GetExponent(ypos) - field_260_screenY;
 
         const int d1 = MinDistance(field_262_screenXPos, field_264_screenYPos, gPsxDisplay_504C78.field_0_width, 0, 0, 0);
         const int d2 = MinDistance(field_262_screenXPos, field_264_screenYPos, gPsxDisplay_504C78.field_0_width, gPsxDisplay_504C78.field_2_height, 0, gPsxDisplay_504C78.field_2_height);
@@ -160,10 +160,11 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, __int16 type)
         }
 
         field_272_path = gMap_507BA8.field_2_current_path;
-        field_26C_prims = 1;
-        field_26E_tPageMode = 1;
-        field_270_level = gMap_507BA8.field_0_current_level;
         field_10_layer = 39;
+        field_270_level = gMap_507BA8.field_0_current_level;
+        field_26C_semiTrans = 1;
+        field_26E_tPageMode = 1;
+
         field_250_scaleX = FP_FromDouble(1.0999); // TODO: Matching ?? 0x11999
         field_254_scaleY = FP_FromInteger(1);
 
@@ -173,8 +174,8 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, __int16 type)
             {
                 Poly_F4* pPoly = &field_14_pRes[x].mPolys[y];
                 PolyF4_Init(pPoly);
-                SetRGB0(pPoly, field_266_r & 0xFF, field_268_g & 0xFF, field_26A_b & 0xFF);
-                Poly_Set_SemiTrans_498A40(&pPoly->mBase.header, field_26C_prims);
+                SetRGB0(pPoly, field_266_r & 255, field_268_g & 255, field_26A_b & 255);
+                Poly_Set_SemiTrans_498A40(&pPoly->mBase.header, field_26C_semiTrans);
             }
             Init_SetTPage_495FB0(&field_1C_primSetTPage[y], 0, 0, PSX_getTPage_4965D0(2, static_cast<char>(field_26E_tPageMode), 0, 0));
         }
@@ -307,17 +308,15 @@ void AbilityRing::VUpdate_455ED0()
 
         if (FP_GetExponent(field_244_left) <= field_25C_fade)
         {
-            field_266_r = (field_266_r >> 2) + (field_266_r >> 1);
+            field_266_r = (field_266_r >> 1) + (field_266_r >> 2);
             field_268_g = (field_268_g >> 1) + (field_268_g >> 2);
-            field_26A_b = (field_26A_b >> 2) + (field_26A_b >> 1);
+            field_26A_b = (field_26A_b >> 1) + (field_26A_b >> 2);
 
             for (int i = 0; i < 2; i++)
             {
                 for (int j = 0; j < 64; j++)
                 {
-                    field_14_pRes[j].mPolys[i].mBase.header.rgb_code.r = static_cast<BYTE>(field_266_r);
-                    field_14_pRes[j].mPolys[i].mBase.header.rgb_code.r = static_cast<BYTE>(field_268_g);
-                    field_14_pRes[j].mPolys[i].mBase.header.rgb_code.r = static_cast<BYTE>(field_26A_b);
+                    SetRGB0(&field_14_pRes[j].mPolys[i], field_266_r & 255, field_268_g & 255, field_26A_b & 255);
                 }
             }
         }

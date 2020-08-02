@@ -3976,7 +3976,7 @@ __int16 Scrab::vTakeDamage_4A45E0(BaseGameObject* pFrom)
         }
         return 0;
 
-    case Types::eType_104:
+    case Types::eAbilityRing_104:
         return 0;
 
     case Types::eBullet_15:

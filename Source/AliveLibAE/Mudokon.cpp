@@ -1628,7 +1628,7 @@ __int16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
         }
         return 1;
 
-    case Types::eType_104:
+    case Types::eAbilityRing_104:
         return 0;
 
     case Types::eMudokon_110:

@@ -7183,7 +7183,7 @@ __int16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
         return 1;
     }
 
-    case Types::eType_104:
+    case Types::eAbilityRing_104:
         return 1;
 
     case Types::eSlog_126:

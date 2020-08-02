@@ -240,7 +240,7 @@ __int16 MovingBomb::vTakeDamage_470990(BaseGameObject* pFrom)
 
     switch (pFrom->field_4_typeId)
     {
-    case Types::eType_104:
+    case Types::eAbilityRing_104:
     case Types::eExplosion_109:
     case Types::eShrykull_121:
     {

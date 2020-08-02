@@ -44,7 +44,7 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x546AB0);
 
-    field_4_typeId = Types::eType_104;
+    field_4_typeId = Types::eAbilityRing_104;
     field_288_target_obj_id = -1;
     gObjList_drawables_5C1124->Push_Back(this);
     field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
@@ -214,7 +214,7 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
         field_282_path = gMap_5C3030.field_2_current_path;
         field_20_layer = 39;
         field_280_level = gMap_5C3030.field_0_current_level;
-        field_27C_prims = 1;
+        field_27C_semiTrans = 1;
         field_27E_tPageMode = 1;
 
         if (field_284_ring_type == RingTypes::eShrykull_Pulse_Orange_6 && scale == FP_FromDouble(0.5))
@@ -235,8 +235,8 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
             {
                 Poly_F4* pPoly = &field_24_pRes[x].mPolys[y];
                 PolyF4_Init_4F8830(pPoly);
-                SetRGB0(pPoly, field_276_r & 0xFF, field_278_g & 0xFF, field_27A_b & 0xFF);
-                Poly_Set_SemiTrans_4F8A60(&pPoly->mBase.header, field_27C_prims);
+                SetRGB0(pPoly, field_276_r & 255, field_278_g & 255, field_27A_b & 255);
+                Poly_Set_SemiTrans_4F8A60(&pPoly->mBase.header, field_27C_semiTrans);
             }
             Init_SetTPage_4F5B60(&field_2C_primSetTPage[y], 0, 0, PSX_getTPage_4F60E0(2, static_cast<char>(field_27E_tPageMode), 0, 0));
         }
@@ -355,9 +355,9 @@ void AbilityRing::vUpdate_49D160()
     case RingTypes::eInvisible_Pulse_Small_7:
     case RingTypes::eInvisible_Pulse_Large_8:
     case RingTypes::eHealing_Pulse_14:
-        field_258_right = field_25C_speed + field_258_right;
+        field_258_right += field_25C_speed;
         field_254_left = field_258_right - field_268_ring_thickness;
-        if (field_258_right - field_268_ring_thickness < FP_FromInteger(0))
+        if (field_254_left < FP_FromInteger(0))
         {
             field_254_left = FP_FromInteger(0);
         }
@@ -371,7 +371,7 @@ void AbilityRing::vUpdate_49D160()
             {
                 for (int i = 0; i < 64; i++)
                 {
-                    SetRGB0(&field_24_pRes[i].mPolys[j], field_276_r & 0xFF, field_278_g & 0xFF, field_27A_b & 0xFF);
+                    SetRGB0(&field_24_pRes[i].mPolys[j], field_276_r & 255, field_278_g & 255, field_27A_b & 255);
                 }
             }
         }
@@ -397,9 +397,9 @@ void AbilityRing::vUpdate_49D160()
     case RingTypes::eInvisible_Pulse_Emit_9:
     case RingTypes::eHealing_Emit_Effect_11:
     case RingTypes::eShrykull_Pulse_Large_5:
-        field_258_right = field_25C_speed + field_258_right;
+        field_258_right += field_25C_speed;
         field_254_left = field_258_right - field_268_ring_thickness;
-        if (field_258_right - field_268_ring_thickness < FP_FromInteger(0))
+        if (field_254_left < FP_FromInteger(0))
         {
             field_254_left = FP_FromInteger(0);
         }
@@ -413,19 +413,19 @@ void AbilityRing::vUpdate_49D160()
     case RingTypes::eExplosive_Give_3:
     case RingTypes::eInvisible_Pulse_Give_10:
     case RingTypes::eHealing_Give_13:
-        field_258_right = field_258_right - field_25C_speed;
+        field_258_right -= field_25C_speed;
         field_254_left = field_258_right - field_268_ring_thickness;
-        if (field_258_right - field_268_ring_thickness < FP_FromInteger(0))
+        if (field_254_left < FP_FromInteger(0))
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
             field_254_left = FP_FromInteger(0);
             SFX_Play_46FA90(SoundEffect::IngameTransition_84, 0);
             if (field_284_ring_type == RingTypes::eExplosive_Give_3)
             {
-                auto v26 = ae_new<PossessionFlicker>();
-                if (v26)
+                auto pPossessionFlicker = ae_new<PossessionFlicker>();
+                if (pPossessionFlicker)
                 {
-                    v26->ctor_4319E0(sActiveHero_5C1B68, 8, 255, 128, 128);
+                    pPossessionFlicker->ctor_4319E0(sActiveHero_5C1B68, 8, 255, 128, 128);
                 }
             }
         }
@@ -610,7 +610,7 @@ void AbilityRing::vScreenChanged_49DE70()
 
 int AbilityRing::vGetSaveState_49E070(AbilityRing_State* pSaveState)
 {
-    pSaveState->field_0_type = Types::eType_104;
+    pSaveState->field_0_type = Types::eAbilityRing_104;
     pSaveState->field_4_xpos = field_24C_xpos;
     pSaveState->field_8_ypos = field_250_ypos;
     pSaveState->field_C_ring_type = field_284_ring_type;

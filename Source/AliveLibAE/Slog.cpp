@@ -3553,7 +3553,7 @@ __int16 Slog::vTakeDamage_4C4B80(BaseGameObject* pFrom)
         field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
         break;
 
-    case Types::eType_104:
+    case Types::eAbilityRing_104:
         if (!field_160_flags.Get(Flags_160::eBit6))
         {
             field_160_flags.Set(Flags_160::eBit6);
