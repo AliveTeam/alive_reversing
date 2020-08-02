@@ -51,6 +51,7 @@ public:
         Resource_3DGibs = 0x65444433,
         Resource_HintFly = 0x796C4648,
         Resource_Spline = 0x6e6c7053,
+        Resource_Wave = 0x65766157,
     };
 
     struct Header

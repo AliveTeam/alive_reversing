@@ -1,6 +1,10 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   OneShotSwitchIdSetter.hpp
+   OneShotSwitchIdSetter.cpp
+   ShadowZone.hpp
+   ShadowZone.cpp
    GameEnderController.hpp
    GameEnderController.cpp
    MovingBomb.hpp

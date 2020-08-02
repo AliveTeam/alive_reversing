@@ -214,7 +214,7 @@ __int16 MovingBomb::VTakeDamage_43BB60(BaseGameObject* pFrom)
         return 1;
     }
 
-    if ( pFrom->field_4_typeId != Types::e69 &&  pFrom->field_4_typeId != Types::eExplosion_74 &&  pFrom->field_4_typeId != Types::eShrykull_85)
+    if ( pFrom->field_4_typeId != Types::eAbilityRing_69 &&  pFrom->field_4_typeId != Types::eExplosion_74 &&  pFrom->field_4_typeId != Types::eShrykull_85)
     {
         return 0;
     }

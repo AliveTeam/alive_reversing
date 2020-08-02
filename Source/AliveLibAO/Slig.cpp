@@ -9,6 +9,7 @@
 #include "Abe.hpp"
 #include "Events.hpp"
 #include "MusicController.hpp"
+#include "Game.hpp"
 
 START_NS_AO
 
@@ -535,7 +536,17 @@ void Slig::State_45_Smash_46A990()
 
 void Slig::State_46_PullLever_46A590()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        // TODO: ToIdle ?
+        field_12C = 0;
+        field_B4_velx = FP_FromInteger(0);
+        field_B8_vely = FP_FromInteger(0);
+        field_FC_current_motion = eSligStates::State_0_StandIdle_467640;
+        field_126 = 0;
+        field_128_timer = Math_RandomRange_450F20(0, 60) + gnFrameCount_507670 + 120;
+        MapFollowMe_401D30(1);
+    }
 }
 
 void Slig::State_47_LiftUp_4665A0()

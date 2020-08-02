@@ -710,7 +710,7 @@ __int16 Mudokon::VTakeDamage_43F830(BaseGameObject* pFrom)
         }
         return 1;
 
-    case Types::e69:
+    case Types::eAbilityRing_69:
         return 0;
 
     case Types::eBullet_10:

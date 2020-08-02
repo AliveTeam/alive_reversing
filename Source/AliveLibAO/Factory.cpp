@@ -69,6 +69,8 @@
 #include "Scrab.hpp"
 #include "Paramite.hpp"
 #include "MovingBomb.hpp"
+#include "ShadowZone.hpp"
+#include "OneShotSwitchIdSetter.hpp"
 
 START_NS_AO
 
@@ -234,9 +236,16 @@ EXPORT void Factory_Door_481C80(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
 }
 
 
-EXPORT void Factory_ShadowZone_482080(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_ShadowZone_482080(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode != 1 && loadMode != 2)
+    {
+        auto pShadowZone = ao_new<ShadowZone>();
+        if (pShadowZone)
+        {
+            pShadowZone->ctor_435D30(static_cast<Path_ShadowZone*>(pTlv), pMap, tlvOffsetLevelIdPathId.all);
+        }
+    }
 }
 
 
@@ -2186,9 +2195,16 @@ EXPORT void Factory_DoorFlame_481E80(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
 }
 
 
-EXPORT void Factory_SwitchStates_4871D0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_OneShotSwitchIdSetter_4871D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode != 1 && loadMode != 2)
+    {
+        auto pSwitchStates = ao_new<OneShotSwitchIdSetter>();
+        if (pSwitchStates)
+        {
+            pSwitchStates->ctor_432E10(static_cast<Path_OneShotSwitchIdSetter*>(pTlv), tlvOffsetLevelIdPathId.all);
+        }
+    }
 }
 
 
@@ -2915,7 +2931,7 @@ const PathFunctionTable kObjectFactory =
     Factory_WorkerMud_485B20,
     Factory_SligZCover_Null_481850,
     Factory_DoorFlame_481E80,
-    Factory_SwitchStates_4871D0,
+    Factory_OneShotSwitchIdSetter_4871D0,
     Factory_MovingBomb_484E00,
     Factory_MovingBombStopper_Null_484DF0,
     Factory_MeatSaw_483F70,

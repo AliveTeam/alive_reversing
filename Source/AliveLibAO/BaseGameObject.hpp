@@ -80,7 +80,7 @@ enum class Types : __int16
 
     ePullRingRope_68 = 68,
 
-    e69 = 69,
+    eAbilityRing_69 = 69,
 
     eRock_70 = 70,
     eRockSack_71 = 71,

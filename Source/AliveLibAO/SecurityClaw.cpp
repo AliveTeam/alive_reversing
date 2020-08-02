@@ -190,7 +190,7 @@ __int16 SecurityClaw::VTakeDamage_419520(BaseGameObject* pFrom)
 {
     if (!field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
-        if (pFrom->field_4_typeId == Types::e69 || pFrom->field_4_typeId == Types::eShrykull_85)
+        if (pFrom->field_4_typeId == Types::eAbilityRing_69 || pFrom->field_4_typeId == Types::eShrykull_85)
         {
             field_12C_pDetector = 0;
             field_6_flags.Set(BaseGameObject::eDead_Bit3);

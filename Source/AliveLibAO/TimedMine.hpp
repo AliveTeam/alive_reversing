@@ -36,6 +36,10 @@ public:
 
     EXPORT __int16 VTakeDamage_408B90(BaseGameObject* pFrom);
 
+    virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
+
+    EXPORT void VOnThrowableHit_408B10(BaseGameObject* pFrom);
+
     __int16 field_10C_armed;
     unsigned __int16 field_10E_explode_timeout;
     int field_110_tlvInfo;

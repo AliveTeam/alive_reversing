@@ -204,7 +204,7 @@ __int16 Mine::VTakeDamage_43AC40(BaseGameObject* pFrom)
     switch (pFrom->field_4_typeId)
     {
     case Types::eAbe_43:
-    case Types::e69:
+    case Types::eAbilityRing_69:
     case Types::eExplosion_74:
     case Types::eShrykull_85:
     {

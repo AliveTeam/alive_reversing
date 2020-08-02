@@ -31,8 +31,20 @@ public:
 
     EXPORT ChimeLock* Vdtor_40BD40(signed int flags);
 
+    virtual void VScreenChanged() override;
+
+    EXPORT void VScreenChanged_40BCD0();
+
+    virtual void VPossessed() override;
+
+    EXPORT void VPossessed_40BC40();
+
+    virtual void VUnPosses() override;
+
+    EXPORT void VUnPosses_40BC90();
+
     int field_10C_tlvInfo;
-    __int16 field_110;
+    __int16 field_110_state;
     __int16 field_112;
     Bells* field_114_bells;
     Bells* field_118_bells;
