@@ -184,4 +184,26 @@ __int16 TimedMine::VTakeDamage_408B90(BaseGameObject* pFrom)
     }
 }
 
+
+void TimedMine::VOnThrowableHit(BaseGameObject* pFrom)
+{
+    VOnThrowableHit_408B10(pFrom);
+}
+
+void TimedMine::VOnThrowableHit_408B10(BaseGameObject* /*pFrom*/)
+{
+    auto pBaseBomb = ao_new<BaseBomb>();
+    if (pBaseBomb)
+    {
+        pBaseBomb->ctor_4173A0(
+            field_A8_xpos,
+            field_AC_ypos,
+            0,
+            field_BC_sprite_scale);
+    }
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    field_10C_armed = 1;
+    field_114_timer = gnFrameCount_507670;
+}
+
 END_NS_AO

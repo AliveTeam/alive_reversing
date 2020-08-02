@@ -5,6 +5,9 @@
 #include "Bells.hpp"
 #include "stdlib.hpp"
 #include "SwitchStates.hpp"
+#include "Game.hpp"
+#include "Abe.hpp"
+#include "Sfx.hpp"
 
 START_NS_AO
 
@@ -119,7 +122,7 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo)
     field_15C = 0;
     field_128 = 0;
     field_164 = 0;
-    field_110 = 0;
+    field_110_state = 0;
 
     return this;
 }
@@ -157,6 +160,68 @@ ChimeLock* ChimeLock::Vdtor_40BD40(signed int flags)
         ao_delete_free_447540(this);
     }
     return this;
+}
+
+
+void ChimeLock::VScreenChanged()
+{
+    VScreenChanged_40BCD0();
+}
+
+
+void ChimeLock::VScreenChanged_40BCD0()
+{
+    if (field_114_bells)
+    {
+        field_114_bells->field_6_flags.Set(Options::eDead_Bit3);
+        field_114_bells->field_C_refCount--;
+        field_114_bells = nullptr;
+    }
+
+    if (field_118_bells)
+    {
+        field_118_bells->field_6_flags.Set(Options::eDead_Bit3);
+        field_118_bells->field_C_refCount--;
+        field_118_bells = nullptr;
+    }
+
+    if (field_11C_bells)
+    {
+        field_11C_bells->field_6_flags.Set(Options::eDead_Bit3);
+        field_11C_bells->field_C_refCount--;
+        field_11C_bells = nullptr;
+    }
+
+    field_6_flags.Set(Options::eDead_Bit3);
+}
+
+void ChimeLock::VPossessed()
+{
+    VPossessed_40BC40();
+}
+
+void ChimeLock::VUnPosses()
+{
+    VUnPosses_40BC90();
+}
+
+void ChimeLock::VUnPosses_40BC90()
+{
+    field_10A_flags.Clear(Flags_10A::e10A_Bit2);
+    field_110_state = 0;
+    sActiveHero_507678->SetActiveControlledCharacter_421480();
+    SFX_Play_43AE60(21u, 70, 400, 0);
+}
+
+void ChimeLock::VPossessed_40BC40()
+{
+    field_138 &= ~3u;
+    field_10A_flags.Set(Flags_10A::e10A_Bit2);
+    field_110_state = 2;
+    field_128 = 0;
+    field_12C = gnFrameCount_507670 + 45;
+    field_15C = 0;
+    field_164 = 0;
 }
 
 BaseGameObject* ChimeLock::VDestructor(signed int flags)
