@@ -115,7 +115,7 @@ Slig* Slig::ctor_464D40(Path_Slig* pTlv, int tlvInfo)
     field_10C = 0;
     field_10E_brain_state = 0;
     field_FE_next_state = 0;
-    field_EC_oldY = 3;
+    field_EC = 3;
     field_158 = 0;
     field_154 = 0;
     field_F8_pLiftPoint = nullptr;

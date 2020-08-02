@@ -49,6 +49,15 @@ const TParamiteStateFunction sParamiteMotionTable_4CDCB0[] =
     &Paramite::State_25_Death_44DB90,
 };
 
+
+static AIFunctionData<Paramite::TParamiteBrain> sParamiteAITable[]
+{
+    { &Paramite::Brain_447A10,  0x447A10, "Brain_447A10" },
+    { &Paramite::Brain_448D00,  0x448D00, "Brain_448D00" },
+
+    // TODO: Add all the others
+};
+
 Paramite* Paramite::ctor_44A7A0(Path_Paramite* pTlv, int tlvInfo)
 {
     ctor_401090();
@@ -83,10 +92,10 @@ Paramite* Paramite::ctor_44A7A0(Path_Paramite* pTlv, int tlvInfo)
 
     field_10A_flags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
     field_114 = 0;
-    field_10C_fn = &Paramite::Brain_447A10;
+    SetBrain(&Paramite::Brain_447A10);
     field_110_state = 0;
     field_FE_next_state = 0;
-    field_EC_oldY = 3;
+    field_EC = 3;
     field_F8_pLiftPoint = nullptr;
     field_FC_current_motion = eParamiteStates::State_0_Idle_44B900;
     field_140 = 0;
@@ -113,7 +122,7 @@ Paramite* Paramite::ctor_44A7A0(Path_Paramite* pTlv, int tlvInfo)
 
     if (pTlv->field_1A_entrance_type)
     {
-        field_10C_fn = &Paramite::Brain_448D00;
+        SetBrain(&Paramite::Brain_448D00);
     }
 
     field_11E_attack_delay = pTlv->field_1C_attack_delay;
@@ -291,6 +300,16 @@ __int16 Paramite::Brain_448D00()
 {
     NOT_IMPLEMENTED();
     return 0;
+}
+
+void Paramite::SetBrain(Paramite::TParamiteBrain fn)
+{
+    ::SetBrain(fn, field_10C_fn, sParamiteAITable);
+}
+
+bool Paramite::BrainIs(Paramite::TParamiteBrain fn)
+{
+    return ::BrainIs(fn, field_10C_fn, sParamiteAITable);
 }
 
 void Paramite::State_0_Idle_44B900()

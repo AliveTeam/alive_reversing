@@ -637,7 +637,7 @@ Abe* Abe::ctor_420770(int frameTableOffset, int /*r*/, int /*g*/, int /*b*/)
     field_F8_pLiftPoint = nullptr;
     field_130_say = -1;
     field_134_auto_say_timer = 0;
-    field_EC_oldY = 1;
+    field_EC = 1;
     field_12A = 161;
 
     // Set Abe to be the current player controlled object

@@ -36,7 +36,7 @@ BaseAliveGameObject *BaseAliveGameObject::ctor_401090()
     field_100_health = FP_FromInteger(1);
     field_106_shot = 0;
     field_108_bMotionChanged = 0;
-    field_EC_oldY = 0;
+    field_EC = 0;
     field_FC_current_motion = 0;
     field_FE_next_state = 0;
     field_E4 = 0;
