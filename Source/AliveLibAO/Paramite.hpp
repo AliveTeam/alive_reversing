@@ -82,10 +82,18 @@ public:
 
     EXPORT __int16 sub_44B320();
 
+
     // Brains
     EXPORT __int16 Brain_447A10();
 
     EXPORT __int16 Brain_448D00();
+
+
+    using TParamiteBrain = decltype(&Paramite::Brain_447A10);
+
+    void SetBrain(TParamiteBrain fn);
+
+    bool BrainIs(TParamiteBrain fn);
 
     // States
     EXPORT void State_0_Idle_44B900();
@@ -115,9 +123,8 @@ public:
     EXPORT void State_24_Struggle_44DB70();
     EXPORT void State_25_Death_44DB90();
 
-    using TBrain = decltype(&Paramite::Brain_447A10);
 
-    TBrain field_10C_fn;
+    TParamiteBrain field_10C_fn;
     __int16 field_110_state;
     __int16 field_112_meat_eating_time;
     int field_114;

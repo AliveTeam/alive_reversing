@@ -2205,7 +2205,7 @@ Elum* Elum::ctor_410870(int, anythingForTheTimeBeing, anythingForTheTimeBeing, i
     field_122 = 0;
     field_124 = 1;
     field_10E = 0;
-    field_EC_oldY = 2;
+    field_EC = 2;
     field_E6_last_anim_frame = 0;
     field_130 = 0;
 

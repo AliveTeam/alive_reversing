@@ -154,7 +154,7 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, int tlvInfo)
     field_1C0_timer = 0;
     field_1B8_brain_idx = 0;
     field_1BA_sub_state = 0;
-    field_EC_oldY = 3;
+    field_EC = 3;
     field_1BC = 0;
     field_124 = 0;
     field_148_res_array = {};

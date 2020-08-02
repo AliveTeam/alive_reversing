@@ -103,7 +103,7 @@ public:
     __int16 field_E4;
     __int16 field_E6_last_anim_frame;
     FP field_E8_LastLineYPos;
-    __int16 field_EC_oldY;
+    __int16 field_EC;
     __int16 field_EE_type;
     Path_TLV* field_F0_pTlv;
     PathLine* field_F4_pLine;

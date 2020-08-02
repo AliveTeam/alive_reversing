@@ -637,7 +637,7 @@ Abe* Abe::ctor_420770(int frameTableOffset, int /*r*/, int /*g*/, int /*b*/)
     field_F8_pLiftPoint = nullptr;
     field_130_say = -1;
     field_134_auto_say_timer = 0;
-    field_EC_oldY = 1;
+    field_EC = 1;
     field_12A = 161;
 
     // Set Abe to be the current player controlled object
@@ -3459,7 +3459,7 @@ void Abe::State_66_LedgeHang_428D90()
 {
     FollowLift_42EE90();
 
-    field_D0_pShadow->field_14_flags.Toggle(Shadow::eBit1_ShadowAtBottom);
+    field_D0_pShadow->field_14_flags.Set(Shadow::eBit1_ShadowAtBottom);
 
     if (sInputObject_5009E8.isPressed(sInputKey_Up_4C6598))
     {
