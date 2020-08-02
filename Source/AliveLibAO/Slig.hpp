@@ -193,7 +193,7 @@ public:
     __int16 field_122;
     __int16 field_124;
     __int16 field_126;
-    int field_128;
+    int field_128_timer;
     int field_12C;
     __int16 field_130;
     __int16 field_132;
