@@ -355,9 +355,9 @@ void AbilityRing::vUpdate_49D160()
     case RingTypes::eInvisible_Pulse_Small_7:
     case RingTypes::eInvisible_Pulse_Large_8:
     case RingTypes::eHealing_Pulse_14:
-        field_258_right = field_25C_speed + field_258_right;
+        field_258_right += field_25C_speed;
         field_254_left = field_258_right - field_268_ring_thickness;
-        if (field_258_right - field_268_ring_thickness < FP_FromInteger(0))
+        if (field_254_left < FP_FromInteger(0))
         {
             field_254_left = FP_FromInteger(0);
         }
@@ -371,7 +371,7 @@ void AbilityRing::vUpdate_49D160()
             {
                 for (int i = 0; i < 64; i++)
                 {
-                    SetRGB0(&field_24_pRes[i].mPolys[j], field_276_r & 0xFF, field_278_g & 0xFF, field_27A_b & 0xFF);
+                    SetRGB0(&field_24_pRes[i].mPolys[j], field_276_r & 255, field_278_g & 255, field_27A_b & 255);
                 }
             }
         }
@@ -397,9 +397,9 @@ void AbilityRing::vUpdate_49D160()
     case RingTypes::eInvisible_Pulse_Emit_9:
     case RingTypes::eHealing_Emit_Effect_11:
     case RingTypes::eShrykull_Pulse_Large_5:
-        field_258_right = field_25C_speed + field_258_right;
+        field_258_right += field_25C_speed;
         field_254_left = field_258_right - field_268_ring_thickness;
-        if (field_258_right - field_268_ring_thickness < FP_FromInteger(0))
+        if (field_254_left < FP_FromInteger(0))
         {
             field_254_left = FP_FromInteger(0);
         }
@@ -413,19 +413,19 @@ void AbilityRing::vUpdate_49D160()
     case RingTypes::eExplosive_Give_3:
     case RingTypes::eInvisible_Pulse_Give_10:
     case RingTypes::eHealing_Give_13:
-        field_258_right = field_258_right - field_25C_speed;
+        field_258_right -= field_25C_speed;
         field_254_left = field_258_right - field_268_ring_thickness;
-        if (field_258_right - field_268_ring_thickness < FP_FromInteger(0))
+        if (field_254_left < FP_FromInteger(0))
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
             field_254_left = FP_FromInteger(0);
             SFX_Play_46FA90(SoundEffect::IngameTransition_84, 0);
             if (field_284_ring_type == RingTypes::eExplosive_Give_3)
             {
-                auto v26 = ae_new<PossessionFlicker>();
-                if (v26)
+                auto pPossessionFlicker = ae_new<PossessionFlicker>();
+                if (pPossessionFlicker)
                 {
-                    v26->ctor_4319E0(sActiveHero_5C1B68, 8, 255, 128, 128);
+                    pPossessionFlicker->ctor_4319E0(sActiveHero_5C1B68, 8, 255, 128, 128);
                 }
             }
         }

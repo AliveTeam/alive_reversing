@@ -67,8 +67,8 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, __int16 type)
         field_25E_screenX = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
         field_260_screenY = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
 
-        field_262_screenXPos = FP_GetExponent(xpos) - field_260_screenY;
-        field_264_screenYPos = FP_GetExponent(ypos) - field_25E_screenX;
+        field_262_screenXPos = FP_GetExponent(xpos) - field_25E_screenX;
+        field_264_screenYPos = FP_GetExponent(ypos) - field_260_screenY;
 
         const int d1 = MinDistance(field_262_screenXPos, field_264_screenYPos, gPsxDisplay_504C78.field_0_width, 0, 0, 0);
         const int d2 = MinDistance(field_262_screenXPos, field_264_screenYPos, gPsxDisplay_504C78.field_0_width, gPsxDisplay_504C78.field_2_height, 0, gPsxDisplay_504C78.field_2_height);
@@ -308,17 +308,15 @@ void AbilityRing::VUpdate_455ED0()
 
         if (FP_GetExponent(field_244_left) <= field_25C_fade)
         {
-            field_266_r = (field_266_r >> 2) + (field_266_r >> 1);
+            field_266_r = (field_266_r >> 1) + (field_266_r >> 2);
             field_268_g = (field_268_g >> 1) + (field_268_g >> 2);
-            field_26A_b = (field_26A_b >> 2) + (field_26A_b >> 1);
+            field_26A_b = (field_26A_b >> 1) + (field_26A_b >> 2);
 
             for (int i = 0; i < 2; i++)
             {
                 for (int j = 0; j < 64; j++)
                 {
-                    field_14_pRes[j].mPolys[i].mBase.header.rgb_code.r = static_cast<BYTE>(field_266_r);
-                    field_14_pRes[j].mPolys[i].mBase.header.rgb_code.r = static_cast<BYTE>(field_268_g);
-                    field_14_pRes[j].mPolys[i].mBase.header.rgb_code.r = static_cast<BYTE>(field_26A_b);
+                    SetRGB0(&field_14_pRes[j].mPolys[i], field_266_r & 255, field_268_g & 255, field_26A_b & 255);
                 }
             }
         }
