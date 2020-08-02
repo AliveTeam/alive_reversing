@@ -69,6 +69,7 @@
 #include "Scrab.hpp"
 #include "Paramite.hpp"
 #include "MovingBomb.hpp"
+#include "ShadowZone.hpp"
 
 START_NS_AO
 
@@ -234,9 +235,16 @@ EXPORT void Factory_Door_481C80(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
 }
 
 
-EXPORT void Factory_ShadowZone_482080(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_ShadowZone_482080(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode != 1 && loadMode != 2)
+    {
+        auto pShadowZone = ao_new<ShadowZone>();
+        if (pShadowZone)
+        {
+            pShadowZone->ctor_435D30(static_cast<Path_ShadowZone*>(pTlv), pMap, tlvOffsetLevelIdPathId.all);
+        }
+    }
 }
 
 
