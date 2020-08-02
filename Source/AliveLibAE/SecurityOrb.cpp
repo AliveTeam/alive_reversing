@@ -125,7 +125,7 @@ signed __int16 SecurityOrb::vTakeDamage_466BB0(BaseGameObject* pFrom)
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
     field_10C_health = FP_FromInteger(0);
 
-    if (pFrom->field_4_typeId == Types::eMineCar_89 || pFrom->field_4_typeId == Types::eType_104 || pFrom->field_4_typeId == Types::eShrykull_121)
+    if (pFrom->field_4_typeId == Types::eMineCar_89 || pFrom->field_4_typeId == Types::eAbilityRing_104 || pFrom->field_4_typeId == Types::eShrykull_121)
     {
         auto pExplosionMem = ae_new<Explosion>();
         if (pExplosionMem)

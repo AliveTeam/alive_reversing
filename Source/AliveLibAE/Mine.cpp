@@ -309,7 +309,7 @@ signed __int16 Mine::vTakeDamage_46BB20(BaseGameObject* pFrom)
     case Types::eGreeter_64:
     case Types::eAbe_69:
     case Types::eMineCar_89:
-    case Types::eType_104:
+    case Types::eAbilityRing_104:
     case Types::eExplosion_109:
     case Types::eMudokon_110:
     case Types::eShrykull_121:

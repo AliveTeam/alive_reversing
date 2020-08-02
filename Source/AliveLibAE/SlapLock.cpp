@@ -410,7 +410,7 @@ void SlapLock::vUpdate_43DF90()
                         break;
                     }
 
-                    if (pObj->field_4_typeId == Types::eType_104 && pObj->field_C_objectId == field_134_id)
+                    if (pObj->field_4_typeId == Types::eAbilityRing_104 && pObj->field_C_objectId == field_134_id)
                     {
                         field_134_id = pObj->field_8_object_id;
                         break;

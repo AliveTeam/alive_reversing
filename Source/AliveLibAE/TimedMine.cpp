@@ -328,7 +328,7 @@ __int16 TimedMine::vTakeDamage_410FA0(BaseGameObject* pFrom)
     switch (pFrom->field_4_typeId)
     {
     case Types::eAbe_69:
-    case Types::eType_104:
+    case Types::eAbilityRing_104:
     case Types::eExplosion_109:
     case Types::eShrykull_121:
     {

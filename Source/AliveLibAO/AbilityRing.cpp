@@ -49,6 +49,7 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, __int16 type)
     SetVTable(this, 0x4BC090);
 
     field_4_typeId = Types::eAbilityRing_69;
+    field_278_pTarget_obj = nullptr;
     gObjList_drawables_504618->Push_Back(this);
     field_6_flags.Set(Options::eDrawable_Bit4);
 
@@ -62,8 +63,7 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, __int16 type)
         field_23C_xpos = xpos;
         field_240_ypos = ypos;
 
-        field_278_pTarget_obj = nullptr;
-
+ 
         field_25E_screenX = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
         field_260_screenY = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
 
@@ -160,10 +160,11 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, __int16 type)
         }
 
         field_272_path = gMap_507BA8.field_2_current_path;
+        field_10_layer = 39;
+        field_270_level = gMap_507BA8.field_0_current_level;
         field_26C_semiTrans = 1;
         field_26E_tPageMode = 1;
-        field_270_level = gMap_507BA8.field_0_current_level;
-        field_10_layer = 39;
+
         field_250_scaleX = FP_FromDouble(1.0999); // TODO: Matching ?? 0x11999
         field_254_scaleY = FP_FromInteger(1);
 

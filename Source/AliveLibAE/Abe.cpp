@@ -2398,7 +2398,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
         }
         break;
 
-    case Types::eType_104:
+    case Types::eAbilityRing_104:
         return 0;
 
     case Types::eType_107:
