@@ -43,6 +43,10 @@ public:
 
     EXPORT void VUpdate_455ED0();
 
+    virtual void VRender(int** ppOt) override;
+
+    EXPORT void VRender_456340(int** ppOt);
+
     __int16 field_10_layer;
     __int16 field_12_pad;
     AbilityRing_PolyBuffer* field_14_pRes;

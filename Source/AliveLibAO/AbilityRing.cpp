@@ -386,4 +386,14 @@ void AbilityRing::VUpdate_455ED0()
     }
 }
 
+void AbilityRing::VRender(int** ppOt)
+{
+    VRender_456340(ppOt);
+}
+
+void AbilityRing::VRender_456340(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 END_NS_AO
