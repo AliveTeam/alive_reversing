@@ -3459,7 +3459,7 @@ void Abe::State_66_LedgeHang_428D90()
 {
     FollowLift_42EE90();
 
-    field_D0_pShadow->field_14_flags.Toggle(Shadow::eBit1_ShadowAtBottom);
+    field_D0_pShadow->field_14_flags.Set(Shadow::eBit1_ShadowAtBottom);
 
     if (sInputObject_5009E8.isPressed(sInputKey_Up_4C6598))
     {
