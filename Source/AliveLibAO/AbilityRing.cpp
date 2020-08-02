@@ -227,4 +227,41 @@ void AbilityRing::VScreenChanged_4568D0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
+void AbilityRing::CollideWithObjects_456250()
+{
+    for (auto& rect : field_3C_collide_rects)
+    {
+        rect.x += field_25E_screenX;
+        rect.y += field_260_screenY;
+        rect.w += field_25E_screenX;
+        rect.h += field_260_screenY;
+    }
+
+    for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    {
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        PSX_RECT bRect = {};
+        pObj->VGetBoundingRect(&bRect, 1);
+
+        if (!(pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3)))
+        {
+            for (auto& rect : field_3C_collide_rects)
+            {
+                if (rect.x <= bRect.w &&
+                    rect.w >= bRect.x &&
+                    rect.h >= bRect.y &&
+                    rect.y <= bRect.h)
+                {
+                    pObj->VTakeDamage(this);
+                }
+            }
+        }
+    }
+}
+
 END_NS_AO
