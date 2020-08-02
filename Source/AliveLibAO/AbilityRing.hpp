@@ -39,6 +39,10 @@ public:
 
     EXPORT void CollideWithObjects_456250();
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_455ED0();
+
     __int16 field_10_layer;
     __int16 field_12_pad;
     AbilityRing_PolyBuffer* field_14_pRes;

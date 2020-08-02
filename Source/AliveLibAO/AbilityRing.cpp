@@ -11,6 +11,7 @@
 #include "Math.hpp"
 #include "Abe.hpp"
 #include "Sfx.hpp"
+#include "PossessionFlicker.hpp"
 
 START_NS_AO
 
@@ -261,6 +262,127 @@ void AbilityRing::CollideWithObjects_456250()
                 }
             }
         }
+    }
+}
+
+void AbilityRing::VUpdate()
+{
+    VUpdate_455ED0();
+}
+
+void AbilityRing::VUpdate_455ED0()
+{
+    if (field_278_pTarget_obj)
+    {
+        if (field_278_pTarget_obj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+        {
+            field_278_pTarget_obj->field_C_refCount--;
+            field_278_pTarget_obj = nullptr;
+        }
+        else
+        {
+            field_25E_screenX = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
+            field_260_screenY = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
+
+            PSX_RECT bRect = {};
+            field_278_pTarget_obj->VGetBoundingRect(&bRect, 1);
+
+            field_262_screenXPos = (bRect.w + bRect.x) / 2 - field_25E_screenX;
+            field_264_screenYPos = (bRect.h + bRect.y) / 2 - field_260_screenY;
+        }
+    }
+
+    switch (field_274_ring_type)
+    {
+    case 0:
+    case 4:
+    case 6:
+        field_248_right += field_24C_speed;
+        field_244_left = field_248_right - field_258_ring_thickness;
+
+        if (field_244_left < FP_FromInteger(0))
+        {
+            field_244_left = FP_FromInteger(0);
+        }
+
+        if (FP_GetExponent(field_244_left) <= field_25C_fade)
+        {
+            field_266_r = (field_266_r >> 2) + (field_266_r >> 1);
+            field_268_g = (field_268_g >> 1) + (field_268_g >> 2);
+            field_26A_b = (field_26A_b >> 2) + (field_26A_b >> 1);
+
+            for (int i = 0; i < 2; i++)
+            {
+                for (int j = 0; j < 64; j++)
+                {
+                    field_14_pRes[j].mPolys[i].mBase.header.rgb_code.r = static_cast<BYTE>(field_266_r);
+                    field_14_pRes[j].mPolys[i].mBase.header.rgb_code.r = static_cast<BYTE>(field_268_g);
+                    field_14_pRes[j].mPolys[i].mBase.header.rgb_code.r = static_cast<BYTE>(field_26A_b);
+                }
+            }
+        }
+        else
+        {
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        }
+        return;
+
+    case 1:
+        CollideWithObjects_456250();
+        // Fall through
+
+    case 2:
+        field_248_right += field_24C_speed;
+        field_244_left = field_248_right - field_258_ring_thickness;
+
+        if (field_244_left < FP_FromInteger(0))
+        {
+            field_244_left = FP_FromInteger(0);
+        }
+
+        if (FP_GetExponent(field_244_left) > field_25C_fade)
+        {
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        }
+        break;
+
+    case 3:
+        field_248_right -= field_24C_speed;
+        field_244_left = field_248_right - field_258_ring_thickness;
+        if (field_244_left < FP_FromInteger(0))
+        {
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            field_244_left = FP_FromInteger(0);
+            SFX_Play_43AD70(107u, 0, 0);
+            auto pPossessionFlicker = ao_new<PossessionFlicker>();
+            if (pPossessionFlicker)
+            {
+                pPossessionFlicker->ctor_41A8C0(sActiveHero_507678, 8, 255, 128, 128);
+            }
+        }
+        break;
+
+    case 5:
+        field_248_right += field_24C_speed;
+        field_244_left = field_248_right - field_258_ring_thickness;
+        if (field_244_left >= FP_FromInteger(0))
+        {
+            if (FP_GetExponent(field_244_left) > field_25C_fade)
+            {
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            }
+        }
+        else
+        {
+            field_244_left = FP_FromInteger(0);
+            if (field_25C_fade < 0)
+            {
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            }
+        }
+        break;
+    default:
+        return;
     }
 }
 
