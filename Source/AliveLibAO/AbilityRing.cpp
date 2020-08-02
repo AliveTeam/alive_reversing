@@ -160,7 +160,7 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, __int16 type)
         }
 
         field_272_path = gMap_507BA8.field_2_current_path;
-        field_26C_prims = 1;
+        field_26C_semiTrans = 1;
         field_26E_tPageMode = 1;
         field_270_level = gMap_507BA8.field_0_current_level;
         field_10_layer = 39;
@@ -173,8 +173,8 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, __int16 type)
             {
                 Poly_F4* pPoly = &field_14_pRes[x].mPolys[y];
                 PolyF4_Init(pPoly);
-                SetRGB0(pPoly, field_266_r & 0xFF, field_268_g & 0xFF, field_26A_b & 0xFF);
-                Poly_Set_SemiTrans_498A40(&pPoly->mBase.header, field_26C_prims);
+                SetRGB0(pPoly, field_266_r & 255, field_268_g & 255, field_26A_b & 255);
+                Poly_Set_SemiTrans_498A40(&pPoly->mBase.header, field_26C_semiTrans);
             }
             Init_SetTPage_495FB0(&field_1C_primSetTPage[y], 0, 0, PSX_getTPage_4965D0(2, static_cast<char>(field_26E_tPageMode), 0, 0));
         }

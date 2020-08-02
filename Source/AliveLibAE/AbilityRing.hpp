@@ -103,7 +103,7 @@ private:
     __int16 field_276_r;
     __int16 field_278_g;
     __int16 field_27A_b;
-    __int16 field_27C_prims;
+    __int16 field_27C_semiTrans;
     __int16 field_27E_tPageMode;
     LevelIds field_280_level;
     __int16 field_282_path;

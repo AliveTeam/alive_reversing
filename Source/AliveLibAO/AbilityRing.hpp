@@ -69,7 +69,7 @@ public:
     __int16 field_266_r;
     __int16 field_268_g;
     __int16 field_26A_b;
-    __int16 field_26C_prims;
+    __int16 field_26C_semiTrans;
     __int16 field_26E_tPageMode;
     LevelIds field_270_level;
     __int16 field_272_path;

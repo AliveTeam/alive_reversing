@@ -214,7 +214,7 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
         field_282_path = gMap_5C3030.field_2_current_path;
         field_20_layer = 39;
         field_280_level = gMap_5C3030.field_0_current_level;
-        field_27C_prims = 1;
+        field_27C_semiTrans = 1;
         field_27E_tPageMode = 1;
 
         if (field_284_ring_type == RingTypes::eShrykull_Pulse_Orange_6 && scale == FP_FromDouble(0.5))
@@ -235,8 +235,8 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
             {
                 Poly_F4* pPoly = &field_24_pRes[x].mPolys[y];
                 PolyF4_Init_4F8830(pPoly);
-                SetRGB0(pPoly, field_276_r & 0xFF, field_278_g & 0xFF, field_27A_b & 0xFF);
-                Poly_Set_SemiTrans_4F8A60(&pPoly->mBase.header, field_27C_prims);
+                SetRGB0(pPoly, field_276_r & 255, field_278_g & 255, field_27A_b & 255);
+                Poly_Set_SemiTrans_4F8A60(&pPoly->mBase.header, field_27C_semiTrans);
             }
             Init_SetTPage_4F5B60(&field_2C_primSetTPage[y], 0, 0, PSX_getTPage_4F60E0(2, static_cast<char>(field_27E_tPageMode), 0, 0));
         }
