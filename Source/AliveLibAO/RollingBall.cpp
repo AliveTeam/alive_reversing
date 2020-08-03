@@ -159,6 +159,9 @@ RollingBall* RollingBall::ctor_4578C0(Path_RollingBall* pTlv, int tlvInfo)
 // Something to do with skipping gaps across camera ??
 EXPORT FP CC sub_418590(FP xpos, FP xvel, __int16 xMargin, WORD* pResult)
 {
+    // Disabled until #535 is fixed
+    NOT_IMPLEMENTED();
+
     const FP v1 = xpos - FP_FromInteger(256);
 
     const FP xDiv = FP_FromInteger(FP_GetExponent(v1) / 512);
