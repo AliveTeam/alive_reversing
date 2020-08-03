@@ -15,6 +15,7 @@
 #include "Gibs.hpp"
 #include "Blood.hpp"
 #include "Game.hpp"
+#include "Events.hpp"
 
 void Paramite_ForceLink() {}
 
@@ -571,8 +572,68 @@ __int16 Paramite::Brain_448D00()
 
 __int16 Paramite::Brain_44DD70()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+
+    if (IsBeeSwarmChasingMe_4022B0())
+    {
+        switch (field_110_state)
+        {
+        case 0:
+            field_114 = gnFrameCount_507670 + 30;
+            return 1;
+
+        case 1:
+            if (field_114 <= static_cast<int>(gnFrameCount_507670))
+            {
+                field_FC_current_motion = eParamiteStates::State_13_GameSpeakBegin_44D050;
+                field_FE_next_state = eParamiteStates::State_15_Hiss_44D300;
+                return 2;
+            }
+            break;
+
+        case 2:
+            if (field_FC_current_motion == eParamiteStates::State_15_Hiss_44D300)
+            {
+                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+                {
+                    field_FE_next_state = eParamiteStates::State_5_Turn_44C8E0;
+                    return 3;
+                }
+            }
+            break;
+
+        case 3:
+            if (field_FC_current_motion == eParamiteStates::State_5_Turn_44C8E0)
+            {
+                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+                {
+                    field_FE_next_state = eParamiteStates::State_25_Death_44DB90;
+                    field_114 = gnFrameCount_507670 + 30;
+                    return 1;
+                }
+            }
+            break;
+        default:
+            break;
+        }
+        return field_110_state;
+    }
+    else if (field_FC_current_motion == eParamiteStates::State_5_Turn_44C8E0)
+    {
+        field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
+        SetBrain(&Paramite::Brain_447A10);
+        return 0;
+    }
+    else
+    {
+        field_FC_current_motion = eParamiteStates::State_0_Idle_44B900;
+        field_FE_next_state = -1;
+        SetBrain(&Paramite::Brain_447A10);
+        return field_110_state;
+    }
 }
 
 __int16 Paramite::Brain_448BF0()
