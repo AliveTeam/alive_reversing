@@ -70,6 +70,28 @@ public:
 
     EXPORT Paramite* Vdtor_44B300(signed int flags);
 
+    EXPORT BYTE** ResBlockForMotion_44AC10(__int16 motion);
+
+    virtual void VRender(int** pOrderingTable) override;
+
+    EXPORT void VRender_44ACA0(int** ppOt);
+
+    virtual __int16 VTakeDamage(BaseGameObject* pFrom) override;
+
+    EXPORT __int16 VTakeDamage_44ACC0(BaseGameObject* pFrom);
+
+    virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
+
+    EXPORT void VOn_Tlv_Collision_44AF30(Path_TLV* pTlv);
+
+    virtual void VScreenChanged() override;
+
+    EXPORT void VScreenChanged_44B2C0();
+
+    virtual __int16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
+
+    EXPORT __int16 VOnSameYLevel_44B240(BaseAnimatedWithPhysicsGameObject* pOther);
+
     virtual void VOnTrapDoorOpen() override;
 
     EXPORT void VOnTrapDoorOpen_44B8C0();
@@ -82,13 +104,22 @@ public:
 
     EXPORT __int16 sub_44B320();
 
+    EXPORT void VUpdateAnimData_44A460();
+
+    EXPORT __int16 FindOtherParamite_44AF80();
 
     // Brains
     EXPORT __int16 Brain_447A10();
 
     EXPORT __int16 Brain_448D00();
 
+    EXPORT __int16 Brain_44DD70();
 
+    EXPORT __int16 Brain_448BF0();
+ 
+    EXPORT __int16 Brain_449170();
+
+    
     using TParamiteBrain = decltype(&Paramite::Brain_447A10);
 
     void SetBrain(TParamiteBrain fn);
@@ -134,7 +165,7 @@ public:
     int field_120;
     int field_124;
     __int16 field_128;
-    __int16 field_12A;
+    __int16 field_12A_res_idx;
     int field_12C;
     int field_130;
     int field_134_disabled_resources;
