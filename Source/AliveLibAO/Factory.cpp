@@ -71,6 +71,7 @@
 #include "MovingBomb.hpp"
 #include "ShadowZone.hpp"
 #include "OneShotSwitchIdSetter.hpp"
+#include "SwitchStateBooleanLogic.hpp"
 
 START_NS_AO
 
@@ -2519,9 +2520,16 @@ EXPORT void Factory_StatusBoard_487AF0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
 }
 
 
-EXPORT void Factory_487B80(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_SwitchStateBooleanLogic_487B80(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    if (loadMode != 1 && loadMode != 2)
+    {
+        auto pSwitchStateBooleanLogic = ao_new<SwitchStateBooleanLogic>();
+        if (pSwitchStateBooleanLogic)
+        {
+            pSwitchStateBooleanLogic->ctor_436AB0(static_cast<Path_SwitchStateBooleanLogic*>(pTlv), tlvOffsetLevelIdPathId.all);
+        }
+    }
 }
 
 EXPORT void Factory_MusicTrigger_482020(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
@@ -2950,7 +2958,7 @@ const PathFunctionTable kObjectFactory =
     Factory_CreditsController_481A50,
     Factory_Preloader_Null_4817A0,
     Factory_StatusBoard_487AF0,
-    Factory_487B80,
+    Factory_SwitchStateBooleanLogic_487B80,
     Factory_MusicTrigger_482020,
     Factory_LightEffect_484170,
     Factory_SlogSpawner_4851D0,
