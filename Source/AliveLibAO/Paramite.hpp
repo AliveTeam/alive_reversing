@@ -119,7 +119,9 @@ public:
  
     EXPORT __int16 Brain_449170();
 
-    
+    EXPORT __int16 Brain_449CD0();
+
+
     using TParamiteBrain = decltype(&Paramite::Brain_447A10);
 
     void SetBrain(TParamiteBrain fn);

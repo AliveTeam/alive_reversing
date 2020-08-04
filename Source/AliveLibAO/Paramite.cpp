@@ -87,8 +87,10 @@ static AIFunctionData<Paramite::TParamiteBrain> sParamiteAITable[]
 {
     { &Paramite::Brain_447A10,  0x447A10, "Brain_447A10" },
     { &Paramite::Brain_448D00,  0x448D00, "Brain_448D00" },
-
-    // TODO: Add all the others
+    { &Paramite::Brain_44DD70,  0x44DD70, "Brain_44DD70" },
+    { &Paramite::Brain_448BF0,  0x448BF0, "Brain_448BF0" },
+    { &Paramite::Brain_449170,  0x449170, "Brain_449170" },
+    { &Paramite::Brain_449CD0,  0x449CD0, "Brain_449CD0" },
 };
 
 Paramite* Paramite::ctor_44A7A0(Path_Paramite* pTlv, int tlvInfo)
@@ -643,6 +645,12 @@ __int16 Paramite::Brain_448BF0()
 }
 
 __int16 Paramite::Brain_449170()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Paramite::Brain_449CD0()
 {
     NOT_IMPLEMENTED();
     return 0;

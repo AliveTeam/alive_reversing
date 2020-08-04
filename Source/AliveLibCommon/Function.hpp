@@ -106,6 +106,7 @@ inline const AIFunctionData<AIFunctionType>& GetOriginalFn(AIFunctionType fn, co
             return addrPair;
         }
     }
+    LOG_ERROR("Couldn't find brain in the brain table!");
     abort();
 }
 #endif
