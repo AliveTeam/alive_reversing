@@ -103,7 +103,7 @@ public:
 
     EXPORT void ToIdle_44B580();
 
-    EXPORT __int16 sub_44B320();
+    EXPORT __int16 ToNextMotion_44B320();
 
     EXPORT void VUpdateAnimData_44A460();
 
