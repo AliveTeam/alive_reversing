@@ -43,6 +43,7 @@ enum eParamiteStates : int
 };
 
 class ParamiteWeb;
+class Meat;
 
 struct Path_Paramite : public Path_TLV
 {
@@ -96,7 +97,7 @@ public:
 
     EXPORT void VOnTrapDoorOpen_44B8C0();
 
-    EXPORT void VUpdate_Real_44A490();
+    virtual void VUpdate() override;
 
     EXPORT void VUpdate_44A490();
 
@@ -107,6 +108,8 @@ public:
     EXPORT void VUpdateAnimData_44A460();
 
     EXPORT __int16 FindOtherParamite_44AF80();
+
+    EXPORT void ToKnockBack_44B5B0();
 
     // Brains
     EXPORT __int16 Brain_447A10();
@@ -178,7 +181,7 @@ public:
     __int16 field_142;
     __int16 field_144;
     __int16 field_146;
-    BaseGameObject* field_148_pUnknown;
+    Meat* field_148_pMeat;
     ParamiteWeb* field_14C_pWeb;
     BYTE** field_150_resources[16];
 };

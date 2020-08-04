@@ -17,6 +17,12 @@ void BaseAliveGameObject_ForceLink() {}
 
 ALIVE_VAR(1, 0x4FC8A0, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_4FC8A0, nullptr);
 
+EXPORT int CC Grid_SnapX_41FAA0(FP /*scale*/, int /*a2*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 BaseAliveGameObject *BaseAliveGameObject::ctor_401090()
 {
     ctor_417C10();

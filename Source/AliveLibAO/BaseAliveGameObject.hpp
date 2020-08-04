@@ -9,7 +9,7 @@ START_NS_AO
 
 void BaseAliveGameObject_ForceLink();
 
-
+EXPORT int CC Grid_SnapX_41FAA0(FP scale, int a2);
 
 struct Path_TLV;
 class PlatformBase;
