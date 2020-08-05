@@ -799,6 +799,43 @@ void Paramite::ToKnockBack_44B5B0()
     }
 }
 
+Meat* Paramite::FindMeat_44B160()
+{
+    for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    {
+        BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        if (!pObjIter)
+        {
+            break;
+        }
+
+        if (pObjIter->field_4_typeId == Types::eMeat_54)
+        {
+            auto pMeat = static_cast<Meat*>(pObjIter);
+            if (pMeat->VCanEatMe())
+            {
+                if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                    pMeat->field_B2_lvl_number,
+                    pMeat->field_B0_path_number,
+                    pMeat->field_A8_xpos,
+                    pMeat->field_AC_ypos,
+                    0)
+                    && !WallHit_401930(field_AC_ypos, pMeat->field_A8_xpos - field_A8_xpos))
+                {
+                    if (pMeat->field_124_pLine)
+                    {
+                        if (FP_Abs(pMeat->field_AC_ypos - field_AC_ypos) < (field_BC_sprite_scale * FP_FromInteger(100)))
+                        {
+                            return pMeat;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return nullptr;
+}
+
 __int16 Paramite::Brain_447A10()
 {
     NOT_IMPLEMENTED();

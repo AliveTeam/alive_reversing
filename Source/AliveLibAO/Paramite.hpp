@@ -111,6 +111,8 @@ public:
 
     EXPORT void ToKnockBack_44B5B0();
 
+    EXPORT Meat* FindMeat_44B160();
+
     // Brains
     EXPORT __int16 Brain_447A10();
 

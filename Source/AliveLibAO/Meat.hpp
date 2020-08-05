@@ -69,6 +69,10 @@ public:
 
     EXPORT __int16 VCanThrow_4390B0();
 
+    virtual BOOL VCanEatMe();
+
+    EXPORT BOOL VCanEatMe_4390C0();
+
     __int16 field_110_state;
     __int16 field_112;
     FP field_114_xpos;
