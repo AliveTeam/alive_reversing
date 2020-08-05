@@ -324,6 +324,8 @@ SET(AliveLibAESrc
     Bone.cpp
     Rock.hpp
     Rock.cpp
+    RockSack.hpp
+    RockSack.cpp
     BulletShell.hpp
     BulletShell.cpp
     SligSpawner.hpp

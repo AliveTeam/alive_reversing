@@ -72,6 +72,7 @@
 #include "Meat.hpp"
 #include "Bone.hpp"
 #include "Rock.hpp"
+#include "RockSack.hpp"
 #include "SligSpawner.hpp"
 #include "ScrabSpawner.hpp"
 #include "SlogSpawner.hpp"
