@@ -6,8 +6,112 @@
 #include "Shadow.hpp"
 #include "Grenade.hpp"
 #include "ThrowableArray.hpp"
+#include "Math.hpp"
+#include "Events.hpp"
+#include "Sfx.hpp"
+#include "Abe.hpp"
 
 START_NS_AO
+
+void RockSack::VUpdate()
+{
+    VUpdate_4575F0();
+}
+
+void RockSack::VUpdate_4575F0()
+{
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+
+    if (field_10_anim.field_92_current_frame == 2)
+    {
+        if (field_114_can_play_wobble_sound)
+        {
+            if (Math_NextRandom() < 40u || field_116_force_wobble_sound)
+            {
+                field_114_can_play_wobble_sound = 0;
+                field_116_force_wobble_sound = 0;
+                SFX_Play_43AE60(34u, 24, Math_RandomRange_450F20(-2400, -2200), 0);
+            }
+        }
+    }
+    else
+    {
+        field_114_can_play_wobble_sound = 1;
+    }
+
+    if (field_110)
+    {
+        if (field_110 == 1)
+        {
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                field_10_anim.Set_Animation_Data_402A40(13756, 0);
+                field_110 = 0;
+            }
+        }
+    }
+    else
+    {
+        if (field_10_anim.field_E_frame_change_counter == 0)
+        {
+            field_10_anim.field_E_frame_change_counter = Math_RandomRange_450F20(2, 10);
+        }
+
+        PSX_RECT bPlayerRect = {};
+        sActiveHero_507678->VGetBoundingRect(&bPlayerRect, 1);
+
+        PSX_RECT bRect = {};
+        VGetBoundingRect(&bRect, 1);
+
+        if (bRect.x <= bPlayerRect.w
+            && bRect.w >= bPlayerRect.x
+            && bRect.h >= bPlayerRect.y
+            && bRect.y <= bPlayerRect.h
+            && field_BC_sprite_scale == sActiveHero_507678->field_BC_sprite_scale)
+        {
+            if (!gpThrowableArray_50E26C || !gpThrowableArray_50E26C->field_10_count)
+            {
+                if (!gpThrowableArray_50E26C)
+                {
+                    gpThrowableArray_50E26C = ao_new<ThrowableArray>();
+                    if (gpThrowableArray_50E26C)
+                    {
+                        gpThrowableArray_50E26C->ctor_453EE0();
+                    }
+                }
+
+                gpThrowableArray_50E26C->Add_453F70(field_112_num_rocks);
+
+                auto pRock = ao_new<Rock>();
+                if (pRock)
+                {
+                    pRock->ctor_456960(
+                        field_A8_xpos,
+                        field_AC_ypos - FP_FromInteger(30),
+                        field_112_num_rocks);
+                }
+                pRock->VThrow(field_118_x_vel, field_11C_y_vel);
+
+                SFX_Play_43AD70(30u, 0, 0);
+                Abe_SFX_2_42A220(7u, 0, 0x7FFF, 0);
+            }
+
+            if (sActiveHero_507678->field_FC_current_motion == eAbeStates::State_33_RunJumpMid_426FA0)
+            {
+                field_10_anim.Set_Animation_Data_402A40(13708, 0);
+            }
+            else
+            {
+                field_10_anim.Set_Animation_Data_402A40(13780, 0);
+            }
+
+            field_110 = 1;
+        }
+    }
+}
 
 void RockSack::VScreenChanged()
 {

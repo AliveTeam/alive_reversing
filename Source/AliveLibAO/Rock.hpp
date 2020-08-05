@@ -25,6 +25,9 @@ public:
 
     EXPORT BaseGameObject* dtor_457580();
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_4575F0();
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
@@ -55,6 +58,7 @@ public:
 
     EXPORT Rock* Vdtor_4573D0(signed int flags);
 
+
     virtual void VScreenChanged() override;
 
     EXPORT void VScreenChanged_457310();
@@ -69,7 +73,7 @@ public:
 
     __int16 field_110_state;
     __int16 field_112;
-    PathLine* field_114_pLine;
+    PathLine* field_114_can_play_wobble_sound;
     __int16 field_118;
     __int16 field_11A;
     FP field_11C_xpos;
