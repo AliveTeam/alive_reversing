@@ -71,10 +71,12 @@ public:
 
     EXPORT __int16 VCanThrow_4573C0();
 
+    EXPORT void InTheAir_456B60();
+
     __int16 field_110_state;
     __int16 field_112;
-    PathLine* field_114_can_play_wobble_sound;
-    __int16 field_118;
+    PathLine* field_114_pLine;
+    __int16 field_118_vol;
     __int16 field_11A;
     FP field_11C_xpos;
     FP field_120_ypos;

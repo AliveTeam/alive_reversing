@@ -10,6 +10,7 @@
 #include "Events.hpp"
 #include "Sfx.hpp"
 #include "Abe.hpp"
+#include "Collisions.hpp"
 
 START_NS_AO
 
@@ -251,7 +252,7 @@ Rock* Rock::ctor_456960(FP xpos, FP ypos, __int16 count)
             pFrameHeader->field_0_clut_offset);
     }
 
-    field_118 = 0;
+    field_118_vol = 0;
 
     field_D0_pShadow = ao_new<Shadow>();
     if (field_D0_pShadow)
@@ -334,6 +335,126 @@ __int16 Rock::VCanThrow()
 __int16 Rock::VCanThrow_4573C0()
 {
     return field_110_state == 4;
+}
+
+void Rock::InTheAir_456B60()
+{
+    field_11C_xpos = field_A8_xpos;
+    field_120_ypos = field_AC_ypos;
+
+    if (field_B8_vely > FP_FromInteger(30))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+
+    field_B8_vely += FP_FromInteger(1);
+
+    field_A8_xpos += field_B4_velx;
+    field_AC_ypos += field_B8_vely;
+
+    WORD a4 = 0;
+    field_A8_xpos = CamX_VoidSkipper_418590(field_A8_xpos, field_B4_velx, 8, &a4);
+    field_AC_ypos = CamY_VoidSkipper_418690(field_AC_ypos, field_B8_vely, 8, &a4);
+
+    FP hitX = {};
+    FP hitY = {};
+    if (sCollisions_DArray_504C6C->RayCast_40C410(
+        field_11C_xpos,
+        field_120_ypos,
+        field_A8_xpos,
+        field_120_ypos,
+        &field_114_pLine,
+        &hitX,
+        &hitY,
+        field_BC_sprite_scale != FP_FromInteger(1) ? 0x70 : 0x07))
+    {
+        switch (field_114_pLine->field_8_type)
+        {
+        case 0:
+        case 4:
+        case 32:
+        case 36:
+            if (field_B8_vely > FP_FromInteger(0))
+            {
+                if (field_110_state != 4 || field_B8_vely >= FP_FromInteger(5))
+                {
+                    if (field_110_state != 1 || field_B8_vely >= FP_FromInteger(0))
+                    {
+                        field_AC_ypos = hitY;
+                        field_B8_vely = (-field_B8_vely / FP_FromInteger(2));
+                        field_B4_velx = (field_B4_velx / FP_FromInteger(2));;
+                        int vol = 20 * (4 - field_118_vol);
+                        if (vol < 40)
+                        {
+                            vol = 40;
+                        }
+                        SFX_Play_43AD70(31u, vol, 0);
+                        Event_Broadcast_417220(kEvent_0, this);
+                        Event_Broadcast_417220(kEvent_10, this);
+                        field_118_vol++;
+                    }
+                    else
+                    {
+                        field_110_state = 2;
+                        if (field_B4_velx >= FP_FromInteger(0) && field_B4_velx < FP_FromInteger(1))
+                        {
+                            field_B4_velx = FP_FromInteger(1);
+                        }
+
+                        if (field_B4_velx < FP_FromInteger(0) && field_B4_velx > FP_FromInteger(-1))
+                        {
+                            field_B4_velx = FP_FromInteger(-1);
+                        }
+                    }
+                }
+                else
+                {
+                    field_110_state = 5;
+                }
+            }
+            break;
+
+        case 1:
+        case 5:
+            if (field_B4_velx < FP_FromInteger(0))
+            {
+                field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
+                field_A8_xpos = hitX;
+                field_AC_ypos = hitY;
+                int vol = 20 * (4 - field_118_vol);
+                if (vol < 40)
+                {
+                    vol = 40;
+                }
+                SFX_Play_43AD70(31u, vol, 0);
+                Event_Broadcast_417220(kEvent_0, this);
+                Event_Broadcast_417220(kEvent_10, this);
+            }
+            break;
+
+        case 2:
+        case 6:
+            if (field_B4_velx > FP_FromInteger(0))
+            {
+                field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
+                field_A8_xpos = hitX;
+                field_AC_ypos = hitY;
+                int vol = 20 * (4 - field_118_vol);
+                if (vol < 40)
+                {
+                    vol = 40;
+                }
+              
+                SFX_Play_43AD70(31u, vol, 0);
+                Event_Broadcast_417220(kEvent_0, this);
+                Event_Broadcast_417220(kEvent_10, this);
+            }
+            break;
+
+        default:
+            return;
+        }
+    }
 }
 
 END_NS_AO
