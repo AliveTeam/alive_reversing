@@ -58,6 +58,9 @@ public:
 
     EXPORT Rock* Vdtor_4573D0(signed int flags);
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_456EC0();
 
     virtual void VScreenChanged() override;
 
@@ -72,6 +75,8 @@ public:
     EXPORT __int16 VCanThrow_4573C0();
 
     EXPORT void InTheAir_456B60();
+
+    EXPORT __int16 OnCollision_457240(BaseAnimatedWithPhysicsGameObject* pObj);
 
     __int16 field_110_state;
     __int16 field_112;

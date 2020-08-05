@@ -11,6 +11,8 @@
 #include "Sfx.hpp"
 #include "Abe.hpp"
 #include "Collisions.hpp"
+#include "Game.hpp"
+#include "Particle.hpp"
 
 START_NS_AO
 
@@ -290,6 +292,132 @@ Rock* Rock::Vdtor_4573D0(signed int flags)
     return this;
 }
 
+void Rock::VUpdate()
+{
+    VUpdate_456EC0();
+}
+
+void Rock::VUpdate_456EC0()
+{
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        field_6_flags.Set(Options::eDead_Bit3);
+    }
+
+    switch (field_110_state)
+    {
+    case 1:
+        InTheAir_456B60();
+        break;
+
+    case 2:
+        if (FP_Abs(field_B4_velx) >= FP_FromInteger(1))
+        {
+            if (field_B4_velx < FP_FromInteger(0))
+            {
+                field_B4_velx += FP_FromDouble(0.01);
+            }
+            else
+            {
+                field_B4_velx -= FP_FromDouble(0.01);
+            }
+
+            field_114_pLine->MoveOnLine_40CA20(
+                &field_A8_xpos,
+                &field_AC_ypos,
+                field_B4_velx);
+
+            if (!field_114_pLine)
+            {
+                field_110_state = 4;
+                field_10_anim.field_4_flags.Set(AnimFlags::eBit8_Loop);
+            }
+        }
+        else
+        {
+            const short x_exp = FP_GetExponent(field_A8_xpos);
+            const int xSnapped = (x_exp & 0xFC00) + Grid_SnapX_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
+            if (abs(xSnapped - x_exp) > 1)
+            {
+                field_114_pLine = field_114_pLine->MoveOnLine_40CA20(
+                    &field_A8_xpos,
+                    &field_AC_ypos,
+                    field_B4_velx);
+                if (!field_114_pLine)
+                {
+                    field_110_state = 4;
+                    field_10_anim.field_4_flags.Set(AnimFlags::eBit8_Loop);
+                }
+            }
+            else
+            {
+                field_B4_velx = FP_FromInteger(0);
+                field_D4_collection_rect.x = field_A8_xpos - (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
+                field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
+
+                field_6_flags.Set(Options::eInteractive_Bit8);
+
+                field_10_anim.field_4_flags.Clear(AnimFlags::eBit8_Loop);
+                field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale);
+                field_D4_collection_rect.h = field_AC_ypos;
+                field_110_state = 3;
+                field_124 = gnFrameCount_507670;
+            }
+        }
+        break;
+
+    case 3:
+        if (static_cast<int>(gnFrameCount_507670) > field_124)
+        {
+            New_Particle_4199A0(
+                (field_BC_sprite_scale * FP_FromInteger(1)) + field_A8_xpos,
+                (field_BC_sprite_scale * FP_FromInteger(-7)) + field_AC_ypos,
+                FP_FromDouble(0.3),
+                36);
+            field_124 = (Math_NextRandom() % 16) + gnFrameCount_507670 + 60;
+        }
+        break;
+
+    case 4:
+    {
+        InTheAir_456B60();
+        PSX_RECT bRect = {};
+        VGetBoundingRect(&bRect, 1);
+        const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
+        const PSX_Point wh = { bRect.w, static_cast<short>(bRect.h + 5) };
+        VOnCollisionWith(
+            xy,
+            wh,
+            gBaseGameObject_list_9F2DF0,
+            1,
+            (TCollisionCallBack)&Rock::OnCollision_457240);
+
+        if (field_B8_vely > FP_FromInteger(30))
+        {
+            field_110_state = 5;
+        }
+    }
+    break;
+
+    case 5:
+        field_B8_vely += FP_FromInteger(1);
+        field_A8_xpos += field_B4_velx;
+        field_AC_ypos += field_B8_vely;
+        if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+            field_B2_lvl_number,
+            field_B0_path_number,
+            field_A8_xpos,
+            field_AC_ypos,
+            0))
+        {
+            field_6_flags.Set(Options::eDead_Bit3);
+        }
+        break;
+    default:
+        return;
+    }
+}
+
 void Rock::VScreenChanged()
 {
     VScreenChanged_457310();
@@ -455,6 +583,33 @@ void Rock::InTheAir_456B60()
             return;
         }
     }
+}
+
+__int16 Rock::OnCollision_457240(BaseAnimatedWithPhysicsGameObject* pObj)
+{
+    if (!pObj->field_6_flags.Get(BaseGameObject::eCanExplode_Bit7))
+    {
+        return 1;
+    }
+
+    PSX_RECT bRect = {};
+    pObj->VGetBoundingRect(&bRect, 1);
+
+    if (field_11C_xpos < FP_FromInteger(bRect.x) || field_11C_xpos > FP_FromInteger(bRect.w))
+    {
+        field_A8_xpos -= field_B4_velx;
+        field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
+    }
+    else
+    {
+        field_AC_ypos -= field_B8_vely;
+        field_B8_vely = (-field_B8_vely / FP_FromInteger(2));
+    }
+
+    pObj->VOnThrowableHit(this);
+
+    SFX_Play_43AD70(29u, 80, 0);
+    return 0;
 }
 
 END_NS_AO
