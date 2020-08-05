@@ -37,7 +37,7 @@ EXPORT void CC CheatController_Cheat_PathSkip_421B30()
 
     DestroyObjects_4A1F20();
     ResourceManager::Reclaim_Memory_49C470(0);
-    sprintf(nameBuffer, "NXTP%04d.SAV", sActiveQuicksaveData_BAF7F8.field_204_world_info.field_A_unknown_1);
+    sprintf(nameBuffer, "NXTP%04d.SAV", sActiveQuicksaveData_BAF7F8.field_204_world_info.field_A_save_num);
     ResourceManager::LoadResourceFile_49C170(nameBuffer, 0); 
     BYTE **resource = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_NxtP, ResourceID::kUnknownResID_0, 1u, 0);
     if (resource)

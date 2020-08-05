@@ -7,18 +7,18 @@ enum class LevelIds : __int16;
 
 enum class RockStates : __int16
 {
-    eState_0 = 0,
-    eState_1_FallToTheVoid = 1,
-    eState_2 = 2,
-    eState_3 = 3,
-    eState_4 = 4,
-    eState_5 = 5,
+    eState_0_None = 0,
+    eState_1_FallingOutOfRockSack = 1,
+    eState_2_Rolling = 2,
+    eState_3_OnGround = 3,
+    eState_4_Bouncing = 4,
+    eState_5_FallingOutOfWorld = 5,
 };
 
 struct RockSaveState
 {
     Types field_0_type;
-    __int16 field_2_pad;
+    __int16 field_2_padding;
     int field_4_obj_id;
     FP field_8_xpos;
     FP field_C_ypos;
@@ -35,12 +35,12 @@ struct RockSaveState
         eBit4_bInteractive = 0x8
     };
     BitField16<RockStateFlags> field_20_flags;
-    __int16 field_22_pad;
+    __int16 field_22_padding;
     int field_24_id;
     __int16 field_28_line_type;
     __int16 field_2A_count;
     RockStates field_2C_state;
-    __int16 field_2E_state;
+    __int16 field_2E_volume;
     FP field_30_xpos;
     FP field_34_ypos;
 };
@@ -76,9 +76,9 @@ private:
 
 private:
     RockStates field_11C_state;
-    __int16 field_11E_vol;
+    __int16 field_11E_volume;
     FP field_120_xpos;
     FP field_124_ypos;
-    int field_128_timer;
+    int field_128_shimmer_timer;
 };
 ALIVE_ASSERT_SIZEOF(Rock, 0x12C);

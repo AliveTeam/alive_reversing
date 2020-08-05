@@ -19,7 +19,7 @@ private:
 
 private:
     __int16 field_4_seq_id;
-    __int16 field_6;
+    __int16 field_6_padding;
     int field_8_channel_mask;
 };
 ALIVE_ASSERT_SIZEOF(ScopedSeq, 0xC);

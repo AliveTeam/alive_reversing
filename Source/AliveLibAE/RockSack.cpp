@@ -18,7 +18,7 @@ RockSack* RockSack::ctor_49F100(Path_RockSack* pTlv, int tlvInfo)
 
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kP2c2bagResID);
 
-    //  Set RockSack idle anim speed
+    // Set RockSack idle animation speed.
     auto pAnimationHeader = reinterpret_cast<AnimationHeader*>(*ppRes + 29748);
     pAnimationHeader->field_0_fps = 0;
 
@@ -29,7 +29,7 @@ RockSack* RockSack::ctor_49F100(Path_RockSack* pTlv, int tlvInfo)
     field_DC_bApplyShadows &= ~1u;
 
     field_118_tlvInfo = tlvInfo;
-    field_11C = 0;
+    field_11C_has_been_hit = 0;
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     field_BC_ypos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
     field_124_x_vel = FP_FromRaw(pTlv->field_12_x_vel << 8);
@@ -126,12 +126,12 @@ void RockSack::vUpdate_49F3A0()
         field_120_can_play_wobble_sound = 1;
     }
 
-    if (field_11C)
+    if (field_11C_has_been_hit)
     {
-        if (field_11C == 1 && field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (field_11C_has_been_hit == 1 && field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             field_20_animation.Set_Animation_Data_409C80(29748, nullptr);
-            field_11C = 0;
+            field_11C_has_been_hit = 0;
         }
     }
     else
@@ -157,7 +157,7 @@ void RockSack::vUpdate_49F3A0()
             {
                 if (gpThrowableArray_5D1E2C->field_20_count)
                 {
-                    if (sActiveHero_5C1B68->field_106_current_motion == 31)
+                    if (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_31_RunJumpMid_452C10)
                     {
                         field_20_animation.Set_Animation_Data_409C80(29700, 0);
                     }
@@ -165,7 +165,7 @@ void RockSack::vUpdate_49F3A0()
                     {
                         field_20_animation.Set_Animation_Data_409C80(29772, 0);
                     }
-                    field_11C = 1;
+                    field_11C_has_been_hit = 1;
                     return;
                 }
             }
@@ -196,7 +196,7 @@ void RockSack::vUpdate_49F3A0()
             {
                 field_20_animation.Set_Animation_Data_409C80(29772, nullptr);
             }
-            field_11C = 1;
+            field_11C_has_been_hit = 1;
         }
     }
 }

@@ -39,7 +39,7 @@ Rock* Rock::ctor_49E150(FP xpos, FP ypos, __int16 count)
     field_C8_vely = FP_FromInteger(0);
 
     field_118_count = count;
-    field_11C_state = RockStates::eState_0;
+    field_11C_state = RockStates::eState_0_None;
 
     BYTE** ppPal = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, ResourceID::kAberockResID, 0, 0);
     if (ppPal)
@@ -60,7 +60,7 @@ Rock* Rock::ctor_49E150(FP xpos, FP ypos, __int16 count)
             == &(pFrameHeader->field_0_clut_offset));
     }
 
-    field_11E_vol = 0;
+    field_11E_volume = 0;
 
     field_E0_pShadow = ae_new<Shadow>();
     if (field_E0_pShadow)
@@ -107,7 +107,7 @@ BOOL Rock::VIsFalling_49E330()
 
 void Rock::VTimeToExplodeRandom_411490()
 {
-    // Calls actuall impl of 0x411490 which is empty
+    // Calls actual implementation of 0x411490 which is empty.
 }
 
 void Rock::vScreenChanged_49F030()
@@ -120,12 +120,12 @@ void Rock::vScreenChanged_49F030()
 
 BOOL Rock::vIsFalling_49E330()
 {
-    return field_11C_state == RockStates::eState_5;
+    return field_11C_state == RockStates::eState_5_FallingOutOfWorld;
 }
 
 BOOL Rock::vCanThrow_49E350()
 {
-    return field_11C_state == RockStates::eState_4;
+    return field_11C_state == RockStates::eState_4_Bouncing;
 }
 
 Rock* Rock::vdtor_49E370(signed int flags)
@@ -161,11 +161,11 @@ void Rock::vThrow_49E460(FP velX, FP velY)
 
     if (field_118_count == 0)
     {
-        field_11C_state = RockStates::eState_4;
+        field_11C_state = RockStates::eState_4_Bouncing;
     }
     else
     {
-        field_11C_state = RockStates::eState_1_FallToTheVoid;
+        field_11C_state = RockStates::eState_1_FallingOutOfRockSack;
     }
 }
 
@@ -198,8 +198,8 @@ void Rock::InTheAir_49E4B0()
     {
         switch (field_100_pCollisionLine->field_8_type)
         {
-        case 0u:
-        case 4u:
+        case eFloor_0:
+        case eBackGroundFloor_4:
         case 32u:
         case 36u:
             if (field_C8_vely <= FP_FromInteger(0))
@@ -212,15 +212,15 @@ void Rock::InTheAir_49E4B0()
                 return;
             }
 
-            if (field_11C_state == RockStates::eState_4 && field_C8_vely < FP_FromInteger(5))
+            if (field_11C_state == RockStates::eState_4_Bouncing && field_C8_vely < FP_FromInteger(5))
             {
-                field_11C_state = RockStates::eState_5;
+                field_11C_state = RockStates::eState_5_FallingOutOfWorld;
                 return;
             }
 
-            if (field_11C_state == RockStates::eState_1_FallToTheVoid && field_C8_vely < FP_FromInteger(1))
+            if (field_11C_state == RockStates::eState_1_FallingOutOfRockSack && field_C8_vely < FP_FromInteger(1))
             {
-                field_11C_state = RockStates::eState_2;
+                field_11C_state = RockStates::eState_2_Rolling;
 
                 if (field_C4_velx >= FP_FromInteger(0) && field_C4_velx < FP_FromInteger(1))
                 {
@@ -241,7 +241,7 @@ void Rock::InTheAir_49E4B0()
                 field_C4_velx = (field_C4_velx / FP_FromInteger(2));
                 field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
 
-                short vol = 20 * (4 - field_11E_vol);
+                short vol = 20 * (4 - field_11E_volume);
                 if (vol < 40)
                 {
                     vol = 40;
@@ -250,17 +250,17 @@ void Rock::InTheAir_49E4B0()
                 SFX_Play_46FA90(SoundEffect::RockBounce_26, vol);
                 Event_Broadcast_422BC0(kEventNoise, this);
                 Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-                field_11E_vol++;
+                field_11E_volume++;
             }
             break;
 
-        case 3u:
-        case 7u:
+        case eCeiling_3:
+        case eBackGroundCeiling_7:
             if (field_C8_vely < FP_FromInteger(0))
             {
                 field_BC_ypos = hitY;
                 field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
-                short vol = 20 * (4 - field_11E_vol);
+                short vol = 20 * (4 - field_11E_volume);
                 if (vol < 40)
                 {
                     vol = 40;
@@ -277,14 +277,14 @@ void Rock::InTheAir_49E4B0()
     {
         switch (field_100_pCollisionLine->field_8_type)
         {
-        case 1u:
-        case 5u:
+        case eWallLeft_1:
+        case eBackGroundWallLeft_5:
             if (field_C4_velx < FP_FromInteger(0))
             {
                 field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
                 field_B8_xpos = hitX;
                 field_BC_ypos = hitY;
-                short vol = 20 * (4 - field_11E_vol);
+                short vol = 20 * (4 - field_11E_volume);
                 if (vol < 40)
                 {
                     vol = 40;
@@ -295,14 +295,14 @@ void Rock::InTheAir_49E4B0()
             }
             break;
 
-        case 2u:
-        case 6u:
+        case eWallRight_2:
+        case eBackGroundWallRight_6:
             if (field_C4_velx > FP_FromInteger(0))
             {
                 field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
                 field_B8_xpos = hitX;
                 field_BC_ypos = hitY;
-                short vol = 20 * (4 - field_11E_vol);
+                short vol = 20 * (4 - field_11E_volume);
                 if (vol < 40)
                 {
                     vol = 40;
@@ -375,14 +375,14 @@ void Rock::vUpdate_49E9F0()
 
     switch (field_11C_state)
     {
-    case RockStates::eState_0:
+    case RockStates::eState_0_None:
         break;
 
-    case RockStates::eState_1_FallToTheVoid:
+    case RockStates::eState_1_FallingOutOfRockSack:
         InTheAir_49E4B0();
         return;
 
-    case RockStates::eState_2:
+    case RockStates::eState_2_Rolling:
         if (FP_Abs(field_C4_velx) >= FP_FromInteger(1))
         {
             if (field_C4_velx <= FP_FromInteger(0))
@@ -405,9 +405,9 @@ void Rock::vUpdate_49E9F0()
                 field_6_flags.Set(BaseGameObject::eInteractive_Bit8);
                 field_E4_collection_rect.h = field_BC_ypos;
                 field_E4_collection_rect.y = field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
-                field_11C_state = RockStates::eState_3;
+                field_11C_state = RockStates::eState_3_OnGround;
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit8_Loop);
-                field_128_timer = sGnFrame_5C1B84;
+                field_128_shimmer_timer = sGnFrame_5C1B84;
                 return;
             }
             field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
@@ -419,24 +419,24 @@ void Rock::vUpdate_49E9F0()
         }
 
         field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
-        field_11C_state = RockStates::eState_4;
+        field_11C_state = RockStates::eState_4_Bouncing;
         return;
 
-    case RockStates::eState_3:
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_128_timer || pObj)
+    case RockStates::eState_3_OnGround:
+        if (static_cast<int>(sGnFrame_5C1B84) <= field_128_shimmer_timer || pObj)
         {
             return;
         }
-        // The strange shimmering that rocks give off
+        // The strange shimmering that rocks give off.
         New_Particle_426C30(
             (field_CC_sprite_scale * FP_FromInteger(1)) + field_B8_xpos, 
             (field_CC_sprite_scale * FP_FromInteger(-7)) + field_BC_ypos, 
             FP_FromDouble(0.3),
             36);
-        field_128_timer = (Math_NextRandom() % 16) + sGnFrame_5C1B84 + 60;
+        field_128_shimmer_timer = (Math_NextRandom() % 16) + sGnFrame_5C1B84 + 60;
         return;
 
-    case RockStates::eState_4:
+    case RockStates::eState_4_Bouncing:
     {
         InTheAir_49E4B0();
         PSX_RECT bRect = {};
@@ -450,12 +450,12 @@ void Rock::vUpdate_49E9F0()
 
         if (field_C8_vely > FP_FromInteger(30))
         {
-            field_11C_state = RockStates::eState_5;
+            field_11C_state = RockStates::eState_5_FallingOutOfWorld;
         }
     }
         return;
 
-    case RockStates::eState_5:
+    case RockStates::eState_5_FallingOutOfWorld:
         field_C8_vely += FP_FromDouble(1.01);
         field_B8_xpos += field_C4_velx;
         field_BC_ypos = field_C8_vely + field_BC_ypos;
@@ -501,7 +501,7 @@ signed int Rock::vGetSaveState_49F9A0(RockSaveState* pState)
     pState->field_24_id = field_110_id;
     pState->field_2A_count = field_118_count;
     pState->field_2C_state = field_11C_state;
-    pState->field_2E_state = field_11E_vol;
+    pState->field_2E_volume = field_11E_volume;
     pState->field_30_xpos = field_120_xpos;
     pState->field_34_ypos = field_124_ypos;
     return sizeof(RockSaveState);
@@ -541,14 +541,14 @@ int CC Rock::CreateFromSaveState_49F720(const BYTE* pData)
 
     pRock->field_114_flags.Set(Flags_114::e114_Bit9);
 
-    pRock->field_128_timer = sGnFrame_5C1B84;
+    pRock->field_128_shimmer_timer = sGnFrame_5C1B84;
 
     pRock->field_104_collision_line_type = pState->field_28_line_type;
 
     pRock->field_118_count = pState->field_2A_count;
     pRock->field_11C_state = pState->field_2C_state;
 
-    pRock->field_11E_vol = pState->field_2E_state;
+    pRock->field_11E_volume = pState->field_2E_volume;
 
     pRock->field_120_xpos = pState->field_30_xpos;
     pRock->field_124_ypos = pState->field_34_ypos;
