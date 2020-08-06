@@ -4469,7 +4469,54 @@ void Abe::State_141_BeesStrugglingOnLift_42F390()
 
 void Abe::State_142_RockThrowStandingHold_429CE0()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_92_current_frame >= 4)
+    {
+        if (sInputObject_5009E8.isPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594 | sInputKey_Up_4C6598 | sInputKey_Down_4C659C))
+        {
+            if (sInputObject_5009E8.isPressed(sInputKey_Right_4C6590))
+            {
+                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    field_19D_throw_direction = 0;
+                }
+                else
+                {
+                    field_19D_throw_direction = 2;
+                }
+            }
+            else if (sInputObject_5009E8.isPressed(sInputKey_Left_4C6594))
+            {
+                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    field_19D_throw_direction = 2;
+                }
+                else
+                {
+                    field_19D_throw_direction = 0;
+                }
+            }
+            else if (sInputObject_5009E8.isPressed(sInputKey_Up_4C6598))
+            {
+                field_19D_throw_direction = 1;
+            }
+            else
+            {
+                field_19D_throw_direction = 3;
+            }
+            field_FC_current_motion = eAbeStates::State_143_RockThrowStandingThrow_429FD0;
+        }
+    }
+
+    if (sInputObject_5009E8.isReleased(sInputKey_ThrowItem_4C65B4))
+    {
+        field_198_pThrowable->VToDead();
+        field_198_pThrowable = nullptr;
+        field_FC_current_motion = eAbeStates::State_144_RockThrowStandingEnd_429DE0;
+        if (!gInfiniteGrenades_5076EC)
+        {
+            field_19C_throwable_count++;
+        }
+    }
 }
 
 void Abe::State_143_RockThrowStandingThrow_429FD0()

@@ -156,47 +156,6 @@ RollingBall* RollingBall::ctor_4578C0(Path_RollingBall* pTlv, int tlvInfo)
     return this;
 }
 
-// Something to do with skipping gaps across camera ??
-EXPORT FP CC sub_418590(FP xpos, FP xvel, __int16 xMargin, WORD* pResult)
-{
-    // Disabled until #535 is fixed
-    NOT_IMPLEMENTED();
-
-    const FP v1 = xpos - FP_FromInteger(256);
-
-    const FP xDiv = FP_FromInteger(FP_GetExponent(v1) / 512);
-    const FP xMod = FP_FromInteger(FP_GetExponent(v1) % 512);
-    
-    const int xDivEven = FP_GetExponent(xDiv) % 2;
-
-    FP result = {};
-    if ((!xDivEven || xMod >= FP_FromInteger(xMargin - 512)) &&
-         (xDivEven || xMod <= FP_FromInteger(xMargin + 368)))
-    {
-        *pResult = 0;
-        result = xpos;
-    }
-    else if (xvel <= FP_FromInteger(0))
-    {
-        *pResult = 1;
-        result = FP_FromInteger((xDiv.fpValue << 9) + xMargin + 112);
-    }
-    else
-    {
-        if (xDivEven)
-        {
-            *pResult = 2;
-             result = FP_FromInteger((xDiv.fpValue << 9) - xMargin + 768);
-        }
-        else
-        {
-            *pResult = 2;
-             result = FP_FromInteger((xDiv.fpValue << 9) - xMargin + 1280);
-        }
-    }
-    return result;
-}
-
 void RollingBall::VUpdate_457AF0()
 {
     switch (field_112_state)
@@ -268,7 +227,7 @@ void RollingBall::VUpdate_457AF0()
             field_B4_velx);
 
         WORD v39 = 0;
-        sub_418590(field_A8_xpos, field_B4_velx, 50, &v39);
+        CamX_VoidSkipper_418590(field_A8_xpos, field_B4_velx, 50, &v39);
         if (v39 == 1 || v39 == 2)
         {
             MapFollowMe_401D30(0);

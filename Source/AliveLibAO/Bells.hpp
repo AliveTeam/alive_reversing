@@ -20,10 +20,19 @@ public:
 
     EXPORT BaseGameObject* dtor_40A760();
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_40A770();
+
+    void PlaySounds();
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
     EXPORT Bells* Vdtor_40AB00(signed int flags);
+
+    EXPORT BOOL CanSmash_40AA70();
+
+    EXPORT void Ring_40AA80();
 
     int field_D4;
     int field_D8;
@@ -31,7 +40,7 @@ public:
     int field_E0;
 
     int field_E4;
-    unsigned __int16 field_E8;
+    unsigned __int16 field_E8_bSmashing;
     unsigned __int16 field_EA_sound;
     int field_EC_timer;
     char field_F0_timer;

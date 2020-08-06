@@ -9,6 +9,11 @@ START_NS_AO
 
 void BaseAliveGameObject_ForceLink();
 
+EXPORT int CC Grid_SnapX_41FAA0(FP scale, int a2);
+
+
+EXPORT FP CC CamX_VoidSkipper_418590(FP xpos, FP xvel, __int16 xMargin, WORD* pResult);
+EXPORT FP CC CamY_VoidSkipper_418690(FP ypos, FP yvel, __int16 yMargin, WORD* pResult);
 
 
 struct Path_TLV;

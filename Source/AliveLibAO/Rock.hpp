@@ -25,6 +25,9 @@ public:
 
     EXPORT BaseGameObject* dtor_457580();
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_4575F0();
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
@@ -55,6 +58,10 @@ public:
 
     EXPORT Rock* Vdtor_4573D0(signed int flags);
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_456EC0();
+
     virtual void VScreenChanged() override;
 
     EXPORT void VScreenChanged_457310();
@@ -67,10 +74,14 @@ public:
 
     EXPORT __int16 VCanThrow_4573C0();
 
+    EXPORT void InTheAir_456B60();
+
+    EXPORT __int16 OnCollision_457240(BaseAnimatedWithPhysicsGameObject* pObj);
+
     __int16 field_110_state;
     __int16 field_112;
     PathLine* field_114_pLine;
-    __int16 field_118;
+    __int16 field_118_vol;
     __int16 field_11A;
     FP field_11C_xpos;
     FP field_120_ypos;

@@ -43,6 +43,37 @@ void CC New_Particle_4198E0(FP xpos, FP ypos, FP scale, __int16 layer)
     }
 }
 
+void CC New_Particle_4199A0(FP xpos, FP ypos, FP scale, __int16 layer)
+{
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 312, 1, 0);
+    auto pParticle = ao_new<Particle>();
+    if (pParticle)
+    {
+        pParticle->ctor_478880(xpos, ypos, 1492, 38, 21, ppRes);
+
+        pParticle->field_CC_bApplyShadows &= ~1u;
+        pParticle->field_10_anim.field_B_render_mode = 1;
+        pParticle->field_C0_r = 100;
+        pParticle->field_C2_g = 100;
+        pParticle->field_C4_b = 100;
+
+        if (layer)
+        {
+            pParticle->field_10_anim.field_C_layer = layer;
+        }
+        else if (scale == FP_FromInteger(1))
+        {
+            pParticle->field_10_anim.field_C_layer = 36;
+        }
+        else
+        {
+            pParticle->field_10_anim.field_C_layer = 17;
+        }
+
+        pParticle->field_BC_sprite_scale = scale;
+    }
+}
+
 Particle* Particle::ctor_478880(FP xpos, FP ypos, int animFrameTableOffset, int maxW, int maxH, BYTE** ppAnimData)
 {
     ctor_417C10();

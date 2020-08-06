@@ -17,6 +17,59 @@ void BaseAliveGameObject_ForceLink() {}
 
 ALIVE_VAR(1, 0x4FC8A0, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_4FC8A0, nullptr);
 
+EXPORT int CC Grid_SnapX_41FAA0(FP /*scale*/, int /*a2*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+
+EXPORT FP CC CamX_VoidSkipper_418590(FP xpos, FP xvel, __int16 xMargin, WORD* pResult)
+{
+    // Disabled until #535 is fixed
+    NOT_IMPLEMENTED();
+
+    const FP v1 = xpos - FP_FromInteger(256);
+
+    const FP xDiv = FP_FromInteger(FP_GetExponent(v1) / 512);
+    const FP xMod = FP_FromInteger(FP_GetExponent(v1) % 512);
+
+    const int xDivEven = FP_GetExponent(xDiv) % 2;
+
+    FP result = {};
+    if ((!xDivEven || xMod >= FP_FromInteger(xMargin - 512)) &&
+        (xDivEven || xMod <= FP_FromInteger(xMargin + 368)))
+    {
+        *pResult = 0;
+        result = xpos;
+    }
+    else if (xvel <= FP_FromInteger(0))
+    {
+        *pResult = 1;
+        result = FP_FromInteger((xDiv.fpValue << 9) + xMargin + 112);
+    }
+    else
+    {
+        if (xDivEven)
+        {
+            *pResult = 2;
+            result = FP_FromInteger((xDiv.fpValue << 9) - xMargin + 768);
+        }
+        else
+        {
+            *pResult = 2;
+            result = FP_FromInteger((xDiv.fpValue << 9) - xMargin + 1280);
+        }
+    }
+    return result;
+}
+
+EXPORT FP CC CamY_VoidSkipper_418690(FP /*ypos*/, FP /*yvel*/, __int16 /*yMargin*/, WORD* /*pResult*/)
+{
+    NOT_IMPLEMENTED();
+    return {};
+}
+
 BaseAliveGameObject *BaseAliveGameObject::ctor_401090()
 {
     ctor_417C10();

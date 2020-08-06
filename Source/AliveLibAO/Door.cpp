@@ -46,12 +46,6 @@ const Door_Data sDoorData_4BA508[16] =
     { 3176, 3152, 52, 69, 1048, 1024, 21, 29, 1016, 992, 26, 31 }
 };
 
-EXPORT int CC Grid_41FAA0(FP /*scale*/, int /*a2*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
 Door* Door::ctor_40E010(Path_Door* pTlv, int tlvInfo)
 {
     ctor_417C10(); // NOTE: Pointless base ctor omitted
@@ -145,7 +139,7 @@ Door* Door::ctor_40E010(Path_Door* pTlv, int tlvInfo)
             {
                 field_AC_ypos -= (FP_FromInteger(12) * field_BC_sprite_scale);
                 gMap_507BA8.GetCurrentCamCoords_444890(&mapCoords);
-                field_A8_xpos = FP_FromInteger(Grid_41FAA0(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos) - mapCoords.field_0_x) + mapCoords.field_0_x);
+                field_A8_xpos = FP_FromInteger(Grid_SnapX_41FAA0(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos) - mapCoords.field_0_x) + mapCoords.field_0_x);
             }
             else
             {
@@ -209,7 +203,7 @@ Door* Door::ctor_40E010(Path_Door* pTlv, int tlvInfo)
         {
             field_AC_ypos += FP_FromInteger(4);
             gMap_507BA8.GetCurrentCamCoords_444890(&mapCoords);
-            field_A8_xpos = FP_FromInteger(Grid_41FAA0(v35, FP_GetExponent(field_A8_xpos) - mapCoords.field_0_x) + mapCoords.field_0_x);
+            field_A8_xpos = FP_FromInteger(Grid_SnapX_41FAA0(v35, FP_GetExponent(field_A8_xpos) - mapCoords.field_0_x) + mapCoords.field_0_x);
         }
         else
         {
@@ -270,7 +264,7 @@ Door* Door::ctor_40E010(Path_Door* pTlv, int tlvInfo)
                     {
                         field_AC_ypos -= (FP_FromInteger(12) * field_BC_sprite_scale);
                         gMap_507BA8.GetCurrentCamCoords_444890(&mapCoords);
-                        field_A8_xpos = FP_FromInteger(Grid_41FAA0(FP_FromInteger(1), FP_GetExponent(field_A8_xpos) - mapCoords.field_0_x) + mapCoords.field_0_x);
+                        field_A8_xpos = FP_FromInteger(Grid_SnapX_41FAA0(FP_FromInteger(1), FP_GetExponent(field_A8_xpos) - mapCoords.field_0_x) + mapCoords.field_0_x);
                     }
                     else
                     {
