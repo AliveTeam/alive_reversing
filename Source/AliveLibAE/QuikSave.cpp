@@ -265,7 +265,7 @@ const QuickSaveFlagTypeTable kQuickSaveFlagsTable =
 
 ALIVE_VAR(1, 0x547794, QuickSaveFlagTypeTable, kObjectTypeAttributesTable_byte_547794, kQuickSaveFlagsTable);
 
-ALIVE_VAR(1, 0x5c1bbc, WORD, word_5C1BBC, 0);
+ALIVE_VAR(1, 0x5c1bbc, WORD, bUseAltSaveHeader_5C1BBC, 0);
 
 ALIVE_VAR(1, 0xbb234c, WORD, sQuickSave_saved_switchResetters_count_BB234C, 0);
 
@@ -618,7 +618,7 @@ EXPORT void CC Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
 
         // Don't really know what the point of doing this is? Might as well just memset the pSave header?
         Quicksave_PSX_Header* pHeaderToUse = nullptr;
-        if (word_5C1BBC == 0)
+        if (bUseAltSaveHeader_5C1BBC == 0)
         {
             pHeaderToUse = &sSaveHeader1_BB17F8;
         }
@@ -676,7 +676,7 @@ void CC Quicksave_4C90D0()
 
 void CC Quicksave_ReadWorldInfo_4C9490(const Quicksave_WorldInfo* pInfo)
 {
-    word_5C1BBC = pInfo->field_2E;
+    bUseAltSaveHeader_5C1BBC = pInfo->field_2E_use_alt_save_header;
 
     // Read all fields bar the last
     for (int i = 0; i < ALIVE_COUNTOF(pInfo->field_18_saved_killed_muds_per_path); i++)
@@ -711,7 +711,7 @@ void CC Quicksave_SaveWorldInfo_4C9310(Quicksave_WorldInfo* pInfo)
     pInfo->field_4_level = gMap_5C3030.field_0_current_level;
     pInfo->field_6_path = gMap_5C3030.field_2_current_path;
     pInfo->field_8_cam = gMap_5C3030.field_4_current_camera;
-    pInfo->field_2E = word_5C1BBC;
+    pInfo->field_2E_use_alt_save_header = bUseAltSaveHeader_5C1BBC;
     
     for (int i = 0; i < ALIVE_COUNTOF(pInfo->field_18_saved_killed_muds_per_path); i++)
     {

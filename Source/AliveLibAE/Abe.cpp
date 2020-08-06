@@ -1601,7 +1601,7 @@ void Abe::Update_449DC0()
         if (field_1AE.Get(Flags_1AE::e1AE_Bit2_bDoQuickSave))
         {
             field_1AE.Clear(Flags_1AE::e1AE_Bit2_bDoQuickSave);
-            sActiveQuicksaveData_BAF7F8.field_204_world_info.field_A_unknown_1 = field_1B0_save_num;
+            sActiveQuicksaveData_BAF7F8.field_204_world_info.field_A_save_num = field_1B0_save_num;
             Quicksave_SaveWorldInfo_4C9310(&sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info);
             vGetSaveState_457110(reinterpret_cast<BYTE*>(&sActiveQuicksaveData_BAF7F8.field_284_restart_path_abe_state));
             sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states = sSwitchStates_5C1A28;

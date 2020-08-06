@@ -12,9 +12,9 @@ namespace Test
 struct Quicksave_PSX_Header
 {
     char field_0_frame_1_name[128];
-    char field_80_frame_2[128];
-    char field_100_frame_3[128];
-    char field_180_frame_4[128];
+    char field_80_frame_2_padding[128];
+    char field_100_frame_3_padding[128];
+    char field_180_frame_4_padding[128];
 };
 ALIVE_ASSERT_SIZEOF(Quicksave_PSX_Header, 0x200);
 
@@ -26,7 +26,7 @@ struct Quicksave_WorldInfo
     LevelIds field_4_level;
     __int16 field_6_path;
     __int16 field_8_cam;
-    __int16 field_A_unknown_1;
+    __int16 field_A_save_num;
     __int16 field_C_controlled_x;
     __int16 field_E_controlled_y;
     __int16 field_10_controlled_scale;
@@ -37,7 +37,7 @@ struct Quicksave_WorldInfo
     char field_18_saved_killed_muds_per_path[20];
     char field_2C_stats_sign_current_area;
     char field_2D_total_meter_bars;
-    __int16 field_2E;
+    __int16 field_2E_use_alt_save_header;
     __int16 field_30_bDrawMeterCountDown;
     __int16 field_32_visited_bonewerks;
     __int16 field_34_visited_barracks;
