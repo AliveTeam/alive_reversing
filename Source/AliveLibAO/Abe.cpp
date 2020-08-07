@@ -583,7 +583,7 @@ Abe* Abe::ctor_420770(int frameTableOffset, int /*r*/, int /*g*/, int /*b*/)
     gMap_507BA8.GetCurrentCamCoords_444890(&pPoint);
     field_A8_xpos = FP_FromInteger(pPoint.field_0_x + GridXMidPos_41FA60(field_BC_sprite_scale, 4));
     field_AC_ypos = FP_FromInteger(pPoint.field_2_y + 240);
-    field_120 = 0;
+    field_120 = FP_FromInteger(0);
     field_124 = 0;
     field_E8_LastLineYPos = field_AC_ypos;
     field_B4_velx = FP_FromInteger(0);
@@ -1590,7 +1590,7 @@ BYTE** Abe::StateToAnimResource_4204F0(short motion)
 
 void Abe::ToIdle_422D50()
 {
-    field_120 = 0;
+    field_120 = FP_FromInteger(0);
     field_B4_velx = FP_FromInteger(0);
     field_B8_vely = FP_FromInteger(0);
     field_114_gnFrame = gnFrameCount_507670;
@@ -1601,7 +1601,94 @@ void Abe::ToIdle_422D50()
 
 void Abe::sub_422FC0()
 {
-    NOT_IMPLEMENTED();
+    FollowLift_42EE90();
+
+    const FP old_x = field_A8_xpos;
+
+    if (field_F4_pLine)
+    {
+        field_F4_pLine = field_F4_pLine->MoveOnLine_40CA20(
+            &field_A8_xpos,
+            &field_AC_ypos,
+            field_B4_velx);
+    }
+
+    // TODO: Check mask is correct
+    if (field_F4_pLine && (field_BC_sprite_scale != FP_FromDouble(0) ? 1 : 16) & (1 << field_F4_pLine->field_8_type))
+    {
+        if (field_F8_pLiftPoint)
+        {
+            if (field_F4_pLine->field_8_type != 32 && field_F4_pLine->field_8_type != 36)
+            {
+                field_F8_pLiftPoint->VRemove(this);
+                field_F8_pLiftPoint->field_C_refCount--;
+                field_F8_pLiftPoint = nullptr;
+                
+            }
+        }
+        else if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
+        {
+            PSX_RECT bRect = {};
+            VGetBoundingRect(&bRect, 1);
+            bRect.y += 5;
+            bRect.h += 5;
+            bRect.w += 5; // TODO: Seems wrong - same in AE
+
+            VOnCollisionWith(
+                { bRect.x, bRect.y },
+                { bRect.w, bRect.h },
+                ObjListPlatforms_50766C,
+                1,
+                (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+        }
+    }
+    else
+    {
+        field_F4_pLine = nullptr;
+
+        if (field_F8_pLiftPoint)
+        {
+            field_F8_pLiftPoint->VRemove(this);
+            field_F8_pLiftPoint->field_C_refCount--;
+            field_F8_pLiftPoint = nullptr;
+        }
+
+        field_10C_prev_held = 0;
+        switch (field_FC_current_motion)
+        {
+        case eAbeStates::State_1_WalkLoop_423F90:
+        case eAbeStates::State_6_WalkBegin_424300:
+        case eAbeStates::State_4_WalkToIdle_4243C0:
+        case eAbeStates::State_5_MidWalkToIdle_424490:
+            field_FC_current_motion = eAbeStates::State_93_WalkOffEdge_429840;
+            break;
+
+        case eAbeStates::State_35_RunLoop_425060:
+        case eAbeStates::State_41_StandingToRun_425530:
+            field_FC_current_motion = eAbeStates::State_94_RunOffEdge_429860;
+            break;
+
+        case eAbeStates::State_40_RunToRoll_427AE0:
+        case eAbeStates::State_24_RollBegin_427A20:
+        case eAbeStates::State_25_RollLoop_427BB0:
+        case eAbeStates::State_26_RollEnd_427EA0:
+            field_FC_current_motion = eAbeStates::State_100_RollOffLedge_429950;
+            break;
+
+        default:
+            field_FC_current_motion = eAbeStates::State_95_SneakOffEdge_429880;
+            break;
+        }
+
+        field_A8_xpos = old_x + field_B4_velx;
+        field_E8_LastLineYPos = field_AC_ypos;
+
+        // TODO: OG bug, dead code due to switch default case ?
+        if (field_FC_current_motion == eAbeStates::State_70_Knockback_428FB0 || field_FC_current_motion == eAbeStates::State_128_KnockForward_429330)
+        {
+            field_120 = FP_FromDouble(0.67); // TODO: Check
+        }
+    }
 }
 
 void Abe::ElumFree_4228F0()
@@ -3610,7 +3697,7 @@ void Abe::State_59_DeathDropFall_42CBE0()
 
     if (field_114_gnFrame == 0)
     {
-        field_120 = 0;
+        field_120 = FP_FromInteger(0);
         field_124 = 0;
         field_B4_velx = FP_FromInteger(0);
         field_B8_vely = FP_FromInteger(0);
@@ -4049,7 +4136,7 @@ void Abe::State_78_InsideWellLocal_4310A0()
 
         auto pWellBase = static_cast<Path_Well_Base*>(field_F0_pTlv);
 
-        field_120 = 0;
+        field_120 = FP_FromInteger(0);
 
         if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit4_Fall_To_Well))
         {
@@ -4660,13 +4747,7 @@ void Abe::State_130_KnockForwardGetUp_429560()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_120 = 0;
-        field_B4_velx = FP_FromInteger(0);
-        field_B8_vely = FP_FromInteger(0);
-        field_114_gnFrame = gnFrameCount_507670;
-        field_FC_current_motion = eAbeStates::State_0_Idle_423520;
-        field_10C_prev_held = 0;
-        field_10E_released_buttons = 0;
+        ToIdle_422D50();
     }
 }
 

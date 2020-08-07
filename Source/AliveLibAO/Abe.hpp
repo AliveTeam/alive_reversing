@@ -489,7 +489,7 @@ public:
     int field_114_gnFrame;
     int field_118;
     int field_11C_regen_health_timer;
-    int field_120;
+    FP field_120;
     int field_124;
     __int16 field_128;
     __int16 field_12A;

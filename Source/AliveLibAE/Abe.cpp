@@ -8819,7 +8819,7 @@ void Abe::sub_44E9A0()
 
             vOnCollisionWith_424EE0(
             { bRect.x, static_cast<short>(bRect.y + 5) },
-            { static_cast<short>(bRect.w + 5), static_cast<short>(bRect.h + 5) },
+            { static_cast<short>(bRect.w + 5), static_cast<short>(bRect.h + 5) }, // TODO: Is it really on both ??
                 ObjList_5C1B78,
                 1,
                 (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
