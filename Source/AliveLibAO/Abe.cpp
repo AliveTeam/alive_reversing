@@ -2183,6 +2183,12 @@ __int16 Abe::TryMountElum_42E600()
     return eAbeStates::State_0_Idle_423520;
 }
 
+__int16 Abe::RunTryEnterDoor_4259C0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 void Abe::vScreenChanged_422640()
 {
     if (sControlledCharacter_50767C == this || 
@@ -2887,7 +2893,42 @@ void Abe::State_26_RollEnd_427EA0()
 
 void Abe::State_27_RunSlideStop_425B60()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEvent_10, this);
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), field_B4_velx))
+    {
+        ToKnockback_422D90(1, 1);
+    }
+    else
+    {
+        MoveWithVelocity_4257F0(FP_FromDouble(0.375));
+        if (field_FC_current_motion == eAbeStates::State_27_RunSlideStop_425B60
+            && !RunTryEnterWell_425880()
+            && !RunTryEnterDoor_4259C0())
+        {
+            if (field_10_anim.field_92_current_frame >= 9)
+            {
+                if (field_10_anim.field_92_current_frame == 15)
+                {
+                    Abe_SFX_2_42A220(0, 0, 0x7FFF, this);
+                    MapFollowMe_401D30(1);
+
+                    if (!ToLeftRightMovement_422AA0())
+                    {
+                        ToIdle_422D50();
+                    }
+                }
+            }
+            else if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && sInputObject_5009E8.isPressed(sInputKey_Right_4C6590) ||
+                    !field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && sInputObject_5009E8.isPressed(sInputKey_Left_4C6594))
+            {
+                field_2A8_flags.Set(Flags_2A8::e2A8_Bit2);
+                field_E4 = eAbeStates::State_28_RunTurn_425CE0;
+                field_E6_last_anim_frame = field_10_anim.field_92_current_frame;
+            }
+        }
+    }
 }
 
 void Abe::State_28_RunTurn_425CE0()

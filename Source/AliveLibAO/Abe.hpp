@@ -314,6 +314,7 @@ public:
 
     EXPORT __int16 TryMountElum_42E600();
 
+    EXPORT __int16 RunTryEnterDoor_4259C0();
 
     // States
     EXPORT void State_0_Idle_423520();
