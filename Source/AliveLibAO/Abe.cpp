@@ -2253,7 +2253,46 @@ void Abe::State_3_Fall_42E7F0()
 
 void Abe::State_4_WalkToIdle_4243C0()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEvent_10, this);
+    
+    sub_422FC0();
+
+    if (field_10_anim.field_92_current_frame != 0)
+    {
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            MapFollowMe_401D30(1);
+
+            if (field_FE_next_state == eAbeStates::State_30_HopMid_4264D0)
+            {
+                field_FE_next_state = eAbeStates::State_0_Idle_423520;
+                field_FC_current_motion = eAbeStates::State_29_HopBegin_4267B0;
+
+                field_1A0_portal = IntoBirdPortal_402350(2);
+                if (field_1A0_portal)
+                {
+                    if (field_1A0_portal->field_10_portal_type != PortalType::eAbe_0)
+                    {
+                        field_1A0_portal = nullptr;
+                    }
+                }
+
+                if (field_1A0_portal)
+                {
+                    field_19E = 0;
+                }
+            }
+            else
+            {
+                ToIdle_422D50();
+            }
+        }
+    }
+    else
+    {
+        Abe_SFX_2_42A220(1u, 0, 0x7FFF, this);
+    }
 }
 
 void Abe::State_5_MidWalkToIdle_424490()
