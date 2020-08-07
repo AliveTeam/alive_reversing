@@ -12,6 +12,11 @@
 #include "stdlib.hpp"
 #include "MusicController.hpp"
 #include "PlatformBase.hpp"
+#include "Math.hpp"
+#include "Sfx.hpp"
+#include "Abe.hpp"
+#include "CameraSwapper.hpp"
+#include "LiftPoint.hpp"
 
 void Scrab_ForceLink() {}
 
@@ -582,14 +587,69 @@ __int16 Scrab::sub_45DFB0()
     }
 }
 
-void Scrab::State_0_Empty_45E3D0()
+int Scrab::Sfx_460B80(unsigned __int8 /*idx*/, int /*a3*/, int /*a4*/, __int16 /*a5*/)
 {
     NOT_IMPLEMENTED();
+    return 0;
+}
+
+void Scrab::ToJump_45E340()
+{
+    field_E8_LastLineYPos = field_AC_ypos;
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        field_B4_velx = (field_BC_sprite_scale * FP_FromDouble(-5.7));
+    }
+    else
+    {
+        field_B4_velx = (field_BC_sprite_scale * FP_FromDouble(5.7));
+    }
+
+    field_B8_vely = (field_BC_sprite_scale * FP_FromDouble(-9.6));
+    field_AC_ypos += field_B8_vely;
+    VOnTrapDoorOpen();
+    field_FC_current_motion = eScrabStates::State_13_RunJumpBegin_45F5D0;
+    field_F4_pLine = nullptr;
+}
+
+void Scrab::State_0_Empty_45E3D0()
+{
+    if (sNumCamSwappers_507668 <= 0)
+    {
+        if (sControlledCharacter_50767C == this)
+        {
+            field_FC_current_motion = field_E4;
+            if (field_F8_pLiftPoint)
+            {
+                // TODO: Is type of field_F8_pLiftPoint too low?
+                static_cast<LiftPoint*>(field_F8_pLiftPoint)->field_12C |= 1u;
+            }
+        }
+        else
+        {
+            field_FC_current_motion = field_E4;
+            if (field_F8_pLiftPoint)
+            {
+                field_A8_xpos = FP_FromInteger((field_F4_pLine->field_0_rect.x + field_F4_pLine->field_0_rect.w) / 2);
+                field_AC_ypos = FP_FromInteger(field_F4_pLine->field_0_rect.y);
+            }
+        }
+    }
 }
 
 void Scrab::State_1_Stand_45E620()
 {
-    NOT_IMPLEMENTED();
+    sub_45DFB0();
+
+    if (gMap_507BA8.GetDirection(
+        field_B2_lvl_number,
+        field_B0_path_number,
+        field_A8_xpos,
+        field_AC_ypos) >= CameraPos::eCamCurrent_0)
+    {
+        MusicController::sub_443810(MusicController::MusicTypes::eType11, this, 0, 0);
+    }
 }
 
 void Scrab::State_2_Walk_45E730()
@@ -604,7 +664,30 @@ void Scrab::State_3_Run_45EAB0()
 
 void Scrab::State_4_Turn_45EF30()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_92_current_frame == 5
+        || field_10_anim.field_92_current_frame == 9
+        || field_10_anim.field_92_current_frame == 11)
+    {
+        Sfx_460B80(6u, Math_RandomRange_450F20(40, 50), 0x7FFF, 1);
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+
+        if (sub_45DFB0())
+        {
+            field_10_anim.Set_Animation_Data_402A40(field_10_anim.field_18_frame_table_offset, nullptr);
+        }
+        else
+        {
+            field_128 = 0;
+            field_B4_velx = FP_FromInteger(0);
+            field_B8_vely = FP_FromInteger(0);
+            field_FC_current_motion = eScrabStates::State_1_Stand_45E620;
+            MapFollowMe_401D30(1);
+        }
+    }
 }
 
 void Scrab::State_5_RunToStand_45ED90()
@@ -659,12 +742,36 @@ void Scrab::State_14_RunJumpEnd_45F850()
 
 void Scrab::State_15_ToFall_45F180()
 {
-    NOT_IMPLEMENTED();
+    State_9_JumpToFall_45EFD0();
+
+    if (field_FC_current_motion == eScrabStates::State_1_Stand_45E620)
+    {
+        field_FC_current_motion = eScrabStates::State_8_Land_45F500;
+    }
 }
 
 void Scrab::State_16_Stamp_45F920()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_92_current_frame == 9)
+    {
+        Sfx_460B80(4u, 0, 0x7FFF, 1);
+        SFX_Play_43AE60(78u, 60, Math_RandomRange_450F20(-255, 255), 0);
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        Sfx_460B80(0, 60, 511, 1);
+        sub_45DFB0();
+    }
+
+    if (gMap_507BA8.GetDirection(
+        field_B2_lvl_number,
+        field_B0_path_number,
+        field_A8_xpos,
+        field_AC_ypos) >= CameraPos::eCamCurrent_0)
+    {
+        MusicController::sub_443810(MusicController::MusicTypes::eType12, this, 0, 0);
+    }
 }
 
 void Scrab::State_17_Empty_45F9C0()
@@ -674,17 +781,64 @@ void Scrab::State_17_Empty_45F9C0()
 
 void Scrab::State_18_GetEaten_45FF70()
 {
-    NOT_IMPLEMENTED();
+    if (!field_F4_pLine)
+    {
+        State_9_JumpToFall_45EFD0();
+
+        if (field_FC_current_motion != eScrabStates::State_18_GetEaten_45FF70)
+        {
+            field_FC_current_motion = eScrabStates::State_18_GetEaten_45FF70;
+        }
+    }
 }
 
 void Scrab::State_19_Unused_45F9D0()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        if (!sub_45DFB0())
+        {
+            field_128 = 0;
+            field_B4_velx = FP_FromInteger(0);
+            field_B8_vely = FP_FromInteger(0);
+            field_FC_current_motion = eScrabStates::State_1_Stand_45E620;
+            MapFollowMe_401D30(1);
+        }
+    }
+
+    if (gMap_507BA8.GetDirection(
+        field_B2_lvl_number,
+        field_B0_path_number,
+        field_A8_xpos,
+        field_AC_ypos) >= CameraPos::eCamCurrent_0)
+    {
+        MusicController::sub_443810(MusicController::MusicTypes::eType11, this, 0, 0);
+    }
 }
 
 void Scrab::State_20_HowlBegin_45FA60()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_92_current_frame == 2)
+    {
+        Sfx_460B80(8u, 0, Math_RandomRange_450F20(-1600, -900), 1);
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        if (field_FE_next_state != -1)
+        {
+            field_FC_current_motion = eScrabStates::State_21_HowlEnd_45FAF0;
+        }
+    }
+
+    if (gMap_507BA8.GetDirection(
+        field_B2_lvl_number,
+        field_B0_path_number,
+        field_A8_xpos,
+        field_AC_ypos) >= CameraPos::eCamCurrent_0)
+    {
+        MusicController::sub_443810(MusicController::MusicTypes::eType12, this, 0, 0);
+    }
 }
 
 void Scrab::State_21_HowlEnd_45FAF0()
@@ -697,17 +851,83 @@ void Scrab::State_21_HowlEnd_45FAF0()
 
 void Scrab::State_22_Shriek_45FB00()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_92_current_frame == 4)
+    {
+        Sfx_460B80(0, 0, 0x7FFF, 1);
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        if (!sub_45DFB0())
+        {
+            field_128 = 0;
+            field_B4_velx = FP_FromInteger(0);
+            field_B8_vely = FP_FromInteger(0);
+            field_FC_current_motion = eScrabStates::State_1_Stand_45E620;
+            MapFollowMe_401D30(1);
+        }
+    }
+
+    if (gMap_507BA8.GetDirection(
+        field_B2_lvl_number,
+        field_B0_path_number,
+        field_A8_xpos,
+        field_AC_ypos) >= CameraPos::eCamCurrent_0)
+    {
+        MusicController::sub_443810(MusicController::MusicTypes::eType11, this, 0, 0);
+    }
 }
 
 void Scrab::State_23_ScrabBattleAnim_45FBA0()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_92_current_frame == 0)
+    {
+        field_14C = Sfx_460B80(5u, 100, Math_RandomRange_450F20(-600, 200), 1);
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        sub_45DFB0();
+    }
+
+    if (gMap_507BA8.GetDirection(
+        field_B2_lvl_number,
+        field_B0_path_number,
+        field_A8_xpos,
+        field_AC_ypos) >= CameraPos::eCamCurrent_0)
+    {
+        MusicController::sub_443810(MusicController::MusicTypes::eType12, this, 0, 0);
+    }
 }
 
 void Scrab::State_24_FeedToGulp_45FC30()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        if (field_FE_next_state == eScrabStates::State_25_ToFeed_45FCE0)
+        {
+            field_188_flags &= ~4u;
+            field_FC_current_motion = eScrabStates::State_25_ToFeed_45FCE0;
+            field_FE_next_state = -1;
+        }
+        else
+        {
+            field_128 = 0;
+            field_B4_velx = FP_FromInteger(0);
+            field_B8_vely = FP_FromInteger(0);
+            field_FC_current_motion = 1;
+            MapFollowMe_401D30(1);
+        }
+    }
+
+    if (gMap_507BA8.GetDirection(
+        field_B2_lvl_number,
+        field_B0_path_number,
+        field_A8_xpos,
+        field_AC_ypos) >= CameraPos::eCamCurrent_0)
+    {
+        MusicController::sub_443810(MusicController::MusicTypes::eType11, this, 0, 0);
+    }
 }
 
 void Scrab::State_25_ToFeed_45FCE0()
@@ -717,7 +937,22 @@ void Scrab::State_25_ToFeed_45FCE0()
 
 void Scrab::State_26_Feed_45FDA0()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_92_current_frame == 0)
+    {
+        if (Math_RandomRange_450F20(0, 100) >= 50)
+        {
+            SFX_Play_43AD70(80u, 0, 0);
+        }
+        else
+        {
+            SFX_Play_43AD70(79u, 0, 0);
+        }
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_FC_current_motion = eScrabStates::State_24_FeedToGulp_45FC30;
+    }
 }
 
 void Scrab::State_27_AttackLunge_45FDF0()
@@ -727,7 +962,7 @@ void Scrab::State_27_AttackLunge_45FDF0()
 
 void Scrab::State_28_LegKick_45FF60()
 {
-    NOT_IMPLEMENTED();
+    State_27_AttackLunge_45FDF0();
 }
 
 void Scrab::State_29_DeathBegin_45FFA0()

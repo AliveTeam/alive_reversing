@@ -88,6 +88,10 @@ public:
 
     EXPORT __int16 sub_45DFB0();
 
+    EXPORT int Sfx_460B80(unsigned __int8 idx, int a3, int a4, __int16 a5);
+
+    EXPORT void ToJump_45E340();
+
     // States
     EXPORT void State_0_Empty_45E3D0();
     EXPORT void State_1_Stand_45E620();
