@@ -469,6 +469,119 @@ void Scrab::VOnTrapDoorOpen_45E5E0()
     }
 }
 
+__int16 Scrab::sub_45DFB0()
+{
+    MapFollowMe_401D30(1);
+
+    switch (field_FE_next_state)
+    {
+    case eScrabStates::State_4_Turn_45EF30:
+    case eScrabStates::State_16_Stamp_45F920:
+    case eScrabStates::State_19_Unused_45F9D0:
+    case eScrabStates::State_20_HowlBegin_45FA60:
+    case eScrabStates::State_22_Shriek_45FB00:
+    case eScrabStates::State_23_ScrabBattleAnim_45FBA0:
+    case eScrabStates::State_27_AttackLunge_45FDF0:
+    case eScrabStates::State_28_LegKick_45FF60:
+    case eScrabStates::State_25_ToFeed_45FCE0:
+        field_FC_current_motion = field_FE_next_state;
+        field_FE_next_state = -1;
+        return 1;
+
+    case eScrabStates::State_3_Run_45EAB0:
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(30), -ScaleToGridSize_41FA30(field_BC_sprite_scale)))
+            {
+                return 0;
+            }
+            else
+            {
+                field_FC_current_motion = eScrabStates::State_11_StandToRun_45E9F0;
+                field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromDouble(3.5));
+                field_FE_next_state = -1;
+                return 1;
+            }
+        }
+        else
+        {
+            if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(30), ScaleToGridSize_41FA30(field_BC_sprite_scale)))
+            {
+                return 0;
+            }
+            else
+            {
+                field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromDouble(3.5));
+                field_FC_current_motion = eScrabStates::State_11_StandToRun_45E9F0;
+                field_FE_next_state = -1;
+                return 1;
+            }
+        }
+        break;
+
+    case eScrabStates::State_2_Walk_45E730:
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(30), -ScaleToGridSize_41FA30(field_BC_sprite_scale)))
+            {
+                return 0;
+            }
+            else
+            {
+                field_FC_current_motion = eScrabStates::State_10_StandToWalk_45E670;
+                field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(7));
+                field_FE_next_state = -1;
+                return 1;
+            }
+        }
+        else
+        {
+            if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(30), ScaleToGridSize_41FA30(field_BC_sprite_scale)))
+            {
+                return 0;
+            }
+            else
+            {
+                field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(7));
+                field_FC_current_motion = eScrabStates::State_10_StandToWalk_45E670;
+                field_FE_next_state = -1;
+                return 1;
+            }
+        }
+        break;
+
+    case eScrabStates::State_1_Stand_45E620:
+        field_128 = 0;
+        field_B4_velx = FP_FromInteger(0);
+        field_B8_vely = FP_FromInteger(0);
+        field_FC_current_motion = eScrabStates::State_1_Stand_45E620;
+        MapFollowMe_401D30(1);
+        return 1;
+
+    case eScrabStates::State_7_HopMidair_45F1A0:
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(30), -ScaleToGridSize_41FA30(field_BC_sprite_scale)))
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(30), ScaleToGridSize_41FA30(field_BC_sprite_scale)))
+            {
+                return 0;
+            }
+        }
+        field_FC_current_motion = eScrabStates::State_6_HopBegin_45F3C0;
+        field_FE_next_state = -1;
+        return 1;
+
+    default:
+        return 0;
+    }
+}
+
 void Scrab::State_0_Empty_45E3D0()
 {
     NOT_IMPLEMENTED();
@@ -576,7 +689,10 @@ void Scrab::State_20_HowlBegin_45FA60()
 
 void Scrab::State_21_HowlEnd_45FAF0()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        sub_45DFB0();
+    }
 }
 
 void Scrab::State_22_Shriek_45FB00()

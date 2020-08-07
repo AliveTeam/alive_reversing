@@ -86,6 +86,8 @@ public:
 
     EXPORT void VOnTrapDoorOpen_45E5E0();
 
+    EXPORT __int16 sub_45DFB0();
+
     // States
     EXPORT void State_0_Empty_45E3D0();
     EXPORT void State_1_Stand_45E620();
