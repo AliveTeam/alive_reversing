@@ -3501,7 +3501,19 @@ void Abe::State_48_SneakToIdle_424F80()
 
 void Abe::State_49_MidSneakToIdle_424FF0()
 {
-    NOT_IMPLEMENTED();
+    if (!field_10_anim.field_92_current_frame)
+    {
+        Abe_SFX_2_42A220(3u, 0, 0x7FFF, this);
+    }
+
+    sub_422FC0();
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        MapFollowMe_401D30(1);
+
+        ToIdle_422D50();
+    }
 }
 
 void Abe::State_50_WalkToRun_424560()
