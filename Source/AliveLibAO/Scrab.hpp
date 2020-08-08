@@ -70,9 +70,27 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
+    virtual void VRender(int** pOrderingTable) override;
+
+    EXPORT void VRender_45BBF0(int** ppOt);
+
     EXPORT Scrab* Vdtor_45C310(signed int flags);
 
+    virtual void VUpdate() override;
+
     EXPORT void VUpdate_45B360();
+
+    virtual __int16 VTakeDamage(BaseGameObject* pFrom) override;
+
+    EXPORT __int16 VTakeDamage_45BC10(BaseGameObject* pFrom);
+
+    virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
+
+    EXPORT void VOn_TLV_Collision_45BDC0(Path_TLV* pTlv);
+
+    virtual void VScreenChanged() override;
+
+    EXPORT void VScreenChanged_45C290();
 
     EXPORT void ToStand_45E310();
 
@@ -80,11 +98,21 @@ public:
 
     EXPORT BYTE** ResBlockForMotion_45BB30(__int16 motion);
 
-    EXPORT void sub_45E580();
+    EXPORT void CheckForPlatforms_45E580();
 
     virtual void VOnTrapDoorOpen() override;
 
     EXPORT void VOnTrapDoorOpen_45E5E0();
+
+    EXPORT __int16 sub_45DFB0();
+
+    void ToStand();
+
+    EXPORT int Sfx_460B80(unsigned __int8 idx, int a3, int a4, __int16 a5);
+
+    EXPORT void ToJump_45E340();
+
+    EXPORT void MoveOnLine_45E450();
 
     // States
     EXPORT void State_0_Empty_45E3D0();
@@ -121,9 +149,22 @@ public:
     // Brains
     EXPORT __int16 Brain_45C370();
 
+    EXPORT __int16 Brain_45CA60();
+
+    EXPORT __int16 Brain_45CB80();
+
+    EXPORT __int16 Brain_45CC90();
+
     EXPORT __int16 Brain_460020();
 
+    EXPORT __int16 Brain_460D80();
+
     using TBrainType = decltype(&Scrab::Brain_45C370);
+
+    void SetBrain(TBrainType fn);
+
+    bool BrainIs(TBrainType fn);
+
 
     TBrainType field_10C_fn;
     __int16 field_110_brain_ret;
@@ -134,7 +175,7 @@ public:
     BaseGameObject* field_11C_pObj1;
     BaseAliveGameObject* field_120_pObj2;
     int field_124;
-    int field_128;
+    FP field_128;
     int field_12C;
     __int16 field_130;
     __int16 field_132_res_block_idx;

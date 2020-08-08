@@ -314,6 +314,7 @@ public:
 
     EXPORT __int16 TryMountElum_42E600();
 
+    EXPORT __int16 RunTryEnterDoor_4259C0();
 
     // States
     EXPORT void State_0_Idle_423520();
@@ -489,7 +490,7 @@ public:
     int field_114_gnFrame;
     int field_118;
     int field_11C_regen_health_timer;
-    int field_120;
+    FP field_120;
     int field_124;
     __int16 field_128;
     __int16 field_12A;
