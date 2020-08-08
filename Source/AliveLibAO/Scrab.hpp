@@ -80,7 +80,7 @@ public:
 
     EXPORT BYTE** ResBlockForMotion_45BB30(__int16 motion);
 
-    EXPORT void sub_45E580();
+    EXPORT void CheckForPlatforms_45E580();
 
     virtual void VOnTrapDoorOpen() override;
 
@@ -88,9 +88,13 @@ public:
 
     EXPORT __int16 sub_45DFB0();
 
+    void ToStand();
+
     EXPORT int Sfx_460B80(unsigned __int8 idx, int a3, int a4, __int16 a5);
 
     EXPORT void ToJump_45E340();
+
+    EXPORT void MoveOnLine_45E450();
 
     // States
     EXPORT void State_0_Empty_45E3D0();
@@ -140,7 +144,7 @@ public:
     BaseGameObject* field_11C_pObj1;
     BaseAliveGameObject* field_120_pObj2;
     int field_124;
-    int field_128;
+    FP field_128;
     int field_12C;
     __int16 field_130;
     __int16 field_132_res_block_idx;
