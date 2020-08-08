@@ -70,9 +70,27 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
+    virtual void VRender(int** pOrderingTable) override;
+
+    EXPORT void VRender_45BBF0(int** ppOt);
+
     EXPORT Scrab* Vdtor_45C310(signed int flags);
 
+    virtual void VUpdate() override;
+
     EXPORT void VUpdate_45B360();
+
+    virtual __int16 VTakeDamage(BaseGameObject* pFrom) override;
+
+    EXPORT __int16 VTakeDamage_45BC10(BaseGameObject* pFrom);
+
+    virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
+
+    EXPORT void VOn_TLV_Collision_45BDC0(Path_TLV* pTlv);
+
+    virtual void VScreenChanged() override;
+
+    EXPORT void VScreenChanged_45C290();
 
     EXPORT void ToStand_45E310();
 
@@ -131,9 +149,22 @@ public:
     // Brains
     EXPORT __int16 Brain_45C370();
 
+    EXPORT __int16 Brain_45CA60();
+
+    EXPORT __int16 Brain_45CB80();
+
+    EXPORT __int16 Brain_45CC90();
+
     EXPORT __int16 Brain_460020();
 
+    EXPORT __int16 Brain_460D80();
+
     using TBrainType = decltype(&Scrab::Brain_45C370);
+
+    void SetBrain(TBrainType fn);
+
+    bool BrainIs(TBrainType fn);
+
 
     TBrainType field_10C_fn;
     __int16 field_110_brain_ret;

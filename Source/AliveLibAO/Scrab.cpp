@@ -19,6 +19,7 @@
 #include "LiftPoint.hpp"
 #include "Game.hpp"
 #include "FixedPoint.hpp"
+#include "Gibs.hpp"
 
 void Scrab_ForceLink() {}
 
@@ -94,6 +95,16 @@ const int sScrabFrameTables_4CF708[30] =
     12724
 };
 
+static AIFunctionData<Scrab::TBrainType> sScrabAITable[]
+{
+    { &Scrab::Brain_45C370,  0x45C370, "Brain_45C370" },
+    { &Scrab::Brain_45CA60,  0x45CA60, "Brain_45CA60" },
+    { &Scrab::Brain_45CB80,  0x45CB80, "Brain_45CB80" },
+    { &Scrab::Brain_45CC90,  0x45CC90, "Brain_45CC90" },
+    { &Scrab::Brain_460020,  0x460020, "Brain_460020" },
+    { &Scrab::Brain_460D80,  0x460D80, "Brain_460D80" },
+};
+
 Scrab* Scrab::ctor_45B5F0(Path_Scrab* pTlv, int tlvInfo)
 {
     ctor_401090();
@@ -132,7 +143,7 @@ Scrab* Scrab::ctor_45B5F0(Path_Scrab* pTlv, int tlvInfo)
     field_132_res_block_idx = 0;
     field_118_timer = 0;
     
-    field_10C_fn = &Scrab::Brain_460020;
+    SetBrain(&Scrab::Brain_460020);
 
     field_110_brain_ret = 0;
     field_FE_next_state = 0;
@@ -260,6 +271,19 @@ BaseGameObject* Scrab::VDestructor(signed int flags)
     return Vdtor_45C310(flags);
 }
 
+void Scrab::VRender(int** pOrderingTable)
+{
+    VRender_45BBF0(pOrderingTable);
+}
+
+void Scrab::VRender_45BBF0(int** ppOt)
+{
+    if (field_8_update_delay == 0)
+    {
+        BaseAnimatedWithPhysicsGameObject::VRender_417DA0(ppOt);
+    }
+}
+
 Scrab* Scrab::Vdtor_45C310(signed int flags)
 {
     dtor_45BA50();
@@ -268,6 +292,11 @@ Scrab* Scrab::Vdtor_45C310(signed int flags)
         ao_delete_free_447540(this);
     }
     return this;
+}
+
+void Scrab::VUpdate()
+{
+    VUpdate_45B360();
 }
 
 void Scrab::VUpdate_45B360()
@@ -380,6 +409,131 @@ void Scrab::VUpdate_45B360()
             field_112 = 0;
         }
     }
+}
+
+
+__int16 Scrab::VTakeDamage(BaseGameObject* pFrom)
+{
+    return VTakeDamage_45BC10(pFrom);
+}
+
+__int16 Scrab::VTakeDamage_45BC10(BaseGameObject* pFrom)
+{
+    if (field_100_health > FP_FromInteger(0))
+    {
+        switch (pFrom->field_4_typeId)
+        {
+        case Types::eBat_6:
+            if (BrainIs(&Scrab::Brain_45CA60))
+            {
+                return 1;
+            }
+
+            field_100_health = FP_FromInteger(0);
+            field_FE_next_state = 1;
+            SetBrain(&Scrab::Brain_45CA60);
+            field_110_brain_ret = 0;
+            return 1;
+
+        case Types::eBullet_10:
+        case Types::eRollingBall_72:
+            field_100_health = FP_FromInteger(0);
+            SetBrain(&Scrab::Brain_45CB80);
+            field_130 = 2;
+            field_118_timer = gnFrameCount_507670 + 90;
+            field_FC_current_motion = eScrabStates::State_29_DeathBegin_45FFA0;
+            VUpdateResBlock_45B330();
+            break;
+
+        case Types::eBaseBomb_30:
+        case Types::eExplosion_74:
+        {
+            auto pGibs = ao_new<Gibs>();
+            if (pGibs)
+            {
+                pGibs->ctor_407B20(
+                    2,
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    field_B4_velx,
+                    field_B8_vely,
+                    field_BC_sprite_scale);
+            }
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            return 1;
+        }
+
+        case Types::eAbilityRing_69:
+            return 0;
+
+        default:
+            SFX_Play_43AD70(78u, 127, 0);
+            SFX_Play_43AD70(53u, 90, 0);
+            field_100_health = FP_FromInteger(0);
+            SetBrain(&Scrab::Brain_45CB80);
+            field_130 = 2;
+            field_118_timer = gnFrameCount_507670 + 90;
+            field_FC_current_motion = eScrabStates::State_29_DeathBegin_45FFA0;
+            VUpdateResBlock_45B330();
+            break;
+        }
+    }
+    return 1;
+}
+
+void Scrab::VOn_TLV_Collision_45BDC0(Path_TLV* pTlv)
+{
+    while (pTlv)
+    {
+        if (pTlv->field_4_type == TlvTypes::DeathDrop_5)
+        {
+            Sfx_460B80(8u, 127, -1000, 0);
+            field_6_flags.Set(Options::eDead_Bit3);
+            field_100_health = FP_FromInteger(0);
+            field_130 = 2;
+        }
+
+        pTlv = gMap_507BA8.TLV_Get_At_446060(
+            pTlv,
+            field_A8_xpos,
+            field_AC_ypos,
+            field_A8_xpos,
+            field_AC_ypos);
+    }
+}
+
+void Scrab::VScreenChanged()
+{
+    VScreenChanged_45C290();
+}
+
+void Scrab::VScreenChanged_45C290()
+{
+    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level
+        || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path
+        || gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+    else
+    {
+        if (field_120_pObj2)
+        {
+            if (field_120_pObj2->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+            {
+                field_120_pObj2->field_C_refCount--;
+                field_120_pObj2 = nullptr;
+                field_FE_next_state = eScrabStates::State_1_Stand_45E620;
+                SetBrain(&Scrab::Brain_460D80);
+                field_110_brain_ret = 0;
+            }
+        }
+    }
+}
+
+void Scrab::VOn_TLV_Collision(Path_TLV* pTlv)
+{
+    VOn_TLV_Collision_45BDC0(pTlv);
 }
 
 void Scrab::ToStand_45E310()
@@ -1789,11 +1943,44 @@ __int16 Scrab::Brain_45C370()
     return 0;
 }
 
+__int16 Scrab::Brain_45CA60()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Scrab::Brain_45CB80()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Scrab::Brain_45CC90()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 __int16 Scrab::Brain_460020()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-END_NS_AO
+__int16 Scrab::Brain_460D80()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
 
+void Scrab::SetBrain(TBrainType fn)
+{
+    ::SetBrain(fn, field_10C_fn, sScrabAITable);
+}
+
+bool Scrab::BrainIs(TBrainType fn)
+{
+    return ::BrainIs(fn, field_10C_fn, sScrabAITable);
+}
+
+END_NS_AO
