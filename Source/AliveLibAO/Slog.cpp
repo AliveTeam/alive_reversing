@@ -8,6 +8,9 @@
 #include "Midi.hpp"
 #include "Math.hpp"
 #include "Game.hpp"
+#include "Collisions.hpp"
+#include "Blood.hpp"
+#include "Sfx.hpp"
 
 void Slog_ForceLink() {}
 
@@ -438,7 +441,92 @@ void Slog::State_18_WakeUp_475460()
 
 void Slog::State_19_JumpForwards_475610()
 {
-    NOT_IMPLEMENTED();
+    field_B8_vely += (field_BC_sprite_scale * FP_FromDouble(1.8));
+
+    if (field_B8_vely > (field_BC_sprite_scale * FP_FromInteger(20)))
+    {
+        field_B8_vely = (field_BC_sprite_scale * FP_FromInteger(20));
+    }
+
+    const FP oldXPos = field_A8_xpos;
+    const FP ypos1 = field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(20));
+    
+    field_A8_xpos += field_B4_velx;
+    field_AC_ypos += field_B8_vely;
+
+    PathLine* pLine = nullptr;
+    FP hitX = {};
+    FP hitY = {};
+    if (sCollisions_DArray_504C6C->RayCast_40C410(
+        oldXPos,
+        ypos1,
+        field_A8_xpos,
+        field_AC_ypos,
+        &pLine,
+        &hitX,
+        &hitY,
+        field_BC_sprite_scale != FP_FromDouble(0.5) ? 6 : 0x60) == 1)
+    {
+        switch (pLine->field_8_type)
+        {
+        case 1:
+        case 5:
+            if (field_B4_velx < FP_FromInteger(0))
+            {
+                field_B4_velx = (-field_B4_velx /  FP_FromInteger(2));
+                field_A8_xpos = oldXPos;
+            }
+            break;
+
+        case 2:
+        case 6:
+            if (field_B4_velx > FP_FromInteger(0))
+            {
+                field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
+                field_A8_xpos = oldXPos;
+            }
+            break;
+        default:
+            break;
+        }
+    }
+
+    if (sCollisions_DArray_504C6C->RayCast_40C410(
+        oldXPos,
+        ypos1,
+        field_A8_xpos,
+        field_AC_ypos,
+        &pLine,
+        &hitX,
+        &hitY,
+        field_BC_sprite_scale != FP_FromDouble(0.5) ? 1 : 0x10))
+    {
+        switch (pLine->field_8_type)
+        {
+        case 0:
+        case 4:
+        case 32:
+        case 36:
+            if (field_B8_vely > FP_FromInteger(0))
+            {
+                field_F4_pLine = pLine;
+                field_FE_next_state = -1;
+                field_FC_current_motion = eSlogStates::State_2_Run_4749A0;
+                field_AC_ypos = hitY;
+                field_B8_vely = FP_FromInteger(0);
+            }
+            break;
+        default:
+            break;
+        }
+    }
+
+    if (field_AC_ypos - field_E8_LastLineYPos > FP_FromInteger(2))
+    {
+        field_12C = 0;
+        field_E8_LastLineYPos = field_AC_ypos;
+        field_FC_current_motion = eSlogStates::State_4_Fall_4750C0;
+    }
 }
 
 void Slog::State_20_JumpUpwards_475890()
@@ -464,12 +552,62 @@ void Slog::State_20_JumpUpwards_475890()
 
 void Slog::State_21_Eating_475900()
 {
-    NOT_IMPLEMENTED();
+    SND_Seq_Stop_477A60(17u);
+
+    if (field_10_anim.field_92_current_frame != 0
+        || (field_10_anim.field_4_flags.Clear(AnimFlags::eBit19_LoopBackwards),
+            field_FE_next_state == -1)
+        || field_FE_next_state == eSlogStates::State_21_Eating_475900)
+    {
+        if (field_10_anim.field_92_current_frame == 3 && !field_10_anim.field_4_flags.Get(AnimFlags::eBit19_LoopBackwards))
+        {
+            SFX_Play_43AD70(static_cast<char>(Math_RandomRange_450F20(79, 80)), 100, 0);
+            auto pBlood = ao_new<Blood>();
+            if (pBlood)
+            {
+                const FP bloodYPos = field_AC_ypos - (FP_FromInteger(4) * field_BC_sprite_scale);
+                const FP bloodXPos = ((field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -FP_FromInteger(25) : FP_FromInteger(25) * field_BC_sprite_scale);
+                pBlood->ctor_4072B0(
+                    bloodXPos + field_A8_xpos,
+                    bloodYPos,
+                    FP_FromInteger(0),
+                    FP_FromInteger(0),
+                    field_BC_sprite_scale,
+                    12);
+            }
+        }
+
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            if (Math_RandomRange_450F20(0, 100) < 85)
+            {
+                if (static_cast<int>(gnFrameCount_507670) > field_164_timer && Math_RandomRange_450F20(0, 100) < 60)
+                {
+                    field_164_timer = gnFrameCount_507670 + 16;
+                    Sfx_475BD0(3);
+                }
+                field_10_anim.field_4_flags.Set(AnimFlags::eBit19_LoopBackwards);
+            }
+        }
+
+        if (field_10_anim.field_92_current_frame == 0)
+        {
+            field_10_anim.field_4_flags.Clear(AnimFlags::eBit19_LoopBackwards);
+        }
+    }
+    else
+    {
+        field_FC_current_motion = eSlogStates::State_0_Idle_4742E0;
+    }
 }
 
 void Slog::State_22_Empty_475A90()
 {
-    NOT_IMPLEMENTED();
+    if (!field_F4_pLine)
+    {
+        State_4_Fall_4750C0();
+        field_FC_current_motion = eSlogStates::State_22_Empty_475A90;
+    }
 }
 
 void Slog::State_23_Scratch_475550()
