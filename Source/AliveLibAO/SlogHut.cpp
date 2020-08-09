@@ -2,6 +2,10 @@
 #include "Function.hpp"
 #include "SlogHut.hpp"
 #include "stdlib.hpp"
+#include "SnoozeParticle.hpp"
+#include "Events.hpp"
+#include "Game.hpp"
+#include "SwitchStates.hpp"
 
 START_NS_AO
 
@@ -62,5 +66,32 @@ void SlogHut::VScreenChanged_472E20()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-END_NS_AO
 
+void SlogHut::VUpdate()
+{
+    VUpdate_472D50();
+}
+
+void SlogHut::VUpdate_472D50()
+{
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+
+    if (!SwitchStates_Get(field_20_switch_id) && static_cast<int>(gnFrameCount_507670) > field_24_timer)
+    {
+        auto pSnoozeParticle = ao_new<SnoozeParticle>();
+        if (pSnoozeParticle)
+        {
+            pSnoozeParticle->ctor_464320(
+                field_10_xpos,
+                field_14_ypos,
+                field_18_scale != FP_FromInteger(1) ? 20 : 39,
+                field_18_scale);
+        }
+        field_24_timer = gnFrameCount_507670 + field_28_z_delay;
+    }
+}
+
+END_NS_AO

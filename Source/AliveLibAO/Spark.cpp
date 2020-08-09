@@ -8,6 +8,8 @@
 #include "Animation.hpp"
 #include "Particle.hpp"
 
+void Spark_ForceLink() { }
+
 START_NS_AO
 
 Spark* Spark::ctor_477B70(FP xpos, FP ypos, FP scale, unsigned __int8 count, __int16 min, __int16 max)
@@ -93,6 +95,48 @@ Spark* Spark::ctor_477B70(FP xpos, FP ypos, FP scale, unsigned __int8 count, __i
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
     return this;
+}
+
+BaseGameObject* Spark::dtor_477D40()
+{
+    SetVTable(this, 0x4BCD48);
+
+    if (field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
+    {
+        gObjList_drawables_504618->Remove_Item(this);
+    }
+
+    if (field_44_ppSprxRes)
+    {
+        ResourceManager::FreeResource_455550(field_44_ppSprxRes);
+    }
+
+    return dtor_487DF0();
+}
+
+BaseGameObject* Spark::VDestructor(signed int flags)
+{
+    return Vdtor_478290(flags);
+}
+
+Spark* Spark::Vdtor_478290(signed int flags)
+{
+    dtor_477D40();
+    if (flags & 1)
+    {
+        ao_delete_free_447540(this);
+    }
+    return this;
+}
+
+void Spark::VScreenChanged()
+{
+    VScreenChanged_478280();
+}
+
+void Spark::VScreenChanged_478280()
+{
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
 END_NS_AO

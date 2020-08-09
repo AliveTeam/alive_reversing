@@ -5,6 +5,8 @@
 #include "FixedPoint.hpp"
 #include "BaseGameObject.hpp"
 
+void Spark_ForceLink(); 
+
 START_NS_AO
 
 struct SparkRes
@@ -25,6 +27,16 @@ class Spark : public BaseGameObject
 {
 public:
     EXPORT Spark* ctor_477B70(FP xpos, FP ypos, FP scale, unsigned __int8 count, __int16 min, __int16 max);
+
+    EXPORT BaseGameObject* dtor_477D40();
+
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+
+    EXPORT Spark* Vdtor_478290(signed int flags);
+
+    virtual void VScreenChanged() override;
+
+    EXPORT void VScreenChanged_478280();
 
     int field_10;
     int field_14;

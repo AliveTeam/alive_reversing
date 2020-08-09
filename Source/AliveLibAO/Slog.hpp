@@ -69,6 +69,14 @@ public:
 
     EXPORT BaseGameObject* dtor_473370();
 
+    virtual __int16 VTakeDamage(BaseGameObject* pFrom) override;
+
+    EXPORT __int16 VTakeDamage_473610(BaseGameObject* pFrom);
+
+    virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
+
+    EXPORT void VOn_Tlv_Collision_473970(Path_TLV* pTlv);
+
     EXPORT void VUpdate_Real_4739C0();
 
     EXPORT void VUpdate_4739C0();
@@ -77,9 +85,33 @@ public:
 
     EXPORT __int16 ToNextMotion_473CE0();
 
+    void ToIdle();
+
     EXPORT void ToJump_473FB0();
 
     EXPORT void Sfx_475BD0(int idx);
+
+    EXPORT __int16 IsPlayerNear_471930();
+
+    EXPORT BaseAliveGameObject* FindAbeMudOrSlig_4722F0();
+
+    virtual void VScreenChanged() override;
+
+    EXPORT void VScreenChanged_473480();
+
+    virtual void VRender(int** pOrderingTable) override;
+
+    EXPORT void VRender_4735D0(int** ppOt);
+
+    virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
+
+    EXPORT void VOnThrowableHit_4735F0(BaseGameObject* pFrom);
+
+    EXPORT __int16 HandleEnemyStopper_473BD0();
+
+    virtual void VOnTrapDoorOpen() override;
+
+    void VOnTrapDoorOpen_4740C0();
 
     // States
     EXPORT void State_0_Idle_4742E0();

@@ -56,6 +56,8 @@ enum TlvTypes : __int16
     Slig_66 = 66,
 
     Scrab_72 = 72,
+    
+    EnemyStopper_79 = 79,
 
     Mud_82 = 82,
 
