@@ -90,7 +90,7 @@ enum class GameSpeakEvents : __int16;
 struct Scrab_State
 {
     Types field_0_type;
-    __int16 field_2;
+    __int16 field_2_padding;
     int field_4_obj_id;
     FP field_8_xpos;
     FP field_C_ypos;
@@ -111,53 +111,53 @@ struct Scrab_State
     FP field_30_health;
     __int16 field_34_current_motion;
     __int16 field_36_next_motion;
-    __int16 field_38;
+    __int16 field_38_last_line_ypos;
     __int16 field_3A_line_type;
-    __int16 field_3C;
-    __int16 field_3E;
+    __int16 field_3C_padding;
+    __int16 field_3E_padding;
     char field_40_bIsControlled;
-    char field_41;
-    __int16 field_42;
+    char field_41_padding;
+    __int16 field_42_padding;
     int field_44_tlvInfo;
     int field_48_ai_idx;
-    __int16 field_4C;
-    __int16 field_4E;
+    __int16 field_4C_padding;
+    __int16 field_4E_padding;
     __int16 field_50_sub_state;
-    __int16 field_52;
+    __int16 field_52_padding;
     int field_54_obj_id;
     int field_58_target_obj_id;
-    int field_5C;
-    int field_60;
-    FP field_64;
-    __int16 field_68;
-    __int16 field_6A;
-    int field_6C;
-    int field_70;
-    int field_74;
-    int field_78;
-    __int16 field_7C;
+    int field_5C_timer;
+    int field_60_depossession_timer;
+    FP field_64_falling_velx_scale_factor;
+    __int16 field_68_motion_resource_block_index;
+    __int16 field_6A_padding;
+    int field_6C_spotting_abe_timer;
+    int field_70_attack_delay_timer;
+    int field_74_movement_timer;
+    int field_78_sfx_bitmask;
+    __int16 field_7C_prevent_depossession;
     LevelIds field_7E_level;
     __int16 field_80_path;
     __int16 field_82_camera;
     __int16 field_84_input;
-    __int16 field_86;
-    int field_88;
-    __int16 field_8C;
-    GameSpeakEvents field_8E;
-    FP field_90;
-    FP field_94;
-    __int16 field_98;
-    __int16 field_9A;
-    __int16 field_9C;
+    __int16 field_86_padding;
+    int field_88_unused;
+    __int16 field_8C_shred_power_active;
+    GameSpeakEvents field_8E_speak;
+    FP field_90_max_xpos;
+    FP field_94_max_ypos;
+    __int16 field_98_speak_counter;
+    __int16 field_9A_unused;
+    __int16 field_9C_unused;
 
     enum Flags_9E
     {
-        eBit1 = 0x1,
-        eBit2 = 0x2,
-        eBit3 = 0x4,
-        eBit4 = 0x8,
-        eBit5 = 0x10,
-        eBit6 = 0x20,
+        eBit1_attacking = 0x1,
+        eBit2_unused = 0x2,
+        eBit3_unused = 0x4,
+        eBit4_force_update_animation = 0x8,
+        eBit5_roar_randomly = 0x10,
+        eBit6_persistant = 0x20,
     };
     BitField16<Flags_9E> field_9E;
 };
@@ -238,7 +238,7 @@ public:
 
     EXPORT __int16 AI_Patrol_0_4AA630();
     
-    __int16 AI_ChasingEnemy_State_2(BaseAliveGameObject* pObj);
+    __int16 AI_ChasingEnemy_State_Running_2(BaseAliveGameObject* pObj);
 
     EXPORT __int16 AI_ChasingEnemy_1_4A6470();
     EXPORT __int16 AI_Fighting_2_4A5840();
@@ -347,76 +347,76 @@ private:
 private:
     TScrabAIFn field_118_brain_state;
     __int16 field_11C_sub_state;
-    __int16 field_11E;
+    __int16 field_11E_return_to_previous_motion;
     int field_120_obj_id;
     int field_124_fight_target_obj_id;
     __int16 field_128_attack_delay;
     __int16 field_12A_patrol_type;
     int field_12C_timer;
-    int field_130;
-    FP field_134;
-    FP field_138;
+    int field_130_depossession_timer;
+    FP field_134_falling_velx_scale_factor;
+    FP field_138_unused;
     FP field_13C_last_ypos;
-    __int16 field_140;
-    __int16 field_142;
+    __int16 field_140_motion_resource_block_index;
+    __int16 field_142_padding;
     int field_144_tlvInfo;
     int field_148_attack_duration;
-    int field_14C;
-    int field_150;
-    int field_154;
+    int field_14C_spotting_abe_timer;
+    int field_150_attack_delay_timer;
+    int field_154_movement_timer;
     __int16 field_158_left_min_delay;
     __int16 field_15A_left_max_delay;
-    __int16 field_15C;
+    __int16 field_15C_right_min_delay;
     __int16 field_15E_right_max_delay;
-    int field_160;
-    __int16 field_164;
+    int field_160_sfx_bitmask;
+    __int16 field_164_prevent_depossession;
     LevelIds field_166_level;
     __int16 field_168_path;
     __int16 field_16A_camera;
-    int field_16C;
-    int field_170;
+    int field_16C_input;
+    int field_170_unused;
     __int16 field_174_whirl_attack_duration;
     __int16 field_176_whirl_attack_recharge;
-    __int16 field_178;
-    __int16 field_17A;
+    __int16 field_178_shred_power_active;
+    __int16 field_17A_padding;
     int field_17C_last_event;
-    __int16 field_180;
-    __int16 field_182;
-    __int16 field_184;
-    __int16 field_186;
-    __int16 field_188;
-    __int16 field_18A;
-    __int16 field_18C;
-    __int16 field_18E;
-    __int16 field_190;
-    __int16 field_192;
+    __int16 field_180_padding;
+    __int16 field_182_padding;
+    __int16 field_184_padding;
+    __int16 field_186_padding;
+    __int16 field_188_padding;
+    __int16 field_18A_padding;
+    __int16 field_18C_padding;
+    __int16 field_18E_padding;
+    __int16 field_190_unused;
+    __int16 field_192_unused;
     GameSpeakEvents field_194_speak;
-    __int16 field_196;
-    FP field_198;
-    FP field_19C;
-    __int16 field_1A0;
-    __int16 field_1A2;
-    __int16 field_1A4;
-    __int16 field_1A6;
+    __int16 field_196_padding;
+    FP field_198_max_xpos;
+    FP field_19C_max_ypos;
+    __int16 field_1A0_speak_max;
+    __int16 field_1A2_speak_counter;
+    __int16 field_1A4_unused;
+    __int16 field_1A6_unused;
     __int16 field_1A8_kill_close_fleech;
 
     enum Flags_1AA : __int16
     {
-        eBit1 = 0x1,
-        eBit2 = 0x2,
-        eBit3 = 0x4,
-        eBit4 = 0x8,
+        eBit1_attacking = 0x1,
+        eBit2_unused = 0x2,
+        eBit3_unused = 0x4,
+        eBit4_force_update_animation = 0x8,
         eBit5_roar_randomly = 0x10,
         eBit6_persistant = 0x20,
-        eBit7 = 0x40,
-        eBit8 = 0x80,
-        eBit9 = 0x100,
-        eBit10 = 0x200,
-        eBit11 = 0x400,
-        eBit12 = 0x800,
-        eBit13 = 0x1000,
-        eBit14 = 0x2000,
-        eBit15 = 0x4000,
+        eBit7_padding = 0x40,
+        eBit8_padding = 0x80,
+        eBit9_padding = 0x100,
+        eBit10_padding = 0x200,
+        eBit11_padding = 0x400,
+        eBit12_padding = 0x800,
+        eBit13_padding = 0x1000,
+        eBit14_padding = 0x2000,
+        eBit15_padding = 0x4000,
     };
     BitField16<Flags_1AA> field_1AA_flags;
 };

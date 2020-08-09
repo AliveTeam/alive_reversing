@@ -40,7 +40,7 @@ SecurityDoor* SecurityDoor::ctor_4ABFC0(Path_SecurityDoor* pTlv, int tlvInfo)
     }
 
     field_FA_id = pTlv->field_12_id;
-    field_FC_code_converted = Code_Convert_4C9DF0(pTlv->field_14_code_1, pTlv->field_16_code2);
+    field_FC_code_converted = Code_Convert_4C9DF0(pTlv->field_14_code_1, pTlv->field_16_code_2);
     field_100_code_len = Code_Length_4C9DB0(field_FC_code_converted);
     field_11C_top_left = pTlv->field_8_top_left;
     field_120_bottom_right = pTlv->field_C_bottom_right;
@@ -70,14 +70,14 @@ SecurityDoor* SecurityDoor::ctor_4ABFC0(Path_SecurityDoor* pTlv, int tlvInfo)
 
     if (pTlv->field_1_unknown)
     {
-        field_F8_state = pTlv->field_1_unknown - 1;
+        field_F8_state = static_cast<DoorState>(pTlv->field_1_unknown - 1);
     }
     else
     {
-        field_F8_state = 0;
+        field_F8_state = DoorState::eInactive_0;
     }
 
-    if (field_F8_state != 1)
+    if (field_F8_state != DoorState::eSuccessChime_1)
     {
         field_124_timer = sGnFrame_5C1B84 + 10;
     }
@@ -103,11 +103,11 @@ BaseGameObject* SecurityDoor::VDestructor(signed int flags)
 void SecurityDoor::dtor_4AC260()
 {
     SetVTable(this, 0x547028);
-    if (field_F8_state != 1)
+    if (field_F8_state != DoorState::eSuccessChime_1)
     {
-        field_F8_state = 0;
+        field_F8_state = DoorState::eInactive_0;
     }
-    Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, field_F8_state + 1, 0, 0);
+    Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, static_cast<__int16>(field_F8_state) + 1, 0, 0);
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
@@ -153,7 +153,7 @@ void SecurityDoor::vUpdate_4AC380()
 
     switch (field_F8_state)
     {
-    case 0:
+    case DoorState::eInactive_0:
         if (static_cast<int>(sGnFrame_5C1B84) <= field_124_timer)
         {
             return;
@@ -162,7 +162,7 @@ void SecurityDoor::vUpdate_4AC380()
         if (IsPlayerNear_4AC300())
         {
             field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
-            field_F8_state = 2;
+            field_F8_state = DoorState::eSayingHi_2;
         }
         else
         {
@@ -170,21 +170,21 @@ void SecurityDoor::vUpdate_4AC380()
         }
         return;
 
-    case 1:
+    case DoorState::eSuccessChime_1:
         if (static_cast<int>(sGnFrame_5C1B84) == field_124_timer)
         {
             SND_SEQ_Play_4CAB10(SeqId::SaveTriggerMusic_31, 1, 127, 127);
         }
         return;
 
-    case 2:
+    case DoorState::eSayingHi_2:
         Sfx_Slig_GameSpeak_4C04F0(SligSpeak::Hi_0, 127, -200, 0);
         field_20_animation.Set_Animation_Data_409C80(1528, 0);
-        field_F8_state = 3;
+        field_F8_state = DoorState::eListeningForHi_3;
         field_124_timer = sGnFrame_5C1B84 + 150;
         return;
 
-    case 3:
+    case DoorState::eListeningForHi_3:
         if (field_104_event_idx != pEventSystem_5BC11C->field_28_last_event_index)
         {
             field_104_event_idx = pEventSystem_5BC11C->field_28_last_event_index;
@@ -192,13 +192,13 @@ void SecurityDoor::vUpdate_4AC380()
             {
                 if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::Slig_Hi_27)
                 {
-                    field_F8_state = 4;
+                    field_F8_state = DoorState::eWaitingToSayPassword_4;
                     field_124_timer = sGnFrame_5C1B84 + 30;
                     return;
                 }
                 else
                 {
-                    field_F8_state = 12;
+                    field_F8_state = DoorState::eFailure_12;
                     field_124_timer = sGnFrame_5C1B84 + 15;
                 }
             }
@@ -206,24 +206,24 @@ void SecurityDoor::vUpdate_4AC380()
 
         if (static_cast<int>(sGnFrame_5C1B84) > field_124_timer)
         {
-            field_F8_state = 0;
+            field_F8_state = DoorState::eInactive_0;
         }
         return;
 
-    case 4:
+    case DoorState::eWaitingToSayPassword_4:
         if (static_cast<int>(sGnFrame_5C1B84) > field_124_timer)
         {
-            field_F8_state = 5;
+            field_F8_state = DoorState::ePreparingToSayPassword_5;
         }
         return;
 
-    case 5:
+    case DoorState::ePreparingToSayPassword_5:
         field_128_max_idx = 0;
-        field_118_max_idx = static_cast<short>(GameSpeak::sub_421970(field_FC_code_converted, field_108_stru));
-        field_F8_state = 6;
+        field_118_max_idx = static_cast<short>(GameSpeak::FillBuffer_421970(field_FC_code_converted, field_108_stru));
+        field_F8_state = DoorState::eSayingPassword_6;
         return;
 
-    case 6:
+    case DoorState::eSayingPassword_6:
     {
         // TODO: Optimized sub switch case - refactor
         const __int16 v8 = Code_LookUp_4C9E40(field_FC_code_converted, field_128_max_idx, field_100_code_len) - 5;
@@ -250,25 +250,25 @@ void SecurityDoor::vUpdate_4AC380()
         field_20_animation.Set_Animation_Data_409C80(1528, 0);
         if (++field_128_max_idx >= field_100_code_len)
         {
-            field_F8_state = 9;
+            field_F8_state = DoorState::eListeningForPassword_9;
             field_124_timer = sGnFrame_5C1B84 + 60;
         }
         else
         {
-            field_F8_state = 7;
+            field_F8_state = DoorState::ePausing_7;
             field_124_timer = sGnFrame_5C1B84 + 30;
         }
         return;
     }
 
-    case 7:
+    case DoorState::ePausing_7:
         if (static_cast<int>(sGnFrame_5C1B84) > field_124_timer)
         {
-            field_F8_state = 6;
+            field_F8_state = DoorState::eSayingPassword_6;
         }
         return;
 
-    case 9:
+    case DoorState::eListeningForPassword_9:
         if (static_cast<int>(sGnFrame_5C1B84) <= field_124_timer)
         {
             if (field_104_event_idx != pEventSystem_5BC11C->field_28_last_event_index)
@@ -277,28 +277,28 @@ void SecurityDoor::vUpdate_4AC380()
                 if (pEventSystem_5BC11C->field_20_last_event != GameSpeakEvents::eNone_m1 && pEventSystem_5BC11C->field_20_last_event != GameSpeakEvents::eSameAsLast_m2)
                 {
                     field_11A_event_idx = static_cast<short>(pEventSystem_5BC11C->field_28_last_event_index);
-                    field_F8_state = 10;
+                    field_F8_state = DoorState::eCheckingIfPasswordMatches_10;
                 }
             }
         }
         else
         {
-            field_F8_state = 12;
+            field_F8_state = DoorState::eFailure_12;
             field_124_timer = sGnFrame_5C1B84 + 15;
         }
         return;
 
-    case 10:
+    case DoorState::eCheckingIfPasswordMatches_10:
     {
         switch (pEventSystem_5BC11C->MatchBuffer_4219E0(field_108_stru, field_118_max_idx, field_11A_event_idx))
         {
         case GameSpeakMatch::eNoMatch_0:
-            field_F8_state = 12;
+            field_F8_state = DoorState::eFailure_12;
             field_124_timer = sGnFrame_5C1B84 + 15;
             break;
 
         case GameSpeakMatch::eFullMatch_1:
-            field_F8_state = 11;
+            field_F8_state = DoorState::eSuccess_11;
             field_124_timer = sGnFrame_5C1B84 + 15;
             break;
 
@@ -310,7 +310,7 @@ void SecurityDoor::vUpdate_4AC380()
 
             if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::eNone_m1)
             {
-                field_F8_state = 12;
+                field_F8_state = DoorState::eFailure_12;
                 field_124_timer = sGnFrame_5C1B84;
             }
             break;
@@ -318,7 +318,7 @@ void SecurityDoor::vUpdate_4AC380()
         return;
     }
 
-    case 11:
+    case DoorState::eSuccess_11:
         if (static_cast<int>(sGnFrame_5C1B84) <= field_124_timer)
         {
             return;
@@ -327,27 +327,27 @@ void SecurityDoor::vUpdate_4AC380()
         SwitchStates_Set_465FF0(field_FA_id, 1);
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         SFX_Play_46FBA0(SoundEffect::GlukkonSwitchBleh_88, 127, -700);
-        field_F8_state = 1;
+        field_F8_state = DoorState::eSuccessChime_1;
         field_124_timer = sGnFrame_5C1B84 + 15;
         return;
 
-    case 12:
+    case DoorState::eFailure_12:
         if (static_cast<int>(sGnFrame_5C1B84) <= field_124_timer)
         {
             return;
         }
         SFX_Play_46FBA0(SoundEffect::SecurityDoorDeny_38, 60, -720);
-        field_F8_state = 13;
+        field_F8_state = DoorState::eLaughAtFailure_13;
         field_124_timer = sGnFrame_5C1B84 + 15;
         return;
 
-    case 13:
+    case DoorState::eLaughAtFailure_13:
         if (static_cast<int>(sGnFrame_5C1B84) <= field_124_timer)
         {
             return;
         }
         SFX_Play_46FBA0(SoundEffect::SecurityDoorLaugh_87, 127, -1000);
-        field_F8_state = 0;
+        field_F8_state = DoorState::eInactive_0;
         field_124_timer = sGnFrame_5C1B84 + 90;
         return;
 

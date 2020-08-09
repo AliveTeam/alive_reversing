@@ -5,7 +5,7 @@
 
 void GameSpeak_ForceLink() { }
 
-const int dword_560F0C[12] =
+const int code_base_560F0C[12] =
 {
     0,
     1,
@@ -35,7 +35,7 @@ int CC Code_Convert_4C9DF0(unsigned __int16 code1, unsigned __int16 code2)
 {
     if (code2)
     {
-        return code2 + code1 * dword_560F0C[Code_Length_4C9DB0(code2) + 1];
+        return code2 + code1 * code_base_560F0C[Code_Length_4C9DB0(code2) + 1];
     }
     else
     {
@@ -57,7 +57,7 @@ __int16 CC Code_LookUp_4C9E40(unsigned int code, unsigned __int16 idx, unsigned 
         code_len_to_use = Code_Length_4C9DB0(code);
     }
 
-    return code / dword_560F0C[code_len_to_use - idx] % 10;
+    return code / code_base_560F0C[code_len_to_use - idx] % 10;
 }
 
 ALIVE_VAR(1, 0x5BC11C, GameSpeak*, pEventSystem_5BC11C, nullptr);
@@ -137,7 +137,7 @@ GameSpeakMatch GameSpeak::MatchBuffer_4219E0(BYTE* pBuffer, __int16 max_idx, sig
     }
 }
 
-int CC GameSpeak::sub_421970(int code, BYTE* pBufffer)
+int CC GameSpeak::FillBuffer_421970(int code, BYTE* pBufffer)
 {
     const __int16 len = Code_Length_4C9DB0(code);
     for (short idx = 0; idx < len; idx++)
