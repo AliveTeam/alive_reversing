@@ -1,3 +1,5 @@
+#pragma once
+
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 

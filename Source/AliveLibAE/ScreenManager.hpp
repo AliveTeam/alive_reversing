@@ -30,8 +30,8 @@ public:
     LevelIds field_1A_level;
     __int16 field_1C_camera_number;
     char field_1E_cam_name[12];
-    int field_2A;
-    __int16 field_2E;
+    int field_2A_padding;
+    __int16 field_2E_padding;
     __int16 field_30_flags;
 };
 #pragma pack(pop)
@@ -119,26 +119,26 @@ private:
 public:
     FP_Point* field_20_pCamPos;
     SprtTPage* field_24_screen_sprites;
-    int field_28;
+    int field_28_padding;
     unsigned __int16 field_2C_upos;
     unsigned __int16 field_2E_vpos;
     __int16 field_30_cam_width;
     __int16 field_32_cam_height;
-    int field_34;
-    __int16 field_38;
+    int field_34_padding;
+    __int16 field_38_padding;
     unsigned __int16 field_3A_idx;
     unsigned __int16 field_3C_y_idx;
     unsigned __int16 field_3E_x_idx;
     int field_40_flags;
-    unsigned __int16 field_44;
-    unsigned __int16 field_46;
-    int field_48;
-    int field_4C;
-    int field_50;
-    int field_54;
-    int field_58;
-    int field_5C;
-    int field_60;
+    unsigned __int16 field_44_unused;
+    unsigned __int16 field_46_padding;
+    int field_48_padding;
+    int field_4C_padding;
+    int field_50_padding;
+    int field_54_padding;
+    int field_58_padding;
+    int field_5C_padding;
+    int field_60_padding;
     DirtyBits field_64_20x16_dirty_bits[8];
 
     signed int g_left7_array = 0;

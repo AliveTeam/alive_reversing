@@ -64,8 +64,8 @@ enum class GameSpeakEvents : __int16
     Paramite_DoIt_51 = 51,
     Paramite_AllYa_52 = 52,
 
-    eUnknown_53 = 53,
-    eUnknown_54 = 54,
+    Scrab_Howl_53 = 53,
+    Scrab_Shriek_54 = 54,
 };
 
 enum class GameSpeakMatch : __int16
@@ -90,7 +90,7 @@ public:
 
     EXPORT GameSpeakMatch MatchBuffer_4219E0(BYTE* pBuffer, __int16 max_idx, signed __int16 src_idx);
 
-    EXPORT static int CC sub_421970(int code, BYTE* pBufffer);
+    EXPORT static int CC FillBuffer_421970(int code, BYTE* pBufffer);
 
 private:
     EXPORT void dtor_4218A0();

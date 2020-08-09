@@ -188,7 +188,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         wh.field_0_x = gPsxDisplay_5C1130.field_0_width;
         wh.field_2_y = gPsxDisplay_5C1130.field_2_height;
 
-        pScreenManager_5BB5F4->field_44 = 1;
+        pScreenManager_5BB5F4->field_44_unused = 1;
 
         field_34_pSubObject = ae_new<ScreenClipper>();
         field_34_pSubObject->ctor_416D60(xy, wh, 0);
@@ -206,7 +206,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         wh.field_0_x = 0;
         wh.field_2_y = gPsxDisplay_5C1130.field_2_height;
 
-        pScreenManager_5BB5F4->field_44 = 1;
+        pScreenManager_5BB5F4->field_44_unused = 1;
 
         field_34_pSubObject = ae_new<ScreenClipper>();
         field_34_pSubObject->ctor_416D60(xy, wh, 0);
@@ -224,7 +224,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         wh.field_0_x = gPsxDisplay_5C1130.field_0_width;
         wh.field_2_y = gPsxDisplay_5C1130.field_2_height;
 
-        pScreenManager_5BB5F4->field_44 = 1;
+        pScreenManager_5BB5F4->field_44_unused = 1;
 
         field_34_pSubObject = ae_new<ScreenClipper>();
         field_34_pSubObject->ctor_416D60(xy, wh, 0);
@@ -242,7 +242,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         wh.field_0_x = gPsxDisplay_5C1130.field_0_width;
         wh.field_2_y = 0;
 
-        pScreenManager_5BB5F4->field_44 = 1;
+        pScreenManager_5BB5F4->field_44_unused = 1;
 
         field_34_pSubObject = ae_new<ScreenClipper>();
         field_34_pSubObject->ctor_416D60(xy, wh, 0);
@@ -254,7 +254,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         field_3E_total_slices = (gPsxDisplay_5C1130.field_0_width / 2) / field_56_slice_width;
         field_3A_current_slice = 0;
 
-        pScreenManager_5BB5F4->field_44 = 1;
+        pScreenManager_5BB5F4->field_44_unused = 1;
 
         xy.field_0_x = gPsxDisplay_5C1130.field_0_width / 2;
         xy.field_2_y = 0;
@@ -272,7 +272,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         field_3E_total_slices = (gPsxDisplay_5C1130.field_2_height / 2) / field_56_slice_width;
         field_3A_current_slice = 0;
 
-        pScreenManager_5BB5F4->field_44 = 1;
+        pScreenManager_5BB5F4->field_44_unused = 1;
 
         xy.field_0_x = 0;
         xy.field_2_y = gPsxDisplay_5C1130.field_2_height / 2;
@@ -315,7 +315,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         field_3E_total_slices = startingSlice + 1;
         field_3A_current_slice = 0;
 
-        pScreenManager_5BB5F4->field_44 = 1;
+        pScreenManager_5BB5F4->field_44_unused = 1;
 
         xy.field_0_x = gPsxDisplay_5C1130.field_0_width - 1;
         xy.field_2_y = gPsxDisplay_5C1130.field_2_height - 1;
@@ -331,7 +331,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
     case CameraSwapEffects::eEffect5_1_FMV:
     case CameraSwapEffects::eEffect9_2_FMV:
     case CameraSwapEffects::eEffect10_3_FMV:
-        pScreenManager_5BB5F4->field_44 = 1;
+        pScreenManager_5BB5F4->field_44_unused = 1;
 
         field_34_pSubObject = ae_new<ScreenClipper>();
         field_34_pSubObject->ctor_416D60({0, 0}, {1, 1}, 0);
@@ -482,7 +482,7 @@ void CameraSwapper::vUpdate_4E5850()
             gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
         }
 
-        pScreenManager_5BB5F4->field_44 = 1;
+        pScreenManager_5BB5F4->field_44_unused = 1;
 
         // Now apply the camera we where storing now that the movie is finished
         if (field_30_ppCamRes)

@@ -46,6 +46,6 @@ private:
     int field_38_state;
     int field_3C_spawned_scrab_id;
     __int16 field_40_bFindSpawnedScrab;
-    __int16 field_42;
+    __int16 field_42_padding;
 };
 ALIVE_ASSERT_SIZEOF(ScrabSpawner, 0x44);
