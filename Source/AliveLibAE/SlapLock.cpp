@@ -209,7 +209,7 @@ SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, int tlvInfo)
         field_20_animation.field_C_render_layer = 25;
     }
 
-    field_120_state = SlapLockStates::State_0;
+    field_120_state = SlapLockStates::eShaking_0;
     field_124_timer1 = (Math_NextRandom() & 7) + sGnFrame_5C1B84 + 25;
     field_134_id = -1;
     field_138_possesion_flicker_id = -1;
@@ -254,11 +254,11 @@ SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, int tlvInfo)
 
     if (field_118_pTlv->field_1A_has_powerup != 0)
     {
-        field_120_state = SlapLockStates::State_4;
+        field_120_state = SlapLockStates::eEmitPowerupRing_4;
     }
     else
     {
-        field_120_state = SlapLockStates::State_3;
+        field_120_state = SlapLockStates::eBroken_3;
     }
 
     return this;
@@ -313,7 +313,7 @@ int CC SlapLock::CreateFromSaveState_43EA00(const BYTE* pBuffer)
         pSlapLock->ctor_43DC80(pTlv, pState->field_4_tlvInfo);
     }
 
-    pSlapLock->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2 & 1);
+    pSlapLock->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2_render & 1);
 
     pSlapLock->field_11C_tlvInfo = pState->field_4_tlvInfo;
 
@@ -338,14 +338,14 @@ SlapLock* SlapLock::vdtor_43DED0(signed int flags)
 
 void SlapLock::vScreenChanged_43E840()
 {
-    if (field_120_state == SlapLockStates::State_5 || field_120_state == SlapLockStates::State_6)
+    if (field_120_state == SlapLockStates::eFlickerHero_5 || field_120_state == SlapLockStates::eGiveInvisibilityFromFlicker_6)
     {
-        GiveInvisiblity_43E880();
+        GiveInvisibility_43E880();
     }
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-void SlapLock::GiveInvisiblity_43E880()
+void SlapLock::GiveInvisibility_43E880()
 {
     field_118_pTlv = static_cast<Path_SlapLock*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_11C_tlvInfo));
     if (sActiveHero_5C1B68)
@@ -360,7 +360,7 @@ void SlapLock::GiveInvisiblity_43E880()
 signed int SlapLock::vGetSaveState_43EB30(SlapLock_State* pState)
 {
     pState->field_0_type = Types::eLockedSoul_61;
-    pState->field_2 = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render) & 1;
+    pState->field_2_render = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render) & 1;
     pState->field_4_tlvInfo = field_11C_tlvInfo;
     pState->field_8_tlv_state = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_11C_tlvInfo)->field_1_unknown;
     pState->field_A_state = field_120_state;
@@ -424,7 +424,7 @@ void SlapLock::vUpdate_43DF90()
 
         switch (field_120_state)
         {
-        case SlapLockStates::State_0:
+        case SlapLockStates::eShaking_0:
             if (field_118_pTlv->field_1A_has_powerup)
             {
                 if (!(sGnFrame_5C1B84 & 63))
@@ -448,11 +448,11 @@ void SlapLock::vUpdate_43DF90()
             }
 
             field_20_animation.Set_Animation_Data_409C80(6976, 0);
-            field_120_state = SlapLockStates::State_1;
+            field_120_state = SlapLockStates::eIdle_1;
             SFX_Play_46FA90(SoundEffect::SpiritLockShake_105, 0);
             return;
 
-        case SlapLockStates::State_1:
+        case SlapLockStates::eIdle_1:
             if (field_118_pTlv->field_1A_has_powerup)
             {
                 if (!(sGnFrame_5C1B84 & 63))
@@ -471,11 +471,11 @@ void SlapLock::vUpdate_43DF90()
             }
 
             field_20_animation.Set_Animation_Data_409C80(7068, 0);
-            field_120_state = SlapLockStates::State_0;
+            field_120_state = SlapLockStates::eShaking_0;
             field_124_timer1 = Math_NextRandom() + sGnFrame_5C1B84 + 25;
             return;
 
-        case SlapLockStates::State_2:
+        case SlapLockStates::eSlapped_2:
             if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
             {
                 return;
@@ -486,17 +486,17 @@ void SlapLock::vUpdate_43DF90()
             if (!field_118_pTlv->field_1A_has_powerup)
             {
                 field_13C_timer2 = sGnFrame_5C1B84 + 60;
-                field_120_state = SlapLockStates::State_3;
+                field_120_state = SlapLockStates::eBroken_3;
                 break;
             }
             else
             {
-                field_120_state = SlapLockStates::State_5;
+                field_120_state = SlapLockStates::eFlickerHero_5;
                 return;
             }
             break;
 
-        case SlapLockStates::State_3:
+        case SlapLockStates::eBroken_3:
             if (static_cast<int>(sGnFrame_5C1B84) <= field_13C_timer2)
             {
                 return;
@@ -511,7 +511,7 @@ void SlapLock::vUpdate_43DF90()
             field_13C_timer2 = Math_RandomRange_496AB0(-30, 30) + sGnFrame_5C1B84 + 60;
             return;
 
-        case SlapLockStates::State_4:
+        case SlapLockStates::eEmitPowerupRing_4:
             if (static_cast<int>(sGnFrame_5C1B84) > field_124_timer1)
             {
                 if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
@@ -533,7 +533,7 @@ void SlapLock::vUpdate_43DF90()
                 else
                 {
                     GivePowerUp_43E910();
-                    field_120_state = SlapLockStates::State_5;
+                    field_120_state = SlapLockStates::eFlickerHero_5;
                 }
             }
 
@@ -551,7 +551,7 @@ void SlapLock::vUpdate_43DF90()
             field_13C_timer2 = Math_RandomRange_496AB0(-30, 30) + sGnFrame_5C1B84 + 60;
             return;
 
-        case SlapLockStates::State_5:
+        case SlapLockStates::eFlickerHero_5:
             if (pRingObj)
             {
                 return;
@@ -559,7 +559,7 @@ void SlapLock::vUpdate_43DF90()
 
             if (sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
             {
-                field_120_state = SlapLockStates::State_7;
+                field_120_state = SlapLockStates::eGiveInvisibility_7;
             }
             else
             {
@@ -568,25 +568,25 @@ void SlapLock::vUpdate_43DF90()
                 {
                     pFlicker->ctor_4319E0(sActiveHero_5C1B68, 8, 128, 255, 128);
                 }
-                field_120_state = SlapLockStates::State_6;
+                field_120_state = SlapLockStates::eGiveInvisibilityFromFlicker_6;
                 field_138_possesion_flicker_id = pFlicker->field_8_object_id;
             }
             return;
 
-        case SlapLockStates::State_6:
+        case SlapLockStates::eGiveInvisibilityFromFlicker_6:
             if (pFlickerObj)
             {
                 return;
             }
-            GiveInvisiblity_43E880();
+            GiveInvisibility_43E880();
             field_13C_timer2 = sGnFrame_5C1B84 + 60;
-            field_120_state = SlapLockStates::State_3;
+            field_120_state = SlapLockStates::eBroken_3;
             break;
 
-        case SlapLockStates::State_7:
-            GiveInvisiblity_43E880();
+        case SlapLockStates::eGiveInvisibility_7:
+            GiveInvisibility_43E880();
             field_13C_timer2 = sGnFrame_5C1B84 + 60;
-            field_120_state = SlapLockStates::State_3;
+            field_120_state = SlapLockStates::eBroken_3;
             break;
 
         default:
@@ -634,7 +634,7 @@ __int16 SlapLock::vTakeDamage_43E5D0(BaseGameObject* pFrom)
         return 0;
     }
 
-    if (field_120_state != SlapLockStates::State_0 && field_120_state != SlapLockStates::State_1)
+    if (field_120_state != SlapLockStates::eShaking_0 && field_120_state != SlapLockStates::eIdle_1)
     {
         return 0;
     }
@@ -666,7 +666,7 @@ __int16 SlapLock::vTakeDamage_43E5D0(BaseGameObject* pFrom)
         GivePowerUp_43E910();
     }
 
-    field_120_state = SlapLockStates::State_2;
+    field_120_state = SlapLockStates::eSlapped_2;
     SwitchStates_Do_Operation_465F00(field_118_pTlv->field_1E_option_id, SwitchOp::eToggle_2);
     SFX_Play_46FA90(SoundEffect::SpiritLockBreak_106, 0, field_CC_sprite_scale);
     Event_Broadcast_422BC0(kEventLoudNoise, this);

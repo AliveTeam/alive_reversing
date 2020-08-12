@@ -193,7 +193,7 @@ int CC SFX_Play_46FC20(unsigned __int8 sfxId, __int16 volume, CameraPos directio
     }
 }
 
-const SfxDefinition stru_560868[21] =
+const SfxDefinition sSligGameSpeakEntries_560868[21] =
 {
     { 0u, 25u, 60u, 127u, 0, 0 },
     { 0u, 25u, 62u, 127u, 0, 0 },
@@ -299,8 +299,8 @@ EXPORT signed __int16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysic
 void CC Sfx_Slig_GameSpeak_4C04F0(SligSpeak effectId, __int16 defaultVol, __int16 pitch_min, BaseAnimatedWithPhysicsGameObject* pObj)
 {
     const int idx = static_cast<int>(effectId);
-    assert(idx < ALIVE_COUNTOF(stru_560868));
-    const SfxDefinition* pEffect = &stru_560868[idx];
+    assert(idx < ALIVE_COUNTOF(sSligGameSpeakEntries_560868));
+    const SfxDefinition* pEffect = &sSligGameSpeakEntries_560868[idx];
     LOG_INFO("idx = " << idx);
 
     __int16 volLeft = 0;

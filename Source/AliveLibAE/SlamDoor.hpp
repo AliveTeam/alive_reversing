@@ -23,7 +23,7 @@ struct Path_SlamDoor : public Path_TLV
     __int16 field_14_id;
     __int16 field_16_inverted;
     __int16 field_18_delete;
-    __int16 field_1A_pad;
+    __int16 field_1A_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlamDoor, 0x1C);
 
@@ -36,26 +36,26 @@ public:
 
     virtual void VOnThrowableHit(BaseGameObject*) override {}
 
-    EXPORT SlamDoor* ctor_4AF700(Path_SlamDoor * tlv_params, TlvItemInfoUnion tlvInfo);
+    EXPORT SlamDoor* ctor_4AF700(Path_SlamDoor* tlv_params, TlvItemInfoUnion tlvInfo);
     EXPORT static int CC CreateFromSaveState_4C08B0(const BYTE*);
 
 private:
     EXPORT void dtor_4B0620();
-    EXPORT SlamDoor * vdtor_4AFD20(signed int flags);
+    EXPORT SlamDoor* vdtor_4AFD20(signed int flags);
     EXPORT void vUpdate_4AFD50();
     EXPORT int vGetSaveState_4C09D0(BYTE* pSaveBuffer);
-    EXPORT void ClearInsideSlamDoor_4B0530(BaseAliveGameObject *pObj, __int16 a3, __int16 a4);
+    EXPORT void ClearInsideSlamDoor_4B0530(BaseAliveGameObject* pObj, __int16 xPosition, __int16 width);
 
 private:
     BitField16<SlamDoor_Flags_118> field_118_flags;
-    __int16 field_11A;
-    PathLine *field_11C_pCollisionLine_6_2;
-    PathLine *field_120_pCollisionLine_5_1;
+    __int16 field_11A_padding;
+    PathLine* field_11C_pCollisionLine_6_2;
+    PathLine* field_120_pCollisionLine_5_1;
     __int16 field_124_x1;
     __int16 field_126_y1;
     __int16 field_128_switch_id;
-    __int16 field_12A;
+    __int16 field_12A_padding;
     TlvItemInfoUnion field_12C_tlvInfo;
-    int field_130;
+    int field_130_padding;
 };
 ALIVE_ASSERT_SIZEOF(SlamDoor, 0x134);

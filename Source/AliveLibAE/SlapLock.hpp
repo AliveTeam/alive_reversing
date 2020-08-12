@@ -39,10 +39,10 @@ private:
     FP field_34_door_scale;
     int field_38_orb_whirlwind_id;
     __int16 field_3C_state;
-    __int16 field_3E_pad;
+    __int16 field_3E_padding;
     int field_40_timer;
     __int16 field_44_switch_id;
-    __int16 field_46_pad;
+    __int16 field_46_padding;
 };
 ALIVE_ASSERT_SIZEOF(SlapLockWhirlWind, 0x48);
 
@@ -61,20 +61,20 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlapLock, 0x20);
 
 enum class SlapLockStates : __int16
 {
-    State_0 = 0,
-    State_1 = 1,
-    State_2 = 2,
-    State_3 = 3,
-    State_4 = 4,
-    State_5 = 5,
-    State_6 = 6,
-    State_7 = 7,
+    eShaking_0 = 0,
+    eIdle_1 = 1,
+    eSlapped_2 = 2,
+    eBroken_3 = 3,
+    eEmitPowerupRing_4 = 4,
+    eFlickerHero_5 = 5,
+    eGiveInvisibilityFromFlicker_6 = 6,
+    eGiveInvisibility_7 = 7,
 };
 
 struct SlapLock_State
 {
     Types field_0_type;
-    __int16 field_2;
+    __int16 field_2_render;
     int field_4_tlvInfo;
     char field_8_tlv_state;
     char field_9_padding;
@@ -102,7 +102,7 @@ public:
 private:
     EXPORT SlapLock* vdtor_43DED0(signed int flags);
     EXPORT void vScreenChanged_43E840();
-    EXPORT void GiveInvisiblity_43E880();
+    EXPORT void GiveInvisibility_43E880();
     EXPORT signed int vGetSaveState_43EB30(SlapLock_State* pState);
     EXPORT void vUpdate_43DF90();
     EXPORT void GivePowerUp_43E910();
@@ -112,12 +112,12 @@ private:
     Path_SlapLock* field_118_pTlv;
     int field_11C_tlvInfo;
     SlapLockStates field_120_state;
-    __int16 field_122;
+    __int16 field_122_padding;
     int field_124_timer1;
     FP field_128_midX;
     FP field_12C_midY;
     __int16 field_130_has_ghost;
-    __int16 field_132;
+    __int16 field_132_padding;
     int field_134_id;
     int field_138_possesion_flicker_id;
     int field_13C_timer2;

@@ -34,14 +34,14 @@ Shrykull* Shrykull::ctor_4AEA20()
     field_CC_sprite_scale = sActiveHero_5C1B68->field_CC_sprite_scale;
     field_D6_scale = sActiveHero_5C1B68->field_D6_scale;
 
-    field_118_state = State::eState0;
+    field_118_state = State::eTransform_0;
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, sActiveHero_5C1B68->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX));
 
     field_E0_pShadow = ae_new<Shadow>();
     field_E0_pShadow->ctor_4AC990();
     
-    field_12E_bUnknown = 0;
+    field_12E_bResetRingTimer = 0;
 
     return this;
 }
@@ -141,7 +141,7 @@ void Shrykull::vUpdate_4AEDE0()
 
     switch (field_118_state)
     {
-    case State::eState0:
+    case State::eTransform_0:
         if (field_20_animation.field_92_current_frame == 0)
         {
             SFX_Play_46FBA0(SoundEffect::Shrykull1_85, 127, -2000);
@@ -152,11 +152,11 @@ void Shrykull::vUpdate_4AEDE0()
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
         {
             field_20_animation.Set_Animation_Data_409C80(82712, 0);
-            field_118_state = State::eState1;
+            field_118_state = State::eZapTargets_1;
         }
         break;
 
-    case State::eState1:
+    case State::eZapTargets_1:
         if (field_20_animation.field_92_current_frame == 0)
         {
             if (Math_NextRandom() >= 0x80u)
@@ -253,9 +253,9 @@ void Shrykull::vUpdate_4AEDE0()
                 SFX_Play_46FBA0(SoundEffect::ShrykullZap_18, 100, 2000);
                 SFX_Play_46FA90(SoundEffect::Zap1_49, 0);
 
-                field_118_state = State::eState4;
+                field_118_state = State::eKillTargets_4;
                 field_11C_timer = sGnFrame_5C1B84 + 12;
-                field_12E_bUnknown = 1;
+                field_12E_bResetRingTimer = 1;
                 return;
             }
         }
@@ -265,10 +265,10 @@ void Shrykull::vUpdate_4AEDE0()
             pExistingZapLine->field_6_flags.Set(BaseGameObject::eDead_Bit3);
             field_124_zap_line_id = -1;
         }
-        field_118_state = State::eState2;
+        field_118_state = State::eDetransform_2;
         break;
 
-    case State::eState2:
+    case State::eDetransform_2:
         if (field_20_animation.field_92_current_frame == 7)
         {
             if (Math_NextRandom() >= 0x80u)
@@ -289,19 +289,19 @@ void Shrykull::vUpdate_4AEDE0()
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             field_20_animation.Set_Animation_Data_409C80(82824, nullptr);
-            field_118_state = State::eState3;
+            field_118_state = State::eFinish_3;
         }
         break;
 
-    case State::eState3:
+    case State::eFinish_3:
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
         {
-            sActiveHero_5C1B68->ExitShrykull_45A9D0(field_12E_bUnknown);
+            sActiveHero_5C1B68->ExitShrykull_45A9D0(field_12E_bResetRingTimer);
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
         break;
 
-    case State::eState4:
+    case State::eKillTargets_4:
         if (field_20_animation.field_92_current_frame == 0)
         {
             if (Math_NextRandom()>= 0x80u)
@@ -355,7 +355,7 @@ void Shrykull::vUpdate_4AEDE0()
 
         if (static_cast<int>(sGnFrame_5C1B84) > field_11C_timer)
         {
-            field_118_state = State::eState1;
+            field_118_state = State::eZapTargets_1;
             if (pExistingBeingZappedObj)
             {
                 if (!field_12C_bElectrocute)
