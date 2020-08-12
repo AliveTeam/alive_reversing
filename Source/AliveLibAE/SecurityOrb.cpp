@@ -222,10 +222,10 @@ void SecurityOrb::vUpdate_4665A0()
                     28);
             }
 
-            auto v14 = ae_new<PossessionFlicker>();
-            if (v14)
+            auto pFlicker = ae_new<PossessionFlicker>();
+            if (pFlicker)
             {
-                v14->ctor_4319E0(sActiveHero_5C1B68, 8, 255, 100, 100);
+                pFlicker->ctor_4319E0(sActiveHero_5C1B68, 8, 255, 100, 100);
             }
 
             if (sActiveHero_5C1B68->field_10C_health > FP_FromInteger(0))
@@ -242,35 +242,35 @@ void SecurityOrb::vUpdate_4665A0()
                 pScreenShake->ctor_4ACF70(1, 0);
             }
 
-            auto pUnknownObj = ae_new<Sparks>();
-            if (pUnknownObj)
+            auto pSpark = ae_new<Sparks>();
+            if (pSpark)
             {
-                pUnknownObj->ctor_416390(field_B8_xpos, field_BC_ypos - (FP_FromInteger(8) * field_CC_sprite_scale), field_CC_sprite_scale);
+                pSpark->ctor_416390(field_B8_xpos, field_BC_ypos - (FP_FromInteger(8) * field_CC_sprite_scale), field_CC_sprite_scale);
 
-                pUnknownObj->field_D2_g = 65;
-                pUnknownObj->field_D4_b = 65;
-                pUnknownObj->field_D0_r = 255;
+                pSpark->field_D2_g = 65;
+                pSpark->field_D4_b = 65;
+                pSpark->field_D0_r = 255;
             }
 
-            auto pUnknownObj2 = ae_new<Sparks>();
-            if (pUnknownObj2)
+            auto pSpark2 = ae_new<Sparks>();
+            if (pSpark2)
             {
-                pUnknownObj2->ctor_416390(field_B8_xpos, field_BC_ypos - (FP_FromInteger(8) * field_CC_sprite_scale), field_CC_sprite_scale);
+                pSpark2->ctor_416390(field_B8_xpos, field_BC_ypos - (FP_FromInteger(8) * field_CC_sprite_scale), field_CC_sprite_scale);
 
-                pUnknownObj2->field_D2_g = 65;
-                pUnknownObj2->field_D4_b = 65;
-                pUnknownObj2->field_D0_r = 255;
+                pSpark2->field_D2_g = 65;
+                pSpark2->field_D4_b = 65;
+                pSpark2->field_D0_r = 255;
             }
 
             for (int i = 0; i < 9; i++)
             {
-                auto pUnknownObj4 = ae_new<Sparks>();
-                if (pUnknownObj4)
+                auto pSpark3 = ae_new<Sparks>();
+                if (pSpark3)
                 {
-                    pUnknownObj4->ctor_416390(xpos, ypos, field_CC_sprite_scale);
-                    pUnknownObj4->field_D2_g = 65;
-                    pUnknownObj4->field_D4_b = 65;
-                    pUnknownObj4->field_D0_r = 255;
+                    pSpark3->ctor_416390(xpos, ypos, field_CC_sprite_scale);
+                    pSpark3->field_D2_g = 65;
+                    pSpark3->field_D4_b = 65;
+                    pSpark3->field_D0_r = 255;
                 }
             }
         }

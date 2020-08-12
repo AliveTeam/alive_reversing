@@ -1,12 +1,10 @@
 #include "stdafx.h"
 #include "SlapLock.hpp"
+#include "SlapLockWhirlWind.hpp"
 #include "Function.hpp"
-#include "Math.hpp"
-#include "Game.hpp"
 #include "SwitchStates.hpp"
 #include "stdlib.hpp"
 #include "Abe.hpp"
-#include "OrbWhirlWind.hpp"
 #include "Events.hpp"
 #include "Sfx.hpp"
 #include "ObjectIds.hpp"
@@ -14,173 +12,6 @@
 #include "PossessionFlicker.hpp"
 #include "Particle.hpp"
 #include "ParticleBurst.hpp"
-#include "Door.hpp"
-
-int CC SlapLockWhirlWind::CreateFromSaveState_43DC20(const BYTE* pBuffer)
-{
-    auto pSaveState = reinterpret_cast<const SlapLockWhirlWind_State*>(pBuffer);
-    SwitchStates_Do_Operation_465F00(pSaveState->field_2_switch_id, SwitchOp::eSetTrue_0);
-    return sizeof(SlapLockWhirlWind_State);
-}
-
-SlapLockWhirlWind* SlapLockWhirlWind::ctor_43D7E0(__int16 doorNumber, __int16 switchId, FP xpos, FP ypos, FP scale)
-{
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
-    SetVTable(this, 0x545208);
-    field_4_typeId = Types::eSlapLock_OrbWhirlWind_60;
-
-    field_20_xpos = xpos;
-    field_24_ypos = ypos;
-
-    field_28_scale = scale;
-    field_44_switch_id = switchId;
-
-    bool bFoundTarget = false;
-    for (short y = 0; y < sPath_dword_BB47C0->field_8_cams_on_y; y++)
-    {
-        for (short x = 0; x < sPath_dword_BB47C0->field_6_cams_on_x; x++)
-        {
-            Path_Door* pDoorTlv = static_cast<Path_Door*>(sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera_4DB610(
-                x - gMap_5C3030.field_D0_cam_x_idx,
-                y - gMap_5C3030.field_D2_cam_y_idx));
-            while (pDoorTlv)
-            {
-                if (pDoorTlv->field_4_type == TlvTypes::Door_5 && pDoorTlv->field_18_door_number == doorNumber)
-                {
-                    // For some reason once found we just keep on searching...
-                    bFoundTarget = true;
-
-                    field_2C_door_x = FP_FromInteger((pDoorTlv->field_8_top_left.field_0_x + pDoorTlv->field_C_bottom_right.field_0_x) / 2);
-                    field_30_door_y = FP_FromInteger((pDoorTlv->field_8_top_left.field_2_y + pDoorTlv->field_C_bottom_right.field_2_y) / 2);
-
-                    if (pDoorTlv->field_16_scale)
-                    {
-                        field_34_door_scale = FP_FromDouble(0.5);
-                    }
-                    else
-                    {
-                        field_34_door_scale = FP_FromInteger(1);
-                    }
-
-                    field_30_door_y -= (FP_FromInteger(40) * field_34_door_scale);
-                }
-                pDoorTlv = static_cast<Path_Door*>(sPath_dword_BB47C0->Next_TLV_4DB6A0(pDoorTlv));
-            }
-        }
-    }
-
-    if (bFoundTarget)
-    {
-        auto pWhirlWind = ae_new<OrbWhirlWind>();
-        if (pWhirlWind)
-        {
-            pWhirlWind->ctor_4E3C90(xpos, ypos, scale, 1);
-        }
-        field_3C_state = 0;
-        field_38_orb_whirlwind_id = pWhirlWind->field_8_object_id;
-        field_40_timer = sGnFrame_5C1B84 + 70;
-    }
-    else
-    {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
-    }
-
-    return this;
-}
-
-BaseGameObject* SlapLockWhirlWind::VDestructor(signed int flags)
-{
-    return vdtor_43DA40(flags);
-}
-
-void SlapLockWhirlWind::VUpdate()
-{
-    vUpdate_43DA90();
-}
-
-int SlapLockWhirlWind::VGetSaveState(BYTE* pSaveBuffer)
-{
-    return vGetSaveState_43DC50(reinterpret_cast<SlapLockWhirlWind_State*>(pSaveBuffer));
-}
-
-void SlapLockWhirlWind::dtor_43DA70()
-{
-    SetVTable(this, 0x545208);
-    BaseGameObject_dtor_4DBEC0();
-}
-
-SlapLockWhirlWind* SlapLockWhirlWind::vdtor_43DA40(signed int flags)
-{
-    dtor_43DA70();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-signed int SlapLockWhirlWind::vGetSaveState_43DC50(SlapLockWhirlWind_State* pSaveState)
-{
-    pSaveState->field_0_type = Types::eSlapLock_OrbWhirlWind_60;
-    pSaveState->field_2_switch_id = field_44_switch_id;
-    return sizeof(SlapLockWhirlWind_State);
-}
-
-void SlapLockWhirlWind::vUpdate_43DA90()
-{
-    if (Event_Get_422C00(kEventDeathReset))
-    {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
-    }
-    else
-    {
-        OrbWhirlWind* pWhirlWind = static_cast<OrbWhirlWind*>(sObjectIds_5C1B70.Find_449CF0(field_38_orb_whirlwind_id));
-        if (field_3C_state == 1)
-        {
-            if (!(static_cast<int>(sGnFrame_5C1B84) % 10))
-            {
-                SFX_Play_46FBA0(
-                    SoundEffect::FlyingSpirit2_108,
-                    static_cast<short>(127 - (static_cast<int>(sGnFrame_5C1B84) - field_40_timer) / 2),
-                    4 * (sGnFrame_5C1B84 - field_40_timer));
-            }
-
-            if (!pWhirlWind || pWhirlWind->field_6_flags.Get(BaseGameObject::eDead_Bit3))
-            {
-                SwitchStates_Do_Operation_465F00(field_44_switch_id, SwitchOp::eSetTrue_0);
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
-            }
-        }
-        else if (field_3C_state == 0)
-        {
-            if (!(static_cast<int>(sGnFrame_5C1B84) % 10))
-            {
-                if (static_cast<int>(sGnFrame_5C1B84) % 20)
-                {
-                    SFX_Play_46FA90(SoundEffect::FlyingSpirit1_107, 0);
-                }
-                else
-                {
-                    SFX_Play_46FA90(SoundEffect::FlyingSpirit2_108, 0);
-                }
-            }
-
-            if (static_cast<int>(sGnFrame_5C1B84) > field_40_timer)
-            {
-                if (pWhirlWind)
-                {
-                    pWhirlWind->ToSpin_4E3FD0(field_2C_door_x, field_30_door_y, field_34_door_scale, 0);
-                }
-                field_3C_state = 1;
-            }
-        }
-    }
-}
-
-__int16 SlapLockWhirlWind::SwitchId() const
-{
-    return field_44_switch_id;
-}
 
 SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, int tlvInfo)
 {
@@ -209,7 +40,7 @@ SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, int tlvInfo)
         field_20_animation.field_C_render_layer = 25;
     }
 
-    field_120_state = SlapLockStates::State_0;
+    field_120_state = SlapLockStates::eShaking_0;
     field_124_timer1 = (Math_NextRandom() & 7) + sGnFrame_5C1B84 + 25;
     field_134_id = -1;
     field_138_possesion_flicker_id = -1;
@@ -254,11 +85,11 @@ SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, int tlvInfo)
 
     if (field_118_pTlv->field_1A_has_powerup != 0)
     {
-        field_120_state = SlapLockStates::State_4;
+        field_120_state = SlapLockStates::eEmitPowerupRing_4;
     }
     else
     {
-        field_120_state = SlapLockStates::State_3;
+        field_120_state = SlapLockStates::eBroken_3;
     }
 
     return this;
@@ -313,7 +144,7 @@ int CC SlapLock::CreateFromSaveState_43EA00(const BYTE* pBuffer)
         pSlapLock->ctor_43DC80(pTlv, pState->field_4_tlvInfo);
     }
 
-    pSlapLock->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2 & 1);
+    pSlapLock->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2_render & 1);
 
     pSlapLock->field_11C_tlvInfo = pState->field_4_tlvInfo;
 
@@ -338,14 +169,14 @@ SlapLock* SlapLock::vdtor_43DED0(signed int flags)
 
 void SlapLock::vScreenChanged_43E840()
 {
-    if (field_120_state == SlapLockStates::State_5 || field_120_state == SlapLockStates::State_6)
+    if (field_120_state == SlapLockStates::eFlickerHero_5 || field_120_state == SlapLockStates::eGiveInvisibilityFromFlicker_6)
     {
-        GiveInvisiblity_43E880();
+        GiveInvisibility_43E880();
     }
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-void SlapLock::GiveInvisiblity_43E880()
+void SlapLock::GiveInvisibility_43E880()
 {
     field_118_pTlv = static_cast<Path_SlapLock*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_11C_tlvInfo));
     if (sActiveHero_5C1B68)
@@ -360,7 +191,7 @@ void SlapLock::GiveInvisiblity_43E880()
 signed int SlapLock::vGetSaveState_43EB30(SlapLock_State* pState)
 {
     pState->field_0_type = Types::eLockedSoul_61;
-    pState->field_2 = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render) & 1;
+    pState->field_2_render = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render) & 1;
     pState->field_4_tlvInfo = field_11C_tlvInfo;
     pState->field_8_tlv_state = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_11C_tlvInfo)->field_1_unknown;
     pState->field_A_state = field_120_state;
@@ -424,7 +255,7 @@ void SlapLock::vUpdate_43DF90()
 
         switch (field_120_state)
         {
-        case SlapLockStates::State_0:
+        case SlapLockStates::eShaking_0:
             if (field_118_pTlv->field_1A_has_powerup)
             {
                 if (!(sGnFrame_5C1B84 & 63))
@@ -448,11 +279,11 @@ void SlapLock::vUpdate_43DF90()
             }
 
             field_20_animation.Set_Animation_Data_409C80(6976, 0);
-            field_120_state = SlapLockStates::State_1;
+            field_120_state = SlapLockStates::eIdle_1;
             SFX_Play_46FA90(SoundEffect::SpiritLockShake_105, 0);
             return;
 
-        case SlapLockStates::State_1:
+        case SlapLockStates::eIdle_1:
             if (field_118_pTlv->field_1A_has_powerup)
             {
                 if (!(sGnFrame_5C1B84 & 63))
@@ -471,11 +302,11 @@ void SlapLock::vUpdate_43DF90()
             }
 
             field_20_animation.Set_Animation_Data_409C80(7068, 0);
-            field_120_state = SlapLockStates::State_0;
+            field_120_state = SlapLockStates::eShaking_0;
             field_124_timer1 = Math_NextRandom() + sGnFrame_5C1B84 + 25;
             return;
 
-        case SlapLockStates::State_2:
+        case SlapLockStates::eSlapped_2:
             if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
             {
                 return;
@@ -486,17 +317,17 @@ void SlapLock::vUpdate_43DF90()
             if (!field_118_pTlv->field_1A_has_powerup)
             {
                 field_13C_timer2 = sGnFrame_5C1B84 + 60;
-                field_120_state = SlapLockStates::State_3;
+                field_120_state = SlapLockStates::eBroken_3;
                 break;
             }
             else
             {
-                field_120_state = SlapLockStates::State_5;
+                field_120_state = SlapLockStates::eFlickerHero_5;
                 return;
             }
             break;
 
-        case SlapLockStates::State_3:
+        case SlapLockStates::eBroken_3:
             if (static_cast<int>(sGnFrame_5C1B84) <= field_13C_timer2)
             {
                 return;
@@ -511,7 +342,7 @@ void SlapLock::vUpdate_43DF90()
             field_13C_timer2 = Math_RandomRange_496AB0(-30, 30) + sGnFrame_5C1B84 + 60;
             return;
 
-        case SlapLockStates::State_4:
+        case SlapLockStates::eEmitPowerupRing_4:
             if (static_cast<int>(sGnFrame_5C1B84) > field_124_timer1)
             {
                 if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
@@ -533,7 +364,7 @@ void SlapLock::vUpdate_43DF90()
                 else
                 {
                     GivePowerUp_43E910();
-                    field_120_state = SlapLockStates::State_5;
+                    field_120_state = SlapLockStates::eFlickerHero_5;
                 }
             }
 
@@ -551,7 +382,7 @@ void SlapLock::vUpdate_43DF90()
             field_13C_timer2 = Math_RandomRange_496AB0(-30, 30) + sGnFrame_5C1B84 + 60;
             return;
 
-        case SlapLockStates::State_5:
+        case SlapLockStates::eFlickerHero_5:
             if (pRingObj)
             {
                 return;
@@ -559,7 +390,7 @@ void SlapLock::vUpdate_43DF90()
 
             if (sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
             {
-                field_120_state = SlapLockStates::State_7;
+                field_120_state = SlapLockStates::eGiveInvisibility_7;
             }
             else
             {
@@ -568,25 +399,25 @@ void SlapLock::vUpdate_43DF90()
                 {
                     pFlicker->ctor_4319E0(sActiveHero_5C1B68, 8, 128, 255, 128);
                 }
-                field_120_state = SlapLockStates::State_6;
+                field_120_state = SlapLockStates::eGiveInvisibilityFromFlicker_6;
                 field_138_possesion_flicker_id = pFlicker->field_8_object_id;
             }
             return;
 
-        case SlapLockStates::State_6:
+        case SlapLockStates::eGiveInvisibilityFromFlicker_6:
             if (pFlickerObj)
             {
                 return;
             }
-            GiveInvisiblity_43E880();
+            GiveInvisibility_43E880();
             field_13C_timer2 = sGnFrame_5C1B84 + 60;
-            field_120_state = SlapLockStates::State_3;
+            field_120_state = SlapLockStates::eBroken_3;
             break;
 
-        case SlapLockStates::State_7:
-            GiveInvisiblity_43E880();
+        case SlapLockStates::eGiveInvisibility_7:
+            GiveInvisibility_43E880();
             field_13C_timer2 = sGnFrame_5C1B84 + 60;
-            field_120_state = SlapLockStates::State_3;
+            field_120_state = SlapLockStates::eBroken_3;
             break;
 
         default:
@@ -634,7 +465,7 @@ __int16 SlapLock::vTakeDamage_43E5D0(BaseGameObject* pFrom)
         return 0;
     }
 
-    if (field_120_state != SlapLockStates::State_0 && field_120_state != SlapLockStates::State_1)
+    if (field_120_state != SlapLockStates::eShaking_0 && field_120_state != SlapLockStates::eIdle_1)
     {
         return 0;
     }
@@ -666,7 +497,7 @@ __int16 SlapLock::vTakeDamage_43E5D0(BaseGameObject* pFrom)
         GivePowerUp_43E910();
     }
 
-    field_120_state = SlapLockStates::State_2;
+    field_120_state = SlapLockStates::eSlapped_2;
     SwitchStates_Do_Operation_465F00(field_118_pTlv->field_1E_option_id, SwitchOp::eToggle_2);
     SFX_Play_46FA90(SoundEffect::SpiritLockBreak_106, 0, field_CC_sprite_scale);
     Event_Broadcast_422BC0(kEventLoudNoise, this);

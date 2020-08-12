@@ -1,50 +1,7 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
-
-
-struct SlapLockWhirlWind_State
-{
-    Types field_0_type;
-    __int16 field_2_switch_id;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(SlapLockWhirlWind_State, 0x4);
-
-class SlapLockWhirlWind : public BaseGameObject
-{
-public:
-    EXPORT SlapLockWhirlWind* ctor_43D7E0(__int16 doorNumber, __int16 switchId, FP xpos, FP ypos, FP scale);
-    virtual BaseGameObject* VDestructor(signed int flags) override;
-    virtual void VUpdate() override;
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
-    static EXPORT int CC CreateFromSaveState_43DC20(const BYTE* pBuffer);
-
-private:
-    EXPORT void dtor_43DA70();
-    EXPORT SlapLockWhirlWind* vdtor_43DA40(signed int flags);
-    EXPORT signed int vGetSaveState_43DC50(SlapLockWhirlWind_State* pSaveState);
-    EXPORT void vUpdate_43DA90();
-
-public:
-    __int16 SwitchId() const;
-
-private:
-    FP field_20_xpos;
-    FP field_24_ypos;
-    FP field_28_scale;
-    FP field_2C_door_x;
-    FP field_30_door_y;
-    FP field_34_door_scale;
-    int field_38_orb_whirlwind_id;
-    __int16 field_3C_state;
-    __int16 field_3E_pad;
-    int field_40_timer;
-    __int16 field_44_switch_id;
-    __int16 field_46_pad;
-};
-ALIVE_ASSERT_SIZEOF(SlapLockWhirlWind, 0x48);
 
 struct Path_SlapLock : public Path_TLV
 {
@@ -61,20 +18,20 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlapLock, 0x20);
 
 enum class SlapLockStates : __int16
 {
-    State_0 = 0,
-    State_1 = 1,
-    State_2 = 2,
-    State_3 = 3,
-    State_4 = 4,
-    State_5 = 5,
-    State_6 = 6,
-    State_7 = 7,
+    eShaking_0 = 0,
+    eIdle_1 = 1,
+    eSlapped_2 = 2,
+    eBroken_3 = 3,
+    eEmitPowerupRing_4 = 4,
+    eFlickerHero_5 = 5,
+    eGiveInvisibilityFromFlicker_6 = 6,
+    eGiveInvisibility_7 = 7,
 };
 
 struct SlapLock_State
 {
     Types field_0_type;
-    __int16 field_2;
+    __int16 field_2_render;
     int field_4_tlvInfo;
     char field_8_tlv_state;
     char field_9_padding;
@@ -102,7 +59,7 @@ public:
 private:
     EXPORT SlapLock* vdtor_43DED0(signed int flags);
     EXPORT void vScreenChanged_43E840();
-    EXPORT void GiveInvisiblity_43E880();
+    EXPORT void GiveInvisibility_43E880();
     EXPORT signed int vGetSaveState_43EB30(SlapLock_State* pState);
     EXPORT void vUpdate_43DF90();
     EXPORT void GivePowerUp_43E910();
@@ -112,12 +69,12 @@ private:
     Path_SlapLock* field_118_pTlv;
     int field_11C_tlvInfo;
     SlapLockStates field_120_state;
-    __int16 field_122;
+    __int16 field_122_padding;
     int field_124_timer1;
     FP field_128_midX;
     FP field_12C_midY;
     __int16 field_130_has_ghost;
-    __int16 field_132;
+    __int16 field_132_padding;
     int field_134_id;
     int field_138_possesion_flicker_id;
     int field_13C_timer2;

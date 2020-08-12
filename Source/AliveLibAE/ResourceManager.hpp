@@ -3,8 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
 #include "Psx.hpp"
-
-class Camera;
+#include "Camera.hpp"
 
 EXPORT void CC Game_ShowLoadingIcon_482D80();
 

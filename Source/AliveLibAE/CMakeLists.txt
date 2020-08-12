@@ -69,6 +69,8 @@ SET(AliveLibAESrc
     PsxDisplay.hpp
     ScreenManager.cpp
     ScreenManager.hpp
+    Camera.cpp
+    Camera.hpp
     vlctable.hpp
     Animation.cpp
     Animation.hpp
@@ -282,6 +284,8 @@ SET(AliveLibAESrc
     DoorBlocker.hpp
     SlapLock.cpp
     SlapLock.hpp
+    SlapLockWhirlWind.cpp
+    SlapLockWhirlWind.hpp
     Glukkon.cpp
     Glukkon.hpp
     ScreenClipper.cpp

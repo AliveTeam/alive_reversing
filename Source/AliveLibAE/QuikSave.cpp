@@ -23,6 +23,7 @@
 #include "SlamDoor.hpp"
 #include "FlyingSlig.hpp"
 #include "SlapLock.hpp"
+#include "SlapLockWhirlWind.hpp"
 #include "AbilityRing.hpp"
 #include "Shadow.hpp"
 #include "Slurg.hpp"

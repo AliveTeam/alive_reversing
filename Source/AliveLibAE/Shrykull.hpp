@@ -33,19 +33,19 @@ private:
 private:
     enum class State : __int16
     {
-        eState0 = 0,
-        eState1 = 1,
-        eState2 = 2,
-        eState3 = 3,
-        eState4 = 4,
+        eTransform_0 = 0,
+        eZapTargets_1 = 1,
+        eDetransform_2 = 2,
+        eFinish_3 = 3,
+        eKillTargets_4 = 4,
     };
     State field_118_state;
-    __int16 field_11A_pad;
+    __int16 field_11A_padding;
     int field_11C_timer;
     int field_120_timer;
     int field_124_zap_line_id;
     int field_128_obj_being_zapped_id;
     __int16 field_12C_bElectrocute;
-    __int16 field_12E_bUnknown;
+    __int16 field_12E_bResetRingTimer;
 };
 ALIVE_ASSERT_SIZEOF(Shrykull, 0x130);
