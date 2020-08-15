@@ -27,6 +27,10 @@ public:
 
     BaseGameObject* VDestructor(signed int flags) override;
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_475E30();
+
     int field_10_tlvInfo;
     __int16 field_14_spawned_count;
     __int16 field_16;

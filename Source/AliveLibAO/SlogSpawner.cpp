@@ -2,6 +2,11 @@
 #include "Function.hpp"
 #include "SlogSpawner.hpp"
 #include "stdlib.hpp"
+#include "Game.hpp"
+#include "SwitchStates.hpp"
+#include "Slog.hpp"
+#include "Events.hpp"
+#include "Math.hpp"
 
 START_NS_AO
 
@@ -48,5 +53,46 @@ BaseGameObject* SlogSpawner::VDestructor(signed int flags)
     return this;
 }
 
-END_NS_AO
+void SlogSpawner::VUpdate()
+{
+    VUpdate_475E30();
+}
 
+void SlogSpawner::VUpdate_475E30()
+{
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+
+    if (static_cast<int>(gnFrameCount_507670) > field_20_spawn_timer && gNumSlogs_9F11C8 < field_28_num_at_a_time)
+    {
+        if (SwitchStates_Get(field_2E_start_id))
+        {
+            field_20_spawn_timer = Math_NextRandom() % 8
+                + gnFrameCount_507670
+                + field_2C_ticks_between_slogs;
+
+            auto pSlog = ao_new<Slog>();
+            if (pSlog)
+            {
+                pSlog->ctor_473050(
+                    field_18_xPos,
+                    field_1C_yPos,
+                    field_24_scale != 0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
+
+                pSlog->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_2A_direction & 1);
+            }
+
+            field_14_spawned_count++;
+
+            if (field_14_spawned_count >= field_26_num_slogs)
+            {
+                gMap_507BA8.TLV_Reset_446870(field_10_tlvInfo, field_14_spawned_count, 0, 1);
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            }
+        }
+    }
+}
+
+END_NS_AO
