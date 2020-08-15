@@ -186,5 +186,6 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Slog, 0x198);
 
-END_NS_AO
+ALIVE_VAR_EXTERN(short, gNumSlogs_9F11C8);
 
+END_NS_AO
