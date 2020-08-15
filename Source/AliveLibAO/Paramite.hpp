@@ -113,6 +113,12 @@ public:
 
     EXPORT Meat* FindMeat_44B160();
 
+    EXPORT void MoveOnLine_44B740();
+
+    EXPORT void Sfx_44DBB0(unsigned __int8 idx);
+
+    EXPORT void ToHop_44B660();
+
     // Brains
     EXPORT __int16 Brain_447A10();
 
