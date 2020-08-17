@@ -1614,7 +1614,8 @@ void Abe::sub_422FC0()
     }
 
     // TODO: Check mask is correct
-    if (field_F4_pLine && (field_BC_sprite_scale != FP_FromDouble(0) ? 1 : 16) & (1 << field_F4_pLine->field_8_type))
+    const int mask = field_BC_sprite_scale != FP_FromInteger(0) ? 1 : 0x10;
+    if (field_F4_pLine && (mask & (1 << field_F4_pLine->field_8_type)))
     {
         if (field_F8_pLiftPoint)
         {
@@ -2821,12 +2822,26 @@ void Abe::State_21_StandToCrouch_427F40()
 
 void Abe::State_22_CrouchSpeak_428A30()
 {
-    NOT_IMPLEMENTED();
+    State_23_CrouchSpeak_428A90();
 }
 
 void Abe::State_23_CrouchSpeak_428A90()
 {
-    NOT_IMPLEMENTED();
+    field_10C_prev_held |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_6_held;
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_FC_current_motion = eAbeStates::State_19_CrouchIdle_4284C0;
+        
+        CrouchingGameSpeak_427F90();
+
+        if (field_FC_current_motion == eAbeStates::State_22_CrouchSpeak_428A30 || field_FC_current_motion == eAbeStates::State_23_CrouchSpeak_428A90)
+        {
+            Event_Broadcast_417220(kEvent_1, this);
+        }
+
+        field_10C_prev_held = 0;
+    }
 }
 
 void Abe::State_24_RollBegin_427A20()

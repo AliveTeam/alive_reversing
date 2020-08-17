@@ -789,7 +789,7 @@ void Scrab::MoveOnLine_45E450()
     const FP oldX = field_A8_xpos;
     if (field_F4_pLine)
     {
-        field_F4_pLine->MoveOnLine_40CA20(
+        field_F4_pLine = field_F4_pLine->MoveOnLine_40CA20(
             &field_A8_xpos,
             &field_AC_ypos,
             field_B4_velx);
