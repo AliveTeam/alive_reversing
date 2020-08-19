@@ -193,64 +193,37 @@ public:
 
     // Brains
     EXPORT __int16 Brain_465EB0();
-
     EXPORT __int16 Brain_466030();
-
     EXPORT __int16 Brain_466190();
-
     EXPORT __int16 Brain_4662A0();
-
     EXPORT __int16 Brain_46B250();
-
     EXPORT __int16 Brain_46B4E0();
-
     EXPORT __int16 Brain_46B700();
-
     EXPORT __int16 Brain_46B780();
-
     EXPORT __int16 Brain_46C190();
-
     EXPORT __int16 Brain_46C3A0();
-
     EXPORT __int16 Brain_46C5A0();
-
     EXPORT __int16 Brain_46C760();
-
     EXPORT __int16 Brain_46C7C0();
-
     EXPORT __int16 Brain_46CA20();
-
     EXPORT __int16 Brain_46CC50();
-
     EXPORT __int16 Brain_46CD60();
-
     EXPORT __int16 Brain_46CF20();
-
     EXPORT __int16 Brain_46CF90();
-
     EXPORT __int16 Brain_46D6E0();
-
     EXPORT __int16 Brain_46DC70();
-
     EXPORT __int16 Brain_46DE90();
-
     EXPORT __int16 Brain_46E520();
-
     EXPORT __int16 Brain_46E800();
-
     EXPORT __int16 Brain_46EBB0();
-
     EXPORT __int16 Brain_46EC40();
-
     EXPORT __int16 Brain_46ECE0();
-
     EXPORT __int16 Brain_46EEE0();
-
     EXPORT __int16 Brain_46EFD0();
-
     EXPORT __int16 Brain_46F260();
-
     EXPORT __int16 Brain_46F290();
+
+    EXPORT void BlowToGibs_4685A0();
 
     using TBrainFn = decltype(&Slig::Brain_46F290);
 

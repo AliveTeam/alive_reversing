@@ -12,6 +12,13 @@
 #include "Game.hpp"
 #include "DDCheat.hpp"
 #include "Input.hpp"
+#include "Particle.hpp"
+#include "Blood.hpp"
+#include "Gibs.hpp"
+#include "Sfx.hpp"
+#include "CameraSwapper.hpp"
+#include "PlatformBase.hpp"
+#include "LiftPoint.hpp"
 
 START_NS_AO
 
@@ -653,7 +660,29 @@ void Slig::State_7_Falling_46A1A0()
 
 void Slig::State_8_Unknown_4673E0()
 {
-    NOT_IMPLEMENTED();
+    if (sNumCamSwappers_507668 <= 0)
+    {
+        if (sControlledCharacter_50767C != this || field_100_health <= FP_FromInteger(0))
+        {
+            field_FC_current_motion = field_E4;
+            if (field_F8_pLiftPoint)
+            {
+                field_A8_xpos = FP_FromInteger((field_F4_pLine->field_0_rect.x + field_F4_pLine->field_0_rect.w) / 2);
+                field_AC_ypos = FP_FromInteger(field_F4_pLine->field_0_rect.y);
+            }
+        }
+        else
+        {
+            field_FC_current_motion = field_E4;
+            if (field_F8_pLiftPoint)
+            {
+                static_cast<LiftPoint*>(field_F8_pLiftPoint)->field_12C_bMoving |= 1u;
+            }
+        }
+
+        field_B2_lvl_number = gMap_507BA8.field_0_current_level;
+        field_B0_path_number = gMap_507BA8.field_2_current_path;
+    }
 }
 
 void Slig::State_9_SlidingToStand_469DF0()
@@ -798,7 +827,31 @@ void Slig::State_36_KnockbackToStand_46A7F0()
 
 void Slig::State_37_Depossessing_4684D0()
 {
-    NOT_IMPLEMENTED();
+    if (sControlledCharacter_50767C == this)
+    {
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            if (!Input_IsChanting_4334C0())
+            {
+                field_FC_current_motion = eSligStates::State_17_DepossessingAbort_468750;
+            }
+        }
+
+        if (!(gnFrameCount_507670 % -4))
+        {
+            New_Particle_4198E0(
+                field_A8_xpos + (field_BC_sprite_scale * FP_FromInteger(Math_RandomRange_450F20(-20, 20))),
+                field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(Math_RandomRange_450F20(20, 50))),
+                field_BC_sprite_scale,
+                0);
+        }
+
+        if (static_cast<int>(gnFrameCount_507670) > field_128_timer)
+        {
+            BlowToGibs_4685A0();
+        }
+
+    }
 }
 
 void Slig::State_38_Possess_46B050()
@@ -838,7 +891,22 @@ void Slig::State_44_ShootZtoStand_468F70()
 
 void Slig::State_45_Smash_46A990()
 {
-    NOT_IMPLEMENTED();
+    if (field_F4_pLine)
+    {
+        if (field_10_anim.field_92_current_frame == 4)
+        {
+            Abe_SFX_2_42A220(6u, 80, -200, this);
+        }
+    }
+    else
+    {
+        State_7_Falling_46A1A0();
+
+        if (field_FC_current_motion != eSligStates::State_45_Smash_46A990)
+        {
+            field_FC_current_motion = eSligStates::State_45_Smash_46A990;
+        }
+    }
 }
 
 void Slig::State_46_PullLever_46A590()
@@ -1065,6 +1133,62 @@ __int16 Slig::Brain_46F290()
 {
     NOT_IMPLEMENTED();
     return 0;
+}
+
+void Slig::BlowToGibs_4685A0()
+{
+    auto pGibs = ao_new<Gibs>();
+    if (pGibs)
+    {
+        pGibs->ctor_407B20(
+            1,
+            field_A8_xpos,
+            field_AC_ypos,
+            field_B4_velx,
+            field_B8_vely,
+            field_BC_sprite_scale);
+    }
+
+    auto pBlood = ao_new<Blood>();
+    if (pBlood)
+    {
+        pBlood->ctor_4072B0(
+            field_A8_xpos,
+            field_AC_ypos - (FP_FromInteger(30) * field_BC_sprite_scale),
+            FP_FromInteger(0),
+            FP_FromInteger(0),
+            field_BC_sprite_scale,
+            20);
+    }
+
+    New_Particles_419A80(
+        field_A8_xpos,
+        field_AC_ypos - (FP_FromInteger(30) * field_BC_sprite_scale),
+        field_BC_sprite_scale,
+        3,
+        0);
+
+    if (field_BC_sprite_scale == FP_FromDouble(0.5))
+    {
+        SFX_Play_43AD70(78u, 80, 0);
+        SFX_Play_43AD70(53u, 60, 0);
+    }
+    else
+    {
+        SFX_Play_43AD70(78u, 127, 0);
+        SFX_Play_43AD70(53u, 90, 0);
+    }
+
+    field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+    field_FC_current_motion = eSligStates::State_0_StandIdle_467640;
+    field_B8_vely = FP_FromInteger(0);
+    field_B4_velx = FP_FromInteger(0);
+    field_100_health = FP_FromInteger(0);
+    MusicController::sub_443810(MusicController::MusicTypes::eType0, this, 0, 0);
+    field_114_timer = gnFrameCount_507670 + 60;
+    field_8_update_delay = 40;
+    SetBrain(&Slig::Brain_46C3A0);
+    Event_Broadcast_417220(kEvent_16, sActiveHero_507678);
 }
 
 void Slig::SetBrain(Slig::TBrainFn fn)
