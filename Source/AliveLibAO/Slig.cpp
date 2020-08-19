@@ -10,6 +10,8 @@
 #include "Events.hpp"
 #include "MusicController.hpp"
 #include "Game.hpp"
+#include "DDCheat.hpp"
+#include "Input.hpp"
 
 START_NS_AO
 
@@ -82,6 +84,98 @@ const TSligStateFunction sSligMotionTable_4CF960[] =
     &Slig::State_52_Beat_46AA90,
 };
 
+const int sSligFrameTables_4CFA38[] =
+{
+    132740,
+    133032,
+    132588,
+    133052,
+    132668,
+    133316,
+    132772,
+    132740,
+    132740,
+    132924,
+    132804,
+    133144,
+    132860,
+    132880,
+    132996,
+    133072,
+    133104,
+    132740,
+    133016,
+    133124,
+    133164,
+    133276,
+    133204,
+    133360,
+    133240,
+    133276,
+    133204,
+    133360,
+    133240,
+    133276,
+    133204,
+    133360,
+    133240,
+    32848,
+    32744,
+    32240,
+    32284,
+    32388,
+    32388,
+    29708,
+    29740,
+    29776,
+    9080,
+    8844,
+    8888,
+    12752,
+    12356,
+    22728,
+    22676,
+    22628,
+    22652,
+    22780,
+    12356,
+    0
+};
+
+static AIFunctionData<Slig::TBrainFn> sSligAITable[]
+{
+    { &Slig::Brain_465EB0, 0x465EB0, "Brain_465EB0" },
+    { &Slig::Brain_465EB0, 0x465EB0, "Brain_465EB0" },
+    { &Slig::Brain_466030, 0x466030, "Brain_466030" },
+    { &Slig::Brain_466190, 0x466190, "Brain_466190" },
+    { &Slig::Brain_4662A0, 0x4662A0, "Brain_4662A0" },
+    { &Slig::Brain_46B250, 0x46B250, "Brain_46B250" },
+    { &Slig::Brain_46B4E0, 0x46B4E0, "Brain_46B4E0" },
+    { &Slig::Brain_46B700, 0x46B700, "Brain_46B700" },
+    { &Slig::Brain_46B780, 0x46B780, "Brain_46B780" },
+    { &Slig::Brain_46C190, 0x46C190, "Brain_46C190" },
+    { &Slig::Brain_46C3A0, 0x46C3A0, "Brain_46C3A0" },
+    { &Slig::Brain_46C5A0, 0x46C5A0, "Brain_46C5A0" },
+    { &Slig::Brain_46C760, 0x46C760, "Brain_46C760" },
+    { &Slig::Brain_46C7C0, 0x46C7C0, "Brain_46C7C0" },
+    { &Slig::Brain_46CA20, 0x46CA20, "Brain_46CA20" },
+    { &Slig::Brain_46CC50, 0x46CC50, "Brain_46CC50" },
+    { &Slig::Brain_46CD60, 0x46CD60, "Brain_46CD60" },
+    { &Slig::Brain_46CF20, 0x46CF20, "Brain_46CF20" },
+    { &Slig::Brain_46CF90, 0x46CF90, "Brain_46CF90" },
+    { &Slig::Brain_46D6E0, 0x46D6E0, "Brain_46D6E0" },
+    { &Slig::Brain_46DC70, 0x46DC70, "Brain_46DC70" },
+    { &Slig::Brain_46DE90, 0x46DE90, "Brain_46DE90" },
+    { &Slig::Brain_46E520, 0x46E520, "Brain_46E520" },
+    { &Slig::Brain_46E800, 0x46E800, "Brain_46E800" },
+    { &Slig::Brain_46EBB0, 0x46EBB0, "Brain_46EBB0" },
+    { &Slig::Brain_46EC40, 0x46EC40, "Brain_46EC40" },
+    { &Slig::Brain_46ECE0, 0x46ECE0, "Brain_46ECE0" },
+    { &Slig::Brain_46EEE0, 0x46EEE0, "Brain_46EEE0" },
+    { &Slig::Brain_46EFD0, 0x46EFD0, "Brain_46EFD0" },
+    { &Slig::Brain_46F260, 0x46F260, "Brain_46F260" },
+    { &Slig::Brain_46F290, 0x46F290, "Brain_46F290" },
+};
 
 Slig* Slig::ctor_464D40(Path_Slig* pTlv, int tlvInfo)
 {
@@ -110,7 +204,7 @@ Slig* Slig::ctor_464D40(Path_Slig* pTlv, int tlvInfo)
 
     field_4_typeId = Types::eSlig_88;
 
-    field_114 = 0;
+    field_114_timer = 0;
     field_118 = 0;
     field_11C = -1;
     field_10C = 0;
@@ -120,7 +214,7 @@ Slig* Slig::ctor_464D40(Path_Slig* pTlv, int tlvInfo)
     field_158 = 0;
     field_154 = 0;
     field_F8_pLiftPoint = nullptr;
-    field_FC_current_motion = 7;
+    field_FC_current_motion = eSligStates::State_7_Falling_46A1A0;
     field_11E = 0;
     field_144 = 0;
     field_12C = 0;
@@ -142,7 +236,7 @@ Slig* Slig::ctor_464D40(Path_Slig* pTlv, int tlvInfo)
     field_208 = 0;
     field_20C = 0;
     field_13A = -1;
-    field_138 = 0;
+    field_138_res_idx = 0;
 
     field_10_anim.field_1C_fn_ptrs = kSlig_Anim_Frame_Fns_4CEBF0;
 
@@ -276,32 +370,245 @@ Slig* Slig::Vdtor_465DC0(signed int flags)
     return this;
 }
 
+void Slig::VScreenChanged()
+{
+    VScreenChanged_465480();
+}
+
+void Slig::VScreenChanged_465480()
+{
+    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level
+        || gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0()
+        || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path && this != sControlledCharacter_50767C)
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+}
+
 void Slig::Init_46B890()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::VUpdate_Real_465050()
-{
-    NOT_IMPLEMENTED();
-}
+const unsigned int sSligVelXTable_4BCA30[] = { 262144, 262144, 0, 4294705152, 4294705152, 4294705152, 0, 262144 };
+const unsigned int sSligVelYTable_4BCA50[] = { 0, 4294705152, 4294705152, 4294705152, 0, 262144, 262144, 262144 };
+
 
 void Slig::VUpdate_465050()
 {
-    const __int16 oldBrainState = field_10E_brain_state;
-    const auto oldBrain = field_1F8_fn;
-
-    VUpdate_Real_465050();
-    
-    if (oldBrain != field_1F8_fn)
+    if (!Input_IsChanting_4334C0())
     {
-        LOG_INFO("oldBrain = " << oldBrain << " newBrain = " << field_1F8_fn);
+        field_254 &= ~4u;
     }
 
-    if (oldBrainState != field_10E_brain_state)
+    if (sControlledCharacter_50767C == this && field_100_health > FP_FromInteger(0))
     {
-        LOG_INFO("oldBrainState = " << oldBrainState << " newBrainState = " << field_10E_brain_state);
+        MusicController::sub_443810(MusicController::MusicTypes::eType6, this, 1, 0);
     }
+
+    if (sDDCheat_FlyingEnabled_50771C && sControlledCharacter_50767C == this)
+    {
+        field_F4_pLine = nullptr;
+        if (sInputObject_5009E8.isPressed(0xF000))
+        {
+            const int dir = sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_2 >> 5;
+            field_B4_velx = FP_FromRaw(sSligVelXTable_4BCA30[dir]);
+            field_B8_vely = FP_FromRaw(sSligVelYTable_4BCA50[dir]);
+
+            if (sInputObject_5009E8.isPressed(0x20))
+            {
+                const FP velX = FP_FromRaw(sSligVelXTable_4BCA30[dir]);
+                const FP velY = FP_FromRaw(sSligVelYTable_4BCA50[dir]);
+                field_B4_velx += velX;
+                field_B4_velx += velX;
+                field_B8_vely += velY;
+            }
+
+            field_A8_xpos += field_B4_velx;
+            field_AC_ypos += field_B8_vely;
+
+            PSX_Point mapSize = {};
+            gMap_507BA8.Get_map_size_444870(&mapSize);
+
+            if (field_A8_xpos < FP_FromInteger(0))
+            {
+                field_A8_xpos = FP_FromInteger(0);
+            }
+
+            if (field_A8_xpos >= FP_FromInteger(mapSize.field_0_x))
+            {
+                field_A8_xpos = FP_FromInteger(mapSize.field_0_x) - FP_FromInteger(1);
+            }
+
+            if (field_AC_ypos < FP_FromInteger(0))
+            {
+                field_AC_ypos = FP_FromInteger(0);
+            }
+
+            if (field_AC_ypos >= FP_FromInteger(mapSize.field_2_y))
+            {
+                field_AC_ypos = FP_FromInteger(mapSize.field_2_y) - FP_FromInteger(1);
+            }
+
+        }
+        else
+        {
+            field_B4_velx = FP_FromInteger(0);
+            field_B8_vely = FP_FromInteger(0);
+        }
+        
+        SetActiveCameraDelayedFromDir_401C90();
+
+        field_E8_LastLineYPos = field_AC_ypos;
+    }
+    else
+    {
+        const auto old_motion = field_FC_current_motion;
+        
+        const auto oldBrain = field_1F8_fn;
+
+        field_10E_brain_state = (this->*field_1F8_fn)();
+
+        if (field_1F8_fn != oldBrain)
+        {
+            LOG_INFO("Brain changed from " << GetOriginalFn(oldBrain, sSligAITable).fnName << " to " << GetOriginalFn(field_1F8_fn, sSligAITable).fnName);
+        }
+
+        if (field_106_shot)
+        {
+            Vsub_465C30();
+        }
+
+        if (word_5076E0)
+        {
+            DebugOut_495990(
+                "Slig %d %d %d %d\n",
+                field_10E_brain_state,
+                field_114_timer,
+                field_FC_current_motion,
+                field_FE_next_state);
+        }
+
+        const FP new_x = field_A8_xpos;
+        const FP new_y = field_AC_ypos;
+        
+        (this->*sSligMotionTable_4CF960[field_FC_current_motion])();
+
+        if (new_x != field_A8_xpos || new_y != field_AC_ypos)
+        {
+            field_F0_pTlv = gMap_507BA8.TLV_Get_At_446060(
+                nullptr,
+                field_A8_xpos,
+                field_AC_ypos,
+                field_A8_xpos,
+                field_AC_ypos);
+
+            VOn_TLV_Collision(field_F0_pTlv);
+        }
+
+        if (old_motion != field_FC_current_motion || field_108_bMotionChanged)
+        {
+            field_108_bMotionChanged = FALSE;
+            VUpdateAnimData_464D00();
+
+            if (VIs8_465630(old_motion))
+            {
+                field_10_anim.SetFrame_402AC0(field_E6_last_anim_frame);
+            }
+        }
+        else if (field_11E)
+        {
+            field_FC_current_motion = field_E4;
+            
+            VUpdateAnimData_464D00();
+
+            field_10_anim.SetFrame_402AC0(field_E6_last_anim_frame);
+            field_11E = 0;
+        }
+    }
+}
+
+void Slig::VUpdateAnimData_464D00()
+{
+    BYTE** ppRes = ResBlockForMotion_4654D0(field_FC_current_motion);
+    if (!ppRes)
+    {
+        field_FC_current_motion = eSligStates::State_0_StandIdle_467640;
+        ppRes = ResBlockForMotion_4654D0(field_FC_current_motion);
+    }
+    field_10_anim.Set_Animation_Data_402A40(sSligFrameTables_4CFA38[field_FC_current_motion], ppRes);
+}
+
+void Slig::Vsub_465C30()
+{
+    if (field_13A != -1)
+    {
+        field_FC_current_motion = field_13A;
+    }
+
+    field_FE_next_state = -1;
+    field_13A = -1;
+    field_106_shot = FALSE;
+    field_114_timer = gnFrameCount_507670 + 60;
+    SetBrain(&Slig::Brain_46C3A0);
+}
+
+BYTE** Slig::ResBlockForMotion_4654D0(__int16 motion)
+{
+    short new_idx = 0;
+    if (motion < eSligStates::State_33_Sleeping_46A410)
+    {
+        new_idx = 0;
+    }
+    else if (motion < eSligStates::State_35_Knockback_46A720)
+    {
+        new_idx = 1;
+    }
+    else if (motion < eSligStates::State_39_OutToFall_46A9E0)
+    {
+        new_idx = 2;
+    }
+    else if (motion < eSligStates::State_42_LandingFatal_46AFE0)
+    {
+        new_idx = 3;
+    }
+    else if (motion < eSligStates::State_43_ShootZ_468E30)
+    {
+        new_idx = 4;
+    }
+    else if (motion < eSligStates::State_45_Smash_46A990)
+    {
+        new_idx = 5;
+    }
+    else if (motion < eSligStates::State_46_PullLever_46A590)
+    {
+        new_idx = 6;
+    }
+    else if (motion < eSligStates::State_47_LiftUp_4665A0)
+    {
+        new_idx = 7;
+    }
+    else if (motion < eSligStates::State_52_Beat_46AA90)
+    {
+        new_idx = 8;
+    }
+    else
+    {
+        new_idx = motion >= 53 ? 0 : 9;
+    }
+
+    if (new_idx == field_138_res_idx)
+    {
+        return field_210_resources.res[field_138_res_idx];
+    }
+
+    field_138_res_idx = new_idx;
+    return field_210_resources.res[field_138_res_idx];
+}
+
+BOOL Slig::VIs8_465630(short motion)
+{
+    return motion == eSligStates::State_8_Unknown_4673E0;
 }
 
 void Slig::State_0_StandIdle_467640()
@@ -577,6 +884,197 @@ void Slig::State_51_LiftGrip_466480()
 void Slig::State_52_Beat_46AA90()
 {
     NOT_IMPLEMENTED();
+}
+
+
+__int16 Slig::Brain_465EB0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_466030()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_466190()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_4662A0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_46B250()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_46B4E0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_46B700()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_46B780()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_46C190()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_46C3A0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_46C5A0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_46C760()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_46C7C0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_46CA20()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_46CC50()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_46CD60()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_46CF20()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_46CF90()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_46D6E0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_46DC70()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_46DE90()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_46E520()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_46E800()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_46EBB0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_46EC40()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_46ECE0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_46EEE0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_46EFD0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_46F260()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::Brain_46F290()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+void Slig::SetBrain(Slig::TBrainFn fn)
+{
+    ::SetBrain(fn, field_1F8_fn, sSligAITable);
+}
+
+bool Slig::BrainIs(Slig::TBrainFn fn)
+{
+    return ::BrainIs(fn, field_1F8_fn, sSligAITable);
 }
 
 END_NS_AO

@@ -120,11 +120,21 @@ public:
 
     EXPORT Slig* Vdtor_465DC0(signed int flags);
 
+    virtual void VScreenChanged() override;
+
+    EXPORT void VScreenChanged_465480();
+
     EXPORT void Init_46B890();
 
-    EXPORT void VUpdate_Real_465050();
-
     EXPORT void VUpdate_465050();
+
+    EXPORT void VUpdateAnimData_464D00();
+
+    EXPORT void Vsub_465C30();
+
+    EXPORT BYTE** ResBlockForMotion_4654D0(__int16 motion);
+
+    EXPORT BOOL VIs8_465630(short motion);
 
     // States
     EXPORT void State_0_StandIdle_467640();
@@ -181,11 +191,78 @@ public:
     EXPORT void State_51_LiftGrip_466480();
     EXPORT void State_52_Beat_46AA90();
 
+    // Brains
+    EXPORT __int16 Brain_465EB0();
+
+    EXPORT __int16 Brain_466030();
+
+    EXPORT __int16 Brain_466190();
+
+    EXPORT __int16 Brain_4662A0();
+
+    EXPORT __int16 Brain_46B250();
+
+    EXPORT __int16 Brain_46B4E0();
+
+    EXPORT __int16 Brain_46B700();
+
+    EXPORT __int16 Brain_46B780();
+
+    EXPORT __int16 Brain_46C190();
+
+    EXPORT __int16 Brain_46C3A0();
+
+    EXPORT __int16 Brain_46C5A0();
+
+    EXPORT __int16 Brain_46C760();
+
+    EXPORT __int16 Brain_46C7C0();
+
+    EXPORT __int16 Brain_46CA20();
+
+    EXPORT __int16 Brain_46CC50();
+
+    EXPORT __int16 Brain_46CD60();
+
+    EXPORT __int16 Brain_46CF20();
+
+    EXPORT __int16 Brain_46CF90();
+
+    EXPORT __int16 Brain_46D6E0();
+
+    EXPORT __int16 Brain_46DC70();
+
+    EXPORT __int16 Brain_46DE90();
+
+    EXPORT __int16 Brain_46E520();
+
+    EXPORT __int16 Brain_46E800();
+
+    EXPORT __int16 Brain_46EBB0();
+
+    EXPORT __int16 Brain_46EC40();
+
+    EXPORT __int16 Brain_46ECE0();
+
+    EXPORT __int16 Brain_46EEE0();
+
+    EXPORT __int16 Brain_46EFD0();
+
+    EXPORT __int16 Brain_46F260();
+
+    EXPORT __int16 Brain_46F290();
+
+    using TBrainFn = decltype(&Slig::Brain_46F290);
+
+    void SetBrain(TBrainFn fn);
+
+    bool BrainIs(TBrainFn fn);
+
     __int16 field_10C;
     __int16 field_10E_brain_state;
     __int16 field_110;
     __int16 field_112;
-    int field_114;
+    int field_114_timer;
     int field_118;
     __int16 field_11C;
     __int16 field_11E;
@@ -198,7 +275,7 @@ public:
     __int16 field_130;
     __int16 field_132;
     int field_134_tlvInfo;
-    __int16 field_138;
+    __int16 field_138_res_idx;
     __int16 field_13A;
     int field_13C;
     int field_140;
@@ -231,7 +308,7 @@ public:
     int field_1EC;
     int field_1F0;
     int field_1F4;
-    unsigned int field_1F8_fn;
+    TBrainFn field_1F8_fn;
     int field_1FC;
     int field_200;
     int field_204;
