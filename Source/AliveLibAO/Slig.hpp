@@ -252,7 +252,7 @@ public:
 
     EXPORT __int16 Brain_46F290();
 
-    using TBrainFn = decltype(&Brain_46F290);
+    using TBrainFn = decltype(&Slig::Brain_46F290);
 
     void SetBrain(TBrainFn fn);
 
