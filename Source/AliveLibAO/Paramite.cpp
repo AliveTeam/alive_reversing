@@ -1172,7 +1172,7 @@ void Paramite::State_4_Unknown_44B6C0()
             if (field_F8_pLiftPoint)
             {
                 // TODO: Correct type ??
-                static_cast<LiftPoint*>(field_F8_pLiftPoint)->field_12C |= 1u;
+                static_cast<LiftPoint*>(field_F8_pLiftPoint)->field_12C_bMoving |= 1u;
             }
         }
         else

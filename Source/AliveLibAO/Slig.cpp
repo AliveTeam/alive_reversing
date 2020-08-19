@@ -16,6 +16,9 @@
 #include "Blood.hpp"
 #include "Gibs.hpp"
 #include "Sfx.hpp"
+#include "CameraSwapper.hpp"
+#include "PlatformBase.hpp"
+#include "LiftPoint.hpp"
 
 START_NS_AO
 
@@ -657,7 +660,29 @@ void Slig::State_7_Falling_46A1A0()
 
 void Slig::State_8_Unknown_4673E0()
 {
-    NOT_IMPLEMENTED();
+    if (sNumCamSwappers_507668 <= 0)
+    {
+        if (sControlledCharacter_50767C != this || field_100_health <= FP_FromInteger(0))
+        {
+            field_FC_current_motion = field_E4;
+            if (field_F8_pLiftPoint)
+            {
+                field_A8_xpos = FP_FromInteger((field_F4_pLine->field_0_rect.x + field_F4_pLine->field_0_rect.w) / 2);
+                field_AC_ypos = FP_FromInteger(field_F4_pLine->field_0_rect.y);
+            }
+        }
+        else
+        {
+            field_FC_current_motion = field_E4;
+            if (field_F8_pLiftPoint)
+            {
+                static_cast<LiftPoint*>(field_F8_pLiftPoint)->field_12C_bMoving |= 1u;
+            }
+        }
+
+        field_B2_lvl_number = gMap_507BA8.field_0_current_level;
+        field_B0_path_number = gMap_507BA8.field_2_current_path;
+    }
 }
 
 void Slig::State_9_SlidingToStand_469DF0()

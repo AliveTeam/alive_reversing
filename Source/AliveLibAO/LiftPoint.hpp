@@ -14,7 +14,7 @@ class LiftPoint : public PlatformBase
 public:
     EXPORT LiftPoint* ctor_434710(unsigned __int8* pTlv, Map* pPath, int tlvInfo);
 
-    __int16 field_12C;
+    __int16 field_12C_bMoving;
     __int16 field_12E;
     __int16 field_130;
     __int16 field_132;

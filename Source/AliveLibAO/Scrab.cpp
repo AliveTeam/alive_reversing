@@ -839,7 +839,7 @@ void Scrab::State_0_Empty_45E3D0()
             if (field_F8_pLiftPoint)
             {
                 // TODO: Is type of field_F8_pLiftPoint too low?
-                static_cast<LiftPoint*>(field_F8_pLiftPoint)->field_12C |= 1u;
+                static_cast<LiftPoint*>(field_F8_pLiftPoint)->field_12C_bMoving |= 1u;
             }
         }
         else
