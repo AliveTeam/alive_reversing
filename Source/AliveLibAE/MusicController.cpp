@@ -382,7 +382,7 @@ void CC MusicController::Shutdown_47FD20()
     }
 }
 
-MusicController::MusicTypes MusicController::sub_47FA80(WORD* seq, WORD* seq2, DWORD* seqTime)
+MusicController::MusicTypes MusicController::GetMusicType_47FA80(WORD* seq, WORD* seq2, DWORD* seqTime)
 {
     MusicController::UpdateMusicTime_47F8B0();
     if (seq)
@@ -397,7 +397,7 @@ MusicController::MusicTypes MusicController::sub_47FA80(WORD* seq, WORD* seq2, D
 
     if (seqTime)
     {
-        if (field_42_type != MusicTypes::eType0)
+        if (field_42_type != MusicTypes::eNone_0)
         {
             *seqTime = field_30_music_time - sMusicTime_5C3024;
             return field_42_type;
@@ -408,11 +408,11 @@ MusicController::MusicTypes MusicController::sub_47FA80(WORD* seq, WORD* seq2, D
     return field_42_type;
 }
 
-MusicController::MusicTypes CC MusicController::sub_47FDA0(WORD* seq1, WORD* seq2, DWORD* seqTime)
+MusicController::MusicTypes CC MusicController::GetMusicType_47FDA0(WORD* seq1, WORD* seq2, DWORD* seqTime)
 {
     if (pMusicController_5C3020)
     {
-        return pMusicController_5C3020->sub_47FA80(seq1, seq2, seqTime);
+        return pMusicController_5C3020->GetMusicType_47FA80(seq1, seq2, seqTime);
     }
     return MusicTypes::eTypeNull;
 }
@@ -432,7 +432,7 @@ MusicController* MusicController::ctor_47EE80()
     field_24_currentLevelID = LevelIds::eNone;
     field_28_object_id = -1;
     field_2C_flags_and_seq_idx = -1;
-    field_42_type = MusicTypes::eType0;
+    field_42_type = MusicTypes::eNone_0;
     field_30_music_time = 0;
 
     field_58_flags.Clear(Flags_58::e58_Dead_Bit3);
@@ -502,7 +502,7 @@ void MusicController::EnableMusic_47FB80(__int16 bEnable)
             field_30_music_time = 0;
             field_48_last_music_frame = sMusicTime_5C3024;
 
-            if (field_42_type == MusicTypes::eType4 || field_42_type == MusicTypes::eType7 || field_42_type == MusicTypes::eType9)
+            if (field_42_type == MusicTypes::eTension_4 || field_42_type == MusicTypes::eSlogChase_7 || field_42_type == MusicTypes::ePossessed_9)
             {
                 field_58_flags.Set(Flags_58::e58_UnPause_Bit6);
             }
@@ -644,14 +644,14 @@ void MusicController::Update_47F730()
             if (field_58_flags.Get(Flags_58::e58_MusicEnabled_Bit1))
             {
                 SetMusicVolumeDelayed_47FB00(field_20_vol, 0);
-                sub_47F910(MusicTypes::eType0, 0, 1, 0);
+                sub_47F910(MusicTypes::eNone_0, 0, 1, 0);
             }
         }
     }
 
     if (field_42_type > MusicTypes::eType1 && sMusicTime_5C3024 - field_48_last_music_frame >= 160)
     {
-        sub_47F910(MusicTypes::eType0, 0, 1, 0);
+        sub_47F910(MusicTypes::eNone_0, 0, 1, 0);
     }
 
     sub_47EFD0();
@@ -678,7 +678,7 @@ void MusicController::sub_47F910(MusicTypes typeToSet, const BaseGameObject* pOb
 
         if (field_42_type == typeToSet)
         {
-            if (typeToSet != MusicTypes::eType0)
+            if (typeToSet != MusicTypes::eNone_0)
             {
                 field_48_last_music_frame = sMusicTime_5C3024;
             }
@@ -736,14 +736,14 @@ void MusicController::sub_47F260()
     if (field_40_flags_and_idx < 0
         || !SND_SsIsEos_DeInlined_4CACD0(field_40_flags_and_idx)
         || (field_58_flags.Get(Flags_58::e58_UnPause_Bit6)
-        && ( field_42_type == MusicTypes::eType2
+        && ( field_42_type == MusicTypes::eChime_2
             || field_42_type == MusicTypes::eType3
-            || field_42_type == MusicTypes::eType10
-            || field_42_type == MusicTypes::eType11
+            || field_42_type == MusicTypes::eDeathShort_10
+            || field_42_type == MusicTypes::eDeathLong_11
             || field_42_type == MusicTypes::eType12
-            || field_42_type == MusicTypes::eType13
-            || field_42_type == MusicTypes::eType7
-            || field_42_type == MusicTypes::eType8)))
+            || field_42_type == MusicTypes::eSecretAreaLong_13
+            || field_42_type == MusicTypes::eSlogChase_7
+            || field_42_type == MusicTypes::eChase_8)))
     {
         if (field_40_flags_and_idx > 0)
         {
@@ -752,7 +752,7 @@ void MusicController::sub_47F260()
         
         switch (field_42_type)
         {
-        case MusicTypes::eType2: // Silence/base line only?
+        case MusicTypes::eChime_2: // Silence/base line only?
             field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
             field_3C = 1;
             SetMusicVolumeDelayed_47FB00(field_22_vol, 0);
@@ -770,18 +770,18 @@ void MusicController::sub_47F260()
             field_3C = 1;
             SetMusicVolumeDelayed_47FB00(field_22_vol, 0);
             break;
-        case MusicTypes::eType4: // danger near music - when slig is near
-        case MusicTypes::eType5: // slog tension
-        case MusicTypes::eType6: // slog tension 2?
-            if (field_42_type == MusicTypes::eType4)
+        case MusicTypes::eTension_4: // danger near music - when slig is near
+        case MusicTypes::eSlogTension_5: // slog tension
+        case MusicTypes::eSlogChaseTension_6: // slog tension 2?
+            if (field_42_type == MusicTypes::eTension_4)
             {
                 pRecord = &stru_55D2D0[static_cast<int>(field_24_currentLevelID)];
             }
-            else if (field_42_type == MusicTypes::eType5)
+            else if (field_42_type == MusicTypes::eSlogTension_5)
             {
                 pRecord = &stru_55D39C[static_cast<int>(field_24_currentLevelID)];
             }
-            else if (field_42_type == MusicTypes::eType6)
+            else if (field_42_type == MusicTypes::eSlogChaseTension_6)
             {
                 pRecord = &stru_55D424[static_cast<int>(field_24_currentLevelID)];
             }
@@ -791,7 +791,7 @@ void MusicController::sub_47F260()
             field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5, (pRecord->field_2 & 1));
             SetMusicVolumeDelayed_47FB00(sSeqData_558D50.mSeqs[stru_55D008[pRecord->field_0].field_0_idx].field_9_volume, 0);
             break;
-        case MusicTypes::eType7: // chase music
+        case MusicTypes::eSlogChase_7: // chase music
             pRecord = &stru_55D3E0[static_cast<int>(field_24_currentLevelID)];
             idx = pRecord->field_0;
             field_3C = pRecord->field_1;
@@ -799,7 +799,7 @@ void MusicController::sub_47F260()
             field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5, (pRecord->field_2 & 1));
             SetMusicVolumeDelayed_47FB00(sSeqData_558D50.mSeqs[stru_55D008[idx].field_0_idx].field_9_volume, 0);
             break;
-        case MusicTypes::eType8: // slig chase?
+        case MusicTypes::eChase_8: // slig chase?
             pRecord = &stru_55D314[static_cast<int>(field_24_currentLevelID)];
             field_3C = pRecord->field_1;
             idx = pRecord->field_0;
@@ -807,7 +807,7 @@ void MusicController::sub_47F260()
             field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5, (pRecord->field_2 & 1));
             SetMusicVolumeDelayed_47FB00(sSeqData_558D50.mSeqs[stru_55D008[idx].field_0_idx].field_9_volume, 0);
             break;
-        case MusicTypes::eType9: // slig possesed
+        case MusicTypes::ePossessed_9: // slig possesed
             if (field_58_flags.Get(Flags_58::e58_UnPause_Bit6))
             {
                 pRecord = &stru_55D358[static_cast<int>(field_24_currentLevelID)];
@@ -825,13 +825,13 @@ void MusicController::sub_47F260()
                 field_58_flags.Set(Flags_58::e58_Bit7);
             }
             break;
-        case MusicTypes::eType10: // Death jingle short
+        case MusicTypes::eDeathShort_10: // Death jingle short
             field_3C = 1;
             idx = field_58_flags.Get(Flags_58::e58_UnPause_Bit6)? 2 : -1;
             field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
             SetMusicVolumeDelayed_47FB00(field_22_vol, 0);
             break;
-        case MusicTypes::eType11: // Death jingle long
+        case MusicTypes::eDeathLong_11: // Death jingle long
             field_3C = 1;
             idx = field_58_flags.Get(Flags_58::e58_UnPause_Bit6)? 3 : -1;
             field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
@@ -843,7 +843,7 @@ void MusicController::sub_47F260()
             field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
             SetMusicVolumeDelayed_47FB00(127, 0);
             break;
-        case MusicTypes::eType13: // secret area long
+        case MusicTypes::eSecretAreaLong_13: // secret area long
             field_3C = 120;
             idx = field_58_flags.Get(Flags_58::e58_UnPause_Bit6)? 5 : -1;
             field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
@@ -908,7 +908,7 @@ void MusicController::sub_47F0B0()
             }
 
             __int16 random = 0;
-            if (field_42_type != MusicTypes::eType0)
+            if (field_42_type != MusicTypes::eNone_0)
             {
                 random = Math_RandomRange_496AB0(
                     stru_55D1E0[static_cast<int>(field_24_currentLevelID)].field_0[0].field_2_min,

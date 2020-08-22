@@ -100,7 +100,7 @@ const static AIFunctionData<TNakedSligAIFn> sNakedSligAITable[] =
     { &NakedSlig::AI_0_Sleeping_419DE0, 0x401D1B, "AI_0_Sleeping" },
     { &NakedSlig::AI_1_Idle_419F60, 0x40340E, "AI_1_Idle" },
     { &NakedSlig::AI_2_PanicGetALocker_419FE0, 0x419FE0, "AI_2_PanicGetALocker" },
-    { &NakedSlig::AI_3_Possesed_41A5B0, 0x404539, "AI_3_Possesed" },
+    { &NakedSlig::AI_3_Possessed_41A5B0, 0x404539, "AI_3_Possessed" },
     { &NakedSlig::AI_4_GetKilled_41A880, 0x403265, "AI_4_GetKilled" },
     { &NakedSlig::AI_5_Transformed_41ADF0, 0x40484A, "AI_5_Transformed" },
 };
@@ -423,7 +423,7 @@ void NakedSlig::vPossessed_4195F0()
     field_114_flags.Set(Flags_114::e114_Bit4_bPossesed);
     field_1B8_bChanting = TRUE;
     Set_AnimAndMotion_419890(NakedSligMotion::M_Shaking_12_418C30, TRUE);
-    SetBrain(&NakedSlig::AI_3_Possesed_41A5B0);
+    SetBrain(&NakedSlig::AI_3_Possessed_41A5B0);
     field_208_brain_sub_state = 0;
     field_1AC_timer = sGnFrame_5C1B84 + 35;
     field_1BA_prev_level = gMap_5C3030.field_0_current_level;
@@ -690,7 +690,7 @@ __int16 NakedSlig::vTakeDamage_4192B0(BaseGameObject* pFrom)
             {
                 field_208_brain_sub_state = 10;
             }
-            else if (BrainIs(&NakedSlig::AI_3_Possesed_41A5B0))
+            else if (BrainIs(&NakedSlig::AI_3_Possessed_41A5B0))
             {
                 field_208_brain_sub_state = 3;
             }
@@ -753,7 +753,7 @@ void NakedSlig::dtor_418FE0()
     if (sControlledCharacter_5C1B8C == this)
     {
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
-        MusicController::sub_47FD60(MusicController::MusicTypes::eType0, this, 0, 0);
+        MusicController::sub_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
         if (gMap_5C3030.field_A_level != LevelIds::eMenu_0)
         {
             gMap_5C3030.SetActiveCam_480D30(
@@ -809,7 +809,7 @@ __int16 NakedSlig::AI_0_Sleeping_419DE0()
         field_B8_xpos,
         field_BC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_47FD60(MusicController::MusicTypes::eType0, this, 0, 0);
+        MusicController::sub_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
     }
     
     if (field_208_brain_sub_state == 0)
@@ -871,7 +871,7 @@ __int16 NakedSlig::AI_1_Idle_419F60()
         field_B8_xpos,
         field_BC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_47FD60(MusicController::MusicTypes::eType4, this, 0, 0);
+        MusicController::sub_47FD60(MusicController::MusicTypes::eTension_4, this, 0, 0);
     }
 
     if (PanicOn_419810())
@@ -889,7 +889,7 @@ __int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
         field_B8_xpos,
         field_BC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_47FD60(MusicController::MusicTypes::eType8, this, 0, 0);
+        MusicController::sub_47FD60(MusicController::MusicTypes::eChase_8, this, 0, 0);
     }
 
     if (!field_100_pCollisionLine && field_208_brain_sub_state != 1)
@@ -1099,7 +1099,7 @@ __int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
     }
 }
 
-__int16 NakedSlig::AI_3_Possesed_41A5B0()
+__int16 NakedSlig::AI_3_Possessed_41A5B0()
 {
     if (gMap_5C3030.GetDirection_4811A0(
         field_C2_lvl_number,
@@ -1107,7 +1107,7 @@ __int16 NakedSlig::AI_3_Possesed_41A5B0()
         field_B8_xpos,
         field_BC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_47FD60(MusicController::MusicTypes::eType9, this, 0, 0);
+        MusicController::sub_47FD60(MusicController::MusicTypes::ePossessed_9, this, 0, 0);
     }
 
     switch (field_208_brain_sub_state)
@@ -1151,7 +1151,7 @@ __int16 NakedSlig::AI_3_Possesed_41A5B0()
             field_114_flags.Clear(Flags_114::e114_Bit4_bPossesed);
             gMap_5C3030.SetActiveCam_480D30(field_1BA_prev_level, field_1BC_prev_path, field_1BE_prev_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             SetBrain(&NakedSlig::AI_4_GetKilled_41A880);
-            MusicController::sub_47FD60(MusicController::MusicTypes::eType0, this, 0, 0);
+            MusicController::sub_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
             return field_208_brain_sub_state;
         }
         else
@@ -1194,7 +1194,7 @@ __int16 NakedSlig::AI_4_GetKilled_41A880()
         field_B8_xpos,
         field_BC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_47FD60(MusicController::MusicTypes::eType0, this, 0, 0);
+        MusicController::sub_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
     }
 
     switch (field_208_brain_sub_state)
@@ -1343,7 +1343,7 @@ __int16 NakedSlig::AI_5_Transformed_41ADF0()
         field_B8_xpos,
         field_BC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_47FD60(MusicController::MusicTypes::eType0, this, 0, 0);
+        MusicController::sub_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
     }
 
     if (!pObj || pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
@@ -1402,7 +1402,7 @@ void NakedSlig::M_UsingButton_1_41B890()
 
                 pWalkingSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX));
 
-                if (BrainIs(&NakedSlig::AI_3_Possesed_41A5B0))
+                if (BrainIs(&NakedSlig::AI_3_Possessed_41A5B0))
                 {
                     pWalkingSlig->field_114_flags.Set(Flags_114::e114_Bit4_bPossesed);
                     pWalkingSlig->field_146_level = field_1BA_prev_level;
@@ -1434,7 +1434,7 @@ void NakedSlig::M_UsingButton_1_41B890()
                 pFlyingSlig->field_CC_sprite_scale = field_CC_sprite_scale;
                 pFlyingSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX));
 
-                if (BrainIs(&NakedSlig::AI_3_Possesed_41A5B0))
+                if (BrainIs(&NakedSlig::AI_3_Possessed_41A5B0))
                 {
                     pFlyingSlig->ToPlayerControlled_4360C0();
                     pFlyingSlig->field_114_flags.Set(Flags_114::e114_Bit4_bPossesed);
@@ -1568,7 +1568,7 @@ void NakedSlig::M_Falling_5_41B650()
     FP hitY = {};
     const auto bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
 
-    if (BrainIs(&NakedSlig::AI_3_Possesed_41A5B0))
+    if (BrainIs(&NakedSlig::AI_3_Possessed_41A5B0))
     {
         SetActiveCameraDelayedFromDir_408C40();
     }
@@ -1705,7 +1705,7 @@ void NakedSlig::M_PushingWall_10_41B400()
         Slig_SoundEffect_4BFFE0(Math_RandomRange_496AB0(14, 16), this);
     }
 
-    if(BrainIs(&NakedSlig::AI_3_Possesed_41A5B0))
+    if(BrainIs(&NakedSlig::AI_3_Possessed_41A5B0))
     {
         const bool flipX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX);
         if ((!flipX && sInputObject_5BD4E0.isPressed(InputCommands::eLeft)) ||
@@ -1811,7 +1811,7 @@ void NakedSlig::HandleCommon_41C0B0()
 {
     MapFollowMe_408D10(TRUE);
 
-    if (BrainIs(&NakedSlig::AI_3_Possesed_41A5B0) && field_208_brain_sub_state == 1)
+    if (BrainIs(&NakedSlig::AI_3_Possessed_41A5B0) && field_208_brain_sub_state == 1)
     {
         if (sInputObject_5BD4E0.isPressed(InputCommands::eRight))
         {

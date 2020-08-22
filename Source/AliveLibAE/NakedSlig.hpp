@@ -210,7 +210,7 @@ public:
     EXPORT __int16 AI_0_Sleeping_419DE0();
     EXPORT __int16 AI_1_Idle_419F60();
     EXPORT __int16 AI_2_PanicGetALocker_419FE0();
-    EXPORT __int16 AI_3_Possesed_41A5B0();
+    EXPORT __int16 AI_3_Possessed_41A5B0();
     EXPORT __int16 AI_4_GetKilled_41A880();
     EXPORT __int16 AI_5_Transformed_41ADF0();
 

@@ -34,20 +34,20 @@ public:
     enum class MusicTypes : __int16
     {
         eTypeNull = -1,
-        eType0 = 0,
+        eNone_0 = 0,
         eType1 = 1,
-        eType2 = 2,
+        eChime_2 = 2,
         eType3 = 3,
-        eType4 = 4,
-        eType5 = 5,
-        eType6 = 6,
-        eType7 = 7,
-        eType8 = 8,
-        eType9 = 9,
-        eType10 = 10,
-        eType11 = 11, //death jingle?
+        eTension_4 = 4,
+        eSlogTension_5 = 5,
+        eSlogChaseTension_6 = 6,
+        eSlogChase_7 = 7,
+        eChase_8 = 8,
+        ePossessed_9 = 9,
+        eDeathShort_10 = 10,
+        eDeathLong_11 = 11, //death jingle?
         eType12 = 12,
-        eType13 = 13,
+        eSecretAreaLong_13 = 13,
     };
 
 
@@ -55,13 +55,13 @@ public:
     EXPORT static void CC SetBaseTimeStamp_47FD00();
     EXPORT static void CC Shutdown_47FD20();
     EXPORT static void CC UpdateMusicTime_47F8B0();
-    EXPORT static MusicTypes CC sub_47FDA0(WORD* seq1, WORD* seq2, DWORD* seqTime);
+    EXPORT static MusicTypes CC GetMusicType_47FDA0(WORD* seq1, WORD* seq2, DWORD* seqTime);
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     EXPORT MusicController* ctor_47EE80();
     EXPORT BaseGameObject* vdtor_47EF20(signed int flags);
     EXPORT void dtor_47EF50();
-    EXPORT MusicTypes sub_47FA80(WORD *seq, WORD *seq2, DWORD *seqTime);
+    EXPORT MusicTypes GetMusicType_47FA80(WORD *seq, WORD *seq2, DWORD *seqTime);
 
     virtual void VScreenChanged() override;
     EXPORT void vsub_ScreenChange_47F8F0();

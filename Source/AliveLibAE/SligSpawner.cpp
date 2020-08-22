@@ -29,7 +29,7 @@ SligSpawner* SligSpawner::ctor_409740(Path_Slig* pTlv, int tlvInfo)
     field_40_bFindSpawnedSlig = 0;
     
     // TODO: Flags
-    field_26_flags = (field_26_flags & ~2) | 2 * (pTlv->field_4E_pad & 1);
+    field_26_flags = (field_26_flags & ~2) | 2 * (pTlv->field_4E_unknown & 1);
 
     field_38_state = 0;
     field_3C_spawned_slig_obj_id = -1;
