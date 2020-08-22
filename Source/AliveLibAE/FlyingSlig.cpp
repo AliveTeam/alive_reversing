@@ -595,7 +595,7 @@ void FlyingSlig::dtor_434990()
     if (sControlledCharacter_5C1B8C == this)
     {
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
-        MusicController::sub_47FD60(MusicController::MusicTypes::eType0, this, 0, 0);
+        MusicController::sub_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
         if (gMap_5C3030.field_A_level != LevelIds::eMenu_0)
         {
             gMap_5C3030.SetActiveCam_480D30(
@@ -1316,7 +1316,7 @@ void FlyingSlig::AI_Possessed_12_436040()
 {
     if (sControlledCharacter_5C1B8C == this && field_10C_health > FP_FromInteger(0))
     {
-        MusicController::sub_47FD60(MusicController::MusicTypes::eType9, this, 0, 0);
+        MusicController::sub_47FD60(MusicController::MusicTypes::ePossessed_9, this, 0, 0);
     }
 
     if (!field_17E_flags.Get(Flags_17E::eBit9_Chanting))
@@ -1374,7 +1374,7 @@ void FlyingSlig::AI_FlyingSligSpawn_15_4362C0()
 {
     if (sControlledCharacter_5C1B8C == this && field_10C_health > FP_FromInteger(0))
     {
-        MusicController::sub_47FD60(MusicController::MusicTypes::eType9, this, 0, 0);
+        MusicController::sub_47FD60(MusicController::MusicTypes::ePossessed_9, this, 0, 0);
     }
 
     if (FP_Abs(field_B8_xpos - field_1C8) >= FP_FromInteger(1) ||
@@ -2087,7 +2087,7 @@ void FlyingSlig::ToPlayerControlled_4360C0()
 
 void FlyingSlig::ToMoving_435720()
 {
-    MusicController::sub_47FD60(MusicController::MusicTypes::eType4, this, 0, 0);
+    MusicController::sub_47FD60(MusicController::MusicTypes::eTension_4, this, 0, 0);
     SetBrain(&FlyingSlig::AI_Moving_2_4356D0);
 }
 
@@ -2100,7 +2100,7 @@ void FlyingSlig::ToPanicIdle_435B50()
 
 void FlyingSlig::ToChase_435E10()
 {
-    MusicController::sub_47FD60(MusicController::MusicTypes::eType8, this, 0, 0);
+    MusicController::sub_47FD60(MusicController::MusicTypes::eChase_8, this, 0, 0);
     SetBrain(&FlyingSlig::AI_ChasingEnemy_4_435BC0);
 }
 
@@ -2385,7 +2385,7 @@ void FlyingSlig::ThrowGrenade_43A1E0()
 
 void FlyingSlig::BlowUp_436510()
 {
-    MusicController::sub_47FD60(MusicController::MusicTypes::eType0, this, 0, 0);
+    MusicController::sub_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
     auto pGibs = ae_new<Gibs>();
     if (pGibs)
     {
@@ -2485,7 +2485,7 @@ void FlyingSlig::ToAlerted_4357E0()
 
 void FlyingSlig::ToPanicMoving_435A50()
 {
-    MusicController::sub_47FD60(MusicController::MusicTypes::eType8, this, 0, 0);
+    MusicController::sub_47FD60(MusicController::MusicTypes::eChase_8, this, 0, 0);
     field_14C_timer = (Math_NextRandom() & 7) + sGnFrame_5C1B84 + 12;
     SetBrain(&FlyingSlig::AI_PanicMoving_7_435990);
 }

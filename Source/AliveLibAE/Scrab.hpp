@@ -159,7 +159,7 @@ struct Scrab_State
         eBit5_roar_randomly = 0x10,
         eBit6_persistant = 0x20,
     };
-    BitField16<Flags_9E> field_9E;
+    BitField16<Flags_9E> field_9E_flags;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Scrab_State, 0xA0);
 

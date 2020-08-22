@@ -77,7 +77,7 @@ struct Path_Slig : public Path_TLV
         Chase_3 = 3,
         RunOffScreen_4 = 4,
         GameEnder_5 = 5,
-        Unknown_6 = 6,
+        ListeningToGlukkon_6 = 6,
     };
     StartState field_12_start_state;
 
@@ -89,7 +89,7 @@ struct Path_Slig : public Path_TLV
     __int16 field_1E_chal_number;
     __int16 field_20_chal_timer;
     __int16 field_22_num_times_to_shoot;
-    __int16 field_24_unknown;
+    __int16 field_24_padding;
     __int16 field_26_code1;
     __int16 field_28_code2;
     __int16 field_2A_chase_abe;
@@ -110,7 +110,7 @@ struct Path_Slig : public Path_TLV
     __int16 field_48_disable_resources;
     __int16 field_4A_noise_wake_up_distance;
     __int16 field_4C_id;
-    __int16 field_4E_pad;
+    __int16 field_4E_unknown;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slig, 0x50);
 
@@ -136,7 +136,7 @@ using TSligMotionFn = void (Slig::*)();
 struct Slig_State
 {
     Types field_0_type;
-    __int16 field_2_pad;
+    __int16 field_2_padding;
     FP field_4_xpos;
     FP field_8_ypos;
     FP field_C_velx;
@@ -149,65 +149,65 @@ struct Slig_State
     __int16 field_20_g;
     __int16 field_22_b;
     __int16 field_24_bFlipX;
-    __int16 field_26;
-    __int16 field_28;
-    __int16 field_2A;
+    __int16 field_26_current_motion;
+    __int16 field_28_current_frame;
+    __int16 field_2A_frame_change_counter;
     char field_2C_bRender;
     char field_2D_bDrawable;
-    __int16 field_2E;
+    __int16 field_2E_padding;
     FP field_30_health;
     __int16 field_34_current_motion;
     __int16 field_36_next_motion;
     __int16 field_38_last_line_ypos;
     __int16 field_3A_collision_line_type;
-    __int16 field_3C;
-    __int16 field_3E;
+    __int16 field_3C_padding;
+    __int16 field_3E_padding;
     char field_40_bActiveChar;
-    char field_41;
-    __int16 field_42;
-    __int16 field_44;
-    __int16 field_46;
+    char field_41_padding;
+    __int16 field_42_ai_sub_state;
+    __int16 field_44_pitch_min;
+    __int16 field_46_padding;
     int field_48_timer;
-    __int16 field_4C;
-    __int16 field_4E;
+    __int16 field_4C_reset_to_previous_motion;
+    __int16 field_4E_checked_if_off_screen;
     __int16 field_50_input;
-    __int16 field_52;
-    int field_54;
-    FP field_58;
+    __int16 field_52_padding;
+    int field_54_timer;
+    FP field_58_falling_velx_scale_factor;
     int field_5C_tlvInfo;
     __int16 field_60_res_idx;
-    __int16 field_62;
+    __int16 field_62_shot_motion;
     PSX_RECT field_64_zone_rect;
-    __int16 field_6C;
-    __int16 field_6E;
-    __int16 field_70;
+    __int16 field_6C_unused;
+    __int16 field_6E_unused;
+    __int16 field_70_unused;
     LevelIds field_72_level;
     __int16 field_74_path;
     __int16 field_76_camera;
-    int field_78;
-    int field_7C;
+    int field_78_death_by_being_shot_timer;
+    int field_7C_explode_timer;
     int field_80_brain_state_idx;
-    __int16 field_84;
-    __int16 field_86;
-    int field_88;
-    int field_8C;
-    __int16 field_90;
-    __int16 field_92;
+    __int16 field_84_padding;
+    __int16 field_86_padding;
+    int field_88_unused;
+    int field_8C_num_times_to_shoot;
+    __int16 field_90_force_alive_state;
+    __int16 field_92_spotted_possessed_slig;
     int field_94_glukkon_id;
-    __int16 field_98;
-    __int16 field_9A;
-    __int16 field_9C;
-    __int16 field_9E;
-    __int16 field_A0;
+    __int16 field_98_state_after_speak;
+    __int16 field_9A_attention_timeout;
+    __int16 field_9C_unused;
+    __int16 field_9E_next_command_arg1;
+    __int16 field_A0_cmd_idx;
     enum Flags_A2
     {
-        eBit1 = 0x1,
-        eBit2 = 0x2,
-        eBit3 = 0x4,
-        eBit4 = 0x8,
-        eBit5 = 0x10,
+        eBit1_Padding = 0x1,
+        eBit2_FollowGlukkon = 0x2,
+        eBit3_StoppedForLeverOrLift = 0x4,
+        eBit4_GlukkonCalledAllOYa = 0x8,
+        eBit5_HeardGlukkon = 0x10,
     };
-    BitField16<Flags_A2> field_A2;
+    BitField16<Flags_A2> field_A2_flags;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Slig_State, 0xA4);
 
@@ -508,70 +508,70 @@ private:
 public:
     __int16 field_11C_ai_sub_state;
 private:
-    __int16 field_11E;
+    __int16 field_11E_pitch_min;
     int field_120_timer;
-    __int16 field_124;
-    __int16 field_126;
+    __int16 field_124_reset_to_previous_motion;
+    __int16 field_126_checked_if_off_screen;
     int field_128_input;
-    int field_12C;
-    FP field_130;
+    int field_12C_timer;
+    FP field_130_falling_velx_scale_factor;
     __int16 field_134_res_idx;
     __int16 field_136_shot_motion;
     PSX_RECT field_138_zone_rect;
-    __int16 field_140;
-    __int16 field_142;
-    __int16 field_144;
+    __int16 field_140_unused;
+    __int16 field_142_unused;
+    __int16 field_144_unused;
 public:
     LevelIds field_146_level;
     __int16 field_148_path;
     __int16 field_14A_camera;
-    int field_14C;
-    int field_150;
+    int field_14C_death_by_being_shot_timer;
+    int field_150_explode_timer;
 private:
     TSligAIFn field_154_brain_state;
-    __int16 field_158;
-    __int16 field_15A;
-    __int16 field_15C;
-    __int16 field_15E;
-    int field_160;
-    __int16 field_164;
-    __int16 field_166;
-    __int16 field_168;
-    __int16 field_16A;
-    __int16 field_16C;
-    __int16 field_16E;
-    __int16 field_170;
-    __int16 field_172;
-    __int16 field_174;
-    __int16 field_176;
+    __int16 field_158_num_times_to_shoot;
+    __int16 field_15A_unused;
+    __int16 field_15C_force_alive_state;
+    __int16 field_15E_spotted_possessed_slig;
+    int field_160_last_event_index;
+    __int16 field_164_padding;
+    __int16 field_166_padding;
+    __int16 field_168_padding;
+    __int16 field_16A_padding;
+    __int16 field_16C_padding;
+    __int16 field_16E_padding;
+    __int16 field_170_padding;
+    __int16 field_172_padding;
+    __int16 field_174_unused;
+    __int16 field_176_unused;
     __int16 field_178_pPalAlloc[64];
-    PSX_RECT field_1F8;
+    PSX_RECT field_1F8_pal_rect;
     __int16 field_200_red;
     __int16 field_202_green;
     __int16 field_204_blue;
-    __int16 field_206;
+    __int16 field_206_padding;
     int field_208_glukkon_obj_id;
     __int16 field_20C_state_after_speak;
-    __int16 field_20E;
-    __int16 field_210;
+    __int16 field_20E_attention_timeout;
+    __int16 field_210_unused;
     __int16 field_212_next_command_arg1;
     __int16 field_214_cmd_idx;
 
     enum Flags_216
     {
         eBit1_FollowGlukkon = 0x1,
-        eBit2 = 0x2,
-        eBit3 = 0x4,
+        eBit2_StoppedForLeverOrLift = 0x2,
+        eBit3_GlukkonCalledAllOYa = 0x4,
         eBit4_HeardGlukkon = 0x8,
-        eBit5 = 0x10,
+        eBit5_Padding = 0x10,
     };
-    BitField16<Flags_216> field_216;
+    BitField16<Flags_216> field_216_flags;
 
     Path_Slig field_218_tlv_data;
     PSX_Point field_268_points[10];
     __int16 field_290_points_count;
-    __int16 field_292;
-    int field_294;
+    __int16 field_292_prevent_depossession;
+    int field_294_next_gamespeak_motion;
 };
 ALIVE_ASSERT_SIZEOF(Slig, 0x298);
 
@@ -580,4 +580,4 @@ EXPORT int CC Animation_OnFrame_Slig_4C0600(void* pObj, signed __int16* pData);
 
 void renderWithGlowingEyes(int** ot, BaseAliveGameObject* actor, __int16* pPalAlloc, __int16 palSize, PSX_RECT* palRect,
     __int16& r, __int16& g, __int16& b,
-    const __int16* eyeColourIndices, __int16 eyeColourIndicesSize );
+    const __int16* eyeColourIndices, __int16 eyeColourIndicesSize);
