@@ -1614,8 +1614,8 @@ void Abe::sub_422FC0()
     }
 
     // TODO: Check mask is correct
-    const int mask = field_BC_sprite_scale != FP_FromDouble(0.5) ? 0x11 : 0x10;
-    if (field_F4_pLine && (mask & (1 << field_F4_pLine->field_8_type))) //foreground layer check?
+    const int mask = field_BC_sprite_scale != FP_FromDouble(0.5) ? 1 : 0x10;
+    if (field_F4_pLine && (mask & (1 << field_F4_pLine->field_8_type)))
     {
         if (field_F8_pLiftPoint)
         {
