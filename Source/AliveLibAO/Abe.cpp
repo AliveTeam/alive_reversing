@@ -2389,12 +2389,19 @@ void Abe::State_1_WalkLoop_423F90()
                     field_10C_prev_held = 0;
                 }
             }
+            field_10C_prev_held = 0;
             break;
         }
 
         case 11:
-            if (field_B4_velx <= FP_FromInteger(0) || !(sInputObject_5009E8.isPressed(sInputKey_Left_4C6594)) &&
-                field_B4_velx >= FP_FromInteger(0) || !(sInputObject_5009E8.isPressed(sInputKey_Right_4C6590)))
+            if ((field_B4_velx > FP_FromInteger(0) || !(sInputObject_5009E8.isPressed(sInputKey_Left_4C6594))) &&
+                (field_B4_velx < FP_FromInteger(0) || !(sInputObject_5009E8.isPressed(sInputKey_Right_4C6590))))
+            {
+                field_FC_current_motion = eAbeStates::State_5_MidWalkToIdle_424490;
+                field_10C_prev_held = 0;
+                return;
+            }
+            else
             {
                 if (field_10C_prev_held & sInputKey_Hop_4C65A0)
                 {
@@ -2414,14 +2421,9 @@ void Abe::State_1_WalkLoop_423F90()
 
                     if (!WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), directedScale * FP_FromDouble(1.5)))
                     {
-                         field_10C_prev_held = 0;
+                        field_10C_prev_held = 0;
                     }
                 }
-            }
-            else
-            {
-                field_FC_current_motion = eAbeStates::State_4_WalkToIdle_4243C0;
-                field_10C_prev_held = 0;
             }
             break;
 
