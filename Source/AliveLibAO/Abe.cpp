@@ -2332,6 +2332,7 @@ void Abe::State_0_Idle_423520()
 
 void Abe::State_1_WalkLoop_423F90()
 {
+    //NOT_IMPLEMENTED();
     field_10C_prev_held |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
     
     Event_Broadcast_417220(kEvent_0, this);
@@ -2393,14 +2394,8 @@ void Abe::State_1_WalkLoop_423F90()
         }
 
         case 11:
-            if ((field_B4_velx > FP_FromInteger(0) || !(sInputObject_5009E8.isPressed(sInputKey_Left_4C6594))) &&
-                (field_B4_velx < FP_FromInteger(0) || !(sInputObject_5009E8.isPressed(sInputKey_Right_4C6590))))
-            {
-                field_FC_current_motion = eAbeStates::State_5_MidWalkToIdle_424490;
-                field_10C_prev_held = 0;
-                return;
-            }
-            else
+            if ((field_B4_velx <= FP_FromInteger(0) || !(sInputObject_5009E8.isPressed(sInputKey_Left_4C6594))) &&
+                (field_B4_velx >= FP_FromInteger(0) || !(sInputObject_5009E8.isPressed(sInputKey_Right_4C6590))))
             {
                 if (field_10C_prev_held & sInputKey_Hop_4C65A0)
                 {
@@ -2421,10 +2416,13 @@ void Abe::State_1_WalkLoop_423F90()
                     if (!WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), directedScale * FP_FromDouble(1.5)))
                     {
                         field_10C_prev_held = 0;
+                        return;
                     }
                 }
             }
-            break;
+            field_FC_current_motion = eAbeStates::State_4_WalkToIdle_4243C0;
+            field_10C_prev_held = 0;
+            return;
 
         case 5:
             Abe_SFX_2_42A220(1u, 0, 0x7FFF, this);
