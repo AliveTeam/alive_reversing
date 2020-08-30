@@ -2389,7 +2389,6 @@ void Abe::State_1_WalkLoop_423F90()
                     field_10C_prev_held = 0;
                 }
             }
-            field_10C_prev_held = 0;
             break;
         }
 
