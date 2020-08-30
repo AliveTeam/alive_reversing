@@ -2332,7 +2332,6 @@ void Abe::State_0_Idle_423520()
 
 void Abe::State_1_WalkLoop_423F90()
 {
-    //NOT_IMPLEMENTED();
     field_10C_prev_held |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
     
     Event_Broadcast_417220(kEvent_0, this);
