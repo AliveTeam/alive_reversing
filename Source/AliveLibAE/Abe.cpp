@@ -9125,6 +9125,7 @@ short Abe::DoGameSpeak_45AB70(int input)
     short nextState = -1;
     if ((sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & eChant) == eChant)
     {
+        // Fixes an OG bug where abe doesn't transform into shrykull when you immediately chant after using gamespeak
         if (!(field_168_ring_pulse_timer && field_16C_bHaveShrykull))
         {
             field_124_gnFrame = sGnFrame_5C1B84 + 90;
