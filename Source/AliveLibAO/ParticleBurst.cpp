@@ -142,8 +142,7 @@ ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, __int16 particleCoun
 
                 field_E8_pRes[i].field_C_x_speed = Random_Speed(scale);
                 field_E8_pRes[i].field_10_y_speed = -Random_Speed(scale);
-                // OG bug sign could be wrong here as it called random again to Abs() it!
-                field_E8_pRes[i].field_14_z_speed = FP_Abs(Random_Speed(scale));
+                field_E8_pRes[i].field_14_z_speed = -FP_Abs(Random_Speed(scale));
             }
 
             if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
