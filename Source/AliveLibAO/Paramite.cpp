@@ -1244,9 +1244,34 @@ void Paramite::State_7_Unknown_44BF10()
     NOT_IMPLEMENTED();
 }
 
+const int sWalkRunTransVelTable_4BBD18[4] = { 353663, 353662, 353664, 0 };
+
 void Paramite::State_8_WalkRunTransition_44C790()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEvent_0, this);
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        field_B4_velx = field_BC_sprite_scale * -FP_FromRaw(sWalkRunTransVelTable_4BBD18[field_10_anim.field_92_current_frame]);
+    }
+    else
+    {
+        field_B4_velx = field_BC_sprite_scale * FP_FromRaw(sWalkRunTransVelTable_4BBD18[field_10_anim.field_92_current_frame]);
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_FC_current_motion = eParamiteStates::State_2_Walking_44B9E0;
+    }
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(10), field_B4_velx))
+    {
+        ToKnockBack_44B5B0();
+    }
+    else
+    {
+        MoveOnLine_44B740();
+    }
 }
 
 void Paramite::State_9_WalkEnd_44BDE0()
