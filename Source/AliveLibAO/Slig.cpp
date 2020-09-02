@@ -397,6 +397,11 @@ void Slig::Init_46B890()
     NOT_IMPLEMENTED();
 }
 
+void Slig::VUpdate()
+{
+    VUpdate_465050();
+}
+
 const unsigned int sSligVelXTable_4BCA30[] = { 262144, 262144, 0, 4294705152, 4294705152, 4294705152, 0, 262144 };
 const unsigned int sSligVelYTable_4BCA50[] = { 0, 4294705152, 4294705152, 4294705152, 0, 262144, 262144, 262144 };
 
@@ -532,6 +537,19 @@ void Slig::VUpdate_465050()
             field_10_anim.SetFrame_402AC0(field_E6_last_anim_frame);
             field_11E = 0;
         }
+    }
+}
+
+void Slig::VRender(int** ppOt)
+{
+    VRender_465590(ppOt);
+}
+
+void Slig::VRender_465590(int** ppOt)
+{
+    if (field_8_update_delay == 0)
+    {
+        BaseAnimatedWithPhysicsGameObject::VRender_417DA0(ppOt);
     }
 }
 
