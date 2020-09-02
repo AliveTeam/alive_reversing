@@ -1239,9 +1239,36 @@ void Paramite::State_6_Hop_44CB20()
     NOT_IMPLEMENTED();
 }
 
+const int dword_4BBCA8[2] = { 147603, 369009 };
+
 void Paramite::State_7_Unknown_44BF10()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEvent_0, this);
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        field_B4_velx = field_BC_sprite_scale * -FP_FromRaw(dword_4BBCA8[field_10_anim.field_92_current_frame]);
+    }
+    else
+    {
+        field_B4_velx = field_BC_sprite_scale * FP_FromRaw(dword_4BBCA8[field_10_anim.field_92_current_frame]);
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_E4 = 3;
+        field_E6_last_anim_frame = 2;
+        field_140 = 1;
+    }
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(10), field_B4_velx))
+    {
+        ToKnockBack_44B5B0();
+    }
+    else
+    {
+        MoveOnLine_44B740();
+    }
 }
 
 const int sWalkRunTransVelTable_4BBD18[4] = { 353663, 353662, 353664, 0 };
