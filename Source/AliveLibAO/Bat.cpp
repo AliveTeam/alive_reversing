@@ -3,6 +3,7 @@
 #include "Bat.hpp"
 #include "ResourceManager.hpp"
 #include "Collisions.hpp"
+#include "Math.hpp"
 #include "stdlib.hpp"
 
 START_NS_AO
@@ -99,6 +100,40 @@ Bat* Bat::Vdtor_404FF0(signed int flags)
         ao_delete_free_447540(this);
     }
     return this;
+}
+
+void Bat::FlyTo_404E50(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed)
+{
+    const FP xd = FP_Abs(xpos - field_104);
+    if (xd > FP_FromInteger(350))
+    {
+        field_A8_xpos += *xSpeed;
+    }
+
+    const FP yd = FP_Abs(ypos - field_108);
+    if (yd > FP_FromInteger(200))
+    {
+        field_AC_ypos += *ySpeed;
+    }
+
+    *xSpeed = xd;
+    *ySpeed = yd;
+
+    field_104 = xpos;
+    field_108 = ypos;
+
+    *xSpeed = FP_FromInteger((Math_NextRandom() & 63) - 32) + xpos - field_A8_xpos;
+    *ySpeed = FP_FromInteger((Math_NextRandom() & 31) - 8) + ypos - field_AC_ypos;
+
+    const int ySpeedi = FP_GetExponent(*ySpeed);
+    const int xSpeedi = FP_GetExponent(*xSpeed);
+    const FP x_final = FP_FromInteger(Math_SquareRoot_Int_4511B0((ySpeedi * ySpeedi) + (xSpeedi * xSpeedi)));
+
+    field_B4_velx = (FP_FromInteger(8) * *xSpeed) / x_final;
+    field_B8_vely = (FP_FromInteger(8) * *ySpeed) / x_final;
+
+    field_A8_xpos += field_B4_velx;
+    field_AC_ypos += field_B8_vely;
 }
 
 END_NS_AO

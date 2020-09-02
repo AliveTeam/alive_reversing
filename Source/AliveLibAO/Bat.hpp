@@ -29,6 +29,8 @@ public:
     EXPORT void VScreenChanged_404FE0();
     EXPORT Bat* Vdtor_404FF0(signed int flags);
 
+    EXPORT void FlyTo_404E50(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed);
+
     int field_D4;
     int field_D8;
     int field_DC;
@@ -42,8 +44,8 @@ public:
     int field_F8;
     int field_FC;
     int field_100;
-    int field_104;
-    int field_108;
+    FP field_104;
+    FP field_108;
     BaseGameObject* field_10C;
 };
 ALIVE_ASSERT_SIZEOF(Bat, 0x110);
