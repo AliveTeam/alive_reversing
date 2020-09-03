@@ -126,7 +126,13 @@ public:
 
     EXPORT void Init_46B890();
 
+    virtual void VUpdate() override;
+
     EXPORT void VUpdate_465050();
+
+    virtual void VRender(int** ppOt) override;
+
+    EXPORT void VRender_465590(int** ppOt);
 
     EXPORT void VUpdateAnimData_464D00();
 
