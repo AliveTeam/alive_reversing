@@ -926,7 +926,15 @@ void Slig::State_40_FallingInitiate_46AA60()
 
 void Slig::State_41_LandingSoft_46A390()
 {
-    NOT_IMPLEMENTED();
+    if (!field_10_anim.field_92_current_frame)
+    {
+        Abe_SFX_2_42A220(6u, 0, 0x7FFF, 0);
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        State_46_ToIdle_46A590();
+    }
 }
 
 void Slig::State_42_LandingFatal_46AFE0()
