@@ -184,6 +184,11 @@ static AIFunctionData<Slig::TBrainFn> sSligAITable[]
     { &Slig::Brain_46F290, 0x46F290, "Brain_46F290" },
 };
 
+void Slig::Slig_Sfx_46F310(unsigned __int8 /*sfxIdx*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 Slig* Slig::ctor_464D40(Path_Slig* pTlv, int tlvInfo)
 {
     ctor_401090(); // Note: Empty base skipped
@@ -772,7 +777,27 @@ void Slig::State_14_ShootToStand_468810()
 
 void Slig::State_15_SteppingToStand_469080()
 {
-    NOT_IMPLEMENTED();
+    if (!field_10_anim.field_92_current_frame)
+    {
+        Slig_Sfx_46F310(2u);
+    }
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(35), field_B4_velx))
+    {
+        ToKnockBack_467300();
+    }
+    else
+    {
+        CheckFloorGone_467490();
+        if (field_FC_current_motion == eSligStates::State_15_SteppingToStand_469080)
+        {
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                MapFollowMe_401D30(1);
+                State_46_ToIdle_46A590();
+            }
+        }
+    }
 }
 
 void Slig::State_16_StandingToStep_468FD0()

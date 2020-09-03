@@ -138,6 +138,8 @@ public:
 
     EXPORT __int16 MainMovement_467020();
 
+    EXPORT void Slig_Sfx_46F310(unsigned __int8 sfxIdx);
+
     EXPORT BYTE** ResBlockForMotion_4654D0(__int16 motion);
 
     EXPORT BOOL VIs8_465630(short motion);
