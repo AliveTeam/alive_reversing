@@ -1364,9 +1364,32 @@ void Paramite::State_10_RunBegin_44C4C0()
     }
 }
 
+const int sRunEndVelTable_4BBD08[4] = { 203900, 200766, 224956, 0 };
+
 void Paramite::State_11_RunEnd_44C620()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        field_B4_velx = field_BC_sprite_scale * -FP_FromRaw(sRunEndVelTable_4BBD08[field_10_anim.field_92_current_frame]);
+    }
+    else
+    {
+        field_B4_velx = field_BC_sprite_scale * FP_FromRaw(sRunEndVelTable_4BBD08[field_10_anim.field_92_current_frame]);
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToIdle_44B580();
+    }
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(10), field_B4_velx))
+    {
+        ToKnockBack_44B5B0();
+    }
+    else
+    {
+        MoveOnLine_44B740();
+    }
 }
 
 void Paramite::State_12_Falling_44C960()
