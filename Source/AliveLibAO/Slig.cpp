@@ -792,7 +792,16 @@ void Slig::State_18_GameSpeak_467B10()
 
 void Slig::State_19_WalkToStand_469610()
 {
-    NOT_IMPLEMENTED();
+    CheckFloorGone_467490();
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        MapFollowMe_401D30(1);
+        if (!MainMovement_467020())
+        {
+            State_46_ToIdle_46A590();
+        }
+    }
 }
 
 void Slig::State_20_Recoil_468D30()
