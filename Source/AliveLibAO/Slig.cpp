@@ -82,7 +82,7 @@ const TSligStateFunction sSligMotionTable_4CF960[] =
     &Slig::State_43_ShootZ_468E30,
     &Slig::State_44_ShootZtoStand_468F70,
     &Slig::State_45_Smash_46A990,
-    &Slig::State_46_PullLever_46A590,
+    &Slig::State_46_ToIdle_46A590,
     &Slig::State_47_LiftUp_4665A0,
     &Slig::State_48_LiftDown_4665C0,
     &Slig::State_49_LiftGrip_4663A0,
@@ -759,16 +759,7 @@ void Slig::State_12_SlidingTurnToRun_46A160()
 
 void Slig::State_13_Reload_4687B0()
 {
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
-    {
-        field_12C = 0;
-        field_B4_velx = FP_FromInteger(0);
-        field_B8_vely = FP_FromInteger(0);
-        field_FC_current_motion = eSligStates::State_0_StandIdle_467640;
-        field_126 = 0;
-        field_128_timer = Math_RandomRange_450F20(0, 60) + gnFrameCount_507670 + 120;
-        MapFollowMe_401D30(1);
-    }
+    State_46_ToIdle_46A590();
 }
 
 void Slig::State_14_ShootToStand_468810()
@@ -973,11 +964,10 @@ void Slig::State_45_Smash_46A990()
     }
 }
 
-void Slig::State_46_PullLever_46A590()
+void Slig::State_46_ToIdle_46A590()
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        // TODO: ToIdle ?
         field_12C = 0;
         field_B4_velx = FP_FromInteger(0);
         field_B8_vely = FP_FromInteger(0);
@@ -1017,7 +1007,6 @@ void Slig::State_52_Beat_46AA90()
 {
     NOT_IMPLEMENTED();
 }
-
 
 __int16 Slig::Brain_465EB0()
 {
