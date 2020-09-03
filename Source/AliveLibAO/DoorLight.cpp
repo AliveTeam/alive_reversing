@@ -6,6 +6,9 @@
 #include "Math.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
+#include "MusicTrigger.hpp"
+#include "Abe.hpp"
+#include "Midi.hpp"
 
 START_NS_AO
 
@@ -136,6 +139,82 @@ void DoorLight::VScreenChanged_406360()
 {
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
     gNextDoorLightUpdate_4C30A8 = -1;
+}
+
+
+void DoorLight::VUpdate()
+{
+    VUpdate_4060A0();
+}
+
+void DoorLight::VUpdate_4060A0()
+{
+    if (static_cast<int>(gnFrameCount_507670) > gDoorLightUpdateTimer_4FC8A4)
+    {
+        gNextDoorLightUpdate_4C30A8 = gnFrameCount_507670 + Math_RandomRange_450F20(6, 20);
+        gDoorLightUpdateTimer_4FC8A4 = gNextDoorLightUpdate_4C30A8 + Math_RandomRange_450F20(30, 45);
+        field_C0_r = 32;
+        field_C2_g = 32;
+        field_C4_b = 32;
+    }
+    else if (static_cast<int>(gnFrameCount_507670) >= gNextDoorLightUpdate_4C30A8)
+    {
+        const FP lightAngle = (
+            FP_FromInteger(128) * FP_FromInteger(gnFrameCount_507670 - gNextDoorLightUpdate_4C30A8) /
+            FP_FromInteger(gDoorLightUpdateTimer_4FC8A4 - gNextDoorLightUpdate_4C30A8));
+
+        const FP lightAngleCosine = -Math_Cosine_4510A0(FP_GetExponent(lightAngle) & 0xFF);
+        const int rgbVal = FP_GetExponent(FP_FromInteger(255) * lightAngleCosine) + 32;
+
+        BYTE rgb = 0;
+        if (rgbVal <= 255)
+        {
+            rgb = rgbVal & 0xFF;
+        }
+        else
+        {
+            rgb = 255;
+        }
+
+        if (field_EC)
+        {
+            if (SwitchStates_Get(field_F0))
+            {
+                if (field_EE_switch_value == 0)
+                {
+                    field_EE_switch_value = 1;
+
+                    if (sControlledCharacter_50767C == sActiveHero_507678)
+                    {
+                        auto pMusic = ao_new<MusicTrigger>();
+                        if (pMusic)
+                        {
+                            pMusic->ctor_443A60(6, 1, 0, 15);
+                        }
+                    }
+                    else
+                    {
+                        SND_SEQ_Play_477760(45u, 1, 127, 127);
+                    }
+                }
+                field_C0_r = 32;
+                field_C2_g = rgb;
+                field_C4_b = 32;
+            }
+            else
+            {
+                field_C0_r = rgb;
+                field_C2_g = 32;
+                field_C4_b = 32;
+            }
+        }
+        else
+        {
+            field_C0_r = rgb;
+            field_C2_g = rgb;
+            field_C4_b = rgb;
+        }
+    }
 }
 
 END_NS_AO

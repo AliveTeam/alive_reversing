@@ -40,6 +40,10 @@ public:
 
     EXPORT void VScreenChanged_406360();
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_4060A0();
+
     int field_D4;
     int field_D8;
     int field_DC;
