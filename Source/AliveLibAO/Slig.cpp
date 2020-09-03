@@ -735,7 +735,14 @@ void Slig::State_10_SlidingTurn_469F10()
 
 void Slig::State_11_SlidingTurnToWalk_46A120()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEvent_0, this);
+    CheckFloorGone_467490();
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+        field_FC_current_motion = eSligStates::State_2_Walking_469130;
+    }
 }
 
 void Slig::State_12_SlidingTurnToRun_46A160()
