@@ -880,7 +880,7 @@ void Slig::State_37_Depossessing_4684D0()
             }
         }
 
-        if (!(static_cast<int>(gnFrameCount_507670) % -4))
+        if (!(gnFrameCount_507670 % 4))
         {
             New_Particle_4198E0(
                 field_A8_xpos + (field_BC_sprite_scale * FP_FromInteger(Math_RandomRange_450F20(-20, 20))),
