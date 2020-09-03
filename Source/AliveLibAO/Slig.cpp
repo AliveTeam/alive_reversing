@@ -640,7 +640,14 @@ void Slig::State_0_StandIdle_467640()
 
 void Slig::State_1_StandToWalk_4695D0()
 {
-    NOT_IMPLEMENTED();
+    field_126 |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_6_held;
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_FC_current_motion = eSligStates::State_2_Walking_469130;
+    }
+
+    CheckFloorGone_467490();
 }
 
 void Slig::State_2_Walking_469130()
