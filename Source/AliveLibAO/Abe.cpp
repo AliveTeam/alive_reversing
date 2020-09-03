@@ -2801,7 +2801,20 @@ void Abe::State_19_CrouchIdle_4284C0()
 
 void Abe::State_20_CrouchToStand_428AF0()
 {
-    NOT_IMPLEMENTED();
+    FollowLift_42EE90();
+
+    if (field_10_anim.field_92_current_frame == 3)
+    {
+        if (sInputObject_5009E8.isPressed(0xA000)) // TODO: Flags
+        {
+            ToLeftRightMovement_422AA0();
+        }
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToIdle_422D50();
+    }
 }
 
 void Abe::State_21_StandToCrouch_427F40()

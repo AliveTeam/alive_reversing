@@ -75,4 +75,10 @@ int CC Math_Distance_451270(int x1, int y1, int x2, int y2)
     }
 }
 
+int CC Math_SquareRoot_Int_4511B0(int /*a1*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 END_NS_AO

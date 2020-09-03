@@ -773,6 +773,7 @@ __int16 Paramite::FindOtherParamite_44AF80()
     return 0;
 }
 
+
 void Paramite::ToKnockBack_44B5B0()
 {
     const FP nextX = field_A8_xpos - field_B4_velx;
