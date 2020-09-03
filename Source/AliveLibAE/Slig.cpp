@@ -269,8 +269,8 @@ const TSligAIFn sSlig_ai_table_5605AC[36] =
     &Slig::AI_PanicYelling_14_4BCA70,
     &Slig::AI_Idle_15_4BD800,
     &Slig::AI_StopChasing_16_4BCE30,
-    &Slig::AI_Chasing2_17_4BCBD0,
-    &Slig::AI_Chasing1_18_4BCEB0,
+    &Slig::AI_Chasing_17_4BCBD0,
+    &Slig::AI_StartChasing_18_4BCEB0,
     &Slig::AI_Turning_19_4BDDD0,
     &Slig::AI_StoppingNextToMudokon_20_4BF1E0,
     &Slig::AI_Walking_21_4BE0C0,
@@ -280,9 +280,9 @@ const TSligAIFn sSlig_ai_table_5605AC[36] =
     &Slig::AI_DiscussionWhat_25_4BF380,
     &Slig::AI_Empty_26_4BF620,
     &Slig::AI_Empty_27_4BF600,
-    &Slig::AI_ShootingFromBackground_28_4BFA70,
+    &Slig::AI_ZShooting_28_4BFA70,
     &Slig::AI_Shooting_29_4BF750,
-    &Slig::AI_SpottedEnemyFromBackground_30_4BFA30,
+    &Slig::AI_ZSpottedEnemy_30_4BFA30,
     &Slig::AI_WakingUp_31_4B9390,
     &Slig::AI_Inactive_32_4B9430,
     &Slig::AI_Paused_33_4B8DD0,
@@ -309,8 +309,8 @@ static AIFunctionData<TSligAIFn> sSligAITable[36] =
     { &Slig::AI_PanicYelling_14_4BCA70, 0x403364, "AI_PanicYelling_14", },
     { &Slig::AI_Idle_15_4BD800, 0x403F85, "AI_Idle_15", },
     { &Slig::AI_StopChasing_16_4BCE30, 0x4021B2, "AI_StopChasing_16", },
-    { &Slig::AI_Chasing2_17_4BCBD0, 0x403BCA, "AI_Chasing2_17", },
-    { &Slig::AI_Chasing1_18_4BCEB0, 0x403E36, "AI_Chasing1_18", },
+    { &Slig::AI_Chasing_17_4BCBD0, 0x403BCA, "AI_Chasing2_17", },
+    { &Slig::AI_StartChasing_18_4BCEB0, 0x403E36, "AI_Chasing1_18", },
     { &Slig::AI_Turning_19_4BDDD0, 0x403ABC, "AI_Turning_19", },
     { &Slig::AI_StoppingNextToMudokon_20_4BF1E0, 0x4020C2, "AI_StoppingNextToMudokon_20", },
     { &Slig::AI_Walking_21_4BE0C0, 0x402A59, "AI_Walking_21", },
@@ -320,9 +320,9 @@ static AIFunctionData<TSligAIFn> sSligAITable[36] =
     { &Slig::AI_DiscussionWhat_25_4BF380, 0x403CE2, "AI_DiscussionWhat_25", },
     { &Slig::AI_Empty_26_4BF620, 0x4BF620, "AI_Empty_26", },
     { &Slig::AI_Empty_27_4BF600, 0x4BF600, "AI_Empty_27", },
-    { &Slig::AI_ShootingFromBackground_28_4BFA70, 0x4025B3, "AI_ShootingFromBackground_28", },
+    { &Slig::AI_ZShooting_28_4BFA70, 0x4025B3, "AI_ShootingFromBackground_28", },
     { &Slig::AI_Shooting_29_4BF750, 0x40308F, "AI_Shooting_29", },
-    { &Slig::AI_SpottedEnemyFromBackground_30_4BFA30, 0x403215, "AI_SpottedEnemyFromBackground_30", },
+    { &Slig::AI_ZSpottedEnemy_30_4BFA30, 0x403215, "AI_SpottedEnemyFromBackground_30", },
     { &Slig::AI_WakingUp_31_4B9390, 0x403E0E, "AI_WakingUp_31", },
     { &Slig::AI_Inactive_32_4B9430, 0x4038CD, "AI_Inactive_32", },
     { &Slig::AI_Paused_33_4B8DD0, 0x40346D, "AI_Paused_33", },
@@ -3781,7 +3781,7 @@ __int16 Slig::AI_StopChasing_16_4BCE30()
 
 }
 
-__int16 Slig::AI_Chasing2_17_4BCBD0()
+__int16 Slig::AI_Chasing_17_4BCBD0()
 {
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
         vOnSameYLevel_425520(sControlledCharacter_5C1B8C) &&
@@ -3822,7 +3822,7 @@ __int16 Slig::AI_Chasing2_17_4BCBD0()
     return 118;
 }
 
-__int16 Slig::AI_Chasing1_18_4BCEB0()
+__int16 Slig::AI_StartChasing_18_4BCEB0()
 {
     if (field_120_timer > static_cast<int>(sGnFrame_5C1B84))
     {
@@ -3853,7 +3853,7 @@ __int16 Slig::AI_Chasing1_18_4BCEB0()
 
         field_15C_force_alive_state = 1;
         field_108_next_motion = eSligMotions::M_Running_4_4B6000;
-        SetBrain(&Slig::AI_Chasing2_17_4BCBD0);
+        SetBrain(&Slig::AI_Chasing_17_4BCBD0);
         field_120_timer = field_218_tlv_data.field_14_pause_time;
     }
     return 122;
@@ -4350,7 +4350,7 @@ __int16 Slig::AI_Empty_27_4BF600()
     return 0;
 }
 
-__int16 Slig::AI_ShootingFromBackground_28_4BFA70()
+__int16 Slig::AI_ZShooting_28_4BFA70()
 {
     if (field_106_current_motion != eSligMotions::M_ShootZ_42_4B7560 ||
         !field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -4440,14 +4440,14 @@ __int16 Slig::AI_Shooting_29_4BF750()
     return 111;
 }
 
-__int16 Slig::AI_SpottedEnemyFromBackground_30_4BFA30()
+__int16 Slig::AI_ZSpottedEnemy_30_4BFA30()
 {
     if (field_120_timer > static_cast<int>(sGnFrame_5C1B84))
     {
         return 126;
     }
     field_108_next_motion = eSligMotions::M_ShootZ_42_4B7560;
-    SetBrain(&Slig::AI_ShootingFromBackground_28_4BFA70);
+    SetBrain(&Slig::AI_ZShooting_28_4BFA70);
     return 126;
 
 }
@@ -4740,7 +4740,7 @@ void Slig::Init_4BB0D0()
         break;
 
     case Path_Slig::StartState::Chase_3:
-        SetBrain(&Slig::AI_Chasing1_18_4BCEB0);
+        SetBrain(&Slig::AI_StartChasing_18_4BCEB0);
         field_120_timer = sGnFrame_5C1B84 + field_218_tlv_data.field_36_time_to_wait_before_chase;
         break;
 
@@ -5335,7 +5335,7 @@ void Slig::ToZShoot_4BF9E0()
 {
     field_108_next_motion = eSligMotions::M_StandIdle_0_4B4EC0;
     field_120_timer = sGnFrame_5C1B84 + field_218_tlv_data.field_44_Z_shoot_delay;
-    SetBrain(&Slig::AI_SpottedEnemyFromBackground_30_4BFA30);
+    SetBrain(&Slig::AI_ZSpottedEnemy_30_4BFA30);
     MusicController::sub_47FD60(MusicController::MusicTypes::eChase_8, this, 0, 0);
 }
 
@@ -6377,7 +6377,7 @@ void Slig::ToChase_4BCFF0()
     }
 
     field_108_next_motion = eSligMotions::M_StandIdle_0_4B4EC0;
-    SetBrain(&Slig::AI_Chasing1_18_4BCEB0);
+    SetBrain(&Slig::AI_StartChasing_18_4BCEB0);
     MusicController::sub_47FD60(MusicController::MusicTypes::eChase_8, this, 0, 0);
 }
 

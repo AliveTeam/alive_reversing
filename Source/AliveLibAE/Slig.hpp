@@ -344,8 +344,8 @@ public:
     EXPORT __int16 AI_PanicYelling_14_4BCA70();
     EXPORT __int16 AI_Idle_15_4BD800();
     EXPORT __int16 AI_StopChasing_16_4BCE30();
-    EXPORT __int16 AI_Chasing2_17_4BCBD0();
-    EXPORT __int16 AI_Chasing1_18_4BCEB0();
+    EXPORT __int16 AI_Chasing_17_4BCBD0();
+    EXPORT __int16 AI_StartChasing_18_4BCEB0();
     EXPORT __int16 AI_Turning_19_4BDDD0();
     EXPORT __int16 AI_StoppingNextToMudokon_20_4BF1E0();
     EXPORT __int16 AI_Walking_21_4BE0C0();
@@ -355,9 +355,9 @@ public:
     EXPORT __int16 AI_DiscussionWhat_25_4BF380();
     EXPORT __int16 AI_Empty_26_4BF620();
     EXPORT __int16 AI_Empty_27_4BF600();
-    EXPORT __int16 AI_ShootingFromBackground_28_4BFA70();
+    EXPORT __int16 AI_ZShooting_28_4BFA70();
     EXPORT __int16 AI_Shooting_29_4BF750();
-    EXPORT __int16 AI_SpottedEnemyFromBackground_30_4BFA30();
+    EXPORT __int16 AI_ZSpottedEnemy_30_4BFA30();
     EXPORT __int16 AI_WakingUp_31_4B9390();
     EXPORT __int16 AI_Inactive_32_4B9430();
     EXPORT __int16 AI_Paused_33_4B8DD0();
