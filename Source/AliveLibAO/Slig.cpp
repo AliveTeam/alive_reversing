@@ -941,7 +941,7 @@ void Slig::State_43_ShootZ_468E30()
 
 void Slig::State_44_ShootZtoStand_468F70()
 {
-    NOT_IMPLEMENTED();
+    State_46_ToIdle_46A590();
 }
 
 void Slig::State_45_Smash_46A990()
