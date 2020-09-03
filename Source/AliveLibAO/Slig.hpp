@@ -138,6 +138,14 @@ public:
 
     EXPORT void Vsub_465C30();
 
+    EXPORT void CheckFloorGone_467490();
+
+    EXPORT void ToKnockBack_467300();
+
+    EXPORT __int16 MainMovement_467020();
+
+    EXPORT void Slig_Sfx_46F310(unsigned __int8 sfxIdx);
+
     EXPORT BYTE** ResBlockForMotion_4654D0(__int16 motion);
 
     EXPORT BOOL VIs8_465630(short motion);
@@ -189,7 +197,7 @@ public:
     EXPORT void State_43_ShootZ_468E30();
     EXPORT void State_44_ShootZtoStand_468F70();
     EXPORT void State_45_Smash_46A990();
-    EXPORT void State_46_PullLever_46A590();
+    EXPORT void State_46_ToIdle_46A590();
     EXPORT void State_47_LiftUp_4665A0();
     EXPORT void State_48_LiftDown_4665C0();
     EXPORT void State_49_LiftGrip_4663A0();

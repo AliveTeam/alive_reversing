@@ -919,7 +919,7 @@ void Slog::State_16_Sleeping_4752E0()
     }
 
     auto pSnoozeParticle = ao_new<SnoozeParticle>();
-    if (pSnoozeParticle)
+    if (pSnoozeParticle && bSpawnParticle)
     {
         pSnoozeParticle->ctor_464320(
             field_A8_xpos

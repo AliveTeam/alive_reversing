@@ -2755,7 +2755,7 @@ short Mudokon::Brain_11_43C5F0()
         field_BC_sprite_scale = field_BC_sprite_scale - FP_FromDouble(0.008);
     }
 
-    if (static_cast<int>(gnFrameCount_507670) < field_1C0_timer - 24 && !(static_cast<int>(gnFrameCount_507670) % -4))
+    if (static_cast<int>(gnFrameCount_507670) < field_1C0_timer - 24 && !(gnFrameCount_507670 % 4))
     {
         New_Particles_419A80(
             (FP_FromInteger( Math_RandomRange_450F20(-24, 24)) * field_BC_sprite_scale) + field_A8_xpos,

@@ -490,7 +490,7 @@ void Rock::InTheAir_456B60()
         field_11C_xpos,
         field_120_ypos,
         field_A8_xpos,
-        field_120_ypos,
+        field_AC_ypos,
         &field_114_pLine,
         &hitX,
         &hitY,
@@ -506,7 +506,7 @@ void Rock::InTheAir_456B60()
             {
                 if (field_110_state != 4 || field_B8_vely >= FP_FromInteger(5))
                 {
-                    if (field_110_state != 1 || field_B8_vely >= FP_FromInteger(0))
+                    if (field_110_state != 1 || field_B8_vely >= FP_FromInteger(1))
                     {
                         field_AC_ypos = hitY;
                         field_B8_vely = (-field_B8_vely / FP_FromInteger(2));
