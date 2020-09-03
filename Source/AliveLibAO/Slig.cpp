@@ -618,6 +618,11 @@ BOOL Slig::VIs8_465630(short motion)
     return motion == eSligStates::State_8_Unknown_4673E0;
 }
 
+void Slig::CheckFloorGone_467490()
+{
+    NOT_IMPLEMENTED();
+}
+
 void Slig::State_0_StandIdle_467640()
 {
     NOT_IMPLEMENTED();
@@ -635,7 +640,25 @@ void Slig::State_2_Walking_469130()
 
 void Slig::State_3_StandToRun_469C00()
 {
-    NOT_IMPLEMENTED();
+    std::cout << "called!\n";
+
+    field_126 |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_6_held;
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_FC_current_motion = eSligStates::State_4_Running_469690;
+    }
+
+    Event_Broadcast_417220(kEvent_0, this);
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(35), field_B4_velx))
+    {
+        State_35_Knockback_46A720();
+    }
+    else
+    {
+        CheckFloorGone_467490();
+    }
 }
 
 void Slig::State_4_Running_469690()

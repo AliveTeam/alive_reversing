@@ -132,6 +132,8 @@ public:
 
     EXPORT void Vsub_465C30();
 
+    EXPORT void CheckFloorGone_467490();
+
     EXPORT BYTE** ResBlockForMotion_4654D0(__int16 motion);
 
     EXPORT BOOL VIs8_465630(short motion);
