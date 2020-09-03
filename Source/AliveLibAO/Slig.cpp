@@ -730,7 +730,16 @@ void Slig::State_12_SlidingTurnToRun_46A160()
 
 void Slig::State_13_Reload_4687B0()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_12C = 0;
+        field_B4_velx = FP_FromInteger(0);
+        field_B8_vely = FP_FromInteger(0);
+        field_FC_current_motion = eSligStates::State_0_StandIdle_467640;
+        field_126 = 0;
+        field_128_timer = Math_RandomRange_450F20(0, 60) + gnFrameCount_507670 + 120;
+        MapFollowMe_401D30(1);
+    }
 }
 
 void Slig::State_14_ShootToStand_468810()
