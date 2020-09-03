@@ -134,6 +134,10 @@ public:
 
     EXPORT void CheckFloorGone_467490();
 
+    EXPORT void ToKnockBack_467300();
+
+    EXPORT __int16 MainMovement_467020();
+
     EXPORT BYTE** ResBlockForMotion_4654D0(__int16 motion);
 
     EXPORT BOOL VIs8_465630(short motion);

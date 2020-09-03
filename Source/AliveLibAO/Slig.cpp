@@ -623,6 +623,16 @@ void Slig::CheckFloorGone_467490()
     NOT_IMPLEMENTED();
 }
 
+__int16 Slig::MainMovement_467020()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::ToKnockBack_467300()
+{
+    NOT_IMPLEMENTED();
+}
+
 void Slig::State_0_StandIdle_467640()
 {
     NOT_IMPLEMENTED();
@@ -640,8 +650,6 @@ void Slig::State_2_Walking_469130()
 
 void Slig::State_3_StandToRun_469C00()
 {
-    std::cout << "called!\n";
-
     field_126 |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_6_held;
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -653,7 +661,7 @@ void Slig::State_3_StandToRun_469C00()
 
     if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(35), field_B4_velx))
     {
-        State_35_Knockback_46A720();
+        ToKnockBack_467300();
     }
     else
     {
@@ -744,7 +752,10 @@ void Slig::State_13_Reload_4687B0()
 
 void Slig::State_14_ShootToStand_468810()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        MainMovement_467020();
+    }
 }
 
 void Slig::State_15_SteppingToStand_469080()
