@@ -777,7 +777,23 @@ void Slig::State_15_SteppingToStand_469080()
 
 void Slig::State_16_StandingToStep_468FD0()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        if (sInputObject_5009E8.isPressed(sInputKey_Left_4C6594 | sInputKey_Right_4C6590))
+        {
+            field_FC_current_motion = eSligStates::State_1_StandToWalk_4695D0;
+        }
+        else if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            field_FC_current_motion = eSligStates::State_15_SteppingToStand_469080;
+            field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(6));
+        }
+        else
+        {
+            field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(6));
+            field_FC_current_motion = eSligStates::State_15_SteppingToStand_469080;
+        }
+    }
 }
 
 void Slig::State_17_DepossessingAbort_468750()
