@@ -782,7 +782,7 @@ void Slig::State_16_StandingToStep_468FD0()
 
 void Slig::State_17_DepossessingAbort_468750()
 {
-    NOT_IMPLEMENTED();
+    State_46_ToIdle_46A590();
 }
 
 void Slig::State_18_GameSpeak_467B10()
