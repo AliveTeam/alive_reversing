@@ -31,22 +31,32 @@ public:
 
     EXPORT void FlyTo_404E50(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed);
 
-    int field_D4;
-    int field_D8;
-    int field_DC;
-    int field_E0;
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_404950();
+
+    int field_D4[4];
     PathLine* field_E4_pLine;
-    int field_E8_speed;
+    FP field_E8_speed;
     int field_EC;
     int field_F0_tlvInfo;
-    __int16 field_F4_state;
+    enum class States : __int16
+    {
+        e0 = 0,
+        e1 = 1,
+        e2 = 2,
+        e3 = 3,
+        e4 = 4,
+        e5 = 5,
+    };
+    States field_F4_state;
     __int16 field_F6_attack_duration;
     int field_F8;
     int field_FC;
-    int field_100;
+    FP field_100;
     FP field_104;
     FP field_108;
-    BaseGameObject* field_10C;
+    BaseAliveGameObject* field_10C;
 };
 ALIVE_ASSERT_SIZEOF(Bat, 0x110);
 
