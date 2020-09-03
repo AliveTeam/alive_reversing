@@ -649,6 +649,7 @@ void Slig::CheckFloorGone_467490()
 __int16 Slig::MainMovement_467020()
 {
     NOT_IMPLEMENTED();
+    return 1;
 }
 
 void Slig::ToKnockBack_467300()
