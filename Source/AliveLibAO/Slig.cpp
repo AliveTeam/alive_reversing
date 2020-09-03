@@ -921,7 +921,14 @@ void Slig::State_39_OutToFall_46A9E0()
 
 void Slig::State_40_FallingInitiate_46AA60()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEvent_0, this);
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_FC_current_motion = eSligStates::State_39_OutToFall_46A9E0;
+    }
+
+    State_7_Falling_46A1A0();
 }
 
 void Slig::State_41_LandingSoft_46A390()
