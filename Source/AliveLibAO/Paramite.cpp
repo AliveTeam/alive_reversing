@@ -1301,9 +1301,35 @@ void Paramite::State_8_WalkRunTransition_44C790()
     }
 }
 
+const int sWalkEndVelTable_4BBC98[4] = { 153033, 330008, 439196, 0 };
+
 void Paramite::State_9_WalkEnd_44BDE0()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        field_B4_velx = field_BC_sprite_scale * -FP_FromRaw(sWalkEndVelTable_4BBC98[field_10_anim.field_92_current_frame]);
+    }
+    else
+    {
+        field_B4_velx = field_BC_sprite_scale * FP_FromRaw(sWalkEndVelTable_4BBC98[field_10_anim.field_92_current_frame]);
+    }
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(10), field_B4_velx))
+    {
+        ToKnockBack_44B5B0();
+    }
+    else
+    {
+        MoveOnLine_44B740();
+        Event_Broadcast_417220(kEvent_0, this);
+
+        if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            return;
+        }
+    }
+
+    ToIdle_44B580();
 }
 
 const int sRunBeginVelTable_4BBCF8[4] = { 123139, 141508, 218262, 0 };
