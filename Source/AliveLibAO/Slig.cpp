@@ -646,15 +646,143 @@ void Slig::CheckFloorGone_467490()
     NOT_IMPLEMENTED();
 }
 
-__int16 Slig::MainMovement_467020()
+signed __int16 Slig::PlayerMovement_4667B0()
 {
     NOT_IMPLEMENTED();
+    return 0;
+}
+
+int Slig::Speak_467700(unsigned __int16 /*a2*/)
+{
+    NOT_IMPLEMENTED();
+    return -1;
+}
+
+__int16 Slig::MainMovement_467020()
+{
+    if (sControlledCharacter_50767C == this && field_100_health > FP_FromInteger(0))
+    {
+        return PlayerMovement_4667B0();
+    }
+
+    switch (field_FE_next_state)
+    {
+    case eSligStates::State_5_TurnAroundStanding_469C80:
+
+        field_FC_current_motion = eSligStates::State_5_TurnAroundStanding_469C80;
+        field_FE_next_state = -1;
+        break;
+    case eSligStates::State_2_Walking_469130:
+
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(35), -ScaleToGridSize_41FA30(field_BC_sprite_scale)))
+            {
+                return 0;
+            }
+            field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(9));
+        }
+        else
+        {
+            if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(35), ScaleToGridSize_41FA30(field_BC_sprite_scale)))
+            {
+                return 0;
+            }
+            field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(9));
+        }
+
+        field_FC_current_motion = eSligStates::State_1_StandToWalk_4695D0;
+        field_FE_next_state = -1;
+        break;
+    case eSligStates::State_4_Running_469690:
+
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+        }
+        else
+        {
+            field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+        }
+
+        field_FC_current_motion = eSligStates::State_3_StandToRun_469C00;
+        field_FE_next_state = -1;
+        break;
+    case eSligStates::State_6_Shoot_468820:
+    case eSligStates::State_43_ShootZ_468E30:
+
+        field_12C = 0;
+        field_B4_velx = FP_FromInteger(0);
+        field_B8_vely = FP_FromInteger(0);
+        field_128_timer = gnFrameCount_507670 + 60;
+        field_FC_current_motion = field_FE_next_state;
+        field_FE_next_state = -1;
+        break;
+    default:
+        if (field_FE_next_state < 21 || field_FE_next_state > 32)
+        {
+            if (field_FE_next_state == 13 || field_FE_next_state == 46 || field_FE_next_state == 52)
+            {
+                field_FC_current_motion = field_FE_next_state;
+                field_FE_next_state = -1;
+                break;
+            }
+        }
+        else
+        {
+            field_FC_current_motion = static_cast<short>(Speak_467700(0));
+            if (field_FC_current_motion != -1)
+            {
+                Event_Broadcast_417220(1, this);
+                break;
+            }
+        }
+
+        State_46_ToIdle_46A590();
+        return 0;
+    }
+
     return 1;
 }
 
 void Slig::ToKnockBack_467300()
 {
-    NOT_IMPLEMENTED();
+    Abe_SFX_2_42A220(13u, 0, 0x7FFF, this);
+    if (FP_GetExponent(field_B4_velx))
+    {
+        field_A8_xpos -= field_B4_velx;
+    }
+
+    if (field_F4_pLine)
+    {
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+        }
+        else
+        {
+            field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+        }
+    }
+    else
+    {
+        field_B4_velx = FP_FromInteger(0);
+    }
+
+    if (field_FE_next_state == eSligStates::State_45_Smash_46A990)
+    {
+        field_B4_velx = -field_B4_velx;
+    }
+
+    MapFollowMe_401D30(1);
+
+    if (field_B8_vely < FP_FromInteger(0))
+    {
+        field_B8_vely = FP_FromInteger(0);
+    }
+
+    field_FC_current_motion = eSligStates::State_35_Knockback_46A720;
+    field_128_timer = gnFrameCount_507670 + 10;
 }
 
 void Slig::State_0_StandIdle_467640()
