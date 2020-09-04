@@ -151,37 +151,36 @@ const int sSligFrameTables_4CFA38[] =
 
 static AIFunctionData<Slig::TBrainFn> sSligAITable[]
 {
-    { &Slig::Brain_465EB0, 0x465EB0, "Brain_465EB0" },
-    { &Slig::Brain_465EB0, 0x465EB0, "Brain_465EB0" },
-    { &Slig::Brain_466030, 0x466030, "Brain_466030" },
-    { &Slig::Brain_466190, 0x466190, "Brain_466190" },
-    { &Slig::Brain_4662A0, 0x4662A0, "Brain_4662A0" },
-    { &Slig::Brain_46B250, 0x46B250, "Brain_46B250" },
-    { &Slig::Brain_46B4E0, 0x46B4E0, "Brain_46B4E0" },
-    { &Slig::Brain_46B700, 0x46B700, "Brain_46B700" },
-    { &Slig::Brain_46B780, 0x46B780, "Brain_46B780" },
-    { &Slig::Brain_46C190, 0x46C190, "Brain_46C190" },
-    { &Slig::Brain_46C3A0, 0x46C3A0, "Brain_46C3A0" },
-    { &Slig::Brain_46C5A0, 0x46C5A0, "Brain_46C5A0" },
-    { &Slig::Brain_46C760, 0x46C760, "Brain_46C760" },
-    { &Slig::Brain_46C7C0, 0x46C7C0, "Brain_46C7C0" },
-    { &Slig::Brain_46CA20, 0x46CA20, "Brain_46CA20" },
-    { &Slig::Brain_46CC50, 0x46CC50, "Brain_46CC50" },
-    { &Slig::Brain_46CD60, 0x46CD60, "Brain_46CD60" },
-    { &Slig::Brain_46CF20, 0x46CF20, "Brain_46CF20" },
-    { &Slig::Brain_46CF90, 0x46CF90, "Brain_46CF90" },
-    { &Slig::Brain_46D6E0, 0x46D6E0, "Brain_46D6E0" },
-    { &Slig::Brain_46DC70, 0x46DC70, "Brain_46DC70" },
-    { &Slig::Brain_46DE90, 0x46DE90, "Brain_46DE90" },
-    { &Slig::Brain_46E520, 0x46E520, "Brain_46E520" },
-    { &Slig::Brain_46E800, 0x46E800, "Brain_46E800" },
-    { &Slig::Brain_46EBB0, 0x46EBB0, "Brain_46EBB0" },
-    { &Slig::Brain_46EC40, 0x46EC40, "Brain_46EC40" },
-    { &Slig::Brain_46ECE0, 0x46ECE0, "Brain_46ECE0" },
-    { &Slig::Brain_46EEE0, 0x46EEE0, "Brain_46EEE0" },
-    { &Slig::Brain_46EFD0, 0x46EFD0, "Brain_46EFD0" },
-    { &Slig::Brain_46F260, 0x46F260, "Brain_46F260" },
-    { &Slig::Brain_46F290, 0x46F290, "Brain_46F290" },
+    { &Slig::Brain_SpottedEnemy_465EB0, 0x465EB0, "Brain_SpottedEnemy_0" },
+    { &Slig::Brain_Paused_466030, 0x466030, "Brain_Paused_1" },
+    { &Slig::Brain_EnemyDead_466190, 0x466190, "Brain_EnemyDead_2" },
+    { &Slig::Brain_KilledEnemy_4662A0, 0x4662A0, "Brain_KilledEnemy_3" },
+    { &Slig::Brain_Unknown_46B250, 0x46B250, "Brain_Unknown_4" },
+    { &Slig::Brain_Sleeping_46B4E0, 0x46B4E0, "Brain_Sleeping_5" },
+    { &Slig::Brain_WakingUp_46B700, 0x46B700, "Brain_WakingUp_6" },
+    { &Slig::Brain_Inactive_46B780, 0x46B780, "Brain_Inactive_7" },
+    { &Slig::Brain_Possessed_46C190, 0x46C190, "Brain_Possessed_8" },
+    { &Slig::Brain_Death_46C3A0, 0x46C3A0, "Brain_Death_9" },
+    { &Slig::Brain_DeathDropDeath_46C5A0, 0x46C5A0, "Brain_DeathDropDeath_10" },
+    { &Slig::Brain_ReturnControlToAbeAndDie_46C760, 0x46C760, "Brain_ReturnControlToAbeAndDie_11" },
+    { &Slig::Brain_PanicTurning_46C7C0, 0x46C7C0, "Brain_PanicTurning_12" },
+    { &Slig::Brain_PanicRunning_46CA20, 0x46CA20, "Brain_PanicRunning_13" },
+    { &Slig::Brain_PanicYelling_46CC50, 0x46CC50, "Brain_PanicYelling_14" },
+    { &Slig::Brain_Chasing_46CD60, 0x46CD60, "Brain_Chasing_15" },
+    { &Slig::Brain_StopChasing_46CF20, 0x46CF20, "Brain_StopChasing_16" },
+    { &Slig::Brain_StartChasing_46CF90, 0x46CF90, "Brain_StartChasing_17" },
+    { &Slig::Brain_Idle_46D6E0, 0x46D6E0, "Brain_Idle_18" },
+    { &Slig::Brain_Turning_46DC70, 0x46DC70, "Brain_Turning_19" },
+    { &Slig::Brain_Walking_46DE90, 0x46DE90, "Brain_Walking_20" },
+    { &Slig::Brain_GetAlertedTurn_46E520, 0x46E520, "Brain_GetAlertedTurn_21" },
+    { &Slig::Brain_GetAlerted_46E800, 0x46E800, "Brain_GetAlerted_22" },
+    { &Slig::Brain_StoppingNextToMudokon_46EBB0, 0x46EBB0, "Brain_StoppingNextToMudokon_23" },
+    { &Slig::Brain_BeatingUp_46EC40, 0x46EC40, "Brain_BeatingUp_24" },
+    { &Slig::Brain_Discussion_46ECE0, 0x46ECE0, "Brain_Discussion_25" },
+    { &Slig::Brain_GameEnder_46EEE0, 0x46EEE0, "Brain_GameEnder_26" },
+    { &Slig::Brain_Shooting_46EFD0, 0x46EFD0, "Brain_Shooting_27" },
+    { &Slig::Brain_ZSpottedEnemy_46F260, 0x46F260, "Brain_ZSpottedEnemy_28" },
+    { &Slig::Brain_ZShooting_46F290, 0x46F290, "Brain_ZShooting_29" },
 };
 
 void Slig::Slig_Sfx_46F310(unsigned __int8 /*sfxIdx*/)
@@ -580,7 +579,7 @@ void Slig::Vsub_465C30()
     field_13A = -1;
     field_106_shot = FALSE;
     field_114_timer = gnFrameCount_507670 + 60;
-    SetBrain(&Slig::Brain_46C3A0);
+    SetBrain(&Slig::Brain_Death_46C3A0);
 }
 
 BYTE** Slig::ResBlockForMotion_4654D0(__int16 motion)
@@ -1092,181 +1091,181 @@ void Slig::State_52_Beat_46AA90()
     NOT_IMPLEMENTED();
 }
 
-__int16 Slig::Brain_465EB0()
+__int16 Slig::Brain_SpottedEnemy_465EB0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_466030()
+__int16 Slig::Brain_Paused_466030()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_466190()
+__int16 Slig::Brain_EnemyDead_466190()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_4662A0()
+__int16 Slig::Brain_KilledEnemy_4662A0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_46B250()
+__int16 Slig::Brain_Unknown_46B250()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_46B4E0()
+__int16 Slig::Brain_Sleeping_46B4E0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_46B700()
+__int16 Slig::Brain_WakingUp_46B700()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_46B780()
+__int16 Slig::Brain_Inactive_46B780()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_46C190()
+__int16 Slig::Brain_Possessed_46C190()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_46C3A0()
+__int16 Slig::Brain_Death_46C3A0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_46C5A0()
+__int16 Slig::Brain_DeathDropDeath_46C5A0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_46C760()
+__int16 Slig::Brain_ReturnControlToAbeAndDie_46C760()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_46C7C0()
+__int16 Slig::Brain_PanicTurning_46C7C0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_46CA20()
+__int16 Slig::Brain_PanicRunning_46CA20()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_46CC50()
+__int16 Slig::Brain_PanicYelling_46CC50()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_46CD60()
+__int16 Slig::Brain_Chasing_46CD60()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_46CF20()
+__int16 Slig::Brain_StopChasing_46CF20()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_46CF90()
+__int16 Slig::Brain_StartChasing_46CF90()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_46D6E0()
+__int16 Slig::Brain_Idle_46D6E0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_46DC70()
+__int16 Slig::Brain_Turning_46DC70()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_46DE90()
+__int16 Slig::Brain_Walking_46DE90()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_46E520()
+__int16 Slig::Brain_GetAlertedTurn_46E520()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_46E800()
+__int16 Slig::Brain_GetAlerted_46E800()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_46EBB0()
+__int16 Slig::Brain_StoppingNextToMudokon_46EBB0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_46EC40()
+__int16 Slig::Brain_BeatingUp_46EC40()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_46ECE0()
+__int16 Slig::Brain_Discussion_46ECE0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_46EEE0()
+__int16 Slig::Brain_GameEnder_46EEE0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_46EFD0()
+__int16 Slig::Brain_Shooting_46EFD0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_46F260()
+__int16 Slig::Brain_ZSpottedEnemy_46F260()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::Brain_46F290()
+__int16 Slig::Brain_ZShooting_46F290()
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -1324,7 +1323,7 @@ void Slig::BlowToGibs_4685A0()
     MusicController::sub_443810(MusicController::MusicTypes::eType0, this, 0, 0);
     field_114_timer = gnFrameCount_507670 + 60;
     field_8_update_delay = 40;
-    SetBrain(&Slig::Brain_46C3A0);
+    SetBrain(&Slig::Brain_Death_46C3A0);
     Event_Broadcast_417220(kEvent_16, sActiveHero_507678);
 }
 
