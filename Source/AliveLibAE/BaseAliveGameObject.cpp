@@ -505,7 +505,7 @@ BOOL BaseAliveGameObject::Check_IsOnEndOfLine_408E90(__int16 direction, __int16 
     }
     else
     {
-        xLoc = gridSize * FP_FromInteger(distance);;
+        xLoc = gridSize * FP_FromInteger(distance);
     }
 
     const FP xPosSnapped = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));

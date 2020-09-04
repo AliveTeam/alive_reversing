@@ -1004,7 +1004,7 @@ void BirdPortal::dtor_4980A0()
     BaseGameObject* pTerminator2 = sObjectIds_5C1B70.Find_449CF0(field_70_terminator_id);
     if (pTerminator2)
     {
-        pTerminator2->field_6_flags.Set(BaseGameObject::eDead_Bit3);;
+        pTerminator2->field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     BaseGameObject* pClipper1 = sObjectIds_5C1B70.Find_449CF0(field_74_screen_clipper_id);

@@ -6756,7 +6756,7 @@ void Mudokon::M_Fall_49_472C60()
     }
     else if (field_C4_velx < FP_FromInteger(0))
     {
-        field_C4_velx = (field_CC_sprite_scale * field_134_xVelSlowBy) + field_C4_velx;;
+        field_C4_velx = (field_CC_sprite_scale * field_134_xVelSlowBy) + field_C4_velx;
         if (field_C4_velx > FP_FromInteger(0))
         {
             field_C4_velx = FP_FromInteger(0);

@@ -752,7 +752,7 @@ void LiftPoint::vUpdate_461AE0()
                     }
 
                     pLiftTlv->field_1_unknown = 3;
-                    field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr_4DB7C0(pLiftTlv);;
+                    field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr_4DB7C0(pLiftTlv);
                     pLiftTlv->field_10_id = field_278_lift_point_id;
                     field_280_flags.Set(LiftFlags::eBit2_bMiddleFloor);
                 }

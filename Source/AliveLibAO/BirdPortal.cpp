@@ -767,7 +767,7 @@ void BirdPortal::VUpdate_4523D0()
         if (static_cast<int>(gnFrameCount_507670) <= field_30_timer)
         {
             field_3C_pTerminator1->field_C0_r = (field_3C_pTerminator1->field_C0_r >> 1) + (field_3C_pTerminator1->field_C0_r >> 2);
-            field_3C_pTerminator1->field_C2_g = (field_3C_pTerminator1->field_C2_g >> 2) + (field_3C_pTerminator1->field_C2_g >> 1);;
+            field_3C_pTerminator1->field_C2_g = (field_3C_pTerminator1->field_C2_g >> 2) + (field_3C_pTerminator1->field_C2_g >> 1);
             field_3C_pTerminator1->field_C4_b = (field_3C_pTerminator1->field_C4_b >> 1) + (field_3C_pTerminator1->field_C4_b >> 2);
 
             field_40_pTerminator2->field_C0_r = (field_40_pTerminator2->field_C0_r >> 2) + (field_40_pTerminator2->field_C0_r >> 1);
