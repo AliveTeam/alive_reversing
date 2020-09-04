@@ -146,13 +146,15 @@ public:
 
     EXPORT void sub_469A80();
 
+    EXPORT void SlowOnX_469D50(FP amount);
+
     EXPORT signed __int16 PlayerMovement_4667B0();
 
     EXPORT signed __int16 MainMovement_467020();
 
     EXPORT void Slig_Sfx_46F310(unsigned __int8 sfxIdx);
 
-    EXPORT int Speak_467700(unsigned __int16 a2);
+    EXPORT __int16 Speak_467700(unsigned __int16 a2);
 
     EXPORT BYTE** ResBlockForMotion_4654D0(__int16 motion);
 
