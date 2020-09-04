@@ -756,9 +756,12 @@ signed __int16 Slig::MainMovement_467020()
         field_FE_next_state = -1;
         break;
     default:
-        if (field_FE_next_state < 21 || field_FE_next_state > 32)
+        if (field_FE_next_state < eSligStates::State_21_SpeakHereBoy_467BD0 || field_FE_next_state > eSligStates::State_32_Blurgh_468410)
         {
-            if (field_FE_next_state == 13 || field_FE_next_state == 46 || field_FE_next_state == 52)
+            if (field_FE_next_state == eSligStates::State_13_Reload_4687B0 
+                || field_FE_next_state == eSligStates::State_46_PullLever_46A590 
+                || field_FE_next_state == eSligStates::State_52_Beat_46AA90
+                )
             {
                 field_FC_current_motion = field_FE_next_state;
                 field_FE_next_state = -1;
@@ -840,10 +843,9 @@ void Slig::State_0_StandIdle_467640()
             }
             else if (sInputObject_5009E8.isPressed(0x04 | 0x01))
             {
-                const auto inputHeld = sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_6_held;
-                if (inputHeld & 0xF0)
+                if (sInputObject_5009E8.isHeld(0xF0))
                 {
-                    field_126_input = inputHeld;
+                    field_126_input = sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_6_held;
                     field_FC_current_motion = eSligStates::State_18_GameSpeak_467B10;
                     return;
                 }
@@ -876,7 +878,7 @@ void Slig::State_2_Walking_469130()
         field_B0_path_number,
         field_A8_xpos,
         field_AC_ypos) >= CameraPos::eCamCurrent_0
-        && MusicController::sub_443840(0, 0, 0) <= eSligStates::State_4_Running_469690)
+        && MusicController::sub_443840(0, 0, 0) <= 4)
     {
         MusicController::sub_443810(MusicController::MusicTypes::eType4, this, 0, 0);
     }
@@ -1160,7 +1162,7 @@ void Slig::State_5_TurnAroundStanding_469C80()
         field_B0_path_number,
         field_A8_xpos,
         field_AC_ypos) >= CameraPos::eCamCurrent_0
-        && MusicController::sub_443840(0, 0, 0) <= eSligStates::State_4_Running_469690)
+        && MusicController::sub_443840(0, 0, 0) <= 4)
     {
         MusicController::sub_443810(MusicController::MusicTypes::eType4, this, 0, 0);
     }
