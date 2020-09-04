@@ -8,6 +8,7 @@
 #include "Game.hpp"
 #include "Abe.hpp"
 #include "Sfx.hpp"
+#include "CheatController.hpp"
 
 START_NS_AO
 
@@ -74,22 +75,22 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo)
     int code2 = pTlv->field_1E_code2;
     if (code2)
     {
-        field_120 = 0;
-        while (code2 / dword_4C5058[field_120])
+        field_120_max_idx = 0;
+        while (code2 / dword_4C5058[field_120_max_idx])
         {
-            field_120++;
+            field_120_max_idx++;
         }
-        field_124_code1 = code2 + field_124_code1 * dword_4C5058[field_120];
+        field_124_code1 = code2 + field_124_code1 * dword_4C5058[field_120_max_idx];
     }
 
-    field_120 = 0;
+    field_120_max_idx = 0;
     for (int i = 0; i < 10; i++)
     {
-        if (!(field_124_code1 / dword_4C5058[field_120]))
+        if (!(field_124_code1 / dword_4C5058[field_120_max_idx]))
         {
             break;
         }
-        field_120++;
+        field_120_max_idx++;
     }
 
     field_15E = 0;
@@ -103,12 +104,12 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo)
     field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
     field_14C = FP_FromInteger(1);
 
-    field_130 = 0;
+    field_130_song_matching = 0;
     if (SwitchStates_Get(pTlv->field_20_id))
     {
         if (!SwitchStates_Get(pTlv->field_1A_solve_id))
         {
-            field_130 = 1;
+            field_130_song_matching = 1;
         }
     }
 
@@ -120,7 +121,7 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo)
     field_132_solve_id = pTlv->field_1A_solve_id;
 
     field_15C = 0;
-    field_128 = 0;
+    field_128_idx = 0;
     field_164 = 0;
     field_110_state = 0;
 
@@ -213,12 +214,43 @@ void ChimeLock::VUnPosses_40BC90()
     SFX_Play_43AE60(21u, 70, 400, 0);
 }
 
+// TODO: Index is always >=1 so first entry is redundant ??
+const int dword_4C5054[11] = { 0, 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000 };
+
+__int16 ChimeLock::DoNote_40BB20(__int16 note)
+{
+    if ((field_130_song_matching || sVoiceCheat_507708) && field_124_code1 / dword_4C5054[field_120_max_idx - field_128_idx] % 10 == note)
+    {
+        field_128_idx++;
+        if (field_128_idx >= field_120_max_idx)
+        {
+            return 1;
+        }
+        return 0;
+    }
+
+    if (!field_130_song_matching && !sVoiceCheat_507708 || (field_124_code1 / dword_4C5054[field_120_max_idx]) != note)
+    {
+        field_128_idx = 0;
+        return 0;
+    }
+
+    field_128_idx = 1;
+
+    if (field_120_max_idx > 1)
+    {
+        return 0;
+    }
+
+    return 1;
+}
+
 void ChimeLock::VPossessed_40BC40()
 {
     field_138 &= ~3u;
     field_10A_flags.Set(Flags_10A::e10A_Bit2);
     field_110_state = 2;
-    field_128 = 0;
+    field_128_idx = 0;
     field_12C = gnFrameCount_507670 + 45;
     field_15C = 0;
     field_164 = 0;

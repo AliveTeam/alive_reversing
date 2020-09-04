@@ -43,19 +43,21 @@ public:
 
     EXPORT void VUnPosses_40BC90();
 
+    EXPORT __int16 DoNote_40BB20(__int16 note);
+
     int field_10C_tlvInfo;
     __int16 field_110_state;
     __int16 field_112;
     Bells* field_114_bells;
     Bells* field_118_bells;
     Bells* field_11C_bells;
-    unsigned __int16 field_120;
+    unsigned __int16 field_120_max_idx;
     __int16 field_122;
     int field_124_code1;
-    __int16 field_128;
+    __int16 field_128_idx;
     __int16 field_12A;
     int field_12C;
-    __int16 field_130;
+    __int16 field_130_song_matching;
     __int16 field_132_solve_id;
     __int16 field_134;
     __int16 field_136;
