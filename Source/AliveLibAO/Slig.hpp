@@ -142,6 +142,10 @@ public:
 
     EXPORT void ToKnockBack_467300();
 
+    EXPORT void sub_469900();
+
+    EXPORT void sub_469A80();
+
     EXPORT signed __int16 PlayerMovement_4667B0();
 
     EXPORT signed __int16 MainMovement_467020();
@@ -260,7 +264,7 @@ public:
     __int16 field_120;
     __int16 field_122;
     __int16 field_124;
-    __int16 field_126;
+    __int16 field_126_input;
     int field_128_timer;
     int field_12C;
     __int16 field_130;

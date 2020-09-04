@@ -135,7 +135,7 @@ private:
     GrenadeStates field_120_state;
     __int16 field_122_explode_timer;
     __int16 field_124;
-    __int16 field_126;
+    __int16 field_126_input;
     FP field_128_xpos;
     FP field_12C_ypos;
     __int16 field_130;
