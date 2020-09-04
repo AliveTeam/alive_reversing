@@ -12,7 +12,8 @@
 
 START_NS_AO
 
-const int dword_4C5058[10] = { 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000 };
+// TODO: Index is always >=1 so first entry is redundant ??
+const int dword_4C5054[11] = { 0, 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000 };
 
 ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo)
 {
@@ -76,17 +77,17 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo)
     if (code2)
     {
         field_120_max_idx = 0;
-        while (code2 / dword_4C5058[field_120_max_idx])
+        while (code2 / dword_4C5054[field_120_max_idx + 1])
         {
             field_120_max_idx++;
         }
-        field_124_code1 = code2 + field_124_code1 * dword_4C5058[field_120_max_idx];
+        field_124_code1 = code2 + field_124_code1 * dword_4C5054[field_120_max_idx + 1];
     }
 
     field_120_max_idx = 0;
     for (int i = 0; i < 10; i++)
     {
-        if (!(field_124_code1 / dword_4C5058[field_120_max_idx]))
+        if (!(field_124_code1 / dword_4C5054[field_120_max_idx + 1]))
         {
             break;
         }
@@ -213,9 +214,6 @@ void ChimeLock::VUnPosses_40BC90()
     sActiveHero_507678->SetActiveControlledCharacter_421480();
     SFX_Play_43AE60(21u, 70, 400, 0);
 }
-
-// TODO: Index is always >=1 so first entry is redundant ??
-const int dword_4C5054[11] = { 0, 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000 };
 
 __int16 ChimeLock::DoNote_40BB20(__int16 note)
 {
