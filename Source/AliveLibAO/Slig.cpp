@@ -1016,7 +1016,7 @@ void Slig::State_3_StandToRun_469C00()
         field_FC_current_motion = eSligStates::State_4_Running_469690;
     }
 
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
 
     if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(35), field_B4_velx))
     {
@@ -1041,7 +1041,7 @@ void Slig::State_4_Running_469690()
     }
 
     field_126_input |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_6_held;
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
 
     if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(35), field_B4_velx))
     {
@@ -1220,7 +1220,7 @@ void Slig::State_8_Unknown_4673E0()
 
 void Slig::State_9_SlidingToStand_469DF0()
 {
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
 
     if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(35), field_B4_velx))
     {
@@ -1253,7 +1253,7 @@ void Slig::State_9_SlidingToStand_469DF0()
 
 void Slig::State_10_SlidingTurn_469F10()
 {
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
     if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(35), field_B4_velx))
     {
         ToKnockBack_467300();
@@ -1317,7 +1317,7 @@ void Slig::State_10_SlidingTurn_469F10()
 
 void Slig::State_11_SlidingTurnToWalk_46A120()
 {
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
     CheckFloorGone_467490();
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -1329,7 +1329,7 @@ void Slig::State_11_SlidingTurnToWalk_46A120()
 
 void Slig::State_12_SlidingTurnToRun_46A160()
 {
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
     CheckFloorGone_467490();
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -1548,7 +1548,7 @@ void Slig::State_39_OutToFall_46A9E0()
 
 void Slig::State_40_FallingInitiate_46AA60()
 {
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {

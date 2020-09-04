@@ -281,7 +281,7 @@ void Dove::vUpdate_41FAE0()
             Dove::All_FlyAway_41FA60(0); // something is speaking, leg it
         }
 
-        if (Event_Get_422C00(0))
+        if (Event_Get_422C00(kEventNoise))
         {
             // player getting near
             if (vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(2), sControlledCharacter_5C1B8C))

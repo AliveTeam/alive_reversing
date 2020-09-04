@@ -864,7 +864,7 @@ void Elum::State_3_WalkLoop_412C90()
 {
     field_10E |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
     
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEvent_10, this);
     
     MoveOnLine_412580(0);
@@ -1019,7 +1019,7 @@ void Elum::State_4_Turn_4140F0()
 
 void Elum::State_5_WalkToIdle_4132D0()
 {
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEvent_10, this);
     
     MoveOnLine_412580(0);
@@ -1067,7 +1067,7 @@ void Elum::State_5_WalkToIdle_4132D0()
 
 void Elum::State_6_MidWalkToIdle_4133F0()
 {
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEvent_10, this);
     
     MoveOnLine_412580(0);
@@ -1102,7 +1102,7 @@ void Elum::State_7_Unknown_413200()
 {
     field_10E |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
 
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEvent_10, this);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -1119,7 +1119,7 @@ void Elum::State_8_IdleToWalk_413270()
 {
     field_10E |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
 
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEvent_10, this);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -1142,7 +1142,7 @@ void Elum::State_9_ToYell_415890()
 
 void Elum::State_10_Yell_4158E0()
 {
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
 
     CheckLiftPointGoneAndSetCamera();
 
@@ -1177,7 +1177,7 @@ void Elum::State_12_RunTurn_414520()
 
 void Elum::State_13_RunTurnToWalk_4147C0()
 {
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEvent_10, this);
 
     MoveOnLine_412580(0);
@@ -1208,7 +1208,7 @@ void Elum::State_17_Unknown_413620()
 {
     MoveOnLine_412580(0);
 
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEvent_10, this);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -1310,7 +1310,7 @@ void Elum::State_21_Land_414A20()
 
 void Elum::State_22_RunOffEdge_415810()
 {
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEvent_10, this);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -1330,7 +1330,7 @@ void Elum::State_23_WalkOffEdge_415E90()
 
 void Elum::State_24_JumpToFall_415ED0()
 {
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEvent_10, this);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -1494,7 +1494,7 @@ void Elum::State_37_RunSlideStop_4142E0()
 
 void Elum::State_38_RunTurnToRun_414810()
 {
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEvent_10, this);
     
     MoveOnLine_412580(0);
@@ -1508,7 +1508,7 @@ void Elum::State_38_RunTurnToRun_414810()
 
 void Elum::State_39_IdleToRun_413B00()
 {
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEvent_10, this);
     Event_Broadcast_417220(kEvent_11, this);
 
@@ -1526,7 +1526,7 @@ void Elum::State_40_WalkToRun_4134B0()
 {
     field_10E |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
 
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEvent_10, this);
     Event_Broadcast_417220(kEvent_11, this);
 
@@ -1551,7 +1551,7 @@ void Elum::State_41_MidWalkToRun_413560()
 {
     field_10E |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
 
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEvent_10, this);
     Event_Broadcast_417220(kEvent_11, this);
 
@@ -1667,7 +1667,7 @@ void Elum::ToIdle()
 
 void Elum::State_47_Unknown_415A30()
 {
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
 
     CheckLiftPointGoneAndSetCamera();
 
@@ -1726,7 +1726,7 @@ void Elum::State_49_AbeUnmountingBegin_415D00()
 
 void Elum::State_50_Knockback_415DC0()
 {
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEvent_10, this);
 
     if (!field_F4_pLine)
