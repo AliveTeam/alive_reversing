@@ -1252,7 +1252,66 @@ void Slig::State_9_SlidingToStand_469DF0()
 
 void Slig::State_10_SlidingTurn_469F10()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEvent_0, this);
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(35), field_B4_velx))
+    {
+        ToKnockBack_467300();
+        return;
+    }
+
+    SlowOnX_469D50(FP_FromDouble(2.125));
+
+    if (field_FC_current_motion == eSligStates::State_10_SlidingTurn_469F10 && field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        MapFollowMe_401D30(1);
+
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            if (sControlledCharacter_50767C != this || field_100_health <= FP_FromInteger(0))
+            {
+                if (field_FE_next_state == 4)
+                {
+                    field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+                    field_FC_current_motion = eSligStates::State_12_SlidingTurnToRun_46A160;
+                    return;
+                }
+            }
+            else
+            {
+                if (sInputObject_5009E8.isPressed(sInputKey_Run_4C65A8))
+                {
+                    field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+                    field_FC_current_motion = eSligStates::State_12_SlidingTurnToRun_46A160;
+                    return;
+                }
+            }
+            field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(9));
+            field_FC_current_motion = eSligStates::State_11_SlidingTurnToWalk_46A120;
+        }
+        else
+        {
+            if (sControlledCharacter_50767C != this || field_100_health <= FP_FromInteger(0))
+            {
+                if (field_FE_next_state == 4)
+                {
+                    field_FC_current_motion = eSligStates::State_12_SlidingTurnToRun_46A160;
+                    field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+                    return;
+                }
+            }
+            else
+            {
+                if (sInputObject_5009E8.isPressed(sInputKey_Run_4C65A8))
+                {
+                    field_FC_current_motion = eSligStates::State_12_SlidingTurnToRun_46A160;
+                    field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+                    return;
+                }
+            }
+            field_FC_current_motion = eSligStates::State_11_SlidingTurnToWalk_46A120;
+            field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(9));
+        }
+    }
 }
 
 void Slig::State_11_SlidingTurnToWalk_46A120()
