@@ -144,7 +144,7 @@ public:
 
     EXPORT signed __int16 PlayerMovement_4667B0();
 
-    EXPORT __int16 MainMovement_467020();
+    EXPORT signed __int16 MainMovement_467020();
 
     EXPORT void Slig_Sfx_46F310(unsigned __int8 sfxIdx);
 

@@ -658,7 +658,7 @@ int Slig::Speak_467700(unsigned __int16 /*a2*/)
     return -1;
 }
 
-__int16 Slig::MainMovement_467020()
+signed __int16 Slig::MainMovement_467020()
 {
     if (sControlledCharacter_50767C == this && field_100_health > FP_FromInteger(0))
     {
@@ -787,7 +787,37 @@ void Slig::ToKnockBack_467300()
 
 void Slig::State_0_StandIdle_467640()
 {
-    NOT_IMPLEMENTED();
+    if (!MainMovement_467020())
+    {
+        if (sControlledCharacter_50767C == this && field_100_health > FP_FromInteger(0))
+        {
+            if (Input_IsChanting_4334C0())
+            {
+                if (!(field_254 & 4))
+                {
+                    field_FC_current_motion = eSligStates::State_37_Depossessing_4684D0;
+                    field_128_timer = gnFrameCount_507670 + 30;
+                    SFX_Play_43AD70(21u, 0, 0);
+                    return;
+                }
+            }
+            else if (sInputObject_5009E8.isPressed(0x04 | 0x01))
+            {
+                const auto inputHeld = sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_6_held;
+                if (inputHeld & 0xF0)
+                {
+                    field_126 = inputHeld;
+                    field_FC_current_motion = eSligStates::State_18_GameSpeak_467B10;
+                    return;
+                }
+            }
+        }
+
+        if (static_cast<int>(gnFrameCount_507670) >= field_128_timer)
+        {
+            field_FC_current_motion = eSligStates::State_13_Reload_4687B0;
+        }
+    }
 }
 
 void Slig::State_1_StandToWalk_4695D0()
