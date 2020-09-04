@@ -1177,7 +1177,7 @@ void Slig::State_5_TurnAroundStanding_469C80()
         field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
         field_FC_current_motion = eSligStates::State_0_StandIdle_467640;
         field_126_input = 0;
-        field_128_timer = Math_RandomRange_450F20(0, 60) + gnFrameCount_507670; + 120;
+        field_128_timer = Math_RandomRange_450F20(0, 60) + gnFrameCount_507670 + 120;
         MapFollowMe_401D30(1);
     }
 }
