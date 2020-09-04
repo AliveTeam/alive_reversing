@@ -580,8 +580,16 @@ void Paramite::VUpdate_44A490()
         field_10_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
         field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
 
+       
         const auto oldMotion = field_FC_current_motion;
         field_110_state = (this->*field_10C_fn)();
+
+        static auto oldBrain = field_10C_fn;
+        if (field_10C_fn != oldBrain)
+        {
+            LOG_INFO("Brain changed from " << GetOriginalFn(oldBrain, sParamiteAITable).fnName << " to " << GetOriginalFn(field_10C_fn, sParamiteAITable).fnName);
+        }
+        oldBrain = field_10C_fn;
 
         if (word_5076E0)
         {

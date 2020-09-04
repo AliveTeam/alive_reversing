@@ -364,6 +364,13 @@ void Scrab::VUpdate_45B360()
 
         field_110_brain_ret = (this->*field_10C_fn)();
      
+        static auto oldBrain = field_10C_fn;
+        if (field_10C_fn != oldBrain)
+        {
+            LOG_INFO("Brain changed from " << GetOriginalFn(oldBrain, sScrabAITable).fnName << " to " << GetOriginalFn(field_10C_fn, sScrabAITable).fnName);
+        }
+        oldBrain = field_10C_fn;
+
         if (!word_5076E0)
         {
             DebugOut_495990(
