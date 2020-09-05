@@ -3808,7 +3808,7 @@ void Paramite::M_Falling_11_48B200()
     }
     else if (field_C4_velx < FP_FromInteger(0))
     {
-        field_C4_velx = (field_CC_sprite_scale * field_13C_velx_offset) + field_C4_velx;;
+        field_C4_velx = (field_CC_sprite_scale * field_13C_velx_offset) + field_C4_velx;
         if (field_C4_velx > FP_FromInteger(0))
         {
             field_C4_velx = FP_FromInteger(0);

@@ -289,7 +289,7 @@ void BoomMachine::dtor_445E40()
     BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(field_F8_nozzel_id);
     if (pObj)
     {
-        pObj->field_6_flags.Set(BaseGameObject::eDead_Bit3);;
+        pObj->field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
     Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, -1, 0, 0);
 

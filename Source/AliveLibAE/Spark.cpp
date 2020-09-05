@@ -153,7 +153,7 @@ void Spark::vUpdate_4CBEF0()
                 SparkRes* pSpark = &field_58_pRes[idx];
                 pSpark->field_0_x0 = pSpark->field_14_radius * Math_Sine_496DD0(pSpark->field_10_ang);
                 pSpark->field_4_y0 = pSpark->field_14_radius * Math_Cosine_496CD0(pSpark->field_10_ang);
-                pSpark->field_8_x1 = (pSpark->field_14_radius + pSpark->field_18_len) * Math_Sine_496DD0(pSpark->field_10_ang);;
+                pSpark->field_8_x1 = (pSpark->field_14_radius + pSpark->field_18_len) * Math_Sine_496DD0(pSpark->field_10_ang);
                 pSpark->field_C_y1 = (pSpark->field_14_radius + pSpark->field_18_len) * Math_Cosine_496CD0(pSpark->field_10_ang);
                 pSpark->field_14_radius = pSpark->field_18_len + FP_FromInteger(Math_RandomRange_496AB0(2, 5));
                 pSpark->field_18_len = pSpark->field_18_len + FP_FromInteger(2);

@@ -279,7 +279,7 @@ public:
     FP field_11C;
     int field_120;
     __int16 field_124;
-    __int16 field_126;
+    __int16 field_126_input;
     int field_128;
     int field_12C;
     int field_130;

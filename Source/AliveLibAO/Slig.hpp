@@ -142,9 +142,19 @@ public:
 
     EXPORT void ToKnockBack_467300();
 
-    EXPORT __int16 MainMovement_467020();
+    EXPORT void sub_469900();
+
+    EXPORT void sub_469A80();
+
+    EXPORT void SlowOnX_469D50(FP amount);
+
+    EXPORT signed __int16 PlayerMovement_4667B0();
+
+    EXPORT signed __int16 MainMovement_467020();
 
     EXPORT void Slig_Sfx_46F310(unsigned __int8 sfxIdx);
+
+    EXPORT __int16 Speak_467700(unsigned __int16 a2);
 
     EXPORT BYTE** ResBlockForMotion_4654D0(__int16 motion);
 
@@ -256,7 +266,7 @@ public:
     __int16 field_120;
     __int16 field_122;
     __int16 field_124;
-    __int16 field_126;
+    __int16 field_126_input;
     int field_128_timer;
     int field_12C;
     __int16 field_130;

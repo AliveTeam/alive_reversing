@@ -510,7 +510,7 @@ void Rock::InTheAir_456B60()
                     {
                         field_AC_ypos = hitY;
                         field_B8_vely = (-field_B8_vely / FP_FromInteger(2));
-                        field_B4_velx = (field_B4_velx / FP_FromInteger(2));;
+                        field_B4_velx = (field_B4_velx / FP_FromInteger(2));
                         int vol = 20 * (4 - field_118_vol);
                         if (vol < 40)
                         {

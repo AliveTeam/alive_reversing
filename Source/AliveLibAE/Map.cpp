@@ -1275,7 +1275,7 @@ Camera* Map::Create_Camera_4829E0(__int16 xpos, __int16 ypos, int /*a4*/)
     newCamera->field_30_flags &= -1;
 
     newCamera->field_1A_level = field_0_current_level;
-    newCamera->field_18_path = field_2_current_path;;
+    newCamera->field_18_path = field_2_current_path;
 
     // Calculate hash/resource ID of the camera
     newCamera->field_10_camera_resource_id =

@@ -363,7 +363,7 @@ static void Main_ParseCommandLineArguments()
         {
             PSX_DispEnv_Set_48D900(0);
             PSX_EMU_Set_screen_mode_499910(0);
-            byte_508BFC = 0;;
+            byte_508BFC = 0;
         }
         else if (_strcmpi(pCmdLine, "-vdouble") == 0)
         {
