@@ -75,4 +75,50 @@ void LightEffect::VScreenChanged_4067E0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
+void LightEffect::VUpdate()
+{
+    VUpdate_406610();
+}
+
+void LightEffect::VUpdate_406610()
+{
+    BYTE rgb = 0;
+    if (static_cast<int>(gnFrameCount_507670) <= field_F0_rnd2)
+    {
+        if (static_cast<int>(gnFrameCount_507670) < field_EC_rnd1)
+        {
+            return;
+        }
+
+        const int v6 = field_F0_rnd2 - field_EC_rnd1;
+        if (static_cast<int>(gnFrameCount_507670) == v6 / 2)
+        {
+            field_F4_rnd3 = Math_RandomRange_450F20(96, 128);
+        }
+
+        const FP v9 = (FP_FromInteger(128) * FP_FromInteger(gnFrameCount_507670 - field_EC_rnd1) / FP_FromInteger(v6));
+        const FP v11 = -Math_Cosine_4510A0(FP_GetExponent(v9) & 0xFF);
+
+        int tmp = field_F4_rnd3 + FP_GetExponent(FP_FromInteger(field_F8_rnd4) * v11);
+        if (tmp <= 255)
+        {
+            rgb = tmp & 0xFF;
+        }
+        else
+        {
+            rgb = 255;
+        }
+    }
+    else
+    {
+        field_EC_rnd1 = gnFrameCount_507670 + Math_RandomRange_450F20(2, 8);
+        field_F0_rnd2 = field_EC_rnd1 + Math_RandomRange_450F20(4, 8);
+        field_F8_rnd4 = Math_RandomRange_450F20(150, 180);
+        rgb = 96;
+    }
+    field_C0_r = rgb;
+    field_C2_g = rgb;
+    field_C4_b = rgb;
+}
+
 END_NS_AO
