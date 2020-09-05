@@ -1199,7 +1199,7 @@ const int sHopBeginVelTable_4BC860[4] = { 648095, 662212, 662212, 648095 };
 
 void Scrab::State_6_HopBegin_45F3C0()
 {
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -1242,7 +1242,7 @@ const int sHopMidAirVelTable_4BC870[8] = { 619863, 577515, 531644, 495472, 46500
 
 void Scrab::State_7_HopMidair_45F1A0()
 {
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -1320,7 +1320,7 @@ void Scrab::State_8_Land_45F500()
         Sfx_460B80(4u, 0, 0x7FFF, 1);
     }
 
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -1508,7 +1508,7 @@ void Scrab::State_13_RunJumpBegin_45F5D0()
         SFX_Play_43AE60(0x21u, 50, -800, 0);
     }
 
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -1590,7 +1590,7 @@ const int sRunJumpEndVelTable_4BC8C0[4] = { 274197, 271959, 276436, 287635 };
 
 void Scrab::State_14_RunJumpEnd_45F850()
 {
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {

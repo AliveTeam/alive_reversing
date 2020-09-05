@@ -517,7 +517,7 @@ void Rock::InTheAir_456B60()
                             vol = 40;
                         }
                         SFX_Play_43AD70(31u, vol, 0);
-                        Event_Broadcast_417220(kEvent_0, this);
+                        Event_Broadcast_417220(kEventNoise_0, this);
                         Event_Broadcast_417220(kEvent_10, this);
                         field_118_vol++;
                     }
@@ -555,7 +555,7 @@ void Rock::InTheAir_456B60()
                     vol = 40;
                 }
                 SFX_Play_43AD70(31u, vol, 0);
-                Event_Broadcast_417220(kEvent_0, this);
+                Event_Broadcast_417220(kEventNoise_0, this);
                 Event_Broadcast_417220(kEvent_10, this);
             }
             break;
@@ -574,7 +574,7 @@ void Rock::InTheAir_456B60()
                 }
               
                 SFX_Play_43AD70(31u, vol, 0);
-                Event_Broadcast_417220(kEvent_0, this);
+                Event_Broadcast_417220(kEventNoise_0, this);
                 Event_Broadcast_417220(kEvent_10, this);
             }
             break;

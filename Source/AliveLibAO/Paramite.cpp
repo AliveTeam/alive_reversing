@@ -1048,7 +1048,7 @@ const int sWalkBeginVelTable_4BBC88[4] = { 0, 91888, 591491, 0 };
 
 void Paramite::State_1_WalkBegin_44BCA0()
 {
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -1094,7 +1094,7 @@ const int sWalkVelTable_4BBC50[14] =
 
 void Paramite::State_2_Walking_44B9E0()
 {
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -1252,7 +1252,7 @@ const int dword_4BBCA8[2] = { 147603, 369009 };
 
 void Paramite::State_7_Unknown_44BF10()
 {
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -1284,7 +1284,7 @@ const int sWalkRunTransVelTable_4BBD18[4] = { 353663, 353662, 353664, 0 };
 
 void Paramite::State_8_WalkRunTransition_44C790()
 {
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -1330,7 +1330,7 @@ void Paramite::State_9_WalkEnd_44BDE0()
     else
     {
         MoveOnLine_44B740();
-        Event_Broadcast_417220(kEvent_0, this);
+        Event_Broadcast_417220(kEventNoise_0, this);
 
         if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
@@ -1361,7 +1361,7 @@ void Paramite::State_10_RunBegin_44C4C0()
         field_140 = 1;
     }
 
-    Event_Broadcast_417220(kEvent_0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
 
     if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(10), field_B4_velx))
     {

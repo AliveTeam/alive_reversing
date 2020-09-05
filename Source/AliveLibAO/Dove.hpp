@@ -45,6 +45,10 @@ public:
 
     EXPORT Dove* Vdtor_40F970(unsigned int flags);
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_40F430();
+
     int field_D4[4];
     __int16 field_E4_counter;
     __int16 field_E6;

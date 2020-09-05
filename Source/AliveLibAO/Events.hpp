@@ -8,8 +8,8 @@ class BaseGameObject;
 
 enum Event : __int16
 {
-    kEvent_0 = 0,
-    kEvent_1 = 1,
+    kEventNoise_0 = 0,
+    kEventSpeaking_1 = 1,
 
     kEvent_3 = 3,
     kEventDeathReset_4 = 4,

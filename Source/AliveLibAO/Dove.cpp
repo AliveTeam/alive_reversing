@@ -7,6 +7,10 @@
 #include "Math.hpp"
 #include "Midi.hpp"
 #include "Game.hpp"
+#include "Events.hpp"
+#include "ScreenManager.hpp"
+#include "Sfx.hpp"
+#include "Abe.hpp"
 
 START_NS_AO
 
@@ -14,6 +18,10 @@ ALIVE_VAR(1, 0x4FF94C, short, bTheOneControllingTheMusic_4FF94C, 0);
 
 ALIVE_VAR(1, 0x4FF938, DynamicArrayT<Dove>, gDovesArray_4FF938, {});
 ALIVE_VAR(1, 0x4FF948, BYTE, byte_4FF948, 0);
+ALIVE_VAR(1, 0x4FF950, int, dword_4FF950, 0);
+ALIVE_VAR(1, 0x4C50AC, short, word_4C50AC, 30);
+ALIVE_VAR(1, 0x4C50B0, short, word_4C50B0, -1);
+
 
 static void Dove_static_ctor()
 {
@@ -273,6 +281,166 @@ Dove* Dove::Vdtor_40F970(unsigned int flags)
         ao_delete_free_447540(this);
     }
     return this;
+}
+
+void Dove::VUpdate()
+{
+    VUpdate_40F430();
+}
+
+void Dove::VUpdate_40F430()
+{
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+
+    if (!bTheOneControllingTheMusic_4FF94C)
+    {
+        SND_SEQ_PlaySeq_4775A0(24u, 0, 1);
+        bTheOneControllingTheMusic_4FF94C = 1;
+    }
+
+    switch (field_EE_state)
+    {
+    case State::State_0_OnGround:
+        if (Event_Get_417250(kEventSpeaking_1))
+        {
+            for (int i = 0; i < gDovesArray_4FF938.Size(); i++)
+            {
+                Dove* pDoveIter = gDovesArray_4FF938.ItemAt(i);
+                if (!pDoveIter)
+                {
+                    break;
+                }
+                pDoveIter->FlyAway_40F8F0(0); // something is speaking, leg it
+            }
+
+            bExtraSeqStarted_4FF944 = 0;
+            if (bTheOneControllingTheMusic_4FF94C)
+            {
+                SND_Seq_Stop_477A60(24u);
+                bTheOneControllingTheMusic_4FF94C = 0;
+            }
+        }
+
+        if (FP_GetExponent(FP_Abs(field_A8_xpos - sControlledCharacter_50767C->field_A8_xpos)) < 100)
+        {
+            if (Event_Get_417250(kEventNoise_0))
+            {
+                for (int i = 0; i < gDovesArray_4FF938.Size(); i++)
+                {
+                    Dove* pDoveIter = gDovesArray_4FF938.ItemAt(i);
+                    if (!pDoveIter)
+                    {
+                        break;
+                    }
+                    pDoveIter->FlyAway_40F8F0(0);
+                }
+
+                bExtraSeqStarted_4FF944 = 0;
+                if (bTheOneControllingTheMusic_4FF94C)
+                {
+                    SND_Seq_Stop_477A60(24u);
+                    bTheOneControllingTheMusic_4FF94C = 0;
+                }
+            }
+        }
+        break;
+
+    case State::State_1_FlyAway:
+        field_E4_counter++;
+        if (field_E4_counter == 0)
+        {
+            field_10_anim.Set_Animation_Data_402A40(4988, nullptr);
+            if (!bExtraSeqStarted_4FF944)
+            {
+                bExtraSeqStarted_4FF944 = 16;
+                SFX_Play_43AD70(16u, 0, 0);
+            }
+        }
+
+        if (field_E4_counter > 0)
+        {
+            field_A8_xpos += field_B4_velx;
+            field_AC_ypos += field_B8_vely;
+        }
+
+        field_B8_vely = (field_B8_vely * FP_FromDouble(1.03));
+        field_B4_velx = (field_B4_velx * FP_FromDouble(1.03));
+ 
+        if (field_E4_counter >= 25 - (Math_NextRandom() & 7))
+        {
+            field_E4_counter = (Math_NextRandom() & 7) + field_E4_counter - 25;
+            field_B4_velx = -field_B4_velx;
+        }
+
+        field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_B4_velx >= FP_FromInteger(0));
+        break;
+
+    case State::State_2_Join:
+    {
+        if (static_cast<int>(gnFrameCount_507670) > field_F8_timer)
+        {
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        }
+
+        const FP k4Directed = field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(4) : FP_FromInteger(-4);
+        field_B4_velx = (k4Directed + field_F0_xJoin - field_A8_xpos) / FP_FromInteger(8);
+        field_A8_xpos += field_B4_velx;
+        field_B8_vely = (field_F4_yJoin - field_AC_ypos) / FP_FromInteger(8);
+        field_AC_ypos += field_B8_vely;
+    }
+        return;
+
+    case State::State_3_Circle:
+        field_100_prevX = field_A8_xpos;
+        field_104_prevY = field_AC_ypos;
+
+        field_FC_angle += 4;
+
+        // Spin around this point
+        field_A8_xpos = ((Math_Sine_451110(field_FC_angle) * FP_FromInteger(30)) * field_BC_sprite_scale) + field_F0_xJoin;
+        field_AC_ypos = ((Math_Cosine_4510A0(field_FC_angle) * FP_FromInteger(35)) * field_BC_sprite_scale) + field_F4_yJoin;
+        return;
+
+    case State::State_4_AlmostACircle:
+        if (dword_4FF950 != static_cast<int>(gnFrameCount_507670))
+        {
+            dword_4FF950 = gnFrameCount_507670;
+            word_4C50AC += word_4C50B0;
+
+            if (word_4C50AC == 0)
+            {
+                word_4C50B0 = 1;
+            }
+            else if (word_4C50AC == 30)
+            {
+                word_4C50B0 = -1;
+            }
+        }
+        field_100_prevX = field_A8_xpos;
+        field_FC_angle += 4;
+        field_104_prevY = field_AC_ypos;
+        field_A8_xpos = ((Math_Sine_451110(field_FC_angle) * FP_FromInteger(word_4C50AC)) * field_BC_sprite_scale) + field_F0_xJoin;
+        field_AC_ypos = ((Math_Cosine_4510A0(field_FC_angle) * FP_FromInteger(35)) * field_BC_sprite_scale) + field_F4_yJoin;
+        return;
+
+    default:
+        break;
+    }
+
+    const int v11 = FP_GetExponent(FP_Abs(field_AC_ypos - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y));
+    if (v11 > pScreenManager_4FF7C8->field_16_ypos)
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+
+    const int v12 = FP_GetExponent(FP_Abs(field_A8_xpos - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x));
+    if (v12 > pScreenManager_4FF7C8->field_14_xpos)
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
 }
 
 END_NS_AO
