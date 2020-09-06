@@ -3935,12 +3935,12 @@ __int16 Slig::AI_Turning_19_4BDDD0()
 
 __int16 Slig::AI_StoppingNextToMudokon_20_4BF1E0()
 {
-    if (field_106_current_motion)
+    if (field_106_current_motion != eSligMotions::M_StandIdle_0_4B4EC0)
     {
         return 128;
     }
 
-    BaseAliveGameObject* pBeatTarget = FindBeatTarget_4BD070(81, 1);
+    BaseAliveGameObject* pBeatTarget = FindBeatTarget_4BD070(static_cast<int>(Types::eMudokon2_81), 1);
     if (!pBeatTarget || pBeatTarget->field_10C_health <= FP_FromInteger(0))
     {
         WaitOrWalk_4BE870();

@@ -35,7 +35,7 @@ public:
 
     EXPORT void FlyAway_40F8F0(__int16 a2);
 
-    EXPORT void All_FlyAway_40F390();
+    EXPORT static void All_FlyAway_40F390();
 
     virtual void VRender(int** ppOt) override;
 
