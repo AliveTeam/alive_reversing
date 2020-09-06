@@ -4291,7 +4291,7 @@ __int16 Slig::AI_GetAlerted_23_4BEC40()
 
 __int16 Slig::AI_BeatingUp_24_4BF2B0()
 {
-    if (field_106_current_motion || field_120_timer >= static_cast<int>(sGnFrame_5C1B84))
+    if (field_106_current_motion != eSligMotions::M_StandIdle_0_4B4EC0 || field_120_timer >= static_cast<int>(sGnFrame_5C1B84))
     {
         return 129;
     }
@@ -4302,7 +4302,7 @@ __int16 Slig::AI_BeatingUp_24_4BF2B0()
         return 129;
     }
 
-    if (Math_NextRandom()< 64)
+    if (Math_NextRandom() < 64)
     {
         field_108_next_motion = eSligMotions::M_SpeakBullShit1_25_4B5450;
         return 129;
@@ -6189,9 +6189,9 @@ void Slig::MoveOnLine_4B4C40()
             {
                 if (field_100_pCollisionLine->field_8_type != 32 && field_100_pCollisionLine->field_8_type != 36)
                 {
-                    const auto curMotion = field_106_current_motion;
+                    const auto oldMotion = field_106_current_motion;
                     VOnTrapDoorOpen();
-                    field_106_current_motion = curMotion;
+                    field_106_current_motion = oldMotion;
                 }
             }
             else if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)

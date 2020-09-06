@@ -134,6 +134,22 @@ public:
 
     EXPORT void VRender_465590(int** ppOt);
 
+    virtual void VOnTrapDoorOpen() override;
+
+    EXPORT void VOnTrapDoorOpen_466350();
+
+    virtual void VUnPosses() override;
+
+    EXPORT void VUnPosses_465D80();
+
+    virtual void VPossessed() override;
+
+    EXPORT void VPossessed_465C80();
+
+    virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
+
+    EXPORT void VOn_TLV_Collision_465CF0(Path_TLV* pTlv);
+
     EXPORT void VUpdateAnimData_464D00();
 
     EXPORT void Vsub_465C30();
@@ -348,7 +364,7 @@ public:
     __int16 field_20C_force_alive_state;
     __int16 field_20E_spotted_possessed_slig;
     SligResources field_210_resources;
-    __int16 field_254;
+    __int16 field_254_prevent_depossession;
     __int16 field_256;
     int field_258_next_gamespeak_motion;
 };
