@@ -898,6 +898,25 @@ void Paramite::Sfx_44DBB0(unsigned __int8 /*idx*/)
     NOT_IMPLEMENTED();
 }
 
+void Paramite::SetMusic()
+{
+    if (gMap_507BA8.GetDirection(
+        field_B2_lvl_number,
+        field_B0_path_number,
+        field_A8_xpos,
+        field_AC_ypos) >= CameraPos::eCamCurrent_0)
+    {
+        if (BrainIs(&Paramite::Brain_ChasingAbe_449170))
+        {
+            MusicController::sub_443810(MusicController::MusicTypes::eType12, this, 0, 0);
+        }
+        else
+        {
+            MusicController::sub_443810(MusicController::MusicTypes::eType11, this, 0, 0);
+        }
+    }
+}
+
 void Paramite::ToHop_44B660()
 {
     VOnTrapDoorOpen();
@@ -1204,7 +1223,7 @@ void Paramite::State_2_Walking_44B9E0()
     }
 }
 
-int sRunningTable_4BBCC0[14] =
+const int sRunningTable_4BBCC0[14] =
 {
   338545,
   368618,
@@ -1286,13 +1305,13 @@ void Paramite::State_3_Running_44C070()
 
         if (field_FE_next_state == eParamiteStates::State_6_Hop_44CB20)
         {
-            VOnTrapDoorOpen_44B8C0();
+            VOnTrapDoorOpen();
 
             field_E8_LastLineYPos = field_AC_ypos;
             field_FC_current_motion = eParamiteStates::State_6_Hop_44CB20;
             field_FE_next_state = -1;
-            field_B8_vely = FP_FromDouble(-7.2) * field_BC_sprite_scale;
-            field_AC_ypos = FP_FromDouble(-7.2) * (field_BC_sprite_scale + field_AC_ypos);
+            field_B8_vely = -FP_FromDouble(7.2) * field_BC_sprite_scale;
+            field_AC_ypos += field_B8_vely;
             field_F4_pLine = nullptr;
 
             if (field_142)
@@ -1301,21 +1320,7 @@ void Paramite::State_3_Running_44C070()
                 field_142 = 1;
             }
 
-            if (gMap_507BA8.GetDirection(
-                field_B2_lvl_number,
-                field_B0_path_number,
-                field_A8_xpos,
-                field_AC_ypos) >= CameraPos::eCamCurrent_0)
-            {
-                if (BrainIs(&Paramite::Brain_ChasingAbe_449170))
-                {
-                    MusicController::sub_443810(MusicController::MusicTypes::eType12, this, 0, 0);
-                }
-                else
-                {
-                    MusicController::sub_443810(MusicController::MusicTypes::eType11, this, 0, 0);
-                }
-            }
+            SetMusic();
         }
 
         if (!field_142)
@@ -1324,21 +1329,7 @@ void Paramite::State_3_Running_44C070()
             field_142 = 1;
         }
 
-        if (gMap_507BA8.GetDirection(
-            field_B2_lvl_number,
-            field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos) >= CameraPos::eCamCurrent_0)
-        {
-            if (BrainIs(&Paramite::Brain_ChasingAbe_449170))
-            {
-                MusicController::sub_443810(MusicController::MusicTypes::eType12, this, 0, 0);
-            }
-            else
-            {
-                MusicController::sub_443810(MusicController::MusicTypes::eType11, this, 0, 0);
-            }
-        }
+        SetMusic();
     }
 
     if (field_10_anim.field_92_current_frame == 10)
@@ -1387,40 +1378,12 @@ void Paramite::State_3_Running_44C070()
             field_142 = 1;
         }
 
-        if (gMap_507BA8.GetDirection(
-            field_B2_lvl_number,
-            field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos) >= CameraPos::eCamCurrent_0)
-        {
-            if (BrainIs(&Paramite::Brain_ChasingAbe_449170))
-            {
-                MusicController::sub_443810(MusicController::MusicTypes::eType12, this, 0, 0);
-            }
-            else
-            {
-                MusicController::sub_443810(MusicController::MusicTypes::eType11, this, 0, 0);
-            }
-        }
+        SetMusic();
     }
 
     field_142 = 0;
 
-    if (gMap_507BA8.GetDirection(
-        field_B2_lvl_number,
-        field_B0_path_number,
-        field_A8_xpos,
-        field_AC_ypos) >= CameraPos::eCamCurrent_0)
-    {
-        if (BrainIs(&Paramite::Brain_ChasingAbe_449170))
-        {
-            MusicController::sub_443810(MusicController::MusicTypes::eType12, this, 0, 0);
-        }
-        else
-        {
-            MusicController::sub_443810(MusicController::MusicTypes::eType11, this, 0, 0);
-        }
-    }
+    SetMusic();
 }
 
 void Paramite::State_4_Unknown_44B6C0()
