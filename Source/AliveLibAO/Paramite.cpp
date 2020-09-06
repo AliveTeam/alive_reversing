@@ -797,14 +797,7 @@ void Paramite::ToKnockBack_44B5B0()
 
     if (field_F4_pLine)
     {
-        field_10_anim.field_4_flags.Clear(AnimFlags::eBit6_FlipY);
-        field_10_anim.field_4_flags.Clear(AnimFlags::eBit7_SwapXY);
-
-        field_124 = 0;
-        field_B4_velx = FP_FromInteger(0);
-        field_B8_vely = FP_FromInteger(0);
-        field_FC_current_motion = eParamiteStates::State_0_Idle_44B900;
-        MapFollowMe_401D30(1);
+        ToIdle_44B580();
     }
     else
     {
