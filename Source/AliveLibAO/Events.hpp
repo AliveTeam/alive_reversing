@@ -16,7 +16,7 @@ enum Event : __int16
     kEvent_5 = 5,
     kEventResetting_6 = 6,
     kEvent_7 = 7,
-
+    kEvent_8 = 8,
     kEvent_9 = 9,
     kEvent_10 = 10,
     kEvent_11 = 11,

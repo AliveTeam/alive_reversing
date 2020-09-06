@@ -903,10 +903,81 @@ void Slig::ToPanicTurn()
     SetBrain(&Slig::Brain_PanicTurning_46C7C0);
 }
 
+BOOL CCSTD Slig::RenderLayerIs_46C0A0(BaseAliveGameObject* pThis)
+{
+    return pThis->field_10_anim.field_C_layer == 3 || pThis->field_10_anim.field_C_layer == 22;
+}
+
+__int16 CCSTD Slig::IsAbeEnteringDoor_46BEE0(BaseAliveGameObject* pThis)
+{
+    if ((pThis->field_4_typeId == Types::eAbe_43) &&
+        (pThis->field_FC_current_motion == eAbeStates::State_156_DoorEnter_42D370 &&
+            pThis->field_10_anim.field_92_current_frame > 7) ||
+        (pThis->field_FC_current_motion == eAbeStates::State_157_DoorExit_42D780 ||
+            pThis->field_10_anim.field_92_current_frame < 4))
+    {
+        return 1;
+    }
+    return 0;
+}
+
+__int16 CCSTD Slig::IsWallBetween_46BE60(Slig* pLeft, BaseAliveGameObject* pRight)
+{
+    PathLine* pLine = nullptr;
+    FP hitX = {};
+    FP hitY = {};
+    return sCollisions_DArray_504C6C->RayCast_40C410(
+        pLeft->field_A8_xpos,
+        pLeft->field_AC_ypos - FP_FromInteger(25),
+        pRight->field_A8_xpos,
+        pRight->field_AC_ypos - FP_FromInteger(25),
+        &pLine,
+        &hitX,
+        &hitY,
+        pLeft->field_BC_sprite_scale != FP_FromDouble(0.5) ? 6 : 0x60) == 1;
+}
 
 void CC Slig::Sfx_Slig_GameSpeak_46F560(unsigned __int8 /*effectId*/, int /*defaultVol*/, int /*pitch_min*/, BaseAliveGameObject* /*pObj*/)
 {
     NOT_IMPLEMENTED();
+}
+
+__int16 CCSTD Slig::IsInInvisibleZone_418870(BaseAnimatedWithPhysicsGameObject* pObj)
+{
+    /* TODO: Not used in AE but might be possible to activate in AO
+    if (gAbeInvisibleCheat_5076F8)
+    {
+        return TRUE;
+    }
+    */
+
+    if (Event_Get_417250(kEvent_8))
+    {
+        return FALSE;
+    }
+
+    PSX_RECT rect = {};
+    pObj->VGetBoundingRect_418120(&rect, 1);
+
+    Path_TLV* pTlv = gMap_507BA8.TLV_Get_At_446260(rect.x, rect.y, rect.w, rect.h, TlvTypes::InvisibleZone_58);
+    if (pTlv)
+    {
+        if (rect.x >= pTlv->field_10_top_left.field_0_x &&
+            rect.x <= pTlv->field_14_bottom_right.field_0_x &&
+            rect.y >= pTlv->field_10_top_left.field_2_y)
+        {
+            if (rect.y <= pTlv->field_14_bottom_right.field_2_y &&
+                rect.w >= pTlv->field_10_top_left.field_0_x &&
+                rect.w <= pTlv->field_14_bottom_right.field_0_x &&
+                rect.h >= pTlv->field_10_top_left.field_2_y &&
+                rect.h <= pTlv->field_14_bottom_right.field_2_y)
+            {
+                return TRUE;
+            }
+        }
+    }
+
+    return FALSE;
 }
 
 BOOL Slig::VIs8_465630(short motion)
@@ -2168,8 +2239,55 @@ __int16 Slig::Brain_PanicYelling_46CC50()
 
 __int16 Slig::Brain_Chasing_46CD60()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+        field_B2_lvl_number,
+        field_B0_path_number,
+        field_A8_xpos,
+        field_AC_ypos,
+        0)
+        && VOnSameYLevel(sControlledCharacter_50767C)
+        && VIsFacingMe(sControlledCharacter_50767C)
+        && !IsInInvisibleZone_418870(sControlledCharacter_50767C)
+        && !IsWallBetween_46BE60(this, sControlledCharacter_50767C)
+        && !RenderLayerIs_46C0A0(sControlledCharacter_50767C)
+        && !Event_Get_417250(kEventResetting_6))
+    {
+        field_20C_force_alive_state = 0;
+        ShootTurnTowardsOrKillSound_465DF0();
+        return 118;
+    }
+
+    if (HandleEnemyStopper_46BF30(4))
+    {
+        field_FE_next_state = eSligStates::State_0_StandIdle_467640;
+        SetBrain(&Slig::Brain_Idle_46D6E0);
+        field_114_timer = gnFrameCount_507670 + 1;
+        return 118;
+    }
+
+    if (field_B0_path_number != gMap_507BA8.field_2_current_path
+        || field_B2_lvl_number != gMap_507BA8.field_0_current_level
+        || Event_Get_417250(kEventDeathReset_4)
+        && !gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+            field_B2_lvl_number,
+            field_B0_path_number,
+            field_A8_xpos,
+            field_AC_ypos,
+            0))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+    else if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+        field_B2_lvl_number,
+        field_B0_path_number,
+        field_A8_xpos,
+        field_AC_ypos,
+        0))
+    {
+        SetBrain(&Slig::Brain_StopChasing_46CF20);
+        field_114_timer = gnFrameCount_507670 + field_174_tlv.field_3C_stop_chase_delay;
+    }
+    return 118;
 }
 
 __int16 Slig::Brain_StopChasing_46CF20()
@@ -2301,7 +2419,7 @@ __int16 Slig::Brain_Discussion_46ECE0()
 {
     if (field_FC_current_motion == eSligStates::State_0_StandIdle_467640 && field_114_timer == static_cast<int>(gnFrameCount_507670))
     {
-        field_FE_next_state = field_258_next_gamespeak_motion;
+        field_FE_next_state = static_cast<short>(field_258_next_gamespeak_motion);
     }
 
     if (field_114_timer < static_cast<int>(gnFrameCount_507670) - 5)
@@ -2314,8 +2432,46 @@ __int16 Slig::Brain_Discussion_46ECE0()
 
 __int16 Slig::Brain_GameEnder_46EEE0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+
+    if (field_10E_brain_state == 0)
+    {
+        if (sNumCamSwappers_507668 > 0 || sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
+        {
+            return field_10E_brain_state;
+        }
+        field_FC_current_motion = eSligStates::State_0_StandIdle_467640;
+        field_114_timer = gnFrameCount_507670 + field_130;
+        return 1;
+    }
+    else if (field_10E_brain_state == 1)
+    {
+        if (static_cast<int>(gnFrameCount_507670) < field_114_timer)
+        {
+             return field_10E_brain_state;
+        }
+        field_FE_next_state = eSligStates::State_4_Running_469690;
+        return 2;
+    }
+    else
+    {
+        if (field_10E_brain_state == 2
+            && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                field_B2_lvl_number,
+                field_B0_path_number,
+                field_A8_xpos,
+                field_AC_ypos,
+                0))
+        {
+            return field_10E_brain_state;
+        }
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        field_100_health = FP_FromInteger(0);
+        return field_10E_brain_state;
+    }
 }
 
 __int16 Slig::Brain_Shooting_46EFD0()

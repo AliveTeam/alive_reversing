@@ -193,7 +193,15 @@ public:
 
     void ToPanicTurn();
 
+    EXPORT static BOOL CCSTD RenderLayerIs_46C0A0(BaseAliveGameObject* pThis);
+
+    EXPORT static __int16 CCSTD IsAbeEnteringDoor_46BEE0(BaseAliveGameObject* pThis);
+
+    EXPORT static __int16 CCSTD IsWallBetween_46BE60(Slig* pLeft, BaseAliveGameObject* pRight);
+
     static EXPORT void CC Sfx_Slig_GameSpeak_46F560(unsigned __int8 effectId, int defaultVol, int pitch_min, BaseAliveGameObject* pObj);
+
+     static EXPORT __int16 CCSTD IsInInvisibleZone_418870(BaseAnimatedWithPhysicsGameObject* pObj);
 
     // States
     EXPORT void State_0_StandIdle_467640();
@@ -342,8 +350,7 @@ public:
     SligResources field_210_resources;
     __int16 field_254;
     __int16 field_256;
-    __int16 field_258_next_gamespeak_motion;
-    __int16 field_25A;
+    int field_258_next_gamespeak_motion;
 };
 ALIVE_ASSERT_SIZEOF(Slig, 0x25C);
 
