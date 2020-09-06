@@ -1068,11 +1068,11 @@ void Slig::M_Running_4_4B6000()
                 {
                     if (field_20_animation.field_92_current_frame == 4)
                     {
-                        PlayerControlRunningSlideStopOrTurn1_4B85D0();
+                        PlayerControlRunningSlideStopOrTurnFrame4_4B85D0();
                     }
                     else
                     {
-                        PlayerControlRunningSlideStopOrTurn1_4B8790();
+                        PlayerControlRunningSlideStopOrTurnFrame12_4B8790();
                     }
                 }
                 else
@@ -6460,7 +6460,7 @@ __int16 CC Slig::SligStableDelay_4B99B0()
     return sDelayTable_56075C[sDelayIdx_BAF7EC++];
 }
 
-void Slig::PlayerControlRunningSlideStopOrTurn1_4B8790()
+void Slig::PlayerControlRunningSlideStopOrTurnFrame12_4B8790()
 {
     const FP curVelX = field_C4_velx;
 
@@ -6517,7 +6517,7 @@ void Slig::PlayerControlRunningSlideStopOrTurn1_4B8790()
     }
 }
 
-void Slig::PlayerControlRunningSlideStopOrTurn1_4B85D0()
+void Slig::PlayerControlRunningSlideStopOrTurnFrame4_4B85D0()
 {
     const FP curVelX = field_C4_velx;
     if (curVelX > FP_FromInteger(0) && sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4))

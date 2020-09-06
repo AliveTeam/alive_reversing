@@ -467,9 +467,9 @@ private:
 
     EXPORT static __int16 CC SligStableDelay_4B99B0();
 
-    EXPORT void PlayerControlRunningSlideStopOrTurn1_4B8790();
+    EXPORT void PlayerControlRunningSlideStopOrTurnFrame12_4B8790();
 
-    EXPORT void PlayerControlRunningSlideStopOrTurn1_4B85D0();
+    EXPORT void PlayerControlRunningSlideStopOrTurnFrame4_4B85D0();
 
     EXPORT BaseAliveGameObject* FindBeatTarget_4BD070(int a2, int gridBlocks);
 
