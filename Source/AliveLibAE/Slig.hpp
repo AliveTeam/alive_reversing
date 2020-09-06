@@ -411,7 +411,7 @@ private:
 
     EXPORT void ToStand_4B4A20();
 
-    EXPORT void BlowUp_4B8020();
+    EXPORT void BlowToGibs_4B8020();
 
     EXPORT __int16 MainMovement_4B4720();
 

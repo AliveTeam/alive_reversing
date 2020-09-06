@@ -234,7 +234,7 @@ Slig* Slig::ctor_464D40(Path_Slig* pTlv, int tlvInfo)
     field_144 = 0;
     field_12C = 0;
 
-    field_110 = 45 * ((Math_NextRandom() % 5) - 2);
+    field_110_pitch_min = 45 * ((Math_NextRandom() % 5) - 2);
 
     field_F0_pTlv = pTlv;
     field_174_tlv = *pTlv;
@@ -901,6 +901,12 @@ void Slig::ToPanicTurn()
 {
     field_FE_next_state = eSligStates::State_5_TurnAroundStanding_469C80;
     SetBrain(&Slig::Brain_PanicTurning_46C7C0);
+}
+
+
+void CC Slig::Sfx_Slig_GameSpeak_46F560(unsigned __int8 /*effectId*/, int /*defaultVol*/, int /*pitch_min*/, BaseAliveGameObject* /*pObj*/)
+{
+    NOT_IMPLEMENTED();
 }
 
 BOOL Slig::VIs8_465630(short motion)
@@ -2000,8 +2006,92 @@ __int16 Slig::Brain_Inactive_46B780()
 
 __int16 Slig::Brain_Possessed_46C190()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    switch (field_10E_brain_state)
+    {
+    case 0:
+        Sfx_Slig_GameSpeak_46F560(10u, 0, field_110_pitch_min, this);
+        field_10E_brain_state = 1;
+        field_100_health = FP_FromInteger(0);
+        field_FC_current_motion = eSligStates::State_38_Possess_46B050;
+        field_114_timer = gnFrameCount_507670 + 30;
+        field_158 = gnFrameCount_507670 + 1000;
+        field_154 = gnFrameCount_507670 + 1000;
+        return field_10E_brain_state;
+
+    case 1:
+        if (static_cast<int>(gnFrameCount_507670) >= field_114_timer)
+        {
+            field_10E_brain_state = 2;
+            field_114_timer = gnFrameCount_507670 + 20;
+            field_FC_current_motion = eSligStates::State_0_StandIdle_467640;
+            return field_10E_brain_state;
+        }
+        break;
+
+    case 2:
+        if (static_cast<int>(gnFrameCount_507670) >= field_114_timer)
+        {
+            if (Math_NextRandom() & 1)
+            {
+                field_114_timer = gnFrameCount_507670 + 20;
+                field_FC_current_motion = eSligStates::State_22_SpeakHi_467C90;
+                Sfx_Slig_GameSpeak_46F560(0, 0, field_110_pitch_min, this);
+            }
+            else
+            {
+                field_114_timer = gnFrameCount_507670 + 20;
+                field_FC_current_motion = eSligStates::State_25_SpeakLaugh_467ED0;
+                Sfx_Slig_GameSpeak_46F560(7u, 0, field_110_pitch_min, this);
+            }
+            field_10E_brain_state = 3;
+            return field_10E_brain_state;
+        }
+        break;
+
+    case 3:
+        if (Event_Get_417250(kEventDeathReset_4))
+        {
+            if (sControlledCharacter_50767C != this)
+            {
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            }
+        }
+
+        if (static_cast<int>(gnFrameCount_507670) >= field_114_timer)
+        {
+            field_10E_brain_state = 4;
+            field_100_health = FP_FromInteger(1);
+            return field_10E_brain_state;
+        }
+        break;
+
+    case 4:
+        if (Event_Get_417250(kEventDeathReset_4))
+        {
+            if (sControlledCharacter_50767C != this)
+            {
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            }
+        }
+
+        if (field_100_health <= FP_FromInteger(0))
+        {
+            SetBrain(&Slig::Brain_Death_46C3A0);
+            field_114_timer = gnFrameCount_507670 + 60;
+            return field_10E_brain_state;
+        }
+        break;
+
+    default:
+        return field_10E_brain_state;
+    }
+
+    if (field_106_shot)
+    {
+        BlowToGibs_4685A0();
+    }
+
+    return field_10E_brain_state;
 }
 
 __int16 Slig::Brain_Death_46C3A0()
@@ -2018,8 +2108,20 @@ __int16 Slig::Brain_DeathDropDeath_46C5A0()
 
 __int16 Slig::Brain_ReturnControlToAbeAndDie_46C760()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (sControlledCharacter_50767C == this)
+    {
+        sControlledCharacter_50767C = sActiveHero_507678;
+        MusicController::sub_443810(MusicController::MusicTypes::eType0, this, 0, 0);
+        gMap_507BA8.SetActiveCam_444660(
+            field_14E_level,
+            field_150_path,
+            field_152_camera,
+            CameraSwapEffects::eEffect0_InstantChange,
+            0,
+            0);
+    }
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    return 117;
 }
 
 __int16 Slig::Brain_PanicTurning_46C7C0()

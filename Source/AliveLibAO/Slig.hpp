@@ -193,6 +193,8 @@ public:
 
     void ToPanicTurn();
 
+    static EXPORT void CC Sfx_Slig_GameSpeak_46F560(unsigned __int8 effectId, int defaultVol, int pitch_min, BaseAliveGameObject* pObj);
+
     // States
     EXPORT void State_0_StandIdle_467640();
     EXPORT void State_1_StandToWalk_4695D0();
@@ -290,7 +292,7 @@ public:
 
     __int16 field_10C;
     __int16 field_10E_brain_state;
-    __int16 field_110;
+    __int16 field_110_pitch_min;
     __int16 field_112;
     int field_114_timer;
     int field_118;

@@ -1976,7 +1976,7 @@ void Slig::M_Depossessing_36_4B7F30()
 
         if (static_cast<int>(sGnFrame_5C1B84) > field_12C_timer)
         {
-            BlowUp_4B8020();
+            BlowToGibs_4B8020();
         }
     }
 }
@@ -2614,7 +2614,7 @@ __int16 Slig::AI_Possessed_2_4BBCF0()
     {
         if (field_114_flags.Get(Flags_114::e114_Bit1_bShot))
         {
-            BlowUp_4B8020();
+            BlowToGibs_4B8020();
         }
     }
 
@@ -5372,7 +5372,7 @@ void Slig::ToStand_4B4A20()
     MapFollowMe_408D10(TRUE);
 }
 
-void Slig::BlowUp_4B8020()
+void Slig::BlowToGibs_4B8020()
 {
     auto pGibs = ae_new<Gibs>();
     if (pGibs)
