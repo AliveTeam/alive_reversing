@@ -183,6 +183,8 @@ public:
 
     EXPORT __int16 FindBeatTarget_46D0E0(int typeToFind, int gridBlocks);
 
+    EXPORT __int16 HandleEnemyStopper_46BF30(int gridBlocks);
+
     // States
     EXPORT void State_0_StandIdle_467640();
     EXPORT void State_1_StandToWalk_4695D0();
