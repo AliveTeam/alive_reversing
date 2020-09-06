@@ -120,20 +120,20 @@ public:
     EXPORT void ToHop_44B660();
 
     // Brains
-    EXPORT __int16 Brain_447A10();
+    EXPORT __int16 Brain_Patrol_447A10();
 
-    EXPORT __int16 Brain_448D00();
+    EXPORT __int16 Brain_SurpriseWeb_448D00();
 
-    EXPORT __int16 Brain_44DD70();
+    EXPORT __int16 Brain_Struggling_44DD70();
 
-    EXPORT __int16 Brain_448BF0();
+    EXPORT __int16 Brain_Death_448BF0();
  
-    EXPORT __int16 Brain_449170();
+    EXPORT __int16 Brain_ChasingAbe_449170();
 
-    EXPORT __int16 Brain_449CD0();
+    EXPORT __int16 Brain_SpottedMeat_449CD0();
 
 
-    using TParamiteBrain = decltype(&Paramite::Brain_447A10);
+    using TParamiteBrain = decltype(&Paramite::Brain_Patrol_447A10);
 
     void SetBrain(TParamiteBrain fn);
 
