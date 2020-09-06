@@ -1068,11 +1068,11 @@ void Slig::M_Running_4_4B6000()
                 {
                     if (field_20_animation.field_92_current_frame == 4)
                     {
-                        PlayerControlRunningSlideStopOrTurn1_4B85D0();
+                        PlayerControlRunningSlideStopOrTurnFrame4_4B85D0();
                     }
                     else
                     {
-                        PlayerControlRunningSlideStopOrTurn1_4B8790();
+                        PlayerControlRunningSlideStopOrTurnFrame12_4B8790();
                     }
                 }
                 else
@@ -1976,7 +1976,7 @@ void Slig::M_Depossessing_36_4B7F30()
 
         if (static_cast<int>(sGnFrame_5C1B84) > field_12C_timer)
         {
-            BlowUp_4B8020();
+            BlowToGibs_4B8020();
         }
     }
 }
@@ -2614,7 +2614,7 @@ __int16 Slig::AI_Possessed_2_4BBCF0()
     {
         if (field_114_flags.Get(Flags_114::e114_Bit1_bShot))
         {
-            BlowUp_4B8020();
+            BlowToGibs_4B8020();
         }
     }
 
@@ -4291,7 +4291,7 @@ __int16 Slig::AI_GetAlerted_23_4BEC40()
 
 __int16 Slig::AI_BeatingUp_24_4BF2B0()
 {
-    if (field_106_current_motion || field_120_timer >= static_cast<int>(sGnFrame_5C1B84))
+    if (field_106_current_motion != eSligMotions::M_StandIdle_0_4B4EC0 || field_120_timer >= static_cast<int>(sGnFrame_5C1B84))
     {
         return 129;
     }
@@ -4302,7 +4302,7 @@ __int16 Slig::AI_BeatingUp_24_4BF2B0()
         return 129;
     }
 
-    if (Math_NextRandom()< 64)
+    if (Math_NextRandom() < 64)
     {
         field_108_next_motion = eSligMotions::M_SpeakBullShit1_25_4B5450;
         return 129;
@@ -5372,7 +5372,7 @@ void Slig::ToStand_4B4A20()
     MapFollowMe_408D10(TRUE);
 }
 
-void Slig::BlowUp_4B8020()
+void Slig::BlowToGibs_4B8020()
 {
     auto pGibs = ae_new<Gibs>();
     if (pGibs)
@@ -6189,9 +6189,9 @@ void Slig::MoveOnLine_4B4C40()
             {
                 if (field_100_pCollisionLine->field_8_type != 32 && field_100_pCollisionLine->field_8_type != 36)
                 {
-                    const auto curMotion = field_106_current_motion;
+                    const auto oldMotion = field_106_current_motion;
                     VOnTrapDoorOpen();
-                    field_106_current_motion = curMotion;
+                    field_106_current_motion = oldMotion;
                 }
             }
             else if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
@@ -6460,7 +6460,7 @@ __int16 CC Slig::SligStableDelay_4B99B0()
     return sDelayTable_56075C[sDelayIdx_BAF7EC++];
 }
 
-void Slig::PlayerControlRunningSlideStopOrTurn1_4B8790()
+void Slig::PlayerControlRunningSlideStopOrTurnFrame12_4B8790()
 {
     const FP curVelX = field_C4_velx;
 
@@ -6517,7 +6517,7 @@ void Slig::PlayerControlRunningSlideStopOrTurn1_4B8790()
     }
 }
 
-void Slig::PlayerControlRunningSlideStopOrTurn1_4B85D0()
+void Slig::PlayerControlRunningSlideStopOrTurnFrame4_4B85D0()
 {
     const FP curVelX = field_C4_velx;
     if (curVelX > FP_FromInteger(0) && sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4))

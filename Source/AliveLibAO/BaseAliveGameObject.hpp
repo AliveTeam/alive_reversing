@@ -26,7 +26,7 @@ enum class CameraPos : __int16;
 enum Flags_10A
 {
     e10A_Bit1_Can_Be_Possessed = 0x1,
-    e10A_Bit2 = 0x2,
+    e10A_Bit2_bPossesed = 0x2,
     e10A_Bit3 = 0x4,
     e10A_Bit4_SetOffExplosives = 0x8,
     e10A_Bit5 = 0x10,

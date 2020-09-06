@@ -134,17 +134,33 @@ public:
 
     EXPORT void VRender_465590(int** ppOt);
 
+    virtual void VOnTrapDoorOpen() override;
+
+    EXPORT void VOnTrapDoorOpen_466350();
+
+    virtual void VUnPosses() override;
+
+    EXPORT void VUnPosses_465D80();
+
+    virtual void VPossessed() override;
+
+    EXPORT void VPossessed_465C80();
+
+    virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
+
+    EXPORT void VOn_TLV_Collision_465CF0(Path_TLV* pTlv);
+
     EXPORT void VUpdateAnimData_464D00();
 
     EXPORT void Vsub_465C30();
 
-    EXPORT void CheckFloorGone_467490();
+    EXPORT void MoveOnLine_467490();
 
     EXPORT void ToKnockBack_467300();
 
-    EXPORT void sub_469900();
+    EXPORT void PlayerControlRunningSlideStopOrTurnFrame4_469900();
 
-    EXPORT void sub_469A80();
+    EXPORT void PlayerControlRunningSlideStopOrTurnFrame12_469A80();
 
     EXPORT void SlowOnX_469D50(FP amount);
 
@@ -152,7 +168,7 @@ public:
 
     EXPORT signed __int16 MainMovement_467020();
 
-    EXPORT void Slig_Sfx_46F310(unsigned __int8 sfxIdx);
+    EXPORT void Slig_SoundEffect_46F310(unsigned __int8 sfxIdx);
 
     EXPORT __int16 Speak_467700(unsigned __int16 a2);
 
@@ -181,7 +197,27 @@ public:
 
     EXPORT void ToChase_46D080();
 
+    EXPORT void ToKilledAbe_4662E0();
+
     EXPORT __int16 FindBeatTarget_46D0E0(int typeToFind, int gridBlocks);
+
+    EXPORT __int16 HandleEnemyStopper_46BF30(int gridBlocks);
+
+    EXPORT void ShootTurnTowardsOrKillSound_465DF0();
+
+    EXPORT void TurnOrWalk_46D5B0(int a2);
+
+    void ToPanicTurn();
+
+    EXPORT static BOOL CCSTD RenderLayerIs_46C0A0(BaseAliveGameObject* pThis);
+
+    EXPORT static __int16 CCSTD IsAbeEnteringDoor_46BEE0(BaseAliveGameObject* pThis);
+
+    EXPORT static __int16 CCSTD IsWallBetween_46BE60(Slig* pLeft, BaseAliveGameObject* pRight);
+
+    static EXPORT void CC Sfx_Slig_GameSpeak_46F560(unsigned __int8 effectId, int defaultVol, int pitch_min, BaseAliveGameObject* pObj);
+
+     static EXPORT __int16 CCSTD IsInInvisibleZone_418870(BaseAnimatedWithPhysicsGameObject* pObj);
 
     // States
     EXPORT void State_0_StandIdle_467640();
@@ -280,13 +316,13 @@ public:
 
     __int16 field_10C;
     __int16 field_10E_brain_state;
-    __int16 field_110;
+    __int16 field_110_pitch_min;
     __int16 field_112;
     int field_114_timer;
     int field_118;
     __int16 field_11C;
     __int16 field_11E;
-    __int16 field_120;
+    __int16 field_120_checked_if_off_screen;
     __int16 field_122;
     __int16 field_124;
     __int16 field_126_input;
@@ -326,12 +362,11 @@ public:
     int field_204;
     int field_208;
     __int16 field_20C_force_alive_state;
-    __int16 field_20E;
+    __int16 field_20E_spotted_possessed_slig;
     SligResources field_210_resources;
-    __int16 field_254;
+    __int16 field_254_prevent_depossession;
     __int16 field_256;
-    __int16 field_258_next_gamespeak_motion;
-    __int16 field_25A;
+    int field_258_next_gamespeak_motion;
 };
 ALIVE_ASSERT_SIZEOF(Slig, 0x25C);
 
