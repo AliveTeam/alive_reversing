@@ -22,6 +22,7 @@
 #include "CameraSwapper.hpp"
 #include "PlatformBase.hpp"
 #include "LiftPoint.hpp"
+#include <Particle.hpp>
 
 void Paramite_ForceLink() {}
 
@@ -998,8 +999,27 @@ __int16 Paramite::Brain_Struggling_44DD70()
 
 __int16 Paramite::Brain_Death_448BF0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (field_114 <= static_cast<int>(gnFrameCount_507670) || field_114 >= static_cast<int>(gnFrameCount_507670) + 80)
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+    else
+    {
+        field_BC_sprite_scale -= FP_FromDouble(0.008);
+        field_C0_r -= 2;
+        field_C2_g -= 2;
+        field_C4_b -= 2;
+        if (static_cast<int>(gnFrameCount_507670) < field_114 - 24 && !(static_cast<int>(gnFrameCount_507670) % 5))
+        {
+            New_Particles_419A80(
+                (FP_FromInteger(Math_RandomRange_450F20(-24, 24)) * field_BC_sprite_scale) + field_A8_xpos,
+                field_AC_ypos - FP_FromInteger(6),
+                field_BC_sprite_scale / FP_FromInteger(2),
+                2, 0);
+            SFX_Play_43AE60(0x60u, 25, FP_GetExponent(FP_FromInteger(2200) * field_BC_sprite_scale), 0);
+        }
+    }
+    return 100;
 }
 
 __int16 Paramite::Brain_ChasingAbe_449170()
