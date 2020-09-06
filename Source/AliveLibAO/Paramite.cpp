@@ -1052,7 +1052,7 @@ void Paramite::State_0_Idle_44B900()
         }
         else
         {
-            MusicController::sub_443810(MusicController::MusicTypes::eType12, this, 0, 0);
+            MusicController::sub_443810(MusicController::MusicTypes::eType11, this, 0, 0);
         }
     }
 }
@@ -1307,7 +1307,7 @@ void Paramite::State_3_Running_44C070()
                 field_A8_xpos,
                 field_AC_ypos) >= CameraPos::eCamCurrent_0)
             {
-                if (field_10C_fn == &Paramite::Brain_ChasingAbe_449170)
+                if (BrainIs(&Paramite::Brain_ChasingAbe_449170))
                 {
                     MusicController::sub_443810(MusicController::MusicTypes::eType12, this, 0, 0);
                 }
@@ -1330,7 +1330,7 @@ void Paramite::State_3_Running_44C070()
             field_A8_xpos,
             field_AC_ypos) >= CameraPos::eCamCurrent_0)
         {
-            if (field_10C_fn == &Paramite::Brain_ChasingAbe_449170)
+            if (BrainIs(&Paramite::Brain_ChasingAbe_449170))
             {
                 MusicController::sub_443810(MusicController::MusicTypes::eType12, this, 0, 0);
             }
@@ -1378,13 +1378,7 @@ void Paramite::State_3_Running_44C070()
 
         if (field_FE_next_state == eParamiteStates::State_6_Hop_44CB20)
         {
-            VOnTrapDoorOpen_44B8C0();
-            field_E8_LastLineYPos = field_AC_ypos;
-            field_FC_current_motion = eParamiteStates::State_6_Hop_44CB20;
-            field_FE_next_state = -1;
-            field_B8_vely = (FP_FromDouble(-7.2) * field_BC_sprite_scale);
-            field_AC_ypos = (FP_FromDouble(-7.2) * field_BC_sprite_scale) + field_AC_ypos;
-            field_F4_pLine = nullptr;
+            ToHop_44B660();
         }
 
         if (!field_142)
@@ -1399,7 +1393,7 @@ void Paramite::State_3_Running_44C070()
             field_A8_xpos,
             field_AC_ypos) >= CameraPos::eCamCurrent_0)
         {
-            if (field_10C_fn == &Paramite::Brain_ChasingAbe_449170)
+            if (BrainIs(&Paramite::Brain_ChasingAbe_449170))
             {
                 MusicController::sub_443810(MusicController::MusicTypes::eType12, this, 0, 0);
             }
@@ -1418,7 +1412,7 @@ void Paramite::State_3_Running_44C070()
         field_A8_xpos,
         field_AC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        if (field_10C_fn == &Paramite::Brain_ChasingAbe_449170)
+        if (BrainIs(&Paramite::Brain_ChasingAbe_449170))
         {
             MusicController::sub_443810(MusicController::MusicTypes::eType12, this, 0, 0);
         }
