@@ -3,6 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
+#include "Abe.hpp"
 
 void Scrab_ForceLink();
 
@@ -90,21 +91,23 @@ public:
 
     virtual void VScreenChanged() override;
 
+    EXPORT __int16 CanSeeAbe_45C100(Abe* pObj);
+
     EXPORT void VScreenChanged_45C290();
 
     EXPORT void ToStand_45E310();
 
-    EXPORT void VUpdateResBlock_45B330();
+    EXPORT void vUpdateAnim_45B330();
 
     EXPORT BYTE** ResBlockForMotion_45BB30(__int16 motion);
 
-    EXPORT void CheckForPlatforms_45E580();
+    EXPORT void PlatformCollide_45E580();
 
     virtual void VOnTrapDoorOpen() override;
 
     EXPORT void VOnTrapDoorOpen_45E5E0();
 
-    EXPORT __int16 sub_45DFB0();
+    EXPORT __int16 ToNextMotion_45DFB0();
 
     void ToStand();
 
