@@ -160,6 +160,29 @@ public:
 
     EXPORT BOOL VIs8_465630(short motion);
 
+    EXPORT void ToShoot_46F1D0();
+    EXPORT void ToZShoot_46F200();
+
+    EXPORT void ShouldStilBeAlive_46C0D0();
+
+    EXPORT void ToAbeDead_466270();
+
+    EXPORT void WaitOrWalk_46E440();
+
+    EXPORT int IsFacingEffectiveLeft_46BD70(Slig* pSlig);
+
+    EXPORT void PauseALittle_46DBD0();
+
+    EXPORT void ToTurn_46DE70();
+
+    EXPORT void ToPanicRunning_46CC20();
+
+    EXPORT void ToPanic_46CD40();
+
+    EXPORT void ToChase_46D080();
+
+    EXPORT __int16 FindBeatTarget_46D0E0(int typeToFind, int gridBlocks);
+
     // States
     EXPORT void State_0_StandIdle_467640();
     EXPORT void State_1_StandToWalk_4695D0();
@@ -274,8 +297,7 @@ public:
     int field_134_tlvInfo;
     __int16 field_138_res_idx;
     __int16 field_13A;
-    int field_13C;
-    int field_140;
+    PSX_RECT field_13C_zone_rect;
     __int16 field_144;
     __int16 field_146;
     __int16 field_148;
@@ -294,28 +316,22 @@ public:
     __int16 field_170;
     __int16 field_172;
     Path_Slig field_174_tlv;
-    int field_1CC;
-    int field_1D0;
-    int field_1D4;
-    int field_1D8;
-    int field_1DC;
-    int field_1E0;
-    int field_1E4;
-    int field_1E8;
-    int field_1EC;
-    int field_1F0;
-    int field_1F4;
+    PSX_Point field_1CC_points[10];
+    __int16 field_1F4_points_count;
+    __int16 field_1F6;
     TBrainFn field_1F8_fn;
     int field_1FC;
-    int field_200;
+    __int16 field_200_num_times_to_shoot;
+    __int16 field_202; // pad ?
     int field_204;
     int field_208;
-    __int16 field_20C;
+    __int16 field_20C_force_alive_state;
     __int16 field_20E;
     SligResources field_210_resources;
     __int16 field_254;
     __int16 field_256;
-    int field_258;
+    __int16 field_258_next_gamespeak_motion;
+    __int16 field_25A;
 };
 ALIVE_ASSERT_SIZEOF(Slig, 0x25C);
 

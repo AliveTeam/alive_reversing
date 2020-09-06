@@ -28,4 +28,6 @@ EXPORT void CC New_Particle_4198E0(FP xpos, FP ypos, FP scale, __int16 layer);
 
 EXPORT void CC New_Particle_4199A0(FP xpos, FP ypos, FP scale, __int16 layer);
 
+EXPORT void CC New_Particle_419810(FP xpos, FP ypos, FP scale);
+
 END_NS_AO
