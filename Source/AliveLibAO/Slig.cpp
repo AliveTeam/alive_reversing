@@ -1676,7 +1676,151 @@ void Slig::State_5_TurnAroundStanding_469C80()
 
 void Slig::State_6_Shoot_468820()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        if (sControlledCharacter_50767C == this && field_100_health > FP_FromInteger(0))
+        {
+            if (sInputObject_5009E8.isPressed(sInputKey_ThrowItem_4C65B4))
+            {
+                const FP k35Scaled = field_BC_sprite_scale * FP_FromInteger(35);
+                const FP kGridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
+                const FP k8 = FP_FromInteger(8);
+
+                // Recoil right
+                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && sInputObject_5009E8.isPressed(sInputKey_Right_4C6590))
+                {
+                    PathLine* pLine = nullptr;
+                    FP hitX = {};
+                    FP hitY = {};
+                    if (sCollisions_DArray_504C6C->RayCast_40C410(
+                        field_A8_xpos,
+                        field_AC_ypos,
+                        field_A8_xpos + (k8 * (kGridSize / k8)),
+                        field_AC_ypos,
+                        &pLine,
+                        &hitX,
+                        &hitY,
+                        field_BC_sprite_scale != FP_FromDouble(0.5) ? 6 : 0x60) ||
+                        sCollisions_DArray_504C6C->RayCast_40C410(
+                            field_A8_xpos,
+                            field_AC_ypos - k35Scaled,
+                            field_A8_xpos + (k8 * (kGridSize / k8)),
+                            field_AC_ypos - k35Scaled,
+                            &pLine,
+                            &hitX,
+                            &hitY,
+                            field_BC_sprite_scale != FP_FromDouble(0.5) ? 6 : 0x60))
+                    {
+                        return;
+                    }
+                    field_B4_velx = (kGridSize / k8);
+                    field_FC_current_motion = eSligStates::State_20_Recoil_468D30;
+                    return;
+                }
+
+                // Recoil left
+                if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && sInputObject_5009E8.isPressed(sInputKey_Left_4C6594))
+                {
+                    PathLine* pLine = nullptr;
+                    FP hitX = {};
+                    FP hitY = {};
+                    if (sCollisions_DArray_504C6C->RayCast_40C410(
+                        field_A8_xpos,
+                        field_AC_ypos,
+                        field_A8_xpos - (k8 * (kGridSize / k8)),
+                        field_AC_ypos,
+                        &pLine,
+                        &hitX,
+                        &hitY,
+                        field_BC_sprite_scale != FP_FromDouble(0.5) ? 6 : 0x60) ||
+                        sCollisions_DArray_504C6C->RayCast_40C410(
+                            field_A8_xpos,
+                            field_AC_ypos - k35Scaled,
+                            field_A8_xpos - (k8 * (kGridSize / k8)),
+                            field_AC_ypos - k35Scaled,
+                            &pLine,
+                            &hitX,
+                            &hitY,
+                            field_BC_sprite_scale != FP_FromDouble(0.5) ? 6 : 0x60))
+                    {
+                        return;
+                    }
+                    field_B4_velx = -(kGridSize / k8);
+
+                    field_FC_current_motion = eSligStates::State_20_Recoil_468D30;
+                    return;
+                }
+
+                // General recoil
+                // TODO: @ LABEL_27 is there a missing condition here, AE is checking
+                // for the down key?
+                if (field_128_timer > static_cast<int>(gnFrameCount_507670))
+                {
+                    return;
+                }
+
+                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    field_B4_velx = (kGridSize / k8);
+                }
+                else
+                {
+                    field_B4_velx = -(kGridSize / k8);
+                }
+
+                PathLine* pLine = nullptr;
+                FP hitX = {};
+                FP hitY = {};
+                if (sCollisions_DArray_504C6C->RayCast_40C410(
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    field_A8_xpos + (k8 * field_B4_velx),
+                    field_AC_ypos,
+                    &pLine,
+                    &hitX,
+                    &hitY,
+                    field_BC_sprite_scale != FP_FromDouble(0.5) ? 6 : 0x60) ||
+                    sCollisions_DArray_504C6C->RayCast_40C410(
+                        field_A8_xpos,
+                        field_AC_ypos - k35Scaled,
+                        field_A8_xpos + (k8 * field_B4_velx),
+                        field_AC_ypos - k35Scaled,
+                        &pLine,
+                        &hitX,
+                        &hitY,
+                        field_BC_sprite_scale != FP_FromDouble(0.5) ? 6 : 0x60))
+                {
+                    field_B4_velx = FP_FromInteger(0);
+                }
+                else
+                {
+                    field_FC_current_motion = eSligStates::State_20_Recoil_468D30;
+                }
+                return;
+            }
+            else
+            {
+                SND_SEQ_PlaySeq_4775A0(10u, 1, 1);
+                field_FC_current_motion = eSligStates::State_14_ShootToStand_468810;
+                return;
+            }
+        }
+
+        if (field_FE_next_state == eSligStates::State_0_StandIdle_467640)
+        {
+            SND_SEQ_PlaySeq_4775A0(10u, 1, 1);
+            field_FC_current_motion = eSligStates::State_14_ShootToStand_468810;
+            field_FE_next_state = -1;
+            return;
+        }
+
+        if (field_FE_next_state != -1 && field_FE_next_state != eSligStates::State_6_Shoot_468820)
+        {
+            SND_SEQ_PlaySeq_4775A0(10u, 1, 1);
+            field_FC_current_motion = eSligStates::State_14_ShootToStand_468810;
+            return;
+        }
+    }
 }
 
 void Slig::State_7_Falling_46A1A0()
