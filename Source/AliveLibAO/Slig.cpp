@@ -2657,7 +2657,21 @@ void Slig::State_41_LandingSoft_46A390()
 
 void Slig::State_42_LandingFatal_46AFE0()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_92_current_frame == 0)
+    {
+        SND_SEQ_Play_477760(10u, 1, 65, 65);
+        SFX_Play_43AD70(78u, 80);
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        if (static_cast<int>(gnFrameCount_507670) >= field_128_timer && !BrainIs(&Slig::Brain_Death_46C3A0))
+        {
+            field_100_health = FP_FromInteger(0);
+            field_114_timer = gnFrameCount_507670 + 60;
+            SetBrain(&Slig::Brain_Death_46C3A0);
+        }
+    }
 }
 
 void Slig::State_43_ShootZ_468E30()
