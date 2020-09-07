@@ -1345,7 +1345,7 @@ void Paramite::State_3_Running_44C070()
             field_FE_next_state = -1;
         }
 
-        if (!field_FE_next_state
+        if (field_FE_next_state == eParamiteStates::State_0_Idle_44B900
             || field_FE_next_state == eParamiteStates::State_5_Turn_44C8E0
             || field_FE_next_state == eParamiteStates::State_23_Eating_44B970
             || field_FE_next_state == eParamiteStates::State_25_Death_44DB90
