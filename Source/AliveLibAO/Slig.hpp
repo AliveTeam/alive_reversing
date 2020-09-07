@@ -219,6 +219,9 @@ public:
 
      static EXPORT __int16 CCSTD IsInInvisibleZone_418870(BaseAnimatedWithPhysicsGameObject* pObj);
 
+     void ToStand();
+
+
     // States
     EXPORT void State_0_StandIdle_467640();
     EXPORT void State_1_StandToWalk_4695D0();
@@ -327,7 +330,7 @@ public:
     __int16 field_124;
     __int16 field_126_input;
     int field_128_timer;
-    int field_12C;
+    FP field_12C_falling_velx_scale_factor;
     __int16 field_130;
     __int16 field_132;
     int field_134_tlvInfo;
