@@ -1272,7 +1272,7 @@ void Paramite::State_3_Running_44C070()
 
     if (field_10_anim.field_92_current_frame == 3)
     {
-        SFX_Play_43AE60(0x21u, 45, -600, 0);
+        SFX_Play_43AE60(33u, 45, -600, 0);
         if (field_FE_next_state == eParamiteStates::State_2_Walking_44B9E0)
         {
             field_FC_current_motion = eParamiteStates::State_8_WalkRunTransition_44C790;
@@ -1314,13 +1314,14 @@ void Paramite::State_3_Running_44C070()
             field_AC_ypos += field_B8_vely;
             field_F4_pLine = nullptr;
 
-            if (field_142)
+            if (field_142 == 0)
             {
                 MapFollowMe_401D30(1);
                 field_142 = 1;
             }
 
             SetMusic();
+            return;
         }
 
         if (!field_142)
@@ -1330,6 +1331,7 @@ void Paramite::State_3_Running_44C070()
         }
 
         SetMusic();
+        return;
     }
 
     if (field_10_anim.field_92_current_frame == 10)
@@ -1379,10 +1381,10 @@ void Paramite::State_3_Running_44C070()
         }
 
         SetMusic();
+        return;
     }
 
     field_142 = 0;
-
     SetMusic();
 }
 
