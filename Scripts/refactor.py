@@ -185,7 +185,7 @@ virtual void VScreenChanged() override
 
     line = line.replace("( (BYTE2(field_10_anim.field_4_flags) >> 1) & 1 )", "(field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))")
 
-    line = line.replace("Event_Broadcast_417220(0, this)", "Event_Broadcast_417220(kEvent_0, this)")
+    line = line.replace("Event_Broadcast_417220(0, this)", "Event_Broadcast_417220(kEventNoise_0, this)")
     line = line.replace("Event_Broadcast_417220(10, this)", "Event_Broadcast_417220(kEvent_10, this)")
 
     line = line.replace("(LOBYTE(field_10_anim.field_4_flags) >> 4) & 1", "field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX)")
