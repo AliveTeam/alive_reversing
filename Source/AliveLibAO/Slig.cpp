@@ -3109,8 +3109,70 @@ __int16 Slig::Brain_Possessed_46C190()
 
 __int16 Slig::Brain_Death_46C3A0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render) && field_114_timer < static_cast<int>(gnFrameCount_507670) + 30)
+    {
+        field_BC_sprite_scale -= FP_FromDouble(0.01);
+        field_C0_r -= 2;
+        field_C2_g -= 2;
+        field_C4_b -= 2;
+        if (field_BC_sprite_scale >= FP_FromDouble(0.3) && !(static_cast<int>(gnFrameCount_507670) % 5))
+        {
+            New_Particles_419A80(
+                field_A8_xpos + (FP_FromInteger(Math_RandomRange_450F20(-24, 24)) * field_BC_sprite_scale),
+                field_AC_ypos - FP_FromInteger(6),
+                field_BC_sprite_scale / FP_FromInteger(2),
+                2,
+                0);
+            SFX_Play_43AE60(96, 25, FP_GetExponent(FP_FromInteger(2200) * field_BC_sprite_scale));
+        }
+    }
+    else if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+
+    if (sControlledCharacter_50767C == this)
+    {
+        if (field_114_timer < static_cast<int>(gnFrameCount_507670))
+        {
+            if (field_14E_level != gMap_507BA8.field_0_current_level
+                || field_150_path != gMap_507BA8.field_2_current_path
+                || field_152_camera != gMap_507BA8.field_4_current_camera)
+            {
+                Event_Broadcast_417220(kEvent_7, this);
+            }
+
+            sControlledCharacter_50767C = sActiveHero_507678;
+            MusicController::sub_443810(MusicController::MusicTypes::eType0, this, 0, 0);
+            gMap_507BA8.SetActiveCam_444660(
+                field_14E_level,
+                field_150_path,
+                field_152_camera,
+                CameraSwapEffects::eEffect0_InstantChange,
+                0,
+                0);
+        }
+    }
+
+    if (sControlledCharacter_50767C != this)
+    {
+        if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+            field_B2_lvl_number,
+            field_B0_path_number,
+            field_A8_xpos,
+            field_AC_ypos,
+            0))
+        {
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        }
+    }
+
+    if (field_BC_sprite_scale < FP_FromInteger(0))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+
+    return 116;
 }
 
 __int16 Slig::Brain_DeathDropDeath_46C5A0()
