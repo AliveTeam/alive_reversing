@@ -228,8 +228,8 @@ Slig* Slig::ctor_464D40(Path_Slig* pTlv, int tlvInfo)
     field_10E_brain_state = 0;
     field_FE_next_state = 0;
     field_EC = 3;
-    field_158 = 0;
-    field_154 = 0;
+    field_158_explode_timer = 0;
+    field_154_death_by_being_shot_timer = 0;
     field_F8_pLiftPoint = nullptr;
     field_FC_current_motion = eSligStates::State_7_Falling_46A1A0;
     field_11E = 0;
@@ -1077,6 +1077,42 @@ void Slig::ToStand()
     field_126_input = 0;
     field_128_timer = Math_RandomRange_450F20(0, 60) + gnFrameCount_507670 + 120;
     MapFollowMe_401D30(TRUE);
+}
+
+__int16 CCSTD Slig::IsInZCover_46BDA0(Slig* pThis)
+{
+    PSX_RECT bRect = {};
+    pThis->VGetBoundingRect_418120(&bRect, 1);
+
+    Path_TLV* pTlv = nullptr;
+    for (;;)
+    {
+        pTlv = gMap_507BA8.TLV_Get_At_446060(pTlv, FP_FromInteger(bRect.x), FP_FromInteger(bRect.y), FP_FromInteger(bRect.x), FP_FromInteger(bRect.y));
+        if (!pTlv)
+        {
+            break;
+        }
+
+        // TODO: Inlined
+        if (pTlv->field_4_type == TlvTypes::ZSligCover_83)
+        {
+            if (bRect.x >= pTlv->field_10_top_left.field_0_x &&
+                bRect.x <= pTlv->field_14_bottom_right.field_0_x &&
+
+                bRect.y >= pTlv->field_10_top_left.field_2_y &&
+                bRect.y <= pTlv->field_14_bottom_right.field_2_y &&
+
+                bRect.w >= pTlv->field_10_top_left.field_0_x &&
+                bRect.w <= pTlv->field_14_bottom_right.field_0_x &&
+
+                bRect.h >= pTlv->field_10_top_left.field_2_y &&
+                bRect.h <= pTlv->field_14_bottom_right.field_2_y)
+            {
+                return TRUE;
+            }
+        }
+    }
+    return FALSE;
 }
 
 BOOL Slig::VIs8_465630(short motion)
@@ -2177,7 +2213,83 @@ void Slig::State_37_Depossessing_4684D0()
 
 void Slig::State_38_Possess_46B050()
 {
-    NOT_IMPLEMENTED();
+    if (!field_F4_pLine)
+    {
+        State_7_Falling_46A1A0();
+        if (field_FC_current_motion != eSligStates::State_38_Possess_46B050)
+        {
+            field_FC_current_motion = eSligStates::State_38_Possess_46B050;
+        }
+    }
+
+    if (static_cast<int>(gnFrameCount_507670) >= field_158_explode_timer)
+    {
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
+        {
+            FP xOff = (FP_FromInteger(20) * field_BC_sprite_scale);
+            if (field_B4_velx < FP_FromInteger(0))
+            {
+                xOff = -xOff;
+            }
+
+            auto pGibs = ao_new<Gibs>();
+            if (pGibs)
+            {
+                pGibs->ctor_407B20(
+                    1,
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    xOff,
+                    FP_FromInteger(0),
+                    field_BC_sprite_scale);
+            }
+            New_Particles_419A80(
+                field_A8_xpos,
+                field_AC_ypos - (FP_FromInteger(30) * field_BC_sprite_scale),
+                field_BC_sprite_scale,
+                3,
+                0);
+
+            if (field_BC_sprite_scale == FP_FromDouble(0.5))
+            {
+                SFX_Play_43AD70(78u, 80);
+                SFX_Play_43AD70(53u, 60);
+            }
+            else
+            {
+                SFX_Play_43AD70(78u, 127);
+                SFX_Play_43AD70(53u, 90);
+            }
+
+            field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+            field_FC_current_motion = eSligStates::State_0_StandIdle_467640;
+            field_B8_vely = FP_FromInteger(0);
+            field_B4_velx = FP_FromInteger(0);
+            field_100_health = FP_FromInteger(0);
+            MusicController::sub_443810(MusicController::MusicTypes::eType0, this, 0, 0);
+            field_8_update_delay = 40;
+            field_114_timer = gnFrameCount_507670 + 60;
+            SetBrain(&Slig::Brain_Death_46C3A0);
+        }
+    }
+
+    if (static_cast<int>(gnFrameCount_507670) > field_154_death_by_being_shot_timer)
+    {
+        if (field_B4_velx >= FP_FromInteger(0))
+        {
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                field_FC_current_motion = eSligStates::State_35_Knockback_46A720;
+                return;
+            }
+        }
+        else if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            field_FC_current_motion = eSligStates::State_35_Knockback_46A720;
+            return;
+        }
+        field_FC_current_motion = eSligStates::State_45_Smash_46A990;
+    }
 }
 
 void Slig::State_39_OutToFall_46A9E0()
@@ -2590,8 +2702,8 @@ __int16 Slig::Brain_Possessed_46C190()
         field_100_health = FP_FromInteger(0);
         field_FC_current_motion = eSligStates::State_38_Possess_46B050;
         field_114_timer = gnFrameCount_507670 + 30;
-        field_158 = gnFrameCount_507670 + 1000;
-        field_154 = gnFrameCount_507670 + 1000;
+        field_158_explode_timer = gnFrameCount_507670 + 1000;
+        field_154_death_by_being_shot_timer = gnFrameCount_507670 + 1000;
         return field_10E_brain_state;
 
     case 1:
