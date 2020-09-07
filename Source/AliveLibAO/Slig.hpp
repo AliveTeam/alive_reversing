@@ -95,7 +95,7 @@ ALIVE_ASSERT_SIZEOF(Path_Slig, 0x58);
     ENTRY(State_48_LiftDown_4665C0) \
     ENTRY(State_49_LiftGrip_4663A0) \
     ENTRY(State_50_LiftUngrip_466460) \
-    ENTRY(State_51_LiftGrip_466480) \
+    ENTRY(State_51_LiftGripping_466480) \
     ENTRY(State_52_Beat_46AA90)
 
 #define MAKE_ENUM(VAR) VAR,
@@ -223,6 +223,8 @@ public:
 
     static EXPORT __int16 CCSTD IsInZCover_46BDA0(Slig* pThis);
 
+    void CheckPlatformVanished();
+
     // States
     EXPORT void State_0_StandIdle_467640();
     EXPORT void State_1_StandToWalk_4695D0();
@@ -275,7 +277,7 @@ public:
     EXPORT void State_48_LiftDown_4665C0();
     EXPORT void State_49_LiftGrip_4663A0();
     EXPORT void State_50_LiftUngrip_466460();
-    EXPORT void State_51_LiftGrip_466480();
+    EXPORT void State_51_LiftGripping_466480();
     EXPORT void State_52_Beat_46AA90();
 
     // Brains
