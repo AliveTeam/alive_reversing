@@ -1492,7 +1492,7 @@ void Mudokon::State_13_LiftGrabBegin_43D3F0()
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         field_FC_current_motion = field_FE_next_state;
-        field_194_pLiftPoint->field_280_flags |= 0x80u;
+        field_194_pLiftPoint->field_27A_flags.Set(LiftPoint::Flags::eBit8_bMudUsing);
     }
 }
 

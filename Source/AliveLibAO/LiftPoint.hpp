@@ -9,23 +9,24 @@ START_NS_AO
 
 class Map;
 
-enum class LiftFlags : short
-{
-    // These have been shuffled around compared to AE for more pain
-    eBit1 = 0x1,
-    eBit2_bTopFloor = 0x2,
-    eBit3 = 0x4,
-    eBit4_bBottomFloor = 0x8,
-    eBit5 = 0x10,
-    eBit6_bMoveToFloorLevel = 0x20,
-    eBit7 = 0x40,
-    eBit8 = 0x80,
-};
 
 
 class LiftPoint : public PlatformBase
 {
 public:
+    enum Flags
+    {
+        // These have been shuffled around compared to AE for more pain
+        eBit1 = 0x1,
+        eBit2_bTopFloor = 0x2,
+        eBit3_bMiddleFloor = 0x4,
+        eBit4_bBottomFloor = 0x8,
+        eBit5 = 0x10,
+        eBit6_bMoveToFloorLevel = 0x20,
+        eBit7 = 0x40,
+        eBit8_bMudUsing = 0x80,
+    };
+
     EXPORT LiftPoint* ctor_434710(unsigned __int8* pTlv, Map* pPath, int tlvInfo);
     
     EXPORT void Move_435740(FP xSpeed, FP ySpeed, int not_used);
@@ -33,13 +34,27 @@ public:
     // flags & 0x2 && !flags & 0x20
     bool OnTopFloor() const
     {
-        return field_280_flags.Get(LiftFlags::eBit2_bTopFloor) && !field_280_flags.Get(LiftFlags::eBit6_bMoveToFloorLevel);
+        return field_27A_flags.Get(Flags::eBit2_bTopFloor) && !field_27A_flags.Get(Flags::eBit6_bMoveToFloorLevel);
     }
 
     // flags & 0x8 && !flags & 0x20
     bool OnBottomFloor() const
     {
-         return field_280_flags.Get(LiftFlags::eBit4_bBottomFloor) && !field_280_flags.Get(LiftFlags::eBit6_bMoveToFloorLevel);
+         return field_27A_flags.Get(Flags::eBit4_bBottomFloor) && !field_27A_flags.Get(Flags::eBit6_bMoveToFloorLevel);
+    }
+
+    // flags & 4 && !(flags & 0x20);
+    bool OnMiddleFloor() const
+    {
+        return field_27A_flags.Get(Flags::eBit3_bMiddleFloor) && !field_27A_flags.Get(Flags::eBit6_bMoveToFloorLevel);
+    }
+
+    // flags & 2 && !(flags & 0x20); // OnTopFloor
+    // flags & 4 && !(flags & 0x20); // OnMiddleFloor
+    // flags & 8 && !(flags & 0x20); // OnBottomFloor
+    bool OnAnyFloor() const
+    {
+        return OnBottomFloor() || OnTopFloor() || OnMiddleFloor();
     }
 
     __int16 field_12C_bMoving;
@@ -55,7 +70,7 @@ public:
     int field_274;
     char field_278;
     char field_279;
-    BitField16<LiftFlags> field_280_flags;
+    BitField16<Flags> field_27A_flags;
 };
 
 ALIVE_ASSERT_SIZEOF(LiftPoint, 0x27C);

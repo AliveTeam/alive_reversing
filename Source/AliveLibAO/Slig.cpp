@@ -93,7 +93,7 @@ const TSligStateFunction sSligMotionTable_4CF960[] =
     &Slig::State_48_LiftDown_4665C0,
     &Slig::State_49_LiftGrip_4663A0,
     &Slig::State_50_LiftUngrip_466460,
-    &Slig::State_51_LiftGrip_466480,
+    &Slig::State_51_LiftGripping_466480,
     &Slig::State_52_Beat_46AA90,
 };
 
@@ -1113,6 +1113,21 @@ __int16 CCSTD Slig::IsInZCover_46BDA0(Slig* pThis)
         }
     }
     return FALSE;
+}
+
+void Slig::CheckPlatformVanished()
+{
+    if (field_F8_pLiftPoint)
+    {
+        if (field_F8_pLiftPoint->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+        {
+            // Platform is somehow gone, fall.
+            const auto oldMotion = field_FC_current_motion;
+            VOnTrapDoorOpen();
+            field_FC_current_motion = oldMotion;
+        }
+        SetActiveCameraDelayedFromDir_401C90();
+    }
 }
 
 BOOL Slig::VIs8_465630(short motion)
@@ -2779,7 +2794,7 @@ void Slig::State_49_LiftGrip_4663A0()
         {
             if (pLiftPoint->OnTopFloor())
             {
-                field_FC_current_motion = eSligStates::State_51_LiftGrip_466480;
+                field_FC_current_motion = eSligStates::State_51_LiftGripping_466480;
             }
             else
             {
@@ -2793,7 +2808,7 @@ void Slig::State_49_LiftGrip_4663A0()
         {
             if (pLiftPoint->OnBottomFloor())
             {
-                field_FC_current_motion = eSligStates::State_51_LiftGrip_466480;
+                field_FC_current_motion = eSligStates::State_51_LiftGripping_466480;
             }
             else
             {
@@ -2802,7 +2817,7 @@ void Slig::State_49_LiftGrip_4663A0()
             return;
         }
 
-        field_FC_current_motion = eSligStates::State_51_LiftGrip_466480;
+        field_FC_current_motion = eSligStates::State_51_LiftGripping_466480;
     }
 }
 
@@ -2816,9 +2831,36 @@ void Slig::State_50_LiftUngrip_466460()
     }
 }
 
-void Slig::State_51_LiftGrip_466480()
+void Slig::State_51_LiftGripping_466480()
 {
-    NOT_IMPLEMENTED();
+    CheckPlatformVanished();
+
+    auto pLift = static_cast<LiftPoint*>(field_F8_pLiftPoint);
+
+    pLift->Move_435740(FP_FromInteger(0), FP_FromInteger(0), 0);
+    field_B8_vely = FP_FromInteger(0);
+
+    if (sInputObject_5009E8.isPressed(sInputKey_Up_4C6598))
+    {
+        if (!pLift->OnTopFloor())
+        {
+            field_FC_current_motion = eSligStates::State_47_LiftUp_4665A0;
+        }
+    }
+    else
+    {
+        if (sInputObject_5009E8.isPressed(sInputKey_Down_4C659C))
+        {
+            if (!pLift->OnBottomFloor())
+            {
+                field_FC_current_motion = eSligStates::State_48_LiftDown_4665C0;
+            }
+        }
+        else if (pLift->OnAnyFloor())
+        {
+            field_FC_current_motion = eSligStates::State_50_LiftUngrip_466460;
+        }
+    }
 }
 
 void Slig::State_52_Beat_46AA90()

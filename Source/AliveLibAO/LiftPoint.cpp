@@ -10,7 +10,7 @@ LiftPoint* LiftPoint::ctor_434710(unsigned __int8* /*pTlv*/, Map* /*pPath*/, int
     return this;
 }
 
-void LiftPoint::Move_435740(FP xSpeed, FP ySpeed, int not_used)
+void LiftPoint::Move_435740(FP xSpeed, FP ySpeed, int /*not_used*/)
 {
     field_B4_velx = xSpeed;
     field_B8_vely = ySpeed;
