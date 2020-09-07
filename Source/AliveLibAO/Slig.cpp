@@ -2773,7 +2773,12 @@ void Slig::State_49_LiftGrip_4663A0()
 
 void Slig::State_50_LiftUngrip_466460()
 {
-    NOT_IMPLEMENTED();
+    field_B8_vely = FP_FromInteger(0);
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToStand();
+    }
 }
 
 void Slig::State_51_LiftGrip_466480()
