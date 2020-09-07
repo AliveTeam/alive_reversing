@@ -2307,7 +2307,74 @@ void Slig::State_33_Sleeping_46A410()
 
 void Slig::State_34_SleepingToStand_46A5F0()
 {
-    NOT_IMPLEMENTED();
+    // OWI hack - kill all particles, even if they're not ours!
+    for (int i =0; i<gBaseGameObject_list_9F2DF0->Size(); i++)
+    {
+        auto pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_4_typeId == Types::eSnoozParticle_87)
+        {
+            static_cast<SnoozeParticle*>(pObj)->field_1D4_state = 2;
+        }
+    }
+
+    if (field_10_anim.field_92_current_frame >= 2 && field_10_anim.field_92_current_frame <= 10)
+    {
+        Slig_SoundEffect_46F310(0);
+    }
+    
+    if (field_10_anim.field_92_current_frame == 9)
+    {
+        Slig_SoundEffect_46F310(2u);
+    }
+
+    switch (field_10_anim.field_92_current_frame)
+    {
+    case 9:
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            field_A8_xpos -= (field_BC_sprite_scale * FP_FromInteger(7));
+        }
+        else
+        {
+            field_A8_xpos += (field_BC_sprite_scale * FP_FromInteger(7));
+        }
+        break;
+
+    case 10:
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            field_A8_xpos -= (field_BC_sprite_scale * FP_FromInteger(12));
+        }
+        else
+        {
+            field_A8_xpos += (field_BC_sprite_scale * FP_FromInteger(12));
+        }
+        break;
+
+    case 11:
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            field_A8_xpos -= (field_BC_sprite_scale * FP_FromInteger(6));
+        }
+        else
+        {
+            field_A8_xpos += (field_BC_sprite_scale * FP_FromInteger(6));
+        }
+        break;
+
+    default:
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            MusicController::sub_443810(MusicController::MusicTypes::eType4, this, 0, 0);
+            MainMovement_467020();
+        }
+        break;
+    }
 }
 
 void Slig::State_35_Knockback_46A720()
