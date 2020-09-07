@@ -217,7 +217,11 @@ public:
 
     static EXPORT void CC Sfx_Slig_GameSpeak_46F560(unsigned __int8 effectId, int defaultVol, int pitch_min, BaseAliveGameObject* pObj);
 
-     static EXPORT __int16 CCSTD IsInInvisibleZone_418870(BaseAnimatedWithPhysicsGameObject* pObj);
+    static EXPORT __int16 CCSTD IsInInvisibleZone_418870(BaseAnimatedWithPhysicsGameObject* pObj);
+
+    void ToStand();
+
+    static EXPORT __int16 CCSTD IsInZCover_46BDA0(Slig* pThis);
 
     // States
     EXPORT void State_0_StandIdle_467640();
@@ -327,7 +331,7 @@ public:
     __int16 field_124;
     __int16 field_126_input;
     int field_128_timer;
-    int field_12C;
+    FP field_12C_falling_velx_scale_factor;
     __int16 field_130;
     __int16 field_132;
     int field_134_tlvInfo;
@@ -342,8 +346,8 @@ public:
     LevelIds field_14E_level;
     __int16 field_150_path;
     __int16 field_152_camera;
-    int field_154;
-    int field_158;
+    int field_154_death_by_being_shot_timer;
+    int field_158_explode_timer;
     int field_15C;
     int field_160;
     int field_164;
