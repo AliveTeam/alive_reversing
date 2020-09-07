@@ -119,6 +119,8 @@ public:
 
     EXPORT void ToHop_44B660();
 
+    void SetMusic();
+
     // Brains
     EXPORT __int16 Brain_Patrol_447A10();
 
