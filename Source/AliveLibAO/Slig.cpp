@@ -2422,7 +2422,75 @@ void Slig::State_35_Knockback_46A720()
 
 void Slig::State_36_KnockbackToStand_46A7F0()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEventNoise_0, this);
+    
+    if (field_10_anim.field_92_current_frame >= 2 && field_10_anim.field_92_current_frame <= 10)
+    {
+        Slig_SoundEffect_46F310(0);
+    }
+
+    if (field_10_anim.field_92_current_frame == 9)
+    {
+        Slig_SoundEffect_46F310(2);
+    }
+
+    FP gridSize = {};
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        gridSize = -ScaleToGridSize_41FA30(field_BC_sprite_scale);
+    }
+    else
+    {
+        gridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
+    }
+
+    if (!WallHit_401930(field_BC_sprite_scale * FP_FromInteger(35), gridSize))
+    {
+        switch (field_10_anim.field_92_current_frame)
+        {
+        case 9:
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+               field_A8_xpos += (field_BC_sprite_scale * field_BC_sprite_scale) *  FP_FromInteger(-3);
+            }
+            else
+            {
+              field_A8_xpos += (field_BC_sprite_scale * field_BC_sprite_scale) *  FP_FromInteger(3);
+            }
+            break;
+
+        case 10:
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                 field_A8_xpos += (field_BC_sprite_scale * field_BC_sprite_scale) * FP_FromInteger(-13);
+            }
+            else
+            {
+                 field_A8_xpos += (field_BC_sprite_scale * field_BC_sprite_scale) * FP_FromInteger(13);
+            }
+           
+            break;
+
+        case 11:
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                field_A8_xpos += ((field_BC_sprite_scale * field_BC_sprite_scale) * FP_FromInteger(-9));
+            }
+            else
+            {
+                field_A8_xpos += ((field_BC_sprite_scale * field_BC_sprite_scale) * FP_FromInteger(9));
+            }
+            break;
+
+        default:
+            break;
+        }
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToStand();
+    }
 }
 
 void Slig::State_37_Depossessing_4684D0()
