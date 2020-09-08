@@ -649,6 +649,41 @@ void Slig::VOn_TLV_Collision_465CF0(Path_TLV* pTlv)
     }
 }
 
+__int16 Slig::VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther)
+{
+    return VIsFacingMe_4655B0(pOther);
+}
+
+__int16 Slig::VIsFacingMe_4655B0(BaseAnimatedWithPhysicsGameObject* pWho)
+{
+    if (field_FC_current_motion != eSligStates::State_5_TurnAroundStanding_469C80
+        || field_10_anim.field_92_current_frame < 6)
+    {
+        if (pWho->field_A8_xpos < field_A8_xpos && field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            return 1;
+        }
+
+        if (pWho->field_A8_xpos > field_A8_xpos && !field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            return 1;
+        }
+    }
+    else
+    {
+        if (pWho->field_A8_xpos < field_A8_xpos && !field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            return 1;
+        }
+
+        if (pWho->field_A8_xpos > field_A8_xpos && field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 void Slig::VUpdateAnimData_464D00()
 {
     BYTE** ppRes = ResBlockForMotion_4654D0(field_FC_current_motion);

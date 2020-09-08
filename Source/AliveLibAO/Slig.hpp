@@ -150,6 +150,10 @@ public:
 
     EXPORT void VOn_TLV_Collision_465CF0(Path_TLV* pTlv);
 
+    virtual __int16 VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther) override;
+
+    EXPORT __int16 VIsFacingMe_4655B0(BaseAnimatedWithPhysicsGameObject* pObj);
+
     EXPORT void VUpdateAnimData_464D00();
 
     EXPORT void Vsub_465C30();
