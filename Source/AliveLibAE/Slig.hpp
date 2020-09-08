@@ -89,7 +89,7 @@ struct Path_Slig : public Path_TLV
     __int16 field_1E_chal_number;
     __int16 field_20_chal_timer;
     __int16 field_22_num_times_to_shoot;
-    __int16 field_24_padding;
+    __int16 field_24_padding; // TODO: or part of above field like in AO
     __int16 field_26_code1;
     __int16 field_28_code2;
     __int16 field_2A_chase_abe;

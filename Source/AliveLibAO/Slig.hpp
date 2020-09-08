@@ -18,7 +18,7 @@ struct Path_Slig : public Path_TLV
     __int16 field_26_chal_type;
     __int16 field_28_chal_time;
     __int16 field_2A_number_of_times_to_shoot;
-    __int16 field_2C_unknown;
+    __int16 field_2C_unknown; // TODO: Part of above field, check me?
     __int16 field_2E_code1;
     __int16 field_30_code2;
     __int16 field_32_chase_abe;
@@ -149,6 +149,10 @@ public:
     virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
 
     EXPORT void VOn_TLV_Collision_465CF0(Path_TLV* pTlv);
+
+    virtual __int16 VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther) override;
+
+    EXPORT __int16 VIsFacingMe_4655B0(BaseAnimatedWithPhysicsGameObject* pObj);
 
     EXPORT void VUpdateAnimData_464D00();
 
