@@ -18,7 +18,7 @@ struct Path_Slig : public Path_TLV
     __int16 field_26_chal_type;
     __int16 field_28_chal_time;
     __int16 field_2A_number_of_times_to_shoot;
-    __int16 field_2C_unknown;
+    __int16 field_2C_unknown; // TODO: Part of above field, check me?
     __int16 field_2E_code1;
     __int16 field_30_code2;
     __int16 field_32_chase_abe;

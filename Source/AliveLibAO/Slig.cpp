@@ -3620,8 +3620,76 @@ __int16 Slig::Brain_GameEnder_46EEE0()
 
 __int16 Slig::Brain_Shooting_46EFD0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (field_FC_current_motion == eSligStates::State_6_Shoot_468820
+        && field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_200_num_times_to_shoot++;
+
+        if (field_200_num_times_to_shoot < field_174_tlv.field_2A_number_of_times_to_shoot
+            || sActiveHero_507678->field_FC_current_motion == eAbeStates::State_137_ElumUnmountBegin_42E2B0
+            || sActiveHero_507678->field_FC_current_motion == eAbeStates::State_139_ElumMountBegin_42E090
+            || sActiveHero_507678->field_FC_current_motion == eAbeStates::State_138_ElumUnmountEnd_42E390
+            || sActiveHero_507678->field_FC_current_motion == eAbeStates::State_136_ElumMountEnd_42E110)
+        {
+            field_FE_next_state = eSligStates::State_6_Shoot_468820;
+            return 111;
+        }
+
+        if (sActiveHero_507678->field_100_health <= FP_FromInteger(0))
+        {
+            ToKilledAbe_4662E0();
+            return 111;
+        }
+
+        if (sControlledCharacter_50767C->field_100_health <= FP_FromInteger(0))
+        {
+            ToKilledAbe_4662E0();
+            return 111;
+        }
+
+        if (!VOnSameYLevel(sControlledCharacter_50767C)
+            || !VIsFacingMe(sControlledCharacter_50767C)
+            || IsInInvisibleZone_418870(sControlledCharacter_50767C)
+            || IsWallBetween_46BE60(this, sControlledCharacter_50767C)
+            || !gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                    field_B2_lvl_number,
+                    field_B0_path_number,
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    0)
+            || !gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                field_B2_lvl_number,
+                field_B0_path_number,
+                field_A8_xpos,
+                field_AC_ypos,
+                0)
+            || Event_Get_417250(kEventResetting_6))
+        {
+            PauseALittle_46DBD0();
+            return 111;
+        }
+
+        if (!VIsFacingMe(sControlledCharacter_50767C))
+        {
+            ToTurn_46DE70();
+            return 111;
+        }
+
+        if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+            field_B2_lvl_number,
+            field_B0_path_number,
+            field_A8_xpos,
+            field_AC_ypos,
+            0)
+            && field_174_tlv.field_32_chase_abe)
+        {
+            ToChase_46D080();
+            return 111;
+        }
+    }
+
+    ShouldStilBeAlive_46C0D0();
+    return 111;
 }
 
 __int16 Slig::Brain_ZSpottedEnemy_46F260()
