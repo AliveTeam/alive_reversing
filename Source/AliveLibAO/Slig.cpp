@@ -998,9 +998,9 @@ BOOL CCSTD Slig::RenderLayerIs_46C0A0(BaseAliveGameObject* pThis)
 
 __int16 CCSTD Slig::IsAbeEnteringDoor_46BEE0(BaseAliveGameObject* pThis)
 {
-    if ((pThis->field_4_typeId == Types::eAbe_43) &&
+    if (((pThis->field_4_typeId == Types::eAbe_43) &&
         (pThis->field_FC_current_motion == eAbeStates::State_156_DoorEnter_42D370 &&
-            pThis->field_10_anim.field_92_current_frame > 7) ||
+            pThis->field_10_anim.field_92_current_frame > 7)) ||
         (pThis->field_FC_current_motion == eAbeStates::State_157_DoorExit_42D780 &&
             pThis->field_10_anim.field_92_current_frame < 4))
     {
