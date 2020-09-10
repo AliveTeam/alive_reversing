@@ -1368,6 +1368,67 @@ void Slig::CheckPlatformVanished()
     }
 }
 
+
+__int16 Slig::MoveLift_4665E0(FP ySpeed)
+{
+    auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
+
+    pLiftPoint->Move_435740(FP_FromInteger(0), ySpeed, 0);
+    CheckPlatformVanished();
+    field_B8_vely = pLiftPoint->field_B8_vely;
+
+    if (sControlledCharacter_50767C == this
+        && !(field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        && field_10_anim.field_92_current_frame != 5)
+    {
+        return field_FC_current_motion;
+    }
+
+    if (ySpeed < FP_FromInteger(0))
+    {
+        if (pLiftPoint->OnTopFloor())
+        {
+            return eSligStates::State_51_LiftGripping_466480;
+        }
+
+        if (sInputObject_5009E8.isPressed(sInputKey_Up_4C6598))
+        {
+            return eSligStates::State_47_LiftUp_4665A0;
+        }
+
+        if (sInputObject_5009E8.isPressed(sInputKey_Down_4C659C))
+        {
+            return eSligStates::State_48_LiftDown_4665C0;
+        }
+    }
+    else if (ySpeed > FP_FromInteger(0))
+    {
+        if (pLiftPoint->OnBottomFloor())
+        {
+            return eSligStates::State_51_LiftGripping_466480;
+        }
+
+        if (sInputObject_5009E8.isPressed(sInputKey_Down_4C659C))
+        {
+            return eSligStates::State_48_LiftDown_4665C0;
+        }
+
+        if (sInputObject_5009E8.isPressed(sInputKey_Up_4C6598))
+        {
+            return eSligStates::State_47_LiftUp_4665A0;
+        }
+    }
+
+    // Strange how this isn't "if nothing pressed and on a floor then let go ??"
+    if (sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed && pLiftPoint->OnAnyFloor())
+    {
+        return eSligStates::State_50_LiftUngrip_466460;
+    }
+
+    pLiftPoint->Move_435740(FP_FromInteger(0), FP_FromInteger(0), 0);
+    return eSligStates::State_51_LiftGripping_466480;
+}
+
 BOOL Slig::VIs8_465630(short motion)
 {
     return motion == eSligStates::State_8_Unknown_4673E0;
@@ -3011,12 +3072,12 @@ void Slig::State_46_ToIdle_46A590()
 
 void Slig::State_47_LiftUp_4665A0()
 {
-    NOT_IMPLEMENTED();
+    field_FC_current_motion = MoveLift_4665E0(FP_FromInteger(-4));
 }
 
 void Slig::State_48_LiftDown_4665C0()
 {
-    NOT_IMPLEMENTED();
+    field_FC_current_motion = MoveLift_4665E0(FP_FromInteger(-4));
 }
 
 void Slig::State_49_LiftGrip_4663A0()
