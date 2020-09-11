@@ -1493,7 +1493,7 @@ void Slig::MoveOnLine_467490()
     }
 }
 
-signed __int16 Slig::PlayerMovement_4667B0()
+signed __int16 Slig::HandlePlayerControlled_4667B0()
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -1546,7 +1546,7 @@ signed __int16 Slig::MainMovement_467020()
 {
     if (sControlledCharacter_50767C == this && field_100_health > FP_FromInteger(0))
     {
-        return PlayerMovement_4667B0();
+        return HandlePlayerControlled_4667B0();
     }
 
     switch (field_FE_next_state)
