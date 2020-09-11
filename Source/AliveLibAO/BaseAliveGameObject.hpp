@@ -104,6 +104,8 @@ public:
 
     EXPORT BirdPortal* IntoBirdPortal_402350(__int16 distance);
 
+    EXPORT __int16 Check_IsOnEndOfLine_4021A0(__int16 direction, __int16 dist);
+
     FP_RECT field_D4_collection_rect;
     __int16 field_E4;
     __int16 field_E6_last_anim_frame;

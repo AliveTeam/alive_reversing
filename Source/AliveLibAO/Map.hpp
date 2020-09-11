@@ -80,6 +80,12 @@ struct Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_TLV, 0x18);
 
+struct Path_EnemyStopper : public Path_TLV
+{
+    __int16 field_18_direction;
+    __int16 field_1A_id;
+};
+
 struct Path_ChangeTLV : public Path_TLV
 {
     LevelIds field_18_level;

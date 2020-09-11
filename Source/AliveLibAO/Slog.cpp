@@ -24,12 +24,6 @@ void Slog_ForceLink() {}
 
 START_NS_AO
 
-struct Path_EnemyStopper : public Path_TLV
-{
-    __int16 field_18_direction;
-    __int16 field_1A_id;
-};
-
 using TSlogStateFunction = decltype(&Slog::State_0_Idle_4742E0);
 
 const TSlogStateFunction sSlogMotionTable_4CFD30[] =
