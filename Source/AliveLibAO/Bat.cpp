@@ -236,7 +236,7 @@ void Bat::VUpdate_404950()
                     break;
                 }
 
-                if (pObjIter->field_4_typeId != Types::SecurityOrb_53 && pObjIter->field_4_typeId != Types::eSlig_88 && pObjIter->field_4_typeId != Types::e89)
+                if (pObjIter->field_4_typeId != Types::SecurityOrb_53 && pObjIter->field_4_typeId != Types::eSlig_88 && pObjIter->field_4_typeId != Types::eSlog_89)
                 {
                     PSX_RECT bObjRect = {};
                     pObjIter->VGetBoundingRect(&bObjRect, 1);

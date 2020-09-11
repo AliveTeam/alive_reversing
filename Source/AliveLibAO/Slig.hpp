@@ -146,6 +146,10 @@ public:
 
     EXPORT void VPossessed_465C80();
 
+    virtual __int16 VTakeDamage(BaseGameObject* pFrom) override;
+
+    EXPORT __int16 VTakeDamage_465640(BaseGameObject* pFrom);
+
     virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
 
     EXPORT void VOn_TLV_Collision_465CF0(Path_TLV* pTlv);
@@ -156,7 +160,7 @@ public:
 
     EXPORT void VUpdateAnimData_464D00();
 
-    EXPORT void Vsub_465C30();
+    EXPORT void Vshot_465C30();
 
     EXPORT void MoveOnLine_467490();
 
@@ -228,6 +232,8 @@ public:
     static EXPORT __int16 CCSTD IsInZCover_46BDA0(Slig* pThis);
 
     void CheckPlatformVanished();
+
+    EXPORT __int16  MoveLift_4665E0(FP ySpeed);
 
     // States
     EXPORT void State_0_StandIdle_467640();

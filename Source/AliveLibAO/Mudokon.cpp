@@ -762,7 +762,7 @@ __int16 Mudokon::VTakeDamage_43F830(BaseGameObject* pFrom)
         }
         return 1;
 
-    case Types::e89:
+    case Types::eSlog_89:
         if (field_100_health > FP_FromInteger(0))
         {
             field_144_flags.Clear(Flags_144::e144_Bit6_bPersist);

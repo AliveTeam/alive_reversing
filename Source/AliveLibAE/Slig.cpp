@@ -6306,7 +6306,7 @@ __int16 Slig::MoveLift_4B3990(FP ySpeed)
             return eSligMotions::M_LiftDown_50_4B3960;
         }
     }
-    else if (ySpeed >  FP_FromInteger(0))
+    else if (ySpeed > FP_FromInteger(0))
     {
         if (pLiftPoint->vOnBottomFloor_4618F0())
         {
