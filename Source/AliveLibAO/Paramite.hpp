@@ -107,7 +107,7 @@ public:
 
     EXPORT void VUpdateAnimData_44A460();
 
-    EXPORT __int16 FindOtherParamite_44AF80();
+    EXPORT __int16 AnotherParamiteNear_44AF80();
 
     EXPORT void ToKnockBack_44B5B0();
 
@@ -140,6 +140,14 @@ public:
     void SetBrain(TParamiteBrain fn);
 
     bool BrainIs(TParamiteBrain fn);
+
+    enum class DirToCheck
+    {
+        Left,
+        Right,
+    };
+
+    __int16 HandleEnemyStopper(__int16 numGridBlocks, Path_EnemyStopper::StopDirection dir);
 
     // States
     EXPORT void State_0_Idle_44B900();

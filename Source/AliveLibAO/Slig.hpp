@@ -172,7 +172,7 @@ public:
 
     EXPORT void SlowOnX_469D50(FP amount);
 
-    EXPORT signed __int16 PlayerMovement_4667B0();
+    EXPORT signed __int16 HandlePlayerControlled_4667B0();
 
     EXPORT signed __int16 MainMovement_467020();
 

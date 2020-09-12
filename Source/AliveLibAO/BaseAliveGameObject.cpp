@@ -311,6 +311,12 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(__int16 distance)
     return 0;
 }
 
+__int16 BaseAliveGameObject::Check_IsOnEndOfLine_4021A0(__int16 /*direction*/, __int16 /*dist*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 void BaseAliveGameObject::VOnPathTransition_401470(__int16 /*camWorldX*/, int /*camWorldY*/, CameraPos /*direction*/)
 {
     NOT_IMPLEMENTED();
