@@ -3019,9 +3019,7 @@ void Abe::State_30_HopMid_4264D0()
                         field_FC_current_motion = eAbeStates::State_31_HopLand_426940;
 
                         PSX_RECT pRect;
-                        VGetBoundingRect_418120(
-                            &pRect,
-                            1);
+                        VGetBoundingRect_418120(&pRect, 1);
 
                         PSX_Point xy = *(PSX_Point *) &pRect.x;
                         PSX_Point wh = *(PSX_Point *) &pRect.w;
