@@ -55,7 +55,7 @@ struct Path_Paramite : public Path_TLV
     __int16 field_22_disabled_resources;
     __int16 field_24_id;
     __int16 field_26_hiss_before_attack;
-    __int16 field_28_unload_when_far_away;
+    __int16 field_28_delete_when_far_away;
     __int16 field_2A_unknown;
 };
 ALIVE_ASSERT_SIZEOF(Path_Paramite, 0x2C);
@@ -181,7 +181,7 @@ public:
     TParamiteBrain field_10C_fn;
     __int16 field_110_state;
     __int16 field_112_meat_eating_time;
-    int field_114;
+    int field_114_timer;
     int field_118;
     __int16 field_11C_attack_duration;
     __int16 field_11E_attack_delay;
@@ -194,7 +194,7 @@ public:
     int field_134_disabled_resources;
     int field_138;
     __int16 field_13C_hiss_before_attack;
-    __int16 field_13E_unload_when_far_away;
+    __int16 field_13E_bHissing;
     __int16 field_140;
     __int16 field_142;
     __int16 field_144;
