@@ -1857,22 +1857,18 @@ __int16 Paramite::AI_ChasingAbe_State_Attacking_1(BaseAliveGameObject* pObj)
                     field_108_next_motion = eParamiteMotions::M_Hop_5_48B5B0;
                     return AI_ChasingAbe::eState2_Jumping_8;
                 }
-
-                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            }
+            else
+            {
+                if (Check_IsOnEndOfLine_408E90(0, 1))
                 {
-                    field_108_next_motion = eParamiteMotions::M_Running_3_48AA00;
-                    return AI_ChasingAbe::eState2_Chasing_7;
+                    field_108_next_motion = eParamiteMotions::M_Hop_5_48B5B0;
+                    return AI_ChasingAbe::eState2_Jumping_8;
                 }
             }
 
-            if (!Check_IsOnEndOfLine_408E90(0, 1))
-            {
-                field_108_next_motion = eParamiteMotions::M_Running_3_48AA00;
-                return AI_ChasingAbe::eState2_Chasing_7;
-            }
-
-            field_108_next_motion = eParamiteMotions::M_Hop_5_48B5B0;
-            return AI_ChasingAbe::eState2_Jumping_8;
+            field_108_next_motion = eParamiteMotions::M_Running_3_48AA00;
+            return AI_ChasingAbe::eState2_Chasing_7;
         }
         else
         {
@@ -1898,25 +1894,23 @@ __int16 Paramite::AI_ChasingAbe_State_Attacking_1(BaseAliveGameObject* pObj)
                     field_108_next_motion = eParamiteMotions::M_Hop_5_48B5B0;
                     return AI_ChasingAbe::eState2_Jumping_8;
                 }
-
-                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            }
+            else
+            {
+                if (Check_IsOnEndOfLine_408E90(0, 1))
                 {
-                    field_108_next_motion = eParamiteMotions::M_Walking_2_48A2D0;
-                    return AI_ChasingAbe::eState2_Walking_11;
+                    field_108_next_motion = eParamiteMotions::M_Hop_5_48B5B0;
+                    return AI_ChasingAbe::eState2_Jumping_8;
                 }
             }
-
-            if (Check_IsOnEndOfLine_408E90(0, 1))
-            {
-                field_108_next_motion = eParamiteMotions::M_Hop_5_48B5B0;
-                return AI_ChasingAbe::eState2_Jumping_8;
-            }
-
             field_108_next_motion = eParamiteMotions::M_Walking_2_48A2D0;
             return AI_ChasingAbe::eState2_Walking_11;
         }
-        field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
-        return AI_ChasingAbe::eState2_Turning_10;
+        else
+        {
+            field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
+            return AI_ChasingAbe::eState2_Turning_10;
+        }
     }
 }
 
@@ -1947,9 +1941,11 @@ __int16 Paramite::AI_ChasingAbe_State_Inactive_0(BaseAliveGameObject * pObj)
                 return AI_ChasingAbe::eState2_ToChasing_5;
             }
         }
-
-        field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
-        return AI_ChasingAbe::eState2_CloseAttack_4;
+        else
+        {
+            field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
+            return AI_ChasingAbe::eState2_CloseAttack_4;
+        }
     }
     else
     {
@@ -1971,26 +1967,23 @@ __int16 Paramite::AI_ChasingAbe_State_Inactive_0(BaseAliveGameObject * pObj)
                     field_108_next_motion = eParamiteMotions::M_Hop_5_48B5B0;
                     return AI_ChasingAbe::eState2_Jumping_8;
                 }
-
-                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            }
+            else
+            {
+                if (Check_IsOnEndOfLine_408E90(0, 1))
                 {
-                    field_108_next_motion = eParamiteMotions::M_Walking_2_48A2D0;
-                    return AI_ChasingAbe::eState2_Walking_11;
+                    field_108_next_motion = eParamiteMotions::M_Hop_5_48B5B0;
+                    return AI_ChasingAbe::eState2_Jumping_8;
                 }
             }
-
-            if (Check_IsOnEndOfLine_408E90(0, 1))
-            {
-                field_108_next_motion = eParamiteMotions::M_Hop_5_48B5B0;
-                return AI_ChasingAbe::eState2_Jumping_8;
-            }
-
             field_108_next_motion = eParamiteMotions::M_Walking_2_48A2D0;
             return AI_ChasingAbe::eState2_Walking_11;
         }
-
-        field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
-        return AI_ChasingAbe::eState2_Turning_10;
+        else
+        {
+            field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
+            return AI_ChasingAbe::eState2_Turning_10;
+        }
     }
 }
 
