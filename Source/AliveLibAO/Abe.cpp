@@ -3000,9 +3000,9 @@ void Abe::State_30_HopMid_4264D0()
         {
             SetActiveCameraDelayedFromDir_401C90();
 
-            PathLine *pLine;
-            FP hitX;
-            FP hitY;
+            PathLine *pLine = nullptr;
+            FP hitX = {};
+            FP hitY = {};
             if (InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.80)))
             {
                 Event_Broadcast_417220(kEventNoise_0, this);
@@ -3013,6 +3013,7 @@ void Abe::State_30_HopMid_4264D0()
                     case 4:
                     case 32:
                     case 36:
+                    {
                         Abe_SFX_2_42A220(6u, 0, 0x7FFF, this);
                         field_F4_pLine = pLine;
                         field_B8_vely = FP_FromInteger(0);
@@ -3020,14 +3021,12 @@ void Abe::State_30_HopMid_4264D0()
 
                         PSX_RECT pRect;
                         VGetBoundingRect_418120(&pRect, 1);
+                        pRect.y += 5;
+                        pRect.h += 5;
 
-                        PSX_Point xy = *(PSX_Point *) &pRect.x;
-                        PSX_Point wh = *(PSX_Point *) &pRect.w;
-                        xy.field_2_y += 5;
-                        wh.field_2_y += 5;
                         VOnCollisionWith_418080(
-                            xy,
-                            wh,
+                            { pRect.x, pRect.y },
+                            { pRect.w, pRect.h },
                             ObjListPlatforms_50766C,
                             1,
                             (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
@@ -3037,6 +3036,7 @@ void Abe::State_30_HopMid_4264D0()
                         MapFollowMe_401D30(1);
                         field_FE_next_state = eAbeStates::State_0_Idle_423520;
                         return;
+                    }
                     default:
                         break;
                 }
@@ -3048,14 +3048,14 @@ void Abe::State_30_HopMid_4264D0()
                     field_B4_velx = FP_FromRaw(field_B4_velx.fpValue / 2);
                     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                     {
-                        field_A8_xpos = field_A8_xpos - field_BC_sprite_scale * FP_FromInteger(5);
+                        field_A8_xpos += field_BC_sprite_scale * FP_FromInteger(5);
                     }
                     else
                     {
-                        field_A8_xpos = field_A8_xpos - field_BC_sprite_scale * FP_FromInteger(5);
+                        field_A8_xpos -= field_BC_sprite_scale * FP_FromInteger(5);
                     }
-                    field_120 = FP_FromDouble(.55);
-                    field_AC_ypos = field_BC_sprite_scale * FP_FromInteger(2) + field_AC_ypos;
+                    field_120 = FP_FromDouble(0.55);
+                    field_AC_ypos += field_BC_sprite_scale * FP_FromInteger(2);
                     field_FC_current_motion = eAbeStates::State_96_HopToFall_4298A0;
                     field_FE_next_state = eAbeStates::State_0_Idle_423520;
                 }
