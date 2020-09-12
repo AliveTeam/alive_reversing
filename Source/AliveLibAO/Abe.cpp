@@ -1014,7 +1014,7 @@ void Abe::vUpdate_41FDB0()
                             }
                             if (field_130_say == 5)
                             {
-                                Event_Broadcast_417220(kEvent_16, sActiveHero_507678);
+                                Event_Broadcast_417220(kEventMudokonComfort_16, sActiveHero_507678);
                             }
                             Abe_SFX_42A4D0(static_cast<unsigned char>(field_130_say), 0, 0, this);
                         }

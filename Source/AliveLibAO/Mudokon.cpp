@@ -762,7 +762,7 @@ __int16 Mudokon::VTakeDamage_43F830(BaseGameObject* pFrom)
         }
         return 1;
 
-    case Types::e89:
+    case Types::eSlog_89:
         if (field_100_health > FP_FromInteger(0))
         {
             field_144_flags.Clear(Flags_144::e144_Bit6_bPersist);
@@ -1492,7 +1492,7 @@ void Mudokon::State_13_LiftGrabBegin_43D3F0()
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         field_FC_current_motion = field_FE_next_state;
-        field_194_pLiftPoint->field_27A |= 0x80u;
+        field_194_pLiftPoint->field_27A_flags.Set(LiftPoint::Flags::eBit8_bMudUsing);
     }
 }
 

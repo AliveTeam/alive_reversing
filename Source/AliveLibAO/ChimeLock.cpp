@@ -116,7 +116,7 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo)
 
     field_138 &= ~2u;
 
-    field_10A_flags.Clear(Flags_10A::e10A_Bit2);
+    field_10A_flags.Clear(Flags_10A::e10A_Bit2_bPossesed);
     field_10A_flags.Set(Flags_10A::e10A_Bit1_Can_Be_Possessed);
 
     field_132_solve_id = pTlv->field_1A_solve_id;
@@ -209,7 +209,7 @@ void ChimeLock::VUnPosses()
 
 void ChimeLock::VUnPosses_40BC90()
 {
-    field_10A_flags.Clear(Flags_10A::e10A_Bit2);
+    field_10A_flags.Clear(Flags_10A::e10A_Bit2_bPossesed);
     field_110_state = 0;
     sActiveHero_507678->SetActiveControlledCharacter_421480();
     SFX_Play_43AE60(21u, 70, 400, 0);
@@ -246,7 +246,7 @@ __int16 ChimeLock::DoNote_40BB20(__int16 note)
 void ChimeLock::VPossessed_40BC40()
 {
     field_138 &= ~3u;
-    field_10A_flags.Set(Flags_10A::e10A_Bit2);
+    field_10A_flags.Set(Flags_10A::e10A_Bit2_bPossesed);
     field_110_state = 2;
     field_128_idx = 0;
     field_12C = gnFrameCount_507670 + 45;

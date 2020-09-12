@@ -52,6 +52,8 @@ enum TlvTypes : __int16
     RingMud_50 = 50,
 
     BirdPortalExit_53 = 53,
+    
+    InvisibleZone_58 = 58,
 
     Slig_66 = 66,
 
@@ -60,6 +62,7 @@ enum TlvTypes : __int16
     EnemyStopper_79 = 79,
 
     Mud_82 = 82,
+    ZSligCover_83 = 83,
 
     MeatSaw_88 = 88,
     MudPathTrans_89 = 89,

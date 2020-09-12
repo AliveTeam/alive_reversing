@@ -89,7 +89,7 @@ struct Path_Slig : public Path_TLV
     __int16 field_1E_chal_number;
     __int16 field_20_chal_timer;
     __int16 field_22_num_times_to_shoot;
-    __int16 field_24_padding;
+    __int16 field_24_padding; // TODO: or part of above field like in AO
     __int16 field_26_code1;
     __int16 field_28_code2;
     __int16 field_2A_chase_abe;
@@ -411,7 +411,7 @@ private:
 
     EXPORT void ToStand_4B4A20();
 
-    EXPORT void BlowUp_4B8020();
+    EXPORT void BlowToGibs_4B8020();
 
     EXPORT __int16 MainMovement_4B4720();
 
@@ -467,9 +467,9 @@ private:
 
     EXPORT static __int16 CC SligStableDelay_4B99B0();
 
-    EXPORT void PlayerControlRunningSlideStopOrTurn1_4B8790();
+    EXPORT void PlayerControlRunningSlideStopOrTurnFrame12_4B8790();
 
-    EXPORT void PlayerControlRunningSlideStopOrTurn1_4B85D0();
+    EXPORT void PlayerControlRunningSlideStopOrTurnFrame4_4B85D0();
 
     EXPORT BaseAliveGameObject* FindBeatTarget_4BD070(int a2, int gridBlocks);
 

@@ -77,7 +77,7 @@ BaseAliveGameObject *BaseAliveGameObject::ctor_401090()
     SetVTable(this, 0x4BA000);
 
     field_10A_flags.Clear(Flags_10A::e10A_Bit1_Can_Be_Possessed);
-    field_10A_flags.Clear(Flags_10A::e10A_Bit2);
+    field_10A_flags.Clear(Flags_10A::e10A_Bit2_bPossesed);
     field_10A_flags.Clear(Flags_10A::e10A_Bit3);
     field_10A_flags.Clear(Flags_10A::e10A_Bit4_SetOffExplosives);
     field_10A_flags.Clear(Flags_10A::e10A_Bit5);
@@ -308,6 +308,12 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(__int16 distance)
             }
         }
     }
+    return 0;
+}
+
+__int16 BaseAliveGameObject::Check_IsOnEndOfLine_4021A0(__int16 /*direction*/, __int16 /*dist*/)
+{
+    NOT_IMPLEMENTED();
     return 0;
 }
 

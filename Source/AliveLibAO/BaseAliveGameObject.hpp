@@ -26,7 +26,7 @@ enum class CameraPos : __int16;
 enum Flags_10A
 {
     e10A_Bit1_Can_Be_Possessed = 0x1,
-    e10A_Bit2 = 0x2,
+    e10A_Bit2_bPossesed = 0x2,
     e10A_Bit3 = 0x4,
     e10A_Bit4_SetOffExplosives = 0x8,
     e10A_Bit5 = 0x10,
@@ -103,6 +103,8 @@ public:
     EXPORT void VCheckCollisionLineStillValid_401A90(int distance);
 
     EXPORT BirdPortal* IntoBirdPortal_402350(__int16 distance);
+
+    EXPORT __int16 Check_IsOnEndOfLine_4021A0(__int16 direction, __int16 dist);
 
     FP_RECT field_D4_collection_rect;
     __int16 field_E4;
