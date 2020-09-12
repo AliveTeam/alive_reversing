@@ -642,7 +642,7 @@ __int16 Slog::HandleEnemyStopper_473BD0()
         return 0;
     }
 
-    if (pStopper->field_18_direction != (field_B4_velx > FP_FromInteger(0) ? 1 : 0))
+    if (pStopper->field_18_direction != (field_B4_velx > FP_FromInteger(0) ? Path_EnemyStopper::StopDirection::Right_1 : Path_EnemyStopper::StopDirection::Left_0))
     {
         return 0;
     }

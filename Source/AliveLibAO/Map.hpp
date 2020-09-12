@@ -82,7 +82,13 @@ ALIVE_ASSERT_SIZEOF(Path_TLV, 0x18);
 
 struct Path_EnemyStopper : public Path_TLV
 {
-    __int16 field_18_direction;
+    enum class StopDirection : __int16
+    {
+        Left_0 = 0,
+        Right_1 = 1,
+        Both_2 = 2,
+    };
+    StopDirection field_18_direction;
     __int16 field_1A_id;
 };
 

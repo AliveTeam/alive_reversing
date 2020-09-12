@@ -141,6 +141,14 @@ public:
 
     bool BrainIs(TParamiteBrain fn);
 
+    enum class DirToCheck
+    {
+        Left,
+        Right,
+    };
+
+    __int16 HandleEnemyStopper(__int16 numGridBlocks, Path_EnemyStopper::StopDirection dir);
+
     // States
     EXPORT void State_0_Idle_44B900();
     EXPORT void State_1_WalkBegin_44BCA0();

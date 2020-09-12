@@ -1277,7 +1277,7 @@ __int16 CCSTD Slig::IsInInvisibleZone_418870(BaseAnimatedWithPhysicsGameObject* 
     }
     */
 
-    if (Event_Get_417250(kEvent_8))
+    if (Event_Get_417250(kEventAbeOhm_8))
     {
         return FALSE;
     }
