@@ -137,7 +137,7 @@ Paramite* Paramite::ctor_44A7A0(Path_Paramite* pTlv, int tlvInfo)
     field_114 = 0;
     SetBrain(&Paramite::Brain_Patrol_447A10);
     field_110_state = 0;
-    field_FE_next_state = 0;
+    field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
     field_EC = 3;
     field_F8_pLiftPoint = nullptr;
     field_FC_current_motion = eParamiteStates::State_0_Idle_44B900;
@@ -553,7 +553,7 @@ void Paramite::VUpdate_44A490()
                 {
                     field_148_pMeat->field_C_refCount--;
                     field_148_pMeat = nullptr;
-                    field_FE_next_state = 0;
+                    field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
                     SetBrain(&Paramite::Brain_Patrol_447A10);
                     field_110_state = 0;
                 }
@@ -954,7 +954,7 @@ __int16 Paramite::Brain_Patrol_447A10()
         {
             return field_110_state;
         }
-        field_FE_next_state = 0;
+        field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
         field_128 = 1;
         field_130 = 0;
         return 1;
@@ -1007,7 +1007,7 @@ __int16 Paramite::Brain_Patrol_447A10()
             field_BC_sprite_scale == sActiveHero_507678->field_BC_sprite_scale)
         {
             Sfx_44DBB0(5u);
-            field_FE_next_state = 0;
+            field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
             SetBrain(&Paramite::Brain_ChasingAbe_449170);
             field_138 = gnFrameCount_507670 + field_134_disabled_resources;
             return 0;
@@ -1165,7 +1165,7 @@ __int16 Paramite::Brain_Patrol_447A10()
             if (FindOtherParamite_44AF80())
             {
                 Sfx_44DBB0(5u);
-                field_FE_next_state = 0;
+                field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
                 SetBrain(&Paramite::Brain_ChasingAbe_449170);
                 field_138 = gnFrameCount_507670 + field_134_disabled_resources;
                 return 0;
@@ -1187,7 +1187,7 @@ __int16 Paramite::Brain_Patrol_447A10()
                 {
                     return field_110_state;
                 }
-                field_FE_next_state = 0;
+                field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
                 field_128 = 1;
                 result = 1;
             }
@@ -1233,7 +1233,7 @@ __int16 Paramite::Brain_Patrol_447A10()
             else if (FindOtherParamite_44AF80())
             {
                 Sfx_44DBB0(5u);
-                field_FE_next_state = 0;
+                field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
                 SetBrain(&Paramite::Brain_ChasingAbe_449170);
                 field_138 = gnFrameCount_507670 + field_134_disabled_resources;
                 result = 0;
@@ -1264,7 +1264,7 @@ __int16 Paramite::Brain_Patrol_447A10()
         if (FindOtherParamite_44AF80())
         {
             Sfx_44DBB0(5u);
-            field_FE_next_state = 0;
+            field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
             field_138 = gnFrameCount_507670 + field_134_disabled_resources;
             SetBrain(&Paramite::Brain_ChasingAbe_449170);
             return 0;
@@ -1286,7 +1286,7 @@ __int16 Paramite::Brain_Patrol_447A10()
                 {
                     if (!SwitchStates_Get(pStopper_3->field_1A_id))
                     {
-                        field_FE_next_state = 0;
+                        field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
                         return 1;
                     }
                 }
@@ -1300,7 +1300,7 @@ __int16 Paramite::Brain_Patrol_447A10()
 
             if (Check_IsOnEndOfLine_4021A0(1, 2))
             {
-                field_FE_next_state = 0;
+                field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
                 return 1;
             }
         }
@@ -1322,7 +1322,7 @@ __int16 Paramite::Brain_Patrol_447A10()
         // TODO: Check switch check result should be inverted
         if (pStopper_2 && pStopper_2->field_18_direction == 1 && !SwitchStates_Get(pStopper_2->field_1A_id))        
         {
-            field_FE_next_state = 0;
+            field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
             result = 1;
         }
         else
@@ -1334,7 +1334,7 @@ __int16 Paramite::Brain_Patrol_447A10()
             }
             if (Check_IsOnEndOfLine_4021A0(0, 2))
             {
-                field_FE_next_state = 0;
+                field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
                 result = 1;
             }
             else
@@ -1351,7 +1351,7 @@ __int16 Paramite::Brain_Patrol_447A10()
                     {
                         return field_110_state;
                     }
-                    field_FE_next_state = 0;
+                    field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
                     result = 1;
                 }
                 else
@@ -1369,7 +1369,7 @@ __int16 Paramite::Brain_Patrol_447A10()
             if (FindOtherParamite_44AF80())
             {
                 Sfx_44DBB0(5u);
-                field_FE_next_state = 0;
+                field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
                 field_138 = gnFrameCount_507670 + field_134_disabled_resources;
                 SetBrain(&Paramite::Brain_ChasingAbe_449170);
                 return 0;
@@ -1392,7 +1392,7 @@ __int16 Paramite::Brain_Patrol_447A10()
                     {
                         if (!SwitchStates_Get(pStopper_1->field_1A_id))
                         {
-                            field_FE_next_state = 0;
+                            field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
                             return 1;
                         }
                     }
@@ -1406,7 +1406,7 @@ __int16 Paramite::Brain_Patrol_447A10()
 
                 if (Check_IsOnEndOfLine_4021A0(1, 3))
                 {
-                    field_FE_next_state = 0;
+                    field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
                     return 1;
                 }
             }
@@ -1431,7 +1431,7 @@ __int16 Paramite::Brain_Patrol_447A10()
                 {
                     if (!SwitchStates_Get(pStopper->field_1A_id))
                     {
-                        field_FE_next_state = 0;
+                        field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
                         return 1;
                     }
                 }
@@ -1452,7 +1452,7 @@ __int16 Paramite::Brain_Patrol_447A10()
                 }
                 if (VIsObjNearby(kGridSize * FP_FromInteger(8), sActiveHero_507678))
                 {
-                    field_FE_next_state = 0;
+                    field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
                     result = 1;
                 }
                 else
@@ -1467,7 +1467,7 @@ __int16 Paramite::Brain_Patrol_447A10()
             }
             else
             {
-                field_FE_next_state = 0;
+                field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
                 result = 1;
             }
         }
@@ -1483,7 +1483,7 @@ __int16 Paramite::Brain_Patrol_447A10()
         {
             return field_110_state;
         }
-        field_FE_next_state = 0;
+        field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
         return 1;
 
     case 7:
@@ -1545,7 +1545,7 @@ __int16 Paramite::Brain_Patrol_447A10()
         {
             return field_110_state;
         }
-        field_FE_next_state = 0;
+        field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
         if (sActiveHero_507678->field_100_health > FP_FromInteger(0))
         {
             return 1;
@@ -1554,15 +1554,15 @@ __int16 Paramite::Brain_Patrol_447A10()
         return 0;
 
     case 12:
-        pMeat = FindMeat_44B160();
-        field_148_pMeat = pMeat;
-        if (pMeat)
+        field_148_pMeat = FindMeat_44B160();
+        if (field_148_pMeat)
         {
             SetBrain(&Paramite::Brain_SpottedMeat_449CD0);
-            pMeat->field_C_refCount++;
-            result = 0;
+            field_148_pMeat->field_C_refCount++;
+            return 0;
         }
-        else if (!VOnSameYLevel(sActiveHero_507678)
+        
+        if (!VOnSameYLevel(sActiveHero_507678)
             || field_BC_sprite_scale != sActiveHero_507678->field_BC_sprite_scale
             || WallHit_401930(field_BC_sprite_scale * FP_FromInteger(5), sActiveHero_507678->field_A8_xpos - field_A8_xpos))
         {
@@ -1601,7 +1601,7 @@ __int16 Paramite::Brain_Patrol_447A10()
         {
             return field_110_state;
         }
-        field_FE_next_state = 0;
+        field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
         field_120 = gnFrameCount_507670 + Math_RandomRange_450F20(45, 135);
         return 12;
 
@@ -1620,7 +1620,7 @@ __int16 Paramite::Brain_Patrol_447A10()
             field_FE_next_state = eParamiteStates::State_15_Hiss_44D300;
             return field_110_state;
         }
-        field_FE_next_state = 0;
+        field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
         return 12;
 
     default:
