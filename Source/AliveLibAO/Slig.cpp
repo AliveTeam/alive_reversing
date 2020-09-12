@@ -712,23 +712,25 @@ void Slig::WaitOrWalk_46E440()
     SetBrain(&Slig::Brain_Walking_46DE90);
 
     // Right rect bound
-    if (!IsFacingEffectiveLeft_46BD70(this) && (ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(2)) + field_A8_xpos >= FP_FromInteger(field_13C_zone_rect.w))
+    if (!IsFacingEffectiveLeft_46BD70(this) && (ScaleToGridSize_41FA30(field_BC_sprite_scale) *
+            FP_FromInteger(2)) + field_A8_xpos >= FP_FromInteger(field_13C_zone_rect.w))
     {
         PauseALittle_46DBD0();
-        MusicController::sub_443810(MusicController::MusicTypes::eType14, this, 0, 0);
+        MusicController::sub_443810(MusicController::MusicTypes::eType4, this, 0, 0);
         return;
     }
 
     // Left rect bound
-    if (IsFacingEffectiveLeft_46BD70(this)  && (field_A8_xpos - (ScaleToGridSize_41FA30(field_BC_sprite_scale) *
+    if (IsFacingEffectiveLeft_46BD70(this) && (field_A8_xpos - (ScaleToGridSize_41FA30(field_BC_sprite_scale) *
             FP_FromInteger(2))) <= FP_FromInteger(field_13C_zone_rect.x))
     {
         PauseALittle_46DBD0();
-        MusicController::sub_443810(MusicController::MusicTypes::eType14, this, 0, 0);
+        MusicController::sub_443810(MusicController::MusicTypes::eType4, this, 0, 0);
+        return;
     }
 
     Brain_Walking_46DE90();
-    MusicController::sub_443810(MusicController::MusicTypes::eType14, this, 0, 0);
+    MusicController::sub_443810(MusicController::MusicTypes::eType4, this, 0, 0);
 }
 
 int Slig::IsFacingEffectiveLeft_46BD70(Slig* pSlig)
