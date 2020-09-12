@@ -170,7 +170,7 @@ public:
 
     EXPORT void PlayerControlRunningSlideStopOrTurnFrame12_469A80();
 
-    EXPORT void SlowOnX_469D50(FP amount);
+    EXPORT void SlowDown_469D50(FP speed);
 
     EXPORT signed __int16 HandlePlayerControlled_4667B0();
 
