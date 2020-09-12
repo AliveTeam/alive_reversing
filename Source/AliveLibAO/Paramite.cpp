@@ -174,7 +174,7 @@ Paramite* Paramite::ctor_44A7A0(Path_Paramite* pTlv, int tlvInfo)
     field_134_disabled_resources = pTlv->field_22_disabled_resources;
 
     // TODO: The TLV data is wrong - figured out correct order/names
-    field_13C_hiss_before_attack = pTlv->field_26_hiss_before_attack;
+    field_13C_hiss_before_attack = pTlv->field_26_hiss_before_attack; // switch id
     field_13E_bHissing = pTlv->field_28_delete_when_far_away;
 
     field_144 = pTlv->field_2A_unknown;
