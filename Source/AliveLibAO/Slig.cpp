@@ -1041,20 +1041,20 @@ void Slig::WaitOrWalk_46E440()
     if (!IsFacingEffectiveLeft_46BD70(this) && (ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(2)) + field_A8_xpos >= FP_FromInteger(field_13C_zone_rect.w))
     {
         PauseALittle_46DBD0();
-        MusicController::sub_443810(MusicController::MusicTypes::eType14, this, 0, 0);
+        MusicController::sub_443810(MusicController::MusicTypes::eType4, this, 0, 0);
         return;
     }
 
     // Left rect bound
-    if (IsFacingEffectiveLeft_46BD70(this)  && (field_A8_xpos - (ScaleToGridSize_41FA30(field_BC_sprite_scale) *
-            FP_FromInteger(2))) <= FP_FromInteger(field_13C_zone_rect.x))
+    if (IsFacingEffectiveLeft_46BD70(this) && (field_A8_xpos - (ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(2))) <= FP_FromInteger(field_13C_zone_rect.x))
     {
         PauseALittle_46DBD0();
-        MusicController::sub_443810(MusicController::MusicTypes::eType14, this, 0, 0);
+        MusicController::sub_443810(MusicController::MusicTypes::eType4, this, 0, 0);
+        return;
     }
 
     Brain_Walking_46DE90();
-    MusicController::sub_443810(MusicController::MusicTypes::eType14, this, 0, 0);
+    MusicController::sub_443810(MusicController::MusicTypes::eType4, this, 0, 0);
 }
 
 int Slig::IsFacingEffectiveLeft_46BD70(Slig* pSlig)
@@ -1515,16 +1515,17 @@ void Slig::PlayerControlRunningSlideStopOrTurnFrame12_469A80()
     NOT_IMPLEMENTED();
 }
 
-void Slig::SlowOnX_469D50(FP amount)
+void Slig::SlowDown_469D50(FP speed)
 {
-    if (field_B4_velx != FP_FromInteger(0))
+    if (FP_GetExponent(field_B4_velx))
     {
         MoveOnLine_467490();
+
         if (field_B4_velx <= FP_FromInteger(0))
         {
             if (field_B4_velx < FP_FromInteger(0))
             {
-                field_B4_velx += (field_BC_sprite_scale * amount);
+                field_B4_velx += (field_BC_sprite_scale * speed);
                 if (field_B4_velx > FP_FromInteger(0))
                 {
                     field_B4_velx = FP_FromInteger(0);
@@ -1533,7 +1534,7 @@ void Slig::SlowOnX_469D50(FP amount)
         }
         else
         {
-            field_B4_velx -= (field_BC_sprite_scale * amount);
+            field_B4_velx -= (field_BC_sprite_scale * speed);
             if (field_B4_velx < FP_FromInteger(0))
             {
                 field_B4_velx = FP_FromInteger(0);
@@ -2245,7 +2246,7 @@ void Slig::State_9_SlidingToStand_469DF0()
     }
     else
     {
-        SlowOnX_469D50(FP_FromDouble(2.125));
+        SlowDown_469D50(FP_FromDouble(2.125));
         if (field_FC_current_motion == eSligStates::State_9_SlidingToStand_469DF0)
         {
             if (field_10_anim.field_92_current_frame >= 6 || sControlledCharacter_50767C != this || field_100_health <= FP_FromInteger(0))
@@ -2277,7 +2278,7 @@ void Slig::State_10_SlidingTurn_469F10()
         return;
     }
 
-    SlowOnX_469D50(FP_FromDouble(2.125));
+    SlowDown_469D50(FP_FromDouble(2.125));
 
     if (field_FC_current_motion == eSligStates::State_10_SlidingTurn_469F10 && field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -2695,7 +2696,7 @@ void Slig::State_35_Knockback_46A720()
 {
     if (field_F4_pLine)
     {
-        SlowOnX_469D50(FP_FromDouble(0.39));
+        SlowDown_469D50(FP_FromDouble(0.39));
     }
     else
     {
