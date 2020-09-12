@@ -138,7 +138,7 @@ public:
 
     EXPORT void Vsub_465C30();
 
-    EXPORT void CheckFloorGone_467490();
+    EXPORT void MoveOnLine_467490();
 
     EXPORT void ToKnockBack_467300();
 
@@ -146,7 +146,7 @@ public:
 
     EXPORT void sub_469A80();
 
-    EXPORT void SlowOnX_469D50(FP amount);
+    EXPORT void SlowDown_469D50(FP speed);
 
     EXPORT signed __int16 PlayerMovement_4667B0();
 

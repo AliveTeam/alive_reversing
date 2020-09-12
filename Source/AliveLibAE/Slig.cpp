@@ -6349,7 +6349,7 @@ void Slig::SlowDown_4B6450(FP speed)
         {
             if (field_C4_velx < FP_FromInteger(0))
             {
-                field_C4_velx = (field_CC_sprite_scale * speed) + field_C4_velx;
+                field_C4_velx += (field_CC_sprite_scale * speed);
                 if (field_C4_velx > FP_FromInteger(0))
                 {
                     field_C4_velx = FP_FromInteger(0);
@@ -6358,7 +6358,7 @@ void Slig::SlowDown_4B6450(FP speed)
         }
         else
         {
-            field_C4_velx = field_C4_velx - (field_CC_sprite_scale * speed);
+            field_C4_velx -= (field_CC_sprite_scale * speed);
             if (field_C4_velx < FP_FromInteger(0))
             {
                 field_C4_velx = FP_FromInteger(0);
