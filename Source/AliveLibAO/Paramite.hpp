@@ -107,7 +107,7 @@ public:
 
     EXPORT void VUpdateAnimData_44A460();
 
-    EXPORT __int16 FindOtherParamite_44AF80();
+    EXPORT __int16 AnotherParamiteNear_44AF80();
 
     EXPORT void ToKnockBack_44B5B0();
 
