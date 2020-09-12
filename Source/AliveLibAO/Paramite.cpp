@@ -941,7 +941,6 @@ __int16 Paramite::Brain_Patrol_447A10()
 
     const FP kGridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
 
-    Meat* pMeat = nullptr;
     __int16 result = 0;
     Path_EnemyStopper* pStopper_4 = nullptr;
     Path_EnemyStopper* pStopper_3 = nullptr;
@@ -960,12 +959,11 @@ __int16 Paramite::Brain_Patrol_447A10()
         return 1;
 
     case 1:
-        pMeat = FindMeat_44B160();
-        field_148_pMeat = pMeat;
-        if (pMeat)
+        field_148_pMeat = FindMeat_44B160();
+        if (field_148_pMeat)
         {
             SetBrain(&Paramite::Brain_SpottedMeat_449CD0);
-            pMeat->field_C_refCount++;
+            field_148_pMeat->field_C_refCount++;
             return 0;
         }
 
@@ -1495,12 +1493,11 @@ __int16 Paramite::Brain_Patrol_447A10()
         return 8;
 
     case 8:
-        pMeat = FindMeat_44B160();
-        field_148_pMeat = pMeat;
-        if (pMeat)
+        field_148_pMeat = FindMeat_44B160();
+        if (field_148_pMeat)
         {
             SetBrain(&Paramite::Brain_SpottedMeat_449CD0);
-            pMeat->field_C_refCount++;
+            field_148_pMeat->field_C_refCount++;
             return 0;
         }
 
