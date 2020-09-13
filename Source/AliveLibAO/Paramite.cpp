@@ -658,13 +658,13 @@ void Paramite::ToIdle_44B580()
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit6_FlipY);
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit7_SwapXY);
 
-    field_124 = 0;
+    field_124 = FP_FromInteger(0);
     field_B4_velx = FP_FromInteger(0);
     field_B8_vely = FP_FromInteger(0);
     
     field_FC_current_motion = eParamiteStates::State_0_Idle_44B900;
 
-    MapFollowMe_401D30(1);
+    MapFollowMe_401D30(TRUE);
 }
 
 __int16 Paramite::ToNextMotion_44B320()
@@ -3164,7 +3164,67 @@ void Paramite::State_11_RunEnd_44C620()
 
 void Paramite::State_12_Falling_44C960()
 {
-    NOT_IMPLEMENTED();
+    if (field_B4_velx > FP_FromInteger(0))
+    {
+        field_B4_velx -= (field_BC_sprite_scale * field_124);
+        if (field_B4_velx < FP_FromInteger(0))
+        {
+            field_B4_velx = FP_FromInteger(0);
+        }
+    }
+
+    if (field_B4_velx < FP_FromInteger(0))
+    {
+        field_B4_velx += (field_BC_sprite_scale * field_124);
+        if (field_B4_velx > FP_FromInteger(0))
+        {
+            field_B4_velx = FP_FromInteger(0);
+        }
+    }
+
+    PathLine* pLine = nullptr;
+    FP hitX = {};
+    FP hitY = {};
+    if (InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.8)))
+    {
+        switch (pLine->field_8_type)
+        {
+        case 0:
+        case 4:
+        case 32:
+        case 36:
+        {
+            ToIdle_44B580();
+
+            field_F4_pLine = pLine;
+
+            PSX_RECT bRect = {};
+            VGetBoundingRect(&bRect, 1);
+            bRect.y += 5;
+            bRect.h += 5;
+
+            VOnCollisionWith(
+                { bRect.x, bRect.y },
+                { bRect.w, bRect.h },
+                ObjListPlatforms_50766C,
+                1,
+                (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+
+            field_A8_xpos = hitX;
+            field_AC_ypos = hitY;
+            MapFollowMe_401D30(TRUE);
+            break;
+        }
+
+        case 1:
+        case 2:
+            field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
+            break;
+
+        default:
+            return;
+        }
+    }
 }
 
 void Paramite::State_13_GameSpeakBegin_44D050()
@@ -3271,7 +3331,7 @@ void Paramite::State_18_RunningAttack_44D5D0()
         {
             field_F4_pLine = nullptr;
             field_FC_current_motion = eParamiteStates::State_12_Falling_44C960;
-            field_124 = 0xC000;
+            field_124 = FP_FromDouble(0.75);
             field_AC_ypos -= (field_BC_sprite_scale * FP_FromInteger(10));
         }
     }
