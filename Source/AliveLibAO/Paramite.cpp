@@ -3505,7 +3505,38 @@ void Paramite::State_16_PostHiss_44D440()
 
 void Paramite::State_17_GameSpeakEnd_44D4F0()
 {
-    NOT_IMPLEMENTED();
+    PSX_RECT abeRect = {};
+    sActiveHero_507678->VGetBoundingRect(&abeRect, 1);
+
+    PSX_RECT rect = {};
+    VGetBoundingRect(&rect, 1);
+
+    if (abeRect.x <= rect.w
+        && abeRect.w >= rect.x
+        && abeRect.h >= rect.y
+        && abeRect.y <= rect.h)
+    {
+        if (VIsObj_GettingNear_On_X(sActiveHero_507678))
+        {
+            if (field_BC_sprite_scale == sActiveHero_507678->field_BC_sprite_scale)
+            {
+                sActiveHero_507678->VTakeDamage(this);
+            }
+        }
+    }
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        if (!ToNextMotion_44B320())
+        {
+            field_10_anim.field_4_flags.Clear(AnimFlags::eBit6_FlipY);
+            field_10_anim.field_4_flags.Clear(AnimFlags::eBit7_SwapXY);
+            field_124 = FP_FromInteger(0);
+            field_B4_velx = FP_FromInteger(0);
+            field_B8_vely = FP_FromInteger(0);
+            field_FC_current_motion = eParamiteStates::State_0_Idle_44B900;
+            MapFollowMe_401D30(TRUE);
+        }
+    }
 }
 
 void Paramite::State_18_RunningAttack_44D5D0()
