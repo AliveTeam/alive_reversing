@@ -3368,7 +3368,65 @@ void Paramite::State_13_GameSpeakBegin_44D050()
 
 void Paramite::State_14_PreHiss_44D170()
 {
-    NOT_IMPLEMENTED();
+    PSX_RECT abeRect = {};
+    sActiveHero_507678->VGetBoundingRect(&abeRect, 1);
+
+    PSX_RECT rect = {};
+    VGetBoundingRect(&rect, 1);
+
+    if (abeRect.x <= rect.w
+        && abeRect.w >= rect.x
+        && abeRect.h >= rect.y
+        && abeRect.y <= rect.h)
+    {
+        if (VIsObj_GettingNear_On_X(sActiveHero_507678))
+        {
+            if (field_BC_sprite_scale == sActiveHero_507678->field_BC_sprite_scale)
+            {
+                sActiveHero_507678->VTakeDamage(this);
+            }
+        }
+    }
+
+    if (field_FE_next_state == eParamiteStates::State_18_RunningAttack_44D5D0)
+    {
+        field_FC_current_motion = eParamiteStates::State_18_RunningAttack_44D5D0;
+        field_FE_next_state = -1;
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+        }
+        else
+        {
+            field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+        }
+    }
+
+    if (field_FE_next_state == eParamiteStates::State_22_Unknown_44D8F0)
+    {
+        field_FC_current_motion = eParamiteStates::State_22_Unknown_44D8F0;
+        field_FE_next_state = -1;
+    }
+
+    if (field_FE_next_state == eParamiteStates::State_15_Hiss_44D300)
+    {
+        field_FC_current_motion = eParamiteStates::State_15_Hiss_44D300;
+        field_FE_next_state = -1;
+    }
+
+    if (field_FE_next_state != -1)
+    {
+        field_FC_current_motion = eParamiteStates::State_17_GameSpeakEnd_44D4F0;
+    }
+
+    if (gMap_507BA8.GetDirection(
+        field_B2_lvl_number,
+        field_B0_path_number,
+        field_A8_xpos,
+        field_AC_ypos) == CameraPos::eCamCurrent_0)
+    {
+        MusicController::sub_443810(MusicController::MusicTypes::eType12, this, 0, 0);
+    }
 }
 
 void Paramite::State_15_Hiss_44D300()
