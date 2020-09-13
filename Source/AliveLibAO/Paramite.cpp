@@ -3326,7 +3326,44 @@ void Paramite::State_12_Falling_44C960()
 
 void Paramite::State_13_GameSpeakBegin_44D050()
 {
-    NOT_IMPLEMENTED();
+    PSX_RECT abeRect = {};
+    sActiveHero_507678->VGetBoundingRect(&abeRect, 1);
+
+    PSX_RECT ourRect = {};
+    VGetBoundingRect_418120(&ourRect, 1);
+
+    if (abeRect.x <= ourRect.w
+        && abeRect.w >= ourRect.x
+        && abeRect.h >= ourRect.y
+        && abeRect.y <= ourRect.h)
+    {
+        if (VIsObj_GettingNear_On_X(sActiveHero_507678))
+        {
+            if (field_BC_sprite_scale == sActiveHero_507678->field_BC_sprite_scale)
+            {
+                if (sActiveHero_507678->field_100_health > FP_FromInteger(0))
+                {
+                    SFX_Play_43AD70(78u, 0, 0);
+                    Abe_SFX_42A4D0(10u, 0, 0, sActiveHero_507678);
+                }
+                sActiveHero_507678->VTakeDamage(this);
+            }
+        }
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_FC_current_motion = eParamiteStates::State_14_PreHiss_44D170;
+    }
+
+    if (gMap_507BA8.GetDirection(
+        field_B2_lvl_number,
+        field_B0_path_number,
+        field_A8_xpos,
+        field_AC_ypos) == CameraPos::eCamCurrent_0)
+    {
+        MusicController::sub_443810(MusicController::MusicTypes::eType12, this, 0, 0);
+    }
 }
 
 void Paramite::State_14_PreHiss_44D170()
