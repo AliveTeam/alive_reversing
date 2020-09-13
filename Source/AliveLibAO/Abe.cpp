@@ -3000,7 +3000,7 @@ void Abe::State_30_HopMid_4264D0()
         {
             SetActiveCameraDelayedFromDir_401C90();
 
-            PathLine *pLine = nullptr;
+            PathLine* pLine = nullptr;
             FP hitX = {};
             FP hitY = {};
             if (InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.80)))
@@ -3019,14 +3019,14 @@ void Abe::State_30_HopMid_4264D0()
                         field_B8_vely = FP_FromInteger(0);
                         field_FC_current_motion = eAbeStates::State_31_HopLand_426940;
 
-                        PSX_RECT pRect;
-                        VGetBoundingRect_418120(&pRect, 1);
-                        pRect.y += 5;
-                        pRect.h += 5;
+                        PSX_RECT rect = {};
+                        VGetBoundingRect_418120(&rect, 1);
+                        rect.y += 5;
+                        rect.h += 5;
 
                         VOnCollisionWith_418080(
-                            { pRect.x, pRect.y },
-                            { pRect.w, pRect.h },
+                            { rect.x, rect.y },
+                            { rect.w, rect.h },
                             ObjListPlatforms_50766C,
                             1,
                             (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
