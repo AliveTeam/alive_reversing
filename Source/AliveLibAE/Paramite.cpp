@@ -2315,7 +2315,6 @@ __int16 Paramite::AI_SpottedMeat_State_Walking_2(Meat* pMeat)
         field_108_next_motion = eParamiteMotions::M_Eating_40_48A0F0;
         field_130_timer = sGnFrame_5C1B84 + field_134_meat_eating_time;
         return AI_SpottedMeat::eState5_Eating_6;
-
     }
     return AI_SpottedMeat::eState5_Walking_2;
 }
