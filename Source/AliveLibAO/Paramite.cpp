@@ -3431,7 +3431,48 @@ void Paramite::State_14_PreHiss_44D170()
 
 void Paramite::State_15_Hiss_44D300()
 {
-    NOT_IMPLEMENTED();
+    PSX_RECT abeRect = {};
+    sActiveHero_507678->VGetBoundingRect(&abeRect, 1);
+
+    PSX_RECT rect = {};
+    VGetBoundingRect(&rect, 1);
+
+    if (field_10_anim.field_92_current_frame == 2)
+    {
+        Sfx_44DBB0(1u);
+    }
+
+    if (abeRect.x <= rect.w
+        && abeRect.w >= rect.x
+        && abeRect.h >= rect.y
+        && abeRect.y <= rect.h)
+    {
+        if (VIsObj_GettingNear_On_X(sActiveHero_507678))
+        {
+            if (field_BC_sprite_scale == sActiveHero_507678->field_BC_sprite_scale)
+            {
+                sActiveHero_507678->VTakeDamage(this);
+            }
+        }
+    }
+
+    if (field_FE_next_state == eParamiteStates::State_18_RunningAttack_44D5D0)
+    {
+        field_FC_current_motion = eParamiteStates::State_18_RunningAttack_44D5D0;
+        field_FE_next_state = -1;
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+        }
+        else
+        {
+            field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+        }
+    }
+    else if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_FC_current_motion = eParamiteStates::State_16_PostHiss_44D440;
+    }
 }
 
 void Paramite::State_16_PostHiss_44D440()
