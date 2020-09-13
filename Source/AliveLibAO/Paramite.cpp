@@ -896,9 +896,72 @@ void Paramite::MoveOnLine_44B740()
     }
 }
 
-void Paramite::Sfx_44DBB0(unsigned __int8 /*idx*/)
+const SfxDefinition stru_4CDD98[9] =
 {
-    NOT_IMPLEMENTED();
+    { 0, 37, 60, 90, -520, -520, 0 },
+    { 0, 37, 61, 75, -520, -520, 0 },
+    { 0, 37, 62, 50, -520, -520, 0 },
+    { 0, 37, 64, 40, -520, -520, 0 },
+    { 0, 37, 65, 40, -520, -520, 0 },
+    { 0, 37, 66, 30, -520, -520, 0 },
+    { 0, 37, 66, 50, 0, 0, 0 },
+    { 0, 37, 67, 40, -520, -520, 0 },
+    { 0, 37, 68, 30, -520, -520, 0 }
+};
+
+void Paramite::Sound_44DBB0(unsigned __int8 idx)
+{
+    const CameraPos direction = gMap_507BA8.GetDirection(
+        field_B2_lvl_number,
+        field_B0_path_number,
+        field_A8_xpos,
+        field_AC_ypos);
+
+    short volRight = stru_4CDD98[idx].field_C_default_volume;
+    short volRightDiv3 = volRight / 3;
+    short volLeft = 0;
+
+    PSX_RECT rect = {};
+    gMap_507BA8.Get_Camera_World_Rect_444C30(direction, &rect);
+
+    switch (direction)
+    {
+    case CameraPos::eCamCurrent_0:
+        volLeft = volRight;
+        break;
+
+    case CameraPos::eCamTop_1:
+    case CameraPos::eCamBottom_2:
+    {
+        const FP v10 = (FP_FromRaw(stru_4CDD98[0].field_C_default_volume) / FP_FromInteger(3));
+        volLeft = FP_GetExponent(v10);
+        volRight = FP_GetExponent(v10);
+        break;
+    }
+
+    case CameraPos::eCamLeft_3:
+    {
+        const FP v7 = (FP_FromInteger(rect.w) - field_A8_xpos / FP_FromInteger(640));
+        volLeft = volRight - FP_GetExponent(v7 * FP_FromInteger(volRight - volRightDiv3));
+        const FP v8 = (v7 * FP_FromInteger(volRight));
+        volRight -= FP_GetExponent(v8);
+        break;
+    }
+
+    case CameraPos::eCamRight_4:
+    {
+        const FP v9 = (field_A8_xpos - FP_FromInteger(rect.x) / FP_FromInteger(640));
+        volLeft = volRight - FP_GetExponent(v9 * FP_FromInteger(volRight));
+        const FP  v8 = (v9 * FP_FromInteger(volRight - volRightDiv3));
+        volRight -= FP_GetExponent(v8);
+        break;
+    }
+
+    default:
+        return;
+    }
+
+    SFX_SfxDefinition_Play_477330(&stru_4CDD98[idx], volLeft, volRight, -520, -520);
 }
 
 void Paramite::SetMusic()
@@ -1021,7 +1084,7 @@ __int16 Paramite::Brain_Patrol_447A10()
             sActiveHero_507678->field_100_health <= FP_FromInteger(0)) &&
             field_BC_sprite_scale == sActiveHero_507678->field_BC_sprite_scale)
         {
-            Sfx_44DBB0(5u);
+            Sound_44DBB0(5u);
             field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
             SetBrain(&Paramite::Brain_ChasingAbe_449170);
             field_138 = gnFrameCount_507670 + field_134_disabled_resources;
@@ -1039,7 +1102,7 @@ __int16 Paramite::Brain_Patrol_447A10()
                         field_FE_next_state = eParamiteStates::State_13_GameSpeakBegin_44D050;
                         return 8;
                     }
-                    Sfx_44DBB0(5u);
+                    Sound_44DBB0(5u);
                     field_FE_next_state = eParamiteStates::State_5_Turn_44C8E0;
                     return AI_Patrol::eState0_StuckToWall_8;
                 }
@@ -1049,7 +1112,7 @@ __int16 Paramite::Brain_Patrol_447A10()
                     return AI_Patrol::eState0_StuckToWall_8;
                 }
 
-                Sfx_44DBB0(5u);
+                Sound_44DBB0(5u);
                 field_FE_next_state = eParamiteStates::State_5_Turn_44C8E0;
                 return AI_Patrol::eState0_TurningForAbe_6;
             }
@@ -1140,7 +1203,7 @@ __int16 Paramite::Brain_Patrol_447A10()
 
         if (AnotherParamiteNear_44AF80())
         {
-            Sfx_44DBB0(5u);
+            Sound_44DBB0(5u);
             field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
             SetBrain(&Paramite::Brain_ChasingAbe_449170);
             field_138 = gnFrameCount_507670 + field_134_disabled_resources;
@@ -1194,7 +1257,7 @@ __int16 Paramite::Brain_Patrol_447A10()
 
         if (AnotherParamiteNear_44AF80())
         {
-            Sfx_44DBB0(5u);
+            Sound_44DBB0(5u);
             field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
             SetBrain(&Paramite::Brain_ChasingAbe_449170);
             field_138 = gnFrameCount_507670 + field_134_disabled_resources;
@@ -1223,7 +1286,7 @@ __int16 Paramite::Brain_Patrol_447A10()
 
         if (AnotherParamiteNear_44AF80())
         {
-            Sfx_44DBB0(5u);
+            Sound_44DBB0(5u);
             field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
             field_138 = gnFrameCount_507670 + field_134_disabled_resources;
             SetBrain(&Paramite::Brain_ChasingAbe_449170);
@@ -1286,7 +1349,7 @@ __int16 Paramite::Brain_Patrol_447A10()
 
         if (AnotherParamiteNear_44AF80())
         {
-            Sfx_44DBB0(5u);
+            Sound_44DBB0(5u);
             field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
             field_138 = gnFrameCount_507670 + field_134_disabled_resources;
             SetBrain(&Paramite::Brain_ChasingAbe_449170);
@@ -2285,7 +2348,7 @@ __int16 Paramite::Brain_SpottedMeat_449CD0()
 
     if (field_148_pMeat->VIsFalling() || field_148_pMeat->field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
     {
-        Sfx_44DBB0(7u);
+        Sound_44DBB0(7u);
         SetBrain(&Paramite::Brain_Patrol_447A10);
         field_148_pMeat->field_C_refCount--;
         field_148_pMeat = nullptr;
@@ -2314,7 +2377,7 @@ __int16 Paramite::Brain_SpottedMeat_449CD0()
         {
             if (FP_Abs(field_148_pMeat->field_A8_xpos - field_A8_xpos) > FP_FromInteger(5))
             {
-                Sfx_44DBB0(7u);
+                Sound_44DBB0(7u);
                 field_FE_next_state = eParamiteStates::State_5_Turn_44C8E0;
                 return AI_SpottedMeat::eState5_Turning_4;
             }
@@ -2397,7 +2460,7 @@ __int16 Paramite::Brain_SpottedMeat_449CD0()
         {
             if (FP_Abs(field_148_pMeat->field_A8_xpos - field_A8_xpos) > FP_FromInteger(5))
             {
-                Sfx_44DBB0(7u);
+                Sound_44DBB0(7u);
                 field_FE_next_state = eParamiteStates::State_5_Turn_44C8E0;
                 return AI_SpottedMeat::eState5_Turning_4;
             }
@@ -2448,7 +2511,7 @@ __int16 Paramite::Brain_SpottedMeat_449CD0()
         {
             if (FP_Abs(field_148_pMeat->field_A8_xpos - field_A8_xpos) > FP_FromInteger(5))
             {
-                Sfx_44DBB0(7u);
+                Sound_44DBB0(7u);
                 field_FE_next_state = eParamiteStates::State_5_Turn_44C8E0;
                 return AI_SpottedMeat::eState5_Turning_4;
             }
@@ -2490,7 +2553,7 @@ __int16 Paramite::Brain_SpottedMeat_449CD0()
 
         if (FP_Abs(field_148_pMeat->field_A8_xpos - field_A8_xpos) > FP_FromInteger(5))
         {
-            Sfx_44DBB0(7u);
+            Sound_44DBB0(7u);
             field_FE_next_state = eParamiteStates::State_5_Turn_44C8E0;
             return 4;
         }
@@ -2504,7 +2567,7 @@ __int16 Paramite::Brain_SpottedMeat_449CD0()
     case AI_SpottedMeat::eState5_AttentiveToMeat_5:
         if (!VIsFacingMe(field_148_pMeat))
         {
-            Sfx_44DBB0(7u);
+            Sound_44DBB0(7u);
             field_FE_next_state = eParamiteStates::State_5_Turn_44C8E0;
             return AI_SpottedMeat::eState5_Turning_4;
         }
@@ -2563,7 +2626,7 @@ __int16 Paramite::Brain_SpottedMeat_449CD0()
         {
             if (FP_Abs(field_148_pMeat->field_A8_xpos - field_A8_xpos) > FP_FromInteger(5))
             {
-                Sfx_44DBB0(7u);
+                Sound_44DBB0(7u);
                 field_FE_next_state = eParamiteStates::State_5_Turn_44C8E0;
                 return AI_SpottedMeat::eState5_Turning_4;
             }
@@ -2724,7 +2787,7 @@ void Paramite::State_2_Walking_44B9E0()
     case 0:
         // Fall through
     case 7:
-        Sfx_44DBB0(field_10_anim.field_92_current_frame == 7 ? 3 : 4);
+        Sound_44DBB0(field_10_anim.field_92_current_frame == 7 ? 3 : 4);
 
         if (field_FE_next_state == eParamiteStates::State_0_Idle_44B900
             || field_FE_next_state == eParamiteStates::State_13_GameSpeakBegin_44D050
@@ -2905,7 +2968,7 @@ void Paramite::State_3_Running_44C070()
 
     if (field_10_anim.field_92_current_frame == 10)
     {
-        Sfx_44DBB0(3u);
+        Sound_44DBB0(3u);
         Abe_SFX_2_42A220(6, 50, 600, 0);
 
         if (field_FE_next_state == eParamiteStates::State_2_Walking_44B9E0)
@@ -2986,7 +3049,7 @@ void Paramite::State_5_Turn_44C8E0()
 {
     if (field_10_anim.field_92_current_frame == 0)
     {
-        Sfx_44DBB0(4u);
+        Sound_44DBB0(4u);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -3439,7 +3502,7 @@ void Paramite::State_15_Hiss_44D300()
 
     if (field_10_anim.field_92_current_frame == 2)
     {
-        Sfx_44DBB0(1u);
+        Sound_44DBB0(1u);
     }
 
     if (abeRect.x <= rect.w
@@ -3569,7 +3632,7 @@ void Paramite::State_18_RunningAttack_44D5D0()
 
     if (field_10_anim.field_92_current_frame == 3)
     {
-        Sfx_44DBB0(0);
+        Sound_44DBB0(0);
     }
 
     if (field_10_anim.field_92_current_frame == 11)
@@ -3640,7 +3703,7 @@ void Paramite::State_18_RunningAttack_44D5D0()
 
 void Paramite::State_19_Empty_44D990()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Paramite::State_20_SurpriseWeb_44D9A0()
@@ -3683,7 +3746,7 @@ void Paramite::State_20_SurpriseWeb_44D9A0()
 
     if (field_10_anim.field_92_current_frame == 0 || field_10_anim.field_92_current_frame == 3)
     {
-        Sfx_44DBB0(6u);
+        Sound_44DBB0(6u);
     }
 
     if (gMap_507BA8.GetDirection(
@@ -3757,7 +3820,7 @@ void Paramite::State_25_Death_44DB90()
 {
     if (field_10_anim.field_92_current_frame == 0)
     {
-        Sfx_44DBB0(2u);
+        Sound_44DBB0(2u);
     }
 }
 

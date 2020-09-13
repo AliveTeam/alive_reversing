@@ -115,7 +115,7 @@ public:
 
     EXPORT void MoveOnLine_44B740();
 
-    EXPORT void Sfx_44DBB0(unsigned __int8 idx);
+    EXPORT void Sound_44DBB0(unsigned __int8 idx);
 
     EXPORT void ToHop_44B660();
 
