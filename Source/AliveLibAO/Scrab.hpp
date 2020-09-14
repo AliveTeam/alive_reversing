@@ -117,6 +117,10 @@ public:
 
     EXPORT void MoveOnLine_45E450();
 
+    virtual __int16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
+
+    EXPORT __int16 VOnSameYLevel_45C180(BaseAnimatedWithPhysicsGameObject* pObj);
+
     // States
     EXPORT void State_0_Empty_45E3D0();
     EXPORT void State_1_Stand_45E620();

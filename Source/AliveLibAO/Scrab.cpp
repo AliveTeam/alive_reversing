@@ -836,6 +836,57 @@ void Scrab::MoveOnLine_45E450()
     }
 }
 
+__int16 Scrab::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
+{
+    return VOnSameYLevel_45C180(pOther);
+}
+
+
+__int16 Scrab::VOnSameYLevel_45C180(BaseAnimatedWithPhysicsGameObject* pObj)
+{
+    PSX_RECT ourRect = {};
+    VGetBoundingRect_418120(&ourRect, 1);
+
+    PSX_RECT otherRect = {};
+    pObj->VGetBoundingRect(&otherRect, 1);
+
+    const FP k10Scaled = (FP_FromInteger(10) * field_BC_sprite_scale);
+    if (FP_FromInteger(ourRect.y) <= (FP_FromInteger(otherRect.h) - k10Scaled) && ourRect.y >= otherRect.y)
+    {
+        return TRUE;
+    }
+
+    if (ourRect.h <= otherRect.h)
+    {
+        if (FP_FromInteger(ourRect.h) >= (k10Scaled + FP_FromInteger(otherRect.y)))
+        {
+            return TRUE;
+        }
+    }
+
+    if (ourRect.y >= otherRect.y)
+    {
+        if (ourRect.h <= otherRect.h)
+        {
+            return TRUE;
+        }
+
+        if (ourRect.y > otherRect.y)
+        {
+            return FALSE;
+        }
+    }
+
+    if (ourRect.h < otherRect.h)
+    {
+        return FALSE;
+    }
+    else
+    {
+        return TRUE;
+    }
+}
+
 __int16 Scrab::CanSeeAbe_45C100(Abe* pObj)
 {
     if (pObj->field_BC_sprite_scale != field_BC_sprite_scale)
