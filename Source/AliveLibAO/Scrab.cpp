@@ -150,8 +150,8 @@ Scrab* Scrab::ctor_45B5F0(Path_Scrab* pTlv, int tlvInfo)
     field_FC_current_motion = 1;
     field_112 = 0;
 
-    field_11C_pObj1 = nullptr;
-    field_120_pObj2 = nullptr;
+    field_11C_pFight_target = nullptr;
+    field_120_pTarget = nullptr;
 
     field_140 = 0;
 
@@ -228,14 +228,14 @@ BaseGameObject* Scrab::dtor_45BA50()
 {
     SetVTable(this, 0x4BC710);
 
-    if (field_11C_pObj1)
+    if (field_11C_pFight_target)
     {
-        field_11C_pObj1->field_C_refCount--;
+        field_11C_pFight_target->field_C_refCount--;
     }
 
-    if (field_120_pObj2)
+    if (field_120_pTarget)
     {
-        field_120_pObj2->field_C_refCount--;
+        field_120_pTarget->field_C_refCount--;
     }
 
     VOnTrapDoorOpen_45E5E0();
@@ -523,12 +523,12 @@ void Scrab::VScreenChanged_45C290()
     }
     else
     {
-        if (field_120_pObj2)
+        if (field_120_pTarget)
         {
-            if (field_120_pObj2->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+            if (field_120_pTarget->field_6_flags.Get(BaseGameObject::eDead_Bit3))
             {
-                field_120_pObj2->field_C_refCount--;
-                field_120_pObj2 = nullptr;
+                field_120_pTarget->field_C_refCount--;
+                field_120_pTarget = nullptr;
                 field_FE_next_state = eScrabStates::State_1_Stand_45E620;
                 SetBrain(&Scrab::Brain_460D80);
                 field_110_brain_ret = 0;
@@ -1055,10 +1055,10 @@ void Scrab::State_3_Run_45EAB0()
 
         if (field_FC_current_motion == eScrabStates::State_3_Run_45EAB0)
         {
-            if (field_120_pObj2 == sActiveHero_507678)
+            if (field_120_pTarget == sActiveHero_507678)
             {
                 PSX_RECT objRect = {};
-                field_120_pObj2->VGetBoundingRect(&objRect, 1);
+                field_120_pTarget->VGetBoundingRect(&objRect, 1);
 
                 PSX_RECT bRect = {};
                 VGetBoundingRect(&bRect, 1);
@@ -1067,14 +1067,14 @@ void Scrab::State_3_Run_45EAB0()
                     && bRect.w >= objRect.x
                     && bRect.h >= objRect.y
                     && bRect.y <= objRect.h
-                    && field_120_pObj2->field_BC_sprite_scale == field_BC_sprite_scale)
+                    && field_120_pTarget->field_BC_sprite_scale == field_BC_sprite_scale)
                 {
-                    if (VIsFacingMe(field_120_pObj2))
+                    if (VIsFacingMe(field_120_pTarget))
                     {
-                        if (field_120_pObj2->VTakeDamage(this))
+                        if (field_120_pTarget->VTakeDamage(this))
                         {
                             SFX_Play_43AD70(78u, 0, 0);
-                            Abe_SFX_42A4D0(10u, 0, 0, field_120_pObj2);
+                            Abe_SFX_42A4D0(10u, 0, 0, field_120_pTarget);
                         }
                     }
                 }
@@ -1175,10 +1175,10 @@ void Scrab::State_5_RunToStand_45ED90()
 
     if (field_FC_current_motion == eScrabStates::State_5_RunToStand_45ED90)
     {
-        if (field_120_pObj2)
+        if (field_120_pTarget)
         {
             PSX_RECT bObjRect = {};
-            field_120_pObj2->VGetBoundingRect(&bObjRect, 1);
+            field_120_pTarget->VGetBoundingRect(&bObjRect, 1);
 
             PSX_RECT bRect = {};
             VGetBoundingRect(&bRect, 1);
@@ -1187,14 +1187,14 @@ void Scrab::State_5_RunToStand_45ED90()
                 && bObjRect.w >= bRect.x
                 && bObjRect.h >= bRect.y
                 && bObjRect.y <= bRect.h
-                && field_120_pObj2->field_BC_sprite_scale == field_BC_sprite_scale)
+                && field_120_pTarget->field_BC_sprite_scale == field_BC_sprite_scale)
             {
-                if (VIsFacingMe(field_120_pObj2))
+                if (VIsFacingMe(field_120_pTarget))
                 {
-                    if (field_120_pObj2->VTakeDamage(this))
+                    if (field_120_pTarget->VTakeDamage(this))
                     {
                         SFX_Play_43AD70(78u, 0, 0);
-                        Abe_SFX_42A4D0(10u, 0, 0, field_120_pObj2);
+                        Abe_SFX_42A4D0(10u, 0, 0, field_120_pTarget);
                     }
                 }
             }
@@ -1882,10 +1882,10 @@ void Scrab::State_26_Feed_45FDA0()
 
 void Scrab::State_27_AttackLunge_45FDF0()
 {
-    if (field_120_pObj2)
+    if (field_120_pTarget)
     {
         PSX_RECT objRect = {};
-        field_120_pObj2->VGetBoundingRect(&objRect, 1);
+        field_120_pTarget->VGetBoundingRect(&objRect, 1);
 
         PSX_RECT bRect = {};
         VGetBoundingRect(&bRect, 1);
@@ -1894,17 +1894,17 @@ void Scrab::State_27_AttackLunge_45FDF0()
             && objRect.w >= bRect.x
             && objRect.h >= bRect.y
             && objRect.y <= bRect.h
-            && field_120_pObj2->field_BC_sprite_scale == field_BC_sprite_scale)
+            && field_120_pTarget->field_BC_sprite_scale == field_BC_sprite_scale)
         {
-            if (VIsFacingMe(field_120_pObj2))
+            if (VIsFacingMe(field_120_pTarget))
             {
-                if (field_120_pObj2->VTakeDamage(this))
+                if (field_120_pTarget->VTakeDamage(this))
                 {
                     SFX_Play_43AD70(78u, 0, 0);
-                    Abe_SFX_42A4D0(10u, 0, 0, field_120_pObj2);
+                    Abe_SFX_42A4D0(10u, 0, 0, field_120_pTarget);
                 }
 
-                field_120_pObj2->VTakeDamage(this);
+                field_120_pTarget->VTakeDamage(this);
             }
         }
 

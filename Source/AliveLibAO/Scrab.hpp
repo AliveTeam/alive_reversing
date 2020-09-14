@@ -175,8 +175,8 @@ public:
     __int16 field_114_attack_delay;
     __int16 field_116_patrol_type;
     int field_118_timer;
-    BaseGameObject* field_11C_pObj1;
-    BaseAliveGameObject* field_120_pObj2;
+    Scrab* field_11C_pFight_target;
+    BaseAliveGameObject* field_120_pTarget;
     int field_124;
     FP field_128;
     int field_12C;
