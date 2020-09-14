@@ -117,6 +117,14 @@ public:
 
     EXPORT void MoveOnLine_45E450();
 
+    virtual __int16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
+
+    EXPORT __int16 VOnSameYLevel_45C180(BaseAnimatedWithPhysicsGameObject* pObj);
+
+    EXPORT Scrab* FindScrabToFight_45BE30();
+
+    EXPORT __int16 FindAbeOrMud_45BEF0();
+
     // States
     EXPORT void State_0_Empty_45E3D0();
     EXPORT void State_1_Stand_45E620();
@@ -150,19 +158,19 @@ public:
     EXPORT void State_29_DeathBegin_45FFA0();
 
     // Brains
-    EXPORT __int16 Brain_45C370();
+    EXPORT __int16 Brain_Fighting_45C370();
 
-    EXPORT __int16 Brain_45CA60();
+    EXPORT __int16 Brain_BatDeath_45CA60();
 
-    EXPORT __int16 Brain_45CB80();
+    EXPORT __int16 Brain_Death_45CB80();
 
-    EXPORT __int16 Brain_45CC90();
+    EXPORT __int16 Brain_ChasingEnemy_45CC90();
 
-    EXPORT __int16 Brain_460020();
+    EXPORT __int16 Brain_Patrol_460020();
 
     EXPORT __int16 Brain_460D80();
 
-    using TBrainType = decltype(&Scrab::Brain_45C370);
+    using TBrainType = decltype(&Scrab::Brain_Fighting_45C370);
 
     void SetBrain(TBrainType fn);
 
@@ -175,8 +183,8 @@ public:
     __int16 field_114_attack_delay;
     __int16 field_116_patrol_type;
     int field_118_timer;
-    BaseGameObject* field_11C_pObj1;
-    BaseAliveGameObject* field_120_pObj2;
+    Scrab* field_11C_pFight_target;
+    BaseAliveGameObject* field_120_pTarget;
     int field_124;
     FP field_128;
     int field_12C;
