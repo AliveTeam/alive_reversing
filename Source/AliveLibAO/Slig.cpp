@@ -3323,7 +3323,7 @@ void Slig::State_47_LiftUp_4665A0()
 
 void Slig::State_48_LiftDown_4665C0()
 {
-    field_FC_current_motion = MoveLift_4665E0(FP_FromInteger(-4));
+    field_FC_current_motion = MoveLift_4665E0(FP_FromInteger(4));
 }
 
 void Slig::State_49_LiftGrip_4663A0()
