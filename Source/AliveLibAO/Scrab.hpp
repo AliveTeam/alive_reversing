@@ -152,7 +152,7 @@ public:
     // Brains
     EXPORT __int16 Brain_Fighting_45C370();
 
-    EXPORT __int16 Brain_45CA60();
+    EXPORT __int16 Brain_BatDeath_45CA60();
 
     EXPORT __int16 Brain_Death_45CB80();
 
