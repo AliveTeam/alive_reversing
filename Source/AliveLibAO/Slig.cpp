@@ -3589,8 +3589,62 @@ __int16 Slig::Brain_PanicTurning_46C7C0()
 
 __int16 Slig::Brain_PanicRunning_46CA20()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if ((field_B4_velx > FP_FromInteger(4) &&
+        (ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(4)) + field_A8_xpos >
+        FP_FromInteger(field_13C_zone_rect.w)) ||
+        (field_B4_velx < FP_FromInteger(-4) &&
+            (field_A8_xpos - (ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(4))) < FP_FromInteger(field_13C_zone_rect.x))
+        || HandleEnemyStopper_46BF30(4))
+    {
+        field_FE_next_state = eSligStates::State_5_TurnAroundStanding_469C80;
+        SetBrain(&Slig::Brain_PanicTurning_46C7C0);
+    }
+    else if (field_FC_current_motion || field_FE_next_state != -1)
+    {
+        if (VOnSameYLevel(sControlledCharacter_50767C)
+            && VIsFacingMe(sControlledCharacter_50767C)
+            && !IsInInvisibleZone_418870(sControlledCharacter_50767C)
+            && !IsWallBetween_46BE60(this, sControlledCharacter_50767C)
+            && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                field_B2_lvl_number,
+                field_B0_path_number,
+                field_A8_xpos,
+                field_AC_ypos,
+                0)
+            && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                field_B2_lvl_number,
+                field_B0_path_number,
+                field_A8_xpos,
+                field_AC_ypos,
+                0)
+            && !Event_Get_417250(kEventResetting_6))
+        {
+            ToShoot_46F1D0();
+        }
+        else if (sActiveHero_507678->field_100_health > FP_FromInteger(0))
+        {
+            if (field_114_timer > static_cast<int>(gnFrameCount_507670))
+            {
+                ShouldStilBeAlive_46C0D0();
+            }
+            else
+            {
+                WaitOrWalk_46E440();
+            }
+        }
+        else
+        {
+            ToAbeDead_466270();
+        }
+    }
+    else
+    {
+        field_FE_next_state = eSligStates::State_4_Running_469690;
+        SetBrain(&Slig::Brain_PanicRunning_46CA20);
+        Brain_PanicRunning_46CA20();
+        MusicController::sub_443810(MusicController::MusicTypes::eType5, this, 0, 0);
+    }
+    return 109;
 }
 
 __int16 Slig::Brain_PanicYelling_46CC50()
