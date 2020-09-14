@@ -1097,19 +1097,19 @@ __int16 Paramite::Brain_Patrol_447A10()
             {
                 if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                 {
-                    if (Check_IsOnEndOfLine_4021A0(1, 2))
+                    if (Check_IsOnEndOfLine_4021A0(0, 2))
                     {
-                        field_FE_next_state = eParamiteStates::State_13_GameSpeakBegin_44D050;
-                        return 8;
+                        field_FE_next_state = eParamiteStates::State_2_Walking_44B9E0;
+                        return AI_Patrol::eState0_ApproachingAbe_4;
                     }
                     Sound_44DBB0(5u);
                     field_FE_next_state = eParamiteStates::State_5_Turn_44C8E0;
-                    return AI_Patrol::eState0_StuckToWall_8;
+                    return AI_Patrol::eState0_TurningForAbe_6;
                 }
-                else if (Check_IsOnEndOfLine_4021A0(0, 2))
+                else if (Check_IsOnEndOfLine_4021A0(1, 2))
                 {
-                    field_FE_next_state = eParamiteStates::State_13_GameSpeakBegin_44D050;
-                    return AI_Patrol::eState0_StuckToWall_8;
+                    field_FE_next_state = eParamiteStates::State_2_Walking_44B9E0;
+                    return AI_Patrol::eState0_ApproachingAbe_4;
                 }
 
                 Sound_44DBB0(5u);
@@ -1640,10 +1640,11 @@ __int16 Paramite::Brain_SurpriseWeb_448D00()
     case AI_SurpriseWeb::eState3_StartAnimation_3:
         if (field_114_timer <= static_cast<int>(gnFrameCount_507670))
         {
-            field_B8_vely = FP_FromInteger(0);
-            field_FC_current_motion = eParamiteStates::State_20_SurpriseWeb_44D9A0;
+            return field_110_state;
         }
-        break;
+        field_B8_vely = FP_FromInteger(0);
+        field_FC_current_motion = eParamiteStates::State_20_SurpriseWeb_44D9A0;
+        return AI_SurpriseWeb::eState3_StateLoop1_4;
 
     case AI_SurpriseWeb::eState3_StateLoop1_4:
         field_14C_pWeb->field_EA_ttl_remainder = FP_GetExponent(FP_Abs(field_AC_ypos)) - 10;
