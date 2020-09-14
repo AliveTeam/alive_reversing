@@ -923,33 +923,10 @@ Scrab* Scrab::FindScrabToFight_45BE30()
     return nullptr;
 }
 
-bool Scrab::CanSeeAbe(BaseAliveGameObject* pObj)
-{
-    if (sActiveHero_507678->field_BC_sprite_scale != field_BC_sprite_scale)
-    {
-        return 0;
-    }
-
-    if (pObj == sActiveHero_507678)
-    {
-        if (sActiveHero_507678->field_FC_current_motion == eAbeStates::State_66_LedgeHang_428D90 ||
-            sActiveHero_507678->field_FC_current_motion == eAbeStates::State_68_LedgeHangWobble_428E50)
-        {
-            return VOnSameYLevel(pObj);
-        }
-    }
-
-    if (pObj->field_AC_ypos <= (field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(35))))
-    {
-        return 0;
-    }
-
-    return 1;
-}
 
 __int16 Scrab::FindAbeOrMud_45BEF0()
 {
-    if (CanSeeAbe(sActiveHero_507678) &&
+    if (CanSeeAbe_45C100(sActiveHero_507678) &&
         sActiveHero_507678->field_100_health > FP_FromInteger(0) &&
         sActiveHero_507678->field_BC_sprite_scale == field_BC_sprite_scale &&
         !WallHit_401930(sActiveHero_507678->field_A8_xpos - field_A8_xpos, field_BC_sprite_scale * FP_FromInteger(35)))
@@ -975,7 +952,7 @@ __int16 Scrab::FindAbeOrMud_45BEF0()
                 pObj->field_4_typeId == Types::eMudokon_75 ||
                 pObj->field_4_typeId == Types::SlingMud_90)
             {
-                if (CanSeeAbe(pObj) &&
+                if (CanSeeAbe_45C100(pObj) &&
                     pObj->field_100_health > FP_FromInteger(0) &&
                     pObj->field_BC_sprite_scale == field_BC_sprite_scale &&
                     !WallHit_401930(pObj->field_A8_xpos - field_A8_xpos, field_BC_sprite_scale * FP_FromInteger(35)))
@@ -991,7 +968,7 @@ __int16 Scrab::FindAbeOrMud_45BEF0()
     return 0;
 }
 
-__int16 Scrab::CanSeeAbe_45C100(Abe* pObj)
+__int16 Scrab::CanSeeAbe_45C100(BaseAliveGameObject* pObj)
 {
     if (pObj->field_BC_sprite_scale != field_BC_sprite_scale)
     {

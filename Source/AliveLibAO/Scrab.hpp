@@ -91,7 +91,7 @@ public:
 
     virtual void VScreenChanged() override;
 
-    EXPORT __int16 CanSeeAbe_45C100(Abe* pObj);
+    EXPORT __int16 CanSeeAbe_45C100(BaseAliveGameObject* pObj);
 
     EXPORT void VScreenChanged_45C290();
 
@@ -122,8 +122,6 @@ public:
     EXPORT __int16 VOnSameYLevel_45C180(BaseAnimatedWithPhysicsGameObject* pObj);
 
     EXPORT Scrab* FindScrabToFight_45BE30();
-
-    bool CanSeeAbe(BaseAliveGameObject* pObj);
 
     EXPORT __int16 FindAbeOrMud_45BEF0();
 
