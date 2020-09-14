@@ -2375,7 +2375,7 @@ __int16 Scrab::Brain_Fighting_45C370()
 
         MapFollowMe_401D30(TRUE);
 
-        if (field_11C_pFight_target->field_10_anim.field_4_flags.Get(AnimFlags::eBit2_Animate))
+        if (field_11C_pFight_target->field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
         {
             field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
             field_100_health = FP_FromInteger(0);
@@ -2399,7 +2399,7 @@ __int16 Scrab::Brain_Fighting_45C370()
         Sfx_460B80(8u, 0, -1571, 1);
         Abe_SFX_2_42A220(6u, 0, -383, 0);
         field_11C_pFight_target->field_C_refCount--;
-        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit2_Animate))
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
         {
             field_11C_pFight_target = nullptr;
             field_FC_current_motion = eScrabStates::State_1_Stand_45E620;
