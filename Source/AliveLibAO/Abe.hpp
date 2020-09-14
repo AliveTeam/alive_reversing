@@ -252,6 +252,9 @@ public:
 
 
     // Non virtuals
+
+    __int16 CrouchOrPushWall(FP gridSize);
+
     static EXPORT void Free_Shrykull_Resources_42F4C0();
 
     EXPORT void FreeElumRes_420F80();
