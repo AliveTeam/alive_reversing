@@ -1991,12 +1991,7 @@ __int16 Scrab::Brain_Fighting_45C370()
 
         if (VIsFacingMe(field_11C_pFight_target))
         {
-            if (VIsObjNearby_418330(ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(8), field_11C_pFight_target))
-            {
-                field_FE_next_state = eScrabStates::State_4_Turn_45EF30;
-                return 2;
-            }
-            else
+            if (!VIsObjNearby_418330(ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(8), field_11C_pFight_target))
             {
                 if (field_11C_pFight_target->field_FC_current_motion == eScrabStates::State_20_HowlBegin_45FA60)
                 {
@@ -2004,6 +1999,12 @@ __int16 Scrab::Brain_Fighting_45C370()
                 }
                 field_FE_next_state = eScrabStates::State_20_HowlBegin_45FA60;
                 return 7;
+              
+            }
+            else
+            {
+                field_FE_next_state = eScrabStates::State_4_Turn_45EF30;
+                return 2;
             }
         }
         else
