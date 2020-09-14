@@ -1640,10 +1640,11 @@ __int16 Paramite::Brain_SurpriseWeb_448D00()
     case AI_SurpriseWeb::eState3_StartAnimation_3:
         if (field_114_timer <= static_cast<int>(gnFrameCount_507670))
         {
-            field_B8_vely = FP_FromInteger(0);
-            field_FC_current_motion = eParamiteStates::State_20_SurpriseWeb_44D9A0;
+            return field_110_state;
         }
-        break;
+        field_B8_vely = FP_FromInteger(0);
+        field_FC_current_motion = eParamiteStates::State_20_SurpriseWeb_44D9A0;
+        return AI_SurpriseWeb::eState3_StateLoop1_4;
 
     case AI_SurpriseWeb::eState3_StateLoop1_4:
         field_14C_pWeb->field_EA_ttl_remainder = FP_GetExponent(FP_Abs(field_AC_ypos)) - 10;
