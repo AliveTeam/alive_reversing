@@ -178,8 +178,6 @@ public:
 
     EXPORT void Slig_SoundEffect_46F310(unsigned __int8 sfxIdx);
 
-    EXPORT __int16 Speak_467700(unsigned __int16 a2);
-
     EXPORT BYTE** ResBlockForMotion_4654D0(__int16 motion);
 
     EXPORT BOOL VIs8_465630(short motion);
@@ -217,6 +215,8 @@ public:
 
     void ToPanicTurn();
 
+    EXPORT __int16 GetNextMotionIncGameSpeak_467700(unsigned __int16 input);
+
     EXPORT static BOOL CCSTD RenderLayerIs_46C0A0(BaseAliveGameObject* pThis);
 
     EXPORT static __int16 CCSTD IsAbeEnteringDoor_46BEE0(BaseAliveGameObject* pThis);
@@ -233,7 +233,9 @@ public:
 
     void CheckPlatformVanished();
 
-    EXPORT __int16  MoveLift_4665E0(FP ySpeed);
+    EXPORT __int16 MoveLift_4665E0(FP ySpeed);
+
+    EXPORT void GameSpeakResponse_46ED60();
 
     // States
     EXPORT void State_0_StandIdle_467640();
