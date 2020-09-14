@@ -157,7 +157,6 @@ void ParamiteWeb::vRender_4E1BA0(int** pOt)
                 ypos_int = FP_GetExponent(cam_y + FP_FromInteger(y_start));
             }
 
-            int idx = 0;
             if (minY < 0)
             {
                 minY = 0;
@@ -172,7 +171,7 @@ void ParamiteWeb::vRender_4E1BA0(int** pOt)
 
             if (y_start >= minY)
             {
-                while (idx < field_F4_number_of_segments)
+                for (int idx = 0; idx < field_F4_number_of_segments; ++idx)
                 {
                     short r = 128;
                     short g = 128;
@@ -187,7 +186,6 @@ void ParamiteWeb::vRender_4E1BA0(int** pOt)
                     pScreenManager_5BB5F4->InvalidateRect_40EC90(rect.x, rect.y, rect.w, rect.h, pScreenManager_5BB5F4->field_3A_idx);
                     ClipPoly_Vertically_4A09E0(&field_100_pRes[idx].field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index], minY, maxY);
                     y_start -= field_F6_segment_length;
-                    idx++;
                     if (y_start < minY)
                     {
                         break;
