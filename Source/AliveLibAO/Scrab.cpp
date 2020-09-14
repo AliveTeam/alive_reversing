@@ -954,13 +954,14 @@ __int16 Scrab::FindAbeOrMud_45BEF0()
 
             if (pObjIter->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
             {
-                if (pObjIter->field_4_typeId == Types::eMudokon_52 ||
-                    pObjIter->field_4_typeId == Types::eMudokon_75 ||
-                    pObjIter->field_4_typeId == Types::SlingMud_90)
+                BaseAliveGameObject* pObj = static_cast<BaseAliveGameObject*>(pObjIter);
+
+                if (pObj->field_4_typeId == Types::eMudokon_52 ||
+                    pObj->field_4_typeId == Types::eMudokon_75 ||
+                    pObj->field_4_typeId == Types::SlingMud_90)
                 {
                     bSameYLevel = 0;
 
-                    BaseAliveGameObject* pObj = static_cast<BaseAliveGameObject*>(pObjIter);
                     if (pObj->field_BC_sprite_scale == field_BC_sprite_scale)
                     {
                         if (pObj == sActiveHero_507678

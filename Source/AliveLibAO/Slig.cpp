@@ -1750,12 +1750,6 @@ signed __int16 Slig::HandlePlayerControlled_4667B0()
     return 0;
 }
 
-__int16 Slig::Speak_467700(unsigned __int16 /*a2*/)
-{
-    NOT_IMPLEMENTED();
-    return -1;
-}
-
 void Slig::PlayerControlRunningSlideStopOrTurnFrame4_469900()
 {
     NOT_IMPLEMENTED();
@@ -1868,7 +1862,7 @@ signed __int16 Slig::MainMovement_467020()
         }
         else
         {
-            field_FC_current_motion = Speak_467700(0);
+            field_FC_current_motion = GetNextMotionIncGameSpeak_467700(0);
             if (field_FC_current_motion != -1)
             {
                 Event_Broadcast_417220(1, this);
@@ -2678,7 +2672,7 @@ void Slig::State_18_GameSpeak_467B10()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_FC_current_motion = Speak_467700(field_126_input);
+        field_FC_current_motion = GetNextMotionIncGameSpeak_467700(field_126_input);
         if (field_FC_current_motion == -1)
         {
             ToStand();

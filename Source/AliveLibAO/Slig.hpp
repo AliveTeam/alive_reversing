@@ -178,8 +178,6 @@ public:
 
     EXPORT void Slig_SoundEffect_46F310(unsigned __int8 sfxIdx);
 
-    EXPORT __int16 Speak_467700(unsigned __int16 a2);
-
     EXPORT BYTE** ResBlockForMotion_4654D0(__int16 motion);
 
     EXPORT BOOL VIs8_465630(short motion);
