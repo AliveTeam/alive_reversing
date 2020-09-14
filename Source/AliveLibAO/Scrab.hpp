@@ -121,6 +121,8 @@ public:
 
     EXPORT __int16 VOnSameYLevel_45C180(BaseAnimatedWithPhysicsGameObject* pObj);
 
+    EXPORT Scrab* FindScrabToFight_45BE30();
+
     // States
     EXPORT void State_0_Empty_45E3D0();
     EXPORT void State_1_Stand_45E620();

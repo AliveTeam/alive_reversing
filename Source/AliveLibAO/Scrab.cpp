@@ -887,6 +887,42 @@ __int16 Scrab::VOnSameYLevel_45C180(BaseAnimatedWithPhysicsGameObject* pObj)
     }
 }
 
+Scrab* Scrab::FindScrabToFight_45BE30()
+{
+    for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    {
+        BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_4_typeId == Types::eScrab_77)
+        {
+            Scrab* pOther = static_cast<Scrab*>(pObj);
+            if (pOther != this
+                && !pOther->BrainIs(&Scrab::Brain_Death_45CB80)
+                && VOnSameYLevel(pOther)
+                && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                    pOther->field_B2_lvl_number,
+                    pOther->field_B0_path_number,
+                    pOther->field_A8_xpos,
+                    pOther->field_AC_ypos,
+                    0)
+                && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                    field_B2_lvl_number,
+                    field_B0_path_number,
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    0))
+            {
+                return pOther;
+            }
+        }
+    }
+    return nullptr;
+}
+
 __int16 Scrab::CanSeeAbe_45C100(Abe* pObj)
 {
     if (pObj->field_BC_sprite_scale != field_BC_sprite_scale)
