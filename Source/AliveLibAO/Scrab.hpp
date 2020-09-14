@@ -150,19 +150,19 @@ public:
     EXPORT void State_29_DeathBegin_45FFA0();
 
     // Brains
-    EXPORT __int16 Brain_45C370();
+    EXPORT __int16 Brain_Fighting_45C370();
 
     EXPORT __int16 Brain_45CA60();
 
-    EXPORT __int16 Brain_45CB80();
+    EXPORT __int16 Brain_Death_45CB80();
 
-    EXPORT __int16 Brain_45CC90();
+    EXPORT __int16 Brain_ChasingEnemy_45CC90();
 
-    EXPORT __int16 Brain_460020();
+    EXPORT __int16 Brain_Patrol_460020();
 
     EXPORT __int16 Brain_460D80();
 
-    using TBrainType = decltype(&Scrab::Brain_45C370);
+    using TBrainType = decltype(&Scrab::Brain_Fighting_45C370);
 
     void SetBrain(TBrainType fn);
 

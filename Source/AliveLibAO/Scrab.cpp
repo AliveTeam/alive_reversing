@@ -18,6 +18,7 @@
 #include "Game.hpp"
 #include "FixedPoint.hpp"
 #include "Gibs.hpp"
+#include "Particle.hpp"
 
 void Scrab_ForceLink() {}
 
@@ -95,11 +96,11 @@ const int sScrabFrameTables_4CF708[30] =
 
 static AIFunctionData<Scrab::TBrainType> sScrabAITable[]
 {
-    { &Scrab::Brain_45C370,  0x45C370, "Brain_45C370" },
+    { &Scrab::Brain_Fighting_45C370,  0x45C370, "Brain_Fighting_45C370" },
     { &Scrab::Brain_45CA60,  0x45CA60, "Brain_45CA60" },
-    { &Scrab::Brain_45CB80,  0x45CB80, "Brain_45CB80" },
-    { &Scrab::Brain_45CC90,  0x45CC90, "Brain_45CC90" },
-    { &Scrab::Brain_460020,  0x460020, "Brain_460020" },
+    { &Scrab::Brain_Death_45CB80,  0x45CB80, "Brain_Death_45CB80" },
+    { &Scrab::Brain_ChasingEnemy_45CC90,  0x45CC90, "Brain_ChasingEnemy_45CC90" },
+    { &Scrab::Brain_Patrol_460020,  0x460020, "Brain_Patrol_460020" },
     { &Scrab::Brain_460D80,  0x460D80, "Brain_460D80" },
 };
 
@@ -141,7 +142,7 @@ Scrab* Scrab::ctor_45B5F0(Path_Scrab* pTlv, int tlvInfo)
     field_132_res_block_idx = 0;
     field_118_timer = 0;
     
-    SetBrain(&Scrab::Brain_460020);
+    SetBrain(&Scrab::Brain_Patrol_460020);
 
     field_110_brain_ret = 0;
     field_FE_next_state = 0;
@@ -443,7 +444,7 @@ __int16 Scrab::VTakeDamage_45BC10(BaseGameObject* pFrom)
         case Types::eBullet_10:
         case Types::eRollingBall_72:
             field_100_health = FP_FromInteger(0);
-            SetBrain(&Scrab::Brain_45CB80);
+            SetBrain(&Scrab::Brain_Death_45CB80);
             field_130 = 2;
             field_118_timer = gnFrameCount_507670 + 90;
             field_FC_current_motion = eScrabStates::State_29_DeathBegin_45FFA0;
@@ -475,7 +476,7 @@ __int16 Scrab::VTakeDamage_45BC10(BaseGameObject* pFrom)
             SFX_Play_43AD70(78u, 127, 0);
             SFX_Play_43AD70(53u, 90, 0);
             field_100_health = FP_FromInteger(0);
-            SetBrain(&Scrab::Brain_45CB80);
+            SetBrain(&Scrab::Brain_Death_45CB80);
             field_130 = 2;
             field_118_timer = gnFrameCount_507670 + 90;
             field_FC_current_motion = eScrabStates::State_29_DeathBegin_45FFA0;
@@ -1960,7 +1961,7 @@ void Scrab::State_29_DeathBegin_45FFA0()
     }
 }
 
-__int16 Scrab::Brain_45C370()
+__int16 Scrab::Brain_Fighting_45C370()
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -1972,19 +1973,37 @@ __int16 Scrab::Brain_45CA60()
     return 0;
 }
 
-__int16 Scrab::Brain_45CB80()
+__int16 Scrab::Brain_Death_45CB80()
+{
+    if (field_118_timer > static_cast<int>(gnFrameCount_507670) && field_118_timer < static_cast<int>(gnFrameCount_507670) + 80)
+    {
+        field_BC_sprite_scale -= FP_FromDouble(0.008);
+        field_C0_r -= 2;
+        field_C2_g -= 2;
+        field_C4_b -= 2;
+    }
+
+    if (static_cast<int>(gnFrameCount_507670) < field_118_timer - 24 && !(gnFrameCount_507670 % 5))
+    {
+        New_Particles_419A80((FP_FromInteger(Math_RandomRange_450F20(-24, 24)) * field_BC_sprite_scale) + field_A8_xpos, field_AC_ypos - FP_FromInteger(6), field_BC_sprite_scale / FP_FromInteger(2), 2, 0);
+        SFX_Play_43AE60(96, 25, FP_GetExponent((FP_FromInteger(2200) * field_BC_sprite_scale)));
+    }
+
+    if (field_118_timer < static_cast<int>(gnFrameCount_507670))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+
+    return 100;
+}
+
+__int16 Scrab::Brain_ChasingEnemy_45CC90()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Scrab::Brain_45CC90()
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-__int16 Scrab::Brain_460020()
+__int16 Scrab::Brain_Patrol_460020()
 {
     NOT_IMPLEMENTED();
     return 0;
