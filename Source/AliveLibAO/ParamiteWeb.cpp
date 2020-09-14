@@ -134,7 +134,6 @@ void ParamiteWeb::VUpdate_48AE70()
 //TODO @ 100% - merge with Rope::vRender()
 void ParamiteWeb::VRender_48AB10(int **pOt)
 {
-    NOT_IMPLEMENTED();
     PSX_Point camCoords = {};
     gMap_507BA8.GetCurrentCamCoords_444890(&camCoords);
     if (field_B2_lvl_number == gMap_507BA8.field_0_current_level && field_B0_path_number == gMap_507BA8.field_2_current_path)
