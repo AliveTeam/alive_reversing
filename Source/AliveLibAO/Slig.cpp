@@ -3500,8 +3500,34 @@ __int16 Slig::Brain_WakingUp_46B700()
 
 __int16 Slig::Brain_Inactive_46B780()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (field_114_timer > static_cast<int>(gnFrameCount_507670))
+    {
+        if (sActiveHero_507678->field_100_health > FP_FromInteger(0))
+        {
+            if (!VOnSameYLevel(sControlledCharacter_50767C)
+                || !VIsFacingMe(sControlledCharacter_50767C)
+                || !VIsObjNearby(ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(1), sControlledCharacter_50767C)
+                || IsInInvisibleZone_418870(sControlledCharacter_50767C)
+                || IsWallBetween_46BE60(this, sControlledCharacter_50767C)
+                || Event_Get_417250(kEventResetting_6))
+            {
+                ShouldStilBeAlive_46C0D0();
+            }
+            else
+            {
+                ToShoot_46F1D0();
+            }
+        }
+        else
+        {
+            ToAbeDead_466270();
+        }
+    }
+    else
+    {
+        WaitOrWalk_46E440();
+    }
+    return 103;
 }
 
 __int16 Slig::Brain_Possessed_46C190()
