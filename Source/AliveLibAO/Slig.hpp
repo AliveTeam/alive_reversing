@@ -233,7 +233,9 @@ public:
 
     void CheckPlatformVanished();
 
-    EXPORT __int16  MoveLift_4665E0(FP ySpeed);
+    EXPORT __int16 MoveLift_4665E0(FP ySpeed);
+
+    EXPORT void GameSpeakResponse_46ED60();
 
     // States
     EXPORT void State_0_StandIdle_467640();

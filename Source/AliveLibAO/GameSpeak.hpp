@@ -9,6 +9,38 @@ enum class GameSpeakEvents : __int16
 {
     eSameAsLast_m2 = -2,
     eNone_m1 = -1,
+
+    eUnknown_1 = 1,
+    eUnknown_2 = 2,
+    eUnknown_3 = 3,
+    eUnknown_4 = 4,
+    eUnknown_5 = 5,
+    eUnknown_6 = 6,
+    eUnknown_7 = 7,
+    eUnknown_8 = 8,
+    eUnknown_9 = 9,
+    eUnknown_10 = 10,
+    eUnknown_11 = 11,
+    eUnknown_12 = 12,
+    eUnknown_13 = 13,
+    eUnknown_14 = 14,
+    eUnknown_15 = 15,
+    eUnknown_16 = 16,
+    eUnknown_17 = 17,
+    eUnknown_18 = 18,
+    eUnknown_19 = 19,
+    eUnknown_20 = 20,
+    eUnknown_21 = 21,
+    eUnknown_22 = 22,
+    eUnknown_23 = 23,
+
+    eUnknown_25 = 25,
+    eUnknown_26 = 26,
+    eUnknown_27 = 27,
+    eUnknown_28 = 28,
+
+    eUnknown_30 = 30,
+    eUnknown_31 = 31,
 };
 
 enum class GameSpeakMatch : __int16
