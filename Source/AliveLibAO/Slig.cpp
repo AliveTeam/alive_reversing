@@ -1230,6 +1230,152 @@ void Slig::ToPanicTurn()
     SetBrain(&Slig::Brain_PanicTurning_46C7C0);
 }
 
+__int16 Slig::GetNextMotionIncGameSpeak_467700(unsigned __int16 input)
+{
+    if (sControlledCharacter_50767C != this || field_100_health <= FP_FromInteger(0))
+    {
+        switch (field_FE_next_state)
+        {
+        case eSligStates::State_21_SpeakHereBoy_467BD0:
+            field_FE_next_state = -1;
+            Sfx_Slig_GameSpeak_46F560(1u, 0, field_110_pitch_min, this);
+            return eSligStates::State_21_SpeakHereBoy_467BD0;
+
+        case eSligStates::State_22_SpeakHi_467C90:
+            field_FE_next_state = -1;
+            Sfx_Slig_GameSpeak_46F560(0, 0, field_110_pitch_min, this);
+            return eSligStates::State_22_SpeakHi_467C90;
+
+        case eSligStates::State_23_SpeakFreeze_467D50:
+            field_FE_next_state = -1;
+            Sfx_Slig_GameSpeak_46F560(3u, 0, field_110_pitch_min, this);
+            return eSligStates::State_23_SpeakFreeze_467D50;
+
+        case eSligStates::State_24_SpeakGitIm_467E10:
+            field_FE_next_state = -1;
+            Sfx_Slig_GameSpeak_46F560(2u, 0, field_110_pitch_min, this);
+            return eSligStates::State_24_SpeakGitIm_467E10;
+
+        case eSligStates::State_25_SpeakLaugh_467ED0:
+            field_FE_next_state = -1;
+            Sfx_Slig_GameSpeak_46F560(7u, 0, field_110_pitch_min, this);
+            return eSligStates::State_25_SpeakLaugh_467ED0;
+
+        case eSligStates::State_26_SpeakBullshit1_467F90:
+            field_FE_next_state = -1;
+            Sfx_Slig_GameSpeak_46F560(4u, 0, field_110_pitch_min, this);
+            return eSligStates::State_26_SpeakBullshit1_467F90;
+
+        case eSligStates::State_27_SpeakLookOut_468050:
+            field_FE_next_state = -1;
+            Sfx_Slig_GameSpeak_46F560(5u, 0, field_110_pitch_min, this);
+            return eSligStates::State_27_SpeakLookOut_468050;
+
+        case eSligStates::State_28_SpeakBullshit2_468110:
+            field_FE_next_state = -1;
+            Sfx_Slig_GameSpeak_46F560(6u, 0, field_110_pitch_min, this);
+            return eSligStates::State_28_SpeakBullshit2_468110;
+
+        case eSligStates::State_29_SpeakPanic_4681D0:
+            field_FE_next_state = -1;
+            Sfx_Slig_GameSpeak_46F560(0xAu, 0, field_110_pitch_min, this);
+            return eSligStates::State_29_SpeakPanic_4681D0;
+
+        case eSligStates::State_30_SpeakWhat_468290:
+            field_FE_next_state = -1;
+            Sfx_Slig_GameSpeak_46F560(9u, 0, field_110_pitch_min, this);
+            return eSligStates::State_30_SpeakWhat_468290;
+
+        case eSligStates::State_31_SpeakAIFreeze_468350:
+            field_FE_next_state = -1;
+            Sfx_Slig_GameSpeak_46F560(8u, 0, field_110_pitch_min, this);
+            return eSligStates::State_31_SpeakAIFreeze_468350;
+
+        case eSligStates::State_32_Blurgh_468410:
+            field_FE_next_state = -1;
+            Sfx_Slig_GameSpeak_46F560(11u, 0, field_110_pitch_min, this);
+            return eSligStates::State_32_Blurgh_468410;
+
+        default:
+            return -1;
+        }
+    }
+
+    if (Input_IsChanting_4334C0())
+    {
+        if (field_254_prevent_depossession & 4)
+        {
+            return -1;
+        }
+
+        field_128_timer = gnFrameCount_507670 + 30;
+        SFX_Play_43AD70(21u, 0, 0);
+        return eSligStates::State_37_Depossessing_4684D0;
+    }
+
+    if (sInputObject_5009E8.isPressed(dword_4C65B8))
+    {
+        if (input & sInputKey_GameSpeak2_4C65BC)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_24);
+            Sfx_Slig_GameSpeak_46F560(1u, 0, field_110_pitch_min, this);
+            return eSligStates::State_21_SpeakHereBoy_467BD0;
+        }
+        if (input & sInputKey_GameSpeak1_4C65C8)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_23);
+            Sfx_Slig_GameSpeak_46F560(0, 0, field_110_pitch_min, this);
+            return eSligStates::State_22_SpeakHi_467C90;
+        }
+
+        if (input & sInputKey_GameSpeak3_4C65C0)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_27);
+            Sfx_Slig_GameSpeak_46F560(8u, 0, field_110_pitch_min, this);
+            return eSligStates::State_23_SpeakFreeze_467D50;
+        }
+
+        if (input & sInputKey_GameSpeak4_4C65C4)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_25);
+            Sfx_Slig_GameSpeak_46F560(2u, 0, field_110_pitch_min, this);
+            return eSligStates::State_24_SpeakGitIm_467E10;
+        }
+        return -1;
+    }
+    else if (sInputObject_5009E8.isPressed(dword_4C65DC))
+    {
+        if (input & sInputKey_GameSpeak8_4C65E0)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_8);
+            Sfx_Slig_GameSpeak_46F560(7u, 0, field_110_pitch_min, this);
+            return eSligStates::State_25_SpeakLaugh_467ED0;
+        }
+
+        if (input & sInputKey_GameSpeak6_4C65E8)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_5);
+            Sfx_Slig_GameSpeak_46F560(4u, 0, field_110_pitch_min, this);
+            return eSligStates::State_26_SpeakBullshit1_467F90;
+        }
+
+        if (input & sInputKey_GameSpeak7_4C65E4)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_6);
+            Sfx_Slig_GameSpeak_46F560(5u, 0, field_110_pitch_min, this);
+            return eSligStates::State_27_SpeakLookOut_468050;
+        }
+
+        if (input & sInputKey_GameSpeak5_4C65EC)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_7);
+            Sfx_Slig_GameSpeak_46F560(6u, 0, field_110_pitch_min, this);
+            return eSligStates::State_28_SpeakBullshit2_468110;
+        }
+    }
+    return -1;
+}
+
 BOOL CCSTD Slig::RenderLayerIs_46C0A0(BaseAliveGameObject* pThis)
 {
     return pThis->field_10_anim.field_C_layer == 3 || pThis->field_10_anim.field_C_layer == 22;

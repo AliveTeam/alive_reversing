@@ -217,6 +217,8 @@ public:
 
     void ToPanicTurn();
 
+    EXPORT __int16 GetNextMotionIncGameSpeak_467700(unsigned __int16 input);
+
     EXPORT static BOOL CCSTD RenderLayerIs_46C0A0(BaseAliveGameObject* pThis);
 
     EXPORT static __int16 CCSTD IsAbeEnteringDoor_46BEE0(BaseAliveGameObject* pThis);

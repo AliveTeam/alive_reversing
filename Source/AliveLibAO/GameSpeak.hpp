@@ -33,7 +33,7 @@ enum class GameSpeakEvents : __int16
     eUnknown_21 = 21,
     eUnknown_22 = 22,
     eUnknown_23 = 23,
-
+    eUnknown_24 = 24,
     eUnknown_25 = 25,
     eUnknown_26 = 26,
     eUnknown_27 = 27,
