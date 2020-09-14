@@ -123,6 +123,8 @@ public:
 
     EXPORT Scrab* FindScrabToFight_45BE30();
 
+    bool CanSeeAbe(BaseAliveGameObject* pObj);
+
     EXPORT __int16 FindAbeOrMud_45BEF0();
 
     // States

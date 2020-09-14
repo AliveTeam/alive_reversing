@@ -923,23 +923,33 @@ Scrab* Scrab::FindScrabToFight_45BE30()
     return nullptr;
 }
 
-__int16 Scrab::FindAbeOrMud_45BEF0()
+bool Scrab::CanSeeAbe(BaseAliveGameObject* pObj)
 {
-    __int16 bSameYLevel = 0;
-    if (sActiveHero_507678->field_BC_sprite_scale == field_BC_sprite_scale)
+    if (sActiveHero_507678->field_BC_sprite_scale != field_BC_sprite_scale)
+    {
+        return 0;
+    }
+
+    if (pObj == sActiveHero_507678)
     {
         if (sActiveHero_507678->field_FC_current_motion == eAbeStates::State_66_LedgeHang_428D90 ||
             sActiveHero_507678->field_FC_current_motion == eAbeStates::State_68_LedgeHangWobble_428E50)
         {
-            bSameYLevel = VOnSameYLevel(sActiveHero_507678);
-        }
-        else
-        {
-            bSameYLevel = sActiveHero_507678->field_AC_ypos < field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(35));
+            return VOnSameYLevel(pObj);
         }
     }
 
-    if (bSameYLevel &&
+    if (pObj->field_AC_ypos <= (field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(35))))
+    {
+        return 0;
+    }
+
+    return 1;
+}
+
+__int16 Scrab::FindAbeOrMud_45BEF0()
+{
+    if (CanSeeAbe(sActiveHero_507678) &&
         sActiveHero_507678->field_100_health > FP_FromInteger(0) &&
         sActiveHero_507678->field_BC_sprite_scale == field_BC_sprite_scale &&
         !WallHit_401930(sActiveHero_507678->field_A8_xpos - field_A8_xpos, field_BC_sprite_scale * FP_FromInteger(35)))
@@ -947,7 +957,6 @@ __int16 Scrab::FindAbeOrMud_45BEF0()
         field_120_pTarget = sActiveHero_507678;
         sActiveHero_507678->field_C_refCount++;
         return 1;
-
     }
 
     for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
@@ -966,36 +975,15 @@ __int16 Scrab::FindAbeOrMud_45BEF0()
                 pObj->field_4_typeId == Types::eMudokon_75 ||
                 pObj->field_4_typeId == Types::SlingMud_90)
             {
-                bSameYLevel = 0;
-
-                if (pObj->field_BC_sprite_scale == field_BC_sprite_scale)
+                if (CanSeeAbe(pObj) &&
+                    pObj->field_100_health > FP_FromInteger(0) &&
+                    pObj->field_BC_sprite_scale == field_BC_sprite_scale &&
+                    !WallHit_401930(pObj->field_A8_xpos - field_A8_xpos, field_BC_sprite_scale * FP_FromInteger(35)))
                 {
-                    if (pObj == sActiveHero_507678
-                        && (sActiveHero_507678->field_FC_current_motion == eAbeStates::State_66_LedgeHang_428D90 ||
-                            sActiveHero_507678->field_FC_current_motion == eAbeStates::State_68_LedgeHangWobble_428E50))
-                    {
-                        bSameYLevel = VOnSameYLevel(pObj);
-                    }
-                    else
-                    {
-                        bSameYLevel = pObj->field_AC_ypos < field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(35));
-                    }
-                }
 
-                if (bSameYLevel)
-                {
-                    if (pObj->field_100_health > FP_FromInteger(0))
-                    {
-                        if (pObj->field_BC_sprite_scale == field_BC_sprite_scale)
-                        {
-                            if (!WallHit_401930(pObj->field_A8_xpos - field_A8_xpos, field_BC_sprite_scale * FP_FromInteger(35)))
-                            {
-                                field_120_pTarget = pObj;
-                                field_120_pTarget->field_C_refCount++;
-                                return 1;
-                            }
-                        }
-                    }
+                    field_120_pTarget = pObj;
+                    field_120_pTarget->field_C_refCount++;
+                    return 1;
                 }
             }
         }
