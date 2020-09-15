@@ -3256,7 +3256,60 @@ void Abe::State_28_RunTurn_425CE0()
 
 void Abe::State_29_HopBegin_4267B0()
 {
-    NOT_IMPLEMENTED();
+    FollowLift_42EE90();
+
+    if (field_10_anim.field_92_current_frame == 9)
+    {
+        const FP velX = field_BC_sprite_scale * (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(-17) : FP_FromInteger(17));
+        field_B4_velx = velX;
+
+        if (!field_1A0_portal)
+        {
+            if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), field_B4_velx))
+            {
+                Event_Broadcast_417220(kEventNoise_0, this);
+                Event_Broadcast_417220(kEvent_10, this);
+                field_B4_velx = FP_FromInteger(0);
+                ToKnockback_422D90(1, 1);
+                return;
+            }
+        }
+        field_A8_xpos += field_B4_velx;
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_E8_LastLineYPos = field_AC_ypos;
+        const FP velX = field_BC_sprite_scale * (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromDouble(-13.57) : FP_FromDouble(13.57));
+        field_B4_velx = velX;
+        field_A8_xpos += velX;
+
+        const FP velY = field_BC_sprite_scale * FP_FromDouble(-2.7);
+        field_B8_vely = velY;
+        field_AC_ypos += velY;
+
+        VOnTrapDoorOpen();
+
+        field_FC_current_motion = eAbeStates::State_30_HopMid_4264D0;
+        field_F4_pLine = nullptr;
+
+        if (!field_1A0_portal)
+        {
+            field_1A0_portal = IntoBirdPortal_402350(2);
+            if (field_1A0_portal)
+            {
+                if (field_1A0_portal->field_10_portal_type != PortalType::eAbe_0)
+                {
+                    field_1A0_portal = nullptr;
+                }
+            }
+
+            if (field_1A0_portal)
+            {
+                field_19E = 0;
+            }
+        }
+    }
 }
 
 void Abe::IntoPortalStates_4262A0()
