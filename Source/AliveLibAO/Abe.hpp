@@ -285,6 +285,8 @@ public:
 
     EXPORT void sub_422FC0();
 
+    EXPORT eAbeStates MoveLiftUpOrDown_42F190(FP ySpeed);
+
     EXPORT void ElumFree_4228F0();
 
     EXPORT eAbeStates DoGameSpeak_42F5C0(unsigned __int16 input);

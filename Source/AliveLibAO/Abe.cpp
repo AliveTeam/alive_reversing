@@ -2570,27 +2570,23 @@ void Abe::State_2_StandingTurn_426040()
 {
     FollowLift_42EE90();
 
-    const FP gridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
-    if (field_10_anim.field_92_current_frame == 4)
-    {
-        if (sInputObject_5009E8.isPressed(sInputKey_Run_4C65A8))
-        {
-            if (sInputObject_5009E8.isPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
-            {
-                field_FC_current_motion = eAbeStates::State_63_TurnToRun_42A0A0;
-                field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+    const __int16 currentFrame = field_10_anim.field_92_current_frame;
+    const DWORD pressed = sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
 
-                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-                {
-                    field_B4_velx = -(gridSize / FP_FromInteger(4));
-                }
-                else
-                {
-                    field_B4_velx = (gridSize / FP_FromInteger(4));
-                }
-                return;
-            }
+    if (currentFrame == 4 && (sInputKey_Run_4C65A8 & pressed) && (sInputKey_Right_4C6590 | sInputKey_Left_4C6594) & pressed)
+    {
+        field_FC_current_motion = eAbeStates::State_63_TurnToRun_42A0A0;
+        field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
         }
+        else
+        {
+            field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+        }
+        return;
     }
 
     if (!field_10_anim.field_92_current_frame)
@@ -2611,11 +2607,11 @@ void Abe::State_2_StandingTurn_426040()
                     Switch* pSwitch;
                     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                     {
-                        pSwitch = static_cast<Switch*>(FindObjectOfType_418280(Types::eLever_97, field_A8_xpos - gridSize, field_AC_ypos - FP_FromInteger(5)));
+                        pSwitch = static_cast<Switch*>(FindObjectOfType_418280(Types::eLever_97, field_A8_xpos - ScaleToGridSize_41FA30(field_BC_sprite_scale), field_AC_ypos - FP_FromInteger(5)));
                     }
                     else
                     {
-                        pSwitch = static_cast<Switch*>(FindObjectOfType_418280(Types::eLever_97, field_A8_xpos + gridSize, field_AC_ypos - FP_FromInteger(5)));
+                        pSwitch = static_cast<Switch*>(FindObjectOfType_418280(Types::eLever_97, field_A8_xpos + ScaleToGridSize_41FA30(field_BC_sprite_scale), field_AC_ypos - FP_FromInteger(5)));
                     }
 
                     if (pSwitch)
@@ -2627,14 +2623,18 @@ void Abe::State_2_StandingTurn_426040()
                 field_FC_current_motion = field_FE_next_state;
             }
 
-            if (gElum_507680->field_FC_current_motion == eElumStates::State_1_Idle_412990 && 
-                !(gElum_507680->field_170_flags & 1))
+            if (gElum_507680)
             {
-                LoadMountElumResources_42E690();
-                field_FE_next_state = eAbeStates::State_0_Idle_423520;
-                field_FC_current_motion = field_FE_next_state;
-                return;
+                if (gElum_507680->field_FC_current_motion == eElumStates::State_1_Idle_412990 &&
+                    !(gElum_507680->field_170_flags & 1))
+                {
+                    LoadMountElumResources_42E690();
+                    field_FE_next_state = eAbeStates::State_0_Idle_423520;
+                    field_FC_current_motion = field_FE_next_state;
+                    return;
+                }
             }
+
             field_120 = FP_FromInteger(0);
             field_B4_velx = FP_FromInteger(0);
             field_FE_next_state = eAbeStates::State_0_Idle_423520;
@@ -5033,7 +5033,37 @@ void Abe::State_97_RunJumpToFall_429930()
 
 void Abe::State_98_LandSoft_42ED40()
 {
-    NOT_IMPLEMENTED();
+    FollowLift_42EE90();
+
+    if (field_10_anim.field_92_current_frame == 2)
+    {
+        if (!(field_2A8_flags.Get(Flags_2A8::e2A8_Bit8)))
+        {
+            Event_Broadcast_417220(kEventNoise_0, this);
+            Event_Broadcast_417220(kEvent_10, this);
+        }
+
+        field_2A8_flags.Clear(Flags_2A8::e2A8_Bit8);
+
+        if (field_E4 == eAbeStates::State_3_Fall_42E7F0)
+        {
+            Abe_SFX_2_42A220(5u, 0, 0x7FFF, this);
+        }
+        else
+        {
+            Abe_SFX_2_42A220(6u, 0, 0x7FFF, this);
+        }
+
+        if (sInputObject_5009E8.isPressed(0xA000u))
+        {
+            ToLeftRightMovement_422AA0();
+        }
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToIdle_422D50();
+    }
 }
 
 void Abe::State_99_LedgeHoistUp_426DC0()
@@ -5321,14 +5351,20 @@ void Abe::State_130_KnockForwardGetUp_429560()
     }
 }
 
-void Abe::State_131_LiftUseUp_42F150()
+eAbeStates Abe::MoveLiftUpOrDown_42F190(FP /*ySpeed*/)
 {
     NOT_IMPLEMENTED();
+    return eAbeStates::State_0_Idle_423520;
+}
+
+void Abe::State_131_LiftUseUp_42F150()
+{
+    field_FC_current_motion = MoveLiftUpOrDown_42F190(FP_FromInteger(-4));
 }
 
 void Abe::State_132_LiftUseDown_42F170()
 {
-    NOT_IMPLEMENTED();
+    field_FC_current_motion = MoveLiftUpOrDown_42F190(FP_FromInteger(4));
 }
 
 void Abe::State_133_LiftGrabBegin_42EF20()
