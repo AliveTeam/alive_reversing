@@ -252,6 +252,7 @@ public:
 
 
     // Non virtuals
+
     static EXPORT void Free_Shrykull_Resources_42F4C0();
 
     EXPORT void FreeElumRes_420F80();
@@ -281,6 +282,8 @@ public:
     EXPORT void ToIdle_422D50();
 
     EXPORT void sub_422FC0();
+
+    EXPORT __int16 MoveLiftUpOrDown_42F190(FP ySpeed);
 
     EXPORT void ElumFree_4228F0();
 

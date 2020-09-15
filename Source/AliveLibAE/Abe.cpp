@@ -4725,8 +4725,6 @@ void Abe::State_30_RunJumpBegin_4532E0()
 
 void Abe::State_31_RunJumpMid_452C10()
 {
-    //NOT_IMPLEMENTED();
-
     BaseGameObject* pfield_110_id = sObjectIds_5C1B70.Find_449CF0(field_110_id);
     Event_Broadcast_422BC0(kEventNoise, this);
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);

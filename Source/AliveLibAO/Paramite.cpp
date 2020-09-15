@@ -1638,7 +1638,7 @@ __int16 Paramite::Brain_SurpriseWeb_448D00()
         return AI_SurpriseWeb::eState3_StartAnimation_3;
 
     case AI_SurpriseWeb::eState3_StartAnimation_3:
-        if (field_114_timer <= static_cast<int>(gnFrameCount_507670))
+        if (field_114_timer > static_cast<int>(gnFrameCount_507670))
         {
             return field_110_state;
         }
