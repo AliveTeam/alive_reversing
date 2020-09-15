@@ -33,6 +33,7 @@
 #include "Rope.hpp"
 #include "BeeSwarm.hpp"
 #include "Shrykull.hpp"
+#include "Switch.hpp"
 
 START_NS_AO;
 
@@ -2567,7 +2568,95 @@ void Abe::State_1_WalkLoop_423F90()
 
 void Abe::State_2_StandingTurn_426040()
 {
-    NOT_IMPLEMENTED();
+    FollowLift_42EE90();
+
+    const FP gridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
+    if (field_10_anim.field_92_current_frame == 4)
+    {
+        if (sInputObject_5009E8.isPressed(sInputKey_Run_4C65A8))
+        {
+            if (sInputObject_5009E8.isPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
+            {
+                field_FC_current_motion = eAbeStates::State_63_TurnToRun_42A0A0;
+                field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+
+                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    field_B4_velx = -(gridSize / FP_FromInteger(4));
+                }
+                else
+                {
+                    field_B4_velx = (gridSize / FP_FromInteger(4));
+                }
+                return;
+            }
+        }
+    }
+
+    if (!field_10_anim.field_92_current_frame)
+    {
+        Abe_SFX_2_42A220(9u, 0, 0x7FFF, this);
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+
+        if (field_FE_next_state)
+        {
+            if (field_FE_next_state != eAbeStates::State_139_ElumMountBegin_42E090)
+            {
+                if (field_FE_next_state == eAbeStates::State_101_LeverUse_429970)
+                {
+                    Switch* pSwitch;
+                    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                    {
+                        pSwitch = static_cast<Switch*>(FindObjectOfType_418280(Types::eLever_97, field_A8_xpos - gridSize, field_AC_ypos - FP_FromInteger(5)));
+                    }
+                    else
+                    {
+                        pSwitch = static_cast<Switch*>(FindObjectOfType_418280(Types::eLever_97, field_A8_xpos + gridSize, field_AC_ypos - FP_FromInteger(5)));
+                    }
+
+                    if (pSwitch)
+                    {
+                        pSwitch->vPull_481640(field_A8_xpos < pSwitch->field_A8_xpos);
+                    }
+                }
+                field_FE_next_state = eAbeStates::State_0_Idle_423520;
+                field_FC_current_motion = field_FE_next_state;
+            }
+
+            if (gElum_507680->field_FC_current_motion == eElumStates::State_1_Idle_412990 && 
+                !(gElum_507680->field_170_flags & 1))
+            {
+                LoadMountElumResources_42E690();
+                field_FE_next_state = eAbeStates::State_0_Idle_423520;
+                field_FC_current_motion = field_FE_next_state;
+                return;
+            }
+            field_120 = FP_FromInteger(0);
+            field_B4_velx = FP_FromInteger(0);
+            field_FE_next_state = eAbeStates::State_0_Idle_423520;
+            field_B8_vely = FP_FromInteger(0);
+            field_114_gnFrame = gnFrameCount_507670;
+        }
+        else
+        {
+            if (ToLeftRightMovement_422AA0())
+            {
+                field_10_anim.Set_Animation_Data_402A40(field_10_anim.field_18_frame_table_offset, 0);
+                return;
+            }
+            field_120 = FP_FromInteger(0);
+            field_B4_velx = FP_FromInteger(0);
+            field_B8_vely = FP_FromInteger(0);
+            field_114_gnFrame = gnFrameCount_507670;
+        }
+        field_FC_current_motion = eAbeStates::State_0_Idle_423520;
+        field_10C_prev_held = 0;
+        field_10E_released_buttons = 0;
+    }
 }
 
 void Abe::State_3_Fall_42E7F0()
