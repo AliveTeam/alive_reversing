@@ -2819,7 +2819,18 @@ void Abe::State_15_Null_42A210()
 
 void Abe::State_16_HoistBegin_426E40()
 {
-    NOT_IMPLEMENTED();
+    FollowLift_42EE90();
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_E8_LastLineYPos = field_AC_ypos;
+        const FP velY = field_BC_sprite_scale * FP_FromInteger(-8);
+        field_B8_vely = velY;
+        field_AC_ypos += velY;
+        VOnTrapDoorOpen();
+        field_FC_current_motion = eAbeStates::State_17_HoistIdle_4269E0;
+        field_F4_pLine = nullptr;
+    }
 }
 
 void Abe::State_17_HoistIdle_4269E0()
