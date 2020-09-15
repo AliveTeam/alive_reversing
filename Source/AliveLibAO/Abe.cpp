@@ -2095,7 +2095,7 @@ __int16 Abe::ToLeftRightMovement_422AA0()
             return 0;
         }
 
-        field_110_state = eAbeStates::State_21_StandToCrouch_427F40;
+        field_FC_current_motion = eAbeStates::State_21_StandToCrouch_427F40;
         return 1;
     }
 
