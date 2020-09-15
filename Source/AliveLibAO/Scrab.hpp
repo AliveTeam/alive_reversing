@@ -91,7 +91,7 @@ public:
 
     virtual void VScreenChanged() override;
 
-    EXPORT __int16 CanSeeAbe_45C100(Abe* pObj);
+    EXPORT __int16 CanSeeAbe_45C100(BaseAliveGameObject* pObj);
 
     EXPORT void VScreenChanged_45C290();
 

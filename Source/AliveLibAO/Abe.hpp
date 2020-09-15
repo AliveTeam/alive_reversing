@@ -576,4 +576,16 @@ extern const InputCommands sInputKey_Sneak_4C65AC;
 extern const InputCommands sInputKey_FartRoll_4C65B0;
 extern const InputCommands sInputKey_ThrowItem_4C65B4;
 
+extern const InputCommands dword_4C65B8;
+extern const InputCommands sInputKey_GameSpeak1_4C65C8;
+extern const InputCommands sInputKey_GameSpeak2_4C65BC;
+extern const InputCommands sInputKey_GameSpeak3_4C65C0;
+extern const InputCommands sInputKey_GameSpeak4_4C65C4;
+
+extern const InputCommands dword_4C65DC;
+extern const InputCommands sInputKey_GameSpeak5_4C65EC;
+extern const InputCommands sInputKey_GameSpeak6_4C65E8;
+extern const InputCommands sInputKey_GameSpeak7_4C65E4;
+extern const InputCommands sInputKey_GameSpeak8_4C65E0;
+
 END_NS_AO;

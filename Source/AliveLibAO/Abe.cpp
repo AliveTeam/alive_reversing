@@ -412,6 +412,19 @@ const InputCommands sInputKey_Sneak_4C65AC = eSneak;
 const InputCommands sInputKey_FartRoll_4C65B0 = eFartOrRoll;
 const InputCommands sInputKey_ThrowItem_4C65B4 = eThrowItem;
 
+const InputCommands dword_4C65B8 = eGameSpeak6;
+const InputCommands sInputKey_GameSpeak1_4C65C8 = eHop;
+const InputCommands sInputKey_GameSpeak2_4C65BC = eDoAction;
+const InputCommands sInputKey_GameSpeak3_4C65C0 = eThrowItem;
+const InputCommands sInputKey_GameSpeak4_4C65C4 = eFartOrRoll;
+
+const InputCommands dword_4C65DC = eGameSpeak3;
+const InputCommands sInputKey_GameSpeak5_4C65EC = eFartOrRoll;
+const InputCommands sInputKey_GameSpeak6_4C65E8 = eHop;
+const InputCommands sInputKey_GameSpeak7_4C65E4 = eThrowItem;
+const InputCommands sInputKey_GameSpeak8_4C65E0 = eDoAction;
+
+
 ALIVE_VAR(1, 0x507678, Abe*, sActiveHero_507678, nullptr);
 ALIVE_VAR(1, 0x50767C, BaseAliveGameObject*, sControlledCharacter_50767C, nullptr);
 

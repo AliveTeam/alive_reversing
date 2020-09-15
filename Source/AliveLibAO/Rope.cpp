@@ -18,6 +18,11 @@ Rope* Rope::Vdtor_458B60(signed int flags)
     return this;
 }
 
+EXPORT void CC ClipPoly_Vertically_4584B0(Poly_FT4* /*pPoly*/, int /*minY*/, int /*maxY*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 BaseGameObject* Rope::dtor_458720()
 {
     SetVTable(this, 0x4BC1E0);

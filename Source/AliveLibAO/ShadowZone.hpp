@@ -44,6 +44,8 @@ public:
 
     EXPORT void VUpdate_435F80();
 
+    EXPORT static void CC ShadowZones_Calculate_Colour_435FF0(int xpos, int ypos, __int16 scale, short* r, short* g, short* b);
+
     int field_10_tlvInfo;
     LevelIds field_14_level;
     __int16 field_16_path;

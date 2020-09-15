@@ -49,6 +49,11 @@ ShadowZone* ShadowZone::ctor_435D30(Path_ShadowZone* pTlv, Map* /*pMap*/, int tl
     return this;
 }
 
+EXPORT void CC ShadowZone::ShadowZones_Calculate_Colour_435FF0(int /*xpos*/, int /*ypos*/, __int16 /*scale*/, short* /*r*/, short* /*g*/, short* /*b*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 BaseGameObject* ShadowZone::dtor_435F10()
 {
     SetVTable(this, 0x4BB728);

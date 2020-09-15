@@ -25,6 +25,7 @@
 #include "Midi.hpp"
 #include "GameEnderController.hpp"
 #include "SnoozeParticle.hpp"
+#include "GameSpeak.hpp"
 
 START_NS_AO
 
@@ -1229,6 +1230,152 @@ void Slig::ToPanicTurn()
     SetBrain(&Slig::Brain_PanicTurning_46C7C0);
 }
 
+__int16 Slig::GetNextMotionIncGameSpeak_467700(unsigned __int16 input)
+{
+    if (sControlledCharacter_50767C != this || field_100_health <= FP_FromInteger(0))
+    {
+        switch (field_FE_next_state)
+        {
+        case eSligStates::State_21_SpeakHereBoy_467BD0:
+            field_FE_next_state = -1;
+            Sfx_Slig_GameSpeak_46F560(1u, 0, field_110_pitch_min, this);
+            return eSligStates::State_21_SpeakHereBoy_467BD0;
+
+        case eSligStates::State_22_SpeakHi_467C90:
+            field_FE_next_state = -1;
+            Sfx_Slig_GameSpeak_46F560(0, 0, field_110_pitch_min, this);
+            return eSligStates::State_22_SpeakHi_467C90;
+
+        case eSligStates::State_23_SpeakFreeze_467D50:
+            field_FE_next_state = -1;
+            Sfx_Slig_GameSpeak_46F560(3u, 0, field_110_pitch_min, this);
+            return eSligStates::State_23_SpeakFreeze_467D50;
+
+        case eSligStates::State_24_SpeakGitIm_467E10:
+            field_FE_next_state = -1;
+            Sfx_Slig_GameSpeak_46F560(2u, 0, field_110_pitch_min, this);
+            return eSligStates::State_24_SpeakGitIm_467E10;
+
+        case eSligStates::State_25_SpeakLaugh_467ED0:
+            field_FE_next_state = -1;
+            Sfx_Slig_GameSpeak_46F560(7u, 0, field_110_pitch_min, this);
+            return eSligStates::State_25_SpeakLaugh_467ED0;
+
+        case eSligStates::State_26_SpeakBullshit1_467F90:
+            field_FE_next_state = -1;
+            Sfx_Slig_GameSpeak_46F560(4u, 0, field_110_pitch_min, this);
+            return eSligStates::State_26_SpeakBullshit1_467F90;
+
+        case eSligStates::State_27_SpeakLookOut_468050:
+            field_FE_next_state = -1;
+            Sfx_Slig_GameSpeak_46F560(5u, 0, field_110_pitch_min, this);
+            return eSligStates::State_27_SpeakLookOut_468050;
+
+        case eSligStates::State_28_SpeakBullshit2_468110:
+            field_FE_next_state = -1;
+            Sfx_Slig_GameSpeak_46F560(6u, 0, field_110_pitch_min, this);
+            return eSligStates::State_28_SpeakBullshit2_468110;
+
+        case eSligStates::State_29_SpeakPanic_4681D0:
+            field_FE_next_state = -1;
+            Sfx_Slig_GameSpeak_46F560(0xAu, 0, field_110_pitch_min, this);
+            return eSligStates::State_29_SpeakPanic_4681D0;
+
+        case eSligStates::State_30_SpeakWhat_468290:
+            field_FE_next_state = -1;
+            Sfx_Slig_GameSpeak_46F560(9u, 0, field_110_pitch_min, this);
+            return eSligStates::State_30_SpeakWhat_468290;
+
+        case eSligStates::State_31_SpeakAIFreeze_468350:
+            field_FE_next_state = -1;
+            Sfx_Slig_GameSpeak_46F560(8u, 0, field_110_pitch_min, this);
+            return eSligStates::State_31_SpeakAIFreeze_468350;
+
+        case eSligStates::State_32_Blurgh_468410:
+            field_FE_next_state = -1;
+            Sfx_Slig_GameSpeak_46F560(11u, 0, field_110_pitch_min, this);
+            return eSligStates::State_32_Blurgh_468410;
+
+        default:
+            return -1;
+        }
+    }
+
+    if (Input_IsChanting_4334C0())
+    {
+        if (field_254_prevent_depossession & 4)
+        {
+            return -1;
+        }
+
+        field_128_timer = gnFrameCount_507670 + 30;
+        SFX_Play_43AD70(21u, 0, 0);
+        return eSligStates::State_37_Depossessing_4684D0;
+    }
+
+    if (sInputObject_5009E8.isPressed(dword_4C65B8))
+    {
+        if (input & sInputKey_GameSpeak2_4C65BC)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_24);
+            Sfx_Slig_GameSpeak_46F560(1u, 0, field_110_pitch_min, this);
+            return eSligStates::State_21_SpeakHereBoy_467BD0;
+        }
+        if (input & sInputKey_GameSpeak1_4C65C8)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_23);
+            Sfx_Slig_GameSpeak_46F560(0, 0, field_110_pitch_min, this);
+            return eSligStates::State_22_SpeakHi_467C90;
+        }
+
+        if (input & sInputKey_GameSpeak3_4C65C0)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_27);
+            Sfx_Slig_GameSpeak_46F560(8u, 0, field_110_pitch_min, this);
+            return eSligStates::State_23_SpeakFreeze_467D50;
+        }
+
+        if (input & sInputKey_GameSpeak4_4C65C4)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_25);
+            Sfx_Slig_GameSpeak_46F560(2u, 0, field_110_pitch_min, this);
+            return eSligStates::State_24_SpeakGitIm_467E10;
+        }
+        return -1;
+    }
+    else if (sInputObject_5009E8.isPressed(dword_4C65DC))
+    {
+        if (input & sInputKey_GameSpeak8_4C65E0)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_8);
+            Sfx_Slig_GameSpeak_46F560(7u, 0, field_110_pitch_min, this);
+            return eSligStates::State_25_SpeakLaugh_467ED0;
+        }
+
+        if (input & sInputKey_GameSpeak6_4C65E8)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_5);
+            Sfx_Slig_GameSpeak_46F560(4u, 0, field_110_pitch_min, this);
+            return eSligStates::State_26_SpeakBullshit1_467F90;
+        }
+
+        if (input & sInputKey_GameSpeak7_4C65E4)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_6);
+            Sfx_Slig_GameSpeak_46F560(5u, 0, field_110_pitch_min, this);
+            return eSligStates::State_27_SpeakLookOut_468050;
+        }
+
+        if (input & sInputKey_GameSpeak5_4C65EC)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_7);
+            Sfx_Slig_GameSpeak_46F560(6u, 0, field_110_pitch_min, this);
+            return eSligStates::State_28_SpeakBullshit2_468110;
+        }
+    }
+    return -1;
+}
+
 BOOL CCSTD Slig::RenderLayerIs_46C0A0(BaseAliveGameObject* pThis)
 {
     return pThis->field_10_anim.field_C_layer == 3 || pThis->field_10_anim.field_C_layer == 22;
@@ -1429,6 +1576,110 @@ __int16 Slig::MoveLift_4665E0(FP ySpeed)
     return eSligStates::State_51_LiftGripping_466480;
 }
 
+void Slig::GameSpeakResponse_46ED60()
+{
+    GameSpeakEvents speak = GameSpeakEvents::eNone_m1;
+
+    const int lastIdx = pEventSystem_4FF954->field_18_last_event_index;
+    if (field_15C == lastIdx)
+    {
+        if (pEventSystem_4FF954->field_10_last_event == GameSpeakEvents::eNone_m1)
+        {
+            speak = GameSpeakEvents::eNone_m1;
+        }
+        else
+        {
+              speak = GameSpeakEvents::eSameAsLast_m2;
+        }
+    }
+    else
+    {
+        field_15C = lastIdx;
+        speak = pEventSystem_4FF954->field_10_last_event;
+    }
+
+    switch (speak)
+    {
+    case GameSpeakEvents::eUnknown_1:
+    case GameSpeakEvents::eUnknown_2:
+        if (!(Math_NextRandom() & 4))
+        {
+           field_258_next_gamespeak_motion = eSligStates::State_26_SpeakBullshit1_467F90;
+        }
+        else
+        {
+            field_258_next_gamespeak_motion = eSligStates::State_28_SpeakBullshit2_468110;
+        }
+        break;
+
+    case GameSpeakEvents::eUnknown_3:
+    case GameSpeakEvents::eUnknown_4:
+    case GameSpeakEvents::eUnknown_8:
+    case GameSpeakEvents::eUnknown_14:
+    case GameSpeakEvents::eUnknown_15:
+    case GameSpeakEvents::eUnknown_25:
+    case GameSpeakEvents::eUnknown_30:
+        field_258_next_gamespeak_motion = eSligStates::State_32_Blurgh_468410;
+        return;
+
+    case GameSpeakEvents::eUnknown_5:
+        field_258_next_gamespeak_motion = eSligStates::State_26_SpeakBullshit1_467F90;
+        break;
+
+    case GameSpeakEvents::eUnknown_6:
+        if (!(Math_NextRandom() & 4))
+        {
+            field_258_next_gamespeak_motion = eSligStates::State_30_SpeakWhat_468290;
+        }
+        else
+        {
+            field_258_next_gamespeak_motion = eSligStates::State_29_SpeakPanic_4681D0;
+        }
+        break;
+
+    case GameSpeakEvents::eUnknown_7:
+        field_258_next_gamespeak_motion = eSligStates::State_28_SpeakBullshit2_468110;
+        break;
+
+    case GameSpeakEvents::eUnknown_9:
+    case GameSpeakEvents::eUnknown_23:
+        field_258_next_gamespeak_motion = eSligStates::State_22_SpeakHi_467C90;
+        break;
+
+    case GameSpeakEvents::eUnknown_10:
+    case GameSpeakEvents::eUnknown_12:
+        if (Math_NextRandom() & 8)
+        {
+            field_258_next_gamespeak_motion = eSligStates::State_26_SpeakBullshit1_467F90;
+        }
+        else
+        {
+            field_258_next_gamespeak_motion = eSligStates::State_28_SpeakBullshit2_468110;
+        }
+        break;
+
+    case GameSpeakEvents::eUnknown_11:
+    case GameSpeakEvents::eUnknown_13:
+    case GameSpeakEvents::eUnknown_16:
+    case GameSpeakEvents::eUnknown_17:
+    case GameSpeakEvents::eUnknown_18:
+    case GameSpeakEvents::eUnknown_19:
+    case GameSpeakEvents::eUnknown_20:
+    case GameSpeakEvents::eUnknown_21:
+    case GameSpeakEvents::eUnknown_22:
+    case GameSpeakEvents::eUnknown_26:
+    case GameSpeakEvents::eUnknown_27:
+    case GameSpeakEvents::eUnknown_28:
+    case GameSpeakEvents::eUnknown_31:
+        field_258_next_gamespeak_motion = eSligStates::State_25_SpeakLaugh_467ED0;
+        break;
+
+    default:
+        field_258_next_gamespeak_motion = eSligStates::State_30_SpeakWhat_468290;
+        break;
+    }
+}
+
 BOOL Slig::VIs8_465630(short motion)
 {
     return motion == eSligStates::State_8_Unknown_4673E0;
@@ -1497,12 +1748,6 @@ signed __int16 Slig::HandlePlayerControlled_4667B0()
 {
     NOT_IMPLEMENTED();
     return 0;
-}
-
-__int16 Slig::Speak_467700(unsigned __int16 /*a2*/)
-{
-    NOT_IMPLEMENTED();
-    return -1;
 }
 
 void Slig::PlayerControlRunningSlideStopOrTurnFrame4_469900()
@@ -1617,7 +1862,7 @@ signed __int16 Slig::MainMovement_467020()
         }
         else
         {
-            field_FC_current_motion = Speak_467700(0);
+            field_FC_current_motion = GetNextMotionIncGameSpeak_467700(0);
             if (field_FC_current_motion != -1)
             {
                 Event_Broadcast_417220(1, this);
@@ -2427,7 +2672,7 @@ void Slig::State_18_GameSpeak_467B10()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_FC_current_motion = Speak_467700(field_126_input);
+        field_FC_current_motion = GetNextMotionIncGameSpeak_467700(field_126_input);
         if (field_FC_current_motion == -1)
         {
             ToStand();
@@ -3078,7 +3323,7 @@ void Slig::State_47_LiftUp_4665A0()
 
 void Slig::State_48_LiftDown_4665C0()
 {
-    field_FC_current_motion = MoveLift_4665E0(FP_FromInteger(-4));
+    field_FC_current_motion = MoveLift_4665E0(FP_FromInteger(4));
 }
 
 void Slig::State_49_LiftGrip_4663A0()
@@ -3395,8 +3640,34 @@ __int16 Slig::Brain_WakingUp_46B700()
 
 __int16 Slig::Brain_Inactive_46B780()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (field_114_timer > static_cast<int>(gnFrameCount_507670))
+    {
+        if (sActiveHero_507678->field_100_health > FP_FromInteger(0))
+        {
+            if (!VOnSameYLevel(sControlledCharacter_50767C)
+                || !VIsFacingMe(sControlledCharacter_50767C)
+                || !VIsObjNearby(ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(1), sControlledCharacter_50767C)
+                || IsInInvisibleZone_418870(sControlledCharacter_50767C)
+                || IsWallBetween_46BE60(this, sControlledCharacter_50767C)
+                || Event_Get_417250(kEventResetting_6))
+            {
+                ShouldStilBeAlive_46C0D0();
+            }
+            else
+            {
+                ToShoot_46F1D0();
+            }
+        }
+        else
+        {
+            ToAbeDead_466270();
+        }
+    }
+    else
+    {
+        WaitOrWalk_46E440();
+    }
+    return 103;
 }
 
 __int16 Slig::Brain_Possessed_46C190()
@@ -3589,8 +3860,62 @@ __int16 Slig::Brain_PanicTurning_46C7C0()
 
 __int16 Slig::Brain_PanicRunning_46CA20()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if ((field_B4_velx > FP_FromInteger(4) &&
+        (ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(4)) + field_A8_xpos >
+        FP_FromInteger(field_13C_zone_rect.w)) ||
+        (field_B4_velx < FP_FromInteger(-4) &&
+            (field_A8_xpos - (ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(4))) < FP_FromInteger(field_13C_zone_rect.x))
+        || HandleEnemyStopper_46BF30(4))
+    {
+        field_FE_next_state = eSligStates::State_5_TurnAroundStanding_469C80;
+        SetBrain(&Slig::Brain_PanicTurning_46C7C0);
+    }
+    else if (field_FC_current_motion || field_FE_next_state != -1)
+    {
+        if (VOnSameYLevel(sControlledCharacter_50767C)
+            && VIsFacingMe(sControlledCharacter_50767C)
+            && !IsInInvisibleZone_418870(sControlledCharacter_50767C)
+            && !IsWallBetween_46BE60(this, sControlledCharacter_50767C)
+            && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                field_B2_lvl_number,
+                field_B0_path_number,
+                field_A8_xpos,
+                field_AC_ypos,
+                0)
+            && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                field_B2_lvl_number,
+                field_B0_path_number,
+                field_A8_xpos,
+                field_AC_ypos,
+                0)
+            && !Event_Get_417250(kEventResetting_6))
+        {
+            ToShoot_46F1D0();
+        }
+        else if (sActiveHero_507678->field_100_health > FP_FromInteger(0))
+        {
+            if (field_114_timer > static_cast<int>(gnFrameCount_507670))
+            {
+                ShouldStilBeAlive_46C0D0();
+            }
+            else
+            {
+                WaitOrWalk_46E440();
+            }
+        }
+        else
+        {
+            ToAbeDead_466270();
+        }
+    }
+    else
+    {
+        field_FE_next_state = eSligStates::State_4_Running_469690;
+        SetBrain(&Slig::Brain_PanicRunning_46CA20);
+        Brain_PanicRunning_46CA20();
+        MusicController::sub_443810(MusicController::MusicTypes::eType5, this, 0, 0);
+    }
+    return 109;
 }
 
 __int16 Slig::Brain_PanicYelling_46CC50()
@@ -3752,8 +4077,106 @@ __int16 Slig::Brain_Walking_46DE90()
 
 __int16 Slig::Brain_GetAlertedTurn_46E520()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (field_114_timer == field_174_tlv.field_42_listen_time + static_cast<int>(gnFrameCount_507670) - 2 &&
+        Math_RandomRange_450F20(0, 100) < field_174_tlv.field_44_percent_say_what)
+    {
+        field_FE_next_state = eSligStates::State_30_SpeakWhat_468290;
+    }
+    if (!VOnSameYLevel(sControlledCharacter_50767C)
+        || !VIsFacingMe(sControlledCharacter_50767C)
+        || IsInInvisibleZone_418870(sControlledCharacter_50767C)
+        || IsWallBetween_46BE60(this, sControlledCharacter_50767C)
+        || !gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+            field_B2_lvl_number,
+            field_B0_path_number,
+            field_A8_xpos,
+            field_AC_ypos,
+            0)
+        || sControlledCharacter_50767C->field_4_typeId == Types::eSlig_88
+        && field_20E_spotted_possessed_slig
+        || IsAbeEnteringDoor_46BEE0(sControlledCharacter_50767C)
+        || Event_Get_417250(kEventResetting_6))
+    {
+        if (!Event_Get_417250(kEventAbeOhm_8) || Event_Get_417250(kEventResetting_6))
+        {
+            BaseAliveGameObject* pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEvent_10));
+            if (!pEvent)
+            {
+                pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEventSpeaking_1));
+            }
+
+            if (pEvent && (pEvent == sControlledCharacter_50767C || pEvent->field_4_typeId == Types::eMudokon_75)
+                && VOnSameYLevel(pEvent)
+                && VIsFacingMe(pEvent)
+                && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                    field_B2_lvl_number,
+                    field_B0_path_number,
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    0)
+                && !Event_Get_417250(kEventResetting_6))
+            {
+                ToShoot_46F1D0();
+            }
+            else
+            {
+                pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEvent_10));
+                if (!pEvent)
+                {
+                    pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEventSpeaking_1));
+                }
+
+                if (pEvent && (pEvent == sControlledCharacter_50767C || pEvent->field_4_typeId != Types::eSlig_88)
+                    && !VIsFacingMe(pEvent)
+                    && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                        field_B2_lvl_number,
+                        field_B0_path_number,
+                        field_A8_xpos,
+                        field_AC_ypos,
+                        0)
+                    && !Event_Get_417250(kEventResetting_6))
+                {
+                    if (!Event_Get_417250(1)
+                        || IsInInvisibleZone_418870(sControlledCharacter_50767C))
+                    {
+                        field_FE_next_state = eSligStates::State_5_TurnAroundStanding_469C80;
+                        SetBrain(&Slig::Brain_GetAlertedTurn_46E520);
+                    }
+                    else
+                    {
+                        GameSpeakResponse_46ED60();
+                        field_114_timer = gnFrameCount_507670 + 20;
+                        if (!VIsFacingMe(sControlledCharacter_50767C))
+                        {
+                            field_FE_next_state = eSligStates::State_5_TurnAroundStanding_469C80;
+                        }
+                        SetBrain(&Slig::Brain_Discussion_46ECE0);
+                    }
+                }
+                else
+                {
+                    if (field_114_timer > static_cast<int>(gnFrameCount_507670))
+                    {
+                        ShouldStilBeAlive_46C0D0();
+                    }
+                    else
+                    {
+                        WaitOrWalk_46E440();
+                    }
+                }
+            }
+        }
+        else
+        {
+            ToPanic_46CD40();
+        }
+    }
+    else
+    {
+        ShootTurnTowardsOrKillSound_465DF0();
+    }
+
+    return 124;
 }
 
 __int16 Slig::Brain_GetAlerted_46E800()
