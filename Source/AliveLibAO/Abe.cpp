@@ -2840,7 +2840,53 @@ void Abe::State_17_HoistIdle_4269E0()
 
 void Abe::State_18_HoistLand_426EB0()
 {
-    NOT_IMPLEMENTED();
+    FollowLift_42EE90();
+
+    Event_Broadcast_417220(kEventNoise_0, this);
+    Event_Broadcast_417220(kEvent_10, this);
+
+    if (field_10_anim.field_92_current_frame == 2)
+    {
+        if (field_E4 == 3)
+        {
+            Abe_SFX_2_42A220(5u, 0, 0x7FFF, this);
+        }
+        else
+        {
+            Abe_SFX_2_42A220(6u, 0, 0x7FFF, this);
+        }
+
+        if (sInputObject_5009E8.isPressed(sInputKey_Hop_4C65A0))
+        {
+            if (sInputObject_5009E8.isPressed(sInputKey_Up_4C6598))
+            {
+                field_FC_current_motion = eAbeStates::State_16_HoistBegin_426E40;
+            }
+            else
+            {
+                field_FC_current_motion = eAbeStates::State_29_HopBegin_4267B0;
+                field_1A0_portal = IntoBirdPortal_402350(2);
+
+                if (field_1A0_portal)
+                {
+                    if (field_1A0_portal->field_10_portal_type != PortalType::eAbe_0)
+                    {
+                        field_1A0_portal = nullptr;
+                    }
+                }
+
+                if (field_1A0_portal)
+                {
+                    field_19E = 0;
+                }
+            }
+        }
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToIdle_422D50();
+    }
 }
 
 void Abe::State_19_CrouchIdle_4284C0()
@@ -3156,7 +3202,56 @@ void Abe::State_27_RunSlideStop_425B60()
 
 void Abe::State_28_RunTurn_425CE0()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEventNoise_0, this);
+    Event_Broadcast_417220(kEvent_10, this);
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), field_B4_velx))
+    {
+        ToKnockback_422D90(1, 1);
+    }
+    else
+    {
+        MoveWithVelocity_4257F0(FP_FromDouble(0.375));
+        if (field_FC_current_motion == eAbeStates::State_28_RunTurn_425CE0
+            && !RunTryEnterWell_425880()
+            && !RunTryEnterDoor_4259C0())
+        {
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                MapFollowMe_401D30(TRUE);
+
+                const FP gridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
+                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    if (sInputObject_5009E8.isPressed(sInputKey_Run_4C65A8))
+                    {
+                        field_B4_velx = gridSize / FP_FromInteger(4);
+                        field_FC_current_motion = eAbeStates::State_54_RunTurnToRun_425EA0;
+                    }
+                    else
+                    {
+                        field_B4_velx = gridSize / FP_FromInteger(9);
+                        field_FC_current_motion = eAbeStates::State_55_RunTurnToWalk_425F70;
+                    }
+                }
+                else
+                {
+                    FP velX = {};
+                    if (sInputObject_5009E8.isPressed(sInputKey_Run_4C65A8))
+                    {
+                        velX = gridSize / FP_FromInteger(4);
+                        field_FC_current_motion = eAbeStates::State_54_RunTurnToRun_425EA0;
+                    }
+                    else
+                    {
+                        velX = gridSize / FP_FromInteger(9);
+                        field_FC_current_motion = eAbeStates::State_55_RunTurnToWalk_425F70;
+                    }
+                    field_B4_velx = -velX;
+                }
+            }
+        }
+    }
 }
 
 void Abe::State_29_HopBegin_4267B0()
