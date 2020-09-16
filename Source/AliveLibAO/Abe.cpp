@@ -5346,7 +5346,11 @@ void Abe::State_133_LiftGrabBegin_42EF20()
 
 void Abe::State_134_LiftGrabEnd_42EFE0()
 {
-    NOT_IMPLEMENTED();
+    field_B8_vely = FP_FromInteger(0);
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToIdle_422D50();
+    }
 }
 
 void Abe::State_135_LiftGrabIdle_42F000()
@@ -5361,7 +5365,24 @@ void Abe::State_136_ElumMountEnd_42E110()
 
 void Abe::State_137_ElumUnmountBegin_42E2B0()
 {
-    NOT_IMPLEMENTED();
+    if (!field_104_pending_resource_count && field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        while (!ResourceManager::FreeResource_455550(field_1A4_resources.res[58]));
+
+        field_1A4_resources.res[58] = {};
+        field_104_pending_resource_count = 3;
+
+        ResourceManager::LoadResourceFile_4551E0("ABEBSIC.BAN", reinterpret_cast<ResourceManager::TLoaderFn>(OnResourceLoaded_4019A0), reinterpret_cast<Camera*>(this), 0);
+        ResourceManager::LoadResourceFile_4551E0("ANEPRMNT.BAN", reinterpret_cast<ResourceManager::TLoaderFn>(OnResourceLoaded_4019A0), reinterpret_cast<Camera*>(this), 0);
+        ResourceManager::LoadResourceFile_4551E0("ABENOELM.BND", reinterpret_cast<ResourceManager::TLoaderFn>(OnResourceLoaded_4019A0), reinterpret_cast<Camera*>(this), 0);
+
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 48, FALSE, FALSE))
+        {
+            ++field_104_pending_resource_count;
+            ResourceManager::LoadResourceFile_4551E0("ABEOMM.BAN", reinterpret_cast<ResourceManager::TLoaderFn>(OnResourceLoaded_4019A0), reinterpret_cast<Camera*>(this), 0);
+        }
+        field_FC_current_motion = eAbeStates::State_138_ElumUnmountEnd_42E390;
+    }
 }
 
 void Abe::State_138_ElumUnmountEnd_42E390()
@@ -5371,7 +5392,17 @@ void Abe::State_138_ElumUnmountEnd_42E390()
 
 void Abe::State_139_ElumMountBegin_42E090()
 {
-    NOT_IMPLEMENTED();
+    if (!field_104_pending_resource_count && field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        while (!ResourceManager::FreeResource_455550(field_1A4_resources.res[61]));
+
+        field_1A4_resources.res[61] = {};
+        field_104_pending_resource_count = 1;
+
+        ResourceManager::LoadResourceFile_4551E0("ABEWELM.BND", reinterpret_cast<ResourceManager::TLoaderFn>(OnResourceLoaded_4019A0), reinterpret_cast<Camera*>(this), 0);
+        VOnTrapDoorOpen();
+        field_FC_current_motion = eAbeStates::State_136_ElumMountEnd_42E110;
+    }
 }
 
 void Abe::State_140_BeesStruggling_423F30()
@@ -5385,8 +5416,27 @@ void Abe::State_140_BeesStruggling_423F30()
 
 void Abe::State_141_BeesStrugglingOnLift_42F390()
 {
-    NOT_IMPLEMENTED();
-}
+    LiftPoint* pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
+
+    pLiftPoint->Move_435740(FP_FromInteger(0), FP_FromInteger(12), 0);
+    if (pLiftPoint)
+    {
+        field_B8_vely = pLiftPoint->field_B8_vely;
+        if (pLiftPoint->field_6_flags.Get(Options::eDead_Bit3))
+        {
+            VOnTrapDoorOpen();
+            field_2A8_flags.Set(Flags_2A8::e2A8_Bit1);
+        }
+        SetActiveCameraDelayedFromDir_401C90();
+    }
+
+    field_B8_vely = pLiftPoint->field_B8_vely;
+
+    if (pLiftPoint->OnBottomFloor())
+    {
+        ToIdle_422D50();
+    }
+ }
 
 void Abe::State_142_RockThrowStandingHold_429CE0()
 {
