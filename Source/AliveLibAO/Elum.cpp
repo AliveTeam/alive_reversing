@@ -1672,8 +1672,48 @@ void Elum::State_29_BeesStruggling_412A90()
 
 void Elum::State_30_HopBegin_414E30()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEventNoise_0, this);
+    Event_Broadcast_417220(kEvent_10, this);
+
+    CheckLiftPointGoneAndSetCamera();
+
+    FP xpos = field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? field_BC_sprite_scale * FP_FromInteger(-56) : field_BC_sprite_scale * FP_FromInteger(56);
+    FP velX = field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? field_BC_sprite_scale * FP_FromDouble(-9.85) : field_BC_sprite_scale * FP_FromDouble(9.85);
+    FP offX = field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(-56) : FP_FromInteger(56);
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), offX))
+    {
+        field_B4_velx = FP_FromInteger(0);
+        field_FC_current_motion = eElumStates::State_50_Knockback_415DC0;
+        if (field_F4_pLine)
+        {
+            MoveOnLine_412580(0);
+        }
+        field_A8_xpos -= field_B4_velx;
+        MapFollowMe_401D30(TRUE);
+        Abe_SFX_2_42A220(13u, 95, -200, this);
+        return;
+    }
+
+    if (!(field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
+    {
+        return;
+    }
+
+    field_A8_xpos += xpos;
+    field_B4_velx = velX;
+
+    field_B8_vely = field_BC_sprite_scale * FP_FromDouble(-2.7);
+    field_E8_LastLineYPos = field_AC_ypos;
+
+    field_A8_xpos += field_B4_velx;
+    field_AC_ypos += field_B8_vely;
+
+    VOnTrapDoorOpen();
+    field_FC_current_motion = eElumStates::State_31_HopMid_414C70;
+    field_F4_pLine = nullptr;
 }
+
 
 void Elum::State_31_HopMid_414C70()
 {
