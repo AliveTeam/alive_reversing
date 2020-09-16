@@ -1343,17 +1343,84 @@ void Elum::State_13_RunTurnToWalk_4147C0()
 
 void Elum::State_14_Speak_414860()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_92_current_frame == 3 && field_170_flags & 0x20)
+    {
+        Abe_SFX_2_42A220(21u, 75, 0, this);
+        field_170_flags &= ~0x20u;
+    }
+    else
+    {
+        field_170_flags |= 0x20u;
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        if (!ToNextState_4120F0())
+        {
+            field_118 = 0;
+            field_110_timer = gnFrameCount_507670;
+            field_B4_velx = FP_FromInteger(0);
+            field_B8_vely = FP_FromInteger(0);
+            field_FC_current_motion = eElumStates::State_1_Idle_412990;
+            field_10E = 0;
+            MapFollowMe_401D30(TRUE);
+        }
+    }
 }
 
 void Elum::State_15_Speak_4148F0()
 {
-    NOT_IMPLEMENTED();
+
+    if (field_10_anim.field_92_current_frame == 3 && field_170_flags & 0x20)
+    {
+        Abe_SFX_2_42A220(20u, 75, 0, this);
+        field_170_flags &= ~0x20u;
+    }
+    else
+    {
+        field_170_flags |= 0x20u;
+    }
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        if (!ToNextState_4120F0())
+        {
+            field_118 = 0;
+            field_110_timer = gnFrameCount_507670;
+            field_B4_velx = FP_FromInteger(0);
+            field_B8_vely = FP_FromInteger(0);
+            field_FC_current_motion = eElumStates::State_1_Idle_412990;
+            field_10E = 0;
+            MapFollowMe_401D30(TRUE);
+        }
+    }
 }
 
 void Elum::State_16_Speak_414980()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_92_current_frame == 3 && field_170_flags & 0x20)
+    {
+        Abe_SFX_2_42A220(20u, 75, 0, this);
+        field_170_flags &= ~0x20u;
+    }
+    else
+    {
+        field_170_flags |= 0x20u;
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_FE_next_state = eElumStates::State_10_Yell_4158E0;
+        if (!ToNextState_4120F0())
+        {
+            field_118 = 0;
+            field_110_timer = gnFrameCount_507670;
+            field_B4_velx = FP_FromInteger(0);
+            field_B8_vely = FP_FromInteger(0);
+            field_FC_current_motion = eElumStates::State_1_Idle_412990;
+            field_10E = 0;
+            MapFollowMe_401D30(TRUE);
+        }
+    }
 }
 
 void Elum::State_17_Unknown_413620()
