@@ -1289,9 +1289,9 @@ void Elum::State_12_RunTurn_414520()
         Sfx_416E10(5u, 0);
     }
 
-    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), field_B4_velx))
+    const FP offY = (sControlledCharacter_50767C == this) ? field_BC_sprite_scale * FP_FromInteger(40) : field_BC_sprite_scale * FP_FromInteger(25);
+    if (WallHit_401930(offY, field_B4_velx))
     {
-        const FP offY = (sControlledCharacter_50767C == this) ? field_BC_sprite_scale * FP_FromInteger(40) : field_BC_sprite_scale * FP_FromInteger(25);
         field_FC_current_motion = eElumStates::State_50_Knockback_415DC0;
         if (field_F4_pLine)
         {
@@ -1370,7 +1370,6 @@ void Elum::State_14_Speak_414860()
 
 void Elum::State_15_Speak_4148F0()
 {
-
     if (field_10_anim.field_92_current_frame == 3 && field_170_flags & 0x20)
     {
         Abe_SFX_2_42A220(20u, 75, 0, this);
