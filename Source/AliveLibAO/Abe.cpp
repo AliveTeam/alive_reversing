@@ -5367,7 +5367,10 @@ void Abe::State_137_ElumUnmountBegin_42E2B0()
 {
     if (!field_104_pending_resource_count && field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        while (!ResourceManager::FreeResource_455550(field_1A4_resources.res[58]));
+        while (!ResourceManager::FreeResource_455550(field_1A4_resources.res[58]))
+        {
+            // Empty
+        }
 
         field_1A4_resources.res[58] = {};
         field_104_pending_resource_count = 3;
@@ -5394,7 +5397,10 @@ void Abe::State_139_ElumMountBegin_42E090()
 {
     if (!field_104_pending_resource_count && field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        while (!ResourceManager::FreeResource_455550(field_1A4_resources.res[61]));
+        while (!ResourceManager::FreeResource_455550(field_1A4_resources.res[61]))
+        {
+            // Empty
+        }
 
         field_1A4_resources.res[61] = {};
         field_104_pending_resource_count = 1;

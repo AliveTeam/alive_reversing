@@ -313,6 +313,20 @@ __int16 Elum::VTakeDamage_411020(BaseGameObject* pFrom)
     return 1;
 }
 
+void Elum::toKnockback()
+{
+    field_B4_velx = FP_FromInteger(0);
+    field_FC_current_motion = eElumStates::State_50_Knockback_415DC0;
+
+    if (field_F4_pLine)
+    {
+        MoveOnLine_412580(0);
+    }
+    field_A8_xpos -= field_B4_velx;
+    MapFollowMe_401D30(TRUE);
+    Abe_SFX_2_42A220(13u, 95, -200, this);
+}
+
 void Elum::Vsub_412700()
 {
     if (field_F8_pLiftPoint)
@@ -1683,15 +1697,7 @@ void Elum::State_30_HopBegin_414E30()
 
     if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), offX))
     {
-        field_B4_velx = FP_FromInteger(0);
-        field_FC_current_motion = eElumStates::State_50_Knockback_415DC0;
-        if (field_F4_pLine)
-        {
-            MoveOnLine_412580(0);
-        }
-        field_A8_xpos -= field_B4_velx;
-        MapFollowMe_401D30(TRUE);
-        Abe_SFX_2_42A220(13u, 95, -200, this);
+        toKnockback();
         return;
     }
 
@@ -1714,15 +1720,91 @@ void Elum::State_30_HopBegin_414E30()
     field_F4_pLine = nullptr;
 }
 
-
 void Elum::State_31_HopMid_414C70()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEventNoise_0, this);
+    Event_Broadcast_417220(kEvent_10, this);
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), field_B4_velx))
+    {
+        toKnockback();
+    }
+    else
+    {
+        if (sControlledCharacter_50767C == this)
+        {
+            SetActiveCameraDelayedFromDir_401C90();
+        }
+
+        FP hitX = {};
+        FP hitY = {};
+        if (InAirCollision_4019C0(&field_F4_pLine, &hitX, &hitY, FP_FromDouble(0.9)))
+        {
+            switch (field_F4_pLine->field_8_type)
+            {
+            case 0:
+            case 4:
+            case 32:
+            case 36:
+                Sfx_416E10(4u, 0);
+                field_B4_velx = FP_FromInteger(0);
+                field_FC_current_motion = eElumStates::State_32_HopLand_415140;
+                field_B8_vely = FP_FromInteger(0);
+                field_A8_xpos = hitX;
+                field_AC_ypos = hitY;
+                break;
+            default:
+                break;
+            }
+        }
+
+        if (field_AC_ypos - field_E8_LastLineYPos > FP_FromInteger(2))
+        {
+            field_118 = 0x22666;
+            field_FC_current_motion = eElumStates::State_24_JumpToFall_415ED0;
+        }
+    }
 }
 
 void Elum::State_32_HopLand_415140()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEventNoise_0, this);
+    Event_Broadcast_417220(kEvent_10, this);
+
+    if (field_F8_pLiftPoint)
+    {
+        if (field_F8_pLiftPoint->field_6_flags.Get(BaseGameObject::Options::eDead_Bit3))
+        {
+            VOnTrapDoorOpen();
+            field_170_flags |= 4u;
+        }
+
+        if (sControlledCharacter_50767C == this)
+        {
+            SetActiveCameraDelayedFromDir_401C90();
+        }
+
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        PSX_RECT bRect = {};
+        VGetBoundingRect(&bRect, 1);
+
+        VOnCollisionWith( 
+            { bRect.x, static_cast<short>(bRect.y + 5) },
+            { bRect.w, static_cast<short>(bRect.h + 5) },
+            ObjListPlatforms_50766C, 
+            1, 
+            (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+            
+        MapFollowMe_401D30(TRUE);
+
+        if (!ToNextState_4120F0())
+        {
+            ToIdle();
+        }
+    }
 }
 
 void Elum::State_33_RunJumpBegin_415400()

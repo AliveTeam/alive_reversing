@@ -120,6 +120,8 @@ public:
 
     EXPORT void Vsub_4112B0();
 
+    void toKnockback();
+
     EXPORT BaseGameObject* dtor_base_416FE0();
 
     EXPORT BYTE** GetResBlock_410D00(short currentMotion);
