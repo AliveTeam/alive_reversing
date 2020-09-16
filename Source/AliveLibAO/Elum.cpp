@@ -727,8 +727,79 @@ __int16 Elum::ToNextState_4120F0()
 
 __int16 Elum::ToNextStateAbeControlled_411E40()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    LiftPoint* pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
+    if (pLiftPoint)
+    {
+        if (pLiftPoint->field_10C == 1)
+        {
+            if (!pLiftPoint->OnAnyFloor())
+            {
+                return 0;
+            }
+        }
+    }
+
+    if (sInputObject_5009E8.isPressed(sInputKey_Left_4C6594 | sInputKey_Right_4C6590))
+    {
+        FP gridSize = {};
+        if (sInputObject_5009E8.isPressed(sInputKey_Right_4C6590))
+        {
+            gridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
+
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                field_FC_current_motion = eElumStates::State_4_Turn_4140F0;
+                return 1;
+            }
+        }
+        else if (sInputObject_5009E8.isPressed(sInputKey_Left_4C6594))
+        {
+            gridSize = -ScaleToGridSize_41FA30(field_BC_sprite_scale);
+
+            if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                field_FC_current_motion = eElumStates::State_4_Turn_4140F0;
+                return 1;
+            }
+        }
+
+        if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), gridSize))
+        {
+            return 0;
+        }
+
+        if (sInputObject_5009E8.isPressed(sInputKey_Run_4C65A8))
+        {
+            field_B4_velx = gridSize / FP_FromInteger(4);
+            field_FC_current_motion = eElumStates::State_39_IdleToRun_413B00;
+        }
+        else
+        {
+            field_B4_velx = gridSize / FP_FromInteger(9);
+            field_FC_current_motion = eElumStates::State_8_IdleToWalk_413270;
+        }
+        return 1;
+    }
+    else
+    {
+        if (sInputObject_5009E8.isPressed(dword_4C65B8 | dword_4C65DC)
+            || !(sInputObject_5009E8.isPressed(sInputKey_Hop_4C65A0)))
+        {
+            return 0;
+        }
+
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            field_B4_velx = field_BC_sprite_scale * FP_FromInteger(-15);
+        }
+        else
+        {
+            field_B4_velx = field_BC_sprite_scale * FP_FromInteger(15);
+        }
+
+        field_FC_current_motion = eElumStates::State_30_HopBegin_414E30;
+        return 1;
+    }
 }
 
 void Elum::HandleElumPathTrans_411460()
