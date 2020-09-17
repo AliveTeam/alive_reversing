@@ -2058,12 +2058,121 @@ void Elum::State_41_MidWalkToRun_413560()
 
 void Elum::State_42_RunToWalk_413B60()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEventNoise_0, this);
+    Event_Broadcast_417220(kEvent_10, this);
+
+    field_10E |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
+
+    FP velX {};
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        velX = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(9));
+    }
+    else
+    {
+        velX = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(9));
+    }
+
+    field_B4_velx = velX;
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_FC_current_motion = eElumStates::State_3_WalkLoop_412C90;
+        VCheckCollisionLineStillValid(10);
+
+        PSX_Point xy{ FP_GetExponent(field_A8_xpos - FP_FromInteger(10)), FP_GetExponent(field_AC_ypos - FP_FromInteger(10)) };
+        PSX_Point wh{ FP_GetExponent(field_A8_xpos + FP_FromInteger(10)), FP_GetExponent(field_AC_ypos + FP_FromInteger(10)) };
+        VOnCollisionWith(
+            xy,
+            wh,
+            ObjListPlatforms_50766C,
+            1,
+            (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+
+        FP offX = {};
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            offX = FP_FromInteger(-2) * ScaleToGridSize_41FA30(field_BC_sprite_scale);
+        }
+        else
+        {
+            offX = FP_FromInteger(2) * ScaleToGridSize_41FA30(field_BC_sprite_scale);
+        }
+
+        if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), offX))
+        {
+            ToKnockback();
+            return;
+        }
+    }
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), field_B4_velx))
+    {
+        ToKnockback();
+        return;
+    }
+
+    MoveOnLine_412580(0);
 }
 
 void Elum::State_43_MidRunToWalk_413E20()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEventNoise_0, this);
+    Event_Broadcast_417220(kEvent_10, this);
+
+    field_10E |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
+
+    FP velX = {};
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        velX = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(9));
+    }
+    else
+    {
+        velX = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(9));
+    }
+
+    field_B4_velx = velX;
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_E4 = 3;
+        field_E6_last_anim_frame = 9;
+        field_120 = 1;
+        VCheckCollisionLineStillValid_401A90(10);
+
+        PSX_Point xy{ FP_GetExponent(field_A8_xpos - FP_FromInteger(10)), FP_GetExponent(field_AC_ypos - FP_FromInteger(10)) };
+        PSX_Point wh{ FP_GetExponent(field_A8_xpos + FP_FromInteger(10)), FP_GetExponent(field_AC_ypos + FP_FromInteger(10)) };
+        VOnCollisionWith(
+            xy,
+            wh,
+            ObjListPlatforms_50766C,
+            1,
+            (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+
+        FP offX = {};
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            offX = FP_FromInteger(-2) * ScaleToGridSize_41FA30(field_BC_sprite_scale);
+        }
+        else
+        {
+            offX = FP_FromInteger(2) * ScaleToGridSize_41FA30(field_BC_sprite_scale);
+        }
+
+        if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), offX))
+        {
+            ToKnockback();
+            return;
+        }
+    }
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), field_B4_velx))
+    {
+        ToKnockback();
+        return;
+    }
+    MoveOnLine_412580(0);
 }
 
 void Elum::State_44_ScratchBegin_412730()

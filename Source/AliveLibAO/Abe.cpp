@@ -2548,23 +2548,24 @@ void Abe::State_2_StandingTurn_426040()
 {
     FollowLift_42EE90();
 
-    const __int16 currentFrame = field_10_anim.field_92_current_frame;
-    const DWORD pressed = sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
-
-    if (currentFrame == 4 && (sInputKey_Run_4C65A8 & pressed) && (sInputKey_Right_4C6590 | sInputKey_Left_4C6594) & pressed)
+    if (field_10_anim.field_92_current_frame == 4)
     {
-        field_FC_current_motion = eAbeStates::State_63_TurnToRun_42A0A0;
-        field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+        if (sInputObject_5009E8.isPressed(sInputKey_Run_4C65A8) && 
+            sInputObject_5009E8.isPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
+        {
+            field_FC_current_motion = eAbeStates::State_63_TurnToRun_42A0A0;
+            field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
 
-        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-        {
-            field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+            }
+            else
+            {
+                field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+            }
+            return;
         }
-        else
-        {
-            field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
-        }
-        return;
     }
 
     if (!field_10_anim.field_92_current_frame)
@@ -2599,6 +2600,7 @@ void Abe::State_2_StandingTurn_426040()
                 }
                 field_FE_next_state = eAbeStates::State_0_Idle_423520;
                 field_FC_current_motion = field_FE_next_state;
+                return;
             }
 
             if (gElum_507680)
@@ -2612,12 +2614,6 @@ void Abe::State_2_StandingTurn_426040()
                     return;
                 }
             }
-
-            field_120 = FP_FromInteger(0);
-            field_B4_velx = FP_FromInteger(0);
-            field_FE_next_state = eAbeStates::State_0_Idle_423520;
-            field_B8_vely = FP_FromInteger(0);
-            field_114_gnFrame = gnFrameCount_507670;
         }
         else
         {
@@ -2626,14 +2622,8 @@ void Abe::State_2_StandingTurn_426040()
                 field_10_anim.Set_Animation_Data_402A40(field_10_anim.field_18_frame_table_offset, 0);
                 return;
             }
-            field_120 = FP_FromInteger(0);
-            field_B4_velx = FP_FromInteger(0);
-            field_B8_vely = FP_FromInteger(0);
-            field_114_gnFrame = gnFrameCount_507670;
         }
-        field_FC_current_motion = eAbeStates::State_0_Idle_423520;
-        field_10C_prev_held = 0;
-        field_10E_released_buttons = 0;
+        ToIdle_422D50();
     }
 }
 
