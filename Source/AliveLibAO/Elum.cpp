@@ -581,7 +581,6 @@ void Elum::SlowOnX_414210(FP amount)
     else
     {
         CheckLiftPointGoneAndSetCamera();
-
     }
 }
 
@@ -1784,12 +1783,84 @@ void Elum::State_32_HopLand_415140()
 
 void Elum::State_33_RunJumpBegin_415400()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEventNoise_0, this);
+    Event_Broadcast_417220(kEvent_10, this);
+
+    CheckLiftPointGoneAndSetCamera();
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), field_B4_velx))
+    {
+        ToKnockback();
+    }
+    else if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        FP velX = {};
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            velX = field_BC_sprite_scale * FP_FromDouble(-11.43);
+        }
+        else
+        {
+            velX = field_BC_sprite_scale * FP_FromDouble(11.43);
+        }
+
+        field_B4_velx = velX;
+
+        field_E8_LastLineYPos = field_AC_ypos;
+        field_B8_vely = field_BC_sprite_scale * FP_FromInteger(-4);
+
+        field_A8_xpos += field_B4_velx;
+        field_AC_ypos += field_BC_sprite_scale * FP_FromInteger(-4);
+
+        VOnTrapDoorOpen();
+        field_FC_current_motion = eElumStates::State_34_RunJumpMid_415240;
+        field_F4_pLine = nullptr;
+    }
 }
 
 void Elum::State_34_RunJumpMid_415240()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEventNoise_0, this);
+    Event_Broadcast_417220(kEvent_10, this);
+    Event_Broadcast_417220(11, this);
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), field_B4_velx))
+    {
+        ToKnockback();
+    }
+    else
+    {
+        if (sControlledCharacter_50767C == this)
+        {
+            SetActiveCameraDelayedFromDir_401C90();
+        }
+
+        FP hitX = {};
+        FP hitY = {};
+        if (InAirCollision_4019C0(&field_F4_pLine, &hitX, &hitY, FP_FromDouble(0.8)))
+        {
+            switch (field_F4_pLine->field_8_type)
+            {
+            case 0:
+            case 4:
+            case 32:
+            case 36:
+                Sfx_416E10(4u, 0);
+                field_A8_xpos = hitX;
+                field_FC_current_motion = eElumStates::State_35_RunJumpLand_415580;
+                field_AC_ypos = hitY;
+                MapFollowMe_401D30(TRUE);
+                break;
+            default:
+                break;
+            }
+        }
+        if (field_AC_ypos - field_E8_LastLineYPos > FP_FromInteger(2))
+        {
+            field_118 = FP_FromDouble(1.1);
+            field_FC_current_motion = eElumStates::State_24_JumpToFall_415ED0;
+        }
+    }
 }
 
 void Elum::State_35_RunJumpLand_415580()
