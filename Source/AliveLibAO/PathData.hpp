@@ -67,6 +67,8 @@ enum TlvTypes : __int16
     MeatSaw_88 = 88,
     MudPathTrans_89 = 89,
 
+    ScrabNoFall_93 = 93,
+
     ElumPathTrans_99 = 99,
 };
 
