@@ -63,31 +63,31 @@ void SligGetPantsAndWings::vUpdate_465DD0()
 
     switch (field_F4_state)
     {
-    case 0:
-        if (pTlv->field_1_unknown)
-        {
-            field_F4_state = 1;
-            field_FC_timer = sGnFrame_5C1B84 + 8;
-        }
-        break;
+        case State::eWaiting_0:
+            if (pTlv->field_1_unknown)
+            {
+                field_F4_state = State::eActive_1;
+                field_FC_timer = sGnFrame_5C1B84 + 8;
+            }
+            break;
 
-    case 1:
-        if (static_cast<int>(sGnFrame_5C1B84) > field_FC_timer)
-        {
-            field_F4_state = 2;
-            SFX_Play_46FA90(SoundEffect::NakedSligTransformEnd_92, 0);
-            field_20_animation.Set_Animation_Data_409C80(4364, nullptr);
-        }
-        break;
+        case State::eActive_1:
+            if (static_cast<int>(sGnFrame_5C1B84) > field_FC_timer)
+            {
+                field_F4_state = State::eFinished_2;
+                SFX_Play_46FA90(SoundEffect::NakedSligTransformEnd_92, 0);
+                field_20_animation.Set_Animation_Data_409C80(4364, nullptr);
+            }
+            break;
 
-    case 2:
-        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
-        {
-            field_F4_state = 0;
-            field_20_animation.Set_Animation_Data_409C80(4352, nullptr);
-            pTlv->field_1_unknown = 0;
-        }
-        break;
+        case State::eFinished_2:
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                field_F4_state = State::eWaiting_0;
+                field_20_animation.Set_Animation_Data_409C80(4352, nullptr);
+                pTlv->field_1_unknown = 0;
+            }
+            break;
     }
 }
 

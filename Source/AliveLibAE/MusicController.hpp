@@ -73,12 +73,12 @@ public:
     EXPORT void EnableMusic_47FB80(__int16 enable);
     EXPORT void SetMusicVolumeDelayed_47FB00(__int16 vol, __int16 delay);
     EXPORT void sub_47EFD0();
-    EXPORT void sub_47F910(MusicTypes typeToSet, const BaseGameObject* pObj, __int16 bFlag4, char bFlag0x20);
+    EXPORT void PlayMusic_47F910(MusicTypes typeToSet, const BaseGameObject* pObj, __int16 bFlag4, char bFlag0x20);
 
     EXPORT void sub_47F260();
     EXPORT void sub_47F0B0();
 
-    EXPORT static void CC sub_47FD60(MusicTypes typeToSet, const BaseGameObject* pObj, __int16 bFlag4, char bFlag0x20);
+    EXPORT static void CC PlayMusic_47FD60(MusicTypes typeToSet, const BaseGameObject* pObj, __int16 bFlag4, char bFlag0x20);
     EXPORT static void CC EnableMusic_47FE10(__int16 bOn);
 
 private:

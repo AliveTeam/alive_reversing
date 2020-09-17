@@ -1239,7 +1239,7 @@ void Fleech::dtor_42A3A0()
         Path::TLV_Reset_4DB8E0(field_118_tlvInfo, -1, 0, field_10C_health <= FP_FromInteger(0));
     }
 
-    MusicController::sub_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
+    MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
     sub_42CF70();
 
     if (field_106_current_motion == 18)
@@ -2853,11 +2853,11 @@ __int16 Fleech::AI_Patrol_0_430BA0()
 
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
-        MusicController::sub_47FD60(static_cast<MusicController::MusicTypes>(byte_551984[field_126_state]), this, 0, 0);
+        MusicController::PlayMusic_47FD60(static_cast<MusicController::MusicTypes>(byte_551984[field_126_state]), this, 0, 0);
     }
     else
     {
-        MusicController::sub_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
+        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
     }
 
     switch (field_126_state)
@@ -3403,11 +3403,11 @@ __int16 Fleech::AI_ChasingAbe_1_428760()
 
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
-        MusicController::sub_47FD60(static_cast<MusicController::MusicTypes>(byte_551784[field_126_state]), this, 0, 0);
+        MusicController::PlayMusic_47FD60(static_cast<MusicController::MusicTypes>(byte_551784[field_126_state]), this, 0, 0);
     }
     else
     {
-        MusicController::sub_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
+        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
     }
 
     switch (field_126_state)
@@ -4129,11 +4129,11 @@ __int16 Fleech::AI_Scared_2_42D310()
 
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
-        MusicController::sub_47FD60(static_cast<MusicController::MusicTypes>(byte_5518B0[field_126_state]), this, 0, 0);
+        MusicController::PlayMusic_47FD60(static_cast<MusicController::MusicTypes>(byte_5518B0[field_126_state]), this, 0, 0);
     }
     else
     {
-        MusicController::sub_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
+        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
     }
 
     switch (field_126_state)
@@ -4467,7 +4467,7 @@ __int16 Fleech::AI_Scared_2_42D310()
 __int16 Fleech::AI_Death_3_42D1E0()
 {
     field_11C_obj_id = -1;
-    MusicController::sub_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
+    MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
 
     if (field_12C < static_cast<int>(sGnFrame_5C1B84 + 80))
     {

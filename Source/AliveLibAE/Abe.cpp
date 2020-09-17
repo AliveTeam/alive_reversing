@@ -5747,7 +5747,7 @@ void Abe::State_57_Dead_4589A0()
             }
         }
         ++field_124_gnFrame;
-        MusicController::sub_47FD60(MusicController::MusicTypes::eDeathLong_11, this, 1, 0);
+        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eDeathLong_11, this, 1, 0);
         return;
     case 2:
         Event_Broadcast_422BC0(kEventHeroDying, this);
@@ -8417,7 +8417,7 @@ void Abe::FleechDeath_459350()
     field_106_current_motion = eAbeStates::State_58_DeadPre_4593E0;
     field_120_state = 0;
     field_10C_health = FP_FromInteger(0);
-    MusicController::sub_47FD60(MusicController::MusicTypes::eDeathLong_11, this, 1, 0);
+    MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eDeathLong_11, this, 1, 0);
     field_100_pCollisionLine = nullptr;
 }
 
@@ -8427,7 +8427,7 @@ void Abe::ToDie_4588D0()
     field_106_current_motion = eAbeStates::State_56_DeathDropFall_4591F0;
     field_124_gnFrame = 0;
     field_10C_health = FP_FromInteger(0);
-    MusicController::sub_47FD60(MusicController::MusicTypes::eNone_0, this, 1, 0);
+    MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 1, 0);
 }
 
 void Abe::ToIdle_44E6B0()
@@ -9115,7 +9115,7 @@ void Abe::ToDieFinal_458910()
     field_124_gnFrame = 0;
     field_10C_health = FP_FromInteger(0);
 
-    MusicController::sub_47FD60(MusicController::MusicTypes::eDeathLong_11, this, 1, 0);
+    MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eDeathLong_11, this, 1, 0);
 }
 
 short Abe::DoGameSpeak_45AB70(int input)

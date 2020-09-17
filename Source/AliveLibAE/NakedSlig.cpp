@@ -753,7 +753,7 @@ void NakedSlig::dtor_418FE0()
     if (sControlledCharacter_5C1B8C == this)
     {
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
-        MusicController::sub_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
+        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
         if (gMap_5C3030.field_A_level != LevelIds::eMenu_0)
         {
             gMap_5C3030.SetActiveCam_480D30(
@@ -809,7 +809,7 @@ __int16 NakedSlig::AI_0_Sleeping_419DE0()
         field_B8_xpos,
         field_BC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
+        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
     }
     
     if (field_208_brain_sub_state == 0)
@@ -871,7 +871,7 @@ __int16 NakedSlig::AI_1_Idle_419F60()
         field_B8_xpos,
         field_BC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_47FD60(MusicController::MusicTypes::eTension_4, this, 0, 0);
+        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eTension_4, this, 0, 0);
     }
 
     if (PanicOn_419810())
@@ -889,7 +889,7 @@ __int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
         field_B8_xpos,
         field_BC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_47FD60(MusicController::MusicTypes::eChase_8, this, 0, 0);
+        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eChase_8, this, 0, 0);
     }
 
     if (!field_100_pCollisionLine && field_208_brain_sub_state != 1)
@@ -1107,7 +1107,7 @@ __int16 NakedSlig::AI_3_Possessed_41A5B0()
         field_B8_xpos,
         field_BC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_47FD60(MusicController::MusicTypes::ePossessed_9, this, 0, 0);
+        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::ePossessed_9, this, 0, 0);
     }
 
     switch (field_208_brain_sub_state)
@@ -1151,7 +1151,7 @@ __int16 NakedSlig::AI_3_Possessed_41A5B0()
             field_114_flags.Clear(Flags_114::e114_Bit4_bPossesed);
             gMap_5C3030.SetActiveCam_480D30(field_1BA_prev_level, field_1BC_prev_path, field_1BE_prev_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             SetBrain(&NakedSlig::AI_4_GetKilled_41A880);
-            MusicController::sub_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
+            MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
             return field_208_brain_sub_state;
         }
         else
@@ -1194,7 +1194,7 @@ __int16 NakedSlig::AI_4_GetKilled_41A880()
         field_B8_xpos,
         field_BC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
+        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
     }
 
     switch (field_208_brain_sub_state)
@@ -1343,7 +1343,7 @@ __int16 NakedSlig::AI_5_Transformed_41ADF0()
         field_B8_xpos,
         field_BC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
+        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
     }
 
     if (!pObj || pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3))

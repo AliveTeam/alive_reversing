@@ -603,7 +603,7 @@ __int16 Paramite::AI_Patrol_0_4835B0()
 
     if (gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_47FD60(MusicController::MusicTypes::eTension_4, this, 0, 0);
+        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eTension_4, this, 0, 0);
     }
     
     const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
@@ -1406,7 +1406,7 @@ __int16 Paramite::AI_ChasingAbe_2_4859D0()
         {
             if (gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos) >= CameraPos::eCamCurrent_0)
             {
-                MusicController::sub_47FD60(MusicController::MusicTypes::eChase_8, this, 0, 0);
+                MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eChase_8, this, 0, 0);
             }
 
             if (Event_Get_422C00(kEventAbeOhm))
@@ -2135,7 +2135,7 @@ __int16 Paramite::AI_SpottedMeat_5_486880()
 
     if (gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_47FD60(MusicController::MusicTypes::eTension_4, this, 0, 0);
+        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eTension_4, this, 0, 0);
     }
 
     switch (field_12C_brain_ret)
@@ -2445,7 +2445,7 @@ __int16 Paramite::AI_Possessed_6_484BC0()
     {
         if (gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos) >= CameraPos::eCamCurrent_0)
         {
-            MusicController::sub_47FD60(MusicController::MusicTypes::ePossessed_9, this, 0, 0);
+            MusicController::PlayMusic_47FD60(MusicController::MusicTypes::ePossessed_9, this, 0, 0);
         }
 
         if (Event_Get_422C00(kEventDeathReset))
@@ -5148,7 +5148,7 @@ void Paramite::dtor_487FC0()
     }
 
     SND_SEQ_Stop_4CAE60(SeqId::ParamiteOffscreen_25);
-    MusicController::sub_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
+    MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
 
     if (sControlledCharacter_5C1B8C == this)
     {
