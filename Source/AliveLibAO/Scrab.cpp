@@ -2523,7 +2523,7 @@ __int16 Scrab::Brain_ChasingEnemy_45CC90()
     }
 
     if (field_120_pTarget->field_6_flags.Get(BaseGameObject::eDead_Bit3)
-        || field_13C <= gnFrameCount_507670
+        || field_13C <= static_cast<int>(gnFrameCount_507670)
         && !CanSeeAbe_45C100(field_120_pTarget)
         && field_120_pTarget->field_100_health > FP_FromInteger(0)
         && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
@@ -2574,7 +2574,10 @@ __int16 Scrab::Brain_ChasingEnemy_45CC90()
     }
 
     const FP kGridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
+
     Path_EnemyStopper* pStopper = nullptr;
+    short x_exp = 0;
+    int xSnapped = 0;
 
     switch (field_110_brain_ret)
     {
@@ -2738,26 +2741,14 @@ __int16 Scrab::Brain_ChasingEnemy_45CC90()
         return 1;
 
     case 3:
-        xpos_i = FP_GetExponent(field_A8_xpos);
-        xpos_i_ = xpos_i;
-        xpos_snapped = Grid_SnapX_41FAA0(field_BC_sprite_scale, xpos_i & 0x3FF);
-        xpos_rounded = (xpos_i & 0xFFFFFC00) + xpos_snapped;
-        bVelXLessThanZero = field_B4_velx < FP_FromInteger(0);
         if (field_B4_velx <= FP_FromInteger(0))
         {
             goto LABEL_103;
         }
 
-        if ((signed __int16)xpos_i - (signed __int16)xpos_rounded >= 0)
-        {
-            xpos_rounded_abs = (signed __int16)xpos_i - (signed __int16)xpos_rounded;
-        }
-        else
-        {
-            xpos_rounded_abs = (signed __int16)xpos_rounded - (signed __int16)xpos_i;
-        }
-
-        if (xpos_rounded_abs < 6 && Check_IsOnEndOfLine_4021A0(0, 1))
+        x_exp = FP_GetExponent(field_A8_xpos);
+        xSnapped = (x_exp & 0xFC00) + Grid_SnapX_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
+        if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine_4021A0(0, 1))
         {
             if (field_120_pTarget->field_AC_ypos - field_AC_ypos < FP_FromInteger(5)
                 || gMap_507BA8.TLV_Get_At_446260(
@@ -2802,16 +2793,9 @@ __int16 Scrab::Brain_ChasingEnemy_45CC90()
             goto LABEL_123;
         }
 
-        if (xpos_i_ - (signed __int16)xpos_rounded >= 0)
-        {
-            xpos_rounded_abs_1 = xpos_i_ - (signed __int16)xpos_rounded;
-        }
-        else
-        {
-            xpos_rounded_abs_1 = (signed __int16)xpos_rounded - xpos_i_;
-        }
-
-        if (xpos_rounded_abs_1 < 6
+        x_exp = FP_GetExponent(field_A8_xpos);
+        xSnapped = (x_exp & 0xFC00) + Grid_SnapX_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
+        if (abs(xSnapped - x_exp) < 6
             && Check_IsOnEndOfLine_4021A0(1, 1)
             && ((
                 field_120_pTarget->field_AC_ypos - field_AC_ypos < FP_FromInteger(5))
@@ -2827,6 +2811,7 @@ __int16 Scrab::Brain_ChasingEnemy_45CC90()
             field_FE_next_state = -1;
             return 7;
         }
+
         field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(
             FP_GetExponent(field_A8_xpos - (kGridSize * FP_FromInteger(2))),
             FP_GetExponent(field_AC_ypos),
@@ -2855,14 +2840,12 @@ __int16 Scrab::Brain_ChasingEnemy_45CC90()
                     field_FE_next_state = eScrabStates::State_27_AttackLunge_45FDF0;
                     return 10;
                 }
-                pLiftPoint_1 = field_F8_pLiftPoint;
-                if (!pLiftPoint_1
-                    || pLiftPoint_1->field_4_typeId != Types::eLiftPoint_51
-                    || ((lift_flags_1 = pLiftPoint_1->field_27A_flags, !(lift_flags_1 & 2))
-                        || lift_flags_1 & 0x20 ? (v65 = 0) : (v65 = 1),
-                        !(lift_flags_1 & 4) || lift_flags_1 & 0x20 ? (v66 = 0) : (v66 = 1),
-                        !(lift_flags_1 & 8) || lift_flags_1 & 0x20 ? (v67 = 0) : (v67 = 1),
-                        (unsigned __int16)v65 | (unsigned __int16)(v66 | v67)))
+
+                // TODO: Check this
+                auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
+                if (!pLiftPoint ||
+                    field_F8_pLiftPoint->field_4_typeId != Types::eLiftPoint_51 ||
+                    pLiftPoint->OnTopFloor() || pLiftPoint->OnMiddleFloor() || pLiftPoint->OnBottomFloor())
                 {
                     if (field_F4_pLine)
                     {
@@ -2907,12 +2890,9 @@ __int16 Scrab::Brain_ChasingEnemy_45CC90()
         }
         else
         {
-            lift_flags_2 = field_F8_pLiftPoint->field_27A_flags;
-            v71 = lift_flags_2 & 2 && !(lift_flags_2 & 0x20);
-            v72 = lift_flags_2 & 4 && !(lift_flags_2 & 0x20);
-            v73 = lift_flags_2 & 8 && !(lift_flags_2 & 0x20);
-
-            if (!(v71 | (v72 || v73)))
+            // TODO: Check this
+            auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
+            if (!pLiftPoint->OnTopFloor() || !pLiftPoint->OnMiddleFloor() || !pLiftPoint->OnBottomFloor())
             {
                 return field_110_brain_ret;
             }
@@ -2964,7 +2944,7 @@ __int16 Scrab::Brain_ChasingEnemy_45CC90()
                     return 10;
                 }
 
-                if (field_118_timer > gnFrameCount_507670)
+                if (field_118_timer > static_cast<int>(gnFrameCount_507670))
                 {
                     if (field_FC_current_motion != eScrabStates::State_1_Stand_45E620 ||
                         !field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -3231,7 +3211,7 @@ __int16 Scrab::Brain_ChasingEnemy_45CC90()
         break;
 
     case 15:
-        if (field_118_timer > gnFrameCount_507670)
+        if (field_118_timer > static_cast<int>(gnFrameCount_507670))
         {
             return field_110_brain_ret;
         }
@@ -3276,6 +3256,7 @@ __int16 Scrab::Brain_ChasingEnemy_45CC90()
             return 1;
         }
 
+        // TODO: Check this
         auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
         if (pLiftPoint->OnTopFloor() || pLiftPoint->OnMiddleFloor() || pLiftPoint->OnBottomFloor())
         {
