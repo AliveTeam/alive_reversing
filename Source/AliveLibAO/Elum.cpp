@@ -1865,7 +1865,62 @@ void Elum::State_34_RunJumpMid_415240()
 
 void Elum::State_35_RunJumpLand_415580()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEventNoise_0, this);
+    Event_Broadcast_417220(kEvent_10, this);
+
+    CheckLiftPointGoneAndSetCamera();
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        PSX_RECT bRect = {};
+        VGetBoundingRect(&bRect, 1);
+
+        VOnCollisionWith(
+            { bRect.x, static_cast<short>(bRect.y + 5) },
+            { bRect.w, static_cast<short>(bRect.h + 5) },
+            ObjListPlatforms_50766C,
+            1,
+            (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+
+        if (sControlledCharacter_50767C == this)
+        {
+            FP offX = {};
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                offX = -(field_BC_sprite_scale * FP_FromDouble(18.75));
+            }
+            else
+            {
+                offX = field_BC_sprite_scale * FP_FromDouble(18.75);
+            }
+
+            if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), offX))
+            {
+                ToKnockback();
+            }
+            else
+            {
+                field_E4 = eElumStates::State_36_RunLoop_413720;
+                field_E6_last_anim_frame = 4;
+                field_120 = 1;
+                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    field_A8_xpos -= field_BC_sprite_scale * FP_FromDouble(18.75);
+                    field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+                }
+                else
+                {
+                    field_A8_xpos += field_BC_sprite_scale * FP_FromDouble(18.75);
+                    field_B4_velx = ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4);
+                }
+            }
+        }
+        else
+        {
+            field_B4_velx = (field_B4_velx >= FP_FromInteger(0)) ? FP_FromDouble(13.3) : FP_FromDouble(-13.3);
+            field_FC_current_motion = eElumStates::State_12_RunTurn_414520;
+        }
+    }
 }
 
 void Elum::State_36_RunLoop_413720()
@@ -1875,7 +1930,48 @@ void Elum::State_36_RunLoop_413720()
 
 void Elum::State_37_RunSlideStop_4142E0()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEventNoise_0, this);
+    Event_Broadcast_417220(kEvent_10, this);
+
+    if (!field_10_anim.field_92_current_frame)
+    {
+        Sfx_416E10(5u, 0);
+    }
+
+    const FP offY = (sControlledCharacter_50767C == this) ? field_BC_sprite_scale * FP_FromInteger(40) : field_BC_sprite_scale * FP_FromInteger(25);
+    if (WallHit_401930(offY, field_B4_velx))
+    {
+        ToKnockback();
+        return;
+    }
+
+    SlowOnX_414210(FP_FromDouble(2.125));
+
+    if (sControlledCharacter_50767C == this && field_10_anim.field_92_current_frame < 7)
+    {
+        if (sInputObject_5009E8.isPressed(sInputKey_Right_4C6590) ||
+            sInputObject_5009E8.isPressed(sInputKey_Left_4C6594))
+        {
+            field_E4 = 12;
+            field_E6_last_anim_frame = field_10_anim.field_92_current_frame;
+            field_120 = 1;
+        }
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        MapFollowMe_401D30(TRUE);
+        if (!ToNextState_4120F0())
+        {
+            field_118 = FP_FromInteger(0);
+            field_B4_velx = FP_FromInteger(0);
+            field_B8_vely = FP_FromInteger(0);
+            field_FC_current_motion = eAbeStates::State_1_WalkLoop_423F90;
+            field_110_timer = gnFrameCount_507670;
+            field_10E = 0;
+            MapFollowMe_401D30(TRUE);
+        }
+    }
 }
 
 void Elum::State_38_RunTurnToRun_414810()
