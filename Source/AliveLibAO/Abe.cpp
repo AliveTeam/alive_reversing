@@ -5372,17 +5372,17 @@ void Abe::State_137_ElumUnmountBegin_42E2B0()
             // Empty
         }
 
-        field_1A4_resources.res[58] = {};
+        field_1A4_resources.res[58] = nullptr;
         field_104_pending_resource_count = 3;
 
-        ResourceManager::LoadResourceFile_4551E0("ABEBSIC.BAN", reinterpret_cast<ResourceManager::TLoaderFn>(OnResourceLoaded_4019A0), reinterpret_cast<Camera*>(this), 0);
-        ResourceManager::LoadResourceFile_4551E0("ANEPRMNT.BAN", reinterpret_cast<ResourceManager::TLoaderFn>(OnResourceLoaded_4019A0), reinterpret_cast<Camera*>(this), 0);
-        ResourceManager::LoadResourceFile_4551E0("ABENOELM.BND", reinterpret_cast<ResourceManager::TLoaderFn>(OnResourceLoaded_4019A0), reinterpret_cast<Camera*>(this), 0);
+        ResourceManager::LoadResourceFile("ABEBSIC.BAN", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
+        ResourceManager::LoadResourceFile("ANEPRMNT.BAN", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
+        ResourceManager::LoadResourceFile("ABENOELM.BND", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
 
         if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 48, FALSE, FALSE))
         {
-            ++field_104_pending_resource_count;
-            ResourceManager::LoadResourceFile_4551E0("ABEOMM.BAN", reinterpret_cast<ResourceManager::TLoaderFn>(OnResourceLoaded_4019A0), reinterpret_cast<Camera*>(this), 0);
+            field_104_pending_resource_count++;
+            ResourceManager::LoadResourceFile("ABEOMM.BAN", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
         }
         field_FC_current_motion = eAbeStates::State_138_ElumUnmountEnd_42E390;
     }
@@ -5405,7 +5405,7 @@ void Abe::State_139_ElumMountBegin_42E090()
         field_1A4_resources.res[61] = {};
         field_104_pending_resource_count = 1;
 
-        ResourceManager::LoadResourceFile_4551E0("ABEWELM.BND", reinterpret_cast<ResourceManager::TLoaderFn>(OnResourceLoaded_4019A0), reinterpret_cast<Camera*>(this), 0);
+        ResourceManager::LoadResourceFile("ABEWELM.BND", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
         VOnTrapDoorOpen();
         field_FC_current_motion = eAbeStates::State_136_ElumMountEnd_42E110;
     }

@@ -120,7 +120,7 @@ public:
 
     EXPORT void Vsub_4112B0();
 
-    void toKnockback();
+    void ToKnockback();
 
     EXPORT BaseGameObject* dtor_base_416FE0();
 
@@ -218,7 +218,7 @@ public:
     __int16 field_10E;
     int field_110_timer;
     int field_114;
-    int field_118;
+    FP field_118;
     int field_11C;
     __int16 field_120;
     __int16 field_122;

@@ -313,7 +313,7 @@ __int16 Elum::VTakeDamage_411020(BaseGameObject* pFrom)
     return 1;
 }
 
-void Elum::toKnockback()
+void Elum::ToKnockback()
 {
     field_B4_velx = FP_FromInteger(0);
     field_FC_current_motion = eElumStates::State_50_Knockback_415DC0;
@@ -322,7 +322,6 @@ void Elum::toKnockback()
     {
         MoveOnLine_412580(0);
     }
-    field_A8_xpos -= field_B4_velx;
     MapFollowMe_401D30(TRUE);
     Abe_SFX_2_42A220(13u, 95, -200, this);
 }
@@ -1129,13 +1128,7 @@ void Elum::State_4_Turn_4140F0()
         }
         else
         {
-            field_118 = 0;
-            field_110_timer = gnFrameCount_507670;
-            field_B4_velx = FP_FromInteger(0);
-            field_B8_vely = FP_FromInteger(0);
-            field_FC_current_motion = eElumStates::State_1_Idle_412990;
-            field_10E = 0;
-            MapFollowMe_401D30(TRUE);
+            ToIdle();
         }
     }
 }
@@ -1371,13 +1364,7 @@ void Elum::State_14_Speak_414860()
     {
         if (!ToNextState_4120F0())
         {
-            field_118 = 0;
-            field_110_timer = gnFrameCount_507670;
-            field_B4_velx = FP_FromInteger(0);
-            field_B8_vely = FP_FromInteger(0);
-            field_FC_current_motion = eElumStates::State_1_Idle_412990;
-            field_10E = 0;
-            MapFollowMe_401D30(TRUE);
+            ToIdle();
         }
     }
 }
@@ -1397,13 +1384,7 @@ void Elum::State_15_Speak_4148F0()
     {
         if (!ToNextState_4120F0())
         {
-            field_118 = 0;
-            field_110_timer = gnFrameCount_507670;
-            field_B4_velx = FP_FromInteger(0);
-            field_B8_vely = FP_FromInteger(0);
-            field_FC_current_motion = eElumStates::State_1_Idle_412990;
-            field_10E = 0;
-            MapFollowMe_401D30(TRUE);
+            ToIdle();
         }
     }
 }
@@ -1425,13 +1406,7 @@ void Elum::State_16_Speak_414980()
         field_FE_next_state = eElumStates::State_10_Yell_4158E0;
         if (!ToNextState_4120F0())
         {
-            field_118 = 0;
-            field_110_timer = gnFrameCount_507670;
-            field_B4_velx = FP_FromInteger(0);
-            field_B8_vely = FP_FromInteger(0);
-            field_FC_current_motion = eElumStates::State_1_Idle_412990;
-            field_10E = 0;
-            MapFollowMe_401D30(TRUE);
+            ToIdle();
         }
     }
 }
@@ -1697,7 +1672,7 @@ void Elum::State_30_HopBegin_414E30()
 
     if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), offX))
     {
-        toKnockback();
+        ToKnockback();
         return;
     }
 
@@ -1727,7 +1702,7 @@ void Elum::State_31_HopMid_414C70()
 
     if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), field_B4_velx))
     {
-        toKnockback();
+        ToKnockback();
     }
     else
     {
@@ -1760,7 +1735,7 @@ void Elum::State_31_HopMid_414C70()
 
         if (field_AC_ypos - field_E8_LastLineYPos > FP_FromInteger(2))
         {
-            field_118 = 0x22666;
+            field_118 = FP_FromDouble(2.15);
             field_FC_current_motion = eElumStates::State_24_JumpToFall_415ED0;
         }
     }
@@ -1996,7 +1971,7 @@ void Elum::State_46_ScratchEnd_412800()
 
 void Elum::ToIdle()
 {
-    field_118 = 0;
+    field_118 = FP_FromInteger(0);
     field_110_timer = gnFrameCount_507670;
     field_B4_velx = FP_FromInteger(0);
     field_B8_vely = FP_FromInteger(0);
