@@ -189,7 +189,7 @@ int CC Animation_OnFrame_Slog_4C3030(void* pObjPtr, signed __int16* pPoints)
         bSlogRect.h < bTargetRect.y ||
         bSlogRect.y > bTargetRect.h ||
         pTarget->field_CC_sprite_scale != FP_FromInteger(1) ||
-        pSlog->field_11C)
+        pSlog->field_11C_biting_target)
     {
         return 1;
     }
@@ -223,7 +223,7 @@ int CC Animation_OnFrame_Slog_4C3030(void* pObjPtr, signed __int16* pPoints)
             50);
     }
 
-    pSlog->field_11C = 1;
+    pSlog->field_11C_biting_target = 1;
     SFX_Play_46FA90(SoundEffect::SlogBite_34, 0);
 
     return 1;

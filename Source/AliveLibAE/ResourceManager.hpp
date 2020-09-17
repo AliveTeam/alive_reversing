@@ -196,7 +196,7 @@ ALIVE_VAR_EXTERN(int, loading_ticks_5C1BAC);
 enum ResourceID
 {
     kUnknownResID_0 = 0,
-    kUnknownResID_1 = 1,
+    kDemoResID = 1,
     kAbebasicResID = 10,
     kAbepullResID = 11,
     kAbepickResID = 12,

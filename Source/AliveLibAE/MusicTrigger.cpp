@@ -96,7 +96,7 @@ EXPORT void MusicTrigger::dtor_4800C0()
     SetVTable(this, 0x5463DC);
     if (field_24_flags & 4)
     {
-        MusicController::sub_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
+        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
     }
     BaseGameObject_dtor_4DBEC0();
 }
@@ -125,7 +125,7 @@ EXPORT void MusicTrigger::vUpdate_480140()
            (ypos >= FP_FromInteger(field_2C_tl.field_2_y) && ypos <= FP_FromInteger(field_30_br.field_2_y)))
         {
             field_24_flags &= ~1;
-            MusicController::sub_47FD60(field_26_music_type, this, (field_24_flags >> 2) & 1, 1);
+            MusicController::PlayMusic_47FD60(field_26_music_type, this, (field_24_flags >> 2) & 1, 1);
             field_24_flags |= 2u;
             if (field_28_counter >= 0)
             {
@@ -137,7 +137,7 @@ EXPORT void MusicTrigger::vUpdate_480140()
     {
         if (field_28_counter < 0 || static_cast<int>(sGnFrame_5C1B84) < field_28_counter)
         {
-            MusicController::sub_47FD60(field_26_music_type, this, (field_24_flags >> 2) & 1, 0);
+            MusicController::PlayMusic_47FD60(field_26_music_type, this, (field_24_flags >> 2) & 1, 0);
         }
         else
         {
@@ -146,7 +146,7 @@ EXPORT void MusicTrigger::vUpdate_480140()
     }
     else
     {
-        MusicController::sub_47FD60(field_26_music_type, this, (field_24_flags >> 2) & 1, 1);
+        MusicController::PlayMusic_47FD60(field_26_music_type, this, (field_24_flags >> 2) & 1, 1);
         field_24_flags |= 2u;
         field_28_counter += sGnFrame_5C1B84;
     }

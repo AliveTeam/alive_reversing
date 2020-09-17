@@ -644,14 +644,14 @@ void MusicController::Update_47F730()
             if (field_58_flags.Get(Flags_58::e58_MusicEnabled_Bit1))
             {
                 SetMusicVolumeDelayed_47FB00(field_20_vol, 0);
-                sub_47F910(MusicTypes::eNone_0, 0, 1, 0);
+                PlayMusic_47F910(MusicTypes::eNone_0, 0, 1, 0);
             }
         }
     }
 
     if (field_42_type > MusicTypes::eType1 && sMusicTime_5C3024 - field_48_last_music_frame >= 160)
     {
-        sub_47F910(MusicTypes::eNone_0, 0, 1, 0);
+        PlayMusic_47F910(MusicTypes::eNone_0, 0, 1, 0);
     }
 
     sub_47EFD0();
@@ -663,7 +663,7 @@ void MusicController::Update_47F730()
     }
 }
 
-void MusicController::sub_47F910(MusicTypes typeToSet, const BaseGameObject* pObj, __int16 bFlag4, char bFlag0x20)
+void MusicController::PlayMusic_47F910(MusicTypes typeToSet, const BaseGameObject* pObj, __int16 bFlag4, char bFlag0x20)
 {
     //NOT_IMPLEMENTED();
 
@@ -958,11 +958,11 @@ void MusicController::sub_47F0B0()
     }
 }
 
-void CC MusicController::sub_47FD60(MusicTypes typeToSet, const BaseGameObject* pObj, __int16 bFlag4, char bFlag0x20)
+void CC MusicController::PlayMusic_47FD60(MusicTypes typeToSet, const BaseGameObject* pObj, __int16 bFlag4, char bFlag0x20)
 {
     if (pMusicController_5C3020)
     {
-        pMusicController_5C3020->sub_47F910(typeToSet, pObj, bFlag4, bFlag0x20);
+        pMusicController_5C3020->PlayMusic_47F910(typeToSet, pObj, bFlag4, bFlag0x20);
     }
 }
 

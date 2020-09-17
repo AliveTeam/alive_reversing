@@ -4,6 +4,13 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 
+enum class State : __int16
+{
+    eWaiting_0 = 0,
+    eActive_1 = 1,
+    eFinished_2 = 2,
+};
+
 // TODO: HACK - pass in the scale directly at 100%.
 // Either Path_Slig or Path_FlyingSlig with another TLV type value.
 // Both of these start with a scale value which is the only thing this object reads.
@@ -20,7 +27,7 @@ private:
     EXPORT void vScreenChanged_465EE0();
     EXPORT void dtor_465D40();
 private:
-    __int16 field_F4_state;
+    State field_F4_state;
     //__int16 field_F6_pad;
     int field_F8_tlvInfo;
     int field_FC_timer;

@@ -23,32 +23,32 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slog, 0x24);
 
 enum class SlogSound : int
 {
-    Unknown_0 = 0,
-    Unknown_1 = 1,
+    Padding_0 = 0,
+    Padding_1 = 1,
     IdleWoof_2 = 2,
     IdleGrrr_3 = 3,
     IdleGrrAlt_4 = 4,
     CautiousWoof_5 = 5,
     JumpBite_6 = 6,
-    Unknown_7 = 7,
+    Padding_7 = 7,
     AttackGrowl_8 = 8,
     DeathWhine_9 = 9,
     YawnStart_10 = 10,
     YawnEnd_11 = 11,
-    Unknown_12 = 12,
-    Unknown_13 = 13,
-    Unknown_14 = 14,
-    Unknown_15 = 15,
-    Unknown_16 = 16,
-    Unknown_17 = 17, //Bark cutoff?
-    Unknown_18 = 18
+    Padding_12 = 12,
+    HungryYip_13 = 13,
+    Skid_14 = 14,
+    Padding_15 = 15,
+    Landing_16 = 16,
+    FastStep_17 = 17,
+    SlowStep_18 = 18
 };
 
 struct Slog_State
 {
     Types field_0_type;
-    __int16 field_2_pad;
-    int field_4;
+    __int16 field_2_padding;
+    int field_4_objectId;
     FP field_8_xpos;
     FP field_C_ypos;
     FP field_10_velx;
@@ -62,13 +62,13 @@ struct Slog_State
     __int16 field_26_bAnimFlipX;
     __int16 field_28_current_motion;
     __int16 field_2A_anim_cur_frame;
-    __int16 field_2C;
+    __int16 field_2C_frame_change_counter;
     char field_2E_bRender;
     char field_2F_bDrawable;
-    FP field_30;
-    __int16 field_34;
-    __int16 field_36;
-    __int16 field_38;
+    FP field_30_health;
+    __int16 field_34_current_motion;
+    __int16 field_36_next_motion;
+    __int16 field_38_last_line_ypos;
     __int16 field_3A_line_type;
     int field_3C_id;
     int field_40_tlvInfo;
@@ -76,36 +76,36 @@ struct Slog_State
     __int16 field_48_state_idx;
     __int16 field_4A_brain_state_result;
     int field_4C_timer;
-    FP field_50;
+    FP field_50_falling_velx_scale_factor;
     int field_54_obj_id;
-    __int16 field_58;
-    __int16 field_5A;
-    __int16 field_5C;
-    __int16 field_5E;
-    __int16 field_60;
-    __int16 field_62;
-    int field_64;
-    int field_68_timer;
-    int field_6C;
+    __int16 field_58_has_woofed;
+    __int16 field_5A_waiting_counter;
+    __int16 field_5C_response_index;
+    __int16 field_5E_response_part;
+    __int16 field_60_anger_level;
+    __int16 field_62_jump_counter;
+    int field_64_scratch_timer;
+    int field_68_growl_timer;
+    int field_6C_bone_id;
     __int16 field_70_jump_delay;
-    BYTE field_72;
-    BYTE field_73_pad;
+    BYTE field_72_slog_random_index;
+    BYTE field_73_padding;
 
     enum Flags_74
     {
-        eBit1 = 0x1,
-        eBit2 = 0x2,
-        eBit3 = 0x4,
-        eBit4 = 0x8,
-        eBit5 = 0x10,
-        eBit6 = 0x20,
-        eBit7 = 0x40,
-        eBit8 = 0x80,
-        eBit9 = 0x100,
-        eBit10_bListenToSligs = 0x200,
+        eBit1_BitingTarget = 0x1,
+        eBit2_Possessed = 0x2,
+        eBit3_Asleep = 0x4,
+        eBit4_MovedOffScreen = 0x8,
+        eBit5_StopRunning = 0x10,
+        eBit6_Shot = 0x20,
+        eBit7_Hungry = 0x40,
+        eBit8_CommandedToAttack = 0x80,
+        eBit9_HitByAbilityRing = 0x100,
+        eBit10_ListenToSligs = 0x200,
     };
     BitField16<Flags_74> field_74_flags;
-    __int16 field_76;
+    __int16 field_76_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Slog_State, 0x78);
 
@@ -153,77 +153,77 @@ public:
     EXPORT void M_StartWalking_8_4C62E0();
     EXPORT void M_EndWalking_9_4C6310();
     EXPORT void M_Land_10_4C7820();
-    EXPORT void M_Unknown_11_4C7860();
+    EXPORT void M_Unused_11_4C7860();
     EXPORT void M_StartFastBarking_12_4C7880();
     EXPORT void M_EndFastBarking_13_4C78D0();
-    EXPORT void M_Unknown_14_4C6CF0();
+    EXPORT void M_AngryBark_14_4C6CF0();
     EXPORT void M_Sleeping_15_4C6D60();
     EXPORT void M_MoveHeadDownwards_16_4C70D0();
     EXPORT void M_Bark_17_4C7000();
     EXPORT void M_JumpForwards_18_4C7210();
     EXPORT void M_JumpUpwards_19_4C7470();
     EXPORT void M_Eating_20_4C75F0();
-    EXPORT void M_Unknown_21_4C77F0();
+    EXPORT void M_Dying_21_4C77F0();
     EXPORT void M_Scratch_22_4C7120();
     EXPORT void M_Growl_23_4C7170();
 
 public:
     EXPORT __int16 AI_ListeningToSlig_0_4C3790();
 
-    __int16 AI_ListeningToSlig_State_6();
+    __int16 AI_ListeningToSlig_State_6_Responding();
 
-    __int16 AI_ListeningToSlig_State_5();
+    __int16 AI_ListeningToSlig_State_5_Waiting();
 
-    __int16 AI_ListeningToSlig_State_4(const FP xpos1GridAHead);
+    __int16 AI_ListeningToSlig_State_4_Running(const FP xpos1GridAHead);
 
-    __int16 AI_ListeningToSlig_State_3(const FP xpos1GridAHead);
+    __int16 AI_ListeningToSlig_State_3_Walking(const FP xpos1GridAHead);
 
-    __int16 AI_ListeningToSlig_State_2(const FP xpos1GridAHead, BaseAliveGameObject* pObj);
+    __int16 AI_ListeningToSlig_State_2_Listening(const FP xpos1GridAHead, BaseAliveGameObject* pObj);
 
-    __int16 AI_ListeningToSlig_State_1(const FP xpos1GridAHead);
+    __int16 AI_ListeningToSlig_State_1_Idle(const FP xpos1GridAHead);
 
-    __int16 AI_ListeningToSlig_State_0();
+    __int16 AI_ListeningToSlig_State_0_Init();
 
     EXPORT __int16 AI_Idle_1_4C2830();
     EXPORT __int16 AI_ChasingAbe_2_4C0A00();
 
-    __int16 AI_ChasingAbe_State_19(BaseAliveGameObject* pTarget);
+    __int16 AI_ChasingAbe_State_19_AboutToCollide(BaseAliveGameObject* pTarget);
 
-    __int16 AI_ChasingAbe_State_18(BaseAliveGameObject* pTarget);
+    __int16 AI_ChasingAbe_State_18_WaitingToJump(BaseAliveGameObject* pTarget);
 
-    __int16 AI_ChasingAbe_State_17(BaseAliveGameObject* pTarget);
+    __int16 AI_ChasingAbe_State_17_WaitingToChase(BaseAliveGameObject* pTarget);
 
-    __int16 AI_ChasingAbe_State_16();
+    __int16 AI_ChasingAbe_State_16_JumpingUpwards();
 
-    __int16 AI_ChasingAbe_State_15(BaseAliveGameObject* pTarget);
+    __int16 AI_ChasingAbe_State_15_ChasingAfterTarget(BaseAliveGameObject* pTarget);
 
-    __int16 AI_ChasingAbe_State_14();
+    __int16 AI_ChasingAbe_State_14_CheckingIfBoneNearby();
 
-    __int16 AI_ChasingAbe_State_13();
+    __int16 AI_ChasingAbe_State_13_EatingBone();
 
-    __int16 AI_ChasingAbe_State_12();
+    __int16 AI_ChasingAbe_State_12_WalkingToBone();
 
-    __int16 AI_ChasingAbe_State_11();
+    __int16 AI_ChasingAbe_State_11_ChasingAfterBone();
 
-    __int16 AI_ChasingAbe_State_20(BaseAliveGameObject* pTarget);
+    __int16 AI_ChasingAbe_State_20_Collided(BaseAliveGameObject* pTarget);
 
-    __int16 AI_ChasingAbe_State_10();
+    __int16 AI_ChasingAbe_State_10_HungryForBone();
 
-    __int16 AI_ChasingAbe_State_9();
+    __int16 AI_ChasingAbe_State_9_Falling();
 
-    __int16 AI_ChasingAbe_State_8();
+    __int16 AI_ChasingAbe_State_8_ToIdle();
 
-    __int16 AI_ChasingAbe_State_7(BaseAliveGameObject* pTarget);
+    __int16 AI_ChasingAbe_State_7_EatingTarget(BaseAliveGameObject* pTarget);
 
-    __int16 AI_ChasingAbe_State_4(BaseAliveGameObject* pTarget);
+    __int16 AI_ChasingAbe_State_4_LungingAtTarget(BaseAliveGameObject* pTarget);
 
-    __int16 AI_ChasingAbe_State_3(BaseAliveGameObject* pTarget);
+    __int16 AI_ChasingAbe_State_3_GrowlOrScratch(BaseAliveGameObject* pTarget);
 
-    __int16 AI_ChasingAbe_State_2(BaseAliveGameObject* pTarget);
+    __int16 AI_ChasingAbe_State_2_Thinking(BaseAliveGameObject* pTarget);
 
-    __int16 AI_ChasingAbe_State_1();
+    __int16 AI_ChasingAbe_State_1_Waiting();
 
-    __int16 AI_ChasingAbe_State_0();
+    __int16 AI_ChasingAbe_State_0_Init();
 
     EXPORT __int16 AI_Death_3_4C3250();
 
@@ -277,53 +277,53 @@ private:
 
 public:
     int field_118_target_id;
-    __int16 field_11C;
+    __int16 field_11C_biting_target;
 private:
-    __int16 field_11E;
+    __int16 field_11E_padding;
     unsigned __int16 field_120_brain_state_idx;
     __int16 field_122_brain_state_result;
     int field_124_timer;
-    FP field_128;
+    FP field_128_falling_velx_scale_factor;
     int field_12C_tlvInfo;
-    __int16 field_130;
-    __int16 field_132;
-    int field_134;
+    __int16 field_130_motion_resource_block_index;
+    __int16 field_132_has_woofed;
+    int field_134_last_event_index;
     int field_138_listening_to_slig_id;
-    __int16 field_13C;
+    __int16 field_13C_waiting_counter;
     __int16 field_13E_response_index;
     __int16 field_140_response_part;
     __int16 field_142_anger_level;
-    __int16 field_144;
+    __int16 field_144_wake_up_anger;
     __int16 field_146_total_anger;
     __int16 field_148_chase_anger;
-    __int16 field_14A;
-    int field_14C;
-    int field_150_timer;
+    __int16 field_14A_padding;
+    int field_14C_scratch_timer;
+    int field_150_growl_timer;
     __int16 field_154_angry_id;
     __int16 field_156_bone_eating_time;
     __int16 field_158_jump_delay;
-    __int16 field_15A;
+    __int16 field_15A_jump_counter;
     int field_15C_bone_id;
     enum Flags_160 : __int16
     {
-        eBit1 = 0x1,
+        eBit1_StopRunning = 0x1,
         eBit2_ListenToSligs = 0x2,
-        eBit3 = 0x4,
-        eBit4 = 0x8,
-        eBit5 = 0x10,
-        eBit6 = 0x20,
-        eBit7 = 0x40,
-        eBit8 = 0x80,
-        eBit9 = 0x100,
-        eBit10 = 0x200,
-        eBit11 = 0x400,
-        eBit12 = 0x800,
-        eBit13 = 0x1000,
-        eBit14 = 0x2000,
-        eBit15 = 0x4000,
+        eBit3_Shot = 0x4,
+        eBit4_Hungry = 0x8,
+        eBit5_CommandedToAttack = 0x10,
+        eBit6_HitByAbilityRing = 0x20,
+        eBit7_Asleep = 0x40,
+        eBit8_MovedOffScreen = 0x80,
+        eBit9_Unused = 0x100,
+        eBit10_Padding = 0x200,
+        eBit11_Padding = 0x400,
+        eBit12_Padding = 0x800,
+        eBit13_Unused = 0x1000,
+        eBit14_Padding = 0x2000,
+        eBit15_Padding = 0x4000,
     };
     BitField16<Flags_160> field_160_flags;
-    __int16 field_162;
+    __int16 field_162_padding;
 };
 ALIVE_ASSERT_SIZEOF(Slog, 0x164);
 
