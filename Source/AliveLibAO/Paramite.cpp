@@ -2347,7 +2347,7 @@ __int16 Paramite::Brain_SpottedMeat_449CD0()
         field_6_flags.Set(Options::eDead_Bit3);
     }
 
-    if (field_148_pMeat->VIsFalling() || field_148_pMeat->field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
+    if (field_148_pMeat->VIsFalling() || field_148_pMeat->field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
         Sound_44DBB0(7u);
         SetBrain(&Paramite::Brain_Patrol_447A10);
