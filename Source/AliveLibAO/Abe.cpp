@@ -2323,7 +2323,7 @@ void Abe::VOn_Tlv_Collision_421130(Path_TLV *pTlv)
 
             if ((pContinuePointTlv->field_18_zone_number != field_146_zone_number ||
                 field_144_saved_level != gMap_507BA8.field_0_current_level) &&
-                !field_10A_flags.Get(Flags_10A::e10A_Bit5) &&
+                !field_10A_flags.Get(Flags_10A::e10A_Bit5_Electrocuted) &&
                 field_FC_current_motion != eAbeStates::State_156_DoorEnter_42D370)
             {
                 field_146_zone_number = pContinuePointTlv->field_18_zone_number;

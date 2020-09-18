@@ -80,7 +80,7 @@ BaseAliveGameObject *BaseAliveGameObject::ctor_401090()
     field_10A_flags.Clear(Flags_10A::e10A_Bit2_bPossesed);
     field_10A_flags.Clear(Flags_10A::e10A_Bit3);
     field_10A_flags.Clear(Flags_10A::e10A_Bit4_SetOffExplosives);
-    field_10A_flags.Clear(Flags_10A::e10A_Bit5);
+    field_10A_flags.Clear(Flags_10A::e10A_Bit5_Electrocuted);
     field_10A_flags.Clear(Flags_10A::e10A_Bit6);
 
     field_F0_pTlv = nullptr;

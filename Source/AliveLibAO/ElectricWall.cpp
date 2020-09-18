@@ -5,6 +5,12 @@
 #include "SwitchStates.hpp"
 #include "Math.hpp"
 #include "stdlib.hpp"
+#include "Electrocute.hpp"
+#include "Flash.hpp"
+#include "Sfx.hpp"
+#include "Game.hpp"
+#include "Events.hpp"
+#include "BaseAliveGameObject.hpp"
 
 START_NS_AO
 
@@ -88,6 +94,113 @@ void ElectricWall::VScreenChanged_410220()
         gMap_507BA8.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos) == CameraPos::eCamInvalid_m1)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+}
+
+void ElectricWall::VUpdate()
+{
+    VUpdate_40FEF0();
+}
+
+void ElectricWall::VUpdate_40FEF0()
+{
+    const CameraPos soundDirection = gMap_507BA8.GetDirection(
+        field_B2_lvl_number,
+        field_B0_path_number,
+        field_A8_xpos,
+        field_AC_ypos);
+
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        field_6_flags.Set(Options::eDead_Bit3);
+    }
+
+    if (SwitchStates_Get(field_E8_switch_id) == field_EA_start_state)
+    {
+        field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+    }
+    else
+    {
+        field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+
+        // Keep flipping direction
+        if (!(gnFrameCount_507670 % 8))
+        {
+            field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+        }
+
+         // Play sound every so often
+        if (static_cast<int>(gnFrameCount_507670) >= field_EC_sound_timer)
+        {
+            // set a random starting frame
+            SFX_Play_43AED0(48u, 45, soundDirection);
+            field_EC_sound_timer = gnFrameCount_507670 + Math_RandomRange_450F20(24, 40);
+        }
+
+     
+        PSX_RECT bRect = {};
+        VGetBoundingRect(&bRect, 1);
+
+        PSX_RECT bRectBigger;
+        bRectBigger.x = FP_GetExponent(field_A8_xpos - FP_FromInteger(4));
+        bRectBigger.y = static_cast<short>(bRect.y + 5);
+        bRectBigger.w = FP_GetExponent(field_A8_xpos + FP_FromInteger(4));
+        bRectBigger.h = static_cast<short>(bRect.h + 5);
+
+        for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+        {
+            BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
+            if (!pObjIter)
+            {
+                break;
+            }
+
+            // Don't kill nades
+            if (pObjIter->field_4_typeId != Types::eGrenade_40)
+            {
+                PSX_RECT objRect = {};
+                pObjIter->VGetBoundingRect(&objRect, 1);
+
+                if (!RectsOverlap(bRectBigger, objRect))
+                {
+                    // Not touching, so every so often check if we are near
+                    if (!(gnFrameCount_507670 % 3))
+                    {
+                        // Make each side of the rect wider
+                        objRect.x -= 50;
+                        objRect.w += 50;
+
+                         if (RectsOverlap(bRectBigger, objRect) && pObjIter->field_100_health > FP_FromInteger(0))
+                        {
+                            SFX_Play_43AED0(47u, 45, soundDirection);
+                        }
+                    }
+                }
+                else
+                {
+                    // Touching the wall, rip
+                    if (!pObjIter->field_10A_flags.Get(Flags_10A::e10A_Bit5_Electrocuted))
+                    {
+                        pObjIter->field_10A_flags.Set(Flags_10A::e10A_Bit5_Electrocuted);
+                        auto pElectrocute = ao_new<Electrocute>();
+                        if (pElectrocute)
+                        {
+                            pElectrocute->ctor_48D3A0(pObjIter, 1);
+                        }
+
+                        pObjIter->VTakeDamage(this);
+
+                        SFX_Play_43AED0(46u, 127, soundDirection);
+
+                        auto pFlash = ao_new<Flash>();
+                        if (pFlash)
+                        {
+                            pFlash->ctor_41A810(39, 255u, 255u, 255u, 1, 3u, 1);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

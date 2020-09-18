@@ -134,17 +134,10 @@ void ElectricWall::vUpdate_422030()
 
         field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
 
-        // Keep flipped direction
+        // Keep flipping direction
         if (!(sGnFrame_5C1B84 % 8))
         {
-            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-            {
-                field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
-            }
-            else
-            {
-                field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
-            }
+            field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
         }
 
         // Play sound every so often
@@ -224,7 +217,7 @@ void ElectricWall::vUpdate_422030()
                             auto pFlash = ae_new<Flash>();
                             if (pFlash)
                             {
-                                pFlash->ctor_428570(39, 0xFFu, 0xFFu, 0xFFu, 1, 3, 1);
+                                pFlash->ctor_428570(39, 255, 255, 255, 1, 3, 1);
                             }
                         }
                     }
