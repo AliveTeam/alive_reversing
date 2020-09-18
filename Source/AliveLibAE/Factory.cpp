@@ -57,6 +57,7 @@
 #include "MovingBomb.hpp"
 #include "Throwable.hpp"
 #include "Slurg.hpp"
+#include "SlurgSpawner.hpp"
 #include "DoorFlame.hpp"
 #include "NakedSlig.hpp"
 #include "Scrab.hpp"
