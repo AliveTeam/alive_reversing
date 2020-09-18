@@ -16,6 +16,7 @@
 #include "Midi.hpp"
 #include "Events.hpp"
 #include "DDCheat.hpp"
+#include "Honey.hpp"
 
 START_NS_AO;
 
@@ -881,7 +882,59 @@ void CC Elum::Sfx_416E10(unsigned __int8 /*direction*/, BaseAliveGameObject* /*p
 
 void Elum::FindHoney_411600()
 {
-    NOT_IMPLEMENTED();
+    if (field_FC_current_motion != eElumStates::State_25_LickingHoney_415B50)
+    {
+        field_170_flags &= ~8u;
+
+        for (int i=0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+        {
+            BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
+
+            if (!pObjIter)
+            {
+                break;
+            }
+
+            if (pObjIter->field_4_typeId == Types::eHoney_47)
+            {
+                auto pHoney = static_cast<Honey*>(pObjIter);
+                if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                    pHoney->field_B2_lvl_number,
+                    pHoney->field_B0_path_number,
+                    pHoney->field_A8_xpos,
+                    pHoney->field_AC_ypos,
+                    0)
+                    && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                        field_B2_lvl_number,
+                        field_B0_path_number,
+                        field_A8_xpos,
+                        field_AC_ypos,
+                        0))
+                {
+                    field_12C_honey_xpos = FP_GetExponent(pHoney->field_A8_xpos);
+                    field_12E_honey_ypos = FP_GetExponent(pHoney->field_AC_ypos);
+                    field_170_flags |= 8;
+                    break;
+                }
+            }
+        }
+    }
+}
+
+__int16 Elum::NearHoney_411DA0()
+{
+    if (field_170_flags & 8) // honey valid flag ??
+    {
+        auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
+        if (pLiftPoint && pLiftPoint->field_10C == 1 && !pLiftPoint->OnAnyFloor())
+        {
+            // We're on a lift that isn't on a floor
+            return 0;
+        }
+
+        return abs(FP_GetExponent(field_AC_ypos) - field_12E_honey_ypos) <= 24 ? 1 : 0;
+    }
+    return 0;
 }
 
 __int16 Elum::Brain_0_WithoutAbe_416190()
