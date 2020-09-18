@@ -950,6 +950,7 @@ __int16 Elum::Brain_1_HoneyAddiction_411730()
     switch (field_12A_brain_state)
     {
     case 0:
+    {
         if (field_170_flags & 1)
         {
             field_170_flags &= ~8u;
@@ -1007,8 +1008,10 @@ __int16 Elum::Brain_1_HoneyAddiction_411730()
             return 1;
         }
         break;
+    }
 
     case 1:
+    {
         if (field_FC_current_motion != eElumStates::State_4_Turn_4140F0 ||
             !field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
@@ -1046,6 +1049,7 @@ __int16 Elum::Brain_1_HoneyAddiction_411730()
         field_FE_next_state = eElumStates::State_3_WalkLoop_412C90;
         Sfx_416E10(6u, 0);
         return 2;
+    }
 
     case 2:
         if (!NearHoney_411DA0())
