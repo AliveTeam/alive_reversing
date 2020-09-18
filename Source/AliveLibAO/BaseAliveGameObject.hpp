@@ -29,7 +29,7 @@ enum Flags_10A
     e10A_Bit2_bPossesed = 0x2,
     e10A_Bit3 = 0x4,
     e10A_Bit4_SetOffExplosives = 0x8,
-    e10A_Bit5 = 0x10,
+    e10A_Bit5_Electrocuted = 0x10,
     e10A_Bit6 = 0x20,
     e10A_Bit7 = 0x40,
     e10A_Bit8 = 0x80,

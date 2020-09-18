@@ -401,7 +401,7 @@ BaseGameObject* Mudokon::dtor_43F6A0()
 
     if (!field_144_flags.Get(Flags_144::e144_Bit2) ||
         field_100_health <= FP_FromInteger(0) ||
-        field_10A_flags.Get(Flags_10A::e10A_Bit5))
+        field_10A_flags.Get(Flags_10A::e10A_Bit5_Electrocuted))
     {
         gMap_507BA8.TLV_Reset_446870(field_10C, -1, 0, 1);
     }
@@ -531,7 +531,7 @@ void Mudokon::VUpdate_43F560()
         field_1BC = 0;
     }
 
-    if (field_10A_flags.Get(Flags_10A::e10A_Bit5))
+    if (field_10A_flags.Get(Flags_10A::e10A_Bit5_Electrocuted))
     {
         Event_Broadcast_417220(kEvent_15, sActiveHero_507678);
     }

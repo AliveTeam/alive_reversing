@@ -148,6 +148,8 @@ public:
 
     EXPORT void FindHoney_411600();
 
+    EXPORT __int16 NearHoney_411DA0();
+
     // Brains
     EXPORT __int16 Brain_0_WithoutAbe_416190();
 

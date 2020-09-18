@@ -31,10 +31,11 @@ public:
 
     EXPORT void VScreenChanged_410220();
 
-    int field_D4;
-    int field_D8;
-    int field_DC;
-    int field_E0;
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_40FEF0();
+
+    int field_D4[4];
     int field_E4_tlv;
     __int16 field_E8_switch_id;
     __int16 field_EA_start_state;
