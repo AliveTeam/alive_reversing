@@ -1055,32 +1055,18 @@ __int16 Elum::Brain_1_HoneyAddiction_411730()
             return 0;
         }
 
-        if (field_B4_velx >= FP_FromInteger(0))
+        if ((field_B4_velx < FP_FromInteger(0) && field_A8_xpos - FP_FromInteger(field_12C_honey_xpos) >= (kGridSize * FP_FromInteger(2))) ||
+            (field_B4_velx > FP_FromInteger(0) && FP_FromInteger(field_12C_honey_xpos) - field_A8_xpos >= (kGridSize * FP_FromInteger(2))))
         {
-            goto LABEL_26;
-        }
+            field_FE_next_state = eElumStates::State_25_LickingHoney_415B50;
 
-        if (field_A8_xpos - FP_FromInteger(field_12C_honey_xpos) >= (kGridSize * FP_FromInteger(2)))
-        {
-        LABEL_26:
-            if (field_B4_velx <= FP_FromInteger(0))
+            if (sControlledCharacter_50767C == this)
             {
-                return field_12A_brain_state;
+                SetAbeAsPlayer_412520(eAbeStates::State_128_KnockForward_429330);
             }
-
-            if (FP_FromInteger(field_12C_honey_xpos) - field_A8_xpos >= (kGridSize * FP_FromInteger(2)))
-            {
-                return field_12A_brain_state;
-            }
+            return 3;
         }
-
-        field_FE_next_state = eElumStates::State_25_LickingHoney_415B50;
-
-        if (sControlledCharacter_50767C == this)
-        {
-            SetAbeAsPlayer_412520(eAbeStates::State_128_KnockForward_429330);
-        }
-        return 3;
+        return field_12A_brain_state;
 
     case 3:
         if (!field_F4_pLine)
