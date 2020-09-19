@@ -1919,7 +1919,91 @@ void Elum::State_20_Fall_415F70()
 
 void Elum::State_21_Land_414A20()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEventNoise_0, this);
+    Event_Broadcast_417220(kEvent_10, this);
+
+    if (field_B4_velx > FP_FromInteger(0))
+    {
+        field_B4_velx -= (field_BC_sprite_scale * field_118);
+        if (field_B4_velx < FP_FromInteger(0))
+        {
+            field_B4_velx = FP_FromInteger(0);
+        }
+    }
+    else if (field_B4_velx < FP_FromInteger(0))
+    {
+        field_B4_velx += (field_BC_sprite_scale * field_118);
+        if (field_B4_velx > FP_FromInteger(0))
+        {
+            field_B4_velx = FP_FromInteger(0);
+        }
+    }
+
+    PathLine* pLine = nullptr;
+    FP hitX = {};
+    FP hitY = {};
+    const __int16 bHit = InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
+
+    if (sControlledCharacter_50767C == this)
+    {
+        SetActiveCameraDelayedFromDir_401C90();
+    }
+
+    if (bHit)
+    {
+        switch (pLine->field_8_type)
+        {
+        case 0:
+        case 4:
+        case 32:
+        case 36:
+        {
+            Sfx_416E10(4u, 0);
+            field_F4_pLine = pLine;
+            if (field_AC_ypos - field_E8_LastLineYPos >= FP_FromInteger(20))
+            {
+                field_FC_current_motion = eElumStates::State_22_RunOffEdge_415810;
+            }
+            else
+            {
+                field_FC_current_motion = eElumStates::State_1_Idle_412990;
+            }
+
+            field_A8_xpos = hitX;
+            field_AC_ypos = hitY;
+            MapFollowMe_401D30(TRUE);
+
+            PSX_Point xy = {};
+            xy.field_0_x = FP_GetExponent(field_A8_xpos - FP_FromInteger(10));
+            xy.field_2_y = FP_GetExponent(field_AC_ypos - FP_FromInteger(10));
+
+            PSX_Point wh = {};
+            wh.field_0_x = FP_GetExponent(field_A8_xpos + FP_FromInteger(10));
+            wh.field_2_y = FP_GetExponent(field_AC_ypos + FP_FromInteger(10));
+
+            VOnCollisionWith(
+                xy,
+                wh,
+                ObjListPlatforms_50766C,
+                1,
+                (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+            break;
+        }
+
+        case 1:
+        case 2:
+        case 5:
+        case 6:
+            if (bHit)
+            {
+                field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
+            }
+            break;
+
+        default:
+            break;
+        }
+    }
 }
 
 void Elum::State_22_RunOffEdge_415810()
