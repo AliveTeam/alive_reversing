@@ -26,7 +26,7 @@ struct Slurg_Path_Data
 
 struct Path_Slurg : public Path_TLV
 {
-    Slurg_Path_Data field_10;
+    Slurg_Path_Data field_10_path_data;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slurg, 0x18);
 
@@ -46,7 +46,7 @@ enum SlurgFlags
 struct Slurg_State
 {
     Types field_0_type;
-    __int16 field_2_pad;
+    __int16 field_2_padding;
     FP field_4_xpos;
     FP field_8_ypos;
     FP field_C_velx;
@@ -55,9 +55,9 @@ struct Slurg_State
     __int16 field_16_current_motion;
     __int16 field_18_anim_current_frame;
     __int16 field_1A_anim_frame_change_counter;
-    char field_1D;
-    char field_1C;
-    __int16 field_1E;
+    char field_1D_bDrawable;
+    char field_1C_bRender;
+    __int16 field_1E_padding;
     int field_20_frame_table_offset;
     int field_24_tlvInfo;
     Slurg_States field_28_state;
@@ -95,13 +95,13 @@ private:
     EXPORT signed int vSaveState_4C8FC0(Slurg_State* pState);
 
 private:
-    __int16 field_116_pad;
+    __int16 field_116_padding;
     BitField16<SlurgFlags> field_118_flags;
     __int16 field_11A_switch_id;
     Slurg_States field_11C_state;
     __int16 field_11E_delay_timer;
     __int16 field_120_delay_random;
-    //__int16 field_122_pad;
+    //__int16 field_122_padding;
     PathLine* field_124_pLine;
     Path_TLV* field_128_pTlv;
     int field_12C_tlvInfo;

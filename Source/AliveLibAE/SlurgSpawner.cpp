@@ -13,7 +13,7 @@ SlurgSpawner* SlurgSpawner::ctor_4C82E0(Path_SlurgSpawner* pTlv, int tlvInfo)
     field_4_typeId = Types::eSlurgSpawner_128;
     field_20_tlvInfo = tlvInfo;
     field_24_slurg_tlv = pTlv;
-    field_28 = pTlv->field_18;
+    field_28_path_data = pTlv->field_18_path_data;
     field_3E_delay_counter = 0;
     field_40_spawned_count = pTlv->field_1_unknown;
     if ((field_40_spawned_count & 0x80u) != 0)
@@ -48,9 +48,9 @@ void SlurgSpawner::vUpdate_4C83C0()
     const short oldDelay = field_3E_delay_counter;
     field_3E_delay_counter++;
 
-    if (field_3E_delay_counter < field_28.field_8_delay_between_slurgs && field_40_spawned_count < field_28.field_A_max_slurgs)
+    if (field_3E_delay_counter < field_28_path_data.field_8_delay_between_slurgs && field_40_spawned_count < field_28_path_data.field_A_max_slurgs)
     {
-        if (SwitchStates_Get_466020(field_28.field_C_switch_id))
+        if (SwitchStates_Get_466020(field_28_path_data.field_C_switch_id))
         {
             field_3E_delay_counter = 0;
             field_40_spawned_count++;
