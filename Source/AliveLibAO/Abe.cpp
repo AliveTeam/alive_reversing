@@ -5350,7 +5350,60 @@ void Abe::State_135_LiftGrabIdle_42F000()
 
 void Abe::State_136_ElumMountEnd_42E110()
 {
-    NOT_IMPLEMENTED();
+    switch (field_10_anim.field_92_current_frame)
+    {
+    case 0:
+        if (!(field_2AA_flags & 2))
+        {
+            field_2AA_flags |= 2;
+            SFX_Play_43AD70(37u, 0, this);
+        }
+        break;
+
+    case 5:
+        if (!(field_2AA_flags & 2))
+        {
+            field_2AA_flags |= 2;
+            Abe_SFX_2_42A220(16u, 0, 0x7FFF, this);
+        }
+        break;
+
+    case 12:
+        if (!(field_2AA_flags & 2))
+        {
+            field_2AA_flags |= 2;
+            Abe_SFX_2_42A220(17u, 0, 0x7FFF, this);
+            SFX_Play_43AD70(38u, 0, this);
+        }
+
+        break;
+
+    case 15:
+        if (!(field_2AA_flags & 2))
+        {
+            field_2AA_flags |= 2;
+            Abe_SFX_2_42A220(18u, 0, 0x7FFF, this);
+        }
+        break;
+
+    default:
+        field_2AA_flags &= ~2u;
+        break;
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        if (!field_104_pending_resource_count)
+        {
+            field_1A4_resources.res[46] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 100, 1, 0);
+            field_1A4_resources.res[58] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 112, 1, 0);
+            field_FC_current_motion = eAbeStates::State_103_ElumIdle_42DCD0;
+            sControlledCharacter_50767C = gElum_507680;
+            MusicController::sub_443810(MusicController::MusicTypes::eType1, 0, 0, 0);
+            sActiveHero_507678->field_D0_pShadow->field_14_flags.Clear(Shadow::Flags::eBit2_Enabled);
+            Abe_SFX_2_42A220(19u, 0, 0x7FFF, this);
+        }
+    }
 }
 
 void Abe::State_137_ElumUnmountBegin_42E2B0()
