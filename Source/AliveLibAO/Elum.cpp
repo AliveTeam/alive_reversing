@@ -947,9 +947,9 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
 
     if (field_158 == last_event_index)
     {
-        bLastEventMinus1 = pEventSystem_4FF954->field_10_last_event == GameSpeakEvents::eNone_m1;
-        last_event_v2 = bLastEventMinus1 - 2;
-        last_event_v1 = bLastEventMinus1 - 2;
+        const bool bLastEventMinus1 = pEventSystem_4FF954->field_10_last_event == GameSpeakEvents::eNone_m1;
+        last_event_v2 = bLastEventMinus1 ? GameSpeakEvents::eNone_m1 : GameSpeakEvents::eSameAsLast_m2;
+        last_event_v1 = bLastEventMinus1 ? GameSpeakEvents::eNone_m1 : GameSpeakEvents::eSameAsLast_m2;
     }
     else
     {
@@ -973,7 +973,8 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
         return 2;
 
     case 1:
-        abe_xd = sActiveHero_507678->field_A8_xpos - field_A8_xpos;
+    {
+        const FP abe_xd = sActiveHero_507678->field_A8_xpos - field_A8_xpos;
         if (FP_Abs(abe_xd) < (kGridSize * FP_FromInteger(2)))
         {
             field_FE_next_state = eElumStates::State_1_Idle_412990;
@@ -1016,6 +1017,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
             return 2;
         }
         return field_12A_brain_state;
+    }
 
     case 2:
         if (NearHoney_411DA0())
@@ -1031,8 +1033,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
             field_FE_next_state = eElumStates::State_4_Turn_4140F0;
             return 4;
         }
-
-        if (xd < -(kGridSize / FP_FromInteger(2)) && !field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        else if (xd < -(kGridSize / FP_FromInteger(2)) && !field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
         {
             field_FE_next_state = eElumStates::State_4_Turn_4140F0;
             return 4;
@@ -1129,12 +1130,15 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
                     }
                 }
             }
-            else if (!Check_IsOnEndOfLine_4021A0(0, 1))
+            else
             {
-                if (!WallHit_401930(field_BC_sprite_scale * FP_FromInteger(25), kGridSize))
+                if (!Check_IsOnEndOfLine_4021A0(0, 1))
                 {
-                    field_FE_next_state = eElumStates::State_3_WalkLoop_412C90;
-                    return 1;
+                    if (!WallHit_401930(field_BC_sprite_scale * FP_FromInteger(25), kGridSize))
+                    {
+                        field_FE_next_state = eElumStates::State_3_WalkLoop_412C90;
+                        return 1;
+                    }
                 }
             }
         }
@@ -1175,6 +1179,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
         return 6;
 
     case 6:
+    {
         if (NearHoney_411DA0())
         {
             field_128_brain_idx = 1;
@@ -1182,14 +1187,13 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
             return 0;
         }
 
-        xd_1 = sActiveHero_507678->field_A8_xpos - field_A8_xpos;
+        const FP xd_1 = sActiveHero_507678->field_A8_xpos - field_A8_xpos;
         if (xd_1 > (kGridSize / FP_FromInteger(2)) && field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             field_FE_next_state = eElumStates::State_4_Turn_4140F0;
             return 7;
         }
-
-        if (xd_1 < -(kGridSize / FP_FromInteger(2)) && !field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        else if (xd_1 < -(kGridSize / FP_FromInteger(2)) && !field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             field_FE_next_state = eElumStates::State_4_Turn_4140F0;
             return 7;
@@ -1201,29 +1205,21 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
             return 16;
         }
 
-        if (last_event_v2 != GameSpeakEvents::eUnknown_10)
+        if (last_event_v2 == GameSpeakEvents::eUnknown_10 && gMap_507BA8.field_0_current_level == field_B2_lvl_number && gMap_507BA8.field_2_current_path == field_B0_path_number)
         {
-            goto LABEL_131;
-        }
-
-        if (gMap_507BA8.field_0_current_level != field_B2_lvl_number || gMap_507BA8.field_2_current_path != field_B0_path_number)
-        {
-            goto LABEL_131;
-        }
-
-        if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
-        {
-            field_122 = 0;
-            if (FP_Abs(xd_1) < (kGridSize / FP_FromInteger(2)))
+            if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
             {
-                return 2;
-            }
+                field_122 = 0;
+                if (FP_Abs(xd_1) < (kGridSize / FP_FromInteger(2)))
+                {
+                    return 2;
+                }
 
-            field_114 = gnFrameCount_507670 + 14;
-            return 12;
+                field_114 = gnFrameCount_507670 + 14;
+                return 12;
+            }
         }
 
-    LABEL_131:
         if (last_event_v2 == GameSpeakEvents::eUnknown_12
             && gMap_507BA8.field_0_current_level == field_B2_lvl_number
             && gMap_507BA8.field_2_current_path == field_B0_path_number)
@@ -1262,6 +1258,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
         }
         field_FE_next_state = eElumStates::State_1_Idle_412990;
         return 2;
+    }
 
     case 7:
         if (field_FC_current_motion != eElumStates::State_1_Idle_412990)
@@ -1312,6 +1309,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
         return 13;
 
     case 13:
+    {
         if (field_FC_current_motion == eElumStates::State_1_Idle_412990)
         {
             field_FE_next_state = eElumStates::State_14_Speak_414860;
@@ -1322,22 +1320,29 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
             return field_12A_brain_state;
         }
 
-        xd_2 = sActiveHero_507678->field_A8_xpos - field_A8_xpos;
-        if (xd_2 >= FP_FromInteger(0))
+        const FP xd = sActiveHero_507678->field_A8_xpos - field_A8_xpos;
+        if (xd >= FP_FromInteger(0))
         {
-            goto LABEL_174;
+            if (xd >= (kGridSize / FP_FromInteger(2)))
+            {
+                field_FE_next_state = eElumStates::State_3_WalkLoop_412C90;
+                return 14;
+            }
         }
-
-        if (-xd_2 >= (kGridSize / FP_FromInteger(2)))
+        else
         {
-            field_FE_next_state = eElumStates::State_3_WalkLoop_412C90;
-            return 14;
+            if (-xd >= (kGridSize / FP_FromInteger(2)))
+            {
+                field_FE_next_state = eElumStates::State_3_WalkLoop_412C90;
+                return 14;
+            }
         }
-
         field_FE_next_state = eElumStates::State_1_Idle_412990;
         return 2;
+    }
 
     case 14:
+    {
         if (last_event_v2 == GameSpeakEvents::eUnknown_12)
         {
             field_122 = 1;
@@ -1346,27 +1351,22 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
             return 5;
         }
 
-        xd3 = sActiveHero_507678->field_A8_xpos - field_A8_xpos
-        if (FP_Abs(xd3) < (kGridSize / FP_FromInteger(2)))
+        const FP xd = sActiveHero_507678->field_A8_xpos - field_A8_xpos;
+        if (FP_Abs(xd) < (kGridSize / FP_FromInteger(2)))
         {
             field_FE_next_state = eElumStates::State_1_Idle_412990;
             return 2;
         }
 
-        if (xd3 <= FP_FromInteger(0))
+        if (xd > FP_FromInteger(0))
         {
-            goto LABEL_160;
+            if (field_B4_velx < FP_FromInteger(0))
+            {
+                field_FE_next_state = eElumStates::State_4_Turn_4140F0;
+                return 15;
+            }
         }
-
-        if (field_B4_velx < FP_FromInteger(0))
-        {
-            field_FE_next_state = eElumStates::State_4_Turn_4140F0;
-            return 15;
-        }
-
-
-    LABEL_160:
-        if (xd3 < FP_FromInteger(0))
+        else if (xd < FP_FromInteger(0))
         {
             if (field_B4_velx > FP_FromInteger(0))
             {
@@ -1374,36 +1374,36 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
                 return 15;
             }
         }
-        else if (field_B4_velx > FP_FromInteger(0) && Check_IsOnEndOfLine_4021A0(0, 1))
+
+        if (field_B4_velx > FP_FromInteger(0))
         {
-            field_FE_next_state = eElumStates::State_1_Idle_412990;
-            return 2;
+            if (Check_IsOnEndOfLine_4021A0(0, 1))
+            {
+                field_FE_next_state = eElumStates::State_1_Idle_412990;
+                return 2;
+            }
         }
 
     LABEL_166:
-        if (field_B4_velx >= FP_FromInteger(0))
+        if (field_B4_velx < FP_FromInteger(0))
         {
-            return field_12A_brain_state;
+            if (Check_IsOnEndOfLine_4021A0(1, 1))
+            {
+                field_FE_next_state = eElumStates::State_1_Idle_412990;
+                return 2;
+            }
         }
-
-        if (Check_IsOnEndOfLine_4021A0(1, 1) == 0)
-        {
-            return field_12A_brain_state;
-        }
-        field_FE_next_state = eElumStates::State_1_Idle_412990;
-        return 2;
+        return field_12A_brain_state;
+    }
 
     case 15:
+    {
         if (field_FC_current_motion != eElumStates::State_4_Turn_4140F0 || !field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             return field_12A_brain_state;
         }
 
-        xd_2 = FP_Abs(sActiveHero_507678->field_A8_xpos - field_A8_xpos);
-        k2Scaled_3 = (kGridSize / FP_FromInteger(2));
-
-    LABEL_174:
-        if (xd_2 < k2Scaled_3)
+        if (FP_Abs(sActiveHero_507678->field_A8_xpos - field_A8_xpos) < (kGridSize / FP_FromInteger(2)))
         {
             field_FE_next_state = eElumStates::State_1_Idle_412990;
             return 2;
@@ -1411,6 +1411,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
 
         field_FE_next_state = eElumStates::State_3_WalkLoop_412C90;
         return 14;
+    }
 
     case 16:
         if (NearHoney_411DA0())
