@@ -967,6 +967,9 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
 
     const FP kGridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
 
+    // TODO: A lot of duplicated logic below and a lot of simplifaction
+    // can be done also
+
     switch (field_12A_brain_state)
     {
     case 0:
@@ -974,14 +977,14 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
 
     case 1:
     {
-        const FP abe_xd = sActiveHero_507678->field_A8_xpos - field_A8_xpos;
-        if (FP_Abs(abe_xd) < (kGridSize * FP_FromInteger(2)))
+        const FP xd = sActiveHero_507678->field_A8_xpos - field_A8_xpos;
+        if (FP_Abs(xd) < (kGridSize * FP_FromInteger(2)))
         {
             field_FE_next_state = eElumStates::State_1_Idle_412990;
             return 2;
         }
 
-        if (abe_xd > FP_FromInteger(0))
+        if (xd > FP_FromInteger(0))
         {
             if (field_B4_velx < FP_FromInteger(0))
             {
@@ -989,37 +992,36 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
                 return 2;
             }
         }
-
-        if (abe_xd < FP_FromInteger(0))
+        else if (xd < FP_FromInteger(0))
         {
-            if (field_B4_velx <= FP_FromInteger(0))
+            if (field_B4_velx > FP_FromInteger(0))
             {
-                goto LABEL_166;
+                field_FE_next_state = eElumStates::State_1_Idle_412990;
+                return 2;
             }
-            field_FE_next_state = eElumStates::State_1_Idle_412990;
-            return 2;
         }
 
-        if (field_B4_velx <= FP_FromInteger(0))
+        if (field_B4_velx < FP_FromInteger(0))
         {
-            goto LABEL_166;
+            if (Check_IsOnEndOfLine_4021A0(1, 1))
+            {
+                field_FE_next_state = eElumStates::State_1_Idle_412990;
+                return 2;
+            }
         }
-
-        if (Check_IsOnEndOfLine_4021A0(0, 1))
+        else if (field_B4_velx > FP_FromInteger(0))
         {
-            field_FE_next_state = eElumStates::State_1_Idle_412990;
-            return 2;
-        }
-
-        if (field_B4_velx < FP_FromInteger(0) && Check_IsOnEndOfLine_4021A0(1, 1))
-        {
-            field_FE_next_state = 1;
-            return 2;
+            if (Check_IsOnEndOfLine_4021A0(0, 1))
+            {
+                field_FE_next_state = eElumStates::State_1_Idle_412990;
+                return 2;
+            }
         }
         return field_12A_brain_state;
     }
 
     case 2:
+    {
         if (NearHoney_411DA0())
         {
             field_128_brain_idx = 1;
@@ -1119,7 +1121,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
 
         if (FP_Abs(xd) > (kGridSize * FP_FromInteger(3)) && VOnSameYLevel(sActiveHero_507678))
         {
-            if (xd <= FP_FromInteger(0))
+            if (xd < FP_FromInteger(0))
             {
                 if (!Check_IsOnEndOfLine_4021A0(1, 1))
                 {
@@ -1130,7 +1132,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
                     }
                 }
             }
-            else
+            else if (xd > FP_FromInteger(0))
             {
                 if (!Check_IsOnEndOfLine_4021A0(0, 1))
                 {
@@ -1143,6 +1145,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
             }
         }
         return field_12A_brain_state;
+    }
 
     case 3:
         if (field_FC_current_motion == eElumStates::State_3_WalkLoop_412C90)
@@ -1171,7 +1174,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
         return 2;
 
     case 5:
-        if (gnFrameCount_507670 < field_114)
+        if (static_cast<int>(gnFrameCount_507670) < field_114)
         {
             return field_12A_brain_state;
         }
@@ -1269,7 +1272,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
         return 6;
 
     case 8:
-        if (gnFrameCount_507670 < field_114)
+        if (static_cast<int>(gnFrameCount_507670) < field_114)
         {
             return field_12A_brain_state;
         }
@@ -1277,7 +1280,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
         return 6;
 
     case 9:
-        if (gnFrameCount_507670 < field_114)
+        if (static_cast<int>(gnFrameCount_507670) < field_114)
         {
             return field_12A_brain_state;
         }
@@ -1285,7 +1288,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
         return 2;
 
     case 10:
-        if (gnFrameCount_507670 < field_114)
+        if (static_cast<int>(gnFrameCount_507670) < field_114)
         {
             return field_12A_brain_state;
         }
@@ -1293,7 +1296,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
         return 6;
 
     case 11:
-        if (gnFrameCount_507670 < field_114)
+        if (static_cast<int>(gnFrameCount_507670) < field_114)
         {
             return field_12A_brain_state;
         }
@@ -1301,7 +1304,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
         return 2;
 
     case 12:
-        if (gnFrameCount_507670 < field_114)
+        if (static_cast<int>(gnFrameCount_507670) < field_114)
         {
             return field_12A_brain_state;
         }
@@ -1384,7 +1387,6 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
             }
         }
 
-    LABEL_166:
         if (field_B4_velx < FP_FromInteger(0))
         {
             if (Check_IsOnEndOfLine_4021A0(1, 1))
