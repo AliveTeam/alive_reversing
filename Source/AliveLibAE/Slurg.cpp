@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Slurg.hpp"
 #include "Function.hpp"
-#include "Map.hpp"
 #include "Shadow.hpp"
 #include "Collisions.hpp"
 #include "Blood.hpp"
@@ -9,7 +8,6 @@
 #include "Events.hpp"
 #include "SwitchStates.hpp"
 #include "stdlib.hpp"
-#include "DDCheat.hpp"
 
 ALIVE_VAR(1, 0x5C1C08, WORD, sSlurg_Step_Watch_Points_Idx_5C1C08, 0);
 ALIVE_ARY(1, 0x5BD4DC, char, 2, sSlurg_Step_Watch_Points_Count_5BD4DC, {});
@@ -26,7 +24,7 @@ EXPORT void CC Slurg::Clear_Slurg_Step_Watch_Points_449A90()
     }
 }
 
-TintEntry stru_560BCC[18] =
+TintEntry sSlurgTints_560BCC[18] =
 {
     { 1u, 102u, 127u, 118u },
     { 2u, 102u, 127u, 118u },
@@ -68,23 +66,23 @@ Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, DWORD tlvInfo)
     
     field_12C_tlvInfo = tlvInfo;
 
-    if (pTlv->field_10.field_4_scale == 1)
+    if (pTlv->field_10_path_data.field_4_scale == 1)
     {
         field_130_scale = FP_FromDouble(0.5);
         field_20_animation.field_C_render_layer = 14;
         field_D6_scale = 0;
     }
-    else if (pTlv->field_10.field_4_scale == 0)
+    else if (pTlv->field_10_path_data.field_4_scale == 0)
     {
         field_130_scale = FP_FromInteger(1);
         field_20_animation.field_C_render_layer = 33;
         field_D6_scale = 1;
     }
 
-    field_11E_delay_timer = pTlv->field_10.field_0_pause_delay;
-    field_120_delay_random = pTlv->field_10.field_0_pause_delay;
+    field_11E_delay_timer = pTlv->field_10_path_data.field_0_pause_delay;
+    field_120_delay_random = pTlv->field_10_path_data.field_0_pause_delay;
 
-    SetTint_425600(&stru_560BCC[0], gMap_5C3030.field_0_current_level);
+    SetTint_425600(&sSlurgTints_560BCC[0], gMap_5C3030.field_0_current_level);
 
     FP hitX = {};
     FP hitY = {};
@@ -101,11 +99,11 @@ Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, DWORD tlvInfo)
         field_BC_ypos = hitY;
     }
 
-    field_11A_switch_id = pTlv->field_10.field_6_id;
+    field_11A_switch_id = pTlv->field_10_path_data.field_6_id;
 
     field_118_flags.Clear();
 
-    if (pTlv->field_10.field_2_direction)
+    if (pTlv->field_10_path_data.field_2_direction)
     {
         field_118_flags.Set(SlurgFlags::Bit1_Direction);
     }
@@ -147,7 +145,6 @@ void Slurg::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
     vOn_TLV_Collision_4C8C20(pTlv);
 }
 
-
 signed int CC Slurg::CreateFromSaveState_4C8DF0(const BYTE* pData)
 {
     auto pState = reinterpret_cast<const Slurg_State*>(pData);
@@ -172,9 +169,9 @@ signed int CC Slurg::CreateFromSaveState_4C8DF0(const BYTE* pData)
     // OG BUG: This wasn't restored
     pSlurg->field_20_animation.field_92_current_frame = pState->field_18_anim_current_frame;
     pSlurg->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_14_flipX & 1);
-    pSlurg->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_1C & 1);
+    pSlurg->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_1C_bRender & 1);
 
-    pSlurg->field_6_flags.Set(BaseGameObject::eDrawable_Bit4, pState->field_1D & 1);
+    pSlurg->field_6_flags.Set(BaseGameObject::eDrawable_Bit4, pState->field_1D_bDrawable & 1);
 
     if (IsLastFrame(&pSlurg->field_20_animation))
     {
@@ -326,7 +323,7 @@ void Slurg::vUpdate_4C8790()
 
 __int16 Slurg::vTakeDamage_4C8BF0(BaseGameObject* pFrom)
 {
-    // Slurgs are tough little dudes, only paramites can smack 'em up
+    // Slurgs are tough little dudes, only Paramites can smack 'em up.
     if (pFrom->field_4_typeId == Types::eParamite_96)
     {
         Burst_4C8AE0();
@@ -389,8 +386,8 @@ signed int Slurg::vSaveState_4C8FC0(Slurg_State* pState)
     pState->field_16_current_motion = field_106_current_motion;
     pState->field_18_anim_current_frame = field_20_animation.field_92_current_frame;
     pState->field_1A_anim_frame_change_counter = field_20_animation.field_E_frame_change_counter;
-    pState->field_1D = field_6_flags.Get(BaseGameObject::eDrawable_Bit4);
-    pState->field_1C = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
+    pState->field_1D_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->field_1C_bRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
     pState->field_20_frame_table_offset = field_20_animation.field_18_frame_table_offset;
     pState->field_24_tlvInfo = field_12C_tlvInfo;
     pState->field_28_state = field_11C_state;
@@ -415,84 +412,4 @@ void Slurg::GoRight()
 
     field_11C_state = Slurg_States::State_1_Stopped;
     field_20_animation.Set_Animation_Data_409C80(2740, 0);
-}
-
-
-SlurgSpawner* SlurgSpawner::ctor_4C82E0(Path_SlurgSpawner* pTlv, int tlvInfo)
-{
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
-    SetVTable(this, 0x547704);
-
-    field_4_typeId = Types::eSlurgSpawner_128;
-    field_20_tlvInfo = tlvInfo;
-    field_24_slurg_tlv = pTlv;
-    field_28 = pTlv->field_18;
-    field_3E_delay_counter = 0;
-    field_40_spawned_count = pTlv->field_1_unknown;
-    if ((field_40_spawned_count & 0x80u) != 0)
-    {
-        field_40_spawned_count = 0;
-    }
-    return this;
-}
-
-BaseGameObject* SlurgSpawner::VDestructor(signed int flags)
-{
-    return vdtor_4C8370(flags);
-}
-
-void SlurgSpawner::VUpdate()
-{
-    vUpdate_4C83C0();
-}
-
-void SlurgSpawner::VScreenChanged()
-{
-    vScreenChanged_4C84A0();
-}
-
-void SlurgSpawner::vUpdate_4C83C0()
-{
-    if (sDDCheat_ShowAI_Info_5C1BD8)
-    {
-        DDCheat::DebugStr_4F5560("SPAWNER EXISTS/n");
-    }
-
-    const short oldDelay = field_3E_delay_counter;
-    field_3E_delay_counter++;
-
-    if (field_3E_delay_counter < field_28.field_8_delay_between_slurgs && field_40_spawned_count < field_28.field_A_max_slurgs)
-    {
-        if (SwitchStates_Get_466020(field_28.field_C_switch_id))
-        {
-            field_3E_delay_counter = 0;
-            field_40_spawned_count++;
-            auto pSlurg = ae_new<Slurg>();
-            if (pSlurg)
-            {
-                pSlurg->ctor_4C84E0(field_24_slurg_tlv, 0xFFFFFFFF);
-            }
-        }
-    }
-}
-
-void SlurgSpawner::dtor_4C83A0()
-{
-    BaseGameObject_dtor_4DBEC0();
-}
-
-SlurgSpawner* SlurgSpawner::vdtor_4C8370(signed int flags)
-{
-    dtor_4C83A0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void SlurgSpawner::vScreenChanged_4C84A0()
-{
-    Path::TLV_Reset_4DB8E0(field_20_tlvInfo, field_40_spawned_count, 0, 0);
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }

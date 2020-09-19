@@ -270,6 +270,8 @@ SET(AliveLibAESrc
     MotionDetector.cpp
     Slurg.cpp
     Slurg.hpp
+    SlurgSpawner.cpp
+    SlurgSpawner.hpp
     FlyingSlig.cpp
     FlyingSlig.hpp
     FlyingSligSpawner.cpp
