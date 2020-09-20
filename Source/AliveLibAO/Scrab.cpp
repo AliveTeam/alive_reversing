@@ -3197,8 +3197,478 @@ __int16 Scrab::Brain_ChasingEnemy_45CC90()
 
 __int16 Scrab::Brain_Patrol_460020()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        field_6_flags.Set(Options::eDead_Bit3);
+    }
+
+    field_11C_pFight_target = FindScrabToFight_45BE30();
+    if (field_11C_pFight_target)
+    {
+        field_11C_pFight_target->field_C_refCount++;
+        field_FE_next_state = eScrabStates::State_1_Stand_45E620;
+        SetBrain(&Scrab::Brain_Fighting_45C370);
+        return 0;
+    }
+
+    if (FindAbeOrMud_45BEF0())
+    {
+        if (CanSeeAbe_45C100(field_120_pTarget))
+        {
+            field_FE_next_state = eScrabStates::State_1_Stand_45E620;
+            SetBrain(&Scrab::Brain_ChasingEnemy_45CC90);
+            return 0;
+        }
+        field_120_pTarget->field_C_refCount--;
+        field_120_pTarget = nullptr;
+    }
+
+    if (Event_Get_417250(kEventAbeOhm_8))
+    {
+        field_FE_next_state = eScrabStates::State_20_HowlBegin_45FA60;
+        return 9;
+    }
+
+    switch (field_110_brain_ret)
+    {
+    case 0:
+    {
+        if (sNumCamSwappers_507668 > 0)
+        {
+            return field_110_brain_ret;
+        }
+
+        auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
+        if (pLiftPoint)
+        {
+            if (pLiftPoint->field_4_typeId == Types::eLiftPoint_51)
+            {
+                if (!pLiftPoint->OnAnyFloor())
+                {
+                    SetBrain(&Scrab::Brain_460D80);
+                    return 0;
+                }
+            }
+        }
+
+        auto pStopper = static_cast<Path_EnemyStopper*>(gMap_507BA8.TLV_Get_At_446260(
+            FP_GetExponent(field_A8_xpos),
+            FP_GetExponent(field_AC_ypos),
+            FP_GetExponent(field_A8_xpos),
+            FP_GetExponent(field_AC_ypos),
+            TlvTypes::EnemyStopper_79));
+        field_F0_pTlv = pStopper;
+
+        if (pStopper)
+        {
+            if (!SwitchStates_Get(pStopper->field_1A_id))
+            {
+                return 0;
+            }
+
+            if (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 && !field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                return 0;
+            }
+
+            if (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 && field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                return 0;
+            }
+
+            if (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Both_2)
+            {
+                return 0;
+            }
+        }
+
+        switch (field_116_patrol_type)
+        {
+        case 1:
+            if (Math_NextRandom() < 192u)
+            {
+                field_FE_next_state = 2;
+            }
+            else
+            {
+                field_FE_next_state = 3;
+            }
+            break;
+
+        case 2:
+            if (Math_NextRandom() < 128u)
+            {
+                field_FE_next_state = 2;
+            }
+            else
+            {
+                field_FE_next_state = 3;
+            }
+            break;
+
+        case 3:
+            if (Math_NextRandom() < 64u)
+            {
+                field_FE_next_state = 2;
+            }
+            else
+            {
+                field_FE_next_state = 3;
+            }
+            break;
+
+        case 4:
+            field_FE_next_state = 3;
+            break;
+
+        default:
+            field_FE_next_state = 2;
+            break;
+        }
+
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(
+                FP_GetExponent(field_A8_xpos),
+                FP_GetExponent(field_AC_ypos),
+                FP_GetExponent(field_A8_xpos),
+                FP_GetExponent(field_AC_ypos),
+                TlvTypes::ScrabLeftBound_74);
+            if (field_F0_pTlv)
+            {
+                field_FE_next_state = 4;
+                return 2;
+            }
+            return 1;
+        }
+        else
+        {
+            field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(
+                FP_GetExponent(field_A8_xpos),
+                FP_GetExponent(field_AC_ypos),
+                FP_GetExponent(field_A8_xpos),
+                FP_GetExponent(field_AC_ypos),
+                TlvTypes::ScrabRightBound_75);
+            if (field_F0_pTlv)
+            {
+                field_FE_next_state = 4;
+                return 5;
+            }
+            return 4;
+        }
+        break;
+    }
+
+    case 1:
+        if (field_F8_pLiftPoint)
+        {
+            auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
+            if (pLiftPoint->field_4_typeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
+            {
+                field_FE_next_state = 1;
+                return 8;
+            }
+        }
+
+        if (gMap_507BA8.TLV_Get_At_446260(
+            FP_GetExponent(field_A8_xpos - ScaleToGridSize_41FA30(field_BC_sprite_scale)),
+            FP_GetExponent(field_AC_ypos),
+            FP_GetExponent(field_A8_xpos - ScaleToGridSize_41FA30(field_BC_sprite_scale)),
+            FP_GetExponent(field_AC_ypos),
+            TlvTypes::ScrabLeftBound_74))
+        {
+            field_FE_next_state = 4;
+            return 2;
+        }
+        return field_110_brain_ret;
+
+    case 2:
+        if (field_F8_pLiftPoint)
+        {
+            auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
+            if (pLiftPoint->field_4_typeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
+            {
+                field_FE_next_state = 1;
+                return 8;
+            }
+        }
+
+        if (field_FC_current_motion == 4 && field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_FE_next_state = 1;
+            field_118_timer = gnFrameCount_507670 + Math_RandomRange_450F20(field_144_left_min_delay, field_146_left_max_delay);
+            return 3;
+
+        }
+        return field_110_brain_ret;
+
+    case 3:
+        if (field_F8_pLiftPoint)
+        {
+            auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
+            if (pLiftPoint->field_4_typeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
+            {
+                field_FE_next_state = 1;
+                return 8;
+            }
+        }
+
+        if (field_118_timer > static_cast<int>(gnFrameCount_507670))
+        {
+            return field_110_brain_ret;
+        }
+
+        if (Math_NextRandom() < 30u)
+        {
+            field_FE_next_state = eScrabStates::State_20_HowlBegin_45FA60;
+            field_118_timer = gnFrameCount_507670 + 30;
+            return 7;
+        }
+
+        switch (field_116_patrol_type)
+        {
+        case 1:
+            if (Math_NextRandom() < 192u)
+            {
+                field_FE_next_state = eScrabStates::State_2_Walk_45E730;
+            }
+            else
+            {
+                field_FE_next_state = eScrabStates::State_3_Run_45EAB0;
+            }
+            break;
+
+        case 2:
+            if (Math_NextRandom() < 128u)
+            {
+                field_FE_next_state = eScrabStates::State_2_Walk_45E730;
+            }
+            else
+            {
+                field_FE_next_state = eScrabStates::State_3_Run_45EAB0;
+            }
+            break;
+
+        case 3:
+            if (Math_NextRandom() < 64u)
+            {
+                field_FE_next_state = eScrabStates::State_2_Walk_45E730;
+            }
+            else
+            {
+                field_FE_next_state = eScrabStates::State_3_Run_45EAB0;
+            }
+            break;
+
+        case 4:
+            field_FE_next_state = eScrabStates::State_3_Run_45EAB0;
+            break;
+
+        default:
+            field_FE_next_state = eScrabStates::State_2_Walk_45E730;
+            break;
+        }
+        return 4;
+
+    case 4:
+        if (field_F8_pLiftPoint)
+        {
+            auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
+            if (pLiftPoint->field_4_typeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
+            {
+                field_FE_next_state = 1;
+                return 8;
+            }
+        }
+
+        if (gMap_507BA8.TLV_Get_At_446260(
+            FP_GetExponent(ScaleToGridSize_41FA30(field_BC_sprite_scale) + field_A8_xpos),
+            FP_GetExponent(field_AC_ypos),
+            FP_GetExponent(ScaleToGridSize_41FA30(field_BC_sprite_scale) + field_A8_xpos),
+            FP_GetExponent(field_AC_ypos),
+            TlvTypes::ScrabRightBound_75))
+        {
+            field_FE_next_state = 4;
+            return 5;
+        }
+        return field_110_brain_ret;
+
+    case 5:
+        if (field_F8_pLiftPoint)
+        {
+            auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
+            if (pLiftPoint->field_4_typeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
+            {
+                field_FE_next_state = 1;
+                return 8;
+            }
+        }
+
+        if (field_FC_current_motion == 4 && field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_FE_next_state = 1;
+            field_118_timer = gnFrameCount_507670 + Math_RandomRange_450F20(field_148_right_min_delay, field_14A_right_max_delay);
+            return 6;
+        }
+        return field_110_brain_ret;
+
+    case 6:
+        if (field_F8_pLiftPoint)
+        {
+            auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
+            if (pLiftPoint->field_4_typeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
+            {
+                field_FE_next_state = 1;
+                return 8;
+            }
+        }
+
+        if (field_118_timer > static_cast<int>(gnFrameCount_507670))
+        {
+            return field_110_brain_ret;
+        }
+
+        if (Math_NextRandom() >= 30u)
+        {
+            switch (field_116_patrol_type)
+            {
+            case 1:
+                if (Math_NextRandom() < 192u)
+                {
+                    field_FE_next_state = 2;
+                }
+                else
+                {
+                    field_FE_next_state = 3;
+                }
+                break;
+
+            case 2:
+                if (Math_NextRandom() < 128u)
+                {
+                    field_FE_next_state = 2;
+                }
+                else
+                {
+                    field_FE_next_state = 3;
+                }
+                break;
+
+            case 3:
+                if (Math_NextRandom() < 64u)
+                {
+                    field_FE_next_state = 2;
+                }
+                else
+                {
+                    field_FE_next_state = 3;
+                }
+                break;
+
+            case 4:
+                field_FE_next_state = 3;
+                break;
+
+            default:
+                field_FE_next_state = 2;
+                break;
+            }
+            return 1;
+        }
+
+        field_FE_next_state = eScrabStates::State_20_HowlBegin_45FA60;
+        field_118_timer = gnFrameCount_507670 + 30;
+        return 7;
+
+    case 7:
+        if (field_118_timer > static_cast<int>(gnFrameCount_507670))
+        {
+            return field_110_brain_ret;
+        }
+
+        switch (field_116_patrol_type)
+        {
+        case 1:
+            if (Math_NextRandom() < 192u)
+            {
+                field_FE_next_state = 2;
+            }
+            else
+            {
+                field_FE_next_state = 3;
+            }
+            break;
+
+        case 2:
+            if (Math_NextRandom() < 128u)
+            {
+                field_FE_next_state = 2;
+            }
+            else
+            {
+                field_FE_next_state = 3;
+            }
+            break;
+
+        case 3:
+            if (Math_NextRandom() < 64u)
+            {
+                 field_FE_next_state = 2;
+            }
+            else
+            {
+                field_FE_next_state = 3;
+            }
+            break;
+
+        case 4:
+            field_FE_next_state = 3;
+            break;
+
+        default:
+            field_FE_next_state = 2;
+            break;
+        }
+
+        if (field_F8_pLiftPoint)
+        {
+            auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
+            if (pLiftPoint->field_4_typeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
+            {
+                field_FE_next_state = 1;
+                return 8;
+            }
+        }
+
+        // TODO: Check correct way around
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            return 5;
+        }
+        return 6;
+
+    case 8:
+        if (field_F8_pLiftPoint)
+        {
+            auto pLift = static_cast<LiftPoint*>(field_F8_pLiftPoint);
+            if (!pLift->OnAnyFloor())
+            {
+                return field_110_brain_ret;
+            }
+        }
+        return 0;
+
+    case 9:
+        if (!Event_Get_417250(kEventAbeOhm_8))
+        {
+            field_FE_next_state = 1;
+            return 0;
+        }
+        return field_110_brain_ret;
+
+    default:
+        return field_110_brain_ret;
+    }
 }
 
 __int16 Scrab::Brain_460D80()
