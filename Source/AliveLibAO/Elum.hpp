@@ -144,7 +144,7 @@ public:
 
     EXPORT void HandleElumPathTrans_411460();
 
-    EXPORT static void CC Sfx_416E10(unsigned __int8 direction, BaseAliveGameObject* pObj);
+    EXPORT static void CC Sfx_416E10(unsigned __int8 soundId, BaseAliveGameObject* pObj);
 
     EXPORT void FindHoney_411600();
 

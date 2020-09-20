@@ -18,6 +18,7 @@
 #include "DDCheat.hpp"
 #include "Honey.hpp"
 #include "GameSpeak.hpp"
+#include "Math.hpp"
 
 START_NS_AO;
 
@@ -876,9 +877,101 @@ void Elum::HandleElumPathTrans_411460()
     field_8_update_delay = 20;
 }
 
-void CC Elum::Sfx_416E10(unsigned __int8 /*direction*/, BaseAliveGameObject* /*pObj*/)
+const SfxDefinition sElumSfx_4C5398[12] =
 {
-    NOT_IMPLEMENTED();
+    { 0, 4, 36, 50, -127, 0, 0 },
+    { 0, 4, 37, 50, -127, 0, 0 },
+    { 0, 4, 38, 50, -127, 0, 0 },
+    { 0, 5, 61, 118, -1, 1, 0 },
+    { 0, 5, 67, 80, -630, -630, 0 },
+    { 0, 5, 63, 110, 0, 0, 0 },
+    { 0, 18, 46, 127, -1700, -1700, 0 },
+    { 0, 3, 59, 90, -600, -600, 0 },
+    { 0, 5, 64, 60, -1, 1, 0 },
+    { 0, 5, 65, 60, -1, 1, 0 },
+    { 0, 5, 66, 60, -1, 1, 0 },
+    { 0, 21, 64, 60, -1, 1, 0 }
+};
+
+void CC Elum::Sfx_416E10(unsigned __int8 soundId, BaseAliveGameObject* pObj)
+{
+    switch (soundId)
+    {
+    case 0u:
+        SFX_SfxDefinition_Play_4770F0(&sElumSfx_4C5398[Math_RandomRange_450F20(0, 2)], Math_RandomRange_450F20(54, 58), -700, -573);
+        break;
+
+    case 1u:
+        SFX_SfxDefinition_Play_4770F0(&sElumSfx_4C5398[Math_RandomRange_450F20(0, 2)], Math_RandomRange_450F20(66, 70), -573, -446);
+        break;
+
+    case 2u:
+    {
+        CameraPos dir = CameraPos::eCamCurrent_0;
+        if (pObj)
+        {
+            dir = gMap_507BA8.GetDirection(
+                pObj->field_B2_lvl_number,
+                pObj->field_B0_path_number,
+                pObj->field_A8_xpos,
+                pObj->field_AC_ypos);
+        }
+
+        int volLeft = 0;
+        int volRight = 0;
+        switch (dir)
+        {
+        case CameraPos::eCamCurrent_0:
+            volLeft = 118;
+            volRight = 118;
+            break;
+
+        case CameraPos::eCamRight_4:
+            volLeft = 26;
+            volRight = 80;
+            break;
+
+        case CameraPos::eCamLeft_3:
+            volLeft = 80;
+            volRight = 26;
+            break;
+
+        default:
+            volLeft = 80;
+            volRight = 80;
+            break;
+        }
+        SFX_SfxDefinition_Play_477330(&sElumSfx_4C5398[3], volLeft, volRight, 0, 0);
+        break;
+    }
+
+    case 3u:
+        SFX_SfxDefinition_Play_4770F0(&sElumSfx_4C5398[4], 0, 0x7FFF, 0x7FFF);
+        break;
+
+    case 4u:
+        SFX_SfxDefinition_Play_4770F0(&sElumSfx_4C5398[7], 0, 0x7FFF, 0x7FFF);
+        break;
+
+    case 5u:
+        Abe_SFX_2_42A220(4u, 0, 0x7FFF, 0);
+        break;
+
+    case 6u:
+        SFX_SfxDefinition_Play_4770F0(&sElumSfx_4C5398[5], 0, 0x7FFF, 0x7FFF);
+        break;
+
+    case 7u:
+        SFX_SfxDefinition_Play_4770F0(&sElumSfx_4C5398[6], 0, 0x7FFF, 0x7FFF);
+        break;
+
+    case 8u:
+        SFX_SfxDefinition_Play_4770F0(&sElumSfx_4C5398[Math_RandomRange_450F20(8, 10)], 0, 0x7FFF, 0x7FFF);
+        break;
+
+    default:
+        return;
+    }
 }
 
 void Elum::FindHoney_411600()

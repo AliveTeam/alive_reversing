@@ -54,4 +54,10 @@ EXPORT int CC SFX_SfxDefinition_Play_477330(const SfxDefinition* /*sfxDef*/, sig
     return 0;
 }
 
+EXPORT int CC SFX_SfxDefinition_Play_4770F0(const SfxDefinition* /*sfxDef*/, signed int /*vol*/, int /*pitch_min*/, int /*pitch_max*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 END_NS_AO
