@@ -34,6 +34,7 @@
 #include "BeeSwarm.hpp"
 #include "Shrykull.hpp"
 #include "Switch.hpp"
+#include "GameSpeak.hpp"
 
 START_NS_AO;
 
@@ -5068,12 +5069,74 @@ void Abe::State_101_LeverUse_429970()
 
 void Abe::State_102_ElumWalkLoop_42DCA0()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_103_ElumIdle_42DCD0()
 {
-    NOT_IMPLEMENTED();
+    if (!sInputObject_5009E8.isPressed(dword_4C65B8 | dword_4C65DC) || !sInputObject_5009E8.isHeld(0xF0))
+    {
+        if (sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_6_held == sInputKey_Down_4C659C &&
+            !sDDCheat_FlyingEnabled_50771C)
+        {
+            ResourceManager::FreeResource_455550(field_1A4_resources.res[46]);
+            field_104_pending_resource_count++;
+            field_1A4_resources.res[46] = nullptr;
+            ResourceManager::LoadResourceFile("ANEDSMNT.BND", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
+            field_FC_current_motion = eAbeStates::State_137_ElumUnmountBegin_42E2B0;
+        }
+    }
+    else
+    {
+        field_FC_current_motion = eAbeStates::State_115_ElumSpeak_4299F0;
+        if (sInputObject_5009E8.isPressed(dword_4C65B8))
+        {
+            if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak2_4C65BC))
+            {
+                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_10);
+                Abe_SFX_42A4D0(4u, 0, 0, this);
+            }
+            else if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak4_4C65C4))
+            {
+                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_12);
+                Abe_SFX_42A4D0(6u, 0, 0, this);
+            }
+            else if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak1_4C65C8))
+            {
+                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_9);
+                Abe_SFX_42A4D0(3u, 0, 0, this);
+            }
+            else if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak3_4C65C0))
+            {
+                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_11);
+                Abe_SFX_42A4D0(5u, 0, 0, this);
+            }
+        }
+
+        if (dword_4C65DC & sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed)
+        {
+            if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak6_4C65E8))
+            {
+                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_1);
+                Abe_SFX_42A4D0(1u, 0, 0, this);
+            }
+            else if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak5_4C65EC))
+            {
+                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_2);
+                Abe_SFX_42A4D0(2u, 0, 0, this);
+            }
+            else if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak8_4C65E0))
+            {
+                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_4);
+                Abe_SFX_42A4D0(8u, 0, 0, this);
+            }
+            else if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak7_4C65E4))
+            {
+                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_3);
+                Abe_SFX_42A4D0(7u, 0, 0, this);
+            }
+        }
+    }
 }
 
 void Abe::State_104_ElumRunSlideStop_42DF00()
@@ -5183,12 +5246,12 @@ void Abe::State_123_ElumRunTurnToWalk_42E020()
 
 void Abe::State_124_ElumWalkEnd_42DCB0()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_125_ElumMidWalkEnd_42DCC0()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_126_ElumBeesStruggling_42E080()
@@ -5350,7 +5413,59 @@ void Abe::State_135_LiftGrabIdle_42F000()
 
 void Abe::State_136_ElumMountEnd_42E110()
 {
-    NOT_IMPLEMENTED();
+    switch (field_10_anim.field_92_current_frame)
+    {
+    case 0:
+        if (!(field_2AA_flags & 2))
+        {
+            field_2AA_flags |= 2;
+            SFX_Play_43AD70(37u, 0, this);
+        }
+        break;
+
+    case 5:
+        if (!(field_2AA_flags & 2))
+        {
+            field_2AA_flags |= 2;
+            Abe_SFX_2_42A220(16u, 0, 0x7FFF, this);
+        }
+        break;
+
+    case 12:
+        if (!(field_2AA_flags & 2))
+        {
+            field_2AA_flags |= 2;
+            Abe_SFX_2_42A220(17u, 0, 0x7FFF, this);
+            SFX_Play_43AD70(38u, 0, this);
+        }
+        break;
+
+    case 15:
+        if (!(field_2AA_flags & 2))
+        {
+            field_2AA_flags |= 2;
+            Abe_SFX_2_42A220(18u, 0, 0x7FFF, this);
+        }
+        break;
+
+    default:
+        field_2AA_flags &= ~2u;
+        break;
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        if (!field_104_pending_resource_count)
+        {
+            field_1A4_resources.res[46] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 100, 1, 0);
+            field_1A4_resources.res[58] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 112, 1, 0);
+            field_FC_current_motion = eAbeStates::State_103_ElumIdle_42DCD0;
+            sControlledCharacter_50767C = gElum_507680;
+            MusicController::sub_443810(MusicController::MusicTypes::eType1, 0, 0, 0);
+            sActiveHero_507678->field_D0_pShadow->field_14_flags.Clear(Shadow::Flags::eBit2_Enabled);
+            Abe_SFX_2_42A220(19u, 0, 0x7FFF, this);
+        }
+    }
 }
 
 void Abe::State_137_ElumUnmountBegin_42E2B0()
@@ -5380,7 +5495,85 @@ void Abe::State_137_ElumUnmountBegin_42E2B0()
 
 void Abe::State_138_ElumUnmountEnd_42E390()
 {
-    NOT_IMPLEMENTED();
+    switch (field_10_anim.field_92_current_frame)
+    {
+    case 4:
+        if (!(field_2AA_flags & 2))
+        {
+            field_2AA_flags |= 2;
+            SFX_Play_43AD70(37u, 17, this);
+        }
+        break;
+
+    case 12:
+        if (!(field_2AA_flags & 2))
+        {
+            field_2AA_flags |= 2;;
+            Abe_SFX_2_42A220(16u, 0, 0x7FFF, this);
+        }
+        break;
+
+    case 19:
+        if (!(field_2AA_flags & 2))
+        {
+            field_2AA_flags |= 2;
+            Abe_SFX_2_42A220(18u, 0, 0x7FFF, this);
+        }
+        break;
+
+    case 20:
+        if (!(field_2AA_flags & 2))
+        {
+            field_2AA_flags |= 2;
+            SFX_Play_43AD70(38u, 0, this);
+        }
+        break;
+
+    default:
+        field_2AA_flags &= ~2u;
+        break;
+    }
+
+    if (field_10_anim.field_92_current_frame >= 28 && field_104_pending_resource_count == 0)
+    {
+        field_1A4_resources.res[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 10, 1, 0);
+        field_1A4_resources.res[61] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 115, 1, 0);
+        field_1A4_resources.res[10] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 20, 1, 0);
+        field_1A4_resources.res[38] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 48, 1, 0);
+        field_1A4_resources.res[9] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 19, 1, 0);
+        
+        field_F4_pLine = gElum_507680->field_F4_pLine;
+
+        if (field_F8_pLiftPoint)
+        {
+            if (field_F4_pLine->field_8_type != 32 && field_F4_pLine->field_8_type != 36)
+            {
+                field_E4 = field_FC_current_motion;
+                VOnTrapDoorOpen();
+                field_FC_current_motion = field_E4;
+            }
+        }
+        else
+        {
+            if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
+            {
+                PSX_RECT bRect = {};
+                VGetBoundingRect(&bRect, 1);
+                bRect.y += 5;
+                bRect.h += 5;
+                VOnCollisionWith(
+                    { bRect.x, bRect.y },
+                    { bRect.w, bRect.h },
+                    ObjListPlatforms_50766C,
+                    1,
+                    (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+            }
+        }
+        sControlledCharacter_50767C = sActiveHero_507678;
+        MusicController::sub_443810(MusicController::MusicTypes::eType0, this, 0, 0);
+        sActiveHero_507678->field_D0_pShadow->field_14_flags.Clear(Shadow::Flags::eBit2_Enabled);
+        ToIdle_422D50();
+    }
 }
 
 void Abe::State_139_ElumMountBegin_42E090()

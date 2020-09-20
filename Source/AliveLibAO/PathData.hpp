@@ -59,6 +59,9 @@ enum TlvTypes : __int16
 
     Scrab_72 = 72,
     
+    ScrabLeftBound_74 = 74,
+    ScrabRightBound_75 = 75,
+
     EnemyStopper_79 = 79,
 
     Mud_82 = 82,
