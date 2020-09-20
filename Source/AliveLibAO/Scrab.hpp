@@ -127,6 +127,8 @@ public:
     
     __int16 HandleRunning();
 
+    __int16 GetMotionForPatrolType(__int16 patrolType);
+
     // States
     EXPORT void State_0_Empty_45E3D0();
     EXPORT void State_1_Stand_45E620();

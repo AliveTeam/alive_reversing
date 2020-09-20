@@ -3263,68 +3263,24 @@ __int16 Scrab::Brain_Patrol_460020()
         {
             if (!SwitchStates_Get(pStopper->field_1A_id))
             {
-                return 0;
-            }
+                if (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 && !field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    return 0;
+                }
 
-            if (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 && !field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-            {
-                return 0;
-            }
+                if (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 && field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    return 0;
+                }
 
-            if (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 && field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-            {
-                return 0;
-            }
-
-            if (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Both_2)
-            {
-                return 0;
+                if (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Both_2)
+                {
+                    return 0;
+                }
             }
         }
 
-        switch (field_116_patrol_type)
-        {
-        case 1:
-            if (Math_NextRandom() < 192u)
-            {
-                field_FE_next_state = 2;
-            }
-            else
-            {
-                field_FE_next_state = 3;
-            }
-            break;
-
-        case 2:
-            if (Math_NextRandom() < 128u)
-            {
-                field_FE_next_state = 2;
-            }
-            else
-            {
-                field_FE_next_state = 3;
-            }
-            break;
-
-        case 3:
-            if (Math_NextRandom() < 64u)
-            {
-                field_FE_next_state = 2;
-            }
-            else
-            {
-                field_FE_next_state = 3;
-            }
-            break;
-
-        case 4:
-            field_FE_next_state = 3;
-            break;
-
-        default:
-            field_FE_next_state = 2;
-            break;
-        }
+        field_FE_next_state = GetMotionForPatrolType(field_116_patrol_type);
 
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
         {
@@ -3336,7 +3292,7 @@ __int16 Scrab::Brain_Patrol_460020()
                 TlvTypes::ScrabLeftBound_74);
             if (field_F0_pTlv)
             {
-                field_FE_next_state = 4;
+                field_FE_next_state = eScrabStates::State_4_Turn_45EF30;
                 return 2;
             }
             return 1;
@@ -3351,7 +3307,7 @@ __int16 Scrab::Brain_Patrol_460020()
                 TlvTypes::ScrabRightBound_75);
             if (field_F0_pTlv)
             {
-                field_FE_next_state = 4;
+                field_FE_next_state = eScrabStates::State_4_Turn_45EF30;
                 return 5;
             }
             return 4;
@@ -3365,7 +3321,7 @@ __int16 Scrab::Brain_Patrol_460020()
             auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
             if (pLiftPoint->field_4_typeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
             {
-                field_FE_next_state = 1;
+                field_FE_next_state = eScrabStates::State_1_Stand_45E620;
                 return 8;
             }
         }
@@ -3377,7 +3333,7 @@ __int16 Scrab::Brain_Patrol_460020()
             FP_GetExponent(field_AC_ypos),
             TlvTypes::ScrabLeftBound_74))
         {
-            field_FE_next_state = 4;
+            field_FE_next_state = eScrabStates::State_4_Turn_45EF30;
             return 2;
         }
         return field_110_brain_ret;
@@ -3388,14 +3344,14 @@ __int16 Scrab::Brain_Patrol_460020()
             auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
             if (pLiftPoint->field_4_typeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
             {
-                field_FE_next_state = 1;
+                field_FE_next_state = eScrabStates::State_1_Stand_45E620;
                 return 8;
             }
         }
 
-        if (field_FC_current_motion == 4 && field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (field_FC_current_motion == eScrabStates::State_4_Turn_45EF30 && field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            field_FE_next_state = 1;
+            field_FE_next_state = eScrabStates::State_1_Stand_45E620;
             field_118_timer = gnFrameCount_507670 + Math_RandomRange_450F20(field_144_left_min_delay, field_146_left_max_delay);
             return 3;
 
@@ -3408,7 +3364,7 @@ __int16 Scrab::Brain_Patrol_460020()
             auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
             if (pLiftPoint->field_4_typeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
             {
-                field_FE_next_state = 1;
+                field_FE_next_state = eScrabStates::State_1_Stand_45E620;
                 return 8;
             }
         }
@@ -3424,50 +3380,8 @@ __int16 Scrab::Brain_Patrol_460020()
             field_118_timer = gnFrameCount_507670 + 30;
             return 7;
         }
-
-        switch (field_116_patrol_type)
-        {
-        case 1:
-            if (Math_NextRandom() < 192u)
-            {
-                field_FE_next_state = eScrabStates::State_2_Walk_45E730;
-            }
-            else
-            {
-                field_FE_next_state = eScrabStates::State_3_Run_45EAB0;
-            }
-            break;
-
-        case 2:
-            if (Math_NextRandom() < 128u)
-            {
-                field_FE_next_state = eScrabStates::State_2_Walk_45E730;
-            }
-            else
-            {
-                field_FE_next_state = eScrabStates::State_3_Run_45EAB0;
-            }
-            break;
-
-        case 3:
-            if (Math_NextRandom() < 64u)
-            {
-                field_FE_next_state = eScrabStates::State_2_Walk_45E730;
-            }
-            else
-            {
-                field_FE_next_state = eScrabStates::State_3_Run_45EAB0;
-            }
-            break;
-
-        case 4:
-            field_FE_next_state = eScrabStates::State_3_Run_45EAB0;
-            break;
-
-        default:
-            field_FE_next_state = eScrabStates::State_2_Walk_45E730;
-            break;
-        }
+        
+        field_FE_next_state = GetMotionForPatrolType(field_116_patrol_type);
         return 4;
 
     case 4:
@@ -3476,7 +3390,7 @@ __int16 Scrab::Brain_Patrol_460020()
             auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
             if (pLiftPoint->field_4_typeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
             {
-                field_FE_next_state = 1;
+                field_FE_next_state = eScrabStates::State_1_Stand_45E620;
                 return 8;
             }
         }
@@ -3488,7 +3402,7 @@ __int16 Scrab::Brain_Patrol_460020()
             FP_GetExponent(field_AC_ypos),
             TlvTypes::ScrabRightBound_75))
         {
-            field_FE_next_state = 4;
+            field_FE_next_state = eScrabStates::State_4_Turn_45EF30;
             return 5;
         }
         return field_110_brain_ret;
@@ -3499,14 +3413,14 @@ __int16 Scrab::Brain_Patrol_460020()
             auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
             if (pLiftPoint->field_4_typeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
             {
-                field_FE_next_state = 1;
+                field_FE_next_state = eScrabStates::State_1_Stand_45E620;
                 return 8;
             }
         }
 
-        if (field_FC_current_motion == 4 && field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (field_FC_current_motion == eScrabStates::State_4_Turn_45EF30 && field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            field_FE_next_state = 1;
+            field_FE_next_state = eScrabStates::State_1_Stand_45E620;
             field_118_timer = gnFrameCount_507670 + Math_RandomRange_450F20(field_148_right_min_delay, field_14A_right_max_delay);
             return 6;
         }
@@ -3518,7 +3432,7 @@ __int16 Scrab::Brain_Patrol_460020()
             auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
             if (pLiftPoint->field_4_typeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
             {
-                field_FE_next_state = 1;
+                field_FE_next_state = eScrabStates::State_1_Stand_45E620;
                 return 8;
             }
         }
@@ -3528,57 +3442,16 @@ __int16 Scrab::Brain_Patrol_460020()
             return field_110_brain_ret;
         }
 
-        if (Math_NextRandom() >= 30u)
+        if (Math_NextRandom() < 30u)
         {
-            switch (field_116_patrol_type)
-            {
-            case 1:
-                if (Math_NextRandom() < 192u)
-                {
-                    field_FE_next_state = 2;
-                }
-                else
-                {
-                    field_FE_next_state = 3;
-                }
-                break;
+            field_FE_next_state = eScrabStates::State_20_HowlBegin_45FA60;
+            field_118_timer = gnFrameCount_507670 + 30;
+            return 7;
 
-            case 2:
-                if (Math_NextRandom() < 128u)
-                {
-                    field_FE_next_state = 2;
-                }
-                else
-                {
-                    field_FE_next_state = 3;
-                }
-                break;
-
-            case 3:
-                if (Math_NextRandom() < 64u)
-                {
-                    field_FE_next_state = 2;
-                }
-                else
-                {
-                    field_FE_next_state = 3;
-                }
-                break;
-
-            case 4:
-                field_FE_next_state = 3;
-                break;
-
-            default:
-                field_FE_next_state = 2;
-                break;
-            }
-            return 1;
         }
 
-        field_FE_next_state = eScrabStates::State_20_HowlBegin_45FA60;
-        field_118_timer = gnFrameCount_507670 + 30;
-        return 7;
+        field_FE_next_state = GetMotionForPatrolType(field_116_patrol_type);
+        return 1;
 
     case 7:
         if (field_118_timer > static_cast<int>(gnFrameCount_507670))
@@ -3586,66 +3459,23 @@ __int16 Scrab::Brain_Patrol_460020()
             return field_110_brain_ret;
         }
 
-        switch (field_116_patrol_type)
-        {
-        case 1:
-            if (Math_NextRandom() < 192u)
-            {
-                field_FE_next_state = 2;
-            }
-            else
-            {
-                field_FE_next_state = 3;
-            }
-            break;
-
-        case 2:
-            if (Math_NextRandom() < 128u)
-            {
-                field_FE_next_state = 2;
-            }
-            else
-            {
-                field_FE_next_state = 3;
-            }
-            break;
-
-        case 3:
-            if (Math_NextRandom() < 64u)
-            {
-                 field_FE_next_state = 2;
-            }
-            else
-            {
-                field_FE_next_state = 3;
-            }
-            break;
-
-        case 4:
-            field_FE_next_state = 3;
-            break;
-
-        default:
-            field_FE_next_state = 2;
-            break;
-        }
+        field_FE_next_state = GetMotionForPatrolType(field_116_patrol_type);
 
         if (field_F8_pLiftPoint)
         {
             auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
             if (pLiftPoint->field_4_typeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
             {
-                field_FE_next_state = 1;
+                field_FE_next_state = eScrabStates::State_1_Stand_45E620;
                 return 8;
             }
         }
 
-        // TODO: Check correct way around
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
         {
-            return 5;
+            return 1;
         }
-        return 6;
+        return 4;
 
     case 8:
         if (field_F8_pLiftPoint)
@@ -3661,7 +3491,7 @@ __int16 Scrab::Brain_Patrol_460020()
     case 9:
         if (!Event_Get_417250(kEventAbeOhm_8))
         {
-            field_FE_next_state = 1;
+            field_FE_next_state = eScrabStates::State_1_Stand_45E620;
             return 0;
         }
         return field_110_brain_ret;
@@ -3729,6 +3559,51 @@ __int16 Scrab::HandleRunning()
 
     field_FE_next_state = eScrabStates::State_3_Run_45EAB0;
     return 3;
+}
+
+__int16 Scrab::GetMotionForPatrolType(__int16 patrolType)
+{
+    switch (patrolType)
+    {
+    case 1:
+        if (Math_NextRandom() < 192u)
+        {
+            return eScrabStates::State_2_Walk_45E730;
+        }
+        else
+        {
+            return eScrabStates::State_3_Run_45EAB0;
+        }
+        break;
+
+    case 2:
+        if (Math_NextRandom() < 128u)
+        {
+            return eScrabStates::State_2_Walk_45E730;
+        }
+        else
+        {
+            return eScrabStates::State_3_Run_45EAB0;
+        }
+        break;
+
+    case 3:
+        if (Math_NextRandom() < 64u)
+        {
+            return eScrabStates::State_2_Walk_45E730;
+        }
+        else
+        {
+            return eScrabStates::State_3_Run_45EAB0;
+        }
+        break;
+
+    case 4:
+        return eScrabStates::State_3_Run_45EAB0;
+
+    default:
+        return eScrabStates::State_2_Walk_45E730;
+    }
 }
 
 END_NS_AO
