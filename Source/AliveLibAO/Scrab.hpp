@@ -191,7 +191,7 @@ public:
     BaseAliveGameObject* field_120_pTarget;
     int field_124;
     FP field_128;
-    int field_12C;
+    FP field_12C;
     __int16 field_130;
     __int16 field_132_res_block_idx;
     int field_134_tlvInfo;
