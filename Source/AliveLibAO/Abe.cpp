@@ -34,6 +34,7 @@
 #include "BeeSwarm.hpp"
 #include "Shrykull.hpp"
 #include "Switch.hpp"
+#include "GameSpeak.hpp"
 
 START_NS_AO;
 
@@ -5068,12 +5069,74 @@ void Abe::State_101_LeverUse_429970()
 
 void Abe::State_102_ElumWalkLoop_42DCA0()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_103_ElumIdle_42DCD0()
 {
-    NOT_IMPLEMENTED();
+    if (!sInputObject_5009E8.isPressed(dword_4C65B8 | dword_4C65DC) || !sInputObject_5009E8.isHeld(0xF0))
+    {
+        if (sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_6_held == sInputKey_Down_4C659C &&
+            !sDDCheat_FlyingEnabled_50771C)
+        {
+            ResourceManager::FreeResource_455550(field_1A4_resources.res[46]);
+            field_104_pending_resource_count++;
+            field_1A4_resources.res[46] = nullptr;
+            ResourceManager::LoadResourceFile("ANEDSMNT.BND", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
+            field_FC_current_motion = eAbeStates::State_137_ElumUnmountBegin_42E2B0;
+        }
+    }
+    else
+    {
+        field_FC_current_motion = eAbeStates::State_115_ElumSpeak_4299F0;
+        if (sInputObject_5009E8.isPressed(dword_4C65B8))
+        {
+            if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak2_4C65BC))
+            {
+                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_10);
+                Abe_SFX_42A4D0(4u, 0, 0, this);
+            }
+            else if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak4_4C65C4))
+            {
+                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_12);
+                Abe_SFX_42A4D0(6u, 0, 0, this);
+            }
+            else if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak1_4C65C8))
+            {
+                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_9);
+                Abe_SFX_42A4D0(3u, 0, 0, this);
+            }
+            else if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak3_4C65C0))
+            {
+                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_11);
+                Abe_SFX_42A4D0(5u, 0, 0, this);
+            }
+        }
+
+        if (dword_4C65DC & sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed)
+        {
+            if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak6_4C65E8))
+            {
+                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_1);
+                Abe_SFX_42A4D0(1u, 0, 0, this);
+            }
+            else if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak5_4C65EC))
+            {
+                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_2);
+                Abe_SFX_42A4D0(2u, 0, 0, this);
+            }
+            else if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak8_4C65E0))
+            {
+                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_4);
+                Abe_SFX_42A4D0(8u, 0, 0, this);
+            }
+            else if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak7_4C65E4))
+            {
+                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_3);
+                Abe_SFX_42A4D0(7u, 0, 0, this);
+            }
+        }
+    }
 }
 
 void Abe::State_104_ElumRunSlideStop_42DF00()
@@ -5183,12 +5246,12 @@ void Abe::State_123_ElumRunTurnToWalk_42E020()
 
 void Abe::State_124_ElumWalkEnd_42DCB0()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_125_ElumMidWalkEnd_42DCC0()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_126_ElumBeesStruggling_42E080()
