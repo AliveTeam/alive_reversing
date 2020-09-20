@@ -5375,7 +5375,6 @@ void Abe::State_136_ElumMountEnd_42E110()
             Abe_SFX_2_42A220(17u, 0, 0x7FFF, this);
             SFX_Play_43AD70(38u, 0, this);
         }
-
         break;
 
     case 15:
@@ -5433,7 +5432,85 @@ void Abe::State_137_ElumUnmountBegin_42E2B0()
 
 void Abe::State_138_ElumUnmountEnd_42E390()
 {
-    NOT_IMPLEMENTED();
+    switch (field_10_anim.field_92_current_frame)
+    {
+    case 4:
+        if (!(field_2AA_flags & 2))
+        {
+            field_2AA_flags |= 2;
+            SFX_Play_43AD70(37u, 17, this);
+        }
+        break;
+
+    case 12:
+        if (!(field_2AA_flags & 2))
+        {
+            field_2AA_flags |= 2;;
+            Abe_SFX_2_42A220(16u, 0, 0x7FFF, this);
+        }
+        break;
+
+    case 19:
+        if (!(field_2AA_flags & 2))
+        {
+            field_2AA_flags |= 2;
+            Abe_SFX_2_42A220(18u, 0, 0x7FFF, this);
+        }
+        break;
+
+    case 20:
+        if (!(field_2AA_flags & 2))
+        {
+            field_2AA_flags |= 2;
+            SFX_Play_43AD70(38u, 0, this);
+        }
+        break;
+
+    default:
+        field_2AA_flags &= ~2u;
+        break;
+    }
+
+    if (field_10_anim.field_92_current_frame >= 28 && field_104_pending_resource_count == 0)
+    {
+        field_1A4_resources.res[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 10, 1, 0);
+        field_1A4_resources.res[61] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 115, 1, 0);
+        field_1A4_resources.res[10] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 20, 1, 0);
+        field_1A4_resources.res[38] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 48, 1, 0);
+        field_1A4_resources.res[9] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 19, 1, 0);
+        
+        field_F4_pLine = gElum_507680->field_F4_pLine;
+
+        if (field_F8_pLiftPoint)
+        {
+            if (field_F4_pLine->field_8_type != 32 && field_F4_pLine->field_8_type != 36)
+            {
+                field_E4 = field_FC_current_motion;
+                VOnTrapDoorOpen();
+                field_FC_current_motion = field_E4;
+            }
+        }
+        else
+        {
+            if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
+            {
+                PSX_RECT bRect = {};
+                VGetBoundingRect(&bRect, 1);
+                bRect.y += 5;
+                bRect.h += 5;
+                VOnCollisionWith(
+                    { bRect.x, bRect.y },
+                    { bRect.w, bRect.h },
+                    ObjListPlatforms_50766C,
+                    1,
+                    (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+            }
+        }
+        sControlledCharacter_50767C = sActiveHero_507678;
+        MusicController::sub_443810(MusicController::MusicTypes::eType0, this, 0, 0);
+        sActiveHero_507678->field_D0_pShadow->field_14_flags.Clear(Shadow::Flags::eBit2_Enabled);
+        ToIdle_422D50();
+    }
 }
 
 void Abe::State_139_ElumMountBegin_42E090()
