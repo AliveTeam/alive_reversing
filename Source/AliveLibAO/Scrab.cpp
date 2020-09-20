@@ -2668,8 +2668,7 @@ __int16 Scrab::Brain_ChasingEnemy_45CC90()
         auto pStopper = static_cast<Path_EnemyStopper*>(field_F0_pTlv);
         if (pStopper)
         {
-            if ((pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 &&
-                field_120_pTarget->field_A8_xpos < field_A8_xpos) ||
+            if ((pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 && field_120_pTarget->field_A8_xpos < field_A8_xpos) ||
                 (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 && field_120_pTarget->field_A8_xpos > field_A8_xpos) ||
                 pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Both_2 &&
                 !SwitchStates_Get(pStopper->field_1A_id))
@@ -2897,8 +2896,8 @@ __int16 Scrab::Brain_ChasingEnemy_45CC90()
 
     case 8:
     {
-        if (CanSeeAbe_45C100(field_120_pTarget)
-            || !gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+        if (!CanSeeAbe_45C100(field_120_pTarget)
+            && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
                 field_B2_lvl_number,
                 field_B0_path_number,
                 field_A8_xpos,
@@ -2952,13 +2951,15 @@ __int16 Scrab::Brain_ChasingEnemy_45CC90()
 
         auto pStopper = static_cast<Path_EnemyStopper*>(field_F0_pTlv);
 
-        if (pStopper &&
-            (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 && field_120_pTarget->field_A8_xpos < field_A8_xpos ||
-                pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 && field_120_pTarget->field_A8_xpos > field_A8_xpos) ||
-            pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Both_2 &&
-            !SwitchStates_Get(pStopper->field_1A_id))
+        if (pStopper)
         {
-            return 1;
+            if ((pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 && field_120_pTarget->field_A8_xpos < field_A8_xpos ||
+                pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 && field_120_pTarget->field_A8_xpos > field_A8_xpos) ||
+                pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Both_2 &&
+                !SwitchStates_Get(pStopper->field_1A_id))
+            {
+                return 1;
+            }
         }
 
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
