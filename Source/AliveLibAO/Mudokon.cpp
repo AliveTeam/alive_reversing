@@ -108,26 +108,26 @@ const TMudStateFunction gMudMotions_4CD470[] =
     &Mudokon::State_62_Choke_43ED70,
 };
 
-using TMudBrain = decltype(&Mudokon::Brain_0_441DE0);
+using TMudBrain = decltype(&Mudokon::Brain_ComingIn_0_441DE0);
 
 const TMudBrain gMudBrains_4CD430[] =
 {
-    &Mudokon::Brain_0_441DE0,
-    &Mudokon::Brain_1_441E90,
-    &Mudokon::Brain_2_441CA0,
-    &Mudokon::Brain_3_441510,
-    &Mudokon::Brain_4_441260,
-    &Mudokon::Brain_5_43C180,
-    &Mudokon::Brain_6_43C250,
-    &Mudokon::Brain_7_43C2F0,
-    &Mudokon::Brain_8_441F40,
-    &Mudokon::Brain_9_4422A0,
-    &Mudokon::Brain_10_440300,
-    &Mudokon::Brain_11_43C5F0,
-    &Mudokon::Brain_12_440FD0,
-    &Mudokon::Brain_13_43C700,
-    &Mudokon::Brain_14_442710,
-    &Mudokon::Brain_15_43C5D0,
+    &Mudokon::Brain_ComingIn_0_441DE0,
+    &Mudokon::Brain_ComingOut_1_441E90,
+    &Mudokon::Brain_SingSequenceIdle_2_441CA0,
+    &Mudokon::Brain_SingSequenceSing_3_441510,
+    &Mudokon::Brain_SingSequencePassword_4_441260,
+    &Mudokon::Brain_LiftUse_5_43C180,
+    &Mudokon::Brain_LeverUse_6_43C250,
+    &Mudokon::Brain_GiveRings_7_43C2F0,
+    &Mudokon::Brain_StandScrub_8_441F40,
+    &Mudokon::Brain_CrouchScrub_9_4422A0,
+    &Mudokon::Brain_ListeningToAbe_10_440300,
+    &Mudokon::Brain_ShrivelDeath_11_43C5F0,
+    &Mudokon::Brain_Escape_12_440FD0,
+    &Mudokon::Brain_FallAndSmackDeath_13_43C700,
+    &Mudokon::Brain_Chant_14_442710,
+    &Mudokon::Brain_Choke_15_43C5D0,
 };
 
 
@@ -2611,37 +2611,37 @@ void Mudokon::State_62_Choke_43ED70()
     }
 }
 
-short Mudokon::Brain_0_441DE0()
+short Mudokon::Brain_ComingIn_0_441DE0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-short Mudokon::Brain_1_441E90()
+short Mudokon::Brain_ComingOut_1_441E90()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-short Mudokon::Brain_2_441CA0()
+short Mudokon::Brain_SingSequenceIdle_2_441CA0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-short Mudokon::Brain_3_441510()
+short Mudokon::Brain_SingSequenceSing_3_441510()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-short Mudokon::Brain_4_441260()
+short Mudokon::Brain_SingSequencePassword_4_441260()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-short Mudokon::Brain_5_43C180()
+short Mudokon::Brain_LiftUse_5_43C180()
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -2693,7 +2693,7 @@ short Mudokon::Brain_5_43C180()
     */
 }
 
-short Mudokon::Brain_6_43C250()
+short Mudokon::Brain_LeverUse_6_43C250()
 {
     if (field_1BA_sub_state || field_FC_current_motion)
     {
@@ -2721,31 +2721,31 @@ short Mudokon::Brain_6_43C250()
     return 1;
 }
 
-short Mudokon::Brain_7_43C2F0()
+short Mudokon::Brain_GiveRings_7_43C2F0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-short Mudokon::Brain_8_441F40()
+short Mudokon::Brain_StandScrub_8_441F40()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-short Mudokon::Brain_9_4422A0()
+short Mudokon::Brain_CrouchScrub_9_4422A0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-short Mudokon::Brain_10_440300()
+short Mudokon::Brain_ListeningToAbe_10_440300()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-short Mudokon::Brain_11_43C5F0()
+short Mudokon::Brain_ShrivelDeath_11_43C5F0()
 {
     if (field_1C0_timer < static_cast<int>(gnFrameCount_507670) + 80)
     {
@@ -2775,13 +2775,13 @@ short Mudokon::Brain_11_43C5F0()
     return 100;
 }
 
-short Mudokon::Brain_12_440FD0()
+short Mudokon::Brain_Escape_12_440FD0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-short Mudokon::Brain_13_43C700()
+short Mudokon::Brain_FallAndSmackDeath_13_43C700()
 {
     if (field_1BA_sub_state)
     {
@@ -2814,13 +2814,13 @@ short Mudokon::Brain_13_43C700()
     }
 }
 
-short Mudokon::Brain_14_442710()
+short Mudokon::Brain_Chant_14_442710()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-short Mudokon::Brain_15_43C5D0()
+short Mudokon::Brain_Choke_15_43C5D0()
 {
     if (field_FC_current_motion != eMudStates::State_62_Choke_43ED70)
     {
