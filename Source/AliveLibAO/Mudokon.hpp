@@ -191,6 +191,10 @@ public:
 
     EXPORT GameSpeakEvents LastGameSpeak_4400B0();
 
+    void AddAlerted();
+
+    EXPORT __int16 IAmNearestToAbe_440120();
+
     // States
     EXPORT void State_0_Idle_43CA70();
     EXPORT void State_1_WalkLoop_43CC80();
