@@ -1486,7 +1486,17 @@ void Mudokon::State_11_Null_43D350()
 
 void Mudokon::State_12_LiftUse_43D360()
 {
-    NOT_IMPLEMENTED();
+    auto pLiftPoint = static_cast<LiftPoint*>(field_194_pLiftPoint);
+    if (!pLiftPoint->OnAnyFloor() || pLiftPoint->field_27A_flags.Get(LiftPoint::Flags::eBit7))
+    {
+        pLiftPoint->Move_435740(FP_FromInteger(0), FP_FromInteger(3), 0);
+    }
+    else
+    {
+        pLiftPoint->Move_435740(FP_FromInteger(0), FP_FromInteger(0), 0);
+        field_FC_current_motion = eMudStates::State_14_LiftGrabEnd_43D420;
+        field_FE_next_state = eMudStates::State_0_Idle_43CA70;
+    }
 }
 
 void Mudokon::State_13_LiftGrabBegin_43D3F0()
