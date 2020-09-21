@@ -2643,12 +2643,6 @@ short Mudokon::Brain_SingSequencePassword_4_441260()
 
 short Mudokon::Brain_LiftUse_5_43C180()
 {
-    NOT_IMPLEMENTED();
-    return 0;
-
-    // TODO: Needs LiftPoint to exist
-
-    /*
     if (field_1BA_sub_state)
     {
         if (field_1BA_sub_state == 1 && !field_FC_current_motion)
@@ -2669,7 +2663,7 @@ short Mudokon::Brain_LiftUse_5_43C180()
         field_FC_current_motion = eMudStates::State_13_LiftGrabBegin_43D3F0;
         field_FE_next_state = eMudStates::State_12_LiftUse_43D360;
         field_194_pLiftPoint = nullptr;
-        for (int i=0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+        for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
         {
             BaseAliveGameObject* pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
             if (!pObj)
@@ -2679,9 +2673,10 @@ short Mudokon::Brain_LiftUse_5_43C180()
 
             if (pObj->field_4_typeId == Types::eLiftPoint_51)
             {
-                if (field_110 == static_cast<LiftPoint*>(pObj)->field_278)
+                auto pLiftPoint = static_cast<LiftPoint*>(pObj);
+                if (field_110 == pLiftPoint->field_278)
                 {
-                    field_194_pLiftPoint = pObj;
+                    field_194_pLiftPoint = pLiftPoint;
                     pObj->field_C_refCount++;
                     break;
                 }
@@ -2690,7 +2685,6 @@ short Mudokon::Brain_LiftUse_5_43C180()
         return 1;
     }
     return field_1BA_sub_state;
-    */
 }
 
 short Mudokon::Brain_LeverUse_6_43C250()
