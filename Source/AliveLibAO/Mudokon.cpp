@@ -1174,6 +1174,36 @@ __int16 Mudokon::FacingTarget_43D6A0(BirdPortal* pTarget)
     return FALSE;
 }
 
+GameSpeakEvents Mudokon::LastGameSpeak_4400B0()
+{
+    if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+        field_B2_lvl_number,
+        field_B0_path_number,
+        field_A8_xpos,
+        field_AC_ypos,
+        1)
+        || field_144_flags.Get(Flags_144::e144_Bit11_bDeaf))
+    {
+        return GameSpeakEvents::eNone_m1;
+    }
+
+    if (field_128 == pEventSystem_4FF954->field_18_last_event_index)
+    {
+        if (pEventSystem_4FF954->field_10_last_event == GameSpeakEvents::eNone_m1)
+        {
+            return GameSpeakEvents::eNone_m1;
+        }
+        else
+        {
+            return GameSpeakEvents::eSameAsLast_m2;
+        }
+    }
+
+    field_128 = pEventSystem_4FF954->field_18_last_event_index;
+
+    return pEventSystem_4FF954->field_10_last_event;
+}
+
 void Mudokon::VOnTrapDoorOpen()
 {
     VOnTrapDoorOpen_43C9F0();

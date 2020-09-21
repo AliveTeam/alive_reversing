@@ -128,6 +128,8 @@ struct Mudokon_Resources
     BYTE** res[15];
 };
 
+enum class GameSpeakEvents : __int16;
+
 class Mudokon : public BaseAliveGameObject
 {
 public:
@@ -186,6 +188,8 @@ public:
     EXPORT __int16 FindBirdPortal_440250();
 
     EXPORT __int16 FacingTarget_43D6A0(BirdPortal* pTarget);
+
+    EXPORT GameSpeakEvents LastGameSpeak_4400B0();
 
     // States
     EXPORT void State_0_Idle_43CA70();
