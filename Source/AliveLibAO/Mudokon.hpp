@@ -326,8 +326,8 @@ public:
     __int16 field_186;
     __int16 field_188;
     __int16 field_18A;
-    int field_18C;
-    int field_190;
+    FP field_18C;
+    FP field_190;
     LiftPoint* field_194_pLiftPoint;
     __int16 field_198;
     __int16 field_19A;

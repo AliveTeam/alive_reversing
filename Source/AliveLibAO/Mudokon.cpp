@@ -190,7 +190,7 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, int tlvInfo)
         field_148_res_array.res[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 53, 1, 0);
 
 
-        field_18C = liftMudTlv->field_18_how_far_to_walk << 16;
+        field_18C = FP_FromInteger(liftMudTlv->field_18_how_far_to_walk);
         field_110 = liftMudTlv->field_1A_lift_id;
 
         field_144_flags.Set(Flags_144::e144_Bit5, liftMudTlv->field_1C_direction); // TODO: Check
@@ -2721,8 +2721,43 @@ short Mudokon::Brain_ComingIn_0_441DE0()
 
 short Mudokon::Brain_ComingOut_1_441E90()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (field_1BA_sub_state == 0)
+    {
+        if (field_FC_current_motion == eMudStates::State_0_Idle_43CA70)
+        {
+            field_FC_current_motion = eMudStates::State_2_StandingTurn_43D050;
+            field_FE_next_state = eMudStates::State_1_WalkLoop_43CC80;
+            return 1;
+        }
+    }
+    else if (field_1BA_sub_state == 1)
+    {
+        if (field_FC_current_motion == eMudStates::State_1_WalkLoop_43CC80)
+        {
+            field_144_flags.Clear(Flags_144::e144_Bit2);
+            field_190 = field_18C;
+            return 2;
+        }
+    }
+    else if (field_1BA_sub_state == 2)
+    {
+        if (field_B4_velx < FP_FromInteger(0))
+        {
+            field_190 += field_B4_velx;
+        }
+        else
+        {
+             field_190 -= field_B4_velx;
+        }
+
+        if (field_190 < FP_FromInteger(0))
+        {
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            field_FC_current_motion = eMudStates::State_0_Idle_43CA70;
+            return 3;
+        }
+    }
+    return field_1BA_sub_state;
 }
 
 short Mudokon::Brain_SingSequenceIdle_2_441CA0()
