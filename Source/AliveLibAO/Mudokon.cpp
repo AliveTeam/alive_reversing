@@ -25,6 +25,8 @@
 #include "Switch.hpp"
 #include "ScreenShake.hpp"
 #include "PsxDisplay.hpp"
+#include "PossessionFlicker.hpp"
+#include "AbilityRing.hpp"
 
 void Mud_ForceLink() {}
 
@@ -2717,8 +2719,92 @@ short Mudokon::Brain_LeverUse_6_43C250()
 
 short Mudokon::Brain_GiveRings_7_43C2F0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    switch (field_1BA_sub_state)
+    {
+    case 0:
+        if (sActiveHero_507678->field_168_ring_pulse_timer <= 0)
+        {
+            field_FE_next_state = eMudStates::State_52_Chant_43D520;
+            field_1C0_timer = gnFrameCount_507670 + 30;
+            return 1;
+        }
+        return 4;
+
+    case 1:
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
+        {
+            auto pFlicker = ao_new<PossessionFlicker>();
+            if (pFlicker)
+            {
+                pFlicker->ctor_41A8C0(this, 10, 255, 128, 128);
+            }
+            field_1C0_timer = gnFrameCount_507670 + 15;
+            return 2;
+        }
+        break;
+
+    case 2:
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
+        {
+            PSX_RECT ourRect = {};
+            VGetBoundingRect(&ourRect, 1);
+
+            auto pMudRing = ao_new<AbilityRing>();
+            if (pMudRing)
+            {
+                pMudRing->ctor_455860(
+                    FP_FromInteger((ourRect.w + ourRect.x) / 2),
+                    FP_FromInteger((ourRect.h + ourRect.y) / 2),
+                    2);
+            }
+
+            PSX_RECT heroRect = {};
+            sActiveHero_507678->VGetBoundingRect(&heroRect, 1);
+
+            auto pAbeRing = ao_new<AbilityRing>();
+            if (pAbeRing)
+            {
+                pAbeRing->ctor_455860(
+                    FP_FromInteger((heroRect.w + heroRect.x) / 2),
+                    FP_FromInteger((heroRect.h + heroRect.y) / 2),
+                    3);
+                pAbeRing->SetTarget_455EC0(sActiveHero_507678);
+            }
+            field_1C0_timer = gnFrameCount_507670 + 30;
+            return 3;
+        }
+        break;
+
+    case 3:
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
+        {
+            if (field_1AA)
+            {
+                sActiveHero_507678->field_168_ring_pulse_timer = field_1AA + gnFrameCount_507670;
+            }
+            else
+            {
+                sActiveHero_507678->field_168_ring_pulse_timer = gnFrameCount_507670 + 200000;
+            }
+
+            field_FE_next_state = eMudStates::State_0_Idle_43CA70;
+            sActiveHero_507678->field_16C_bHaveShrykull = 0;
+            return 4;
+        }
+        break;
+
+    case 4:
+        if (sActiveHero_507678->field_168_ring_pulse_timer <= 0)
+        {
+            field_1B8_brain_idx = 2;
+            return 2;
+        }
+        break;
+
+    default:
+        return field_1BA_sub_state;
+    }
+    return field_1BA_sub_state;
 }
 
 short Mudokon::Brain_StandScrub_8_441F40()
