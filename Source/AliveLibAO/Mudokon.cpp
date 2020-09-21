@@ -2715,8 +2715,40 @@ void Mudokon::State_62_Choke_43ED70()
 
 short Mudokon::Brain_ComingIn_0_441DE0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (field_1BA_sub_state == 0)
+    {
+        field_1C0_timer = gnFrameCount_507670 + 120;
+        return 1;
+    }
+
+    else if (field_1BA_sub_state == 1)
+    {
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
+        {
+            field_FE_next_state = eMudStates::State_1_WalkLoop_43CC80;
+            field_190 = field_18C;
+            return 2;
+        }
+    }
+    else if (field_1BA_sub_state == 2)
+    {
+        if (field_B4_velx < FP_FromInteger(0))
+        {
+           field_190 += field_B4_velx;
+        }
+        else
+        {
+            field_190 -= field_B4_velx;
+        }
+
+        if (field_190 < FP_FromInteger(0))
+        {
+            field_FC_current_motion = eMudStates::State_0_Idle_43CA70;
+            field_1B8_brain_idx = 2;
+            return 0;
+        }
+    }
+    return field_1BA_sub_state;
 }
 
 short Mudokon::Brain_ComingOut_1_441E90()
