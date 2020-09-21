@@ -185,6 +185,8 @@ public:
 
     EXPORT __int16 FindBirdPortal_440250();
 
+    EXPORT __int16 FacingTarget_43D6A0(BirdPortal* pTarget);
+
     // States
     EXPORT void State_0_Idle_43CA70();
     EXPORT void State_1_WalkLoop_43CC80();

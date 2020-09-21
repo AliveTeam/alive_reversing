@@ -1157,6 +1157,23 @@ __int16 Mudokon::FindBirdPortal_440250()
     return 0;
 }
 
+__int16 Mudokon::FacingTarget_43D6A0(BirdPortal* pTarget)
+{
+    if (pTarget->field_18_xpos == field_A8_xpos)
+    {
+        return TRUE;
+    }
+    else if (pTarget->field_18_xpos > field_A8_xpos && !field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        return TRUE;
+    }
+    else if (pTarget->field_18_xpos < field_A8_xpos && field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        return TRUE;
+    }
+    return FALSE;
+}
+
 void Mudokon::VOnTrapDoorOpen()
 {
     VOnTrapDoorOpen_43C9F0();
