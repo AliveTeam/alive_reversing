@@ -217,8 +217,6 @@ public:
 
     EXPORT void Get_Frame_Rect_402B50(PSX_RECT* pRect);
 
-    EXPORT void Get_Frame_Rect_404220(PSX_RECT* pRect);
-
     EXPORT void Get_Frame_Width_Height_403E80(short* pWidth, short* pHeight);
 
     EXPORT void Get_Frame_Offset_403EE0(short* pOffX, short* pOffY);
@@ -273,6 +271,8 @@ public:
 
     // New virtual
     virtual EXPORT void VRender2_403FD0(int xpos, int ypos, int** ppOt);
+
+    EXPORT void GetRenderedSize_404220(PSX_RECT* pRect);
 
 private:
 
