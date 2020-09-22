@@ -24,7 +24,7 @@ EXPORT signed __int16 CC SND_SEQ_Play_477760(unsigned __int16 idx, int repeatCou
 
 EXPORT __int16 CC SND_SsIsEos_DeInlined_477930(unsigned __int16 idx);
 
-EXPORT int CC SFX_SfxDefinition_Play_477330(const SfxDefinition* sfxDef, signed int volLeft, signed int volRight, int pitch_min, signed __int16 pitch_max);
+EXPORT int CC SFX_SfxDefinition_Play_477330(const SfxDefinition* sfxDef, short volLeft, short volRight, short pitch_min, signed __int16 pitch_max);
 
 EXPORT int CC SFX_SfxDefinition_Play_4770F0(const SfxDefinition* sfxDef, signed int vol, int pitch_min, int pitch_max);
 

@@ -941,7 +941,7 @@ void CC Elum::Sfx_416E10(unsigned __int8 soundId, BaseAliveGameObject* pObj)
             volRight = 80;
             break;
         }
-        SFX_SfxDefinition_Play_477330(&sElumSfx_4C5398[3], volLeft, volRight, 0, 0);
+        SFX_SfxDefinition_Play_477330(&sElumSfx_4C5398[3], (__int16) volLeft, (__int16) volRight, 0, 0);
         break;
     }
 
