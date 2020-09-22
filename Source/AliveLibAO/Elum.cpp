@@ -2639,11 +2639,11 @@ void Elum::State_25_LickingHoney_415B50()
             field_B2_lvl_number,
             field_B0_path_number,
             field_A8_xpos,
-            field_AC_ypos) != CameraPos::eCamCurrent_0)
+            field_AC_ypos) == CameraPos::eCamCurrent_0)
         {
             if (field_170_flags & 0x20)
             {
-                Elum::Sfx_416E10(8u, 0);
+                Sfx_416E10(8u, 0);
                 field_170_flags &= ~0x20;
             }
         }
