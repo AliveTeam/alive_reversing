@@ -1761,11 +1761,7 @@ __int16 Paramite::Brain_Struggling_44DD70()
 
 __int16 Paramite::Brain_Death_448BF0()
 {
-    if (field_114_timer <= static_cast<int>(gnFrameCount_507670) || field_114_timer >= static_cast<int>(gnFrameCount_507670) + 80)
-    {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
-    }
-    else
+    if (static_cast<int>(gnFrameCount_507670) < field_114_timer && (field_114_timer < static_cast<int>(gnFrameCount_507670) + 80))
     {
         field_BC_sprite_scale -= FP_FromDouble(0.008);
         field_C0_r -= 2;
@@ -1781,6 +1777,12 @@ __int16 Paramite::Brain_Death_448BF0()
             SFX_Play_43AE60(0x60u, 25, FP_GetExponent(FP_FromInteger(2200) * field_BC_sprite_scale), 0);
         }
     }
+
+    if (field_114_timer < (int) gnFrameCount_507670)
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+
     return 100;
 }
 
