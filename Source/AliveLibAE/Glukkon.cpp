@@ -2906,14 +2906,14 @@ void CC Glukkon::PlaySound_4447D0(int sndIdx, Glukkon* pGlukkon)
         {
             FP percentHowFar = (FP_FromInteger(pRect.w) - pGlukkon->field_B8_xpos) / FP_FromInteger(368);
             volumeLeft = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - (volumeRight / 3)));
-            volumeRight =  volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight));
+            volumeRight -= FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight));
         }
             break;
         case CameraPos::eCamRight_4:
         {
             FP percentHowFar = (pGlukkon->field_B8_xpos - FP_FromInteger(pRect.x)) / FP_FromInteger(368);
             volumeLeft = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight));
-            volumeRight = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - (volumeRight / 3)));
+            volumeRight -= FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - (volumeRight / 3)));
         }
             break;
         default:
