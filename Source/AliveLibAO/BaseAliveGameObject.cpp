@@ -26,18 +26,15 @@ EXPORT int CC Grid_SnapX_41FAA0(FP /*scale*/, int /*a2*/)
 
 EXPORT FP CC CamX_VoidSkipper_418590(FP xpos, FP xvel, __int16 xMargin, WORD* pResult)
 {
-    // Disabled until #535 is fixed
-    NOT_IMPLEMENTED();
-
     const FP v1 = xpos - FP_FromInteger(256);
 
-    const FP xDiv = FP_FromInteger(FP_GetExponent(v1) / 512);
+    const int xDiv = FP_GetExponent(v1) / 512;
     const FP xMod = FP_FromInteger(FP_GetExponent(v1) % 512);
 
-    const int xDivEven = FP_GetExponent(xDiv) % 2;
+    const int xDivEven = xDiv % 2;
 
     FP result = {};
-    if ((!xDivEven || xMod >= FP_FromInteger(xMargin - 512)) &&
+    if ((!xDivEven || xMod >= FP_FromInteger(512 - xMargin)) &&
         (xDivEven || xMod <= FP_FromInteger(xMargin + 368)))
     {
         *pResult = 0;
@@ -46,19 +43,19 @@ EXPORT FP CC CamX_VoidSkipper_418590(FP xpos, FP xvel, __int16 xMargin, WORD* pR
     else if (xvel <= FP_FromInteger(0))
     {
         *pResult = 1;
-        result = FP_FromInteger((xDiv.fpValue << 9) + xMargin + 112);
+        result = FP_FromInteger((xDiv * 512) + xMargin + 112);
     }
     else
     {
         if (xDivEven)
         {
             *pResult = 2;
-            result = FP_FromInteger((xDiv.fpValue << 9) - xMargin + 768);
+            result = FP_FromInteger((xDiv * 512) - xMargin + 768);
         }
         else
         {
             *pResult = 2;
-            result = FP_FromInteger((xDiv.fpValue << 9) - xMargin + 1280);
+            result = FP_FromInteger((xDiv * 512) - xMargin + 1280);
         }
     }
     return result;
