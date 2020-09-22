@@ -140,12 +140,11 @@ void ParamiteWeb::VRender_48AB10(int **pOt)
     {
         if (field_A8_xpos >= FP_FromInteger(camCoords.field_0_x) && field_A8_xpos <= FP_FromInteger(camCoords.field_0_x + 1024))
         {
-
             const FP cam_y = pScreenManager_4FF7C8->field_10_pCamPos->field_4_y;
             const FP cam_x = pScreenManager_4FF7C8->field_10_pCamPos->field_0_x;
 
-            short minY = pScreenManager_4FF7C8->field_16_ypos + FP_GetExponent(FP_FromInteger(field_E8_ttl) - cam_y);
-            short maxY = pScreenManager_4FF7C8->field_16_ypos + FP_GetExponent(FP_FromInteger(field_EA_ttl_remainder) - cam_y);
+            short minY = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_E8_ttl) - cam_y);
+            short maxY = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_EA_ttl_remainder) - cam_y);
 
             short ypos_int = FP_GetExponent(field_AC_ypos);
             if (ypos_int > field_EA_ttl_remainder)
@@ -153,13 +152,13 @@ void ParamiteWeb::VRender_48AB10(int **pOt)
                 ypos_int = field_EA_ttl_remainder + (ypos_int - field_EA_ttl_remainder) % field_E6_segment_length;
             }
 
-            const short x_start = pScreenManager_4FF7C8->field_14_xpos + FP_GetExponent(field_A8_xpos - cam_x);
+            const short x_start = PsxToPCX<short>(FP_GetExponent(field_A8_xpos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - cam_x));
 
-            short y_start = pScreenManager_4FF7C8->field_16_ypos + FP_GetExponent((FP_FromInteger(ypos_int)) - cam_y);
+            short y_start = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + ypos_int) - cam_y);
             if (field_C8_yOffset + y_start > 240)
             {
                 y_start = y_start % field_E6_segment_length + 240;
-                ypos_int = FP_GetExponent(cam_y + FP_FromInteger(y_start));
+                ypos_int = FP_GetExponent(cam_y + FP_FromInteger(y_start - pScreenManager_4FF7C8->field_16_ypos));
             }
 
             if (minY < 0)
@@ -187,7 +186,7 @@ void ParamiteWeb::VRender_48AB10(int **pOt)
                     field_EC_pRes[idx].field_A_b = static_cast<BYTE>(b);
                     field_EC_pRes[idx].VRender2_403FD0(x_start, y_start + field_C8_yOffset, pOt);
                     PSX_RECT rect = {};
-                    field_EC_pRes[idx].field_68_anim_ptr->Get_Frame_Rect_404220(&rect);
+                    field_EC_pRes[idx].GetRenderedSize_404220(&rect);
                     pScreenManager_4FF7C8->InvalidateRect_406E40(rect.x, rect.y, rect.w, rect.h, pScreenManager_4FF7C8->field_2E_idx);
                     ClipPoly_Vertically_4584B0(&field_EC_pRes[idx].field_10_polys[gPsxDisplay_504C78.field_A_buffer_index], field_C8_yOffset + minY, field_C8_yOffset + maxY);
                     y_start -= field_E6_segment_length;

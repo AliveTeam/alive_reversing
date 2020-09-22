@@ -918,7 +918,6 @@ void Paramite::Sound_44DBB0(unsigned __int8 idx)
         field_AC_ypos);
 
     short volRight = stru_4CDD98[idx].field_C_default_volume;
-    short volRightDiv3 = volRight / 3;
     short volLeft = 0;
 
     PSX_RECT rect = {};
@@ -933,27 +932,25 @@ void Paramite::Sound_44DBB0(unsigned __int8 idx)
     case CameraPos::eCamTop_1:
     case CameraPos::eCamBottom_2:
     {
-        const FP v10 = (FP_FromRaw(stru_4CDD98[0].field_C_default_volume) / FP_FromInteger(3));
-        volLeft = FP_GetExponent(v10);
-        volRight = FP_GetExponent(v10);
+        const FP tempVol = (FP_FromRaw(stru_4CDD98[idx].field_C_default_volume) / FP_FromInteger(3));
+        volLeft = FP_GetExponent(tempVol);
+        volRight = FP_GetExponent(tempVol);
         break;
     }
 
     case CameraPos::eCamLeft_3:
     {
-        const FP v7 = (FP_FromInteger(rect.w) - field_A8_xpos / FP_FromInteger(640));
-        volLeft = volRight - FP_GetExponent(v7 * FP_FromInteger(volRight - volRightDiv3));
-        const FP v8 = (v7 * FP_FromInteger(volRight));
-        volRight -= FP_GetExponent(v8);
+        const FP numScreensAway = ((FP_FromInteger(rect.w) - field_A8_xpos) / FP_FromInteger(640));
+        volLeft = volRight - FP_GetExponent(numScreensAway * FP_FromInteger(volRight - (volRight / 3)));
+        volRight -= FP_GetExponent((numScreensAway * FP_FromInteger(volRight)));
         break;
     }
 
     case CameraPos::eCamRight_4:
     {
-        const FP v9 = (field_A8_xpos - FP_FromInteger(rect.x) / FP_FromInteger(640));
-        volLeft = volRight - FP_GetExponent(v9 * FP_FromInteger(volRight));
-        const FP  v8 = (v9 * FP_FromInteger(volRight - volRightDiv3));
-        volRight -= FP_GetExponent(v8);
+        const FP numScreensAway = ((field_A8_xpos - FP_FromInteger(rect.x)) / FP_FromInteger(640));
+        volLeft = volRight - FP_GetExponent(numScreensAway * FP_FromInteger(volRight));
+        volRight -= FP_GetExponent((numScreensAway * FP_FromInteger(volRight - (volRight / 3))));
         break;
     }
 
@@ -1761,11 +1758,7 @@ __int16 Paramite::Brain_Struggling_44DD70()
 
 __int16 Paramite::Brain_Death_448BF0()
 {
-    if (field_114_timer <= static_cast<int>(gnFrameCount_507670) || field_114_timer >= static_cast<int>(gnFrameCount_507670) + 80)
-    {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
-    }
-    else
+    if (static_cast<int>(gnFrameCount_507670) < field_114_timer && (field_114_timer < static_cast<int>(gnFrameCount_507670) + 80))
     {
         field_BC_sprite_scale -= FP_FromDouble(0.008);
         field_C0_r -= 2;
@@ -1781,6 +1774,12 @@ __int16 Paramite::Brain_Death_448BF0()
             SFX_Play_43AE60(0x60u, 25, FP_GetExponent(FP_FromInteger(2200) * field_BC_sprite_scale), 0);
         }
     }
+
+    if (field_114_timer < (int) gnFrameCount_507670)
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+
     return 100;
 }
 

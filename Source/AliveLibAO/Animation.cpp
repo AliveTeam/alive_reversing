@@ -185,11 +185,6 @@ EXPORT void Animation::Get_Frame_Rect_402B50(PSX_RECT* /*pRect*/)
     NOT_IMPLEMENTED();
 }
 
-EXPORT void Animation::Get_Frame_Rect_404220(PSX_RECT* /*pRect*/)
-{
-    NOT_IMPLEMENTED();
-}
-
 EXPORT void Animation::Get_Frame_Width_Height_403E80(short* /*pWidth*/, short* /*pHeight*/)
 {
     NOT_IMPLEMENTED();
@@ -216,6 +211,11 @@ void AnimationUnknown::vDecode()
 }
 
 void AnimationUnknown::VRender2_403FD0(int /*xpos*/, int /*ypos*/, int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void AnimationUnknown::GetRenderedSize_404220(PSX_RECT* /*pRect*/)
 {
     NOT_IMPLEMENTED();
 }
