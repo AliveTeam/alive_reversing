@@ -2580,6 +2580,9 @@ void Abe::State_2_StandingTurn_426040()
 
         if (field_FE_next_state)
         {
+            // OG bug: this local variable allows you to "store" your next state if you face the opposite 
+            // ledge direction and press down/up and then interrupt it by running away before you hoist.
+            const short kNext_state = field_FE_next_state;
             if (field_FE_next_state != eAbeStates::State_139_ElumMountBegin_42E090)
             {
                 if (field_FE_next_state == eAbeStates::State_101_LeverUse_429970)
@@ -2600,7 +2603,7 @@ void Abe::State_2_StandingTurn_426040()
                     }
                 }
                 field_FE_next_state = eAbeStates::State_0_Idle_423520;
-                field_FC_current_motion = field_FE_next_state;
+                field_FC_current_motion = kNext_state;
                 return;
             }
 
@@ -2611,10 +2614,11 @@ void Abe::State_2_StandingTurn_426040()
                 {
                     LoadMountElumResources_42E690();
                     field_FE_next_state = eAbeStates::State_0_Idle_423520;
-                    field_FC_current_motion = field_FE_next_state;
+                    field_FC_current_motion = kNext_state;
                     return;
                 }
             }
+            field_FE_next_state = eAbeStates::State_0_Idle_423520;
         }
         else
         {
