@@ -1649,15 +1649,16 @@ __int16 Elum::Brain_1_HoneyAddiction_411730()
         if ((field_B4_velx < FP_FromInteger(0) && field_A8_xpos - FP_FromInteger(field_12C_honey_xpos) >= (kGridSize * FP_FromInteger(2))) ||
             (field_B4_velx > FP_FromInteger(0) && FP_FromInteger(field_12C_honey_xpos) - field_A8_xpos >= (kGridSize * FP_FromInteger(2))))
         {
-            field_FE_next_state = eElumStates::State_25_LickingHoney_415B50;
-
-            if (sControlledCharacter_50767C == this)
-            {
-                SetAbeAsPlayer_412520(eAbeStates::State_128_KnockForward_429330);
-            }
-            return 3;
+            return field_12A_brain_state;
         }
-        return field_12A_brain_state;
+
+        if (sControlledCharacter_50767C == this)
+        {
+            SetAbeAsPlayer_412520(eAbeStates::State_128_KnockForward_429330);
+        }
+
+        field_FE_next_state = eElumStates::State_25_LickingHoney_415B50;
+        return 3;
 
     case 3:
         if (!field_F4_pLine)
@@ -2638,11 +2639,11 @@ void Elum::State_25_LickingHoney_415B50()
             field_B2_lvl_number,
             field_B0_path_number,
             field_A8_xpos,
-            field_AC_ypos) != CameraPos::eCamCurrent_0)
+            field_AC_ypos) == CameraPos::eCamCurrent_0)
         {
             if (field_170_flags & 0x20)
             {
-                Elum::Sfx_416E10(8u, 0);
+                Sfx_416E10(8u, 0);
                 field_170_flags &= ~0x20;
             }
         }
