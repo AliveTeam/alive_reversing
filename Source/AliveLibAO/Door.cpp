@@ -78,7 +78,7 @@ Door* Door::ctor_40E010(Path_Door* pTlv, int tlvInfo)
 
     const int idx = static_cast<int>(gMap_507BA8.field_0_current_level);
 
-    FP v35 = {};
+    FP scale = {};
     PathLine* pLine = nullptr;
     BYTE** ppRes = nullptr;
     PSX_Point mapCoords = {};
@@ -139,7 +139,8 @@ Door* Door::ctor_40E010(Path_Door* pTlv, int tlvInfo)
             {
                 field_AC_ypos -= (FP_FromInteger(12) * field_BC_sprite_scale);
                 gMap_507BA8.GetCurrentCamCoords_444890(&mapCoords);
-                field_A8_xpos = FP_FromInteger(Grid_SnapX_41FAA0(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos) - mapCoords.field_0_x) + mapCoords.field_0_x);
+                auto aux = Grid_SnapX_41FAA0(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos) - mapCoords.field_0_x);
+                field_A8_xpos = FP_FromInteger((aux) + mapCoords.field_0_x);
             }
             else
             {
@@ -157,12 +158,12 @@ Door* Door::ctor_40E010(Path_Door* pTlv, int tlvInfo)
         if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
         {
             field_10_anim.field_C_layer = 25;
-            v35 = FP_FromInteger(1);
+            scale = FP_FromInteger(1);
         }
         else
         {
             field_10_anim.field_C_layer = 6;
-            v35 = FP_FromDouble(0.5);
+            scale = FP_FromDouble(0.5);
         }
         ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2019, 1, 0);
         if (!ppRes || sDoorData_4BA508[idx].field_14 == 0)
@@ -192,18 +193,18 @@ Door* Door::ctor_40E010(Path_Door* pTlv, int tlvInfo)
         }
 
         if (sCollisions_DArray_504C6C->RayCast_40C410(
-            FP_FromInteger(pTlv->field_C_sound_pos.field_0_x) + FP_FromInteger(pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x / 2),
+            FP_FromInteger(pTlv->field_C_sound_pos.field_0_x) + FP_FromInteger((pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
             FP_FromInteger(pTlv->field_10_top_left.field_2_y),
-            FP_FromInteger(pTlv->field_C_sound_pos.field_0_x) + FP_FromInteger(pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x / 2),
+            FP_FromInteger(pTlv->field_C_sound_pos.field_0_x) + FP_FromInteger((pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
             FP_FromInteger(pTlv->field_14_bottom_right.field_2_y),
             &pLine,
             &field_A8_xpos,
             &field_AC_ypos,
-            v35 != FP_FromDouble(0.5) ? 7 : 0x70))
+            scale != FP_FromDouble(0.5) ? 7 : 0x70))
         {
             field_AC_ypos += FP_FromInteger(4);
             gMap_507BA8.GetCurrentCamCoords_444890(&mapCoords);
-            field_A8_xpos = FP_FromInteger(Grid_SnapX_41FAA0(v35, FP_GetExponent(field_A8_xpos) - mapCoords.field_0_x) + mapCoords.field_0_x);
+            field_A8_xpos = FP_FromInteger(Grid_SnapX_41FAA0(scale, FP_GetExponent(field_A8_xpos) - mapCoords.field_0_x) + mapCoords.field_0_x);
         }
         else
         {
