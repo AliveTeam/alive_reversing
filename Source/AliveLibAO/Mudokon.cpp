@@ -27,6 +27,7 @@
 #include "PsxDisplay.hpp"
 #include "PossessionFlicker.hpp"
 #include "AbilityRing.hpp"
+#include "CheatController.hpp"
 
 void Mud_ForceLink() {}
 
@@ -392,11 +393,7 @@ BaseGameObject* Mudokon::dtor_43F6A0()
         sKilledMudokons_5076BC++;
     }
 
-    if (field_144_flags.Get(Flags_144::e144_Bit9))
-    {
-        sAlertedMudCount_507B90--;
-        field_144_flags.Clear(Flags_144::e144_Bit9);
-    }
+    RemoveAlerted();
 
     KillBirdPortal();
     KillLiftPoint_194();
@@ -812,11 +809,7 @@ __int16 Mudokon::VTakeDamage_43F830(BaseGameObject* pFrom)
             field_1B8_brain_idx = 9;
             field_1BA_sub_state = 6;
 
-            if (field_144_flags.Get(Flags_144::e144_Bit9))
-            {
-                sAlertedMudCount_507B90--;
-                field_144_flags.Clear(Flags_144::e144_Bit9);
-            }
+            RemoveAlerted();
 
             if (field_100_health <= FP_FromInteger(0))
             {
@@ -1210,6 +1203,16 @@ void Mudokon::AddAlerted()
     {
         sAlertedMudCount_507B90++;
         field_144_flags.Set(Flags_144::e144_Bit9);
+    }
+}
+
+
+void Mudokon::RemoveAlerted()
+{
+    if (field_144_flags.Get(Flags_144::e144_Bit9))
+    {
+        sAlertedMudCount_507B90--;
+        field_144_flags.Clear(Flags_144::e144_Bit9);
     }
 }
 
@@ -2995,6 +2998,8 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
         return 0;
     }
 
+    short result = 0;
+
     switch (field_1BA_sub_state)
     {
     case 0:
@@ -3041,6 +3046,8 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
         break;
 
     case 3:
+    {
+        FP gridSizeDirected = {};
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
         {
             gridSizeDirected = -ScaleToGridSize_41FA30(field_BC_sprite_scale);
@@ -3049,42 +3056,49 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
         {
             gridSizeDirected = ScaleToGridSize_41FA30(field_BC_sprite_scale);
         }
-        gridSizeDirected_ = gridSizeDirected;
-        k0x32Scaled = Math_FixedPoint_Multiply_451040(field_BC_sprite_scale, 0x320000);
-        bHitWall = WallHit_401930(k0x32Scaled, gridSizeDirected_);
-        bEndOfLine = Check_IsOnEndOfLine_4021A0(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX), 1);
+        const __int16 bHitWall = WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), gridSizeDirected);
+        const __int16 bEndOfLine = Check_IsOnEndOfLine_4021A0(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX), 1);
 
         if (field_FC_current_motion)
         {
             result = field_1BA_sub_state;
             field_FE_next_state = 0;
             field_1B4 = 0;
+            return result;
         }
-        else if (++field_1B4 <= 150 || BaseAnimatedWithPhysicsGameObject::sub_418500(this))
+
+        field_1B4++;
+
+        if (field_1B4 <= 150 || BetweenCameras_418500() != BetweenCamPos::None_0)
         {
             if (VIsFacingMe(sActiveHero_507678))
             {
-                gridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
-                k2Scaled = Math_FixedPoint_Multiply_451040(gridSize, FP_FromInteger(2));
-                if (VIsObjNearby(k2Scaled, sActiveHero_507678)
+                if (VIsObjNearby(ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(2), sActiveHero_507678)
                     || bHitWall
                     || bEndOfLine)
                 {
+                    GameSpeakEvents speak_1;
                     if (bHitWall || bEndOfLine)
                     {
                         speak_1 = LastGameSpeak_4400B0();
                     }
                     else
                     {
-                        last_event_index = pEventSystem_4FF954->field_18_last_event_index;
-                        if (field_128 == last_event_index)
+                        if (field_128 == pEventSystem_4FF954->field_18_last_event_index)
                         {
-                            speak_1 = (pEventSystem_4FF954->field_10_last_event == -1) - 2;
+                            if (pEventSystem_4FF954->field_10_last_event == GameSpeakEvents::eNone_m1)
+                            {
+                                speak_1 = GameSpeakEvents::eNone_m1;
+                            }
+                            else
+                            {
+                                speak_1 = GameSpeakEvents::eSameAsLast_m2;
+                            }
                         }
                         else
                         {
                             speak_1 = pEventSystem_4FF954->field_10_last_event;
-                            field_128 = last_event_index;
+                            field_128 = pEventSystem_4FF954->field_18_last_event_index;
                         }
                     }
 
@@ -3096,7 +3110,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
                             field_AC_ypos,
                             1))
                     {
-                        if (speak_1 == -1)
+                        if (speak_1 == GameSpeakEvents::eNone_m1)
                         {
                             return field_1BA_sub_state;
                         }
@@ -3105,39 +3119,46 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
                         field_1C0_timer = gnFrameCount_507670 + 20;
                         switch (speak_1)
                         {
-                        case 1:
+                        case GameSpeakEvents::eUnknown_1:
                             goto LABEL_64;
-                        case 2:
+
+                        case GameSpeakEvents::eUnknown_2:
                             goto LABEL_65;
-                        case 3:
+
+                        case GameSpeakEvents::eUnknown_3:
                             goto LABEL_61;
-                        case 4:
+
+                        case GameSpeakEvents::eUnknown_4:
                             goto LABEL_63;
-                        case 9:
+
+                        case GameSpeakEvents::eUnknown_9:
                             goto LABEL_58;
-                        case 10:
+
+                        case GameSpeakEvents::eUnknown_10:
                             if (bHitWall)
                             {
                                 return 9;
                             }
                             field_1B0 = 2;
                             return 10;
-                        case 11:
+
+                        case GameSpeakEvents::eUnknown_11:
                             goto LABEL_62;
-                        case 12:
-                            if (!BaseAnimatedWithPhysicsGameObject::sub_418500(this))
+
+                        case GameSpeakEvents::eUnknown_12:
+                            if (BetweenCameras_418500() == BetweenCamPos::None_0)
                             {
                                 goto LABEL_123;
                             }
                             return 9;
+
                         default:
                             return field_1BA_sub_state;
                         }
-                        return field_1BA_sub_state;
                     }
 
                     field_1B0 = field_1BA_sub_state;
-                    field_1C0_timer =  gnFrameCount_507670 + Math_RandomRange_450F20(22, 30);
+                    field_1C0_timer = gnFrameCount_507670 + Math_RandomRange_450F20(22, 30);
                     result = 13;
                 }
                 else
@@ -3169,8 +3190,10 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
             result = 19;
         }
         return result;
+    }
 
     case 4:
+    {
         if (!field_FC_current_motion)
         {
             return 3;
@@ -3181,49 +3204,55 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
             return field_1BA_sub_state;
         }
 
+        FP gridSizeDirected = {};
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
         {
-            gridSizeDirected_1 = -ScaleToGridSize_41FA30(field_BC_sprite_scale);
+            gridSizeDirected = -ScaleToGridSize_41FA30(field_BC_sprite_scale);
         }
         else
         {
-            gridSizeDirected_1 = ScaleToGridSize_41FA30(field_BC_sprite_scale);
+            gridSizeDirected = ScaleToGridSize_41FA30(field_BC_sprite_scale);
         }
 
-        gridSizeDirected__1 = gridSizeDirected_1;
-        k0x32Scaled_1 = Math_FixedPoint_Multiply_451040(field_BC_sprite_scale, 0x320000);
-        bHitWall_1 = WallHit_401930(k0x32Scaled_1, gridSizeDirected__1);
+        const __int16 bHitWall_1 = WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), gridSizeDirected);
 
         if (Check_IsOnEndOfLine_4021A0(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX), 1) || bHitWall_1)
         {
-            goto LABEL_114;
+            field_FE_next_state = eMudStates::State_0_Idle_43CA70;
+            return 3;
         }
 
         if (VIsFacingMe(sActiveHero_507678))
         {
-            gridSize_1 = ScaleToGridSize_41FA30(field_BC_sprite_scale);
-            k2Scaled_1 = Math_FixedPoint_Multiply_451040(gridSize_1, FP_FromInteger(2));
-            if (VIsObjNearby(k2Scaled_1, sActiveHero_507678))
+            if (VIsObjNearby(ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(2), sActiveHero_507678))
             {
                 field_FE_next_state = eMudStates::State_0_Idle_43CA70;
                 result = 3;
             }
             else
             {
-                last_event_index_1 = pEventSystem_4FF954->field_18_last_event_index;
-                if (field_128 == last_event_index_1)
+                GameSpeakEvents last_speak;
+                if (field_128 == pEventSystem_4FF954->field_18_last_event_index)
                 {
-                    last_speak = (pEventSystem_4FF954->field_10_last_event == -1) - 2;
+                    if (pEventSystem_4FF954->field_10_last_event == GameSpeakEvents::eNone_m1)
+                    {
+                        last_speak = GameSpeakEvents::eNone_m1;
+                    }
+                    else
+                    {
+                        last_speak = GameSpeakEvents::eSameAsLast_m2;
+                    }
                 }
                 else
                 {
                     last_speak = pEventSystem_4FF954->field_10_last_event;
-                    field_128 = last_event_index_1;
+                    field_128 = pEventSystem_4FF954->field_18_last_event_index;
                 }
-                if (last_speak != 12
-                    || BaseAnimatedWithPhysicsGameObject::sub_418500(this))
+
+                if (last_speak != GameSpeakEvents::eUnknown_12
+                    || BetweenCameras_418500() != BetweenCamPos::None_0)
                 {
-                    if (sActiveHero_507678->field_FC_current_motion == eAbeStates::State_35_SneakLoop_43E0F0
+                    if (sActiveHero_507678->field_FC_current_motion == eAbeStates::State_35_RunLoop_425060
                         || sActiveHero_507678->field_FC_current_motion == eAbeStates::State_25_RollLoop_427BB0)
                     {
                         field_FE_next_state = eMudStates::State_29_RunLoop_43DB10;
@@ -3236,7 +3265,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
                         {
                             field_FE_next_state = eMudStates::State_35_SneakLoop_43E0F0;
                         }
-                        if (sActiveHero_507678->field_FC_current_motion != 1  || field_FC_current_motion != eMudStates::State_35_SneakLoop_43E0F0)
+                        if (sActiveHero_507678->field_FC_current_motion != 1 || field_FC_current_motion != eMudStates::State_35_SneakLoop_43E0F0)
                         {
                             return field_1BA_sub_state;
                         }
@@ -3257,8 +3286,10 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
             result = 3;
         }
         return result;
+    }
 
     case 5:
+    {
         if (!field_FC_current_motion)
         {
             return 3;
@@ -3270,22 +3301,22 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
             return field_1BA_sub_state;
         }
 
+        FP gridSizeDirected = {};
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
         {
-            gridSizeDirected_2 = -ScaleToGridSize_41FA30(field_BC_sprite_scale);
+            gridSizeDirected = -ScaleToGridSize_41FA30(field_BC_sprite_scale);
         }
         else
         {
-            gridSizeDirected_2 = ScaleToGridSize_41FA30(field_BC_sprite_scale);
+            gridSizeDirected = ScaleToGridSize_41FA30(field_BC_sprite_scale);
         }
 
-        k3Scaled = Math_FixedPoint_Multiply_451040(gridSizeDirected_2, 0x30000); // FP_FromInteger(3);
-        k0x32Scaled_2 = Math_FixedPoint_Multiply_451040(field_BC_sprite_scale, 0x320000);
-        bHitWall_2 = WallHit_401930(k0x32Scaled_2, k3Scaled);
+        const __int16 bHitWall_2 = WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), gridSizeDirected * FP_FromInteger(3));
         if (Check_IsOnEndOfLine_4021A0(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? 1 : 0, 4)
             || bHitWall_2)
         {
-            goto LABEL_114;
+            field_FE_next_state = eMudStates::State_0_Idle_43CA70;
+            return 3;
         }
 
         switch (sActiveHero_507678->field_FC_current_motion)
@@ -3308,11 +3339,9 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
             LABEL_111:
                 Abe_SFX_42A4D0(8u, 0, field_124, this);
             }
-            gridSize_2 = ScaleToGridSize_41FA30(field_BC_sprite_scale);
-            k2Scaled_2 = Math_FixedPoint_Multiply_451040(gridSize_2, FP_FromInteger(2));
-            if (VIsObjNearby(k2Scaled_2, sActiveHero_507678))
+
+            if (VIsObjNearby(ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(2), sActiveHero_507678))
             {
-            LABEL_114:
                 field_FE_next_state = eMudStates::State_0_Idle_43CA70;
                 result = 3;
             }
@@ -3333,21 +3362,26 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
             break;
         }
         break;
+    }
 
     case 6:
         if (field_FC_current_motion)
         {
             field_1B4 = 0;
             result = field_1BA_sub_state;
+            return result;
         }
-        else if (++field_1B4 <= 150
+        
+        field_1B4++;
+
+        if (field_1B4 <= 150
             && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
                 field_B2_lvl_number,
                 field_B0_path_number,
                 field_A8_xpos,
                 field_AC_ypos,
                 1)
-            && word_507B90 <= 1)
+            && sAlertedMudCount_507B90 <= 1)
         {
             if (VIsFacingMe(sActiveHero_507678))
             {
@@ -3380,34 +3414,42 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
                     LABEL_64:
                         result = 17;
                         break;
+
                     case GameSpeakEvents::eUnknown_2:
                     LABEL_65:
                         result = 18;
                         break;
+
                     case GameSpeakEvents::eUnknown_3:
                     LABEL_61:
                         result = 13;
                         field_1C0_timer = gnFrameCount_507670 + 30;
                         break;
+
                     case GameSpeakEvents::eUnknown_4:
                     LABEL_63:
                         result = 16;
                         break;
+
                     case GameSpeakEvents::eUnknown_9:
                     LABEL_58:
                         result = 11;
                         break;
+
                     case GameSpeakEvents::eUnknown_10:
                         field_1B0 = 3;
                         result = 10;
                         break;
+
                     case GameSpeakEvents::eUnknown_11:
                     LABEL_62:
                         result = 14;
                         break;
+
                     case GameSpeakEvents::eUnknown_12:
                         result = 15;
                         break;
+
                     default:
                         return field_1BA_sub_state;
                     }
@@ -3450,7 +3492,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
         return 10;
 
     case 9:
-        if (gnFrameCount_507670 <= field_1C0_timer)
+        if (static_cast<int>(gnFrameCount_507670) <= field_1C0_timer)
         {
             return field_1BA_sub_state;
         }
@@ -3459,7 +3501,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
         return 3;
 
     case 10:
-        if (gnFrameCount_507670 <= field_1C0_timer)
+        if (static_cast<int>(gnFrameCount_507670) <= field_1C0_timer)
         {
             return field_1BA_sub_state;
         }
@@ -3468,7 +3510,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
         return field_1B0;
 
     case 11:
-        if (gnFrameCount_507670 <= field_1C0_timer)
+        if (static_cast<int>(gnFrameCount_507670) <= field_1C0_timer)
         {
             return field_1BA_sub_state;
         }
@@ -3476,7 +3518,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
         goto LABEL_147;
 
     case 12:
-        if (gnFrameCount_507670 <= field_1C0_timer)
+        if (static_cast<int>(gnFrameCount_507670) <= field_1C0_timer)
         {
             return field_1BA_sub_state;
         }
@@ -3484,7 +3526,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
         goto LABEL_147;
 
     case 13:
-        if (gnFrameCount_507670 <= field_1C0_timer)
+        if (static_cast<int>(gnFrameCount_507670) <= field_1C0_timer)
         {
             return field_1BA_sub_state;
         }
@@ -3492,7 +3534,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
         goto LABEL_138;
 
     case 14:
-        if (gnFrameCount_507670 <= field_1C0_timer)
+        if (static_cast<int>(gnFrameCount_507670) <= field_1C0_timer)
         {
             return field_1BA_sub_state;
         }
@@ -3500,7 +3542,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
         goto LABEL_138;
 
     case 15:
-        if (gnFrameCount_507670 <= field_1C0_timer)
+        if (static_cast<int>(gnFrameCount_507670) <= field_1C0_timer)
         {
             return field_1BA_sub_state;
         }
@@ -3510,7 +3552,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
         return field_1B0;
 
     case 16:
-        if (gnFrameCount_507670 > field_1C0_timer)
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
         {
             Abe_SFX_42A4D0(7u, 0, field_124, this);
             field_FE_next_state = eMudStates::State_3_Speak_43D440;
@@ -3521,22 +3563,25 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
 
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
-                fart_scale = Math_FixedPoint_Multiply_451040(0x8000, field_BC_sprite_scale);
-                fart_y = field_AC_ypos - Math_FixedPoint_Multiply_451040(1572864, field_BC_sprite_scale);
-                fart_x = Math_FixedPoint_Multiply_451040(786432, field_BC_sprite_scale) + field_A8_xpos;
+                const FP fart_scale = (FP_FromDouble(0.5) * field_BC_sprite_scale);
+                const FP fart_y = field_AC_ypos - (FP_FromInteger(24) * field_BC_sprite_scale);
+                const FP fart_x = (FP_FromInteger(12) * field_BC_sprite_scale) + field_A8_xpos;
+                New_Particles_419A80(fart_x, fart_y, fart_scale, 3, 1);
             }
             else
             {
-                fart_scale = Math_FixedPoint_Multiply_451040(0x8000, field_BC_sprite_scale);
-                fart_y = field_AC_ypos - Math_FixedPoint_Multiply_451040(1572864, field_BC_sprite_scale);
-                fart_x = field_A8_xpos - Math_FixedPoint_Multiply_451040(786432, field_BC_sprite_scale);
+                const FP fart_scale = (FP_FromDouble(0.5) * field_BC_sprite_scale);
+                const FP fart_y = field_AC_ypos - (FP_FromInteger(24) * field_BC_sprite_scale);
+                const FP fart_x = field_A8_xpos - (FP_FromInteger(12) * field_BC_sprite_scale);
+                New_Particles_419A80(fart_x, fart_y, fart_scale, 3, 1);
             }
-            New_Particles_419A80(fart_x, fart_y, fart_scale, 3, 1);
+            
             return field_1B0;
         }
         break;
+
     case 17:
-        if (gnFrameCount_507670 > field_1C0_timer)
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
         {
             Abe_SFX_42A4D0(1u, 0, 0, this);
         LABEL_147:
@@ -3546,7 +3591,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
         break;
 
     case 18:
-        if (gnFrameCount_507670 > field_1C0_timer)
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
         {
             Abe_SFX_42A4D0(2u, 0, 0, this);
             field_FE_next_state = eMudStates::State_5_Speak_43D440;
@@ -3560,11 +3605,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
             return field_1BA_sub_state;
         }
 
-        if (field_144_flags & 0x100)
-        {
-            word_507B90--;
-            field_144_flags = field_144_flags & ~0x100;
-        }
+        RemoveAlerted();
 
         if (field_148_res_array.res[12])
         {

@@ -89,6 +89,15 @@ public:
 
     EXPORT CameraPos Is_In_Current_Camera_417CC0();
 
+    enum class BetweenCamPos : __int16
+    {
+        None_0 = 0,
+        Left_1 = 1,
+        Right_2 = 2,
+    };
+
+    EXPORT BetweenCamPos BetweenCameras_418500();
+
     Animation field_10_anim;
     FP field_A8_xpos;
     FP field_AC_ypos;

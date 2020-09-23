@@ -193,6 +193,8 @@ public:
 
     void AddAlerted();
 
+    void RemoveAlerted();
+
     EXPORT __int16 IAmNearestToAbe_440120();
 
     // States
