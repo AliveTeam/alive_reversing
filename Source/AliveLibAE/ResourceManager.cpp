@@ -9,6 +9,7 @@
 #include "Particle.hpp"
 #include "PsxRender.hpp"
 #include "PsxDisplay.hpp"
+#include "Sys_common.hpp"
 
 ALIVE_VAR(1, 0x5C1BB0, ResourceManager*, pResourceManager_5C1BB0, nullptr);
 

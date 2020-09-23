@@ -14,6 +14,7 @@
 #include "Game.hpp"
 #include "BirdPortal.hpp"
 #include "Events.hpp"
+#include "Sys_common.hpp"
 
 ALIVE_VAR(1, 0x5C1B7C, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_5C1B7C, nullptr);
 

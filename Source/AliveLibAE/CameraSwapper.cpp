@@ -12,6 +12,7 @@
 #include "Sfx.hpp"
 #include "Movie.hpp"
 #include "ScreenClipper.hpp"
+#include "Sys_common.hpp"
 
 CameraSwapper* CameraSwapper::ctor_4E4CA0(BYTE** ppCamRes, int movieSector, int movieId, char movieFlag, __int16  movieFlags, __int16 movieVol)
 {

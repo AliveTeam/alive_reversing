@@ -1,36 +1,7 @@
 #pragma once
 
 #include "FunctionFwd.hpp"
-
-#if _WIN32
-    using TWindowProcFilter = LRESULT(CC*)(HWND, UINT, WPARAM, LPARAM);
-#endif
-
-#if USE_SDL2
-    struct SDL_Window;
-    using TWindowHandleType = SDL_Window*;
-    #if _WIN32
-        HWND Sys_Win32FromSDLWindow(TWindowHandleType windowHandle);
-    #endif
-#else
-    using TWindowHandleType = HWND;
-#endif
-
-enum class MessageBoxType
-{
-    eStandard,
-    eError,
-    eQuestion,
-};
-
-enum class MessageBoxButton
-{
-    eOK,
-    eNo,
-    eYes,
-};
-
-MessageBoxButton Sys_MessageBox(TWindowHandleType windowHandle, const char* message, const char* title, MessageBoxType type = MessageBoxType::eStandard);
+#include "Sys_common.hpp"
 
 void Sys_SetWindowText(TWindowHandleType windowHandle, const char* title);
 POINT Sys_GetScreenMousePos();
@@ -57,13 +28,6 @@ EXPORT char CC Sys_PumpMessages_4EE4F4();
 EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 #endif
 DWORD SYS_GetTicks();
-
-[[noreturn]] inline void ALIVE_FATAL(const char* errMsg)
-{
-    Sys_MessageBox(nullptr, errMsg, "ALIVE Hook fatal error.");
-    abort();
-}
-
 
 struct SoundEntry;
 

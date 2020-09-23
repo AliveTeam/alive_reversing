@@ -9,6 +9,8 @@ SET(AliveLibSrcCommon
     FunctionFwd.hpp
     Primitives_common.hpp
     Primitives_common.cpp
+    Sys_common.hpp
+    Sys_common.cpp
     BitField.hpp
     FixedPoint_common.hpp
 )

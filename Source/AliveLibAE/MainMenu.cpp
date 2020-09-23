@@ -25,6 +25,7 @@
 #include "GameEnderController.hpp"
 #include "Glukkon.hpp"
 #include "LvlArchive.hpp"
+#include "Sys_common.hpp"
 
 MainMenuController * MainMenuController::gMainMenuController = nullptr;
 

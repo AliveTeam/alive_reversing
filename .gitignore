@@ -8,5 +8,5 @@ Output
 *.log
 *.db
 **/build*
-Source/AliveLib/config.h
 CMakeSettings.json
+Source/AliveLibCommon/config.h

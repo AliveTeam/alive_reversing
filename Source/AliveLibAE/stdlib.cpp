@@ -2,6 +2,7 @@
 #include "stdlib.hpp"
 #include "Function.hpp"
 #include "Error.hpp"
+#include "Sys_common.hpp"
 
 int access_impl(char const* fileName, int accessMode)
 {

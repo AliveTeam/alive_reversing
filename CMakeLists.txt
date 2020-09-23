@@ -65,7 +65,7 @@ if (WIN32)
     add_subdirectory(Source/AliveDllAO)
 endif()
 
-add_dependencies(AliveLibAE UpdateConfigHeader)
+add_dependencies(AliveLibCommon UpdateConfigHeader)
 
 if(WIN32)
     # On Windows generate ZIP packages
