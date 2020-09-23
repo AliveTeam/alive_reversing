@@ -2,6 +2,7 @@
 #include "ObjectIds.hpp"
 #include "Function.hpp"
 #include "stdlib.hpp"
+#include "Sys_common.hpp"
 
 ALIVE_VAR(1, 0x5C1B70, ObjectIds, sObjectIds_5C1B70, {});
 

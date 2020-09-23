@@ -30,6 +30,7 @@
 #include "Gibs.hpp"
 #include "Bullet.hpp"
 #include "LaughingGas.hpp"
+#include "Sys_common.hpp"
 
 ALIVE_VAR(1, 0x5C3012, short, word_5C3012, 0);
 

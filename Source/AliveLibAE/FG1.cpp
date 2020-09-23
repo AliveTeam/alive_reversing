@@ -6,6 +6,7 @@
 #include "Map.hpp"
 #include "ScreenManager.hpp"
 #include "PsxDisplay.hpp"
+#include "Sys_common.hpp"
 
 ALIVE_VAR(1, 0x5D1E28, DynamicArrayT<FG1>*, gFG1List_5D1E28, nullptr);
 

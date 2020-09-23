@@ -5,6 +5,7 @@
 #include "FixedPoint.hpp"
 #include "VRam.hpp"
 #include "Resources.hpp"
+#include "Sys_common.hpp"
 
 void Font_ForceLink()
 {

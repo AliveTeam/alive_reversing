@@ -38,7 +38,7 @@
 #include "Font.hpp"
 #include "GameEnderController.hpp"
 #include "Spark.hpp"
-#include "../AliveLibAE/config.h" // TODO: Change location
+#include "../AliveLibCommon/config.h"
 
 START_NS_AO
 

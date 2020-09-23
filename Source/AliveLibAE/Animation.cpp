@@ -17,6 +17,7 @@
 #include "Sfx.hpp"
 #include "Blood.hpp"
 #include "ObjectIds.hpp"
+#include "Sys_common.hpp"
 
 // Frame call backs ??
 EXPORT int CC Animation_OnFrame_Common_Null_455F40(void*, signed __int16*)

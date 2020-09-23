@@ -5,6 +5,7 @@
 #include "PathData.hpp"
 #include "Psx.hpp"
 #include "DebugHelpers.hpp"
+#include "Sys_common.hpp"
 
 ALIVE_VAR(1, 0x5C1128, Collisions*, sCollisions_DArray_5C1128, nullptr);
 
