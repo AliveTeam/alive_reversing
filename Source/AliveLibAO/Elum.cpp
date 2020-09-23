@@ -1284,12 +1284,12 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
         }
 
         const FP xd_1 = sActiveHero_507678->field_A8_xpos - field_A8_xpos;
-        if (xd_1 > (kGridSize / FP_FromInteger(2)) && field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (xd_1 > (kGridSize / FP_FromInteger(2)) && field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
         {
             field_FE_next_state = eElumStates::State_4_Turn_4140F0;
             return 7;
         }
-        else if (xd_1 < -(kGridSize / FP_FromInteger(2)) && !field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        else if (xd_1 < -(kGridSize / FP_FromInteger(2)) && !field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
         {
             field_FE_next_state = eElumStates::State_4_Turn_4140F0;
             return 7;
