@@ -24,8 +24,7 @@ public:
     __int16 field_18_path;
     LevelIds field_1A_level;
     __int16 field_1C_camera_number;
-    char field_1E_cam_name[14];
-    int field_2B_padding[2];
+    char field_1E_cam_name[16];
     __int16 field_2E_padding;
     __int16 field_30_flags;
 };
