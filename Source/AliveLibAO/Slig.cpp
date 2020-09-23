@@ -4080,8 +4080,9 @@ __int16 Slig::Brain_GetAlertedTurn_46E520()
     if (field_114_timer == field_174_tlv.field_42_listen_time + static_cast<int>(gnFrameCount_507670) - 2 &&
         Math_RandomRange_450F20(0, 100) < field_174_tlv.field_44_percent_say_what)
     {
-        field_FE_next_state = eSligStates::State_30_SpeakWhat_468290;
+        field_258_next_gamespeak_motion = eSligStates::State_30_SpeakWhat_468290;
     }
+
     if (!VOnSameYLevel(sControlledCharacter_50767C)
         || !VIsFacingMe(sControlledCharacter_50767C)
         || IsInInvisibleZone_418870(sControlledCharacter_50767C)
@@ -4108,6 +4109,7 @@ __int16 Slig::Brain_GetAlertedTurn_46E520()
             if (pEvent && (pEvent == sControlledCharacter_50767C || pEvent->field_4_typeId == Types::eMudokon_75)
                 && VOnSameYLevel(pEvent)
                 && VIsFacingMe(pEvent)
+                && !IsInInvisibleZone_418870(sActiveHero_507678)
                 && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
                     field_B2_lvl_number,
                     field_B0_path_number,
