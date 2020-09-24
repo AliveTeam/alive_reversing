@@ -34,6 +34,8 @@ Bat* Bat::ctor_4046E0(Path_Bat* pTlv, int tlvInfo)
 
     FP hitX = {};
     FP hitY = {};
+    // OG Bug fix, if bat isn't spawned on a line then we crash
+    // so field_E4_pLine is checked here and in VUpdate
     sCollisions_DArray_504C6C->RayCast_40C410(
         FP_FromInteger(pTlv->field_10_top_left.field_0_x),
         FP_FromInteger(pTlv->field_10_top_left.field_2_y),
@@ -46,8 +48,11 @@ Bat* Bat::ctor_4046E0(Path_Bat* pTlv, int tlvInfo)
 
     field_F0_tlvInfo = tlvInfo;
 
-    field_A8_xpos = FP_FromInteger(field_E4_pLine->field_0_rect.x);
-    field_AC_ypos = FP_FromInteger(field_E4_pLine->field_0_rect.y);
+    if (field_E4_pLine)
+    {
+        field_A8_xpos = FP_FromInteger(field_E4_pLine->field_0_rect.x);
+        field_AC_ypos = FP_FromInteger(field_E4_pLine->field_0_rect.y);
+    }
 
     field_EC = pTlv->field_18_ticks_before_moving;
     field_E8_speed = FP_FromRaw(pTlv->field_1A_speed << 8);
@@ -188,7 +193,10 @@ void Bat::VUpdate_404950()
             }
         }
 
-        field_E4_pLine = field_E4_pLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_100);
+        if (field_E4_pLine)
+        {
+            field_E4_pLine = field_E4_pLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_100);
+        }
 
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
@@ -219,7 +227,10 @@ void Bat::VUpdate_404950()
             field_F8 = gnFrameCount_507670 + Math_RandomRange_450F20(120, 240);
         }
 
-        field_E4_pLine = field_E4_pLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_100);
+        if (field_E4_pLine)
+        {
+            field_E4_pLine = field_E4_pLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_100);
+        }
 
         if (!field_E4_pLine)
         {

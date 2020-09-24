@@ -77,8 +77,6 @@ public:
 
     EXPORT void VOn_Tlv_Collision_473970(Path_TLV* pTlv);
 
-    EXPORT void VUpdate_Real_4739C0();
-
     EXPORT void VUpdate_4739C0();
 
     EXPORT void Init_473130();
@@ -113,6 +111,12 @@ public:
 
     void VOnTrapDoorOpen_4740C0();
 
+    void SetAnimFrame();
+
+    BYTE** ResBlockForMotion(__int16 motion);
+
+    EXPORT void MoveOnLine_4740F0();
+
     // States
     EXPORT void State_0_Idle_4742E0();
     EXPORT void State_1_Walk_4743F0();
@@ -140,6 +144,12 @@ public:
     EXPORT void State_23_Scratch_475550();
     EXPORT void State_24_Growl_475590();
 
+    // Brains
+    EXPORT __int16 Brain_0_472450();
+    EXPORT __int16 Brain_1_4719C0();
+    EXPORT __int16 Brain_2_470F50();
+    EXPORT __int16 Brain_3_4721B0();
+
     BaseAliveGameObject* field_10C;
     int field_110;
     __int16 field_114_brain_idx;
@@ -149,9 +159,9 @@ public:
     int field_11C;
     int field_120;
     __int16 field_124;
-    __int16 field_126_input;
+    __int16 field_126_movedOffScreen;
     int field_128;
-    int field_12C;
+    FP field_12C;
     int field_130;
     __int16 field_134;
     __int16 field_136;
@@ -162,7 +172,8 @@ public:
     int field_144;
     int field_148;
     BaseAliveGameObject* field_14C;
-    int field_150;
+    __int16 field_150;
+    __int16 field_152;
     __int16 field_154;
     __int16 field_156;
     __int16 field_158_bark_anger;
@@ -180,8 +191,9 @@ public:
     __int16 field_176;
     __int16 field_178;
     __int16 field_17A;
-    __int16 field_17C;
+    __int16 field_17C_res;
     __int16 field_17E;
+    // TODO: The first item might be another field
     BYTE** field_180_resources[6];
 };
 ALIVE_ASSERT_SIZEOF(Slog, 0x198);
