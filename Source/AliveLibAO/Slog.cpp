@@ -538,14 +538,14 @@ void Slog::MoveOnLine_4740F0()
         {
             VOnTrapDoorOpen();
             field_E8_LastLineYPos = field_AC_ypos;
-            field_12C = 0;
+            field_12C = FP_FromInteger(0);
             field_FC_current_motion = eSlogStates::State_4_Fall_4750C0;
             field_A8_xpos = field_B4_velx + xpos;
         }
     }
     else
     {
-        field_12C = 0;
+        field_12C = FP_FromInteger(0);
         field_E8_LastLineYPos = field_AC_ypos;
         field_FC_current_motion = eSlogStates::State_4_Fall_4750C0;
     }
@@ -700,7 +700,7 @@ void Slog::ToIdle()
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit7_SwapXY);
 
     MapFollowMe_401D30(FALSE);
-    field_12C = 0;
+    field_12C = FP_FromInteger(0);;
     field_130 = 0;
     field_B4_velx = FP_FromInteger(0);
     field_B8_vely = FP_FromInteger(0);
@@ -1157,7 +1157,72 @@ void Slog::State_3_TurnAround_474C70()
 
 void Slog::State_4_Fall_4750C0()
 {
-    NOT_IMPLEMENTED();
+    if (field_B4_velx > FP_FromInteger(0))
+    {
+        field_B4_velx -= field_BC_sprite_scale * field_12C;
+
+        if (field_B4_velx < FP_FromInteger(0))
+        {
+            field_B4_velx = FP_FromInteger(0);
+        }
+    }
+
+    if (field_B4_velx < FP_FromInteger(0))
+    {
+        field_B4_velx += field_BC_sprite_scale * field_12C;
+        if (field_B4_velx > FP_FromInteger(0))
+        {
+            field_B4_velx = FP_FromInteger(0);
+        }
+    }
+
+    PathLine* pLine = nullptr;
+    FP hitX = {};
+    FP hitY = {};
+
+    if (InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.8)))
+    {
+        switch (pLine->field_8_type)
+        {
+        case 0:
+        case 4:
+        case 32:
+        case 36:
+            field_F4_pLine = pLine;
+            field_AC_ypos = hitY;
+            field_A8_xpos = hitX;
+            MapFollowMe_401D30(FALSE);
+
+            if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
+            {
+                PSX_RECT bRect = {};
+                VGetBoundingRect_418120(&bRect,1);
+                bRect.y += 5;
+                bRect.h = FP_GetExponent(field_AC_ypos) + 5;
+                VOnCollisionWith(
+                    { bRect.x, bRect.y },
+                    { bRect.w, bRect.h },
+                    ObjListPlatforms_50766C,
+                    1,
+                    (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+            }
+            field_FC_current_motion = eSlogStates::State_11_Land_475AB0;
+            break;
+
+        case 1:
+        case 2:
+        case 5:
+        case 6:
+            field_A8_xpos = hitX - field_B4_velx;
+            field_AC_ypos = hitY;
+            MapFollowMe_401D30(FALSE);
+            field_B4_velx = FP_FromInteger(0);
+            break;
+
+        default:
+            return;
+        }
+    }
 }
 
 void Slog::State_5_Unknown_474070()
@@ -1606,7 +1671,7 @@ void Slog::State_19_JumpForwards_475610()
 
     if (field_AC_ypos - field_E8_LastLineYPos > FP_FromInteger(2))
     {
-        field_12C = 0;
+        field_12C = FP_FromInteger(0);
         field_E8_LastLineYPos = field_AC_ypos;
         field_FC_current_motion = eSlogStates::State_4_Fall_4750C0;
     }
