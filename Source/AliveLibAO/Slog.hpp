@@ -172,7 +172,8 @@ public:
     int field_144;
     int field_148;
     BaseAliveGameObject* field_14C;
-    int field_150;
+    __int16 field_150;
+    __int16 field_152;
     __int16 field_154;
     __int16 field_156;
     __int16 field_158_bark_anger;
