@@ -159,7 +159,7 @@ public:
     int field_11C;
     int field_120;
     __int16 field_124;
-    __int16 field_126_input;
+    __int16 field_126_movedOffScreen;
     int field_128;
     int field_12C;
     int field_130;

@@ -602,7 +602,7 @@ void Slog::M_Walk_1_4C60C0()
         {
             if (field_20_animation.field_92_current_frame == 2 || field_20_animation.field_92_current_frame == 11)
             {
-                if (!field_108_next_motion)
+                if (field_108_next_motion == eSlogMotions::M_Idle_0_4C5F90)
                 {
                     field_106_current_motion = eSlogMotions::M_EndWalking_9_4C6310;
                     field_108_next_motion = -1;
