@@ -69,8 +69,34 @@ const TSlogBrainFunction sSlogBrainTable_4CFE00[] =
 };
 
 
-const int dword_4CFDD8[10] = { 14784, 14832, 14808, 37952, 38008, 38112, 12220, 12412, 12500, 0 };
-
+const int sSlogFrameOffsetTable_4CFD98[25] =
+{
+    94456,
+    94336,
+    94416,
+    94852,
+    94708,
+    94456,
+    94488,
+    94524,
+    94572,
+    94632,
+    94652,
+    94684,
+    94804,
+    94816,
+    94840,
+    14744,
+    14784,
+    14832,
+    14808,
+    37952,
+    38008,
+    38112,
+    12220,
+    12412,
+    12500
+};
 
 ALIVE_VAR(1, 0x9F11C8, short, gNumSlogs_9F11C8, 0);
 ALIVE_VAR(1, 0x9F11C4, BYTE, sSlogRndSeed_9F11C4, 0);
@@ -120,7 +146,7 @@ Slog* Slog::ctor_472EE0(Path_Slog* pTlv, int tlvInfo)
     {
         field_FC_current_motion = eSlogStates::State_16_Sleeping_4752E0;
         field_13C_res_idx = 1;
-        field_10_anim.Set_Animation_Data_402A40(dword_4CFDD8[0], field_180_resources[2]);
+        field_10_anim.Set_Animation_Data_402A40(sSlogFrameOffsetTable_4CFD98[16], field_180_resources[2]);
     }
     else
     {
@@ -287,7 +313,7 @@ __int16 Slog::VTakeDamage_473610(BaseGameObject* pFrom)
         field_11C = gnFrameCount_507670 + 90;
         field_FC_current_motion = eSlogStates::State_22_Empty_475A90;
         field_13C_res_idx = 3;
-        field_10_anim.Set_Animation_Data_402A40(dword_4CFDD8[6], field_180_resources[4]);
+        field_10_anim.Set_Animation_Data_402A40(sSlogFrameOffsetTable_4CFD98[22], field_180_resources[4]);
         field_10_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
         gNumSlogs_9F11C8--;
         field_178 = 1;
@@ -354,7 +380,7 @@ __int16 Slog::VTakeDamage_473610(BaseGameObject* pFrom)
         field_11C = gnFrameCount_507670 + 90;
         field_FC_current_motion = eSlogStates::State_22_Empty_475A90;
         field_13C_res_idx = 3;
-        field_10_anim.Set_Animation_Data_402A40(dword_4CFDD8[6], field_180_resources[4]);
+        field_10_anim.Set_Animation_Data_402A40(sSlogFrameOffsetTable_4CFD98[22], field_180_resources[4]);
         field_10_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
         break;
 
@@ -382,26 +408,6 @@ void Slog::VOn_Tlv_Collision_473970(Path_TLV* pTlv)
         pTlv = gMap_507BA8.TLV_Get_At_446060(pTlv, field_A8_xpos, field_AC_ypos, field_A8_xpos, field_AC_ypos);
     }
 }
-
-const int sSlogFrameOffsetTable_4CFD98[16] =
-{
-    94456,
-    94336,
-    94416,
-    94852,
-    94708,
-    94456,
-    94488,
-    94524,
-    94572,
-    94632,
-    94652,
-    94684,
-    94804,
-    94816,
-    94840,
-    14744
-};
 
 void Slog::VUpdate_4739C0()
 {
