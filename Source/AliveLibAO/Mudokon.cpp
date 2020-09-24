@@ -2797,8 +2797,79 @@ short Mudokon::Brain_ComingOut_1_441E90()
 
 short Mudokon::Brain_SingSequenceIdle_2_441CA0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    switch (field_1BA_sub_state)
+    {
+    case 0:
+        if (field_144_flags.Get(Flags_144::e144_Bit10))
+        {
+            field_1B8_brain_idx = field_188;
+            return 0;
+        }
+        else
+        {
+            field_1C0_timer = gnFrameCount_507670 + 60;
+            return 1;
+        }
+        break;
+
+    case 1:
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
+        {
+            Abe_SFX_42A4D0(3u, 0, 300, this);
+            field_FE_next_state = eMudStates::State_4_Speak_43D440;
+            return 2;
+        }
+        break;
+
+    case 2:
+        if (!field_198
+            || sActiveHero_507678->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) != field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            GameSpeakEvents last_speak = {};
+            if (field_128 == pEventSystem_4FF954->field_18_last_event_index)
+            {
+                if (pEventSystem_4FF954->field_10_last_event == GameSpeakEvents::eNone_m1)
+                {
+                    last_speak = GameSpeakEvents::eNone_m1;
+                }
+                else
+                {
+                    last_speak = GameSpeakEvents::eSameAsLast_m2;
+                }
+            }
+            else
+            {
+                last_speak = pEventSystem_4FF954->field_10_last_event;
+                field_128 = pEventSystem_4FF954->field_18_last_event_index;
+            }
+
+            if (last_speak == GameSpeakEvents::eUnknown_9)
+            {
+                field_1C0_timer = gnFrameCount_507670 + 20;
+                return 3;
+            }
+        }
+        break;
+
+    case 3:
+        if (field_1C0_timer <= static_cast<int>(gnFrameCount_507670))
+        {
+            if (field_186)
+            {
+                field_1B8_brain_idx = 4;
+            }
+            else
+            {
+                field_1B8_brain_idx = 3;
+            }
+            return 0;
+        }
+        break;
+
+    default:
+        return field_1BA_sub_state;
+    }
+    return field_1BA_sub_state;
 }
 
 short Mudokon::Brain_SingSequenceSing_3_441510()
