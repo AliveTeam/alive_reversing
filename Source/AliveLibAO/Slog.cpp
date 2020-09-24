@@ -1059,9 +1059,91 @@ void Slog::State_1_Walk_4743F0()
     }
 }
 
+const int sSlogRunVelXTable_4BCC70[10] =
+{
+    565307,
+    221956,
+    230637,
+    334381,
+    441752,
+    512611,
+    550112,
+    428138,
+    2097152000,
+    0
+};
+
+
 void Slog::State_2_Run_4749A0()
 {
-    NOT_IMPLEMENTED();
+    if (gMap_507BA8.GetDirection(
+        field_B2_lvl_number,
+        field_B0_path_number,
+        field_A8_xpos,
+        field_AC_ypos) >= CameraPos::eCamCurrent_0)
+    {
+        MusicController::sub_443810(MusicController::MusicTypes::eType8, this, 0, 0);
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        field_B4_velx = (field_BC_sprite_scale * FP_FromRaw(-sSlogRunVelXTable_4BCC70[field_10_anim.field_92_current_frame]));
+    }
+    else
+    {
+        field_B4_velx = (field_BC_sprite_scale * FP_FromRaw(sSlogRunVelXTable_4BCC70[field_10_anim.field_92_current_frame]));
+    }
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(20), field_B4_velx))
+    {
+        ToIdle();
+    }
+    else
+    {
+        MoveOnLine_4740F0();
+
+        if (field_FC_current_motion == eSlogStates::State_2_Run_4749A0)
+        {
+            if (Slog_NextRandom() < 35u)
+            {
+                Sfx_475BD0(5);
+            }
+
+            if (field_10_anim.field_92_current_frame == 7)
+            {
+                Sfx_475BD0(16);
+            }
+
+            if (field_10_anim.field_92_current_frame == 4 || field_10_anim.field_92_current_frame == 7)
+            {
+                if (!field_126_movedOffScreen)
+                {
+                    field_126_movedOffScreen = 1;
+                    MapFollowMe_401D30(FALSE);
+                }
+
+                if (field_FE_next_state == eSlogStates::State_0_Idle_4742E0)
+                {
+                    field_FC_current_motion = eSlogStates::State_7_SlideTurn_474DB0;
+                    field_FE_next_state = -1;
+                }
+                else if (field_FE_next_state == eSlogStates::State_19_JumpForwards_475610)
+                {
+                    ToJump_473FB0();
+                    field_FE_next_state = -1;
+                }
+                else if (field_FE_next_state != -1)
+                {
+                    field_FC_current_motion = field_FE_next_state;
+                    field_FE_next_state = -1;
+                }
+            }
+            else
+            {
+                field_126_movedOffScreen = 0;
+            }
+        }
+    }
 }
 
 void Slog::State_3_TurnAround_474C70()
