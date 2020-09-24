@@ -25,6 +25,9 @@
 #include "Switch.hpp"
 #include "ScreenShake.hpp"
 #include "PsxDisplay.hpp"
+#include "PossessionFlicker.hpp"
+#include "AbilityRing.hpp"
+#include "CheatController.hpp"
 
 void Mud_ForceLink() {}
 
@@ -138,7 +141,7 @@ static const TintEntry sMudTints_4CD320[] =
     { -1, 87u, 103u, 67u }
 };
 
-ALIVE_VAR(1, 0x507B90, short, word_507B90, 0);
+ALIVE_VAR(1, 0x507B90, short, sAlertedMudCount_507B90, 0);
 ALIVE_VAR(1, 0x507B94, short, word_507B94, 0);
 
 Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, int tlvInfo)
@@ -188,7 +191,7 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, int tlvInfo)
         field_148_res_array.res[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 53, 1, 0);
 
 
-        field_18C = liftMudTlv->field_18_how_far_to_walk << 16;
+        field_18C = FP_FromInteger(liftMudTlv->field_18_how_far_to_walk);
         field_110 = liftMudTlv->field_1A_lift_id;
 
         field_144_flags.Set(Flags_144::e144_Bit5, liftMudTlv->field_1C_direction); // TODO: Check
@@ -288,7 +291,7 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, int tlvInfo)
         field_144_flags.Set(Flags_144::e144_Bit6_bPersist, mudTlv->field_26_persist & 1);
         field_144_flags.Set(Flags_144::e144_Bit4_bSnapToGrid);
 
-        field_1B4 = 0;
+        field_1B4_idle_time = 0;
 
         scale = mudTlv->field_18_scale;
 
@@ -390,11 +393,7 @@ BaseGameObject* Mudokon::dtor_43F6A0()
         sKilledMudokons_5076BC++;
     }
 
-    if (field_144_flags.Get(Flags_144::e144_Bit9))
-    {
-        word_507B90--;
-        field_144_flags.Clear(Flags_144::e144_Bit9);
-    }
+    RemoveAlerted();
 
     KillBirdPortal();
     KillLiftPoint_194();
@@ -810,11 +809,7 @@ __int16 Mudokon::VTakeDamage_43F830(BaseGameObject* pFrom)
             field_1B8_brain_idx = 9;
             field_1BA_sub_state = 6;
 
-            if (field_144_flags.Get(Flags_144::e144_Bit9))
-            {
-                word_507B90--;
-                field_144_flags.Clear(Flags_144::e144_Bit9);
-            }
+            RemoveAlerted();
 
             if (field_100_health <= FP_FromInteger(0))
             {
@@ -1155,6 +1150,106 @@ __int16 Mudokon::FindBirdPortal_440250()
     return 0;
 }
 
+__int16 Mudokon::FacingTarget_43D6A0(BirdPortal* pTarget)
+{
+    if (pTarget->field_18_xpos == field_A8_xpos)
+    {
+        return TRUE;
+    }
+    else if (pTarget->field_18_xpos > field_A8_xpos && !field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        return TRUE;
+    }
+    else if (pTarget->field_18_xpos < field_A8_xpos && field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+GameSpeakEvents Mudokon::LastGameSpeak_4400B0()
+{
+    if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+        field_B2_lvl_number,
+        field_B0_path_number,
+        field_A8_xpos,
+        field_AC_ypos,
+        1)
+        || field_144_flags.Get(Flags_144::e144_Bit11_bDeaf))
+    {
+        return GameSpeakEvents::eNone_m1;
+    }
+
+    if (field_128 == pEventSystem_4FF954->field_18_last_event_index)
+    {
+        if (pEventSystem_4FF954->field_10_last_event == GameSpeakEvents::eNone_m1)
+        {
+            return GameSpeakEvents::eNone_m1;
+        }
+        else
+        {
+            return GameSpeakEvents::eSameAsLast_m2;
+        }
+    }
+
+    field_128 = pEventSystem_4FF954->field_18_last_event_index;
+
+    return pEventSystem_4FF954->field_10_last_event;
+}
+
+void Mudokon::AddAlerted()
+{
+    if (!field_144_flags.Get(Flags_144::e144_Bit9))
+    {
+        sAlertedMudCount_507B90++;
+        field_144_flags.Set(Flags_144::e144_Bit9);
+    }
+}
+
+
+void Mudokon::RemoveAlerted()
+{
+    if (field_144_flags.Get(Flags_144::e144_Bit9))
+    {
+        sAlertedMudCount_507B90--;
+        field_144_flags.Clear(Flags_144::e144_Bit9);
+    }
+}
+
+__int16 Mudokon::IAmNearestToAbe_440120()
+{
+    for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    {
+        BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
+        if (!pObjIter)
+        {
+            break;
+        }
+
+        if (pObjIter != this)
+        {
+            if (pObjIter->field_4_typeId == Types::eMudokon_52 || pObjIter->field_4_typeId == Types::eMudokon_75) // mud or password mud?
+            {
+                if (Math_Distance_451270(
+                    FP_GetExponent(sActiveHero_507678->field_A8_xpos),
+                    FP_GetExponent(sActiveHero_507678->field_AC_ypos),
+                    FP_GetExponent(field_A8_xpos),
+                    FP_GetExponent(field_AC_ypos)) >
+                    Math_Distance_451270(
+                        FP_GetExponent(sActiveHero_507678->field_A8_xpos),
+                        FP_GetExponent(sActiveHero_507678->field_AC_ypos),
+                        FP_GetExponent(pObjIter->field_A8_xpos),
+                        FP_GetExponent(pObjIter->field_AC_ypos)))
+                {
+                    // Our distance is to abe is larger than the mud we just found so we can't be nearest
+                    return 0;
+                }
+            }
+        }
+    }
+    return 1;
+}
+
 void Mudokon::VOnTrapDoorOpen()
 {
     VOnTrapDoorOpen_43C9F0();
@@ -1484,7 +1579,17 @@ void Mudokon::State_11_Null_43D350()
 
 void Mudokon::State_12_LiftUse_43D360()
 {
-    NOT_IMPLEMENTED();
+    auto pLiftPoint = static_cast<LiftPoint*>(field_194_pLiftPoint);
+    if (!pLiftPoint->OnAnyFloor() || pLiftPoint->field_27A_flags.Get(LiftPoint::Flags::eBit7))
+    {
+        pLiftPoint->Move_435740(FP_FromInteger(0), FP_FromInteger(3), 0);
+    }
+    else
+    {
+        pLiftPoint->Move_435740(FP_FromInteger(0), FP_FromInteger(0), 0);
+        field_FC_current_motion = eMudStates::State_14_LiftGrabEnd_43D420;
+        field_FE_next_state = eMudStates::State_0_Idle_43CA70;
+    }
 }
 
 void Mudokon::State_13_LiftGrabBegin_43D3F0()
@@ -2613,14 +2718,81 @@ void Mudokon::State_62_Choke_43ED70()
 
 short Mudokon::Brain_ComingIn_0_441DE0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (field_1BA_sub_state == 0)
+    {
+        field_1C0_timer = gnFrameCount_507670 + 120;
+        return 1;
+    }
+
+    else if (field_1BA_sub_state == 1)
+    {
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
+        {
+            field_FE_next_state = eMudStates::State_1_WalkLoop_43CC80;
+            field_190 = field_18C;
+            return 2;
+        }
+    }
+    else if (field_1BA_sub_state == 2)
+    {
+        if (field_B4_velx < FP_FromInteger(0))
+        {
+           field_190 += field_B4_velx;
+        }
+        else
+        {
+            field_190 -= field_B4_velx;
+        }
+
+        if (field_190 < FP_FromInteger(0))
+        {
+            field_FC_current_motion = eMudStates::State_0_Idle_43CA70;
+            field_1B8_brain_idx = 2;
+            return 0;
+        }
+    }
+    return field_1BA_sub_state;
 }
 
 short Mudokon::Brain_ComingOut_1_441E90()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (field_1BA_sub_state == 0)
+    {
+        if (field_FC_current_motion == eMudStates::State_0_Idle_43CA70)
+        {
+            field_FC_current_motion = eMudStates::State_2_StandingTurn_43D050;
+            field_FE_next_state = eMudStates::State_1_WalkLoop_43CC80;
+            return 1;
+        }
+    }
+    else if (field_1BA_sub_state == 1)
+    {
+        if (field_FC_current_motion == eMudStates::State_1_WalkLoop_43CC80)
+        {
+            field_144_flags.Clear(Flags_144::e144_Bit2);
+            field_190 = field_18C;
+            return 2;
+        }
+    }
+    else if (field_1BA_sub_state == 2)
+    {
+        if (field_B4_velx < FP_FromInteger(0))
+        {
+            field_190 += field_B4_velx;
+        }
+        else
+        {
+             field_190 -= field_B4_velx;
+        }
+
+        if (field_190 < FP_FromInteger(0))
+        {
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            field_FC_current_motion = eMudStates::State_0_Idle_43CA70;
+            return 3;
+        }
+    }
+    return field_1BA_sub_state;
 }
 
 short Mudokon::Brain_SingSequenceIdle_2_441CA0()
@@ -2643,12 +2815,6 @@ short Mudokon::Brain_SingSequencePassword_4_441260()
 
 short Mudokon::Brain_LiftUse_5_43C180()
 {
-    NOT_IMPLEMENTED();
-    return 0;
-
-    // TODO: Needs LiftPoint to exist
-
-    /*
     if (field_1BA_sub_state)
     {
         if (field_1BA_sub_state == 1 && !field_FC_current_motion)
@@ -2669,7 +2835,7 @@ short Mudokon::Brain_LiftUse_5_43C180()
         field_FC_current_motion = eMudStates::State_13_LiftGrabBegin_43D3F0;
         field_FE_next_state = eMudStates::State_12_LiftUse_43D360;
         field_194_pLiftPoint = nullptr;
-        for (int i=0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+        for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
         {
             BaseAliveGameObject* pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
             if (!pObj)
@@ -2679,9 +2845,10 @@ short Mudokon::Brain_LiftUse_5_43C180()
 
             if (pObj->field_4_typeId == Types::eLiftPoint_51)
             {
-                if (field_110 == static_cast<LiftPoint*>(pObj)->field_278)
+                auto pLiftPoint = static_cast<LiftPoint*>(pObj);
+                if (field_110 == pLiftPoint->field_278)
                 {
-                    field_194_pLiftPoint = pObj;
+                    field_194_pLiftPoint = pLiftPoint;
                     pObj->field_C_refCount++;
                     break;
                 }
@@ -2690,7 +2857,6 @@ short Mudokon::Brain_LiftUse_5_43C180()
         return 1;
     }
     return field_1BA_sub_state;
-    */
 }
 
 short Mudokon::Brain_LeverUse_6_43C250()
@@ -2723,8 +2889,92 @@ short Mudokon::Brain_LeverUse_6_43C250()
 
 short Mudokon::Brain_GiveRings_7_43C2F0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    switch (field_1BA_sub_state)
+    {
+    case 0:
+        if (sActiveHero_507678->field_168_ring_pulse_timer <= 0)
+        {
+            field_FE_next_state = eMudStates::State_52_Chant_43D520;
+            field_1C0_timer = gnFrameCount_507670 + 30;
+            return 1;
+        }
+        return 4;
+
+    case 1:
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
+        {
+            auto pFlicker = ao_new<PossessionFlicker>();
+            if (pFlicker)
+            {
+                pFlicker->ctor_41A8C0(this, 10, 255, 128, 128);
+            }
+            field_1C0_timer = gnFrameCount_507670 + 15;
+            return 2;
+        }
+        break;
+
+    case 2:
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
+        {
+            PSX_RECT ourRect = {};
+            VGetBoundingRect(&ourRect, 1);
+
+            auto pMudRing = ao_new<AbilityRing>();
+            if (pMudRing)
+            {
+                pMudRing->ctor_455860(
+                    FP_FromInteger((ourRect.w + ourRect.x) / 2),
+                    FP_FromInteger((ourRect.h + ourRect.y) / 2),
+                    2);
+            }
+
+            PSX_RECT heroRect = {};
+            sActiveHero_507678->VGetBoundingRect(&heroRect, 1);
+
+            auto pAbeRing = ao_new<AbilityRing>();
+            if (pAbeRing)
+            {
+                pAbeRing->ctor_455860(
+                    FP_FromInteger((heroRect.w + heroRect.x) / 2),
+                    FP_FromInteger((heroRect.h + heroRect.y) / 2),
+                    3);
+                pAbeRing->SetTarget_455EC0(sActiveHero_507678);
+            }
+            field_1C0_timer = gnFrameCount_507670 + 30;
+            return 3;
+        }
+        break;
+
+    case 3:
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
+        {
+            if (field_1AA)
+            {
+                sActiveHero_507678->field_168_ring_pulse_timer = field_1AA + gnFrameCount_507670;
+            }
+            else
+            {
+                sActiveHero_507678->field_168_ring_pulse_timer = gnFrameCount_507670 + 200000;
+            }
+
+            field_FE_next_state = eMudStates::State_0_Idle_43CA70;
+            sActiveHero_507678->field_16C_bHaveShrykull = 0;
+            return 4;
+        }
+        break;
+
+    case 4:
+        if (sActiveHero_507678->field_168_ring_pulse_timer <= 0)
+        {
+            field_1B8_brain_idx = 2;
+            return 2;
+        }
+        break;
+
+    default:
+        return field_1BA_sub_state;
+    }
+    return field_1BA_sub_state;
 }
 
 short Mudokon::Brain_StandScrub_8_441F40()
@@ -2741,8 +2991,599 @@ short Mudokon::Brain_CrouchScrub_9_4422A0()
 
 short Mudokon::Brain_ListeningToAbe_10_440300()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (FindBirdPortal_440250())
+    {
+        field_1B8_brain_idx = 12;
+        field_FE_next_state = eMudStates::State_0_Idle_43CA70;
+        return 0;
+    }
+
+    switch (field_1BA_sub_state)
+    {
+    case 0:
+        field_144_flags.Set(Flags_144::e144_Bit6_bPersist);
+        field_FE_next_state = -1;
+        field_FC_current_motion = eMudStates::State_0_Idle_43CA70;
+        field_1B0 = -1;
+        return 1;
+
+    case 1:
+        if (field_FC_current_motion != eMudStates::State_0_Idle_43CA70)
+        {
+            return field_1BA_sub_state;
+        }
+
+        if (!VIsFacingMe(sActiveHero_507678))
+        {
+            field_FE_next_state = eMudStates::State_2_StandingTurn_43D050;
+            return field_1BA_sub_state;
+        }
+        Abe_SFX_42A4D0(3u, 0, field_124, this);
+        field_FE_next_state = eMudStates::State_4_Speak_43D440;
+        return 6;
+
+    case 2:
+        if (field_FC_current_motion == eMudStates::State_0_Idle_43CA70)
+        {
+            field_FE_next_state = eMudStates::State_1_WalkLoop_43CC80;
+            return field_1BA_sub_state;
+        }
+
+        if (field_FC_current_motion == eMudStates::State_1_WalkLoop_43CC80)
+        {
+            field_FE_next_state = eMudStates::State_0_Idle_43CA70;
+            return 3;
+        }
+        return field_1BA_sub_state;
+
+    case 3:
+    {
+        FP gridSizeDirected = {};
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            gridSizeDirected = -ScaleToGridSize_41FA30(field_BC_sprite_scale);
+        }
+        else
+        {
+            gridSizeDirected = ScaleToGridSize_41FA30(field_BC_sprite_scale);
+        }
+        const __int16 bHitWall = WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), gridSizeDirected);
+        const __int16 bEndOfLine = Check_IsOnEndOfLine_4021A0(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX), 1);
+
+        if (field_FC_current_motion != eMudStates::State_0_Idle_43CA70)
+        {
+            const __int16 oldState = field_1BA_sub_state;
+            field_FE_next_state = eMudStates::State_0_Idle_43CA70;
+            field_1B4_idle_time = 0;
+            return oldState;
+        }
+
+        field_1B4_idle_time++;
+
+        if (field_1B4_idle_time <= 150 || BetweenCameras_418500() != BetweenCamPos::None_0)
+        {
+            if (VIsFacingMe(sActiveHero_507678))
+            {
+                field_FE_next_state = eMudStates::State_2_StandingTurn_43D050;
+                return field_1BA_sub_state;
+            }
+
+            if (VIsObjNearby(ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(2), sActiveHero_507678)
+                || bHitWall
+                || bEndOfLine)
+            {
+                GameSpeakEvents last_speak = {};
+                if (bHitWall || bEndOfLine)
+                {
+                    last_speak = LastGameSpeak_4400B0();
+                }
+                else
+                {
+                    if (field_128 == pEventSystem_4FF954->field_18_last_event_index)
+                    {
+                        if (pEventSystem_4FF954->field_10_last_event == GameSpeakEvents::eNone_m1)
+                        {
+                            last_speak = GameSpeakEvents::eNone_m1;
+                        }
+                        else
+                        {
+                            last_speak = GameSpeakEvents::eSameAsLast_m2;
+                        }
+                    }
+                    else
+                    {
+                        last_speak = pEventSystem_4FF954->field_10_last_event;
+                        field_128 = pEventSystem_4FF954->field_18_last_event_index;
+                    }
+                }
+
+                if (Event_Get_417250(kEventMudokonComfort_16)
+                    && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                        field_B2_lvl_number,
+                        field_B0_path_number,
+                        field_A8_xpos,
+                        field_AC_ypos,
+                        1))
+                {
+
+                    field_1B0 = field_1BA_sub_state;
+                    field_1C0_timer = gnFrameCount_507670 + Math_RandomRange_450F20(22, 30);
+                    return 13;
+                }
+
+                if (last_speak == GameSpeakEvents::eNone_m1)
+                {
+                    return field_1BA_sub_state;
+                }
+
+                field_1B0 = field_1BA_sub_state;
+                field_1C0_timer = gnFrameCount_507670 + 20;
+
+                switch (last_speak)
+                {
+                case GameSpeakEvents::eUnknown_1:
+                    return 17;
+
+                case GameSpeakEvents::eUnknown_2:
+                    return 18;
+
+                case GameSpeakEvents::eUnknown_3:
+                    field_1C0_timer = gnFrameCount_507670 + 30;
+                    return 13;
+
+                case GameSpeakEvents::eUnknown_4:
+                    return 16;
+
+                case GameSpeakEvents::eUnknown_9:
+                    return 11;
+
+                case GameSpeakEvents::eUnknown_10:
+                    if (bHitWall)
+                    {
+                        return 9;
+                    }
+                    field_1B0 = 2;
+                    return 10;
+
+                case GameSpeakEvents::eUnknown_11:
+                    return 14;
+
+                case GameSpeakEvents::eUnknown_12:
+                    if (BetweenCameras_418500() == BetweenCamPos::None_0)
+                    {
+                        field_1B0 = 6;
+                        return 10;
+                    }
+                    return 9;
+
+                default:
+                    return field_1BA_sub_state;
+                }
+            }
+            else
+            {
+                if (IsAbeSneaking_43D660(this))
+                {
+                    field_FE_next_state = eMudStates::State_35_SneakLoop_43E0F0;
+                }
+                else
+                {
+                    field_FE_next_state = eMudStates::State_1_WalkLoop_43CC80;
+                }
+                return 4;
+            }
+        }
+        else
+        {
+            if (!field_148_res_array.res[12])
+            {
+                field_FE_next_state = eMudStates::State_23_CrouchIdle_43E590;
+            }
+            else
+            {
+                field_FE_next_state = eMudStates::State_59_CrouchChant_43EC20;
+            }
+            return 19;
+        }
+        break;
+    }
+
+    case 4:
+    {
+        if (field_FC_current_motion == eMudStates::State_0_Idle_43CA70)
+        {
+            return 3;
+        }
+
+        if (field_FC_current_motion != eMudStates::State_1_WalkLoop_43CC80 && field_FC_current_motion != eMudStates::State_35_SneakLoop_43E0F0)
+        {
+            return field_1BA_sub_state;
+        }
+
+        FP gridSizeDirected = {};
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            gridSizeDirected = -ScaleToGridSize_41FA30(field_BC_sprite_scale);
+        }
+        else
+        {
+            gridSizeDirected = ScaleToGridSize_41FA30(field_BC_sprite_scale);
+        }
+
+        const __int16 bHitWall = WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), gridSizeDirected);
+
+        if (Check_IsOnEndOfLine_4021A0(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX), 1) || bHitWall)
+        {
+            field_FE_next_state = eMudStates::State_0_Idle_43CA70;
+            return 3;
+        }
+
+        if (!VIsFacingMe(sActiveHero_507678))
+        {
+            field_FE_next_state = eMudStates::State_0_Idle_43CA70;
+            return 3;
+        }
+
+        if (VIsObjNearby(ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(2), sActiveHero_507678))
+        {
+            field_FE_next_state = eMudStates::State_0_Idle_43CA70;
+            return 3;
+        }
+        GameSpeakEvents last_speak = {};
+        if (field_128 == pEventSystem_4FF954->field_18_last_event_index)
+        {
+            if (pEventSystem_4FF954->field_10_last_event == GameSpeakEvents::eNone_m1)
+            {
+                last_speak = GameSpeakEvents::eNone_m1;
+            }
+            else
+            {
+                last_speak = GameSpeakEvents::eSameAsLast_m2;
+            }
+        }
+        else
+        {
+            last_speak = pEventSystem_4FF954->field_10_last_event;
+            field_128 = pEventSystem_4FF954->field_18_last_event_index;
+        }
+
+        if (last_speak == GameSpeakEvents::eUnknown_12
+            && BetweenCameras_418500() == BetweenCamPos::None_0)
+        {
+            field_FE_next_state = eMudStates::State_0_Idle_43CA70;
+            return 8;
+        }
+
+        if (sActiveHero_507678->field_FC_current_motion == eAbeStates::State_35_RunLoop_425060
+            || sActiveHero_507678->field_FC_current_motion == eAbeStates::State_25_RollLoop_427BB0)
+        {
+            field_FE_next_state = eMudStates::State_29_RunLoop_43DB10;
+            return 5;
+        }
+
+        if (sActiveHero_507678->field_FC_current_motion == eAbeStates::State_42_SneakLoop_424BB0
+            && field_FC_current_motion == eMudStates::State_1_WalkLoop_43CC80)
+        {
+            field_FE_next_state = eMudStates::State_35_SneakLoop_43E0F0;
+        }
+
+        if (sActiveHero_507678->field_FC_current_motion == eAbeStates::State_1_WalkLoop_423F90 && field_FC_current_motion == eMudStates::State_35_SneakLoop_43E0F0)
+        {
+            field_FE_next_state = eMudStates::State_1_WalkLoop_43CC80;
+        }
+
+        return field_1BA_sub_state;
+    }
+
+    case 5:
+    {
+        if (field_FC_current_motion == eMudStates::State_0_Idle_43CA70)
+        {
+            return 3;
+        }
+
+        field_FE_next_state = eMudStates::State_29_RunLoop_43DB10;
+        if (field_FC_current_motion != eMudStates::State_29_RunLoop_43DB10)
+        {
+            return field_1BA_sub_state;
+        }
+
+        FP gridSizeDirected = {};
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            gridSizeDirected = -ScaleToGridSize_41FA30(field_BC_sprite_scale);
+        }
+        else
+        {
+            gridSizeDirected = ScaleToGridSize_41FA30(field_BC_sprite_scale);
+        }
+
+        const __int16 bHitWall = WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), gridSizeDirected * FP_FromInteger(3));
+        if (Check_IsOnEndOfLine_4021A0(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? 1 : 0, 4)
+            || bHitWall)
+        {
+            field_FE_next_state = eMudStates::State_0_Idle_43CA70;
+            return 3;
+        }
+
+        switch (sActiveHero_507678->field_FC_current_motion)
+        {
+        case eAbeStates::State_1_WalkLoop_423F90:
+            field_FE_next_state = eMudStates::State_1_WalkLoop_43CC80;
+            return 4;
+
+        case eAbeStates::State_70_Knockback_428FB0:
+        case eAbeStates::State_27_RunSlideStop_425B60:
+        case eAbeStates::State_0_Idle_423520:
+            //[[fallthrough]];
+        case eAbeStates::State_19_CrouchIdle_4284C0:
+            if (sActiveHero_507678->field_FC_current_motion == eAbeStates::State_70_Knockback_428FB0)
+            {
+                Abe_SFX_42A4D0(8u, 0, field_124, this);
+            }
+
+            if (VIsObjNearby(ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(2), sActiveHero_507678))
+            {
+                field_FE_next_state = eMudStates::State_0_Idle_43CA70;
+                return 3;
+            }
+            else
+            {
+                field_FE_next_state = eMudStates::State_1_WalkLoop_43CC80;
+                return 4;
+            }
+            break;
+
+        default:
+            if (!VIsFacingMe(sActiveHero_507678))
+            {
+                field_FE_next_state = eMudStates::State_33_RunSlideTurn_43DF80;
+                return 7;
+            }
+            return field_1BA_sub_state;
+        }
+        break;
+    }
+
+    case 6:
+        if (field_FC_current_motion != eMudStates::State_0_Idle_43CA70)
+        {
+            field_1B4_idle_time = 0;
+            return field_1BA_sub_state;
+        }
+        
+        field_1B4_idle_time++;
+
+        if (field_1B4_idle_time <= 150
+            && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                field_B2_lvl_number,
+                field_B0_path_number,
+                field_A8_xpos,
+                field_AC_ypos,
+                1)
+            && sAlertedMudCount_507B90 <= 1)
+        {
+            if (!VIsFacingMe(sActiveHero_507678))
+            {
+                field_FE_next_state = eMudStates::State_2_StandingTurn_43D050;
+                return field_1BA_sub_state;
+            }
+
+            if (Event_Get_417250(kEventMudokonComfort_16)
+                && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                    field_B2_lvl_number,
+                    field_B0_path_number,
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    1))
+            {
+                field_1B0 = field_1BA_sub_state;
+                field_1C0_timer = gnFrameCount_507670 + Math_RandomRange_450F20(22, 30);
+                return 13;
+            }
+            const GameSpeakEvents speak = LastGameSpeak_4400B0();
+            if (speak == GameSpeakEvents::eNone_m1)
+            {
+                return field_1BA_sub_state;
+            }
+
+            field_1C0_timer = gnFrameCount_507670 + 20;
+            field_1B0 = field_1BA_sub_state;
+
+            switch (speak)
+            {
+            case GameSpeakEvents::eUnknown_1:
+                return 17;
+
+            case GameSpeakEvents::eUnknown_2:
+                return 18;
+
+            case GameSpeakEvents::eUnknown_3:
+                field_1C0_timer = gnFrameCount_507670 + 30;
+                return 13;
+
+            case GameSpeakEvents::eUnknown_4:
+                return 16;
+
+            case GameSpeakEvents::eUnknown_9:
+                return 11;
+
+            case GameSpeakEvents::eUnknown_10:
+                field_1B0 = 3;
+                return 10;
+
+            case GameSpeakEvents::eUnknown_11:
+                return 14;
+
+            case GameSpeakEvents::eUnknown_12:
+                return 15;
+
+            default:
+                return field_1BA_sub_state;
+            }
+        }
+        else
+        {
+            if (field_148_res_array.res[12])
+            {
+                field_FE_next_state = eMudStates::State_59_CrouchChant_43EC20;
+            }
+            else
+            {
+                field_FE_next_state = eMudStates::State_23_CrouchIdle_43E590;
+            }
+        }
+        return 19;
+
+    case 7:
+        if (field_FC_current_motion == eMudStates::State_29_RunLoop_43DB10)
+        {
+            return 5;
+        }
+        return field_1BA_sub_state;
+
+    case 8:
+        if (field_FC_current_motion == eMudStates::State_0_Idle_43CA70)
+        {
+            field_1C0_timer = gnFrameCount_507670 + 20;
+            field_1B0 = 6;
+            return 10;
+        }
+        return field_1BA_sub_state;
+
+    case 9:
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
+        {
+            Abe_SFX_42A4D0(14u, 0, field_124, this);
+            field_FE_next_state = eMudStates::State_6_Speak_43D440;
+            return 3;
+        }
+        return field_1BA_sub_state;
+
+    case 10:
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
+        {
+            Abe_SFX_42A4D0(13u, 0, field_124, this);
+            field_FE_next_state = eMudStates::State_3_Speak_43D440;
+            return field_1B0;
+        }
+        return field_1BA_sub_state;
+
+    case 11:
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
+        {
+            Abe_SFX_42A4D0(3u, 0, field_124, this);
+            field_FE_next_state = eMudStates::State_4_Speak_43D440;
+            return field_1B0;
+        }
+        return field_1BA_sub_state;
+
+    case 12:
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
+        {
+            Abe_SFX_42A4D0(8u, 0, field_124, this);
+            field_FE_next_state = eMudStates::State_4_Speak_43D440;
+            return field_1B0;
+        }
+        return field_1BA_sub_state;
+
+    case 13:
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
+        {
+            Abe_SFX_42A4D0(11u, 0, field_124, this);
+            field_FE_next_state = eMudStates::State_6_Speak_43D440;
+            return field_1B0;
+        }
+        return field_1BA_sub_state;
+        
+
+    case 14:
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
+        {
+            Abe_SFX_42A4D0(15u, 0, field_124, this);
+            field_FE_next_state = eMudStates::State_6_Speak_43D440;
+            return field_1B0;
+        }
+        return field_1BA_sub_state;
+
+    case 15:
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
+        {
+            Abe_SFX_42A4D0(5u, 0, field_124, this);
+            field_FE_next_state = eMudStates::State_6_Speak_43D440;
+            return field_1B0;
+        }
+        return field_1BA_sub_state;
+
+    case 16:
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
+        {
+            Abe_SFX_42A4D0(7u, 0, field_124, this);
+            field_FE_next_state = eMudStates::State_3_Speak_43D440;
+            if (sEnableFartGasCheat_507704 == 0)
+            {
+                return field_1B0;
+            }
+
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                const FP fart_scale = (FP_FromDouble(0.5) * field_BC_sprite_scale);
+                const FP fart_y = field_AC_ypos - (FP_FromInteger(24) * field_BC_sprite_scale);
+                const FP fart_x = (FP_FromInteger(12) * field_BC_sprite_scale) + field_A8_xpos;
+                New_Particles_419A80(fart_x, fart_y, fart_scale, 3, 1);
+            }
+            else
+            {
+                const FP fart_scale = (FP_FromDouble(0.5) * field_BC_sprite_scale);
+                const FP fart_y = field_AC_ypos - (FP_FromInteger(24) * field_BC_sprite_scale);
+                const FP fart_x = field_A8_xpos - (FP_FromInteger(12) * field_BC_sprite_scale);
+                New_Particles_419A80(fart_x, fart_y, fart_scale, 3, 1);
+            }
+            
+            return field_1B0;
+        }
+        break;
+
+    case 17:
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
+        {
+            Abe_SFX_42A4D0(1u, 0, 0, this);
+            field_FE_next_state = eMudStates::State_4_Speak_43D440;
+            return field_1B0;
+        }
+        break;
+
+    case 18:
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
+        {
+            Abe_SFX_42A4D0(2u, 0, 0, this);
+            field_FE_next_state = eMudStates::State_5_Speak_43D440;
+            return field_1B0;
+        }
+        break;
+
+    case 19:
+        if (field_FC_current_motion != eMudStates::State_23_CrouchIdle_43E590 && field_FC_current_motion != eMudStates::State_59_CrouchChant_43EC20)
+        {
+            return field_1BA_sub_state;
+        }
+
+        RemoveAlerted();
+
+        if (field_148_res_array.res[12])
+        {
+            field_1B8_brain_idx = 14;
+        }
+        else
+        {
+            field_1B8_brain_idx = 9;
+        }
+        return 0;
+
+    default:
+        break;
+    }
+    return field_1BA_sub_state;
 }
 
 short Mudokon::Brain_ShrivelDeath_11_43C5F0()
@@ -2816,8 +3657,92 @@ short Mudokon::Brain_FallAndSmackDeath_13_43C700()
 
 short Mudokon::Brain_Chant_14_442710()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (FindBirdPortal_440250())
+    {
+        AddAlerted();
+        field_1B8_brain_idx = 12;
+        return 0;
+    }
+
+    const GameSpeakEvents lastSpeak = LastGameSpeak_4400B0();
+    if (lastSpeak == GameSpeakEvents::eUnknown_6)
+    {
+        field_FE_next_state = eMudStates::State_55_Duck_43EB90;
+        field_1C0_timer = gnFrameCount_507670 + 60;
+        return 5;
+    }
+
+    switch (field_1BA_sub_state)
+    {
+    case 0:
+        field_FC_current_motion = eMudStates::State_59_CrouchChant_43EC20;
+        field_FE_next_state = -1;
+        return 1;
+
+    case 1:
+        if (field_1B6)
+        {
+            field_FE_next_state = eMudStates::State_0_Idle_43CA70;
+            return 3;
+        }
+
+        if (lastSpeak == GameSpeakEvents::eUnknown_9 && sAlertedMudCount_507B90 == 0 && IAmNearestToAbe_440120())
+        {
+            AddAlerted();
+            field_1C0_timer = gnFrameCount_507670 + 15;
+            return 2;
+        }
+        break;
+
+    case 2:
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer && field_FC_current_motion == eMudStates::State_0_Idle_43CA70)
+        {
+            field_1BA_sub_state = 0;
+            field_1B8_brain_idx = 10;
+            return field_1BA_sub_state;
+        }
+        break;
+
+    case 3:
+        if (!field_148_res_array.res[11])
+        {
+            field_148_res_array.res[11] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 16, 1, 0);
+        }
+
+        if (field_FC_current_motion == eMudStates::State_57_Struggle_43EBE0)
+        {
+            field_1B6 = 0;
+            field_1C0_timer = gnFrameCount_507670 + 32;
+            return 4;
+        }
+        field_FE_next_state = eMudStates::State_57_Struggle_43EBE0;
+        break;
+
+    case 4:
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
+        {
+            if (field_1B6 == 0)
+            {
+                field_FE_next_state = eMudStates::State_0_Idle_43CA70;
+                return 5;
+            }
+            field_1B6 = 0;
+            field_1C0_timer = gnFrameCount_507670 + 32;
+        }
+        break;
+
+    case 5:
+        if (field_FC_current_motion == eMudStates::State_0_Idle_43CA70)
+        {
+            field_FE_next_state = eMudStates::State_59_CrouchChant_43EC20;
+            return 1;
+        }
+        break;
+
+    default:
+        return field_1BA_sub_state;
+    }
+    return field_1BA_sub_state;
 }
 
 short Mudokon::Brain_Choke_15_43C5D0()

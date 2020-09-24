@@ -321,4 +321,24 @@ EXPORT CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera_417CC0(
     return gMap_507BA8.Rect_Location_Relative_To_Active_Camera_4448C0(&rect, 0);
 }
 
+
+BaseAnimatedWithPhysicsGameObject::BetweenCamPos BaseAnimatedWithPhysicsGameObject::BetweenCameras_418500()
+{
+    // TODO: Try to understand how the hell these calcs are supposed to work
+    const int xPosMinusHalfCameraSpace = FP_GetExponent(field_A8_xpos - FP_FromInteger(512 / 2));
+    if (xPosMinusHalfCameraSpace / 512 % 2)
+    {
+        return BetweenCamPos::Left_1;
+    }
+    // TODO :This seems wrong, won't it always be false ??
+    else if (FP_FromInteger(xPosMinusHalfCameraSpace % 512) > FP_FromInteger(640))
+    {
+        return BetweenCamPos::Right_2;
+    }
+    else
+    {
+        return BetweenCamPos::None_0;
+    }
+}
+
 END_NS_AO

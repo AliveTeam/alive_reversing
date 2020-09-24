@@ -128,6 +128,8 @@ struct Mudokon_Resources
     BYTE** res[15];
 };
 
+enum class GameSpeakEvents : __int16;
+
 class Mudokon : public BaseAliveGameObject
 {
 public:
@@ -184,6 +186,16 @@ public:
     EXPORT void MoveOnLine_43C7E0();
 
     EXPORT __int16 FindBirdPortal_440250();
+
+    EXPORT __int16 FacingTarget_43D6A0(BirdPortal* pTarget);
+
+    EXPORT GameSpeakEvents LastGameSpeak_4400B0();
+
+    void AddAlerted();
+
+    void RemoveAlerted();
+
+    EXPORT __int16 IAmNearestToAbe_440120();
 
     // States
     EXPORT void State_0_Idle_43CA70();
@@ -316,8 +328,8 @@ public:
     __int16 field_186;
     __int16 field_188;
     __int16 field_18A;
-    int field_18C;
-    int field_190;
+    FP field_18C;
+    FP field_190;
     LiftPoint* field_194_pLiftPoint;
     __int16 field_198;
     __int16 field_19A;
@@ -331,7 +343,7 @@ public:
     BirdPortal* field_1AC_pBirdPortal;
     __int16 field_1B0;
     __int16 field_1B2_switch_id;
-    __int16 field_1B4;
+    __int16 field_1B4_idle_time;
     __int16 field_1B6;
     __int16 field_1B8_brain_idx;
     __int16 field_1BA_sub_state;
