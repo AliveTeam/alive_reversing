@@ -16,7 +16,7 @@ Comment=An Open-Source Engine for Abe's Oddysee and Abe's Exoddus
 Path=/usr/bin/
 
 # The executable of the application, possibly with arguments.
-Exec=relive
+Exec=AliveExeAE
 
 # The name of the icon that will be used to display this entry
 Icon=relive.png
