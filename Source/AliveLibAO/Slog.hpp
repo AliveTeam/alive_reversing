@@ -77,8 +77,6 @@ public:
 
     EXPORT void VOn_Tlv_Collision_473970(Path_TLV* pTlv);
 
-    EXPORT void VUpdate_Real_4739C0();
-
     EXPORT void VUpdate_4739C0();
 
     EXPORT void Init_473130();
@@ -113,6 +111,12 @@ public:
 
     void VOnTrapDoorOpen_4740C0();
 
+    void SetAnimFrame();
+
+    BYTE** ResBlockForMotion(__int16 motion);
+
+    EXPORT void MoveOnLine_4740F0();
+
     // States
     EXPORT void State_0_Idle_4742E0();
     EXPORT void State_1_Walk_4743F0();
@@ -139,6 +143,12 @@ public:
     EXPORT void State_22_Empty_475A90();
     EXPORT void State_23_Scratch_475550();
     EXPORT void State_24_Growl_475590();
+
+    // Brains
+    EXPORT __int16 Brain_0_472450();
+    EXPORT __int16 Brain_1_4719C0();
+    EXPORT __int16 Brain_2_470F50();
+    EXPORT __int16 Brain_3_4721B0();
 
     BaseAliveGameObject* field_10C;
     int field_110;

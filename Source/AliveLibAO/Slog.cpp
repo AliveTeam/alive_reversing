@@ -20,6 +20,8 @@
 #include "CameraSwapper.hpp"
 #include "SnoozeParticle.hpp"
 #include "Shadow.hpp"
+#include "Events.hpp"
+#include "DDCheat.hpp"
 
 void Slog_ForceLink() {}
 
@@ -55,6 +57,17 @@ const TSlogStateFunction sSlogMotionTable_4CFD30[] =
     &Slog::State_23_Scratch_475550,
     &Slog::State_24_Growl_475590,
 };
+
+using TSlogBrainFunction = decltype(&Slog::Brain_0_472450);
+
+const TSlogBrainFunction sSlogBrainTable_4CFE00[] =
+{
+    &Slog::Brain_0_472450,
+    &Slog::Brain_1_4719C0,
+    &Slog::Brain_2_470F50,
+    &Slog::Brain_3_4721B0
+};
+
 
 const int dword_4CFDD8[10] = { 14784, 14832, 14808, 37952, 38008, 38112, 12220, 12412, 12500, 0 };
 
@@ -370,20 +383,171 @@ void Slog::VOn_Tlv_Collision_473970(Path_TLV* pTlv)
     }
 }
 
-void Slog::VUpdate_Real_4739C0()
+const int sSlogFrameOffsetTable_4CFD98[16] =
 {
-    NOT_IMPLEMENTED();
-}
+    94456,
+    94336,
+    94416,
+    94852,
+    94708,
+    94456,
+    94488,
+    94524,
+    94572,
+    94632,
+    94652,
+    94684,
+    94804,
+    94816,
+    94840,
+    14744
+};
 
 void Slog::VUpdate_4739C0()
 {
-    const __int16 oldMotion = field_FC_current_motion;
-
-    VUpdate_Real_4739C0();
-
-    if (oldMotion != field_FC_current_motion)
+    if (Event_Get_417250(kEventDeathReset_4))
     {
-        LOG_INFO("oldMotion = " << oldMotion << " newMotion = " << field_FC_current_motion);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+
+    const __int16 old_motion = field_FC_current_motion;
+    field_116_brain_state = (this->*sSlogBrainTable_4CFE00[field_114_brain_idx])();
+
+    if (word_5076E0)
+    {
+        DebugOut_495990("Slog:  Motion=%d  BrainState=%d\n", field_FC_current_motion, field_116_brain_state);
+    }
+
+    const FP old_x = field_A8_xpos;
+    const FP old_y = field_AC_ypos;
+    (this->*sSlogMotionTable_4CFD30[field_FC_current_motion])();
+
+    if (old_x != field_A8_xpos || old_y != field_AC_ypos)
+    {
+        field_F0_pTlv = gMap_507BA8.TLV_Get_At_446060(
+            nullptr,
+            field_A8_xpos,
+            field_AC_ypos,
+            field_A8_xpos,
+            field_AC_ypos);
+
+        VOn_TLV_Collision(field_F0_pTlv);
+    }
+
+    if (old_motion == field_FC_current_motion)
+    {
+        if (field_118) // TODO: Might always be zero, check me when slog is completed
+        {
+            field_FC_current_motion = field_E4;
+            SetAnimFrame();
+            field_118 = 0;
+        }
+        return;
+    }
+
+    SetAnimFrame();
+
+    if (field_FC_current_motion == eSlogStates::State_5_Unknown_474070)
+    {
+        field_10_anim.SetFrame_402AC0(field_E6_last_anim_frame);
+    }
+}
+
+void Slog::SetAnimFrame()
+{
+    BYTE** ppRes = ResBlockForMotion(field_FC_current_motion);
+    field_10_anim.Set_Animation_Data_402A40(sSlogFrameOffsetTable_4CFD98[field_FC_current_motion], ppRes);
+}
+
+BYTE** Slog::ResBlockForMotion(__int16 motion)
+{
+    if (motion < eSlogStates::State_15_Empty_475290)
+    {
+        field_13C_res_idx = 0;
+        return field_180_resources[field_13C_res_idx + 1];
+    }
+
+    if (motion < eSlogStates::State_19_JumpForwards_475610)
+    {
+        field_13C_res_idx = 1;
+        return field_180_resources[field_13C_res_idx + 1];
+    }
+
+    if (motion < eSlogStates::State_22_Empty_475A90)
+    {
+        field_13C_res_idx = 2;
+        return field_180_resources[field_13C_res_idx + 1];
+    }
+
+    if (motion < eSlogStates::State_23_Scratch_475550)
+    {
+        field_13C_res_idx = 3;
+        return field_180_resources[field_13C_res_idx + 1];
+    }
+
+    if (motion < 25)
+    {
+        field_13C_res_idx = 4;
+        return field_180_resources[field_13C_res_idx + 1];
+    }
+    else
+    {
+        field_13C_res_idx = 0;
+        return field_180_resources[field_13C_res_idx + 1];
+    }
+}
+
+void Slog::MoveOnLine_4740F0()
+{
+    const FP xpos = field_A8_xpos;
+    if (field_F4_pLine)
+    {
+        field_F4_pLine = field_F4_pLine->MoveOnLine_40CA20(
+            &field_A8_xpos,
+            &field_AC_ypos,
+            field_B4_velx);
+        if (field_F4_pLine)
+        {
+            if (field_F8_pLiftPoint)
+            {
+                if (field_F4_pLine->field_8_type != 32 && field_F4_pLine->field_8_type != 36)
+                {
+                    field_F8_pLiftPoint->VRemove(this);
+                    field_F8_pLiftPoint->field_C_refCount--;
+                    field_F8_pLiftPoint = nullptr;
+                }
+            }
+            else
+            {
+                if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
+                {
+                    PSX_RECT rect = {};
+                    VGetBoundingRect_418120(&rect, 1);
+                    rect.y += 5;
+                    rect.h += 5;
+                    VOnCollisionWith(
+                        { rect.x, rect.y },
+                        { rect.w, rect.h },
+                        ObjListPlatforms_50766C,
+                        1,
+                        (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                }
+            }
+        }
+        else
+        {
+            VOnTrapDoorOpen();
+            field_E8_LastLineYPos = field_AC_ypos;
+            field_12C = 0;
+            field_FC_current_motion = eSlogStates::State_4_Fall_4750C0;
+            field_A8_xpos = field_B4_velx + xpos;
+        }
+    }
+    else
+    {
+        field_12C = 0;
+        field_E8_LastLineYPos = field_AC_ypos;
+        field_FC_current_motion = eSlogStates::State_4_Fall_4750C0;
     }
 }
 
@@ -1277,5 +1441,28 @@ void Slog::State_24_Growl_475590()
     }
 }
 
-END_NS_AO
+__int16 Slog::Brain_0_472450()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
 
+__int16 Slog::Brain_1_4719C0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slog::Brain_2_470F50()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slog::Brain_3_4721B0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+END_NS_AO
