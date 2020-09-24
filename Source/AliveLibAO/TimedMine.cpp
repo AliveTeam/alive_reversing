@@ -238,7 +238,7 @@ void TimedMine::StickToLiftPoint_408CA0()
         &pLine,
         &hitX,
         &hitY,
-        (field_BC_sprite_scale != FP_FromDouble(0.5)) ? 7 : 112))
+        (field_BC_sprite_scale != FP_FromDouble(0.5)) ? 7 : 0x70))
     {
         if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
         {
@@ -263,7 +263,7 @@ void TimedMine::StickToLiftPoint_408CA0()
                         {
                             field_F8_pLiftPoint = pLiftPoint;
                             pLiftPoint->VAdd(this);
-                            ++field_F8_pLiftPoint->field_C_refCount;
+                            field_F8_pLiftPoint->field_C_refCount++;
                             return;
                         }
                     }
@@ -310,6 +310,7 @@ void TimedMine::VUpdate_408760()
                 field_AC_ypos);
             SFX_Play_43AED0(3u, 50, direction);
 
+            //~7 limits the number to multiples of 8
             if (((field_114_timer - gnFrameCount_507670) & ~7) >= 18 * 8)
             {
                 field_1B4 = 18;
