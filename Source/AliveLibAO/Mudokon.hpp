@@ -343,7 +343,7 @@ public:
     BirdPortal* field_1AC_pBirdPortal;
     __int16 field_1B0;
     __int16 field_1B2_switch_id;
-    __int16 field_1B4;
+    __int16 field_1B4_idle_time;
     __int16 field_1B6;
     __int16 field_1B8_brain_idx;
     __int16 field_1BA_sub_state;
