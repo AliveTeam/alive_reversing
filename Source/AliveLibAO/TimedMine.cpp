@@ -6,6 +6,10 @@
 #include "stdlib.hpp"
 #include "LiftPoint.hpp"
 #include "BaseBomb.hpp"
+#include "ScreenManager.hpp"
+#include "Events.hpp"
+#include "Sfx.hpp"
+#include "Collisions.hpp"
 
 START_NS_AO
 
@@ -15,7 +19,6 @@ TintEntry stru_4C3140[3] =
   { 6, 60u, 60u, 60u },
   { -1, 127u, 127u, 127u },
 };
-
 
 TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, int tlvInfo)
 {
@@ -184,6 +187,155 @@ __int16 TimedMine::VTakeDamage_408B90(BaseGameObject* pFrom)
     }
 }
 
+void TimedMine::VRender(int** pOt)
+{
+    VRender_408960(pOt);
+}
+
+void TimedMine::VRender_408960(int** ppOt)
+{
+    if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+            field_B2_lvl_number,
+            field_B0_path_number,
+            field_A8_xpos,
+            field_AC_ypos,
+            0
+        ))
+    {
+        field_118_anim.VRender_403AE0(
+            FP_GetExponent(field_A8_xpos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
+            FP_GetExponent(field_AC_ypos + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos - FP_GetExponent(field_BC_sprite_scale * FP_FromInteger(14)))
+            - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+            ppOt,
+            0,
+            0
+        );
+
+        PSX_RECT pRect = {};
+        field_118_anim.Get_Frame_Rect_402B50(&pRect);
+        pScreenManager_4FF7C8->InvalidateRect_406E40(
+            pRect.x,
+            pRect.y,
+            pRect.w,
+            pRect.h,
+            pScreenManager_4FF7C8->field_2E_idx
+        );
+        BaseAnimatedWithPhysicsGameObject::VRender_417DA0(ppOt);
+    }
+}
+
+void TimedMine::StickToLiftPoint_408CA0()
+{
+    FP hitY = {};
+    FP hitX = {};
+    PathLine *pLine = nullptr;
+    field_1B8 |= 1;
+    if (sCollisions_DArray_504C6C->RayCast_40C410(
+        field_A8_xpos,
+        field_AC_ypos - FP_FromInteger(20),
+        field_A8_xpos,
+        field_AC_ypos + FP_FromInteger(20),
+        &pLine,
+        &hitX,
+        &hitY,
+        (field_BC_sprite_scale != FP_FromDouble(0.5)) ? 7 : 112))
+    {
+        if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
+        {
+            if (ObjListPlatforms_50766C)
+            {
+                for (int i = 0; i < ObjListPlatforms_50766C->Size(); i++)
+                {
+                    BaseGameObject* pObj = ObjListPlatforms_50766C->ItemAt(i);
+                    if (!pObj)
+                    {
+                        break;
+                    }
+
+                    if (pObj->field_4_typeId == Types::eLiftPoint_51)
+                    {
+                        PSX_RECT pObjRect = {};
+                        auto pLiftPoint = static_cast<LiftPoint*>(pObj);
+                        pLiftPoint->VGetBoundingRect_418120(&pObjRect, 1);
+                        if (FP_GetExponent(field_A8_xpos) > pObjRect.x &&
+                            FP_GetExponent(field_A8_xpos) < pObjRect.w &&
+                            FP_GetExponent(field_AC_ypos) < pObjRect.h)
+                        {
+                            field_F8_pLiftPoint = pLiftPoint;
+                            pLiftPoint->VAdd(this);
+                            ++field_F8_pLiftPoint->field_C_refCount;
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+void TimedMine::VUpdate()
+{
+    VUpdate_408760();
+}
+
+void TimedMine::VUpdate_408760()
+{
+    auto pPlatform = static_cast<LiftPoint*>(field_F8_pLiftPoint);
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+
+    if (!(field_1B8 & 1))
+    {
+        StickToLiftPoint_408CA0();
+    }
+
+    if (pPlatform && pPlatform->OnAnyFloor())
+    {
+        field_D4_collection_rect.x = field_A8_xpos - ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2);
+        field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale);
+        field_D4_collection_rect.w = field_A8_xpos + ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2);
+        field_D4_collection_rect.h = field_AC_ypos;
+    }
+    if (field_10C_armed == 1)
+    {
+        if (static_cast<int>(gnFrameCount_507670) > (field_1B4 + field_1B0))
+        {
+            field_1B0 = gnFrameCount_507670;
+            auto direction = gMap_507BA8.GetDirection(
+                field_B2_lvl_number,
+                field_B0_path_number,
+                field_A8_xpos,
+                field_AC_ypos);
+            SFX_Play_43AED0(3u, 50, direction);
+
+            if (((field_114_timer - gnFrameCount_507670) & ~7) >= 18 * 8)
+            {
+                field_1B4 = 18;
+            }
+            else
+            {
+                field_1B4 = (field_114_timer - gnFrameCount_507670) / 8;
+            }
+        }
+        if (static_cast<int>(gnFrameCount_507670) >= field_114_timer)
+        {
+            auto pBaseBomb = ao_new<BaseBomb>();
+            if (pBaseBomb)
+            {
+                pBaseBomb->ctor_4173A0(
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    0,
+                    field_BC_sprite_scale
+                );
+            }
+
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        }
+    }
+}
 
 void TimedMine::VOnThrowableHit(BaseGameObject* pFrom)
 {

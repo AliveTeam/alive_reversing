@@ -36,6 +36,16 @@ public:
 
     EXPORT __int16 VTakeDamage_408B90(BaseGameObject* pFrom);
 
+    virtual void VRender(int** pOt) override;
+
+    EXPORT void VRender_408960(int** pOt);
+
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_408760();
+
+    EXPORT void StickToLiftPoint_408CA0();
+
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
 
     EXPORT void VOnThrowableHit_408B10(BaseGameObject* pFrom);
