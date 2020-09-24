@@ -3079,8 +3079,146 @@ short Mudokon::Brain_SingSequenceSing_3_441510()
 
 short Mudokon::Brain_SingSequencePassword_4_441260()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    switch (field_1BA_sub_state)
+    {
+    case 0:
+        field_FE_next_state = eMudStates::State_3_Speak_43D440;
+        Abe_SFX_42A4D0(9u, 0, 300, this);
+        field_13C = GameSpeak::sub_40FA60(field_1A4, field_12C);
+        return 1;
+
+    case 1:
+        field_1C0_timer = gnFrameCount_507670;
+        return 2;
+
+    case 2:
+    {
+        GameSpeakEvents last_speak = {};
+        if (field_128 == pEventSystem_4FF954->field_18_last_event_index)
+        {
+            if (pEventSystem_4FF954->field_10_last_event == GameSpeakEvents::eNone_m1)
+            {
+                last_speak = GameSpeakEvents::eNone_m1;
+            }
+            else
+            {
+                last_speak = GameSpeakEvents::eSameAsLast_m2;
+            }
+        }
+        else
+        {
+            field_128 = pEventSystem_4FF954->field_18_last_event_index;
+            last_speak = pEventSystem_4FF954->field_10_last_event;
+        }
+
+        if (last_speak != GameSpeakEvents::eNone_m1 && last_speak != GameSpeakEvents::eSameAsLast_m2)
+        {
+            field_13E = static_cast<short>(pEventSystem_4FF954->field_18_last_event_index);
+            field_118 = gnFrameCount_507670 + 60;
+            return 3;
+        }
+        break;
+    }
+
+    case 3:
+    {
+        GameSpeakEvents last_speak = {};
+        if (field_128 == pEventSystem_4FF954->field_18_last_event_index)
+        {
+            if (pEventSystem_4FF954->field_10_last_event == GameSpeakEvents::eNone_m1)
+            {
+                last_speak = GameSpeakEvents::eNone_m1;
+            }
+            else
+            {
+                last_speak = GameSpeakEvents::eSameAsLast_m2;
+            }
+        }
+        else
+        {
+            field_128 = pEventSystem_4FF954->field_18_last_event_index;
+            last_speak = pEventSystem_4FF954->field_10_last_event;
+        }
+
+        if (last_speak != GameSpeakEvents::eNone_m1 && last_speak != GameSpeakEvents::eSameAsLast_m2)
+        {
+            field_118 = gnFrameCount_507670 + 60;
+        }
+
+        if (static_cast<int>(gnFrameCount_507670) <= field_118)
+        {
+            if (pEventSystem_4FF954->MatchBuffer_40FAA0(field_12C, field_13C, field_13E) != GameSpeakMatch::eFullMatch_1)
+            {
+                if (pEventSystem_4FF954->MatchBuffer_40FAA0(
+                    field_12C,
+                    field_13C,
+                    field_13E) != GameSpeakMatch::eNoMatch_0) // Full or partial
+                {
+                    return field_1BA_sub_state;
+                }
+            }
+        }
+
+        field_1A0 = pEventSystem_4FF954->MatchBuffer_40FAA0(
+            field_12C,
+            field_13C,
+            field_13E) == GameSpeakMatch::eFullMatch_1 || sVoiceCheat_507708;
+
+        field_1C0_timer = gnFrameCount_507670 + 30;
+        return 4;
+    }
+
+    case 4:
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
+        {
+            if (field_1A0)
+            {
+                Abe_SFX_42A4D0(13u, 0, 300, this);
+                field_FE_next_state = eMudStates::State_3_Speak_43D440;
+            }
+            else
+            {
+                if (Math_NextRandom() >= 128u)
+                {
+                    Abe_SFX_42A4D0(8u, 0, 300, this);
+                }
+                else
+                {
+                    Abe_SFX_42A4D0(14u, 0, 300, this);
+                }
+                field_FE_next_state = eMudStates::State_6_Speak_43D440;
+            }
+            return 5;
+        }
+        break;
+
+    case 5:
+        if (field_FC_current_motion == eMudStates::State_0_Idle_43CA70)
+        {
+            if (field_1A0)
+            {
+                field_1B8_brain_idx = field_188;
+            }
+            else
+            {
+                field_1B8_brain_idx = 2;
+            }
+            return 0;
+        }
+        break;
+
+    case 6:
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
+        {
+            return 0;
+        }
+        break;
+
+    default:
+        return field_1BA_sub_state;
+    }
+
+    return field_1BA_sub_state;
 }
 
 short Mudokon::Brain_LiftUse_5_43C180()
