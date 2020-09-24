@@ -1143,7 +1143,33 @@ void Slog::State_8_StopRunning_474EC0()
 
 void Slog::State_9_StartWalking_474690()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_FC_current_motion = eSlogStates::State_1_Walk_4743F0;
+    }
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(20), field_B4_velx))
+    {
+        field_10_anim.field_4_flags.Clear(AnimFlags::eBit6_FlipY);
+        field_10_anim.field_4_flags.Clear(AnimFlags::eBit7_SwapXY);
+
+        ToIdle();
+        
+        field_128 = 60 * Slog_NextRandom() / 256 + gnFrameCount_507670 + 120;
+
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            field_A8_xpos += field_B4_velx + (ScaleToGridSize_41FA30(field_BC_sprite_scale) /  FP_FromInteger(2));
+        }
+        else
+        {
+            field_A8_xpos += field_B4_velx - (ScaleToGridSize_41FA30(field_BC_sprite_scale) /  FP_FromInteger(2));
+        }
+    }
+    else
+    {
+        MoveOnLine_4740F0();
+    }
 }
 
 void Slog::State_10_EndWalking_4747D0()
