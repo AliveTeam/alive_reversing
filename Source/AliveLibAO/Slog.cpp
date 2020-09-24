@@ -1192,14 +1192,112 @@ void Slog::State_6_MoveHeadUpwards_474220()
     }
 }
 
+const int sSlogSlideTurnVelXTable_4BCC98[12] =
+{
+  227344,
+  298123,
+  566427,
+  610336,
+  425656,
+  303562,
+  256704,
+  284098,
+  239927,
+  84017,
+  2097152000,
+  0
+};
+
 void Slog::State_7_SlideTurn_474DB0()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_92_current_frame == 0)
+    {
+        Sfx_475BD0(13);
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        field_B4_velx = (field_BC_sprite_scale * FP_FromRaw(-sSlogSlideTurnVelXTable_4BCC98[field_10_anim.field_92_current_frame]));
+    }
+    else
+    {
+        field_B4_velx = (field_BC_sprite_scale * FP_FromRaw(sSlogSlideTurnVelXTable_4BCC98[field_10_anim.field_92_current_frame]));
+    }
+
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(20), field_B4_velx))
+    {
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            ToIdle();
+        }
+    }
+    else
+    {
+        MoveOnLine_4740F0();
+    }
 }
+
+const int sSlogStopRunningVelX_4BCCC8[14] =
+{
+    1127088,
+    780402,
+    558956,
+    480772,
+    273168,
+    348181,
+    249772,
+    98546,
+    33064,
+    // TODO: Convert all these to FP instead of hack casting to fit
+    (int)4294951393,
+    (int)4294928227,
+    (int)4294885829,
+    (int)4294646716,
+    (int)2097152000
+};
+
 
 void Slog::State_8_StopRunning_474EC0()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        field_B4_velx = (field_BC_sprite_scale * FP_FromRaw(-sSlogStopRunningVelX_4BCCC8[field_10_anim.field_92_current_frame]));
+    }
+    else
+    {
+        field_B4_velx = (field_BC_sprite_scale * FP_FromRaw(sSlogStopRunningVelX_4BCCC8[field_10_anim.field_92_current_frame]));
+    }
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(20), field_B4_velx))
+    {
+        ToIdle();
+    }
+    else
+    {
+        MoveOnLine_4740F0();
+
+        if (field_FC_current_motion == eSlogStates::State_8_StopRunning_474EC0)
+        {
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                MapFollowMe_401D30(FALSE);
+
+                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(3));
+                    field_FC_current_motion = eSlogStates::State_2_Run_4749A0;
+                    field_10_anim.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+                }
+                else
+                {
+                    field_FC_current_motion = eSlogStates::State_2_Run_4749A0;
+                    field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(3));
+                    field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+                }
+            }
+        }
+    }
 }
 
 void Slog::State_9_StartWalking_474690()
