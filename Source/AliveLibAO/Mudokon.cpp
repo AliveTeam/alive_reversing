@@ -3960,8 +3960,137 @@ short Mudokon::Brain_ShrivelDeath_11_43C5F0()
 
 short Mudokon::Brain_Escape_12_440FD0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        field_6_flags.Set(Options::eDead_Bit3);
+        return field_1BA_sub_state;
+    }
+
+    BirdPortal* pPortal = field_1AC_pBirdPortal;
+    if (!pPortal || pPortal->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    {
+        word_507B94--;
+        if (pPortal)
+        {
+            pPortal->field_C_refCount--;
+        }
+
+        field_144_flags.Set(Flags_144::e144_Bit6_bPersist);
+        field_1AC_pBirdPortal = nullptr;
+        field_FE_next_state = eMudStates::State_0_Idle_43CA70;
+        field_1B8_brain_idx = 10;
+        return 6;
+    }
+
+    switch (field_1BA_sub_state)
+    {
+    case 0:
+        if (pPortal->VStateIs6_453700())
+        {
+            field_1C0_timer = gnFrameCount_507670 + (Math_NextRandom() % 8);
+            return 1;
+        }
+        break;
+
+    case 1:
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
+        {
+            if (FP_Abs(pPortal->field_18_xpos - field_A8_xpos) >= ScaleToGridSize_41FA30(field_BC_sprite_scale))
+            {
+                return 2;
+            }
+            return 4;
+        }
+        break;
+
+    case 2:
+        if (field_FC_current_motion == eMudStates::State_23_CrouchIdle_43E590)
+        {
+            field_FE_next_state = eMudStates::State_26_CrouchToStand_43E640;
+        }
+
+        if (field_FC_current_motion == eMudStates::State_16_StandScrubLoop_43D7C0)
+        {
+            field_FE_next_state = eMudStates::State_21_StandScrubToIdle_43D8F0;
+        }
+
+        if (field_FC_current_motion == eMudStates::State_19_StandScrubPause_43D8A0)
+        {
+            field_FE_next_state = eMudStates::State_18_StandScrubPauseToLoop_43D880;
+        }
+
+        if (field_FC_current_motion == eMudStates::State_0_Idle_43CA70 || field_FC_current_motion == eMudStates::State_1_WalkLoop_43CC80)
+        {
+            if (FacingTarget_43D6A0(pPortal))
+            {
+                field_FE_next_state = eMudStates::State_29_RunLoop_43DB10;
+            }
+            else
+            {
+                field_FE_next_state = eMudStates::State_2_StandingTurn_43D050;
+            }
+        }
+
+        if (field_FC_current_motion == eMudStates::State_29_RunLoop_43DB10)
+        {
+            if (!FacingTarget_43D6A0(field_1AC_pBirdPortal))
+            {
+                field_FE_next_state = eMudStates::State_33_RunSlideTurn_43DF80;
+            }
+            else
+            {
+                if (IntoBirdPortal_402350(3))
+                {
+                    field_1BA_sub_state = 3;
+                    field_FE_next_state = eMudStates::State_44_JumpMid_43E960;
+                }
+            }
+        }
+        break;
+
+    case 4:
+        if (field_FC_current_motion == eMudStates::State_23_CrouchIdle_43E590)
+        {
+            field_FE_next_state = eMudStates::State_26_CrouchToStand_43E640;
+        }
+
+        if (field_FC_current_motion == eMudStates::State_16_StandScrubLoop_43D7C0)
+        {
+            field_FE_next_state = eMudStates::State_21_StandScrubToIdle_43D8F0;
+        }
+
+        if (field_FC_current_motion == eMudStates::State_19_StandScrubPause_43D8A0)
+        {
+            field_FE_next_state = eMudStates::State_18_StandScrubPauseToLoop_43D880;
+        }
+
+        if (field_FC_current_motion == eMudStates::State_0_Idle_43CA70 || field_FC_current_motion == eMudStates::State_1_WalkLoop_43CC80)
+        {
+            if ((pPortal->field_12_side == PortalSide::eRight_0) == field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                field_FE_next_state = eMudStates::State_2_StandingTurn_43D050;
+            }
+            else
+            {
+                field_FE_next_state = eMudStates::State_29_RunLoop_43DB10;
+            }
+        }
+
+        if (field_FC_current_motion == eMudStates::State_29_RunLoop_43DB10)
+        {
+            if (FP_Abs(pPortal->field_18_xpos - field_A8_xpos) <= ScaleToGridSize_41FA30(field_BC_sprite_scale))
+            {
+                return field_1BA_sub_state;
+            }
+            return 2;
+        }
+        break;
+
+    default:
+        return field_1BA_sub_state;
+    }
+
+    return field_1BA_sub_state;
 }
 
 short Mudokon::Brain_FallAndSmackDeath_13_43C700()
