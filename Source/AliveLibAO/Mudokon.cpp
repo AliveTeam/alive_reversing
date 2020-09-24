@@ -2979,8 +2979,135 @@ short Mudokon::Brain_GiveRings_7_43C2F0()
 
 short Mudokon::Brain_StandScrub_8_441F40()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (FindBirdPortal_440250())
+    {
+        AddAlerted();
+        field_1B8_brain_idx = 12;
+        return 0;
+    }
+
+    const GameSpeakEvents last_speak = LastGameSpeak_4400B0();
+    if (last_speak == GameSpeakEvents::eUnknown_6)
+    {
+        if (field_1BA_sub_state != 4 && field_1BA_sub_state != 5)
+        {
+            field_1BA_sub_state = 4;
+        }
+    }
+
+    switch (field_1BA_sub_state)
+    {
+    case 0:
+        field_FC_current_motion = eMudStates::State_16_StandScrubLoop_43D7C0;
+        field_FE_next_state = -1;
+        field_1C0_timer = (Math_NextRandom() % 64) + gnFrameCount_507670 + 35;
+        return 1;
+
+    case 1:
+        if (last_speak == GameSpeakEvents::eUnknown_9 && sAlertedMudCount_507B90 == 0 && IAmNearestToAbe_440120())
+        {
+            AddAlerted();
+            field_FE_next_state = eMudStates::State_21_StandScrubToIdle_43D8F0;
+            field_1C0_timer = gnFrameCount_507670 + 15;
+            return 3;
+        }
+
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer
+            && field_FC_current_motion == eMudStates::State_16_StandScrubLoop_43D7C0)
+        {
+            field_FE_next_state = eMudStates::State_17_StandScrubLoopToPause_43D860;
+        }
+
+        if (field_FC_current_motion == eMudStates::State_19_StandScrubPause_43D8A0)
+        {
+            field_1C0_timer = (Math_NextRandom() % 64) + gnFrameCount_507670 + 35;
+            return 2;
+        }
+        return field_1BA_sub_state;
+
+    case 2:
+        if (last_speak == GameSpeakEvents::eUnknown_9 && sAlertedMudCount_507B90 == 0 && IAmNearestToAbe_440120())
+        {
+            AddAlerted();
+            field_FE_next_state = eMudStates::State_21_StandScrubToIdle_43D8F0;
+            field_1C0_timer = gnFrameCount_507670 + 15;
+            return 3;
+        }
+
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
+        {
+            field_FE_next_state = eMudStates::State_18_StandScrubPauseToLoop_43D880;
+            field_1C0_timer = (Math_NextRandom() % 64) + gnFrameCount_507670 + 35;
+            return 1;
+        }
+        return field_1BA_sub_state;
+
+    case 3:
+        if (static_cast<int>(gnFrameCount_507670) <= field_1C0_timer || field_FC_current_motion != eMudStates::State_0_Idle_43CA70)
+        {
+            if (field_FE_next_state != -1 || field_FC_current_motion != eMudStates::State_16_StandScrubLoop_43D7C0)
+            {
+                return field_1BA_sub_state;
+            }
+            field_FE_next_state = eMudStates::State_21_StandScrubToIdle_43D8F0;
+            return field_1BA_sub_state;
+        }
+        field_1B8_brain_idx = 10;
+        return 0;
+
+    case 4:
+        switch (field_FC_current_motion)
+        {
+        case eMudStates::State_0_Idle_43CA70:
+            field_FE_next_state = eMudStates::State_23_CrouchIdle_43E590;
+            return field_1BA_sub_state;
+
+        case eMudStates::State_16_StandScrubLoop_43D7C0:
+        case eMudStates::State_19_StandScrubPause_43D8A0:
+            field_FE_next_state = eMudStates::State_0_Idle_43CA70;
+            return field_1BA_sub_state;
+
+        case eMudStates::State_23_CrouchIdle_43E590:
+            field_FE_next_state = eMudStates::State_55_Duck_43EB90;
+            field_1C0_timer = gnFrameCount_507670 + 60;
+            return 5;
+
+        default:
+            return field_1BA_sub_state;
+        }
+        break;
+
+    case 5:
+        if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
+        {
+            field_FE_next_state = eMudStates::State_23_CrouchIdle_43E590;
+            return 6;
+            
+        }
+        return field_1BA_sub_state;
+
+    case 6:
+        if (field_FC_current_motion == eMudStates::State_0_Idle_43CA70)
+        {
+            field_FE_next_state = eMudStates::State_16_StandScrubLoop_43D7C0;
+        }
+        else
+        {
+            if (field_FC_current_motion == eMudStates::State_16_StandScrubLoop_43D7C0)
+            {
+                return 0;
+            }
+
+            if (field_FC_current_motion == eMudStates::State_23_CrouchIdle_43E590)
+            {
+                field_FE_next_state = eMudStates::State_0_Idle_43CA70;
+            }
+        }
+        return field_1BA_sub_state;
+
+    default:
+        return field_1BA_sub_state;
+    }
 }
 
 short Mudokon::Brain_CrouchScrub_9_4422A0()
