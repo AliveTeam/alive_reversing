@@ -19,6 +19,7 @@
 #include "PlatformBase.hpp"
 #include "CameraSwapper.hpp"
 #include "SnoozeParticle.hpp"
+#include "Shadow.hpp"
 
 void Slog_ForceLink() {}
 
@@ -317,11 +318,11 @@ __int16 Slog::VTakeDamage_473610(BaseGameObject* pFrom)
 
     case Types::eAbilityRing_69:
     case Types::eSlig_88:
-        if (field_17C)
+        if (field_17C_res)
         {
             return 1;
         }
-        field_17C = 1;
+        field_17C_res = 1;
         Sfx_475BD0(9);
         break;
 
@@ -386,9 +387,95 @@ void Slog::VUpdate_4739C0()
     }
 }
 
+const TintEntry sSlogTints_4CFE10[3] =
+{
+    { 5, 48u, 48u, 48u },
+    { 6, 48u, 48u, 48u },
+    { -1, 127u, 127u, 127u }
+};
+
 void Slog::Init_473130()
 {
-    NOT_IMPLEMENTED();
+    field_180_resources[2] = nullptr;
+    field_180_resources[2] = nullptr;
+    field_180_resources[3] = nullptr;
+    field_180_resources[4] = nullptr;
+    field_180_resources[5] = nullptr;
+
+    field_180_resources[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 570, 1, 0);
+    field_180_resources[2] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 571, 1, 0);
+    field_180_resources[3] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 572, 1, 0);
+    field_180_resources[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 573, 1, 0);
+    field_180_resources[5] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 574, 1, 0);
+    
+    Animation_Init_417FD0(
+        94456,
+        121,
+        57,
+        field_180_resources[1],
+        1);
+
+    field_6_flags.Set(Options::eCanExplode_Bit7);
+    field_10_anim.field_1C_fn_ptrs = kSlog_Anim_Frame_Fns_4CEBF4;
+    field_11C = 0;
+    field_120 = 0;
+    field_124 = -1;
+    field_116_brain_state = 0;
+    field_FE_next_state = -1;
+    field_EC = 3;
+    field_13C_res_idx = 0;
+    field_4_typeId = Types::eSlog_89;
+    field_F8_pLiftPoint = nullptr;
+    field_118 = 0;
+    field_134 = 2;
+    field_17A = 1;
+    field_17C_res = 0;
+    field_14C = 0;
+    field_10C = 0;
+
+    field_10A_flags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
+    field_10A_flags.Set(Flags_10A::e10A_Bit6);
+
+    field_178 = 0;
+    field_16C = 0;
+
+    SetTint_418750(sSlogTints_4CFE10, gMap_507BA8.field_0_current_level);
+
+    if (field_BC_sprite_scale == FP_FromInteger(1))
+    {
+        field_10_anim.field_C_layer = 34;
+        field_C6_scale = 1;
+    }
+    else
+    {
+        field_10_anim.field_C_layer = 15;
+        field_C6_scale = 0;
+    }
+
+    FP hitX = {};
+    FP hitY = {};
+    if (sCollisions_DArray_504C6C->RayCast_40C410(
+        field_A8_xpos,
+        field_AC_ypos,
+        field_A8_xpos,
+        field_AC_ypos + FP_FromInteger(24),
+        &field_F4_pLine,
+        &hitX,
+        &hitY,
+        field_BC_sprite_scale == FP_FromInteger(1) ? 0x01 : 0x10) == 1)
+    {
+        field_AC_ypos = hitY;
+    }
+
+    MapFollowMe_401D30(FALSE);
+
+    field_D0_pShadow= ao_new<Shadow>();
+    if (field_D0_pShadow)
+    {
+        field_D0_pShadow->ctor_461FB0();
+    }
+
+    gNumSlogs_9F11C8++;
 }
 
 __int16 Slog::ToNextMotion_473CE0()

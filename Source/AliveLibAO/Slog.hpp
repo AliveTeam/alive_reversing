@@ -180,8 +180,9 @@ public:
     __int16 field_176;
     __int16 field_178;
     __int16 field_17A;
-    __int16 field_17C;
+    __int16 field_17C_res;
     __int16 field_17E;
+    // TODO: The first item might be another field
     BYTE** field_180_resources[6];
 };
 ALIVE_ASSERT_SIZEOF(Slog, 0x198);
