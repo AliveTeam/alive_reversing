@@ -293,10 +293,7 @@ public:
     __int16 field_124;
     __int16 field_126_input;
     int field_128;
-    int field_12C;
-    int field_130;
-    int field_134;
-    int field_138;
+    BYTE field_12C[16];
     __int16 field_13C;
     __int16 field_13E;
     int field_140;

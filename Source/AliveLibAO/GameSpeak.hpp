@@ -72,7 +72,7 @@ public:
 
     EXPORT void VUpdate_40FA20();
 
-    static EXPORT int CC sub_40FA60(int code, BYTE* pBuffer);
+    static EXPORT short CC sub_40FA60(int code, BYTE* pBuffer);
 
     EXPORT GameSpeakMatch MatchBuffer_40FAA0(BYTE* pBuffer, __int16 bufferLen, signed __int16 bufferStartIdx);
 

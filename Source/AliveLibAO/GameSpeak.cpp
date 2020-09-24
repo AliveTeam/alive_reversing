@@ -134,7 +134,7 @@ void GameSpeak::VUpdate_40FA20()
     }
 }
 
-int CC GameSpeak::sub_40FA60(int code, BYTE* pBuffer)
+short CC GameSpeak::sub_40FA60(int code, BYTE* pBuffer)
 {
     const __int16 len = Code_Length_475FD0(code);
     for (short idx = 0; idx < len; ++idx)
