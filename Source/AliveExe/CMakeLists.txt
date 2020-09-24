@@ -13,7 +13,7 @@ target_compile_features(AliveExe
 target_compile_definitions(AliveExe PRIVATE "_CRT_SECURE_NO_WARNINGS")
 target_link_libraries(AliveExe AliveLibAE AliveLibAO)
 export(TARGETS AliveExe FILE AliveExe.cmake)
-install(TARGETS AliveExe DESTINATION .)
+install(TARGETS AliveExe DESTINATION bin)
 
 add_executable(AliveExeAE WIN32 
     Exe.cpp 
@@ -30,7 +30,7 @@ target_compile_features(AliveExeAE
 target_compile_definitions(AliveExeAE PRIVATE "_CRT_SECURE_NO_WARNINGS" "AE_EXE")
 target_link_libraries(AliveExeAE AliveLibAE AliveLibAO)
 export(TARGETS AliveExeAE FILE AliveExeAE.cmake)
-install(TARGETS AliveExeAE DESTINATION .)
+install(TARGETS AliveExeAE DESTINATION bin)
 
 
 add_executable(AliveExeAO WIN32 
@@ -48,4 +48,4 @@ target_compile_features(AliveExeAO
 target_compile_definitions(AliveExeAO PRIVATE "_CRT_SECURE_NO_WARNINGS" "AO_EXE")
 target_link_libraries(AliveExeAO AliveLibAE AliveLibAO)
 export(TARGETS AliveExeAO FILE AliveExeAO.cmake)
-install(TARGETS AliveExeAO DESTINATION .)
+install(TARGETS AliveExeAO DESTINATION bin)
