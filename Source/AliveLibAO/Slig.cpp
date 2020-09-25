@@ -3886,9 +3886,9 @@ __int16 Slig::Brain_Death_46C3A0()
 
 __int16 Slig::Brain_DeathDropDeath_46C5A0()
 {
-    if (!field_10E_brain_state)
+    if (field_10E_brain_state == 0)
     {
-        Sfx_Slig_GameSpeak_46F560(10u, 0, (int)this, this);
+        Sfx_Slig_GameSpeak_46F560(10u, 0, field_110_pitch_min, this);
         field_114_timer = gnFrameCount_507670 + 60;
         return 1;
     }
