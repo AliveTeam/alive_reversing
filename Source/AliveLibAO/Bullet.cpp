@@ -219,10 +219,63 @@ void Bullet::VUpdate_408E30()
     }
 }
 
-BaseAliveGameObject* Bullet::ShootObject_409400(PSX_RECT* /*pRect*/)
+BaseAliveGameObject* Bullet::ShootObject_409400(PSX_RECT* pRect)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    if (!gBaseAliveGameObjects_4FC8A0)
+    {
+        return nullptr;
+    }
+
+    BaseAliveGameObject *pObjectToShoot = nullptr;
+    for (int idx = 0; idx < gBaseAliveGameObjects_4FC8A0->Size(); idx++)
+    {
+        BaseAliveGameObject* pObjIter = (BaseAliveGameObject *) gBaseAliveGameObjects_4FC8A0->field_0_array[idx++];
+        if (!pObjIter)
+        {
+            break;
+        }
+
+        if (pObjIter != field_30_pParent)
+        {
+            if (pObjIter->field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
+            {
+                if (field_10_type == BulletType::Type_0
+                    && (pObjIter->field_4_typeId == Types::eSlig_88
+                    || pObjIter->field_4_typeId == Types::eMudokon_75
+                    || pObjIter->field_4_typeId == Types::eAbe_43
+                    || pObjIter->field_4_typeId == Types::eSlog_89)
+
+                    || pObjIter->field_4_typeId == Types::eMudokon_75
+                    || pObjIter->field_4_typeId == Types::eAbe_43
+                    || pObjIter->field_4_typeId == Types::eSlig_88 && sControlledCharacter_50767C == pObjIter)
+                {
+                    PSX_RECT bRect = {};
+                    pObjIter->VGetBoundingRect_418120(&bRect, 1);
+                    if (pRect->x <= bRect.w &&
+                        pRect->w >= bRect.x &&
+                        pRect->h >= bRect.y &&
+                        pRect->y <= bRect.h)
+                    {
+                        if (field_10_type == BulletType::Type_2 || field_30_pParent->field_BC_sprite_scale == pObjIter->field_BC_sprite_scale)
+                        {
+                            if (pObjectToShoot)
+                            {
+                                if (FP_Abs(pObjIter->field_A8_xpos - field_18_xpos) < FP_Abs(pObjectToShoot->field_A8_xpos - field_18_xpos))
+                                {
+                                    pObjectToShoot = pObjIter;
+                                }
+                            }
+                            else
+                            {
+                                pObjectToShoot = pObjIter;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return pObjectToShoot;
 }
 
 END_NS_AO
