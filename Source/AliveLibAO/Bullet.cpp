@@ -240,6 +240,7 @@ EXPORT void Bullet::VUpdate_408E30()
 BaseAliveGameObject* Bullet::ShootObject_409400(PSX_RECT* /*pRect*/)
 {
     NOT_IMPLEMENTED();
+    return nullptr;
 }
 
 END_NS_AO
