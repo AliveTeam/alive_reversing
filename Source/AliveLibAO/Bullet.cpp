@@ -159,7 +159,7 @@ EXPORT void Bullet::VUpdate_408E30()
                     return;
                 }
             }
-            if (pShotObj->VTakeDamage_401920(this))
+            if (pShotObj->VTakeDamage(this))
             {
                 SFX_Play_43AE60(SoundEffect::AirStream_28, field_2C_scale != FP_FromDouble(0.5) ? 90 : 60, 2000, 0);
                 SFX_Play_43AE60(SoundEffect::MeatBounce_43, field_2C_scale != FP_FromDouble(0.5) ? 90 : 60, Math_RandomRange_450F20(300, 700), 0);
