@@ -316,7 +316,7 @@ void Electrocute::VUpdate_48D5C0()
 
     case 2:
     {
-        PalleteOverwriter* pOverwritter = field_18_pPalOverwriters[field_14_overwriter_count];
+        PalleteOverwriter* pOverwritter = field_18_pPalOverwriters[field_14_overwriter_count - 1];
         if (pOverwritter && pOverwritter->field_BE_bDone)
         {
             if (field_10_obj_target->field_4_typeId == Types::eAbe_43)
