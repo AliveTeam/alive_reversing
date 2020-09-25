@@ -3571,7 +3571,7 @@ short Mudokon::Brain_CrouchScrub_9_4422A0()
         return 2;
 
     case 2:
-        if (last_speak != GameSpeakEvents::eUnknown_9 || sAlertedMudCount_507B90 == 0 || !IAmNearestToAbe_440120())
+        if (last_speak != GameSpeakEvents::eUnknown_9 || sAlertedMudCount_507B90 || !IAmNearestToAbe_440120())
         {
             if (field_FC_current_motion == eMudStates::State_23_CrouchIdle_43E590)
             {

@@ -133,6 +133,7 @@ enum class GameSpeakEvents : __int16;
 class Mudokon : public BaseAliveGameObject
 {
 public:
+
     EXPORT Mudokon* ctor_43EED0(Path_TLV* pTlv, int tlvInfo);
 
     EXPORT BaseGameObject* dtor_43F6A0();
