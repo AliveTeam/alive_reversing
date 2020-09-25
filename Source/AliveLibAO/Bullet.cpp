@@ -88,7 +88,7 @@ EXPORT void Bullet::VUpdate_408E30()
                     &hitX,
                     &hitY,
                     field_2C_scale != FP_FromDouble(0.5) ? 7 : 0x70
-                ) == 1)
+                ))
             {
                 FP distHit = {};
                 FP distShot = {};
@@ -207,14 +207,15 @@ EXPORT void Bullet::VUpdate_408E30()
                 return;
             }
             if (sCollisions_DArray_504C6C->RayCast_40C410(
-                field_18_xpos,
-                field_1C_ypos,
-                v7 - v5,
-                sActiveHero_507678->field_AC_ypos + FP_FromInteger(10),
-                &field_14_pLine,
-                &hitX,
-                &hitY,
-                0x400) == 1)
+                    field_18_xpos,
+                    field_1C_ypos,
+                    v7 - v5,
+                    sActiveHero_507678->field_AC_ypos + FP_FromInteger(10),
+                    &field_14_pLine,
+                    &hitX,
+                    &hitY,
+                    0x400
+                ))
             {
                 auto pSpark = ao_new<Spark>();
                 if (pSpark)
