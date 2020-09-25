@@ -174,7 +174,7 @@ EXPORT void Bullet::VUpdate_408E30()
             FP hitX = {};
             FP hitY = {};
             PSX_RECT shootRect = {};
-            if (sControlledCharacter_50767C == (BaseAliveGameObject *) gElum_507680)
+            if (sControlledCharacter_50767C == gElum_507680)
             {
                 v5 = gElum_507680->field_B4_velx * FP_FromInteger(4);
                 v7 = sActiveHero_507678->field_A8_xpos;
