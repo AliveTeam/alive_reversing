@@ -2561,7 +2561,7 @@ void Mudokon::State_51_Fall_43D0D0()
 
 void Mudokon::State_52_Chant_43D520()
 {
-    if (!(gnFrameCount_507670 % -4))
+    if (!(gnFrameCount_507670 % 4))
     {
         const FP rndX = FP_FromInteger(40 * Math_NextRandom() / 256 - 20);
         const FP rndY = FP_FromInteger(30 * Math_NextRandom() / 256 + 30);
@@ -3571,7 +3571,7 @@ short Mudokon::Brain_CrouchScrub_9_4422A0()
         return 2;
 
     case 2:
-        if (last_speak != GameSpeakEvents::eUnknown_9 || sAlertedMudCount_507B90 == 0 || !IAmNearestToAbe_440120())
+        if (last_speak != GameSpeakEvents::eUnknown_9 || sAlertedMudCount_507B90 || !IAmNearestToAbe_440120())
         {
             if (field_FC_current_motion == eMudStates::State_23_CrouchIdle_43E590)
             {
@@ -3741,7 +3741,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
 
         if (field_1B4_idle_time <= 150 || BetweenCameras_418500() != BetweenCamPos::None_0)
         {
-            if (VIsFacingMe(sActiveHero_507678))
+            if (!VIsFacingMe(sActiveHero_507678))
             {
                 field_FE_next_state = eMudStates::State_2_StandingTurn_43D050;
                 return field_1BA_sub_state;
@@ -3908,6 +3908,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
             field_FE_next_state = eMudStates::State_0_Idle_43CA70;
             return 3;
         }
+
         GameSpeakEvents last_speak = {};
         if (field_128 == pEventSystem_4FF954->field_18_last_event_index)
         {

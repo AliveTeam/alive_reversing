@@ -1309,12 +1309,10 @@ void Slog::State_7_SlideTurn_474DB0()
     }
 
 
-    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(20), field_B4_velx))
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(20), field_B4_velx) || 
+        field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
-        {
-            ToIdle();
-        }
+        ToIdle();
     }
     else
     {
