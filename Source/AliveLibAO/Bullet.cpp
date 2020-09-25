@@ -94,16 +94,8 @@ EXPORT void Bullet::VUpdate_408E30()
                 FP distShot = {};
                 if (pShotObj)
                 {
-                    distHit = hitX - field_18_xpos;
-                    if (hitX - field_18_xpos < FP_FromInteger(0))
-                    {
-                        distHit = field_18_xpos - hitX;
-                    }
-                    distShot = pShotObj->field_A8_xpos - field_18_xpos;
-                    if (distShot < FP_FromInteger(0))
-                    {
-                        distShot = field_18_xpos - pShotObj->field_A8_xpos;
-                    }
+                    distHit = FP_Abs(hitX - field_18_xpos);
+                    distShot = FP_Abs(pShotObj->field_A8_xpos - field_18_xpos);
                 }
                 if (!pShotObj || (distShot > distHit))
                 {
