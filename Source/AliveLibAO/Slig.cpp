@@ -1750,7 +1750,7 @@ signed __int16 Slig::HandlePlayerControlled_4667B0()
     return 0;
 }
 
-void Slig::PlayerControlRunningSlideStopOrTurnFrame4_469900()
+void Slig::PlayerControlRunningSlideStopOrTurn(short last_anim_frame)
 {
     if (field_B4_velx > FP_FromInteger(0) && sInputObject_5009E8.isPressed(sInputKey_Left_4C6594))
     {
@@ -1791,7 +1791,7 @@ void Slig::PlayerControlRunningSlideStopOrTurnFrame4_469900()
     }
 
     field_E4 = 2;
-    field_E6_last_anim_frame = 6;
+    field_E6_last_anim_frame = last_anim_frame;
     field_11E = 1;
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -1805,9 +1805,14 @@ void Slig::PlayerControlRunningSlideStopOrTurnFrame4_469900()
     field_126_input = 0;
 }
 
+void Slig::PlayerControlRunningSlideStopOrTurnFrame4_469900()
+{
+    PlayerControlRunningSlideStopOrTurn(6);
+}
+
 void Slig::PlayerControlRunningSlideStopOrTurnFrame12_469A80()
 {
-    NOT_IMPLEMENTED();
+    PlayerControlRunningSlideStopOrTurn(15);
 }
 
 void Slig::SlowDown_469D50(FP speed)

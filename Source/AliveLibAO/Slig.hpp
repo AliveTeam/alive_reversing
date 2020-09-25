@@ -215,6 +215,8 @@ public:
 
     void ToPanicTurn();
 
+    void PlayerControlRunningSlideStopOrTurn(short last_anim_frame);
+
     EXPORT __int16 GetNextMotionIncGameSpeak_467700(unsigned __int16 input);
 
     EXPORT static BOOL CCSTD RenderLayerIs_46C0A0(BaseAliveGameObject* pThis);
