@@ -24,8 +24,8 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
-    EXPORT void Bullet::VUpdate_408E30();
-    EXPORT BaseAliveGameObject* Bullet::ShootObject_409400(PSX_RECT* pRect);
+    EXPORT void VUpdate_408E30();
+    EXPORT BaseAliveGameObject* ShootObject_409400(PSX_RECT* pRect);
 
     BulletType field_10_type;
     __int16 field_12;
