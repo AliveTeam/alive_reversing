@@ -2623,62 +2623,61 @@ __int16 Slig::AI_Possessed_2_4BBCF0()
 
 __int16 Slig::AI_DeathDropDeath_3_4BC1E0()
 {
-    if (field_11C_ai_sub_state == 0)
+    switch (field_11C_ai_sub_state)
     {
+    case 0:
         Sfx_Slig_GameSpeak_4C04F0(SligSpeak::Help_10, 0, field_11E_pitch_min, this);
         field_120_timer = sGnFrame_5C1B84 + 60;
         return 1;
-    }
 
-    // TODO: Detangle compiler mashed up switch/case
-    const auto aiSubState = field_11C_ai_sub_state - 1;
-    if (aiSubState)
+    case 1:
     {
-        if (aiSubState != 1 || static_cast<int>(sGnFrame_5C1B84) <= field_120_timer)
+        if (static_cast<int>(sGnFrame_5C1B84) < field_120_timer)
         {
+            if (!((field_120_timer - sGnFrame_5C1B84) % 15))
+            {
+                Sfx_Slig_GameSpeak_4C04F0(
+                    SligSpeak::Help_10,
+                    static_cast<short>(2 * ((field_120_timer & 0xFFFF) - sGnFrame_5C1B84)),
+                    field_11E_pitch_min,
+                    this);
+            }
+
+            if (static_cast<int>(sGnFrame_5C1B84) == field_120_timer - 6)
+            {
+                SND_SEQ_Play_4CAB10(SeqId::HitBottomOfDeathPit_9, 1, 65, 65);
+            }
+
             return field_11C_ai_sub_state;
         }
 
-        if (sControlledCharacter_5C1B8C == this)
-        {
-            MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
-            sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
-            gMap_5C3030.SetActiveCam_480D30(field_146_level, field_148_path, field_14A_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
-        }
+        Abe_SFX_2_457A40(15, 0, 0x7FFF, this);
 
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        auto pScreenShake = ae_new<ScreenShake>();
+        if (pScreenShake)
+        {
+            pScreenShake->ctor_4ACF70(0, 0);
+        }
+        field_120_timer = sGnFrame_5C1B84 + 30;
+        return 2;
+    }
+
+    case 2:
+        if (static_cast<int>(sGnFrame_5C1B84) > field_120_timer)
+        {
+            if (sControlledCharacter_5C1B8C == this)
+            {
+                MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
+                sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+                gMap_5C3030.SetActiveCam_480D30(field_146_level, field_148_path, field_14A_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            }
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        }
+        return field_11C_ai_sub_state;
+
+    default:
         return field_11C_ai_sub_state;
     }
-
-    if (static_cast<int>(sGnFrame_5C1B84) < field_120_timer)
-    {
-        if (!((field_120_timer - sGnFrame_5C1B84) % 15))
-        {
-            Sfx_Slig_GameSpeak_4C04F0(
-                SligSpeak::Help_10,
-                static_cast<short>(2 * ((field_120_timer & 0xFFFF) - sGnFrame_5C1B84)),
-                field_11E_pitch_min,
-                this);
-        }
-
-        if (static_cast<int>(sGnFrame_5C1B84) == field_120_timer - 6)
-        {
-            SND_SEQ_Play_4CAB10(SeqId::HitBottomOfDeathPit_9, 1, 65, 65);
-        }
-
-        return field_11C_ai_sub_state;
-    }
-
-    Abe_SFX_2_457A40(15, 0, 0x7FFF, this);
-
-    auto pScreenShake = ae_new<ScreenShake>();
-    if (pScreenShake)
-    {
-        pScreenShake->ctor_4ACF70(0, 0);
-    }
-
-    field_120_timer = sGnFrame_5C1B84 + 30;
-    return 2;
 }
 
 const __int16 sGlukkonResponseTable_560768[8][6] =

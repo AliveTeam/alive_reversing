@@ -3886,16 +3886,46 @@ __int16 Slig::Brain_Death_46C3A0()
 
 __int16 Slig::Brain_DeathDropDeath_46C5A0()
 {
-    if (field_10E_brain_state == 0)
+    switch (field_10E_brain_state)
     {
+    case 0:
         Sfx_Slig_GameSpeak_46F560(10u, 0, field_110_pitch_min, this);
         field_114_timer = gnFrameCount_507670 + 60;
         return 1;
+
+    case 1:
+    {
+        if (static_cast<int>(gnFrameCount_507670) < field_114_timer)
+        {
+            if (!((field_114_timer - gnFrameCount_507670) % 15))
+            {
+                Sfx_Slig_GameSpeak_46F560(
+                    10u,
+                    static_cast<short>(2 * ((field_114_timer & 0xFFFF) - gnFrameCount_507670)),
+                    field_110_pitch_min,
+                    this);
+            }
+
+            if (static_cast<int>(gnFrameCount_507670) == (field_114_timer - 6))
+            {
+                SND_SEQ_Play_477760(10u, 1, 65, 65);
+            }
+            return field_10E_brain_state;
+        }
+
+        Abe_SFX_2_42A220(15u, 0, 32767, this);
+
+        auto pScreenShake = ao_new<ScreenShake>();
+        if (pScreenShake)
+        {
+            pScreenShake->ctor_4624D0(0);
+        }
+        field_114_timer = gnFrameCount_507670 + 30;
+        return 2;
     }
 
-    if (field_10E_brain_state - 1)
-    {
-        if ((field_10E_brain_state - 1) == 1 && static_cast<int>(gnFrameCount_507670) > field_114_timer)
+    case 2:
+        if (static_cast<int>(gnFrameCount_507670) > field_114_timer)
         {
             if (sControlledCharacter_50767C == this)
             {
@@ -3904,41 +3934,12 @@ __int16 Slig::Brain_DeathDropDeath_46C5A0()
                 gMap_507BA8.SetActiveCam_444660(field_14E_level, field_150_path, field_152_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             }
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
-            return field_10E_brain_state;
         }
         return field_10E_brain_state;
-    }
 
-    if (static_cast<int>(gnFrameCount_507670) < field_114_timer)
-    {
-
-        if (!((field_114_timer - gnFrameCount_507670) % 15))
-        {
-            Sfx_Slig_GameSpeak_46F560(
-                10u,
-                static_cast<short>(2 * ((field_114_timer & 0xFFFF) - gnFrameCount_507670)),
-                field_110_pitch_min,
-                this);
-        }
-
-        if (static_cast<int>(gnFrameCount_507670) == (field_114_timer - 6))
-        {
-            SND_SEQ_Play_477760(10u, 1, 65, 65);
-        }
-
+    default:
         return field_10E_brain_state;
     }
-
-    Abe_SFX_2_42A220(15u, 0, 32767, this);
-
-    auto pScreenShake = ao_new<ScreenShake>();
-    if (pScreenShake)
-    {
-        pScreenShake->ctor_4624D0(0);
-    }
-
-    field_114_timer = gnFrameCount_507670 + 30;
-    return 2;
 }
 
 __int16 Slig::Brain_ReturnControlToAbeAndDie_46C760()
