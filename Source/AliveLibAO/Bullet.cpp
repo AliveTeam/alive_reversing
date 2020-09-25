@@ -73,7 +73,7 @@ EXPORT void Bullet::VUpdate_408E30()
             }
             else
             {
-                shootRect.x = FP_GetExponent(field_18_xpos) + 640;
+                shootRect.x = FP_GetExponent(field_18_xpos) - 640;
                 shootRect.w = FP_GetExponent(field_18_xpos);
             }
             shootRect.y = FP_GetExponent(field_1C_ypos - FP_FromInteger(15));
