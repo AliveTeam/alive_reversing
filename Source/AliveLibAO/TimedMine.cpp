@@ -359,4 +359,25 @@ void TimedMine::VOnThrowableHit_408B10(BaseGameObject* /*pFrom*/)
     field_114_timer = gnFrameCount_507670;
 }
 
+void TimedMine::vOnPickUpOrSlapped_408A80()
+{
+    if (field_10C_armed != 1)
+    {
+        field_10C_armed = 1;
+        if ((signed int) (field_10E_explode_timeout & 0xFFFC) >= 72)
+        {
+            field_1B4 = 18;
+        }
+        else
+        {
+            field_1B4 = field_10E_explode_timeout >> 2;
+        }
+        field_1B0 = gnFrameCount_507670;
+        field_10_anim.Set_Animation_Data_402A40(804, 0);
+        field_114_timer = gnFrameCount_507670 + field_10E_explode_timeout;
+        field_118_anim.Set_Animation_Data_402A40(384, 0);
+        SFX_Play_43AD70(SoundEffect::GreenTick_3, 0, 0);
+    }
+}
+
 END_NS_AO

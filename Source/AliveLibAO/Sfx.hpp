@@ -4,6 +4,14 @@
 
 START_NS_AO
 
+enum SoundEffect
+{
+    Unknown_0 = 0,
+    Unknown_1 = 1,
+    Unknown_2 = 2,
+    GreenTick_3 = 3
+};
+
 class BaseAnimatedWithPhysicsGameObject;
 class BaseAliveGameObject;
 class BaseGameObject;
