@@ -1752,7 +1752,57 @@ signed __int16 Slig::HandlePlayerControlled_4667B0()
 
 void Slig::PlayerControlRunningSlideStopOrTurnFrame4_469900()
 {
-    NOT_IMPLEMENTED();
+    if (field_B4_velx > FP_FromInteger(0) && sInputObject_5009E8.isPressed(sInputKey_Left_4C6594))
+    {
+        field_B4_velx = field_BC_sprite_scale * FP_FromDouble(13.2);
+        field_FC_current_motion = eSligStates::State_10_SlidingTurn_469F10;
+        field_126_input = 0;
+        return;
+    }
+
+    if (field_B4_velx < FP_FromInteger(0) && sInputObject_5009E8.isPressed(sInputKey_Right_4C6590))
+    {
+        field_B4_velx = field_BC_sprite_scale * FP_FromDouble(-13.2);
+        field_FC_current_motion = eSligStates::State_10_SlidingTurn_469F10;
+        field_126_input = 0;
+        return;
+    }
+
+    if (!sInputObject_5009E8.isPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
+    {
+        if (field_B4_velx >= FP_FromInteger(0))
+        {
+            field_B4_velx = field_BC_sprite_scale * FP_FromDouble(13.2);
+        }
+        else
+        {
+            field_B4_velx = field_BC_sprite_scale * FP_FromDouble(-13.2);
+        }
+
+        field_FC_current_motion = eSligStates::State_9_SlidingToStand_469DF0;
+        field_126_input = 0;
+        return;
+    }
+
+    if (sInputObject_5009E8.isPressed(sInputKey_Run_4C65A8))
+    {
+        field_126_input = 0;
+        return;
+    }
+
+    field_E4 = 2;
+    field_E6_last_anim_frame = 6;
+    field_11E = 1;
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(9));
+    }
+    else
+    {
+        field_B4_velx = ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(9);
+    }
+    field_126_input = 0;
 }
 
 void Slig::PlayerControlRunningSlideStopOrTurnFrame12_469A80()
