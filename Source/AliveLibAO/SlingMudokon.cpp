@@ -307,7 +307,7 @@ void SlingMudokon::State_3_ShootStart_46FD90()
                 {
                     pBullet->ctor_409380(
                         this,
-                        1,
+                        BulletType::Type_1,
                         field_A8_xpos - frame_x,
                         field_AC_ypos - FP_FromInteger(24),
                         -FP_FromInteger(640),
@@ -323,7 +323,7 @@ void SlingMudokon::State_3_ShootStart_46FD90()
                 {
                     pBullet->ctor_409380(
                         this,
-                        1,
+                        BulletType::Type_1,
                         frame_x + field_A8_xpos,
                         field_AC_ypos - FP_FromInteger(24),
                         FP_FromInteger(640),

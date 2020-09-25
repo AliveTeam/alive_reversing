@@ -68,6 +68,8 @@ public:
 
     virtual __int16 VTakeDamage(BaseGameObject* pFrom);
 
+    EXPORT __int16 VTakeDamage_401920(BaseGameObject* pFrom);
+
     virtual void VOn_TLV_Collision(Path_TLV* pTlv);
 
     virtual void VCheckCollisionLineStillValid(int distance);

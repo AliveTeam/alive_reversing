@@ -166,8 +166,13 @@ void BaseAliveGameObject::VOnPathTransition(__int16 camWorldX, int camWorldY, Ca
 
 __int16 BaseAliveGameObject::VTakeDamage(BaseGameObject* /*pFrom*/)
 {
-    // Empty
+    // Defaults to no damage.
     return 0;
+}
+
+__int16 BaseAliveGameObject::VTakeDamage_401920(BaseGameObject* pFrom)
+{
+    return VTakeDamage(pFrom);
 }
 
 void BaseAliveGameObject::VOn_TLV_Collision(Path_TLV* /*pTlv*/)
