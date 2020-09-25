@@ -161,29 +161,29 @@ EXPORT void Bullet::VUpdate_408E30()
         }
         case BulletType::Type_2:
         {
-            FP v5 = {};
-            FP v7 = {};
+            FP distX_2 = {};
+            FP distX_1 = {};
             FP hitX = {};
             FP hitY = {};
             PSX_RECT shootRect = {};
             if (sControlledCharacter_50767C == gElum_507680)
             {
-                v5 = gElum_507680->field_B4_velx * FP_FromInteger(4);
-                v7 = sActiveHero_507678->field_A8_xpos;
+                distX_1 = sActiveHero_507678->field_A8_xpos;
+                distX_2 = gElum_507680->field_B4_velx * FP_FromInteger(4);
             }
             else
             {
-                v5 = sActiveHero_507678->field_B4_velx * FP_FromInteger(2);
                 if (field_18_xpos >= sActiveHero_507678->field_A8_xpos)
                 {
-                    v7 = sActiveHero_507678->field_A8_xpos + FP_FromInteger(field_34 << 4);
+                    distX_1 = sActiveHero_507678->field_A8_xpos + FP_FromInteger(field_34 * 16);
                 }
                 else
                 {
-                    v7 = sActiveHero_507678->field_A8_xpos - FP_FromInteger(field_34 << 4);
+                    distX_1 = sActiveHero_507678->field_A8_xpos - FP_FromInteger(field_34 * 16);
                 }
+                distX_2 = sActiveHero_507678->field_B4_velx * FP_FromInteger(2);
             }
-            shootRect.x = FP_GetExponent(v7 - v5);
+            shootRect.x = FP_GetExponent(distX_1 - distX_2);
             shootRect.w = shootRect.x + 2;
             shootRect.y = FP_GetExponent(sActiveHero_507678->field_AC_ypos)
                 + sActiveHero_507678->field_10_anim.Get_FrameHeader_403A00(-1)->field_8_data.points[2].y //or points 3?!
@@ -201,7 +201,7 @@ EXPORT void Bullet::VUpdate_408E30()
             if (sCollisions_DArray_504C6C->RayCast_40C410(
                     field_18_xpos,
                     field_1C_ypos,
-                    v7 - v5,
+                    distX_1 - distX_2,
                     sActiveHero_507678->field_AC_ypos + FP_FromInteger(10),
                     &field_14_pLine,
                     &hitX,
