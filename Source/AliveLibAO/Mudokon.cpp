@@ -2561,7 +2561,7 @@ void Mudokon::State_51_Fall_43D0D0()
 
 void Mudokon::State_52_Chant_43D520()
 {
-    if (!(gnFrameCount_507670 % -4))
+    if (!(gnFrameCount_507670 % 4))
     {
         const FP rndX = FP_FromInteger(40 * Math_NextRandom() / 256 - 20);
         const FP rndY = FP_FromInteger(30 * Math_NextRandom() / 256 + 30);
