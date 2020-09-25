@@ -26,6 +26,7 @@
 #include "GameEnderController.hpp"
 #include "SnoozeParticle.hpp"
 #include "GameSpeak.hpp"
+#include "ScreenShake.hpp"
 
 START_NS_AO
 
@@ -1750,14 +1751,69 @@ signed __int16 Slig::HandlePlayerControlled_4667B0()
     return 0;
 }
 
+void Slig::PlayerControlRunningSlideStopOrTurn(short last_anim_frame)
+{
+    if (field_B4_velx > FP_FromInteger(0) && sInputObject_5009E8.isPressed(sInputKey_Left_4C6594))
+    {
+        field_B4_velx = field_BC_sprite_scale * FP_FromDouble(13.2);
+        field_FC_current_motion = eSligStates::State_10_SlidingTurn_469F10;
+        field_126_input = 0;
+        return;
+    }
+
+    if (field_B4_velx < FP_FromInteger(0) && sInputObject_5009E8.isPressed(sInputKey_Right_4C6590))
+    {
+        field_B4_velx = field_BC_sprite_scale * FP_FromDouble(-13.2);
+        field_FC_current_motion = eSligStates::State_10_SlidingTurn_469F10;
+        field_126_input = 0;
+        return;
+    }
+
+    if (!sInputObject_5009E8.isPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
+    {
+        if (field_B4_velx >= FP_FromInteger(0))
+        {
+            field_B4_velx = field_BC_sprite_scale * FP_FromDouble(13.2);
+        }
+        else
+        {
+            field_B4_velx = field_BC_sprite_scale * FP_FromDouble(-13.2);
+        }
+
+        field_FC_current_motion = eSligStates::State_9_SlidingToStand_469DF0;
+        field_126_input = 0;
+        return;
+    }
+
+    if (sInputObject_5009E8.isPressed(sInputKey_Run_4C65A8))
+    {
+        field_126_input = 0;
+        return;
+    }
+
+    field_E4 = 2;
+    field_E6_last_anim_frame = last_anim_frame;
+    field_11E = 1;
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(9));
+    }
+    else
+    {
+        field_B4_velx = ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(9);
+    }
+    field_126_input = 0;
+}
+
 void Slig::PlayerControlRunningSlideStopOrTurnFrame4_469900()
 {
-    NOT_IMPLEMENTED();
+    PlayerControlRunningSlideStopOrTurn(6);
 }
 
 void Slig::PlayerControlRunningSlideStopOrTurnFrame12_469A80()
 {
-    NOT_IMPLEMENTED();
+    PlayerControlRunningSlideStopOrTurn(15);
 }
 
 void Slig::SlowDown_469D50(FP speed)
@@ -3830,8 +3886,60 @@ __int16 Slig::Brain_Death_46C3A0()
 
 __int16 Slig::Brain_DeathDropDeath_46C5A0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    switch (field_10E_brain_state)
+    {
+    case 0:
+        Sfx_Slig_GameSpeak_46F560(10u, 0, field_110_pitch_min, this);
+        field_114_timer = gnFrameCount_507670 + 60;
+        return 1;
+
+    case 1:
+    {
+        if (static_cast<int>(gnFrameCount_507670) < field_114_timer)
+        {
+            if (!((field_114_timer - gnFrameCount_507670) % 15))
+            {
+                Sfx_Slig_GameSpeak_46F560(
+                    10u,
+                    static_cast<short>(2 * ((field_114_timer & 0xFFFF) - gnFrameCount_507670)),
+                    field_110_pitch_min,
+                    this);
+            }
+
+            if (static_cast<int>(gnFrameCount_507670) == (field_114_timer - 6))
+            {
+                SND_SEQ_Play_477760(10u, 1, 65, 65);
+            }
+            return field_10E_brain_state;
+        }
+
+        Abe_SFX_2_42A220(15u, 0, 32767, this);
+
+        auto pScreenShake = ao_new<ScreenShake>();
+        if (pScreenShake)
+        {
+            pScreenShake->ctor_4624D0(0);
+        }
+        field_114_timer = gnFrameCount_507670 + 30;
+        return 2;
+    }
+
+    case 2:
+        if (static_cast<int>(gnFrameCount_507670) > field_114_timer)
+        {
+            if (sControlledCharacter_50767C == this)
+            {
+                MusicController::sub_443810(MusicController::MusicTypes::eType0, this, 0, 0);
+                sControlledCharacter_50767C = sActiveHero_507678;
+                gMap_507BA8.SetActiveCam_444660(field_14E_level, field_150_path, field_152_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            }
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        }
+        return field_10E_brain_state;
+
+    default:
+        return field_10E_brain_state;
+    }
 }
 
 __int16 Slig::Brain_ReturnControlToAbeAndDie_46C760()
