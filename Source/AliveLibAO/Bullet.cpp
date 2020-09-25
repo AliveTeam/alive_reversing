@@ -63,8 +63,8 @@ EXPORT void Bullet::VUpdate_408E30()
         case BulletType::Type_0:
         case BulletType::Type_1:
         {
-            FP hitX;
-            FP hitY;
+            FP hitX = {};
+            FP hitY = {};
             PSX_RECT shootRect = {};
             if (field_20 > FP_FromInteger(0))
             {
@@ -90,8 +90,8 @@ EXPORT void Bullet::VUpdate_408E30()
                     field_2C_scale != FP_FromDouble(0.5) ? 7 : 0x70
                 ) == 1)
             {
-                FP distHit;
-                FP distShot;
+                FP distHit = {};
+                FP distShot = {};
                 if (pShotObj)
                 {
                     distHit = hitX - field_18_xpos;
@@ -169,10 +169,10 @@ EXPORT void Bullet::VUpdate_408E30()
         }
         case BulletType::Type_2:
         {
-            FP v5;
-            FP v7;
-            FP hitX;
-            FP hitY;
+            FP v5 = {};
+            FP v7 = {};
+            FP hitX = {};
+            FP hitY = {};
             PSX_RECT shootRect = {};
             if (sControlledCharacter_50767C == (BaseAliveGameObject *) gElum_507680)
             {
@@ -239,6 +239,5 @@ BaseAliveGameObject* Bullet::ShootObject_409400(PSX_RECT* /*pRect*/)
 {
     NOT_IMPLEMENTED();
 }
-
 
 END_NS_AO
