@@ -8,19 +8,28 @@ START_NS_AO
 
 class BaseAliveGameObject;
 
+enum class BulletType : __int16
+{
+    Type_0 = 0,
+    Type_1 = 1,
+    Type_2 = 2
+};
+
 enum class LevelIds : __int16;
 
 class Bullet : public BaseGameObject
 {
 public:
-    EXPORT Bullet* ctor_409380(BaseAliveGameObject* pParent, __int16 type, FP xpos, FP ypos, FP xDist, int a7, FP scale, __int16 a9);
+    EXPORT Bullet* ctor_409380(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, int a7, FP scale, __int16 a9);
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
+    EXPORT void VUpdate_408E30();
+    EXPORT BaseAliveGameObject* ShootObject_409400(PSX_RECT* pRect);
 
-    __int16 field_10_type;
+    BulletType field_10_type;
     __int16 field_12;
-    int field_14;
+    PathLine* field_14_pLine;
     FP field_18_xpos;
     FP field_1C_ypos;
     FP field_20;
