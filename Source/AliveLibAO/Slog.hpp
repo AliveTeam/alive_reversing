@@ -145,10 +145,10 @@ public:
     EXPORT void State_24_Growl_475590();
 
     // Brains
-    EXPORT __int16 Brain_0_472450();
-    EXPORT __int16 Brain_1_4719C0();
-    EXPORT __int16 Brain_2_470F50();
-    EXPORT __int16 Brain_3_4721B0();
+    EXPORT __int16 Brain_0_ListeningToSlig_472450();
+    EXPORT __int16 Brain_1_Idle_4719C0();
+    EXPORT __int16 Brain_2_ChasingAbe_470F50();
+    EXPORT __int16 Brain_3_Dead_4721B0();
 
     BaseAliveGameObject* field_10C;
     int field_110;

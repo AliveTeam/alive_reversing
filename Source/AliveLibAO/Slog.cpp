@@ -58,22 +58,22 @@ const TSlogStateFunction sSlogMotionTable_4CFD30[] =
     &Slog::State_24_Growl_475590,
 };
 
-using TSlogBrainFunction = decltype(&Slog::Brain_0_472450);
+using TSlogBrainFunction = decltype(&Slog::Brain_0_ListeningToSlig_472450);
 
 const TSlogBrainFunction sSlog_fns_brain_4CFE00[] =
 {
-    &Slog::Brain_0_472450,
-    &Slog::Brain_1_4719C0,
-    &Slog::Brain_2_470F50,
-    &Slog::Brain_3_4721B0
+    &Slog::Brain_0_ListeningToSlig_472450,
+    &Slog::Brain_1_Idle_4719C0,
+    &Slog::Brain_2_ChasingAbe_470F50,
+    &Slog::Brain_3_Dead_4721B0
 };
 
 const static AIFunctionData<TSlogBrainFunction> sSlogBrainTable[4] =
 {
-    { &Slog::Brain_0_472450, 0x472450, "brain_0" },
-    { &Slog::Brain_1_4719C0, 0x4719C0, "brain_1" },
-    { &Slog::Brain_2_470F50, 0x470F50, "brain_2" },
-    { &Slog::Brain_3_4721B0, 0x4721B0, "brain_3" }
+    { &Slog::Brain_0_ListeningToSlig_472450, 0x472450, "Brain_0_ListeningToSlig" },
+    { &Slog::Brain_1_Idle_4719C0, 0x4719C0, "Brain_1_Idle" },
+    { &Slog::Brain_2_ChasingAbe_470F50, 0x470F50, "Brain_2_ChasingAbe" },
+    { &Slog::Brain_3_Dead_4721B0, 0x4721B0, "Brain_3_Dead" }
 };
 
 const int sSlogFrameOffsetTable_4CFD98[25] =
@@ -1820,25 +1820,25 @@ void Slog::State_24_Growl_475590()
     }
 }
 
-__int16 Slog::Brain_0_472450()
+__int16 Slog::Brain_0_ListeningToSlig_472450()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slog::Brain_1_4719C0()
+__int16 Slog::Brain_1_Idle_4719C0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slog::Brain_2_470F50()
+__int16 Slog::Brain_2_ChasingAbe_470F50()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slog::Brain_3_4721B0()
+__int16 Slog::Brain_3_Dead_4721B0()
 {
     NOT_IMPLEMENTED();
     return 0;
