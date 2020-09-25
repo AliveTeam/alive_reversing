@@ -60,7 +60,7 @@ const TSlogStateFunction sSlogMotionTable_4CFD30[] =
 
 using TSlogBrainFunction = decltype(&Slog::Brain_0_472450);
 
-const TSlogBrainFunction sSlogBrainTable_4CFE00[] =
+const TSlogBrainFunction sSlog_fns_brain_4CFE00[] =
 {
     &Slog::Brain_0_472450,
     &Slog::Brain_1_4719C0,
@@ -68,6 +68,13 @@ const TSlogBrainFunction sSlogBrainTable_4CFE00[] =
     &Slog::Brain_3_4721B0
 };
 
+const static AIFunctionData<TSlogBrainFunction> sSlogBrainTable[4] =
+{
+    { &Slog::Brain_0_472450, 0x472450, "brain_0" },
+    { &Slog::Brain_1_4719C0, 0x4719C0, "brain_1" },
+    { &Slog::Brain_2_470F50, 0x470F50, "brain_2" },
+    { &Slog::Brain_3_4721B0, 0x4721B0, "brain_3" }
+};
 
 const int sSlogFrameOffsetTable_4CFD98[25] =
 {
@@ -417,7 +424,13 @@ void Slog::VUpdate_4739C0()
     }
 
     const __int16 old_motion = field_FC_current_motion;
-    field_116_brain_state = (this->*sSlogBrainTable_4CFE00[field_114_brain_idx])();
+    const auto oldBrain = sSlog_fns_brain_4CFE00[field_114_brain_idx];
+    field_116_brain_state = (this->*sSlog_fns_brain_4CFE00[field_114_brain_idx])();
+
+    if (oldBrain != sSlog_fns_brain_4CFE00[field_114_brain_idx])
+    {
+        LOG_INFO("brain changed from " << GetOriginalFn(oldBrain, sSlogBrainTable).fnName << " to " << GetOriginalFn(sSlog_fns_brain_4CFE00[field_114_brain_idx], sSlogBrainTable).fnName);
+    }
 
     if (word_5076E0)
     {
