@@ -3741,7 +3741,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
 
         if (field_1B4_idle_time <= 150 || BetweenCameras_418500() != BetweenCamPos::None_0)
         {
-            if (VIsFacingMe(sActiveHero_507678))
+            if (!VIsFacingMe(sActiveHero_507678))
             {
                 field_FE_next_state = eMudStates::State_2_StandingTurn_43D050;
                 return field_1BA_sub_state;
@@ -3908,6 +3908,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
             field_FE_next_state = eMudStates::State_0_Idle_43CA70;
             return 3;
         }
+
         GameSpeakEvents last_speak = {};
         if (field_128 == pEventSystem_4FF954->field_18_last_event_index)
         {
