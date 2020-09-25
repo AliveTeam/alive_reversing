@@ -164,15 +164,15 @@ void BaseAliveGameObject::VOnPathTransition(__int16 camWorldX, int camWorldY, Ca
     VOnPathTransition_401470(camWorldX, camWorldY, direction);
 }
 
-__int16 BaseAliveGameObject::VTakeDamage(BaseGameObject* /*pFrom*/)
+__int16 BaseAliveGameObject::VTakeDamage(BaseGameObject* pFrom)
+{
+    return VTakeDamage_401920(pFrom);
+}
+
+__int16 BaseAliveGameObject::VTakeDamage_401920(BaseGameObject* /*pFrom*/)
 {
     // Defaults to no damage.
     return 0;
-}
-
-__int16 BaseAliveGameObject::VTakeDamage_401920(BaseGameObject* pFrom)
-{
-    return VTakeDamage(pFrom);
 }
 
 void BaseAliveGameObject::VOn_TLV_Collision(Path_TLV* /*pTlv*/)
