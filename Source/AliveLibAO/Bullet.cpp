@@ -143,7 +143,7 @@ EXPORT void Bullet::VUpdate_408E30()
             {
                 if (!pShotObj)
                 {
-                    if ((signed __int16) Math_RandomRange_450F20(0, 100) >= 70)
+                    if (Math_RandomRange_450F20(0, 100) >= 70)
                     {
                         field_6_flags.Set(BaseGameObject::eDead_Bit3);
                         return;
@@ -198,7 +198,7 @@ EXPORT void Bullet::VUpdate_408E30()
                 - 10;
             shootRect.h = shootRect.y + 10;
             BaseAliveGameObject *pShotObj = ShootObject_409400(&shootRect);
-            if (pShotObj->VTakeDamage_401920(this))
+            if (pShotObj->VTakeDamage(this))
             {
                 SFX_Play_43AE60(SoundEffect::AirStream_28, 90, 2000, 0);
                 SFX_Play_43AE60(SoundEffect::MeatBounce_43, 90, Math_RandomRange_450F20(300, 700), 0);
