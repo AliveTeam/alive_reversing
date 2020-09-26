@@ -242,19 +242,21 @@ void BaseAliveGameObject::vSetMotion_4081C0(__int16 state)
     field_106_current_motion = state;
 }
 
-EXPORT int CC sub_449880(FP scale)
+EXPORT int CC MaxGridBlocks_449880(FP scale)
 {
     if (scale == FP_FromDouble(0.5))
     {
-        return 30;
+        return 30; // (29+1) * 13 (grid block size) for 377/390
     }
-
-    if (scale == FP_FromInteger(1))
+    else if (scale == FP_FromInteger(1))
     {
-        return 16;
+        return 16; // (15+1) * 25 (grid block size) for 375/400
     }
-
-    return 0;
+    else
+    {
+        LOG_ERROR("Scale should be 0.5 or 1 but got " << FP_GetDouble(scale));
+        ALIVE_FATAL("Invalid scale");
+    }
 }
 
 void BaseAliveGameObject::vOnPathTransition_408320(__int16 cameraWorldXPos, __int16 cameraWorldYPos, CameraPos direction)
@@ -266,7 +268,7 @@ void BaseAliveGameObject::vOnPathTransition_408320(__int16 cameraWorldXPos, __in
         field_B8_xpos = FP_FromInteger(cameraWorldXPos + FP_GetExponent(field_B8_xpos) % 375);
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit22_DeadMode))
         {
-            ALIVE_FATAL("Impossible case BaseAliveGameObject::vsub_408320 AnimFlags::eBit22_DeadMode");
+            ALIVE_FATAL("Impossible case BaseAliveGameObject::vOnPathTransition_408320 AnimFlags::eBit22_DeadMode");
         }
         else
         {
@@ -282,7 +284,7 @@ void BaseAliveGameObject::vOnPathTransition_408320(__int16 cameraWorldXPos, __in
         break;
 
     case CameraPos::eCamLeft_3:
-        field_B8_xpos = FP_FromInteger(cameraWorldXPos + (GridXMidPos_4498F0(field_CC_sprite_scale, sub_449880(field_CC_sprite_scale) - 1)));
+        field_B8_xpos = FP_FromInteger(cameraWorldXPos + (GridXMidPos_4498F0(field_CC_sprite_scale, MaxGridBlocks_449880(field_CC_sprite_scale) - 1)));
         field_BC_ypos = FP_FromInteger(cameraWorldYPos + FP_GetExponent(field_BC_ypos) % 260);
         break;
 

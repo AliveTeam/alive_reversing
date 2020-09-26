@@ -391,7 +391,7 @@ __int16 BaseAliveGameObject::MapFollowMe_401D30(__int16 snapToGrid)
                 sub_4020D0();
 
                 // Put at the right side of the camera to the left
-                const int v1 = GridXMidPos_41FA60(field_BC_sprite_scale, (NumGridBlocks_41FA10(field_BC_sprite_scale) - 1));
+                const int v1 = GridXMidPos_41FA60(field_BC_sprite_scale, (MaxGridBlocks_41FA10(field_BC_sprite_scale) - 1));
                 const int v2 = x_i - camXIndex - 1024;
                 field_A8_xpos = FP_FromInteger(v2) + FP_FromInteger(v1) + gridSize;
 
@@ -449,7 +449,7 @@ __int16 BaseAliveGameObject::MapFollowMe_401D30(__int16 snapToGrid)
             {
                 sub_4020D0();
 
-                const int v1 = GridXMidPos_41FA60(field_BC_sprite_scale, NumGridBlocks_41FA10(field_BC_sprite_scale));
+                const int v1 = GridXMidPos_41FA60(field_BC_sprite_scale, MaxGridBlocks_41FA10(field_BC_sprite_scale));
                 const int v2 = x_i - camXIndex - 1024;
                 field_A8_xpos = FP_FromInteger(v2) + FP_FromInteger(v1) + gridSize;
 

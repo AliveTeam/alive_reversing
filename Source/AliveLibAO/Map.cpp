@@ -297,7 +297,7 @@ EXPORT void CC SsUtAllKeyOff_49EDE0(int /*a1*/)
     NOT_IMPLEMENTED();
 }
 
-EXPORT int CC NumGridBlocks_41FA10(FP scale)
+EXPORT int CC MaxGridBlocks_41FA10(FP scale)
 {
     if (scale == FP_FromDouble(0.5))
     {
@@ -552,7 +552,7 @@ void Map::Handle_PathTransition_444DD0()
             {
                 field_18_pAliveObj->VSetXSpawn(
                     field_20_camX_idx * field_D4_pPathData->field_C_grid_width,
-                    NumGridBlocks_41FA10(field_18_pAliveObj->field_BC_sprite_scale) - 1);
+                    MaxGridBlocks_41FA10(field_18_pAliveObj->field_BC_sprite_scale) - 1);
             }
             field_10_screenChangeEffect = CameraSwapEffects::eEffect2_RightToLeft;
             break;

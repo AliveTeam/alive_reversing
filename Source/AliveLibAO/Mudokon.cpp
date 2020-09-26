@@ -929,7 +929,7 @@ void Mudokon::DoPathTrans_43FE00()
 
     if (sActiveHero_507678->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        field_A8_xpos = FP_FromInteger((camCoords.field_0_x + GridXMidPos_41FA60(field_BC_sprite_scale, NumGridBlocks_41FA10(field_BC_sprite_scale)))) + ScaleToGridSize_41FA30(field_BC_sprite_scale);
+        field_A8_xpos = FP_FromInteger((camCoords.field_0_x + GridXMidPos_41FA60(field_BC_sprite_scale, MaxGridBlocks_41FA10(field_BC_sprite_scale)))) + ScaleToGridSize_41FA30(field_BC_sprite_scale);
     }
     else
     {
