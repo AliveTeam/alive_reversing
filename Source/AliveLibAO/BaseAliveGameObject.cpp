@@ -355,9 +355,125 @@ void BaseAliveGameObject::VOnPathTransition_401470(__int16 /*camWorldX*/, int /*
     NOT_IMPLEMENTED();
 }
 
-__int16 BaseAliveGameObject::MapFollowMe_401D30(__int16 /*snapToGrid*/)
+__int16 BaseAliveGameObject::MapFollowMe_401D30(__int16 snapToGrid)
 {
-    NOT_IMPLEMENTED();
+    PSX_Point camCoords = {};
+    gMap_507BA8.GetCurrentCamCoords_444890(&camCoords);
+
+    const FP gridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
+
+    // Are we "in" the current camera X bounds?
+    if (field_B2_lvl_number == gMap_507BA8.field_0_current_level &&
+        field_B0_path_number == gMap_507BA8.field_2_current_path &&
+        field_A8_xpos > FP_FromInteger(camCoords.field_0_x) &&
+        field_A8_xpos < FP_FromInteger(camCoords.field_0_x + 1024))
+    {
+        const int snappedX = Grid_SnapX_41FAA0(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos - FP_FromInteger(camCoords.field_0_x)));
+
+        // In the left camera void and moving left?
+        if (snappedX < 256 && field_B4_velx < FP_FromInteger(0))
+        {
+            // Go to the left camera if under player control
+            if (sControlledCharacter_50767C == this)
+            {
+                if (gMap_507BA8.SetActiveCameraDelayed_444CA0(Map::MapDirections::eMapLeft_0, this, -1))
+                {
+                    field_B0_path_number = gMap_507BA8.field_2_current_path;
+                    field_B2_lvl_number = gMap_507BA8.field_0_current_level;
+                    return 1;
+                }
+            }
+
+            const int x_i = FP_GetExponent(field_A8_xpos);
+            const int camXIndex = x_i % 1024;
+            if (x_i > 1024)
+            {
+                sub_4020D0();
+
+                // Put at the right side of the camera to the left
+                const int v1 = GridXMidPos_41FA60(field_BC_sprite_scale, (NumGridBlocks_41FA10(field_BC_sprite_scale) - 1));
+                const int v2 = x_i - camXIndex - 1024;
+                field_A8_xpos = FP_FromInteger(v2) + FP_FromInteger(v1) + gridSize;
+
+                VCheckCollisionLineStillValid(40);
+            }
+            return 0;
+        }
+
+        // In the right camera void and moving right?
+        if (snappedX > 624 && field_B4_velx > FP_FromInteger(0))
+        {
+            // Go to the right camera in under player control
+            if (sControlledCharacter_50767C == this)
+            {
+                if (gMap_507BA8.SetActiveCameraDelayed_444CA0(Map::MapDirections::eMapRight_1, this, -1))
+                {
+                    field_B0_path_number = gMap_507BA8.field_2_current_path;
+                    field_B2_lvl_number = gMap_507BA8.field_0_current_level;
+                    return 1;
+                }
+            }
+
+            const short x_i = FP_GetExponent(field_A8_xpos);
+            const int camXIndex = x_i % 1024;
+            if (x_i < camCoords.field_0_x - 1024)
+            {
+                sub_4020D0();
+
+                // Put at the left side of the camera to the right
+                const int v1 = GridXMidPos_41FA60(field_BC_sprite_scale, 1);
+                const int v2 = x_i - camXIndex + 1024;
+                field_A8_xpos =  FP_FromInteger(v2) + FP_FromInteger(v1) - gridSize;
+
+                VCheckCollisionLineStillValid(40);
+                return 0;
+            }
+        }
+
+        if (snapToGrid)
+        {
+            // Not in the voids of the camera, just snap to the x grid
+            field_A8_xpos = FP_FromInteger(snappedX + camCoords.field_0_x);
+            return 0;
+        }
+    }
+    else
+    {
+        const int x_i = FP_GetExponent(field_A8_xpos);
+        const int camXIndex = x_i % 1024;
+
+        // In the left camera void and moving left?
+        if (camXIndex < 256 && field_B4_velx < FP_FromInteger(0))
+        {
+            if (x_i > 1024)
+            {
+                sub_4020D0();
+
+                const int v1 = GridXMidPos_41FA60(field_BC_sprite_scale, NumGridBlocks_41FA10(field_BC_sprite_scale));
+                const int v2 = x_i - camXIndex - 1024;
+                field_A8_xpos = FP_FromInteger(v2) + FP_FromInteger(v1) + gridSize;
+
+                VCheckCollisionLineStillValid(40);
+                return 0;
+            }
+        }
+
+        // In the right camera void and moving right?
+        if (camXIndex > 624 && field_B4_velx > FP_FromInteger(0))
+        {
+            if (x_i < (camCoords.field_0_x - 1024))
+            {
+                sub_4020D0();
+
+                const int v1 = GridXMidPos_41FA60(field_BC_sprite_scale, 0);
+                const int v2 = x_i - camXIndex + 1024;
+                field_A8_xpos = FP_FromInteger(v2) + FP_FromInteger(v1) + gridSize;
+
+                VCheckCollisionLineStillValid(40);
+            }
+            return 0;
+        }
+    }
     return 0;
 }
 
