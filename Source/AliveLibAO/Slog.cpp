@@ -1844,13 +1844,13 @@ __int16 Slog::Brain_3_Dead_4721B0()
     if (field_14C)
     {
         field_14C->field_C_refCount--;
-        field_14C = 0;
+        field_14C = nullptr;
     }
 
     if (field_10C)
     {
         field_10C->field_C_refCount--;
-        field_10C = 0;
+        field_10C = nullptr;
     }
 
     if (field_11C < static_cast<int>(gnFrameCount_507670) + 80)
