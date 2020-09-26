@@ -22,6 +22,7 @@
 #include "Shadow.hpp"
 #include "Events.hpp"
 #include "DDCheat.hpp"
+#include "Particle.hpp"
 
 void Slog_ForceLink() {}
 
@@ -1840,8 +1841,41 @@ __int16 Slog::Brain_2_ChasingAbe_470F50()
 
 __int16 Slog::Brain_3_Dead_4721B0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (field_14C)
+    {
+        field_14C->field_C_refCount--;
+        field_14C = 0;
+    }
+
+    if (field_10C)
+    {
+        field_10C->field_C_refCount--;
+        field_10C = 0;
+    }
+
+    if (field_11C < static_cast<int>(gnFrameCount_507670) + 80)
+    {
+        field_C0_r -= 2;
+        field_C2_g -= 2;
+        field_C4_b -= 2;
+        field_BC_sprite_scale -= FP_FromDouble(0.023);
+    }
+
+    if (static_cast<int>(gnFrameCount_507670) < field_11C - 24 && !(gnFrameCount_507670 % 5))
+    {
+        New_Particles_419A80(
+            (FP_FromInteger(Math_RandomRange_450F20(-24, 24)) * field_BC_sprite_scale) + field_A8_xpos,
+            field_AC_ypos - FP_FromInteger(6),
+            field_BC_sprite_scale / FP_FromInteger(2),
+            2, 0);
+        SFX_Play_43AE60(96u, 25, FP_GetExponent(FP_FromInteger(2200) * field_BC_sprite_scale), 0);
+    }
+
+    if (field_BC_sprite_scale < FP_FromInteger(0))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+    return 100;
 }
 
 END_NS_AO
