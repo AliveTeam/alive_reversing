@@ -119,7 +119,7 @@ void BulletShell::VUpdate_4628C0()
             {
                 volume = 19;
             }
-            SFX_Play_43AD70(7u, volume, 0);
+            SFX_Play_43AD70(SoundEffect::IngameTransition_107, volume, 0);
             field_EC_hitCount++;
         }
     }

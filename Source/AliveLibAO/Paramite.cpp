@@ -3401,7 +3401,7 @@ void Paramite::State_13_GameSpeakBegin_44D050()
             {
                 if (sActiveHero_507678->field_100_health > FP_FromInteger(0))
                 {
-                    SFX_Play_43AD70(78u, 0, 0);
+                    SFX_Play_43AD70(SoundEffect::KillEffect_78, 0, 0);
                     Abe_SFX_42A4D0(10u, 0, 0, sActiveHero_507678);
                 }
                 sActiveHero_507678->VTakeDamage(this);
@@ -3807,7 +3807,7 @@ void Paramite::State_24_Struggle_44DB70()
 {
     if (field_10_anim.field_92_current_frame == 0)
     {
-        SFX_Play_43AD70(78u, 0, 0);
+        SFX_Play_43AD70(SoundEffect::KillEffect_78, 0, 0);
     }
 }
 

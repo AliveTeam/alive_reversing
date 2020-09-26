@@ -253,7 +253,7 @@ void BirdPortal::VUpdate_4523D0()
     {
         if (field_14_state > States::State_4 && field_14_state < States::State_11)
         {
-            field_68_sfx_ret = SFX_Play_43AED0(67u, 45, direction);
+            field_68_sfx_ret = SFX_Play_43AED0(SoundEffect::Unknown_67, 45, direction);
         }
     }
 
@@ -319,7 +319,7 @@ void BirdPortal::VUpdate_4523D0()
     {
         if (static_cast<int>(gnFrameCount_507670) >= field_30_timer)
         {
-            SFX_Play_43AD70(16u, 35, 0);
+            SFX_Play_43AD70(SoundEffect::Unknown_16, 35, 0);
             field_30_timer = gnFrameCount_507670 + Math_RandomRange_450F20(24, 40);
         }
 
@@ -355,7 +355,7 @@ void BirdPortal::VUpdate_4523D0()
                     field_5C = nullptr;
                 }
 
-                SFX_Play_43AD70(16u, 70, 0);
+                SFX_Play_43AD70(SoundEffect::Unknown_16, 70, 0);
                 field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
         }
@@ -381,7 +381,7 @@ void BirdPortal::VUpdate_4523D0()
             field_30_timer = gnFrameCount_507670 + 15;
             field_14_state = States::State_2;
             Event_Broadcast_417220(18, this);
-            SFX_Play_43AD70(16u, 70, 0);
+            SFX_Play_43AD70(SoundEffect::Unknown_16, 70, 0);
         }
     }
         break;
@@ -451,7 +451,7 @@ void BirdPortal::VUpdate_4523D0()
             field_40_pTerminator2->field_10_anim.Set_Animation_Data_402A40(3784, 0);
             field_30_timer = gnFrameCount_507670 + 12;
             field_14_state = States::State_5;
-            field_68_sfx_ret = SFX_Play_43AD70(67u, 0, 0);
+            field_68_sfx_ret = SFX_Play_43AD70(SoundEffect::Unknown_67, 0, 0);
             SFX_Play_43AE60(SoundEffect::IngameTransition_107, 115, 300, 0);
         }
         break;
@@ -561,7 +561,7 @@ void BirdPortal::VUpdate_4523D0()
                         field_34_scale);
                 }
 
-                SFX_Play_43AD70(16u, 70, 0);
+                SFX_Play_43AD70(SoundEffect::Unknown_16, 70, 0);
                 pDoveMem->field_BC_sprite_scale = field_34_scale;
                 pDoveMem->AsJoin_40F250(sActiveHero_507678->field_A8_xpos,
                     FP_FromInteger(Math_RandomRange_450F20(-36, 4)) + sActiveHero_507678->field_AC_ypos);
@@ -718,7 +718,7 @@ void BirdPortal::VUpdate_4523D0()
         }
 
         field_14_state = States::State_18;
-        field_68_sfx_ret = SFX_Play_43AD70(67, 0, 0);
+        field_68_sfx_ret = SFX_Play_43AD70(SoundEffect::Unknown_67, 0, 0);
     }
     break;
 

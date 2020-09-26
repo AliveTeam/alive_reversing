@@ -269,14 +269,14 @@ void TrapDoor::VUpdate_4883E0()
                 sTrapDoorData_4BD4A0[cur_lvl].field_8,
                 0);
 
-            SFX_Play_43AED0(49u, 70, direction);
+            SFX_Play_43AED0(SoundEffect::Unknown_49, 70, direction);
 
             if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 ||
                 gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12 ||
                 gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
             {
-                SFX_Play_43AED0(97u, 45, direction);
-                SFX_Play_43AED0(93u, 90, direction);
+                SFX_Play_43AED0(SoundEffect::Unknown_97, 45, direction);
+                SFX_Play_43AED0(SoundEffect::Unknown_93, 90, direction);
             }
         }
         break;
@@ -301,14 +301,14 @@ void TrapDoor::VUpdate_4883E0()
                 0);
             field_136_state = 3;
 
-            SFX_Play_43AED0(49u, 70, direction);
+            SFX_Play_43AED0(SoundEffect::Unknown_49, 70, direction);
 
             if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 ||
                 gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12 ||
                 gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
             {
-                SFX_Play_43AED0(95u, 60, direction);
-                SFX_Play_43AED0(94u, 90, direction);
+                SFX_Play_43AED0(SoundEffect::Unknown_95, 60, direction);
+                SFX_Play_43AED0(SoundEffect::Unknown_94, 90, direction);
             }
         }
         break;

@@ -98,8 +98,12 @@ enum SoundEffect
     Unknown_89 = 89,
     MeatsawUp_90 = 90,
     MeatsawDown_91 = 91,
+    Unknown_93 = 93,
+    Unknown_94 = 94,
+    Unknown_95 = 95,
     Vaporize_96 = 96,
     Choke_98 = 98,
+    Unknown_97 = 97,
     Gas1_99 = 99,
     Gas2_100 = 100,
     GlukkonKillHim1_101 = 101,
@@ -130,7 +134,7 @@ struct SfxDefinition
 };
 ALIVE_ASSERT_SIZEOF(SfxDefinition, 0x14);
 
-EXPORT int CC SFX_Play_43AE60(SoundEffect sfxId, int volume, int pitch, BaseAnimatedWithPhysicsGameObject* pObj = nullptr);
+EXPORT int CC SFX_Play_43AE60(unsigned __int8 sfxId, int volume, int pitch, BaseAnimatedWithPhysicsGameObject* pObj = nullptr);
 
 EXPORT int CC SFX_Play_43AD70(unsigned __int8 sfxId, int a2, BaseGameObject* a3 = nullptr);
 

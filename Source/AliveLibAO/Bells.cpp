@@ -76,7 +76,7 @@ void Bells::VUpdate_40A770()
 
         if (field_EA_sound == 0)
         {
-            SFX_Play_43AD70(52u, 0, 0);
+            SFX_Play_43AD70(SoundEffect::Unknown_52, 0, 0);
         }
         else if (field_EA_sound == 1)
         {

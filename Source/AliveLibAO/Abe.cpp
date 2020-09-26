@@ -1996,7 +1996,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, int fpY, __int16 bStandToCr
             {
                 if (bStandToCrouch)
                 {
-                    SFX_Play_43AD70(33u, 0, this);
+                    SFX_Play_43AD70(SoundEffect::PickupItem_33, 0, this);
                     field_15C_pThrowable->field_C_refCount--;
                     field_15C_pThrowable->VOnPickUpOrSlapped();
                     field_15C_pThrowable = nullptr;
@@ -3309,7 +3309,7 @@ void Abe::State_30_HopMid_4264D0()
                 FP_GetExponent(field_AC_ypos - field_BC_sprite_scale * FP_FromInteger(50)),
                 38u))
             {
-                SFX_Play_43AD70(9u, 0, 0);
+                SFX_Play_43AD70(SoundEffect::Unknown_9, 0, 0);
             }
             field_FE_next_state = eAbeStates::State_0_Idle_423520;
             ToKnockback_422D90(1, 1);
@@ -4716,7 +4716,7 @@ void Abe::State_78_InsideWellLocal_4310A0()
             field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
         }
 
-        SFX_Play_43AD70(24u, 0, this);
+        SFX_Play_43AD70(SoundEffect::Unknown_24, 0, this);
 
         field_FC_current_motion++; // ARGH todo figure out what the actual motion should be, 79 ??
 
@@ -4871,7 +4871,7 @@ void Abe::State_86_FallLandDie_42EDD0()
 
     if (field_10_anim.field_92_current_frame == 0)
     {
-        SFX_Play_43AD70(78u, 85, 0);
+        SFX_Play_43AD70(SoundEffect::KillEffect_78, 85, 0);
         SND_SEQ_Play_477760(10u, 1, 95, 95);
         auto pScreenShake = ao_new<ScreenShake>();
         if (pScreenShake)
@@ -5423,7 +5423,7 @@ void Abe::State_136_ElumMountEnd_42E110()
         if (!(field_2AA_flags & 2))
         {
             field_2AA_flags |= 2;
-            SFX_Play_43AD70(37u, 0, this);
+            SFX_Play_43AD70(SoundEffect::Unknown_37, 0, this);
         }
         break;
 
@@ -5440,7 +5440,7 @@ void Abe::State_136_ElumMountEnd_42E110()
         {
             field_2AA_flags |= 2;
             Abe_SFX_2_42A220(17u, 0, 0x7FFF, this);
-            SFX_Play_43AD70(38u, 0, this);
+            SFX_Play_43AD70(SoundEffect::Unknown_38, 0, this);
         }
         break;
 
@@ -5505,7 +5505,7 @@ void Abe::State_138_ElumUnmountEnd_42E390()
         if (!(field_2AA_flags & 2))
         {
             field_2AA_flags |= 2;
-            SFX_Play_43AD70(37u, 17, this);
+            SFX_Play_43AD70(SoundEffect::Unknown_37, 17, this);
         }
         break;
 
@@ -5529,7 +5529,7 @@ void Abe::State_138_ElumUnmountEnd_42E390()
         if (!(field_2AA_flags & 2))
         {
             field_2AA_flags |= 2;
-            SFX_Play_43AD70(38u, 0, this);
+            SFX_Play_43AD70(SoundEffect::Unknown_38, 0, this);
         }
         break;
 
@@ -5687,7 +5687,7 @@ void Abe::State_143_RockThrowStandingThrow_429FD0()
 {
     if (field_10_anim.field_92_current_frame == 0)
     {
-        SFX_Play_43AD70(28u, 0, this);
+        SFX_Play_43AD70(SoundEffect::AirStream_28, 0, this);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
@@ -5737,7 +5737,7 @@ void Abe::State_146_RockThrowCrouchingThrow_4289F0()
 
     if (!field_10_anim.field_92_current_frame)
     {
-        SFX_Play_43AD70(28u, 0, this);
+        SFX_Play_43AD70(SoundEffect::AirStream_28, 0, this);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -5814,7 +5814,7 @@ void Abe::State_149_PickupItem_42A030()
 {
     if (field_10_anim.field_92_current_frame == 7)
     {
-        SFX_Play_43AD70(33u, 0, this);
+        SFX_Play_43AD70(SoundEffect::PickupItem_33, 0, this);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))

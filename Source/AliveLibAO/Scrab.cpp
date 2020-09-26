@@ -475,8 +475,8 @@ __int16 Scrab::VTakeDamage_45BC10(BaseGameObject* pFrom)
             return 0;
 
         default:
-            SFX_Play_43AD70(78u, 127, 0);
-            SFX_Play_43AD70(53u, 90, 0);
+            SFX_Play_43AD70(SoundEffect::KillEffect_78, 127, 0);
+            SFX_Play_43AD70(SoundEffect::Unknown_53, 90, 0);
             field_100_health = FP_FromInteger(0);
             SetBrain(&Scrab::Brain_Death_45CB80);
             field_130 = 2;
@@ -1207,7 +1207,7 @@ void Scrab::State_3_Run_45EAB0()
                     {
                         if (field_120_pTarget->VTakeDamage(this))
                         {
-                            SFX_Play_43AD70(78u, 0, 0);
+                            SFX_Play_43AD70(SoundEffect::KillEffect_78, 0, 0);
                             Abe_SFX_42A4D0(10u, 0, 0, field_120_pTarget);
                         }
                     }
@@ -1327,7 +1327,7 @@ void Scrab::State_5_RunToStand_45ED90()
                 {
                     if (field_120_pTarget->VTakeDamage(this))
                     {
-                        SFX_Play_43AD70(78u, 0, 0);
+                        SFX_Play_43AD70(SoundEffect::KillEffect_78, 0, 0);
                         Abe_SFX_42A4D0(10u, 0, 0, field_120_pTarget);
                     }
                 }
@@ -2000,11 +2000,11 @@ void Scrab::State_26_Feed_45FDA0()
     {
         if (Math_RandomRange_450F20(0, 100) >= 50)
         {
-            SFX_Play_43AD70(80u, 0, 0);
+            SFX_Play_43AD70(SoundEffect::Unknown_80, 0, 0);
         }
         else
         {
-            SFX_Play_43AD70(79u, 0, 0);
+            SFX_Play_43AD70(SoundEffect::Unknown_79, 0, 0);
         }
     }
 
@@ -2034,7 +2034,7 @@ void Scrab::State_27_AttackLunge_45FDF0()
             {
                 if (field_120_pTarget->VTakeDamage(this))
                 {
-                    SFX_Play_43AD70(78u, 0, 0);
+                    SFX_Play_43AD70(SoundEffect::KillEffect_78, 0, 0);
                     Abe_SFX_42A4D0(10u, 0, 0, field_120_pTarget);
                 }
 

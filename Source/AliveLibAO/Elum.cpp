@@ -263,7 +263,7 @@ __int16 Elum::VTakeDamage_411020(BaseGameObject* pFrom)
         if (field_100_health > FP_FromInteger(0))
         {
             Sfx_416E10(7u, 0);
-            SFX_Play_43AD70(78u, 75, 0);
+            SFX_Play_43AD70(SoundEffect::KillEffect_78, 75, 0);
 
             if (sActiveHero_507678->field_100_health > FP_FromInteger(0))
             {

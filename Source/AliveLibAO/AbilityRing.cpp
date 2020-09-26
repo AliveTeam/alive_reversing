@@ -101,7 +101,7 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, __int16 type)
             field_266_r = 80;
             field_268_g = 0;
             field_26A_b = 0;
-            SFX_Play_43AD70(107u, 0, 0);
+            SFX_Play_43AD70(SoundEffect::IngameTransition_107, 0, 0);
             break;
 
         case 3:
@@ -352,7 +352,7 @@ void AbilityRing::VUpdate_455ED0()
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
             field_244_left = FP_FromInteger(0);
-            SFX_Play_43AD70(107u, 0, 0);
+            SFX_Play_43AD70(SoundEffect::IngameTransition_107, 0, 0);
             auto pPossessionFlicker = ao_new<PossessionFlicker>();
             if (pPossessionFlicker)
             {

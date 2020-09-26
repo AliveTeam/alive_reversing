@@ -434,7 +434,7 @@ void HintFly::UpdateParticles_42B1B0()
             pParticle->field_4_ypos += (Math_Cosine_4510A0(pParticle->field_20_angle) * FP_FromInteger(2));
             if (i < 1 && Math_RandomRange_450F20(0, 100) < 20)
             {
-                SFX_Play_43AD70(60u, Math_RandomRange_450F20(18, 24), 0);
+                SFX_Play_43AD70(SoundEffect::Unknown_60, Math_RandomRange_450F20(18, 24), 0);
             }
         }
     }
