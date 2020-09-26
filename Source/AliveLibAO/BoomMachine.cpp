@@ -27,7 +27,7 @@ public:
         case 1:
             if (static_cast<int>(gnFrameCount_507670) > field_E8)
             {
-                SFX_Play_43AE60(5u, 60, -1800, 0);
+                SFX_Play_43AE60(SoundEffect::ZPop_5, 60, -1800, 0);
                 field_E4_state = 0;
             }
             break;
@@ -43,7 +43,7 @@ public:
         case 3:
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                SFX_Play_43AE60(33u, 127, -900, 0);
+                SFX_Play_43AE60(SoundEffect::PickupItem_33, 127, -900, 0);
                 if (!gpThrowableArray_50E26C)
                 {
                     gpThrowableArray_50E26C = ao_new<ThrowableArray>();
@@ -160,7 +160,7 @@ void BoomMachine::VUpdate_41E750()
 
         if (field_10_anim.field_92_current_frame == 3)
         {
-            SFX_Play_43AE60(4u, 25, -1200, 0);
+            SFX_Play_43AE60(SoundEffect::RedTick_4, 25, -1200, 0);
         }
     }
 }

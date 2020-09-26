@@ -475,8 +475,8 @@ __int16 Scrab::VTakeDamage_45BC10(BaseGameObject* pFrom)
             return 0;
 
         default:
-            SFX_Play_43AD70(78u, 127, 0);
-            SFX_Play_43AD70(53u, 90, 0);
+            SFX_Play_43AD70(SoundEffect::KillEffect_78, 127, 0);
+            SFX_Play_43AD70(SoundEffect::Unknown_53, 90, 0);
             field_100_health = FP_FromInteger(0);
             SetBrain(&Scrab::Brain_Death_45CB80);
             field_130 = 2;
@@ -1207,7 +1207,7 @@ void Scrab::State_3_Run_45EAB0()
                     {
                         if (field_120_pTarget->VTakeDamage(this))
                         {
-                            SFX_Play_43AD70(78u, 0, 0);
+                            SFX_Play_43AD70(SoundEffect::KillEffect_78, 0, 0);
                             Abe_SFX_42A4D0(10u, 0, 0, field_120_pTarget);
                         }
                     }
@@ -1327,7 +1327,7 @@ void Scrab::State_5_RunToStand_45ED90()
                 {
                     if (field_120_pTarget->VTakeDamage(this))
                     {
-                        SFX_Play_43AD70(78u, 0, 0);
+                        SFX_Play_43AD70(SoundEffect::KillEffect_78, 0, 0);
                         Abe_SFX_42A4D0(10u, 0, 0, field_120_pTarget);
                     }
                 }
@@ -1367,7 +1367,7 @@ void Scrab::State_6_HopBegin_45F3C0()
 
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            SFX_Play_43AE60(33u, 50, -800, 0);
+            SFX_Play_43AE60(SoundEffect::PickupItem_33, 50, -800, 0);
 
             field_E8_LastLineYPos = field_AC_ypos;
 
@@ -1656,7 +1656,7 @@ void Scrab::State_13_RunJumpBegin_45F5D0()
 {
     if (field_10_anim.field_92_current_frame == 1)
     {
-        SFX_Play_43AE60(0x21u, 50, -800, 0);
+        SFX_Play_43AE60(SoundEffect::PickupItem_33, 50, -800, 0);
     }
 
     Event_Broadcast_417220(kEventNoise_0, this);
@@ -1785,7 +1785,7 @@ void Scrab::State_16_Stamp_45F920()
     if (field_10_anim.field_92_current_frame == 9)
     {
         Sfx_460B80(4u, 0, 0x7FFF, 1);
-        SFX_Play_43AE60(78u, 60, Math_RandomRange_450F20(-255, 255), 0);
+        SFX_Play_43AE60(SoundEffect::KillEffect_78, 60, Math_RandomRange_450F20(-255, 255), 0);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -2000,11 +2000,11 @@ void Scrab::State_26_Feed_45FDA0()
     {
         if (Math_RandomRange_450F20(0, 100) >= 50)
         {
-            SFX_Play_43AD70(80u, 0, 0);
+            SFX_Play_43AD70(SoundEffect::Unknown_80, 0, 0);
         }
         else
         {
-            SFX_Play_43AD70(79u, 0, 0);
+            SFX_Play_43AD70(SoundEffect::Unknown_79, 0, 0);
         }
     }
 
@@ -2034,7 +2034,7 @@ void Scrab::State_27_AttackLunge_45FDF0()
             {
                 if (field_120_pTarget->VTakeDamage(this))
                 {
-                    SFX_Play_43AD70(78u, 0, 0);
+                    SFX_Play_43AD70(SoundEffect::KillEffect_78, 0, 0);
                     Abe_SFX_42A4D0(10u, 0, 0, field_120_pTarget);
                 }
 
@@ -2493,7 +2493,7 @@ __int16 Scrab::Brain_Death_45CB80()
     if (static_cast<int>(gnFrameCount_507670) < field_118_timer - 24 && !(gnFrameCount_507670 % 5))
     {
         New_Particles_419A80((FP_FromInteger(Math_RandomRange_450F20(-24, 24)) * field_BC_sprite_scale) + field_A8_xpos, field_AC_ypos - FP_FromInteger(6), field_BC_sprite_scale / FP_FromInteger(2), 2, 0);
-        SFX_Play_43AE60(96, 25, FP_GetExponent((FP_FromInteger(2200) * field_BC_sprite_scale)));
+        SFX_Play_43AE60(SoundEffect::Vaporize_96, 25, FP_GetExponent((FP_FromInteger(2200) * field_BC_sprite_scale)));
     }
 
     if (field_118_timer < static_cast<int>(gnFrameCount_507670))

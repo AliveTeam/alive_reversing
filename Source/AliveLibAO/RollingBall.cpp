@@ -287,7 +287,7 @@ void RollingBall::VUpdate_457AF0()
             field_6_flags.Set(Options::eDead_Bit3);
 
             const  CameraPos direction = gMap_507BA8.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos);
-            SFX_Play_43AED0(107u, 50, direction);
+            SFX_Play_43AED0(SoundEffect::IngameTransition_107, 50, direction);
 
             switch (direction)
             {
@@ -357,7 +357,7 @@ void RollingBall::VUpdate_457AF0()
         }
 
         const CameraPos direction = gMap_507BA8.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos);
-        SFX_Play_43AED0(107u, 50, direction);
+        SFX_Play_43AED0(SoundEffect::IngameTransition_107, 50, direction);
 
         switch (direction)
         {

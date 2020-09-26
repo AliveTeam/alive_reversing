@@ -1630,12 +1630,12 @@ void Mudokon::State_16_StandScrubLoop_43D7C0()
         {
             if (field_10_anim.field_92_current_frame == 5)
             {
-                SFX_Play_43AD70(86u, 0, 0);
+                SFX_Play_43AD70(SoundEffect::Scrub2_86, 0, 0);
             }
         }
         else
         {
-            SFX_Play_43AD70(85u, 0, 0);
+            SFX_Play_43AD70(SoundEffect::Scrub1_85, 0, 0);
         }
     }
 
@@ -1711,11 +1711,11 @@ void Mudokon::State_22_CrouchScrub_43D910()
     {
         if (field_10_anim.field_92_current_frame == 2)
         {
-            SFX_Play_43AD70(85u, 0, 0);
+            SFX_Play_43AD70(SoundEffect::Scrub1_85, 0, 0);
         }
         else if (field_10_anim.field_92_current_frame == 6)
         {
-            SFX_Play_43AD70(86u, 0, 0);
+            SFX_Play_43AD70(SoundEffect::Scrub2_86, 0, 0);
         }
     }
 
@@ -2309,7 +2309,7 @@ void Mudokon::State_44_JumpMid_43E960()
 
     if (field_10_anim.field_92_current_frame == 5)
     {
-        SFX_Play_43AE60(21u, 40, 2400, 0);
+        SFX_Play_43AE60(SoundEffect::PossessEffect_21, 40, 2400, 0);
     }
 
     PSX_RECT bRect = {};
@@ -4285,7 +4285,7 @@ short Mudokon::Brain_ShrivelDeath_11_43C5F0()
             2,
             0);
 
-        SFX_Play_43AE60(96u, 25, FP_GetExponent(FP_FromInteger(2200) * field_BC_sprite_scale), 0);
+        SFX_Play_43AE60(SoundEffect::Vaporize_96, 25, FP_GetExponent(FP_FromInteger(2200) * field_BC_sprite_scale), 0);
     }
 
     if (field_BC_sprite_scale < FP_FromInteger(0))

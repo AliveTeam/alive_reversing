@@ -104,9 +104,9 @@ void GasEmitter::VUpdate_41D7D0()
 
         if (!gGasEmitter_5009D4)
         {
-            SFX_Play_43AD70(99u, 127, 0);
+            SFX_Play_43AD70(SoundEffect::Gas1_99, 127, 0);
             gGasEmitter_5009D4 = this;
-            gGasEmitterFx_5009D8 = SFX_Play_43AD70(100u, 127, 0);
+            gGasEmitterFx_5009D8 = SFX_Play_43AD70(SoundEffect::Gas2_100, 127, 0);
         }
     }
 }

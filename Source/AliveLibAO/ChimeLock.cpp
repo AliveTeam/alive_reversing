@@ -212,7 +212,7 @@ void ChimeLock::VUnPosses_40BC90()
     field_10A_flags.Clear(Flags_10A::e10A_Bit2_bPossesed);
     field_110_state = 0;
     sActiveHero_507678->SetActiveControlledCharacter_421480();
-    SFX_Play_43AE60(21u, 70, 400, 0);
+    SFX_Play_43AE60(SoundEffect::PossessEffect_21, 70, 400, 0);
 }
 
 __int16 ChimeLock::DoNote_40BB20(__int16 note)

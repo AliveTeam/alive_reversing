@@ -272,7 +272,7 @@ void MovingBomb::VOnThrowableHit_43B930(BaseGameObject* /*pFrom*/)
     field_10C_state = 6;
     field_B8_vely = FP_FromInteger(0);
     field_114_timer = gnFrameCount_507670 + 1;
-    SFX_Play_43AD70(3u, 100, 0);
+    SFX_Play_43AD70(SoundEffect::GreenTick_3, 100, 0);
 }
 
 void MovingBomb::VScreenChanged()

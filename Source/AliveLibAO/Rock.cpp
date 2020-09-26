@@ -36,7 +36,7 @@ void RockSack::VUpdate_4575F0()
             {
                 field_114_can_play_wobble_sound = 0;
                 field_116_force_wobble_sound = 0;
-                SFX_Play_43AE60(34u, 24, Math_RandomRange_450F20(-2400, -2200), 0);
+                SFX_Play_43AE60(SoundEffect::Unknown_34, 24, Math_RandomRange_450F20(-2400, -2200), 0);
             }
         }
     }
@@ -98,7 +98,7 @@ void RockSack::VUpdate_4575F0()
                 }
                 pRock->VThrow(field_118_x_vel, field_11C_y_vel);
 
-                SFX_Play_43AD70(30u, 0, 0);
+                SFX_Play_43AD70(SoundEffect::Unknown_30, 0, 0);
                 Abe_SFX_2_42A220(7u, 0, 0x7FFF, 0);
             }
 
@@ -516,7 +516,7 @@ void Rock::InTheAir_456B60()
                         {
                             vol = 40;
                         }
-                        SFX_Play_43AD70(31u, vol, 0);
+                        SFX_Play_43AD70(SoundEffect::Unknown_31, vol, 0);
                         Event_Broadcast_417220(kEventNoise_0, this);
                         Event_Broadcast_417220(kEvent_10, this);
                         field_118_vol++;
@@ -554,7 +554,7 @@ void Rock::InTheAir_456B60()
                 {
                     vol = 40;
                 }
-                SFX_Play_43AD70(31u, vol, 0);
+                SFX_Play_43AD70(SoundEffect::Unknown_31, vol, 0);
                 Event_Broadcast_417220(kEventNoise_0, this);
                 Event_Broadcast_417220(kEvent_10, this);
             }
@@ -573,7 +573,7 @@ void Rock::InTheAir_456B60()
                     vol = 40;
                 }
               
-                SFX_Play_43AD70(31u, vol, 0);
+                SFX_Play_43AD70(SoundEffect::Unknown_31, vol, 0);
                 Event_Broadcast_417220(kEventNoise_0, this);
                 Event_Broadcast_417220(kEvent_10, this);
             }
@@ -608,7 +608,7 @@ __int16 Rock::OnCollision_457240(BaseAnimatedWithPhysicsGameObject* pObj)
 
     pObj->VOnThrowableHit(this);
 
-    SFX_Play_43AD70(29u, 80, 0);
+    SFX_Play_43AD70(SoundEffect::Unknown_29, 80, 0);
     return 0;
 }
 

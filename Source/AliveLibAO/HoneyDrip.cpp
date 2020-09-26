@@ -40,7 +40,7 @@ void HoneyDrip::VUpdate_431DC0()
 
     if (field_10_anim.field_92_current_frame == 7 && !field_E4_bSoundPlaying)
     {
-        SFX_Play_43AD70(26u, 0, 0);
+        SFX_Play_43AD70(SoundEffect::Unknown_26, 0, 0);
         field_E4_bSoundPlaying = TRUE;
     }
 

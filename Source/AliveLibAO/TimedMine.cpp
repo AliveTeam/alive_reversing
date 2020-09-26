@@ -308,7 +308,7 @@ void TimedMine::VUpdate_408760()
                 field_B0_path_number,
                 field_A8_xpos,
                 field_AC_ypos);
-            SFX_Play_43AED0(3u, 50, direction);
+            SFX_Play_43AED0(SoundEffect::GreenTick_3, 50, direction);
 
             //~7 limits the number to multiples of 8
             if (((field_114_timer - gnFrameCount_507670) & ~7) >= 18 * 8)

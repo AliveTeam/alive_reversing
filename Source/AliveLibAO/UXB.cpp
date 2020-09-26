@@ -79,7 +79,7 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, int tlvInfo)
                 field_AC_ypos,
                 0))
             {
-                SFX_Play_43AD70(3u, 35, 0);
+                SFX_Play_43AD70(SoundEffect::GreenTick_3, 35, 0);
             }
             field_10_anim.Set_Animation_Data_402A40(7884, 0);
             field_10C_state = 3;
@@ -363,7 +363,7 @@ void UXB::VOnPickUpOrSlapped_4897E0()
                     field_AC_ypos,
                     0))
                 {
-                    SFX_Play_43AD70(3u, 35, 0);
+                    SFX_Play_43AD70(SoundEffect::GreenTick_3, 35, 0);
                 }
                 field_10_anim.Set_Animation_Data_402A40(7812, 0);
                 field_10C_state = 3;
@@ -382,7 +382,7 @@ void UXB::VOnPickUpOrSlapped_4897E0()
                 field_AC_ypos,
                 0))
             {
-                SFX_Play_43AD70(4u, 35, 0);
+                SFX_Play_43AD70(SoundEffect::RedTick_4, 35, 0);
             }
         }
     }
