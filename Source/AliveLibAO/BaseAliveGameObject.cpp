@@ -313,10 +313,41 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(__int16 distance)
     return 0;
 }
 
-__int16 BaseAliveGameObject::Check_IsOnEndOfLine_4021A0(__int16 /*direction*/, __int16 /*dist*/)
+__int16 BaseAliveGameObject::Check_IsOnEndOfLine_4021A0(__int16 direction, __int16 dist)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    // Check if distance grid blocks from current snapped X is still on the line or not, if not then we are
+    // about to head off an edge.
+    const FP gridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
+
+    FP xLoc = {};
+    if (direction == 1)
+    {
+        xLoc = -(gridSize * FP_FromInteger(dist));
+    }
+    else
+    {
+        xLoc = gridSize * FP_FromInteger(dist);
+    }
+
+    const short xposRounded = FP_GetExponent(field_A8_xpos) & 1023;
+    const FP xPosSnapped = FP_FromInteger((FP_GetExponent(field_A8_xpos) & 0xFC00) + Grid_SnapX_41FAA0(field_BC_sprite_scale, xposRounded));
+    if (xposRounded < (240+16) || xposRounded > (640-16))
+    {
+        return 0;
+    }
+
+    PathLine* pLine = nullptr;
+    FP hitX = {};
+    FP hitY = {};
+    return sCollisions_DArray_504C6C->RayCast_40C410(
+        xLoc + xPosSnapped,
+        field_AC_ypos - FP_FromInteger(4),
+        xLoc + xPosSnapped,
+        field_AC_ypos + FP_FromInteger(4),
+        &pLine,
+        &hitX,
+        &hitY,
+        field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70) == 0;
 }
 
 void BaseAliveGameObject::VOnPathTransition_401470(__int16 /*camWorldX*/, int /*camWorldY*/, CameraPos /*direction*/)
