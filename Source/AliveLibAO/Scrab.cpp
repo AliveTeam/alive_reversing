@@ -1367,7 +1367,7 @@ void Scrab::State_6_HopBegin_45F3C0()
 
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            SFX_Play_43AE60(33u, 50, -800, 0);
+            SFX_Play_43AE60(SoundEffect::PickupItem_33, 50, -800, 0);
 
             field_E8_LastLineYPos = field_AC_ypos;
 
@@ -1656,7 +1656,7 @@ void Scrab::State_13_RunJumpBegin_45F5D0()
 {
     if (field_10_anim.field_92_current_frame == 1)
     {
-        SFX_Play_43AE60(0x21u, 50, -800, 0);
+        SFX_Play_43AE60(SoundEffect::PickupItem_33, 50, -800, 0);
     }
 
     Event_Broadcast_417220(kEventNoise_0, this);
@@ -1785,7 +1785,7 @@ void Scrab::State_16_Stamp_45F920()
     if (field_10_anim.field_92_current_frame == 9)
     {
         Sfx_460B80(4u, 0, 0x7FFF, 1);
-        SFX_Play_43AE60(78u, 60, Math_RandomRange_450F20(-255, 255), 0);
+        SFX_Play_43AE60(SoundEffect::KillEffect_78, 60, Math_RandomRange_450F20(-255, 255), 0);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -2493,7 +2493,7 @@ __int16 Scrab::Brain_Death_45CB80()
     if (static_cast<int>(gnFrameCount_507670) < field_118_timer - 24 && !(gnFrameCount_507670 % 5))
     {
         New_Particles_419A80((FP_FromInteger(Math_RandomRange_450F20(-24, 24)) * field_BC_sprite_scale) + field_A8_xpos, field_AC_ypos - FP_FromInteger(6), field_BC_sprite_scale / FP_FromInteger(2), 2, 0);
-        SFX_Play_43AE60(96, 25, FP_GetExponent((FP_FromInteger(2200) * field_BC_sprite_scale)));
+        SFX_Play_43AE60(SoundEffect::Vaporize_96, 25, FP_GetExponent((FP_FromInteger(2200) * field_BC_sprite_scale)));
     }
 
     if (field_118_timer < static_cast<int>(gnFrameCount_507670))

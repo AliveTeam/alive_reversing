@@ -412,7 +412,7 @@ void HintFly::UpdateParticles_42B1B0()
 
             if (i < 1 && Math_RandomRange_450F20(0, 100) < 40)
             {
-                SFX_Play_43AE60(60u, Math_RandomRange_450F20(24, 30), pParticle->field_1C_sound_pitch, 0);
+                SFX_Play_43AE60(SoundEffect::Unknown_60, Math_RandomRange_450F20(24, 30), pParticle->field_1C_sound_pitch, 0);
             }
         }
         else if (pParticle->field_8_state == 2)
@@ -424,7 +424,7 @@ void HintFly::UpdateParticles_42B1B0()
 
             if (i < 1 && Math_RandomRange_450F20(0, 100) < 40)
             {
-                SFX_Play_43AE60(60u, Math_RandomRange_450F20(24, 30), 0, 0);
+                SFX_Play_43AE60(SoundEffect::Unknown_60, Math_RandomRange_450F20(24, 30), 0, 0);
             }
         }
         else if (pParticle->field_8_state == 3)

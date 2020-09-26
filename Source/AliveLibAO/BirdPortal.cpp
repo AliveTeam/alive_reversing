@@ -452,7 +452,7 @@ void BirdPortal::VUpdate_4523D0()
             field_30_timer = gnFrameCount_507670 + 12;
             field_14_state = States::State_5;
             field_68_sfx_ret = SFX_Play_43AD70(67u, 0, 0);
-            SFX_Play_43AE60(107u, 115, 300, 0);
+            SFX_Play_43AE60(SoundEffect::IngameTransition_107, 115, 300, 0);
         }
         break;
 
@@ -499,7 +499,7 @@ void BirdPortal::VUpdate_4523D0()
 
                     if (direction == CameraPos::eCamCurrent_0)
                     {
-                        SFX_Play_43AE60(48u, 50, 2400, 0);
+                        SFX_Play_43AE60(SoundEffect::BirdPortalSpark_48, 50, 2400, 0);
                     }
                 }
             }
@@ -623,7 +623,7 @@ void BirdPortal::VUpdate_4523D0()
             field_40_pTerminator2->field_6_flags.Set(Options::eDead_Bit3);
             field_3C_pTerminator1 = nullptr;
             field_40_pTerminator2 = nullptr;
-            SFX_Play_43AE60(61u, 100, -1800, 0);
+            SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 100, -1800, 0);
         }
         break;
 
@@ -876,7 +876,7 @@ void BirdPortal::VGiveShrukull_4535A0(__int16 bPlaySound)
 
     if (bPlaySound)
     {
-        SFX_Play_43AE60(61u, 70, -1600, 0);
+        SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 70, -1600, 0);
     }
 }
 

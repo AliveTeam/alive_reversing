@@ -1771,7 +1771,7 @@ __int16 Paramite::Brain_Death_448BF0()
                 field_AC_ypos - FP_FromInteger(6),
                 field_BC_sprite_scale / FP_FromInteger(2),
                 2, 0);
-            SFX_Play_43AE60(0x60u, 25, FP_GetExponent(FP_FromInteger(2200) * field_BC_sprite_scale), 0);
+            SFX_Play_43AE60(SoundEffect::Vaporize_96, 25, FP_GetExponent(FP_FromInteger(2200) * field_BC_sprite_scale), 0);
         }
     }
 
@@ -2899,7 +2899,7 @@ void Paramite::State_3_Running_44C070()
 
     if (field_10_anim.field_92_current_frame == 3)
     {
-        SFX_Play_43AE60(33u, 45, -600, 0);
+        SFX_Play_43AE60(SoundEffect::PickupItem_33, 45, -600, 0);
         if (field_FE_next_state == eParamiteStates::State_2_Walking_44B9E0)
         {
             field_FC_current_motion = eParamiteStates::State_8_WalkRunTransition_44C790;

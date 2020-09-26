@@ -36,7 +36,7 @@ void RockSack::VUpdate_4575F0()
             {
                 field_114_can_play_wobble_sound = 0;
                 field_116_force_wobble_sound = 0;
-                SFX_Play_43AE60(34u, 24, Math_RandomRange_450F20(-2400, -2200), 0);
+                SFX_Play_43AE60(SoundEffect::Unknown_34, 24, Math_RandomRange_450F20(-2400, -2200), 0);
             }
         }
     }

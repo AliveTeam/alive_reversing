@@ -80,11 +80,11 @@ void Bells::VUpdate_40A770()
         }
         else if (field_EA_sound == 1)
         {
-            SFX_Play_43AE60(51u, 45 * (field_F0_timer + 1), 128 - (field_F0_timer << 7), 0);
+            SFX_Play_43AE60(SoundEffect::Unknown_50, 45 * (field_F0_timer + 1), 128 - (field_F0_timer << 7), 0);
         }
         else if (field_EA_sound == 2)
         {
-            SFX_Play_43AE60(50u, 30 * (field_F0_timer + 1), (2 - field_F0_timer) << 7, 0);
+            SFX_Play_43AE60(SoundEffect::Unknown_50, 30 * (field_F0_timer + 1), (2 - field_F0_timer) << 7, 0);
         }
     }
 

@@ -975,7 +975,7 @@ void Abe::vUpdate_41FDB0()
                                     FP_FromInteger((bRect.w + bRect.x) / 2),
                                     FP_FromInteger((bRect.h + bRect.y) / 2),
                                     field_16C_bHaveShrykull != 0 ? 4 : 0);
-                                SFX_Play_43AE60(21u, 25, 2650, 0);
+                                SFX_Play_43AE60(SoundEffect::PossessEffect_21, 25, 2650, 0);
                             }
                         }
                         else
@@ -5969,13 +5969,13 @@ void Abe::State_164_PoisonGasDeath_42A120()
     switch (field_10_anim.field_92_current_frame)
     {
     case 0:
-        SFX_Play_43AE60(98u, 127, 128, 0);
+        SFX_Play_43AE60(SoundEffect::Choke_98, 127, 128, 0);
         break;
     case 9:
-        SFX_Play_43AE60(98u, 127, 384, 0);
+        SFX_Play_43AE60(SoundEffect::Choke_98, 127, 384, 0);
         break;
     case 28:
-        SFX_Play_43AE60(98u, 127, 640, 0);
+        SFX_Play_43AE60(SoundEffect::Choke_98, 127, 640, 0);
         break;
     case 32:
         Abe_SFX_2_42A220(6u, 80, 0, this);

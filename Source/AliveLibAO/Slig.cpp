@@ -3832,7 +3832,7 @@ __int16 Slig::Brain_Death_46C3A0()
                 field_BC_sprite_scale / FP_FromInteger(2),
                 2,
                 0);
-            SFX_Play_43AE60(96, 25, FP_GetExponent(FP_FromInteger(2200) * field_BC_sprite_scale));
+            SFX_Play_43AE60(SoundEffect::Vaporize_96, 25, FP_GetExponent(FP_FromInteger(2200) * field_BC_sprite_scale));
         }
     }
     else if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))

@@ -2309,7 +2309,7 @@ void Mudokon::State_44_JumpMid_43E960()
 
     if (field_10_anim.field_92_current_frame == 5)
     {
-        SFX_Play_43AE60(21u, 40, 2400, 0);
+        SFX_Play_43AE60(SoundEffect::PossessEffect_21, 40, 2400, 0);
     }
 
     PSX_RECT bRect = {};
@@ -4285,7 +4285,7 @@ short Mudokon::Brain_ShrivelDeath_11_43C5F0()
             2,
             0);
 
-        SFX_Play_43AE60(96u, 25, FP_GetExponent(FP_FromInteger(2200) * field_BC_sprite_scale), 0);
+        SFX_Play_43AE60(SoundEffect::Vaporize_96, 25, FP_GetExponent(FP_FromInteger(2200) * field_BC_sprite_scale), 0);
     }
 
     if (field_BC_sprite_scale < FP_FromInteger(0))

@@ -1868,7 +1868,7 @@ __int16 Slog::Brain_3_Dead_4721B0()
             field_AC_ypos - FP_FromInteger(6),
             field_BC_sprite_scale / FP_FromInteger(2),
             2, 0);
-        SFX_Play_43AE60(96u, 25, FP_GetExponent(FP_FromInteger(2200) * field_BC_sprite_scale), 0);
+        SFX_Play_43AE60(SoundEffect::Vaporize_96, 25, FP_GetExponent(FP_FromInteger(2200) * field_BC_sprite_scale), 0);
     }
 
     if (field_BC_sprite_scale < FP_FromInteger(0))
