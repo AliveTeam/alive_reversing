@@ -226,10 +226,10 @@ BaseAliveGameObject* Bullet::ShootObject_409400(PSX_RECT* pRect)
         return nullptr;
     }
 
-    BaseAliveGameObject *pObjectToShoot = nullptr;
+    BaseAliveGameObject* pObjectToShoot = nullptr;
     for (int idx = 0; idx < gBaseAliveGameObjects_4FC8A0->Size(); idx++)
     {
-        BaseAliveGameObject* pObjIter = (BaseAliveGameObject *) gBaseAliveGameObjects_4FC8A0->field_0_array[idx++];
+        BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(idx);
         if (!pObjIter)
         {
             break;
