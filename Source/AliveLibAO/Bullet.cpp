@@ -148,6 +148,7 @@ void Bullet::VUpdate_408E30()
                 SFX_Play_43AE60(SoundEffect::KillEffect_64, field_2C_scale != FP_FromDouble(0.5) ? 90 : 60, Math_RandomRange_450F20(900, 1400), 0);
             }
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            return;
         }
         case BulletType::Type_2:
         {
