@@ -417,7 +417,7 @@ EXPORT void FallingItem::vUpdate_427780()
         if (field_140_sound_channels)
         {
             SND_Stop_Channels_Mask_4CA810(field_140_sound_channels);
-field_140_sound_channels = 0;
+            field_140_sound_channels = 0;
         }
 
         Event_Broadcast_422BC0(kEventLoudNoise, this);

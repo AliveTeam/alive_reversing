@@ -29,6 +29,10 @@ ALIVE_ASSERT_SIZEOF(Path_FallingItem, 0x24);
 class FallingItem : public BaseAliveGameObject
 {
 public:
+    EXPORT void DamageHitItems_41A6D0();
+
+    EXPORT void VUpdate_41A120();
+
     EXPORT FallingItem* ctor_419F30(Path_FallingItem* pTlv, int tlvInfo);
 
     EXPORT BaseGameObject* dtor_41A660();
@@ -41,8 +45,19 @@ public:
 
     EXPORT void VScreenChanged_41A7C0();
 
+private:
+    enum class State : __int16
+    {
+        eState_0_WaitForIdEnable = 0,
+        eState_1_GoWaitForDelay = 1,
+        eState_2_WaitForFallDelay = 2,
+        eState_3_Falling = 3,
+        eState_4_Smashed = 4,
+    };
+
+public:
     int field_10C_tlvInfo;
-    __int16 field_110_state;
+    State field_110_state;
     unsigned __int16 field_112_id;
     __int16 field_114_num_items;
     __int16 field_116_num_items_remaining;
@@ -56,6 +71,7 @@ public:
     FP field_12C_ypos;
     int field_130_sound_channels;
     int field_134_created_gnFrame;
+
 };
 ALIVE_ASSERT_SIZEOF(FallingItem, 0x138);
 

@@ -147,6 +147,43 @@ Blood* Blood::ctor_4072B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 
     return this;
 }
 
+void Blood::VUpdate()
+{
+    VUpdate_407750();
+}
+
+void Blood::VUpdate_407750()
+{
+    if (field_118_timer > 0)
+    {
+        if (field_118_timer > 5)
+        {
+            field_112_to_render_count -= 10;
+        }
+
+        if (field_112_to_render_count <= 0)
+        {
+            field_112_to_render_count = 0;
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            return;
+        }
+
+        for (int i = 0; i < field_112_to_render_count; i++)
+        {
+            field_E8_pResBuf[i].field_C_offy += FP_FromDouble(1.8);
+
+            field_E8_pResBuf[i].field_8_offx = field_E8_pResBuf[i].field_8_offx * FP_FromDouble(0.9);
+            field_E8_pResBuf[i].field_C_offy = field_E8_pResBuf[i].field_C_offy * FP_FromDouble(0.9);
+
+            field_E8_pResBuf[i].field_0_x += field_E8_pResBuf[i].field_8_offx;
+            field_E8_pResBuf[i].field_4_y += field_E8_pResBuf[i].field_C_offy;
+        }
+    }
+
+    field_118_timer++;
+}
+
+
 BaseGameObject* Blood::dtor_4076F0()
 {
     SetVTable(this, 0x4BA248);

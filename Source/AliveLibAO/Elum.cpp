@@ -2629,7 +2629,7 @@ void Elum::State_24_JumpToFall_415ED0()
 
 void Elum::State_25_LickingHoney_415B50()
 {
-    Event_Broadcast_417220(0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
 
     CheckLiftPointGoneAndSetCamera();
 
@@ -2693,7 +2693,7 @@ void Elum::State_28_AbeUnmountingEnd_415D60()
 
 void Elum::State_29_BeesStruggling_412A90()
 {
-    Event_Broadcast_417220(0, this);
+    Event_Broadcast_417220(kEventNoise_0, this);
 
     if (field_FE_next_state == eElumStates::State_44_ScratchBegin_412730)
     {
@@ -2902,7 +2902,7 @@ void Elum::State_34_RunJumpMid_415240()
 {
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEvent_10, this);
-    Event_Broadcast_417220(11, this);
+    Event_Broadcast_417220(kEvent_11, this);
 
     if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), field_B4_velx))
     {
