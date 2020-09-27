@@ -391,7 +391,7 @@ __int16 BaseAliveGameObject::MapFollowMe_401D30(__int16 snapToGrid)
                 sub_4020D0();
 
                 // Put at the right side of the camera to the left
-                const int v1 = GridXMidPos_41FA60(field_BC_sprite_scale, (MaxGridBlocks_41FA10(field_BC_sprite_scale) - 1));
+                const int v1 = XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, (MaxGridBlocks_41FA10(field_BC_sprite_scale) - 1));
                 const int v2 = x_i - camXIndex - 1024;
                 field_A8_xpos = FP_FromInteger(v2) + FP_FromInteger(v1) + gridSize;
 
@@ -421,7 +421,7 @@ __int16 BaseAliveGameObject::MapFollowMe_401D30(__int16 snapToGrid)
                 sub_4020D0();
 
                 // Put at the left side of the camera to the right
-                const int v1 = GridXMidPos_41FA60(field_BC_sprite_scale, 1);
+                const int v1 = XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, 1);
                 const int v2 = x_i - camXIndex + 1024;
                 field_A8_xpos =  FP_FromInteger(v2) + FP_FromInteger(v1) - gridSize;
 
@@ -449,7 +449,7 @@ __int16 BaseAliveGameObject::MapFollowMe_401D30(__int16 snapToGrid)
             {
                 sub_4020D0();
 
-                const int v1 = GridXMidPos_41FA60(field_BC_sprite_scale, MaxGridBlocks_41FA10(field_BC_sprite_scale));
+                const int v1 = XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, MaxGridBlocks_41FA10(field_BC_sprite_scale));
                 const int v2 = x_i - camXIndex - 1024;
                 field_A8_xpos = FP_FromInteger(v2) + FP_FromInteger(v1) + gridSize;
 
@@ -465,7 +465,7 @@ __int16 BaseAliveGameObject::MapFollowMe_401D30(__int16 snapToGrid)
             {
                 sub_4020D0();
 
-                const int v1 = GridXMidPos_41FA60(field_BC_sprite_scale, 0);
+                const int v1 = XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, 0);
                 const int v2 = x_i - camXIndex + 1024;
                 field_A8_xpos = FP_FromInteger(v2) + FP_FromInteger(v1) + gridSize;
 
@@ -584,7 +584,7 @@ void BaseAliveGameObject::VSetXSpawn_401150(__int16 camWorldX, int screenXPos)
     const FP old_x = field_A8_xpos;
     const FP old_y = field_AC_ypos;
 
-    field_A8_xpos = FP_FromInteger(camWorldX + GridXMidPos_41FA60(field_BC_sprite_scale, screenXPos));
+    field_A8_xpos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, screenXPos));
 
     field_F0_pTlv = gMap_507BA8.TLV_Get_At_446060(0, field_A8_xpos, old_y, field_A8_xpos, old_y);
 

@@ -442,18 +442,21 @@ int CC Abe_SFX_42A4D0(unsigned __int8 /*idx*/, int /*volume*/, int /*pitch*/, Ba
     return 0;
 }
 
-int CC GridXMidPos_41FA60(FP scale, int xpos)
+int CC XGrid_Index_To_XPos_41FA60(FP scale, int xGridIndex)
 {
     if (scale == FP_FromDouble(0.5))
     {
-        return 13 * xpos + 245;
+        // 12.5 = half grid size
+        return 13 * xGridIndex + 245;
     }
 
     if (scale == FP_FromInteger(1))
     {
-        return 25 * xpos + 240;
+        // 25 = full grid size
+        return 25 * xGridIndex + 240;
     }
 
+    // Default to middle of the screen
     return 440;
 }
 
@@ -596,7 +599,7 @@ Abe* Abe::ctor_420770(int frameTableOffset, int /*r*/, int /*g*/, int /*b*/)
 
     PSX_Point pPoint = {};
     gMap_507BA8.GetCurrentCamCoords_444890(&pPoint);
-    field_A8_xpos = FP_FromInteger(pPoint.field_0_x + GridXMidPos_41FA60(field_BC_sprite_scale, 4));
+    field_A8_xpos = FP_FromInteger(pPoint.field_0_x + XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, 4));
     field_AC_ypos = FP_FromInteger(pPoint.field_2_y + 240);
     field_120 = FP_FromInteger(0);
     field_124 = 0;

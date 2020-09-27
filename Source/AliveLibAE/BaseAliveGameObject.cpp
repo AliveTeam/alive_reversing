@@ -284,12 +284,12 @@ void BaseAliveGameObject::vOnPathTransition_408320(__int16 cameraWorldXPos, __in
         break;
 
     case CameraPos::eCamLeft_3:
-        field_B8_xpos = FP_FromInteger(cameraWorldXPos + (GridXMidPos_4498F0(field_CC_sprite_scale, MaxGridBlocks_449880(field_CC_sprite_scale) - 1)));
+        field_B8_xpos = FP_FromInteger(cameraWorldXPos + (XGrid_Index_To_XPos_4498F0(field_CC_sprite_scale, MaxGridBlocks_449880(field_CC_sprite_scale) - 1)));
         field_BC_ypos = FP_FromInteger(cameraWorldYPos + FP_GetExponent(field_BC_ypos) % 260);
         break;
 
     case CameraPos::eCamRight_4:
-        field_B8_xpos = FP_FromInteger(cameraWorldXPos + GridXMidPos_4498F0(field_CC_sprite_scale, 1));
+        field_B8_xpos = FP_FromInteger(cameraWorldXPos + XGrid_Index_To_XPos_4498F0(field_CC_sprite_scale, 1));
         field_BC_ypos = FP_FromInteger(cameraWorldYPos + FP_GetExponent(field_BC_ypos) % 260);
         break;
 

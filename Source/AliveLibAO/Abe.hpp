@@ -559,7 +559,7 @@ EXPORT int CC Abe_SFX_2_42A220(unsigned __int8 sfxId, signed int volume, int pit
 
 EXPORT int CC Abe_SFX_42A4D0(unsigned __int8 idx, int volume, int pitch, BaseAliveGameObject* pHero);
 
-EXPORT int CC GridXMidPos_41FA60(FP scale, int xpos);
+EXPORT int CC XGrid_Index_To_XPos_41FA60(FP scale, int xGridIndex);
 
 enum InputCommands : unsigned int;
 
