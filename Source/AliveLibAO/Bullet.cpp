@@ -76,8 +76,10 @@ void Bullet::VUpdate_408E30()
                 shootRect.x = FP_GetExponent(field_18_xpos) - 640;
                 shootRect.w = FP_GetExponent(field_18_xpos);
             }
+
             shootRect.y = FP_GetExponent(field_1C_ypos - FP_FromInteger(15));
             shootRect.h = FP_GetExponent(field_1C_ypos + FP_FromInteger(5));
+
             BaseAliveGameObject *pShotObj = ShootObject_409400(&shootRect);
             if (sCollisions_DArray_504C6C->RayCast_40C410(
                     field_18_xpos,
@@ -174,21 +176,27 @@ void Bullet::VUpdate_408E30()
                 }
                 distX_2 = sActiveHero_507678->field_B4_velx * FP_FromInteger(2);
             }
+
             shootRect.x = FP_GetExponent(distX_1 - distX_2);
             shootRect.w = shootRect.x + 2;
             shootRect.y = FP_GetExponent(sActiveHero_507678->field_AC_ypos)
                 + sActiveHero_507678->field_10_anim.Get_FrameHeader_403A00(-1)->field_8_data.points[2].y //or points 3?!
                 - 10;
             shootRect.h = shootRect.y + 10;
+
             BaseAliveGameObject *pShotObj = ShootObject_409400(&shootRect);
-            if (pShotObj->VTakeDamage(this))
+            if (pShotObj)
             {
-                SFX_Play_43AE60(SoundEffect::AirStream_28, 90, 2000, 0);
-                SFX_Play_43AE60(SoundEffect::MeatBounce_43, 90, Math_RandomRange_450F20(300, 700), 0);
-                SFX_Play_43AE60(SoundEffect::KillEffect_78, 90, Math_RandomRange_450F20(900, 1400), 0);
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
-                return;
+                if (pShotObj->VTakeDamage(this))
+                {
+                    SFX_Play_43AE60(SoundEffect::AirStream_28, 90, 2000, 0);
+                    SFX_Play_43AE60(SoundEffect::MeatBounce_43, 90, Math_RandomRange_450F20(300, 700), 0);
+                    SFX_Play_43AE60(SoundEffect::KillEffect_78, 90, Math_RandomRange_450F20(900, 1400), 0);
+                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                    return;
+                }
             }
+
             if (sCollisions_DArray_504C6C->RayCast_40C410(
                     field_18_xpos,
                     field_1C_ypos,
@@ -207,6 +215,7 @@ void Bullet::VUpdate_408E30()
                 }
                 New_Particles_419A80(hitX, hitY, FP_FromInteger(1), 3, 0);
             }
+
             if (Math_RandomRange_450F20(0, 128) < 64)
             {
                 SFX_Play_43AD70(SoundEffect::Unknown_1, 75, 0);
