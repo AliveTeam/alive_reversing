@@ -31,11 +31,11 @@ anim_enum = {
 }
 
 field_10A_enum = {
-    0x1 :  "Flags_10A::e10A_Bit1",
-    0x2 :  "Flags_10A::e10A_Bit2",
+    0x1 :  "Flags_10A::e10A_Bit1_Can_Be_Possessed",
+    0x2 :  "Flags_10A::e10A_Bit2_bPossesed",
     0x4 :  "Flags_10A::e10A_Bit3",
-    0x8 :  "Flags_10A::e10A_Bit4",
-    0x10 : "Flags_10A::e10A_Bit5",
+    0x8 :  "Flags_10A::e10A_Bit4_SetOffExplosives",
+    0x10 : "Flags_10A::e10A_Bit5_Electrocuted",
     0x20 : "Flags_10A::e10A_Bit6",
     0x40 : "Flags_10A::e10A_Bit7",
     0x80 : "Flags_10A::e10A_Bit8",
@@ -450,7 +450,7 @@ def tests():
     check(GetLiteral("~0x8u;"), ["0xFFF7", 5])
     check(GetLiteral("~8u;"), ["65527", 3])
 
-    check(process("this->field_10A_flags &= ~0x3Fu;"), "field_10A_flags.Clear(Flags_10A::e10A_Bit1 | Flags_10A::e10A_Bit2 | Flags_10A::e10A_Bit3 | Flags_10A::e10A_Bit4 | Flags_10A::e10A_Bit5 | Flags_10A::e10A_Bit6);")
+    check(process("this->field_10A_flags &= ~0x3Fu;"), "field_10A_flags.Clear(Flags_10A::e10A_Bit1_Can_Be_Possessed | Flags_10A::e10A_Bit2_bPossesed | Flags_10A::e10A_Bit3 | Flags_10A::e10A_Bit4_SetOffExplosives | Flags_10A::e10A_Bit5_Electrocuted | Flags_10A::e10A_Bit6);")
 
     check(process("LOWORD(this->field_0_mBase.field_0_mBase.field_10_anim.field_4_flags) |= 4u;"), "field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);")
     check(process("Animation::SetFrame_402AC0(&this->field_0_mBase.field_10_anim, (v10 >> 1) + 1);"), "field_10_anim.SetFrame_402AC0((v10 >> 1) + 1);")

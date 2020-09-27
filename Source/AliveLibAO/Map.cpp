@@ -26,6 +26,7 @@
 #include "SwitchStates.hpp"
 #include "Sfx.hpp"
 #include "Elum.hpp"
+#include "Sys_common.hpp"
 
 START_NS_AO
 
@@ -296,10 +297,21 @@ EXPORT void CC SsUtAllKeyOff_49EDE0(int /*a1*/)
     NOT_IMPLEMENTED();
 }
 
-EXPORT int CC ConvertScale_41FA10(FP /*scale*/)
+EXPORT int CC MaxGridBlocks_41FA10(FP scale)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (scale == FP_FromDouble(0.5))
+    {
+        return 30; // (29+1) * 13 (grid block size) for 377/390
+    }
+    else if (scale == FP_FromInteger(1))
+    {
+        return 16; // (15+1) * 25 (grid block size) for 375/400
+    }
+    else
+    {
+        LOG_ERROR("Scale should be 0.5 or 1 but got " << FP_GetDouble(scale));
+        ALIVE_FATAL("Invalid scale");
+    }
 }
 
 
@@ -540,7 +552,7 @@ void Map::Handle_PathTransition_444DD0()
             {
                 field_18_pAliveObj->VSetXSpawn(
                     field_20_camX_idx * field_D4_pPathData->field_C_grid_width,
-                    ConvertScale_41FA10(field_18_pAliveObj->field_BC_sprite_scale) - 1);
+                    MaxGridBlocks_41FA10(field_18_pAliveObj->field_BC_sprite_scale) - 1);
             }
             field_10_screenChangeEffect = CameraSwapEffects::eEffect2_RightToLeft;
             break;

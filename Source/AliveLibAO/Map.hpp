@@ -244,7 +244,7 @@ ALIVE_ASSERT_SIZEOF(Map, 0xE4);
 
 ALIVE_VAR_EXTERN(Map, gMap_507BA8);
 
-EXPORT int CC ConvertScale_41FA10(FP scale);
+EXPORT int CC MaxGridBlocks_41FA10(FP scale);
 
 END_NS_AO
 

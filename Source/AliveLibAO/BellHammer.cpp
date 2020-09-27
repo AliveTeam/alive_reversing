@@ -200,7 +200,7 @@ void BellHammer::VUpdate_405320()
             PSX_Point mapCoords = {};
             gMap_507BA8.GetCurrentCamCoords_444890(&mapCoords);
 
-            gElum_507680->field_A8_xpos = (FP_FromInteger(mapCoords.field_0_x +  GridXMidPos_41FA60(field_BC_sprite_scale, 0))) - ScaleToGridSize_41FA30(field_BC_sprite_scale);
+            gElum_507680->field_A8_xpos = (FP_FromInteger(mapCoords.field_0_x +  XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, 0))) - ScaleToGridSize_41FA30(field_BC_sprite_scale);
             gElum_507680->field_AC_ypos = gElum_507680->field_AC_ypos + FP_FromInteger(450);
             ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 115, 1, 0);
         }
