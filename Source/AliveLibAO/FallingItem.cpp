@@ -134,7 +134,37 @@ FallingItem* FallingItem::Vdtor_41A7F0(signed int flags)
 
 void FallingItem::DamageHitItems_41A6D0()
 {
-    NOT_IMPLEMENTED();
+    for (int idx = 0; idx < gBaseGameObject_list_9F2DF0->Size(); idx++)
+    {
+        BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(idx);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj != this)
+        {
+            if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+            {
+                BaseAnimatedWithPhysicsGameObject* pAliveObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
+
+                PSX_RECT fallingItemRect = {};
+                VGetBoundingRect(&fallingItemRect, 1);
+
+                PSX_RECT objRect = {};
+                pAliveObj->VGetBoundingRect(&objRect, 1);
+
+                if (fallingItemRect.x <= objRect.w && fallingItemRect.w >= objRect.x &&
+                    fallingItemRect.y <= objRect.h && fallingItemRect.h >= objRect.y)
+                {
+                    if (pAliveObj->field_BC_sprite_scale == field_BC_sprite_scale)
+                    {
+                        static_cast<BaseAliveGameObject*>(pAliveObj)->VTakeDamage(this);
+                    }
+                }
+            }
+        }
+    }
 }
 
 void FallingItem::VUpdate_41A120()
