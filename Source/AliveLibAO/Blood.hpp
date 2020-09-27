@@ -26,6 +26,9 @@ public:
 
     EXPORT BaseGameObject* dtor_4076F0();
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_407750();
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
