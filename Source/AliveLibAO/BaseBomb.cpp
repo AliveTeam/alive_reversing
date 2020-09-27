@@ -18,8 +18,8 @@ void BaseBomb::VUpdate_417580()
 {
     PSX_RECT rect = {};
 
-    Event_Broadcast_417220(2, this);
-    Event_Broadcast_417220(14, this);
+    Event_Broadcast_417220(kEvent_2, this);
+    Event_Broadcast_417220(kEvent_14, this);
     Event_Broadcast_417220(kEvent_10, this);
 
     switch (field_10_anim.field_92_current_frame)

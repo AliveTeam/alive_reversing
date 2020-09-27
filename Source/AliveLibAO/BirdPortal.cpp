@@ -387,7 +387,7 @@ void BirdPortal::VUpdate_4523D0()
         break;
 
     case States::State_2:
-        Event_Broadcast_417220(18, this);
+        Event_Broadcast_417220(kEvent_18, this);
         if (static_cast<int>(gnFrameCount_507670) > field_30_timer)
         {
             field_3C_pTerminator1 = ao_new<BirdPortalTerminator>();
@@ -416,7 +416,7 @@ void BirdPortal::VUpdate_4523D0()
         break;
 
     case States::State_3:
-        Event_Broadcast_417220(18, this);
+        Event_Broadcast_417220(kEvent_18, this);
         if (static_cast<int>(gnFrameCount_507670) > field_30_timer)
         {
             for (int i = 0; i < field_4C_pDovesArray->Size(); i++)
@@ -444,7 +444,7 @@ void BirdPortal::VUpdate_4523D0()
         break;
 
     case States::State_4:
-        Event_Broadcast_417220(18, this);
+        Event_Broadcast_417220(kEvent_18, this);
         if (field_3C_pTerminator1->field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             field_3C_pTerminator1->field_10_anim.Set_Animation_Data_402A40(3784, 0);
@@ -457,7 +457,7 @@ void BirdPortal::VUpdate_4523D0()
         break;
 
     case States::State_5:
-        Event_Broadcast_417220(18, this);
+        Event_Broadcast_417220(kEvent_18, this);
         field_3C_pTerminator1->field_AC_ypos -= (FP_FromDouble(3.5) * field_34_scale);
         field_40_pTerminator2->field_AC_ypos += (FP_FromDouble(3.5) * field_34_scale);
         if (static_cast<int>(gnFrameCount_507670) > field_30_timer)
@@ -467,7 +467,7 @@ void BirdPortal::VUpdate_4523D0()
         break;
 
     case States::State_6:
-        Event_Broadcast_417220(18, this);
+        Event_Broadcast_417220(kEvent_18, this);
         if (field_10_portal_type != PortalType::eWorker_1 && field_10_portal_type != PortalType::eShrykull_2 || Event_Get_417250(8))
         {
             if ((Math_NextRandom() % 8) == 0)

@@ -1921,7 +1921,7 @@ signed __int16 Slig::MainMovement_467020()
             field_FC_current_motion = GetNextMotionIncGameSpeak_467700(0);
             if (field_FC_current_motion != -1)
             {
-                Event_Broadcast_417220(1, this);
+                Event_Broadcast_417220(kEventSpeaking_1, this);
                 break;
             }
         }

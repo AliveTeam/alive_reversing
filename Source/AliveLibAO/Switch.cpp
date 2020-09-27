@@ -62,8 +62,8 @@ void Switch::VUpdate_4812D0()
 
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            Event_Broadcast_417220(0, this);
-            Event_Broadcast_417220(10, this);
+            Event_Broadcast_417220(kEventNoise_0, this);
+            Event_Broadcast_417220(kEvent_10, this);
             const int lvl_idx = static_cast<int>(gMap_507BA8.field_0_current_level);
             if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1
                 || gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12
