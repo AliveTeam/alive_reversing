@@ -205,6 +205,46 @@ Gibs* Gibs::ctor_407B20(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scal
 
 }
 
+void Gibs::VUpdate()
+{
+    VUpdate_4080C0();
+}
+
+void Gibs::VUpdate_4080C0()
+{
+    field_A8_xpos += field_B4_velx;
+    field_AC_ypos += field_B8_vely;
+    field_E8_z += field_EC_dz;
+
+    field_B8_vely += FP_FromDouble(0.25);
+
+    if (field_E8_z + FP_FromInteger(100) < FP_FromInteger(15))
+    {
+        field_EC_dz = -field_EC_dz;
+        field_E8_z += -field_EC_dz;
+    }
+
+    for (int i = 0; i < field_5C4_parts_used_count; i++)
+    {
+        field_F4_parts[i].field_0_x += field_F4_parts[i].field_C_dx;
+        field_F4_parts[i].field_4_y += field_F4_parts[i].field_10_dy;
+        field_F4_parts[i].field_8_z += field_F4_parts[i].field_14_dz;
+
+        field_F4_parts[i].field_10_dy += FP_FromDouble(0.25);
+
+        if (field_F4_parts[i].field_8_z + FP_FromInteger(100) < FP_FromInteger(15))
+        {
+            field_F4_parts[i].field_14_dz = -field_F4_parts[i].field_14_dz;
+            field_F4_parts[i].field_8_z += -field_F4_parts[i].field_14_dz;
+        }
+    }
+
+    if (static_cast<int>(gnFrameCount_507670) > field_F0_timer)
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+}
+
 BaseGameObject* Gibs::dtor_408040()
 {
     SetVTable(this, 0x4BA280);
