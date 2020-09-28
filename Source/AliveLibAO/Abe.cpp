@@ -2305,18 +2305,22 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
         shootKind = ShootKind::eHanging_1;
     }
 
-    field_106_shot = 1;
     field_100_health = FP_FromInteger(0);
+    field_106_shot = 1;
 
     switch (pBullet->field_10_type)
     {
         case BulletType::Type_0:
         case BulletType::Type_1:
         {
-            auto yPos = FP_FromInteger(24);
+            FP bloodXOff = {};
             if (pBullet->field_20 > FP_FromInteger(0))
             {
-                yPos = -yPos;
+                bloodXOff = FP_FromInteger(-24);
+            }
+            else
+            {
+                bloodXOff = FP_FromInteger(24);
             }
 
             auto pBlood = ao_new<Blood>();
@@ -2325,10 +2329,11 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                 pBlood->ctor_4072B0(
                     field_A8_xpos,
                     pBullet->field_1C_ypos,
-                    yPos,
+                    bloodXOff,
                     FP_FromInteger(0),
                     field_BC_sprite_scale,
-                    50);
+                    50
+                );
             }
 
             switch (shootKind)
@@ -2382,7 +2387,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
             }
             break;
         }
-        case BulletType::Type_2:
+        case BulletType::ZBullet_2:
         {
             if (field_BC_sprite_scale == FP_FromDouble(0.5))
             {
@@ -2390,89 +2395,59 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                 field_100_health = FP_FromInteger(1);
                 return;
             }
-
-            Path_TLV *pPath = nullptr;
-            while (true)
+            if (Bullet::InZBulletCover(FP_FromInteger(rect.x), FP_FromInteger(rect.y), rect))
             {
-                pPath = gMap_507BA8.TLV_Get_At_446060(
-                    pPath,
-                    FP_FromInteger(rect.x),
-                    FP_FromInteger(rect.y),
-                    FP_FromInteger(rect.x),
-                    FP_FromInteger(rect.y)
-                );
-                if (!pPath)
-                    break;
-
-                if (pPath->field_4_type != 83)
+                field_106_shot = 0;
+                field_100_health = FP_FromInteger(1);
+                return;
+            }
+            if (shootKind != ShootKind::eEverythingElse_0)
+            {
+                if (shootKind == ShootKind::eHanging_1)
                 {
-                    continue;
+                    field_FC_current_motion = 92;
+                    field_108_bMotionChanged = 1;
+                    field_106_shot = 0;
+                    field_114_gnFrame = 0;
                 }
-                if (rect.x >= pPath->field_10_top_left.field_0_x &&
-                    rect.x <= pPath->field_14_bottom_right.field_0_x &&
-                    rect.y >= pPath->field_10_top_left.field_2_y &&
-                    rect.y <= pPath->field_14_bottom_right.field_2_y &&
-                    rect.w >= pPath->field_10_top_left.field_0_x &&
-                    rect.w <= pPath->field_14_bottom_right.field_0_x &&
-                    rect.h >= pPath->field_10_top_left.field_2_y &&
-                    rect.h <= pPath->field_14_bottom_right.field_2_y)
+                else if (shootKind == ShootKind::eRolling_2)
                 {
-                    break;
+                    field_FE_next_state = 147;
                 }
             }
-            if (!pPath)
+            if (field_FC_current_motion != eAbeStates::State_114_ElumRunLoop_42DFA0)
             {
-                if (shootKind != ShootKind::eEverythingElse_0)
+                if (field_1A4_resources.res[0])
                 {
-                    if (shootKind == ShootKind::eHanging_1)
-                    {
-                        field_FC_current_motion = 92;
-                        field_108_bMotionChanged = 1;
-                        field_106_shot = 0;
-                        field_114_gnFrame = 0;
-                    }
-                    else if (shootKind == ShootKind::eRolling_2)
-                    {
-                        field_FE_next_state = 147;
-                    }
+                    field_FE_next_state = eAbeStates::State_148_Shot_4296A0;
                 }
-                if (field_FC_current_motion != eAbeStates::State_114_ElumRunLoop_42DFA0)
+                else
                 {
-                    if (field_1A4_resources.res[0])
-                    {
-                        field_FE_next_state = eAbeStates::State_148_Shot_4296A0;
-                    }
-                    else
-                    {
-                        ElumKnockForward_42E780(1);
-                        field_FC_current_motion = eAbeStates::State_148_Shot_4296A0;
-                        field_108_bMotionChanged = 1;
-                        field_106_shot = 0;
-                    }
-                }
-
-                if (field_FC_current_motion != eAbeStates::State_114_ElumRunLoop_42DFA0 ||
-                    shootKind != ShootKind::eEverythingElse_0)
-                {
-                    auto pBlood = ao_new<Blood>();
-                    if (pBlood)
-                    {
-                        pBlood->ctor_4072B0(
-                            field_A8_xpos,
-                            field_AC_ypos - FP_FromInteger(45),
-                            FP_FromInteger(0),
-                            FP_FromInteger(0),
-                            FP_FromInteger(1),
-                            50
-                        );
-                    }
-
-                    break;
+                    ElumKnockForward_42E780(1);
+                    field_FC_current_motion = eAbeStates::State_148_Shot_4296A0;
+                    field_108_bMotionChanged = 1;
+                    field_106_shot = 0;
                 }
             }
-            field_106_shot = 0;
-            field_100_health = FP_FromInteger(1);
-            return;
+
+            if (field_FC_current_motion != eAbeStates::State_114_ElumRunLoop_42DFA0 ||
+                shootKind != ShootKind::eEverythingElse_0)
+            {
+                auto pBlood = ao_new<Blood>();
+                if (pBlood)
+                {
+                    pBlood->ctor_4072B0(
+                        field_A8_xpos,
+                        field_AC_ypos - FP_FromInteger(45),
+                        FP_FromInteger(0),
+                        FP_FromInteger(0),
+                        FP_FromInteger(1),
+                        50
+                    );
+                }
+
+                break;
+            }
         }
         default:
             break;

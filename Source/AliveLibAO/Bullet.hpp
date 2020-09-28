@@ -12,7 +12,7 @@ enum class BulletType : __int16
 {
     Type_0 = 0,
     Type_1 = 1,
-    Type_2 = 2
+    ZBullet_2 = 2
 };
 
 enum class LevelIds : __int16;
@@ -26,6 +26,8 @@ public:
 
     EXPORT void VUpdate_408E30();
     EXPORT BaseAliveGameObject* ShootObject_409400(PSX_RECT* pRect);
+
+    static bool InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect);
 
     BulletType field_10_type;
     __int16 field_12;
