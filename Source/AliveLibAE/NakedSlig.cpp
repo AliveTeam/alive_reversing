@@ -1378,7 +1378,7 @@ void NakedSlig::M_UsingButton_1_41B890()
 
         if (static_cast<int>(sGnFrame_5C1B84) == field_1AC_timer - 1)
         {
-            New_Particle_426F40(
+            New_Particle_DestroyOrCreateObject_426F40(
                 field_B8_xpos,
                 (field_CC_sprite_scale * FP_FromInteger(45)) + field_BC_ypos,
                 field_CC_sprite_scale);

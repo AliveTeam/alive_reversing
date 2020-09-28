@@ -2036,7 +2036,7 @@ __int16 Glukkon::AI_5_WaitToSpawn_442490()
             PSX_RECT bRect = {};
             vGetBoundingRect_424FD0(&bRect, 1);
 
-            New_Particle_426F40(
+            New_Particle_DestroyOrCreateObject_426F40(
                 FP_FromInteger((bRect.x + bRect.w) / 2),
                 FP_FromInteger((bRect.y + bRect.h) / 2) + (field_CC_sprite_scale * FP_FromInteger(60)),
                 field_CC_sprite_scale);
