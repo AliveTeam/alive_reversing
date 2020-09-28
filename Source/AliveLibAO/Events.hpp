@@ -37,4 +37,8 @@ EXPORT void CC Event_Broadcast_417220(int eventType, BaseGameObject* pObject);
 
 EXPORT BaseAnimatedWithPhysicsGameObject* CC Event_Is_Event_In_Range_417270(__int16 eventType, FP xpos, FP ypos, FP scale);
 
+EXPORT void CC Events_Reset_Active_417320();
+
+EXPORT void CC Event_Cancel_For_Obj_417350(BaseGameObject* pObj);
+
 END_NS_AO

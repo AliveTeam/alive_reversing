@@ -38,6 +38,7 @@
 #include "Font.hpp"
 #include "GameEnderController.hpp"
 #include "Spark.hpp"
+#include "Events.hpp"
 #include "../AliveLibCommon/config.h"
 
 START_NS_AO
@@ -551,12 +552,6 @@ EXPORT void CC Game_Init_LoadingIcon_445E30()
     }
     ResourceManager::Set_Header_Flags_4557D0(ppRes, ResourceManager::ResourceHeaderFlags::eNeverFree);
 }
-
-EXPORT void CC Events_Reset_Active_417320()
-{
-    NOT_IMPLEMENTED();
-}
-
 
 ALIVE_VAR(1, 0x507B78, short, sBreakGameLoop_507B78, 0);
 
