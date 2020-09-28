@@ -2485,7 +2485,6 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
         Abe_SFX_2_42A220(7, 0, 0x7FFF, this);
         SFX_Play_43AE60(SoundEffect::Unknown_79, 0, -500, this);
         SFX_Play_43AD70(SoundEffect::KillEffect_78, 0, this);
-        return;
     }
 }
 
