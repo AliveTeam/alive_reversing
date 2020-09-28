@@ -6,6 +6,7 @@
 #include "Door.hpp"
 #include "ThrowableArray.hpp"
 #include "Elum.hpp"
+#include "LiftPoint.hpp"
 #include "ResourceManager.hpp"
 #include "Shadow.hpp"
 #include "Game.hpp"
@@ -2482,13 +2483,15 @@ bool Abe::NearDoorIsOpen()
         if (pObj->field_4_typeId == Types::eDoor_21)
         {
             auto pDoor = static_cast<Door*>(pObj);
-            PSX_RECT* pRect = VGetBoundingRect_418120(pRect, 1);
-            PSX_RECT* pRect2 = pDoor->VGetBoundingRect_418120(pRect2, 1);
+            PSX_RECT pRect = {};
+            VGetBoundingRect_418120(&pRect, 1);
+            PSX_RECT pRect2 = {};
+            pDoor->VGetBoundingRect_418120(&pRect2, 1);
 
-            if (pRect->x <= pRect2->w &&
-                pRect->w >= pRect2->x &&
-                pRect->h >= pRect2->y &&
-                pRect->y <= pRect2->h)
+            if (pRect.x <= pRect2.w &&
+                pRect.w >= pRect2.x &&
+                pRect.h >= pRect2.y &&
+                pRect.y <= pRect2.h)
             {
                 return pDoor->vIsOpen_40E800();
             }
@@ -2539,10 +2542,75 @@ __int16 Abe::RunTryEnterDoor_4259C0()
     return 1;
 }
 
-__int16 Abe::MoveLiftUpOrDown_42F190(FP /*ySpeed*/)
+__int16 Abe::MoveLiftUpOrDown_42F190(FP ySpeed)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
+
+    if (pLiftPoint)
+    {
+        field_B8_vely = pLiftPoint->field_B8_vely;
+        if (pLiftPoint->field_6_flags.Get(Options::eDead_Bit3))
+        {
+            VOnTrapDoorOpen();
+            field_2A8_flags.Set(Flags_2A8::e2A8_Bit1);
+        }
+        SetActiveCameraDelayedFromDir_401C90();
+    }
+
+    pLiftPoint->Move_435740(FP_FromInteger(0), ySpeed, 0);
+
+    if (gBeeInstanceCount_5076B0 && word_5076AC)
+    {
+        return eAbeStates::State_141_BeesStrugglingOnLift_42F390;
+    }
+    if (sControlledCharacter_50767C == (BaseAliveGameObject *) this &&
+        !(field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)) &&
+        field_10_anim.field_92_current_frame != 5)
+    {
+        return field_FC_current_motion;
+    }
+    if (ySpeed >= FP_FromInteger(0))
+    {
+        if (ySpeed > FP_FromInteger(0))
+        {
+            if (pLiftPoint->OnBottomFloor())
+            {
+                return eAbeStates::State_135_LiftGrabIdle_42F000;
+            }
+            if (sInputObject_5009E8.isPressed(sInputKey_Down_4C659C))
+            {
+                return eAbeStates::State_132_LiftUseDown_42F170;
+            }
+            if (sInputObject_5009E8.isPressed(sInputKey_Up_4C6598))
+            {
+                return eAbeStates::State_131_LiftUseUp_42F150;
+            }
+        }
+    }
+    else
+    {
+        if (pLiftPoint->OnTopFloor())
+        {
+            return eAbeStates::State_135_LiftGrabIdle_42F000;
+        }
+        if (sInputObject_5009E8.isPressed(sInputKey_Up_4C6598))
+        {
+            return eAbeStates::State_131_LiftUseUp_42F150;
+        }
+        if (sInputObject_5009E8.isPressed(sInputKey_Down_4C659C))
+        {
+            return eAbeStates::State_132_LiftUseDown_42F170;
+        }
+    }
+    if (sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed &&
+        pLiftPoint->OnAnyFloor() &&
+        !(pLiftPoint->field_12C_bMoving & 1))
+    {
+        return eAbeStates::State_134_LiftGrabEnd_42EFE0;
+    }
+
+    pLiftPoint->Move_435740(FP_FromInteger(0), FP_FromInteger(0), 0);
+    return eAbeStates::State_135_LiftGrabIdle_42F000;
 }
 
 void Abe::vScreenChanged_422640()

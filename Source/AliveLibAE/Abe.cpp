@@ -9834,7 +9834,9 @@ short Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
         }
     }
 
-    if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed  && pLiftPoint->vOnAnyFloor_461920() && !(pLiftPoint->field_12C_bMoving & 1))
+    if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed &&
+        pLiftPoint->vOnAnyFloor_461920() &&
+        !(pLiftPoint->field_12C_bMoving & 1))
     {
         return eAbeStates::State_122_LiftGrabEnd_45A670;
     }
