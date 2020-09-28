@@ -78,10 +78,6 @@ public:
 
     EXPORT void VOnPathTransition_401470(__int16 camWorldX, int camWorldY, CameraPos direction);
 
-    EXPORT __int16 MapFollowMe_Real_401D30(__int16 snapToGrid);
-
-    __int16 MapFollowMe(__int16 snapToGrid);
-
     EXPORT __int16 MapFollowMe_401D30(__int16 snapToGrid);
 
     EXPORT void SetActiveCameraDelayedFromDir_401C90();
