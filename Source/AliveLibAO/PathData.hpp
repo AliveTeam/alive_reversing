@@ -36,6 +36,8 @@ enum TlvTypes : __int16
     DeathDrop_5 = 5,
     Door_6 = 6,
 
+    LiftPoint_8 = 8,
+
     Slig_24 = 24,
     Slog_25 = 25,
 
