@@ -94,7 +94,7 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo)
         field_120_max_idx++;
     }
 
-    field_15E = 0;
+    field_15E_ball_angle = 0;
 
     field_140_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y + 40);
     field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y + 40);
@@ -121,7 +121,7 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo)
 
     field_132_solve_id = pTlv->field_1A_solve_id;
 
-    field_15C = 0;
+    field_15C_ball_state = 0;
     field_128_idx = 0;
     field_164 = 0;
     field_110_state = 0;
@@ -243,6 +243,42 @@ __int16 ChimeLock::DoNote_40BB20(__int16 note)
     return 1;
 }
 
+void ChimeLock::SetBallTarget_40B7B0(FP ballTargetX, FP ballTargetY, __int16 timer, __int16 xSize, __int16 ySize, __int16 bHitBell)
+{
+    if (timer > 0)
+    {
+        const FP timerFP = FP_FromInteger(timer);
+
+        field_160_ball_timer = timer;
+        field_15E_ball_angle = 0;
+
+        field_B4_velx = (ballTargetX - field_A8_xpos) / timerFP;
+        field_B8_vely = (ballTargetY - field_AC_ypos) / timerFP;
+
+        field_144_ball_start_x = field_AC_ypos;
+        field_148_ball_start_y = field_AC_ypos;
+
+        field_150 = FP_FromInteger(256) / timerFP;
+        field_154 = FP_FromInteger(256) / timerFP;
+
+        field_158_xSize = xSize;
+        field_15A_ySize = ySize;
+
+        if (bHitBell)
+        {
+            field_15C_ball_state = 1;
+        }
+        else
+        {
+            field_15C_ball_state = 2;
+        }
+    }
+    else
+    {
+        field_15C_ball_state = 0;
+    }
+}
+
 void ChimeLock::VPossessed_40BC40()
 {
     field_138 &= ~3u;
@@ -250,7 +286,7 @@ void ChimeLock::VPossessed_40BC40()
     field_110_state = 2;
     field_128_idx = 0;
     field_12C = gnFrameCount_507670 + 45;
-    field_15C = 0;
+    field_15C_ball_state = 0;
     field_164 = 0;
 }
 

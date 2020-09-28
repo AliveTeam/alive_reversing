@@ -45,6 +45,8 @@ public:
 
     EXPORT __int16 DoNote_40BB20(__int16 note);
 
+    EXPORT void SetBallTarget_40B7B0(FP ballTargetX, FP ballTargetY, __int16 timer, __int16 xSize, __int16 ySize, __int16 bHitBell);
+
     int field_10C_tlvInfo;
     __int16 field_110_state;
     __int16 field_112;
@@ -65,16 +67,16 @@ public:
     __int16 field_13A;
     FP field_13C;
     FP field_140_ypos;
-    int field_144;
-    int field_148;
+    FP field_144_ball_start_x;
+    FP field_148_ball_start_y;
     FP field_14C;
-    int field_150;
-    int field_154;
-    __int16 field_158;
-    __int16 field_15A;
-    __int16 field_15C;
-    __int16 field_15E;
-    __int16 field_160;
+    FP field_150;
+    FP field_154;
+    __int16 field_158_xSize;
+    __int16 field_15A_ySize;
+    __int16 field_15C_ball_state;
+    __int16 field_15E_ball_angle;
+    __int16 field_160_ball_timer;
     __int16 field_162;
     __int16 field_164;
     __int16 field_166;
