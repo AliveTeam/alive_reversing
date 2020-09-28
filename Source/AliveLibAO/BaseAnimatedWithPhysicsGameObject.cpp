@@ -8,10 +8,18 @@
 
 START_NS_AO
 
-FP CC ScaleToGridSize_41FA30(FP /*scale*/)
+FP CC ScaleToGridSize_41FA30(FP scale)
 {
-    NOT_IMPLEMENTED();
-    return {};
+    if (scale == FP_FromDouble(0.5))
+    {
+        return FP_FromInteger(13);
+    }
+
+    if (scale == FP_FromInteger(1))
+    {
+        return FP_FromInteger(25);
+    }
+    return FP_FromInteger(0);
 }
 
 BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::ctor_417C10()
