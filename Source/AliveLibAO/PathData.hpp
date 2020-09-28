@@ -78,7 +78,7 @@ enum TlvTypes : __int16
 struct Path_TLV;
 class Map;
 
-using TTempFn = void(CC*)();
+using TTempFn = int(CC*)();
 
 struct PathData
 {
