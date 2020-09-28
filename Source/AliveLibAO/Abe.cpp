@@ -2493,7 +2493,7 @@ bool Abe::NearDoorIsOpen()
                 pRect.h >= pRect2.y &&
                 pRect.y <= pRect2.h)
             {
-                return pDoor->vIsOpen_40E800();
+                return static_cast<bool>(pDoor->vIsOpen_40E800());
             }
         }
     }
