@@ -48,6 +48,10 @@ public:
 
     EXPORT __int16 VTakeDamage_419520(BaseGameObject* pFrom);
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_418DE0();
+
     int field_10C_tlvInfo;
     __int16 field_110_state;
     __int16 field_112;
@@ -56,11 +60,12 @@ public:
     __int16 field_11A;
     FP field_11C_clawX;
     FP field_120_clawY;
-    int field_124;
+    BYTE field_124;
+    // 3 byte pad
     int field_128_sound_channels;
     __int16 field_12C_pDetector;
     __int16 field_12E;
-    BaseGameObject* field_130_pClaw;
+    Claw* field_130_pClaw;
     PSX_Point field_134;
     PSX_Point field_138;
     DynamicArrayT<MotionDetector>* field_13C_pArray;
