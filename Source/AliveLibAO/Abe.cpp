@@ -2408,14 +2408,14 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
             {
                 if (shootKind == ShootKind::eHanging_1)
                 {
-                    field_FC_current_motion = 92;
+                    field_FC_current_motion = eAbeStates::State_92_ForceDownFromHoist_4297C0;
                     field_108_bMotionChanged = 1;
                     field_106_shot = 0;
                     field_114_gnFrame = 0;
                 }
                 else if (shootKind == ShootKind::eRolling_2)
                 {
-                    field_FE_next_state = 147;
+                    field_FE_next_state = eAbeStates::State_147_ShotRolling_4295C0;
                 }
             }
             if (field_FC_current_motion != eAbeStates::State_114_ElumRunLoop_42DFA0)
