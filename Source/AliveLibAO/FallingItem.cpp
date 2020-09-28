@@ -169,7 +169,7 @@ void FallingItem::DamageHitItems_41A6D0()
 
 void FallingItem::VUpdate_41A120()
 {
-    if (Event_Get_417250(4))
+    if (Event_Get_417250(kEventDeathReset_4))
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -191,7 +191,7 @@ void FallingItem::VUpdate_41A120()
     switch (field_110_state)
     {
     case State::eState_0_WaitForIdEnable:
-        if (field_112_id && SwitchStates_Get(field_112_id))
+        if (SwitchStates_Get(field_112_id))
         {
             field_6_flags.Clear(Options::eCanExplode_Bit7);
             field_110_state = State::eState_1_GoWaitForDelay;
@@ -378,7 +378,6 @@ void FallingItem::VUpdate_41A120()
     }
 }
 
-
 void FallingItem::VScreenChanged_41A7C0()
 {
     if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level
@@ -387,6 +386,12 @@ void FallingItem::VScreenChanged_41A7C0()
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
+}
+
+
+void FallingItem::VUpdate()
+{
+    VUpdate_41A120();
 }
 
 void FallingItem::VScreenChanged()
