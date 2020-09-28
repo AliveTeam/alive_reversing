@@ -321,9 +321,20 @@ PSX_RECT* BaseAnimatedWithPhysicsGameObject::VGetBoundingRect_418120(PSX_RECT* p
     return pRect;
 }
 
-void BaseAnimatedWithPhysicsGameObject::SetTint_418750(const TintEntry* /*pTintArray*/, LevelIds /*levelId*/)
+void BaseAnimatedWithPhysicsGameObject::SetTint_418750(const TintEntry* pTintArray, LevelIds level_id)
 {
-    NOT_IMPLEMENTED();
+    while (pTintArray->field_0_level != static_cast<int>(level_id))
+    {
+        if (pTintArray->field_0_level == static_cast<int>(level_id) || pTintArray->field_0_level == static_cast<int>(LevelIds::eNone))
+        {
+            break;
+        }
+        pTintArray++;
+    }
+
+    field_C0_r = pTintArray->field_1_r;
+    field_C2_g = pTintArray->field_2_g;
+    field_C4_b = pTintArray->field_3_b;
 }
 
 BaseGameObject* BaseAnimatedWithPhysicsGameObject::dtor_417D10()
