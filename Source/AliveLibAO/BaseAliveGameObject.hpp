@@ -98,7 +98,7 @@ public:
 
     EXPORT void VSetMotion_402520(__int16 state);
 
-    EXPORT void sub_4020D0();
+    EXPORT void UsePathTransScale_4020D0();
 
     EXPORT static BaseGameObject* CC FindObjectOfType_418280(Types typeToFind, FP xpos, FP ypos);
 
