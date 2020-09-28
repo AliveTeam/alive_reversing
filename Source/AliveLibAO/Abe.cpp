@@ -2483,15 +2483,15 @@ bool Abe::NearDoorIsOpen()
         if (pObj->field_4_typeId == Types::eDoor_21)
         {
             auto pDoor = static_cast<Door*>(pObj);
-            PSX_RECT pRect = {};
-            VGetBoundingRect_418120(&pRect, 1);
-            PSX_RECT pRect2 = {};
-            pDoor->VGetBoundingRect_418120(&pRect2, 1);
+            PSX_RECT Rect = {};
+            VGetBoundingRect_418120(&Rect, 1);
+            PSX_RECT Rect2 = {};
+            pDoor->VGetBoundingRect_418120(&Rect2, 1);
 
-            if (pRect.x <= pRect2.w &&
-                pRect.w >= pRect2.x &&
-                pRect.h >= pRect2.y &&
-                pRect.y <= pRect2.h)
+            if (Rect.x <= Rect2.w &&
+                Rect.w >= Rect2.x &&
+                Rect.h >= Rect2.y &&
+                Rect.y <= Rect2.h)
             {
                 return static_cast<bool>(pDoor->vIsOpen_40E800());
             }
