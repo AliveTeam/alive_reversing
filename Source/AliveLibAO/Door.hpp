@@ -34,6 +34,14 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Door, 0x48);
 class Door : public BaseAnimatedWithPhysicsGameObject
 {
 public:
+    enum eStates
+    {
+        eUnknown_0 = 0, //todo open?
+        eUnknown_1 = 1, //todo closed?
+        eUnknown_2 = 2, //todo opening?
+        eUnknown_3 = 3, //todo closing?
+    };
+
     EXPORT Door* ctor_40E010(Path_Door* pTlv, int tlvInfo);
 
     EXPORT BaseGameObject* dtor_40E710();
@@ -46,7 +54,7 @@ public:
 
     EXPORT Door* Vdtor_40EDF0(signed int flags);
 
-
+    EXPORT BOOL vIsOpen_40E800();
 
     int field_D4[4];
     int field_E4_tlvInfo;

@@ -322,6 +322,8 @@ public:
 
     EXPORT __int16 RunTryEnterDoor_4259C0();
 
+    bool Abe::NearDoorIsOpen();
+
     EXPORT void IntoPortalStates_4262A0();
 
     // States

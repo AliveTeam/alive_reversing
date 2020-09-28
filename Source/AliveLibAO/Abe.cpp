@@ -3,6 +3,7 @@
 #include "Abe.hpp"
 #include "Blood.hpp"
 #include "Bullet.hpp"
+#include "Door.hpp"
 #include "ThrowableArray.hpp"
 #include "Elum.hpp"
 #include "ResourceManager.hpp"
@@ -2468,10 +2469,74 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
     SFX_Play_43AD70(SoundEffect::KillEffect_78, 0, this);
 }
 
+bool Abe::NearDoorIsOpen()
+{
+    for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    {
+        BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_4_typeId == Types::eDoor_21)
+        {
+            auto pDoor = static_cast<Door*>(pObj);
+            PSX_RECT* pRect = VGetBoundingRect_418120(pRect, 1);
+            PSX_RECT* pRect2 = pDoor->VGetBoundingRect_418120(pRect2, 1);
+
+            if (pRect->x <= pRect2->w &&
+                pRect->w >= pRect2->x &&
+                pRect->h >= pRect2->y &&
+                pRect->y <= pRect2->h)
+            {
+                return pDoor->vIsOpen_40E800();
+            }
+        }
+    }
+    return false;
+}
+
 __int16 Abe::RunTryEnterDoor_4259C0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (!sInputObject_5009E8.isPressed(sInputKey_Up_4C6598))
+    {
+        return 0;
+    }
+    if (field_10A_flags.Get(Flags_10A::e10A_Bit5_Electrocuted))
+    {
+        return 0;
+    }
+    if (field_10_anim.field_92_current_frame < 4)
+    {
+        return 0;
+    }
+
+    // Are we actually on a door?
+    Path_TLV* pDoorTlv = gMap_507BA8.TLV_Get_At_446260(
+        FP_GetExponent(field_A8_xpos),
+        FP_GetExponent(field_AC_ypos),
+        FP_GetExponent(field_A8_xpos),
+        FP_GetExponent(field_AC_ypos),
+        TlvTypes::Door_6
+    );
+
+    if (!pDoorTlv)
+    {
+        return 0;
+    }
+
+    if (!NearDoorIsOpen())
+    {
+        return 0;
+    }
+
+    field_F0_pTlv = pDoorTlv;
+    field_110_state = 0;
+    field_FC_current_motion = eAbeStates::State_156_DoorEnter_42D370;
+    field_A8_xpos = FP_FromInteger((pDoorTlv->field_14_bottom_right.field_0_x + pDoorTlv->field_10_top_left.field_0_x) / 2);
+    MapFollowMe_401D30(TRUE);
+    return 1;
 }
 
 __int16 Abe::MoveLiftUpOrDown_42F190(FP /*ySpeed*/)
