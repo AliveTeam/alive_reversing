@@ -360,7 +360,7 @@ void Teleporter::vUpdate_4DC400()
         sControlledCharacter_5C1B8C->vGetBoundingRect_424FD0(&bRect, 1);
 
         // White flash in the middle of Abe's body
-        New_Particle_426F40(
+        New_Particle_DestroyOrCreateObject_426F40(
             FP_FromInteger((bRect.x + bRect.w) / 2),
             FP_FromInteger((bRect.y + bRect.h) / 2) + (sControlledCharacter_5C1B8C->field_CC_sprite_scale * FP_FromInteger(60)),
             sControlledCharacter_5C1B8C->field_CC_sprite_scale);

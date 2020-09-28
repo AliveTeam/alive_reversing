@@ -123,7 +123,8 @@ enum ResourceID
 {
     kUnknownResID_200 = 200,
     kUnknownResID_216 = 216,
-    kUnknownResID_230 = 230
+    kUnknownResID_230 = 230,
+    kUnknownResID_349 = 349
 };
 
 END_NS_AO

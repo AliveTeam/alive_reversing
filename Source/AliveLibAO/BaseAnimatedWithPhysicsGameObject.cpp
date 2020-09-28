@@ -8,10 +8,18 @@
 
 START_NS_AO
 
-FP CC ScaleToGridSize_41FA30(FP /*scale*/)
+FP CC ScaleToGridSize_41FA30(FP scale)
 {
-    NOT_IMPLEMENTED();
-    return {};
+    if (scale == FP_FromDouble(0.5))
+    {
+        return FP_FromInteger(13);
+    }
+
+    if (scale == FP_FromInteger(1))
+    {
+        return FP_FromInteger(25);
+    }
+    return FP_FromInteger(0);
 }
 
 BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::ctor_417C10()
@@ -47,9 +55,46 @@ BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::ctor_417C1
     return this;
 }
 
-void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(int /*frameTableOffset*/, int /*maxW*/, int /*maxH*/, BYTE** /*ppAnimData*/, __int16 /*a6*/)
+void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(int frameTableOffset, int maxW, int maxH, BYTE** ppAnimData, __int16 a6)
 {
-    NOT_IMPLEMENTED();
+    const auto init = field_10_anim.Init_402D20(
+        frameTableOffset,
+        gObjList_animations_505564,
+        this,
+        static_cast<short>(maxW),
+        static_cast<unsigned short>(maxH),
+        ppAnimData,
+        1, 0, 0);
+
+    if (init)
+    {
+        if (field_BC_sprite_scale == FP_FromInteger(1))
+        {
+            field_10_anim.field_C_layer = 27;
+        }
+        else
+        {
+            field_10_anim.field_C_layer = 8;
+            field_C6_scale = 0;
+        }
+
+        if (!a6 || gObjList_drawables_504618->Push_Back(this))
+        {
+            field_10_anim.field_B_render_mode = 0;
+            field_10_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+            field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+        }
+        else
+        {
+            field_6_flags.Set(Options::eListAddFailed_Bit1);
+            gBaseGameObject_list_9F2DF0->Remove_Item(this);
+        }
+    }
+    else
+    {
+        field_6_flags.Set(Options::eListAddFailed_Bit1);
+        field_6_flags.Set(Options::eDead_Bit3);
+    }
 }
 
 void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(int** /*ot*/)
@@ -276,9 +321,20 @@ PSX_RECT* BaseAnimatedWithPhysicsGameObject::VGetBoundingRect_418120(PSX_RECT* p
     return pRect;
 }
 
-void BaseAnimatedWithPhysicsGameObject::SetTint_418750(const TintEntry* /*pTintArray*/, LevelIds /*levelId*/)
+void BaseAnimatedWithPhysicsGameObject::SetTint_418750(const TintEntry* pTintArray, LevelIds level_id)
 {
-    NOT_IMPLEMENTED();
+    while (pTintArray->field_0_level != static_cast<int>(level_id))
+    {
+        if (pTintArray->field_0_level == static_cast<int>(level_id) || pTintArray->field_0_level == static_cast<int>(LevelIds::eNone))
+        {
+            break;
+        }
+        pTintArray++;
+    }
+
+    field_C0_r = pTintArray->field_1_r;
+    field_C2_g = pTintArray->field_2_g;
+    field_C4_b = pTintArray->field_3_b;
 }
 
 BaseGameObject* BaseAnimatedWithPhysicsGameObject::dtor_417D10()

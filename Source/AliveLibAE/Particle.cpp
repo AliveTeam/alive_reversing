@@ -65,7 +65,7 @@ BaseGameObject* Particle::VDestructor(signed int flags)
     return vdtor_4CC5D0(flags);
 }
 
-EXPORT Particle* CC New_Particle_426F40(FP xpos, FP ypos, FP scale)
+EXPORT Particle* CC New_Particle_DestroyOrCreateObject_426F40(FP xpos, FP ypos, FP scale)
 {
     BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID, FALSE, FALSE);
     auto pParticle = ae_new<Particle>();
