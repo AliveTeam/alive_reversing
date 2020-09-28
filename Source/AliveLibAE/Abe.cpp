@@ -9355,106 +9355,115 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
         eRolling_2 = 2,
     };
 
-    if (Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0 && field_10C_health > FP_FromInteger(0))
+    if (Is_In_Current_Camera_424A70() != CameraPos::eCamCurrent_0 ||
+        field_10C_health <= FP_FromInteger(0))
     {
-        ShootKind shootKind = ShootKind::eEverythingElse_0;
-        if (field_106_current_motion == eAbeStates::State_22_RollBegin_4539A0 ||
-            field_106_current_motion == eAbeStates::State_23_RollLoop_453A90 ||
-            field_106_current_motion == eAbeStates::State_24_453D00 ||
-            field_106_current_motion == eAbeStates::State_37_CrouchTurn_454390 ||
-            field_106_current_motion == eAbeStates::State_17_CrouchIdle_456BC0)
+        return;
+    }
+
+    ShootKind shootKind = ShootKind::eEverythingElse_0;
+    if (field_106_current_motion == eAbeStates::State_22_RollBegin_4539A0 ||
+        field_106_current_motion == eAbeStates::State_23_RollLoop_453A90 ||
+        field_106_current_motion == eAbeStates::State_24_453D00 ||
+        field_106_current_motion == eAbeStates::State_37_CrouchTurn_454390 ||
+        field_106_current_motion == eAbeStates::State_17_CrouchIdle_456BC0)
+    {
+        shootKind = ShootKind::eRolling_2;
+    }
+    else if (field_106_current_motion == eAbeStates::State_65_LedgeAscend_4548E0 ||
+        field_106_current_motion == eAbeStates::State_67_LedgeHang_454E20 ||
+        field_106_current_motion == eAbeStates::State_69_LedgeHangWobble_454EF0 ||
+        field_106_current_motion == eAbeStates::State_66_LedgeDescend_454970 ||
+        field_106_current_motion == eAbeStates::State_68_ToOffScreenHoist_454B80)
+    {
+        shootKind = ShootKind::eHanging_1;
+    }
+
+    field_10C_health -= FP_FromDouble(0.34);
+    if (field_10C_health > FP_FromInteger(0))
+    {
+        FP xoff = {};
+        if (field_10C_health <= FP_FromDouble(0.5))
         {
-            shootKind = ShootKind::eRolling_2;
-        }
-        else if (field_106_current_motion == eAbeStates::State_65_LedgeAscend_4548E0 ||
-            field_106_current_motion == eAbeStates::State_67_LedgeHang_454E20 ||
-            field_106_current_motion == eAbeStates::State_69_LedgeHangWobble_454EF0 ||
-            field_106_current_motion == eAbeStates::State_66_LedgeDescend_454970 ||
-            field_106_current_motion == eAbeStates::State_68_ToOffScreenHoist_454B80)
-        {
-            shootKind = ShootKind::eHanging_1;
+            if (pBullet->field_30 > FP_FromInteger(0))
+            {
+                xoff = field_B8_xpos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
+            }
+            else
+            {
+                xoff = ScaleToGridSize_4498B0(field_CC_sprite_scale) + field_B8_xpos;
+            }
         }
         else
         {
-            shootKind = ShootKind::eEverythingElse_0;
-        }
-
-        field_10C_health -= FP_FromDouble(0.34);
-        if (field_10C_health > FP_FromInteger(0))
-        {
-            FP xoff = {};
-            if (field_10C_health <= FP_FromDouble(0.5))
+            if (pBullet->field_30 > FP_FromInteger(0))
             {
-                if (pBullet->field_30 > FP_FromInteger(0))
-                {
-                    xoff = field_B8_xpos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
-                }
-                else
-                {
-                    xoff = ScaleToGridSize_4498B0(field_CC_sprite_scale) + field_B8_xpos;
-                }
+                xoff = field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(2));
             }
             else
             {
-                if (pBullet->field_30 > FP_FromInteger(0))
-                {
-                    xoff = field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(2));
-                }
-                else
-                {
-                    xoff = ScaleToGridSize_4498B0(field_CC_sprite_scale) + field_B8_xpos;
-                }
+                xoff = ScaleToGridSize_4498B0(field_CC_sprite_scale) + field_B8_xpos;
             }
-
-            PathLine* pathLine = nullptr;
-            FP hitX = {};
-            FP hitY = {};
-            if (sCollisions_DArray_5C1128->Raycast_417A60(
-                xoff,
-                field_BC_ypos - FP_FromInteger(5),
-                xoff,
-                field_BC_ypos + FP_FromInteger(5),
-                &pathLine, 
-                &hitX,
-                &hitY,
-                field_D6_scale != 0 ? 1 : 16) == 1)
-            {
-                if (pBullet->field_20_type != BulletType::Type_1 && pBullet->field_20_type != BulletType::ZBullet_3)
-                {
-                    auto pSpark = ae_new<Spark>();
-                    if (pSpark)
-                    {
-                        pSpark->ctor_4CBBB0(hitX, hitY, field_CC_sprite_scale, 9, -31, 159, 0);
-                    }
-                    New_Particles_426C70(hitX, hitY, field_CC_sprite_scale, 3, 128u, 128u, 128u);
-                }
-            }
-            return;
         }
 
-        field_114_flags.Set(Flags_114::e114_Bit1_bShot);
-
-        switch (pBullet->field_20_type)
+        PathLine* pathLine = nullptr;
+        FP hitX = {};
+        FP hitY = {};
+        if (sCollisions_DArray_5C1128->Raycast_417A60(
+            xoff,
+            field_BC_ypos - FP_FromInteger(5),
+            xoff,
+            field_BC_ypos + FP_FromInteger(5),
+            &pathLine,
+            &hitX,
+            &hitY,
+            field_D6_scale != 0 ? 1 : 16) == 1)
         {
-        case BulletType::Type_0:
-        case BulletType::Type_2:
-        {
-            FP bloodXOff = {};
-            if (pBullet->field_30 <= FP_FromInteger(0))
+            if (pBullet->field_20_type != BulletType::Type_1 && pBullet->field_20_type != BulletType::ZBullet_3)
             {
-                bloodXOff = FP_FromInteger(-24);
+                auto pSpark = ae_new<Spark>();
+                if (pSpark)
+                {
+                    pSpark->ctor_4CBBB0(hitX, hitY, field_CC_sprite_scale, 9, -31, 159, 0);
+                }
+                New_Particles_426C70(hitX, hitY, field_CC_sprite_scale, 3, 128u, 128u, 128u);
             }
-            else
-            {
-                bloodXOff = FP_FromInteger(24);
-            }
-            auto pBlood = ae_new<Blood>();
-            if (pBlood)
-            {
-                pBlood->ctor_40F0B0(field_B8_xpos, pBullet->field_2C_ypos, bloodXOff, FP_FromInteger(0), field_CC_sprite_scale, 50);
-            }
+        }
+        return;
+    }
 
-            if (shootKind == ShootKind::eEverythingElse_0)
+    field_114_flags.Set(Flags_114::e114_Bit1_bShot);
+
+    switch (pBullet->field_20_type)
+    {
+    case BulletType::Type_0:
+    case BulletType::Type_2:
+    {
+        FP bloodXOff = {};
+        if (pBullet->field_30 <= FP_FromInteger(0))
+        {
+            bloodXOff = FP_FromInteger(-24);
+        }
+        else
+        {
+            bloodXOff = FP_FromInteger(24);
+        }
+        auto pBlood = ae_new<Blood>();
+        if (pBlood)
+        {
+            pBlood->ctor_40F0B0(
+                field_B8_xpos,
+                pBullet->field_2C_ypos,
+                bloodXOff,
+                FP_FromInteger(0),
+                field_CC_sprite_scale,
+                50
+            );
+        }
+
+        switch (shootKind)
+        {
+            case ShootKind::eEverythingElse_0:
             {
                 ToKnockback_44E700(1, 1);
                 if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) != pBullet->field_30 > FP_FromInteger(0))
@@ -9468,15 +9477,17 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
                 {
                     field_C4_velx = -field_CC_sprite_scale;
                 }
+                break;
             }
-            else if (shootKind == ShootKind::eHanging_1)
+            case ShootKind::eHanging_1:
             {
                 field_106_current_motion = eAbeStates::State_92_ForceDownFromHoist_455800;
                 field_124_gnFrame = 0;
                 field_114_flags.Clear(Flags_114::e114_Bit1_bShot);
                 field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
+                break;
             }
-            else if (shootKind == ShootKind::eRolling_2)
+            case ShootKind::eRolling_2:
             {
                 if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) == pBullet->field_30 > FP_FromInteger(0))
                 {
@@ -9486,72 +9497,75 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
                 {
                     field_108_next_motion = eAbeStates::State_102_RollingKnockForward_455310;
                 }
+                break;
             }
-            break;
+            default:
+                break;
         }
-
-        case BulletType::Type_1:
-        case BulletType::ZBullet_3:
-        {
-            if (field_CC_sprite_scale == FP_FromDouble(0.5))
-            {
-                field_10C_health = FP_FromInteger(1);
-                field_114_flags.Clear(Flags_114::e114_Bit1_bShot);
-                return;
-            }
-
-            const FP boundsY = FP_FromInteger(rect.y);
-            if (Bullet::InZBulletCover(field_B8_xpos, boundsY, rect) ||
-                !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, boundsY, 0))
-            {
-                field_114_flags.Clear(Flags_114::e114_Bit1_bShot);
-                field_10C_health = FP_FromInteger(1);
-                return;
-            }
-
-            FP yOff = {};
-            if (shootKind == ShootKind::eEverythingElse_0)
-            {
-                yOff = (FP_FromInteger(-45) * field_CC_sprite_scale);
-                field_108_next_motion = eAbeStates::State_110_ZShot_455670;
-            }
-            else if (shootKind == ShootKind::eHanging_1)
-            {
-                yOff = (FP_FromInteger(45) * field_CC_sprite_scale);
-                field_106_current_motion = eAbeStates::State_92_ForceDownFromHoist_455800;
-                field_114_flags.Clear(Flags_114::e114_Bit1_bShot);
-                field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
-                field_124_gnFrame = 0;
-            }
-            else if (shootKind == ShootKind::eRolling_2)
-            {
-                yOff = (FP_FromInteger(-25) * field_CC_sprite_scale);
-                field_108_next_motion = eAbeStates::State_109_ZShotRolling_455550;
-            }
-
-            auto pBlood = ae_new<Blood>();
-            if (pBlood)
-            {
-                pBlood->ctor_40F0B0(field_B8_xpos, yOff + field_BC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), 50);
-            }
-            break;
-        }
-
-        default:
-            break;
-        }
-
-        if (field_114_flags.Get(Flags_114::e114_Bit1_bShot))
-        {
-            field_122 = field_108_next_motion;
-        }
-
-        Abe_SFX_2_457A40(14, 0, 32767, this);
-        Abe_SFX_457EC0(MudSounds::eHurt2_9, 127, 0, this);
-        Abe_SFX_2_457A40(7, 0, 32767, this);
-        SFX_Play_46FBA0(SoundEffect::Eating1_65, 0, -500, field_CC_sprite_scale);
-        SFX_Play_46FA90(SoundEffect::KillEffect_64, 0, field_CC_sprite_scale);
+        break;
     }
+
+    case BulletType::Type_1:
+    case BulletType::ZBullet_3:
+    {
+        if (field_CC_sprite_scale == FP_FromDouble(0.5))
+        {
+            field_10C_health = FP_FromInteger(1);
+            field_114_flags.Clear(Flags_114::e114_Bit1_bShot);
+            return;
+        }
+
+        const FP boundsY = FP_FromInteger(rect.y);
+        if (Bullet::InZBulletCover(field_B8_xpos, boundsY, rect) ||
+            !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, boundsY, 0))
+        {
+            field_114_flags.Clear(Flags_114::e114_Bit1_bShot);
+            field_10C_health = FP_FromInteger(1);
+            return;
+        }
+
+        FP yOff = {};
+        if (shootKind == ShootKind::eEverythingElse_0)
+        {
+            yOff = (FP_FromInteger(-45) * field_CC_sprite_scale);
+            field_108_next_motion = eAbeStates::State_110_ZShot_455670;
+        }
+        else if (shootKind == ShootKind::eHanging_1)
+        {
+            yOff = (FP_FromInteger(45) * field_CC_sprite_scale);
+            field_106_current_motion = eAbeStates::State_92_ForceDownFromHoist_455800;
+            field_114_flags.Clear(Flags_114::e114_Bit1_bShot);
+            field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
+            field_124_gnFrame = 0;
+        }
+        else if (shootKind == ShootKind::eRolling_2)
+        {
+            yOff = (FP_FromInteger(-25) * field_CC_sprite_scale);
+            field_108_next_motion = eAbeStates::State_109_ZShotRolling_455550;
+        }
+
+        auto pBlood = ae_new<Blood>();
+        if (pBlood)
+        {
+            pBlood->ctor_40F0B0(field_B8_xpos, yOff + field_BC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), 50);
+        }
+        break;
+    }
+
+    default:
+        break;
+    }
+
+    if (field_114_flags.Get(Flags_114::e114_Bit1_bShot))
+    {
+        field_122 = field_108_next_motion;
+    }
+
+    Abe_SFX_2_457A40(14, 0, 32767, this);
+    Abe_SFX_457EC0(MudSounds::eHurt2_9, 127, 0, this);
+    Abe_SFX_2_457A40(7, 0, 32767, this);
+    SFX_Play_46FBA0(SoundEffect::Eating1_65, 0, -500, field_CC_sprite_scale);
+    SFX_Play_46FA90(SoundEffect::KillEffect_64, 0, field_CC_sprite_scale);
 }
 
 void Abe::GiveControlBackToMe_44BA10()

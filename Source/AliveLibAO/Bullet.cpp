@@ -152,7 +152,7 @@ void Bullet::VUpdate_408E30()
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
             return;
         }
-        case BulletType::Type_2:
+        case BulletType::ZBullet_2:
         {
             FP distX_2 = {};
             FP distX_1 = {};
@@ -229,6 +229,44 @@ void Bullet::VUpdate_408E30()
     }
 }
 
+bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
+{
+    Path_TLV *pTlv = nullptr;
+    while (true)
+    {
+        pTlv = gMap_507BA8.TLV_Get_At_446060(
+            pTlv,
+            xpos,
+            ypos,
+            xpos,
+            ypos
+        );
+
+        if (!pTlv)
+        {
+            break;
+        }
+
+        if (pTlv->field_4_type != TlvTypes::ZSligCover_83)
+        {
+            continue;
+        }
+
+        if (objRect.x >= pTlv->field_10_top_left.field_0_x &&
+            objRect.x <= pTlv->field_14_bottom_right.field_0_x &&
+            objRect.y >= pTlv->field_10_top_left.field_2_y &&
+            objRect.y <= pTlv->field_14_bottom_right.field_2_y &&
+            objRect.w >= pTlv->field_10_top_left.field_0_x &&
+            objRect.w <= pTlv->field_14_bottom_right.field_0_x &&
+            objRect.h >= pTlv->field_10_top_left.field_2_y &&
+            objRect.h <= pTlv->field_14_bottom_right.field_2_y)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 BaseAliveGameObject* Bullet::ShootObject_409400(PSX_RECT* pRect)
 {
     if (!gBaseAliveGameObjects_4FC8A0)
@@ -266,7 +304,7 @@ BaseAliveGameObject* Bullet::ShootObject_409400(PSX_RECT* pRect)
                         pRect->h >= bRect.y &&
                         pRect->y <= bRect.h)
                     {
-                        if (field_10_type == BulletType::Type_2 || field_30_pParent->field_BC_sprite_scale == pObjIter->field_BC_sprite_scale)
+                        if (field_10_type == BulletType::ZBullet_2 || field_30_pParent->field_BC_sprite_scale == pObjIter->field_BC_sprite_scale)
                         {
                             if (pObjectToShoot)
                             {

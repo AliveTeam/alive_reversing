@@ -1470,35 +1470,7 @@ __int16 CCSTD Slig::IsInZCover_46BDA0(Slig* pThis)
     PSX_RECT bRect = {};
     pThis->VGetBoundingRect_418120(&bRect, 1);
 
-    Path_TLV* pTlv = nullptr;
-    for (;;)
-    {
-        pTlv = gMap_507BA8.TLV_Get_At_446060(pTlv, FP_FromInteger(bRect.x), FP_FromInteger(bRect.y), FP_FromInteger(bRect.x), FP_FromInteger(bRect.y));
-        if (!pTlv)
-        {
-            break;
-        }
-
-        // TODO: Inlined
-        if (pTlv->field_4_type == TlvTypes::ZSligCover_83)
-        {
-            if (bRect.x >= pTlv->field_10_top_left.field_0_x &&
-                bRect.x <= pTlv->field_14_bottom_right.field_0_x &&
-
-                bRect.y >= pTlv->field_10_top_left.field_2_y &&
-                bRect.y <= pTlv->field_14_bottom_right.field_2_y &&
-
-                bRect.w >= pTlv->field_10_top_left.field_0_x &&
-                bRect.w <= pTlv->field_14_bottom_right.field_0_x &&
-
-                bRect.h >= pTlv->field_10_top_left.field_2_y &&
-                bRect.h <= pTlv->field_14_bottom_right.field_2_y)
-            {
-                return TRUE;
-            }
-        }
-    }
-    return FALSE;
+    return Bullet::InZBulletCover(FP_FromInteger(bRect.x), FP_FromInteger(bRect.y), bRect);
 }
 
 void Slig::CheckPlatformVanished()
@@ -3308,7 +3280,7 @@ void Slig::State_43_ShootZ_468E30()
         {
             pBullet->ctor_409380(
                 this,
-                BulletType::Type_2,
+                BulletType::ZBullet_2,
                 field_A8_xpos,
                 field_AC_ypos - FP_FromInteger(12),
                 FP_FromInteger(640),

@@ -187,6 +187,7 @@ class PulllRingRope;
 class CircularFade;
 class BaseThrowable;
 class Rope;
+class Bullet;
 
 enum Flags_2A8
 {
@@ -316,6 +317,8 @@ public:
     EXPORT void ElumKnockForward_42E780(int not_used);
 
     EXPORT __int16 TryMountElum_42E600();
+
+    EXPORT void BulletDamage_4220B0(Bullet* a2);
 
     EXPORT __int16 RunTryEnterDoor_4259C0();
 

@@ -84,7 +84,7 @@ enum SoundEffect
     Unknown_75 = 75,
     Unknown_76 = 76,
     Unknown_77 = 77,
-    KillEffect_78 = 78, // was previously KillEffect_64 = 78
+    KillEffect_78 = 78,
     Unknown_79 = 79,
     Unknown_80 = 80,
     Unknown_81 = 81,

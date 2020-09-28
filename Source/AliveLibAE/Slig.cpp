@@ -6901,24 +6901,10 @@ static __int16 IsInZCover(Path_TLV* pTlv, PSX_RECT* pRect)
 
 __int16 CCSTD Slig::InZCover_4BB7C0(BaseAliveGameObject* pObj)
 {
-    PSX_RECT rect = {};
-    pObj->vGetBoundingRect_424FD0(&rect, 1);
+    PSX_RECT bRect = {};
+    pObj->vGetBoundingRect_424FD0(&bRect, 1);
 
-    Path_TLV* pTlvIter = nullptr;
-    for (;;)
-    {
-        pTlvIter = sPath_dword_BB47C0->TLV_Get_At_4DB290(pTlvIter, pObj->field_B8_xpos, FP_FromInteger(rect.y), pObj->field_B8_xpos, FP_FromInteger(rect.y));
-        if (!pTlvIter)
-        {
-            break;
-        }
-
-        if (IsInZCover(pTlvIter, &rect))
-        {
-            return TRUE;
-        }
-    }
-    return FALSE;
+    return Bullet::InZBulletCover(FP_FromInteger(bRect.x), FP_FromInteger(bRect.y), bRect);
 }
 
 BOOL CCSTD Slig::RenderLayerIs_4BBBC0(BaseAliveGameObject* pThis)
