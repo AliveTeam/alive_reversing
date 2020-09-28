@@ -10,7 +10,7 @@ const SoundBlockInfo knullptrSoundBlockInfo = {};
 const FmvInfo knullptrFmvInfo = {};
 
 
-void sub_402560() {}
+EXPORT int sub_402560() { return 0; }
 
 const PathData g_S1_Paths_4E4AF0[] =
 {

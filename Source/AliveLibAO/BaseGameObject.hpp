@@ -6,8 +6,6 @@
 
 void AliveLibAO_ForceLink();
 
-EXPORT void CC Remove_Item_417350(void*);
-
 START_NS_AO
 
 

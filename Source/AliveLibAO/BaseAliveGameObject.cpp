@@ -351,9 +351,159 @@ __int16 BaseAliveGameObject::Check_IsOnEndOfLine_4021A0(__int16 direction, __int
         field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70) == 0;
 }
 
-void BaseAliveGameObject::VOnPathTransition_401470(__int16 /*camWorldX*/, int /*camWorldY*/, CameraPos /*direction*/)
+void BaseAliveGameObject::VOnPathTransition_401470(__int16 camWorldX, int camWorldY, CameraPos direction)
 {
-    NOT_IMPLEMENTED();
+    const FP oldx = field_A8_xpos;
+    const FP oldy = field_AC_ypos;
+
+    // TODO: This was probably a rect ??
+    int xpos = 0;
+    int ypos = 0;
+    int height = 0;
+    int width = 0;
+
+    switch (direction)
+    {
+    case CameraPos::eCamTop_1:
+    {
+        xpos = camWorldX + 206;
+        width = camWorldX + 674;
+        ypos = camWorldY + 70;
+        height = camWorldY + 170;
+
+        // Get the fame header for the first frame in the animation and take its height
+        const int frameH = reinterpret_cast<FrameHeader*>((*field_10_anim.field_20_ppBlock)[field_10_anim.Get_FrameHeader_403A00(-1)->field_0_frame_header_offset])->field_5_height;
+
+        field_A8_xpos = FP_FromInteger(camWorldX + (FP_GetExponent(oldx) % 1024));
+        field_AC_ypos = FP_FromInteger(frameH + camWorldY + 356);
+        break;
+    }
+
+    case CameraPos::eCamBottom_2:
+        xpos = camWorldX + 206;
+        width = camWorldX + 674;
+        ypos = camWorldY + 310;
+        height = camWorldY + 410;
+        field_A8_xpos = FP_FromInteger(camWorldX + (FP_GetExponent(oldx) % 1024));
+        field_AC_ypos = FP_FromInteger(camWorldY + 124);
+        break;
+
+    case CameraPos::eCamLeft_3:
+        width = camWorldX + 674;
+        xpos = camWorldX + 524;
+        ypos = camWorldY + 70;
+        height = camWorldY + 410;
+        field_A8_xpos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, MaxGridBlocks_41FA10(field_BC_sprite_scale) - 1));
+        field_AC_ypos = FP_FromInteger(camWorldY + (FP_GetExponent(oldy) % 480));
+        break;
+
+    case CameraPos::eCamRight_4:
+        width = camWorldX + 356;
+        xpos = camWorldX + 206;
+        ypos = camWorldY + 70;
+        height = camWorldY + 410;
+        field_A8_xpos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, 1));
+        field_AC_ypos = FP_FromInteger(camWorldY + (FP_GetExponent(oldy) % 480));
+        break;
+
+    default:
+        break;
+    }
+
+    field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(static_cast<short>(xpos), static_cast<short>(ypos), static_cast<short>(width), static_cast<short>(height), TlvTypes::StartController_28);
+    if (!field_F0_pTlv)
+    {
+        // Find to find one at position so just try the first one, and for some reason flip the direction ??
+        field_F0_pTlv = gMap_507BA8.TLV_First_Of_Type_In_Camera_4464A0(TlvTypes::StartController_28, 0);
+
+        field_B4_velx = -field_B4_velx;
+
+        field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+    }
+
+    PSX_Point camLoc = {};
+    gMap_507BA8.GetCurrentCamCoords_444890(&camLoc);
+
+    field_A8_xpos = FP_FromInteger((field_F0_pTlv->field_14_bottom_right.field_0_x + field_F0_pTlv->field_10_top_left.field_0_x) / 2);
+    field_AC_ypos = FP_FromInteger(field_F0_pTlv->field_C_sound_pos.field_2_y);
+
+    field_A8_xpos = FP_FromInteger(camLoc.field_0_x + Grid_SnapX_41FAA0(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos - FP_FromInteger(camLoc.field_0_x))));
+
+    if (field_F8_pLiftPoint)
+    {
+        // Move lift point into the new path
+        const FP rect_left = field_A8_xpos - oldx;
+        const FP rect_right = field_AC_ypos - oldy;
+        
+        field_F8_pLiftPoint->field_A8_xpos += rect_left;
+        field_F8_pLiftPoint->field_AC_ypos += rect_right;
+
+        field_F4_pLine->field_0_rect.x += FP_GetExponent(rect_left);
+        field_F4_pLine->field_0_rect.w += FP_GetExponent(rect_left);
+        field_F4_pLine->field_0_rect.y += FP_GetExponent(rect_right);
+        field_F4_pLine->field_0_rect.h += FP_GetExponent(rect_right);
+    }
+    else
+    {
+        if (field_F4_pLine)
+        {
+            PathLine* pLine = nullptr;
+            FP hitX = {};
+            FP hitY = {};
+            if (sCollisions_DArray_504C6C->RayCast_40C410(
+                field_A8_xpos,
+                field_AC_ypos - FP_FromInteger(40),
+                field_A8_xpos,
+                field_AC_ypos + FP_FromInteger(40),
+                &pLine,
+                &hitX,
+                &hitY,
+                field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70))
+            {
+                field_F4_pLine = pLine;
+                field_AC_ypos = hitY;
+            }
+            else
+            {
+                field_F4_pLine = nullptr;
+            }
+        }
+        else
+        {
+            if (field_F0_pTlv->field_4_type == TlvTypes::StartController_28)
+            {
+                field_E8_LastLineYPos += field_AC_ypos - oldy;
+            }
+
+            PathLine* pLine = nullptr;
+            FP hitX = {};
+            FP hitY = {};
+            if (sCollisions_DArray_504C6C->RayCast_40C410(
+                field_A8_xpos,
+                field_E8_LastLineYPos - FP_FromInteger(40),
+                field_A8_xpos,
+                field_E8_LastLineYPos + FP_FromInteger(40),
+                &pLine,
+                &hitX,
+                &hitY,
+                field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70))
+            {
+                field_AC_ypos += hitY - field_E8_LastLineYPos;
+            }
+        }
+    }
+
+    if (field_BC_sprite_scale == FP_FromInteger(1) && field_10_anim.field_14_scale == FP_FromDouble(0.5))
+    {
+        field_B4_velx = (field_B4_velx * FP_FromInteger(2));
+        return;
+    }
+
+    if (field_BC_sprite_scale == FP_FromDouble(0.5) && field_10_anim.field_14_scale == FP_FromInteger(1))
+    {
+        field_B4_velx = (field_B4_velx * FP_FromDouble(0.5));
+        return;
+    }
 }
 
 

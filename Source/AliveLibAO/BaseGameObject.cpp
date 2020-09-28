@@ -2,13 +2,9 @@
 #include "BaseGameObject.hpp"
 #include "DynamicArray.hpp"
 #include "Function.hpp"
+#include "Events.hpp"
 
 void AliveLibAO_ForceLink() {}
-
-EXPORT void CC Remove_Item_417350(void*)
-{
-    NOT_IMPLEMENTED();
-}
 
 START_NS_AO
 
@@ -55,7 +51,7 @@ BaseGameObject* BaseGameObject::ctor_487E10(__int16 arraySize)
 BaseGameObject* BaseGameObject::dtor_487DF0()
 {
     SetVTable(this, 0x4BD488); // vTable_BaseGameObject_4BD488
-    Remove_Item_417350(this);
+    Event_Cancel_For_Obj_417350(this);
     return this;
 }
 

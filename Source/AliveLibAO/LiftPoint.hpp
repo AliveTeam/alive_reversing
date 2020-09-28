@@ -24,7 +24,7 @@ public:
         eBit5 = 0x10,
         eBit6_bMoveToFloorLevel = 0x20,
         eBit7 = 0x40,
-        eBit8_bMudUsing = 0x80,
+        eBit8_KeepOnMiddleFloor = 0x80,
     };
 
     EXPORT LiftPoint* ctor_434710(unsigned __int8* pTlv, Map* pPath, int tlvInfo);
