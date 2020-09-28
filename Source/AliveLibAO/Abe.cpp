@@ -2263,7 +2263,7 @@ __int16 Abe::TryMountElum_42E600()
 void Abe::BulletDamage_4220B0(Bullet* pBullet)
 {
     PSX_RECT rect = {};
-    VGetBoundingRect_418120(&rect, 1);
+    VGetBoundingRect(&rect, 1);
 
     enum class ShootKind
     {
