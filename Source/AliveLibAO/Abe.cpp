@@ -2328,16 +2328,41 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                         50);
                 }
 
-                if (shootKind != ShootKind::eEverythingElse_0)
+                switch (shootKind)
                 {
-                    if (shootKind == ShootKind::eHanging_1)
+                    case ShootKind::eEverythingElse_0:
+                    {
+                        if (field_1A4_resources.res[0])
+                        {
+                            ToKnockback_422D90(1, 1);
+                        }
+                        else
+                        {
+                            ElumKnockForward_42E780(1);
+                        }
+                        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) != pBullet->field_20 > FP_FromInteger(0))
+                        {
+                            field_FC_current_motion = eAbeStates::State_128_KnockForward_429330;
+                        }
+                        field_108_bMotionChanged = 1;
+                        field_106_shot = 0;
+
+                        field_B4_velx = field_BC_sprite_scale * FP_FromDouble(7.8);
+                        if (pBullet->field_20 < FP_FromInteger(0))
+                        {
+                            field_B4_velx = -field_BC_sprite_scale * FP_FromDouble(7.8);
+                        }
+                        break;
+                    }
+                    case ShootKind::eHanging_1:
                     {
                         field_FC_current_motion = eAbeStates::State_92_ForceDownFromHoist_4297C0;
                         field_108_bMotionChanged = 1;
                         field_106_shot = 0;
                         field_114_gnFrame = 0;
+                        break;
                     }
-                    else if (shootKind == ShootKind::eRolling_2)
+                    case ShootKind::eRolling_2:
                     {
                         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) == pBullet->field_20 > FP_FromInteger(0))
                         {
@@ -2347,30 +2372,10 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                         {
                             field_FE_next_state = eAbeStates::State_129_RollingKnockForward_4294F0;
                         }
+                        break;
                     }
-                }
-                else
-                {
-                    if (field_1A4_resources.res[0])
-                    {
-                        ToKnockback_422D90(1, 1);
-                    }
-                    else
-                    {
-                        ElumKnockForward_42E780(1);
-                    }
-                    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) != pBullet->field_20 > FP_FromInteger(0))
-                    {
-                        field_FC_current_motion = eAbeStates::State_128_KnockForward_429330;
-                    }
-                    field_108_bMotionChanged = 1;
-                    field_106_shot = 0;
-
-                    field_B4_velx = field_BC_sprite_scale * FP_FromDouble(7.8);
-                    if (pBullet->field_20 < FP_FromInteger(0))
-                    {
-                        field_B4_velx = -field_BC_sprite_scale * FP_FromDouble(7.8);
-                    }
+                    default:
+                        break;
                 }
                 break;
             }
@@ -2466,6 +2471,8 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                 field_100_health = FP_FromInteger(1);
                 return;
             }
+            default:
+                break;
         }
 
         if (field_106_shot)
