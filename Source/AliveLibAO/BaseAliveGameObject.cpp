@@ -10,6 +10,7 @@
 #include "ResourceManager.hpp"
 #include "Game.hpp"
 #include "BirdPortal.hpp"
+#include "Sys_common.hpp"
 
 START_NS_AO
 
@@ -355,12 +356,174 @@ void BaseAliveGameObject::VOnPathTransition_401470(__int16 /*camWorldX*/, int /*
     NOT_IMPLEMENTED();
 }
 
-__int16 BaseAliveGameObject::MapFollowMe_401D30(__int16 snapToGrid)
+__int16 BaseAliveGameObject::MapFollowMe_Real_401D30(__int16 )
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+class StateSaver
+{
+public:
+    LevelIds map_field_A_level;
+    __int16 map_field_C_path;
+    __int16 map_field_E_camera;
+    Map::MapDirections map_field_14_direction;
+    BaseAliveGameObject* map_field_18_pAliveObj;
+    CameraSwapEffects map_field_1C_cameraSwapEffect;
+    __int16 map_field_6_state;
+    short global_sMap_bDoPurpleLightEffect_507C9C;
+
+    FP bge_field_BC_sprite_scale;
+    __int16 bge_field_C6_scale;
+    FP bge_field_A8_xpos;
+    FP bge_field_B4_velx;
+    Path_TLV* bge_field_F0_pTlv;
+    PathLine* bge_field_F4_pLine;
+    FP bge_field_AC_ypos;
+    PlatformBase* bge_field_F8_pLiftPoint;
+
+    BaseAliveGameObject* obj;
+
+    bool operator == (const StateSaver& rhs) const
+    {
+        if (map_field_A_level != rhs.map_field_A_level)
+        {
+            return false;
+        }
+
+        if (map_field_C_path != rhs.map_field_C_path)
+        {
+            return false;
+        }
+
+        if (map_field_E_camera != rhs.map_field_E_camera)
+        {
+            return false;
+        }
+
+        if (map_field_14_direction != rhs.map_field_14_direction)
+        {
+            return false;
+        }
+
+        if (map_field_18_pAliveObj != rhs.map_field_18_pAliveObj)
+        {
+            return false;
+        }
+
+        if (map_field_1C_cameraSwapEffect != rhs.map_field_1C_cameraSwapEffect)
+        {
+            return false;
+        }
+
+        if (map_field_6_state != rhs.map_field_6_state)
+        {
+            return false;
+        }
+
+        if (global_sMap_bDoPurpleLightEffect_507C9C != rhs.global_sMap_bDoPurpleLightEffect_507C9C)
+        {
+            return false;
+        }
+
+        if (bge_field_BC_sprite_scale != rhs.bge_field_BC_sprite_scale)
+        {
+            return false;
+        }
+
+        if (bge_field_A8_xpos != rhs.bge_field_A8_xpos)
+        {
+            return false;
+        }
+
+        if (bge_field_C6_scale != rhs.bge_field_C6_scale)
+        {
+            return false;
+        }
+
+        if (bge_field_B4_velx != rhs.bge_field_B4_velx)
+        {
+            return false;
+        }
+
+        if (bge_field_F0_pTlv != rhs.bge_field_F0_pTlv)
+        {
+            return false;
+        }
+
+        if (bge_field_F4_pLine != rhs.bge_field_F4_pLine)
+        {
+            return false;
+        }
+
+        if (bge_field_AC_ypos != rhs.bge_field_AC_ypos)
+        {
+            return false;
+        }
+
+        if (bge_field_F8_pLiftPoint != rhs.bge_field_F8_pLiftPoint)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    StateSaver(BaseAliveGameObject* pObj)
+    {
+        obj = pObj;
+
+        map_field_A_level = gMap_507BA8.field_A_level;
+        map_field_C_path = gMap_507BA8.field_C_path;
+        map_field_E_camera = gMap_507BA8.field_E_camera;
+        map_field_14_direction = gMap_507BA8.field_14_direction;
+        map_field_18_pAliveObj = gMap_507BA8.field_18_pAliveObj;
+        map_field_1C_cameraSwapEffect = gMap_507BA8.field_1C_cameraSwapEffect;
+        map_field_6_state = gMap_507BA8.field_6_state;
+        global_sMap_bDoPurpleLightEffect_507C9C = sMap_bDoPurpleLightEffect_507C9C;
+
+        bge_field_A8_xpos = obj->field_A8_xpos;
+        bge_field_BC_sprite_scale = obj->field_BC_sprite_scale;
+        bge_field_C6_scale = obj->field_C6_scale;
+        bge_field_B4_velx = obj->field_B4_velx;
+        bge_field_F0_pTlv = obj->field_F0_pTlv;
+        bge_field_F4_pLine = obj->field_F4_pLine;
+        bge_field_AC_ypos = obj->field_AC_ypos;
+        bge_field_F8_pLiftPoint = obj->field_F8_pLiftPoint;
+    }
+
+    void Revert()
+    {
+        gMap_507BA8.field_A_level = map_field_A_level;
+        gMap_507BA8.field_C_path = map_field_C_path;
+        gMap_507BA8.field_E_camera = map_field_E_camera;
+        gMap_507BA8.field_14_direction = map_field_14_direction;
+        gMap_507BA8.field_18_pAliveObj = map_field_18_pAliveObj;
+        gMap_507BA8.field_1C_cameraSwapEffect = map_field_1C_cameraSwapEffect;
+        gMap_507BA8.field_6_state = map_field_6_state;
+        sMap_bDoPurpleLightEffect_507C9C = global_sMap_bDoPurpleLightEffect_507C9C;
+
+        obj->field_A8_xpos = bge_field_A8_xpos;
+        obj->field_BC_sprite_scale = bge_field_BC_sprite_scale;
+        obj->field_C6_scale = bge_field_C6_scale;
+        obj->field_B4_velx = bge_field_B4_velx;
+        obj->field_F0_pTlv = bge_field_F0_pTlv;
+        obj->field_F4_pLine = bge_field_F4_pLine;
+        obj->field_AC_ypos = bge_field_AC_ypos;
+        obj->field_F8_pLiftPoint = bge_field_F8_pLiftPoint;
+    }
+
+    ~StateSaver()
+    {
+
+    }
+};
+
+__int16 BaseAliveGameObject::MapFollowMe(__int16 snapToGrid)
 {
     PSX_Point camCoords = {};
     gMap_507BA8.GetCurrentCamCoords_444890(&camCoords);
-
-    const FP gridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
 
     // Are we "in" the current camera X bounds?
     if (field_B2_lvl_number == gMap_507BA8.field_0_current_level &&
@@ -368,78 +531,76 @@ __int16 BaseAliveGameObject::MapFollowMe_401D30(__int16 snapToGrid)
         field_A8_xpos > FP_FromInteger(camCoords.field_0_x) &&
         field_A8_xpos < FP_FromInteger(camCoords.field_0_x + 1024))
     {
-        const int snappedX = Grid_SnapX_41FAA0(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos - FP_FromInteger(camCoords.field_0_x)));
+        // Snapped XPos in camera space
+        const int snappedXLocalCoords = Grid_SnapX_41FAA0(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos - FP_FromInteger(camCoords.field_0_x)));
 
         // In the left camera void and moving left?
-        if (snappedX < 256 && field_B4_velx < FP_FromInteger(0))
+        if (snappedXLocalCoords < 256 && field_B4_velx < FP_FromInteger(0))
         {
-            // Go to the left camera if under player control
-            if (sControlledCharacter_50767C == this)
+            if (sControlledCharacter_50767C == this && gMap_507BA8.SetActiveCameraDelayed_444CA0(Map::MapDirections::eMapLeft_0, this, -1))
             {
-                if (gMap_507BA8.SetActiveCameraDelayed_444CA0(Map::MapDirections::eMapLeft_0, this, -1))
+                field_B0_path_number = gMap_507BA8.field_2_current_path;
+                field_B2_lvl_number = gMap_507BA8.field_0_current_level;
+                return 1;
+            }
+            else
+            {
+                const int x_i = abs(FP_GetExponent(field_A8_xpos));
+                const int camXIndex = x_i % 1024;
+                if (x_i > 1024)
                 {
-                    field_B0_path_number = gMap_507BA8.field_2_current_path;
-                    field_B2_lvl_number = gMap_507BA8.field_0_current_level;
-                    return 1;
+                    UsePathTransScale_4020D0();
+
+                    // Put at the right side of the camera to the left
+                    const int cam1GridBeforeRight = XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, (MaxGridBlocks_41FA10(field_BC_sprite_scale) - 1));
+                    const int camRightEdge = x_i - camXIndex - 1024;
+                    field_A8_xpos = FP_FromInteger(camRightEdge) + FP_FromInteger(cam1GridBeforeRight) + ScaleToGridSize_41FA30(field_BC_sprite_scale);
+
+                    VCheckCollisionLineStillValid(40);
                 }
             }
-
-            const int x_i = FP_GetExponent(field_A8_xpos);
-            const int camXIndex = x_i % 1024;
-            if (x_i > 1024)
-            {
-                sub_4020D0();
-
-                // Put at the right side of the camera to the left
-                const int v1 = XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, (MaxGridBlocks_41FA10(field_BC_sprite_scale) - 1));
-                const int v2 = x_i - camXIndex - 1024;
-                field_A8_xpos = FP_FromInteger(v2) + FP_FromInteger(v1) + gridSize;
-
-                VCheckCollisionLineStillValid(40);
-            }
-            return 0;
         }
-
         // In the right camera void and moving right?
-        if (snappedX > 624 && field_B4_velx > FP_FromInteger(0))
+        else if (snappedXLocalCoords > 624 && field_B4_velx > FP_FromInteger(0))
         {
             // Go to the right camera in under player control
-            if (sControlledCharacter_50767C == this)
+            if (sControlledCharacter_50767C == this && gMap_507BA8.SetActiveCameraDelayed_444CA0(Map::MapDirections::eMapRight_1, this, -1))
             {
-                if (gMap_507BA8.SetActiveCameraDelayed_444CA0(Map::MapDirections::eMapRight_1, this, -1))
+                field_B0_path_number = gMap_507BA8.field_2_current_path;
+                field_B2_lvl_number = gMap_507BA8.field_0_current_level;
+                return 1;
+
+            }
+            else
+            {
+                const int x_i = abs(FP_GetExponent(field_A8_xpos));
+                const int camXIndex = x_i % 1024;
+
+                gMap_507BA8.Get_map_size_444870(&camCoords);
+                if (x_i < (camCoords.field_0_x - 1024))
                 {
-                    field_B0_path_number = gMap_507BA8.field_2_current_path;
-                    field_B2_lvl_number = gMap_507BA8.field_0_current_level;
-                    return 1;
+                    UsePathTransScale_4020D0();
+
+                    // Put at the left side of the camera to the right
+                    const int cam1GridAfterLeft = XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, 1);
+                    const int camLeftEdge = x_i - camXIndex + 1024;
+                    field_A8_xpos = FP_FromInteger(camLeftEdge) + FP_FromInteger(cam1GridAfterLeft) - ScaleToGridSize_41FA30(field_BC_sprite_scale);
+
+                    VCheckCollisionLineStillValid(40);
                 }
             }
-
-            const short x_i = FP_GetExponent(field_A8_xpos);
-            const int camXIndex = x_i % 1024;
-            if (x_i < camCoords.field_0_x - 1024)
-            {
-                sub_4020D0();
-
-                // Put at the left side of the camera to the right
-                const int v1 = XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, 1);
-                const int v2 = x_i - camXIndex + 1024;
-                field_A8_xpos =  FP_FromInteger(v2) + FP_FromInteger(v1) - gridSize;
-
-                VCheckCollisionLineStillValid(40);
-                return 0;
-            }
         }
-
-        if (snapToGrid)
+        else if (snapToGrid)
         {
             // Not in the voids of the camera, just snap to the x grid
-            field_A8_xpos = FP_FromInteger(snappedX + camCoords.field_0_x);
-            return 0;
+            field_A8_xpos = FP_FromInteger(snappedXLocalCoords + camCoords.field_0_x);
         }
+        return 0;
+        
     }
     else
     {
-        const int x_i = FP_GetExponent(field_A8_xpos);
+        const int x_i = abs(FP_GetExponent(field_A8_xpos));
         const int camXIndex = x_i % 1024;
 
         // In the left camera void and moving left?
@@ -447,34 +608,62 @@ __int16 BaseAliveGameObject::MapFollowMe_401D30(__int16 snapToGrid)
         {
             if (x_i > 1024)
             {
-                sub_4020D0();
+                UsePathTransScale_4020D0();
 
-                const int v1 = XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, MaxGridBlocks_41FA10(field_BC_sprite_scale));
-                const int v2 = x_i - camXIndex - 1024;
-                field_A8_xpos = FP_FromInteger(v2) + FP_FromInteger(v1) + gridSize;
+                const int camRightGrid = XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, MaxGridBlocks_41FA10(field_BC_sprite_scale));
+                const int camRightEdge = x_i - camXIndex - 1024;
+                field_A8_xpos = FP_FromInteger(camRightEdge) + FP_FromInteger(camRightGrid) + ScaleToGridSize_41FA30(field_BC_sprite_scale);
 
                 VCheckCollisionLineStillValid(40);
-                return 0;
             }
         }
-
         // In the right camera void and moving right?
-        if (camXIndex > 624 && field_B4_velx > FP_FromInteger(0))
+        else if (camXIndex > 624 && field_B4_velx > FP_FromInteger(0)) // Never hit as velx is < 0
         {
+            gMap_507BA8.Get_map_size_444870(&camCoords);
             if (x_i < (camCoords.field_0_x - 1024))
             {
-                sub_4020D0();
+                UsePathTransScale_4020D0();
 
-                const int v1 = XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, 0);
-                const int v2 = x_i - camXIndex + 1024;
-                field_A8_xpos = FP_FromInteger(v2) + FP_FromInteger(v1) + gridSize;
+                const int camLeftGrid = XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, 0);
+                const int camLeftEdge = x_i - camXIndex + 1024;
+                field_A8_xpos = FP_FromInteger(camLeftEdge) + FP_FromInteger(camLeftGrid) - ScaleToGridSize_41FA30(field_BC_sprite_scale);
 
                 VCheckCollisionLineStillValid(40);
             }
-            return 0;
         }
+        return 0;
     }
-    return 0;
+//    return 0;
+}
+
+__int16 BaseAliveGameObject::MapFollowMe_401D30(__int16 snapToGrid)
+{
+
+    StateSaver restoreState(this);
+
+    const __int16 real_ret = MapFollowMe_Real_401D30(snapToGrid);
+
+    StateSaver expectedState(this);
+
+    restoreState.Revert();
+
+    const __int16 our_ret = MapFollowMe(snapToGrid);
+
+    StateSaver currentState(this);
+
+    if (!(expectedState == currentState))
+    {
+        ALIVE_FATAL("Wrong resulting state");
+        //currentState.Revert();
+    }
+
+    if (our_ret != real_ret)
+    {
+        ALIVE_FATAL("Wrong return code");
+    }
+
+    return our_ret;
 }
 
 void BaseAliveGameObject::SetActiveCameraDelayedFromDir_401C90()
@@ -720,7 +909,7 @@ void BaseAliveGameObject::VSetMotion_402520(__int16 state)
     field_FC_current_motion = state;
 }
 
-void BaseAliveGameObject::sub_4020D0()
+void BaseAliveGameObject::UsePathTransScale_4020D0()
 {
     auto pPathTrans = static_cast<Path_ChangeTLV*>(gMap_507BA8.TLV_Get_At_446260(
         FP_GetExponent(field_A8_xpos),

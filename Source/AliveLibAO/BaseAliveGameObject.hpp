@@ -78,6 +78,10 @@ public:
 
     EXPORT void VOnPathTransition_401470(__int16 camWorldX, int camWorldY, CameraPos direction);
 
+    EXPORT __int16 MapFollowMe_Real_401D30(__int16 snapToGrid);
+
+    __int16 MapFollowMe(__int16 snapToGrid);
+
     EXPORT __int16 MapFollowMe_401D30(__int16 snapToGrid);
 
     EXPORT void SetActiveCameraDelayedFromDir_401C90();
@@ -98,7 +102,7 @@ public:
 
     EXPORT void VSetMotion_402520(__int16 state);
 
-    EXPORT void sub_4020D0();
+    EXPORT void UsePathTransScale_4020D0();
 
     EXPORT static BaseGameObject* CC FindObjectOfType_418280(Types typeToFind, FP xpos, FP ypos);
 

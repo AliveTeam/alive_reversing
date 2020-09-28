@@ -243,6 +243,7 @@ public:
 ALIVE_ASSERT_SIZEOF(Map, 0xE4);
 
 ALIVE_VAR_EXTERN(Map, gMap_507BA8);
+ALIVE_VAR_EXTERN(short, sMap_bDoPurpleLightEffect_507C9C);
 
 EXPORT int CC MaxGridBlocks_41FA10(FP scale);
 
