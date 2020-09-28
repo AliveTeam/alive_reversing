@@ -6,10 +6,32 @@
 
 START_NS_AO
 
-Particle* CC New_Particle_419D00(FP /*xpos*/, FP /*ypos*/, FP /*scale*/)
+Particle* CC New_Particle_DestroyOrCreateObject_419D00(FP xpos, FP ypos, FP scale)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_349, 1, 0);
+
+    auto pParticle = ao_new<Particle>();
+    if (!pParticle)
+    {
+        return nullptr;
+    }
+
+    pParticle->ctor_478880(xpos, ypos, 6284, 70, 43, ppRes);
+    pParticle->field_10_anim.field_B_render_mode = 1;
+    pParticle->field_BC_sprite_scale = FP_FromInteger(2) * scale;
+
+    if (scale == FP_FromInteger(1))
+    {
+        pParticle->field_10_anim.field_C_layer = 39;
+    }
+    else
+    {
+        pParticle->field_10_anim.field_C_layer = 17;
+    }
+
+    pParticle->field_CC_bApplyShadows &= ~1u;
+
+    return pParticle;
 }
 
 void CC New_Particles_419A80(FP /*xpos*/, FP /*ypos*/, FP /*scale*/, __int16 /*count*/, __int16 /*type*/)

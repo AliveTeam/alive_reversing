@@ -643,7 +643,7 @@ void Map::RemoveObjectsWithPurpleLight_4440D0(__int16 bMakeInvisible)
                 pObjIter->VGetBoundingRect(&objRect, 1);
 
                 const FP k60Scaled = pObjIter->field_BC_sprite_scale * FP_FromInteger(60);
-                auto pPurpleLight = New_Particle_419D00(
+                auto pPurpleLight = New_Particle_DestroyOrCreateObject_419D00(
                     FP_FromInteger((objRect.x + objRect.w) / 2),
                     FP_FromInteger((objRect.y + objRect.h) / 2) + k60Scaled,
                     pObjIter->field_BC_sprite_scale);
