@@ -31,7 +31,6 @@ class FallingItem : public BaseAliveGameObject
 public:
     EXPORT void DamageHitItems_41A6D0();
 
-    EXPORT void VUpdate_41A120();
 
     EXPORT FallingItem* ctor_419F30(Path_FallingItem* pTlv, int tlvInfo);
 
@@ -44,6 +43,10 @@ public:
     virtual void VScreenChanged() override;
 
     EXPORT void VScreenChanged_41A7C0();
+
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_41A120();
 
 private:
     enum class State : __int16

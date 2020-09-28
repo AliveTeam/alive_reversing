@@ -41,4 +41,6 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(Alarm, 0x7C);
 
+ALIVE_VAR_EXTERN(short, alarmInstanceCount_5076A8);
+
 END_NS_AO
