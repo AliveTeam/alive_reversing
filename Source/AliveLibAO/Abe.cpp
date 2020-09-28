@@ -2355,8 +2355,11 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                     field_108_bMotionChanged = 1;
                     field_106_shot = 0;
 
-                    field_B4_velx = field_BC_sprite_scale * FP_FromDouble(7.8);
-                    if (pBullet->field_20 < FP_FromInteger(0))
+                    if (pBullet->field_20 >= FP_FromInteger(0))
+                    {
+                        field_B4_velx = field_BC_sprite_scale * FP_FromDouble(7.8);
+                    }
+                    else
                     {
                         field_B4_velx = -field_BC_sprite_scale * FP_FromDouble(7.8);
                     }
