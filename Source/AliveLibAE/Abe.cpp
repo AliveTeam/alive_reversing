@@ -3268,7 +3268,8 @@ void Abe::State_0_Idle_44EEB0()
     if (!sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8) || handleDoActionOrThrow)
     {
         // TODO: Clean up the logic of these 2 statements
-        if (!(sInputKey_ThrowItem_5550F4 & held) || field_106_current_motion != eAbeStates::State_0_Idle_44EEB0)
+        if (!(sInputKey_ThrowItem_5550F4 & held) ||
+            field_106_current_motion != eAbeStates::State_0_Idle_44EEB0)
         {
             if (held & sInputKey_DoAction_5550E4) // not throwing, maybe pressing up and pressing action, so do action
             {
