@@ -308,7 +308,7 @@ void TrapDoor::VUpdate_4883E0()
                 gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
             {
                 SFX_Play_43AED0(SoundEffect::Unknown_95, 60, direction);
-                SFX_Play_43AED0(SoundEffect::Unknown_94, 90, direction);
+                SFX_Play_43AED0(SoundEffect::TrapdoorClose_94, 90, direction);
             }
         }
         break;

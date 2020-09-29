@@ -144,7 +144,7 @@ void RollingBallStopper::VUpdate_43BF70()
             field_118_pLine = nullptr;
             field_112_state = 1;
             SFX_Play_43AE60(SoundEffect::PickupItem_33, 100, -2400, 0);
-            SFX_Play_43AE60(SoundEffect::Unknown_35, 80, -800, 0);
+            SFX_Play_43AE60(SoundEffect::LiftStop_35, 80, -800, 0);
         }
         break;
 

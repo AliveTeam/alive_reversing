@@ -4929,7 +4929,7 @@ void Abe::State_78_InsideWellLocal_4310A0()
             field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
         }
 
-        SFX_Play_43AD70(SoundEffect::Unknown_24, 0, this);
+        SFX_Play_43AD70(SoundEffect::WellExit_24, 0, this);
 
         field_FC_current_motion++; // ARGH todo figure out what the actual motion should be, 79 ??
 
@@ -5636,7 +5636,7 @@ void Abe::State_136_ElumMountEnd_42E110()
         if (!(field_2AA_flags & 2))
         {
             field_2AA_flags |= 2;
-            SFX_Play_43AD70(SoundEffect::Unknown_37, 0, this);
+            SFX_Play_43AD70(SoundEffect::AbeGenericMovement_37, 0, this);
         }
         break;
 
@@ -5718,7 +5718,7 @@ void Abe::State_138_ElumUnmountEnd_42E390()
         if (!(field_2AA_flags & 2))
         {
             field_2AA_flags |= 2;
-            SFX_Play_43AD70(SoundEffect::Unknown_37, 17, this);
+            SFX_Play_43AD70(SoundEffect::AbeGenericMovement_37, 17, this);
         }
         break;
 

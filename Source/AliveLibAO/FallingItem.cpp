@@ -183,7 +183,7 @@ void FallingItem::VUpdate_41A120()
 
         if (!((gnFrameCount_507670 - field_134_created_gnFrame) % 25))
         {
-            SFX_Play_43AD70(SoundEffect::Unknown_89, 45, 0);
+            SFX_Play_43AD70(SoundEffect::MeatsawIdle_89, 45, 0);
 
         }
     }

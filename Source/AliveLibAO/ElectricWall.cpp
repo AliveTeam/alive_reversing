@@ -172,7 +172,7 @@ void ElectricWall::VUpdate_40FEF0()
 
                          if (RectsOverlap(bRectBigger, objRect) && pObjIter->field_100_health > FP_FromInteger(0))
                         {
-                            SFX_Play_43AED0(SoundEffect::Unknown_47, 45, soundDirection);
+                            SFX_Play_43AED0(SoundEffect::ObjectNearElectricity_47, 45, soundDirection);
                         }
                     }
                 }
