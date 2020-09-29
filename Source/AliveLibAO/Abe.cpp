@@ -2554,7 +2554,7 @@ __int16 Abe::MoveLiftUpOrDown_42F190(FP ySpeed)
         return eAbeStates::State_141_BeesStrugglingOnLift_42F390;
     }
     if (sControlledCharacter_50767C == this &&
-        !(field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)) &&
+        !field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame) &&
         field_10_anim.field_92_current_frame != 5)
     {
         return field_FC_current_motion;
