@@ -3068,7 +3068,7 @@ void Abe::State_0_Idle_44EEB0()
                 fartXPos = field_B8_xpos - (FP_FromInteger(12) * field_CC_sprite_scale);
             }
 
-            New_Particles_426C70(fartXPos, fartYPos, fartScale, 3, 32u, 128u, 32u);
+            New_Smoke_Particles_426C70(fartXPos, fartYPos, fartScale, 3, 32u, 128u, 32u);
         }
 
         field_106_current_motion = eAbeStates::State_10_Fart_45B1A0;
@@ -4185,7 +4185,7 @@ void Abe::State_17_CrouchIdle_456BC0()
                 {
                     xpos = field_B8_xpos - (FP_FromInteger(10) * field_CC_sprite_scale);
                 }
-                New_Particles_426C70(xpos, ypos, scale, 3, 32u, 128u, 32u);
+                New_Smoke_Particles_426C70(xpos, ypos, scale, 3, 32u, 128u, 32u);
             }
 
             field_106_current_motion = eAbeStates::State_20_CrouchSpeak_454550;
@@ -7588,7 +7588,7 @@ void Abe::State_112_Chant_45B1C0()
 
         if (!(sGnFrame_5C1B84 % 4))
         {
-            New_Particle_45BC70(this);
+            New_RandomizedChant_Particle_45BC70(this);
         }
 
         if (static_cast<int>(sGnFrame_5C1B84) >= field_124_gnFrame - 70)
@@ -7765,7 +7765,7 @@ void Abe::State_112_Chant_45B1C0()
     {
         if (!(sGnFrame_5C1B84 % 4))
         {
-            New_Particle_45BC70(this);
+            New_RandomizedChant_Particle_45BC70(this);
         }
 
         if (static_cast<int>(sGnFrame_5C1B84) <= field_124_gnFrame)
@@ -7786,7 +7786,7 @@ void Abe::State_112_Chant_45B1C0()
         Event_Broadcast_422BC0(kEventAbeOhm, this);
         if (!(sGnFrame_5C1B84 % 4))
         {
-            New_Particle_45BC70(this);
+            New_RandomizedChant_Particle_45BC70(this);
         }
     }
     return;
@@ -9426,7 +9426,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
                 {
                     pSpark->ctor_4CBBB0(hitX, hitY, field_CC_sprite_scale, 9, -31, 159, 0);
                 }
-                New_Particles_426C70(hitX, hitY, field_CC_sprite_scale, 3, 128u, 128u, 128u);
+                New_Smoke_Particles_426C70(hitX, hitY, field_CC_sprite_scale, 3, 128u, 128u, 128u);
             }
         }
         return;

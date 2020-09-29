@@ -1359,7 +1359,7 @@ void FlyingSlig::AI_DePossession_14_436180()
         {
             const FP xOff = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 20) + (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? -10 : 10)));
             const FP yOff = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 10)));
-            New_Chant_Particle_426BE0(
+            New_TintChant_Particle_426BE0(
                 xOff + field_B8_xpos,
                 yOff + field_BC_ypos,
                 field_CC_sprite_scale, 0);
@@ -2364,7 +2364,7 @@ void FlyingSlig::ThrowGrenade_43A1E0()
     pGrenade->field_D6_scale = field_D6_scale;
     pGrenade->VThrow_49E460(grenadeXVel, grenadeYVel);
 
-    New_Particle_426890(xpos + field_B8_xpos, ypos + field_BC_ypos, field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX), field_CC_sprite_scale);
+    New_ShootingFire_Particle_426890(xpos + field_B8_xpos, ypos + field_BC_ypos, field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX), field_CC_sprite_scale);
     Slig_SoundEffect_4BFFE0(8, this);
     Event_Broadcast_422BC0(kEventShooting, this);
     Event_Broadcast_422BC0(kEventLoudNoise, this);
@@ -2399,7 +2399,7 @@ void FlyingSlig::BlowUp_436510()
         pBlood->ctor_40F0B0(field_B8_xpos, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale), FP_FromInteger(0), FP_FromInteger(0), field_CC_sprite_scale, 20);
     }
 
-    New_Particles_426C70(field_B8_xpos, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale), field_CC_sprite_scale, 3, 128u, 128u, 128u);
+    New_Smoke_Particles_426C70(field_B8_xpos, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale), field_CC_sprite_scale, 3, 128u, 128u, 128u);
     SFX_Play_46FA90(SoundEffect::KillEffect_64, 128, field_CC_sprite_scale);
     SFX_Play_46FA90(SoundEffect::FallingItemHit_47, 90, field_CC_sprite_scale);
 

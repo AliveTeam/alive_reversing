@@ -1135,7 +1135,7 @@ __int16 NakedSlig::AI_3_Possessed_41A5B0()
         {
             if (!(static_cast<int>(sGnFrame_5C1B84) % 4))
             {
-                New_Chant_Particle_426BE0(
+                New_TintChant_Particle_426BE0(
                     (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 20))) + field_B8_xpos,
                     field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(0, 30))),
                     field_CC_sprite_scale,
@@ -1217,7 +1217,7 @@ __int16 NakedSlig::AI_4_GetKilled_41A880()
 
         if (static_cast<int>(sGnFrame_5C1B84) < field_1AC_timer - 24 && !(sGnFrame_5C1B84 % 5))
         {
-            New_Particles_426C70(
+            New_Smoke_Particles_426C70(
                 (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale) + field_B8_xpos,
                 field_BC_ypos - FP_FromInteger(6),
                 field_CC_sprite_scale / FP_FromInteger(2),
@@ -1260,7 +1260,7 @@ __int16 NakedSlig::AI_4_GetKilled_41A880()
                 20);
         }
 
-        New_Particles_426C70(
+        New_Smoke_Particles_426C70(
             field_B8_xpos,
             field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale),
             field_CC_sprite_scale,
@@ -1378,7 +1378,7 @@ void NakedSlig::M_UsingButton_1_41B890()
 
         if (static_cast<int>(sGnFrame_5C1B84) == field_1AC_timer - 1)
         {
-            New_Particle_DestroyOrCreateObject_426F40(
+            New_DestroyOrCreateObject_Particle_426F40(
                 field_B8_xpos,
                 (field_CC_sprite_scale * FP_FromInteger(45)) + field_BC_ypos,
                 field_CC_sprite_scale);

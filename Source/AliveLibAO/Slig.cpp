@@ -3095,7 +3095,7 @@ void Slig::State_37_Depossessing_4684D0()
 
         if (!(gnFrameCount_507670 % 4))
         {
-            New_Particle_4198E0(
+            New_Chant_Particle_4198E0(
                 field_A8_xpos + (field_BC_sprite_scale * FP_FromInteger(Math_RandomRange_450F20(-20, 20))),
                 field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(Math_RandomRange_450F20(20, 50))),
                 field_BC_sprite_scale,
@@ -3289,7 +3289,7 @@ void Slig::State_43_ShootZ_468E30()
                 field_174_tlv.field_2A_number_of_times_to_shoot - field_200_num_times_to_shoot - 1);
         }
 
-        New_Particle_419810(
+        New_ShootingZFire_Particle_419810(
             field_A8_xpos,
             field_AC_ypos - FP_FromInteger(12),
             field_BC_sprite_scale);

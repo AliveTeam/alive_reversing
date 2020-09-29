@@ -65,7 +65,7 @@ BaseGameObject* Particle::VDestructor(signed int flags)
     return vdtor_4CC5D0(flags);
 }
 
-EXPORT Particle* CC New_Particle_DestroyOrCreateObject_426F40(FP xpos, FP ypos, FP scale)
+EXPORT Particle* CC New_DestroyOrCreateObject_Particle_426F40(FP xpos, FP ypos, FP scale)
 {
     BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID, FALSE, FALSE);
     auto pParticle = ae_new<Particle>();
@@ -93,7 +93,7 @@ EXPORT Particle* CC New_Particle_DestroyOrCreateObject_426F40(FP xpos, FP ypos, 
     return pParticle;
 }
 
-EXPORT Particle* CC New_Particle_426AA0(FP xpos, FP ypos, FP velX, FP velY, FP scale, __int16 layer, BYTE r, BYTE b, BYTE g)
+EXPORT Particle* CC New_Orb_Particle_426AA0(FP xpos, FP ypos, FP velX, FP velY, FP scale, __int16 layer, BYTE r, BYTE b, BYTE g)
 {
     BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 0, 0);
     auto pParticle = ae_new<Particle>();
@@ -135,13 +135,13 @@ EXPORT Particle* CC New_Particle_426AA0(FP xpos, FP ypos, FP velX, FP velY, FP s
     return pParticle;
 }
 
-EXPORT Particle* CC New_Chant_Particle_426BE0(FP xpos, FP ypos, FP scale, __int16 layer)
+EXPORT Particle* CC New_TintChant_Particle_426BE0(FP xpos, FP ypos, FP scale, __int16 layer)
 {
-    return New_Particle_426AA0(xpos, ypos, FP_FromInteger(0), FP_FromInteger(0), scale, layer, 128u, 128u, 128u);
+    return New_Orb_Particle_426AA0(xpos, ypos, FP_FromInteger(0), FP_FromInteger(0), scale, layer, 128u, 128u, 128u);
 }
 
 // Fart/dust cloud particle spawner
-EXPORT void CC New_Particles_426C70(FP xpos, FP ypos, FP scale, __int16 count, BYTE r, BYTE g, BYTE b)
+EXPORT void CC New_Smoke_Particles_426C70(FP xpos, FP ypos, FP scale, __int16 count, BYTE r, BYTE g, BYTE b)
 {
     FP velYCounter = {};
     for (int i=0; i < count; i++)
@@ -186,19 +186,19 @@ EXPORT void CC New_Particles_426C70(FP xpos, FP ypos, FP scale, __int16 count, B
     }
 }
 
-void New_Particle_45BC70(BaseAliveGameObject* pObj)
+void New_RandomizedChant_Particle_45BC70(BaseAliveGameObject* pObj)
 {
     const FP ypos = pObj->field_BC_ypos - (pObj->field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(30, 60)));
     const FP xpos = (pObj->field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 20))) + pObj->field_B8_xpos;
-    New_Chant_Particle_426BE0(xpos, ypos, pObj->field_CC_sprite_scale, 0);
+    New_TintChant_Particle_426BE0(xpos, ypos, pObj->field_CC_sprite_scale, 0);
 }
 
-Particle* CC New_Particle_426C30(FP xpos, FP ypos, FP scale, __int16 layer)
+Particle* CC New_TintShiny_Particle_426C30(FP xpos, FP ypos, FP scale, __int16 layer)
 {
-    return New_Particle_426AA0(xpos, ypos, FP_FromInteger(0), FP_FromInteger(0), scale, layer, 100u, 100u, 100u);
+    return New_Orb_Particle_426AA0(xpos, ypos, FP_FromInteger(0), FP_FromInteger(0), scale, layer, 100u, 100u, 100u);
 }
 
-void CC New_Particle_4269B0(FP xpos, FP ypos, FP scale)
+void CC New_ShootingZFire_Particle_4269B0(FP xpos, FP ypos, FP scale)
 {
     BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kZflashResID, 0, 0);
 
@@ -223,7 +223,7 @@ void CC New_Particle_4269B0(FP xpos, FP ypos, FP scale)
     }
 }
 
-void CC New_Particle_426890(FP xpos, FP ypos, char direction, FP scale)
+void CC New_ShootingFire_Particle_426890(FP xpos, FP ypos, char direction, FP scale)
 {
     BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kBigflashResID, 0, 0);
     auto pParticle = ae_new<Particle>();

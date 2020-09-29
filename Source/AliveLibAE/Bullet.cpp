@@ -240,7 +240,7 @@ void Bullet::vUpdate_413560()
                                     field_2C_ypos + FP_NoFractional(randomHeight),
                                     field_3C_scale, 6, -76, 76, 0);
                             }
-                            New_Particles_426C70(
+                            New_Smoke_Particles_426C70(
                                 pShotObj->field_B8_xpos + (field_3C_scale * FP_FromInteger(30)) - FP_FromInteger(randomW),
                                 field_2C_ypos + FP_NoFractional(randomHeight),
                                 field_3C_scale, 3, 128u, 128u, 128u);
@@ -255,7 +255,7 @@ void Bullet::vUpdate_413560()
                                     field_2C_ypos + FP_NoFractional(randomHeight),
                                     field_3C_scale, 6, 50, 205, 0);
                             }
-                            New_Particles_426C70(
+                            New_Smoke_Particles_426C70(
                                 pShotObj->field_B8_xpos + FP_FromInteger(randomW) - (field_3C_scale * FP_FromInteger(30)),
                                 field_2C_ypos + FP_NoFractional(randomHeight),
                                 field_3C_scale, 3, 128u, 128u, 128u);
@@ -289,7 +289,7 @@ void Bullet::vUpdate_413560()
                         (FP_FromInteger(10) * field_3C_scale) + hitY,
                         field_3C_scale, 6, -76, 76, 0);
                 }
-                New_Particles_426C70(hitX - (field_3C_scale * FP_FromInteger(6)), hitY, field_3C_scale, 3, 128u, 128u, 128u);
+                New_Smoke_Particles_426C70(hitX - (field_3C_scale * FP_FromInteger(6)), hitY, field_3C_scale, 3, 128u, 128u, 128u);
             }
             else
             {
@@ -301,7 +301,7 @@ void Bullet::vUpdate_413560()
                         (FP_FromInteger(10) * field_3C_scale) + hitY,
                         field_3C_scale, 6, 50, 205, 0);
                 }
-                New_Particles_426C70(hitX + (field_3C_scale * FP_FromInteger(7)), hitY, field_3C_scale, 3, 128u, 128u, 128u);
+                New_Smoke_Particles_426C70(hitX + (field_3C_scale * FP_FromInteger(7)), hitY, field_3C_scale, 3, 128u, 128u, 128u);
             }
 
             if (Math_RandomRange_496AB0(0, 100) < 90)
@@ -332,7 +332,7 @@ void Bullet::vUpdate_413560()
                             field_3C_scale, 6, -76, 76, 0);
                     }
 
-                    New_Particles_426C70(
+                    New_Smoke_Particles_426C70(
                         (field_3C_scale * FP_FromInteger(30)) + pShotObj->field_B8_xpos - FP_FromInteger(randomW),
                         field_2C_ypos + FP_NoFractional(randomHeight),
                         field_3C_scale, 3, 128u, 128u, 128u);
@@ -348,7 +348,7 @@ void Bullet::vUpdate_413560()
                             field_3C_scale, 6, 50, 205, 0);
                     }
 
-                    New_Particles_426C70(
+                    New_Smoke_Particles_426C70(
                         FP_FromInteger(randomW) + pShotObj->field_B8_xpos - (field_3C_scale * FP_FromInteger(30)),
                         field_2C_ypos + FP_NoFractional(randomHeight),
                         field_3C_scale, 3, 128u, 128u, 128u);
@@ -415,7 +415,7 @@ void Bullet::vUpdate_413560()
             {
                 pSpark->ctor_4CBBB0(hitX, hitY, FP_FromInteger(1), 9, -31, 159, 0);
             }
-            New_Particles_426C70(hitX, hitY, FP_FromInteger(1), 3, 128u, 128u, 128u);
+            New_Smoke_Particles_426C70(hitX, hitY, FP_FromInteger(1), 3, 128u, 128u, 128u);
         }
         SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), 75);
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -465,7 +465,7 @@ void Bullet::vUpdate_413560()
                 {
                     pSpark->ctor_4CBBB0(hitX, hitY, FP_FromInteger(1), 9, -31, 159, 0);
                 }
-                New_Particles_426C70(hitX, hitY, FP_FromInteger(1), 3, 128u, 128u, 128u);
+                New_Smoke_Particles_426C70(hitX, hitY, FP_FromInteger(1), 3, 128u, 128u, 128u);
             }
             SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), 75);
         }

@@ -562,7 +562,7 @@ void Bone::vUpdate_411BC0()
         if (static_cast<int>(sGnFrame_5C1B84) > field_128_shine_timer && !pObj)
         {
             // For the shiny star twinkle effect.
-            New_Particle_426C30(
+            New_TintShiny_Particle_426C30(
                     field_B8_xpos + (field_CC_sprite_scale * FP_FromInteger(1)),
                     (field_CC_sprite_scale * FP_FromInteger(-7)) + field_BC_ypos,
                     FP_FromDouble(0.3),

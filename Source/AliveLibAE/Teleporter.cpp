@@ -194,7 +194,7 @@ void Teleporter::vUpdate_4DC400()
                 if (field_34_mTlvData.field_1C_scale)
                 {
                     // Steam/smoke effect at Abe's body
-                    New_Particles_426C70(
+                    New_Smoke_Particles_426C70(
                         sControlledCharacter_5C1B8C->field_B8_xpos,
                         sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(9), // 18/2
                         sControlledCharacter_5C1B8C->field_CC_sprite_scale,
@@ -218,7 +218,7 @@ void Teleporter::vUpdate_4DC400()
                 else
                 {
                     // Steam/smoke effect at Abe's body
-                    New_Particles_426C70(
+                    New_Smoke_Particles_426C70(
                         sControlledCharacter_5C1B8C->field_B8_xpos,
                         sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(18),
                         sControlledCharacter_5C1B8C->field_CC_sprite_scale,
@@ -360,7 +360,7 @@ void Teleporter::vUpdate_4DC400()
         sControlledCharacter_5C1B8C->vGetBoundingRect_424FD0(&bRect, 1);
 
         // White flash in the middle of Abe's body
-        New_Particle_DestroyOrCreateObject_426F40(
+        New_DestroyOrCreateObject_Particle_426F40(
             FP_FromInteger((bRect.x + bRect.w) / 2),
             FP_FromInteger((bRect.y + bRect.h) / 2) + (sControlledCharacter_5C1B8C->field_CC_sprite_scale * FP_FromInteger(60)),
             sControlledCharacter_5C1B8C->field_CC_sprite_scale);

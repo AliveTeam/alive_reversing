@@ -405,7 +405,7 @@ void Meat::vUpdate_469BA0()
             if (static_cast<int>(sGnFrame_5C1B84) > field_128_timer && !v2)
             {
                 // That strange "shimmer" the meat gives off
-                New_Particle_426C30(
+                New_TintShiny_Particle_426C30(
                     (field_CC_sprite_scale * FP_FromInteger(1)) + field_B8_xpos,
                     field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(-7)), 
                     FP_FromDouble(0.3), 36);
