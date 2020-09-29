@@ -210,33 +210,34 @@ void Spark::vRender_4CC050(int** ppOt)
             OrderingTable_Add_4F8AA0(&ppOt[field_52_layer], &pPrim->mBase.header);
 
             // TODO: Can be refactored much further - looks like min/max stuff
-            short v25 = static_cast<short>(x1);
+            short x1Short = static_cast<short>(x1);
             short maxX = xy.field_0_x;
-            if (v25 <= xy.field_0_x)
+            
+            if (x1Short <= xy.field_0_x)
             {
-                maxX = v25;
+                maxX = x1Short;
             }
 
             if (x0 <= maxX)
             {
                 xy.field_0_x = static_cast<short>(x0);
             }
-            else if (v25 <= xy.field_0_x)
+            else if (x1Short <= xy.field_0_x)
             {
-                xy.field_0_x = v25;
+                xy.field_0_x = x1Short;
             }
 
-            short v14 = v25;
-            if (v25 <= wh.field_0_x)
+            short x1Short2 = x1Short;
+            if (x1Short <= wh.field_0_x)
             {
-                v14 = wh.field_0_x;
+                x1Short2 = wh.field_0_x;
             }
 
-            if (x0 <= v14)
+            if (x0 <= x1Short2)
             {
-                if (v25 > wh.field_0_x)
+                if (x1Short > wh.field_0_x)
                 {
-                    wh.field_0_x = v25;
+                    wh.field_0_x = x1Short;
                 }
             }
             else
@@ -244,12 +245,12 @@ void Spark::vRender_4CC050(int** ppOt)
                 wh.field_0_x = static_cast<short>(x0);
             }
 
-            short v15 = xy.field_2_y;
+            short yPoint = xy.field_2_y;
             if (y1 <= xy.field_2_y)
             {
-                v15 = static_cast<short>(y1);
+                yPoint = static_cast<short>(y1);
             }
-            if (y0 <= v15)
+            if (y0 <= yPoint)
             {
                 xy.field_2_y = static_cast<short>(y0);
             }
@@ -258,13 +259,13 @@ void Spark::vRender_4CC050(int** ppOt)
                 xy.field_2_y = static_cast<short>(y1);
             }
 
-            short v16 = static_cast<short>(y1);
+            short y1Short = static_cast<short>(y1);
             if (y1 <= wh.field_2_y)
             {
-                v16 = wh.field_2_y;
+                y1Short = wh.field_2_y;
             }
 
-            if (y0 <= v16)
+            if (y0 <= y1Short)
             {
                 if (y1 > wh.field_2_y)
                 {

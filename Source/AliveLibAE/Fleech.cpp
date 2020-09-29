@@ -588,7 +588,7 @@ void Fleech::M_WakingUp_1_42F270()
             break;
         }
 
-        if (pObj->field_4_typeId == Types::eSnoozParticle_124)
+        if (pObj->field_4_typeId == Types::eSnoozeParticle_124)
         {
             static_cast<SnoozeParticle*>(pObj)->field_1E4_state = SnoozeParticle::SnoozeParticleState::BlowingUp_2;
         }
