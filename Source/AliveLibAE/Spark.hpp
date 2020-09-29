@@ -45,9 +45,7 @@ private:
     BYTE **field_54_ppSprxRes;
     SparkRes *field_58_pRes;
     __int16 field_5C_count;
-    //__int16 field_5E_pad;
     int field_60_timer;
     __int16 field_64_type;
-    //__int16 field_66_pad;
 };
 ALIVE_ASSERT_SIZEOF(Spark, 0x68);

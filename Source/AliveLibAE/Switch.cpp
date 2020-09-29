@@ -46,9 +46,9 @@ void Switch::VScreenChanged()
     vScreenChanged_4D5B90();
 }
 
-__int16 Switch::VPull_4D6050(__int16 a2)
+__int16 Switch::VPull_4D6050(__int16 bLeftDirection)
 {
-    return vPull_4D6050(a2);
+    return vPull_4D6050(bLeftDirection);
 }
 
 Switch* Switch::ctor_4D5860(Path_Switch* pTlv, DWORD tlvInfo)
@@ -105,7 +105,7 @@ Switch* Switch::ctor_4D5860(Path_Switch* pTlv, DWORD tlvInfo)
     field_FC_tlvInfo = tlvInfo;
     field_108_sound_direction = pTlv->field_18_sound_direction;
 
-    field_F8_state = 0;
+    field_F8_state = SwitchState::eWaiting_0;
     field_DC_bApplyShadows |= 2u;
 
     return this;
@@ -116,7 +116,7 @@ void Switch::dtor_4D5B00()
     SetVTable(this, 0x547A5C); // vTbl_Switch_547A5C
     Path::TLV_Reset_4DB8E0(field_FC_tlvInfo, -1, 0, 0);
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
-    //Switch::dtor_4D5840(); // Omiited interface base nop
+    //Switch::dtor_4D5840(); // Omitted interface base nop.
 }
 
 Switch* Switch::vdtor_4D5AD0(signed int flags)
@@ -147,7 +147,7 @@ void Switch::vUpdate_4D5C00()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (field_F8_state == 1)
+    if (field_F8_state == SwitchState::ePulled_1)
     {
         if (field_20_animation.field_92_current_frame == 3)
         {
@@ -169,7 +169,7 @@ void Switch::vUpdate_4D5C00()
                 SFX_Play_46FBA0(SoundEffect::IndustrialTrigger_80, 30, 400);
             }
 
-            field_F8_state = 2;
+            field_F8_state = SwitchState::eFinished_2;
 
             if (field_100_flags & 1)
             {
@@ -203,109 +203,109 @@ void Switch::vUpdate_4D5C00()
                 {
                     switch (field_104_on_sound)
                     {
-                    case 1:
-                        SFX_Play_46FB10(SoundEffect::WellExit_20, 80 * volLeft + 25, 80 * volRight + 25);
-                        Event_Broadcast_422BC0(kEventNoise, this);
-                        Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-                        break;
+                        case SwitchSoundType::eWell_1:
+                            SFX_Play_46FB10(SoundEffect::WellExit_20, 80 * volLeft + 25, 80 * volRight + 25);
+                            Event_Broadcast_422BC0(kEventNoise, this);
+                            Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                            break;
 
-                    case 2:
-                        SFX_Play_46FB10(SoundEffect::SwitchUnknownTrigger_11, 100 * volLeft + 25, 100 * volRight + 25);
-                        Event_Broadcast_422BC0(kEventNoise, this);
-                        Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-                        break;
+                        case SwitchSoundType::eUnknown_2:
+                            SFX_Play_46FB10(SoundEffect::SwitchUnknownTrigger_11, 100 * volLeft + 25, 100 * volRight + 25);
+                            Event_Broadcast_422BC0(kEventNoise, this);
+                            Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                            break;
 
-                    case 3:
-                        SFX_Play_46FB10(SoundEffect::DoorEffect_57, 75 * volLeft + 15, 75 * volRight + 15);
-                        Event_Broadcast_422BC0(kEventNoise, this);
-                        Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-                        break;
+                        case SwitchSoundType::eDoor_3:
+                            SFX_Play_46FB10(SoundEffect::DoorEffect_57, 75 * volLeft + 15, 75 * volRight + 15);
+                            Event_Broadcast_422BC0(kEventNoise, this);
+                            Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                            break;
 
-                    case 4:
-                        SFX_Play_46FB10(SoundEffect::Zap1_49, 35 * volLeft + 25, 35 * volRight + 25);
-                        Event_Broadcast_422BC0(kEventNoise, this);
-                        Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-                        break;
+                        case SwitchSoundType::eElectricWall_4:
+                            SFX_Play_46FB10(SoundEffect::Zap1_49, 35 * volLeft + 25, 35 * volRight + 25);
+                            Event_Broadcast_422BC0(kEventNoise, this);
+                            Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                            break;
 
-                    case 5:
-                        SFX_Play_46FB10(SoundEffect::SecurityOrb_48, 35 * volLeft + 25, 35 * volRight + 25);
-                        return;
+                        case SwitchSoundType::eSecurityOrb_5:
+                            SFX_Play_46FB10(SoundEffect::SecurityOrb_48, 35 * volLeft + 25, 35 * volRight + 25);
+                            return;
 
-                    case 6:
-                        SFX_Play_46FB10(SoundEffect::LiftStop_30, 35 * volLeft + 25, 35 * volRight + 25);
-                        Event_Broadcast_422BC0(kEventNoise, this);
-                        Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-                        break;
+                        case SwitchSoundType::eLift_6:
+                            SFX_Play_46FB10(SoundEffect::LiftStop_30, 35 * volLeft + 25, 35 * volRight + 25);
+                            Event_Broadcast_422BC0(kEventNoise, this);
+                            Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                            break;
 
-                    default:
-                        return;
+                        default:
+                            return;
                     }
                 }
                 else
                 {
                     switch (field_106_off_sound)
                     {
-                    case 1:
-                        SFX_Play_46FB10(SoundEffect::WellExit_20, 80 * volLeft + 25, 80 * volRight + 25);
-                        Event_Broadcast_422BC0(kEventNoise, this);
-                        Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-                        break;
+                        case SwitchSoundType::eWell_1:
+                            SFX_Play_46FB10(SoundEffect::WellExit_20, 80 * volLeft + 25, 80 * volRight + 25);
+                            Event_Broadcast_422BC0(kEventNoise, this);
+                            Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                            break;
 
-                    case 2:
-                        SFX_Play_46FB10(SoundEffect::SwitchUnknownTrigger_11, 110 * volLeft + 25, 110 * volRight + 25);
-                        Event_Broadcast_422BC0(kEventNoise, this);
-                        Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-                        break;
+                        case SwitchSoundType::eUnknown_2:
+                            SFX_Play_46FB10(SoundEffect::SwitchUnknownTrigger_11, 110 * volLeft + 25, 110 * volRight + 25);
+                            Event_Broadcast_422BC0(kEventNoise, this);
+                            Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                            break;
 
-                    case 3:
-                        SFX_Play_46FB10(SoundEffect::DoorEffect_57, 75 * volLeft + 15, 75 * volRight + 15);
-                        Event_Broadcast_422BC0(kEventNoise, this);
-                        Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-                        break;
+                        case SwitchSoundType::eDoor_3:
+                            SFX_Play_46FB10(SoundEffect::DoorEffect_57, 75 * volLeft + 15, 75 * volRight + 15);
+                            Event_Broadcast_422BC0(kEventNoise, this);
+                            Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                            break;
 
-                    case 4:
-                        SFX_Play_46FB10(SoundEffect::Zap1_49, 80 * volLeft + 25, 80 * volRight + 25);
-                        Event_Broadcast_422BC0(kEventNoise, this);
-                        Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-                        break;
+                        case SwitchSoundType::eElectricWall_4:
+                            SFX_Play_46FB10(SoundEffect::Zap1_49, 80 * volLeft + 25, 80 * volRight + 25);
+                            Event_Broadcast_422BC0(kEventNoise, this);
+                            Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                            break;
 
-                    case 5:
-                        SFX_Play_46FB10(SoundEffect::SecurityOrb_48, 35 * volLeft + 75, 35 * volRight + 75);
-                        break;
+                        case SwitchSoundType::eSecurityOrb_5:
+                            SFX_Play_46FB10(SoundEffect::SecurityOrb_48, 35 * volLeft + 75, 35 * volRight + 75);
+                            break;
 
-                    case 6:
-                        SFX_Play_46FB10(SoundEffect::LiftStop_30, 35 * volLeft + 25, 35 * volRight + 25);
-                        Event_Broadcast_422BC0(kEventNoise, this);
-                        Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-                        break;
+                        case SwitchSoundType::eLift_6:
+                            SFX_Play_46FB10(SoundEffect::LiftStop_30, 35 * volLeft + 25, 35 * volRight + 25);
+                            Event_Broadcast_422BC0(kEventNoise, this);
+                            Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                            break;
 
-                    default:
-                        return;
+                        default:
+                            return;
                     }
                 }
             }
         }
     }
-    else if (field_F8_state == 2)
+    else if (field_F8_state == SwitchState::eFinished_2)
     {
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
         {
-            field_F8_state = 0;
+            field_F8_state = SwitchState::eWaiting_0;
             field_20_animation.Set_Animation_Data_409C80(5696, 0);
         }
     }
 }
 
-__int16 Switch::vPull_4D6050(__int16 a2)
+__int16 Switch::vPull_4D6050(__int16 bLeftDirection)
 {
-    if (field_F8_state != 0)
+    if (field_F8_state != SwitchState::eWaiting_0)
     {
         return 0;
     }
 
-    field_F8_state = 1;
+    field_F8_state = SwitchState::ePulled_1;
 
-    if (a2)
+    if (bLeftDirection)
     {
         field_20_animation.Set_Animation_Data_409C80(5708, nullptr);
         field_100_flags |= 1u;
@@ -315,5 +315,6 @@ __int16 Switch::vPull_4D6050(__int16 a2)
         field_20_animation.Set_Animation_Data_409C80(5796, nullptr);
         field_100_flags &= ~1u;
     }
+    
     return 1;
 }

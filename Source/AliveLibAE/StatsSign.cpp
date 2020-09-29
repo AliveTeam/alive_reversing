@@ -49,7 +49,7 @@ void StatsSign::VScreenChanged()
     vScreenChanged_47BC40();
 }
 
-StatsSign * StatsSign::ctor_47B600(Path_StatsSign * params, TlvItemInfoUnion a3)
+StatsSign* StatsSign::ctor_47B600(Path_StatsSign* params, TlvItemInfoUnion a3)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x54635C);
@@ -116,7 +116,7 @@ void StatsSign::vUpdate_47B8D0()
 }
 
 // Todo: clean up
-void StatsSign::vRender_47B900(int ** pOt)
+void StatsSign::vRender_47B900(int** pOt)
 {
     if (!field_108_is_hidden)
     {

@@ -14,7 +14,7 @@ EXPORT void* CC ae_new_malloc_4954D0(size_t size);
 EXPORT void* CC ae_malloc_non_zero_4954F0(size_t size);
 EXPORT void CC ae_free_4F4EA0(void* ptr);
 EXPORT void CC ae_delete_free_495540(void* ptr);
-EXPORT void CC ae_non_zero_free_495560(void *ptr);
+EXPORT void CC ae_non_zero_free_495560(void* ptr);
 EXPORT void* CC realloc_4F4E80(void* ptr, size_t size);
 EXPORT int CC ae_remove_520B27(LPCSTR lpFileName);
 
