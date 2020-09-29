@@ -4993,7 +4993,7 @@ __int16 Mudokon::AI_ShrivelDeath_5_4714A0()
         if ((sGnFrame_5C1B84 % 4) == 0)
         {
             // Fizzel steam/smoke
-            New_Particles_426C70(
+            New_Smoke_Particles_426C70(
                 (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale) + field_B8_xpos, 
                 field_BC_ypos - FP_FromInteger(6), 
                 field_CC_sprite_scale / FP_FromInteger(2),
@@ -5605,7 +5605,7 @@ __int16 Mudokon::AI_Sick_9_47A910()
         
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
         {
-            New_Particles_426C70(
+            New_Smoke_Particles_426C70(
                 field_B8_xpos + (FP_FromInteger(12) * field_CC_sprite_scale),
                 field_BC_ypos - (FP_FromInteger(24) * field_CC_sprite_scale),
                 (FP_FromDouble(0.5) * field_CC_sprite_scale),
@@ -5613,7 +5613,7 @@ __int16 Mudokon::AI_Sick_9_47A910()
         }
         else
         {
-            New_Particles_426C70(
+            New_Smoke_Particles_426C70(
                 field_B8_xpos - (FP_FromInteger(12) * field_CC_sprite_scale),
                 field_BC_ypos - (FP_FromInteger(24) * field_CC_sprite_scale),
                 (FP_FromDouble(0.5) * field_CC_sprite_scale),
@@ -6828,7 +6828,7 @@ void Mudokon::M_Chant_50_473040()
 {
     if (!(static_cast<int>(sGnFrame_5C1B84) % 4))
     {
-        New_Particle_45BC70(this);
+        New_RandomizedChant_Particle_45BC70(this);
     }
 
     if (!SND_SsIsEos_DeInlined_4CACD0(11u))

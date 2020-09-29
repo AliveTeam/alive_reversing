@@ -369,7 +369,7 @@ void Rock::VUpdate_456EC0()
     case 3:
         if (static_cast<int>(gnFrameCount_507670) > field_124)
         {
-            New_Particle_4199A0(
+            New_Shiny_Particle_4199A0(
                 (field_BC_sprite_scale * FP_FromInteger(1)) + field_A8_xpos,
                 (field_BC_sprite_scale * FP_FromInteger(-7)) + field_AC_ypos,
                 FP_FromDouble(0.3),

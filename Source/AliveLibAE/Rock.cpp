@@ -428,7 +428,7 @@ void Rock::vUpdate_49E9F0()
             return;
         }
         // The strange shimmering that rocks give off.
-        New_Particle_426C30(
+        New_TintShiny_Particle_426C30(
             (field_CC_sprite_scale * FP_FromInteger(1)) + field_B8_xpos, 
             (field_CC_sprite_scale * FP_FromInteger(-7)) + field_BC_ypos, 
             FP_FromDouble(0.3),

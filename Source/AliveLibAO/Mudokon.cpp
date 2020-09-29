@@ -2566,7 +2566,7 @@ void Mudokon::State_52_Chant_43D520()
         const FP rndX = FP_FromInteger(40 * Math_NextRandom() / 256 - 20);
         const FP rndY = FP_FromInteger(30 * Math_NextRandom() / 256 + 30);
 
-        New_Particle_4198E0(
+        New_Chant_Particle_4198E0(
             field_A8_xpos + (field_BC_sprite_scale * rndX),
             field_AC_ypos - (field_BC_sprite_scale * rndY),
             field_BC_sprite_scale,
@@ -2660,7 +2660,7 @@ void Mudokon::State_59_CrouchChant_43EC20()
         const FP rndX = FP_FromInteger(30 * Math_NextRandom() / 256 - 10);
         const FP rndY = FP_FromInteger(20 * Math_NextRandom() / 256 + 10);
 
-        New_Particle_4198E0(
+        New_Chant_Particle_4198E0(
             field_A8_xpos + (field_BC_sprite_scale * rndX),
             field_AC_ypos - (field_BC_sprite_scale * rndY),
             field_BC_sprite_scale,

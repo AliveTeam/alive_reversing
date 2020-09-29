@@ -203,7 +203,7 @@ void Map::RemoveObjectsWithPurpleLight_480740(__int16 bMakeInvisible)
                         {
                             pObjectsWithLightsArray->Push_Back(pBaseObj);
                             const FP k60Scaled = (pBaseObj->field_CC_sprite_scale * FP_FromInteger(60));
-                            Particle* pPurpleLight = New_Particle_DestroyOrCreateObject_426F40(
+                            Particle* pPurpleLight = New_DestroyOrCreateObject_Particle_426F40(
                                 FP_FromInteger((objRect.x + objRect.w) / 2),
                                 FP_FromInteger(((objRect.y + objRect.h) / 2)) + k60Scaled,
                                 pBaseObj->field_CC_sprite_scale);

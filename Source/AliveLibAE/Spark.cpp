@@ -86,7 +86,7 @@ Spark* Spark::ctor_4CBBB0(FP xpos, FP ypos, FP scale, unsigned __int8 count, __i
         if (field_64_type == 1)
         {
             // Much bigger longer lasting sparks - uses chant particles
-            New_Chant_Particle_426BE0(field_40_xpos, field_44_ypos - FP_FromInteger(4), scale, 0);
+            New_TintChant_Particle_426BE0(field_40_xpos, field_44_ypos - FP_FromInteger(4), scale, 0);
         }
         else
         {
