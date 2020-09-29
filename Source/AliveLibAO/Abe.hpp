@@ -322,9 +322,13 @@ public:
 
     EXPORT __int16 RunTryEnterDoor_4259C0();
 
-    bool Abe::NearDoorIsOpen();
+    bool NearDoorIsOpen();
 
     EXPORT void IntoPortalStates_4262A0();
+
+    EXPORT void TryHoist_423420();
+
+    EXPORT __int16 HandleDoAction_429A70();
 
     // States
     EXPORT void State_0_Idle_423520();

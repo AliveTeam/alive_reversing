@@ -9822,13 +9822,12 @@ short Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
             return eAbeStates::State_123_LiftGrabIdle_45A6A0;
         }
 
-        const DWORD pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
-        if (sInputKey_Up_5550D8 & pressed)
+        if (sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8))
         {
             return eAbeStates::State_124_LiftUseUp_45A780;
         }
 
-        if (pressed & sInputKey_Down_5550DC)
+        if (sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC))
         {
             return eAbeStates::State_125_LiftUseDown_45A7B0;
         }
