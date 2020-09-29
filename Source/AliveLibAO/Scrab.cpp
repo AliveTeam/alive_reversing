@@ -476,7 +476,7 @@ __int16 Scrab::VTakeDamage_45BC10(BaseGameObject* pFrom)
 
         default:
             SFX_Play_43AD70(SoundEffect::KillEffect_78, 127, 0);
-            SFX_Play_43AD70(SoundEffect::Unknown_53, 90, 0);
+            SFX_Play_43AD70(SoundEffect::FallingItemHit_53, 90, 0);
             field_100_health = FP_FromInteger(0);
             SetBrain(&Scrab::Brain_Death_45CB80);
             field_130 = 2;

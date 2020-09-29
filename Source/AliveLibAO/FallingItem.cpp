@@ -178,7 +178,7 @@ void FallingItem::VUpdate_41A120()
     {
         if (!((gnFrameCount_507670 - field_134_created_gnFrame) % 87))
         {
-            SFX_Play_43AD70(SoundEffect::Unknown_88, 45, 0);
+            SFX_Play_43AD70(SoundEffect::MeatsawOffscreen_88, 45, 0);
         }
 
         if (!((gnFrameCount_507670 - field_134_created_gnFrame) % 25))
@@ -326,20 +326,20 @@ void FallingItem::VUpdate_41A120()
                 0))
             {
                 SFX_Play_43AE60(SoundEffect::KillEffect_78, 127, -700, 0);
-                SFX_Play_43AD70(SoundEffect::Unknown_53, 110, 0);
+                SFX_Play_43AD70(SoundEffect::FallingItemHit_53, 110, 0);
             }
             else
             {
                 SND_SEQ_Play_477760(25, 1, 65, 65);
                 SFX_Play_43AE60(SoundEffect::KillEffect_78, 90, -700, 0);
-                SFX_Play_43AD70(SoundEffect::Unknown_53, 33, 0);
+                SFX_Play_43AD70(SoundEffect::FallingItemHit_53, 33, 0);
                 SFX_Play_43AE60(SoundEffect::MeatsawUp_90, 80, -400, 0);
             }
         }
         else
         {
             SFX_Play_43AD70(SoundEffect::Unknown_73, 0, 0);
-            SFX_Play_43AE60(SoundEffect::Unknown_53, 110, -1536, 0);
+            SFX_Play_43AE60(SoundEffect::FallingItemHit_53, 110, -1536, 0);
         }
 
         if (field_112_id)

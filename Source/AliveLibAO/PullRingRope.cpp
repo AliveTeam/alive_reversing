@@ -164,7 +164,7 @@ __int16 PulllRingRope::Pull_454CB0(BaseAliveGameObject* pFrom)
     {
         field_10_anim.Set_Animation_Data_402A40(2952, 0);
     }
-    SFX_Play_43AD70(SoundEffect::Unknown_65, 0, 0);
+    SFX_Play_43AD70(SoundEffect::RingRopePull_65, 0, 0);
     return 1;
 }
 

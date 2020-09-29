@@ -3522,7 +3522,7 @@ void Abe::State_30_HopMid_4264D0()
                 FP_GetExponent(field_AC_ypos - field_BC_sprite_scale * FP_FromInteger(50)),
                 38u))
             {
-                SFX_Play_43AD70(SoundEffect::Unknown_9, 0, 0);
+                SFX_Play_43AD70(SoundEffect::BellHammer_9, 0, 0);
             }
             field_FE_next_state = eAbeStates::State_0_Idle_423520;
             ToKnockback_422D90(1, 1);

@@ -495,7 +495,7 @@ void Slig::VUpdate_465050()
 
         if (field_1F8_fn != oldBrain)
         {
-            LOG_INFO("Brain changed from " << GetOriginalFn(oldBrain, sSligAITable).fnName << " to " << GetOriginalFn(field_1F8_fn, sSligAITable).fnName);
+            //LOG_INFO("Brain changed from " << GetOriginalFn(oldBrain, sSligAITable).fnName << " to " << GetOriginalFn(field_1F8_fn, sSligAITable).fnName);
         }
 
         if (field_106_shot)
@@ -728,7 +728,7 @@ __int16 Slig::VTakeDamage_465640(BaseGameObject* pFrom)
                     field_BC_sprite_scale);
             }
             field_100_health = FP_FromInteger(0);
-            SFX_Play_43AD70(SoundEffect::Unknown_53, 90);
+            SFX_Play_43AD70(SoundEffect::FallingItemHit_53, 90);
             field_8_update_delay = 40;
             field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
             field_10_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
@@ -807,7 +807,7 @@ __int16 Slig::VTakeDamage_465640(BaseGameObject* pFrom)
         if (field_100_health > FP_FromInteger(0))
         {
             SFX_Play_43AD70(SoundEffect::KillEffect_78, 127);
-            SFX_Play_43AD70(SoundEffect::Unknown_53, 90);
+            SFX_Play_43AD70(SoundEffect::FallingItemHit_53, 90);
         }
         break;
     }
@@ -2763,11 +2763,11 @@ void Slig::State_20_Recoil_468D30()
     }
     else if (field_BC_sprite_scale == FP_FromDouble(0.5))
     {
-        SFX_Play_43AD70(SoundEffect::Unknown_6, 85, 0);
+        SFX_Play_43AD70(SoundEffect::SligShoot_6, 85, 0);
     }
     else
     {
-        SFX_Play_43AD70(SoundEffect::Unknown_6, 0, 0);
+        SFX_Play_43AD70(SoundEffect::SligShoot_6, 0, 0);
     }
 }
 
@@ -3152,12 +3152,12 @@ void Slig::State_38_Possess_46B050()
             if (field_BC_sprite_scale == FP_FromDouble(0.5))
             {
                 SFX_Play_43AD70(SoundEffect::KillEffect_78, 80);
-                SFX_Play_43AD70(SoundEffect::Unknown_53, 60);
+                SFX_Play_43AD70(SoundEffect::FallingItemHit_53, 60);
             }
             else
             {
                 SFX_Play_43AD70(SoundEffect::KillEffect_78, 127);
-                SFX_Play_43AD70(SoundEffect::Unknown_53, 90);
+                SFX_Play_43AD70(SoundEffect::FallingItemHit_53, 90);
             }
 
             field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
@@ -3296,11 +3296,11 @@ void Slig::State_43_ShootZ_468E30()
 
         if (field_BC_sprite_scale == FP_FromDouble(0.5))
         {
-            SFX_Play_43AD70(SoundEffect::Unknown_6, 85, 0);
+            SFX_Play_43AD70(SoundEffect::SligShoot_6, 85, 0);
         }
         else
         {
-            SFX_Play_43AD70(SoundEffect::Unknown_6, 0, 0);
+            SFX_Play_43AD70(SoundEffect::SligShoot_6, 0, 0);
         }
 
         // The doves don't like bullets
@@ -4546,12 +4546,12 @@ void Slig::BlowToGibs_4685A0()
     if (field_BC_sprite_scale == FP_FromDouble(0.5))
     {
         SFX_Play_43AD70(SoundEffect::KillEffect_78, 80, 0);
-        SFX_Play_43AD70(SoundEffect::Unknown_53, 60, 0);
+        SFX_Play_43AD70(SoundEffect::FallingItemHit_53, 60, 0);
     }
     else
     {
         SFX_Play_43AD70(SoundEffect::KillEffect_78, 127, 0);
-        SFX_Play_43AD70(SoundEffect::Unknown_53, 90, 0);
+        SFX_Play_43AD70(SoundEffect::FallingItemHit_53, 90, 0);
     }
 
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);

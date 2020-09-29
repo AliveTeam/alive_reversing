@@ -490,11 +490,11 @@ void Mudokon::VUpdate_43F560()
     if (old_brain != field_1B8_brain_idx)
     {
         // Main brain state changed
-        LOG_INFO("Brain changed from " << old_brain << " to " << field_1B8_brain_idx);
+        //LOG_INFO("Brain changed from " << old_brain << " to " << field_1B8_brain_idx);
     }
     else if (old_brain_sub_state != field_1BA_sub_state)
     {
-        LOG_INFO("Brain sub state changed from " << old_brain_sub_state << " to " << field_1BA_sub_state);
+        //LOG_INFO("Brain sub state changed from " << old_brain_sub_state << " to " << field_1BA_sub_state);
     }
 
     const FP oldX = field_A8_xpos;

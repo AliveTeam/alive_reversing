@@ -121,7 +121,7 @@ void Bullet::VUpdate_408E30()
                     if (Math_RandomRange_450F20(0, 100) < 90 ||
                         Math_RandomRange_450F20(0, 128) >= 64)
                     {
-                        SFX_Play_43AD70(SoundEffect::Unknown_2, volume, 0);
+                        SFX_Play_43AD70(SoundEffect::Bullet2_2, volume, 0);
                     }
                     field_6_flags.Set(BaseGameObject::eDead_Bit3);
                     return;
@@ -133,11 +133,11 @@ void Bullet::VUpdate_408E30()
                 {
                     if (Math_RandomRange_450F20(0, 100) < 70)
                     {
-                        SFX_Play_43AD70(SoundEffect::Unknown_2, volume, 0);
+                        SFX_Play_43AD70(SoundEffect::Bullet2_2, volume, 0);
                     }
                     if (Math_RandomRange_450F20(0, 128) < 64)
                     {
-                        SFX_Play_43AD70(SoundEffect::Unknown_1, volume, 0);
+                        SFX_Play_43AD70(SoundEffect::Bullet1_1, volume, 0);
                     }
                     field_6_flags.Set(BaseGameObject::eDead_Bit3);
                     return;
@@ -218,11 +218,11 @@ void Bullet::VUpdate_408E30()
 
             if (Math_RandomRange_450F20(0, 128) < 64)
             {
-                SFX_Play_43AD70(SoundEffect::Unknown_1, 75, 0);
+                SFX_Play_43AD70(SoundEffect::Bullet1_1, 75, 0);
             }
             else
             {
-                SFX_Play_43AD70(SoundEffect::Unknown_2, 75, 0);
+                SFX_Play_43AD70(SoundEffect::Bullet2_2, 75, 0);
             }
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
