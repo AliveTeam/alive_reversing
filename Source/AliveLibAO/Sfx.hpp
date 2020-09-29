@@ -14,7 +14,7 @@ enum SoundEffect
     ZPop_5 = 5,
     Unknown_6 = 6,
     Unknown_7 = 7,
-    Unknown_8 = 8,
+    MenuTransition_8 = 8,
     Unknown_9 = 9,
     Unknown_10 = 10,
     Unknown_11 = 11,
@@ -22,7 +22,7 @@ enum SoundEffect
     Unknown_13 = 13,
     Unknown_14 = 14,
     Unknown_15 = 15,
-    Unknown_16 = 16,
+    BirdPortalIdle_16 = 16,
     Unknown_17 = 17,
     Unknown_18 = 18,
     Unknown_19 = 19,
@@ -30,8 +30,8 @@ enum SoundEffect
     PossessEffect_21 = 21,
     Unknown_22 = 22,
     Unknown_23 = 23,
-    Unknown_24 = 24,
-    Unknown_25 = 25,
+    WellExit_24 = 24,
+    WellEnter_25 = 25,
     Unknown_26 = 26,
     Leaf_27 = 27,
     AirStream_28 = 28,
@@ -41,9 +41,9 @@ enum SoundEffect
     Unknown_32 = 32,
     PickupItem_33 = 33,
     Unknown_34 = 34,
-    Unknown_35 = 35,
+    LiftStop_35 = 35,
     Unknown_36 = 36,
-    Unknown_37 = 37,
+    AbeGenericMovement_37 = 37,
     Unknown_38 = 38,
     Unknown_39 = 39,
     Unknown_40 = 40,
@@ -53,7 +53,7 @@ enum SoundEffect
     Unknown_44 = 44,
     Unknown_45 = 45,
     Unknown_46 = 46,
-    Unknown_47 = 47,
+    ObjectNearElectricity_47 = 47,
     BirdPortalSpark_48 = 48,
     Unknown_49 = 49,
     Unknown_50 = 50,
@@ -62,11 +62,11 @@ enum SoundEffect
     Unknown_53 = 53,
     Unknown_54 = 54,
     Unknown_55 = 55,
-    Unknown_56 = 56,
+    SecurityOrb_56 = 56,
     Unknown_57 = 57,
-    Unknown_58 = 58,
+    TouchingMotionDetector_58 = 58,
     Unknown_59 = 59,
-    Unknown_60 = 60,
+    MudokonChanting_60 = 60,
     MenuNavigation_61 = 61,
     Unknown_62 = 62,
     Unknown_63 = 63,
@@ -88,18 +88,18 @@ enum SoundEffect
     Unknown_79 = 79,
     Unknown_80 = 80,
     Unknown_81 = 81,
-    Unknown_82 = 82,
+    GrenadeBounce_82 = 82,
     Unknown_83 = 83,
     Unknown_84 = 84,
     Scrub1_85 = 85,
     Scrub2_86 = 86,
-    Unknown_87 = 87,
+    AmbientEffect1_87 = 87,
     Unknown_88 = 88,
-    Unknown_89 = 89,
+    MeatsawIdle_89 = 89,
     MeatsawUp_90 = 90,
     MeatsawDown_91 = 91,
     Unknown_93 = 93,
-    Unknown_94 = 94,
+    TrapdoorClose_94 = 94,
     Unknown_95 = 95,
     Vaporize_96 = 96,
     Choke_98 = 98,
@@ -133,6 +133,16 @@ struct SfxDefinition
     __int16 field_12_pad;
 };
 ALIVE_ASSERT_SIZEOF(SfxDefinition, 0x14);
+
+EXPORT int CC SFX_Play_real_43AE60(unsigned __int8 sfxId, int volume, int pitch, BaseAnimatedWithPhysicsGameObject* pObj = nullptr);
+
+EXPORT int CC SFX_Play_real_43AD70(unsigned __int8 sfxId, int a2, BaseGameObject* a3 = nullptr);
+
+EXPORT int CC SFX_Play_real_43ADE0(unsigned __int8 sfxId, int leftVol, int rightVol, BaseAliveGameObject* pObj);
+
+EXPORT int CC SFX_Play_real_43AED0(unsigned __int8 sfxId, signed int volume, CameraPos direction);
+
+
 
 EXPORT int CC SFX_Play_43AE60(unsigned __int8 sfxId, int volume, int pitch, BaseAnimatedWithPhysicsGameObject* pObj = nullptr);
 

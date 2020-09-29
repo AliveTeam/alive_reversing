@@ -249,7 +249,7 @@ void MainMenuTransition::StartTrans_436560(__int16 layer, __int16 fadeDirection,
 
     if (fadeDirection)
     {
-        SFX_Play_43AD70(SoundEffect::Unknown_8, 0, 0);
+        SFX_Play_43AD70(SoundEffect::MenuTransition_8, 0, 0);
     }
 }
 
