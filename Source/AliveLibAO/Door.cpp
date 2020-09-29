@@ -340,4 +340,9 @@ Door* Door::Vdtor_40EDF0(signed int flags)
     return this;
 }
 
+BOOL Door::vIsOpen_40E800()
+{
+    return field_EC_current_state == eUnknown_0;
+}
+
 END_NS_AO

@@ -3,8 +3,10 @@
 #include "Abe.hpp"
 #include "Blood.hpp"
 #include "Bullet.hpp"
+#include "Door.hpp"
 #include "ThrowableArray.hpp"
 #include "Elum.hpp"
+#include "LiftPoint.hpp"
 #include "ResourceManager.hpp"
 #include "Shadow.hpp"
 #include "Game.hpp"
@@ -2468,16 +2470,137 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
     SFX_Play_43AD70(SoundEffect::KillEffect_78, 0, this);
 }
 
-__int16 Abe::RunTryEnterDoor_4259C0()
+bool Abe::NearDoorIsOpen()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    {
+        BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_4_typeId == Types::eDoor_21)
+        {
+            auto pDoor = static_cast<Door*>(pObj);
+            PSX_RECT Rect = {};
+            VGetBoundingRect_418120(&Rect, 1);
+            PSX_RECT Rect2 = {};
+            pDoor->VGetBoundingRect_418120(&Rect2, 1);
+
+            if (Rect.x <= Rect2.w &&
+                Rect.w >= Rect2.x &&
+                Rect.h >= Rect2.y &&
+                Rect.y <= Rect2.h)
+            {
+                return pDoor->vIsOpen_40E800() ? true : false;
+            }
+        }
+    }
+    return false;
 }
 
-__int16 Abe::MoveLiftUpOrDown_42F190(FP /*ySpeed*/)
+__int16 Abe::RunTryEnterDoor_4259C0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (!sInputObject_5009E8.isPressed(sInputKey_Up_4C6598))
+    {
+        return 0;
+    }
+    if (field_10A_flags.Get(Flags_10A::e10A_Bit5_Electrocuted))
+    {
+        return 0;
+    }
+    if (field_10_anim.field_92_current_frame < 4)
+    {
+        return 0;
+    }
+
+    // Are we actually on a door?
+    Path_TLV* pDoorTlv = gMap_507BA8.TLV_Get_At_446260(
+        FP_GetExponent(field_A8_xpos),
+        FP_GetExponent(field_AC_ypos),
+        FP_GetExponent(field_A8_xpos),
+        FP_GetExponent(field_AC_ypos),
+        TlvTypes::Door_6
+    );
+
+    if (!pDoorTlv)
+    {
+        return 0;
+    }
+
+    if (!NearDoorIsOpen())
+    {
+        return 0;
+    }
+
+    field_F0_pTlv = pDoorTlv;
+    field_110_state = 0;
+    field_FC_current_motion = eAbeStates::State_156_DoorEnter_42D370;
+    field_A8_xpos = FP_FromInteger((pDoorTlv->field_14_bottom_right.field_0_x + pDoorTlv->field_10_top_left.field_0_x) / 2);
+    MapFollowMe_401D30(TRUE);
+    return 1;
+}
+
+__int16 Abe::MoveLiftUpOrDown_42F190(FP ySpeed)
+{
+    auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
+
+    pLiftPoint->Move_435740(FP_FromInteger(0), ySpeed, 0);
+    FollowLift_42EE90();
+
+    if (gBeeInstanceCount_5076B0 && word_5076AC)
+    {
+        return eAbeStates::State_141_BeesStrugglingOnLift_42F390;
+    }
+    if (sControlledCharacter_50767C == this &&
+        !field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame) &&
+        field_10_anim.field_92_current_frame != 5)
+    {
+        return field_FC_current_motion;
+    }
+    if (ySpeed >= FP_FromInteger(0))
+    {
+        if (ySpeed > FP_FromInteger(0))
+        {
+            if (pLiftPoint->OnBottomFloor())
+            {
+                return eAbeStates::State_135_LiftGrabIdle_42F000;
+            }
+            if (sInputObject_5009E8.isPressed(sInputKey_Down_4C659C))
+            {
+                return eAbeStates::State_132_LiftUseDown_42F170;
+            }
+            if (sInputObject_5009E8.isPressed(sInputKey_Up_4C6598))
+            {
+                return eAbeStates::State_131_LiftUseUp_42F150;
+            }
+        }
+    }
+    else
+    {
+        if (pLiftPoint->OnTopFloor())
+        {
+            return eAbeStates::State_135_LiftGrabIdle_42F000;
+        }
+        if (sInputObject_5009E8.isPressed(sInputKey_Up_4C6598))
+        {
+            return eAbeStates::State_131_LiftUseUp_42F150;
+        }
+        if (sInputObject_5009E8.isPressed(sInputKey_Down_4C659C))
+        {
+            return eAbeStates::State_132_LiftUseDown_42F170;
+        }
+    }
+    if (sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed &&
+        pLiftPoint->OnAnyFloor() &&
+        !(pLiftPoint->field_12C_bMoving & 1))
+    {
+        return eAbeStates::State_134_LiftGrabEnd_42EFE0;
+    }
+
+    pLiftPoint->Move_435740(FP_FromInteger(0), FP_FromInteger(0), 0);
+    return eAbeStates::State_135_LiftGrabIdle_42F000;
 }
 
 void Abe::vScreenChanged_422640()
