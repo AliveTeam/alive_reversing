@@ -57,7 +57,7 @@ void Switch::VUpdate_4812D0()
     {
         if (field_10_anim.field_92_current_frame == 3)
         {
-            SFX_Play_43AD70(SoundEffect::Unknown_75, 0, 0);
+            SFX_Play_43AD70(SoundEffect::LeverPull_75, 0, 0);
         }
 
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -69,7 +69,7 @@ void Switch::VUpdate_4812D0()
                 || gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12
                 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
             {
-                SFX_Play_43AD70(SoundEffect::Unknown_97, 60, 0);
+                SFX_Play_43AD70(SoundEffect::IndustrialTrigger_97, 60, 0);
             }
             field_E8_state = 2;
 

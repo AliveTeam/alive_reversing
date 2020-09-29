@@ -157,7 +157,7 @@ void ZBall::VUpdate_478720()
     {
         if (field_10_anim.field_92_current_frame == 3 || field_10_anim.field_92_current_frame == 16)
         {
-            SFX_Play_43AE60(SoundEffect::Unknown_34, 40, field_EA_sound_pitch - 2400, nullptr);
+            SFX_Play_43AE60(SoundEffect::SackWobble_34, 40, field_EA_sound_pitch - 2400, nullptr);
         }
     }
 

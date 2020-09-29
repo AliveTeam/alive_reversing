@@ -172,7 +172,7 @@ void ElectricWall::VUpdate_40FEF0()
 
                          if (RectsOverlap(bRectBigger, objRect) && pObjIter->field_100_health > FP_FromInteger(0))
                         {
-                            SFX_Play_43AED0(SoundEffect::ObjectNearElectricity_47, 45, soundDirection);
+                            SFX_Play_43AED0(SoundEffect::ElectricGateLoud_47, 45, soundDirection);
                         }
                     }
                 }
@@ -190,7 +190,7 @@ void ElectricWall::VUpdate_40FEF0()
 
                         pObjIter->VTakeDamage(this);
 
-                        SFX_Play_43AED0(SoundEffect::Unknown_46, 127, soundDirection);
+                        SFX_Play_43AED0(SoundEffect::ElectricZap_46, 127, soundDirection);
 
                         auto pFlash = ao_new<Flash>();
                         if (pFlash)

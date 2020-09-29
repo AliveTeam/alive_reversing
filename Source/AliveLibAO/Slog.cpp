@@ -430,7 +430,7 @@ void Slog::VUpdate_4739C0()
 
     if (oldBrain != sSlog_fns_brain_4CFE00[field_114_brain_idx])
     {
-        LOG_INFO("brain changed from " << GetOriginalFn(oldBrain, sSlogBrainTable).fnName << " to " << GetOriginalFn(sSlog_fns_brain_4CFE00[field_114_brain_idx], sSlogBrainTable).fnName);
+        //LOG_INFO("brain changed from " << GetOriginalFn(oldBrain, sSlogBrainTable).fnName << " to " << GetOriginalFn(sSlog_fns_brain_4CFE00[field_114_brain_idx], sSlogBrainTable).fnName);
     }
 
     if (word_5076E0)

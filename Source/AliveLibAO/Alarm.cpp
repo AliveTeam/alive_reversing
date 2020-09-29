@@ -118,7 +118,7 @@ void Alarm::VUpdate_402660()
         {
             field_6A_state = 1;
 
-            SFX_Play_43AD70(SoundEffect::Unknown_45, 0, 0);
+            SFX_Play_43AD70(SoundEffect::Alarm_45, 0, 0);
 
             if (field_74_switch_id)
             {
@@ -135,7 +135,7 @@ void Alarm::VUpdate_402660()
             field_68_r_value = 100;
             field_6C_15_timer = gnFrameCount_507670 + 15;
             field_6A_state = 2;
-            SFX_Play_43AD70(SoundEffect::Unknown_45, 0, 0);
+            SFX_Play_43AD70(SoundEffect::Alarm_45, 0, 0);
         }
         break;
 
@@ -167,7 +167,7 @@ void Alarm::VUpdate_402660()
         if (static_cast<int>(gnFrameCount_507670) > field_6C_15_timer)
         {
             field_6A_state = 1;
-            SFX_Play_43AD70(SoundEffect::Unknown_45, 0, 0);
+            SFX_Play_43AD70(SoundEffect::Alarm_45, 0, 0);
         }
         break;
 
