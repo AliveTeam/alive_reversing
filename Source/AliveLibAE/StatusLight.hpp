@@ -39,7 +39,6 @@ private:
     __int16 field_100_id4;
     __int16 field_102_id5;
     __int16 field_104_snap_to_grid;
-    //__int16 field_106; // pad
     FP field_108_xpos;
     FP field_10C_ypos;
 };
