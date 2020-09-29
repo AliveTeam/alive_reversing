@@ -2546,18 +2546,8 @@ __int16 Abe::MoveLiftUpOrDown_42F190(FP ySpeed)
 {
     auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
 
-    if (pLiftPoint)
-    {
-        field_B8_vely = pLiftPoint->field_B8_vely;
-        if (pLiftPoint->field_6_flags.Get(Options::eDead_Bit3))
-        {
-            VOnTrapDoorOpen();
-            field_2A8_flags.Set(Flags_2A8::e2A8_Bit1);
-        }
-        SetActiveCameraDelayedFromDir_401C90();
-    }
-
     pLiftPoint->Move_435740(FP_FromInteger(0), ySpeed, 0);
+    FollowLift_42EE90();
 
     if (gBeeInstanceCount_5076B0 && word_5076AC)
     {
