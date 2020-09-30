@@ -30,7 +30,7 @@ enum TlvTypes : __int16
 {
     ContinuePoint_0 = 0,
     PathTransition_1 = 1,
-
+    Hoist_3 = 3,
     LocalWell_11 = 11,
 
     DeathDrop_5 = 5,
@@ -52,8 +52,10 @@ enum TlvTypes : __int16
     Paramite_48 = 48,
 
     RingMud_50 = 50,
+    MovieStone_51 = 51,
 
     BirdPortalExit_53 = 53,
+    BellSongStone_54 = 54,
     
     InvisibleZone_58 = 58,
 
@@ -74,7 +76,11 @@ enum TlvTypes : __int16
 
     ScrabNoFall_93 = 93,
 
+    Unknown_96 = 96,
+    GrenadeMachine_97 = 97,
+
     ElumPathTrans_99 = 99,
+    HandStone_100 = 100,
 };
 
 struct Path_TLV;

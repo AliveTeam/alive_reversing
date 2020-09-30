@@ -376,6 +376,10 @@ public:
 
     EXPORT void IntoPortalStates_4262A0();
 
+    EXPORT void TryHoist_423420();
+
+    EXPORT __int16 HandleDoAction_429A70();
+
     // States
     EXPORT void State_0_Idle_423520();
     EXPORT void State_1_WalkLoop_423F90();

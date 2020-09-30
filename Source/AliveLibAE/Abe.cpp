@@ -3086,7 +3086,7 @@ void Abe::State_0_Idle_44EEB0()
             {
                 const FP halfGrid = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2);
                 const FP liftPlatformXMidPoint = FP_FromInteger((field_100_pCollisionLine->field_0_rect.x + field_100_pCollisionLine->field_0_rect.w) / 2);
-                const FP xPosToMidLiftPlatformDistance = (field_B8_xpos - liftPlatformXMidPoint >= FP_FromInteger(0)) ? field_B8_xpos - liftPlatformXMidPoint : liftPlatformXMidPoint - field_B8_xpos;
+                const FP xPosToMidLiftPlatformDistance = FP_Abs(field_B8_xpos - liftPlatformXMidPoint);
                 if (xPosToMidLiftPlatformDistance < halfGrid)
                 {
                     field_106_current_motion = eAbeStates::State_121_LiftGrabBegin_45A600;
@@ -3175,7 +3175,11 @@ void Abe::State_0_Idle_44EEB0()
 
             case TlvTypes::GrenadeMachine_59:
             {
-                BoomMachine* pMachineButton = static_cast<BoomMachine*>(FindObjectOfType_425180(Types::eGrenadeMachine_66, field_B8_xpos, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(25))));
+                auto pMachineButton = static_cast<BoomMachine*>(FindObjectOfType_425180(
+                    Types::eGrenadeMachine_66,
+                    field_B8_xpos,
+                    field_BC_ypos - field_CC_sprite_scale * FP_FromInteger(25)
+                ));
                 if (pMachineButton)
                 {
                     pMachineButton->Vsub_445F00();
@@ -3267,49 +3271,55 @@ void Abe::State_0_Idle_44EEB0()
 
     if (!sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8) || handleDoActionOrThrow)
     {
-        // TODO: Clean up the logic of these 2 statements
-        if (!(sInputKey_ThrowItem_5550F4 & held) || field_106_current_motion != eAbeStates::State_0_Idle_44EEB0)
+        if ((sInputKey_ThrowItem_5550F4 & held) &&
+            field_106_current_motion == eAbeStates::State_0_Idle_44EEB0)
         {
-            if (held & sInputKey_DoAction_5550E4) // not throwing, maybe pressing up and pressing action, so do action
+            if (field_1A2_throwable_count > 0 || gInfiniteGrenades_5C1BDE)
             {
-                field_106_current_motion = HandleDoAction_455BD0();
-            }
-        }
-        else if (field_1A2_throwable_count > 0 || gInfiniteGrenades_5C1BDE)
-        {
-            field_158_throwable_id = Make_Throwable_49AF30(
-                field_B8_xpos,
-                field_BC_ypos - FP_FromInteger(40),
-                0)->field_8_object_id;
+                field_158_throwable_id = Make_Throwable_49AF30(
+                    field_B8_xpos,
+                    field_BC_ypos - FP_FromInteger(40),
+                    0)->field_8_object_id;
 
-            if (!bThrowableIndicatorExists_5C112C)
-            {
-                ThrowableTotalIndicator* pThrowable = ae_new<ThrowableTotalIndicator>();
-                if (pThrowable)
+                if (!bThrowableIndicatorExists_5C112C)
                 {
-                    const FP xOffSet = ((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) ? FP_FromInteger(15) : FP_FromInteger(-15)) * field_CC_sprite_scale;
+                    auto pThrowable = ae_new<ThrowableTotalIndicator>();
+                    if (pThrowable)
+                    {
+                        const FP xOffSet = ((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) ?
+                            FP_FromInteger(15) : FP_FromInteger(-15)) * field_CC_sprite_scale;
 
-                    pThrowable->ctor_431CB0(
-                        field_B8_xpos + xOffSet,
-                        field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(-50)),
-                        field_20_animation.field_C_render_layer,
-                        field_20_animation.field_14_scale,
-                        field_1A2_throwable_count,
-                        TRUE);
+                        pThrowable->ctor_431CB0(
+                            field_B8_xpos + xOffSet,
+                            field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(-50)),
+                            field_20_animation.field_C_render_layer,
+                            field_20_animation.field_14_scale,
+                            field_1A2_throwable_count,
+                            TRUE
+                        );
+                    }
+                }
+
+                field_106_current_motion = eAbeStates::State_104_RockThrowStandingHold_455DF0;
+
+                if (!gInfiniteGrenades_5C1BDE)
+                {
+                    field_1A2_throwable_count--;
                 }
             }
-
-            field_106_current_motion = eAbeStates::State_104_RockThrowStandingHold_455DF0;
-
-            if (!gInfiniteGrenades_5C1BDE)
+            else
             {
-                field_1A2_throwable_count--;
+                field_106_current_motion = eAbeStates::State_34_DunnoBegin_44ECF0;
             }
         }
         else
         {
-            field_106_current_motion = eAbeStates::State_34_DunnoBegin_44ECF0;
+            if (sInputObject_5BD4E0.isHeld(sInputKey_DoAction_5550E4)) // not throwing, maybe pressing up and pressing action, so do action
+            {
+                field_106_current_motion = HandleDoAction_455BD0();
+            }
         }
+
     }
 }
 
@@ -9822,13 +9832,12 @@ short Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
             return eAbeStates::State_123_LiftGrabIdle_45A6A0;
         }
 
-        const DWORD pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
-        if (sInputKey_Up_5550D8 & pressed)
+        if (sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8))
         {
             return eAbeStates::State_124_LiftUseUp_45A780;
         }
 
-        if (pressed & sInputKey_Down_5550DC)
+        if (sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC))
         {
             return eAbeStates::State_125_LiftUseDown_45A7B0;
         }
