@@ -2755,6 +2755,7 @@ static bool IsSameScaleAsHoist(Path_Hoist* pHoist, BaseAliveGameObject* pObj)
 {
     auto width = pHoist->field_14_bottom_right.field_0_x - pHoist->field_10_top_left.field_0_x;
 
+    //The width is used to determine the layer as there is no layer property in the TLV
     if (pObj->field_BC_sprite_scale == FP_FromInteger(1))
     {
         return width > 18;
@@ -2780,8 +2781,6 @@ static bool IsFacingSameDirectionAsHoist(Path_Hoist* pHoist, BaseAliveGameObject
 
 void Abe::State_0_Idle_423520()
 {
-    Path_TLV *pTlv = nullptr;
-
     FollowLift_42EE90();
     if (Input_IsChanting_4334C0() && !field_2A8_flags.Get(Flags_2A8::e2A8_Bit7))
     {
@@ -2801,7 +2800,7 @@ void Abe::State_0_Idle_423520()
     }
     if (sInputObject_5009E8.isPressed(dword_4C65B8 | dword_4C65DC))
     {
-        auto held = sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_6_held;
+        const auto held = sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_6_held;
         if (held & 0xF0)
         {
             field_10C_prev_held = held;
@@ -2823,7 +2822,7 @@ void Abe::State_0_Idle_423520()
             {
                 if (pObj->field_10_portal_type != PortalType::eAbe_0)
                 {
-                    pObj = 0;
+                    pObj = nullptr;
                 }
                 field_19E = 0;
             }
@@ -2857,7 +2856,7 @@ void Abe::State_0_Idle_423520()
             return; 
         }
 
-        auto pHoist = static_cast<Path_Hoist*>(gMap_507BA8.TLV_Get_At_446260(
+        const auto pHoist = static_cast<Path_Hoist*>(gMap_507BA8.TLV_Get_At_446260(
             FP_GetExponent(field_A8_xpos),
             FP_GetExponent(field_AC_ypos + FP_FromInteger(16)),
             FP_GetExponent(field_A8_xpos),
@@ -2925,7 +2924,7 @@ void Abe::State_0_Idle_423520()
         {
             return;
         }
-        pTlv = gMap_507BA8.TLV_Get_At_446060(
+        auto pTlv = gMap_507BA8.TLV_Get_At_446060(
             nullptr,
             field_A8_xpos,
             field_AC_ypos,
@@ -3098,7 +3097,7 @@ void Abe::State_0_Idle_423520()
                 {
                     loaded |= 4;
                 }
-                short rnd = Math_RandomRange_450F20(0, 2);
+                const short rnd = Math_RandomRange_450F20(0, 2);
                 if ((1 << rnd) & loaded)
                 {
                     switch (rnd)

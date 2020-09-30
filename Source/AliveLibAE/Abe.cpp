@@ -3175,7 +3175,7 @@ void Abe::State_0_Idle_44EEB0()
 
             case TlvTypes::GrenadeMachine_59:
             {
-                BoomMachine* pMachineButton = static_cast<BoomMachine*>(FindObjectOfType_425180(
+                auto pMachineButton = static_cast<BoomMachine*>(FindObjectOfType_425180(
                     Types::eGrenadeMachine_66,
                     field_B8_xpos,
                     field_BC_ypos - field_CC_sprite_scale * FP_FromInteger(25)
@@ -3283,7 +3283,7 @@ void Abe::State_0_Idle_44EEB0()
 
                 if (!bThrowableIndicatorExists_5C112C)
                 {
-                    ThrowableTotalIndicator* pThrowable = ae_new<ThrowableTotalIndicator>();
+                    auto pThrowable = ae_new<ThrowableTotalIndicator>();
                     if (pThrowable)
                     {
                         const FP xOffSet = ((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) ?
@@ -3314,7 +3314,7 @@ void Abe::State_0_Idle_44EEB0()
         }
         else
         {
-            if (held & sInputKey_DoAction_5550E4) // not throwing, maybe pressing up and pressing action, so do action
+            if (sInputObject_5BD4E0.isHeld(sInputKey_DoAction_5550E4)) // not throwing, maybe pressing up and pressing action, so do action
             {
                 field_106_current_motion = HandleDoAction_455BD0();
             }
