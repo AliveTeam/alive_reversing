@@ -1353,7 +1353,7 @@ __int16 Paramite::AI_Death_1_484CD0()
 
         if (field_CC_sprite_scale >= FP_FromDouble(0.3) && !(static_cast<int>(sGnFrame_5C1B84) % 5))
         {
-            New_Particles_426C70(
+            New_Smoke_Particles_426C70(
                 (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale) + field_B8_xpos,
                 field_BC_ypos - FP_FromInteger(6),
                 field_CC_sprite_scale / FP_FromInteger(2),
@@ -4495,7 +4495,7 @@ void Paramite::M_GetDepossessedBegin_29_48D9D0()
 
         if (!(static_cast<int>(sGnFrame_5C1B84) % 4))
         {
-            New_Chant_Particle_426BE0(
+            New_TintChant_Particle_426BE0(
                 (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 20))) + field_B8_xpos,
                 field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(20, 50))), 
                 field_CC_sprite_scale, 0);

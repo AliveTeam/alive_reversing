@@ -333,7 +333,7 @@ void SlapLock::vUpdate_43DF90()
                 return;
             }
 
-            New_Particle_426C30(
+            New_TintShiny_Particle_426C30(
                 (field_CC_sprite_scale * (FP_FromInteger(Math_RandomRange_496AB0(-2, 2)) + FP_FromInteger(1))) + field_B8_xpos,
                 (field_CC_sprite_scale * (FP_FromInteger(Math_RandomRange_496AB0(-3, 3)) - FP_FromInteger(33))) + field_BC_ypos,
                 FP_FromDouble(0.3),
@@ -373,7 +373,7 @@ void SlapLock::vUpdate_43DF90()
                 return;
             }
 
-            New_Particle_426C30(
+            New_TintShiny_Particle_426C30(
                 (field_CC_sprite_scale * (FP_FromInteger(Math_RandomRange_496AB0(-2, 2)) + FP_FromInteger(1)))  + field_B8_xpos,
                 (field_CC_sprite_scale * (FP_FromInteger(Math_RandomRange_496AB0(-3, 3)) - FP_FromInteger(33))) + field_BC_ypos,
                 FP_FromDouble(0.3),

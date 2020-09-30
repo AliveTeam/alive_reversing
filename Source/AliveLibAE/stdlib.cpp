@@ -98,7 +98,7 @@ EXPORT void CC ae_delete_free_495540(void* ptr)
     ae_internal_free_521334(ptr);
 }
 
-EXPORT void CC ae_non_zero_free_495560(void *ptr)
+EXPORT void CC ae_non_zero_free_495560(void* ptr)
 {
     ae_internal_free_521334(ptr);
 }

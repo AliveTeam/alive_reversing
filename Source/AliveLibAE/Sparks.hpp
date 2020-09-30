@@ -16,8 +16,8 @@ private:
     EXPORT void dtor_416550();
     EXPORT Sparks* vdtor_416520(signed int flags);
 private:
-    int field_F4_not_used1;
-    __int16 field_F8_not_used2;
+    int field_F4_padding;
+    __int16 field_F8_padding;
     __int16 field_FA_16_random;
 };
 ALIVE_ASSERT_SIZEOF(Sparks, 0xFC);

@@ -8,7 +8,7 @@
 #include "Sfx.hpp"
 #include "stdlib.hpp"
 
-const __int16 word_560408[39] =
+const __int16 xPositionDeltaEntries_560408[39] =
 {
     1,
     0,
@@ -81,7 +81,7 @@ SnoozeParticle* SnoozeParticle::ctor_4B06F0(FP xpos, FP ypos, __int16 layer, FP 
     
     SetVTable(this, 0x5472FC);
 
-    field_4_typeId = Types::eSnoozParticle_124;
+    field_4_typeId = Types::eSnoozeParticle_124;
     gObjList_drawables_5C1124->Push_Back(this);
 
     field_20_x_start = xpos;
@@ -107,7 +107,7 @@ SnoozeParticle* SnoozeParticle::ctor_4B06F0(FP xpos, FP ypos, __int16 layer, FP 
     field_1E4_state = SnoozeParticleState::Rising_0;
     field_4A_count_down = 1;
     field_48_idx = Math_NextRandom() % 36;
-    field_30_dx = FP_FromDouble(word_560408[field_48_idx]);
+    field_30_dx = FP_FromDouble(xPositionDeltaEntries_560408[field_48_idx]);
     field_48_idx++;
     return this;
 }
@@ -142,7 +142,7 @@ void SnoozeParticle::Update_4B0980()
     {
         switch (field_1E4_state)
         {
-            case SnoozeParticleState::Rising_0 :
+            case SnoozeParticleState::Rising_0:
                 if (field_2C_y >= field_24_y_start - FP_FromInteger(20))
                 {
                     if (field_42_r < 70 &&
@@ -153,12 +153,15 @@ void SnoozeParticle::Update_4B0980()
                         field_44_g += 14;
                         field_46_b += 4;
                     }
+                    
                     field_38_scale += field_3C_scale_dx;
+                    
                     if (field_48_idx > 36)
                     {
                         field_48_idx = 0;
                     }
-                    const FP field_48_idx_toFP = FP_FromInteger(word_560408[field_48_idx]);
+                    
+                    const FP field_48_idx_toFP = FP_FromInteger(xPositionDeltaEntries_560408[field_48_idx]);
                     field_30_dx = field_48_idx_toFP;
                     field_28_x += field_48_idx_toFP;
                     field_2C_y += field_34_dy;
@@ -169,14 +172,17 @@ void SnoozeParticle::Update_4B0980()
                     field_1E4_state = SnoozeParticleState::BlowingUp_2;
                 }
                 break;
+            
             case SnoozeParticleState::Unused_1:
                 break;
+            
             case SnoozeParticleState::BlowingUp_2:
                 field_42_r /= 2; //fade to transparent
                 field_44_g /= 2;
                 field_46_b /= 2;
                 field_28_x += field_30_dx;
                 field_2C_y += field_34_dy;
+                
                 if (field_4A_count_down > 0)
                 {
                     field_4A_count_down--;
@@ -191,10 +197,10 @@ void SnoozeParticle::Update_4B0980()
     }
 }
 
-void SnoozeParticle::Render_4B0AF0(int **pOt)
+void SnoozeParticle::Render_4B0AF0(int** pOt)
 {
     PSX_RECT rectToInvalidate = {};
-    FP_Point *pCamPos = pScreenManager_5BB5F4->field_20_pCamPos;
+    FP_Point* pCamPos = pScreenManager_5BB5F4->field_20_pCamPos;
     const __int16 bufIdx = gPsxDisplay_5C1130.field_C_buffer_index;
 
     if (field_1E4_state == SnoozeParticleState::BlowingUp_2)

@@ -23,13 +23,13 @@ void BellSong::VUpdate_476130()
             switch (code_looked_up)
             {
             case 1:
-                SFX_Play_43AD70(SoundEffect::Unknown_51, 0, 0);
+                SFX_Play_43AD70(SoundEffect::BellChime2_51, 0, 0);
                 break;
             case 2:
-                SFX_Play_43AD70(SoundEffect::Unknown_50, 0, 0);
+                SFX_Play_43AD70(SoundEffect::BellChime1_50, 0, 0);
                 break;
             default:
-                SFX_Play_43AD70(SoundEffect::Unknown_52, 0, 0);
+                SFX_Play_43AD70(SoundEffect::BellChime3_52, 0, 0);
             }
             field_8_update_delay = 15;
         }

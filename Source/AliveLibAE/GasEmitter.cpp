@@ -105,23 +105,23 @@ void GasEmitter::vUpdate_43CB70()
         switch (field_2C_gas_colour)
         {
         case GasColour::Yellow_0:
-            New_Particles_426C70(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 128, 128, 32);
+            New_Smoke_Particles_426C70(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 128, 128, 32);
             break;
 
         case GasColour::Red_1:
-            New_Particles_426C70(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 128, 32, 32);
+            New_Smoke_Particles_426C70(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 128, 32, 32);
             break;
 
         case GasColour::Green_2:
-            New_Particles_426C70(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 32, 128, 32);
+            New_Smoke_Particles_426C70(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 32, 128, 32);
             break;
 
         case GasColour::Blue_3:
-            New_Particles_426C70(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 32, 32, 128);
+            New_Smoke_Particles_426C70(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 32, 32, 128);
             break;
 
         case GasColour::White_4:
-            New_Particles_426C70(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 128, 128, 128);
+            New_Smoke_Particles_426C70(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 128, 128, 128);
             break;
 
         default:

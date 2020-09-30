@@ -1716,7 +1716,7 @@ __int16 Glukkon::AI_3_PlayerControlled_441A30()
             {
                 const FP xRand = FP_FromInteger(Math_RandomRange_496AB0(-20, 20));
                 const FP yRand = FP_FromInteger(Math_RandomRange_496AB0(20, 50));
-                New_Chant_Particle_426BE0(
+                New_TintChant_Particle_426BE0(
                     (field_CC_sprite_scale * xRand) + field_B8_xpos,
                     field_BC_ypos - (field_CC_sprite_scale * yRand),
                     field_CC_sprite_scale,
@@ -1872,7 +1872,7 @@ __int16 Glukkon::AI_4_Death_442010()
 
             if (!(static_cast<int>(sGnFrame_5C1B84) % 5))
             {
-                New_Particles_426C70(
+                New_Smoke_Particles_426C70(
                     (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale) + field_B8_xpos,
                     field_BC_ypos - FP_FromInteger(6),
                     (field_CC_sprite_scale / FP_FromInteger(2)), 
@@ -1911,7 +1911,7 @@ __int16 Glukkon::AI_4_Death_442010()
                 20);
         }
 
-        New_Particles_426C70(
+        New_Smoke_Particles_426C70(
             field_B8_xpos,
             field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale),
             field_CC_sprite_scale,
@@ -2036,7 +2036,7 @@ __int16 Glukkon::AI_5_WaitToSpawn_442490()
             PSX_RECT bRect = {};
             vGetBoundingRect_424FD0(&bRect, 1);
 
-            New_Particle_DestroyOrCreateObject_426F40(
+            New_DestroyOrCreateObject_Particle_426F40(
                 FP_FromInteger((bRect.x + bRect.w) / 2),
                 FP_FromInteger((bRect.y + bRect.h) / 2) + (field_CC_sprite_scale * FP_FromInteger(60)),
                 field_CC_sprite_scale);

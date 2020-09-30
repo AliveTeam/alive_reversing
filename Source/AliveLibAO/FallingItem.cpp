@@ -169,7 +169,7 @@ void FallingItem::DamageHitItems_41A6D0()
 
 void FallingItem::VUpdate_41A120()
 {
-    if (Event_Get_417250(4))
+    if (Event_Get_417250(kEventDeathReset_4))
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -178,12 +178,12 @@ void FallingItem::VUpdate_41A120()
     {
         if (!((gnFrameCount_507670 - field_134_created_gnFrame) % 87))
         {
-            SFX_Play_43AD70(SoundEffect::Unknown_88, 45, 0);
+            SFX_Play_43AD70(SoundEffect::MeatsawOffscreen_88, 45, 0);
         }
 
         if (!((gnFrameCount_507670 - field_134_created_gnFrame) % 25))
         {
-            SFX_Play_43AD70(SoundEffect::Unknown_89, 45, 0);
+            SFX_Play_43AD70(SoundEffect::MeatsawIdle_89, 45, 0);
 
         }
     }
@@ -191,7 +191,7 @@ void FallingItem::VUpdate_41A120()
     switch (field_110_state)
     {
     case State::eState_0_WaitForIdEnable:
-        if (field_112_id && SwitchStates_Get(field_112_id))
+        if (SwitchStates_Get(field_112_id))
         {
             field_6_flags.Clear(Options::eCanExplode_Bit7);
             field_110_state = State::eState_1_GoWaitForDelay;
@@ -326,20 +326,20 @@ void FallingItem::VUpdate_41A120()
                 0))
             {
                 SFX_Play_43AE60(SoundEffect::KillEffect_78, 127, -700, 0);
-                SFX_Play_43AD70(SoundEffect::Unknown_53, 110, 0);
+                SFX_Play_43AD70(SoundEffect::FallingItemHit_53, 110, 0);
             }
             else
             {
                 SND_SEQ_Play_477760(25, 1, 65, 65);
                 SFX_Play_43AE60(SoundEffect::KillEffect_78, 90, -700, 0);
-                SFX_Play_43AD70(SoundEffect::Unknown_53, 33, 0);
+                SFX_Play_43AD70(SoundEffect::FallingItemHit_53, 33, 0);
                 SFX_Play_43AE60(SoundEffect::MeatsawUp_90, 80, -400, 0);
             }
         }
         else
         {
             SFX_Play_43AD70(SoundEffect::Unknown_73, 0, 0);
-            SFX_Play_43AE60(SoundEffect::Unknown_53, 110, -1536, 0);
+            SFX_Play_43AE60(SoundEffect::FallingItemHit_53, 110, -1536, 0);
         }
 
         if (field_112_id)
@@ -378,7 +378,6 @@ void FallingItem::VUpdate_41A120()
     }
 }
 
-
 void FallingItem::VScreenChanged_41A7C0()
 {
     if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level
@@ -387,6 +386,12 @@ void FallingItem::VScreenChanged_41A7C0()
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
+}
+
+
+void FallingItem::VUpdate()
+{
+    VUpdate_41A120();
 }
 
 void FallingItem::VScreenChanged()

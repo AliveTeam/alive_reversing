@@ -36,7 +36,7 @@ void RockSack::VUpdate_4575F0()
             {
                 field_114_can_play_wobble_sound = 0;
                 field_116_force_wobble_sound = 0;
-                SFX_Play_43AE60(SoundEffect::Unknown_34, 24, Math_RandomRange_450F20(-2400, -2200), 0);
+                SFX_Play_43AE60(SoundEffect::SackWobble_34, 24, Math_RandomRange_450F20(-2400, -2200), 0);
             }
         }
     }
@@ -98,7 +98,7 @@ void RockSack::VUpdate_4575F0()
                 }
                 pRock->VThrow(field_118_x_vel, field_11C_y_vel);
 
-                SFX_Play_43AD70(SoundEffect::Unknown_30, 0, 0);
+                SFX_Play_43AD70(SoundEffect::SackHit_30, 0, 0);
                 Abe_SFX_2_42A220(7u, 0, 0x7FFF, 0);
             }
 
@@ -369,7 +369,7 @@ void Rock::VUpdate_456EC0()
     case 3:
         if (static_cast<int>(gnFrameCount_507670) > field_124)
         {
-            New_Particle_4199A0(
+            New_Shiny_Particle_4199A0(
                 (field_BC_sprite_scale * FP_FromInteger(1)) + field_A8_xpos,
                 (field_BC_sprite_scale * FP_FromInteger(-7)) + field_AC_ypos,
                 FP_FromDouble(0.3),
@@ -516,7 +516,7 @@ void Rock::InTheAir_456B60()
                         {
                             vol = 40;
                         }
-                        SFX_Play_43AD70(SoundEffect::Unknown_31, vol, 0);
+                        SFX_Play_43AD70(SoundEffect::RockBounce_31, vol, 0);
                         Event_Broadcast_417220(kEventNoise_0, this);
                         Event_Broadcast_417220(kEvent_10, this);
                         field_118_vol++;
@@ -554,7 +554,7 @@ void Rock::InTheAir_456B60()
                 {
                     vol = 40;
                 }
-                SFX_Play_43AD70(SoundEffect::Unknown_31, vol, 0);
+                SFX_Play_43AD70(SoundEffect::RockBounce_31, vol, 0);
                 Event_Broadcast_417220(kEventNoise_0, this);
                 Event_Broadcast_417220(kEvent_10, this);
             }
@@ -573,7 +573,7 @@ void Rock::InTheAir_456B60()
                     vol = 40;
                 }
               
-                SFX_Play_43AD70(SoundEffect::Unknown_31, vol, 0);
+                SFX_Play_43AD70(SoundEffect::RockBounce_31, vol, 0);
                 Event_Broadcast_417220(kEventNoise_0, this);
                 Event_Broadcast_417220(kEvent_10, this);
             }
@@ -608,7 +608,7 @@ __int16 Rock::OnCollision_457240(BaseAnimatedWithPhysicsGameObject* pObj)
 
     pObj->VOnThrowableHit(this);
 
-    SFX_Play_43AD70(SoundEffect::Unknown_29, 80, 0);
+    SFX_Play_43AD70(SoundEffect::RockBounceOnMine_29, 80, 0);
     return 0;
 }
 

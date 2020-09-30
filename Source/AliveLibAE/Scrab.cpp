@@ -839,7 +839,7 @@ void Scrab::vUpdate_4A3530()
                     const FP particleYPos = field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(particleYRand));
                     const FP particleXPos = field_B8_xpos + (field_CC_sprite_scale * FP_FromInteger(particleXRand));
 
-                    New_Particle_426AA0(
+                    New_Orb_Particle_426AA0(
                         particleXPos,
                         particleYPos,
                         particleVelX,
@@ -1992,7 +1992,7 @@ __int16 Scrab::AI_Death_3_4A62B0()
 
     if (static_cast<int>(sGnFrame_5C1B84) < field_12C_timer - 24 && !(sGnFrame_5C1B84 % 5))
     {
-        New_Particles_426C70(
+        New_Smoke_Particles_426C70(
             (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale) + field_B8_xpos, 
             field_BC_ypos - FP_FromInteger(6), 
             field_CC_sprite_scale / FP_FromInteger(2), 
@@ -3192,7 +3192,7 @@ void Scrab::M_GetDepossessedBegin_28_4AA200()
             const FP yRnd = FP_FromInteger(Math_RandomRange_496AB0(20, 50));
             const FP ypos = field_BC_ypos - (field_CC_sprite_scale * yRnd);
             const FP xpos = (field_CC_sprite_scale * xRnd) + field_B8_xpos;
-            New_Chant_Particle_426BE0(xpos, ypos, field_CC_sprite_scale, 0);
+            New_TintChant_Particle_426BE0(xpos, ypos, field_CC_sprite_scale, 0);
         }
 
         if (static_cast<int>(sGnFrame_5C1B84) > field_130_depossession_timer || sActiveHero_5C1B68->field_10C_health <= FP_FromInteger(0))

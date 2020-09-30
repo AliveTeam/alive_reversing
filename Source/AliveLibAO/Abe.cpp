@@ -2495,7 +2495,7 @@ bool Abe::NearDoorIsOpen()
                 Rect.h >= Rect2.y &&
                 Rect.y <= Rect2.h)
             {
-                return static_cast<bool>(pDoor->vIsOpen_40E800());
+                return pDoor->vIsOpen_40E800() ? true : false;
             }
         }
     }
@@ -2548,25 +2548,15 @@ __int16 Abe::MoveLiftUpOrDown_42F190(FP yVelocity)
 {
     auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
 
-    if (pLiftPoint)
-    {
-        field_B8_vely = pLiftPoint->field_B8_vely;
-        if (pLiftPoint->field_6_flags.Get(Options::eDead_Bit3))
-        {
-            VOnTrapDoorOpen();
-            field_2A8_flags.Set(Flags_2A8::e2A8_Bit1);
-        }
-        SetActiveCameraDelayedFromDir_401C90();
-    }
-
     pLiftPoint->Move_435740(FP_FromInteger(0), yVelocity, 0);
+    FollowLift_42EE90();
 
     if (gBeeInstanceCount_5076B0 && word_5076AC)
     {
         return eAbeStates::State_141_BeesStrugglingOnLift_42F390;
     }
-    if (sControlledCharacter_50767C == (BaseAliveGameObject *) this &&
-        !(field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)) &&
+    if (sControlledCharacter_50767C == this &&
+        !field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame) &&
         field_10_anim.field_92_current_frame != 5)
     {
         return field_FC_current_motion;
@@ -4008,7 +3998,7 @@ void Abe::State_30_HopMid_4264D0()
                 FP_GetExponent(field_AC_ypos - field_BC_sprite_scale * FP_FromInteger(50)),
                 38u))
             {
-                SFX_Play_43AD70(SoundEffect::Unknown_9, 0, 0);
+                SFX_Play_43AD70(SoundEffect::BellHammer_9, 0, 0);
             }
             field_FE_next_state = eAbeStates::State_0_Idle_423520;
             ToKnockback_422D90(1, 1);
@@ -5415,7 +5405,7 @@ void Abe::State_78_InsideWellLocal_4310A0()
             field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
         }
 
-        SFX_Play_43AD70(SoundEffect::Unknown_24, 0, this);
+        SFX_Play_43AD70(SoundEffect::WellExit_24, 0, this);
 
         field_FC_current_motion++; // ARGH todo figure out what the actual motion should be, 79 ??
 
@@ -6122,7 +6112,7 @@ void Abe::State_136_ElumMountEnd_42E110()
         if (!(field_2AA_flags & 2))
         {
             field_2AA_flags |= 2;
-            SFX_Play_43AD70(SoundEffect::Unknown_37, 0, this);
+            SFX_Play_43AD70(SoundEffect::AbeGenericMovement_37, 0, this);
         }
         break;
 
@@ -6204,7 +6194,7 @@ void Abe::State_138_ElumUnmountEnd_42E390()
         if (!(field_2AA_flags & 2))
         {
             field_2AA_flags |= 2;
-            SFX_Play_43AD70(SoundEffect::Unknown_37, 17, this);
+            SFX_Play_43AD70(SoundEffect::AbeGenericMovement_37, 17, this);
         }
         break;
 

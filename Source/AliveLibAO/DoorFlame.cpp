@@ -391,7 +391,7 @@ void DoorFlame::VUpdate_432BA0()
         if (!pFlameControllingTheSound_507734)
         {
             pFlameControllingTheSound_507734 = this;
-            field_F0_sounds_mask = SFX_Play_43AD70(SoundEffect::Unknown_69, 40, 0);
+            field_F0_sounds_mask = SFX_Play_43AD70(SoundEffect::Fire_69, 40, 0);
         }
 
         if (--field_EE_2_random <= 0)

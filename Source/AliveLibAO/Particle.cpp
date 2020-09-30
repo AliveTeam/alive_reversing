@@ -6,9 +6,9 @@
 
 START_NS_AO
 
-Particle* CC New_Particle_DestroyOrCreateObject_419D00(FP xpos, FP ypos, FP scale)
+Particle* CC New_DestroyOrCreateObject_Particle_419D00(FP xpos, FP ypos, FP scale)
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_349, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID_349, 1, 0);
 
     auto pParticle = ao_new<Particle>();
     if (!pParticle)
@@ -36,15 +36,16 @@ Particle* CC New_Particle_DestroyOrCreateObject_419D00(FP xpos, FP ypos, FP scal
 
 void CC New_Particles_419A80(FP /*xpos*/, FP /*ypos*/, FP /*scale*/, __int16 /*count*/, __int16 /*type*/)
 {
+    // looks like New_Smoke_Particles
     NOT_IMPLEMENTED();
 }
 
-void CC New_Particle_4198E0(FP xpos, FP ypos, FP scale, __int16 layer)
+void CC New_Chant_Particle_4198E0(FP xpos, FP ypos, FP scale, __int16 layer)
 {
     auto pParticle = ao_new<Particle>();
     if (pParticle)
     {
-        pParticle->ctor_478880(xpos, ypos, 1492, 38, 21, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 312, 1, 0));
+        pParticle->ctor_478880(xpos, ypos, 1492, 38, 21, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID_312, 1, 0));
         pParticle->field_CC_bApplyShadows &= ~1u;
         pParticle->field_10_anim.field_B_render_mode = 1;
 
@@ -65,9 +66,9 @@ void CC New_Particle_4198E0(FP xpos, FP ypos, FP scale, __int16 layer)
     }
 }
 
-void CC New_Particle_4199A0(FP xpos, FP ypos, FP scale, __int16 layer)
+void CC New_Shiny_Particle_4199A0(FP xpos, FP ypos, FP scale, __int16 layer)
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 312, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID_312, 1, 0);
     auto pParticle = ao_new<Particle>();
     if (pParticle)
     {
@@ -96,9 +97,9 @@ void CC New_Particle_4199A0(FP xpos, FP ypos, FP scale, __int16 layer)
     }
 }
 
-void CC New_Particle_419810(FP xpos, FP ypos, FP scale)
+void CC New_ShootingZFire_Particle_419810(FP xpos, FP ypos, FP scale)
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 344, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kZflashResID_344, 1, 0);
     auto pParticle = ao_new<Particle>();
     if (pParticle)
     {

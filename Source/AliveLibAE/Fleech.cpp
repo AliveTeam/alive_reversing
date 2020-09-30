@@ -588,7 +588,7 @@ void Fleech::M_WakingUp_1_42F270()
             break;
         }
 
-        if (pObj->field_4_typeId == Types::eSnoozParticle_124)
+        if (pObj->field_4_typeId == Types::eSnoozeParticle_124)
         {
             static_cast<SnoozeParticle*>(pObj)->field_1E4_state = SnoozeParticle::SnoozeParticleState::BlowingUp_2;
         }
@@ -4480,7 +4480,7 @@ __int16 Fleech::AI_Death_3_42D1E0()
     if (static_cast<int>(sGnFrame_5C1B84) < field_12C - 24 && !(sGnFrame_5C1B84 % 5))
     {
         const FP xRand = (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale);
-        New_Particles_426C70(xRand + field_B8_xpos, field_BC_ypos - FP_FromInteger(6), field_CC_sprite_scale / FP_FromInteger(2), 2, 128u, 128u, 128u);
+        New_Smoke_Particles_426C70(xRand + field_B8_xpos, field_BC_ypos - FP_FromInteger(6), field_CC_sprite_scale / FP_FromInteger(2), 2, 128u, 128u, 128u);
     }
 
     if (field_CC_sprite_scale < FP_FromInteger(0))

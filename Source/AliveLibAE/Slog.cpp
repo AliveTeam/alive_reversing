@@ -1119,7 +1119,7 @@ void Slog::M_Bark_17_4C7000()
             break;
         }
 
-        if (pObj->field_4_typeId == Types::eSnoozParticle_124)
+        if (pObj->field_4_typeId == Types::eSnoozeParticle_124)
         {
             static_cast<SnoozeParticle*>(pObj)->field_1E4_state = SnoozeParticle::SnoozeParticleState::BlowingUp_2;
         }
@@ -2783,7 +2783,7 @@ __int16 Slog::AI_Death_3_4C3250()
 
     if (static_cast<int>(sGnFrame_5C1B84) < field_124_timer - 24 && !(sGnFrame_5C1B84 % 5))
     {
-        New_Particles_426C70(
+        New_Smoke_Particles_426C70(
             (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale) + field_B8_xpos,
             field_BC_ypos - FP_FromInteger(6),
             field_CC_sprite_scale / FP_FromInteger(2),

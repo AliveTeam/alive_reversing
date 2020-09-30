@@ -5,8 +5,6 @@
 #include "FixedPoint.hpp"
 #include "FunctionFwd.hpp"
 
-
-
 class SnoozeParticle : public BaseGameObject
 {
 
@@ -23,9 +21,9 @@ public:
         vScreenChanged_4B1300();
     }
 
-    virtual void VRender(int** ot) override
+    virtual void VRender(int** pOt) override
     {
-        Render_4B0AF0(ot);
+        Render_4B0AF0(pOt);
     }
 
     virtual void VUpdate() override
@@ -50,7 +48,7 @@ private:
 
     EXPORT void Update_4B0980();
 
-    EXPORT void Render_4B0AF0(int** ot);
+    EXPORT void Render_4B0AF0(int** pOt);
 
 private:
     FP field_20_x_start;
@@ -73,6 +71,6 @@ private:
 public:
     SnoozeParticleState field_1E4_state;
 private:
-    __int16 field_1E6_pad;
+    __int16 field_1E6_padding;
 };
 ALIVE_ASSERT_SIZEOF(SnoozeParticle, 0x1E8);

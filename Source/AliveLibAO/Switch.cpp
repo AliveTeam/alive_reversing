@@ -57,7 +57,7 @@ void Switch::VUpdate_4812D0()
     {
         if (field_10_anim.field_92_current_frame == 3)
         {
-            SFX_Play_43AD70(SoundEffect::Unknown_75, 0, 0);
+            SFX_Play_43AD70(SoundEffect::LeverPull_75, 0, 0);
         }
 
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -69,7 +69,7 @@ void Switch::VUpdate_4812D0()
                 || gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12
                 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
             {
-                SFX_Play_43AD70(SoundEffect::Unknown_97, 60, 0);
+                SFX_Play_43AD70(SoundEffect::IndustrialTrigger_97, 60, 0);
             }
             field_E8_state = 2;
 
@@ -110,7 +110,7 @@ void Switch::VUpdate_4812D0()
                     switch (field_F4_on_sound)
                     {
                     case 1:
-                        SFX_Play_43ADE0(SoundEffect::Unknown_24, 50 * leftVol + 10, 50 * rightVol + 10, 0);
+                        SFX_Play_43ADE0(SoundEffect::WellExit_24, 50 * leftVol + 10, 50 * rightVol + 10, 0);
                         break;
                     case 2:
                         SFX_Play_43ADE0(SoundEffect::Unknown_12, 100 * leftVol + 25, 100 * rightVol + 25, 0);
@@ -122,7 +122,7 @@ void Switch::VUpdate_4812D0()
                         SFX_Play_43ADE0(SoundEffect::Unknown_57, 35 * leftVol + 25, 35 * rightVol + 25, 0);
                         break;
                     case 5:
-                        SFX_Play_43ADE0(SoundEffect::Unknown_56, 35 * leftVol + 25, 35 * rightVol + 25, 0);
+                        SFX_Play_43ADE0(SoundEffect::SecurityOrb_56, 35 * leftVol + 25, 35 * rightVol + 25, 0);
                         break;
                     default:
                         return;
@@ -133,7 +133,7 @@ void Switch::VUpdate_4812D0()
                     switch (field_F6_off_sound)
                     {
                     case 1:
-                        SFX_Play_43ADE0(SoundEffect::Unknown_24, 50 * leftVol + 10, 50 * rightVol + 10, 0);
+                        SFX_Play_43ADE0(SoundEffect::WellExit_24, 50 * leftVol + 10, 50 * rightVol + 10, 0);
                         break;
                     case 2:
                         SFX_Play_43ADE0(SoundEffect::Unknown_12, 110 * leftVol + 25, 110 * rightVol + 25, 0);
@@ -145,7 +145,7 @@ void Switch::VUpdate_4812D0()
                         SFX_Play_43ADE0(SoundEffect::Unknown_57, 80 * leftVol + 25, 80 * rightVol + 25, 0);
                         break;
                     case 5:
-                        SFX_Play_43ADE0(SoundEffect::Unknown_56, 35 * leftVol + 75, 35 * rightVol + 75, 0);
+                        SFX_Play_43ADE0(SoundEffect::SecurityOrb_56, 35 * leftVol + 75, 35 * rightVol + 75, 0);
                         break;
                     default:
                         return;

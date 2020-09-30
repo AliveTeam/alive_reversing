@@ -66,7 +66,7 @@ int CC Animation_OnFrame_Slig_4C0600(void* pObj, signed __int16* pData)
             pBullet->ctor_414540(pSlig, bulletType, pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, FP_FromInteger(-640), 0, pSlig->field_CC_sprite_scale, 0);
         }
 
-        New_Particle_426890(pSlig->field_B8_xpos - xOff, yOff + pSlig->field_BC_ypos, 1, pSlig->field_CC_sprite_scale);
+        New_ShootingFire_Particle_426890(pSlig->field_B8_xpos - xOff, yOff + pSlig->field_BC_ypos, 1, pSlig->field_CC_sprite_scale);
 
         if (pSlig->field_CC_sprite_scale == FP_FromDouble(0.5))
         {
@@ -90,7 +90,7 @@ int CC Animation_OnFrame_Slig_4C0600(void* pObj, signed __int16* pData)
             pBullet->ctor_414540(pSlig, bulletType, pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, FP_FromInteger(640), 0, pSlig->field_CC_sprite_scale, 0);
         }
 
-        New_Particle_426890(xOff + pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, 0, pSlig->field_CC_sprite_scale);
+        New_ShootingFire_Particle_426890(xOff + pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, 0, pSlig->field_CC_sprite_scale);
 
         if (pSlig->field_CC_sprite_scale == FP_FromDouble(0.5))
         {
@@ -1778,7 +1778,7 @@ void Slig::M_SleepingToStand_33_4B8C50()
             break;
         }
 
-        if (pObj->field_4_typeId == Types::eSnoozParticle_124)
+        if (pObj->field_4_typeId == Types::eSnoozeParticle_124)
         {
             static_cast<SnoozeParticle*>(pObj)->field_1E4_state = SnoozeParticle::SnoozeParticleState::BlowingUp_2;
         }
@@ -1967,7 +1967,7 @@ void Slig::M_Depossessing_36_4B7F30()
         {
             const FP xRand = FP_FromInteger(Math_RandomRange_496AB0(-20, 20));
             const FP yRand = FP_FromInteger(Math_RandomRange_496AB0(20, 50));
-            New_Chant_Particle_426BE0(
+            New_TintChant_Particle_426BE0(
                 (field_CC_sprite_scale * xRand) + field_B8_xpos,
                 field_BC_ypos - (field_CC_sprite_scale * yRand),
                 field_CC_sprite_scale,
@@ -2014,7 +2014,7 @@ void Slig::M_Possess_37_4B72C0()
                     field_CC_sprite_scale,
                     0);
             }
-            New_Particles_426C70(
+            New_Smoke_Particles_426C70(
                 field_B8_xpos,
                 field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale),
                 field_CC_sprite_scale,
@@ -2186,7 +2186,7 @@ void Slig::M_ShootZ_42_4B7560()
             }
         }
 
-        New_Particle_4269B0(field_B8_xpos, field_BC_ypos - FP_FromInteger(12), field_CC_sprite_scale);
+        New_ShootingZFire_Particle_4269B0(field_B8_xpos, field_BC_ypos - FP_FromInteger(12), field_CC_sprite_scale);
 
         if (field_CC_sprite_scale == FP_FromDouble(0.5))
         {
@@ -2472,7 +2472,7 @@ __int16 Slig::AI_Death_0_4BBFB0()
         if (field_CC_sprite_scale >= FP_FromDouble(0.3) && !(static_cast<int>(sGnFrame_5C1B84) % 5))
         {
             const FP xOff = (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale);
-            New_Particles_426C70(xOff + field_B8_xpos, (field_BC_ypos - FP_FromInteger(6)), (field_CC_sprite_scale / FP_FromInteger(2)), 2, 128u, 128u, 128u);
+            New_Smoke_Particles_426C70(xOff + field_B8_xpos, (field_BC_ypos - FP_FromInteger(6)), (field_CC_sprite_scale / FP_FromInteger(2)), 2, 128u, 128u, 128u);
             const FP sndPitch = (FP_FromInteger(2200) * field_CC_sprite_scale);
             SFX_Play_46FBA0(SoundEffect::Vaporize_79, 25, FP_GetExponent(sndPitch));
         }
@@ -5398,7 +5398,7 @@ void Slig::BlowToGibs_4B8020()
             20);
     }
 
-    New_Particles_426C70(
+    New_Smoke_Particles_426C70(
         field_B8_xpos,
         field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale),
         field_CC_sprite_scale,
