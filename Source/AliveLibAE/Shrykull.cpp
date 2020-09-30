@@ -94,7 +94,7 @@ void Shrykull::vScreenChange_4AF650()
     }
 }
 
-__int16 CCSTD Shrykull::Electrocute_4AED10(BaseGameObject* pObj)
+__int16 CCSTD Shrykull::CanElectrocute_4AED10(BaseGameObject* pObj)
 {
     switch (pObj->field_4_typeId)
     {
@@ -151,7 +151,7 @@ void Shrykull::vUpdate_4AEDE0()
 
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
         {
-            field_20_animation.Set_Animation_Data_409C80(82712, 0);
+            field_20_animation.Set_Animation_Data_409C80(82712, nullptr);
             field_118_state = State::eZapTargets_1;
         }
         break;
@@ -159,7 +159,7 @@ void Shrykull::vUpdate_4AEDE0()
     case State::eZapTargets_1:
         if (field_20_animation.field_92_current_frame == 0)
         {
-            if (Math_NextRandom() >= 0x80u)
+            if (Math_NextRandom() >= 128u)
             {
                 SFX_Play_46FBA0(SoundEffect::Shrykull2_86, 127, 0);
             }
@@ -197,20 +197,20 @@ void Shrykull::vUpdate_4AEDE0()
                 }
                 else
                 {
-                    auto pZapLineMem = ae_new<ZapLine>();
-                    if (pZapLineMem)
+                    auto pZapLine = ae_new<ZapLine>();
+                    if (pZapLine)
                     {
-                        pZapLineMem->ctor_4CC690(
+                        pZapLine->ctor_4CC690(
                             FP_FromInteger((ourRect.x + ourRect.w) / 2),
                             FP_FromInteger((ourRect.y + ourRect.h) / 2),
                             FP_FromInteger((objRect.x + objRect.w) / 2),
                             FP_FromInteger((objRect.y + objRect.h) / 2),
                             0, 1, 28);
                     }
-                    field_124_zap_line_id = pZapLineMem->field_8_object_id;
+                    field_124_zap_line_id = pZapLine->field_8_object_id;
                 }
 
-                field_12C_bElectrocute = Electrocute_4AED10(pObj);
+                field_12C_bElectrocute = CanElectrocute_4AED10(pObj);
                 if (field_12C_bElectrocute)
                 {
                     auto pElectrocute = ae_new<Electrocute>();
@@ -304,7 +304,7 @@ void Shrykull::vUpdate_4AEDE0()
     case State::eKillTargets_4:
         if (field_20_animation.field_92_current_frame == 0)
         {
-            if (Math_NextRandom()>= 0x80u)
+            if (Math_NextRandom() >= 128u)
             {
                 SFX_Play_46FBA0(SoundEffect::Shrykull2_86, 127, 0);
             }

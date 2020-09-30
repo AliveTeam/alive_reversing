@@ -24,14 +24,30 @@ public:
 
     virtual void VOnThrowableHit(BaseGameObject* ) override;
 
-    __int16 field_10C_state;
-    __int16 field_10E;
-    int field_110;
-    int field_114;
-    ZapLine* field_118;
-    BaseAliveGameObject* field_11C;
-    __int16 field_120;
-    __int16 field_122_bUnknown;
+    virtual void VUpdate() override;
+
+    bool CanKill(BaseAnimatedWithPhysicsGameObject* pObj);
+
+    bool CanElectrocute(BaseGameObject* pObj) const;
+
+    EXPORT void VUpdate_463AE0();
+
+    enum class State : __int16
+    {
+        eTransform_0 = 0,
+        eZapTargets_1 = 1,
+        eDetransform_2 = 2,
+        eFinish_3 = 3,
+        eKillTargets_4 = 4,
+    };
+    State field_10C_state;
+    __int16 field_10E_pad;
+    int field_110_timer;
+    int field_114_timer;
+    ZapLine* field_118_zap_line;
+    BaseAliveGameObject* field_11C_obj_being_zapped;
+    __int16 field_120_bElectrocute;
+    __int16 field_122_bResetRingTimer;
 };
 ALIVE_ASSERT_SIZEOF(Shrykull, 0x124);
 
