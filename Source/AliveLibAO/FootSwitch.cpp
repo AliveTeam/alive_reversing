@@ -94,9 +94,9 @@ void FootSwitch::VUpdate_4888E0()
     {
     case States::eWaitForStepOnMe_0:
         field_F0_pStoodOnMe = WhoIsStoodOnMe_488A60();
-        if (WhoIsStoodOnMe_488A60())
+        if (field_F0_pStoodOnMe)
         {
-            WhoIsStoodOnMe_488A60()->field_C_refCount++;
+            field_F0_pStoodOnMe->field_C_refCount++;
             SwitchStates_Do_Operation_436A10(field_EA_id, field_EC_action);
             field_E8_state = States::eWaitForGetOffMe_1;
             field_10_anim.Set_Animation_Data_402A40(756, 0);
