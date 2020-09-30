@@ -124,6 +124,7 @@ enum ResourceID
     kUnknownResID_200 = 200,
     kUnknownResID_216 = 216,
     kUnknownResID_230 = 230,
+    kUnknownResID_301 = 301,
     kOmmflareResID_312 = 312,
     kZflashResID_344 = 344,
     kDeathFlareResID_349 = 349
