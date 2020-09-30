@@ -9,12 +9,18 @@
 #include "ParticleBurst.hpp"
 #include "Flash.hpp"
 #include "Particle.hpp"
+#include "Map.hpp"
 
 START_NS_AO
 
 void Explosion::VUpdate()
 {
     VUpdate_458D00();
+}
+
+void Explosion::VScreenChanged()
+{
+    VScreenChanged_459470();
 }
 
 Explosion* Explosion::ctor_458B80(FP xpos, FP ypos, FP scale)
@@ -51,6 +57,15 @@ Explosion* Explosion::ctor_458B80(FP xpos, FP ypos, FP scale)
     SND_SEQ_PlaySeq_4775A0(21u, 1, 1);
 
     return this;
+}
+
+
+void Explosion::VScreenChanged_459470()
+{
+    if (gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
 }
 
 void Explosion::VUpdate_458D00()
@@ -151,6 +166,7 @@ void Explosion::VUpdate_458D00()
                 pParticle = nullptr;
             }
 
+            // TODO: crashes if the "else" path gets hit
             if (pParticle->field_6_flags.Get(BaseGameObject::eListAddFailed_Bit1))
             {
                 pParticle->field_6_flags.Set(Options::eDead_Bit3);
