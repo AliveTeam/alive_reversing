@@ -2363,7 +2363,7 @@ __int16 Scrab::Brain_Fighting_45C370()
 
         Sfx_460B80(1u, 0, -1571, 1);
         Sfx_460B80(8u, 0, -1571, 1);
-        Environment_SFX_42A220(6u, 0, -383, 0);
+        Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 0, -383, 0);
         field_11C_pFight_target->field_C_refCount--;
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
         {

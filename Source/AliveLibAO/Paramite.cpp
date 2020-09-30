@@ -2964,7 +2964,7 @@ void Paramite::State_3_Running_44C070()
     if (field_10_anim.field_92_current_frame == 10)
     {
         Sound_44DBB0(3u);
-        Environment_SFX_42A220(6, 50, 600, 0);
+        Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 50, 600, 0);
 
         if (field_FE_next_state == eParamiteStates::State_2_Walking_44B9E0)
         {
@@ -3758,7 +3758,7 @@ void Paramite::State_21_WebLeave_44DB00()
 {
     if (field_10_anim.field_92_current_frame == 2)
     {
-        Environment_SFX_42A220(6u, 50, 600, 0);
+        Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 50, 600, 0);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
