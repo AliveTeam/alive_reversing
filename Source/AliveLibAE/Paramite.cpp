@@ -2489,7 +2489,7 @@ __int16 Paramite::AI_DeathDrop_7_484FF0()
             return field_12C_brain_ret;
         }
 
-        Abe_SFX_2_457A40(15, 0, 0x7FFF, this);
+        Environment_SFX_457A40(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, this);
 
         auto pScreenShake = ae_new<ScreenShake>();
         if (pScreenShake)
@@ -3369,7 +3369,7 @@ void Paramite::M_Running_3_48AA00()
             else
             {
                 Sound_48F600(ParamiteSpeak::LoudStep_3, 0);
-                Abe_SFX_2_457A40(6, 50, 600, 0);
+                Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 50, 600, 0);
             }
 
             if (sControlledCharacter_5C1B8C != this || field_10C_health <= FP_FromInteger(0))
@@ -3608,7 +3608,7 @@ void Paramite::M_Hop_5_48B5B0()
             else if (field_20_animation.field_92_current_frame == 12)
             {
                 Sound_48F600(ParamiteSpeak::LoudStep_3, 0);
-                Abe_SFX_2_457A40(6, 55, 500, 0);
+                Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 55, 500, 0);
             }
         }
     }
@@ -4030,7 +4030,7 @@ void Paramite::M_JumpUpLand_14_48BF00()
     else if (field_20_animation.field_92_current_frame == 1)
     {
         Sound_48F600(ParamiteSpeak::LoudStep_3, 0);
-        Abe_SFX_2_457A40(6, 55, 500, 0);
+        Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 55, 500, 0);
     }
 }
 
@@ -4142,7 +4142,7 @@ void Paramite::M_Knockback_19_48BF50()
         if (field_106_current_motion == eParamiteMotions::M_Death_41_48D8E0 || field_106_current_motion == eParamiteMotions::M_Landing_17_48B590)
         {
             field_106_current_motion = eParamiteMotions::M_Knockback_19_48BF50;
-            Abe_SFX_2_457A40(6, 80, -200, this);
+            Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
         }
     }
 
@@ -4189,7 +4189,7 @@ void Paramite::M_GameSpeakBegin_20_48C010()
                         if (pObj->field_10C_health > FP_FromInteger(0))
                         {
                             SFX_Play_46FA90(SoundEffect::KillEffect_64, 0);
-                            Abe_SFX_457EC0(MudSounds::eHurt2_9, 0, 0, pObj);
+                            Mudokon_SFX_457EC0(MudSounds::eHurt2_9, 0, 0, pObj);
                         }
                         pObj->VTakeDamage_408730(this);
                     }
@@ -4655,7 +4655,7 @@ void Paramite::M_WebLeaveDown_34_48D870()
 {
     if (field_20_animation.field_92_current_frame == 2)
     {
-        Abe_SFX_2_457A40(6, 50, 600, 0);
+        Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 50, 600, 0);
         field_DA_xOffset = field_15C_paramite_xOffset;
     }
 

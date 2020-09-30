@@ -1893,7 +1893,7 @@ __int16 Scrab::AI_Fighting_2_4A5840()
         field_160_sfx_bitmask = 0;
         Sound_4AADB0(ScrabSound::DeathHowl_1, 0, -1571, 1);
         Sound_4AADB0(ScrabSound::Yell_8, 0, -1571, 1);
-        Abe_SFX_2_457A40(6, 0, -383, 0);
+        Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 0, -383, 0);
 
         if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
         {
@@ -2645,7 +2645,7 @@ void Scrab::M_HopLand_7_4A9890()
 {
     if (field_20_animation.field_92_current_frame == 0)
     {
-        Abe_SFX_2_457A40(6, 80, 400, this);
+        Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 80, 400, this);
         Sound_4AADB0(ScrabSound::HitCollision_4, 0, 0x7FFF, 1);
     }
     
@@ -3007,7 +3007,7 @@ void Scrab::M_Knockback_18_4AA490()
 
     if (field_20_animation.field_92_current_frame == 0)
     {
-        Abe_SFX_2_457A40(6, 80, 400, this);
+        Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 80, 400, this);
     }
 
     else if (field_20_animation.field_92_current_frame == 2)
@@ -3040,7 +3040,7 @@ void Scrab::M_Fall_20_4A93E0()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        Abe_SFX_2_457A40(6, 80, 400, this);
+        Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 80, 400, this);
         Sound_4AADB0(ScrabSound::HitCollision_4, 0, 0x7FFF, 1);
         ToStand_4A75A0();
         field_108_next_motion = -1;
@@ -4182,7 +4182,7 @@ void Scrab::KillTarget_4A7F20(BaseAliveGameObject* pTarget)
                                                     SFX_Play_46FA90(SoundEffect::KillEffect_64, 0);
                                                     if (pObj->field_4_typeId == Types::eAbe_69)
                                                     {
-                                                        Abe_SFX_457EC0(MudSounds::eHurt2_9, 0, 0, sActiveHero_5C1B68);
+                                                        Mudokon_SFX_457EC0(MudSounds::eHurt2_9, 0, 0, sActiveHero_5C1B68);
                                                     }
                                                 }
                                             }

@@ -1318,7 +1318,7 @@ __int16 NakedSlig::AI_4_GetKilled_41A880()
         }
         else
         {
-            Abe_SFX_2_457A40(15, 0, 0x7FFF, this);
+            Environment_SFX_457A40(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, this);
             auto pScreenShake = ae_new<ScreenShake>();
             if (pScreenShake)
             {

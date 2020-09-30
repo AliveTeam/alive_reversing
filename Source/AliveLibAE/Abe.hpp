@@ -184,7 +184,7 @@ enum class MudSounds : __int16
     eOkay_12 = 12,
     eNuhUh_13 = 13,
     eOops_14 = 14,
-    eDeathDrop_15 = 15,
+    eDeathDropScream_15 = 15,
     eHurt1_16 = 16,
     eAllOYa_17 = 17,
     eHiAngry_18 = 18,
@@ -198,6 +198,26 @@ enum class MudSounds : __int16
     eStopIt_26 = 26,
     eSorry_27 = 27,
     eSadUgh_28 = 28,
+};
+
+enum class EnvironmentSfx : char
+{
+    eSlideStop_0 = 0,
+    eWalkingFootstep_1 = 1,
+    eRunningFootstep_2 = 2,
+    eSneakFootstep_3 = 3,
+    eRunSlide_4 = 4,
+    eLandingSoft_5 = 5,
+    eHitGroundSoft_6 = 6,
+    eDeathNoise_7 = 7,
+    eRollingNoise_8 = 8,
+    eGenericMovement_9 = 9,
+    eExhaustingHoistNoise_10 = 10, // empty in AE?
+    eRunJumpOrLedgeHoist_11 = 11,
+    eAllOYa_12 = 12,
+    eKnockback_13 = 13,
+    eElumHitWall_14 = 14, // TODO: better name
+    eFallingDeathScreamHitGround_15 = 15 // TODO: better name
 };
 
 enum class Mud_Emotion : __int16;
@@ -216,7 +236,7 @@ struct Abe_1BC_20_sub_object
 };
 ALIVE_ASSERT_SIZEOF(Abe_1BC_20_sub_object, 0x1C);
 
-EXPORT void CC Abe_SFX_457EC0(MudSounds idx, __int16 volume, int pitch, BaseAliveGameObject *pHero);
+EXPORT void CC Mudokon_SFX_457EC0(MudSounds idx, __int16 volume, int pitch, BaseAliveGameObject *pHero);
 
 struct Abe_SaveState
 {
@@ -645,7 +665,7 @@ ALIVE_VAR_EXTERN(short, gAbeBulletProof_5C1BDA);
 extern const int sAbeFrameOffsetTable_554B18[130];
 extern const char* const sAbeStateNames[130];
 
-EXPORT int CC Abe_SFX_2_457A40(char sfxId, int volume, int pitchMin, BaseAliveGameObject* pAliveObj);
+EXPORT int CC Environment_SFX_457A40(EnvironmentSfx sfxId, int volume, int pitchMin, BaseAliveGameObject* pAliveObj);
 
 EXPORT int CC Animation_OnFrame_Abe_455F80(void* pPtr, signed __int16* pData);
 
