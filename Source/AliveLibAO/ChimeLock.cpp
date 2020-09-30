@@ -255,7 +255,7 @@ void ChimeLock::SetBallTarget_40B7B0(FP ballTargetX, FP ballTargetY, __int16 tim
         field_B4_velx = (ballTargetX - field_A8_xpos) / timerFP;
         field_B8_vely = (ballTargetY - field_AC_ypos) / timerFP;
 
-        field_144_ball_start_x = field_AC_ypos;
+        field_144_ball_start_x = field_A8_xpos;
         field_148_ball_start_y = field_AC_ypos;
 
         field_150 = FP_FromInteger(256) / timerFP;
