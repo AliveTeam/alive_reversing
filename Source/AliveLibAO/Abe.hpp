@@ -222,10 +222,10 @@ enum MudokonGameSpeakSfx
     eLaugh1_8 = 8,
     ePassword_9 = 9,
     eKnockbackOuch_10 = 10,
-    eLaugh2_11 = 11, //unused? sounds like the laughing gas laugh from exoddus
+    eLaugh2_11 = 11,
     eGoodbye_12 = 12,
     eOkay_13 = 13,
-    eMudokonRefuse_14 = 14,
+    eRefuse_14 = 14,
     eDunno_15 = 15,
     eOops_16 = 16,
     eFallingDeathScream_17 = 17,
