@@ -47,6 +47,8 @@ public:
 
     EXPORT void SetBallTarget_40B7B0(FP ballTargetX, FP ballTargetY, __int16 timer, __int16 xSize, __int16 ySize, __int16 bHitBell);
 
+    EXPORT __int16 UpdateBall_40B8A0();
+
     int field_10C_tlvInfo;
     __int16 field_110_state;
     __int16 field_112;
@@ -65,8 +67,8 @@ public:
     __int16 field_136;
     __int16 field_138;
     __int16 field_13A;
-    FP field_13C;
-    FP field_140_ypos;
+    FP field_13C_targetX;
+    FP field_140_targetY;
     FP field_144_ball_start_x;
     FP field_148_ball_start_y;
     FP field_14C;

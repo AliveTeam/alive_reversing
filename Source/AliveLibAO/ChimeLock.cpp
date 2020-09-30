@@ -9,6 +9,8 @@
 #include "Abe.hpp"
 #include "Sfx.hpp"
 #include "CheatController.hpp"
+#include "Math.hpp"
+#include "Collisions.hpp"
 
 START_NS_AO
 
@@ -96,12 +98,12 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo)
 
     field_15E_ball_angle = 0;
 
-    field_140_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y + 40);
+    field_140_targetY = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y + 40);
     field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y + 40);
    
     field_B8_vely = FP_FromInteger(0);
 
-    field_13C = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
+    field_13C_targetX = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
     field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
     field_14C = FP_FromInteger(1);
 
@@ -276,6 +278,71 @@ void ChimeLock::SetBallTarget_40B7B0(FP ballTargetX, FP ballTargetY, __int16 tim
     else
     {
         field_15C_ball_state = 0;
+    }
+}
+
+__int16 ChimeLock::UpdateBall_40B8A0()
+{
+    field_15E_ball_angle++;
+
+    switch (field_15C_ball_state)
+    {
+    case 0:
+        field_A8_xpos = (FP_FromInteger(5) * Math_Cosine_4510A0((4 * field_15E_ball_angle) & 0xFF)) + field_13C_targetX;
+        field_AC_ypos = (FP_FromInteger(3) * Math_Cosine_4510A0((3 * field_15E_ball_angle) & 0xFF)) + field_140_targetY;
+        return 0;
+
+    case 1:
+    case 2:
+        field_144_ball_start_x += field_B4_velx;
+        field_148_ball_start_y += field_B8_vely;
+        field_A8_xpos = (FP_FromInteger(field_158_xSize) * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(field_15E_ball_angle) * field_150) & 0xFF)) + field_144_ball_start_x;
+        field_AC_ypos = (FP_FromInteger(field_15A_ySize) * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(field_15E_ball_angle) * field_154) & 0xFF)) + field_148_ball_start_y;
+        if (field_15E_ball_angle >= field_160_ball_timer)
+        {
+            field_15E_ball_angle = 0;
+
+            if (field_15C_ball_state == 1)
+            {
+                field_15C_ball_state = 2;
+                return 1;
+            }
+            field_15C_ball_state = 0;
+        }
+        return 0;
+
+    case 3:
+    {
+        field_B8_vely += field_14C;
+        field_AC_ypos += field_B8_vely;
+
+        FP hitX = {};
+        FP hitY = {};
+        if (sCollisions_DArray_504C6C->RayCast_40C410(
+            field_A8_xpos,
+            field_B8_vely - field_B8_vely,
+            field_A8_xpos,
+            field_AC_ypos,
+            &field_F4_pLine,
+            &hitX,
+            &hitY,
+            field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70) == 1)
+        {
+            if (field_F4_pLine->field_8_type == 0 || field_F4_pLine->field_8_type == 4)
+            {
+                field_AC_ypos = hitY - FP_FromInteger(1);
+                field_B8_vely = -(field_B8_vely * FP_FromDouble(0.4));
+                if (field_162 >= 3)
+                {
+                    return 1;
+                }
+            }
+        }
+        return 0;
+    }
+
+    default:
+        return 0;
     }
 }
 
