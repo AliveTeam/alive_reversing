@@ -23,7 +23,7 @@ private:
 
     EXPORT void vScreenChange_4AF650();
 
-    EXPORT static __int16 CCSTD Electrocute_4AED10(BaseGameObject* pObj);
+    EXPORT static __int16 CCSTD CanElectrocute_4AED10(BaseGameObject* pObj);
 
     EXPORT static __int16 CCSTD CanKill_4AEC50(BaseAnimatedWithPhysicsGameObject* pObj);
 
