@@ -1208,7 +1208,7 @@ void Scrab::State_3_Run_45EAB0()
                         if (field_120_pTarget->VTakeDamage(this))
                         {
                             SFX_Play_43AD70(SoundEffect::KillEffect_78, 0, 0);
-                            Abe_SFX_42A4D0(10u, 0, 0, field_120_pTarget);
+                            Mudokon_GameSpeak_SFX_42A4D0(MudokonGameSpeakSfx::eKnockbackOuch_10, 0, 0, field_120_pTarget);
                         }
                     }
                 }
@@ -1328,7 +1328,7 @@ void Scrab::State_5_RunToStand_45ED90()
                     if (field_120_pTarget->VTakeDamage(this))
                     {
                         SFX_Play_43AD70(SoundEffect::KillEffect_78, 0, 0);
-                        Abe_SFX_42A4D0(10u, 0, 0, field_120_pTarget);
+                        Mudokon_GameSpeak_SFX_42A4D0(MudokonGameSpeakSfx::eKnockbackOuch_10, 0, 0, field_120_pTarget);
                     }
                 }
             }
@@ -2035,7 +2035,7 @@ void Scrab::State_27_AttackLunge_45FDF0()
                 if (field_120_pTarget->VTakeDamage(this))
                 {
                     SFX_Play_43AD70(SoundEffect::KillEffect_78, 0, 0);
-                    Abe_SFX_42A4D0(10u, 0, 0, field_120_pTarget);
+                    Mudokon_GameSpeak_SFX_42A4D0(MudokonGameSpeakSfx::eKnockbackOuch_10, 0, 0, field_120_pTarget);
                 }
 
                 field_120_pTarget->VTakeDamage(this);
@@ -2363,7 +2363,7 @@ __int16 Scrab::Brain_Fighting_45C370()
 
         Sfx_460B80(1u, 0, -1571, 1);
         Sfx_460B80(8u, 0, -1571, 1);
-        Abe_SFX_2_42A220(6u, 0, -383, 0);
+        Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 0, -383, 0);
         field_11C_pFight_target->field_C_refCount--;
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
         {

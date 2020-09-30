@@ -752,7 +752,7 @@ __int16 Slig::VTakeDamage_465640(BaseGameObject* pFrom)
         field_100_health = FP_FromInteger(0);
         SetBrain(&Slig::Brain_Death_46C3A0);
         field_106_shot = 1;
-        Abe_SFX_2_42A220(13u, 0, 0x7FFF, this);
+        Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
         if (VIsFacingMe(static_cast<BaseAnimatedWithPhysicsGameObject*>(pFrom)))
         {
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -1907,7 +1907,7 @@ signed __int16 Slig::MainMovement_467020()
 
 void Slig::ToKnockBack_467300()
 {
-    Abe_SFX_2_42A220(13u, 0, 0x7FFF, this);
+    Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
     if (FP_GetExponent(field_B4_velx))
     {
         field_A8_xpos -= field_B4_velx;
@@ -2526,7 +2526,7 @@ void Slig::State_9_SlidingToStand_469DF0()
             {
                 if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
                 {
-                    Abe_SFX_2_42A220(0, 0, 0x7FFF, this);
+                    Environment_SFX_42A220(EnvironmentSfx::eSlideStop_0, 0, 0x7FFF, this);
                     MapFollowMe_401D30(1);
                     MainMovement_467020();
                 }
@@ -2989,7 +2989,7 @@ void Slig::State_35_Knockback_46A720()
         || gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12)
         && field_10_anim.field_92_current_frame == 4)
     {
-        Abe_SFX_2_42A220(6u, 80, -200, this);
+        Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
@@ -3234,7 +3234,7 @@ void Slig::State_41_LandingSoft_46A390()
 {
     if (!field_10_anim.field_92_current_frame)
     {
-        Abe_SFX_2_42A220(6u, 0, 0x7FFF, 0);
+        Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 0, 0x7FFF, 0);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -3322,7 +3322,7 @@ void Slig::State_45_Smash_46A990()
     {
         if (field_10_anim.field_92_current_frame == 4)
         {
-            Abe_SFX_2_42A220(6u, 80, -200, this);
+            Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
         }
     }
     else
@@ -3885,7 +3885,7 @@ __int16 Slig::Brain_DeathDropDeath_46C5A0()
             return field_10E_brain_state;
         }
 
-        Abe_SFX_2_42A220(15u, 0, 32767, this);
+        Environment_SFX_42A220(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 32767, this);
 
         auto pScreenShake = ao_new<ScreenShake>();
         if (pScreenShake)

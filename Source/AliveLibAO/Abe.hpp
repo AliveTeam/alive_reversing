@@ -209,6 +209,56 @@ enum Flags_2A8
     e2A8_eBit16_AbeSpawnDir = 0x8000,
 };
 
+enum class MudokonGameSpeakSfx : unsigned __int8
+{
+    eUnknown_0 = 0, // empty?
+    eWhistle1_1 = 1,
+    eWhistle2_2 = 2,
+    eHello_3 = 3,
+    eFollowMe_4 = 4,
+    eAngry_5 = 5,
+    eWait_6 = 6,
+    eFart_7 = 7,
+    eLaugh1_8 = 8,
+    ePassword_9 = 9,
+    eKnockbackOuch_10 = 10,
+    eLaugh2_11 = 11,
+    eGoodbye_12 = 12,
+    eOkay_13 = 13,
+    eRefuse_14 = 14,
+    eDunno_15 = 15,
+    eOops_16 = 16,
+    eFallingDeathScream_17 = 17,
+    eBeesStruggle_18 = 18,
+    eUnknown_19 = 19 // empty?
+};
+
+enum class EnvironmentSfx : unsigned __int8
+{
+    eSlideStop_0 = 0,
+    eWalkingFootstep_1 = 1,
+    eRunningFootstep_2 = 2,
+    eSneakFootstep_3 = 3,
+    eRunSlide_4 = 4,
+    eLandingSoft_5 = 5,
+    eHitGroundSoft_6 = 6,
+    eDeathNoise_7 = 7,
+    eRollingNoise_8 = 8,
+    eGenericMovement_9 = 9,
+    eExhaustingHoistNoise_10 = 10,
+    eRunJumpOrLedgeHoist_11 = 11,
+    eUnknown_12 = 12, // empty?
+    eKnockback_13 = 13,
+    eElumHitWall_14 = 14,
+    eFallingDeathScreamHitGround_15 = 15,
+    eExhaustingElumMount_16 = 16,
+    eMountElumSmackNoise_17 = 17,
+    eElumGetMountedNoise_18 = 18,
+    eAbeMountedElumNoise_19 = 19,
+    eElumHowl_20 = 20,
+    eElumOkay_21 = 21
+};
+
 struct Path_ContinuePoint : public Path_TLV
 {
     __int16 field_18_zone_number;
@@ -560,9 +610,9 @@ ALIVE_VAR_EXTERN(Abe*, sActiveHero_507678);
 ALIVE_VAR_EXTERN(BaseAliveGameObject*, sControlledCharacter_50767C);
 ALIVE_VAR_EXTERN(short, gAbeInvunerableCheat_5076E4);
 
-EXPORT int CC Abe_SFX_2_42A220(unsigned __int8 sfxId, signed int volume, int pitchMin, BaseAliveGameObject* pAliveObj);
+EXPORT int CC Environment_SFX_42A220(EnvironmentSfx sfxId, signed int volume, int pitchMin, BaseAliveGameObject* pAliveObj);
 
-EXPORT int CC Abe_SFX_42A4D0(unsigned __int8 idx, int volume, int pitch, BaseAliveGameObject* pHero);
+EXPORT int CC Mudokon_GameSpeak_SFX_42A4D0(MudokonGameSpeakSfx idx, int volume, int pitch, BaseAliveGameObject* pHero);
 
 EXPORT int CC XGrid_Index_To_XPos_41FA60(FP scale, int xGridIndex);
 

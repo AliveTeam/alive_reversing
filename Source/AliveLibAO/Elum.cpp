@@ -326,7 +326,7 @@ void Elum::ToKnockback()
         MoveOnLine_412580(0);
     }
     MapFollowMe_401D30(TRUE);
-    Abe_SFX_2_42A220(13u, 95, -200, this);
+    Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 95, -200, this);
 }
 
 void Elum::Vsub_412700()
@@ -954,7 +954,7 @@ void CC Elum::Sfx_416E10(unsigned __int8 soundId, BaseAliveGameObject* pObj)
         break;
 
     case 5u:
-        Abe_SFX_2_42A220(4u, 0, 0x7FFF, 0);
+        Environment_SFX_42A220(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, 0);
         break;
 
     case 6u:
@@ -2097,7 +2097,7 @@ void Elum::State_4_Turn_4140F0()
 
     if (!field_10_anim.field_92_current_frame)
     {
-        Abe_SFX_2_42A220(8u, 0, 0x7FFF, this);
+        Environment_SFX_42A220(EnvironmentSfx::eRollingNoise_8, 0, 0x7FFF, this);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -2306,7 +2306,7 @@ void Elum::State_12_RunTurn_414520()
         }
         field_B4_velx = FP_FromInteger(0);
         MapFollowMe_401D30(TRUE);
-        Abe_SFX_2_42A220(13u, 95, -200, this);
+        Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 95, -200, this);
         return;
     }
 
@@ -2347,7 +2347,7 @@ void Elum::State_14_Speak_414860()
 {
     if (field_10_anim.field_92_current_frame == 3 && field_170_flags & 0x20)
     {
-        Abe_SFX_2_42A220(21u, 75, 0, this);
+        Environment_SFX_42A220(EnvironmentSfx::eElumOkay_21, 75, 0, this);
         field_170_flags &= ~0x20u;
     }
     else
@@ -2368,7 +2368,7 @@ void Elum::State_15_Speak_4148F0()
 {
     if (field_10_anim.field_92_current_frame == 3 && field_170_flags & 0x20)
     {
-        Abe_SFX_2_42A220(20u, 75, 0, this);
+        Environment_SFX_42A220(EnvironmentSfx::eElumHowl_20, 75, 0, this);
         field_170_flags &= ~0x20u;
     }
     else
@@ -2388,7 +2388,7 @@ void Elum::State_16_Speak_414980()
 {
     if (field_10_anim.field_92_current_frame == 3 && field_170_flags & 0x20)
     {
-        Abe_SFX_2_42A220(20u, 75, 0, this);
+        Environment_SFX_42A220(EnvironmentSfx::eElumHowl_20, 75, 0, this);
         field_170_flags &= ~0x20u;
     }
     else
