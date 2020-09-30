@@ -209,7 +209,7 @@ enum Flags_2A8
     e2A8_eBit16_AbeSpawnDir = 0x8000,
 };
 
-enum class MudokonGameSpeakSfx
+enum class MudokonGameSpeakSfx : unsigned __int8
 {
     eUnknown_0 = 0, // empty?
     eWhistle1_1 = 1,
@@ -233,7 +233,7 @@ enum class MudokonGameSpeakSfx
     eUnknown_19 = 19 // empty?
 };
 
-enum class EnvironmentSfx
+enum class EnvironmentSfx : unsigned __int8
 {
     eSlideStop_0 = 0,
     eWalkingFootstep_1 = 1,
