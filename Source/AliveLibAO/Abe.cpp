@@ -433,14 +433,14 @@ const InputCommands sInputKey_GameSpeak8_4C65E0 = eDoAction;
 ALIVE_VAR(1, 0x507678, Abe*, sActiveHero_507678, nullptr);
 ALIVE_VAR(1, 0x50767C, BaseAliveGameObject*, sControlledCharacter_50767C, nullptr);
 
-int CC Abe_SFX_2_42A220(unsigned __int8 /*sfxId*/, signed int /*volume*/, int /*pitchMin*/,
-                        BaseAliveGameObject * /*pAliveObj*/)
+int CC Environment_SFX_42A220(unsigned __int8 /*sfxId*/, signed int /*volume*/, int /*pitchMin*/,
+                        BaseAliveGameObject* /*pAliveObj*/)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-int CC Abe_SFX_42A4D0(unsigned __int8 /*idx*/, int /*volume*/, int /*pitch*/, BaseAliveGameObject * /*pHero*/)
+int CC Mudokon_GameSpeak_SFX_42A4D0(unsigned __int8 /*idx*/, int /*volume*/, int /*pitch*/, BaseAliveGameObject* /*pHero*/)
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -1038,7 +1038,7 @@ void Abe::vUpdate_41FDB0()
                             {
                                 Event_Broadcast_417220(kEventMudokonComfort_16, sActiveHero_507678);
                             }
-                            Abe_SFX_42A4D0(static_cast<unsigned char>(field_130_say), 0, 0, this);
+                            Mudokon_GameSpeak_SFX_42A4D0(static_cast<unsigned char>(field_130_say), 0, 0, this);
                         }
                     }
                     field_130_say = -1;
@@ -1413,8 +1413,8 @@ void Abe::ToKnockback_422D90(__int16 bUnknownSound, __int16 bDelayedAnger)
 
         if (bUnknownSound)
         {
-            Abe_SFX_42A4D0(10u, 0,  Math_RandomRange_450F20(-127, 127), this);
-            Abe_SFX_2_42A220(13u, 0, 0x7FFF, this);
+            Mudokon_GameSpeak_SFX_42A4D0(10u, 0,  Math_RandomRange_450F20(-127, 127), this);
+            Environment_SFX_42A220(13u, 0, 0x7FFF, this);
         }
 
         if (!field_1A4_resources.res[0] && !field_104_pending_resource_count)
@@ -2099,7 +2099,7 @@ __int16 Abe::ToLeftRightMovement_422AA0()
         {
             field_B4_velx = FP_FromInteger(0);
             field_FC_current_motion = eAbeStates::State_72_PushWall_4292A0;
-            Abe_SFX_2_42A220(9u, 0, 0x7FFF, this);
+            Environment_SFX_42A220(9u, 0, 0x7FFF, this);
             return 0;
         }
 
@@ -2463,9 +2463,9 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
         field_112_prev_motion = field_FE_next_state;
     }
 
-    Abe_SFX_2_42A220(14, 0, 0x7FFF, this);
-    Abe_SFX_42A4D0(10, 127, 0, this);
-    Abe_SFX_2_42A220(7, 0, 0x7FFF, this);
+    Environment_SFX_42A220(14, 0, 0x7FFF, this);
+    Mudokon_GameSpeak_SFX_42A4D0(10, 127, 0, this);
+    Environment_SFX_42A220(7, 0, 0x7FFF, this);
     SFX_Play_43AE60(SoundEffect::Unknown_79, 0, -500, this);
     SFX_Play_43AD70(SoundEffect::KillEffect_78, 0, this);
 }
@@ -2718,7 +2718,7 @@ void Abe::VOn_Tlv_Collision_421130(Path_TLV *pTlv)
         }
         else if (pTlv->field_4_type == TlvTypes::DeathDrop_5)
         {
-            Abe_SFX_42A4D0(17u, 0, 0, this);
+            Mudokon_GameSpeak_SFX_42A4D0(17u, 0, 0, this);
 
             Event_Broadcast_417220(kEventNoise_0, this);
             Event_Broadcast_417220(kEvent_10, this);
@@ -2837,7 +2837,7 @@ void Abe::State_1_WalkLoop_423F90()
             return;
 
         case 5:
-            Abe_SFX_2_42A220(1u, 0, 0x7FFF, this);
+            Environment_SFX_42A220(1u, 0, 0x7FFF, this);
 
             if (!field_2A8_flags.Get(Flags_2A8::e2A8_Bit3))
             {
@@ -2856,7 +2856,7 @@ void Abe::State_1_WalkLoop_423F90()
             break;
 
         case 14:
-            Abe_SFX_2_42A220(1u, 0, 0x7FFF, this);
+            Environment_SFX_42A220(1u, 0, 0x7FFF, this);
 
             if (!field_2A8_flags.Get(Flags_2A8::e2A8_Bit3))
             {
@@ -2907,7 +2907,7 @@ void Abe::State_2_StandingTurn_426040()
 
     if (!field_10_anim.field_92_current_frame)
     {
-        Abe_SFX_2_42A220(9u, 0, 0x7FFF, this);
+        Environment_SFX_42A220(9u, 0, 0x7FFF, this);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -3013,7 +3013,7 @@ void Abe::State_4_WalkToIdle_4243C0()
     }
     else
     {
-        Abe_SFX_2_42A220(1u, 0, 0x7FFF, this);
+        Environment_SFX_42A220(1u, 0, 0x7FFF, this);
     }
 }
 
@@ -3055,7 +3055,7 @@ void Abe::State_5_MidWalkToIdle_424490()
     }
     else
     {
-        Abe_SFX_2_42A220(1u, 0, 0x7FFF, this);
+        Environment_SFX_42A220(1u, 0, 0x7FFF, this);
     }
 }
 
@@ -3158,11 +3158,11 @@ void Abe::State_18_HoistLand_426EB0()
     {
         if (field_E4 == 3)
         {
-            Abe_SFX_2_42A220(5u, 0, 0x7FFF, this);
+            Environment_SFX_42A220(5u, 0, 0x7FFF, this);
         }
         else
         {
-            Abe_SFX_2_42A220(6u, 0, 0x7FFF, this);
+            Environment_SFX_42A220(6u, 0, 0x7FFF, this);
         }
 
         if (sInputObject_5009E8.isPressed(sInputKey_Hop_4C65A0))
@@ -3211,7 +3211,7 @@ void Abe::State_19_CrouchIdle_4284C0()
     if ((sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed & 5) == 5 &&
         sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_6_held & 5)
     {
-        Abe_SFX_42A4D0(15u, 0, 0, this);
+        Mudokon_GameSpeak_SFX_42A4D0(15u, 0, 0, this);
         field_FC_current_motion = eAbeStates::State_23_CrouchSpeak_428A90;
         return;
     }
@@ -3294,7 +3294,7 @@ void Abe::State_19_CrouchIdle_4284C0()
 
         if (!field_19C_throwable_count && !gInfiniteGrenades_5076EC)
         {
-            Abe_SFX_42A4D0(15u, 0, 0, this);
+            Mudokon_GameSpeak_SFX_42A4D0(15u, 0, 0, this);
             field_FC_current_motion = eAbeStates::State_23_CrouchSpeak_428A90;
             return;
         }
@@ -3489,7 +3489,7 @@ void Abe::State_27_RunSlideStop_425B60()
             {
                 if (field_10_anim.field_92_current_frame == 15)
                 {
-                    Abe_SFX_2_42A220(0, 0, 0x7FFF, this);
+                    Environment_SFX_42A220(0, 0, 0x7FFF, this);
                     MapFollowMe_401D30(1);
 
                     if (!ToLeftRightMovement_422AA0())
@@ -3668,7 +3668,7 @@ void Abe::State_30_HopMid_4264D0()
                     case 32:
                     case 36:
                     {
-                        Abe_SFX_2_42A220(6u, 0, 0x7FFF, this);
+                        Environment_SFX_42A220(6u, 0, 0x7FFF, this);
                         field_F4_pLine = pLine;
                         field_B8_vely = FP_FromInteger(0);
                         field_FC_current_motion = eAbeStates::State_31_HopLand_426940;
@@ -3757,7 +3757,7 @@ void Abe::State_32_RunJumpBegin_427440()
         field_A8_xpos += field_B4_velx;
         if (field_10_anim.field_92_current_frame == 0)
         {
-            Abe_SFX_2_42A220(11u, 0, 0x7FFF, this);
+            Environment_SFX_42A220(11u, 0, 0x7FFF, this);
         }
 
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -3794,7 +3794,7 @@ void Abe::State_34_RunJumpLand_427560()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        Abe_SFX_2_42A220(6u, 0, 0x7FFF, this);
+        Environment_SFX_42A220(6u, 0, 0x7FFF, this);
         MapFollowMe_401D30(1);
 
         if (sInputObject_5009E8.isPressed(sInputKey_Left_4C6594))
@@ -3826,7 +3826,7 @@ void Abe::State_34_RunJumpLand_427560()
 
                 field_FC_current_motion = eAbeStates::State_28_RunTurn_425CE0;
                 field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
-                Abe_SFX_2_42A220(4u, 0, 0x7FFF, this);
+                Environment_SFX_42A220(4u, 0, 0x7FFF, this);
                 return;
             }
 
@@ -3875,7 +3875,7 @@ void Abe::State_34_RunJumpLand_427560()
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
                 field_FC_current_motion = eAbeStates::State_28_RunTurn_425CE0;
-                Abe_SFX_2_42A220(4u, 0, 0x7FFF, this);
+                Environment_SFX_42A220(4u, 0, 0x7FFF, this);
                 return;
             }
 
@@ -3906,12 +3906,12 @@ void Abe::State_34_RunJumpLand_427560()
                 if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                 {
                     field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
-                    Abe_SFX_2_42A220(4u, 0, 0x7FFF, this);
+                    Environment_SFX_42A220(4u, 0, 0x7FFF, this);
                 }
                 else
                 {
                     field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
-                    Abe_SFX_2_42A220(4u, 0, 0x7FFF, this);
+                    Environment_SFX_42A220(4u, 0, 0x7FFF, this);
                 }
                 return;
             }
@@ -3947,7 +3947,7 @@ void Abe::State_36_DunnoBegin_423260()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        Abe_SFX_42A4D0(15u, 0, 0, this);
+        Mudokon_GameSpeak_SFX_42A4D0(15u, 0, 0, this);
 
         if (sInputObject_5009E8.isPressed(sInputKey_DoAction_4C65A4 | sInputKey_ThrowItem_4C65B4))
         {
@@ -4004,7 +4004,7 @@ void Abe::State_39_CrouchTurn_4288C0()
     }
     else
     {
-        Abe_SFX_2_42A220(9u, 0, 0x7FFF, this);
+        Environment_SFX_42A220(9u, 0, 0x7FFF, this);
     }
 }
 
@@ -4100,7 +4100,7 @@ void Abe::State_42_SneakLoop_424BB0()
 
         if (field_10_anim.field_92_current_frame == 6)
         {
-            Abe_SFX_2_42A220(3u, 0, 0x7FFF, this);
+            Environment_SFX_42A220(3u, 0, 0x7FFF, this);
             MapFollowMe_401D30(1);
 
             if (sInputObject_5009E8.isPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594) &&
@@ -4122,7 +4122,7 @@ void Abe::State_42_SneakLoop_424BB0()
                 return;
             }
 
-            Abe_SFX_2_42A220(3u, 0, 0x7FFF, this);
+            Environment_SFX_42A220(3u, 0, 0x7FFF, this);
             MapFollowMe_401D30(1);
 
             if (sInputObject_5009E8.isPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
@@ -4300,7 +4300,7 @@ void Abe::State_48_SneakToIdle_424F80()
 {
     if (field_10_anim.field_92_current_frame == 0)
     {
-        Abe_SFX_2_42A220(3u, 0, 0x7FFF, this);
+        Environment_SFX_42A220(3u, 0, 0x7FFF, this);
     }
 
     sub_422FC0();
@@ -4316,7 +4316,7 @@ void Abe::State_49_MidSneakToIdle_424FF0()
 {
     if (!field_10_anim.field_92_current_frame)
     {
-        Abe_SFX_2_42A220(3u, 0, 0x7FFF, this);
+        Environment_SFX_42A220(3u, 0, 0x7FFF, this);
     }
 
     sub_422FC0();
@@ -4591,7 +4591,7 @@ void Abe::State_59_DeathDropFall_42CBE0()
         }
         else if (static_cast<int>(gnFrameCount_507670) == field_118 - 24)
         {
-            Abe_SFX_2_42A220(15u, 0, 0x7FFF, this);
+            Environment_SFX_42A220(15u, 0, 0x7FFF, this);
             
             auto pScreenShake = ao_new<ScreenShake>();
             if (pScreenShake)
@@ -4654,11 +4654,11 @@ void Abe::State_64_LedgeAscend_428B60()
 
     if (field_10_anim.field_92_current_frame == 0)
     {
-        Abe_SFX_2_42A220(10u, 0, 0x7FFF, this);
+        Environment_SFX_42A220(10u, 0, 0x7FFF, this);
     }
     if (field_10_anim.field_92_current_frame == 4)
     {
-        Abe_SFX_2_42A220(11u, 0, 0x7FFF, this);
+        Environment_SFX_42A220(11u, 0, 0x7FFF, this);
         field_D0_pShadow->field_14_flags.Clear(Shadow::eBit1_ShadowAtBottom);
     }
     else if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -4674,7 +4674,7 @@ void Abe::State_65_LedgeDescend_428C00()
 
     if (field_10_anim.field_92_current_frame == 2)
     {
-        Abe_SFX_2_42A220(11u, 0, 0x7FFF, this);
+        Environment_SFX_42A220(11u, 0, 0x7FFF, this);
         field_D0_pShadow->field_14_flags.Toggle(Shadow::eBit1_ShadowAtBottom);
     }
     else if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -4760,7 +4760,7 @@ void Abe::State_68_LedgeHangWobble_428E50()
         if (!(field_2AA_flags & 2))
         {
             field_2AA_flags |= 2;
-            Abe_SFX_2_42A220(1u, 0, 127, this);
+            Environment_SFX_42A220(1u, 0, 127, this);
         }
     }
     else if (field_10_anim.field_92_current_frame == 2)
@@ -4768,7 +4768,7 @@ void Abe::State_68_LedgeHangWobble_428E50()
         if (!(field_2AA_flags & 2))
         {
             field_2AA_flags |= 2;
-            Abe_SFX_2_42A220(18u, 0, 127, this);
+            Environment_SFX_42A220(18u, 0, 127, this);
         }
     }
     else
@@ -4850,7 +4850,7 @@ void Abe::State_70_Knockback_428FB0()
                 || gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12)
                 && field_10_anim.field_92_current_frame == 7)
             {
-                Abe_SFX_2_42A220(6u, 80, -200, this);
+                Environment_SFX_42A220(6u, 80, -200, this);
                 Event_Broadcast_417220(kEventNoise_0, this);
                 Event_Broadcast_417220(kEvent_10, this);
             }
@@ -4863,7 +4863,7 @@ void Abe::State_70_Knockback_428FB0()
             {
                 field_114_gnFrame = gnFrameCount_507670 + 10;
                 field_FC_current_motion = eAbeStates::State_70_Knockback_428FB0;
-                Abe_SFX_2_42A220(6u, 80, -200, this);
+                Environment_SFX_42A220(6u, 80, -200, this);
             }
         }
     }
@@ -4920,7 +4920,7 @@ void Abe::State_72_PushWall_4292A0()
     {
         if (Math_NextRandom() <= 127u)
         {
-            Abe_SFX_2_42A220(10u, 0, 0x7FFF, this);
+            Environment_SFX_42A220(10u, 0, 0x7FFF, this);
         }
     }
 
@@ -5356,11 +5356,11 @@ void Abe::State_98_LandSoft_42ED40()
 
         if (field_E4 == eAbeStates::State_3_Fall_42E7F0)
         {
-            Abe_SFX_2_42A220(5u, 0, 0x7FFF, this);
+            Environment_SFX_42A220(5u, 0, 0x7FFF, this);
         }
         else
         {
-            Abe_SFX_2_42A220(6u, 0, 0x7FFF, this);
+            Environment_SFX_42A220(6u, 0, 0x7FFF, this);
         }
 
         if (sInputObject_5009E8.isPressed(0xA000u))
@@ -5434,22 +5434,22 @@ void Abe::State_103_ElumIdle_42DCD0()
             if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak2_4C65BC))
             {
                 pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_10);
-                Abe_SFX_42A4D0(4u, 0, 0, this);
+                Mudokon_GameSpeak_SFX_42A4D0(4u, 0, 0, this);
             }
             else if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak4_4C65C4))
             {
                 pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_12);
-                Abe_SFX_42A4D0(6u, 0, 0, this);
+                Mudokon_GameSpeak_SFX_42A4D0(6u, 0, 0, this);
             }
             else if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak1_4C65C8))
             {
                 pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_9);
-                Abe_SFX_42A4D0(3u, 0, 0, this);
+                Mudokon_GameSpeak_SFX_42A4D0(3u, 0, 0, this);
             }
             else if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak3_4C65C0))
             {
                 pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_11);
-                Abe_SFX_42A4D0(5u, 0, 0, this);
+                Mudokon_GameSpeak_SFX_42A4D0(5u, 0, 0, this);
             }
         }
 
@@ -5458,22 +5458,22 @@ void Abe::State_103_ElumIdle_42DCD0()
             if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak6_4C65E8))
             {
                 pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_1);
-                Abe_SFX_42A4D0(1u, 0, 0, this);
+                Mudokon_GameSpeak_SFX_42A4D0(1u, 0, 0, this);
             }
             else if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak5_4C65EC))
             {
                 pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_2);
-                Abe_SFX_42A4D0(2u, 0, 0, this);
+                Mudokon_GameSpeak_SFX_42A4D0(2u, 0, 0, this);
             }
             else if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak8_4C65E0))
             {
                 pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_4);
-                Abe_SFX_42A4D0(8u, 0, 0, this);
+                Mudokon_GameSpeak_SFX_42A4D0(8u, 0, 0, this);
             }
             else if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak7_4C65E4))
             {
                 pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_3);
-                Abe_SFX_42A4D0(7u, 0, 0, this);
+                Mudokon_GameSpeak_SFX_42A4D0(7u, 0, 0, this);
             }
         }
     }
@@ -5767,7 +5767,7 @@ void Abe::State_136_ElumMountEnd_42E110()
         if (!(field_2AA_flags & 2))
         {
             field_2AA_flags |= 2;
-            Abe_SFX_2_42A220(16u, 0, 0x7FFF, this);
+            Environment_SFX_42A220(16u, 0, 0x7FFF, this);
         }
         break;
 
@@ -5775,7 +5775,7 @@ void Abe::State_136_ElumMountEnd_42E110()
         if (!(field_2AA_flags & 2))
         {
             field_2AA_flags |= 2;
-            Abe_SFX_2_42A220(17u, 0, 0x7FFF, this);
+            Environment_SFX_42A220(17u, 0, 0x7FFF, this);
             SFX_Play_43AD70(SoundEffect::Unknown_38, 0, this);
         }
         break;
@@ -5784,7 +5784,7 @@ void Abe::State_136_ElumMountEnd_42E110()
         if (!(field_2AA_flags & 2))
         {
             field_2AA_flags |= 2;
-            Abe_SFX_2_42A220(18u, 0, 0x7FFF, this);
+            Environment_SFX_42A220(18u, 0, 0x7FFF, this);
         }
         break;
 
@@ -5803,7 +5803,7 @@ void Abe::State_136_ElumMountEnd_42E110()
             sControlledCharacter_50767C = gElum_507680;
             MusicController::sub_443810(MusicController::MusicTypes::eType1, 0, 0, 0);
             sActiveHero_507678->field_D0_pShadow->field_14_flags.Clear(Shadow::Flags::eBit2_Enabled);
-            Abe_SFX_2_42A220(19u, 0, 0x7FFF, this);
+            Environment_SFX_42A220(19u, 0, 0x7FFF, this);
         }
     }
 }
@@ -5849,7 +5849,7 @@ void Abe::State_138_ElumUnmountEnd_42E390()
         if (!(field_2AA_flags & 2))
         {
             field_2AA_flags |= 2;;
-            Abe_SFX_2_42A220(16u, 0, 0x7FFF, this);
+            Environment_SFX_42A220(16u, 0, 0x7FFF, this);
         }
         break;
 
@@ -5857,7 +5857,7 @@ void Abe::State_138_ElumUnmountEnd_42E390()
         if (!(field_2AA_flags & 2))
         {
             field_2AA_flags |= 2;
-            Abe_SFX_2_42A220(18u, 0, 0x7FFF, this);
+            Environment_SFX_42A220(18u, 0, 0x7FFF, this);
         }
         break;
 
@@ -6108,7 +6108,7 @@ void Abe::State_147_ShotRolling_4295C0()
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
         {
             field_AC_ypos += FP_FromInteger(240);
-            Abe_SFX_42A4D0(17u, 0, 0, this);
+            Mudokon_GameSpeak_SFX_42A4D0(17u, 0, 0, this);
             ToDeathDropFall_42C3D0();
         }
     }
@@ -6140,7 +6140,7 @@ void Abe::State_148_Shot_4296A0()
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
         {
             field_AC_ypos += FP_FromInteger(240);
-            Abe_SFX_42A4D0(17u, 0, 0, this);
+            Mudokon_GameSpeak_SFX_42A4D0(17u, 0, 0, this);
             ToDeathDropFall_42C3D0();
         }
     }
@@ -6185,7 +6185,7 @@ void Abe::State_151_ChantEnd_430530()
         if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit11_bLaughAtChantEnd))
         {
             field_FC_current_motion = eAbeStates::State_12_Speak_42FBD0;
-            Abe_SFX_42A4D0(8u, 0, 0, this);
+            Mudokon_GameSpeak_SFX_42A4D0(8u, 0, 0, this);
             field_2A8_flags.Clear(Flags_2A8::e2A8_Bit11_bLaughAtChantEnd);
         }
         else
@@ -6296,7 +6296,7 @@ void Abe::State_163_ShrykullEnd_42F520()
         }
 
         field_FC_current_motion = eAbeStates::State_9_Speak_42FA50;
-        Abe_SFX_42A4D0(8u, 0, 0, this);
+        Mudokon_GameSpeak_SFX_42A4D0(8u, 0, 0, this);
     }
 }
 
@@ -6314,13 +6314,13 @@ void Abe::State_164_PoisonGasDeath_42A120()
         SFX_Play_43AE60(SoundEffect::Choke_98, 127, 640, 0);
         break;
     case 32:
-        Abe_SFX_2_42A220(6u, 80, 0, this);
+        Environment_SFX_42A220(6u, 80, 0, this);
         break;
     case 50:
-        Abe_SFX_2_42A220(6u, 100, -200, this);
+        Environment_SFX_42A220(6u, 100, -200, this);
         break;
     case 53:
-        Abe_SFX_2_42A220(6u, 50, -200, this);
+        Environment_SFX_42A220(6u, 50, -200, this);
         break;
     default:
         break;

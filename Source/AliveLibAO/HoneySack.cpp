@@ -233,7 +233,7 @@ void HoneySack::VUpdate_42BFE0()
             field_BC_sprite_scale == FP_FromInteger(1) ? 0x01 : 0x10))
         {
             SFX_Play_43AD70(SoundEffect::Unknown_38, 90, 0);
-            Abe_SFX_2_42A220(6u, 90, -1000, nullptr);
+            Environment_SFX_42A220(6u, 90, -1000, nullptr);
             field_AC_ypos = hitY;
             field_E8_state = 3;
             field_10_anim.Set_Animation_Data_402A40(9280, 0);

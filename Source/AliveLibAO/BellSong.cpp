@@ -38,11 +38,11 @@ void BellSong::VUpdate_476130()
             switch (code_looked_up)
             {
             case 1:
-                Abe_SFX_42A4D0(7u, 0, 0, 0);
+                Mudokon_GameSpeak_SFX_42A4D0(7u, 0, 0, 0);
             case 2:
-                Abe_SFX_42A4D0(2u, 0, 0, 0);
+                Mudokon_GameSpeak_SFX_42A4D0(2u, 0, 0, 0);
             default:
-                Abe_SFX_42A4D0(1u, 0, 0, 0);
+                Mudokon_GameSpeak_SFX_42A4D0(1u, 0, 0, 0);
             }
             field_8_update_delay = 30;
         }

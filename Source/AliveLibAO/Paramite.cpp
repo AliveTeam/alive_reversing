@@ -2964,7 +2964,7 @@ void Paramite::State_3_Running_44C070()
     if (field_10_anim.field_92_current_frame == 10)
     {
         Sound_44DBB0(3u);
-        Abe_SFX_2_42A220(6, 50, 600, 0);
+        Environment_SFX_42A220(6, 50, 600, 0);
 
         if (field_FE_next_state == eParamiteStates::State_2_Walking_44B9E0)
         {
@@ -3402,7 +3402,7 @@ void Paramite::State_13_GameSpeakBegin_44D050()
                 if (sActiveHero_507678->field_100_health > FP_FromInteger(0))
                 {
                     SFX_Play_43AD70(SoundEffect::KillEffect_78, 0, 0);
-                    Abe_SFX_42A4D0(10u, 0, 0, sActiveHero_507678);
+                    Mudokon_GameSpeak_SFX_42A4D0(10u, 0, 0, sActiveHero_507678);
                 }
                 sActiveHero_507678->VTakeDamage(this);
             }
@@ -3758,7 +3758,7 @@ void Paramite::State_21_WebLeave_44DB00()
 {
     if (field_10_anim.field_92_current_frame == 2)
     {
-        Abe_SFX_2_42A220(6u, 50, 600, 0);
+        Environment_SFX_42A220(6u, 50, 600, 0);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))

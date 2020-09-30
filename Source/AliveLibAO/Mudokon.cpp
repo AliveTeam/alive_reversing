@@ -670,7 +670,7 @@ __int16 Mudokon::VTakeDamage_43F830(BaseGameObject* pFrom)
         return 1;
 
     case Types::eElectricWall_25:
-        Abe_SFX_42A4D0(17u, 0, 0, this);
+        Mudokon_GameSpeak_SFX_42A4D0(17u, 0, 0, this);
         return 1;
 
     case Types::eBaseBomb_30:
@@ -779,13 +779,13 @@ __int16 Mudokon::VTakeDamage_43F830(BaseGameObject* pFrom)
             field_100_health -= FP_FromDouble(0.15);
             if (field_100_health > FP_FromInteger(0))
             {
-                Abe_SFX_42A4D0(Math_RandomRange_450F20(0, 127) >= 64 ? 18 : 10, 0, 2 * Math_NextRandom() - 256, 0);
+                Mudokon_GameSpeak_SFX_42A4D0(Math_RandomRange_450F20(0, 127) >= 64 ? 18 : 10, 0, 2 * Math_NextRandom() - 256, 0);
                 field_1B6 = 1;
             }
             else
             {
-                Abe_SFX_42A4D0(10u, 0, 1000, this);
-                Abe_SFX_2_42A220(7u, 0, 0x7FFF, this);
+                Mudokon_GameSpeak_SFX_42A4D0(10u, 0, 1000, this);
+                Environment_SFX_42A220(7u, 0, 0x7FFF, this);
                 field_144_flags.Clear(Flags_144::e144_Bit6_bPersist);
                 field_100_health = FP_FromInteger(0);
                 field_1B8_brain_idx = 11;
@@ -800,7 +800,7 @@ __int16 Mudokon::VTakeDamage_43F830(BaseGameObject* pFrom)
     default:
         if (field_100_health > FP_FromInteger(0))
         {
-            Abe_SFX_42A4D0(Math_RandomRange_450F20(0, 127) >= 64 ? 18 : 10, 127, 2 * Math_NextRandom() - 256, 0);
+            Mudokon_GameSpeak_SFX_42A4D0(Math_RandomRange_450F20(0, 127) >= 64 ? 18 : 10, 127, 2 * Math_NextRandom() - 256, 0);
             field_100_health -= FP_FromDouble(0.06);
             field_FC_current_motion = eMudStates::State_46_FallLandDie_43E660;
             field_FE_next_state = -1;
@@ -833,7 +833,7 @@ __int16 Mudokon::DoSmashDamage()
         field_FC_current_motion = eMudStates::State_46_FallLandDie_43E660;
         field_FE_next_state = -1;
         VUpdateResBlock_43EDB0();
-        Abe_SFX_42A4D0(10u, 0, Math_RandomRange_450F20(-127, 127), this);
+        Mudokon_GameSpeak_SFX_42A4D0(10u, 0, Math_RandomRange_450F20(-127, 127), this);
         return 1;
     }
     return 0;
@@ -1022,7 +1022,7 @@ __int16 CC Mudokon::IsAbeSneaking_43D660(Mudokon* /*pMud*/)
 
 void Mudokon::ToKnockBack_43D6E0()
 {
-    Abe_SFX_2_42A220(13u, 0, 0x7FFF, this);
+    Environment_SFX_42A220(13u, 0, 0x7FFF, this);
 
     if (field_B4_velx > FP_FromInteger(0))
     {
@@ -1044,7 +1044,7 @@ void Mudokon::ToKnockBack_43D6E0()
         field_B8_vely = FP_FromInteger(0);
     }
 
-    Abe_SFX_2_42A220(13u, 0, 0x7FFF, this);
+    Environment_SFX_42A220(13u, 0, 0x7FFF, this);
     field_FC_current_motion = eMudStates::State_47_Knockback_43E730;
 }
 
@@ -1405,7 +1405,7 @@ void Mudokon::State_1_WalkLoop_43CC80()
                 break;
 
             case 5:
-                Abe_SFX_2_42A220(1u, 0, 0x7FFF, this);
+                Environment_SFX_42A220(1u, 0, 0x7FFF, this);
                 if (!field_144_flags.Get(Flags_144::e144_Bit7))
                 {
                     field_144_flags.Set(Flags_144::e144_Bit7);
@@ -1433,7 +1433,7 @@ void Mudokon::State_1_WalkLoop_43CC80()
                 break;
 
             case 14:
-                Abe_SFX_2_42A220(1u, 0, 0x7FFF, this);
+                Environment_SFX_42A220(1u, 0, 0x7FFF, this);
                 if (!field_144_flags.Get(Flags_144::e144_Bit7))
                 {
                     field_144_flags.Set(Flags_144::e144_Bit7);
@@ -1466,7 +1466,7 @@ void Mudokon::State_2_StandingTurn_43D050()
 
     if (field_10_anim.field_92_current_frame == 0)
     {
-        Abe_SFX_2_42A220(9u, 0, 0x7FFF, this);
+        Environment_SFX_42A220(9u, 0, 0x7FFF, this);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -1542,7 +1542,7 @@ void Mudokon::State_8_WalkToIdle_43CEF0()
 
         if (field_10_anim.field_92_current_frame == 0)
         {
-            Abe_SFX_2_42A220(1u, 0, 0x7FFF, this);
+            Environment_SFX_42A220(1u, 0, 0x7FFF, this);
             return;
         }
 
@@ -1884,7 +1884,7 @@ void Mudokon::State_29_RunLoop_43DB10()
         }
         else if (field_10_anim.field_92_current_frame == 12 || field_10_anim.field_92_current_frame == 4)
         {
-            Abe_SFX_2_42A220(2u, 0, 0x7FFF, this);
+            Environment_SFX_42A220(2u, 0, 0x7FFF, this);
             if (!field_144_flags.Get(Flags_144::e144_Bit7))
             {
                 field_144_flags.Set(Flags_144::e144_Bit7);
@@ -1905,13 +1905,13 @@ void Mudokon::State_29_RunLoop_43DB10()
             {
                 field_FC_current_motion = eMudStates::State_32_RunSlideStop_43DEE0;
                 field_FE_next_state = -1;
-                Abe_SFX_2_42A220(4u, 0, 0x7FFF, this);
+                Environment_SFX_42A220(4u, 0, 0x7FFF, this);
             }
             else if (field_FE_next_state == eMudStates::State_33_RunSlideTurn_43DF80)
             {
                 field_FC_current_motion = eMudStates::State_33_RunSlideTurn_43DF80;
                 field_FE_next_state = -1;
-                Abe_SFX_2_42A220(4u, 0, 0x7FFF, this);
+                Environment_SFX_42A220(4u, 0, 0x7FFF, this);
             }
             else if (field_FE_next_state == eMudStates::State_44_JumpMid_43E960)
             {
@@ -2003,7 +2003,7 @@ void Mudokon::State_32_RunSlideStop_43DEE0()
         {
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                Abe_SFX_2_42A220(1u, 0, 0x7FFF, this);
+                Environment_SFX_42A220(1u, 0, 0x7FFF, this);
                 MapFollowMe_401D30(field_144_flags.Get(Flags_144::e144_Bit4_bSnapToGrid));
                 ToIdle_43CA40();
             }
@@ -2087,7 +2087,7 @@ void Mudokon::State_35_SneakLoop_43E0F0()
                 break;
 
             case 6:
-                Abe_SFX_2_42A220(3u, 0, 0x7FFF, this);
+                Environment_SFX_42A220(3u, 0, 0x7FFF, this);
                 MapFollowMe_401D30(field_144_flags.Get(Flags_144::e144_Bit4_bSnapToGrid));
 
                 if (field_FE_next_state == eMudStates::State_1_WalkLoop_43CC80 || field_FE_next_state == eMudStates::State_29_RunLoop_43DB10)
@@ -2106,7 +2106,7 @@ void Mudokon::State_35_SneakLoop_43E0F0()
                 break;
 
             case 16:
-                Abe_SFX_2_42A220(3u, 0, 0x7FFF, this);
+                Environment_SFX_42A220(3u, 0, 0x7FFF, this);
                 MapFollowMe_401D30(field_144_flags.Get(Flags_144::e144_Bit4_bSnapToGrid));
 
                 if (field_FE_next_state == eMudStates::State_1_WalkLoop_43CC80 || field_FE_next_state == eMudStates::State_29_RunLoop_43DB10)
@@ -2278,7 +2278,7 @@ void Mudokon::State_43_JumpBegin_43E870()
 
     if (field_10_anim.field_92_current_frame == 0)
     {
-        Abe_SFX_2_42A220(11u, 0, 0x7FFF, this);
+        Environment_SFX_42A220(11u, 0, 0x7FFF, this);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -2376,7 +2376,7 @@ void Mudokon::State_46_FallLandDie_43E660()
 {
     if (field_10_anim.field_92_current_frame == 4)
     {
-        Abe_SFX_2_42A220(13u, 0, 0x7FFF, this);
+        Environment_SFX_42A220(13u, 0, 0x7FFF, this);
     }
 
     if ((gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1
@@ -2384,7 +2384,7 @@ void Mudokon::State_46_FallLandDie_43E660()
         || gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12)
         && field_10_anim.field_92_current_frame == 7)
     {
-        Abe_SFX_2_42A220(6u, 80, -200, this);
+        Environment_SFX_42A220(6u, 80, -200, this);
     }
 
     CheckFloorGone_43C9B0();
@@ -2406,7 +2406,7 @@ void Mudokon::State_47_Knockback_43E730()
         || gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12)
         && field_10_anim.field_92_current_frame == 7)
     {
-        Abe_SFX_2_42A220(6u, 80, -200, this);
+        Environment_SFX_42A220(6u, 80, -200, this);
     }
 
     if (!field_F4_pLine)
@@ -2458,11 +2458,11 @@ void Mudokon::State_50_LandSoft_43E820()
     {
         if (field_E4 == eMudStates::State_51_Fall_43D0D0)
         {
-            Abe_SFX_2_42A220(5u, 0, 0x7FFF, this);
+            Environment_SFX_42A220(5u, 0, 0x7FFF, this);
         }
         else
         {
-            Abe_SFX_2_42A220(6u, 0, 0x7FFF, this);
+            Environment_SFX_42A220(6u, 0, 0x7FFF, this);
         }
     }
 
@@ -2692,7 +2692,7 @@ void Mudokon::State_61_DuckKnockback_43E6E0()
 {
     if (field_10_anim.field_92_current_frame == 1)
     {
-        Abe_SFX_2_42A220(9u, 0, 0x7FFF, this);
+        Environment_SFX_42A220(9u, 0, 0x7FFF, this);
     }
 
     CheckFloorGone_43C9B0();
@@ -2815,7 +2815,7 @@ short Mudokon::Brain_SingSequenceIdle_2_441CA0()
     case 1:
         if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
         {
-            Abe_SFX_42A4D0(3u, 0, 300, this);
+            Mudokon_GameSpeak_SFX_42A4D0(3u, 0, 300, this);
             field_FE_next_state = eMudStates::State_4_Speak_43D440;
             return 2;
         }
@@ -2886,22 +2886,22 @@ short Mudokon::Brain_SingSequenceSing_3_441510()
         {
         case 1:
             field_FE_next_state = eMudStates::State_4_Speak_43D440;
-            Abe_SFX_42A4D0(1u, 0, 0, this);
+            Mudokon_GameSpeak_SFX_42A4D0(1u, 0, 0, this);
             break;
 
         case 2:
             field_FE_next_state = eMudStates::State_5_Speak_43D440;
-            Abe_SFX_42A4D0(2u, 0, 0, this);
+            Mudokon_GameSpeak_SFX_42A4D0(2u, 0, 0, this);
             break;
 
         case 3:
             field_FE_next_state = eMudStates::State_6_Speak_43D440;
-            Abe_SFX_42A4D0(7u, 0, 300, this);
+            Mudokon_GameSpeak_SFX_42A4D0(7u, 0, 300, this);
             break;
 
         case 4:
             field_FE_next_state = eMudStates::State_3_Speak_43D440;
-            Abe_SFX_42A4D0(8u, 0, 300, this);
+            Mudokon_GameSpeak_SFX_42A4D0(8u, 0, 300, this);
             break;
 
         default:
@@ -3037,12 +3037,12 @@ short Mudokon::Brain_SingSequenceSing_3_441510()
         {
             if (field_1A0)
             {
-                Abe_SFX_42A4D0(13u, 0, 300, this);
+                Mudokon_GameSpeak_SFX_42A4D0(13u, 0, 300, this);
                 field_FE_next_state = 3;
             }
             else
             {
-                Abe_SFX_42A4D0(14u, 0, 300, this);
+                Mudokon_GameSpeak_SFX_42A4D0(14u, 0, 300, this);
                 field_FE_next_state = 6;
             }
             return 6;
@@ -3083,7 +3083,7 @@ short Mudokon::Brain_SingSequencePassword_4_441260()
     {
     case 0:
         field_FE_next_state = eMudStates::State_3_Speak_43D440;
-        Abe_SFX_42A4D0(9u, 0, 300, this);
+        Mudokon_GameSpeak_SFX_42A4D0(9u, 0, 300, this);
         field_13C = GameSpeak::sub_40FA60(field_1A4, field_12C);
         return 1;
 
@@ -3173,18 +3173,18 @@ short Mudokon::Brain_SingSequencePassword_4_441260()
         {
             if (field_1A0)
             {
-                Abe_SFX_42A4D0(13u, 0, 300, this);
+                Mudokon_GameSpeak_SFX_42A4D0(13u, 0, 300, this);
                 field_FE_next_state = eMudStates::State_3_Speak_43D440;
             }
             else
             {
                 if (Math_NextRandom() >= 128u)
                 {
-                    Abe_SFX_42A4D0(8u, 0, 300, this);
+                    Mudokon_GameSpeak_SFX_42A4D0(8u, 0, 300, this);
                 }
                 else
                 {
-                    Abe_SFX_42A4D0(14u, 0, 300, this);
+                    Mudokon_GameSpeak_SFX_42A4D0(14u, 0, 300, this);
                 }
                 field_FE_next_state = eMudStates::State_6_Speak_43D440;
             }
@@ -3697,7 +3697,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
             field_FE_next_state = eMudStates::State_2_StandingTurn_43D050;
             return field_1BA_sub_state;
         }
-        Abe_SFX_42A4D0(3u, 0, field_124, this);
+        Mudokon_GameSpeak_SFX_42A4D0(3u, 0, field_124, this);
         field_FE_next_state = eMudStates::State_4_Speak_43D440;
         return 6;
 
@@ -3999,7 +3999,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
         case eAbeStates::State_19_CrouchIdle_4284C0:
             if (sActiveHero_507678->field_FC_current_motion == eAbeStates::State_70_Knockback_428FB0)
             {
-                Abe_SFX_42A4D0(8u, 0, field_124, this);
+                Mudokon_GameSpeak_SFX_42A4D0(8u, 0, field_124, this);
             }
 
             if (VIsObjNearby(ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(2), sActiveHero_507678))
@@ -4134,7 +4134,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
     case 9:
         if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
         {
-            Abe_SFX_42A4D0(14u, 0, field_124, this);
+            Mudokon_GameSpeak_SFX_42A4D0(14u, 0, field_124, this);
             field_FE_next_state = eMudStates::State_6_Speak_43D440;
             return 3;
         }
@@ -4143,7 +4143,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
     case 10:
         if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
         {
-            Abe_SFX_42A4D0(13u, 0, field_124, this);
+            Mudokon_GameSpeak_SFX_42A4D0(13u, 0, field_124, this);
             field_FE_next_state = eMudStates::State_3_Speak_43D440;
             return field_1B0;
         }
@@ -4152,7 +4152,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
     case 11:
         if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
         {
-            Abe_SFX_42A4D0(3u, 0, field_124, this);
+            Mudokon_GameSpeak_SFX_42A4D0(3u, 0, field_124, this);
             field_FE_next_state = eMudStates::State_4_Speak_43D440;
             return field_1B0;
         }
@@ -4161,7 +4161,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
     case 12:
         if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
         {
-            Abe_SFX_42A4D0(8u, 0, field_124, this);
+            Mudokon_GameSpeak_SFX_42A4D0(8u, 0, field_124, this);
             field_FE_next_state = eMudStates::State_4_Speak_43D440;
             return field_1B0;
         }
@@ -4170,7 +4170,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
     case 13:
         if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
         {
-            Abe_SFX_42A4D0(11u, 0, field_124, this);
+            Mudokon_GameSpeak_SFX_42A4D0(11u, 0, field_124, this);
             field_FE_next_state = eMudStates::State_6_Speak_43D440;
             return field_1B0;
         }
@@ -4180,7 +4180,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
     case 14:
         if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
         {
-            Abe_SFX_42A4D0(15u, 0, field_124, this);
+            Mudokon_GameSpeak_SFX_42A4D0(15u, 0, field_124, this);
             field_FE_next_state = eMudStates::State_6_Speak_43D440;
             return field_1B0;
         }
@@ -4189,7 +4189,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
     case 15:
         if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
         {
-            Abe_SFX_42A4D0(5u, 0, field_124, this);
+            Mudokon_GameSpeak_SFX_42A4D0(5u, 0, field_124, this);
             field_FE_next_state = eMudStates::State_6_Speak_43D440;
             return field_1B0;
         }
@@ -4198,7 +4198,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
     case 16:
         if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
         {
-            Abe_SFX_42A4D0(7u, 0, field_124, this);
+            Mudokon_GameSpeak_SFX_42A4D0(7u, 0, field_124, this);
             field_FE_next_state = eMudStates::State_3_Speak_43D440;
             if (sEnableFartGasCheat_507704 == 0)
             {
@@ -4227,7 +4227,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
     case 17:
         if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
         {
-            Abe_SFX_42A4D0(1u, 0, 0, this);
+            Mudokon_GameSpeak_SFX_42A4D0(1u, 0, 0, this);
             field_FE_next_state = eMudStates::State_4_Speak_43D440;
             return field_1B0;
         }
@@ -4236,7 +4236,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
     case 18:
         if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
         {
-            Abe_SFX_42A4D0(2u, 0, 0, this);
+            Mudokon_GameSpeak_SFX_42A4D0(2u, 0, 0, this);
             field_FE_next_state = eMudStates::State_5_Speak_43D440;
             return field_1B0;
         }
@@ -4444,7 +4444,7 @@ short Mudokon::Brain_FallAndSmackDeath_13_43C700()
 
             if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
             {
-                Abe_SFX_2_42A220(15, 0, 0x7FFF, this);
+                Environment_SFX_42A220(15, 0, 0x7FFF, this);
                 
                 auto pShake = ao_new<ScreenShake>();
                 if (pShake)
@@ -4458,7 +4458,7 @@ short Mudokon::Brain_FallAndSmackDeath_13_43C700()
     }
     else
     {
-        Abe_SFX_42A4D0(17u, 0, 0, this);
+        Mudokon_GameSpeak_SFX_42A4D0(17u, 0, 0, this);
         field_1C0_timer = gnFrameCount_507670 + 60;
         return 1;
     }
