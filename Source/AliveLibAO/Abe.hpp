@@ -209,7 +209,7 @@ enum Flags_2A8
     e2A8_eBit16_AbeSpawnDir = 0x8000,
 };
 
-enum MudokonGameSpeakSfx
+enum class MudokonGameSpeakSfx
 {
     eUnknown_0 = 0, // empty?
     eWhistle1_1 = 1,
@@ -233,7 +233,7 @@ enum MudokonGameSpeakSfx
     eUnknown_19 = 19 // empty?
 };
 
-enum EnvironmentSfx
+enum class EnvironmentSfx
 {
     eSlideStop_0 = 0,
     eWalkingFootstep_1 = 1,
@@ -610,9 +610,9 @@ ALIVE_VAR_EXTERN(Abe*, sActiveHero_507678);
 ALIVE_VAR_EXTERN(BaseAliveGameObject*, sControlledCharacter_50767C);
 ALIVE_VAR_EXTERN(short, gAbeInvunerableCheat_5076E4);
 
-EXPORT int CC Environment_SFX_42A220(unsigned __int8 sfxId, signed int volume, int pitchMin, BaseAliveGameObject* pAliveObj);
+EXPORT int CC Environment_SFX_42A220(EnvironmentSfx sfxId, signed int volume, int pitchMin, BaseAliveGameObject* pAliveObj);
 
-EXPORT int CC Mudokon_GameSpeak_SFX_42A4D0(unsigned __int8 idx, int volume, int pitch, BaseAliveGameObject* pHero);
+EXPORT int CC Mudokon_GameSpeak_SFX_42A4D0(MudokonGameSpeakSfx idx, int volume, int pitch, BaseAliveGameObject* pHero);
 
 EXPORT int CC XGrid_Index_To_XPos_41FA60(FP scale, int xGridIndex);
 

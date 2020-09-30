@@ -433,14 +433,14 @@ const InputCommands sInputKey_GameSpeak8_4C65E0 = eDoAction;
 ALIVE_VAR(1, 0x507678, Abe*, sActiveHero_507678, nullptr);
 ALIVE_VAR(1, 0x50767C, BaseAliveGameObject*, sControlledCharacter_50767C, nullptr);
 
-int CC Environment_SFX_42A220(unsigned __int8 /*sfxId*/, signed int /*volume*/, int /*pitchMin*/,
+int CC Environment_SFX_42A220(EnvironmentSfx /*sfxId*/, signed int /*volume*/, int /*pitchMin*/,
                         BaseAliveGameObject* /*pAliveObj*/)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-int CC Mudokon_GameSpeak_SFX_42A4D0(unsigned __int8 /*idx*/, int /*volume*/, int /*pitch*/, BaseAliveGameObject* /*pHero*/)
+int CC Mudokon_GameSpeak_SFX_42A4D0(MudokonGameSpeakSfx /*idx*/, int /*volume*/, int /*pitch*/, BaseAliveGameObject* /*pHero*/)
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -1038,7 +1038,7 @@ void Abe::vUpdate_41FDB0()
                             {
                                 Event_Broadcast_417220(kEventMudokonComfort_16, sActiveHero_507678);
                             }
-                            Mudokon_GameSpeak_SFX_42A4D0(static_cast<unsigned char>(field_130_say), 0, 0, this);
+                            Mudokon_GameSpeak_SFX_42A4D0(static_cast<MudokonGameSpeakSfx>(field_130_say), 0, 0, this);
                         }
                     }
                     field_130_say = -1;
