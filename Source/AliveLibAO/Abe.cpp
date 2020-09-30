@@ -3118,7 +3118,8 @@ void Abe::State_0_Idle_423520()
                             field_FC_current_motion = eAbeStates::State_160_4233A0;
                             break;
                         }
-
+                        default:
+                            break;
                     }
                 }
             }
