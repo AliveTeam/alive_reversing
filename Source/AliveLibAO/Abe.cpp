@@ -2751,6 +2751,33 @@ __int16 Abe::HandleDoAction_429A70()
     return 0;
 }
 
+static bool IsSameScaleAsHoist(Path_Hoist* pHoist, BaseAliveGameObject* pObj)
+{
+    auto width = pHoist->field_14_bottom_right.field_0_x - pHoist->field_10_top_left.field_0_x;
+
+    if (pObj->field_BC_sprite_scale == FP_FromInteger(1))
+    {
+        return width > 18;
+    }
+    else
+    {
+        return width <= 18;
+    }
+}
+
+static bool IsFacingSameDirectionAsHoist(Path_Hoist* pHoist, BaseAliveGameObject* pObj)
+{
+    if (pHoist->field_1A_edge_type == Path_Hoist::EdgeType::eLeft && !pObj->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        return false;
+    }
+    else if (pHoist->field_1A_edge_type == Path_Hoist::EdgeType::eRight && pObj->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        return false;
+    }
+    return true;
+}
+
 void Abe::State_0_Idle_423520()
 {
     Path_TLV *pTlv = nullptr;
@@ -2804,67 +2831,60 @@ void Abe::State_0_Idle_423520()
         }
         return;
     }
+
     if (ToLeftRightMovement_422AA0())
     {
         return;
     }
+
     if (sInputObject_5009E8.isPressed(sInputKey_Down_4C659C))
     {
-        if ((!field_F8_pLiftPoint || field_F8_pLiftPoint->field_4_typeId != Types::eLiftPoint_51) ||
-            (FP_Abs(field_A8_xpos - FP_FromInteger((field_F4_pLine->field_0_rect.x + field_F4_pLine->field_0_rect.w) / 2))
-            >= (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2))))
+        const FP halfGrid = ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2);
+        const FP liftPlatformXMidPoint = FP_FromInteger((field_F4_pLine->field_0_rect.x + field_F4_pLine->field_0_rect.w) / 2);
+        if (field_F8_pLiftPoint && field_F8_pLiftPoint->field_4_typeId == Types::eLiftPoint_51 &&
+            FP_Abs(field_A8_xpos - liftPlatformXMidPoint) < halfGrid)
         {
-            auto pHoist = static_cast<Path_Hoist*>(gMap_507BA8.TLV_Get_At_446260(
-                FP_GetExponent(field_A8_xpos),
-                FP_GetExponent(field_AC_ypos + FP_FromInteger(16)),
-                FP_GetExponent(field_A8_xpos),
-                FP_GetExponent(field_AC_ypos + FP_FromInteger(16)),
-                TlvTypes::Hoist_3
-            ));
-
-            if (pHoist)
+            //AO exclusive - Abe only uses lift facing one side
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
-                auto width = pHoist->field_14_bottom_right.field_0_x - pHoist->field_10_top_left.field_0_x;
-
-                bool isHoistSameScale = false;
-                if (field_BC_sprite_scale == FP_FromInteger(1))
-                {
-                    isHoistSameScale = width > 18;
-                }
-                else
-                {
-                    isHoistSameScale = width <= 18;
-                }
-
-                if (isHoistSameScale)
-                {
-                    if ((pHoist->field_1A_edge_type != Path_Hoist::EdgeType::eLeft || field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-                        && (pHoist->field_1A_edge_type != Path_Hoist::EdgeType::eRight || !(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))))
-                    {
-                        field_FC_current_motion = eAbeStates::State_65_LedgeDescend_428C00;
-                    }
-                    else
-                    {
-                        field_FE_next_state = eAbeStates::State_65_LedgeDescend_428C00;
-                        field_FC_current_motion = eAbeStates::State_2_StandingTurn_426040;
-                    }
-                }
+                field_FC_current_motion = eAbeStates::State_2_StandingTurn_426040;
+                field_FE_next_state = eAbeStates::State_133_LiftGrabBegin_42EF20;
             }
             else
             {
-                field_FC_current_motion = eAbeStates::State_21_StandToCrouch_427F40;
+                field_FC_current_motion = eAbeStates::State_133_LiftGrabBegin_42EF20;
             }
-            return;
+            return; 
         }
-        //AO exclusive - Abe only uses lift facing one side
-        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+
+        auto pHoist = static_cast<Path_Hoist*>(gMap_507BA8.TLV_Get_At_446260(
+            FP_GetExponent(field_A8_xpos),
+            FP_GetExponent(field_AC_ypos + FP_FromInteger(16)),
+            FP_GetExponent(field_A8_xpos),
+            FP_GetExponent(field_AC_ypos + FP_FromInteger(16)),
+            TlvTypes::Hoist_3
+            ));
+
+        if (pHoist)
         {
-            field_FC_current_motion = eAbeStates::State_2_StandingTurn_426040;
-            field_FE_next_state = eAbeStates::State_133_LiftGrabBegin_42EF20;
+            if (!IsSameScaleAsHoist(pHoist, this))
+            {
+                return;
+            }
+
+            if (IsFacingSameDirectionAsHoist(pHoist, this))
+            {
+                field_FC_current_motion = eAbeStates::State_65_LedgeDescend_428C00;
+            }
+            else
+            {
+                field_FE_next_state = eAbeStates::State_65_LedgeDescend_428C00;
+                field_FC_current_motion = eAbeStates::State_2_StandingTurn_426040;
+            }
         }
         else
         {
-            field_FC_current_motion = eAbeStates::State_133_LiftGrabBegin_42EF20;
+            field_FC_current_motion = eAbeStates::State_21_StandToCrouch_427F40;
         }
         return;
     }
@@ -2880,9 +2900,12 @@ void Abe::State_0_Idle_423520()
         {
             if (field_F8_pLiftPoint->field_4_typeId == Types::eLiftPoint_51)
             {
-                if (FP_Abs(field_A8_xpos - FP_FromInteger((field_F4_pLine->field_0_rect.x + field_F4_pLine->field_0_rect.w) / 2))
-                    < ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2))
+                const FP halfGrid = ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2);
+                const FP liftPlatformXMidPoint = FP_FromInteger((field_F4_pLine->field_0_rect.x + field_F4_pLine->field_0_rect.w) / 2);
+                const FP xPosToMidLiftPlatformDistance = FP_Abs(field_A8_xpos - liftPlatformXMidPoint);
+                if (xPosToMidLiftPlatformDistance < halfGrid)
                 {
+                    //AO exclusive - Abe only uses lift facing one side
                     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                     {
                         field_FC_current_motion = eAbeStates::State_2_StandingTurn_426040;
@@ -2896,6 +2919,7 @@ void Abe::State_0_Idle_423520()
                 }
             }
         }
+
         field_FC_current_motion = TryMountElum_42E600();
         if (field_FC_current_motion != eAbeStates::State_0_Idle_423520)
         {
@@ -2969,14 +2993,14 @@ void Abe::State_0_Idle_423520()
                 }
                 case TlvTypes::GrenadeMachine_97:
                 {
-                    auto pGrenadeMachine = BaseAliveGameObject::FindObjectOfType_418280(
+                    auto pMachineButton = static_cast<BoomMachine*>(FindObjectOfType_418280(
                         Types::eGrenadeMachine_41,
                         field_A8_xpos,
-                        field_AC_ypos - field_BC_sprite_scale * FP_FromInteger(25));
-                    if (pGrenadeMachine)
+                        field_AC_ypos - field_BC_sprite_scale * FP_FromInteger(25)
+                    ));
+                    if (pMachineButton)
                     {
-                        auto pBoomMachine = static_cast<BoomMachine*>(pGrenadeMachine);
-                        pBoomMachine->Vsub_41E6F0();
+                        pMachineButton->Vsub_41E6F0();
                         field_FC_current_motion = eAbeStates::State_90_GrenadeMachineUse_430EA0;
                     }
                     else
@@ -3006,8 +3030,49 @@ void Abe::State_0_Idle_423520()
 
     if (!sInputObject_5009E8.isPressed(sInputKey_Up_4C6598) || handleDoActionOrThrow)
     {
-        if (!sInputObject_5009E8.isHeld(sInputKey_ThrowItem_4C65B4) ||
-            field_FC_current_motion != eAbeStates::State_0_Idle_423520)
+        if (sInputObject_5009E8.isHeld(sInputKey_ThrowItem_4C65B4) &&
+            field_FC_current_motion == eAbeStates::State_0_Idle_423520)
+        {
+            if (field_19C_throwable_count > 0 || gInfiniteGrenades_5076EC)
+            {
+                field_198_pThrowable = Make_Throwable_454560(
+                    field_A8_xpos,
+                    field_AC_ypos - FP_FromInteger(40),
+                    0
+                );
+
+                if (bThrowableIndicatorExists_504C70 == 0)
+                {
+                    auto pThrowableTotalIndicator = ao_new<ThrowableTotalIndicator>();
+                    if (pThrowableTotalIndicator)
+                    {
+                        const FP xOffSet = field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ?
+                            FP_FromInteger(15) : FP_FromInteger(-15) * field_BC_sprite_scale;
+
+                        pThrowableTotalIndicator->ctor_41B520(
+                            field_A8_xpos + xOffSet,
+                            field_AC_ypos + field_BC_sprite_scale * FP_FromInteger(-50),
+                            field_10_anim.field_C_layer,
+                            field_10_anim.field_14_scale,
+                            field_19C_throwable_count,
+                            TRUE
+                        );
+                    }
+                }
+                field_FC_current_motion = eAbeStates::State_142_RockThrowStandingHold_429CE0;
+
+                if (gInfiniteGrenades_5076EC == 0)
+                {
+                    field_19C_throwable_count--;
+                }
+
+            }
+            else
+            {
+                field_FC_current_motion = eAbeStates::State_36_DunnoBegin_423260;
+            }
+        }
+        else
         {
             if (sInputObject_5009E8.isHeld(sInputKey_DoAction_4C65A4))
             {
@@ -3036,63 +3101,28 @@ void Abe::State_0_Idle_423520()
                 short rnd = Math_RandomRange_450F20(0, 2);
                 if ((1 << rnd) & loaded)
                 {
-                    if (rnd)
+                    switch (rnd)
                     {
-                        if (rnd == 1)
+                        case 0:
+                        {
+                            field_FC_current_motion = eAbeStates::State_161_4233E0;
+                            break;
+                        }
+                        case 1:
                         {
                             field_FC_current_motion = eAbeStates::State_159_423360;
+                            break;
                         }
-                        else if (rnd == 2)
+                        case 2:
                         {
                             field_FC_current_motion = eAbeStates::State_160_4233A0;
+                            break;
                         }
-                    }
-                    else
-                    {
-                        field_FC_current_motion = eAbeStates::State_161_4233E0;
+
                     }
                 }
             }
         }
-        else
-        {
-            if (field_19C_throwable_count || gInfiniteGrenades_5076EC)
-            {
-                auto pThrowable = Make_Throwable_454560(
-                    field_A8_xpos,
-                    field_AC_ypos - FP_FromInteger(40),
-                    0
-                );
-                field_198_pThrowable = pThrowable;
-                if (bThrowableIndicatorExists_504C70 == 0)
-                {
-                    auto pThrowableTotalIndicator = ao_new<ThrowableTotalIndicator>();
-                    if (pThrowableTotalIndicator)
-                    {
-                        FP flippedVar = field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ?
-                            FP_FromInteger(15) : FP_FromInteger(-15);
-                        pThrowableTotalIndicator->ctor_41B520(
-                            field_A8_xpos + flippedVar * field_BC_sprite_scale,
-                            field_AC_ypos + field_BC_sprite_scale * FP_FromInteger(-50),
-                            field_10_anim.field_C_layer,
-                            field_10_anim.field_14_scale,
-                            field_19C_throwable_count,
-                            1
-                        );
-                    }
-                }
-                field_FC_current_motion = eAbeStates::State_142_RockThrowStandingHold_429CE0;
-                if (gInfiniteGrenades_5076EC == 0)
-                {
-                    field_19C_throwable_count--;
-                }
-            }
-            else
-            {
-                field_FC_current_motion = eAbeStates::State_36_DunnoBegin_423260;
-            }
-        }
-        return;
     }
 }
 
