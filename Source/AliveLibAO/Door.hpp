@@ -57,6 +57,14 @@ public:
 
     EXPORT BOOL vIsOpen_40E800();
 
+    EXPORT void vOpen_40E810();
+
+    EXPORT void vClose_40E830();
+
+    EXPORT void vSetOpen_40E850();
+
+    EXPORT void vSetClosed_40E860();
+
     EXPORT void PlaySound_40E780();
 
     virtual void VUpdate() override;

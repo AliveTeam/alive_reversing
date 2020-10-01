@@ -350,6 +350,32 @@ BOOL Door::vIsOpen_40E800()
     return field_EC_current_state == eDoorStates::eOpen_0;
 }
 
+void Door::vClose_40E830()
+{
+    if (field_EC_current_state != eDoorStates::eClosed_1)
+    {
+        field_EC_current_state = eDoorStates::eClosing_3;
+    }
+}
+
+void Door::vOpen_40E810()
+{
+    if (field_EC_current_state != eDoorStates::eOpen_0)
+    {
+        field_EC_current_state = eDoorStates::eOpening_2;
+    }
+}
+
+void Door::vSetOpen_40E850()
+{
+    field_EC_current_state = eDoorStates::eOpen_0;
+}
+
+void Door::vSetClosed_40E860()
+{
+    field_EC_current_state = eDoorStates::eClosed_1;
+}
+
 void Door::PlaySound_40E780()
 {
     __int16 volume = 0;
