@@ -100,7 +100,7 @@ void FootSwitch::VUpdate_4888E0()
             SwitchStates_Do_Operation_436A10(field_EA_id, field_EC_action);
             field_E8_state = States::eWaitForGetOffMe_1;
             field_10_anim.Set_Animation_Data_402A40(756, 0);
-            SFX_Play_43AD70(SoundEffect::Unknown_64, 0, 0);
+            SFX_Play_43AD70(SoundEffect::FootSwitchPress_64, 0, 0);
         }
         break;
 

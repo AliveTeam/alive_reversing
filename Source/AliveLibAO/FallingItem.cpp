@@ -338,7 +338,7 @@ void FallingItem::VUpdate_41A120()
         }
         else
         {
-            SFX_Play_43AD70(SoundEffect::Unknown_73, 0, 0);
+            SFX_Play_43AD70(SoundEffect::FallingItemLand_73, 0, 0);
             SFX_Play_43AE60(SoundEffect::FallingItemHit_53, 110, -1536, 0);
         }
 

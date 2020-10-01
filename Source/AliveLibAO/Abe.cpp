@@ -2101,7 +2101,7 @@ __int16 Abe::ToLeftRightMovement_422AA0()
         {
             field_B4_velx = FP_FromInteger(0);
             field_FC_current_motion = eAbeStates::State_72_PushWall_4292A0;
-            Environment_SFX_42A220(EnvironmentSfx::eAbeMountedElumNoise_19, 0, 0x7FFF, this);
+            Environment_SFX_42A220(EnvironmentSfx::eGenericMovement_9, 0, 0x7FFF, this);
             return 0;
         }
 
@@ -2468,7 +2468,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
     Environment_SFX_42A220(EnvironmentSfx::eElumHitWall_14, 0, 0x7FFF, this);
     Mudokon_SFX_42A4D0(MudSounds::eKnockbackOuch_10, 127, 0, this);
     Environment_SFX_42A220(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, this);
-    SFX_Play_43AE60(SoundEffect::Unknown_79, 0, -500, this);
+    SFX_Play_43AE60(SoundEffect::Eating1_79, 0, -500, this);
     SFX_Play_43AD70(SoundEffect::KillEffect_78, 0, this);
 }
 
@@ -4028,7 +4028,7 @@ void Abe::State_30_HopMid_4264D0()
                 FP_GetExponent(field_AC_ypos - field_BC_sprite_scale * FP_FromInteger(50)),
                 38u))
             {
-                SFX_Play_43AD70(SoundEffect::BellHammer_9, 0, 0);
+                SFX_Play_43AD70(SoundEffect::RingBellHammer_9, 0, 0);
             }
             field_FE_next_state = eAbeStates::State_0_Idle_423520;
             ToKnockback_422D90(1, 1);
@@ -6159,7 +6159,7 @@ void Abe::State_136_ElumMountEnd_42E110()
         {
             field_2AA_flags |= 2;
             Environment_SFX_42A220(EnvironmentSfx::eMountElumSmackNoise_17, 0, 0x7FFF, this);
-            SFX_Play_43AD70(SoundEffect::Unknown_38, 0, this);
+            SFX_Play_43AD70(SoundEffect::MountingElum_38, 0, this);
         }
         break;
 
@@ -6248,7 +6248,7 @@ void Abe::State_138_ElumUnmountEnd_42E390()
         if (!(field_2AA_flags & 2))
         {
             field_2AA_flags |= 2;
-            SFX_Play_43AD70(SoundEffect::Unknown_38, 0, this);
+            SFX_Play_43AD70(SoundEffect::MountingElum_38, 0, this);
         }
         break;
 
