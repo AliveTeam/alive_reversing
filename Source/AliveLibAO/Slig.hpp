@@ -68,7 +68,7 @@ ALIVE_ASSERT_SIZEOF(Path_Slig, 0x58);
     ENTRY(State_21_SpeakHereBoy_467BD0) \
     ENTRY(State_22_SpeakHi_467C90) \
     ENTRY(State_23_SpeakFreeze_467D50) \
-    ENTRY(State_24_SpeakGitIm_467E10) \
+    ENTRY(State_24_SpeakGetHim_467E10) \
     ENTRY(State_25_SpeakLaugh_467ED0) \
     ENTRY(State_26_SpeakBullshit1_467F90) \
     ENTRY(State_27_SpeakLookOut_468050) \
@@ -107,6 +107,22 @@ enum eSligStates : int
 struct SligResources
 {
     BYTE** res[17];
+};
+
+enum class SligSpeak : unsigned __int8
+{
+   eHi_0 = 0,
+   eHereBoy_1 = 1,
+   eGetHim_2 = 2,
+   eStay_3 = 3,
+   eBullshit_4 = 4,
+   eLookOut_5 = 5,
+   eBullshit2_6 = 6,
+   eLaugh_7 = 7,
+   eFreeze_8 = 8,
+   eWhat_9 = 9,
+   eHelp_10 = 10,
+   eBlurgh_11 = 11
 };
 
 class Slig : public BaseAliveGameObject
@@ -225,7 +241,7 @@ public:
 
     EXPORT static __int16 CCSTD IsWallBetween_46BE60(Slig* pLeft, BaseAliveGameObject* pRight);
 
-    static EXPORT void CC Sfx_Slig_GameSpeak_46F560(unsigned __int8 effectId, int defaultVol, int pitch_min, BaseAliveGameObject* pObj);
+    static EXPORT void CC Slig_GameSpeak_SFX_46F560(SligSpeak effectId, int defaultVol, int pitch_min, BaseAliveGameObject* pObj);
 
     static EXPORT __int16 CCSTD IsInInvisibleZone_418870(BaseAnimatedWithPhysicsGameObject* pObj);
 
@@ -264,7 +280,7 @@ public:
     EXPORT void State_21_SpeakHereBoy_467BD0();
     EXPORT void State_22_SpeakHi_467C90();
     EXPORT void State_23_SpeakFreeze_467D50();
-    EXPORT void State_24_SpeakGitIm_467E10();
+    EXPORT void State_24_SpeakGetHim_467E10();
     EXPORT void State_25_SpeakLaugh_467ED0();
     EXPORT void State_26_SpeakBullshit1_467F90();
     EXPORT void State_27_SpeakLookOut_468050();

@@ -3600,7 +3600,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
                             break;
 
                         case eSligSpeak:
-                            Sfx_Slig_GameSpeak_4C04F0(static_cast<SligSpeak>(sMainMenuFrameTable_561CC8[field_228_res_idx].field_6_sound), 0, 0, 0);
+                            Slig_GameSpeak_SFX_4C04F0(static_cast<SligSpeak>(sMainMenuFrameTable_561CC8[field_228_res_idx].field_6_sound), 0, 0, 0);
                             field_23C_T80.Set(Flags::eBit22_GameSpeakPlaying);
                             break;
 

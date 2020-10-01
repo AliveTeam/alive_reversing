@@ -178,7 +178,7 @@ void SecurityDoor::vUpdate_4AC380()
         return;
 
     case DoorState::eSayingHi_2:
-        Sfx_Slig_GameSpeak_4C04F0(SligSpeak::Hi_0, 127, -200, 0);
+        Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHi_0, 127, -200, 0);
         field_20_animation.Set_Animation_Data_409C80(1528, 0);
         field_F8_state = DoorState::eListeningForHi_3;
         field_124_timer = sGnFrame_5C1B84 + 150;
@@ -234,17 +234,17 @@ void SecurityDoor::vUpdate_4AC380()
             {
                 if (v9 == 1)
                 {
-                    Sfx_Slig_GameSpeak_4C04F0(SligSpeak::Laugh_3, 127, -100, 0);
+                    Slig_GameSpeak_SFX_4C04F0(SligSpeak::eLaugh_3, 127, -100, 0);
                 }
             }
             else
             {
-                Sfx_Slig_GameSpeak_4C04F0(SligSpeak::Bullshit2_7, 127, -100, 0);
+                Slig_GameSpeak_SFX_4C04F0(SligSpeak::eBullshit2_7, 127, -100, 0);
             }
         }
         else
         {
-            Sfx_Slig_GameSpeak_4C04F0(SligSpeak::Bullshit_5, 127, -100, 0);
+            Slig_GameSpeak_SFX_4C04F0(SligSpeak::eBullshit_5, 127, -100, 0);
         }
 
         field_20_animation.Set_Animation_Data_409C80(1528, 0);
