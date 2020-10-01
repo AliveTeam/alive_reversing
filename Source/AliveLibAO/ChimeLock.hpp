@@ -49,6 +49,12 @@ public:
 
     EXPORT __int16 UpdateBall_40B8A0();
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_40AEF0();
+
+    void SetTargetBellIfSpace(__int16 targetNum);
+
     int field_10C_tlvInfo;
     __int16 field_110_state;
     __int16 field_112;
@@ -60,12 +66,12 @@ public:
     int field_124_code1;
     __int16 field_128_idx;
     __int16 field_12A;
-    int field_12C;
+    int field_12C_timer;
     __int16 field_130_song_matching;
     __int16 field_132_solve_id;
-    __int16 field_134;
+    __int16 field_134_pressed;
     __int16 field_136;
-    __int16 field_138;
+    __int16 field_138_flags;
     __int16 field_13A;
     FP field_13C_targetX;
     FP field_140_targetY;
@@ -80,8 +86,7 @@ public:
     __int16 field_15E_ball_angle;
     __int16 field_160_ball_timer;
     __int16 field_162;
-    __int16 field_164;
-    __int16 field_166;
+    __int16 field_164_target_bell_num[1];
 };
 ALIVE_ASSERT_SIZEOF(ChimeLock, 0x168);
 
