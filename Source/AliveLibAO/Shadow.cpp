@@ -36,4 +36,14 @@ void Shadow::dtor_462030()
     field_18_animation.vCleanUp();
 }
 
+void Shadow::Calculate_Position_462040(FP /*xpos*/, FP /*ypos*/, PSX_RECT* /*pRect*/, FP /*scale*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void Shadow::Render_462410(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 END_NS_AO

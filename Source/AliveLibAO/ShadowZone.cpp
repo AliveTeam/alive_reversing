@@ -49,9 +49,82 @@ ShadowZone* ShadowZone::ctor_435D30(Path_ShadowZone* pTlv, Map* /*pMap*/, int tl
     return this;
 }
 
-EXPORT void CC ShadowZone::ShadowZones_Calculate_Colour_435FF0(int /*xpos*/, int /*ypos*/, __int16 /*scale*/, short* /*r*/, short* /*g*/, short* /*b*/)
+void CC ShadowZone::ShadowZones_Calculate_Colour_435FF0(int xpos, int ypos, __int16 scale, short* r, short* g, short* b)
 {
-    NOT_IMPLEMENTED();
+    for (int idx = 0; idx < sShadowZone_dArray_507B08->Size(); idx++)
+    {
+        ShadowZone* pShadow = sShadowZone_dArray_507B08->ItemAt(idx);
+        if (!pShadow)
+        {
+            break;
+        }
+
+        if (pShadow->ApplysToScale(scale))
+        {
+             FP amount = {};
+             
+             // TODO: This was probably a reference, refactor later
+             pShadow->GetColourAmount_435E40(&amount, static_cast<short>(xpos), static_cast<short>(ypos));
+
+            *r = FP_GetExponent(FP_FromInteger(*r) + (pShadow->field_28_r * amount));
+            *b = FP_GetExponent(FP_FromInteger(*b) + (pShadow->field_30_b * amount));
+
+            // NOTE: Never seems to be enabled, a debugging feature so instead of being hidden
+            // in the shadow zones you appear green.
+            //if (!word_5076F4))
+            {
+                *g = FP_GetExponent(FP_FromInteger(*g) + (pShadow->field_2C_g * amount));
+            }
+        }
+    }
+
+    // Clamp min/max
+    if (*r > 255)
+    {
+        *r = 255;
+    }
+
+    if (*r < 0)
+    {
+        *r = 0;
+    }
+
+    if (*g > 255)
+    {
+        *g = 255;
+    }
+
+    if (*g < 0)
+    {
+        *g = 0;
+    }
+
+    if (*b > 255)
+    {
+        *b = 255;
+    }
+
+    if (*b < 0)
+    {
+        *b = 0;
+    }
+}
+
+__int16 ShadowZone::ApplysToScale(__int16 scale)
+{
+    if (field_26_scale == ShadowZoneScale::eBoth_0)
+    {
+        return 1;
+    }
+    else if (field_26_scale == ShadowZoneScale::eFull_2 && scale == 1)
+    {
+        return 1;
+    }
+    else if (field_26_scale == ShadowZoneScale::eHalf_1 && scale == 0)
+    {
+        return 1;
+    }
+    return 0;
 }
 
 BaseGameObject* ShadowZone::dtor_435F10()

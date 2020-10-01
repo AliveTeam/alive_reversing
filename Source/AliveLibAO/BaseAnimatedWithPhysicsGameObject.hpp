@@ -43,6 +43,16 @@ public:
 
     EXPORT BaseAnimatedWithPhysicsGameObject* Vdtor_4189C0(signed int flags);
 
+    virtual void VRender(int** pOrderingTable) override
+    {
+        VRender_417DA0(pOrderingTable);
+    }
+
+    // Note inlined in AO everywhere
+    CameraPos Is_In_Current_Camera();
+
+    EXPORT void VRender_417DA0(int** ppOt);
+
     virtual void VOnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, int startingPointIdx, TCollisionCallBack pFn);
 
     virtual PSX_RECT* VGetBoundingRect(PSX_RECT* pRect, int pointIdx);
@@ -78,8 +88,6 @@ public:
     EXPORT BaseAnimatedWithPhysicsGameObject* ctor_417C10();
 
     EXPORT void Animation_Init_417FD0(int frameTableOffset, int maxW, int maxH, BYTE** ppAnimData, __int16 a6);
-
-    EXPORT void VRender_417DA0(int** ot);
 
     EXPORT BaseGameObject* dtor_417D10();
 

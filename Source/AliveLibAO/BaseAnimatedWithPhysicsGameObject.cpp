@@ -5,6 +5,8 @@
 #include "stdlib.hpp"
 #include "Shadow.hpp"
 #include "Game.hpp"
+#include "ScreenManager.hpp"
+#include "ShadowZone.hpp"
 
 START_NS_AO
 
@@ -97,9 +99,75 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(int frameTableOffs
     }
 }
 
-void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(int** /*ot*/)
+
+CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera()
 {
-    NOT_IMPLEMENTED();
+    PSX_RECT rect = {};
+    VGetBoundingRect(&rect, 1);
+    return gMap_507BA8.Rect_Location_Relative_To_Active_Camera_4448C0(&rect, 0);
+}
+
+void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(int** ppOt)
+{
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
+    {
+        // Only render if in the active level, path and camera
+        if (gMap_507BA8.field_2_current_path == field_B0_path_number &&
+            gMap_507BA8.field_0_current_level == field_B2_lvl_number &&
+            Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
+        {
+            field_10_anim.field_14_scale = field_BC_sprite_scale;
+
+            __int16 r = field_C0_r;
+            __int16 g = field_C2_g;
+            __int16 b = field_C4_b;
+
+            PSX_RECT boundingRect = {};
+            VGetBoundingRect(&boundingRect, 1);
+
+            if (field_CC_bApplyShadows & 1)
+            {
+                ShadowZone::ShadowZones_Calculate_Colour_435FF0(
+                    FP_GetExponent(field_A8_xpos),          // Left side
+                    (boundingRect.y + boundingRect.h) / 2,  // Middle of Height
+                    field_C6_scale,
+                    &r,
+                    &g,
+                    &b);
+            }
+
+            field_10_anim.field_8_r = static_cast<BYTE>(r);
+            field_10_anim.field_9_g = static_cast<BYTE>(g);
+            field_10_anim.field_A_b = static_cast<BYTE>(b);
+
+            field_10_anim.vRender(
+                FP_GetExponent(field_A8_xpos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos + field_CA_xOffset)) -
+                  pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
+                FP_GetExponent(field_AC_ypos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_C8_yOffset)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+                ppOt,
+                0,
+                0);
+
+            PSX_RECT frameRect = {};
+            field_10_anim.Get_Frame_Rect_402B50(&frameRect);
+            pScreenManager_4FF7C8->InvalidateRect_406E40(
+                frameRect.x,
+                frameRect.y,
+                frameRect.w,
+                frameRect.h,
+                pScreenManager_4FF7C8->field_2E_idx);
+
+            if (field_D0_pShadow)
+            {
+                field_D0_pShadow->Calculate_Position_462040(
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    &frameRect,
+                    field_BC_sprite_scale);
+                field_D0_pShadow->Render_462410(ppOt);
+            }
+        }
+    }
 }
 
 BaseGameObject* BaseAnimatedWithPhysicsGameObject::VDestructor(signed int flags)
