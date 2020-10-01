@@ -2766,6 +2766,12 @@ void Elum::State_30_HopBegin_414E30()
     field_B8_vely = field_BC_sprite_scale * FP_FromDouble(-2.7);
     field_E8_LastLineYPos = field_AC_ypos;
 
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), field_B4_velx))
+    {
+        ToKnockback();
+        return;
+    }
+
     field_A8_xpos += field_B4_velx;
     field_AC_ypos += field_B8_vely;
 
