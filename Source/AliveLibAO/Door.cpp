@@ -393,8 +393,8 @@ void Door::PlaySound_40E780()
     {
         volume = 60;
     }
-    SFX_Play_43AE60(SoundEffect::Unknown_66, volume, 900);
-    SFX_Play_43AE60(SoundEffect::Unknown_66, volume, 0);
+    SFX_Play_43AE60(SoundEffect::DoorEffect_66, volume, 900);
+    SFX_Play_43AE60(SoundEffect::DoorEffect_66, volume, 0);
 }
 
 

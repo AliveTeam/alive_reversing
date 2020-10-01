@@ -260,8 +260,8 @@ void FlintLockFire::VUpdate_41AEE0()
         {
             if (field_10_anim.field_92_current_frame == 6)
             {
-                SFX_Play_43AD70(SoundEffect::Unknown_68, 0, 0);
-                SFX_Play_43AD70(SoundEffect::Unknown_70, 0, 0);
+                SFX_Play_43AD70(SoundEffect::FlintLock_68, 0, 0);
+                SFX_Play_43AD70(SoundEffect::PostFlint_70, 0, 0);
             }
         }
 

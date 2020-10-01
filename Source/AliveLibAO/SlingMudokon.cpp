@@ -261,7 +261,7 @@ void SlingMudokon::State_1_Angry_46FCF0()
 {
     if (!field_10_anim.field_92_current_frame)
     {
-        SFX_Play_43AD70(SoundEffect::Unknown_83, 0, 0);
+        SFX_Play_43AD70(SoundEffect::SlingshotExtend_83, 0, 0);
     }
 
     if (field_FE_next_state == eSlingMudStates::State_3_ShootStart_46FD90)
@@ -291,7 +291,7 @@ void SlingMudokon::State_3_ShootStart_46FD90()
 {
     if (!field_10_anim.field_92_current_frame)
     {
-        SFX_Play_43AD70(SoundEffect::Unknown_84, 0, 0);
+        SFX_Play_43AD70(SoundEffect::SlingshotShoot_84, 0, 0);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))

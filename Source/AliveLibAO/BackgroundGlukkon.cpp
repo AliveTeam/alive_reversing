@@ -106,11 +106,11 @@ __int16 BackgroundGlukkon::VTakeDamage_41DF80(BaseGameObject* pFrom)
 
         if (Math_NextRandom() >= 128u)
         {
-            SFX_Play_43AE60(SoundEffect::Unknown_106, rndVol, rndPitch, 0);
+            SFX_Play_43AE60(SoundEffect::Empty_106, rndVol, rndPitch, 0);
         }
         else
         {
-            SFX_Play_43AE60(SoundEffect::Unknown_105, rndVol, rndPitch, 0);
+            SFX_Play_43AE60(SoundEffect::Empty_105, rndVol, rndPitch, 0);
         }
 
         field_10_anim.Set_Animation_Data_402A40(46232, 0);
@@ -201,7 +201,7 @@ void BackgroundGlukkon::VUpdate_41DD60()
                 else
                 {
                     field_10_anim.Set_Animation_Data_402A40(46128, 0);
-                    SFX_Play_43AE60(SoundEffect::Unknown_105, rndVol, rndPitch, 0);
+                    SFX_Play_43AE60(SoundEffect::Empty_105, rndVol, rndPitch, 0);
                 }
                 field_110_state = 3;
                 break;
@@ -210,7 +210,7 @@ void BackgroundGlukkon::VUpdate_41DD60()
                 if (sActiveHero_507678->field_100_health > FP_FromInteger(0))
                 {
                     field_10_anim.Set_Animation_Data_402A40(46180, 0);
-                    SFX_Play_43AE60(SoundEffect::Unknown_106, rndVol, rndPitch, 0);
+                    SFX_Play_43AE60(SoundEffect::Empty_106, rndVol, rndPitch, 0);
                 }
                 field_110_state = 3;
                 break;

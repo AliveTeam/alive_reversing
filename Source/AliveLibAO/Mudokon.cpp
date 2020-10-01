@@ -1630,12 +1630,12 @@ void Mudokon::State_16_StandScrubLoop_43D7C0()
         {
             if (field_10_anim.field_92_current_frame == 5)
             {
-                SFX_Play_43AD70(SoundEffect::Scrub2_86, 0, 0);
+                SFX_Play_43AD70(SoundEffect::Clean2_86, 0, 0);
             }
         }
         else
         {
-            SFX_Play_43AD70(SoundEffect::Scrub1_85, 0, 0);
+            SFX_Play_43AD70(SoundEffect::Clean1_85, 0, 0);
         }
     }
 
@@ -1711,11 +1711,11 @@ void Mudokon::State_22_CrouchScrub_43D910()
     {
         if (field_10_anim.field_92_current_frame == 2)
         {
-            SFX_Play_43AD70(SoundEffect::Scrub1_85, 0, 0);
+            SFX_Play_43AD70(SoundEffect::Clean1_85, 0, 0);
         }
         else if (field_10_anim.field_92_current_frame == 6)
         {
-            SFX_Play_43AD70(SoundEffect::Scrub2_86, 0, 0);
+            SFX_Play_43AD70(SoundEffect::Clean2_86, 0, 0);
         }
     }
 

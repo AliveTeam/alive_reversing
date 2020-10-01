@@ -113,13 +113,13 @@ void Switch::VUpdate_4812D0()
                         SFX_Play_43ADE0(SoundEffect::WellExit_24, 50 * leftVol + 10, 50 * rightVol + 10, 0);
                         break;
                     case 2:
-                        SFX_Play_43ADE0(SoundEffect::Unknown_12, 100 * leftVol + 25, 100 * rightVol + 25, 0);
+                        SFX_Play_43ADE0(SoundEffect::SwitchBellHammer_12, 100 * leftVol + 25, 100 * rightVol + 25, 0);
                         return;
                     case 3:
-                        SFX_Play_43ADE0(SoundEffect::Unknown_66, 75 * leftVol + 15, 75 * rightVol + 15, 0);
+                        SFX_Play_43ADE0(SoundEffect::DoorEffect_66, 75 * leftVol + 15, 75 * rightVol + 15, 0);
                         break;
                     case 4:
-                        SFX_Play_43ADE0(SoundEffect::Unknown_57, 35 * leftVol + 25, 35 * rightVol + 25, 0);
+                        SFX_Play_43ADE0(SoundEffect::Zap1_57, 35 * leftVol + 25, 35 * rightVol + 25, 0);
                         break;
                     case 5:
                         SFX_Play_43ADE0(SoundEffect::SecurityOrb_56, 35 * leftVol + 25, 35 * rightVol + 25, 0);
@@ -136,13 +136,13 @@ void Switch::VUpdate_4812D0()
                         SFX_Play_43ADE0(SoundEffect::WellExit_24, 50 * leftVol + 10, 50 * rightVol + 10, 0);
                         break;
                     case 2:
-                        SFX_Play_43ADE0(SoundEffect::Unknown_12, 110 * leftVol + 25, 110 * rightVol + 25, 0);
+                        SFX_Play_43ADE0(SoundEffect::SwitchBellHammer_12, 110 * leftVol + 25, 110 * rightVol + 25, 0);
                         break;
                     case 3:
-                        SFX_Play_43ADE0(SoundEffect::Unknown_66, 75 * leftVol + 15, 75 * rightVol + 15, 0);
+                        SFX_Play_43ADE0(SoundEffect::DoorEffect_66, 75 * leftVol + 15, 75 * rightVol + 15, 0);
                         break;
                     case 4:
-                        SFX_Play_43ADE0(SoundEffect::Unknown_57, 80 * leftVol + 25, 80 * rightVol + 25, 0);
+                        SFX_Play_43ADE0(SoundEffect::Zap1_57, 80 * leftVol + 25, 80 * rightVol + 25, 0);
                         break;
                     case 5:
                         SFX_Play_43ADE0(SoundEffect::SecurityOrb_56, 35 * leftVol + 75, 35 * rightVol + 75, 0);

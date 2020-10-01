@@ -2000,11 +2000,11 @@ void Scrab::State_26_Feed_45FDA0()
     {
         if (Math_RandomRange_450F20(0, 100) >= 50)
         {
-            SFX_Play_43AD70(SoundEffect::Unknown_80, 0, 0);
+            SFX_Play_43AD70(SoundEffect::Eating2_80, 0, 0);
         }
         else
         {
-            SFX_Play_43AD70(SoundEffect::Unknown_79, 0, 0);
+            SFX_Play_43AD70(SoundEffect::Eating1_79, 0, 0);
         }
     }
 

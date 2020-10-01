@@ -270,7 +270,7 @@ void Shrykull::VUpdate_463AE0()
                 field_11C_obj_being_zapped->field_10A_flags.Set(Flags_10A::e10A_Bit3);
 
                 SFX_Play_43AE60(SoundEffect::Respawn_22, 100, 2000);
-                SFX_Play_43AD70(SoundEffect::Unknown_57, 0);
+                SFX_Play_43AD70(SoundEffect::Zap1_57, 0);
 
                 field_10C_state = State::eKillTargets_4;
                 field_110_timer = gnFrameCount_507670 + 12;

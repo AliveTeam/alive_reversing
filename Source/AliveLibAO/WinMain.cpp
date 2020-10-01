@@ -40,6 +40,7 @@
 #include "Spark.hpp"
 #include "Events.hpp"
 #include "../AliveLibCommon/config.h"
+#include "Sfx.hpp"
 
 START_NS_AO
 
