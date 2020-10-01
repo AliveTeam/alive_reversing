@@ -232,7 +232,7 @@ void Scrab::vOn_TLV_Collision_4A4B80(Path_TLV* pTlv)
     {
         if (pTlv->field_4_type == TlvTypes::DeathDrop_4)
         {
-            Sound_4AADB0(ScrabSound::Yell_8, 127, -1000, 0);
+            Scrab_SFX_4AADB0(ScrabSounds::eYell_8, 127, -1000, 0);
             field_6_flags.Set(Options::eDead_Bit3);
             field_10C_health = FP_FromInteger(0);
         }
@@ -1891,8 +1891,8 @@ __int16 Scrab::AI_Fighting_2_4A5840()
 
         SND_Stop_Channels_Mask_4CA810(field_160_sfx_bitmask);
         field_160_sfx_bitmask = 0;
-        Sound_4AADB0(ScrabSound::DeathHowl_1, 0, -1571, 1);
-        Sound_4AADB0(ScrabSound::Yell_8, 0, -1571, 1);
+        Scrab_SFX_4AADB0(ScrabSounds::eDeathHowl_1, 0, -1571, 1);
+        Scrab_SFX_4AADB0(ScrabSounds::eYell_8, 0, -1571, 1);
         Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 0, -383, 0);
 
         if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
@@ -2199,7 +2199,7 @@ void Scrab::M_Walk_1_4A84D0()
     {
     case 3:
     case 13:
-        Sound_4AADB0(ScrabSound::Walk1_6, Math_RandomRange_496AB0(40, 50), 0x7FFF, 1);
+        Scrab_SFX_4AADB0(ScrabSounds::eWalk1_6, Math_RandomRange_496AB0(40, 50), 0x7FFF, 1);
         return;
 
     case 5:
@@ -2236,7 +2236,7 @@ void Scrab::M_Walk_1_4A84D0()
 
     case 7:
     case 18:
-        Sound_4AADB0(ScrabSound::Walk1_6, Math_RandomRange_496AB0(40, 50), 0x7FFF, 1);
+        Scrab_SFX_4AADB0(ScrabSounds::eWalk1_6, Math_RandomRange_496AB0(40, 50), 0x7FFF, 1);
         if (sControlledCharacter_5C1B8C != this || field_10C_health <= FP_FromInteger(0))
         {
             if (field_108_next_motion != eScrabMotions::M_Run_2_4A89C0)
@@ -2338,7 +2338,7 @@ void Scrab::M_Run_2_4A89C0()
         case 5:
         case 7:
         case 12:
-            Sound_4AADB0(ScrabSound::Walk1_6, Math_RandomRange_496AB0(40, 50), 0x7FFF, 1);
+            Scrab_SFX_4AADB0(ScrabSounds::eWalk1_6, Math_RandomRange_496AB0(40, 50), 0x7FFF, 1);
             return;
 
         case 3:
@@ -2431,7 +2431,7 @@ void Scrab::M_Turn_3_4A91A0()
 {
     if (field_20_animation.field_92_current_frame == 5 || field_20_animation.field_92_current_frame == 9 || field_20_animation.field_92_current_frame == 11)
     {
-        Sound_4AADB0(ScrabSound::Walk1_6, Math_RandomRange_496AB0(40, 50), 0x7FFF, 1);
+        Scrab_SFX_4AADB0(ScrabSounds::eWalk1_6, Math_RandomRange_496AB0(40, 50), 0x7FFF, 1);
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -2646,7 +2646,7 @@ void Scrab::M_HopLand_7_4A9890()
     if (field_20_animation.field_92_current_frame == 0)
     {
         Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 80, 400, this);
-        Sound_4AADB0(ScrabSound::HitCollision_4, 0, 0x7FFF, 1);
+        Scrab_SFX_4AADB0(ScrabSounds::eHitCollision_4, 0, 0x7FFF, 1);
     }
     
     Event_Broadcast_422BC0(kEventNoise, this);
@@ -2949,7 +2949,7 @@ void Scrab::M_RunJumpEnd_13_4A9BE0()
         MoveOnLine_4A7D20();
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            Sound_4AADB0(ScrabSound::HitCollision_4, 0, 0x7FFF, 1);
+            Scrab_SFX_4AADB0(ScrabSounds::eHitCollision_4, 0, 0x7FFF, 1);
             if (!ToNextMotion_4A7920())
             {
                 ToStand_4A75A0();
@@ -3012,7 +3012,7 @@ void Scrab::M_Knockback_18_4AA490()
 
     else if (field_20_animation.field_92_current_frame == 2)
     {
-        Sound_4AADB0(ScrabSound::HitCollision_4, 0, 0x7FFF, 1);
+        Scrab_SFX_4AADB0(ScrabSounds::eHitCollision_4, 0, 0x7FFF, 1);
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -3041,7 +3041,7 @@ void Scrab::M_Fall_20_4A93E0()
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 80, 400, this);
-        Sound_4AADB0(ScrabSound::HitCollision_4, 0, 0x7FFF, 1);
+        Scrab_SFX_4AADB0(ScrabSounds::eHitCollision_4, 0, 0x7FFF, 1);
         ToStand_4A75A0();
         field_108_next_motion = -1;
     }
@@ -3056,13 +3056,13 @@ void Scrab::M_Stamp_21_4A9CC0()
             KillTarget_4A7F20(nullptr);
         }
 
-        Sound_4AADB0(ScrabSound::HitCollision_4, 0, 0x7FFF, 1);
+        Scrab_SFX_4AADB0(ScrabSounds::eHitCollision_4, 0, 0x7FFF, 1);
         SFX_Play_46FBA0(SoundEffect::KillEffect_64, 60, Math_RandomRange_496AB0(-255, 255));
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        Sound_4AADB0(ScrabSound::Howl_0, 60, 511, 1);
+        Scrab_SFX_4AADB0(ScrabSounds::eHowl_0, 60, 511, 1);
 
         if (BrainIs(&Scrab::AI_Possessed_5_4A6180))
         {
@@ -3079,7 +3079,7 @@ void Scrab::M_GetPossessed_22_4AA420()
 {
     if (field_20_animation.field_92_current_frame == 9)
     {
-        Sound_4AADB0(ScrabSound::HitCollision_4, 0, 0x7FFF, 1);
+        Scrab_SFX_4AADB0(ScrabSounds::eHitCollision_4, 0, 0x7FFF, 1);
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -3126,7 +3126,7 @@ void Scrab::M_HowlBegin_26_4A9DA0()
         if (sGnFrame_5C1B84 & 1)
         {
             Event_Broadcast_422BC0(kEventLoudNoise, this);
-            Sound_4AADB0(ScrabSound::Yell_8, 0, Math_RandomRange_496AB0(-1600, -900), 1);
+            Scrab_SFX_4AADB0(ScrabSounds::eYell_8, 0, Math_RandomRange_496AB0(-1600, -900), 1);
             if (BrainIs(&Scrab::AI_Possessed_5_4A6180))
             {
                 pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::Scrab_Howl_53);
@@ -3175,7 +3175,7 @@ void Scrab::M_GetDepossessedBegin_28_4AA200()
     {
         if (field_20_animation.field_92_current_frame == 2)
         {
-            Sound_4AADB0(ScrabSound::Yell_8, 0, Math_RandomRange_496AB0(-1600, -900), 1);
+            Scrab_SFX_4AADB0(ScrabSounds::eYell_8, 0, Math_RandomRange_496AB0(-1600, -900), 1);
         }
 
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -3224,7 +3224,7 @@ void Scrab::M_Shriek_30_4A9EA0()
         if (sGnFrame_5C1B84 & 1)
         {
             Event_Broadcast_422BC0(kEventLoudNoise, this);
-            Sound_4AADB0(ScrabSound::Howl_0, 0, 0x7FFF, 1);
+            Scrab_SFX_4AADB0(ScrabSounds::eHowl_0, 0, 0x7FFF, 1);
             if (BrainIs(&Scrab::AI_Possessed_5_4A6180))
             {
                 pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::Scrab_Shriek_54);
@@ -3245,7 +3245,7 @@ void Scrab::M_ScrabBattleAnim_31_4A9F30()
 {
     if (field_20_animation.field_92_current_frame == 0)
     {
-        field_160_sfx_bitmask = Sound_4AADB0(ScrabSound::Shredding_5, 100, Math_RandomRange_496AB0(-600, 200), 1);
+        field_160_sfx_bitmask = Scrab_SFX_4AADB0(ScrabSounds::eShredding_5, 100, Math_RandomRange_496AB0(-600, 200), 1);
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -3268,7 +3268,7 @@ void Scrab::M_AttackSpin_32_4A8DC0()
 
     if (field_20_animation.field_92_current_frame == 0)
     {
-        field_160_sfx_bitmask = Sound_4AADB0(ScrabSound::Shredding_5, 100, Math_RandomRange_496AB0(-600, 200), 1);
+        field_160_sfx_bitmask = Scrab_SFX_4AADB0(ScrabSounds::eShredding_5, 100, Math_RandomRange_496AB0(-600, 200), 1);
     }
 
     const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
@@ -3400,7 +3400,7 @@ void Scrab::M_AttackLunge_37_4AA0B0()
 
     if (field_20_animation.field_92_current_frame == 4)
     {
-        Sound_4AADB0(ScrabSound::Howl_0, 0, 0x7FFF, 1);
+        Scrab_SFX_4AADB0(ScrabSounds::eHowl_0, 0, 0x7FFF, 1);
     }
     else if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -4036,12 +4036,12 @@ void Scrab::KnockBack_4AA530()
     field_130_depossession_timer = sGnFrame_5C1B84 + 10;
 }
 
-const SfxDefinition getSfxDef(ScrabSound effectId)
+const SfxDefinition getSfxDef(ScrabSounds effectId)
 {
     return sScrabSfx_560330[static_cast<int>(effectId)];
 }
 
-int Scrab::Sound_4AADB0(ScrabSound soundId, int vol, int pitch, __int16 applyDirection)
+int Scrab::Scrab_SFX_4AADB0(ScrabSounds soundId, int vol, int pitch, __int16 applyDirection)
 {
     __int16 volumeLeft = 0;
     __int16 volumeRight = 0;

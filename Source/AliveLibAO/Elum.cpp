@@ -232,7 +232,7 @@ void Elum::VOn_TLV_Collision_410F10(Path_TLV* pTlv)
             {
                 field_122 = 0;
             }
-            Sfx_416E10(2u, this);
+            Elum_SFX_416E10(ElumSounds::eHowl_2, this);
             field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
             field_FC_current_motion = eElumStates::State_20_Fall_415F70;
             field_100_health = FP_FromInteger(0);
@@ -262,7 +262,7 @@ __int16 Elum::VTakeDamage_411020(BaseGameObject* pFrom)
     case Types::eExplosion_74:
         if (field_100_health > FP_FromInteger(0))
         {
-            Sfx_416E10(7u, 0);
+            Elum_SFX_416E10(ElumSounds::eExploding_7, 0);
             SFX_Play_43AD70(SoundEffect::KillEffect_78, 75, 0);
 
             if (sActiveHero_507678->field_100_health > FP_FromInteger(0))
@@ -711,7 +711,7 @@ __int16 Elum::ToNextState_4120F0()
         return 1;
 
     case eElumStates::State_29_BeesStruggling_412A90:
-        Sfx_416E10(3u, 0);
+        Elum_SFX_416E10(ElumSounds::eBeesStruggle_3, 0);
         field_FC_current_motion = eElumStates::State_29_BeesStruggling_412A90;
         field_110_timer = gnFrameCount_507670 + 25;
         field_FE_next_state = -1;
@@ -893,19 +893,19 @@ const SfxDefinition sElumSfx_4C5398[12] =
     { 0, 21, 64, 60, -1, 1, 0 }
 };
 
-void CC Elum::Sfx_416E10(unsigned __int8 soundId, BaseAliveGameObject* pObj)
+void CC Elum::Elum_SFX_416E10(ElumSounds soundId, BaseAliveGameObject* pObj)
 {
     switch (soundId)
     {
-    case 0u:
+    case ElumSounds::eWalkingFootstep_0:
         SFX_SfxDefinition_Play_4770F0(&sElumSfx_4C5398[Math_RandomRange_450F20(0, 2)], Math_RandomRange_450F20(54, 58), -700, -573);
         break;
 
-    case 1u:
+    case ElumSounds::eRunningFootstep_1:
         SFX_SfxDefinition_Play_4770F0(&sElumSfx_4C5398[Math_RandomRange_450F20(0, 2)], Math_RandomRange_450F20(66, 70), -573, -446);
         break;
 
-    case 2u:
+    case ElumSounds::eHowl_2:
     {
         CameraPos dir = CameraPos::eCamCurrent_0;
         if (pObj)
@@ -945,27 +945,27 @@ void CC Elum::Sfx_416E10(unsigned __int8 soundId, BaseAliveGameObject* pObj)
         break;
     }
 
-    case 3u:
+    case ElumSounds::eBeesStruggle_3:
         SFX_SfxDefinition_Play_4770F0(&sElumSfx_4C5398[4], 0, 0x7FFF, 0x7FFF);
         break;
 
-    case 4u:
+    case ElumSounds::eHitGroundSoft_4:
         SFX_SfxDefinition_Play_4770F0(&sElumSfx_4C5398[7], 0, 0x7FFF, 0x7FFF);
         break;
 
-    case 5u:
+    case ElumSounds::eRunSlide_5:
         Environment_SFX_42A220(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, 0);
         break;
 
-    case 6u:
+    case ElumSounds::eSpottedHoney_6:
         SFX_SfxDefinition_Play_4770F0(&sElumSfx_4C5398[5], 0, 0x7FFF, 0x7FFF);
         break;
 
-    case 7u:
+    case ElumSounds::eExploding_7:
         SFX_SfxDefinition_Play_4770F0(&sElumSfx_4C5398[6], 0, 0x7FFF, 0x7FFF);
         break;
 
-    case 8u:
+    case ElumSounds::eLickingHoney_8:
         SFX_SfxDefinition_Play_4770F0(&sElumSfx_4C5398[Math_RandomRange_450F20(8, 10)], 0, 0x7FFF, 0x7FFF);
         break;
 
@@ -1553,12 +1553,12 @@ __int16 Elum::Brain_1_HoneyAddiction_411730()
                 if (honey_xd >= (kGridSize * FP_FromInteger(2)))
                 {
                     field_FE_next_state = eElumStates::State_3_WalkLoop_412C90;
-                    Sfx_416E10(6u, 0);
+                    Elum_SFX_416E10(ElumSounds::eSpottedHoney_6, 0);
                     return 2;
                 }
                 else
                 {
-                    Sfx_416E10(6u, 0);
+                    Elum_SFX_416E10(ElumSounds::eSpottedHoney_6, 0);
                     field_FE_next_state = eElumStates::State_25_LickingHoney_415B50;
                     if (sControlledCharacter_50767C == this)
                     {
@@ -1577,12 +1577,12 @@ __int16 Elum::Brain_1_HoneyAddiction_411730()
                 if (honey_xd <= -(kGridSize * FP_FromInteger(2)))
                 {
                     field_FE_next_state = eElumStates::State_3_WalkLoop_412C90;
-                    Sfx_416E10(6u, 0);
+                    Elum_SFX_416E10(ElumSounds::eSpottedHoney_6, 0);
                     return 2;
                 }
                 else
                 {
-                    Sfx_416E10(6u, 0);
+                    Elum_SFX_416E10(ElumSounds::eSpottedHoney_6, 0);
                     field_FE_next_state = eElumStates::State_25_LickingHoney_415B50;
                     if (sControlledCharacter_50767C == this)
                     {
@@ -1611,7 +1611,7 @@ __int16 Elum::Brain_1_HoneyAddiction_411730()
         {
             if (honey_xd_1 < (kGridSize * FP_FromInteger(2)))
             {
-                Sfx_416E10(6u, 0);
+                Elum_SFX_416E10(ElumSounds::eSpottedHoney_6, 0);
                 field_FE_next_state = eElumStates::State_25_LickingHoney_415B50;
                 if (sControlledCharacter_50767C == this)
                 {
@@ -1624,7 +1624,7 @@ __int16 Elum::Brain_1_HoneyAddiction_411730()
         {
             if (honey_xd_1 > -(kGridSize * FP_FromInteger(2)))
             {
-                Sfx_416E10(6u, 0);
+                Elum_SFX_416E10(ElumSounds::eSpottedHoney_6, 0);
                 field_FE_next_state = eElumStates::State_25_LickingHoney_415B50;
                 if (sControlledCharacter_50767C == this)
                 {
@@ -1634,7 +1634,7 @@ __int16 Elum::Brain_1_HoneyAddiction_411730()
             }
         }
         field_FE_next_state = eElumStates::State_3_WalkLoop_412C90;
-        Sfx_416E10(6u, 0);
+        Elum_SFX_416E10(ElumSounds::eSpottedHoney_6, 0);
         return 2;
     }
 
@@ -2004,7 +2004,7 @@ void Elum::State_3_WalkLoop_412C90()
 
             if (sControlledCharacter_50767C != this)
             {
-                Sfx_416E10(0, 0);
+                Elum_SFX_416E10(ElumSounds::eWalkingFootstep_0, 0);
                 return;
             }
 
@@ -2014,7 +2014,7 @@ void Elum::State_3_WalkLoop_412C90()
             }
 
             field_10E = 0;
-            Sfx_416E10(0, 0);
+            Elum_SFX_416E10(ElumSounds::eWalkingFootstep_0, 0);
         }
         else if (field_10_anim.field_92_current_frame == 11)
         {
@@ -2072,7 +2072,7 @@ void Elum::State_3_WalkLoop_412C90()
 
             if (sControlledCharacter_50767C != this)
             {
-                Sfx_416E10(0, 0);
+                Elum_SFX_416E10(ElumSounds::eWalkingFootstep_0, 0);
                 return;
             }
 
@@ -2082,7 +2082,7 @@ void Elum::State_3_WalkLoop_412C90()
             }
 
             field_10E = 0;
-            Sfx_416E10(0, 0);
+            Elum_SFX_416E10(ElumSounds::eWalkingFootstep_0, 0);
         }
         else
         {
@@ -2107,7 +2107,7 @@ void Elum::State_4_Turn_4140F0()
 
         if (field_FE_next_state == eElumStates::State_29_BeesStruggling_412A90)
         {
-            Sfx_416E10(3u, 0);
+            Elum_SFX_416E10(ElumSounds::eBeesStruggle_3, 0);
             field_FC_current_motion = eElumStates::State_29_BeesStruggling_412A90;
             field_FE_next_state = -1;
             field_110_timer = gnFrameCount_507670 + 25;
@@ -2137,7 +2137,7 @@ void Elum::State_5_WalkToIdle_4132D0()
 
     if (field_10_anim.field_92_current_frame == 0)
     {
-        Sfx_416E10(0, 0);
+        Elum_SFX_416E10(ElumSounds::eWalkingFootstep_0, 0);
     }
     else if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -2145,7 +2145,7 @@ void Elum::State_5_WalkToIdle_4132D0()
 
         if (field_FE_next_state == eElumStates::State_29_BeesStruggling_412A90)
         {
-            Sfx_416E10(3u, 0);
+            Elum_SFX_416E10(ElumSounds::eBeesStruggle_3, 0);
             field_FC_current_motion = eElumStates::State_29_BeesStruggling_412A90;
             field_110_timer = gnFrameCount_507670 + 25;
             field_FE_next_state = -1;
@@ -2185,7 +2185,7 @@ void Elum::State_6_MidWalkToIdle_4133F0()
 
     if (field_10_anim.field_92_current_frame == 0)
     {
-        Sfx_416E10(0, 0);
+        Elum_SFX_416E10(ElumSounds::eWalkingFootstep_0, 0);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -2263,7 +2263,7 @@ void Elum::State_10_Yell_4158E0()
     }
     else
     {
-        Sfx_416E10(2u, this);
+        Elum_SFX_416E10(ElumSounds::eHowl_2, this);
         field_170_flags &= ~0x20u;
     }
 
@@ -2288,7 +2288,7 @@ void Elum::State_12_RunTurn_414520()
 
     if (!field_10_anim.field_92_current_frame)
     {
-        Sfx_416E10(5u, 0);
+        Elum_SFX_416E10(ElumSounds::eRunSlide_5, 0);
     }
 
     const FP offY = (sControlledCharacter_50767C == this) ? field_BC_sprite_scale * FP_FromInteger(40) : field_BC_sprite_scale * FP_FromInteger(25);
@@ -2459,7 +2459,7 @@ void Elum::State_19_Dead_415F90()
 
             if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(field_14A_continue_level, field_148_continue_path, field_A8_xpos, field_AC_ypos, 0))
             {
-                Sfx_416E10(2u, this);
+                Elum_SFX_416E10(ElumSounds::eHowl_2, this);
             }
 
             field_170_flags &= ~9u;
@@ -2546,7 +2546,7 @@ void Elum::State_21_Land_414A20()
         case 32:
         case 36:
         {
-            Sfx_416E10(4u, 0);
+            Elum_SFX_416E10(ElumSounds::eHitGroundSoft_4, 0);
             field_F4_pLine = pLine;
             if (field_AC_ypos - field_E8_LastLineYPos >= FP_FromInteger(20))
             {
@@ -2643,7 +2643,7 @@ void Elum::State_25_LickingHoney_415B50()
         {
             if (field_170_flags & 0x20)
             {
-                Sfx_416E10(8u, 0);
+                Elum_SFX_416E10(ElumSounds::eLickingHoney_8, 0);
                 field_170_flags &= ~0x20;
             }
         }
@@ -2800,7 +2800,7 @@ void Elum::State_31_HopMid_414C70()
             case 4:
             case 32:
             case 36:
-                Sfx_416E10(4u, 0);
+                Elum_SFX_416E10(ElumSounds::eHitGroundSoft_4, 0);
                 field_B4_velx = FP_FromInteger(0);
                 field_FC_current_motion = eElumStates::State_32_HopLand_415140;
                 field_B8_vely = FP_FromInteger(0);
@@ -2925,7 +2925,7 @@ void Elum::State_34_RunJumpMid_415240()
             case 4:
             case 32:
             case 36:
-                Sfx_416E10(4u, 0);
+                Elum_SFX_416E10(ElumSounds::eHitGroundSoft_4, 0);
                 field_A8_xpos = hitX;
                 field_FC_current_motion = eElumStates::State_35_RunJumpLand_415580;
                 field_AC_ypos = hitY;
@@ -3037,7 +3037,7 @@ void Elum::State_36_RunLoop_413720()
             return;
         }
         
-        Sfx_416E10(1u, 0);
+        Elum_SFX_416E10(ElumSounds::eRunningFootstep_1, 0);
 
         if (!field_10C)
         {
@@ -3113,7 +3113,7 @@ void Elum::State_37_RunSlideStop_4142E0()
 
     if (!field_10_anim.field_92_current_frame)
     {
-        Sfx_416E10(5u, 0);
+        Elum_SFX_416E10(ElumSounds::eRunSlide_5, 0);
     }
 
     const FP offY = (sControlledCharacter_50767C == this) ? field_BC_sprite_scale * FP_FromInteger(40) : field_BC_sprite_scale * FP_FromInteger(25);
@@ -3411,7 +3411,7 @@ void Elum::State_46_ScratchEnd_412800()
 
         if (field_FE_next_state == eElumStates::State_29_BeesStruggling_412A90)
         {
-            Sfx_416E10(3u, 0);
+            Elum_SFX_416E10(ElumSounds::eBeesStruggle_3, 0);
             field_FC_current_motion = eElumStates::State_29_BeesStruggling_412A90;
             field_110_timer = gnFrameCount_507670 + 25;
             field_FE_next_state = -1;

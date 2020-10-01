@@ -630,11 +630,11 @@ void Greeter::RandomishSpeak_447A70(GreeterSpeak effect)
     {
         const int randomSpeak = static_cast<int>(sGnFrame_5C1B84 % 4);
         // Will be one of: Hi_0, HereBoy_1,  GetHim_2 or Laugh_3
-        Sfx_Slig_GameSpeak_4C04F0(static_cast<SligSpeak>(randomSpeak), 100, 700, this);
+        Slig_GameSpeak_SFX_4C04F0(static_cast<SligSpeak>(randomSpeak), 100, 700, this);
     }
     else
     {
-        Sfx_Slig_GameSpeak_4C04F0(static_cast<SligSpeak>(effect), 100, 700, this);
+        Slig_GameSpeak_SFX_4C04F0(static_cast<SligSpeak>(effect), 100, 700, this);
     }
 }
 

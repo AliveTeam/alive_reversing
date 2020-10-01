@@ -62,6 +62,19 @@ struct Path_Scrab : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_Scrab, 0x2C);
 
+enum class ScrabSounds : unsigned __int8
+{
+    eHowl_0 = 0,
+    eDeathHowl_1 = 1,
+    eEmpty_2 = 2,
+    eEmpty_3 = 3,
+    eHitCollision_4 = 4,
+    eShredding_5 = 5,
+    eWalk1_6 = 6,
+    eWalk2_7 = 7, // unused in AO?
+    eYell_8 = 8,
+};
+
 class Scrab : public BaseAliveGameObject
 {
 public:
@@ -111,7 +124,7 @@ public:
 
     void ToStand();
 
-    EXPORT int Sfx_460B80(unsigned __int8 idx, int a3, int a4, __int16 a5);
+    EXPORT int Scrab_SFX_460B80(ScrabSounds soundId, int vol, int pitch, __int16 applyDirection);
 
     EXPORT void ToJump_45E340();
 

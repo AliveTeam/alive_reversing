@@ -152,23 +152,23 @@ EXPORT int CC SND_4CA5D0(int a1, int a2, int a3, __int16 vol, __int16 min, __int
 
 enum class SligSpeak : signed char
 {
-    None        = -1,
-    Hi_0        =  0,
-    HereBoy_1   =  1,
-    GetEm_2    =  2,
-    Laugh_3     =  3,
-    Stay_4      =  4,
-    Bullshit_5  =  5,
-    LookOut_6   =  6,
-    Bullshit2_7 =  7,
-    Freeze_8    =  8,
-    What_9      =  9,
-    Help_10     =  10,
-    Blurg_11    =  11,
-    GotYa_12    =  12,
-    Ouch1_13    =  13,
-    Ouch2_14    =  14,
+    eNone        = -1,
+    eHi_0        =  0,
+    eHereBoy_1   =  1,
+    eGetHim_2    =  2,
+    eLaugh_3     =  3,
+    eStay_4      =  4,
+    eBullshit_5  =  5,
+    eLookOut_6   =  6,
+    eBullshit2_7 =  7,
+    eFreeze_8    =  8,
+    eWhat_9      =  9,
+    eHelp_10     =  10,
+    eBlurgh_11    =  11,
+    eGotYa_12    =  12,
+    eOuch1_13    =  13,
+    eOuch2_14    =  14,
 };
 
-EXPORT void CC Sfx_Slig_GameSpeak_4C04F0(SligSpeak effectId, __int16 defaultVol, __int16 pitch_min, BaseAnimatedWithPhysicsGameObject* pObj);
+EXPORT void CC Slig_GameSpeak_SFX_4C04F0(SligSpeak effectId, __int16 defaultVol, __int16 pitch_min, BaseAnimatedWithPhysicsGameObject* pObj);
 EXPORT signed __int16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject* pObj, __int16 defaultVol, const SfxDefinition* pSfx, __int16* pLeftVol, __int16* pRightVol);
