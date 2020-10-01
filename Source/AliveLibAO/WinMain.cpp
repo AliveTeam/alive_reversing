@@ -582,24 +582,6 @@ EXPORT void CC Game_Loop_437630()
 
     while (!sBreakGameLoop_507B78 && !gBaseGameObject_list_9F2DF0->Empty())
     {
-        static unsigned char sfxId = 0;
-        if (sInputObject_5009E8.isReleased(sInputKey_Down_4C659C) && sfxId > 0)
-        {
-            sfxId--;
-            LOG_INFO("sfx played: " << static_cast<int>(sfxId));
-            SFX_Play_43AE60(sfxId, 500, 0, 0);
-        }
-        else if (sInputObject_5009E8.isReleased(sInputKey_Up_4C6598) && sfxId < 112)
-        {
-            sfxId++;
-            LOG_INFO("sfx played: " << static_cast<int>(sfxId));
-            SFX_Play_43AE60(sfxId, 500, 0, 0);
-        }
-        else if (sInputObject_5009E8.isReleased(sInputKey_DoAction_4C65A4))
-        {
-            SFX_Play_43AE60(sfxId, 500, 0, 0);
-        }
-
         Events_Reset_Active_417320();
 
         // Update objects
