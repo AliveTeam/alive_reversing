@@ -14,6 +14,10 @@ public:
 
     EXPORT void dtor_462030();
 
+    EXPORT void Calculate_Position_462040(FP xpos, FP ypos, PSX_RECT* pRect, FP scale);
+
+    EXPORT void Render_462410(int** ppOt);
+
     __int16 field_0;
     __int16 field_2;
     __int16 field_4;

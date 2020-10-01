@@ -6,6 +6,13 @@
 
 START_NS_AO
 
+enum class ShadowZoneScale : __int16
+{
+    eBoth_0 = 0,
+    eHalf_1 = 1,
+    eFull_2 = 2,
+};
+
 struct Path_ShadowZone : public Path_TLV
 {
     __int16 field_18_centre_w;
@@ -14,7 +21,7 @@ struct Path_ShadowZone : public Path_TLV
     __int16 field_1E_g;
     __int16 field_20_b;
     __int16 field_22_id;
-    __int16 field_24_scale;
+    ShadowZoneScale field_24_scale;
     __int16 field_26_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_ShadowZone, 0x28);
@@ -46,6 +53,9 @@ public:
 
     EXPORT static void CC ShadowZones_Calculate_Colour_435FF0(int xpos, int ypos, __int16 scale, short* r, short* g, short* b);
 
+    // Note: Completely inlined in AO
+    __int16 ApplysToScale(__int16 scale);
+
     int field_10_tlvInfo;
     LevelIds field_14_level;
     __int16 field_16_path;
@@ -56,7 +66,7 @@ public:
     __int16 field_20_mid_x;
     __int16 field_22_mid_y;
     __int16 field_24_id;
-    __int16 field_26_scale;
+    ShadowZoneScale field_26_scale;
     FP field_28_r;
     FP field_2C_g;
     FP field_30_b;

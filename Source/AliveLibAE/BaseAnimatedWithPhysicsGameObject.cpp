@@ -121,20 +121,18 @@ void BaseAnimatedWithPhysicsGameObject::Render_424B90(int** pOrderingTable)
         {
             field_20_animation.field_14_scale = field_CC_sprite_scale;
 
-            __int16 g = field_D2_g;
             __int16 r = field_D0_r;
+            __int16 g = field_D2_g;
             __int16 b = field_D4_b;
 
             PSX_RECT boundingRect = {};
             vGetBoundingRect_424FD0(&boundingRect, 1);
-            PSX_Point xy = { boundingRect.x, boundingRect.y };
-            PSX_Point wh = { boundingRect.w, boundingRect.h };
 
             if (field_DC_bApplyShadows & 1)
             {
                 ShadowZone::ShadowZones_Calculate_Colour_463CE0(
                     FP_GetExponent(field_B8_xpos),      // Left side
-                    (wh.field_2_y + xy.field_2_y) / 2,  // Middle of Height
+                    (boundingRect.y + boundingRect.h) / 2,  // Middle of Height
                     field_D6_scale,
                     &r,
                     &g,
