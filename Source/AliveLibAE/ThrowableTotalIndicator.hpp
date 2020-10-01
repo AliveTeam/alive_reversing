@@ -5,6 +5,13 @@
 #include "FixedPoint.hpp"
 #include "Primitives.hpp"
 
+enum class ThrowableTotalIndicatorState : __int16
+{
+    eCreated_0 = 0,
+    eFading_1 = 1,
+    eVanishing_2 = 2
+};
+
 class ThrowableTotalIndicator : public BaseGameObject
 {
 public:
@@ -35,10 +42,9 @@ private:
     __int16 field_44_g;
     __int16 field_46_b;
     __int16 field_48_num_to_show;
-    //__int16 field_4A_pad;
     Line_G2 field_4C_prims[2][6];
     Prim_SetTPage field_16C_tPage[2];
-    __int16 field_18C_state;
+    ThrowableTotalIndicatorState field_18C_state;
     __int16 field_18E_bFade;
 };
 ALIVE_ASSERT_SIZEOF(ThrowableTotalIndicator, 0x190);

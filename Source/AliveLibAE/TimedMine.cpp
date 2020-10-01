@@ -24,7 +24,7 @@ void TimedMine::VUpdate()
     Update_410A80();
 }
 
-void TimedMine::VRender(int ** pOrderingTable)
+void TimedMine::VRender(int** pOrderingTable)
 {
     Render_410CD0(pOrderingTable);
 }
@@ -67,7 +67,7 @@ TimedMine* TimedMine::ctor_410600(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
 
     field_6_flags.Set(Options::eInteractive_Bit8);
 
-    field_1C4_flags.Clear(TimedMine_Flags_1C4::e1C4_Bit0);
+    field_1C4_flags.Clear(TimedMine_Flags_1C4::eStickToLiftPoint_0);
 
     field_118_armed = 0;
 
@@ -133,7 +133,7 @@ void TimedMine::Update_410A80()
         field_6_flags.Set(Options::eDead_Bit3);
     }
 
-    if (!field_1C4_flags.Get(TimedMine_Flags_1C4::e1C4_Bit0))
+    if (!field_1C4_flags.Get(TimedMine_Flags_1C4::eStickToLiftPoint_0))
     {
         StickToLiftPoint_411100();
     }
@@ -148,20 +148,20 @@ void TimedMine::Update_410A80()
 
     if (field_118_armed == 1)
     {
-        if (sGnFrame_5C1B84 > field_1BC + field_1C0)
+        if (sGnFrame_5C1B84 > field_1BC_gnframe_2 + field_1C0_detonation_timer)
         {
-            field_1BC = sGnFrame_5C1B84;
+            field_1BC_gnframe_2 = sGnFrame_5C1B84;
             const CameraPos soundDir = gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos);
             SFX_Play_46FC20(SoundEffect::GreenTick_2, 50, soundDir);
 
             // TODO: Modulus ?
             if (((field_120_gnframe - sGnFrame_5C1B84) & 0xFFFFFFF8) >= 144)
             {
-                field_1C0 = 18;
+                field_1C0_detonation_timer = 18;
             }
             else
             {
-                field_1C0 = (field_120_gnframe - sGnFrame_5C1B84) >> 3;
+                field_1C0_detonation_timer = (field_120_gnframe - sGnFrame_5C1B84) >> 3;
             }
         }
 
@@ -177,7 +177,7 @@ void TimedMine::Update_410A80()
     }
 }
 
-void TimedMine::Render_410CD0(int ** pOt)
+void TimedMine::Render_410CD0(int** pOt)
 {
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
         field_C2_lvl_number,
@@ -207,7 +207,7 @@ void TimedMine::Render_410CD0(int ** pOt)
     }
 }
 
-void TimedMine::InitBlinkAnimation_4108E0(Animation * pAnimation)
+void TimedMine::InitBlinkAnimation_4108E0(Animation* pAnimation)
 {
     if (pAnimation->Init_40A030(544, gObjList_animations_5C1A24, this, 36, 0x15u, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kBombflshResID), 1, 0, 0))
     {
@@ -242,7 +242,7 @@ void TimedMine::StickToLiftPoint_411100()
         {
             if (ObjList_5C1B78)
             {
-                for (int i=0; i < ObjList_5C1B78->Size(); i++)
+                for (int i = 0; i < ObjList_5C1B78->Size(); i++)
                 {
                     BaseGameObject* pObj = ObjList_5C1B78->ItemAt(i);
                     if (!pObj)
@@ -327,23 +327,26 @@ __int16 TimedMine::vTakeDamage_410FA0(BaseGameObject* pFrom)
 
     switch (pFrom->field_4_typeId)
     {
-    case Types::eAbe_69:
-    case Types::eAbilityRing_104:
-    case Types::eExplosion_109:
-    case Types::eShrykull_121:
-    {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        auto pExplosion = ae_new<BaseBomb>();
-        if (pExplosion)
+        case Types::eAbe_69:
+        case Types::eAbilityRing_104:
+        case Types::eExplosion_109:
+        case Types::eShrykull_121:
         {
-            pExplosion->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            auto pExplosion = ae_new<BaseBomb>();
+
+            if (pExplosion)
+            {
+                pExplosion->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
+            }
+
+            field_118_armed = 1;
+            field_120_gnframe = sGnFrame_5C1B84;
+            return 1;
         }
-        field_118_armed = 1;
-        field_120_gnframe = sGnFrame_5C1B84;
-        return 1;
-    }
-    default:
-        return 0;
+
+        default:
+            return 0;
     }
 }
 
@@ -366,13 +369,13 @@ void TimedMine::vOnPickUpOrSlapped_410E30()
         field_118_armed = 1;
         if ((signed int)(field_11A_explode_timeout & 0xFFFC) >= 72)
         {
-            field_1C0 = 18;
+            field_1C0_detonation_timer = 18;
         }
         else
         {
-            field_1C0 = field_11A_explode_timeout >> 2;
+            field_1C0_detonation_timer = field_11A_explode_timeout >> 2;
         }
-        field_1BC = sGnFrame_5C1B84;
+        field_1BC_gnframe_2 = sGnFrame_5C1B84;
         field_20_animation.Set_Animation_Data_409C80(848, 0);
         field_120_gnframe = sGnFrame_5C1B84 + field_11A_explode_timeout;
         field_124_animation.Set_Animation_Data_409C80(556, 0);

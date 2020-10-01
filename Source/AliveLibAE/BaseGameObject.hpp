@@ -32,7 +32,7 @@ enum class Types : __int16
     eType_21 = 21,
     eSparks_22 = 22,
     eGasClock_23 = 23,
-    eType_24 = 24,
+    eMetal_24 = 24,
     eType_25 = 25,
     eCrawlingSlig_26 = 26,
     eType_27 = 27,

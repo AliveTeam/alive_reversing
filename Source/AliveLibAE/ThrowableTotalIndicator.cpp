@@ -160,11 +160,11 @@ ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_431CB0(FP xpos, FP ypos, 
 
     if (field_18E_bFade)
     {
-        field_18C_state = 1;
+        field_18C_state = ThrowableTotalIndicatorState::eFading_1;
     }
     else
     {
-        field_18C_state = 0;
+        field_18C_state = ThrowableTotalIndicatorState::eCreated_0;
     }
 
     if (count < 0 || count > 9)
@@ -250,7 +250,7 @@ void ThrowableTotalIndicator::vUpdate_431EA0()
 
     switch (field_18C_state)
     {
-    case 0:
+        case ThrowableTotalIndicatorState::eCreated_0:
         {
             field_28_cur_xpos = field_20_xpos - (FP_FromInteger(12) * Math_Sine_496DD0(static_cast<BYTE>(2 * sGnFrame_5C1B84)));
             field_2C_cur_ypos = (FP_FromInteger(12) * Math_Cosine_496CD0(static_cast<BYTE>(2 * sGnFrame_5C1B84))) + field_24_ypos;
@@ -263,41 +263,41 @@ void ThrowableTotalIndicator::vUpdate_431EA0()
         }
         break;
 
-    case 1:
-        if (field_2C_cur_ypos >= field_24_ypos - FP_FromInteger(20))
-        {
-            if (field_42_r < 70 && field_44_g < 90 && field_46_b < 20)
+        case ThrowableTotalIndicatorState::eFading_1:
+            if (field_2C_cur_ypos >= field_24_ypos - FP_FromInteger(20))
             {
-                field_42_r += 14;
-                field_44_g += 18;
-                field_46_b += 4;
+                if (field_42_r < 70 && field_44_g < 90 && field_46_b < 20)
+                {
+                    field_42_r += 14;
+                    field_44_g += 18;
+                    field_46_b += 4;
+                }
+
+                field_38_scale += field_3C_scale_speed;
+                field_28_cur_xpos += field_30_xspeed;
+                field_2C_cur_ypos += field_34_yspeed;
+                return;
+            }
+            else
+            {
+                field_18C_state = ThrowableTotalIndicatorState::eVanishing_2;
+            }
+            break;
+
+        case ThrowableTotalIndicatorState::eVanishing_2:
+            if (field_42_r < 7 && field_44_g < 7 && field_46_b < 7)
+            {
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                return;
             }
 
-            field_38_scale += field_3C_scale_speed;
+            field_44_g -= 9;
+            field_46_b -= 2;
+            field_42_r -= 7;
+
             field_28_cur_xpos += field_30_xspeed;
             field_2C_cur_ypos += field_34_yspeed;
-            return;
-        }
-        else
-        {
-            field_18C_state = 2;
-        }
-        break;
-
-    case 2:
-        if (field_42_r < 7 && field_44_g < 7 && field_46_b < 7)
-        {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-            return;
-        }
-
-        field_44_g -= 9;
-        field_46_b -= 2;
-        field_42_r -= 7;
-
-        field_28_cur_xpos += field_30_xspeed;
-        field_2C_cur_ypos += field_34_yspeed;
-        break;
+            break;
     }
 }
 

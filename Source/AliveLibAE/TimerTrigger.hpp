@@ -26,7 +26,6 @@ enum class TimerTriggerStates : __int16
 struct TimerTrigger_State
 {
     Types field_0_type;
-    //__int16 field_2; // pad
     int field_4_tlvInfo;
     int field_8_delay_timer_base;
     TimerTriggerStates field_C_state;
@@ -62,6 +61,5 @@ private:
     int field_30_delay_timer;
     int field_34_delay_time;
     __int16 field_38_starting_switch_state;
-    //__int16 field_3A; // pad
 };
 ALIVE_ASSERT_SIZEOF(TimerTrigger, 0x3C);

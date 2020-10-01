@@ -671,7 +671,7 @@ void Movie::vUpdate_4E0030()
                 break;
             }
 
-            if (!Display_Full_Screen_Message_Blocking_465820(sPathData_559660.paths[sLevelId_dword_5CA408].field_1A_unused, 1))
+            if (!Display_Full_Screen_Message_Blocking_465820(sPathData_559660.paths[sLevelId_dword_5CA408].field_1A_unused, MessageType::eSkipMovie_1))
             {
                 break;
             }
