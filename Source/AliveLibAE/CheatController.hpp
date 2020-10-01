@@ -10,7 +10,7 @@ struct CheatEntry
 {
     unsigned int field_0_level_mask;
     int field_4_cheat_code_length;
-    InputCommands *field_8_cheat_code_ary;
+    const InputCommands *field_8_cheat_code_ary;
     int field_C_success_idx;
     void(*field_10_callback)(void);
 };

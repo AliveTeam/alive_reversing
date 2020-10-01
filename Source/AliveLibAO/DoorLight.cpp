@@ -9,6 +9,8 @@
 #include "MusicTrigger.hpp"
 #include "Abe.hpp"
 #include "Midi.hpp"
+#include "ScreenManager.hpp"
+#include "CameraSwapper.hpp"
 
 START_NS_AO
 
@@ -20,8 +22,8 @@ DoorLight* DoorLight::ctor_405D90(Path_LightEffect* pTlv, int tlvInfo)
     ctor_417C10();
 
     field_E4_tlvInfo = tlvInfo;
-    field_E8_size1 = pTlv->field_1A_size;
-    field_EA_size1 = pTlv->field_1A_size;
+    field_E8_width = pTlv->field_1A_size;
+    field_EA_height = pTlv->field_1A_size;
   
     SetVTable(this, 0x4BA1A8);
 
@@ -47,8 +49,8 @@ DoorLight* DoorLight::ctor_405D90(Path_LightEffect* pTlv, int tlvInfo)
         break;
 
     case Path_LightEffect::Type::FlintDoor_4:
-        field_E8_size1 = 0;
-        field_EA_size1 = 0;
+        field_E8_width = 0;
+        field_EA_height = 0;
         if (SwitchStates_Get(pTlv->field_1C_id))
         {
             Animation_Init_417FD0(448, 20, 11, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6031, 1, 0), 1);
@@ -61,8 +63,8 @@ DoorLight* DoorLight::ctor_405D90(Path_LightEffect* pTlv, int tlvInfo)
         break;
 
     case Path_LightEffect::Type::FlintHub_5:
-        field_E8_size1 = 0;
-        field_EA_size1 = 0;
+        field_E8_width = 0;
+        field_EA_height = 0;
         if (SwitchStates_Get(pTlv->field_1C_id))
         {
             Animation_Init_417FD0(460, 20, 11, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6031, 1, 0), 1);
@@ -214,6 +216,40 @@ void DoorLight::VUpdate_4060A0()
             field_C2_g = rgb;
             field_C4_b = rgb;
         }
+    }
+}
+
+void DoorLight::VRender(int** pOrderingTable)
+{
+    VRender_406370(pOrderingTable);
+}
+
+void DoorLight::VRender_406370(int** ppOt)
+{
+    if (sNumCamSwappers_507668 == 0)
+    {
+        const FP xpos = FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) + field_A8_xpos - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x;
+        const FP ypos = FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) + field_AC_ypos - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y;
+
+        field_10_anim.field_8_r = static_cast<BYTE>(field_C0_r);
+        field_10_anim.field_9_g = static_cast<BYTE>(field_C2_g);
+        field_10_anim.field_A_b = static_cast<BYTE>(field_C4_b);
+
+        field_10_anim.vRender(
+            FP_GetExponent(FP_FromInteger((FP_GetExponent(xpos) - field_E8_width / 2))),
+            FP_GetExponent(FP_FromInteger((FP_GetExponent(ypos) - field_EA_height / 2))),
+            ppOt,
+            field_E8_width,
+            field_EA_height);
+
+        PSX_RECT rect = {};
+        field_10_anim.Get_Frame_Rect_402B50(&rect);
+        pScreenManager_4FF7C8->InvalidateRect_406E40(
+            rect.x,
+            rect.y,
+            rect.w,
+            rect.h,
+            pScreenManager_4FF7C8->field_2E_idx);
     }
 }
 
