@@ -18,6 +18,10 @@ public:
 
     EXPORT CheatController* Vdtor_40FCD0(signed int flags);
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_40FC40();
+
     __int16 field_10;
     __int16 field_12;
 };
