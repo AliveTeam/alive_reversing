@@ -11,9 +11,39 @@ void CheatController_ForceLink() { }
 
 ALIVE_VAR(1, 0x5BC120, CheatController*, pCheatController_5BC120, nullptr);
 
-InputCommands sCheatKeyArray_MovieSelect_5515C0[8] = { eUp, eLeft, eRight, eLeft, eRight, eLeft, eRight, eDown };
-InputCommands sCheatKeyArray_LevelSelect_5515D0[8] = { eDown, eRight, eLeft, eRight, eLeft, eRight, eLeft, eUp };
-InputCommands sCheatKeyArray_PathSkip_5515E8[6] = { eLeft, eRight, eUp, eDown, eLeft, eRight };
+const InputCommands sCheatKeyArray_MovieSelect_5515C0[8] = 
+{
+    eUp,
+    eLeft,
+    eRight,
+    eLeft,
+    eRight,
+    eLeft,
+    eRight,
+    eDown
+};
+
+const InputCommands sCheatKeyArray_LevelSelect_5515D0[8] =
+{
+    eDown,
+    eRight,
+    eLeft,
+    eRight,
+    eLeft,
+    eRight,
+    eLeft,
+    eUp
+};
+
+const InputCommands sCheatKeyArray_PathSkip_5515E8[6] =
+{
+    eLeft,
+    eRight,
+    eUp,
+    eDown,
+    eLeft,
+    eRight
+};
 
 EXPORT void CC CheatController_Cheat_FMV_421AD0()
 {
@@ -49,12 +79,11 @@ EXPORT void CC CheatController_Cheat_PathSkip_421B30()
     }
 }
 
-CheatEntry sCheatArray_5515F8[4] =
+CheatEntry sCheatArray_5515F8[] =
 {
-    { 1u, (sizeof(sCheatKeyArray_MovieSelect_5515C0) / sizeof(InputCommands)), sCheatKeyArray_MovieSelect_5515C0, 0, &CheatController_Cheat_FMV_421AD0},
-    { 1u, (sizeof(sCheatKeyArray_LevelSelect_5515D0) / sizeof(InputCommands)), sCheatKeyArray_LevelSelect_5515D0, 0, &CheatController_Cheat_LevelSelect_421B00 },
-    { 0xFFFFFFFE, (sizeof(sCheatKeyArray_PathSkip_5515E8) / sizeof(InputCommands)), sCheatKeyArray_PathSkip_5515E8, 0, &CheatController_Cheat_PathSkip_421B30 },
-    { 0u, 0, NULL, 0, NULL }
+    { 1u, ALIVE_COUNTOF(sCheatKeyArray_MovieSelect_5515C0), sCheatKeyArray_MovieSelect_5515C0, 0, &CheatController_Cheat_FMV_421AD0},
+    { 1u, ALIVE_COUNTOF(sCheatKeyArray_LevelSelect_5515D0), sCheatKeyArray_LevelSelect_5515D0, 0, &CheatController_Cheat_LevelSelect_421B00 },
+    { 0xFFFFFFFE, ALIVE_COUNTOF(sCheatKeyArray_PathSkip_5515E8), sCheatKeyArray_PathSkip_5515E8, 0, &CheatController_Cheat_PathSkip_421B30 }
 };
 
 
@@ -94,25 +123,25 @@ void CheatController::Update_421C70()
         // Only do cheat code check if shift is held
         if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & eRun)
         {
-            for (auto i = sCheatArray_5515F8; i->field_0_level_mask; i++)
+            for (auto& cheatEntry : sCheatArray_5515F8)
             {
                 // Bit shift current level for level mask.
-                if ((1 << static_cast<int>(gMap_5C3030.field_0_current_level)) & i->field_0_level_mask)
+                if ((1 << static_cast<int>(gMap_5C3030.field_0_current_level)) & cheatEntry.field_0_level_mask)
                 {
-                    if (held == i->field_8_cheat_code_ary[i->field_C_success_idx])
+                    if (held == cheatEntry.field_8_cheat_code_ary[cheatEntry.field_C_success_idx])
                     {
-                        i->field_C_success_idx++;
+                        cheatEntry.field_C_success_idx++;
 
                         // Check if we've successfully entered all cheat code keys.
-                        if (i->field_C_success_idx >= i->field_4_cheat_code_length)
+                        if (cheatEntry.field_C_success_idx >= cheatEntry.field_4_cheat_code_length)
                         {
-                            i->field_C_success_idx = 0;
-                            i->field_10_callback();
+                            cheatEntry.field_C_success_idx = 0;
+                            cheatEntry.field_10_callback();
                         }
                     }
                     else
                     {
-                        i->field_C_success_idx = 0;
+                        cheatEntry.field_C_success_idx = 0;
                     }
                 }
             }
