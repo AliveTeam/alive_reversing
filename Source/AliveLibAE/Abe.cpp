@@ -313,19 +313,17 @@ const SfxDefinition sSFXList_555160[] =
 
 EXPORT int CC Environment_SFX_457A40(EnvironmentSfx sfxId, int volume, int pitchMin, BaseAliveGameObject* pAliveObj)
 {
-    NOT_IMPLEMENTED();
-
-    int sndVolume; // edi
-
+    int sndVolume;
     short sndIndex = 0;
 
     switch (sfxId)
     {
-    case 0:
+    case EnvironmentSfx::eSlideStop_0:
         sndIndex = 11;
         sndVolume = 40;
         break;
-    case 1:
+
+    case EnvironmentSfx::eWalkingFootstep_1:
         sndVolume = volume;
         sndIndex = Math_RandomRange_496AB0(10, 12);
         if (volume)
@@ -340,15 +338,18 @@ EXPORT int CC Environment_SFX_457A40(EnvironmentSfx sfxId, int volume, int pitch
                 sndVolume *= 3;
             }
         }
-        goto LABEL_19;
-    case 2:
+        break;
+
+    case EnvironmentSfx::eRunningFootstep_2:
         sndVolume = volume;
         sndIndex = Math_RandomRange_496AB0(13, 15);
         if (volume)
         {
             break;
         }
+
         sndVolume = Math_RandomRange_496AB0(66, 70);
+
         if (pAliveObj)
         {
             if (pAliveObj->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
@@ -356,14 +357,19 @@ EXPORT int CC Environment_SFX_457A40(EnvironmentSfx sfxId, int volume, int pitch
                 sndVolume *= 3;
             }
         }
-        goto LABEL_19;
-    case 3:
+        break;
+
+    case EnvironmentSfx::eSneakFootstep_3:
         sndIndex = 5;
+        sndVolume = volume;
         break;
-    case 4:
+
+    case EnvironmentSfx::eRunSlide_4:
         sndIndex = 4;
+        sndVolume = volume;
         break;
-    case 5:
+
+    case EnvironmentSfx::eLandingSoft_5:
         if (volume || !pAliveObj || pAliveObj->field_CC_sprite_scale != FP_FromDouble(0.5))
         {
             return SFX_SfxDefinition_Play_4CA420(&sSFXList_555160[2], static_cast<short>(volume), static_cast<short>(pitchMin), 0x7FFF) |
@@ -374,17 +380,24 @@ EXPORT int CC Environment_SFX_457A40(EnvironmentSfx sfxId, int volume, int pitch
             return SFX_SfxDefinition_Play_4CA420(&sSFXList_555160[2], sSFXList_555160[2].field_3_default_volume / 2, static_cast<short>(pitchMin), 0x7FFF) |
                 SFX_SfxDefinition_Play_4CA420(&sAbeSFXList_555250[16], sSFXList_555160[16].field_3_default_volume / 2, static_cast<short>(pitchMin), 0x7FFF);
         }
-    case 6:
+
+    case EnvironmentSfx::eHitGroundSoft_6:
         sndIndex = 2;
+        sndVolume = volume;
         break;
-    case 7:
+
+    case EnvironmentSfx::eDeathNoise_7:
         sndIndex = 16;
+        sndVolume = volume;
         break;
-    case 8:
+
+    case EnvironmentSfx::eRollingNoise_8:
         sndIndex = 6;
+        sndVolume = volume;
         break;
-    case 9:
-    case 0xB:
+
+    case EnvironmentSfx::eGenericMovement_9:
+    case EnvironmentSfx::eRunJumpOrLedgeHoist_11:
         if (pAliveObj && pAliveObj->field_CC_sprite_scale == FP_FromDouble(0.5))
         {
             return SFX_Play_46FA90(SoundEffect::AbeGenericMovement_32, 20);
@@ -393,13 +406,18 @@ EXPORT int CC Environment_SFX_457A40(EnvironmentSfx sfxId, int volume, int pitch
         {
             return SFX_Play_46FA90(SoundEffect::AbeGenericMovement_32, 35);
         }
-    case 0xA:
+
+    case EnvironmentSfx::eExhaustingHoistNoise_10:
         sndIndex = 19;
+        sndVolume = volume;
         break;
-    case 0xC:
+
+    case EnvironmentSfx::eAllOYa_12:
         sndIndex = 25;
+        sndVolume = volume;
         break;
-    case 0xD:
+
+    case EnvironmentSfx::eKnockback_13:
         if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1
             || gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8
             || gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5
@@ -412,27 +430,32 @@ EXPORT int CC Environment_SFX_457A40(EnvironmentSfx sfxId, int volume, int pitch
         {
             sndIndex = 9;
         }
+        sndVolume = volume;
         break;
-    case 0xE:
+
+    case EnvironmentSfx::eElumHitWall_14:
         sndIndex = 17;
+        sndVolume = volume;
         break;
-    case 0xF:
+
+    case EnvironmentSfx::eFallingDeathScreamHitGround_15:
         return 0;
-        break;
+
     default:
+        sndVolume = volume;
         break;
     }
 
-    sndVolume = volume;
-LABEL_19:
     if (!sndVolume)
     {
-        sndVolume = (char)sSFXList_555160[sndIndex].field_3_default_volume;
+        sndVolume = sSFXList_555160[sndIndex].field_3_default_volume;
     }
+
     if (!pAliveObj)
     {
         return SFX_SfxDefinition_Play_4CA420(&sSFXList_555160[sndIndex], static_cast<short>(sndVolume), static_cast<short>(pitchMin), 0x7FFF);
     }
+
     if (pAliveObj->field_CC_sprite_scale == FP_FromDouble(0.5))
     {
         sndVolume = 2 * sndVolume / 3;
