@@ -56,6 +56,8 @@ public:
 
     EXPORT BOOL vIsOpen_40E800();
 
+    EXPORT void PlaySound_40E780();
+
     int field_D4[4];
     int field_E4_tlvInfo;
     __int16 field_E8_start_state;

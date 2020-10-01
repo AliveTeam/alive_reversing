@@ -6,6 +6,8 @@
 #include "ResourceManager.hpp"
 #include "Collisions.hpp"
 #include "stdlib.hpp"
+#include "Midi.hpp"
+#include "Sfx.hpp"
 
 START_NS_AO
 
@@ -343,6 +345,27 @@ Door* Door::Vdtor_40EDF0(signed int flags)
 BOOL Door::vIsOpen_40E800()
 {
     return field_EC_current_state == eUnknown_0;
+}
+
+void Door::PlaySound_40E780()
+{
+    __int16 volume = 0;
+
+    if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+    {
+        volume = field_BC_sprite_scale != FP_FromDouble(0.5) ? 90 : 127;
+        SND_SEQ_Play_477760(10u, 1, 75, 75);
+    }
+    else if (field_E8_start_state || field_BC_sprite_scale != FP_FromInteger(1))
+    {
+        volume = 60;
+    }
+    else
+    {
+        volume = 90;
+    }
+    SFX_Play_43AE60(SoundEffect::Unknown_66, volume, 900);
+    SFX_Play_43AE60(SoundEffect::Unknown_66, volume, 0);
 }
 
 END_NS_AO
