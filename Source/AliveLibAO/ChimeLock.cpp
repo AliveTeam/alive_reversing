@@ -9,6 +9,12 @@
 #include "Abe.hpp"
 #include "Sfx.hpp"
 #include "CheatController.hpp"
+#include "Math.hpp"
+#include "Collisions.hpp"
+#include "Events.hpp"
+#include "MusicTrigger.hpp"
+#include "Input.hpp"
+#include "Particle.hpp"
 
 START_NS_AO
 
@@ -96,12 +102,12 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo)
 
     field_15E_ball_angle = 0;
 
-    field_140_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y + 40);
+    field_140_targetY = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y + 40);
     field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y + 40);
    
     field_B8_vely = FP_FromInteger(0);
 
-    field_13C = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
+    field_13C_targetX = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
     field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
     field_14C = FP_FromInteger(1);
 
@@ -114,7 +120,7 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo)
         }
     }
 
-    field_138 &= ~2u;
+    field_138_flags &= ~2u;
 
     field_10A_flags.Clear(Flags_10A::e10A_Bit2_bPossesed);
     field_10A_flags.Set(Flags_10A::e10A_Bit1_Can_Be_Possessed);
@@ -123,7 +129,8 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo)
 
     field_15C_ball_state = 0;
     field_128_idx = 0;
-    field_164 = 0;
+    field_164_target_bell_num[0] = 0;
+    field_164_target_bell_num[1] = 0;
     field_110_state = 0;
 
     return this;
@@ -279,15 +286,374 @@ void ChimeLock::SetBallTarget_40B7B0(FP ballTargetX, FP ballTargetY, __int16 tim
     }
 }
 
+__int16 ChimeLock::UpdateBall_40B8A0()
+{
+    field_15E_ball_angle++;
+
+    switch (field_15C_ball_state)
+    {
+    case 0:
+        field_A8_xpos = (FP_FromInteger(5) * Math_Cosine_4510A0((4 * field_15E_ball_angle) & 0xFF)) + field_13C_targetX;
+        field_AC_ypos = (FP_FromInteger(3) * Math_Cosine_4510A0((3 * field_15E_ball_angle) & 0xFF)) + field_140_targetY;
+        return 0;
+
+    case 1:
+    case 2:
+        field_144_ball_start_x += field_B4_velx;
+        field_148_ball_start_y += field_B8_vely;
+        field_A8_xpos = (FP_FromInteger(field_158_xSize) * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(field_15E_ball_angle) * field_150) & 0xFF)) + field_144_ball_start_x;
+        field_AC_ypos = (FP_FromInteger(field_15A_ySize) * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(field_15E_ball_angle) * field_154) & 0xFF)) + field_148_ball_start_y;
+        if (field_15E_ball_angle >= field_160_ball_timer)
+        {
+            field_15E_ball_angle = 0;
+
+            if (field_15C_ball_state == 1)
+            {
+                field_15C_ball_state = 2;
+                return 1;
+            }
+            field_15C_ball_state = 0;
+        }
+        return 0;
+
+    case 3:
+    {
+        field_B8_vely += field_14C;
+        field_AC_ypos += field_B8_vely;
+
+        FP hitX = {};
+        FP hitY = {};
+        if (sCollisions_DArray_504C6C->RayCast_40C410(
+            field_A8_xpos,
+            field_B8_vely - field_B8_vely,
+            field_A8_xpos,
+            field_AC_ypos,
+            &field_F4_pLine,
+            &hitX,
+            &hitY,
+            field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70) == 1)
+        {
+            if (field_F4_pLine->field_8_type == 0 || field_F4_pLine->field_8_type == 4)
+            {
+                field_AC_ypos = hitY - FP_FromInteger(1);
+                field_B8_vely = -(field_B8_vely * FP_FromDouble(0.4));
+                if (field_162 >= 3)
+                {
+                    return 1;
+                }
+            }
+        }
+        return 0;
+    }
+
+    default:
+        return 0;
+    }
+}
+
+void ChimeLock::VUpdate()
+{
+    VUpdate_40AEF0();
+}
+
+void ChimeLock::VUpdate_40AEF0()
+{
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        field_6_flags.Set(Options::eDead_Bit3);
+    }
+
+    switch (field_110_state)
+    {
+    case 0:
+        UpdateBall_40B8A0();
+        return;
+
+    case 1:
+        if (UpdateBall_40B8A0())
+        {
+            field_110_state = 2;
+            field_15C_ball_state = 0;
+        }
+        return;
+
+    case 2:
+        if (UpdateBall_40B8A0())
+        {
+            const __int16 curBellNum = field_164_target_bell_num[0];
+            field_164_target_bell_num[0] = 0;
+
+            switch (curBellNum)
+            {
+            case 1u:
+                field_114_bells->Ring_40AA80();
+                if ((field_138_flags >> 1) & 1)
+                {
+                    SetTargetBellIfSpace(2);
+                }
+                break;
+
+            case 2u:
+                field_118_bells->Ring_40AA80();
+                if ((field_138_flags >> 1) & 1)
+                {
+                    SetTargetBellIfSpace(3);
+                }
+                break;
+
+            case 3u:
+                field_11C_bells->Ring_40AA80();
+                if ((field_138_flags >> 1) & 1)
+                {
+                    field_138_flags &= ~2u;
+                }
+                break;
+            }
+
+            SetBallTarget_40B7B0(
+                field_13C_targetX,
+                field_140_targetY,
+                36,
+                Math_RandomRange_450F20(6, 9),
+                Math_RandomRange_450F20(6, 9),
+                0);
+
+            if (DoNote_40BB20(curBellNum))
+            {
+                field_110_state = 6;
+                SwitchStates_Do_Operation_436A10(field_132_solve_id, SwitchOp::eSetTrue_0);
+                VUnPosses();
+                auto pMusic = ao_new<MusicTrigger>();
+                if (pMusic)
+                {
+                    pMusic->ctor_443A60(6, 1, 0, 15);
+                }
+                return;
+            }
+        }
+
+        if (field_15C_ball_state != 1)
+        {
+            switch (field_164_target_bell_num[0])
+            {
+            case 1:
+                if (field_114_bells->CanSmash_40AA70())
+                {
+                    SetBallTarget_40B7B0(
+                        field_13C_targetX - FP_FromInteger(35),
+                        field_140_targetY - FP_FromInteger(4),
+                        2,
+                        0,
+                        0,
+                        1);
+                }
+                break;
+
+            case 2:
+                if (field_118_bells->CanSmash_40AA70())
+                {
+                    SetBallTarget_40B7B0(
+                        field_13C_targetX - FP_FromInteger(4),
+                        field_140_targetY - FP_FromInteger(16),
+                        2,
+                        0,
+                        0,
+                        1);
+                }
+                break;
+
+            case 3:
+                if (field_11C_bells->CanSmash_40AA70())
+                {
+                    SetBallTarget_40B7B0(
+                        field_13C_targetX + FP_FromInteger(37),
+                        field_140_targetY - FP_FromInteger(8),
+                        2,
+                        0,
+                        0,
+                        1);
+                }
+                break;
+
+            case 4:
+                SetBallTarget_40B7B0(
+                    field_13C_targetX,
+                    field_140_targetY,
+                    30,
+                    Math_RandomRange_450F20(6, 9),
+                    Math_RandomRange_450F20(6, 9),
+                    1);
+                break;
+
+            default:
+                break;
+            }
+        }
+
+        if (!field_130_song_matching && !sVoiceCheat_507708)
+        {
+            if (!Input_IsChanting_4334C0())
+            {
+                field_138_flags |= 1u;
+            }
+
+            if (field_138_flags & 1 && Input_IsChanting_4334C0())
+            {
+                field_136 = 30;
+                field_110_state = 3;
+                field_134_pressed = sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
+                
+                field_164_target_bell_num[0] = 0;
+                field_164_target_bell_num[1] = 0;
+
+                SFX_Play_43AE60(SoundEffect::PossessEffect_21, 0, -600, 0);
+                return;
+            }
+
+            const auto pressed = sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
+            if (pressed & 0x20 && !(field_134_pressed & 0x20))
+            {
+                SetTargetBellIfSpace(3);
+                field_134_pressed = pressed;
+                return;
+            }
+
+            if (pressed & 0x10 && !(field_134_pressed & 0x10))
+            {
+                SetTargetBellIfSpace(2);
+                field_134_pressed = pressed;
+                return;
+            }
+
+            if ((pressed & 0x80u) && !(field_134_pressed & 0x80))
+            {
+                // ??
+                SetTargetBellIfSpace(1);
+                field_134_pressed = pressed;
+                return;
+            }
+
+            if ((pressed & 0x40) && !(field_134_pressed & 0x40))
+            {
+                SetTargetBellIfSpace(1);
+                field_138_flags |= 2u;
+                field_134_pressed = pressed;
+            }
+
+            if (pressed & 0x1000 && !(field_134_pressed & 0x1000))
+            {
+                SetTargetBellIfSpace(2);
+                field_134_pressed = pressed;
+                return;
+            }
+
+            if (pressed & 0x2000 && !(field_134_pressed & 0x2000))
+            {
+                // ??
+                SetTargetBellIfSpace(1);
+                field_134_pressed = pressed;
+                return;
+            }
+
+            // TODO: But already checked OG bug??
+            if ((pressed & 0x80u) && !(field_134_pressed & 0x80))
+            {
+                SetTargetBellIfSpace(1);
+                field_134_pressed = pressed;
+                return;
+            }
+
+            if ((pressed & 0x4000) && !(field_134_pressed & 0x4000))
+            {
+                SetTargetBellIfSpace(1);
+                field_134_pressed = pressed;
+                field_138_flags |= 2u;
+                return;
+            }
+        }
+
+        if (static_cast<int>(gnFrameCount_507670) >= field_12C_timer)
+        {
+            SetTargetBellIfSpace(field_124_code1 / dword_4C5054[field_120_max_idx - field_128_idx] % 10);
+            field_12C_timer = gnFrameCount_507670 + 15;
+        }
+        return;
+
+    case 3:
+        if (UpdateBall_40B8A0())
+        {
+            SetBallTarget_40B7B0(field_13C_targetX, field_140_targetY, 36, Math_RandomRange_450F20(6, 9), Math_RandomRange_450F20(6, 9), 0);
+        }
+
+        if (!Input_IsChanting_4334C0())
+        {
+            field_110_state = 2;
+        }
+        else
+        {
+            field_136--;
+
+            if (field_136 == 0)
+            {
+                field_110_state = 4;
+            }
+        }
+
+        if (!(gnFrameCount_507670 % 4))
+        {
+            return;
+        }
+
+        New_Chant_Particle_4198E0(
+            field_13C_targetX + (field_BC_sprite_scale * FP_FromInteger(Math_RandomRange_450F20(-30, 30))),
+            field_140_targetY - (field_BC_sprite_scale * FP_FromInteger(Math_RandomRange_450F20(-20, 20))),
+            field_BC_sprite_scale,
+            0);
+        return;
+
+    case 4:
+        VUnPosses();
+        return;
+
+    case 5:
+        if (UpdateBall_40B8A0())
+        {
+            field_110_state = 0;
+        }
+        return;
+
+    default:
+        return;
+    }
+}
+
+
+void ChimeLock::SetTargetBellIfSpace(__int16 targetNum)
+{
+    int v3 = 0;
+    auto v4 = &field_164_target_bell_num[0];
+    while (*v4)
+    {
+        ++v3;
+        ++v4;
+        if (v3 >= ALIVE_COUNTOF(field_164_target_bell_num))
+        {
+            return;
+        }
+    }
+    field_164_target_bell_num[v3] = targetNum;
+}
+
 void ChimeLock::VPossessed_40BC40()
 {
-    field_138 &= ~3u;
+    field_138_flags &= ~3u;
     field_10A_flags.Set(Flags_10A::e10A_Bit2_bPossesed);
     field_110_state = 2;
     field_128_idx = 0;
-    field_12C = gnFrameCount_507670 + 45;
+    field_12C_timer = gnFrameCount_507670 + 45;
     field_15C_ball_state = 0;
-    field_164 = 0;
+    field_164_target_bell_num[0] = 0;
+    field_164_target_bell_num[1] = 0;
 }
 
 BaseGameObject* ChimeLock::VDestructor(signed int flags)
