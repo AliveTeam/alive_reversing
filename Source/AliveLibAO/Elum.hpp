@@ -66,6 +66,19 @@ enum eElumStates : int
     ELUM_STATES_ENUM(MAKE_ENUM)
 };
 
+enum class ElumSounds : unsigned __int8
+{
+    eWalkingFootstep_0 = 0,
+    eRunningFootstep_1 = 1,
+    eHowl_2 = 2,
+    eBeesStruggle_3 = 3,
+    eHitGroundSoft_4 = 4,
+    eRunSlide_5 = 5,
+    eSpottedHoney_6 = 6,
+    eExploding_7 = 7,
+    eLickingHoney_8 = 8
+};
+
 struct Path_ElumPathTrans : public Path_TLV
 {
     LevelIds field_18_level;
@@ -144,7 +157,7 @@ public:
 
     EXPORT void HandleElumPathTrans_411460();
 
-    EXPORT static void CC Sfx_416E10(unsigned __int8 soundId, BaseAliveGameObject* pObj);
+    EXPORT static void CC Elum_SFX_416E10(ElumSounds soundId, BaseAliveGameObject* pObj);
 
     EXPORT void FindHoney_411600();
 
