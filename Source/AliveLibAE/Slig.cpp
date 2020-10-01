@@ -1378,7 +1378,7 @@ void Slig::M_SlidingToStand_8_4B6520()
             }
             else if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                Abe_SFX_2_457A40(0, 0, 0x7FFF, this);
+                Environment_SFX_457A40(EnvironmentSfx::eSlideStop_0, 0, 0x7FFF, this);
                 MapFollowMe_408D10(TRUE);
                 MainMovement_4B4720();
             }
@@ -1878,7 +1878,7 @@ void Slig::M_Knockback_34_4B68A0()
     Event_Broadcast_422BC0(kEventNoise, this);
     if (field_20_animation.field_92_current_frame == 4)
     {
-        Abe_SFX_2_457A40(6, 80, -200, this);
+        Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
@@ -2105,7 +2105,7 @@ void Slig::M_LandingSoft_40_4B4530()
 {
     if (field_20_animation.field_92_current_frame == 0)
     {
-        Abe_SFX_2_457A40(6, 0, 0x7FFF, 0);
+        Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 0, 0x7FFF, 0);
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -2219,7 +2219,7 @@ void Slig::M_Smash_44_4B6B90()
     {
         if (field_20_animation.field_92_current_frame == 4)
         {
-            Abe_SFX_2_457A40(6, 80, -200, this);
+            Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
         }
     }
     else
@@ -2651,7 +2651,7 @@ __int16 Slig::AI_DeathDropDeath_3_4BC1E0()
             return field_11C_ai_sub_state;
         }
 
-        Abe_SFX_2_457A40(15, 0, 0x7FFF, this);
+        Environment_SFX_457A40(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, this);
 
         auto pScreenShake = ae_new<ScreenShake>();
         if (pScreenShake)
@@ -5969,7 +5969,7 @@ void Slig::PlatformCollide_4B4E00()
 
 void Slig::FallKnockBackOrSmash_4B4A90()
 {
-    Abe_SFX_2_457A40(13, 0, 0x7FFF, this);
+    Environment_SFX_457A40(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
 
     if (field_C4_velx > FP_FromInteger(0))
     {
@@ -7184,7 +7184,7 @@ __int16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
 
         SetBrain(&Slig::AI_Death_0_4BBFB0);
 
-        Abe_SFX_2_457A40(13, 0, 0x7FFF, this);
+        Environment_SFX_457A40(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
 
         Event_Broadcast_422BC0(kEventMudokonComfort, this);
 

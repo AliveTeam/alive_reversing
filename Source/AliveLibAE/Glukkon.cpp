@@ -3281,7 +3281,7 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
             field_10C_health = FP_FromInteger(0);
             SetBrain(&Glukkon::AI_4_Death_442010);
             field_210 = 5;
-            Abe_SFX_2_457A40(13, 0, 32767, this);
+            Environment_SFX_457A40(EnvironmentSfx::eKnockback_13, 0, 32767, this);
             Event_Broadcast_422BC0(kEventMudokonComfort, this);
             if (!vIsFacingMe_4254A0(static_cast<BaseAnimatedWithPhysicsGameObject*>(pFrom)))
             {

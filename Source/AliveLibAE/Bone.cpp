@@ -820,7 +820,7 @@ void BoneBag::vUpdate_412880()
         pBone->VThrow_49E460(field_124_velX, field_128_velY);
        
         SFX_Play_46FA90(SoundEffect::SackHit_25, 0);
-        Abe_SFX_2_457A40(7, 0, 0x7FFF, 0);
+        Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 
         if (sActiveHero_5C1B68->field_106_current_motion == 31)
         {

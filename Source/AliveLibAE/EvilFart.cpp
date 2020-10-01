@@ -373,7 +373,7 @@ void EvilFart::vUpdate_423100()
                 }
 
                 field_BC_ypos = field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50));
-                Abe_SFX_457EC0(MudSounds::eFart_7, 0, 10 * (300 - field_11C_alive_timer), this);
+                Mudokon_SFX_457EC0(MudSounds::eFart_7, 0, 10 * (300 - field_11C_alive_timer), this);
                 field_BC_ypos += field_CC_sprite_scale * FP_FromInteger(50);
             }
         }
@@ -440,7 +440,7 @@ void EvilFart::vUpdate_423100()
                     SND_Stop_Channels_Mask_4CA810(field_130_sound_channels);
                 }
 
-                Abe_SFX_457EC0(MudSounds::eFart_7, 50, FP_GetExponent(velocityToUse * FP_FromInteger(250)) - 2000, nullptr);
+                Mudokon_SFX_457EC0(MudSounds::eFart_7, 50, FP_GetExponent(velocityToUse * FP_FromInteger(250)) - 2000, nullptr);
                 field_130_sound_channels = 0; // TODO OG BUG ?? v32;
             }
         }
@@ -453,7 +453,7 @@ void EvilFart::vUpdate_423100()
             }
             if (!(sGnFrame_5C1B84 % 30) && !Math_RandomRange_496AB0(0, 1))
             {
-                Abe_SFX_457EC0(MudSounds::eFart_7, 50, Math_RandomRange_496AB0(-1500, -2000), nullptr);
+                Mudokon_SFX_457EC0(MudSounds::eFart_7, 50, Math_RandomRange_496AB0(-1500, -2000), nullptr);
             }
         }
         

@@ -420,7 +420,7 @@ void MotionDetector::vUpdate_468A90()
 
                                 if (pObj == sActiveHero_5C1B68 && pObj->field_10C_health > FP_FromInteger(0))
                                 {
-                                    Abe_SFX_457EC0(MudSounds::eOops_14, 0, 0, 0);
+                                    Mudokon_SFX_457EC0(MudSounds::eOops_14, 0, 0, 0);
                                 }
                             }
                         }

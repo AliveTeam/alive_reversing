@@ -671,7 +671,7 @@ void MeatSack::vUpdate_46A6A0()
             pMeat->field_CC_sprite_scale = field_CC_sprite_scale;
 
             SFX_Play_46FA90(SoundEffect::SackHit_25, 0);
-            Abe_SFX_2_457A40(7, 0, 0x7FFF, 0);
+            Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 
             field_20_animation.Set_Animation_Data_409C80(15888, 0);
             field_11C = 1;

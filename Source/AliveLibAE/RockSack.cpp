@@ -186,7 +186,7 @@ void RockSack::vUpdate_49F3A0()
             pRock->VThrow_49E460(field_124_x_vel, field_128_y_vel);
 
             SFX_Play_46FA90(SoundEffect::SackHit_25, 0);
-            Abe_SFX_2_457A40(7, 0, 0x7FFF, 0);
+            Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 
             if (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_31_RunJumpMid_452C10)
             {

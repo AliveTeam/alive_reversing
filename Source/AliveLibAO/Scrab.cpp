@@ -1208,7 +1208,7 @@ void Scrab::State_3_Run_45EAB0()
                         if (field_120_pTarget->VTakeDamage(this))
                         {
                             SFX_Play_43AD70(SoundEffect::KillEffect_78, 0, 0);
-                            Mudokon_GameSpeak_SFX_42A4D0(MudokonGameSpeakSfx::eKnockbackOuch_10, 0, 0, field_120_pTarget);
+                            Mudokon_SFX_42A4D0(MudSounds::eKnockbackOuch_10, 0, 0, field_120_pTarget);
                         }
                     }
                 }
@@ -1328,7 +1328,7 @@ void Scrab::State_5_RunToStand_45ED90()
                     if (field_120_pTarget->VTakeDamage(this))
                     {
                         SFX_Play_43AD70(SoundEffect::KillEffect_78, 0, 0);
-                        Mudokon_GameSpeak_SFX_42A4D0(MudokonGameSpeakSfx::eKnockbackOuch_10, 0, 0, field_120_pTarget);
+                        Mudokon_SFX_42A4D0(MudSounds::eKnockbackOuch_10, 0, 0, field_120_pTarget);
                     }
                 }
             }
@@ -2035,7 +2035,7 @@ void Scrab::State_27_AttackLunge_45FDF0()
                 if (field_120_pTarget->VTakeDamage(this))
                 {
                     SFX_Play_43AD70(SoundEffect::KillEffect_78, 0, 0);
-                    Mudokon_GameSpeak_SFX_42A4D0(MudokonGameSpeakSfx::eKnockbackOuch_10, 0, 0, field_120_pTarget);
+                    Mudokon_SFX_42A4D0(MudSounds::eKnockbackOuch_10, 0, 0, field_120_pTarget);
                 }
 
                 field_120_pTarget->VTakeDamage(this);
