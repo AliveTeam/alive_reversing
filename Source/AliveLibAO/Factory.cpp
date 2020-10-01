@@ -314,7 +314,6 @@ EXPORT void Factory_Dove_4834C0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
         {
             auto pDoveTlv = static_cast<Path_Dove*>(pTlv);
 
-
             const short width = pDoveTlv->field_14_bottom_right.field_0_x - pDoveTlv->field_10_top_left.field_0_x;
             const short height = pDoveTlv->field_14_bottom_right.field_2_y - pDoveTlv->field_10_top_left.field_2_y;
 
@@ -331,12 +330,12 @@ EXPORT void Factory_Dove_4834C0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
                 if (pDoveTlv->field_1A_pixel_perfect)
                 {
                     pDove->field_A8_xpos = FP_FromInteger(pDoveTlv->field_10_top_left.field_0_x);
-                    ypos = pDoveTlv->field_14_bottom_right.field_2_y;
+                    ypos = pDoveTlv->field_10_top_left.field_2_y;
                 }
                 else
                 {
-                    pDove->field_A8_xpos = FP_FromInteger((pDoveTlv->field_14_bottom_right.field_0_x + width * Math_NextRandom()) / 256);
-                    ypos = (pDoveTlv->field_14_bottom_right.field_2_y + height * Math_NextRandom()) / 256;
+                    pDove->field_A8_xpos = FP_FromInteger(pDoveTlv->field_10_top_left.field_0_x + width * Math_NextRandom() / 256);
+                    ypos = pDoveTlv->field_10_top_left.field_2_y + height * Math_NextRandom() / 256;
                 }
 
                 pDove->field_AC_ypos = FP_FromInteger(ypos) + FP_FromInteger(10);
