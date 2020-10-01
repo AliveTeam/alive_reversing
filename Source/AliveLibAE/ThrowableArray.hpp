@@ -13,7 +13,7 @@ class ThrowableArray : public BaseGameObject
 public:
     struct ThrowableArray_SaveState
     {
-        short field_0_never_used;
+        short field_0_unused;
         short field_2_item_count;
     };
     ALIVE_ASSERT_SIZEOF_ALWAYS(ThrowableArray_SaveState, 0x4);

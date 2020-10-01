@@ -39,4 +39,4 @@ protected:
 };
 
 ALIVE_VAR_EXTERN(WORD, gInfiniteGrenades_5C1BDE);
-extern const Types word_55FAFC[252];
+extern const Types throwable_types_55FAFC[252];

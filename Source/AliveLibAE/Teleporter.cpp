@@ -34,7 +34,7 @@ Teleporter* Teleporter::ctor_4DC1E0(Path_Teleporter* pTlv, DWORD tlvInfo)
     field_54_effect_created = 0;
 
     field_32_bDestroySelf = 0;
-    field_30_state = States::eState_WaitForSwitchOn_0;
+    field_30_state = TeleporterState::eWaitForSwitchOn_0;
     field_50_objId = -1;
 
     return this;
@@ -134,9 +134,10 @@ void Teleporter::SpawnRingSparks(Path_Teleporter_Data* pTlvData)
 void Teleporter::vUpdate_4DC400()
 {
     Electrocute* pObj = static_cast<Electrocute*>(sObjectIds_5C1B70.Find(field_50_objId, Types::eElectrocute_150));
+
     switch (field_30_state)
     {
-    case States::eState_WaitForSwitchOn_0:
+    case TeleporterState::eWaitForSwitchOn_0:
     {
         if (field_32_bDestroySelf)
         {
@@ -165,7 +166,7 @@ void Teleporter::vUpdate_4DC400()
             return;
         }
 
-        field_30_state = States::eState_Into_Teleporter_1;
+        field_30_state = TeleporterState::eIntoTeleporter_1;
         field_50_objId = Teleporter::Create_ElectrocuteEffect_4DCEB0()->field_8_object_id;
 
         SFX_Play_46FBA0(SoundEffect::Zap1_49, 60, -400);
@@ -175,7 +176,7 @@ void Teleporter::vUpdate_4DC400()
     }
     break;
 
-    case States::eState_Into_Teleporter_1:
+    case TeleporterState::eIntoTeleporter_1:
     {
         if (pObj)
         {
@@ -269,11 +270,11 @@ void Teleporter::vUpdate_4DC400()
 
         sControlledCharacter_5C1B8C->field_1C_update_delay = 3;
         sActiveHero_5C1B68->field_1A0_door_id = field_34_mTlvData.field_12_target_id;
-        field_30_state = States::eState_Teleporting_2;
+        field_30_state = TeleporterState::eTeleporting_2;
     }
     break;
 
-    case States::eState_Teleporting_2:
+    case TeleporterState::eTeleporting_2:
     {
         gMap_5C3030.field_20 = 0;
 
@@ -349,23 +350,23 @@ void Teleporter::vUpdate_4DC400()
             sControlledCharacter_5C1B8C->field_BC_ypos = FP_FromInteger(pTeleporterTlv->field_8_top_left.field_2_y);
             sControlledCharacter_5C1B8C->field_F8_LastLineYPos = sControlledCharacter_5C1B8C->field_BC_ypos;
         }
-        field_30_state = States::eState_Out_of_teleporter_4;
+        field_30_state = TeleporterState::eOutOfTeleporter_4;
     }
     break;
 
-    case States::eState_Out_of_teleporter_4:
+    case TeleporterState::eOutOfTeleporter_4:
     {
-        // Visual effects
+        // Visual effects.
         PSX_RECT bRect = {};
         sControlledCharacter_5C1B8C->vGetBoundingRect_424FD0(&bRect, 1);
 
-        // White flash in the middle of Abe's body
+        // White flash in the middle of Abe's body.
         New_DestroyOrCreateObject_Particle_426F40(
             FP_FromInteger((bRect.x + bRect.w) / 2),
             FP_FromInteger((bRect.y + bRect.h) / 2) + (sControlledCharacter_5C1B8C->field_CC_sprite_scale * FP_FromInteger(60)),
             sControlledCharacter_5C1B8C->field_CC_sprite_scale);
 
-        // Spawn the falling "red" sparks from Abe's feet that appear after you've arrived at the destination
+        // Spawn the falling "red" sparks from Abe's feet that appear after you've arrived at the destination.
         if (sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(0.5))
         {
             auto pParticleBurst = ae_new<ParticleBurst>();
@@ -399,7 +400,7 @@ void Teleporter::vUpdate_4DC400()
         sControlledCharacter_5C1B8C->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
         sControlledCharacter_5C1B8C->field_114_flags.Clear(Flags_114::e114_Bit10);
         field_2C_switch_state = SwitchStates_Get_466020(field_34_mTlvData.field_1A_trigger_id);
-        field_30_state = States::eState_WaitForSwitchOn_0;
+        field_30_state = TeleporterState::eWaitForSwitchOn_0;
     }
     break;
     }

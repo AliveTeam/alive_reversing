@@ -35,17 +35,17 @@ void CC LoadRockTypes_49AB30(LevelIds levelNumber, unsigned __int16 pathNumber)
         ResourceManager::LoadResourceFile_49C130("ABETHROW.BAN", 0, 0, 0);
     }
 
-    switch (word_55FAFC[throwableTypeIdx])
+    switch (throwable_types_55FAFC[throwableTypeIdx])
     {
     case Types::eBone_11:
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_591, 0, 0))
+        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kBoneResID, 0, 0))
         {
             bDoLoadingLoop = TRUE;
             ResourceManager::LoadResourceFile_49C130("BONE.BAN", 0, 0, 0);
         }
         break;
 
-    case Types::eType_24:
+    case Types::eMetal_24:
         if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMetalResID, 0, 0))
         {
             bDoLoadingLoop = TRUE;
@@ -179,7 +179,7 @@ void ThrowableArray::vUpdate_49AA50()
 signed int ThrowableArray::vGetSaveState_49B2A0(BYTE* pSaveBuffer)
 {
     ThrowableArray_SaveState* pState = reinterpret_cast<ThrowableArray_SaveState*>(pSaveBuffer);
-    pState->field_0_never_used = 102; // never gets read back, no idea what it means :)
+    pState->field_0_unused = 102; // never gets read back, no idea what it means :)
     pState->field_2_item_count = field_20_count;
     return sizeof(ThrowableArray_SaveState);
 }
@@ -188,7 +188,7 @@ void ThrowableArray::vScreenChange_49AAA0()
 {
     if (gMap_5C3030.field_A_level != LevelIds::eMenu_0 && gMap_5C3030.field_A_level != LevelIds::eCredits_16)
     {
-        if (word_55FAFC[gMap_5C3030.field_22_overlayID] != word_55FAFC[gMap_5C3030.GetOverlayId_480710()])
+        if (throwable_types_55FAFC[gMap_5C3030.field_22_overlayID] != throwable_types_55FAFC[gMap_5C3030.GetOverlayId_480710()])
         {
             if (!(field_22_flags & 1))
             {
@@ -236,13 +236,13 @@ void ThrowableArray::Add_49A7A0(__int16 count)
     {
         if (!(field_22_flags & 2))
         {
-            switch (word_55FAFC[gMap_5C3030.field_22_overlayID])
+            switch (throwable_types_55FAFC[gMap_5C3030.field_22_overlayID])
             {
             case Types::eBone_11:
-                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_591);
+                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kBoneResID);
                 break;
 
-            case Types::eType_24:
+            case Types::eMetal_24:
                 Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalResID);
                 Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID);
                 Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kGrenadeResID);

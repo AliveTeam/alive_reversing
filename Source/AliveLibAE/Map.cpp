@@ -699,7 +699,7 @@ void Map::GoTo_Camera_481890()
                     break;
                 }
             }
-            Display_Full_Screen_Message_Blocking_465820(pathData.field_1A_unused, 0);
+            Display_Full_Screen_Message_Blocking_465820(pathData.field_1A_unused, MessageType::eLongTitle_0);
         }
 
         // Open Path BND

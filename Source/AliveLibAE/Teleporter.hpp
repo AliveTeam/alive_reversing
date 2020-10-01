@@ -28,22 +28,22 @@ private:
     __int16 field_28_global_y2;
     __int16 field_2A_global_x2;
     int field_2C_switch_state;
-   // __int16 field_2E;
-    enum class States : char
+
+    enum class TeleporterState : char
     {
-        eState_WaitForSwitchOn_0 = 0,
-        eState_Into_Teleporter_1 = 1,
-        eState_Teleporting_2 = 2,
-        eState_Out_of_teleporter_4 = 4,
+        eWaitForSwitchOn_0 = 0,
+        eIntoTeleporter_1 = 1,
+        eTeleporting_2 = 2,
+        eOutOfTeleporter_4 = 4,
     };
-    States field_30_state;
-    char field_31;
+    TeleporterState field_30_state;
+    char field_31_padding;
     __int16 field_32_bDestroySelf;
     Path_Teleporter_Data field_34_mTlvData;
-    __int16 field_4A;
+    __int16 field_4A_padding;
     Path_Teleporter* field_4C_pTlv;
     int field_50_objId;
     __int16 field_54_effect_created;
-    __int16 field_56;
+    __int16 field_56_padding;
 };
 ALIVE_ASSERT_SIZEOF(Teleporter, 0x58);

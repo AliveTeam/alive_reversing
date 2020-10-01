@@ -49,8 +49,8 @@ EXPORT Text* Text::ctor_46ADA0(const char* pMessage, int renderCount, int bShado
     field_5C_xpos = static_cast<short>(field_20_font.MeasureWidth_433700(pMessage));
     field_5E_ypos = 0;
 
-    field_58_k0 = 0; // never used?
-    field_5A_k4 = 4; // never used?
+    field_58_k0_unused = 0; // never used?
+    field_5A_k4_unused = 4; // never used?
 
     memcpy(field_68_txt_buffer, pMessage, strlen(pMessage) + 1);
 
@@ -154,15 +154,15 @@ EXPORT void Text::Render_46AFD0(int** pOt)
     }
 }
 
-// ResourceManager::vLoadFile_StateMachine_464A70 will call with type 0 (Displays Oddworld Abe's Exoddus.. but why?)
-// Movie::vUpdate_4E0030 will call with type 1 which does nothing (trying to display movie skip message when it can't be found?)
-// MainMenuController::tsub_LoadSave_4D1040 will call with type 2 (trying to display demo skip message when it can't be found?)
-// MainMenuController::sub_4CF640 will call with type 3 (Shown on boot, says Abe's Exoddus)
+// ResourceManager::vLoadFile_StateMachine_464A70 will call with type 0 (Displays Oddworld Abe's Exoddus.. but why?).
+// Movie::vUpdate_4E0030 will call with type 1 which does nothing (trying to display movie skip message when it can't be found?).
+// MainMenuController::LoadDemo_Update_4D1040 will call with type 2 (trying to display demo skip message when it can't be found?).
+// MainMenuController::ChangeScreenAndIntroLogic_4CF640 will call with type 3 (Shown on boot, says Abe's Exoddus).
 
 // TODO: When above functions are reversed clean up this function to remove strange dead cases..
-EXPORT char CC Display_Full_Screen_Message_Blocking_465820(int /*not_used*/, int messageType)
+EXPORT char CC Display_Full_Screen_Message_Blocking_465820(int /*not_used*/, MessageType messageType)
 {
-    if (messageType == 1)
+    if (messageType == MessageType::eSkipMovie_1)
     {
         return 0;
     }
@@ -171,7 +171,7 @@ EXPORT char CC Display_Full_Screen_Message_Blocking_465820(int /*not_used*/, int
     if (pTextObj)
     {
         const char* pMsg = nullptr;
-        if (messageType == 3)
+        if (messageType == MessageType::eShortTitle_3)
         {
             pMsg = "    Abe's Exoddus    ";
         }
@@ -186,29 +186,30 @@ EXPORT char CC Display_Full_Screen_Message_Blocking_465820(int /*not_used*/, int
     Text* pTextObj2 = nullptr;
     switch (messageType)
     {
-    case 0:
-        // Never read ?
-        //dword_55C128 = -1;
-        break;
+        case MessageType::eLongTitle_0:
+            // Never read ?
+            //dword_55C128 = -1;
+            break;
 
         // Dead due to early return ??
-    case 1:
-        pTextObj2 = ae_new<Text>();
-        if (pTextObj2)
-        {
-            pTextObj2->ctor_46ADA0("or esc to skip the movie", 1, 0);
-            pTextObj2->SetYPos_46AFB0(0, 30);
-        }
-        break;
+        case MessageType::eSkipMovie_1:
+            pTextObj2 = ae_new<Text>();
 
-    case 2:
-        pTextObj2 = ae_new<Text>();
-        if (pTextObj2)
-        {
-            pTextObj2->ctor_46ADA0("or esc to skip the demo", 1, 0);
-            pTextObj2->SetYPos_46AFB0(0, 30);
-        }
-        break;
+            if (pTextObj2)
+            {
+                pTextObj2->ctor_46ADA0("or esc to skip the movie", 1, 0);
+                pTextObj2->SetYPos_46AFB0(0, 30);
+            }
+            break;
+
+        case MessageType::eSkipDemo_2:
+            pTextObj2 = ae_new<Text>();
+            if (pTextObj2)
+            {
+                pTextObj2->ctor_46ADA0("or esc to skip the demo", 1, 0);
+                pTextObj2->SetYPos_46AFB0(0, 30);
+            }
+            break;
     }
 
     const PSX_RECT rect = { 0, 0, 640, 240 };
@@ -234,7 +235,7 @@ EXPORT char CC Display_Full_Screen_Message_Blocking_465820(int /*not_used*/, int
 
     DWORD displayForMsecs = SYS_GetTicks() + 1000;
 
-    if (messageType == 3)
+    if (messageType == MessageType::eShortTitle_3)
     {
         displayForMsecs += 4000;
     }
@@ -246,7 +247,7 @@ EXPORT char CC Display_Full_Screen_Message_Blocking_465820(int /*not_used*/, int
         while (!Input_IsVKPressed_4EDD40(VK_RETURN))
         {
             // User quit
-            if (messageType != 0 && Input_IsVKPressed_4EDD40(VK_ESCAPE))
+            if (messageType != MessageType::eLongTitle_0 && Input_IsVKPressed_4EDD40(VK_ESCAPE))
             {
                 bQuitViaEnterOrTimeOut = 0; // Nope, quitting via escape key
 

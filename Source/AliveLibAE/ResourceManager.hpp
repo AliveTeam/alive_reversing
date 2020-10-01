@@ -324,7 +324,7 @@ enum ResourceID
     kSlogBlowResID = 576,
     kUnknownResID_580 = 580,
     kUnknownResID_590 = 590,
-    kUnknownResID_591 = 591,
+    kBoneResID = 591,
     kArjbasicResID = 600,
     kArjeatResID = 601,
     kArjclimbResID = 604,

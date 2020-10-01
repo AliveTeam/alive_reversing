@@ -13,7 +13,7 @@
 ALIVE_VAR(1, 0x5c1bde, WORD, gInfiniteGrenades_5C1BDE, 0);
 
 // Overlay to throwable type table ??
-const Types word_55FAFC[252] =
+const Types throwable_types_55FAFC[252] =
 {
     Types::eNone_0,       Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eRock_105,   Types::eRock_105,  Types::eRock_105,   Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
     Types::eNone_0,       Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eRock_105,   Types::eNone_0,
@@ -44,20 +44,20 @@ const Types word_55FAFC[252] =
 
 EXPORT BaseThrowable* CCSTD Make_Throwable_49AF30(FP xpos, FP ypos, short count)
 {
-    switch (word_55FAFC[gMap_5C3030.field_22_overlayID])
+    switch (throwable_types_55FAFC[gMap_5C3030.field_22_overlayID])
     {
-    case Types::eBone_11:
-        return ae_new<Bone>()->ctor_4112C0(xpos, ypos, count);
-    case Types::eType_24:
-        return ae_new<Grenade>()->ctor_447F70(xpos, ypos, count, 0, 1, 0);
-    case Types::eGrenade_65:
-        return ae_new<Grenade>()->ctor_447F70(xpos, ypos, count, 0, 0, 0);
-    case Types::eMeat_84:
-        return ae_new<Meat>()->ctor_4694A0(xpos, ypos, count);
-    case Types::eRock_105:
-        return ae_new<Rock>()->ctor_49E150(xpos, ypos, count);
-    default:
-        return nullptr;
+        case Types::eBone_11:
+            return ae_new<Bone>()->ctor_4112C0(xpos, ypos, count);
+        case Types::eMetal_24:
+            return ae_new<Grenade>()->ctor_447F70(xpos, ypos, count, 0, 1, 0);
+        case Types::eGrenade_65:
+            return ae_new<Grenade>()->ctor_447F70(xpos, ypos, count, 0, 0, 0);
+        case Types::eMeat_84:
+            return ae_new<Meat>()->ctor_4694A0(xpos, ypos, count);
+        case Types::eRock_105:
+            return ae_new<Rock>()->ctor_49E150(xpos, ypos, count);
+        default:
+            return nullptr;
     }
 }
 

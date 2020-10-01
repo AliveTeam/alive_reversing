@@ -2069,7 +2069,7 @@ signed int MainMenuController::LoadDemo_Update_4D1040(DWORD)
             {
                 dword_55C128 = -1;
             }
-            if (!Display_Full_Screen_Message_Blocking_465820(sPathData_559660.paths[levelId].field_1A_unused, 2))
+            if (!Display_Full_Screen_Message_Blocking_465820(sPathData_559660.paths[levelId].field_1A_unused, MessageType::eSkipDemo_2))
             {
                 field_1F8_page_timeout = 0;
                 return word_5C1B9C != 0 ? 30 : 1;
@@ -3173,7 +3173,7 @@ signed int MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 // Displays the "Abes Exoddus" full screen message you see on boot.
                 // You will probably always see this given that the CD drive with the game in it
                 // usually isn't there.
-                Display_Full_Screen_Message_Blocking_465820(1, 3);
+                Display_Full_Screen_Message_Blocking_465820(1, MessageType::eShortTitle_3);
             }
 
             // Find the record for GTILOGO.STR
