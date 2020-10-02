@@ -52,6 +52,7 @@
 #include "Shrykull.hpp"
 #include "Bullet.hpp"
 #include "Spark.hpp"
+#include "TestAnimation.hpp"
 
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
 
@@ -766,6 +767,11 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*r*/, int /*g*/, int /*b*/)
         field_E0_pShadow->ctor_4AC990();
     }
 
+    
+    // Animation test code
+    //auto testAnim = ae_new<TestAnimation>();
+    //testAnim->ctor();
+    
     return this;
 }
 

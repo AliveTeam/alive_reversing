@@ -368,6 +368,8 @@ SET(AliveLibAESrc
     ScopedSeq.hpp
     Sparks.hpp
     Sparks.cpp
+    TestAnimation.cpp
+    TestAnimation.hpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx.h stdafx.cpp AliveLibAESrc)
