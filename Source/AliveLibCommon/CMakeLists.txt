@@ -13,6 +13,8 @@ SET(AliveLibSrcCommon
     Sys_common.cpp
     BitField.hpp
     FixedPoint_common.hpp
+    AnimResources.hpp
+    AnimResources.cpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx_common.h stdafx_common.cpp AliveLibSrcCommon)

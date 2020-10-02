@@ -6,6 +6,7 @@
 #include "Math.hpp"
 #include "stdlib.hpp"
 #include "ScreenManager.hpp"
+#include "AnimResources.hpp"
 
 const TintEntry kGibTints_55C744[19] =
 {
@@ -63,6 +64,23 @@ EXPORT Gibs* Gibs::ctor_40FB40(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, 
     SetVTable(this, 0x544248); // vTbl_Gibs_544248
 
     field_F4_pGibData = &kGibData_550D78[gibType];
+
+    // TODO: Entire gib table should use AnimRecord's which will simplify all of this ctor
+    if (gibType == 0)
+    {
+        const static Gib_Data abeGibs =
+        {
+            AnimRec(AnimId::AbeHeadGib).mFrameTableOffset,
+            AnimRec(AnimId::AbeArmGib).mFrameTableOffset,
+            AnimRec(AnimId::AbeBodyGib).mFrameTableOffset,
+            
+            AnimRec(AnimId::AbeHeadGib).mMaxW,
+            AnimRec(AnimId::AbeHeadGib).mMaxH,
+            AnimRec(AnimId::AbeHeadGib).mResourceId
+        };
+        field_F4_pGibData = &abeGibs;
+    }
+
     BYTE** ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, field_F4_pGibData->field_14_resource_id);
     
     BYTE** ppRes = nullptr;
