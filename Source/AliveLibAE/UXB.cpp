@@ -506,7 +506,7 @@ void UXB::Update_4DF030()
     }
 }
 
-void UXB::Render_4DF3D0(int ** pOt)
+void UXB::Render_4DF3D0(int ** ppOt)
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
@@ -519,8 +519,8 @@ void UXB::Render_4DF3D0(int ** pOt)
         {
             field_128_animation.vRender_40B820(
                 FP_GetExponent((field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x)),
-                FP_GetExponent((field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y - FP_NoFractional(field_CC_sprite_scale * FP_FromDouble(17)))),
-                pOt,
+                FP_GetExponent((field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y - FP_NoFractional(field_CC_sprite_scale * FP_FromInteger(17)))),
+                ppOt,
                 0,
                 0);
 
@@ -534,7 +534,7 @@ void UXB::Render_4DF3D0(int ** pOt)
                 frameRect.h,
                 pScreenManager_5BB5F4->field_3A_idx);
 
-            Render_424B90(pOt);
+            BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
         }
     }
 }

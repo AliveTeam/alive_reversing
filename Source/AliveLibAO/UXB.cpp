@@ -7,6 +7,7 @@
 #include "Game.hpp"
 #include "BaseBomb.hpp"
 #include "Events.hpp"
+#include "ScreenManager.hpp"
 
 START_NS_AO
 
@@ -559,6 +560,45 @@ __int16 UXB::IsColliding_489900()
         }
     }
     return 0;
+}
+
+
+void UXB::VRender(int** pOrderingTable)
+{
+    VRender_4896C0(pOrderingTable);
+}
+
+void UXB::VRender_4896C0(int** ppOt)
+{
+    if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+        field_B2_lvl_number,
+        field_B0_path_number,
+        field_A8_xpos,
+        field_AC_ypos,
+        0))
+    {
+        field_11C_anim.vRender(
+            FP_GetExponent(field_A8_xpos
+                + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)
+                - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
+            FP_GetExponent(field_AC_ypos
+                + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) - FP_NoFractional(field_BC_sprite_scale * FP_FromInteger(12)))
+                - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+            ppOt,
+            0,
+            0);
+
+        PSX_RECT rect = {};
+        field_11C_anim.Get_Frame_Rect_402B50(&rect);
+        pScreenManager_4FF7C8->InvalidateRect_406E40(
+            rect.x,
+            rect.y,
+            rect.w,
+            rect.h,
+            pScreenManager_4FF7C8->field_2E_idx);
+
+        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+    }
 }
 
 BaseGameObject* UXB::VDestructor(signed int flags)
