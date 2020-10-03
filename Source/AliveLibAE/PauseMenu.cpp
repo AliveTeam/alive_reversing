@@ -1492,7 +1492,9 @@ void PauseMenu::Page_Load_Render_4910A0(int** ot, PauseMenuPage* mp)
     else
     {
         PauseMenu__PageEntryList_Load_55e3a0[4].field_8_text = "No Saved Games";
-        PauseMenu__PageEntryList_Load_55e3a0[6].field_8_text = nullptr;
+
+        // hide row that displays hotkeys for selecting/loading/deleting saves, since there are no saves
+        PauseMenu__PageEntryList_Load_55e3a0[6].field_8_text = "";
     }
 
     mp->field_C_selected_index = 2;
