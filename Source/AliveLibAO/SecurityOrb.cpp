@@ -6,6 +6,15 @@
 #include "stdlib.hpp"
 #include "Explosion.hpp"
 #include "Gibs.hpp"
+#include "ZapLine.hpp"
+#include "Sfx.hpp"
+#include "Sparks.hpp"
+#include "Abe.hpp"
+#include "PossessionFlicker.hpp"
+#include "ScreenShake.hpp"
+#include "Flash.hpp"
+#include "Game.hpp"
+#include "Events.hpp"
 
 START_NS_AO
 
@@ -136,6 +145,165 @@ signed __int16 SecurityOrb::VTakeDamage_437280(BaseGameObject* pFrom)
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 
     return 1;
+}
+
+void SecurityOrb::VUpdate()
+{
+    VUpdate_436DF0();
+}
+
+void SecurityOrb::VUpdate_436DF0()
+{
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+
+    switch (field_110_state)
+    {
+    case 0:
+        if (field_10_anim.field_92_current_frame == 2 ||
+            field_10_anim.field_92_current_frame == 6 ||
+            field_10_anim.field_92_current_frame == 10)
+        {
+            if (field_118_sound_channels)
+            {
+                SND_Stop_Channels_Mask_4774A0(field_118_sound_channels);
+            }
+
+            if (field_BC_sprite_scale == FP_FromDouble(0.5))
+            {
+                field_118_sound_channels = SFX_Play_43AE60(SoundEffect::SecurityOrb_56, 35, 720);
+            }
+            else
+            {
+                field_118_sound_channels = SFX_Play_43AE60(SoundEffect::SecurityOrb_56, 55, 700);
+            }
+        }
+
+        if (Event_Get_417250(kEventAbeOhm_8))
+        {
+            field_110_state = 1;
+            field_114_timer = gnFrameCount_507670 + 20;
+        }
+        break;
+
+    case 1:
+        if (static_cast<int>(gnFrameCount_507670) > field_114_timer)
+        {
+            PSX_RECT abeRect = {};
+            sActiveHero_507678->VGetBoundingRect(&abeRect, 1);
+
+            const int width = abeRect.w + abeRect.x;
+            const int height = abeRect.h + abeRect.y;
+
+            auto pZapLine = ao_new<ZapLine>();
+            if (pZapLine)
+            {
+                pZapLine->ctor_4789A0(
+                    field_A8_xpos,
+                    field_AC_ypos - (FP_FromInteger(8) * field_BC_sprite_scale),
+                    FP_FromInteger(width / 2),
+                    FP_FromInteger(height / 2),
+                    8,
+                    0,
+                    28);
+            }
+
+            auto pPossessionFlicker = ao_new<PossessionFlicker>();
+            if (pPossessionFlicker)
+            {
+                pPossessionFlicker->ctor_41A8C0(sActiveHero_507678, 8, 255, 100, 100);
+            }
+
+            sActiveHero_507678->VTakeDamage_401920(this);
+            field_114_timer = gnFrameCount_507670 + 8;
+            field_110_state = 2;
+
+            auto pScreenShake = ao_new<ScreenShake>();
+            if (pScreenShake)
+            {
+                pScreenShake->ctor_4624D0(1);
+            }
+
+            auto pSpark1 = ao_new<Sparks>();
+            if (pSpark1)
+            {
+                pSpark1->ctor_40A3A0(
+                    field_A8_xpos,
+                    field_AC_ypos - (FP_FromInteger(8) * field_BC_sprite_scale),
+                    field_BC_sprite_scale);
+
+                pSpark1->field_C2_g = 65;
+                pSpark1->field_C4_b = 65;
+                pSpark1->field_C0_r = 255;
+            }
+
+            auto pSpark2 = ao_new<Sparks>();
+            if (pSpark2)
+            {
+                pSpark2->ctor_40A3A0(
+                    field_A8_xpos,
+                    field_AC_ypos - (FP_FromInteger(8) * field_BC_sprite_scale),
+                    field_BC_sprite_scale);
+                pSpark2->field_C2_g = 65;
+                pSpark2->field_C4_b = 65;
+                pSpark2->field_C0_r = 255;
+            }
+
+
+            for (int i = 0; i < 9; i++)
+            {
+                auto pSparks = ao_new<Sparks>();
+                if (pSparks)
+                {
+                    pSparks->ctor_40A3A0(
+                        FP_FromInteger(width / 2),
+                        FP_FromInteger(height / 2),
+                        field_BC_sprite_scale);
+
+                    pSparks->field_C2_g = 65;
+                    pSparks->field_C4_b = 65;
+                    pSparks->field_C0_r = 255;
+                }
+            }
+        }
+        break;
+
+    case 2:
+        if (static_cast<int>(gnFrameCount_507670) == field_114_timer - 5 || static_cast<int>(gnFrameCount_507670) == field_114_timer - 1)
+        {
+            auto pFlash = ao_new<Flash>();
+            if (pFlash)
+            {
+                pFlash->ctor_41A810(39, 255u, 0, 0, 1, 3u, 1);
+            }
+        }
+
+        if (static_cast<int>(gnFrameCount_507670) == field_114_timer - 4)
+        {
+            auto pFlash = ao_new<Flash>();
+            if (pFlash)
+            {
+                pFlash->ctor_41A810(39, 255u, 0, 0, 1, 1u, 1);
+            }
+        }
+
+        if (field_114_timer - gnFrameCount_507670 == 4)
+        {
+            SFX_Play_43AD70(SoundEffect::PortalOpening_67, 0, 0);
+        }
+        else if (field_114_timer - gnFrameCount_507670 == 1)
+        {
+            SFX_Play_43AD70(SoundEffect::Zap2_58, 0, 0);
+        }
+
+        if (static_cast<int>(gnFrameCount_507670) > field_114_timer)
+        {
+            field_110_state = 0;
+        }
+        break;
+    }
 }
 
 END_NS_AO
