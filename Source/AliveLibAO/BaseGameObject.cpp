@@ -3,6 +3,7 @@
 #include "DynamicArray.hpp"
 #include "Function.hpp"
 #include "Events.hpp"
+#include "Map.hpp"
 
 void AliveLibAO_ForceLink() {}
 
@@ -53,6 +54,16 @@ BaseGameObject* BaseGameObject::dtor_487DF0()
     SetVTable(this, 0x4BD488); // vTable_BaseGameObject_4BD488
     Event_Cancel_For_Obj_417350(this);
     return this;
+}
+
+void BaseGameObject::VScreenChanged_487E70()
+{
+    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level
+        || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path
+        || gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
 }
 
 END_NS_AO

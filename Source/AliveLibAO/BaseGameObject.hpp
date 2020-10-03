@@ -122,7 +122,6 @@ class BaseGameObject
 public:
     enum Options
     {
-        // TODO: Check as objects are reversed - assumed to be the same as AE for now
         eListAddFailed_Bit1 = 0x001,
         eUpdatable_Bit2 = 0x002,
         eDead_Bit3 = 0x004,
@@ -143,25 +142,28 @@ public:
 
     virtual void VUpdate()
     {
-
+        // Empty
     }
 
     virtual void VRender(int**)
     {
-
+        // Empty
     }
 
     virtual void VScreenChanged()
     {
-
+        VScreenChanged_487E70();
     }
 
     virtual void VStopAudio()
     {
-
+        // Empty
     }
 
 public:
+
+    EXPORT void VScreenChanged_487E70();
+
     Types field_4_typeId;
     BitField16<Options> field_6_flags;
     int field_8_update_delay;
