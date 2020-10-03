@@ -1470,7 +1470,7 @@ void PauseMenu::Page_Load_Render_4910A0(int** ot, PauseMenuPage* mp)
     int saveIdx = sSavedGameToLoadIdx_BB43FC - 2;
     for (int i = 0; i < 6; i++)
     {
-        if (saveIdx < 0 || saveIdx > sTotalSaveFilesCount_BB43E0)
+        if (saveIdx < 0 || saveIdx >= sTotalSaveFilesCount_BB43E0)
         {
             // When at the top of the list set the first 2 entries to a blank, and when at the end of the list set the
             // remaining save text slots to blank.
