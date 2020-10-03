@@ -6,6 +6,8 @@
 #include "stdlib.hpp"
 #include "Game.hpp"
 #include "BaseBomb.hpp"
+#include "Events.hpp"
+#include "ScreenManager.hpp"
 
 START_NS_AO
 
@@ -385,6 +387,217 @@ void UXB::VOnPickUpOrSlapped_4897E0()
                 SFX_Play_43AD70(SoundEffect::RedTick_4, 35, 0);
             }
         }
+    }
+}
+
+
+void UXB::VUpdate()
+{
+    VUpdate_489380();
+}
+
+void UXB::VUpdate_489380()
+{
+    switch (field_10C_state)
+    {
+    case 0:
+        if (IsColliding_489900())
+        {
+            field_10C_state = 2;
+            field_118_next_state_frame = gnFrameCount_507670 + 2;
+        }
+        else if (field_118_next_state_frame <= static_cast<int>(gnFrameCount_507670))
+        {
+            field_10C_state = 1;
+            field_11C_anim.Set_Animation_Data_402A40(384, 0);
+        }
+        break;
+
+    case 1:
+        if (IsColliding_489900())
+        {
+            field_10C_state = 2;
+            field_118_next_state_frame = gnFrameCount_507670 + 2;
+        }
+        else if (field_118_next_state_frame <= static_cast<int>(gnFrameCount_507670))
+        {
+            if (field_1BA_red_blink_count)
+            {
+                field_1BA_red_blink_count--;
+                if (field_1BA_red_blink_count == 0)
+                {
+                    field_11C_anim.LoadPal_403090(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, 1006, 0, 0), 0);
+                    field_1BC_flags &= ~2u;
+                }
+            }
+            else
+            {
+                const FrameInfoHeader* pFrameInfo = field_11C_anim.Get_FrameHeader_403A00(-1);
+
+                const FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(&(*field_11C_anim.field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
+
+                field_11C_anim.LoadPal_403090(
+                    field_11C_anim.field_20_ppBlock,
+                    pFrameHeader->field_0_clut_offset);
+
+                field_1BC_flags |= 2u;
+
+                field_1B6_pattern_index++;
+
+                if (field_1B6_pattern_index >= field_1B4_pattern_length)
+                {
+                    field_1B6_pattern_index = 0;
+                }
+
+                // Single out a single digit, and use that digit as the new amount of red blinks before a green one.
+                field_1BA_red_blink_count = (field_1B8_pattern / static_cast<int>(pow(10, field_1B4_pattern_length - field_1B6_pattern_index - 1))) % 10;
+            }
+
+            field_11C_anim.Set_Animation_Data_402A40(372, 0);
+
+            if (((field_1BC_flags) >> 1) & 1)
+            {
+                if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                    field_B2_lvl_number,
+                    field_B0_path_number,
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    0))
+                {
+                    SFX_Play_43AD70(SoundEffect::RedTick_4, 35, 0);
+                }
+            }
+            else if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                field_B2_lvl_number,
+                field_B0_path_number,
+                field_A8_xpos,
+                field_AC_ypos,
+                0))
+            {
+                SFX_Play_43AD70(SoundEffect::GreenTick_3, 35, 0);
+            }
+            field_10C_state = 0;
+            field_118_next_state_frame = gnFrameCount_507670 + 10; // UXB change color delay
+        }
+        break;
+
+    case 2:
+        if (static_cast<int>(gnFrameCount_507670) >= field_118_next_state_frame)
+        {
+            auto explosion = ao_new<BaseBomb>();
+            if (explosion)
+            {
+                explosion->ctor_4173A0(
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    0,
+                    field_BC_sprite_scale);
+            }
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        }
+        break;
+    }
+
+    if (field_10C_state != 2)
+    {
+        if (Event_Get_417250(kEventDeathReset_4))
+        {
+            if (field_10E_starting_state != 3 || field_10C_state == 3)
+            {
+                if (field_10E_starting_state != 0 || field_10C_state != 3)
+                {
+                    gMap_507BA8.TLV_Reset_446870(field_114_tlvInfo, 0, 1u, 0);
+                }
+                else
+                {
+                    gMap_507BA8.TLV_Reset_446870(field_114_tlvInfo, 1, 1u, 0);
+                }
+            }
+            else
+            {
+                gMap_507BA8.TLV_Reset_446870(field_114_tlvInfo, 1, 1u, 0);
+            }
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        }
+    }
+}
+
+__int16 UXB::IsColliding_489900()
+{
+    PSX_RECT uxbBound = {};
+    VGetBoundingRect(&uxbBound, 1);
+
+    for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    {
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_10A_flags.Get(Flags_10A::e10A_Bit4_SetOffExplosives))
+        {
+            if (pObj->field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
+            {
+                PSX_RECT objBound = {};
+                pObj->VGetBoundingRect(&objBound, 1);
+
+                const int objX = FP_GetExponent(pObj->field_A8_xpos);
+                const int objY = FP_GetExponent(pObj->field_AC_ypos);
+
+                if (objX > uxbBound.x &&
+                    objX < uxbBound.w &&
+                    objY < uxbBound.h + 5 &&
+                    uxbBound.x <= objBound.w &&
+                    uxbBound.w >= objBound.x &&
+                    uxbBound.h >= objBound.y &&
+                    uxbBound.y <= objBound.h &&
+                    pObj->field_BC_sprite_scale == field_BC_sprite_scale)
+                {
+                    return 1;
+                }
+            }
+        }
+    }
+    return 0;
+}
+
+
+void UXB::VRender(int** pOrderingTable)
+{
+    VRender_4896C0(pOrderingTable);
+}
+
+void UXB::VRender_4896C0(int** ppOt)
+{
+    if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+        field_B2_lvl_number,
+        field_B0_path_number,
+        field_A8_xpos,
+        field_AC_ypos,
+        0))
+    {
+        field_11C_anim.vRender(
+            FP_GetExponent(field_A8_xpos
+                + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)
+                - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
+            FP_GetExponent(field_AC_ypos
+                + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) - FP_NoFractional(field_BC_sprite_scale * FP_FromInteger(12)))
+                - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+            ppOt,
+            0,
+            0);
+
+        PSX_RECT rect = {};
+        field_11C_anim.Get_Frame_Rect_402B50(&rect);
+        pScreenManager_4FF7C8->InvalidateRect_406E40(
+            rect.x,
+            rect.y,
+            rect.w,
+            rect.h,
+            pScreenManager_4FF7C8->field_2E_idx);
+
+        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
 }
 
