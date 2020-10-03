@@ -45,6 +45,12 @@ public:
 
     EXPORT void VOnPickUpOrSlapped_4897E0();
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_489380();
+
+    EXPORT __int16 IsColliding_489900();
+
     __int16 field_10C_state;
     __int16 field_10E_starting_state;
     __int16 field_110_disabled_resources;

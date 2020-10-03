@@ -74,7 +74,7 @@ void UXB::PlaySFX_4DE930(unsigned __int8 sfxIdx)
 
 signed int UXB::IsColliding_4DF630()
 {
-    PSX_RECT uxbBound;
+    PSX_RECT uxbBound = {};
     vGetBoundingRect_424FD0(&uxbBound, 1);
 
     for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
@@ -86,14 +86,13 @@ signed int UXB::IsColliding_4DF630()
             break;
         }
 
-        // e114_Bit6 May be "can set off explosives?"
         if (pObj->field_114_flags.Get(e114_Bit6_SetOffExplosives) && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
         {
-            PSX_RECT objBound;
+            PSX_RECT objBound = {};
             pObj->vGetBoundingRect_424FD0(&objBound, 1);
 
-            int objX = FP_GetExponent(pObj->field_B8_xpos);
-            int objY = FP_GetExponent(pObj->field_BC_ypos);
+            const int objX = FP_GetExponent(pObj->field_B8_xpos);
+            const int objY = FP_GetExponent(pObj->field_BC_ypos);
 
             if (objX > uxbBound.x &&
                 objX < uxbBound.w &&
@@ -401,24 +400,26 @@ BaseGameObject* UXB::vdtor_4DEEA0(signed int flags)
 
 void UXB::Update_4DF030()
 {
-    // TODO: Restore switch/case for state + add typed enum
-    if (field_118_state)
+    switch (field_118_state)
     {
-        const int v3 = field_118_state - 1;
-        if (v3)
+    case 0:
+        if (IsColliding_4DF630())
         {
-            if (v3 == 1 && sGnFrame_5C1B84 >= field_124_next_state_frame)
-            {
-                auto explosion = ae_new<BaseBomb>();
-                if (explosion)
-                {
-                    explosion->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
-                }
-                field_6_flags.Set(Options::eDead_Bit3);
-            }
+            field_118_state = 2;
+            field_124_next_state_frame = sGnFrame_5C1B84 + 2;
         }
-        else if (IsColliding_4DF630())
+        else if (field_124_next_state_frame <= sGnFrame_5C1B84)
         {
+            field_118_state = 1;
+            field_128_animation.Set_Animation_Data_409C80(556, 0);
+            field_124_next_state_frame = sGnFrame_5C1B84 + 2;
+        }
+        break;
+
+    case 1:
+        if (IsColliding_4DF630())
+        {
+
             field_118_state = 2;
             field_124_next_state_frame = sGnFrame_5C1B84 + 2;
         }
@@ -427,7 +428,7 @@ void UXB::Update_4DF030()
             if (field_1C6_red_blink_count)
             {
                 field_1C6_red_blink_count--;
-                if (!field_1C6_red_blink_count)
+                if (field_1C6_red_blink_count == 0)
                 {
                     field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
                     field_1C8_flags.Clear(UXB_Flags_1C8::e1C8_Bit1_IsRed);
@@ -466,20 +467,19 @@ void UXB::Update_4DF030()
             field_118_state = 0;
             field_124_next_state_frame = sGnFrame_5C1B84 + 10; // UXB change color delay
         }
-    }
-    else
-    {
-        if (IsColliding_4DF630())
+        break;
+
+    case 2:
+        if (sGnFrame_5C1B84 >= field_124_next_state_frame)
         {
-            field_118_state = 2;
-            field_124_next_state_frame = sGnFrame_5C1B84 + 2;
+            auto explosion = ae_new<BaseBomb>();
+            if (explosion)
+            {
+                explosion->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
+            }
+            field_6_flags.Set(Options::eDead_Bit3);
         }
-        else if (field_124_next_state_frame <= sGnFrame_5C1B84)
-        {
-            field_118_state = 1;
-            field_128_animation.Set_Animation_Data_409C80(556, 0);
-            field_124_next_state_frame = sGnFrame_5C1B84 + 2;
-        }
+        break;
     }
 
     if (field_118_state != 2)
@@ -488,7 +488,7 @@ void UXB::Update_4DF030()
         {
             if (field_11A_starting_state != 3 || field_118_state == 3)
             {
-                if (field_11A_starting_state || field_118_state != 3)
+                if (field_11A_starting_state != 0 || field_118_state != 3)
                 {
                     Path::TLV_Reset_4DB8E0(field_120_tlv.all, 0, 1, 0);
                 }
