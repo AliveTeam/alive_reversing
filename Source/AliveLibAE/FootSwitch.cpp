@@ -263,9 +263,9 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_4DE700()
 
     if (field_FE_trigger_by == FootSwitchTriggerBy::eAnyone_1)
     {
-        for (int idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
+        for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
         {
-            BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(idx);
+            BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
             if (!pObj)
             {
                 break;
@@ -273,7 +273,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_4DE700()
 
             if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
             {
-                auto* pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
+                auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
 
                 PSX_RECT bRect = {};
                 pAliveObj->vGetBoundingRect_424FD0(&bRect, 1);
@@ -293,7 +293,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_4DE700()
             }
         }
     }
-    else
+    else if (field_FE_trigger_by == FootSwitchTriggerBy::eOnlyAbe_0)
     {
         PSX_RECT bRect = {};
         sActiveHero_5C1B68->vGetBoundingRect_424FD0(&bRect, 1);

@@ -3,7 +3,6 @@
 #include "FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
-#include "Abe.hpp"
 
 START_NS_AO
 
@@ -27,7 +26,7 @@ ALIVE_ASSERT_SIZEOF(Path_FootSwitch, 0x20);
 class FootSwitch : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Abe* WhoIsStoodOnMe_488A60();
+    EXPORT BaseAliveGameObject* WhoIsStoodOnMe_488A60();
 
     virtual void VUpdate() override;
 

@@ -6,6 +6,7 @@
 #include "stdlib.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Sfx.hpp"
+#include "Abe.hpp"
 
 START_NS_AO
 
@@ -77,9 +78,62 @@ void FootSwitch::VScreenChanged_4889D0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-Abe* FootSwitch::WhoIsStoodOnMe_488A60() 
+BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_488A60()
 {
-    NOT_IMPLEMENTED();
+    PSX_RECT bRectSwitch = {};
+    VGetBoundingRect_418120(&bRectSwitch, 1);
+    // NOTE: AE  y -= 3 not done in AO
+
+    if (field_EE_trigger_by == FootSwitchTriggerBy::eAnyone_1)
+    {
+        for (int i=0; i<gBaseGameObject_list_9F2DF0->Size(); i++)
+        {
+            BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+            if (!pObj)
+            {
+                break;
+            }
+
+            if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+            {
+                auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
+
+                PSX_RECT theirRect = {};
+                pAliveObj->VGetBoundingRect(&theirRect, 1);
+
+                const int xpos = FP_GetExponent(pAliveObj->field_A8_xpos);
+
+                if (xpos > bRectSwitch.x &&
+                    xpos < bRectSwitch.w &&
+                    bRectSwitch.x <= theirRect.w &&
+                    bRectSwitch.w >= theirRect.x &&
+                    bRectSwitch.h >= theirRect.y &&
+                    bRectSwitch.y <= theirRect.h &&
+                    pAliveObj->field_BC_sprite_scale == field_BC_sprite_scale)
+                {
+                    return pAliveObj;
+                }
+            }
+        }
+    }
+    else if (field_EE_trigger_by == FootSwitchTriggerBy::eOnlyAbe_0)
+    {
+        PSX_RECT bRect = {};
+        sActiveHero_507678->VGetBoundingRect(&bRect, 1);
+
+        const int xpos = FP_GetExponent(sActiveHero_507678->field_A8_xpos);
+
+        if (xpos > bRectSwitch.x &&
+            xpos < bRectSwitch.w &&
+            bRectSwitch.x <= bRect.w &&
+            bRectSwitch.w >= bRect.x &&
+            bRectSwitch.h >= bRect.y &&
+            bRectSwitch.y <= bRect.h &&
+            sActiveHero_507678->field_BC_sprite_scale == field_BC_sprite_scale)
+        {
+            return sActiveHero_507678;
+        }
+    }
     return nullptr;
 }
 
