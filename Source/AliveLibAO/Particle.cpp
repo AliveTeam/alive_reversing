@@ -150,7 +150,7 @@ Particle* Particle::ctor_478880(FP xpos, FP ypos, int animFrameTableOffset, int 
 
     field_A8_xpos = xpos;
     field_AC_ypos = ypos;
-    field_E4_scale_amount = 0;
+    field_E4_scale_amount = FP_FromInteger(0);
 
     return this;
 }
@@ -163,6 +163,24 @@ BaseGameObject* Particle::VDestructor(signed int flags)
         ao_delete_free_447540(this);
     }
     return this;
+}
+
+void Particle::VUpdate()
+{
+    VUpdate_478930();
+}
+
+void Particle::VUpdate_478930()
+{
+    field_A8_xpos += field_B4_velx;
+    field_AC_ypos += field_B8_vely;
+
+    field_BC_sprite_scale += field_E4_scale_amount;
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
 }
 
 END_NS_AO

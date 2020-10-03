@@ -31,6 +31,10 @@ public:
 
     EXPORT void VUpdate_441A90();
 
+    virtual void VRender(int** ppOt) override;
+
+    EXPORT void VRender_441AB0(int** ppOt);
+
     FontContext field_10_fontContext;
     AliveFont field_20_font1;
     AliveFont field_58_font2;

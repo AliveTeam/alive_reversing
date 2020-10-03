@@ -5,6 +5,7 @@
 #include "Events.hpp"
 #include "ScreenManager.hpp"
 #include "Game.hpp"
+#include "DDCheat.hpp"
 
 START_NS_AO
 
@@ -113,5 +114,90 @@ void StatsSign::VUpdate_441A90()
     }
 }
 
-END_NS_AO
+void StatsSign::VRender(int** ppOt)
+{
+    VRender_441AB0(ppOt);
+}
 
+void StatsSign::VRender_441AB0(int** ppOt)
+{
+    char text[12] = {};
+    sprintf(text, "%02d", 99 - sRescuedMudokons_5076C0 - sKilledMudokons_5076BC);
+
+    const short w1 = static_cast<short>(field_90_font3.MeasureWidth_41C2B0(text));
+    const short colourRange = sDisableFontFlicker_5080E4 ? 0 : 50;
+
+    field_90_font3.DrawString_41C360(
+        ppOt,
+        text,
+        field_CC_xpos - w1 + 22,
+        field_CE_ypos,
+        1,
+        1,
+        0,
+        22,
+        127,
+        127,
+        127,
+        0,
+        FP_FromInteger(1),
+        w1 + field_CC_xpos,
+        colourRange);
+
+    sprintf(text, "%02d", sKilledMudokons_5076BC);
+    const short w2 = static_cast<short>(field_20_font1.MeasureWidth_41C2B0(text));
+    field_20_font1.DrawString_41C360(
+        ppOt,
+        text,
+        field_CC_xpos - w2 + 22,
+        field_CE_ypos + 16,
+        1,
+        1,
+        0,
+        22,
+        127,
+        127,
+        127,
+        0,
+        FP_FromInteger(1),
+        w2 + field_CC_xpos,
+        colourRange);
+
+    sprintf(text, "%02d", sRescuedMudokons_5076C0);
+    short w3 = static_cast<short>(field_58_font2.MeasureWidth_41C2B0(text));
+    field_58_font2.DrawString_41C360(
+        ppOt,
+        text,
+        field_CC_xpos - w3 + 22,
+        field_CE_ypos + 32,
+        1,
+        1,
+        0,
+        22,
+        127,
+        127,
+        127,
+        0,
+        FP_FromInteger(1),
+        w3 + field_CC_xpos,
+        colourRange);
+
+    int biggestW = w1;
+    if (w2 > biggestW)
+    {
+        biggestW = w2;
+    }
+    if (w3 > biggestW)
+    {
+        biggestW = w3;
+    }
+
+    pScreenManager_4FF7C8->InvalidateRect_406E40(
+        field_CC_xpos,
+        field_CE_ypos,
+        biggestW,
+        48,
+        pScreenManager_4FF7C8->field_2E_idx);
+}
+
+END_NS_AO
