@@ -167,9 +167,9 @@ START_NS_AO
     ENTRY(State_156_DoorEnter_42D370) \
     ENTRY(State_157_DoorExit_42D780) \
     ENTRY(State_158_ElumKnockback_42E070) \
-    ENTRY(State_159_423360) \
-    ENTRY(State_160_4233A0) \
-    ENTRY(State_161_4233E0) \
+    ENTRY(State_159_Idle_RubEyes_423360) \
+    ENTRY(State_160_Idle_Stretch_Arms_4233A0) \
+    ENTRY(State_161_Idle_Yawn_4233E0) \
     ENTRY(State_162_ToShrykull_42F410) \
     ENTRY(State_163_ShrykullEnd_42F520) \
     ENTRY(State_164_PoisonGasDeath_42A120)
@@ -540,9 +540,9 @@ public:
     EXPORT void State_156_DoorEnter_42D370();
     EXPORT void State_157_DoorExit_42D780();
     EXPORT void State_158_ElumKnockback_42E070();
-    EXPORT void State_159_423360();
-    EXPORT void State_160_4233A0();
-    EXPORT void State_161_4233E0();
+    EXPORT void State_159_Idle_RubEyes_423360();
+    EXPORT void State_160_Idle_Stretch_Arms_4233A0();
+    EXPORT void State_161_Idle_Yawn_4233E0();
     EXPORT void State_162_ToShrykull_42F410();
     EXPORT void State_163_ShrykullEnd_42F520();
     EXPORT void State_164_PoisonGasDeath_42A120();
