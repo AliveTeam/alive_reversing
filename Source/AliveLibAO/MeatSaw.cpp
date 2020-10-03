@@ -7,6 +7,11 @@
 #include "Shadow.hpp"
 #include "Abe.hpp"
 #include "Game.hpp"
+#include "Sfx.hpp"
+#include "Events.hpp"
+#include "Math.hpp"
+#include "Blood.hpp"
+#include "ScreenManager.hpp"
 
 START_NS_AO
 
@@ -200,5 +205,244 @@ void MeatSaw::VScreenChanged_43A060()
     }
 }
 
-END_NS_AO
+void MeatSaw::VUpdate()
+{
+    VUpdate_4399D0();
+}
 
+void MeatSaw::VUpdate_4399D0()
+{
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+
+    GrindUpObjects_439CD0();
+
+    const CameraPos direction = gMap_507BA8.GetDirection(
+        field_B2_lvl_number,
+        field_B0_path_number,
+        field_A8_xpos,
+        field_AC_ypos);
+
+    if (!(field_10C % 87))
+    {
+        SFX_Play_43AED0(SoundEffect::MeatsawOffscreen_88, 45, direction);
+    }
+
+    if (!(field_10C % 25))
+    {
+        SFX_Play_43AED0(SoundEffect::MeatsawIdle_89, 45, direction);
+    }
+
+    field_10C++;
+
+    switch (field_E4_state)
+    {
+    case 0:
+        if ((field_104 <= static_cast<int>(gnFrameCount_507670) || (field_1A8_flags & 2)) &&
+            ((!(field_1A8_flags & 1)) ||  SwitchStates_Get(field_EE_switch_id) == field_F0_switch_value))
+        {
+            field_E4_state = 1;
+            field_10_anim.Set_Animation_Data_402A40(15232, nullptr);
+            field_1A8_flags &= ~4u;
+            field_E8_speed2 = field_EA_speed1;
+            field_108 = gnFrameCount_507670 + 2;
+        }
+        else
+        {
+            if (field_1A8_flags & 1)
+            {
+                if (!(field_1A8_flags & 2))
+                {
+                    if (field_EC_off_speed)
+                    {
+                        if (field_104 <= static_cast<int>(gnFrameCount_507670))
+                        {
+                            field_E4_state = 1;
+                            field_10_anim.Set_Animation_Data_402A40(15232, nullptr);
+                            field_1A8_flags |= 4u;
+                            field_E8_speed2 = field_EC_off_speed;
+                            field_108 = gnFrameCount_507670 + 2;
+                        }
+                    }
+                }
+            }
+        }
+        break;
+
+    case 1:
+        field_F4 += field_E8_speed2;
+
+        if (!((gnFrameCount_507670 - field_108) % 8))
+        {
+            SFX_Play_43AED0(SoundEffect::MeatsawDown_91, 50, direction);
+        }
+
+        if (field_F4 >= field_E6_max_rise_time)
+        {
+            field_E4_state = 2;
+            field_108 = gnFrameCount_507670 + 2;
+        }
+        break;
+
+    case 2:
+        if (!((gnFrameCount_507670 - field_108) % 10))
+        {
+            field_108 = gnFrameCount_507670;
+            SFX_Play_43AED0(SoundEffect::MeatsawUp_90, 50, direction);
+        }
+
+        field_F4 -= field_E8_speed2;
+
+        if (field_F4 <= 0)
+        {
+            field_E4_state = 0;
+            short minRnd = 0;
+            short maxRnd = 0;
+            if ((field_1A8_flags >> 2) & 1)
+            {
+                maxRnd = field_FC_max_time_off2;
+                minRnd = field_FA_min_time_off2;
+            }
+            else
+            {
+                maxRnd = field_F8_field_1C_max_time_off1;
+                minRnd = field_F6_min_time_off1;
+            }
+
+            field_104 = gnFrameCount_507670 + Math_RandomRange_450F20(minRnd, maxRnd);
+            field_10_anim.Set_Animation_Data_402A40(15200, 0);
+            if (((field_1A8_flags) >> 1) & 1)
+            {
+                SwitchStates_Set(field_EE_switch_id, field_F0_switch_value == 0 ? 1 : 0);
+            }
+        }
+        break;
+    }
+}
+
+void MeatSaw::GrindUpObjects_439CD0()
+{
+    PSX_RECT ourRect = {};
+    VGetBoundingRect(&ourRect, 1);
+
+    ourRect.y += field_C8_yOffset;
+    ourRect.h += field_C8_yOffset;
+
+    for (int i=0; i< gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    {
+        BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
+        if (!pObjIter)
+        {
+            break;
+        }
+
+        if (pObjIter->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        {
+            if (pObjIter->field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
+            {
+                // Can't grind meat with a meat saw, that would be grindception
+                if (pObjIter->field_4_typeId != Types::eMeat_54)
+                {
+                    PSX_RECT objRect = {};
+                    pObjIter->VGetBoundingRect(&objRect, 1);
+                    
+                    if (RectsOverlap(ourRect, objRect) &&
+                        pObjIter->field_BC_sprite_scale == field_BC_sprite_scale &&
+                        pObjIter->field_100_health > FP_FromInteger(0))
+                    {
+                        if (pObjIter->field_A8_xpos >= FP_FromInteger(ourRect.x) &&
+                            pObjIter->field_A8_xpos <= FP_FromInteger(ourRect.w))
+                        {
+                            if (!pObjIter->VTakeDamage(this))
+                            {
+                                return;
+                            }
+
+                            auto pBlood1 = ao_new<Blood>();
+                            if (pBlood1)
+                            {
+                                pBlood1->ctor_4072B0(
+                                    pObjIter->field_A8_xpos,
+                                    FP_FromInteger(ourRect.h - 10),
+                                    FP_FromInteger(-5),
+                                    FP_FromInteger(5),
+                                    field_BC_sprite_scale,
+                                    50);
+                            }
+
+                            auto pBlood2 = ao_new<Blood>();
+                            if (pBlood2)
+                            {
+                                pBlood2->ctor_4072B0(
+                                    pObjIter->field_A8_xpos,
+                                    FP_FromInteger(ourRect.h - 10),
+                                    FP_FromInteger(0),
+                                    FP_FromInteger(5),
+                                    field_BC_sprite_scale,
+                                    50);
+                            }
+
+                            auto pBlood3 = ao_new<Blood>();
+                            if (pBlood3)
+                            {
+                                pBlood3->ctor_4072B0(
+                                    pObjIter->field_A8_xpos,
+                                    FP_FromInteger(ourRect.h - 10),
+                                    FP_FromInteger(5),
+                                    FP_FromInteger(5),
+                                    field_BC_sprite_scale,
+                                    50);
+                            }
+                            SFX_Play_43AD70(SoundEffect::KillEffect_78, 127, 0);
+                            SFX_Play_43AE60(SoundEffect::KillEffect_78, 127, -700, 0);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+void MeatSaw::VRender(int** pOrderingTable)
+{
+    VRender_439F50(pOrderingTable);
+}
+
+void MeatSaw::VRender_439F50(int** ppOt)
+{
+    if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+        field_B2_lvl_number,
+        field_B0_path_number,
+        field_A8_xpos,
+        field_AC_ypos,
+        0))
+    {
+        field_C8_yOffset = field_F4;
+        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+
+        field_110_anim.vRender(
+            FP_GetExponent(field_A8_xpos
+                + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)
+                - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
+            FP_GetExponent(field_AC_ypos
+                + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_E6_max_rise_time))
+                - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+            ppOt,
+            0,
+            0);
+
+        PSX_RECT rect = {};
+        field_110_anim.Get_Frame_Rect_402B50(&rect);
+        pScreenManager_4FF7C8->InvalidateRect_406E40(
+            rect.x,
+            rect.y,
+            rect.w,
+            rect.h,
+            pScreenManager_4FF7C8->field_2E_idx);
+    }
+}
+
+END_NS_AO

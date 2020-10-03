@@ -30,15 +30,23 @@ public:
 
     EXPORT BaseGameObject* dtor_4398F0();
 
-
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
     EXPORT MeatSaw* Vdtor_43A0B0(signed int flags);
 
-
     virtual void VScreenChanged() override;
 
     EXPORT void VScreenChanged_43A060();
+
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_4399D0();
+
+    EXPORT void GrindUpObjects_439CD0();
+
+    virtual void VRender(int** pOrderingTable) override;
+
+    EXPORT void VRender_439F50(int** ppOt);
 
     int field_D4[4];
     __int16 field_E4_state;
