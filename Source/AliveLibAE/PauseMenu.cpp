@@ -1470,7 +1470,7 @@ void PauseMenu::Page_Load_Render_4910A0(int** ot, PauseMenuPage* mp)
     int saveIdx = sSavedGameToLoadIdx_BB43FC - 2;
     for (int i = 0; i < 6; i++)
     {
-        if (saveIdx < 0 || saveIdx > sTotalSaveFilesCount_BB43E0)
+        if (saveIdx < 0 || saveIdx >= sTotalSaveFilesCount_BB43E0)
         {
             // When at the top of the list set the first 2 entries to a blank, and when at the end of the list set the
             // remaining save text slots to blank.
@@ -1492,7 +1492,9 @@ void PauseMenu::Page_Load_Render_4910A0(int** ot, PauseMenuPage* mp)
     else
     {
         PauseMenu__PageEntryList_Load_55e3a0[4].field_8_text = "No Saved Games";
-        PauseMenu__PageEntryList_Load_55e3a0[6].field_8_text = nullptr;
+
+        // hide row that displays hotkeys for selecting/loading/deleting saves, since there are no saves
+        PauseMenu__PageEntryList_Load_55e3a0[6].field_8_text = "";
     }
 
     mp->field_C_selected_index = 2;
