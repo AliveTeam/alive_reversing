@@ -40,6 +40,7 @@ enum TlvTypes : __int16
 
     Slig_24 = 24,
     Slog_25 = 25,
+    Switch_26 = 26,
 
     StartController_28 = 28,
 

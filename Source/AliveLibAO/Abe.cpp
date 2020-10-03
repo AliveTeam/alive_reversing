@@ -2747,8 +2747,103 @@ void Abe::TryHoist_423420()
 
 __int16 Abe::HandleDoAction_429A70()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    __int16 mountMotion = TryMountElum_42E600();
+    if (mountMotion != eAbeStates::State_0_Idle_423520)
+    {
+        return mountMotion;
+    }
+
+    Path_TLV* pTlv = gMap_507BA8.TLV_Get_At_446060(
+        nullptr,
+        field_A8_xpos,
+        field_AC_ypos,
+        field_A8_xpos,
+        field_AC_ypos);
+
+    while (pTlv)
+    {
+        switch (pTlv->field_4_type)
+        {
+        case TlvTypes::LocalWell_11:
+            field_F0_pTlv = pTlv;
+            return eAbeStates::State_77_WellBegin_430F10;
+
+        case TlvTypes::Switch_26:
+            if (FP_FromInteger(FP_GetExponent(field_A8_xpos) - pTlv->field_10_top_left.field_0_x) < ScaleToGridSize_41FA30(field_BC_sprite_scale))
+            {
+                // Wrong dir
+                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    return eAbeStates::State_36_DunnoBegin_423260;
+                }
+
+                // Get switch
+                auto pSwitch = static_cast<Switch*>(FindObjectOfType_418280(
+                    Types::eLever_97,
+                    field_A8_xpos + ScaleToGridSize_41FA30(field_BC_sprite_scale),
+                    field_AC_ypos - FP_FromInteger(5)));
+
+                // Pull it
+                if (pSwitch)
+                {
+                    pSwitch->VPull_481640(field_A8_xpos < pSwitch->field_A8_xpos);
+                    return eAbeStates::State_101_LeverUse_429970;
+                }
+            }
+            else if (FP_FromInteger(pTlv->field_14_bottom_right.field_0_x - FP_GetExponent(field_A8_xpos)) < ScaleToGridSize_41FA30(field_BC_sprite_scale))
+            {
+                // Wrong dir
+                if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                   return eAbeStates::State_36_DunnoBegin_423260;
+                }
+
+                // Get switch
+                auto pSwitch = static_cast<Switch*>(FindObjectOfType_418280(
+                    Types::eLever_97,
+                    field_A8_xpos - ScaleToGridSize_41FA30(field_BC_sprite_scale),
+                    field_AC_ypos - FP_FromInteger(5)));
+
+                // Pull it
+                if (pSwitch)
+                {
+                    pSwitch->VPull_481640(field_A8_xpos < pSwitch->field_A8_xpos);
+                    return eAbeStates::State_101_LeverUse_429970;
+                }
+            }
+            break;
+
+        case TlvTypes::WellExpress_45:
+            field_F0_pTlv = pTlv;
+            return eAbeStates::State_80_430EF0;
+
+        case TlvTypes::GrenadeMachine_97:
+        {
+            auto pBoomMachine = static_cast<BoomMachine*>(FindObjectOfType_418280(
+                Types::eGrenadeMachine_41,
+                field_A8_xpos,
+                field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(25))));
+
+            if (pBoomMachine && pBoomMachine->Vsub_41E840())
+            {
+                pBoomMachine->Vsub_41E6F0();
+                return eAbeStates::State_90_GrenadeMachineUse_430EA0;
+            }
+            return eAbeStates::State_36_DunnoBegin_423260;
+        }
+
+        default:
+            break;
+        }
+
+        pTlv = gMap_507BA8.TLV_Get_At_446060(
+            pTlv,
+            field_A8_xpos,
+            field_AC_ypos,
+            field_A8_xpos,
+            field_AC_ypos);
+    }
+    return eAbeStates::State_36_DunnoBegin_423260;
 }
 
 static bool IsSameScaleAsHoist(Path_Hoist* pHoist, BaseAliveGameObject* pObj)
