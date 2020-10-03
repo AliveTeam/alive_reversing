@@ -6250,7 +6250,41 @@ void Abe::State_134_LiftGrabEnd_42EFE0()
 
 void Abe::State_135_LiftGrabIdle_42F000()
 {
-    NOT_IMPLEMENTED();
+    FollowLift_42EE90();
+
+    auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
+    pLiftPoint->Move_435740(FP_FromInteger(0), FP_FromInteger(0), 0);
+    
+    field_B8_vely = FP_FromInteger(0);
+
+    if (gBeeInstanceCount_5076B0 > 0 && word_5076AC)
+    {
+        field_FC_current_motion = eAbeStates::State_141_BeesStrugglingOnLift_42F390;
+    }
+    else
+    {
+        if (sInputObject_5009E8.isPressed(sInputKey_Up_4C6598))
+        {
+            if (!pLiftPoint->OnTopFloor())
+            {
+                field_FC_current_motion = eAbeStates::State_131_LiftUseUp_42F150;
+            }
+        }
+        else if (sInputObject_5009E8.isPressed(sInputKey_Down_4C659C))
+        {
+            if (!pLiftPoint->OnBottomFloor())
+            {
+                field_FC_current_motion = eAbeStates::State_132_LiftUseDown_42F170;
+            }
+        }
+        else
+        {
+            if (pLiftPoint->OnAnyFloor())
+            {
+                field_FC_current_motion = eAbeStates::State_134_LiftGrabEnd_42EFE0;
+            }
+        }
+    }
 }
 
 void Abe::State_136_ElumMountEnd_42E110()
