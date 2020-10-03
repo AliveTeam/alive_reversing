@@ -432,8 +432,8 @@ EXPORT void CC Factory_Dove_4D7E90(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvIn
             }
             else
             {
-                pDove->field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + width  * Math_NextRandom()) / 256);
-                ypos = (pTlv->field_8_top_left.field_2_y + height * Math_NextRandom()) / 256;
+                pDove->field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + width  * Math_NextRandom() / 256);
+                ypos = pTlv->field_8_top_left.field_2_y + height * Math_NextRandom() / 256;
             }
             pDove->field_BC_ypos = FP_FromInteger(ypos) + FP_FromInteger(10);
         }
