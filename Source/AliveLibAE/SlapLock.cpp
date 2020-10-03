@@ -28,7 +28,7 @@ SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, int tlvInfo)
         field_CC_sprite_scale = FP_FromDouble(0.5);
     }
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_1053);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kUnknownResID_1053);
     Animation_Init_424E10(7068, 58, 44, ppRes, 1, 1);
 
     if (field_118_pTlv->field_10_scale)
@@ -133,7 +133,7 @@ int CC SlapLock::CreateFromSaveState_43EA00(const BYTE* pBuffer)
 
     auto pTlv = static_cast<Path_SlapLock*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4_tlvInfo));
   
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_1053, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kUnknownResID_1053, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("GHOSTTRP.BAN", nullptr);
     }

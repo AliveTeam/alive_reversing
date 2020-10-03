@@ -26,10 +26,26 @@ struct Gib_Data
 };
 ALIVE_ASSERT_SIZEOF(Gib_Data, 0x18);
 
+
+enum class GibType : int
+{
+    Abe_0 = 0,
+    Slig_1 = 1,
+    Slog_2 = 2,
+    Mud_3 = 3,
+    BlindMud_4 = 4,
+    Metal_5 = 5,
+    Glukkon_6 = 6,
+    Aslik_7 = 7,
+    Dripik_8 = 8,
+    Phleg_9 = 9,
+    Fleech_10 = 10,
+};
+
 class Gibs : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Gibs* ctor_40FB40(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 bMakeSmaller);
+    EXPORT Gibs* ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 bMakeSmaller);
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable) override;
@@ -39,7 +55,7 @@ private:
     EXPORT void vUpdate_410210();
     EXPORT void vRender_4103A0(int** ot);
 private:
-    const Gib_Data* field_F4_pGibData;
+    void* field_F4_not_used; // Used to be gib data, only used in ctor and replaced with AnimRecords
     FP field_F8_z;
     FP field_FC_dz;
     int field_100_timer;

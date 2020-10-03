@@ -21,7 +21,7 @@ TorturedMudokon* TorturedMudokon::ctor_47BC60(Path_TorturedMudokon *pTlv, int tl
     field_4_typeId = Types::eTorturedMud_141;
     field_230_tlvInfo = tlvInfo;
 
-    field_224_ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kTorturedMud);
+    field_224_ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kTorturedMud);
     if (field_224_ppRes)
     {
         field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
@@ -67,7 +67,7 @@ BaseGameObject* TorturedMudokon::VDestructor(signed int flags)
 
 void TorturedMudokon::sub_47BE60(Animation* pAnim)
 {
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_375);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kUnknownResID_375);
     if (pAnim->Init_40A030(500, gObjList_animations_5C1A24, this, 17, 19, ppRes, 1, 0, 0))
     {
         pAnim->field_C_render_layer = field_20_animation.field_C_render_layer;
@@ -84,7 +84,7 @@ void TorturedMudokon::sub_47BE60(Animation* pAnim)
 
 void TorturedMudokon::sub_47BEF0(Animation* pAnim)
 {
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kElecwallResID);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kElecwallResID);
     if (pAnim->Init_40A030(15384, gObjList_animations_5C1A24, this, 50, 80, ppRes, 1, 0, 0))
     {
         pAnim->field_C_render_layer = field_20_animation.field_C_render_layer - 1;

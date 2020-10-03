@@ -18,7 +18,7 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, int tl
     field_4_typeId = Types::eWebLine_146;
     field_100_tlv_info = tlvInfo;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kWebResID);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kWebResID);
     Animation_Init_424E10(148, 5, 16u, ppRes, 1, 1u);
 
     if (pTlv->field_10_scale)
@@ -105,7 +105,7 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, int tl
     field_104_wobble_idx = 0;
     field_106_wobble_pos = field_F8_top;
 
-    BYTE** ppFlareRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 0, 0);
+    BYTE** ppFlareRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kOmmflareResID, 0, 0);
     if (field_108_anim_flare.Init_40A030(1632, gObjList_animations_5C1A24, this, 39, 21u, ppFlareRes, 1u, 0, 0))
     {
         field_108_anim_flare.field_8_r = 100;

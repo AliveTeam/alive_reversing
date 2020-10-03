@@ -15,7 +15,7 @@ DoorBlocker* DoorBlocker::ctor_41F0A0(Path_DoorBlocker* pTlv, int tlvInfo)
 
     field_11A_switch_id = pTlv->field_12_id;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_374);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kUnknownResID_374);
     Animation_Init_424E10(1624, 87, 14, ppRes, 1, 1);
 
     field_118_bDone &= ~1u;

@@ -21,7 +21,7 @@ ParamiteWeb* ParamiteWeb::ctor_4E1840(FP xpos, __int16 bottom, __int16 top, FP s
     {
         field_F6_segment_length = 7;
     }
-    Animation_Init_424E10(148, 5, 16, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kWebResID), 1, 1u);
+    Animation_Init_424E10(148, 5, 16, Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kWebResID), 1, 1u);
 
     if (scale == FP_FromInteger(1))
     {

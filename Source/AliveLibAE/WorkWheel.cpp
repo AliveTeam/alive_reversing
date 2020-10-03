@@ -49,7 +49,7 @@ WorkWheel* WorkWheel::ctor_4E35D0(Path_Wheel* pTlv, int tlvInfo)
 
     field_C_objectId = tlvInfo;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kWorkwhelResID);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kWorkwhelResID);
     Animation_Init_424E10(2716, 49, 24, ppRes, 1, 1u);
     field_20_animation.field_4_flags.Set(eBit15_bSemiTrans);
 
@@ -129,12 +129,12 @@ int CC WorkWheel::CreateFromSaveState_4E3B10(const BYTE* pState)
 
     Path_Wheel* pTlv = static_cast<Path_Wheel*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pData->field_4_tlvInfo));
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeworkResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeworkResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("ABEWORK.BAN", nullptr);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kWorkwhelResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kWorkwhelResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("WORKWHEL.BAN", nullptr);
     }

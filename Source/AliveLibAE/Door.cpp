@@ -213,7 +213,7 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, int tlvInfo)
         field_102_hub_ids[7] = pTlvData->field_22_hubs[7];
     }
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kF2p3dorResID);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kF2p3dorResID);
     if (!ppRes || stru_544888[static_cast<int>(gMap_5C3030.field_0_current_level)].field_0_frameTableOffset_closed == 0)
     {
         field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
@@ -573,7 +573,7 @@ TrainDoor* TrainDoor::ctor_4DD090(Path_TrainDoor* pTlv, int tlvInfo)
     field_4_typeId = Types::eDoor_33;
     field_F4_tlvInfo = tlvInfo;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_2013);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kUnknownResID_2013);
     Animation_Init_424E10(4752, 44, 56u, ppRes, 1, 1);
     
     field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + 12);

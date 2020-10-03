@@ -69,7 +69,7 @@ Mine * Mine::ctor_46B120(Path_Mine * pPath, TlvItemInfoUnion tlv)
 
     field_4_typeId = Types::eMine_88;
 
-    Animation_Init_424E10(784, 38, 0xDu, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kLandmineResID), 1, 1u);
+    Animation_Init_424E10(784, 38, 0xDu, Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kLandmineResID), 1, 1u);
 
     field_118_detonating = 0;
     field_6_flags.Set(Options::eInteractive_Bit8);
@@ -113,7 +113,7 @@ Mine * Mine::ctor_46B120(Path_Mine * pPath, TlvItemInfoUnion tlv)
     }
     field_11C_tlv = tlv;
     field_120_gnframe = sGnFrame_5C1B84;
-    field_124_animation.Init_40A030(400, gObjList_animations_5C1A24, this, 36, 8u, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMineflshResID), 1u, 0, 0);
+    field_124_animation.Init_40A030(400, gObjList_animations_5C1A24, this, 36, 8u, Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kMineflshResID), 1u, 0, 0);
 
     field_124_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_124_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
@@ -132,17 +132,17 @@ Mine * Mine::ctor_46B120(Path_Mine * pPath, TlvItemInfoUnion tlv)
         field_1BC_flags.Set(Mine_Flags_1BC::e1BC_Bit1);
     }
 
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbebombResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDebrisID00);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kBgexpldResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAbebombResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kDebrisID00);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kBgexpldResID);
 
     if (!(field_11A_disabled_resources & 1))
     {
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
+        Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
     }
     if (!(field_11A_disabled_resources & 2))
     {
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID );
+        Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID );
     }
 
     const FP gridSnap = ScaleToGridSize_4498B0(field_CC_sprite_scale);

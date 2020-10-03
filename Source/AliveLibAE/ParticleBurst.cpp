@@ -61,19 +61,19 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int numOfPa
         switch (field_104_type)
         {
         case BurstType::eFallingRocks_0:
-            Animation_Init_424E10(6484, 71, 36, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDebrisID00), 1, 1u);
+            Animation_Init_424E10(6484, 71, 36, Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kDebrisID00), 1, 1u);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
             field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
             break;
 
         case BurstType::eSticks_1:
-            Animation_Init_424E10(1704, 49, 29, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kStickResID), 1, 1u);
+            Animation_Init_424E10(1704, 49, 29, Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kStickResID), 1, 1u);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
             field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
             break;
 
         case BurstType::eBigPurpleSparks_2:
-            Animation_Init_424E10(9912, 122, 43, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID), 1, 1u);
+            Animation_Init_424E10(9912, 122, 43, Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kDeathFlareResID), 1, 1u);
             field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
             field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
             field_20_animation.field_B_render_mode = 1;
@@ -82,7 +82,7 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int numOfPa
         case BurstType::eBigRedSparks_3:
         case BurstType::eGreenSparks_5:
         case BurstType::eSmallPurpleSparks_6:
-            Animation_Init_424E10(9912, 122, 43, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID), 1, 1u);
+            Animation_Init_424E10(9912, 122, 43, Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kDeathFlareResID), 1, 1u);
             field_20_animation.field_B_render_mode = 1;
             field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);

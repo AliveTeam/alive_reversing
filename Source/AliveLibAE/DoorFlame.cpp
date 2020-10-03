@@ -21,7 +21,7 @@ public:
         SetVTable(this, 0x54592C);
         field_4_typeId = Types::eNone_0;
         
-        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGlowResID);
+        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kGlowResID);
         Animation_Init_424E10(1400, 52, 30, ppRes, 1, 1);
 
         field_DC_bApplyShadows &= ~1u;
@@ -169,7 +169,7 @@ public:
         SetVTable(this, 0x545974);
         field_4_typeId = Types::eNone_0;
 
-        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID);
+        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kOmmflareResID);
         Animation_Init_424E10(1672, 39, 21, ppRes, 1, 1);
         field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
@@ -369,7 +369,7 @@ DoorFlame* DoorFlame::ctor_45E460(Path_DoorFlame* pTlv, int tlvInfo)
     field_4_typeId = Types::eNone_0;
     field_F4_tlvInfo = tlvInfo;
     
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kHubFireResID);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kHubFireResID);
     Animation_Init_424E10(5156, 22, 21u, ppRes, 1, 1u);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);

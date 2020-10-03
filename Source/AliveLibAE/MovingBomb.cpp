@@ -34,7 +34,7 @@ MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, int tlvInfo)
     SetVTable(this, 0x546270);
     field_4_typeId = Types::eTimedMine_or_MovingBomb_10;
     
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMovebombResID);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kMovebombResID);
     Animation_Init_424E10(17548, 76, 30, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -77,13 +77,13 @@ MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, int tlvInfo)
     field_134_disable_resources = pTlv->field_1A_disable_resources;
     if (!(field_134_disable_resources & 1))
     {
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
+        Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
     }
 
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kAbeblowResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kSlogBlowResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kMetalResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Palt, AEResourceID::kAbeblowResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Palt, AEResourceID::kSlogBlowResID);
     
     FP hitX = {};
     FP hitY = {};
@@ -254,7 +254,7 @@ __int16 MovingBomb::vTakeDamage_470990(BaseGameObject* pFrom)
         auto pGibs = ae_new<Gibs>();
         if (pGibs)
         {
-            pGibs->ctor_40FB40(5, field_B8_xpos, field_BC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 0);
+            pGibs->ctor_40FB40(GibType::Metal_5, field_B8_xpos, field_BC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 0);
         }
 
         field_118_state = 7;
@@ -481,7 +481,7 @@ void MovingBomb::vUpdate_4701E0()
             if (pGibs)
             {
                 pGibs->ctor_40FB40(
-                    5,
+                    GibType::Metal_5,
                     field_B8_xpos,
                     field_BC_ypos,
                     FP_FromInteger(0),

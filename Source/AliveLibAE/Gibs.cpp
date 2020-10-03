@@ -6,8 +6,9 @@
 #include "Math.hpp"
 #include "stdlib.hpp"
 #include "ScreenManager.hpp"
+#include "AnimResources.hpp"
 
-const TintEntry kGibTints_55C744[19] =
+const TintEntry kGibTints_55C744[] =
 {
     { 1, 87u, 103u, 67u },
     { 2, 87u, 103u, 67u },
@@ -23,36 +24,17 @@ const TintEntry kGibTints_55C744[19] =
     { 12, 87u, 103u, 67u },
     { 13, 87u, 103u, 67u },
     { 14, 87u, 103u, 67u },
-    { -1, 87u, 103u, 67u },
-    { 0, 0u, 0u, 0u },
-    { 0, 0u, 0u, 0u },
-    { 0 , 0u, 0u, 0u },
-    { 0, 0u, 0u, 0u }
+    { -1, 87u, 103u, 67u }
 };
 
-const Gib_Data kGibData_550D78[11] =
-{
-    { 7732, 7772, 7812, 50, 25, 25 },
-    { 6480, 6560, 6520, 44, 26, 423 },
-    { 7504, 7544, 7544, 53, 28, 576 },
-    { 7732, 7772, 7812, 50, 25, 25 },
-    { 7732, 7772, 7812, 50, 25, 25 },
-    { 2244, 2244, 2244, 38, 29, 365 },
-    { 8140, 8188, 8188, 48, 28, 801 },
-    { 8140, 8188, 8188, 48, 28, 803 },
-    { 8140, 8188, 8188, 48, 28, 805 },
-    { 8140, 8188, 8188, 48, 28, 807 },
-    { 1088, 1128, 1128, 19, 8, 580 }
-};
-
-ALIVE_VAR(1, 0x550e80, short, word_550E80, 13);
+ALIVE_VAR(1, 0x550e80, short, sGibRandom_550E80, 13);
 
 EXPORT FP CC Random_40FAF0(FP scale)
 {
-    return FP_FromRaw((Math_NextRandom() - 128) << word_550E80) * scale;
+    return FP_FromRaw((Math_NextRandom() - 128) << sGibRandom_550E80) * scale;
 }
 
-EXPORT Gibs* Gibs::ctor_40FB40(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 bMakeSmaller)
+EXPORT Gibs* Gibs::ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 bMakeSmaller)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     
@@ -62,21 +44,93 @@ EXPORT Gibs* Gibs::ctor_40FB40(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, 
     }
     SetVTable(this, 0x544248); // vTbl_Gibs_544248
 
-    field_F4_pGibData = &kGibData_550D78[gibType];
-    BYTE** ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, field_F4_pGibData->field_14_resource_id);
-    
-    BYTE** ppRes = nullptr;
-    // TODO: Enum for gib types
-    if (gibType == 4)
+    field_F4_not_used = nullptr;
+
+    const AnimRecord* pHeadGib = nullptr;
+    const AnimRecord* pArmGib = nullptr;
+    const AnimRecord* pBodyGib = nullptr;
+
+    switch (gibType)
     {
-        ppRes = Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kMudblindResID);
+    case GibType::Abe_0:
+        // fallthrough
+    case GibType::Mud_3:
+        pHeadGib = &AnimRec(AnimId::Abe_Head_Gib);
+        pArmGib = &AnimRec(AnimId::Abe_Arm_Gib);
+        pBodyGib = &AnimRec(AnimId::Abe_Body_Gib);
+        break;
+
+    case GibType::Slig_1:
+        pHeadGib = &AnimRec(AnimId::Slig_Head_Gib);
+        pArmGib = &AnimRec(AnimId::Slig_Arm_Gib);
+        pBodyGib = &AnimRec(AnimId::Slig_Body_Gib);
+        break;
+
+    case GibType::Slog_2:
+        pHeadGib = &AnimRec(AnimId::Slog_Head_Gib);
+        pArmGib = &AnimRec(AnimId::Slog_Body_Gib); // No arms
+        pBodyGib = &AnimRec(AnimId::Slog_Body_Gib);
+        break;
+
+    case GibType::BlindMud_4:
+        pHeadGib = &AnimRec(AnimId::BlindMud_Head_Gib);
+        pArmGib = &AnimRec(AnimId::BlindMud_Arm_Gib);
+        pBodyGib = &AnimRec(AnimId::BlindMud_Body_Gib);
+        break;
+
+    case GibType::Metal_5:
+        // No body parts, all metal
+        pHeadGib = &AnimRec(AnimId::Metal_Gib);
+        pArmGib = &AnimRec(AnimId::Metal_Gib);
+        pBodyGib = &AnimRec(AnimId::Metal_Gib);
+        break;
+
+    case GibType::Glukkon_6:
+        pHeadGib = &AnimRec(AnimId::Glukkon_Head_Gib);
+        pArmGib = &AnimRec(AnimId::Glukkon_Arm_Gib);
+        pBodyGib = &AnimRec(AnimId::Glukkon_Body_Gib);
+        break;
+
+    case GibType::Aslik_7:
+        pHeadGib = &AnimRec(AnimId::Aslik_Head_Gib);
+        pArmGib = &AnimRec(AnimId::Aslik_Arm_Gib);
+        pBodyGib = &AnimRec(AnimId::Aslik_Body_Gib);
+        break;
+
+    case GibType::Dripik_8:
+        pHeadGib = &AnimRec(AnimId::Dripik_Head_Gib);
+        pArmGib = &AnimRec(AnimId::Dripik_Arm_Gib);
+        pBodyGib = &AnimRec(AnimId::Dripik_Body_Gib);
+        break;
+
+    case GibType::Phleg_9:
+        pHeadGib = &AnimRec(AnimId::Phleg_Head_Gib);
+        pArmGib = &AnimRec(AnimId::Phleg_Arm_Gib);
+        pBodyGib = &AnimRec(AnimId::Phleg_Body_Gib);
+        break;
+
+    case GibType::Fleech_10:
+        pHeadGib = &AnimRec(AnimId::Fleech_Head_Gib);
+        pArmGib = &AnimRec(AnimId::Fleech_Body_Gib); // No arms
+        pBodyGib = &AnimRec(AnimId::Fleech_Body_Gib);
+        break;
+    }
+
+    // TODO: It is assumed all 3 gib parts have the same resource id - might not be true for mods
+    BYTE** ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, pHeadGib->mResourceId);
+    
+    // TODO: It is assumed all 3 gib parts use the same pal - might not be true for mods
+    BYTE** ppRes = nullptr;
+    if (pHeadGib->mPalOverride != PalId::Default)
+    {
+        ppRes = Add_Resource_4DC130(ResourceManager::Resource_Palt, PalRec(pHeadGib->mPalOverride).mResourceId);
     }
 
     // The base class renders the head gib
     Animation_Init_424E10(
-        field_F4_pGibData->field_0_head,
-        static_cast<short>(field_F4_pGibData->field_C_max_w),
-        static_cast<short>(field_F4_pGibData->field_10_max_h),
+        pHeadGib->mFrameTableOffset,
+        pHeadGib->mMaxW,
+        pHeadGib->mMaxH,
         ppAnimData,
         1,
         1);
@@ -121,27 +175,24 @@ EXPORT Gibs* Gibs::ctor_40FB40(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, 
         field_FC_dz = FP_Abs(Random_40FAF0(scale) / FP_FromInteger(2));
     }
 
-    word_550E80 = 12;
+    sGibRandom_550E80 = 12;
 
     field_C8_vely = (yOff + Random_40FAF0(scale)) / FP_FromInteger(2);
     field_FC_dz = FP_Abs(Random_40FAF0(scale) / FP_FromInteger(4));
 
-    if (gibType != 0)
-    {
-        if (gibType == 3)
-        {
-            SetTint_425600(kGibTints_55C744, gMap_5C3030.field_0_current_level);
-        }
-        else if (gibType == 4)
-        {
-            field_D0_r = 63;
-            field_D2_g = 63;
-            field_D4_b = 63;
-        }
-    }
-    else
+    if (gibType == GibType::Abe_0)
     {
         SetTint_425600(sTintTable_Abe_554D20, gMap_5C3030.field_0_current_level);
+    }
+    else if (gibType == GibType::Mud_3)
+    {
+        SetTint_425600(kGibTints_55C744, gMap_5C3030.field_0_current_level);
+    }
+    else if (gibType == GibType::BlindMud_4)
+    {
+        field_D0_r = 63;
+        field_D2_g = 63;
+        field_D4_b = 63;
     }
 
     field_5D4_parts_used_count = 4;
@@ -153,11 +204,11 @@ EXPORT Gibs* Gibs::ctor_40FB40(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, 
         {
             // 2 arm parts
             if (!pPart->field_18_anim.Init_40A030(
-                field_F4_pGibData->field_4_arm,
+                pArmGib->mFrameTableOffset,
                 gObjList_animations_5C1A24,
                 this,
-                static_cast<short>(field_F4_pGibData->field_C_max_w),
-                static_cast<short>(field_F4_pGibData->field_10_max_h),
+                pArmGib->mMaxW,
+                pArmGib->mMaxH,
                 ppAnimData,
                 1,
                 0,
@@ -172,11 +223,11 @@ EXPORT Gibs* Gibs::ctor_40FB40(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, 
         {
             // 2 body parts
             if (!pPart->field_18_anim.Init_40A030(
-                field_F4_pGibData->field_8_body,
+                pBodyGib->mFrameTableOffset,
                 gObjList_animations_5C1A24,
                 this,
-                static_cast<short>(field_F4_pGibData->field_C_max_w),
-                static_cast<short>(field_F4_pGibData->field_10_max_h),
+                pBodyGib->mMaxW,
+                pBodyGib->mMaxH,
                 ppAnimData,
                 1u,
                 0,

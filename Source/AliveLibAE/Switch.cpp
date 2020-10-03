@@ -57,7 +57,7 @@ Switch* Switch::ctor_4D5860(Path_Switch* pTlv, DWORD tlvInfo)
     SetVTable(this, 0x547A5C);
 
     field_4_typeId = Types::eLever_139;
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSwitchResID);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kSwitchResID);
     Animation_Init_424E10(5696, 66, 40, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
