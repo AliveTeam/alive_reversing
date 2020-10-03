@@ -196,12 +196,12 @@ void Grenade::Init_448110(FP xpos, FP ypos)
 {
     field_4_typeId = Types::eGrenade_65;
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID, 0, 0))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID, 0, 0))
     {
         LoadRockTypes_49AB30(field_C2_lvl_number, field_C0_path_number);
     }
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID);
     Animation_Init_424E10(1252, 17, 11, ppRes, 1, 1);
     field_6_flags.Clear(BaseGameObject::eInteractive_Bit8);
 
@@ -295,7 +295,7 @@ void Grenade::BlowUp_4483C0(__int16 bSmallExplosion)
     auto pGibs = ae_new<Gibs>();
     if (pGibs)
     {
-        pGibs->ctor_40FB40(5, field_B8_xpos, field_BC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, bSmallExplosion);
+        pGibs->ctor_40FB40(GibType::Metal_5, field_B8_xpos, field_BC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, bSmallExplosion);
     }
 }
 

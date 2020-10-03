@@ -16,7 +16,7 @@ RockSack* RockSack::ctor_49F100(Path_RockSack* pTlv, int tlvInfo)
 
     field_4_typeId = Types::eRockSack_106;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kP2c2bagResID);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kP2c2bagResID);
 
     // Set RockSack idle animation speed.
     auto pAnimationHeader = reinterpret_cast<AnimationHeader*>(*ppRes + 29748);

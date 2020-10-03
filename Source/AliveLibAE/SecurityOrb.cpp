@@ -49,7 +49,7 @@ SecurityOrb* SecurityOrb::ctor_466350(Path_SecurityOrb* pTlv, int tlvInfo)
 
     field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMaimGameResID);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kMaimGameResID);
     Animation_Init_424E10(2228, 53, 28u, ppRes, 1, 1u);
     
     SetTint_425600(sSecurityOrbTints_55C1EC, gMap_5C3030.field_0_current_level);
@@ -141,7 +141,7 @@ signed __int16 SecurityOrb::vTakeDamage_466BB0(BaseGameObject* pFrom)
         if (pGibsMem)
         {
             pGibsMem->ctor_40FB40(
-                5,
+                GibType::Metal_5,
                 field_B8_xpos,
                 field_BC_ypos,
                 FP_FromInteger(0),

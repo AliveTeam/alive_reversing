@@ -24,7 +24,7 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, int tlvInfo)
     SetVTable(this, 0x54566C);
 
     field_4_typeId = Types::eGreeter_64;
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGreeterResID);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kGreeterResID);
     Animation_Init_424E10(50028, 65, 60, ppRes, 1, 1);
 
     field_DC_bApplyShadows |= 2u;
@@ -89,9 +89,9 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, int tlvInfo)
     
     field_128_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(70, 210);
 
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kMetalResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
 
     field_12C = 0;
 
@@ -142,35 +142,35 @@ int CC Greeter::CreateFromSaveState_446040(const BYTE* pBuffer)
     auto pState = reinterpret_cast<const Greeter_State*>(pBuffer);
     auto pTlv = static_cast<Path_Greeter*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_28_tlvInfo));
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMflareResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kMflareResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("MFLARE.BAN", nullptr);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMotionResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kMotionResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("MOTION.BAN", nullptr);
     }
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kGreeterResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kGreeterResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("GREETER.BAN", nullptr);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSplineResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSplineResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("SPLINE.BAN", nullptr);
     }
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMetalResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kMetalResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("METAL.BAN", nullptr);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("EXPLO2.BAN", nullptr);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", nullptr);
     }
@@ -341,7 +341,7 @@ EXPORT void Greeter::BlowUp_447E50()
     if (pGibs)
     {
         pGibs->ctor_40FB40(
-            5,
+            GibType::Metal_5,
             field_B8_xpos,
             field_BC_ypos + FP_FromInteger(50),
             FP_FromInteger(0),

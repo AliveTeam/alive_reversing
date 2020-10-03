@@ -269,12 +269,12 @@ int CC Fleech::CreateFromSaveState_42DD50(const BYTE* pBuffer)
     auto pState = reinterpret_cast<const Fleech_State*>(pBuffer);
 
     auto pTlv = static_cast<Path_Fleech*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_40_tlvInfo));
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kFleechResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kFleechResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("FLEECH.BAN", nullptr);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_580, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kUnknownResID_580, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("FLEEBLOW.BAN", nullptr);
     }
@@ -1757,7 +1757,7 @@ int CC Animation_OnFrame_Fleech_449A60(void* pObj, signed __int16* pData)
 void Fleech::Init_42A170()
 {
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kFleechResID, TRUE, FALSE));
-    field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_580, TRUE, FALSE));
+    field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kUnknownResID_580, TRUE, FALSE));
     
     Animation_Init_424E10(37704, 73, 35u, field_10_resources_array.ItemAt(0), 1, 1);
 
@@ -2343,7 +2343,7 @@ __int16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
         auto pGibsMem = ae_new<Gibs>();
         if (pGibsMem)
         {
-            pGibsMem->ctor_40FB40(10, field_B8_xpos, field_BC_ypos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
+            pGibsMem->ctor_40FB40(GibType::Fleech_10, field_B8_xpos, field_BC_ypos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
         }
 
         PSX_RECT bRect = {};
@@ -2384,7 +2384,7 @@ __int16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
         auto pGibsMem2 = ae_new<Gibs>();
         if (pGibsMem2)
         {
-            pGibsMem2->ctor_40FB40(10, field_B8_xpos, field_BC_ypos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
+            pGibsMem2->ctor_40FB40(GibType::Fleech_10, field_B8_xpos, field_BC_ypos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
         }
 
         if (static_cast<BaseAliveGameObject*>(pFrom)->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))

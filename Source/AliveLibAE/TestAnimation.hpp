@@ -15,4 +15,8 @@ public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
     virtual void VRender(int** pOrderingTable) override;
+
+    void DelayLoad();
+
+    bool mLoaded;
 };

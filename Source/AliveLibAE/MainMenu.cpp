@@ -507,8 +507,8 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     field_120_font.ctor_433590(240, pal_560F80, &sFont1Context_5BC5C8);
     field_F4_resources = {};
 
-    field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespek2ResID, TRUE, FALSE);
-    field_F4_resources.field_0_resources[MenuResIds::eOptionFlare] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOptflareResID, TRUE, FALSE);
+    field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbespek2ResID, TRUE, FALSE);
+    field_F4_resources.field_0_resources[MenuResIds::eOptionFlare] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kOptflareResID, TRUE, FALSE);
 
     field_F4_resources.field_0_resources[MenuResIds::eUnknown] = nullptr;
     field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = nullptr;
@@ -522,9 +522,9 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     else
     {
         ResourceManager::LoadResourceFile_49C170("ABEINTRO.BAN", nullptr);
-        field_F4_resources.field_0_resources[MenuResIds::eAbeIntro] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeintroResID, TRUE, FALSE);
+        field_F4_resources.field_0_resources[MenuResIds::eAbeIntro] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeintroResID, TRUE, FALSE);
         ResourceManager::LoadResourceFile_49C170("STDOOR.BAN", nullptr);
-        field_F4_resources.field_0_resources[MenuResIds::eDoor] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kDoorResID, TRUE, FALSE);
+        field_F4_resources.field_0_resources[MenuResIds::eDoor] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kDoorResID, TRUE, FALSE);
         Animation_Init_424E10(50212, 233, 0x7Du, field_F4_resources.field_0_resources[MenuResIds::eDoor], 1, 1);
     }
 
@@ -622,7 +622,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     if (gMap_5C3030.field_4_current_camera == 30)
     {
         ResourceManager::Reclaim_Memory_49C470(0);
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, 0, 0))
+        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbespeakResID, 0, 0))
         {
             ResourceManager::LoadResourceFile_49C130("ABESPEAK.BAN", reinterpret_cast<ResourceManager::TLoaderFn>(callback_4D06E0), reinterpret_cast<Camera *>(this), 0);
         }
@@ -822,7 +822,7 @@ signed int MainMenuController::AbeSpeak_Update_4D2D20(DWORD input_held)
         if (field_230_selected_entry_index == 1 && (sGnFrame_5C1B84 % 8) == 0)
         {
             // Spawn chant star/flare particle at random locations around abes head
-            field_F4_resources.field_0_resources[MenuResIds::eOptionFlare] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOptflareResID, FALSE, FALSE);
+            field_F4_resources.field_0_resources[MenuResIds::eOptionFlare] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kOptflareResID, FALSE, FALSE);
             Particle* pParticle = ae_new<Particle>();
             if (pParticle)
             {
@@ -929,7 +929,7 @@ void MainMenuController::SligSpeak_Load_4D3090()
     Unload_AbeSpeakResources();
 
     ResourceManager::LoadResourceFile_49C170("SLGSPEAK.BAN", nullptr);
-    field_F4_resources.field_0_resources[MenuResIds::eSligSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSligSpeakResID, TRUE, FALSE);
+    field_F4_resources.field_0_resources[MenuResIds::eSligSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSligSpeakResID, TRUE, FALSE);
     field_20_animation.Set_Animation_Data_409C80(0x10DF18, field_F4_resources.field_0_resources[MenuResIds::eSligSpeak]);
     Set_Anim_4D05E0(AnimIds::eSlig_Idle);
 }
@@ -967,7 +967,7 @@ void MainMenuController::GlukkonSpeak_Load_4D3480()
     Unload_AbeSpeakResources();
 
     ResourceManager::LoadResourceFile_49C170("GLKSPEAK.BAN", nullptr);
-    field_F4_resources.field_0_resources[MenuResIds::eGlukkonSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kGlukkonSpeakResID, TRUE, FALSE);
+    field_F4_resources.field_0_resources[MenuResIds::eGlukkonSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kGlukkonSpeakResID, TRUE, FALSE);
     field_20_animation.Set_Animation_Data_409C80(0x14EE50, field_F4_resources.field_0_resources[MenuResIds::eGlukkonSpeak]);
     Set_Anim_4D05E0(AnimIds::eGlukkon_Idle);
 }
@@ -1005,7 +1005,7 @@ void MainMenuController::ScrabSpeak_Load_4D3870()
     Unload_AbeSpeakResources();
 
     ResourceManager::LoadResourceFile_49C170("SCRSPEAK.BAN", nullptr);
-    field_F4_resources.field_0_resources[MenuResIds::eScrabSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kScrabSpeakResID, TRUE, FALSE);
+    field_F4_resources.field_0_resources[MenuResIds::eScrabSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kScrabSpeakResID, TRUE, FALSE);
     field_20_animation.Set_Animation_Data_409C80(0x7B8BC, field_F4_resources.field_0_resources[MenuResIds::eScrabSpeak]);
     Set_Anim_4D05E0(AnimIds::eScrab_Idle);
 }
@@ -1048,7 +1048,7 @@ void MainMenuController::ParamiteSpeak_Load_4D3B70()
     Unload_AbeSpeakResources();
 
     ResourceManager::LoadResourceFile_49C170("PARSPEAK.BAN", nullptr);
-    field_F4_resources.field_0_resources[MenuResIds::eParamiteSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kParamiteSpeakResID, TRUE, FALSE);
+    field_F4_resources.field_0_resources[MenuResIds::eParamiteSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kParamiteSpeakResID, TRUE, FALSE);
     field_20_animation.Set_Animation_Data_409C80(0xD8E80, field_F4_resources.field_0_resources[MenuResIds::eParamiteSpeak]);
     Set_Anim_4D05E0(AnimIds::eParamite_Idle);
 }
@@ -1355,12 +1355,12 @@ void MainMenuController::t_Load_AbeSpeak_Res_4D4A20()
 {
     ResourceManager::Reclaim_Memory_49C470(0);
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbespeakResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("ABESPEAK.BAN", 0);
     }
 
-    field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, TRUE, FALSE);
+    field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbespeakResID, TRUE, FALSE);
 
     field_25C = 0;
     field_25E = 0;
@@ -1933,7 +1933,7 @@ EXPORT signed int MainMenuController::BackStory_Or_NewGame_Update_4D1C60(DWORD i
     else if (input_held & InputCommands::eBack) // Escape/back
     {
         ResourceManager::Reclaim_Memory_49C470(0);
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, FALSE, FALSE))
+        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbespeakResID, FALSE, FALSE))
         {
             // TODO: Fix the types
             ResourceManager::LoadResourceFile_49C130("ABESPEAK.BAN",
@@ -1960,7 +1960,7 @@ void MainMenuController::BackStory_Or_NewGame_Unload_4D1BE0()
     if (!word_BB43DC)
     {
         ResourceManager::Reclaim_Memory_49C470(0);
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, FALSE, FALSE))
+        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbespeakResID, FALSE, FALSE))
         {
             // TODO: Fix the types
             ResourceManager::LoadResourceFile_49C130("ABESPEAK.BAN",
@@ -2128,7 +2128,7 @@ signed int MainMenuController::LoadDemo_Update_4D1040(DWORD)
         char file[32] = {};
         sprintf(file, "ATTR%04d.SAV", sDemos_5617F0[demoId].field_A_id);
         ResourceManager::LoadResourceFile_49C170(file, nullptr);
-        BYTE **resource = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::ResourceType::Resource_NxtP, ResourceID::kUnknownResID_0, 1, 0);
+        BYTE **resource = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::ResourceType::Resource_NxtP, AEResourceID::kUnknownResID_0, 1, 0);
         sActiveQuicksaveData_BAF7F8 = *(reinterpret_cast<Quicksave*>(*resource));
         ResourceManager::FreeResource_49C330(resource);
 
@@ -3430,7 +3430,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
             field_6_flags.Clear(BaseGameObject::eUpdateDuringCamSwap_Bit10);
             field_22C_T80 = 15;
             
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, FALSE, FALSE))
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbespeakResID, FALSE, FALSE))
             {
                 // TODO: Fix the types
                 ResourceManager::LoadResourceFile_49C130("ABESPEAK.BAN", 
@@ -3445,7 +3445,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
 
         case 11: // ??
             ResourceManager::Reclaim_Memory_49C470(0);
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, 0, 0))
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbespeakResID, 0, 0))
             {
                 // TODO: Fix the types
                 ResourceManager::LoadResourceFile_49C130("ABESPEAK.BAN",
@@ -3684,7 +3684,7 @@ void MainMenuController::UpdateHighliteGlow_4D0630()
 void MainMenuController::callback_4D06E0(MainMenuController* pMenu)
 {
     pMenu->field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = 
-            ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, TRUE, FALSE);
+            ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbespeakResID, TRUE, FALSE);
 }
 
 void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, int** ot, Alive::Font* font, int* polyIndex, char op2)
@@ -3804,15 +3804,15 @@ void MainMenuController::Load_AbeSpeakResources()
     ResourceManager::LoadResourceFile_49C170("ABESPEK2.BAN", nullptr);
 
     // Get the resource, if we don't have it compact heap again
-    field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespek2ResID, TRUE, FALSE);
+    field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbespek2ResID, TRUE, FALSE);
     ResourceManager::Reclaim_Memory_49C470(0);
 
     // And then try to load it
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbespeakResID, FALSE, FALSE))
     {
         Game_ShowLoadingIcon_482D80();
         ResourceManager::LoadResourceFile_49C170("ABESPEAK.BAN", nullptr);
     }
 
-    field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, TRUE, FALSE);
+    field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbespeakResID, TRUE, FALSE);
 }

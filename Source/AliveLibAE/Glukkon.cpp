@@ -140,27 +140,27 @@ signed int CC Glukkon::CreateFromSaveState_442830(const BYTE* pData)
     {
         case LevelIds::eFeeCoDepot_5:
         case LevelIds::eFeeCoDepot_Ender_12:
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kGlukAslikResID, FALSE, FALSE))
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kGlukAslikResID, FALSE, FALSE))
             {
                 ResourceManager::LoadResourceFile_49C170("ASLIK.BND", 0);
             }
             break;
         case LevelIds::eBarracks_6:
         case LevelIds::eBarracks_Ender_13:
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kGlukDripikResID, FALSE, FALSE))
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kGlukDripikResID, FALSE, FALSE))
             {
                 ResourceManager::LoadResourceFile_49C170("DRIPIK.BND", 0);
             }
             break;
         case LevelIds::eBonewerkz_8:
         case LevelIds::eBonewerkz_Ender_14:
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kGlukPhlegResID, FALSE, FALSE))
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kGlukPhlegResID, FALSE, FALSE))
             {
                 ResourceManager::LoadResourceFile_49C170("PHLEG.BND", 0);
             }
             break;
         default:
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kGlkbasicResID, FALSE, FALSE))
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kGlkbasicResID, FALSE, FALSE))
             {
                 ResourceManager::LoadResourceFile_49C170("GLUKKON.BND", 0);
             }
@@ -288,23 +288,23 @@ Glukkon* Glukkon::ctor_43F030(Path_Glukkon* pTlv, int tlvInfo)
     case GlukkonTypes::Normal_0:
     case GlukkonTypes::Normal_4:
     case GlukkonTypes::Normal_5:
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_801);
-        Animation_Init_424E10(169608, 163, 79, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGlkbasicResID), 1, 1);
+        Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kUnknownResID_801);
+        Animation_Init_424E10(169608, 163, 79, Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kGlkbasicResID), 1, 1);
         break;
 
     case GlukkonTypes::Aslik_1:
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_803);
-        Animation_Init_424E10(171356, 157, 76, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGlukAslikResID), 1, 1);
+        Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kUnknownResID_803);
+        Animation_Init_424E10(171356, 157, 76, Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kGlukAslikResID), 1, 1);
         break;
 
     case GlukkonTypes::Drpik_2:
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_805);
-        Animation_Init_424E10(193064,162,78, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGlukDripikResID), 1, 1);
+        Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kUnknownResID_805);
+        Animation_Init_424E10(193064,162,78, Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kGlukDripikResID), 1, 1);
         break;
 
     case GlukkonTypes::Phleg_3:
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_807);
-        Animation_Init_424E10(199500, 145, 72, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGlukPhlegResID), 1, 1);
+        Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kUnknownResID_807);
+        Animation_Init_424E10(199500, 145, 72, Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kGlukPhlegResID), 1, 1);
         break;
     default:
         break;
@@ -1802,31 +1802,32 @@ __int16 Glukkon::AI_3_PlayerControlled_441A30()
     }
 }
 
-// TODO: GibType should also be an enum
-static int AsGibType(GlukkonTypes glukkonType)
+static GibType AsGibType(GlukkonTypes glukkonType)
 {
     switch (glukkonType)
     {
     case GlukkonTypes::Normal_0:
-        return 0 + 6;
+        return GibType::Glukkon_6;
 
     case GlukkonTypes::Aslik_1:
-        return 1 + 6;
+        return GibType::Aslik_7;
 
     case GlukkonTypes::Drpik_2:
-        return 2 + 6;
+        return GibType::Dripik_8;
 
     case GlukkonTypes::Phleg_3:
-        return 3 + 6;
+        return GibType::Phleg_9;
 
     case GlukkonTypes::Normal_4:
-        return 4 + 6;
+        LOG_ERROR("Didn't expect glukkon type 4 for gibs!");
+        return GibType::Fleech_10; // TODO: This can't be correct
 
     case GlukkonTypes::Normal_5:
-        return 5 + 6;
+        LOG_ERROR("Didn't expect glukkon type 5 for gibs!");
+        return GibType::Glukkon_6; // TODO: Was out of range
 
     default:
-        return 0 + 6;
+        return GibType::Glukkon_6;
     }
 }
 

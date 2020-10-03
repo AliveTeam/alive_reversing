@@ -35,7 +35,7 @@ Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 
 
     field_CC_sprite_scale = scale;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kBloodropResID);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kBloodropResID);
     Animation_Init_424E10(308, 11, 7, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit25_bDecompressDone);

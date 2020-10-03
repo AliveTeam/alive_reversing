@@ -63,7 +63,7 @@ TimedMine* TimedMine::ctor_410600(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
 
     field_4_typeId = Types::eTimedMine_or_MovingBomb_10;
 
-    Animation_Init_424E10(836, 35, 0x11u, BaseGameObject::Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kBombResID), TRUE, TRUE);
+    Animation_Init_424E10(836, 35, 0x11u, BaseGameObject::Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kBombResID), TRUE, TRUE);
 
     field_6_flags.Set(Options::eInteractive_Bit8);
 
@@ -209,7 +209,7 @@ void TimedMine::Render_410CD0(int** pOt)
 
 void TimedMine::InitBlinkAnimation_4108E0(Animation* pAnimation)
 {
-    if (pAnimation->Init_40A030(544, gObjList_animations_5C1A24, this, 36, 0x15u, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kBombflshResID), 1, 0, 0))
+    if (pAnimation->Init_40A030(544, gObjList_animations_5C1A24, this, 36, 0x15u, Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kBombflshResID), 1, 0, 0))
     {
         pAnimation->field_C_render_layer = field_20_animation.field_C_render_layer;
         pAnimation->field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);

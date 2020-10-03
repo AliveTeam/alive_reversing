@@ -21,12 +21,12 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, __int16 count)
     field_11A_bDead = 0;
     field_4_typeId = Types::eMeat_84;
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMeatResID, 0, 0))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kMeatResID, 0, 0))
     {
         LoadRockTypes_49AB30(field_C2_lvl_number, field_C0_path_number);
     }
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMeatResID);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kMeatResID);
     Animation_Init_424E10(488, 17, 9, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -464,7 +464,7 @@ MeatSack* MeatSack::ctor_46A410(Path_MeatSack* pTlv, int tlvInfo)
 
     field_4_typeId = Types::eMeatSack_85;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kD2elumResID);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kD2elumResID);
     Animation_Init_424E10(15848, 93, 86, ppRes, 1, 1);
     SetTint_425600(&stru_55C254[0], gMap_5C3030.field_0_current_level);
 

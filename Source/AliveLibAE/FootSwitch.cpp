@@ -68,7 +68,7 @@ FootSwitch* FootSwitch::ctor_4DE090(Path_FootSwitch* pTlv, int tlvInfo)
     field_100_obj_id = -1;
 
     const int idx = static_cast<int>(gMap_5C3030.field_0_current_level);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kTriggerResID);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kTriggerResID);
     Animation_Init_424E10(
         sFootSwitchData_547D60[idx].field_0_frameTableOffset,
         sFootSwitchData_547D60[idx].field_8_maxH,

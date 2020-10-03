@@ -2012,7 +2012,7 @@ private:
             else
             {
                 // 8 bit
-                mAnimRes[i] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, TRUE, FALSE);
+                mAnimRes[i] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, TRUE, FALSE);
                 mAnim[i].Init_40A030(7812, gObjList_animations_5C1A24, this, 50, 25, mAnimRes[i], 1, 0, 0);
             }
             // No 16 bit test case because there are simply no 16bit sprites at all in the game data

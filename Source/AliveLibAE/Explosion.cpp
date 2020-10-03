@@ -23,12 +23,12 @@ Explosion* Explosion::ctor_4A1200(FP xpos, FP ypos, FP scale, __int16 bSmall)
     field_F4_bSmall = bSmall;
     if (field_F4_bSmall)
     {
-        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSmallExplo2ResID);
+        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kSmallExplo2ResID);
         Animation_Init_424E10(14108, 99, 46, ppRes, 1, 1);
     }
     else
     {
-        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
+        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
         Animation_Init_424E10(51156, 202, 91, ppRes, 1, 1);
     }
 
@@ -150,7 +150,7 @@ void Explosion::DealBlastDamage_4A1BD0(PSX_RECT* pRect)
                 auto pGibs = ae_new<Gibs>();
                 if (pGibs)
                 {
-                    pGibs->ctor_40FB40(1, field_B8_xpos + FP_FromInteger(656), field_BC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), 0);
+                    pGibs->ctor_40FB40(GibType::Slig_1, field_B8_xpos + FP_FromInteger(656), field_BC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), 0);
                 }
             }
             else if (direction == CameraPos::eCamRight_4)
@@ -158,7 +158,7 @@ void Explosion::DealBlastDamage_4A1BD0(PSX_RECT* pRect)
                 auto pGibs = ae_new<Gibs>();
                 if (pGibs)
                 {
-                    pGibs->ctor_40FB40(1, field_B8_xpos - FP_FromInteger(656), field_BC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), 0);
+                    pGibs->ctor_40FB40(GibType::Slig_1, field_B8_xpos - FP_FromInteger(656), field_BC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), 0);
                 }
             }
 
@@ -244,8 +244,8 @@ void Explosion::vUpdate_4A1510()
     if (field_20_animation.field_92_current_frame == 1)
     {
         BYTE** ppRes = field_F4_bSmall ?
-            Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSmallExplo2ResID) :
-            Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
+            Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kSmallExplo2ResID) :
+            Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
         if (ppRes)
         {
             auto pParticle = ae_new<Particle>();
