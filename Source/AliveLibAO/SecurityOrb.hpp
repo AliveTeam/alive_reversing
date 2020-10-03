@@ -30,6 +30,10 @@ public:
 
     EXPORT signed __int16 VTakeDamage_437280(BaseGameObject* pFrom);
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_436DF0();
+
     int field_10C_tlvInfo;
     __int16 field_110_state;
     __int16 field_112_pad;

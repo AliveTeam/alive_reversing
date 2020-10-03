@@ -2,6 +2,11 @@
 #include "Function.hpp"
 #include "InvisibleSwitch.hpp"
 #include "stdlib.hpp"
+#include "Abe.hpp"
+#include "SwitchStates.hpp"
+#include "Alarm.hpp"
+#include "Events.hpp"
+#include "Game.hpp"
 
 START_NS_AO
 
@@ -62,5 +67,59 @@ void InvisibleSwitch::VScreenChanged_433700()
     }
 }
 
-END_NS_AO
+void InvisibleSwitch::VUpdate()
+{
+    VUpdate_4335A0();
+}
 
+void InvisibleSwitch::VUpdate_4335A0()
+{
+    switch (field_28_state)
+    {
+    case 0:
+        if (sControlledCharacter_50767C->field_A8_xpos >= FP_FromInteger(field_20_top_left.field_0_x) &&
+            sControlledCharacter_50767C->field_A8_xpos <= FP_FromInteger(field_24_bottom_right.field_0_x))
+        {
+            if (sControlledCharacter_50767C->field_AC_ypos >= FP_FromInteger(field_20_top_left.field_2_y) &&
+                sControlledCharacter_50767C->field_AC_ypos <= FP_FromInteger(field_24_bottom_right.field_2_y))
+            {
+                if (sControlledCharacter_50767C != sActiveHero_507678 ||
+                    sActiveHero_507678->field_FC_current_motion != eAbeStates::State_157_DoorExit_42D780 &&
+                    sActiveHero_507678->field_FC_current_motion != eAbeStates::State_156_DoorEnter_42D370)
+                {
+                    if (field_2C_scale == 2 ||
+                        field_2C_scale == 0 && sControlledCharacter_50767C->field_BC_sprite_scale == FP_FromDouble(0.5) ||
+                        field_2C_scale == 1 && sControlledCharacter_50767C->field_BC_sprite_scale == FP_FromInteger(1))
+                    {
+                        field_28_state = 1;
+                        field_18_delay_timer = gnFrameCount_507670 + field_1C_delay;
+                    }
+                }
+            }
+        }
+        break;
+
+    case 1:
+        if (field_18_delay_timer <= static_cast<int>(gnFrameCount_507670))
+        {
+            SwitchStates_Do_Operation_436A10(field_10_id, field_12_action);
+            if (field_2A_set_off_alarm)
+            {
+                auto pAlarm = ao_new<Alarm>();
+                if (pAlarm)
+                {
+                    pAlarm->ctor_402570(150, 0, 30, 39);
+                }
+            }
+            field_28_state = 0;
+        }
+        break;
+    }
+
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+}
+
+END_NS_AO

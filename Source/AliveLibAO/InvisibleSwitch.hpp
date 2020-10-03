@@ -3,13 +3,14 @@
 #include "FunctionFwd.hpp"
 #include "Map.hpp"
 
-
 START_NS_AO
+
+enum class SwitchOp : __int16;
 
 struct Path_InvisibleSwitch : public Path_TLV
 {
     __int16 field_18_id;
-    __int16 field_1A_action;
+    SwitchOp field_1A_action;
     unsigned __int16 field_1C_delay;
     __int16 field_1E_set_off_alarm;
     __int16 field_20_scale;
@@ -32,8 +33,12 @@ public:
 
     EXPORT void VScreenChanged_433700();
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_4335A0();
+
     __int16 field_10_id;
-    __int16 field_12_action;
+    SwitchOp field_12_action;
     int field_14_tlvInfo;
     int field_18_delay_timer;
     int field_1C_delay;
