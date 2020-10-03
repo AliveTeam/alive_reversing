@@ -229,9 +229,9 @@ const TAbeStateFunction sAbeStateMachineTable_4C5F08[] =
     &Abe::State_156_DoorEnter_42D370,
     &Abe::State_157_DoorExit_42D780,
     &Abe::State_158_ElumKnockback_42E070,
-    &Abe::State_159_423360,
-    &Abe::State_160_4233A0,
-    &Abe::State_161_4233E0,
+    &Abe::State_159_Idle_RubEyes_423360,
+    &Abe::State_160_Idle_Stretch_Arms_4233A0,
+    &Abe::State_161_Idle_Yawn_4233E0,
     &Abe::State_162_ToShrykull_42F410,
     &Abe::State_163_ShrykullEnd_42F520,
     &Abe::State_164_PoisonGasDeath_42A120
@@ -1249,9 +1249,9 @@ BOOL Abe::IsStanding_41FC10()
         || field_FC_current_motion == eAbeStates::State_144_RockThrowStandingEnd_429DE0
         || field_FC_current_motion == eAbeStates::State_150_Chant_42FD50
         || field_FC_current_motion == eAbeStates::State_151_ChantEnd_430530
-        || field_FC_current_motion == eAbeStates::State_159_423360
-        || field_FC_current_motion == eAbeStates::State_160_4233A0
-        || field_FC_current_motion == eAbeStates::State_161_4233E0
+        || field_FC_current_motion == eAbeStates::State_159_Idle_RubEyes_423360
+        || field_FC_current_motion == eAbeStates::State_160_Idle_Stretch_Arms_4233A0
+        || field_FC_current_motion == eAbeStates::State_161_Idle_Yawn_4233E0
         || field_FC_current_motion == eAbeStates::State_164_PoisonGasDeath_42A120;
 }
 
@@ -1553,15 +1553,15 @@ BYTE** Abe::StateToAnimResource_4204F0(short motion)
     {
         res_idx = 35;
     }
-    else if (motion < eAbeStates::State_159_423360)
+    else if (motion < eAbeStates::State_159_Idle_RubEyes_423360)
     {
         res_idx = 52;
     }
-    else if (motion < eAbeStates::State_160_4233A0)
+    else if (motion < eAbeStates::State_160_Idle_Stretch_Arms_4233A0)
     {
         res_idx = 22;
     }
-    else if (motion < eAbeStates::State_161_4233E0)
+    else if (motion < eAbeStates::State_161_Idle_Yawn_4233E0)
     {
         res_idx = 23;
     }
@@ -3180,15 +3180,33 @@ void Abe::State_0_Idle_423520()
             {
                 unsigned __int16 loaded = 0;
                 field_114_gnFrame = gnFrameCount_507670;
-                if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 31, 0, 0))
+
+
+#if 0
+                // Force load idle anims to restore the feature, it kinda sucks though
+                if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 31, 0, 0))
+                {
+                    ResourceManager::LoadResourceFile_455270("ABEYAWN.BAN", nullptr, 0);
+                }
+                if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 32, 0, 0))
+                {
+                    ResourceManager::LoadResourceFile_455270("ABERUB.BAN", nullptr, 0);
+                }
+                if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 33, 0, 0))
+                {
+                    ResourceManager::LoadResourceFile_455270("ABESIZE.BAN", nullptr, 0);
+                }
+#endif
+
+                if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 31, 0, 0)) //yawn ABEYAWN.BAN
                 {
                     loaded |= 1;
                 }
-                if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 32, 0, 0))
+                if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 32, 0, 0)) // rub ABERUB.BAN
                 {
                     loaded |= 2;
                 }
-                if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 33, 0, 0))
+                if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 33, 0, 0)) // size ABESIZE.BAN
                 {
                     loaded |= 4;
                 }
@@ -3199,17 +3217,17 @@ void Abe::State_0_Idle_423520()
                     {
                         case 0:
                         {
-                            field_FC_current_motion = eAbeStates::State_161_4233E0;
+                            field_FC_current_motion = eAbeStates::State_161_Idle_Yawn_4233E0;
                             break;
                         }
                         case 1:
                         {
-                            field_FC_current_motion = eAbeStates::State_159_423360;
+                            field_FC_current_motion = eAbeStates::State_159_Idle_RubEyes_423360;
                             break;
                         }
                         case 2:
                         {
-                            field_FC_current_motion = eAbeStates::State_160_4233A0;
+                            field_FC_current_motion = eAbeStates::State_160_Idle_Stretch_Arms_4233A0;
                             break;
                         }
                         default:
@@ -6778,7 +6796,7 @@ void Abe::State_158_ElumKnockback_42E070()
     // Empty
 }
 
-void Abe::State_159_423360()
+void Abe::State_159_Idle_RubEyes_423360()
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -6786,14 +6804,14 @@ void Abe::State_159_423360()
     }
 }
 
-void Abe::State_160_4233A0()
+void Abe::State_160_Idle_Stretch_Arms_4233A0()
 {
-    State_159_423360();
+    State_159_Idle_RubEyes_423360();
 }
 
-void Abe::State_161_4233E0()
+void Abe::State_161_Idle_Yawn_4233E0()
 {
-    State_159_423360();
+    State_159_Idle_RubEyes_423360();
 }
 
 void Abe::State_162_ToShrykull_42F410()
