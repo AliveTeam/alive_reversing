@@ -12,11 +12,12 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
-    int field_D4;
-    int field_D8;
-    int field_DC;
-    int field_E0;
-    int field_E4_scale_amount;
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_478930();
+
+    int field_D4[4];
+    FP field_E4_scale_amount;
 };
 ALIVE_ASSERT_SIZEOF(Particle, 0xE8);
 
