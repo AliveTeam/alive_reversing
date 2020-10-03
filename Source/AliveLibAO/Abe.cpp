@@ -6212,7 +6212,31 @@ void Abe::State_132_LiftUseDown_42F170()
 
 void Abe::State_133_LiftGrabBegin_42EF20()
 {
-    NOT_IMPLEMENTED();
+    auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
+    pLiftPoint->Move_435740(FP_FromInteger(0), FP_FromInteger(0), 0);
+
+    field_B8_vely = FP_FromInteger(0);
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        if (sInputObject_5009E8.isPressed(sInputKey_Up_4C6598))
+        {
+            if (pLiftPoint->OnTopFloor())
+            {
+                field_FC_current_motion = eAbeStates::State_131_LiftUseUp_42F150;
+            }
+        }
+        else if (sInputObject_5009E8.isPressed(sInputKey_Down_4C659C))
+        {
+            if (!pLiftPoint->OnBottomFloor())
+            {
+                field_FC_current_motion = eAbeStates::State_132_LiftUseDown_42F170;
+            }
+        }
+        else
+        {
+            field_FC_current_motion = eAbeStates::State_135_LiftGrabIdle_42F000;
+        }
+    }
 }
 
 void Abe::State_134_LiftGrabEnd_42EFE0()
