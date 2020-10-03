@@ -5,15 +5,77 @@
 #include "stdlib.hpp"
 #include "Math.hpp"
 #include "Sfx.hpp"
+#include "Collisions.hpp"
+#include "Map.hpp"
 
 START_NS_AO
 
 ALIVE_VAR(1, 0x4D148C, BYTE, sLeafRandIdx_4D148C, 8);
 
-
 void Leaf::VUpdate_48B650()
 {
-    NOT_IMPLEMENTED();
+    field_B8_vely += FP_FromDouble(0.5);
+
+    field_B4_velx = field_B4_velx * FP_FromDouble(0.8);
+    field_B8_vely = field_B8_vely * FP_FromDouble(0.8);
+
+    const int randX = sRandomBytes_4BBE30[sLeafRandIdx_4D148C++] - 127;
+    field_B4_velx += field_BC_sprite_scale * (FP_FromInteger(randX) / FP_FromInteger(64));
+
+    const int randY = sRandomBytes_4BBE30[sLeafRandIdx_4D148C++] - 127;
+    field_B8_vely += (field_BC_sprite_scale * (FP_FromInteger(randY) / FP_FromInteger(64)));
+
+    const FP x2 = field_B4_velx + field_A8_xpos;
+    const FP y2 = field_B8_vely + field_AC_ypos;
+
+    PathLine* pLine = nullptr;
+    FP hitX = {};
+    FP hitY = {};
+    const auto bCollision = sCollisions_DArray_504C6C->RayCast_40C410(
+        field_A8_xpos,
+        field_AC_ypos,
+        x2,
+        y2,
+        &pLine,
+        &hitX,
+        &hitY,
+        17);
+
+    // Hit the floor, die but only if in background..
+    if (bCollision && field_BC_sprite_scale == FP_FromDouble(0.5) && pLine->field_8_type == 0)
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        return;
+    }
+
+    if (field_E4_bHitSomething & 1 || !bCollision ||
+            ((field_BC_sprite_scale != FP_FromDouble(0.5) || pLine->field_8_type != 4) &&
+            (field_BC_sprite_scale != FP_FromInteger(1) || pLine->field_8_type != 0)))
+    {
+        field_A8_xpos = x2;
+        field_AC_ypos = y2;
+    }
+    else
+    {
+        field_B4_velx = FP_FromInteger(0);
+        field_B8_vely = FP_FromInteger(0);
+        
+        field_E4_bHitSomething |= 1;
+
+        field_A8_xpos = hitX;
+        field_AC_ypos = hitY;
+    }
+
+    // Out of the camera, die
+    if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+        field_B2_lvl_number,
+        field_B0_path_number,
+        field_A8_xpos,
+        field_AC_ypos,
+        0))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
 }
 
 void Leaf::VUpdate()
