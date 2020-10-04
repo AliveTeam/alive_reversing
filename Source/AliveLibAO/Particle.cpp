@@ -34,7 +34,7 @@ Particle* CC New_DestroyOrCreateObject_Particle_419D00(FP xpos, FP ypos, FP scal
     return pParticle;
 }
 
-void CC New_Particles_419A80(FP /*xpos*/, FP /*ypos*/, FP /*scale*/, __int16 /*count*/, __int16 /*type*/)
+void CC New_Smoke_Particles_419A80(FP /*xpos*/, FP /*ypos*/, FP /*scale*/, __int16 /*count*/, __int16 /*type*/)
 {
     // looks like New_Smoke_Particles
     NOT_IMPLEMENTED();
@@ -121,6 +121,34 @@ void CC New_ShootingZFire_Particle_419810(FP xpos, FP ypos, FP scale)
             pParticle->field_10_anim.field_C_layer = 17;
         }
 
+        pParticle->field_BC_sprite_scale = scale;
+    }
+}
+
+void CC New_ShootingFire_Particle_419720(FP xpos, FP ypos, char direction, FP scale)
+{
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 319, 1, 0);
+    auto pParticle = ao_new<Particle>();
+    if (pParticle)
+    {
+        pParticle->ctor_478880(xpos, ypos, 804, 86, 17, ppRes);
+
+        pParticle->field_CC_bApplyShadows &= ~1u;
+        pParticle->field_C4_b = 55;
+        pParticle->field_C2_g = 55;
+        pParticle->field_C0_r = 55;
+        pParticle->field_10_anim.field_B_render_mode = 1;
+
+        if (scale == FP_FromInteger(1))
+        {
+            pParticle->field_10_anim.field_C_layer = 36;
+        }
+        else
+        {
+            pParticle->field_10_anim.field_C_layer = 17;
+        }
+
+        pParticle->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, direction & 1);
         pParticle->field_BC_sprite_scale = scale;
     }
 }

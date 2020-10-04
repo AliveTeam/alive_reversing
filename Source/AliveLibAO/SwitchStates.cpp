@@ -31,6 +31,12 @@ void SwitchStates_Add(unsigned __int16 idx, char value)
     sSwitchStates_505568.mData[idx] += value;
 }
 
+
+void SwitchStates_ClearAll()
+{
+    sSwitchStates_505568 = {};
+}
+
 EXPORT void CC SwitchStates_Do_Operation_436A10(signed __int16 idx, SwitchOp operation)
 {
     if (idx >= 2)

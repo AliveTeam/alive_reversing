@@ -73,5 +73,7 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(ShadowZone, 0x34);
 
+ALIVE_VAR_EXTERN(DynamicArrayT<ShadowZone>*, sShadowZone_dArray_507B08);
+
 END_NS_AO
 

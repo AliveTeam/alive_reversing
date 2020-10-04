@@ -36,18 +36,6 @@ void Map_ForceLink() {}
 
 ALIVE_VAR(1, 0x507C98, Camera*, sCameraBeingLoaded_507C98, nullptr);
 
-struct OverlayRecord
-{
-    const char* field_0_fileName;
-    DWORD field_4_size;
-};
-ALIVE_ASSERT_SIZEOF(OverlayRecord, 0x8);
-
-struct OverlayRecords
-{
-    OverlayRecord records[54];
-};
-
 const OverlayRecords kOverlays =
 {
   {

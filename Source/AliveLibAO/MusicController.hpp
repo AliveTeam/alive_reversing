@@ -10,6 +10,7 @@ class BaseGameObject;
 class MusicController : public BaseGameObject
 {
 public:
+    EXPORT static __int16 CC Create_4436C0();
 
     enum class MusicTypes : __int16
     {

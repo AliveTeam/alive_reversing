@@ -4,6 +4,12 @@
 
 START_NS_AO
 
+__int16 CC MusicController::Create_4436C0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 EXPORT void CC MusicController::sub_443810(MusicTypes /*a1*/, BaseGameObject* /*a2*/, __int16 /*a3*/, __int16 /*a4*/)
 {
     NOT_IMPLEMENTED();

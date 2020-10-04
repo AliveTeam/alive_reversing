@@ -1863,7 +1863,7 @@ __int16 Slog::Brain_3_Dead_4721B0()
 
     if (static_cast<int>(gnFrameCount_507670) < field_11C - 24 && !(gnFrameCount_507670 % 5))
     {
-        New_Particles_419A80(
+        New_Smoke_Particles_419A80(
             (FP_FromInteger(Math_RandomRange_450F20(-24, 24)) * field_BC_sprite_scale) + field_A8_xpos,
             field_AC_ypos - FP_FromInteger(6),
             field_BC_sprite_scale / FP_FromInteger(2),

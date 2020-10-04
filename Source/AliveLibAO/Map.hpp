@@ -21,6 +21,17 @@ struct CameraName
 };
 ALIVE_ASSERT_SIZEOF(CameraName, 8);
 
+struct OverlayRecord
+{
+    const char* field_0_fileName;
+    DWORD field_4_size;
+};
+ALIVE_ASSERT_SIZEOF(OverlayRecord, 0x8);
+
+struct OverlayRecords
+{
+    OverlayRecord records[54];
+};
 
 struct Map_PathsArray
 {
@@ -244,6 +255,8 @@ ALIVE_ASSERT_SIZEOF(Map, 0xE4);
 
 ALIVE_VAR_EXTERN(Map, gMap_507BA8);
 ALIVE_VAR_EXTERN(short, sMap_bDoPurpleLightEffect_507C9C);
+
+ALIVE_VAR_EXTERN(OverlayRecords, sOverlayTable_4C5AA8);
 
 EXPORT int CC MaxGridBlocks_41FA10(FP scale);
 

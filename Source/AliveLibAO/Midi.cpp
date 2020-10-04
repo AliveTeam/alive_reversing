@@ -60,4 +60,9 @@ EXPORT int CC SFX_SfxDefinition_Play_4770F0(const SfxDefinition* /*sfxDef*/, sig
     return 0;
 }
 
+EXPORT void CC SND_Init_476E40()
+{
+    NOT_IMPLEMENTED();
+}
+
 END_NS_AO
