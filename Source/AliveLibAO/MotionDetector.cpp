@@ -4,6 +4,13 @@
 #include "stdlib.hpp"
 #include "ResourceManager.hpp"
 #include "SwitchStates.hpp"
+#include "Sfx.hpp"
+#include "Events.hpp"
+#include "CameraSwapper.hpp"
+#include "Abe.hpp"
+#include "DDCheat.hpp"
+#include "Game.hpp"
+#include "Alarm.hpp"
 
 START_NS_AO
 
@@ -36,7 +43,7 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, int tlvIn
     }
 
     field_F8 =  FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    field_100 =  FP_FromInteger(pTlv->field_14_bottom_right.field_0_x);
+    field_100_y1_fp =  FP_FromInteger(pTlv->field_14_bottom_right.field_0_x);
     field_FC =  FP_FromInteger(pTlv->field_10_top_left.field_2_y);
     field_104 =  FP_FromInteger(pTlv->field_14_bottom_right.field_2_y);
 
@@ -98,9 +105,9 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, int tlvIn
 
     field_108_pLaser->field_C_refCount++;
 
-    field_F0_alarm_id = pTlv->field_24_disable_id;
+    field_F0_disable_id = pTlv->field_24_disable_id;
 
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render, SwitchStates_Get(field_F0_alarm_id) == 0);
+    field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render, SwitchStates_Get(field_F0_disable_id) == 0);
 
     field_108_pLaser->field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render,  pTlv->field_22_draw_flare & 1);
 
@@ -154,6 +161,150 @@ MotionDetector* MotionDetector::Vdtor_438530(signed int flags)
     return this;
 }
 
+
+void MotionDetector::VUpdate_437E90()
+{
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        field_6_flags.Set(Options::eDead_Bit3);
+    }
+
+    if (!sNumCamSwappers_507668)
+    {
+        if (SwitchStates_Get(field_F0_disable_id))
+        {
+            field_108_pLaser->field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+        }
+        else
+        {
+            field_108_pLaser->field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+
+            PSX_RECT laserRect = {};
+            field_108_pLaser->VGetBoundingRect(&laserRect, 1);
+
+            field_160_bObjectInLaser = FALSE;
+           
+            for (int i=0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+            {
+                BaseAliveGameObject* pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
+                if (!pObj)
+                {
+                    break;
+                }
+
+                if (pObj->field_4_typeId != Types::eTimedMine_8)
+                {
+                    PSX_RECT objRect = {};
+                    pObj->VGetBoundingRect(&objRect, 1);
+
+                    if (laserRect.x <= (objRect.w - 8) &&
+                        laserRect.w >= (objRect.x + 8) &&
+                        laserRect.h >= objRect.y &&
+                        laserRect.y <= objRect.h &&
+                        pObj->field_BC_sprite_scale == field_BC_sprite_scale)
+                    {
+                        if (pObj == sActiveHero_507678)
+                        {
+                            if (gnFrameCount_507670 % 2)
+                            {
+                                SFX_Play_43AD70(58u, 45, 0);
+                            }
+                        }
+
+                        bool alarm = false;
+                        if (pObj->field_4_typeId == Types::eAbe_43)
+                        {
+                            if (pObj->field_FC_current_motion != eAbeStates::State_0_Idle_423520 &&
+                                pObj->field_FC_current_motion != eAbeStates::State_19_CrouchIdle_4284C0 &&
+                                pObj->field_FC_current_motion != eAbeStates::State_66_LedgeHang_428D90 &&
+                                pObj->field_FC_current_motion != eAbeStates::State_62_LoadedSaveSpawn_45ADD0 &&
+                                pObj->field_FC_current_motion != eAbeStates::State_60_Dead_42C4C0 &&
+                                !sDDCheat_FlyingEnabled_50771C)
+                            {
+                                alarm = true;
+                            }
+                        }
+                        else if (FP_GetExponent(pObj->field_B4_velx) ||
+                                 FP_GetExponent(pObj->field_B8_vely))
+                        {
+                            alarm = true;
+                            break;
+                        }
+
+                        if (alarm)
+                        {
+                            field_160_bObjectInLaser = TRUE;
+
+                            if (alarmInstanceCount_5076A8 == 0)
+                            {
+                                auto pAlarm = ao_new<Alarm>();
+                                if (pAlarm)
+                                {
+                                    pAlarm->ctor_402570(
+                                        field_F4_alarm_time,
+                                        field_F2_alarm_trigger,
+                                        0,
+                                        39);
+                                }
+
+                                if (pObj == sActiveHero_507678)
+                                {
+                                    Mudokon_SFX_42A4D0(MudSounds::eOops_16, 0, 0, nullptr);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            switch (field_E8_state)
+            {
+            case 0:
+                if (field_108_pLaser->field_A8_xpos >= field_100_y1_fp)
+                {
+                    field_E8_state = 1;
+                    field_EC_timer = gnFrameCount_507670 + 15;
+                    SFX_Play_43AD70(61u, 0, 0);
+                }
+                else
+                {
+                    field_108_pLaser->field_A8_xpos += field_15C_speed;
+                }
+                break;
+
+            case 1:
+                if (static_cast<int>(gnFrameCount_507670) > field_EC_timer)
+                {
+                    field_E8_state = 2;
+                }
+                break;
+
+            case 2:
+                if (field_108_pLaser->field_A8_xpos <= field_F8)
+                {
+                    field_E8_state = 3;
+                    field_EC_timer = gnFrameCount_507670 + 15;
+                    SFX_Play_43AD70(61u, 0, 0);
+                }
+                else
+                {
+                    field_108_pLaser->field_A8_xpos -= field_15C_speed;
+                }
+                break;
+
+            case 3:
+                if (static_cast<int>(gnFrameCount_507670) > field_EC_timer)
+                {
+                    field_E8_state = 0;
+                }
+                break;
+
+            default:
+                return;
+            }
+        }
+    }
+}
 
 BaseGameObject* MotionDetectorLaser::VDestructor(signed int flags)
 {
