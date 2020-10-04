@@ -2,24 +2,26 @@
 #include "stdlib.hpp"
 #include "Function.hpp"
 
-EXPORT void* alloc_450740(size_t)
+EXPORT void* alloc_450740(size_t size)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    STDLIB_FUNCTION();
+    return ::malloc(size);
 }
 
-EXPORT void ao_delete_free_450770(void*)
+EXPORT void ao_delete_free_450770(void* ptr)
 {
-    NOT_IMPLEMENTED();
+    STDLIB_FUNCTION();
+    ::free(ptr);
 }
 
-EXPORT void* CC ao_new_malloc_447520(int /*size*/)
+EXPORT void* CC ao_new_malloc_447520(int size)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    STDLIB_FUNCTION();
+    return ::malloc(size);
 }
 
-EXPORT void CC ao_delete_free_447540(void* /*pMemory*/)
+EXPORT void CC ao_delete_free_447540(void* ptr)
 {
-    NOT_IMPLEMENTED();
+    STDLIB_FUNCTION();
+    ::free(ptr);
 }
