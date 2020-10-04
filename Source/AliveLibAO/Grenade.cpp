@@ -182,7 +182,6 @@ void Grenade::VUpdate_41F240()
         break;
 
     case GrenadeStates::eState_1_WaitToBeCollected:
-    {
         if (field_B4_velx < FP_FromInteger(0))
         {
             field_B4_velx = FP_FromInteger(0);
@@ -218,7 +217,6 @@ void Grenade::VUpdate_41F240()
         }
         else if (abs(Grid_SnapX_41FAA0(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos) - FP_GetExponent(field_A8_xpos))) > 1)
         {
-
             const auto oldLine = field_114_pCollisionLine;
             field_114_pCollisionLine = field_114_pCollisionLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_B4_velx);
             if (field_F8_pLiftPoint)
@@ -239,16 +237,16 @@ void Grenade::VUpdate_41F240()
         else
         {
             field_B4_velx = FP_FromInteger(0);
-            field_D4_collection_rect.x = field_A8_xpos - ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2);
+
+            field_D4_collection_rect.x = field_A8_xpos - (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
             field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale);
-            field_D4_collection_rect.w = field_A8_xpos + ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2);
+            field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
             field_D4_collection_rect.h = field_AC_ypos;
 
             field_6_flags.Set(Options::eInteractive_Bit8);
             field_110_state = GrenadeStates::eState_2;
         }
         break;
-    }
 
     case GrenadeStates::eState_2:
         break;
@@ -318,7 +316,6 @@ void Grenade::VUpdate_41F240()
     default:
         return;
     }
-
 }
 
 void Grenade::VOnTrapDoorOpen_41F920()
