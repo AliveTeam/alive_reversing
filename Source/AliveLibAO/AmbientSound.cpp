@@ -190,4 +190,9 @@ EXPORT void CC Start_Sounds_for_TLV_476640(CameraPos direction, Path_TLV* pTlv)
     }
 }
 
+EXPORT void CC SND_Init_Ambiance_4765C0()
+{
+    NOT_IMPLEMENTED();
+}
+
 END_NS_AO

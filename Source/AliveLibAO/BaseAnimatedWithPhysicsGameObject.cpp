@@ -427,16 +427,10 @@ BaseGameObject* BaseAnimatedWithPhysicsGameObject::dtor_417D10()
     return dtor_487DF0();
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(TintEntry* /*pTintArray*/, LevelIds /*level_id*/, int /*resourceID*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-__int16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, __int16 lvl, int palId)
+__int16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, LevelIds lvl, int palId)
 {
     const TintEntry* pIter = pTintArray;
-    while (pIter->field_0_level != lvl)
+    while (pIter->field_0_level != static_cast<BYTE>(lvl))
     {
         if (pIter->field_0_level == -1) // End of entries
         {

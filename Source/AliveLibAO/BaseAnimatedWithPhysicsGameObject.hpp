@@ -91,8 +91,6 @@ public:
 
     EXPORT BaseGameObject* dtor_417D10();
 
-    EXPORT __int16 SetBaseAnimPaletteTint_4187C0(TintEntry* pTintArray, LevelIds level_id, int resourceID);
-
     EXPORT void VStackOnObjectsOfType_418930(Types typeToFind);
 
     EXPORT CameraPos Is_In_Current_Camera_417CC0();
@@ -106,7 +104,7 @@ public:
 
     EXPORT BetweenCamPos BetweenCameras_418500();
 
-    EXPORT __int16 SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, __int16 lvl, int palId);
+    EXPORT __int16 SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, LevelIds lvl, int palId);
 
     Animation field_10_anim;
     FP field_A8_xpos;

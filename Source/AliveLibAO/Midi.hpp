@@ -28,4 +28,6 @@ EXPORT int CC SFX_SfxDefinition_Play_477330(const SfxDefinition* sfxDef, short v
 
 EXPORT int CC SFX_SfxDefinition_Play_4770F0(const SfxDefinition* sfxDef, signed int vol, int pitch_min, int pitch_max);
 
+EXPORT void CC SND_Init_476E40();
+
 END_NS_AO
