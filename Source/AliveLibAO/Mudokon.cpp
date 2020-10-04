@@ -4210,14 +4210,14 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
                 const FP fart_scale = (FP_FromDouble(0.5) * field_BC_sprite_scale);
                 const FP fart_y = field_AC_ypos - (FP_FromInteger(24) * field_BC_sprite_scale);
                 const FP fart_x = (FP_FromInteger(12) * field_BC_sprite_scale) + field_A8_xpos;
-                New_Particles_419A80(fart_x, fart_y, fart_scale, 3, 1);
+                New_Smoke_Particles_419A80(fart_x, fart_y, fart_scale, 3, 1);
             }
             else
             {
                 const FP fart_scale = (FP_FromDouble(0.5) * field_BC_sprite_scale);
                 const FP fart_y = field_AC_ypos - (FP_FromInteger(24) * field_BC_sprite_scale);
                 const FP fart_x = field_A8_xpos - (FP_FromInteger(12) * field_BC_sprite_scale);
-                New_Particles_419A80(fart_x, fart_y, fart_scale, 3, 1);
+                New_Smoke_Particles_419A80(fart_x, fart_y, fart_scale, 3, 1);
             }
             
             return field_1B0;
@@ -4278,7 +4278,7 @@ short Mudokon::Brain_ShrivelDeath_11_43C5F0()
 
     if (static_cast<int>(gnFrameCount_507670) < field_1C0_timer - 24 && !(gnFrameCount_507670 % 4))
     {
-        New_Particles_419A80(
+        New_Smoke_Particles_419A80(
             (FP_FromInteger( Math_RandomRange_450F20(-24, 24)) * field_BC_sprite_scale) + field_A8_xpos,
             field_AC_ypos - FP_FromInteger(6),
             field_BC_sprite_scale / FP_FromInteger(2),

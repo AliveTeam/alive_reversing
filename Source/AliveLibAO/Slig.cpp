@@ -3142,7 +3142,7 @@ void Slig::State_38_Possess_46B050()
                     FP_FromInteger(0),
                     field_BC_sprite_scale);
             }
-            New_Particles_419A80(
+            New_Smoke_Particles_419A80(
                 field_A8_xpos,
                 field_AC_ypos - (FP_FromInteger(30) * field_BC_sprite_scale),
                 field_BC_sprite_scale,
@@ -3798,7 +3798,7 @@ __int16 Slig::Brain_Death_46C3A0()
         field_C4_b -= 2;
         if (field_BC_sprite_scale >= FP_FromDouble(0.3) && !(static_cast<int>(gnFrameCount_507670) % 5))
         {
-            New_Particles_419A80(
+            New_Smoke_Particles_419A80(
                 field_A8_xpos + (FP_FromInteger(Math_RandomRange_450F20(-24, 24)) * field_BC_sprite_scale),
                 field_AC_ypos - FP_FromInteger(6),
                 field_BC_sprite_scale / FP_FromInteger(2),
@@ -4536,7 +4536,7 @@ void Slig::BlowToGibs_4685A0()
             20);
     }
 
-    New_Particles_419A80(
+    New_Smoke_Particles_419A80(
         field_A8_xpos,
         field_AC_ypos - (FP_FromInteger(30) * field_BC_sprite_scale),
         field_BC_sprite_scale,

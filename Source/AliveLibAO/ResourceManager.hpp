@@ -21,6 +21,7 @@ public:
     };
     ALIVE_ASSERT_SIZEOF(ResourcesToLoadList_Entry, 0x8);
 
+    EXPORT static void CC Init_454DA0();
 
     enum ResourceHeaderFlags : __int16
     {

@@ -41,6 +41,10 @@
 #include "Events.hpp"
 #include "../AliveLibCommon/config.h"
 #include "Sfx.hpp"
+#include "ShadowZone.hpp"
+#include "PauseMenu.hpp"
+#include "SwitchStates.hpp"
+#include "Midi.hpp"
 
 START_NS_AO
 
@@ -524,9 +528,74 @@ EXPORT int PSX_ResetCallBack_49AFB0()
     return 0;
 }
 
-EXPORT void CC Init_Sound_DynamicArrays_And_Others_41CD20()
+// TODO: Likely part of resource manager vars
+ALIVE_VAR(1, 0x5009E0, DynamicArray*, ObjList_5009E0, nullptr);
+ALIVE_VAR(1, 0x507714, int, gFilesPending_507714, 0);
+ALIVE_VAR(1, 0x50768C, short, word_50768C, 0);
+
+EXPORT int CC DebugFont_Init_487EC0()
 {
     NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT CdlFILE* CC PSX_CdSearchFile_49B930(CdlFILE* , const char* )
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
+EXPORT int CC PSX_CdLoc_To_Pos_49B3B0(const CdlLOC*)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT void CC Init_Sound_DynamicArrays_And_Others_41CD20()
+{
+    DebugFont_Init_487EC0();
+
+    for (OverlayRecord& rec : sOverlayTable_4C5AA8.records)
+    {
+        CdlFILE cdFile = {};
+        CdlFILE* pFile = PSX_CdSearchFile_49B930(&cdFile, rec.field_0_fileName);
+        if (pFile)
+        {
+            rec.field_4_pos = PSX_CdLoc_To_Pos_49B3B0(&pFile->field_0_loc);
+        }
+    }
+
+    pPauseMenu_5080E0 = nullptr;
+    sActiveHero_507678 = nullptr;
+    sControlledCharacter_50767C = nullptr;
+    sNumCamSwappers_507668 = 0;
+    gnFrameCount_507670 = 0;
+
+    gFilesPending_507714 = 0;
+    word_50768C = 0;
+
+    ObjListPlatforms_50766C = ao_new<DynamicArrayT<BaseGameObject>>();
+    ObjListPlatforms_50766C->ctor_4043E0(20);
+
+    ObjList_5009E0 = ao_new<DynamicArray>();
+    ObjList_5009E0->ctor_4043E0(10);  // not used in AE
+
+    sShadowZone_dArray_507B08 = ao_new<DynamicArrayT<ShadowZone>>();
+    sShadowZone_dArray_507B08->ctor_4043E0(4);
+
+    gBaseAliveGameObjects_4FC8A0 = ao_new<DynamicArrayT<BaseAliveGameObject>>();
+    gBaseAliveGameObjects_4FC8A0->ctor_4043E0(20);
+
+    ResourceManager::Init_454DA0();
+    SND_Init_476E40();
+    SND_Init_Ambiance_4765C0();
+    MusicController::Create_4436C0();
+
+    Init_GameStates_41CEC0(); // Note: inlined
+
+    // TODO: The switch state clearing is done in Init_GameStates in AE
+    // check this is not an AO bug
+    SwitchStates_ClearAll();
 }
 
 EXPORT void CC Input_Init_44EB60()

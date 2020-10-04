@@ -36,18 +36,6 @@ void Map_ForceLink() {}
 
 ALIVE_VAR(1, 0x507C98, Camera*, sCameraBeingLoaded_507C98, nullptr);
 
-struct OverlayRecord
-{
-    const char* field_0_fileName;
-    DWORD field_4_size;
-};
-ALIVE_ASSERT_SIZEOF(OverlayRecord, 0x8);
-
-struct OverlayRecords
-{
-    OverlayRecord records[54];
-};
-
 const OverlayRecords kOverlays =
 {
   {
@@ -1697,7 +1685,7 @@ void Map::GoTo_Camera_445050()
         const PathRoot& rPathRoot = gMapData_4CAB58.paths[static_cast<int>(field_A_level)];
 
         // Open Path BND
-        auto tmp = sOverlayTable_4C5AA8.records[rPathRoot.field_1C_overlay_idx].field_4_size;
+        auto tmp = sOverlayTable_4C5AA8.records[rPathRoot.field_1C_overlay_idx].field_4_pos;
         sLvlArchive_4FFD60.OpenArchive_41BC60(tmp);
 
         ResourceManager::LoadResourceFile_455270(rPathRoot.field_38_bnd_name, 0, 0);

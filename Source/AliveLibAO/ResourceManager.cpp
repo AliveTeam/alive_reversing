@@ -12,6 +12,12 @@ START_NS_AO
 ALIVE_VAR(1, 0x5076A0, short, bHideLoadingIcon_5076A0, 0);
 ALIVE_VAR(1, 0x5076A4, int, loading_ticks_5076A4, 0);
 
+
+void CC ResourceManager::Init_454DA0()
+{
+    NOT_IMPLEMENTED();
+}
+
 void CC ResourceManager::CancelPendingResourcesFor_41EA60(BaseGameObject* /*pObj*/)
 {
     NOT_IMPLEMENTED();

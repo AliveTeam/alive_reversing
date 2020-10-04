@@ -7,6 +7,7 @@
 #include "Game.hpp"
 #include "ScreenManager.hpp"
 #include "ShadowZone.hpp"
+#include "ResourceManager.hpp"
 
 START_NS_AO
 
@@ -426,15 +427,64 @@ BaseGameObject* BaseAnimatedWithPhysicsGameObject::dtor_417D10()
     return dtor_487DF0();
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(TintEntry* /*pTintArray*/, LevelIds /*level_id*/, int /*resourceID*/)
+__int16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, LevelIds lvl, int palId)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    const TintEntry* pIter = pTintArray;
+    while (pIter->field_0_level != static_cast<BYTE>(lvl))
+    {
+        if (pIter->field_0_level == -1) // End of entries
+        {
+            return 0;
+        }
+        pIter++;
+    }
+
+    field_C0_r = pIter->field_1_r;
+    field_C2_g = pIter->field_2_g;
+    field_C4_b = pIter->field_3_b;
+
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, palId, 1, 0);
+    if (!ppRes)
+    {
+        return 0;
+    }
+    field_10_anim.LoadPal_403090(ppRes, 0);
+    ResourceManager::FreeResource_455550(ppRes);
+    return 1;
 }
 
-void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType_418930(Types /*typeToFind*/)
+void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType_418930(Types typeToFind)
 {
-    NOT_IMPLEMENTED();
+    const short offsets[] =
+    {
+        0,
+        3,
+        -3,
+        6,
+        -6,
+        2
+    };
+
+    int array_idx = 0;
+    for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    {
+        BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        if (!pObjIter)
+        {
+            break;
+        }
+
+        if (pObjIter->field_4_typeId == typeToFind && pObjIter != this)
+        {
+            array_idx++;
+            if (array_idx > ALIVE_COUNTOF(offsets))
+            {
+                array_idx = 0;
+            }
+        }
+    }
+
+    field_CA_xOffset = offsets[array_idx];
 }
 
 

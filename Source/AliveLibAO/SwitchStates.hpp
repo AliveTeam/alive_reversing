@@ -24,6 +24,7 @@ enum class SwitchOp : __int16
 EXPORT void CC SwitchStates_Do_Operation_436A10(signed __int16 idx, SwitchOp operation);
 
 void SwitchStates_Add(unsigned __int16 idx, char value);
+void SwitchStates_ClearAll();
 
 ALIVE_VAR_EXTERN(SwitchStates, sSwitchStates_505568);
 
