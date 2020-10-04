@@ -7,6 +7,7 @@
 #include "Game.hpp"
 #include "ScreenManager.hpp"
 #include "ShadowZone.hpp"
+#include "ResourceManager.hpp"
 
 START_NS_AO
 
@@ -430,6 +431,32 @@ __int16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(TintEnt
 {
     NOT_IMPLEMENTED();
     return 0;
+}
+
+__int16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, __int16 lvl, int palId)
+{
+    const TintEntry* pIter = pTintArray;
+    while (pIter->field_0_level != lvl)
+    {
+        if (pIter->field_0_level == -1) // End of entries
+        {
+            return 0;
+        }
+        pIter++;
+    }
+
+    field_C0_r = pIter->field_1_r;
+    field_C2_g = pIter->field_2_g;
+    field_C4_b = pIter->field_3_b;
+
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, palId, 1, 0);
+    if (!ppRes)
+    {
+        return 0;
+    }
+    field_10_anim.LoadPal_403090(ppRes, 0);
+    ResourceManager::FreeResource_455550(ppRes);
+    return 1;
 }
 
 void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType_418930(Types /*typeToFind*/)
