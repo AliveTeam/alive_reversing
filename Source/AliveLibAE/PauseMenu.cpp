@@ -214,10 +214,6 @@ PauseMenuPageEntry PauseMenu__PageEntryList_Status_55e738[1] =
     { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
 };
 
-
-// This is a hack because one of the functions modifies this string directly,
-// and leaving it as an inline string literal puts it into read only memory.
-char str_LoadEnterLoadDelDelete_55E478 [] = "\x01 \x02 Select    Enter Load    Del Delete";
 PauseMenuPageEntry PauseMenu__PageEntryList_Load_55e3a0[9] =
 {
     { 1, 184, 5, 0, "", 128, 16, 255, Centre },
@@ -226,7 +222,7 @@ PauseMenuPageEntry PauseMenu__PageEntryList_Load_55e3a0[9] =
     { 1, 184, 80, 0, "", 128, 16, 255, Centre },
     { 1, 184, 105, 0, "", 128, 16, 255, Centre },
     { 1, 184, 130, 0, "", 128, 16, 255, Centre },
-    { 1, 184, 188, 0, str_LoadEnterLoadDelDelete_55E478, 128, 16, 255, Centre },
+    { 1, 184, 188, 0, "", 128, 16, 255, Centre },
     { 1, 184, 213, 0, "Esc  Cancel        F6  Load QuikSave", 128, 16, 255, Centre },
     { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
 };
@@ -1485,9 +1481,9 @@ void PauseMenu::Page_Load_Render_4910A0(int** ot, PauseMenuPage* mp)
 
     if (sTotalSaveFilesCount_BB43E0 > 0)
     {
-        // This is a removed feature where it looks like the up and down arrows was supposed to be dynamic
-        // but in actual fact both always render.
-        //PauseMenu__PageEntryList_Load_55e3a0[6].field_8_text[0] = "\x1";
+        // This has to be set every time there is at least one save,
+        // otherwise a call to this function with no saves hides this row forever
+        PauseMenu__PageEntryList_Load_55e3a0[6].field_8_text = "\x01 \x02 Select    Enter Load    Del Delete";
     }
     else
     {
