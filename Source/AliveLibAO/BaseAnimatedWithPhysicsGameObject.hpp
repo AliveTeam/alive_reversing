@@ -106,6 +106,8 @@ public:
 
     EXPORT BetweenCamPos BetweenCameras_418500();
 
+    EXPORT __int16 SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, __int16 lvl, int palId);
+
     Animation field_10_anim;
     FP field_A8_xpos;
     FP field_AC_ypos;
