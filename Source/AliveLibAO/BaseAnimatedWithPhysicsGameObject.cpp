@@ -459,9 +459,38 @@ __int16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(const T
     return 1;
 }
 
-void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType_418930(Types /*typeToFind*/)
+void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType_418930(Types typeToFind)
 {
-    NOT_IMPLEMENTED();
+    const short offsets[] =
+    {
+        0,
+        3,
+        -3,
+        6,
+        -6,
+        2
+    };
+
+    int array_idx = 0;
+    for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    {
+        BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        if (!pObjIter)
+        {
+            break;
+        }
+
+        if (pObjIter->field_4_typeId == typeToFind && pObjIter != this)
+        {
+            array_idx++;
+            if (array_idx > ALIVE_COUNTOF(offsets))
+            {
+                array_idx = 0;
+            }
+        }
+    }
+
+    field_CA_xOffset = offsets[array_idx];
 }
 
 
