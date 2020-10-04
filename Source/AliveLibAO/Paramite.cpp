@@ -1766,7 +1766,7 @@ __int16 Paramite::Brain_Death_448BF0()
         field_C4_b -= 2;
         if (static_cast<int>(gnFrameCount_507670) < field_114_timer - 24 && !(static_cast<int>(gnFrameCount_507670) % 5))
         {
-            New_Particles_419A80(
+            New_Smoke_Particles_419A80(
                 (FP_FromInteger(Math_RandomRange_450F20(-24, 24)) * field_BC_sprite_scale) + field_A8_xpos,
                 field_AC_ypos - FP_FromInteger(6),
                 field_BC_sprite_scale / FP_FromInteger(2),

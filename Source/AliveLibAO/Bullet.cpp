@@ -117,7 +117,7 @@ void Bullet::VUpdate_408E30()
                             pSpark->ctor_477B70(hitX, hitY, field_2C_scale, 6u, 50, 205);
                         }
                     }
-                    New_Particles_419A80(hitX, hitY, field_2C_scale, 3, 0);
+                    New_Smoke_Particles_419A80(hitX, hitY, field_2C_scale, 3, 0);
                     if (Math_RandomRange_450F20(0, 100) < 90 ||
                         Math_RandomRange_450F20(0, 128) >= 64)
                     {
@@ -213,7 +213,7 @@ void Bullet::VUpdate_408E30()
                 {
                     pSpark->ctor_477B70(hitX, hitY, FP_FromInteger(1), 9u, -31, 159);
                 }
-                New_Particles_419A80(hitX, hitY, FP_FromInteger(1), 3, 0);
+                New_Smoke_Particles_419A80(hitX, hitY, FP_FromInteger(1), 3, 0);
             }
 
             if (Math_RandomRange_450F20(0, 128) < 64)
