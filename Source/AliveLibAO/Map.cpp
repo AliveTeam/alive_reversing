@@ -1685,7 +1685,7 @@ void Map::GoTo_Camera_445050()
         const PathRoot& rPathRoot = gMapData_4CAB58.paths[static_cast<int>(field_A_level)];
 
         // Open Path BND
-        auto tmp = sOverlayTable_4C5AA8.records[rPathRoot.field_1C_overlay_idx].field_4_size;
+        auto tmp = sOverlayTable_4C5AA8.records[rPathRoot.field_1C_overlay_idx].field_4_pos;
         sLvlArchive_4FFD60.OpenArchive_41BC60(tmp);
 
         ResourceManager::LoadResourceFile_455270(rPathRoot.field_38_bnd_name, 0, 0);

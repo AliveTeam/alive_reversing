@@ -12,6 +12,16 @@ struct CdlLOC
 };
 ALIVE_ASSERT_SIZEOF(CdlLOC, 0x4);
 
+
+struct CdlFILE
+{
+    CdlLOC field_0_loc;
+    int field_4_pos;
+    char field_8_name[16];
+};
+ALIVE_ASSERT_SIZEOF(CdlFILE, 24);
+
+
 struct PSX_RECT
 {
     short x, y, w, h;

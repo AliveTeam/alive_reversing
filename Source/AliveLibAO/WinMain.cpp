@@ -539,13 +539,13 @@ EXPORT int CC DebugFont_Init_487EC0()
     return 0;
 }
 
-EXPORT const char* CC PSX_FileNameConvert_49B930(const char* , const char* )
+EXPORT CdlFILE* CC PSX_CdSearchFile_49B930(CdlFILE* , const char* )
 {
     NOT_IMPLEMENTED();
     return nullptr;
 }
 
-EXPORT int CC PSX_49B3B0(const char*)
+EXPORT int CC PSX_CdLoc_To_Pos_49B3B0(const CdlLOC*)
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -557,14 +557,11 @@ EXPORT void CC Init_Sound_DynamicArrays_And_Others_41CD20()
 
     for (OverlayRecord& rec : sOverlayTable_4C5AA8.records)
     {
-        // TODO: This function seems to overwrite the input string which should
-        // likely blow up, but it doesn't investigate when the 2 stubs below are 
-        // fully implemented
-        char tmpBuffer[24] = {}; // TODO: this is actually some structure, oops
-        const char* converted = PSX_FileNameConvert_49B930(tmpBuffer, rec.field_0_fileName);
-        if (converted)
+        CdlFILE cdFile = {};
+        CdlFILE* pFile = PSX_CdSearchFile_49B930(&cdFile, rec.field_0_fileName);
+        if (pFile)
         {
-            rec.field_4_size = PSX_49B3B0(converted);
+            rec.field_4_pos = PSX_CdLoc_To_Pos_49B3B0(&pFile->field_0_loc);
         }
     }
 
