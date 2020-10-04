@@ -61,18 +61,26 @@ public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
     EXPORT MotionDetector* Vdtor_438530(signed int flags);
+
+    virtual void VUpdate() override
+    {
+        VUpdate_437E90();
+    }
+
+    EXPORT void VUpdate_437E90();
+
     int field_D4[4];
     int field_E4_tlvInfo;
     __int16 field_E8_state;
     __int16 field_EA_pad;
-    int field_EC_disable_id;
-    unsigned __int16 field_F0_alarm_id;
+    int field_EC_timer;
+    unsigned __int16 field_F0_disable_id;
     __int16 field_F2_alarm_trigger;
     __int16 field_F4_alarm_time;
     __int16 field_F6_bDontComeBack;
     FP field_F8;
     FP field_FC;
-    FP field_100;
+    FP field_100_y1_fp;
     FP field_104;
     MotionDetectorLaser* field_108_pLaser;
     int field_10C_prims[12];
