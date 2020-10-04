@@ -205,7 +205,7 @@ void Grenade::VUpdate_41F240()
             {
                 if (field_114_pCollisionLine != oldLine)
                 {
-                    VCanThrow();
+                    field_F8_pLiftPoint->VRemove(this);
                     field_F8_pLiftPoint->field_C_refCount--;
                     field_F8_pLiftPoint = nullptr;
                 }
@@ -225,7 +225,7 @@ void Grenade::VUpdate_41F240()
             {
                 if (field_114_pCollisionLine != oldLine)
                 {
-                    VCanThrow();
+                    field_F8_pLiftPoint->VRemove(this);
                     field_F8_pLiftPoint->field_C_refCount--;
                     field_F8_pLiftPoint = nullptr;
                 }
@@ -287,7 +287,7 @@ void Grenade::VUpdate_41F240()
         {
             if (field_114_pCollisionLine != oldLine)
             {
-                VCanThrow();
+                field_F8_pLiftPoint->VRemove(this);
                 field_F8_pLiftPoint->field_C_refCount--;
                 field_F8_pLiftPoint = nullptr;
             }
@@ -325,7 +325,7 @@ void Grenade::VOnTrapDoorOpen_41F920()
 {
     if (field_F8_pLiftPoint)
     {
-        field_F8_pLiftPoint->VRemove_451680(this);
+        field_F8_pLiftPoint->VRemove(this);
         field_F8_pLiftPoint->field_C_refCount--;
 
         if (field_110_state == GrenadeStates::eState_1_WaitToBeCollected || field_110_state == GrenadeStates::eState_2)
@@ -342,11 +342,13 @@ void Grenade::VOnTrapDoorOpen_41F920()
 signed __int16 Grenade::InTheAir_41EF10()
 {
     NOT_IMPLEMENTED();
+    return 0;
 }
 
 signed __int16 Grenade::OnCollision_BounceOff_41F650(BYTE* /*a2*/)
 {
     NOT_IMPLEMENTED();
+    return 0;
 }
 
 signed __int16 Grenade::BlowUp_41EDD0()
