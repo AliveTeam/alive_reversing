@@ -2740,11 +2740,6 @@ void Abe::VOn_Tlv_Collision_421130(Path_TLV *pTlv)
     }
 }
 
-void Abe::TryHoist_423420()
-{
-    NOT_IMPLEMENTED();
-}
-
 __int16 Abe::HandleDoAction_429A70()
 {
     __int16 mountMotion = TryMountElum_42E600();
@@ -2872,6 +2867,38 @@ static bool IsFacingSameDirectionAsHoist(Path_Hoist* pHoist, BaseAliveGameObject
         return false;
     }
     return true;
+}
+
+void Abe::TryHoist_423420()
+{
+    field_FC_current_motion = eAbeStates::State_16_HoistBegin_426E40;
+
+    auto pHoist = static_cast<Path_Hoist*>(gMap_507BA8.TLV_Get_At_446260(
+        FP_GetExponent(field_A8_xpos),
+        FP_GetExponent(field_AC_ypos),
+        FP_GetExponent(field_A8_xpos),
+        FP_GetExponent(field_AC_ypos),
+        TlvTypes::Hoist_3
+    ));
+
+    if (pHoist && IsSameScaleAsHoist(pHoist, this))
+    {
+        if (FP_FromInteger(pHoist->field_14_bottom_right.field_2_y - pHoist->field_10_top_left.field_2_y) <=
+            field_BC_sprite_scale * FP_FromInteger(95))
+        {
+            field_FC_current_motion = eAbeStates::State_16_HoistBegin_426E40;
+        }
+        else
+        {
+            field_FC_current_motion = eAbeStates::State_99_LedgeHoistUp_426DC0;
+        }
+        if (!IsFacingSameDirectionAsHoist(pHoist, this))
+        {
+            field_FE_next_state = field_FC_current_motion;
+            field_FC_current_motion = eAbeStates::State_2_StandingTurn_426040;
+        }
+        field_F0_pTlv = pHoist;
+    }
 }
 
 void Abe::State_0_Idle_423520()
