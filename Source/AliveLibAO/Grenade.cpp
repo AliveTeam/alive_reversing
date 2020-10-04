@@ -265,8 +265,8 @@ void Grenade::VUpdate_41F240()
                 PSX_RECT bRect = {};
                 VGetBoundingRect(&bRect, 1);
 
-                const PSX_Point xy = { bRect.x, bRect.y + 5 };
-                const PSX_Point wh = { bRect.w, bRect.h + 5 };
+                const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
+                const PSX_Point wh = { bRect.w, static_cast<short>(bRect.h + 5) };
 
                 VOnCollisionWith(xy, wh, gBaseGameObject_list_9F2DF0, 1, (TCollisionCallBack)&Grenade::OnCollision_BounceOff_41F650);
             }
