@@ -560,7 +560,8 @@ EXPORT void CC Init_Sound_DynamicArrays_And_Others_41CD20()
         // TODO: This function seems to overwrite the input string which should
         // likely blow up, but it doesn't investigate when the 2 stubs below are 
         // fully implemented
-        const char* converted = PSX_FileNameConvert_49B930(rec.field_0_fileName, rec.field_0_fileName);
+        char tmpBuffer[24] = {}; // TODO: this is actually some structure, oops
+        const char* converted = PSX_FileNameConvert_49B930(tmpBuffer, rec.field_0_fileName);
         if (converted)
         {
             rec.field_4_size = PSX_49B3B0(converted);
