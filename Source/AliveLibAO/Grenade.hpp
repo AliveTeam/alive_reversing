@@ -28,7 +28,7 @@ public:
 
     EXPORT signed __int16 BlowUp_41EDD0();
 
-    EXPORT signed __int16 OnCollision_BounceOff_41F650(BYTE* a2);
+    EXPORT signed __int16 OnCollision_BounceOff_41F650(BaseGameObject* pHit);
 
     EXPORT signed __int16 InTheAir_41EF10();
 
@@ -62,8 +62,8 @@ public:
     __int16 field_118;
     __int16 field_11A;
     BaseGameObject* field_11C;
-    FP field_120;
-    FP field_124;
+    FP field_120_xpos;
+    FP field_124_ypos;
 };
 ALIVE_ASSERT_SIZEOF(Grenade, 0x128);
 

@@ -53,10 +53,10 @@ Grenade* Grenade::ctor_41EBD0(FP xpos, FP ypos, __int16 numGrenades)
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
     field_A8_xpos = xpos;
-    field_120 = xpos;
+    field_120_xpos = xpos;
 
     field_AC_ypos = ypos;
-    field_124 = ypos;
+    field_124_ypos = ypos;
 
     field_B4_velx = FP_FromInteger(0);
     field_B8_vely = FP_FromInteger(0);
@@ -345,9 +345,32 @@ signed __int16 Grenade::InTheAir_41EF10()
     return 0;
 }
 
-signed __int16 Grenade::OnCollision_BounceOff_41F650(BYTE* /*a2*/)
+signed __int16 Grenade::OnCollision_BounceOff_41F650(BaseGameObject* pHit)
 {
-    NOT_IMPLEMENTED();
+    if (!pHit->field_6_flags.Get(BaseGameObject::eCanExplode_Bit7))
+    {
+        return 1;
+    }
+
+    auto pHit2 = static_cast<BaseAliveGameObject*>(pHit);
+
+    PSX_RECT bRect = {};
+    pHit2->VGetBoundingRect(&bRect, 1);
+
+    if (field_A8_xpos < FP_FromInteger(bRect.x + 12) || field_A8_xpos > FP_FromInteger(bRect.w - 12))
+    {
+        field_A8_xpos = field_120_xpos;
+        field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
+    }
+    else
+    {
+        field_AC_ypos = field_124_ypos;
+        field_B8_vely = (-field_B8_vely / FP_FromInteger(2));
+    }
+
+    pHit2->VOnThrowableHit(this);
+
+    SFX_Play_43AD70(SoundEffect::RockBounceOnMine_29, 0, 0);
     return 0;
 }
 
