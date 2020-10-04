@@ -24,7 +24,7 @@ ALIVE_ASSERT_SIZEOF(CameraName, 8);
 struct OverlayRecord
 {
     const char* field_0_fileName;
-    DWORD field_4_size;
+    DWORD field_4_pos;
 };
 ALIVE_ASSERT_SIZEOF(OverlayRecord, 0x8);
 
