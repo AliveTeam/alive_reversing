@@ -5,6 +5,17 @@
 
 START_NS_AO
 
+enum class GrenadeStates : short
+{
+    eState_0_FallingToBeCollected = 0,
+    eState_1_WaitToBeCollected = 1,
+    eState_2 = 2,
+    eState_3_CountingDown = 3,
+    eState_4_Falling = 4,
+    eState_5_HitGround = 5,
+    eState_6_WaitForExplodeEnd = 6,
+    eState_7_Exploded = 7
+};
 
 class Grenade : public BaseThrowable
 {
@@ -45,9 +56,9 @@ public:
 
     EXPORT Grenade* Vdtor_41F9F0(signed int flags);
 
-    __int16 field_110_state;
+    GrenadeStates field_110_state;
     __int16 field_112_explode_timer;
-    int field_114;
+    PathLine* field_114_pCollisionLine;
     __int16 field_118;
     __int16 field_11A;
     BaseGameObject* field_11C;

@@ -393,11 +393,11 @@ void Grenade::vUpdate_4489C0()
         {
             if (field_C4_velx <= FP_FromInteger(0))
             {
-                field_C4_velx = field_C4_velx + FP_FromDouble(0.01);
+                field_C4_velx += FP_FromDouble(0.01);
             }
             else
             {
-                field_C4_velx = field_C4_velx - FP_FromDouble(0.01);
+                field_C4_velx -= FP_FromDouble(0.01);
             }
 
             auto oldLine = field_100_pCollisionLine;

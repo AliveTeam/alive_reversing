@@ -10,6 +10,8 @@
 #include "Sfx.hpp"
 #include "Explosion.hpp"
 #include "Gibs.hpp"
+#include "Events.hpp"
+#include "Collisions.hpp"
 
 START_NS_AO
 
@@ -62,11 +64,11 @@ Grenade* Grenade::ctor_41EBD0(FP xpos, FP ypos, __int16 numGrenades)
 
     if (numGrenades > 0)
     {
-        field_110_state = 0;
+        field_110_state = GrenadeStates::eState_0_FallingToBeCollected;
     }
     else
     {
-        field_110_state = 3;
+        field_110_state = GrenadeStates::eState_3_CountingDown;
         field_112_explode_timer = 90;
     }
 
@@ -144,7 +146,7 @@ void Grenade::VThrow_41ED90(FP velX, FP velY)
 
     if (field_10C_count == 0)
     {
-        field_110_state = 4;
+        field_110_state = GrenadeStates::eState_4_Falling;
     }
 }
 
@@ -159,7 +161,164 @@ void Grenade::VScreenChanged_41F720()
 
 void Grenade::VUpdate_41F240()
 {
-    NOT_IMPLEMENTED();
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        field_6_flags.Set(Options::eDead_Bit3);
+    }
+
+    switch (field_110_state)
+    {
+    case GrenadeStates::eState_0_FallingToBeCollected:
+        if (!InTheAir_41EF10())
+        {
+            field_D4_collection_rect.x = field_A8_xpos - (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
+            field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale);
+            field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
+            field_D4_collection_rect.h = field_AC_ypos;
+
+            field_6_flags.Set(Options::eInteractive_Bit8);
+            field_110_state = GrenadeStates::eState_1_WaitToBeCollected;
+        }
+        break;
+
+    case GrenadeStates::eState_1_WaitToBeCollected:
+    {
+        if (field_B4_velx < FP_FromInteger(0))
+        {
+            field_B4_velx = FP_FromInteger(0);
+        }
+
+        if (FP_Abs(field_B4_velx) >= FP_FromInteger(1))
+        {
+            if (field_B4_velx <= FP_FromInteger(0))
+            {
+                field_B4_velx += FP_FromDouble(0.01);
+            }
+            else
+            {
+                field_B4_velx -= FP_FromDouble(0.01);
+            }
+
+            const auto oldLine = field_114_pCollisionLine;
+            field_114_pCollisionLine = field_114_pCollisionLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_B4_velx);
+            if (field_F8_pLiftPoint)
+            {
+                if (field_114_pCollisionLine != oldLine)
+                {
+                    VCanThrow();
+                    field_F8_pLiftPoint->field_C_refCount--;
+                    field_F8_pLiftPoint = nullptr;
+                }
+            }
+
+            if (!field_114_pCollisionLine)
+            {
+                field_110_state = GrenadeStates::eState_0_FallingToBeCollected;
+            }
+        }
+        else if (abs(Grid_SnapX_41FAA0(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos) - FP_GetExponent(field_A8_xpos))) > 1)
+        {
+
+            const auto oldLine = field_114_pCollisionLine;
+            field_114_pCollisionLine = field_114_pCollisionLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_B4_velx);
+            if (field_F8_pLiftPoint)
+            {
+                if (field_114_pCollisionLine != oldLine)
+                {
+                    VCanThrow();
+                    field_F8_pLiftPoint->field_C_refCount--;
+                    field_F8_pLiftPoint = nullptr;
+                }
+            }
+
+            if (!field_114_pCollisionLine)
+            {
+                field_110_state = GrenadeStates::eState_4_Falling;
+            }
+        }
+        else
+        {
+            field_B4_velx = FP_FromInteger(0);
+            field_D4_collection_rect.x = field_A8_xpos - ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2);
+            field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale);
+            field_D4_collection_rect.w = field_A8_xpos + ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2);
+            field_D4_collection_rect.h = field_AC_ypos;
+
+            field_6_flags.Set(Options::eInteractive_Bit8);
+            field_110_state = GrenadeStates::eState_2;
+        }
+        break;
+    }
+
+    case GrenadeStates::eState_2:
+        break;
+
+    case GrenadeStates::eState_3_CountingDown:
+        BlowUp_41EDD0();
+        break;
+
+    case GrenadeStates::eState_4_Falling:
+        if (InTheAir_41EF10())
+        {
+            if (!BlowUp_41EDD0())
+            {
+                PSX_RECT bRect = {};
+                VGetBoundingRect(&bRect, 1);
+
+                const PSX_Point xy = { bRect.x, bRect.y + 5 };
+                const PSX_Point wh = { bRect.w, bRect.h + 5 };
+
+                VOnCollisionWith(xy, wh, gBaseGameObject_list_9F2DF0, 1, (TCollisionCallBack)&Grenade::OnCollision_BounceOff_41F650);
+            }
+        }
+        else
+        {
+            field_110_state = GrenadeStates::eState_5_HitGround;
+        }
+        break;
+
+    case GrenadeStates::eState_5_HitGround:
+    {
+        field_B4_velx = FP_FromRaw(field_B4_velx.fpValue / 2);
+
+        const auto oldLine = field_114_pCollisionLine;
+        field_114_pCollisionLine = field_114_pCollisionLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_B4_velx);
+        if (field_F8_pLiftPoint)
+        {
+            if (field_114_pCollisionLine != oldLine)
+            {
+                VCanThrow();
+                field_F8_pLiftPoint->field_C_refCount--;
+                field_F8_pLiftPoint = nullptr;
+            }
+        }
+
+        if (!field_114_pCollisionLine)
+        {
+            field_110_state = GrenadeStates::eState_4_Falling;
+        }
+
+        BlowUp_41EDD0();
+        break;
+    }
+
+    case GrenadeStates::eState_6_WaitForExplodeEnd:
+        if (field_11C->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+        {
+            field_110_state = GrenadeStates::eState_7_Exploded;
+            field_11C->field_C_refCount--;
+            field_11C = nullptr;
+        }
+        break;
+
+    case GrenadeStates::eState_7_Exploded:
+        field_6_flags.Set(Options::eDead_Bit3);
+        break;
+
+    default:
+        return;
+    }
+
 }
 
 void Grenade::VOnTrapDoorOpen_41F920()
@@ -169,13 +328,13 @@ void Grenade::VOnTrapDoorOpen_41F920()
         field_F8_pLiftPoint->VRemove_451680(this);
         field_F8_pLiftPoint->field_C_refCount--;
 
-        if (field_110_state == 1 || field_110_state == 2)
+        if (field_110_state == GrenadeStates::eState_1_WaitToBeCollected || field_110_state == GrenadeStates::eState_2)
         {
-            field_110_state = 0;
+            field_110_state = GrenadeStates::eState_0_FallingToBeCollected;
         }
-        else if (field_110_state != 6)
+        else if (field_110_state != GrenadeStates::eState_6_WaitForExplodeEnd)
         {
-            field_110_state = 4;
+            field_110_state = GrenadeStates::eState_4_Falling;
         }
     }
 }
@@ -215,7 +374,7 @@ signed __int16 Grenade::BlowUp_41EDD0()
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
     field_11C = pExplosion;
     pExplosion->field_C_refCount++;
-    field_110_state = 6;
+    field_110_state = GrenadeStates::eState_6_WaitForExplodeEnd;
 
     auto pGibs = ao_new<Gibs>();
     if (pGibs)
