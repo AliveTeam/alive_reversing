@@ -391,9 +391,50 @@ EXPORT void CC ResourceManager::LoadingLoop_41EAD0(__int16 bShowLoadingIcon)
     }
 }
 
-EXPORT void CC ResourceManager::Free_Resources_For_Camera_447170(Camera* /*pCamera*/)
+void CC ResourceManager::Free_Resources_For_Camera_447170(Camera* pCamera)
 {
-    NOT_IMPLEMENTED();
+    for (int i = 0; i < ObjList_5009E0->Size(); i++)
+    {
+        ResourceManager_FileRecord* pObjIter = ObjList_5009E0->ItemAt(i);
+        if (!pObjIter)
+        {
+            break;
+        }
+
+        if (pObjIter->field_1C_pGameObjFileRec->field_28_state == 0)
+        {
+            // Remove/free file parts that belong to the cameraa
+            auto pFileSecsArray = &pObjIter->field_10_file_sections_dArray;
+            for (int j = 0; j < pFileSecsArray->Size(); j++)
+            {
+                ResourceManager_FilePartRecord* pFilePartRecord = pFileSecsArray->ItemAt(j);
+                if (!pFilePartRecord)
+                {
+                    break;
+                }
+
+                if (pFilePartRecord->field_8_pCamera == pCamera)
+                {
+                    j = pFileSecsArray->RemoveAt(j);
+                }
+
+                ao_delete_free_447540(pFilePartRecord);
+            }
+
+            // Free the containing record if its section array is now empty
+            if (pObjIter->field_10_file_sections_dArray.Empty())
+            {
+                if (pObjIter->field_1C_pGameObjFileRec)
+                {
+                    pObjIter->field_1C_pGameObjFileRec->DestroyOnState0_41EA50();
+                }
+
+                i = ObjList_5009E0->RemoveAt(i);
+                pObjIter->dtor_447510();
+                ao_delete_free_447540(pObjIter);
+            }
+        }
+    }
 }
 
 void CC ResourceManager::Init_454DA0()
