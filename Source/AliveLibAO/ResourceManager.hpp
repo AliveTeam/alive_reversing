@@ -96,6 +96,13 @@ public:
 
     EXPORT static void CC Init_454DA0();
 
+    static EXPORT __int16 CC FreeResource_Impl_4555B0(BYTE* handle);
+
+    static EXPORT void CC Increment_Pending_Count_4557A0();
+
+    static EXPORT void CC Decrement_Pending_Count_4557B0();
+
+    static EXPORT int CC Is_Resources_Pending_4557C0();
 
     static EXPORT void CC CancelPendingResourcesFor_41EA60(BaseGameObject* pObj);
 

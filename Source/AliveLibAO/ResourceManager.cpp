@@ -13,6 +13,7 @@ ALIVE_VAR(1, 0x9F0E48, DWORD, sManagedMemoryUsedSize_9F0E48, 0);
 
 ALIVE_VAR(1, 0x5076A0, short, bHideLoadingIcon_5076A0, 0);
 ALIVE_VAR(1, 0x5076A4, int, loading_ticks_5076A4, 0);
+ALIVE_VAR(1, 0x9F0E38, short, sResources_Pending_Loading_9F0E38, 0);
 
 ALIVE_VAR(1, 0x50EE2C, ResourceManager::ResourceHeapItem*, sFirstLinkedListItem_50EE2C, nullptr);
 
@@ -90,6 +91,7 @@ void CC ResourceManager::Init_454DA0()
     NOT_IMPLEMENTED();
 }
 
+
 EXPORT BYTE** CC ResourceManager::Allocate_New_Locked_Resource_454F80(int /*type*/, int /*id*/, int /*size*/)
 {
     NOT_IMPLEMENTED();
@@ -120,6 +122,28 @@ __int16 CC ResourceManager::FreeResource_455550(BYTE** /*ppRes*/)
     return 0;
 }
 
+
+__int16 CC ResourceManager::FreeResource_Impl_4555B0(BYTE* handle)
+{
+    if (handle)
+    {
+        Header* pHeader = Get_Header_455620(&handle);
+        if (pHeader->field_4_ref_count)
+        {
+            // Decrement ref count, if its not zero then we can't free it yet
+            pHeader->field_4_ref_count--;
+            if (pHeader->field_4_ref_count > 0)
+            {
+                return 0;
+            }
+            pHeader->field_8_type = Resource_Free;
+            pHeader->field_6_flags = 0;
+            sManagedMemoryUsedSize_9F0E48 -= pHeader->field_0_size;
+        }
+    }
+    return 1;
+}
+
 ResourceManager::Header* CC ResourceManager::Get_Header_455620(BYTE** ppRes)
 {
     return reinterpret_cast<Header*>((*ppRes - sizeof(Header)));
@@ -130,12 +154,27 @@ void CC ResourceManager::Reclaim_Memory_455660(DWORD /*sizeToReclaim*/)
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC ResourceManager::Set_Header_Flags_4557D0(BYTE** ppRes, __int16 flags)
+void CC ResourceManager::Increment_Pending_Count_4557A0()
+{
+    sResources_Pending_Loading_9F0E38++;
+}
+
+void CC ResourceManager::Decrement_Pending_Count_4557B0()
+{
+    sResources_Pending_Loading_9F0E38--;
+}
+
+void CC ResourceManager::Set_Header_Flags_4557D0(BYTE** ppRes, __int16 flags)
 {
     Get_Header_455620(ppRes)->field_6_flags |= flags;
 }
 
-EXPORT void CC ResourceManager::Free_Resource_Of_Type_455810(DWORD type)
+int CC ResourceManager::Is_Resources_Pending_4557C0()
+{
+    return sResources_Pending_Loading_9F0E38 > 0 ? 1 : 0;
+}
+
+void CC ResourceManager::Free_Resource_Of_Type_455810(DWORD type)
 {
     ResourceHeapItem* pListItem = sFirstLinkedListItem_50EE2C;
     while (pListItem)
