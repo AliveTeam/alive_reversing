@@ -108,6 +108,8 @@ public:
         eLastMatching = 2
     };
 
+    static EXPORT int CC SEQ_HashName_454EA0(const char* seqFileName);
+
     EXPORT static void CC Init_454DA0();
 
     static EXPORT void CC On_Loaded_446C10(ResourceManager_FileRecord* pLoaded);

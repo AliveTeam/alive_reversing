@@ -446,6 +446,45 @@ void CC ResourceManager::Free_Resources_For_Camera_447170(Camera* pCamera)
     }
 }
 
+int CC ResourceManager::SEQ_HashName_454EA0(const char* seqFileName)
+{
+    // Clamp max len
+    size_t seqFileNameLength = strlen(seqFileName) - 1;
+    if (seqFileNameLength > 8)
+    {
+        seqFileNameLength = 8;
+    }
+
+    // Iterate each char to calculate hash
+    DWORD hashId = 0;
+    for (size_t index = 0; index < seqFileNameLength; index++)
+    {
+        char letter = seqFileName[index];
+        if (letter == '.')
+        {
+            break;
+        }
+
+        const DWORD temp = 10 * hashId;
+        if (letter < '0' || letter > '9')
+        {
+            if (letter >= 'a')
+            {
+                if (letter <= 'z')
+                {
+                    letter -= ' ';
+                }
+            }
+            hashId = letter % 10 + temp;
+        }
+        else
+        {
+            hashId = index || letter != '0' ? temp + letter - '0' : temp + 9;
+        }
+    }
+    return hashId;
+}
+
 void CC ResourceManager::Init_454DA0()
 {
     for (int i = 1; i < kLinkedListArraySize - 1; i++)
