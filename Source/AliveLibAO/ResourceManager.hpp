@@ -72,8 +72,8 @@ public:
 
     struct ResourceManager_FilePartRecord
     {
-        int field_0_ResId;
-        int field_4_bAddUsecount;
+        int field_0_type;
+        int field_4_res_id;
         Camera* field_8_pCamera;
     };
     ALIVE_ASSERT_SIZEOF(ResourceManager_FilePartRecord, 0xc);

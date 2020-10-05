@@ -298,8 +298,8 @@ void CC ResourceManager::On_Loaded_446C10(ResourceManager_FileRecord* pLoaded)
         }
 
         BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(
-            pFilePart->field_0_ResId,
-            pFilePart->field_4_bAddUsecount,
+            pFilePart->field_0_type,
+            pFilePart->field_4_res_id,
             1,
             0);
 
@@ -372,8 +372,8 @@ void CC ResourceManager::LoadResource_446C90(const char* pFileName, DWORD type, 
             {
                 auto pFilePart = ao_new<ResourceManager_FilePartRecord>();
                 pFilePart->field_8_pCamera = sCameraBeingLoaded_507C98;
-                pFilePart->field_0_ResId = type;
-                pFilePart->field_4_bAddUsecount = resourceId;
+                pFilePart->field_0_type = type;
+                pFilePart->field_4_res_id = resourceId;
                 pExistingFileRec->field_10_file_sections_dArray.Push_Back(pFilePart);
                 return;
             }
@@ -389,8 +389,8 @@ void CC ResourceManager::LoadResource_446C90(const char* pFileName, DWORD type, 
             pFileRec->field_C_resourceId = resourceId;
 
             auto pFilePart = ao_new<ResourceManager_FilePartRecord>();
-            pFilePart->field_0_ResId = type;
-            pFilePart->field_4_bAddUsecount = resourceId;
+            pFilePart->field_0_type = type;
+            pFilePart->field_4_res_id = resourceId;
             pFilePart->field_8_pCamera = sCameraBeingLoaded_507C98;
 
             pFileRec->field_10_file_sections_dArray.Push_Back(pFilePart);
@@ -413,9 +413,121 @@ void CC ResourceManager::LoadResource_446C90(const char* pFileName, DWORD type, 
     }
 }
 
-void CC ResourceManager::LoadResourcesFromList_446E80(const char* /*pFileName*/, ResourcesToLoadList* /*list*/, __int16 /*loadMode*/, __int16)
+void CC ResourceManager::LoadResourcesFromList_446E80(const char* pFileName, ResourcesToLoadList* pTypeAndIdList, __int16 loadMode, __int16 bDontLoad)
 {
-    NOT_IMPLEMENTED();
+    // Debug_Print_Stub_48DD70("Requesting tag res %s\n", pFileName);
+
+    if (bDontLoad)
+    {
+        return;
+    }
+
+    // Check if all resources are already loaded
+    bool allResourcesLoaded = true;
+    for (int i = 0; i < pTypeAndIdList->field_0_count; i++)
+    {
+        while (!ResourceManager::GetLoadedResource_4554F0(
+            pTypeAndIdList->field_4_items[i].field_0_type,
+            pTypeAndIdList->field_4_items[i].field_4_res_id,
+            0,
+            0))
+        {
+            // A resource we need is missing
+            allResourcesLoaded = false;
+            break;
+        }
+    }
+
+    // All resources that we required are already loaded
+    if (allResourcesLoaded)
+    {
+        for (int i = 0; i < pTypeAndIdList->field_0_count; i++)
+        {
+            sCameraBeingLoaded_507C98->field_0_array.Push_Back(GetLoadedResource_4554F0(
+                pTypeAndIdList->field_4_items[i].field_0_type,
+                pTypeAndIdList->field_4_items[i].field_4_res_id,
+                1,
+                0));
+        }
+        return;
+    }
+
+    if (loadMode == 1)
+    {
+        for (int i = 0; i < ObjList_5009E0->Size(); i++)
+        {
+            ResourceManager_FileRecord* pFileRec = ObjList_5009E0->ItemAt(i);
+            if (!pFileRec)
+            {
+                break;
+            }
+
+            if (!strcmp(pFileName, pFileRec->field_0_fileName))
+            {
+                if (pTypeAndIdList->field_0_count == 0)
+                {
+                    return;
+                }
+
+                for (int j = 0; j < pTypeAndIdList->field_0_count; j++)
+                {
+                    auto pPart = ao_new<ResourceManager_FilePartRecord>();
+                    pPart->field_0_type = pTypeAndIdList->field_4_items[j].field_0_type;
+                    pPart->field_4_res_id = pTypeAndIdList->field_4_items[j].field_4_res_id;
+                    pPart->field_8_pCamera = sCameraBeingLoaded_507C98;
+                    pFileRec->field_10_file_sections_dArray.Push_Back(pPart);
+                }
+                return;
+            }
+        }
+
+        auto pNewFileRec = ao_new<ResourceManager_FileRecord>();
+        if (pNewFileRec)
+        {
+            pNewFileRec->field_10_file_sections_dArray.ctor_4043E0(10);
+        }
+
+        pNewFileRec->field_0_fileName = pFileName;
+        pNewFileRec->field_4_pResourcesToLoadList = pTypeAndIdList;
+        pNewFileRec->field_8_type = 0;
+        pNewFileRec->field_C_resourceId = 0;
+
+        // Check if all resources are already loaded
+        if ((pTypeAndIdList->field_0_count & ~0x80000000))
+        {
+            for (int j = 0; j < pTypeAndIdList->field_0_count; j++)
+            {
+                auto pNewFilePart = ao_new<ResourceManager_FilePartRecord>();
+                pNewFilePart->field_0_type = pTypeAndIdList->field_4_items[j].field_0_type;
+                pNewFilePart->field_4_res_id = pTypeAndIdList->field_4_items[j].field_4_res_id;
+                pNewFilePart->field_8_pCamera = sCameraBeingLoaded_507C98;
+                pNewFileRec->field_10_file_sections_dArray.Push_Back(pNewFilePart);
+            }
+        }
+
+        pNewFileRec->field_1C_pGameObjFileRec = ResourceManager::LoadResourceFile(
+            pFileName,
+            ResourceManager::On_Loaded_446C10,
+            pNewFileRec);
+        ObjList_5009E0->Push_Back(pNewFileRec);
+    }
+    else if (loadMode == 2)
+    {
+        ResourceManager::LoadResourceFile_455270(pFileName, nullptr);
+        for (int j = 0; j < pTypeAndIdList->field_0_count; j++)
+        {
+            BYTE** ppLoadedRes = ResourceManager::GetLoadedResource_4554F0(
+                pTypeAndIdList->field_4_items[j].field_0_type,
+                pTypeAndIdList->field_4_items[j].field_4_res_id,
+                1,
+                0);
+
+            if (ppLoadedRes)
+            {
+                sCameraBeingLoaded_507C98->field_0_array.Push_Back(ppLoadedRes);
+            }
+        }
+    }
 }
 
 void CC ResourceManager::WaitForPendingResources_41EA60(BaseGameObject* pObj)
@@ -694,6 +806,7 @@ BYTE** CC ResourceManager::Allocate_New_Locked_Resource_454F80(DWORD type, DWORD
 {
     return Alloc_New_Resource_Impl(type, id, size, true, BlockAllocMethod::eLastMatching);
 }
+
 
 EXPORT BYTE** CC ResourceManager::Allocate_New_Block_454FE0(DWORD sizeBytes, BlockAllocMethod allocMethod)
 {
