@@ -21,3 +21,11 @@ EXPORT int CC PSX_LoadImage16_4962A0(const PSX_RECT* pRect, const BYTE* pData);
 EXPORT int PSX_LoadImage_496480(const PSX_RECT* pRect, const BYTE* pData);
 
 EXPORT signed int CC PSX_StoreImage_496320(const PSX_RECT* rect, WORD* pData);
+
+EXPORT CdlLOC* CC PSX_Pos_To_CdLoc_49B340(int pos, CdlLOC* pLoc);
+
+EXPORT int CC PSX_CD_File_Seek_49B670(char mode, CdlLOC* pLoc);
+
+EXPORT int CC PSX_CD_File_Read_49B8B0(int numSectors, void* pBuffer);
+
+EXPORT int CC PSX_CD_FileIOWait_49B900(int);

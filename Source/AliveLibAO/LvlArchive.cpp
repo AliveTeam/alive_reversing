@@ -55,10 +55,22 @@ EXPORT LvlFileRecord* LvlArchive::Find_File_Record_41BED0(const char* /*pFileNam
     return nullptr;
 }
 
-EXPORT __int16 LvlArchive::Read_File_41BE40(const LvlFileRecord* /*pFileRec*/, void* /*pBuffer*/)
+EXPORT __int16 LvlArchive::Read_File_41BE40(const LvlFileRecord* pFileRec, void* pBuffer)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (!pFileRec || !pBuffer)
+    {
+        return 0;
+    }
+
+    CdlLOC loc = {};
+    PSX_Pos_To_CdLoc_49B340(pFileRec->field_C_start_sector + field_4_cd_pos, &loc);
+    PSX_CD_File_Seek_49B670(2, &loc);
+    __int16 ret = static_cast<short>(PSX_CD_File_Read_49B8B0(pFileRec->field_10_num_sectors, pBuffer));
+    if (PSX_CD_FileIOWait_49B900(0) == -1)
+    {
+        ret = 0;
+    }
+    return ret;
 }
 
 END_NS_AO

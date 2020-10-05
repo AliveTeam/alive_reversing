@@ -38,31 +38,7 @@ ALIVE_ARY(1, 0x50E270, ResourceManager::ResourceHeapItem, kLinkedListArraySize, 
 ALIVE_VAR(1, 0x50EE30, BYTE*, spResourceHeapStart_50EE30, nullptr);
 ALIVE_VAR(1, 0x9F0E3C, BYTE*, spResourceHeapEnd_9F0E3C, nullptr);
 
-// TODO :Move to psx file
-EXPORT CdlLOC* CC PSX_Pos_To_CdLoc_49B340(int /*pos*/, CdlLOC* /*pLoc*/)
-{
-    NOT_IMPLEMENTED();
-    return nullptr;
-}
-
-EXPORT int CC PSX_CD_File_Seek_49B670(char /*mode*/, CdlLOC* /*pLoc*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-EXPORT int CC PSX_CD_File_Read_49B8B0(int /*numSectors*/, void* /*pBuffer*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-EXPORT int CC PSX_CD_FileIOWait_49B900(int)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
+// TODO: move to correct location
 EXPORT void CC Odd_Sleep_48DD90(DWORD /*dwMilliseconds*/)
 {
     NOT_IMPLEMENTED();
