@@ -791,10 +791,15 @@ BYTE** CC ResourceManager::GetLoadedResource_4554F0(DWORD type, DWORD resourceId
     return nullptr;
 }
 
-__int16 CC ResourceManager::FreeResource_455550(BYTE** /*ppRes*/)
+__int16 CC ResourceManager::FreeResource_455550(BYTE** handle)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    // Note: Checks for ptrs of 0xCDCDCDCD and 0xDDDDDDDD removed
+    // because these can only come from the MSVCRT debug runtimes
+    if (!handle)
+    {
+        return 1;
+    }
+    return FreeResource_Impl_4555B0(*handle);
 }
 
 
