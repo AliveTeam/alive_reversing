@@ -628,12 +628,6 @@ EXPORT void CC DebugFont_Flush_487F50()
     NOT_IMPLEMENTED();
 }
 
-EXPORT int CC PSX_ClearImage_496020(const PSX_RECT* /*pRect*/, __int16 /*r*/, unsigned __int8 /*g*/, unsigned __int8 /*b*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
 ALIVE_VAR(1, 0x507698, short, gAttract_507698, 0);
 ALIVE_VAR(1, 0x507B0C, int, gTimeOut_NotUsed_507B0C, 0);
 ALIVE_VAR(1, 0x507B10, int, gFileOffset_NotUsed_507B10, 0);
@@ -756,25 +750,6 @@ EXPORT void CC Game_Free_LoadingIcon_445E80()
     {
         ResourceManager::FreeResource_455550(ppRes);
     }
-}
-
-
-EXPORT int CC PSX_ResetGraph_4987E0(int /*mode*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-EXPORT int CC PSX_StopCallBack_49AFC0()
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-EXPORT int CC PSX_CdControlB_49BB40(int, int, int)
-{
-    NOT_IMPLEMENTED();
-    return 0;
 }
 
 EXPORT void CC SND_Shutdown_476EC0()

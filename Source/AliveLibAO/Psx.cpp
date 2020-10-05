@@ -75,3 +75,43 @@ EXPORT int CC PSX_CD_FileIOWait_49B900(int)
     NOT_IMPLEMENTED();
     return 0;
 }
+
+EXPORT int CC PSX_ClearImage_496020(const PSX_RECT* /*pRect*/, __int16 /*r*/, unsigned __int8 /*g*/, unsigned __int8 /*b*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT int CC PSX_ResetGraph_4987E0(int /*mode*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT int CC PSX_StopCallBack_49AFC0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT int CC PSX_CdControlB_49BB40(int, int, int)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT void CC PSX_SetDispMask_4989D0(int)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC PSX_SetGraphDebug_4989F0(int)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT int CC PSX_SetDispMask_49AE80(int)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}

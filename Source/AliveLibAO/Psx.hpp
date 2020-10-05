@@ -29,3 +29,17 @@ EXPORT int CC PSX_CD_File_Seek_49B670(char mode, CdlLOC* pLoc);
 EXPORT int CC PSX_CD_File_Read_49B8B0(int numSectors, void* pBuffer);
 
 EXPORT int CC PSX_CD_FileIOWait_49B900(int);
+
+EXPORT int CC PSX_ClearImage_496020(const PSX_RECT* pRect, __int16 r, unsigned __int8 g, unsigned __int8 b);
+
+EXPORT int CC PSX_ResetGraph_4987E0(int mode);
+
+EXPORT int CC PSX_StopCallBack_49AFC0();
+
+EXPORT int CC PSX_CdControlB_49BB40(int, int, int);
+
+EXPORT void CC PSX_SetDispMask_4989D0(int);
+
+EXPORT void CC PSX_SetGraphDebug_4989F0(int);
+
+EXPORT int CC PSX_SetDispMask_49AE80(int a1);
