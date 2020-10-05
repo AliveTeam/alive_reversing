@@ -380,6 +380,10 @@ public:
 
     EXPORT __int16 HandleDoAction_429A70();
 
+    virtual __int16 VTakeDamage(BaseGameObject* pFrom);
+
+    EXPORT __int16 VTakeDamage_4214E0(BaseGameObject* pFrom);
+
     // States
     EXPORT void State_0_Idle_423520();
     EXPORT void State_1_WalkLoop_423F90();
