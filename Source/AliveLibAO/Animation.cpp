@@ -1,6 +1,13 @@
 #include "stdafx_ao.h"
 #include "Animation.hpp"
 #include "Function.hpp"
+#include "PsxDisplay.hpp"
+#include "Primitives.hpp"
+#include <algorithm>
+
+// Fix pollution from windows.h
+#undef min
+#undef max
 
 START_NS_AO
 
@@ -122,9 +129,25 @@ signed __int16 Animation::Set_Animation_Data_402A40(int frameTableOffset, BYTE**
     return 1;
 }
 
-void Animation::SetFrame_402AC0(unsigned __int16 /*frame*/)
+void Animation::SetFrame_402AC0(unsigned __int16 newFrame)
 {
-    NOT_IMPLEMENTED();
+    if (field_20_ppBlock)
+    {
+        if (newFrame == -1)
+        {
+            newFrame = 0;
+        }
+
+        AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + field_18_frame_table_offset); // TODO: Make getting offset to animation header cleaner
+
+        if (newFrame > pHead->field_2_num_frames)
+        {
+            newFrame = pHead->field_2_num_frames;
+        }
+
+        field_E_frame_change_counter = 1;
+        field_92_current_frame = newFrame - 1;
+    }
 }
 
 signed __int16 Animation::Init_402D20(int /*frameTableOffset*/, DynamicArray* /*animList*/, BaseGameObject* /*pGameObj*/, unsigned __int16 /*maxW*/, unsigned __int16 /*maxH*/, BYTE** /*ppAnimData*/, unsigned __int8 /*bFlag_17*/, signed int /*b_StartingAlternationState*/, char /*bEnable_flag10_alternating*/)
@@ -135,8 +158,8 @@ signed __int16 Animation::Init_402D20(int /*frameTableOffset*/, DynamicArray* /*
 
 __int16 Animation::Get_Frame_Count_403540()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + field_18_frame_table_offset);  // TODO: Make getting offset to animation header cleaner
+    return pHead->field_2_num_frames;
 }
 
 FrameInfoHeader* Animation::Get_FrameHeader_403A00(int /*frame*/)
@@ -180,9 +203,49 @@ void Animation::LoadPal_403090(BYTE** pPalData, int palOffset)
 }
 
 
-EXPORT void Animation::Get_Frame_Rect_402B50(PSX_RECT* /*pRect*/)
+static void CC Poly_FT4_Get_Rect(PSX_RECT* pRect, const Poly_FT4* pPoly)
 {
-    NOT_IMPLEMENTED();
+    if (PSX_Prim_Code_Without_Blending_Or_SemiTransparency(pPoly->mBase.header.rgb_code.code_or_pad) == PrimTypeCodes::ePolyFT4)
+    {
+        pRect->x = pPoly->mBase.vert.x;
+        pRect->y = pPoly->mBase.vert.y;
+        pRect->w = pPoly->mVerts[2].mVert.x;
+        pRect->h = pPoly->mVerts[2].mVert.y;
+    }
+    else
+    {
+        pRect->h = 0;
+        pRect->w = 0;
+        pRect->y = 0;
+        pRect->x = 0;
+    }
+}
+
+EXPORT void Animation::Get_Frame_Rect_402B50(PSX_RECT* pRect)
+{
+    
+    Poly_FT4* pPoly = &field_2C_ot_data[gPsxDisplay_504C78.field_A_buffer_index];
+    if (!field_4_flags.Get(AnimFlags::eBit20_use_xy_offset))
+    {
+        Poly_FT4_Get_Rect(pRect, pPoly);
+        return;
+    }
+
+    const auto min_x0_x1 = std::min(X0(pPoly), X1(pPoly));
+    const auto min_x2_x3 = std::min(X2(pPoly), X3(pPoly));
+    pRect->x = std::min(min_x0_x1, min_x2_x3);
+
+    const auto max_x0_x1 = std::max(X0(pPoly), X1(pPoly));
+    const auto max_x2_x3 = std::max(X2(pPoly), X3(pPoly));
+    pRect->w = std::max(max_x0_x1, max_x2_x3);
+
+    const auto min_y0_y1 = std::min(Y0(pPoly), Y1(pPoly));
+    const auto min_y2_y3 = std::min(Y2(pPoly), Y3(pPoly));
+    pRect->y = std::min(min_y0_y1, min_y2_y3);
+
+    const auto max_y0_y1 = std::max(Y0(pPoly), Y1(pPoly));
+    const auto max_y2_y3 = std::max(Y2(pPoly), Y3(pPoly));
+    pRect->h = std::max(max_y0_y1, max_y2_y3);
 }
 
 EXPORT void Animation::Get_Frame_Width_Height_403E80(short* /*pWidth*/, short* /*pHeight*/)

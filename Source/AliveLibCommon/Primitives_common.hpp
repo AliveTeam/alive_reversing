@@ -571,7 +571,12 @@ void Init_Sprt_8(Prim_Sprt_8* pPrim);
 void Init_Sprt_16(Prim_Sprt_16* pPrim);
 
 void PolyFT4_Init(Poly_FT4* pPrim);
-
+/// <summary>
+/// 
+/// </summary>
+/// <param name="pPrim"></param>
 void PolyF4_Init(Poly_F4* pPrim);
 
 void Prim_Init_MoveImage(Prim_MoveImage* pPrim, PSX_RECT* pRect, int xpos, int ypos);
+
+int PSX_Prim_Code_Without_Blending_Or_SemiTransparency(int code);

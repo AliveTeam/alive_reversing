@@ -205,7 +205,7 @@ class Animation : public AnimationBase
 public:
     EXPORT signed __int16 Set_Animation_Data_402A40(int frameTable, BYTE** resBlock);
 
-    EXPORT void SetFrame_402AC0(unsigned __int16 frame);
+    EXPORT void SetFrame_402AC0(unsigned __int16 newFrame);
 
     EXPORT signed __int16 Init_402D20(int frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, unsigned __int16 maxW, unsigned __int16 maxH, BYTE** ppAnimData, unsigned __int8 bFlag_17, signed int b_StartingAlternationState, char bEnable_flag10_alternating);
 
@@ -228,28 +228,7 @@ public:
     BYTE** field_20_ppBlock;
     int field_24;
     int field_28;
-    int field_2C;
-    int field_30;
-    int field_34;
-    int field_38;
-    int field_3C;
-    int field_40;
-    int field_44;
-    int field_48;
-    int field_4C;
-    int field_50;
-    int field_54;
-    int field_58;
-    int field_5C;
-    int field_60;
-    int field_64;
-    int field_68;
-    int field_6C;
-    int field_70;
-    int field_74;
-    int field_78;
-    int field_7C;
-    int field_80;
+    Poly_FT4 field_2C_ot_data[2];
     PSX_RECT field_84_vram_rect;
     PSX_Point field_8C_pal_vram_xy;
     __int16 field_90_pal_depth;
