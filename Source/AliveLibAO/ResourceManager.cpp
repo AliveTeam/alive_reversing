@@ -141,9 +141,31 @@ EXPORT __int16 CC ResourceManager::LoadResourceFile_455270(const char* /*filenam
     return 0;
 }
 
-BYTE** CC ResourceManager::GetLoadedResource_4554F0(int /*type*/, int /*resourceId*/, __int16 /*addUseCount*/, __int16 /*bLock*/)
+BYTE** CC ResourceManager::GetLoadedResource_4554F0(DWORD type, DWORD resourceId, __int16 addUseCount, __int16 bLock)
 {
-    NOT_IMPLEMENTED();
+    // Iterate all list items
+    ResourceHeapItem* pListIter = sFirstLinkedListItem_50EE2C;
+    while (pListIter)
+    {
+        // Find something that matches the type and resource ID
+        Header* pResHeader = Get_Header_455620(&pListIter->field_0_ptr);
+        if (pResHeader->field_8_type == type && pResHeader->field_C_id == resourceId)
+        {
+            if (addUseCount)
+            {
+                pResHeader->field_4_ref_count++;
+            }
+
+            if (bLock)
+            {
+                pResHeader->field_6_flags |= ResourceHeaderFlags::eLocked;
+            }
+
+            return &pListIter->field_0_ptr;
+        }
+
+        pListIter = pListIter->field_4_pNext;
+    }
     return nullptr;
 }
 
