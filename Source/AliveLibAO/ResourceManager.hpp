@@ -113,7 +113,7 @@ public:
 
     static EXPORT int CC Is_Resources_Pending_4557C0();
 
-    static EXPORT void CC CancelPendingResourcesFor_41EA60(BaseGameObject* pObj);
+    static EXPORT void CC WaitForPendingResources_41EA60(BaseGameObject* pObj);
 
     static EXPORT void CC Reclaim_Memory_455660(DWORD sizeToReclaim);
 

@@ -734,7 +734,7 @@ EXPORT void CC Game_Loop_437630()
     PSX_ClearImage_496020(&rect, 0, 0, 0);
     PSX_DrawSync_496750(0);
     PSX_VSync_496620(0);
-    ResourceManager::CancelPendingResourcesFor_41EA60(0);
+    ResourceManager::WaitForPendingResources_41EA60(0);
 
     for (int i=0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {

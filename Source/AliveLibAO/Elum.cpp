@@ -181,7 +181,7 @@ EXPORT BaseGameObject *Elum::dtor_410BC0()
 
     if (field_104_pending_resource_count)
     {
-        ResourceManager::CancelPendingResourcesFor_41EA60(this);
+        ResourceManager::WaitForPendingResources_41EA60(this);
     }
     field_104_pending_resource_count = 0;
 

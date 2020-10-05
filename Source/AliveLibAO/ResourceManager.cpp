@@ -7,6 +7,7 @@
 #include "Psx.hpp"
 #include "PsxRender.hpp"
 #include "ScreenManager.hpp"
+#include "Game.hpp"
 
 START_NS_AO
 
@@ -41,6 +42,11 @@ EXPORT int CC PSX_CD_FileIOWait_49B900(int)
 {
     NOT_IMPLEMENTED();
     return 0;
+}
+
+EXPORT void CC Odd_Sleep_48DD90(DWORD /*dwMilliseconds*/)
+{
+    NOT_IMPLEMENTED();
 }
 
 ALIVE_VAR(1, 0x507714, int, gFilesPending_507714, 0);
@@ -263,11 +269,6 @@ void CC Game_ShowLoadingIcon_445EB0()
     }
 }
 
-void CC ResourceManager::CancelPendingResourcesFor_41EA60(BaseGameObject* /*pObj*/)
-{
-    NOT_IMPLEMENTED();
-}
-
 void CC ResourceManager::LoadResource_446C90(const char* /*pFileName*/, int /*type*/, int /*resourceId*/, __int16 /*loadMode*/, __int16 /*bDontLoad*/)
 {
     NOT_IMPLEMENTED();
@@ -278,9 +279,78 @@ void CC ResourceManager::LoadResourcesFromList_446E80(const char* /*pFileName*/,
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC ResourceManager::LoadingLoop_41EAD0(__int16 /*bShowLoadingIcon*/)
+void CC ResourceManager::WaitForPendingResources_41EA60(BaseGameObject* pObj)
 {
-    NOT_IMPLEMENTED();
+    for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    {
+        BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        if (!pObjIter)
+        {
+            break;
+        }
+
+        if (pObjIter->field_4_typeId == Types::eLoadingFile_39)
+        {
+            auto pLoadingFile = static_cast<ResourceManager_FileRecord_Unknown*>(pObjIter);
+            if (!pObj || pObj == pLoadingFile->field_18_fn_arg)
+            {
+                while (pLoadingFile->field_28_state != 0)
+                {
+                    if (pLoadingFile->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+                    {
+                        break;
+                    }
+                    pLoadingFile->VUpdate();
+                }
+                pLoadingFile->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            }
+        }
+    }
+}
+
+EXPORT void CC ResourceManager::LoadingLoop_41EAD0(__int16 bShowLoadingIcon)
+{
+    while (gFilesPending_507714 > 0)
+    {
+        SYS_EventsPump_44FF90();
+
+        for (int i=0; i<gBaseGameObject_list_9F2DF0->Size(); i++)
+        {
+            BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
+            if (!pObjIter)
+            {
+                break;
+            }
+
+            if (pObjIter->field_4_typeId == Types::eLoadingFile_39)
+            {
+                if (!pObjIter->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+                {
+                    pObjIter->VUpdate();
+
+                }
+                
+                if (pObjIter->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+                {
+                    i = gBaseGameObject_list_9F2DF0->RemoveAt(i);
+                    pObjIter->VDestructor(1);
+                }
+            }
+        }
+
+        Odd_Sleep_48DD90(16u);
+        PSX_VSync_496620(0);
+        
+        loading_ticks_5076A4++;
+
+        if (bShowLoadingIcon)
+        {
+            if (!bHideLoadingIcon_5076A0 && loading_ticks_5076A4 > 180)
+            {
+                Game_ShowLoadingIcon_445EB0();
+            }
+        }
+    }
 }
 
 EXPORT void CC ResourceManager::Free_Resources_For_Camera_447170(Camera* /*pCamera*/)
