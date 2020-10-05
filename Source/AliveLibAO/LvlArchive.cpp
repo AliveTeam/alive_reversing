@@ -41,7 +41,11 @@ EXPORT void LvlArchive::OpenArchive_41BC60(int /*pos*/)
 
 EXPORT __int16 LvlArchive::Free_41BEB0()
 {
-    NOT_IMPLEMENTED();
+    if (field_0_0x2800_res)
+    {
+        ResourceManager::FreeResource_455550(field_0_0x2800_res);
+        field_0_0x2800_res = nullptr;
+    }
     return 0;
 }
 
