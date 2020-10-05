@@ -21,6 +21,16 @@ ALIVE_VAR(1, 0x5076A4, int, loading_ticks_5076A4, 0);
 ALIVE_VAR(1, 0x9F0E38, short, sResources_Pending_Loading_9F0E38, 0);
 
 ALIVE_VAR(1, 0x50EE2C, ResourceManager::ResourceHeapItem*, sFirstLinkedListItem_50EE2C, nullptr);
+ALIVE_VAR(1, 0x50EE28, ResourceManager::ResourceHeapItem*, sSecondLinkedListItem_50EE28, nullptr);
+
+const DWORD kResHeapSize = 5120000;
+ALIVE_ARY(1, 0x50EE38, BYTE, kResHeapSize, sResourceHeap_50EE38, {}); // Huge 5.4 MB static resource buffer
+
+const DWORD kLinkedListArraySize = 375;
+ALIVE_ARY(1, 0x50E270, ResourceManager::ResourceHeapItem, kLinkedListArraySize, sResourceLinkedList_50E270, {});
+
+ALIVE_VAR(1, 0x50EE30, BYTE*, spResourceHeapStart_50EE30, nullptr);
+ALIVE_VAR(1, 0x9F0E3C, BYTE*, spResourceHeapEnd_9F0E3C, nullptr);
 
 // TODO :Move to psx file
 EXPORT CdlLOC* CC PSX_Pos_To_CdLoc_49B340(int /*pos*/, CdlLOC* /*pLoc*/)
@@ -440,7 +450,26 @@ void CC ResourceManager::Free_Resources_For_Camera_447170(Camera* pCamera)
 
 void CC ResourceManager::Init_454DA0()
 {
-    NOT_IMPLEMENTED();
+    for (int i = 1; i < kLinkedListArraySize - 1; i++)
+    {
+        sResourceLinkedList_50E270[i].field_0_ptr = nullptr;
+        sResourceLinkedList_50E270[i].field_4_pNext = &sResourceLinkedList_50E270[i + 1];
+    }
+
+    sResourceLinkedList_50E270[kLinkedListArraySize - 1].field_4_pNext = nullptr;
+
+    sResourceLinkedList_50E270[0].field_0_ptr =  &sResourceHeap_50EE38[sizeof(Header)];
+    sResourceLinkedList_50E270[0].field_4_pNext = nullptr;
+    
+    Header* pHeader = Get_Header_455620(&sResourceLinkedList_50E270[0].field_0_ptr);
+    pHeader->field_0_size = kResHeapSize;
+    pHeader->field_8_type = Resource_Free;
+
+    sFirstLinkedListItem_50EE2C = &sResourceLinkedList_50E270[0];
+    sSecondLinkedListItem_50EE28 = &sResourceLinkedList_50E270[1];
+
+    spResourceHeapStart_50EE30 = &sResourceHeap_50EE38[0];
+    spResourceHeapEnd_9F0E3C =  &sResourceHeap_50EE38[kResHeapSize - 1];
 }
 
 EXPORT ResourceManager::ResourceManager_FileRecord* CC ResourceManager::LoadResourceFile_4551E0(const char* /*pFileName*/, TLoaderFn /*fnOnLoad*/, Camera* /*pCamera1*/, Camera* /*pCamera2*/)
