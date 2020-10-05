@@ -3784,7 +3784,7 @@ void Abe::State_19_CrouchIdle_4284C0()
             {
                 field_198_pThrowable = Make_Throwable_454560(
                     field_A8_xpos,
-                    field_A8_xpos - FP_FromInteger(40),
+                    field_AC_ypos - FP_FromInteger(40),
                     0);
 
                 if (!bThrowableIndicatorExists_504C70)
