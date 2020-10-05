@@ -13,6 +13,25 @@ struct LvlFileRecord
 };
 ALIVE_ASSERT_SIZEOF(LvlFileRecord, 0x18);
 
+struct LvlHeader_Sub
+{
+    int field_0_num_files;
+    int field_4_unknown1;
+    int field_8_unknown2;
+    int field_C_unknown3;
+    LvlFileRecord field_10_file_recs[1]; // TODO: Strictly UB on >= 1 access
+};
+
+struct LvlHeader
+{
+    int field_0_first_file_offset;
+    int field_4_ref_count;
+    int field_8_magic;
+    int field_C_id;
+    LvlHeader_Sub field_10_sub;
+};
+
+
 class LvlArchive
 {
 public:

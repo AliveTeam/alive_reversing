@@ -121,6 +121,8 @@ int LvlArchive::Open_Archive_432E80(const char* fileName)
 
     // Read the header
     ResourceManager::Header* pResHeader = ResourceManager::Get_Header_49C410(field_0_0x2800_res);
+
+    // OG BUG: Header assumed to be 5 sectors, if its bigger then we are doomed
     int bOk = PSX_CD_File_Read_4FB210(5, pResHeader);
     if (PSX_CD_FileIOWait_4FB260(0) == -1)
     {
