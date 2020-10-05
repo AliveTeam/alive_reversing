@@ -191,6 +191,22 @@ public:
         // Stay alive
     }
 
+
+    virtual BaseGameObject* VDestructor(signed int flags) override
+    {
+        return Vdtor_41EBB0(flags);
+    }
+
+    EXPORT ResourceManager_FileRecord_Unknown* Vdtor_41EBB0(signed int flags)
+    {
+        dtor_41E870();
+        if (flags & 1)
+        {
+            ao_delete_free_447540(this);
+        }
+        return this;
+    }
+
     int field_10_size;
     TLoadCallBack field_14_fn;
     void* field_18_fn_arg;
