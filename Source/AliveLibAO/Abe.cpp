@@ -3784,7 +3784,7 @@ void Abe::State_19_CrouchIdle_4284C0()
             {
                 field_198_pThrowable = Make_Throwable_454560(
                     field_A8_xpos,
-                    field_A8_xpos - FP_FromInteger(40),
+                    field_AC_ypos - FP_FromInteger(40),
                     0);
 
                 if (!bThrowableIndicatorExists_504C70)
@@ -6265,7 +6265,7 @@ void Abe::State_133_LiftGrabBegin_42EF20()
     {
         if (sInputObject_5009E8.isPressed(sInputKey_Up_4C6598))
         {
-            if (pLiftPoint->OnTopFloor())
+            if (!pLiftPoint->OnTopFloor())
             {
                 field_FC_current_motion = eAbeStates::State_131_LiftUseUp_42F150;
             }
