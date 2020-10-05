@@ -3165,7 +3165,7 @@ __int16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
 
             if (pAliveObj->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
-                field_B4_velx = (field_BC_sprite_scale * FP_FromDouble(07.8));
+                field_B4_velx = (field_BC_sprite_scale * FP_FromDouble(7.8));
             }
             else
             {
@@ -3307,7 +3307,7 @@ __int16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
         break;
 
     case Types::eBullet_10:
-        // NOTE: This was in teh default case! The type may not be bullet in there which would corrupt memory or crash
+        // NOTE: This was in the default case! The type may not be bullet in there which would corrupt memory or crash
         BulletDamage_4220B0(static_cast<Bullet*>(pFrom));
         if (!field_106_shot)
         {
@@ -3330,7 +3330,7 @@ __int16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
         }
     }
 
-    return field_100_health > FP_FromInteger(0) ? 1 : 0;;
+    return field_100_health > FP_FromInteger(0) ? 1 : 0;
 }
 
 static bool IsSameScaleAsHoist(Path_Hoist* pHoist, BaseAliveGameObject* pObj)
@@ -6921,7 +6921,7 @@ void Abe::State_138_ElumUnmountEnd_42E390()
     case 12:
         if (!(field_2AA_flags & 2))
         {
-            field_2AA_flags |= 2;;
+            field_2AA_flags |= 2;
             Environment_SFX_42A220(EnvironmentSfx::eExhaustingElumMount_16, 0, 0x7FFF, this);
         }
         break;
