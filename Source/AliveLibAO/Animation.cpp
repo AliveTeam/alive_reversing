@@ -135,8 +135,8 @@ signed __int16 Animation::Init_402D20(int /*frameTableOffset*/, DynamicArray* /*
 
 __int16 Animation::Get_Frame_Count_403540()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + field_18_frame_table_offset);  // TODO: Make getting offset to animation header cleaner
+    return pHead->field_2_num_frames;
 }
 
 FrameInfoHeader* Animation::Get_FrameHeader_403A00(int /*frame*/)
