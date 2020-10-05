@@ -25,14 +25,34 @@ EXPORT CdlLOC* CC PSX_Pos_To_CdLoc_49B340(int /*pos*/, CdlLOC* /*pLoc*/)
     return nullptr;
 }
 
+EXPORT int CC PSX_CD_File_Seek_49B670(char /*mode*/, CdlLOC* /*pLoc*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT int CC PSX_CD_File_Read_49B8B0(int /*numSectors*/, void* /*pBuffer*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT int CC PSX_CD_FileIOWait_49B900(int)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 ALIVE_VAR(1, 0x507714, int, gFilesPending_507714, 0);
 ALIVE_VAR(1, 0x50768C, short, bLoadingAFile_50768C, 0);
+
+using TLoadCallBack = void(CC*)(void*);
 
 // TODO: Rename to "LoadingFile"
 class ResourceManager_FileRecord_Unknown : public BaseGameObject
 {
 public:
-    EXPORT ResourceManager_FileRecord_Unknown* ctor_41E8A0(int pos, int size, void* pFn, int fnArg, Camera* pArray)
+    EXPORT ResourceManager_FileRecord_Unknown* ctor_41E8A0(int pos, int size, TLoadCallBack pFn, void* fnArg, Camera* pArray)
     {
         ctor_487E10(1);
         
@@ -80,14 +100,100 @@ public:
         }
     }
 
+    virtual void VUpdate() override
+    {
+        VUpdate_41E900();
+    }
+
+    EXPORT void VUpdate_41E900()
+    {
+        switch (field_28_state)
+        {
+        case 0:
+            if (!bLoadingAFile_50768C)
+            {
+                field_20_ppRes = ResourceManager::Allocate_New_Block_454FE0(field_10_size << 11, ResourceManager::eFirstMatching);
+                if (field_20_ppRes)
+                {
+                    ResourceManager::Header* pHeader = ResourceManager::Get_Header_455620(field_20_ppRes);
+                    field_24_readBuffer = pHeader;
+                    pHeader->field_8_type = ResourceManager::Resource_Pend;
+                    ResourceManager::Increment_Pending_Count_4557A0();
+                    bLoadingAFile_50768C = 1;
+                    field_28_state = 1;
+                }
+                else
+                {
+                    ResourceManager::Reclaim_Memory_455660(200000u);
+                }
+            }
+            break;
+
+        case 1:
+            if (PSX_CD_File_Seek_49B670(2, &field_2A_cdLoc))
+            {
+                field_28_state = 2;
+            }
+            break;
+
+        case 2:
+            if (PSX_CD_File_Read_49B8B0(field_10_size, field_24_readBuffer))
+            {
+                field_28_state = 3;
+                const int ioRet = PSX_CD_FileIOWait_49B900(1);
+                if (ioRet <= 0)
+                {
+                    field_28_state = ioRet != -1 ? 4 : 1;
+                }
+                break;
+            }
+            break;
+
+        case 3:
+        {
+            const int ioRet = PSX_CD_FileIOWait_49B900(1);
+            if (ioRet <= 0)
+            {
+                field_28_state = ioRet != -1 ? 4 : 1;
+            }
+            break;
+        }
+
+        case 4:
+            ResourceManager::Move_Resources_To_DArray_455430(
+                field_20_ppRes,
+                &field_1C_pCamera->field_0_array);
+            field_28_state = 5;
+            break;
+
+        case 5:
+            if (field_14_fn)
+            {
+                field_14_fn(field_18_fn_arg);
+            }
+            field_28_state = 6;
+            bLoadingAFile_50768C = 0;
+            break;
+
+        case 6:
+            ResourceManager::Decrement_Pending_Count_4557B0();
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            field_28_state = 7;
+            break;
+
+        default:
+            return;
+        }
+    }
+
     virtual void VScreenChanged() override
     {
         // Stay alive
     }
 
     int field_10_size;
-    void* field_14_fn;
-    int field_18_fn_arg;
+    TLoadCallBack field_14_fn;
+    void* field_18_fn_arg;
     Camera* field_1C_pCamera;
     BYTE** field_20_ppRes;
     void* field_24_readBuffer;
@@ -171,7 +277,6 @@ void CC ResourceManager::Init_454DA0()
     NOT_IMPLEMENTED();
 }
 
-
 EXPORT ResourceManager::ResourceManager_FileRecord* CC ResourceManager::LoadResourceFile_4551E0(const char* /*pFileName*/, TLoaderFn /*fnOnLoad*/, Camera* /*pCamera1*/, Camera* /*pCamera2*/)
 {
     NOT_IMPLEMENTED();
@@ -216,6 +321,12 @@ EXPORT BYTE** CC ResourceManager::Allocate_New_Block_454FE0(DWORD /*sizeBytes*/,
 }
 
 EXPORT __int16 CC ResourceManager::LoadResourceFile_455270(const char* /*filename*/, Camera* /*pCam*/, int /*allocMethod*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT __int16 CC ResourceManager::Move_Resources_To_DArray_455430(BYTE** /*ppRes*/, DynamicArray* /*pArray*/)
 {
     NOT_IMPLEMENTED();
     return 0;

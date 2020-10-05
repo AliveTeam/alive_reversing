@@ -30,6 +30,7 @@ public:
         Resource_Spline = 0x6e6c7053,
         Resource_Wave = 0x65766157,
         Resource_Free = 0x65657246,
+        Resource_Pend = 0x646E6550,
     };
 
     enum ResourceHeaderFlags : __int16
@@ -95,6 +96,8 @@ public:
     };
 
     EXPORT static void CC Init_454DA0();
+
+    static EXPORT __int16 CC Move_Resources_To_DArray_455430(BYTE** ppRes, DynamicArray* pArray);
 
     static BYTE** Alloc_New_Resource_Impl(DWORD type, DWORD id, DWORD size, bool locked, BlockAllocMethod allocType);
 
