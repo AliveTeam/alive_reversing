@@ -9,6 +9,7 @@
 #include "ScreenManager.hpp"
 #include "Game.hpp"
 #include "LvlArchive.hpp"
+#include "Map.hpp"
 
 START_NS_AO
 
@@ -316,9 +317,95 @@ void CC ResourceManager::On_Loaded_446C10(ResourceManager_FileRecord* pLoaded)
     }
 }
 
-void CC ResourceManager::LoadResource_446C90(const char* /*pFileName*/, int /*type*/, int /*resourceId*/, __int16 /*loadMode*/, __int16 /*bDontLoad*/)
+void CC ResourceManager::LoadResource_446C90(const char* pFileName, DWORD type, DWORD resourceId, __int16 loadMode, __int16 bDontLoad)
 {
-    NOT_IMPLEMENTED();
+    if (bDontLoad)
+    {
+        return;
+    }
+
+    BYTE** ppExistingRes = ResourceManager::GetLoadedResource_4554F0(type, resourceId, 1, 0);
+    if (ppExistingRes)
+    {
+         sCameraBeingLoaded_507C98->field_0_array.Push_Back(ppExistingRes);
+         return;
+    }
+
+    if (loadMode == 1)
+    {
+        for (int i=0; i<ObjList_5009E0->Size(); i++)
+        {
+            ResourceManager_FileRecord* pExistingFileRec = ObjList_5009E0->ItemAt(i);
+            if (!pExistingFileRec)
+            {
+                auto pFileRec = ao_new<ResourceManager_FileRecord>();
+                if (pFileRec)
+                {
+                    pFileRec->field_10_file_sections_dArray.ctor_4043E0(10);
+                }
+
+                pFileRec->field_0_fileName = pFileName;
+                pFileRec->field_4_pResourcesToLoadList = nullptr;
+                pFileRec->field_8_type = type;
+                pFileRec->field_C_resourceId = resourceId;
+
+                auto pFilePart = ao_new<ResourceManager_FilePartRecord>();
+                pFilePart->field_0_ResId = type;
+                pFilePart->field_4_bAddUsecount = resourceId;
+                pFilePart->field_8_pCamera = sCameraBeingLoaded_507C98;
+                
+                pFileRec->field_10_file_sections_dArray.Push_Back(pFilePart);
+
+                pFileRec->field_1C_pGameObjFileRec = ResourceManager::LoadResourceFile(
+                    pFileName,
+                    ResourceManager::On_Loaded_446C10,
+                    pFileRec);
+                ObjList_5009E0->Push_Back(pFileRec);
+                return;
+            }
+
+            ResourcesToLoadList* pListToLoad = pExistingFileRec->field_4_pResourcesToLoadList;
+            bool found = false;
+            if (pListToLoad)
+            {
+                if (pListToLoad->field_0_count > 0)
+                {
+                    for (int j = 0; j < pListToLoad->field_0_count; j++)
+                    {
+                        if (type == pListToLoad->field_4_items[j].field_0_type && resourceId == pListToLoad->field_4_items[j].field_4_res_id)
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            else if (type == pExistingFileRec->field_8_type &&
+                resourceId == pExistingFileRec->field_C_resourceId)
+            {
+                found = true;
+            }
+
+            if (found)
+            {
+                auto pFilePart = ao_new<ResourceManager_FilePartRecord>();
+                pFilePart->field_8_pCamera = sCameraBeingLoaded_507C98;
+                pFilePart->field_0_ResId = type;
+                pFilePart->field_4_bAddUsecount = resourceId;
+                pExistingFileRec->field_10_file_sections_dArray.Push_Back(pFilePart);
+                return;
+            }
+        }
+    }
+    else if (loadMode == 2)
+    {
+        ResourceManager::LoadResourceFile_455270(pFileName, nullptr);
+        BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(type, resourceId, 1, 0);
+        if (ppRes)
+        {
+            sCameraBeingLoaded_507C98->field_0_array.Push_Back(ppRes);
+        }
+    }
 }
 
 void CC ResourceManager::LoadResourcesFromList_446E80(const char* /*pFileName*/, ResourcesToLoadList* /*list*/, __int16 /*loadMode*/, __int16)
