@@ -48,6 +48,16 @@ void PolyF4_Init(Poly_F4* pPrim)
     SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyF4);
 }
 
+
+void Prim_Init_MoveImage(Prim_MoveImage* pPrim, PSX_RECT* pRect, int xpos, int ypos)
+{
+    SetUnknown(&pPrim->mPrimHeader);
+    SetCode(&pPrim->mPrimHeader, PrimTypeCodes::eMoveImage);
+    pPrim->yPos = ypos;
+    pPrim->xPos = xpos;
+    pPrim->rect = *pRect;
+}
+
 // Note: Inlined everywhere in real game
 void PolyF3_Init(Poly_F3* pPrim)
 {

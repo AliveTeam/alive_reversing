@@ -45,6 +45,8 @@ public:
 
     EXPORT void PutCurrentDispEnv_40DE40();
 
+    EXPORT void Movie_Render_40DE60(unsigned __int16 bufferIdx);
+
     unsigned __int16 field_0_width;
     unsigned __int16 field_2_height;
     __int16 field_4_bpp;

@@ -4,6 +4,7 @@
 #include "Psx.hpp"
 #include "PsxRender.hpp"
 #include "VRam.hpp"
+#include "Primitives.hpp"
 
 START_NS_AO
 
@@ -171,6 +172,26 @@ void PsxDisplay::PSX_Display_Render_OT_40DD20()
 void PsxDisplay::PutCurrentDispEnv_40DE40()
 {
     PSX_PutDispEnv_495CE0(&field_C_drawEnv[field_A_buffer_index].field_5C_disp_env);
+}
+
+void PsxDisplay::Movie_Render_40DE60(unsigned __int16 bufferIdx)
+{
+    field_A_buffer_index = bufferIdx;
+    PSX_ClearOTag_496760(field_C_drawEnv[0].field_70_ot_buffer, field_8_buffer_size);
+    PSX_ClearOTag_496760(field_C_drawEnv[1].field_70_ot_buffer, field_8_buffer_size);
+
+    PSX_RECT rect = {};
+    rect.w = field_0_width;
+    rect.y = 272;
+    rect.x = 0;
+    rect.h = field_2_height;
+
+    Prim_MoveImage movePrim = {};
+    Prim_Init_MoveImage(&movePrim, &rect, 0, 0);
+    OrderingTable_Add_498A80(field_C_drawEnv[0].field_70_ot_buffer, &movePrim.mPrimHeader);
+    PSX_DrawOTag_4969F0(field_C_drawEnv[0].field_70_ot_buffer);
+    PSX_DrawSync_496750(0);
+    PSX_ClearOTag_496760(field_C_drawEnv[0].field_70_ot_buffer, field_8_buffer_size);
 }
 
 END_NS_AO
