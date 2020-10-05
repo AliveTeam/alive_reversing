@@ -168,5 +168,9 @@ void PsxDisplay::PSX_Display_Render_OT_40DD20()
     }
 }
 
-END_NS_AO
+void PsxDisplay::PutCurrentDispEnv_40DE40()
+{
+    PSX_PutDispEnv_495CE0(&field_C_drawEnv[field_A_buffer_index].field_5C_disp_env);
+}
 
+END_NS_AO
