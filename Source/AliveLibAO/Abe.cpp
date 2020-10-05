@@ -3165,7 +3165,7 @@ __int16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
 
             if (pAliveObj->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
-                field_B4_velx = (field_BC_sprite_scale * FP_FromDouble(7.8));
+                field_B4_velx = (field_BC_sprite_scale * FP_FromDouble(-7.8));
             }
             else
             {
