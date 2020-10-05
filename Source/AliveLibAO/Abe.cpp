@@ -4,6 +4,7 @@
 #include "Blood.hpp"
 #include "BoomMachine.hpp"
 #include "Bullet.hpp"
+#include "CheatController.hpp"
 #include "HoistRocksEffect.hpp"
 #include "Door.hpp"
 #include "ThrowableArray.hpp"
@@ -18,6 +19,7 @@
 #include "DeathFadeOut.hpp"
 #include "Throwable.hpp"
 #include "OrbWhirlWind.hpp"
+#include "Particle.hpp"
 #include "PullRingRope.hpp"
 #include "ScreenManager.hpp"
 #include "ThrowableTotalIndicator.hpp"
@@ -421,13 +423,13 @@ const InputCommands sInputKey_Sneak_4C65AC = eSneak;
 const InputCommands sInputKey_FartRoll_4C65B0 = eFartOrRoll;
 const InputCommands sInputKey_ThrowItem_4C65B4 = eThrowItem;
 
-const InputCommands dword_4C65B8 = eGameSpeak6;
+const InputCommands sInputKey_LeftGameSpeakEnabler_4C65B8 = eGameSpeak6;
 const InputCommands sInputKey_GameSpeak1_4C65C8 = eHop;
 const InputCommands sInputKey_GameSpeak2_4C65BC = eDoAction;
 const InputCommands sInputKey_GameSpeak3_4C65C0 = eThrowItem;
 const InputCommands sInputKey_GameSpeak4_4C65C4 = eFartOrRoll;
 
-const InputCommands dword_4C65DC = eGameSpeak3;
+const InputCommands sInputKey_RightGameSpeakEnabler_4C65DC = eGameSpeak3;
 const InputCommands sInputKey_GameSpeak5_4C65EC = eFartOrRoll;
 const InputCommands sInputKey_GameSpeak6_4C65E8 = eHop;
 const InputCommands sInputKey_GameSpeak7_4C65E4 = eThrowItem;
@@ -2020,7 +2022,83 @@ void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, int fpY, __int16 bStandToCr
 
 void Abe::CrouchingGameSpeak_427F90()
 {
-    NOT_IMPLEMENTED();
+    field_10C_prev_held |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_6_held;
+
+    if (sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed & sInputKey_LeftGameSpeakEnabler_4C65B8)
+    {
+        if (field_10C_prev_held & sInputKey_GameSpeak2_4C65BC)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eFollowMe_10);
+            Mudokon_SFX_42A4D0(MudSounds::eFollowMe_4, 0, 0, this);
+            field_FC_current_motion = eAbeStates::State_22_CrouchSpeak_428A30;
+        }
+        else if (field_10C_prev_held & sInputKey_GameSpeak4_4C65C4)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWait_12);
+            Mudokon_SFX_42A4D0(MudSounds::eWait_6, 0, 0, this);
+            field_FC_current_motion = eAbeStates::State_23_CrouchSpeak_428A90;
+        }
+        else if (field_10C_prev_held & sInputKey_GameSpeak1_4C65C8)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eHello_9);
+            Mudokon_SFX_42A4D0(MudSounds::eHello_3, 0, 0, this);
+            field_FC_current_motion = eAbeStates::State_22_CrouchSpeak_428A30;
+        }
+        else if (field_10C_prev_held & sInputKey_GameSpeak3_4C65C0)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eAnger_11);
+            Mudokon_SFX_42A4D0(MudSounds::eAngry_5, 0, 0, this);
+            field_FC_current_motion = eAbeStates::State_23_CrouchSpeak_428A90;
+        }
+    }
+    else if (sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed & sInputKey_RightGameSpeakEnabler_4C65DC)
+    {
+        if (field_10C_prev_held & sInputKey_GameSpeak6_4C65E8)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistle1_1);
+            Mudokon_SFX_42A4D0(MudSounds::eWhistle1_1, 0, 0, this);
+            field_FC_current_motion = eAbeStates::State_23_CrouchSpeak_428A90;
+        }
+        else if (field_10C_prev_held & sInputKey_GameSpeak5_4C65EC)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistle2_2);
+            Mudokon_SFX_42A4D0(MudSounds::eWhistle2_2, 0, 0, this);
+            field_FC_current_motion = eAbeStates::State_22_CrouchSpeak_428A30;
+        }
+        else if (field_10C_prev_held & sInputKey_GameSpeak8_4C65E0)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eLaugh_4);
+            Mudokon_SFX_42A4D0(MudSounds::eLaugh1_8, 0, 0, this);
+            field_FC_current_motion = eAbeStates::State_23_CrouchSpeak_428A90;
+        }
+        else if (field_10C_prev_held & sInputKey_GameSpeak7_4C65E4)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eFart_3);
+            Mudokon_SFX_42A4D0(MudSounds::eFart_7, 0, 0, this);
+            if (sEnableFartGasCheat_507704)
+            {
+                FP xPos = {};
+                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    xPos = field_A8_xpos + FP_FromDouble(10) * field_BC_sprite_scale;
+                }
+                else
+                {
+                    xPos = field_A8_xpos - FP_FromDouble(10) * field_BC_sprite_scale;
+                }
+                New_Smoke_Particles_419A80(
+                    xPos,
+                    field_AC_ypos - FP_FromDouble(6) * field_BC_sprite_scale,
+                    field_BC_sprite_scale * FP_FromDouble(0.5),
+                    3,
+                    1
+                );
+            }
+            field_130_say = 8;
+            field_FC_current_motion = eAbeStates::State_22_CrouchSpeak_428A30;
+            field_134_auto_say_timer = gnFrameCount_507670 + 15;
+        }
+    }
 }
 
 void Abe::FallOnBombs_4231B0()
@@ -3412,7 +3490,7 @@ void Abe::State_0_Idle_423520()
         }
         return;
     }
-    if (sInputObject_5009E8.isPressed(dword_4C65B8 | dword_4C65DC))
+    if (sInputObject_5009E8.isPressed(sInputKey_LeftGameSpeakEnabler_4C65B8 | sInputKey_RightGameSpeakEnabler_4C65DC))
     {
         const auto held = sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_6_held;
         if (held & 0xF0)
@@ -3428,7 +3506,7 @@ void Abe::State_0_Idle_423520()
         {
             TryHoist_423420();
         }
-        else if (!sInputObject_5009E8.isPressed(dword_4C65B8 | dword_4C65DC))
+        else if (!sInputObject_5009E8.isPressed(sInputKey_LeftGameSpeakEnabler_4C65B8 | sInputKey_RightGameSpeakEnabler_4C65DC))
         {
             field_FC_current_motion = eAbeStates::State_29_HopBegin_4267B0;
             auto pObj = IntoBirdPortal_402350(2);
@@ -6429,7 +6507,7 @@ void Abe::State_102_ElumWalkLoop_42DCA0()
 
 void Abe::State_103_ElumIdle_42DCD0()
 {
-    if (!sInputObject_5009E8.isPressed(dword_4C65B8 | dword_4C65DC) || !sInputObject_5009E8.isHeld(0xF0))
+    if (!sInputObject_5009E8.isPressed(sInputKey_LeftGameSpeakEnabler_4C65B8 | sInputKey_RightGameSpeakEnabler_4C65DC) || !sInputObject_5009E8.isHeld(0xF0))
     {
         if (sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_6_held == sInputKey_Down_4C659C &&
             !sDDCheat_FlyingEnabled_50771C)
@@ -6444,50 +6522,50 @@ void Abe::State_103_ElumIdle_42DCD0()
     else
     {
         field_FC_current_motion = eAbeStates::State_115_ElumSpeak_4299F0;
-        if (sInputObject_5009E8.isPressed(dword_4C65B8))
+        if (sInputObject_5009E8.isPressed(sInputKey_LeftGameSpeakEnabler_4C65B8))
         {
             if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak2_4C65BC))
             {
-                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_10);
+                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eFollowMe_10);
                 Mudokon_SFX_42A4D0(MudSounds::eFollowMe_4, 0, 0, this);
             }
             else if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak4_4C65C4))
             {
-                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_12);
+                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWait_12);
                 Mudokon_SFX_42A4D0(MudSounds::eWait_6, 0, 0, this);
             }
             else if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak1_4C65C8))
             {
-                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_9);
+                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eHello_9);
                 Mudokon_SFX_42A4D0(MudSounds::eHello_3, 0, 0, this);
             }
             else if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak3_4C65C0))
             {
-                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_11);
+                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eAnger_11);
                 Mudokon_SFX_42A4D0(MudSounds::eAngry_5, 0, 0, this);
             }
         }
 
-        if (dword_4C65DC & sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed)
+        if (sInputKey_RightGameSpeakEnabler_4C65DC & sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed)
         {
             if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak6_4C65E8))
             {
-                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_1);
+                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistle1_1);
                 Mudokon_SFX_42A4D0(MudSounds::eWhistle1_1, 0, 0, this);
             }
             else if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak5_4C65EC))
             {
-                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_2);
+                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistle2_2);
                 Mudokon_SFX_42A4D0(MudSounds::eWhistle2_2, 0, 0, this);
             }
             else if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak8_4C65E0))
             {
-                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_4);
+                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eLaugh_4);
                 Mudokon_SFX_42A4D0(MudSounds::eLaugh1_8, 0, 0, this);
             }
             else if (sInputObject_5009E8.isHeld(sInputKey_GameSpeak7_4C65E4))
             {
-                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_3);
+                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eFart_3);
                 Mudokon_SFX_42A4D0(MudSounds::eFart_7, 0, 0, this);
             }
         }

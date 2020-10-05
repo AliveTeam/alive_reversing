@@ -797,7 +797,7 @@ __int16 Elum::ToNextStateAbeControlled_411E40()
     }
     else
     {
-        if (sInputObject_5009E8.isPressed(dword_4C65B8 | dword_4C65DC)
+        if (sInputObject_5009E8.isPressed(sInputKey_LeftGameSpeakEnabler_4C65B8 | sInputKey_RightGameSpeakEnabler_4C65DC)
             || !(sInputObject_5009E8.isPressed(sInputKey_Hop_4C65A0)))
         {
             return 0;
@@ -1164,7 +1164,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
             return 16;
         }
 
-        if (last_event_v1 == GameSpeakEvents::eUnknown_10)
+        if (last_event_v1 == GameSpeakEvents::eFollowMe_10)
         {
             if (gMap_507BA8.field_0_current_level == field_B2_lvl_number
                 && gMap_507BA8.field_2_current_path == field_B0_path_number)
@@ -1180,7 +1180,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
             }
         }
 
-        if (last_event_v1 == GameSpeakEvents::eUnknown_9
+        if (last_event_v1 == GameSpeakEvents::eHello_9
             && gMap_507BA8.field_0_current_level == field_B2_lvl_number
             && gMap_507BA8.field_2_current_path == field_B0_path_number)
         {
@@ -1191,7 +1191,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
             }
         }
 
-        if (last_event_v1 == GameSpeakEvents::eUnknown_3
+        if (last_event_v1 == GameSpeakEvents::eFart_3
             && gMap_507BA8.field_0_current_level == field_B2_lvl_number
             && gMap_507BA8.field_2_current_path == field_B0_path_number)
         {
@@ -1202,7 +1202,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
             }
         }
 
-        if (last_event_v1 == GameSpeakEvents::eUnknown_12
+        if (last_event_v1 == GameSpeakEvents::eWait_12
             && gMap_507BA8.field_0_current_level == field_B2_lvl_number
             && gMap_507BA8.field_2_current_path == field_B0_path_number
             && Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
@@ -1301,7 +1301,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
             return 16;
         }
 
-        if (last_event_v2 == GameSpeakEvents::eUnknown_10 && gMap_507BA8.field_0_current_level == field_B2_lvl_number && gMap_507BA8.field_2_current_path == field_B0_path_number)
+        if (last_event_v2 == GameSpeakEvents::eFollowMe_10 && gMap_507BA8.field_0_current_level == field_B2_lvl_number && gMap_507BA8.field_2_current_path == field_B0_path_number)
         {
             if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
             {
@@ -1316,7 +1316,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
             }
         }
 
-        if (last_event_v2 == GameSpeakEvents::eUnknown_12
+        if (last_event_v2 == GameSpeakEvents::eWait_12
             && gMap_507BA8.field_0_current_level == field_B2_lvl_number
             && gMap_507BA8.field_2_current_path == field_B0_path_number)
         {
@@ -1328,7 +1328,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
             }
         }
 
-        if (last_event_v2 == GameSpeakEvents::eUnknown_9
+        if (last_event_v2 == GameSpeakEvents::eHello_9
             && gMap_507BA8.field_0_current_level == field_B2_lvl_number
             && gMap_507BA8.field_2_current_path == field_B0_path_number)
         {
@@ -1339,7 +1339,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
             }
         }
 
-        if (last_event_v2 == GameSpeakEvents::eUnknown_3
+        if (last_event_v2 == GameSpeakEvents::eFart_3
             && gMap_507BA8.field_0_current_level == field_B2_lvl_number
             && gMap_507BA8.field_2_current_path == field_B0_path_number
             && Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
@@ -1439,7 +1439,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
 
     case 14:
     {
-        if (last_event_v2 == GameSpeakEvents::eUnknown_12)
+        if (last_event_v2 == GameSpeakEvents::eWait_12)
         {
             field_122 = 1;
             field_FE_next_state = eElumStates::State_1_Idle_412990;

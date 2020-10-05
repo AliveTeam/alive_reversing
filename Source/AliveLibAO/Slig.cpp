@@ -1314,7 +1314,7 @@ __int16 Slig::GetNextMotionIncGameSpeak_467700(unsigned __int16 input)
         return eSligStates::State_37_Depossessing_4684D0;
     }
 
-    if (sInputObject_5009E8.isPressed(dword_4C65B8))
+    if (sInputObject_5009E8.isPressed(sInputKey_LeftGameSpeakEnabler_4C65B8))
     {
         if (input & sInputKey_GameSpeak2_4C65BC)
         {
@@ -1344,7 +1344,7 @@ __int16 Slig::GetNextMotionIncGameSpeak_467700(unsigned __int16 input)
         }
         return -1;
     }
-    else if (sInputObject_5009E8.isPressed(dword_4C65DC))
+    else if (sInputObject_5009E8.isPressed(sInputKey_RightGameSpeakEnabler_4C65DC))
     {
         if (input & sInputKey_GameSpeak8_4C65E0)
         {
@@ -1573,8 +1573,8 @@ void Slig::GameSpeakResponse_46ED60()
 
     switch (speak)
     {
-    case GameSpeakEvents::eUnknown_1:
-    case GameSpeakEvents::eUnknown_2:
+    case GameSpeakEvents::eWhistle1_1:
+    case GameSpeakEvents::eWhistle2_2:
         if (!(Math_NextRandom() & 4))
         {
            field_258_next_gamespeak_motion = eSligStates::State_26_SpeakBullshit1_467F90;
@@ -1585,8 +1585,8 @@ void Slig::GameSpeakResponse_46ED60()
         }
         break;
 
-    case GameSpeakEvents::eUnknown_3:
-    case GameSpeakEvents::eUnknown_4:
+    case GameSpeakEvents::eFart_3:
+    case GameSpeakEvents::eLaugh_4:
     case GameSpeakEvents::eUnknown_8:
     case GameSpeakEvents::eUnknown_14:
     case GameSpeakEvents::eUnknown_15:
@@ -1614,13 +1614,13 @@ void Slig::GameSpeakResponse_46ED60()
         field_258_next_gamespeak_motion = eSligStates::State_28_SpeakBullshit2_468110;
         break;
 
-    case GameSpeakEvents::eUnknown_9:
+    case GameSpeakEvents::eHello_9:
     case GameSpeakEvents::eUnknown_23:
         field_258_next_gamespeak_motion = eSligStates::State_22_SpeakHi_467C90;
         break;
 
-    case GameSpeakEvents::eUnknown_10:
-    case GameSpeakEvents::eUnknown_12:
+    case GameSpeakEvents::eFollowMe_10:
+    case GameSpeakEvents::eWait_12:
         if (Math_NextRandom() & 8)
         {
             field_258_next_gamespeak_motion = eSligStates::State_26_SpeakBullshit1_467F90;
@@ -1631,7 +1631,7 @@ void Slig::GameSpeakResponse_46ED60()
         }
         break;
 
-    case GameSpeakEvents::eUnknown_11:
+    case GameSpeakEvents::eAnger_11:
     case GameSpeakEvents::eUnknown_13:
     case GameSpeakEvents::eUnknown_16:
     case GameSpeakEvents::eUnknown_17:
