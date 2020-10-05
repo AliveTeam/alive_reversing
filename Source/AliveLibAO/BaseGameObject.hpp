@@ -48,6 +48,7 @@ enum class Types : __int16
     eFootSwitch36 = 36,
     eGameEnderController_37 = 37,
     eDeathBird_38 = 38,
+    eLoadingFile_39 = 39,
 
     eGrenade_40 = 40,
     eGrenadeMachine_41 = 41,

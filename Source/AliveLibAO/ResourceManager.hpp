@@ -14,30 +14,6 @@ EXPORT void CC Game_ShowLoadingIcon_445EB0();
 class ResourceManager
 {
 public:
-    struct ResourcesToLoadList_Entry
-    {
-        DWORD field_0_type;
-        DWORD field_4_res_id;
-    };
-    ALIVE_ASSERT_SIZEOF(ResourcesToLoadList_Entry, 0x8);
-
-    EXPORT static void CC Init_454DA0();
-
-    enum ResourceHeaderFlags : __int16
-    {
-        eLocked = 0x1,
-        eOnlyAHeader = 0x2,
-        eNeverFree = 0x4
-    };
-
-    // TODO: Replace/combine with CompileTimeResourceList when everything is decompiled
-    struct ResourcesToLoadList
-    {
-        int field_0_count;
-        ResourcesToLoadList_Entry field_4_items[1];
-    };
-    ALIVE_ASSERT_SIZEOF(ResourcesToLoadList, 12);
-
     enum ResourceType : DWORD
     {
         Resource_Animation = 0x6D696E41,
@@ -53,6 +29,15 @@ public:
         Resource_HintFly = 0x796C4648,
         Resource_Spline = 0x6e6c7053,
         Resource_Wave = 0x65766157,
+        Resource_Free = 0x65657246,
+        Resource_Pend = 0x646E6550,
+    };
+
+    enum ResourceHeaderFlags : __int16
+    {
+        eLocked = 0x1,
+        eOnlyAHeader = 0x2,
+        eNeverFree = 0x4
     };
 
     struct Header
@@ -64,6 +49,23 @@ public:
         DWORD field_C_id;
     };
     ALIVE_ASSERT_SIZEOF(Header, 0x10);
+
+    struct ResourcesToLoadList_Entry
+    {
+        DWORD field_0_type;
+        DWORD field_4_res_id;
+    };
+    ALIVE_ASSERT_SIZEOF(ResourcesToLoadList_Entry, 0x8);
+
+    // TODO: Replace/combine with CompileTimeResourceList when everything is decompiled
+    struct ResourcesToLoadList
+    {
+        int field_0_count;
+        ResourcesToLoadList_Entry field_4_items[1];
+    };
+    ALIVE_ASSERT_SIZEOF(ResourcesToLoadList, 12);
+
+    using TLoaderFn = std::add_pointer<void CC(Camera*)>::type;
 
     class ResourceManager_FileRecord : public BaseGameObject
     {
@@ -79,9 +81,39 @@ public:
     };
     ALIVE_ASSERT_SIZEOF(ResourceManager_FileRecord, 0x30);
 
-    using TLoaderFn = std::add_pointer<void CC(Camera*)>::type;
+    struct ResourceHeapItem
+    {
+        BYTE* field_0_ptr;
+        ResourceHeapItem* field_4_pNext;
+    };
+    ALIVE_ASSERT_SIZEOF(ResourceHeapItem, 0x8);
 
-    static EXPORT void CC CancelPendingResourcesFor_41EA60(BaseGameObject* pObj);
+    enum BlockAllocMethod : int
+    {
+        eFirstMatching = 0,
+        eNearestMatching = 1,
+        eLastMatching = 2
+    };
+
+    EXPORT static void CC Init_454DA0();
+
+    static EXPORT __int16 CC Move_Resources_To_DArray_455430(BYTE** ppRes, DynamicArray* pArray);
+
+    static BYTE** Alloc_New_Resource_Impl(DWORD type, DWORD id, DWORD size, bool locked, BlockAllocMethod allocType);
+
+    static EXPORT BYTE** CC Alloc_New_Resource_454F20(DWORD type, DWORD id, DWORD size);
+
+    static EXPORT BYTE** CC Allocate_New_Block_454FE0(DWORD sizeBytes, BlockAllocMethod allocMethod);
+
+    static EXPORT __int16 CC FreeResource_Impl_4555B0(BYTE* handle);
+
+    static EXPORT void CC Increment_Pending_Count_4557A0();
+
+    static EXPORT void CC Decrement_Pending_Count_4557B0();
+
+    static EXPORT int CC Is_Resources_Pending_4557C0();
+
+    static EXPORT void CC WaitForPendingResources_41EA60(BaseGameObject* pObj);
 
     static EXPORT void CC Reclaim_Memory_455660(DWORD sizeToReclaim);
 
@@ -89,13 +121,13 @@ public:
 
     static EXPORT void CC LoadResource_446C90(const char* pFileName, int type, int resourceId, __int16 loadMode, __int16 bDontLoad = FALSE);
 
-    static EXPORT BYTE** CC GetLoadedResource_4554F0(int type, int resourceId, __int16 addUseCount, __int16 bLock);
+    static EXPORT BYTE** CC GetLoadedResource_4554F0(DWORD type, DWORD resourceId, __int16 addUseCount, __int16 bLock);
 
     static EXPORT void CC LoadingLoop_41EAD0(__int16 bShowLoadingIcon);
 
     static EXPORT __int16 CC LoadResourceFile_455270(const char* filename, Camera* pCam, int allocMethod);
 
-    static EXPORT BYTE** CC Allocate_New_Locked_Resource_454F80(int type, int id, int size);
+    static EXPORT BYTE** CC Allocate_New_Locked_Resource_454F80(DWORD type, DWORD id, DWORD size);
 
     static EXPORT void CC Set_Header_Flags_4557D0(BYTE** ppRes, __int16 flags);
 
@@ -108,7 +140,7 @@ public:
 
     static EXPORT ResourceManager_FileRecord* CC LoadResourceFile_4551E0(const char* pFileName, TLoaderFn fnOnLoad, Camera* pCamera1, Camera* pCamera2);
 
-    static EXPORT void CC Free_Resource_Of_Type_455810(int type);
+    static EXPORT void CC Free_Resource_Of_Type_455810(DWORD type);
 
     static EXPORT void CC Free_Resources_For_Camera_447170(Camera* pCamera);
 
@@ -119,6 +151,8 @@ public:
 
 ALIVE_VAR_EXTERN(short, bHideLoadingIcon_5076A0);
 ALIVE_VAR_EXTERN(int, loading_ticks_5076A4);
+ALIVE_VAR_EXTERN(int, gFilesPending_507714);
+ALIVE_VAR_EXTERN(short, bLoadingAFile_50768C);
 
 enum ResourceID
 {

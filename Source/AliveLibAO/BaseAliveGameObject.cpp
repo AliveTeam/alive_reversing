@@ -114,7 +114,7 @@ BaseGameObject* BaseAliveGameObject::dtor_401000()
 
     if (field_104_pending_resource_count)
     {
-        ResourceManager::CancelPendingResourcesFor_41EA60(this);
+        ResourceManager::WaitForPendingResources_41EA60(this);
     }
 
     return dtor_417D10();

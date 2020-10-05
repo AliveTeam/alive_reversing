@@ -89,7 +89,7 @@ BaseGameObject* BellHammer::dtor_405220()
 
     if (field_EC_pending_resource_count)
     {
-        ResourceManager::CancelPendingResourcesFor_41EA60(this);
+        ResourceManager::WaitForPendingResources_41EA60(this);
     }
 
     BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 216, 1, 0);
