@@ -130,9 +130,9 @@ void CC ResourceManager::Reclaim_Memory_455660(DWORD /*sizeToReclaim*/)
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC ResourceManager::Set_Header_Flags_4557D0(BYTE** /*ppRes*/, __int16 /*flags*/)
+EXPORT void CC ResourceManager::Set_Header_Flags_4557D0(BYTE** ppRes, __int16 flags)
 {
-    NOT_IMPLEMENTED();
+    Get_Header_455620(ppRes)->field_6_flags |= flags;
 }
 
 EXPORT void CC ResourceManager::Free_Resource_Of_Type_455810(DWORD type)
