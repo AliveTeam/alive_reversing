@@ -97,6 +97,7 @@ enum class Types : __int16
     eFlash_81 = 81,
     ScreenShake_82 = 82,
     eScreenWave_83 = 83,
+    eUnknown_84 = 84,
     eShrykull_85 = 85,
 
     eSnoozParticle_87 = 87,
