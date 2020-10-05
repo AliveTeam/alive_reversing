@@ -152,3 +152,9 @@ void Init_Tile(Prim_Tile* pPrim)
     SetUnknown(&pPrim->mBase.header);
     SetCode(&pPrim->mBase.header, PrimTypeCodes::eTile);
 }
+
+int PSX_Prim_Code_Without_Blending_Or_SemiTransparency(int code)
+{
+    // Last 2 bits are for blending and semi transparency enable
+    return code & 0xFC;
+}
