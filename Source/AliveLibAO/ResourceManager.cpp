@@ -72,6 +72,19 @@ public:
         return dtor_487DF0();
     }
 
+    EXPORT void DestroyOnState0_41EA50()
+    {
+        if (field_28_state == 0)
+        {
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        }
+    }
+
+    virtual void VScreenChanged() override
+    {
+        // Stay alive
+    }
+
     int field_10_size;
     void* field_14_fn;
     int field_18_fn_arg;
