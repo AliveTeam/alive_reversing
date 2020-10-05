@@ -25,6 +25,14 @@ ALIVE_VAR(1, 0xAB4A0C, short, sAllocationFailed_AB4A0C, 0);
 ALIVE_VAR(1, 0x5D29EC, ResourceManager::ResourceHeapItem*, sFirstLinkedListItem_5D29EC, nullptr);
 ALIVE_VAR(1, 0x5D29E8, ResourceManager::ResourceHeapItem*, sSecondLinkedListItem_5D29E8, nullptr);
 
+const DWORD kResHeapSize = 5120000;
+ALIVE_ARY(1, 0x5D29F4, BYTE, kResHeapSize, sResourceHeap_5D29F4, {}); // Huge 5.4 MB static resource buffer
+
+const DWORD kLinkedListArraySize = 375;
+ALIVE_ARY(1, 0x5D1E30, ResourceManager::ResourceHeapItem, kLinkedListArraySize, sResourceLinkedList_5D1E30, {});
+
+ALIVE_VAR(1, 0xAB49F8, BYTE*, spResourceHeapEnd_AB49F8, nullptr);
+
 // TODO: Move to own file
 EXPORT void CCSTD sub_465BC0(int /*a1*/)
 {
@@ -660,14 +668,6 @@ ResourceManager::ResourceManager()
 {
 
 }
-
-const DWORD kResHeapSize = 5120000;
-ALIVE_ARY(1, 0x5D29F4, BYTE, kResHeapSize, sResourceHeap_5D29F4, {}); // Huge 5.4 MB static resource buffer
-
-const DWORD kLinkedListArraySize = 375;
-ALIVE_ARY(1, 0x5D1E30, ResourceManager::ResourceHeapItem, kLinkedListArraySize, sResourceLinkedList_5D1E30, {});
-
-ALIVE_VAR(1, 0xAB49F8, BYTE*, spResourceHeapEnd_AB49F8, nullptr);
 
 void CC ResourceManager::Init_49BCE0()
 {

@@ -8,8 +8,11 @@
 #include "PsxRender.hpp"
 #include "ScreenManager.hpp"
 #include "Game.hpp"
+#include "LvlArchive.hpp"
 
 START_NS_AO
+
+ALIVE_VAR(1, 0x5009E0, DynamicArrayT<ResourceManager::ResourceManager_FileRecord>*, ObjList_5009E0, nullptr);
 
 ALIVE_VAR(1, 0x9F0E48, DWORD, sManagedMemoryUsedSize_9F0E48, 0);
 
@@ -18,6 +21,16 @@ ALIVE_VAR(1, 0x5076A4, int, loading_ticks_5076A4, 0);
 ALIVE_VAR(1, 0x9F0E38, short, sResources_Pending_Loading_9F0E38, 0);
 
 ALIVE_VAR(1, 0x50EE2C, ResourceManager::ResourceHeapItem*, sFirstLinkedListItem_50EE2C, nullptr);
+ALIVE_VAR(1, 0x50EE28, ResourceManager::ResourceHeapItem*, sSecondLinkedListItem_50EE28, nullptr);
+
+const DWORD kResHeapSize = 5120000;
+ALIVE_ARY(1, 0x50EE38, BYTE, kResHeapSize, sResourceHeap_50EE38, {}); // Huge 5.4 MB static resource buffer
+
+const DWORD kLinkedListArraySize = 375;
+ALIVE_ARY(1, 0x50E270, ResourceManager::ResourceHeapItem, kLinkedListArraySize, sResourceLinkedList_50E270, {});
+
+ALIVE_VAR(1, 0x50EE30, BYTE*, spResourceHeapStart_50EE30, nullptr);
+ALIVE_VAR(1, 0x9F0E3C, BYTE*, spResourceHeapEnd_9F0E3C, nullptr);
 
 // TODO :Move to psx file
 EXPORT CdlLOC* CC PSX_Pos_To_CdLoc_49B340(int /*pos*/, CdlLOC* /*pLoc*/)
@@ -52,13 +65,11 @@ EXPORT void CC Odd_Sleep_48DD90(DWORD /*dwMilliseconds*/)
 ALIVE_VAR(1, 0x507714, int, gFilesPending_507714, 0);
 ALIVE_VAR(1, 0x50768C, short, bLoadingAFile_50768C, 0);
 
-using TLoadCallBack = void(CC*)(void*);
-
 // TODO: Rename to "LoadingFile"
 class ResourceManager_FileRecord_Unknown : public BaseGameObject
 {
 public:
-    EXPORT ResourceManager_FileRecord_Unknown* ctor_41E8A0(int pos, int size, TLoadCallBack pFn, void* fnArg, Camera* pArray)
+    EXPORT ResourceManager_FileRecord_Unknown* ctor_41E8A0(int pos, int size, TLoaderFn pFn, void* fnArg, Camera* pArray)
     {
         ctor_487E10(1);
         
@@ -214,7 +225,7 @@ public:
     }
 
     int field_10_size;
-    TLoadCallBack field_14_fn;
+    TLoaderFn field_14_fn;
     void* field_18_fn_arg;
     Camera* field_1C_pCamera;
     BYTE** field_20_ppRes;
@@ -266,6 +277,42 @@ void CC Game_ShowLoadingIcon_445EB0()
         PSX_PutDispEnv_495CE0(&dispEnv);
         pParticle->field_6_flags.Set(BaseGameObject::eDead_Bit3);
         bHideLoadingIcon_5076A0 = TRUE;
+    }
+}
+
+
+void CC ResourceManager::On_Loaded_446C10(ResourceManager_FileRecord* pLoaded)
+{
+    for (int i=0; i< pLoaded->field_10_file_sections_dArray.Size(); i++)
+    {
+        ResourceManager_FilePartRecord* pFilePart = pLoaded->field_10_file_sections_dArray.ItemAt(i);
+        if (!pFilePart)
+        {
+            break;
+        }
+
+        BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(
+            pFilePart->field_0_ResId,
+            pFilePart->field_4_bAddUsecount,
+            1,
+            0);
+
+        if (ppRes)
+        {
+            pFilePart->field_8_pCamera->field_0_array.Push_Back(ppRes);
+        }
+
+        ao_delete_free_447540(pFilePart);
+    }
+
+    // pLoaded is done with now, remove it
+    ObjList_5009E0->Remove_Item(pLoaded);
+
+    if (pLoaded)
+    {
+        // And destruct/free it
+        pLoaded->dtor_447510();
+        ao_delete_free_447540(pLoaded);
     }
 }
 
@@ -353,20 +400,135 @@ EXPORT void CC ResourceManager::LoadingLoop_41EAD0(__int16 bShowLoadingIcon)
     }
 }
 
-EXPORT void CC ResourceManager::Free_Resources_For_Camera_447170(Camera* /*pCamera*/)
+void CC ResourceManager::Free_Resources_For_Camera_447170(Camera* pCamera)
 {
-    NOT_IMPLEMENTED();
+    for (int i = 0; i < ObjList_5009E0->Size(); i++)
+    {
+        ResourceManager_FileRecord* pObjIter = ObjList_5009E0->ItemAt(i);
+        if (!pObjIter)
+        {
+            break;
+        }
+
+        if (pObjIter->field_1C_pGameObjFileRec->field_28_state == 0)
+        {
+            // Remove/free file parts that belong to the cameraa
+            auto pFileSecsArray = &pObjIter->field_10_file_sections_dArray;
+            for (int j = 0; j < pFileSecsArray->Size(); j++)
+            {
+                ResourceManager_FilePartRecord* pFilePartRecord = pFileSecsArray->ItemAt(j);
+                if (!pFilePartRecord)
+                {
+                    break;
+                }
+
+                if (pFilePartRecord->field_8_pCamera == pCamera)
+                {
+                    j = pFileSecsArray->RemoveAt(j);
+                }
+
+                ao_delete_free_447540(pFilePartRecord);
+            }
+
+            // Free the containing record if its section array is now empty
+            if (pObjIter->field_10_file_sections_dArray.Empty())
+            {
+                if (pObjIter->field_1C_pGameObjFileRec)
+                {
+                    pObjIter->field_1C_pGameObjFileRec->DestroyOnState0_41EA50();
+                }
+
+                i = ObjList_5009E0->RemoveAt(i);
+                pObjIter->dtor_447510();
+                ao_delete_free_447540(pObjIter);
+            }
+        }
+    }
+}
+
+int CC ResourceManager::SEQ_HashName_454EA0(const char* seqFileName)
+{
+    // Clamp max len
+    size_t seqFileNameLength = strlen(seqFileName) - 1;
+    if (seqFileNameLength > 8)
+    {
+        seqFileNameLength = 8;
+    }
+
+    // Iterate each char to calculate hash
+    DWORD hashId = 0;
+    for (size_t index = 0; index < seqFileNameLength; index++)
+    {
+        char letter = seqFileName[index];
+        if (letter == '.')
+        {
+            break;
+        }
+
+        const DWORD temp = 10 * hashId;
+        if (letter < '0' || letter > '9')
+        {
+            if (letter >= 'a')
+            {
+                if (letter <= 'z')
+                {
+                    letter -= ' ';
+                }
+            }
+            hashId = letter % 10 + temp;
+        }
+        else
+        {
+            hashId = index || letter != '0' ? temp + letter - '0' : temp + 9;
+        }
+    }
+    return hashId;
 }
 
 void CC ResourceManager::Init_454DA0()
 {
-    NOT_IMPLEMENTED();
+    for (int i = 1; i < kLinkedListArraySize - 1; i++)
+    {
+        sResourceLinkedList_50E270[i].field_0_ptr = nullptr;
+        sResourceLinkedList_50E270[i].field_4_pNext = &sResourceLinkedList_50E270[i + 1];
+    }
+
+    sResourceLinkedList_50E270[kLinkedListArraySize - 1].field_4_pNext = nullptr;
+
+    sResourceLinkedList_50E270[0].field_0_ptr =  &sResourceHeap_50EE38[sizeof(Header)];
+    sResourceLinkedList_50E270[0].field_4_pNext = nullptr;
+    
+    Header* pHeader = Get_Header_455620(&sResourceLinkedList_50E270[0].field_0_ptr);
+    pHeader->field_0_size = kResHeapSize;
+    pHeader->field_8_type = Resource_Free;
+
+    sFirstLinkedListItem_50EE2C = &sResourceLinkedList_50E270[0];
+    sSecondLinkedListItem_50EE28 = &sResourceLinkedList_50E270[1];
+
+    spResourceHeapStart_50EE30 = &sResourceHeap_50EE38[0];
+    spResourceHeapEnd_9F0E3C =  &sResourceHeap_50EE38[kResHeapSize - 1];
 }
 
-EXPORT ResourceManager::ResourceManager_FileRecord* CC ResourceManager::LoadResourceFile_4551E0(const char* /*pFileName*/, TLoaderFn /*fnOnLoad*/, Camera* /*pCamera1*/, Camera* /*pCamera2*/)
+ResourceManager_FileRecord_Unknown* CC ResourceManager::LoadResourceFile_4551E0(const char* pFileName, TLoaderFn fnOnLoad, Camera* pCamera1, Camera* pCamera2)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    LvlFileRecord* pFileRec = sLvlArchive_4FFD60.Find_File_Record_41BED0(pFileName);
+    if (!pFileRec)
+    {
+        return nullptr;
+    }
+
+    auto pLoadingFile = ao_new<ResourceManager_FileRecord_Unknown>();
+    if (pLoadingFile)
+    {
+        pLoadingFile->ctor_41E8A0(
+            sLvlArchive_4FFD60.field_4_cd_pos + pFileRec->field_C_start_sector,
+            pFileRec->field_10_num_sectors,
+            fnOnLoad,
+            pCamera1,
+            pCamera2);
+    }
+
+    return pLoadingFile;
 }
 
 BYTE** ResourceManager::Alloc_New_Resource_Impl(DWORD type, DWORD id, DWORD size, bool locked, BlockAllocMethod allocType)
@@ -406,13 +568,48 @@ EXPORT BYTE** CC ResourceManager::Allocate_New_Block_454FE0(DWORD /*sizeBytes*/,
     return nullptr;
 }
 
-EXPORT __int16 CC ResourceManager::LoadResourceFile_455270(const char* /*filename*/, Camera* /*pCam*/, int /*allocMethod*/)
+EXPORT __int16 CC ResourceManager::LoadResourceFile_455270(const char* filename, Camera* pCam, BlockAllocMethod allocMethod)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    // Note: None gPcOpenEnabled_508BF0 block not impl as never used
+
+    ResourceManager::LoadingLoop_41EAD0(0);
+
+    LvlFileRecord* pFileRec = sLvlArchive_4FFD60.Find_File_Record_41BED0(filename);
+    if (!pFileRec)
+    {
+        return 0;
+    }
+    
+    const int size = pFileRec->field_10_num_sectors << 11;
+    BYTE** ppRes = ResourceManager::Allocate_New_Block_454FE0(size, allocMethod);
+    if (!ppRes)
+    {
+        ResourceManager::Reclaim_Memory_455660(0);
+        ppRes = ResourceManager::Allocate_New_Block_454FE0(size, allocMethod);
+        if (!ppRes)
+        {
+            return 0;
+        }
+    }
+
+    // NOTE: Not sure why this is done twice, perhaps the above memory compact can invalidate the ptr?
+    pFileRec = sLvlArchive_4FFD60.Find_File_Record_41BED0(filename);
+    if (!pFileRec)
+    {
+        return 0;
+    }
+
+    if (!sLvlArchive_4FFD60.Read_File_41BE40(pFileRec, Get_Header_455620(ppRes)))
+    {
+        FreeResource_455550(ppRes);
+        return 0;
+    }
+
+    ResourceManager::Move_Resources_To_DArray_455430(ppRes, &pCam->field_0_array);
+    return 1;
 }
 
-EXPORT __int16 CC ResourceManager::Move_Resources_To_DArray_455430(BYTE** /*ppRes*/, DynamicArray* /*pArray*/)
+EXPORT __int16 CC ResourceManager::Move_Resources_To_DArray_455430(BYTE** /*ppRes*/, DynamicArrayT<BYTE*>* /*pArray*/)
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -497,6 +694,12 @@ void CC ResourceManager::Decrement_Pending_Count_4557B0()
 void CC ResourceManager::Set_Header_Flags_4557D0(BYTE** ppRes, __int16 flags)
 {
     Get_Header_455620(ppRes)->field_6_flags |= flags;
+}
+
+
+void CC ResourceManager::Clear_Header_Flags_4557F0(BYTE** ppRes, __int16 flags)
+{
+    Get_Header_455620(ppRes)->field_6_flags &= ~flags;
 }
 
 int CC ResourceManager::Is_Resources_Pending_4557C0()

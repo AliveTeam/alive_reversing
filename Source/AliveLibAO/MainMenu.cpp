@@ -358,9 +358,9 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, int tlvInfo)
     }
     else
     {
-        ResourceManager::LoadResourceFile_455270("ABEINTRO.BAN", 0, 0);
+        ResourceManager::LoadResourceFile_455270("ABEINTRO.BAN", nullptr);
         field_E4_res_array[2] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 131, 1, 0);
-        ResourceManager::LoadResourceFile_455270("DOOR.BAN", 0, 0);
+        ResourceManager::LoadResourceFile_455270("DOOR.BAN", nullptr);
         field_E4_res_array[3] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 8001, 1, 0);
         Animation_Init_417FD0(41420, 134, 90, field_E4_res_array[3], 1);
     }
