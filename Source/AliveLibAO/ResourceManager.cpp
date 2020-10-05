@@ -703,32 +703,28 @@ EXPORT __int16 CC ResourceManager::LoadResourceFile_455270(const char* filename,
     return 1;
 }
 
-EXPORT __int16 CC ResourceManager::Move_Resources_To_DArray_455430(BYTE** ppRes, DynamicArrayT<BYTE*>* pArray)
+__int16 CC ResourceManager::Move_Resources_To_DArray_455430(BYTE** ppRes, DynamicArrayT<BYTE*>* pArray)
 {
-    NOT_IMPLEMENTED();
-
     auto pItemToAdd = (ResourceHeapItem*)ppRes;
-    auto pHeader = Get_Header_455620(ppRes);
-    auto type = pHeader->field_8_type;
-    if (type != Resource_End)
+    Header* pHeader = Get_Header_455620(ppRes);
+    if (pHeader->field_8_type != Resource_End)
     {
-        auto pItem = sSecondLinkedListItem_50EE28;
-        while (type != Resource_Pend
+        while (pHeader->field_8_type != Resource_Pend
             && pHeader->field_0_size
             && !(pHeader->field_0_size & 3))
         {
             if (pArray)
             {
                 pArray->Push_Back((BYTE**)pItemToAdd);
-                ++pHeader->field_4_ref_count;
-                pItem = sSecondLinkedListItem_50EE28;
+                pHeader->field_4_ref_count++;
             }
 
             pHeader = (Header*)((char*)pHeader + pHeader->field_0_size);
-            if (pHeader->field_0_size >= 5120000u)
+
+            // Out of heap space
+            if (pHeader->field_0_size >= kResHeapSize)
             {
-                pHeader = 0;
-                break;
+                return 1;
             }
 
             ResourceHeapItem* pNewListItem = Push_List_Item();
@@ -737,26 +733,33 @@ EXPORT __int16 CC ResourceManager::Move_Resources_To_DArray_455430(BYTE** ppRes,
             pNewListItem->field_0_ptr = (BYTE*)&pHeader[1];// point after header
             pItemToAdd = pNewListItem;
 
+            // No more resources to add
             if (pHeader->field_8_type == Resource_End)
             {
                 break;
             }
         }
     }
-    if (!pHeader)
+
+    if (pHeader)
     {
-        return 1;
+        pHeader->field_8_type = Resource_Free;
+        if (pItemToAdd->field_4_pNext)
+        {
+            // Size of next item - location of current res
+            // TODO 64bit warning
+            pHeader->field_0_size = static_cast<DWORD>(pItemToAdd->field_4_pNext->field_0_ptr - (BYTE*)pHeader - sizeof(Header));
+        }
+        else
+        {
+            // Isn't a next item so use ptr to end of heap - location of current res
+            // TODO: 64bit warning
+            pHeader->field_0_size = static_cast<DWORD>(spResourceHeapEnd_9F0E3C - (BYTE*)pHeader);
+        }
+
+        sManagedMemoryUsedSize_9F0E48 -= pHeader->field_0_size;
     }
-    pHeader->field_8_type = Resource_Free;
-    if (pItemToAdd->field_4_pNext)
-    {
-        pHeader->field_0_size = pItemToAdd->field_4_pNext->field_0_ptr - (BYTE*)pHeader - sizeof(Header);
-    }
-    else
-    {
-        pHeader->field_0_size = spResourceHeapEnd_9F0E3C - (BYTE*)pHeader;
-    }
-    sManagedMemoryUsedSize_9F0E48 -= pHeader->field_0_size;
+
     return 1;
 }
 
