@@ -9,85 +9,12 @@
 
 START_NS_AO
 
+ALIVE_VAR(1, 0x9F0E48, DWORD, sManagedMemoryUsedSize_9F0E48, 0);
+
 ALIVE_VAR(1, 0x5076A0, short, bHideLoadingIcon_5076A0, 0);
 ALIVE_VAR(1, 0x5076A4, int, loading_ticks_5076A4, 0);
 
-
-void CC ResourceManager::Init_454DA0()
-{
-    NOT_IMPLEMENTED();
-}
-
-void CC ResourceManager::CancelPendingResourcesFor_41EA60(BaseGameObject* /*pObj*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-void CC ResourceManager::Reclaim_Memory_455660(DWORD /*sizeToReclaim*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-__int16 CC ResourceManager::FreeResource_455550(BYTE** /*ppRes*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-void CC ResourceManager::LoadResource_446C90(const char* /*pFileName*/, int /*type*/, int /*resourceId*/, __int16 /*loadMode*/, __int16 /*bDontLoad*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-ResourceManager::Header* CC ResourceManager::Get_Header_455620(BYTE** ppRes)
-{
-    return reinterpret_cast<Header*>((*ppRes - sizeof(Header)));
-}
-
-EXPORT void CC ResourceManager::Free_Resources_For_Camera_447170(Camera* /*pCamera*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-EXPORT void CC ResourceManager::Free_Resource_Of_Type_455810(int /*type*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-EXPORT __int16 CC ResourceManager::LoadResourceFile_455270(const char* /*filename*/, Camera* /*pCam*/, int /*allocMethod*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-
-EXPORT BYTE** CC ResourceManager::Allocate_New_Locked_Resource_454F80(int /*type*/, int /*id*/, int /*size*/)
-{
-    NOT_IMPLEMENTED();
-    return nullptr;
-}
-
-EXPORT void CC ResourceManager::Set_Header_Flags_4557D0(BYTE** /*ppRes*/, __int16 /*flags*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-EXPORT ResourceManager::ResourceManager_FileRecord* CC ResourceManager::LoadResourceFile_4551E0(const char* /*pFileName*/, TLoaderFn /*fnOnLoad*/, Camera* /*pCamera1*/, Camera* /*pCamera2*/)
-{
-    NOT_IMPLEMENTED();
-    return nullptr;
-}
-
-EXPORT void CC ResourceManager::LoadingLoop_41EAD0(__int16 /*bShowLoadingIcon*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-BYTE** CC ResourceManager::GetLoadedResource_4554F0(int /*type*/, int /*resourceId*/, __int16 /*addUseCount*/, __int16 /*bLock*/)
-{
-    NOT_IMPLEMENTED();
-    return nullptr;
-}
+ALIVE_VAR(1, 0x50EE2C, ResourceManager::ResourceHeapItem*, sFirstLinkedListItem_50EE2C, nullptr);
 
 void CC Game_ShowLoadingIcon_445EB0()
 {
@@ -133,9 +60,98 @@ void CC Game_ShowLoadingIcon_445EB0()
     }
 }
 
+void CC ResourceManager::CancelPendingResourcesFor_41EA60(BaseGameObject* /*pObj*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void CC ResourceManager::LoadResource_446C90(const char* /*pFileName*/, int /*type*/, int /*resourceId*/, __int16 /*loadMode*/, __int16 /*bDontLoad*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 void CC ResourceManager::LoadResourcesFromList_446E80(const char* /*pFileName*/, ResourcesToLoadList* /*list*/, __int16 /*loadMode*/, __int16)
 {
     NOT_IMPLEMENTED();
+}
+
+EXPORT void CC ResourceManager::LoadingLoop_41EAD0(__int16 /*bShowLoadingIcon*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC ResourceManager::Free_Resources_For_Camera_447170(Camera* /*pCamera*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void CC ResourceManager::Init_454DA0()
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT BYTE** CC ResourceManager::Allocate_New_Locked_Resource_454F80(int /*type*/, int /*id*/, int /*size*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
+EXPORT ResourceManager::ResourceManager_FileRecord* CC ResourceManager::LoadResourceFile_4551E0(const char* /*pFileName*/, TLoaderFn /*fnOnLoad*/, Camera* /*pCamera1*/, Camera* /*pCamera2*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
+EXPORT __int16 CC ResourceManager::LoadResourceFile_455270(const char* /*filename*/, Camera* /*pCam*/, int /*allocMethod*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+BYTE** CC ResourceManager::GetLoadedResource_4554F0(int /*type*/, int /*resourceId*/, __int16 /*addUseCount*/, __int16 /*bLock*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
+__int16 CC ResourceManager::FreeResource_455550(BYTE** /*ppRes*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+ResourceManager::Header* CC ResourceManager::Get_Header_455620(BYTE** ppRes)
+{
+    return reinterpret_cast<Header*>((*ppRes - sizeof(Header)));
+}
+
+void CC ResourceManager::Reclaim_Memory_455660(DWORD /*sizeToReclaim*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC ResourceManager::Set_Header_Flags_4557D0(BYTE** /*ppRes*/, __int16 /*flags*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC ResourceManager::Free_Resource_Of_Type_455810(DWORD type)
+{
+    ResourceHeapItem* pListItem = sFirstLinkedListItem_50EE2C;
+    while (pListItem)
+    {
+        // Free it if the type matches and its not flagged as never free
+        Header* pHeader = Get_Header_455620(&pListItem->field_0_ptr);
+        if (pHeader->field_8_type == type && !(pHeader->field_6_flags & ResourceHeaderFlags::eNeverFree))
+        {
+            pHeader->field_8_type = Resource_Free;
+            pHeader->field_6_flags = 0;
+            pHeader->field_4_ref_count = 0;
+
+            sManagedMemoryUsedSize_9F0E48 -= pHeader->field_0_size;
+        }
+        pListItem = pListItem->field_4_pNext;
+    }
 }
 
 END_NS_AO
