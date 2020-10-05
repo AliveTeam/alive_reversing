@@ -115,6 +115,9 @@ public:
 
     static ResourceHeapItem* Push_List_Item();
 
+    static void Pop_List_Item(ResourceHeapItem* pListItem);
+
+
     static EXPORT void CC On_Loaded_446C10(ResourceManager_FileRecord* pLoaded);
 
     static EXPORT __int16 CC Move_Resources_To_DArray_455430(BYTE** ppRes, DynamicArrayT<BYTE*>* pArray);
