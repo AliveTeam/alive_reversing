@@ -696,6 +696,12 @@ void CC ResourceManager::Set_Header_Flags_4557D0(BYTE** ppRes, __int16 flags)
     Get_Header_455620(ppRes)->field_6_flags |= flags;
 }
 
+
+void CC ResourceManager::Clear_Header_Flags_4557F0(BYTE** ppRes, __int16 flags)
+{
+    Get_Header_455620(ppRes)->field_6_flags &= ~flags;
+}
+
 int CC ResourceManager::Is_Resources_Pending_4557C0()
 {
     return sResources_Pending_Loading_9F0E38 > 0 ? 1 : 0;

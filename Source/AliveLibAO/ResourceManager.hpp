@@ -148,6 +148,8 @@ public:
 
     static EXPORT void CC Set_Header_Flags_4557D0(BYTE** ppRes, __int16 flags);
 
+    static EXPORT void CC Clear_Header_Flags_4557F0(BYTE** ppRes, __int16 flags);
+
     template<class T, class Y>
     static EXPORT ResourceManager_FileRecord_Unknown* CC LoadResourceFile(const char* pFileName, T pOnLoadFn, Y* pOnLoadFnArgument, Y* pCamera2 = nullptr)
     {
