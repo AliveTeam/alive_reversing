@@ -35,6 +35,7 @@ public:
         Resource_Wave = 0x65766157,
         Resource_Free = 0x65657246,
         Resource_Pend = 0x646E6550,
+        Resource_End = 0x21646E45,
     };
 
     enum ResourceHeaderFlags : __int16
@@ -111,6 +112,8 @@ public:
     static EXPORT int CC SEQ_HashName_454EA0(const char* seqFileName);
 
     EXPORT static void CC Init_454DA0();
+
+    static ResourceHeapItem* Push_List_Item();
 
     static EXPORT void CC On_Loaded_446C10(ResourceManager_FileRecord* pLoaded);
 

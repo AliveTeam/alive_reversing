@@ -596,6 +596,13 @@ void CC ResourceManager::Init_454DA0()
     spResourceHeapEnd_9F0E3C =  &sResourceHeap_50EE38[kResHeapSize - 1];
 }
 
+ResourceManager::ResourceHeapItem* ResourceManager::Push_List_Item()
+{
+    auto old = sSecondLinkedListItem_50EE28;
+    sSecondLinkedListItem_50EE28 = sSecondLinkedListItem_50EE28->field_4_pNext;
+    return old;
+}
+
 ResourceManager_FileRecord_Unknown* CC ResourceManager::LoadResourceFile_4551E0(const char* pFileName, TLoaderFn fnOnLoad, Camera* pCamera1, Camera* pCamera2)
 {
     LvlFileRecord* pFileRec = sLvlArchive_4FFD60.Find_File_Record_41BED0(pFileName);
@@ -696,10 +703,61 @@ EXPORT __int16 CC ResourceManager::LoadResourceFile_455270(const char* filename,
     return 1;
 }
 
-EXPORT __int16 CC ResourceManager::Move_Resources_To_DArray_455430(BYTE** /*ppRes*/, DynamicArrayT<BYTE*>* /*pArray*/)
+EXPORT __int16 CC ResourceManager::Move_Resources_To_DArray_455430(BYTE** ppRes, DynamicArrayT<BYTE*>* pArray)
 {
     NOT_IMPLEMENTED();
-    return 0;
+
+    auto pItemToAdd = (ResourceHeapItem*)ppRes;
+    auto pHeader = Get_Header_455620(ppRes);
+    auto type = pHeader->field_8_type;
+    if (type != Resource_End)
+    {
+        auto pItem = sSecondLinkedListItem_50EE28;
+        while (type != Resource_Pend
+            && pHeader->field_0_size
+            && !(pHeader->field_0_size & 3))
+        {
+            if (pArray)
+            {
+                pArray->Push_Back((BYTE**)pItemToAdd);
+                ++pHeader->field_4_ref_count;
+                pItem = sSecondLinkedListItem_50EE28;
+            }
+
+            pHeader = (Header*)((char*)pHeader + pHeader->field_0_size);
+            if (pHeader->field_0_size >= 5120000u)
+            {
+                pHeader = 0;
+                break;
+            }
+
+            ResourceHeapItem* pNewListItem = Push_List_Item();
+            pNewListItem->field_4_pNext = pItemToAdd->field_4_pNext;
+            pItemToAdd->field_4_pNext = pNewListItem;
+            pNewListItem->field_0_ptr = (BYTE*)&pHeader[1];// point after header
+            pItemToAdd = pNewListItem;
+
+            if (pHeader->field_8_type == Resource_End)
+            {
+                break;
+            }
+        }
+    }
+    if (!pHeader)
+    {
+        return 1;
+    }
+    pHeader->field_8_type = Resource_Free;
+    if (pItemToAdd->field_4_pNext)
+    {
+        pHeader->field_0_size = pItemToAdd->field_4_pNext->field_0_ptr - (BYTE*)pHeader - sizeof(Header);
+    }
+    else
+    {
+        pHeader->field_0_size = spResourceHeapEnd_9F0E3C - (BYTE*)pHeader;
+    }
+    sManagedMemoryUsedSize_9F0E48 -= pHeader->field_0_size;
+    return 1;
 }
 
 BYTE** CC ResourceManager::GetLoadedResource_4554F0(DWORD type, DWORD resourceId, __int16 addUseCount, __int16 bLock)

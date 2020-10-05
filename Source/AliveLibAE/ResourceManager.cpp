@@ -913,7 +913,7 @@ signed __int16 CC ResourceManager::LoadResourceFile_49C170(const char* pFileName
     return 1;
 }
 
-signed __int16 CC ResourceManager::Move_Resources_To_DArray_49C1C0(BYTE** ppRes, DynamicArray* pArray)
+signed __int16 CC ResourceManager::Move_Resources_To_DArray_49C1C0(BYTE** ppRes, DynamicArrayT<BYTE*>* pArray)
 {
     ResourceHeapItem* pItemToAdd = (ResourceHeapItem *)ppRes;
     Header* pHeader = Get_Header_49C410(&pItemToAdd->field_0_ptr);
