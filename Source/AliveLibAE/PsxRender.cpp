@@ -3340,10 +3340,10 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
                 sScreenYOffset_BD30A4 = any.mScreenOffset->field_E_yoff;
                 break;
 
-            case 0x83: // TODO: unknown
+            case PrimTypeCodes::eMoveImage:
                 // Unlock because move image will lock + unlock again
                 BMP_unlock_4F2100(&sPsxVram_C1D160);
-                PSX_MoveImage_4F5D50(any.mMoveImage->mpRect, any.mMoveImage->xPos, any.mMoveImage->yPos);
+                PSX_MoveImage_4F5D50(&any.mMoveImage->rect, any.mMoveImage->xPos, any.mMoveImage->yPos);
 
                 // Hence lock again after move image
                 if (BMP_Lock_4F1FF0(&sPsxVram_C1D160))

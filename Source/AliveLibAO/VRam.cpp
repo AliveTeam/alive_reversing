@@ -4,7 +4,17 @@
 
 START_NS_AO
 
-EXPORT signed __int16 CC Pal_Allocate_4476F0(PSX_RECT* /*pRect*/, unsigned int /*paletteColorCount*/)
+const int kMaxAllocs = 512;
+ALIVE_ARY(1, 0x509018, PSX_RECT, kMaxAllocs, sVramAllocations_509018, {});
+ALIVE_VAR(1, 0x50A018, int, sVram_Count_dword_50A018, 0);
+
+EXPORT void CC Pal_Reset_4476C0(unsigned __int16 /*a1*/, unsigned __int16 /*a2*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+
+EXPORT __int16 CC Pal_Allocate_4476F0(PSX_RECT* /*pRect*/, unsigned int /*paletteColorCount*/)
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -38,6 +48,23 @@ unsigned int CC Pal_Make_Colour_447950(BYTE /*r*/, BYTE /*g*/, BYTE /*b*/, __int
 {
     NOT_IMPLEMENTED();
     return 0;
+}
+
+EXPORT void CC Vram_alloc_explicit_4507F0(__int16 x, __int16 y, __int16 w, __int16 h)
+{
+    if (sVram_Count_dword_50A018 < kMaxAllocs)
+    {
+        const int idx = sVram_Count_dword_50A018++;
+        sVramAllocations_509018[idx].x = x;
+        sVramAllocations_509018[idx].y = y;
+        sVramAllocations_509018[idx].w = w - x;
+        sVramAllocations_509018[idx].h = h - y;
+    }
+}
+
+EXPORT void CC Vram_reset_450840()
+{
+    NOT_IMPLEMENTED();
 }
 
 void CC Vram_free_450CE0(PSX_Point /*xy*/, PSX_Point /*wh*/)

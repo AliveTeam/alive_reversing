@@ -273,11 +273,11 @@ enum PrimTypeCodes
     eSetTPage = 0x80,
     ePrimClipper = 0x81,
     eScreenOffset = 0x82,
+    eMoveImage = 0x83,
     eGas = 0x84,
 
     // TODO: Type 2
-    // TODO: Type 0x83 (move image?)
-
+ 
     // Sprite/tile prims
     eTile = 0x60,
     eSprt = 0x64,
@@ -318,7 +318,7 @@ struct Prim_MoveImage
     PrimHeader mPrimHeader;
     int xPos;
     int yPos;
-    PSX_RECT* mpRect;
+    PSX_RECT rect;
 };
 
 // Could be used for other stuff but only seen for gas so far
@@ -573,3 +573,5 @@ void Init_Sprt_16(Prim_Sprt_16* pPrim);
 void PolyFT4_Init(Poly_FT4* pPrim);
 
 void PolyF4_Init(Poly_F4* pPrim);
+
+void Prim_Init_MoveImage(Prim_MoveImage* pPrim, PSX_RECT* pRect, int xpos, int ypos);
