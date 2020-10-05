@@ -11,7 +11,7 @@ const PSX_Display_Params kDisplayParams = { 640, 240, 16, 1, 42, 32, 1, 0 };
 ALIVE_VAR(1, 0x4BB830, PSX_Display_Params, gPsxDisplayParams_4BB830, kDisplayParams);
 ALIVE_VAR(1, 0x504C78, PsxDisplay, gPsxDisplay_504C78, {});
 
-EXPORT PsxDisplay* PsxDisplay::ctor_40DAB0(const PSX_Display_Params* pParams)
+PsxDisplay* PsxDisplay::ctor_40DAB0(const PSX_Display_Params* pParams)
 {
     PSX_SetDispMask_49AE80(0);
 
@@ -133,9 +133,39 @@ EXPORT PsxDisplay* PsxDisplay::ctor_40DAB0(const PSX_Display_Params* pParams)
     return this;
 }
 
-EXPORT void PsxDisplay::PSX_Display_Render_OT_40DD20()
+void PsxDisplay::PSX_Display_Render_OT_40DD20()
 {
-    NOT_IMPLEMENTED();
+    if (field_6_max_buffers <= 1u)
+    {
+        // Single buffer rendering - never used?
+        PSX_PutDrawEnv_495DD0(&field_C_drawEnv[0].field_0_draw_env);
+        PSX_DrawOTag_4969F0(field_C_drawEnv[0].field_70_ot_buffer);
+        PSX_DrawSync_496750(0);
+        PSX_VSync_496620(2);
+        PSX_PutDispEnv_495D30(&field_C_drawEnv[0].field_5C_disp_env);
+        PSX_ClearOTag_496760(field_C_drawEnv[0].field_70_ot_buffer, field_8_buffer_size);
+        field_A_buffer_index = 0;
+    }
+    else
+    {
+        // Normal double buffer rendering
+        PSX_DrawSync_496750(0);
+        PSX_VSync_496620(2);
+
+        const int oldBuffer = field_A_buffer_index;
+        field_A_buffer_index = field_A_buffer_index + 1;
+        if (field_A_buffer_index >= field_6_max_buffers)
+        {
+            field_A_buffer_index = 0;
+        }
+
+        PSX_ClearOTag_496760(
+            field_C_drawEnv[field_A_buffer_index].field_70_ot_buffer,
+            field_8_buffer_size);
+        PSX_PutDispEnv_495D30(&field_C_drawEnv[field_A_buffer_index].field_5C_disp_env);
+        PSX_PutDrawEnv_495DD0(&field_C_drawEnv[field_A_buffer_index].field_0_draw_env);
+        PSX_DrawOTag_4969F0(field_C_drawEnv[oldBuffer].field_70_ot_buffer);
+    }
 }
 
 END_NS_AO

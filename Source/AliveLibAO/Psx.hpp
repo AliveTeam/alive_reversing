@@ -3,6 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "Psx_common.hpp"
 
+EXPORT void CC PSX_PutDispEnv_495D30(PSX_DISPENV* pDispEnv);
 
 EXPORT int CC PSX_DrawSync_496750(int /*mode*/);
 

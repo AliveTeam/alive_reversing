@@ -2,6 +2,12 @@
 #include "Psx.hpp"
 #include "Function.hpp"
 
+
+EXPORT void CC PSX_PutDispEnv_495D30(PSX_DISPENV* /*pDispEnv*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 EXPORT int CC PSX_DrawSync_496750(int /*mode*/)
 {
     return 0;
