@@ -147,7 +147,7 @@ public:
     EXPORT static BYTE** CC Allocate_New_Block_49BFB0(int sizeBytes, BlockAllocMethod allocMethod);
     EXPORT static int CC LoadResourceFile_49C130(const char* filename, TLoaderFn pFn, Camera* a4, Camera* pCamera);
     EXPORT static signed __int16 CC LoadResourceFile_49C170(const char* pFileName, Camera* pCamera);
-    EXPORT static signed __int16 CC Move_Resources_To_DArray_49C1C0(BYTE** ppRes, DynamicArray* pArray);
+    EXPORT static signed __int16 CC Move_Resources_To_DArray_49C1C0(BYTE** ppRes, DynamicArrayT<BYTE*>* pArray);
     EXPORT static BYTE** CC GetLoadedResource_49C2A0(DWORD type, DWORD resourceID, unsigned __int16 addUseCount, unsigned __int16 bLock);
     EXPORT static void CC Inc_Ref_Count_49C310(BYTE **ppRes);
     EXPORT static signed __int16 CC FreeResource_49C330(BYTE** handle);

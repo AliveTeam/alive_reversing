@@ -257,6 +257,7 @@ ALIVE_VAR_EXTERN(Map, gMap_507BA8);
 ALIVE_VAR_EXTERN(short, sMap_bDoPurpleLightEffect_507C9C);
 
 ALIVE_VAR_EXTERN(OverlayRecords, sOverlayTable_4C5AA8);
+ALIVE_VAR_EXTERN(Camera*, sCameraBeingLoaded_507C98);
 
 EXPORT int CC MaxGridBlocks_41FA10(FP scale);
 
