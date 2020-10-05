@@ -26,6 +26,7 @@ EXPORT CdlLOC* CC PSX_Pos_To_CdLoc_49B340(int /*pos*/, CdlLOC* /*pLoc*/)
 }
 
 ALIVE_VAR(1, 0x507714, int, gFilesPending_507714, 0);
+ALIVE_VAR(1, 0x50768C, short, bLoadingAFile_50768C, 0);
 
 // TODO: Rename to "LoadingFile"
 class ResourceManager_FileRecord_Unknown : public BaseGameObject
@@ -53,6 +54,22 @@ public:
 
         field_28_state = 0;
         return this;
+    }
+
+    EXPORT BaseGameObject* dtor_41E870()
+    {
+        SetVTable(this, 0x4BB088);
+
+        gFilesPending_507714--;
+
+        if (field_28_state != 0)
+        {
+            if (field_28_state != 7)
+            {
+                bLoadingAFile_50768C = 0;
+            }
+        }
+        return dtor_487DF0();
     }
 
     int field_10_size;

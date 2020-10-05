@@ -530,7 +530,6 @@ EXPORT int PSX_ResetCallBack_49AFB0()
 
 // TODO: Likely part of resource manager vars
 ALIVE_VAR(1, 0x5009E0, DynamicArray*, ObjList_5009E0, nullptr);
-ALIVE_VAR(1, 0x50768C, short, word_50768C, 0);
 
 EXPORT int CC DebugFont_Init_487EC0()
 {
@@ -571,7 +570,7 @@ EXPORT void CC Init_Sound_DynamicArrays_And_Others_41CD20()
     gnFrameCount_507670 = 0;
 
     gFilesPending_507714 = 0;
-    word_50768C = 0;
+    bLoadingAFile_50768C = 0;
 
     ObjListPlatforms_50766C = ao_new<DynamicArrayT<BaseGameObject>>();
     ObjListPlatforms_50766C->ctor_4043E0(20);
