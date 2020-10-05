@@ -62,7 +62,7 @@ HoneySack* HoneySack::ctor_42BD10(Path_HoneySack* pTlv, int tlvInfo)
 
         if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 61, 0, 0))
         {
-            ResourceManager::LoadResourceFile_455270("WASP.BAN", nullptr, 0);
+            ResourceManager::LoadResourceFile_455270("WASP.BAN", nullptr);
         }
 
         field_F0_pBee = ao_new<BeeSwarm>();

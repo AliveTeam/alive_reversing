@@ -39,7 +39,7 @@ BeeNest* BeeNest::ctor_480E20(Path_BeeNest* pTlv, int tlvInfo)
 
     if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 61, 0, 0))
     {
-        ResourceManager::LoadResourceFile_455270("WASP.BAN", nullptr, 0);
+        ResourceManager::LoadResourceFile_455270("WASP.BAN", nullptr);
     }
 
     // The "idle" swarm that hovers around the nest

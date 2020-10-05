@@ -4,6 +4,14 @@
 
 START_NS_AO
 
+struct LvlFileRecord
+{
+    char field_0_file_name[12];
+    int field_C_start_sector;
+    int field_10_num_sectors;
+    int field_14_file_size;
+};
+ALIVE_ASSERT_SIZEOF(LvlFileRecord, 0x18);
 
 class LvlArchive
 {
@@ -19,6 +27,10 @@ public:
     EXPORT void OpenArchive_41BC60(int pos);
 
     EXPORT __int16 Free_41BEB0();
+
+    EXPORT LvlFileRecord* Find_File_Record_41BED0(const char* pFileName);
+
+    EXPORT __int16 Read_File_41BE40(const LvlFileRecord* pFileRec, void* pBuffer);
 
 private:
     BYTE** field_0_0x2800_res;

@@ -1486,7 +1486,7 @@ void Map::Load_Path_Items_445DA0(Camera* pCamera, __int16 loadMode)
         else
         {
             // Blocking camera load
-            ResourceManager::LoadResourceFile_455270(pCamera->field_1E_fileName, pCamera, 0);
+            ResourceManager::LoadResourceFile_455270(pCamera->field_1E_fileName, pCamera);
             pCamera->field_30_flags |= 1u;
             pCamera->field_C_ppBits = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Bits, pCamera->field_10_resId, 1, 0);
             sCameraBeingLoaded_507C98 = pCamera;
@@ -1688,7 +1688,7 @@ void Map::GoTo_Camera_445050()
         auto tmp = sOverlayTable_4C5AA8.records[rPathRoot.field_1C_overlay_idx].field_4_pos;
         sLvlArchive_4FFD60.OpenArchive_41BC60(tmp);
 
-        ResourceManager::LoadResourceFile_455270(rPathRoot.field_38_bnd_name, 0, 0);
+        ResourceManager::LoadResourceFile_455270(rPathRoot.field_38_bnd_name, nullptr);
 
         // Get pointer to each PATH
         for (int i = 1; i <= rPathRoot.field_18_num_paths; ++i)

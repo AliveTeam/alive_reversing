@@ -612,7 +612,7 @@ EXPORT void CC Game_Init_LoadingIcon_445E30()
     BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 8010, 1, 0);
     if (!ppRes)
     {
-        ResourceManager::LoadResourceFile_455270("LOADING.BAN", nullptr, 0);
+        ResourceManager::LoadResourceFile_455270("LOADING.BAN", nullptr);
         ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 8010, 1, 0);
     }
     ResourceManager::Set_Header_Flags_4557D0(ppRes, ResourceManager::ResourceHeaderFlags::eNeverFree);

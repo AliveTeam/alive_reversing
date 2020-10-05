@@ -1,7 +1,7 @@
 import os
 print os.getcwd()
 
-className = "Bells"
+className = "SwitchStateBooleanLogic"
 
 cmakePath = os.getcwd() + "\..\Source\AliveLibAO\CMakeLists.txt"
 print(cmakePath)

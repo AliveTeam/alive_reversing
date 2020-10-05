@@ -45,4 +45,16 @@ EXPORT __int16 LvlArchive::Free_41BEB0()
     return 0;
 }
 
+EXPORT LvlFileRecord* LvlArchive::Find_File_Record_41BED0(const char* /*pFileName*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
+EXPORT __int16 LvlArchive::Read_File_41BE40(const LvlFileRecord* /*pFileRec*/, void* /*pBuffer*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 END_NS_AO

@@ -3898,7 +3898,7 @@ Elum* Elum::ctor_410870(int, anythingForTheTimeBeing, anythingForTheTimeBeing, i
     field_174_resources.res[16] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 216, 1, 0);
     if (!field_174_resources.res[16])
     {
-        ResourceManager::LoadResourceFile_455270("ELMFALL.BAN", 0, 0);
+        ResourceManager::LoadResourceFile_455270("ELMFALL.BAN", nullptr);
         field_174_resources.res[16] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 216, 1, 0);
     }
 

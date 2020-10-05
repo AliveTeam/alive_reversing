@@ -541,7 +541,7 @@ Abe* Abe::ctor_420770(int frameTableOffset, int /*r*/, int /*g*/, int /*b*/)
 
     if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 10, 1, 0))
     {
-        ResourceManager::LoadResourceFile_455270("ABEBSIC.BAN", nullptr, 0);
+        ResourceManager::LoadResourceFile_455270("ABEBSIC.BAN", nullptr);
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 10, 1, 0);
     }
 
@@ -549,7 +549,7 @@ Abe* Abe::ctor_420770(int frameTableOffset, int /*r*/, int /*g*/, int /*b*/)
 
     if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 55, 1, 0))
     {
-        ResourceManager::LoadResourceFile_455270("ABEBSIC1.BAN", nullptr, 0);
+        ResourceManager::LoadResourceFile_455270("ABEBSIC1.BAN", nullptr);
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 55, 1, 0);
     }
 
@@ -557,45 +557,45 @@ Abe* Abe::ctor_420770(int frameTableOffset, int /*r*/, int /*g*/, int /*b*/)
 
     if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 43, 1, 0))
     {
-        ResourceManager::LoadResourceFile_455270("ABEEDGE.BAN", nullptr, 0);
+        ResourceManager::LoadResourceFile_455270("ABEEDGE.BAN", nullptr);
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 43, 1, 0);
     }
 
     if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 27, 1, 0))
     {
-        ResourceManager::LoadResourceFile_455270("ABEKNFD.BAN", nullptr, 0);
+        ResourceManager::LoadResourceFile_455270("ABEKNFD.BAN", nullptr);
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 27, 1, 0);
     }
 
     if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 48, 1, 0))
     {
-        ResourceManager::LoadResourceFile_455270("ABEOMM.BAN", nullptr, 0);
+        ResourceManager::LoadResourceFile_455270("ABEOMM.BAN", nullptr);
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 48, 1, 0);
     }
 
     if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 26, 1, 0))
     {
-        ResourceManager::LoadResourceFile_455270("ABEKNBK.BAN", nullptr, 0);
+        ResourceManager::LoadResourceFile_455270("ABEKNBK.BAN", nullptr);
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 26, 1, 0);
     }
 
-    ResourceManager::LoadResourceFile_455270("ABENOELM.BND", nullptr, 0);
+    ResourceManager::LoadResourceFile_455270("ABENOELM.BND", nullptr);
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 20, 1, 0);
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 19, 1, 0);
-    ResourceManager::LoadResourceFile_455270("OMMFLARE.BAN", nullptr, 0);
+    ResourceManager::LoadResourceFile_455270("OMMFLARE.BAN", nullptr);
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 312, 1, 0);
-    ResourceManager::LoadResourceFile_455270("SQBSMK.BAN", nullptr, 0);
+    ResourceManager::LoadResourceFile_455270("SQBSMK.BAN", nullptr);
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 354, 1, 0);
-    ResourceManager::LoadResourceFile_455270("BLOODROP.BAN", nullptr, 0);
+    ResourceManager::LoadResourceFile_455270("BLOODROP.BAN", nullptr);
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 366, 1, 0);
     if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2035, 0, 0))
     {
-        ResourceManager::LoadResourceFile_455270("SHADOW.BAN", nullptr, 0);
+        ResourceManager::LoadResourceFile_455270("SHADOW.BAN", nullptr);
     }
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2035, 1, 0);
-    ResourceManager::LoadResourceFile_455270("DEADFLR.BAN", nullptr, 0);
+    ResourceManager::LoadResourceFile_455270("DEADFLR.BAN", nullptr);
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 349, 1, 0);
-    ResourceManager::LoadResourceFile_455270("DOVBASIC.BAN", nullptr, 0);
+    ResourceManager::LoadResourceFile_455270("DOVBASIC.BAN", nullptr);
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 60, 1, 0);
     
     field_128 = 45;
@@ -1065,17 +1065,17 @@ void Abe::vUpdate_41FDB0()
                     {
                         if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 117, 1, 0))
                         {
-                            ResourceManager::LoadResourceFile_455270("ABEMORPH.BAN", 0, 0);
+                            ResourceManager::LoadResourceFile_455270("ABEMORPH.BAN", nullptr);
                             ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 117, 1, 0);
                         }
                         if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 121, 1, 0))
                         {
-                            ResourceManager::LoadResourceFile_455270("SHRMORPH.BAN", 0, 0);
+                            ResourceManager::LoadResourceFile_455270("SHRMORPH.BAN", nullptr);
                             ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 121, 1, 0);
                         }
                         if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 355, 1, 0))
                         {
-                            ResourceManager::LoadResourceFile_455270("SPLINE.BAN", 0, 0);
+                            ResourceManager::LoadResourceFile_455270("SPLINE.BAN", nullptr);
                             ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 355, 1, 0);
                         }
                         field_16C_bHaveShrykull = TRUE;
@@ -2195,7 +2195,7 @@ void CC Abe::Load_Basic_Resources_4228A0()
     if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 10, 0, 0) &&
         !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 10, 1, 0))
     {
-        ResourceManager::LoadResourceFile_455270("ABEBSIC.BAN", 0, 0);
+        ResourceManager::LoadResourceFile_455270("ABEBSIC.BAN", nullptr);
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 10, 1, 0);
     }
 }
@@ -2219,7 +2219,7 @@ void Abe::LoadMountElumResources_42E690()
 
     if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 115, 0, 0))
     {
-        ResourceManager::LoadResourceFile_455270("ANEPRMNT.BAN", 0, 0);
+        ResourceManager::LoadResourceFile_455270("ANEPRMNT.BAN", nullptr);
         field_1A4_resources.res[61] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 115, 1, 0);
     }
 

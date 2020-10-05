@@ -8,6 +8,7 @@
 #include "PsxRender.hpp"
 #include "ScreenManager.hpp"
 #include "Game.hpp"
+#include "LvlArchive.hpp"
 
 START_NS_AO
 
@@ -485,13 +486,48 @@ EXPORT BYTE** CC ResourceManager::Allocate_New_Block_454FE0(DWORD /*sizeBytes*/,
     return nullptr;
 }
 
-EXPORT __int16 CC ResourceManager::LoadResourceFile_455270(const char* /*filename*/, Camera* /*pCam*/, int /*allocMethod*/)
+EXPORT __int16 CC ResourceManager::LoadResourceFile_455270(const char* filename, Camera* pCam, BlockAllocMethod allocMethod)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    // Note: None gPcOpenEnabled_508BF0 block not impl as never used
+
+    ResourceManager::LoadingLoop_41EAD0(0);
+
+    LvlFileRecord* pFileRec = sLvlArchive_4FFD60.Find_File_Record_41BED0(filename);
+    if (!pFileRec)
+    {
+        return 0;
+    }
+    
+    const int size = pFileRec->field_10_num_sectors << 11;
+    BYTE** ppRes = ResourceManager::Allocate_New_Block_454FE0(size, allocMethod);
+    if (!ppRes)
+    {
+        ResourceManager::Reclaim_Memory_455660(0);
+        ppRes = ResourceManager::Allocate_New_Block_454FE0(size, allocMethod);
+        if (!ppRes)
+        {
+            return 0;
+        }
+    }
+
+    // NOTE: Not sure why this is done twice, perhaps the above memory compact can invalidate the ptr?
+    pFileRec = sLvlArchive_4FFD60.Find_File_Record_41BED0(filename);
+    if (!pFileRec)
+    {
+        return 0;
+    }
+
+    if (!sLvlArchive_4FFD60.Read_File_41BE40(pFileRec, Get_Header_455620(ppRes)))
+    {
+        FreeResource_455550(ppRes);
+        return 0;
+    }
+
+    ResourceManager::Move_Resources_To_DArray_455430(ppRes, &pCam->field_0_array);
+    return 1;
 }
 
-EXPORT __int16 CC ResourceManager::Move_Resources_To_DArray_455430(BYTE** /*ppRes*/, DynamicArray* /*pArray*/)
+EXPORT __int16 CC ResourceManager::Move_Resources_To_DArray_455430(BYTE** /*ppRes*/, DynamicArrayT<BYTE*>* /*pArray*/)
 {
     NOT_IMPLEMENTED();
     return 0;
