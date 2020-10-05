@@ -163,7 +163,7 @@ enum AEResourceID
     kDanliteResID = 371,
     kSmallExplo2ResID = 372,
     kUnknownResID_374 = 374,
-    kUnknownResID_375 = 375,
+    kTorturedMudTearsResID = 375,
     kSlgbasicResID = 412,
     kSlgsleepResID = 413,
     kSlgknbkResID = 414,
