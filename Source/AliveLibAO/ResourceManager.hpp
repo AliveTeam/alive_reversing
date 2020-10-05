@@ -148,6 +148,7 @@ public:
 
 ALIVE_VAR_EXTERN(short, bHideLoadingIcon_5076A0);
 ALIVE_VAR_EXTERN(int, loading_ticks_5076A4);
+ALIVE_VAR_EXTERN(int, gFilesPending_507714);
 
 enum ResourceID
 {

@@ -530,7 +530,6 @@ EXPORT int PSX_ResetCallBack_49AFB0()
 
 // TODO: Likely part of resource manager vars
 ALIVE_VAR(1, 0x5009E0, DynamicArray*, ObjList_5009E0, nullptr);
-ALIVE_VAR(1, 0x507714, int, gFilesPending_507714, 0);
 ALIVE_VAR(1, 0x50768C, short, word_50768C, 0);
 
 EXPORT int CC DebugFont_Init_487EC0()

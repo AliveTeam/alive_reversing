@@ -6,6 +6,7 @@
 #include "PsxDisplay.hpp"
 #include "Psx.hpp"
 #include "PsxRender.hpp"
+#include "ScreenManager.hpp"
 
 START_NS_AO
 
@@ -16,6 +17,55 @@ ALIVE_VAR(1, 0x5076A4, int, loading_ticks_5076A4, 0);
 ALIVE_VAR(1, 0x9F0E38, short, sResources_Pending_Loading_9F0E38, 0);
 
 ALIVE_VAR(1, 0x50EE2C, ResourceManager::ResourceHeapItem*, sFirstLinkedListItem_50EE2C, nullptr);
+
+// TODO :Move to psx file
+EXPORT CdlLOC* CC PSX_Pos_To_CdLoc_49B340(int /*pos*/, CdlLOC* /*pLoc*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
+ALIVE_VAR(1, 0x507714, int, gFilesPending_507714, 0);
+
+// TODO: Rename to "LoadingFile"
+class ResourceManager_FileRecord_Unknown : public BaseGameObject
+{
+public:
+    EXPORT ResourceManager_FileRecord_Unknown* ctor_41E8A0(int pos, int size, void* pFn, int fnArg, Camera* pArray)
+    {
+        ctor_487E10(1);
+        
+        SetVTable(this, 0x4BB088);
+
+        gFilesPending_507714++;
+
+        field_6_flags.Set(Options::eSurviveDeathReset_Bit9);
+        field_6_flags.Set(Options::eUpdateDuringCamSwap_Bit10);
+
+        field_14_fn = pFn;
+        field_18_fn_arg = fnArg;
+        field_10_size = size;
+
+        field_4_typeId = Types::eLoadingFile_39;
+        field_1C_pCamera = pArray;
+        
+        PSX_Pos_To_CdLoc_49B340(pos, &field_2A_cdLoc);
+
+        field_28_state = 0;
+        return this;
+    }
+
+    int field_10_size;
+    void* field_14_fn;
+    int field_18_fn_arg;
+    Camera* field_1C_pCamera;
+    BYTE** field_20_ppRes;
+    void* field_24_readBuffer;
+    __int16 field_28_state;
+    CdlLOC field_2A_cdLoc;
+    __int16 field_2E_pad;
+};
+ALIVE_ASSERT_SIZEOF(ResourceManager_FileRecord_Unknown, 0x30);
 
 void CC Game_ShowLoadingIcon_445EB0()
 {
