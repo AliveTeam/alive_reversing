@@ -12,6 +12,8 @@ class ResourceManager_FileRecord_Unknown;
 
 EXPORT void CC Game_ShowLoadingIcon_445EB0();
 
+// TODO Argument type is always Camera* ?
+using TLoaderFn = void(CC*)(void*);
 
 class ResourceManager
 {
@@ -66,8 +68,6 @@ public:
         ResourcesToLoadList_Entry field_4_items[1];
     };
     ALIVE_ASSERT_SIZEOF(ResourcesToLoadList, 12);
-
-    using TLoaderFn = std::add_pointer<void CC(Camera*)>::type;
 
     struct ResourceManager_FilePartRecord
     {
@@ -147,13 +147,13 @@ public:
     static EXPORT void CC Set_Header_Flags_4557D0(BYTE** ppRes, __int16 flags);
 
     template<class T, class Y>
-    static EXPORT ResourceManager_FileRecord* CC LoadResourceFile(const char* pFileName, T pOnLoadFn, Y* pOnLoadFnArgument, Y* pCamera2 = nullptr)
+    static EXPORT ResourceManager_FileRecord_Unknown* CC LoadResourceFile(const char* pFileName, T pOnLoadFn, Y* pOnLoadFnArgument, Y* pCamera2 = nullptr)
     {
         // TODO: Change the camera types to void*'s
         return LoadResourceFile_4551E0(pFileName, reinterpret_cast<TLoaderFn>(pOnLoadFn), reinterpret_cast<Camera*>(pOnLoadFnArgument), reinterpret_cast<Camera*>(pCamera2));
     }
 
-    static EXPORT ResourceManager_FileRecord* CC LoadResourceFile_4551E0(const char* pFileName, TLoaderFn fnOnLoad, Camera* pCamera1, Camera* pCamera2);
+    static EXPORT ResourceManager_FileRecord_Unknown* CC LoadResourceFile_4551E0(const char* pFileName, TLoaderFn fnOnLoad, Camera* pCamera1, Camera* pCamera2);
 
     static EXPORT void CC Free_Resource_Of_Type_455810(DWORD type);
 

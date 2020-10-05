@@ -65,13 +65,11 @@ EXPORT void CC Odd_Sleep_48DD90(DWORD /*dwMilliseconds*/)
 ALIVE_VAR(1, 0x507714, int, gFilesPending_507714, 0);
 ALIVE_VAR(1, 0x50768C, short, bLoadingAFile_50768C, 0);
 
-using TLoadCallBack = void(CC*)(void*);
-
 // TODO: Rename to "LoadingFile"
 class ResourceManager_FileRecord_Unknown : public BaseGameObject
 {
 public:
-    EXPORT ResourceManager_FileRecord_Unknown* ctor_41E8A0(int pos, int size, TLoadCallBack pFn, void* fnArg, Camera* pArray)
+    EXPORT ResourceManager_FileRecord_Unknown* ctor_41E8A0(int pos, int size, TLoaderFn pFn, void* fnArg, Camera* pArray)
     {
         ctor_487E10(1);
         
@@ -227,7 +225,7 @@ public:
     }
 
     int field_10_size;
-    TLoadCallBack field_14_fn;
+    TLoaderFn field_14_fn;
     void* field_18_fn_arg;
     Camera* field_1C_pCamera;
     BYTE** field_20_ppRes;
@@ -472,10 +470,26 @@ void CC ResourceManager::Init_454DA0()
     spResourceHeapEnd_9F0E3C =  &sResourceHeap_50EE38[kResHeapSize - 1];
 }
 
-EXPORT ResourceManager::ResourceManager_FileRecord* CC ResourceManager::LoadResourceFile_4551E0(const char* /*pFileName*/, TLoaderFn /*fnOnLoad*/, Camera* /*pCamera1*/, Camera* /*pCamera2*/)
+ResourceManager_FileRecord_Unknown* CC ResourceManager::LoadResourceFile_4551E0(const char* pFileName, TLoaderFn fnOnLoad, Camera* pCamera1, Camera* pCamera2)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    LvlFileRecord* pFileRec = sLvlArchive_4FFD60.Find_File_Record_41BED0(pFileName);
+    if (!pFileRec)
+    {
+        return nullptr;
+    }
+
+    auto pLoadingFile = ao_new<ResourceManager_FileRecord_Unknown>();
+    if (pLoadingFile)
+    {
+        pLoadingFile->ctor_41E8A0(
+            sLvlArchive_4FFD60.field_4_cd_pos + pFileRec->field_C_start_sector,
+            pFileRec->field_10_num_sectors,
+            fnOnLoad,
+            pCamera1,
+            pCamera2);
+    }
+
+    return pLoadingFile;
 }
 
 BYTE** ResourceManager::Alloc_New_Resource_Impl(DWORD type, DWORD id, DWORD size, bool locked, BlockAllocMethod allocType)

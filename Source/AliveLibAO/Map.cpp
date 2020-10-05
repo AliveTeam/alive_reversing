@@ -1475,7 +1475,7 @@ void Map::Load_Path_Items_445DA0(Camera* pCamera, __int16 loadMode)
         if (loadMode == 0)
         {
             // Async camera load
-            ResourceManager::LoadResourceFile_4551E0(
+            ResourceManager::LoadResourceFile(
                 pCamera->field_1E_fileName,
                 Camera::On_Loaded_4447A0,
                 pCamera,
