@@ -72,8 +72,8 @@ public:
 
     struct ResourceManager_FilePartRecord
     {
-        int field_0_ResId;
-        int field_4_bAddUsecount;
+        int field_0_type;
+        int field_4_res_id;
         Camera* field_8_pCamera;
     };
     ALIVE_ASSERT_SIZEOF(ResourceManager_FilePartRecord, 0xc);
@@ -114,6 +114,10 @@ public:
     EXPORT static void CC Init_454DA0();
 
     static ResourceHeapItem* Push_List_Item();
+
+    static void Pop_List_Item(ResourceHeapItem* pListItem);
+
+    static ResourceHeapItem* Split_block(ResourceHeapItem* pItem, int size);
 
     static EXPORT void CC On_Loaded_446C10(ResourceManager_FileRecord* pLoaded);
 
