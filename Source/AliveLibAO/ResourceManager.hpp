@@ -117,6 +117,7 @@ public:
 
     static void Pop_List_Item(ResourceHeapItem* pListItem);
 
+    static ResourceHeapItem* Split_block(ResourceHeapItem* pItem, int size);
 
     static EXPORT void CC On_Loaded_446C10(ResourceManager_FileRecord* pLoaded);
 

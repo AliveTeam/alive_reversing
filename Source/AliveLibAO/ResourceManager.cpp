@@ -16,11 +16,13 @@ START_NS_AO
 ALIVE_VAR(1, 0x5009E0, DynamicArrayT<ResourceManager::ResourceManager_FileRecord>*, ObjList_5009E0, nullptr);
 
 ALIVE_VAR(1, 0x9F0E48, DWORD, sManagedMemoryUsedSize_9F0E48, 0);
+ALIVE_VAR(1, 0x9F0E4C, DWORD, sPeakedManagedMemUsage_9F0E4C, 0);
 
 ALIVE_VAR(1, 0x5076A0, short, bHideLoadingIcon_5076A0, 0);
 ALIVE_VAR(1, 0x5076A4, int, loading_ticks_5076A4, 0);
 ALIVE_VAR(1, 0x9F0E38, short, sResources_Pending_Loading_9F0E38, 0);
 ALIVE_VAR(1, 0x9F0E50, short, sAllocationFailed_9F0E50, 0);
+
 
 
 
@@ -614,6 +616,32 @@ void ResourceManager::Pop_List_Item(ResourceHeapItem* pListItem)
     sSecondLinkedListItem_50EE28 = pListItem; // set current to old
 }
 
+ResourceManager::ResourceHeapItem* ResourceManager::Split_block(ResourceManager::ResourceHeapItem* pItem, int size)
+{
+    Header* pToSplit = Get_Header_455620(&pItem->field_0_ptr);
+    const unsigned int sizeForNewRes = pToSplit->field_0_size - size;
+    if (sizeForNewRes >= sizeof(Header))
+    {
+        ResourceHeapItem* pNewListItem = ResourceManager::Push_List_Item();
+        pNewListItem->field_4_pNext = pItem->field_4_pNext; // New item points to old
+        pItem->field_4_pNext = pNewListItem; // Old item points to new
+
+        pNewListItem->field_0_ptr = pItem->field_0_ptr + size; // Point the split point
+
+        // Init header of split item
+        Header* pHeader = Get_Header_455620(&pNewListItem->field_0_ptr);
+        pHeader->field_0_size = sizeForNewRes;
+        pHeader->field_8_type = Resource_Free;
+        pHeader->field_4_ref_count = 0;
+        pHeader->field_C_id = 0;
+
+        // Update old size
+        pToSplit->field_0_size = size;
+    }
+
+    return pItem;
+}
+
 ResourceManager_FileRecord_Unknown* CC ResourceManager::LoadResourceFile_4551E0(const char* pFileName, TLoaderFn fnOnLoad, Camera* pCamera1, Camera* pCamera2)
 {
     LvlFileRecord* pFileRec = sLvlArchive_4FFD60.Find_File_Record_41BED0(pFileName);
@@ -667,10 +695,100 @@ BYTE** CC ResourceManager::Allocate_New_Locked_Resource_454F80(DWORD type, DWORD
     return Alloc_New_Resource_Impl(type, id, size, true, BlockAllocMethod::eLastMatching);
 }
 
-EXPORT BYTE** CC ResourceManager::Allocate_New_Block_454FE0(DWORD /*sizeBytes*/, BlockAllocMethod /*allocMethod*/)
+EXPORT BYTE** CC ResourceManager::Allocate_New_Block_454FE0(DWORD sizeBytes, BlockAllocMethod allocMethod)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    ResourceHeapItem* pListItem = sFirstLinkedListItem_50EE2C;
+    ResourceHeapItem* pHeapMem = nullptr;
+    const unsigned int size = (sizeBytes + 3) & ~3u; // Rounding ??
+    Header* pHeaderToUse = nullptr;
+    while (pListItem)
+    {
+        // Is it a free block?
+        Header* pResHeader = Get_Header_455620(&pListItem->field_0_ptr);
+        if (pResHeader->field_8_type == Resource_Free)
+        {
+            // Keep going till we hit a block that isn't free
+            for (ResourceHeapItem* i = pListItem->field_4_pNext; i; i = pListItem->field_4_pNext)
+            {
+                Header* pHeader = Get_Header_455620(&i->field_0_ptr);
+                if (pHeader->field_8_type != Resource_Free)
+                {
+                    break;
+                }
+
+                // Combine up the free blocks
+                pResHeader->field_0_size += pHeader->field_0_size;
+                pListItem->field_4_pNext = i->field_4_pNext;
+                Pop_List_Item(i);
+            }
+
+            // Size will be bigger now that we've freed at least 1 resource
+            if (pResHeader->field_0_size >= size)
+            {
+                switch (allocMethod)
+                {
+                case BlockAllocMethod::eFirstMatching:
+                    // Use first matching item
+                    sManagedMemoryUsedSize_9F0E48 += size;
+                    if (sManagedMemoryUsedSize_9F0E48 >= sPeakedManagedMemUsage_9F0E4C)
+                    {
+                        sPeakedManagedMemUsage_9F0E4C = sManagedMemoryUsedSize_9F0E48;
+                    }
+                    return &Split_block(pListItem, size)->field_0_ptr;
+                case BlockAllocMethod::eNearestMatching:
+                    // Find nearest matching item
+                    if (pResHeader->field_0_size < pHeaderToUse->field_0_size)
+                    {
+                        pHeapMem = pListItem;
+                        pHeaderToUse = pResHeader;
+                    }
+                    break;
+                case BlockAllocMethod::eLastMatching:
+                    // Will always to set to the last most free item
+                    pHeapMem = pListItem;
+                    pHeaderToUse = pResHeader;
+                    break;
+                }
+            }
+        }
+
+        pListItem = pListItem->field_4_pNext;
+    }
+
+    if (!pHeapMem)
+    {
+        // Allocation failure
+        sAllocationFailed_9F0E50 = 1;
+        return nullptr;
+    }
+
+    sManagedMemoryUsedSize_9F0E48 += size;
+    if (sManagedMemoryUsedSize_9F0E48 >= sPeakedManagedMemUsage_9F0E4C)
+    {
+        sPeakedManagedMemUsage_9F0E4C = sManagedMemoryUsedSize_9F0E48;
+    }
+
+    switch (allocMethod)
+    {
+        // Note: eFirstMatching case not possible here as pHeapMem case would have early returned
+    case BlockAllocMethod::eNearestMatching:
+        return &ResourceManager::Split_block(pHeapMem, size)->field_0_ptr;
+
+    case BlockAllocMethod::eLastMatching:
+        if (pHeaderToUse->field_0_size - size >= sizeof(Header))
+        {
+            return &Split_block(pHeapMem, pHeaderToUse->field_0_size - size)->field_4_pNext->field_0_ptr;
+        }
+        else
+        {
+            // No need to split as the size must be exactly the size of a resource header
+            return &pHeapMem->field_0_ptr;
+        }
+        break;
+
+        // Should be impossible to get here
+    default: return nullptr;
+    }
 }
 
 EXPORT __int16 CC ResourceManager::LoadResourceFile_455270(const char* filename, Camera* pCam, BlockAllocMethod allocMethod)
