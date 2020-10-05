@@ -96,6 +96,12 @@ public:
 
     EXPORT static void CC Init_454DA0();
 
+    static BYTE** Alloc_New_Resource_Impl(DWORD type, DWORD id, DWORD size, bool locked, BlockAllocMethod allocType);
+
+    static EXPORT BYTE** CC Alloc_New_Resource_454F20(DWORD type, DWORD id, DWORD size);
+
+    static EXPORT BYTE** CC Allocate_New_Block_454FE0(DWORD sizeBytes, BlockAllocMethod allocMethod);
+
     static EXPORT __int16 CC FreeResource_Impl_4555B0(BYTE* handle);
 
     static EXPORT void CC Increment_Pending_Count_4557A0();
@@ -118,7 +124,7 @@ public:
 
     static EXPORT __int16 CC LoadResourceFile_455270(const char* filename, Camera* pCam, int allocMethod);
 
-    static EXPORT BYTE** CC Allocate_New_Locked_Resource_454F80(int type, int id, int size);
+    static EXPORT BYTE** CC Allocate_New_Locked_Resource_454F80(DWORD type, DWORD id, DWORD size);
 
     static EXPORT void CC Set_Header_Flags_4557D0(BYTE** ppRes, __int16 flags);
 
