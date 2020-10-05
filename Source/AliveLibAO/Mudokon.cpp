@@ -2843,7 +2843,7 @@ short Mudokon::Brain_SingSequenceIdle_2_441CA0()
                 field_128 = pEventSystem_4FF954->field_18_last_event_index;
             }
 
-            if (last_speak == GameSpeakEvents::eUnknown_9)
+            if (last_speak == GameSpeakEvents::eHello_9)
             {
                 field_1C0_timer = gnFrameCount_507670 + 20;
                 return 3;
@@ -3412,7 +3412,7 @@ short Mudokon::Brain_StandScrub_8_441F40()
         return 1;
 
     case 1:
-        if (last_speak == GameSpeakEvents::eUnknown_9 && sAlertedMudCount_507B90 == 0 && IAmNearestToAbe_440120())
+        if (last_speak == GameSpeakEvents::eHello_9 && sAlertedMudCount_507B90 == 0 && IAmNearestToAbe_440120())
         {
             AddAlerted();
             field_FE_next_state = eMudStates::State_21_StandScrubToIdle_43D8F0;
@@ -3434,7 +3434,7 @@ short Mudokon::Brain_StandScrub_8_441F40()
         return field_1BA_sub_state;
 
     case 2:
-        if (last_speak == GameSpeakEvents::eUnknown_9 && sAlertedMudCount_507B90 == 0 && IAmNearestToAbe_440120())
+        if (last_speak == GameSpeakEvents::eHello_9 && sAlertedMudCount_507B90 == 0 && IAmNearestToAbe_440120())
         {
             AddAlerted();
             field_FE_next_state = eMudStates::State_21_StandScrubToIdle_43D8F0;
@@ -3545,7 +3545,7 @@ short Mudokon::Brain_CrouchScrub_9_4422A0()
         return 2;
 
     case 1:
-        if (last_speak == GameSpeakEvents::eUnknown_9 && sAlertedMudCount_507B90 == 0 && IAmNearestToAbe_440120())
+        if (last_speak == GameSpeakEvents::eHello_9 && sAlertedMudCount_507B90 == 0 && IAmNearestToAbe_440120())
         {
             AddAlerted();
             field_1C0_timer = gnFrameCount_507670 + 15;
@@ -3571,7 +3571,7 @@ short Mudokon::Brain_CrouchScrub_9_4422A0()
         return 2;
 
     case 2:
-        if (last_speak != GameSpeakEvents::eUnknown_9 || sAlertedMudCount_507B90 || !IAmNearestToAbe_440120())
+        if (last_speak != GameSpeakEvents::eHello_9 || sAlertedMudCount_507B90 || !IAmNearestToAbe_440120())
         {
             if (field_FC_current_motion == eMudStates::State_23_CrouchIdle_43E590)
             {
@@ -3621,7 +3621,7 @@ short Mudokon::Brain_CrouchScrub_9_4422A0()
         break;
 
     case 4:
-        if (last_speak != GameSpeakEvents::eUnknown_9 || sAlertedMudCount_507B90 || !IAmNearestToAbe_440120())
+        if (last_speak != GameSpeakEvents::eHello_9 || sAlertedMudCount_507B90 || !IAmNearestToAbe_440120())
         {
             if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)
             {
@@ -3800,23 +3800,23 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
 
                 switch (last_speak)
                 {
-                case GameSpeakEvents::eUnknown_1:
+                case GameSpeakEvents::eWhistle1_1:
                     return 17;
 
-                case GameSpeakEvents::eUnknown_2:
+                case GameSpeakEvents::eWhistle2_2:
                     return 18;
 
-                case GameSpeakEvents::eUnknown_3:
+                case GameSpeakEvents::eFart_3:
                     field_1C0_timer = gnFrameCount_507670 + 30;
                     return 13;
 
-                case GameSpeakEvents::eUnknown_4:
+                case GameSpeakEvents::eLaugh_4:
                     return 16;
 
-                case GameSpeakEvents::eUnknown_9:
+                case GameSpeakEvents::eHello_9:
                     return 11;
 
-                case GameSpeakEvents::eUnknown_10:
+                case GameSpeakEvents::eFollowMe_10:
                     if (bHitWall)
                     {
                         return 9;
@@ -3824,10 +3824,10 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
                     field_1B0 = 2;
                     return 10;
 
-                case GameSpeakEvents::eUnknown_11:
+                case GameSpeakEvents::eAnger_11:
                     return 14;
 
-                case GameSpeakEvents::eUnknown_12:
+                case GameSpeakEvents::eWait_12:
                     if (BetweenCameras_418500() == BetweenCamPos::None_0)
                     {
                         field_1B0 = 6;
@@ -3927,7 +3927,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
             field_128 = pEventSystem_4FF954->field_18_last_event_index;
         }
 
-        if (last_speak == GameSpeakEvents::eUnknown_12
+        if (last_speak == GameSpeakEvents::eWait_12
             && BetweenCameras_418500() == BetweenCamPos::None_0)
         {
             field_FE_next_state = eMudStates::State_0_Idle_43CA70;
@@ -4072,30 +4072,30 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
 
             switch (speak)
             {
-            case GameSpeakEvents::eUnknown_1:
+            case GameSpeakEvents::eWhistle1_1:
                 return 17;
 
-            case GameSpeakEvents::eUnknown_2:
+            case GameSpeakEvents::eWhistle2_2:
                 return 18;
 
-            case GameSpeakEvents::eUnknown_3:
+            case GameSpeakEvents::eFart_3:
                 field_1C0_timer = gnFrameCount_507670 + 30;
                 return 13;
 
-            case GameSpeakEvents::eUnknown_4:
+            case GameSpeakEvents::eLaugh_4:
                 return 16;
 
-            case GameSpeakEvents::eUnknown_9:
+            case GameSpeakEvents::eHello_9:
                 return 11;
 
-            case GameSpeakEvents::eUnknown_10:
+            case GameSpeakEvents::eFollowMe_10:
                 field_1B0 = 3;
                 return 10;
 
-            case GameSpeakEvents::eUnknown_11:
+            case GameSpeakEvents::eAnger_11:
                 return 14;
 
-            case GameSpeakEvents::eUnknown_12:
+            case GameSpeakEvents::eWait_12:
                 return 15;
 
             default:
@@ -4495,7 +4495,7 @@ short Mudokon::Brain_Chant_14_442710()
             return 3;
         }
 
-        if (lastSpeak == GameSpeakEvents::eUnknown_9 && sAlertedMudCount_507B90 == 0 && IAmNearestToAbe_440120())
+        if (lastSpeak == GameSpeakEvents::eHello_9 && sAlertedMudCount_507B90 == 0 && IAmNearestToAbe_440120())
         {
             AddAlerted();
             field_1C0_timer = gnFrameCount_507670 + 15;
