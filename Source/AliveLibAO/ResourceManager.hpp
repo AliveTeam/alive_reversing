@@ -8,8 +8,10 @@ START_NS_AO
 
 class BaseAliveGameObject;
 class Camera;
+class ResourceManager_FileRecord_Unknown;
 
 EXPORT void CC Game_ShowLoadingIcon_445EB0();
+
 
 class ResourceManager
 {
@@ -67,19 +69,30 @@ public:
 
     using TLoaderFn = std::add_pointer<void CC(Camera*)>::type;
 
-    class ResourceManager_FileRecord : public BaseGameObject
+    struct ResourceManager_FilePartRecord
+    {
+        int field_0_ResId;
+        int field_4_bAddUsecount;
+        Camera* field_8_pCamera;
+    };
+    ALIVE_ASSERT_SIZEOF(ResourceManager_FilePartRecord, 0xc);
+
+    class ResourceManager_FileRecord
     {
     public:
-        int field_10;
-        int field_14_fn;
-        int field_18;
-        int field_1C_array;
-        int field_20;
-        int field_24;
-        __int16 field_28_state;
-        CdlLOC field_2A;
+        void dtor_447510()
+        {
+            field_10_file_sections_dArray.dtor_404440();
+        }
+
+        const char* field_0_fileName;
+        ResourcesToLoadList* field_4_pResourcesToLoadList;
+        int field_8_resId;
+        int field_C_addUseCount;
+        DynamicArrayT<ResourceManager_FilePartRecord> field_10_file_sections_dArray;
+        ResourceManager_FileRecord_Unknown* field_1C_pGameObjFileRec;
     };
-    ALIVE_ASSERT_SIZEOF(ResourceManager_FileRecord, 0x30);
+    ALIVE_ASSERT_SIZEOF(ResourceManager_FileRecord, 0x20);
 
     struct ResourceHeapItem
     {
@@ -96,6 +109,8 @@ public:
     };
 
     EXPORT static void CC Init_454DA0();
+
+    static EXPORT void CC On_Loaded_446C10(ResourceManager_FileRecord* pLoaded);
 
     static EXPORT __int16 CC Move_Resources_To_DArray_455430(BYTE** ppRes, DynamicArray* pArray);
 
@@ -153,6 +168,7 @@ ALIVE_VAR_EXTERN(short, bHideLoadingIcon_5076A0);
 ALIVE_VAR_EXTERN(int, loading_ticks_5076A4);
 ALIVE_VAR_EXTERN(int, gFilesPending_507714);
 ALIVE_VAR_EXTERN(short, bLoadingAFile_50768C);
+ALIVE_VAR_EXTERN(DynamicArrayT<ResourceManager::ResourceManager_FileRecord>*, ObjList_5009E0);
 
 enum ResourceID
 {

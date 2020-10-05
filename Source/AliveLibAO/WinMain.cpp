@@ -528,9 +528,6 @@ EXPORT int PSX_ResetCallBack_49AFB0()
     return 0;
 }
 
-// TODO: Likely part of resource manager vars
-ALIVE_VAR(1, 0x5009E0, DynamicArray*, ObjList_5009E0, nullptr);
-
 EXPORT int CC DebugFont_Init_487EC0()
 {
     NOT_IMPLEMENTED();
@@ -575,7 +572,7 @@ EXPORT void CC Init_Sound_DynamicArrays_And_Others_41CD20()
     ObjListPlatforms_50766C = ao_new<DynamicArrayT<BaseGameObject>>();
     ObjListPlatforms_50766C->ctor_4043E0(20);
 
-    ObjList_5009E0 = ao_new<DynamicArray>();
+    ObjList_5009E0 = ao_new<DynamicArrayT<ResourceManager::ResourceManager_FileRecord>>();
     ObjList_5009E0->ctor_4043E0(10);  // not used in AE
 
     sShadowZone_dArray_507B08 = ao_new<DynamicArrayT<ShadowZone>>();

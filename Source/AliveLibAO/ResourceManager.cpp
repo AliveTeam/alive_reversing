@@ -11,6 +11,8 @@
 
 START_NS_AO
 
+ALIVE_VAR(1, 0x5009E0, DynamicArrayT<ResourceManager::ResourceManager_FileRecord>*, ObjList_5009E0, nullptr);
+
 ALIVE_VAR(1, 0x9F0E48, DWORD, sManagedMemoryUsedSize_9F0E48, 0);
 
 ALIVE_VAR(1, 0x5076A0, short, bHideLoadingIcon_5076A0, 0);
@@ -266,6 +268,42 @@ void CC Game_ShowLoadingIcon_445EB0()
         PSX_PutDispEnv_495CE0(&dispEnv);
         pParticle->field_6_flags.Set(BaseGameObject::eDead_Bit3);
         bHideLoadingIcon_5076A0 = TRUE;
+    }
+}
+
+
+void CC ResourceManager::On_Loaded_446C10(ResourceManager_FileRecord* pLoaded)
+{
+    for (int i=0; i< pLoaded->field_10_file_sections_dArray.Size(); i++)
+    {
+        ResourceManager_FilePartRecord* pFilePart = pLoaded->field_10_file_sections_dArray.ItemAt(i);
+        if (!pFilePart)
+        {
+            break;
+        }
+
+        BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(
+            pFilePart->field_0_ResId,
+            pFilePart->field_4_bAddUsecount,
+            1,
+            0);
+
+        if (ppRes)
+        {
+            pFilePart->field_8_pCamera->field_0_array.Push_Back(ppRes);
+        }
+
+        ao_delete_free_447540(pFilePart);
+    }
+
+    // pLoaded is done with now, remove it
+    ObjList_5009E0->Remove_Item(pLoaded);
+
+    if (pLoaded)
+    {
+        // And destruct/free it
+        pLoaded->dtor_447510();
+        ao_delete_free_447540(pLoaded);
     }
 }
 
