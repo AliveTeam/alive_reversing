@@ -505,7 +505,6 @@ __int16 SlingMudokon::tsub_46FEC0()
         return field_13A_brain_state;
 
     case 5:
-        //bugged
         if (field_10_anim.field_92_current_frame || static_cast<int>(gnFrameCount_507670) <= field_140_timer)
         {
             return field_13A_brain_state;
