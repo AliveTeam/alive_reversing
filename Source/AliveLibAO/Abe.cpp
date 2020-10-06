@@ -4116,7 +4116,7 @@ void Abe::State_3_Fall_42E7F0()
     FP hitX = {};
     FP hitY = {};
     PathLine* pPathLine = nullptr;
-    const int bCollision = InAirCollision_4019C0(&pPathLine, &hitX, &hitY, FP_FromDouble(1.80));
+    const int bCollision = InAirCollision_4019C0(&pPathLine, &hitX, &hitY, FP_FromDouble(1.8));
     SetActiveCameraDelayedFromDir_401C90();
 
     field_F0_pTlv = gMap_507BA8.TLV_Get_At_446060(
@@ -4174,7 +4174,7 @@ void Abe::State_3_Fall_42E7F0()
                         ));
                 if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit8)
                     || (pSoftLanding && field_100_health > FP_FromInteger(0))
-                    || ((field_AC_ypos - field_E8_LastLineYPos) < (field_BC_sprite_scale * FP_FromInteger(25))
+                    || ((field_AC_ypos - field_E8_LastLineYPos) < (field_BC_sprite_scale * FP_FromInteger(180))
                     && (field_100_health > FP_FromInteger(0) || gAbeInvulnerableCheat_5076E4)))
                 {
                     field_FC_current_motion = eAbeStates::State_98_LandSoft_42ED40;
