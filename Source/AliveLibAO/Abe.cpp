@@ -4531,9 +4531,81 @@ void Abe::State_24_RollBegin_427A20()
     }
 }
 
+BOOL Abe::Is_Celling_Above()
+{
+    FP hitY = {};
+    FP hitX = {};
+    PathLine* pLine = nullptr;
+    return sCollisions_DArray_504C6C->RayCast_40C410(
+        field_A8_xpos,
+        field_AC_ypos,
+        field_A8_xpos,
+        field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(25)),
+        &pLine,
+        &hitX,
+        &hitY,
+        field_BC_sprite_scale != FP_FromInteger(0) ? 8 : 128) != 0;
+}
+
 void Abe::State_25_RollLoop_427BB0()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEventNoise_0, this);
+    Event_Broadcast_417220(kEvent_10, this);
+
+    field_10E_released_buttons |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_8_released;
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(20), field_B4_velx))
+    {
+        ToKnockback_422D90(1, 1);
+        field_FC_current_motion = eAbeStates::State_73_RollingKnockback_4291D0;
+    }
+    else
+    {
+        sub_422FC0();
+
+        if (field_FC_current_motion == eAbeStates::State_25_RollLoop_427BB0)
+        {
+            if (field_10_anim.field_92_current_frame == 1 || field_10_anim.field_92_current_frame == 5 || field_10_anim.field_92_current_frame == 9)
+            {
+                if (!sInputObject_5009E8.isPressed(sInputKey_Run_4C65A8)
+                    || sInputObject_5009E8.isPressed(sInputKey_FartRoll_4C65B0)
+                    || Is_Celling_Above()
+                    || field_12C_timer + 9 >= static_cast<int>(gnFrameCount_507670))
+                {
+                    if (field_10E_released_buttons && sInputKey_FartRoll_4C65B0)
+                    {
+                        if (!Is_Celling_Above() && field_12C_timer + 9 < static_cast<int>(gnFrameCount_507670))
+                        {
+                            ToLeftRightMovement_422AA0();
+                            field_10E_released_buttons = 0;
+                        }
+                    }
+                }
+                else
+                {
+                    ToLeftRightMovement_422AA0();
+                    field_10C_prev_held = 0;
+                }
+            }
+            else if (!field_10_anim.field_92_current_frame || field_10_anim.field_92_current_frame == 4 || field_10_anim.field_92_current_frame == 8)
+            {
+                MapFollowMe_401D30(TRUE);
+
+                if (field_B4_velx > FP_FromInteger(0) && !sInputObject_5009E8.isPressed(sInputKey_Right_4C6590) ||
+                    field_B4_velx < FP_FromInteger(0) && !sInputObject_5009E8.isPressed(sInputKey_Left_4C6594))
+                {
+                    field_FC_current_motion = eAbeStates::State_19_CrouchIdle_4284C0;
+                    field_B4_velx = FP_FromInteger(0);
+                }
+            }
+
+            if (field_10_anim.field_92_current_frame == 0 || field_10_anim.field_92_current_frame == 6)
+            {
+                Environment_SFX_42A220(EnvironmentSfx::eRollingNoise_8, 0, 0x7FFF, this);
+            }
+        }
+    }
+
 }
 
 void Abe::State_26_RollEnd_427EA0()
