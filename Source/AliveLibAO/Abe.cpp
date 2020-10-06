@@ -4843,7 +4843,7 @@ void Abe::State_30_HopMid_4264D0()
                         rect.y += 5;
                         rect.h += 5;
 
-                        VOnCollisionWith_418080(
+                        VOnCollisionWith(
                             { rect.x, rect.y },
                             { rect.w, rect.h },
                             ObjListPlatforms_50766C,

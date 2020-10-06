@@ -207,7 +207,7 @@ Paramite* Paramite::ctor_44A7A0(Path_Paramite* pTlv, int tlvInfo)
         field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
     }
 
-    VStackOnObjectsOfType_418930(Types::eParamite_62);
+    VStackOnObjectsOfType(Types::eParamite_62);
 
     field_10A_flags.Set(Flags_10A::e10A_Bit6);
 
@@ -2502,7 +2502,7 @@ __int16 Paramite::Brain_SpottedMeat_449CD0()
             }
         }
 
-        if (!VIsFacingMe_4183F0(field_148_pMeat))
+        if (!VIsFacingMe(field_148_pMeat))
         {
             if (FP_Abs(field_148_pMeat->field_A8_xpos - field_A8_xpos) > FP_FromInteger(5))
             {
