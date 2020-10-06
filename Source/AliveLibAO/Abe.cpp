@@ -2566,9 +2566,9 @@ bool Abe::NearDoorIsOpen()
         {
             auto pDoor = static_cast<Door*>(pObj);
             PSX_RECT Rect = {};
-            VGetBoundingRect_418120(&Rect, 1);
+            VGetBoundingRect(&Rect, 1);
             PSX_RECT Rect2 = {};
-            pDoor->VGetBoundingRect_418120(&Rect2, 1);
+            pDoor->VGetBoundingRect(&Rect2, 1);
 
             if (Rect.x <= Rect2.w &&
                 Rect.w >= Rect2.x &&
@@ -4188,7 +4188,7 @@ void Abe::State_3_Fall_42E7F0()
 
                 PSX_Point xy{ FP_GetExponent(field_A8_xpos - FP_FromInteger(25)), FP_GetExponent(field_AC_ypos - FP_FromInteger(25)) };
                 PSX_Point wh{ FP_GetExponent(field_A8_xpos + FP_FromInteger(25)), FP_GetExponent(field_AC_ypos + FP_FromInteger(25)) };
-                VOnCollisionWith_418080(
+                VOnCollisionWith(
                     xy,
                     wh,
                     ObjListPlatforms_50766C,
@@ -5058,11 +5058,11 @@ void Abe::State_30_HopMid_4264D0()
                         field_FC_current_motion = eAbeStates::State_31_HopLand_426940;
 
                         PSX_RECT rect = {};
-                        VGetBoundingRect_418120(&rect, 1);
+                        VGetBoundingRect(&rect, 1);
                         rect.y += 5;
                         rect.h += 5;
 
-                        VOnCollisionWith_418080(
+                        VOnCollisionWith(
                             { rect.x, rect.y },
                             { rect.w, rect.h },
                             ObjListPlatforms_50766C,

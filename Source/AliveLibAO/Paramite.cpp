@@ -207,7 +207,7 @@ Paramite* Paramite::ctor_44A7A0(Path_Paramite* pTlv, int tlvInfo)
         field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
     }
 
-    VStackOnObjectsOfType_418930(Types::eParamite_62);
+    VStackOnObjectsOfType(Types::eParamite_62);
 
     field_10A_flags.Set(Flags_10A::e10A_Bit6);
 
@@ -2502,7 +2502,7 @@ __int16 Paramite::Brain_SpottedMeat_449CD0()
             }
         }
 
-        if (!VIsFacingMe_4183F0(field_148_pMeat))
+        if (!VIsFacingMe(field_148_pMeat))
         {
             if (FP_Abs(field_148_pMeat->field_A8_xpos - field_A8_xpos) > FP_FromInteger(5))
             {
@@ -3388,7 +3388,7 @@ void Paramite::State_13_GameSpeakBegin_44D050()
     sActiveHero_507678->VGetBoundingRect(&abeRect, 1);
 
     PSX_RECT ourRect = {};
-    VGetBoundingRect_418120(&ourRect, 1);
+    VGetBoundingRect(&ourRect, 1);
 
     if (abeRect.x <= ourRect.w
         && abeRect.w >= ourRect.x
@@ -3611,7 +3611,7 @@ void Paramite::State_18_RunningAttack_44D5D0()
     MapFollowMe_401D30(FALSE);
 
     PSX_RECT abeRect = {};
-    sActiveHero_507678->VGetBoundingRect_418120(&abeRect, 1);
+    sActiveHero_507678->VGetBoundingRect(&abeRect, 1);
 
     PSX_RECT rect = {};
     VGetBoundingRect(&rect, 1);
@@ -3773,7 +3773,7 @@ void Paramite::State_22_Unknown_44D8F0()
     sActiveHero_507678->VGetBoundingRect(&abeRect, 1);
 
     PSX_RECT rect = {};
-    VGetBoundingRect_418120(&rect, 1);
+    VGetBoundingRect(&rect, 1);
 
     if (abeRect.x <= rect.w
         && abeRect.w >= rect.x

@@ -81,7 +81,7 @@ void FootSwitch::VScreenChanged_4889D0()
 BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_488A60()
 {
     PSX_RECT bRectSwitch = {};
-    VGetBoundingRect_418120(&bRectSwitch, 1);
+    VGetBoundingRect(&bRectSwitch, 1);
     // NOTE: AE  y -= 3 not done in AO
 
     if (field_EE_trigger_by == FootSwitchTriggerBy::eAnyone_1)

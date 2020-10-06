@@ -297,7 +297,7 @@ Slig* Slig::ctor_464D40(Path_Slig* pTlv, int tlvInfo)
 
     Init_46B890();
     
-    VStackOnObjectsOfType_418930(Types::eSlig_88);
+    VStackOnObjectsOfType(Types::eSlig_88);
 
     field_10A_flags.Set(Flags_10A::e10A_Bit6);
 
@@ -1431,7 +1431,7 @@ __int16 CCSTD Slig::IsInInvisibleZone_418870(BaseAnimatedWithPhysicsGameObject* 
     }
 
     PSX_RECT rect = {};
-    pObj->VGetBoundingRect_418120(&rect, 1);
+    pObj->VGetBoundingRect(&rect, 1);
 
     Path_TLV* pTlv = gMap_507BA8.TLV_Get_At_446260(rect.x, rect.y, rect.w, rect.h, TlvTypes::InvisibleZone_58);
     if (pTlv)
@@ -1468,7 +1468,7 @@ void Slig::ToStand()
 __int16 CCSTD Slig::IsInZCover_46BDA0(Slig* pThis)
 {
     PSX_RECT bRect = {};
-    pThis->VGetBoundingRect_418120(&bRect, 1);
+    pThis->VGetBoundingRect(&bRect, 1);
 
     return Bullet::InZBulletCover(FP_FromInteger(bRect.x), FP_FromInteger(bRect.y), bRect);
 }
