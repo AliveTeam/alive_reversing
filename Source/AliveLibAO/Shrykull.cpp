@@ -373,7 +373,7 @@ void Shrykull::VUpdate_463AE0()
             {
                 if (!field_120_bElectrocute)
                 {
-                    field_11C_obj_being_zapped->VTakeDamage_401920(this);
+                    field_11C_obj_being_zapped->VTakeDamage(this);
                 }
 
                 field_11C_obj_being_zapped->field_C_refCount--;

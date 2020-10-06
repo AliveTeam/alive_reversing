@@ -216,7 +216,7 @@ void SecurityOrb::VUpdate_436DF0()
                 pPossessionFlicker->ctor_41A8C0(sActiveHero_507678, 8, 255, 100, 100);
             }
 
-            sActiveHero_507678->VTakeDamage_401920(this);
+            sActiveHero_507678->VTakeDamage(this);
             field_114_timer = gnFrameCount_507670 + 8;
             field_110_state = 2;
 

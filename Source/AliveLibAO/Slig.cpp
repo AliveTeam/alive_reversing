@@ -578,7 +578,7 @@ void Slig::VOnTrapDoorOpen_466350()
         field_F8_pLiftPoint->field_C_refCount--;
         field_F8_pLiftPoint = nullptr;
         field_E8_LastLineYPos = field_AC_ypos;
-        VSetMotion_402520(eSligStates::State_39_OutToFall_46A9E0);
+        VSetMotion(eSligStates::State_39_OutToFall_46A9E0);
     }
 }
 
@@ -840,7 +840,7 @@ void Slig::VOn_TLV_Collision_465CF0(Path_TLV* pTlv)
                 SetBrain(&Slig::Brain_DeathDropDeath_46C5A0);
                 field_B8_vely = FP_FromInteger(0);
                 field_B4_velx = FP_FromInteger(0);
-                VSetMotion_402520(eSligStates::State_7_Falling_46A1A0);
+                VSetMotion(eSligStates::State_7_Falling_46A1A0);
                 Event_Broadcast_417220(kEventMudokonComfort_16, sActiveHero_507678);
             }
         }
