@@ -186,6 +186,12 @@ BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::Vdtor_4189
     return this;
 }
 
+
+void BaseAnimatedWithPhysicsGameObject::VRender(int** pOrderingTable)
+{
+    VRender_417DA0(pOrderingTable);
+}
+
 void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, int startingPointIdx, TCollisionCallBack pFn)
 {
     VOnCollisionWith_418080(xy, wh, pObjList, startingPointIdx, pFn);

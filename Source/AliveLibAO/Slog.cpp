@@ -870,7 +870,7 @@ void Slog::VRender_4735D0(int** ppOt)
 {
     if (field_8_update_delay == 0)
     {
-        BaseAnimatedWithPhysicsGameObject::VRender_417DA0(ppOt);
+        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
 }
 

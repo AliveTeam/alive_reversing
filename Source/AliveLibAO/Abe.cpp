@@ -1106,7 +1106,7 @@ void Abe::vRender_420F30(int** pOrderingTable)
         field_FC_current_motion != eAbeStates::State_84_431080 &&
         field_FC_current_motion != eAbeStates::State_75_ToInsideOfAWellLocal_431090)
     {
-        VRender_417DA0(pOrderingTable);
+        VRender(pOrderingTable);
     }
 }
 

@@ -561,7 +561,7 @@ void Slig::VRender_465590(int** ppOt)
 {
     if (field_8_update_delay == 0)
     {
-        BaseAnimatedWithPhysicsGameObject::VRender_417DA0(ppOt);
+        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
 }
 

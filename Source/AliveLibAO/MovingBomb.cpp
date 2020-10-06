@@ -257,7 +257,7 @@ void MovingBomb::VRender_43B910(int** ppOt)
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
-        BaseAnimatedWithPhysicsGameObject::VRender_417DA0(ppOt);
+        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
 }
 

@@ -220,7 +220,7 @@ void TimedMine::VRender_408960(int** ppOt)
             pRect.h,
             pScreenManager_4FF7C8->field_2E_idx
         );
-        BaseAnimatedWithPhysicsGameObject::VRender_417DA0(ppOt);
+        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
 }
 
