@@ -82,10 +82,7 @@ public:
     __int16 field_11C_code_length;
     __int16 field_11E_flags;
     int field_120;
-    BYTE field_124_code_buffer;
-    int field_128;
-    int field_12C;
-    int field_130;
+    BYTE field_124_code_buffer[16];
     __int16 field_134_buffer_start;
     __int16 field_136;
     unsigned __int16 field_138_brain_state;

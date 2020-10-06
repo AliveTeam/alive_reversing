@@ -4170,8 +4170,7 @@ void Abe::State_3_Fall_42E7F0()
                         FP_GetExponent(field_AC_ypos),
                         FP_GetExponent(field_A8_xpos),
                         FP_GetExponent(field_AC_ypos),
-                        114u
-                        ));
+                        TlvTypes::SoftLanding_114));
                 if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit8)
                     || (pSoftLanding && field_100_health > FP_FromInteger(0))
                     || ((field_AC_ypos - field_E8_LastLineYPos) < (field_BC_sprite_scale * FP_FromInteger(180))
@@ -4223,7 +4222,7 @@ void Abe::State_3_Fall_42E7F0()
         FP_GetExponent(field_AC_ypos - field_BC_sprite_scale * FP_FromInteger(25)),
         FP_GetExponent(field_A8_xpos),
         FP_GetExponent(field_AC_ypos),
-        4u
+        TlvTypes::Edge_4
     ));
 
     if (pEdge)

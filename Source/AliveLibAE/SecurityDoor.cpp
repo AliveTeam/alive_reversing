@@ -225,29 +225,23 @@ void SecurityDoor::vUpdate_4AC380()
 
     case DoorState::eSayingPassword_6:
     {
-        // TODO: Optimized sub switch case - refactor
-        const __int16 v8 = Code_LookUp_4C9E40(field_FC_code_converted, field_128_max_idx, field_100_code_len) - 5;
-        if (v8)
+        const GameSpeakEvents code = Code_LookUp_4C9E40(field_FC_code_converted, field_128_max_idx, field_100_code_len) ;
+        switch (code)
         {
-            const __int16 v9 = v8 - 2;
-            if (v9)
-            {
-                if (v9 == 1)
-                {
-                    Slig_GameSpeak_SFX_4C04F0(SligSpeak::eLaugh_3, 127, -100, 0);
-                }
-            }
-            else
-            {
-                Slig_GameSpeak_SFX_4C04F0(SligSpeak::eBullshit2_7, 127, -100, 0);
-            }
-        }
-        else
-        {
-            Slig_GameSpeak_SFX_4C04F0(SligSpeak::eBullshit_5, 127, -100, 0);
+        case GameSpeakEvents::Slig_BS_5:
+            Slig_GameSpeak_SFX_4C04F0(SligSpeak::eBullshit_5, 127, -100, nullptr);
+            break;
+
+        case GameSpeakEvents::Slig_Laugh_8:
+             Slig_GameSpeak_SFX_4C04F0(SligSpeak::eLaugh_3, 127, -100, nullptr);
+            break;
+
+        case GameSpeakEvents::Slig_BS2_7:
+            Slig_GameSpeak_SFX_4C04F0(SligSpeak::eBullshit2_7, 127, -100, nullptr);
+            break;
         }
 
-        field_20_animation.Set_Animation_Data_409C80(1528, 0);
+        field_20_animation.Set_Animation_Data_409C80(1528, nullptr);
         if (++field_128_max_idx >= field_100_code_len)
         {
             field_F8_state = DoorState::eListeningForPassword_9;
