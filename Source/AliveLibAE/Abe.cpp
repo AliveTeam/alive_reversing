@@ -4358,11 +4358,10 @@ void Abe::State_23_RollLoop_453A90()
 
         if (field_106_current_motion == eAbeStates::State_23_RollLoop_453A90)
         {
-            const DWORD pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
             if (field_20_animation.field_92_current_frame == 1 || field_20_animation.field_92_current_frame == 5 || field_20_animation.field_92_current_frame == 9)
             {
-                if (!(sInputKey_Run_5550E8 & pressed)
-                    || (pressed & sInputKey_FartRoll_5550F0)
+                if (!sInputObject_5BD4E0.isPressed(sInputKey_Run_5550E8)
+                    || sInputObject_5BD4E0.isPressed(sInputKey_FartRoll_5550F0)
                     || Is_Celling_Above_44E8D0()
                     || field_128.field_14 + 9 >= static_cast<int>(sGnFrame_5C1B84))
                 {
@@ -4385,8 +4384,8 @@ void Abe::State_23_RollLoop_453A90()
             {
                 MapFollowMe_408D10(TRUE);
 
-                if ((field_C4_velx > FP_FromInteger(0) && !(sInputKey_Right_5550D0 & pressed)) ||
-                    (field_C4_velx < FP_FromInteger(0) && !(sInputKey_Left_5550D4 & pressed)))
+                if (field_C4_velx > FP_FromInteger(0) && !sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0) ||
+                    field_C4_velx < FP_FromInteger(0) && !sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4))
                 {
                     field_106_current_motion = eAbeStates::State_17_CrouchIdle_456BC0;
                     field_C4_velx = FP_FromInteger(0);

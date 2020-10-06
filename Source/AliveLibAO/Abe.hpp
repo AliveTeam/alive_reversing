@@ -278,6 +278,8 @@ struct AbeResources
 class Abe : public BaseAliveGameObject
 {
 public: 
+    BOOL Is_Celling_Above();
+
     EXPORT Abe* ctor_420770(int frameTableOffset, int a3, int a4, int a5);
 
     EXPORT BaseGameObject* dtor_420C80();
