@@ -635,7 +635,7 @@ void Paramite::VUpdate_44A490()
             if (field_140)
             {
 
-                field_FC_current_motion = field_E4;
+                field_FC_current_motion = field_E4_previous_motion;
                 VUpdateAnimData_44A460();
                 field_10_anim.SetFrame_402AC0(field_E6_last_anim_frame);
                 field_140 = 0;
@@ -2800,7 +2800,7 @@ void Paramite::State_2_Walking_44B9E0()
     case 10:
         if (field_FE_next_state == eParamiteStates::State_3_Running_44C070)
         {
-            field_E4 = eParamiteStates::State_3_Running_44C070;
+            field_E4_previous_motion = eParamiteStates::State_3_Running_44C070;
             field_E6_last_anim_frame = 11;
             field_140 = 1;
             field_FE_next_state = -1;
@@ -3021,7 +3021,7 @@ void Paramite::State_4_Unknown_44B6C0()
     {
         if (sControlledCharacter_50767C == this)
         {
-            field_FC_current_motion = field_E4;
+            field_FC_current_motion = field_E4_previous_motion;
             if (field_F8_pLiftPoint)
             {
                 // TODO: Correct type ??
@@ -3030,7 +3030,7 @@ void Paramite::State_4_Unknown_44B6C0()
         }
         else
         {
-            field_FC_current_motion = field_E4;
+            field_FC_current_motion = field_E4_previous_motion;
             if (field_F8_pLiftPoint)
             {
                 field_A8_xpos = FP_FromInteger((field_F4_pLine->field_0_rect.x + field_F4_pLine->field_0_rect.w) / 2);
@@ -3182,7 +3182,7 @@ void Paramite::State_7_Unknown_44BF10()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_E4 = 3;
+        field_E4_previous_motion = 3;
         field_E6_last_anim_frame = 2;
         field_140 = 1;
     }
@@ -3273,7 +3273,7 @@ void Paramite::State_10_RunBegin_44C4C0()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_E4 = 3;
+        field_E4_previous_motion = 3;
         field_E6_last_anim_frame = 2;
         field_140 = 1;
     }

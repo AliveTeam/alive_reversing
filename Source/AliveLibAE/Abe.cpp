@@ -2926,18 +2926,22 @@ static bool IsFacingSameDirectionAsHoist(Path_Hoist* pHoist, BaseAliveGameObject
     return true;
 }
 
-static bool IsFacingSameDirectionAsEdge(Path_Edge* pEdge, BaseAliveGameObject* pObj)
+static bool isEdgeGrabbable(Path_Edge* pEdge, BaseAliveGameObject* pObj)
 {
-    if (pEdge->field_10_type == Path_Edge::Type::eLeft && !pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (pEdge->field_10_type == Path_Edge::Type::eLeft && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        return false;
+        return true;
     }
-    else if (pEdge->field_10_type == Path_Edge::Type::eRight && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    else if (pEdge->field_10_type == Path_Edge::Type::eRight && !pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        return false;
+        return true;
+    }
+    else if (pEdge->field_10_type == Path_Edge::Type::eBoth)
+    {
+        return true;
     }
 
-    return true;
+    return false;
 }
 
 void Abe::State_0_Idle_44EEB0()
@@ -3539,7 +3543,7 @@ void Abe::State_3_Fall_459B60()
     FP hitX = {};
     FP hitY = {};
     PathLine* pPathLine = nullptr;
-    const int bCollision = InAirCollision_408810(&pPathLine, &hitX, &hitY, FP_FromDouble(1.80)); // 0x1CCCC
+    const int bCollision = InAirCollision_408810(&pPathLine, &hitX, &hitY, FP_FromDouble(1.80));
     SetActiveCameraDelayedFromDir_408C40();
 
     // Are we falling into a local well?
@@ -3570,7 +3574,7 @@ void Abe::State_3_Fall_459B60()
             {
                 // The well must be on the same scale/layer
                 Path_Well_Base* pWellBase = static_cast<Path_Well_Base*>(field_FC_pPathTLV);
-                if ((pWellBase->field_0_scale == 0 && field_CC_sprite_scale == FP_FromDouble(1.0))
+                if ((pWellBase->field_0_scale == 0 && field_CC_sprite_scale == FP_FromInteger(1))
                     || (pWellBase->field_0_scale == 1 && field_CC_sprite_scale == FP_FromDouble(0.5)))
                 {
                     field_1AC_flags.Set(Flags_1AC::e1AC_Bit3_Fall_To_Well);
@@ -3581,7 +3585,6 @@ void Abe::State_3_Fall_459B60()
         }
     }
 
-    Path_SoftLanding* pSoftLanding = nullptr;
     if (bCollision)
     {
         switch (pPathLine->field_8_type)
@@ -3598,7 +3601,7 @@ void Abe::State_3_Fall_459B60()
             field_124_gnFrame = sGnFrame_5C1B84 + 30;
 
             // See if there is a soft landing at our feet (given we known we just hit the floor)
-            pSoftLanding =
+            Path_SoftLanding* pSoftLanding =
                 static_cast<Path_SoftLanding*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
                     FP_GetExponent(field_B8_xpos),
                     FP_GetExponent(field_BC_ypos),
@@ -3638,7 +3641,8 @@ void Abe::State_3_Fall_459B60()
                 wh,
                 ObjList_5C1B78,
                 1,
-                reinterpret_cast<TCollisionCallBack>(&BaseAliveGameObject::OnTrapDoorIntersection_408BA0)); // Danger danger.. but will probably work.. can't see how else they would have got this to work
+                reinterpret_cast<TCollisionCallBack>(&BaseAliveGameObject::OnTrapDoorIntersection_408BA0)
+            ); // Danger danger.. but will probably work.. can't see how else they would have got this to work
         }
         break;
 
@@ -3665,21 +3669,20 @@ void Abe::State_3_Fall_459B60()
         FP_GetExponent(field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(75))),
         FP_GetExponent(field_B8_xpos),
         FP_GetExponent(field_BC_ypos),
-        TlvTypes::Edge_3));
+        TlvTypes::Edge_3
+    ));
 
-    field_FC_pPathTLV = pEdge;
     bool tryToHang = false;
     if (pEdge)
     {
         if (pEdge->field_12_can_grab && IsSameScaleAsEdge(pEdge, this) &&
-            (IsFacingSameDirectionAsEdge(pEdge, this) || pEdge->field_10_type == Path_Edge::Type::eBoth))
+            (isEdgeGrabbable(pEdge, this)))
         {
             tryToHang = true;
         }
+        field_FC_pPathTLV = pEdge;
     }
-
-    // Didn't find and edge to grab so check if falling onto a hoist
-    if (!tryToHang)
+    else // Didn't find and edge to grab so check if falling onto a hoist
     {
         // Look down 20 for a hoist
         Path_Hoist* pHoist = static_cast<Path_Hoist*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
@@ -3713,7 +3716,7 @@ void Abe::State_3_Fall_459B60()
 
         if (!sCollisions_DArray_5C1128->Raycast_417A60(
             field_B8_xpos,
-            FP_FromInteger(field_FC_pPathTLV->field_8_top_left.field_2_y + 65526), // TODO: Negative ??
+            FP_FromInteger(field_FC_pPathTLV->field_8_top_left.field_2_y -10), // TODO: Negative ??
             field_B8_xpos,
             FP_FromInteger(field_FC_pPathTLV->field_8_top_left.field_2_y + 10),
             &pPathLine,
@@ -4653,7 +4656,7 @@ void Abe::State_28_HopMid_451C50()
         field_FC_pPathTLV = pEdgeTlv;
 
         if (pEdgeTlv && pEdgeTlv->field_12_can_grab && IsSameScaleAsEdge(pEdgeTlv, this) &&
-            ((IsFacingSameDirectionAsEdge(pEdgeTlv, this) || pEdgeTlv->field_10_type == Path_Edge::Type::eBoth) && field_C4_velx != FP_FromInteger(0)))
+            ((isEdgeGrabbable(pEdgeTlv, this) && field_C4_velx != FP_FromInteger(0)))
         {
             field_B8_xpos = FP_FromInteger((pEdgeTlv->field_8_top_left.field_0_x + pEdgeTlv->field_C_bottom_right.field_0_x) / 2);
 
@@ -4849,7 +4852,7 @@ void Abe::State_31_RunJumpMid_452C10()
 
             if (pEdgeTlv && pEdgeTlv->field_12_can_grab)
             {
-                if (IsSameScaleAsEdge(pEdgeTlv, this) && (IsFacingSameDirectionAsEdge(pEdgeTlv, this) || pEdgeTlv->field_10_type == Path_Edge::Type::eBoth))
+                if (IsSameScaleAsEdge(pEdgeTlv, this) && (isEdgeGrabbable(pEdgeTlv, this))
                 {
                     checkCollision = true;
                 }
