@@ -3,6 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
+#include "GameSpeak.hpp"
 
 void SlingMud_ForceLink();
 
@@ -81,7 +82,7 @@ public:
     __int16 field_11C_code_length;
     __int16 field_11E_flags;
     int field_120;
-    int field_124_code_buffer;
+    BYTE field_124_code_buffer;
     int field_128;
     int field_12C;
     int field_130;
