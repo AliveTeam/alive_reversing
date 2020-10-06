@@ -22,16 +22,16 @@ ALIVE_ASSERT_SIZEOF(Path_PullRingRope, 0x28);
 
 class Rope;
 
-class PulllRingRope : public BaseAnimatedWithPhysicsGameObject
+class PullRingRope : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT PulllRingRope* ctor_4546B0(Path_PullRingRope* pTlv, int tlvInfo);
+    EXPORT PullRingRope* ctor_4546B0(Path_PullRingRope* pTlv, int tlvInfo);
 
     EXPORT BaseGameObject* dtor_454910();
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
-    EXPORT PulllRingRope* Vdtor_454D80(signed int flags);
+    EXPORT PullRingRope* Vdtor_454D80(signed int flags);
 
     virtual void VScreenChanged() override;
 
@@ -56,7 +56,7 @@ public:
     __int16 field_100_sound_direction;
     __int16 field_102;
 };
-ALIVE_ASSERT_SIZEOF(PulllRingRope, 0x104);
+ALIVE_ASSERT_SIZEOF(PullRingRope, 0x104);
 
 
 END_NS_AO

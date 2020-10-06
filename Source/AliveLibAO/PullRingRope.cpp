@@ -9,7 +9,7 @@
 
 START_NS_AO
 
-PulllRingRope* PulllRingRope::ctor_4546B0(Path_PullRingRope* pTlv, int tlvInfo)
+PullRingRope* PullRingRope::ctor_4546B0(Path_PullRingRope* pTlv, int tlvInfo)
 {
     ctor_417C10();
     SetVTable(this, 0x4BC058);
@@ -80,12 +80,12 @@ PulllRingRope* PulllRingRope::ctor_4546B0(Path_PullRingRope* pTlv, int tlvInfo)
     return this;
 }
 
-BOOL PulllRingRope::sub_454D60()
+BOOL PullRingRope::sub_454D60()
 {
     return field_EC_state != 1;
 }
 
-void PulllRingRope::VScreenChanged_454D70()
+void PullRingRope::VScreenChanged_454D70()
 {
     if (!field_F4_pPuller)
     {
@@ -93,12 +93,12 @@ void PulllRingRope::VScreenChanged_454D70()
     }
 }
 
-void PulllRingRope::VScreenChanged()
+void PullRingRope::VScreenChanged()
 {
     VScreenChanged_454D70();
 }
 
-PulllRingRope* PulllRingRope::Vdtor_454D80(signed int flags)
+PullRingRope* PullRingRope::Vdtor_454D80(signed int flags)
 {
     dtor_454910();
     if (flags & 1)
@@ -108,12 +108,12 @@ PulllRingRope* PulllRingRope::Vdtor_454D80(signed int flags)
     return this;
 }
 
-BaseGameObject* PulllRingRope::VDestructor(signed int flags)
+BaseGameObject* PullRingRope::VDestructor(signed int flags)
 {
     return Vdtor_454D80(flags);
 }
 
-BaseGameObject* PulllRingRope::dtor_454910()
+BaseGameObject* PullRingRope::dtor_454910()
 {
     SetVTable(this, 0x4BC058);
     gMap_507BA8.TLV_Reset_446870(field_E8, -1, 0, 0);
@@ -132,7 +132,7 @@ BaseGameObject* PulllRingRope::dtor_454910()
     return dtor_417D10();
 }
 
-__int16 PulllRingRope::Pull_454CB0(BaseAliveGameObject* pFrom)
+__int16 PullRingRope::Pull_454CB0(BaseAliveGameObject* pFrom)
 {
     if (!pFrom)
     {

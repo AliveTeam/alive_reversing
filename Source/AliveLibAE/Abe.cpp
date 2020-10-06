@@ -3893,36 +3893,38 @@ void Abe::State_14_HoistIdle_452440()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    const auto bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.80));
+    const auto bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
     SetActiveCameraDelayedFromDir_408C40();
 
     if (bCollision)
     {
         switch (pLine->field_8_type)
         {
-        case eFloor_0:
-        case eBackGroundFloor_4:
-        case 32u: // trap doors ??
-        case 36u:
-        {
-            field_B8_xpos = hitX;
-            field_BC_ypos = FP_NoFractional(hitY + FP_FromDouble(0.5));
+            case eFloor_0:
+            case eBackGroundFloor_4:
+            case 32u: // trap doors ??
+            case 36u:
+            {
+                field_B8_xpos = hitX;
+                field_BC_ypos = FP_NoFractional(hitY + FP_FromDouble(0.5));
 
-            MapFollowMe_408D10(1);
+                MapFollowMe_408D10(1);
 
-            field_100_pCollisionLine = pLine;
+                field_100_pCollisionLine = pLine;
 
-            field_106_current_motion = eAbeStates::State_15_HoistLand_452BA0;
-            field_F4_previous_motion = eAbeStates::State_14_HoistIdle_452440;
+                field_106_current_motion = eAbeStates::State_15_HoistLand_452BA0;
+                field_F4_previous_motion = eAbeStates::State_14_HoistIdle_452440;
 
-            vOnCollisionWith_424EE0(
-            { FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos) },
-            { FP_GetExponent(field_B8_xpos), FP_GetExponent((field_BC_ypos + FP_FromInteger(5))) },
-                ObjList_5C1B78,
-                1,
-                (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
-        }
-        break;
+                vOnCollisionWith_424EE0(
+                    { FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos) },
+                    { FP_GetExponent(field_B8_xpos), FP_GetExponent((field_BC_ypos + FP_FromInteger(5))) },
+                    ObjList_5C1B78,
+                    1,
+                    (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0
+                );
+                break;
+            }
+
         }
         return;
 

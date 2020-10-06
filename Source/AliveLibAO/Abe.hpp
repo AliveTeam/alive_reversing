@@ -183,7 +183,7 @@ enum eAbeStates : short
 class DeathFadeOut;
 class OrbWhirlWind;
 class BirdPortal;
-class PulllRingRope;
+class PullRingRope;
 class CircularFade;
 class BaseThrowable;
 class Rope;
@@ -358,7 +358,7 @@ public:
 
     EXPORT void SetActiveControlledCharacter_421480();
 
-    EXPORT Rope* GetPullRope_422580();
+    EXPORT PullRingRope* GetPullRope_422580();
 
     EXPORT void Free_Resources_422870();
 
@@ -582,7 +582,7 @@ public:
     __int16 field_156;
     DeathFadeOut* field_158_pDeathFadeout;
     BaseThrowable* field_15C_pThrowable;
-    PulllRingRope* field_160_pRope;
+    PullRingRope* field_160_pRope;
     CircularFade* field_164_pCircularFade;
     int field_168_ring_pulse_timer;
     __int16 field_16C_bHaveShrykull;

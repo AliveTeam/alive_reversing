@@ -28,6 +28,7 @@
 #include "LiftPoint.hpp"
 #include "Well.hpp"
 #include "Input.hpp"
+#include "PullRingRope.hpp"
 #include "ScreenShake.hpp"
 #include "Sfx.hpp"
 #include "MusicController.hpp"
@@ -2232,7 +2233,7 @@ void Abe::SetActiveControlledCharacter_421480()
     sControlledCharacter_50767C = this;
 }
 
-Rope* Abe::GetPullRope_422580()
+PullRingRope* Abe::GetPullRope_422580()
 {
     for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {
@@ -2244,7 +2245,7 @@ Rope* Abe::GetPullRope_422580()
 
         if (pObj->field_4_typeId == Types::ePullRingRope_68)
         {
-            Rope* pRope = static_cast<Rope*>(pObj);
+            PullRingRope* pRope = static_cast<PullRingRope*>(pObj);
 
             PSX_RECT bRect = {};
             pRope->VGetBoundingRect(&bRect, 1);
@@ -4455,9 +4456,150 @@ void Abe::State_16_HoistBegin_426E40()
     }
 }
 
+ALIVE_VAR(1, 0xA08628, unsigned __int8, byte_A08628, 0);
+
+void PSX_Prevent_Rendering_44FFB0()
+{
+    byte_A08628 = 1;
+}
+
 void Abe::State_17_HoistIdle_4269E0()
 {
-    NOT_IMPLEMENTED();
+    PathLine* pPathLine = nullptr;
+    FP hitX = {};
+    FP hitY = {};
+    const auto bCollision = InAirCollision_4019C0(&pPathLine, &hitX, &hitY, FP_FromDouble(1.8));
+    SetActiveCameraDelayedFromDir_401C90();
+    if (bCollision)
+    {
+        switch (pPathLine->field_8_type)
+        {
+            case eFloor_0:
+            case eBackGroundFloor_4:
+            case 32:
+            case 36:
+            {
+                field_A8_xpos = hitX;
+                field_AC_ypos = hitY;
+
+                MapFollowMe_401D30(1);
+
+                field_F4_pLine = pPathLine;
+
+                field_FC_current_motion = eAbeStates::State_18_HoistLand_426EB0;
+                field_E4_previous_motion = eAbeStates::State_17_HoistIdle_4269E0;
+
+                PSX_RECT rect = {};
+                VGetBoundingRect_418120(&rect, 1);
+                rect.y += 5;
+                rect.h += 5;
+
+                VOnCollisionWith_418080(
+                    { rect.x, rect.y },
+                    { rect.w, rect.h },
+                    ObjListPlatforms_50766C,
+                    1,
+                    (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10
+                );
+                break;
+            }
+        }
+        return;
+    }
+
+    PullRingRope* pPullRope = GetPullRope_422580();
+    field_160_pRope = pPullRope;
+    if (pPullRope)
+    {
+        if (pPullRope->Pull_454CB0(this))
+        {
+            field_FC_current_motion = eAbeStates::State_69_RingRopePull_4299B0;
+            field_FE_next_state = eAbeStates::State_0_Idle_423520;
+            field_160_pRope->field_C_refCount++;
+            return;
+        }
+        field_160_pRope = nullptr;
+    }
+
+    if (field_B8_vely >= FP_FromInteger(0))
+    {
+        Path_Hoist* pHoist = static_cast<Path_Hoist*>(gMap_507BA8.TLV_Get_At_446260(
+            FP_GetExponent(field_A8_xpos),
+            FP_GetExponent(field_AC_ypos),
+            FP_GetExponent(field_A8_xpos),
+            FP_GetExponent(field_AC_ypos),
+            TlvTypes::Hoist_3
+        ));
+        field_F0_pTlv = pHoist;
+        if (IsSameScaleAsHoist(pHoist, this))
+        {
+            if (IsFacingSameDirectionAsHoist(pHoist, this))
+            {
+                if (pHoist->field_1A_edge_type == Path_Hoist::EdgeType::eBoth)
+                {
+                    if (gMap_507BA8.SetActiveCameraDelayed_444CA0(Map::MapDirections::eMapTop_2, this, -1))
+                    {
+                        PSX_Prevent_Rendering_44FFB0();
+                        field_FC_current_motion = eAbeStates::State_67_ToOffScreenHoist_428C50;
+                        return;
+                    }
+                    field_AC_ypos -= field_BC_sprite_scale * FP_FromInteger(80);
+                    field_D0_pShadow->field_14_flags.Set(Shadow::Flags::eBit1_ShadowAtBottom);
+                }
+
+                field_FC_current_motion = eAbeStates::State_66_LedgeHang_428D90;
+                Environment_SFX_42A220(EnvironmentSfx::eWalkingFootstep_1, 0, 127, this);
+
+
+                if (sCollisions_DArray_504C6C->RayCast_40C410(
+                    field_A8_xpos,
+                    field_AC_ypos - field_BC_sprite_scale * FP_FromInteger(80),
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    &pPathLine,
+                    &hitX,
+                    &hitY,
+                    field_BC_sprite_scale != FP_FromDouble(0.5) ? 1 : 0x10))
+                {
+                    field_AC_ypos = hitY;
+                    field_F4_pLine = pPathLine;
+                    field_B8_vely = FP_FromInteger(0);
+                    if (!field_F8_pLiftPoint)
+                    {
+                        if (pPathLine->field_8_type == 32 || pPathLine->field_8_type == 36)
+                        {
+                            PSX_RECT rect = {};
+                            VGetBoundingRect_418120(&rect, 1);
+                            rect.y += 5;
+                            rect.h += 5;
+
+                            VOnCollisionWith_418080(
+                                { rect.x, rect.y },
+                                { rect.w, rect.h },
+                                ObjListPlatforms_50766C,
+                                1,
+                                (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10
+                            );
+                        }
+                    }
+                    field_D0_pShadow->field_14_flags.Set(Shadow::Flags::eBit1_ShadowAtBottom);
+                }
+                else
+                {
+                    field_FC_current_motion = eAbeStates::State_17_HoistIdle_4269E0;
+                }
+            }
+        }
+        else
+        {
+            field_F0_pTlv = (Path_Well_Express *) gMap_507BA8.TLV_Get_At_446060(
+                0,
+                field_A8_xpos,
+                field_AC_ypos,
+                field_A8_xpos,
+                field_AC_ypos);
+        }
+    }
 }
 
 void Abe::State_18_HoistLand_426EB0()
