@@ -4246,7 +4246,7 @@ void Abe::State_3_Fall_42E7F0()
 
         if (pHoist)
         {
-            if (IsFacingSameDirectionAsHoist(pHoist, this)) //TODO consider && IsSameScaleAsHoist(pHoist, this))
+            if (IsFacingSameDirectionAsHoist(pHoist, this))
             {
                 tryToHang = true;
             }
