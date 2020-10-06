@@ -4852,7 +4852,7 @@ void Abe::State_31_RunJumpMid_452C10()
 
             if (pEdgeTlv && pEdgeTlv->field_12_can_grab)
             {
-                if (IsSameScaleAsEdge(pEdgeTlv, this) && (isEdgeGrabbable(pEdgeTlv, this))
+                if (IsSameScaleAsEdge(pEdgeTlv, this) && (isEdgeGrabbable(pEdgeTlv, this)))
                 {
                     checkCollision = true;
                 }
