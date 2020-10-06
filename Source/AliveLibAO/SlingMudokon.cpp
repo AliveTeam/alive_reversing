@@ -480,12 +480,10 @@ __int16 SlingMudokon::tsub_46FEC0()
 
             if (static_cast<int>(gnFrameCount_507670) <= field_144_timer2)
             {
-                if (pEventSystem_4FF954->MatchBuffer_40FAA0(&field_124_code_buffer, field_134_buffer_start, field_136) != GameSpeakMatch::eFullMatch_1)
+                if (pEventSystem_4FF954->MatchBuffer_40FAA0(&field_124_code_buffer, field_134_buffer_start, field_136) != GameSpeakMatch::eFullMatch_1 &&
+                    pEventSystem_4FF954->MatchBuffer_40FAA0(&field_124_code_buffer, field_134_buffer_start, field_136) > GameSpeakMatch::eFullMatch_1)
                 {
-                    if (pEventSystem_4FF954->MatchBuffer_40FAA0(&field_124_code_buffer, field_134_buffer_start, field_136) >= GameSpeakMatch::eFullMatch_1)
-                    {
-                        return field_13A_brain_state;
-                    }
+                    return field_13A_brain_state;
                 }
             }
 
