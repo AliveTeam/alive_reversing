@@ -17,15 +17,15 @@ void BellSong::VUpdate_476130()
 
     if (!field_14_bDone)
     {
-        const __int16 code_looked_up = Code_LookUp_476050(field_18_code, static_cast<unsigned short>(field_10_code_idx), field_1C_code_len);
+        const GameSpeakEvents code_looked_up = Code_LookUp_476050(field_18_code, static_cast<unsigned short>(field_10_code_idx), field_1C_code_len);
         if (field_16_type)
         {
             switch (code_looked_up)
             {
-            case 1:
+            case GameSpeakEvents::eWhistle1_1:
                 SFX_Play_43AD70(SoundEffect::BellChime2_51, 0, 0);
                 break;
-            case 2:
+            case GameSpeakEvents::eWhistle2_2:
                 SFX_Play_43AD70(SoundEffect::BellChime1_50, 0, 0);
                 break;
             default:
@@ -37,9 +37,9 @@ void BellSong::VUpdate_476130()
         {
             switch (code_looked_up)
             {
-            case 1:
+            case GameSpeakEvents::eWhistle1_1:
                 Mudokon_SFX_42A4D0(MudSounds::eFart_7, 0, 0, 0);
-            case 2:
+            case GameSpeakEvents::eWhistle2_2:
                 Mudokon_SFX_42A4D0(MudSounds::eWhistle2_2, 0, 0, 0);
             default:
                 Mudokon_SFX_42A4D0(MudSounds::eWhistle1_1, 0, 0, 0);

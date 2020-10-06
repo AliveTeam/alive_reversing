@@ -2218,7 +2218,7 @@ void Elum::State_7_Unknown_413200()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_E4 = 3;
+        field_E4_previous_motion = 3;
         field_E6_last_anim_frame = eElumStates::State_9_ToYell_415890;
         field_120 = 1;
     }
@@ -2986,7 +2986,7 @@ void Elum::State_35_RunJumpLand_415580()
             }
             else
             {
-                field_E4 = eElumStates::State_36_RunLoop_413720;
+                field_E4_previous_motion = eElumStates::State_36_RunLoop_413720;
                 field_E6_last_anim_frame = 4;
                 field_120 = 1;
                 if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -3136,7 +3136,7 @@ void Elum::State_37_RunSlideStop_4142E0()
         if (sInputObject_5009E8.isPressed(sInputKey_Right_4C6590) ||
             sInputObject_5009E8.isPressed(sInputKey_Left_4C6594))
         {
-            field_E4 = 12;
+            field_E4_previous_motion = 12;
             field_E6_last_anim_frame = field_10_anim.field_92_current_frame;
             field_120 = 1;
         }
@@ -3232,7 +3232,7 @@ void Elum::State_41_MidWalkToRun_413560()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_E4 = eElumStates::State_36_RunLoop_413720;
+        field_E4_previous_motion = eElumStates::State_36_RunLoop_413720;
         field_E6_last_anim_frame = eElumStates::State_4_Turn_4140F0;
         field_120 = 1;
     }
@@ -3320,7 +3320,7 @@ void Elum::State_43_MidRunToWalk_413E20()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_E4 = 3;
+        field_E4_previous_motion = 3;
         field_E6_last_anim_frame = 9;
         field_120 = 1;
         VCheckCollisionLineStillValid_401A90(10);
@@ -3731,8 +3731,8 @@ void Elum::VUpdate_4102A0()
             {
                 if (field_120)
                 {
-                    field_FC_current_motion = field_E4;
-                    BYTE** ppRes = GetResBlock_410D00(field_E4);
+                    field_FC_current_motion = field_E4_previous_motion;
+                    BYTE** ppRes = GetResBlock_410D00(field_E4_previous_motion);
                     if (!ppRes)
                     {
                         return;

@@ -6,6 +6,17 @@
 
 START_NS_AO
 
+enum eLineTypes : BYTE
+{
+    eFloor_0 = 0,
+    eWallLeft_1 = 1,
+    eWallRight_2 = 2,
+    eCeiling_3 = 3,
+    eBackGroundFloor_4 = 4,
+    eBackGroundWallLeft_5 = 5,
+    eBackGroundWallRight_6 = 6
+};
+
 class PathLine
 {
 public:

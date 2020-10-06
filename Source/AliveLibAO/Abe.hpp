@@ -618,7 +618,7 @@ ALIVE_ASSERT_SIZEOF(Abe, 0x2B4);
 
 ALIVE_VAR_EXTERN(Abe*, sActiveHero_507678);
 ALIVE_VAR_EXTERN(BaseAliveGameObject*, sControlledCharacter_50767C);
-ALIVE_VAR_EXTERN(short, gAbeInvunerableCheat_5076E4);
+ALIVE_VAR_EXTERN(short, gAbeInvulnerableCheat_5076E4);
 
 EXPORT int CC Environment_SFX_42A220(EnvironmentSfx sfxId, signed int volume, int pitchMin, BaseAliveGameObject* pAliveObj);
 

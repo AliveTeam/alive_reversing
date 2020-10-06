@@ -411,7 +411,7 @@ void Scrab::VUpdate_45B360()
         }
         else if (field_112)
         {
-            field_FC_current_motion = field_E4;
+            field_FC_current_motion = field_E4_previous_motion;
             vUpdateAnim_45B330();
             field_10_anim.SetFrame_402AC0(field_E6_last_anim_frame);
             field_112 = 0;
@@ -993,7 +993,7 @@ void Scrab::State_0_Empty_45E3D0()
     {
         if (sControlledCharacter_50767C == this)
         {
-            field_FC_current_motion = field_E4;
+            field_FC_current_motion = field_E4_previous_motion;
             if (field_F8_pLiftPoint)
             {
                 // TODO: Is type of field_F8_pLiftPoint too low?
@@ -1002,7 +1002,7 @@ void Scrab::State_0_Empty_45E3D0()
         }
         else
         {
-            field_FC_current_motion = field_E4;
+            field_FC_current_motion = field_E4_previous_motion;
             if (field_F8_pLiftPoint)
             {
                 field_A8_xpos = FP_FromInteger((field_F4_pLine->field_0_rect.x + field_F4_pLine->field_0_rect.w) / 2);
