@@ -370,16 +370,16 @@ __int16 SlingMudokon::tsub_46FEC0()
             field_FE_next_state = 2;
             switch (Code_LookUp_476050(field_118_code_converted, field_158_code_pos, field_11C_code_length))
             {
-            case 1:
+            case GameSpeakEvents::eWhistle1_1:
                 Mudokon_SFX_42A4D0(MudSounds::eWhistle1_1, 0, 0, this);
                 break;
-            case 2:
+            case GameSpeakEvents::eWhistle2_2:
                 Mudokon_SFX_42A4D0(MudSounds::eWhistle2_2, 0, 0, this);
                 break;
-            case 3:
+            case GameSpeakEvents::eFart_3:
                 Mudokon_SFX_42A4D0(MudSounds::eFart_7, 0, 300, this);
                 break;
-            case 4:
+            case GameSpeakEvents::eLaugh_4:
                 Mudokon_SFX_42A4D0(MudSounds::eLaugh1_8, 0, 300, this);
                 break;
             default:
@@ -389,7 +389,7 @@ __int16 SlingMudokon::tsub_46FEC0()
             field_158_code_pos++;
             if (field_158_code_pos >= field_11C_code_length)
             {
-                field_134_buffer_start = GameSpeak::sub_40FA60(field_118_code_converted, &field_124_code_buffer);
+                field_134_buffer_start = GameSpeak::sub_40FA60(field_118_code_converted, field_124_code_buffer);
                 return 3;
             }
             else
@@ -480,14 +480,14 @@ __int16 SlingMudokon::tsub_46FEC0()
 
             if (static_cast<int>(gnFrameCount_507670) <= field_144_timer2)
             {
-                if (pEventSystem_4FF954->MatchBuffer_40FAA0(&field_124_code_buffer, field_134_buffer_start, field_136) != GameSpeakMatch::eFullMatch_1 &&
-                    pEventSystem_4FF954->MatchBuffer_40FAA0(&field_124_code_buffer, field_134_buffer_start, field_136) > GameSpeakMatch::eFullMatch_1)
+                if (pEventSystem_4FF954->MatchBuffer_40FAA0(field_124_code_buffer, field_134_buffer_start, field_136) != GameSpeakMatch::eFullMatch_1 &&
+                    pEventSystem_4FF954->MatchBuffer_40FAA0(field_124_code_buffer, field_134_buffer_start, field_136) > GameSpeakMatch::eFullMatch_1)
                 {
                     return field_13A_brain_state;
                 }
             }
 
-            const auto MatchBuffer = pEventSystem_4FF954->MatchBuffer_40FAA0(&field_124_code_buffer, field_134_buffer_start, field_136);
+            const GameSpeakMatch MatchBuffer = pEventSystem_4FF954->MatchBuffer_40FAA0(field_124_code_buffer, field_134_buffer_start, field_136);
             field_13A_brain_state = 5;
             if (MatchBuffer == GameSpeakMatch::eFullMatch_1 || sVoiceCheat_507708)
             {
