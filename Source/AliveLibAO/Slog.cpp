@@ -458,7 +458,7 @@ void Slog::VUpdate_4739C0()
     {
         if (field_118) // TODO: Might always be zero, check me when slog is completed
         {
-            field_FC_current_motion = field_E4;
+            field_FC_current_motion = field_E4_previous_motion;
             SetAnimFrame();
             field_118 = 0;
         }
@@ -1249,7 +1249,7 @@ void Slog::State_5_Unknown_474070()
 {
     if (sNumCamSwappers_507668 <= 0)
     {
-        field_FC_current_motion = field_E4;
+        field_FC_current_motion = field_E4_previous_motion;
         if (field_F8_pLiftPoint)
         {
             field_A8_xpos = FP_FromInteger((field_F4_pLine->field_0_rect.x + field_F4_pLine->field_0_rect.w) / 2);

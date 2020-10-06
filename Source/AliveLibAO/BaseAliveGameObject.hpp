@@ -109,7 +109,7 @@ public:
     EXPORT __int16 Check_IsOnEndOfLine_4021A0(__int16 direction, __int16 dist);
 
     FP_RECT field_D4_collection_rect;
-    __int16 field_E4;
+    __int16 field_E4_previous_motion;
     __int16 field_E6_last_anim_frame;
     FP field_E8_LastLineYPos;
     __int16 field_EC;

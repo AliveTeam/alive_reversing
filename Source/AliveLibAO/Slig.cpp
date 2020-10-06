@@ -542,7 +542,7 @@ void Slig::VUpdate_465050()
         }
         else if (field_11E)
         {
-            field_FC_current_motion = field_E4;
+            field_FC_current_motion = field_E4_previous_motion;
             
             VUpdateAnimData_464D00();
 
@@ -1763,7 +1763,7 @@ void Slig::PlayerControlRunningSlideStopOrTurn(short last_anim_frame)
         return;
     }
 
-    field_E4 = 2;
+    field_E4_previous_motion = 2;
     field_E6_last_anim_frame = last_anim_frame;
     field_11E = 1;
 
@@ -2030,7 +2030,7 @@ void Slig::State_2_Walking_469130()
             {
                 if (sInputObject_5009E8.isPressed(sInputKey_Run_4C65A8))
                 {
-                    field_E4 = 4;
+                    field_E4_previous_motion = 4;
                     field_E6_last_anim_frame = 5;
                     field_11E = 1;
 
@@ -2101,7 +2101,7 @@ void Slig::State_2_Walking_469130()
             {
                 if (sInputObject_5009E8.isPressed(sInputKey_Run_4C65A8))
                 {
-                    field_E4 = 4;
+                    field_E4_previous_motion = 4;
                     field_E6_last_anim_frame = 13;
                     field_11E = 1;
 
@@ -2488,7 +2488,7 @@ void Slig::State_8_Unknown_4673E0()
     {
         if (sControlledCharacter_50767C != this || field_100_health <= FP_FromInteger(0))
         {
-            field_FC_current_motion = field_E4;
+            field_FC_current_motion = field_E4_previous_motion;
             if (field_F8_pLiftPoint)
             {
                 field_A8_xpos = FP_FromInteger((field_F4_pLine->field_0_rect.x + field_F4_pLine->field_0_rect.w) / 2);
@@ -2497,7 +2497,7 @@ void Slig::State_8_Unknown_4673E0()
         }
         else
         {
-            field_FC_current_motion = field_E4;
+            field_FC_current_motion = field_E4_previous_motion;
             if (field_F8_pLiftPoint)
             {
                 static_cast<LiftPoint*>(field_F8_pLiftPoint)->field_12C_bMoving |= 1u;
@@ -2534,7 +2534,7 @@ void Slig::State_9_SlidingToStand_469DF0()
             else if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && sInputObject_5009E8.isPressed(sInputKey_Right_4C6590)
                 || !(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX)) && sInputObject_5009E8.isPressed(sInputKey_Left_4C6594))
             {
-                field_E4 = eSligStates::State_10_SlidingTurn_469F10;
+                field_E4_previous_motion = eSligStates::State_10_SlidingTurn_469F10;
                 field_E6_last_anim_frame = field_10_anim.field_92_current_frame;
                 field_11E = 1;
             }
@@ -2749,7 +2749,7 @@ void Slig::State_20_Recoil_468D30()
             else if (sInputObject_5009E8.isPressed(sInputKey_ThrowItem_4C65B4))
             {
                 field_B4_velx = FP_FromInteger(0);
-                field_E4 = eSligStates::State_6_Shoot_468820;
+                field_E4_previous_motion = eSligStates::State_6_Shoot_468820;
                 field_128_timer = gnFrameCount_507670 + 60;
                 field_E6_last_anim_frame = 2;
                 field_11E = 1;

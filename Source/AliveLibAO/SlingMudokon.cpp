@@ -196,7 +196,7 @@ void SlingMudokon::VUpdate_46FBF0()
     {
         if (field_13C)
         {
-            field_FC_current_motion = field_E4;
+            field_FC_current_motion = field_E4_previous_motion;
             VUpdateAnimData_46F8F0();
             field_10_anim.SetFrame_402AC0(field_E6_last_anim_frame);
             field_13C = 0;
