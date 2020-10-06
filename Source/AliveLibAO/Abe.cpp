@@ -4538,7 +4538,7 @@ BOOL Abe::Is_Celling_Above()
     PathLine* pLine = nullptr;
     return sCollisions_DArray_504C6C->RayCast_40C410(
         field_A8_xpos,
-        field_AC_ypos - FP_FromInteger(5),
+        field_AC_ypos,
         field_A8_xpos,
         field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(25)),
         &pLine,
