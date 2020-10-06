@@ -3388,7 +3388,7 @@ void Paramite::State_13_GameSpeakBegin_44D050()
     sActiveHero_507678->VGetBoundingRect(&abeRect, 1);
 
     PSX_RECT ourRect = {};
-    VGetBoundingRect_418120(&ourRect, 1);
+    VGetBoundingRect(&ourRect, 1);
 
     if (abeRect.x <= ourRect.w
         && abeRect.w >= ourRect.x
@@ -3611,7 +3611,7 @@ void Paramite::State_18_RunningAttack_44D5D0()
     MapFollowMe_401D30(FALSE);
 
     PSX_RECT abeRect = {};
-    sActiveHero_507678->VGetBoundingRect_418120(&abeRect, 1);
+    sActiveHero_507678->VGetBoundingRect(&abeRect, 1);
 
     PSX_RECT rect = {};
     VGetBoundingRect(&rect, 1);
@@ -3773,7 +3773,7 @@ void Paramite::State_22_Unknown_44D8F0()
     sActiveHero_507678->VGetBoundingRect(&abeRect, 1);
 
     PSX_RECT rect = {};
-    VGetBoundingRect_418120(&rect, 1);
+    VGetBoundingRect(&rect, 1);
 
     if (abeRect.x <= rect.w
         && abeRect.w >= rect.x

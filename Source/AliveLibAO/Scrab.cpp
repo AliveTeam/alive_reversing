@@ -846,7 +846,7 @@ __int16 Scrab::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
 __int16 Scrab::VOnSameYLevel_45C180(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     PSX_RECT ourRect = {};
-    VGetBoundingRect_418120(&ourRect, 1);
+    VGetBoundingRect(&ourRect, 1);
 
     PSX_RECT otherRect = {};
     pObj->VGetBoundingRect(&otherRect, 1);

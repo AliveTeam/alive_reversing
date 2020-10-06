@@ -1431,7 +1431,7 @@ __int16 CCSTD Slig::IsInInvisibleZone_418870(BaseAnimatedWithPhysicsGameObject* 
     }
 
     PSX_RECT rect = {};
-    pObj->VGetBoundingRect_418120(&rect, 1);
+    pObj->VGetBoundingRect(&rect, 1);
 
     Path_TLV* pTlv = gMap_507BA8.TLV_Get_At_446260(rect.x, rect.y, rect.w, rect.h, TlvTypes::InvisibleZone_58);
     if (pTlv)
@@ -1468,7 +1468,7 @@ void Slig::ToStand()
 __int16 CCSTD Slig::IsInZCover_46BDA0(Slig* pThis)
 {
     PSX_RECT bRect = {};
-    pThis->VGetBoundingRect_418120(&bRect, 1);
+    pThis->VGetBoundingRect(&bRect, 1);
 
     return Bullet::InZBulletCover(FP_FromInteger(bRect.x), FP_FromInteger(bRect.y), bRect);
 }
