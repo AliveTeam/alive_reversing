@@ -7,6 +7,9 @@
 #include "Sfx.hpp"
 #include "Bullet.hpp"
 #include "stdlib.hpp"
+#include "Abe.hpp"
+#include "Game.hpp"
+#include "CheatController.hpp"
 
 void SlingMud_ForceLink() { }
 
@@ -355,8 +358,176 @@ void SlingMudokon::State_5_AngryToIdle_46FD50()
 
 __int16 SlingMudokon::tsub_46FEC0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    switch (field_13A_brain_state)
+    {
+    case 0:
+        field_158_code_pos = 0;
+        return 1;
+
+    case 1:
+        if (field_FC_current_motion || field_10_anim.field_92_current_frame == 0)
+        {
+            field_FE_next_state = 2;
+            switch (Code_LookUp_476050(field_118_code_converted, field_158_code_pos, field_11C_code_length))
+            {
+            case 1:
+                Mudokon_SFX_42A4D0(MudSounds::eWhistle1_1, 0, 0, this);
+                break;
+            case 2:
+                Mudokon_SFX_42A4D0(MudSounds::eWhistle2_2, 0, 0, this);
+                break;
+            case 3:
+                Mudokon_SFX_42A4D0(MudSounds::eFart_7, 0, 300, this);
+                break;
+            case 4:
+                Mudokon_SFX_42A4D0(MudSounds::eLaugh1_8, 0, 300, this);
+                break;
+            default:
+                break;
+            }
+
+            field_158_code_pos++;
+            if (field_158_code_pos >= field_11C_code_length)
+            {
+                field_134_buffer_start = GameSpeak::sub_40FA60(field_118_code_converted, &field_124_code_buffer);
+                return 3;
+            }
+            else
+            {
+                field_140_timer = gnFrameCount_507670 + 30;
+                return 2;
+            }
+        }
+        return 1;
+
+    case 2:
+        if (static_cast<int>(gnFrameCount_507670) <= field_140_timer)
+        {
+            if (VIsObj_GettingNear_On_X(sActiveHero_507678))
+            {
+                break;
+            }
+
+            return field_13A_brain_state;
+        }
+        return 1;
+
+    case 3:
+    {
+        if (VIsObj_GettingNear_On_X(sActiveHero_507678))
+        {
+            break;
+        }
+
+        GameSpeakEvents lastIdx;
+        if (field_120 == pEventSystem_4FF954->field_18_last_event_index)
+        {
+            if (pEventSystem_4FF954->field_10_last_event == GameSpeakEvents::eNone_m1)
+            {
+                lastIdx = GameSpeakEvents::eNone_m1;
+            }
+            else
+            {
+                lastIdx = GameSpeakEvents::eSameAsLast_m2;
+            }
+        }
+        else
+        {
+            field_120 = pEventSystem_4FF954->field_18_last_event_index;
+            lastIdx = pEventSystem_4FF954->field_10_last_event;
+        }
+
+        if (lastIdx == GameSpeakEvents::eNone_m1)
+        {
+            return field_13A_brain_state;
+        }
+
+        field_144_timer2 = gnFrameCount_507670 + 40;
+        field_136 = static_cast<short>(pEventSystem_4FF954->field_18_last_event_index);
+        return 4;
+    }
+
+    case 4:
+        if (VIsObj_GettingNear_On_X(sActiveHero_507678))
+        {
+            break;
+        }
+        else
+        {
+            GameSpeakEvents lastIdx;
+            if (field_120 == pEventSystem_4FF954->field_18_last_event_index)
+            {
+                if (pEventSystem_4FF954->field_10_last_event == GameSpeakEvents::eNone_m1)
+                {
+                    lastIdx = GameSpeakEvents::eNone_m1;
+                }
+                else
+                {
+                    lastIdx = GameSpeakEvents::eSameAsLast_m2;
+                }
+            }
+            else
+            {
+                field_120 = pEventSystem_4FF954->field_18_last_event_index;
+                lastIdx = pEventSystem_4FF954->field_10_last_event;
+            }
+
+            if (lastIdx != GameSpeakEvents::eNone_m1)
+            {
+                field_120 = gnFrameCount_507670 + 40;
+                field_144_timer2 = gnFrameCount_507670 + 40;
+            }
+
+            if (static_cast<int>(gnFrameCount_507670) <= field_144_timer2)
+            {
+                if (pEventSystem_4FF954->MatchBuffer_40FAA0(&field_124_code_buffer, field_134_buffer_start, field_136) != GameSpeakMatch::eFullMatch_1 &&
+                    pEventSystem_4FF954->MatchBuffer_40FAA0(&field_124_code_buffer, field_134_buffer_start, field_136) > GameSpeakMatch::eFullMatch_1)
+                {
+                    return field_13A_brain_state;
+                }
+            }
+
+            const auto MatchBuffer = pEventSystem_4FF954->MatchBuffer_40FAA0(&field_124_code_buffer, field_134_buffer_start, field_136);
+            field_13A_brain_state = 5;
+            if (MatchBuffer == GameSpeakMatch::eFullMatch_1 || sVoiceCheat_507708)
+            {
+                field_140_timer = gnFrameCount_507670 + 30;
+                field_15A = 1;
+            }
+            else
+            {
+                field_140_timer = gnFrameCount_507670 + 10;
+                field_15A = 0;
+            }
+        }
+        return field_13A_brain_state;
+
+    case 5:
+        if (field_10_anim.field_92_current_frame || static_cast<int>(gnFrameCount_507670) <= field_140_timer)
+        {
+            return field_13A_brain_state;
+        }
+
+        if (field_15A)
+        {
+            Mudokon_SFX_42A4D0(MudSounds::eOkay_13, 0, 300, this);
+        }
+        else
+        {
+            Mudokon_SFX_42A4D0(MudSounds::eRefuse_14, 0, 300, this);
+        }
+
+        field_138_brain_state = field_154;
+        field_FE_next_state = 2;
+        return field_156;
+
+    default:
+        return field_13A_brain_state;
+    }
+
+    field_11E_flags |= 8u;
+    field_138_brain_state = field_154;
+    return field_156;
 }
 
 __int16 SlingMudokon::tsub_470230()
