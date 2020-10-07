@@ -85,6 +85,32 @@ signed __int16 Collisions::RayCast_40C410(FP /*X1_16_16*/, FP /*Y1_16_16*/, FP /
     return 0;
 }
 
+const int kNearLineTollerance = 8;
+
+PathLine* Collisions::PreviousLine_40C940(PathLine* pLine)
+{
+    if (pLine->field_C_previous != -1)
+    {
+        return &field_0_pArray[pLine->field_C_previous];
+    }
+
+    if (field_C_max_count == 0)
+    {
+        return 0;
+    }
+
+    for (int i = 0; i < field_C_max_count; i++)
+    {
+        if (abs(pLine->field_0_rect.x - field_0_pArray[i].field_0_rect.w) <= kNearLineTollerance &&
+            abs(pLine->field_0_rect.y - field_0_pArray[i].field_0_rect.h) <= kNearLineTollerance)
+        {
+            return &field_0_pArray[i];
+        }
+    }
+
+    return nullptr;
+}
+
 PSX_RECT* CCSTD Rect_Clear_40C920(PSX_RECT* pRect)
 {
     pRect->x = 0;

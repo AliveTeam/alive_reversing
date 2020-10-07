@@ -47,6 +47,8 @@ public:
 
     EXPORT signed __int16 RayCast_40C410(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, unsigned int modeMask);
 
+    EXPORT PathLine* PreviousLine_40C940(PathLine* pLine);
+
     PathLine* field_0_pArray;
     WORD field_4_current_item_count;
     int field_8_item_count;
