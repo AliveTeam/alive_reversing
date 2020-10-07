@@ -5404,7 +5404,7 @@ void Abe::State_33_RunJumpMid_426FA0()
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    bool bCollision = InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
+    auto bCollision = InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
 
     SetActiveCameraDelayedFromDir_401C90();
 
