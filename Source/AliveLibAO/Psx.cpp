@@ -121,3 +121,10 @@ EXPORT int CC PSX_SetDispMask_49AE80(int)
     NOT_IMPLEMENTED();
     return 0;
 }
+
+ALIVE_VAR(1, 0xA08628, unsigned __int8, byte_A08628, 0);
+
+EXPORT void CC PSX_Prevent_Rendering_44FFB0()
+{
+    byte_A08628 = 1;
+}

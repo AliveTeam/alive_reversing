@@ -4456,13 +4456,6 @@ void Abe::State_16_HoistBegin_426E40()
     }
 }
 
-ALIVE_VAR(1, 0xA08628, unsigned __int8, byte_A08628, 0);
-
-void PSX_Prevent_Rendering_44FFB0()
-{
-    byte_A08628 = 1;
-}
-
 void Abe::State_17_HoistIdle_4269E0()
 {
     PathLine* pPathLine = nullptr;
