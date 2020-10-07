@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "stdlib.hpp"
 #include "Psx_common.hpp"
+#include "PathData.hpp"
 
 START_NS_AO
 
@@ -19,12 +20,31 @@ void CC Collisions::Factory_40CEC0(const CollisionInfo* pCollisionInfo, const BY
 
 void Collisions::dtor_40CFB0()
 {
-    ao_delete_free_447540(field_0);
+    ao_delete_free_447540(field_0_pArray);
 }
 
-Collisions* Collisions::ctor_40CF30(const CollisionInfo* /*pCollisionInfo*/, const BYTE* /*ppPathData*/)
+Collisions* Collisions::ctor_40CF30(const CollisionInfo* pCollisionInfo, const BYTE* ppPathData)
 {
-    NOT_IMPLEMENTED();
+    field_8_item_count = pCollisionInfo->field_10_num_collision_items;
+    field_4_current_item_count = static_cast<WORD>(pCollisionInfo->field_10_num_collision_items);
+
+    // Up to 20 dynamic collisions, slam doors, trap doors, lift platforms etc. (Half of AEs)
+    field_C_max_count = pCollisionInfo->field_10_num_collision_items + 20;
+
+    // Allocate memory for collisions array
+    field_0_pArray = reinterpret_cast<PathLine*>(ao_new_malloc_447520(field_C_max_count * sizeof(PathLine)));
+
+    // Copy collision line data out of Path resource
+    memcpy(field_0_pArray, &ppPathData[pCollisionInfo->field_C_collision_offset], field_4_current_item_count * sizeof(PathLine));
+
+    // Init dynamic collisions positions to zeros
+    for (int i = field_4_current_item_count; i < field_C_max_count; i++)
+    {
+        field_0_pArray[i].field_0_rect.x = 0;
+        field_0_pArray[i].field_0_rect.y = 0;
+        field_0_pArray[i].field_0_rect.w = 0;
+        field_0_pArray[i].field_0_rect.h = 0;
+    }
     return this;
 }
 
