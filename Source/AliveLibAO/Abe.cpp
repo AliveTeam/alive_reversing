@@ -4586,12 +4586,13 @@ void Abe::State_17_HoistIdle_4269E0()
         }
         else
         {
-            field_F0_pTlv = (Path_Well_Express *) gMap_507BA8.TLV_Get_At_446060(
-                0,
+            field_F0_pTlv = gMap_507BA8.TLV_Get_At_446060(
+                nullptr,
                 field_A8_xpos,
                 field_AC_ypos,
                 field_A8_xpos,
-                field_AC_ypos);
+                field_AC_ypos
+            );
         }
     }
 }
