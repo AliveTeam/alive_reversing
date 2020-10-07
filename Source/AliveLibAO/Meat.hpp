@@ -34,6 +34,10 @@ public:
 
     EXPORT BaseGameObject* dtor_439250();
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_4392C0();
+
     int field_10C_tlvInfo;
     __int16 field_110;
     __int16 field_112_num_items;
