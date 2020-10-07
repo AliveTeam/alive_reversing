@@ -111,6 +111,29 @@ PathLine* Collisions::PreviousLine_40C940(PathLine* pLine)
     return nullptr;
 }
 
+PathLine* Collisions::NextLine_40C9B0(PathLine* pLine)
+{
+    if (pLine->field_10_next != -1)
+    {
+        return &field_0_pArray[pLine->field_10_next];
+    }
+
+    if (field_C_max_count == 0)
+    {
+        return 0;
+    }
+
+    for (int i = 0; i < field_C_max_count; i++)
+    {
+        if (abs(pLine->field_0_rect.w - field_0_pArray[i].field_0_rect.x) <= kNearLineTollerance &&
+            abs(pLine->field_0_rect.h - field_0_pArray[i].field_0_rect.y) <= kNearLineTollerance)
+        {
+            return &field_0_pArray[i];
+        }
+    }
+    return nullptr;
+}
+
 PSX_RECT* CCSTD Rect_Clear_40C920(PSX_RECT* pRect)
 {
     pRect->x = 0;

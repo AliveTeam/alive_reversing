@@ -49,6 +49,8 @@ public:
 
     EXPORT PathLine* PreviousLine_40C940(PathLine* pLine);
 
+    EXPORT PathLine* NextLine_40C9B0(PathLine* pLine);
+
     PathLine* field_0_pArray;
     WORD field_4_current_item_count;
     int field_8_item_count;

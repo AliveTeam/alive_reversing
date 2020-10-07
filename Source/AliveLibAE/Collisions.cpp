@@ -440,36 +440,17 @@ PathLine* Collisions::NextLine_418180(PathLine* pLine)
         return &field_0_pArray[pLine->field_C_next];
     }
 
-    if (!field_C_max_count)
+    if (field_C_max_count == 0)
     {
         return 0;
     }
     
     for (int i = 0; i < field_C_max_count; i++)
     {
-        int xDiff = 0;
-        if (pLine->field_0_rect.w - field_0_pArray[i].field_0_rect.x >= 0)
+        if (abs(pLine->field_0_rect.w - field_0_pArray[i].field_0_rect.x) <= kNearLineTollerance &&
+            abs(pLine->field_0_rect.h - field_0_pArray[i].field_0_rect.y) <= kNearLineTollerance)
         {
-            xDiff = pLine->field_0_rect.w - field_0_pArray[i].field_0_rect.x;
-        }
-        else
-        {
-            xDiff = field_0_pArray[i].field_0_rect.x - pLine->field_0_rect.w;
-        }
-
-        if (xDiff <= kNearLineTollerance)
-        {
-            int yDiff = 0;
-            if (pLine->field_0_rect.h - field_0_pArray[i].field_0_rect.y >= 0)
-            {
-                yDiff = pLine->field_0_rect.h - field_0_pArray[i].field_0_rect.y;
-            }
-            else
-            {
-                yDiff = field_0_pArray[i].field_0_rect.y - pLine->field_0_rect.h;
-            }
-
-            if (yDiff <= kNearLineTollerance && (1 << field_0_pArray[i].field_8_type % 32) & (1 << pLine->field_8_type % 32))
+            if ((1 << field_0_pArray[i].field_8_type % 32) & (1 << pLine->field_8_type % 32))
             {
                 return &field_0_pArray[i];
             }
