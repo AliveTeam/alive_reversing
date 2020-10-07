@@ -52,8 +52,6 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
-    EXPORT BaseGameObject* Vdtor_402540(signed int flags);
-
     virtual void VUnPosses();
 
     virtual void VPossessed();
@@ -68,45 +66,51 @@ public:
 
     virtual __int16 VTakeDamage(BaseGameObject* pFrom);
 
-    EXPORT __int16 VTakeDamage_401920(BaseGameObject* pFrom);
-
     virtual void VOn_TLV_Collision(Path_TLV* pTlv);
 
     virtual void VCheckCollisionLineStillValid(int distance);
 
     virtual void VOnTrapDoorOpen();
 
+private:
+    EXPORT BaseGameObject* Vdtor_402540(signed int flags);
+
+    EXPORT __int16 VTakeDamage_401920(BaseGameObject* pFrom);
+
     EXPORT void VOnPathTransition_401470(__int16 camWorldX, int camWorldY, CameraPos direction);
 
-    EXPORT __int16 MapFollowMe_401D30(__int16 snapToGrid);
-
-    EXPORT void SetActiveCameraDelayedFromDir_401C90();
-
-    EXPORT signed __int16 OnTrapDoorIntersection_401C10(PlatformBase* pPlatform);
-
-    EXPORT __int16 WallHit_401930(FP offY, FP offX);
-
-    EXPORT __int16 InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* hitY, FP vely);
-
-    EXPORT static void CC OnResourceLoaded_4019A0(BaseAliveGameObject* ppRes);
+    EXPORT void VSetMotion_402520(__int16 state);
 
     EXPORT void VSetXSpawn_401150(__int16 camWorldX, int screenXPos);
 
     EXPORT void VSetYSpawn_401380(int camWorldY, __int16 bLeft);
 
-    EXPORT __int16 IsBeeSwarmChasingMe_4022B0();
+    EXPORT void VCheckCollisionLineStillValid_401A90(int distance);
 
-    EXPORT void VSetMotion_402520(__int16 state);
+protected:
+    EXPORT void SetActiveCameraDelayedFromDir_401C90();
+
+    EXPORT static void CC OnResourceLoaded_4019A0(BaseAliveGameObject* ppRes);
+
+    EXPORT __int16 IsBeeSwarmChasingMe_4022B0();
 
     EXPORT void UsePathTransScale_4020D0();
 
     EXPORT static BaseGameObject* CC FindObjectOfType_418280(Types typeToFind, FP xpos, FP ypos);
 
-    EXPORT void VCheckCollisionLineStillValid_401A90(int distance);
-
     EXPORT BirdPortal* IntoBirdPortal_402350(__int16 distance);
 
+    EXPORT __int16 MapFollowMe_401D30(__int16 snapToGrid);
+
+    EXPORT __int16 WallHit_401930(FP offY, FP offX);
+
+    EXPORT __int16 InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* hitY, FP vely);
+
     EXPORT __int16 Check_IsOnEndOfLine_4021A0(__int16 direction, __int16 dist);
+public:
+    EXPORT signed __int16 OnTrapDoorIntersection_401C10(PlatformBase* pPlatform);
+
+public:
 
     FP_RECT field_D4_collection_rect;
     __int16 field_E4_previous_motion;

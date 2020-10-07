@@ -49,7 +49,7 @@ void Well::VRender_48B3D0(int** ppOt)
 {
     field_A8_xpos += FP_FromInteger(gTweak_X_5076D8);
     field_AC_ypos += FP_FromInteger(gTweak_Y_5076DC);
-    BaseAnimatedWithPhysicsGameObject::VRender_417DA0(ppOt);
+    BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     field_A8_xpos -= FP_FromInteger(gTweak_X_5076D8);
     field_AC_ypos -= FP_FromInteger(gTweak_Y_5076DC);
 }

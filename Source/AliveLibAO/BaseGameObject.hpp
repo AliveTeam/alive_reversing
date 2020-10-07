@@ -162,9 +162,11 @@ public:
         // Empty
     }
 
-public:
+private:
 
     EXPORT void VScreenChanged_487E70();
+
+public:
 
     Types field_4_typeId;
     BitField16<Options> field_6_flags;
