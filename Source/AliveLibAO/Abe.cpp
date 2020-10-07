@@ -3517,7 +3517,7 @@ void Abe::State_0_Idle_423520()
                 {
                     pObj = nullptr;
                 }
-                field_19E = 0;
+                field_19E_portal_sub_state = 0;
             }
             field_1A0_portal = pObj;
         }
@@ -4318,7 +4318,7 @@ void Abe::State_4_WalkToIdle_4243C0()
 
                 if (field_1A0_portal)
                 {
-                    field_19E = 0;
+                    field_19E_portal_sub_state = 0;
                 }
             }
             else
@@ -4360,7 +4360,7 @@ void Abe::State_5_MidWalkToIdle_424490()
 
                 if (field_1A0_portal)
                 {
-                    field_19E = 0;
+                    field_19E_portal_sub_state = 0;
                 }
             }
             else
@@ -4635,7 +4635,7 @@ void Abe::State_18_HoistLand_426EB0()
 
                 if (field_1A0_portal)
                 {
-                    field_19E = 0;
+                    field_19E_portal_sub_state = 0;
                 }
             }
         }
@@ -5136,7 +5136,7 @@ void Abe::State_29_HopBegin_4267B0()
 
             if (field_1A0_portal)
             {
-                field_19E = 0;
+                field_19E_portal_sub_state = 0;
             }
         }
     }
@@ -5144,7 +5144,78 @@ void Abe::State_29_HopBegin_4267B0()
 
 void Abe::IntoPortalStates_4262A0()
 {
-    NOT_IMPLEMENTED();
+    switch (field_19E_portal_sub_state)
+    {
+        case 0:
+        {
+            PSX_RECT bRect = {};
+            VGetBoundingRect( &bRect, 1 );
+
+            if ((field_B4_velx > FP_FromInteger(0) && FP_FromInteger(bRect.x) > field_1A0_portal->field_18_xpos) ||
+                (field_B4_velx < FP_FromInteger(0) && FP_FromInteger(bRect.w) < field_1A0_portal->field_18_xpos))
+            {
+                field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                field_B8_vely = FP_FromInteger(0);
+                field_B4_velx = FP_FromInteger(0);
+                field_1A0_portal->Vsub_453570();
+                field_1A0_portal->VGiveShrukull_4535A0(TRUE);
+                field_19E_portal_sub_state = 1;
+            }
+            field_B8_vely += field_BC_sprite_scale * FP_FromDouble(1.8);
+            field_A8_xpos += field_B4_velx;
+            field_AC_ypos += field_B8_vely;
+            return;
+        }
+        case 1:
+        {
+            if (field_1A0_portal->VStateIs16_453710())
+            {
+                LevelIds level = {};
+                WORD path = 0;
+                WORD camera = 0;
+                CameraSwapEffects screenChangeEffect = {};
+                WORD movieId = 0;
+                field_1A0_portal->VGetMapChange_453840(&level, &path, &camera, &screenChangeEffect, &movieId);
+                gMap_507BA8.SetActiveCam_444660(level, path, camera, screenChangeEffect, movieId, FALSE);
+                field_19E_portal_sub_state = 4;
+            }
+            break;
+        }
+        case 2:
+        {
+            if (field_1A0_portal->VStateIs20_453800())
+            {
+                field_1A0_portal->Vsub_4533E0(0);
+                field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+                field_FC_current_motion = eAbeStates::State_29_HopBegin_4267B0;
+                field_1A0_portal->Vsub_453810();
+                field_1A0_portal = 0;
+            }
+            break;
+        }
+        case 4:
+        {
+            field_1A0_portal->VExitPortal_453720();
+            field_19E_portal_sub_state = 2;
+            field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_1A0_portal->field_12_side == PortalSide::eLeft_1);
+
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                field_A8_xpos = ScaleToGridSize_41FA30(field_BC_sprite_scale) + field_1A0_portal->field_20_exit_x;
+            }
+            else
+            {
+                field_A8_xpos = field_1A0_portal->field_20_exit_x - ScaleToGridSize_41FA30(field_BC_sprite_scale);
+            }
+
+            field_AC_ypos = field_1A0_portal->field_24_exit_y;
+            field_B8_vely = FP_FromInteger(0);
+            field_120 = FP_FromInteger(0);
+            break;
+        }
+        default:
+            return;
+    }
 }
 
 void Abe::State_30_HopMid_4264D0()
@@ -5362,7 +5433,7 @@ void Abe::State_34_RunJumpLand_427560()
 
             if (field_1A0_portal)
             {
-                field_19E = 0;
+                field_19E_portal_sub_state = 0;
             }
 
             field_FC_current_motion = eAbeStates::State_32_RunJumpBegin_427440;
@@ -5385,7 +5456,7 @@ void Abe::State_34_RunJumpLand_427560()
 
                 if (field_1A0_portal)
                 {
-                    field_19E = 0;
+                    field_19E_portal_sub_state = 0;
                 }
 
                 field_FC_current_motion = eAbeStates::State_32_RunJumpBegin_427440;
@@ -5448,7 +5519,7 @@ void Abe::State_34_RunJumpLand_427560()
 
             if (field_1A0_portal)
             {
-                field_19E = 0;
+                field_19E_portal_sub_state = 0;
             }
 
             field_FC_current_motion = eAbeStates::State_29_HopBegin_4267B0;
