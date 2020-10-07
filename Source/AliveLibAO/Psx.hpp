@@ -44,3 +44,5 @@ EXPORT void CC PSX_SetDispMask_4989D0(int);
 EXPORT void CC PSX_SetGraphDebug_4989F0(int);
 
 EXPORT int CC PSX_SetDispMask_49AE80(int a1);
+
+EXPORT void CC PSX_Prevent_Rendering_44FFB0();

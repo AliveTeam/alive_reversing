@@ -552,7 +552,7 @@ EXPORT void Factory_PullRingRope_483DA0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
         if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1014, 0, 0) &&
             ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1000, 0, 0))
         {
-            auto pPullRingRope = ao_new<PulllRingRope>();
+            auto pPullRingRope = ao_new<PullRingRope>();
             if (pPullRingRope)
             {
                 pPullRingRope->ctor_4546B0(static_cast<Path_PullRingRope*>(pTlv), tlvOffsetLevelIdPathId.all);
