@@ -291,7 +291,7 @@ void SecurityOrb::VUpdate_436DF0()
 
         if (field_114_timer - gnFrameCount_507670 == 4)
         {
-            SFX_Play_43AD70(SoundEffect::PortalOpening_67, 0, 0);
+            SFX_Play_43AD70(SoundEffect::Zap1_57, 0, 0);
         }
         else if (field_114_timer - gnFrameCount_507670 == 1)
         {
