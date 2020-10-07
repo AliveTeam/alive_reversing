@@ -281,7 +281,7 @@ void Scrab::VRender_45BBF0(int** ppOt)
 {
     if (field_8_update_delay == 0)
     {
-        BaseAnimatedWithPhysicsGameObject::VRender_417DA0(ppOt);
+        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
 }
 
@@ -846,7 +846,7 @@ __int16 Scrab::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
 __int16 Scrab::VOnSameYLevel_45C180(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     PSX_RECT ourRect = {};
-    VGetBoundingRect_418120(&ourRect, 1);
+    VGetBoundingRect(&ourRect, 1);
 
     PSX_RECT otherRect = {};
     pObj->VGetBoundingRect(&otherRect, 1);
@@ -1536,7 +1536,7 @@ void Scrab::State_9_JumpToFall_45EFD0()
             bRect.y += 5;
             bRect.h += 5;
 
-            VOnCollisionWith_418080(
+            VOnCollisionWith(
                 { bRect.x, bRect.y },
                 { bRect.y, bRect.w },
                 ObjListPlatforms_50766C,
@@ -2124,7 +2124,7 @@ __int16 Scrab::Brain_Fighting_45C370()
 
         if (VIsFacingMe(field_11C_pFight_target))
         {
-            if (!VIsObjNearby_418330(ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(8), field_11C_pFight_target))
+            if (!VIsObjNearby(ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(8), field_11C_pFight_target))
             {
                 if (field_11C_pFight_target->field_FC_current_motion == eScrabStates::State_20_HowlBegin_45FA60)
                 {

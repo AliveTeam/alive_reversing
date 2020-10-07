@@ -542,7 +542,7 @@ void Slog::MoveOnLine_4740F0()
                 if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
                 {
                     PSX_RECT rect = {};
-                    VGetBoundingRect_418120(&rect, 1);
+                    VGetBoundingRect(&rect, 1);
                     rect.y += 5;
                     rect.h += 5;
                     VOnCollisionWith(
@@ -870,7 +870,7 @@ void Slog::VRender_4735D0(int** ppOt)
 {
     if (field_8_update_delay == 0)
     {
-        BaseAnimatedWithPhysicsGameObject::VRender_417DA0(ppOt);
+        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
 }
 
@@ -1216,7 +1216,7 @@ void Slog::State_4_Fall_4750C0()
             if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
             {
                 PSX_RECT bRect = {};
-                VGetBoundingRect_418120(&bRect,1);
+                VGetBoundingRect(&bRect,1);
                 bRect.y += 5;
                 bRect.h = FP_GetExponent(field_AC_ypos) + 5;
                 VOnCollisionWith(

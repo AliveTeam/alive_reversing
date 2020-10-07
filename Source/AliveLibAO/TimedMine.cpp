@@ -220,7 +220,7 @@ void TimedMine::VRender_408960(int** ppOt)
             pRect.h,
             pScreenManager_4FF7C8->field_2E_idx
         );
-        BaseAnimatedWithPhysicsGameObject::VRender_417DA0(ppOt);
+        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
 }
 
@@ -256,7 +256,7 @@ void TimedMine::StickToLiftPoint_408CA0()
                     {
                         PSX_RECT pObjRect = {};
                         auto pLiftPoint = static_cast<LiftPoint*>(pObj);
-                        pLiftPoint->VGetBoundingRect_418120(&pObjRect, 1);
+                        pLiftPoint->VGetBoundingRect(&pObjRect, 1);
                         if (FP_GetExponent(field_A8_xpos) > pObjRect.x &&
                             FP_GetExponent(field_A8_xpos) < pObjRect.w &&
                             FP_GetExponent(field_AC_ypos) < pObjRect.h)

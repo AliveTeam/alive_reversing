@@ -10,6 +10,7 @@ enum class GameSpeakEvents : __int16
 {
     eSameAsLast_m2 = -2,
     eNone_m1 = -1,
+    eUnknown_0 = 0,
     eUnknown_1 = 1,
     eUnknown_2 = 2,
     eFart_3 = 3,
@@ -115,4 +116,4 @@ EXPORT __int16 CC Code_Length_4C9DB0(unsigned int code);
 
 EXPORT int CC Code_Convert_4C9DF0(unsigned __int16 code1, unsigned __int16 code2);
 
-EXPORT __int16 CC Code_LookUp_4C9E40(unsigned int code, unsigned __int16 idx, unsigned __int16 code_len);
+EXPORT GameSpeakEvents CC Code_LookUp_4C9E40(unsigned int code, unsigned __int16 idx, unsigned __int16 code_len);

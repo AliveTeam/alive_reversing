@@ -298,7 +298,7 @@ BaseAliveGameObject* Bullet::ShootObject_409400(PSX_RECT* pRect)
                     || pObjIter->field_4_typeId == Types::eSlig_88 && sControlledCharacter_50767C == pObjIter)
                 {
                     PSX_RECT bRect = {};
-                    pObjIter->VGetBoundingRect_418120(&bRect, 1);
+                    pObjIter->VGetBoundingRect(&bRect, 1);
                     if (pRect->x <= bRect.w &&
                         pRect->w >= bRect.x &&
                         pRect->h >= bRect.y &&

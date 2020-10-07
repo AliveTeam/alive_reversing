@@ -297,7 +297,7 @@ Slig* Slig::ctor_464D40(Path_Slig* pTlv, int tlvInfo)
 
     Init_46B890();
     
-    VStackOnObjectsOfType_418930(Types::eSlig_88);
+    VStackOnObjectsOfType(Types::eSlig_88);
 
     field_10A_flags.Set(Flags_10A::e10A_Bit6);
 
@@ -561,7 +561,7 @@ void Slig::VRender_465590(int** ppOt)
 {
     if (field_8_update_delay == 0)
     {
-        BaseAnimatedWithPhysicsGameObject::VRender_417DA0(ppOt);
+        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
 }
 
@@ -578,7 +578,7 @@ void Slig::VOnTrapDoorOpen_466350()
         field_F8_pLiftPoint->field_C_refCount--;
         field_F8_pLiftPoint = nullptr;
         field_E8_LastLineYPos = field_AC_ypos;
-        VSetMotion_402520(eSligStates::State_39_OutToFall_46A9E0);
+        VSetMotion(eSligStates::State_39_OutToFall_46A9E0);
     }
 }
 
@@ -840,7 +840,7 @@ void Slig::VOn_TLV_Collision_465CF0(Path_TLV* pTlv)
                 SetBrain(&Slig::Brain_DeathDropDeath_46C5A0);
                 field_B8_vely = FP_FromInteger(0);
                 field_B4_velx = FP_FromInteger(0);
-                VSetMotion_402520(eSligStates::State_7_Falling_46A1A0);
+                VSetMotion(eSligStates::State_7_Falling_46A1A0);
                 Event_Broadcast_417220(kEventMudokonComfort_16, sActiveHero_507678);
             }
         }
@@ -1431,7 +1431,7 @@ __int16 CCSTD Slig::IsInInvisibleZone_418870(BaseAnimatedWithPhysicsGameObject* 
     }
 
     PSX_RECT rect = {};
-    pObj->VGetBoundingRect_418120(&rect, 1);
+    pObj->VGetBoundingRect(&rect, 1);
 
     Path_TLV* pTlv = gMap_507BA8.TLV_Get_At_446260(rect.x, rect.y, rect.w, rect.h, TlvTypes::InvisibleZone_58);
     if (pTlv)
@@ -1468,7 +1468,7 @@ void Slig::ToStand()
 __int16 CCSTD Slig::IsInZCover_46BDA0(Slig* pThis)
 {
     PSX_RECT bRect = {};
-    pThis->VGetBoundingRect_418120(&bRect, 1);
+    pThis->VGetBoundingRect(&bRect, 1);
 
     return Bullet::InZBulletCover(FP_FromInteger(bRect.x), FP_FromInteger(bRect.y), bRect);
 }

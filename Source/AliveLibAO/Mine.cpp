@@ -281,7 +281,7 @@ void Mine::VRender_43A970(int** ppOt)
             ppOt,
             0,
             0);
-        BaseAnimatedWithPhysicsGameObject::VRender_417DA0(ppOt);
+        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
 }
 

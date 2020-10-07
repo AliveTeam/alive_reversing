@@ -44,14 +44,14 @@ int CC Code_Convert_476000(unsigned __int16 code1, unsigned __int16 code2)
     }
 }
 
-__int16 CC Code_LookUp_476050(unsigned int code, unsigned __int16 idx, unsigned __int16 code_len)
+GameSpeakEvents CC Code_LookUp_476050(unsigned int code, unsigned __int16 idx, unsigned __int16 code_len)
 {
     unsigned __int16 code_len_to_use = code_len;
     if (code_len == 0)
     {
         code_len_to_use = Code_Length_475FD0(code);
     }
-    return code / dword_4CFFCC[code_len_to_use - idx] % 10;
+    return static_cast<GameSpeakEvents>(code / dword_4CFFCC[code_len_to_use - idx] % 10);
 }
 
 ALIVE_VAR(1, 0x4FF954, GameSpeak*, pEventSystem_4FF954, nullptr);

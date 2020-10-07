@@ -41,17 +41,7 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
-    EXPORT BaseAnimatedWithPhysicsGameObject* Vdtor_4189C0(signed int flags);
-
-    virtual void VRender(int** pOrderingTable) override
-    {
-        VRender_417DA0(pOrderingTable);
-    }
-
-    // Note inlined in AO everywhere
-    CameraPos Is_In_Current_Camera();
-
-    EXPORT void VRender_417DA0(int** ppOt);
+    virtual void VRender(int** pOrderingTable) override;
 
     virtual void VOnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, int startingPointIdx, TCollisionCallBack pFn);
 
@@ -71,29 +61,19 @@ public:
 
     virtual void VOnThrowableHit(BaseGameObject* pFrom);
 
-    EXPORT __int16 VOnSameYLevel_418450(BaseAnimatedWithPhysicsGameObject* pOther);
-
-    EXPORT __int16 VIsFacingMe_4183F0(BaseAnimatedWithPhysicsGameObject* pOther);
-
-    EXPORT __int16 VIsObj_GettingNear_On_X_418390(BaseAnimatedWithPhysicsGameObject* pOther);
-
-    EXPORT __int16 VIsObjNearby_418330(FP radius, BaseAnimatedWithPhysicsGameObject* pOtherObj);
-
-    EXPORT void VOnCollisionWith_418080(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, int startingPointIdx, TCollisionCallBack pFn);
-
-    EXPORT PSX_RECT* VGetBoundingRect_418120(PSX_RECT* pRect, int pointIdx);
-
     EXPORT void SetTint_418750(const TintEntry* pTintArray, LevelIds levelId);
 
     EXPORT BaseAnimatedWithPhysicsGameObject* ctor_417C10();
 
+    EXPORT CameraPos Is_In_Current_Camera_417CC0();
+
     EXPORT void Animation_Init_417FD0(int frameTableOffset, int maxW, int maxH, BYTE** ppAnimData, __int16 a6);
 
+protected:
+    // Note inlined in AO everywhere
+    CameraPos Is_In_Current_Camera();
+
     EXPORT BaseGameObject* dtor_417D10();
-
-    EXPORT void VStackOnObjectsOfType_418930(Types typeToFind);
-
-    EXPORT CameraPos Is_In_Current_Camera_417CC0();
 
     enum class BetweenCamPos : __int16
     {
@@ -106,6 +86,27 @@ public:
 
     EXPORT __int16 SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, LevelIds lvl, int palId);
 
+private:
+
+    EXPORT BaseAnimatedWithPhysicsGameObject* Vdtor_4189C0(signed int flags);
+  
+    EXPORT void VRender_417DA0(int** ppOt);
+
+    EXPORT __int16 VOnSameYLevel_418450(BaseAnimatedWithPhysicsGameObject* pOther);
+
+    EXPORT __int16 VIsFacingMe_4183F0(BaseAnimatedWithPhysicsGameObject* pOther);
+
+    EXPORT __int16 VIsObj_GettingNear_On_X_418390(BaseAnimatedWithPhysicsGameObject* pOther);
+
+    EXPORT __int16 VIsObjNearby_418330(FP radius, BaseAnimatedWithPhysicsGameObject* pOtherObj);
+
+    EXPORT void VOnCollisionWith_418080(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, int startingPointIdx, TCollisionCallBack pFn);
+
+    EXPORT PSX_RECT* VGetBoundingRect_418120(PSX_RECT* pRect, int pointIdx);
+
+    EXPORT void VStackOnObjectsOfType_418930(Types typeToFind);
+
+public:
     Animation field_10_anim;
     FP field_A8_xpos;
     FP field_AC_ypos;

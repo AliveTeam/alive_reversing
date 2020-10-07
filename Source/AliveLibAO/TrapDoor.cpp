@@ -51,7 +51,7 @@ void TrapDoor::VUpdate()
 void TrapDoor::VRender_4886F0(int** ppOt)
 {
     field_A8_xpos += FP_FromInteger(field_13A_xOff);
-    BaseAnimatedWithPhysicsGameObject::VRender_417DA0(ppOt);
+    BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     field_A8_xpos -= FP_FromInteger(field_13A_xOff);
 }
 

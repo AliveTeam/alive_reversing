@@ -2884,22 +2884,22 @@ short Mudokon::Brain_SingSequenceSing_3_441510()
     case 1:
         switch (Code_LookUp_476050(field_1A4, field_19E, field_1A8))
         {
-        case 1:
+        case GameSpeakEvents::eWhistle1_1:
             field_FE_next_state = eMudStates::State_4_Speak_43D440;
             Mudokon_SFX_42A4D0(MudSounds::eWhistle1_1, 0, 0, this);
             break;
 
-        case 2:
+        case GameSpeakEvents::eWhistle2_2:
             field_FE_next_state = eMudStates::State_5_Speak_43D440;
             Mudokon_SFX_42A4D0(MudSounds::eWhistle2_2, 0, 0, this);
             break;
 
-        case 3:
+        case GameSpeakEvents::eFart_3:
             field_FE_next_state = eMudStates::State_6_Speak_43D440;
             Mudokon_SFX_42A4D0(MudSounds::eFart_7, 0, 300, this);
             break;
 
-        case 4:
+        case GameSpeakEvents::eLaugh_4:
             field_FE_next_state = eMudStates::State_3_Speak_43D440;
             Mudokon_SFX_42A4D0(MudSounds::eLaugh1_8, 0, 300, this);
             break;

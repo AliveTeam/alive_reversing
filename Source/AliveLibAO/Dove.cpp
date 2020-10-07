@@ -265,7 +265,7 @@ void Dove::VRender(int** ppOt)
 
 void Dove::VRender_40F960(int** ppOt)
 {
-    BaseAnimatedWithPhysicsGameObject::VRender_417DA0(ppOt);
+    BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 }
 
 BaseGameObject* Dove::VDestructor(signed int flags)
