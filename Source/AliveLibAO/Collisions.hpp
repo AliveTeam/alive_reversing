@@ -21,12 +21,12 @@ class PathLine
 {
 public:
     PSX_RECT field_0_rect;
-    char field_8_type;
-    char field_9;
-    char field_A;
-    char field_B;
-    int field_C;
-    int field_10;
+    BYTE field_8_type;
+    char field_9_pad;
+    char field_A_pad;
+    char field_B_pad;
+    int field_C_previous;
+    int field_10_next;
 
     EXPORT PathLine* MoveOnLine_40CA20(FP* xpos, FP* ypos, FP velX);
 };
@@ -47,10 +47,14 @@ public:
 
     EXPORT signed __int16 RayCast_40C410(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, unsigned int modeMask);
 
-    void* field_0;
-    int field_4;
-    int field_8;
-    int field_C;
+    EXPORT PathLine* PreviousLine_40C940(PathLine* pLine);
+
+    EXPORT PathLine* NextLine_40C9B0(PathLine* pLine);
+
+    PathLine* field_0_pArray;
+    WORD field_4_current_item_count;
+    int field_8_item_count;
+    int field_C_max_count;
 };
 ALIVE_ASSERT_SIZEOF(Collisions, 0x10);
 

@@ -18,9 +18,28 @@ Rope* Rope::Vdtor_458B60(signed int flags)
     return this;
 }
 
-EXPORT void CC ClipPoly_Vertically_4584B0(Poly_FT4* /*pPoly*/, int /*minY*/, int /*maxY*/)
+EXPORT void CC ClipPoly_Vertically_4584B0(Poly_FT4* pPoly, int minY, int maxY)
 {
-    NOT_IMPLEMENTED();
+    const int d1 = minY - Y0(pPoly);
+    const short polyHeight = Y3(pPoly) - Y0(pPoly);
+    if (minY - Y0(pPoly) > 0 && d1 <= polyHeight)
+    {
+        SetXY0(pPoly, X0(pPoly), Y0(pPoly) + (short)d1);
+        SetXY1(pPoly, X1(pPoly), Y1(pPoly) + (short)d1);
+
+        SetUV0(pPoly, U0(pPoly), V0(pPoly) + (BYTE)d1);
+        SetUV1(pPoly, U1(pPoly), V1(pPoly) + (BYTE)d1);
+    }
+
+    const int d2 = Y3(pPoly) - maxY;
+    if (d2 > 0 && d2 <= polyHeight)
+    {
+        SetXY2(pPoly, X2(pPoly), Y2(pPoly) - (short)d2);
+        SetXY3(pPoly, X3(pPoly), Y3(pPoly) - (short)d2);
+
+        SetUV2(pPoly, U2(pPoly), V2(pPoly) - (BYTE)d2);
+        SetUV3(pPoly, U3(pPoly), V3(pPoly) - (BYTE)d2);
+    }
 }
 
 BaseGameObject* Rope::dtor_458720()
