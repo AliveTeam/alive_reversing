@@ -5394,7 +5394,7 @@ void Abe::State_33_RunJumpMid_426FA0()
             FP_GetExponent(field_AC_ypos - field_BC_sprite_scale * FP_FromInteger(50)),
             TlvTypes::ElumStart_38))
         {
-            SFX_Play_43AD70(9u, 0, 0);
+            SFX_Play_43AD70(SoundEffect::RingBellHammer_9, 0, 0);
         }
         field_FE_next_state = eAbeStates::State_0_Idle_423520;
         ToKnockback_422D90(1, 1);
