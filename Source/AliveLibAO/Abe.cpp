@@ -4529,7 +4529,7 @@ void Abe::State_17_HoistIdle_4269E0()
         {
             if (IsFacingSameDirectionAsHoist(pHoist, this))
             {
-                if (pHoist->field_1A_edge_type == Path_Hoist::EdgeType::eBoth)
+                if (pHoist->field_18_hoist_type == Path_Hoist::Type::eOffScreen)
                 {
                     if (gMap_507BA8.SetActiveCameraDelayed_444CA0(Map::MapDirections::eMapTop_2, this, -1))
                     {
