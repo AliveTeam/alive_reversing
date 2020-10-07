@@ -18,10 +18,36 @@ void BaseAliveGameObject_ForceLink() {}
 
 ALIVE_VAR(1, 0x4FC8A0, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_4FC8A0, nullptr);
 
-EXPORT int CC Grid_SnapX_41FAA0(FP /*scale*/, int /*a2*/)
+EXPORT int CC Grid_SnapX_41FAA0(FP scale, int x)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (scale == FP_FromDouble(0.5))
+    {
+        int v4 = (x % 375 - 6) % 13;
+        if (v4 >= 7)
+        {
+            return x - v4 + 13;
+        }
+        else
+        {
+            return x - v4;
+        }
+    }
+    else if (scale == FP_FromInteger(1))
+    {
+        int v3 = (x - 12) % 25;
+        if (v3 >= 13)
+        {
+            return x - v3 + 25;
+        }
+        else
+        {
+            return x - v3;
+        }
+    }
+    else
+    {
+        return x;
+    }
 }
 
 
