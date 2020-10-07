@@ -4161,17 +4161,20 @@ void Abe::State_3_Fall_42E7F0()
                 field_F4_pLine = pPathLine;
                 MapFollowMe_401D30(1);
                 field_114_gnFrame = gnFrameCount_507670 + 30;
-                if (field_AC_ypos - field_E8_LastLineYPos > FP_FromInteger(25))
+                if (field_AC_ypos - field_E8_LastLineYPos > FP_FromInteger(240))
                 {
-                    field_E8_LastLineYPos += FP_FromInteger(25);
+                    field_E8_LastLineYPos += FP_FromInteger(240);
                 }
+
                 Path_SoftLanding* pSoftLanding =
                     static_cast<Path_SoftLanding*>(gMap_507BA8.TLV_Get_At_446260(
                         FP_GetExponent(field_A8_xpos),
                         FP_GetExponent(field_AC_ypos),
                         FP_GetExponent(field_A8_xpos),
                         FP_GetExponent(field_AC_ypos),
-                        TlvTypes::SoftLanding_114));
+                        TlvTypes::SoftLanding_114
+                ));
+
                 if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit8)
                     || (pSoftLanding && field_100_health > FP_FromInteger(0))
                     || ((field_AC_ypos - field_E8_LastLineYPos) < (field_BC_sprite_scale * FP_FromInteger(180))
@@ -4220,7 +4223,7 @@ void Abe::State_3_Fall_42E7F0()
     bool tryToHang = false;
     Path_Edge* pEdge = static_cast<Path_Edge*>(gMap_507BA8.TLV_Get_At_446260(
         FP_GetExponent(field_A8_xpos),
-        FP_GetExponent(field_AC_ypos - field_BC_sprite_scale * FP_FromInteger(25)),
+        FP_GetExponent(field_AC_ypos - field_BC_sprite_scale * FP_FromInteger(80)),
         FP_GetExponent(field_A8_xpos),
         FP_GetExponent(field_AC_ypos),
         TlvTypes::Edge_4
@@ -4262,13 +4265,13 @@ void Abe::State_3_Fall_42E7F0()
             return;
         }
 
-        field_A8_xpos = FP_FromInteger(field_F0_pTlv->field_10_top_left.field_0_x + field_F0_pTlv->field_14_bottom_right.field_0_x / 2);
+        field_A8_xpos = FP_FromInteger((field_F0_pTlv->field_10_top_left.field_0_x + field_F0_pTlv->field_14_bottom_right.field_0_x) / 2);
 
         MapFollowMe_401D30(TRUE);
 
         if (sCollisions_DArray_504C6C->RayCast_40C410(
             field_A8_xpos,
-            field_AC_ypos - field_BC_sprite_scale * FP_FromInteger(20) - field_BC_sprite_scale * FP_FromInteger(25),
+            field_AC_ypos - field_BC_sprite_scale * FP_FromInteger(20) - field_BC_sprite_scale * FP_FromInteger(80),
             field_A8_xpos,
             field_AC_ypos,
             &pPathLine,
