@@ -102,6 +102,8 @@ public:
 
     EXPORT void VMudSaved_453830();
 
+    EXPORT void VGetMapChange_453840(LevelIds* level, WORD* path, WORD* camera, CameraSwapEffects* screenChangeEffect, WORD* movieId);
+
     EXPORT __int16 Vsub_4533E0(__int16 bUnknown);
 
     PortalType field_10_portal_type;
