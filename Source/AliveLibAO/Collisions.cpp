@@ -48,10 +48,35 @@ Collisions* Collisions::ctor_40CF30(const CollisionInfo* pCollisionInfo, const B
     return this;
 }
 
-PathLine* Collisions::Add_Dynamic_Collision_Line_40C8A0(__int16 /*x1*/, __int16 /*y1*/, __int16 /*x2*/, __int16 /*y2*/, char /*mode*/)
+PathLine* Collisions::Add_Dynamic_Collision_Line_40C8A0(__int16 x1, __int16 y1, __int16 x2, __int16 y2, char mode)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    bool freeItemFound = false;
+    int idx = field_8_item_count;
+    while (idx < field_C_max_count)
+    {
+        PathLine* pIter = &field_0_pArray[idx];
+        if (!pIter->field_0_rect.x && !pIter->field_0_rect.w && !pIter->field_0_rect.y && !pIter->field_0_rect.h)
+        {
+            freeItemFound = true;
+            break;
+        }
+        idx++;
+    }
+
+    if (!freeItemFound)
+    {
+        idx--;
+    }
+
+    PathLine* pAddedLine = &field_0_pArray[idx];
+    pAddedLine->field_0_rect.x = x1;
+    pAddedLine->field_0_rect.y = y1;
+    pAddedLine->field_0_rect.w = x2;
+    pAddedLine->field_0_rect.h = y2;
+    pAddedLine->field_8_type = mode;
+    pAddedLine->field_10_next = -1;
+    pAddedLine->field_C_previous = -1;
+    return pAddedLine;
 }
 
 signed __int16 Collisions::RayCast_40C410(FP /*X1_16_16*/, FP /*Y1_16_16*/, FP /*X2_16_16*/, FP /*Y2_16_16*/, PathLine** /*ppLine*/, FP* /*hitX*/, FP* /*hitY*/, unsigned int /*modeMask*/)

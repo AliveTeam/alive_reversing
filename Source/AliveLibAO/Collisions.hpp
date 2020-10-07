@@ -21,12 +21,12 @@ class PathLine
 {
 public:
     PSX_RECT field_0_rect;
-    char field_8_type;
-    char field_9;
-    char field_A;
-    char field_B;
-    int field_C;
-    int field_10;
+    BYTE field_8_type;
+    char field_9_pad;
+    char field_A_pad;
+    char field_B_pad;
+    int field_C_previous;
+    int field_10_next;
 
     EXPORT PathLine* MoveOnLine_40CA20(FP* xpos, FP* ypos, FP velX);
 };
