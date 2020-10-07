@@ -88,10 +88,34 @@ EXPORT FP CC CamX_VoidSkipper_418590(FP xpos, FP xvel, __int16 xMargin, WORD* pR
     return result;
 }
 
-EXPORT FP CC CamY_VoidSkipper_418690(FP /*ypos*/, FP /*yvel*/, __int16 /*yMargin*/, WORD* /*pResult*/)
+EXPORT FP CC CamY_VoidSkipper_418690(FP ypos, FP yvel, __int16 yMargin, WORD* pResult)
 {
-    NOT_IMPLEMENTED();
-    return {};
+    const int yVal = (FP_GetExponent(ypos) - 120);
+    const int yIdx = yVal / 240;
+    if (!(yIdx % 2))
+    {
+        *pResult = 0;  // in camera
+        return ypos;
+    }
+    
+    const int blockNum = yVal % 240;
+    if ((blockNum >= 240 - yMargin) || (blockNum <= yMargin))
+    {
+        return ypos;
+    }
+
+    int newY = 0;
+    if (yvel <= FP_FromInteger(0))
+    {
+        *pResult = 3; // top
+        newY = (240 * yIdx) + yMargin + 120;
+    }
+    else
+    {
+        *pResult = 4; // bottom
+        newY = (240 * yIdx) - yMargin + 360;
+    }
+    return FP_FromInteger(newY);
 }
 
 BaseAliveGameObject *BaseAliveGameObject::ctor_401090()
