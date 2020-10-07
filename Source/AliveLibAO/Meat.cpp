@@ -6,6 +6,10 @@
 #include "Shadow.hpp"
 #include "Game.hpp"
 #include "ThrowableArray.hpp"
+#include "Abe.hpp"
+#include "Sfx.hpp"
+#include "Math.hpp"
+#include "Events.hpp"
 
 START_NS_AO
 
@@ -71,6 +75,93 @@ BaseGameObject* MeatSack::dtor_439250()
     SetVTable(this, 0x4BB930);
     gMap_507BA8.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 0);
     return dtor_401000();
+}
+
+
+void MeatSack::VUpdate()
+{
+    VUpdate_4392C0();
+}
+
+void MeatSack::VUpdate_4392C0()
+{
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+
+    if (field_10_anim.field_92_current_frame == 2)
+    {
+        if (field_114)
+        {
+            if (Math_NextRandom() < 40u || field_116)
+            {
+                field_114 = 0;
+                field_116 = 0;
+                SFX_Play_43AE60(34u, 24, Math_RandomRange_450F20(-2400, -2200), 0);
+            }
+        }
+    }
+    else
+    {
+        field_114 = 1;
+    }
+
+    if (field_110 == 1)
+    {
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_10_anim.Set_Animation_Data_402A40(15688, nullptr);
+            field_110 = 0;
+        }
+        return;
+    }
+
+    PSX_RECT abeRect = {};
+    sActiveHero_507678->VGetBoundingRect(&abeRect, 1);
+
+    PSX_RECT ourRect = {};
+    VGetBoundingRect(&ourRect, 1);
+
+    if (RectsOverlap(ourRect, abeRect))
+    {
+        if (field_BC_sprite_scale == sActiveHero_507678->field_BC_sprite_scale)
+        {
+            if (!gpThrowableArray_50E26C)
+            {
+                gpThrowableArray_50E26C = ao_new<ThrowableArray>();
+                if (gpThrowableArray_50E26C)
+                {
+                    gpThrowableArray_50E26C->ctor_453EE0();
+                }
+            }
+
+            if (gpThrowableArray_50E26C->field_10_count > 0)
+            {
+                field_10_anim.Set_Animation_Data_402A40(15728, nullptr);
+                field_110 = 1;
+                return;
+            }
+
+            gpThrowableArray_50E26C->Add_453F70(field_112_num_items);
+
+            auto pMeat = ao_new<Meat>();
+            if (pMeat)
+            {
+                pMeat->ctor_438550(
+                    field_A8_xpos,
+                    field_AC_ypos - FP_FromInteger(30),
+                    field_112_num_items);
+            }
+            pMeat->VThrow(field_118_velX, field_11C_velY);
+            pMeat->field_BC_sprite_scale = field_BC_sprite_scale;
+            SFX_Play_43AD70(SoundEffect::SackHit_30, 0, 0);
+            Environment_SFX_42A220(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, nullptr);
+            field_10_anim.Set_Animation_Data_402A40(15728, nullptr);
+            field_110 = 1;
+            return;
+        }
+    }
 }
 
 BaseGameObject* MeatSack::VDestructor(signed int flags)
