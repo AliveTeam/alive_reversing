@@ -4517,7 +4517,7 @@ void Abe::State_17_HoistIdle_4269E0()
 
     if (field_B8_vely >= FP_FromInteger(0))
     {
-        Path_Hoist* pHoist = static_cast<Path_Hoist*>(gMap_507BA8.TLV_Get_At_446260(
+        auto pHoist = static_cast<Path_Hoist*>(gMap_507BA8.TLV_Get_At_446260(
             FP_GetExponent(field_A8_xpos),
             FP_GetExponent(field_AC_ypos),
             FP_GetExponent(field_A8_xpos),
@@ -4525,7 +4525,7 @@ void Abe::State_17_HoistIdle_4269E0()
             TlvTypes::Hoist_3
         ));
         field_F0_pTlv = pHoist;
-        if (IsSameScaleAsHoist(pHoist, this))
+        if (pHoist && IsSameScaleAsHoist(pHoist, this))
         {
             if (IsFacingSameDirectionAsHoist(pHoist, this))
             {
