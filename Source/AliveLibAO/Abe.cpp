@@ -4507,11 +4507,10 @@ void Abe::State_17_HoistIdle_4269E0()
         return;
     }
 
-    PullRingRope* pPullRope = GetPullRope_422580();
-    field_160_pRope = pPullRope;
-    if (pPullRope)
+    field_160_pRope = GetPullRope_422580();
+    if (field_160_pRope)
     {
-        if (pPullRope->Pull_454CB0(this))
+        if (field_160_pRope->Pull_454CB0(this))
         {
             field_FC_current_motion = eAbeStates::State_69_RingRopePull_4299B0;
             field_FE_next_state = eAbeStates::State_0_Idle_423520;
