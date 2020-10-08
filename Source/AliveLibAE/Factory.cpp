@@ -525,7 +525,7 @@ EXPORT void CC Factory_PullRingRope_4D8320(Path_TLV* pTlv, Path*, TlvItemInfoUni
 
 EXPORT void CC Factory_TimedMine_4D87C0(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadmode)
 { 
-    Path_TimedMine * mine_tlv = reinterpret_cast<Path_TimedMine *>(pTlv);
+    auto mine_tlv = static_cast<Path_TimedMine*>(pTlv);
 
     if (loadmode == 1 || loadmode == 2)
     {
@@ -718,7 +718,7 @@ EXPORT void CC Factory_WellExpress_4D7E60(Path_TLV* pTlv, Path* pPath, TlvItemIn
 
 EXPORT void CC Factory_Mine_4D8890(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadmode)
 {
-    Path_Mine * mine_tlv = reinterpret_cast<Path_Mine *>(pTlv);
+    auto mine_tlv = static_cast<Path_Mine*>(pTlv);
 
     if (loadmode == 1 || loadmode == 2)
     {
@@ -751,18 +751,7 @@ EXPORT void CC Factory_Mine_4D8890(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoU
 
 EXPORT void CC Factory_UXB_4D8960(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadmode)
 { 
-    // Use this to force spawn Timed Mines for testing purposes.
-    /*Path_TimedMine dummyData;
-    memcpy(&dummyData, pTlv, sizeof(Path_TLV));
-    dummyData.field_10_id = 1;
-    dummyData.field_12_state = 0;
-    dummyData.field_14_scale = 0;
-    dummyData.field_18_disabled_resources = 0;
-    dummyData.field_16_timeout = 100;
-    Factory_TimedMine_4D87C0(reinterpret_cast<Path_TLV*>(&dummyData), nullptr, tlvOffsetLevelIdPathId, loadmode);
-    return; */
-
-    Path_UXB * uxb_tlv = reinterpret_cast<Path_UXB *>(pTlv);
+    auto uxb_tlv = static_cast<Path_UXB*>(pTlv);
 
     if (loadmode == 1 || loadmode == 2)
     {
@@ -1289,7 +1278,7 @@ EXPORT void CC Factory_BackgroundAnimation_4D84F0(Path_TLV* pTlv, Path* /*pPath*
         auto pAnim = ae_new<BackgroundAnimation>();
         if (pAnim)
         {
-            pAnim->ctor_40D270(reinterpret_cast<BackgroundAnimation_TLV*>(pTlv), tlvOffsetLevelIdPathId);
+            pAnim->ctor_40D270(static_cast<BackgroundAnimation_TLV*>(pTlv), tlvOffsetLevelIdPathId);
         }
     }
 }
@@ -1305,7 +1294,7 @@ EXPORT void CC Factory_LCD_4D6CF0(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUn
     auto pLCD = ae_new<LCDScreen>();
     if (pLCD)
     {
-        pLCD->ctor_460680(reinterpret_cast<Path_LCDScreen*>(pTlv), tlvOffsetLevelIdPathId);
+        pLCD->ctor_460680(static_cast<Path_LCDScreen*>(pTlv), tlvOffsetLevelIdPathId);
     }
 }
 
@@ -1346,7 +1335,7 @@ EXPORT void CC Factory_StatusBoard_4DA3C0(Path_TLV* pTlv, Path* /*pPath*/, TlvIt
     auto pStatsSign = ae_new<StatsSign>();
     if (pStatsSign)
     {
-        pStatsSign->ctor_47B600(reinterpret_cast<Path_StatsSign*>(pTlv), tlvOffsetLevelIdPathId);
+        pStatsSign->ctor_47B600(static_cast<Path_StatsSign*>(pTlv), tlvOffsetLevelIdPathId);
     }
 }
 

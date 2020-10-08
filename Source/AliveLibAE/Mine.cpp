@@ -91,9 +91,9 @@ Mine * Mine::ctor_46B120(Path_Mine * pPath, TlvItemInfoUnion tlv)
         field_D6_scale = 1;
     }
 
-    const int v7 = pPath->field_0_mBase.field_8_top_left.field_0_x + pPath->field_0_mBase.field_C_bottom_right.field_0_x;
+    const int v7 = pPath->field_8_top_left.field_0_x + pPath->field_C_bottom_right.field_0_x;
     field_B8_xpos = FP_FromInteger(v7 / 2);
-    const FP v8 = FP_FromInteger(pPath->field_0_mBase.field_8_top_left.field_2_y);
+    const FP v8 = FP_FromInteger(pPath->field_8_top_left.field_2_y);
     field_BC_ypos = v8;
 
     FP hitY;

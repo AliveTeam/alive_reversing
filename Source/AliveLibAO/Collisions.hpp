@@ -28,7 +28,7 @@ public:
     int field_C_previous;
     int field_10_next;
 
-    EXPORT PathLine* MoveOnLine_40CA20(FP* xpos, FP* ypos, FP velX);
+    EXPORT PathLine* MoveOnLine_40CA20(FP* pXPos, FP* pYPos, const FP distToMove);
 };
 ALIVE_ASSERT_SIZEOF(PathLine, 20);
 
