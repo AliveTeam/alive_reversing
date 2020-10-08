@@ -5102,11 +5102,9 @@ void Abe::State_33_RunLoop_4508E0()
 
             MapFollowMe_408D10(TRUE);
 
-            const DWORD pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
-
             // Turning around?
-            if ((field_C4_velx > FP_FromInteger(0) && sInputKey_Left_5550D4 & pressed) ||
-                (field_C4_velx < FP_FromInteger(0) && sInputKey_Right_5550D0 & pressed))
+            if (field_C4_velx > FP_FromInteger(0) && sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4) ||
+                field_C4_velx < FP_FromInteger(0) && sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0))
             {
                 field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14);
                 field_106_current_motion = eAbeStates::State_26_RunTurn_451500;
@@ -5141,9 +5139,10 @@ void Abe::State_33_RunLoop_4508E0()
                 return;
             }
 
-            if ((sInputKey_Left_5550D4 | sInputKey_Right_5550D0) & pressed)
+            if (sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4) ||
+                sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0))
             {
-                if (pressed & sInputKey_Run_5550E8)
+                if (sInputObject_5BD4E0.isPressed(sInputKey_Run_5550E8))
                 {
                     field_118_prev_held = 0;
                     return;

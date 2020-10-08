@@ -1390,7 +1390,7 @@ void Abe::ToDieFinal_42C400()
     MusicController::sub_443810(MusicController::MusicTypes::eType14, this, 1, 0);
 }
 
-void Abe::ToKnockback_422D90(__int16 bUnknownSound, __int16 bDelayedAnger)
+void Abe::ToKnockback_422D90(__int16 bKnockbackSound, __int16 bDelayedAnger)
 {
     if (sControlledCharacter_50767C->field_4_typeId != Types::eSlig_88 || field_100_health <= FP_FromInteger(0))
     {
@@ -1418,7 +1418,7 @@ void Abe::ToKnockback_422D90(__int16 bUnknownSound, __int16 bDelayedAnger)
 
         field_114_gnFrame = gnFrameCount_507670 + 10;
 
-        if (bUnknownSound)
+        if (bKnockbackSound)
         {
             Mudokon_SFX_42A4D0(MudSounds::eKnockbackOuch_10, 0,  Math_RandomRange_450F20(-127, 127), this);
             Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
@@ -5459,7 +5459,148 @@ void Abe::State_34_RunJumpLand_427560()
 
 void Abe::State_35_RunLoop_425060()
 {
-    NOT_IMPLEMENTED();
+    field_10C_prev_held |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
+
+    Event_Broadcast_417220(kEventNoise_0, this);
+    Event_Broadcast_417220(kEvent_10, this);
+
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), field_B4_velx))
+    {
+        field_2A8_flags.Clear(Flags_2A8::e2A8_Bit3);
+        ToKnockback_422D90(1, 1);
+        return;
+    }
+
+    sub_422FC0();
+
+    if (field_FC_current_motion != eAbeStates::State_35_RunLoop_425060)
+    {
+        field_2A8_flags.Clear(Flags_2A8::e2A8_Bit3);
+        return;
+    }
+
+    if (field_10_anim.field_92_current_frame && field_10_anim.field_92_current_frame != 8)
+    {
+        if (field_10_anim.field_92_current_frame == 4 || field_10_anim.field_92_current_frame == 12)
+        {
+
+            Environment_SFX_42A220(EnvironmentSfx::eRunningFootstep_2, 0, 0x7FFF, this);
+
+            MapFollowMe_401D30(TRUE);
+
+            if (field_B4_velx > FP_FromInteger(0) && sInputObject_5009E8.isPressed(sInputKey_Left_4C6594) ||
+                field_B4_velx < FP_FromInteger(0) && sInputObject_5009E8.isPressed(sInputKey_Right_4C6590))
+            {
+                field_2A8_flags.Clear(Flags_2A8::e2A8_Bit3);
+                field_FC_current_motion = eAbeStates::State_28_RunTurn_425CE0;
+                Environment_SFX_42A220(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, this);
+                field_10C_prev_held = 0;
+                return;
+            }
+
+            if (field_10C_prev_held & sInputKey_Hop_4C65A0)
+            {
+                field_1A0_portal = IntoBirdPortal_402350(3);
+                if (field_1A0_portal)
+                {
+                    if (field_1A0_portal->field_10_portal_type == PortalType::eWorker_1)
+                    {
+                        field_1A0_portal = nullptr;
+                    }
+                }
+
+                if (field_1A0_portal)
+                {
+                    field_19E = 0;
+                }
+
+                field_2A8_flags.Clear(Flags_2A8::e2A8_Bit3);
+                field_FC_current_motion = eAbeStates::State_32_RunJumpBegin_427440;
+                field_10C_prev_held = 0;
+                return;
+            }
+
+            if (field_10C_prev_held & sInputKey_FartRoll_4C65B0)
+            {
+                field_2A8_flags.Clear(Flags_2A8::e2A8_Bit3);
+                field_FC_current_motion = eAbeStates::State_40_RunToRoll_427AE0;
+                field_10E_released_buttons = 0;
+                field_10C_prev_held = 0;
+                return;
+            }
+
+            if (sInputObject_5009E8.isPressed(sInputKey_Right_4C6590) ||
+                sInputObject_5009E8.isPressed(sInputKey_Left_4C6594))
+            {
+                if (sInputObject_5009E8.isPressed(sInputKey_Run_4C65A8))
+                {
+                    field_10C_prev_held = 0;
+                    return;
+                }
+
+                FP gridSize = {};
+                if (field_B4_velx >= FP_FromInteger(0))
+                {
+                    gridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
+                }
+                else
+                {
+                    gridSize = -ScaleToGridSize_41FA30(field_BC_sprite_scale);
+                }
+
+                if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), gridSize))
+                {
+                    ToKnockback_422D90(1, 1);
+                }
+                else
+                {
+                    if (field_10_anim.field_92_current_frame != 4)
+                    {
+                        field_FC_current_motion = eAbeStates::State_52_RunToWalk_4255E0;
+                    }
+                    else
+                    {
+                        field_FC_current_motion = eAbeStates::State_53_MidRunToWalk_4256E0;
+                    }
+                }
+            }
+            else
+            {
+                field_FC_current_motion = eAbeStates::State_27_RunSlideStop_425B60;
+                Environment_SFX_42A220(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, this);
+            }
+
+            field_2A8_flags.Clear(Flags_2A8::e2A8_Bit3);
+            field_10C_prev_held = 0;
+            return;
+        }
+    }
+    else
+    {
+        MapFollowMe_401D30(TRUE);
+
+        if (field_10C_prev_held & sInputKey_Hop_4C65A0)
+        {
+            field_1A0_portal = IntoBirdPortal_402350(3);
+            if (field_1A0_portal)
+            {
+                if (field_1A0_portal->field_10_portal_type == PortalType::eWorker_1)
+                {
+                    field_1A0_portal = nullptr;
+                }
+            }
+
+            if (field_1A0_portal)
+            {
+                field_19E = 0;
+            }
+
+            field_2A8_flags.Clear(Flags_2A8::e2A8_Bit3);
+            field_FC_current_motion = eAbeStates::State_32_RunJumpBegin_427440;
+            field_10C_prev_held = 0;
+            return;
+        }
+    }
 }
 
 void Abe::State_36_DunnoBegin_423260()
