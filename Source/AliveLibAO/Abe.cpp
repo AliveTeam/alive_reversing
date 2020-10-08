@@ -5738,27 +5738,6 @@ void Abe::State_35_RunLoop_425060()
                 return;
             }
 
-            if (field_10C_prev_held & sInputKey_Hop_4C65A0)
-            {
-                field_1A0_portal = IntoBirdPortal_402350(3);
-                if (field_1A0_portal)
-                {
-                    if (field_1A0_portal->field_10_portal_type != PortalType::eAbe_0)
-                    {
-                        field_1A0_portal = nullptr;
-                    }
-                    else
-                    {
-                        field_19E_portal_sub_state = 0;
-                    }
-                }
-
-                field_2A8_flags.Clear(Flags_2A8::e2A8_Bit3);
-                field_FC_current_motion = eAbeStates::State_32_RunJumpBegin_427440;
-                field_10C_prev_held = 0;
-                return;
-            }
-
             if (field_10C_prev_held & sInputKey_FartRoll_4C65B0)
             {
                 field_2A8_flags.Clear(Flags_2A8::e2A8_Bit3);
@@ -5811,33 +5790,30 @@ void Abe::State_35_RunLoop_425060()
 
             field_2A8_flags.Clear(Flags_2A8::e2A8_Bit3);
             field_10C_prev_held = 0;
-            return;
         }
+        return;
     }
-    else
+
+    MapFollowMe_401D30(TRUE);
+
+    if (field_10C_prev_held & sInputKey_Hop_4C65A0)
     {
-        MapFollowMe_401D30(TRUE);
-
-        if (field_10C_prev_held & sInputKey_Hop_4C65A0)
+        field_1A0_portal = IntoBirdPortal_402350(3);
+        if (field_1A0_portal)
         {
-            field_1A0_portal = IntoBirdPortal_402350(3);
-            if (field_1A0_portal)
+            if (field_1A0_portal->field_10_portal_type != PortalType::eAbe_0)
             {
-                if (field_1A0_portal->field_10_portal_type != PortalType::eAbe_0)
-                {
-                    field_1A0_portal = nullptr;
-                }
-                else
-                {
-                    field_19E_portal_sub_state = 0;
-                }
+                field_1A0_portal = nullptr;
             }
-
-            field_2A8_flags.Clear(Flags_2A8::e2A8_Bit3);
-            field_FC_current_motion = eAbeStates::State_32_RunJumpBegin_427440;
-            field_10C_prev_held = 0;
-            return;
+            else
+            {
+                field_19E_portal_sub_state = 0;
+            }
         }
+
+        field_2A8_flags.Clear(Flags_2A8::e2A8_Bit3);
+        field_FC_current_motion = eAbeStates::State_32_RunJumpBegin_427440;
+        field_10C_prev_held = 0;
     }
 }
 

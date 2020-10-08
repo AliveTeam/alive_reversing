@@ -5113,22 +5113,6 @@ void Abe::State_33_RunLoop_4508E0()
                 return;
             }
 
-            // Run jump
-            if (field_118_prev_held & sInputKey_Hop_5550E0)
-            {
-                BaseGameObject* pObj = VIntoBirdPortal_408FD0(3);
-                if (pObj)
-                {
-                    field_1A4_portal_sub_state = 0;
-                    field_1A8_portal_id = pObj->field_8_object_id;
-                }
-
-                field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14);
-                field_106_current_motion = eAbeStates::State_30_RunJumpBegin_4532E0;
-                field_118_prev_held = 0;
-                return;
-            }
-
             // Run to roll
             if (field_118_prev_held & sInputKey_FartRoll_5550F0)
             {
@@ -5186,25 +5170,24 @@ void Abe::State_33_RunLoop_4508E0()
 
             field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14);
             field_118_prev_held = 0;
-            return;
         }
+        return;
     }
-    else
-    {
-        MapFollowMe_408D10(TRUE);
 
-        if (field_118_prev_held & sInputKey_Hop_5550E0)
+    // Run jump
+    if (field_118_prev_held & sInputKey_Hop_5550E0)
+    {
+        BaseGameObject* pObj = VIntoBirdPortal_408FD0(3);
+        if (pObj)
         {
-            BaseGameObject* pObj = VIntoBirdPortal_408FD0(3);
-            if (pObj)
-            {
-                field_1A4_portal_sub_state = 0;
-                field_1A8_portal_id = pObj->field_8_object_id;
-            }
-            field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14);
-            field_106_current_motion = eAbeStates::State_30_RunJumpBegin_4532E0;
-            field_118_prev_held = 0;
+            field_1A4_portal_sub_state = 0;
+            field_1A8_portal_id = pObj->field_8_object_id;
         }
+
+        field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14);
+        field_106_current_motion = eAbeStates::State_30_RunJumpBegin_4532E0;
+        field_118_prev_held = 0;
+        return;
     }
 }
 
