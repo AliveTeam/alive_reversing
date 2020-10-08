@@ -336,7 +336,7 @@ void Rock::VUpdate_456EC0()
         else
         {
             const short x_exp = FP_GetExponent(field_A8_xpos);
-            const int xSnapped = (x_exp & 0xFC00) + Grid_SnapX_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
+            const int xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
             if (abs(xSnapped - x_exp) > 1)
             {
                 field_114_pLine = field_114_pLine->MoveOnLine_40CA20(

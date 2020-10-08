@@ -144,7 +144,7 @@ Door* Door::ctor_40E010(Path_Door* pTlv, int tlvInfo)
             {
                 field_AC_ypos -= (FP_FromInteger(12) * field_BC_sprite_scale);
                 gMap_507BA8.GetCurrentCamCoords_444890(&mapCoords);
-                auto aux = Grid_SnapX_41FAA0(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos) - mapCoords.field_0_x);
+                auto aux = SnapToXGrid_41FAA0(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos) - mapCoords.field_0_x);
                 field_A8_xpos = FP_FromInteger((aux) + mapCoords.field_0_x);
             }
             else
@@ -209,7 +209,7 @@ Door* Door::ctor_40E010(Path_Door* pTlv, int tlvInfo)
         {
             field_AC_ypos += FP_FromInteger(4);
             gMap_507BA8.GetCurrentCamCoords_444890(&mapCoords);
-            field_A8_xpos = FP_FromInteger(Grid_SnapX_41FAA0(scale, FP_GetExponent(field_A8_xpos) - mapCoords.field_0_x) + mapCoords.field_0_x);
+            field_A8_xpos = FP_FromInteger(SnapToXGrid_41FAA0(scale, FP_GetExponent(field_A8_xpos) - mapCoords.field_0_x) + mapCoords.field_0_x);
         }
         else
         {
@@ -270,7 +270,7 @@ Door* Door::ctor_40E010(Path_Door* pTlv, int tlvInfo)
                     {
                         field_AC_ypos -= (FP_FromInteger(12) * field_BC_sprite_scale);
                         gMap_507BA8.GetCurrentCamCoords_444890(&mapCoords);
-                        field_A8_xpos = FP_FromInteger(Grid_SnapX_41FAA0(FP_FromInteger(1), FP_GetExponent(field_A8_xpos) - mapCoords.field_0_x) + mapCoords.field_0_x);
+                        field_A8_xpos = FP_FromInteger(SnapToXGrid_41FAA0(FP_FromInteger(1), FP_GetExponent(field_A8_xpos) - mapCoords.field_0_x) + mapCoords.field_0_x);
                     }
                     else
                     {

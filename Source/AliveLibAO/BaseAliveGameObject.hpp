@@ -9,7 +9,7 @@ START_NS_AO
 
 void BaseAliveGameObject_ForceLink();
 
-EXPORT int CC Grid_SnapX_41FAA0(FP scale, int a2);
+EXPORT int CC SnapToXGrid_41FAA0(FP scale, int a2);
 
 
 EXPORT FP CC CamX_VoidSkipper_418590(FP xpos, FP xvel, __int16 xMargin, WORD* pResult);

@@ -789,7 +789,7 @@ __int16 Paramite::AnotherParamiteNear_44AF80()
 void Paramite::ToKnockBack_44B5B0()
 {
     const FP nextX = field_A8_xpos - field_B4_velx;
-    field_A8_xpos = FP_FromInteger((FP_GetExponent(nextX) & 0xFC00) + Grid_SnapX_41FAA0(field_BC_sprite_scale, FP_GetExponent(nextX) & 0x3FF));
+    field_A8_xpos = FP_FromInteger((FP_GetExponent(nextX) & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, FP_GetExponent(nextX) & 0x3FF));
     
     MapFollowMe_401D30(1);
 
@@ -2118,7 +2118,7 @@ __int16 Paramite::Brain_ChasingAbe_449170()
         }
 
         const short x_exp = FP_GetExponent(field_A8_xpos);
-        const int xSnapped = (x_exp & 0xFC00) + Grid_SnapX_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
+        const int xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
         if (field_B4_velx < FP_FromInteger(0))
         {
             if (HandleEnemyStopper(-2, Path_EnemyStopper::StopDirection::Left_0))
@@ -2245,7 +2245,7 @@ __int16 Paramite::Brain_ChasingAbe_449170()
         }
 
         const short x_exp = FP_GetExponent(field_A8_xpos);
-        const int xSnapped = (x_exp & 0xFC00) + Grid_SnapX_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
+        const int xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
         if (field_B4_velx > FP_FromInteger(0))
         {
             if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine_4021A0(0, 1))
@@ -2432,7 +2432,7 @@ __int16 Paramite::Brain_SpottedMeat_449CD0()
     case AI_SpottedMeat::eState5_Running_1:
     {
         const short x_exp = FP_GetExponent(field_A8_xpos);
-        const int xSnapped = (x_exp & 0xFC00) + Grid_SnapX_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
+        const int xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
         if (field_B4_velx < FP_FromInteger(0))
         {
             if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine_4021A0(1, 1))
@@ -2483,7 +2483,7 @@ __int16 Paramite::Brain_SpottedMeat_449CD0()
     case AI_SpottedMeat::eState5_Walking_2:
     {
         const short x_exp = FP_GetExponent(field_A8_xpos);
-        const int xSnapped = (x_exp & 0xFC00) + Grid_SnapX_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
+        const int xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
         if (field_B4_velx < FP_FromInteger(0))
         {
             if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine_4021A0(1, 1))
