@@ -108,7 +108,7 @@ void Alarm::VUpdate_402660()
     switch (field_6A_state)
     {
     case 0:
-        if (Event_Get_417250(kEvent_3))
+        if (Event_Get_417250(kEventHeroDying))
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
             return;
@@ -158,7 +158,7 @@ void Alarm::VUpdate_402660()
         break;
 
     case 4:
-        if (Event_Get_417250(kEvent_3))
+        if (Event_Get_417250(kEventHeroDying))
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
             return;

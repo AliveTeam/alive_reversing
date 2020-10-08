@@ -13,7 +13,7 @@ enum Event : __int16
     kEventNoise_0 = 0,
     kEventSpeaking_1 = 1,
     kEvent_2 = 2,
-    kEvent_3 = 3,
+    kEventHeroDying = 3,
     kEventDeathReset_4 = 4,
     kEvent_5 = 5,
     kEventResetting_6 = 6,

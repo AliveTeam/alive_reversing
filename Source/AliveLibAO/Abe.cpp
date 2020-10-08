@@ -6,6 +6,7 @@
 #include "Bullet.hpp"
 #include "CheatController.hpp"
 #include "HoistRocksEffect.hpp"
+#include "DeathBirdParticle.hpp"
 #include "Door.hpp"
 #include "ThrowableArray.hpp"
 #include "Elum.hpp"
@@ -6373,7 +6374,192 @@ void Abe::State_59_DeathDropFall_42CBE0()
 
 void Abe::State_60_Dead_42C4C0()
 {
-    NOT_IMPLEMENTED();
+    field_10_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+    FollowLift_42EE90();
+    switch (field_114_gnFrame)
+    {
+        case 0:
+        {
+            Event_Broadcast_417220(kEventHeroDying, this);
+            field_118 = gnFrameCount_507670 + 30;
+            field_120 = FP_FromInteger(0);
+            field_124 = 0;
+            field_B4_velx = FP_FromInteger(0);
+            field_B8_vely = FP_FromInteger(0);
+            field_10C_prev_held = 0;
+            field_114_gnFrame++;
+
+            auto pDeathBirdParticle = ao_new<DeathBirdParticle>();
+            if (pDeathBirdParticle)
+            {
+                auto aux = 0;
+                if (field_F0_pTlv && field_F0_pTlv->field_4_type == TlvTypes::DeathDrop_5)
+                {
+                    aux = 60;
+                }
+                else
+                {
+                    aux = 15;
+                }
+                const FP ypos = FP_FromInteger(Math_NextRandom() % 10) + field_AC_ypos + FP_FromInteger(15);
+                const FP xpos = FP_FromInteger(((Math_NextRandom() % 64) - 32)) + field_A8_xpos;
+                pDeathBirdParticle->ctor_41D950(
+                    xpos,
+                    ypos,
+                    (Math_NextRandom() % 8) + field_118 + aux,
+                    1,
+                    field_BC_sprite_scale
+                );
+            }
+
+            return;
+        }
+        case 1:
+        {
+            Event_Broadcast_417220(3, this);
+            auto pDeathBirdParticle = ao_new<DeathBirdParticle>();
+            if (!(gnFrameCount_507670 % 4) && pDeathBirdParticle)
+            {
+                auto aux = 0;
+                if (field_F0_pTlv && field_F0_pTlv->field_4_type == TlvTypes::DeathDrop_5)
+                {
+                    aux = 60;
+                }
+                else
+                {
+                    aux = 15;
+                }
+                const FP ypos = FP_FromInteger(Math_NextRandom() % 10) + field_AC_ypos + FP_FromInteger(15);
+                const FP xpos = FP_FromInteger(((Math_NextRandom() % 64) - 32)) + field_A8_xpos;
+                pDeathBirdParticle->ctor_41D950(
+                    xpos,
+                    ypos,
+                    (Math_NextRandom() % 8) + field_118 + aux,
+                    0,
+                    field_BC_sprite_scale
+                );
+            }
+            field_BC_sprite_scale -= FP_FromDouble(0.008);
+
+            field_C0_r -= 2;
+            field_C2_g -= 2;
+            field_C4_b -= 2;
+            if (static_cast<int>(gnFrameCount_507670) > field_118)
+            {
+                field_118 = gnFrameCount_507670 + 60;
+                if (field_F0_pTlv)
+                {
+                    if (field_F0_pTlv->field_4_type == TlvTypes::DeathDrop_5)
+                    {
+                        field_118 = (gnFrameCount_507670 + 60) + 45;
+                    }
+                }
+                ++field_114_gnFrame;
+                MusicController::sub_443810(MusicController::MusicTypes::eType14, this, 1, 0);
+            }
+            return;
+        }
+        case 2:
+        {
+            Event_Broadcast_417220(kEventHeroDying, this);
+            if (static_cast<int>(gnFrameCount_507670) > field_118)
+            {
+                ++field_114_gnFrame;
+            }
+            return;
+        }
+        case 3:
+        {
+            Event_Broadcast_417220(kEventHeroDying, this);
+            if (field_158_pDeathFadeout)
+            {
+                field_158_pDeathFadeout->field_6_flags.Set(Options::eDead_Bit3);
+                field_158_pDeathFadeout->field_C_refCount--;
+            }
+            field_158_pDeathFadeout = ao_new<DeathFadeOut>();
+            if (field_158_pDeathFadeout)
+            {
+                field_158_pDeathFadeout->ctor_419DB0(40, 1, 0, 8, 2);
+            }
+
+            field_158_pDeathFadeout->field_C_refCount++;
+            if (field_164_pCircularFade)
+            {
+                field_158_pDeathFadeout->field_6_flags.Set(Options::eDead_Bit3);
+                field_164_pCircularFade = 0;
+            }
+            ++field_114_gnFrame;
+            return;
+        }
+        case 4:
+        {
+            Event_Broadcast_417220(3, this);
+            if (field_158_pDeathFadeout->field_6E_bDone)
+            {
+                if (!field_104_pending_resource_count)
+                {
+                    VOnTrapDoorOpen_42EED0();
+                    field_F4_pLine = nullptr;
+                    if (gElum_507680)
+                    {
+                        if (!gElum_507680->field_144)
+                        {
+                            gElum_507680->field_6_flags.Set(Options::eDead_Bit3);
+                        }
+                    }
+                    if (!field_1A4_resources.res[0])
+                    {
+                        field_1A4_resources.res[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 10, 1, 0);
+                        field_1A4_resources.res[10] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 20, 1, 0);
+                        field_1A4_resources.res[38] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 48, 1, 0);
+                        field_1A4_resources.res[9] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 19, 1, 0);
+                        field_1A4_resources.res[61] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 115, 1, 0);
+                        if (gElum_507680)
+                        {
+                            if (gElum_507680->field_144)
+                            {
+                                gElum_507680->Vsub_411260();
+                            }
+                            else
+                            {
+                                ResourceManager::FreeResource_455550(
+                                    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 115, 0, 0)
+                                );
+                            }
+                        }
+                    }
+                    field_118 = gnFrameCount_507670 + 8;
+                    field_114_gnFrame++;
+                    //todo never used? dword_507720 = 0;
+                }
+            }
+            return;
+        }
+        case 5:
+        {
+            Event_Broadcast_417220(4, this);
+            if (static_cast<int>(gnFrameCount_507670) > field_118)
+            {
+                field_FC_current_motion = eAbeStates::State_61_Respawn_42CD20;
+                field_118 = gnFrameCount_507670 + 2;
+                field_114_gnFrame = 0;
+                MusicController::sub_443810(MusicController::MusicTypes::eType0, this, 1, 0);
+                if (field_168_ring_pulse_timer && field_16C_bHaveShrykull)
+                {
+                    Abe::Free_Shrykull_Resources_42F4C0();
+                }
+                else if (field_144_saved_level != LevelIds::eRuptureFarmsReturn_13 || field_142_saved_path != 6)
+                {
+                    field_168_ring_pulse_timer = 0;
+                }
+                field_130_say = -1;
+                field_D0_pShadow->field_14_flags.Clear(Shadow::Flags::eBit2_Enabled);
+            }
+            return;
+        }
+        default:
+            return;
+    }
 }
 
 void Abe::State_61_Respawn_42CD20()
