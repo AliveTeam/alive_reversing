@@ -3101,6 +3101,7 @@ __int16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
             field_198_pThrowable->VTimeToExplodeRandom();
             field_198_pThrowable = nullptr;
         }
+        field_19C_throwable_count = 0;
         break;
 
     case Types::eRockSpawner_32:
