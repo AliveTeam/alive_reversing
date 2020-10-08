@@ -5743,15 +5743,11 @@ void Abe::State_35_RunLoop_425060()
                 field_1A0_portal = IntoBirdPortal_402350(3);
                 if (field_1A0_portal)
                 {
-                    if (field_1A0_portal->field_10_portal_type == PortalType::eWorker_1)
+                    if (field_1A0_portal->field_10_portal_type != PortalType::eAbe_0)
                     {
                         field_1A0_portal = nullptr;
                     }
-                }
-
-                if (field_1A0_portal)
-                {
-                    field_19E = 0;
+                    field_19E_portal_sub_state = 0;
                 }
 
                 field_2A8_flags.Clear(Flags_2A8::e2A8_Bit3);
@@ -5824,15 +5820,11 @@ void Abe::State_35_RunLoop_425060()
             field_1A0_portal = IntoBirdPortal_402350(3);
             if (field_1A0_portal)
             {
-                if (field_1A0_portal->field_10_portal_type == PortalType::eWorker_1)
+                if (field_1A0_portal->field_10_portal_type != PortalType::eAbe_0)
                 {
                     field_1A0_portal = nullptr;
                 }
-            }
-
-            if (field_1A0_portal)
-            {
-                field_19E = 0;
+                field_19E_portal_sub_state = 0;
             }
 
             field_2A8_flags.Clear(Flags_2A8::e2A8_Bit3);
