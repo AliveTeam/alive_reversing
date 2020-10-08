@@ -2553,7 +2553,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
     SFX_Play_43AD70(SoundEffect::KillEffect_78, 0, this);
 }
 
-bool Abe::NearDoorIsOpen()
+BOOL Abe::NearDoorIsOpen()
 {
     for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {
