@@ -5689,7 +5689,7 @@ void Abe::State_57_Dead_4589A0()
         field_118_prev_held = 0;
         field_124_gnFrame = field_124_gnFrame + 1;
         field_128.field_0_gnFrame = sGnFrame_5C1B84 + 30;
-        if (field_FC_pPathTLV && field_FC_pPathTLV->field_4_type == 4) // TODO: constant
+        if (field_FC_pPathTLV && field_FC_pPathTLV->field_4_type == TlvTypes::DeathDrop_4)
         {
             auto pBird = ae_new<DeathBirdParticle>();
             if (pBird)
@@ -5725,7 +5725,7 @@ void Abe::State_57_Dead_4589A0()
         Event_Broadcast_422BC0(kEventHeroDying, this);
         if (!(sGnFrame_5C1B84 % 4))
         {
-            if (field_FC_pPathTLV && field_FC_pPathTLV->field_4_type == 4) // TODO: Constant
+            if (field_FC_pPathTLV && field_FC_pPathTLV->field_4_type == TlvTypes::DeathDrop_4)
             {
                 auto pBird = ae_new<DeathBirdParticle>();
                 if (pBird)
@@ -5763,26 +5763,24 @@ void Abe::State_57_Dead_4589A0()
         field_D2_g -= 2;
         field_D4_b -= 2;
 
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_128.field_0_gnFrame)
+        if (static_cast<int>(sGnFrame_5C1B84) > field_128.field_0_gnFrame)
         {
-            return;
-        }
+            field_128.field_0_gnFrame = sGnFrame_5C1B84 + 60;
 
-        field_128.field_0_gnFrame = sGnFrame_5C1B84 + 60;
-
-        if (field_FC_pPathTLV)
-        {
-            if (field_FC_pPathTLV->field_4_type == 4)
+            if (field_FC_pPathTLV)
             {
-                field_128.field_0_gnFrame = (sGnFrame_5C1B84 + 60) + 45;
+                if (field_FC_pPathTLV->field_4_type == TlvTypes::DeathDrop_4)
+                {
+                    field_128.field_0_gnFrame = (sGnFrame_5C1B84 + 60) + 45;
+                }
             }
+            ++field_124_gnFrame;
+            MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eDeathLong_11, this, 1, 0);
         }
-        ++field_124_gnFrame;
-        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eDeathLong_11, this, 1, 0);
         return;
     case 2:
         Event_Broadcast_422BC0(kEventHeroDying, this);
-        if ((signed int)sGnFrame_5C1B84 > field_128.field_0_gnFrame)
+        if (static_cast<int>(sGnFrame_5C1B84) > field_128.field_0_gnFrame)
         {
             ++field_124_gnFrame;
         }
@@ -5828,7 +5826,6 @@ void Abe::State_57_Dead_4589A0()
         field_100_pCollisionLine = nullptr;
         field_128.field_0_gnFrame = sGnFrame_5C1B84 + 8;
         ++field_124_gnFrame;
-        // TODO
         //dword_5C2C64 = 0; // TODO: Never read ?
         return;
 
