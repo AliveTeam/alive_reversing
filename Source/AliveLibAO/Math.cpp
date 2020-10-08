@@ -81,4 +81,10 @@ int CC Math_SquareRoot_Int_4511B0(int /*a1*/)
     return 0;
 }
 
+FP CC Math_SquareRoot_FP_451210(FP /*v*/)
+{
+    NOT_IMPLEMENTED();
+    return {};
+}
+
 END_NS_AO
