@@ -5719,7 +5719,7 @@ void Abe::State_35_RunLoop_425060()
         return;
     }
 
-    if (field_10_anim.field_92_current_frame && field_10_anim.field_92_current_frame != 8)
+    if (field_10_anim.field_92_current_frame != 0 && field_10_anim.field_92_current_frame != 8)
     {
         if (field_10_anim.field_92_current_frame == 4 || field_10_anim.field_92_current_frame == 12)
         {
@@ -5738,63 +5738,67 @@ void Abe::State_35_RunLoop_425060()
                 return;
             }
 
-            if (field_10C_prev_held & sInputKey_FartRoll_4C65B0)
+            if (!(field_10C_prev_held & sInputKey_Hop_4C65A0))
             {
-                field_2A8_flags.Clear(Flags_2A8::e2A8_Bit3);
-                field_FC_current_motion = eAbeStates::State_40_RunToRoll_427AE0;
-                field_10E_released_buttons = 0;
-                field_10C_prev_held = 0;
-                return;
-            }
-
-            if (sInputObject_5009E8.isPressed(sInputKey_Right_4C6590) ||
-                sInputObject_5009E8.isPressed(sInputKey_Left_4C6594))
-            {
-                if (sInputObject_5009E8.isPressed(sInputKey_Run_4C65A8))
+                if (field_10C_prev_held & sInputKey_FartRoll_4C65B0)
                 {
+                    field_2A8_flags.Clear(Flags_2A8::e2A8_Bit3);
+                    field_FC_current_motion = eAbeStates::State_40_RunToRoll_427AE0;
+                    field_10E_released_buttons = 0;
                     field_10C_prev_held = 0;
                     return;
                 }
 
-                FP gridSize = {};
-                if (field_B4_velx >= FP_FromInteger(0))
+                if (sInputObject_5009E8.isPressed(sInputKey_Right_4C6590) ||
+                    sInputObject_5009E8.isPressed(sInputKey_Left_4C6594))
                 {
-                    gridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
-                }
-                else
-                {
-                    gridSize = -ScaleToGridSize_41FA30(field_BC_sprite_scale);
-                }
-
-                if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), gridSize))
-                {
-                    ToKnockback_422D90(1, 1);
-                }
-                else
-                {
-                    if (field_10_anim.field_92_current_frame != 4)
+                    if (sInputObject_5009E8.isPressed(sInputKey_Run_4C65A8))
                     {
-                        field_FC_current_motion = eAbeStates::State_52_RunToWalk_4255E0;
+                        field_10C_prev_held = 0;
+                        return;
+                    }
+
+                    FP gridSize = {};
+                    if (field_B4_velx >= FP_FromInteger(0))
+                    {
+                        gridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
                     }
                     else
                     {
-                        field_FC_current_motion = eAbeStates::State_53_MidRunToWalk_4256E0;
+                        gridSize = -ScaleToGridSize_41FA30(field_BC_sprite_scale);
+                    }
+
+                    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), gridSize))
+                    {
+                        ToKnockback_422D90(1, 1);
+                    }
+                    else
+                    {
+                        if (field_10_anim.field_92_current_frame != 4)
+                        {
+                            field_FC_current_motion = eAbeStates::State_52_RunToWalk_4255E0;
+                        }
+                        else
+                        {
+                            field_FC_current_motion = eAbeStates::State_53_MidRunToWalk_4256E0;
+                        }
                     }
                 }
-            }
-            else
-            {
-                field_FC_current_motion = eAbeStates::State_27_RunSlideStop_425B60;
-                Environment_SFX_42A220(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, this);
-            }
+                else
+                {
+                    field_FC_current_motion = eAbeStates::State_27_RunSlideStop_425B60;
+                    Environment_SFX_42A220(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, this);
+                }
 
-            field_2A8_flags.Clear(Flags_2A8::e2A8_Bit3);
-            field_10C_prev_held = 0;
+                field_2A8_flags.Clear(Flags_2A8::e2A8_Bit3);
+                field_10C_prev_held = 0;
+            }
         }
-        return;
     }
-
-    MapFollowMe_401D30(TRUE);
+    else
+    {
+        MapFollowMe_401D30(TRUE);
+    }
 
     if (field_10C_prev_held & sInputKey_Hop_4C65A0)
     {

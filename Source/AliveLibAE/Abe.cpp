@@ -5094,7 +5094,7 @@ void Abe::State_33_RunLoop_4508E0()
         return;
     }
 
-    if (field_20_animation.field_92_current_frame && field_20_animation.field_92_current_frame != 8)
+    if (field_20_animation.field_92_current_frame != 0  && field_20_animation.field_92_current_frame != 8)
     {
         if (field_20_animation.field_92_current_frame == 4 || field_20_animation.field_92_current_frame == 12)
         {
@@ -5113,65 +5113,71 @@ void Abe::State_33_RunLoop_4508E0()
                 return;
             }
 
-            // Run to roll
-            if (field_118_prev_held & sInputKey_FartRoll_5550F0)
+            if (!(field_118_prev_held & sInputKey_Hop_5550E0))
             {
-                field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14);
-                field_106_current_motion = eAbeStates::jState_38_RunToRoll_453A70;
-                field_11C_released_buttons = 0;
-                field_118_prev_held = 0;
-                return;
-            }
-
-            if (sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4) ||
-                sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0))
-            {
-                if (sInputObject_5BD4E0.isPressed(sInputKey_Run_5550E8))
+                // Run to roll
+                if (field_118_prev_held & sInputKey_FartRoll_5550F0)
                 {
+                    field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14);
+                    field_106_current_motion = eAbeStates::jState_38_RunToRoll_453A70;
+                    field_11C_released_buttons = 0;
                     field_118_prev_held = 0;
                     return;
                 }
 
-                FP gridSize = {};
-                if (field_C4_velx >= FP_FromInteger(0))
+                if (sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4) ||
+                    sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0))
                 {
-                    gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
-                }
-                else
-                {
-                    gridSize = -ScaleToGridSize_4498B0(field_CC_sprite_scale);
-                }
-
-                // Run to walk and hit wall
-                if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), gridSize) ||
-                    WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), gridSize))
-                {
-                    ToKnockback_44E700(1, 1);
-                }
-                else
-                {
-                    // Run to walk
-                    if (field_20_animation.field_92_current_frame != 4)
+                    if (sInputObject_5BD4E0.isPressed(sInputKey_Run_5550E8))
                     {
-                        field_106_current_motion = eAbeStates::State_50_RunToWalk_450E20;
+                        field_118_prev_held = 0;
+                        return;
+                    }
+
+                    FP gridSize = {};
+                    if (field_C4_velx >= FP_FromInteger(0))
+                    {
+                        gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
                     }
                     else
                     {
-                        field_106_current_motion = eAbeStates::State_51_MidRunToWalk_450F50;
+                        gridSize = -ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                    }
+
+                    // Run to walk and hit wall
+                    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), gridSize) ||
+                        WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), gridSize))
+                    {
+                        ToKnockback_44E700(1, 1);
+                    }
+                    else
+                    {
+                        // Run to walk
+                        if (field_20_animation.field_92_current_frame != 4)
+                        {
+                            field_106_current_motion = eAbeStates::State_50_RunToWalk_450E20;
+                        }
+                        else
+                        {
+                            field_106_current_motion = eAbeStates::State_51_MidRunToWalk_450F50;
+                        }
                     }
                 }
-            }
-            else
-            {
-                // No longer running or even moving, so slide stop
-                field_106_current_motion = eAbeStates::State_25_RunSlideStop_451330;
-                Environment_SFX_457A40(EnvironmentSfx::eRunSlide_4, 0, 32767, this);
-            }
+                else
+                {
+                    // No longer running or even moving, so slide stop
+                    field_106_current_motion = eAbeStates::State_25_RunSlideStop_451330;
+                    Environment_SFX_457A40(EnvironmentSfx::eRunSlide_4, 0, 32767, this);
+                }
 
-            field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14);
-            field_118_prev_held = 0;
+                field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14);
+                field_118_prev_held = 0;
+            }
         }
-        return;
+    }
+    else
+    {
+        MapFollowMe_408D10(TRUE);
     }
 
     // Run jump
@@ -5187,7 +5193,6 @@ void Abe::State_33_RunLoop_4508E0()
         field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14);
         field_106_current_motion = eAbeStates::State_30_RunJumpBegin_4532E0;
         field_118_prev_held = 0;
-        return;
     }
 }
 
