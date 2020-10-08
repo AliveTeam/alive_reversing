@@ -10,9 +10,8 @@ void LCDScreen_ForceLink();
 
 extern const char * sLCDMessageTable_555768[101];
 
-struct Path_LCDScreen
+struct Path_LCDScreen : public Path_TLV
 {
-    Path_TLV field_0_mBase;
     __int16 field_10_message_1_id;
     __int16 field_12_message_rand_min;
     __int16 field_14_message_rand_max;
