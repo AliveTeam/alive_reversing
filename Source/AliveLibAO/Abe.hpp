@@ -374,7 +374,7 @@ public:
 
     EXPORT __int16 RunTryEnterDoor_4259C0();
 
-    bool NearDoorIsOpen();
+    BOOL NearDoorIsOpen();
 
     EXPORT void IntoPortalStates_4262A0();
 

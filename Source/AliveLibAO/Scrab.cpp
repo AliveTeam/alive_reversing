@@ -2728,7 +2728,7 @@ __int16 Scrab::Brain_ChasingEnemy_45CC90()
         if (field_B4_velx > FP_FromInteger(0))
         {
             const short x_exp = FP_GetExponent(field_A8_xpos);
-            const int xSnapped = (x_exp & 0xFC00) + Grid_SnapX_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
+            const int xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
             if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine_4021A0(0, 1))
             {
                 if (field_120_pTarget->field_AC_ypos - field_AC_ypos < FP_FromInteger(5)
@@ -2771,7 +2771,7 @@ __int16 Scrab::Brain_ChasingEnemy_45CC90()
         else if (field_B4_velx < FP_FromInteger(0))
         {
             const short x_exp = FP_GetExponent(field_A8_xpos);
-            const int xSnapped = (x_exp & 0xFC00) + Grid_SnapX_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
+            const int xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
             if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine_4021A0(1, 1))
             {
                 if ((field_120_pTarget->field_AC_ypos - field_AC_ypos < FP_FromInteger(5))

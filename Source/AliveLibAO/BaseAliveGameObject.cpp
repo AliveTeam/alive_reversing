@@ -18,11 +18,11 @@ void BaseAliveGameObject_ForceLink() {}
 
 ALIVE_VAR(1, 0x4FC8A0, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_4FC8A0, nullptr);
 
-EXPORT int CC Grid_SnapX_41FAA0(FP scale, int x)
+EXPORT int CC SnapToXGrid_41FAA0(FP scale, int x)
 {
     if (scale == FP_FromDouble(0.5))
     {
-        int v4 = (x % 375 - 6) % 13;
+        int v4 = (x - 11) % 13;
         if (v4 >= 7)
         {
             return x - v4 + 13;
@@ -34,7 +34,7 @@ EXPORT int CC Grid_SnapX_41FAA0(FP scale, int x)
     }
     else if (scale == FP_FromInteger(1))
     {
-        int v3 = (x - 12) % 25;
+        int v3 = (x - 15) % 25;
         if (v3 >= 13)
         {
             return x - v3 + 25;
@@ -46,7 +46,7 @@ EXPORT int CC Grid_SnapX_41FAA0(FP scale, int x)
     }
     else
     {
-        return x;
+        return 440;
     }
 }
 
@@ -381,7 +381,7 @@ __int16 BaseAliveGameObject::Check_IsOnEndOfLine_4021A0(__int16 direction, __int
     }
 
     const short xposRounded = FP_GetExponent(field_A8_xpos) & 1023;
-    const FP xPosSnapped = FP_FromInteger((FP_GetExponent(field_A8_xpos) & 0xFC00) + Grid_SnapX_41FAA0(field_BC_sprite_scale, xposRounded));
+    const FP xPosSnapped = FP_FromInteger((FP_GetExponent(field_A8_xpos) & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, xposRounded));
     if (xposRounded < (240+16) || xposRounded > (640-16))
     {
         return 0;
@@ -477,7 +477,7 @@ void BaseAliveGameObject::VOnPathTransition_401470(__int16 camWorldX, int camWor
     field_A8_xpos = FP_FromInteger((field_F0_pTlv->field_14_bottom_right.field_0_x + field_F0_pTlv->field_10_top_left.field_0_x) / 2);
     field_AC_ypos = FP_FromInteger(field_F0_pTlv->field_C_sound_pos.field_2_y);
 
-    field_A8_xpos = FP_FromInteger(camLoc.field_0_x + Grid_SnapX_41FAA0(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos - FP_FromInteger(camLoc.field_0_x))));
+    field_A8_xpos = FP_FromInteger(camLoc.field_0_x + SnapToXGrid_41FAA0(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos - FP_FromInteger(camLoc.field_0_x))));
 
     if (field_F8_pLiftPoint)
     {
@@ -569,7 +569,7 @@ __int16 BaseAliveGameObject::MapFollowMe_401D30(__int16 snapToGrid)
         field_A8_xpos < FP_FromInteger(camCoords.field_0_x + 1024))
     {
         // Snapped XPos in camera space
-        const int snappedXLocalCoords = Grid_SnapX_41FAA0(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos - FP_FromInteger(camCoords.field_0_x)));
+        const int snappedXLocalCoords = SnapToXGrid_41FAA0(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos - FP_FromInteger(camCoords.field_0_x)));
 
         // In the left camera void and moving left?
         if (snappedXLocalCoords < 256 && field_B4_velx < FP_FromInteger(0))

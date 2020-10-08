@@ -2553,7 +2553,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
     SFX_Play_43AD70(SoundEffect::KillEffect_78, 0, this);
 }
 
-bool Abe::NearDoorIsOpen()
+BOOL Abe::NearDoorIsOpen()
 {
     for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {
@@ -2576,11 +2576,12 @@ bool Abe::NearDoorIsOpen()
                 Rect.h >= Rect2.y &&
                 Rect.y <= Rect2.h)
             {
-                return pDoor->vIsOpen_40E800() ? true : false;
+                return pDoor->vIsOpen_40E800();
             }
         }
     }
-    return false;
+    // We didn't find a door - so for some reason that makes no sense return that it is open...
+    return TRUE;
 }
 
 __int16 Abe::RunTryEnterDoor_4259C0()
@@ -3101,6 +3102,7 @@ __int16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
             field_198_pThrowable->VTimeToExplodeRandom();
             field_198_pThrowable = nullptr;
         }
+        field_19C_throwable_count = 0;
         break;
 
     case Types::eRockSpawner_32:
