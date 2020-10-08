@@ -5747,7 +5747,10 @@ void Abe::State_35_RunLoop_425060()
                     {
                         field_1A0_portal = nullptr;
                     }
-                    field_19E_portal_sub_state = 0;
+                    else
+                    {
+                        field_19E_portal_sub_state = 0;
+                    }
                 }
 
                 field_2A8_flags.Clear(Flags_2A8::e2A8_Bit3);
@@ -5824,7 +5827,10 @@ void Abe::State_35_RunLoop_425060()
                 {
                     field_1A0_portal = nullptr;
                 }
-                field_19E_portal_sub_state = 0;
+                else
+                {
+                    field_19E_portal_sub_state = 0;
+                }
             }
 
             field_2A8_flags.Clear(Flags_2A8::e2A8_Bit3);
