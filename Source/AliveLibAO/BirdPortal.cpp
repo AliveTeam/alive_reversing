@@ -1025,6 +1025,11 @@ void BirdPortal::VMudSaved_453830()
     field_56_num_muds_for_shrykul--;
 }
 
+void BirdPortal::VGetMapChange_453840(LevelIds* /*level*/, WORD* /*path*/, WORD* /*camera*/, CameraSwapEffects* /*screenChangeEffect*/, WORD* /*movieId*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 __int16 BirdPortal::Vsub_4533E0(__int16 /*bUnknown*/)
 {
     NOT_IMPLEMENTED();

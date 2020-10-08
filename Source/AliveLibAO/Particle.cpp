@@ -3,6 +3,7 @@
 #include "Particle.hpp"
 #include "stdlib.hpp"
 #include "ResourceManager.hpp"
+#include "Math.hpp"
 
 START_NS_AO
 
@@ -34,10 +35,58 @@ Particle* CC New_DestroyOrCreateObject_Particle_419D00(FP xpos, FP ypos, FP scal
     return pParticle;
 }
 
-void CC New_Smoke_Particles_419A80(FP /*xpos*/, FP /*ypos*/, FP /*scale*/, __int16 /*count*/, __int16 /*type*/)
+void CC New_Smoke_Particles_419A80(FP xpos, FP ypos, FP scale, __int16 count, __int16 type)
 {
-    // looks like New_Smoke_Particles
-    NOT_IMPLEMENTED();
+    FP velYCounter = {};
+    for (int i = 0; i < count; i++)
+    {
+        FP randX = (FP_FromInteger(Math_RandomRange_450F20(-3, 3)) * scale) + xpos;
+        FP particleY = (FP_FromInteger(6 * (i + 1) / 2 * (1 - 2 * (i % 2))) * scale) + ypos;
+        BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 354, 0, 0);
+        auto pParticle = ao_new<Particle>();
+        if (pParticle)
+        {
+            pParticle->ctor_478880(randX, particleY, 4108, 61, 44, ppRes);
+            pParticle->field_CC_bApplyShadows &= ~1u;
+            pParticle->field_10_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+            pParticle->field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+            pParticle->field_10_anim.field_B_render_mode = 3;
+
+            if (type == 1)
+            {
+                pParticle->field_C0_r = 32;
+                pParticle->field_C2_g = 128;
+                pParticle->field_C4_b = 32;
+            }
+            else
+            {
+                pParticle->field_C0_r = 128;
+                pParticle->field_C2_g = 128;
+                pParticle->field_C4_b = 128;
+            }
+
+            pParticle->field_B4_velx = (scale * FP_FromInteger(Math_RandomRange_450F20(-10, 10))) / FP_FromInteger(10);
+            pParticle->field_B8_vely = ((scale * velYCounter) * FP_FromInteger(Math_RandomRange_450F20(50, 50))) / FP_FromInteger(100);
+            pParticle->field_BC_sprite_scale = scale;
+
+            if (scale == FP_FromInteger(1))
+            {
+                pParticle->field_10_anim.field_C_layer = 36;
+            }
+            else
+            {
+                pParticle->field_10_anim.field_C_layer = 17;
+            }
+
+            pParticle->field_E4_scale_amount = scale * FP_FromDouble(0.03);
+            pParticle->field_10_anim.field_10_frame_delay = static_cast<WORD>((i + 3) / 2);
+            if (Math_NextRandom() < 127)
+            {
+                pParticle->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+            }
+        }
+        velYCounter -= FP_FromInteger(1);
+    }
 }
 
 void CC New_Chant_Particle_4198E0(FP xpos, FP ypos, FP scale, __int16 layer)

@@ -3804,7 +3804,7 @@ void Elum::VRender_410E40(int** ot)
         && field_B0_path_number == gMap_507BA8.field_2_current_path
         && !field_8_update_delay)
     {
-        VRender(ot);
+        BaseAnimatedWithPhysicsGameObject::VRender(ot);
     }
 }
 

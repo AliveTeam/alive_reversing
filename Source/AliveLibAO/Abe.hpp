@@ -604,7 +604,7 @@ public:
     BaseThrowable* field_198_pThrowable;
     char field_19C_throwable_count;
     char field_19D_throw_direction;
-    __int16 field_19E;
+    __int16 field_19E_portal_sub_state;
     BirdPortal* field_1A0_portal;
     AbeResources field_1A4_resources;
     BitField16<Flags_2A8> field_2A8_flags;
