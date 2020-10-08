@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   SaveGame.hpp
+   SaveGame.cpp
    SwitchStateBooleanLogic.hpp
    SwitchStateBooleanLogic.cpp
    OneShotSwitchIdSetter.hpp

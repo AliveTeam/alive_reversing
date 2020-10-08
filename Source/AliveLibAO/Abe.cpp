@@ -8,8 +8,10 @@
 #include "HoistRocksEffect.hpp"
 #include "DeathBirdParticle.hpp"
 #include "Door.hpp"
+#include "Dove.hpp"
 #include "ThrowableArray.hpp"
 #include "Elum.hpp"
+#include "Flash.hpp"
 #include "LiftPoint.hpp"
 #include "ResourceManager.hpp"
 #include "Shadow.hpp"
@@ -41,6 +43,7 @@
 #include "Collisions.hpp"
 #include "BirdPortal.hpp"
 #include "Rope.hpp"
+#include "SaveGame.hpp"
 #include "BeeSwarm.hpp"
 #include "Shrykull.hpp"
 #include "Switch.hpp"
@@ -6486,7 +6489,7 @@ void Abe::State_60_Dead_42C4C0()
             if (field_164_pCircularFade)
             {
                 field_158_pDeathFadeout->field_6_flags.Set(Options::eDead_Bit3);
-                field_164_pCircularFade = 0;
+                field_164_pCircularFade = nullptr;
             }
             ++field_114_gnFrame;
             return;
@@ -6564,7 +6567,198 @@ void Abe::State_60_Dead_42C4C0()
 
 void Abe::State_61_Respawn_42CD20()
 {
-    NOT_IMPLEMENTED();
+    field_10_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+    FollowLift_42EE90();
+    Event_Broadcast_417220(kEventResetting_6, this);
+    switch (field_114_gnFrame)
+    {
+        case 0:
+        {
+            field_100_health = FP_FromInteger(1);
+            if (field_19C_throwable_count != 0)
+            {
+                if (gpThrowableArray_50E26C)
+                {
+                    gpThrowableArray_50E26C->Remove_4540D0(field_19C_throwable_count);
+                }
+            }
+            field_19C_throwable_count = 0;
+
+            if (static_cast<int>(gnFrameCount_507670) > field_118)
+            {
+                if (field_F8_pLiftPoint)
+                {
+                    if (field_F8_pLiftPoint->field_6_flags.Get(Options::eDrawable_Bit4))
+                    {
+                        field_F8_pLiftPoint->VRemove_451680(this);
+                        field_F8_pLiftPoint->field_C_refCount--;
+                        field_F8_pLiftPoint = nullptr;
+                    }
+                }
+                if (field_140_saved_camera > 300u)
+                {
+                    field_140_saved_camera = gMap_507BA8.field_4_current_camera;
+                    field_142_saved_path = gMap_507BA8.field_2_current_path;
+                    field_144_saved_level = gMap_507BA8.field_0_current_level;
+
+                    PSX_Point camPos = {};
+                    gMap_507BA8.GetCurrentCamCoords_444890(&camPos);
+                    field_138_zone_top_left.field_0_x = camPos.field_0_x + 512;
+                    field_138_zone_top_left.field_2_y = camPos.field_2_y + 240;
+                }
+                SaveGame::sub_459970(gSaveBuffer_505668, 0);
+                if (field_19C_throwable_count)
+                {
+                    LoadRockTypes_454370((LevelIds)*((WORD *) gSaveBuffer_505668 + 282), *((WORD *) gSaveBuffer_505668 + 283)); //Todo it might not be legible
+                    if (!gpThrowableArray_50E26C)
+                    {
+                        auto pThrowableArray = ao_new<ThrowableArray>();
+                        if (pThrowableArray)
+                        {
+                            pThrowableArray->ctor_453EE0();
+                        }
+                        gpThrowableArray_50E26C = pThrowableArray;
+                    }
+                    gpThrowableArray_50E26C->Add_453F70(field_19C_throwable_count);
+                }
+                field_114_gnFrame = 1;
+                field_FC_current_motion = eAbeStates::State_61_Respawn_42CD20;
+            }
+            break;
+        }
+        case 1:
+        {
+            field_B2_lvl_number = field_144_saved_level;
+            field_B0_path_number = field_142_saved_path;
+            field_A8_xpos = FP_FromInteger(field_138_zone_top_left.field_0_x);
+            field_AC_ypos = FP_FromInteger(field_138_zone_top_left.field_2_y) + field_BC_sprite_scale * FP_FromInteger(30);
+
+            field_E8_LastLineYPos = field_AC_ypos;
+
+            field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone)); //todo check
+            MapFollowMe_401D30(TRUE);
+            SetTint_418750(sTintTable_Abe_4C6438, gMap_507BA8.field_0_current_level);
+            if (gElum_507680)
+            {
+                gElum_507680->field_BC_sprite_scale = field_BC_sprite_scale;
+            }
+            if (field_BC_sprite_scale == FP_FromDouble(0.5))
+            {
+                field_10_anim.field_C_layer = 13;
+                field_C6_scale = 0;
+                if (gElum_507680)
+                {
+                    gElum_507680->field_10_anim.field_C_layer = 9;
+                    gElum_507680->field_C6_scale = 0;
+                }
+            }
+            else
+            {
+                field_10_anim.field_C_layer = 32;
+                field_C6_scale = 1;
+                if (gElum_507680)
+                {
+                    gElum_507680->field_10_anim.field_C_layer = 28;
+                    gElum_507680->field_C6_scale = 1;
+                }
+            }
+            field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+            Event_Broadcast_417220(kEvent_5, this);
+
+            //TODO not used?
+            //if (dword_507720)
+            //{
+            //    *(_BYTE *) (dword_507720 + 6) |= 4u;
+            //}
+            field_10A_flags.Clear(Flags_10A::e10A_Bit5_Electrocuted);
+
+            field_158_pDeathFadeout->Init_419E40(40, 0, 1, 8);
+            field_158_pDeathFadeout->field_C_refCount--;
+            field_158_pDeathFadeout = nullptr;
+            field_FE_next_state = eAbeStates::State_0_Idle_423520;
+            field_118 = gnFrameCount_507670 + 60;
+            field_114_gnFrame = 2;
+            break;
+        }
+        case 2:
+        {
+            if (static_cast<int>(gnFrameCount_507670) > field_118)
+            {
+                auto xDiff = pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
+                auto yDiff = pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
+
+                for (int i = 0; i < 8; i++)
+                {
+                    auto pDove = ao_new<Dove>();
+                    if (pDove)
+                    {
+                        pDove->ctor_40EFF0(
+                            4988,
+                            41,
+                            20,
+                            60,
+                            xDiff + FP_FromInteger(Math_NextRandom() * 2),
+                            yDiff - FP_FromInteger(Math_NextRandom() % 32),
+                            field_BC_sprite_scale
+                        );
+
+                        pDove->AsJoin_40F250(
+                            field_A8_xpos + FP_FromInteger((Math_NextRandom() % 16) - 8),
+                            field_AC_ypos + FP_FromInteger((Math_NextRandom() % 16) - 20)
+                        );
+                        pDove->field_BC_sprite_scale = field_BC_sprite_scale;
+                    }
+                }
+                SFX_Play_43AD70(SoundEffect::RespawnDove_17, 0, this);
+                field_118 = gnFrameCount_507670 + 45;
+                field_114_gnFrame = 3;
+            }
+            break;
+        }
+        case 3:
+        {
+            if (field_118 - gnFrameCount_507670 == 10)
+            {
+                SFX_Play_43AD70(SoundEffect::Respawn_22, 90, 0);
+            }
+            if (static_cast<int>(gnFrameCount_507670) > field_118)
+            {
+                New_DestroyOrCreateObject_Particle_419D00(
+                    field_A8_xpos,
+                    field_BC_sprite_scale * FP_FromInteger(25) + field_AC_ypos,
+                    field_BC_sprite_scale
+                );
+                field_114_gnFrame = 4;
+                field_118 = gnFrameCount_507670 + 2;
+            }
+            break;
+        }
+        case 4:
+        {
+            if (static_cast<int>(gnFrameCount_507670) > field_118)
+            {
+                field_D0_pShadow->field_14_flags.Set(Shadow::Flags::eBit2_Enabled);
+                field_D0_pShadow->field_14_flags.Clear(Shadow::Flags::eBit1_ShadowAtBottom);
+                MusicController::sub_443810(MusicController::MusicTypes::eType0, this, 0, 0);
+                field_2A8_flags.Set(Flags_2A8::e2A8_Bit8);
+                field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+                field_6_flags.Set(Options::eDrawable_Bit4);
+                field_FC_current_motion = eAbeStates::State_3_Fall_42E7F0;
+
+                auto pFlash = ao_new<Flash>();
+                if (pFlash)
+                {
+                    pFlash->ctor_41A810(39, 255u, 0, 255u, 1, 3u, 1);
+                }
+                field_106_shot = 0;
+                field_2A8_flags.Clear(Flags_2A8::e2A8_Bit6_bShrivel);
+                field_114_gnFrame = gnFrameCount_507670;
+            }
+            break;
+        }
+        default:
+            return;
+    }
 }
 
 void Abe::State_62_LoadedSaveSpawn_45ADD0()
