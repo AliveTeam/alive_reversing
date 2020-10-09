@@ -261,7 +261,7 @@ void SecurityDoor::VUpdate_461AD0()
     {
         if (static_cast<int>(gnFrameCount_507670) > field_114_timer)
         {
-            SFX_Play_43AE60(45u, 60, -720, 0);
+            SFX_Play_43AE60(SoundEffect::Alarm_45, 60, -720, 0);
             field_E8_state = 10;
             field_114_timer = gnFrameCount_507670 + 15;
         }
@@ -319,13 +319,13 @@ void SecurityDoor::VUpdate_461AD0()
             {
                 field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
                 SwitchStates_Set(field_EA_id, 1);
-                SFX_Play_43AE60(112u, 127, -700, 0);
+                SFX_Play_43AE60(SoundEffect::SligBleh_112, 127, -700, 0);
                 field_E8_state = 1;
                 field_114_timer = gnFrameCount_507670 + 15;
             }
             else
             {
-                SFX_Play_43AE60(45u, 60, -720, 0);
+                SFX_Play_43AE60(SoundEffect::Alarm_45, 60, -720, 0);
                 field_E8_state = 10;
                 field_114_timer = gnFrameCount_507670 + 15;
             }
@@ -336,7 +336,7 @@ void SecurityDoor::VUpdate_461AD0()
     case 10:
         if (static_cast<int>(gnFrameCount_507670) > field_114_timer)
         {
-            SFX_Play_43AE60(110u, 127, -1000, 0);
+            SFX_Play_43AE60(SoundEffect::SligLaugh_110, 127, -1000, 0);
             field_E8_state = 0;
             field_114_timer = gnFrameCount_507670 + 90;
         }
