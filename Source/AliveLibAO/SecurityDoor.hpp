@@ -22,6 +22,8 @@ class SecurityDoor : public BaseAnimatedWithPhysicsGameObject
 public:
     BOOL SecurityDoor::IsPlayerNear();
 
+    virtual void VUpdate() override;
+
     EXPORT void VUpdate_461AD0();
 
     EXPORT SecurityDoor* ctor_461840(Path_SecurityDoor* pTlv, int tlvInfo);

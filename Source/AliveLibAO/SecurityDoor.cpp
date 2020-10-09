@@ -21,6 +21,11 @@ void SecurityDoor::VScreenChanged()
     VScreenChanged_461F80();
 }
 
+void SecurityDoor::VUpdate()
+{
+    VUpdate_461AD0();
+}
+
 SecurityDoor* SecurityDoor::vdtor_461F90(signed int flags)
 {
     dtor_4619C0();
