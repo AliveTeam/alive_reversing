@@ -35,7 +35,6 @@ TintEntry sMudGibTints_4CD320[3] =
     { -1, 87u, 103u, 67u },
 };
 
-
 static FP GibRand(FP scale)
 {
     return FP_FromRaw((Math_NextRandom() - 128) << 13) * scale;
@@ -220,8 +219,8 @@ void Gibs::VUpdate_4080C0()
 
     if (field_E8_z + FP_FromInteger(100) < FP_FromInteger(15))
     {
+        field_E8_z -= field_EC_dz;
         field_EC_dz = -field_EC_dz;
-        field_E8_z += -field_EC_dz;
     }
 
     for (int i = 0; i < field_5C4_parts_used_count; i++)
@@ -232,10 +231,10 @@ void Gibs::VUpdate_4080C0()
 
         field_F4_parts[i].field_10_dy += FP_FromDouble(0.25);
 
-        if (field_F4_parts[i].field_8_z + FP_FromInteger(100) < FP_FromInteger(15))
+        if ((field_F4_parts[i].field_8_z + FP_FromInteger(100)) < FP_FromInteger(15))
         {
+            field_F4_parts[i].field_8_z -= field_F4_parts[i].field_14_dz;
             field_F4_parts[i].field_14_dz = -field_F4_parts[i].field_14_dz;
-            field_F4_parts[i].field_8_z += -field_F4_parts[i].field_14_dz;
         }
     }
 
