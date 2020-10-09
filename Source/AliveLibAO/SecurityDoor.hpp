@@ -20,7 +20,7 @@ ALIVE_ASSERT_SIZEOF(Path_SecurityDoor, 0x24);
 class SecurityDoor : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    BOOL SecurityDoor::IsPlayerNear();
+    BOOL IsPlayerNear();
 
     virtual void VUpdate() override;
 
