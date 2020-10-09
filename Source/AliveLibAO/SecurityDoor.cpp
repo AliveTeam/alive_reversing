@@ -157,7 +157,7 @@ void SecurityDoor::VUpdate_461AD0()
     case 1:
         if (static_cast<int>(gnFrameCount_507670) == field_114_timer)
         {
-            SND_SEQ_Play_477760(45u, 1, 127, 127);
+            SND_SEQ_Play_477760(SeqId::Unknown_45, 1, 127, 127);
         }
         break;
 
@@ -170,7 +170,7 @@ void SecurityDoor::VUpdate_461AD0()
 
     case 3:
     {
-        GameSpeakEvents last_event;
+        GameSpeakEvents last_event = {};
         if (field_F4_event_idx == pEventSystem_4FF954->field_18_last_event_index)
         {
             if (pEventSystem_4FF954->field_10_last_event == GameSpeakEvents::eNone_m1)
@@ -266,7 +266,7 @@ void SecurityDoor::VUpdate_461AD0()
             field_114_timer = gnFrameCount_507670 + 15;
         }
 
-        GameSpeakEvents last_event;
+        GameSpeakEvents last_event = {};
         if (field_F4_event_idx == pEventSystem_4FF954->field_18_last_event_index)
         {
             if (pEventSystem_4FF954->field_10_last_event == GameSpeakEvents::eNone_m1)
@@ -293,7 +293,7 @@ void SecurityDoor::VUpdate_461AD0()
 
     case 9:
     {
-        GameSpeakEvents last_event;
+        GameSpeakEvents last_event = {};
         if (field_F4_event_idx == pEventSystem_4FF954->field_18_last_event_index)
         {
             if (pEventSystem_4FF954->field_10_last_event == GameSpeakEvents::eNone_m1)

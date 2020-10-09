@@ -690,7 +690,7 @@ BaseGameObject* Abe::dtor_420C80()
 {
     SetVTable(this, 0x4BB158);
     
-    SND_Seq_Stop_477A60(11u);
+    SND_Seq_Stop_477A60(SeqId::Unknown_11);
 
     BYTE** ppRes = nullptr;
 
@@ -1398,7 +1398,7 @@ void Abe::ToKnockback_422D90(__int16 bKnockbackSound, __int16 bDelayedAnger)
 {
     if (sControlledCharacter_50767C->field_4_typeId != Types::eSlig_88 || field_100_health <= FP_FromInteger(0))
     {
-        SND_Seq_Stop_477A60(11u);
+        SND_Seq_Stop_477A60(SeqId::Unknown_11);
         field_2AA_flags &= ~0x1Cu;
 
         if (field_188_pOrbWhirlWind)
@@ -2935,7 +2935,7 @@ __int16 Abe::VTakeDamage(BaseGameObject* pFrom)
 
 __int16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
 {
-    SND_Seq_Stop_477A60(11u);
+    SND_Seq_Stop_477A60(SeqId::Unknown_11);
 
     const auto old_say = field_130_say;
     field_130_say = -1;
@@ -3493,7 +3493,7 @@ void Abe::State_0_Idle_423520()
             field_114_gnFrame = gnFrameCount_507670 + 90;
             field_FC_current_motion = eAbeStates::State_150_Chant_42FD50;
             field_110_state = 0;
-            SND_SEQ_PlaySeq_4775A0(11u, 0, 1);
+            SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_11, 0, 1);
         }
         return;
     }
@@ -6473,7 +6473,7 @@ void Abe::State_59_DeathDropFall_42CBE0()
     {
         if (static_cast<int>(gnFrameCount_507670) == field_118 - 30)
         {
-            SND_SEQ_Play_477760(10u, 1, 65, 65);
+            SND_SEQ_Play_477760(SeqId::Unknown_10, 1, 65, 65);
         }
         else if (static_cast<int>(gnFrameCount_507670) == field_118 - 24)
         {
@@ -7470,7 +7470,7 @@ void Abe::State_86_FallLandDie_42EDD0()
     if (field_10_anim.field_92_current_frame == 0)
     {
         SFX_Play_43AD70(SoundEffect::KillEffect_78, 85, 0);
-        SND_SEQ_Play_477760(10u, 1, 95, 95);
+        SND_SEQ_Play_477760(SeqId::Unknown_10, 1, 95, 95);
         auto pScreenShake = ao_new<ScreenShake>();
         if (pScreenShake)
         {
@@ -8496,7 +8496,7 @@ void Abe::State_150_Chant_42FD50()
 
 void Abe::State_151_ChantEnd_430530()
 {
-    SND_Seq_Stop_477A60(11u);
+    SND_Seq_Stop_477A60(SeqId::Unknown_11);
 
     FollowLift_42EE90();
 

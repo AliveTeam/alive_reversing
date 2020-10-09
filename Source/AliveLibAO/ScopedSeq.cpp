@@ -33,32 +33,32 @@ ScopedSeq* ScopedSeq::ctor_476400(char ambianceId, CameraPos direction)
     {
     case 0:
         field_4_seq_id = 27;
-        SND_SEQ_Play_477760(27u, 0, 40 * volLeft + 15, 40 * volRight + 15);
+        SND_SEQ_Play_477760(SeqId::Unknown_27, 0, 40 * volLeft + 15, 40 * volRight + 15);
         break;
 
     case 1:
         field_4_seq_id = 26;
-        SND_SEQ_Play_477760(26u, 0, 40 * volLeft + 15, 40 * volRight + 15);
+        SND_SEQ_Play_477760(SeqId::Unknown_26, 0, 40 * volLeft + 15, 40 * volRight + 15);
         break;
 
     case 2:
         field_4_seq_id = 28;
-        SND_SEQ_Play_477760(28u, 0, 50 * volLeft + 15, 50 * volRight + 15);
+        SND_SEQ_Play_477760(SeqId::Unknown_28, 0, 50 * volLeft + 15, 50 * volRight + 15);
         break;
 
     case 3:
         field_4_seq_id = 29;
-        SND_SEQ_Play_477760(29u, 0, 35 * volLeft + 15, 35 * volRight + 15);
+        SND_SEQ_Play_477760(SeqId::Unknown_29, 0, 35 * volLeft + 15, 35 * volRight + 15);
         break;
 
     case 4:
         field_4_seq_id = 30;
-        SND_SEQ_Play_477760(30u, 0, 25 * volLeft + 10, 25 * volRight + 10);
+        SND_SEQ_Play_477760(SeqId::Unknown_30, 0, 25 * volLeft + 10, 25 * volRight + 10);
         break;
 
     case 6:
         field_4_seq_id = 31;
-        SND_SEQ_Play_477760(31u, 0, 35 * volLeft + 15, 35 * volRight + 15);
+        SND_SEQ_Play_477760(SeqId::Unknown_31, 0, 35 * volLeft + 15, 35 * volRight + 15);
         break;
 
     default:
@@ -73,7 +73,7 @@ ScopedSeq* ScopedSeq::VDtor(int flags)
 
     if (field_4_seq_id >= 0)
     {
-        SND_Seq_Stop_477A60(field_4_seq_id);
+        SND_Seq_Stop_477A60(static_cast<SeqId>(field_4_seq_id));
     }
 
     if (field_8_channel_mask)

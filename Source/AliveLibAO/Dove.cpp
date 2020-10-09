@@ -101,7 +101,7 @@ Dove* Dove::ctor_40EE50(int frameTableOffset, int maxW, int maxH, int resourceID
         return this;
     }
 
-    SND_SEQ_PlaySeq_4775A0(24u, 0, 1);
+    SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_24, 0, 1);
     bTheOneControllingTheMusic_4FF94C = 1;
     return this;
 }
@@ -169,7 +169,7 @@ Dove* Dove::ctor_40EFF0(int frameTableOffset, int maxW, int maxH, int resourceID
     {
         return this;
     }
-    SND_SEQ_PlaySeq_4775A0(24u, 0, 1);
+    SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_24, 0, 1);
     bTheOneControllingTheMusic_4FF94C = 1;
     return this;
 }
@@ -189,7 +189,7 @@ BaseGameObject* Dove::dtor_40F1B0()
 
     if (bTheOneControllingTheMusic_4FF94C)
     {
-        SND_Seq_Stop_477A60(24u);
+        SND_Seq_Stop_477A60(SeqId::Unknown_24);
         bTheOneControllingTheMusic_4FF94C = 0;
     }
 
@@ -253,7 +253,7 @@ void Dove::All_FlyAway_40F390()
     bExtraSeqStarted_4FF944 = 0;
     if (bTheOneControllingTheMusic_4FF94C)
     {
-        SND_Seq_Stop_477A60(24u);
+        SND_Seq_Stop_477A60(SeqId::Unknown_24);
         bTheOneControllingTheMusic_4FF94C = FALSE;
     }
 }
@@ -297,7 +297,7 @@ void Dove::VUpdate_40F430()
 
     if (!bTheOneControllingTheMusic_4FF94C)
     {
-        SND_SEQ_PlaySeq_4775A0(24u, 0, 1);
+        SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_24, 0, 1);
         bTheOneControllingTheMusic_4FF94C = 1;
     }
 
@@ -319,7 +319,7 @@ void Dove::VUpdate_40F430()
             bExtraSeqStarted_4FF944 = 0;
             if (bTheOneControllingTheMusic_4FF94C)
             {
-                SND_Seq_Stop_477A60(24u);
+                SND_Seq_Stop_477A60(SeqId::Unknown_24);
                 bTheOneControllingTheMusic_4FF94C = 0;
             }
         }
@@ -341,7 +341,7 @@ void Dove::VUpdate_40F430()
                 bExtraSeqStarted_4FF944 = 0;
                 if (bTheOneControllingTheMusic_4FF94C)
                 {
-                    SND_Seq_Stop_477A60(24u);
+                    SND_Seq_Stop_477A60(SeqId::Unknown_24);
                     bTheOneControllingTheMusic_4FF94C = 0;
                 }
             }
