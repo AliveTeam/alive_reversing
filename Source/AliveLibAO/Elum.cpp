@@ -3368,7 +3368,7 @@ void Elum::State_44_ScratchBegin_412730()
         field_FC_current_motion = eElumStates::State_45_ScratchLoop_4127B0;
         if (gMap_507BA8.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos) == CameraPos::eCamCurrent_0)
         {
-            SND_SEQ_PlaySeq_4775A0(15u, 1, 1);
+            SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_15, 1, 1);
         }
     }
 }

@@ -955,7 +955,7 @@ void Slog::State_0_Idle_4742E0()
                     field_AC_ypos,
                     0))
                 {
-                    SND_SEQ_PlaySeq_4775A0(17, 1, 0);
+                    SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_17, 1, 0);
                 }
 
                 if (gMap_507BA8.GetDirection(
@@ -1718,7 +1718,7 @@ void Slog::State_20_JumpUpwards_475890()
 
 void Slog::State_21_Eating_475900()
 {
-    SND_Seq_Stop_477A60(17u);
+    SND_Seq_Stop_477A60(SeqId::Unknown_17);
 
     if (field_10_anim.field_92_current_frame != 0
         || (field_10_anim.field_4_flags.Clear(AnimFlags::eBit19_LoopBackwards),
@@ -1780,7 +1780,7 @@ void Slog::State_23_Scratch_475550()
 {
     if (field_10_anim.field_92_current_frame == 4)
     {
-        SND_SEQ_PlaySeq_4775A0(16u, 1, 1);
+        SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_16, 1, 1);
     }
 
     if (field_FE_next_state != -1)

@@ -383,7 +383,7 @@ void Door::PlaySound_40E780()
     if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
     {
         volume = field_BC_sprite_scale != FP_FromDouble(0.5) ? 90 : 127;
-        SND_SEQ_Play_477760(10u, 1, 75, 75);
+        SND_SEQ_Play_477760(SeqId::Unknown_10, 1, 75, 75);
     }
     else if (field_E8_start_state == eDoorStates::eOpen_0 && field_BC_sprite_scale == FP_FromInteger(1))
     {
@@ -436,7 +436,7 @@ void Door::VUpdate_40E870()
             {
                 if (!SwitchStates_Get(field_F0_switch_id))
                 {
-                    SND_SEQ_Play_477760(46u, 1, 127, 127);
+                    SND_SEQ_Play_477760(SeqId::Unknown_46, 1, 127, 127);
                     auto pMusicTrigger = ao_new<MusicTrigger>();
                     if (pMusicTrigger)
                     {

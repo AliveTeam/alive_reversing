@@ -259,7 +259,7 @@ BaseGameObject* Paramite::dtor_44AB00()
         gMap_507BA8.TLV_Reset_446870(field_12C, -1, 0, 0);
     }
 
-    SND_Seq_Stop_477A60(30u);
+    SND_Seq_Stop_477A60(SeqId::Unknown_30);
     
     MusicController::sub_443810(MusicController::MusicTypes::eType0, this, 0, 0);
 
@@ -501,7 +501,7 @@ void Paramite::VUpdate_44A490()
             field_AC_ypos,
             0))
     {
-        SND_SEQ_PlaySeq_4775A0(30u, 1, 0);
+        SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_30, 1, 0);
     }
     else
     {
@@ -532,7 +532,7 @@ void Paramite::VUpdate_44A490()
 
         if (!bFound)
         {
-            SND_Seq_Stop_477A60(30u);
+            SND_Seq_Stop_477A60(SeqId::Unknown_30);
         }
     }
 
