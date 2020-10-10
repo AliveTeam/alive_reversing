@@ -7001,7 +7001,7 @@ void Abe::State_62_LoadedSaveSpawn_REAL_45ADD0()
 
 void Abe::State_62_LoadedSaveSpawn_45ADD0()
 {
-    Event_Broadcast_417220(6, this);
+    Event_Broadcast_417220(kEventResetting_6, this);
     if (field_114_gnFrame)
     {
         auto pSaveData = reinterpret_cast<SaveData*>(field_2AC_pSaveData); //todo fix cast
