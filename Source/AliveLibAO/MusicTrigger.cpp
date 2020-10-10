@@ -155,7 +155,7 @@ void MusicTrigger::VUpdate()
 
 void MusicTrigger::VUpdate_443C90()
 {
-    if (Event_Get_417250(kEvent_3))
+    if (Event_Get_417250(kEventHeroDying))
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
         if (field_10_tlvInfo >= 0)

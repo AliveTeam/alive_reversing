@@ -7,9 +7,8 @@
 
 void StatsSign_ForceLink();
 
-struct Path_StatsSign
+struct Path_StatsSign : public Path_TLV
 {
-    Path_TLV field_0_mBase;
     __int16 field_10_number_of_muds;
     __int16 field_12_zulag_number;
     int field_14_hidden;

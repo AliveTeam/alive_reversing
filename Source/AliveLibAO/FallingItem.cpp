@@ -330,7 +330,7 @@ void FallingItem::VUpdate_41A120()
             }
             else
             {
-                SND_SEQ_Play_477760(25, 1, 65, 65);
+                SND_SEQ_Play_477760(SeqId::Unknown_25, 1, 65, 65);
                 SFX_Play_43AE60(SoundEffect::KillEffect_78, 90, -700, 0);
                 SFX_Play_43AD70(SoundEffect::FallingItemHit_53, 33, 0);
                 SFX_Play_43AE60(SoundEffect::MeatsawUp_90, 80, -400, 0);

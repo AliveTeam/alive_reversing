@@ -3,7 +3,10 @@
 #include "Function.hpp"
 #include "PsxDisplay.hpp"
 #include "Primitives.hpp"
-#include <algorithm>
+#include "Sys_common.hpp"
+#include "ResourceManager.hpp"
+#include "VRam.hpp"
+#include "Game.hpp"
 
 // Fix pollution from windows.h
 #undef min
@@ -56,16 +59,35 @@ void AnimationBase::VRender_403AE0(int /*xpos*/, int /*ypos*/, int** /*ppOt*/, _
     NOT_IMPLEMENTED();
 }
 
-void AnimationBase::vCleanUp()
+void Animation::vCleanUp()
 {
     VCleanUp_403F40();
 }
 
-void AnimationBase::VCleanUp_403F40()
+void Animation::VCleanUp_403F40()
 {
-    NOT_IMPLEMENTED();
-}
+    if (field_4_flags.Get(AnimFlags::eBit17))
+    {
+        ResourceManager::FreeResource_455550(field_20_ppBlock);
+    }
 
+    gObjList_animations_505564->Remove_Item(this);
+    
+
+    // inlined Animation_Pal_Free ?
+    if (field_84_vram_rect.w > 0)
+    {
+        Vram_free_450CE0({ field_84_vram_rect.x, field_84_vram_rect.y }, { field_84_vram_rect.w, field_84_vram_rect.h });
+    }
+
+    if (field_90_pal_depth > 0)
+    {
+        Pal_Free_447870(field_8C_pal_vram_xy, field_90_pal_depth);
+    }
+
+    ResourceManager::FreeResource_455550(field_24_dbuf);
+
+}
 void CC AnimationBase::AnimateAll_4034F0(DynamicArrayT<AnimationBase>* pAnimList)
 {
     for (int i = 0; i < pAnimList->Size(); i++)
@@ -162,10 +184,36 @@ __int16 Animation::Get_Frame_Count_403540()
     return pHead->field_2_num_frames;
 }
 
-FrameInfoHeader* Animation::Get_FrameHeader_403A00(int /*frame*/)
+ALIVE_VAR(1, 0x4BA090, FrameInfoHeader, sBlankFrameInfoHeader_4BA090, {});
+
+FrameInfoHeader* Animation::Get_FrameHeader_403A00(int frame)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    if (!field_20_ppBlock)
+    {
+        return nullptr;
+    }
+
+    if (frame < -1 || frame == -1)
+    {
+        frame = field_92_current_frame != -1 ? field_92_current_frame : 0;
+    }
+
+    AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + field_18_frame_table_offset);  // TODO: Make getting offset to animation header cleaner
+    DWORD frameOffset = pHead->mFrameOffsets[frame];
+
+    FrameInfoHeader* pFrame = reinterpret_cast<FrameInfoHeader*>(*field_20_ppBlock + frameOffset);
+
+    // Never seen this get hit, perhaps some sort of PSX specific check as addresses have to be aligned there?
+    // TODO: Remove it in the future when proven to be not required?
+#if defined(_MSC_VER) && !defined(_WIN64)
+    if (reinterpret_cast<DWORD>(pFrame) & 3)
+    {
+        FrameInfoHeader* Unknown = &sBlankFrameInfoHeader_4BA090;
+        return Unknown;
+    }
+#endif
+
+    return pFrame;
 }
 
 void Animation::LoadPal_403090(BYTE** pPalData, int palOffset)
@@ -248,14 +296,26 @@ EXPORT void Animation::Get_Frame_Rect_402B50(PSX_RECT* pRect)
     pRect->h = std::max(max_y0_y1, max_y2_y3);
 }
 
-EXPORT void Animation::Get_Frame_Width_Height_403E80(short* /*pWidth*/, short* /*pHeight*/)
+EXPORT void Animation::Get_Frame_Width_Height_403E80(short* pWidth, short* pHeight)
 {
-    NOT_IMPLEMENTED();
+    FrameInfoHeader* pFrameHeader = Get_FrameHeader_403A00(-1);
+    if (field_4_flags.Get(AnimFlags::eBit22_DeadMode))
+    {
+        ALIVE_FATAL("Mode should never be used");
+    }
+    else
+    {
+        auto pHeader = reinterpret_cast<const FrameHeader*>(&(*field_20_ppBlock)[pFrameHeader->field_0_frame_header_offset]);
+        *pWidth = pHeader->field_4_width;
+        *pHeight = pHeader->field_5_height;
+    }
 }
 
-EXPORT void Animation::Get_Frame_Offset_403EE0(short* /*pOffX*/, short* /*pOffY*/)
+EXPORT void Animation::Get_Frame_Offset_403EE0(short* pBoundingX, short* pBoundingY)
 {
-    NOT_IMPLEMENTED();
+    FrameInfoHeader* pFrameHeader = Get_FrameHeader_403A00(-1);
+    *pBoundingX = pFrameHeader->field_8_data.offsetAndRect.mOffset.x;
+    *pBoundingY = pFrameHeader->field_8_data.offsetAndRect.mOffset.y;
 }
 
 void AnimationUnknown::vCleanUp()

@@ -25,7 +25,7 @@ void CC FontContext::static_dtor_41C020()
     }
 }
 
-EXPORT __int16 FontContext::LoadFontType_41C040(int)
+EXPORT __int16 FontContext::LoadFontType_41C040(int /*resourceID*/)
 {
     NOT_IMPLEMENTED();
     return 0;

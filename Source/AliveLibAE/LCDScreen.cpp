@@ -164,7 +164,7 @@ LCDScreen * LCDScreen::ctor_460680(Path_LCDScreen * params, TlvItemInfoUnion ite
 
     field_C_objectId = itemInfo.all;
 
-    field_2C0_tlv = params->field_0_mBase;
+    field_2C0_tlv = *params;
 
     field_2AA_message_1_id = params->field_10_message_1_id;
     field_2B0_message_2_id = params->field_16_message_2_id;

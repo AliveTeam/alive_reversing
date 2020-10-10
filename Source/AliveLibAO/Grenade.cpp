@@ -215,7 +215,7 @@ void Grenade::VUpdate_41F240()
                 field_110_state = GrenadeStates::eState_0_FallingToBeCollected;
             }
         }
-        else if (abs(Grid_SnapX_41FAA0(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos)) - FP_GetExponent(field_A8_xpos)) > 1)
+        else if (abs(SnapToXGrid_41FAA0(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos)) - FP_GetExponent(field_A8_xpos)) > 1)
         {
             const auto oldLine = field_114_pCollisionLine;
             field_114_pCollisionLine = field_114_pCollisionLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_B4_velx);

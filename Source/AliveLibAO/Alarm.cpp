@@ -95,7 +95,7 @@ void Alarm::VUpdate()
 
 void Alarm::VUpdate_402660()
 {
-    Event_Broadcast_417220(kEvent_17, this);
+    Event_Broadcast_417220(kEvent_Alarm_17, this);
 
     if (field_10_path_id != gMap_507BA8.field_2_current_path ||
         field_12_level_id != gMap_507BA8.field_0_current_level ||
@@ -108,7 +108,7 @@ void Alarm::VUpdate_402660()
     switch (field_6A_state)
     {
     case 0:
-        if (Event_Get_417250(kEvent_3))
+        if (Event_Get_417250(kEventHeroDying))
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
             return;
@@ -158,7 +158,7 @@ void Alarm::VUpdate_402660()
         break;
 
     case 4:
-        if (Event_Get_417250(kEvent_3))
+        if (Event_Get_417250(kEventHeroDying))
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
             return;

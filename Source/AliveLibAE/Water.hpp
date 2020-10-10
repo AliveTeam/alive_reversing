@@ -15,7 +15,7 @@ struct Water_Res
     __int16 field_18_enabled;
     __int16 field_1A_splash_time;
     __int16 field_1C_state;
-    __int16 field_1E_pad;
+    __int16 field_1E_padding;
     Poly_FT4 field_20_polys[2];
 };
 ALIVE_ASSERT_SIZEOF(Water_Res, 0x78);
@@ -57,16 +57,18 @@ private:
     EXPORT void vRender_4E1440(int** pOt);
 private:
     BYTE** field_F4_ppWaterRes;
-    Water_Res *field_F8_pWaterRes;
-    enum class State : __int16
+    Water_Res* field_F8_pWaterRes;
+
+    enum class WaterState : __int16
     {
-        WaitForEnable_0 = 0,
-        State_1 = 1,
-        State_2 = 2,
-        State_3 = 3,
-        State_4 = 4,
+        eInit_0 = 0,
+        eStarting_1 = 1,
+        eFlowing_2 = 2,
+        eStopping_3 = 3,
+        eInactive_4 = 4,
     };
-    State field_FC_state;
+
+    WaterState field_FC_state;
     __int16 field_FE_texture_mode;
     __int16 field_100_screen_x;
     __int16 field_102_screen_y;
@@ -75,7 +77,6 @@ private:
     __int16 field_10C_particle_count;
     __int16 field_10E_current_particle_idx;
     __int16 field_110_current_drops;
-    //__int16 field_112_pad;
     int field_114_tlvInfo;
     FP field_118_radius;
     FP field_11C_centre;
@@ -85,11 +86,9 @@ private:
     FP field_130_splash_x_vel;
     FP field_134_emit_x_vel;
     __int16 field_138_splash_time;
-    //__int16 field_13A_pad;
     int field_13C_not_in_camera_count;
     int field_140_time_on;
     int field_144_sound_channels;
     __int16 field_148_bHitTimeout;
-    //__int16 field_14A_pad;
 };
 ALIVE_ASSERT_SIZEOF(Water, 0x14C);

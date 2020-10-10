@@ -179,7 +179,7 @@ void BellHammer::VUpdate_405320()
             }
             else if (field_10_anim.field_92_current_frame == 15)
             {
-                SND_SEQ_PlaySeq_4775A0(13u, 1, 1);
+                SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_13, 1, 1);
             }
         }
         break;

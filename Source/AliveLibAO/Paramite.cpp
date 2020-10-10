@@ -259,7 +259,7 @@ BaseGameObject* Paramite::dtor_44AB00()
         gMap_507BA8.TLV_Reset_446870(field_12C, -1, 0, 0);
     }
 
-    SND_Seq_Stop_477A60(30u);
+    SND_Seq_Stop_477A60(SeqId::Unknown_30);
     
     MusicController::sub_443810(MusicController::MusicTypes::eType0, this, 0, 0);
 
@@ -501,7 +501,7 @@ void Paramite::VUpdate_44A490()
             field_AC_ypos,
             0))
     {
-        SND_SEQ_PlaySeq_4775A0(30u, 1, 0);
+        SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_30, 1, 0);
     }
     else
     {
@@ -532,7 +532,7 @@ void Paramite::VUpdate_44A490()
 
         if (!bFound)
         {
-            SND_Seq_Stop_477A60(30u);
+            SND_Seq_Stop_477A60(SeqId::Unknown_30);
         }
     }
 
@@ -789,7 +789,7 @@ __int16 Paramite::AnotherParamiteNear_44AF80()
 void Paramite::ToKnockBack_44B5B0()
 {
     const FP nextX = field_A8_xpos - field_B4_velx;
-    field_A8_xpos = FP_FromInteger((FP_GetExponent(nextX) & 0xFC00) + Grid_SnapX_41FAA0(field_BC_sprite_scale, FP_GetExponent(nextX) & 0x3FF));
+    field_A8_xpos = FP_FromInteger((FP_GetExponent(nextX) & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, FP_GetExponent(nextX) & 0x3FF));
     
     MapFollowMe_401D30(1);
 
@@ -2118,7 +2118,7 @@ __int16 Paramite::Brain_ChasingAbe_449170()
         }
 
         const short x_exp = FP_GetExponent(field_A8_xpos);
-        const int xSnapped = (x_exp & 0xFC00) + Grid_SnapX_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
+        const int xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
         if (field_B4_velx < FP_FromInteger(0))
         {
             if (HandleEnemyStopper(-2, Path_EnemyStopper::StopDirection::Left_0))
@@ -2245,7 +2245,7 @@ __int16 Paramite::Brain_ChasingAbe_449170()
         }
 
         const short x_exp = FP_GetExponent(field_A8_xpos);
-        const int xSnapped = (x_exp & 0xFC00) + Grid_SnapX_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
+        const int xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
         if (field_B4_velx > FP_FromInteger(0))
         {
             if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine_4021A0(0, 1))
@@ -2432,7 +2432,7 @@ __int16 Paramite::Brain_SpottedMeat_449CD0()
     case AI_SpottedMeat::eState5_Running_1:
     {
         const short x_exp = FP_GetExponent(field_A8_xpos);
-        const int xSnapped = (x_exp & 0xFC00) + Grid_SnapX_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
+        const int xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
         if (field_B4_velx < FP_FromInteger(0))
         {
             if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine_4021A0(1, 1))
@@ -2483,7 +2483,7 @@ __int16 Paramite::Brain_SpottedMeat_449CD0()
     case AI_SpottedMeat::eState5_Walking_2:
     {
         const short x_exp = FP_GetExponent(field_A8_xpos);
-        const int xSnapped = (x_exp & 0xFC00) + Grid_SnapX_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
+        const int xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
         if (field_B4_velx < FP_FromInteger(0))
         {
             if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine_4021A0(1, 1))

@@ -54,7 +54,7 @@ Explosion* Explosion::ctor_458B80(FP xpos, FP ypos, FP scale)
 
     DealBlastDamage_459160(&rect);
 
-    SND_SEQ_PlaySeq_4775A0(21u, 1, 1);
+    SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_21, 1, 1);
 
     return this;
 }

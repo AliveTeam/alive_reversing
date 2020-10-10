@@ -22,6 +22,10 @@ public:
 
     EXPORT void VScreenChanged_41CCE0();
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_41C860();
+
     int field_10_timer;
     __int16 field_14_state;
     __int16 field_16;

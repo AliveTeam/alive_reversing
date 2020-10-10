@@ -2388,7 +2388,7 @@ void Slig::State_6_Shoot_468820()
             }
             else
             {
-                SND_SEQ_PlaySeq_4775A0(10u, 1, 1);
+                SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_10, 1, 1);
                 field_FC_current_motion = eSligStates::State_14_ShootToStand_468810;
                 return;
             }
@@ -2396,7 +2396,7 @@ void Slig::State_6_Shoot_468820()
 
         if (field_FE_next_state == eSligStates::State_0_StandIdle_467640)
         {
-            SND_SEQ_PlaySeq_4775A0(10u, 1, 1);
+            SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_10, 1, 1);
             field_FC_current_motion = eSligStates::State_14_ShootToStand_468810;
             field_FE_next_state = -1;
             return;
@@ -2404,7 +2404,7 @@ void Slig::State_6_Shoot_468820()
 
         if (field_FE_next_state != -1 && field_FE_next_state != eSligStates::State_6_Shoot_468820)
         {
-            SND_SEQ_PlaySeq_4775A0(10u, 1, 1);
+            SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_10, 1, 1);
             field_FC_current_motion = eSligStates::State_14_ShootToStand_468810;
             return;
         }
@@ -2741,7 +2741,7 @@ void Slig::State_20_Recoil_468D30()
             {
                 if (field_FE_next_state != -1)
                 {
-                    SND_SEQ_PlaySeq_4775A0(10u, 1, 1);
+                    SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_10, 1, 1);
                     field_FC_current_motion = eSligStates::State_14_ShootToStand_468810;
                     field_FE_next_state = -1;
                 }
@@ -2756,7 +2756,7 @@ void Slig::State_20_Recoil_468D30()
             }
             else
             {
-                SND_SEQ_PlaySeq_4775A0(10u, 1, 1);
+                SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_10, 1, 1);
                 field_FC_current_motion = eSligStates::State_14_ShootToStand_468810;
             }
         }
@@ -3247,7 +3247,7 @@ void Slig::State_42_LandingFatal_46AFE0()
 {
     if (field_10_anim.field_92_current_frame == 0)
     {
-        SND_SEQ_Play_477760(10u, 1, 65, 65);
+        SND_SEQ_Play_477760(SeqId::Unknown_10, 1, 65, 65);
         SFX_Play_43AD70(SoundEffect::KillEffect_78, 80);
     }
 
@@ -3268,7 +3268,7 @@ void Slig::State_43_ShootZ_468E30()
     {
         if (field_FE_next_state != -1)
         {
-            SND_SEQ_PlaySeq_4775A0(10u, 1, 1);
+            SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_10, 1, 1);
             field_FC_current_motion = eSligStates::State_44_ShootZtoStand_468F70;
             field_FE_next_state = -1;
         }
@@ -3880,7 +3880,7 @@ __int16 Slig::Brain_DeathDropDeath_46C5A0()
 
             if (static_cast<int>(gnFrameCount_507670) == (field_114_timer - 6))
             {
-                SND_SEQ_Play_477760(10u, 1, 65, 65);
+                SND_SEQ_Play_477760(SeqId::Unknown_10, 1, 65, 65);
             }
             return field_10E_brain_state;
         }
@@ -4003,7 +4003,7 @@ __int16 Slig::Brain_PanicYelling_46CC50()
     if (field_FC_current_motion == eSligStates::State_29_SpeakPanic_4681D0
         && field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        Event_Broadcast_417220(kEvent_17, this);
+        Event_Broadcast_417220(kEvent_Alarm_17, this);
 
         const bool bFlipX = field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX);
         field_114_timer = gnFrameCount_507670 + field_174_tlv.field_36_panic_timeout;

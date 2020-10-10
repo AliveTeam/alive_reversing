@@ -102,7 +102,7 @@ WorkWheel* WorkWheel::ctor_4E35D0(Path_Wheel* pTlv, int tlvInfo)
 
 
     field_DC_bApplyShadows |= 2u;
-    field_FC_state = WheelStates::eIdle;
+    field_FC_state = WheelStates::eIdle_0;
     field_F4_tlv_info = tlvInfo;
 
     return this;
@@ -146,7 +146,7 @@ int CC WorkWheel::CreateFromSaveState_4E3B10(const BYTE* pState)
     {
         pWheel->ctor_4E35D0(pTlv, pData->field_4_tlvInfo);
 
-        if (pData->field_C_state == WheelStates::eTurning)
+        if (pData->field_C_state == WheelStates::eTurning_1)
         {
             pWheel->vStartTurning_4E3A20();
         }
@@ -158,7 +158,7 @@ int CC WorkWheel::CreateFromSaveState_4E3B10(const BYTE* pState)
 
 int WorkWheel::vGetSaveState_4E3C40(WorkWheel_SaveState* pState)
 {
-    pState->field_0_id = 148;
+    pState->field_0_id = Types::eWheel_148;
     pState->field_4_tlvInfo = field_F4_tlv_info;
     pState->field_8_snd_counter = field_100_on_counter;
     pState->field_C_state = field_FC_state;
@@ -172,7 +172,7 @@ void WorkWheel::vUpdate_4E38E0()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (field_FC_state == WheelStates::eTurning)
+    if (field_FC_state == WheelStates::eTurning_1)
     {
         ++field_100_on_counter;
 
@@ -188,7 +188,7 @@ void WorkWheel::vUpdate_4E38E0()
             SND_SEQ_Play_4CAB10(SeqId::WheelSqueak_19, 1, randomVol + 127, randomVol + 127);
         }
     }
-    else if (field_FC_state == WheelStates::eIdle)
+    else if (field_FC_state == WheelStates::eIdle_0)
     {
         field_100_on_counter = 0;
     }
@@ -218,7 +218,7 @@ void WorkWheel::vScreenChanged_4E3AD0()
 {
     if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level ||
         gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path ||
-        field_FC_state == WheelStates::eIdle)
+        field_FC_state == WheelStates::eIdle_0)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -226,22 +226,22 @@ void WorkWheel::vScreenChanged_4E3AD0()
 
 void WorkWheel::vStartTurning_4E3A20()
 {
-    if (field_FC_state == WheelStates::eIdle)
+    if (field_FC_state == WheelStates::eIdle_0)
     {
-        field_FC_state = WheelStates::eTurning;
-		const AnimRecord& animRec = AnimRec(AnimId::Work_Wheel_Turning);
+        field_FC_state = WheelStates::eTurning_1;
+        const AnimRecord& animRec = AnimRec(AnimId::Work_Wheel_Turning);
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
     }
 }
 
 void WorkWheel::vStopTurning_4E3A60(__int16 bResetSwitch)
 {
-    if (field_FC_state == WheelStates::eTurning)
+    if (field_FC_state == WheelStates::eTurning_1)
     {
-        field_FC_state = WheelStates::eIdle;
+        field_FC_state = WheelStates::eIdle_0;
 
-        // Spin it
-		const AnimRecord& animRec = AnimRec(AnimId::Work_Wheel_Idle);
+        // Spin it.
+        const AnimRecord& animRec = AnimRec(AnimId::Work_Wheel_Idle);
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
         if (field_104_off_when_stopped & 1)

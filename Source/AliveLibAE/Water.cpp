@@ -42,7 +42,7 @@ Water* Water::ctor_4E02C0(Path_Water* pTlv, int tlvInfo)
 
         field_124_tlv_data = pTlv->field_10_data;
 
-        // Limit upper bound
+        // Limit upper bound.
         if (field_124_tlv_data.field_10_max_drops > 128)
         {
             field_124_tlv_data.field_10_max_drops = 128;
@@ -59,9 +59,9 @@ Water* Water::ctor_4E02C0(Path_Water* pTlv, int tlvInfo)
         if (field_F4_ppWaterRes)
         {
             field_F8_pWaterRes = reinterpret_cast<Water_Res*>(*field_F4_ppWaterRes);
-            field_FC_state = static_cast<State>(pTlv->field_1_unknown);
+            field_FC_state = static_cast<WaterState>(pTlv->field_1_unknown);
 
-            if (field_FC_state == State::State_2)
+            if (field_FC_state == WaterState::eFlowing_2)
             {
                 field_140_time_on = sGnFrame_5C1B84 + field_124_tlv_data.field_1A_timeout;
             }
@@ -200,13 +200,13 @@ void Water::dtor_4E0880()
         field_144_sound_channels = 0;
     }
 
-    if (field_FC_state == State::State_1)
+    if (field_FC_state == WaterState::eStarting_1)
     {
-        field_FC_state = State::State_2;
+        field_FC_state = WaterState::eFlowing_2;
     }
-    else if (field_FC_state == State::State_3)
+    else if (field_FC_state == WaterState::eStopping_3)
     {
-        field_FC_state = State::State_4;
+        field_FC_state = WaterState::eInactive_4;
     }
 
     if (field_148_bHitTimeout & 1)
@@ -267,7 +267,7 @@ void Water::Add_Water_Particle_4E09A0()
 {
     if (field_10C_particle_count != field_124_tlv_data.field_10_max_drops)
     {
-        // Find an unused particle
+        // Find an unused particle.
         Water_Res* pWaterRes = nullptr;
         for (pWaterRes = &field_F8_pWaterRes[field_10E_current_particle_idx];
             field_F8_pWaterRes[field_10E_current_particle_idx].field_18_enabled;
@@ -276,7 +276,7 @@ void Water::Add_Water_Particle_4E09A0()
             field_10E_current_particle_idx--;
             if (field_10E_current_particle_idx < 0)
             {
-                // Loop back to the end
+                // Loop back to the end.
                 field_10E_current_particle_idx = field_124_tlv_data.field_10_max_drops - 1;
             }
         }
@@ -331,139 +331,139 @@ void Water::vUpdate_4E0B50()
 
         switch (field_FC_state)
         {
-        case State::WaitForEnable_0:
-            field_138_splash_time = 0;
-            if (!SwitchStates_Get_466020(field_124_tlv_data.field_12_id))
-            {
-                field_FC_state = State::State_4;
-            }
-            else
-            {
-                field_FC_state = State::State_2;
-                field_140_time_on = sGnFrame_5C1B84 + field_124_tlv_data.field_1A_timeout;
-                field_144_sound_channels = SFX_Play_46FC20(SoundEffect::WaterFall_95, 40, soundDir);
-            }
-            break;
-
-        case State::State_1:
-            if (!(sGnFrame_5C1B84 % 4))
-            {
-                field_110_current_drops++;
-            }
-
-            if (field_110_current_drops > 3 && !field_144_sound_channels)
-            {
-                field_144_sound_channels = SFX_Play_46FC20(SoundEffect::WaterFall_95, 40, soundDir);
-            }
-
-            if (field_110_current_drops < (signed __int16)(field_124_tlv_data.field_10_max_drops >> 5))
-            {
-                for (int i = 0; i < field_110_current_drops; i++)
+            case WaterState::eInit_0:
+                field_138_splash_time = 0;
+                if (!SwitchStates_Get_466020(field_124_tlv_data.field_12_id))
                 {
-                    if (field_10C_particle_count == field_124_tlv_data.field_10_max_drops)
-                    {
-                        break;
-                    }
-                    Add_Water_Particle_4E09A0();
-                }
-            }
-            else
-            {
-                field_FC_state = State::State_2;
-                field_140_time_on = sGnFrame_5C1B84 + field_124_tlv_data.field_1A_timeout;
-            }
-            break;
-
-        case State::State_2:
-            field_110_current_drops = Math_NextRandom() % (field_124_tlv_data.field_10_max_drops >> 4);
-            if (field_110_current_drops > 3 && !field_144_sound_channels)
-            {
-                field_144_sound_channels = SFX_Play_46FC20(SoundEffect::WaterFall_95, 40, soundDir);
-            }
-
-            for (int i = 0; i < field_110_current_drops; i++)
-            {
-                if (field_10C_particle_count == field_124_tlv_data.field_10_max_drops)
-                {
-                    break;
-                }
-                Add_Water_Particle_4E09A0();
-            }
-
-            if (!SwitchStates_Get_466020(field_124_tlv_data.field_12_id))
-            {
-                field_FC_state = State::State_3;
-                field_110_current_drops = field_124_tlv_data.field_10_max_drops >> 5;
-            }
-
-            if (field_124_tlv_data.field_1A_timeout && static_cast<int>(sGnFrame_5C1B84) >= field_140_time_on)
-            {
-                field_148_bHitTimeout |= 1u;
-                field_110_current_drops = field_124_tlv_data.field_10_max_drops >> 5;
-                field_FC_state = State::State_3;
-            }
-            break;
-
-        case State::State_3:
-            if (!(sGnFrame_5C1B84 % 4))
-            {
-                --field_110_current_drops;
-            }
-            if (field_110_current_drops > 0)
-            {
-                for (int i = 0; i < field_110_current_drops; i++)
-                {
-                    if (field_10C_particle_count == field_124_tlv_data.field_10_max_drops)
-                    {
-                        break;
-                    }
-                    Add_Water_Particle_4E09A0();
-                }
-            }
-            else
-            {
-                SND_Stop_Channels_Mask_4CA810(field_144_sound_channels);
-                field_144_sound_channels = 0;
-                SFX_Play_46FC20(SoundEffect::WaterEnd_96, 40, soundDir);
-                field_FC_state = State::State_4;
-            }
-            break;
-
-        case State::State_4:
-            if (field_148_bHitTimeout & 1)
-            {
-                if (field_124_tlv_data.field_10_max_drops <= 0) // Someone created a water object in the map with no particles
-                {
-                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                    field_FC_state = WaterState::eInactive_4;
                 }
                 else
                 {
-                    bool foundDisabledWaterParticle = false;
-                    for (int i = 0; i < field_124_tlv_data.field_10_max_drops; i++)
+                    field_FC_state = WaterState::eFlowing_2;
+                    field_140_time_on = sGnFrame_5C1B84 + field_124_tlv_data.field_1A_timeout;
+                    field_144_sound_channels = SFX_Play_46FC20(SoundEffect::WaterFall_95, 40, soundDir);
+                }
+                break;
+
+            case WaterState::eStarting_1:
+                if (!(sGnFrame_5C1B84 % 4))
+                {
+                    field_110_current_drops++;
+                }
+
+                if (field_110_current_drops > 3 && !field_144_sound_channels)
+                {
+                    field_144_sound_channels = SFX_Play_46FC20(SoundEffect::WaterFall_95, 40, soundDir);
+                }
+
+                if (field_110_current_drops < (signed __int16)(field_124_tlv_data.field_10_max_drops >> 5))
+                {
+                    for (int i = 0; i < field_110_current_drops; i++)
                     {
-                        if (!field_F8_pWaterRes[i].field_18_enabled)
+                        if (field_10C_particle_count == field_124_tlv_data.field_10_max_drops)
                         {
-                            foundDisabledWaterParticle = true;
                             break;
                         }
+                        Add_Water_Particle_4E09A0();
                     }
+                }
+                else
+                {
+                    field_FC_state = WaterState::eFlowing_2;
+                    field_140_time_on = sGnFrame_5C1B84 + field_124_tlv_data.field_1A_timeout;
+                }
+                break;
 
-                    if (foundDisabledWaterParticle)
+            case WaterState::eFlowing_2:
+                field_110_current_drops = Math_NextRandom() % (field_124_tlv_data.field_10_max_drops >> 4);
+                if (field_110_current_drops > 3 && !field_144_sound_channels)
+                {
+                    field_144_sound_channels = SFX_Play_46FC20(SoundEffect::WaterFall_95, 40, soundDir);
+                }
+
+                for (int i = 0; i < field_110_current_drops; i++)
+                {
+                    if (field_10C_particle_count == field_124_tlv_data.field_10_max_drops)
+                    {
+                        break;
+                    }
+                    Add_Water_Particle_4E09A0();
+                }
+
+                if (!SwitchStates_Get_466020(field_124_tlv_data.field_12_id))
+                {
+                    field_FC_state = WaterState::eStopping_3;
+                    field_110_current_drops = field_124_tlv_data.field_10_max_drops >> 5;
+                }
+
+                if (field_124_tlv_data.field_1A_timeout && static_cast<int>(sGnFrame_5C1B84) >= field_140_time_on)
+                {
+                    field_148_bHitTimeout |= 1u;
+                    field_110_current_drops = field_124_tlv_data.field_10_max_drops >> 5;
+                    field_FC_state = WaterState::eStopping_3;
+                }
+                break;
+
+            case WaterState::eStopping_3:
+                if (!(sGnFrame_5C1B84 % 4))
+                {
+                    --field_110_current_drops;
+                }
+                if (field_110_current_drops > 0)
+                {
+                    for (int i = 0; i < field_110_current_drops; i++)
+                    {
+                        if (field_10C_particle_count == field_124_tlv_data.field_10_max_drops)
+                        {
+                            break;
+                        }
+                        Add_Water_Particle_4E09A0();
+                    }
+                }
+                else
+                {
+                    SND_Stop_Channels_Mask_4CA810(field_144_sound_channels);
+                    field_144_sound_channels = 0;
+                    SFX_Play_46FC20(SoundEffect::WaterEnd_96, 40, soundDir);
+                    field_FC_state = WaterState::eInactive_4;
+                }
+                break;
+
+            case WaterState::eInactive_4:
+                if (field_148_bHitTimeout & 1)
+                {
+                    if (field_124_tlv_data.field_10_max_drops <= 0) // Someone created a water object in the map with no particles.
                     {
                         field_6_flags.Set(BaseGameObject::eDead_Bit3);
                     }
-                }
-            }
-            else if (SwitchStates_Get_466020(field_124_tlv_data.field_12_id))
-            {
-                field_110_current_drops = 0;
-                field_FC_state = State::State_1;
-                SFX_Play_46FC20(SoundEffect::WaterStart_94, 40, soundDir);
-            }
-            break;
+                    else
+                    {
+                        bool foundDisabledWaterParticle = false;
+                        for (int i = 0; i < field_124_tlv_data.field_10_max_drops; i++)
+                        {
+                            if (!field_F8_pWaterRes[i].field_18_enabled)
+                            {
+                                foundDisabledWaterParticle = true;
+                                break;
+                            }
+                        }
 
-        default:
-            break;
+                        if (foundDisabledWaterParticle)
+                        {
+                            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                        }
+                    }
+                }
+                else if (SwitchStates_Get_466020(field_124_tlv_data.field_12_id))
+                {
+                    field_110_current_drops = 0;
+                    field_FC_state = WaterState::eStarting_1;
+                    SFX_Play_46FC20(SoundEffect::WaterStart_94, 40, soundDir);
+                }
+                break;
+
+            default:
+                break;
         }
 
         for (short i = 0; i < field_124_tlv_data.field_10_max_drops; i++)
@@ -558,7 +558,7 @@ void Water::vRender_4E1440(int** pOt)
         short yMin = 32767;
         short hMax = -32767;
 
-        for (int i=0; i < field_124_tlv_data.field_10_max_drops; i++)
+        for (int i = 0; i < field_124_tlv_data.field_10_max_drops; i++)
         {
             Water_Res* pWaterRes = &field_F8_pWaterRes[i];
             if (pWaterRes->field_18_enabled)
@@ -604,7 +604,7 @@ void Water::vRender_4E1440(int** pOt)
 
                 Poly_FT4* pPoly = &pWaterRes->field_20_polys[gPsxDisplay_5C1130.field_C_buffer_index];
 
-                // Clear out the data pointer hack
+                // Clear out the data pointer hack.
                 pPoly->mVerts[1].mUv.tpage_clut_pad = 0;
                 pPoly->mVerts[2].mUv.tpage_clut_pad = 0;
 

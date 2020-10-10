@@ -181,9 +181,8 @@ public:
     EXPORT void VRender_403AE0(int /*xpos*/, int /*ypos*/, int** /*ppOt*/, __int16 /*width*/, __int16 /*height*/);
 
     // TODO: pure
-    virtual void vCleanUp();
+    virtual void vCleanUp() = 0;
 
-    EXPORT void VCleanUp_403F40();
 
     static EXPORT void CC AnimateAll_4034F0(DynamicArrayT<AnimationBase>* pAnimList);
 
@@ -219,14 +218,18 @@ public:
 
     EXPORT void Get_Frame_Width_Height_403E80(short* pWidth, short* pHeight);
 
-    EXPORT void Get_Frame_Offset_403EE0(short* pOffX, short* pOffY);
+    EXPORT void Get_Frame_Offset_403EE0(short* pBoundingX, short* pBoundingY);
+
+    virtual void vCleanUp() override;
+
+    EXPORT void VCleanUp_403F40();
 
     int field_10_frame_delay;
     FP field_14_scale;
     int field_18_frame_table_offset;
     TFrameCallBackType* field_1C_fn_ptrs;
     BYTE** field_20_ppBlock;
-    int field_24;
+    BYTE** field_24_dbuf;
     int field_28;
     Poly_FT4 field_2C_ot_data[2];
     PSX_RECT field_84_vram_rect;
