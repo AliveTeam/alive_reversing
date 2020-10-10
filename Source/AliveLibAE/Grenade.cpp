@@ -201,8 +201,9 @@ void Grenade::Init_448110(FP xpos, FP ypos)
         LoadRockTypes_49AB30(field_C2_lvl_number, field_C0_path_number);
     }
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID);
-    Animation_Init_424E10(1252, 17, 11, ppRes, 1, 1);
+    const AnimRecord& rec = AnimRec(AnimId::Grenade);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     field_6_flags.Clear(BaseGameObject::eInteractive_Bit8);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
