@@ -55,19 +55,7 @@ START_NS_AO;
 
 ALIVE_VAR(1, 0x5076E4, short, gAbeInvulnerableCheat_5076E4, 0);
 
-
-// TODO: Move out to own file
-ALIVE_ARY(1, 0x505668, BYTE, 8192, gSaveBuffer_505668, {});
-
-class Demo
-{
-public:
-    EXPORT static void CC Save_459490(BYTE* /*pBuffer*/)
-    {
-        // This is actually a game save
-        NOT_IMPLEMENTED();
-    }
-};
+ALIVE_ARY_EXTERN(SaveData, 8192, gSaveBuffer_505668);
 
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_423520);
 
@@ -814,8 +802,6 @@ BaseGameObject* Abe::vdtor_422A70(signed int flags)
 
 const unsigned int sAbe_xVel_table_4BB118[8] = { 262144, 262144, 0, 4294705152, 4294705152, 4294705152, 0, 262144 };
 const unsigned int sAbe_yVel_table_4BB138[8] = { 0, 4294705152, 4294705152, 4294705152, 0, 262144, 262144, 262144 };
-
-
 
 void Abe::vUpdate_41FDB0()
 {
@@ -2782,7 +2768,7 @@ void Abe::VOn_Tlv_Collision_421130(Path_TLV *pTlv)
                 gOldKilledMuds_5076D0 = sKilledMudokons_5076BC;
                 gOldSavedMuds_5076D4 = sRescuedMudokons_5076C0;
 
-                Demo::Save_459490(gSaveBuffer_505668);
+                SaveGame::Save_459490(gSaveBuffer_505668);
 
                 const FP camXPos = FP_NoFractional(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
 
@@ -6883,98 +6869,6 @@ void Abe::State_61_Respawn_42CD20()
     }
 }
 
-struct SaveData
-{
-    BYTE gap0[1];
-    char field_1;
-    char field_2[540];
-    char field_21E;
-    char field_21F;
-    char field_220;
-    char field_221;
-    char field_222;
-    char field_223;
-    int field_224_xpos;
-    DWORD field_228_ypos;
-    char field_22C;
-    char field_22D;
-    char field_22E;
-    char field_22F;
-    char field_230;
-    char field_231;
-    char field_232;
-    char field_233;
-    char field_234;
-    char field_235;
-    char field_236;
-    char field_237;
-    char field_238;
-    char field_239;
-    char field_23A_mode_mask;
-    char field_23B;
-    char field_23C;
-    char field_23D;
-    char field_23E;
-    char field_23F;
-    WORD field_240_last_anim_frame;
-    char field_242;
-    char field_243;
-    WORD field_244_state;
-    char field_246;
-    char field_247;
-    DWORD field_248_gnFrame;
-    char field_24C;
-    char field_24D;
-    char field_24E;
-    char field_24F;
-    char field_250;
-    char field_251;
-    char field_252;
-    char field_253;
-    char field_254;
-    char field_255;
-    char field_256;
-    char field_257;
-    char field_258;
-    char field_259;
-    WORD field_25A_something_elum_related;
-    char field_25C;
-    char field_25D;
-    WORD field_25E_elum_field_144;
-    LevelIds field_260_elum_lvl_number;
-    WORD field_262_elum_path_number;
-    WORD field_264;
-    char field_266;
-    char field_267;
-    DWORD field_268_elum_xpos;
-    DWORD field_26C_elum_ypos;
-    WORD field_270;
-    char field_272_elum_flag;
-    char field_273;
-    char field_274;
-    char field_275;
-    WORD field_276_elum_122;
-    WORD field_278_brain_idx;
-    WORD field_27A_elum_brain_state;
-    DWORD field_27C_honey_xpos;
-    WORD field_280_honey_ypos;
-    char field_282;
-    char field_283;
-    DWORD field_284_elum_field_130;
-    char field_288;
-    char field_289;
-    char field_28A_some_flag;
-    char field_28B;
-    PSX_RECT field_28C_elum_continue_rect;
-    WORD field_294_continue_zone_number;
-    WORD field_296_elum_zone_number;
-    WORD field_298_elum_continue_path;
-    LevelIds field_29A_continue_level;
-    FP field_29C_elum_sprite_scale;
-    int pad[7];
-    char field_0;
-};
-
 using elumSpawn = decltype(&Elum::Spawn_410E90);
 const elumSpawn dword_4CF550[] =
 {
@@ -6993,6 +6887,8 @@ const elumSpawn dword_4CF550[] =
     nullptr,
     nullptr
 };
+
+
 
 void Abe::State_62_LoadedSaveSpawn_REAL_45ADD0()
 {
@@ -7035,7 +6931,7 @@ void Abe::State_62_LoadedSaveSpawn_45ADD0()
         sActiveHero_507678->field_110_state = pSaveData->field_244_state;
         sActiveHero_507678->field_114_gnFrame = pSaveData->field_248_gnFrame;
         sActiveHero_507678->field_E6_last_anim_frame = pSaveData->field_240_last_anim_frame;
-        sActiveHero_507678->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pSaveData->field_23C & 1);
+        sActiveHero_507678->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pSaveData->field_23C_ah_flipX & 1);
         sActiveHero_507678->MapFollowMe_401D30(TRUE);
         sActiveHero_507678->field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
         if (sActiveHero_507678->field_19C_throwable_count)
@@ -7094,7 +6990,7 @@ void Abe::State_62_LoadedSaveSpawn_45ADD0()
             gElum_507680->field_B0_path_number = pSaveData->field_262_elum_path_number;
             gElum_507680->field_A8_xpos = FP_FromInteger(pSaveData->field_268_elum_xpos);
             gElum_507680->field_AC_ypos = FP_FromInteger(pSaveData->field_26C_elum_ypos);
-            gElum_507680->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pSaveData->field_272_elum_flag & 1);
+            gElum_507680->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pSaveData->field_272_elum_flipX & 1);
             gElum_507680->field_E6_last_anim_frame = 0;
             gElum_507680->field_120 = 1;
             gElum_507680->field_122 = pSaveData->field_276_elum_122;
@@ -7104,9 +7000,9 @@ void Abe::State_62_LoadedSaveSpawn_45ADD0()
             gElum_507680->field_146 = pSaveData->field_280_honey_ypos;
             gElum_507680->field_130 = pSaveData->field_284_elum_field_130;
 
-            gElum_507680->field_170_flags.Set(Elum::Flags_170::eFoundHoney_Bit4, pSaveData->field_28B & 1);
-            gElum_507680->field_170_flags.Set(Elum::Flags_170::eBit3, pSaveData->field_28A_some_flag & 1);
-            gElum_507680->field_170_flags.Set(Elum::Flags_170::eBit2, pSaveData->field_289 & 1);
+            gElum_507680->field_170_flags.Set(Elum::Flags_170::eFoundHoney_Bit4, pSaveData->field_28B_elumflag4 & 1);
+            gElum_507680->field_170_flags.Set(Elum::Flags_170::eBit3, pSaveData->field_28A_elumflag3 & 1);
+            gElum_507680->field_170_flags.Set(Elum::Flags_170::eBit2, pSaveData->field_289_elumflag2 & 1);
             if (gElum_507680->field_B0_path_number == sActiveHero_507678->field_B0_path_number)
             {
                 if (pSaveData->field_270 != -1)
@@ -7158,7 +7054,6 @@ void Abe::State_62_LoadedSaveSpawn_45ADD0()
     {
         field_114_gnFrame = 1;
     }
-
 }
 
 void Abe::State_63_TurnToRun_42A0A0()
