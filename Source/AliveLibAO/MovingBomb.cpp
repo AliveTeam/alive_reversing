@@ -308,6 +308,61 @@ __int16 MovingBomb::HitObject_43B970()
     return 0;
 }
 
+void MovingBomb::FollowLine_43BA40()
+{
+    if (field_F4_pLine)
+    {
+        const FP oldX = field_A8_xpos;
+        const FP oldY = field_AC_ypos;
+
+        field_F4_pLine = field_F4_pLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_B4_velx);
+        if (field_F4_pLine)
+        {
+            WORD a4 = 0;
+            const FP screen_x = CamX_VoidSkipper_418590(oldX, field_A8_xpos - oldX, 12, &a4);
+            if (a4)
+            {
+                FP hitX = {};
+                FP hitY = {};
+                field_A8_xpos = screen_x;
+                if (sCollisions_DArray_504C6C->RayCast_40C410(
+                    field_A8_xpos,
+                    field_AC_ypos - FP_FromInteger(20),
+                    field_A8_xpos,
+                    field_AC_ypos + FP_FromInteger(20),
+                    &field_F4_pLine,
+                    &hitX,
+                    &hitY,
+                    0x100))
+                {
+                    field_AC_ypos = hitY;
+                }
+            }
+
+            // OG bug? Why y = oldx, surely y-oldy ?
+            const FP screen_y = CamY_VoidSkipper_418690(oldY, field_AC_ypos - oldX, 12, &a4);
+            if (a4)
+            {
+                FP hitX = {};
+                FP hitY = {};
+                field_AC_ypos = screen_y;
+                if (sCollisions_DArray_504C6C->RayCast_40C410(
+                    field_A8_xpos - FP_FromInteger(20),
+                    field_AC_ypos,
+                    field_A8_xpos + FP_FromInteger(20),
+                    field_AC_ypos,
+                    &field_F4_pLine,
+                    &hitX,
+                    &hitY,
+                    0x100))
+                {
+                    field_A8_xpos = hitX;
+                }
+            }
+        }
+    }
+}
+
 void MovingBomb::VScreenChanged()
 {
     VScreenChanged_43BC90();

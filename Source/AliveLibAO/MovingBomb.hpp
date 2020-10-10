@@ -51,6 +51,8 @@ public:
 
     EXPORT __int16 HitObject_43B970();
 
+    EXPORT void FollowLine_43BA40();
+
     __int16 field_10C_state;
     __int16 field_10E_pad;
     int field_110_tlvInfo;
