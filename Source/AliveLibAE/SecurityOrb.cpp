@@ -49,9 +49,10 @@ SecurityOrb* SecurityOrb::ctor_466350(Path_SecurityOrb* pTlv, int tlvInfo)
 
     field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kMaimGameResID);
-    Animation_Init_424E10(2228, 53, 28u, ppRes, 1, 1u);
-    
+    const AnimRecord& rec = AnimRec(AnimId::Security_Orb);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+
     SetTint_425600(sSecurityOrbTints_55C1EC, gMap_5C3030.field_0_current_level);
 
     field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);

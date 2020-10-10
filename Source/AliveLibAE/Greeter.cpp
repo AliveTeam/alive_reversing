@@ -24,8 +24,9 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, int tlvInfo)
     SetVTable(this, 0x54566C);
 
     field_4_typeId = Types::eGreeter_64;
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kGreeterResID);
-    Animation_Init_424E10(50028, 65, 60, ppRes, 1, 1);
+    const AnimRecord& rec = AnimRec(AnimId::Greeter_Idle);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_DC_bApplyShadows |= 2u;
 

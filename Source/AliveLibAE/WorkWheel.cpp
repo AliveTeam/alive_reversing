@@ -49,8 +49,10 @@ WorkWheel* WorkWheel::ctor_4E35D0(Path_Wheel* pTlv, int tlvInfo)
 
     field_C_objectId = tlvInfo;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kWorkwhelResID);
-    Animation_Init_424E10(2716, 49, 24, ppRes, 1, 1u);
+    const AnimRecord& rec = AnimRec(AnimId::Work_Wheel_Idle);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+
     field_20_animation.field_4_flags.Set(eBit15_bSemiTrans);
 
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);

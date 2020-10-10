@@ -60,8 +60,9 @@ Rope* Rope::ctor_4A0A70(unsigned __int16 left, __int16 top, unsigned __int16 bot
 
     field_4_typeId = Types::eLiftRope_108;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kRopesResID);
-    Animation_Init_424E10(748, 9, 16, ppRes, 1, 1);
+    const AnimRecord& rec = AnimRec(AnimId::Lift_Rope);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     SetTint_425600(kRopeTints_55FD68, gMap_5C3030.field_0_current_level);
 
     field_20_animation.field_14_scale = scale;

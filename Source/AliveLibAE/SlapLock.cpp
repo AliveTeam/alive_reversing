@@ -28,8 +28,9 @@ SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, int tlvInfo)
         field_CC_sprite_scale = FP_FromDouble(0.5);
     }
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kUnknownResID_1053);
-    Animation_Init_424E10(7068, 58, 44, ppRes, 1, 1);
+    const AnimRecord& rec = AnimRec(AnimId::Slap_Lock_Idle);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     if (field_118_pTlv->field_10_scale)
     {
@@ -302,6 +303,7 @@ void SlapLock::vUpdate_43DF90()
             }
 
             field_20_animation.Set_Animation_Data_409C80(7068, 0);
+
             field_120_state = SlapLockStates::eShaking_0;
             field_124_timer1 = Math_NextRandom() + sGnFrame_5C1B84 + 25;
             return;

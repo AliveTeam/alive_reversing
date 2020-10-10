@@ -22,13 +22,7 @@ MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, int tlvInfo, int /*a4*/, int /
     field_4_typeId = Types::eMineCar_89;
 
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kUnknownResID_6013);
-    Animation_Init_424E10(
-        20812,
-        128,
-        62,
-        ppRes,
-        1,
-        1);
+    Animation_Init_424E10(20812, 128, 62, ppRes, 1, 1);
 
     field_11E_scale = pTlv->field_10_scale;
     field_120_max_damage = pTlv->field_12_max_damage;
