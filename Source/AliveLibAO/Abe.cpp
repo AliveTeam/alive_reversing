@@ -7004,7 +7004,7 @@ void Abe::State_62_LoadedSaveSpawn_45ADD0()
     Event_Broadcast_417220(kEventResetting_6, this);
     if (field_114_gnFrame)
     {
-        auto pSaveData = reinterpret_cast<SaveData*>(field_2AC_pSaveData); //todo fix cast
+        auto pSaveData = field_2AC_pSaveData;
         field_AC_ypos = FP_FromInteger(pSaveData->field_228_ypos);
         field_A8_xpos = FP_FromInteger(pSaveData->field_224_xpos);
 
