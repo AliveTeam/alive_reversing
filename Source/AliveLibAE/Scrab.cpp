@@ -749,8 +749,6 @@ void Scrab::vUpdate_4A3530()
             }
 
             const auto oldMotion = field_106_current_motion;
-            const auto oldBrain = field_118_brain_state;
-            const auto oldBrainRet = field_11C_sub_state;
 
             field_11C_sub_state = (this->*field_118_brain_state)();
 
@@ -778,19 +776,6 @@ void Scrab::vUpdate_4A3530()
                     field_B8_xpos,
                     field_BC_ypos);
                 VOn_TLV_Collision_4087F0(field_FC_pPathTLV);
-            }
-
-            // TODO: This is extra debug logging to figure out the motion names
-            if (oldBrain != field_118_brain_state)
-            {
-                LOG_INFO("Scrab: Old brain = " << GetOriginalFn(oldBrain, sScrabAITable).fnName << " new brain = " << GetOriginalFn(field_118_brain_state, sScrabAITable).fnName);
-            }
-            else
-            {
-                if (oldBrainRet != field_11C_sub_state)
-                {
-                    LOG_INFO("Scrab: Brain state = " << GetOriginalFn(field_118_brain_state, sScrabAITable).fnName << " State change from " << oldBrainRet << " to " << field_11C_sub_state);
-                }
             }
 
             if (oldMotion != field_106_current_motion || field_1AA_flags.Get(Flags_1AA::eBit4_force_update_animation))

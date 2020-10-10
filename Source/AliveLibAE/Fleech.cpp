@@ -1309,8 +1309,6 @@ void Fleech::vUpdate_42AB20()
         field_174_flags.Get(Flags_174::eBit7_persistant))
     {
         const auto oldMotion = field_106_current_motion;
-        const auto oldBrain = sFleech_ai_table_551830[field_124_brain_state];
-        const auto oldBrainRet = field_126_state;
 
         field_126_state = (this->*sFleech_ai_table_551830[field_124_brain_state])();
 
@@ -1335,19 +1333,6 @@ void Fleech::vUpdate_42AB20()
                 field_B8_xpos,
                 field_BC_ypos);
             VOn_TLV_Collision_4087F0(field_FC_pPathTLV);
-        }
-
-        // TODO: This is extra debug logging to figure out the ai names
-        if (oldBrain != sFleech_ai_table_551830[field_124_brain_state])
-        {
-            LOG_INFO("Fleech: Old brain = " << GetOriginalFn(oldBrain, sFleechAiTable).fnName << " new brain = " << GetOriginalFn(sFleech_ai_table_551830[field_124_brain_state], sFleechAiTable).fnName);
-        }
-        else
-        {
-            if (oldBrainRet != field_126_state)
-            {
-                LOG_INFO("Fleech: Brain state = " << GetOriginalFn(sFleech_ai_table_551830[field_124_brain_state], sFleechAiTable).fnName << " State change from " << oldBrainRet << " to " << field_126_state);
-            }
         }
 
         if (oldMotion == field_106_current_motion)
@@ -2131,8 +2116,6 @@ const SfxDefinition getSfxDef(FleechSound effectId)
 
 int Fleech::Sound_430520(FleechSound soundId)
 {
-    LOG_INFO("Fleechsound id:");
-    LOG_INFO((int)soundId);
     SfxDefinition effectDef = getSfxDef(soundId);
     __int16 defaultSndIdxVol = effectDef.field_3_default_volume;
     if (soundId == FleechSound::CrawlRNG1_14)

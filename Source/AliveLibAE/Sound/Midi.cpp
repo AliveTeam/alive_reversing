@@ -544,8 +544,6 @@ EXPORT signed __int16 CC SND_SEQ_PlaySeq_4CA960(unsigned __int16 idx, __int16 re
 
 EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 repeatCount, __int16 volLeft, __int16 volRight)
 {
-    LOG_INFO("PLAY SEQ " << idx);
-
     OpenSeqHandle& rec = sSeqDataTable_BB2E38[idx];
     if (!rec.field_C_ppSeq_Data)
     {

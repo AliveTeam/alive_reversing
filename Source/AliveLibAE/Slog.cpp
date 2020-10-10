@@ -3068,8 +3068,6 @@ const SfxDefinition getSfxDef(SlogSound effectId)
 
 void Slog::Sfx_4C7D30(SlogSound effectId)
 {
-    LOG_INFO("SlogSound id:");
-    LOG_INFO((int) effectId);
     __int16 volumeLeft = 0;
     __int16 volumeRight = 0;
     const SfxDefinition effectDef = getSfxDef(effectId);
