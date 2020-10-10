@@ -24,7 +24,7 @@ TintEntry stru_55C734[4] =
     { 0u, 0u, 0u, 0u }
 };
 
-ALIVE_VAR(1, 0x5C300C, MovingBomb*, dword_5C300C, nullptr);
+ALIVE_VAR(1, 0x5C300C, MovingBomb*, gMovingBomb_5C300C, nullptr);
 
 MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, int tlvInfo)
 {
@@ -169,14 +169,14 @@ void MovingBomb::dtor_4700C0()
         Path::TLV_Reset_4DB8E0(field_11C_tlvInfo, -1, 0, 0);
     }
 
-    if (dword_5C300C == this)
+    if (gMovingBomb_5C300C == this)
     {
         if (field_130_sound_channels)
         {
             SND_Stop_Channels_Mask_4CA810(field_130_sound_channels);
             field_130_sound_channels = 0;
         }
-        dword_5C300C = 0;
+        gMovingBomb_5C300C = 0;
     }
     dtor_4080B0();
 }
@@ -335,11 +335,11 @@ void MovingBomb::vUpdate_4701E0()
         }
     }
 
-    if (dword_5C300C == nullptr || dword_5C300C == this)
+    if (gMovingBomb_5C300C == nullptr || gMovingBomb_5C300C == this)
     {
         if (field_20_animation.field_92_current_frame != 0 &&  field_20_animation.field_92_current_frame != 7)
         {
-            dword_5C300C = this;
+            gMovingBomb_5C300C = this;
         }
         else
         {
@@ -361,19 +361,19 @@ void MovingBomb::vUpdate_4701E0()
                     {
                         field_130_sound_channels = SFX_Play_46FA90(SoundEffect::SecurityOrb_48, 80, field_CC_sprite_scale);
                     }
-                    dword_5C300C = this;
+                    gMovingBomb_5C300C = this;
                 }
                 else
                 {
                     if (field_118_state == 4)
                     {
                         field_130_sound_channels = 0;
-                        dword_5C300C = this;
+                        gMovingBomb_5C300C = this;
                     }
                     else
                     {
                         field_130_sound_channels = SFX_Play_46FA90(SoundEffect::SecurityOrb_48, 12, field_CC_sprite_scale);
-                        dword_5C300C = this;
+                        gMovingBomb_5C300C = this;
                     }
                 }
             }

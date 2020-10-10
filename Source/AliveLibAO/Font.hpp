@@ -14,7 +14,7 @@ public:
 
     EXPORT static void CC static_dtor_41C020();
 
-    EXPORT __int16 LoadFontType_41C040(int);
+    EXPORT __int16 LoadFontType_41C040(int resourceID);
 
 
     EXPORT void dtor_41C110();

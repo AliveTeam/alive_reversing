@@ -4003,7 +4003,7 @@ __int16 Slig::Brain_PanicYelling_46CC50()
     if (field_FC_current_motion == eSligStates::State_29_SpeakPanic_4681D0
         && field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        Event_Broadcast_417220(kEvent_17, this);
+        Event_Broadcast_417220(kEvent_Alarm_17, this);
 
         const bool bFlipX = field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX);
         field_114_timer = gnFrameCount_507670 + field_174_tlv.field_36_panic_timeout;

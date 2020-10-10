@@ -95,7 +95,7 @@ void Alarm::VUpdate()
 
 void Alarm::VUpdate_402660()
 {
-    Event_Broadcast_417220(kEvent_17, this);
+    Event_Broadcast_417220(kEvent_Alarm_17, this);
 
     if (field_10_path_id != gMap_507BA8.field_2_current_path ||
         field_12_level_id != gMap_507BA8.field_0_current_level ||
