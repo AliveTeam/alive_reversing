@@ -49,55 +49,56 @@ void WheelSyncer::vUpdate_4661D0()
     const int state6 = SwitchStates_Get_466020(field_2C_id6);
 
     int switchValue = 0;
+
     switch (field_2E_action)
     {
-    case 0: // all on
-        if (!state1 || !state2 || !state3 || !state4 || !state5 || !state6)
-        {
-            switchValue = 0;
-        }
-        else
-        {
-            switchValue = 1;
-        }
-        break;
+        case WheelSyncerAction::eAllOn_0:
+            if (!state1 || !state2 || !state3 || !state4 || !state5 || !state6)
+            {
+                switchValue = 0;
+            }
+            else
+            {
+                switchValue = 1;
+            }
+            break;
 
-    case 1: // off
-        if (!state1 || state2)
-        {
-            switchValue = 0;
-        }
-        else
-        {
-            switchValue = 1;
-        }
-        break;
+        case WheelSyncerAction::eOff_1:
+            if (!state1 || state2)
+            {
+                switchValue = 0;
+            }
+            else
+            {
+                switchValue = 1;
+            }
+            break;
 
-    case 2:  // toggle
-        if (state1 || state2)
-        {
-            switchValue = 1;
-        }
-        else
-        {
-            switchValue = 0;
-        }
-        break;
+        case WheelSyncerAction::eToggle_2:
+            if (state1 || state2)
+            {
+                switchValue = 1;
+            }
+            else
+            {
+                switchValue = 0;
+            }
+            break;
 
-    case 3:
-        if (state1 || !state2)
-        {
-            switchValue = 1;
-        }
-        else
-        {
-            switchValue = 0;
-        }
-        break;
+        case WheelSyncerAction::eOn_3:
+            if (state1 || !state2)
+            {
+                switchValue = 1;
+            }
+            else
+            {
+                switchValue = 0;
+            }
+            break;
 
-    default:
-        switchValue = state5;
-        break;
+        default:
+            switchValue = state5;
+            break;
     }
 
     SwitchStates_Set_465FF0(field_24_trigger_id, static_cast<char>(switchValue));

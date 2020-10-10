@@ -9,6 +9,14 @@
 
 void UXB_ForceLink();
 
+enum class UXBState : WORD
+{
+    eDelay_0 = 0,
+    eActive_1 = 1,
+    eExploding_2 = 2,
+    eDeactivated_3 = 3
+};
+
 struct Path_UXB : public Path_TLV
 {
     __int16 field_10_num_patterns;
@@ -21,12 +29,12 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_UXB, 0x1c);
 
 struct SaveState_UXB
 {
-    __int16 field_0_id;
+    Types field_0_id;
     __int16 field_2_padding;
     TlvItemInfoUnion field_4_tlv;
     DWORD field_8_next_state_frame;
-    WORD field_c_uxb_118;
-    WORD field_e_uxb_11a;
+    UXBState field_C_state;
+    UXBState field_E_starting_state;
     WORD field_10_disabled_resources;
     WORD field_12_pattern_index;
     WORD field_14_red_blink_count;
@@ -36,8 +44,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(SaveState_UXB, 24);
 
 enum UXB_Flags_1C8
 {
-    e1C8_Bit0 = 0x1,
-    e1C8_Bit1_IsRed = 0x2,
+    eUnused_Bit0 = 0x1,
+    eIsRed_Bit1 = 0x2,
 };
 
 class UXB : public BaseAliveGameObject
@@ -52,7 +60,7 @@ public:
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
-    EXPORT UXB * ctor_4DE9A0(Path_UXB *params, TlvItemInfoUnion itemInfo);
+    EXPORT UXB* ctor_4DE9A0(Path_UXB* params, TlvItemInfoUnion itemInfo);
     EXPORT static int CC CreateFromSaveState_4DFAE0(const BYTE*);
 private:
     EXPORT void vOnPickUpOrSlapped_4DF540();
@@ -61,17 +69,17 @@ private:
     EXPORT void dtor_4DEF60();
     EXPORT BaseGameObject* vdtor_4DEEA0(signed int flags);
     EXPORT void Update_4DF030();
-    EXPORT void Render_4DF3D0(int **pOt);
+    EXPORT void Render_4DF3D0(int** pOt);
     EXPORT void ScreenChanged_4DF9C0();
     EXPORT int GetSaveState_4DFD40(BYTE* pSaveBuffer);
-    EXPORT void InitBlinkAnim_4DEED0(Animation *pAnimation);
+    EXPORT void InitBlinkAnim_4DEED0(Animation* pAnimation);
     EXPORT void PlaySFX_4DE930(unsigned __int8 sfxIdx);
     EXPORT signed int IsColliding_4DF630();
 private:
-    WORD field_118_state;
-    WORD field_11A_starting_state;
+    UXBState field_118_state;
+    UXBState field_11A_starting_state;
     WORD field_11C_disabled_resources;
-    BYTE gap11E[2];
+    BYTE field_11E_padding[2];
     TlvItemInfoUnion field_120_tlv;
     DWORD field_124_next_state_frame;
     Animation field_128_animation;
@@ -80,6 +88,6 @@ private:
     WORD field_1C4_pattern;
     WORD field_1C6_red_blink_count;
     BitField16<UXB_Flags_1C8> field_1C8_flags;
-    __int16 field_1CA;
+    __int16 field_1CA_padding;
 };
 ALIVE_ASSERT_SIZEOF(UXB, 0x1CC);

@@ -163,10 +163,12 @@ static __int16 Well_NextRandom()
 {
     const auto curRand = sRandomBytes_546744[sWellRndSeed_563AA0];
     sWellRndSeed_563AA0++;
+
     if (sWellRndSeed_563AA0 > 255)
     {
         sWellRndSeed_563AA0 = 0;
     }
+
     return curRand;
 }
 
@@ -175,7 +177,7 @@ void Well::vUpdate_4E2F60()
     if (Event_Get_422C00(kEventDeathReset))
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        // Reset well state when Abe dies
+        // Reset well state when Abe dies.
         Path::TLV_Reset_4DB8E0(field_20_tlvInfo, -1, 0, 0);
     }
 
@@ -184,7 +186,7 @@ void Well::vUpdate_4E2F60()
         // Always on or has been enabled?
         if (field_24_trigger_id == 0 || SwitchStates_Get_466020(field_24_trigger_id))
         {
-            // Random chance of leaves emitting
+            // Random chance of leaves emitting.
             if ( Well_NextRandom() < 10)
             {
                 auto pLeaf = ae_new<Leaf>();
