@@ -176,24 +176,67 @@ constexpr AnimRecord kAnimRecords[] =
 
     { AnimId::Greeter_Idle, "GREETER.BAN", 50028, 65, 60, kGreeterResID, PalId::Default },
 	{ AnimId::Greeter_Turn_Around, "GREETER.BAN", 50072, 65, 60, kGreeterResID, PalId::Default },
-	{ AnimId::Greeter_Shot, "GREETER.BAN", 50236, 65, 60, kGreeterResID, PalId::Default },
+	{ AnimId::Greeter_Hit, "GREETER.BAN", 50236, 65, 60, kGreeterResID, PalId::Default },
     { AnimId::Greeter_Speak, "GREETER.BAN", 50104, 65, 60, kGreeterResID, PalId::Default },
     { AnimId::Greeter_Chase, "GREETER.BAN", 50144, 65, 60, kGreeterResID, PalId::Default },
+    { AnimId::Greeter_Falling, "GREETER.BAN", 50212, 65, 60, kGreeterResID, PalId::Default },
+
+    { AnimId::Slog_Idle_A, "SLOG.BND", 96464, 121, 57, kDogbasicResID, PalId::Default },
+    { AnimId::Slog_Walk, "SLOG.BND", 96344, 121, 57, kDogbasicResID, PalId::Default },
+    { AnimId::Slog_Run, "SLOG.BND", 96424, 121, 57, kDogbasicResID, PalId::Default },
+    { AnimId::Slog_Turn_Around, "SLOG.BND", 96764, 121, 57, kDogbasicResID, PalId::Default },
+    { AnimId::Slog_Falling, "SLOG.BND", 96692, 121, 57, kDogbasicResID, PalId::Default },
+    { AnimId::Slog_Bark, "SLOG.BND", 96496, 121, 57, kDogbasicResID, PalId::Default },
+    { AnimId::Slog_Run_Stop, "SLOG.BND", 96532, 121, 57, kDogbasicResID, PalId::Default },
+    { AnimId::Slog_Run_Turn_Around, "SLOG.BND", 96580, 121, 57, kDogbasicResID, PalId::Default },
+    { AnimId::Slog_Unknown_A, "SLOG.BND", 96640, 121, 57, kDogbasicResID, PalId::Default }, // Very short animation
+    { AnimId::Slog_Unknown_B, "SLOG.BND", 96660, 121, 57, kDogbasicResID, PalId::Default }, // ^
+    { AnimId::Slog_Unknown_C, "SLOG.BND", 96876, 121, 57, kDogbasicResID, PalId::Default }, // ^
+    { AnimId::Slog_Unknown_D, "SLOG.BND", 96716, 121, 57, kDogbasicResID, PalId::Default }, // Just a still frame
+    { AnimId::Slog_Bark_Short_A, "SLOG.BND", 96728, 121, 57, kDogbasicResID, PalId::Default },
+    { AnimId::Slog_Unknown_E, "SLOG.BND", 96752, 121, 57, kDogbasicResID, PalId::Default }, // Another still frame
+    { AnimId::Slog_Bark_Short_B, "SLOG.BND", 15068, 121, 57, kDogrstnResID, PalId::Default },
+    { AnimId::Slog_Sleep_A, "SLOG.BND", 15108, 121, 57, kDogrstnResID, PalId::Default },
+    { AnimId::Slog_Sleep_B, "SLOG.BND", 15156, 121, 57, kDogrstnResID, PalId::Default },
+    { AnimId::Slog_Sleep_C, "SLOG.BND", 15132, 121, 57, kDogrstnResID, PalId::Default },
+    { AnimId::Slog_Lunge, "SLOG.BND", 38904, 121, 57, kDogattkResID, PalId::Default },
+    { AnimId::Slog_Jump_Up, "SLOG.BND", 38960, 121, 57, kDogattkResID, PalId::Default },
+    { AnimId::Slog_Eat, "SLOG.BND", 39064, 121, 57, kDogattkResID, PalId::Default },
+    { AnimId::Slog_Die, "SLOG.BND", 12412, 121, 57, kDogknfdResID, PalId::Default },
+    { AnimId::Slog_Scratch, "SLOG.BND", 12724, 121, 57, kDogidleResID, PalId::Default },
+    { AnimId::Slog_Idle_B, "SLOG.BND", 12812, 121, 57, kDogidleResID, PalId::Default },
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+    { AnimId::Anim_Tester, "SLOG.BND", 12812, 121, 57, kDogidleResID, PalId::Default },
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    { AnimId::Slurg_Move, "SLURG.BAN", 2708, 46, 15, kSlurgResID, PalId::Default },
+    { AnimId::Slurg_Burst, "SLURG.BAN", 2808, 46, 15, kSlurgResID, PalId::Default },
+    { AnimId::Slurg_Turn_Around, "SLURG.BAN", 2740, 46, 15, kSlurgResID, PalId::Default },
 
     { AnimId::Grenade, "GRENADE.BAN", 1252, 17, 11, kGrenadeResID, PalId::Default },
     { AnimId::Lift_Rope, "ROPES.BAN", 748, 9, 16, kRopesResID, PalId::Default },
     { AnimId::Security_Door_Idle, "SECDOOR.BAN", 1512, 70, 19u, kUnknownResID_6027, PalId::Default },
     { AnimId::Security_Door_Speak, "SECDOOR.BAN", 1528, 70, 19u, kUnknownResID_6027, PalId::Default },
     { AnimId::Security_Orb, "MAIMORB.BAN", 2228, 53, 28u, kMaimGameResID, PalId::Default },
-    { AnimId::Slap_Lock_Idle, "GHOSTTRP.BAN", 7068, 58, 44, kUnknownResID_1053, PalId::Default },
+    { AnimId::Slap_Lock_Idle_A, "GHOSTTRP.BAN", 7068, 58, 44, kUnknownResID_1053, PalId::Default },
+    { AnimId::Slap_Lock_Idle_B, "GHOSTTRP.BAN", 7056, 58, 44, kUnknownResID_1053, PalId::Default },
     { AnimId::Slap_Lock_Shake, "GHOSTTRP.BAN", 6976, 58, 44, kUnknownResID_1053, PalId::Default },
+    { AnimId::Sparks, "SPARKS.BAN", 808, 19, 11, kSparksResID, PalId::Default },
+    { AnimId::Status_Light_Green, "STATUSLT.BAN", 240, 14, 9u, kStatusLightResID, PalId::Default },
+    { AnimId::Status_Light_Red, "STATUSLT.BAN", 252, 14, 9u, kStatusLightResID, PalId::Default },
+    { AnimId::Switch_Idle, "SWITCH1.BAN", 5696, 66, 40, kSwitchResID, PalId::Default },
+    { AnimId::Switch_Pull_Left_A, "SWITCH1.BAN", 5708, 66, 40, kSwitchResID, PalId::Default },
+    { AnimId::Switch_Pull_Left_B, "SWITCH1.BAN", 5760, 66, 40, kSwitchResID, PalId::Default },
+    { AnimId::Switch_Pull_Right_A, "SWITCH1.BAN", 5796, 66, 40, kSwitchResID, PalId::Default },
+    { AnimId::Switch_Pull_Right_B, "SWITCH1.BAN", 5848, 66, 40, kSwitchResID, PalId::Default },
+    { AnimId::Timed_Mine_Armed, "BOMB.BND", 848, 35, 0x11u, kBombResID, PalId::Default },
+    { AnimId::Timed_Mine_Idle, "BOMB.BND", 836, 35, 0x11u, kBombResID, PalId::Default },
     { AnimId::UXB_Active, "UXB.BND", 8048, 59, 19, kTbombResID, PalId::Default },
     { AnimId::UXB_Toggle, "UXB.BND", 8120, 59, 19, kTbombResID, PalId::Default },
     { AnimId::UXB_Disabled, "UXB.BND", 0x2000, 59, 19, kTbombResID, PalId::Default },
     { AnimId::Work_Wheel_Idle, "WORKWHEL.BAN", 2716, 49, 24, kWorkwhelResID, PalId::Default },
     { AnimId::Work_Wheel_Turning, "WORKWHEL.BAN", 2728, 49, 24, kWorkwhelResID, PalId::Default },
-
-    { AnimId::Anim_Tester, "UXB.BND", 0x2000, 59, 19, kTbombResID, PalId::Default },
 };
 
 const PalRecord& PalRec(PalId toFind)

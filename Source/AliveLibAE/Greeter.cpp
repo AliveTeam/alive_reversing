@@ -359,7 +359,8 @@ void Greeter::ChangeDirection_447BD0()
 {
     field_13C_state = GreeterStates::eState_1_PatrolTurn;
     field_C4_velx = FP_FromInteger(0);
-    field_20_animation.Set_Animation_Data_409C80(50072, nullptr);
+    const AnimRecord& animRec = AnimRec(AnimId::Greeter_Turn_Around);
+    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
     field_124_last_turn_time = sGnFrame_5C1B84;
 }
 
@@ -379,7 +380,8 @@ void Greeter::BounceBackFromShot_447B10()
     field_13E_targetOnLeft = 0;
     field_140_targetOnRight = 0;
 
-    field_20_animation.Set_Animation_Data_409C80(50236, nullptr);
+    const AnimRecord& animRec = AnimRec(AnimId::Greeter_Hit);
+    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
     const CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos);
     SFX_Play_46FC20(SoundEffect::GreeterKnockback_121, 0, soundDirection, field_CC_sprite_scale);
@@ -624,7 +626,8 @@ void Greeter::RandomishSpeak_447A70(GreeterSpeak effect)
 {
     field_13C_state = GreeterStates::eState_2_Speak;
     field_C4_velx = FP_FromInteger(0);
-    field_20_animation.Set_Animation_Data_409C80(50104, nullptr);
+    const AnimRecord& animRec = AnimRec(AnimId::Greeter_Speak);
+    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
     field_120 = sGnFrame_5C1B84 + 25;
 
     if (effect == GreeterSpeak::Randomized_1000)
@@ -753,7 +756,8 @@ void Greeter::vUpdate_4469B0()
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             field_13C_state = GreeterStates::eState_0_Patrol;
-            field_20_animation.Set_Animation_Data_409C80(50028, 0);
+		    const AnimRecord& animRec = AnimRec(AnimId::Greeter_Idle);
+            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             field_C8_vely = FP_FromInteger(0);
             field_13E_targetOnLeft = 0;
             field_140_targetOnRight = 0;
@@ -773,7 +777,8 @@ void Greeter::vUpdate_4469B0()
         {
             field_130 = 0;
             field_13C_state = GreeterStates::eState_0_Patrol;
-            field_20_animation.Set_Animation_Data_409C80(50028, 0);
+            const AnimRecord& animRec = AnimRec(AnimId::Greeter_Idle);
+            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             field_C8_vely = FP_FromInteger(0);
             field_128_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(160, 200);
         }
@@ -784,7 +789,8 @@ void Greeter::vUpdate_4469B0()
         {
             field_130 = 1;
             field_13C_state = GreeterStates::eState_4_Chase;
-            field_20_animation.Set_Animation_Data_409C80(50144, 0);
+            const AnimRecord& animRec = AnimRec(AnimId::Greeter_Chase);
+            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             field_C8_vely = FP_FromInteger(0);
         }
         break;
@@ -893,12 +899,14 @@ void Greeter::vUpdate_4469B0()
                 if (field_130 == 0)
                 {
                     field_13C_state = GreeterStates::eState_0_Patrol;
-                    field_20_animation.Set_Animation_Data_409C80(50028, nullptr);
+                    const AnimRecord& animRec = AnimRec(AnimId::Greeter_Idle);
+                    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
                 }
                 else
                 {
                     field_13C_state = GreeterStates::eState_4_Chase;
-                    field_20_animation.Set_Animation_Data_409C80(50144, nullptr);
+                    const AnimRecord& animRec = AnimRec(AnimId::Greeter_Chase);
+                    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
                 }
             }
         }
@@ -948,7 +956,8 @@ void Greeter::vUpdate_4469B0()
         if (Check_IsOnEndOfLine_408E90(0, 0))
         {
             field_13C_state = GreeterStates::eState_7_Fall;
-            field_20_animation.Set_Animation_Data_409C80(50212, 0);
+            const AnimRecord& animRec = AnimRec(AnimId::Greeter_Falling);
+            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         }
     }
 

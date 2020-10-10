@@ -9,8 +9,9 @@ Sparks* Sparks::ctor_416390(FP xpos, FP ypos, FP scale)
     SetVTable(this, 0x544534);
     field_4_typeId = Types::eSparks_22;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kSparksResID);
-    Animation_Init_424E10(808, 19, 11, ppRes, 1, 1);
+    const AnimRecord& rec = AnimRec(AnimId::Sparks);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_DC_bApplyShadows &= ~1u;
 
@@ -56,7 +57,8 @@ void Sparks::vUpdate_416570()
 
     if (field_FA_16_random == 0)
     {
-        field_20_animation.Set_Animation_Data_409C80(808, 0);
+		const AnimRecord& animRec = AnimRec(AnimId::Sparks);
+        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         field_FA_16_random = -1;
     }
 

@@ -179,12 +179,14 @@ void SecurityDoor::vUpdate_4AC380()
         return;
 
     case DoorState::eSayingHi_2:
+    {
         Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHi_0, 127, -200, 0);
-        field_20_animation.Set_Animation_Data_409C80(1528, 0);
+        const AnimRecord& animRec = AnimRec(AnimId::Security_Door_Speak);
+        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         field_F8_state = DoorState::eListeningForHi_3;
         field_124_timer = sGnFrame_5C1B84 + 150;
         return;
-
+    }
     case DoorState::eListeningForHi_3:
         if (field_104_event_idx != pEventSystem_5BC11C->field_28_last_event_index)
         {
@@ -242,7 +244,8 @@ void SecurityDoor::vUpdate_4AC380()
             break;
         }
 
-        field_20_animation.Set_Animation_Data_409C80(1528, nullptr);
+        const AnimRecord& animRec = AnimRec(AnimId::Security_Door_Speak);
+        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         if (++field_128_max_idx >= field_100_code_len)
         {
             field_F8_state = DoorState::eListeningForPassword_9;

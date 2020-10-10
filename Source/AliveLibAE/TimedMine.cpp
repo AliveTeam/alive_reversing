@@ -63,7 +63,9 @@ TimedMine* TimedMine::ctor_410600(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
 
     field_4_typeId = Types::eTimedMine_or_MovingBomb_10;
 
-    Animation_Init_424E10(836, 35, 0x11u, BaseGameObject::Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kBombResID), TRUE, TRUE);
+    const AnimRecord& rec = AnimRec(AnimId::Timed_Mine_Idle);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_6_flags.Set(Options::eInteractive_Bit8);
 
@@ -376,7 +378,8 @@ void TimedMine::vOnPickUpOrSlapped_410E30()
             field_1C0_detonation_timer = field_11A_explode_timeout >> 2;
         }
         field_1BC_gnframe_2 = sGnFrame_5C1B84;
-        field_20_animation.Set_Animation_Data_409C80(848, 0);
+		const AnimRecord& animRec = AnimRec(AnimId::Timed_Mine_Armed);
+        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         field_120_gnframe = sGnFrame_5C1B84 + field_11A_explode_timeout;
         field_124_animation.Set_Animation_Data_409C80(556, 0);
         SFX_Play_46FA90(SoundEffect::GreenTick_2, 0);

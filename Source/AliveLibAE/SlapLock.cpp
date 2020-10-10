@@ -28,7 +28,7 @@ SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, int tlvInfo)
         field_CC_sprite_scale = FP_FromDouble(0.5);
     }
 
-    const AnimRecord& rec = AnimRec(AnimId::Slap_Lock_Idle);
+    const AnimRecord& rec = AnimRec(AnimId::Slap_Lock_Idle_A);
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
@@ -257,6 +257,7 @@ void SlapLock::vUpdate_43DF90()
         switch (field_120_state)
         {
         case SlapLockStates::eShaking_0:
+        {
             if (field_118_pTlv->field_1A_has_powerup)
             {
                 if (!(sGnFrame_5C1B84 & 63))
@@ -279,12 +280,15 @@ void SlapLock::vUpdate_43DF90()
                 return;
             }
 
-            field_20_animation.Set_Animation_Data_409C80(6976, 0);
-            field_120_state = SlapLockStates::eIdle_1;
+			const AnimRecord& animRec = AnimRec(AnimId::Slap_Lock_Shake);
+            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+            
+			field_120_state = SlapLockStates::eIdle_1;
             SFX_Play_46FA90(SoundEffect::SpiritLockShake_105, 0);
             return;
-
+        }
         case SlapLockStates::eIdle_1:
+        {
             if (field_118_pTlv->field_1A_has_powerup)
             {
                 if (!(sGnFrame_5C1B84 & 63))
@@ -302,13 +306,15 @@ void SlapLock::vUpdate_43DF90()
                 return;
             }
 
-            field_20_animation.Set_Animation_Data_409C80(7068, 0);
+            const AnimRecord& animRec = AnimRec(AnimId::Slap_Lock_Idle_A);
+            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
             field_120_state = SlapLockStates::eShaking_0;
             field_124_timer1 = Math_NextRandom() + sGnFrame_5C1B84 + 25;
             return;
-
+        }
         case SlapLockStates::eSlapped_2:
+        {
             if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
             {
                 return;
@@ -328,8 +334,9 @@ void SlapLock::vUpdate_43DF90()
                 return;
             }
             break;
-
+        }
         case SlapLockStates::eBroken_3:
+        {
             if (static_cast<int>(sGnFrame_5C1B84) <= field_13C_timer2)
             {
                 return;
@@ -343,8 +350,9 @@ void SlapLock::vUpdate_43DF90()
 
             field_13C_timer2 = Math_RandomRange_496AB0(-30, 30) + sGnFrame_5C1B84 + 60;
             return;
-
+        }
         case SlapLockStates::eEmitPowerupRing_4:
+        {
             if (static_cast<int>(sGnFrame_5C1B84) > field_124_timer1)
             {
                 if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
@@ -383,8 +391,9 @@ void SlapLock::vUpdate_43DF90()
 
             field_13C_timer2 = Math_RandomRange_496AB0(-30, 30) + sGnFrame_5C1B84 + 60;
             return;
-
+        }
         case SlapLockStates::eFlickerHero_5:
+        {
             if (pRingObj)
             {
                 return;
@@ -405,8 +414,9 @@ void SlapLock::vUpdate_43DF90()
                 field_138_possesion_flicker_id = pFlicker->field_8_object_id;
             }
             return;
-
+        }
         case SlapLockStates::eGiveInvisibilityFromFlicker_6:
+        {
             if (pFlickerObj)
             {
                 return;
@@ -415,15 +425,18 @@ void SlapLock::vUpdate_43DF90()
             field_13C_timer2 = sGnFrame_5C1B84 + 60;
             field_120_state = SlapLockStates::eBroken_3;
             break;
-
+        }
         case SlapLockStates::eGiveInvisibility_7:
+        {
             GiveInvisibility_43E880();
             field_13C_timer2 = sGnFrame_5C1B84 + 60;
             field_120_state = SlapLockStates::eBroken_3;
             break;
-
+        }
         default:
+        {
             return;
+        }
         }
     }
 }
@@ -516,7 +529,8 @@ __int16 SlapLock::vTakeDamage_43E5D0(BaseGameObject* pFrom)
             11);
     }
 
-    field_20_animation.Set_Animation_Data_409C80(7056, 0);
+    const AnimRecord& animRec = AnimRec(AnimId::Slap_Lock_Idle_B);
+    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
     field_118_pTlv->field_1_unknown = 1;
     return 1;
