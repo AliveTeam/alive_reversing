@@ -76,6 +76,7 @@ enum TlvTypes : __int16
     Mud_82 = 82,
     ZSligCover_83 = 83,
 
+    MovingBombStopper_87 = 87,
     MeatSaw_88 = 88,
     MudPathTrans_89 = 89,
 

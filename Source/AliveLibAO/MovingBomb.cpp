@@ -12,6 +12,10 @@
 #include "Gibs.hpp"
 #include "Explosion.hpp"
 #include "Sfx.hpp"
+#include "SwitchStates.hpp"
+#include "Events.hpp"
+#include "Abe.hpp"
+#include "Math.hpp"
 
 START_NS_AO
 
@@ -24,6 +28,12 @@ const TintEntry stru_4CD310[4] =
 };
 
 ALIVE_VAR(1, 0x507B8C, MovingBomb*, gMovingBomb_507B8C, nullptr);
+
+struct Path_MovingBombStopper : public Path_TLV
+{
+    __int16 field_18_min_delay;
+    __int16 field_1A_max_delay;
+};
 
 MovingBomb* MovingBomb::ctor_43AFE0(Path_MovingBomb* pTlv, int tlvInfo)
 {
@@ -360,6 +370,198 @@ void MovingBomb::FollowLine_43BA40()
                 }
             }
         }
+    }
+}
+
+void MovingBomb::VUpdate()
+{
+    VUpdate_43B440();
+}
+
+void MovingBomb::VUpdate_43B440()
+{
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        field_6_flags.Set(Options::eDead_Bit3);
+    }
+
+    if (field_10C_state < 6u)
+    {
+        if (HitObject_43B970())
+        {
+            field_6_flags.Clear(Options::eCanExplode_Bit7);
+            field_10C_state = 6;
+            field_B8_vely = FP_FromInteger(0);
+            field_114_timer = gnFrameCount_507670 + 1;
+            SFX_Play_43AD70(3u, 100, 0);
+        }
+    }
+
+    if (!gMovingBomb_507B8C || gMovingBomb_507B8C == this)
+    {
+        if (field_10_anim.field_92_current_frame != 0 && field_10_anim.field_92_current_frame != 7)
+        {
+            gMovingBomb_507B8C = this;
+        }
+        else
+        {
+            if (field_124_sound_channels)
+            {
+                SND_Stop_Channels_Mask_4774A0(field_124_sound_channels);
+            }
+
+            if (VIsObjNearby(FP_FromInteger(700), sActiveHero_507678))
+            {
+                if (FP_Abs(sActiveHero_507678->field_AC_ypos - field_AC_ypos) <= FP_FromInteger(700))
+                {
+                    if (field_10C_state == 4)
+                    {
+                        field_124_sound_channels = SFX_Play_43AD70(SoundEffect::SecurityOrb_56, 55);
+                    }
+                    else
+                    {
+                        field_124_sound_channels = SFX_Play_43AD70(SoundEffect::SecurityOrb_56, 80);
+                    }
+                }
+            }
+            else
+            {
+                if (field_10C_state == 4)
+                {
+                    field_124_sound_channels = 0;
+                    gMovingBomb_507B8C = this;
+                }
+                else
+                {
+                    field_124_sound_channels = SFX_Play_43AD70(SoundEffect::SecurityOrb_56, 12, 0);
+                    gMovingBomb_507B8C = this;
+                }
+            }
+        }
+    }
+
+    switch (field_10C_state)
+    {
+    case 0:
+        if (Event_Get_417250(kEvent_Alarm_17))
+        {
+            field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+            field_10C_state = 2;
+        }
+        break;
+
+    case 1:
+        if (SwitchStates_Get(field_11C_id))
+        {
+            field_10C_state = 2;
+        }
+        break;
+
+    case 2:
+        if (field_B4_velx < field_118_speed)
+        {
+            field_B4_velx += (field_BC_sprite_scale * FP_FromDouble(0.5));
+        }
+
+        FollowLine_43BA40();
+
+        field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(
+            FP_GetExponent(field_A8_xpos),
+            FP_GetExponent(field_AC_ypos),
+            FP_GetExponent(field_A8_xpos),
+            FP_GetExponent(field_AC_ypos),
+            TlvTypes::MovingBombStopper_87);
+
+        if (field_F0_pTlv)
+        {
+            auto pStopper = static_cast<Path_MovingBombStopper*>(field_F0_pTlv);
+            field_11E_max = pStopper->field_18_min_delay;
+            field_120_min = pStopper->field_1A_max_delay;
+            field_10C_state = 3;
+        }
+        break;
+
+    case 3:
+        field_B4_velx -= (field_BC_sprite_scale * FP_FromDouble(0.5));
+        if (field_B4_velx < FP_FromInteger(0))
+        {
+            field_10C_state = 4;
+            field_114_timer = gnFrameCount_507670 + Math_RandomRange_450F20(field_11E_max, field_120_min);
+        }
+
+        FollowLine_43BA40();
+        break;
+
+    case 4:
+        if (field_114_timer <= static_cast<int>(gnFrameCount_507670))
+        {
+            field_10C_state = 5;
+        }
+        break;
+
+    case 5:
+        if (field_B4_velx < field_118_speed)
+        {
+            field_B4_velx += (field_BC_sprite_scale * FP_FromDouble(0.5));
+        }
+
+        FollowLine_43BA40();
+
+        field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(
+            FP_GetExponent(field_A8_xpos),
+            FP_GetExponent(field_AC_ypos),
+            FP_GetExponent(field_A8_xpos),
+            FP_GetExponent(field_AC_ypos),
+            TlvTypes::MovingBombStopper_87);
+        if (!field_F0_pTlv)
+        {
+            field_10C_state = 2;
+        }
+        break;
+
+    case 6:
+        if (field_114_timer <= static_cast<int>(gnFrameCount_507670))
+        {
+            SFX_Play_43AD70(SoundEffect::GreenTick_3, 100, 0);
+
+            field_100_health = FP_FromInteger(0);
+
+            auto pExplosion = ao_new<Explosion>();
+            if (pExplosion)
+            {
+                pExplosion->ctor_458B80(
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    field_BC_sprite_scale);
+            }
+
+            auto pGibs = ao_new<Gibs>();
+            if (pGibs)
+            {
+                pGibs->ctor_407B20(
+                    5,
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    FP_FromInteger(0),
+                    FP_FromInteger(5),
+                    field_BC_sprite_scale);
+            }
+
+            field_10C_state = 7;
+            field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+            field_114_timer = gnFrameCount_507670 + 4;
+        }
+        break;
+
+    case 7:
+        if (field_114_timer <= static_cast<int>(gnFrameCount_507670))
+        {
+            field_6_flags.Set(Options::eDead_Bit3);
+        }
+        break;
+
+    default:
+        break;
     }
 }
 
