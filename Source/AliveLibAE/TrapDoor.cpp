@@ -116,12 +116,12 @@ EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, int tlvIn
     int frameTableOffset = 0;
     if (field_138_switch_state == SwitchStates_Get_466020(field_134_switch_idx))
     {
-        field_136_state = TrapDoorState::eState_2;
+        field_136_state = TrapDoorState::eOpen_2;
         frameTableOffset = sTrapDoorData_547B78[levelIdx].field_0;
     }
     else
     {
-        field_136_state = TrapDoorState::eState_0;
+        field_136_state = TrapDoorState::eClosed_0;
         frameTableOffset = sTrapDoorData_547B78[levelIdx].field_4_maxW;
     }
 
@@ -174,7 +174,7 @@ EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, int tlvIn
     field_11E_width_offset = FP_GetExponent(FP_FromInteger(pTlv->field_C_bottom_right.field_0_x) - field_B8_xpos);
     field_13A_xOff = pTlv->field_1C_anim_offset;
 
-    if (field_136_state == TrapDoorState::eState_2)
+    if (field_136_state == TrapDoorState::eOpen_2)
     {
         Open_4DD960();
     }
@@ -223,7 +223,7 @@ signed int CC TrapDoor::CreateFromSaveState_4DDED0(const BYTE* pData)
         pTrapDoor->field_130_stay_open_time2 = pState->field_4_open_time;
         pTrapDoor->field_136_state = pState->field_2_state;
 
-        if (pState->field_2_state == TrapDoorState::eState_3 || pState->field_2_state == TrapDoorState::eState_1)
+        if (pState->field_2_state == TrapDoorState::eClosing_3 || pState->field_2_state == TrapDoorState::eOpening_1)
         {
             pTrapDoor->Open_4DD960();
         }
@@ -253,11 +253,11 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
 
     switch (field_136_state)
     {
-    case TrapDoorState::eState_0:
+    case TrapDoorState::eClosed_0:
         if (SwitchStates_Get_466020(field_134_switch_idx) == field_138_switch_state)
         {
             Open_4DD960();
-            field_136_state = TrapDoorState::eState_1;
+            field_136_state = TrapDoorState::eOpening_1;
             field_20_animation.Set_Animation_Data_409C80(sTrapDoorData_547B78[static_cast<int>(gMap_5C3030.field_0_current_level)].field_8, 0);
 
             if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1 ||
@@ -276,23 +276,23 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
         }
         break;
 
-    case TrapDoorState::eState_1:
+    case TrapDoorState::eOpening_1:
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             SFX_Play_46FC20(SoundEffect::TrapdoorOpen_43, 70, direction);
-            field_136_state = TrapDoorState::eState_2;
+            field_136_state = TrapDoorState::eOpen_2;
             field_130_stay_open_time2 = field_13C_stay_open_time;
         }
         break;
 
-    case TrapDoorState::eState_2:
+    case TrapDoorState::eOpen_2:
         field_130_stay_open_time2--;
 
         if ((field_13E_set_switch_on_dead && field_130_stay_open_time2 + 1 <= 0) || SwitchStates_Get_466020(field_134_switch_idx) != field_138_switch_state)
         {
             field_20_animation.Set_Animation_Data_409C80(sTrapDoorData_547B78[static_cast<int>(gMap_5C3030.field_0_current_level)].field_C, 0);
             
-            field_136_state = TrapDoorState::eState_3;
+            field_136_state = TrapDoorState::eClosing_3;
 
             if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1 ||
                 gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 ||
@@ -310,12 +310,12 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
         }
         break;
 
-    case TrapDoorState::eState_3:
+    case TrapDoorState::eClosing_3:
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             SFX_Play_46FC20(SoundEffect::TrapdoorClose_42, 70, direction);
             Add_To_Collisions_Array_4DDA20();
-            field_136_state = TrapDoorState::eState_0;
+            field_136_state = TrapDoorState::eClosed_0;
             SwitchStates_Set_465FF0(field_134_switch_idx, field_138_switch_state == 0);
         }
         break;
@@ -408,16 +408,16 @@ void TrapDoor::Open_4DD960()
             break;
         }
 
-        // Find alive objects..
+        // Find alive objects.
         if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
-            // That are on this trap door
+            // That are on this trap door.
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
             if (sObjectIds_5C1B70.Find_449CF0(pAliveObj->field_110_id) == this)
             {
                 pAliveObj->VOnTrapDoorOpen();
 
-                // Clear their collision line if they are on this trap door that has opened
+                // Clear their collision line if they are on this trap door that has opened.
                 if (field_124_pCollisionLine == pAliveObj->field_100_pCollisionLine)
                 {
                     pAliveObj->field_100_pCollisionLine = nullptr;

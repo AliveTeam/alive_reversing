@@ -6,14 +6,14 @@
 
 enum class WheelStates : __int16
 {
-    eIdle = 0,
-    eTurning = 1,
+    eIdle_0 = 0,
+    eTurning_1 = 1,
 };
 
 
 struct WorkWheel_SaveState
 {
-    __int16 field_0_id;
+    Types field_0_id;
     // pad
     int field_4_tlvInfo;
     __int16 field_8_snd_counter;
@@ -66,6 +66,5 @@ private:
     unsigned __int16 field_100_on_counter;
     __int16 field_102_off_time;
     __int16 field_104_off_when_stopped;
-    //__int16 field_106;
 };
 ALIVE_ASSERT_SIZEOF(WorkWheel, 0x108);

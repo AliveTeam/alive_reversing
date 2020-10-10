@@ -7,19 +7,19 @@
 const int kMaxAllocs = 512;
 
 ALIVE_ARY(1, 0x5cb888, PSX_RECT, kMaxAllocs, sVramAllocations_5CB888, {});
-ALIVE_VAR(1, 0x5cc888, int, sVram_Count_dword_5CC888, 0);
-ALIVE_VAR(1, 0x5CC88C, WORD, word_5CC88C, 0);
+ALIVE_VAR(1, 0x5cc888, int, sVramNumberOfAllocations_5CC888, 0);
+ALIVE_VAR(1, 0x5CC88C, WORD, unused_5CC88C, 0);
 
 EXPORT char CC Vram_calc_width_4955A0(int width, int depth)
 {
     switch (depth)
     {
-    case 0:
-        return ((width + 7) >> 2) & 0xFE;
-    case 1:
-        return ((width + 3) >> 1) & 0xFE;
-    case 2:
-        return (width + 1) & 0xFE;
+        case 0:
+            return ((width + 7) >> 2) & 0xFE;
+        case 1:
+            return ((width + 3) >> 1) & 0xFE;
+        case 2:
+            return (width + 1) & 0xFE;
     }
     return 0;
 }
@@ -47,7 +47,7 @@ EXPORT int CC Vram_Is_Area_Free_4958F0(PSX_RECT* pRect, int depth)
         }
         else
         {
-            if (sVram_Count_dword_5CC888 <= 0)
+            if (sVramNumberOfAllocations_5CC888 <= 0)
             {
                 return 1;
             }
@@ -56,7 +56,7 @@ EXPORT int CC Vram_Is_Area_Free_4958F0(PSX_RECT* pRect, int depth)
             while (!Vram_rects_overlap_4959E0(pRect, &sVramAllocations_5CB888[i]))
             {
                 i++;
-                if (i >= sVram_Count_dword_5CC888)
+                if (i >= sVramNumberOfAllocations_5CC888)
                 {
                     return 1;
                 }
@@ -163,12 +163,12 @@ EXPORT signed __int16 CC Vram_alloc_4956C0(unsigned __int16 width, __int16 heigh
     rect.w = Vram_calc_width_4955A0(width, depth);
     rect.h = height;
 
-    if (sVram_Count_dword_5CC888 >= kMaxAllocs || !Vram_alloc_block_4957B0(&rect, depth))
+    if (sVramNumberOfAllocations_5CC888 >= kMaxAllocs || !Vram_alloc_block_4957B0(&rect, depth))
     {
         return 0;
     }
 
-    sVramAllocations_5CB888[sVram_Count_dword_5CC888++] = rect;
+    sVramAllocations_5CB888[sVramNumberOfAllocations_5CC888++] = rect;
     *pRect = rect;
 
     return 1;
@@ -181,25 +181,25 @@ EXPORT void CC Vram_init_495660()
         sVramAllocations_5CB888[i] = {};
     }
     sbDebugFontLoaded_BB4A24 = 0;
-    sVram_Count_dword_5CC888 = 0;
+    sVramNumberOfAllocations_5CC888 = 0;
 }
 
 EXPORT void CC Vram_alloc_explicit_4955F0(__int16 x, __int16 y, __int16 w, __int16 h)
 {
-    if (sVram_Count_dword_5CC888 < kMaxAllocs)
+    if (sVramNumberOfAllocations_5CC888 < kMaxAllocs)
     {
-        sVramAllocations_5CB888[sVram_Count_dword_5CC888].x = x;
-        sVramAllocations_5CB888[sVram_Count_dword_5CC888].y = y;
-        sVramAllocations_5CB888[sVram_Count_dword_5CC888].w = w - x + 1;
-        sVramAllocations_5CB888[sVram_Count_dword_5CC888].h = h - y + 1;
-        sVram_Count_dword_5CC888++;
+        sVramAllocations_5CB888[sVramNumberOfAllocations_5CC888].x = x;
+        sVramAllocations_5CB888[sVramNumberOfAllocations_5CC888].y = y;
+        sVramAllocations_5CB888[sVramNumberOfAllocations_5CC888].w = w - x + 1;
+        sVramAllocations_5CB888[sVramNumberOfAllocations_5CC888].h = h - y + 1;
+        sVramNumberOfAllocations_5CC888++;
     }
 }
 
 EXPORT void CC Vram_free_495A60(PSX_Point xy, PSX_Point wh)
 {
     // Find the allocation
-    for (int i = 0; i < sVram_Count_dword_5CC888; i++)
+    for (int i = 0; i < sVramNumberOfAllocations_5CC888; i++)
     {
         if (sVramAllocations_5CB888[i].x == xy.field_0_x &&
             sVramAllocations_5CB888[i].y == xy.field_2_y &&
@@ -207,10 +207,10 @@ EXPORT void CC Vram_free_495A60(PSX_Point xy, PSX_Point wh)
             sVramAllocations_5CB888[i].h == wh.field_2_y)
         {
             // Copy the last element to this one
-            sVramAllocations_5CB888[i] = sVramAllocations_5CB888[sVram_Count_dword_5CC888-1];
+            sVramAllocations_5CB888[i] = sVramAllocations_5CB888[sVramNumberOfAllocations_5CC888 - 1];
 
             // Decrement the used count
-            sVram_Count_dword_5CC888--;
+            sVramNumberOfAllocations_5CC888--;
             return;
         }
     }
@@ -334,17 +334,18 @@ EXPORT void CC Pal_free_483390(PSX_Point xy, __int16 palDepth)
 {
     const int palIdx = xy.field_2_y - pal_ypos_5C9160;
     const int palWidthBits = xy.field_0_x - pal_xpos_5C9162;
+
     switch (palDepth)
     {
-    case 16: // 1 bit
-        sPal_table_5C9164[palIdx] ^= 1 << ((palWidthBits) / 16); // div 16 to get num bits
-        break;
-    case 64: // 4 bits
-        sPal_table_5C9164[palIdx] ^= 0xF << ((palWidthBits) / 16);
-        break;
-    case 256: // 16 bits
-        sPal_table_5C9164[palIdx] ^= 0xFFFF << ((palWidthBits) / 16);
-        break;
+        case 16: // 1 bit
+            sPal_table_5C9164[palIdx] ^= 1 << ((palWidthBits) / 16); // div 16 to get num bits
+            break;
+        case 64: // 4 bits
+            sPal_table_5C9164[palIdx] ^= 0xF << ((palWidthBits) / 16);
+            break;
+        case 256: // 16 bits
+            sPal_table_5C9164[palIdx] ^= 0xFFFF << ((palWidthBits) / 16);
+            break;
     }
 }
 
@@ -411,11 +412,11 @@ namespace Test
         Vram_alloc_4956C0(32, 16, 8, &rect3);
 
         
-        ASSERT_EQ(sVram_Count_dword_5CC888, 3);
+        ASSERT_EQ(sVramNumberOfAllocations_5CC888, 3);
         Vram_free_495A60({ rect2.x, rect2.y }, { rect2.w, rect2.h });
 
         ASSERT_TRUE(memcmp(&sVramAllocations_5CB888[1], &sVramAllocations_5CB888[2], sizeof(PSX_RECT)) == 0);
-        ASSERT_EQ(sVram_Count_dword_5CC888, 2);
+        ASSERT_EQ(sVramNumberOfAllocations_5CC888, 2);
 
         Vram_free_495A60({ rect.x, rect.y }, { rect.w, rect.h });
         Vram_free_495A60({ rect3.x, rect2.y }, { rect3.w, rect3.h });

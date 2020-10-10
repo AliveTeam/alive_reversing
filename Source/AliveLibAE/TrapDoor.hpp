@@ -19,10 +19,10 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TrapDoor, 0x20);
 
 enum class TrapDoorState : __int16
 {
-    eState_0 = 0,
-    eState_1 = 1,
-    eState_2 = 2,
-    eState_3 = 3,
+    eClosed_0 = 0,
+    eOpening_1 = 1,
+    eOpen_2 = 2,
+    eClosing_3 = 3,
 };
 
 struct TrapDoor_State
@@ -53,7 +53,7 @@ public:
 private:
     EXPORT BaseGameObject* vdtor_4DD8A0(signed int flags);
     EXPORT void vUpdate_4DDA90();
-    EXPORT void vRender_4DDDD0(int **ot);
+    EXPORT void vRender_4DDDD0(int** ot);
     EXPORT void vScreenChanged_4DDE40();
     EXPORT int vGetSaveState_4DE050(TrapDoor_State* pState);
     EXPORT PSX_RECT* vGetBoundingRect_4DD870(PSX_RECT* pRect, int /*not_used*/);
