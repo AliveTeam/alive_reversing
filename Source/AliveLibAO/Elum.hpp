@@ -88,9 +88,22 @@ struct Path_ElumPathTrans : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_ElumPathTrans, 0x20);
 
+
+
 class Elum : public BaseAliveGameObject
 {
 public:
+
+    enum Flags_170
+    {
+        eAttackedByBees_Bit1 = 1,
+        eBit2 = 2,
+        eBit3 = 4, //falling?
+        eFoundHoney_Bit4 = 8,
+        eBit5 = 16,
+        eBit6 = 32,
+        eBit7 = 64,
+    };
     struct anythingForTheTimeBeing
     {
         __int16 field_0;
@@ -264,7 +277,7 @@ public:
     int field_168;
     __int16 field_16C;
     __int16 field_16E;
-    __int16 field_170_flags;
+    BitField16<Flags_170> field_170_flags;
     __int16 field_172;
     ElumResources field_174_resources;
     int field_1F0_tlvInfo;
