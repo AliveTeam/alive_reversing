@@ -49,6 +49,8 @@ public:
 
     EXPORT void VOnThrowableHit_43B930(BaseGameObject* pFrom);
 
+    EXPORT __int16 HitObject_43B970();
+
     __int16 field_10C_state;
     __int16 field_10E_pad;
     int field_110_tlvInfo;

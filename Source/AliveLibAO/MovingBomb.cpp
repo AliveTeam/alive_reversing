@@ -275,6 +275,39 @@ void MovingBomb::VOnThrowableHit_43B930(BaseGameObject* /*pFrom*/)
     SFX_Play_43AD70(SoundEffect::GreenTick_3, 100, 0);
 }
 
+__int16 MovingBomb::HitObject_43B970()
+{
+    PSX_RECT ourRect = {};
+    VGetBoundingRect(&ourRect, 1);
+    for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    {
+        BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
+        if (!pObjIter)
+        {
+            break;
+        }
+
+        if (pObjIter != this)
+        {
+            if (pObjIter->field_10A_flags.Get(Flags_10A::e10A_Bit4_SetOffExplosives))
+            {
+                if (pObjIter->field_100_health > FP_FromInteger(0))
+                {
+                    PSX_RECT objRect = {};
+                    pObjIter->VGetBoundingRect(&objRect, 1);
+
+                    if (RectsOverlap(ourRect, objRect) &&
+                        pObjIter->field_BC_sprite_scale == field_BC_sprite_scale)
+                    {
+                        return 1;
+                    }
+                }
+            }
+        }
+    }
+    return 0;
+}
+
 void MovingBomb::VScreenChanged()
 {
     VScreenChanged_43BC90();
