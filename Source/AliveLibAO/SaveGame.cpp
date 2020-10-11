@@ -24,7 +24,7 @@ ALIVE_VAR_EXTERN(int, sGasTimer_507700);
 ALIVE_VAR_EXTERN(short, sRescuedMudokons_5076C0);
 ALIVE_VAR_EXTERN(short, sKilledMudokons_5076BC);
 
-ALIVE_ARY(1, 0x505668, SaveData, 1, gSaveBuffer_505668, {});
+ALIVE_VAR(1, 0x505668, SaveData, gSaveBuffer_505668, {});
 
 const char word_4BC670[6][8] =
 {

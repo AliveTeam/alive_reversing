@@ -55,7 +55,7 @@ START_NS_AO;
 
 ALIVE_VAR(1, 0x5076E4, short, gAbeInvulnerableCheat_5076E4, 0);
 
-ALIVE_ARY_EXTERN(SaveData, 8192, gSaveBuffer_505668);
+ALIVE_VAR_EXTERN(SaveData, gSaveBuffer_505668);
 
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_423520);
 
@@ -2768,7 +2768,7 @@ void Abe::VOn_Tlv_Collision_421130(Path_TLV *pTlv)
                 gOldKilledMuds_5076D0 = sKilledMudokons_5076BC;
                 gOldSavedMuds_5076D4 = sRescuedMudokons_5076C0;
 
-                SaveGame::Save_459490(gSaveBuffer_505668);
+                SaveGame::Save_459490(&gSaveBuffer_505668);
 
                 const FP camXPos = FP_NoFractional(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
 
@@ -6714,10 +6714,10 @@ void Abe::State_61_Respawn_42CD20()
                     field_138_zone_top_left.field_0_x = camPos.field_0_x + 512;
                     field_138_zone_top_left.field_2_y = camPos.field_2_y + 240;
                 }
-                SaveGame::sub_459970(gSaveBuffer_505668, 0);
+                SaveGame::sub_459970(&gSaveBuffer_505668, 0);
                 if (field_19C_throwable_count)
                 {
-                    LoadRockTypes_454370((LevelIds)*((WORD *) gSaveBuffer_505668 + 282), *((WORD *) gSaveBuffer_505668 + 283)); //Todo it might not be legible
+                    LoadRockTypes_454370(gSaveBuffer_505668.field_234_current_level, gSaveBuffer_505668.field_236_current_path);
                     if (!gpThrowableArray_50E26C)
                     {
                         auto pThrowableArray = ao_new<ThrowableArray>();
@@ -6936,7 +6936,7 @@ void Abe::State_62_LoadedSaveSpawn_45ADD0()
         {
             if (!gpThrowableArray_50E26C)
             {
-                LoadRockTypes_454370((LevelIds)*((WORD *) gSaveBuffer_505668 + 282), *((WORD *) gSaveBuffer_505668 + 283)); //Todo it might not be legible
+                LoadRockTypes_454370(gSaveBuffer_505668.field_234_current_level, gSaveBuffer_505668.field_236_current_path);
 
                 gpThrowableArray_50E26C = ao_new<ThrowableArray>();
                 if (gpThrowableArray_50E26C)

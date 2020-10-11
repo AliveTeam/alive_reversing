@@ -35,7 +35,7 @@ struct SaveData
     FP field_22C_ah_health;
     FP field_230_ah_sprite_scale;
     LevelIds field_234_current_level;
-    short field_236_current_path;
+    unsigned short field_236_current_path;
     short field_238_current_camera;
     short field_23A_mode_mask;
     short field_23C_ah_flipX;
