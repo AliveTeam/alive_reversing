@@ -7,6 +7,8 @@
 #include "Grenade.hpp"
 #include "Input.hpp"
 #include "SaveGame.hpp"
+#include <io.h>
+#include <fcntl.h>
 
 START_NS_AO
 
@@ -153,6 +155,10 @@ ALIVE_VAR(1, 0x4CF2B0, Save_PSX_Header, sSaveHeader2_4CF2B0, {});
 ALIVE_VAR(1, 0x4BC250, Save_PSX_Header, sSaveHeader1_4BC250, {});
 ALIVE_VAR(1, 0x5076B4, WORD, bUseAltSaveHeader_5076B4, 0);
 
+ALIVE_VAR(1, 0x500C184, DWORD, dword_500C18, 0);
+ALIVE_ARY(1, 0x500C1C, int, 1919, unk_500C1C, {});
+ALIVE_VAR(1, 0x500A18, SaveData, gSaveBuffer_500A18, {});
+
 void CC SaveGame::Save_459490(SaveData* pSaveData)
 {
     Save_PSX_Header* pHeaderToUse = nullptr;
@@ -291,15 +297,72 @@ void CC SaveGame::Save_459490(SaveData* pSaveData)
     pSaveData->field_2AC = bUseAltSaveHeader_5076B4;
     pSaveData->field_2AE = sCurrentControllerIndex_5076B8;
     gMap_507BA8.SaveBlyData_446900(pSaveData->field_2B0_pSaveBuffer);
-    int* pTable = reinterpret_cast<int*>(&pSaveData->field_204_zone_number);
+
+    pSaveData->field_200_hashValue = Hash(pSaveData);
+}
+
+int SaveGame::Hash(SaveData* sData)
+{
+    auto table = reinterpret_cast<int*>(&sData->field_204_zone_number);
     int counter = 0;
-    for (int i = 1919; i > 0; i--)
+    for (int hashIter = 1919; hashIter > 0; hashIter--)
     {
-        counter += *pTable;
-        pTable++;
+        counter += *table;
+        table++;
     }
-    pSaveData->field_200 = counter;
+    return counter;
+}
+
+short CC SaveGame::Read_459D30(const char* name)
+{
+    char buffer[40] = {};
+
+    strcpy(buffer, name);
+    strcat(buffer, ".sav");
+    const auto file = _open(buffer, _O_BINARY);
+    if (file == -1)
+    {
+        return 0;
+    }
+    const auto readVar = _read(file, &gSaveBuffer_500A18, sizeof(SaveData));
+    _close(file);
+    if (readVar != sizeof(SaveData))
+    {
+        return 0;
+    }
+
+    auto hashVal = Hash(&gSaveBuffer_500A18);
+    if (hashVal == gSaveBuffer_500A18.field_200_hashValue)
+    {
+        gSaveBuffer_505668 = gSaveBuffer_500A18;
+        sub_459970(&gSaveBuffer_505668, 1);
+        gSaveBuffer_505668.field_238_current_camera = gSaveBuffer_505668.field_216_saved_camera;
+        sCurrentControllerIndex_5076B8 = 0;
+        gSaveBuffer_505668.field_234_current_level = gSaveBuffer_505668.field_212_saved_level;
+        gSaveBuffer_505668.field_236_current_path = gSaveBuffer_505668.field_214_saved_path;
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+BOOL CC SaveGame::WriteSave_45A110(const char *name)
+{
+    char buffer[40] = {};
+
+    strcpy(buffer, name);
+    strcat(buffer, ".sav");
+    const auto file = _open(buffer, _O_BINARY | _O_CREAT | _O_WRONLY, _S_IWRITE | _S_IREAD);
+    if (file == -1)
+    {
+        return 0;
+    }
+    const auto written = _write(file, &gSaveBuffer_505668, sizeof(SaveData));
+    _close(file);
+
+    return written == sizeof(SaveData) ? 1 : 0;
 }
 
 END_NS_AO
-
