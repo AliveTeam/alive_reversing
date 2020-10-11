@@ -6976,22 +6976,22 @@ struct SaveData
 };
 
 using elumSpawn = decltype(&Elum::Spawn_410E90);
-const elumSpawn dword_4CF550[14] =
+const elumSpawn dword_4CF550[] =
 {
-    NULL,
-    NULL,
+    nullptr,
+    nullptr,
     &Elum::Spawn_410E90,
     &Elum::Spawn_410E90,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
     &Elum::Spawn_410E90,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr
 };
 
 void Abe::State_62_LoadedSaveSpawn_REAL_45ADD0()
@@ -7024,7 +7024,7 @@ void Abe::State_62_LoadedSaveSpawn_45ADD0()
         {
             sActiveHero_507678->field_F4_pLine = pLine2;
             sActiveHero_507678->field_AC_ypos = hitY2;
-            sActiveHero_507678->field_FC_current_motion = 0;
+            sActiveHero_507678->field_FC_current_motion = eAbeStates::State_0_Idle_423520;
         }
         else
         {
@@ -7137,7 +7137,8 @@ void Abe::State_62_LoadedSaveSpawn_45ADD0()
             }
             else
             {
-                gElum_507680->field_F4_pLine = (PathLine *) -2;
+                //TODO fix this madness
+                gElum_507680->field_F4_pLine = reinterpret_cast<PathLine*>(-2);
             }
             if (gElum_507680->field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4))
             {
@@ -7145,7 +7146,6 @@ void Abe::State_62_LoadedSaveSpawn_45ADD0()
                 {
                     ResourceManager::LoadResourceFile_455270("ELMHONEY.BAN", 0);
                 }
-                gElum_507680 = gElum_507680;
                 gElum_507680->field_FC_current_motion = eElumStates::State_25_LickingHoney_415B50;
                 gElum_507680->field_E4_previous_motion = eElumStates::State_25_LickingHoney_415B50;
             }
