@@ -6928,7 +6928,7 @@ void Abe::State_62_LoadedSaveSpawn_45ADD0()
         }
         sActiveHero_507678->field_2A8_flags.Clear(Flags_2A8::e2A8_Bit8);
         sActiveHero_507678->field_E8_LastLineYPos = sActiveHero_507678->field_AC_ypos;
-        sActiveHero_507678->field_110_state = pSaveData->field_244_state;
+        sActiveHero_507678->field_110_state = static_cast<short>(pSaveData->field_244_state);
         sActiveHero_507678->field_114_gnFrame = pSaveData->field_248_gnFrame;
         sActiveHero_507678->field_E6_last_anim_frame = pSaveData->field_240_last_anim_frame;
         sActiveHero_507678->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pSaveData->field_23C_ah_flipX & 1);

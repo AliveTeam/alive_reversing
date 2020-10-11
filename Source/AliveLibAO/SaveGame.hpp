@@ -61,10 +61,9 @@ struct SaveData
     char field_267;
     DWORD field_268_elum_xpos;
     DWORD field_26C_elum_ypos;
-    WORD field_270;
+    short field_270;
     short field_272_elum_flipX;
-    char field_274;
-    char field_275;
+    short field_274;
     WORD field_276_elum_122;
     WORD field_278_brain_idx;
     WORD field_27A_elum_brain_state;
@@ -90,18 +89,14 @@ struct SaveData
     int field_2A8;
     short field_2AC;
     short field_2AE;
-    BYTE* field_2B0_pSaveBuffer;
-    int field_2B4;
-    int field_2B8;
-    char field_2BC[1537];
-    char field_2BD[5955];
+    BYTE field_2B0_pSaveBuffer[7501];
 };
 ALIVE_ASSERT_SIZEOF(SaveData, 0x2000);
 
 class SaveGame
 {
 public:
-    EXPORT static void CC sub_459970(BYTE*, int);
+    EXPORT static void CC sub_459970(SaveData*, int);
     EXPORT static void CC sub_45A2D0(BYTE *, BYTE *, int);
     EXPORT static void CC Save_459490(SaveData* pSaveData);
 };
