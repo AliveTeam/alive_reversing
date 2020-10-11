@@ -302,7 +302,7 @@ int CC Fleech::CreateFromSaveState_42DD50(const BYTE* pBuffer)
     pFleech->field_D4_b = pState->field_24_b;
 
     pFleech->field_106_current_motion = pState->field_28_current_motion;
-    BYTE** ppRes = pFleech->ResBlockForMotion_42A530(pState->field_28_current_motion);
+    //BYTE** ppRes = pFleech->ResBlockForMotion_42A530(pState->field_28_current_motion);
 	const AnimRecord& animRec = AnimRec(sFleechFrameTableOffsets_5517E4[pFleech->field_106_current_motion]);
     pFleech->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
     pFleech->field_20_animation.field_92_current_frame = pState->field_2A_anim_current_frame;
