@@ -128,3 +128,9 @@ EXPORT void CC PSX_Prevent_Rendering_44FFB0()
 {
     byte_A08628 = 1;
 }
+
+EXPORT int PSX_ResetCallBack_49AFB0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}

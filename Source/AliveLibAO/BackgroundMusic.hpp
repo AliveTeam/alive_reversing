@@ -22,7 +22,7 @@ public:
 
     EXPORT static void CC Stop_476290();
 
-    EXPORT void CC Play_4762B0();
+    EXPORT static void CC Play_4762B0();
 
     __int16 field_10_music_id;
     //__int16 field_12_padding;
