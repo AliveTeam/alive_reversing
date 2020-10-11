@@ -107,7 +107,7 @@ const __int16 kInfinity_551AEC[25] =
    2,   3,  -2,  -2
 };
 
-const __int16* kNumbersArray_551B20[10] =
+const __int16* kNumbersArray_551B20[11] =
 {
     kNum_0_551994,
     kNum_1_5519B8,
@@ -118,7 +118,8 @@ const __int16* kNumbersArray_551B20[10] =
     kNum_6_551A5C,
     kNum_7_551A88,
     kNum_8_551A9C,
-    kNum_9_551AC8
+    kNum_9_551AC8,
+    kInfinity_551AEC
 };
 
 ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_431CB0(FP xpos, FP ypos, __int16 layer, FP /*scale*/, __int16 count, __int16 bFade)
