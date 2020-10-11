@@ -168,4 +168,14 @@ __int16 PullRingRope::Pull_454CB0(BaseAliveGameObject* pFrom)
     return 1;
 }
 
+void PullRingRope::VUpdate()
+{
+    VUpdate_4549A0();
+}
+
+void PullRingRope::VUpdate_4549A0()
+{
+    NOT_IMPLEMENTED();
+}
+
 END_NS_AO

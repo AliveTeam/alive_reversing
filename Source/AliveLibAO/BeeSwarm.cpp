@@ -184,4 +184,24 @@ void BeeSwarm::Chase_47FEB0(BaseAliveGameObject* pChaseTarget)
     field_D9C_chase_timer = gnFrameCount_507670 + field_D84_chaseTicks;
 }
 
+void BeeSwarm::VUpdate()
+{
+    VUpdate_47FF50();
+}
+
+void BeeSwarm::VUpdate_47FF50()
+{
+    NOT_IMPLEMENTED();
+}
+
+void BeeSwarm::VRender(int** pOrderingTable)
+{
+    VRender_480AC0(pOrderingTable);
+}
+
+void BeeSwarm::VRender_480AC0(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 END_NS_AO

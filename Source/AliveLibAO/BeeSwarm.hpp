@@ -46,6 +46,14 @@ public:
 
     EXPORT void Chase_47FEB0(BaseAliveGameObject* pChaseTarget);
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_47FF50();
+
+    virtual void VRender(int** pOrderingTable) override;
+
+    EXPORT void VRender_480AC0(int** ppOt);
+
     int field_D4[4];
     BeeSwarmParticles field_E4_bees;
     __int16 field_D64_num_bees;

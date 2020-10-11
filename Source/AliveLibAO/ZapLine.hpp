@@ -34,25 +34,30 @@ public:
 
     EXPORT void sub_478CF0(FP x1, FP y1, FP x2, FP y2);
 
+    virtual void VScreenChanged() override;
+
+    EXPORT void VScreenChanged_479B00();
+
+    virtual void VRender(int** ppOt) override;
+
+    EXPORT void VRender_479840(int** ppOt);
+
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_4796B0();
+
     int field_D4[4];
 
-    __int16 field_E4;
-    __int16 field_E6;
+    __int16 field_E4_state;
+    __int16 field_E6_pad;
     BYTE** field_E8_ppRes;
-    int field_EC;
-    int field_F0;
-    int field_F4;
-    int field_F8;
-    int field_FC;
-    int field_100;
-    int field_104;
-    int field_108;
-    __int16 field_10C;
-    __int16 field_10E;
-    __int16 field_110;
-    __int16 field_112;
+    Prim_SetTPage field_EC_tPage_p8[2];
+    __int16 field_10C_x1;
+    __int16 field_10E_y1;
+    __int16 field_110_x2;
+    __int16 field_112_y2;
     __int16 field_114_tPageMode;
-    __int16 field_116;
+    __int16 field_116_alive_timer;
     __int16 field_118_max_alive_time;
     __int16 field_11A_type;
     __int16 field_11C_tPageAbr;
@@ -63,10 +68,7 @@ public:
     PSX_Point* field_128_buf1;
     ZapPoint* field_12C_buf2;
     FP_Point* field_130_buf3;
-    int field_134;
-    int field_138;
-    int field_13C;
-    int field_140;
+    PSX_RECT field_134_rects[2];
 };
 ALIVE_ASSERT_SIZEOF(ZapLine, 0x144);
 

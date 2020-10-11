@@ -16,6 +16,12 @@ public:
 
     EXPORT BaseGameObject* Vdtor_475FB0(signed int flags);
 
+    virtual void VScreenChanged() override;
+
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_489EA0();
+
     __int16 field_10_flags;
     __int16 field_12;
     int field_14;

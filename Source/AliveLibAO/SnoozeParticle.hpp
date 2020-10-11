@@ -22,6 +22,14 @@ public:
 
     EXPORT SnoozeParticle* Vdtor_464CE0(signed int flags);
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_464500();
+
+    virtual void VRender(int** ppOt) override;
+
+    EXPORT void VRender_464620(int** ppOt);
+
     FP field_10_x_start;
     FP field_14_y_start;
     FP field_18_x;

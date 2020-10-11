@@ -139,4 +139,24 @@ void Spark::VScreenChanged_478280()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
+void Spark::VUpdate()
+{
+    VUpdate_477DB0();
+}
+
+void Spark::VUpdate_477DB0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Spark::VRender(int** ppOt)
+{
+    VRender_477ED0(ppOt);
+}
+
+void Spark::VRender_477ED0(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 END_NS_AO

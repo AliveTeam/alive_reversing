@@ -137,5 +137,14 @@ void Rope::VUpdate()
     // Empty
 }
 
-END_NS_AO
+void Rope::VRender(int** pOrderingTable)
+{
+    VRender_458780(pOrderingTable);
+}
 
+void Rope::VRender_458780(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+END_NS_AO

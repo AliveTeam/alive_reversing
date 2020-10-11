@@ -62,6 +62,17 @@ ScreenShake* ScreenShake::Vdtor_462770(signed int flags)
     return this;
 }
 
+
+void ScreenShake::VRender(int** ppOt)
+{
+    VRender_4625E0(ppOt);
+}
+
+void ScreenShake::VRender_4625E0(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 BaseGameObject* ScreenShake::dtor_462550()
 {
     SetVTable(this, 0x4BC950);

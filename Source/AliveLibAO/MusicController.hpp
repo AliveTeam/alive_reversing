@@ -7,6 +7,8 @@ START_NS_AO
 
 class BaseGameObject;
 
+enum class SeqId : __int16;
+
 class MusicController : public BaseGameObject
 {
 public:
@@ -34,6 +36,21 @@ public:
         eType16 = 16,
     };
 
+    MusicController* ctor_442930();
+
+    EXPORT BaseGameObject* dtor_4429B0();
+
+    virtual void VScreenChanged() override;
+
+    EXPORT void VScreenChanged_443450();
+
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_443300();
+
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+
+    EXPORT MusicController* Vdtor_4439D0(signed int flags);
 
     EXPORT static void CC sub_443810(MusicTypes a1, BaseGameObject* a2, __int16 a3, __int16 a4);
 
@@ -58,7 +75,7 @@ public:
     int field_2C;
     int field_30;
     int field_34;
-    __int16 field_38;
+    SeqId field_38;
     __int16 field_3A;
     int field_3C;
     int field_40;

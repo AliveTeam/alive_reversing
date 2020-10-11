@@ -3,6 +3,7 @@
 #include "ZapLine.hpp"
 #include "stdlib.hpp"
 #include "ResourceManager.hpp"
+#include "Map.hpp"
 
 void ZapLine_ForceLink() {}
 
@@ -65,8 +66,8 @@ ZapLine* ZapLine::ctor_4789A0(FP x1, FP y1, FP x2, FP y2, __int16 aliveTime, sig
     field_A8_xpos = x1;
     field_AC_ypos = y1;
 
-    field_E4 = 0;
-    field_116 = 0;
+    field_E4_state = 0;
+    field_116_alive_timer = 0;
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit13_Is8Bit))
     {
@@ -134,6 +135,39 @@ ZapLine* ZapLine::Vdtor_479B20(signed int flags)
 }
 
 void ZapLine::sub_478CF0(FP /*x1*/, FP /*y1*/, FP /*x2*/, FP /*y2*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void ZapLine::VScreenChanged()
+{
+    VScreenChanged_479B00();
+}
+
+void ZapLine::VScreenChanged_479B00()
+{
+    if (gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+}
+
+void ZapLine::VRender(int** ppOt)
+{
+    VRender_479840(ppOt);
+}
+
+void ZapLine::VRender_479840(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void ZapLine::VUpdate()
+{
+    VUpdate_4796B0();
+}
+
+void ZapLine::VUpdate_4796B0()
 {
     NOT_IMPLEMENTED();
 }
