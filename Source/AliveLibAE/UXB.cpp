@@ -626,8 +626,7 @@ EXPORT int CC UXB::CreateFromSaveState_4DFAE0(const BYTE* __pSaveState)
     {
         pUXB->field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
         pUXB->field_128_animation.Set_Animation_Data_409C80(544, 0);
-        //pUXB->field_20_animation.Set_Animation_Data_409C80(0x2000, 0);
-		    const AnimRecord& animRec = AnimRec(AnimId::UXB_Disabled);
+		const AnimRecord& animRec = AnimRec(AnimId::UXB_Disabled);
         pUXB->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
     }
 

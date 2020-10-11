@@ -14,7 +14,6 @@ EXPORT ZapLine* ZapLine::ctor_4CC690(FP x1, FP y1, FP x2, FP y2, __int16 aliveTi
     SetVTable(this, 0x5478A0);
     field_4_typeId = Types::eZapLine_135;
 
-    //int frameTable = 0;
     if (type == 1)
     {
         field_130_count_per_part = 20;

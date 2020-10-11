@@ -181,6 +181,18 @@ constexpr AnimRecord kAnimRecords[] =
     { AnimId::Greeter_Chase, "GREETER.BAN", 50144, 65, 60, kGreeterResID, PalId::Default },
     { AnimId::Greeter_Falling, "GREETER.BAN", 50212, 65, 60, kGreeterResID, PalId::Default },
 
+    { AnimId::Mine_Car_Closed, "BAYROLL.BAN", 20836, 130, 62u, kUnknownResID_6013, PalId::Default },
+    { AnimId::Mine_Car_Open, "BAYROLL.BAN", 20812, 130, 62u, kUnknownResID_6013, PalId::Default },
+    { AnimId::Mine_Car_Shake_A, "BAYROLL.BAN", 20872, 130, 62u, kUnknownResID_6013, PalId::Default },
+    { AnimId::Mine_Car_Shake_B, "BAYROLL.BAN", 20900, 130, 62u, kUnknownResID_6013, PalId::Default },
+    { AnimId::Mine_Car_Tread_Idle, "BAYROLL.BAN", 20824, 130, 62u, kUnknownResID_6013, PalId::Default },
+    { AnimId::Mine_Car_Tread_Move_A, "BAYROLL.BAN", 20848, 130, 62u, kUnknownResID_6013, PalId::Default },
+    { AnimId::Mine_Car_Tread_Move_B, "BAYROLL.BAN", 20788, 130, 62u, kUnknownResID_6013, PalId::Default },
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+    { AnimId::Anim_Tester, "BAYROLL.BAN", 20788, 130, 62u, kUnknownResID_6013, PalId::Default },
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
     { AnimId::Slog_Idle_A, "SLOG.BND", 96464, 121, 57, kDogbasicResID, PalId::Default },
     { AnimId::Slog_Walk, "SLOG.BND", 96344, 121, 57, kDogbasicResID, PalId::Default },
     { AnimId::Slog_Run, "SLOG.BND", 96424, 121, 57, kDogbasicResID, PalId::Default },
@@ -263,10 +275,6 @@ constexpr AnimRecord kAnimRecords[] =
     { AnimId::Work_Wheel_Turning, "WORKWHEL.BAN", 2728, 49, 24, kWorkwhelResID, PalId::Default },
     { AnimId::Zap_Line_Blue, "SPLINE.BAN", 276, 14, 9, kSplineResID, PalId::Default },
     { AnimId::Zap_Line_Red, "SPLINE.BAN", 288, 14, 9, kSplineResID, PalId::Default },
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-    { AnimId::Anim_Tester, "MINE.BND", 784, 38, 0, kLandmineResID, PalId::Default },
-////////////////////////////////////////////////////////////////////////////////////////////////////
 };
 
 const PalRecord& PalRec(PalId toFind)

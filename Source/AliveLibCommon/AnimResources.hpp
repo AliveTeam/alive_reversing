@@ -169,6 +169,14 @@ enum class AnimId
     Greeter_Speak,
     Greeter_Turn_Around,
 
+    Mine_Car_Closed,
+    Mine_Car_Open,
+    Mine_Car_Shake_A,
+    Mine_Car_Shake_B,
+    Mine_Car_Tread_Idle,
+    Mine_Car_Tread_Move_A,
+    Mine_Car_Tread_Move_B,
+
     Slog_Bark,
     Slog_Bark_Short_A,
     Slog_Bark_Short_B,
