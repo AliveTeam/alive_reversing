@@ -97,7 +97,7 @@ class SaveGame
 {
 public:
     EXPORT static void CC sub_459970(SaveData*, int);
-    EXPORT static void CC sub_45A2D0(BYTE *, BYTE *, int);
+    EXPORT static void CC sub_45A2D0(char*, const unsigned char* const*, int);
     EXPORT static void CC Save_459490(SaveData* pSaveData);
 };
 

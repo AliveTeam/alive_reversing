@@ -15,7 +15,7 @@ void SaveGame::sub_459970(SaveData*, int)
     NOT_IMPLEMENTED();
 }
 
-void SaveGame::sub_45A2D0(BYTE *, BYTE *, int)
+void SaveGame::sub_45A2D0(char*, const unsigned char* const* , int)
 {
     NOT_IMPLEMENTED();
 }
@@ -167,10 +167,9 @@ void CC SaveGame::Save_459490(SaveData* pSaveData)
 
     pSaveData->field_0_header = *pHeaderToUse;
 
-    //TODO NUKE CASTS
     sub_45A2D0(
-        (BYTE *)&pSaveData->field_0_header.field_0_frame_1_name[4],
-        (BYTE *) &dword_4BC62C[static_cast<int>(gMap_507BA8.field_0_current_level)],
+        &pSaveData->field_0_header.field_0_frame_1_name[4],
+        &dword_4BC62C[static_cast<int>(gMap_507BA8.field_0_current_level)],
         34
     );
 
