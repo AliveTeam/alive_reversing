@@ -301,7 +301,6 @@ void CC Slig_GameSpeak_SFX_4C04F0(SligSpeak effectId, __int16 defaultVol, __int1
     const int idx = static_cast<int>(effectId);
     assert(idx < ALIVE_COUNTOF(sSligGameSpeakEntries_560868));
     const SfxDefinition* pEffect = &sSligGameSpeakEntries_560868[idx];
-    LOG_INFO("idx = " << idx);
 
     __int16 volLeft = 0;
     __int16 volRight = 0;

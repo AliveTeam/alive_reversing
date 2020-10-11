@@ -1105,8 +1105,6 @@ void Mudokon::vUpdate_4757A0()
     //LOG_INFO(sMudMotionStateNames[field_106_current_motion] << " " << sMudAiStateNames[static_cast<int>(field_18E_ai_state)]);
 
     const __int16 oldMotion = field_106_current_motion;
-    const auto oldBrain = field_18E_ai_state;
-    const auto oldBrainRet = field_190_sub_state;
 
     field_190_sub_state = (this->*sMudokon_AI_Table_55CDF0[field_18E_ai_state])();
    
@@ -1114,18 +1112,6 @@ void Mudokon::vUpdate_4757A0()
     const FP oldYPos = field_BC_ypos;
 
     (this->*sMudokon_motion_states_55CE18[field_106_current_motion])();
-
-    if (oldBrain != field_18E_ai_state)
-    {
-        LOG_INFO("Mud: Old brain = " << static_cast<int>(oldBrain) << " new brain = " << static_cast<int>(field_18E_ai_state));
-    }
-    else
-    {
-        if (oldBrainRet != field_190_sub_state)
-        {
-            LOG_INFO("Mud: Brain state = " << static_cast<int>(oldBrain) << " State change from " << oldBrainRet << " to " << field_190_sub_state);
-        }
-    }
 
     if (oldXPos != field_B8_xpos || oldYPos != field_BC_ypos)
     {

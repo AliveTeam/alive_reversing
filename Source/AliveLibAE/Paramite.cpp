@@ -5365,8 +5365,6 @@ void Paramite::vUpdate_4871B0()
         else
         {
             const auto oldMotion = field_106_current_motion;
-            const auto oldBrain = field_128_fn_brainState;
-            const auto oldBrainRet = field_12C_brain_ret;
             field_12C_brain_ret = (this->*field_128_fn_brainState)();
 
             if (sDDCheat_ShowAI_Info_5C1BD8)
@@ -5382,20 +5380,6 @@ void Paramite::vUpdate_4871B0()
             const FP oldXPos = field_B8_xpos;
             const FP oldYPos = field_BC_ypos;
             (this->*sParamite_motion_table_55D5B0[field_106_current_motion])();
-
-            // TODO: This is extra debug logging to figure out the motion names
-            if (oldBrain != field_128_fn_brainState)
-            {
-                LOG_INFO("Paramite: Old brain = " << GetOriginalFn(oldBrain, sParamiteAITable).fnName << " new brain = " << GetOriginalFn(field_128_fn_brainState, sParamiteAITable).fnName);
-                //LOG_INFO("Paramite: Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
-            }
-            else
-            {
-                if (oldBrainRet != field_12C_brain_ret)
-                {
-                    LOG_INFO("Paramite: Brain state = " << GetOriginalFn(field_128_fn_brainState, sParamiteAITable).fnName << " State change from " << oldBrainRet << " to " << field_12C_brain_ret);
-                }
-            }
 
             if (oldXPos != field_B8_xpos || oldYPos != field_BC_ypos)
             {
@@ -6348,8 +6332,6 @@ const SfxDefinition stru_55D7C0[12] =
 
 void Paramite::Sound_48F600(ParamiteSpeak soundId, __int16 pitch_min)
 {
-    LOG_INFO("Paramite sound = " << static_cast<int>(soundId));
-
     const CameraPos direction = gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos);
 
     short volRight = 0;
