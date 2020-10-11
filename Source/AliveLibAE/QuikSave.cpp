@@ -387,7 +387,6 @@ EXPORT void CCSTD Quicksave_SaveBlyData_4C9660(BYTE* pSaveBuffer)
             BYTE** ppPathRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, TRUE, FALSE);
             if (ppPathRes)
             {
-            {
                 const int totalCameraCount = widthCount * heightCount;
                 const int* indexTable = reinterpret_cast<const int*>(*ppPathRes + pPathData->field_16_object_indextable_offset);
                 for (int j = 0; j < totalCameraCount; j++)
