@@ -14,6 +14,16 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
+    virtual void VUpdate() override;
+
+    virtual void VScreenChanged() override;
+
+    EXPORT void VScreenChanged_453DE0();
+
+    virtual void VRender(int** ppOt) override;
+
+    EXPORT void VRender_453D50(int** ppOt);
+
     __int16 field_10;
     __int16 field_12;
     __int16 field_14;

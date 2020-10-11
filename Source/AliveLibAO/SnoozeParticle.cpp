@@ -128,5 +128,24 @@ SnoozeParticle* SnoozeParticle::Vdtor_464CE0(signed int flags)
     return this;
 }
 
-END_NS_AO
+void SnoozeParticle::VUpdate()
+{
+    VUpdate_464500();
+}
 
+void SnoozeParticle::VUpdate_464500()
+{
+    NOT_IMPLEMENTED();
+}
+
+void SnoozeParticle::VRender(int** ppOt)
+{
+    VRender_464620(ppOt);
+}
+
+void SnoozeParticle::VRender_464620(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+END_NS_AO

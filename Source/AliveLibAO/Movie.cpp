@@ -64,4 +64,19 @@ BaseGameObject* Movie::Vdtor_475FB0(signed int flags)
     return this;
 }
 
+void Movie::VScreenChanged()
+{
+    // Empty
+}
+
+void Movie::VUpdate()
+{
+    VUpdate_489EA0();
+}
+
+void Movie::VUpdate_489EA0()
+{
+    NOT_IMPLEMENTED();
+}
+
 END_NS_AO

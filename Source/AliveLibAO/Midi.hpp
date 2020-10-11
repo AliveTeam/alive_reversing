@@ -8,8 +8,9 @@ struct SoundBlockInfo;
 struct OpenSeqHandle;
 struct SfxDefinition;
 
-enum class SeqId : unsigned __int16
+enum class SeqId : __int16
 {
+	None_M1 = -1,
 	Unknown_0 = 0,
 	Unknown_1 = 1,
 	Unknown_2 = 2,

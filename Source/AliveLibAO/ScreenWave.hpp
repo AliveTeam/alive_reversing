@@ -29,6 +29,10 @@ public:
 
     EXPORT void VUpdate_463080();
 
+    virtual void VRender(int** ppOt) override;
+
+    EXPORT void VRender_463130(int** ppOt);
+
     __int16 field_10_layer;
     __int16 field_12_pad;
     BYTE** field_14_ppRes;

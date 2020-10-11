@@ -21,6 +21,14 @@ public:
 
     EXPORT void VScreenChange_44EA90();
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_44DFB0();
+
+    virtual void VRender(int** ppOt) override;
+
+    EXPORT void VRender_44E6F0(int** ppOt);
+
     int field_D4[4];
     AliveFont field_E4_font;
     __int16 field_11C;

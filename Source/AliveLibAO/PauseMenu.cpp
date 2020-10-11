@@ -104,4 +104,24 @@ void PauseMenu::VScreenChange_44EA90()
     }
 }
 
+void PauseMenu::VUpdate()
+{
+    VUpdate_44DFB0();
+}
+
+void PauseMenu::VUpdate_44DFB0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void PauseMenu::VRender(int** ppOt)
+{
+    VRender_44E6F0(ppOt);
+}
+
+void PauseMenu::VRender_44E6F0(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 END_NS_AO

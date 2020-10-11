@@ -180,4 +180,14 @@ void ScreenWave::VUpdate_463080()
     }
 }
 
+void ScreenWave::VRender(int** ppOt)
+{
+    VRender_463130(ppOt);
+}
+
+void ScreenWave::VRender_463130(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 END_NS_AO

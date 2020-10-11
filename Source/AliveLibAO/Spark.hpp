@@ -38,6 +38,14 @@ public:
 
     EXPORT void VScreenChanged_478280();
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_477DB0();
+
+    virtual void VRender(int** ppOt);
+
+    EXPORT void VRender_477ED0(int** ppOt);
+
     int field_10;
     int field_14;
     int field_18;

@@ -41,6 +41,9 @@ public:
 
     EXPORT __int16 Pull_454CB0(BaseAliveGameObject* pFrom);
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_4549A0();
 
     int field_D4[4];
     int field_E4_stay_in_state_ticks;

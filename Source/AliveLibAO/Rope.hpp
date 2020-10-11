@@ -20,7 +20,9 @@ public:
 
     virtual void VUpdate() override;
 
+    virtual void VRender(int** pOrderingTable) override;
 
+    EXPORT void VRender_458780(int** ppOt);
 
     int field_D4[4];
     __int16 field_E4_rope_segment_count;
