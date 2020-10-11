@@ -306,7 +306,7 @@ __int16 Elum::VTakeDamage_411020(BaseGameObject* pFrom)
     case Types::eBeeSwarm_95:
         if (sControlledCharacter_50767C != this)
         {
-            field_170_flags |= 1u;
+            field_170_flags.Set(Elum::Flags_170::eAttackedByBees_Bit1);
         }
         break;
 
@@ -594,7 +594,7 @@ void Elum::CheckLiftPointGoneAndSetCamera()
         if (field_F8_pLiftPoint->field_6_flags.Get(BaseGameObject::eDead_Bit3))
         {
             VOnTrapDoorOpen();
-            field_170_flags |= 4u;
+            field_170_flags.Set(Elum::Flags_170::eBit3);
         }
 
         if (sControlledCharacter_50767C == this)
@@ -978,7 +978,7 @@ void Elum::FindHoney_411600()
 {
     if (field_FC_current_motion != eElumStates::State_25_LickingHoney_415B50)
     {
-        field_170_flags &= ~8u;
+        field_170_flags.Clear(Elum::Flags_170::eFoundHoney_Bit4);
 
         for (int i=0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
         {
@@ -1007,7 +1007,7 @@ void Elum::FindHoney_411600()
                 {
                     field_12C_honey_xpos = FP_GetExponent(pHoney->field_A8_xpos);
                     field_12E_honey_ypos = FP_GetExponent(pHoney->field_AC_ypos);
-                    field_170_flags |= 8;
+                    field_170_flags.Set(Elum::Flags_170::eFoundHoney_Bit4);
                     break;
                 }
             }
@@ -1017,7 +1017,7 @@ void Elum::FindHoney_411600()
 
 __int16 Elum::NearHoney_411DA0()
 {
-    if (field_170_flags & 8) // honey valid flag ??
+    if (field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4))
     {
         auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
         if (pLiftPoint && pLiftPoint->field_10C == 1 && !pLiftPoint->OnAnyFloor())
@@ -1051,9 +1051,9 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
         last_event_v2 = pEventSystem_4FF954->field_10_last_event;
     }
 
-    if (field_170_flags & 1)
+    if (field_170_flags.Get(Elum::Flags_170::eAttackedByBees_Bit1))
     {
-        field_FE_next_state = 1;
+        field_FE_next_state = eElumStates::State_1_Idle_412990;
         field_128_brain_idx = 1;
         return 0;
     }
@@ -1538,9 +1538,9 @@ __int16 Elum::Brain_1_HoneyAddiction_411730()
     {
     case 0:
     {
-        if (field_170_flags & 1)
+        if (field_170_flags.Get(Elum::Flags_170::eAttackedByBees_Bit1))
         {
-            field_170_flags &= ~8u;
+            field_170_flags.Clear(Elum::Flags_170::eFoundHoney_Bit4);
             field_FE_next_state = eElumStates::State_29_BeesStruggling_412A90;
             return 5;
         }
@@ -1668,13 +1668,13 @@ __int16 Elum::Brain_1_HoneyAddiction_411730()
             return 0;
         }
 
-        if (!(field_170_flags & 1))
+        if (!field_170_flags.Get(Elum::Flags_170::eAttackedByBees_Bit1))
         {
             return field_12A_brain_state;
         }
 
-        field_170_flags &= ~8;
-        field_170_flags |= 2;
+        field_170_flags.Clear(Elum::Flags_170::eFoundHoney_Bit4);
+        field_170_flags.Set(Elum::Flags_170::eBit2);
 
         field_146 = gMap_507BA8.field_4_current_camera;
 
@@ -1688,7 +1688,8 @@ __int16 Elum::Brain_1_HoneyAddiction_411730()
         else
         {
             field_FE_next_state = eElumStates::State_29_BeesStruggling_412A90;
-            field_170_flags &= ~1;
+
+            field_170_flags.Clear(Elum::Flags_170::eAttackedByBees_Bit1);
             return 5;
         }
         break;
@@ -1697,7 +1698,8 @@ __int16 Elum::Brain_1_HoneyAddiction_411730()
         if (field_FC_current_motion == eElumStates::State_4_Turn_4140F0 &&
             field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            field_170_flags &= ~1u;
+
+            field_170_flags.Clear(Elum::Flags_170::eAttackedByBees_Bit1);
             field_FE_next_state = eElumStates::State_29_BeesStruggling_412A90;
             return 5;
         }
@@ -1719,7 +1721,7 @@ __int16 Elum::Brain_1_HoneyAddiction_411730()
             return field_12A_brain_state;
         }
 
-        if (!(field_170_flags & 1))
+        if (!field_170_flags.Get(Elum::Flags_170::eAttackedByBees_Bit1))
         {
             field_FE_next_state = eElumStates::State_1_Idle_412990;
             field_128_brain_idx = 0;
@@ -1730,7 +1732,7 @@ __int16 Elum::Brain_1_HoneyAddiction_411730()
         {
             if (Check_IsOnEndOfLine_4021A0(0, 2))
             {
-                field_170_flags &= ~1u;
+                field_170_flags.Clear(Elum::Flags_170::eAttackedByBees_Bit1);
                 field_FE_next_state = eElumStates::State_29_BeesStruggling_412A90;
                 return 5;
             }
@@ -1739,7 +1741,7 @@ __int16 Elum::Brain_1_HoneyAddiction_411730()
         {
             if (Check_IsOnEndOfLine_4021A0(1, 2))
             {
-                field_170_flags &= ~1u;
+                field_170_flags.Clear(Elum::Flags_170::eAttackedByBees_Bit1);
                 field_FE_next_state = eElumStates::State_29_BeesStruggling_412A90;
                 return 5;
             }
@@ -1757,13 +1759,13 @@ __int16 Elum::Brain_1_HoneyAddiction_411730()
 
         if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(25), gridSizeDirected))
         {
-            field_170_flags &= ~1u;
+            field_170_flags.Clear(Elum::Flags_170::eAttackedByBees_Bit1);
             field_FE_next_state = eElumStates::State_29_BeesStruggling_412A90;
             return 5;
         }
         else
         {
-            field_170_flags &= ~1u;
+            field_170_flags.Clear(Elum::Flags_170::eAttackedByBees_Bit1);
             field_FE_next_state = eElumStates::State_3_WalkLoop_412C90;
             return 7;
         }
@@ -1812,7 +1814,7 @@ __int16 Elum::Brain_1_HoneyAddiction_411730()
             return field_12A_brain_state;
         }
 
-        if (!(field_170_flags & 1))
+        if (!field_170_flags.Get(Elum::Flags_170::eAttackedByBees_Bit1))
         {
             field_FE_next_state = eElumStates::State_1_Idle_412990;
             field_128_brain_idx = 0;
@@ -1823,7 +1825,7 @@ __int16 Elum::Brain_1_HoneyAddiction_411730()
         {
             if (Check_IsOnEndOfLine_4021A0(0, 2))
             {
-                field_170_flags &= ~1u;
+                field_170_flags.Clear(Elum::Flags_170::eAttackedByBees_Bit1);
                 field_FE_next_state = eElumStates::State_44_ScratchBegin_412730;
                 return 9;
             }
@@ -1832,12 +1834,12 @@ __int16 Elum::Brain_1_HoneyAddiction_411730()
         {
             if (Check_IsOnEndOfLine_4021A0(1, 2))
             {
-                field_170_flags &= ~1u;
+                field_170_flags.Clear(Elum::Flags_170::eAttackedByBees_Bit1);
                 field_FE_next_state = eElumStates::State_44_ScratchBegin_412730;
                 return 9;
             }
         }
-        field_170_flags &= ~1u;
+        field_170_flags.Clear(Elum::Flags_170::eAttackedByBees_Bit1);
         field_FE_next_state = eElumStates::State_3_WalkLoop_412C90;
         return 10;
 
@@ -1972,7 +1974,7 @@ void Elum::State_3_WalkLoop_412C90()
                 {
                     field_FC_current_motion = eElumStates::State_6_MidWalkToIdle_4133F0;
                 }
-                else if (sControlledCharacter_50767C == this && !(field_170_flags & 8))
+                else if (sControlledCharacter_50767C == this && !field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4))
                 {
                     WalkLeft_412FA0();
                 }
@@ -2038,7 +2040,7 @@ void Elum::State_3_WalkLoop_412C90()
                 {
                     field_FC_current_motion = eElumStates::State_5_WalkToIdle_4132D0;
                 }
-                else if (sControlledCharacter_50767C == this && !(field_170_flags & 8))
+                else if (sControlledCharacter_50767C == this && !field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4))
                 {
                     WalkRight_4130D0();
                 }
@@ -2257,14 +2259,14 @@ void Elum::State_10_Yell_4158E0()
 
     CheckLiftPointGoneAndSetCamera();
 
-    if (field_10_anim.field_92_current_frame || !(field_170_flags & 0x20))
+    if (field_10_anim.field_92_current_frame || !field_170_flags.Get(Elum::Flags_170::eBit6))
     {
-        field_170_flags |= 0x20u;
+        field_170_flags.Set(Elum::Flags_170::eBit6);
     }
     else
     {
         Elum_SFX_416E10(ElumSounds::eHowl_2, this);
-        field_170_flags &= ~0x20u;
+        field_170_flags.Set(Elum::Flags_170::eBit6);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -2345,14 +2347,14 @@ void Elum::State_13_RunTurnToWalk_4147C0()
 
 void Elum::State_14_Speak_414860()
 {
-    if (field_10_anim.field_92_current_frame == 3 && field_170_flags & 0x20)
+    if (field_10_anim.field_92_current_frame == 3 && field_170_flags.Get(Elum::Flags_170::eBit6))
     {
         Environment_SFX_42A220(EnvironmentSfx::eElumOkay_21, 75, 0, this);
-        field_170_flags &= ~0x20u;
+        field_170_flags.Clear(Elum::Flags_170::eBit6);
     }
     else
     {
-        field_170_flags |= 0x20u;
+        field_170_flags.Set(Elum::Flags_170::eBit6);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -2366,14 +2368,14 @@ void Elum::State_14_Speak_414860()
 
 void Elum::State_15_Speak_4148F0()
 {
-    if (field_10_anim.field_92_current_frame == 3 && field_170_flags & 0x20)
+    if (field_10_anim.field_92_current_frame == 3 && field_170_flags.Get(Elum::Flags_170::eBit6))
     {
         Environment_SFX_42A220(EnvironmentSfx::eElumHowl_20, 75, 0, this);
-        field_170_flags &= ~0x20u;
+        field_170_flags.Clear(Elum::Flags_170::eBit6);
     }
     else
     {
-        field_170_flags |= 0x20u;
+        field_170_flags.Set(Elum::Flags_170::eBit6);
     }
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -2386,14 +2388,14 @@ void Elum::State_15_Speak_4148F0()
 
 void Elum::State_16_Speak_414980()
 {
-    if (field_10_anim.field_92_current_frame == 3 && field_170_flags & 0x20)
+    if (field_10_anim.field_92_current_frame == 3 && field_170_flags.Get(Elum::Flags_170::eBit6))
     {
         Environment_SFX_42A220(EnvironmentSfx::eElumHowl_20, 75, 0, this);
-        field_170_flags &= ~0x20u;
+        field_170_flags.Clear(Elum::Flags_170::eBit6);
     }
     else
     {
-        field_170_flags |= 0x20u;
+        field_170_flags.Set(Elum::Flags_170::eBit6);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -2462,16 +2464,17 @@ void Elum::State_19_Dead_415F90()
                 Elum_SFX_416E10(ElumSounds::eHowl_2, this);
             }
 
-            field_170_flags &= ~9u;
+            field_170_flags.Clear(Elum::Flags_170::eAttackedByBees_Bit1);
+            field_170_flags.Clear(Elum::Flags_170::eFoundHoney_Bit4);
             field_110_timer = gnFrameCount_507670;
 
             field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, sActiveHero_507678->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX));
 
-            if (field_170_flags & 2)
+            if (field_170_flags.Get(Elum::Flags_170::eBit2))
             {
                 if (field_14C_continue_camera < field_146)
                 {
-                    field_170_flags &= ~2;
+                    field_170_flags.Set(Elum::Flags_170::eBit2);
                 }
             }
 
@@ -2641,16 +2644,16 @@ void Elum::State_25_LickingHoney_415B50()
             field_A8_xpos,
             field_AC_ypos) == CameraPos::eCamCurrent_0)
         {
-            if (field_170_flags & 0x20)
+            if (field_170_flags.Get(Elum::Flags_170::eBit6))
             {
                 Elum_SFX_416E10(ElumSounds::eLickingHoney_8, 0);
-                field_170_flags &= ~0x20;
+                field_170_flags.Clear(Elum::Flags_170::eBit6);
             }
         }
     }
     else
     {
-        field_170_flags |= 0x20u;
+        field_170_flags.Set(Elum::Flags_170::eBit6);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
@@ -2836,7 +2839,7 @@ void Elum::State_32_HopLand_415140()
         if (field_F8_pLiftPoint->field_6_flags.Get(BaseGameObject::Options::eDead_Bit3))
         {
             VOnTrapDoorOpen();
-            field_170_flags |= 4u;
+            field_170_flags.Set(Elum::Flags_170::eBit3);
         }
 
         if (sControlledCharacter_50767C == this)
@@ -3646,21 +3649,22 @@ void Elum::VUpdate_4102A0()
             field_174_resources.res[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 200, 1, 0);
         }
 
-        if (!(field_170_flags & 0xA) && field_128_brain_idx != 1)
+        if (!(field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4) && field_170_flags.Get(Elum::Flags_170::eAttackedByBees_Bit1)) && field_128_brain_idx != 1)
         {
             FindHoney_411600();
         }
 
-        if ((field_170_flags >> 4) & 1)
+        if (field_170_flags.Get(Elum::Flags_170::eBit5))
         {
             HandleElumPathTrans_411460();
-            field_170_flags &= ~0x50u;
+            field_170_flags.Clear(Elum::Flags_170::eBit7);
+            field_170_flags.Clear(Elum::Flags_170::eBit5);
         }
 
         if (field_FC_current_motion == eElumStates::State_19_Dead_415F90 || field_B0_path_number == gMap_507BA8.field_2_current_path)
         {
             PathLine* pLine = nullptr;
-            if ((field_170_flags >> 6) & 1)
+            if (field_170_flags.Get(Elum::Flags_170::eBit7))
             {
                 FP hitX = {};
                 FP hitY = {};
@@ -3682,7 +3686,7 @@ void Elum::VUpdate_4102A0()
                     field_F4_pLine = nullptr;
                     field_FC_current_motion = eElumStates::State_21_Land_414A20;
                 }
-                field_170_flags &= ~0x40;
+                field_170_flags.Clear(Elum::Flags_170::eBit7);
             }
 
             const auto oldMotion = field_FC_current_motion;
@@ -3694,7 +3698,7 @@ void Elum::VUpdate_4102A0()
                 field_12A_brain_state = (this->*sElum_table_4C52E8[field_128_brain_idx])();
             }
 
-            if ((field_170_flags >> 2) & 1)
+            if (field_170_flags.Get(Elum::Flags_170::eBit3))
             {
                 VCheckCollisionLineStillValid(10);
 
@@ -3710,7 +3714,7 @@ void Elum::VUpdate_4102A0()
 
                 if (field_F8_pLiftPoint)
                 {
-                    field_170_flags &= ~4u;
+                    field_170_flags.Clear(Elum::Flags_170::eBit3);
                 }
             }
             
@@ -3842,7 +3846,7 @@ void Elum::vScreenChange_411340()
                         pElumPathTrans->field_18_level == gMap_507BA8.field_A_level &&
                         pElumPathTrans->field_1A_path == gMap_507BA8.field_C_path)
                     {
-                        field_170_flags |= 0x10u;
+                        field_170_flags.Set(Elum::Flags_170::eBit5);
                     }
                 }
             }
@@ -3850,13 +3854,13 @@ void Elum::vScreenChange_411340()
             if (field_F8_pLiftPoint)
             {
                 VOnTrapDoorOpen();
-                field_170_flags |= 4u;
+                field_170_flags.Set(Elum::Flags_170::eBit3);
             }
 
-            if (!(field_170_flags & 0x10))
+            if (!field_170_flags.Get(Elum::Flags_170::eBit5))
             {
                 field_F4_pLine = nullptr;
-                field_170_flags |= 0x40;
+                field_170_flags.Set(Elum::Flags_170::eBit7);
             }
         }
     }
@@ -3960,7 +3964,11 @@ Elum* Elum::ctor_410870(int, anythingForTheTimeBeing, anythingForTheTimeBeing, i
     }
 
     field_10A_flags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
-    field_170_flags &= ~0x5Au;
+
+    field_170_flags.Clear(Elum::Flags_170::eBit2);
+    field_170_flags.Clear(Elum::Flags_170::eFoundHoney_Bit4);
+    field_170_flags.Clear(Elum::Flags_170::eBit5);
+    field_170_flags.Clear(Elum::Flags_170::eBit7);
 
     field_F8_pLiftPoint = nullptr;
     gElum_507680 = this;
@@ -3993,8 +4001,11 @@ Elum* Elum::ctor_410870(int, anythingForTheTimeBeing, anythingForTheTimeBeing, i
 
     field_10A_flags.Set(Flags_10A::e10A_Bit6);
   
-    field_170_flags &= ~5;
-    field_170_flags |= 0x20;
+
+    field_170_flags.Clear(Elum::Flags_170::eAttackedByBees_Bit1);
+    field_170_flags.Clear(Elum::Flags_170::eBit3);
+
+    field_170_flags.Clear(Elum::Flags_170::eBit6);
 
     auto pMusic = ao_new<MusicTrigger>();
     if (pMusic)

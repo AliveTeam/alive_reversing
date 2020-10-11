@@ -100,7 +100,7 @@ protected:
 
     EXPORT BirdPortal* IntoBirdPortal_402350(__int16 distance);
 
-    EXPORT __int16 MapFollowMe_401D30(__int16 snapToGrid);
+
 
     EXPORT __int16 WallHit_401930(FP offY, FP offX);
 
@@ -109,7 +109,7 @@ protected:
     EXPORT __int16 Check_IsOnEndOfLine_4021A0(__int16 direction, __int16 dist);
 public:
     EXPORT signed __int16 OnTrapDoorIntersection_401C10(PlatformBase* pPlatform);
-
+    EXPORT __int16 MapFollowMe_401D30(__int16 snapToGrid);
 public:
 
     FP_RECT field_D4_collection_rect;

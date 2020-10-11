@@ -2337,7 +2337,7 @@ __int16 Abe::TryMountElum_42E600()
 
             if (gElum_507680->field_FC_current_motion != eElumStates::State_1_Idle_412990
                 || gElum_507680->field_128_brain_idx == 1
-                || gElum_507680->field_170_flags & 1)
+                || gElum_507680->field_170_flags.Get(Elum::Flags_170::eAttackedByBees_Bit1))
             {
                 return eAbeStates::State_0_Idle_423520;
             }
@@ -2584,6 +2584,7 @@ BOOL Abe::NearDoorIsOpen()
             }
         }
     }
+
     // We didn't find a door - so for some reason that makes no sense return that it is open...
     return TRUE;
 }
@@ -4046,7 +4047,7 @@ void Abe::State_2_StandingTurn_426040()
             if (gElum_507680)
             {
                 if (gElum_507680->field_FC_current_motion == eElumStates::State_1_Idle_412990 &&
-                    !(gElum_507680->field_170_flags & 1))
+                    !(gElum_507680->field_170_flags.Get(Elum::Flags_170::eAttackedByBees_Bit1)))
                 {
                     LoadMountElumResources_42E690();
                     field_FE_next_state = eAbeStates::State_0_Idle_423520;
@@ -6882,9 +6883,282 @@ void Abe::State_61_Respawn_42CD20()
     }
 }
 
-void Abe::State_62_LoadedSaveSpawn_45ADD0()
+struct SaveData
+{
+    BYTE gap0[1];
+    char field_1;
+    char field_2[540];
+    char field_21E;
+    char field_21F;
+    char field_220;
+    char field_221;
+    char field_222;
+    char field_223;
+    int field_224_xpos;
+    DWORD field_228_ypos;
+    char field_22C;
+    char field_22D;
+    char field_22E;
+    char field_22F;
+    char field_230;
+    char field_231;
+    char field_232;
+    char field_233;
+    char field_234;
+    char field_235;
+    char field_236;
+    char field_237;
+    char field_238;
+    char field_239;
+    char field_23A_mode_mask;
+    char field_23B;
+    char field_23C;
+    char field_23D;
+    char field_23E;
+    char field_23F;
+    WORD field_240_last_anim_frame;
+    char field_242;
+    char field_243;
+    WORD field_244_state;
+    char field_246;
+    char field_247;
+    DWORD field_248_gnFrame;
+    char field_24C;
+    char field_24D;
+    char field_24E;
+    char field_24F;
+    char field_250;
+    char field_251;
+    char field_252;
+    char field_253;
+    char field_254;
+    char field_255;
+    char field_256;
+    char field_257;
+    char field_258;
+    char field_259;
+    WORD field_25A_something_elum_related;
+    char field_25C;
+    char field_25D;
+    WORD field_25E_elum_field_144;
+    LevelIds field_260_elum_lvl_number;
+    WORD field_262_elum_path_number;
+    WORD field_264;
+    char field_266;
+    char field_267;
+    DWORD field_268_elum_xpos;
+    DWORD field_26C_elum_ypos;
+    WORD field_270;
+    char field_272_elum_flag;
+    char field_273;
+    char field_274;
+    char field_275;
+    WORD field_276_elum_122;
+    WORD field_278_brain_idx;
+    WORD field_27A_elum_brain_state;
+    DWORD field_27C_honey_xpos;
+    WORD field_280_honey_ypos;
+    char field_282;
+    char field_283;
+    DWORD field_284_elum_field_130;
+    char field_288;
+    char field_289;
+    char field_28A_some_flag;
+    char field_28B;
+    PSX_RECT field_28C_elum_continue_rect;
+    WORD field_294_continue_zone_number;
+    WORD field_296_elum_zone_number;
+    WORD field_298_elum_continue_path;
+    LevelIds field_29A_continue_level;
+    FP field_29C_elum_sprite_scale;
+    int pad[7];
+    char field_0;
+};
+
+using elumSpawn = decltype(&Elum::Spawn_410E90);
+const elumSpawn dword_4CF550[] =
+{
+    nullptr,
+    nullptr,
+    &Elum::Spawn_410E90,
+    &Elum::Spawn_410E90,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    &Elum::Spawn_410E90,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr
+};
+
+void Abe::State_62_LoadedSaveSpawn_REAL_45ADD0()
 {
     NOT_IMPLEMENTED();
+}
+
+void Abe::State_62_LoadedSaveSpawn_45ADD0()
+{
+    Event_Broadcast_417220(kEventResetting_6, this);
+    if (field_114_gnFrame)
+    {
+        auto pSaveData = field_2AC_pSaveData;
+        field_AC_ypos = FP_FromInteger(pSaveData->field_228_ypos);
+        field_A8_xpos = FP_FromInteger(pSaveData->field_224_xpos);
+
+        PathLine* pLine2 = nullptr;
+        FP hitX2 = {};
+        FP hitY2 = {};
+        if (sCollisions_DArray_504C6C->RayCast_40C410(
+            sActiveHero_507678->field_A8_xpos,
+            sActiveHero_507678->field_AC_ypos - FP_FromInteger(60),
+            sActiveHero_507678->field_A8_xpos,
+            sActiveHero_507678->field_AC_ypos + FP_FromInteger(60),
+            &pLine2,
+            &hitX2,
+            &hitY2,
+            1 << pSaveData->field_23A_mode_mask
+            ))
+        {
+            sActiveHero_507678->field_F4_pLine = pLine2;
+            sActiveHero_507678->field_AC_ypos = hitY2;
+            sActiveHero_507678->field_FC_current_motion = eAbeStates::State_0_Idle_423520;
+        }
+        else
+        {
+            sActiveHero_507678->field_FC_current_motion = 3;
+        }
+        sActiveHero_507678->field_2A8_flags.Clear(Flags_2A8::e2A8_Bit8);
+        sActiveHero_507678->field_E8_LastLineYPos = sActiveHero_507678->field_AC_ypos;
+        sActiveHero_507678->field_110_state = pSaveData->field_244_state;
+        sActiveHero_507678->field_114_gnFrame = pSaveData->field_248_gnFrame;
+        sActiveHero_507678->field_E6_last_anim_frame = pSaveData->field_240_last_anim_frame;
+        sActiveHero_507678->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pSaveData->field_23C & 1);
+        sActiveHero_507678->MapFollowMe_401D30(TRUE);
+        sActiveHero_507678->field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+        if (sActiveHero_507678->field_19C_throwable_count)
+        {
+            if (!gpThrowableArray_50E26C)
+            {
+                LoadRockTypes_454370((LevelIds)*((WORD *) gSaveBuffer_505668 + 282), *((WORD *) gSaveBuffer_505668 + 283)); //Todo it might not be legible
+
+                gpThrowableArray_50E26C = ao_new<ThrowableArray>();
+                if (gpThrowableArray_50E26C)
+                {
+                    gpThrowableArray_50E26C->ctor_453EE0();
+                }
+            }
+            gpThrowableArray_50E26C->Add_453F70(sActiveHero_507678->field_19C_throwable_count);
+        }
+        if (pSaveData->field_264 == -1)
+        {
+            LoadRockTypes_454370(LevelIds::eRuptureFarmsReturn_13, 19);
+            if (!gpThrowableArray_50E26C)
+            {
+                gpThrowableArray_50E26C = ao_new<ThrowableArray>();
+                if (gpThrowableArray_50E26C)
+                {
+                    gpThrowableArray_50E26C->ctor_453EE0();
+                }
+            }
+            gpThrowableArray_50E26C->Add_453F70(1);
+            gInfiniteGrenades_5076EC = 1;
+        }
+        else
+        {
+            gInfiniteGrenades_5076EC = 0;
+        }
+        if (pSaveData->field_25A_something_elum_related)
+        {
+            if (!gElum_507680)
+            {
+                TlvItemInfoUnion aux;
+                aux.all = (DWORD)-1;
+                dword_4CF550[static_cast<int>(gMap_507BA8.field_0_current_level)](aux);
+            }
+
+            ResourceManager::LoadResourceFile_455270("ANEPRMNT.BAN", 0);
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 115, 1, 0);
+            gElum_507680->field_6_flags.Clear(Options::eUpdatable_Bit2);
+            gElum_507680->field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+            gElum_507680->field_138_continue_rect = pSaveData->field_28C_elum_continue_rect;
+            gElum_507680->field_140_continue_zone_number = pSaveData->field_294_continue_zone_number;
+            gElum_507680->field_142_zone_number = pSaveData->field_296_elum_zone_number;
+            gElum_507680->field_148_continue_path = pSaveData->field_298_elum_continue_path;
+            gElum_507680->field_14A_continue_level = pSaveData->field_29A_continue_level;
+            gElum_507680->field_150_continue_sprite_scale = pSaveData->field_29C_elum_sprite_scale;
+            gElum_507680->field_144 = pSaveData->field_25E_elum_field_144;
+            gElum_507680->field_B2_lvl_number = pSaveData->field_260_elum_lvl_number;
+            gElum_507680->field_B0_path_number = pSaveData->field_262_elum_path_number;
+            gElum_507680->field_A8_xpos = FP_FromInteger(pSaveData->field_268_elum_xpos);
+            gElum_507680->field_AC_ypos = FP_FromInteger(pSaveData->field_26C_elum_ypos);
+            gElum_507680->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pSaveData->field_272_elum_flag & 1);
+            gElum_507680->field_E6_last_anim_frame = 0;
+            gElum_507680->field_120 = 1;
+            gElum_507680->field_122 = pSaveData->field_276_elum_122;
+            gElum_507680->field_128_brain_idx = pSaveData->field_278_brain_idx;
+            gElum_507680->field_12A_brain_state = pSaveData->field_27A_elum_brain_state;
+            gElum_507680->field_12C_honey_xpos = static_cast<short>(pSaveData->field_27C_honey_xpos);
+            gElum_507680->field_146 = pSaveData->field_280_honey_ypos;
+            gElum_507680->field_130 = pSaveData->field_284_elum_field_130;
+
+            gElum_507680->field_170_flags.Set(Elum::Flags_170::eFoundHoney_Bit4, pSaveData->field_28B & 1);
+            gElum_507680->field_170_flags.Set(Elum::Flags_170::eBit3, pSaveData->field_28A_some_flag & 1);
+            gElum_507680->field_170_flags.Set(Elum::Flags_170::eBit2, pSaveData->field_289 & 1);
+            if (gElum_507680->field_B0_path_number == sActiveHero_507678->field_B0_path_number)
+            {
+                if (pSaveData->field_270 != -1)
+                {
+                    PathLine* pLine = nullptr;
+                    FP hitX = {};
+                    FP hitY = {};
+                    if (sCollisions_DArray_504C6C->RayCast_40C410(
+                        gElum_507680->field_A8_xpos,
+                        gElum_507680->field_AC_ypos - FP_FromInteger(60),
+                        gElum_507680->field_A8_xpos,
+                        gElum_507680->field_AC_ypos + FP_FromInteger(60),
+                        &pLine,
+                        &hitX,
+                        &hitY,
+                        1 << pSaveData->field_270))
+                    {
+                        gElum_507680->field_F4_pLine = pLine;
+                        gElum_507680->field_FC_current_motion = eElumStates::State_1_Idle_412990;
+                        gElum_507680->field_E4_previous_motion = eElumStates::State_1_Idle_412990;
+                    }
+                    else
+                    {
+                        gElum_507680->field_FC_current_motion = eElumStates::State_21_Land_414A20;
+                        gElum_507680->field_E4_previous_motion = eElumStates::State_21_Land_414A20;
+                    }
+                }
+            }
+            else
+            {
+                //TODO fix this madness
+                gElum_507680->field_F4_pLine = reinterpret_cast<PathLine*>(-2);
+            }
+            if (gElum_507680->field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4))
+            {
+                if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 203, 0, 0))
+                {
+                    ResourceManager::LoadResourceFile_455270("ELMHONEY.BAN", 0);
+                }
+                gElum_507680->field_FC_current_motion = eElumStates::State_25_LickingHoney_415B50;
+                gElum_507680->field_E4_previous_motion = eElumStates::State_25_LickingHoney_415B50;
+            }
+            gElum_507680->MapFollowMe_401D30(TRUE);
+            gElum_507680->field_6_flags.Set(Options::eUpdatable_Bit2);
+            gElum_507680->field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+        }
+    }
+    else
+    {
+        field_114_gnFrame = 1;
+    }
+
 }
 
 void Abe::State_63_TurnToRun_42A0A0()

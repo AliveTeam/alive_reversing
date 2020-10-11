@@ -259,6 +259,8 @@ enum class EnvironmentSfx : unsigned __int8
     eElumOkay_21 = 21
 };
 
+struct SaveData;
+
 struct Path_ContinuePoint : public Path_TLV
 {
     __int16 field_18_zone_number;
@@ -449,6 +451,8 @@ public:
     EXPORT void State_59_DeathDropFall_42CBE0();
     EXPORT void State_60_Dead_42C4C0();
     EXPORT void State_61_Respawn_42CD20();
+    EXPORT void State_62_LoadedSaveSpawn_REAL_45ADD0();
+
     EXPORT void State_62_LoadedSaveSpawn_45ADD0();
     EXPORT void State_63_TurnToRun_42A0A0();
     EXPORT void State_64_LedgeAscend_428B60();
@@ -609,7 +613,7 @@ public:
     AbeResources field_1A4_resources;
     BitField16<Flags_2A8> field_2A8_flags;
     __int16 field_2AA_flags;
-    int field_2AC_pSaveData;
+    SaveData* field_2AC_pSaveData;
     int field_2B0;
 
 
