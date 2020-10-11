@@ -21,7 +21,7 @@ void TestAnimation::DelayLoad()
 
     mLoaded = true; // Only do code below once
 
-    const AnimRecord& animRec = AnimRec(AnimId::Slog_Body_Gib);
+    const AnimRecord& animRec = AnimRec(AnimId::Anim_Tester);
 
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, animRec.mResourceId, 0, 0))
     {
@@ -34,6 +34,7 @@ void TestAnimation::DelayLoad()
 
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, animRec.mResourceId);
     Animation_Init_424E10(animRec.mFrameTableOffset, animRec.mMaxW, animRec.mMaxH, ppRes, 1, 1);
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
 
     if (animRec.mPalOverride != PalId::Default)
     {

@@ -206,16 +206,29 @@ constexpr AnimRecord kAnimRecords[] =
     { AnimId::Slog_Scratch, "SLOG.BND", 12724, 121, 57, kDogidleResID, PalId::Default },
     { AnimId::Slog_Idle_B, "SLOG.BND", 12812, 121, 57, kDogidleResID, PalId::Default },
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-    { AnimId::Anim_Tester, "SLOG.BND", 12812, 121, 57, kDogidleResID, PalId::Default },
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
     { AnimId::Slurg_Move, "SLURG.BAN", 2708, 46, 15, kSlurgResID, PalId::Default },
     { AnimId::Slurg_Burst, "SLURG.BAN", 2808, 46, 15, kSlurgResID, PalId::Default },
     { AnimId::Slurg_Turn_Around, "SLURG.BAN", 2740, 46, 15, kSlurgResID, PalId::Default },
 
+    { AnimId::Bone, "BTHROW.BND", 456, 15, 9, kBoneResID, PalId::Default },
+    { AnimId::Bone_Bag_A, "BONEBAG.BAN", 8748, 64, 60, kUnknownResID_590, PalId::Default },
+    { AnimId::Bone_Bag_B, "BONEBAG.BAN", 8708, 64, 60, kUnknownResID_590, PalId::Default },
+    { AnimId::Bone_Bag_C, "BONEBAG.BAN", 8788, 64, 60, kUnknownResID_590, PalId::Default },
+    { AnimId::Bone_Saw_Horizontal_Off, "DRILL.BAN", 6736, 65, 33, kDrillResID, PalId::Default },
+    { AnimId::Bone_Saw_Horizontal_On, "DRILL.BAN", 6712, 65, 33, kDrillResID, PalId::Default },
+    { AnimId::Bone_Saw_Vertical_Off, "DRILL.BAN", 6676, 65, 33, kDrillResID, PalId::Default },
+    { AnimId::Bone_Saw_Vertical_On, "DRILL.BAN", 6688, 65, 33, kDrillResID, PalId::Default },
+    { AnimId::Explosion_Mine, "EXPLODE.BND", 51588, 214, 0x31u, kBgexpldResID, PalId::Default },
     { AnimId::Grenade, "GRENADE.BAN", 1252, 17, 11, kGrenadeResID, PalId::Default },
+    { AnimId::Grenade_Machine_Button_Off, "GMACHINE.BND1", 1736, 26, 17u, kR1buttonResID, PalId::Default },
+    { AnimId::Grenade_Machine_Button_On, "GMACHINE.BND1", 1708, 26, 17u, kR1buttonResID, PalId::Default },
+    { AnimId::Grenade_Machine_Nozzle, "GMACHINE.BND1", 3700, 67, 36u, kR1bpipeResID, PalId::Default },
+    { AnimId::Grenade_Machine_Nozzle_Drop_Grenade, "GMACHINE.BND1", 3672, 67, 36u, kR1bpipeResID, PalId::Default },
     { AnimId::Lift_Rope, "ROPES.BAN", 748, 9, 16, kRopesResID, PalId::Default },
+    { AnimId::Mine, "MINE.BND", 784, 38, 0, kLandmineResID, PalId::Default },
+    { AnimId::Motion_Detector_Flare, "MFLARE.BAN", 1736, 55, 22, kMflareResID, PalId::Default },
+    { AnimId::Motion_Detector_Laser, "MOTION.BAN", 23280, 37, 60, kMotionResID, PalId::Default },
+    { AnimId::Moving_Bomb, "MOVEBOMB.BAN", 17548, 76, 30, kMovebombResID, PalId::Default },
     { AnimId::Security_Door_Idle, "SECDOOR.BAN", 1512, 70, 19u, kUnknownResID_6027, PalId::Default },
     { AnimId::Security_Door_Speak, "SECDOOR.BAN", 1528, 70, 19u, kUnknownResID_6027, PalId::Default },
     { AnimId::Security_Orb, "MAIMORB.BAN", 2228, 53, 28u, kMaimGameResID, PalId::Default },
@@ -232,11 +245,28 @@ constexpr AnimRecord kAnimRecords[] =
     { AnimId::Switch_Pull_Right_B, "SWITCH1.BAN", 5848, 66, 40, kSwitchResID, PalId::Default },
     { AnimId::Timed_Mine_Armed, "BOMB.BND", 848, 35, 0x11u, kBombResID, PalId::Default },
     { AnimId::Timed_Mine_Idle, "BOMB.BND", 836, 35, 0x11u, kBombResID, PalId::Default },
+    { AnimId::Tortured_Modukon, "MUDTORT.BAN", 20892, 101, 0x44u, kTorturedMud, PalId::Default },
+    { AnimId::Tortured_Modukon_Released, "MUDTORT.BAN", 20864, 101, 0x44u, kTorturedMud, PalId::Default },
+    { AnimId::Tortured_Modukon_Zap, "MUDTORT.BAN", 21000, 101, 0x44u, kTorturedMud, PalId::Default },
+    { AnimId::Trap_Door_Closed, "TRAPDOOR.BAN", 4788, 72, 41, kP6c1trapResID, PalId::Default },         // These still need implementation somehow under line 24 of TrapDoor.cpp
+    { AnimId::Trap_Door_Closing, "TRAPDOOR.BAN", 4812, 72, 41, kP6c1trapResID, PalId::Default },        // ^
+    { AnimId::Trap_Door_Open, "TRAPDOOR.BAN", 4800, 72, 41, kP6c1trapResID, PalId::Default },           // ^
+    { AnimId::Trap_Door_Opening, "TRAPDOOR.BAN", 4840, 72, 41, kP6c1trapResID, PalId::Default },        // ^
+    { AnimId::Trap_Door_Tribal_Closed, "VLTSTRAP.BAN", 5328, 72, 41, kP6c1trapResID, PalId::Default },  // ^
+    { AnimId::Trap_Door_Tribal_Closing, "VLTSTRAP.BAN", 5368, 72, 41, kP6c1trapResID, PalId::Default }, // ^
+    { AnimId::Trap_Door_Tribal_Open, "VLTSTRAP.BAN", 5316, 72, 41, kP6c1trapResID, PalId::Default },    // ^
+    { AnimId::Trap_Door_Tribal_Opening, "VLTSTRAP.BAN", 5340, 72, 41, kP6c1trapResID, PalId::Default }, // ^
     { AnimId::UXB_Active, "UXB.BND", 8048, 59, 19, kTbombResID, PalId::Default },
     { AnimId::UXB_Toggle, "UXB.BND", 8120, 59, 19, kTbombResID, PalId::Default },
     { AnimId::UXB_Disabled, "UXB.BND", 0x2000, 59, 19, kTbombResID, PalId::Default },
     { AnimId::Work_Wheel_Idle, "WORKWHEL.BAN", 2716, 49, 24, kWorkwhelResID, PalId::Default },
     { AnimId::Work_Wheel_Turning, "WORKWHEL.BAN", 2728, 49, 24, kWorkwhelResID, PalId::Default },
+    { AnimId::Zap_Line_Blue, "SPLINE.BAN", 276, 14, 9, kSplineResID, PalId::Default },
+    { AnimId::Zap_Line_Red, "SPLINE.BAN", 288, 14, 9, kSplineResID, PalId::Default },
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+    { AnimId::Anim_Tester, "MINE.BND", 784, 38, 0, kLandmineResID, PalId::Default },
+////////////////////////////////////////////////////////////////////////////////////////////////////
 };
 
 const PalRecord& PalRec(PalId toFind)
