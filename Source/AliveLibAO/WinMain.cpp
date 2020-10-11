@@ -522,12 +522,6 @@ EXPORT void CC Errors_Display_48E050()
     NOT_IMPLEMENTED();
 }
 
-EXPORT int PSX_ResetCallBack_49AFB0()
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
 EXPORT int CC DebugFont_Init_487EC0()
 {
     NOT_IMPLEMENTED();

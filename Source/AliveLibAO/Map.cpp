@@ -2020,7 +2020,7 @@ CameraSwapper* CC Map::FMV_Camera_Change_4458D0(BYTE** ppBits, Map* pMap, LevelI
             pos3,
             pFmvRec3->field_4_id,
 
-            pFmvRec1->field_6,
+            static_cast<char>(pFmvRec1->field_6),
             pFmvRec1->field_A,
             pFmvRec1->field_C_volume,
 
@@ -2055,7 +2055,7 @@ CameraSwapper* CC Map::FMV_Camera_Change_4458D0(BYTE** ppBits, Map* pMap, LevelI
             cdPos2,
             pFmvRec2->field_4_id,
 
-            pFmvRec1->field_6,
+            static_cast<char>(pFmvRec1->field_6),
             pFmvRec1->field_A,
             pFmvRec1->field_C_volume,
 
@@ -2078,9 +2078,9 @@ CameraSwapper* CC Map::FMV_Camera_Change_4458D0(BYTE** ppBits, Map* pMap, LevelI
         auto pCameraSwapperMem = ao_new<CameraSwapper>();
         return pCameraSwapperMem->ctor_48C540(
                 ppBits,
-            cdPos,
+                cdPos,
                 pFmvRecord->field_4_id,
-                pFmvRecord->field_6,
+                static_cast<char>(pFmvRecord->field_6),
                 pFmvRecord->field_A,
                 pFmvRecord->field_C_volume);
     }
