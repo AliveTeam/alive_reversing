@@ -15,7 +15,7 @@ void SaveGame::sub_459970(SaveData*, int)
     NOT_IMPLEMENTED();
 }
 
-void SaveGame::sub_45A2D0(char*, const unsigned char* const* , int)
+void SaveGame::sub_45A2D0(unsigned char*, const unsigned char* const* , int)
 {
     NOT_IMPLEMENTED();
 }
@@ -196,9 +196,9 @@ void CC SaveGame::Save_459490(SaveData* pSaveData)
         }
         if (path_id != -1)
         {
-            pSaveData->field_0_header.field_0_frame_1_name[44] = -127;
-            pSaveData->field_0_header.field_0_frame_1_name[45] = 124;
-            pSaveData->field_0_header.field_0_frame_1_name[46] = -126;
+            pSaveData->field_0_header.field_0_frame_1_name[44] = 0x81u;
+            pSaveData->field_0_header.field_0_frame_1_name[45] = 0x7C;
+            pSaveData->field_0_header.field_0_frame_1_name[46] = 0x82u;
             pSaveData->field_0_header.field_0_frame_1_name[47] = static_cast<char>(path_id + 80);
         }
     }
@@ -242,7 +242,7 @@ void CC SaveGame::Save_459490(SaveData* pSaveData)
     pSaveData->field_24C_field_118 = sActiveHero_507678->field_118;
     pSaveData->field_250_throwable_count = sActiveHero_507678->field_19C_throwable_count;
     pSaveData->field_253_scrabania_done = sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabinaDone);
-    pSaveData->field_264 = -(gInfiniteGrenades_5076EC != 0);
+    pSaveData->field_264 = gInfiniteGrenades_5076EC ? -1 : 0;
     pSaveData->field_252_paramonia_done = sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone);
     pSaveData->field_25A_something_elum_related = gElum_507680 != 0;
     if (gElum_507680 != 0)

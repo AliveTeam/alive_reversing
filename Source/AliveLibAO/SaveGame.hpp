@@ -6,7 +6,7 @@ START_NS_AO
 
 struct Save_PSX_Header
 {
-    char field_0_frame_1_name[128];
+    unsigned char field_0_frame_1_name[128];
     char field_80_frame_2_padding[128];
     char field_100_frame_3_padding[128];
     char field_180_frame_4_padding[128];
@@ -97,7 +97,7 @@ class SaveGame
 {
 public:
     EXPORT static void CC sub_459970(SaveData*, int);
-    EXPORT static void CC sub_45A2D0(char*, const unsigned char* const*, int);
+    EXPORT static void CC sub_45A2D0(unsigned char*, const unsigned char* const*, int);
     EXPORT static void CC Save_459490(SaveData* pSaveData);
 };
 
