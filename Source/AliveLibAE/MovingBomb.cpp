@@ -33,9 +33,10 @@ MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, int tlvInfo)
 
     SetVTable(this, 0x546270);
     field_4_typeId = Types::eTimedMine_or_MovingBomb_10;
-    
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kMovebombResID);
-    Animation_Init_424E10(17548, 76, 30, ppRes, 1, 1);
+
+    const AnimRecord& rec = AnimRec(AnimId::Moving_Bomb);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_B_render_mode = 0;

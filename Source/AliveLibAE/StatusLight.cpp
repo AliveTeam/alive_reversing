@@ -53,8 +53,9 @@ StatusLight* StatusLight::ctor_4D5250(Path_StatusLight* pTlv, DWORD tlvInfo)
     field_102_id5 = pTlv->field_1C_id5;
     field_104_snap_to_grid = pTlv->field_1E_snap_to_grid;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kStatusLightResID);
-    Animation_Init_424E10(252, 14, 9u, ppRes, 1, 1u);
+    const AnimRecord& rec = AnimRec(AnimId::Status_Light_Red);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_DC_bApplyShadows &= ~1u;
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
@@ -116,7 +117,8 @@ void StatusLight::vUpdate_4D5530()
         {
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         }
-        field_20_animation.Set_Animation_Data_409C80(240, nullptr);
+		const AnimRecord& animRec = AnimRec(AnimId::Status_Light_Green);
+        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
     }
     else if (SwitchStates_Get_466020(field_FA_id1) ||
         SwitchStates_Get_466020(field_FC_id2) ||
@@ -132,12 +134,14 @@ void StatusLight::vUpdate_4D5530()
         {
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         }
-        field_20_animation.Set_Animation_Data_409C80(252, nullptr);
+		const AnimRecord& animRec = AnimRec(AnimId::Status_Light_Red);
+        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
     }
     else
     {
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
-        field_20_animation.Set_Animation_Data_409C80(252, nullptr);
+        const AnimRecord& animRec = AnimRec(AnimId::Status_Light_Red);
+        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
     }
 }
 

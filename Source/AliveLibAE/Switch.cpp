@@ -57,8 +57,9 @@ Switch* Switch::ctor_4D5860(Path_Switch* pTlv, DWORD tlvInfo)
     SetVTable(this, 0x547A5C);
 
     field_4_typeId = Types::eLever_139;
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kSwitchResID);
-    Animation_Init_424E10(5696, 66, 40, ppRes, 1, 1);
+    const AnimRecord& rec = AnimRec(AnimId::Switch_Idle);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_F4_trigger_id = pTlv->field_1A_trigger_id;
@@ -173,11 +174,13 @@ void Switch::vUpdate_4D5C00()
 
             if (field_100_flags & 1)
             {
-                field_20_animation.Set_Animation_Data_409C80(5760, 0);
+				const AnimRecord& animRec = AnimRec(AnimId::Switch_Pull_Left_B);
+                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             }
             else
             {
-                field_20_animation.Set_Animation_Data_409C80(5848, 0);
+                const AnimRecord& animRec = AnimRec(AnimId::Switch_Pull_Right_B);
+                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             }
 
             const int switch_state = SwitchStates_Get_466020(field_F4_trigger_id);
@@ -291,7 +294,8 @@ void Switch::vUpdate_4D5C00()
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
         {
             field_F8_state = SwitchState::eWaiting_0;
-            field_20_animation.Set_Animation_Data_409C80(5696, 0);
+            const AnimRecord& animRec = AnimRec(AnimId::Switch_Idle);
+            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         }
     }
 }
@@ -307,12 +311,14 @@ __int16 Switch::vPull_4D6050(__int16 bLeftDirection)
 
     if (bLeftDirection)
     {
-        field_20_animation.Set_Animation_Data_409C80(5708, nullptr);
+        const AnimRecord& animRec = AnimRec(AnimId::Switch_Pull_Left_A);
+        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         field_100_flags |= 1u;
     }
     else
     {
-        field_20_animation.Set_Animation_Data_409C80(5796, nullptr);
+        const AnimRecord& animRec = AnimRec(AnimId::Switch_Pull_Right_A);
+        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         field_100_flags &= ~1u;
     }
     

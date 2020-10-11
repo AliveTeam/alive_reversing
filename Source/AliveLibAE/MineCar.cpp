@@ -21,8 +21,9 @@ MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, int tlvInfo, int /*a4*/, int /
     SetVTable(this, 0x5461FC);
     field_4_typeId = Types::eMineCar_89;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kUnknownResID_6013);
-    Animation_Init_424E10(20812, 128, 62, ppRes, 1, 1);
+    const AnimRecord& rec = AnimRec(AnimId::Mine_Car_Open);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_11E_scale = pTlv->field_10_scale;
     field_120_max_damage = pTlv->field_12_max_damage;
@@ -131,6 +132,17 @@ __int16 MineCar::VTakeDamage_408730(BaseGameObject* pFrom)
     return vTakeDamage_46F7D0(pFrom);
 }
 
+const AnimId sMineCarFrameTable[7] =
+{
+	AnimId::Mine_Car_Closed,
+    AnimId::Mine_Car_Open,
+    AnimId::Mine_Car_Shake_A,
+    AnimId::Mine_Car_Shake_B,
+    AnimId::Mine_Car_Tread_Idle,
+    AnimId::Mine_Car_Tread_Move_A,
+    AnimId::Mine_Car_Tread_Move_B
+};
+
 int CC MineCar::CreateFromSaveState_467740(const BYTE* pBuffer)
 {
     auto pState = reinterpret_cast<const MineCar_SaveState*>(pBuffer);
@@ -196,31 +208,32 @@ int CC MineCar::CreateFromSaveState_467740(const BYTE* pBuffer)
     switch (pState->field_24_frame_table)
     {
     case 10860:
-        remapped1 = 20788;
+        remapped1 = 6;
         break;
     case 10884:
-        remapped1 = 20812;
+        remapped1 = 1;
         break;
     case 10896:
-        remapped1 = 20824;
+        remapped1 = 4;
         break;
     case 10908:
-        remapped1 = 20836;
+        remapped1 = 0;
         break;
     case 10920:
-        remapped1 = 20848;
+        remapped1 = 5;
         break;
     case 10944:
-        remapped1 = 20872;
+        remapped1 = 2;
         break;
     case 10972:
-        remapped1 = 20900;
+        remapped1 = 3;
         break;
     default:
         break;
     }
 
-    pMineCar->field_20_animation.Set_Animation_Data_409C80(remapped1, nullptr);
+    const AnimRecord& animRec = AnimRec(sMineCarFrameTable[remapped1]);
+    pMineCar->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
     pMineCar->field_20_animation.field_92_current_frame = pState->field_2A_current_anim_frame;
 
 
@@ -240,31 +253,32 @@ int CC MineCar::CreateFromSaveState_467740(const BYTE* pBuffer)
     switch (pState->field_38_frame_table_offset2)
     {
     case 10860:
-        remapped2 = 20788;
+        remapped2 = 6;
         break;
     case 10884:
-        remapped2 = 20812;
+        remapped2 = 1;
         break;
     case 10896:
-        remapped2 = 20824;
+        remapped2 = 4;
         break;
     case 10908:
-        remapped2 = 20836;
+        remapped2 = 0;
         break;
     case 10920:
-        remapped2 = 20848;
+        remapped2 = 5;
         break;
     case 10944:
-        remapped2 = 20872;
+        remapped2 = 2;
         break;
     case 10972:
-        remapped2 = 20900;
+        remapped2 = 3;
         break;
     default:
         break;
     }
 
-    pMineCar->field_124_anim.Set_Animation_Data_409C80(remapped2, nullptr);
+    const AnimRecord& animRec2 = AnimRec(sMineCarFrameTable[remapped2]);
+    pMineCar->field_124_anim.Set_Animation_Data_409C80(animRec2.mFrameTableOffset, nullptr);
     pMineCar->field_124_anim.field_92_current_frame = pState->field_2A_current_anim_frame;
 
 
@@ -312,8 +326,10 @@ int CC MineCar::CreateFromSaveState_467740(const BYTE* pBuffer)
 
 void MineCar::LoadAnimation_46BF80(Animation* pAnim)
 {
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kUnknownResID_6013);
-    if (pAnim->Init_40A030(20824, gObjList_animations_5C1A24, this, 130, 62u, ppRes, 1, 0, 0))
+    const AnimRecord& rec = AnimRec(AnimId::Mine_Car_Tread_Idle);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+
+    if (pAnim->Init_40A030(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, ppRes, 1, 0, 0))
     {
         pAnim->field_C_render_layer = field_20_animation.field_C_render_layer;
         pAnim->field_4_flags.Clear(AnimFlags::eBit16_bBlending);
@@ -468,8 +484,11 @@ void MineCar::Stop_46E570()
         field_1D0_sound_channels_mask = 0;
     }
     SFX_Play_46FA90(SoundEffect::MinecarStop_101, 127, field_CC_sprite_scale);
-    field_20_animation.Set_Animation_Data_409C80(20836, 0);
-    field_124_anim.Set_Animation_Data_409C80(20824, 0);
+    
+    const AnimRecord& animRec = AnimRec(AnimId::Mine_Car_Closed);
+    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+    const AnimRecord& animRec2 = AnimRec(AnimId::Mine_Car_Tread_Idle);
+    field_124_anim.Set_Animation_Data_409C80(animRec2.mFrameTableOffset, nullptr);
     field_1C4_velx_index = 0;
     field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
 }
@@ -485,7 +504,8 @@ void MineCar::Move_46E640(unsigned __int16 frameTabeOffset, FP velX, FP velY, In
         field_1D0_sound_channels_mask = SFX_Play_46FA90(SoundEffect::MinecarMovement_100, 127, field_CC_sprite_scale);
     }
 
-    field_124_anim.Set_Animation_Data_409C80(20848, nullptr);
+    const AnimRecord& animRec2 = AnimRec(AnimId::Mine_Car_Tread_Move_A);
+    field_124_anim.Set_Animation_Data_409C80(animRec2.mFrameTableOffset, nullptr);
     field_C4_velx = velX;
     field_C8_vely = velY;
 
@@ -918,7 +938,9 @@ void MineCar::State_0_ParkedWithoutAbe()
         PSX_Rects_overlap_4FA0B0(&carRect, &abeRect) && 
         sActiveHero_5C1B68->field_CC_sprite_scale == field_CC_sprite_scale)
     {
-        field_20_animation.Set_Animation_Data_409C80(20836, 0);
+        
+        const AnimRecord& animRec = AnimRec(AnimId::Mine_Car_Closed);
+        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         field_11C_state = MineCarStates::eState_1_ParkedWithAbe;
         sControlledCharacter_5C1B8C = this;
         field_20_animation.field_C_render_layer = 35;
@@ -950,8 +972,10 @@ void MineCar::State_1_ParkedWithAbe()
         sActiveHero_5C1B68->field_B8_xpos = field_B8_xpos;
         sActiveHero_5C1B68->field_BC_ypos = field_BC_ypos;
         field_11C_state = MineCarStates::eState_0_ParkedWithoutAbe;
-        field_124_anim.Set_Animation_Data_409C80(20824, 0);
-        field_20_animation.Set_Animation_Data_409C80(20812, 0);
+        const AnimRecord& animRec2 = AnimRec(AnimId::Mine_Car_Tread_Idle);
+        field_124_anim.Set_Animation_Data_409C80(animRec2.mFrameTableOffset, nullptr);
+        const AnimRecord& animRec = AnimRec(AnimId::Mine_Car_Open);
+        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
         field_1CC_spawned_path = gMap_5C3030.field_2_current_path;
         field_1CE_spawned_camera = gMap_5C3030.field_4_current_camera;

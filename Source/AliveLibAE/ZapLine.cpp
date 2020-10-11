@@ -14,24 +14,24 @@ EXPORT ZapLine* ZapLine::ctor_4CC690(FP x1, FP y1, FP x2, FP y2, __int16 aliveTi
     SetVTable(this, 0x5478A0);
     field_4_typeId = Types::eZapLine_135;
 
-    int frameTable = 0;
     if (type == 1)
     {
         field_130_count_per_part = 20;
         field_12E_part_count = 12;
-        frameTable = 276;
+		const AnimRecord& rec = AnimRec(AnimId::Zap_Line_Blue);
+        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+        Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
         field_12C_tPageAbr = 3;
     }
     else if (type == 0)
     {
         field_130_count_per_part = 10;
         field_12E_part_count = 28;
-        frameTable = 288;
+		const AnimRecord& rec = AnimRec(AnimId::Zap_Line_Red);
+        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+        Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
         field_12C_tPageAbr = 1;
     }
-
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kSplineResID);
-    Animation_Init_424E10(frameTable, 14, 9, ppRes, 1, 1u);
 
     field_132_pSprts_count = field_12E_part_count * field_130_count_per_part;
     field_20_animation.field_4_flags.Set(AnimFlags::eBit25_bDecompressDone); // HIBYTE |= 1

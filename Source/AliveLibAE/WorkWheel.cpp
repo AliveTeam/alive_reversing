@@ -229,7 +229,8 @@ void WorkWheel::vStartTurning_4E3A20()
     if (field_FC_state == WheelStates::eIdle_0)
     {
         field_FC_state = WheelStates::eTurning_1;
-        field_20_animation.Set_Animation_Data_409C80(2728, nullptr);
+        const AnimRecord& animRec = AnimRec(AnimId::Work_Wheel_Turning);
+        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
     }
 }
 
@@ -240,7 +241,8 @@ void WorkWheel::vStopTurning_4E3A60(__int16 bResetSwitch)
         field_FC_state = WheelStates::eIdle_0;
 
         // Spin it.
-        field_20_animation.Set_Animation_Data_409C80(2716, nullptr);
+        const AnimRecord& animRec = AnimRec(AnimId::Work_Wheel_Idle);
+        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
         if (field_104_off_when_stopped & 1)
         {

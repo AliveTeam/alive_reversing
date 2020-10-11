@@ -239,27 +239,27 @@ int Fleech::VGetSaveState(BYTE* pSaveBuffer)
 }
 
 
-const static int sFleechFrameTableOffsets_5517E4[19] =
+const static AnimId sFleechFrameTableOffsets_5517E4[19] =
 {
-    37808,
-    37884,
-    37896,
-    37704,
-    37748,
-    37784,
-    37924,
-    37936,
-    37960,
-    37984,
-    38060,
-    38112,
-    38156,
-    38208,
-    38260,
-    37848,
-    38248,
-    38396,
-    38276
+    AnimId::Fleech_Idle_A,
+    AnimId::Fleech_Unknown_A,
+    AnimId::Fleech_Unknown_B,
+    AnimId::Fleech_Idle_B,
+    AnimId::Fleech_Walk,
+    AnimId::Fleech_Speak,
+    AnimId::Fleech_Unknown_C,
+    AnimId::Fleech_Idle_C,
+    AnimId::Fleech_Idle_D,
+    AnimId::Fleech_Falling,
+    AnimId::Fleech_Landing,
+    AnimId::Fleech_Tongue,
+    AnimId::Fleech_Climb_A,
+    AnimId::Fleech_Climb_B,
+    AnimId::Fleech_Unknown_D,
+    AnimId::Fleech_Unknown_E,
+    AnimId::Fleech_Unknown_F,
+    AnimId::Fleech_Sleep,
+    AnimId::Fleech_Eat
 };
 
 ALIVE_VAR(1, 0x551840, int, dword_551840, -1);
@@ -302,8 +302,9 @@ int CC Fleech::CreateFromSaveState_42DD50(const BYTE* pBuffer)
     pFleech->field_D4_b = pState->field_24_b;
 
     pFleech->field_106_current_motion = pState->field_28_current_motion;
-    BYTE** ppRes = pFleech->ResBlockForMotion_42A530(pState->field_28_current_motion);
-    pFleech->field_20_animation.Set_Animation_Data_409C80(sFleechFrameTableOffsets_5517E4[pFleech->field_106_current_motion], ppRes);
+    //BYTE** ppRes = pFleech->ResBlockForMotion_42A530(pState->field_28_current_motion);
+	const AnimRecord& animRec = AnimRec(sFleechFrameTableOffsets_5517E4[pFleech->field_106_current_motion]);
+    pFleech->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
     pFleech->field_20_animation.field_92_current_frame = pState->field_2A_anim_current_frame;
     pFleech->field_20_animation.field_E_frame_change_counter = pState->field_2C_frame_change_counter;
 
@@ -1844,8 +1845,9 @@ void Fleech::InitTonguePolys_42B6E0()
 
 void Fleech::SetAnim_429D80()
 {
-    BYTE** ppRes = ResBlockForMotion_42A530(field_106_current_motion);
-    field_20_animation.Set_Animation_Data_409C80(sFleechFrameTableOffsets_5517E4[field_106_current_motion], ppRes);
+	BYTE** ppRes = ResBlockForMotion_42A530(field_106_current_motion);
+	const AnimRecord& animRec = AnimRec(sFleechFrameTableOffsets_5517E4[field_106_current_motion]);
+    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
 }
 
 void Fleech::sub_42CF70()
