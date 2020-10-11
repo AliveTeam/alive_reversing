@@ -257,32 +257,32 @@ int Slog::VGetSaveState(BYTE* pSaveBuffer)
 }
 
 
-const int sSlogFrameOffsetTable_5609D8[24] =
+const AnimId sSlogFrameOffsetTable_5609D8[24] =
 {
-    96464,
-    96344,
-    96424,
-    96764,
-    96692,
-    96496,
-    96532,
-    96580,
-    96640,
-    96660,
-    96876,
-    96716,
-    96728,
-    96752,
-    15068,
-    15108,
-    15156,
-    15132,
-    38904,
-    38960,
-    39064,
-    12412,
-    12724,
-    12812
+	AnimId::Slog_Idle_A,
+    AnimId::Slog_Walk,
+    AnimId::Slog_Run,
+    AnimId::Slog_Turn_Around,
+    AnimId::Slog_Falling,
+    AnimId::Slog_Bark,
+    AnimId::Slog_Run_Stop,
+    AnimId::Slog_Run_Turn_Around,
+    AnimId::Slog_Unknown_A,
+    AnimId::Slog_Unknown_B,
+    AnimId::Slog_Unknown_C,
+    AnimId::Slog_Unknown_D,
+    AnimId::Slog_Bark_Short_A,
+    AnimId::Slog_Unknown_E,
+    AnimId::Slog_Bark_Short_B,
+    AnimId::Slog_Sleep_A,
+    AnimId::Slog_Sleep_B,
+    AnimId::Slog_Sleep_C,
+    AnimId::Slog_Lunge,
+    AnimId::Slog_Jump_Up,
+    AnimId::Slog_Eat,
+    AnimId::Slog_Die,
+    AnimId::Slog_Scratch,
+    AnimId::Slog_Idle_B
 };
 
 ALIVE_VAR(1, 0xBAF7F0, BYTE, sSlogRandomIdx_BAF7F0, 0);
@@ -334,7 +334,9 @@ int CC Slog::CreateFromSaveState_4C54F0(const BYTE* pBuffer)
 
     pSlog->field_106_current_motion = pState->field_28_current_motion;
     BYTE** ppRes = pSlog->ResBlockForMotion_4C4A80(pState->field_28_current_motion);
-    pSlog->field_20_animation.Set_Animation_Data_409C80(sSlogFrameOffsetTable_5609D8[pSlog->field_106_current_motion], ppRes);
+	const AnimRecord& animRec = AnimRec(sSlogFrameOffsetTable_5609D8[pSlog->field_106_current_motion]);
+    pSlog->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
+	
     pSlog->field_20_animation.field_92_current_frame = pState->field_2A_anim_cur_frame;
     pSlog->field_20_animation.field_E_frame_change_counter = pState->field_2C_frame_change_counter;
 
@@ -2839,8 +2841,9 @@ BYTE** Slog::ResBlockForMotion_4C4A80(__int16 motion)
 
 void Slog::SetAnimFrame_4C42A0()
 {
-    BYTE** ppRes = ResBlockForMotion_4C4A80(field_106_current_motion);
-    field_20_animation.Set_Animation_Data_409C80(sSlogFrameOffsetTable_5609D8[field_106_current_motion], ppRes);
+	const AnimRecord& animRec = AnimRec(sSlogFrameOffsetTable_5609D8[field_106_current_motion]);
+	BYTE** ppRes = ResBlockForMotion_4C4A80(field_106_current_motion);
+    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
 }
 
 TintEntry sSlogTints_560A48[] =

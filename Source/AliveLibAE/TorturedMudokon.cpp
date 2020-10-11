@@ -21,12 +21,13 @@ TorturedMudokon* TorturedMudokon::ctor_47BC60(Path_TorturedMudokon* pTlv, int tl
     field_4_typeId = Types::eTorturedMud_141;
     field_230_tlvInfo = tlvInfo;
 
-    field_224_ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kTorturedMud);
+    const AnimRecord& rec = AnimRec(AnimId::Tortured_Modukon);
+    field_224_ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     if (field_224_ppRes)
     {
         field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
         field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
-        Animation_Init_424E10(20892, 101, 0x44u, field_224_ppRes, 1, 1);
+        Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_224_ppRes, 1, 1);
         field_20_animation.SetFrame_409D50(Math_RandomRange_496AB0(0, field_20_animation.Get_Frame_Count_40AC70() - 1));
         field_23A_speed_id = pTlv->field_10_speed_id;
         field_23C_release_id = pTlv->field_12_release_id;
@@ -190,7 +191,8 @@ void TorturedMudokon::vUpdate_47BF80()
             if (SwitchStates_Get_466020(field_23A_speed_id))
             {
                 field_23E_state = TorturedMudokonState::eKilled_1;
-                field_20_animation.Set_Animation_Data_409C80(21000, 0); // Being electrocuted animation.
+                const AnimRecord& animRec = AnimRec(AnimId::Tortured_Modukon_Zap);
+                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             }
             break;
 
@@ -283,7 +285,8 @@ void TorturedMudokon::vUpdate_47BF80()
     if (SwitchStates_Get_466020(field_23C_release_id))
     {
         field_23E_state = TorturedMudokonState::eReleased_2;
-        field_20_animation.Set_Animation_Data_409C80(20864, 0); // Being released animation.
+        const AnimRecord& animRec = AnimRec(AnimId::Tortured_Modukon_Released);
+        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         field_F4_tears_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         field_18C_zap_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_230_tlvInfo);

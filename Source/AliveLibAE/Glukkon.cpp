@@ -77,35 +77,35 @@ const TGlukkonAIFn sGlukkon_ai_table_5544A0[6] =
     &Glukkon::AI_5_WaitToSpawn_442490
 };
 
-const int dword_554524[4][25] =
+const AnimId dword_554524[4][25] =
 {
     {
-        169608, 169644, 169724, 169772, 169828,
-        169900, 169920, 169952, 169968, 170000,
-        170152, 170216, 170268, 170056, 170312,
-        170332, 170352, 170372, 170392, 170412,
-        170432, 170152, 170472, 170504, 170560
+        AnimId::Glukkon_Normal_Idle, AnimId::Glukkon_Normal_Walk, AnimId::Glukkon_Normal_Turn_Around, AnimId::Glukkon_Normal_Fall_Over, AnimId::Glukkon_Normal_Jump,
+        AnimId::Glukkon_Normal_Unknown_A, AnimId::Glukkon_Normal_Unknown_B, AnimId::Glukkon_Normal_Unknown_C, AnimId::Glukkon_Normal_Unknown_D, AnimId::Glukkon_Normal_Landing,
+        AnimId::Glukkon_Normal_Possessed_A, AnimId::Glukkon_Normal_Speak_A, AnimId::Glukkon_Normal_Speak_B, AnimId::Glukkon_Normal_Laugh, AnimId::Glukkon_Normal_Unknown_E,
+        AnimId::Glukkon_Normal_Unknown_F, AnimId::Glukkon_Normal_Unknown_G, AnimId::Glukkon_Normal_Unknown_H, AnimId::Glukkon_Normal_Unknown_I, AnimId::Glukkon_Normal_Unknown_J,
+        AnimId::Glukkon_Normal_Stand_Up_A, AnimId::Glukkon_Normal_Possessed_B, AnimId::Glukkon_Normal_Stand_Up_B, AnimId::Glukkon_Normal_Speak_C, AnimId::Glukkon_Normal_Unknown_K
+    },                       
+    {                           
+        AnimId::Glukkon_Aslik_Idle, AnimId::Glukkon_Aslik_Walk, AnimId::Glukkon_Aslik_Turn_Around, AnimId::Glukkon_Aslik_Fall_Over, AnimId::Glukkon_Aslik_Jump,
+        AnimId::Glukkon_Aslik_Unknown_A, AnimId::Glukkon_Aslik_Unknown_B, AnimId::Glukkon_Aslik_Unknown_C, AnimId::Glukkon_Aslik_Unknown_D, AnimId::Glukkon_Aslik_Landing,
+        AnimId::Glukkon_Aslik_Possessed_A, AnimId::Glukkon_Aslik_Speak_A, AnimId::Glukkon_Aslik_Speak_B, AnimId::Glukkon_Aslik_Laugh, AnimId::Glukkon_Aslik_Unknown_E,
+        AnimId::Glukkon_Aslik_Unknown_F, AnimId::Glukkon_Aslik_Unknown_G, AnimId::Glukkon_Aslik_Unknown_H, AnimId::Glukkon_Aslik_Unknown_I, AnimId::Glukkon_Aslik_Unknown_J,
+        AnimId::Glukkon_Aslik_Stand_Up_A, AnimId::Glukkon_Aslik_Possessed_B, AnimId::Glukkon_Aslik_Stand_Up_B, AnimId::Glukkon_Aslik_Speak_C, AnimId::Glukkon_Aslik_Unknown_K
+    },
+    {                           
+        AnimId::Glukkon_Dripik_Idle, AnimId::Glukkon_Dripik_Walk, AnimId::Glukkon_Dripik_Turn_Around, AnimId::Glukkon_Dripik_Fall_Over, AnimId::Glukkon_Dripik_Jump,
+        AnimId::Glukkon_Dripik_Unknown_A, AnimId::Glukkon_Dripik_Unknown_B, AnimId::Glukkon_Dripik_Unknown_C, AnimId::Glukkon_Dripik_Unknown_D, AnimId::Glukkon_Dripik_Landing,
+        AnimId::Glukkon_Dripik_Possessed_A, AnimId::Glukkon_Dripik_Speak_A, AnimId::Glukkon_Dripik_Speak_B, AnimId::Glukkon_Dripik_Laugh, AnimId::Glukkon_Dripik_Unknown_E,
+        AnimId::Glukkon_Dripik_Unknown_F, AnimId::Glukkon_Dripik_Unknown_G, AnimId::Glukkon_Dripik_Unknown_H, AnimId::Glukkon_Dripik_Unknown_I, AnimId::Glukkon_Dripik_Unknown_J,
+        AnimId::Glukkon_Dripik_Stand_Up_A, AnimId::Glukkon_Dripik_Possessed_B, AnimId::Glukkon_Dripik_Stand_Up_B, AnimId::Glukkon_Dripik_Speak_C, AnimId::Glukkon_Dripik_Unknown_K
     },                          
     {                           
-        171356, 171392, 171472, 171520, 171576,
-        171648, 171668, 171700, 171716, 171748,
-        171900, 171964, 172016, 171804, 172060,
-        172080, 172100, 172120, 172140, 172160,
-        172180, 171900, 172220, 172252, 172308
-    },                          
-    {                           
-        193064, 193100, 193180, 193228, 193284,
-        193356, 193376, 193408, 193424, 193456,
-        193608, 193672, 193724, 193512, 193768,
-        193788, 193808, 193828, 193848, 193868,
-        193888, 193608, 193928, 193960, 194016
-    },                          
-    {                           
-        199500, 199536, 199616, 199664, 199720,
-        199792, 199812, 199844, 199860, 199892,
-        200044, 200108, 200160, 199948, 200204,
-        200224, 200244, 200264, 200284, 200304,
-        200324, 200044, 200364, 200396, 200452
+        AnimId::Glukkon_Phleg_Idle, AnimId::Glukkon_Phleg_Walk, AnimId::Glukkon_Phleg_Turn_Around, AnimId::Glukkon_Phleg_Fall_Over, AnimId::Glukkon_Phleg_Jump,
+        AnimId::Glukkon_Phleg_Unknown_A, AnimId::Glukkon_Phleg_Unknown_B, AnimId::Glukkon_Phleg_Unknown_C, AnimId::Glukkon_Phleg_Unknown_D, AnimId::Glukkon_Phleg_Landing,
+        AnimId::Glukkon_Phleg_Possessed_A, AnimId::Glukkon_Phleg_Speak_A, AnimId::Glukkon_Phleg_Speak_B, AnimId::Glukkon_Phleg_Laugh, AnimId::Glukkon_Phleg_Unknown_E,
+        AnimId::Glukkon_Phleg_Unknown_F, AnimId::Glukkon_Phleg_Unknown_G, AnimId::Glukkon_Phleg_Unknown_H, AnimId::Glukkon_Phleg_Unknown_I, AnimId::Glukkon_Phleg_Unknown_J,
+        AnimId::Glukkon_Phleg_Stand_Up_A, AnimId::Glukkon_Phleg_Possessed_B, AnimId::Glukkon_Phleg_Stand_Up_B, AnimId::Glukkon_Phleg_Speak_C, AnimId::Glukkon_Phleg_Unknown_K
     }
 };
 
@@ -209,8 +209,10 @@ signed int CC Glukkon::CreateFromSaveState_442830(const BYTE* pData)
         glukType = GlukkonTypes::Normal_0;
     }
 
-    pGlukkon->field_20_animation.Set_Animation_Data_409C80(dword_554524[static_cast< int >( glukType )][pSaveState->field_28_current_motion], 0);
-    pGlukkon->field_20_animation.field_92_current_frame = pSaveState->field_2A_current_frame;
+    const AnimRecord& animRec = AnimRec(dword_554524[static_cast< int >( glukType )][pSaveState->field_28_current_motion]);
+    pGlukkon->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+	
+	pGlukkon->field_20_animation.field_92_current_frame = pSaveState->field_2A_current_frame;
     pGlukkon->field_20_animation.field_E_frame_change_counter = pSaveState->field_2C_frame_change_counter;
     pGlukkon->field_6_flags.Set(BaseGameObject::Options::eDrawable_Bit4, pSaveState->field_2F & 1);
     pGlukkon->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pSaveState->field_26_flipX & 1);
@@ -2322,7 +2324,8 @@ void Glukkon::SetAnim_43F9C0(__int16 currentMotion, __int16 bClearNextMotion)
         typeIndex = 0;
     }
 
-    field_20_animation.Set_Animation_Data_409C80(dword_554524[typeIndex][currentMotion], nullptr);
+    const AnimRecord& animRec = AnimRec(dword_554524[typeIndex][currentMotion]);
+    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
     field_106_current_motion = currentMotion;
     if (bClearNextMotion)

@@ -20,8 +20,9 @@ MotionDetectorLaser* MotionDetectorLaser::ctor_468290(FP xpos, FP ypos, FP scale
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x545FB0);
     field_4_typeId = Types::eRedLaser_111;
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kMotionResID);
-    Animation_Init_424E10(23280, 37, 60, ppRes, 1, 1);
+    const AnimRecord& rec = AnimRec(AnimId::Motion_Detector_Laser);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     field_20_animation.field_C_render_layer = layer;
     field_B8_xpos = xpos;
     field_CC_sprite_scale = scale;
@@ -53,8 +54,9 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvIn
     SetVTable(this, 0x545FF8);
     field_4_typeId = Types::eGreeterBody_91;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kMflareResID);
-    Animation_Init_424E10(1736, 55, 22, ppRes, 1, 1);
+    const AnimRecord& rec = AnimRec(AnimId::Motion_Detector_Flare);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_B_render_mode = 1;

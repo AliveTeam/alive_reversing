@@ -199,7 +199,9 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
             field_1C8_flags.Clear(UXB_Flags_1C8::eIsRed_Bit1);
             field_128_animation.Set_Animation_Data_409C80(544, 0);
             PlaySFX_4DE930(SoundEffect::GreenTick_2);
-            field_20_animation.Set_Animation_Data_409C80(0x2000, 0);
+
+            const AnimRecord& animRec = AnimRec(AnimId::UXB_Disabled);
+            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             field_118_state = UXBState::eDeactivated_3;
             field_11A_starting_state = UXBState::eDelay_0;
         }
@@ -219,7 +221,9 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
             field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
             field_1C8_flags.Clear(UXB_Flags_1C8::eIsRed_Bit1);
             field_128_animation.Set_Animation_Data_409C80(544, 0);
-            field_20_animation.Set_Animation_Data_409C80(0x2000, 0);
+
+            const AnimRecord& animRec = AnimRec(AnimId::UXB_Disabled);
+            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             field_11A_starting_state = UXBState::eDeactivated_3;
             field_118_state = UXBState::eDeactivated_3;
         }
@@ -291,8 +295,11 @@ EXPORT void UXB::vOnPickUpOrSlapped_4DF540()
             {
                 field_128_animation.Set_Animation_Data_409C80(544, 0);
                 PlaySFX_4DE930(SoundEffect::GreenTick_2);
-                field_20_animation.Set_Animation_Data_409C80(8120, 0);
+
+                const AnimRecord& animRec = AnimRec(AnimId::UXB_Toggle);
+                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
                 field_118_state = UXBState::eDeactivated_3;
+
                 field_124_next_state_frame = sGnFrame_5C1B84 + 10;
             }
         }
@@ -300,7 +307,8 @@ EXPORT void UXB::vOnPickUpOrSlapped_4DF540()
         {
             field_118_state = UXBState::eDelay_0;
             field_1C_update_delay = 6;
-            field_20_animation.Set_Animation_Data_409C80(8048, 0);
+			const AnimRecord& animRec = AnimRec(AnimId::UXB_Active);
+            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             PlaySFX_4DE930(SoundEffect::RedTick_3);
         }
     }
@@ -618,7 +626,9 @@ EXPORT int CC UXB::CreateFromSaveState_4DFAE0(const BYTE* __pSaveState)
     {
         pUXB->field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
         pUXB->field_128_animation.Set_Animation_Data_409C80(544, 0);
-        pUXB->field_20_animation.Set_Animation_Data_409C80(0x2000, 0);
+        //pUXB->field_20_animation.Set_Animation_Data_409C80(0x2000, 0);
+		    const AnimRecord& animRec = AnimRec(AnimId::UXB_Disabled);
+        pUXB->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
     }
 
     pUXB->field_124_next_state_frame = pSaveState->field_8_next_state_frame;

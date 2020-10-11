@@ -55,8 +55,9 @@ Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, DWORD tlvInfo)
 
     field_11C_state = Slurg_States::State_0_Moving;
 
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kSlurgResID);
-    Animation_Init_424E10(2708, 46, 15, field_10_resources_array.ItemAt(0), 1, 1);
+    const AnimRecord& rec = AnimRec(AnimId::Slurg_Move);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
     field_4_typeId = Types::eSlurg_129;
@@ -209,7 +210,8 @@ void Slurg::dtor_4C8A40()
 void Slurg::Burst_4C8AE0()
 {
     field_11C_state = Slurg_States::State_2_Burst;
-    field_20_animation.Set_Animation_Data_409C80(2808, 0);
+    const AnimRecord& animRec = AnimRec(AnimId::Slurg_Burst);
+    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
     
     auto pBlood = ae_new<Blood>();
     if (pBlood)
@@ -244,7 +246,8 @@ void Slurg::vUpdate_4C8790()
     {
         field_11E_delay_timer = Math_RandomRange_496AB0(field_120_delay_random, field_120_delay_random + 20);
         field_11C_state = Slurg_States::State_1_Stopped;
-        field_20_animation.Set_Animation_Data_409C80(2740, 0);
+        const AnimRecord& animRec = AnimRec(AnimId::Slurg_Turn_Around);
+        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
     }
 
     PSX_RECT bRect = {};
@@ -297,7 +300,8 @@ void Slurg::vUpdate_4C8790()
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             field_11C_state = Slurg_States::State_0_Moving;
-            field_20_animation.Set_Animation_Data_409C80(2708, 0);
+            const AnimRecord& animRec = AnimRec(AnimId::Slurg_Move);
+            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         }
     }
     else if (field_11C_state == Slurg_States::State_2_Burst)
@@ -402,7 +406,8 @@ void Slurg::GoLeft()
     field_118_flags.Clear(SlurgFlags::Bit1_Direction);
 
     field_11C_state = Slurg_States::State_1_Stopped;
-    field_20_animation.Set_Animation_Data_409C80(2740, 0);
+    const AnimRecord& animRec = AnimRec(AnimId::Slurg_Turn_Around);
+    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 }
 
 void Slurg::GoRight()
@@ -411,5 +416,6 @@ void Slurg::GoRight()
     field_118_flags.Set(SlurgFlags::Bit1_Direction);
 
     field_11C_state = Slurg_States::State_1_Stopped;
-    field_20_animation.Set_Animation_Data_409C80(2740, 0);
+    const AnimRecord& animRec = AnimRec(AnimId::Slurg_Turn_Around);
+    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 }
