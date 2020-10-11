@@ -9893,7 +9893,7 @@ __int16 Abe::GetEvilFart_4585F0(__int16 bDontLoad)
             PSX_RECT bRect = {};
             pBrewMachine->vGetBoundingRect_424FD0(&bRect, 1);
 
-            if (PSX_Rects_overlap_4FA0B0(&abeRect, &bRect) &&
+            if (RectsOverlap(abeRect, bRect) &&
                 pBrewMachine->field_CC_sprite_scale == field_CC_sprite_scale &&
                 pBrewMachine->field_144_total_brew_count > 0 &&
                 field_198_has_evil_fart == FALSE)
