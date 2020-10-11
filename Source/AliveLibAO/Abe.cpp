@@ -6888,8 +6888,6 @@ const elumSpawn dword_4CF550[] =
     nullptr
 };
 
-
-
 void Abe::State_62_LoadedSaveSpawn_REAL_45ADD0()
 {
     NOT_IMPLEMENTED();
