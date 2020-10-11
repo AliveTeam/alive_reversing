@@ -612,4 +612,16 @@ __int16 Rock::OnCollision_457240(BaseAnimatedWithPhysicsGameObject* pObj)
     return 0;
 }
 
+__int16 Rock::VIsFalling()
+{
+    // Same as meat falling func - compiler seems to have made them both
+    // use the same func, or should it go in the base ??
+    return field_110_state == 5;
+}
+
+void Rock::VTimeToExplodeRandom()
+{
+    // Empty ?
+}
+
 END_NS_AO

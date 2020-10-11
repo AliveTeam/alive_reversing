@@ -38,9 +38,13 @@ public:
 
     EXPORT int MeasureWidth_41C200(char a2);
 
+    EXPORT int MeasureWidth_41C280(const char* text, FP scale);
+
     EXPORT int DrawString_41C360(int**, const char*, __int16, __int16, int, int, int, int, unsigned char, unsigned char, unsigned char, int, FP, int, int);
 
     EXPORT void dtor_41C130();
+
+    EXPORT const char* SliceText_41C6C0(const char* text, int left, FP scale, int right);
 
     byte gap0[32];
     BYTE** field_20_fnt_poly_block_ptr;

@@ -185,4 +185,24 @@ ParticleBurst* ParticleBurst::Vdtor_40DA40(signed int flags)
     return this;
 }
 
+void ParticleBurst::VUpdate()
+{
+    VUpdate_40D600();
+}
+
+void ParticleBurst::VUpdate_40D600()
+{
+    NOT_IMPLEMENTED();
+}
+
+void ParticleBurst::VRender(int** pOrderingTable)
+{
+    VRender_40D7F0(pOrderingTable);
+}
+
+void ParticleBurst::VRender_40D7F0(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 END_NS_AO

@@ -265,6 +265,18 @@ BaseGameObject* Gibs::Vdtor_4083D0(unsigned int flags)
     return this;
 }
 
+
+void Gibs::VRender(int** pOrderingTable)
+{
+    VRender_408200(pOrderingTable);
+}
+
+
+void Gibs::VRender_408200(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 BaseGameObject* Gibs::VDestructor(signed int flags)
 {
     return Vdtor_4083D0(flags);

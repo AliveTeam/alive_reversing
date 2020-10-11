@@ -304,5 +304,14 @@ void FlintLockFire::VUpdate_41AEE0()
     }
 }
 
-END_NS_AO
+void FlintLockFire::VRender(int** pOrderingTable)
+{
+    VRender_41B0F0(pOrderingTable);
+}
 
+void FlintLockFire::VRender_41B0F0(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+END_NS_AO

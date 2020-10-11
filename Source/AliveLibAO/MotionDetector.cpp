@@ -145,6 +145,16 @@ BaseGameObject* MotionDetector::dtor_437D70()
     return dtor_417D10();
 }
 
+void MotionDetector::VScreenChanged()
+{
+    VScreenChanged_438520();
+}
+
+void MotionDetector::VScreenChanged_438520()
+{
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+}
+
 BaseGameObject* MotionDetector::VDestructor(signed int flags)
 {
     return Vdtor_438530(flags);
@@ -161,6 +171,11 @@ MotionDetector* MotionDetector::Vdtor_438530(signed int flags)
     return this;
 }
 
+
+void MotionDetector::VUpdate()
+{
+    VUpdate_437E90();
+}
 
 void MotionDetector::VUpdate_437E90()
 {
@@ -304,6 +319,17 @@ void MotionDetector::VUpdate_437E90()
             }
         }
     }
+}
+
+
+void MotionDetector::VRender(int** pOrderingTable)
+{
+    VRender_438250(pOrderingTable);
+}
+
+void MotionDetector::VRender_438250(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
 }
 
 BaseGameObject* MotionDetectorLaser::VDestructor(signed int flags)

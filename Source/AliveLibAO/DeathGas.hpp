@@ -24,6 +24,10 @@ public:
 
     EXPORT DeathGas* Vdtor_41D740(signed int flags);
 
+    virtual void VRender(int** ppOt) override;
+
+    EXPORT void VRender_41D190(int** ppOt);
+
     __int16 field_10_total;
     __int16 field_12_unused;
     __int16 field_14_amount;

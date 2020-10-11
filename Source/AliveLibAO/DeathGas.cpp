@@ -140,4 +140,14 @@ DeathGas* DeathGas::Vdtor_41D740(signed int flags)
     return this;
 }
 
+void DeathGas::VRender(int** ppOt)
+{
+    VRender_41D190(ppOt);
+}
+
+void DeathGas::VRender_41D190(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 END_NS_AO

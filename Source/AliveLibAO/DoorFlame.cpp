@@ -229,6 +229,26 @@ public:
         return this;
     }
 
+    virtual void VUpdate() override
+    {
+        VUpdate_432440();
+    }
+
+    EXPORT void VUpdate_432440()
+    {
+        NOT_IMPLEMENTED();
+    }
+
+    virtual void VRender(int** pOrderingTable) override
+    {
+        VRender_432640(pOrderingTable);
+    }
+
+    EXPORT void VRender_432640(int** /*ppOt*/)
+    {
+        NOT_IMPLEMENTED();
+    }
+
     int field_D4[4];
     __int16 field_E4_bRender;
     __int16 field_E6_pad;

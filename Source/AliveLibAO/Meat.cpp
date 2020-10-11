@@ -318,4 +318,67 @@ BOOL Meat::VCanEatMe_4390C0()
     return field_110_state != 0;
 }
 
+__int16 Meat::VIsFalling_4573B0()
+{
+    return field_110_state == 5;
+}
+
+__int16 Meat::VIsFalling()
+{
+    return VIsFalling_4573B0();
+}
+
+void Meat::VTimeToExplodeRandom()
+{
+    // Empty ?
+}
+
+void Meat::InTheAir_438720()
+{
+    NOT_IMPLEMENTED();
+}
+
+
+void Meat::VUpdate()
+{
+    VUpdate_438A20();
+}
+
+void Meat::VUpdate_438A20()
+{
+    NOT_IMPLEMENTED();
+}
+
+__int16 Meat::OnCollision_438D80(BaseAliveGameObject* /*pObj*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+void Meat::AddToPlatform_438EA0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Meat::VOnTrapDoorOpen()
+{
+    VOnTrapDoorOpen_438FD0();
+}
+
+void Meat::VOnTrapDoorOpen_438FD0()
+{
+    NOT_IMPLEMENTED();
+}
+
+__int16 Meat::VGetCount()
+{
+    return VGetCount_439020();
+}
+
+__int16 Meat::VGetCount_439020()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 END_NS_AO

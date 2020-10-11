@@ -132,9 +132,20 @@ void Grenade::AddToPlatform_41F7C0()
     NOT_IMPLEMENTED();
 }
 
+
+__int16 Grenade::VCanThrow()
+{
+    return VCanThrow_453EC0();
+}
+
 void Grenade::VTimeToExplodeRandom_41F9B0()
 {
     field_112_explode_timer -= Math_NextRandom() % 16;
+}
+
+void Grenade::VThrow(FP velX, FP velY)
+{
+    VThrow_41ED90(velX, velY);
 }
 
 void Grenade::VThrow_41ED90(FP velX, FP velY)
@@ -342,6 +353,12 @@ signed __int16 Grenade::InTheAir_41EF10()
     return 0;
 }
 
+
+void Grenade::VTimeToExplodeRandom()
+{
+    VTimeToExplodeRandom_41F9B0();
+}
+
 signed __int16 Grenade::OnCollision_BounceOff_41F650(BaseGameObject* pHit)
 {
     if (!pHit->field_6_flags.Get(BaseGameObject::eCanExplode_Bit7))
@@ -409,6 +426,11 @@ signed __int16 Grenade::BlowUp_41EDD0()
 __int16 Grenade::VCanThrow_453EC0()
 {
     return FALSE;
+}
+
+__int16 Grenade::VIsFalling()
+{
+    return VIsFalling_453ED0();
 }
 
 __int16 Grenade::VIsFalling_453ED0()

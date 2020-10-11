@@ -50,6 +50,26 @@ void ThrowableTotalIndicator::VScreenChanged_41BB70()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
+void ThrowableTotalIndicator::VUpdate()
+{
+    VUpdate_41B690();
+}
+
+void ThrowableTotalIndicator::VUpdate_41B690()
+{
+    NOT_IMPLEMENTED();
+}
+
+void ThrowableTotalIndicator::VRender(int** ppOt)
+{
+    VRender_41B810(ppOt);
+}
+
+void ThrowableTotalIndicator::VRender_41B810(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_41B520(FP xpos, FP ypos, __int16 layer, FP /*scale*/, __int16 count, __int16 bFade)
 {
     ctor_487E10(1);

@@ -38,6 +38,10 @@ public:
 
     EXPORT void VScreenChanged_407AB0();
 
+    virtual void VRender(int** pOrderingTable) override;
+
+    EXPORT void VRender_407810(int** ppOt);
+
     int field_D4_not_used[4];
     BYTE** field_E4_ppResBuf;
     BloodParticle* field_E8_pResBuf;

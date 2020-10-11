@@ -52,6 +52,8 @@ public:
 
     EXPORT void VUpdate_418DE0();
 
+    virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
+
     int field_10C_tlvInfo;
     __int16 field_110_state;
     __int16 field_112;

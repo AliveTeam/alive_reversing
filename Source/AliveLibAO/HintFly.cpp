@@ -440,4 +440,25 @@ void HintFly::UpdateParticles_42B1B0()
     }
 }
 
+
+void HintFly::VUpdate()
+{
+    VUpdate_42B3D0();
+}
+
+void HintFly::VUpdate_42B3D0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void HintFly::VRender(int** pOrderingTable)
+{
+    VRender_42BAD0(pOrderingTable);
+}
+
+void HintFly::VRender_42BAD0(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 END_NS_AO

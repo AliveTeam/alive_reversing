@@ -48,6 +48,8 @@ public:
 
     EXPORT void VUpdate_41A120();
 
+    virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
+
 private:
     enum class State : __int16
     {

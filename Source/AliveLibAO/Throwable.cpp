@@ -60,5 +60,35 @@ EXPORT BaseThrowable* CCSTD Make_Throwable_454560(FP xpos, FP ypos, __int16 coun
     return nullptr;
 }
 
+
+void BaseThrowable::VToDead_41F990()
+{
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    field_10E_bDead = TRUE;
+}
+
+
+void BaseThrowable::VToDead()
+{
+    VToDead_41F990();
+}
+
+
+__int16 BaseThrowable::VGetCount_41F980()
+{
+    return field_10C_count;
+}
+
+
+__int16 BaseThrowable::VGetCount()
+{
+    return VGetCount_41F980();
+}
+
+void BaseThrowable::VOnPickUpOrSlapped()
+{
+    VToDead();
+}
+
 END_NS_AO
 

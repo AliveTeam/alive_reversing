@@ -21,7 +21,13 @@ ALIVE_VAR(1, 0x5076BC, short, sKilledMudokons_5076BC, 0);
 ALIVE_VAR(1, 0x5076E0, short, word_5076E0, 0);
 ALIVE_VAR(1, 0x50771C, short, sDDCheat_FlyingEnabled_50771C, 0);
 
+using TDDCheatFn = decltype(&DDCheat::Teleport_409CE0);
 
+const TDDCheatFn off_4C3150[] = 
+{
+    &DDCheat::Teleport_409CE0,
+    &DDCheat::Misc_409E90
+};
 
 DDCheat* DDCheat::ctor_4095D0()
 {
@@ -84,6 +90,32 @@ void DDCheat::AddPropertyEntry(const char* text, DDCheatValueType valueType, DDC
             return;
         }
     }
+}
+
+
+void DDCheat::VScreenChanged()
+{
+    // Empty
+}
+
+void DDCheat::VUpdate()
+{
+    VUpdate_4098C0();
+}
+
+void DDCheat::VUpdate_4098C0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void DDCheat::Teleport_409CE0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void DDCheat::Misc_409E90()
+{
+    NOT_IMPLEMENTED();
 }
 
 int DebugOut_495990(const char* /*pStr*/, ...)

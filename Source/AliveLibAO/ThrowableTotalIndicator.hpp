@@ -24,7 +24,13 @@ public:
 
     EXPORT void VScreenChanged_41BB70();
 
-    // TODO: Render/update
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_41B690();
+
+    virtual void VRender(int** ppOt) override;
+
+    EXPORT void VRender_41B810(int** ppOt);
 
     FP field_10_xpos;
     FP field_14_ypos;

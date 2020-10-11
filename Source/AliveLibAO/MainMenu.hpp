@@ -55,6 +55,11 @@ public:
     EXPORT MainMenuTransition* Vdtor_4369F0(signed int flags);
 
     EXPORT void StartTrans_436560(__int16 layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 speed);
+
+    virtual void VRender(int** ppOt) override;
+
+    EXPORT void VRender_436610(int** ppOt);
+
     __int16 field_10_current_Value;
     __int16 field_12_change_by_speed;
     __int16 field_14_fade_direction;
