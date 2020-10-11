@@ -99,8 +99,8 @@ public:
     EXPORT static void CC sub_459970(SaveData*, int);
     EXPORT static void CC sub_45A2D0(unsigned char*, const unsigned char* const*, int);
     EXPORT static void CC Save_459490(SaveData* pSaveData);
-    EXPORT static short CC Read_459D30(const char*);
-    EXPORT static BOOL CC WriteSave_45A110(const char *a1);
+    EXPORT static short CC Read_459D30(const char* name);
+    EXPORT static BOOL CC WriteSave_45A110(const char* name);
 
     static int Hash(SaveData* table);
 };
