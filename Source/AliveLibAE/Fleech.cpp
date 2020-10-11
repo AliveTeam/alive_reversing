@@ -1860,11 +1860,9 @@ void Fleech::InitTonguePolys_42B6E0()
 
 void Fleech::SetAnim_429D80()
 {
-    //BYTE** ppRes = ResBlockForMotion_42A530(field_106_current_motion);
-    //field_20_animation.Set_Animation_Data_409C80(sFleechFrameTableOffsets_5517E4[field_106_current_motion], ppRes);
-	
+	BYTE** ppRes = ResBlockForMotion_42A530(field_106_current_motion);
 	const AnimRecord& animRec = AnimRec(sFleechFrameTableOffsets_5517E4[field_106_current_motion]);
-    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
 }
 
 void Fleech::sub_42CF70()
