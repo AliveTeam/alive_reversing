@@ -7,7 +7,6 @@
 #include "Grenade.hpp"
 #include "Input.hpp"
 #include "SaveGame.hpp"
-#include <io.h>
 #include <fcntl.h>
 
 START_NS_AO
