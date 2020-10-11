@@ -262,4 +262,25 @@ void LCDScreen::VScreenChanged_434620()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
+
+void LCDScreen::VUpdate()
+{
+    VUpdate_4341B0();
+}
+
+void LCDScreen::VUpdate_4341B0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void LCDScreen::VRender(int** ppOt)
+{
+    VRender_434400(ppOt);
+}
+
+void LCDScreen::VRender_434400(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 END_NS_AO

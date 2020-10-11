@@ -22,7 +22,11 @@ class Grenade : public BaseThrowable
 public:
     EXPORT void AddToPlatform_41F7C0();
 
+    virtual __int16 VCanThrow() override;
+
     EXPORT __int16 VCanThrow_453EC0();
+
+    virtual __int16 VIsFalling() override;
 
     EXPORT __int16 VIsFalling_453ED0();
 
@@ -32,7 +36,11 @@ public:
 
     EXPORT signed __int16 InTheAir_41EF10();
 
+    virtual void VTimeToExplodeRandom() override;
+
     EXPORT void VTimeToExplodeRandom_41F9B0();
+
+    virtual void VThrow(FP velX, FP velY) override;
 
     EXPORT void VThrow_41ED90(FP velX, FP velY);
 

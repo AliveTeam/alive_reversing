@@ -33,6 +33,14 @@ public:
 
     EXPORT void VScreenChanged_434620();
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_4341B0();
+
+    virtual void VRender(int** ppOt) override;
+
+    EXPORT void VRender_434400(int** ppOt);
+
     Prim_PrimClipper field_10_prim_clippers[4];
     FontContext field_50_font_context;
     AliveFont field_60_font;

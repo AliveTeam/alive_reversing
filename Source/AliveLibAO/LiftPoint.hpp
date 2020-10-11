@@ -9,8 +9,6 @@ START_NS_AO
 
 class Map;
 
-
-
 class LiftPoint : public PlatformBase
 {
 public:
@@ -32,30 +30,38 @@ public:
     EXPORT void Move_435740(FP xSpeed, FP ySpeed, int not_used);
 
     // flags & 0x2 && !flags & 0x20
-    bool OnTopFloor() const
-    {
-        return field_27A_flags.Get(Flags::eBit2_bTopFloor) && !field_27A_flags.Get(Flags::eBit6_bMoveToFloorLevel);
-    }
+    bool OnTopFloor() const;
 
     // flags & 0x8 && !flags & 0x20
-    bool OnBottomFloor() const
-    {
-         return field_27A_flags.Get(Flags::eBit4_bBottomFloor) && !field_27A_flags.Get(Flags::eBit6_bMoveToFloorLevel);
-    }
+    bool OnBottomFloor() const;
 
     // flags & 4 && !(flags & 0x20);
-    bool OnMiddleFloor() const
-    {
-        return field_27A_flags.Get(Flags::eBit3_bMiddleFloor) && !field_27A_flags.Get(Flags::eBit6_bMoveToFloorLevel);
-    }
+    bool OnMiddleFloor() const;
 
     // flags & 2 && !(flags & 0x20); // OnTopFloor
     // flags & 4 && !(flags & 0x20); // OnMiddleFloor
     // flags & 8 && !(flags & 0x20); // OnBottomFloor
-    bool OnAnyFloor() const
-    {
-        return OnBottomFloor() || OnTopFloor() || OnMiddleFloor();
-    }
+    bool OnAnyFloor() const;
+
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_434D10();
+
+    virtual void VRender(int** pOrderingTable) override;
+
+    EXPORT void VRender_435780(int** ppOt);
+
+    virtual void VScreenChanged() override;
+
+    EXPORT void VScreenChanged_435CC0();
+
+    EXPORT void sub_435AE0(int a2, int a3);
+
+    LiftPoint* Vdtor_435D10(signed int flags);
+
+    EXPORT BaseGameObject* dtor_4355E0();
+
+    virtual BaseGameObject* VDestructor(signed int flags) override;
 
     __int16 field_12C_bMoving;
     __int16 field_12E;

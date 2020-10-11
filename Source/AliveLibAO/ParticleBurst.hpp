@@ -27,6 +27,14 @@ public:
 
     EXPORT ParticleBurst* Vdtor_40DA40(signed int flags);
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_40D600();
+
+    virtual void VRender(int** pOrderingTable) override;
+
+    EXPORT void VRender_40D7F0(int** ppOt);
+
     int field_D4[4];
     BYTE** field_E4_ppRes;
     ParticleBurst_Item* field_E8_pRes;

@@ -78,6 +78,10 @@ public:
 
     EXPORT __int16 OnCollision_457240(BaseAnimatedWithPhysicsGameObject* pObj);
 
+    virtual __int16 VIsFalling() override;
+
+    virtual void VTimeToExplodeRandom() override;
+
     __int16 field_110_state;
     __int16 field_112;
     PathLine* field_114_pLine;

@@ -36,6 +36,14 @@ public:
 
     EXPORT void UpdateParticles_42B1B0();
 
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_42B3D0();
+
+    virtual void VRender(int** pOrderingTable) override;
+
+    EXPORT void VRender_42BAD0(int** ppOt);
+
     int field_D4[4];
     BYTE** field_E4_ppRes;
     HintFlyParticle* field_E8_pRes;

@@ -17,42 +17,23 @@ public:
     __int16 field_10C_count;
     __int16 field_10E_bDead;
 
-    // TODO: Isn't pure, call stubs in here
-    virtual void VOnTrapDoorOpen() override
-    {
+    virtual void VThrow(FP velX, FP velY) = 0;
 
-    }
+    virtual __int16 VCanThrow() = 0;
 
-    virtual void VThrow(FP /*velX*/, FP /*velY*/)
-    {
+    virtual __int16 VIsFalling() = 0;
 
-    }
+    virtual void VTimeToExplodeRandom() = 0;
 
-    virtual __int16 VCanThrow()
-    {
-        return 0;
-    }
+    virtual __int16 VGetCount();
 
-    virtual __int16 VIsFalling()
-    {
-        return 0;
-    }
+    EXPORT __int16 VGetCount_41F980();
 
-    virtual void VTimeToExplodeRandom()
-    {
+    virtual void VToDead();
 
-    }
+    EXPORT void VToDead_41F990();
 
-    virtual __int16 VGetCount()
-    {
-        return 0;
-    }
-
-    virtual void VToDead()
-    {
-
-    }
-
+    virtual void VOnPickUpOrSlapped() override;
 };
 ALIVE_ASSERT_SIZEOF(BaseThrowable, 0x110);
 

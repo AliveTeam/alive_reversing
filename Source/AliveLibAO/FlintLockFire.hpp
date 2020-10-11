@@ -36,6 +36,10 @@ public:
 
     EXPORT void VUpdate_41AEE0();
 
+    virtual void VRender(int** pOrderingTable) override;
+
+    EXPORT void VRender_41B0F0(int** ppOt);
+
     int field_D4[4];
     __int16 field_E4_state;
     __int16 field_E6_switch_id;

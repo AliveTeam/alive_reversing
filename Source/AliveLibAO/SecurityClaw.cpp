@@ -506,4 +506,9 @@ void SecurityClaw::VUpdate_418DE0()
     }
 }
 
+void SecurityClaw::VOnThrowableHit(BaseGameObject* /*pFrom*/)
+{
+    // Empty
+}
+
 END_NS_AO

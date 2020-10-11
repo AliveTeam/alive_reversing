@@ -378,6 +378,11 @@ void FallingItem::VUpdate_41A120()
     }
 }
 
+void FallingItem::VOnThrowableHit(BaseGameObject* /*pFrom*/)
+{
+    // Empty
+}
+
 void FallingItem::VScreenChanged_41A7C0()
 {
     if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level

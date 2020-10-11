@@ -46,28 +46,21 @@ public:
 
     EXPORT BaseGameObject* dtor_437D70();
 
+    virtual void VScreenChanged() override;
 
-    virtual void VScreenChanged() override
-    {
-        VScreenChanged_438520();
-    }
-
-    EXPORT void VScreenChanged_438520()
-    {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
-    }
-
+    EXPORT void VScreenChanged_438520();
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
     EXPORT MotionDetector* Vdtor_438530(signed int flags);
 
-    virtual void VUpdate() override
-    {
-        VUpdate_437E90();
-    }
+    virtual void VUpdate() override;
 
     EXPORT void VUpdate_437E90();
+
+    virtual void VRender(int** pOrderingTable) override;
+
+    EXPORT void VRender_438250(int** ppOt);
 
     int field_D4[4];
     int field_E4_tlvInfo;

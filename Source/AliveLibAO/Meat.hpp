@@ -56,7 +56,6 @@ public:
 
     EXPORT BaseGameObject* dtor_438660();
 
-
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
     EXPORT Meat* Vdtor_4390D0(signed int flags);
@@ -76,6 +75,30 @@ public:
     virtual BOOL VCanEatMe();
 
     EXPORT BOOL VCanEatMe_4390C0();
+
+    EXPORT __int16 VIsFalling_4573B0();
+
+    virtual __int16 VIsFalling() override;
+
+    virtual void VTimeToExplodeRandom() override;
+
+    EXPORT void InTheAir_438720();
+
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_438A20();
+
+    EXPORT __int16 OnCollision_438D80(BaseAliveGameObject* pObj);
+
+    EXPORT void AddToPlatform_438EA0();
+
+    virtual void VOnTrapDoorOpen() override;
+
+    EXPORT void VOnTrapDoorOpen_438FD0();
+
+    virtual __int16 VGetCount() override;
+
+    EXPORT __int16 VGetCount_439020();
 
     __int16 field_110_state;
     __int16 field_112;

@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "ResourceManager.hpp"
 #include "VRam.hpp"
+#include "FixedPoint.hpp"
 
 START_NS_AO
 
@@ -63,6 +64,13 @@ EXPORT int AliveFont::MeasureWidth_41C200(char /*a2*/)
     return 0;
 }
 
+
+int AliveFont::MeasureWidth_41C280(const char* text, FP scale)
+{
+    const FP width = FP_FromInteger(MeasureWidth_41C2B0(text));
+    return FP_GetExponent((width * scale) + FP_FromDouble(0.5));
+}
+
 EXPORT int AliveFont::DrawString_41C360(int**, const char*, __int16, __int16, int, int, int, int, unsigned char, unsigned char, unsigned char, int, FP, int, int)
 {
     NOT_IMPLEMENTED();
@@ -76,6 +84,12 @@ void AliveFont::dtor_41C130()
     field_28_palette_rect.x = 0;
 
     ResourceManager::FreeResource_455550(field_20_fnt_poly_block_ptr);
+}
+
+const char* AliveFont::SliceText_41C6C0(const char* /*text*/, int /*left*/, FP /*scale*/, int /*right*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
 }
 
 END_NS_AO

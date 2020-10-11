@@ -253,6 +253,16 @@ void MainMenuTransition::StartTrans_436560(__int16 layer, __int16 fadeDirection,
     }
 }
 
+void MainMenuTransition::VRender(int** ppOt)
+{
+    VRender_436610(ppOt);
+}
+
+void MainMenuTransition::VRender_436610(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 ALIVE_VAR(1, 0x9F2DE0, int, gMainMenuInstanceCount_9F2DE0, 0);
 ALIVE_VAR(1, 0x507688, short, sFontLoaded_507688, 0);
 ALIVE_VAR(1, 0x4D0228, short, sListCount_4D0228, -1);

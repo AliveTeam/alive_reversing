@@ -214,6 +214,16 @@ void Blood::VScreenChanged_407AB0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
+void Blood::VRender(int** pOrderingTable)
+{
+    VRender_407810(pOrderingTable);
+}
+
+void Blood::VRender_407810(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 void Blood::VScreenChanged()
 {
     VScreenChanged_407AB0();

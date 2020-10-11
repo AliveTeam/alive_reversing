@@ -66,6 +66,15 @@ public:
 
     void AddPropertyEntry(const char* text, DDCheatValueType valueType, DDCheatValue valuePtr);
 
+    virtual void VScreenChanged() override;
+
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_4098C0();
+
+    EXPORT void Teleport_409CE0();
+
+    EXPORT void Misc_409E90();
 
     int field_10;
     int field_14;
