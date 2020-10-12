@@ -5,6 +5,7 @@
 #include "Map.hpp"
 #include "Events.hpp"
 #include "Abe.hpp"
+#include "Input.hpp"
 #include "ThrowableArray.hpp"
 #include "SwitchStates.hpp"
 #include "ResourceManager.hpp"

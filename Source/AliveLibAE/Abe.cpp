@@ -1211,27 +1211,6 @@ const FP sAbe_yVel_table_545790[8] =
     FP_FromInteger(4)
 };
 
-
-const InputCommands sInputKey_Right_5550D0 = eRight;
-const InputCommands sInputKey_Left_5550D4 = eLeft;
-const InputCommands sInputKey_Up_5550D8 = eUp;
-const InputCommands sInputKey_Down_5550DC = eDown;
-const InputCommands sInputKey_Hop_5550E0 = eHop;
-const InputCommands sInputKey_DoAction_5550E4 = eDoAction;
-const InputCommands sInputKey_Run_5550E8 = eRun;
-const InputCommands sInputKey_Sneak_5550EC = eSneak;
-const InputCommands sInputKey_FartRoll_5550F0 = eFartOrRoll;
-const InputCommands sInputKey_ThrowItem_5550F4 = eThrowItem;
-const InputCommands sInputKey_GameSpeak2_5550F8 = eGameSpeak2;
-const InputCommands sInputKey_GameSpeak4_5550FC = eGameSpeak4;
-const InputCommands sInputKey_GameSpeak3_555100 = eGameSpeak3;
-const InputCommands sInputKey_GameSpeak1_555104 = eGameSpeak1;
-const InputCommands sInputKey_GameSpeak6_555108 = eGameSpeak6;
-const InputCommands sInputKey_GameSpeak5_55510C = eGameSpeak5;
-const InputCommands sInputKey_GameSpeak8_555110 = eGameSpeak8;
-const InputCommands sInputKey_GameSpeak7_555114 = eGameSpeak7;
-
-
 ALIVE_VAR(1, 0x5c1bda, short, gAbeBulletProof_5C1BDA, 0);
 
 
@@ -9149,7 +9128,7 @@ void Abe::ToDieFinal_458910()
 short Abe::DoGameSpeak_45AB70(int input)
 {
     short nextState = -1;
-    if ((sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & eChant) == eChant)
+    if (Input_IsChanting_45F260())
     {
         // Fixes an OG bug where abe doesn't transform into shrykull when you immediately chant after using gamespeak
         if (!(field_168_ring_pulse_timer && field_16C_bHaveShrykull))
@@ -9160,7 +9139,7 @@ short Abe::DoGameSpeak_45AB70(int input)
             nextState = eAbeStates::State_112_Chant_45B1C0;
         }
     }
-    else if (sInputKey_GameSpeak2_5550F8 & input)
+    else if (input & sInputKey_GameSpeak2_5550F8)
     {
         Mudokon_SFX_457EC0(MudSounds::eFollowMe_4, 0, 0, this);
         pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eFollowMe_10);
@@ -9199,7 +9178,7 @@ short Abe::DoGameSpeak_45AB70(int input)
         Mudokon_SFX_457EC0(MudSounds::eWork_25, 0, 0, this);
         nextState = eAbeStates::State_10_Fart_45B1A0;
     }
-    else if (sInputKey_GameSpeak6_555108 & input)
+    else if (input & sInputKey_GameSpeak6_555108)
     {
         Mudokon_SFX_457EC0(MudSounds::eAllOYa_17, 0, 0, this);
         pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eAllYa_23);
