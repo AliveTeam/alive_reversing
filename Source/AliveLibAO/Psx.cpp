@@ -138,4 +138,5 @@ EXPORT int PSX_ResetCallBack_49AFB0()
 EXPORT int CC PSX_MoveImage_4961A0(const PSX_RECT* /*pRect*/, int /*xpos*/, int /*ypos*/)
 {
     NOT_IMPLEMENTED();
+    return 0;
 }
