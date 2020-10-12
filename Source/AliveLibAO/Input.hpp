@@ -52,6 +52,31 @@ enum InputCommands : unsigned int
     e0x80000000 = 1u << 31,
 };
 
+extern const InputCommands sInputKey_Right_4C6590;
+extern const InputCommands sInputKey_Left_4C6594;
+extern const InputCommands sInputKey_Up_4C6598;
+extern const InputCommands sInputKey_Down_4C659C;
+extern const InputCommands sInputKey_Hop_4C65A0;
+extern const InputCommands sInputKey_DoAction_4C65A4;
+extern const InputCommands sInputKey_Run_4C65A8;
+extern const InputCommands sInputKey_Sneak_4C65AC;
+extern const InputCommands sInputKey_FartRoll_4C65B0;
+extern const InputCommands sInputKey_ThrowItem_4C65B4;
+
+extern const InputCommands sInputKey_LeftGameSpeakEnabler_4C65B8;
+extern const InputCommands sInputKey_GameSpeak1_4C65C8;
+extern const InputCommands sInputKey_GameSpeak2_4C65BC;
+extern const InputCommands sInputKey_GameSpeak3_4C65C0;
+extern const InputCommands sInputKey_GameSpeak4_4C65C4;
+
+extern const InputCommands sInputKey_RightGameSpeakEnabler_4C65DC;
+extern const InputCommands sInputKey_GameSpeak5_4C65EC;
+extern const InputCommands sInputKey_GameSpeak6_4C65E8;
+extern const InputCommands sInputKey_GameSpeak7_4C65E4;
+extern const InputCommands sInputKey_GameSpeak8_4C65E0;
+
+const InputCommands sInputKey_Chant = static_cast<InputCommands>(eGameSpeak3 | eGameSpeak6);
+
 EXPORT BOOL CC Input_IsChanting_4334C0();
 
 class InputObject

@@ -4,6 +4,7 @@
 #include "stdafx_ao.h"
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
+#include "Input.hpp"
 
 START_NS_AO
 
@@ -342,7 +343,7 @@ public:
 
     EXPORT void ElumFree_4228F0();
 
-    EXPORT eAbeStates DoGameSpeak_42F5C0(unsigned __int16 input);
+    EXPORT short DoGameSpeak_42F5C0(unsigned __int16 input);
 
     EXPORT void SyncToElum_42D850(__int16 elumMotion);
 
@@ -629,30 +630,5 @@ EXPORT int CC Environment_SFX_42A220(EnvironmentSfx sfxId, signed int volume, in
 EXPORT int CC Mudokon_SFX_42A4D0(MudSounds idx, int volume, int pitch, BaseAliveGameObject* pHero);
 
 EXPORT int CC XGrid_Index_To_XPos_41FA60(FP scale, int xGridIndex);
-
-enum InputCommands : unsigned int;
-
-extern const InputCommands sInputKey_Right_4C6590;
-extern const InputCommands sInputKey_Left_4C6594;
-extern const InputCommands sInputKey_Up_4C6598;
-extern const InputCommands sInputKey_Down_4C659C;
-extern const InputCommands sInputKey_Hop_4C65A0;
-extern const InputCommands sInputKey_DoAction_4C65A4;
-extern const InputCommands sInputKey_Run_4C65A8;
-extern const InputCommands sInputKey_Sneak_4C65AC;
-extern const InputCommands sInputKey_FartRoll_4C65B0;
-extern const InputCommands sInputKey_ThrowItem_4C65B4;
-
-extern const InputCommands sInputKey_LeftGameSpeakEnabler_4C65B8;
-extern const InputCommands sInputKey_GameSpeak1_4C65C8;
-extern const InputCommands sInputKey_GameSpeak2_4C65BC;
-extern const InputCommands sInputKey_GameSpeak3_4C65C0;
-extern const InputCommands sInputKey_GameSpeak4_4C65C4;
-
-extern const InputCommands sInputKey_RightGameSpeakEnabler_4C65DC;
-extern const InputCommands sInputKey_GameSpeak5_4C65EC;
-extern const InputCommands sInputKey_GameSpeak6_4C65E8;
-extern const InputCommands sInputKey_GameSpeak7_4C65E4;
-extern const InputCommands sInputKey_GameSpeak8_4C65E0;
 
 END_NS_AO;

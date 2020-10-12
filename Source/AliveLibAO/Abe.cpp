@@ -405,28 +405,6 @@ const int sAbeFrameOffsetTable_4C61A0[166] =
 };
 
 
-const InputCommands sInputKey_Right_4C6590 = eRight;
-const InputCommands sInputKey_Left_4C6594 = eLeft;
-const InputCommands sInputKey_Up_4C6598 = eUp;
-const InputCommands sInputKey_Down_4C659C = eDown;
-const InputCommands sInputKey_Hop_4C65A0 = eHop;
-const InputCommands sInputKey_DoAction_4C65A4 = eDoAction;
-const InputCommands sInputKey_Run_4C65A8 = eRun;
-const InputCommands sInputKey_Sneak_4C65AC = eSneak;
-const InputCommands sInputKey_FartRoll_4C65B0 = eFartOrRoll;
-const InputCommands sInputKey_ThrowItem_4C65B4 = eThrowItem;
-
-const InputCommands sInputKey_LeftGameSpeakEnabler_4C65B8 = eGameSpeak6;
-const InputCommands sInputKey_GameSpeak1_4C65C8 = eHop;
-const InputCommands sInputKey_GameSpeak2_4C65BC = eDoAction;
-const InputCommands sInputKey_GameSpeak3_4C65C0 = eThrowItem;
-const InputCommands sInputKey_GameSpeak4_4C65C4 = eFartOrRoll;
-
-const InputCommands sInputKey_RightGameSpeakEnabler_4C65DC = eGameSpeak3;
-const InputCommands sInputKey_GameSpeak5_4C65EC = eFartOrRoll;
-const InputCommands sInputKey_GameSpeak6_4C65E8 = eHop;
-const InputCommands sInputKey_GameSpeak7_4C65E4 = eThrowItem;
-const InputCommands sInputKey_GameSpeak8_4C65E0 = eDoAction;
 
 
 ALIVE_VAR(1, 0x507678, Abe*, sActiveHero_507678, nullptr);
@@ -1746,11 +1724,123 @@ void Abe::ElumFree_4228F0()
     }
 }
 
-
-eAbeStates Abe::DoGameSpeak_42F5C0(unsigned __int16 /*input*/)
+short Abe::DoGameSpeak_42F5C0(unsigned __int16 input)
 {
-    NOT_IMPLEMENTED();
-    return eAbeStates::State_0_Idle_423520;
+    if (Input_IsChanting_4334C0())
+    {
+        field_114_gnFrame = gnFrameCount_507670 + 90;
+        SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_11, 0, 1);
+        field_110_state = 0;
+        return eAbeStates::State_150_Chant_42FD50;
+    }
+    if (sInputObject_5009E8.isPressed(sInputKey_LeftGameSpeakEnabler_4C65B8))
+    {
+        if (input & sInputKey_GameSpeak2_4C65BC)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eFollowMe_10);
+            Mudokon_SFX_42A4D0(MudSounds::eFollowMe_4, 0, 0, this);
+            if (field_FC_current_motion == eAbeStates::State_14_Speak_42FCD0)
+            {
+                field_108_bMotionChanged = 1;
+            }
+            return eAbeStates::State_14_Speak_42FCD0;
+        }
+        if (input & sInputKey_GameSpeak4_4C65C4)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWait_12);
+            Mudokon_SFX_42A4D0(MudSounds::eWait_6, 0, 0, this);
+            if (field_FC_current_motion == eAbeStates::State_14_Speak_42FCD0)
+            {
+                field_108_bMotionChanged = 1;
+            }
+            return eAbeStates::State_13_Speak_42FC50;
+        }
+        if (input & sInputKey_GameSpeak1_4C65C8)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eHello_9);
+            Mudokon_SFX_42A4D0(MudSounds::eHello_3, 0, 0, this);
+            if (field_FC_current_motion == eAbeStates::State_9_Speak_42FA50)
+            {
+                field_108_bMotionChanged = 1;
+            }
+            return eAbeStates::State_9_Speak_42FA50;
+        }
+        if (input & sInputKey_GameSpeak3_4C65C0)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eAnger_11);
+            Mudokon_SFX_42A4D0(MudSounds::eAngry_5, 0, 0, this);
+            if (field_FC_current_motion == eAbeStates::State_10_Speak_42FAD0)
+            {
+                field_108_bMotionChanged = 1;
+            }
+            return eAbeStates::State_10_Speak_42FAD0;
+        }
+    }
+    if (sInputObject_5009E8.isPressed(sInputKey_RightGameSpeakEnabler_4C65DC))
+    {
+        if (input & sInputKey_GameSpeak6_4C65E8)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistle1_1);
+            Mudokon_SFX_42A4D0(MudSounds::eWhistle1_1, 0, 0, this);
+            if (field_FC_current_motion == eAbeStates::State_9_Speak_42FA50)
+            {
+                field_108_bMotionChanged = 1;
+            }
+            return eAbeStates::State_9_Speak_42FA50;
+        }
+        if (input & sInputKey_GameSpeak5_4C65EC)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistle2_2);
+            Mudokon_SFX_42A4D0(MudSounds::eWhistle2_2, 0, 0, this);
+            if (field_FC_current_motion == eAbeStates::State_8_Speak_42F9D0)
+            {
+                field_108_bMotionChanged = 1;
+            }
+            return eAbeStates::State_8_Speak_42F9D0;
+        }
+        if (input & sInputKey_GameSpeak8_4C65E0)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eLaugh_4);
+            Mudokon_SFX_42A4D0(MudSounds::eLaugh1_8, 0, 0, this);
+            if (field_FC_current_motion == eAbeStates::State_12_Speak_42FBD0)
+            {
+                field_108_bMotionChanged = 1;
+            }
+            return eAbeStates::State_12_Speak_42FBD0;
+        }
+        if (input & sInputKey_GameSpeak7_4C65E4)
+        {
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eFart_3);
+            Mudokon_SFX_42A4D0(MudSounds::eFart_7, 0, 0, this);
+            if (sEnableFartGasCheat_507704)
+            {
+                FP xPos = field_A8_xpos;
+                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    xPos += (FP_FromInteger(12) * field_BC_sprite_scale);
+                }
+                else
+                {
+                    xPos -= (FP_FromInteger(12) * field_BC_sprite_scale);
+                }
+                New_Smoke_Particles_419A80(
+                    xPos,
+                    field_AC_ypos - (FP_FromInteger(24) * field_BC_sprite_scale),
+                    FP_FromDouble(0.5) * field_BC_sprite_scale,
+                    3,
+                    1
+                );
+            }
+            field_130_say = 8;
+            field_134_auto_say_timer = gnFrameCount_507670 + 15;
+            if (field_FC_current_motion == eAbeStates::State_10_Speak_42FAD0)
+            {
+                field_108_bMotionChanged = 1;
+            }
+            return eAbeStates::State_10_Speak_42FAD0;
+        }
+    }
+    return -1;
 }
 
 void Abe::SyncToElum_42D850(__int16 elumMotion)

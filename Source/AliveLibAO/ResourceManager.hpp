@@ -21,6 +21,7 @@ class ResourceManager
 public:
     enum ResourceType : DWORD
     {
+        Resource_VLC = 0x20434C56,
         Resource_Animation = 0x6D696E41,
         Resource_Font = 0x746E6F46,
         Resource_Path = 0x68746150,
