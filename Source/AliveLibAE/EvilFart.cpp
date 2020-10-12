@@ -26,9 +26,10 @@ EvilFart* EvilFart::ctor_422E30()
 
     field_4_typeId = Types::eType_45_EvilFart;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID);
-
-    Animation_Init_424E10(3532, 61, 39, ppRes, 1, 1);
+    const AnimRecord& rec = AnimRec(AnimId::Fart);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    
     Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
     Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
 

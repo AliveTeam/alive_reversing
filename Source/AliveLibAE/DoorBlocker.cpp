@@ -15,8 +15,9 @@ DoorBlocker* DoorBlocker::ctor_41F0A0(Path_DoorBlocker* pTlv, int tlvInfo)
 
     field_11A_switch_id = pTlv->field_12_id;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kUnknownResID_374);
-    Animation_Init_424E10(1624, 87, 14, ppRes, 1, 1);
+    const AnimRecord& rec = AnimRec(AnimId::Door_Lock_Idle);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_118_bDone &= ~1u;
 
@@ -85,7 +86,8 @@ void DoorBlocker::vUpdate_41F250()
         {
             SFX_Play_46FBA0(SoundEffect::DoorEffect_57, 100, 900);
             SFX_Play_46FBA0(SoundEffect::DoorEffect_57, 100, -100);
-            field_20_animation.Set_Animation_Data_409C80(1608, 0);
+            const AnimRecord& animRec = AnimRec(AnimId::Door_Lock_Open);
+            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, 0);
             field_118_bDone |= 1u;
         }
     }
