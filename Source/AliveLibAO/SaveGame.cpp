@@ -318,13 +318,13 @@ short CC SaveGame::Read_459D30(const char* name)
 
     strcpy(buffer, name);
     strcat(buffer, ".sav");
-    const auto file = _open(buffer, _O_BINARY);
-    if (file == -1)
+
+    const auto file = fopen(buffer, "r");
+    if (!file)
     {
         return 0;
     }
-    const auto readVar = _read(file, &gSaveBuffer_500A18, sizeof(SaveData));
-    _close(file);
+    const auto readVar = fread(&gSaveBuffer_500A18, 1, sizeof(SaveData), file);
     if (readVar != sizeof(SaveData))
     {
         return 0;
@@ -353,13 +353,13 @@ BOOL CC SaveGame::WriteSave_45A110(const char *name)
 
     strcpy(buffer, name);
     strcat(buffer, ".sav");
-    const auto file = _open(buffer, _O_BINARY | _O_CREAT | _O_WRONLY, _S_IWRITE | _S_IREAD);
-    if (file == -1)
+    const auto file = fopen(buffer, "w" );
+    if (!file)
     {
         return 0;
     }
-    const auto written = _write(file, &gSaveBuffer_505668, sizeof(SaveData));
-    _close(file);
+    const auto written = fwrite(&gSaveBuffer_505668, 1, sizeof(SaveData), file);
+    fclose(file);
 
     return written == sizeof(SaveData) ? 1 : 0;
 }
