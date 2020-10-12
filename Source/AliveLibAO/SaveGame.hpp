@@ -16,7 +16,7 @@ ALIVE_ASSERT_SIZEOF(Save_PSX_Header, 0x200);
 struct SaveData
 {
     Save_PSX_Header field_0_header;
-    int field_200;
+    int field_200_hashValue;
     short field_204_zone_number;
     short field_206_clear_from_id;
     short field_208_clear_to_id;
@@ -99,6 +99,10 @@ public:
     EXPORT static void CC sub_459970(SaveData*, int);
     EXPORT static void CC sub_45A2D0(unsigned char*, const unsigned char* const*, int);
     EXPORT static void CC Save_459490(SaveData* pSaveData);
+    EXPORT static short CC Read_459D30(const char* name);
+    EXPORT static BOOL CC WriteSave_45A110(const char* name);
+
+    static int Hash(SaveData* table);
 };
 
 END_NS_AO
