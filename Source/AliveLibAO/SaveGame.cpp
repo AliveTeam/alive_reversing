@@ -154,7 +154,6 @@ ALIVE_VAR(1, 0x4BC250, Save_PSX_Header, sSaveHeader1_4BC250, {});
 ALIVE_VAR(1, 0x5076B4, WORD, bUseAltSaveHeader_5076B4, 0);
 
 ALIVE_VAR(1, 0x500C184, DWORD, dword_500C18, 0);
-ALIVE_ARY(1, 0x500C1C, int, 1919, unk_500C1C, {});
 ALIVE_VAR(1, 0x500A18, SaveData, gSaveBuffer_500A18, {});
 
 void CC SaveGame::Save_459490(SaveData* pSaveData)
