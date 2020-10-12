@@ -3,6 +3,7 @@
 #include "BaseGameObject.hpp"
 #include "FunctionFwd.hpp"
 #include "Psx.hpp"
+#include "AnimResources.hpp"
 
 START_NS_AO
 

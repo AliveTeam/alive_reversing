@@ -42,7 +42,7 @@ void CC New_Smoke_Particles_419A80(FP xpos, FP ypos, FP scale, __int16 count, __
     {
         FP randX = (FP_FromInteger(Math_RandomRange_450F20(-3, 3)) * scale) + xpos;
         FP particleY = (FP_FromInteger(6 * (i + 1) / 2 * (1 - 2 * (i % 2))) * scale) + ypos;
-        BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 354, 0, 0);
+        BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kSquibSmokeResID, 1, 0);
         auto pParticle = ao_new<Particle>();
         if (pParticle)
         {

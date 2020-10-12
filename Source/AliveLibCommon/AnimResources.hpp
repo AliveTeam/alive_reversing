@@ -1,4 +1,5 @@
 #pragma once
+#include "FunctionFwd.hpp"
 
 enum class AnimId
 {
@@ -561,3 +562,12 @@ enum AEResourceID
     kParamiteSpeakResID = 160,
     kScrabSpeakResID = 170,
 };
+
+START_NS_AO
+
+enum AOResourceID
+{
+    kSquibSmokeResID = 354
+};
+
+END_NS_AO
