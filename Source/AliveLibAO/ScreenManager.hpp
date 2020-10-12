@@ -2,7 +2,8 @@
 
 #include "FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
-#include "FixedPoint_common.hpp" // TODO: Replace with FixedPoint.hpp
+#include "FixedPoint.hpp"
+#include "Primitives.hpp"
 
 START_NS_AO
 
@@ -58,6 +59,12 @@ struct DirtyBits
 };
 ALIVE_ASSERT_SIZEOF(DirtyBits, 0x28);
 
+struct SprtTPage
+{
+    Prim_Sprt mSprt;
+    Prim_SetTPage mTPage;
+};
+
 class ScreenManager : public BaseGameObject
 {
 public:
@@ -87,20 +94,23 @@ public:
 
     virtual void VUpdate() override;
 
+    int GetTPage(char tp, char abr, int* xpos, int* ypos);
+
+
     FP_Point* field_10_pCamPos;
     __int16 field_14_xpos;
     unsigned __int16 field_16_ypos;
-    int field_18;
+    SprtTPage* field_18_screen_sprites;
     int field_1C;
     __int16 field_20_upos;
     __int16 field_22_vpos;
-    short field_24;
-    short field_26;
+    short field_24_cam_width;
+    short field_26_cam_height;
     int field_28;
     __int16 field_2C;
     unsigned __int16 field_2E_idx;
-    unsigned __int16 field_30;
-    unsigned __int16 field_32;
+    unsigned __int16 field_30_y_idx;
+    unsigned __int16 field_32_x_idx;
     __int16 field_34;
     __int16 field_36_flags;
     int field_38;

@@ -447,7 +447,7 @@ void CameraSwapper::VUpdate_48CEA0()
             pScreenManager_4FF7C8->InvalidateRect_406E40(0, 0, 640, 240, 0);
             pScreenManager_4FF7C8->InvalidateRect_406E40(0, 0, 640, 240, 1);
             pScreenManager_4FF7C8->InvalidateRect_406E40(0, 0, 640, 240, 2);
-            pScreenManager_4FF7C8->field_36_flags = pScreenManager_4FF7C8->field_36_flags ? 0 : 1;
+            pScreenManager_4FF7C8->field_36_flags |= 1;
         }
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
