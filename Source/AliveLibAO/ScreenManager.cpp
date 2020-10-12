@@ -57,9 +57,44 @@ void ScreenManager::MoveImage_406C40()
     PSX_MoveImage_4961A0(&rect, 0, 0);
 }
 
-void ScreenManager::DecompressToVRam_407110(unsigned __int16** /*ppBits*/)
+void ScreenManager::DecompressToVRam_407110(unsigned __int16** ppBits)
 {
-    NOT_IMPLEMENTED();
+    PSX_RECT rect = {};
+    rect.x = 0;
+    rect.y = 0;
+    rect.w = 16;
+    rect.h = 240;
+
+    BYTE** pRes = ResourceManager::Alloc_New_Resource_454F20(ResourceManager::Resource_VLC, 0, 0x7E00); // 4 KB
+    if (pRes)
+    {
+        // Doesn't do anything since the images are not MDEC compressed in PC
+        //PSX_MDEC_rest_498C30(0);
+
+        unsigned __int16* pIter = *ppBits;
+        for (short xpos = 0; xpos < 640; xpos += 16)
+        {
+            const unsigned __int16 slice_len = *pIter;
+            pIter++; // Skip len
+
+            // already in correct format - no need to convert
+            //rgb_conv_44FFE0(pIter, tmpBuffer, sizeof(tmpBuffer));
+           
+            rect.x = field_20_upos + xpos;
+            rect.y = field_22_vpos;
+            PSX_LoadImage_496480(&rect, reinterpret_cast<BYTE*>(pIter));
+
+            // To next slice
+            pIter += (slice_len / sizeof(__int16));
+        }
+        
+        ResourceManager::FreeResource_455550(pRes);
+
+        memset(&field_58_20x16_dirty_bits[0], 0, sizeof(field_58_20x16_dirty_bits[0]));
+        memset(&field_58_20x16_dirty_bits[1], 0, sizeof(field_58_20x16_dirty_bits[1]));
+        memset(&field_58_20x16_dirty_bits[2], 0, sizeof(field_58_20x16_dirty_bits[2]));
+        memset(&field_58_20x16_dirty_bits[3], 0, sizeof(field_58_20x16_dirty_bits[3]));
+    }
 }
 
 void ScreenManager::InvalidateRect_406CC0(int x, int y, signed int width, signed int height)
