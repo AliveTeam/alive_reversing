@@ -36,22 +36,19 @@ EXPORT void CC Dove_static_ctor_41F3A0()
     atexit(Dove_static_dtor_41F400);
 }
 
-Dove* Dove::ctor_41F430(int frameTableOffset, int maxW, unsigned __int16 maxH, int resourceID, int tlvInfo, FP scale)
+Dove* Dove::ctor_41F430(int frameTableOffset, int /*maxW*/, unsigned __int16 /*maxH*/, int /*resourceID*/, int tlvInfo, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544A90);
 
     field_4_typeId = Types::eBird_35;
     
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, resourceID);
-
-    Animation_Init_424E10(
-        frameTableOffset,
-        maxW,
-        maxH,
-        ppRes,
-        1,
-        1);
+    AnimId a_id = AnimId::Dove_Flying;
+    if(frameTableOffset == 5580) { a_id = AnimId::Dove_Idle; }
+    
+    const AnimRecord& rec = AnimRec(a_id);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
@@ -96,21 +93,19 @@ Dove* Dove::ctor_41F430(int frameTableOffset, int maxW, unsigned __int16 maxH, i
     return this;
 }
 
-Dove* Dove::ctor_41F660(int frameTableOffset, int maxW, __int16 maxH, int resourceID, FP xpos, FP ypos, FP scale)
+Dove* Dove::ctor_41F660(int frameTableOffset, int /*maxW*/, __int16 /*maxH*/, int /*resourceID*/, FP xpos, FP ypos, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544A90); // vTbl_Dove_544A90
 
     field_4_typeId = Types::eBird_35;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, resourceID);
-    Animation_Init_424E10(
-        frameTableOffset,
-        maxW,
-        maxH,
-        ppRes,
-        1,
-        1);
+    AnimId a_id = AnimId::Dove_Flying;
+    if(frameTableOffset == 5580) { a_id = AnimId::Dove_Idle; }
+    
+    const AnimRecord& rec = AnimRec(a_id);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_14_scale = scale;

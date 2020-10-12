@@ -189,10 +189,6 @@ constexpr AnimRecord kAnimRecords[] =
     { AnimId::Mine_Car_Tread_Move_A, "BAYROLL.BAN", 20848, 130, 62u, kUnknownResID_6013, PalId::Default },
     { AnimId::Mine_Car_Tread_Move_B, "BAYROLL.BAN", 20788, 130, 62u, kUnknownResID_6013, PalId::Default },
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-    { AnimId::Anim_Tester, "BAYROLL.BAN", 20788, 130, 62u, kUnknownResID_6013, PalId::Default },
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
     { AnimId::Slog_Idle_A, "SLOG.BND", 96464, 121, 57, kDogbasicResID, PalId::Default },
     { AnimId::Slog_Walk, "SLOG.BND", 96344, 121, 57, kDogbasicResID, PalId::Default },
     { AnimId::Slog_Run, "SLOG.BND", 96424, 121, 57, kDogbasicResID, PalId::Default },
@@ -222,6 +218,10 @@ constexpr AnimRecord kAnimRecords[] =
     { AnimId::Slurg_Burst, "SLURG.BAN", 2808, 46, 15, kSlurgResID, PalId::Default },
     { AnimId::Slurg_Turn_Around, "SLURG.BAN", 2740, 46, 15, kSlurgResID, PalId::Default },
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    { AnimId::Anim_Tester, "EVILFART.BAN", 3532, 61, 39, kEvilFartResID, PalId::Default },
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     { AnimId::Bone, "BTHROW.BND", 456, 15, 9, kBoneResID, PalId::Default },
     { AnimId::Bone_Bag_A, "BONEBAG.BAN", 8748, 64, 60, kUnknownResID_590, PalId::Default },
     { AnimId::Bone_Bag_B, "BONEBAG.BAN", 8708, 64, 60, kUnknownResID_590, PalId::Default },
@@ -230,7 +230,33 @@ constexpr AnimRecord kAnimRecords[] =
     { AnimId::Bone_Saw_Horizontal_On, "DRILL.BAN", 6712, 65, 33, kDrillResID, PalId::Default },
     { AnimId::Bone_Saw_Vertical_Off, "DRILL.BAN", 6676, 65, 33, kDrillResID, PalId::Default },
     { AnimId::Bone_Saw_Vertical_On, "DRILL.BAN", 6688, 65, 33, kDrillResID, PalId::Default },
+    { AnimId::Bullet_Casing, "SHELL.BAN", 320, 5, 5u, kShellResID, PalId::Default },
+    { AnimId::Door_Barracks_Closed, "DOOR.BAN", 5652, 56, 62, kF2p3dorResID, PalId::Default },
+    { AnimId::Door_Barracks_Closing, "DOOR.BAN", 5664, 56, 62, kF2p3dorResID, PalId::Default },
+    { AnimId::Door_Bonewerkz_Closed, "DOOR.BAN", 6304, 59, 58, kF2p3dorResID, PalId::Default },
+    { AnimId::Door_Bonewerkz_Closing, "DOOR.BAN", 6316, 59, 58, kF2p3dorResID, PalId::Default },
+    { AnimId::Door_Brewery_Closed, "DOOR.BAN", 6224, 54, 71, kF2p3dorResID, PalId::Default },
+    { AnimId::Door_Brewery_Closing, "DOOR.BAN", 6236, 54, 71, kF2p3dorResID, PalId::Default },
+    { AnimId::Door_Feeco_Closed, "DOOR.BAN", 7636, 62, 70, kF2p3dorResID, PalId::Default },
+    { AnimId::Door_Feeco_Closing, "DOOR.BAN", 7648, 62, 70, kF2p3dorResID, PalId::Default },
+    { AnimId::Door_Flame, "FIRE.BAN", 5156, 22, 21u, kHubFireResID, PalId::Default },
+    { AnimId::Door_Flame_Glow, "FIRE.BAN", 1400, 52, 30, kGlowResID, PalId::Default },
+    { AnimId::Door_Flame_Spark, "FIRE.BAN", 1672, 39, 21, kOmmflareResID, PalId::Default },
+    { AnimId::Door_Lock_Idle, "DOORLOCK.BAN", 1624, 87, 14, kUnknownResID_374, PalId::Default },
+    { AnimId::Door_Lock_Open, "DOORLOCK.BAN", 1608, 87, 14, kUnknownResID_374, PalId::Default },
+    { AnimId::Door_Mines_Closed, "DOOR.BAN", 8692, 77, 69, kF2p3dorResID, PalId::Default },
+    { AnimId::Door_Mines_Closing, "DOOR.BAN", 8704, 77, 69, kF2p3dorResID, PalId::Default },
+    { AnimId::Door_Temple_Closed, "DOOR.BAN", 5436, 67, 62, kF2p3dorResID, PalId::Default },
+    { AnimId::Door_Temple_Closing, "DOOR.BAN", 5448, 67, 62, kF2p3dorResID, PalId::Default },
+    { AnimId::Door_Train_Closed, "DOOR.BAN", 4740, 44, 56u, kUnknownResID_2013, PalId::Default },
+    { AnimId::Door_Train_Closing, "DOOR.BAN", 4752, 44, 56u, kUnknownResID_2013, PalId::Default },
+    { AnimId::Dove_Idle, "DOVE.BAN", 5580, 41, 20, 60, PalId::Default },
+    { AnimId::Dove_Flying, "DOVE.BAN", 5516, 41, 20, 60, PalId::Default },
+    { AnimId::Electric_Wall, "ELECWALL.BAN", 15384, 50, 80, kElecwallResID, PalId::Default },
+    { AnimId::Explosion, "EXPLO2.BAN", 51156, 202, 91, kExplo2ResID, PalId::Default },
     { AnimId::Explosion_Mine, "EXPLODE.BND", 51588, 214, 0x31u, kBgexpldResID, PalId::Default },
+    { AnimId::Explosion_Small, "SMEXP.BAN", 14108, 99, 46, kSmallExplo2ResID, PalId::Default },
+    { AnimId::Fart, "EVILFART.BAN", 3532, 61, 39, kEvilFartResID, PalId::Default },
     { AnimId::Grenade, "GRENADE.BAN", 1252, 17, 11, kGrenadeResID, PalId::Default },
     { AnimId::Grenade_Machine_Button_Off, "GMACHINE.BND1", 1736, 26, 17u, kR1buttonResID, PalId::Default },
     { AnimId::Grenade_Machine_Button_On, "GMACHINE.BND1", 1708, 26, 17u, kR1buttonResID, PalId::Default },

@@ -23,13 +23,15 @@ Explosion* Explosion::ctor_4A1200(FP xpos, FP ypos, FP scale, __int16 bSmall)
     field_F4_bSmall = bSmall;
     if (field_F4_bSmall)
     {
-        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kSmallExplo2ResID);
-        Animation_Init_424E10(14108, 99, 46, ppRes, 1, 1);
+        const AnimRecord& rec = AnimRec(AnimId::Explosion_Small);
+        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+        Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     }
     else
     {
-        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
-        Animation_Init_424E10(51156, 202, 91, ppRes, 1, 1);
+        const AnimRecord& rec = AnimRec(AnimId::Explosion);
+        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+        Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     }
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit18_IsLastFrame);
