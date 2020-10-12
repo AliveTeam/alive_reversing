@@ -7,7 +7,6 @@ START_NS_AO
 ALIVE_VAR(1, 0x5009E8, InputObject, sInputObject_5009E8, {});
 ALIVE_VAR(1, 0x5076B8, unsigned __int16, sCurrentControllerIndex_5076B8, 0);
 
-
 EXPORT void InputObject::InitPad_4331A0(unsigned int /*padCount*/)
 {
     NOT_IMPLEMENTED();
@@ -40,7 +39,7 @@ bool InputObject::isReleased(DWORD command)
 
 BOOL CC Input_IsChanting_4334C0()
 {
-    return (sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed & 5) == 5;
+    return (sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed & sInputKey_Chant) == sInputKey_Chant;
 }
 
 END_NS_AO

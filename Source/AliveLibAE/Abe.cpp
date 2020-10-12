@@ -1231,6 +1231,8 @@ const InputCommands sInputKey_GameSpeak5_55510C = eGameSpeak5;
 const InputCommands sInputKey_GameSpeak8_555110 = eGameSpeak8;
 const InputCommands sInputKey_GameSpeak7_555114 = eGameSpeak7;
 
+const InputCommands sInputKey_Chant = eChant;
+
 
 ALIVE_VAR(1, 0x5c1bda, short, gAbeBulletProof_5C1BDA, 0);
 
@@ -9149,7 +9151,7 @@ void Abe::ToDieFinal_458910()
 short Abe::DoGameSpeak_45AB70(int input)
 {
     short nextState = -1;
-    if ((sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & eChant) == eChant)
+    if (Input_IsChanting_45F260())
     {
         // Fixes an OG bug where abe doesn't transform into shrykull when you immediately chant after using gamespeak
         if (!(field_168_ring_pulse_timer && field_16C_bHaveShrykull))
@@ -9160,7 +9162,7 @@ short Abe::DoGameSpeak_45AB70(int input)
             nextState = eAbeStates::State_112_Chant_45B1C0;
         }
     }
-    else if (sInputKey_GameSpeak2_5550F8 & input)
+    else if (input & sInputKey_GameSpeak2_5550F8)
     {
         Mudokon_SFX_457EC0(MudSounds::eFollowMe_4, 0, 0, this);
         pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eFollowMe_10);
@@ -9199,7 +9201,7 @@ short Abe::DoGameSpeak_45AB70(int input)
         Mudokon_SFX_457EC0(MudSounds::eWork_25, 0, 0, this);
         nextState = eAbeStates::State_10_Fart_45B1A0;
     }
-    else if (sInputKey_GameSpeak6_555108 & input)
+    else if (input & sInputKey_GameSpeak6_555108)
     {
         Mudokon_SFX_457EC0(MudSounds::eAllOYa_17, 0, 0, this);
         pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eAllYa_23);
