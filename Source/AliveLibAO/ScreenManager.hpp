@@ -2,7 +2,8 @@
 
 #include "FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
-#include "FixedPoint_common.hpp" // TODO: Replace with FixedPoint.hpp
+#include "FixedPoint.hpp"
+#include "Primitives.hpp"
 
 START_NS_AO
 
@@ -37,9 +38,32 @@ ALIVE_ASSERT_SIZEOF(Camera, 0x34);
 
 struct DirtyBits
 {
-    __int16 field_0[20];
+    WORD mData[20]; // 20 Columns
+
+    bool GetTile(int x, int y)
+    {
+        return mData[x] & (1 << y) ? true : false;
+    }
+
+    void SetTile(int x, int y, bool b)
+    {
+        if (b)
+        {
+            mData[x] |= 1 << y;
+        }
+        else
+        {
+            mData[x] &= ~(1 << y);
+        }
+    }
 };
 ALIVE_ASSERT_SIZEOF(DirtyBits, 0x28);
+
+struct SprtTPage
+{
+    Prim_Sprt mSprt;
+    Prim_SetTPage mTPage;
+};
 
 class ScreenManager : public BaseGameObject
 {
@@ -64,19 +88,29 @@ public:
 
     EXPORT void InvalidateRect_Layer3_406F20(int x, int y, int width, int height);
 
+    EXPORT void InvalidateRect_406D80(int x, int y, signed int width, signed int height, int idx);
+
+    virtual void VScreenChanged() override;
+
+    virtual void VUpdate() override;
+
+    int GetTPage(char tp, char abr, int* xpos, int* ypos);
+
+
     FP_Point* field_10_pCamPos;
     __int16 field_14_xpos;
     unsigned __int16 field_16_ypos;
-    int field_18;
+    SprtTPage* field_18_screen_sprites;
     int field_1C;
-    __int16 field_20;
-    __int16 field_22;
-    int field_24;
+    __int16 field_20_upos;
+    __int16 field_22_vpos;
+    short field_24_cam_width;
+    short field_26_cam_height;
     int field_28;
     __int16 field_2C;
     unsigned __int16 field_2E_idx;
-    unsigned __int16 field_30;
-    unsigned __int16 field_32;
+    unsigned __int16 field_30_y_idx;
+    unsigned __int16 field_32_x_idx;
     __int16 field_34;
     __int16 field_36_flags;
     int field_38;
@@ -87,7 +121,7 @@ public:
     int field_4C;
     int field_50;
     int field_54;
-    DirtyBits field_58[6];
+    DirtyBits field_58_20x16_dirty_bits[6];
 };
 ALIVE_ASSERT_SIZEOF(ScreenManager, 0x148);
 

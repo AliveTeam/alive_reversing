@@ -14,6 +14,7 @@ enum class Types : __int16
     eNone_0 = 0,
     eAlarm_1 = 1,
 
+    eScreenManager_4 = 4,
     eBackgroundAnimation_5 = 5,
     eBat_6 = 6,
     eLiftMover_7 = 7,
