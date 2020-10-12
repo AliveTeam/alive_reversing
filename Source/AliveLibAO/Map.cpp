@@ -297,8 +297,8 @@ EXPORT int CC MaxGridBlocks_41FA10(FP scale)
     }
     else
     {
-        LOG_ERROR("Scale should be 0.5 or 1 but got " << FP_GetDouble(scale));
-        ALIVE_FATAL("Invalid scale");
+        LOG_WARNING("Scale should be 0.5 or 1 but got " << FP_GetDouble(scale) << ". This usually occurs when you die with DDCheat on.");
+        return 0;
     }
 }
 
