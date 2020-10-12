@@ -7,6 +7,13 @@
 
 START_NS_AO
 
+enum class ThrowableTotalIndicatorState : __int16
+{
+    eCreated_0 = 0,
+    eFading_1 = 1,
+    eVanishing_2 = 2
+};
+
 class ThrowableTotalIndicator : public BaseGameObject
 {
 public:
@@ -53,7 +60,7 @@ public:
     // end wrongness
 
     Prim_SetTPage field_17C_tPage[2];
-    __int16 field_19C_state;
+    ThrowableTotalIndicatorState field_19C_state;
     __int16 field_19E_bFade;
 };
 ALIVE_ASSERT_SIZEOF(ThrowableTotalIndicator, 0x1A0);
