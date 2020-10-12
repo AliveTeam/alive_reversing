@@ -208,6 +208,20 @@ void ScreenManager::VRender_406A60(int** /*ppOt*/)
     NOT_IMPLEMENTED();
 }
 
+void ScreenManager::sub_406FF0()
+{
+    // NOTE: The algorithm calling Add_Dirty_Area_48D910 has not been implemented
+    // as its not actually used.
+
+    field_32_x_idx = field_30_y_idx;
+    field_30_y_idx = field_2E_idx;
+    field_2E_idx = (field_2E_idx + 1) % 3;
+    memset(
+        &field_58_20x16_dirty_bits[field_2E_idx],
+        0,
+        sizeof(field_58_20x16_dirty_bits[field_2E_idx]));
+}
+
 ScreenManager* ScreenManager::vdtor_407290(signed int flags)
 {
     dtor_487DF0();

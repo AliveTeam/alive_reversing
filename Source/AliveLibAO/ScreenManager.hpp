@@ -100,6 +100,8 @@ public:
 
     EXPORT void VRender_406A60(int** ppOt);
 
+    EXPORT void sub_406FF0();
+
     FP_Point* field_10_pCamPos;
     __int16 field_14_xpos;
     unsigned __int16 field_16_ypos;
