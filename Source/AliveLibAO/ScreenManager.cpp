@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "ResourceManager.hpp"
 #include "VRam.hpp"
+#include "stdlib.hpp"
 
 #undef min
 #undef max
@@ -56,9 +57,44 @@ void ScreenManager::MoveImage_406C40()
     PSX_MoveImage_4961A0(&rect, 0, 0);
 }
 
-void ScreenManager::DecompressToVRam_407110(unsigned __int16** /*ppBits*/)
+void ScreenManager::DecompressToVRam_407110(unsigned __int16** ppBits)
 {
-    NOT_IMPLEMENTED();
+    PSX_RECT rect = {};
+    rect.x = 0;
+    rect.y = 0;
+    rect.w = 16;
+    rect.h = 240;
+
+    BYTE** pRes = ResourceManager::Alloc_New_Resource_454F20(ResourceManager::Resource_VLC, 0, 0x7E00); // 4 KB
+    if (pRes)
+    {
+        // Doesn't do anything since the images are not MDEC compressed in PC
+        //PSX_MDEC_rest_498C30(0);
+
+        unsigned __int16* pIter = *ppBits;
+        for (short xpos = 0; xpos < 640; xpos += 16)
+        {
+            const unsigned __int16 slice_len = *pIter;
+            pIter++; // Skip len
+
+            // already in correct format - no need to convert
+            //rgb_conv_44FFE0(pIter, tmpBuffer, sizeof(tmpBuffer));
+           
+            rect.x = field_20_upos + xpos;
+            rect.y = field_22_vpos;
+            PSX_LoadImage_496480(&rect, reinterpret_cast<BYTE*>(pIter));
+
+            // To next slice
+            pIter += (slice_len / sizeof(__int16));
+        }
+        
+        ResourceManager::FreeResource_455550(pRes);
+
+        memset(&field_58_20x16_dirty_bits[0], 0, sizeof(field_58_20x16_dirty_bits[0]));
+        memset(&field_58_20x16_dirty_bits[1], 0, sizeof(field_58_20x16_dirty_bits[1]));
+        memset(&field_58_20x16_dirty_bits[2], 0, sizeof(field_58_20x16_dirty_bits[2]));
+        memset(&field_58_20x16_dirty_bits[3], 0, sizeof(field_58_20x16_dirty_bits[3]));
+    }
 }
 
 void ScreenManager::InvalidateRect_406CC0(int x, int y, signed int width, signed int height)
@@ -138,11 +174,11 @@ void ScreenManager::Init_4068A0(BYTE** ppBits)
     field_32_x_idx = 0;
 }
 
+
 BaseGameObject* ScreenManager::VDestructor(signed int flags)
 {
     return vdtor_407290(flags);
 }
-
 void ScreenManager::UnsetDirtyBits_FG1_406EF0()
 {
     memset(&field_58_20x16_dirty_bits[4], 0, sizeof(this->field_58_20x16_dirty_bits[4]));
@@ -197,9 +233,97 @@ int ScreenManager::GetTPage(char tp, char abr, int* xpos, int* ypos)
     return PSX_getTPage_4965D0(tp, abr, clampedXPos, clampedYPos);
 }
 
-ScreenManager* ScreenManager::vdtor_407290(signed int /*flags*/)
+void ScreenManager::VRender(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    VRender_406A60(ppOt);
+}
+
+void ScreenManager::VRender_406A60(int** ppOt)
+{
+    if (!(field_36_flags & 1))  // Render enabled flag ?
+    {
+        return;
+    }
+
+    PSX_DrawSync_496750(0);
+
+    for (int i = 0; i < 300; i++)
+    {
+        SprtTPage* pSpriteTPage = &field_18_screen_sprites[i];
+
+        const int spriteX = pSpriteTPage->mSprt.mBase.vert.x;
+        const int spriteY = pSpriteTPage->mSprt.mBase.vert.y;
+
+        int layer = 0;
+        if (field_58_20x16_dirty_bits[4].GetTile(spriteX / 32, spriteY / 16))
+        {
+            if (!(field_58_20x16_dirty_bits[field_2E_idx].GetTile(spriteX / 32, spriteY / 16)) &&
+                !(field_58_20x16_dirty_bits[field_30_y_idx].GetTile(spriteX / 32, spriteY / 16)) &&
+                !(field_58_20x16_dirty_bits[field_32_x_idx].GetTile(spriteX / 32, spriteY / 16)) &&
+                !(field_58_20x16_dirty_bits[3].GetTile(spriteX / 32, spriteY / 16)))
+            {
+                continue;
+            }
+            layer = 37;
+        }
+        else if (field_58_20x16_dirty_bits[5].GetTile(spriteX / 32, spriteY / 16))
+        {
+            if (!(field_58_20x16_dirty_bits[field_2E_idx].GetTile(spriteX / 32, spriteY / 16)) &&
+                !(field_58_20x16_dirty_bits[field_30_y_idx].GetTile(spriteX / 32, spriteY / 16)) &&
+                !(field_58_20x16_dirty_bits[field_32_x_idx].GetTile(spriteX / 32, spriteY / 16)) &&
+                !(field_58_20x16_dirty_bits[3].GetTile(spriteX / 32, spriteY / 16)))
+            {
+                continue;
+            }
+            layer = 18;
+        }
+        else
+        {
+            if (!(field_58_20x16_dirty_bits[field_32_x_idx].GetTile(spriteX / 32, spriteY / 16)) &&
+                !(field_58_20x16_dirty_bits[field_30_y_idx].GetTile(spriteX / 32, spriteY / 16)) &&
+                !(field_58_20x16_dirty_bits[3].GetTile(spriteX / 32, spriteY / 16)))
+            {
+                continue;
+            }
+            layer = 1;
+        }
+
+        OrderingTable_Add_498A80(&ppOt[layer], &pSpriteTPage->mSprt.mBase.header);
+        OrderingTable_Add_498A80(&ppOt[layer], &pSpriteTPage->mTPage.mBase);
+    }
+
+    sub_406FF0();
+
+    for (int i = 0; i < 20; i++)
+    {
+        field_58_20x16_dirty_bits[field_32_x_idx].mData[i] |= field_58_20x16_dirty_bits[3].mData[i];
+    }
+
+    memset(&field_58_20x16_dirty_bits[3], 0, sizeof(field_58_20x16_dirty_bits[3]));
+    return;
+}
+
+void ScreenManager::sub_406FF0()
+{
+    // NOTE: The algorithm calling Add_Dirty_Area_48D910 has not been implemented
+    // as its not actually used.
+
+    field_32_x_idx = field_30_y_idx;
+    field_30_y_idx = field_2E_idx;
+    field_2E_idx = (field_2E_idx + 1) % 3;
+    memset(
+        &field_58_20x16_dirty_bits[field_2E_idx],
+        0,
+        sizeof(field_58_20x16_dirty_bits[field_2E_idx]));
+}
+
+ScreenManager* ScreenManager::vdtor_407290(signed int flags)
+{
+    dtor_487DF0();
+    if (flags & 1)
+    {
+        ao_delete_free_447540(this);
+    }
     return this;
 }
 

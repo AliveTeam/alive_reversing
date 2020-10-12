@@ -96,6 +96,11 @@ public:
 
     int GetTPage(char tp, char abr, int* xpos, int* ypos);
 
+    virtual void VRender(int** ppOt) override;
+
+    EXPORT void VRender_406A60(int** ppOt);
+
+    EXPORT void sub_406FF0();
 
     FP_Point* field_10_pCamPos;
     __int16 field_14_xpos;
