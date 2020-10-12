@@ -3,6 +3,9 @@
 #include "ThrowableTotalIndicator.hpp"
 #include "stdlib.hpp"
 #include "Game.hpp"
+#include "Events.hpp"
+#include "CameraSwapper.hpp"
+#include "Math.hpp"
 
 START_NS_AO
 
@@ -57,7 +60,66 @@ void ThrowableTotalIndicator::VUpdate()
 
 void ThrowableTotalIndicator::VUpdate_41B690()
 {
-    NOT_IMPLEMENTED();
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+
+    if (sNumCamSwappers_507668 != 0)
+    {
+        return;
+    }
+
+    switch (field_19C_state)
+    {
+    case ThrowableTotalIndicatorState::eCreated_0:
+    {
+        field_18_cur_xpos = field_10_xpos - (FP_FromInteger(12) * Math_Sine_451110(static_cast<BYTE>(2 * gnFrameCount_507670)));
+        field_1C_cur_ypos = (FP_FromInteger(12) * Math_Cosine_4510A0(static_cast<BYTE>(2 * gnFrameCount_507670))) + field_14_ypos;
+
+        const short rgb = FP_GetExponent(FP_FromInteger(48) * Math_Sine_451110(static_cast<BYTE>(3 * gnFrameCount_507670))) + 80;
+
+        field_32_r = rgb;
+        field_34_g = rgb;
+        field_36_b = rgb;
+    }
+    break;
+
+    case ThrowableTotalIndicatorState::eFading_1:
+        if (field_1C_cur_ypos >= (field_14_ypos - FP_FromInteger(20)))
+        {
+            if (field_32_r < 70 && field_34_g < 90 && field_36_b < 20)
+            {
+                field_32_r += 14;
+                field_34_g += 18;
+                field_36_b += 4;
+            }
+
+            field_28_scale += field_2C_scale_speed;
+            field_18_cur_xpos += field_20_xspeed;
+            field_1C_cur_ypos += field_24_yspeed;
+        }
+        else
+        {
+            field_19C_state = ThrowableTotalIndicatorState::eVanishing_2;
+        }
+        break;
+
+    case ThrowableTotalIndicatorState::eVanishing_2:
+        if (field_32_r < 7 && field_34_g < 7 && field_36_b < 7)
+        {
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            return;
+        }
+
+        field_34_g -= 9;
+        field_36_b -= 2;
+        field_32_r -= 7;
+
+        field_18_cur_xpos += field_20_xspeed;
+        field_1C_cur_ypos += field_24_yspeed;
+        break;
+    }
 }
 
 void ThrowableTotalIndicator::VRender(int** ppOt)
@@ -109,11 +171,11 @@ ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_41B520(FP xpos, FP ypos, 
 
     if (bFade)
     {
-        field_19C_state = 1;
+        field_19C_state = ThrowableTotalIndicatorState::eFading_1;
     }
     else
     {
-        field_19C_state = 0;
+        field_19C_state = ThrowableTotalIndicatorState::eCreated_0;
     }
 
     if (count == -1)
