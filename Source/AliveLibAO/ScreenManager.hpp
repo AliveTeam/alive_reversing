@@ -37,7 +37,24 @@ ALIVE_ASSERT_SIZEOF(Camera, 0x34);
 
 struct DirtyBits
 {
-    __int16 field_0[20];
+    WORD mData[20]; // 20 Columns
+
+    bool GetTile(int x, int y)
+    {
+        return mData[x] & (1 << y) ? true : false;
+    }
+
+    void SetTile(int x, int y, bool b)
+    {
+        if (b)
+        {
+            mData[x] |= 1 << y;
+        }
+        else
+        {
+            mData[x] &= ~(1 << y);
+        }
+    }
 };
 ALIVE_ASSERT_SIZEOF(DirtyBits, 0x28);
 
@@ -64,14 +81,21 @@ public:
 
     EXPORT void InvalidateRect_Layer3_406F20(int x, int y, int width, int height);
 
+    EXPORT void InvalidateRect_406D80(int x, int y, signed int width, signed int height, int idx);
+
+    virtual void VScreenChanged() override;
+
+    virtual void VUpdate() override;
+
     FP_Point* field_10_pCamPos;
     __int16 field_14_xpos;
     unsigned __int16 field_16_ypos;
     int field_18;
     int field_1C;
-    __int16 field_20;
-    __int16 field_22;
-    int field_24;
+    __int16 field_20_upos;
+    __int16 field_22_vpos;
+    short field_24;
+    short field_26;
     int field_28;
     __int16 field_2C;
     unsigned __int16 field_2E_idx;
@@ -87,7 +111,7 @@ public:
     int field_4C;
     int field_50;
     int field_54;
-    DirtyBits field_58[6];
+    DirtyBits field_58_20x16_dirty_bits[6];
 };
 ALIVE_ASSERT_SIZEOF(ScreenManager, 0x148);
 

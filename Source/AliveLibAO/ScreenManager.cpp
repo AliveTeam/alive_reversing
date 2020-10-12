@@ -3,11 +3,14 @@
 #include "Function.hpp"
 #include "ResourceManager.hpp"
 
+#undef min
+#undef max
+
 START_NS_AO
 
 ALIVE_VAR(1, 0x4FF7C8, ScreenManager*, pScreenManager_4FF7C8, nullptr);
 
-EXPORT Camera* Camera::ctor_4446E0()
+Camera* Camera::ctor_4446E0()
 {
     field_0_array.ctor_4043E0(10);
     field_30_flags &= ~1u;
@@ -15,8 +18,7 @@ EXPORT Camera* Camera::ctor_4446E0()
     return this;
 }
 
-
-EXPORT void Camera::dtor_444700()
+void Camera::dtor_444700()
 {
     ResourceManager::FreeResource_455550(field_C_ppBits);
 
@@ -36,25 +38,30 @@ EXPORT void Camera::dtor_444700()
 }
 
 
-EXPORT void CC Camera::On_Loaded_4447A0(Camera* pThis)
+void CC Camera::On_Loaded_4447A0(Camera* pThis)
 {
     pThis->field_30_flags |= 1u;
     pThis->field_C_ppBits = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Bits, pThis->field_10_resId, 1, 0);
 }
 
-EXPORT void ScreenManager::MoveImage_406C40()
+void ScreenManager::MoveImage_406C40()
+{
+    PSX_RECT rect = {};
+    rect.x = field_20_upos;
+    rect.y = field_22_vpos;
+    rect.h = 240;
+    rect.w = 640;
+    PSX_MoveImage_4961A0(&rect, 0, 0);
+}
+
+void ScreenManager::DecompressToVRam_407110(unsigned __int16** /*ppBits*/)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT void ScreenManager::DecompressToVRam_407110(unsigned __int16** /*ppBits*/)
+void ScreenManager::InvalidateRect_406CC0(int x, int y, signed int width, signed int height)
 {
-    NOT_IMPLEMENTED();
-}
-
-EXPORT void ScreenManager::InvalidateRect_406CC0(int /*x*/, int /*y*/, signed int /*width*/, signed int /*height*/)
-{
-    NOT_IMPLEMENTED();
+    InvalidateRect_406E40(x, y, width, height, field_2E_idx);
 }
 
 ScreenManager* ScreenManager::ctor_406830(BYTE** ppBits, FP_Point* pCameraOffset)
@@ -83,17 +90,46 @@ BaseGameObject* ScreenManager::VDestructor(signed int flags)
 
 void ScreenManager::UnsetDirtyBits_FG1_406EF0()
 {
-    NOT_IMPLEMENTED();
+    memset(&field_58_20x16_dirty_bits[4], 0, sizeof(this->field_58_20x16_dirty_bits[4]));
+    memset(&field_58_20x16_dirty_bits[5], 0, sizeof(this->field_58_20x16_dirty_bits[5]));
 }
 
-void ScreenManager::InvalidateRect_406E40(int /*x*/, int /*y*/, signed int /*width*/, signed int /*height*/, int /*idx*/)
+void ScreenManager::InvalidateRect_406E40(int x, int y, signed int width, signed int height, int idx)
 {
-    NOT_IMPLEMENTED();
+    x = std::max(x, 0);
+    y = std::max(y, 0);
+
+    width = std::min(width, 639);
+    height = std::min(height, 239);
+
+    for (int tileX = x / 32; tileX <= width / 32; tileX++)
+    {
+        for (int tileY = y / 16; tileY <= height / 16; tileY++)
+        {
+            field_58_20x16_dirty_bits[idx].SetTile(tileX, tileY, true);
+        }
+    }
 }
 
-void ScreenManager::InvalidateRect_Layer3_406F20(int /*x*/, int /*y*/, int /*width*/, int /*height*/)
+void ScreenManager::InvalidateRect_Layer3_406F20(int x, int y, int width, int height)
 {
-    NOT_IMPLEMENTED();
+    InvalidateRect_406E40(x, y, width, height, 3);
+}
+
+
+void ScreenManager::InvalidateRect_406D80(int x, int y, signed int width, signed int height, int idx)
+{
+    InvalidateRect_406E40(x, y, width, height, idx + 4);
+}
+
+void ScreenManager::VScreenChanged()
+{
+    // Empty
+}
+
+void ScreenManager::VUpdate()
+{
+    // Empty
 }
 
 ScreenManager* ScreenManager::vdtor_407290(signed int /*flags*/)
