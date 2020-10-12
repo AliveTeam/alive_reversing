@@ -42,4 +42,6 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Movie, 0x40);
 
+ALIVE_VAR_EXTERN(int, sMovie_ref_count_9F309C);
+
 END_NS_AO

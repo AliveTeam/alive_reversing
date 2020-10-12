@@ -91,7 +91,12 @@ void ScreenManager::InvalidateRect_406E40(int /*x*/, int /*y*/, signed int /*wid
     NOT_IMPLEMENTED();
 }
 
-EXPORT ScreenManager* ScreenManager::vdtor_407290(signed int /*flags*/)
+void ScreenManager::InvalidateRect_Layer3_406F20(int /*x*/, int /*y*/, int /*width*/, int /*height*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+ScreenManager* ScreenManager::vdtor_407290(signed int /*flags*/)
 {
     NOT_IMPLEMENTED();
     return this;

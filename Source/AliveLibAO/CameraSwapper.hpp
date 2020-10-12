@@ -40,7 +40,7 @@ public:
     int field_1C_movie_id_2;
     BYTE** field_20_ppCamRes;
     ScreenClipper* field_24_pSubObject;
-    __int16 field_28_changeEffect;
+    CameraSwapEffects field_28_changeEffect;
     __int16 field_2A_current_slice;
     __int16 field_2C_slices_per_tick;
     __int16 field_2E_total_slices;

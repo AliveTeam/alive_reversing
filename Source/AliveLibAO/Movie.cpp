@@ -6,6 +6,8 @@
 
 START_NS_AO
 
+ALIVE_VAR(1, 0x9F309C, int, sMovie_ref_count_9F309C, 0);
+
 EXPORT void CC Get_fmvs_sectors_44FEB0(const char* /*pMovieName1*/, const char* /*pMovieName2*/, const char* /*pMovieName3*/, DWORD* /*pMovie1Sector*/, DWORD* /*pMovie2Sector*/, DWORD* /*pMovie3Sector*/)
 {
     NOT_IMPLEMENTED();
@@ -28,12 +30,12 @@ Movie* Movie::ctor_489C90(int id, int /*pos*/, char bUnknown, int /*flags*/, __i
 
     word_9F3064 = 2;
 
-    dword_9F309C = v7 + 1;
+    sMovie_ref_count_9F309C = v7 + 1;
     LOWORD(v7) = *(_WORD*)&loc.field_0_minute;
     LOBYTE(v7) = loc.field_2_sector;
-    field_35 = BYTE1(dword_9F309C);
-    field_36 = dword_9F309C;
-    field_34_min = dword_9F309C;
+    field_35 = BYTE1(sMovie_ref_count_9F309C);
+    field_36 = sMovie_ref_count_9F309C;
+    field_34_min = sMovie_ref_count_9F309C;
     */
 
     field_28 = id;

@@ -33,13 +33,11 @@ enum class Types : __int16
 
     eGameSpeak_24 = 24,
     eElectricWall_25 = 25,
-
     eElum_26 = 26,
     eBellHammer_27 = 27,
 
     ePalOverwriter_29 = 29,
     eBaseBomb_30 = 30,
-
     eSecurityClaw_31 = 31,
     eRockSpawner_32 = 32,
 
@@ -49,7 +47,6 @@ enum class Types : __int16
     eGameEnderController_37 = 37,
     eDeathBird_38 = 38,
     eLoadingFile_39 = 39,
-
     eGrenade_40 = 40,
     eGrenadeMachine_41 = 41,
     eBackgroundGlukkon_42 = 42,
@@ -64,7 +61,6 @@ enum class Types : __int16
     eLiftPoint_51 = 51,
     SecurityOrb_53 = 53,
     eMeat_54 = 54,
-
     eMeatStack_55 = 55,
     eMeatSaw_56 = 56,
     eMine_57 = 57,
@@ -78,9 +74,7 @@ enum class Types : __int16
     e66 = 66,
 
     ePullRingRope_68 = 68,
-
     eAbilityRing_69 = 69,
-
     eRock_70 = 70,
     eRockSack_71 = 71,
     eRollingBall_72 = 72,
@@ -89,10 +83,8 @@ enum class Types : __int16
     eMudokon_75 = 75,
     eRedLaser_76 = 76,
     eScrab_77 = 77,
-
     eScreenClipper_78 = 78,
     eEffectBase_79 = 79,
-    
     eDeathFadeOut_80 = 80, // TODO: Actually eMainMenuTransistion in AE, shared?
     eFlash_81 = 81,
     ScreenShake_82 = 82,
@@ -115,7 +107,7 @@ enum class Types : __int16
     eUXB_99 = 99,
     eMovie_100 = 100,
     eWell_101 = 101,
-
+    eCameraSwapper_102 = 102,
     eElectrocute_103 = 103,
 };
 
