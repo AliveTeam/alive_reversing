@@ -368,7 +368,221 @@ void CameraSwapper::Init_48C830(BYTE** ppCamRes, CameraSwapEffects changeEffect)
 
 void CameraSwapper::VUpdate_48CEA0()
 {
-    NOT_IMPLEMENTED();
+    if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    {
+        return;
+    }
+
+    switch (field_28_changeEffect)
+    {
+    case CameraSwapEffects::eEffect0_InstantChange:
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        return;
+
+    case CameraSwapEffects::eEffect1_LeftToRight:
+    case CameraSwapEffects::eEffect2_RightToLeft:
+    {
+        field_2A_current_slice += field_2C_slices_per_tick;
+        if (field_2A_current_slice < 0 || field_2A_current_slice >= field_2E_total_slices)
+        {
+            // All slices done
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            return;
+        }
+
+        const short xpos = field_46_slice_width * field_2A_current_slice;
+        short width = field_46_slice_width * (field_2A_current_slice + 1);
+        if (width > gPsxDisplay_504C78.field_0_width - 1)
+        {
+            width = gPsxDisplay_504C78.field_0_width - 1;
+        }
+
+        pScreenManager_4FF7C8->InvalidateRect_Layer3_406F20(xpos, 0, width, gPsxDisplay_504C78.field_2_height);
+        field_24_pSubObject->Update_Clip_Rect_40BE40({ xpos, 0 }, { static_cast<short>(width + 1), static_cast<short>(gPsxDisplay_504C78.field_2_height) });
+    }
+    break;
+
+    case CameraSwapEffects::eEffect3_TopToBottom:
+    case CameraSwapEffects::eEffect4_BottomToTop:
+    {
+        field_2A_current_slice += field_2C_slices_per_tick;
+        if (field_2A_current_slice < 0 || field_2A_current_slice >= field_2E_total_slices)
+        {
+            // All slices done
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            return;
+        }
+
+        const short ypos = field_46_slice_width * field_2A_current_slice;
+        short height = field_46_slice_width * (field_2A_current_slice + 1);
+
+        pScreenManager_4FF7C8->InvalidateRect_Layer3_406F20(
+            0,
+            ypos,
+            gPsxDisplay_504C78.field_0_width,
+            height);
+        field_24_pSubObject->Update_Clip_Rect_40BE40({ 0, ypos }, {  static_cast<short>(gPsxDisplay_504C78.field_0_width), height});
+    }
+    break;
+
+    case CameraSwapEffects::eEffect5_1_FMV:
+    {
+        if (sMovie_ref_count_9F309C)
+        {
+            // A movie is still playing
+            return;
+        }
+
+        if (field_3C_movie_bPutDispEnv == 1)
+        {
+            gPsxDisplay_504C78.PutCurrentDispEnv_40DE40();
+        }
+
+        pScreenManager_4FF7C8->field_38 = 1;
+
+        // Now apply the camera we where storing now that the movie is finished
+        if (field_20_ppCamRes)
+        {
+            pScreenManager_4FF7C8->DecompressToVRam_407110(reinterpret_cast<WORD**>(field_20_ppCamRes));
+            pScreenManager_4FF7C8->InvalidateRect_406E40(0, 0, 640, 240, 0);
+            pScreenManager_4FF7C8->InvalidateRect_406E40(0, 0, 640, 240, 1);
+            pScreenManager_4FF7C8->InvalidateRect_406E40(0, 0, 640, 240, 2);
+            pScreenManager_4FF7C8->field_36_flags = pScreenManager_4FF7C8->field_36_flags ? 0 : 1;
+        }
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+    break;
+
+    case CameraSwapEffects::eEffect6_VerticalSplit:
+    {
+        field_2A_current_slice += field_2C_slices_per_tick;
+        if (field_2A_current_slice < 0 || field_2A_current_slice > field_2E_total_slices)
+        {
+            // All slices done
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            return;
+        }
+
+        const short xpos = field_46_slice_width * field_2A_current_slice;
+        const short halfDisplayWidth = gPsxDisplay_504C78.field_0_width / 2;
+
+        pScreenManager_4FF7C8->InvalidateRect_Layer3_406F20(static_cast<short>(halfDisplayWidth - xpos), 0, static_cast<short>(xpos + halfDisplayWidth), gPsxDisplay_504C78.field_2_height);
+        field_24_pSubObject->Update_Clip_Rect_40BE40({ static_cast<short>(halfDisplayWidth - xpos), 0 }, { static_cast<short>(xpos + halfDisplayWidth + 1), static_cast<short>(gPsxDisplay_504C78.field_2_height) });
+    }
+    break;
+
+    case CameraSwapEffects::eEffect7_HorizontalSplit:
+    {
+        field_2A_current_slice += field_2C_slices_per_tick;
+        if (field_2A_current_slice < 0 || field_2A_current_slice > field_2E_total_slices)
+        {
+            // All slices done
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            return;
+        }
+
+        const short ypos = field_46_slice_width * field_2A_current_slice;
+        const short halfDisplayHeight = gPsxDisplay_504C78.field_2_height / 2;
+
+        pScreenManager_4FF7C8->InvalidateRect_Layer3_406F20(0, static_cast<short>(halfDisplayHeight - ypos), 640, static_cast<short>(halfDisplayHeight + ypos));
+        field_24_pSubObject->Update_Clip_Rect_40BE40({ 0,  static_cast<short>(halfDisplayHeight - ypos) }, { 640,  static_cast<short>(halfDisplayHeight + ypos) });
+    }
+    break;
+
+    case CameraSwapEffects::eEffect8_BoxOut:
+    {
+        field_2A_current_slice += field_2C_slices_per_tick;
+        if (field_2A_current_slice < 0 || field_2A_current_slice > field_2E_total_slices)
+        {
+            // All slices done
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            return;
+        }
+
+        const short xSlicePos = field_2A_current_slice * field_42_XSlices;
+        const short width = (field_3E_xpos_converted + xSlicePos > gPsxDisplay_504C78.field_0_width) ? gPsxDisplay_504C78.field_0_width : field_3E_xpos_converted + xSlicePos;
+
+        const short ySlicePos = field_2A_current_slice * field_44_YSlices;
+        const short height = (ySlicePos + field_40_ypos_converted > gPsxDisplay_504C78.field_2_height) ? gPsxDisplay_504C78.field_2_height : ySlicePos + field_40_ypos_converted;
+
+        PSX_Point rect_xy = {};
+        rect_xy.field_0_x = (field_3E_xpos_converted - xSlicePos <= 0) ? 0 : field_3E_xpos_converted - xSlicePos;
+        rect_xy.field_2_y = (field_40_ypos_converted - ySlicePos <= 0) ? 0 : field_40_ypos_converted - ySlicePos;
+
+        pScreenManager_4FF7C8->InvalidateRect_Layer3_406F20(
+            rect_xy.field_0_x,
+            rect_xy.field_2_y,
+            width,
+            height);
+
+        PSX_Point rect_wh = {};
+        rect_wh.field_0_x = width + 1;
+        rect_wh.field_2_y = height;
+
+        field_24_pSubObject->Update_Clip_Rect_40BE40(rect_xy, rect_wh);
+    }
+    break;
+
+    // TODO: 2 and 3 FMV cases can be de-duped
+    case CameraSwapEffects::eEffect9_2_FMV:
+        if (field_2A_current_slice < 1)
+        {
+            field_2A_current_slice++;
+        }
+        else
+        {
+            pScreenManager_4FF7C8->field_36_flags &= ~1u;
+        }
+
+        // When no movie is playing start the next one
+        if (sMovie_ref_count_9F309C == 0)
+        {
+            auto pMovie = ao_new<Movie>();
+            if (pMovie)
+            {
+                pMovie->ctor_489C90(
+                    field_14_movie_id_3,
+                    field_10_movie_pos_3,
+                    static_cast<char>(field_30_movie_flag_3),
+                    field_32_movie_flags_3,
+                    field_34_movie_vol_3);
+            }
+            field_28_changeEffect = CameraSwapEffects::eEffect5_1_FMV;
+            field_3C_movie_bPutDispEnv = field_32_movie_flags_3;
+        }
+        break;
+
+    case CameraSwapEffects::eEffect10_3_FMV:
+        if (field_2A_current_slice < 1)
+        {
+            field_2A_current_slice++;
+        }
+        else
+        {
+            pScreenManager_4FF7C8->field_36_flags &= ~1u;
+        }
+
+        // When no movie is playing start the next one
+        if (sMovie_ref_count_9F309C == 0)
+        {
+            auto pMovie = ao_new<Movie>();
+            if (pMovie)
+            {
+                pMovie->ctor_489C90(
+                    field_1C_movie_id_2,
+                    field_18_movie_pos_2,
+                    static_cast<char>(field_36_movie_flag_2),
+                    field_38_movie_flags_2,
+                    field_3A_movie_vol_2);
+            }
+            field_28_changeEffect = CameraSwapEffects::eEffect9_2_FMV;
+            field_3C_movie_bPutDispEnv = field_38_movie_flags_2;
+        }
+        break;
+
+    default:
+        break;
+    }
 }
 
 END_NS_AO
