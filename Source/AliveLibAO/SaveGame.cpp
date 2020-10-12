@@ -7,7 +7,6 @@
 #include "Grenade.hpp"
 #include "Input.hpp"
 #include "SaveGame.hpp"
-#include <fcntl.h>
 
 START_NS_AO
 
@@ -325,6 +324,7 @@ short CC SaveGame::Read_459D30(const char* name)
         return 0;
     }
     const auto readVar = fread(&gSaveBuffer_500A18, 1, sizeof(SaveData), file);
+    fclose(file);
     if (readVar != sizeof(SaveData))
     {
         return 0;
