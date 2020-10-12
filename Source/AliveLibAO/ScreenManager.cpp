@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "ResourceManager.hpp"
 #include "VRam.hpp"
+#include "stdlib.hpp"
 
 #undef min
 #undef max
@@ -138,11 +139,11 @@ void ScreenManager::Init_4068A0(BYTE** ppBits)
     field_32_x_idx = 0;
 }
 
+
 BaseGameObject* ScreenManager::VDestructor(signed int flags)
 {
     return vdtor_407290(flags);
 }
-
 void ScreenManager::UnsetDirtyBits_FG1_406EF0()
 {
     memset(&field_58_20x16_dirty_bits[4], 0, sizeof(this->field_58_20x16_dirty_bits[4]));
@@ -197,9 +198,23 @@ int ScreenManager::GetTPage(char tp, char abr, int* xpos, int* ypos)
     return PSX_getTPage_4965D0(tp, abr, clampedXPos, clampedYPos);
 }
 
-ScreenManager* ScreenManager::vdtor_407290(signed int /*flags*/)
+void ScreenManager::VRender(int** ppOt)
+{
+    VRender_406A60(ppOt);
+}
+
+void ScreenManager::VRender_406A60(int** /*ppOt*/)
 {
     NOT_IMPLEMENTED();
+}
+
+ScreenManager* ScreenManager::vdtor_407290(signed int flags)
+{
+    dtor_487DF0();
+    if (flags & 1)
+    {
+        ao_delete_free_447540(this);
+    }
     return this;
 }
 
