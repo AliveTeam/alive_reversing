@@ -238,9 +238,69 @@ void ScreenManager::VRender(int** ppOt)
     VRender_406A60(ppOt);
 }
 
-void ScreenManager::VRender_406A60(int** /*ppOt*/)
+void ScreenManager::VRender_406A60(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    if (!(field_36_flags & 1))  // Render enabled flag ?
+    {
+        return;
+    }
+
+    PSX_DrawSync_496750(0);
+
+    for (int i = 0; i < 300; i++)
+    {
+        SprtTPage* pSpriteTPage = &field_18_screen_sprites[i];
+
+        const int spriteX = pSpriteTPage->mSprt.mBase.vert.x;
+        const int spriteY = pSpriteTPage->mSprt.mBase.vert.y;
+
+        int layer = 0;
+        if (field_58_20x16_dirty_bits[4].GetTile(spriteX / 32, spriteY / 16))
+        {
+            if (!(field_58_20x16_dirty_bits[field_2E_idx].GetTile(spriteX / 32, spriteY / 16)) &&
+                !(field_58_20x16_dirty_bits[field_30_y_idx].GetTile(spriteX / 32, spriteY / 16)) &&
+                !(field_58_20x16_dirty_bits[field_32_x_idx].GetTile(spriteX / 32, spriteY / 16)) &&
+                !(field_58_20x16_dirty_bits[3].GetTile(spriteX / 32, spriteY / 16)))
+            {
+                continue;
+            }
+            layer = 37;
+        }
+        else if (field_58_20x16_dirty_bits[5].GetTile(spriteX / 32, spriteY / 16))
+        {
+            if (!(field_58_20x16_dirty_bits[field_2E_idx].GetTile(spriteX / 32, spriteY / 16)) &&
+                !(field_58_20x16_dirty_bits[field_30_y_idx].GetTile(spriteX / 32, spriteY / 16)) &&
+                !(field_58_20x16_dirty_bits[field_32_x_idx].GetTile(spriteX / 32, spriteY / 16)) &&
+                !(field_58_20x16_dirty_bits[3].GetTile(spriteX / 32, spriteY / 16)))
+            {
+                continue;
+            }
+            layer = 18;
+        }
+        else
+        {
+            if (!(field_58_20x16_dirty_bits[field_32_x_idx].GetTile(spriteX / 32, spriteY / 16)) &&
+                !(field_58_20x16_dirty_bits[field_30_y_idx].GetTile(spriteX / 32, spriteY / 16)) &&
+                !(field_58_20x16_dirty_bits[3].GetTile(spriteX / 32, spriteY / 16)))
+            {
+                continue;
+            }
+            layer = 1;
+        }
+
+        OrderingTable_Add_498A80(&ppOt[layer], &pSpriteTPage->mSprt.mBase.header);
+        OrderingTable_Add_498A80(&ppOt[layer], &pSpriteTPage->mTPage.mBase);
+    }
+
+    sub_406FF0();
+
+    for (int i = 0; i < 20; i++)
+    {
+        field_58_20x16_dirty_bits[field_32_x_idx].mData[i] |= field_58_20x16_dirty_bits[3].mData[i];
+    }
+
+    memset(&field_58_20x16_dirty_bits[3], 0, sizeof(field_58_20x16_dirty_bits[3]));
+    return;
 }
 
 void ScreenManager::sub_406FF0()
