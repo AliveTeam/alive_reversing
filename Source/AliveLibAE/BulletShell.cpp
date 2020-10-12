@@ -23,8 +23,9 @@ BulletShell* BulletShell::ctor_4AD340(FP xpos, FP ypos, __int16 direction, FP sc
     else
     {
         field_4_typeId = Types::eNone_0;
-        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kShellResID);
-        Animation_Init_424E10(320, 5, 5u, ppRes, 1, 1);
+        const AnimRecord& rec = AnimRec(AnimId::Bullet_Casing);
+        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+        Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
         
         field_CC_sprite_scale = scale;
 
