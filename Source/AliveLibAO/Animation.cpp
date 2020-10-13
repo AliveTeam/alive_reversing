@@ -338,9 +338,9 @@ void AnimationUnknown::VRender2_403FD0(int /*xpos*/, int /*ypos*/, int** /*ppOt*
     NOT_IMPLEMENTED();
 }
 
-void AnimationUnknown::GetRenderedSize_404220(PSX_RECT* /*pRect*/)
+void AnimationUnknown::GetRenderedSize_404220(PSX_RECT* pRect)
 {
-    NOT_IMPLEMENTED();
+    Poly_FT4_Get_Rect(pRect, &field_10_polys[gPsxDisplay_504C78.field_A_buffer_index]);
 }
 
 END_NS_AO
