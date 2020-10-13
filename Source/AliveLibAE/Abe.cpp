@@ -6385,11 +6385,11 @@ void Abe::State_78_WellBegin_45C810()
         const short tlv_mid_x = (field_FC_pPathTLV->field_8_top_left.field_0_x + field_FC_pPathTLV->field_C_bottom_right.field_0_x) / 2;
         if (xpos > tlv_mid_x)
         {
-            field_B8_xpos -= FP_FromInteger(1) * field_CC_sprite_scale;
+            field_B8_xpos -= field_CC_sprite_scale;
         }
         else if (xpos < tlv_mid_x)
         {
-            field_B8_xpos += FP_FromInteger(1) * field_CC_sprite_scale;
+            field_B8_xpos += field_CC_sprite_scale;
         }
     }
 
