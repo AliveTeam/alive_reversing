@@ -600,7 +600,7 @@ public:
     int field_184;
     OrbWhirlWind* field_188_pOrbWhirlWind;
     BaseAliveGameObject* field_18C_pObjToPosses;
-    __int16 field_190_level;
+    LevelIds field_190_level;
     __int16 field_192_path;
     __int16 field_194_camera;
     __int16 field_196_door_id;
