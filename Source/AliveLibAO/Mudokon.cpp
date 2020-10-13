@@ -532,7 +532,7 @@ void Mudokon::VUpdate_43F560()
 
     if (field_10A_flags.Get(Flags_10A::e10A_Bit5_Electrocuted))
     {
-        Event_Broadcast_417220(kEvent_15, sActiveHero_507678);
+        Event_Broadcast_417220(kEventMudokonDead_15, sActiveHero_507678);
     }
 }
 
@@ -705,7 +705,7 @@ __int16 Mudokon::VTakeDamage_43F830(BaseGameObject* pFrom)
             }
 
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
-            Event_Broadcast_417220(kEvent_15, sActiveHero_507678);
+            Event_Broadcast_417220(kEventMudokonDead_15, sActiveHero_507678);
         }
         return 1;
 
@@ -739,14 +739,14 @@ __int16 Mudokon::VTakeDamage_43F830(BaseGameObject* pFrom)
                     50);
             }
 
-            Event_Broadcast_417220(kEvent_15, sActiveHero_507678);
-            Event_Broadcast_417220(kEvent_15, sActiveHero_507678);
+            Event_Broadcast_417220(kEventMudokonDead_15, sActiveHero_507678);
+            Event_Broadcast_417220(kEventMudokonDead_15, sActiveHero_507678);
              return DoSmashDamage();
         }
         return 1;
 
     case Types::eRockSpawner_32:
-        Event_Broadcast_417220(kEvent_15, sActiveHero_507678);
+        Event_Broadcast_417220(kEventMudokonDead_15, sActiveHero_507678);
          return DoSmashDamage();
 
     case Types::eScrab_77:
@@ -1292,7 +1292,7 @@ void Mudokon::VOnTlvCollision_43FD90(Path_TLV* pTlv)
                     field_1BA_sub_state = 0;
                     field_100_health = FP_FromInteger(0);
                     field_1B8_brain_idx = 13;
-                    Event_Broadcast_417220(kEvent_15, sActiveHero_507678);
+                    Event_Broadcast_417220(kEventMudokonDead_15, sActiveHero_507678);
                 }
             }
             pTlv = gMap_507BA8.TLV_Get_At_446060(pTlv, field_A8_xpos, field_AC_ypos, field_A8_xpos, field_AC_ypos);

@@ -967,7 +967,7 @@ void Abe::vUpdate_41FDB0()
                     }
                 }
 
-                if (Event_Get_417250(kEvent_15))
+                if (Event_Get_417250(kEventMudokonDead_15))
                 {
                     field_130_say = 16;
                     field_134_auto_say_timer = gnFrameCount_507670 + Math_RandomRange_450F20(22, 30);
@@ -6978,11 +6978,6 @@ const elumSpawn dword_4CF550[] =
     nullptr
 };
 
-void Abe::State_62_LoadedSaveSpawn_REAL_45ADD0()
-{
-    NOT_IMPLEMENTED();
-}
-
 void Abe::State_62_LoadedSaveSpawn_45ADD0()
 {
     Event_Broadcast_417220(kEventResetting_6, this);
@@ -7503,7 +7498,57 @@ void Abe::State_76_ToWellShotOut_431720()
 
 void Abe::State_77_WellBegin_430F10()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_417220(kEventNoise_0, this);
+    if (field_10_anim.field_92_current_frame > 10)
+    {
+        field_D0_pShadow->field_14_flags.Clear(Shadow::Flags::eBit2_Enabled);;
+
+        field_F0_pTlv = field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(
+            FP_GetExponent(field_A8_xpos),
+            FP_GetExponent(field_AC_ypos),
+            FP_GetExponent(field_A8_xpos),
+            FP_GetExponent(field_AC_ypos),
+            TlvTypes::LocalWell_11
+        );
+        if (!field_F0_pTlv)
+        {
+            field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(
+                FP_GetExponent(field_A8_xpos),
+                FP_GetExponent(field_AC_ypos),
+                FP_GetExponent(field_A8_xpos),
+                FP_GetExponent(field_AC_ypos),
+                TlvTypes::WellExpress_45
+            );
+        }
+
+        const short xpos = FP_GetExponent(field_A8_xpos);
+        const auto tlv_mid_x = (field_F0_pTlv->field_14_bottom_right.field_0_x + field_F0_pTlv->field_10_top_left.field_0_x) / 2;
+        if (xpos > tlv_mid_x)
+        {
+            field_A8_xpos -= field_BC_sprite_scale;
+        }
+        else if (xpos < tlv_mid_x)
+        {
+            field_A8_xpos += field_BC_sprite_scale;
+        }
+    }
+    if (field_10_anim.field_92_current_frame == 11)
+    {
+        if (field_BC_sprite_scale == FP_FromDouble(0.5))
+        {
+            field_10_anim.field_C_layer = 3;
+        }
+        else
+        {
+            field_10_anim.field_C_layer = 22;
+        }
+    }
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_114_gnFrame = 15;
+        SFX_Play_43AD70(25u, 0, this);
+        field_FC_current_motion++;
+    }
 }
 
 ALIVE_VAR(1, 0x4C73CC, FP, gPointlessWellScale_4C73CC, FP_FromDouble(1.8));
