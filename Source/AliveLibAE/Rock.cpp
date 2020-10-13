@@ -23,8 +23,10 @@ Rock* Rock::ctor_49E150(FP xpos, FP ypos, __int16 count)
         LoadRockTypes_49AB30(field_C2_lvl_number, field_C0_path_number);
     }
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAberockResID);
-    Animation_Init_424E10(488, 17, 9, ppRes, 1, 1);
+    const AnimRecord& rec = AnimRec(AnimId::Rock);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+
     field_6_flags.Clear(BaseGameObject::eInteractive_Bit8);
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);

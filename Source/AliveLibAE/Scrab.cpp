@@ -121,8 +121,10 @@ Scrab* Scrab::ctor_4A3C40(Path_Scrab* pTlv, int tlvInfo, __int16 spawnedScale)
     field_10_resources_array.SetAt(3,  ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kArsskwrResID, 1, 0));
     field_10_resources_array.SetAt(4,  ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kArswhirlResID, 1, 0));
     field_10_resources_array.SetAt(13, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kArscrshResID, 1, 0));
-    
-    Animation_Init_424E10(224764, 156, 69, field_10_resources_array.ItemAt(0), 1, 1);
+
+    const AnimRecord& rec = AnimRec(AnimId::Scrab_Idle);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_140_motion_resource_block_index = 0;
     field_12C_timer = 0;
@@ -262,48 +264,48 @@ void Scrab::vOn_TLV_Collision_4A4B80(Path_TLV* pTlv)
     }
 }
 
-const int sScrabFrameTableOffsets_5601C0[40] =
+const AnimId sScrabFrameTableOffsets_5601C0[40] =
 {
-    224764,
-    224668,
-    224796,
-    224860,
-    224916,
-    224964,
-    224988,
-    225028,
-    225112,
-    225052,
-    225072,
-    225092,
-    224988,
-    225028,
-    225132,
-    225112,
-    225168,
-    225188,
-    225208,
-    225280,
-    225028,
-    24480,
-    24480,
-    1340,
-    1340,
-    11228,
-    17260,
-    17328,
-    17260,
-    17328,
-    11532,
-    31648,
-    31704,
-    35180,
-    35248,
-    20840,
-    20896,
-    8356,
-    14508,
-    15600
+    AnimId::Scrab_Idle,
+    AnimId::Scrab_Walk,
+    AnimId::Scrab_Run,
+    AnimId::Scrab_Turn_Around,
+    AnimId::Scrab_Run_Stop,
+    AnimId::Scrab_Landing_A,
+    AnimId::Scrab_Jump,
+    AnimId::Scrab_Landing_B,
+    AnimId::Scrab_Unknown_A,
+    AnimId::Scrab_Unknown_B,
+    AnimId::Scrab_Unknown_C,
+    AnimId::Scrab_Unknown_D,
+    AnimId::Scrab_Jump,
+    AnimId::Scrab_Landing_B,
+    AnimId::Scrab_Unknown_E,
+    AnimId::Scrab_Unknown_A,
+    AnimId::Scrab_Unknown_F,
+    AnimId::Scrab_Unknown_G,
+    AnimId::Scrab_Landing_C,
+    AnimId::Scrab_Unknown_H,
+    AnimId::Scrab_Landing_B,
+    AnimId::Scrab_Dance,
+    AnimId::Scrab_Dance,
+    AnimId::Scrab_Dead,
+    AnimId::Scrab_Dead,
+    AnimId::Scrab_Unknown_I,
+    AnimId::Scrab_Showl,
+    AnimId::Scrab_Showl_Start,
+    AnimId::Scrab_Showl,
+    AnimId::Scrab_Showl_Start,
+    AnimId::Scrab_Roar,
+    AnimId::Scrab_Whirl_Fight,
+    AnimId::Scrab_Whirl,
+    AnimId::Scrab_Chew,
+    AnimId::Scrab_Unknown_J,
+    AnimId::Scrab_Eat_Start,
+    AnimId::Scrab_Eat,
+    AnimId::Scrab_Unknown_K,
+    AnimId::Scrab_Kick,
+    AnimId::Scrab_Unknown_L
 };
 
 int CC Scrab::CreateFromSaveState_4A70A0(const BYTE* pBuffer)
@@ -342,9 +344,11 @@ int CC Scrab::CreateFromSaveState_4A70A0(const BYTE* pBuffer)
     pScrab->field_D2_g = pState->field_22_g;
     pScrab->field_D4_b = pState->field_24_b;
     pScrab->field_106_current_motion = pState->field_28_current_motion;
-
+    
+    const AnimRecord& animRec = AnimRec(sScrabFrameTableOffsets_5601C0[pState->field_28_current_motion]);
     BYTE** ppRes = pScrab->ResBlockForMotion_4A43E0(pState->field_28_current_motion);
-    pScrab->field_20_animation.Set_Animation_Data_409C80(sScrabFrameTableOffsets_5601C0[pScrab->field_106_current_motion], ppRes);
+    pScrab->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
+    
     pScrab->field_20_animation.field_92_current_frame = pState->field_2A_current_frame;
     pScrab->field_20_animation.field_E_frame_change_counter = pState->field_2C_frame_change_counter;
 
@@ -575,9 +579,8 @@ void Scrab::vOnTrapDoorOpen_4A7ED0()
 
 void Scrab::vUpdateAnim_4A34F0()
 {
-    field_20_animation.Set_Animation_Data_409C80(
-        sScrabFrameTableOffsets_5601C0[field_106_current_motion], 
-        ResBlockForMotion_4A43E0(field_106_current_motion));
+    const AnimRecord& animRec = AnimRec(sScrabFrameTableOffsets_5601C0[field_106_current_motion]);
+    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ResBlockForMotion_4A43E0(field_106_current_motion));
 }
 
 __int16 Scrab::OnFloor_4A41E0()

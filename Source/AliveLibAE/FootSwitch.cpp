@@ -34,29 +34,24 @@ const TintEntry sFootSwitchTints_5639F4[18] =
 };
 
 
-
-const FootSwitch_Data sFootSwitchData_547D60[] =
+const AnimId sFootSwitchData_547D60[15][2] =
 {
-    { 568, 588, 45, 11 },
-    { 568, 588, 45, 11 },
-    { 568, 588, 45, 11 },
-    { 972, 992, 72, 18 },
-    { 972, 992, 72, 18 },
-    { 568, 588, 45, 11 },
-    { 568, 588, 45, 11 },
-    { 972, 992, 72, 18 },
-    { 548, 568, 46, 11 },
-    { 568, 588, 45, 11 },
-    { 568, 588, 45, 11 },
-    { 972, 992, 72, 18 },
-    { 568, 588, 45, 11 },
-    { 568, 588, 45, 11 },
-    { 548, 568, 46, 11 },
-    { 0, 0, 0, 0 },
-    { 0, 0, 0, 0 },
-    { 0, 0, 0, 0 }
+    { AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed },
+    { AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed },
+    { AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed },
+    { AnimId::Foot_Switch_Vault_Idle, AnimId::Foot_Switch_Vault_Pressed },
+    { AnimId::Foot_Switch_Vault_Idle, AnimId::Foot_Switch_Vault_Pressed },
+    { AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed },
+    { AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed },
+    { AnimId::Foot_Switch_Vault_Idle, AnimId::Foot_Switch_Vault_Pressed },
+    { AnimId::Foot_Switch_Bonewerkz_Idle, AnimId::Foot_Switch_Bonewerkz_Pressed },
+    { AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed },
+    { AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed },
+    { AnimId::Foot_Switch_Vault_Idle, AnimId::Foot_Switch_Vault_Pressed },
+    { AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed },
+    { AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed },
+    { AnimId::Foot_Switch_Bonewerkz_Idle, AnimId::Foot_Switch_Bonewerkz_Pressed },
 };
-
 
 
 FootSwitch* FootSwitch::ctor_4DE090(Path_FootSwitch* pTlv, int tlvInfo)
@@ -68,14 +63,10 @@ FootSwitch* FootSwitch::ctor_4DE090(Path_FootSwitch* pTlv, int tlvInfo)
     field_100_obj_id = -1;
 
     const int idx = static_cast<int>(gMap_5C3030.field_0_current_level);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kTriggerResID);
-    Animation_Init_424E10(
-        sFootSwitchData_547D60[idx].field_0_frameTableOffset,
-        sFootSwitchData_547D60[idx].field_8_maxH,
-        sFootSwitchData_547D60[idx].field_A_frameTableOffset,
-        ppRes,
-        1,
-        1u);
+    
+    const AnimRecord& rec = AnimRec(sFootSwitchData_547D60[idx][0]);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_C_render_layer = 25;
 
@@ -150,7 +141,8 @@ void FootSwitch::vUpdate_4DE270()
         if (pLastStoodOnMe)
         {
             field_100_obj_id = pLastStoodOnMe->field_8_object_id;
-            field_20_animation.Set_Animation_Data_409C80(sFootSwitchData_547D60[static_cast<int>(gMap_5C3030.field_0_current_level)].field_4_frameTableOffset, nullptr);
+            const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<int>(gMap_5C3030.field_0_current_level)][1]);
+            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             field_F8_state = States::eWaitForGetOffMe_1;
         }
     }
@@ -165,8 +157,9 @@ void FootSwitch::vUpdate_4DE270()
             SwitchStates_Do_Operation_465F00(field_FA_id, field_FC_action);
             field_F8_state = States::eWaitForGetOffMe_1;
 
-            field_20_animation.Set_Animation_Data_409C80(sFootSwitchData_547D60[static_cast<int>(gMap_5C3030.field_0_current_level)].field_4_frameTableOffset, nullptr);
-
+            const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<int>(gMap_5C3030.field_0_current_level)][1]);
+            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+            
             auto pParticleBurst = ae_new<ParticleBurst>();
             if (pParticleBurst)
             {
@@ -248,7 +241,8 @@ void FootSwitch::vUpdate_4DE270()
             pLastStoodOnMe->field_6_flags.Get(BaseGameObject::eDead_Bit3))
         {
             field_F8_state = States::eWaitForStepOnMe_0;
-            field_20_animation.Set_Animation_Data_409C80(sFootSwitchData_547D60[static_cast<int>(gMap_5C3030.field_0_current_level)].field_0_frameTableOffset, nullptr);
+            const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<int>(gMap_5C3030.field_0_current_level)][0]);
+            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             field_100_obj_id = -1;
         }
     }
