@@ -85,7 +85,7 @@ void Animation::VCleanUp_403F40()
         Pal_Free_447870(field_8C_pal_vram_xy, field_90_pal_depth);
     }
 
-    ResourceManager::FreeResource_455550(field_24_dbuf);
+    ResourceManager::FreeResource_455550(field_24_pDBuf);
 
 }
 void CC AnimationBase::AnimateAll_4034F0(DynamicArrayT<AnimationBase>* pAnimList)
@@ -172,10 +172,148 @@ void Animation::SetFrame_402AC0(unsigned __int16 newFrame)
     }
 }
 
-signed __int16 Animation::Init_402D20(int /*frameTableOffset*/, DynamicArray* /*animList*/, BaseGameObject* /*pGameObj*/, unsigned __int16 /*maxW*/, unsigned __int16 /*maxH*/, BYTE** /*ppAnimData*/, unsigned __int8 /*bFlag_17*/, signed int /*b_StartingAlternationState*/, char /*bEnable_flag10_alternating*/)
+signed __int16 Animation::Init_402D20(int frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, unsigned __int16 maxW, unsigned __int16 maxH, BYTE** ppAnimData, unsigned __int8 bAllocateVRam, signed int b_StartingAlternationState, char bEnable_flag10_alternating)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    field_18_frame_table_offset = frameTableOffset;
+    field_20_ppBlock = ppAnimData;
+    field_1C_fn_ptrs = nullptr;
+    field_24_pDBuf = nullptr;
+
+    if (!ppAnimData)
+    {
+        return 0;
+    }
+
+    field_94_pGameObj = pGameObj;
+
+    AnimationHeader* pHeader = reinterpret_cast<AnimationHeader*>(&(*ppAnimData)[frameTableOffset]);
+
+    field_10_frame_delay = pHeader->field_0_fps;
+    field_E_frame_change_counter = 1;
+    field_92_current_frame = -1;
+    field_B_render_mode = 0;
+    field_8_r = 0;
+    field_9_g = 0;
+    field_A_b = 0;
+    field_14_scale = FP_FromInteger(1);
+   
+    FrameInfoHeader* pFrameInfoHeader = Get_FrameHeader_403A00(0);
+    BYTE* pAnimData = *ppAnimData;
+
+    const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
+
+    BYTE* pClut = &pAnimData[pFrameHeader->field_0_clut_offset];
+
+    field_4_flags.Clear(AnimFlags::eBit1);
+    field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+    field_4_flags.Clear(AnimFlags::eBit6_FlipY);
+    field_4_flags.Clear(AnimFlags::eBit7_SwapXY);
+    field_4_flags.Set(AnimFlags::eBit2_Animate);
+    field_4_flags.Set(AnimFlags::eBit3_Render);
+
+    field_4_flags.Set(AnimFlags::eBit8_Loop, pHeader->field_6_flags & AnimationHeader::eLoopFlag);
+
+    field_4_flags.Set(AnimFlags::eBit10_alternating_flag, bEnable_flag10_alternating & 1);
+    field_4_flags.Set(AnimFlags::eBit11_bToggle_Bit10, b_StartingAlternationState & 1);
+
+    field_4_flags.Clear(AnimFlags::eBit14_Is16Bit);
+    field_4_flags.Clear(AnimFlags::eBit13_Is8Bit);
+    field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+
+    field_4_flags.Set(AnimFlags::eBit16_bBlending);
+
+    if (bAllocateVRam)
+    {
+        field_84_vram_rect.w = 0;
+    }
+    
+    field_90_pal_depth = 0;
+    
+    int vram_width = 0;
+    short pal_depth = 0;
+    if (pFrameHeader->field_6_colour_depth == 4)
+    {
+        vram_width = (maxW % 2) + (maxW / 2);
+        pal_depth = 16;
+    }
+    else if (pFrameHeader->field_6_colour_depth == 8)
+    {
+        vram_width = maxW;
+
+        if (*(WORD*)pClut == 64) // CLUT entry count/len
+        {
+            pal_depth = 64;
+        }
+        else
+        {
+            pal_depth = 256;
+        }
+
+        field_4_flags.Set(AnimFlags::eBit13_Is8Bit);
+    }
+    else if (pFrameHeader->field_6_colour_depth == 16)
+    {
+        vram_width = maxW * 2;
+        field_4_flags.Set(AnimFlags::eBit14_Is16Bit);
+    }
+
+    int bVramAllocOK = 1;
+    if (bAllocateVRam)
+    {
+        bVramAllocOK = vram_alloc_450B20(maxW, maxH, pFrameHeader->field_6_colour_depth, &field_84_vram_rect);
+    }
+
+    int bPalAllocOK = 1;
+    if (pal_depth > 0 && bVramAllocOK)
+    {
+        PSX_RECT palVRamRect = {};
+        bPalAllocOK = Pal_Allocate_4476F0(&palVRamRect, pal_depth);
+
+        field_8C_pal_vram_xy.field_0_x = palVRamRect.x;
+        field_8C_pal_vram_xy.field_2_y = palVRamRect.y;
+
+        palVRamRect.w = pal_depth;
+        palVRamRect.h = 1;
+
+        field_90_pal_depth = pal_depth;
+
+        if (bVramAllocOK && bPalAllocOK)
+        {
+            PSX_LoadImage16_4962A0(&palVRamRect, pClut + 4); // Skip len
+        }
+    }
+
+    const bool bOk = bVramAllocOK && bPalAllocOK;
+    if (!bOk)
+    {
+        return 0;
+    }
+
+    field_28_dbuf_size = maxH * (vram_width + 3);
+
+    if (pFrameHeader->field_7_compression_type != 0)
+    {
+        const DWORD id = ResourceManager::Get_Header_455620(field_20_ppBlock)->field_C_id;
+        field_24_pDBuf = ResourceManager::Alloc_New_Resource_454F20(ResourceManager::Resource_DecompressionBuffer, id, field_28_dbuf_size);
+        if (!field_24_pDBuf)
+        {
+            return 0;
+        }
+    }
+
+    // NOTE: OG bug or odd compiler code gen? Why isn't it using the passed in list which appears to always be this anyway ??
+    if (!gObjList_animations_505564->Push_Back(this))
+    {
+        return 0;
+    }
+    
+    // Get first frame decompressed/into VRAM
+    vDecode();
+
+    field_E_frame_change_counter = 1;
+    field_92_current_frame = -1;
+
+    return 1;
 }
 
 __int16 Animation::Get_Frame_Count_403540()
@@ -338,9 +476,9 @@ void AnimationUnknown::VRender2_403FD0(int /*xpos*/, int /*ypos*/, int** /*ppOt*
     NOT_IMPLEMENTED();
 }
 
-void AnimationUnknown::GetRenderedSize_404220(PSX_RECT* /*pRect*/)
+void AnimationUnknown::GetRenderedSize_404220(PSX_RECT* pRect)
 {
-    NOT_IMPLEMENTED();
+    Poly_FT4_Get_Rect(pRect, &field_10_polys[gPsxDisplay_504C78.field_A_buffer_index]);
 }
 
 END_NS_AO

@@ -959,20 +959,11 @@ signed __int16 Animation::Init_40A030(int frameTableOffset, DynamicArray* /*anim
     field_4_flags.Set(AnimFlags::eBit2_Animate);
     field_4_flags.Set(AnimFlags::eBit3_Render);
 
-    if (pHeader->field_6_flags & AnimationHeader::eLoopFlag)
-    {
-        field_4_flags.Set(AnimFlags::eBit8_Loop);
-    }
+    field_4_flags.Set(AnimFlags::eBit8_Loop, pHeader->field_6_flags & AnimationHeader::eLoopFlag);
 
-    if (bEnable_flag10_alternating)
-    {
-        field_4_flags.Set(AnimFlags::eBit10_alternating_flag);
-    }
+    field_4_flags.Set(AnimFlags::eBit10_alternating_flag, bEnable_flag10_alternating);
 
-    if (b_StartingAlternationState)
-    {
-        field_4_flags.Set(AnimFlags::eBit11_bToggle_Bit10);
-    }
+    field_4_flags.Set(AnimFlags::eBit11_bToggle_Bit10, b_StartingAlternationState);
 
     field_4_flags.Clear(AnimFlags::eBit14_Is16Bit);
     field_4_flags.Clear(AnimFlags::eBit13_Is8Bit);
@@ -1015,12 +1006,12 @@ signed __int16 Animation::Init_40A030(int frameTableOffset, DynamicArray* /*anim
     field_A_b = 0;
     field_9_g = 0;
     field_8_r = 0;
-    field_14_scale.fpValue = 0x10000;
+    field_14_scale = FP_FromInteger(1);
 
-    FrameInfoHeader* pFrameHeader = Get_FrameHeader_40B730(0);
+    FrameInfoHeader* pFrameInfoHeader = Get_FrameHeader_40B730(0);
     BYTE* pAnimData = *field_20_ppBlock;
 
-    const FrameHeader* pFrameHeader_1 = reinterpret_cast<const FrameHeader*>(&(*field_20_ppBlock)[pFrameHeader->field_0_frame_header_offset]);
+    const FrameHeader* pFrameHeader_1 = reinterpret_cast<const FrameHeader*>(&(*field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
     
     BYTE* pClut = &pAnimData[pFrameHeader_1->field_0_clut_offset];
   
@@ -1034,10 +1025,10 @@ signed __int16 Animation::Init_40A030(int frameTableOffset, DynamicArray* /*anim
     int vram_width = 0;
     if (pFrameHeader_1->field_6_colour_depth == 4)
     {
-        const int v37 = maxW / 2;
-        const int v38 = maxW % 2;
+        const int halfW = maxW / 2;
+        const int wMod2 = maxW % 2;
 
-        vram_width = v38 + v37;
+        vram_width = wMod2 + halfW;
         pal_depth = 16;
         b256Pal = 0; // is 16 pal
     }
@@ -1073,13 +1064,9 @@ signed __int16 Animation::Init_40A030(int frameTableOffset, DynamicArray* /*anim
         }
     }
 
-    field_4_flags.Clear(AnimFlags::eBit25_bDecompressDone);
-    if (b256Pal)
-    {
-        field_4_flags.Set(AnimFlags::eBit25_bDecompressDone);
-    }
+    field_4_flags.Set(AnimFlags::eBit25_bDecompressDone, b256Pal);
 
-    if (field_4_flags.Get(AnimFlags::eBit17)==true && field_4_flags.Get(AnimFlags::eBit24) == false)
+    if (field_4_flags.Get(AnimFlags::eBit17) && !field_4_flags.Get(AnimFlags::eBit24))
     {
         PSX_RECT rect = {}; // TODO: Not sure if its really a rect passed here, seems to populate x,y,colour depth?
         if (!Pal_Allocate_483110(&rect, pal_depth))
@@ -1095,7 +1082,7 @@ signed __int16 Animation::Init_40A030(int frameTableOffset, DynamicArray* /*anim
         rect.w = pal_depth;
         rect.h = 1;
 
-        PSX_LoadImage16_4F5E20(&rect, (BYTE *)(pClut + 4)); // Skips CLUT len
+        PSX_LoadImage16_4F5E20(&rect, pClut + 4); // Skips CLUT len
     }
 
     field_28_dbuf_size = maxH * (vram_width + 3);
