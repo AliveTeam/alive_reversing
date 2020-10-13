@@ -7772,9 +7772,9 @@ void Abe::State_81_InsideWellExpress_431320()
     {
         State_82_WellExpressShotOut_4315A0();
         field_2A8_flags.Set(Flags_2A8::e2A8_Bit3);
+        field_B4_velx = FP_FromInteger(0);
         field_B8_vely = FP_FromInteger(0);
         field_AC_ypos = field_AC_ypos - field_B8_vely;
-        field_B4_velx = FP_FromInteger(0);
         field_FC_current_motion = eAbeStates::State_78_InsideWellLocal_4310A0;
     }
 
