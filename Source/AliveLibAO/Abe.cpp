@@ -7597,7 +7597,7 @@ void Abe::State_78_InsideWellLocal_4310A0()
             }
             else
             {
-                field_B4_velx = (field_BC_sprite_scale * FP_FromInteger(pWellBase->field_24_off_level_or_dx) / FP_FromInteger(100));
+                field_B4_velx = (field_BC_sprite_scale * FP_FromInteger(static_cast<int>(pWellBase->field_24_off_level_or_dx)) / FP_FromInteger(100));
                 field_B8_vely = (field_BC_sprite_scale * FP_FromInteger(pWellBase->field_26_off_path_or_dy) / FP_FromInteger(100));
             }
         }
@@ -7686,7 +7686,98 @@ void Abe::State_80_430EF0()
 
 void Abe::State_81_InsideWellExpress_431320()
 {
-    NOT_IMPLEMENTED();
+    field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(
+        FP_GetExponent(field_A8_xpos),
+        FP_GetExponent(field_AC_ypos),
+        FP_GetExponent(field_A8_xpos),
+        FP_GetExponent(field_AC_ypos),
+        TlvTypes::LocalWell_11);
+
+    if (!field_F0_pTlv)
+    {
+        field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(
+            FP_GetExponent(field_A8_xpos),
+            FP_GetExponent(field_AC_ypos),
+            FP_GetExponent(field_A8_xpos),
+            FP_GetExponent(field_AC_ypos),
+            TlvTypes::WellExpress_45);
+    }
+
+
+    if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit4_Fall_To_Well))
+    {
+        field_FC_current_motion = eAbeStates::State_78_InsideWellLocal_4310A0;
+        return;
+    }
+
+    Path_Well_Express* pExpressWell = static_cast<Path_Well_Express*>(field_F0_pTlv);
+    if (SwitchStates_Get(pExpressWell->field_1A_trigger_id))
+    {
+        field_190_level = pExpressWell->field_2C_on_level;
+        field_192_path = pExpressWell->field_2E_on_path;
+        field_194_camera = pExpressWell->field_30_on_camera;
+        field_196_door_id = pExpressWell->field_32_on_well_id;
+    }
+    else
+    {
+        field_190_level = pExpressWell->field_24_off_level_or_dx;
+        field_192_path = pExpressWell->field_26_off_path_or_dy;
+        field_194_camera = pExpressWell->field_28_off_camera;
+        field_196_door_id = pExpressWell->field_2A_off_well_id;
+    }
+    field_120 = FP_FromInteger(0);
+    if (gMap_507BA8.field_0_current_level == LevelIds::eLines_2)
+    {
+        if (field_190_level == LevelIds::eForest_3)
+        {
+            if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone))
+            {
+                field_2A8_flags.Set(Flags_2A8::e2A8_Bit3);
+                field_114_gnFrame = 0;
+                field_FC_current_motion = eAbeStates::State_78_InsideWellLocal_4310A0;
+                State_78_InsideWellLocal_4310A0();
+                return;
+            }
+            field_2A8_flags.Set(Flags_2A8::e2A8_Bit4_Fall_To_Well);
+        }
+        if (field_190_level == LevelIds::eDesert_8)
+        {
+            if (field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabinaDone))
+            {
+                field_2A8_flags.Set(Flags_2A8::e2A8_Bit3);
+                field_114_gnFrame = 0;
+                field_FC_current_motion = eAbeStates::State_78_InsideWellLocal_4310A0;
+                State_78_InsideWellLocal_4310A0();
+                return;
+            }
+            field_2A8_flags.Set(Flags_2A8::e2A8_Bit5);
+        }
+    }
+    if (field_190_level != gMap_507BA8.field_0_current_level
+        || field_192_path != gMap_507BA8.field_2_current_path
+        || field_194_camera != gMap_507BA8.field_4_current_camera)
+    {
+        field_114_gnFrame = 1;
+        if (pExpressWell->field_3A_movie_id)
+        {
+            gMap_507BA8.SetActiveCam_444660(field_190_level, field_192_path, field_194_camera, CameraSwapEffects::eEffect5_1_FMV, pExpressWell->field_3A_movie_id, 0);
+        }
+        else
+        {
+            gMap_507BA8.SetActiveCam_444660(field_190_level, field_192_path, field_194_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+        }
+        field_FC_current_motion = eAbeStates::State_82_WellExpressShotOut_4315A0;
+    }
+    else
+    {
+        State_82_WellExpressShotOut_4315A0();
+        field_2A8_flags.Set(Flags_2A8::e2A8_Bit3);
+        field_B4_velx = FP_FromInteger(0);
+        field_B8_vely = FP_FromInteger(0);
+        field_AC_ypos = field_AC_ypos - field_B8_vely;
+        field_FC_current_motion = eAbeStates::State_78_InsideWellLocal_4310A0;
+    }
+
 }
 
 void Abe::State_82_WellExpressShotOut_4315A0()
