@@ -4980,11 +4980,11 @@ BOOL Abe::Is_Celling_Above()
         field_A8_xpos,
         field_AC_ypos,
         field_A8_xpos,
-        field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(25)),
+        field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(60)),
         &pLine,
         &hitX,
         &hitY,
-        field_BC_sprite_scale != FP_FromInteger(0) ? 8 : 128) != 0;
+        field_BC_sprite_scale != FP_FromDouble(0.5) ? 8 : 128) != 0;
 }
 
 void Abe::State_25_RollLoop_427BB0()
@@ -5027,7 +5027,7 @@ void Abe::State_25_RollLoop_427BB0()
                     field_10C_prev_held = 0;
                 }
             }
-            else if (!field_10_anim.field_92_current_frame || field_10_anim.field_92_current_frame == 4 || field_10_anim.field_92_current_frame == 8)
+            else if (field_10_anim.field_92_current_frame == 0 || field_10_anim.field_92_current_frame == 4 || field_10_anim.field_92_current_frame == 8)
             {
                 MapFollowMe_401D30(TRUE);
 
