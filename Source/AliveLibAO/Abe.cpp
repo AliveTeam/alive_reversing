@@ -7547,7 +7547,7 @@ void Abe::State_77_WellBegin_430F10()
     {
         field_114_gnFrame = 15;
         SFX_Play_43AD70(25u, 0, this);
-        field_FC_current_motion++;
+        field_FC_current_motion = eAbeStates::State_78_InsideWellLocal_4310A0;
     }
 }
 
