@@ -16,26 +16,23 @@ struct SlamDoor_Data
     __int16 field_E_maxW;
 };
 
-SlamDoor_Data sSlamDoorData_547168[18] =
+const AnimId sSlamDoorData_547168[15][3] =
 {
-    { 2672, 2688, 2640, 29, 68 },
-    { 2672, 2688, 2640, 29, 68 },
-    { 2368, 2384, 2396, 32, 68 },
-    { 2368, 2384, 2396, 32, 68 },
-    { 2368, 2384, 2396, 32, 68 },
-    { 2672, 2688, 2640, 29, 68 },
-    { 2672, 2688, 2640, 29, 68 },
-    { 2368, 2384, 2396, 32, 68 },
-    { 2672, 2688, 2640, 29, 68 },
-    { 2672, 2688, 2640, 29, 68 },
-    { 2672, 2688, 2640, 29, 68 },
-    { 2368, 2384, 2396, 32, 68 },
-    { 2672, 2688, 2640, 29, 68 },
-    { 2672, 2688, 2640, 29, 68 },
-    { 2672, 2688, 2640, 29, 68 },
-    { 0, 0, 0, 0, 0 },
-    { 0, 0, 0, 0, 0 },
-    { 0, 0, 0, 0, 0 }
+    { AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening },
+    { AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening },
+    { AnimId::Slam_Door_Vault_Closing, AnimId::Slam_Door_Vault_Closed, AnimId::Slam_Door_Vault_Opening },
+    { AnimId::Slam_Door_Vault_Closing, AnimId::Slam_Door_Vault_Closed, AnimId::Slam_Door_Vault_Opening },
+    { AnimId::Slam_Door_Vault_Closing, AnimId::Slam_Door_Vault_Closed, AnimId::Slam_Door_Vault_Opening },
+    { AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening },
+    { AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening },
+    { AnimId::Slam_Door_Vault_Closing, AnimId::Slam_Door_Vault_Closed, AnimId::Slam_Door_Vault_Opening },
+    { AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening },
+    { AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening },
+    { AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening },
+    { AnimId::Slam_Door_Vault_Closing, AnimId::Slam_Door_Vault_Closed, AnimId::Slam_Door_Vault_Opening },
+    { AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening },
+    { AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening },
+    { AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening },
 };
 
 TintEntry sSlamDoorTints_5603B0[18] =
@@ -112,14 +109,9 @@ SlamDoor* SlamDoor::ctor_4AF700(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
 
     const int currentLevelId = static_cast<int>(gMap_5C3030.field_0_current_level);
 
-    Animation_Init_424E10(
-        sSlamDoorData_547168[currentLevelId].field_8_frameTableOffset,
-        sSlamDoorData_547168[currentLevelId].field_C_maxH,
-        sSlamDoorData_547168[currentLevelId].field_E_maxW,
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kSlamResID),
-        1,
-        1u);
-
+    const AnimRecord& rec = AnimRec(sSlamDoorData_547168[currentLevelId][2]);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId), 1, 1u);
+    
     field_4_typeId = Types::eSlamDoor_122;
 
     field_B8_xpos = FP_FromInteger(((pTlv->field_8_top_left.field_0_x
@@ -235,9 +227,9 @@ SlamDoor* SlamDoor::ctor_4AF700(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
                 5);
         }
         field_120_pCollisionLine_5_1 = pPathLine;
-        field_20_animation.Set_Animation_Data_409C80(
-            sSlamDoorData_547168[static_cast<int>(gMap_5C3030.field_0_current_level)].field_4_ppRes,
-            0);
+        
+        const AnimRecord& animRec = AnimRec(sSlamDoorData_547168[currentLevelId][1]);
+        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, 0);
     }
     else
     {
@@ -332,8 +324,9 @@ void SlamDoor::vUpdate_4AFD50()
         if (stateUnchanged)
         {
             field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
-            field_20_animation.Set_Animation_Data_409C80(
-                sSlamDoorData_547168[static_cast<int>(gMap_5C3030.field_0_current_level)].field_8_frameTableOffset, nullptr);
+            
+            const AnimRecord& animRec = AnimRec(sSlamDoorData_547168[static_cast<int>(gMap_5C3030.field_0_current_level)][2]);
+            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
             if (field_CC_sprite_scale == FP_FromInteger(1))
             {
@@ -403,7 +396,8 @@ void SlamDoor::vUpdate_4AFD50()
         }
         else
         {
-            field_20_animation.Set_Animation_Data_409C80(sSlamDoorData_547168[static_cast<int>(gMap_5C3030.field_0_current_level)].field_0_frameTableOffset, 0);
+            const AnimRecord& animRec = AnimRec(sSlamDoorData_547168[static_cast<int>(gMap_5C3030.field_0_current_level)][0]);
+            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, 0);
             Rect_Clear_418040(&field_11C_pCollisionLine_6_2->field_0_rect);
             field_11C_pCollisionLine_6_2 = nullptr;
 

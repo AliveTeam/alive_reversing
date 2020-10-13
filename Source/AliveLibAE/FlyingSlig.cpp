@@ -140,13 +140,10 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
     field_10_resources_array.SetAt(7, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kVaporResID, TRUE, FALSE));
     field_10_resources_array.SetAt(8, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, TRUE, FALSE));
 
-    Animation_Init_424E10(
-        116888,
-        107,
-        48u,
-        field_10_resources_array.ItemAt(0),
-        1,
-        1u);
+    const AnimRecord& rec = AnimRec(AnimId::Flying_Slig_Idle);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    //Animation_Init_424E10(116888, 107, 48u, field_10_resources_array.ItemAt(0), 1, 1u);
 
     field_15E = 0;
 
@@ -265,49 +262,34 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
     return this;
 }
 
-const int sFlyingSligFrameTables_552408[41] =
+const AnimId sFlyingSligFrameTables_552408[28] =
 {
-    116888,
-    116912,
-    117084,
-    116988,
-    117584,
-    117012,
-    117616,
-    117188,
-    117132,
-    117524,
-    117060,
-    117316,
-    117276,
-    117444,
-    117376,
-    116936,
-    117036,
-    117336,
-    117356,
-    117396,
-    117464,
-    117424,
-    117552,
-    117492,
-    117296,
-    117752,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0
+    AnimId::Flying_Slig_Idle,
+    AnimId::Flying_Slig_Move_Horizontal,
+    AnimId::Flying_Slig_Idle_Turn_Around,
+    AnimId::Flying_Slig_Move_Down,
+    AnimId::Flying_Slig_Move_Down_Turn_Around,
+    AnimId::Flying_Slig_Move_Up,
+    AnimId::Flying_Slig_Move_Up_Turn_Around,
+    AnimId::Flying_Slig_Pull_Lever,
+    AnimId::Flying_Slig_Speak,
+    AnimId::Flying_Slig_Possession,
+    AnimId::Flying_Slig_Move_Horizontal_End,
+    AnimId::Flying_Slig_Move_Up_Start,
+    AnimId::Flying_Slig_Move_Horizontal_To_Down,
+    AnimId::Flying_Slig_Move_Up_To_Horizontal,
+    AnimId::Flying_Slig_Move_Down_To_Horizontal,
+    AnimId::Flying_Slig_Turn_Quick,
+    AnimId::Flying_Slig_Idle_To_Horizontal,
+    AnimId::Flying_Slig_Move_Down_Start,
+    AnimId::Flying_Slig_Move_Down_End,
+    AnimId::Flying_Slig_Knockback_Down,
+    AnimId::Flying_Slig_Knockback_Up,
+    AnimId::Flying_Slig_Move_Up_End,
+    AnimId::Flying_Slig_Up_Turn_Instant,
+    AnimId::Flying_Slig_Down_Turn_Instant,
+    AnimId::Flying_Slig_Move_Horizontal_To_Up,
+    AnimId::Flying_Slig_Turn_Horizontal,
 };
 
 int CC FlyingSlig::CreateFromSaveState_437E40(const BYTE* pBuffer)
@@ -387,7 +369,9 @@ int CC FlyingSlig::CreateFromSaveState_437E40(const BYTE* pBuffer)
     pFlyingSlig->field_106_current_motion = pSaveState->field_24_current_state;
 
     BYTE** ppRes = pFlyingSlig->ResBlockForMotion_4350F0(pSaveState->field_24_current_state);
-    pFlyingSlig->field_20_animation.Set_Animation_Data_409C80(sFlyingSligFrameTables_552408[pFlyingSlig->field_106_current_motion], ppRes);
+	const AnimRecord& animRec = AnimRec(sFlyingSligFrameTables_552408[pFlyingSlig->field_106_current_motion]);
+    pFlyingSlig->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
+
     pFlyingSlig->field_20_animation.field_92_current_frame = pSaveState->field_26_current_frame;
 
     pFlyingSlig->field_20_animation.field_E_frame_change_counter = pSaveState->field_28_frame_change_counter;
@@ -2532,12 +2516,8 @@ void FlyingSlig::ToPossesed_436130()
 void FlyingSlig::vUpdateAnimRes_4350A0()
 {
     BYTE** ppRes = ResBlockForMotion_4350F0(field_106_current_motion);
-    if (!ppRes)
-    {
-        field_106_current_motion = eFlyingSligMotions::M_Idle_0_4385E0;
-        ppRes = FlyingSlig::ResBlockForMotion_4350F0(field_106_current_motion);
-    }
-    field_20_animation.Set_Animation_Data_409C80(sFlyingSligFrameTables_552408[field_106_current_motion], ppRes);
+	const AnimRecord& animRec = AnimRec(sFlyingSligFrameTables_552408[field_106_current_motion]);
+    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
 }
 
 void FlyingSlig::PatrolDelay_435860()

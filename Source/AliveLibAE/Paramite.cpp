@@ -103,13 +103,10 @@ Paramite* Paramite::ctor_4879B0(Path_Paramite* pTlv, int tlvInfo)
     field_10_resources_array.SetAt(9,  ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kArjscrchResID, 1, 0));
     
     Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kWebResID);
-    Animation_Init_424E10(
-        96696,
-        137,
-        65u,
-        field_10_resources_array.ItemAt(0),
-        1,
-        1);
+    
+    const AnimRecord& rec = AnimRec(AnimId::Paramite_Idle);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     SetTint_425600(&stru_55D73C[0], gMap_5C3030.field_0_current_level);
 
@@ -243,53 +240,52 @@ void Paramite::VUpdate()
     vUpdate_4871B0();
 }
 
-
-const int sParamiteFrameTableOffsets_55D660[44] =
+const AnimId sParamiteFrameTableOffsets_55D660[44] =
 {
-    96696,
-    96676,
-    96548,
-    96612,
-    96792,
-    96728,
-    97164,
-    97172,
-    96828,
-    96868,
-    96848,
-    96888,
-    96904,
-    96932,
-    96944,
-    96972,
-    97192,
-    97096,
-    97120,
-    97136,
-    17032,
-    17072,
-    17088,
-    17088,
-    17088,
-    17192,
-    17088,
-    17120,
-    17152,
-    17088,
-    17120,
-    19068,
-    52312,
-    52312,
-    52344,
-    52476,
-    52428,
-    52380,
-    52548,
-    52588,
-    15628,
-    8108,
-    9636,
-    10948
+    AnimId::Paramite_Idle,
+    AnimId::Paramite_Idle_To_Move,
+    AnimId::Paramite_Move,
+    AnimId::Paramite_Run_A,
+    AnimId::Paramite_Turn_Around,
+    AnimId::Paramite_Run_B,
+    AnimId::Paramite_Unknown_A,
+    AnimId::Paramite_Unknown_B,
+    AnimId::Paramite_Unknown_C,
+    AnimId::Paramite_Unknown_D,
+    AnimId::Paramite_Unknown_E,
+    AnimId::Paramite_Unknown_F,
+    AnimId::Paramite_Jump_Up_Start,
+    AnimId::Paramite_Jump_Up,
+    AnimId::Paramite_Jump_Up_End,
+    AnimId::Paramite_Unknown_G,
+    AnimId::Paramite_Unknown_H,
+    AnimId::Paramite_Unknown_I,
+    AnimId::Paramite_Unknown_J,
+    AnimId::Paramite_Unknown_K,
+    AnimId::Paramite_Talk_Start,
+    AnimId::Paramite_Scared,
+    AnimId::Paramite_Yell_A,
+    AnimId::Paramite_Yell_A,
+    AnimId::Paramite_Yell_A,
+    AnimId::Paramite_Talk,
+    AnimId::Paramite_Yell_A,
+    AnimId::Paramite_Yell_B,
+    AnimId::Paramite_Talk_End,
+    AnimId::Paramite_Yell_A,
+    AnimId::Paramite_Yell_B,
+    AnimId::Paramite_Pounce,
+    AnimId::Paramite_Web_Sling,
+    AnimId::Paramite_Web_Sling,
+    AnimId::Paramite_Climb_End_Down,
+    AnimId::Paramite_Climb_Idle,
+    AnimId::Paramite_Climb_Up,
+    AnimId::Paramite_Climb_Down,
+    AnimId::Paramite_Climb_Start_Down,
+    AnimId::Paramite_Climb_End_Up,
+    AnimId::Paramite_Eat,
+    AnimId::Paramite_Fall_Death,
+    AnimId::Paramite_Wasps,
+    AnimId::Paramite_Attack
 };
 
 int CC Paramite::CreateFromSaveState_4855A0(const BYTE* pBuffer)
@@ -332,9 +328,10 @@ int CC Paramite::CreateFromSaveState_4855A0(const BYTE* pBuffer)
     pParamite->field_D4_b = pState->field_20_b;
 
     pParamite->field_106_current_motion = pState->field_24_current_motion;
-    BYTE** ppRes = pParamite->ResBlockForMotion_488130(pParamite->field_106_current_motion);
-    pParamite->field_20_animation.Set_Animation_Data_409C80(sParamiteFrameTableOffsets_55D660[pParamite->field_106_current_motion], ppRes);
-
+    const AnimRecord& animRec = AnimRec(sParamiteFrameTableOffsets_55D660[pParamite->field_106_current_motion]);
+	BYTE** ppRes = pParamite->ResBlockForMotion_488130(pParamite->field_106_current_motion);
+    pParamite->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
+    
     pParamite->field_20_animation.field_92_current_frame = pState->field_26_anim_current_frame;
     pParamite->field_20_animation.field_E_frame_change_counter = pState->field_28_frame_change_counter;
 
@@ -5440,7 +5437,9 @@ __int16 Paramite::Find_Paramite_488810()
 
 void Paramite::vUpdateAnim_487170()
 {
-    field_20_animation.Set_Animation_Data_409C80(sParamiteFrameTableOffsets_55D660[field_106_current_motion], ResBlockForMotion_488130(field_106_current_motion));
+    const AnimRecord& animRec = AnimRec(sParamiteFrameTableOffsets_55D660[field_106_current_motion]);
+	BYTE** ppRes = ResBlockForMotion_488130(field_106_current_motion);
+    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
 }
 
 Meat* Paramite::FindMeat_488930()
