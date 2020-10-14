@@ -681,6 +681,8 @@ int CC Input_Remap_492680(InputCommands inputCmd)
         if (buttons)
         {
             int bindIdx = 0;
+            
+            // get bindIdx from the mask
             for (bindIdx = 0; bindIdx < 10; bindIdx++)
             {
                 if ((1 << bindIdx) & buttonsToRebind)
@@ -688,14 +690,15 @@ int CC Input_Remap_492680(InputCommands inputCmd)
                     break;
                 }
             }
-
-            if (inputCmd & 0x1800000 && bindIdx < 4)
+            
+            // don't allow binding Speak I/II to any of the right-hand side action buttons
+            if (inputCmd & (InputCommands::eSpeak1 | InputCommands::eSpeak2) && bindIdx < 4)
             {
                 return 0;
             }
 
             Input_ResetBinding_4925A0(inputCmd, 1);
-            sGamePadBindings_5C98E0[bindIdx] = inputCmd;
+            sGamePadBindings_5C98E0[bindIdx] |= inputCmd;
             Input_Init_Names_491870();
             return 2;
         }
@@ -738,7 +741,7 @@ int CC Input_Remap_492680(InputCommands inputCmd)
     }
 
     Input_ResetBinding_4925A0(inputCmd, 0);
-    sKeyboardBindings_5C9930[bindIdx] = inputCmd;
+    sKeyboardBindings_5C9930[bindIdx] |= inputCmd;
     Input_Init_Names_491870();
     return 1;
 }
