@@ -138,60 +138,60 @@ TintEntry sSligTint_560570[15] =
 ALIVE_VAR(1, 0xBAF7E4, int, unused_BAF7E4, 0);
 ALIVE_VAR(1, 0xBAF7E8, short, sSligsUnderControlCount_BAF7E8, 0);
 
-const int sSligFrameTables_547318[52] =
+const AnimId sSligFrameTables_547318[52] =
 {
-    135512,
-    135804,
-    135360,
-    135824,
-    135440,
-    136088,
-    135544,
-    135512,
-    135696,
-    135576,
-    135916,
-    135632,
-    135652,
-    135768,
-    135844,
-    135876,
-    135512,
-    135788,
-    135896,
-    135936,
-    136048,
-    135976,
-    136132,
-    136012,
-    136048,
-    135976,
-    136132,
-    136012,
-    136048,
-    135976,
-    136132,
-    136012,
-    33552,
-    33448,
-    33184,
-    33228,
-    33348,
-    33348,
-    30560,
-    30592,
-    30628,
-    9204,
-    9208,
-    9260,
-    13016,
-    12612,
-    23048,
-    23072,
-    23200,
-    23148,
-    23096,
-    12660
+    AnimId::Slig_Idle,
+    AnimId::Slig_Walk_Start,
+    AnimId::Slig_Walk,
+    AnimId::Slig_Run_Start,
+    AnimId::Slig_Run,
+    AnimId::Slig_Turn_Around,
+    AnimId::Slig_Shoot,
+    AnimId::Slig_Idle,
+    AnimId::Slig_Run_Stop,
+    AnimId::Slig_Run_Turn_Around,
+    AnimId::Slig_Unknown_A,
+    AnimId::Slig_Unknown_B,
+    AnimId::Slig_Reload,
+    AnimId::Slig_Idle_To_Shoot,
+    AnimId::Slig_Shuffle,
+    AnimId::Slig_Unknown_C,
+    AnimId::Slig_Idle,
+    AnimId::Slig_Unknown_D,
+    AnimId::Slig_Unknown_E,
+    AnimId::Slig_Shoot_Step,
+    AnimId::Slig_Talk_A,
+    AnimId::Slig_Talk_B,
+    AnimId::Slig_Talk_C,
+    AnimId::Slig_Talk_D,
+    AnimId::Slig_Talk_A,
+    AnimId::Slig_Talk_B,
+    AnimId::Slig_Talk_C,
+    AnimId::Slig_Talk_D,
+    AnimId::Slig_Talk_A,
+    AnimId::Slig_Talk_B,
+    AnimId::Slig_Talk_C,
+    AnimId::Slig_Talk_D,
+    AnimId::Slig_Sleep,
+    AnimId::Slig_Wake_Up,
+    AnimId::Slig_Knocked_Down,
+    AnimId::Slig_Get_Up,
+    AnimId::Slig_Possessed,
+    AnimId::Slig_Possessed,
+    AnimId::Slig_Fall,
+    AnimId::Slig_Fall_Start,
+    AnimId::Slig_Fall_End,
+    AnimId::Slig_Fall_Death_A,
+    AnimId::Slig_Shoot_Z,
+    AnimId::Slig_Shoot_Z_End,
+    AnimId::Slig_Fall_Death_B,
+    AnimId::Slig_Lever,
+    AnimId::Slig_Lift_Start_A,
+    AnimId::Slig_Lift_Start_B,
+    AnimId::Slig_Lift_Idle,
+    AnimId::Slig_Lift_Move_A,
+    AnimId::Slig_Lift_Move_B,
+    AnimId::Slig_Beat
 };
 
 const TSligMotionFn sSlig_motion_table_5604A0[52] =
@@ -356,7 +356,10 @@ Slig* Slig::ctor_4B1370(Path_Slig* pTlv, int tlvInfo)
     }
 
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSlgbasicResID, 1, 0));
-    Animation_Init_424E10(135512, 160, 68, field_10_resources_array.ItemAt(0), 1, 1);
+    
+    const AnimRecord& rec = AnimRec(AnimId::Slig_Idle);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_4_typeId = Types::eSlig_125;
 
@@ -741,9 +744,11 @@ int CC Slig::CreateFromSaveState_4B3B50(const BYTE* pBuffer)
     pSlig->field_D4_b = pState->field_22_b;
 
     pSlig->field_106_current_motion = pState->field_26_current_motion;
-    BYTE** ppRes = pSlig->ResForMotion_4B1E90(pSlig->field_106_current_motion);
-    pSlig->field_20_animation.Set_Animation_Data_409C80(sSligFrameTables_547318[pSlig->field_106_current_motion], ppRes);
-
+    const AnimRecord& animRec = AnimRec(sSligFrameTables_547318[pState->field_26_current_motion]);
+    BYTE** ppRes = pSlig->ResForMotion_4B1E90(static_cast<short>(animRec.mResourceId));
+    pSlig->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
+    
+    
     pSlig->field_20_animation.field_92_current_frame = pState->field_28_current_frame;
     pSlig->field_20_animation.field_E_frame_change_counter = pState->field_2A_frame_change_counter;
 
@@ -5164,13 +5169,8 @@ void Slig::vShot_4B2EA0()
 
 void Slig::vUpdateAnim_4B1320()
 {
-    BYTE** ppRes = ResForMotion_4B1E90(field_106_current_motion);
-    if (!ppRes)
-    {
-        field_106_current_motion = eSligMotions::M_StandIdle_0_4B4EC0;
-        ppRes = ResForMotion_4B1E90(field_106_current_motion);
-    }
-    field_20_animation.Set_Animation_Data_409C80(sSligFrameTables_547318[field_106_current_motion], ppRes);
+    const AnimRecord& animRec = AnimRec(sSligFrameTables_547318[field_106_current_motion]);
+    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ResForMotion_4B1E90(field_106_current_motion));
 }
 
 BOOL Slig::vUnderGlukkonCommand_4B1760()

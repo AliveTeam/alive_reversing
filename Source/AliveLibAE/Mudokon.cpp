@@ -437,7 +437,11 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
 
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbebsic1ResID, TRUE, FALSE));
     field_10_resources_array.SetAt(1, nullptr);
-    Animation_Init_424E10(58888, 135, 80, field_10_resources_array.ItemAt(0), 1, 1);
+    
+    const AnimRecord& rec = AnimRec(AnimId::Mudokon_Idle);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
     field_DC_bApplyShadows |= 2u;
@@ -639,20 +643,20 @@ void Mudokon::VScreenChanged()
 }
 
 
-const int kMudFrameTableOffsets_55CD00[60] =
+const AnimId kMudFrameTableOffsets_55CD00[60] =
 {
-    58888,    58808,    59064,    59028,    58956,
-    58992,    58920,    58768,    58788,    58748,
-    11396,    5276,     5308,     5320,     9388,
-    270092,   270428,   269876,   270060,   270120,
-    270268,   270748,   270668,   270820,   270860,
-    270328,   270408,   270508,   270688,   270596,
-    270840,   270728,   270288,   270160,   270308,
-    270468,   269804,   270252,   271152,   269976,
-    270024,   269928,   269928,   270180,   270616,
-    17240,    49740,    49800,    32040,    32012,
-    9992,     10040,    5236,     5256,     5280,
-    5328,     9640,     11856,    11816,    11888
+    AnimId::Mudokon_Idle,    AnimId::Mudokon_Walk,    AnimId::Mudokon_Turn_Around,    AnimId::Mudokon_Talk_A,    AnimId::Mudokon_Talk_B,
+    AnimId::Mudokon_Talk_C,    AnimId::Mudokon_Talk_D,    AnimId::Mudokon_Unknown_A,    AnimId::Mudokon_Unknown_B,    AnimId::Mudokon_Unknown_C,
+    AnimId::Mudokon_Lever_Pull,    AnimId::Mudokon_Chisel_Mining,     AnimId::Mudokon_Unknown_E,     AnimId::Mudokon_Unknown_F,     AnimId::Mudokon_Scrub_Cleaning,
+    AnimId::Mudokon_Crouch,   AnimId::Mudokon_Crouch_Turn_Around,   AnimId::Mudokon_Stand_To_Crouch,   AnimId::Mudokon_Crouch_To_Stand,   AnimId::Mudokon_Unknown_G,
+    AnimId::Mudokon_Unknown_H,   AnimId::Mudokon_Run,   AnimId::Mudokon_Unknown_I,   AnimId::Mudokon_Unknown_J,   AnimId::Mudokon_Run_End_A,
+    AnimId::Mudokon_Run_End_B,   AnimId::Mudokon_Unknown_K,   AnimId::Mudokon_Sneak,   AnimId::Mudokon_Sneak_Start,   AnimId::Mudokon_Unknown_L,
+    AnimId::Mudokon_Unknown_M,   AnimId::Mudokon_Unknown_N,   AnimId::Mudokon_Unknown_O,   AnimId::Mudokon_Unknown_P,   AnimId::Mudokon_Unknown_Q,
+    AnimId::Mudokon_Run_Jump_Start,   AnimId::Mudokon_Run_Jump,   AnimId::Mudokon_Unknown_R,   AnimId::Mudokon_Slap,   AnimId::Mudokon_Hoist_Start,
+    AnimId::Mudokon_Hoist,   AnimId::Mudokon_Hoist_End,   AnimId::Mudokon_Hoist_End,   AnimId::Mudokon_Shrug_Start,   AnimId::Mudokon_Shrug_End, // duplicates: 269928
+    AnimId::Mudokon_Knocked_Back_Face_Down,    AnimId::Mudokon_Knocked_Back_Face_Up,    AnimId::Mudokon_Get_Up,    AnimId::Mudokon_Fall,    AnimId::Mudokon_Unknown_S,
+    AnimId::Mudokon_Chant,     AnimId::Mudokon_Chant_End,    AnimId::Mudokon_Crouch_To_Duck,     AnimId::Mudokon_Duck,     AnimId::Mudokon_Duck_To_Crouch,
+    AnimId::Mudokon_Unknown_T,     AnimId::Mudokon_Hit_Self,     AnimId::Mudokon_Wheel_Start,    AnimId::Mudokon_Wheel,    AnimId::Mudokon_Wheel_End
 };
 
 ALIVE_VAR(1, 0x5C3010, short, sAlertedMudCount_5C3010, 0);
@@ -765,8 +769,9 @@ int CC Mudokon::CreateFromSaveState_4717C0(const BYTE* pBuffer)
 
     pMud->field_106_current_motion = pState->field_24_current_motion;
 
-    BYTE** ppRes = pMud->AnimBlockForMotion_474DC0(pState->field_24_current_motion);
-    pMud->field_20_animation.Set_Animation_Data_409C80(kMudFrameTableOffsets_55CD00[pMud->field_106_current_motion], ppRes);
+    const AnimRecord& animRec = AnimRec(kMudFrameTableOffsets_55CD00[pMud->field_106_current_motion]);
+    BYTE** ppRes = pMud->AnimBlockForMotion_474DC0(static_cast<short>(animRec.mResourceId));
+    pMud->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
 
     pMud->field_20_animation.field_92_current_frame = pState->field_26_anim_current_frame;
     pMud->field_20_animation.field_E_frame_change_counter = pState->field_28_anim_frame_change_counter;
@@ -1749,7 +1754,8 @@ void Mudokon::vUpdateAnimRes_474D80()
     {
         LOG_ERROR("No res for " << field_106_current_motion);
     }
-    field_20_animation.Set_Animation_Data_409C80(kMudFrameTableOffsets_55CD00[field_106_current_motion], ppRes);
+    const AnimRecord& animRec = AnimRec(kMudFrameTableOffsets_55CD00[field_106_current_motion]);
+    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
 }
 
 enum AI_GiveRings

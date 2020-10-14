@@ -701,7 +701,7 @@ void Command_SetState(const std::vector<std::string>& args)
     if (resource != nullptr)
     {
         pAbe->field_106_current_motion = state;
-        pAbe->field_20_animation.Set_Animation_Data_409C80(sAbeFrameOffsetTable_554B18[state], resource);
+        //pAbe->field_20_animation.Set_Animation_Data_409C80(sAbeFrameOffsetTable_554B18[state], resource);
         DEV_CONSOLE_PRINTF("Set state to %i", state);
     }
     else

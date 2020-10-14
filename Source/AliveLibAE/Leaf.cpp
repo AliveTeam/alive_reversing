@@ -16,16 +16,9 @@ Leaf* Leaf::ctor_4E3120(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
     field_D2_g = 100;
     field_D4_b = 100;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kWellLeafResID);
-    AnimHeader* pHeader = reinterpret_cast<AnimHeader*>(*ppRes);
-
-    Animation_Init_424E10(
-        pHeader->field_4_frame_table_offset,
-        pHeader->field_0_max_w,
-        pHeader->field_2_max_h,
-        ppRes,
-        1,
-        1);
+    const AnimRecord& rec = AnimRec(AnimId::Well_Leaf);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_CC_sprite_scale = scale;
 
