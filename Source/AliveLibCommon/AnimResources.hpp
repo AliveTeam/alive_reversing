@@ -564,6 +564,7 @@ enum class AnimId
     UXB_Active,
     UXB_Disabled,
     UXB_Toggle,
+    Well_Leaf,
     Work_Wheel_Idle,
     Work_Wheel_Turning,
     Zap_Line_Blue,

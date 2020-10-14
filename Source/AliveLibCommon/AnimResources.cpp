@@ -573,13 +573,14 @@ constexpr AnimRecord kAnimRecords[] =
     { AnimId::UXB_Active, "UXB.BND", 8048, 59, 19, kTbombResID, PalId::Default },
     { AnimId::UXB_Toggle, "UXB.BND", 8120, 59, 19, kTbombResID, PalId::Default },
     { AnimId::UXB_Disabled, "UXB.BND", 0x2000, 59, 19, kTbombResID, PalId::Default },
+    { AnimId::Well_Leaf, "WELLLEAF.BAN", 476, 16, 11, kWellLeafResID, PalId::Default },
     { AnimId::Work_Wheel_Idle, "WORKWHEL.BAN", 2716, 49, 24, kWorkwhelResID, PalId::Default },
     { AnimId::Work_Wheel_Turning, "WORKWHEL.BAN", 2728, 49, 24, kWorkwhelResID, PalId::Default },
     { AnimId::Zap_Line_Blue, "SPLINE.BAN", 276, 14, 9, kSplineResID, PalId::Default },
     { AnimId::Zap_Line_Red, "SPLINE.BAN", 288, 14, 9, kSplineResID, PalId::Default },
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////
-    { AnimId::Anim_Tester, "SPLINE.BAN", 288, 14, 9, kSplineResID, PalId::Default },
+    { AnimId::Anim_Tester, "WELLLEAF.BAN", 476, 16, 11, kWellLeafResID, PalId::Default },
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 };
 

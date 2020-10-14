@@ -745,7 +745,7 @@ int CC Slig::CreateFromSaveState_4B3B50(const BYTE* pBuffer)
 
     pSlig->field_106_current_motion = pState->field_26_current_motion;
     const AnimRecord& animRec = AnimRec(sSligFrameTables_547318[pState->field_26_current_motion]);
-    BYTE** ppRes = pSlig->ResForMotion_4B1E90(animRec.mResourceId);
+    BYTE** ppRes = pSlig->ResForMotion_4B1E90(static_cast<short>(animRec.mResourceId));
     pSlig->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
     
     
