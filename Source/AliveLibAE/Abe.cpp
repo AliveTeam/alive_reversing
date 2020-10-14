@@ -1371,8 +1371,6 @@ ALIVE_VAR(1, 0x5c1bda, short, gAbeBulletProof_5C1BDA, 0);
 
 void Abe::Update_449DC0()
 {
-    const AnimRecord& animRec = AnimRec(sAbeFrameTables[field_106_current_motion]);
-    
     if (gAbeBulletProof_5C1BDA) // Some flag to reset HP?
     {
         field_114_flags.Clear(Flags_114::e114_Bit7_Electrocuted);
@@ -1638,6 +1636,7 @@ void Abe::Update_449DC0()
             field_114_flags.Clear(Flags_114::e114_MotionChanged_Bit2);
             if (field_106_current_motion != eAbeStates::State_12_Null_4569C0 && !(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_bShrivel)))
             {
+                const AnimRecord& animRec = AnimRec(sAbeFrameTables[field_106_current_motion]);
                 field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, StateToAnimResource_44AAB0(field_106_current_motion));
                 //field_20_animation.Set_Animation_Data_409C80( sAbeFrameTables[field_106_current_motion], StateToAnimResource_44AAB0(field_106_current_motion));
 
@@ -1654,6 +1653,7 @@ void Abe::Update_449DC0()
         {
             field_106_current_motion = field_F4_previous_motion;
             
+            const AnimRecord& animRec = AnimRec(sAbeFrameTables[field_106_current_motion]);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, StateToAnimResource_44AAB0(field_106_current_motion));
             //field_20_animation.Set_Animation_Data_409C80( sAbeFrameTables[field_106_current_motion], StateToAnimResource_44AAB0(field_106_current_motion));
 
