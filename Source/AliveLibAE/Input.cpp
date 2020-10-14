@@ -681,8 +681,8 @@ int CC Input_Remap_492680(InputCommands inputCmd)
         if (buttons)
         {
             int bindIdx = 0;
-
-			// get bindIdx from the mask
+            
+            // get bindIdx from the mask
             for (bindIdx = 0; bindIdx < 10; bindIdx++)
             {
                 if ((1 << bindIdx) & buttonsToRebind)
@@ -690,8 +690,8 @@ int CC Input_Remap_492680(InputCommands inputCmd)
                     break;
                 }
             }
-			
-			// don't allow binding Speak I/II to any of the right-hand side action buttons
+            
+            // don't allow binding Speak I/II to any of the right-hand side action buttons
             if (inputCmd & (InputCommands::eSpeak1 | InputCommands::eSpeak2) && bindIdx < 4)
             {
                 return 0;
