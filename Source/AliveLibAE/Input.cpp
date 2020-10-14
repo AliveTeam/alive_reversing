@@ -695,7 +695,7 @@ int CC Input_Remap_492680(InputCommands inputCmd)
             }
 
             Input_ResetBinding_4925A0(inputCmd, 1);
-            sGamePadBindings_5C98E0[bindIdx] = inputCmd;
+            sGamePadBindings_5C98E0[bindIdx] |= inputCmd;
             Input_Init_Names_491870();
             return 2;
         }
@@ -738,7 +738,7 @@ int CC Input_Remap_492680(InputCommands inputCmd)
     }
 
     Input_ResetBinding_4925A0(inputCmd, 0);
-    sKeyboardBindings_5C9930[bindIdx] = inputCmd;
+    sKeyboardBindings_5C9930[bindIdx] |= inputCmd;
     Input_Init_Names_491870();
     return 1;
 }
