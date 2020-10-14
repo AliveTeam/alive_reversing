@@ -241,6 +241,140 @@ const SfxDefinition sAbeSFXList_555250[41] =
     { 0u, 0u, 0u, 0u, 0, 0 }
 };
 
+const AnimId sAbeFrameTables[130] =
+{
+    AnimId::Mudokon_Idle,
+    AnimId::Mudokon_Walk,
+    AnimId::Mudokon_Turn_Around,
+    AnimId::Mudokon_Idle,
+    AnimId::Mudokon_Unknown_B,
+    AnimId::Mudokon_Unknown_C,
+    AnimId::Mudokon_Unknown_A,
+    AnimId::Mudokon_Talk_A,
+    AnimId::Mudokon_Talk_C,
+    AnimId::Mudokon_Talk_B,
+    AnimId::Mudokon_Talk_D,
+    AnimId::Abe_Unknown_A,
+    AnimId::Abe_Unknown_B,
+    AnimId::Mudokon_Hoist_Start,
+    AnimId::Mudokon_Hoist,
+    AnimId::Mudokon_Hoist_End,
+    AnimId::Mudokon_Hoist_End,
+    AnimId::Mudokon_Crouch,
+    AnimId::Mudokon_Crouch_To_Stand,
+    AnimId::Mudokon_Stand_To_Crouch,
+    AnimId::Abe_Crouch_Talk_A,
+    AnimId::Abe_Crouch_Talk_B,
+    AnimId::Abe_Roll_Start,
+    AnimId::Abe_Roll,
+    AnimId::Abe_Roll_End,
+    AnimId::Mudokon_Run_End_A,
+    AnimId::Mudokon_Run_End_B,
+    AnimId::Abe_Hop_Start,
+    AnimId::Abe_Hop,
+    AnimId::Abe_Hop_End,
+    AnimId::Mudokon_Run_Jump_Start,
+    AnimId::Mudokon_Run_Jump,
+    AnimId::Abe_Unknown_C,
+    AnimId::Mudokon_Run,
+    AnimId::Mudokon_Shrug_Start,
+    AnimId::Abe_Shrug_End,
+    AnimId::Mudokon_Shrug_Start,
+    AnimId::Mudokon_Crouch_Turn_Around,
+    AnimId::Abe_Crouch_Start,
+    AnimId::Mudokon_Unknown_R,
+    AnimId::Mudokon_Sneak,
+    AnimId::Mudokon_Sneak_Start,
+    AnimId::Mudokon_Unknown_L,
+    AnimId::Mudokon_Unknown_M,
+    AnimId::Mudokon_Unknown_N,
+    AnimId::Mudokon_Unknown_O,
+    AnimId::Mudokon_Unknown_P,
+    AnimId::Mudokon_Unknown_Q,
+    AnimId::Mudokon_Unknown_G,
+    AnimId::Mudokon_Unknown_H,
+    AnimId::Mudokon_Unknown_I,
+    AnimId::Mudokon_Unknown_J,
+    AnimId::Mudokon_Unknown_K,
+    AnimId::Abe_Unknown_D,
+    AnimId::Abe_Unknown_E,
+    AnimId::Abe_Unknown_F,
+    AnimId::Mudokon_Crouch,
+    AnimId::Mudokon_Crouch,
+    AnimId::Mudokon_Crouch,
+    AnimId::Mudokon_Crouch,
+    AnimId::Mudokon_Crouch,
+    AnimId::Abe_Unknown_G,
+    AnimId::Mudokon_Slap,
+    AnimId::Abe_Sorry_Start,
+    AnimId::Abe_Sorry_End,
+    AnimId::Abe_Hoist_Up,
+    AnimId::Abe_Hoist_Down,
+    AnimId::Abe_Hoist,
+    AnimId::Abe_Hoist,
+    AnimId::Abe_Hoist_Swing,
+    AnimId::Abe_Hoist_High,
+    AnimId::Mudokon_Knocked_Back_Face_Up,
+    AnimId::Mudokon_Get_Up,
+    AnimId::Abe_Push,
+    AnimId::Abe_Knock_Back,
+    AnimId::Abe_Well_Enter_Start,
+    AnimId::Abe_Well,
+    AnimId::Abe_Well,
+    AnimId::Abe_Well_Enter,
+    AnimId::Abe_Well,
+    AnimId::Abe_Well,
+    AnimId::Abe_Well_Enter,
+    AnimId::Abe_Well,
+    AnimId::Abe_Well,
+    AnimId::Abe_Death_Fall,
+    AnimId::Abe_Fall_A,
+    AnimId::Abe_Handstone_Start,
+    AnimId::Abe_Handstone_End,
+    AnimId::Abe_Handstone_Short,
+    AnimId::Abe_Handstone_Start,
+    AnimId::Abe_Handstone_End,
+    AnimId::Mudokon_Unknown_S,
+    AnimId::Mudokon_Unknown_S,
+    AnimId::Mudokon_Fall,
+    AnimId::Abe_Fall_B,
+    AnimId::Abe_Fall_C,
+    AnimId::Abe_Unknown_H,
+    AnimId::Abe_Unknown_I,
+    AnimId::Abe_Unknown_J,
+    AnimId::Mudokon_Lever_Pull,
+    AnimId::Abe_Slap_Bomb,
+    AnimId::Mudokon_Knocked_Back_Face_Down,
+    AnimId::Abe_Knock_Forward,
+    AnimId::Mudokon_Idle,
+    AnimId::Abe_Rock,
+    AnimId::Abe_Rock_Throw,
+    AnimId::Abe_Rock_Cancel,
+    AnimId::Abe_Rock_Crouch,
+    AnimId::Abe_Rock_Crouch_Throw,
+    AnimId::Abe_Death_Z_A,
+    AnimId::Abe_Death_Z_B,
+    AnimId::Abe_Item_Grab,
+    AnimId::Mudokon_Chant,
+    AnimId::Mudokon_Chant_End,
+    AnimId::Abe_Door_Enter,
+    AnimId::Abe_Door_Exit,
+    AnimId::Abe_Mine_Car_Enter,
+    AnimId::Abe_Mine_Car_Enter,
+    AnimId::Abe_Mine_Car_Exit,
+    AnimId::Abe_Shrykull_Start,
+    AnimId::Abe_Shrykull_End,
+    AnimId::Abe_Lift_Start,
+    AnimId::Abe_Lift_End,
+    AnimId::Abe_Lift,
+    AnimId::Abe_Lift_Up,
+    AnimId::Abe_Lift_Down,
+    AnimId::Mudokon_Wheel_Start,
+    AnimId::Mudokon_Wheel,
+    AnimId::Mudokon_Wheel_End,
+    AnimId::Abe_Death_Gas
+};
+/*
 const int sAbeFrameOffsetTable_554B18[130] =
 {
     58888, 58808, 59064, 58888, 58788, 58748, 58768, 59028, 58992, 58956, 58920,
@@ -256,7 +390,7 @@ const int sAbeFrameOffsetTable_554B18[130] =
     31632, 31576, 31432, 24580, 24628, 6004, 9992, 10040, 19040, 19088, 8540, 8540, 8588,
     8732, 8772, 22548, 22572, 22464, 22596, 22496, 11856, 11816, 11888, 28824
 };
-
+*/
 const TintEntry sTintTable_Abe_554D20[15] =
 {
     { 1, 102u, 102u, 102u },
@@ -591,7 +725,7 @@ EXPORT int CC XGrid_Index_To_XPos_4498F0(FP scale, int xGridIndex)
 
 ALIVE_VAR(1, 0x5c1b8c, BaseAliveGameObject*, sControlledCharacter_5C1B8C, nullptr);
 
-Abe* Abe::ctor_44AD10(int frameTableOffset, int /*r*/, int /*g*/, int /*b*/)
+Abe* Abe::ctor_44AD10(int /*frameTableOffset*/, int /*r*/, int /*g*/, int /*b*/)
 {
     const int kResourceArraySize = 28;
 
@@ -683,13 +817,9 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*r*/, int /*g*/, int /*b*/)
 
     field_128.field_10 = 1;
 
-    Animation_Init_424E10(
-        frameTableOffset,
-        135, // Width
-        80,  // Height
-        field_10_resources_array.ItemAt(AbeResources::eAbeBSic1),
-        1,
-        1u);
+    const AnimRecord& rec = AnimRec(AnimId::Mudokon_Idle);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_1C_fn_ptr_array = kAbe_Anim_Frame_Fns_55EF98;
 
@@ -769,8 +899,8 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*r*/, int /*g*/, int /*b*/)
 
     
     // Animation test code
-    //auto testAnim = ae_new<TestAnimation>();
-    //testAnim->ctor();
+    auto testAnim = ae_new<TestAnimation>();
+    testAnim->ctor();
     
 
     return this;
@@ -957,6 +1087,8 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_D6_scale = pSaveState->field_1C_scale;
 
     sActiveHero_5C1B68->field_106_current_motion = pSaveState->current_motion;
+    
+    const AnimRecord& animRec = AnimRec(sAbeFrameTables[sActiveHero_5C1B68->field_106_current_motion]);
     BYTE** animFromState = sActiveHero_5C1B68->StateToAnimResource_44AAB0(sActiveHero_5C1B68->field_106_current_motion);
     if (!animFromState)
     {
@@ -966,7 +1098,9 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
         animFromState = sActiveHero_5C1B68->field_10_resources_array.ItemAt(sActiveHero_5C1B68->field_128.field_10);
     }
 
-    sActiveHero_5C1B68->field_20_animation.Set_Animation_Data_409C80(sAbeFrameOffsetTable_554B18[sActiveHero_5C1B68->field_106_current_motion], animFromState);
+    sActiveHero_5C1B68->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, animFromState);
+    //sActiveHero_5C1B68->field_20_animation.Set_Animation_Data_409C80(sAbeFrameTables[sActiveHero_5C1B68->field_106_current_motion], animFromState);
+    
     sActiveHero_5C1B68->field_20_animation.field_92_current_frame = pSaveState->anim_current_frame;
     sActiveHero_5C1B68->field_20_animation.field_E_frame_change_counter = pSaveState->anim_frame_change_counter;
 
@@ -1237,6 +1371,8 @@ ALIVE_VAR(1, 0x5c1bda, short, gAbeBulletProof_5C1BDA, 0);
 
 void Abe::Update_449DC0()
 {
+    const AnimRecord& animRec = AnimRec(sAbeFrameTables[field_106_current_motion]);
+    
     if (gAbeBulletProof_5C1BDA) // Some flag to reset HP?
     {
         field_114_flags.Clear(Flags_114::e114_Bit7_Electrocuted);
@@ -1502,9 +1638,8 @@ void Abe::Update_449DC0()
             field_114_flags.Clear(Flags_114::e114_MotionChanged_Bit2);
             if (field_106_current_motion != eAbeStates::State_12_Null_4569C0 && !(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_bShrivel)))
             {
-                field_20_animation.Set_Animation_Data_409C80(
-                    sAbeFrameOffsetTable_554B18[field_106_current_motion],
-                    StateToAnimResource_44AAB0(field_106_current_motion));
+                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, StateToAnimResource_44AAB0(field_106_current_motion));
+                //field_20_animation.Set_Animation_Data_409C80( sAbeFrameTables[field_106_current_motion], StateToAnimResource_44AAB0(field_106_current_motion));
 
                 field_128.field_14 = sGnFrame_5C1B84;
 
@@ -1518,9 +1653,9 @@ void Abe::Update_449DC0()
         if (field_1AC_flags.Get(Flags_1AC::e1AC_Bit2))
         {
             field_106_current_motion = field_F4_previous_motion;
-            field_20_animation.Set_Animation_Data_409C80(
-                sAbeFrameOffsetTable_554B18[field_106_current_motion],
-                StateToAnimResource_44AAB0(field_106_current_motion));
+            
+            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, StateToAnimResource_44AAB0(field_106_current_motion));
+            //field_20_animation.Set_Animation_Data_409C80( sAbeFrameTables[field_106_current_motion], StateToAnimResource_44AAB0(field_106_current_motion));
 
             field_128.field_14 = sGnFrame_5C1B84;
             field_20_animation.SetFrame_409D50(field_F6_anim_frame);
