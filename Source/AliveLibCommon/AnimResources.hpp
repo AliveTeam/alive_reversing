@@ -474,6 +474,10 @@ enum class AnimId
     Slurg_Move,
     Slurg_Turn_Around,
 
+    BG_Brewery_Barrel_Anim,
+    BG_Mine_Fan,
+    BG_Feeco_Small_Fan,
+    BG_Heat_Extractor_Fan,
     Bone,
     Bone_Bag_A,
     Bone_Bag_B,
@@ -508,6 +512,10 @@ enum class AnimId
     Explosion,
     Explosion_Mine,
     Explosion_Small,
+    Falling_Crate_A,
+    Falling_Crate_B,
+    Falling_Rock_A,
+    Falling_Rock_B,
     Fart,
     Foot_Switch_Bonewerkz_Idle,
     Foot_Switch_Bonewerkz_Pressed,
@@ -570,7 +578,7 @@ enum class AnimId
     Work_Wheel_Turning,
     Zap_Line_Blue,
     Zap_Line_Red,
-
+    
     Anim_Tester, // For animation testing with the TestAnimation.cpp, ignore this.
 };
 

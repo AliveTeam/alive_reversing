@@ -14,26 +14,23 @@
 #include "ScreenShake.hpp"
 #include "Abe.hpp"
 
-const FallingItem_Data sFallingItemData_544DC0[18] =
+const AnimId sFallingItemData_544DC0[15][2] =
 {
-    { 4232, 4256, 64, 28 },
-    { 4232, 4256, 64, 28 },
-    { 4232, 4256, 64, 28 },
-    { 4232, 4256, 64, 28 },
-    { 4232, 4256, 64, 28 },
-    { 4232, 4256, 64, 28 },
-    { 4232, 4256, 64, 28 },
-    { 4232, 4256, 64, 28 },
-    { 8076, 8100, 86, 47 },
-    { 4232, 4256, 64, 28 },
-    { 4232, 4256, 64, 28 },
-    { 4232, 4256, 64, 28 },
-    { 4232, 4256, 64, 28 },
-    { 4232, 4256, 64, 28 },
-    { 8076, 8100, 86, 47 },
-    { 0, 0, 0, 0 },
-    { 0, 0, 0, 0 },
-    { 0, 0, 0, 0 }
+    { AnimId::Falling_Rock_A, AnimId::Falling_Rock_B },
+    { AnimId::Falling_Rock_A, AnimId::Falling_Rock_B },
+    { AnimId::Falling_Rock_A, AnimId::Falling_Rock_B },
+    { AnimId::Falling_Rock_A, AnimId::Falling_Rock_B },
+    { AnimId::Falling_Rock_A, AnimId::Falling_Rock_B },
+    { AnimId::Falling_Rock_A, AnimId::Falling_Rock_B },
+    { AnimId::Falling_Rock_A, AnimId::Falling_Rock_B },
+    { AnimId::Falling_Rock_A, AnimId::Falling_Rock_B },
+    { AnimId::Falling_Crate_A, AnimId::Falling_Crate_B },
+    { AnimId::Falling_Rock_A, AnimId::Falling_Rock_B },
+    { AnimId::Falling_Rock_A, AnimId::Falling_Rock_B },
+    { AnimId::Falling_Rock_A, AnimId::Falling_Rock_B },
+    { AnimId::Falling_Rock_A, AnimId::Falling_Rock_B },
+    { AnimId::Falling_Rock_A, AnimId::Falling_Rock_B },
+    { AnimId::Falling_Crate_A, AnimId::Falling_Crate_B }
 };
 
 ALIVE_VAR(1, 0x5BC208, FallingItem*, pPrimaryFallingItem_5BC208, nullptr);
@@ -50,15 +47,11 @@ EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, int tlvInfo
 
     Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kF2rockResID);
     const int lvlIdx = static_cast<int>(gMap_5C3030.field_0_current_level);
-    Animation_Init_424E10(
-        sFallingItemData_544DC0[lvlIdx].field_0,
-        sFallingItemData_544DC0[lvlIdx].field_8,
-        sFallingItemData_544DC0[lvlIdx].field_A,
-        ppRes,
-        1,
-        1);
+    
+    const AnimRecord& rec = AnimRec(sFallingItemData_544DC0[lvlIdx][0]);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     
     field_11E_id = pTlv->field_10_id;
 
@@ -121,15 +114,11 @@ FallingItem* FallingItem::ctor_427560(__int16 xpos, __int16 ypos, __int16 scale,
     field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
     field_118_tlvInfo = -1;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kF2rockResID);
     const int lvlIdx = static_cast<int>(gMap_5C3030.field_0_current_level);
-    Animation_Init_424E10(
-        sFallingItemData_544DC0[lvlIdx].field_0,
-        sFallingItemData_544DC0[lvlIdx].field_8,
-        sFallingItemData_544DC0[lvlIdx].field_A,
-        ppRes,
-        1,
-        1);
+    
+    const AnimRecord& rec = AnimRec(sFallingItemData_544DC0[lvlIdx][0]);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_C_render_layer = 31;
 
@@ -277,20 +266,28 @@ EXPORT void FallingItem::vUpdate_427780()
             field_11C_state = State::eState_2_WaitForFallDelay;
             field_C4_velx = FP_FromInteger(0);
             field_C8_vely = FP_FromInteger(0);
-            field_20_animation.Set_Animation_Data_409C80(sFallingItemData_544DC0[static_cast<int>(gMap_5C3030.field_0_current_level)].field_4, nullptr);
+
+            const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<int>(gMap_5C3030.field_0_current_level)][1]);
+            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+            
             field_128_delay_timer = sGnFrame_5C1B84 + field_124_delay_time;
         }
         break;
 
     // TODO: Must only be set outside of the object
     case State::eState_1_GoWaitForDelay:
+    {
         field_6_flags.Clear(BaseGameObject::eCanExplode_Bit7);
         field_11C_state = State::eState_2_WaitForFallDelay;
         field_C4_velx = FP_FromInteger(0);
         field_C8_vely = FP_FromInteger(0);
-        field_20_animation.Set_Animation_Data_409C80(sFallingItemData_544DC0[static_cast<int>(gMap_5C3030.field_0_current_level)].field_4, nullptr);
+
+        const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<int>(gMap_5C3030.field_0_current_level)][1]);
+        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+
         field_128_delay_timer = sGnFrame_5C1B84 + field_124_delay_time;
         break;
+    }
 
     case State::eState_2_WaitForFallDelay:
         if (static_cast<int>(sGnFrame_5C1B84) >= field_128_delay_timer)
@@ -307,7 +304,7 @@ EXPORT void FallingItem::vUpdate_427780()
             }
         }
         break;
-
+    
     case State::eState_3_Falling:
     {
         if (field_12E_do_sound_in_state_falling)
@@ -453,7 +450,8 @@ EXPORT void FallingItem::vUpdate_427780()
         }
         else
         {
-            field_20_animation.Set_Animation_Data_409C80(sFallingItemData_544DC0[static_cast<int>(gMap_5C3030.field_0_current_level)].field_0, nullptr);
+            const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<int>(gMap_5C3030.field_0_current_level)][0]);
+            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
             field_C8_vely = FP_FromInteger(0);
             field_C4_velx = FP_FromInteger(0);
