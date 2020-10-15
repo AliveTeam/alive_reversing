@@ -475,7 +475,7 @@ enum class AnimId
 
     BG_Brewery_Barrel_Anim,
     BG_Mine_Fan,
-    BG_Feeco_Small_Fan.
+    BG_Feeco_Small_Fan,
     BG_Heat_Extractor_Fan,
     Bone,
     Bone_Bag_A,
