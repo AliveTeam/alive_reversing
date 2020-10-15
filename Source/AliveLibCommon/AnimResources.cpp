@@ -516,6 +516,10 @@ constexpr AnimRecord kAnimRecords[] =
     { AnimId::Explosion, "EXPLO2.BAN", 51156, 202, 91, kExplo2ResID, PalId::Default },
     { AnimId::Explosion_Mine, "EXPLODE.BND", 51588, 214, 0x31u, kBgexpldResID, PalId::Default },
     { AnimId::Explosion_Small, "SMEXP.BAN", 14108, 99, 46, kSmallExplo2ResID, PalId::Default },
+    { AnimId::Falling_Crate_A, "FALLBONZ.BAN", 8076, 86, 47, kF2rockResID, PalId::Default },
+    { AnimId::Falling_Crate_B, "FALLBONZ.BAN", 8100, 86, 47, kF2rockResID, PalId::Default },
+    { AnimId::Falling_Rock_A, "FALLROCK.BAN", 4232, 64, 28, kF2rockResID, PalId::Default },
+    { AnimId::Falling_Rock_B, "FALLROCK.BAN", 4256, 64, 28, kF2rockResID, PalId::Default },
     { AnimId::Fart, "EVILFART.BAN", 3532, 61, 39, kEvilFartResID, PalId::Default },
     { AnimId::Foot_Switch_Bonewerkz_Idle, "BWTRIGGR.BAN", 548, 46, 11, kTriggerResID, PalId::Default },
     { AnimId::Foot_Switch_Bonewerkz_Pressed, "BWTRIGGR.BAN", 568, 46, 11, kTriggerResID, PalId::Default },
@@ -578,9 +582,15 @@ constexpr AnimRecord kAnimRecords[] =
     { AnimId::Work_Wheel_Turning, "WORKWHEL.BAN", 2728, 49, 24, kWorkwhelResID, PalId::Default },
     { AnimId::Zap_Line_Blue, "SPLINE.BAN", 276, 14, 9, kSplineResID, PalId::Default },
     { AnimId::Zap_Line_Red, "SPLINE.BAN", 288, 14, 9, kSplineResID, PalId::Default },
+
+    // Background animations
+    { AnimId::BG_Brewery_Barrel_Anim,  "BRP02C10.CAM", 42112, 130, 55, 1206, PalId::Default },
+    { AnimId::BG_Mine_Fan, "MINEFAN.BAN", 15632, 113, 55, 1201, PalId::Default },
+    { AnimId::BG_Feeco_Small_Fan, "FDP01C01.CAM", 4208, 57, 28, 1202, PalId::Default },
+    { AnimId::BG_Heat_Extractor_Fan,  "MIP04C18.CAM", 7104, 89, 24, 1204, PalId::Default },
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////
-    { AnimId::Anim_Tester, "WELLLEAF.BAN", 476, 16, 11, kWellLeafResID, PalId::Default },
+    { AnimId::Anim_Tester,  "SPLINE.BAN", 288, 14, 9, kSplineResID, PalId::Default },
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 };
 

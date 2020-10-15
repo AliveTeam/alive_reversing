@@ -130,7 +130,7 @@ void ResourceManager::vLoadFile_StateMachine_464A70()
         if (!field_20_files_pending_loading.IsEmpty())
         {
             field_2C_pFileItem = field_20_files_pending_loading.ItemAt(0);
-
+            
             LvlFileRecord* pLvlFileRec1 = sLvlArchive_5BC520.Find_File_Record_433160(field_2C_pFileItem->field_0_fileName);
             field_34_num_sectors = pLvlFileRec1->field_10_num_sectors;
             field_30_start_sector = pLvlFileRec1->field_C_start_sector + sLvlArchive_5BC520.field_4_cd_pos;
@@ -934,7 +934,7 @@ signed __int16 CC ResourceManager::Move_Resources_To_DArray_49C1C0(BYTE** ppRes,
             {
                 return 1;
             }
-
+            
             ResourceHeapItem* pNewListItem = ResourceManager::Push_List_Item_49BD70();
             pNewListItem->field_4_pNext = pItemToAdd->field_4_pNext;
             pItemToAdd->field_4_pNext = pNewListItem;
