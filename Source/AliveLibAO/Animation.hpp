@@ -260,6 +260,8 @@ public:
     EXPORT void GetRenderedSize_404220(PSX_RECT* pRect);
 
 private:
+    EXPORT void VCleanUp2_404280();
+
     // New virtual
     EXPORT void VRender2_403FD0(int xpos, int ypos, int** ppOt);
 

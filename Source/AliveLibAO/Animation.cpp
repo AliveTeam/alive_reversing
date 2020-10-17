@@ -869,7 +869,7 @@ EXPORT void Animation::Get_Frame_Offset_403EE0(short* pBoundingX, short* pBoundi
 
 void AnimationUnknown::vCleanUp()
 {
-    // Empty @ 404280
+    VCleanUp2_404280();
 }
 
 void AnimationUnknown::VRender2(int xpos, int ypos, int** ppOt)
@@ -885,6 +885,11 @@ void AnimationUnknown::vRender(int /*xpos*/, int /*ypos*/, int** /*pOt*/, __int1
 void AnimationUnknown::vDecode()
 {
     // Empty @ 402A10
+}
+
+void AnimationUnknown::VCleanUp2_404280()
+{
+    field_68_anim_ptr = nullptr;
 }
 
 void AnimationUnknown::VRender2_403FD0(int /*xpos*/, int /*ypos*/, int** /*ppOt*/)
