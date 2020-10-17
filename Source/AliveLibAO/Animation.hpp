@@ -171,10 +171,7 @@ enum AnimFlags
 class AnimationBase
 {
 public:
-    // TODO: Non empty so standalone builds
-    virtual void vDecode();
-
-    EXPORT void VDecode_403550();
+    virtual void vDecode() = 0;
 
     virtual void vRender(int xpos, int ypos, int** pOt, __int16 width, __int16 height);
 
@@ -202,6 +199,10 @@ class BaseGameObject;
 class Animation : public AnimationBase
 {
 public:
+    virtual void vDecode() override;
+
+    EXPORT void VDecode_403550();
+
     EXPORT signed __int16 Set_Animation_Data_402A40(int frameTable, BYTE** resBlock);
 
     EXPORT void SetFrame_402AC0(unsigned __int16 newFrame);
@@ -223,6 +224,8 @@ public:
     virtual void vCleanUp() override;
 
     EXPORT void VCleanUp_403F40();
+
+    bool EnsureDecompressionBuffer();
 
     int field_10_frame_delay;
     FP field_14_scale;
