@@ -872,6 +872,11 @@ void AnimationUnknown::vCleanUp()
     // Empty @ 404280
 }
 
+void AnimationUnknown::VRender2(int xpos, int ypos, int** ppOt)
+{
+    VRender2_403FD0(xpos, ypos, ppOt);
+}
+
 void AnimationUnknown::vRender(int /*xpos*/, int /*ypos*/, int** /*pOt*/, __int16 /*width*/, __int16 /*height*/)
 {
     // Empty @ 402A20

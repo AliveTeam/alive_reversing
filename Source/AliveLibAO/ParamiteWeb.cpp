@@ -184,7 +184,7 @@ void ParamiteWeb::VRender_48AB10(int **pOt)
                     field_EC_pRes[idx].field_8_r = static_cast<BYTE>(r);
                     field_EC_pRes[idx].field_9_g = static_cast<BYTE>(g);
                     field_EC_pRes[idx].field_A_b = static_cast<BYTE>(b);
-                    field_EC_pRes[idx].VRender2_403FD0(x_start, y_start + field_C8_yOffset, pOt);
+                    field_EC_pRes[idx].VRender2(x_start, y_start + field_C8_yOffset, pOt);
                     PSX_RECT rect = {};
                     field_EC_pRes[idx].GetRenderedSize_404220(&rect);
                     pScreenManager_4FF7C8->InvalidateRect_406E40(rect.x, rect.y, rect.w, rect.h, pScreenManager_4FF7C8->field_2E_idx);
