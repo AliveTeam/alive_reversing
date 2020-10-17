@@ -7,6 +7,15 @@
 #include "ResourceManager.hpp"
 #include "VRam.hpp"
 #include "Game.hpp"
+#include "Slig.hpp"
+#include "Dove.hpp"
+#include "Bullet.hpp"
+#include "BulletShell.hpp"
+#include "Dove.hpp"
+#include "stdlib.hpp"
+#include "Sfx.hpp"
+#include "Events.hpp"
+#include "Particle.hpp"
 
 // Fix pollution from windows.h
 #undef min
@@ -14,10 +23,107 @@
 
 START_NS_AO
 
-EXPORT short *CC Animation_OnFrame_Slig_46F610(void *, __int16 *)
+EXPORT short* CC Animation_OnFrame_Slig_46F610(void* pObj, __int16* pData)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    auto pSlig = static_cast<Slig*>(pObj);
+    if (pSlig->field_8_update_delay != 0)
+    {
+        return pData + 2;
+    }
+
+    BulletType bulletType = BulletType::Type_0;
+    if (pSlig->field_10A_flags.Get(Flags_10A::e10A_Bit2_bPossesed))
+    {
+        pSlig->field_254_prevent_depossession |= 1u;
+        bulletType = BulletType::Type_0;
+    }
+    else
+    {
+        bulletType = BulletType::Type_1;
+    }
+
+    const FP xOff = pSlig->field_BC_sprite_scale * FP_FromInteger(pData[0]);
+    const FP yOff = pSlig->field_BC_sprite_scale * FP_FromInteger(pData[1]);
+    if (pSlig->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        auto pBullet = ao_new<Bullet>();
+        if (pBullet)
+        {
+            pBullet->ctor_409380(
+                pSlig,
+                bulletType,
+                pSlig->field_A8_xpos,
+                yOff + pSlig->field_AC_ypos,
+                FP_FromInteger(-640),
+                0,
+                pSlig->field_BC_sprite_scale,
+                0);
+        }
+
+        New_ShootingFire_Particle_419720(
+            pSlig->field_A8_xpos - xOff,
+            pSlig->field_AC_ypos + yOff,
+            1,
+            pSlig->field_BC_sprite_scale);
+
+        auto pBulletShell = ao_new<BulletShell>();
+        if (pBulletShell)
+        {
+            pBulletShell->ctor_462790(
+                pSlig->field_A8_xpos,
+                pSlig->field_AC_ypos + yOff,
+                0,
+                pSlig->field_BC_sprite_scale);
+        }
+    }
+    else
+    {
+        auto pBullet = ao_new<Bullet>();
+        if (pBullet)
+        {
+            pBullet->ctor_409380(
+                pSlig,
+                bulletType,
+                pSlig->field_A8_xpos,
+                yOff + pSlig->field_AC_ypos,
+                FP_FromInteger(640),
+                0,
+                pSlig->field_BC_sprite_scale,
+                0);
+        }
+
+        New_ShootingFire_Particle_419720(
+            pSlig->field_A8_xpos + xOff,
+            pSlig->field_AC_ypos + yOff,
+            0,
+            pSlig->field_BC_sprite_scale);
+
+        auto pBulletShell = ao_new<BulletShell>();
+        if (pBulletShell)
+        {
+            pBulletShell->ctor_462790(
+                pSlig->field_A8_xpos,
+                pSlig->field_AC_ypos + yOff,
+                1,
+                pSlig->field_BC_sprite_scale);
+        }
+    }
+
+    if (pSlig->field_BC_sprite_scale == FP_FromDouble(0.5))
+    {
+        SFX_Play_43AD70(SoundEffect::SligShoot_6, 85);
+    }
+    else
+    {
+        SFX_Play_43AD70(SoundEffect::SligShoot_6, 0);
+    }
+
+    Event_Broadcast_417220(kEvent_2, pSlig);
+    Event_Broadcast_417220(kEvent_14, pSlig);
+
+    Dove::All_FlyAway_40F390();
+
+    return pData + 2;
 }
 
 EXPORT short* CC Animation_OnFrame_ZBallSmacker_41FB00(void* pObj, short* pData);
@@ -316,14 +422,148 @@ void Animation::VDecode_403550()
     }
 }
 
-void AnimationBase::vRender(int xpos, int ypos, int** pOt, __int16 width, __int16 height)
+void Animation::vRender(int xpos, int ypos, int** pOt, __int16 width, __int16 height)
 {
     VRender_403AE0(xpos, ypos, pOt, width, height);
 }
 
-void AnimationBase::VRender_403AE0(int /*xpos*/, int /*ypos*/, int** /*ppOt*/, __int16 /*width*/, __int16 /*height*/)
+void Animation::VRender_403AE0(int xpos, int ypos, int** ppOt, __int16 width, __int16 height)
 {
-    NOT_IMPLEMENTED();
+    if (field_4_flags.Get(AnimFlags::eBit3_Render))
+    {
+        BYTE** ppBlock = field_20_ppBlock;
+        if (ppBlock)
+        {
+            BYTE* pBlock = *ppBlock;
+            FrameInfoHeader* pFrameInfoHeader = Get_FrameHeader_403A00(-1);
+            FrameHeader* pFrameHeader = (FrameHeader*)&pBlock[pFrameInfoHeader->field_0_frame_header_offset];
+
+            FP frame_width_fixed;
+            FP frame_height_fixed;
+            if (width)
+            {
+                frame_width_fixed = FP_FromInteger(width);
+                frame_height_fixed = FP_FromInteger(height);
+            }
+            else
+            {
+                frame_width_fixed = FP_FromInteger(PCToPsxX(pFrameHeader->field_4_width, 20));
+                frame_height_fixed = FP_FromInteger(pFrameHeader->field_5_height);
+            }
+
+            FP xOffSet_fixed;
+            FP yOffset_fixed;
+            if (field_4_flags.Get(AnimFlags::eBit20_use_xy_offset))
+            {
+                xOffSet_fixed = FP_FromInteger(0);
+                yOffset_fixed = FP_FromInteger(0);
+            }
+            else
+            {
+                xOffSet_fixed = FP_FromInteger(pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.x);
+                yOffset_fixed = FP_FromInteger(pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.y);
+            }
+
+            char textureMode = 0;
+            if (field_4_flags.Get(AnimFlags::eBit13_Is8Bit))
+            {
+                // 8 bit
+                textureMode = 1;
+            }
+            else if (field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
+            {
+                // 16 bit
+                textureMode = 2;
+            }
+            else
+            {
+                // 4 bit
+                textureMode = 0;
+            }
+
+            short tPageY = 0;
+            if (field_4_flags.Get(AnimFlags::eBit10_alternating_flag) || field_84_vram_rect.y >= 256)
+            {
+                tPageY = 256;
+            }
+            else
+            {
+                tPageY = 0;
+            }
+
+            Poly_FT4* pPoly = &field_2C_ot_data[gPsxDisplay_504C78.field_A_buffer_index];
+            PolyFT4_Init(pPoly);
+            Poly_Set_SemiTrans_498A40(&pPoly->mBase.header, field_4_flags.Get(AnimFlags::eBit15_bSemiTrans));
+            Poly_Set_Blending_498A00(&pPoly->mBase.header, field_4_flags.Get(AnimFlags::eBit16_bBlending));
+
+            SetRGB0(pPoly, field_8_r, field_9_g, field_A_b);
+            SetTPage(pPoly, static_cast<short>(PSX_getTPage_4965D0(textureMode, field_B_render_mode, field_84_vram_rect.x, tPageY)));
+            SetClut(pPoly, static_cast<short>(PSX_getClut_496840(field_8C_pal_vram_xy.field_0_x, field_8C_pal_vram_xy.field_2_y)));
+
+            BYTE u1 = field_84_vram_rect.x & 63;
+            if (textureMode == 1)
+            {
+                // 8 bit
+                u1 *= 2;
+            }
+            else if (textureMode == 0)
+            {
+                // 4 bit
+                u1 *= 4;
+            }
+            else
+            {
+                // 16 bit
+            }
+
+            const BYTE v0 = static_cast<BYTE>(field_84_vram_rect.y);
+            const BYTE u0 = pFrameHeader->field_4_width + u1 - 1;
+            const BYTE v1 = pFrameHeader->field_5_height + v0 - 1;
+
+            if (field_14_scale != FP_FromInteger(1))
+            {
+                // Apply scale to x/y pos
+                frame_height_fixed = (frame_height_fixed * field_14_scale);
+                frame_width_fixed = (frame_width_fixed * field_14_scale);
+
+                // Apply scale to x/y offset
+                xOffSet_fixed = (xOffSet_fixed * field_14_scale);
+                yOffset_fixed = (yOffset_fixed * field_14_scale) - FP_FromInteger(1);
+            }
+
+            int polyXPos;
+            if (field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                SetUV0(pPoly, u0, v0);
+                SetUV1(pPoly, u1, v0);
+                SetUV2(pPoly, u0, v1);
+                SetUV3(pPoly, u1, v1);
+
+                polyXPos = xpos - FP_GetExponent(xOffSet_fixed + frame_width_fixed + FP_FromDouble(0.499));
+            }
+            else
+            {
+                SetUV0(pPoly, u1, v0);
+                SetUV1(pPoly, u0, v0);
+                SetUV2(pPoly, u1, v1);
+                SetUV3(pPoly, u0, v1);
+
+                polyXPos = xpos + FP_GetExponent(xOffSet_fixed + FP_FromDouble(0.499));
+            }
+
+            const short polyYPos = static_cast<short>(ypos + FP_GetExponent((yOffset_fixed + FP_FromDouble(0.499))));
+            const short xConverted = static_cast<short>(PsxToPCX(polyXPos));
+            const short width_adjusted = FP_GetExponent(PsxToPCX(frame_width_fixed) - FP_FromDouble(0.501)) + xConverted;
+            const short height_adjusted = FP_GetExponent(frame_height_fixed - FP_FromDouble(0.501)) + polyYPos;
+
+            SetXY0(pPoly, xConverted, polyYPos);
+            SetXY1(pPoly, width_adjusted, polyYPos);
+            SetXY2(pPoly, xConverted, height_adjusted);
+            SetXY3(pPoly, width_adjusted, height_adjusted);
+
+            OrderingTable_Add_498A80(&ppOt[field_C_layer], &pPoly->mBase.header);
+        }
+    }
 }
 
 void Animation::vCleanUp()
@@ -735,7 +975,12 @@ EXPORT void Animation::Get_Frame_Offset_403EE0(short* pBoundingX, short* pBoundi
 
 void AnimationUnknown::vCleanUp()
 {
-    // Empty @ 404280
+    VCleanUp2_404280();
+}
+
+void AnimationUnknown::VRender2(int xpos, int ypos, int** ppOt)
+{
+    VRender2_403FD0(xpos, ypos, ppOt);
 }
 
 void AnimationUnknown::vRender(int /*xpos*/, int /*ypos*/, int** /*pOt*/, __int16 /*width*/, __int16 /*height*/)
@@ -748,9 +993,104 @@ void AnimationUnknown::vDecode()
     // Empty @ 402A10
 }
 
-void AnimationUnknown::VRender2_403FD0(int /*xpos*/, int /*ypos*/, int** /*ppOt*/)
+void AnimationUnknown::VCleanUp2_404280()
 {
-    NOT_IMPLEMENTED();
+    field_68_anim_ptr = nullptr;
+}
+
+void AnimationUnknown::VRender2_403FD0(int xpos, int ypos, int** ppOt)
+{
+    Poly_FT4* pPoly = &field_10_polys[gPsxDisplay_504C78.field_A_buffer_index];
+    if (field_4_flags.Get(AnimFlags::eBit3_Render))
+    {
+        // Copy from animation to local
+        *pPoly = field_68_anim_ptr->field_2C_ot_data[gPsxDisplay_504C78.field_A_buffer_index];
+
+        FrameInfoHeader* pFrameInfoHeader = field_68_anim_ptr->Get_FrameHeader_403A00(-1);
+
+        FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(&(*field_68_anim_ptr->field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
+
+        int frameOffX = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.x;
+        int frameOffY = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.y;
+        int frameH = pFrameHeader->field_5_height;
+        int frameW = pFrameHeader->field_4_width;
+
+        if (field_6C_scale != FP_FromInteger(1))
+        {
+            frameH = FP_GetExponent(FP_FromInteger(frameH) * field_6C_scale);
+            frameW = FP_GetExponent(FP_FromInteger(frameW) * field_6C_scale);
+            frameOffX = FP_GetExponent(FP_FromInteger(frameOffX) * field_6C_scale);
+            frameOffY = FP_GetExponent(FP_FromInteger(frameOffY) * field_6C_scale);
+        }
+
+        int polyX = 0;
+        int polyY = 0;
+        if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit7_SwapXY))
+        {
+            if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit6_FlipY))
+            {
+                if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    polyX = xpos - frameOffY - frameH;
+                }
+                else
+                {
+                    polyX = frameOffY + xpos;
+                }
+                polyY = frameOffX + ypos;
+            }
+            else
+            {
+                if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    polyX = xpos - frameOffY - frameH;
+                }
+                else
+                {
+                    polyX = frameOffY + xpos;
+                }
+                polyY = ypos - frameOffX - frameW;
+            }
+        }
+        else if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit6_FlipY))
+        {
+            if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                polyX = xpos - frameOffX - frameW;
+            }
+            else
+            {
+                polyX = frameOffX + xpos;
+            }
+            polyY = ypos - frameOffY - frameH;
+        }
+        else
+        {
+            if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                polyX = xpos - frameOffX - frameW;
+            }
+            else
+            {
+                polyX = frameOffX + xpos;
+            }
+            polyY = frameOffY + ypos;
+        }
+
+        if (!field_4_flags.Get(AnimFlags::eBit16_bBlending))
+        {
+            SetRGB0(pPoly, field_8_r, field_9_g, field_A_b);
+        }
+
+        const int w = frameW + polyX - 1;
+        const int h = frameH + polyY - 1;
+        SetXY0(pPoly, static_cast<short>(polyX), static_cast<short>(polyY));
+        SetXY1(pPoly, static_cast<short>(w), static_cast<short>(polyY));
+        SetXY2(pPoly, static_cast<short>(polyX), static_cast<short>(h));
+        SetXY3(pPoly, static_cast<short>(w), static_cast<short>(h));
+
+        OrderingTable_Add_498A80(&ppOt[field_C_layer], &pPoly->mBase.header);
+    }
 }
 
 void AnimationUnknown::GetRenderedSize_404220(PSX_RECT* pRect)
