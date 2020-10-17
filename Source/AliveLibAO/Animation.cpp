@@ -39,14 +39,281 @@ TFrameCallBackType kSlig_Anim_Frame_Fns_4CEBF0[] = {Animation_OnFrame_Slig_46F61
 TFrameCallBackType kSlog_Anim_Frame_Fns_4CEBF4[] = { Slog_OnFrame_471FD0 };
 TFrameCallBackType kZBall_Anim_Frame_Fns_4CEBF8[] = { Animation_OnFrame_ZBallSmacker_41FB00 };
 
-void AnimationBase::vDecode()
+void Animation::vDecode()
 {
     VDecode_403550();
 }
 
-void AnimationBase::VDecode_403550()
+EXPORT void CC Decompress_Type_1_403150(const BYTE* /*pInput*/, BYTE* /*pOutput*/, unsigned int /*compressedLen*/, unsigned int /*decompressedLen*/)
 {
     NOT_IMPLEMENTED();
+}
+
+EXPORT void CC Decompress_Type_2_403390(const BYTE* /*pInput*/, BYTE* /*pOutput*/, int /*decompressedLen*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC Decompress_Type_3_4031E0(unsigned __int16* /*pInput*/, BYTE* /*pOutput*/, int /*len*/, int /*out_len*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC Decompress_Type_4_5_461770(const BYTE* /*pInput*/, BYTE* /*pOutput*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+
+void Animation::VDecode_403550()
+{
+    if (!field_20_ppBlock || !*field_20_ppBlock)
+    {
+        return;
+    }
+
+    AnimationHeader* pAnimationHeader = reinterpret_cast<AnimationHeader*>(&(*field_20_ppBlock)[field_18_frame_table_offset]);
+    if (pAnimationHeader->field_2_num_frames == 1 && field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    {
+        return;
+    }
+
+    if (field_4_flags.Get(AnimFlags::eBit19_LoopBackwards))
+    {
+        // Loop backwards
+        const __int16 prevFrameNum = --field_92_current_frame;
+        field_E_frame_change_counter = static_cast<short>(field_10_frame_delay);
+
+        if (prevFrameNum < pAnimationHeader->field_4_loop_start_frame)
+        {
+            if (field_4_flags.Get(AnimFlags::eBit8_Loop))
+            {
+                // Loop to last frame
+                field_92_current_frame = pAnimationHeader->field_2_num_frames - 1;
+
+            }
+            else
+            {
+                // Stay on current frame
+                field_E_frame_change_counter = 0;
+                field_92_current_frame = prevFrameNum + 1;
+            }
+        }
+
+        // Is first (last since running backwards) frame?
+        if (field_92_current_frame == 0)
+        {
+            field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
+        }
+        else
+        {
+            field_4_flags.Clear(AnimFlags::eBit18_IsLastFrame);
+        }
+    }
+    else
+    {
+        // Loop forwards
+        const __int16 nextFrameNum = ++field_92_current_frame;
+        field_E_frame_change_counter = static_cast<short>(field_10_frame_delay);
+
+        // Animation reached end point
+        if (nextFrameNum >= pAnimationHeader->field_2_num_frames)
+        {
+            if (field_4_flags.Get(AnimFlags::eBit8_Loop))
+            {
+                // Loop back to loop start frame
+                field_92_current_frame = pAnimationHeader->field_4_loop_start_frame;
+            }
+            else
+            {
+                // Stay on current frame
+                field_92_current_frame = nextFrameNum - 1;
+                field_E_frame_change_counter = 0;
+            }
+
+            field_4_flags.Set(AnimFlags::eBit12_ForwardLoopCompleted);
+        }
+
+        // Is last frame ?
+        if (field_92_current_frame == pAnimationHeader->field_2_num_frames - 1)
+        {
+            field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
+        }
+        else
+        {
+            field_4_flags.Clear(AnimFlags::eBit18_IsLastFrame);
+        }
+    }
+
+    if (field_4_flags.Get(AnimFlags::eBit11_bToggle_Bit10))
+    {
+        field_4_flags.Toggle(AnimFlags::eBit10_alternating_flag);
+    }
+
+    const FrameInfoHeader* pFrameInfoHeader = Get_FrameHeader_403A00(-1); // -1 = use current frame
+    if (pFrameInfoHeader->field_6_count > 0)
+    {
+        if (field_1C_fn_ptrs)
+        {
+            FrameInfoHeader* pFrameHeaderCopy = this->Get_FrameHeader_403A00(-1);
+
+            // This data can be an array of DWORD's + other data up to field_6_count
+            // which appears AFTER the usual data.
+
+            // TODO: Should be typed to short* ??
+            DWORD* pCallBackData = reinterpret_cast<DWORD*>(&pFrameHeaderCopy->field_8_data.points[3]);
+            for (int i = 0; i < pFrameHeaderCopy->field_6_count; i++)
+            {
+                auto pFnCallBack = field_1C_fn_ptrs[*pCallBackData];
+                if (!pFnCallBack)
+                {
+                    break;
+                }
+                pCallBackData++; // Skip the array index
+                // Pass the data pointer into the call back which will then read and skip any extra data
+                pCallBackData += *pFnCallBack(field_94_pGameObj, (short*)pCallBackData);
+            }
+        }
+    }
+
+    const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
+
+    // No VRAM allocation
+    if (field_84_vram_rect.w <= 0)
+    {
+        return;
+    }
+
+    short width_bpp_adjusted = 0;
+    if (field_4_flags.Get(AnimFlags::eBit13_Is8Bit))
+    {
+        // 8 bit, divided by half
+        width_bpp_adjusted = ((pFrameHeader->field_4_width + 3) / 2) & ~1;
+    }
+    else if (field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
+    {
+        // 16 bit, only multiple of 2 rounding
+        width_bpp_adjusted = (pFrameHeader->field_4_width + 1) & ~1;
+    }
+    else
+    {
+        // 4 bit divide by quarter
+        width_bpp_adjusted = ((pFrameHeader->field_4_width + 7) / 4) & ~1;
+    }
+
+    PSX_RECT vram_rect =
+    {
+        field_84_vram_rect.x,
+        field_84_vram_rect.y,
+        width_bpp_adjusted,
+        pFrameHeader->field_5_height,
+    };
+
+    // Clamp width
+    if (vram_rect.w > field_84_vram_rect.w)
+    {
+        vram_rect.w = field_84_vram_rect.w;
+    }
+
+    // Clamp height
+    if (pFrameHeader->field_5_height > field_84_vram_rect.h)
+    {
+        vram_rect.h = field_84_vram_rect.h;
+    }
+
+    switch (pFrameHeader->field_7_compression_type)
+    {
+    case 0:
+        // No compression, load the data directly into frame buffer
+        if (field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
+        {
+            PSX_LoadImage16_4962A0(&vram_rect, reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2)); // TODO: Refactor structure to get pixel data
+        }
+        else
+        {
+            PSX_LoadImage_496480(&vram_rect, reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2)); // TODO: Refactor structure to get pixel data
+        }
+        break;
+
+    case 1:
+        if (EnsureDecompressionBuffer())
+        {
+            // TODO: Refactor structure to get pixel data/remove casts
+            Decompress_Type_1_403150(
+                (BYTE*)&pFrameHeader[1],
+                *field_24_pDBuf,
+                *(DWORD*)&pFrameHeader->field_8_width2,
+                2 * pFrameHeader->field_5_height * width_bpp_adjusted);
+
+            if (field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
+            {
+                PSX_LoadImage16_4962A0(&vram_rect, (BYTE*)*field_24_pDBuf);
+            }
+            else
+            {
+                PSX_LoadImage_496480(&vram_rect, *field_24_pDBuf);
+            }
+        }
+        break;
+
+    case 2:
+        if (EnsureDecompressionBuffer())
+        {
+            Decompress_Type_2_403390(
+                (BYTE*)&pFrameHeader[1],
+                *field_24_pDBuf,
+                2 * pFrameHeader->field_5_height * width_bpp_adjusted);
+            if (!field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
+            {
+                PSX_LoadImage_496480(&vram_rect, *field_24_pDBuf);
+            }
+            else
+            {
+                PSX_LoadImage16_4962A0(&vram_rect, *field_24_pDBuf);
+            }
+        }
+        break;
+
+    case 3:
+        if (EnsureDecompressionBuffer())
+        {
+            // TODO: Refactor structure to get pixel data/remove casts
+            Decompress_Type_3_4031E0(
+                (unsigned __int16*)&pFrameHeader[1],
+                *field_24_pDBuf,
+                *(DWORD*)&pFrameHeader->field_8_width2,
+                2 * pFrameHeader->field_5_height * width_bpp_adjusted);
+            if (field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
+            {
+                PSX_LoadImage16_4962A0(&vram_rect, *field_24_pDBuf);
+            }
+            else
+            {
+                PSX_LoadImage_496480(&vram_rect, *field_24_pDBuf);
+            }
+        }
+        break;
+
+    case 4:
+    case 5:
+        if (EnsureDecompressionBuffer())
+        {
+            // TODO: Refactor structure to get pixel data/remove casts
+            Decompress_Type_4_5_461770(reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2), *field_24_pDBuf);
+            if (field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
+            {
+                PSX_LoadImage16_4962A0(&vram_rect, *field_24_pDBuf);
+            }
+            else
+            {
+                PSX_LoadImage_496480(&vram_rect, *field_24_pDBuf);
+            }
+        }
+        break;
+
+    default:
+        return;
+    }
 }
 
 void AnimationBase::vRender(int xpos, int ypos, int** pOt, __int16 width, __int16 height)
@@ -88,6 +355,16 @@ void Animation::VCleanUp_403F40()
     ResourceManager::FreeResource_455550(field_24_pDBuf);
 
 }
+
+bool Animation::EnsureDecompressionBuffer()
+{
+    if (!field_24_pDBuf)
+    {
+        field_24_pDBuf = ResourceManager::Alloc_New_Resource_454F20(ResourceManager::Resource_DecompressionBuffer, 0, field_28_dbuf_size);
+    }
+    return field_24_pDBuf != nullptr;
+}
+
 void CC AnimationBase::AnimateAll_4034F0(DynamicArrayT<AnimationBase>* pAnimList)
 {
     for (int i = 0; i < pAnimList->Size(); i++)
