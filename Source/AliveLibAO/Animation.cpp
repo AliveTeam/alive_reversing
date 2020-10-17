@@ -7,6 +7,15 @@
 #include "ResourceManager.hpp"
 #include "VRam.hpp"
 #include "Game.hpp"
+#include "Slig.hpp"
+#include "Dove.hpp"
+#include "Bullet.hpp"
+#include "BulletShell.hpp"
+#include "Dove.hpp"
+#include "stdlib.hpp"
+#include "Sfx.hpp"
+#include "Events.hpp"
+#include "Particle.hpp"
 
 // Fix pollution from windows.h
 #undef min
@@ -14,10 +23,107 @@
 
 START_NS_AO
 
-EXPORT short *CC Animation_OnFrame_Slig_46F610(void *, __int16 *)
+EXPORT short* CC Animation_OnFrame_Slig_46F610(void* pObj, __int16* pData)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    auto pSlig = static_cast<Slig*>(pObj);
+    if (pSlig->field_8_update_delay != 0)
+    {
+        return pData + 2;
+    }
+
+    BulletType bulletType = BulletType::Type_0;
+    if (pSlig->field_10A_flags.Get(Flags_10A::e10A_Bit2_bPossesed))
+    {
+        pSlig->field_254_prevent_depossession |= 1u;
+        bulletType = BulletType::Type_0;
+    }
+    else
+    {
+        bulletType = BulletType::Type_1;
+    }
+
+    const FP xOff = pSlig->field_BC_sprite_scale * FP_FromInteger(pData[0]);
+    const FP yOff = pSlig->field_BC_sprite_scale * FP_FromInteger(pData[1]);
+    if (pSlig->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        auto pBullet = ao_new<Bullet>();
+        if (pBullet)
+        {
+            pBullet->ctor_409380(
+                pSlig,
+                bulletType,
+                pSlig->field_A8_xpos,
+                yOff + pSlig->field_AC_ypos,
+                FP_FromInteger(-640),
+                0,
+                pSlig->field_BC_sprite_scale,
+                0);
+        }
+
+        New_ShootingFire_Particle_419720(
+            pSlig->field_A8_xpos - xOff,
+            pSlig->field_AC_ypos + yOff,
+            1,
+            pSlig->field_BC_sprite_scale);
+
+        auto pBulletShell = ao_new<BulletShell>();
+        if (pBulletShell)
+        {
+            pBulletShell->ctor_462790(
+                pSlig->field_A8_xpos,
+                pSlig->field_AC_ypos + yOff,
+                0,
+                pSlig->field_BC_sprite_scale);
+        }
+    }
+    else
+    {
+        auto pBullet = ao_new<Bullet>();
+        if (pBullet)
+        {
+            pBullet->ctor_409380(
+                pSlig,
+                bulletType,
+                pSlig->field_A8_xpos,
+                yOff + pSlig->field_AC_ypos,
+                FP_FromInteger(640),
+                0,
+                pSlig->field_BC_sprite_scale,
+                0);
+        }
+
+        New_ShootingFire_Particle_419720(
+            pSlig->field_A8_xpos + xOff,
+            pSlig->field_AC_ypos + yOff,
+            0,
+            pSlig->field_BC_sprite_scale);
+
+        auto pBulletShell = ao_new<BulletShell>();
+        if (pBulletShell)
+        {
+            pBulletShell->ctor_462790(
+                pSlig->field_A8_xpos,
+                pSlig->field_AC_ypos + yOff,
+                1,
+                pSlig->field_BC_sprite_scale);
+        }
+    }
+
+    if (pSlig->field_BC_sprite_scale == FP_FromDouble(0.5))
+    {
+        SFX_Play_43AD70(SoundEffect::SligShoot_6, 85);
+    }
+    else
+    {
+        SFX_Play_43AD70(SoundEffect::SligShoot_6, 0);
+    }
+
+    Event_Broadcast_417220(kEvent_2, pSlig);
+    Event_Broadcast_417220(kEvent_14, pSlig);
+
+    Dove::All_FlyAway_40F390();
+
+    return pData + 2;
 }
 
 EXPORT short* CC Animation_OnFrame_ZBallSmacker_41FB00(void* pObj, short* pData);
