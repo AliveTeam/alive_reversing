@@ -472,7 +472,7 @@ void Animation::vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, sig
     }
 
     char textureMode = 0;
-    if (field_4_flags.Get(AnimFlags::eBit13_Is8Bit)) //  if (BYTE1(pFrameHeader) & 0x10)
+    if (field_4_flags.Get(AnimFlags::eBit13_Is8Bit))
     {
         // 8 bit
         textureMode = 1;
