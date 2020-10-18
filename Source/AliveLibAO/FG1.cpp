@@ -53,9 +53,65 @@ ALIVE_ASSERT_SIZEOF(Fg1Block, 0x68);
 // TODO: Needs moving to compression.hpp
 EXPORT void CC Decompress_Type_4_5_461770(const BYTE* /*pInput*/, BYTE* /*pOutput*/);
 
-void FG1::Convert_Chunk_To_Render_Block_453BA0(const Fg1Chunk* /*pChunk*/, Fg1Block* /*pBlock*/)
+// TODO: Needs moving to vram.hpp
+EXPORT int CC vram_alloc_450860(__int16 /*width*/, __int16 /*height*/, const PSX_RECT* /*pRect*/)
 {
     NOT_IMPLEMENTED();
+    return 0;
+}
+
+const short sFg1_layer_to_bits_layer_4BC024[] = { 37u, 18u };
+
+
+void FG1::Convert_Chunk_To_Render_Block_453BA0(const Fg1Chunk* pChunk, Fg1Block* pBlock)
+{
+    const short width_rounded = (pChunk->field_8_width + 1) & ~1u;
+    if (vram_alloc_450860(pChunk->field_8_width, pChunk->field_A_height, &pBlock->field_58_rect))
+    {
+        pBlock->field_66_mapped_layer = sFg1_layer_to_bits_layer_4BC024[pChunk->field_2_layer_or_decompressed_size];
+
+        PSX_RECT rect = {};
+        rect.x = pBlock->field_58_rect.x;
+        rect.y = pBlock->field_58_rect.y;
+        rect.w = width_rounded;
+        rect.h = pChunk->field_A_height;
+        PSX_LoadImage16_4962A0(&rect, (BYTE*)&pChunk[1]);
+
+        const short tPage = static_cast<short>(PSX_getTPage_4965D0(2, 0, rect.x /*& 0xFFC0*/, rect.y));
+
+        const BYTE u0 = rect.x & 63;
+        const BYTE v0 = static_cast<BYTE>(rect.y);
+        const BYTE u1 = static_cast<BYTE>(u0 + pChunk->field_8_width - 1);
+        const BYTE v1 = static_cast<BYTE>(v0 + pChunk->field_A_height - 1);
+
+        const short x1 = pChunk->field_4_xpos_or_compressed_size + pChunk->field_8_width;
+        const short y2 = pChunk->field_6_ypos + pChunk->field_A_height;
+
+        for (Poly_FT4& rPoly : pBlock->field_0_polys)
+        {
+            PolyFT4_Init(&rPoly);
+            Poly_Set_SemiTrans_498A40(&rPoly.mBase.header, FALSE);
+            Poly_Set_Blending_498A00(&rPoly.mBase.header, TRUE);
+
+            SetTPage(&rPoly, tPage);
+
+            SetXY0(&rPoly, pChunk->field_4_xpos_or_compressed_size, pChunk->field_6_ypos);
+            SetXY1(&rPoly, x1, pChunk->field_6_ypos);
+            SetXY2(&rPoly, pChunk->field_4_xpos_or_compressed_size, y2);
+            SetXY3(&rPoly, x1, y2);
+
+            SetUV0(&rPoly, u0, v0);
+            SetUV1(&rPoly, u1, v0);
+            SetUV2(&rPoly, u0, v1);
+            SetUV3(&rPoly, u1, v1);
+
+            SetRGB0(&rPoly, 128, 128, 128);
+        }
+    }
+    else
+    {
+        pBlock->field_58_rect.w = 0;
+    }
 }
 
 BaseGameObject* FG1::dtor_453DF0()
