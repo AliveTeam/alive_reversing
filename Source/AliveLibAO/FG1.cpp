@@ -10,6 +10,7 @@
 #include "Sys_common.hpp"
 #include "VRam.hpp"
 #include "stdlib.hpp"
+#include "PsxDisplay.hpp"
 
 START_NS_AO
 
@@ -212,9 +213,29 @@ void FG1::VRender(int** ppOt)
     VRender_453D50(ppOt);
 }
 
-void FG1::VRender_453D50(int** /*ppOt*/)
+void FG1::VRender_453D50(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    if (field_18_render_block_count > 0)
+    {
+        for (int i = 0; i < field_18_render_block_count; i++)
+        {
+            Fg1Block* pBlock = &field_20_chnk_res[i];
+            if (pBlock->field_58_rect.w > 0)
+            {
+                Poly_FT4* pPoly = &pBlock->field_0_polys[gPsxDisplay_504C78.field_A_buffer_index];
+                OrderingTable_Add_498A80(
+                    &ppOt[pBlock->field_66_mapped_layer],
+                    &pPoly->mBase.header);
+
+                pScreenManager_4FF7C8->InvalidateRect_406E40(
+                    X0(pPoly),
+                    Y0(pPoly),
+                    X3(pPoly),
+                    Y3(pPoly),
+                    pScreenManager_4FF7C8->field_2E_idx);
+            }
+        }
+    }
 }
 
 FG1* FG1::Vdtor_453E90(signed int flags)
