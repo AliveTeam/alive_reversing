@@ -86,25 +86,24 @@ EXPORT LvlFileRecord* LvlArchive::Find_File_Record_41BED0(const char* pFileName)
     // NOTE: PcOpen branches removed
 
     auto pHeader = reinterpret_cast<LvlHeader_Sub*>(*field_0_0x2800_res);
-    if (!pHeader->field_0_num_files)
+    if (pHeader->field_0_num_files == 0)
     {
-        LOG_ERROR("Couldn't find " << pFileName << " in LVL");
+        LOG_ERROR("Couldn't find " << pFileName << " in LVL because the LVL is empty");
         assert(false);
         return nullptr;
     }
 
-    int fileRecordIndex = 0;
-    while (strncmp(pHeader->field_10_file_recs[fileRecordIndex].field_0_file_name, pFileName, ALIVE_COUNTOF(LvlFileRecord::field_0_file_name)))
+    const int total = pHeader->field_0_num_files;
+    for (int i = 0; i < total; i++)
     {
-        fileRecordIndex++;
-        if (fileRecordIndex >= pHeader->field_0_num_files)
+        if (strncmp(pHeader->field_10_file_recs[i].field_0_file_name, pFileName, ALIVE_COUNTOF(LvlFileRecord::field_0_file_name)) == 0)
         {
-            LOG_ERROR("Couldn't find " << pFileName << " in LVL");
-            assert(false);
-            return nullptr;
+             return &pHeader->field_10_file_recs[i];
         }
     }
-    return &pHeader->field_10_file_recs[fileRecordIndex];
+
+    LOG_WARNING("Couldn't find " << pFileName << " in LVL");
+    return nullptr;
 }
 
 EXPORT __int16 LvlArchive::Read_File_41BE40(const LvlFileRecord* pFileRec, void* pBuffer)
