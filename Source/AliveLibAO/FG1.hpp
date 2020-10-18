@@ -5,6 +5,11 @@
 
 START_NS_AO
 
+struct Fg1Block;
+struct Fg1Chunk;
+
+enum class LevelIds : __int16;
+
 class FG1 : public BaseGameObject
 {
 public:
@@ -24,14 +29,18 @@ public:
 
     EXPORT void VRender_453D50(int** ppOt);
 
-    __int16 field_10;
-    __int16 field_12;
-    __int16 field_14;
-    __int16 field_16;
-    __int16 field_18;
-    __int16 field_1A;
-    int field_1C;
-    int field_20;
+    EXPORT void Convert_Chunk_To_Render_Block_453BA0(const Fg1Chunk* pChunk, Fg1Block* pBlock);
+
+    EXPORT BaseGameObject* dtor_453DF0();
+
+    __int16 field_10_cam_pos_x;
+    __int16 field_12_cam_pos_y;
+    LevelIds field_14_current_level;
+    __int16 field_16_current_path;
+    __int16 field_18_render_block_count;
+    __int16 field_1A_pad;
+    BYTE** field_1C_ptr;
+    Fg1Block* field_20_chnk_res;
 };
 ALIVE_ASSERT_SIZEOF(FG1, 0x24);
 

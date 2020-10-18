@@ -73,7 +73,7 @@ enum class Types : __int16
 
     eBirdPortal_65 = 65,
     e66 = 66,
-
+    eFG1_67 = 67,
     ePullRingRope_68 = 68,
     eAbilityRing_69 = 69,
     eRock_70 = 70,
