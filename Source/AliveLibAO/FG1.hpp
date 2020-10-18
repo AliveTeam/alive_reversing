@@ -31,6 +31,8 @@ public:
 
     EXPORT void Convert_Chunk_To_Render_Block_453BA0(const Fg1Chunk* pChunk, Fg1Block* pBlock);
 
+    EXPORT BaseGameObject* dtor_453DF0();
+
     __int16 field_10_cam_pos_x;
     __int16 field_12_cam_pos_y;
     LevelIds field_14_current_level;

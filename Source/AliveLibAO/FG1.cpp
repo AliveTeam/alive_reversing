@@ -8,6 +8,8 @@
 #include "Map.hpp"
 #include "Game.hpp"
 #include "Sys_common.hpp"
+#include "VRam.hpp"
+#include "stdlib.hpp"
 
 START_NS_AO
 
@@ -53,6 +55,26 @@ EXPORT void CC Decompress_Type_4_5_461770(const BYTE* /*pInput*/, BYTE* /*pOutpu
 void FG1::Convert_Chunk_To_Render_Block_453BA0(const Fg1Chunk* /*pChunk*/, Fg1Block* /*pBlock*/)
 {
     NOT_IMPLEMENTED();
+}
+
+BaseGameObject* FG1::dtor_453DF0()
+{
+    SetVTable(this, 0x4BC028);
+
+    gObjList_drawables_504618->Remove_Item(this);
+
+    for (int i = 0; i < field_18_render_block_count; i++)
+    {
+        if (field_20_chnk_res[i].field_58_rect.w > 0)
+        {
+            Vram_free_450CE0(
+                { field_20_chnk_res[i].field_58_rect.x, field_20_chnk_res[i].field_58_rect.y },
+                { field_20_chnk_res[i].field_58_rect.w, field_20_chnk_res[i].field_58_rect.h });
+        }
+    }
+
+    ResourceManager::FreeResource_455550(field_1C_ptr);
+    return dtor_487DF0();
 }
 
 FG1* FG1::ctor_4539C0(unsigned __int8** ppRes)
@@ -195,9 +217,13 @@ void FG1::VRender_453D50(int** /*ppOt*/)
     NOT_IMPLEMENTED();
 }
 
-FG1* FG1::Vdtor_453E90(signed int /*flags*/)
+FG1* FG1::Vdtor_453E90(signed int flags)
 {
-    NOT_IMPLEMENTED();
+    dtor_453DF0();
+    if (flags & 1)
+    {
+        ao_delete_free_447540(this);
+    }
     return this;
 }
 
