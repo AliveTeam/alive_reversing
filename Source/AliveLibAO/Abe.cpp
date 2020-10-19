@@ -9211,8 +9211,8 @@ void Abe::State_149_PickupItem_42A030()
 
 void Abe::New_RandomizedChant_Particle()
 {
-    auto xpos = field_A8_xpos + field_BC_sprite_scale * FP_FromInteger(40 * Math_NextRandom() / 256 - 20);
-    auto ypos = field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(30 * Math_NextRandom() / 256 + 30));
+    const auto xpos = field_A8_xpos + field_BC_sprite_scale * FP_FromInteger(40 * Math_NextRandom() / 256 - 20);
+    const auto ypos = field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(30 * Math_NextRandom() / 256 + 30));
     New_Chant_Particle_4198E0(
         xpos,
         ypos,
@@ -9309,7 +9309,7 @@ void Abe::State_150_Chant_42FD50()
                     if (field_188_pOrbWhirlWind)
                     {
                         field_188_pOrbWhirlWind->ToStop_48BBB0();
-                        field_188_pOrbWhirlWind = 0;
+                        field_188_pOrbWhirlWind = nullptr;
                     }
                 }
             }
@@ -9384,7 +9384,7 @@ void Abe::State_150_Chant_42FD50()
         {
             Event_Broadcast_417220(kEventSpeaking_1, this);
             Event_Broadcast_417220(kEventAbeOhm_8, this);
-            field_188_pOrbWhirlWind = 0;
+            field_188_pOrbWhirlWind = nullptr;
             if (field_18C_pObjToPosses)
             {
                 if (field_18C_pObjToPosses->field_6_flags.Get(Options::eDead_Bit3))
