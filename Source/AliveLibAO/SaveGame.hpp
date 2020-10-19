@@ -43,7 +43,7 @@ struct SaveData
     WORD field_240_last_anim_frame;
     char field_242;
     char field_243;
-    int field_244_state;
+    int field_244_stone_state; //TODO @ 100%  fix type length
     DWORD field_248_gnFrame;
     int field_24C_field_118;
     short field_250_throwable_count;

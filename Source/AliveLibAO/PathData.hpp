@@ -82,7 +82,7 @@ enum TlvTypes : __int16
 
     ScrabNoFall_93 = 93,
 
-    Unknown_96 = 96,
+    DemoPlaybackStone_96 = 96,
     GrenadeMachine_97 = 97,
 
     ElumPathTrans_99 = 99,

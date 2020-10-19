@@ -80,7 +80,7 @@ public:
 
     EXPORT void InvalidateRect_406CC0(int x, int y, signed int width, signed int height);
 
-    EXPORT void DecompressToVRam_407110(unsigned __int16** ppBits);
+    EXPORT void DecompressCameraToVRam_407110(unsigned __int16** ppBits);
 
     EXPORT void UnsetDirtyBits_FG1_406EF0();
 

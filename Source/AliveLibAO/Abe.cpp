@@ -1,12 +1,14 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "Abe.hpp"
+#include "BellSong.hpp"
 #include "Blood.hpp"
 #include "BoomMachine.hpp"
 #include "Bullet.hpp"
 #include "CheatController.hpp"
 #include "HoistRocksEffect.hpp"
 #include "DeathBirdParticle.hpp"
+#include "DemoPlayback.hpp"
 #include "Door.hpp"
 #include "Dove.hpp"
 #include "ThrowableArray.hpp"
@@ -18,12 +20,14 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 #include "Midi.hpp"
+#include "Movie.hpp"
 #include "CircularFade.hpp"
 #include "DeathFadeOut.hpp"
 #include "Throwable.hpp"
 #include "OrbWhirlWind.hpp"
 #include "Particle.hpp"
 #include "PullRingRope.hpp"
+#include "PsxDisplay.hpp"
 #include "ScreenManager.hpp"
 #include "ThrowableTotalIndicator.hpp"
 #include "Events.hpp"
@@ -628,7 +632,7 @@ Abe* Abe::ctor_420770(int frameTableOffset, int /*r*/, int /*g*/, int /*b*/)
 
     field_10C_prev_held = 0; // lowest to base class
     field_E6_last_anim_frame = 0;
-    field_110_state = 0;
+    field_110_state = StoneStates::eUnknown_0;
     field_168_ring_pulse_timer = 0;
     field_114_gnFrame = gnFrameCount_507670;
     field_F0_pTlv = nullptr;
@@ -1308,11 +1312,11 @@ void Abe::sub_430510(__int16 a2)
 {
     if (a2)
     {
-        field_110_state = 6;
+        field_110_state = StoneStates::eUnknown_6;
     }
     else
     {
-        field_110_state = 0;
+        field_110_state = StoneStates::eUnknown_0;
     }
 }
 
@@ -1730,7 +1734,7 @@ short Abe::DoGameSpeak_42F5C0(unsigned __int16 input)
     {
         field_114_gnFrame = gnFrameCount_507670 + 90;
         SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_11, 0, 1);
-        field_110_state = 0;
+        field_110_state = StoneStates::eUnknown_0;
         return eAbeStates::State_150_Chant_42FD50;
     }
     if (sInputObject_5009E8.isPressed(sInputKey_LeftGameSpeakEnabler_4C65B8))
@@ -2700,7 +2704,7 @@ __int16 Abe::RunTryEnterDoor_4259C0()
     }
 
     field_F0_pTlv = pDoorTlv;
-    field_110_state = 0;
+    field_110_state = StoneStates::eUnknown_0;
     field_FC_current_motion = eAbeStates::State_156_DoorEnter_42D370;
     field_A8_xpos = FP_FromInteger((pDoorTlv->field_14_bottom_right.field_0_x + pDoorTlv->field_10_top_left.field_0_x) / 2);
     MapFollowMe_401D30(TRUE);
@@ -3563,15 +3567,14 @@ void Abe::State_0_Idle_423520()
         if (field_168_ring_pulse_timer && field_16C_bHaveShrykull)
         {
             field_FC_current_motion = eAbeStates::State_162_ToShrykull_42F410;
-            field_110_state = 0;
         }
         else
         {
             field_114_gnFrame = gnFrameCount_507670 + 90;
             field_FC_current_motion = eAbeStates::State_150_Chant_42FD50;
-            field_110_state = 0;
             SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_11, 0, 1);
         }
+        field_110_state = StoneStates::eUnknown_0;
         return;
     }
     if (sInputObject_5009E8.isPressed(sInputKey_LeftGameSpeakEnabler_4C65B8 | sInputKey_RightGameSpeakEnabler_4C65DC))
@@ -3717,7 +3720,7 @@ void Abe::State_0_Idle_423520()
                     if (NearDoorIsOpen() && !field_10A_flags.Get(Flags_10A::e10A_Bit5_Electrocuted))
                     {
                         field_F0_pTlv = pTlv;
-                        field_110_state = 0;
+                        field_110_state = StoneStates::eUnknown_0;
                         field_FC_current_motion = eAbeStates::State_156_DoorEnter_42D370;
 
                     }
@@ -3758,12 +3761,12 @@ void Abe::State_0_Idle_423520()
                 }
                 case TlvTypes::MovieStone_51:
                 case TlvTypes::BellSongStone_54:
-                case TlvTypes::Unknown_96:
+                case TlvTypes::DemoPlaybackStone_96:
                 case TlvTypes::HandStone_100:
                 {
                     field_F0_pTlv = pTlv;
                     field_FC_current_motion = eAbeStates::State_88_HandstoneBegin_430590;
-                    field_110_state = 0;
+                    field_110_state = StoneStates::eUnknown_0;
                     return;
                 }
                 case TlvTypes::GrenadeMachine_97:
@@ -7011,7 +7014,7 @@ void Abe::State_62_LoadedSaveSpawn_45ADD0()
         }
         sActiveHero_507678->field_2A8_flags.Clear(Flags_2A8::e2A8_Bit8);
         sActiveHero_507678->field_E8_LastLineYPos = sActiveHero_507678->field_AC_ypos;
-        sActiveHero_507678->field_110_state = static_cast<short>(pSaveData->field_244_state);
+        sActiveHero_507678->field_110_state = static_cast<StoneStates>(pSaveData->field_244_stone_state);
         sActiveHero_507678->field_114_gnFrame = pSaveData->field_248_gnFrame;
         sActiveHero_507678->field_E6_last_anim_frame = pSaveData->field_240_last_anim_frame;
         sActiveHero_507678->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pSaveData->field_23C_ah_flipX & 1);
@@ -7777,7 +7780,6 @@ void Abe::State_81_InsideWellExpress_431320()
         field_AC_ypos = field_AC_ypos - field_B8_vely;
         field_FC_current_motion = eAbeStates::State_78_InsideWellLocal_4310A0;
     }
-
 }
 
 void Abe::State_82_WellExpressShotOut_4315A0()
@@ -7885,9 +7887,322 @@ void Abe::State_87_428FA0()
     State_3_Fall_42E7F0();
 }
 
+ALIVE_VAR(1, 0x507728, int, gConter_507728, 0);
+ALIVE_VAR(1, 0x50772C, BYTE**, gpDemoPlaybackRes_50772C, 0);
+ALIVE_VAR(1, 0x507730, int, sAbeSound_507730, 0);
+ALIVE_VAR(1, 0x507724, BellSong*, sBellSong_507724, nullptr);
+
 void Abe::State_88_HandstoneBegin_430590()
 {
-    NOT_IMPLEMENTED();
+    switch (field_110_state)
+    {
+        case StoneStates::eUnknown_0:
+        {
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+            {
+                ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 316, 1, 0);
+                field_164_pCircularFade = Make_Circular_Fade_447640(
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    field_BC_sprite_scale,
+                    1,
+                    0
+                );
+
+                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    field_164_pCircularFade->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+                }
+                else
+                {
+                    field_164_pCircularFade->field_10_anim.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+                }
+
+                field_110_state = StoneStates::eUnknown_1;
+                SFX_Play_43AD70(SoundEffect::IngameTransition_107, 90, 0);
+                field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(
+                    FP_GetExponent(field_A8_xpos),
+                    FP_GetExponent(field_AC_ypos),
+                    FP_GetExponent(field_A8_xpos),
+                    FP_GetExponent(field_AC_ypos),
+                    TlvTypes::DemoPlaybackStone_96
+                );
+                if (!field_F0_pTlv)
+                    field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(
+                        FP_GetExponent(field_A8_xpos),
+                        FP_GetExponent(field_AC_ypos),
+                        FP_GetExponent(field_A8_xpos),
+                        FP_GetExponent(field_AC_ypos),
+                        TlvTypes::BellSongStone_54
+                    );
+                if (!field_F0_pTlv)
+                {
+                    field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(
+                        FP_GetExponent(field_A8_xpos),
+                        FP_GetExponent(field_AC_ypos),
+                        FP_GetExponent(field_A8_xpos),
+                        FP_GetExponent(field_AC_ypos),
+                        TlvTypes::MovieStone_51
+                    );
+                    sAbeSound_507730 = SFX_Play_43AE60(SoundEffect::HandstoneTransition_13, 127, -300, 0);
+                    if (!field_F0_pTlv)
+                        field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(
+                            FP_GetExponent(field_A8_xpos),
+                            FP_GetExponent(field_AC_ypos),
+                            FP_GetExponent(field_A8_xpos),
+                            FP_GetExponent(field_AC_ypos),
+                            TlvTypes::HandStone_100
+                        );
+                }
+
+                auto ptlv = static_cast<Path_Stone*>(field_F0_pTlv);
+                if (ptlv)
+                {
+                    field_174_pathStone = ptlv->field_18_data;
+                    field_170_hand_stone_type = field_F0_pTlv->field_4_type;
+                }
+                else
+                {
+                    field_FC_current_motion = eAbeStates::State_89_HandstoneEnd_430E80;
+                }
+            }
+            break;
+        }
+        case StoneStates::eUnknown_1:
+        {
+            if (field_164_pCircularFade->Vsub_47A4C0())
+            {
+                switch (field_170_hand_stone_type)
+                {
+                    case TlvTypes::MovieStone_51:
+                    {
+                        auto pFmvInfo = Path_Get_FMV_Record_434680(
+                            gMap_507BA8.field_0_current_level,
+                            field_174_pathStone.dataMovie.fmvId
+                        );
+                        DWORD aux = 0;
+                        Get_fmvs_sectors_44FEB0(
+                            pFmvInfo->field_0_pName, 0, 0, &aux, 0, 0
+                        );
+                        auto pMovie = ao_new<Movie>();
+                        if (pMovie)
+                        {
+                            pMovie->ctor_489C90(
+                                pFmvInfo->field_4_id,
+                                aux,
+                                static_cast<char>(pFmvInfo->field_6),
+                                pFmvInfo->field_A,
+                                pFmvInfo->field_C_volume
+                            );
+                        }
+                        field_110_state = StoneStates::eUnknown_2;
+                        break;
+                    }
+                    case TlvTypes::BellSongStone_54:
+                    {
+                        sBellSong_507724 = ao_new<BellSong>();
+                        if (sBellSong_507724)
+                        {
+                            sBellSong_507724->ctor_4760B0(
+                                field_174_pathStone.dataBellsong.type,
+                                Code_Convert_476000(field_174_pathStone.dataBellsong.code1, field_174_pathStone.dataBellsong.code2)
+                            );
+                        }
+
+                        SwitchStates_Do_Operation_436A10(field_174_pathStone.dataBellsong.id, SwitchOp::eSetTrue_0);
+                        field_110_state = StoneStates::eUnknown_4;
+                        break;
+                    }
+                    case TlvTypes::DemoPlaybackStone_96:
+                        field_164_pCircularFade->field_6_flags.Set(Options::eDead_Bit3);
+                        field_164_pCircularFade = nullptr;
+                        field_110_state = StoneStates::eUnknown_3;
+                        gConter_507728 = 2;
+                        gpDemoPlaybackRes_50772C = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Plbk, field_174_pathStone.demoId, 1, 0);
+                        if (gpDemoPlaybackRes_50772C)
+                        {
+                            auto pDemoPlayback = ao_new<DemoPlayback>();
+                            if (pDemoPlayback)
+                            {
+                                pDemoPlayback->ctor_4517B0(gpDemoPlaybackRes_50772C, 1);
+                            }
+                        }
+                        break;
+                    case TlvTypes::HandStone_100:
+                    {
+                        field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                        field_110_state = StoneStates::eUnknown_6;
+                        field_16E_cameraIdx = 1;
+                        field_164_pCircularFade->field_6_flags.Set(Options::eDead_Bit3);
+                        field_164_pCircularFade = 0;
+                        auto pDeathFadeOut = ao_new<DeathFadeOut>();
+                        if (pDeathFadeOut)
+                        {
+                            pDeathFadeOut->ctor_419DB0(40, 0, 0, 8, 2);
+                        }
+                        field_158_pDeathFadeout = pDeathFadeOut;
+                        field_190_level = gMap_507BA8.field_0_current_level;
+                        field_192_path = gMap_507BA8.field_2_current_path;
+                        field_194_camera = gMap_507BA8.field_4_current_camera;
+                        gMap_507BA8.SetActiveCam_444660(
+                            field_174_pathStone.dataHandstone.cameras[0].level_1,
+                            field_174_pathStone.dataHandstone.cameras[0].path_2,
+                            field_174_pathStone.dataHandstone.cameras[0].camera_3,
+                            CameraSwapEffects::eEffect0_InstantChange, 0, 0
+                        );
+                        break;
+                    }
+                    default:
+                        return;
+                }
+            }
+            break;
+        }
+        case StoneStates::eUnknown_2:
+        {
+            if (!sMovie_ref_count_9F309C)
+            {
+                gPsxDisplay_504C78.PutCurrentDispEnv_40DE40();
+                pScreenManager_4FF7C8->DecompressCameraToVRam_407110(
+                    reinterpret_cast<unsigned __int16**>(gMap_507BA8.field_34_camera_array[0]->field_C_ppBits)
+                );
+                pScreenManager_4FF7C8->MoveImage_406C40();
+                pScreenManager_4FF7C8->field_36_flags |= 1;
+                field_164_pCircularFade->Vsub_479FE0(0, 0);
+                field_110_state = StoneStates::eUnknown_5;
+            }
+            break;
+        }
+        case StoneStates::eUnknown_3:
+        {
+            gConter_507728--;
+            if (!gConter_507728)
+            {
+                field_110_state = StoneStates::eUnknown_5;
+                ResourceManager::FreeResource_455550(gpDemoPlaybackRes_50772C);
+                auto pCircularFade = Make_Circular_Fade_447640(
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    field_BC_sprite_scale,
+                    0,
+                    0
+                );
+
+                field_164_pCircularFade = pCircularFade;
+                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    field_164_pCircularFade->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+                }
+                else
+                {
+                    field_164_pCircularFade->field_10_anim.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+                }
+            }
+            break;
+        }
+        case StoneStates::eUnknown_4:
+        {
+            if (sBellSong_507724->field_14_bDone)
+            {
+                sBellSong_507724->field_6_flags.Set(Options::eDead_Bit3);
+                field_164_pCircularFade->Vsub_479FE0(
+                    0,
+                    0
+                );
+                field_110_state = StoneStates::eUnknown_5;
+            }
+            break;
+        }
+        case StoneStates::eUnknown_5:
+        {
+            if (field_164_pCircularFade->Vsub_47A4C0())
+            {
+                field_164_pCircularFade->field_6_flags.Set(Options::eDead_Bit3);
+                field_FC_current_motion = eAbeStates::State_89_HandstoneEnd_430E80;
+                field_164_pCircularFade = 0;
+                if (sAbeSound_507730)
+                {
+                    SND_Stop_Channels_Mask_4774A0(sAbeSound_507730);
+                    sAbeSound_507730 = 0;
+                }
+                ResourceManager::FreeResource_455550(
+                    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 316, 0, 0)
+                );
+            }
+            break;
+        }
+        case StoneStates::eUnknown_6:
+        {
+            if (field_158_pDeathFadeout->field_6E_bDone)
+            {
+                if (sInputObject_5009E8.isHeld(0xF0))
+                {
+                    field_158_pDeathFadeout->Init_419E40(40, 1, 0, 8);
+                    field_110_state = StoneStates::eUnknown_7;
+                    SFX_Play_43AD70(107u, 90, 0);
+                }
+            }
+            break;
+        }
+        case StoneStates::eUnknown_7:
+        {
+            if (field_158_pDeathFadeout->field_6E_bDone)
+            {
+                auto camera = field_174_pathStone.dataHandstone.cameras[field_16E_cameraIdx];
+                if (field_16E_cameraIdx > 2 || (camera.level_1 == LevelIds::eForestChase || camera.level_1 == LevelIds::eDesertEscape ))
+                {
+                    field_110_state = StoneStates::eUnknown_12;
+                }
+                else
+                {
+                    field_158_pDeathFadeout->field_6_flags.Set(Options::eDead_Bit3);
+                    field_110_state = StoneStates::eUnknown_6;
+                    field_16E_cameraIdx++;
+                    auto pDeathFadeOutMem = ao_new<DeathFadeOut>();
+                    if (pDeathFadeOutMem)
+                    {
+                        pDeathFadeOutMem->ctor_419DB0(40, 0, 0, 8, 2);
+                    }
+                    field_158_pDeathFadeout = pDeathFadeOutMem;
+                    gMap_507BA8.SetActiveCam_444660(camera.level_1, camera.path_2, camera.camera_3, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                }
+            }
+            break;
+        }
+        case StoneStates::eUnknown_12:
+            if (field_158_pDeathFadeout->field_6E_bDone)
+            {
+                field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+                field_110_state = StoneStates::eUnknown_13;
+                gMap_507BA8.SetActiveCam_444660(field_190_level, field_192_path, field_194_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            }
+            break;
+        case StoneStates::eUnknown_13:
+        {
+            field_158_pDeathFadeout->field_6_flags.Set(Options::eDead_Bit3);
+            field_158_pDeathFadeout = 0;
+
+            field_164_pCircularFade = Make_Circular_Fade_447640(field_A8_xpos, field_AC_ypos, field_BC_sprite_scale, 0, 0);
+            field_110_state = StoneStates::eUnknown_5;
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                field_164_pCircularFade->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+            }
+            else
+            {
+                field_164_pCircularFade->field_10_anim.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+            }
+
+            if (sAbeSound_507730)
+            {
+                SND_Stop_Channels_Mask_4774A0(sAbeSound_507730);
+                sAbeSound_507730 = 0;
+            }
+            break;
+        }
+        default:
+            return;
+    }
 }
 
 void Abe::State_89_HandstoneEnd_430E80()
@@ -8975,14 +9290,14 @@ void Abe::State_161_Idle_Yawn_4233E0()
 
 void Abe::State_162_ToShrykull_42F410()
 {
-    if (field_110_state == 0)
+    if (field_110_state == StoneStates::eUnknown_0)
     {
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             field_10_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
             field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
 
-            field_110_state = 1;
+            field_110_state = StoneStates::eUnknown_1;
 
             auto pShrykull = ao_new<Shrykull>();
             if (pShrykull)

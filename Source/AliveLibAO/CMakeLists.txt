@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   DemoPlayback.hpp
+   DemoPlayback.cpp
    SaveGame.hpp
    SaveGame.cpp
    SwitchStateBooleanLogic.hpp

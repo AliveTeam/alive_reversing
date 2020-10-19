@@ -171,7 +171,7 @@ void CameraSwapper::Init_48C830(BYTE** ppCamRes, CameraSwapEffects changeEffect)
     }
     else
     {
-        pScreenManager_4FF7C8->DecompressToVRam_407110(reinterpret_cast<WORD**>(ppCamRes));
+        pScreenManager_4FF7C8->DecompressCameraToVRam_407110(reinterpret_cast<WORD**>(ppCamRes));
     }
 
     sNumCamSwappers_507668++;
@@ -443,7 +443,7 @@ void CameraSwapper::VUpdate_48CEA0()
         // Now apply the camera we where storing now that the movie is finished
         if (field_20_ppCamRes)
         {
-            pScreenManager_4FF7C8->DecompressToVRam_407110(reinterpret_cast<WORD**>(field_20_ppCamRes));
+            pScreenManager_4FF7C8->DecompressCameraToVRam_407110(reinterpret_cast<WORD**>(field_20_ppCamRes));
             pScreenManager_4FF7C8->InvalidateRect_406E40(0, 0, 640, 240, 0);
             pScreenManager_4FF7C8->InvalidateRect_406E40(0, 0, 640, 240, 1);
             pScreenManager_4FF7C8->InvalidateRect_406E40(0, 0, 640, 240, 2);

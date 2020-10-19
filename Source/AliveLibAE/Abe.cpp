@@ -7009,7 +7009,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
         if (sMovie_ref_count_BB4AE4 == 0)
         {
             gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
-            pScreenManager_5BB5F4->DecompressToVRam_40EF60((unsigned __int16 **)gMap_5C3030.field_2C_camera_array[0]->field_C_pCamRes);
+            pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60((unsigned __int16 **)gMap_5C3030.field_2C_camera_array[0]->field_C_pCamRes);
             pScreenManager_5BB5F4->field_40_flags |= 0x10000;
             pCircularFade->Vsub_4CE300(0, 0);
             field_120_state = 3;
