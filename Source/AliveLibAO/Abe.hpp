@@ -226,6 +226,28 @@ enum class StoneStates : __int16
     eUnknown_13 = 13
 };
 
+enum class ChantStates : __int16
+{
+    eUnknown_0 = 0,
+    eUnknown_1 = 1,
+    eUnknown_2 = 2,
+    eUnknown_3 = 3,
+    eUnknown_4 = 4,
+    eUnknown_5 = 5,
+    eUnknown_6 = 6,
+    eUnknown_7 = 7,
+
+    eUnknown_12 = 12,
+    eUnknown_13 = 13
+};
+
+union AllInternalStates
+{
+    ChantStates chant;
+    StoneStates stone;
+    __int16 raw;
+};
+
 enum class MudSounds : unsigned __int8
 {
     eUnknown_0 = 0, // empty?
@@ -620,7 +642,7 @@ public:
 
     __int16 field_10C_prev_held;
     __int16 field_10E_released_buttons;
-    StoneStates field_110_state;
+    AllInternalStates field_110_state;
     __int16 field_112_prev_motion;
     int field_114_gnFrame;
     int field_118;

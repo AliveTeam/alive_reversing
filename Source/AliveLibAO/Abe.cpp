@@ -632,7 +632,7 @@ Abe* Abe::ctor_420770(int frameTableOffset, int /*r*/, int /*g*/, int /*b*/)
 
     field_10C_prev_held = 0; // lowest to base class
     field_E6_last_anim_frame = 0;
-    field_110_state = StoneStates::eUnknown_0;
+    field_110_state.raw = 0;
     field_168_ring_pulse_timer = 0;
     field_114_gnFrame = gnFrameCount_507670;
     field_F0_pTlv = nullptr;
@@ -1308,15 +1308,15 @@ __int16 Abe::RunTryEnterWell_425880()
     return 0;
 }
 
-void Abe::sub_430510(__int16 a2)
+void Abe::sub_430510(__int16 toggle)
 {
-    if (a2)
+    if (toggle)
     {
-        field_110_state = StoneStates::eUnknown_6;
+        field_110_state.chant = ChantStates::eUnknown_6;
     }
     else
     {
-        field_110_state = StoneStates::eUnknown_0;
+        field_110_state.chant = ChantStates::eUnknown_0;
     }
 }
 
@@ -1734,7 +1734,7 @@ short Abe::DoGameSpeak_42F5C0(unsigned __int16 input)
     {
         field_114_gnFrame = gnFrameCount_507670 + 90;
         SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_11, 0, 1);
-        field_110_state = StoneStates::eUnknown_0;
+        field_110_state.chant = ChantStates::eUnknown_0;
         return eAbeStates::State_150_Chant_42FD50;
     }
     if (sInputObject_5009E8.isPressed(sInputKey_LeftGameSpeakEnabler_4C65B8))
@@ -2704,7 +2704,7 @@ __int16 Abe::RunTryEnterDoor_4259C0()
     }
 
     field_F0_pTlv = pDoorTlv;
-    field_110_state = StoneStates::eUnknown_0;
+    field_110_state.raw = 0;
     field_FC_current_motion = eAbeStates::State_156_DoorEnter_42D370;
     field_A8_xpos = FP_FromInteger((pDoorTlv->field_14_bottom_right.field_0_x + pDoorTlv->field_10_top_left.field_0_x) / 2);
     MapFollowMe_401D30(TRUE);
@@ -3574,7 +3574,7 @@ void Abe::State_0_Idle_423520()
             field_FC_current_motion = eAbeStates::State_150_Chant_42FD50;
             SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_11, 0, 1);
         }
-        field_110_state = StoneStates::eUnknown_0;
+        field_110_state.raw = 0;
         return;
     }
     if (sInputObject_5009E8.isPressed(sInputKey_LeftGameSpeakEnabler_4C65B8 | sInputKey_RightGameSpeakEnabler_4C65DC))
@@ -3720,7 +3720,7 @@ void Abe::State_0_Idle_423520()
                     if (NearDoorIsOpen() && !field_10A_flags.Get(Flags_10A::e10A_Bit5_Electrocuted))
                     {
                         field_F0_pTlv = pTlv;
-                        field_110_state = StoneStates::eUnknown_0;
+                        field_110_state.raw = 0;
                         field_FC_current_motion = eAbeStates::State_156_DoorEnter_42D370;
 
                     }
@@ -3766,7 +3766,7 @@ void Abe::State_0_Idle_423520()
                 {
                     field_F0_pTlv = pTlv;
                     field_FC_current_motion = eAbeStates::State_88_HandstoneBegin_430590;
-                    field_110_state = StoneStates::eUnknown_0;
+                    field_110_state.stone = StoneStates::eUnknown_0;
                     return;
                 }
                 case TlvTypes::GrenadeMachine_97:
@@ -7014,7 +7014,7 @@ void Abe::State_62_LoadedSaveSpawn_45ADD0()
         }
         sActiveHero_507678->field_2A8_flags.Clear(Flags_2A8::e2A8_Bit8);
         sActiveHero_507678->field_E8_LastLineYPos = sActiveHero_507678->field_AC_ypos;
-        sActiveHero_507678->field_110_state = static_cast<StoneStates>(pSaveData->field_244_stone_state);
+        sActiveHero_507678->field_110_state.raw = static_cast<__int16>(pSaveData->field_244_stone_state);
         sActiveHero_507678->field_114_gnFrame = pSaveData->field_248_gnFrame;
         sActiveHero_507678->field_E6_last_anim_frame = pSaveData->field_240_last_anim_frame;
         sActiveHero_507678->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pSaveData->field_23C_ah_flipX & 1);
@@ -7894,7 +7894,7 @@ ALIVE_VAR(1, 0x507724, BellSong*, sBellSong_507724, nullptr);
 
 void Abe::State_88_HandstoneBegin_430590()
 {
-    switch (field_110_state)
+    switch (field_110_state.stone)
     {
         case StoneStates::eUnknown_0:
         {
@@ -7914,7 +7914,7 @@ void Abe::State_88_HandstoneBegin_430590()
                     field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX)
                 );
 
-                field_110_state = StoneStates::eUnknown_1;
+                field_110_state.stone = StoneStates::eUnknown_1;
                 SFX_Play_43AD70(SoundEffect::IngameTransition_107, 90, 0);
                 field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(
                     FP_GetExponent(field_A8_xpos),
@@ -8015,7 +8015,7 @@ void Abe::State_88_HandstoneBegin_430590()
                                 pFmvInfo->field_C_volume
                             );
                         }
-                        field_110_state = StoneStates::eUnknown_2;
+                        field_110_state.stone = StoneStates::eUnknown_2;
                         break;
                     }
                     case TlvTypes::BellSongStone_54:
@@ -8030,13 +8030,13 @@ void Abe::State_88_HandstoneBegin_430590()
                         }
 
                         SwitchStates_Do_Operation_436A10(field_174_pathStone.dataBellsong.id, SwitchOp::eSetTrue_0);
-                        field_110_state = StoneStates::eUnknown_4;
+                        field_110_state.stone = StoneStates::eUnknown_4;
                         break;
                     }
                     case TlvTypes::DemoPlaybackStone_96:
                         field_164_pCircularFade->field_6_flags.Set(Options::eDead_Bit3);
                         field_164_pCircularFade = nullptr;
-                        field_110_state = StoneStates::eUnknown_3;
+                        field_110_state.stone = StoneStates::eUnknown_3;
                         gCounter_507728 = 2;
                         gpDemoPlaybackRes_50772C = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Plbk, field_174_pathStone.demoId, 1, 0);
                         if (gpDemoPlaybackRes_50772C)
@@ -8051,7 +8051,7 @@ void Abe::State_88_HandstoneBegin_430590()
                     case TlvTypes::HandStone_100:
                     {
                         field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
-                        field_110_state = StoneStates::eUnknown_6;
+                        field_110_state.stone = StoneStates::eUnknown_6;
                         field_16E_cameraIdx = 1;
                         field_164_pCircularFade->field_6_flags.Set(Options::eDead_Bit3);
                         field_164_pCircularFade = 0;
@@ -8089,7 +8089,7 @@ void Abe::State_88_HandstoneBegin_430590()
                 pScreenManager_4FF7C8->MoveImage_406C40();
                 pScreenManager_4FF7C8->field_36_flags |= 1;
                 field_164_pCircularFade->Vsub_479FE0(0, 0);
-                field_110_state = StoneStates::eUnknown_5;
+                field_110_state.stone = StoneStates::eUnknown_5;
             }
             break;
         }
@@ -8098,7 +8098,7 @@ void Abe::State_88_HandstoneBegin_430590()
             gCounter_507728--;
             if (gCounter_507728 == 0)
             {
-                field_110_state = StoneStates::eUnknown_5;
+                field_110_state.stone = StoneStates::eUnknown_5;
                 ResourceManager::FreeResource_455550(gpDemoPlaybackRes_50772C);
                 field_164_pCircularFade = Make_Circular_Fade_447640(
                     field_A8_xpos,
@@ -8124,7 +8124,7 @@ void Abe::State_88_HandstoneBegin_430590()
                     0,
                     0
                 );
-                field_110_state = StoneStates::eUnknown_5;
+                field_110_state.stone = StoneStates::eUnknown_5;
             }
             break;
         }
@@ -8153,7 +8153,7 @@ void Abe::State_88_HandstoneBegin_430590()
                 if (sInputObject_5009E8.isHeld(0xF0))
                 {
                     field_158_pDeathFadeout->Init_419E40(40, 1, 0, 8);
-                    field_110_state = StoneStates::eUnknown_7;
+                    field_110_state.stone = StoneStates::eUnknown_7;
                     SFX_Play_43AD70(107u, 90, 0);
                 }
             }
@@ -8166,12 +8166,12 @@ void Abe::State_88_HandstoneBegin_430590()
                 const auto camera = field_174_pathStone.dataHandstone.cameras[field_16E_cameraIdx];
                 if (field_16E_cameraIdx > 2 || (camera.level_1 == LevelIds::eForestChase || camera.level_1 == LevelIds::eDesertEscape ))
                 {
-                    field_110_state = StoneStates::eUnknown_12;
+                    field_110_state.stone = StoneStates::eUnknown_12;
                 }
                 else
                 {
                     field_158_pDeathFadeout->field_6_flags.Set(Options::eDead_Bit3);
-                    field_110_state = StoneStates::eUnknown_6;
+                    field_110_state.stone = StoneStates::eUnknown_6;
                     field_16E_cameraIdx++;
                     auto pDeathFadeOutMem = ao_new<DeathFadeOut>();
                     if (pDeathFadeOutMem)
@@ -8188,7 +8188,7 @@ void Abe::State_88_HandstoneBegin_430590()
             if (field_158_pDeathFadeout->field_6E_bDone)
             {
                 field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
-                field_110_state = StoneStates::eUnknown_13;
+                field_110_state.stone = StoneStates::eUnknown_13;
                 gMap_507BA8.SetActiveCam_444660(field_190_level, field_192_path, field_194_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             }
             break;
@@ -8198,7 +8198,7 @@ void Abe::State_88_HandstoneBegin_430590()
             field_158_pDeathFadeout = 0;
 
             field_164_pCircularFade = Make_Circular_Fade_447640(field_A8_xpos, field_AC_ypos, field_BC_sprite_scale, 0, 0);
-            field_110_state = StoneStates::eUnknown_5;
+            field_110_state.stone = StoneStates::eUnknown_5;
             field_164_pCircularFade->field_10_anim.field_4_flags.Set(
                 AnimFlags::eBit5_FlipX,
                 field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX)
@@ -9301,14 +9301,14 @@ void Abe::State_161_Idle_Yawn_4233E0()
 
 void Abe::State_162_ToShrykull_42F410()
 {
-    if (field_110_state == StoneStates::eUnknown_0)
+    if (field_110_state.raw == 0)
     {
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             field_10_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
             field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
 
-            field_110_state = StoneStates::eUnknown_1;
+            field_110_state.raw = 1;
 
             auto pShrykull = ao_new<Shrykull>();
             if (pShrykull)
