@@ -893,7 +893,7 @@ void Map::GoTo_Camera_481890()
 
     if (field_10_screen_change_effect == CameraSwapEffects::eEffect11)
     {
-        pScreenManager_5BB5F4->DecompressToVRam_40EF60(reinterpret_cast<WORD**>(field_2C_camera_array[0]->field_C_pCamRes));
+        pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60(reinterpret_cast<WORD**>(field_2C_camera_array[0]->field_C_pCamRes));
         pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
         pScreenManager_5BB5F4->MoveImage_40EB70();
         pScreenManager_5BB5F4->field_40_flags |= 0x10000;

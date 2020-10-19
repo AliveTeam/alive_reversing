@@ -263,7 +263,7 @@ void CC SaveGame::Save_459490(SaveData* pSaveData)
     pSaveData->field_22C_ah_health = sActiveHero_507678->field_100_health;
     pSaveData->field_23C_ah_flipX = sActiveHero_507678->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX);
     pSaveData->field_230_ah_sprite_scale = sActiveHero_507678->field_BC_sprite_scale;
-    pSaveData->field_244_state = sActiveHero_507678->field_110_state;
+    pSaveData->field_244_stone_state = static_cast<int>(sActiveHero_507678->field_110_state.raw);
     pSaveData->field_248_gnFrame = sActiveHero_507678->field_114_gnFrame;
     pSaveData->field_24C_field_118 = sActiveHero_507678->field_118;
     pSaveData->field_250_throwable_count = sActiveHero_507678->field_19C_throwable_count;

@@ -41,6 +41,7 @@ public:
         Resource_Free = 0x65657246,
         Resource_Pend = 0x646E6550,
         Resource_End = 0x21646E45,
+        Resource_Plbk = 0x6B626C50
     };
 
     enum ResourceHeaderFlags : __int16

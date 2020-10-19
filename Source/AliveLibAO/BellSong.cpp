@@ -18,33 +18,38 @@ void BellSong::VUpdate_476130()
     if (!field_14_bDone)
     {
         const GameSpeakEvents code_looked_up = Code_LookUp_476050(field_18_code, static_cast<unsigned short>(field_10_code_idx), field_1C_code_len);
-        if (field_16_type)
+        switch(field_16_type)
         {
-            switch (code_looked_up)
+            case BellsongTypes::eChimes:
             {
-            case GameSpeakEvents::eWhistle1_1:
-                SFX_Play_43AD70(SoundEffect::BellChime2_51, 0, 0);
+                switch (code_looked_up)
+                {
+                case GameSpeakEvents::eWhistle1_1:
+                    SFX_Play_43AD70(SoundEffect::BellChime2_51, 0, 0);
+                    break;
+                case GameSpeakEvents::eWhistle2_2:
+                    SFX_Play_43AD70(SoundEffect::BellChime1_50, 0, 0);
+                    break;
+                default:
+                    SFX_Play_43AD70(SoundEffect::BellChime3_52, 0, 0);
+                }
+                field_8_update_delay = 15;
                 break;
-            case GameSpeakEvents::eWhistle2_2:
-                SFX_Play_43AD70(SoundEffect::BellChime1_50, 0, 0);
-                break;
-            default:
-                SFX_Play_43AD70(SoundEffect::BellChime3_52, 0, 0);
             }
-            field_8_update_delay = 15;
-        }
-        else
-        {
-            switch (code_looked_up)
+            case BellsongTypes::eWhistle:
             {
-            case GameSpeakEvents::eWhistle1_1:
-                Mudokon_SFX_42A4D0(MudSounds::eFart_7, 0, 0, 0);
-            case GameSpeakEvents::eWhistle2_2:
-                Mudokon_SFX_42A4D0(MudSounds::eWhistle2_2, 0, 0, 0);
-            default:
-                Mudokon_SFX_42A4D0(MudSounds::eWhistle1_1, 0, 0, 0);
+                switch (code_looked_up)
+                {
+                    case GameSpeakEvents::eWhistle1_1:
+                        Mudokon_SFX_42A4D0(MudSounds::eFart_7, 0, 0, 0);
+                    case GameSpeakEvents::eWhistle2_2:
+                        Mudokon_SFX_42A4D0(MudSounds::eWhistle2_2, 0, 0, 0);
+                    default:
+                        Mudokon_SFX_42A4D0(MudSounds::eWhistle1_1, 0, 0, 0);
+                }
+                field_8_update_delay = 30;
+                break;
             }
-            field_8_update_delay = 30;
         }
 
         field_10_code_idx++;
@@ -61,7 +66,7 @@ void BellSong::VUpdate()
     VUpdate_476130();
 }
 
-BellSong* BellSong::ctor_4760B0(__int16 type, unsigned int code)
+BellSong* BellSong::ctor_4760B0(BellsongTypes type, unsigned int code)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BCD18);

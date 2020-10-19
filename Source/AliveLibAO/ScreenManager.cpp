@@ -57,7 +57,7 @@ void ScreenManager::MoveImage_406C40()
     PSX_MoveImage_4961A0(&rect, 0, 0);
 }
 
-void ScreenManager::DecompressToVRam_407110(unsigned __int16** ppBits)
+void ScreenManager::DecompressCameraToVRam_407110(unsigned __int16** ppBits)
 {
     PSX_RECT rect = {};
     rect.x = 0;
@@ -130,7 +130,7 @@ void ScreenManager::Init_4068A0(BYTE** ppBits)
     field_26_cam_height = 240;
 
     Vram_alloc_explicit_4507F0(0, 272, 640, 512);
-    DecompressToVRam_407110(reinterpret_cast<WORD**>(ppBits));
+    DecompressCameraToVRam_407110(reinterpret_cast<WORD**>(ppBits));
 
     field_18_screen_sprites = &sSpriteTPageBuffer_4FC8A8[0];
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "FunctionFwd.hpp"
+#include "BellSong.hpp"
 #include "stdafx_ao.h"
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
@@ -210,6 +211,43 @@ enum Flags_2A8
     e2A8_eBit16_AbeSpawnDir = 0x8000,
 };
 
+enum class StoneStates : __int16
+{
+    eUnknown_0 = 0,
+    eUnknown_1 = 1,
+    eUnknown_2 = 2,
+    eUnknown_3 = 3,
+    eUnknown_4 = 4,
+    eUnknown_5 = 5,
+    eUnknown_6 = 6,
+    eUnknown_7 = 7,
+
+    eUnknown_12 = 12,
+    eUnknown_13 = 13
+};
+
+enum class ChantStates : __int16
+{
+    eUnknown_0 = 0,
+    eUnknown_1 = 1,
+    eUnknown_2 = 2,
+    eUnknown_3 = 3,
+    eUnknown_4 = 4,
+    eUnknown_5 = 5,
+    eUnknown_6 = 6,
+    eUnknown_7 = 7,
+
+    eUnknown_12 = 12,
+    eUnknown_13 = 13
+};
+
+union AllInternalStates
+{
+    ChantStates chant;
+    StoneStates stone;
+    __int16 raw;
+};
+
 enum class MudSounds : unsigned __int8
 {
     eUnknown_0 = 0, // empty?
@@ -277,6 +315,52 @@ struct AbeResources
 {
     BYTE **res[65];
 };
+
+struct Path_Stone_camera
+{
+    LevelIds level_1;
+    __int16 path_2;
+    __int16 camera_3;
+};
+
+struct Path_BellsongStone_data
+{
+    __int16 scale;
+    BellsongTypes type;
+    __int16 code1;
+    __int16 code2;
+    __int16 id;
+    __int16 pad;
+};
+ALIVE_ASSERT_SIZEOF(Path_BellsongStone_data, 12);
+
+struct Path_Handstone_data
+{
+    __int16 scale;
+    Path_Stone_camera cameras[3];
+};
+ALIVE_ASSERT_SIZEOF(Path_Handstone_data, 0x14);
+
+struct Path_Moviestone_data
+{
+    __int16 fmvId;
+    __int16 scale;
+};
+ALIVE_ASSERT_SIZEOF(Path_Moviestone_data, 4);
+
+union AllStone
+{
+    Path_Handstone_data dataHandstone;
+    Path_BellsongStone_data dataBellsong;
+    Path_Moviestone_data dataMovie;
+    unsigned short demoId;
+};
+
+struct Path_Stone : public Path_TLV
+{
+    AllStone field_18_data;
+};
+ALIVE_ASSERT_SIZEOF(Path_Stone, 0x2C);
 
 class Abe : public BaseAliveGameObject
 {
@@ -558,7 +642,7 @@ public:
 
     __int16 field_10C_prev_held;
     __int16 field_10E_released_buttons;
-    __int16 field_110_state;
+    AllInternalStates field_110_state;
     __int16 field_112_prev_motion;
     int field_114_gnFrame;
     int field_118;
@@ -589,15 +673,9 @@ public:
     CircularFade* field_164_pCircularFade;
     int field_168_ring_pulse_timer;
     __int16 field_16C_bHaveShrykull;
-    __int16 field_16E;
-    int field_170_tlv_type;
-    __int16 field_174_0x14SizeTlv;
-    __int16 field_176;
-    __int16 field_178;
-    __int16 field_17A;
-    int field_17C;
-    int field_180;
-    int field_184;
+    __int16 field_16E_cameraIdx;
+    int field_170_hand_stone_type;
+    AllStone field_174_pathStone;
     OrbWhirlWind* field_188_pOrbWhirlWind;
     BaseAliveGameObject* field_18C_pObjToPosses;
     LevelIds field_190_level;
@@ -614,8 +692,6 @@ public:
     __int16 field_2AA_flags;
     SaveData* field_2AC_pSaveData;
     int field_2B0;
-
-
 };
 ALIVE_ASSERT_SIZEOF(Abe, 0x2B4);
 

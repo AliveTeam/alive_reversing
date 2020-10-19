@@ -412,7 +412,7 @@ static bool IsHackedAOCamera(WORD** ppBits)
     return countOf7680SizedSegments == kNumStrips;
 }
 
-void ScreenManager::DecompressToVRam_40EF60(WORD** ppBits)
+void ScreenManager::DecompressCameraToVRam_40EF60(WORD** ppBits)
 {
     if (IsHackedAOCamera(ppBits))
     {
@@ -489,7 +489,7 @@ void ScreenManager::Init_40E4B0(BYTE** ppBits)
     field_32_cam_height = 240;
 
     Vram_alloc_explicit_4955F0(0, 272, 640 - 1, 512 - 1);
-    DecompressToVRam_40EF60(reinterpret_cast<WORD**>(ppBits));
+    DecompressCameraToVRam_40EF60(reinterpret_cast<WORD**>(ppBits));
 
     field_24_screen_sprites = &sSpriteTPageBuffer_5B86C8[0];
 

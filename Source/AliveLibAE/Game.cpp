@@ -528,7 +528,7 @@ EXPORT void CC Game_Run_466D40()
     pScreenManager_5BB5F4 = ae_new<ScreenManager>();
     pScreenManager_5BB5F4->ctor_40E3E0(camera.field_C_pCamRes, &gMap_5C3030.field_24_camera_offset);
 
-    pScreenManager_5BB5F4->DecompressToVRam_40EF60((unsigned __int16 **)camera.field_C_pCamRes);
+    pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60((unsigned __int16 **)camera.field_C_pCamRes);
     pScreenManager_5BB5F4->MoveImage_40EB70();
 
     sLvlArchive_5BC520.Free_433130();
