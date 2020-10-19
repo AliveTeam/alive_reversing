@@ -26,6 +26,7 @@
 #include "Throwable.hpp"
 #include "OrbWhirlWind.hpp"
 #include "Particle.hpp"
+#include "PossessionFlicker.hpp"
 #include "PullRingRope.hpp"
 #include "PsxDisplay.hpp"
 #include "ScreenManager.hpp"
@@ -9208,9 +9209,261 @@ void Abe::State_149_PickupItem_42A030()
     }
 }
 
-void Abe::State_150_Chant_42FD50()
+void Abe::New_RandomizedChant_Particle()
+{
+    const auto xpos = field_A8_xpos + field_BC_sprite_scale * FP_FromInteger(40 * Math_NextRandom() / 256 - 20);
+    const auto ypos = field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(30 * Math_NextRandom() / 256 + 30));
+    New_Chant_Particle_4198E0(
+        xpos,
+        ypos,
+        field_BC_sprite_scale,
+        0);
+}
+
+void Abe::State_150_Chant_REAL_42FD50()
 {
     NOT_IMPLEMENTED();
+}
+
+void Abe::State_150_Chant_42FD50()
+{
+    FollowLift_42EE90();
+    if (field_110_state.chant != ChantStates::eUnknown_3 &&
+        field_110_state.chant != ChantStates::eUnknown_4)
+    {
+        SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_11, 0, 0);
+    }
+    switch (field_110_state.chant)
+    {
+        case ChantStates::eUnknown_0:
+        {
+            Event_Broadcast_417220(kEventSpeaking_1, this);
+            Event_Broadcast_417220(kEventAbeOhm_8, this);
+            auto pObjToPossess = FindObjectToPosses_421410();
+            if (field_168_ring_pulse_timer)
+            {
+                if (!field_16C_bHaveShrykull)
+                {
+                    PSX_RECT rect = {};
+                    VGetBoundingRect(
+                        &rect,
+                        1
+                    );
+                    AbilityRing::Factory_447590(
+                        FP_FromInteger((rect.w + rect.x) / 2),
+                        FP_FromInteger((rect.h + rect.y) / 2),
+                        1
+                    );
+                    field_168_ring_pulse_timer = 0;
+                }
+            }
+
+            if ((field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)
+                || field_10_anim.field_92_current_frame == 3)
+                && !Input_IsChanting_4334C0())
+            {
+                field_FC_current_motion = eAbeStates::State_151_ChantEnd_430530;
+                if (field_188_pOrbWhirlWind)
+                {
+                    field_188_pOrbWhirlWind->ToStop_48BBB0();
+                    field_188_pOrbWhirlWind = nullptr;
+                }
+                return;
+            }
+            if (!(gnFrameCount_507670 % 4))
+            {
+                New_RandomizedChant_Particle();
+            }
+            if (static_cast<int>(gnFrameCount_507670) >= field_114_gnFrame - 70)
+            {
+                if (pObjToPossess)
+                {
+                    if (!field_188_pOrbWhirlWind)
+                    {
+                        auto pOrbWhirlWind = ao_new<OrbWhirlWind>();
+                        if (pOrbWhirlWind)
+                        {
+                            FP xPos = {};
+
+                            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                            {
+                                xPos = field_A8_xpos + FP_FromInteger(-4);
+                            }
+                            else
+                            {
+                                xPos = field_A8_xpos + FP_FromInteger(4);
+                            }
+
+                            pOrbWhirlWind->ctor_48B870(
+                                xPos,
+                                field_AC_ypos - field_BC_sprite_scale * FP_FromInteger(38),
+                                field_BC_sprite_scale
+                            );
+                        }
+                        field_188_pOrbWhirlWind = pOrbWhirlWind;
+                    }
+                }
+                else
+                {
+                    field_114_gnFrame = gnFrameCount_507670 + 70;
+                    if (field_188_pOrbWhirlWind)
+                    {
+                        field_188_pOrbWhirlWind->ToStop_48BBB0();
+                        field_188_pOrbWhirlWind = nullptr;
+                    }
+                }
+            }
+
+            if (static_cast<int>(gnFrameCount_507670) > field_114_gnFrame)
+            {
+                field_18C_pObjToPosses = pObjToPossess;
+                if (field_18C_pObjToPosses)
+                {
+                    field_18C_pObjToPosses->field_C_refCount++;
+                    SFX_Play_43AE60(SoundEffect::PossessEffect_21, 0, -600, 0);
+                    field_114_gnFrame = gnFrameCount_507670 + 30;
+                    field_110_state.chant = ChantStates::eUnknown_1;
+
+                    PSX_RECT rect = {};
+                    field_18C_pObjToPosses->VGetBoundingRect(
+                        &rect,
+                        1
+                    );
+                    field_188_pOrbWhirlWind->ToSpin_48BAD0(
+                        FP_FromInteger((rect.w + rect.x) / 2),
+                        FP_FromInteger((rect.h + rect.y) / 2),
+                        pObjToPossess
+                    );
+
+                    auto pPossessionFlicker = ao_new<PossessionFlicker>();
+                    if (pPossessionFlicker)
+                    {
+                        pPossessionFlicker->ctor_41A8C0(sActiveHero_507678, 30, 128, 255, 255);
+                    }
+                }
+            }
+            break;
+        }
+        case ChantStates::eUnknown_1:
+        {
+            if (static_cast<int>(gnFrameCount_507670) > field_114_gnFrame)
+            {
+                field_110_state.chant = ChantStates::eUnknown_2;
+                return;
+            }
+            if (field_18C_pObjToPosses)
+            {
+                if (field_18C_pObjToPosses->field_6_flags.Get(Options::eDead_Bit3))
+                {
+                    field_18C_pObjToPosses->field_C_refCount--;
+                    field_18C_pObjToPosses = nullptr;
+                }
+            }
+            if (field_18C_pObjToPosses)
+            {
+                if (field_18C_pObjToPosses->Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
+                {
+                    return;
+                }
+                field_FC_current_motion = eAbeStates::State_151_ChantEnd_430530;
+                field_18C_pObjToPosses->field_C_refCount--;
+                field_18C_pObjToPosses = nullptr;
+            }
+            else
+            {
+                field_FC_current_motion = eAbeStates::State_151_ChantEnd_430530;
+            }
+            if (field_188_pOrbWhirlWind)
+            {
+                field_188_pOrbWhirlWind->ToStop_48BBB0();
+                field_188_pOrbWhirlWind = nullptr;
+            }
+            break;
+        }
+        case ChantStates::eUnknown_2:
+        {
+            Event_Broadcast_417220(kEventSpeaking_1, this);
+            Event_Broadcast_417220(kEventAbeOhm_8, this);
+            field_188_pOrbWhirlWind = nullptr;
+            if (field_18C_pObjToPosses)
+            {
+                if (field_18C_pObjToPosses->field_6_flags.Get(Options::eDead_Bit3))
+                {
+                    field_18C_pObjToPosses->field_C_refCount--;
+                    field_18C_pObjToPosses = nullptr;
+                }
+            }
+            if (field_18C_pObjToPosses)
+            {
+                sControlledCharacter_50767C = field_18C_pObjToPosses;
+                field_18C_pObjToPosses->VPossessed();
+                field_18C_pObjToPosses->field_C_refCount--;
+                field_18C_pObjToPosses = nullptr;
+                if (sControlledCharacter_50767C->field_4_typeId == Types::eSlig_88)
+                {
+                    field_2A8_flags.Set(Flags_2A8::e2A8_Bit3);
+                }
+
+                auto pPossessionFlicker = ao_new<PossessionFlicker>();
+                if (pPossessionFlicker)
+                {
+                    pPossessionFlicker->ctor_41A8C0(sControlledCharacter_50767C, 60, 128, 255, 255);
+                }
+
+                SND_Seq_Stop_477A60(SeqId::Unknown_11);
+                SFX_Play_43AE60(SoundEffect::PossessEffect_21, 70, 400, 0);
+                field_110_state.chant = ChantStates::eUnknown_3;
+            }
+            else if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                field_FC_current_motion = eAbeStates::State_151_ChantEnd_430530;
+            }
+            break;
+        }
+        case ChantStates::eUnknown_3:
+        {
+            if (sControlledCharacter_50767C == this)
+            {
+                auto pPossessionFlicker = ao_new<PossessionFlicker>();
+                if (pPossessionFlicker)
+                {
+                    pPossessionFlicker->ctor_41A8C0(sControlledCharacter_50767C, 15, 128, 255, 255);
+                }
+
+                field_110_state.chant = ChantStates::eUnknown_4;
+                field_114_gnFrame = gnFrameCount_507670 + 15;
+            }
+            break;
+        }
+        case ChantStates::eUnknown_4:
+        {
+            if (!(gnFrameCount_507670 % 4))
+            {
+                New_RandomizedChant_Particle();
+            }
+            if (static_cast<int>(gnFrameCount_507670) > field_114_gnFrame)
+            {
+                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+                {
+                    field_FC_current_motion = eAbeStates::State_151_ChantEnd_430530;
+                }
+            }
+            break;
+        }
+        case ChantStates::eUnknown_6:
+        {
+            Event_Broadcast_417220(kEventSpeaking_1, this);
+            Event_Broadcast_417220(kEventAbeOhm_8, this);
+            if (!(gnFrameCount_507670 % 4))
+            {
+                New_RandomizedChant_Particle();
+            }
+
+            break;
+        }
+        default:
+            return;
+    }
 }
 
 void Abe::State_151_ChantEnd_430530()
