@@ -7887,8 +7887,8 @@ void Abe::State_87_428FA0()
     State_3_Fall_42E7F0();
 }
 
-ALIVE_VAR(1, 0x507728, int, gConter_507728, 0);
-ALIVE_VAR(1, 0x50772C, BYTE**, gpDemoPlaybackRes_50772C, 0);
+ALIVE_VAR(1, 0x507728, int, gCounter_507728, 0);
+ALIVE_VAR(1, 0x50772C, BYTE**, gpDemoPlaybackRes_50772C, nullptr);
 ALIVE_VAR(1, 0x507730, int, sAbeSound_507730, 0);
 ALIVE_VAR(1, 0x507724, BellSong*, sBellSong_507724, nullptr);
 
@@ -8017,7 +8017,7 @@ void Abe::State_88_HandstoneBegin_430590()
                         field_164_pCircularFade->field_6_flags.Set(Options::eDead_Bit3);
                         field_164_pCircularFade = nullptr;
                         field_110_state = StoneStates::eUnknown_3;
-                        gConter_507728 = 2;
+                        gCounter_507728 = 2;
                         gpDemoPlaybackRes_50772C = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Plbk, field_174_pathStone.demoId, 1, 0);
                         if (gpDemoPlaybackRes_50772C)
                         {
@@ -8075,8 +8075,8 @@ void Abe::State_88_HandstoneBegin_430590()
         }
         case StoneStates::eUnknown_3:
         {
-            gConter_507728--;
-            if (!gConter_507728)
+            gCounter_507728--;
+            if (gCounter_507728 == 0)
             {
                 field_110_state = StoneStates::eUnknown_5;
                 ResourceManager::FreeResource_455550(gpDemoPlaybackRes_50772C);
