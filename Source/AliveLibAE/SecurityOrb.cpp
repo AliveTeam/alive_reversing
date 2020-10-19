@@ -219,7 +219,7 @@ void SecurityOrb::vUpdate_4665A0()
                     xpos,
                     ypos,
                     8,
-                    0,
+                    ZapLineType::eThick_0,
                     28);
             }
 
