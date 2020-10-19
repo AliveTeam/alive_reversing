@@ -8139,7 +8139,7 @@ void Abe::State_88_HandstoneBegin_430590()
         {
             if (field_158_pDeathFadeout->field_6E_bDone)
             {
-                auto camera = field_174_pathStone.dataHandstone.cameras[field_16E_cameraIdx];
+                const auto camera = field_174_pathStone.dataHandstone.cameras[field_16E_cameraIdx];
                 if (field_16E_cameraIdx > 2 || (camera.level_1 == LevelIds::eForestChase || camera.level_1 == LevelIds::eDesertEscape ))
                 {
                     field_110_state = StoneStates::eUnknown_12;
