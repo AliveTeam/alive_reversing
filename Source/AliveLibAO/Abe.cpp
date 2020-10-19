@@ -7954,8 +7954,32 @@ void Abe::State_88_HandstoneBegin_430590()
                 auto ptlv = static_cast<Path_Stone*>(field_F0_pTlv);
                 if (ptlv)
                 {
-                    field_174_pathStone = ptlv->field_18_data;
                     field_170_hand_stone_type = field_F0_pTlv->field_4_type;
+                    switch (field_170_hand_stone_type)
+                    {
+                        case TlvTypes::MovieStone_51:
+                        {
+                            field_174_pathStone.dataMovie = ptlv->field_18_data.dataMovie;
+                            break;
+                        }
+                        case TlvTypes::BellSongStone_54:
+                        {
+                            field_174_pathStone.dataBellsong = ptlv->field_18_data.dataBellsong;
+                            break;
+                        }
+                        case TlvTypes::DemoPlaybackStone_96:
+                        {
+                            field_174_pathStone.demoId = ptlv->field_18_data.demoId;
+                            break;
+                        }
+                        case TlvTypes::HandStone_100:
+                        {
+                            field_174_pathStone.dataHandstone = ptlv->field_18_data.dataHandstone;
+                            break;
+                        }
+                        default:
+                            return;
+                    }
                 }
                 else
                 {
