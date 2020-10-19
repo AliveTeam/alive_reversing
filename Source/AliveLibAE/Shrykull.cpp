@@ -189,7 +189,7 @@ void Shrykull::vUpdate_4AEDE0()
 
                 if (pExistingZapLine)
                 {
-                    pExistingZapLine->sub_4CCAD0(
+                    pExistingZapLine->CalculateSourceAndDestinationPositions_4CCAD0(
                         FP_FromInteger((ourRect.x + ourRect.w) / 2),
                         FP_FromInteger((ourRect.y + ourRect.h) / 2),
                         FP_FromInteger((objRect.x + objRect.w) / 2),
@@ -205,7 +205,7 @@ void Shrykull::vUpdate_4AEDE0()
                             FP_FromInteger((ourRect.y + ourRect.h) / 2),
                             FP_FromInteger((objRect.x + objRect.w) / 2),
                             FP_FromInteger((objRect.y + objRect.h) / 2),
-                            0, 1, 28);
+                            0, ZapLineType::eThin_1, 28);
                     }
                     field_124_zap_line_id = pZapLine->field_8_object_id;
                 }
@@ -345,7 +345,7 @@ void Shrykull::vUpdate_4AEDE0()
                         pFlash->ctor_428570(39, 255u, 255u, 255u, 1, 3u, 1);
                     }
                 }
-                pExistingZapLine->sub_4CCAD0(
+                pExistingZapLine->CalculateSourceAndDestinationPositions_4CCAD0(
                     FP_FromInteger((ourRect.x + ourRect.w) / 2),
                     FP_FromInteger((ourRect.y + ourRect.h) / 2),
                     FP_FromInteger((zapRect.x + zapRect.w) / 2),

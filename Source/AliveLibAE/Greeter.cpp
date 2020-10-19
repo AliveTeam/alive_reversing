@@ -542,7 +542,7 @@ void Greeter::ZapTarget_447320(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
             xpos,
             ypos,
             8,
-            0,
+            ZapLineType::eThick_0,
             28);
     }
 
@@ -555,7 +555,7 @@ void Greeter::ZapTarget_447320(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
             xpos,
             ypos,
             8,
-            0,
+            ZapLineType::eThick_0,
             28);
     }
 
@@ -568,7 +568,7 @@ void Greeter::ZapTarget_447320(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
             xpos,
             ypos,
             8,
-            0,
+            ZapLineType::eThick_0,
             28);
     }
 
