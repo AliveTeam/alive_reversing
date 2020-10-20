@@ -583,7 +583,7 @@ Abe* Abe::ctor_420770(int frameTableOffset, int /*r*/, int /*g*/, int /*b*/)
     field_128 = 45;
     Animation_Init_417FD0(frameTableOffset, 135, 80, field_1A4_resources.res[45], 1);
 
-    field_10_anim.field_1C_fn_ptrs = kAbe_Anim_Frame_Fns_4CEBEC;
+    field_10_anim.field_1C_fn_ptr_array = kAbe_Anim_Frame_Fns_4CEBEC;
 
     PSX_Point pPoint = {};
     gMap_507BA8.GetCurrentCamCoords_444890(&pPoint);

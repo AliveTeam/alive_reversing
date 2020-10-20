@@ -231,9 +231,9 @@ public:
     int field_10_frame_delay;
     FP field_14_scale;
     int field_18_frame_table_offset;
-    TFrameCallBackType* field_1C_fn_ptrs;
+    TFrameCallBackType* field_1C_fn_ptr_array;
     BYTE** field_20_ppBlock;
-    BYTE** field_24_pDBuf;
+    BYTE** field_24_dbuf;
     int field_28_dbuf_size;
     Poly_FT4 field_2C_ot_data[2];
     PSX_RECT field_84_vram_rect;

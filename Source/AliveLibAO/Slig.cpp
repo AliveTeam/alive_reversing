@@ -257,7 +257,7 @@ Slig* Slig::ctor_464D40(Path_Slig* pTlv, int tlvInfo)
     field_13A = -1;
     field_138_res_idx = 0;
 
-    field_10_anim.field_1C_fn_ptrs = kSlig_Anim_Frame_Fns_4CEBF0;
+    field_10_anim.field_1C_fn_ptr_array = kSlig_Anim_Frame_Fns_4CEBF0;
 
     if (pTlv->field_18_scale == 0)
     {

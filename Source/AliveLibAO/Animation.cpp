@@ -259,7 +259,7 @@ void Animation::VDecode_403550()
     const FrameInfoHeader* pFrameInfoHeader = Get_FrameHeader_403A00(-1); // -1 = use current frame
     if (pFrameInfoHeader->field_6_count > 0)
     {
-        if (field_1C_fn_ptrs)
+        if (field_1C_fn_ptr_array)
         {
             FrameInfoHeader* pFrameHeaderCopy = this->Get_FrameHeader_403A00(-1);
 
@@ -270,7 +270,7 @@ void Animation::VDecode_403550()
             DWORD* pCallBackData = reinterpret_cast<DWORD*>(&pFrameHeaderCopy->field_8_data.points[3]);
             for (int i = 0; i < pFrameHeaderCopy->field_6_count; i++)
             {
-                auto pFnCallBack = field_1C_fn_ptrs[*pCallBackData];
+                auto pFnCallBack = field_1C_fn_ptr_array[*pCallBackData];
                 if (!pFnCallBack)
                 {
                     break;
@@ -347,17 +347,17 @@ void Animation::VDecode_403550()
             // TODO: Refactor structure to get pixel data/remove casts
             Decompress_Type_1_403150(
                 (BYTE*)&pFrameHeader[1],
-                *field_24_pDBuf,
+                *field_24_dbuf,
                 *(DWORD*)&pFrameHeader->field_8_width2,
                 2 * pFrameHeader->field_5_height * width_bpp_adjusted);
 
             if (field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
             {
-                PSX_LoadImage16_4962A0(&vram_rect, (BYTE*)*field_24_pDBuf);
+                PSX_LoadImage16_4962A0(&vram_rect, (BYTE*)*field_24_dbuf);
             }
             else
             {
-                PSX_LoadImage_496480(&vram_rect, *field_24_pDBuf);
+                PSX_LoadImage_496480(&vram_rect, *field_24_dbuf);
             }
         }
         break;
@@ -367,15 +367,15 @@ void Animation::VDecode_403550()
         {
             Decompress_Type_2_403390(
                 (BYTE*)&pFrameHeader[1],
-                *field_24_pDBuf,
+                *field_24_dbuf,
                 2 * pFrameHeader->field_5_height * width_bpp_adjusted);
             if (!field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
             {
-                PSX_LoadImage_496480(&vram_rect, *field_24_pDBuf);
+                PSX_LoadImage_496480(&vram_rect, *field_24_dbuf);
             }
             else
             {
-                PSX_LoadImage16_4962A0(&vram_rect, *field_24_pDBuf);
+                PSX_LoadImage16_4962A0(&vram_rect, *field_24_dbuf);
             }
         }
         break;
@@ -386,16 +386,16 @@ void Animation::VDecode_403550()
             // TODO: Refactor structure to get pixel data/remove casts
             Decompress_Type_3_4031E0(
                 (unsigned __int16*)&pFrameHeader[1],
-                *field_24_pDBuf,
+                *field_24_dbuf,
                 *(DWORD*)&pFrameHeader->field_8_width2,
                 2 * pFrameHeader->field_5_height * width_bpp_adjusted);
             if (field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
             {
-                PSX_LoadImage16_4962A0(&vram_rect, *field_24_pDBuf);
+                PSX_LoadImage16_4962A0(&vram_rect, *field_24_dbuf);
             }
             else
             {
-                PSX_LoadImage_496480(&vram_rect, *field_24_pDBuf);
+                PSX_LoadImage_496480(&vram_rect, *field_24_dbuf);
             }
         }
         break;
@@ -405,14 +405,14 @@ void Animation::VDecode_403550()
         if (EnsureDecompressionBuffer())
         {
             // TODO: Refactor structure to get pixel data/remove casts
-            Decompress_Type_4_5_461770(reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2), *field_24_pDBuf);
+            Decompress_Type_4_5_461770(reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2), *field_24_dbuf);
             if (field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
             {
-                PSX_LoadImage16_4962A0(&vram_rect, *field_24_pDBuf);
+                PSX_LoadImage16_4962A0(&vram_rect, *field_24_dbuf);
             }
             else
             {
-                PSX_LoadImage_496480(&vram_rect, *field_24_pDBuf);
+                PSX_LoadImage_496480(&vram_rect, *field_24_dbuf);
             }
         }
         break;
@@ -592,17 +592,17 @@ void Animation::VCleanUp_403F40()
         Pal_Free_447870(field_8C_pal_vram_xy, field_90_pal_depth);
     }
 
-    ResourceManager::FreeResource_455550(field_24_pDBuf);
+    ResourceManager::FreeResource_455550(field_24_dbuf);
 
 }
 
 bool Animation::EnsureDecompressionBuffer()
 {
-    if (!field_24_pDBuf)
+    if (!field_24_dbuf)
     {
-        field_24_pDBuf = ResourceManager::Alloc_New_Resource_454F20(ResourceManager::Resource_DecompressionBuffer, 0, field_28_dbuf_size);
+        field_24_dbuf = ResourceManager::Alloc_New_Resource_454F20(ResourceManager::Resource_DecompressionBuffer, 0, field_28_dbuf_size);
     }
-    return field_24_pDBuf != nullptr;
+    return field_24_dbuf != nullptr;
 }
 
 void CC AnimationBase::AnimateAll_4034F0(DynamicArrayT<AnimationBase>* pAnimList)
@@ -691,10 +691,12 @@ void Animation::SetFrame_402AC0(unsigned __int16 newFrame)
 
 signed __int16 Animation::Init_402D20(int frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, unsigned __int16 maxW, unsigned __int16 maxH, BYTE** ppAnimData, unsigned __int8 bAllocateVRam, signed int b_StartingAlternationState, char bEnable_flag10_alternating)
 {
+    field_4_flags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
+
     field_18_frame_table_offset = frameTableOffset;
     field_20_ppBlock = ppAnimData;
-    field_1C_fn_ptrs = nullptr;
-    field_24_pDBuf = nullptr;
+    field_1C_fn_ptr_array = nullptr;
+    field_24_dbuf = nullptr;
 
     if (!ppAnimData)
     {
@@ -811,8 +813,8 @@ signed __int16 Animation::Init_402D20(int frameTableOffset, DynamicArray* /*anim
     if (pFrameHeader->field_7_compression_type != 0)
     {
         const DWORD id = ResourceManager::Get_Header_455620(field_20_ppBlock)->field_C_id;
-        field_24_pDBuf = ResourceManager::Alloc_New_Resource_454F20(ResourceManager::Resource_DecompressionBuffer, id, field_28_dbuf_size);
-        if (!field_24_pDBuf)
+        field_24_dbuf = ResourceManager::Alloc_New_Resource_454F20(ResourceManager::Resource_DecompressionBuffer, id, field_28_dbuf_size);
+        if (!field_24_dbuf)
         {
             return 0;
         }

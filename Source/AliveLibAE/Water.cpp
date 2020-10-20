@@ -438,17 +438,17 @@ void Water::vUpdate_4E0B50()
                     }
                     else
                     {
-                        bool foundDisabledWaterParticle = false;
+                        bool allParticlesDead = true;
                         for (int i = 0; i < field_124_tlv_data.field_10_max_drops; i++)
                         {
-                            if (!field_F8_pWaterRes[i].field_18_enabled)
+                            if (field_F8_pWaterRes[i].field_18_enabled)
                             {
-                                foundDisabledWaterParticle = true;
+                                allParticlesDead = false;
                                 break;
                             }
                         }
 
-                        if (foundDisabledWaterParticle)
+                        if (allParticlesDead)
                         {
                             field_6_flags.Set(BaseGameObject::eDead_Bit3);
                         }
