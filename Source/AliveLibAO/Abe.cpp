@@ -7572,7 +7572,11 @@ void Abe::State_77_WellBegin_430F10()
                 break;
             }
             default:
+            {
+                LOG_ERROR(field_FC_current_motion);
                 ALIVE_FATAL("Unrecognized stat called Abe::State_77_WellBegin_430F10!");
+                break;
+            }
         }
     }
 }
