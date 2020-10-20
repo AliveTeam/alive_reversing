@@ -220,7 +220,7 @@ void CameraSwapper::Init_48C830(BYTE** ppCamRes, CameraSwapEffects changeEffect)
     case CameraSwapEffects::eEffect2_RightToLeft:
         field_46_slice_width = 48;
         field_2C_slices_per_tick = 1;
-        field_2E_total_slices = gPsxDisplay_504C78.field_0_width / field_46_slice_width;
+        field_2E_total_slices = gPsxDisplay_504C78.field_0_width / field_46_slice_width + 1;
         field_2A_current_slice = -1;
 
         xy.field_2_y = 0;

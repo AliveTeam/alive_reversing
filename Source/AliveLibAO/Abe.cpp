@@ -56,6 +56,8 @@
 #include "ZBall.hpp"
 #include "Gibs.hpp"
 
+#include "Sys_common.hpp"
+
 START_NS_AO;
 
 ALIVE_VAR(1, 0x5076E4, short, gAbeInvulnerableCheat_5076E4, 0);
@@ -3064,6 +3066,8 @@ __int16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
 
     field_11C_regen_health_timer = gnFrameCount_507670 + 900;
 
+    auto oldHp = field_100_health;
+
     switch (pFrom->field_4_typeId)
     {
     case Types::eBat_6:
@@ -3479,7 +3483,7 @@ __int16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
         if (!field_106_shot)
         {
             field_130_say = old_say;
-            return 0;
+            oldHp = FP_FromInteger(0);
         }
         break;
 
@@ -3497,7 +3501,7 @@ __int16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
         }
     }
 
-    return field_100_health > FP_FromInteger(0) ? 1 : 0;
+    return oldHp > FP_FromInteger(0) ? 1 : 0;
 }
 
 static bool IsSameScaleAsHoist(Path_Hoist* pHoist, BaseAliveGameObject* pObj)
@@ -7550,8 +7554,32 @@ void Abe::State_77_WellBegin_430F10()
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         field_114_gnFrame = 15;
-        SFX_Play_43AD70(25u, 0, this);
-        field_FC_current_motion = eAbeStates::State_78_InsideWellLocal_4310A0;
+        SFX_Play_43AD70(SoundEffect::WellEnter_25, 0, this);
+
+        switch (field_FC_current_motion)
+        {
+            case eAbeStates::State_77_WellBegin_430F10:
+            {
+                field_FC_current_motion = eAbeStates::State_78_InsideWellLocal_4310A0;
+                break;
+            }
+            case eAbeStates::State_80_430EF0:
+            {
+                field_FC_current_motion = eAbeStates::State_81_InsideWellExpress_431320;
+                break;
+            }
+            case eAbeStates::State_83_430F00:
+            {
+                field_FC_current_motion = eAbeStates::State_84_431080;
+                break;
+            }
+            default:
+            {
+                LOG_ERROR(field_FC_current_motion);
+                ALIVE_FATAL("Unrecognized stat called Abe::State_77_WellBegin_430F10!");
+                break;
+            }
+        }
     }
 }
 

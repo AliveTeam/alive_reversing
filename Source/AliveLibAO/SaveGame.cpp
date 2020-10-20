@@ -340,7 +340,7 @@ short CC SaveGame::Read_459D30(const char* name)
     strcpy(buffer, name);
     strcat(buffer, ".sav");
 
-    const auto file = fopen(buffer, "r");
+    const auto file = fopen(buffer, "rb");
     if (!file)
     {
         return 0;
@@ -375,7 +375,7 @@ BOOL CC SaveGame::WriteSave_45A110(const char *name)
 
     strcpy(buffer, name);
     strcat(buffer, ".sav");
-    const auto file = fopen(buffer, "w" );
+    const auto file = fopen(buffer, "wb" );
     if (!file)
     {
         return 0;
