@@ -7550,8 +7550,8 @@ void Abe::State_77_WellBegin_430F10()
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         field_114_gnFrame = 15;
-        SFX_Play_43AD70(25u, 0, this);
-        field_FC_current_motion = eAbeStates::State_78_InsideWellLocal_4310A0;
+        SFX_Play_43AD70(SoundEffect::WellEnter_25, 0, this);
+        field_FC_current_motion = static_cast<eAbeStates>((static_cast<int>(field_FC_current_motion) + 1));
     }
 }
 
