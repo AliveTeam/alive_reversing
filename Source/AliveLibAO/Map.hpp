@@ -56,6 +56,8 @@ enum class CameraSwapEffects : __int16
     eEffect11 = 11                  // Unknown, has special handing in the map object
 };
 
+extern const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_4CDC78[10];
+
 enum TLV_Flags
 {
     eBit1_Created = 0x1,
@@ -184,6 +186,8 @@ public:
     EXPORT Path_TLV* TLV_Get_At_446260(__int16 xpos, __int16 ypos, __int16 width, __int16 height, unsigned __int16 typeToFind);
 
     EXPORT Path_TLV* TLV_Get_At_446060(Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP height);
+
+    EXPORT void sub_447430(unsigned __int16 pathNum);
 
     CameraPos GetDirection(LevelIds level, int path, FP xpos, FP ypos)
     {

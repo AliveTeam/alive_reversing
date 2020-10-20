@@ -1442,6 +1442,11 @@ Path_TLV* Map::TLV_Get_At_446060(Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP 
     return pTlv;
 }
 
+void Map::sub_447430(unsigned __int16)
+{
+    NOT_IMPLEMENTED();
+}
+
 Path_TLV* Map::TLV_First_Of_Type_In_Camera_4464A0(TlvTypes type, int camX)
 {
     Path_TLV* pTlvIter = Get_First_TLV_For_Offsetted_Camera_4463B0(static_cast<short>(camX), 0);

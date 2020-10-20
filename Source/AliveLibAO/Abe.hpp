@@ -241,10 +241,22 @@ enum class ChantStates : __int16
     eUnknown_13 = 13
 };
 
+enum class DoorStates : __int16
+{
+    eUnknown_0 = 0,
+    eUnknown_1 = 1,
+    eUnknown_2 = 2,
+    eUnknown_3 = 3,
+    eUnknown_4 = 4,
+    eUnknown_5 = 5,
+    eUnknown_6 = 6
+};
+
 union AllInternalStates
 {
     ChantStates chant;
     StoneStates stone;
+    DoorStates door;
     __int16 raw;
 };
 
