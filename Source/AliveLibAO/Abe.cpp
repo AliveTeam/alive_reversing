@@ -56,6 +56,8 @@
 #include "ZBall.hpp"
 #include "Gibs.hpp"
 
+#include "Sys_common.hpp"
+
 START_NS_AO;
 
 ALIVE_VAR(1, 0x5076E4, short, gAbeInvulnerableCheat_5076E4, 0);
@@ -7551,7 +7553,27 @@ void Abe::State_77_WellBegin_430F10()
     {
         field_114_gnFrame = 15;
         SFX_Play_43AD70(SoundEffect::WellEnter_25, 0, this);
-        field_FC_current_motion = static_cast<eAbeStates>((static_cast<int>(field_FC_current_motion) + 1));
+
+        switch (field_FC_current_motion)
+        {
+            case eAbeStates::State_77_WellBegin_430F10:
+            {
+                field_FC_current_motion = eAbeStates::State_78_InsideWellLocal_4310A0;
+                break;
+            }
+            case eAbeStates::State_80_430EF0:
+            {
+                field_FC_current_motion = eAbeStates::State_81_InsideWellExpress_431320;
+                break;
+            }
+            case eAbeStates::State_83_430F00:
+            {
+                field_FC_current_motion = eAbeStates::State_84_431080;
+                break;
+            }
+            default:
+                ALIVE_FATAL("Unrecognized stat called Abe::State_77_WellBegin_430F10!");
+        }
     }
 }
 
