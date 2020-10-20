@@ -107,7 +107,7 @@ ZBall* ZBall::ctor_478590(Path_ZBall* pTlv, int tlvInfo)
     }
 
     field_E4_tlvInfo = tlvInfo;
-    field_10_anim.field_1C_fn_ptrs = kZBall_Anim_Frame_Fns_4CEBF8;
+    field_10_anim.field_1C_fn_ptr_array = kZBall_Anim_Frame_Fns_4CEBF8;
 
     return this;
 }

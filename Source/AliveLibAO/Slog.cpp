@@ -600,7 +600,7 @@ void Slog::Init_473130()
         1);
 
     field_6_flags.Set(Options::eCanExplode_Bit7);
-    field_10_anim.field_1C_fn_ptrs = kSlog_Anim_Frame_Fns_4CEBF4;
+    field_10_anim.field_1C_fn_ptr_array = kSlog_Anim_Frame_Fns_4CEBF4;
     field_11C = 0;
     field_120 = 0;
     field_124 = -1;
