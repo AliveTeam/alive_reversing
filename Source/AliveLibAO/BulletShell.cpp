@@ -81,8 +81,8 @@ void BulletShell::VUpdate()
 
 void BulletShell::VUpdate_4628C0()
 {
-    field_A8_xpos = field_B4_velx + field_A8_xpos;
-    field_AC_ypos = field_B8_vely + field_AC_ypos;
+    field_A8_xpos += field_B4_velx;
+    field_AC_ypos += field_B8_vely;
 
     field_B8_vely += field_F0_speed;
 
@@ -90,7 +90,7 @@ void BulletShell::VUpdate_4628C0()
     FP hitY = {};
     if (sCollisions_DArray_504C6C->RayCast_40C410(
         field_A8_xpos,
-        field_A8_xpos - field_B8_vely,
+        field_AC_ypos - field_B8_vely,
         field_A8_xpos,
         field_AC_ypos,
         &field_E4_pLine,
@@ -98,8 +98,7 @@ void BulletShell::VUpdate_4628C0()
         &hitY,
         field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70) == 1)
     {
-        const auto line_type = field_E4_pLine->field_8_type;
-        if (!line_type || line_type == 4)
+        if (field_E4_pLine->field_8_type == 0 || field_E4_pLine->field_8_type == 4)
         {
             field_AC_ypos = hitY - FP_FromInteger(1);
             field_B8_vely = -(field_B8_vely * FP_FromDouble(0.3));
