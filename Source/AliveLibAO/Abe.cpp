@@ -3066,7 +3066,7 @@ __int16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
 
     field_11C_regen_health_timer = gnFrameCount_507670 + 900;
 
-    auto oldHpGtZero = field_100_health > FP_FromInteger(0);
+    auto oldHp = field_100_health;
 
     switch (pFrom->field_4_typeId)
     {
@@ -3483,7 +3483,7 @@ __int16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
         if (!field_106_shot)
         {
             field_130_say = old_say;
-            oldHpGtZero = false;
+            oldHp = FP_FromInteger(0);
         }
         break;
 
@@ -3501,7 +3501,7 @@ __int16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
         }
     }
 
-    return oldHpGtZero ? 1 : 0;
+    return oldHp > FP_FromInteger(0) ? 1 : 0;
 }
 
 static bool IsSameScaleAsHoist(Path_Hoist* pHoist, BaseAliveGameObject* pObj)
