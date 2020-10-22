@@ -9690,7 +9690,6 @@ void Abe::State_156_DoorEnter_42D370()
                 + FP_FromInteger(field_F0_pTlv->field_C_sound_pos.field_0_x);
             MapFollowMe_401D30(TRUE);
 
-            PathLine* pLine = nullptr;
             FP hitX = {};
             FP hitY = {};
             if (sCollisions_DArray_504C6C->RayCast_40C410(
@@ -9698,18 +9697,14 @@ void Abe::State_156_DoorEnter_42D370()
                 FP_FromInteger(field_F0_pTlv->field_10_top_left.field_2_y),
                 field_A8_xpos,
                 FP_FromInteger(field_F0_pTlv->field_14_bottom_right.field_2_y),
-                &pLine,
+                &field_F4_pLine,
                 &hitX,
                 &hitY,
                 field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70))
             {
-                field_F4_pLine = pLine;
                 field_AC_ypos = hitY;
             }
-            else
-            {
-                field_F4_pLine = nullptr;
-            }
+
             field_110_state.door = DoorStates::eAbeComesOut_6;
             field_118 = gnFrameCount_507670 + 30;
             return;
