@@ -9550,7 +9550,7 @@ void Abe::State_156_DoorEnter_42D370()
 {
     switch (field_110_state.door)
     {
-        case DoorStates::eUnknown_0:
+        case DoorStates::eAbeComesIn_0:
         {
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
@@ -9590,11 +9590,12 @@ void Abe::State_156_DoorEnter_42D370()
                     FP_GetExponent(field_AC_ypos),
                     TlvTypes::ResetPath_115
                 ));
+                field_F0_pTlv = pTlv;
                 if (pTlv)
                 {
                     if (pTlv->field_18_clearIds)
                     {
-                        for (short i = pTlv->field_1A_from; pTlv->field_1A_from <= pTlv->field_1C_to; i++ )
+                        for (short i = pTlv->field_1A_from; i <= pTlv->field_1C_to; i++ )
                         {
                             if (i != pTlv->field_1E_exclude && i > 1)
                             {
@@ -9709,11 +9710,11 @@ void Abe::State_156_DoorEnter_42D370()
             {
                 field_F4_pLine = nullptr;
             }
-            field_110_state.door = DoorStates::eUnknown_6;
+            field_110_state.door = DoorStates::eAbeComesOut_6;
             field_118 = gnFrameCount_507670 + 30;
             return;
         }
-        case DoorStates::eUnknown_6:
+        case DoorStates::eAbeComesOut_6:
         {
             if (field_118 <= static_cast<int>(gnFrameCount_507670))
             {

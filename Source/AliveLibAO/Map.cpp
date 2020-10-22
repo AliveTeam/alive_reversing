@@ -1442,9 +1442,45 @@ Path_TLV* Map::TLV_Get_At_446060(Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP 
     return pTlv;
 }
 
-void Map::sub_447430(unsigned __int16)
+void Map::sub_447430(unsigned __int16 pathNum)
 {
-    NOT_IMPLEMENTED();
+    const auto pPathData = Path_Get_Bly_Record_434650(field_0_current_level, pathNum)->field_4_pPathData;
+    auto pPathRes = *field_5C_path_res_array.field_0_pPathRecs[pathNum];
+
+    auto counterInit = (pPathData->field_A_bBottom - pPathData->field_6_bRight)
+        / pPathData->field_E_grid_height
+        * ((pPathData->field_8_bTop - pPathData->field_4_bLeft) / pPathData->field_C_grid_width);
+
+    if (counterInit > 0)
+    {
+        DWORD* pObjectTable = reinterpret_cast<DWORD*>(&pPathRes[pPathData->field_18_object_index_table_offset]);
+
+        for(auto counter = 0; counter < counterInit; counter++)
+        {
+            if (pObjectTable[counter] != -1)
+            {
+                auto pTlv = (Path_TLV *) &pPathRes[pPathData->field_14_object_offset + pObjectTable[counter]];
+
+                pTlv->RangeCheck();
+
+                pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
+                pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
+                while (!pTlv->field_0_flags.Get(TLV_Flags::eBit3_End_TLV_List))
+                {
+                    pTlv = Path_TLV::Next_NoCheck(pTlv);
+
+                    pTlv->RangeCheck();
+                    if (pTlv->field_2_length == 0)
+                    {
+                        break;
+                    }
+
+                    pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
+                    pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
+                }
+            }
+        }
+    }
 }
 
 Path_TLV* Map::TLV_First_Of_Type_In_Camera_4464A0(TlvTypes type, int camX)
