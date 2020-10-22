@@ -9535,9 +9535,193 @@ void Abe::State_155_ElumJumpToFall_42E060()
     // Empty
 }
 
+struct Path_Reset : public Path_TLV
+{
+    __int16 field_18_clearIds;
+    __int16 field_1A_from;
+    __int16 field_1C_to;
+    __int16 field_1E_exclude;
+    __int16 field_20_clearObjects;
+    __int16 field_22_path;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Reset, 0x24);
+
 void Abe::State_156_DoorEnter_42D370()
 {
-    NOT_IMPLEMENTED();
+    switch (field_110_state.door)
+    {
+        case DoorStates::eAbeComesIn_0:
+        {
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                field_110_state.door = DoorStates::eUnknown_2;
+                field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                field_118 = gnFrameCount_507670 + 3;
+            }
+            return;
+        }
+        case DoorStates::eUnknown_1:
+        {
+            if (field_158_pDeathFadeout->field_6E_bDone)
+            {
+                field_110_state.door = DoorStates::eUnknown_2;
+                field_118 = gnFrameCount_507670 + 5;
+            }
+            return;
+        }
+        case DoorStates::eUnknown_2:
+        {
+            if (field_118 <= static_cast<int>(gnFrameCount_507670))
+            {
+                field_110_state.door = DoorStates::eUnknown_3;
+                field_118 = gnFrameCount_507670 + 3;
+            }
+            return;
+        }
+        case DoorStates::eUnknown_3:
+        {
+            if (field_118 <= static_cast<int>(gnFrameCount_507670))
+            {
+                field_110_state.door = DoorStates::eUnknown_4;
+                auto pTlv = static_cast<Path_Reset*>(gMap_507BA8.TLV_Get_At_446260(
+                    FP_GetExponent(field_A8_xpos),
+                    FP_GetExponent(field_AC_ypos),
+                    FP_GetExponent(field_A8_xpos),
+                    FP_GetExponent(field_AC_ypos),
+                    TlvTypes::ResetPath_115
+                ));
+                field_F0_pTlv = pTlv;
+                if (pTlv)
+                {
+                    if (pTlv->field_18_clearIds)
+                    {
+                        for (short i = pTlv->field_1A_from; i <= pTlv->field_1C_to; i++ )
+                        {
+                            if (i != pTlv->field_1E_exclude && i > 1)
+                            {
+                                SwitchStates_Set(i, 0);
+                            }
+                        }
+                    }
+                    if (pTlv->field_20_clearObjects)
+                    {
+                        gMap_507BA8.sub_447430(pTlv->field_22_path);
+                    }
+                }
+            }
+            return;
+        }
+        case DoorStates::eUnknown_4:
+        {
+            auto pDoorTlv = static_cast<Path_Door*>(gMap_507BA8.TLV_Get_At_446260(
+                FP_GetExponent(field_A8_xpos),
+                FP_GetExponent(field_AC_ypos),
+                FP_GetExponent(field_A8_xpos),
+                FP_GetExponent(field_AC_ypos),
+                Door_6
+            ));
+            field_F0_pTlv = pDoorTlv;
+            gMap_507BA8.field_1E_door = 1;
+            const auto changeEffect = kPathChangeEffectToInternalScreenChangeEffect_4CDC78[pDoorTlv->field_3A_wipe_effect];
+            short flag = 0;
+            if (changeEffect == CameraSwapEffects::eEffect5_1_FMV || changeEffect == CameraSwapEffects::eEffect11 )
+            {
+                flag = 1;
+            }
+            gMap_507BA8.SetActiveCam_444660(
+                pDoorTlv->field_18_level,
+                pDoorTlv->field_1A_path,
+                pDoorTlv->field_1C_camera,
+                changeEffect,
+                pDoorTlv->field_3C_movie_number,
+                flag
+            );
+            field_110_state.door = DoorStates::eUnknown_5;
+            field_196_door_id = pDoorTlv->field_24_target_door_number;
+            return;
+        }
+        case DoorStates::eUnknown_5:
+        {
+            field_B2_lvl_number = gMap_507BA8.field_0_current_level;
+            field_B0_path_number = gMap_507BA8.field_2_current_path;
+            gMap_507BA8.field_1E_door = 0;
+            auto pPathDoor = static_cast<Path_Door*>(gMap_507BA8.TLV_First_Of_Type_In_Camera_4464A0(Door_6, 0));
+            field_F0_pTlv = pPathDoor;
+
+            while (pPathDoor->field_20_door_number != field_196_door_id)
+            {
+                pPathDoor = static_cast<Path_Door*>(Path_TLV::TLV_Next_Of_Type_446500(
+                    field_F0_pTlv,
+                    Door_6
+                ));
+                field_F0_pTlv = pPathDoor;
+            }
+
+            if (pPathDoor->field_26_start_state == eDoorStates::eOpen_0)
+            {
+                if (pPathDoor->field_1E_scale == 1)
+                {
+                    field_BC_sprite_scale = FP_FromDouble(0.5);
+                    field_10_anim.field_C_layer = 13;
+                    field_C6_scale = 0;
+                }
+                else
+                {
+                    field_BC_sprite_scale = FP_FromInteger(1);
+                    field_10_anim.field_C_layer = 32;
+                    field_C6_scale = 1;
+                }
+            }
+            else if (pPathDoor->field_26_start_state == eDoorStates::eClosed_1 || pPathDoor->field_26_start_state == eDoorStates::eOpening_2)
+            {
+                if (gMap_507BA8.field_0_current_level != LevelIds::eRuptureFarmsReturn_13)
+                {
+                    field_BC_sprite_scale = FP_FromDouble(0.5);
+                    field_C6_scale = 0;
+                }
+                else
+                {
+                    field_BC_sprite_scale = FP_FromInteger(1);
+                    field_C6_scale = 1;
+                }
+            }
+            field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pPathDoor->field_46_abe_direction);
+            field_A8_xpos = FP_FromInteger((field_F0_pTlv->field_14_bottom_right.field_0_x - field_F0_pTlv->field_10_top_left.field_0_x) / 2)
+                + FP_FromInteger(field_F0_pTlv->field_C_sound_pos.field_0_x);
+            MapFollowMe_401D30(TRUE);
+
+            FP hitX = {};
+            FP hitY = {};
+            if (sCollisions_DArray_504C6C->RayCast_40C410(
+                field_A8_xpos,
+                FP_FromInteger(field_F0_pTlv->field_10_top_left.field_2_y),
+                field_A8_xpos,
+                FP_FromInteger(field_F0_pTlv->field_14_bottom_right.field_2_y),
+                &field_F4_pLine,
+                &hitX,
+                &hitY,
+                field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70))
+            {
+                field_AC_ypos = hitY;
+            }
+
+            field_110_state.door = DoorStates::eAbeComesOut_6;
+            field_118 = gnFrameCount_507670 + 30;
+            return;
+        }
+        case DoorStates::eAbeComesOut_6:
+        {
+            if (field_118 <= static_cast<int>(gnFrameCount_507670))
+            {
+                field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+                field_110_state.raw = 0;
+                field_FC_current_motion = eAbeStates::State_157_DoorExit_42D780;
+            }
+            return;
+        }
+        default:
+            return;
+    }
 }
 
 void Abe::State_157_DoorExit_42D780()

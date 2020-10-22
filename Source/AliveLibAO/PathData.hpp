@@ -89,6 +89,7 @@ enum TlvTypes : __int16
     HandStone_100 = 100,
 
     SoftLanding_114 = 114,
+    ResetPath_115 = 115,
 };
 
 struct Path_TLV;
