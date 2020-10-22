@@ -354,6 +354,7 @@ if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
 endif()
 
 target_link_libraries(AliveLibAO
+    AliveDllAE
     AliveLibCommon
     EasyLogging++
     googletest

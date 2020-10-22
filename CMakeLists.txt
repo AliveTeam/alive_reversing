@@ -54,6 +54,21 @@ ENDMACRO(ADD_MSVC_PRECOMPILED_HEADER)
 
 enable_testing()
 
+if (NOT DEFINED ENV{AE_ROOT})
+    message(WARNING "No AE_ROOT environment variable found, resorting to the default path")
+    set(AE_PATH "C:\\GOG Games\\Abes Exoddus" )
+else()
+    file(TO_CMAKE_PATH $ENV{AE_ROOT} AE_PATH)
+endif()
+
+
+if (NOT DEFINED ENV{AO_ROOT})
+    message(WARNING "No AO_ROOT environment variable found, resorting to the default path")
+    set(AO_PATH "C:\\GOG Games\\Abes Oddysee" )
+else()
+    file(TO_CMAKE_PATH $ENV{AO_ROOT} AO_PATH)
+endif()
+
 add_subdirectory(3rdParty)
 add_subdirectory(Source/AliveLibCommon)
 add_subdirectory(Source/AliveLibAO)

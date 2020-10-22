@@ -3,11 +3,6 @@
 #include "ExportHooker.hpp"
 #include "../AliveLibAE/WinMain.hpp"
 
-bool RunningAsInjectedDll()
-{
-    return true;
-}
-
 extern "C"
 {
     EXPORT void CC ForceThisDllToLoadInExoddusExe()
@@ -25,6 +20,47 @@ extern "C"
     }
 }
 
+static bool isInjectedDll = true;
+
+bool RunningAsInjectedDll()
+{
+    static bool aoChecked = false;
+    if (!aoChecked)
+    {
+        auto hAODll = ::GetModuleHandle("AliveDllAO.dll");
+        if (hAODll)
+        {
+            // Do not hook functions and use our own copy of data when being used by the AO dll for core/shared functions
+            // trying to hook AE funcs in AO or using AE vars in AO would end badly
+            LOG_INFO("AE DLL being used by AO dll for core funcs");
+            isInjectedDll = false;
+        }
+        else
+        {
+            LOG_INFO("AE DLL running as injected dll");
+        }
+        aoChecked = true;
+    }
+    return isInjectedDll;
+}
+
+
+static void AEDllProcessAttach(HINSTANCE hinstDLL)
+{
+    AllocConsole();
+    freopen("CONOUT$", "w", stdout);
+    SetConsoleTitleA("Debug Console");
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
+
+    RedirectIoStream(true);
+
+    LOG_INFO("DLL_PROCESS_ATTACH");
+
+    LOG_INFO("Applying detours...");
+    ExportHooker hooker(hinstDLL);
+    hooker.Apply(false); // Change to true to update decompiled_functions.txt
+    LOG_INFO("Detours done");
+}
 
 BOOL WINAPI DllMain(
     _In_ HINSTANCE hinstDLL,
@@ -34,19 +70,7 @@ BOOL WINAPI DllMain(
 {
     if (fdwReason == DLL_PROCESS_ATTACH)
     {
-        AllocConsole();
-        freopen("CONOUT$", "w", stdout);
-        SetConsoleTitleA("Debug Console");
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
-
-        RedirectIoStream(true);
-
-        LOG_INFO("DLL_PROCESS_ATTACH");
-
-        LOG_INFO("Applying detours...");
-        ExportHooker hooker(hinstDLL);
-        hooker.Apply(false); // Change to true to update decompiled_functions.txt
-        LOG_INFO("Detours done");
+        AEDllProcessAttach(hinstDLL);
     }
     else if(fdwReason == DLL_PROCESS_DETACH)
     {
