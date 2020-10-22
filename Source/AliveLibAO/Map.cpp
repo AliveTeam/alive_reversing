@@ -1445,9 +1445,9 @@ Path_TLV* Map::TLV_Get_At_446060(Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP 
 void Map::sub_447430(unsigned __int16 pathNum)
 {
     const auto pPathData = Path_Get_Bly_Record_434650(field_0_current_level, pathNum)->field_4_pPathData;
-    auto pPathRes = *field_5C_path_res_array.field_0_pPathRecs[pathNum];
+    const auto pPathRes = *field_5C_path_res_array.field_0_pPathRecs[pathNum];
 
-    auto counterInit = (pPathData->field_A_bBottom - pPathData->field_6_bRight)
+    const auto counterInit = (pPathData->field_A_bBottom - pPathData->field_6_bRight)
         / pPathData->field_E_grid_height
         * ((pPathData->field_8_bTop - pPathData->field_4_bLeft) / pPathData->field_C_grid_width);
 
@@ -1459,7 +1459,7 @@ void Map::sub_447430(unsigned __int16 pathNum)
         {
             if (pObjectTable[counter] != -1)
             {
-                auto pTlv = (Path_TLV *) &pPathRes[pPathData->field_14_object_offset + pObjectTable[counter]];
+                auto pTlv = reinterpret_cast<Path_TLV *>(&pPathRes[pPathData->field_14_object_offset + pObjectTable[counter]]);
 
                 pTlv->RangeCheck();
 
