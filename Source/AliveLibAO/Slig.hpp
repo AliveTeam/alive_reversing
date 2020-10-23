@@ -125,6 +125,27 @@ enum class SligSpeak : unsigned __int8
    eBlurgh_11 = 11
 };
 
+enum class SligSfx : __int8
+{
+    eUnknown_0 = 0,
+    eUnknown_1 = 1,
+    eUnknown_2 = 2,
+    eUnknown_3 = 3,
+    eUnknown_4 = 4,
+    eUnknown_5 = 5,
+    eUnknown_6 = 6,
+    eUnknown_7 = 7,
+    eUnknown_8 = 8,
+    eUnknown_9 = 9,
+    eUnknown_10 = 10,
+    eUnknown_11 = 11,
+    eUnknown_12 = 12,
+    eUnknown_13 = 13,
+    eUnknown_14 = 14,
+    eUnknown_15 = 15,
+    eUnknown_16 = 16
+};
+
 class Slig : public BaseAliveGameObject
 {
 public:
@@ -192,7 +213,7 @@ public:
 
     EXPORT signed __int16 MainMovement_467020();
 
-    EXPORT void Slig_SoundEffect_46F310(unsigned __int8 sfxIdx);
+    EXPORT void Slig_SoundEffect_46F310(SligSfx sfxIdx);
 
     EXPORT BYTE** ResBlockForMotion_4654D0(__int16 motion);
 

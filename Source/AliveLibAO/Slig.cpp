@@ -191,9 +191,93 @@ static AIFunctionData<Slig::TBrainFn> sSligAITable[]
     { &Slig::Brain_ZShooting_46F290, 0x46F290, "Brain_ZShooting_29" },
 };
 
-void Slig::Slig_SoundEffect_46F310(unsigned __int8 /*sfxIdx*/)
+SfxDefinition sSligSounds_4CFB30[] =
 {
-    NOT_IMPLEMENTED();
+    { 0, 1, 58, 40, -256, -256, 0 },
+    { 0, 1, 58, 50, 0, 0, 0 },
+    { 0, 1, 59, 60, 0, 0, 0 },
+    { 0, 1, 59, 60, 127, 127, 0 },
+    { 0, 1, 60, 60, 0, 0, 0 },
+    { 0, 1, 61, 60, 0, 0, 0 },
+    { 0, 62, 60, 127, 0, 0, 0 },
+    { 0, 62, 62, 127, 0, 0, 0 },
+    { 0, 62, 61, 127, 0, 0, 0 },
+    { 0, 62, 63, 127, 0, 0, 0 },
+    { 0, 63, 60, 127, 0, 0, 0 },
+    { 0, 63, 37, 127, 0, 0, 0 },
+    { 0, 63, 61, 127, 0, 0, 0 },
+    { 0, 63, 38, 127, 0, 0, 0 },
+    { 0, 64, 61, 127, 0, 0, 0 },
+    { 0, 64, 62, 127, 0, 0, 0 },
+    { 0, 64, 63, 127, 0, 0, 0 },
+    { 0, 64, 39, 127, 0, 0, 0 },
+    { 0, 64, 36, 127, 0, 0, 0 }
+};
+
+void Slig::Slig_SoundEffect_46F310(SligSfx sfxIdx)
+{
+    PSX_RECT worldRect;
+    int volRight = 0;
+    int volLeft = 0;
+
+    auto dir = gMap_507BA8.GetDirection_444A40(
+        static_cast<int>(field_B2_lvl_number),
+        field_B0_path_number,
+        field_A8_xpos,
+        field_AC_ypos
+    );
+
+    auto sfxIdxInt = static_cast<int>(sfxIdx);
+    if (field_BC_sprite_scale == FP_FromInteger(1))
+    {
+        volRight = sSligSounds_4CFB30[sfxIdxInt].field_C_default_volume;
+    }
+    else
+    {
+        volRight = sSligSounds_4CFB30[sfxIdxInt].field_C_default_volume / 2;
+    }
+    gMap_507BA8.Get_Camera_World_Rect_444C30(dir, &worldRect);
+    switch (dir)
+    {
+        case CameraPos::eCamCurrent_0:
+        {
+            volLeft = volRight;
+            break;
+        }
+        case CameraPos::eCamTop_1:
+        case CameraPos::eCamBottom_2:
+        {
+            volLeft = sSligSounds_4CFB30[sfxIdxInt].field_C_default_volume * 2 / 3;
+            volRight = volLeft;
+            break;
+        }
+        case CameraPos::eCamLeft_3:
+        {
+            FP percentHowFar = (FP_FromInteger(worldRect.w) - field_A8_xpos) / FP_FromInteger(640);
+            volLeft = volRight - FP_GetExponent(percentHowFar * FP_FromInteger(volRight - (volRight / 3)));
+            volRight -= FP_GetExponent(percentHowFar * FP_FromInteger(volRight));
+            break;
+        }
+        case CameraPos::eCamRight_4:
+        {
+            FP percentHowFar = (field_A8_xpos - FP_FromInteger(worldRect.x)) / FP_FromInteger(640);
+            volLeft = volRight - FP_GetExponent(percentHowFar * FP_FromInteger(volRight));
+            volRight -= FP_GetExponent(percentHowFar * FP_FromInteger(volRight - (volRight / 3)));
+            break;
+        }
+        default:
+            return;
+    }
+    if (field_BC_sprite_scale == FP_FromDouble(0.5))
+    {
+        volLeft = volLeft * 2 / 3;
+        volRight = volRight * 2 / 3;
+    }
+    auto pitch = Math_RandomRange_450F20(
+        sSligSounds_4CFB30[sfxIdxInt].field_E_pitch_min,
+        sSligSounds_4CFB30[sfxIdxInt].field_E_pitch_min
+    );
+    SFX_SfxDefinition_Play_477330(&sSligSounds_4CFB30[sfxIdxInt], static_cast<short>(volLeft), static_cast<short>(volRight), pitch, pitch);
 }
 
 Slig* Slig::ctor_464D40(Path_Slig* pTlv, int tlvInfo)
@@ -2020,7 +2104,7 @@ void Slig::State_2_Walking_469130()
         {
         case 5:
 
-            Slig_SoundEffect_46F310(2u);
+            Slig_SoundEffect_46F310(SligSfx::eUnknown_2);
             if (!field_120_checked_if_off_screen)
             {
                 field_120_checked_if_off_screen = 1;
@@ -2089,7 +2173,7 @@ void Slig::State_2_Walking_469130()
             break;
         case 14:
 
-            Slig_SoundEffect_46F310(2u);
+            Slig_SoundEffect_46F310(SligSfx::eUnknown_2);
 
             if (!field_120_checked_if_off_screen)
             {
@@ -2177,7 +2261,7 @@ void Slig::State_4_Running_469690()
         {
             if (field_10_anim.field_92_current_frame == 4 || field_10_anim.field_92_current_frame == 12)
             {
-                Slig_SoundEffect_46F310(3u);
+                Slig_SoundEffect_46F310(SligSfx::eUnknown_3);
 
                 if (field_120_checked_if_off_screen == 0)
                 {
@@ -2253,7 +2337,7 @@ void Slig::State_5_TurnAroundStanding_469C80()
         MusicController::sub_443810(MusicController::MusicTypes::eType4, this, 0, 0);
     }
 
-    Slig_SoundEffect_46F310(1u);
+    Slig_SoundEffect_46F310(SligSfx::eUnknown_1);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -2647,7 +2731,7 @@ void Slig::State_15_SteppingToStand_469080()
 {
     if (!field_10_anim.field_92_current_frame)
     {
-        Slig_SoundEffect_46F310(2u);
+        Slig_SoundEffect_46F310(SligSfx::eUnknown_2);
     }
 
     if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(35), field_B4_velx))
@@ -2844,7 +2928,7 @@ void Slig::State_33_Sleeping_46A410()
     {
         if (!((gnFrameCount_507670 - 20) % 60))
         {
-            Slig_SoundEffect_46F310(5u);
+            Slig_SoundEffect_46F310(SligSfx::eUnknown_5);
 
             if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
                 field_B2_lvl_number,
@@ -2869,7 +2953,7 @@ void Slig::State_33_Sleeping_46A410()
     }
     else
     {
-        Slig_SoundEffect_46F310(4u);
+        Slig_SoundEffect_46F310(SligSfx::eUnknown_4);
 
         if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
@@ -2912,12 +2996,12 @@ void Slig::State_34_SleepingToStand_46A5F0()
 
     if (field_10_anim.field_92_current_frame >= 2 && field_10_anim.field_92_current_frame <= 10)
     {
-        Slig_SoundEffect_46F310(0);
+        Slig_SoundEffect_46F310(SligSfx::eUnknown_0);
     }
     
     if (field_10_anim.field_92_current_frame == 9)
     {
-        Slig_SoundEffect_46F310(2u);
+        Slig_SoundEffect_46F310(SligSfx::eUnknown_2);
     }
 
     switch (field_10_anim.field_92_current_frame)
@@ -3014,12 +3098,12 @@ void Slig::State_36_KnockbackToStand_46A7F0()
     
     if (field_10_anim.field_92_current_frame >= 2 && field_10_anim.field_92_current_frame <= 10)
     {
-        Slig_SoundEffect_46F310(0);
+        Slig_SoundEffect_46F310(SligSfx::eUnknown_0);
     }
 
     if (field_10_anim.field_92_current_frame == 9)
     {
-        Slig_SoundEffect_46F310(2);
+        Slig_SoundEffect_46F310(SligSfx::eUnknown_2);
     }
 
     FP gridSize = {};
