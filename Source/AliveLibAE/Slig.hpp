@@ -64,6 +64,27 @@ enum eSligMotions : int
     SLIG_MOTIONS_ENUM(MAKE_ENUM)
 };
 
+enum class SligSfx : __int16
+{
+    eUnknown_0 = 0,
+    eUnknown_1 = 1,
+    eUnknown_2 = 2,
+    eUnknown_3 = 3,
+    eUnknown_4 = 4,
+    eUnknown_5 = 5,
+    eUnknown_6 = 6,
+    eUnknown_7 = 7,
+    eUnknown_8 = 8,
+    eUnknown_9 = 9,
+    eUnknown_10 = 10,
+    eUnknown_11 = 11,
+    eUnknown_12 = 12,
+    eUnknown_13 = 13,
+    eUnknown_14 = 14,
+    eUnknown_15 = 15,
+    eUnknown_16 = 16
+};
+
 struct Path_Slig : public Path_TLV
 {
     __int16 field_10_scale;
@@ -576,7 +597,7 @@ private:
 ALIVE_ASSERT_SIZEOF(Slig, 0x298);
 
 EXPORT int CC Animation_OnFrame_Slig_4C0600(void* pObj, signed __int16* pData);
-
+EXPORT void CC Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj);
 
 void renderWithGlowingEyes(int** ot, BaseAliveGameObject* actor, __int16* pPalAlloc, __int16 palSize, PSX_RECT* palRect,
     __int16& r, __int16& g, __int16& b,
