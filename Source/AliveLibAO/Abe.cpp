@@ -417,17 +417,231 @@ const int sAbeFrameOffsetTable_4C61A0[166] =
 ALIVE_VAR(1, 0x507678, Abe*, sActiveHero_507678, nullptr);
 ALIVE_VAR(1, 0x50767C, BaseAliveGameObject*, sControlledCharacter_50767C, nullptr);
 
-int CC Environment_SFX_42A220(EnvironmentSfx /*sfxId*/, signed int /*volume*/, int /*pitchMin*/,
-                        BaseAliveGameObject* /*pAliveObj*/)
+SfxDefinition sSFXList_4C6638[49] =
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    { 0, 3, 69, 60, -1, 1, 0 },
+    { 0, 3, 70, 60, -1, 1, 0 },
+    { 0, 3, 59, 67, -1, 1, 0 },
+    { 0, 3, 61, 67, -1, 1, 0 },
+    { 0, 3, 58, 52, -1, 1, 0 },
+    { 0, 3, 67, 45, -1, 1, 0 },
+    { 0, 3, 57, 60, -1, 1, 0 },
+    { 0, 3, 65, 50, -1, 1, 0 },
+    { 0, 3, 68, 60, -1, 1, 0 },
+    { 0, 3, 72, 70, -1, 1, 0 },
+    { 0, 4, 36, 50, -127, 0, 0 },
+    { 0, 4, 37, 50, -127, 0, 0 },
+    { 0, 4, 38, 50, -127, 0, 0 },
+    { 0, 4, 36, 55, 0, 127, 0 },
+    { 0, 4, 37, 55, 0, 127, 0 },
+    { 0, 4, 38, 55, 0, 127, 0 },
+    { 0, 4, 59, 50, -1, 1, 0 },
+    { 0, 4, 72, 127, -1, 1, 0 },
+    { 0, 4, 80, 127, -1, 1, 0 },
+    { 0, 11, 61, 60, -1, 0, 0 },
+    { 0, 11, 62, 60, -1, 1, 0 },
+    { 0, 11, 64, 60, -1, 1, 0 },
+    { 0, 11, 65, 50, -1, 1, 0 },
+    { 0, 11, 64, 50, -1, 1, 0 },
+    { 0, 11, 66, 50, -1, 1, 0 },
+    { 0, 23, 60, 90, 0, 0, 0 },
+    { 0, 23, 61, 90, 0, 0, 0 },
+    { 0, 23, 62, 90, 0, 0, 0 },
+    { 0, 23, 63, 90, 0, 0, 0 },
+    { 0, 23, 64, 90, 0, 0, 0 },
+    { 0, 0, 0, 0, 0, 0, 0 },
+    { 0, 58, 61, 97, 0, 0, 0 },
+    { 0, 58, 60, 97, 0, 0, 0 },
+    { 0, 59, 60, 127, 0, 0, 0 },
+    { 0, 59, 61, 127, 0, 0, 0 },
+    { 0, 59, 62, 127, 0, 0, 0 },
+    { 0, 59, 63, 110, 0, 0, 0 },
+    { 0, 60, 61, 127, 0, 0, 0 },
+    { 0, 60, 63, 127, 0, 0, 0 },
+    { 0, 61, 55, 127, 0, 0, 0 },
+    { 0, 61, 56, 127, 0, 0, 0 },
+    { 0, 61, 57, 127, 0, 0, 0 },
+    { 0, 61, 58, 127, 0, 0, 0 },
+    { 0, 61, 59, 127, 0, 0, 0 },
+    { 0, 61, 60, 127, 0, 0, 0 },
+    { 0, 61, 61, 127, 0, 0, 0 },
+    { 0, 0, 0, 0, 0, 0, 0 },
+    { 0, 65, 60, 127, 0, 0, 0 },
+    { 0, 65, 64, 80, 0, 0, 0 }
+};
+
+int CC Environment_SFX_42A220(EnvironmentSfx sfxId, signed int volume, int pitchMin, BaseAliveGameObject* pAliveObj)
+{
+    short sndIndex = 0;
+    switch (sfxId)
+    {
+        case EnvironmentSfx::eSlideStop_0:
+            sndIndex = 11;
+            volume = 40;
+            break;
+        case EnvironmentSfx::eWalkingFootstep_1:
+            sndIndex = Math_RandomRange_450F20(10, 12);
+            if (volume == 0)
+            {
+                volume = Math_RandomRange_450F20(54, 58);
+            }
+            break;
+        case EnvironmentSfx::eRunningFootstep_2:
+            sndIndex = Math_RandomRange_450F20(13, 15);
+            if (volume == 0)
+            {
+                volume = Math_RandomRange_450F20(66, 70);
+            }
+            break;
+        case EnvironmentSfx::eSneakFootstep_3:
+            sndIndex = 5;
+            break;
+        case EnvironmentSfx::eRunSlide_4:
+            sndIndex = 4;
+            break;
+        case EnvironmentSfx::eLandingSoft_5:
+        {
+            int v4 = 0;
+            int v5 = 0;
+            if (volume > 0 || !pAliveObj || pAliveObj->field_BC_sprite_scale != FP_FromDouble(0.5))
+            {
+                v4 = SFX_SfxDefinition_Play_4770F0(&sSFXList_4C6638[2], volume, pitchMin, 0x7FFF);
+                v5 = SFX_SfxDefinition_Play_4770F0(&sSFXList_4C6638[48], volume, pitchMin, 0x7FFF);
+            }
+            else
+            {
+                v4 = SFX_SfxDefinition_Play_4770F0(
+                    &sSFXList_4C6638[2],
+                    sSFXList_4C6638[2].field_C_default_volume / 2,
+                    pitchMin,
+                    0x7FFF);
+                v5 = SFX_SfxDefinition_Play_4770F0(
+                    &sSFXList_4C6638[48],
+                    sSFXList_4C6638[18].field_C_default_volume / 2,
+                    pitchMin,
+                    0x7FFF);
+            }
+            return v5 | v4;
+        }
+        case EnvironmentSfx::eHitGroundSoft_6:
+            sndIndex = 2;
+            break;
+        case EnvironmentSfx::eDeathNoise_7:
+            sndIndex = 16;
+            break;
+        case EnvironmentSfx::eRollingNoise_8:
+            sndIndex = 6;
+            break;
+        case EnvironmentSfx::eGenericMovement_9:
+        case EnvironmentSfx::eRunJumpOrLedgeHoist_11:
+        {
+            int result = 0;
+            if (pAliveObj && pAliveObj->field_BC_sprite_scale == FP_FromDouble(0.5))
+            {
+                result = SFX_Play_43AD70(37u, 20, 0);
+            }
+            else
+            {
+                result = SFX_Play_43AD70(37u, 35, 0);
+            }
+            return result;
+        }
+        case EnvironmentSfx::eExhaustingHoistNoise_10:
+        case EnvironmentSfx::eExhaustingElumMount_16:
+            sndIndex = 19;
+            break;
+        case EnvironmentSfx::eUnknown_12:
+            sndIndex = 25;
+            break;
+        case EnvironmentSfx::eKnockback_13:
+            if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1
+                || gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12
+                || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+            {
+                sndIndex = 2;
+            }
+            else
+            {
+                sndIndex = 9;
+            }
+            break;
+        case EnvironmentSfx::eElumHitWall_14:
+            sndIndex = 17;
+            break;
+        case EnvironmentSfx::eFallingDeathScreamHitGround_15:
+            return 0;
+        case EnvironmentSfx::eMountElumSmackNoise_17:
+            sndIndex = 20;
+            break;
+        case EnvironmentSfx::eElumGetMountedNoise_18:
+            sndIndex = 21;
+            break;
+        case EnvironmentSfx::eAbeMountedElumNoise_19:
+            sndIndex = 22;
+            break;
+        case EnvironmentSfx::eElumHowl_20:
+            sndIndex = 23;
+            break;
+        case EnvironmentSfx::eElumOkay_21:
+            sndIndex = 24;
+            break;
+        default:
+            break;
+    }
+    if (volume == 0)
+    {
+        volume = sSFXList_4C6638[sndIndex].field_C_default_volume;
+    }
+    if (pAliveObj)
+    {
+        if (pAliveObj->field_BC_sprite_scale == FP_FromDouble(0.5))
+        {
+            volume *= 2;
+            volume /= 3;
+        }
+    }
+    return SFX_SfxDefinition_Play_4770F0(&sSFXList_4C6638[sndIndex], volume, pitchMin, 0x7FFF);
 }
 
-int CC Mudokon_SFX_42A4D0(MudSounds /*idx*/, int /*volume*/, int /*pitch*/, BaseAliveGameObject* /*pHero*/)
+int CC Mudokon_SFX_42A4D0(MudSounds idx, int volume, int pitch, BaseAliveGameObject* pHero)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (idx == MudSounds::eLaugh1_8
+        && pHero == sActiveHero_507678
+        && (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13 ||
+        gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12))
+    {
+        idx = MudSounds::eLaugh2_11;
+    }
+    if (idx == MudSounds::eOops_16)
+    {
+        if (pHero && pHero->field_BC_sprite_scale == FP_FromDouble(0.5))
+        {
+            SND_SEQ_Play_477760(SeqId::Unknown_23, 1, 85, 85);
+            return 0;
+        }
+        else
+        {
+            SND_SEQ_Play_477760(SeqId::Unknown_23, 1, 110, 110);
+            return 0;
+        }
+    }
+    else
+    {
+        auto idxShort = static_cast<short>(idx);
+        if (volume == 0)
+        {
+            volume = sSFXList_4C6638[idxShort + 30].field_C_default_volume;
+        }
+        if (pHero)
+        {
+            if (pHero->field_BC_sprite_scale == FP_FromDouble(0.5))
+            {
+                volume *= 2;
+                volume /= 3;
+            }
+        }
+        return SFX_SfxDefinition_Play_4770F0(&sSFXList_4C6638[idxShort + 30], volume, pitch, pitch);
+    }
 }
 
 int CC XGrid_Index_To_XPos_41FA60(FP scale, int xGridIndex)
