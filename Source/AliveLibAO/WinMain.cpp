@@ -46,6 +46,8 @@
 #include "SwitchStates.hpp"
 #include "Midi.hpp"
 
+#include "../AliveLibAE/Error.hpp"
+
 START_NS_AO
 
 void WinMain_ForceLink()
@@ -103,15 +105,16 @@ EXPORT signed int CC VGA_DisplaySet_490230(unsigned __int16 /*width*/, unsigned 
     return 0;
 }
 
-EXPORT int Error_WarningMessageBox_48E470(const char* /*pWarningMsg*/, ...)
+EXPORT void Error_WarningMessageBox_48E470(const char* pWarningMsg, ...)
 {
     NOT_IMPLEMENTED();
-    return 0;
+    Error_WarningMessageBox_4F2D80(pWarningMsg); // TODO: VA_ARGS
 }
 
-EXPORT void CC Error_ShowErrorStackToUser_48DF10(char /*bDisplayAsOneMessage*/)
+EXPORT void CC Error_ShowErrorStackToUser_48DF10(bool bDisplayAsOneMessage)
 {
     NOT_IMPLEMENTED();
+    Error_ShowErrorStackToUser_4F2A70(bDisplayAsOneMessage);
 }
 
 EXPORT int CC VGA_GetPixelFormat_490E60()

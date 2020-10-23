@@ -30,6 +30,23 @@ extern "C"
 
 INITIALIZE_EASYLOGGINGPP;
 
+static void AODllProcessAttach(HINSTANCE hinstDLL)
+{
+    AllocConsole();
+    freopen("CONOUT$", "w", stdout);
+    SetConsoleTitleA("Debug Console");
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
+
+    RedirectIoStream(true);
+
+    LOG_INFO("DLL_PROCESS_ATTACH");
+
+    LOG_INFO("Applying detours...");
+    ExportHooker hooker(hinstDLL);
+    hooker.Apply(false); // Change to true to update decompiled_functions.txt
+    LOG_INFO("Detours done");
+}
+
 BOOL WINAPI DllMain(
     _In_ HINSTANCE hinstDLL,
     _In_ DWORD     fdwReason,
@@ -40,19 +57,7 @@ BOOL WINAPI DllMain(
 
     if (fdwReason == DLL_PROCESS_ATTACH)
     {
-        AllocConsole();
-        freopen("CONOUT$", "w", stdout);
-        SetConsoleTitleA("Debug Console");
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
-
-        RedirectIoStream(true);
-
-        LOG_INFO("DLL_PROCESS_ATTACH");
-
-        LOG_INFO("Applying detours...");
-        ExportHooker hooker(hinstDLL);
-        hooker.Apply(false); // Change to true to update decompiled_functions.txt
-        LOG_INFO("Detours done");
+        AODllProcessAttach(hinstDLL);
     }
     else if(fdwReason == DLL_PROCESS_DETACH)
     {
