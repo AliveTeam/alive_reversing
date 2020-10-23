@@ -45,8 +45,7 @@
 #include "PauseMenu.hpp"
 #include "SwitchStates.hpp"
 #include "Midi.hpp"
-
-#include "../AliveLibAE/Error.hpp"
+#include "Error.hpp"
 
 START_NS_AO
 
@@ -103,18 +102,6 @@ EXPORT signed int CC VGA_DisplaySet_490230(unsigned __int16 /*width*/, unsigned 
 {
     NOT_IMPLEMENTED();
     return 0;
-}
-
-EXPORT void Error_WarningMessageBox_48E470(const char* pWarningMsg, ...)
-{
-    NOT_IMPLEMENTED();
-    Error_WarningMessageBox_4F2D80(pWarningMsg); // TODO: VA_ARGS
-}
-
-EXPORT void CC Error_ShowErrorStackToUser_48DF10(bool bDisplayAsOneMessage)
-{
-    NOT_IMPLEMENTED();
-    Error_ShowErrorStackToUser_4F2A70(bDisplayAsOneMessage);
 }
 
 EXPORT int CC VGA_GetPixelFormat_490E60()
