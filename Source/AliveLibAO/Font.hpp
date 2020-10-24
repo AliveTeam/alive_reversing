@@ -20,9 +20,7 @@ public:
     EXPORT void dtor_41C110();
 
 
-    __int16 field_0;
-    __int16 field_2;
-    PSX_Point field_4;
+    PSX_RECT field_0_rect;
     int field_8;
     __int16 field_C_resource_id;
     __int16 field_E;

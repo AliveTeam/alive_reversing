@@ -20,10 +20,7 @@ void CC FontContext::static_ctor_41C010()
 
 void CC FontContext::static_dtor_41C020()
 {
-    if (sFontContext_4FFD68.field_0)
-    {
-        Vram_free_450CE0({ sFontContext_4FFD68.field_0, sFontContext_4FFD68.field_2 }, sFontContext_4FFD68.field_4);
-    }
+    sFontContext_4FFD68.dtor_41C110();
 }
 
 EXPORT __int16 FontContext::LoadFontType_41C040(int /*resourceID*/)
@@ -34,7 +31,12 @@ EXPORT __int16 FontContext::LoadFontType_41C040(int /*resourceID*/)
 
 EXPORT void FontContext::dtor_41C110()
 {
-    NOT_IMPLEMENTED();
+    if (field_0_rect.x > 0)
+    {
+        Vram_free_450CE0(
+            { field_0_rect.x, field_0_rect.y },
+            { field_0_rect.w, field_0_rect.h });
+    }
 }
 
 AliveFont* AliveFont::ctor_41C170(int maxCharLength, const BYTE* palette, FontContext* fontContext)
