@@ -2890,8 +2890,8 @@ void CC Glukkon::PlaySound_4447D0(int sndIdx, Glukkon* pGlukkon)
         pGlukkon->field_B8_xpos,
         pGlukkon->field_BC_ypos
     );
-    PSX_RECT pRect;
-    gMap_5C3030.Get_Camera_World_Rect_481410(direction, &pRect);
+    PSX_RECT worldRect;
+    gMap_5C3030.Get_Camera_World_Rect_481410(direction, &worldRect);
     switch ( direction )
     {
         case CameraPos::eCamCurrent_0:
@@ -2908,18 +2908,18 @@ void CC Glukkon::PlaySound_4447D0(int sndIdx, Glukkon* pGlukkon)
             break;
         case CameraPos::eCamLeft_3:
         {
-            FP percentHowFar = (FP_FromInteger(pRect.w) - pGlukkon->field_B8_xpos) / FP_FromInteger(368);
+            FP percentHowFar = (FP_FromInteger(worldRect.w) - pGlukkon->field_B8_xpos) / FP_FromInteger(368);
             volumeLeft = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - (volumeRight / 3)));
             volumeRight -= FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight));
-        }
             break;
+        }
         case CameraPos::eCamRight_4:
         {
-            FP percentHowFar = (pGlukkon->field_B8_xpos - FP_FromInteger(pRect.x)) / FP_FromInteger(368);
+            FP percentHowFar = (pGlukkon->field_B8_xpos - FP_FromInteger(worldRect.x)) / FP_FromInteger(368);
             volumeLeft = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight));
             volumeRight -= FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - (volumeRight / 3)));
-        }
             break;
+        }
         default:
             return;
     }
