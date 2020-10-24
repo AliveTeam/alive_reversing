@@ -3,6 +3,10 @@ project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 SET(AliveLibSrcAO
    Error.hpp
    Error.cpp
+   Sys.hpp
+   Sys.cpp
+   VGA.hpp
+   VGA.cpp
    DemoPlayback.hpp
    DemoPlayback.cpp
    SaveGame.hpp
@@ -236,6 +240,7 @@ SET(AliveLibSrcAO
    PathData.hpp
    PathData.cpp
    bmp.hpp
+   bmp.cpp
    Animation.hpp
    Animation.cpp
    ResourceManager.hpp

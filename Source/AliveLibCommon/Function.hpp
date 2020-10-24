@@ -28,6 +28,8 @@
     #define STDLIB_FUNCTION()
 #endif
 
+#define AE_IMPLEMENTED()
+
 #define ALIVE_ARY(Redirect, Addr, TypeName, Size, VarName, ...)\
 TypeName LocalArray_##VarName[Size]=__VA_ARGS__;\
 AliveVar Var_##VarName(#VarName, Addr, sizeof(LocalArray_##VarName), std::is_pointer<TypeName>::value, std::is_const<TypeName>::value);\

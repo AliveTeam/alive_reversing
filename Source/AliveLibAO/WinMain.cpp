@@ -46,6 +46,10 @@
 #include "SwitchStates.hpp"
 #include "Midi.hpp"
 #include "Error.hpp"
+#include "VGA.hpp"
+#include "Sys.hpp"
+#include "PsxRender.hpp"
+#include "Psx.hpp"
 
 START_NS_AO
 
@@ -86,41 +90,9 @@ ALIVE_VAR(1, 0x9F7718, LPSTR, sCommandLine_9F7718, 0);
 ALIVE_VAR(1, 0x9F7734, int, sExitCode_9F7734, 0);
 ALIVE_VAR(1, 0xA8A4C0, Bitmap, sVGA_Bmp1_A8A4C0, {});
 ALIVE_VAR(1, 0x9F7724, HWND, gHwnd_9F7724, nullptr);
-ALIVE_VAR(1, 0x9F6650, HWND, hWnd_9F6650, nullptr);
 ALIVE_VAR(1, 0x508BF8, char, gDDCheatMode_508BF8, 0);
 ALIVE_VAR(1, 0x508BFC, char, byte_508BFC, 0);
 
-
-
-EXPORT int CC VGA_FullScreenSet_490160(BOOL /*bFullScreen*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-EXPORT signed int CC VGA_DisplaySet_490230(unsigned __int16 /*width*/, unsigned __int16 /*height*/, char /*bpp*/, unsigned __int8 /*backbufferCount*/, int* /*ppSurface*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-EXPORT int CC VGA_GetPixelFormat_490E60()
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-EXPORT signed int CC PSXEMU_SetDispType_499E60(int /*dispType*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-EXPORT signed int CC BMP_ClearRect_48F810(Bitmap* /*pBmp*/, RECT* /*pRect*/, int /*fillColour*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
 
 EXPORT int CC IO_Init_48E1A0(char /*bUnknown*/)
 {
@@ -129,79 +101,7 @@ EXPORT int CC IO_Init_48E1A0(char /*bUnknown*/)
     return 0;
 }
 
-EXPORT signed int CC PSX_EMU_Set_Cd_Emulation_Paths_49B000(const char* /*pPath1*/, const char* /*pPath2*/, const char* /*pPath3*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-#ifdef _WIN32
-EXPORT LRESULT CALLBACK Window_Proc_48EB10(HWND /*hWnd*/, UINT /*Msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-EXPORT int CC Sys_WindowClass_Register_48E9E0(LPCSTR lpClassName, LPCSTR lpWindowName, int X, int Y, int nWidth, int nHeight)
-{
-    WNDCLASSA wndClass = {};
-    wndClass.style = 3;
-    wndClass.lpfnWndProc = Window_Proc_48EB10;
-    wndClass.cbClsExtra = 0;
-    wndClass.cbWndExtra = 0;
-    wndClass.hInstance = sInstance_9F771C;
-    wndClass.hIcon = LoadIconA(sInstance_9F771C, (LPCSTR)0x65);
-    wndClass.hCursor = LoadCursorA(sInstance_9F771C, (LPCSTR)0x7F00);
-    wndClass.hbrBackground = 0;
-    wndClass.lpszMenuName = lpClassName;
-    wndClass.lpszClassName = lpClassName;
-    RegisterClassA(&wndClass);
-
-    DWORD style = WS_CAPTION | WS_VISIBLE;
-#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
-    style |= WS_OVERLAPPEDWINDOW;
-#endif
-
-    HWND hwnd = CreateWindowExA(0, lpClassName, lpWindowName, style, X, Y, nWidth, nHeight, 0, 0, sInstance_9F771C, 0);
-    if (!hwnd)
-    {
-        return -1;
-    }
-
-    //dword_9F7720 = 0;
-    gHwnd_9F7724 = hwnd;
-
-#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
-#else
-    SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, nWidth, nHeight, 0x204u);
-    RECT rect = {};
-    GetClientRect(hwnd, &rect);
-    if (nWidth != rect.right || nHeight != rect.bottom)
-    {
-        SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, nWidth + nWidth - rect.right, nHeight + nHeight - rect.bottom, 0x204u);
-    }
-#endif
-
-    ShowWindow(hwnd, sCmdShow_9F772C);
-    UpdateWindow(hwnd);
-    ShowCursor(TRUE);
-
-    return 0;
-}
-#endif
-
-EXPORT void CC PSX_EMU_Init_49A1D0(char /*bUnknown*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-EXPORT signed int PSX_EMU_VideoAlloc_49A2B0()
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-EXPORT int CC Game_End_Frame_4505D0(char /*bSkip*/)
+EXPORT int CC Game_End_Frame_4505D0(DWORD /*bSkip*/)
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -212,26 +112,10 @@ EXPORT void Input_GetCurrentKeyStates_48E630()
     NOT_IMPLEMENTED();
 }
 
-EXPORT signed int CC PSX_EMU_SetCallBack_499920(int /*a1*/, int(CC* /*a2*/)(char))
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
 EXPORT char CC Input_IsVKPressed_48E5D0(int /*key*/)
 {
     NOT_IMPLEMENTED();
     return 0;
-}
-
-EXPORT void CC PSX_EMU_Set_screen_mode_499910(char /*a1*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-EXPORT void CC PSX_DispEnv_Set_48D900(int /*arg_0*/)
-{
-    NOT_IMPLEMENTED();
 }
 
 EXPORT LPSTR CC GetCommandLine_48E920()
@@ -239,36 +123,10 @@ EXPORT LPSTR CC GetCommandLine_48E920()
     return sCommandLine_9F7718;
 }
 
-EXPORT HWND CC Sys_GetWindowHandle_48E930()
-{
-    return gHwnd_9F7724;
-}
-
-EXPORT void CC Sys_Set_Hwnd_48E340(HWND hwnd)
-{
-    hWnd_9F6650 = hwnd;
-    // Note byte_9F5240 omited
-}
-
 static void Init_VGA_AndPsxVram()
 {
-    BOOL bFullScreen = TRUE;
-#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
-    LOG_INFO("Force window mode hack");
-    bFullScreen = FALSE;
-#endif
-    VGA_FullScreenSet_490160(bFullScreen);
-
-#ifdef _WIN32
-#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
-    const LONG oldWinStyle = GetWindowLongA(Sys_GetWindowHandle_48E930(), GWL_STYLE);
-#endif
+    VGA_FullScreenSet_490160(true);
     VGA_DisplaySet_490230(640u, 480u, 16, 1, 0);
-#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
-    // VGA_DisplaySet_490230 resets the window style - put it back to something sane
-    SetWindowLongA(Sys_GetWindowHandle_48E930(), GWL_STYLE, oldWinStyle);
-#endif
-#endif
 
     RECT rect = {};
     rect.left = 0;
@@ -279,19 +137,19 @@ static void Init_VGA_AndPsxVram()
     switch (VGA_GetPixelFormat_490E60())
     {
     case 8:
-        PSXEMU_SetDispType_499E60(1);
+        PSX_EMU_SetDispType_499E60(1);
         break;
     case 15:
-        PSXEMU_SetDispType_499E60(4);
+        PSX_EMU_SetDispType_499E60(4);
         break;
     case 16:
-        PSXEMU_SetDispType_499E60(2);
+        PSX_EMU_SetDispType_499E60(2);
         break;
     case 115:
-        PSXEMU_SetDispType_499E60(5);
+        PSX_EMU_SetDispType_499E60(5);
         break;
     case 116:
-        PSXEMU_SetDispType_499E60(3);
+        PSX_EMU_SetDispType_499E60(3);
         break;
     default:
         Error_WarningMessageBox_48E470("This program requires a high-color display mode of 32768 or 65536 colors at 640x480 resolution.");
@@ -382,149 +240,7 @@ static void Main_ParseCommandLineArguments()
     //Main_Set_HWND_499900(Sys_GetWindowHandle_48E930()); // Note: Set global is never read
 }
 
-EXPORT void PSX_EMU_VideoDeAlloc_49A550()
-{
-    NOT_IMPLEMENTED();
-}
-
-EXPORT int MessageBox_48E3F0(const char* /*pTitle*/, int /*lineNumber*/, const char* /*pMsg*/, ...)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-EXPORT void Input_InitKeyStateArray_48E5F0()
-{
-    NOT_IMPLEMENTED();
-}
-
-EXPORT void CC Input_SetKeyState_48E610(int /*key*/, char /*bIsDown*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-EXPORT int CC Add_Dirty_Area_48D910(int , int , int , int )
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-#ifdef _WIN32
-EXPORT int CC Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-    LRESULT ret = 0;
-
-    switch (msg)
-    {
-    case WM_PAINT:
-    {
-        RECT rect = {};
-        PAINTSTRUCT paint = {};
-        BeginPaint(hWnd, &paint);
-        GetClientRect(hWnd, &rect);
-        PatBlt(paint.hdc, 0, 0, rect.right, rect.bottom, BLACKNESS); // use pal 0
-        EndPaint(hWnd, &paint);
-        Add_Dirty_Area_48D910(0, 0, 640, 240);
-    }
-     return 1;
-
-    case WM_CLOSE:
-        return (MessageBoxA(hWnd, "Do you really want to quit ?", "Abe's Oddysee", MB_DEFBUTTON2 | MB_ICONQUESTION | MB_YESNO) == IDNO) ? -1 : 0;
-
-    case WM_KEYDOWN:
-        if (wParam == VK_F1)
-        {
-            MessageBox_48E3F0(
-                "About Abe",
-                -1,
-                "Oddworld Abe's Oddysee 2.0\nPC version by Digital Dialect\n\nBuild date: %s %s\n",
-                "Oct 22 1997",
-                "14:32:52");
-            Input_InitKeyStateArray_48E5F0();
-        }
-        Input_SetKeyState_48E610(wParam, 1);
-        return 0;
-    
-    case WM_KEYUP:
-        Input_SetKeyState_48E610(wParam, 0);
-        break;
-
-    case WM_SETCURSOR:
-    {
-        static auto hCursor = LoadCursor(nullptr, IDC_ARROW);
-        SetCursor(hCursor);
-    }
-    return -1;
-
-#ifndef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
-    case WM_NCLBUTTONDOWN:
-        // Prevent window being moved when click + dragged
-        return -1;
-#endif
-
-    case WM_ACTIVATE:
-    case WM_SETFOCUS:
-    case WM_KILLFOCUS:
-    case WM_ENTERMENULOOP:
-    case WM_EXITMENULOOP:
-    case WM_ENTERSIZEMOVE:
-    case WM_EXITSIZEMOVE:
-        Input_InitKeyStateArray_48E5F0();
-        break;
-
-    case WM_INITMENUPOPUP:
-        // TODO: Constants for wParam
-        if ((unsigned int)lParam >> 16)
-        {
-            return -1;
-        }
-        break;
-
-    case WM_SYSKEYDOWN:
-        // TODO: Constants for wParam
-        if (wParam == 18 || wParam == 32)
-        {
-            ret = -1;
-        }
-        Input_SetKeyState_48E610(wParam, 1);
-        break;
-
-    case WM_SYSKEYUP:
-        // TODO: Constants for wParam
-        if (wParam == 18 || wParam == 32)
-        {
-            ret = -1;
-        }
-        Input_SetKeyState_48E610(wParam, 0);
-        break;
-
-    case WM_TIMER:
-        return 1;
-    default:
-        return ret;
-    }
-    return ret;
-}
-#endif
-
-EXPORT void CC Errors_Display_48E050()
-{
-    NOT_IMPLEMENTED();
-}
-
 EXPORT int CC DebugFont_Init_487EC0()
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-EXPORT CdlFILE* CC PSX_CdSearchFile_49B930(CdlFILE* , const char* )
-{
-    NOT_IMPLEMENTED();
-    return nullptr;
-}
-
-EXPORT int CC PSX_CdLoc_To_Pos_49B3B0(const CdlLOC*)
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -832,16 +548,16 @@ EXPORT void CC Game_SetExitCallBack_48E040(TExitGameCB)
     NOT_IMPLEMENTED();
 }
 
-using TFilter = std::add_pointer<int CC(HWND, UINT, WPARAM, LPARAM)>::type;
-
-EXPORT void CC Sys_SetWindowProc_Filter_48E950(TFilter)
-{
-    NOT_IMPLEMENTED();
-}
 
 EXPORT void CC Game_ExitGame_450730()
 {
     PSX_EMU_VideoDeAlloc_49A550();
+}
+
+
+EXPORT void CC Game_Shutdown_48E050()
+{
+    NOT_IMPLEMENTED();
 }
 
 EXPORT void Game_Main_450050()
@@ -852,12 +568,13 @@ EXPORT void Game_Main_450050()
     Main_ParseCommandLineArguments();
     Game_SetExitCallBack_48E040(Game_ExitGame_450730);
 #ifdef _WIN32
-    Sys_SetWindowProc_Filter_48E950(Sys_WindowMessageHandler_4503B0);
+    // Only SDL2 supported in AO
+    //Sys_SetWindowProc_Filter_48E950(Sys_WindowMessageHandler_4503B0);
 #endif
     Game_Run_4373D0();
 
     // TODO: AE inlined calls here (pull AE's code into another func)
-    Errors_Display_48E050();
+    Game_Shutdown_48E050();
 }
 
 EXPORT int CALLBACK WinMain_48EF50(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)

@@ -297,6 +297,7 @@ EXPORT signed int CC VGA_DisplaySet_4F32C0(unsigned __int16 width, unsigned __in
         //  gRenderer = SDL_CreateSoftwareRenderer(sVGA_bmp_primary_BD2A20.field_0_pSurface);
         if (!gRenderer)
         {
+            LOG_ERROR("Render create failed " << SDL_GetError());
             ALIVE_FATAL("Render create failed");
         }
         SDL_RenderClear(gRenderer);
