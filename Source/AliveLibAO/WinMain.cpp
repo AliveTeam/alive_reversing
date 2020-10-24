@@ -253,7 +253,7 @@ static void Main_ParseCommandLineArguments()
 
     Init_VGA_AndPsxVram();
 
-    PSX_EMU_Init_49A1D0(0);
+    PSX_EMU_Init_49A1D0(false);
     PSX_EMU_VideoAlloc_49A2B0();
     PSX_EMU_SetCallBack_499920(1, Game_End_Frame_4505D0);
     //Main_Set_HWND_499900(Sys_GetWindowHandle_48E930()); // Note: Set global is never read

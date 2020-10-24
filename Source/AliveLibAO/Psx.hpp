@@ -53,7 +53,7 @@ EXPORT int CC PSX_MoveImage_4961A0(const PSX_RECT* pRect, int xpos, int ypos);
 
 EXPORT signed int CC PSX_EMU_Set_Cd_Emulation_Paths_49B000(const char* pPath1, const char* pPath2, const char* pPath3);
 
-EXPORT void CC PSX_EMU_Init_49A1D0(char bShowVRam);
+EXPORT void CC PSX_EMU_Init_49A1D0(bool bShowVRam);
 
 EXPORT signed int PSX_EMU_VideoAlloc_49A2B0();
 

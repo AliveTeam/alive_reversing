@@ -171,7 +171,7 @@ EXPORT signed int CC PSX_EMU_Set_Cd_Emulation_Paths_49B000(const char* pPath1, c
     return PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(pPath1, pPath2, pPath3);
 }
 
-EXPORT void CC PSX_EMU_Init_49A1D0(char bShowVRam)
+EXPORT void CC PSX_EMU_Init_49A1D0(bool bShowVRam)
 {
     NOT_IMPLEMENTED();
     AE_IMPLEMENTED();
