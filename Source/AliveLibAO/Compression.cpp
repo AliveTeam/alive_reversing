@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "stdlib.hpp"
 #include "Compression.hpp"
 #include "Function.hpp"
