@@ -68,3 +68,5 @@ EXPORT void PSX_EMU_VideoDeAlloc_49A550();
 EXPORT CdlFILE* CC PSX_CdSearchFile_49B930(CdlFILE*, const char*);
 
 EXPORT int CC PSX_CdLoc_To_Pos_49B3B0(const CdlLOC* pLoc);
+
+int CC PSX_CD_OpenFile(const char* pFileName, int bTryAllPaths);

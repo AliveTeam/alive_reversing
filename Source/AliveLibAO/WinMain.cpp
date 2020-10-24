@@ -125,8 +125,23 @@ EXPORT LPSTR CC GetCommandLine_48E920()
 
 static void Init_VGA_AndPsxVram()
 {
-    VGA_FullScreenSet_490160(true);
+    BOOL bFullScreen = TRUE;
+#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+    LOG_INFO("Force window mode hack");
+    bFullScreen = FALSE;
+#endif
+    VGA_FullScreenSet_490160(bFullScreen);
+
+#ifdef _WIN32
+#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+    const LONG oldWinStyle = GetWindowLongA((HWND)Sys_GetWindowHandle_48E930(), GWL_STYLE) | WS_OVERLAPPEDWINDOW;
+#endif
     VGA_DisplaySet_490230(640u, 480u, 16, 1, 0);
+#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+    // VGA_DisplaySet_490230 resets the window style - put it back to something sane
+    SetWindowLongA((HWND)Sys_GetWindowHandle_48E930(), GWL_STYLE, oldWinStyle);
+#endif
+#endif
 
     RECT rect = {};
     rect.left = 0;
@@ -175,10 +190,14 @@ static void Main_ParseCommandLineArguments()
         cdDrivePath[0] = 'C';
     }
 
-    PSX_EMU_Set_Cd_Emulation_Paths_49B000(".", cdDrivePath, 0);
-#ifdef _WIN32
+    PSX_EMU_Set_Cd_Emulation_Paths_49B000(".", cdDrivePath, nullptr);
+
     Sys_WindowClass_Register_48E9E0("ABE_WINCLASS", "Abe's Oddworld Oddysee 2.0", 32, 64, 640, 480); // Nice window title lol
+
+#ifdef _WIN32
+
 #endif
+
     Sys_Set_Hwnd_48E340(Sys_GetWindowHandle_48E930());
 
     const LPSTR pCmdLine = GetCommandLine_48E920();
@@ -560,6 +579,124 @@ EXPORT void CC Game_Shutdown_48E050()
     NOT_IMPLEMENTED();
 }
 
+
+#ifdef _WIN32
+EXPORT int CC Add_Dirty_Area_48D910(int, int, int, int)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT int MessageBox_48E3F0(const char* /*pTitle*/, int /*lineNumber*/, const char* /*pMsg*/, ...)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT int CC Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+    LRESULT ret = 0;
+
+    switch (msg)
+    {
+    case WM_PAINT:
+    {
+        RECT rect = {};
+        PAINTSTRUCT paint = {};
+        BeginPaint(hWnd, &paint);
+        GetClientRect(hWnd, &rect);
+        PatBlt(paint.hdc, 0, 0, rect.right, rect.bottom, BLACKNESS); // use pal 0
+        EndPaint(hWnd, &paint);
+        Add_Dirty_Area_48D910(0, 0, 640, 240);
+    }
+    return 1;
+
+    case WM_CLOSE:
+        return (MessageBoxA(hWnd, "Do you really want to quit ?", "Abe's Oddysee", MB_DEFBUTTON2 | MB_ICONQUESTION | MB_YESNO) == IDNO) ? -1 : 0;
+
+    case WM_KEYDOWN:
+        if (wParam == VK_F1)
+        {
+            MessageBox_48E3F0(
+                "About Abe",
+                -1,
+                "Oddworld Abe's Oddysee 2.0\nPC version by Digital Dialect\n\nBuild date: %s %s\n",
+                "Oct 22 1997",
+                "14:32:52");
+            Input_InitKeyStateArray_48E5F0();
+        }
+        Input_SetKeyState_48E610(wParam, 1);
+        return 0;
+
+    case WM_KEYUP:
+        Input_SetKeyState_48E610(wParam, 0);
+        break;
+
+    case WM_SETCURSOR:
+    {
+        static auto hCursor = LoadCursor(nullptr, IDC_ARROW);
+        SetCursor(hCursor);
+    }
+    return -1;
+
+#ifndef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+    case WM_NCLBUTTONDOWN:
+        // Prevent window being moved when click + dragged
+        return -1;
+#endif
+
+    case WM_ACTIVATE:
+    case WM_SETFOCUS:
+    case WM_KILLFOCUS:
+    case WM_ENTERMENULOOP:
+    case WM_EXITMENULOOP:
+    case WM_ENTERSIZEMOVE:
+    case WM_EXITSIZEMOVE:
+        Input_InitKeyStateArray_48E5F0();
+        break;
+
+    case WM_INITMENUPOPUP:
+        // TODO: Constants for wParam
+        if ((unsigned int)lParam >> 16)
+        {
+            return -1;
+        }
+        break;
+
+    case WM_SYSKEYDOWN:
+        // TODO: Constants for wParam
+        if (wParam == 18 || wParam == 32)
+        {
+            ret = -1;
+        }
+        Input_SetKeyState_48E610(wParam, 1);
+        break;
+
+    case WM_SYSKEYUP:
+        // TODO: Constants for wParam
+        if (wParam == 18 || wParam == 32)
+        {
+            ret = -1;
+        }
+        Input_SetKeyState_48E610(wParam, 0);
+        break;
+
+    case WM_TIMER:
+        return 1;
+    default:
+        return ret;
+    }
+    return ret;
+}
+using TFilter = std::add_pointer<int CC(HWND, UINT, WPARAM, LPARAM)>::type;
+
+EXPORT void CC Sys_SetWindowProc_Filter_48E950(TFilter)
+{
+    NOT_IMPLEMENTED();
+}
+
+#endif
+
 EXPORT void Game_Main_450050()
 {
     Alarm_ForceLink();
@@ -569,7 +706,7 @@ EXPORT void Game_Main_450050()
     Game_SetExitCallBack_48E040(Game_ExitGame_450730);
 #ifdef _WIN32
     // Only SDL2 supported in AO
-    //Sys_SetWindowProc_Filter_48E950(Sys_WindowMessageHandler_4503B0);
+    Sys_SetWindowProc_Filter_48E950(Sys_WindowMessageHandler_4503B0);
 #endif
     Game_Run_4373D0();
 

@@ -2,6 +2,7 @@
 #include "LvlArchive.hpp"
 #include "Function.hpp"
 #include "ResourceManager.hpp"
+//#include "../AliveLibAE/Psx.hpp" // AE lib hack
 
 START_NS_AO
 
@@ -47,7 +48,9 @@ EXPORT void LvlArchive::OpenArchive_41BC60(int pos)
 
     int retryCounter = 0;
     CdlLOC loc = {};
+    //pos = 0; // AE lib hack
     PSX_Pos_To_CdLoc_49B340(pos, &loc);
+    //field_4_cd_pos = PSX_CdLoc_To_Pos_4FAE40(&loc); // AE lib hack
     int bOk = 0;
     do
     {

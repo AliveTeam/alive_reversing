@@ -1727,6 +1727,11 @@ void Map::GoTo_Camera_445050()
 
         // Open Path BND
         auto tmp = sOverlayTable_4C5AA8.records[rPathRoot.field_1C_overlay_idx].field_4_pos;
+
+        // HACK: Added so that AE PSX emu lib works, its done in OpenArchive_41BC60
+        // in AE, we can't do that here as we don't have a mapping of CDPos <> FileName
+        // PSX_CD_OpenFile(rPathRoot.field_20_lvl_name_cd, 1); // AE lib hack
+
         sLvlArchive_4FFD60.OpenArchive_41BC60(tmp);
 
         ResourceManager::LoadResourceFile_455270(rPathRoot.field_38_bnd_name, nullptr);

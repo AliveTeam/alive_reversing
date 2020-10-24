@@ -20,11 +20,6 @@ void Game_ForceLink()
 
 }
 
-EXPORT void SYS_EventsPump_44FF90()
-{
-    NOT_IMPLEMENTED();
-}
-
 ALIVE_VAR(1, 0x5076CC, short, gbKillUnsavedMudsDone_5076CC, 0);
 
 // TODO: Move to game ender controller for AO sync
