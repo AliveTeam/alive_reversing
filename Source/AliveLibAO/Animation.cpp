@@ -16,6 +16,7 @@
 #include "Sfx.hpp"
 #include "Events.hpp"
 #include "Particle.hpp"
+#include "Compression.hpp"
 
 // Fix pollution from windows.h
 #undef min
@@ -148,26 +149,6 @@ TFrameCallBackType kZBall_Anim_Frame_Fns_4CEBF8[] = { Animation_OnFrame_ZBallSma
 void Animation::vDecode()
 {
     VDecode_403550();
-}
-
-EXPORT void CC Decompress_Type_1_403150(const BYTE* /*pInput*/, BYTE* /*pOutput*/, unsigned int /*compressedLen*/, unsigned int /*decompressedLen*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-EXPORT void CC Decompress_Type_2_403390(const BYTE* /*pInput*/, BYTE* /*pOutput*/, int /*decompressedLen*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-EXPORT void CC Decompress_Type_3_4031E0(unsigned __int16* /*pInput*/, BYTE* /*pOutput*/, int /*len*/, int /*out_len*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-EXPORT void CC Decompress_Type_4_5_461770(const BYTE* /*pInput*/, BYTE* /*pOutput*/)
-{
-    NOT_IMPLEMENTED();
 }
 
 

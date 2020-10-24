@@ -7,6 +7,8 @@ SET(AliveLibSrcAO
    Sys.cpp
    VGA.hpp
    VGA.cpp
+   Compression.hpp
+   Compression.cpp
    DemoPlayback.hpp
    DemoPlayback.cpp
    SaveGame.hpp
