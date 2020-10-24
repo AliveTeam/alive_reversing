@@ -65,4 +65,14 @@ BOOL CC Input_IsChanting_4334C0()
     return (sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed & sInputKey_Chant) == sInputKey_Chant;
 }
 
+void CC Input_SetKeyState_48E610(int /*key*/, char /*bIsDown*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void Input_InitKeyStateArray_48E5F0()
+{
+    NOT_IMPLEMENTED();
+}
+
 END_NS_AO

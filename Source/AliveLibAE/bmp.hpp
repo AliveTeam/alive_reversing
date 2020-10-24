@@ -1,6 +1,7 @@
 #pragma once
 
 #include "FunctionFwd.hpp"
+#include "config.h"
 
 #ifdef _WIN32
 #define DIRECTINPUT_VERSION 0x700

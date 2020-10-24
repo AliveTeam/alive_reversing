@@ -78,6 +78,8 @@ extern const InputCommands sInputKey_GameSpeak8_4C65E0;
 const InputCommands sInputKey_Chant = static_cast<InputCommands>(eGameSpeak3 | eGameSpeak6);
 
 EXPORT BOOL CC Input_IsChanting_4334C0();
+EXPORT void Input_InitKeyStateArray_48E5F0();
+EXPORT void CC Input_SetKeyState_48E610(int key, char bIsDown);
 
 class InputObject
 {
