@@ -3,6 +3,8 @@
 #include "FunctionFwd.hpp"
 #include "Psx_common.hpp"
 
+START_NS_AO
+
 using TPsxEmuCallBack = std::add_pointer<int(DWORD)>::type;
 
 EXPORT void CC PSX_PutDispEnv_495D30(PSX_DISPENV* pDispEnv);
@@ -69,4 +71,9 @@ EXPORT CdlFILE* CC PSX_CdSearchFile_49B930(CdlFILE*, const char*);
 
 EXPORT int CC PSX_CdLoc_To_Pos_49B3B0(const CdlLOC* pLoc);
 
+void Init_VGA_AndPsxVram();
+
+
 int CC PSX_CD_OpenFile(const char* pFileName, int bTryAllPaths);
+
+END_NS_AO

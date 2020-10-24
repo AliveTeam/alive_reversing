@@ -4,9 +4,10 @@
 
 START_NS_AO
 
-void WinMain_ForceLink();
 
 void Static_Inits_AO();
+
+void WinMain_ForceLink();
 
 EXPORT int CALLBACK WinMain_48EF50(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd);
 

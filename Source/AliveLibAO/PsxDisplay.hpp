@@ -75,4 +75,9 @@ ALIVE_ASSERT_SIZEOF(PsxDisplay, 0x8EC);
 ALIVE_VAR_EXTERN(PSX_Display_Params, gPsxDisplayParams_4BB830);
 ALIVE_VAR_EXTERN(PsxDisplay, gPsxDisplay_504C78);
 
+EXPORT int CC DebugFont_Init_487EC0();
+
+EXPORT void CC DebugFont_Flush_487F50();
+
+
 END_NS_AO

@@ -5,6 +5,8 @@
 
 START_NS_AO
 
+ALIVE_VAR(1, 0xA8A4C0, Bitmap, sVGA_bmp_primary_A8A4C0, {});
+
 EXPORT int CC VGA_FullScreenSet_490160(bool bFullScreen)
 {
     NOT_IMPLEMENTED();
@@ -24,6 +26,11 @@ EXPORT int CC VGA_GetPixelFormat_490E60()
     NOT_IMPLEMENTED();
     AE_IMPLEMENTED();
     return VGA_GetPixelFormat_4F3EE0();
+}
+
+EXPORT void VGA_Shutdown_4900E0()
+{
+    NOT_IMPLEMENTED();
 }
 
 END_NS_AO

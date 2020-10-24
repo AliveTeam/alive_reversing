@@ -10,6 +10,7 @@
 #include "Game.hpp"
 #include "LvlArchive.hpp"
 #include "Map.hpp"
+#include "Sys.hpp"
 
 START_NS_AO
 

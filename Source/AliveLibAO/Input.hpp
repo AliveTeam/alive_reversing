@@ -81,6 +81,16 @@ EXPORT BOOL CC Input_IsChanting_4334C0();
 EXPORT void Input_InitKeyStateArray_48E5F0();
 EXPORT void CC Input_SetKeyState_48E610(int key, char bIsDown);
 
+
+
+EXPORT void Input_GetCurrentKeyStates_48E630();
+
+EXPORT char CC Input_IsVKPressed_48E5D0(int key);
+
+EXPORT void CC Input_Init_44EB60();
+
+EXPORT void Input_DisableInput_48E690();
+
 class InputObject
 {
 public:

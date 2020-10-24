@@ -6,6 +6,23 @@
 
 START_NS_AO
 
+ALIVE_VAR(1, 0x9F7718, LPSTR, sCommandLine_9F7718, 0);
+ALIVE_VAR(1, 0x9F771C, HINSTANCE, sInstance_9F771C, 0);
+ALIVE_VAR(1, 0x9F772C, int, sCmdShow_9F772C, 0);
+
+
+void Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, int nShowCmd)
+{
+    sInstance_9F771C = hInstance;
+    sCmdShow_9F772C = nShowCmd;
+    sCommandLine_9F7718 = lpCmdLine;
+}
+
+EXPORT LPSTR CC Sys_GetCommandLine_48E920()
+{
+    return sCommandLine_9F7718;
+}
+
 EXPORT TWindowHandleType CC Sys_GetWindowHandle_48E930()
 {
     NOT_IMPLEMENTED();

@@ -16,7 +16,7 @@ if (len(sys.argv) != 2):
     print("Usage: {sys.argv[0]} [number]")
     #sys.exit(0)
 
-input = int(sys.argv[1], 0)
+input = 196608
 numAsBinaryString = bin(input)[2:]
 
 print("2's comp: " + str(twos_complement(input, 32)))

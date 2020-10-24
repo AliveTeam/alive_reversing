@@ -65,4 +65,9 @@ EXPORT void CC SND_Init_476E40()
     NOT_IMPLEMENTED();
 }
 
+EXPORT void CC SND_Shutdown_476EC0()
+{
+    NOT_IMPLEMENTED();
+}
+
 END_NS_AO

@@ -82,4 +82,6 @@ EXPORT int CC SFX_SfxDefinition_Play_4770F0(const SfxDefinition* sfxDef, signed 
 
 EXPORT void CC SND_Init_476E40();
 
+EXPORT void CC SND_Shutdown_476EC0();
+
 END_NS_AO

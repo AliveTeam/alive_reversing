@@ -194,4 +194,15 @@ void PsxDisplay::Movie_Render_40DE60(unsigned __int16 bufferIdx)
     PSX_ClearOTag_496760(field_C_drawEnv[0].field_70_ot_buffer, field_8_buffer_size);
 }
 
+EXPORT int CC DebugFont_Init_487EC0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT void CC DebugFont_Flush_487F50()
+{
+    NOT_IMPLEMENTED();
+}
+
 END_NS_AO

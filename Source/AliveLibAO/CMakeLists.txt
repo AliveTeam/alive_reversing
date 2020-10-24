@@ -7,6 +7,10 @@ SET(AliveLibSrcAO
    Sys.cpp
    VGA.hpp
    VGA.cpp
+   Io.hpp
+   Io.cpp
+   Sound.hpp
+   Sound.cpp
    Compression.hpp
    Compression.cpp
    DemoPlayback.hpp
