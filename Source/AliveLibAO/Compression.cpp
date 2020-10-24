@@ -23,6 +23,7 @@ EXPORT void CC Decompress_Type_3_4031E0(unsigned __int16* /*pInput*/, BYTE* /*pO
 
 EXPORT void CC Decompress_Type_4_5_461770(const BYTE* pInput, BYTE* pOutput)
 {
+    // Exactly the same as AE
     CompressionType_4Or5_Decompress_4ABAB0(pInput, pOutput);
 }
 
