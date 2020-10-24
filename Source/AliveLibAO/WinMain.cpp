@@ -125,10 +125,10 @@ EXPORT LPSTR CC GetCommandLine_48E920()
 
 static void Init_VGA_AndPsxVram()
 {
-    BOOL bFullScreen = TRUE;
+    bool bFullScreen = true;
 #ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
     LOG_INFO("Force window mode hack");
-    bFullScreen = FALSE;
+    bFullScreen = false;
 #endif
     VGA_FullScreenSet_490160(bFullScreen);
 
