@@ -199,7 +199,7 @@ void Shrykull::VUpdate_463AE0()
 
                 if (field_118_zap_line)
                 {
-                    field_118_zap_line->sub_478CF0(
+                    field_118_zap_line->CalculateSourceAndDestinationPositions_478CF0(
                         FP_FromInteger((ourRect.x + ourRect.w) / 2),
                         FP_FromInteger((ourRect.y + ourRect.h) / 2),
                         FP_FromInteger((objRect.x + objRect.w) / 2),
@@ -215,7 +215,7 @@ void Shrykull::VUpdate_463AE0()
                             FP_FromInteger((ourRect.y + ourRect.h) / 2),
                             FP_FromInteger((objRect.x + objRect.w) / 2),
                             FP_FromInteger((objRect.y + objRect.h) / 2),
-                            0, 1, 28);
+                            0, ZapLineType::eThin_1, 28);
                     }
                     pZapLine->field_C_refCount++;
                     field_118_zap_line = pZapLine;
@@ -357,7 +357,7 @@ void Shrykull::VUpdate_463AE0()
                     }
 
                 }
-                field_118_zap_line->sub_478CF0(
+                field_118_zap_line->CalculateSourceAndDestinationPositions_478CF0(
                     FP_FromInteger((ourRect.x + ourRect.w) / 2),
                     FP_FromInteger((ourRect.y + ourRect.h) / 2),
                     FP_FromInteger((zapRect.x + zapRect.w) / 2),
