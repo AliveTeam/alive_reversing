@@ -175,7 +175,7 @@ const char* sLCDMessageTable_4C7420[90] =
 };
 
 
-ALIVE_VAR(1, 0x508A60, int, dword_508A60, 0);
+ALIVE_VAR(1, 0x508A60, int, sJoystickEnabled_508A60, 0);
 
 LCDScreen* LCDScreen::ctor_433F60(Path_LCDScreen* pTlv, int tlvInfo)
 {
@@ -195,7 +195,7 @@ LCDScreen* LCDScreen::ctor_433F60(Path_LCDScreen* pTlv, int tlvInfo)
     const PSX_RECT palSize = { field_98_pal_rect.x, field_98_pal_rect.y,16, 1 };
     PSX_LoadImage16_4962A0(&palSize, sLCDScreen_Palette2_4C7588);
 
-    if (dword_508A60 || field_2AC_message_1_id != 62)
+    if (sJoystickEnabled_508A60 || field_2AC_message_1_id != 62)
     {
         String_FormatString_450DC0(sLCDMessageTable_4C7420[field_2AC_message_1_id], field_AC_message_buffer);
     }

@@ -469,8 +469,8 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, int tlvInfo)
     field_1F4_text = "";
     field_1F8 = 0;
     field_202 = 0;
-    field_224 = 0;
-    field_226 = 0;
+    field_224_bToFmvSelect = 0;
+    field_226_bToLevelSelect = 0;
     field_20C = 0;
 
     sEnableFartGasCheat_507704 = 0;
@@ -486,7 +486,7 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, int tlvInfo)
     if (gMap_507BA8.field_4_current_camera == 30)
     {
         field_204_flags &= ~2u;
-        field_224 = 1;
+        field_224_bToFmvSelect = 1;
         field_21C = 0;
         field_1CC_fn_update = &Menu::FMV_Select_Update_47E8D0;
         field_1D0_fn_render = &Menu::FMV_Select_Render_47EEA0;
@@ -507,9 +507,9 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, int tlvInfo)
     }
 
     dword_4CE598 = (dword_5079A4 != 0) + 1;
-    if (dword_508A60 > (dword_5079A4 != 0) + 1)
+    if (sJoystickEnabled_508A60 > (dword_5079A4 != 0) + 1)
     {
-        dword_508A60 = 0;
+        sJoystickEnabled_508A60 = 0;
     }
 
     return this;
@@ -878,7 +878,7 @@ EXPORT void Menu::MainScreen_Update_47AF60()
     if (sEnableCheatFMV_50770C)
     {
         sEnableCheatFMV_50770C = 0;
-        field_224 = 1;
+        field_224_bToFmvSelect = 1;
         sActiveList_9F2DE4 = gFmvs_4D0230;
         sListCount_4D0228 = ALIVE_COUNTOF(gFmvs_4D0230);
         if (field_E4_res_array[0])
@@ -908,7 +908,7 @@ EXPORT void Menu::MainScreen_Update_47AF60()
     if (sEnableCheatLevelSelect_507710)
     {
         sEnableCheatLevelSelect_507710 = 0;
-        field_226 = 1;
+        field_226_bToLevelSelect = 1;
         sActiveList_9F2DE4 = sLevelList_4D0300;
         sListCount_4D0228 = ALIVE_COUNTOF(sLevelList_4D0300);
         if (field_E4_res_array[0])
@@ -958,7 +958,73 @@ EXPORT void Menu::MainScreen_Update_47AF60()
 // After fade out go to gamespeak/options/load/whatever
 void Menu::GoToSelectedMenuPage_47BC50()
 {
-    NOT_IMPLEMENTED();
+    if (field_1E8_pMenuTrans == nullptr || field_1E8_pMenuTrans->field_16_bDone)
+    {
+        if (field_224_bToFmvSelect)
+        {
+            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 30, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            field_1CC_fn_update = &Menu::ToNextMenuPage_47BD80;
+            return;
+        }
+
+        if (field_226_bToLevelSelect)
+        {
+            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 31, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            field_1CC_fn_update = &Menu::ToNextMenuPage_47BD80;
+            return;
+        }
+
+        switch (field_1E0_selected_index)
+        {
+         // Gamespeak
+        case 0:
+            field_204_flags &= ~1u;
+
+            // Diff cam depending on input method ?
+            if (sJoystickEnabled_508A60)
+            {
+                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 3, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            }
+            else
+            {
+                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 33, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            }
+
+            field_1CC_fn_update = &Menu::ToNextMenuPage_47BD80;
+
+            field_134_anim.field_A_b = 127;
+            field_134_anim.field_9_g = 127;
+            field_134_anim.field_8_r = 127;
+            break;
+
+        // Begin
+        case 1:
+            field_1CC_fn_update = &Menu::ToLoading_47B7E0;
+            break;
+
+        // Quit
+        case 2:
+            sBreakGameLoop_507B78 = 1;
+            exit(0);
+            break;
+
+        // Load
+        case 3:
+            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 6, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            field_1CC_fn_update = &Menu::ToNextMenuPage_47BD80;
+            break;
+
+        // Options
+        case 4:
+            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 2, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            field_1CC_fn_update = &Menu::ToNextMenuPage_47BD80;
+            break;
+
+        default:
+            LOG_ERROR("Unknown menu item " << field_1E0_selected_index);
+            break;
+        }
+    }
 }
 
 void Menu::WaitForSpeakFinishAndStartChangeEffect_47BB90()
@@ -980,6 +1046,16 @@ void Menu::WaitForSpeakFinishAndStartChangeEffect_47BB90()
         field_10_anim.Set_Animation_Data_402A40(201508, field_E4_res_array[1]);
         field_1CC_fn_update = &Menu::GoToSelectedMenuPage_47BC50;
     }
+}
+
+void Menu::ToNextMenuPage_47BD80()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Menu::ToLoading_47B7E0()
+{
+    NOT_IMPLEMENTED();
 }
 
 void CC Menu::OnResourceLoaded_47ADA0(Menu* pMenu)

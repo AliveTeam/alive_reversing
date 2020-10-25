@@ -130,6 +130,10 @@ public:
 
     EXPORT void WaitForSpeakFinishAndStartChangeEffect_47BB90();
 
+    EXPORT void ToNextMenuPage_47BD80();
+
+    EXPORT void ToLoading_47B7E0();
+
     EXPORT static void CC OnResourceLoaded_47ADA0(Menu* pMenu);
     
     int field_D4[4];
@@ -175,8 +179,8 @@ public:
     __int16 field_21A;
     int field_21C;
     int field_220;
-    __int16 field_224;
-    __int16 field_226;
+    __int16 field_224_bToFmvSelect;
+    __int16 field_226_bToLevelSelect;
     int field_228;
     int field_22C;
     int field_230;
