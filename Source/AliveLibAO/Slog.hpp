@@ -151,7 +151,8 @@ public:
     EXPORT __int16 Brain_3_Dead_4721B0();
 
     BaseAliveGameObject* field_10C;
-    int field_110;
+    __int16 field_110;
+    __int16 field_112;
     __int16 field_114_brain_idx;
     __int16 field_116_brain_state;
     __int16 field_118;
