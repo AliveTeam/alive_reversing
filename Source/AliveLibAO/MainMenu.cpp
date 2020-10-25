@@ -10,10 +10,138 @@
 #include "DDCheat.hpp"
 #include "CheatController.hpp"
 #include "LCDScreen.hpp"
+#include "Abe.hpp"
+#include "Math.hpp"
 
 START_NS_AO
 
 const int dword_4BB1B8[4] = { 6152, 6140, 6164, 0 };
+
+
+struct Menu_Button
+{
+    __int16 field_0_xpos;
+    __int16 field_2_ypos;
+    int field_4_frame_table;
+};
+
+const Menu_Button sMainScreenButtons_4D00B0[5] =
+{
+    { 33, 64, 6152 },
+    { 33, 85, 6152 },
+    { 33, 107, 6152 },
+    { 335, 215, 6152 },
+    { 335, 240, 6152 }
+};
+
+ALIVE_VAR(1, 0x507694, short, gDemoPlay_507694, 0);
+ALIVE_VAR(1, 0x50769C, BYTE, sJoyResId_50769C, 0);
+
+ALIVE_VAR(1, 0x9F2DE0, int, gMainMenuInstanceCount_9F2DE0, 0);
+ALIVE_VAR(1, 0x507688, short, sFontLoaded_507688, 0);
+ALIVE_VAR(1, 0x4D0228, short, sListCount_4D0228, -1);
+
+ALIVE_VAR(1, 0x4CE598, int, dword_4CE598, 0);
+ALIVE_VAR(1, 0x5079A4, int, dword_5079A4, 0);
+
+struct MenuFMV;
+
+ALIVE_VAR(1, 0x9F2DE4, const MenuFMV*, sActiveList_9F2DE4, nullptr);
+
+const BYTE byte_4D0090[32] =
+{
+    0u,
+    0u,
+    33u,
+    132u,
+    66u,
+    136u,
+    99u,
+    140u,
+    132u,
+    144u,
+    165u,
+    148u,
+    231u,
+    156u,
+    8u,
+    33u,
+    41u,
+    37u,
+    74u,
+    41u,
+    107u,
+    45u,
+    140u,
+    49u,
+    173u,
+    53u,
+    239u,
+    61u,
+    16u,
+    66u,
+    115u,
+    78u
+};
+
+struct MenuFMV
+{
+    const char* field_0_name;
+    LevelIds field_4_level_id;
+    __int16 field_6;
+    __int16 field_8;
+    __int16 field_A_fmv_id;
+    __int16 field_C;
+    __int16 field_E;
+};
+
+const MenuFMV gFmvs_4D0230[13] =
+{
+    { "Oddworld Intro", LevelIds::eMenu_0, -1, -1, 1, -1, -1 },
+    { "This is RuptureFarms", LevelIds::eRuptureFarms_1, -1, -1, 1, -1, -1 },
+    { "Barrel Ride", LevelIds::eStockYards_5, -1, -1, 4, -1, -1 },
+    { "Abe's Moon", LevelIds::eStockYards_5, -1, -1, 2, -1, -1 },
+    { "Paramite Scar", LevelIds::eLines_2, -1, -1, 3, -1, -1 },
+    { "Scrab Scar", LevelIds::eLines_2, -1, -1, 4, -1, -1 },
+    { "Shrykull Revealed", LevelIds::eLines_2, -1, -1, 16, -1, -1 },
+    { "Mullock Watches", LevelIds::eRuptureFarmsReturn_13, -1, -1, 2, -1, -1 },
+    { "The Factory Halts", LevelIds::eRuptureFarmsReturn_13, -1, -1, 1, -1, -1 },
+    { "What a Drag", LevelIds::eRuptureFarmsReturn_13, -1, -1, 3, -1, -1 },
+    { "Bad Ending", LevelIds::eRuptureFarmsReturn_13, -1, -1, 4, -1, -1 },
+    { "Good Ending", LevelIds::eRuptureFarmsReturn_13, -1, -1, 16, -1, -1 },
+    { "Credits", LevelIds::eCredits_10, -1, -1, -1, -1, -1 }
+};
+
+struct MenuLevel
+{
+    const char* field_0_name;
+    LevelIds field_4_level_id;
+    __int16 field_6;
+    __int16 field_8;
+    __int16 field_A;
+    __int16 field_C;
+    __int16 field_E;
+};
+
+// TODO: Should be MenuFMV or there is a generic structure for "lists" of things?
+const MenuFMV sLevelList_4D0300[15] =
+{
+    { "RuptureFarms", LevelIds::eRuptureFarms_1, 15, 1, -1, 1390, 245 },
+    { "Stockyard Escape", LevelIds::eStockYards_5, 6, 6, -1, 5656, 133 },
+    { "Monsaic Lines", LevelIds::eLines_2, 1, 14, -1, 11810, 681 },
+    { "Paramonia", LevelIds::eForest_3, 1, 1, -1, 330, 660 },
+    { "Paramonian Temple", LevelIds::eForestTemple_4, 1, 1, -1, 565, 170 },
+    { "Paramonian Nests", LevelIds::eForestChase, 9, 1, -1, 2439, 2621 },
+    { "Scrabania", LevelIds::eDesert_8, 1, 1, -1, 4677, 750 },
+    { "Scrabanian Temple", LevelIds::eDesertTemple_9, 1, 1, -1, 4410, 203 },
+    { "Scrabanian Nests", LevelIds::eDesertEscape, 11, 1, -1, 466, 2124 },
+    { "Stockyards", LevelIds::eStockYardsReturn_6, 4, 7, -1, 540, 640 },
+    { "Rescue Zulag 1", LevelIds::eRuptureFarmsReturn_13, 19, 3, -1, 2589, 193 },
+    { "Rescue Zulag 2", LevelIds::eRuptureFarmsReturn_13, 1, 1, -1, 1514, 705 },
+    { "Rescue Zulag 3", LevelIds::eRuptureFarmsReturn_13, 13, 1, -1, 1389, 694 },
+    { "Rescue Zulag 4", LevelIds::eRuptureFarmsReturn_13, 14, 1, -1, 1390, 700 },
+    { "The Boardroom", LevelIds::eBoardRoom_12, 6, 1, -1, 592, 157 }
+};
 
 MainMenuFade* MainMenuFade::ctor_42A5A0(__int16 xpos, __int16 ypos, unsigned __int16 idx_1, __int16 bDestroyOnDone)
 {
@@ -263,83 +391,6 @@ void MainMenuTransition::VRender_436610(int** /*ppOt*/)
     NOT_IMPLEMENTED();
 }
 
-ALIVE_VAR(1, 0x9F2DE0, int, gMainMenuInstanceCount_9F2DE0, 0);
-ALIVE_VAR(1, 0x507688, short, sFontLoaded_507688, 0);
-ALIVE_VAR(1, 0x4D0228, short, sListCount_4D0228, -1);
-
-
-ALIVE_VAR(1, 0x4CE598, int, dword_4CE598, 0);
-ALIVE_VAR(1, 0x5079A4, int, dword_5079A4, 0);
-
-struct MenuFMV;
-
-ALIVE_VAR(1, 0x9F2DE4, const MenuFMV*, sActiveList_9F2DE4, nullptr);
-
-const BYTE byte_4D0090[32] =
-{
-    0u,
-    0u,
-    33u,
-    132u,
-    66u,
-    136u,
-    99u,
-    140u,
-    132u,
-    144u,
-    165u,
-    148u,
-    231u,
-    156u,
-    8u,
-    33u,
-    41u,
-    37u,
-    74u,
-    41u,
-    107u,
-    45u,
-    140u,
-    49u,
-    173u,
-    53u,
-    239u,
-    61u,
-    16u,
-    66u,
-    115u,
-    78u
-};
-
-struct MenuFMV
-{
-    const char* field_0_name;
-    LevelIds field_4_level_id;
-    __int16 field_6;
-    __int16 field_8;
-    __int16 field_A_fmv_id;
-    __int16 field_C;
-    __int16 field_E;
-};
-
-const MenuFMV gFmvs_4D0230[13] =
-{
-    { "Oddworld Intro", LevelIds::eMenu_0, -1, -1, 1, -1, -1 },
-    { "This is RuptureFarms", LevelIds::eRuptureFarms_1, -1, -1, 1, -1, -1 },
-    { "Barrel Ride", LevelIds::eStockYards_5, -1, -1, 4, -1, -1 },
-    { "Abe's Moon", LevelIds::eStockYards_5, -1, -1, 2, -1, -1 },
-    { "Paramite Scar", LevelIds::eLines_2, -1, -1, 3, -1, -1 },
-    { "Scrab Scar", LevelIds::eLines_2, -1, -1, 4, -1, -1 },
-    { "Shrykull Revealed", LevelIds::eLines_2, -1, -1, 16, -1, -1 },
-    { "Mullock Watches", LevelIds::eRuptureFarmsReturn_13, -1, -1, 2, -1, -1 },
-    { "The Factory Halts", LevelIds::eRuptureFarmsReturn_13, -1, -1, 1, -1, -1 },
-    { "What a Drag", LevelIds::eRuptureFarmsReturn_13, -1, -1, 3, -1, -1 },
-    { "Bad Ending", LevelIds::eRuptureFarmsReturn_13, -1, -1, 4, -1, -1 },
-    { "Good Ending", LevelIds::eRuptureFarmsReturn_13, -1, -1, 16, -1, -1 },
-    { "Credits", LevelIds::eCredits_10, -1, -1, -1, -1, -1 }
-};
-
-
 Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, int tlvInfo)
 {
     ctor_417C10();
@@ -360,6 +411,7 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, int tlvInfo)
     field_E4_res_array[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 367, 1, 0);
     field_E4_res_array[5] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, 8003, 1, 0);
 
+    // 30 = fmv select
     if ( gMap_507BA8.field_4_current_camera == 30)
     {
         field_E4_res_array[2] = nullptr;
@@ -393,12 +445,16 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, int tlvInfo)
     field_1E2_rgb = 40;
     field_1E4_colour_counter = -8;
     field_1D4_tlvInfo = tlvInfo;
-    field_1CC_fn_update = &Menu::CopyRight_Update_47B4C0;
     field_1D8_timer = gnFrameCount_507670 + 150;
 
+    // copy right boot screen
+    field_1CC_fn_update = &Menu::CopyRight_Update_47B4C0;
+
+
+    // 1 == abe hello screen
     if (gMap_507BA8.field_4_current_camera == 1)
     {
-        field_1CC_fn_update = &Menu::AbeHeadDoorOpen_47B550;
+        field_1CC_fn_update = &Menu::WaitForDoorToOpen_47B550;
         field_204_flags |= 2;
         field_10_anim.Set_Animation_Data_402A40(41420, field_E4_res_array[3]);
     }
@@ -426,6 +482,7 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, int tlvInfo)
     gRestartRuptureFarmsKilledMuds_5076C4 = 0;
     gRestartRuptureFarmsSavedMuds_5076C8 = 0;
 
+    // 30 = fmv select
     if (gMap_507BA8.field_4_current_camera == 30)
     {
         field_204_flags &= ~2u;
@@ -442,10 +499,11 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, int tlvInfo)
 
         field_10_anim.Set_Animation_Data_402A40(201508, field_E4_res_array[1]);
 
-        FrameInfoHeader* v16 = field_10_anim.Get_FrameHeader_403A00(0);
+        FrameInfoHeader* pFrameInfoHeader = field_10_anim.Get_FrameHeader_403A00(0);
+        auto pFrameHeader = reinterpret_cast<FrameHeader*>(&(*field_10_anim.field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
         field_10_anim.LoadPal_403090(
             field_10_anim.field_20_ppBlock,
-            *reinterpret_cast<int*>(&(*field_10_anim.field_20_ppBlock)[v16->field_0_frame_header_offset]));
+            pFrameHeader->field_0_clut_offset);
     }
 
     dword_4CE598 = (dword_5079A4 != 0) + 1;
@@ -561,14 +619,67 @@ void Menu::VUpdate_47ABB0()
     (this->*field_1CC_fn_update)();
 }
 
-void Menu::AbeHeadDoorOpen_47B550()
+// Wait for the door that abes head comes out of to open
+void Menu::WaitForDoorToOpen_47B550()
 {
-    NOT_IMPLEMENTED();
+    field_204_flags |= 2u;
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_10_anim.Set_Animation_Data_402A40(37364, field_E4_res_array[2]);
+        FrameInfoHeader* pFrameInfoHeader = field_10_anim.Get_FrameHeader_403A00(0);
+        auto pFrameHeader = reinterpret_cast<FrameHeader*>(&(*field_10_anim.field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
+        field_10_anim.LoadPal_403090(field_10_anim.field_20_ppBlock, pFrameHeader->field_0_clut_offset);
+        field_1CC_fn_update = &Menu::WaitForAbesHeadPoppingThroughDoor_47B5E0;
+        ResourceManager::FreeResource_455550(field_E4_res_array[3]);
+        field_204_flags &= ~2u;
+        field_E4_res_array[3] = 0;
+        field_1D8_timer = gnFrameCount_507670 + 15;
+    }
+}
+
+void Menu::WaitForAbesHeadPoppingThroughDoor_47B5E0()
+{
+    if (field_1D8_timer <= static_cast<int>(gnFrameCount_507670))
+    {
+        field_204_flags |= 2u;
+        field_10_anim.Set_Animation_Data_402A40(37364, nullptr);
+        field_1CC_fn_update = &Menu::AbePopThroughDoor_47B620;
+    }
+}
+
+void Menu::AbePopThroughDoor_47B620()
+{
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        // Put abe into the bug eyed idle loop
+        field_10_anim.Set_Animation_Data_402A40(201384, field_E4_res_array[1]);
+        field_1CC_fn_update = &Menu::SayHelloWaitForLoading_47B690;
+        field_1DC_idle_input_counter = 0;
+        ResourceManager::FreeResource_455550(field_E4_res_array[2]);
+        field_E4_res_array[2] = nullptr;
+        ResourceManager::LoadResourceFile("ABESPEAK.BAN", Menu::OnResourceLoaded_47ADA0, this);
+    }
 }
 
 void Menu::CopyRight_Update_47B4C0()
 {
-    NOT_IMPLEMENTED();
+    if (gMap_507BA8.field_4_current_camera == 23)
+    {
+        if (static_cast<int>(gnFrameCount_507670) > field_1D8_timer)
+        {
+            field_1D8_timer = gnFrameCount_507670 + 150;
+            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 10, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+        }
+    }
+    else 
+    {
+        if (static_cast<int>(gnFrameCount_507670) > field_1D8_timer || gMap_507BA8.field_4_current_camera != 10)
+        {
+            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eEffect5_1_FMV, 30102, 0);
+            field_1CC_fn_update = &Menu::WaitForDoorToOpen_47B550;
+            field_10_anim.Set_Animation_Data_402A40(41420, field_E4_res_array[3]);
+        }
+    }
 }
 
 void Menu::FMV_Select_Update_47E8D0()
@@ -586,4 +697,295 @@ void Menu::FMV_Select_Render_47EEA0(int**)
     NOT_IMPLEMENTED();
 }
 
+void Menu::SayHelloWaitForLoading_47B690()
+{
+    // After 1 idle anim loop
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        // Wait for in progress loading (gamespeak ban) to finish
+        if (!field_E4_res_array[0])
+        {
+            while (ProgressInProgressFilesLoading())
+            {
+                // Wait on loading to finish
+            }
+        }
+        Mudokon_SFX_42A4D0(MudSounds::eHello_3, 0, 0, 0);
+        field_10_anim.Set_Animation_Data_402A40(201320, field_E4_res_array[1]);
+        field_1CC_fn_update = &Menu::WaitForAbeSayHello_47B770;
+    }
+}
+
+void Menu::WaitForAbeSayHello_47B770()
+{
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        // Abe has finished saying hello, go to main menu handler
+        field_10_anim.Set_Animation_Data_402A40(201508, field_E4_res_array[1]);
+        field_10_anim.SetFrame_402AC0(7u);
+        field_1CC_fn_update = &Menu::MainScreen_Update_47AF60;
+        field_1D0_fn_render = &Menu::MainScreen_Render_47BED0;
+        field_1D8_timer = gnFrameCount_507670 + Math_RandomRange_450F20(300, 450);
+    }
+}
+
+bool Menu::ProgressInProgressFilesLoading()
+{
+    for (int i = 0; gBaseGameObject_list_9F2DF0->Size(); i++)
+    {
+        BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        if (!pObjIter)
+        {
+            break;
+        }
+
+        if (pObjIter->field_4_typeId == Types::eLoadingFile_39)
+        {
+            pObjIter->VUpdate();
+            if (pObjIter->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+            {
+                i = gBaseGameObject_list_9F2DF0->RemoveAt(i);
+                pObjIter->VDestructor(1);
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
+EXPORT void Menu::MainScreen_Render_47BED0(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+ 
+EXPORT void Menu::MainScreen_Update_47AF60()
+{
+    // Calculate idle timers for playing game play demos
+    int bSmallerTimeout = 0;
+    if (sInputObject_5009E8.field_0_pads[0].field_0_pressed)
+    {
+        bSmallerTimeout = 0;
+        field_1DC_idle_input_counter = 0;
+        gDemoPlay_507694 = 0;
+    }
+    else
+    {
+        field_1DC_idle_input_counter++;
+        bSmallerTimeout = gDemoPlay_507694;
+    }
+
+    // Backwards menu button
+    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x9000u) // TODO: input constants
+    {
+        field_1E0_selected_index--;
+        if (field_1E0_selected_index < 0)
+        {
+            field_1E0_selected_index = 4; // TODO: Why isn't count of stru_4D00B0 ??
+        }
+
+        field_134_anim.Set_Animation_Data_402A40(sMainScreenButtons_4D00B0[field_1E0_selected_index].field_4_frame_table, nullptr);
+        SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, 0);
+        bSmallerTimeout = gDemoPlay_507694;
+    }
+
+    // Forward menu button
+    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x6100) // TODO: input constants
+    {
+        field_1E0_selected_index++;
+        if (field_1E0_selected_index > 4) // TODO: Why isn't count of stru_4D00B0 ??
+        {
+            field_1E0_selected_index = 0;
+        }
+
+        field_134_anim.Set_Animation_Data_402A40(sMainScreenButtons_4D00B0[field_1E0_selected_index].field_4_frame_table, nullptr);
+        SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, 0);
+        bSmallerTimeout = gDemoPlay_507694;
+    }
+
+    const int idleMax = bSmallerTimeout != 0 ? 300 : 1500;
+    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x8F0 || field_1DC_idle_input_counter > idleMax) // TODO: input constants
+    {
+        if (field_1DC_idle_input_counter <= idleMax)
+        {
+            if (field_E4_res_array[0])
+            {
+                field_204_flags |= 1u;
+
+                if (field_1E0_selected_index == 1)
+                {
+                    // Begin/new game
+                    Mudokon_SFX_42A4D0(MudSounds::eFollowMe_4, 0, 0, 0);
+                    field_10_anim.Set_Animation_Data_402A40(2115300, field_E4_res_array[0]);
+                }
+                else if (field_1E0_selected_index == 2)
+                {
+                    // Quit
+                    Mudokon_SFX_42A4D0(MudSounds::eGoodbye_12, 0, 0, 0);
+                    field_10_anim.Set_Animation_Data_402A40(2115120, field_E4_res_array[0]);
+                }
+                else
+                {
+                    // 0 = game speak,
+                    // 3 = load
+                    // 4 = options
+                    Mudokon_SFX_42A4D0(MudSounds::eOkay_13, 0, 0, 0);
+                    field_10_anim.Set_Animation_Data_402A40(201632, field_E4_res_array[1]);
+                }
+
+                field_1CC_fn_update = &Menu::WaitForSpeakFinishAndStartChangeEffect_47BB90;
+            }
+            else
+            {
+                if (field_1E8_pMenuTrans)
+                {
+                    field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+                }
+                else
+                {
+                    field_1E8_pMenuTrans = ao_new<MainMenuTransition>();
+                    field_1E8_pMenuTrans->ctor_436370(40, 1, 0, 16, 1);
+                    field_1E8_pMenuTrans->field_C_refCount++;
+                }
+
+                field_10_anim.Set_Animation_Data_402A40(201508, field_E4_res_array[1]);
+                field_1CC_fn_update = &Menu::GoToSelectedMenuPage_47BC50;
+            }
+        }
+        else
+        {
+            // Play a demo
+            gDemoPlay_507694 = 1;
+            field_1E0_selected_index = 1;
+            gAttract_507698 = 1;
+
+            char fileNameBuf[20] = {};
+            sprintf(fileNameBuf, "PLAYBK%02d.JOY", sJoyResId_50769C);
+            ResourceManager::LoadResourceFile_4551E0(fileNameBuf, 0, 0, 0);
+
+            if (field_1E8_pMenuTrans)
+            {
+                field_1E8_pMenuTrans->field_C_refCount--;
+                field_1E8_pMenuTrans->field_6_flags.Set(Options::eDead_Bit3);
+            }
+
+            field_1E8_pMenuTrans = ao_new<MainMenuTransition>();
+            field_1E8_pMenuTrans->ctor_436370(40, 1, 0, 16, 1);
+            field_1E8_pMenuTrans->field_C_refCount++;
+            field_1CC_fn_update = &Menu::GoToSelectedMenuPage_47BC50;
+        }
+    }
+
+    if (sEnableCheatFMV_50770C)
+    {
+        sEnableCheatFMV_50770C = 0;
+        field_224 = 1;
+        sActiveList_9F2DE4 = gFmvs_4D0230;
+        sListCount_4D0228 = ALIVE_COUNTOF(gFmvs_4D0230);
+        if (field_E4_res_array[0])
+        {
+            Mudokon_SFX_42A4D0(MudSounds::eOkay_13, 0, 0, 0);
+            field_10_anim.Set_Animation_Data_402A40(201632, field_E4_res_array[1]);
+            field_1CC_fn_update = &Menu::WaitForSpeakFinishAndStartChangeEffect_47BB90;
+        }
+        else
+        {
+            if (field_1E8_pMenuTrans)
+            {
+                field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+            }
+            else
+            {
+                field_1E8_pMenuTrans = ao_new<MainMenuTransition>();
+                field_1E8_pMenuTrans->ctor_436370(40, 1, 0, 16, 1);
+                field_1E8_pMenuTrans->field_C_refCount++;
+            }
+
+            field_10_anim.Set_Animation_Data_402A40(201508, field_E4_res_array[1]);
+            field_1CC_fn_update = &Menu::GoToSelectedMenuPage_47BC50;
+        }
+    }
+
+    if (sEnableCheatLevelSelect_507710)
+    {
+        sEnableCheatLevelSelect_507710 = 0;
+        field_226 = 1;
+        sActiveList_9F2DE4 = sLevelList_4D0300;
+        sListCount_4D0228 = ALIVE_COUNTOF(sLevelList_4D0300);
+        if (field_E4_res_array[0])
+        {
+            Mudokon_SFX_42A4D0(MudSounds::eOkay_13, 0, 0, 0);
+            field_10_anim.Set_Animation_Data_402A40(201632, field_E4_res_array[1]);
+            field_1CC_fn_update = &Menu::WaitForSpeakFinishAndStartChangeEffect_47BB90;
+        }
+        else
+        {
+            if (field_1E8_pMenuTrans)
+            {
+                field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+            }
+            else
+            {
+                field_1E8_pMenuTrans = ao_new<MainMenuTransition>();
+                field_1E8_pMenuTrans->ctor_436370(40, 1, 0, 16, 1);
+                field_1E8_pMenuTrans->field_C_refCount++;
+            }
+
+            field_10_anim.Set_Animation_Data_402A40(201508, field_E4_res_array[1]);
+            field_1CC_fn_update = &Menu::GoToSelectedMenuPage_47BC50;
+        }
+    }
+
+    // Some sort of idle anim toggling
+    if (((field_204_flags) >> 2) & 1)
+    {
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_10_anim.Set_Animation_Data_402A40(201508, field_E4_res_array[1]);
+            field_204_flags &= ~4u;
+            field_1D8_timer = gnFrameCount_507670 + Math_RandomRange_450F20(120, 450);
+        }
+    }
+    else if (field_1D8_timer <= static_cast<int>(gnFrameCount_507670))
+    {
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_10_anim.Set_Animation_Data_402A40(201384, field_E4_res_array[1]);
+            field_204_flags |= 4u;
+        }
+    }
+}
+
+// After fade out go to gamespeak/options/load/whatever
+void Menu::GoToSelectedMenuPage_47BC50()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Menu::WaitForSpeakFinishAndStartChangeEffect_47BB90()
+{
+    // Abe finished speaking?
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        if (field_1E8_pMenuTrans)
+        {
+            field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+        }
+        else
+        {
+            field_1E8_pMenuTrans = ao_new<MainMenuTransition>();
+            field_1E8_pMenuTrans->ctor_436370(40, 1, 0, 16, 1);
+            field_1E8_pMenuTrans->field_C_refCount++;
+        }
+
+        field_10_anim.Set_Animation_Data_402A40(201508, field_E4_res_array[1]);
+        field_1CC_fn_update = &Menu::GoToSelectedMenuPage_47BC50;
+    }
+}
+
+void CC Menu::OnResourceLoaded_47ADA0(Menu* pMenu)
+{
+    pMenu->field_E4_res_array[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 130, 1, 0);
+}
+
 END_NS_AO
+
