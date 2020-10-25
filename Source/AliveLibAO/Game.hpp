@@ -27,8 +27,8 @@ ALIVE_VAR_EXTERN(short, gbKillUnsavedMudsDone_5076CC);
 
 ALIVE_VAR_EXTERN(DynamicArrayT<BaseGameObject>*, ObjListPlatforms_50766C);
 
-EXPORT void SYS_EventsPump_44FF90();
-
 EXPORT void CC Init_GameStates_41CEC0();
+
+EXPORT void Game_Main_450050();
 
 END_NS_AO

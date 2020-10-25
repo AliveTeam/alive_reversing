@@ -26,7 +26,7 @@
 #include "SwitchStates.hpp"
 #include "Sfx.hpp"
 #include "Elum.hpp"
-#include "Sys_common.hpp"
+#include "Sys.hpp"
 
 START_NS_AO
 

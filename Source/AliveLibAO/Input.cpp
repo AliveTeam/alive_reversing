@@ -70,6 +70,28 @@ void CC Input_SetKeyState_48E610(int /*key*/, char /*bIsDown*/)
     NOT_IMPLEMENTED();
 }
 
+EXPORT char CC Input_IsVKPressed_48E5D0(int /*key*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT void CC Input_Init_44EB60()
+{
+    NOT_IMPLEMENTED();
+}
+
+
+EXPORT void Input_DisableInput_48E690()
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void Input_GetCurrentKeyStates_48E630()
+{
+    NOT_IMPLEMENTED();
+}
+
 void Input_InitKeyStateArray_48E5F0()
 {
     NOT_IMPLEMENTED();

@@ -4744,7 +4744,7 @@ void Abe::State_14_Speak_42FCD0()
 
 void Abe::State_15_Null_42A210()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Abe::State_16_HoistBegin_426E40()

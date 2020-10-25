@@ -7,6 +7,28 @@
 
 START_NS_AO
 
+
+struct File_Font
+{
+    __int16 field_0_width;
+    __int16 field_2_height;
+    __int16 field_4_color_depth;
+    __int16 field_6_palette_size;
+    byte field_8_palette[32];
+    BYTE field_28_pixel_buffer[1];
+};
+//ALIVE_ASSERT_SIZEOF(File_Font, 0x28);
+// Can vary in size
+
+struct Font_AtlasEntry
+{
+    unsigned __int8 field_0_x;
+    unsigned __int8 field_1_y;
+    unsigned __int8 field_2_width;
+    unsigned __int8 field_3_height;
+};
+ALIVE_ASSERT_SIZEOF(Font_AtlasEntry, 0x4);
+
 class FontContext
 {
 public:
@@ -14,18 +36,16 @@ public:
 
     EXPORT static void CC static_dtor_41C020();
 
-    EXPORT __int16 LoadFontType_41C040(int resourceID);
+    EXPORT void LoadFontType_41C040(short resourceID);
 
 
     EXPORT void dtor_41C110();
 
 
-    __int16 field_0;
-    __int16 field_2;
-    PSX_Point field_4;
-    int field_8;
+    PSX_RECT field_0_rect;
+    const Font_AtlasEntry* field_8_atlas_array;
     __int16 field_C_resource_id;
-    __int16 field_E;
+    __int16 field_E_pad;
 };
 
 

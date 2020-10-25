@@ -16,6 +16,10 @@
 #include "Sfx.hpp"
 #include "Events.hpp"
 #include "Particle.hpp"
+#include "Compression.hpp"
+#include "Abe.hpp"
+#include "Throwable.hpp"
+#include "Collisions.hpp"
 
 // Fix pollution from windows.h
 #undef min
@@ -134,10 +138,63 @@ EXPORT short *CC Slog_OnFrame_471FD0(void *, __int16 *)
     return 0;
 }
 
-EXPORT short *CC Abe_OnFrame_429E30(void *, __int16 *)
+const FP_Point stru_4C6608[6] =
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    { FP_FromInteger(3),    FP_FromInteger(-14) },
+    { FP_FromInteger(10),   FP_FromInteger(-10) },
+    { FP_FromInteger(15),   FP_FromInteger(-8) },
+    { FP_FromInteger(10),   FP_FromInteger(3) },
+    { FP_FromInteger(10),   FP_FromInteger(-4) },
+    { FP_FromInteger(4),    FP_FromInteger(-3) }
+};
+
+EXPORT short* CC Abe_OnFrame_429E30(void* pObj, __int16* pData)
+{
+    auto pAbe = static_cast<Abe*>(pObj);
+
+    FP xVel = stru_4C6608[pAbe->field_19D_throw_direction].field_0_x * pAbe->field_BC_sprite_scale;
+    const FP yVel = stru_4C6608[pAbe->field_19D_throw_direction].field_4_y * pAbe->field_BC_sprite_scale;
+
+    FP directed_x = {};
+    if (sActiveHero_507678->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        xVel = -xVel;
+        directed_x = -(pAbe->field_BC_sprite_scale * FP_FromInteger(pData[0]));
+    }
+    else
+    {
+        directed_x = (pAbe->field_BC_sprite_scale * FP_FromInteger(pData[0]));
+    }
+
+    FP data_y = FP_FromInteger(pData[1]);
+
+    FP hitX = {};
+    FP hitY = {};
+    PathLine* pLine = nullptr;
+    if (sCollisions_DArray_504C6C->RayCast_40C410(
+        pAbe->field_A8_xpos,
+        pAbe->field_AC_ypos + data_y,
+        pAbe->field_A8_xpos + directed_x,
+        pAbe->field_AC_ypos + data_y,
+        &pLine,
+        &hitX,
+        &hitY,
+        pAbe->field_BC_sprite_scale != FP_FromDouble(0.5) ? 6 : 0x60))
+    {
+        directed_x = hitX - pAbe->field_A8_xpos;
+        xVel = -xVel;
+    }
+
+    if (sActiveHero_507678->field_198_pThrowable)
+    {
+        sActiveHero_507678->field_198_pThrowable->field_A8_xpos = directed_x + sActiveHero_507678->field_A8_xpos;
+        BaseThrowable* pThrowable = sActiveHero_507678->field_198_pThrowable;
+        pThrowable->field_AC_ypos = (pAbe->field_BC_sprite_scale * data_y) + sActiveHero_507678->field_AC_ypos;
+        pThrowable->VThrow(xVel, yVel);
+        pThrowable->field_BC_sprite_scale = pAbe->field_BC_sprite_scale;
+        sActiveHero_507678->field_198_pThrowable = nullptr;
+    }
+    return pData + 2;
 }
 
 TFrameCallBackType kAbe_Anim_Frame_Fns_4CEBEC[] = { Abe_OnFrame_429E30 };
@@ -148,26 +205,6 @@ TFrameCallBackType kZBall_Anim_Frame_Fns_4CEBF8[] = { Animation_OnFrame_ZBallSma
 void Animation::vDecode()
 {
     VDecode_403550();
-}
-
-EXPORT void CC Decompress_Type_1_403150(const BYTE* /*pInput*/, BYTE* /*pOutput*/, unsigned int /*compressedLen*/, unsigned int /*decompressedLen*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-EXPORT void CC Decompress_Type_2_403390(const BYTE* /*pInput*/, BYTE* /*pOutput*/, int /*decompressedLen*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-EXPORT void CC Decompress_Type_3_4031E0(unsigned __int16* /*pInput*/, BYTE* /*pOutput*/, int /*len*/, int /*out_len*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-EXPORT void CC Decompress_Type_4_5_461770(const BYTE* /*pInput*/, BYTE* /*pOutput*/)
-{
-    NOT_IMPLEMENTED();
 }
 
 
