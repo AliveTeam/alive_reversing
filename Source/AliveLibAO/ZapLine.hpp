@@ -38,7 +38,7 @@ public:
 
     EXPORT ZapLine* Vdtor_479B20(signed int flags);
 
-    EXPORT void CalculateSourceAndDestinationPositions_478CF0(FP x1, FP y1, FP x2, FP y2);
+    EXPORT void CalculateSourceAndDestinationPositions_478CF0(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest);
 
     virtual void VScreenChanged() override;
 

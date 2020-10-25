@@ -4,6 +4,8 @@
 #include "stdlib.hpp"
 #include "ResourceManager.hpp"
 #include "Map.hpp"
+#include "PsxDisplay.hpp"
+#include "ScreenManager.hpp"
 
 void ZapLine_ForceLink() {}
 
@@ -136,9 +138,24 @@ ZapLine* ZapLine::Vdtor_479B20(signed int flags)
     return this;
 }
 
-void ZapLine::CalculateSourceAndDestinationPositions_478CF0(FP /*x1*/, FP /*y1*/, FP /*x2*/, FP /*y2*/)
+void ZapLine::CalculateSourceAndDestinationPositions_478CF0(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest)
 {
-    NOT_IMPLEMENTED();
+    field_10C_x_position_source = FP_GetExponent(xPosSource - (pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)));
+    field_10E_y_position_source = FP_GetExponent(yPosSource - (pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos)));
+    field_110_x_position_destination = FP_GetExponent(xPosDest - (pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)));
+    field_112_y_position_destination = FP_GetExponent(yPosDest - (pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos)));
+
+    field_10C_x_position_source = PsxToPCX(field_10C_x_position_source, 11);
+    field_110_x_position_destination = PsxToPCX(field_110_x_position_destination, 11);
+
+    __int16 xOff = 0;
+    __int16 yOff = 0;
+    field_10_anim.Get_Frame_Offset_403EE0(&xOff, &yOff);
+
+    field_10C_x_position_source = FP_GetExponent(FP_FromInteger(xOff) + FP_FromInteger(field_10C_x_position_source));
+    field_10E_y_position_source = FP_GetExponent(FP_FromInteger(yOff) + FP_FromInteger(field_10E_y_position_source));
+    field_110_x_position_destination = FP_GetExponent(FP_FromInteger(xOff) + FP_FromInteger(field_110_x_position_destination));
+    field_112_y_position_destination = FP_GetExponent(FP_FromInteger(yOff) + FP_FromInteger(field_112_y_position_destination));
 }
 
 void ZapLine::VScreenChanged()
