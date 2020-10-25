@@ -87,7 +87,7 @@ EXPORT void Input_DisableInput_48E690()
     NOT_IMPLEMENTED();
 }
 
-EXPORT void AO::Input_GetCurrentKeyStates_48E630()
+EXPORT void Input_GetCurrentKeyStates_48E630()
 {
     NOT_IMPLEMENTED();
 }
