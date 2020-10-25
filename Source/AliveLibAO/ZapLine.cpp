@@ -18,9 +18,9 @@ BaseGameObject* ZapLine::dtor_478E90()
 {
     SetVTable(this, 0x4BCDE8);
     ResourceManager::FreeResource_455550(field_E8_ppRes);
-    ao_delete_free_450770(field_128_buf1);
-    ao_delete_free_450770(field_12C_buf2);
-    ao_delete_free_450770(field_130_buf3);
+    ao_delete_free_450770(field_128_sprite_positions);
+    ao_delete_free_450770(field_12C_zap_points);
+    ao_delete_free_450770(field_130_sprite_segment_positions);
     return dtor_417D10();
 }
 
@@ -35,14 +35,14 @@ ZapLine* ZapLine::ctor_4789A0(FP x1, FP y1, FP x2, FP y2, __int16 aliveTime, Zap
     int frameTable = 0;
     if (field_11A_type == ZapLineType::eThin_1)
     {
-        field_120_count_per_part = 20;
+        field_120_number_of_pieces_per_segment = 20;
         field_11E_number_of_segments = 12;
         frameTable = 228;
         field_11C_tPageAbr = 3;
     }
     else if (field_11A_type == ZapLineType::eThick_0)
     {
-        field_120_count_per_part = 10;
+        field_120_number_of_pieces_per_segment = 10;
         field_11E_number_of_segments = 28;
         frameTable = 240;
         field_11C_tPageAbr = 1;
@@ -53,14 +53,15 @@ ZapLine* ZapLine::ctor_4789A0(FP x1, FP y1, FP x2, FP y2, __int16 aliveTime, Zap
 
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
     field_10_anim.field_C_layer = layer;
-    field_122_pSprts_count = field_11E_number_of_segments * field_120_count_per_part;
+    field_122_number_of_sprites = field_11E_number_of_segments * field_120_number_of_pieces_per_segment;
 
-    field_E8_ppRes = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_Spline, 0, sizeof(ZapLineSprites) * field_122_pSprts_count);
+    field_E8_ppRes = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_Spline, 0, sizeof(ZapLineSprites) * field_122_number_of_sprites
+    );
     field_124_pSprts = reinterpret_cast<ZapLineSprites*>(*field_E8_ppRes);
 
-    field_128_buf1 = reinterpret_cast<PSX_Point*>(alloc_450740(sizeof(PSX_Point) * field_122_pSprts_count));
-    field_12C_buf2 = reinterpret_cast<ZapPoint*>(alloc_450740(sizeof(ZapPoint) * field_120_count_per_part));
-    field_130_buf3 = reinterpret_cast<FP_Point*>(alloc_450740(sizeof(FP_Point) * field_11E_number_of_segments));
+    field_128_sprite_positions = reinterpret_cast<PSX_Point*>(alloc_450740(sizeof(PSX_Point) * field_122_number_of_sprites));
+    field_12C_zap_points = reinterpret_cast<ZapPoint*>(alloc_450740(sizeof(ZapPoint) * field_120_number_of_pieces_per_segment));
+    field_130_sprite_segment_positions = reinterpret_cast<FP_Point*>(alloc_450740(sizeof(FP_Point) * field_11E_number_of_segments));
 
     field_118_max_alive_time = aliveTime;
 
@@ -102,9 +103,9 @@ ZapLine* ZapLine::ctor_4789A0(FP x1, FP y1, FP x2, FP y2, __int16 aliveTime, Zap
     {
         for (int j = 0; j < field_11E_number_of_segments; j++)
         {
-            for (int k = 0; k < field_120_count_per_part; k++)
+            for (int k = 0; k < field_120_number_of_pieces_per_segment; k++)
             {
-                  Prim_Sprt* pSprt = &field_124_pSprts[(j * field_120_count_per_part) + k].field_0_sprts[i];
+                  Prim_Sprt* pSprt = &field_124_pSprts[(j * field_120_number_of_pieces_per_segment) + k].field_0_sprts[i];
                   Sprt_Init(pSprt);
 
                   Poly_Set_SemiTrans_498A40(&pSprt->mBase.header, 1);

@@ -78,25 +78,25 @@ public:
 
     ZapLineState field_E4_state;
 
-    __int16 field_E6_pad;
+     __int16 field_E6_pad;
     BYTE** field_E8_ppRes;
     Prim_SetTPage field_EC_tPage_p8[2];
-    __int16 field_10C_x1;
-    __int16 field_10E_y1;
-    __int16 field_110_x2;
-    __int16 field_112_y2;
+    __int16 field_10C_x_position_source;
+    __int16 field_10E_y_position_source;
+    __int16 field_110_x_position_destination;
+    __int16 field_112_y_position_destination;
     __int16 field_114_tPageMode;
     __int16 field_116_alive_timer;
     __int16 field_118_max_alive_time;
     ZapLineType field_11A_type;
     __int16 field_11C_tPageAbr;
     __int16 field_11E_number_of_segments;
-    __int16 field_120_count_per_part;
-    __int16 field_122_pSprts_count;
+    __int16 field_120_number_of_pieces_per_segment;
+    __int16 field_122_number_of_sprites;
     ZapLineSprites* field_124_pSprts;
-    PSX_Point* field_128_buf1;
-    ZapPoint* field_12C_buf2;
-    FP_Point* field_130_buf3;
+    PSX_Point* field_128_sprite_positions;
+    ZapPoint* field_12C_zap_points;
+    FP_Point* field_130_sprite_segment_positions;
     PSX_RECT field_134_rects[2];
 };
 ALIVE_ASSERT_SIZEOF(ZapLine, 0x144);
