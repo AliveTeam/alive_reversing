@@ -402,7 +402,7 @@ void SecurityClaw::VUpdate_418DE0()
                     field_AC_ypos + (FP_FromInteger(5) * field_BC_sprite_scale),
                     hero_mid_x,
                     hero_mid_y,
-                    8, 0, 28);
+                    8, ZapLineType::eThick_0, 28);
             }
 
             auto pPossessionFlicker = ao_new<PossessionFlicker>();

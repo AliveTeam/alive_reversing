@@ -206,7 +206,7 @@ void SecurityOrb::VUpdate_436DF0()
                     FP_FromInteger(width / 2),
                     FP_FromInteger(height / 2),
                     8,
-                    0,
+                    ZapLineType::eThick_0,
                     28);
             }
 

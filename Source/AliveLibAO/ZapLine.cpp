@@ -24,25 +24,26 @@ BaseGameObject* ZapLine::dtor_478E90()
     return dtor_417D10();
 }
 
-ZapLine* ZapLine::ctor_4789A0(FP x1, FP y1, FP x2, FP y2, __int16 aliveTime, signed __int16 type, __int16 layer)
+ZapLine* ZapLine::ctor_4789A0(FP x1, FP y1, FP x2, FP y2, __int16 aliveTime, ZapLineType type, __int16 layer)
 {
     ctor_417C10();
-    field_11A_type = type;
     SetVTable(this, 0x4BCDE8);
+
     field_4_typeId = Types::eZapLine_94;
+    field_11A_type = type;
 
     int frameTable = 0;
-    if (type == 1)
+    if (field_11A_type == ZapLineType::eThin_1)
     {
         field_120_count_per_part = 20;
-        field_11E_part_count = 12;
+        field_11E_number_of_segments = 12;
         frameTable = 228;
         field_11C_tPageAbr = 3;
     }
-    else if (type == 0)
+    else if (field_11A_type == ZapLineType::eThick_0)
     {
         field_120_count_per_part = 10;
-        field_11E_part_count = 28;
+        field_11E_number_of_segments = 28;
         frameTable = 240;
         field_11C_tPageAbr = 1;
     }
@@ -52,21 +53,21 @@ ZapLine* ZapLine::ctor_4789A0(FP x1, FP y1, FP x2, FP y2, __int16 aliveTime, sig
 
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
     field_10_anim.field_C_layer = layer;
-    field_122_pSprts_count = field_11E_part_count * field_120_count_per_part;
+    field_122_pSprts_count = field_11E_number_of_segments * field_120_count_per_part;
 
-    field_E8_ppRes = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_Spline, 0, 48 * field_122_pSprts_count);
+    field_E8_ppRes = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_Spline, 0, sizeof(ZapLineSprites) * field_122_pSprts_count);
     field_124_pSprts = reinterpret_cast<ZapLineSprites*>(*field_E8_ppRes);
 
     field_128_buf1 = reinterpret_cast<PSX_Point*>(alloc_450740(sizeof(PSX_Point) * field_122_pSprts_count));
     field_12C_buf2 = reinterpret_cast<ZapPoint*>(alloc_450740(sizeof(ZapPoint) * field_120_count_per_part));
-    field_130_buf3 = reinterpret_cast<FP_Point*>(alloc_450740(sizeof(FP_Point) * field_11E_part_count));
+    field_130_buf3 = reinterpret_cast<FP_Point*>(alloc_450740(sizeof(FP_Point) * field_11E_number_of_segments));
 
     field_118_max_alive_time = aliveTime;
 
     field_A8_xpos = x1;
     field_AC_ypos = y1;
 
-    field_E4_state = 0;
+    field_E4_state = ZapLineState::eInit_0;
     field_116_alive_timer = 0;
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit13_Is8Bit))
@@ -99,7 +100,7 @@ ZapLine* ZapLine::ctor_4789A0(FP x1, FP y1, FP x2, FP y2, __int16 aliveTime, sig
 
     for (int i = 0; i < 2; i++)
     {
-        for (int j = 0; j < field_11E_part_count; j++)
+        for (int j = 0; j < field_11E_number_of_segments; j++)
         {
             for (int k = 0; k < field_120_count_per_part; k++)
             {
@@ -119,7 +120,7 @@ ZapLine* ZapLine::ctor_4789A0(FP x1, FP y1, FP x2, FP y2, __int16 aliveTime, sig
         }
     }
 
-    sub_478CF0(x1, y1, x2, y2);
+    CalculateSourceAndDestinationPositions_478CF0(x1, y1, x2, y2);
 
     return this;
 }
@@ -134,7 +135,7 @@ ZapLine* ZapLine::Vdtor_479B20(signed int flags)
     return this;
 }
 
-void ZapLine::sub_478CF0(FP /*x1*/, FP /*y1*/, FP /*x2*/, FP /*y2*/)
+void ZapLine::CalculateSourceAndDestinationPositions_478CF0(FP /*x1*/, FP /*y1*/, FP /*x2*/, FP /*y2*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -168,6 +169,105 @@ void ZapLine::VUpdate()
 }
 
 void ZapLine::VUpdate_4796B0()
+{
+    field_116_alive_timer++;
+
+    switch (field_E4_state)
+    {
+    case ZapLineState::eInit_0:
+        CalculateZapPoints_479380();
+
+        if (field_11A_type == ZapLineType::eThin_1)
+        {
+            CalculateThinSpriteSegmentPositions_4791F0();
+        }
+        else if (field_11A_type == ZapLineType::eThick_0)
+        {
+            CalculateThickSpriteSegmentPositions_478F20();
+        }
+        field_E4_state = ZapLineState::eInitSpritePositions_1;
+        break;
+
+    case ZapLineState::eInitSpritePositions_1:
+        CalculateSpritePositionsOuter();
+        field_E4_state = ZapLineState::eInitSpriteVertices_2;
+        break;
+
+    case ZapLineState::eInitSpriteVertices_2:
+    case ZapLineState::eUpdateSpriteVertices_4:
+        UpdateSpriteVertexPositions_4795B0();
+
+        if (field_116_alive_timer >= field_118_max_alive_time && field_11A_type != ZapLineType::eThin_1)
+        {
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            return;
+        }
+
+        if (field_11A_type == ZapLineType::eThin_1)
+        {
+            CalculateThinSpriteSegmentPositions_4791F0();
+        }
+        else if (field_11A_type == ZapLineType::eThick_0)
+        {
+            CalculateThickSpriteSegmentPositions_478F20();
+        }
+        field_E4_state = ZapLineState::eUpdateSpritePositions_3;
+        break;
+
+    case ZapLineState::eUpdateSpritePositions_3:
+        CalculateSpritePositionsOuter();
+        field_E4_state = ZapLineState::eUpdateSpriteVertices_4;
+        break;
+    }
+}
+
+void ZapLine::CalculateSpritePositionsOuter()
+{
+    for (short i = 0; i < field_11E_number_of_segments; i++)
+    {
+        if (i == 0)
+        {
+            // First item.
+            CalculateSpritePositionsInner_479400(0, 0, 1, 0);
+        }
+        else
+        {
+            const short lastIdx = field_11E_number_of_segments - 1;
+            if (i == lastIdx)
+            {
+                // Last item.
+                CalculateSpritePositionsInner_479400(field_11E_number_of_segments - 2, lastIdx, lastIdx, field_11E_number_of_segments - 1);
+            }
+            else
+            {
+                // Other items.
+                CalculateSpritePositionsInner_479400(i - 1, i, i + 1, i);
+            }
+        }
+    }
+}
+
+void ZapLine::CalculateZapPoints_479380()
+{
+    NOT_IMPLEMENTED();
+}
+
+void ZapLine::CalculateThinSpriteSegmentPositions_4791F0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void ZapLine::CalculateThickSpriteSegmentPositions_478F20()
+{
+    NOT_IMPLEMENTED();
+}
+
+void ZapLine::UpdateSpriteVertexPositions_4795B0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void ZapLine::CalculateSpritePositionsInner_479400(int /*idx1*/, int /*idx2*/, int /*idx3*/, __int16 /*idx4*/)
 {
     NOT_IMPLEMENTED();
 }
