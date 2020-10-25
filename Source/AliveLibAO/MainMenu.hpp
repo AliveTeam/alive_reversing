@@ -102,7 +102,11 @@ public:
 
     virtual void VScreenChanged() override;
 
-    EXPORT void AbeHeadDoorOpen_47B550();
+    EXPORT void WaitForDoorToOpen_47B550();
+
+    EXPORT void WaitForAbesHeadPoppingThroughDoor_47B5E0();
+
+    EXPORT void AbePopThroughDoor_47B620();
 
     EXPORT void CopyRight_Update_47B4C0();
 
@@ -112,13 +116,28 @@ public:
     
     EXPORT void FMV_Select_Render_47EEA0(int**);
 
+    EXPORT void SayHelloWaitForLoading_47B690();
+
+    EXPORT void WaitForAbeSayHello_47B770();
+
+    bool ProgressInProgressFilesLoading();
+
+    EXPORT void MainScreen_Render_47BED0(int** ppOt);
+
+    EXPORT void MainScreen_Update_47AF60();
+
+    EXPORT void GoToSelectedMenuPage_47BC50();
+
+    EXPORT void WaitForSpeakFinishAndStartChangeEffect_47BB90();
+
+    EXPORT static void CC OnResourceLoaded_47ADA0(Menu* pMenu);
     
     int field_D4[4];
     BYTE** field_E4_res_array[6];
     AliveFont field_FC_font;
     Animation field_134_anim;
 
-    using TUpdateFn = decltype(&Menu::AbeHeadDoorOpen_47B550);
+    using TUpdateFn = decltype(&Menu::WaitForDoorToOpen_47B550);
 
     TUpdateFn field_1CC_fn_update;
 
