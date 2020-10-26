@@ -553,21 +553,21 @@ void Slig::Init_46B890()
     {
         case Path_Slig::StartState::Paused_1:
         {
-            field_1F8_fn = &Slig::Brain_Inactive_46B780;
-            field_1FC_fn2 = &Slig::Brain_Inactive_46B780;
+            SetBrain(&Slig::Brain_Inactive_46B780);
+            SetBrain2(&Slig::Brain_Inactive_46B780);
             break;
         }
         case Path_Slig::StartState::Sleeping_2:
         {
             if (field_174_tlv.field_1_unknown && field_174_tlv.field_4E_stay_awake)
             {
-                field_1F8_fn = &Slig::Brain_Inactive_46B780;
-                field_1FC_fn2 = &Slig::Brain_Inactive_46B780;
+                SetBrain(&Slig::Brain_Inactive_46B780);
+                SetBrain2(&Slig::Brain_Inactive_46B780);
             }
             else
             {
-                field_1F8_fn = &Slig::Brain_Sleeping_46B4E0;
-                field_1FC_fn2 = &Slig::Brain_Sleeping_46B4E0;
+                SetBrain(&Slig::Brain_Sleeping_46B4E0);
+                SetBrain2(&Slig::Brain_Sleeping_46B4E0);
                 field_FC_current_motion = eAbeStates::State_33_RunJumpMid_426FA0;
                 VUpdateAnimData_464D00();
             }
@@ -575,28 +575,28 @@ void Slig::Init_46B890()
         }
         case Path_Slig::StartState::Chase_3:
         {
-            field_1F8_fn = &Slig::Brain_StartChasing_46CF90;
-            field_1FC_fn2 = &Slig::Brain_StartChasing_46CF90;
+            SetBrain(&Slig::Brain_StartChasing_46CF90);
+            SetBrain2(&Slig::Brain_StartChasing_46CF90);
             field_114_timer = gnFrameCount_507670 + field_174_tlv.field_3E_time_to_wait_before_chase;
             break;
         }
         case Path_Slig::StartState::GameEnder_4:
         {
-            field_1F8_fn = &Slig::Brain_GameEnder_46EEE0;
-            field_1FC_fn2 = &Slig::Brain_GameEnder_46EEE0;
+            SetBrain(&Slig::Brain_GameEnder_46EEE0);
+            SetBrain2(&Slig::Brain_GameEnder_46EEE0);
             field_130 = static_cast<short>(field_114_timer);
             break;
         }
         case Path_Slig::StartState::Paused_5:
         {
-            field_1F8_fn = &Slig::Brain_Paused_466030;
-            field_1FC_fn2 = &Slig::Brain_Paused_466030;
+            SetBrain(&Slig::Brain_Paused_466030);
+            SetBrain2(&Slig::Brain_Paused_466030);
             break;
         }
         default:
         {
-            field_1F8_fn = &Slig::Brain_Unknown_46B250;
-            field_1FC_fn2 = &Slig::Brain_Unknown_46B250;
+            SetBrain(&Slig::Brain_Unknown_46B250);
+            SetBrain2(&Slig::Brain_Unknown_46B250);
             break;
         }
     }
@@ -4926,6 +4926,11 @@ void Slig::BlowToGibs_4685A0()
 void Slig::SetBrain(Slig::TBrainFn fn)
 {
     ::SetBrain(fn, field_1F8_fn, sSligAITable);
+}
+
+void Slig::SetBrain2(Slig::TBrainFn fn)
+{
+    ::SetBrain(fn, field_1FC_fn2, sSligAITable);
 }
 
 bool Slig::BrainIs(Slig::TBrainFn fn)

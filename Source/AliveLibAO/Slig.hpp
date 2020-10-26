@@ -404,6 +404,7 @@ public:
     using TBrainFn = decltype(&Slig::Brain_ZShooting_46F290);
 
     void SetBrain(TBrainFn fn);
+    void SetBrain2(TBrainFn fn);
 
     bool BrainIs(TBrainFn fn);
 
