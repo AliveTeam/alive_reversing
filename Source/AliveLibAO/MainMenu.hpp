@@ -211,6 +211,8 @@ public:
 
     EXPORT void SaveLoadFailed_Render_47DCF0(int** ppOt);
 
+    EXPORT void Update_47F8A0();
+
     EXPORT static void CC OnResourceLoaded_47ADA0(Menu* pMenu);
 
     int field_D4[4];

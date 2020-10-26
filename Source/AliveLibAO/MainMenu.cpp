@@ -56,11 +56,30 @@ EXPORT void CC SND_Restart_476340()
 }
 
 // TODO: Move out
-int CC Input_SaveSettingsIni_44F460()
+EXPORT int CC Input_SaveSettingsIni_44F460()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
+
+// TODO: Move out
+EXPORT int CC Input_Remap_44F300(InputCommands /*inputCmd*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+ALIVE_VAR(1, 0x9F2DE8, short, bWaitingForRemapInput_9F2DE8, 0);
+
+struct Buttons
+{
+    int buttons[2][8] =
+    {
+        { 8, 2, 16, 4, 128, 32, 64, 1 },
+        { 9, 6, 16, 6, 128, 32, 64, 9 }
+    };
+};
+ALIVE_VAR(1, 0x4D0030, Buttons, dword_4D0030, {}); // TODO: Probably const
 
 struct Menu_Button
 {
@@ -1921,7 +1940,84 @@ void Menu::To_ButtonRemap_Update_47F860()
 
 void Menu::ButtonRemap_Update_47F6F0()
 {
-    NOT_IMPLEMENTED();
+    if (bWaitingForRemapInput_9F2DE8)
+    {
+        if (!sInputObject_5009E8.field_0_pads[0].field_0_pressed)
+        {
+            bWaitingForRemapInput_9F2DE8 = 0;
+        }
+        return;
+    }
+
+    if (field_230_bGoBack == 8)
+    {
+        if (!Input_Remap_44F300(static_cast<InputCommands>(dword_4D0030.buttons[sJoystickEnabled_508A60][field_1E0_selected_index])))
+        {
+            return;
+        }
+
+        field_230_bGoBack = -1;
+        field_1E8_pMenuTrans->StartTrans_436560(40, 0, 0, 16);
+        bWaitingForRemapInput_9F2DE8 = 1;
+        return;
+    }
+
+    if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & InputCommands::eLeft) // TODO: Input constants
+    {
+        if (field_1E0_selected_index >= 4)
+        {
+            field_1E0_selected_index -= 4;
+        }
+        SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, 0); // TODO: Input constants
+        bWaitingForRemapInput_9F2DE8 = 1;
+    }
+    else if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & InputCommands::eRight) // TODO: Input constants
+    {
+        if (field_1E0_selected_index < 4)
+        {
+            field_1E0_selected_index += 4;
+        }
+        SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, 0); // TODO: Input constants
+        bWaitingForRemapInput_9F2DE8 = 1;
+    }
+    else if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x1000) // TODO: Input constants
+    {
+        field_1E0_selected_index--;
+        SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, 0); // TODO: Input constants
+        bWaitingForRemapInput_9F2DE8 = 1;
+    }
+    else if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x4100) // TODO: Input constants
+    {
+        field_1E0_selected_index++;
+        SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, 0); // TODO: Input constants
+        bWaitingForRemapInput_9F2DE8 = 1;
+    }
+
+    if (field_1E0_selected_index < 0)
+    {
+        field_1E0_selected_index = 7;
+    }
+
+    if (field_1E0_selected_index > 7)
+    {
+        field_1E0_selected_index = 0;
+    }
+
+    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x810) // TODO: Input constants
+    {
+        // Show abe motions screen
+        field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+        field_230_bGoBack = 9;
+        field_1CC_fn_update = &Menu::Update_47F8A0;
+    }
+
+    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0xE0) // TODO: Input constants
+    {
+        // Rebind a key (in that horrible white blinding screen)
+        field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+        field_230_bGoBack = 8;
+        bWaitingForRemapInput_9F2DE8 = 1;
+    }
 }
 
 void Menu::To_LoadSave_Update_47DB10()
@@ -2026,6 +2122,11 @@ void Menu::SaveLoadFailed_Render_47DCF0(int** ppOt)
         FP_FromInteger(1),
         640,
         0);
+}
+
+void Menu::Update_47F8A0()
+{
+    NOT_IMPLEMENTED();
 }
 
 void CC Menu::OnResourceLoaded_47ADA0(Menu* pMenu)
