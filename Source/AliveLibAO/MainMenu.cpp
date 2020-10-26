@@ -1604,7 +1604,18 @@ void Menu::Options_To_Selected_After_Cam_Change_Update_47C330()
 
 void Menu::To_Options_Controller_Update_47F2E0()
 {
-    NOT_IMPLEMENTED();
+    field_230 = -1;
+    if (field_1E8_pMenuTrans)
+    {
+        if (field_1E8_pMenuTrans->field_16_bDone)
+        {
+            field_1CC_fn_update = &Menu::Options_Controller_Update_47F210;
+            field_1D0_fn_render = &Menu::Options_Controller_Render_47F430;
+            field_1DC_idle_input_counter = 0;
+            field_1E0_selected_index = static_cast<short>(sJoystickEnabled_508A60);
+            field_228 = 0;
+        }
+    }
 }
 
 void Menu::Options_Controller_Render_47F430(int** /*ppOt*/)
@@ -1780,6 +1791,11 @@ void Menu::Update_47F140()
 }
 
 void Menu::Update_47ED50()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Menu::Options_Controller_Update_47F210()
 {
     NOT_IMPLEMENTED();
 }
