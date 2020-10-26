@@ -211,7 +211,15 @@ public:
 
     EXPORT void SaveLoadFailed_Render_47DCF0(int** ppOt);
 
-    EXPORT void Update_47F8A0();
+    EXPORT void To_ShowAbeMotions_ChangeCamera_Update_47F8A0();
+
+    EXPORT void To_ShowAbeMotions_SaveSettings_Update_47F8E0();
+
+    EXPORT void To_ToggleMotions_Update_47C9E0();
+
+    EXPORT void ToggleMotions_Render_47CAB0(int** ppOt);
+
+    EXPORT void ToggleMotions_Update_47C800();
 
     EXPORT static void CC OnResourceLoaded_47ADA0(Menu* pMenu);
 

@@ -2008,7 +2008,7 @@ void Menu::ButtonRemap_Update_47F6F0()
         // Show abe motions screen
         field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
         field_230_bGoBack = 9;
-        field_1CC_fn_update = &Menu::Update_47F8A0;
+        field_1CC_fn_update = &Menu::To_ShowAbeMotions_ChangeCamera_Update_47F8A0;
     }
 
     if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0xE0) // TODO: Input constants
@@ -2124,7 +2124,53 @@ void Menu::SaveLoadFailed_Render_47DCF0(int** ppOt)
         0);
 }
 
-void Menu::Update_47F8A0()
+void Menu::To_ShowAbeMotions_ChangeCamera_Update_47F8A0()
+{
+    if (field_1E8_pMenuTrans)
+    {
+        if (field_1E8_pMenuTrans->field_16_bDone)
+        {
+            if (field_230_bGoBack == 9)
+            {
+                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 4, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                field_1CC_fn_update = &Menu::To_ShowAbeMotions_SaveSettings_Update_47F8E0;
+            }
+        }
+    }
+}
+
+void Menu::To_ShowAbeMotions_SaveSettings_Update_47F8E0()
+{
+    if (sNumCamSwappers_507668 <= 0)
+    {
+        field_134_anim.Set_Animation_Data_402A40(6152, nullptr);
+        Input_SaveSettingsIni_44F460();
+        field_204_flags &= ~2u;
+        field_1CC_fn_update = &Menu::To_ToggleMotions_Update_47C9E0;
+        field_1D0_fn_render = &Menu::ToggleMotions_Render_47CAB0;
+        field_1E0_selected_index = 0;
+        field_1E8_pMenuTrans->StartTrans_436560(40, 0, 0, 16);
+    }
+}
+
+void Menu::To_ToggleMotions_Update_47C9E0()
+{
+    if (field_1E8_pMenuTrans)
+    {
+        if (field_1E8_pMenuTrans->field_16_bDone)
+        {
+            field_1CC_fn_update = &Menu::ToggleMotions_Update_47C800;
+            field_1DC_idle_input_counter = 0;
+        }
+    }
+}
+
+void Menu::ToggleMotions_Render_47CAB0(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void Menu::ToggleMotions_Update_47C800()
 {
     NOT_IMPLEMENTED();
 }
