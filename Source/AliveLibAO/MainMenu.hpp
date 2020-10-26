@@ -177,7 +177,11 @@ public:
 
     EXPORT void Options_Sound_Update_47C420();
 
-    EXPORT void Update_47C720();
+    EXPORT void Options_WaitForAbeSayOK_Update_47C720();
+
+    EXPORT void Options_WaitForScreenTrans_Update_47C760();
+
+    EXPORT void To_MainOptions_Screen_After_Camera_Change_Update_47C7A0();
 
     EXPORT static void CC OnResourceLoaded_47ADA0(Menu* pMenu);
 

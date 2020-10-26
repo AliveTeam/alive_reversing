@@ -1554,7 +1554,7 @@ void Menu::Options_Sound_Update_47C420()
         Mudokon_SFX_42A4D0(MudSounds::eOkay_13, 0, 0, nullptr);
 
         field_10_anim.Set_Animation_Data_402A40(201632, field_E4_res_array[1]);
-        field_1CC_fn_update = &Menu::Update_47C720;
+        field_1CC_fn_update = &Menu::Options_WaitForAbeSayOK_Update_47C720;
     }
 
     if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x810 || field_1DC_idle_input_counter > 900) // TODO: Input constants
@@ -1563,7 +1563,7 @@ void Menu::Options_Sound_Update_47C420()
         field_134_anim.Set_Animation_Data_402A40(stru_4D01C0[2].field_4_frame_table, nullptr);
         Mudokon_SFX_42A4D0(MudSounds::eOkay_13, 0, 0, nullptr);
         field_10_anim.Set_Animation_Data_402A40(201632, field_E4_res_array[1]);
-        field_1CC_fn_update = &Menu::Update_47C720;
+        field_1CC_fn_update = &Menu::Options_WaitForAbeSayOK_Update_47C720;
     }
 
     // Idle anim toggle ?
@@ -1586,9 +1586,38 @@ void Menu::Options_Sound_Update_47C420()
     }
 }
 
-void Menu::Update_47C720()
+void Menu::Options_WaitForAbeSayOK_Update_47C720()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_10_anim.Set_Animation_Data_402A40(201508, field_E4_res_array[1]);
+        field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+        field_1CC_fn_update = &Menu::Options_WaitForScreenTrans_Update_47C760;
+    }
+}
+
+void Menu::Options_WaitForScreenTrans_Update_47C760()
+{
+    if (field_1E8_pMenuTrans)
+    {
+        if (field_1E8_pMenuTrans->field_16_bDone)
+        {
+            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 2, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            field_1CC_fn_update = &Menu::To_MainOptions_Screen_After_Camera_Change_Update_47C7A0;
+        }
+    }
+}
+
+void Menu::To_MainOptions_Screen_After_Camera_Change_Update_47C7A0()
+{
+    if (sNumCamSwappers_507668 <= 0)
+    {
+        field_1CC_fn_update = &Menu::To_Options_Update_47C250;
+        field_1D0_fn_render = &Menu::Options_Render_47C190;
+        field_1E0_selected_index = 1;
+        field_134_anim.Set_Animation_Data_402A40(stru_4D0148[1].field_4_frame_table, nullptr);
+        field_1E8_pMenuTrans->StartTrans_436560(40, 0, 0, 16);
+    }
 }
 
 void CC Menu::OnResourceLoaded_47ADA0(Menu* pMenu)
