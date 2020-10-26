@@ -257,6 +257,7 @@ MainMenuFade* MainMenuFade::ctor_42A5A0(__int16 xpos, __int16 ypos, unsigned __i
             break;
         }
         if (pObj->field_4_typeId == Types::MainMenuFade_44 &&
+            pObj != this &&
             static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj)->field_A8_xpos == field_A8_xpos &&
             static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj)->field_AC_ypos == field_AC_ypos)
         {
@@ -2159,6 +2160,9 @@ void Menu::To_ShowAbeMotions_SaveSettings_Update_47F8E0()
 
 void Menu::To_ToggleMotions_Update_47C9E0()
 {
+    // Breaks buttons in abe motion screen ??
+    NOT_IMPLEMENTED();
+
     if (field_1E8_pMenuTrans)
     {
         if (field_1E8_pMenuTrans->field_16_bDone)
@@ -2176,8 +2180,6 @@ void Menu::ToggleMotions_Render_47CAB0(int** /*ppOt*/)
 
 void Menu::ToggleMotions_Update_47C800()
 {
-    NOT_IMPLEMENTED();
-
     if (sInputObject_5009E8.field_0_pads[0].field_0_pressed)
     {
         field_1DC_idle_input_counter = 0;
