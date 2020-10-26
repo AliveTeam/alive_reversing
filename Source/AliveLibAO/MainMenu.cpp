@@ -40,6 +40,7 @@ const Menu_Button sMainScreenButtons_4D00B0[5] =
 
 const Menu_Button stru_4D0148[3] ={ { 33, 66, 6152 }, { 33, 87, 6152 }, { 288, 238, 6152 } };
 
+const Menu_Button stru_4D01C0[3] = { { 33, 66, 6152 }, { 33, 87, 6152 }, { 289, 238, 6152 } };
 
 ALIVE_VAR(1, 0x507694, short, gDemoPlay_507694, 0);
 ALIVE_VAR(1, 0x50769C, BYTE, sJoyResId_50769C, 0);
@@ -50,6 +51,9 @@ ALIVE_VAR(1, 0x4D0228, short, sListCount_4D0228, -1);
 
 ALIVE_VAR(1, 0x4CE598, int, dword_4CE598, 0);
 ALIVE_VAR(1, 0x5079A4, int, dword_5079A4, 0);
+
+ALIVE_VAR(1, 0x507690, short, sSoundMono_507690, 0);
+
 
 struct MenuFMV;
 
@@ -1394,12 +1398,74 @@ void Menu::Option_GoTo_Selected_Update_47C2C0()
                 break;
             }
 
-            field_1CC_fn_update = &Menu::Update_47C330;
+            field_1CC_fn_update = &Menu::Options_To_Selected_After_Cam_Change_Update_47C330;
         }
     }
 }
 
-void Menu::Update_47C330()
+void Menu::Options_To_Selected_After_Cam_Change_Update_47C330()
+{
+    if (sNumCamSwappers_507668 <= 0)
+    {
+        switch (field_1E0_selected_index)
+        {
+        // To controller options
+        case 0:
+            field_204_flags &= ~2u;
+            field_228 = 0;
+            field_1CC_fn_update = &Menu::To_Options_Controller_Update_47F2E0;
+            field_1D0_fn_render = &Menu::Options_Controller_Render_47F430;
+            field_1E0_selected_index = static_cast<short>(sJoystickEnabled_508A60);
+            field_230 = -1;
+            field_22C = 0;
+            break;
+
+        // To sound options
+        case 1:
+            field_1CC_fn_update = &Menu::To_Options_Sound_Update_47C6F0;
+            field_1D0_fn_render = &Menu::Options_Sound_Render_47C630;
+            field_1E0_selected_index = sSoundMono_507690;
+            field_134_anim.Set_Animation_Data_402A40(stru_4D01C0[sSoundMono_507690].field_4_frame_table, nullptr);
+            break;
+
+        // Back to main menu
+        case 2:
+            field_1CC_fn_update = &Menu::To_MainScreen_Update_47BB60;
+            field_1D0_fn_render = &Menu::MainScreen_Render_47BED0;
+            field_1E0_selected_index = 4;
+            field_134_anim.Set_Animation_Data_402A40(sMainScreenButtons_4D00B0[4].field_4_frame_table, nullptr);
+            break;
+
+        default:
+            LOG_ERROR("Unknown menu idx " << field_1E0_selected_index);
+            break;
+        }
+
+        field_1E8_pMenuTrans->StartTrans_436560(40, 0, 0, 16);
+    }
+}
+
+void Menu::To_Options_Controller_Update_47F2E0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Menu::Options_Controller_Render_47F430(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void Menu::To_Options_Sound_Update_47C6F0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Menu::To_MainScreen_Update_47BB60()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Menu::Options_Sound_Render_47C630(int** /*ppOt*/)
 {
     NOT_IMPLEMENTED();
 }

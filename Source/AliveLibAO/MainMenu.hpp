@@ -163,10 +163,20 @@ public:
 
     EXPORT void Option_GoTo_Selected_Update_47C2C0();
 
-    EXPORT void Update_47C330();
+    EXPORT void Options_To_Selected_After_Cam_Change_Update_47C330();
+
+    EXPORT void To_Options_Controller_Update_47F2E0();
+
+    EXPORT void Options_Controller_Render_47F430(int** ppOt);
+
+    EXPORT void To_Options_Sound_Update_47C6F0();
+
+    EXPORT void To_MainScreen_Update_47BB60();
+
+    EXPORT void Options_Sound_Render_47C630(int** ppOt);
 
     EXPORT static void CC OnResourceLoaded_47ADA0(Menu* pMenu);
-    
+
     int field_D4[4];
     BYTE** field_E4_res_array[6];
     AliveFont field_FC_font;
