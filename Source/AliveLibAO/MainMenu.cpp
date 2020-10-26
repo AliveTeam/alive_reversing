@@ -97,11 +97,12 @@ const Menu_Button sMainScreenButtons_4D00B0[5] =
     { 335, 240, 6152 }
 };
 
-const Menu_Button stru_4D0148[3] ={ { 33, 66, 6152 }, { 33, 87, 6152 }, { 288, 238, 6152 } };
+const Menu_Button stru_4D0148[3] = { { 33, 66, 6152 }, { 33, 87, 6152 }, { 288, 238, 6152 } };
 
 const Menu_Button stru_4D01C0[3] = { { 33, 66, 6152 }, { 33, 87, 6152 }, { 289, 238, 6152 } };
 
-const Menu_Button stru_4D01D8[2] = { { 116, 251, 6152 }, { 116, 251, 6152 } };
+const Menu_Button stru_4D01D8[3] = { { 116, 251, 6152 }, { 116, 251, 6152 }, { 308, 240, 6152 } };
+
 
 
 struct SaveName
@@ -1412,7 +1413,7 @@ void Menu::Loading_Update_47B870()
 
                 if (!field_E4_res_array[0])
                 {
-                    while (!ProgressInProgressFilesLoading())
+                    while (ProgressInProgressFilesLoading())
                     {
                         // Wait for loading
                     }
