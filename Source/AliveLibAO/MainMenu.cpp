@@ -1977,6 +1977,7 @@ void Menu::LoadSave_Update_47DB40()
 
 void Menu::SaveLoadFailed_Update_47DCD0()
 {
+    // Kill the pause menu and stay in this state - have to force restart the game when a save fails to load :)
     if (pPauseMenu_5080E0)
     {
         pPauseMenu_5080E0->field_6_flags.Set(Options::eDead_Bit3);
@@ -1984,9 +1985,47 @@ void Menu::SaveLoadFailed_Update_47DCD0()
     }
 }
 
-void Menu::SaveLoadFailed_Render_47DCF0(int** /*ppOt*/)
+void Menu::SaveLoadFailed_Render_47DCF0(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    // Note: This string in OG was just "Error" which is completely useless, changed to at least
+    // give people a clue about what broke.
+    const char* kErrStr = "Error loading save file";
+
+    short xpos = 16;
+    const int fontWidth = field_FC_font.MeasureWidth_41C2B0(kErrStr);
+    const int drawWidth = field_FC_font.DrawString_41C360(
+        ppOt,
+        kErrStr,
+        xpos,
+        210,
+        0,
+        1,
+        0,
+        37,
+        210,
+        150,
+        80,
+        0,
+        FP_FromInteger(1),
+        640,
+        0);
+
+    field_FC_font.DrawString_41C360(
+        ppOt,
+        kErrStr,
+        xpos + 2,
+        212,
+        0,
+        1,
+        0,
+        37,
+        0,
+        0,
+        0,
+        drawWidth,
+        FP_FromInteger(1),
+        640,
+        0);
 }
 
 void CC Menu::OnResourceLoaded_47ADA0(Menu* pMenu)
