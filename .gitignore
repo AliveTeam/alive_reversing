@@ -10,3 +10,5 @@ Output
 **/build*
 CMakeSettings.json
 Source/AliveLibCommon/config.h
+Scripts/Hex2Bits.py
+
