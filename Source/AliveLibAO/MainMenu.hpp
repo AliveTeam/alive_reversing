@@ -203,6 +203,14 @@ public:
 
     EXPORT void ButtonRemap_Update_47F6F0();
 
+    EXPORT void To_LoadSave_Update_47DB10();
+
+    EXPORT void LoadSave_Update_47DB40();
+
+    EXPORT void SaveLoadFailed_Update_47DCD0();
+
+    EXPORT void SaveLoadFailed_Render_47DCF0(int** ppOt);
+
     EXPORT static void CC OnResourceLoaded_47ADA0(Menu* pMenu);
 
     int field_D4[4];

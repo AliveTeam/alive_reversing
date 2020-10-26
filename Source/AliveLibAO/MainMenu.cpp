@@ -20,6 +20,7 @@
 #include "PsxDisplay.hpp"
 #include "CreditsController.hpp"
 #include "LvlArchive.hpp"
+#include "SaveGame.hpp"
 
 START_NS_AO
 
@@ -80,6 +81,13 @@ const Menu_Button sMainScreenButtons_4D00B0[5] =
 const Menu_Button stru_4D0148[3] ={ { 33, 66, 6152 }, { 33, 87, 6152 }, { 288, 238, 6152 } };
 
 const Menu_Button stru_4D01C0[3] = { { 33, 66, 6152 }, { 33, 87, 6152 }, { 289, 238, 6152 } };
+
+struct SaveName
+{
+    char field_0_mName[32];
+};
+
+ALIVE_ARY(1, 0x9F1DD8, SaveName, 128, sSaveNames_9F1DD8, {}); // Got more than 128 saves? Hard luck mate
 
 ALIVE_VAR(1, 0x507694, short, gDemoPlay_507694, 0);
 ALIVE_VAR(1, 0x50769C, BYTE, sJoyResId_50769C, 0);
@@ -1241,7 +1249,8 @@ void Menu::ToNextMenuPage_47BD80()
                 break;
             }
 
-            // ??
+            // ?? leads to 2 options, one starts the game, the other leads to
+            // another screen with 1 option that only starts the game
             case 1:
                 field_1CC_fn_update = &Menu::Update_47E3C0;
                 field_1D0_fn_render = &Menu::Render_47E5B0;
@@ -1911,6 +1920,71 @@ void Menu::To_ButtonRemap_Update_47F860()
 }
 
 void Menu::ButtonRemap_Update_47F6F0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Menu::To_LoadSave_Update_47DB10()
+{
+    if (field_1E8_pMenuTrans)
+    {
+        if (field_1E8_pMenuTrans->field_16_bDone)
+        {
+            field_1CC_fn_update = &Menu::LoadSave_Update_47DB40;
+            field_1D0_fn_render = &Menu::Empty_Render_47AC80;
+        }
+    }
+}
+
+void Menu::LoadSave_Update_47DB40()
+{
+    if (field_1E8_pMenuTrans)
+    {
+        field_1E8_pMenuTrans->field_C_refCount--;
+        field_1E8_pMenuTrans->field_6_flags.Set(Options::eDead_Bit3);
+        field_1E8_pMenuTrans = nullptr;
+    }
+
+    if (!field_E4_res_array[0])
+    {
+        while (ProgressInProgressFilesLoading())
+        {
+            // Hold on
+        }
+    }
+
+    if (!pPauseMenu_5080E0)
+    {
+        pPauseMenu_5080E0 = ao_new<PauseMenu>();
+        pPauseMenu_5080E0->ctor_44DEA0();
+    }
+
+    ResourceManager::Reclaim_Memory_455660(0);
+
+    if (!sActiveHero_507678)
+    {
+        sActiveHero_507678 = ao_new<Abe>();
+        sActiveHero_507678->ctor_420770(55888, 85, 57, 55);
+    }
+
+    if (!SaveGame::Read_459D30(sSaveNames_9F1DD8[field_1E0_selected_index].field_0_mName))
+    {
+        field_1CC_fn_update = &Menu::SaveLoadFailed_Update_47DCD0;
+        field_1D0_fn_render = &Menu::SaveLoadFailed_Render_47DCF0;
+        sActiveHero_507678->field_6_flags.Set(Options::eDead_Bit3);
+    }
+}
+
+void Menu::SaveLoadFailed_Update_47DCD0()
+{
+    if (pPauseMenu_5080E0)
+    {
+        pPauseMenu_5080E0->field_6_flags.Set(Options::eDead_Bit3);
+        pPauseMenu_5080E0 = nullptr;
+    }
+}
+
+void Menu::SaveLoadFailed_Render_47DCF0(int** /*ppOt*/)
 {
     NOT_IMPLEMENTED();
 }
