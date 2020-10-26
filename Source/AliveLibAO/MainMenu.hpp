@@ -163,10 +163,48 @@ public:
 
     EXPORT void Option_GoTo_Selected_Update_47C2C0();
 
-    EXPORT void Update_47C330();
+    EXPORT void Options_To_Selected_After_Cam_Change_Update_47C330();
+
+    EXPORT void To_Options_Controller_Update_47F2E0();
+
+    EXPORT void Options_Controller_Render_47F430(int** ppOt);
+
+    EXPORT void To_Options_Sound_Update_47C6F0();
+
+    EXPORT void To_MainScreen_Update_47BB60();
+
+    EXPORT void Options_Sound_Render_47C630(int** ppOt);
+
+    EXPORT void Options_Sound_Update_47C420();
+
+    EXPORT void Options_WaitForAbeSayOK_Update_47C720();
+
+    EXPORT void Options_WaitForScreenTrans_Update_47C760();
+
+    EXPORT void To_MainOptions_Screen_After_Camera_Change_Update_47C7A0();
+
+    EXPORT void GameSpeak_Update_47CBD0();
+
+    EXPORT void Update_47EC70();
+
+    EXPORT void Update_47F140();
+
+    EXPORT void Update_47ED50();
+
+    EXPORT void Options_Controller_Update_47F210();
+
+    EXPORT void GoTo_ControllerConfigure_Or_Back_AfterScreenTrans_Update_47F330();
+
+    EXPORT void Goto_ConfigureController_OrSave_SettingIni_Update_47F380();
+
+    EXPORT void ButtonRemap_Render_47F940(int** ppOt);
+
+    EXPORT void To_ButtonRemap_Update_47F860();
+
+    EXPORT void ButtonRemap_Update_47F6F0();
 
     EXPORT static void CC OnResourceLoaded_47ADA0(Menu* pMenu);
-    
+
     int field_D4[4];
     BYTE** field_E4_res_array[6];
     AliveFont field_FC_font;
@@ -199,7 +237,7 @@ public:
     __int16 field_202;
     __int16 field_204_flags;
     __int16 field_206;
-    int field_208_counter;
+    int field_208_camera;
     __int16 field_20C_bStartInSpecificMap;
     LevelIds field_20E_level;
     __int16 field_210_path;
@@ -214,7 +252,7 @@ public:
     __int16 field_226_bToLevelSelect;
     int field_228;
     int field_22C;
-    int field_230;
+    int field_230_bGoBack;
 };
 ALIVE_ASSERT_SIZEOF(Menu, 0x234);
 

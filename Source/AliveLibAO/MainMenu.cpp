@@ -16,11 +16,50 @@
 #include "PauseMenu.hpp"
 #include "DemoPlayback.hpp"
 #include "Grenade.hpp"
+#include "Movie.hpp"
+#include "PsxDisplay.hpp"
+#include "CreditsController.hpp"
+#include "LvlArchive.hpp"
 
 START_NS_AO
 
 const int dword_4BB1B8[4] = { 6152, 6140, 6164, 0 };
 
+// TODO: Move out
+ALIVE_VAR(1, 0x507690, short, sSoundMono_507690, 0);
+
+// TODO: Move out
+EXPORT void SND_Set_Mono_477020()
+{
+    //nullsub_63();
+    sSoundMono_507690 = 1;
+}
+
+// TODO: Move out
+EXPORT void SND_Set_Stereo_477030()
+{
+    //nullsub_64();
+    sSoundMono_507690 = 0;
+}
+
+// TODO: Move out
+EXPORT void CC SND_StopAll_4762D0()
+{
+    NOT_IMPLEMENTED();
+}
+
+// TODO: Move out
+EXPORT void CC SND_Restart_476340()
+{
+    NOT_IMPLEMENTED();
+}
+
+// TODO: Move out
+int CC Input_SaveSettingsIni_44F460()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
 
 struct Menu_Button
 {
@@ -40,6 +79,7 @@ const Menu_Button sMainScreenButtons_4D00B0[5] =
 
 const Menu_Button stru_4D0148[3] ={ { 33, 66, 6152 }, { 33, 87, 6152 }, { 288, 238, 6152 } };
 
+const Menu_Button stru_4D01C0[3] = { { 33, 66, 6152 }, { 33, 87, 6152 }, { 289, 238, 6152 } };
 
 ALIVE_VAR(1, 0x507694, short, gDemoPlay_507694, 0);
 ALIVE_VAR(1, 0x50769C, BYTE, sJoyResId_50769C, 0);
@@ -50,6 +90,8 @@ ALIVE_VAR(1, 0x4D0228, short, sListCount_4D0228, -1);
 
 ALIVE_VAR(1, 0x4CE598, int, dword_4CE598, 0);
 ALIVE_VAR(1, 0x5079A4, int, dword_5079A4, 0);
+
+
 
 struct MenuFMV;
 
@@ -691,7 +733,121 @@ void Menu::CopyRight_Update_47B4C0()
 
 void Menu::FMV_Select_Update_47E8D0()
 {
-    NOT_IMPLEMENTED();
+    sEnableCheatFMV_50770C = 0;
+    sEnableCheatLevelSelect_507710 = 0;
+
+    if (sMovie_ref_count_9F309C == 0)
+    {
+        if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x1000) // TODO: Input constants
+        {
+            if (field_1E0_selected_index > 0 && !field_21C)
+            {
+                field_1E0_selected_index--;
+                SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
+            }
+        }
+        else if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x4100) // TODO: Input constants
+        {
+            if (field_1E0_selected_index < (sListCount_4D0228 - 1) && !field_21C)
+            {
+                field_1E0_selected_index++;
+                SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
+            }
+        }
+       
+        if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x810) // TODO: Input constants
+        {
+            field_20C_bStartInSpecificMap = 0;
+
+            if (field_1E8_pMenuTrans)
+            {
+                field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+            }
+            else
+            {
+                field_1E8_pMenuTrans = ao_new<MainMenuTransition>();
+                field_1E8_pMenuTrans->ctor_436370(40, 1, 0, 16, 1);
+            }
+            field_1CC_fn_update = &Menu::Update_47EC70;
+        }
+
+        if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x40) // TODO: Input constants
+        {
+            if (field_224_bToFmvSelect)
+            {
+                if (sActiveList_9F2DE4[field_1E0_selected_index].field_A_fmv_id >= 0)
+                {
+                    SND_StopAll_4762D0();
+
+                    const FmvInfo* pFmvRec = Path_Get_FMV_Record_434680(sActiveList_9F2DE4[field_1E0_selected_index].field_4_level_id,  sActiveList_9F2DE4[field_1E0_selected_index].field_A_fmv_id);
+                    DWORD movie1Sector = 0;
+                    Get_fmvs_sectors_44FEB0(pFmvRec->field_0_pName, 0, 0, &movie1Sector, 0, 0);
+
+                    auto pMovie = ao_new<Movie>();
+                    if (pMovie)
+                    {
+                        pMovie->ctor_489C90(pFmvRec->field_4_id, movie1Sector, static_cast<char>(pFmvRec->field_6), pFmvRec->field_A, pFmvRec->field_C_volume);
+                    }
+
+                    while (sMovie_ref_count_9F309C)
+                    {
+                        for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+                        {
+                            BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+                            if (!pObj)
+                            {
+                                break;
+                            }
+
+                            if (pObj->field_4_typeId == Types::eMovie_100)
+                            {
+                                if (pObj->field_6_flags.Get(BaseGameObject::eUpdatable_Bit2))
+                                {
+                                    if (!pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3) && (!sNumCamSwappers_507668 || pObj->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+                                    {
+                                        pObj->VUpdate();
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    stru_507C90.Free_41BEB0();
+                    gPsxDisplay_504C78.PutCurrentDispEnv_40DE40();
+                    pScreenManager_4FF7C8->DecompressCameraToVRam_407110(reinterpret_cast<unsigned __int16**>(gMap_507BA8.field_34_camera_array[0]->field_C_ppBits));
+                    pScreenManager_4FF7C8->MoveImage_406C40();
+                    pScreenManager_4FF7C8->field_36_flags = pScreenManager_4FF7C8->field_36_flags & ~1 ^ 1; // Set 1 ?
+                    SND_Restart_476340();
+                }
+                else
+                {
+                    // "Credits" FMV
+                    gCreditsControllerExists_507684 = 1;
+                    field_208_camera = 1;
+                    pScreenManager_4FF7C8->UnsetDirtyBits_FG1_406EF0();
+                    gMap_507BA8.SetActiveCam_444660(LevelIds::eCredits_10, 1, static_cast<short>(field_208_camera), CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                    field_1CC_fn_update = &Menu::Update_47F140;
+                    field_1D0_fn_render = &Menu::Empty_Render_47AC80;
+                }
+            }
+            else
+            {
+                const MenuFMV* pRec = &sActiveList_9F2DE4[field_1E0_selected_index];
+                
+                field_20E_level = pRec->field_4_level_id;
+                field_210_path = pRec->field_6;
+                field_212_camera =  pRec->field_8;
+
+                field_214_abe_xpos = pRec->field_C;
+                field_216_abe_ypos = pRec->field_E;
+
+                field_20C_bStartInSpecificMap = 1;
+
+                field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+                field_1CC_fn_update = &Menu::Update_47ED50;
+            }
+        }
+    }
 }
 
 void Menu::Empty_Render_47AC80(int**)
@@ -1135,7 +1291,14 @@ void Menu::ToLoading_47B7E0()
 
 void Menu::ToGameSpeak_Update_47D620()
 {
-    NOT_IMPLEMENTED();
+    if (field_1E8_pMenuTrans)
+    {
+        if (field_1E8_pMenuTrans->field_16_bDone)
+        {
+            field_1CC_fn_update = &Menu::GameSpeak_Update_47CBD0;
+            field_1DC_idle_input_counter = 0;
+        }
+    }
 }
 
 
@@ -1146,7 +1309,12 @@ void Menu::GameSpeak_Render_47D700(int** /*ppOt*/)
 
 void Menu::To_FMV_Or_Level_Select_Update_47EC30()
 {
-    NOT_IMPLEMENTED();
+    if (field_1E8_pMenuTrans->field_16_bDone)
+    {
+        ResourceManager::FreeResource_455550(field_E4_res_array[0]);
+        field_E4_res_array[0] = nullptr;
+        field_1CC_fn_update = &Menu::FMV_Select_Update_47E8D0;
+    }
 }
 
 
@@ -1394,12 +1562,355 @@ void Menu::Option_GoTo_Selected_Update_47C2C0()
                 break;
             }
 
-            field_1CC_fn_update = &Menu::Update_47C330;
+            field_1CC_fn_update = &Menu::Options_To_Selected_After_Cam_Change_Update_47C330;
         }
     }
 }
 
-void Menu::Update_47C330()
+void Menu::Options_To_Selected_After_Cam_Change_Update_47C330()
+{
+    if (sNumCamSwappers_507668 <= 0)
+    {
+        switch (field_1E0_selected_index)
+        {
+        // To controller options
+        case 0:
+            field_204_flags &= ~2u;
+            field_228 = 0;
+            field_1CC_fn_update = &Menu::To_Options_Controller_Update_47F2E0;
+            field_1D0_fn_render = &Menu::Options_Controller_Render_47F430;
+            field_1E0_selected_index = static_cast<short>(sJoystickEnabled_508A60);
+            field_230_bGoBack = -1;
+            field_22C = 0;
+            break;
+
+        // To sound options
+        case 1:
+            field_1CC_fn_update = &Menu::To_Options_Sound_Update_47C6F0;
+            field_1D0_fn_render = &Menu::Options_Sound_Render_47C630;
+            field_1E0_selected_index = sSoundMono_507690;
+            field_134_anim.Set_Animation_Data_402A40(stru_4D01C0[sSoundMono_507690].field_4_frame_table, nullptr);
+            break;
+
+        // Back to main menu
+        case 2:
+            field_1CC_fn_update = &Menu::To_MainScreen_Update_47BB60;
+            field_1D0_fn_render = &Menu::MainScreen_Render_47BED0;
+            field_1E0_selected_index = 4;
+            field_134_anim.Set_Animation_Data_402A40(sMainScreenButtons_4D00B0[4].field_4_frame_table, nullptr);
+            break;
+
+        default:
+            LOG_ERROR("Unknown menu idx " << field_1E0_selected_index);
+            break;
+        }
+
+        field_1E8_pMenuTrans->StartTrans_436560(40, 0, 0, 16);
+    }
+}
+
+void Menu::To_Options_Controller_Update_47F2E0()
+{
+    field_230_bGoBack = -1;
+    if (field_1E8_pMenuTrans)
+    {
+        if (field_1E8_pMenuTrans->field_16_bDone)
+        {
+            field_1CC_fn_update = &Menu::Options_Controller_Update_47F210;
+            field_1D0_fn_render = &Menu::Options_Controller_Render_47F430;
+            field_1DC_idle_input_counter = 0;
+            field_1E0_selected_index = static_cast<short>(sJoystickEnabled_508A60);
+            field_228 = 0;
+        }
+    }
+}
+
+void Menu::Options_Controller_Render_47F430(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void Menu::To_Options_Sound_Update_47C6F0()
+{
+    if (field_1E8_pMenuTrans)
+    {
+        if (field_1E8_pMenuTrans->field_16_bDone)
+        {
+            field_1CC_fn_update = &Menu::Options_Sound_Update_47C420;
+            field_1DC_idle_input_counter = 0;
+        }
+    }
+}
+
+void Menu::To_MainScreen_Update_47BB60()
+{
+    if (field_1E8_pMenuTrans)
+    {
+        if (field_1E8_pMenuTrans->field_16_bDone)
+        {
+            field_1CC_fn_update = &Menu::MainScreen_Update_47AF60;
+            field_1DC_idle_input_counter = 0;
+        }
+    }
+}
+
+void Menu::Options_Sound_Render_47C630(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void Menu::Options_Sound_Update_47C420()
+{
+    if (sInputObject_5009E8.field_0_pads[0].field_0_pressed)
+    {
+        field_1DC_idle_input_counter = 0;
+    }
+    else
+    {
+        field_1DC_idle_input_counter++;
+    }
+
+    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x1000) // TODO: Input constants
+    {
+        if (field_1E0_selected_index <= 0)
+        {
+            field_1E0_selected_index = 1;
+        }
+        else
+        {
+            field_1E0_selected_index--;
+        }
+
+        field_134_anim.Set_Animation_Data_402A40(stru_4D01C0[field_1E0_selected_index].field_4_frame_table, nullptr);
+        SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400);
+    }
+
+    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x4100) // TODO: Input constants
+    {
+        if (field_1E0_selected_index >= 1)
+        {
+            field_1E0_selected_index = 0;
+        }
+        else
+        {
+            field_1E0_selected_index++;
+        }
+
+        field_134_anim.Set_Animation_Data_402A40(stru_4D01C0[field_1E0_selected_index].field_4_frame_table, nullptr);
+        SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400);
+    }
+
+    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x40) // TODO: Input constants
+    {
+        if (field_1E0_selected_index)
+        {
+            SND_Set_Mono_477020();
+        }
+        else
+        {
+            SND_Set_Stereo_477030();
+        }
+
+        Mudokon_SFX_42A4D0(MudSounds::eOkay_13, 0, 0, nullptr);
+
+        field_10_anim.Set_Animation_Data_402A40(201632, field_E4_res_array[1]);
+        field_1CC_fn_update = &Menu::Options_WaitForAbeSayOK_Update_47C720;
+    }
+
+    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x810 || field_1DC_idle_input_counter > 900) // TODO: Input constants
+    {
+        field_1E0_selected_index = 2;
+        field_134_anim.Set_Animation_Data_402A40(stru_4D01C0[2].field_4_frame_table, nullptr);
+        Mudokon_SFX_42A4D0(MudSounds::eOkay_13, 0, 0, nullptr);
+        field_10_anim.Set_Animation_Data_402A40(201632, field_E4_res_array[1]);
+        field_1CC_fn_update = &Menu::Options_WaitForAbeSayOK_Update_47C720;
+    }
+
+    // Idle anim toggle ?
+    if (((field_204_flags) >> 2) & 1)
+    {
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_10_anim.Set_Animation_Data_402A40(201508, field_E4_res_array[1]);
+            field_204_flags &= ~4u;
+            field_1D8_timer = gnFrameCount_507670 + Math_RandomRange_450F20(120, 450);
+        }
+    }
+    else if (field_1D8_timer <= static_cast<int>(gnFrameCount_507670))
+    {
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_10_anim.Set_Animation_Data_402A40(201384, field_E4_res_array[1]);
+            field_204_flags |= 4u;
+        }
+    }
+}
+
+void Menu::Options_WaitForAbeSayOK_Update_47C720()
+{
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_10_anim.Set_Animation_Data_402A40(201508, field_E4_res_array[1]);
+        field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+        field_1CC_fn_update = &Menu::Options_WaitForScreenTrans_Update_47C760;
+    }
+}
+
+void Menu::Options_WaitForScreenTrans_Update_47C760()
+{
+    if (field_1E8_pMenuTrans)
+    {
+        if (field_1E8_pMenuTrans->field_16_bDone)
+        {
+            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 2, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            field_1CC_fn_update = &Menu::To_MainOptions_Screen_After_Camera_Change_Update_47C7A0;
+        }
+    }
+}
+
+void Menu::To_MainOptions_Screen_After_Camera_Change_Update_47C7A0()
+{
+    if (sNumCamSwappers_507668 <= 0)
+    {
+        field_1CC_fn_update = &Menu::To_Options_Update_47C250;
+        field_1D0_fn_render = &Menu::Options_Render_47C190;
+        field_1E0_selected_index = 1;
+        field_134_anim.Set_Animation_Data_402A40(stru_4D0148[1].field_4_frame_table, nullptr);
+        field_1E8_pMenuTrans->StartTrans_436560(40, 0, 0, 16);
+    }
+}
+
+
+void Menu::GameSpeak_Update_47CBD0()
+{
+    NOT_IMPLEMENTED();
+}
+
+
+void Menu::Update_47EC70()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Menu::Update_47F140()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Menu::Update_47ED50()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Menu::Options_Controller_Update_47F210()
+{
+    if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x1000) // TODO: Input constants
+    {
+        if (field_1E0_selected_index > 0 && !field_228)
+        {
+            field_1E0_selected_index--;
+            SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
+        }
+    }
+    else if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x4100) // TODO: Input constants
+    {
+        if (field_1E0_selected_index < dword_4CE598 - 1 && !field_228)
+        {
+            field_1E0_selected_index++;
+            SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
+        }
+    }
+
+    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x810) // TODO: Input constants
+    {
+        field_230_bGoBack = 1;
+        field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+        field_1CC_fn_update = &Menu::GoTo_ControllerConfigure_Or_Back_AfterScreenTrans_Update_47F330;
+    }
+
+    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0xE0)
+    {
+        field_230_bGoBack = 0;
+        field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+        field_1CC_fn_update = &Menu::GoTo_ControllerConfigure_Or_Back_AfterScreenTrans_Update_47F330;
+    }
+}
+
+void Menu::GoTo_ControllerConfigure_Or_Back_AfterScreenTrans_Update_47F330()
+{
+    if (field_1E8_pMenuTrans)
+    {
+        if (field_1E8_pMenuTrans->field_16_bDone)
+        {
+            switch (field_230_bGoBack)
+            {
+            // Goto controller configuration
+            case 0:
+                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 41, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                break;
+
+            // Back to main options (sound/controller)
+            case 1:
+                 gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 2, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                 break;
+            }
+
+            field_1CC_fn_update = &Menu::Goto_ConfigureController_OrSave_SettingIni_Update_47F380;
+        }
+    }
+}
+
+void Menu::Goto_ConfigureController_OrSave_SettingIni_Update_47F380()
+{
+    if (sNumCamSwappers_507668 <= 0)
+    {
+        switch (field_230_bGoBack)
+        {
+        // Goto controller configuration
+        case 0:
+            field_204_flags &= ~2u;
+            field_1CC_fn_update = &Menu::To_ButtonRemap_Update_47F860;
+            field_1D0_fn_render = &Menu::ButtonRemap_Render_47F940;
+            field_1E0_selected_index = 0;
+            field_230_bGoBack = -1;
+            break;
+
+        // Back to main options (sound/controller)
+        case 1:
+            Input_SaveSettingsIni_44F460();
+            field_1CC_fn_update = &Menu::To_Options_Update_47C250;
+            field_1D0_fn_render = &Menu::Options_Render_47C190;
+            field_1E0_selected_index = 0;
+            field_134_anim.Set_Animation_Data_402A40(sMainScreenButtons_4D00B0[0].field_4_frame_table, nullptr);
+            field_204_flags |= 2u;
+            break;
+        }
+
+        field_1E8_pMenuTrans->StartTrans_436560(40, 0, 0, 16);
+    }
+}
+
+void Menu::ButtonRemap_Render_47F940(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void Menu::To_ButtonRemap_Update_47F860()
+{
+    field_230_bGoBack = -1;
+
+    if (field_1E8_pMenuTrans)
+    {
+        if (field_1E8_pMenuTrans->field_16_bDone)
+        {
+            field_1CC_fn_update = &Menu::ButtonRemap_Update_47F6F0;
+            field_1D0_fn_render = &Menu::ButtonRemap_Render_47F940;
+            field_1DC_idle_input_counter = 0;
+        }
+    }
+}
+
+void Menu::ButtonRemap_Update_47F6F0()
 {
     NOT_IMPLEMENTED();
 }
