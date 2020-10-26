@@ -152,6 +152,8 @@ public:
 
     EXPORT void Options_Render_47C190(int** ppOt);
 
+    EXPORT void Loading_Update_47B870();
+
     EXPORT static void CC OnResourceLoaded_47ADA0(Menu* pMenu);
     
     int field_D4[4];

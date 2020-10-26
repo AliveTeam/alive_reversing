@@ -1116,7 +1116,17 @@ void Menu::ToNextMenuPage_47BD80()
 
 void Menu::ToLoading_47B7E0()
 {
-    NOT_IMPLEMENTED();
+    if (field_1E8_pMenuTrans)
+    {
+        if (field_1E8_pMenuTrans->field_16_bDone)
+        {
+            field_1E8_pMenuTrans->StartTrans_436560(40, 0, 0, 16);
+            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 21, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            field_204_flags &= ~2u;
+            field_1CC_fn_update = &Menu::Loading_Update_47B870;
+            field_1D0_fn_render = &Menu::Empty_Render_47AC80;
+        }
+    }
 }
 
 
@@ -1167,6 +1177,11 @@ void Menu::To_Options_Update_47C250()
 
 
 void Menu::Options_Render_47C190(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void Menu::Loading_Update_47B870()
 {
     NOT_IMPLEMENTED();
 }
