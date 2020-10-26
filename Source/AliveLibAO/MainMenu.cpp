@@ -1797,6 +1797,40 @@ void Menu::Update_47ED50()
 
 void Menu::Options_Controller_Update_47F210()
 {
+    if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x1000) // TODO: Input constants
+    {
+        if (field_1E0_selected_index > 0 && !field_228)
+        {
+            field_1E0_selected_index--;
+            SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
+        }
+    }
+    else if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x4100) // TODO: Input constants
+    {
+        if (field_1E0_selected_index < dword_4CE598 - 1 && !field_228)
+        {
+            field_1E0_selected_index++;
+            SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
+        }
+    }
+
+    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x810) // TODO: Input constants
+    {
+        field_230 = 1;
+        field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+        field_1CC_fn_update = &Menu::Update_47F330;
+    }
+
+    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0xE0)
+    {
+        field_230 = 0;
+        field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+        field_1CC_fn_update = &Menu::Update_47F330;
+    }
+}
+
+void Menu::Update_47F330()
+{
     NOT_IMPLEMENTED();
 }
 

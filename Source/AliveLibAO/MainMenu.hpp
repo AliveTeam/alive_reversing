@@ -193,6 +193,8 @@ public:
 
     EXPORT void Options_Controller_Update_47F210();
 
+    EXPORT void Update_47F330();
+
     EXPORT static void CC OnResourceLoaded_47ADA0(Menu* pMenu);
 
     int field_D4[4];
