@@ -16,6 +16,10 @@
 #include "PauseMenu.hpp"
 #include "DemoPlayback.hpp"
 #include "Grenade.hpp"
+#include "Movie.hpp"
+#include "PsxDisplay.hpp"
+#include "CreditsController.hpp"
+#include "LvlArchive.hpp"
 
 START_NS_AO
 
@@ -36,6 +40,18 @@ EXPORT void SND_Set_Stereo_477030()
 {
     //nullsub_64();
     sSoundMono_507690 = 0;
+}
+
+// TODO: Move out
+EXPORT void CC SND_StopAll_4762D0()
+{
+    NOT_IMPLEMENTED();
+}
+
+// TODO: Move out
+EXPORT void CC SND_Restart_476340()
+{
+    NOT_IMPLEMENTED();
 }
 
 struct Menu_Button
@@ -710,7 +726,121 @@ void Menu::CopyRight_Update_47B4C0()
 
 void Menu::FMV_Select_Update_47E8D0()
 {
-    NOT_IMPLEMENTED();
+    sEnableCheatFMV_50770C = 0;
+    sEnableCheatLevelSelect_507710 = 0;
+
+    if (sMovie_ref_count_9F309C == 0)
+    {
+        if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x1000) // TODO: Input constants
+        {
+            if (field_1E0_selected_index > 0 && !field_21C)
+            {
+                field_1E0_selected_index--;
+                SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
+            }
+        }
+        else if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x4100) // TODO: Input constants
+        {
+            if (field_1E0_selected_index < (sListCount_4D0228 - 1) && !field_21C)
+            {
+                field_1E0_selected_index++;
+                SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
+            }
+        }
+       
+        if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x810) // TODO: Input constants
+        {
+            field_20C_bStartInSpecificMap = 0;
+
+            if (field_1E8_pMenuTrans)
+            {
+                field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+            }
+            else
+            {
+                field_1E8_pMenuTrans = ao_new<MainMenuTransition>();
+                field_1E8_pMenuTrans->ctor_436370(40, 1, 0, 16, 1);
+            }
+            field_1CC_fn_update = &Menu::Update_47EC70;
+        }
+
+        if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x40) // TODO: Input constants
+        {
+            if (field_224_bToFmvSelect)
+            {
+                if (sActiveList_9F2DE4[field_1E0_selected_index].field_A_fmv_id >= 0)
+                {
+                    SND_StopAll_4762D0();
+
+                    const FmvInfo* pFmvRec = Path_Get_FMV_Record_434680(sActiveList_9F2DE4[field_1E0_selected_index].field_4_level_id,  sActiveList_9F2DE4[field_1E0_selected_index].field_A_fmv_id);
+                    DWORD movie1Sector = 0;
+                    Get_fmvs_sectors_44FEB0(pFmvRec->field_0_pName, 0, 0, &movie1Sector, 0, 0);
+
+                    auto pMovie = ao_new<Movie>();
+                    if (pMovie)
+                    {
+                        pMovie->ctor_489C90(pFmvRec->field_4_id, movie1Sector, static_cast<char>(pFmvRec->field_6), pFmvRec->field_A, pFmvRec->field_C_volume);
+                    }
+
+                    while (sMovie_ref_count_9F309C)
+                    {
+                        for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+                        {
+                            BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+                            if (!pObj)
+                            {
+                                break;
+                            }
+
+                            if (pObj->field_4_typeId == Types::eMovie_100)
+                            {
+                                if (pObj->field_6_flags.Get(BaseGameObject::eUpdatable_Bit2))
+                                {
+                                    if (!pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3) && (!sNumCamSwappers_507668 || pObj->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+                                    {
+                                        pObj->VUpdate();
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    stru_507C90.Free_41BEB0();
+                    gPsxDisplay_504C78.PutCurrentDispEnv_40DE40();
+                    pScreenManager_4FF7C8->DecompressCameraToVRam_407110(reinterpret_cast<unsigned __int16**>(gMap_507BA8.field_34_camera_array[0]->field_C_ppBits));
+                    pScreenManager_4FF7C8->MoveImage_406C40();
+                    pScreenManager_4FF7C8->field_36_flags = pScreenManager_4FF7C8->field_36_flags & ~1 ^ 1; // Set 1 ?
+                    SND_Restart_476340();
+                }
+                else
+                {
+                    // "Credits" FMV
+                    gCreditsControllerExists_507684 = 1;
+                    field_208_camera = 1;
+                    pScreenManager_4FF7C8->UnsetDirtyBits_FG1_406EF0();
+                    gMap_507BA8.SetActiveCam_444660(LevelIds::eCredits_10, 1, static_cast<short>(field_208_camera), CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                    field_1CC_fn_update = &Menu::Update_47F140;
+                    field_1D0_fn_render = &Menu::Empty_Render_47AC80;
+                }
+            }
+            else
+            {
+                const MenuFMV* pRec = &sActiveList_9F2DE4[field_1E0_selected_index];
+                
+                field_20E_level = pRec->field_4_level_id;
+                field_210_path = pRec->field_6;
+                field_212_camera =  pRec->field_8;
+
+                field_214_abe_xpos = pRec->field_C;
+                field_216_abe_ypos = pRec->field_E;
+
+                field_20C_bStartInSpecificMap = 1;
+
+                field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+                field_1CC_fn_update = &Menu::Update_47ED50;
+            }
+        }
+    }
 }
 
 void Menu::Empty_Render_47AC80(int**)
@@ -1629,6 +1759,22 @@ void Menu::To_MainOptions_Screen_After_Camera_Change_Update_47C7A0()
 
 
 void Menu::GameSpeak_Update_47CBD0()
+{
+    NOT_IMPLEMENTED();
+}
+
+
+void Menu::Update_47EC70()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Menu::Update_47F140()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Menu::Update_47ED50()
 {
     NOT_IMPLEMENTED();
 }

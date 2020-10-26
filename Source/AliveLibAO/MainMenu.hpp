@@ -185,6 +185,12 @@ public:
 
     EXPORT void GameSpeak_Update_47CBD0();
 
+    EXPORT void Update_47EC70();
+
+    EXPORT void Update_47F140();
+
+    EXPORT void Update_47ED50();
+
     EXPORT static void CC OnResourceLoaded_47ADA0(Menu* pMenu);
 
     int field_D4[4];
@@ -219,7 +225,7 @@ public:
     __int16 field_202;
     __int16 field_204_flags;
     __int16 field_206;
-    int field_208_counter;
+    int field_208_camera;
     __int16 field_20C_bStartInSpecificMap;
     LevelIds field_20E_level;
     __int16 field_210_path;
