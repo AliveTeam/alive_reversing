@@ -1427,10 +1427,9 @@ __int16 Slig::FindBeatTarget_46D0E0(int /*typeToFind*/, int gridBlocks)
         true
     );
 
-    Slig* pTargetObj = nullptr;
     for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
     {
-        pTargetObj = static_cast<Slig*>(gBaseAliveGameObjects_4FC8A0->ItemAt(i));
+        auto pTargetObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
         if (!pTargetObj)
         {
             break;
