@@ -80,6 +80,7 @@ public:
 ALIVE_ASSERT_SIZEOF(MainMenuTransition, 0x248);
 
 struct Path_TLV;
+enum class LevelIds : __int16;
 
 class Menu : public BaseAnimatedWithPhysicsGameObject
 {
@@ -154,6 +155,8 @@ public:
 
     EXPORT void Loading_Update_47B870();
 
+    EXPORT void NewGameStart_47B9C0();
+
     EXPORT static void CC OnResourceLoaded_47ADA0(Menu* pMenu);
     
     int field_D4[4];
@@ -189,8 +192,8 @@ public:
     __int16 field_204_flags;
     __int16 field_206;
     int field_208_counter;
-    __int16 field_20C;
-    __int16 field_20E_level;
+    __int16 field_20C_bStartInSpecificMap;
+    LevelIds field_20E_level;
     __int16 field_210_path;
     __int16 field_212_camera;
     __int16 field_214_abe_xpos;

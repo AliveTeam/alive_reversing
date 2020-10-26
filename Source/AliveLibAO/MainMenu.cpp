@@ -13,6 +13,9 @@
 #include "Abe.hpp"
 #include "Math.hpp"
 #include "CameraSwapper.hpp"
+#include "PauseMenu.hpp"
+#include "DemoPlayback.hpp"
+#include "Grenade.hpp"
 
 START_NS_AO
 
@@ -475,7 +478,7 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, int tlvInfo)
     field_202 = 0;
     field_224_bToFmvSelect = 0;
     field_226_bToLevelSelect = 0;
-    field_20C = 0;
+    field_20C_bStartInSpecificMap = 0;
 
     sEnableFartGasCheat_507704 = 0;
     sVoiceCheat_507708 = 0;
@@ -1183,7 +1186,86 @@ void Menu::Options_Render_47C190(int** /*ppOt*/)
 
 void Menu::Loading_Update_47B870()
 {
-    NOT_IMPLEMENTED();
+    if (!gAttract_507698 || ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Plbk, sJoyResId_50769C, 0, 0))
+    {
+        if (field_1E8_pMenuTrans)
+        {
+            if (field_1E8_pMenuTrans->field_16_bDone)
+            {
+                if (gAttract_507698)
+                {
+                    char buffer[92] = {};
+                    sprintf(buffer, "loading Joy # %d\n", sJoyResId_50769C);
+                    // Never used ??
+                    LOG_INFO(buffer);
+                }
+
+                field_1E8_pMenuTrans->field_C_refCount--;
+                field_1E8_pMenuTrans->field_6_flags.Set(Options::eDead_Bit3);
+                field_1E8_pMenuTrans = nullptr;
+
+                if (!field_E4_res_array[0])
+                {
+                    while (!ProgressInProgressFilesLoading())
+                    {
+                        // Wait for loading
+                    }
+                }
+
+                field_10_anim.Set_Animation_Data_402A40(201508, field_E4_res_array[1]);
+                ResourceManager::FreeResource_455550(field_E4_res_array[0]);
+                field_E4_res_array[0] = nullptr;
+                ResourceManager::Reclaim_Memory_455660(0);
+                field_1CC_fn_update = &Menu::NewGameStart_47B9C0;
+            }
+        }
+    }
+}
+
+void Menu::NewGameStart_47B9C0()
+{
+    if (!sActiveHero_507678)
+    {
+        sActiveHero_507678 = ao_new<Abe>();
+        sActiveHero_507678->ctor_420770(55888, 85, 57, 55);
+    }
+
+    if (gAttract_507698)
+    {
+        auto pDemoPlayBackMem = ao_new<DemoPlayback>();
+        if (pDemoPlayBackMem)
+        {
+            BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Plbk, sJoyResId_50769C, 1, 0);
+            pDemoPlayBackMem->ctor_4517B0(ppRes, 0);
+        }
+    }
+    else
+    {
+        if (!pPauseMenu_5080E0)
+        {
+            pPauseMenu_5080E0 = ao_new<PauseMenu>();
+            pPauseMenu_5080E0->ctor_44DEA0();
+        }
+
+        if (field_20C_bStartInSpecificMap)
+        {
+            field_20C_bStartInSpecificMap = FALSE;
+            gMap_507BA8.SetActiveCam_444660(field_20E_level, field_210_path, field_212_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            sActiveHero_507678->field_A8_xpos = FP_FromInteger(field_214_abe_xpos);
+            sActiveHero_507678->field_AC_ypos = FP_FromInteger(field_216_abe_ypos);
+        }
+        else
+        {
+            // Start the game in the biggest meat processing plant
+            gInfiniteGrenades_5076EC = FALSE;
+            gMap_507BA8.SetActiveCam_444660(LevelIds::eRuptureFarms_1, 15, 1, CameraSwapEffects::eEffect5_1_FMV, 102, 0);
+
+            // What if someone made a level editor and wanted to change where abe spawns on the first map? Well... hard luck pal
+            sActiveHero_507678->field_A8_xpos = FP_FromInteger(1378);
+            sActiveHero_507678->field_AC_ypos = FP_FromInteger(83);
+        }
+    }
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
 void CC Menu::OnResourceLoaded_47ADA0(Menu* pMenu)
