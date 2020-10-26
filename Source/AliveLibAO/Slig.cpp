@@ -27,6 +27,11 @@
 #include "SnoozeParticle.hpp"
 #include "GameSpeak.hpp"
 #include "ScreenShake.hpp"
+#include <algorithm>
+
+//TODO fix
+#undef max
+#undef min
 
 START_NS_AO
 
@@ -1373,9 +1378,79 @@ void Slig::ToKilledAbe_4662E0()
     field_114_timer = gnFrameCount_507670 + 15;
 }
 
-__int16 Slig::FindBeatTarget_46D0E0(int /*typeToFind*/, int /*gridBlocks*/)
+inline PSX_RECT MakeRectFromFP(FP x, FP y, FP w, FP h)
 {
-    NOT_IMPLEMENTED();
+    PSX_RECT r = {};
+    r.x = FP_GetExponent(x);
+    r.w = FP_GetExponent(w);
+    r.y = FP_GetExponent(y);
+    r.h = FP_GetExponent(h);
+    return r;
+}
+
+inline PSX_RECT MakeMinMaxRect(FP x, FP y, FP w, FP h, bool flipToMaxMin = false)
+{
+    if (flipToMaxMin)
+    {
+        return MakeRectFromFP(
+            std::max(x, w),
+            std::max(y, h),
+            std::min(x, w),
+            std::min(y, h)
+        );
+    }
+    else
+    {
+        return MakeRectFromFP(
+            std::min(x, w),
+            std::min(y, h),
+            std::max(x, w),
+            std::max(y, h)
+        );
+    }
+}
+
+__int16 Slig::FindBeatTarget_46D0E0(int /*typeToFind*/, int gridBlocks)
+{
+    const FP kGridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
+    const FP k2Scaled = FP_FromInteger(2) * kGridSize;
+    const FP kGridBlocksScaled = FP_FromInteger(gridBlocks) * kGridSize;
+
+    const FP xAndW = field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? field_A8_xpos - kGridBlocksScaled : field_A8_xpos + kGridBlocksScaled;
+
+    PSX_RECT hitRect = MakeMinMaxRect(
+        xAndW,
+        field_AC_ypos,
+        xAndW,
+        field_AC_ypos - k2Scaled,
+        true
+    );
+
+    Slig* pTargetObj = nullptr;
+    for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    {
+        pTargetObj = static_cast<Slig*>(gBaseAliveGameObjects_4FC8A0->ItemAt(i));
+        if (!pTargetObj)
+        {
+            break;
+        }
+        if (pTargetObj != this && pTargetObj->field_4_typeId == Types::eMudokon_75)
+        {
+            PSX_RECT bRect = {};
+            pTargetObj->VGetBoundingRect_418120(
+                &bRect,
+                1
+            );
+            if (hitRect.w <= bRect.w &&
+                hitRect.x >= bRect.x &&
+                hitRect.y >= bRect.y &&
+                hitRect.h <= bRect.h &&
+                !Slig::IsInInvisibleZone_418870(pTargetObj))
+            {
+                return 1;
+            }
+        }
+    }
     return 0;
 }
 
@@ -4513,6 +4588,9 @@ __int16 Slig::Brain_StoppingNextToMudokon_46EBB0()
         return 128;
     }
 
+    //TODO OG BUG: Sligs beat up dead muds, fix from AE:
+    //BaseAliveGameObject* pBeatTarget = FindBeatTarget_4BD070(static_cast<int>(Types::eMudokon2_81), 1);
+    //if (!pBeatTarget || pBeatTarget->field_10C_health <= FP_FromInteger(0))
     if (!FindBeatTarget_46D0E0(static_cast<int>(Types::eMudokon_52), 1))
     {
         WaitOrWalk_46E440();
