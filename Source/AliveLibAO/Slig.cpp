@@ -490,7 +490,162 @@ void Slig::VScreenChanged_465480()
 
 void Slig::Init_46B890()
 {
-    NOT_IMPLEMENTED();
+    field_210_resources.res[10] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 319, 1, 0);
+    field_210_resources.res[11] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 423, 1, 0);
+    field_210_resources.res[12] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 360, 1, 0);
+    field_210_resources.res[2] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 414, 1, 0);
+    field_210_resources.res[16] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 354, 1, 0);
+
+    if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit8))
+    {
+        field_210_resources.res[6] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 418, 1, 0);
+    }
+    if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit9))
+    {
+        field_210_resources.res[3] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 415, 1, 0);
+    }
+    if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit1))
+    {
+        field_210_resources.res[7] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 419, 1, 0);
+    }
+    if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit2))
+    {
+        field_210_resources.res[8] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 420, 1, 0);
+    }
+    if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit10))
+    {
+        field_210_resources.res[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 416, 1, 0);
+    }
+    if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit11))
+    {
+        field_210_resources.res[9] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 426, 1, 0);
+    }
+    if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit3))
+    {
+        field_210_resources.res[5] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 417, 1, 0);
+    }
+    if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit7))
+    {
+        field_210_resources.res[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 413, 1, 0);
+    }
+    if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit4))
+    {
+        field_210_resources.res[13] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 344, 1, 0);
+    }
+    if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit6))
+    {
+        field_210_resources.res[14] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 333, 1, 0);
+    }
+    if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit5))
+    {
+        field_210_resources.res[15] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 28, 1, 0);
+    }
+    field_11C = gMap_507BA8.field_4_current_camera;
+    field_20E_spotted_possessed_slig = 0;
+    field_114_timer = gnFrameCount_507670 + field_174_tlv.field_1C_pause_time;
+    switch (field_174_tlv.field_1A_start_state)
+    {
+        case 1:
+        {
+            field_1F8_fn = &Slig::Brain_Inactive_46B780;
+            field_1FC_fn2 = &Slig::Brain_Inactive_46B780;
+            break;
+        }
+        case 2:
+        {
+            if (field_174_tlv.field_1_unknown && field_174_tlv.field_4E_stay_awake)
+            {
+                field_1F8_fn = &Slig::Brain_Inactive_46B780;
+                field_1FC_fn2 = &Slig::Brain_Inactive_46B780;
+            }
+            else
+            {
+                field_1F8_fn = &Slig::Brain_Sleeping_46B4E0;
+                field_1FC_fn2 = &Slig::Brain_Sleeping_46B4E0;
+                field_FC_current_motion = eAbeStates::State_33_RunJumpMid_426FA0;
+                VUpdateAnimData_464D00();
+            }
+            break;
+        }
+        case 3:
+        {
+            field_1F8_fn = &Slig::Brain_StartChasing_46CF90;
+            field_1FC_fn2 = &Slig::Brain_StartChasing_46CF90;
+            field_114_timer = gnFrameCount_507670 + field_174_tlv.field_3E_time_to_wait_before_chase;
+            break;
+        }
+        case 4:
+        {
+            field_1F8_fn = &Slig::Brain_GameEnder_46EEE0;
+            field_1FC_fn2 = &Slig::Brain_GameEnder_46EEE0;
+            field_130 = static_cast<short>(field_114_timer);
+            break;
+        }
+        case 5:
+        {
+            field_1F8_fn = &Slig::Brain_Paused_466030;
+            field_1FC_fn2 = &Slig::Brain_Paused_466030;
+            break;
+        }
+        default:
+        {
+            field_1F8_fn = &Slig::Brain_Unknown_46B250;
+            field_1FC_fn2 = &Slig::Brain_Unknown_46B250;
+            break;
+        }
+    }
+
+    if (field_174_tlv.field_34_start_direction == 0)
+    {
+        field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+    }
+    field_1F4_points_count = 1;
+    field_1CC_points[0].field_0_x = FP_GetExponent(field_A8_xpos);
+    field_1CC_points[0].field_2_y = FP_GetExponent(field_AC_ypos);
+
+    for (short yCam = -2; yCam < 3; yCam++)
+    {
+        for (short xCam = -2; xCam < 3; xCam++)
+        {
+            auto pTlvIter = gMap_507BA8.Get_First_TLV_For_Offsetted_Camera_4463B0(xCam, yCam);
+            while (pTlvIter)
+            {
+                bool addPoint = false;
+                if (pTlvIter->field_4_type == TlvTypes::eSligBoundLeft_57)
+                {
+                    if (static_cast<Path_Slig_LeftBound*>(pTlvIter)->field_18_slig_id == field_174_tlv.field_40_slig_id)
+                    {
+                        field_13C_zone_rect.x = pTlvIter->field_C_sound_pos.field_0_x;
+                        addPoint = true;
+                    }
+                }
+                else if (pTlvIter->field_4_type == TlvTypes::eSligBoundRight_76)
+                {
+                    if (static_cast<Path_Slig_RightBound*>(pTlvIter)->field_18_slig_id == field_174_tlv.field_40_slig_id)
+                    {
+                        field_13C_zone_rect.w = pTlvIter->field_C_sound_pos.field_0_x;
+                        addPoint = true;
+                    }
+                }
+                else if (pTlvIter->field_4_type == TlvTypes::eSligPersist_77)
+                {
+                    addPoint = true;
+                }
+
+                if (addPoint)
+                {
+                    if (field_1F4_points_count < ALIVE_COUNTOF(field_1CC_points))
+                    {
+                        field_1CC_points[field_1F4_points_count].field_0_x = pTlvIter->field_C_sound_pos.field_0_x;
+                        field_1CC_points[field_1F4_points_count].field_2_y = pTlvIter->field_C_sound_pos.field_2_y;
+                        field_1F4_points_count++;
+                    }
+                }
+                
+                pTlvIter = Path_TLV::Next_446460(pTlvIter);
+            }
+        }
+    }
 }
 
 void Slig::VUpdate()

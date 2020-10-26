@@ -1708,14 +1708,14 @@ EXPORT void CC Factory_SligSpawner_482A00(Path_TLV* pTlv, Map* /*pMap*/, TlvItem
             { ResourceManager::Resource_Animation, 360 }
         };
 
-        ResourceManager::LoadResource_446C90("SLGLEVER.BAN", ResourceManager::Resource_Animation, 419, loadMode, kDisabledResources & 1);
-        ResourceManager::LoadResource_446C90("SLGLIFT.BAN", ResourceManager::Resource_Animation, 420, loadMode, kDisabledResources & 2);
-        ResourceManager::LoadResource_446C90("SLGSLEEP.BAN", ResourceManager::Resource_Animation, 413, loadMode, kDisabledResources & 0x40);
-        ResourceManager::LoadResource_446C90("SLGEDGE.BAN", ResourceManager::Resource_Animation, 415, loadMode, kDisabledResources & 0x100);
-        ResourceManager::LoadResource_446C90("SLGSMASH.BAN", ResourceManager::Resource_Animation, 416, loadMode, kDisabledResources & 0x200);
-        ResourceManager::LoadResource_446C90("SLGBEAT.BAN", ResourceManager::Resource_Animation, 426, loadMode, kDisabledResources & 0x400);
-        ResourceManager::LoadResource_446C90("SLGKNFD.BAN", ResourceManager::Resource_Animation, 418, loadMode, kDisabledResources & 0x80);
-        ResourceManager::LoadResourcesFromList_446E80("SLIGZ.BND", kSligZResources.AsList(), loadMode, kDisabledResources & 4);
+        ResourceManager::LoadResource_446C90("SLGLEVER.BAN", ResourceManager::Resource_Animation, 419, loadMode, kDisabledResources.Get(SligFlags_DisabledRes::eDisabledRes_Bit1));
+        ResourceManager::LoadResource_446C90("SLGLIFT.BAN", ResourceManager::Resource_Animation, 420, loadMode, kDisabledResources.Get(SligFlags_DisabledRes::eDisabledRes_Bit2));
+        ResourceManager::LoadResource_446C90("SLGSLEEP.BAN", ResourceManager::Resource_Animation, 413, loadMode, kDisabledResources.Get(SligFlags_DisabledRes::eDisabledRes_Bit7));
+        ResourceManager::LoadResource_446C90("SLGEDGE.BAN", ResourceManager::Resource_Animation, 415, loadMode, kDisabledResources.Get(SligFlags_DisabledRes::eDisabledRes_Bit9));
+        ResourceManager::LoadResource_446C90("SLGSMASH.BAN", ResourceManager::Resource_Animation, 416, loadMode, kDisabledResources.Get(SligFlags_DisabledRes::eDisabledRes_Bit10));
+        ResourceManager::LoadResource_446C90("SLGBEAT.BAN", ResourceManager::Resource_Animation, 426, loadMode, kDisabledResources.Get(SligFlags_DisabledRes::eDisabledRes_Bit11));
+        ResourceManager::LoadResource_446C90("SLGKNFD.BAN", ResourceManager::Resource_Animation, 418, loadMode, kDisabledResources.Get(SligFlags_DisabledRes::eDisabledRes_Bit8));
+        ResourceManager::LoadResourcesFromList_446E80("SLIGZ.BND", kSligZResources.AsList(), loadMode, kDisabledResources.Get(SligFlags_DisabledRes::eDisabledRes_Bit3));
         ResourceManager::LoadResourcesFromList_446E80("SLIG.BND", kSligResources.AsList(), loadMode, 0);
         ResourceManager::LoadResource_446C90("SLGBLOW.BAN", ResourceManager::Resource_Animation, 423, loadMode);
         ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, 2035, loadMode);
@@ -1727,19 +1727,19 @@ EXPORT void CC Factory_SligSpawner_482A00(Path_TLV* pTlv, Map* /*pMap*/, TlvItem
     }
     else
     {
-        if (!(kDisabledResources & 1) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 419, 0, 0))
+        if (!(kDisabledResources.Get(SligFlags_DisabledRes::eDisabledRes_Bit1)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 419, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!(kDisabledResources & 2) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 420, 0, 0))
+        if (!(kDisabledResources.Get(SligFlags_DisabledRes::eDisabledRes_Bit2)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 420, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!(kDisabledResources & 4))
+        if (!(kDisabledResources.Get(SligFlags_DisabledRes::eDisabledRes_Bit3)))
         {
             if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 417, 0, 0))
             {
@@ -1747,47 +1747,44 @@ EXPORT void CC Factory_SligSpawner_482A00(Path_TLV* pTlv, Map* /*pMap*/, TlvItem
                 return;
             }
 
-            if (!(kDisabledResources & 4))
+            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 344, 0, 0))
             {
-                if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 344, 0, 0))
-                {
-                    gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-                    return;
-                }
+                gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+                return;
+            }
 
-                if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 28, 0, 0))
-                {
-                    gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-                    return;
-                }
+            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 28, 0, 0))
+            {
+                gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+                return;
             }
         }
 
-        if (!(kDisabledResources & 0x40) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 413, 0, 0))
+        if (!(kDisabledResources.Get(SligFlags_DisabledRes::eDisabledRes_Bit8)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 413, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
         
-        if (!(kDisabledResources & 0x100) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 415, 0, 0))
+        if (!(kDisabledResources.Get(SligFlags_DisabledRes::eDisabledRes_Bit9)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 415, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!(kDisabledResources & 0x200) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 416, 0, 0))
+        if (!(kDisabledResources.Get(SligFlags_DisabledRes::eDisabledRes_Bit10)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 416, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!(kDisabledResources & 0x400) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 426, 0, 0))
+        if (!(kDisabledResources.Get(SligFlags_DisabledRes::eDisabledRes_Bit11)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 426, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if ((kDisabledResources & 0x80u) == 0 && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 418, 0, 0))
+        if (!(kDisabledResources.Get(SligFlags_DisabledRes::eDisabledRes_Bit8)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 418, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
