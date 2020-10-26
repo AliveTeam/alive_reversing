@@ -1302,7 +1302,12 @@ void Menu::GameSpeak_Render_47D700(int** /*ppOt*/)
 
 void Menu::To_FMV_Or_Level_Select_Update_47EC30()
 {
-    NOT_IMPLEMENTED();
+    if (field_1E8_pMenuTrans->field_16_bDone)
+    {
+        ResourceManager::FreeResource_455550(field_E4_res_array[0]);
+        field_E4_res_array[0] = nullptr;
+        field_1CC_fn_update = &Menu::FMV_Select_Update_47E8D0;
+    }
 }
 
 
