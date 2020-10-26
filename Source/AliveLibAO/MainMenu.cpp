@@ -1457,7 +1457,14 @@ void Menu::Options_Controller_Render_47F430(int** /*ppOt*/)
 
 void Menu::To_Options_Sound_Update_47C6F0()
 {
-    NOT_IMPLEMENTED();
+    if (field_1E8_pMenuTrans)
+    {
+        if (field_1E8_pMenuTrans->field_16_bDone)
+        {
+            field_1CC_fn_update = &Menu::Options_Sound_Update_47C420;
+            field_1DC_idle_input_counter = 0;
+        }
+    }
 }
 
 void Menu::To_MainScreen_Update_47BB60()
