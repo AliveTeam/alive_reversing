@@ -193,7 +193,9 @@ public:
 
     EXPORT void Options_Controller_Update_47F210();
 
-    EXPORT void Update_47F330();
+    EXPORT void GoTo_ControllerConfigure_Or_Back_AfterScreenTrans_Update_47F330();
+
+    EXPORT void Update_47F380();
 
     EXPORT static void CC OnResourceLoaded_47ADA0(Menu* pMenu);
 
@@ -244,7 +246,7 @@ public:
     __int16 field_226_bToLevelSelect;
     int field_228;
     int field_22C;
-    int field_230;
+    int field_230_bGoBack;
 };
 ALIVE_ASSERT_SIZEOF(Menu, 0x234);
 

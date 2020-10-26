@@ -1573,7 +1573,7 @@ void Menu::Options_To_Selected_After_Cam_Change_Update_47C330()
             field_1CC_fn_update = &Menu::To_Options_Controller_Update_47F2E0;
             field_1D0_fn_render = &Menu::Options_Controller_Render_47F430;
             field_1E0_selected_index = static_cast<short>(sJoystickEnabled_508A60);
-            field_230 = -1;
+            field_230_bGoBack = -1;
             field_22C = 0;
             break;
 
@@ -1604,7 +1604,7 @@ void Menu::Options_To_Selected_After_Cam_Change_Update_47C330()
 
 void Menu::To_Options_Controller_Update_47F2E0()
 {
-    field_230 = -1;
+    field_230_bGoBack = -1;
     if (field_1E8_pMenuTrans)
     {
         if (field_1E8_pMenuTrans->field_16_bDone)
@@ -1816,20 +1816,44 @@ void Menu::Options_Controller_Update_47F210()
 
     if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x810) // TODO: Input constants
     {
-        field_230 = 1;
+        field_230_bGoBack = 1;
         field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
-        field_1CC_fn_update = &Menu::Update_47F330;
+        field_1CC_fn_update = &Menu::GoTo_ControllerConfigure_Or_Back_AfterScreenTrans_Update_47F330;
     }
 
     if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0xE0)
     {
-        field_230 = 0;
+        field_230_bGoBack = 0;
         field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
-        field_1CC_fn_update = &Menu::Update_47F330;
+        field_1CC_fn_update = &Menu::GoTo_ControllerConfigure_Or_Back_AfterScreenTrans_Update_47F330;
     }
 }
 
-void Menu::Update_47F330()
+void Menu::GoTo_ControllerConfigure_Or_Back_AfterScreenTrans_Update_47F330()
+{
+    if (field_1E8_pMenuTrans)
+    {
+        if (field_1E8_pMenuTrans->field_16_bDone)
+        {
+            switch (field_230_bGoBack)
+            {
+            // Got controller configuration
+            case 0:
+                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 41, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                break;
+
+            // Back to main options (sound/controller)
+            case 1:
+                 gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 2, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                 break;
+            }
+
+            field_1CC_fn_update = &Menu::Update_47F380;
+        }
+    }
+}
+
+void Menu::Update_47F380()
 {
     NOT_IMPLEMENTED();
 }
