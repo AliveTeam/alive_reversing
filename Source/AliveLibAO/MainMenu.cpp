@@ -862,10 +862,12 @@ void Menu::FMV_Select_Update_47E8D0()
                 {
                     // "Credits" FMV
                     gCreditsControllerExists_507684 = 1;
+
+                    // The credits are re-done in this class rather than using CreditsController... go to the Sherry credit screen
                     field_208_camera = 1;
                     pScreenManager_4FF7C8->UnsetDirtyBits_FG1_406EF0();
                     gMap_507BA8.SetActiveCam_444660(LevelIds::eCredits_10, 1, static_cast<short>(field_208_camera), CameraSwapEffects::eEffect0_InstantChange, 0, 0);
-                    field_1CC_fn_update = &Menu::Update_47F140;
+                    field_1CC_fn_update = &Menu::To_Credits_Update_47F140;
                     field_1D0_fn_render = &Menu::Empty_Render_47AC80;
                 }
             }
@@ -1853,9 +1855,11 @@ void Menu::FMV_Or_Level_Select_To_Back_Update_47EC70()
     }
 }
 
-void Menu::Update_47F140()
+void Menu::To_Credits_Update_47F140()
 {
-    NOT_IMPLEMENTED();
+    field_1CC_fn_update = &Menu::Credits_Update_47F190;
+    field_1D0_fn_render = &Menu::Empty_Render_47AC80;
+    field_1D8_timer = gnFrameCount_507670 + 60;
 }
 
 void Menu::Update_47ED50()
@@ -2196,6 +2200,34 @@ void Menu::To_ToggleMotions_Update_47C9E0()
             field_1DC_idle_input_counter = 0;
         }
     }
+}
+
+void Menu::Credits_Update_47F190()
+{
+    if (field_1D8_timer <= static_cast<int>(gnFrameCount_507670))
+    {
+        field_208_camera++;
+
+        if (field_208_camera > 24)
+        {
+            // Credits done
+            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 30, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            field_1CC_fn_update = &Menu::CreditsEnd_BackTo_FMV_Or_Level_List_Update_47F170;
+            gCreditsControllerExists_507684 = 0;
+        }
+        else
+        {
+            // Next credits screen
+            gMap_507BA8.SetActiveCam_444660(LevelIds::eCredits_10, 1, static_cast<short>(field_208_camera), CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
+            field_1D8_timer = gnFrameCount_507670 + 60;
+        }
+    }
+}
+
+void Menu::CreditsEnd_BackTo_FMV_Or_Level_List_Update_47F170()
+{
+    field_1CC_fn_update = &Menu::FMV_Select_Update_47E8D0;
+    field_1D0_fn_render = &Menu::FMV_Or_Level_Select_Render_47EEA0;
 }
 
 void Menu::ToggleMotions_Render_47CAB0(int** /*ppOt*/)

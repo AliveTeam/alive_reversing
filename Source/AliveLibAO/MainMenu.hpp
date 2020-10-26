@@ -138,7 +138,7 @@ public:
     EXPORT void To_MainOptions_Screen_After_Camera_Change_Update_47C7A0();
     EXPORT void GameSpeak_Update_47CBD0();
     EXPORT void FMV_Or_Level_Select_To_Back_Update_47EC70();
-    EXPORT void Update_47F140();
+    EXPORT void To_Credits_Update_47F140();
     EXPORT void Update_47ED50();
     EXPORT void Options_Controller_Update_47F210();
     EXPORT void GoTo_ControllerConfigure_Or_Back_AfterScreenTrans_Update_47F330();
@@ -151,7 +151,9 @@ public:
     EXPORT void To_ShowAbeMotions_ChangeCamera_Update_47F8A0();
     EXPORT void To_ShowAbeMotions_SaveSettings_Update_47F8E0();
     EXPORT void To_ToggleMotions_Update_47C9E0();
-    
+    EXPORT void Credits_Update_47F190();
+    EXPORT void CreditsEnd_BackTo_FMV_Or_Level_List_Update_47F170();
+
     // Compared via address
     EXPORT void ToggleMotions_Update_47C800();
     EXPORT void Toggle_Motions_Screens_Update_47C8F0();
