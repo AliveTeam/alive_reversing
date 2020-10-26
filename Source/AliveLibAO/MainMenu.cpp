@@ -1175,7 +1175,14 @@ void Menu::Load_Render_47DDA0(int** /*ppOt*/)
 
 void Menu::To_Options_Update_47C250()
 {
-    NOT_IMPLEMENTED();
+    if (field_1E8_pMenuTrans)
+    {
+        if (field_1E8_pMenuTrans->field_16_bDone)
+        {
+            field_1CC_fn_update = &Menu::Options_Update_47BF90;
+            field_1DC_idle_input_counter = 0;
+        }
+    }
 }
 
 
@@ -1266,6 +1273,135 @@ void Menu::NewGameStart_47B9C0()
         }
     }
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
+}
+
+void Menu::Options_Update_47BF90()
+{
+    // Idle time calculate
+    if (sInputObject_5009E8.field_0_pads[0].field_0_pressed)
+    {
+        field_1DC_idle_input_counter = 0;
+    }
+    else
+    {
+        field_1DC_idle_input_counter++;
+    }
+
+    // Menu backwards
+    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x1000) // TODO: Input constants
+    {
+        if (field_1E0_selected_index <= 0)
+        {
+            field_1E0_selected_index = 1;
+        }
+        else
+        {
+            field_1E0_selected_index--;
+        }
+
+        field_134_anim.Set_Animation_Data_402A40(stru_4D0148[field_1E0_selected_index].field_4_frame_table, nullptr);
+        SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400);
+    }
+
+    // Menu forwards
+    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x4100) // TODO: Input constants
+    {
+        if (field_1E0_selected_index >= 1)
+        {
+            field_1E0_selected_index = 0;
+        }
+        else
+        {
+            field_1E0_selected_index++;
+        }
+
+        field_134_anim.Set_Animation_Data_402A40(stru_4D0148[field_1E0_selected_index].field_4_frame_table, nullptr);
+        SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400);
+    }
+
+    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0xC0) // TODO: Input constants
+    {
+        Mudokon_SFX_42A4D0(MudSounds::eOkay_13, 0, 0, 0);
+        field_10_anim.Set_Animation_Data_402A40(201632, field_E4_res_array[1]);
+        field_1CC_fn_update = &Menu::Options_WaitForAbeSpeak_Update_47C280;
+    }
+
+    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x810 || field_1DC_idle_input_counter > 900) // TODO: Input constants
+    {
+        // Back to main menu
+        field_1E0_selected_index = 2;
+        field_134_anim.Set_Animation_Data_402A40(stru_4D0148[2].field_4_frame_table, 0);
+        Mudokon_SFX_42A4D0(MudSounds::eOkay_13, 0, 0, 0);
+        field_10_anim.Set_Animation_Data_402A40(201632, field_E4_res_array[1]);
+        field_1CC_fn_update = &Menu::Options_WaitForAbeSpeak_Update_47C280;
+    }
+
+    // Some sort of idle anim toggle?
+    if (((field_204_flags) >> 2) & 1)
+    {
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_10_anim.Set_Animation_Data_402A40(201508, field_E4_res_array[1]);
+            field_204_flags &= ~4u;
+            field_1D8_timer = gnFrameCount_507670 + Math_RandomRange_450F20(120, 450);
+        }
+    }
+    else if (field_1D8_timer <= static_cast<int>(gnFrameCount_507670))
+    {
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_10_anim.Set_Animation_Data_402A40(201384, field_E4_res_array[1]);
+            field_204_flags |= 4u;
+        }
+    }
+}
+
+void Menu::Options_WaitForAbeSpeak_Update_47C280()
+{
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_10_anim.Set_Animation_Data_402A40(201508, field_E4_res_array[1]);
+        field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+        field_1CC_fn_update = &Menu::Option_GoTo_Selected_Update_47C2C0;
+    }
+}
+
+void Menu::Option_GoTo_Selected_Update_47C2C0()
+{
+    if (field_1E8_pMenuTrans)
+    {
+        if (field_1E8_pMenuTrans->field_16_bDone)
+        {
+            switch (field_1E0_selected_index)
+            {
+            // Controller
+            case 0:
+                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 40, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                break;
+
+            // Sound
+            case 1:
+                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 5, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                break;
+
+            // Back to main menu screen
+            case 2:
+                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                break;
+
+            default:
+                LOG_ERROR("Unknown menu idx " << field_1E0_selected_index);
+                break;
+            }
+
+            field_1CC_fn_update = &Menu::Update_47C330;
+        }
+    }
+}
+
+void Menu::Update_47C330()
+{
+    NOT_IMPLEMENTED();
 }
 
 void CC Menu::OnResourceLoaded_47ADA0(Menu* pMenu)

@@ -157,6 +157,14 @@ public:
 
     EXPORT void NewGameStart_47B9C0();
 
+    EXPORT void Options_Update_47BF90();
+
+    EXPORT void Options_WaitForAbeSpeak_Update_47C280();
+
+    EXPORT void Option_GoTo_Selected_Update_47C2C0();
+
+    EXPORT void Update_47C330();
+
     EXPORT static void CC OnResourceLoaded_47ADA0(Menu* pMenu);
     
     int field_D4[4];
