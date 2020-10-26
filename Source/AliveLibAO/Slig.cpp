@@ -1454,7 +1454,6 @@ __int16 Slig::FindBeatTarget_46D0E0(int /*typeToFind*/, int gridBlocks)
     return 0;
 }
 
-
 __int16 Slig::HandleEnemyStopper_46BF30(int gridBlocks)
 {
     auto flipDir = field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX);
@@ -1481,7 +1480,6 @@ __int16 Slig::HandleEnemyStopper_46BF30(int gridBlocks)
     {
         return 0;
     }
-
 
     if (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Both_2)
     {
