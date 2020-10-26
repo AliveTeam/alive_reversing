@@ -101,6 +101,9 @@ const Menu_Button stru_4D0148[3] ={ { 33, 66, 6152 }, { 33, 87, 6152 }, { 288, 2
 
 const Menu_Button stru_4D01C0[3] = { { 33, 66, 6152 }, { 33, 87, 6152 }, { 289, 238, 6152 } };
 
+const Menu_Button stru_4D01D8[2] = { { 116, 251, 6152 }, { 116, 251, 6152 } };
+
+
 struct SaveName
 {
     char field_0_mName[32];
@@ -2171,6 +2174,51 @@ void Menu::ToggleMotions_Render_47CAB0(int** /*ppOt*/)
 }
 
 void Menu::ToggleMotions_Update_47C800()
+{
+    if (sInputObject_5009E8.field_0_pads[0].field_0_pressed)
+    {
+        field_1DC_idle_input_counter = 0;
+    }
+    else
+    {
+        field_1DC_idle_input_counter++;
+    }
+
+    if (sNumCamSwappers_507668 <= 0)
+    {
+        if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x1C0) // TODO: Input constants
+        {
+            if (sJoystickEnabled_508A60)
+            {
+                gMap_507BA8.SetActiveCameraDelayed_444CA0(Map::MapDirections::eMapBottom_3, 0, -1);
+            }
+            else
+            {
+                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 37, CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
+            }
+
+            field_1CC_fn_update = &Menu::Update_47C8F0;
+            field_1E0_selected_index = 1;
+            PSX_Prevent_Rendering_44FFB0();
+            SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
+        }
+
+        if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x810 || field_1DC_idle_input_counter > 1600) // TODO: Input constants
+        {
+            field_1E0_selected_index = 2;
+            field_134_anim.Set_Animation_Data_402A40(stru_4D01D8[2].field_4_frame_table, nullptr);
+            field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+            field_1CC_fn_update = &Menu::Update_47CA10;
+        }
+    }
+}
+
+void Menu::Update_47C8F0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Menu::Update_47CA10()
 {
     NOT_IMPLEMENTED();
 }

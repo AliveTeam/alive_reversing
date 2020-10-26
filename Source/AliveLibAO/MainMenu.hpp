@@ -221,6 +221,10 @@ public:
 
     EXPORT void ToggleMotions_Update_47C800();
 
+    EXPORT void Update_47C8F0();
+
+    EXPORT void Update_47CA10();
+
     EXPORT static void CC OnResourceLoaded_47ADA0(Menu* pMenu);
 
     int field_D4[4];
