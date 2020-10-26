@@ -885,7 +885,7 @@ void Menu::FMV_Select_Update_47E8D0()
                 field_20C_bStartInSpecificMap = 1;
 
                 field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
-                field_1CC_fn_update = &Menu::Update_47ED50;
+                field_1CC_fn_update = &Menu::Level_Cheat_To_Loading_Update_47ED50;
             }
         }
     }
@@ -1862,9 +1862,12 @@ void Menu::To_Credits_Update_47F140()
     field_1D8_timer = gnFrameCount_507670 + 60;
 }
 
-void Menu::Update_47ED50()
+void Menu::Level_Cheat_To_Loading_Update_47ED50()
 {
-    NOT_IMPLEMENTED();
+    if (field_1E8_pMenuTrans->field_16_bDone)
+    {
+        field_1CC_fn_update = &Menu::ToLoading_47B7E0;
+    }
 }
 
 void Menu::Options_Controller_Update_47F210()

@@ -139,7 +139,7 @@ public:
     EXPORT void GameSpeak_Update_47CBD0();
     EXPORT void FMV_Or_Level_Select_To_Back_Update_47EC70();
     EXPORT void To_Credits_Update_47F140();
-    EXPORT void Update_47ED50();
+    EXPORT void Level_Cheat_To_Loading_Update_47ED50();
     EXPORT void Options_Controller_Update_47F210();
     EXPORT void GoTo_ControllerConfigure_Or_Back_AfterScreenTrans_Update_47F330();
     EXPORT void Goto_ConfigureController_OrSave_SettingIni_Update_47F380();
