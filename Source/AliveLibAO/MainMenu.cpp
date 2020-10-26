@@ -54,6 +54,13 @@ EXPORT void CC SND_Restart_476340()
     NOT_IMPLEMENTED();
 }
 
+// TODO: Move out
+int CC Input_SaveSettingsIni_44F460()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 struct Menu_Button
 {
     __int16 field_0_xpos;
@@ -1837,7 +1844,7 @@ void Menu::GoTo_ControllerConfigure_Or_Back_AfterScreenTrans_Update_47F330()
         {
             switch (field_230_bGoBack)
             {
-            // Got controller configuration
+            // Goto controller configuration
             case 0:
                 gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 41, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
                 break;
@@ -1848,12 +1855,62 @@ void Menu::GoTo_ControllerConfigure_Or_Back_AfterScreenTrans_Update_47F330()
                  break;
             }
 
-            field_1CC_fn_update = &Menu::Update_47F380;
+            field_1CC_fn_update = &Menu::Goto_ConfigureController_OrSave_SettingIni_Update_47F380;
         }
     }
 }
 
-void Menu::Update_47F380()
+void Menu::Goto_ConfigureController_OrSave_SettingIni_Update_47F380()
+{
+    if (sNumCamSwappers_507668 <= 0)
+    {
+        switch (field_230_bGoBack)
+        {
+        // Goto controller configuration
+        case 0:
+            field_204_flags &= ~2u;
+            field_1CC_fn_update = &Menu::To_ButtonRemap_Update_47F860;
+            field_1D0_fn_render = &Menu::ButtonRemap_Render_47F940;
+            field_1E0_selected_index = 0;
+            field_230_bGoBack = -1;
+            break;
+
+        // Back to main options (sound/controller)
+        case 1:
+            Input_SaveSettingsIni_44F460();
+            field_1CC_fn_update = &Menu::To_Options_Update_47C250;
+            field_1D0_fn_render = &Menu::Options_Render_47C190;
+            field_1E0_selected_index = 0;
+            field_134_anim.Set_Animation_Data_402A40(sMainScreenButtons_4D00B0[0].field_4_frame_table, nullptr);
+            field_204_flags |= 2u;
+            break;
+        }
+
+        field_1E8_pMenuTrans->StartTrans_436560(40, 0, 0, 16);
+    }
+}
+
+void Menu::ButtonRemap_Render_47F940(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void Menu::To_ButtonRemap_Update_47F860()
+{
+    field_230_bGoBack = -1;
+
+    if (field_1E8_pMenuTrans)
+    {
+        if (field_1E8_pMenuTrans->field_16_bDone)
+        {
+            field_1CC_fn_update = &Menu::ButtonRemap_Update_47F6F0;
+            field_1D0_fn_render = &Menu::ButtonRemap_Render_47F940;
+            field_1DC_idle_input_counter = 0;
+        }
+    }
+}
+
+void Menu::ButtonRemap_Update_47F6F0()
 {
     NOT_IMPLEMENTED();
 }

@@ -195,7 +195,13 @@ public:
 
     EXPORT void GoTo_ControllerConfigure_Or_Back_AfterScreenTrans_Update_47F330();
 
-    EXPORT void Update_47F380();
+    EXPORT void Goto_ConfigureController_OrSave_SettingIni_Update_47F380();
+
+    EXPORT void ButtonRemap_Render_47F940(int** ppOt);
+
+    EXPORT void To_ButtonRemap_Update_47F860();
+
+    EXPORT void ButtonRemap_Update_47F6F0();
 
     EXPORT static void CC OnResourceLoaded_47ADA0(Menu* pMenu);
 
