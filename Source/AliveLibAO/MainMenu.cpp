@@ -2218,7 +2218,7 @@ void Menu::ToggleMotions_Update_47C800()
             field_1E0_selected_index = 2;
             field_134_anim.Set_Animation_Data_402A40(stru_4D01D8[2].field_4_frame_table, nullptr);
             field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
-            field_1CC_fn_update = &Menu::Update_47CA10;
+            field_1CC_fn_update = &Menu::MotionsScreen_Back_Update_47CA10;
         }
     }
 }
@@ -2228,9 +2228,29 @@ void Menu::Update_47C8F0()
     NOT_IMPLEMENTED();
 }
 
-void Menu::Update_47CA10()
+void Menu::MotionsScreen_Back_Update_47CA10()
 {
-    NOT_IMPLEMENTED();
+    if (field_1E8_pMenuTrans)
+    {
+        if (field_1E8_pMenuTrans->field_16_bDone)
+        {
+            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 2, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            field_1CC_fn_update = &Menu::Motions_ToOptions_Update_47CA50;
+        }
+    }
+}
+
+void Menu::Motions_ToOptions_Update_47CA50()
+{
+    if (sNumCamSwappers_507668 <= 0)
+    {
+        field_204_flags |= 2u;
+        field_1CC_fn_update = &Menu::To_Options_Update_47C250;
+        field_1D0_fn_render = &Menu::Options_Render_47C190;
+        field_1E0_selected_index = 0;
+        field_134_anim.Set_Animation_Data_402A40(stru_4D0148[0].field_4_frame_table, nullptr);
+        field_1E8_pMenuTrans->StartTrans_436560(40, 0, 0, 16);
+    }
 }
 
 void CC Menu::OnResourceLoaded_47ADA0(Menu* pMenu)

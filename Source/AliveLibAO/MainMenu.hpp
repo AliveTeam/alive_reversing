@@ -156,7 +156,9 @@ public:
     EXPORT void ToggleMotions_Update_47C800();
     EXPORT void Update_47C8F0();
 
-    EXPORT void Update_47CA10();
+    EXPORT void MotionsScreen_Back_Update_47CA10();
+
+    EXPORT void Motions_ToOptions_Update_47CA50();
 
     EXPORT void ToggleMotions_Render_47CAB0(int** ppOt);
     EXPORT void SaveLoadFailed_Render_47DCF0(int** ppOt);
@@ -170,6 +172,8 @@ public:
     EXPORT void Render_47E5B0(int** ppOt);
     EXPORT void Load_Render_47DDA0(int** ppOt);
     EXPORT void Options_Render_47C190(int** ppOt);
+
+
 
     EXPORT static void CC OnResourceLoaded_47ADA0(Menu* pMenu);
 
