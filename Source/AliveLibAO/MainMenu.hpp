@@ -175,6 +175,10 @@ public:
 
     EXPORT void Options_Sound_Render_47C630(int** ppOt);
 
+    EXPORT void Options_Sound_Update_47C420();
+
+    EXPORT void Update_47C720();
+
     EXPORT static void CC OnResourceLoaded_47ADA0(Menu* pMenu);
 
     int field_D4[4];
