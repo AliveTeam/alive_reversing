@@ -107,7 +107,7 @@ const Menu_Button stru_4D01D8[3] = { { 116, 251, 6152 }, { 116, 251, 6152 }, { 3
 const AIFunctionData<Menu::TUpdateFn> kUpdateTable[] =
 {
     { &Menu::ToggleMotions_Update_47C800, 0x47C800, "47C800" },
-    { &Menu::Update_47C8F0, 0x47C8F0, "Update_47C8F0" }
+    { &Menu::Toggle_Motions_Screens_Update_47C8F0, 0x47C8F0, "Update_47C8F0" }
 };
 
 
@@ -795,6 +795,7 @@ void Menu::FMV_Select_Update_47E8D0()
        
         if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x810) // TODO: Input constants
         {
+            // Go back to main screen
             field_20C_bStartInSpecificMap = 0;
 
             if (field_1E8_pMenuTrans)
@@ -806,7 +807,7 @@ void Menu::FMV_Select_Update_47E8D0()
                 field_1E8_pMenuTrans = ao_new<MainMenuTransition>();
                 field_1E8_pMenuTrans->ctor_436370(40, 1, 0, 16, 1);
             }
-            field_1CC_fn_update = &Menu::Update_47EC70;
+            field_1CC_fn_update = &Menu::FMV_Or_Level_Select_To_Back_Update_47EC70;
         }
 
         if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x40) // TODO: Input constants
@@ -1398,6 +1399,23 @@ void Menu::Options_Render_47C190(int** /*ppOt*/)
     NOT_IMPLEMENTED();
 }
 
+void Menu::FMV_Or_Level_Select_Back_Update_47ECB0()
+{
+    if (sNumCamSwappers_507668 <= 0)
+    {
+        ResourceManager::LoadResourceFile_455270("ABESPEAK.BAN", nullptr);
+        field_E4_res_array[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 130, 1, 0);
+        field_1E8_pMenuTrans->StartTrans_436560(40, 0, 0, 16);
+        field_1E0_selected_index = 1;
+        field_134_anim.Set_Animation_Data_402A40(sMainScreenButtons_4D00B0[1].field_4_frame_table, nullptr);
+        field_204_flags |= 2u;
+        field_224_bToFmvSelect = 0;
+        field_226_bToLevelSelect = 0;
+        field_1CC_fn_update = &Menu::To_MainScreen_Update_47BB60;
+        field_1D0_fn_render = &Menu::MainScreen_Render_47BED0;
+    }
+}
+
 void Menu::Loading_Update_47B870()
 {
     if (!gAttract_507698 || ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Plbk, sJoyResId_50769C, 0, 0))
@@ -1826,9 +1844,13 @@ void Menu::GameSpeak_Update_47CBD0()
 }
 
 
-void Menu::Update_47EC70()
+void Menu::FMV_Or_Level_Select_To_Back_Update_47EC70()
 {
-    NOT_IMPLEMENTED();
+    if (field_1E8_pMenuTrans->field_16_bDone)
+    {
+        gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+        field_1CC_fn_update = &Menu::FMV_Or_Level_Select_Back_Update_47ECB0;
+    }
 }
 
 void Menu::Update_47F140()
@@ -2206,7 +2228,7 @@ void Menu::ToggleMotions_Update_47C800()
             }
 
             // Go to game speak toggle
-            SetBrain(&Menu::Update_47C8F0, field_1CC_fn_update, kUpdateTable);
+            SetBrain(&Menu::Toggle_Motions_Screens_Update_47C8F0, field_1CC_fn_update, kUpdateTable);
             field_1E0_selected_index = 1;
             PSX_Prevent_Rendering_44FFB0();
             SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
@@ -2223,9 +2245,44 @@ void Menu::ToggleMotions_Update_47C800()
     }
 }
 
-void Menu::Update_47C8F0()
+void Menu::Toggle_Motions_Screens_Update_47C8F0()
 {
-    NOT_IMPLEMENTED();
+    if (sInputObject_5009E8.field_0_pads[0].field_0_pressed)
+    {
+        field_1DC_idle_input_counter = 0;
+    }
+    else
+    {
+        field_1DC_idle_input_counter++;
+    }
+
+    if (sNumCamSwappers_507668 <= 0)
+    {
+        if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x1C0) // TODO: Input constants
+        {
+            if (sJoystickEnabled_508A60)
+            {
+                gMap_507BA8.SetActiveCameraDelayed_444CA0(Map::MapDirections::eMapTop_2, 0, -1);
+            }
+            else
+            {
+                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 4, CameraSwapEffects::eEffect4_BottomToTop, 0, 0);
+            }
+
+            SetBrain(&Menu::ToggleMotions_Update_47C800, field_1CC_fn_update, kUpdateTable);
+            field_1E0_selected_index = 0;
+            PSX_Prevent_Rendering_44FFB0();
+            SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, 0);
+        }
+
+        if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x810 || field_1DC_idle_input_counter > 1600) // TODO: Input constants
+        {
+            field_1E0_selected_index = 2;
+            field_134_anim.Set_Animation_Data_402A40(stru_4D01D8[2].field_4_frame_table, 0);
+            field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+            field_1CC_fn_update = &Menu::MotionsScreen_Back_Update_47CA10;
+        }
+    }
 }
 
 void Menu::MotionsScreen_Back_Update_47CA10()

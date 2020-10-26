@@ -137,7 +137,7 @@ public:
     EXPORT void Options_WaitForScreenTrans_Update_47C760();
     EXPORT void To_MainOptions_Screen_After_Camera_Change_Update_47C7A0();
     EXPORT void GameSpeak_Update_47CBD0();
-    EXPORT void Update_47EC70();
+    EXPORT void FMV_Or_Level_Select_To_Back_Update_47EC70();
     EXPORT void Update_47F140();
     EXPORT void Update_47ED50();
     EXPORT void Options_Controller_Update_47F210();
@@ -154,7 +154,7 @@ public:
     
     // Compared via address
     EXPORT void ToggleMotions_Update_47C800();
-    EXPORT void Update_47C8F0();
+    EXPORT void Toggle_Motions_Screens_Update_47C8F0();
 
     EXPORT void MotionsScreen_Back_Update_47CA10();
 
@@ -173,7 +173,7 @@ public:
     EXPORT void Load_Render_47DDA0(int** ppOt);
     EXPORT void Options_Render_47C190(int** ppOt);
 
-
+    EXPORT void FMV_Or_Level_Select_Back_Update_47ECB0();
 
     EXPORT static void CC OnResourceLoaded_47ADA0(Menu* pMenu);
 
