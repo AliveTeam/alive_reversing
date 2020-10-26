@@ -27,6 +27,7 @@
 #include "SnoozeParticle.hpp"
 #include "GameSpeak.hpp"
 #include "ScreenShake.hpp"
+#include "SwitchStates.hpp"
 #include <algorithm>
 
 //TODO fix
@@ -1455,9 +1456,49 @@ __int16 Slig::FindBeatTarget_46D0E0(int /*typeToFind*/, int gridBlocks)
 }
 
 
-__int16 Slig::HandleEnemyStopper_46BF30(int /*gridBlocks*/)
+__int16 Slig::HandleEnemyStopper_46BF30(int gridBlocks)
 {
-    NOT_IMPLEMENTED();
+    auto flipDir = field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX);
+    if (field_FC_current_motion == eSligStates::State_5_TurnAroundStanding_469C80
+        && field_10_anim.field_92_current_frame > 4)
+    {
+        flipDir = !flipDir;
+    }
+
+    const auto dirScaled = ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(flipDir ? -gridBlocks : gridBlocks);
+    auto pStopper = static_cast<Path_EnemyStopper*>(gMap_507BA8.TLV_Get_At_446260(
+        FP_GetExponent(field_A8_xpos),
+        FP_GetExponent(field_AC_ypos),
+        FP_GetExponent(dirScaled + field_A8_xpos),
+        FP_GetExponent(field_AC_ypos),
+        EnemyStopper_79
+    ));
+    if (!pStopper)
+    {
+        return 0;
+    }
+
+    if (!SwitchStates_Get(pStopper->field_1A_id))
+    {
+        return 0;
+    }
+
+
+    if (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Both_2)
+    {
+        return 1;
+    }
+
+    if (flipDir && pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0)
+    {
+        return 1;
+    }
+
+    if (!flipDir && pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1)
+    {
+        return 1;
+    }
+
     return 0;
 }
 
