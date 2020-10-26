@@ -183,6 +183,8 @@ public:
 
     EXPORT void To_MainOptions_Screen_After_Camera_Change_Update_47C7A0();
 
+    EXPORT void GameSpeak_Update_47CBD0();
+
     EXPORT static void CC OnResourceLoaded_47ADA0(Menu* pMenu);
 
     int field_D4[4];

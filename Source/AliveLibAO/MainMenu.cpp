@@ -1154,7 +1154,14 @@ void Menu::ToLoading_47B7E0()
 
 void Menu::ToGameSpeak_Update_47D620()
 {
-    NOT_IMPLEMENTED();
+    if (field_1E8_pMenuTrans)
+    {
+        if (field_1E8_pMenuTrans->field_16_bDone)
+        {
+            field_1CC_fn_update = &Menu::GameSpeak_Update_47CBD0;
+            field_1DC_idle_input_counter = 0;
+        }
+    }
 }
 
 
@@ -1618,6 +1625,12 @@ void Menu::To_MainOptions_Screen_After_Camera_Change_Update_47C7A0()
         field_134_anim.Set_Animation_Data_402A40(stru_4D0148[1].field_4_frame_table, nullptr);
         field_1E8_pMenuTrans->StartTrans_436560(40, 0, 0, 16);
     }
+}
+
+
+void Menu::GameSpeak_Update_47CBD0()
+{
+    NOT_IMPLEMENTED();
 }
 
 void CC Menu::OnResourceLoaded_47ADA0(Menu* pMenu)
