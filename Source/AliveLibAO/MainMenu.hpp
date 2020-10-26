@@ -103,127 +103,73 @@ public:
 
     virtual void VScreenChanged() override;
 
-    EXPORT void WaitForDoorToOpen_47B550();
-
-    EXPORT void WaitForAbesHeadPoppingThroughDoor_47B5E0();
-
-    EXPORT void AbePopThroughDoor_47B620();
-
-    EXPORT void CopyRight_Update_47B4C0();
-
-    EXPORT void FMV_Select_Update_47E8D0();
-
-    EXPORT void Empty_Render_47AC80(int**);
-    
-    EXPORT void FMV_Or_Level_Select_Render_47EEA0(int**);
-
-    EXPORT void SayHelloWaitForLoading_47B690();
-
-    EXPORT void WaitForAbeSayHello_47B770();
-
     bool ProgressInProgressFilesLoading();
 
-    EXPORT void MainScreen_Render_47BED0(int** ppOt);
 
+    EXPORT void WaitForDoorToOpen_47B550();
+    EXPORT void WaitForAbesHeadPoppingThroughDoor_47B5E0();
+    EXPORT void AbePopThroughDoor_47B620();
+    EXPORT void CopyRight_Update_47B4C0();
+    EXPORT void FMV_Select_Update_47E8D0();
+    EXPORT void SayHelloWaitForLoading_47B690();
+    EXPORT void WaitForAbeSayHello_47B770();
     EXPORT void MainScreen_Update_47AF60();
-
     EXPORT void GoToSelectedMenuPage_47BC50();
-
     EXPORT void WaitForSpeakFinishAndStartChangeEffect_47BB90();
-
     EXPORT void ToNextMenuPage_47BD80();
-
     EXPORT void ToLoading_47B7E0();
-
     EXPORT void ToGameSpeak_Update_47D620();
-
-    EXPORT void GameSpeak_Render_47D700(int** ppOt);
-
     EXPORT void To_FMV_Or_Level_Select_Update_47EC30();
-
     EXPORT void Update_47E3C0();
-
-    EXPORT void Render_47E5B0(int** ppOt);
-
     EXPORT void To_Load_Update_47D8E0();
-
-    EXPORT void Load_Render_47DDA0(int** ppOt);
-
     EXPORT void To_Options_Update_47C250();
-
-    EXPORT void Options_Render_47C190(int** ppOt);
-
     EXPORT void Loading_Update_47B870();
-
     EXPORT void NewGameStart_47B9C0();
-
     EXPORT void Options_Update_47BF90();
-
     EXPORT void Options_WaitForAbeSpeak_Update_47C280();
-
     EXPORT void Option_GoTo_Selected_Update_47C2C0();
-
     EXPORT void Options_To_Selected_After_Cam_Change_Update_47C330();
-
     EXPORT void To_Options_Controller_Update_47F2E0();
-
-    EXPORT void Options_Controller_Render_47F430(int** ppOt);
-
     EXPORT void To_Options_Sound_Update_47C6F0();
-
     EXPORT void To_MainScreen_Update_47BB60();
-
-    EXPORT void Options_Sound_Render_47C630(int** ppOt);
-
     EXPORT void Options_Sound_Update_47C420();
-
     EXPORT void Options_WaitForAbeSayOK_Update_47C720();
-
     EXPORT void Options_WaitForScreenTrans_Update_47C760();
-
     EXPORT void To_MainOptions_Screen_After_Camera_Change_Update_47C7A0();
-
     EXPORT void GameSpeak_Update_47CBD0();
-
     EXPORT void Update_47EC70();
-
     EXPORT void Update_47F140();
-
     EXPORT void Update_47ED50();
-
     EXPORT void Options_Controller_Update_47F210();
-
     EXPORT void GoTo_ControllerConfigure_Or_Back_AfterScreenTrans_Update_47F330();
-
     EXPORT void Goto_ConfigureController_OrSave_SettingIni_Update_47F380();
-
-    EXPORT void ButtonRemap_Render_47F940(int** ppOt);
-
     EXPORT void To_ButtonRemap_Update_47F860();
-
     EXPORT void ButtonRemap_Update_47F6F0();
-
     EXPORT void To_LoadSave_Update_47DB10();
-
     EXPORT void LoadSave_Update_47DB40();
-
     EXPORT void SaveLoadFailed_Update_47DCD0();
-
-    EXPORT void SaveLoadFailed_Render_47DCF0(int** ppOt);
-
     EXPORT void To_ShowAbeMotions_ChangeCamera_Update_47F8A0();
-
     EXPORT void To_ShowAbeMotions_SaveSettings_Update_47F8E0();
-
     EXPORT void To_ToggleMotions_Update_47C9E0();
-
-    EXPORT void ToggleMotions_Render_47CAB0(int** ppOt);
-
+    
+    // Compared via address
     EXPORT void ToggleMotions_Update_47C800();
-
     EXPORT void Update_47C8F0();
 
     EXPORT void Update_47CA10();
+
+    EXPORT void ToggleMotions_Render_47CAB0(int** ppOt);
+    EXPORT void SaveLoadFailed_Render_47DCF0(int** ppOt);
+    EXPORT void ButtonRemap_Render_47F940(int** ppOt);
+    EXPORT void Options_Sound_Render_47C630(int** ppOt);
+    EXPORT void Options_Controller_Render_47F430(int** ppOt);
+    EXPORT void Empty_Render_47AC80(int** ppOt);
+    EXPORT void FMV_Or_Level_Select_Render_47EEA0(int** ppOt);
+    EXPORT void MainScreen_Render_47BED0(int** ppOt);
+    EXPORT void GameSpeak_Render_47D700(int** ppOt);
+    EXPORT void Render_47E5B0(int** ppOt);
+    EXPORT void Load_Render_47DDA0(int** ppOt);
+    EXPORT void Options_Render_47C190(int** ppOt);
 
     EXPORT static void CC OnResourceLoaded_47ADA0(Menu* pMenu);
 

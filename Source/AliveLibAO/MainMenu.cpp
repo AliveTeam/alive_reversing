@@ -104,6 +104,12 @@ const Menu_Button stru_4D01C0[3] = { { 33, 66, 6152 }, { 33, 87, 6152 }, { 289, 
 const Menu_Button stru_4D01D8[3] = { { 116, 251, 6152 }, { 116, 251, 6152 }, { 308, 240, 6152 } };
 
 
+const AIFunctionData<Menu::TUpdateFn> kUpdateTable[] =
+{
+    { &Menu::ToggleMotions_Update_47C800, 0x47C800, "47C800" },
+    { &Menu::Update_47C8F0, 0x47C8F0, "Update_47C8F0" }
+};
+
 
 struct SaveName
 {
@@ -2160,14 +2166,11 @@ void Menu::To_ShowAbeMotions_SaveSettings_Update_47F8E0()
 
 void Menu::To_ToggleMotions_Update_47C9E0()
 {
-    // Breaks buttons in abe motion screen ??
-    NOT_IMPLEMENTED();
-
     if (field_1E8_pMenuTrans)
     {
         if (field_1E8_pMenuTrans->field_16_bDone)
         {
-            field_1CC_fn_update = &Menu::ToggleMotions_Update_47C800;
+            SetBrain(&Menu::ToggleMotions_Update_47C800, field_1CC_fn_update, kUpdateTable);
             field_1DC_idle_input_counter = 0;
         }
     }
@@ -2203,7 +2206,7 @@ void Menu::ToggleMotions_Update_47C800()
             }
 
             // Go to game speak toggle
-            field_1CC_fn_update = &Menu::Update_47C8F0;
+            SetBrain(&Menu::Update_47C8F0, field_1CC_fn_update, kUpdateTable);
             field_1E0_selected_index = 1;
             PSX_Prevent_Rendering_44FFB0();
             SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
