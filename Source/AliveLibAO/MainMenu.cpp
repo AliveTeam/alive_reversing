@@ -12,6 +12,7 @@
 #include "LCDScreen.hpp"
 #include "Abe.hpp"
 #include "Math.hpp"
+#include "CameraSwapper.hpp"
 
 START_NS_AO
 
@@ -33,6 +34,9 @@ const Menu_Button sMainScreenButtons_4D00B0[5] =
     { 335, 215, 6152 },
     { 335, 240, 6152 }
 };
+
+const Menu_Button stru_4D0148[3] ={ { 33, 66, 6152 }, { 33, 87, 6152 }, { 288, 238, 6152 } };
+
 
 ALIVE_VAR(1, 0x507694, short, gDemoPlay_507694, 0);
 ALIVE_VAR(1, 0x50769C, BYTE, sJoyResId_50769C, 0);
@@ -489,7 +493,7 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, int tlvInfo)
         field_224_bToFmvSelect = 1;
         field_21C = 0;
         field_1CC_fn_update = &Menu::FMV_Select_Update_47E8D0;
-        field_1D0_fn_render = &Menu::FMV_Select_Render_47EEA0;
+        field_1D0_fn_render = &Menu::FMV_Or_Level_Select_Render_47EEA0;
         field_1E0_selected_index = 0;
         field_218 = 0;
         field_220 = 0;
@@ -692,7 +696,7 @@ void Menu::Empty_Render_47AC80(int**)
     NOT_IMPLEMENTED();
 }
 
-void Menu::FMV_Select_Render_47EEA0(int**)
+void Menu::FMV_Or_Level_Select_Render_47EEA0(int**)
 {
     NOT_IMPLEMENTED();
 }
@@ -1050,10 +1054,119 @@ void Menu::WaitForSpeakFinishAndStartChangeEffect_47BB90()
 
 void Menu::ToNextMenuPage_47BD80()
 {
-    NOT_IMPLEMENTED();
+    if (sNumCamSwappers_507668 <= 0)
+    {
+        if (field_224_bToFmvSelect || field_226_bToLevelSelect)
+        {
+            field_204_flags &= ~2u;
+            field_21C = 0;
+            field_1CC_fn_update = &Menu::To_FMV_Or_Level_Select_Update_47EC30;
+            field_1D0_fn_render = &Menu::FMV_Or_Level_Select_Render_47EEA0;
+            field_1E0_selected_index = 0;
+            field_218 = 0;
+            field_220 = 0;
+        }
+        else
+        {
+            switch (field_1E0_selected_index)
+            {
+            // Gamespeak
+            case 0:
+            {
+                FrameInfoHeader* pFrameInfoHeader = field_134_anim.Get_FrameHeader_403A00(0);
+                auto pHeader = reinterpret_cast<FrameHeader*>(&(*field_134_anim.field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
+                field_134_anim.LoadPal_403090(field_134_anim.field_20_ppBlock, pHeader->field_0_clut_offset);
+                field_1CC_fn_update = &Menu::ToGameSpeak_Update_47D620;
+                field_1D0_fn_render = &Menu::GameSpeak_Render_47D700;
+                field_1E0_selected_index = 0;
+                break;
+            }
+
+            // ??
+            case 1:
+                field_1CC_fn_update = &Menu::Update_47E3C0;
+                field_1D0_fn_render = &Menu::Render_47E5B0;
+                field_1E0_selected_index = 0;
+                break;
+
+            // Load
+            case 3:
+                field_204_flags &= ~2u;
+                field_1CC_fn_update = &Menu::To_Load_Update_47D8E0;
+                field_1D0_fn_render = &Menu::Load_Render_47DDA0;
+                field_1E0_selected_index = 0;
+                break;
+
+             // Options
+            case 4:
+                field_1CC_fn_update = &Menu::To_Options_Update_47C250;
+                field_1D0_fn_render = &Menu::Options_Render_47C190;
+                field_134_anim.Set_Animation_Data_402A40(stru_4D0148[0].field_4_frame_table, nullptr);
+                field_1E0_selected_index = 0;
+                break;
+
+            default:
+                LOG_ERROR("Unknown menu item " << field_1E0_selected_index);
+                break;
+            }
+        }
+        field_1E8_pMenuTrans->StartTrans_436560(40, 0, 0, 16);
+    }
 }
 
 void Menu::ToLoading_47B7E0()
+{
+    NOT_IMPLEMENTED();
+}
+
+
+void Menu::ToGameSpeak_Update_47D620()
+{
+    NOT_IMPLEMENTED();
+}
+
+
+void Menu::GameSpeak_Render_47D700(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void Menu::To_FMV_Or_Level_Select_Update_47EC30()
+{
+    NOT_IMPLEMENTED();
+}
+
+
+void Menu::Update_47E3C0()
+{
+    NOT_IMPLEMENTED();
+}
+
+
+void Menu::Render_47E5B0(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+
+void Menu::To_Load_Update_47D8E0()
+{
+    NOT_IMPLEMENTED();
+}
+
+
+void Menu::Load_Render_47DDA0(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void Menu::To_Options_Update_47C250()
+{
+    NOT_IMPLEMENTED();
+}
+
+
+void Menu::Options_Render_47C190(int** /*ppOt*/)
 {
     NOT_IMPLEMENTED();
 }
