@@ -86,7 +86,6 @@ protected:
 
     EXPORT __int16 SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, LevelIds lvl, int palId);
 
-    EXPORT PSX_RECT* VGetBoundingRect_418120(PSX_RECT* pRect, int pointIdx);
 private:
 
     EXPORT BaseAnimatedWithPhysicsGameObject* Vdtor_4189C0(signed int flags);
@@ -103,6 +102,7 @@ private:
 
     EXPORT void VOnCollisionWith_418080(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, int startingPointIdx, TCollisionCallBack pFn);
 
+    EXPORT PSX_RECT* VGetBoundingRect_418120(PSX_RECT* pRect, int pointIdx);
 
     EXPORT void VStackOnObjectsOfType_418930(Types typeToFind);
 

@@ -86,7 +86,7 @@ EXPORT void CC Start_Sounds_for_TLV_476640(CameraPos direction, Path_TLV* pTlv)
         switch (pTlv->field_4_type)
         {
         case TlvTypes::Slig_24:
-            if (static_cast<Path_Slig*>(pTlv)->field_1A_start_state == 1)
+            if (static_cast<Path_Slig*>(pTlv)->field_1A_start_state == Path_Slig::StartState::Paused_1)
             {
                 if (!pAmbianceTbl[1].field_8_pScopedSeq)
                 {
@@ -98,7 +98,7 @@ EXPORT void CC Start_Sounds_for_TLV_476640(CameraPos direction, Path_TLV* pTlv)
                     bDangerMusic = true;
                 }
             }
-            else if (static_cast<Path_Slig*>(pTlv)->field_1A_start_state == 2)
+            else if (static_cast<Path_Slig*>(pTlv)->field_1A_start_state == Path_Slig::StartState::Sleeping_2)
             {
                 if (!pAmbianceTbl->field_8_pScopedSeq)
                 {

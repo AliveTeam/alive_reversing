@@ -23,8 +23,17 @@ enum SligFlags_DisabledRes
 
 struct Path_Slig : public Path_TLV
 {
+    enum class StartState : __int16
+    {
+        Listening_0 = 0,
+        Paused_1 = 1,
+        Sleeping_2 = 2,
+        Chase_3 = 3,
+        GameEnder_4 = 4,
+        Paused_5 = 5,
+    };
     __int16 field_18_scale;
-    __int16 field_1A_start_state;
+    StartState field_1A_start_state;
     __int16 field_1C_pause_time;
     __int16 field_1E_pause_left_min;
     __int16 field_20_pause_left_max;

@@ -550,13 +550,13 @@ void Slig::Init_46B890()
     field_114_timer = gnFrameCount_507670 + field_174_tlv.field_1C_pause_time;
     switch (field_174_tlv.field_1A_start_state)
     {
-        case 1:
+        case Path_Slig::StartState::Paused_1:
         {
             field_1F8_fn = &Slig::Brain_Inactive_46B780;
             field_1FC_fn2 = &Slig::Brain_Inactive_46B780;
             break;
         }
-        case 2:
+        case Path_Slig::StartState::Sleeping_2:
         {
             if (field_174_tlv.field_1_unknown && field_174_tlv.field_4E_stay_awake)
             {
@@ -572,21 +572,21 @@ void Slig::Init_46B890()
             }
             break;
         }
-        case 3:
+        case Path_Slig::StartState::Chase_3:
         {
             field_1F8_fn = &Slig::Brain_StartChasing_46CF90;
             field_1FC_fn2 = &Slig::Brain_StartChasing_46CF90;
             field_114_timer = gnFrameCount_507670 + field_174_tlv.field_3E_time_to_wait_before_chase;
             break;
         }
-        case 4:
+        case Path_Slig::StartState::GameEnder_4:
         {
             field_1F8_fn = &Slig::Brain_GameEnder_46EEE0;
             field_1FC_fn2 = &Slig::Brain_GameEnder_46EEE0;
             field_130 = static_cast<short>(field_114_timer);
             break;
         }
-        case 5:
+        case Path_Slig::StartState::Paused_5:
         {
             field_1F8_fn = &Slig::Brain_Paused_466030;
             field_1FC_fn2 = &Slig::Brain_Paused_466030;
@@ -1437,7 +1437,7 @@ __int16 Slig::FindBeatTarget_46D0E0(int /*typeToFind*/, int gridBlocks)
         if (pTargetObj != this && pTargetObj->field_4_typeId == Types::eMudokon_75)
         {
             PSX_RECT bRect = {};
-            pTargetObj->VGetBoundingRect_418120(
+            pTargetObj->VGetBoundingRect(
                 &bRect,
                 1
             );
