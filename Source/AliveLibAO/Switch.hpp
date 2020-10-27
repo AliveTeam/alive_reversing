@@ -40,7 +40,7 @@ public:
     EXPORT void VUpdate_4812D0();
 
     // New virtual
-    virtual int VPull_481640(__int16 a2);
+    virtual int VPull(__int16 a2);
 
     EXPORT int vPull_481640(__int16 a2);
 

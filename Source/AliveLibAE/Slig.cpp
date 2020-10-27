@@ -6422,13 +6422,14 @@ __int16 Slig::HandleEnemyStopper_4BBA00(int gridBlocks)
         directedGirdBlocks = -gridBlocks;
     }
 
-    const FP width = (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(directedGirdBlocks)) + field_B8_xpos;
+    const FP width = ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(directedGirdBlocks) + field_B8_xpos;
     auto pTlv = static_cast<Path_EnemyStopper*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
         FP_GetExponent(field_B8_xpos),
         FP_GetExponent(field_BC_ypos),
         FP_GetExponent(width),
         FP_GetExponent(field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale)),
-        TlvTypes::EnemyStopper_47));
+        TlvTypes::EnemyStopper_47
+    ));
 
     if (!pTlv)
     {
@@ -6439,7 +6440,6 @@ __int16 Slig::HandleEnemyStopper_4BBA00(int gridBlocks)
     {
         return 0;
     }
-
 
     if (pTlv->field_10_stop_direction == Path_EnemyStopper::StopDirection::Both_2)
     {

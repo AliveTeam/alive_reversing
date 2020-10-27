@@ -3165,7 +3165,7 @@ __int16 Abe::HandleDoAction_429A70()
                 // Pull it
                 if (pSwitch)
                 {
-                    pSwitch->VPull_481640(field_A8_xpos < pSwitch->field_A8_xpos);
+                    pSwitch->VPull(field_A8_xpos < pSwitch->field_A8_xpos);
                     return eAbeStates::State_101_LeverUse_429970;
                 }
             }
@@ -3186,7 +3186,7 @@ __int16 Abe::HandleDoAction_429A70()
                 // Pull it
                 if (pSwitch)
                 {
-                    pSwitch->VPull_481640(field_A8_xpos < pSwitch->field_A8_xpos);
+                    pSwitch->VPull(field_A8_xpos < pSwitch->field_A8_xpos);
                     return eAbeStates::State_101_LeverUse_429970;
                 }
             }
@@ -7785,6 +7785,11 @@ void Abe::State_77_WellBegin_430F10()
             case eAbeStates::State_83_430F00:
             {
                 field_FC_current_motion = eAbeStates::State_84_431080;
+                break;
+            }
+            case eAbeStates::State_74_JumpIntoWell_430EC0:
+            {
+                field_FC_current_motion = eAbeStates::State_75_ToInsideOfAWellLocal_431090;
                 break;
             }
             default:
