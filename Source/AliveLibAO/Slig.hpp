@@ -247,6 +247,8 @@ public:
 
     EXPORT signed __int16 HandlePlayerControlled_4667B0();
 
+    void OperateLift();
+
     EXPORT signed __int16 MainMovement_467020();
 
     EXPORT void Slig_SoundEffect_46F310(SligSfx sfxIdx);

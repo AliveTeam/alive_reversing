@@ -2084,6 +2084,32 @@ void Slig::MoveOnLine_467490()
     }
 }
 
+void Slig::OperateLift()
+{
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        field_FC_current_motion = eSligStates::State_5_TurnAroundStanding_469C80;
+        field_FE_next_state = eSligStates::State_49_LiftGrip_4663A0;
+
+        auto camPos = gMap_507BA8.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos);
+        if ((camPos != CameraPos::eCamCurrent_0 && camPos != CameraPos::eCamInvalid_m1)
+            && MusicController::sub_443840(0, 0, 0) <= 4)
+        {
+            MusicController::sub_443810(MusicController::MusicTypes::eType4, this, 0, 0);
+        }
+        Slig::Slig_SoundEffect_46F310(SligSfx::eUnknown_1);
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_10_anim.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+            ToStand();
+        }
+    }
+    else
+    {
+        field_FC_current_motion = eSligStates::State_49_LiftGrip_4663A0;
+    }
+}
+
 signed __int16 Slig::HandlePlayerControlled_4667B0()
 {
     FP kScaleGrid = ScaleToGridSize_41FA30(field_BC_sprite_scale);
@@ -2246,85 +2272,65 @@ signed __int16 Slig::HandlePlayerControlled_4667B0()
             return 1;
         }
     }
-    //f110_pitch_min = 3 * sCurrentControllerIndex_5076B8;
+
     if (pressed & sInputKey_Down_4C659C)
     {
-        if (field_F8_pLiftPoint == nullptr ||
-            (field_F8_pLiftPoint && field_F8_pLiftPoint->field_4_typeId != Types::eLiftPoint_51))
+        if (field_F8_pLiftPoint)
         {
-            goto LABEL_78;
+            if (field_F8_pLiftPoint && field_F8_pLiftPoint->field_4_typeId == Types::eLiftPoint_51)
+            {
+                if (FP_Abs(field_A8_xpos - FP_FromInteger((field_F4_pLine->field_0_rect.x + field_F4_pLine->field_0_rect.w) / 2)) < kScaleGrid / FP_FromInteger(2))
+                {
+                    OperateLift();
+                    return 1;
+                }
+            }
         }
-        FP v46 = FP_Abs(field_A8_xpos - FP_FromInteger((field_F4_pLine->field_0_rect.x + field_F4_pLine->field_0_rect.w) / 2));
-        if (v46 >= kScaleGrid / FP_FromInteger(2))
+        else
         {
-LABEL_78:
             if (sInputObject_5009E8.isHeld(sInputKey_Down_4C659C))
             {
                 Slig::Slig_GameSpeak_SFX_46F560(SligSpeak::eWhat_9, 0, field_110_pitch_min, this);
                 field_FC_current_motion = eSligStates::State_30_SpeakWhat_468290;
                 return 1;
             }
-            goto LABEL_74;
+            ToStand();
+            return 0;
         }
-        goto LABEL_59;
     }
-    if (!(pressed & sInputKey_Up_4C6598))
+    if (pressed & sInputKey_Up_4C6598)
     {
-        if (!sInputObject_5009E8.isHeld(sInputKey_Hop_4C65A0 | sInputKey_FartRoll_4C65B0) || sInputObject_5009E8.isPressed(sInputKey_LeftGameSpeakEnabler_4C65B8 | sInputKey_RightGameSpeakEnabler_4C65DC))
-            goto LABEL_74;
+        if (field_F8_pLiftPoint)
+        {
+            if (field_F8_pLiftPoint->field_10C == 1)
+            {
+                if (FP_Abs(field_A8_xpos - FP_FromInteger((field_F4_pLine->field_0_rect.x + field_F4_pLine->field_0_rect.w) / 2)) < kScaleGrid / FP_FromInteger(2))
+                {
+                    OperateLift();
+                    return 1;
+                }
+            }
+        }
+        else
+        {
+            if (sInputObject_5009E8.isHeld(sInputKey_Up_4C6598))
+            {
+                Slig::Slig_GameSpeak_SFX_46F560(SligSpeak::eWhat_9, 0, field_110_pitch_min, this);
+                field_FC_current_motion = eSligStates::State_30_SpeakWhat_468290;
+                return 1;
+            }
+            ToStand();
+            return 0;
+        }
+    }
+
+    if (sInputObject_5009E8.isHeld(sInputKey_Hop_4C65A0 | sInputKey_FartRoll_4C65B0) && !(sInputObject_5009E8.isPressed(sInputKey_LeftGameSpeakEnabler_4C65B8 | sInputKey_RightGameSpeakEnabler_4C65DC)))
+    {
         Slig::Slig_GameSpeak_SFX_46F560(SligSpeak::eBlurgh_11, 0, field_110_pitch_min, this);
         field_FC_current_motion = eSligStates::State_32_Blurgh_468410;
         return 1;
     }
-    if (field_F8_pLiftPoint)
-    {
-        if (field_F8_pLiftPoint->field_10C == 1)
-        {
-            FP kHalfScaleGrid = kScaleGrid / FP_FromInteger(2);
-            FP v53 = FP_Abs(field_A8_xpos - FP_FromInteger((field_F4_pLine->field_0_rect.x + field_F4_pLine->field_0_rect.w) / 2 ));
-            if (v53 < kHalfScaleGrid)
-            {
-LABEL_59:
-                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-                {
-                    field_FC_current_motion = eSligStates::State_5_TurnAroundStanding_469C80;
-                    field_FE_next_state = eSligStates::State_49_LiftGrip_4663A0;
-
-                    auto camPos = gMap_507BA8.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos);
-                    if ((camPos != CameraPos::eCamCurrent_0 && camPos != CameraPos::eCamInvalid_m1)
-                        && MusicController::sub_443840(0, 0, 0) <= 4)
-                    {
-                        MusicController::sub_443810(MusicController::MusicTypes::eType4, this, 0, 0);
-                    }
-                    Slig::Slig_SoundEffect_46F310(SligSfx::eUnknown_1);
-                    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
-                    {
-                        field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
-                        ToStand();
-                    }
-                }
-                else
-                {
-                    field_FC_current_motion = eSligStates::State_49_LiftGrip_4663A0;
-                }
-                return 1;
-            }
-        }
-    }
-    if (sInputObject_5009E8.isHeld(sInputKey_Up_4C6598))
-    {
-        Slig::Slig_GameSpeak_SFX_46F560(SligSpeak::eWhat_9, 0, field_110_pitch_min, this);
-        field_FC_current_motion = eSligStates::State_30_SpeakWhat_468290;
-        return 1;
-    }
-LABEL_74:
-    field_12C_falling_velx_scale_factor = FP_FromInteger(0);
-    field_B4_velx = FP_FromInteger(0);
-    field_B8_vely = FP_FromInteger(0);
-    field_FC_current_motion = 0;
-    field_126_input = 0;
-    field_128_timer = Math_RandomRange_450F20(0, 60) + gnFrameCount_507670 + 120;
-    BaseAliveGameObject::MapFollowMe_401D30(1);
+    ToStand();
     return 0;
 }
 
