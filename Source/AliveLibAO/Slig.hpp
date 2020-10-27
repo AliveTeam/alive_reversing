@@ -6,10 +6,34 @@
 
 START_NS_AO
 
+enum SligFlags_DisabledRes
+{
+    eDisabledRes_Bit1 = 0x1,
+    eDisabledRes_Bit2 = 0x2,
+    eDisabledRes_Bit3 = 0x4,
+    eDisabledRes_Bit4 = 0x8,
+    eDisabledRes_Bit5 = 0x10,
+    eDisabledRes_Bit6 = 0x20,
+    eDisabledRes_Bit7 = 0x40,
+    eDisabledRes_Bit8 = 0x80,
+    eDisabledRes_Bit9 = 0x100,
+    eDisabledRes_Bit10 = 0x200,
+    eDisabledRes_Bit11 = 0x400
+};
+
 struct Path_Slig : public Path_TLV
 {
+    enum class StartState : __int16
+    {
+        Listening_0 = 0,
+        Paused_1 = 1,
+        Sleeping_2 = 2,
+        Chase_3 = 3,
+        GameEnder_4 = 4,
+        Paused_5 = 5,
+    };
     __int16 field_18_scale;
-    __int16 field_1A_start_state;
+    StartState field_1A_start_state;
     __int16 field_1C_pause_time;
     __int16 field_1E_pause_left_min;
     __int16 field_20_pause_left_max;
@@ -36,7 +60,7 @@ struct Path_Slig : public Path_TLV
     __int16 field_4A_dont_shoot;
     __int16 field_4C_z_shoot_delay;
     __int16 field_4E_stay_awake;
-    __int16 field_50_disable_resources;
+    BitField16<SligFlags_DisabledRes> field_50_disable_resources;
     __int16 field_52_noise_wake_up_distance;
     __int16 field_54_id;
     __int16 field_56_pad;
@@ -145,6 +169,18 @@ enum class SligSfx : __int8
     eUnknown_15 = 15,
     eUnknown_16 = 16
 };
+
+// This is a left bound, right bound and a persist.
+struct Path_Slig_Bound : public Path_TLV
+{
+    __int16 field_18_slig_id;
+    __int16 field_1A_disabled_resources;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slig_Bound, 0x1C);
+
+using Path_Slig_LeftBound = Path_Slig_Bound;
+using Path_Slig_RightBound = Path_Slig_Bound;
+using Path_Slig_Persist = Path_Slig_Bound;
 
 class Slig : public BaseAliveGameObject
 {
@@ -368,6 +404,7 @@ public:
     using TBrainFn = decltype(&Slig::Brain_ZShooting_46F290);
 
     void SetBrain(TBrainFn fn);
+    void SetBrain2(TBrainFn fn);
 
     bool BrainIs(TBrainFn fn);
 
@@ -413,7 +450,7 @@ public:
     __int16 field_1F4_points_count;
     __int16 field_1F6;
     TBrainFn field_1F8_fn;
-    int field_1FC;
+    TBrainFn field_1FC_fn2;
     __int16 field_200_num_times_to_shoot;
     __int16 field_202; // pad ?
     int field_204;

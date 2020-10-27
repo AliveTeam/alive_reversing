@@ -62,6 +62,7 @@ enum TlvTypes : __int16
     BirdPortalExit_53 = 53,
     BellSongStone_54 = 54,
     
+    eSligBoundLeft_57 = 57,
     InvisibleZone_58 = 58,
 
     Slig_66 = 66,
@@ -70,7 +71,8 @@ enum TlvTypes : __int16
     
     ScrabLeftBound_74 = 74,
     ScrabRightBound_75 = 75,
-
+    eSligBoundRight_76 = 76,
+    eSligPersist_77 = 77,
     EnemyStopper_79 = 79,
 
     Mud_82 = 82,

@@ -6605,7 +6605,7 @@ void Slig::PlayerControlRunningSlideStopOrTurnFrame4_4B85D0()
     }
 }
 
-BaseAliveGameObject* Slig::FindBeatTarget_4BD070(int /*a2*/, int gridBlocks)
+BaseAliveGameObject* Slig::FindBeatTarget_4BD070(int /*typeToFind*/, int gridBlocks)
 {
     const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
     const FP k2Scaled = FP_FromInteger(2) * kGridSize;
