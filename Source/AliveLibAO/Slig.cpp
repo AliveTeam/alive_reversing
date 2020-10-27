@@ -1763,9 +1763,21 @@ __int16 CCSTD Slig::IsWallBetween_46BE60(Slig* pLeft, BaseAliveGameObject* pRigh
         pLeft->field_BC_sprite_scale != FP_FromDouble(0.5) ? 6 : 0x60) == 1;
 }
 
-void CC Slig::Slig_GameSpeak_SFX_46F560(SligSpeak /*effectId*/, int /*defaultVol*/, int /*pitch_min*/, BaseAliveGameObject* /*pObj*/)
+void CC Slig::Slig_GameSpeak_SFX_46F560(SligSpeak effectId, int defaultVol, int pitch_min, BaseAliveGameObject* pObj)
 {
-    NOT_IMPLEMENTED();
+    int volume = defaultVol;
+    if (defaultVol == 0)
+    {
+        volume = sSligSounds_4CFB30[static_cast<int>(effectId) + 6].field_C_default_volume;
+    }
+    if (pObj)
+    {
+        if (pObj->field_BC_sprite_scale == FP_FromDouble(0.5))
+        {
+            volume = FP_GetExponent(FP_FromInteger(volume * 2) / FP_FromInteger(3));
+        }
+    }
+    SFX_SfxDefinition_Play_4770F0(&sSligSounds_4CFB30[static_cast<int>(effectId) + 6], volume, pitch_min, pitch_min);
 }
 
 __int16 CCSTD Slig::IsInInvisibleZone_418870(BaseAnimatedWithPhysicsGameObject* pObj)
