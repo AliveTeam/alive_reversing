@@ -318,7 +318,7 @@ signed __int16 Collisions::RayCast_40C410(FP X1_16_16, FP Y1_16_16, FP X2_16_16,
         *ppLine = pNearestMatch;
 
 #if DEVELOPER_MODE
-        DebugAddRaycast({ X1_16_16,Y1_16_16,X2_16_16,Y2_16_16,*hitX,*hitY, *ppLine, modeMask });
+        //DebugAddRaycast({ X1_16_16,Y1_16_16,X2_16_16,Y2_16_16,*hitX,*hitY, *ppLine, modeMask });
 #endif
 
         return TRUE;
@@ -328,7 +328,7 @@ signed __int16 Collisions::RayCast_40C410(FP X1_16_16, FP Y1_16_16, FP X2_16_16,
 
 
 #if DEVELOPER_MODE
-    DebugAddRaycast({ X1_16_16,Y1_16_16,X2_16_16,Y2_16_16,*hitX,*hitY, *ppLine, modeMask });
+    //DebugAddRaycast({ X1_16_16,Y1_16_16,X2_16_16,Y2_16_16,*hitX,*hitY, *ppLine, modeMask });
 #endif
 
     return FALSE;

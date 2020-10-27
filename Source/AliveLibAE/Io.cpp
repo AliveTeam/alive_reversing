@@ -565,7 +565,7 @@ static bool WildCardMatcher(const std::string& text, std::string wildcardPattern
 }
 #endif
 
-void IO_EnumerateDirectory(const char* fileName, TEnumCallBack cb)
+EXPORT void IO_EnumerateDirectory(const char* fileName, TEnumCallBack cb)
 {
 #if _WIN32
     _finddata_t findRec = {};
