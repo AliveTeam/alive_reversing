@@ -131,9 +131,71 @@ struct Menu_Element
     int field_4_ypos;
     int field_8_input_command;
 };
+
 const Menu_Element stru_4D03F0[] = { 146, 205, 64 };
 const Menu_Element stru_4D0400[2] = { { 145, 204, 64 }, { 286, 202, 2048 } };
-const Menu_Element v004D0418[2] = { { 144, 205, 64 }, { 288, 203, 2048 } };
+const Menu_Element stru_4D0418[11] =
+{
+    { 144, 205, 64 },
+    { 288, 203, 2048 },
+    { 112, 87, 64 },
+    { 283, 87, 9 },
+    { 89, 118, 9 },
+    { 124, 118, 16 },
+    { 293, 119, 6 },
+    { 264, 151, 32 },
+    { 273, 183, 128 },
+    { 115, 216, 64 }, // 2nd
+    { 307, 203, 2048 }, // 1st
+};
+
+const Menu_Element stru_4D04A0[43] =
+{
+    { 115, 216, 64 },
+    { 307, 203, 2048 },
+    { 90, 53, 6 },
+    { 125, 53, 9 },
+    { 81, 80, 6 },
+    { 125, 80, 16 },
+    { 79, 112, 6 },
+    { 122, 112, 32 },
+    { 78, 147, 6 },
+    { 119, 147, 64 },
+    { 82, 180, 6 },
+    { 120, 180, 128 },
+    { 258, 62, 9 },
+    { 295, 62, 16 },
+    { 253, 98, 9 },
+    { 294, 98, 32 },
+    { 267, 139, 9 },
+    { 307, 139, 64 },
+    { 259, 178, 9 },
+    { 296, 178, 128 }, // 1st
+    { 308, 205, 2048 },
+    { 96, 32, 6 },
+    { 305, 32, 9 },
+    { 157, 29, 6 },
+    { 205, 29, 9 },
+    { 38, 81, 16 },
+    { 42, 118, 32 },
+    { 49, 151, 64 },
+    { 65, 190, 128 },
+    { 322, 82, 16 },
+    { 307, 117, 32 },
+    { 301, 146, 64 },
+    { 278, 184, 128 },
+    { 0, 62, 204 },
+    { 64, 293, 205 },
+    { 2048, 144, 205 },
+    { 64, 287, 207 },
+    { 2048, 33, 29 },
+    { 64, 304, 165 },
+    { 2048, 43, 200 },
+    { 64, 289, 200 },
+    { 2048, 40, 34 },
+    { 64, 301, 163 }
+};
+
 
 const AIFunctionData<Menu::TUpdateFn> kUpdateTable[] =
 {
@@ -1841,9 +1903,9 @@ void Menu::Options_Sound_Render_47C630(int** ppOt)
         pScreenManager_4FF7C8->field_2E_idx);
 
     int polyOffset = 0;
-    for (const auto& element : v004D0418)
+    for (int i = 0; i < 2; i++)
     {
-        RenderElement_47A4E0(element.field_0_xpos, element.field_4_ypos, element.field_8_input_command, ppOt, &field_FC_font, &polyOffset);
+        RenderElement_47A4E0(stru_4D0418[i].field_0_xpos, stru_4D0418[i].field_4_ypos, stru_4D0418[i].field_8_input_command, ppOt, &field_FC_font, &polyOffset);
     }
 }
 
@@ -2776,9 +2838,50 @@ int CC Menu::StringsEqual_47DA20(const void* pStr1, const void* pStr2)
     return _strcmpi(static_cast<const char*>(pStr1), static_cast<const char*>(pStr2));
 }
 
-void Menu::ToggleMotions_Render_47CAB0(int** /*ppOt*/)
+void Menu::ToggleMotions_Render_47CAB0(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    field_134_anim.VRender_403AE0(
+        stru_4D01D8[field_1E0_selected_index].field_0_xpos,
+        stru_4D01D8[field_1E0_selected_index].field_2_ypos,
+        ppOt,
+        0,
+        0);
+
+    if (BrainIs(&Menu::ToggleMotions_Update_47C800, field_1CC_fn_update, kUpdateTable))
+    {
+        int polyOffset = 0;
+        for (int i = 2; i <= 10; i++)
+        {
+            RenderElement_47A4E0(stru_4D0418[i].field_0_xpos, stru_4D0418[i].field_4_ypos, stru_4D0418[i].field_8_input_command, ppOt, &field_FC_font, &polyOffset);
+        }
+    }
+    else if (BrainIs(&Menu::Toggle_Motions_Screens_Update_47C8F0, field_1CC_fn_update, kUpdateTable))
+    {
+        int polyOffset = 0;
+        if (sJoystickEnabled_508A60)
+        {
+            for (int i = 0; i < 19; i++)
+            {
+                RenderElement_47A4E0(stru_4D04A0[i].field_0_xpos, stru_4D04A0[i].field_4_ypos, stru_4D04A0[i].field_8_input_command, ppOt, &field_FC_font, &polyOffset);
+            }
+        }
+        else
+        {
+            for (int i = 9; i < 11; i++)
+            {
+                RenderElement_47A4E0(stru_4D0418[i].field_0_xpos, stru_4D0418[i].field_4_ypos, stru_4D0418[i].field_8_input_command, ppOt, &field_FC_font, &polyOffset);
+            }
+        }
+    }
+
+    PSX_RECT rect = {};
+    field_134_anim.Get_Frame_Rect_402B50(&rect);
+    pScreenManager_4FF7C8->InvalidateRect_406E40(
+        rect.x,
+        rect.y,
+        rect.w,
+        rect.h,
+        pScreenManager_4FF7C8->field_2E_idx);
 }
 
 void Menu::ToggleMotions_Update_47C800()
