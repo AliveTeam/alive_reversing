@@ -4334,7 +4334,7 @@ ScopedSeq* CC Start_Slig_sounds_476960(CameraPos a1, unsigned __int8 a2)
 
 __int16 Slig::Brain_Sleeping_46B4E0()
 {
-    const auto pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(0));
+    const auto pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEventNoise_0));
     if (pEvent)
     {
         if (pEvent->field_BC_sprite_scale == field_BC_sprite_scale)
