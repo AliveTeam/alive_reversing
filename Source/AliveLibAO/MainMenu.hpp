@@ -194,6 +194,8 @@ public:
 
     EXPORT static void CC OnResourceLoaded_47ADA0(Menu* pMenu);
 
+    EXPORT static void CC RenderElement_47A4E0(int xpos, int ypos, int input_command, int** ot, AliveFont* pFont, int* pPolyOffset);
+
     int field_D4[4];
     BYTE** field_E4_res_array[6];
     AliveFont field_FC_font;

@@ -125,6 +125,15 @@ const Menu_Button stru_4D00E0[13] =
     { 305, 32, 6152 }
 };
 
+struct Menu_Element
+{
+    int field_0_xpos;
+    int field_4_ypos;
+    int field_8_input_command;
+};
+
+const Menu_Element stru_4D03F0[] = { 146, 205, 64 };
+
 
 
 const AIFunctionData<Menu::TUpdateFn> kUpdateTable[] =
@@ -918,7 +927,7 @@ void Menu::FMV_Select_Update_47E8D0()
 
 void Menu::Empty_Render_47AC80(int**)
 {
-    NOT_IMPLEMENTED();
+    // Draw nothing
 }
 
 void Menu::FMV_Or_Level_Select_Render_47EEA0(int**)
@@ -982,9 +991,29 @@ bool Menu::ProgressInProgressFilesLoading()
     return false;
 }
 
-EXPORT void Menu::MainScreen_Render_47BED0(int** /*ppOt*/)
+void Menu::MainScreen_Render_47BED0(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    field_134_anim.VRender_403AE0(
+        sMainScreenButtons_4D00B0[field_1E0_selected_index].field_0_xpos,
+        sMainScreenButtons_4D00B0[field_1E0_selected_index].field_2_ypos,
+        ppOt,
+        0,
+        0);
+
+    PSX_RECT rect = {};
+    field_134_anim.Get_Frame_Rect_402B50(&rect);
+    pScreenManager_4FF7C8->InvalidateRect_406E40(
+        rect.x,
+        rect.y,
+        rect.w,
+        rect.h,
+        pScreenManager_4FF7C8->field_2E_idx);
+
+    int polyOffset = 0;
+    for (const auto& element : stru_4D03F0)
+    {
+        RenderElement_47A4E0(element.field_0_xpos, element.field_4_ypos, element.field_8_input_command, ppOt, &field_FC_font, &polyOffset);
+    }
 }
  
 EXPORT void Menu::MainScreen_Update_47AF60()
@@ -2903,5 +2932,9 @@ void CC Menu::OnResourceLoaded_47ADA0(Menu* pMenu)
     pMenu->field_E4_res_array[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 130, 1, 0);
 }
 
-END_NS_AO
+void CC Menu::RenderElement_47A4E0(int /*xpos*/, int /*ypos*/, int /*input_command*/, int** /*ot*/, AliveFont* /*pFont*/, int* /*pPolyOffset*/)
+{
+    NOT_IMPLEMENTED();
+}
 
+END_NS_AO
