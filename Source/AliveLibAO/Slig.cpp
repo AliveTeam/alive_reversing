@@ -4285,49 +4285,41 @@ void Slig::WakeUp()
     }
 }
 
-ScopedSeq* Start_Slig_Sounds_Helper(Sound_Ambiance_Array array, CameraPos camPos, unsigned __int8 ambianceId)
+void Start_Slig_Sounds_Helper(Sound_Ambiance_Array array, CameraPos camPos, unsigned __int8 ambianceId)
 {
-    ScopedSeq* result = array.mArray[ambianceId].field_8_pScopedSeq;
-    if (!result)
+    if (!array.mArray[ambianceId].field_8_pScopedSeq)
     {
-        auto pScopedSeq = ao_new<ScopedSeq>();
-        if (pScopedSeq)
+        array.mArray[ambianceId].field_8_pScopedSeq = ao_new<ScopedSeq>();
+        if (array.mArray[ambianceId].field_8_pScopedSeq)
         {
-            result = pScopedSeq;
-            pScopedSeq->ctor_476400(ambianceId, camPos);
-            return pScopedSeq;
-        }
-        else
-        {
-            result = 0;
-            return nullptr;
+            array.mArray[ambianceId].field_8_pScopedSeq->ctor_476400(ambianceId, camPos);
         }
     }
-    return result;
 }
 
-ScopedSeq* CC Start_Slig_sounds_476960(CameraPos camPos, unsigned __int8 ambianceId)
+void CC Start_Slig_sounds_476960(CameraPos camPos, unsigned __int8 ambianceId)
 {
-    ScopedSeq* result = nullptr;
     switch (camPos)
     {
         case CameraPos::eCamTop_1:
         case CameraPos::eCamBottom_2:
         {
-            return Start_Slig_Sounds_Helper(sTopBottomAmbiance_9F11D0, camPos, ambianceId);
+            Start_Slig_Sounds_Helper(sTopBottomAmbiance_9F11D0, camPos, ambianceId);
+            break;
         }
         case CameraPos::eCamLeft_3:
         {
-            return Start_Slig_Sounds_Helper(sLeftAmbiance_9F1280, camPos, ambianceId);
+            Start_Slig_Sounds_Helper(sLeftAmbiance_9F1280, camPos, ambianceId);
+            break;
         }
         case CameraPos::eCamRight_4:
         {
-            return Start_Slig_Sounds_Helper(sRightAmbiance_9F1228, camPos, ambianceId);
+            Start_Slig_Sounds_Helper(sRightAmbiance_9F1228, camPos, ambianceId);
+            break;
         }
         default:
             break;
     }
-    return result;
 }
 
 __int16 Slig::Brain_Sleeping_46B4E0()
