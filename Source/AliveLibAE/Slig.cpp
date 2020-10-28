@@ -5663,7 +5663,24 @@ __int16 Slig::HandlePlayerControlled_4B7800()
         return 1;
     }
 
-    if (!sInputObject_5BD4E0.isPressed(sInputKey_ThrowItem_5550F4))
+    if (sInputObject_5BD4E0.isPressed(sInputKey_ThrowItem_5550F4))
+    {
+        if (!sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC) ||
+            field_CC_sprite_scale != FP_FromDouble(0.5) ||
+            field_114_flags.Get(Flags_114::e114_Bit10))
+        {
+            field_106_current_motion = eSligMotions::M_Shoot_6_4B55A0;
+        }
+        else
+        {
+            field_106_current_motion = eSligMotions::M_ShootZ_42_4B7560;
+        }
+
+        field_108_next_motion = -1;
+        field_12C_timer = sGnFrame_5C1B84 + 60;
+        return 1;
+    }
+    else
     {
         if (sInputObject_5BD4E0.isPressed(sInputKey_FartRoll_5550F0))
         {
@@ -5734,21 +5751,6 @@ __int16 Slig::HandlePlayerControlled_4B7800()
         ToStand_4B4A20();
         return 0;
     }
-
-    if (!sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC)|| 
-        field_CC_sprite_scale != FP_FromDouble(0.5) || 
-        field_114_flags.Get(Flags_114::e114_Bit10))
-    {
-        field_106_current_motion = eSligMotions::M_Shoot_6_4B55A0;
-    }
-    else
-    {
-        field_106_current_motion = eSligMotions::M_ShootZ_42_4B7560;
-    }
-
-    field_108_next_motion = -1;
-    field_12C_timer = sGnFrame_5C1B84 + 60;
-    return 1;
 }
 
 __int16 Slig::GetNextMotionIncGameSpeak_4B5080(int input)
@@ -6422,13 +6424,14 @@ __int16 Slig::HandleEnemyStopper_4BBA00(int gridBlocks)
         directedGirdBlocks = -gridBlocks;
     }
 
-    const FP width = (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(directedGirdBlocks)) + field_B8_xpos;
+    const FP width = ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(directedGirdBlocks) + field_B8_xpos;
     auto pTlv = static_cast<Path_EnemyStopper*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
         FP_GetExponent(field_B8_xpos),
         FP_GetExponent(field_BC_ypos),
         FP_GetExponent(width),
         FP_GetExponent(field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale)),
-        TlvTypes::EnemyStopper_47));
+        TlvTypes::EnemyStopper_47
+    ));
 
     if (!pTlv)
     {
@@ -6439,7 +6442,6 @@ __int16 Slig::HandleEnemyStopper_4BBA00(int gridBlocks)
     {
         return 0;
     }
-
 
     if (pTlv->field_10_stop_direction == Path_EnemyStopper::StopDirection::Both_2)
     {

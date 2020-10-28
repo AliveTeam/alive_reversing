@@ -41,7 +41,7 @@ const Switch_Data gSwitchData_4BCF40[16] =
     { 16272, 66, 41, 16284, 16336, 16372, 16424 }
 };
 
-int Switch::VPull_481640(__int16 a2)
+int Switch::VPull(__int16 a2)
 {
     return vPull_481640(a2);
 }
