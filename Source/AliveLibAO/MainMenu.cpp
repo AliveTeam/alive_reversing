@@ -2295,7 +2295,7 @@ void Menu::Load_Update_47D760()
         field_1E0_selected_index = 1;
         field_134_anim.Set_Animation_Data_402A40(stru_4D01F0[1].field_4_frame_table, nullptr);
         field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
-        field_1CC_fn_update = &Menu::Update_47DA40;
+        field_1CC_fn_update = &Menu::Load_BackToMainScreen_Update_47DA40;
         field_202 = 0;
     }
 
@@ -2311,27 +2311,30 @@ void Menu::Load_Update_47D760()
             {
                 field_230_bGoBack = 1;
                 field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
-                field_1CC_fn_update = &Menu::Update_47DA40;
+                field_1CC_fn_update = &Menu::To_MainScreenOrLoad_Update_47DA90;
                 field_202 = 0;
                 return;
             }
         }
     }
-    else if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x4100) // TODO: Input constants
+    else 
     {
-        if (field_1E0_selected_index < (sSaveIdx_9F2DD8 - 1) && !field_228)
+        if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x4100) // TODO: Input constants
         {
-            field_1E0_selected_index++;
-
-            SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
-
-            if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x810) // TODO: Input constants
+            if (field_1E0_selected_index < (sSaveIdx_9F2DD8 - 1) && !field_228)
             {
-                field_230_bGoBack = 1;
-                field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
-                field_1CC_fn_update = &Menu::Update_47DA40;
-                field_202 = 0;
-                return;
+                field_1E0_selected_index++;
+
+                SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
+
+                if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x810) // TODO: Input constants
+                {
+                    field_230_bGoBack = 1;
+                    field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+                    field_1CC_fn_update = &Menu::To_MainScreenOrLoad_Update_47DA90;
+                    field_202 = 0;
+                    return;
+                }
             }
         }
     }
@@ -2343,14 +2346,14 @@ void Menu::Load_Update_47D760()
             field_230_bGoBack = 0;
             field_1FC = field_1E0_selected_index;
             field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
-            field_1CC_fn_update = &Menu::Update_47DA40;
+            field_1CC_fn_update = &Menu::To_MainScreenOrLoad_Update_47DA90;
             field_202 = 1;
         }
         else
         {
             field_230_bGoBack = 1;
             field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
-            field_1CC_fn_update = &Menu::Update_47DA40;
+            field_1CC_fn_update = &Menu::To_MainScreenOrLoad_Update_47DA90;
             field_202 = 0;
         }
     }
@@ -2473,9 +2476,45 @@ void Menu::Motions_ToOptions_Update_47CA50()
     }
 }
 
-void Menu::Update_47DA40()
+void Menu::To_MainScreenOrLoad_Update_47DA90()
 {
-    NOT_IMPLEMENTED();
+    if (sNumCamSwappers_507668 <= 0)
+    {
+        field_1E8_pMenuTrans->StartTrans_436560(40, 0, 0, 16);
+        if (field_202)
+        {
+            field_1CC_fn_update = &Menu::To_LoadSave_Update_47DB10;
+            field_1D0_fn_render = &Menu::Empty_Render_47AC80;
+        }
+        else
+        {
+            field_1E0_selected_index = 3;
+            field_134_anim.Set_Animation_Data_402A40(sMainScreenButtons_4D00B0[3].field_4_frame_table, nullptr);
+            field_204_flags |= 2u;
+            field_1CC_fn_update = &Menu::To_MainScreen_Update_47BB60;
+            field_1D0_fn_render = &Menu::MainScreen_Render_47BED0;
+        }
+    }
+}
+
+void Menu::Load_BackToMainScreen_Update_47DA40()
+{
+    if (field_1E8_pMenuTrans)
+    {
+        if (field_1E8_pMenuTrans->field_16_bDone)
+        {
+            if (field_202 == 0)
+            {
+                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            }
+            else
+            {
+                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 21, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            }
+            field_200 = 0;
+            field_1CC_fn_update = &Menu::To_MainScreenOrLoad_Update_47DA90;
+        }
+    }
 }
 
 void CC Menu::OnResourceLoaded_47ADA0(Menu* pMenu)

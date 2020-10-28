@@ -166,7 +166,9 @@ public:
 
     EXPORT void Motions_ToOptions_Update_47CA50();
 
-    EXPORT void Update_47DA40();
+    EXPORT void To_MainScreenOrLoad_Update_47DA90();
+
+    EXPORT void Load_BackToMainScreen_Update_47DA40();
 
     EXPORT void ToggleMotions_Render_47CAB0(int** ppOt);
     EXPORT void SaveLoadFailed_Render_47DCF0(int** ppOt);
