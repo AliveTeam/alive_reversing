@@ -155,6 +155,7 @@ public:
     EXPORT void CreditsEnd_BackTo_FMV_Or_Level_List_Update_47F170();
 
     EXPORT void Load_Update_47D760();
+    void CycleGameSpeakIdleAnims();
 
     EXPORT static int CC StringsEqual_47DA20(const void* pStr1, const void* pStr2);
 

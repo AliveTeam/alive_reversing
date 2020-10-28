@@ -1971,7 +1971,8 @@ void Menu::GameSpeak_Update_47CBD0()
                 }
             }
         }
-        goto LABEL_89;
+        CycleGameSpeakIdleAnims();
+        return;
     }
 
     if (Input_IsChanting_4334C0())
@@ -2019,7 +2020,8 @@ void Menu::GameSpeak_Update_47CBD0()
         {
             field_1F0_pObj2 = nullptr;
         }
-        goto LABEL_89;
+        CycleGameSpeakIdleAnims();
+        return;
     }
 
     if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & sInputKey_LeftGameSpeakEnabler_4C65B8)
@@ -2090,7 +2092,8 @@ void Menu::GameSpeak_Update_47CBD0()
                 pFade->ctor_42A5A0(stru_4D00E0[3].field_0_xpos, stru_4D00E0[3].field_2_ypos + 36, 0, 1);
             }
         }
-        goto LABEL_89;
+        CycleGameSpeakIdleAnims();
+        return;
     }
 
     if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & sInputKey_RightGameSpeakEnabler_4C65DC)
@@ -2160,7 +2163,8 @@ void Menu::GameSpeak_Update_47CBD0()
                 pFade->ctor_42A5A0(stru_4D00E0[7].field_0_xpos, stru_4D00E0[7].field_2_ypos + 36, 0, 1);
             }
         }
-        goto LABEL_89;
+        CycleGameSpeakIdleAnims();
+        return;
     }
 
     if (!(sInputObject_5009E8.field_0_pads[0].field_6_held & 0x800) && field_1DC_idle_input_counter <= 1600)
@@ -2170,7 +2174,8 @@ void Menu::GameSpeak_Update_47CBD0()
             field_1F0_pObj2->field_E8_bDestroyOnDone = 1;
             field_1F0_pObj2 = nullptr;
         }
-        goto LABEL_89;
+        CycleGameSpeakIdleAnims();
+        return;
     }
 
     Mudokon_SFX_42A4D0(MudSounds::eGoodbye_12, 0, 0, 0);
@@ -2197,10 +2202,13 @@ void Menu::GameSpeak_Update_47CBD0()
     {
         field_1F0_pObj2->field_E8_bDestroyOnDone = 1;
         field_1F0_pObj2 = nullptr;
-        goto LABEL_89;
     }
 
-LABEL_89:
+    CycleGameSpeakIdleAnims();
+}
+
+void Menu::CycleGameSpeakIdleAnims()
+{
     if (!(field_204_flags & 1))
     {
         if ((field_204_flags >> 2) & 1)
@@ -2209,20 +2217,22 @@ LABEL_89:
             {
                 field_10_anim.Set_Animation_Data_402A40(201508, field_E4_res_array[1]);
                 field_204_flags &= ~4u;
-                field_1D8_timer =  gnFrameCount_507670 + Math_RandomRange_450F20(120, 450);
+                field_1D8_timer = gnFrameCount_507670 + Math_RandomRange_450F20(120, 450);
             }
         }
-        else if (field_1D8_timer <= static_cast<int>(gnFrameCount_507670))
+        else
         {
-            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (field_1D8_timer <= static_cast<int>(gnFrameCount_507670))
             {
-                field_10_anim.Set_Animation_Data_402A40(201384, field_E4_res_array[1]);
-                field_204_flags |= 4u;
+                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+                {
+                    field_10_anim.Set_Animation_Data_402A40(201384, field_E4_res_array[1]);
+                    field_204_flags |= 4u;
+                }
             }
         }
     }
 }
-
 
 void Menu::FMV_Or_Level_Select_To_Back_Update_47EC70()
 {
