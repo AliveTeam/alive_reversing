@@ -131,10 +131,10 @@ struct Menu_Element
     int field_4_ypos;
     int field_8_input_command;
 };
-
 const Menu_Element stru_4D03F0[] = { 146, 205, 64 };
 
 
+const Menu_Element stru_4D0400[2] ={ { 145, 204, 64 }, { 286, 202, 2048 } };
 
 const AIFunctionData<Menu::TUpdateFn> kUpdateTable[] =
 {
@@ -1486,10 +1486,29 @@ void Menu::To_Options_Update_47C250()
     }
 }
 
-
-void Menu::Options_Render_47C190(int** /*ppOt*/)
+void Menu::Options_Render_47C190(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    field_134_anim.VRender_403AE0(
+        stru_4D0148[field_1E0_selected_index].field_0_xpos,
+        stru_4D0148[field_1E0_selected_index].field_2_ypos,
+        ppOt,
+        0,
+        0);
+
+    PSX_RECT rect = {};
+    field_134_anim.Get_Frame_Rect_402B50(&rect);
+    pScreenManager_4FF7C8->InvalidateRect_406E40(
+        rect.x,
+        rect.y,
+        rect.w,
+        rect.h,
+        pScreenManager_4FF7C8->field_2E_idx);
+
+    int polyOff = 0;
+    for (const auto& element : stru_4D0400)
+    {
+        RenderElement_47A4E0(element.field_0_xpos, element.field_4_ypos, element.field_8_input_command, ppOt, &field_FC_font, &polyOff);
+    }
 }
 
 void Menu::FMV_Or_Level_Select_Back_Update_47ECB0()
