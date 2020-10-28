@@ -104,6 +104,9 @@ const Menu_Button stru_4D01C0[3] = { { 33, 66, 6152 }, { 33, 87, 6152 }, { 289, 
 
 const Menu_Button stru_4D01D8[3] = { { 116, 251, 6152 }, { 116, 251, 6152 }, { 308, 240, 6152 } };
 
+const Menu_Button stru_4D01F0[2] = { { 62, 204, 6152 }, { 293, 204, 6152 } };
+
+
 
 const AIFunctionData<Menu::TUpdateFn> kUpdateTable[] =
 {
@@ -2275,7 +2278,82 @@ void Menu::CreditsEnd_BackTo_FMV_Or_Level_List_Update_47F170()
 
 void Menu::Load_Update_47D760()
 {
-    NOT_IMPLEMENTED();
+    if (sInputObject_5009E8.field_0_pads[0].field_0_pressed)
+    {
+        field_1DC_idle_input_counter = 0;
+    }
+    else
+    {
+        field_1DC_idle_input_counter++;
+    }
+
+    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x800 // TODO: Input constants
+        || sInputObject_5009E8.field_0_pads[0].field_6_held & 0x10 && !field_1FE // TODO: Input constants
+        || field_1DC_idle_input_counter > 1000)
+    {
+        field_1FA = 0;
+        field_1E0_selected_index = 1;
+        field_134_anim.Set_Animation_Data_402A40(stru_4D01F0[1].field_4_frame_table, nullptr);
+        field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+        field_1CC_fn_update = &Menu::Update_47DA40;
+        field_202 = 0;
+    }
+
+    if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x1000) // TODO: Input constants
+    {
+        if (field_1E0_selected_index > 0 && !field_228)
+        {
+            field_1E0_selected_index--;
+
+            SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
+
+            if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x810) // TODO: Input constants
+            {
+                field_230_bGoBack = 1;
+                field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+                field_1CC_fn_update = &Menu::Update_47DA40;
+                field_202 = 0;
+                return;
+            }
+        }
+    }
+    else if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x4100) // TODO: Input constants
+    {
+        if (field_1E0_selected_index < (sSaveIdx_9F2DD8 - 1) && !field_228)
+        {
+            field_1E0_selected_index++;
+
+            SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
+
+            if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x810) // TODO: Input constants
+            {
+                field_230_bGoBack = 1;
+                field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+                field_1CC_fn_update = &Menu::Update_47DA40;
+                field_202 = 0;
+                return;
+            }
+        }
+    }
+
+    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0xE0) // TODO: Input constants
+    {
+        if (sSaveIdx_9F2DD8)
+        {
+            field_230_bGoBack = 0;
+            field_1FC = field_1E0_selected_index;
+            field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+            field_1CC_fn_update = &Menu::Update_47DA40;
+            field_202 = 1;
+        }
+        else
+        {
+            field_230_bGoBack = 1;
+            field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+            field_1CC_fn_update = &Menu::Update_47DA40;
+            field_202 = 0;
+        }
+    }
 }
 
 int CC Menu::StringsEqual_47DA20(const void* pStr1, const void* pStr2)
@@ -2393,6 +2471,11 @@ void Menu::Motions_ToOptions_Update_47CA50()
         field_134_anim.Set_Animation_Data_402A40(stru_4D0148[0].field_4_frame_table, nullptr);
         field_1E8_pMenuTrans->StartTrans_436560(40, 0, 0, 16);
     }
+}
+
+void Menu::Update_47DA40()
+{
+    NOT_IMPLEMENTED();
 }
 
 void CC Menu::OnResourceLoaded_47ADA0(Menu* pMenu)
