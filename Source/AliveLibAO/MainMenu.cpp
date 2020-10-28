@@ -1913,8 +1913,6 @@ void Menu::GameSpeak_Update_47CBD0()
         field_1DC_idle_input_counter++;
     }
 
-    MainMenuFade* pMenuFade = nullptr;
-
     if (field_204_flags & 1)
     {
         if (field_1E0_selected_index == 8 && !(gnFrameCount_507670 % 8))
@@ -1979,65 +1977,59 @@ void Menu::GameSpeak_Update_47CBD0()
     if (Input_IsChanting_4334C0())
     {
         SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_11, 0, 1);
+
         field_204_flags |= 1u;
         field_10_anim.Set_Animation_Data_402A40(2115472, field_E4_res_array[0]);
         field_1E0_selected_index = 8;
-        if (field_1EC_pObj1)
+
+        if (!field_1EC_pObj1)
         {
-            goto LABEL_31;
+            if (sJoystickEnabled_508A60)
+            {
+                field_1EC_pObj1 = ao_new<MainMenuFade>();
+                if (field_1EC_pObj1)
+                {
+                    field_1EC_pObj1->ctor_42A5A0(stru_4D00E0[8].field_0_xpos, stru_4D00E0[8].field_2_ypos + 36, 0, 0);
+                }
+            }
+            else
+            {
+                field_1EC_pObj1 = ao_new<MainMenuFade>();
+                if (field_1EC_pObj1)
+                {
+                    field_1EC_pObj1->ctor_42A5A0(181, stru_4D00E0[8].field_2_ypos + 36, 0, 0);
+                }
+            }
+        }
+
+        if (field_1F0_pObj2)
+        {
+            field_1F0_pObj2->field_E8_bDestroyOnDone = 1;
         }
 
         if (sJoystickEnabled_508A60)
         {
-            pMenuFade = ao_new<MainMenuFade>();
-            if (pMenuFade)
+            field_1F0_pObj2 = ao_new<MainMenuFade>();
+            if (field_1F0_pObj2)
             {
-                pMenuFade->ctor_42A5A0(stru_4D00E0[8].field_0_xpos, stru_4D00E0[8].field_2_ypos + 36, 0, 0);
-                goto LABEL_30;
+                field_1F0_pObj2->ctor_42A5A0(stru_4D00E0[11].field_0_xpos, stru_4D00E0[11].field_2_ypos + 36, 0, 0);
             }
         }
         else
         {
-            pMenuFade = ao_new<MainMenuFade>();
-            if (pMenuFade)
-            {
-                pMenuFade->ctor_42A5A0(181, stru_4D00E0[8].field_2_ypos + 36, 0, 0);
-
-            LABEL_30:
-                field_1EC_pObj1 = pMenuFade;
-
-            LABEL_31:
-                if (field_1F0_pObj2)
-                {
-                    field_1F0_pObj2->field_E8_bDestroyOnDone = 1;
-                }
-
-                if (sJoystickEnabled_508A60)
-                {
-                    field_1F0_pObj2 = ao_new<MainMenuFade>();
-                    if (field_1F0_pObj2)
-                    {
-                        field_1F0_pObj2->ctor_42A5A0(stru_4D00E0[11].field_0_xpos, stru_4D00E0[11].field_2_ypos + 36, 0, 0);
-                    }
-                    goto LABEL_89;
-                }
-            LABEL_88:
-                field_1F0_pObj2 = nullptr;
-                goto LABEL_89;
-            }
+            field_1F0_pObj2 = nullptr;
         }
-        //pMenuFade = nullptr;
-        goto LABEL_30;
+        goto LABEL_89;
     }
 
     if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & sInputKey_LeftGameSpeakEnabler_4C65B8)
     {
         if (field_1F0_pObj2)
         {
-            const FP v21 = FP_FromInteger(stru_4D00E0[10].field_0_xpos);
-            if (field_1F0_pObj2->field_A8_xpos != v21)
+            const FP xpos = FP_FromInteger(stru_4D00E0[10].field_0_xpos);
+            if (field_1F0_pObj2->field_A8_xpos != xpos)
             {
-                field_1F0_pObj2->field_A8_xpos = v21;
+                field_1F0_pObj2->field_A8_xpos = xpos;
                 field_1F0_pObj2->field_AC_ypos = FP_FromInteger(stru_4D00E0[10].field_2_ypos + 36);
             }
         }
@@ -2068,10 +2060,10 @@ void Menu::GameSpeak_Update_47CBD0()
             field_204_flags |= 1u;
             field_10_anim.Set_Animation_Data_402A40(2115912, field_E4_res_array[0]);
             field_1E0_selected_index = 0;
-            auto v25 = ao_new<MainMenuFade>();
-            if (v25)
+            auto pFade = ao_new<MainMenuFade>();
+            if (pFade)
             {
-                v25->ctor_42A5A0(stru_4D00E0[0].field_0_xpos, stru_4D00E0[0].field_2_ypos + 36, 0, 1);
+                pFade->ctor_42A5A0(stru_4D00E0[0].field_0_xpos, stru_4D00E0[0].field_2_ypos + 36, 0, 1);
             }
         }
         else if (sInputObject_5009E8.field_0_pads[0].field_6_held & sInputKey_GameSpeak1_4C65C8)
@@ -2080,10 +2072,10 @@ void Menu::GameSpeak_Update_47CBD0()
             field_204_flags |= 1u;
             field_10_anim.Set_Animation_Data_402A40(201320, field_E4_res_array[1]);
             field_1E0_selected_index = 1;
-            auto v27 = ao_new<MainMenuFade>();
-            if (v27)
+            auto pFade = ao_new<MainMenuFade>();
+            if (pFade)
             {
-                v27->ctor_42A5A0(stru_4D00E0[1].field_0_xpos, stru_4D00E0[1].field_2_ypos + 36, 0, 1);
+                pFade->ctor_42A5A0(stru_4D00E0[1].field_0_xpos, stru_4D00E0[1].field_2_ypos + 36, 0, 1);
             }
         }
         else if (sInputObject_5009E8.field_0_pads[0].field_6_held & sInputKey_GameSpeak3_4C65C0)
@@ -2092,10 +2084,10 @@ void Menu::GameSpeak_Update_47CBD0()
             field_204_flags |= 1u;
             field_10_anim.Set_Animation_Data_402A40(2115180, field_E4_res_array[0]);
             field_1E0_selected_index = 3;
-            auto v29 = ao_new<MainMenuFade>();
-            if (v29)
+            auto pFade = ao_new<MainMenuFade>();
+            if (pFade)
             {
-                v29->ctor_42A5A0(stru_4D00E0[3].field_0_xpos, stru_4D00E0[3].field_2_ypos + 36, 0, 1);
+                pFade->ctor_42A5A0(stru_4D00E0[3].field_0_xpos, stru_4D00E0[3].field_2_ypos + 36, 0, 1);
             }
         }
         goto LABEL_89;
@@ -2105,10 +2097,10 @@ void Menu::GameSpeak_Update_47CBD0()
     {
         if (field_1F0_pObj2)
         {
-            const FP v32 = FP_FromInteger(stru_4D00E0[12].field_0_xpos);
-            if (field_1F0_pObj2->field_A8_xpos != v32)
+            const FP xpos = FP_FromInteger(stru_4D00E0[12].field_0_xpos);
+            if (field_1F0_pObj2->field_A8_xpos != xpos)
             {
-                field_1F0_pObj2->field_A8_xpos = v32;
+                field_1F0_pObj2->field_A8_xpos = xpos;
                 field_1F0_pObj2->field_AC_ypos = FP_FromInteger(stru_4D00E0[12].field_2_ypos + 36);
             }
         }
@@ -2126,10 +2118,10 @@ void Menu::GameSpeak_Update_47CBD0()
             field_204_flags |= 1u;
             field_10_anim.Set_Animation_Data_402A40(2115712, field_E4_res_array[0]);
             field_1E0_selected_index = 4;
-            auto v35 = ao_new<MainMenuFade>();
-            if (v35)
+            auto pFade = ao_new<MainMenuFade>();
+            if (pFade)
             {
-                v35->ctor_42A5A0(stru_4D00E0[4].field_0_xpos, stru_4D00E0[4].field_2_ypos + 36, 0, 1);
+                pFade->ctor_42A5A0(stru_4D00E0[4].field_0_xpos, stru_4D00E0[4].field_2_ypos + 36, 0, 1);
             }
         }
         else if (sInputObject_5009E8.field_0_pads[0].field_6_held & sInputKey_GameSpeak5_4C65EC)
@@ -2138,10 +2130,10 @@ void Menu::GameSpeak_Update_47CBD0()
             field_204_flags |= 1u;
             field_10_anim.Set_Animation_Data_402A40(2115824, field_E4_res_array[0]);
             field_1E0_selected_index = 5;
-            auto v37 = ao_new<MainMenuFade>();
-            if (v37)
+            auto pFade = ao_new<MainMenuFade>();
+            if (pFade)
             {
-                v37->ctor_42A5A0(stru_4D00E0[5].field_0_xpos, stru_4D00E0[5].field_2_ypos + 36, 0, 1);
+                pFade->ctor_42A5A0(stru_4D00E0[5].field_0_xpos, stru_4D00E0[5].field_2_ypos + 36, 0, 1);
             }
         }
         else if (sInputObject_5009E8.field_0_pads[0].field_6_held & sInputKey_GameSpeak8_4C65E0)
@@ -2150,10 +2142,10 @@ void Menu::GameSpeak_Update_47CBD0()
             field_204_flags |= 1u;
             field_10_anim.Set_Animation_Data_402A40(2115576, field_E4_res_array[0]);
             field_1E0_selected_index = 6;
-            auto v39 = ao_new<MainMenuFade>();
-            if (v39)
+            auto pFade = ao_new<MainMenuFade>();
+            if (pFade)
             {
-                v39->ctor_42A5A0(stru_4D00E0[6].field_0_xpos, stru_4D00E0[6].field_2_ypos + 36, 0, 1);
+                pFade->ctor_42A5A0(stru_4D00E0[6].field_0_xpos, stru_4D00E0[6].field_2_ypos + 36, 0, 1);
             }
         }
         else if (sInputObject_5009E8.field_0_pads[0].field_6_held & sInputKey_GameSpeak7_4C65E4)
@@ -2162,10 +2154,10 @@ void Menu::GameSpeak_Update_47CBD0()
             field_204_flags |= 1u;
             field_10_anim.Set_Animation_Data_402A40(2115368, field_E4_res_array[0]);
             field_1E0_selected_index = 7;
-            auto v41 = ao_new<MainMenuFade>();
-            if (v41)
+            auto pFade = ao_new<MainMenuFade>();
+            if (pFade)
             {
-                v41->ctor_42A5A0(stru_4D00E0[7].field_0_xpos, stru_4D00E0[7].field_2_ypos + 36, 0, 1);
+                pFade->ctor_42A5A0(stru_4D00E0[7].field_0_xpos, stru_4D00E0[7].field_2_ypos + 36, 0, 1);
             }
         }
         goto LABEL_89;
@@ -2173,11 +2165,12 @@ void Menu::GameSpeak_Update_47CBD0()
 
     if (!(sInputObject_5009E8.field_0_pads[0].field_6_held & 0x800) && field_1DC_idle_input_counter <= 1600)
     {
-        if (!field_1F0_pObj2)
+        if (field_1F0_pObj2)
         {
-            goto LABEL_89;
+            field_1F0_pObj2->field_E8_bDestroyOnDone = 1;
+            field_1F0_pObj2 = nullptr;
         }
-        goto LABEL_87;
+        goto LABEL_89;
     }
 
     Mudokon_SFX_42A4D0(MudSounds::eGoodbye_12, 0, 0, 0);
@@ -2186,10 +2179,10 @@ void Menu::GameSpeak_Update_47CBD0()
     field_10_anim.Set_Animation_Data_402A40(2115120, field_E4_res_array[0]);
     field_1E0_selected_index = 9;
 
-    auto pFade = ao_new<MainMenuFade>();
-    if (pFade)
+    auto pFade2 = ao_new<MainMenuFade>();
+    if (pFade2)
     {
-        pFade->ctor_42A5A0(stru_4D00E0[9].field_0_xpos, stru_4D00E0[9].field_2_ypos + 36, 0, 1);
+        pFade2->ctor_42A5A0(stru_4D00E0[9].field_0_xpos, stru_4D00E0[9].field_2_ypos + 36, 0, 1);
     }
 
     field_1CC_fn_update = &Menu::Update_47D5E0;
@@ -2202,11 +2195,10 @@ void Menu::GameSpeak_Update_47CBD0()
 
     if (field_1F0_pObj2)
     {
-    LABEL_87:
         field_1F0_pObj2->field_E8_bDestroyOnDone = 1;
-        goto LABEL_88;
+        field_1F0_pObj2 = nullptr;
+        goto LABEL_89;
     }
-
 
 LABEL_89:
     if (!(field_204_flags & 1))
