@@ -2114,7 +2114,7 @@ signed __int16 Slig::HandlePlayerControlled_4667B0()
 {
     FP kScaleGrid = ScaleToGridSize_41FA30(field_BC_sprite_scale);
 
-    auto pressed = sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
+    const auto pressed = sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
     if (pressed & sInputKey_Right_4C6590)
     {
         if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
