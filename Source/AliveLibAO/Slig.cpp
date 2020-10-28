@@ -1,4 +1,5 @@
 #include "stdafx_ao.h"
+#include "AmbientSound.hpp"
 #include "Function.hpp"
 #include "Slig.hpp"
 #include "Switch.hpp"
@@ -4266,10 +4267,128 @@ __int16 Slig::Brain_Unknown_46B250()
     return 0;
 }
 
+void Slig::WakeUp()
+{
+    field_FE_next_state = eSligStates::State_34_SleepingToStand_46A5F0;
+    SetBrain(&Slig::Brain_WakingUp_46B700);
+    MusicController::sub_443810(MusicController::MusicTypes::eType4, this, 0, 0);
+    auto pTlv = static_cast<Path_Slig*>(gMap_507BA8.TLV_Get_At_446260(
+        field_174_tlv.field_C_sound_pos.field_0_x,
+        field_174_tlv.field_C_sound_pos.field_2_y,
+        field_174_tlv.field_C_sound_pos.field_0_x,
+        field_174_tlv.field_C_sound_pos.field_2_y,
+        TlvTypes::Slig_24
+        ));
+    if (pTlv)
+    {
+        pTlv->field_1_unknown = 1;
+    }
+}
+
+void Start_Slig_Sounds_Helper(Sound_Ambiance_Array array, CameraPos camPos, unsigned __int8 ambianceId)
+{
+    if (!array.mArray[ambianceId].field_8_pScopedSeq)
+    {
+        array.mArray[ambianceId].field_8_pScopedSeq = ao_new<ScopedSeq>();
+        if (array.mArray[ambianceId].field_8_pScopedSeq)
+        {
+            array.mArray[ambianceId].field_8_pScopedSeq->ctor_476400(ambianceId, camPos);
+        }
+    }
+}
+
+void CC Start_Slig_sounds_476960(CameraPos camPos, unsigned __int8 ambianceId)
+{
+    switch (camPos)
+    {
+        case CameraPos::eCamTop_1:
+        case CameraPos::eCamBottom_2:
+        {
+            Start_Slig_Sounds_Helper(sTopBottomAmbiance_9F11D0, camPos, ambianceId);
+            break;
+        }
+        case CameraPos::eCamLeft_3:
+        {
+            Start_Slig_Sounds_Helper(sLeftAmbiance_9F1280, camPos, ambianceId);
+            break;
+        }
+        case CameraPos::eCamRight_4:
+        {
+            Start_Slig_Sounds_Helper(sRightAmbiance_9F1228, camPos, ambianceId);
+            break;
+        }
+        default:
+            break;
+    }
+}
+
 __int16 Slig::Brain_Sleeping_46B4E0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    const auto pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEventNoise_0));
+    if (pEvent)
+    {
+        if (pEvent->field_BC_sprite_scale == field_BC_sprite_scale)
+        {
+            const auto kScaleGrid = ScaleToGridSize_41FA30(field_BC_sprite_scale);
+            const auto wake_up_dist_scaled = kScaleGrid * FP_FromInteger(field_174_tlv.field_52_noise_wake_up_distance);
+            if (VIsObjNearby(wake_up_dist_scaled, pEvent) &&
+                field_114_timer <= static_cast<int>(gnFrameCount_507670) &&
+                gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                    field_B2_lvl_number,
+                    field_B0_path_number,
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    0) &&
+                !Event_Get_417250(kEventResetting_6))
+            {
+                WakeUp();
+                return 102;
+            }
+        }
+    }
+
+    if (Event_Get_417250(kEventSpeaking_1) || Event_Get_417250(kEvent_Alarm_17) || Event_Get_417250(kEvent_14))
+    {
+        if (pEvent != this &&
+            field_114_timer <= static_cast<int>(gnFrameCount_507670) &&
+            gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+            field_B2_lvl_number,
+            field_B0_path_number,
+            field_A8_xpos,
+            field_AC_ypos,
+            0) &&
+            !Event_Get_417250(kEventResetting_6))
+        {
+            WakeUp();
+            return 102;
+        }
+    }
+
+    if (SwitchStates_Get(120) &&
+        field_114_timer <= static_cast<int>(gnFrameCount_507670) &&
+        gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+            field_B2_lvl_number,
+            field_B0_path_number,
+            field_A8_xpos,
+            field_AC_ypos,
+            0) &&
+        !Event_Get_417250(kEventResetting_6))
+    {
+        WakeUp();
+        return 102;
+    }
+
+    ShouldStilBeAlive_46C0D0();
+
+    if (field_6_flags.Get(Options::eDead_Bit3))
+    {
+        Start_Slig_sounds_476960(gMap_507BA8.GetDirection(
+            field_B2_lvl_number,
+            field_B0_path_number,
+            field_A8_xpos,
+            field_AC_ypos), 0);
+    }
+    return 102;
 }
 
 __int16 Slig::Brain_WakingUp_46B700()

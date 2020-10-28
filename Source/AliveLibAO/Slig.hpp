@@ -376,6 +376,7 @@ public:
     EXPORT __int16 Brain_KilledEnemy_4662A0();
     EXPORT __int16 Brain_Unknown_46B250();
     EXPORT __int16 Brain_Sleeping_46B4E0();
+    void WakeUp();
     EXPORT __int16 Brain_WakingUp_46B700();
     EXPORT __int16 Brain_Inactive_46B780();
     EXPORT __int16 Brain_Possessed_46C190();
@@ -465,5 +466,7 @@ public:
     int field_258_next_gamespeak_motion;
 };
 ALIVE_ASSERT_SIZEOF(Slig, 0x25C);
+
+EXPORT void CC Start_Slig_sounds_476960(CameraPos a1, unsigned __int8 a2);
 
 END_NS_AO
