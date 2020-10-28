@@ -205,7 +205,11 @@ SfxDefinition sSligSounds_4CFB30[] =
     { 0, 1, 59, 60, 0, 0, 0 },
     { 0, 1, 59, 60, 127, 127, 0 },
     { 0, 1, 60, 60, 0, 0, 0 },
-    { 0, 1, 61, 60, 0, 0, 0 },
+    { 0, 1, 61, 60, 0, 0, 0 }
+};
+
+SfxDefinition sSligSounds2[] =
+{
     { 0, 62, 60, 127, 0, 0, 0 },
     { 0, 62, 62, 127, 0, 0, 0 },
     { 0, 62, 61, 127, 0, 0, 0 },
@@ -1771,7 +1775,7 @@ void CC Slig::Slig_GameSpeak_SFX_46F560(SligSpeak effectId, int defaultVol, int 
     int volume = defaultVol;
     if (defaultVol == 0)
     {
-        volume = sSligSounds_4CFB30[static_cast<int>(effectId) + 6].field_C_default_volume;
+        volume = sSligSounds2[static_cast<int>(effectId)].field_C_default_volume;
     }
     if (pObj)
     {
@@ -1780,7 +1784,7 @@ void CC Slig::Slig_GameSpeak_SFX_46F560(SligSpeak effectId, int defaultVol, int 
             volume = FP_GetExponent(FP_FromInteger(volume * 2) / FP_FromInteger(3));
         }
     }
-    SFX_SfxDefinition_Play_4770F0(&sSligSounds_4CFB30[static_cast<int>(effectId) + 6], volume, pitch_min, pitch_min);
+    SFX_SfxDefinition_Play_4770F0(&sSligSounds2[static_cast<int>(effectId)], volume, pitch_min, pitch_min);
 }
 
 __int16 CCSTD Slig::IsInInvisibleZone_418870(BaseAnimatedWithPhysicsGameObject* pObj)
