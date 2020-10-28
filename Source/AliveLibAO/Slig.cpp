@@ -2188,7 +2188,7 @@ signed __int16 Slig::HandlePlayerControlled_4667B0()
     if (sInputObject_5009E8.isHeld(sInputKey_DoAction_4C65A4)
         && !(pressed & (sInputKey_LeftGameSpeakEnabler_4C65B8 | sInputKey_RightGameSpeakEnabler_4C65DC)))
     {
-        if (Input_IsChanting_4334C0() == FALSE)
+        if (!Input_IsChanting_4334C0())
         {
             Path_Switch* pTlv = static_cast<Path_Switch*>(gMap_507BA8.TLV_Get_At_446260(
                 FP_GetExponent(field_A8_xpos),
@@ -2255,7 +2255,7 @@ signed __int16 Slig::HandlePlayerControlled_4667B0()
     if (pressed & sInputKey_ThrowItem_4C65B4
         && !(pressed & (sInputKey_LeftGameSpeakEnabler_4C65B8 | sInputKey_RightGameSpeakEnabler_4C65DC)))
     {
-        if (Input_IsChanting_4334C0() == FALSE)
+        if (!Input_IsChanting_4334C0())
         {
             field_FC_current_motion = eSligStates::State_6_Shoot_468820;
             field_128_timer = gnFrameCount_507670 + 60;
@@ -2265,7 +2265,7 @@ signed __int16 Slig::HandlePlayerControlled_4667B0()
     if (pressed & sInputKey_FartRoll_4C65B0
         && !(pressed & (sInputKey_LeftGameSpeakEnabler_4C65B8 | sInputKey_RightGameSpeakEnabler_4C65DC)))
     {
-        if (Input_IsChanting_4334C0() == FALSE)
+        if (!Input_IsChanting_4334C0())
         {
             field_FC_current_motion = eSligStates::State_52_Beat_46AA90;
             field_128_timer = gnFrameCount_507670 + 60;
