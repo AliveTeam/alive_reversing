@@ -171,7 +171,11 @@ public:
 
     EXPORT void Load_BackToMainScreen_Update_47DA40();
 
-    EXPORT void Update_47D5E0();
+    EXPORT void GameSpeakBack_WaitForAbeGoodbye_Update_47D5E0();
+
+    EXPORT void GamespeakBack_WaitForScreenTrans_Update_47D650();
+
+    EXPORT void GameSpeak_To_MainScreen_Update_47D690();
 
     EXPORT void ToggleMotions_Render_47CAB0(int** ppOt);
     EXPORT void SaveLoadFailed_Render_47DCF0(int** ppOt);

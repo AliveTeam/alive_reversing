@@ -2190,7 +2190,7 @@ void Menu::GameSpeak_Update_47CBD0()
         pFade2->ctor_42A5A0(stru_4D00E0[9].field_0_xpos, stru_4D00E0[9].field_2_ypos + 36, 0, 1);
     }
 
-    field_1CC_fn_update = &Menu::Update_47D5E0;
+    field_1CC_fn_update = &Menu::GameSpeakBack_WaitForAbeGoodbye_Update_47D5E0;
     
     if (field_1EC_pObj1)
     {
@@ -2862,9 +2862,40 @@ void Menu::Load_BackToMainScreen_Update_47DA40()
     }
 }
 
-void Menu::Update_47D5E0()
+void Menu::GameSpeakBack_WaitForAbeGoodbye_Update_47D5E0()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_10_anim.Set_Animation_Data_402A40(201508, field_E4_res_array[1]);
+        field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+        field_1CC_fn_update = &Menu::GamespeakBack_WaitForScreenTrans_Update_47D650;
+    }
+}
+
+void Menu::GamespeakBack_WaitForScreenTrans_Update_47D650()
+{
+    if (field_1E8_pMenuTrans)
+    {
+        if (field_1E8_pMenuTrans->field_16_bDone)
+        {
+            field_204_flags &= ~1u;
+            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            field_1CC_fn_update = &Menu::GameSpeak_To_MainScreen_Update_47D690;
+        }
+    }
+}
+
+void Menu::GameSpeak_To_MainScreen_Update_47D690()
+{
+    if (sNumCamSwappers_507668 <= 0)
+    {
+        field_1CC_fn_update = &Menu::To_MainScreen_Update_47BB60;
+        field_1D0_fn_render = &Menu::MainScreen_Render_47BED0;
+        field_1E0_selected_index = 0;
+        field_134_anim.Set_Animation_Data_402A40(sMainScreenButtons_4D00B0[0].field_4_frame_table, nullptr);
+        field_1E8_pMenuTrans->StartTrans_436560(40, 0, 0, 16);
+        field_134_anim.LoadPal_403090(field_E4_res_array[5], 0);
+    }
 }
 
 void CC Menu::OnResourceLoaded_47ADA0(Menu* pMenu)
