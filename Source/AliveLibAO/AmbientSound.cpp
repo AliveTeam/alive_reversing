@@ -10,19 +10,6 @@
 
 START_NS_AO
 
-struct Sound_Ambiance
-{
-    int field_0;
-    int field_4;
-    ScopedSeq* field_8_pScopedSeq;
-};
-ALIVE_ASSERT_SIZEOF(Sound_Ambiance, 0xC);
-
-struct Sound_Ambiance_Array
-{
-    Sound_Ambiance mArray[7];
-};
-
 ALIVE_VAR(1, 0x9F11D0, Sound_Ambiance_Array, sTopBottomAmbiance_9F11D0, {});
 ALIVE_VAR(1, 0x9F1228, Sound_Ambiance_Array, sRightAmbiance_9F1228, {});
 ALIVE_VAR(1, 0x9F1280, Sound_Ambiance_Array, sLeftAmbiance_9F1280, {});
