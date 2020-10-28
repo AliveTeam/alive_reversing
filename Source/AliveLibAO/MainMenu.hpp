@@ -170,6 +170,8 @@ public:
 
     EXPORT void Load_BackToMainScreen_Update_47DA40();
 
+    EXPORT void Update_47D5E0();
+
     EXPORT void ToggleMotions_Render_47CAB0(int** ppOt);
     EXPORT void SaveLoadFailed_Render_47DCF0(int** ppOt);
     EXPORT void ButtonRemap_Render_47F940(int** ppOt);
@@ -208,7 +210,7 @@ public:
     __int16 field_1E4_colour_counter;
     __int16 field_1E6;
     MainMenuTransition* field_1E8_pMenuTrans;
-    BaseGameObject* field_1EC_pObj1;
+    MainMenuFade* field_1EC_pObj1;
     MainMenuFade* field_1F0_pObj2;
     const char* field_1F4_text;
     __int16 field_1F8;
