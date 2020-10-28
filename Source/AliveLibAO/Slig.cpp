@@ -4285,16 +4285,16 @@ void Slig::WakeUp()
     }
 }
 
-ScopedSeq* Start_Slig_Sounds_Helper(Sound_Ambiance_Array array, CameraPos a1, unsigned __int8 a2)
+ScopedSeq* Start_Slig_Sounds_Helper(Sound_Ambiance_Array array, CameraPos camPos, unsigned __int8 ambianceId)
 {
-    ScopedSeq* result = array.mArray[a2].field_8_pScopedSeq;
+    ScopedSeq* result = array.mArray[ambianceId].field_8_pScopedSeq;
     if (!result)
     {
         auto pScopedSeq = ao_new<ScopedSeq>();
         if (pScopedSeq)
         {
             result = pScopedSeq;
-            pScopedSeq->ctor_476400(a2, a1);
+            pScopedSeq->ctor_476400(ambianceId, camPos);
             return pScopedSeq;
         }
         else
@@ -4306,25 +4306,23 @@ ScopedSeq* Start_Slig_Sounds_Helper(Sound_Ambiance_Array array, CameraPos a1, un
     return result;
 }
 
-ScopedSeq* CC Start_Slig_sounds_476960(CameraPos a1, unsigned __int8 a2)
+ScopedSeq* CC Start_Slig_sounds_476960(CameraPos camPos, unsigned __int8 ambianceId)
 {
     ScopedSeq* result = nullptr;
-
-    //result = (ScopedSeq *) (a1 - 1); wtf
-    switch (a1)
+    switch (camPos)
     {
         case CameraPos::eCamTop_1:
         case CameraPos::eCamBottom_2:
         {
-            return Start_Slig_Sounds_Helper(sTopBottomAmbiance_9F11D0, a1, a2);
+            return Start_Slig_Sounds_Helper(sTopBottomAmbiance_9F11D0, camPos, ambianceId);
         }
         case CameraPos::eCamLeft_3:
         {
-            return Start_Slig_Sounds_Helper(sLeftAmbiance_9F1280, a1, a2);
+            return Start_Slig_Sounds_Helper(sLeftAmbiance_9F1280, camPos, ambianceId);
         }
         case CameraPos::eCamRight_4:
         {
-            return Start_Slig_Sounds_Helper(sRightAmbiance_9F1228, a1, a2);
+            return Start_Slig_Sounds_Helper(sRightAmbiance_9F1228, camPos, ambianceId);
         }
         default:
             break;
