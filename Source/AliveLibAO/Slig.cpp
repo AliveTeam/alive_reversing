@@ -2091,7 +2091,7 @@ void Slig::OperateLift()
         field_FC_current_motion = eSligStates::State_5_TurnAroundStanding_469C80;
         field_FE_next_state = eSligStates::State_49_LiftGrip_4663A0;
 
-        auto camPos = gMap_507BA8.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos);
+        const auto camPos = gMap_507BA8.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos);
         if ((camPos != CameraPos::eCamCurrent_0 && camPos != CameraPos::eCamInvalid_m1)
             && MusicController::sub_443840(0, 0, 0) <= 4)
         {
