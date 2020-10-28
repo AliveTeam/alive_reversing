@@ -21,6 +21,7 @@
 #include "CreditsController.hpp"
 #include "LvlArchive.hpp"
 #include "SaveGame.hpp"
+#include "../AliveLibAE/Io.hpp"
 
 START_NS_AO
 
@@ -128,6 +129,8 @@ ALIVE_VAR(1, 0x4D0228, short, sListCount_4D0228, -1);
 ALIVE_VAR(1, 0x4CE598, int, dword_4CE598, 0);
 ALIVE_VAR(1, 0x5079A4, int, dword_5079A4, 0);
 
+ALIVE_VAR(1, 0x9F2DDC, int, sSelectedSaveIdx_9F2DDC, 0);
+ALIVE_VAR(1, 0x9F2DD8, int, sSaveIdx_9F2DD8, 0);
 
 
 struct MenuFMV;
@@ -1374,7 +1377,44 @@ void Menu::Render_47E5B0(int** /*ppOt*/)
 
 void Menu::To_Load_Update_47D8E0()
 {
-    NOT_IMPLEMENTED();
+    sSelectedSaveIdx_9F2DDC = 0;
+
+    field_1E0_selected_index = 0;
+    field_230_bGoBack = 0;
+    field_228 = 0;
+
+    if (field_1E8_pMenuTrans)
+    {
+        if (field_1E8_pMenuTrans->field_16_bDone)
+        {
+            sSaveIdx_9F2DD8 = 0;
+            IO_EnumerateDirectory("*.sav", [](const char* fileName, DWORD /*lastWriteTime*/)
+                {
+                    if (sSaveIdx_9F2DD8 < 128) // TODO: Array len
+                    {
+                        size_t saveNameLen = strlen(fileName) - 4;
+
+                        // Limit length to prevent buffer overflow
+                        if (saveNameLen > 19)
+                        {
+                            saveNameLen = 19;
+                        }
+
+                        if (saveNameLen > 0)
+                        {
+                            memcpy(sSaveNames_9F1DD8[sSaveIdx_9F2DD8].field_0_mName, fileName, saveNameLen);
+                            sSaveNames_9F1DD8[sSaveIdx_9F2DD8].field_0_mName[saveNameLen] = 0;
+                            sSaveIdx_9F2DD8++;
+                        }
+                    }
+                });
+            qsort(sSaveNames_9F1DD8, sSaveIdx_9F2DD8, sizeof(SaveName), &Menu::StringsEqual_47DA20);
+
+            field_1DC_idle_input_counter = 0;
+            field_1FE = 0;
+            field_1CC_fn_update = &Menu::Load_Update_47D760;
+        }
+    }
 }
 
 
@@ -2231,6 +2271,16 @@ void Menu::CreditsEnd_BackTo_FMV_Or_Level_List_Update_47F170()
 {
     field_1CC_fn_update = &Menu::FMV_Select_Update_47E8D0;
     field_1D0_fn_render = &Menu::FMV_Or_Level_Select_Render_47EEA0;
+}
+
+void Menu::Load_Update_47D760()
+{
+    NOT_IMPLEMENTED();
+}
+
+int CC Menu::StringsEqual_47DA20(const void* pStr1, const void* pStr2)
+{
+    return _strcmpi(static_cast<const char*>(pStr1), static_cast<const char*>(pStr2));
 }
 
 void Menu::ToggleMotions_Render_47CAB0(int** /*ppOt*/)

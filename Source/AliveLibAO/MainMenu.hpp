@@ -154,6 +154,10 @@ public:
     EXPORT void Credits_Update_47F190();
     EXPORT void CreditsEnd_BackTo_FMV_Or_Level_List_Update_47F170();
 
+    EXPORT void Load_Update_47D760();
+
+    EXPORT static int CC StringsEqual_47DA20(const void* pStr1, const void* pStr2);
+
     // Compared via address
     EXPORT void ToggleMotions_Update_47C800();
     EXPORT void Toggle_Motions_Screens_Update_47C8F0();
