@@ -1580,22 +1580,19 @@ void Menu::Load_Render_47DDA0(int** ppOt)
         }
     }
 
-    const auto local_228 = field_228;
-    if (local_228 >= FP_FromInteger(0))
+    if (field_228 >= FP_FromInteger(0))
     {
-        if (local_228 > FP_FromInteger(0))
+        if (field_228 > FP_FromInteger(0))
         {
-            const auto local_22c = field_22C;
-            const auto diff = local_228 - local_22c;
-            field_228 = diff;
-            if (diff <= FP_FromInteger(0))
+            field_228 -= field_22C;
+            if (field_228 <= FP_FromInteger(0))
             {
                 field_228 = FP_FromInteger(0);
             }
             else
             {
-                field_22C = local_22c - FP_FromDouble(0.2);
-                if (local_22c - FP_FromDouble(0.2) <= FP_FromInteger(0))
+                field_22C -= FP_FromDouble(0.2);
+                if (field_22C <= FP_FromInteger(0))
                 {
                     field_22C = FP_FromInteger(0);
                 }
@@ -1604,17 +1601,15 @@ void Menu::Load_Render_47DDA0(int** ppOt)
     }
     else
     {
-        const auto local_22c_ = field_22C;
-        const auto diff_ = local_22c_ + local_228;
-        field_228 = diff_;
-        if (diff_ >= FP_FromInteger(0))
+        field_228 += field_22C;
+        if (field_228 >= FP_FromInteger(0))
         {
             field_228 = FP_FromInteger(0);
         }
         else
         {
-            field_22C = local_22c_ - FP_FromDouble(0.2);
-            if (local_22c_ - FP_FromDouble(0.2) <= FP_FromInteger(0))
+            field_22C -= FP_FromDouble(0.2);
+            if (field_22C <= FP_FromInteger(0))
             {
                 field_22C = FP_FromInteger(0);
             }
@@ -1623,18 +1618,15 @@ void Menu::Load_Render_47DDA0(int** ppOt)
 
     int start = 0;
     int end = 0;
-    const auto local_228_ = field_228;
-    if (local_228_ <= FP_FromInteger(0))
+    if (field_228 == FP_FromInteger(0))
     {
         start = -2;
-        if (local_228_ < FP_FromInteger(0))
-        {
-            end = 3;
-        }
-        else
-        {
-            end = 2;
-        }
+        end = 2;
+    }
+    else if (field_228 < FP_FromInteger(0))
+    {
+        start = -2;
+        end = 3;
     }
     else
     {
