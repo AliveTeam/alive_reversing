@@ -31,6 +31,7 @@
 #include "ScreenShake.hpp"
 #include "SwitchStates.hpp"
 #include <algorithm>
+#include "Psx_common.hpp"
 
 //TODO fix
 #undef max
@@ -4054,7 +4055,56 @@ void Slig::State_51_LiftGripping_466480()
 
 void Slig::State_52_Beat_46AA90()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_anim.field_92_current_frame == 5)
+    {
+        SFX_Play_43AE60(SoundEffect::AirStream_28, 90, -300);
+    }
+    if (field_10_anim.field_92_current_frame == 8)
+    {
+        const FP kGridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
+        const FP k2Scaled = FP_FromInteger(2) * kGridSize;
+
+        PSX_RECT hitRect = {};
+        hitRect = MakeMinMaxRect(
+            field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? field_A8_xpos - kGridSize : field_A8_xpos + kGridSize,
+            field_AC_ypos,
+            field_A8_xpos,
+            field_AC_ypos - k2Scaled
+        );
+
+        for(int idx = 0; idx < gBaseAliveGameObjects_4FC8A0->Size(); idx++)
+        {
+            auto pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(idx);
+
+            if (!pObjIter)
+            {
+                break;
+            }
+            if (pObjIter != this && pObjIter->field_4_typeId == Types::eMudokon_75)
+            {
+                PSX_RECT pRect = {};
+                PSX_RECT bRect = {};
+                    
+                pObjIter->VGetBoundingRect(&pRect, 1);
+                pObjIter->VGetBoundingRect(&bRect, 1);
+
+                ;
+                if (pObjIter->field_100_health > FP_FromInteger(0)
+                    && PSX_Rects_overlap_no_adjustment(&hitRect, &bRect))
+                {
+                    pObjIter->VTakeDamage(this);
+                    Event_Broadcast_417220(kEventNoise_0, this);
+                    SFX_Play_43AD70(SoundEffect::FallingItemHit_53, 60);
+                    return;
+                }
+            }
+        }
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_FC_current_motion = eSligStates::State_0_StandIdle_467640;
+    }
 }
 
 __int16 Slig::Brain_SpottedEnemy_465EB0()
@@ -5072,7 +5122,6 @@ __int16 Slig::Brain_GetAlertedTurn_46E520()
 
 __int16 Slig::Brain_GetAlerted_46E800()
 {
-    //NOT_IMPLEMENTED();
     if (field_114_timer == field_174_tlv.field_42_listen_time + static_cast<int>(gnFrameCount_507670) - 2 &&
         Math_RandomRange_450F20(0, 100) < field_174_tlv.field_44_percent_say_what)
     {
@@ -5121,7 +5170,7 @@ __int16 Slig::Brain_GetAlerted_46E800()
                 {
                     if ((pEvent == sControlledCharacter_50767C
                         || pEvent->field_4_typeId != Types::eSlig_88)
-                        && !VIsFacingMe_4655B0(pEvent)
+                        && !VIsFacingMe(pEvent)
                         && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
                         field_B2_lvl_number,
                         field_B0_path_number,

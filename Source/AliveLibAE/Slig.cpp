@@ -2450,15 +2450,13 @@ void Slig::M_Beat_51_4B6C00()
     if (field_20_animation.field_92_current_frame == 8)
     {
         const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
-        const FP k0Scaled = FP_FromInteger(0) * kGridSize;
-        const FP k1Scaled = FP_FromInteger(1) * kGridSize;
         const FP k2Scaled = FP_FromInteger(2) * kGridSize;
 
         PSX_RECT hitRect = {};
         hitRect = MakeMinMaxRect(
-            field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? field_B8_xpos - k1Scaled : field_B8_xpos + k1Scaled,
+            field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? field_B8_xpos - kGridSize : field_B8_xpos + kGridSize,
             field_BC_ypos,
-            field_B8_xpos - k0Scaled,
+            field_B8_xpos,
             field_BC_ypos - k2Scaled
         );
 
