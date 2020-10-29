@@ -1529,9 +1529,7 @@ void Menu::To_Load_Update_47D8E0()
 
 void Menu::Load_Render_47DDA0(int** ppOt)
 {
-    const auto local_130 = field_230_bGoBack;
-    int polyOffset = 0;
-    if (local_130 || !sSaveIdx_9F2DD8)
+    if (field_230_bGoBack || !sSaveIdx_9F2DD8)
     {
         field_134_anim.VRender_403AE0(stru_4D01F0[1].field_0_xpos, stru_4D01F0[1].field_2_ypos + 36, ppOt, 0, 0);
         PSX_RECT rect = {};
@@ -1634,8 +1632,8 @@ void Menu::Load_Render_47DDA0(int** ppOt)
         end = 2;
     }
 
-    int j = 0;
-    for (j = start; start <= end; j = start)
+    int polyOffset = 0;
+    while (start <= end)
     {
         const auto curIdx = start + field_1E0_selected_index;
         if (curIdx >= 0 && curIdx < sSaveIdx_9F2DD8)
@@ -1656,45 +1654,34 @@ void Menu::Load_Render_47DDA0(int** ppOt)
             const int yAdjust = (FP_GetExponent(field_228 + FP_FromDouble(0.5))) + 26 * start + 120;
             const short text_y = static_cast<short>((yAdjust + FP_GetExponent(FP_FromInteger(-7) * FP_FromInteger(1))) - 1);
             
-            int nextPolyOff = 0;
-            if (j)
+            BYTE r = 210;
+            BYTE g = 150;
+            BYTE b = 80;
+
+            // Draw the "selected" item in another colour so you can see its selected
+            if (start == 0)
             {
-                nextPolyOff = field_FC_font.DrawString_41C360(
-                    ppOt,
-                    field_1F4_text,
-                    text_x,
-                    text_y,
-                    0,
-                    1,
-                    0,
-                    32,
-                    210,
-                    150,
-                    80,
-                    polyOffset,
-                    FP_FromInteger(1),
-                    640,
-                    0);
+                r = 255;
+                g = 218;
+                b = 140;
             }
-            else
-            {
-                nextPolyOff = field_FC_font.DrawString_41C360(
-                    ppOt,
-                    field_1F4_text,
-                    text_x,
-                    text_y,
-                    0,
-                    1,
-                    0,
-                    32,
-                    255,
-                    218,
-                    140,
-                    polyOffset,
-                    FP_FromInteger(1),
-                    640,
-                    0);
-            }
+
+            const int nextPolyOff = field_FC_font.DrawString_41C360(
+                ppOt,
+                field_1F4_text,
+                text_x,
+                text_y,
+                0,
+                1,
+                0,
+                32,
+                r,
+                g,
+                b,
+                polyOffset,
+                FP_FromInteger(1),
+                640,
+                0);
 
             polyOffset = field_FC_font.DrawString_41C360(
                 ppOt,
