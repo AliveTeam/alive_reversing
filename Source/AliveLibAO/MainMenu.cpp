@@ -72,6 +72,13 @@ EXPORT int CC Input_Remap_44F300(InputCommands /*inputCmd*/)
     return 0;
 }
 
+// TODO: Move out
+EXPORT const char* CC Input_GetButtonString_44F1C0(InputCommands /*input_command*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
 ALIVE_VAR(1, 0x9F2DE8, short, bWaitingForRemapInput_9F2DE8, 0);
 
 struct Buttons
@@ -149,7 +156,7 @@ const Menu_Element stru_4D0418[11] =
     { 307, 203, 2048 }, // 1st
 };
 
-const Menu_Element stru_4D04A0[43] =
+const Menu_Element stru_4D04A0[33] =
 {
     { 115, 216, 64 },
     { 307, 203, 2048 },
@@ -184,18 +191,9 @@ const Menu_Element stru_4D04A0[43] =
     { 307, 117, 32 },
     { 301, 146, 64 },
     { 278, 184, 128 }, // 1st
-    { 0, 62, 204 },
-    { 64, 293, 205 },
-    { 2048, 144, 205 },
-    { 64, 287, 207 },
-    { 2048, 33, 29 },
-    { 64, 304, 165 },
-    { 2048, 43, 200 },
-    { 64, 289, 200 },
-    { 2048, 40, 34 },
-    { 64, 301, 163 }
 };
 
+const Menu_Element stru_4D0630[2] = { { 62, 204, 64 }, { 293, 205, 2048 } };
 
 const AIFunctionData<Menu::TUpdateFn> kUpdateTable[] =
 {
@@ -1499,7 +1497,7 @@ void Menu::To_Load_Update_47D8E0()
 
     field_1E0_selected_index = 0;
     field_230_bGoBack = 0;
-    field_228 = 0;
+    field_228 = FP_FromInteger(0);
 
     if (field_1E8_pMenuTrans)
     {
@@ -1536,9 +1534,186 @@ void Menu::To_Load_Update_47D8E0()
 }
 
 
-void Menu::Load_Render_47DDA0(int** /*ppOt*/)
+void Menu::Load_Render_47DDA0(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    if (field_230_bGoBack || !sSaveIdx_9F2DD8)
+    {
+        field_134_anim.VRender_403AE0(stru_4D01F0[1].field_0_xpos, stru_4D01F0[1].field_2_ypos + 36, ppOt, 0, 0);
+        PSX_RECT rect = {};
+        field_134_anim.Get_Frame_Rect_402B50(&rect);
+        pScreenManager_4FF7C8->InvalidateRect_406E40(
+            rect.x,
+            rect.y,
+            rect.w,
+            rect.h,
+            pScreenManager_4FF7C8->field_2E_idx);
+    }
+    else
+    {
+        field_134_anim.VRender_403AE0(stru_4D01F0[0].field_0_xpos, stru_4D01F0[0].field_2_ypos + 36, ppOt, 0, 0);
+        PSX_RECT rect = {};
+        field_134_anim.Get_Frame_Rect_402B50(&rect);
+        pScreenManager_4FF7C8->InvalidateRect_406E40(
+            rect.x,
+            rect.y,
+            rect.w,
+            rect.h,
+            pScreenManager_4FF7C8->field_2E_idx);
+    }
+
+    if (field_1E0_selected_index != sSelectedSaveIdx_9F2DDC)
+    {
+        if (field_228 != FP_FromInteger(0))
+        {
+            field_1E0_selected_index = static_cast<short>(sSelectedSaveIdx_9F2DDC);
+        }
+        else
+        {
+            if (field_1E0_selected_index < sSelectedSaveIdx_9F2DDC)
+            {
+                field_228 = FP_FromInteger(-26);
+                field_22C = FP_FromDouble(4.5);
+                sSelectedSaveIdx_9F2DDC = field_1E0_selected_index;
+
+            }
+            else if (field_1E0_selected_index > sSelectedSaveIdx_9F2DDC)
+            {
+                field_228 = FP_FromInteger(26);
+                field_22C = FP_FromDouble(4.5);
+                sSelectedSaveIdx_9F2DDC = field_1E0_selected_index;
+            }
+        }
+    }
+
+    if (field_228 >= FP_FromInteger(0))
+    {
+        if (field_228 > FP_FromInteger(0))
+        {
+            field_228 -= field_22C;
+            if (field_228 <= FP_FromInteger(0))
+            {
+                field_228 = FP_FromInteger(0);
+            }
+            else
+            {
+                field_22C -= FP_FromDouble(0.2);
+                if (field_22C <= FP_FromInteger(0))
+                {
+                    field_22C = FP_FromInteger(0);
+                }
+            }
+        }
+    }
+    else
+    {
+        field_228 += field_22C;
+        if (field_228 >= FP_FromInteger(0))
+        {
+            field_228 = FP_FromInteger(0);
+        }
+        else
+        {
+            field_22C -= FP_FromDouble(0.2);
+            if (field_22C <= FP_FromInteger(0))
+            {
+                field_22C = FP_FromInteger(0);
+            }
+        }
+    }
+
+    int start = 0;
+    int end = 0;
+    if (field_228 == FP_FromInteger(0))
+    {
+        start = -2;
+        end = 2;
+    }
+    else if (field_228 < FP_FromInteger(0))
+    {
+        start = -2;
+        end = 3;
+    }
+    else
+    {
+        start = -3;
+        end = 2;
+    }
+
+    int polyOffset = 0;
+    while (start <= end)
+    {
+        const auto curIdx = start + field_1E0_selected_index;
+        if (curIdx >= 0 && curIdx < sSaveIdx_9F2DD8)
+        {
+            field_1F4_text = sSaveNames_9F1DD8[curIdx].field_0_mName;
+
+            const auto name_width = field_FC_font.MeasureWidth_41C280(field_1F4_text, FP_FromInteger(1));
+            short text_x = 0;
+            if (name_width >= 336)
+            {
+                text_x = 16;
+            }
+            else
+            {
+                text_x = static_cast<short>((368 - name_width) / 2);
+            }
+
+            const int yAdjust = (FP_GetExponent(field_228 + FP_FromDouble(0.5))) + 26 * start + 120;
+            const short text_y = static_cast<short>((yAdjust + FP_GetExponent(FP_FromInteger(-7) * FP_FromInteger(1))) - 1);
+            
+            BYTE r = 210;
+            BYTE g = 150;
+            BYTE b = 80;
+
+            // Draw the "selected" item in another colour so you can see its selected
+            if (start == 0)
+            {
+                r = 255;
+                g = 218;
+                b = 140;
+            }
+
+            const int nextPolyOff = field_FC_font.DrawString_41C360(
+                ppOt,
+                field_1F4_text,
+                text_x,
+                text_y,
+                0,
+                1,
+                0,
+                32,
+                r,
+                g,
+                b,
+                polyOffset,
+                FP_FromInteger(1),
+                640,
+                0);
+
+            polyOffset = field_FC_font.DrawString_41C360(
+                ppOt,
+                field_1F4_text,
+                text_x + 2,
+                text_y + 2,
+                0,
+                1,
+                0,
+                32,
+                0,
+                0,
+                0,
+                nextPolyOff,
+                FP_FromInteger(1),
+                640,
+                0);
+        }
+        start++;
+    }
+
+    for (int i = 0; i < 2; i++)
+    {
+        RenderElement_47A4E0(stru_4D0630[i].field_0_xpos, stru_4D0630[i].field_4_ypos, stru_4D0630[i].field_8_input_command, ppOt, &field_FC_font, &polyOffset);
+    }
 }
 
 void Menu::To_Options_Update_47C250()
@@ -1812,12 +1987,12 @@ void Menu::Options_To_Selected_After_Cam_Change_Update_47C330()
         // To controller options
         case 0:
             field_204_flags &= ~2u;
-            field_228 = 0;
+            field_228 = FP_FromInteger(0);
             field_1CC_fn_update = &Menu::To_Options_Controller_Update_47F2E0;
             field_1D0_fn_render = &Menu::Options_Controller_Render_47F430;
             field_1E0_selected_index = static_cast<short>(sJoystickEnabled_508A60);
             field_230_bGoBack = -1;
-            field_22C = 0;
+            field_22C = FP_FromInteger(0);
             break;
 
         // To sound options
@@ -1856,7 +2031,7 @@ void Menu::To_Options_Controller_Update_47F2E0()
             field_1D0_fn_render = &Menu::Options_Controller_Render_47F430;
             field_1DC_idle_input_counter = 0;
             field_1E0_selected_index = static_cast<short>(sJoystickEnabled_508A60);
-            field_228 = 0;
+            field_228 = FP_FromInteger(0);
         }
     }
 }
@@ -2397,7 +2572,7 @@ void Menu::Options_Controller_Update_47F210()
 {
     if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x1000) // TODO: Input constants
     {
-        if (field_1E0_selected_index > 0 && !field_228)
+        if (field_1E0_selected_index > 0 && field_228 == FP_FromInteger(0))
         {
             field_1E0_selected_index--;
             SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
@@ -2405,7 +2580,7 @@ void Menu::Options_Controller_Update_47F210()
     }
     else if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x4100) // TODO: Input constants
     {
-        if (field_1E0_selected_index < dword_4CE598 - 1 && !field_228)
+        if (field_1E0_selected_index < dword_4CE598 - 1 && field_228 == FP_FromInteger(0))
         {
             field_1E0_selected_index++;
             SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
@@ -2781,7 +2956,7 @@ void Menu::Load_Update_47D760()
 
     if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x1000) // TODO: Input constants
     {
-        if (field_1E0_selected_index > 0 && !field_228)
+        if (field_1E0_selected_index > 0 && field_228 == FP_FromInteger(0))
         {
             field_1E0_selected_index--;
 
@@ -2791,7 +2966,7 @@ void Menu::Load_Update_47D760()
             {
                 field_230_bGoBack = 1;
                 field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
-                field_1CC_fn_update = &Menu::To_MainScreenOrLoad_Update_47DA90;
+                field_1CC_fn_update = &Menu::Load_BackToMainScreen_Update_47DA40;
                 field_202 = 0;
                 return;
             }
@@ -2801,7 +2976,7 @@ void Menu::Load_Update_47D760()
     {
         if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x4100) // TODO: Input constants
         {
-            if (field_1E0_selected_index < (sSaveIdx_9F2DD8 - 1) && !field_228)
+            if (field_1E0_selected_index < (sSaveIdx_9F2DD8 - 1) && field_228 == FP_FromInteger(0))
             {
                 field_1E0_selected_index++;
 
@@ -2811,7 +2986,7 @@ void Menu::Load_Update_47D760()
                 {
                     field_230_bGoBack = 1;
                     field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
-                    field_1CC_fn_update = &Menu::To_MainScreenOrLoad_Update_47DA90;
+                    field_1CC_fn_update = &Menu::Load_BackToMainScreen_Update_47DA40;
                     field_202 = 0;
                     return;
                 }
@@ -2826,14 +3001,14 @@ void Menu::Load_Update_47D760()
             field_230_bGoBack = 0;
             field_1FC = field_1E0_selected_index;
             field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
-            field_1CC_fn_update = &Menu::To_MainScreenOrLoad_Update_47DA90;
+            field_1CC_fn_update = &Menu::Load_BackToMainScreen_Update_47DA40;
             field_202 = 1;
         }
         else
         {
             field_230_bGoBack = 1;
             field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
-            field_1CC_fn_update = &Menu::To_MainScreenOrLoad_Update_47DA90;
+            field_1CC_fn_update = &Menu::Load_BackToMainScreen_Update_47DA40;
             field_202 = 0;
         }
     }
@@ -3079,9 +3254,88 @@ void CC Menu::OnResourceLoaded_47ADA0(Menu* pMenu)
     pMenu->field_E4_res_array[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 130, 1, 0);
 }
 
-void CC Menu::RenderElement_47A4E0(int /*xpos*/, int /*ypos*/, int /*input_command*/, int** /*ot*/, AliveFont* /*pFont*/, int* /*pPolyOffset*/)
+void CC Menu::RenderElement_47A4E0(int xpos, int ypos, int input_command, int** ot, AliveFont* pFont, int* pPolyOffset)
 {
-    NOT_IMPLEMENTED();
+    char text[32] = {};
+    strcpy(text, Input_GetButtonString_44F1C0(static_cast<InputCommands>(input_command))); // TODO: Strongly type all the way back to the button structure
+    const FP scale_fp = strlen(text) > 1 ? FP_FromDouble(0.64) : FP_FromDouble(0.84);
+
+    if (text[0])
+    {
+        char* pTextIter = &text[0];
+        do
+        {
+            *pTextIter = static_cast<char>(tolower(*pTextIter));
+            pTextIter++;
+        } while (*pTextIter);
+    }
+
+    if (text[0] < ' ')
+    {
+        text[0] += 'Y';
+    }
+
+    const int text_width = pFont->MeasureWidth_41C280(text, scale_fp);
+    const short text_y = static_cast<short>(ypos + FP_GetExponent((FP_FromInteger(-9) * scale_fp)) + 1);
+    const short converted_x = static_cast<short>(PsxToPCX(xpos - text_width / 2, 11));
+
+    const BYTE bOldValue = sFontDrawScreenSpace_508BF4;
+    sFontDrawScreenSpace_508BF4 = 1;
+
+    int offset = pFont->DrawString_41C360(
+        ot,
+        text,
+        converted_x,
+        text_y,
+        0,
+        1,
+        0,
+        39,
+        0,
+        0,
+        0,
+        *pPolyOffset,
+        scale_fp,
+        640,
+        0);
+    *pPolyOffset = offset;
+
+    offset = pFont->DrawString_41C360(
+        ot,
+        text,
+        converted_x - 1,
+        text_y,
+        0,
+        1,
+        0,
+        39,
+        58,
+        40,
+        41,
+        offset,
+        scale_fp,
+        640,
+        0);
+    *pPolyOffset = offset;
+
+    *pPolyOffset = pFont->DrawString_41C360(
+        ot,
+        text,
+        converted_x + 1,
+        text_y,
+        3,
+        1,
+        0,
+        39,
+        115,
+        98,
+        99,
+        offset,
+        scale_fp,
+        640,
+        0);
+
+    sFontDrawScreenSpace_508BF4 = bOldValue;
 }
 
 END_NS_AO
