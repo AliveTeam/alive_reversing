@@ -1634,13 +1634,14 @@ void Menu::Load_Render_47DDA0(int** ppOt)
         end = 2;
     }
 
-    int stackv = 0;
-    for (stackv = start; start <= end; stackv = start)
+    int j = 0;
+    for (j = start; start <= end; j = start)
     {
-        const auto save_idx = start + field_1E0_selected_index;
-        if (save_idx >= 0 && save_idx < (signed int)sSaveIdx_9F2DD8)
+        const auto curIdx = start + field_1E0_selected_index;
+        if (curIdx >= 0 && curIdx < sSaveIdx_9F2DD8)
         {
-            field_1F4_text = sSaveNames_9F1DD8[save_idx].field_0_mName;
+            field_1F4_text = sSaveNames_9F1DD8[curIdx].field_0_mName;
+
             const auto name_width = field_FC_font.MeasureWidth_41C280(field_1F4_text, FP_FromInteger(1));
             short text_x = 0;
             if (name_width >= 336)
@@ -1652,12 +1653,13 @@ void Menu::Load_Render_47DDA0(int** ppOt)
                 text_x = static_cast<short>((368 - name_width) / 2);
             }
 
-            const int v15 = (FP_GetExponent(field_228 + FP_FromDouble(0.5))) + 26 * start + 120;
-            const short text_y = static_cast<short>((v15 + FP_GetExponent(FP_FromInteger(-7) * FP_FromInteger(1))) - 1);
-            int polyOff2 = 0;
-            if (stackv)
+            const int yAdjust = (FP_GetExponent(field_228 + FP_FromDouble(0.5))) + 26 * start + 120;
+            const short text_y = static_cast<short>((yAdjust + FP_GetExponent(FP_FromInteger(-7) * FP_FromInteger(1))) - 1);
+            
+            int nextPolyOff = 0;
+            if (j)
             {
-                polyOff2 = field_FC_font.DrawString_41C360(
+                nextPolyOff = field_FC_font.DrawString_41C360(
                     ppOt,
                     field_1F4_text,
                     text_x,
@@ -1676,7 +1678,7 @@ void Menu::Load_Render_47DDA0(int** ppOt)
             }
             else
             {
-                polyOff2 = field_FC_font.DrawString_41C360(
+                nextPolyOff = field_FC_font.DrawString_41C360(
                     ppOt,
                     field_1F4_text,
                     text_x,
@@ -1694,7 +1696,7 @@ void Menu::Load_Render_47DDA0(int** ppOt)
                     0);
             }
 
-            const auto polyOff3 = field_FC_font.DrawString_41C360(
+            polyOffset = field_FC_font.DrawString_41C360(
                 ppOt,
                 field_1F4_text,
                 text_x + 2,
@@ -1706,14 +1708,12 @@ void Menu::Load_Render_47DDA0(int** ppOt)
                 0,
                 0,
                 0,
-                polyOff2,
+                nextPolyOff,
                 FP_FromInteger(1),
                 640,
                 0);
-            start = stackv;
-            polyOffset = polyOff3;
         }
-        ++start;
+        start++;
     }
 
     for (int i = 0; i < 2; i++)
