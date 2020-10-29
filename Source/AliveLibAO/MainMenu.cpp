@@ -149,7 +149,7 @@ const Menu_Element stru_4D0418[11] =
     { 307, 203, 2048 }, // 1st
 };
 
-const Menu_Element stru_4D04A0[43] =
+const Menu_Element stru_4D04A0[33] =
 {
     { 115, 216, 64 },
     { 307, 203, 2048 },
@@ -184,18 +184,9 @@ const Menu_Element stru_4D04A0[43] =
     { 307, 117, 32 },
     { 301, 146, 64 },
     { 278, 184, 128 }, // 1st
-    { 0, 62, 204 },
-    { 64, 293, 205 },
-    { 2048, 144, 205 },
-    { 64, 287, 207 },
-    { 2048, 33, 29 },
-    { 64, 304, 165 },
-    { 2048, 43, 200 },
-    { 64, 289, 200 },
-    { 2048, 40, 34 },
-    { 64, 301, 163 }
 };
 
+const Menu_Element stru_4D0630[2] = { { 62, 204, 64 }, { 293, 205, 2048 } };
 
 const AIFunctionData<Menu::TUpdateFn> kUpdateTable[] =
 {
@@ -1499,7 +1490,7 @@ void Menu::To_Load_Update_47D8E0()
 
     field_1E0_selected_index = 0;
     field_230_bGoBack = 0;
-    field_228 = 0;
+    field_228 = FP_FromInteger(0);
 
     if (field_1E8_pMenuTrans)
     {
@@ -1536,9 +1527,205 @@ void Menu::To_Load_Update_47D8E0()
 }
 
 
-void Menu::Load_Render_47DDA0(int** /*ppOt*/)
+void Menu::Load_Render_47DDA0(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    const auto local_130 = field_230_bGoBack;
+    int polyOffset = 0;
+    if (local_130 || !sSaveIdx_9F2DD8)
+    {
+        field_134_anim.VRender_403AE0(stru_4D01F0[1].field_0_xpos, stru_4D01F0[1].field_2_ypos + 36, ppOt, 0, 0);
+        PSX_RECT rect = {};
+        field_134_anim.Get_Frame_Rect_402B50(&rect);
+        pScreenManager_4FF7C8->InvalidateRect_406E40(
+            rect.x,
+            rect.y,
+            rect.w,
+            rect.h,
+            pScreenManager_4FF7C8->field_2E_idx);
+    }
+    else
+    {
+        field_134_anim.VRender_403AE0(stru_4D01F0[0].field_0_xpos, stru_4D01F0[0].field_2_ypos + 36, ppOt, 0, 0);
+        PSX_RECT rect = {};
+        field_134_anim.Get_Frame_Rect_402B50(&rect);
+        pScreenManager_4FF7C8->InvalidateRect_406E40(
+            rect.x,
+            rect.y,
+            rect.w,
+            rect.h,
+            pScreenManager_4FF7C8->field_2E_idx);
+    }
+
+    const auto save_idx_1 = field_1E0_selected_index;
+    if (save_idx_1 != sSelectedSaveIdx_9F2DDC)
+    {
+        if (field_228 != FP_FromInteger(0))
+        {
+            field_1E0_selected_index = static_cast<short>(sSelectedSaveIdx_9F2DDC);
+            goto LABEL_13;
+        }
+        if (save_idx_1 <= sSelectedSaveIdx_9F2DDC)
+        {
+            if (save_idx_1 >= sSelectedSaveIdx_9F2DDC)
+            {
+                goto LABEL_13;
+            }
+            field_228 = FP_FromInteger(-26);
+        }
+        else
+        {
+            field_228 = FP_FromInteger(26);
+        }
+        field_22C = FP_FromDouble(4.5);
+        sSelectedSaveIdx_9F2DDC = save_idx_1;
+    }
+LABEL_13:
+    const auto local_228 = field_228;
+    if (local_228 >= FP_FromInteger(0))
+    {
+        if (local_228 <= FP_FromInteger(0))
+        {
+            goto LABEL_23;
+        }
+
+        const auto local_22c = field_22C;
+        const auto diff = local_228 - local_22c;
+        field_228 = diff;
+        if (diff <= FP_FromInteger(0))
+        {
+            field_228 = FP_FromInteger(0);
+            goto LABEL_23;
+        }
+        field_22C = local_22c - FP_FromDouble(0.2);
+        if (local_22c - FP_FromDouble(0.2) <= FP_FromInteger(0))
+        {
+            goto LABEL_22;
+        }
+    }
+    else
+    {
+        const auto local_22c_ = field_22C;
+        const auto diff_ = local_22c_ + local_228;
+        field_228 = diff_;
+        if (diff_ >= FP_FromInteger(0))
+        {
+            field_228 = FP_FromInteger(0);
+            goto LABEL_23;
+        }
+        field_22C = local_22c_ - FP_FromDouble(0.2);
+        if (local_22c_ - FP_FromDouble(0.2) <= FP_FromInteger(0))
+        {
+        LABEL_22:
+            field_22C = FP_FromInteger(0);
+            goto LABEL_23;
+        }
+    }
+LABEL_23:
+    int start = 0;
+    int end = 0;
+    const auto local_228_ = field_228;
+    if (local_228_ <= FP_FromInteger(0))
+    {
+        start = -2;
+        if (local_228_ < FP_FromInteger(0))
+        {
+            end = 3;
+            goto LABEL_28;
+        }
+    }
+    else
+    {
+        start = -3;
+    }
+    end = 2;
+
+LABEL_28:
+    int stackv = 0;
+    for (stackv = start; start <= end; stackv = start)
+    {
+        const auto save_idx = start + field_1E0_selected_index;
+        if (save_idx >= 0 && save_idx < (signed int)sSaveIdx_9F2DD8)
+        {
+            field_1F4_text = sSaveNames_9F1DD8[save_idx].field_0_mName;
+            const auto name_width = field_FC_font.MeasureWidth_41C280(field_1F4_text, FP_FromInteger(1));
+            short text_x = 0;
+            if (name_width >= 336)
+            {
+                text_x = 16;
+            }
+            else
+            {
+                text_x = static_cast<short>((368 - name_width) / 2);
+            }
+
+            const int v15 = (FP_GetExponent(field_228 + FP_FromDouble(0.5))) + 26 * start + 120;
+            const short text_y = static_cast<short>((v15 + FP_GetExponent(FP_FromInteger(-7) * FP_FromInteger(1))) - 1);
+            int polyOff2 = 0;
+            if (stackv)
+            {
+                polyOff2 = field_FC_font.DrawString_41C360(
+                    ppOt,
+                    field_1F4_text,
+                    text_x,
+                    text_y,
+                    0,
+                    1,
+                    0,
+                    32,
+                    210,
+                    150,
+                    80,
+                    polyOffset,
+                    FP_FromInteger(1),
+                    640,
+                    0);
+            }
+            else
+            {
+                polyOff2 = field_FC_font.DrawString_41C360(
+                    ppOt,
+                    field_1F4_text,
+                    text_x,
+                    text_y,
+                    0,
+                    1,
+                    0,
+                    32,
+                    255,
+                    218,
+                    140,
+                    polyOffset,
+                    FP_FromInteger(1),
+                    640,
+                    0);
+            }
+
+            const auto polyOff3 = field_FC_font.DrawString_41C360(
+                ppOt,
+                field_1F4_text,
+                text_x + 2,
+                text_y + 2,
+                0,
+                1,
+                0,
+                32,
+                0,
+                0,
+                0,
+                polyOff2,
+                FP_FromInteger(1),
+                640,
+                0);
+            start = stackv;
+            polyOffset = polyOff3;
+        }
+        ++start;
+    }
+
+    for (int i = 0; i < 2; i++)
+    {
+        RenderElement_47A4E0(stru_4D0630[i].field_0_xpos, stru_4D0630[i].field_4_ypos, stru_4D0630[i].field_8_input_command, ppOt, &field_FC_font, &polyOffset);
+    }
 }
 
 void Menu::To_Options_Update_47C250()
@@ -1812,12 +1999,12 @@ void Menu::Options_To_Selected_After_Cam_Change_Update_47C330()
         // To controller options
         case 0:
             field_204_flags &= ~2u;
-            field_228 = 0;
+            field_228 = FP_FromInteger(0);
             field_1CC_fn_update = &Menu::To_Options_Controller_Update_47F2E0;
             field_1D0_fn_render = &Menu::Options_Controller_Render_47F430;
             field_1E0_selected_index = static_cast<short>(sJoystickEnabled_508A60);
             field_230_bGoBack = -1;
-            field_22C = 0;
+            field_22C = FP_FromInteger(0);
             break;
 
         // To sound options
@@ -1856,7 +2043,7 @@ void Menu::To_Options_Controller_Update_47F2E0()
             field_1D0_fn_render = &Menu::Options_Controller_Render_47F430;
             field_1DC_idle_input_counter = 0;
             field_1E0_selected_index = static_cast<short>(sJoystickEnabled_508A60);
-            field_228 = 0;
+            field_228 = FP_FromInteger(0);
         }
     }
 }
@@ -2397,7 +2584,7 @@ void Menu::Options_Controller_Update_47F210()
 {
     if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x1000) // TODO: Input constants
     {
-        if (field_1E0_selected_index > 0 && !field_228)
+        if (field_1E0_selected_index > 0 && field_228 == FP_FromInteger(0))
         {
             field_1E0_selected_index--;
             SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
@@ -2405,7 +2592,7 @@ void Menu::Options_Controller_Update_47F210()
     }
     else if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x4100) // TODO: Input constants
     {
-        if (field_1E0_selected_index < dword_4CE598 - 1 && !field_228)
+        if (field_1E0_selected_index < dword_4CE598 - 1 && field_228 == FP_FromInteger(0))
         {
             field_1E0_selected_index++;
             SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
@@ -2781,7 +2968,7 @@ void Menu::Load_Update_47D760()
 
     if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x1000) // TODO: Input constants
     {
-        if (field_1E0_selected_index > 0 && !field_228)
+        if (field_1E0_selected_index > 0 && field_228 == FP_FromInteger(0))
         {
             field_1E0_selected_index--;
 
@@ -2801,7 +2988,7 @@ void Menu::Load_Update_47D760()
     {
         if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x4100) // TODO: Input constants
         {
-            if (field_1E0_selected_index < (sSaveIdx_9F2DD8 - 1) && !field_228)
+            if (field_1E0_selected_index < (sSaveIdx_9F2DD8 - 1) && field_228 == FP_FromInteger(0))
             {
                 field_1E0_selected_index++;
 

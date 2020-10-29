@@ -241,8 +241,8 @@ public:
     int field_220;
     __int16 field_224_bToFmvSelect;
     __int16 field_226_bToLevelSelect;
-    int field_228;
-    int field_22C;
+    FP field_228;
+    FP field_22C;
     int field_230_bGoBack;
 };
 ALIVE_ASSERT_SIZEOF(Menu, 0x234);
