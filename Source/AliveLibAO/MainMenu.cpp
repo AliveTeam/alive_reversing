@@ -171,7 +171,7 @@ const Menu_Element stru_4D04A0[43] =
     { 307, 139, 64 },
     { 259, 178, 9 },
     { 296, 178, 128 }, // 1st
-    { 308, 205, 2048 },
+    { 308, 205, 2048 }, // end
     { 96, 32, 6 },
     { 305, 32, 9 },
     { 157, 29, 6 },
@@ -183,7 +183,7 @@ const Menu_Element stru_4D04A0[43] =
     { 322, 82, 16 },
     { 307, 117, 32 },
     { 301, 146, 64 },
-    { 278, 184, 128 },
+    { 278, 184, 128 }, // 1st
     { 0, 62, 204 },
     { 64, 293, 205 },
     { 2048, 144, 205 },
@@ -1459,9 +1459,15 @@ void Menu::ToGameSpeak_Update_47D620()
 }
 
 
-void Menu::GameSpeak_Render_47D700(int** /*ppOt*/)
+void Menu::GameSpeak_Render_47D700(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    // Only renders exit and keys
+    int polyOffset = 0;
+    int count = sJoystickEnabled_508A60 != 0 ? 13 : 1;
+    for (int i = 20; i < 20 + count; i++)
+    {
+        RenderElement_47A4E0(stru_4D04A0[i].field_0_xpos, stru_4D04A0[i].field_4_ypos, stru_4D04A0[i].field_8_input_command, ppOt, &field_FC_font, &polyOffset);
+    }
 }
 
 void Menu::To_FMV_Or_Level_Select_Update_47EC30()
