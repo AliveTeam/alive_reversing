@@ -120,7 +120,7 @@ public:
     EXPORT void ToLoading_47B7E0();
     EXPORT void ToGameSpeak_Update_47D620();
     EXPORT void To_FMV_Or_Level_Select_Update_47EC30();
-    EXPORT void Update_47E3C0();
+    EXPORT void Update_NoRefs_47E3C0();
     EXPORT void To_Load_Update_47D8E0();
     EXPORT void To_Options_Update_47C250();
     EXPORT void Loading_Update_47B870();
@@ -186,7 +186,7 @@ public:
     EXPORT void FMV_Or_Level_Select_Render_47EEA0(int** ppOt);
     EXPORT void MainScreen_Render_47BED0(int** ppOt);
     EXPORT void GameSpeak_Render_47D700(int** ppOt);
-    EXPORT void Render_47E5B0(int** ppOt);
+    EXPORT void Render_NoRefs_47E5B0(int** ppOt);
     EXPORT void Load_Render_47DDA0(int** ppOt);
     EXPORT void Options_Render_47C190(int** ppOt);
 

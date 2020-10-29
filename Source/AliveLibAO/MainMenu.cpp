@@ -1400,8 +1400,8 @@ void Menu::ToNextMenuPage_47BD80()
             // ?? leads to 2 options, one starts the game, the other leads to
             // another screen with 1 option that only starts the game
             case 1:
-                field_1CC_fn_update = &Menu::Update_47E3C0;
-                field_1D0_fn_render = &Menu::Render_47E5B0;
+                field_1CC_fn_update = &Menu::Update_NoRefs_47E3C0;
+                field_1D0_fn_render = &Menu::Render_NoRefs_47E5B0;
                 field_1E0_selected_index = 0;
                 break;
 
@@ -1481,13 +1481,13 @@ void Menu::To_FMV_Or_Level_Select_Update_47EC30()
 }
 
 
-void Menu::Update_47E3C0()
+void Menu::Update_NoRefs_47E3C0()
 {
     NOT_IMPLEMENTED();
 }
 
 
-void Menu::Render_47E5B0(int** /*ppOt*/)
+void Menu::Render_NoRefs_47E5B0(int** /*ppOt*/)
 {
     NOT_IMPLEMENTED();
 }
