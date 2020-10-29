@@ -72,6 +72,13 @@ EXPORT int CC Input_Remap_44F300(InputCommands /*inputCmd*/)
     return 0;
 }
 
+// TODO: Move out
+EXPORT const char* CC Input_GetButtonString_44F1C0(InputCommands /*input_command*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
 ALIVE_VAR(1, 0x9F2DE8, short, bWaitingForRemapInput_9F2DE8, 0);
 
 struct Buttons
@@ -3247,9 +3254,88 @@ void CC Menu::OnResourceLoaded_47ADA0(Menu* pMenu)
     pMenu->field_E4_res_array[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 130, 1, 0);
 }
 
-void CC Menu::RenderElement_47A4E0(int /*xpos*/, int /*ypos*/, int /*input_command*/, int** /*ot*/, AliveFont* /*pFont*/, int* /*pPolyOffset*/)
+void CC Menu::RenderElement_47A4E0(int xpos, int ypos, int input_command, int** ot, AliveFont* pFont, int* pPolyOffset)
 {
-    NOT_IMPLEMENTED();
+    char text[32] = {};
+    strcpy(text, Input_GetButtonString_44F1C0(static_cast<InputCommands>(input_command))); // TODO: Strongly type all the way back to the button structure
+    const FP scale_fp = strlen(text) > 1 ? FP_FromDouble(0.64) : FP_FromDouble(0.84);
+
+    if (text[0])
+    {
+        char* pTextIter = &text[0];
+        do
+        {
+            *pTextIter = static_cast<char>(tolower(*pTextIter));
+            pTextIter++;
+        } while (*pTextIter);
+    }
+
+    if (text[0] < ' ')
+    {
+        text[0] += 'Y';
+    }
+
+    const int text_width = pFont->MeasureWidth_41C280(text, scale_fp);
+    const short text_y = static_cast<short>(ypos + FP_GetExponent((FP_FromInteger(-9) * scale_fp)) + 1);
+    const short converted_x = static_cast<short>(PsxToPCX(xpos - text_width / 2, 11));
+
+    const BYTE bOldValue = sFontDrawScreenSpace_508BF4;
+    sFontDrawScreenSpace_508BF4 = 1;
+
+    int offset = pFont->DrawString_41C360(
+        ot,
+        text,
+        converted_x,
+        text_y,
+        0,
+        1,
+        0,
+        39,
+        0,
+        0,
+        0,
+        *pPolyOffset,
+        scale_fp,
+        640,
+        0);
+    *pPolyOffset = offset;
+
+    offset = pFont->DrawString_41C360(
+        ot,
+        text,
+        converted_x - 1,
+        text_y,
+        0,
+        1,
+        0,
+        39,
+        58,
+        40,
+        41,
+        offset,
+        scale_fp,
+        640,
+        0);
+    *pPolyOffset = offset;
+
+    *pPolyOffset = pFont->DrawString_41C360(
+        ot,
+        text,
+        converted_x + 1,
+        text_y,
+        3,
+        1,
+        0,
+        39,
+        115,
+        98,
+        99,
+        offset,
+        scale_fp,
+        640,
+        0);
+
+    sFontDrawScreenSpace_508BF4 = bOldValue;
 }
 
 END_NS_AO
