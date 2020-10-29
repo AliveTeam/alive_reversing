@@ -1583,23 +1583,23 @@ void Menu::Load_Render_47DDA0(int** ppOt)
     const auto local_228 = field_228;
     if (local_228 >= FP_FromInteger(0))
     {
-        if (local_228 <= FP_FromInteger(0))
+        if (local_228 > FP_FromInteger(0))
         {
-            goto LABEL_23;
-        }
-
-        const auto local_22c = field_22C;
-        const auto diff = local_228 - local_22c;
-        field_228 = diff;
-        if (diff <= FP_FromInteger(0))
-        {
-            field_228 = FP_FromInteger(0);
-            goto LABEL_23;
-        }
-        field_22C = local_22c - FP_FromDouble(0.2);
-        if (local_22c - FP_FromDouble(0.2) <= FP_FromInteger(0))
-        {
-            goto LABEL_22;
+            const auto local_22c = field_22C;
+            const auto diff = local_228 - local_22c;
+            field_228 = diff;
+            if (diff <= FP_FromInteger(0))
+            {
+                field_228 = FP_FromInteger(0);
+            }
+            else
+            {
+                field_22C = local_22c - FP_FromDouble(0.2);
+                if (local_22c - FP_FromDouble(0.2) <= FP_FromInteger(0))
+                {
+                    field_22C = FP_FromInteger(0);
+                }
+            }
         }
     }
     else
@@ -1610,18 +1610,17 @@ void Menu::Load_Render_47DDA0(int** ppOt)
         if (diff_ >= FP_FromInteger(0))
         {
             field_228 = FP_FromInteger(0);
-            goto LABEL_23;
         }
-        field_22C = local_22c_ - FP_FromDouble(0.2);
-        if (local_22c_ - FP_FromDouble(0.2) <= FP_FromInteger(0))
+        else
         {
-        LABEL_22:
-            field_22C = FP_FromInteger(0);
-            goto LABEL_23;
+            field_22C = local_22c_ - FP_FromDouble(0.2);
+            if (local_22c_ - FP_FromDouble(0.2) <= FP_FromInteger(0))
+            {
+                field_22C = FP_FromInteger(0);
+            }
         }
     }
 
-LABEL_23:
     int start = 0;
     int end = 0;
     const auto local_228_ = field_228;
@@ -1631,16 +1630,18 @@ LABEL_23:
         if (local_228_ < FP_FromInteger(0))
         {
             end = 3;
-            goto LABEL_28;
+        }
+        else
+        {
+            end = 2;
         }
     }
     else
     {
         start = -3;
+        end = 2;
     }
-    end = 2;
 
-LABEL_28:
     int stackv = 0;
     for (stackv = start; start <= end; stackv = start)
     {
