@@ -9,6 +9,7 @@
 #include "Collisions.hpp"
 #include "Math.hpp"
 #include "Abe.hpp"
+#include "Elum.hpp"
 #include "Events.hpp"
 #include "MusicController.hpp"
 #include "Game.hpp"
@@ -4313,8 +4314,86 @@ __int16 Slig::Brain_KilledEnemy_4662A0()
 
 __int16 Slig::Brain_Unknown_46B250()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (!VOnSameYLevel(sControlledCharacter_50767C)
+        || !VIsFacingMe_4655B0(sControlledCharacter_50767C)
+        || IsInInvisibleZone_418870(sControlledCharacter_50767C)
+        || IsWallBetween_46BE60(this, sControlledCharacter_50767C)
+        || !gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+            field_B2_lvl_number,
+            field_B0_path_number,
+            field_A8_xpos,
+            field_AC_ypos,
+            0)
+        || field_20E_spotted_possessed_slig
+        && sControlledCharacter_50767C->field_4_typeId == Types::eSlig_88
+        || Event_Get_417250(kEventResetting_6))
+    {
+        if (!VOnSameYLevel(
+            sControlledCharacter_50767C)
+            || !VIsFacingMe_4655B0(sControlledCharacter_50767C)
+            || IsInInvisibleZone_418870(sControlledCharacter_50767C)
+            || IsWallBetween_46BE60(this, sControlledCharacter_50767C)
+            || !gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+            field_B2_lvl_number,
+            field_B0_path_number,
+            field_A8_xpos,
+            field_AC_ypos,
+            0)
+            || Event_Get_417250(kEventResetting_6))
+        {
+            if (sActiveHero_507678->field_100_health > FP_FromInteger(0))
+            {
+                BaseAliveGameObject *pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEvent_10));
+                if (!pEvent)
+                {
+                    pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEventSpeaking_1));
+                }
+
+                if (pEvent &&
+                    pEvent->field_BC_sprite_scale == field_BC_sprite_scale &&
+                    pEvent != this &&
+                    field_114_timer <= static_cast<int>(gnFrameCount_507670) &&
+                    !Event_Get_417250(kEventResetting_6))
+                {
+                    ToTurn_46DE70();
+                }
+                else if (sControlledCharacter_50767C->field_BC_sprite_scale <= field_BC_sprite_scale
+                    || sControlledCharacter_50767C != sActiveHero_507678
+                    && sControlledCharacter_50767C != gElum_507680
+                    || !VIsFacingMe_4655B0(sControlledCharacter_50767C)
+                    || IsInInvisibleZone_418870(sControlledCharacter_50767C)
+                    || !gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                    field_B2_lvl_number,
+                    field_B0_path_number,
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    0)
+                    || IsInZCover_46BDA0(static_cast<Slig*>(sControlledCharacter_50767C))
+                    || IsInZCover_46BDA0(this)
+                    || Event_Get_417250(kEventResetting_6))
+                {
+                    ShouldStilBeAlive_46C0D0();
+                }
+                else
+                {
+                    ToZShoot_46F200();
+                }
+            }
+            else
+            {
+                ToAbeDead_466270();
+            }
+        }
+        else
+        {
+            ToShoot_46F1D0();
+        }
+    }
+    else
+    {
+        ShootTurnTowardsOrKillSound_465DF0();
+    }
+    return 101;
 }
 
 void Slig::WakeUp()
