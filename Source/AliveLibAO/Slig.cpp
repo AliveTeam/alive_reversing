@@ -4083,13 +4083,9 @@ void Slig::State_52_Beat_46AA90()
             }
             if (pObjIter != this && pObjIter->field_4_typeId == Types::eMudokon_75)
             {
-                PSX_RECT pRect = {};
                 PSX_RECT bRect = {};
-                    
-                pObjIter->VGetBoundingRect(&pRect, 1);
                 pObjIter->VGetBoundingRect(&bRect, 1);
 
-                ;
                 if (pObjIter->field_100_health > FP_FromInteger(0)
                     && PSX_Rects_overlap_no_adjustment(&hitRect, &bRect))
                 {
