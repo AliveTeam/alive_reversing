@@ -21,6 +21,8 @@
 #include "CreditsController.hpp"
 #include "LvlArchive.hpp"
 #include "SaveGame.hpp"
+#include "Midi.hpp"
+#include "Particle.hpp"
 #include "../AliveLibAE/Io.hpp"
 
 START_NS_AO
@@ -103,6 +105,96 @@ const Menu_Button stru_4D0148[3] = { { 33, 66, 6152 }, { 33, 87, 6152 }, { 288, 
 const Menu_Button stru_4D01C0[3] = { { 33, 66, 6152 }, { 33, 87, 6152 }, { 289, 238, 6152 } };
 
 const Menu_Button stru_4D01D8[3] = { { 116, 251, 6152 }, { 116, 251, 6152 }, { 308, 240, 6152 } };
+
+const Menu_Button stru_4D01F0[2] = { { 62, 204, 6152 }, { 293, 204, 6152 } };
+
+const Menu_Button stru_4D00E0[13] =
+{
+    { 50, 151, 6152 },
+    { 38, 81, 6152 },
+    { 65, 190, 6152 },
+    { 43, 118, 6152 },
+    { 322, 81, 6152 },
+    { 302, 146, 6152 },
+    { 279, 185, 6152 },
+    { 307, 116, 6152 },
+    { 157, 29, 6152 },
+    { 308, 205, 6152 },
+    { 96, 32, 6152 },
+    { 205, 29, 6152 },
+    { 305, 32, 6152 }
+};
+
+struct Menu_Element
+{
+    int field_0_xpos;
+    int field_4_ypos;
+    int field_8_input_command;
+};
+
+const Menu_Element stru_4D03F0[] = { 146, 205, 64 };
+const Menu_Element stru_4D0400[2] = { { 145, 204, 64 }, { 286, 202, 2048 } };
+const Menu_Element stru_4D0418[11] =
+{
+    { 144, 205, 64 },
+    { 288, 203, 2048 },
+    { 112, 87, 64 },
+    { 283, 87, 9 },
+    { 89, 118, 9 },
+    { 124, 118, 16 },
+    { 293, 119, 6 },
+    { 264, 151, 32 },
+    { 273, 183, 128 },
+    { 115, 216, 64 }, // 2nd
+    { 307, 203, 2048 }, // 1st
+};
+
+const Menu_Element stru_4D04A0[43] =
+{
+    { 115, 216, 64 },
+    { 307, 203, 2048 },
+    { 90, 53, 6 },
+    { 125, 53, 9 },
+    { 81, 80, 6 },
+    { 125, 80, 16 },
+    { 79, 112, 6 },
+    { 122, 112, 32 },
+    { 78, 147, 6 },
+    { 119, 147, 64 },
+    { 82, 180, 6 },
+    { 120, 180, 128 },
+    { 258, 62, 9 },
+    { 295, 62, 16 },
+    { 253, 98, 9 },
+    { 294, 98, 32 },
+    { 267, 139, 9 },
+    { 307, 139, 64 },
+    { 259, 178, 9 },
+    { 296, 178, 128 }, // 1st
+    { 308, 205, 2048 }, // end
+    { 96, 32, 6 },
+    { 305, 32, 9 },
+    { 157, 29, 6 },
+    { 205, 29, 9 },
+    { 38, 81, 16 },
+    { 42, 118, 32 },
+    { 49, 151, 64 },
+    { 65, 190, 128 },
+    { 322, 82, 16 },
+    { 307, 117, 32 },
+    { 301, 146, 64 },
+    { 278, 184, 128 }, // 1st
+    { 0, 62, 204 },
+    { 64, 293, 205 },
+    { 2048, 144, 205 },
+    { 64, 287, 207 },
+    { 2048, 33, 29 },
+    { 64, 304, 165 },
+    { 2048, 43, 200 },
+    { 64, 289, 200 },
+    { 2048, 40, 34 },
+    { 64, 301, 163 }
+};
 
 
 const AIFunctionData<Menu::TUpdateFn> kUpdateTable[] =
@@ -896,7 +988,7 @@ void Menu::FMV_Select_Update_47E8D0()
 
 void Menu::Empty_Render_47AC80(int**)
 {
-    NOT_IMPLEMENTED();
+    // Draw nothing
 }
 
 void Menu::FMV_Or_Level_Select_Render_47EEA0(int**)
@@ -960,9 +1052,29 @@ bool Menu::ProgressInProgressFilesLoading()
     return false;
 }
 
-EXPORT void Menu::MainScreen_Render_47BED0(int** /*ppOt*/)
+void Menu::MainScreen_Render_47BED0(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    field_134_anim.VRender_403AE0(
+        sMainScreenButtons_4D00B0[field_1E0_selected_index].field_0_xpos,
+        sMainScreenButtons_4D00B0[field_1E0_selected_index].field_2_ypos,
+        ppOt,
+        0,
+        0);
+
+    PSX_RECT rect = {};
+    field_134_anim.Get_Frame_Rect_402B50(&rect);
+    pScreenManager_4FF7C8->InvalidateRect_406E40(
+        rect.x,
+        rect.y,
+        rect.w,
+        rect.h,
+        pScreenManager_4FF7C8->field_2E_idx);
+
+    int polyOffset = 0;
+    for (const auto& element : stru_4D03F0)
+    {
+        RenderElement_47A4E0(element.field_0_xpos, element.field_4_ypos, element.field_8_input_command, ppOt, &field_FC_font, &polyOffset);
+    }
 }
  
 EXPORT void Menu::MainScreen_Update_47AF60()
@@ -1288,8 +1400,8 @@ void Menu::ToNextMenuPage_47BD80()
             // ?? leads to 2 options, one starts the game, the other leads to
             // another screen with 1 option that only starts the game
             case 1:
-                field_1CC_fn_update = &Menu::Update_47E3C0;
-                field_1D0_fn_render = &Menu::Render_47E5B0;
+                field_1CC_fn_update = &Menu::Update_NoRefs_47E3C0;
+                field_1D0_fn_render = &Menu::Render_NoRefs_47E5B0;
                 field_1E0_selected_index = 0;
                 break;
 
@@ -1347,9 +1459,15 @@ void Menu::ToGameSpeak_Update_47D620()
 }
 
 
-void Menu::GameSpeak_Render_47D700(int** /*ppOt*/)
+void Menu::GameSpeak_Render_47D700(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    // Only renders exit and keys
+    int polyOffset = 0;
+    int count = sJoystickEnabled_508A60 != 0 ? 13 : 1;
+    for (int i = 20; i < 20 + count; i++)
+    {
+        RenderElement_47A4E0(stru_4D04A0[i].field_0_xpos, stru_4D04A0[i].field_4_ypos, stru_4D04A0[i].field_8_input_command, ppOt, &field_FC_font, &polyOffset);
+    }
 }
 
 void Menu::To_FMV_Or_Level_Select_Update_47EC30()
@@ -1363,13 +1481,13 @@ void Menu::To_FMV_Or_Level_Select_Update_47EC30()
 }
 
 
-void Menu::Update_47E3C0()
+void Menu::Update_NoRefs_47E3C0()
 {
     NOT_IMPLEMENTED();
 }
 
 
-void Menu::Render_47E5B0(int** /*ppOt*/)
+void Menu::Render_NoRefs_47E5B0(int** /*ppOt*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -1435,10 +1553,29 @@ void Menu::To_Options_Update_47C250()
     }
 }
 
-
-void Menu::Options_Render_47C190(int** /*ppOt*/)
+void Menu::Options_Render_47C190(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    field_134_anim.VRender_403AE0(
+        stru_4D0148[field_1E0_selected_index].field_0_xpos,
+        stru_4D0148[field_1E0_selected_index].field_2_ypos,
+        ppOt,
+        0,
+        0);
+
+    PSX_RECT rect = {};
+    field_134_anim.Get_Frame_Rect_402B50(&rect);
+    pScreenManager_4FF7C8->InvalidateRect_406E40(
+        rect.x,
+        rect.y,
+        rect.w,
+        rect.h,
+        pScreenManager_4FF7C8->field_2E_idx);
+
+    int polyOff = 0;
+    for (const auto& element : stru_4D0400)
+    {
+        RenderElement_47A4E0(element.field_0_xpos, element.field_4_ypos, element.field_8_input_command, ppOt, &field_FC_font, &polyOff);
+    }
 }
 
 void Menu::FMV_Or_Level_Select_Back_Update_47ECB0()
@@ -1753,9 +1890,29 @@ void Menu::To_MainScreen_Update_47BB60()
     }
 }
 
-void Menu::Options_Sound_Render_47C630(int** /*ppOt*/)
+void Menu::Options_Sound_Render_47C630(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    field_134_anim.VRender_403AE0(
+        stru_4D01C0[field_1E0_selected_index].field_0_xpos,
+        stru_4D01C0[field_1E0_selected_index].field_2_ypos,
+        ppOt,
+        0,
+        0);
+
+    PSX_RECT rect = {};
+    field_134_anim.Get_Frame_Rect_402B50(&rect);
+    pScreenManager_4FF7C8->InvalidateRect_406E40(
+        rect.x,
+        rect.y,
+        rect.w,
+        rect.h,
+        pScreenManager_4FF7C8->field_2E_idx);
+
+    int polyOffset = 0;
+    for (int i = 0; i < 2; i++)
+    {
+        RenderElement_47A4E0(stru_4D0418[i].field_0_xpos, stru_4D0418[i].field_4_ypos, stru_4D0418[i].field_8_input_command, ppOt, &field_FC_font, &polyOffset);
+    }
 }
 
 void Menu::Options_Sound_Update_47C420()
@@ -1882,9 +2039,335 @@ void Menu::To_MainOptions_Screen_After_Camera_Change_Update_47C7A0()
 
 void Menu::GameSpeak_Update_47CBD0()
 {
-    NOT_IMPLEMENTED();
+    if (sInputObject_5009E8.field_0_pads[0].field_0_pressed)
+    {
+        field_1DC_idle_input_counter = 0;
+    }
+    else
+    {
+        field_1DC_idle_input_counter++;
+    }
+
+    if (field_204_flags & 1)
+    {
+        if (field_1E0_selected_index == 8 && !(gnFrameCount_507670 % 8))
+        {
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 367, 1, 0);
+            auto pParticle = ao_new<Particle>();
+            if (pParticle)
+            {
+                const FP screen_y = pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
+                const FP screen_x = pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
+                pParticle->ctor_478880(
+                    screen_x + (FP_FromInteger(Math_RandomRange_450F20(-40, 40) + 184)),
+                    screen_y + (FP_FromInteger(162 - Math_RandomRange_450F20(30, 90))),
+                    7152,
+                    92,
+                    47,
+                    field_E4_res_array[4]);
+
+                pParticle->field_10_anim.field_B_render_mode = 1;
+                pParticle->field_10_anim.field_C_layer = 39;
+            }
+        }
+
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            if (field_1E0_selected_index == 8)
+            {
+                if (!Input_IsChanting_4334C0())
+                {
+                    SND_Seq_Stop_477A60(SeqId::Unknown_11);
+
+                    field_1EC_pObj1->field_E8_bDestroyOnDone = 1;
+                    field_1EC_pObj1 = nullptr;
+
+                    if (field_1F0_pObj2)
+                    {
+                        field_1F0_pObj2->field_E8_bDestroyOnDone = 1;
+                        field_1F0_pObj2 = nullptr;
+                    }
+
+                    field_10_anim.Set_Animation_Data_402A40(2115452, field_E4_res_array[0]);
+                    field_1E0_selected_index = 1;
+                }
+            }
+            else
+            {
+                field_204_flags &= ~1u;
+                if (field_1E0_selected_index == 6 || field_1E0_selected_index == 1)
+                {
+                    field_10_anim.Set_Animation_Data_402A40(201384, field_E4_res_array[1]);
+                    field_10_anim.SetFrame_402AC0(7u);
+                }
+                else
+                {
+                    field_10_anim.Set_Animation_Data_402A40(201508, field_E4_res_array[1]);
+                }
+            }
+        }
+        CycleGameSpeakIdleAnims();
+        return;
+    }
+
+    if (Input_IsChanting_4334C0())
+    {
+        SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_11, 0, 1);
+
+        field_204_flags |= 1u;
+        field_10_anim.Set_Animation_Data_402A40(2115472, field_E4_res_array[0]);
+        field_1E0_selected_index = 8;
+
+        if (!field_1EC_pObj1)
+        {
+            if (sJoystickEnabled_508A60)
+            {
+                field_1EC_pObj1 = ao_new<MainMenuFade>();
+                if (field_1EC_pObj1)
+                {
+                    field_1EC_pObj1->ctor_42A5A0(stru_4D00E0[8].field_0_xpos, stru_4D00E0[8].field_2_ypos + 36, 0, 0);
+                }
+            }
+            else
+            {
+                field_1EC_pObj1 = ao_new<MainMenuFade>();
+                if (field_1EC_pObj1)
+                {
+                    field_1EC_pObj1->ctor_42A5A0(181, stru_4D00E0[8].field_2_ypos + 36, 0, 0);
+                }
+            }
+        }
+
+        if (field_1F0_pObj2)
+        {
+            field_1F0_pObj2->field_E8_bDestroyOnDone = 1;
+        }
+
+        if (sJoystickEnabled_508A60)
+        {
+            field_1F0_pObj2 = ao_new<MainMenuFade>();
+            if (field_1F0_pObj2)
+            {
+                field_1F0_pObj2->ctor_42A5A0(stru_4D00E0[11].field_0_xpos, stru_4D00E0[11].field_2_ypos + 36, 0, 0);
+            }
+        }
+        else
+        {
+            field_1F0_pObj2 = nullptr;
+        }
+        CycleGameSpeakIdleAnims();
+        return;
+    }
+
+    if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & sInputKey_LeftGameSpeakEnabler_4C65B8)
+    {
+        if (field_1F0_pObj2)
+        {
+            const FP xpos = FP_FromInteger(stru_4D00E0[10].field_0_xpos);
+            if (field_1F0_pObj2->field_A8_xpos != xpos)
+            {
+                field_1F0_pObj2->field_A8_xpos = xpos;
+                field_1F0_pObj2->field_AC_ypos = FP_FromInteger(stru_4D00E0[10].field_2_ypos + 36);
+            }
+        }
+        else if (sJoystickEnabled_508A60)
+        {
+            field_1F0_pObj2 = ao_new<MainMenuFade>();
+            if (field_1F0_pObj2)
+            {
+                field_1F0_pObj2->ctor_42A5A0(stru_4D00E0[10].field_0_xpos, stru_4D00E0[10].field_2_ypos + 36, 0, 0);
+            }
+        }
+
+        if (sInputObject_5009E8.field_0_pads[0].field_6_held & sInputKey_GameSpeak2_4C65BC)
+        {
+            Mudokon_SFX_42A4D0(MudSounds::eFollowMe_4, 0, 0, 0);
+            field_204_flags |= 1u;
+            field_10_anim.Set_Animation_Data_402A40(2115300, field_E4_res_array[0]);
+            field_1E0_selected_index = 2;
+            auto pFade = ao_new<MainMenuFade>();
+            if (pFade)
+            {
+                pFade->ctor_42A5A0(stru_4D00E0[2].field_0_xpos, stru_4D00E0[2].field_2_ypos + 36, 0, 1);
+            }
+        }
+        else if (sInputObject_5009E8.field_0_pads[0].field_6_held & sInputKey_GameSpeak4_4C65C4)
+        {
+            Mudokon_SFX_42A4D0(MudSounds::eWait_6, 0, 0, 0);
+            field_204_flags |= 1u;
+            field_10_anim.Set_Animation_Data_402A40(2115912, field_E4_res_array[0]);
+            field_1E0_selected_index = 0;
+            auto pFade = ao_new<MainMenuFade>();
+            if (pFade)
+            {
+                pFade->ctor_42A5A0(stru_4D00E0[0].field_0_xpos, stru_4D00E0[0].field_2_ypos + 36, 0, 1);
+            }
+        }
+        else if (sInputObject_5009E8.field_0_pads[0].field_6_held & sInputKey_GameSpeak1_4C65C8)
+        {
+            Mudokon_SFX_42A4D0(MudSounds::eHello_3, 0, 0, 0);
+            field_204_flags |= 1u;
+            field_10_anim.Set_Animation_Data_402A40(201320, field_E4_res_array[1]);
+            field_1E0_selected_index = 1;
+            auto pFade = ao_new<MainMenuFade>();
+            if (pFade)
+            {
+                pFade->ctor_42A5A0(stru_4D00E0[1].field_0_xpos, stru_4D00E0[1].field_2_ypos + 36, 0, 1);
+            }
+        }
+        else if (sInputObject_5009E8.field_0_pads[0].field_6_held & sInputKey_GameSpeak3_4C65C0)
+        {
+            Mudokon_SFX_42A4D0(MudSounds::eAngry_5, 0, 0, 0);
+            field_204_flags |= 1u;
+            field_10_anim.Set_Animation_Data_402A40(2115180, field_E4_res_array[0]);
+            field_1E0_selected_index = 3;
+            auto pFade = ao_new<MainMenuFade>();
+            if (pFade)
+            {
+                pFade->ctor_42A5A0(stru_4D00E0[3].field_0_xpos, stru_4D00E0[3].field_2_ypos + 36, 0, 1);
+            }
+        }
+        CycleGameSpeakIdleAnims();
+        return;
+    }
+
+    if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & sInputKey_RightGameSpeakEnabler_4C65DC)
+    {
+        if (field_1F0_pObj2)
+        {
+            const FP xpos = FP_FromInteger(stru_4D00E0[12].field_0_xpos);
+            if (field_1F0_pObj2->field_A8_xpos != xpos)
+            {
+                field_1F0_pObj2->field_A8_xpos = xpos;
+                field_1F0_pObj2->field_AC_ypos = FP_FromInteger(stru_4D00E0[12].field_2_ypos + 36);
+            }
+        }
+        else if (sJoystickEnabled_508A60)
+        {
+            field_1F0_pObj2 = ao_new<MainMenuFade>();
+            if (field_1F0_pObj2)
+            {
+                field_1F0_pObj2->ctor_42A5A0(stru_4D00E0[12].field_0_xpos, stru_4D00E0[12].field_2_ypos + 36, 0, 0);
+            }
+        }
+        if (sInputObject_5009E8.field_0_pads[0].field_6_held & sInputKey_GameSpeak6_4C65E8)
+        {
+            Mudokon_SFX_42A4D0(MudSounds::eWhistle1_1, 0, 0, 0);
+            field_204_flags |= 1u;
+            field_10_anim.Set_Animation_Data_402A40(2115712, field_E4_res_array[0]);
+            field_1E0_selected_index = 4;
+            auto pFade = ao_new<MainMenuFade>();
+            if (pFade)
+            {
+                pFade->ctor_42A5A0(stru_4D00E0[4].field_0_xpos, stru_4D00E0[4].field_2_ypos + 36, 0, 1);
+            }
+        }
+        else if (sInputObject_5009E8.field_0_pads[0].field_6_held & sInputKey_GameSpeak5_4C65EC)
+        {
+            Mudokon_SFX_42A4D0(MudSounds::eWhistle2_2, 0, 0, 0);
+            field_204_flags |= 1u;
+            field_10_anim.Set_Animation_Data_402A40(2115824, field_E4_res_array[0]);
+            field_1E0_selected_index = 5;
+            auto pFade = ao_new<MainMenuFade>();
+            if (pFade)
+            {
+                pFade->ctor_42A5A0(stru_4D00E0[5].field_0_xpos, stru_4D00E0[5].field_2_ypos + 36, 0, 1);
+            }
+        }
+        else if (sInputObject_5009E8.field_0_pads[0].field_6_held & sInputKey_GameSpeak8_4C65E0)
+        {
+            Mudokon_SFX_42A4D0(MudSounds::eLaugh2_11, 0, 0, 0);
+            field_204_flags |= 1u;
+            field_10_anim.Set_Animation_Data_402A40(2115576, field_E4_res_array[0]);
+            field_1E0_selected_index = 6;
+            auto pFade = ao_new<MainMenuFade>();
+            if (pFade)
+            {
+                pFade->ctor_42A5A0(stru_4D00E0[6].field_0_xpos, stru_4D00E0[6].field_2_ypos + 36, 0, 1);
+            }
+        }
+        else if (sInputObject_5009E8.field_0_pads[0].field_6_held & sInputKey_GameSpeak7_4C65E4)
+        {
+            Mudokon_SFX_42A4D0(MudSounds::eFart_7, 0, 0, 0);
+            field_204_flags |= 1u;
+            field_10_anim.Set_Animation_Data_402A40(2115368, field_E4_res_array[0]);
+            field_1E0_selected_index = 7;
+            auto pFade = ao_new<MainMenuFade>();
+            if (pFade)
+            {
+                pFade->ctor_42A5A0(stru_4D00E0[7].field_0_xpos, stru_4D00E0[7].field_2_ypos + 36, 0, 1);
+            }
+        }
+        CycleGameSpeakIdleAnims();
+        return;
+    }
+
+    if (!(sInputObject_5009E8.field_0_pads[0].field_6_held & 0x800) && field_1DC_idle_input_counter <= 1600)
+    {
+        if (field_1F0_pObj2)
+        {
+            field_1F0_pObj2->field_E8_bDestroyOnDone = 1;
+            field_1F0_pObj2 = nullptr;
+        }
+        CycleGameSpeakIdleAnims();
+        return;
+    }
+
+    Mudokon_SFX_42A4D0(MudSounds::eGoodbye_12, 0, 0, 0);
+
+    field_204_flags |= 1u;
+    field_10_anim.Set_Animation_Data_402A40(2115120, field_E4_res_array[0]);
+    field_1E0_selected_index = 9;
+
+    auto pFade2 = ao_new<MainMenuFade>();
+    if (pFade2)
+    {
+        pFade2->ctor_42A5A0(stru_4D00E0[9].field_0_xpos, stru_4D00E0[9].field_2_ypos + 36, 0, 1);
+    }
+
+    field_1CC_fn_update = &Menu::GameSpeakBack_WaitForAbeGoodbye_Update_47D5E0;
+    
+    if (field_1EC_pObj1)
+    {
+        field_1EC_pObj1->field_E8_bDestroyOnDone = 1;
+        field_1EC_pObj1 = nullptr;
+    }
+
+    if (field_1F0_pObj2)
+    {
+        field_1F0_pObj2->field_E8_bDestroyOnDone = 1;
+        field_1F0_pObj2 = nullptr;
+    }
+
+    CycleGameSpeakIdleAnims();
 }
 
+void Menu::CycleGameSpeakIdleAnims()
+{
+    if (!(field_204_flags & 1))
+    {
+        if ((field_204_flags >> 2) & 1)
+        {
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                field_10_anim.Set_Animation_Data_402A40(201508, field_E4_res_array[1]);
+                field_204_flags &= ~4u;
+                field_1D8_timer = gnFrameCount_507670 + Math_RandomRange_450F20(120, 450);
+            }
+        }
+        else
+        {
+            if (field_1D8_timer <= static_cast<int>(gnFrameCount_507670))
+            {
+                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+                {
+                    field_10_anim.Set_Animation_Data_402A40(201384, field_E4_res_array[1]);
+                    field_204_flags |= 4u;
+                }
+            }
+        }
+    }
+}
 
 void Menu::FMV_Or_Level_Select_To_Back_Update_47EC70()
 {
@@ -2275,7 +2758,85 @@ void Menu::CreditsEnd_BackTo_FMV_Or_Level_List_Update_47F170()
 
 void Menu::Load_Update_47D760()
 {
-    NOT_IMPLEMENTED();
+    if (sInputObject_5009E8.field_0_pads[0].field_0_pressed)
+    {
+        field_1DC_idle_input_counter = 0;
+    }
+    else
+    {
+        field_1DC_idle_input_counter++;
+    }
+
+    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x800 // TODO: Input constants
+        || sInputObject_5009E8.field_0_pads[0].field_6_held & 0x10 && !field_1FE // TODO: Input constants
+        || field_1DC_idle_input_counter > 1000)
+    {
+        field_1FA = 0;
+        field_1E0_selected_index = 1;
+        field_134_anim.Set_Animation_Data_402A40(stru_4D01F0[1].field_4_frame_table, nullptr);
+        field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+        field_1CC_fn_update = &Menu::Load_BackToMainScreen_Update_47DA40;
+        field_202 = 0;
+    }
+
+    if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x1000) // TODO: Input constants
+    {
+        if (field_1E0_selected_index > 0 && !field_228)
+        {
+            field_1E0_selected_index--;
+
+            SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
+
+            if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x810) // TODO: Input constants
+            {
+                field_230_bGoBack = 1;
+                field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+                field_1CC_fn_update = &Menu::To_MainScreenOrLoad_Update_47DA90;
+                field_202 = 0;
+                return;
+            }
+        }
+    }
+    else 
+    {
+        if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x4100) // TODO: Input constants
+        {
+            if (field_1E0_selected_index < (sSaveIdx_9F2DD8 - 1) && !field_228)
+            {
+                field_1E0_selected_index++;
+
+                SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
+
+                if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x810) // TODO: Input constants
+                {
+                    field_230_bGoBack = 1;
+                    field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+                    field_1CC_fn_update = &Menu::To_MainScreenOrLoad_Update_47DA90;
+                    field_202 = 0;
+                    return;
+                }
+            }
+        }
+    }
+
+    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0xE0) // TODO: Input constants
+    {
+        if (sSaveIdx_9F2DD8)
+        {
+            field_230_bGoBack = 0;
+            field_1FC = field_1E0_selected_index;
+            field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+            field_1CC_fn_update = &Menu::To_MainScreenOrLoad_Update_47DA90;
+            field_202 = 1;
+        }
+        else
+        {
+            field_230_bGoBack = 1;
+            field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+            field_1CC_fn_update = &Menu::To_MainScreenOrLoad_Update_47DA90;
+            field_202 = 0;
+        }
+    }
 }
 
 int CC Menu::StringsEqual_47DA20(const void* pStr1, const void* pStr2)
@@ -2283,9 +2844,50 @@ int CC Menu::StringsEqual_47DA20(const void* pStr1, const void* pStr2)
     return _strcmpi(static_cast<const char*>(pStr1), static_cast<const char*>(pStr2));
 }
 
-void Menu::ToggleMotions_Render_47CAB0(int** /*ppOt*/)
+void Menu::ToggleMotions_Render_47CAB0(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    field_134_anim.VRender_403AE0(
+        stru_4D01D8[field_1E0_selected_index].field_0_xpos,
+        stru_4D01D8[field_1E0_selected_index].field_2_ypos,
+        ppOt,
+        0,
+        0);
+
+    if (BrainIs(&Menu::ToggleMotions_Update_47C800, field_1CC_fn_update, kUpdateTable))
+    {
+        int polyOffset = 0;
+        for (int i = 2; i <= 10; i++)
+        {
+            RenderElement_47A4E0(stru_4D0418[i].field_0_xpos, stru_4D0418[i].field_4_ypos, stru_4D0418[i].field_8_input_command, ppOt, &field_FC_font, &polyOffset);
+        }
+    }
+    else if (BrainIs(&Menu::Toggle_Motions_Screens_Update_47C8F0, field_1CC_fn_update, kUpdateTable))
+    {
+        int polyOffset = 0;
+        if (sJoystickEnabled_508A60)
+        {
+            for (int i = 0; i < 19; i++)
+            {
+                RenderElement_47A4E0(stru_4D04A0[i].field_0_xpos, stru_4D04A0[i].field_4_ypos, stru_4D04A0[i].field_8_input_command, ppOt, &field_FC_font, &polyOffset);
+            }
+        }
+        else
+        {
+            for (int i = 9; i < 11; i++)
+            {
+                RenderElement_47A4E0(stru_4D0418[i].field_0_xpos, stru_4D0418[i].field_4_ypos, stru_4D0418[i].field_8_input_command, ppOt, &field_FC_font, &polyOffset);
+            }
+        }
+    }
+
+    PSX_RECT rect = {};
+    field_134_anim.Get_Frame_Rect_402B50(&rect);
+    pScreenManager_4FF7C8->InvalidateRect_406E40(
+        rect.x,
+        rect.y,
+        rect.w,
+        rect.h,
+        pScreenManager_4FF7C8->field_2E_idx);
 }
 
 void Menu::ToggleMotions_Update_47C800()
@@ -2395,10 +2997,91 @@ void Menu::Motions_ToOptions_Update_47CA50()
     }
 }
 
+void Menu::To_MainScreenOrLoad_Update_47DA90()
+{
+    if (sNumCamSwappers_507668 <= 0)
+    {
+        field_1E8_pMenuTrans->StartTrans_436560(40, 0, 0, 16);
+        if (field_202)
+        {
+            field_1CC_fn_update = &Menu::To_LoadSave_Update_47DB10;
+            field_1D0_fn_render = &Menu::Empty_Render_47AC80;
+        }
+        else
+        {
+            field_1E0_selected_index = 3;
+            field_134_anim.Set_Animation_Data_402A40(sMainScreenButtons_4D00B0[3].field_4_frame_table, nullptr);
+            field_204_flags |= 2u;
+            field_1CC_fn_update = &Menu::To_MainScreen_Update_47BB60;
+            field_1D0_fn_render = &Menu::MainScreen_Render_47BED0;
+        }
+    }
+}
+
+void Menu::Load_BackToMainScreen_Update_47DA40()
+{
+    if (field_1E8_pMenuTrans)
+    {
+        if (field_1E8_pMenuTrans->field_16_bDone)
+        {
+            if (field_202 == 0)
+            {
+                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            }
+            else
+            {
+                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 21, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            }
+            field_200 = 0;
+            field_1CC_fn_update = &Menu::To_MainScreenOrLoad_Update_47DA90;
+        }
+    }
+}
+
+void Menu::GameSpeakBack_WaitForAbeGoodbye_Update_47D5E0()
+{
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_10_anim.Set_Animation_Data_402A40(201508, field_E4_res_array[1]);
+        field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
+        field_1CC_fn_update = &Menu::GamespeakBack_WaitForScreenTrans_Update_47D650;
+    }
+}
+
+void Menu::GamespeakBack_WaitForScreenTrans_Update_47D650()
+{
+    if (field_1E8_pMenuTrans)
+    {
+        if (field_1E8_pMenuTrans->field_16_bDone)
+        {
+            field_204_flags &= ~1u;
+            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            field_1CC_fn_update = &Menu::GameSpeak_To_MainScreen_Update_47D690;
+        }
+    }
+}
+
+void Menu::GameSpeak_To_MainScreen_Update_47D690()
+{
+    if (sNumCamSwappers_507668 <= 0)
+    {
+        field_1CC_fn_update = &Menu::To_MainScreen_Update_47BB60;
+        field_1D0_fn_render = &Menu::MainScreen_Render_47BED0;
+        field_1E0_selected_index = 0;
+        field_134_anim.Set_Animation_Data_402A40(sMainScreenButtons_4D00B0[0].field_4_frame_table, nullptr);
+        field_1E8_pMenuTrans->StartTrans_436560(40, 0, 0, 16);
+        field_134_anim.LoadPal_403090(field_E4_res_array[5], 0);
+    }
+}
+
 void CC Menu::OnResourceLoaded_47ADA0(Menu* pMenu)
 {
     pMenu->field_E4_res_array[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 130, 1, 0);
 }
 
-END_NS_AO
+void CC Menu::RenderElement_47A4E0(int /*xpos*/, int /*ypos*/, int /*input_command*/, int** /*ot*/, AliveFont* /*pFont*/, int* /*pPolyOffset*/)
+{
+    NOT_IMPLEMENTED();
+}
 
+END_NS_AO

@@ -120,7 +120,7 @@ public:
     EXPORT void ToLoading_47B7E0();
     EXPORT void ToGameSpeak_Update_47D620();
     EXPORT void To_FMV_Or_Level_Select_Update_47EC30();
-    EXPORT void Update_47E3C0();
+    EXPORT void Update_NoRefs_47E3C0();
     EXPORT void To_Load_Update_47D8E0();
     EXPORT void To_Options_Update_47C250();
     EXPORT void Loading_Update_47B870();
@@ -155,6 +155,7 @@ public:
     EXPORT void CreditsEnd_BackTo_FMV_Or_Level_List_Update_47F170();
 
     EXPORT void Load_Update_47D760();
+    void CycleGameSpeakIdleAnims();
 
     EXPORT static int CC StringsEqual_47DA20(const void* pStr1, const void* pStr2);
 
@@ -166,6 +167,16 @@ public:
 
     EXPORT void Motions_ToOptions_Update_47CA50();
 
+    EXPORT void To_MainScreenOrLoad_Update_47DA90();
+
+    EXPORT void Load_BackToMainScreen_Update_47DA40();
+
+    EXPORT void GameSpeakBack_WaitForAbeGoodbye_Update_47D5E0();
+
+    EXPORT void GamespeakBack_WaitForScreenTrans_Update_47D650();
+
+    EXPORT void GameSpeak_To_MainScreen_Update_47D690();
+
     EXPORT void ToggleMotions_Render_47CAB0(int** ppOt);
     EXPORT void SaveLoadFailed_Render_47DCF0(int** ppOt);
     EXPORT void ButtonRemap_Render_47F940(int** ppOt);
@@ -175,13 +186,15 @@ public:
     EXPORT void FMV_Or_Level_Select_Render_47EEA0(int** ppOt);
     EXPORT void MainScreen_Render_47BED0(int** ppOt);
     EXPORT void GameSpeak_Render_47D700(int** ppOt);
-    EXPORT void Render_47E5B0(int** ppOt);
+    EXPORT void Render_NoRefs_47E5B0(int** ppOt);
     EXPORT void Load_Render_47DDA0(int** ppOt);
     EXPORT void Options_Render_47C190(int** ppOt);
 
     EXPORT void FMV_Or_Level_Select_Back_Update_47ECB0();
 
     EXPORT static void CC OnResourceLoaded_47ADA0(Menu* pMenu);
+
+    EXPORT static void CC RenderElement_47A4E0(int xpos, int ypos, int input_command, int** ot, AliveFont* pFont, int* pPolyOffset);
 
     int field_D4[4];
     BYTE** field_E4_res_array[6];
@@ -204,7 +217,7 @@ public:
     __int16 field_1E4_colour_counter;
     __int16 field_1E6;
     MainMenuTransition* field_1E8_pMenuTrans;
-    BaseGameObject* field_1EC_pObj1;
+    MainMenuFade* field_1EC_pObj1;
     MainMenuFade* field_1F0_pObj2;
     const char* field_1F4_text;
     __int16 field_1F8;
