@@ -1556,30 +1556,30 @@ void Menu::Load_Render_47DDA0(int** ppOt)
             pScreenManager_4FF7C8->field_2E_idx);
     }
 
-    const auto save_idx_1 = field_1E0_selected_index;
-    if (save_idx_1 != sSelectedSaveIdx_9F2DDC)
+    if (field_1E0_selected_index != sSelectedSaveIdx_9F2DDC)
     {
         if (field_228 != FP_FromInteger(0))
         {
             field_1E0_selected_index = static_cast<short>(sSelectedSaveIdx_9F2DDC);
-            goto LABEL_13;
-        }
-        if (save_idx_1 <= sSelectedSaveIdx_9F2DDC)
-        {
-            if (save_idx_1 >= sSelectedSaveIdx_9F2DDC)
-            {
-                goto LABEL_13;
-            }
-            field_228 = FP_FromInteger(-26);
         }
         else
         {
-            field_228 = FP_FromInteger(26);
+            if (field_1E0_selected_index < sSelectedSaveIdx_9F2DDC)
+            {
+                field_228 = FP_FromInteger(-26);
+                field_22C = FP_FromDouble(4.5);
+                sSelectedSaveIdx_9F2DDC = field_1E0_selected_index;
+
+            }
+            else if (field_1E0_selected_index > sSelectedSaveIdx_9F2DDC)
+            {
+                field_228 = FP_FromInteger(26);
+                field_22C = FP_FromDouble(4.5);
+                sSelectedSaveIdx_9F2DDC = field_1E0_selected_index;
+            }
         }
-        field_22C = FP_FromDouble(4.5);
-        sSelectedSaveIdx_9F2DDC = save_idx_1;
     }
-LABEL_13:
+
     const auto local_228 = field_228;
     if (local_228 >= FP_FromInteger(0))
     {
@@ -1620,6 +1620,7 @@ LABEL_13:
             goto LABEL_23;
         }
     }
+
 LABEL_23:
     int start = 0;
     int end = 0;
@@ -2978,7 +2979,7 @@ void Menu::Load_Update_47D760()
             {
                 field_230_bGoBack = 1;
                 field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
-                field_1CC_fn_update = &Menu::To_MainScreenOrLoad_Update_47DA90;
+                field_1CC_fn_update = &Menu::Load_BackToMainScreen_Update_47DA40;
                 field_202 = 0;
                 return;
             }
@@ -2998,7 +2999,7 @@ void Menu::Load_Update_47D760()
                 {
                     field_230_bGoBack = 1;
                     field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
-                    field_1CC_fn_update = &Menu::To_MainScreenOrLoad_Update_47DA90;
+                    field_1CC_fn_update = &Menu::Load_BackToMainScreen_Update_47DA40;
                     field_202 = 0;
                     return;
                 }
@@ -3013,14 +3014,14 @@ void Menu::Load_Update_47D760()
             field_230_bGoBack = 0;
             field_1FC = field_1E0_selected_index;
             field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
-            field_1CC_fn_update = &Menu::To_MainScreenOrLoad_Update_47DA90;
+            field_1CC_fn_update = &Menu::Load_BackToMainScreen_Update_47DA40;
             field_202 = 1;
         }
         else
         {
             field_230_bGoBack = 1;
             field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
-            field_1CC_fn_update = &Menu::To_MainScreenOrLoad_Update_47DA90;
+            field_1CC_fn_update = &Menu::Load_BackToMainScreen_Update_47DA40;
             field_202 = 0;
         }
     }
