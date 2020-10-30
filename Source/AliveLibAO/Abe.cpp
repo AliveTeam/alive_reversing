@@ -9467,11 +9467,6 @@ void Abe::New_RandomizedChant_Particle()
         0);
 }
 
-void Abe::State_150_Chant_REAL_42FD50()
-{
-    NOT_IMPLEMENTED();
-}
-
 void Abe::State_150_Chant_42FD50()
 {
     FollowLift_42EE90();

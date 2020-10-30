@@ -638,7 +638,6 @@ public:
     EXPORT void State_147_ShotRolling_4295C0();
     EXPORT void State_148_Shot_4296A0();
     EXPORT void State_149_PickupItem_42A030();
-    EXPORT void State_150_Chant_REAL_42FD50();
     EXPORT void State_150_Chant_42FD50();
     EXPORT void State_151_ChantEnd_430530();
     EXPORT void State_152_ElumFallOffEdge_42E030();
