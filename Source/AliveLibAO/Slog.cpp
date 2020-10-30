@@ -1830,12 +1830,11 @@ __int16 Slog::Brain_0_ListeningToSlig_472450()
 
 __int16 Slog::Brain_1_Idle_4719C0()
 {
-    auto pTarget = field_10C;
-    if (pTarget)
+    if (field_10C)
     {
-        if (pTarget->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+        if (field_10C->field_6_flags.Get(BaseGameObject::eDead_Bit3))
         {
-            pTarget->field_C_refCount--;
+            field_10C->field_C_refCount--;
             field_10C = nullptr;
         }
     }
@@ -1871,11 +1870,6 @@ __int16 Slog::Brain_1_Idle_4719C0()
             field_10C = nullptr;
             field_10C->field_C_refCount--;
         }
-        else
-        {
-        ret_0:
-             return 0;
-        }
         return 0;
     }
     if (SwitchStates_Get(field_168))
@@ -1884,7 +1878,6 @@ __int16 Slog::Brain_1_Idle_4719C0()
         return 0;
     }
 
-    __int16 result = 0;
     switch (field_116_brain_state)
     {
     case 0:
@@ -1930,7 +1923,7 @@ __int16 Slog::Brain_1_Idle_4719C0()
 
         if (field_156 <= field_158_bark_anger)
         {
-            goto ret_brain_state;
+            return field_116_brain_state;
         }
         field_FE_next_state = eSlogStates::State_18_WakeUp_475460;
         return 2;
@@ -1938,15 +1931,17 @@ __int16 Slog::Brain_1_Idle_4719C0()
     case 2:
         if (field_FC_current_motion != eSlogStates::State_18_WakeUp_475460)
         {
-            goto ret_brain_state;
+            return field_116_brain_state;
         }
         field_FE_next_state = eSlogStates::State_6_MoveHeadUpwards_474220;
-        goto LABEL_71;
+        field_160 = (Math_NextRandom() % 32) + gnFrameCount_507670 + 120;
+        field_164_timer = (Math_NextRandom() % 32) + gnFrameCount_507670 + 60;
+        return 4;
 
     case 3:
         if (field_FC_current_motion != eSlogStates::State_17_FallAsleep_475510)
         {
-            goto ret_brain_state;
+            return field_116_brain_state;
         }
         field_FE_next_state = eSlogStates::State_16_Sleeping_4752E0;
         return 1;
@@ -2017,7 +2012,7 @@ __int16 Slog::Brain_1_Idle_4719C0()
 
         if (field_156 >= field_158_bark_anger)
         {
-            goto ret_brain_state;
+            return field_116_brain_state;
         }
         field_FE_next_state = eSlogStates::State_17_FallAsleep_475510;
         return 3;
@@ -2059,26 +2054,19 @@ __int16 Slog::Brain_1_Idle_4719C0()
             if (field_156 > field_15C)
             {
                 field_114_brain_idx = 2;
-                goto ret_0;
+                return 0;
             }
+            return field_116_brain_state;
+        }
 
-        ret_brain_state:
-            result = field_116_brain_state;
-        }
-        else
-        {
-            field_FC_current_motion = eSlogStates::State_0_Idle_4742E0;
-        LABEL_71:
-            field_160 =  (Math_NextRandom() % 32) + gnFrameCount_507670 + 120;
-            field_164_timer = (Math_NextRandom() % 32) + gnFrameCount_507670 + 60;
-            result = 4;
-        }
-        break;
+        field_FC_current_motion = eSlogStates::State_0_Idle_4742E0;
+        field_160 = (Math_NextRandom() % 32) + gnFrameCount_507670 + 120;
+        field_164_timer = (Math_NextRandom() % 32) + gnFrameCount_507670 + 60;
+        return 4;
 
     default:
-        goto ret_brain_state;
+        return field_116_brain_state;
     }
-    return result;
 }
 
 __int16 Slog::Brain_2_ChasingAbe_470F50()
