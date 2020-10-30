@@ -2135,6 +2135,7 @@ __int16 Slog::Brain_2_ChasingAbe_470F50()
         return 1;
 
     case 1:
+    {
         if ((field_B4_velx != FP_FromInteger(0) && HandleEnemyStopper_473BD0()) ||
             WallHit_401930(field_BC_sprite_scale * FP_FromInteger(20), field_B4_velx))
         {
@@ -2232,6 +2233,7 @@ __int16 Slog::Brain_2_ChasingAbe_470F50()
         field_160 = (Math_NextRandom() % 32) + gnFrameCount_507670 + 120;
         field_164_timer = (Math_NextRandom() % 32) + gnFrameCount_507670 + 60;
         return 2;
+    }
 
     case 2:
         if (field_FC_current_motion != eSlogStates::State_0_Idle_4742E0)
