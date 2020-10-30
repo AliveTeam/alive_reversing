@@ -5079,8 +5079,65 @@ __int16 Slig::Brain_Idle_46D6E0()
 
 __int16 Slig::Brain_Turning_46DC70()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (Event_Get_417250(kEventDeathReset_4)
+        && !gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+        field_B2_lvl_number,
+        field_B0_path_number,
+        field_A8_xpos,
+        field_AC_ypos,
+        0))
+    {
+        field_6_flags.Set(Options::eDead_Bit3);
+        return 106;
+    }
+    if (field_FC_current_motion == eSligStates::State_5_TurnAroundStanding_469C80
+        && field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        WaitOrWalk_46E440();
+        return 106;
+    }
+    if (field_10_anim.field_92_current_frame == 4)
+    {
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            if (sControlledCharacter_50767C->field_B4_velx >= FP_FromInteger(0) &&
+                (sControlledCharacter_50767C->field_B4_velx != FP_FromInteger(0) || sControlledCharacter_50767C->field_A8_xpos >= field_A8_xpos))
+            {
+                ShouldStilBeAlive_46C0D0();
+                return 106;
+            }
+        }
+        else
+        {
+            if (sControlledCharacter_50767C->field_B4_velx <= FP_FromInteger(0) &&
+                (sControlledCharacter_50767C->field_B4_velx != FP_FromInteger(0) || sControlledCharacter_50767C->field_A8_xpos <= field_A8_xpos))
+            {
+                ShouldStilBeAlive_46C0D0();
+                return 106;
+            }
+        }
+
+        PSX_RECT hitRect = {};
+        VGetBoundingRect(&hitRect, 1);
+
+        if (!Slig::IsInInvisibleZone_418870(sControlledCharacter_50767C)
+            && !Slig::IsWallBetween_46BE60(this, sControlledCharacter_50767C))
+        {
+            PSX_RECT bRect = {};
+            sControlledCharacter_50767C->VGetBoundingRect(&bRect, 1);
+
+            if (sControlledCharacter_50767C->field_100_health > FP_FromInteger(0) &&
+                PSX_Rects_overlap_no_adjustment(&hitRect, &bRect) &&
+                sControlledCharacter_50767C->field_4_typeId != Types::eSlig_88)
+            {
+                field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+                return 106;
+            }
+        }
+    }
+
+    ShouldStilBeAlive_46C0D0();
+    return 106;
 }
 
 __int16 Slig::Brain_Walking_46DE90()
