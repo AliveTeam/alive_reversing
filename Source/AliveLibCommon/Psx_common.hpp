@@ -97,3 +97,9 @@ struct PSX_DISPENV
     char pad1;
 };
 // TODO: Size
+
+inline BOOL CC PSX_Rects_overlap_no_adjustment(const PSX_RECT* pRect1, const PSX_RECT* pRect2)
+{
+    return (pRect1->x <= pRect2->w && pRect1->w >= pRect2->x &&
+        pRect1->y <= pRect2->h && pRect1->h >= pRect2->y);
+}

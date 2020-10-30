@@ -819,12 +819,6 @@ EXPORT void CC PSX_CD_Normalize_FileName_4FAD90(char* pNormalized, const char* p
     *pNormalizedIter = 0;
 }
 
-BOOL CC PSX_Rects_overlap_no_adjustment(const PSX_RECT* pRect1, const PSX_RECT* pRect2)
-{
-    return (pRect1->x <= pRect2->w && pRect1->w >= pRect2->x &&
-            pRect1->y <= pRect2->h && pRect1->h >= pRect2->y);
-}
-
 EXPORT BOOL CC PSX_Rects_overlap_4FA0B0(const PSX_RECT* pRect1, const PSX_RECT* pRect2)
 {
     return pRect1->x < (pRect2->x + pRect2->w) 
