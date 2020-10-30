@@ -4045,7 +4045,9 @@ __int16 Slig::AI_Walking_21_4BE0C0()
         }
     }
 
-    if (field_C4_velx == FP_FromInteger(0) && field_106_current_motion == eSligMotions::M_StandIdle_0_4B4EC0 && field_108_next_motion != eSligMotions::M_Walking_2_4B5BC0)
+    if (field_C4_velx == FP_FromInteger(0) &&
+        field_106_current_motion == eSligMotions::M_StandIdle_0_4B4EC0 &&
+        field_108_next_motion != eSligMotions::M_Walking_2_4B5BC0)
     {
         PauseALittle_4BDD00();
     }
