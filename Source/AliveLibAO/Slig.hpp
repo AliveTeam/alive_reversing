@@ -306,7 +306,7 @@ public:
 
     void ToStand();
 
-    static EXPORT __int16 CCSTD IsInZCover_46BDA0(Slig* pThis);
+    static EXPORT __int16 CCSTD IsInZCover_46BDA0(BaseAnimatedWithPhysicsGameObject* pObj);
 
     void CheckPlatformVanished();
 

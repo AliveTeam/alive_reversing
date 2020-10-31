@@ -1839,10 +1839,10 @@ void Slig::ToStand()
     MapFollowMe_401D30(TRUE);
 }
 
-__int16 CCSTD Slig::IsInZCover_46BDA0(Slig* pThis)
+__int16 CCSTD Slig::IsInZCover_46BDA0(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     PSX_RECT bRect = {};
-    pThis->VGetBoundingRect(&bRect, 1);
+    pObj->VGetBoundingRect(&bRect, 1);
 
     return Bullet::InZBulletCover(FP_FromInteger(bRect.x), FP_FromInteger(bRect.y), bRect);
 }
@@ -4364,7 +4364,7 @@ __int16 Slig::Brain_Unknown_46B250()
                     field_A8_xpos,
                     field_AC_ypos,
                     0)
-                    || IsInZCover_46BDA0(static_cast<Slig*>(sControlledCharacter_50767C))
+                    || IsInZCover_46BDA0(sControlledCharacter_50767C)
                     || IsInZCover_46BDA0(this)
                     || Event_Get_417250(kEventResetting_6))
                 {
@@ -5285,7 +5285,7 @@ __int16 Slig::Brain_Walking_46DE90()
             field_A8_xpos,
             field_AC_ypos,
             0)
-        || IsInZCover_46BDA0(static_cast<Slig*>(sControlledCharacter_50767C))
+        || IsInZCover_46BDA0(sControlledCharacter_50767C)
         || IsInZCover_46BDA0(this)
         || Event_Get_417250(kEventResetting_6))
     {
