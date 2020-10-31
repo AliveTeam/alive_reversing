@@ -20,6 +20,8 @@
 #include "Abe.hpp"
 #include "Throwable.hpp"
 #include "Collisions.hpp"
+#include "Slog.hpp"
+#include "Blood.hpp"
 
 // Fix pollution from windows.h
 #undef min
@@ -132,10 +134,56 @@ EXPORT short* CC Animation_OnFrame_Slig_46F610(void* pObj, __int16* pData)
 
 EXPORT short* CC Animation_OnFrame_ZBallSmacker_41FB00(void* pObj, short* pData);
 
-EXPORT short *CC Slog_OnFrame_471FD0(void *, __int16 *)
+EXPORT short *CC Slog_OnFrame_471FD0(void* pObj, __int16* pData)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    auto pSlog = static_cast<Slog*>(pObj);
+    if (pSlog->field_10C)
+    {
+        PSX_RECT targetRect = {};
+        pSlog->field_10C->VGetBoundingRect(&targetRect, 1);
+
+        PSX_RECT slogRect = {};
+        pSlog->VGetBoundingRect(&slogRect, 1);
+
+        if (RectsOverlap(slogRect, targetRect))
+        {
+            if (pSlog->field_10C->field_BC_sprite_scale == pSlog->field_BC_sprite_scale && !pSlog->field_110)
+            {
+                if (pSlog->field_10C->VTakeDamage(pSlog))
+                {
+                    FP blood_xpos = {};
+                    if (pSlog->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                    {
+                        blood_xpos = pSlog->field_A8_xpos - (pSlog->field_BC_sprite_scale * FP_FromInteger(pData[0]));
+                    }
+                    else
+                    {
+                        blood_xpos = pSlog->field_A8_xpos + (pSlog->field_BC_sprite_scale * FP_FromInteger(pData[0]));
+                    }
+
+                    const FP blood_ypos = (pSlog->field_BC_sprite_scale * FP_FromInteger(pData[1])) + pSlog->field_AC_ypos;
+
+                    auto pBlood = ao_new<Blood>();
+                    if (pBlood)
+                    {
+                        pBlood->ctor_4072B0(
+                            blood_xpos,
+                            blood_ypos - FP_FromInteger(8),
+                            (pSlog->field_B4_velx * FP_FromInteger(2)),
+                            FP_FromInteger(0),
+                            pSlog->field_BC_sprite_scale,
+                            50);
+                    }
+
+                    pSlog->field_110 = 1;
+
+                    SFX_Play_43AD70(SoundEffect::SlogBite_39, 0);
+                }
+            }
+        }
+    }
+
+    return pData + 2;
 }
 
 const FP_Point stru_4C6608[6] =
