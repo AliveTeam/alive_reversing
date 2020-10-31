@@ -229,6 +229,10 @@ public:
 
     virtual __int16 VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther) override;
 
+    virtual __int16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
+
+    EXPORT __int16 VOnSameYLevel_46BD00(BaseAnimatedWithPhysicsGameObject* pOther);
+
     EXPORT __int16 VIsFacingMe_4655B0(BaseAnimatedWithPhysicsGameObject* pObj);
 
     EXPORT void VUpdateAnimData_464D00();
@@ -306,7 +310,7 @@ public:
 
     void ToStand();
 
-    static EXPORT __int16 CCSTD IsInZCover_46BDA0(Slig* pThis);
+    static EXPORT __int16 CCSTD IsInZCover_46BDA0(BaseAnimatedWithPhysicsGameObject* pObj);
 
     void CheckPlatformVanished();
 
