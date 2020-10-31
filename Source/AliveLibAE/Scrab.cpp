@@ -39,7 +39,7 @@ static const TintEntry sScrabTints_560260[15] =
     { -1, 127u, 127u, 127u }
 };
 
-static const SfxDefinition sScrabSfx_560330[10] =
+static const SfxDefinition sScrabSfx_560330[9] =
 {
     { 0u, 4u, 60u, 55u, 0, 0 },
     { 0u, 4u, 61u, 70u, 0, 0 },
@@ -50,7 +50,6 @@ static const SfxDefinition sScrabSfx_560330[10] =
     { 0u, 4u, 67u, 50u, -511, 0 },
     { 0u, 4u, 67u, 50u, 0, 511 },
     { 0u, 4u, 68u, 110u, -1791, -1791 },
-    { 0u, 0u, 0u, 0u, 0, 0 }
 };
 
 #define MAKE_FN(VAR) &Scrab::VAR,

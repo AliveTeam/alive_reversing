@@ -766,10 +766,82 @@ void Scrab::ToStand()
     MapFollowMe_401D30(1);
 }
 
-int Scrab::Scrab_SFX_460B80(ScrabSounds /*soundId*/, int /*vol*/, int /*pitch*/, __int16 /*applyDirection*/)
+SfxDefinition sScrabSfx_4CF798[9] =
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    { 0, 39, 60, 55, 0, 0, 0 },
+    { 0, 39, 61, 70, 0, 0, 0 },
+    { 0, 39, 62, 80, 0, 0, 0 },
+    { 0, 39, 63, 80, 0, 0, 0 },
+    { 0, 39, 64, 60, -127, 127, 0 },
+    { 0, 39, 66, 90, 0, 0, 0 },
+    { 0, 39, 67, 50, -511, 0, 0 },
+    { 0, 39, 67, 50, 0, 511, 0 },
+    { 0, 39, 68, 110, -1791, -1791, 0 }
+};
+
+int Scrab::Scrab_SFX_460B80(ScrabSounds soundId, int /*vol*/, int pitch, __int16 applyDirection)
+{
+    int volumeLeft = 0;
+    int volumeRight = 0;
+
+    auto defaultSndIdxVol = sScrabSfx_4CF798[static_cast<int>(soundId)].field_C_default_volume;
+    if (field_BC_sprite_scale == FP_FromInteger(1))
+    {
+        volumeRight = defaultSndIdxVol;
+    }
+    else
+    {
+        volumeRight = defaultSndIdxVol / 2;
+    }
+
+    CameraPos direction = gMap_507BA8.GetDirection(
+        field_B2_lvl_number,
+        field_B0_path_number,
+        field_A8_xpos,
+        field_AC_ypos
+    );
+    PSX_RECT worldRect;
+    gMap_507BA8.Get_Camera_World_Rect_444C30(direction, &worldRect);
+    volumeLeft = volumeRight;
+    if (applyDirection)
+    {
+        switch (direction)
+        {
+            case CameraPos::eCamCurrent_0:
+            {
+                break;
+            }
+            case CameraPos::eCamTop_1:
+            case CameraPos::eCamBottom_2:
+            {
+                volumeLeft = FP_GetExponent(FP_FromInteger(defaultSndIdxVol * 2) / FP_FromInteger(3));
+                volumeRight = volumeLeft;
+            }
+            break;
+            case CameraPos::eCamLeft_3:
+            {
+                FP percentHowFar = (FP_FromInteger(worldRect.w) - field_A8_xpos) / FP_FromInteger(368);
+                volumeLeft = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - (volumeRight / 3)));
+                volumeRight -= FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight));
+                break;
+            }
+            case CameraPos::eCamRight_4:
+            {
+                FP percentHowFar = (field_A8_xpos - FP_FromInteger(worldRect.x)) / FP_FromInteger(368);
+                volumeLeft = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight));
+                volumeRight -= FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - (volumeRight / 3)));
+                break;
+            }
+            default:
+                return 0;
+        }
+    }
+    return SFX_SfxDefinition_Play_477330(&sScrabSfx_4CF798[static_cast<int>(soundId)],
+        static_cast<short>(volumeLeft),
+        static_cast<short>(volumeRight),
+        static_cast<short>(pitch),
+        static_cast<short>(pitch)
+    );
 }
 
 void Scrab::ToJump_45E340()
