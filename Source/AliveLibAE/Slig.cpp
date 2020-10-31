@@ -3949,7 +3949,7 @@ __int16 Slig::AI_Turning_19_4BDDD0()
     else
     {
         if (sControlledCharacter_5C1B8C->field_C4_velx <= FP_FromInteger(0) && 
-           (sControlledCharacter_5C1B8C->field_C4_velx > FP_FromInteger(0) || sControlledCharacter_5C1B8C->field_B8_xpos <= field_B8_xpos))
+           (sControlledCharacter_5C1B8C->field_C4_velx != FP_FromInteger(0) || sControlledCharacter_5C1B8C->field_B8_xpos <= field_B8_xpos))
         {
             ShouldStilBeAlive_4BBC00();
             return 106;
@@ -3963,22 +3963,19 @@ __int16 Slig::AI_Turning_19_4BDDD0()
     sControlledCharacter_5C1B8C->vGetBoundingRect_424FD0(&charRect, 1);
 
 
-    if (sControlledCharacter_5C1B8C->field_4_typeId == Types::eGlukkon_67 ||
-        sControlledCharacter_5C1B8C->field_D6_scale != field_D6_scale ||
-        IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) ||
-        sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) ||
-        IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) ||
-        charRect.x > bRect.w || // TODO: Inverted rect check ??
-        charRect.w < bRect.x ||
-        charRect.h < bRect.y ||
-        charRect.y > bRect.h ||
-        sControlledCharacter_5C1B8C->field_4_typeId == Types::eSlig_125)
+    if (sControlledCharacter_5C1B8C->field_4_typeId != Types::eGlukkon_67 &&
+        sControlledCharacter_5C1B8C->field_D6_scale == field_D6_scale &&
+        !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) &&
+        !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) &&
+        !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) &&
+        PSX_Rects_overlap_no_adjustment(&charRect, &bRect) &&
+        sControlledCharacter_5C1B8C->field_4_typeId != Types::eSlig_125)
     {
-        ShouldStilBeAlive_4BBC00();
+        field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
         return 106;
     }
 
-    field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+    ShouldStilBeAlive_4BBC00();
     return 106;
 }
 
@@ -4048,7 +4045,9 @@ __int16 Slig::AI_Walking_21_4BE0C0()
         }
     }
 
-    if (field_C4_velx == FP_FromInteger(0) && field_106_current_motion == eSligMotions::M_StandIdle_0_4B4EC0 && field_108_next_motion != eSligMotions::M_Walking_2_4B5BC0)
+    if (field_C4_velx == FP_FromInteger(0) &&
+        field_106_current_motion == eSligMotions::M_StandIdle_0_4B4EC0 &&
+        field_108_next_motion != eSligMotions::M_Walking_2_4B5BC0)
     {
         PauseALittle_4BDD00();
     }
