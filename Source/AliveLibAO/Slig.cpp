@@ -1112,6 +1112,17 @@ __int16 Slig::VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther)
     return VIsFacingMe_4655B0(pOther);
 }
 
+__int16 Slig::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
+{
+    return VOnSameYLevel_46BD00(pOther);
+}
+
+__int16 Slig::VOnSameYLevel_46BD00(BaseAnimatedWithPhysicsGameObject* /*pOther*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 __int16 Slig::VIsFacingMe_4655B0(BaseAnimatedWithPhysicsGameObject* pWho)
 {
     if (field_FC_current_motion != eSligStates::State_5_TurnAroundStanding_469C80
