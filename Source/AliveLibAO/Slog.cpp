@@ -2209,10 +2209,8 @@ __int16 Slog::Brain_2_ChasingAbe_470F50()
             return 3;
         }
 
-        // TODO: This is probably screwed - to do with checking if we
-        // are under the target
         const FP k10Scaled = field_BC_sprite_scale * FP_FromInteger(10);
-        if (field_AC_ypos > (field_10C->field_AC_ypos + k10Scaled))
+        if (field_AC_ypos <= field_10C->field_AC_ypos + k10Scaled)
         {
             if (field_10C->field_BC_sprite_scale == field_BC_sprite_scale)
             {
