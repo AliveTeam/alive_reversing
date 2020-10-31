@@ -2006,7 +2006,7 @@ __int16 Slog::Brain_1_Idle_4719C0()
         if (field_156 > field_15A)
         {
             field_FE_next_state = eSlogStates::State_15_Empty_475290;
-            field_156 = Slog_NextRandom() % 8;
+            field_156 += Slog_NextRandom() % 8;
             return 5;
         }
 
