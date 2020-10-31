@@ -1117,10 +1117,13 @@ __int16 Slig::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
     return VOnSameYLevel_46BD00(pOther);
 }
 
-__int16 Slig::VOnSameYLevel_46BD00(BaseAnimatedWithPhysicsGameObject* /*pOther*/)
+__int16 Slig::VOnSameYLevel_46BD00(BaseAnimatedWithPhysicsGameObject* pOther)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    PSX_RECT ourRect = {};
+    PSX_RECT objRect = {};
+    VGetBoundingRect(&ourRect, 1);
+    pOther->VGetBoundingRect(&objRect, 1);
+    return ((objRect.y + objRect.h) / 2) <= ourRect.h && objRect.h >= ourRect.y;
 }
 
 __int16 Slig::VIsFacingMe_4655B0(BaseAnimatedWithPhysicsGameObject* pWho)
