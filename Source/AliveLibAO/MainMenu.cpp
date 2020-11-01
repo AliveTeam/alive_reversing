@@ -1002,10 +1002,7 @@ void Menu::SayHelloWaitForLoading_47B690()
         // Wait for in progress loading (gamespeak ban) to finish
         if (!field_E4_res_array[0])
         {
-            while (ProgressInProgressFilesLoading())
-            {
-                // Wait on loading to finish
-            }
+            ProgressInProgressFilesLoading();
         }
         Mudokon_SFX_42A4D0(MudSounds::eHello_3, 0, 0, 0);
         field_10_anim.Set_Animation_Data_402A40(201320, field_E4_res_array[1]);
@@ -1026,28 +1023,35 @@ void Menu::WaitForAbeSayHello_47B770()
     }
 }
 
-bool Menu::ProgressInProgressFilesLoading()
+void Menu::ProgressInProgressFilesLoading()
 {
-    for (int i = 0; gBaseGameObject_list_9F2DF0->Size(); i++)
+    TRACE_ENTRYEXIT;
+    bool loadingFileExists = false;
+    do
     {
-        BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
-        if (!pObjIter)
+        LOG_INFO("Start iteration");
+        for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
         {
-            break;
-        }
-
-        if (pObjIter->field_4_typeId == Types::eLoadingFile_39)
-        {
-            pObjIter->VUpdate();
-            if (pObjIter->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+            BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
+            if (!pObjIter)
             {
-                i = gBaseGameObject_list_9F2DF0->RemoveAt(i);
-                pObjIter->VDestructor(1);
+                break;
             }
-            return true;
+
+            if (pObjIter->field_4_typeId == Types::eLoadingFile_39)
+            {
+                pObjIter->VUpdate();
+                if (pObjIter->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+                {
+                    LOG_INFO("Removing dead loading file idx " << i);
+                    i = gBaseGameObject_list_9F2DF0->RemoveAt(i);
+                    pObjIter->VDestructor(1);
+                    LOG_INFO("Idx is now " << i);
+                }
+                loadingFileExists = true;
+            }
         }
-    }
-    return false;
+    } while (loadingFileExists);
 }
 
 void Menu::MainScreen_Render_47BED0(int** ppOt)
@@ -1772,6 +1776,7 @@ void Menu::FMV_Or_Level_Select_Back_Update_47ECB0()
 
 void Menu::Loading_Update_47B870()
 {
+
     if (!gAttract_507698 || ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Plbk, sJoyResId_50769C, 0, 0))
     {
         if (field_1E8_pMenuTrans)
@@ -1792,10 +1797,7 @@ void Menu::Loading_Update_47B870()
 
                 if (!field_E4_res_array[0])
                 {
-                    while (ProgressInProgressFilesLoading())
-                    {
-                        // Wait for loading
-                    }
+                    ProgressInProgressFilesLoading();
                 }
 
                 field_10_anim.Set_Animation_Data_402A40(201508, field_E4_res_array[1]);
@@ -2781,10 +2783,7 @@ void Menu::LoadSave_Update_47DB40()
 
     if (!field_E4_res_array[0])
     {
-        while (ProgressInProgressFilesLoading())
-        {
-            // Hold on
-        }
+        ProgressInProgressFilesLoading();
     }
 
     if (!pPauseMenu_5080E0)

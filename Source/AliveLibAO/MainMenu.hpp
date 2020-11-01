@@ -103,7 +103,7 @@ public:
 
     virtual void VScreenChanged() override;
 
-    bool ProgressInProgressFilesLoading();
+    void ProgressInProgressFilesLoading();
 
 
     EXPORT void WaitForDoorToOpen_47B550();
