@@ -42,6 +42,10 @@ public:
 
     T* ItemAt(int idx)
     {
+        if (idx < 0 || idx >= field_4_used_size)
+        {
+            LOG_ERROR(idx << " is out of bounds max= " << field_4_used_size);
+        }
         return reinterpret_cast<T*>(field_0_array[idx]);
     }
 
