@@ -52,7 +52,7 @@ enum InputCommands : unsigned int
     // 0x10000000   = nothing
     // 0x20000000   = nothing
     // 0x40000000   = nothing
-    e0x80000000   = 1u << 31,
+    eConfigure   = 1u << 31, // 0x80000000
 };
 
 extern const InputCommands sInputKey_Right_5550D0;

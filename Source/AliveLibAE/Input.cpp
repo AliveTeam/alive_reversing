@@ -52,6 +52,15 @@ const InputCommands sInputKey_GameSpeak7_555114 = eGameSpeak7;
 
 const InputCommands sInputKey_Chant = eChant;
 
+// Bitmask for all menu-exclusive (navigation, entering, etc.) input commands
+const unsigned int AllMenuCommandsMask =
+    (
+        InputCommands::ePause |
+        InputCommands::eUnPause_OrConfirm |
+        InputCommands::eBack |
+        InputCommands::eConfigure
+    );
+
 ALIVE_VAR(1, 0x5C2EF4, bool, sJoystickEnabled_5C2EF4, false);
 ALIVE_VAR(1, 0x5c9f70, int, sJoystickEnabled_5C9F70, 0); // ? Double var? :/
 
@@ -123,7 +132,7 @@ ALIVE_ARY(1, 0x55EAD8, InputBinding, 36, sDefaultKeyBindings_55EAD8, {
     { VK_NUMPAD7, InputCommands::eGameSpeak7 },
     { VK_NUMPAD8, InputCommands::eGameSpeak8 },
     { VK_NUMPAD0, InputCommands::eChant },
-    { 'C', e0x80000000 },
+    { 'C', InputCommands::eConfigure },
     { VK_PRIOR, static_cast<InputCommands>(0x20000000) },
     { VK_NEXT, static_cast<InputCommands>(0x40000000) },
     { VK_DELETE, static_cast<InputCommands>(0x10000000) },
@@ -697,7 +706,13 @@ int CC Input_Remap_492680(InputCommands inputCmd)
                 return 0;
             }
 
-            Input_ResetBinding_4925A0(inputCmd, 1);
+            // OG Bugfix:
+            // Originally only the command that the key is being bound TO was reset.
+            // By also resetting the command the key was bound FROM
+            // (and only if it's a non-menu command), a situation can be
+            // avoided where one key can be assigned to multiple commands.
+            const unsigned int onlyNonMenuOriginalCommands = sGamePadBindings_5C98E0[bindIdx] & ~AllMenuCommandsMask;
+            Input_ResetBinding_4925A0(inputCmd | onlyNonMenuOriginalCommands, 1);
             sGamePadBindings_5C98E0[bindIdx] |= inputCmd;
             Input_Init_Names_491870();
             return 2;
@@ -740,7 +755,14 @@ int CC Input_Remap_492680(InputCommands inputCmd)
         return 0;
     }
 
-    Input_ResetBinding_4925A0(inputCmd, 0);
+    // OG Bugfix:
+    // Originally only the command that the key is being bound TO was reset.
+    // By also resetting the command the key was bound FROM
+    // (and only if it's a non-menu command), a situation can be
+    // avoided where one key can be assigned to multiple commands.
+    const unsigned int onlyNonMenuOriginalCommands = sKeyboardBindings_5C9930[bindIdx] & ~AllMenuCommandsMask;
+    Input_ResetBinding_4925A0(inputCmd | onlyNonMenuOriginalCommands, 0);
+
     sKeyboardBindings_5C9930[bindIdx] |= inputCmd;
     Input_Init_Names_491870();
     return 1;
