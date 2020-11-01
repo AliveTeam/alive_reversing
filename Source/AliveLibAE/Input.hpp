@@ -54,6 +54,7 @@ enum InputCommands : unsigned int
     // 0x40000000   = nothing
     eConfigure   = 1u << 31, // 0x80000000
 };
+
 extern const InputCommands sInputKey_Right_5550D0;
 extern const InputCommands sInputKey_Left_5550D4;
 extern const InputCommands sInputKey_Up_5550D8;

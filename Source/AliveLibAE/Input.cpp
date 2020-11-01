@@ -132,7 +132,7 @@ ALIVE_ARY(1, 0x55EAD8, InputBinding, 36, sDefaultKeyBindings_55EAD8, {
     { VK_NUMPAD7, InputCommands::eGameSpeak7 },
     { VK_NUMPAD8, InputCommands::eGameSpeak8 },
     { VK_NUMPAD0, InputCommands::eChant },
-    { 'C', eConfigure },
+    { 'C', InputCommands::eConfigure },
     { VK_PRIOR, static_cast<InputCommands>(0x20000000) },
     { VK_NEXT, static_cast<InputCommands>(0x40000000) },
     { VK_DELETE, static_cast<InputCommands>(0x10000000) },
