@@ -1760,7 +1760,7 @@ EXPORT void CC Factory_SligSpawner_482A00(Path_TLV* pTlv, Map* /*pMap*/, TlvItem
             }
         }
 
-        if (!(kDisabledResources.Get(SligFlags_DisabledRes::eDisabledRes_Bit8)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 413, 0, 0))
+        if (!(kDisabledResources.Get(SligFlags_DisabledRes::eDisabledRes_Bit7)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 413, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
