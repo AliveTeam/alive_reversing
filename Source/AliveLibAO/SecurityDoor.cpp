@@ -188,7 +188,7 @@ void SecurityDoor::VUpdate_461AD0()
             field_F4_event_idx = pEventSystem_4FF954->field_18_last_event_index;
         }
 
-        if (last_event == GameSpeakEvents::eUnknown_23)
+        if (last_event == GameSpeakEvents::Slig_Hi_23)
         {
             field_E8_state = 4;
             field_114_timer = gnFrameCount_507670 + 30;
@@ -221,7 +221,7 @@ void SecurityDoor::VUpdate_461AD0()
         case GameSpeakEvents::eUnknown_5:
             Slig::Slig_GameSpeak_SFX_46F560(SligSpeak::eBullshit_4, 127, -100, 0);
             break;
-        case GameSpeakEvents::eUnknown_6:
+        case GameSpeakEvents::Slig_LookOut_6:
             Slig::Slig_GameSpeak_SFX_46F560(SligSpeak::eLookOut_5, 127, -100, 0);
             break;
         case GameSpeakEvents::eUnknown_7:

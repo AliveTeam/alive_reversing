@@ -1694,13 +1694,13 @@ __int16 Slig::GetNextMotionIncGameSpeak_467700(unsigned __int16 input)
     {
         if (input & sInputKey_GameSpeak2_4C65BC)
         {
-            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_24);
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::Slig_HereBoy_24);
             Slig_GameSpeak_SFX_46F560(SligSpeak::eHereBoy_1, 0, field_110_pitch_min, this);
             return eSligStates::State_21_SpeakHereBoy_467BD0;
         }
         if (input & sInputKey_GameSpeak1_4C65C8)
         {
-            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_23);
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::Slig_Hi_23);
             Slig_GameSpeak_SFX_46F560(SligSpeak::eHi_0, 0, field_110_pitch_min, this);
             return eSligStates::State_22_SpeakHi_467C90;
         }
@@ -1738,7 +1738,7 @@ __int16 Slig::GetNextMotionIncGameSpeak_467700(unsigned __int16 input)
 
         if (input & sInputKey_GameSpeak7_4C65E4)
         {
-            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eUnknown_6);
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::Slig_LookOut_6);
             Slig_GameSpeak_SFX_46F560(SligSpeak::eLookOut_5, 0, field_110_pitch_min, this);
             return eSligStates::State_27_SpeakLookOut_468050;
         }
@@ -1987,7 +1987,7 @@ void Slig::GameSpeakResponse_46ED60()
         field_258_next_gamespeak_motion = eSligStates::State_26_SpeakBullshit1_467F90;
         break;
 
-    case GameSpeakEvents::eUnknown_6:
+    case GameSpeakEvents::Slig_LookOut_6:
         if (!(Math_NextRandom() & 4))
         {
             field_258_next_gamespeak_motion = eSligStates::State_30_SpeakWhat_468290;
@@ -2003,7 +2003,7 @@ void Slig::GameSpeakResponse_46ED60()
         break;
 
     case GameSpeakEvents::eHello_9:
-    case GameSpeakEvents::eUnknown_23:
+    case GameSpeakEvents::Slig_Hi_23:
         field_258_next_gamespeak_motion = eSligStates::State_22_SpeakHi_467C90;
         break;
 
