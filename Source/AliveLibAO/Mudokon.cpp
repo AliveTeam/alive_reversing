@@ -3395,7 +3395,7 @@ short Mudokon::Brain_StandScrub_8_441F40()
     }
 
     const GameSpeakEvents last_speak = LastGameSpeak_4400B0();
-    if (last_speak == GameSpeakEvents::eUnknown_6)
+    if (last_speak == GameSpeakEvents::Slig_LookOut_6)
     {
         if (field_1BA_sub_state != 4 && field_1BA_sub_state != 5)
         {
@@ -3528,7 +3528,7 @@ short Mudokon::Brain_CrouchScrub_9_4422A0()
     }
 
     const GameSpeakEvents last_speak = LastGameSpeak_4400B0();
-    if (last_speak == GameSpeakEvents::eUnknown_6)
+    if (last_speak == GameSpeakEvents::Slig_LookOut_6)
     {
         field_FE_next_state = eMudStates::State_55_Duck_43EB90;
         field_1C0_timer = gnFrameCount_507670 + 60;
@@ -4474,7 +4474,7 @@ short Mudokon::Brain_Chant_14_442710()
     }
 
     const GameSpeakEvents lastSpeak = LastGameSpeak_4400B0();
-    if (lastSpeak == GameSpeakEvents::eUnknown_6)
+    if (lastSpeak == GameSpeakEvents::Slig_LookOut_6)
     {
         field_FE_next_state = eMudStates::State_55_Duck_43EB90;
         field_1C0_timer = gnFrameCount_507670 + 60;

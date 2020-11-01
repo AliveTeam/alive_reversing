@@ -137,19 +137,19 @@ EXPORT short* CC Animation_OnFrame_ZBallSmacker_41FB00(void* pObj, short* pData)
 EXPORT short *CC Slog_OnFrame_471FD0(void* pObj, __int16* pData)
 {
     auto pSlog = static_cast<Slog*>(pObj);
-    if (pSlog->field_10C)
+    if (pSlog->field_10C_pTarget)
     {
         PSX_RECT targetRect = {};
-        pSlog->field_10C->VGetBoundingRect(&targetRect, 1);
+        pSlog->field_10C_pTarget->VGetBoundingRect(&targetRect, 1);
 
         PSX_RECT slogRect = {};
         pSlog->VGetBoundingRect(&slogRect, 1);
 
         if (RectsOverlap(slogRect, targetRect))
         {
-            if (pSlog->field_10C->field_BC_sprite_scale == pSlog->field_BC_sprite_scale && !pSlog->field_110)
+            if (pSlog->field_10C_pTarget->field_BC_sprite_scale == pSlog->field_BC_sprite_scale && !pSlog->field_110)
             {
-                if (pSlog->field_10C->VTakeDamage(pSlog))
+                if (pSlog->field_10C_pTarget->VTakeDamage(pSlog))
                 {
                     FP blood_xpos = {};
                     if (pSlog->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))

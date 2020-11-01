@@ -150,14 +150,20 @@ public:
     EXPORT __int16 Brain_2_ChasingAbe_470F50();
     EXPORT __int16 Brain_3_Dead_4721B0();
 
-    BaseAliveGameObject* field_10C;
+    // Inlined
+    __int16 Facing(FP xpos);
+
+    // Inlined
+    void DelayedResponse(__int16 responseIdx);
+
+    BaseAliveGameObject* field_10C_pTarget;
     __int16 field_110;
     __int16 field_112;
     __int16 field_114_brain_idx;
     __int16 field_116_brain_state;
     __int16 field_118;
     __int16 field_11A;
-    int field_11C;
+    int field_11C_timer;
     int field_120;
     __int16 field_124;
     __int16 field_126_movedOffScreen;
@@ -172,10 +178,10 @@ public:
     int field_140;
     int field_144;
     int field_148;
-    BaseAliveGameObject* field_14C;
-    __int16 field_150;
-    __int16 field_152;
-    __int16 field_154;
+    BaseAliveGameObject* field_14C_pSlig;
+    __int16 field_150_waiting_counter;
+    __int16 field_152_response_index;
+    __int16 field_154_response_part;
     __int16 field_156;
     __int16 field_158_bark_anger;
     __int16 field_15A;
@@ -183,7 +189,7 @@ public:
     __int16 field_15E;
     int field_160;
     int field_164_timer;
-    __int16 field_168;
+    __int16 field_168_anger_switch_id;
     __int16 field_16A;
     BaseAliveGameObject* field_16C;
     __int16 field_170;
@@ -194,8 +200,9 @@ public:
     __int16 field_17A;
     __int16 field_17C_res;
     __int16 field_17E;
-    // TODO: The first item might be another field
-    BYTE** field_180_resources[6];
+    __int16 field_180;
+    __int16 field_182_pad;
+    BYTE** field_184_resources[5];
 };
 ALIVE_ASSERT_SIZEOF(Slog, 0x198);
 
