@@ -72,7 +72,7 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
-    EXPORT void CreatePulleyIfExists_435AE0(int camX, int camY);
+    EXPORT void CreatePulleyIfExists_435AE0(short camX, short camY);
 
     __int16 field_12C_bMoving;
     __int16 field_12E;
@@ -82,8 +82,9 @@ public:
     Rope* field_138_pRope1;
     Animation field_13C_lift_wheel;
     Animation field_1D4_pulley_anim;
-    int field_26C_pulley_xpos;
-    int field_270_pulley_ypos;
+    __int16 field_26C_pulley_xpos;
+    __int16 field_26E_pulley_ypos;
+    int field_270;
     BYTE** field_274_ppRes;
     short field_278_point_id;
     BitField16<Flags> field_27A_flags;

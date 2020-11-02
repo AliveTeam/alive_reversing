@@ -357,9 +357,68 @@ BaseGameObject* LiftPoint::VDestructor(signed int flags)
     return Vdtor_435D10(flags);
 }
 
-void LiftPoint::CreatePulleyIfExists_435AE0(int /*camX*/, int /*camY*/)
+void LiftPoint::CreatePulleyIfExists_435AE0(short camX, short camY)
 {
-    NOT_IMPLEMENTED();
+    auto pTlv = gMap_507BA8.Get_First_TLV_For_Offsetted_Camera_4463B0(camX, camY);
+    if (pTlv)
+    {
+        while (1)
+        {
+            field_26E_pulley_ypos = pTlv->field_C_sound_pos.field_2_y;
+            field_26C_pulley_xpos = pTlv->field_C_sound_pos.field_0_x;
+
+            if (pTlv->field_4_type == TlvTypes::Pulley_35)
+            {
+                if (field_120_pCollisionLine->field_0_rect.x <= pTlv->field_C_sound_pos.field_0_x &&
+                    pTlv->field_C_sound_pos.field_0_x <= field_120_pCollisionLine->field_0_rect.w)
+                {
+                    break;
+                }
+            }
+
+            pTlv = gMap_507BA8.TLV_Get_At_446060(pTlv, FP_FromInteger(-1), FP_FromInteger(-1), FP_FromInteger(-1), FP_FromInteger(-1));
+            if (!pTlv)
+            {
+                return;
+            }
+        }
+
+        const FP k13_scaled = FP_FromInteger(13) * field_BC_sprite_scale;
+        const FP kM10_scaled = FP_FromInteger(-10) * field_BC_sprite_scale;
+
+        field_26C_pulley_xpos = FP_GetExponent(((k13_scaled + kM10_scaled) / FP_FromInteger(2)) + FP_NoFractional(field_A8_xpos));
+
+        BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1001, 1, 0); 
+        const int idx = static_cast<int>(gMap_507BA8.field_0_current_level);
+
+        field_1D4_pulley_anim.Init_402D20(
+            stru_4BB480[idx].field_10_pulley_frame_table_offset,
+            gObjList_animations_505564,
+            this,
+            static_cast<short>(stru_4BB480[idx].field_14_maxW_lift_wheel_and_pulley),
+            static_cast<short>(stru_4BB480[idx].field_18_maxW_lift_wheel_and_pulley),
+            ppRes,
+            1,
+            0,
+            0);
+
+        field_1D4_pulley_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+        field_1D4_pulley_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+        field_1D4_pulley_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+
+        field_27A_flags.Set(Flags::eBit5);
+
+        field_1D4_pulley_anim.field_8_r = 128;
+        field_1D4_pulley_anim.field_9_g = 128;
+        field_1D4_pulley_anim.field_A_b = 128;
+
+        field_1D4_pulley_anim.field_C_layer = field_10_anim.field_C_layer;
+        field_1D4_pulley_anim.field_14_scale = field_BC_sprite_scale;
+        field_1D4_pulley_anim.field_B_render_mode = 0;
+
+        field_134_pRope2->field_EE_top = FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) + (FP_FromInteger(-19) * field_1D4_pulley_anim.field_14_scale));
+        field_138_pRope1->field_EE_top = FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) + (FP_FromInteger(-19) * field_1D4_pulley_anim.field_14_scale));
+    }
 }
 
 LiftPoint* LiftPoint::Vdtor_435D10(signed int flags)
