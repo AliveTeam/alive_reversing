@@ -303,10 +303,53 @@ void LiftPoint::VScreenChanged_435CC0()
     }
 }
 
-EXPORT BaseGameObject* AO::LiftPoint::dtor_4355E0()
+BaseGameObject* LiftPoint::dtor_4355E0()
 {
-    NOT_IMPLEMENTED();
-    return this;
+    SetVTable(this, 0x4BB6C0);
+
+    if (field_6_flags.Get(BaseGameObject::eListAddFailed_Bit1))
+    {
+        return dtor_451490();
+    }
+
+    if (field_134_pRope2)
+    {
+        field_134_pRope2->field_C_refCount--;
+        field_134_pRope2->field_6_flags.Set(Options::eDead_Bit3);
+    }
+
+    if (field_138_pRope1)
+    {
+        field_138_pRope1->field_C_refCount--;
+        field_138_pRope1->field_6_flags.Set(Options::eDead_Bit3);
+    }
+
+    field_134_pRope2 = nullptr;
+    field_138_pRope1 = nullptr;
+
+    gMap_507BA8.TLV_Reset_446870(field_128_tlvInfo, -1, 0, 0);
+
+    auto pLiftPointTlv = gMap_507BA8.TLV_Get_At_446260(
+        FP_GetExponent(field_A8_xpos),
+        FP_GetExponent(FP_FromInteger(field_120_pCollisionLine->field_0_rect.y) + FP_FromInteger(field_120_pCollisionLine->field_0_rect.y)),
+        FP_GetExponent(field_A8_xpos),
+        FP_GetExponent((field_BC_sprite_scale * FP_FromInteger(30)) + FP_FromInteger(field_120_pCollisionLine->field_0_rect.y)),
+        TlvTypes::LiftPoint_8);
+
+    if (pLiftPointTlv)
+    {
+        pLiftPointTlv->field_1_unknown &= ~3u;
+    }
+
+    field_13C_lift_wheel.VCleanUp_403F40();
+
+    if (field_27A_flags.Get(Flags::eBit5))
+    {
+        field_1D4_pulley_anim.VCleanUp_403F40();
+    }
+
+    ResourceManager::FreeResource_455550(field_274_ppRes);
+    return dtor_451490();
 }
 
 BaseGameObject* LiftPoint::VDestructor(signed int flags)
