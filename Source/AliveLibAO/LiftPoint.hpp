@@ -54,6 +54,8 @@ public:
     // flags & 8 && !(flags & 0x20); // OnBottomFloor
     bool OnAnyFloor() const;
 
+    bool OnAFloorLiftMoverCanUse() const;
+
     virtual void VUpdate() override;
 
     EXPORT void VUpdate_434D10();

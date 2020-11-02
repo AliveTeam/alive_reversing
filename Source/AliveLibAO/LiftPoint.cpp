@@ -262,6 +262,12 @@ bool LiftPoint::OnAnyFloor() const
     return OnBottomFloor() || OnTopFloor() || OnMiddleFloor();
 }
 
+
+bool LiftPoint::OnAFloorLiftMoverCanUse() const
+{
+    return (OnMiddleFloor() && !field_27A_flags.Get(Flags::eBit7_bIgnoreLiftMover)) || OnBottomFloor() || OnTopFloor();
+}
+
 void LiftPoint::VUpdate()
 {
     VUpdate_434D10();
