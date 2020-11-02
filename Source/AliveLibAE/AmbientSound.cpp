@@ -30,7 +30,6 @@ EXPORT void CC SND_Init_Ambiance_4CB480()
 {
     for (auto& amb : sTopBottomAmbiance_BB3078.mArray)
     {
-        // TODO: Check if dtor should be called here like in AO ??
         amb.field_8_pScopedSeq = nullptr;
     }
 
