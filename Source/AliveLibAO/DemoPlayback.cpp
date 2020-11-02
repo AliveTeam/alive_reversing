@@ -18,12 +18,12 @@ EXPORT DemoPlayback* DemoPlayback::ctor_4517B0(BYTE** ppPlaybackData, __int16 a3
 
     field_6_flags.Clear(Options::eDrawable_Bit4);
     field_6_flags.Set(Options::eSurviveDeathReset_Bit9);
-    field_4_typeId = Types::e64;
+    field_4_typeId = Types::eDemoPlayback;
     field_1C = a3;
     sDDCheat_FlyingEnabled_50771C = 0;
     if (gAttract_507698 == 0)
     {
-        field_18_ppRes = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_Play, 1, 0x2000);
+        field_18_ppRes = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_Play, 1, sizeof(SaveData));
         if (!field_18_ppRes)
         {
             field_6_flags.Clear(Options::eDead_Bit3);
