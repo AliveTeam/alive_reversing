@@ -7,6 +7,8 @@
 #include "ResourceManager.hpp"
 #include "Rope.hpp"
 #include "Game.hpp"
+#include "Sfx.hpp"
+#include "Events.hpp"
 
 START_NS_AO
 
@@ -221,7 +223,7 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, int tlvInfo)
         }
 
         field_27A_flags.Clear(Flags::eBit8_KeepOnMiddleFloor);
-        field_27A_flags.Set(Flags::eBit7);
+        field_27A_flags.Set(Flags::eBit7_bIgnoreLiftMover);
     }
     else
     {
@@ -267,7 +269,322 @@ void LiftPoint::VUpdate()
 
 void LiftPoint::VUpdate_434D10()
 {
-    NOT_IMPLEMENTED();
+    if (field_12C_bMoving & 1)
+    {
+        if (field_27A_flags.Get(Flags::eBit6_bMoveToFloorLevel))
+        {
+            const bool bOnFloor = field_270_floorYLevel == field_AC_ypos;
+            const FP distToFloor = field_270_floorYLevel - field_AC_ypos;
+            FP absDistToFloor = distToFloor;
+            if (distToFloor < FP_FromInteger(0) || bOnFloor)
+            {
+                absDistToFloor = -distToFloor;
+            }
+            else
+            {
+                absDistToFloor = distToFloor;
+            }
+
+            if (absDistToFloor >= (FP_FromInteger(2) * field_BC_sprite_scale))
+            {
+                if (distToFloor >= FP_FromInteger(0))
+                {
+                    field_B8_vely = (FP_FromInteger(2) * field_BC_sprite_scale);
+                }
+                else
+                {
+                    field_B8_vely = -(FP_FromInteger(2) * field_BC_sprite_scale);
+                }
+                field_12C_bMoving |= 1u;
+            }
+            else
+            {
+                field_12C_bMoving &= ~1u;
+                field_AC_ypos = field_270_floorYLevel;
+                field_B8_vely = FP_FromInteger(0);
+
+                field_27A_flags.Clear(Flags::eBit6_bMoveToFloorLevel);
+
+                SFX_Play_43AD70(SoundEffect::LiftStop_35, 0);
+                SFX_Play_43AE60(SoundEffect::LiftStop_35, 80, -2000);
+                Event_Broadcast_417220(kEventNoise_0, this);
+                Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
+            }
+        }
+        else
+        {
+            field_130_stop_type = 4;
+            const FP lineY = FP_FromInteger(field_120_pCollisionLine->field_0_rect.y);
+
+            Path_TLV* pTlvIter = gMap_507BA8.TLV_Get_At_446060(
+                nullptr,
+                field_A8_xpos,
+                lineY,
+                field_A8_xpos,
+                (field_BC_sprite_scale * FP_FromInteger(30)) + lineY);
+
+            if (pTlvIter)
+            {
+                while (pTlvIter->field_4_type != TlvTypes::LiftPoint_8)
+                {
+                    pTlvIter = gMap_507BA8.TLV_Get_At_446060(
+                        pTlvIter,
+                        field_A8_xpos,
+                        lineY,
+                        field_A8_xpos,
+                        lineY + (field_BC_sprite_scale * FP_FromInteger(30)));
+                    if (!pTlvIter)
+                    {
+                        break;
+                    }
+                }
+
+            }
+
+            auto pLiftTlv = static_cast<Path_LiftPoint*>(pTlvIter);
+            if (pLiftTlv)
+            {
+                field_130_stop_type = pLiftTlv->field_1E_lift_point_stop_type;
+
+                if (pLiftTlv->field_1A_bstart_point) // TODO: should be ignore lift mover ??
+                {
+                    field_27A_flags.Set(Flags::eBit7_bIgnoreLiftMover);
+                }
+                else
+                {
+                    field_27A_flags.Clear(Flags::eBit7_bIgnoreLiftMover);
+                }
+
+                if (pLiftTlv)
+                {
+                    pLiftTlv->field_1_unknown &= ~3;
+                    pLiftTlv->field_1_unknown |= 1;
+
+                    field_270_floorYLevel = FP_FromInteger(pTlvIter->field_10_top_left.field_2_y - field_11C);
+                }
+                else
+                {
+                    field_270_floorYLevel = FP_FromInteger(0);
+                    field_130_stop_type = 4;
+                }
+            }
+
+            const auto distanceToFloor = field_270_floorYLevel - field_AC_ypos;
+            const FP kMinus25Scaled = (field_BC_sprite_scale * FP_FromInteger(-25));
+            const FP k30Scaled = (field_BC_sprite_scale * FP_FromInteger(30));
+
+            switch (field_130_stop_type)
+            {
+            case 0:
+                if (field_B8_vely >= FP_FromInteger(0))
+                {
+                    if (field_B8_vely != FP_FromInteger(0) || (distanceToFloor <= kMinus25Scaled) || distanceToFloor >= k30Scaled)
+                    {
+                        field_27A_flags.Clear(Flags::eBit2_bTopFloor);
+                        pLiftTlv->field_1_unknown = 1;
+                    }
+                    else
+                    {
+                        field_AC_ypos = field_270_floorYLevel - distanceToFloor;
+                        field_12C_bMoving |= 1u;
+                        field_27A_flags.Set(Flags::eBit2_bTopFloor);
+                        field_27A_flags.Set(Flags::eBit6_bMoveToFloorLevel);
+                        
+                        pLiftTlv->field_1_unknown = 3;
+
+                        pLiftTlv->field_18_id = field_278_point_id;
+                    }
+                }
+                else if (field_B8_vely + lineY <= FP_FromInteger(pTlvIter->field_10_top_left.field_2_y))
+                {
+                    if (!field_27A_flags.Get(Flags::eBit2_bTopFloor))
+                    {
+                        field_AC_ypos = FP_FromInteger(pLiftTlv->field_10_top_left.field_2_y - field_11C);
+                        SFX_Play_43AD70(SoundEffect::LiftStop_35, 0);
+                        SFX_Play_43AE60(SoundEffect::LiftStop_35, 80, -2000);
+                    }
+
+                    field_12C_bMoving &= ~1u;
+                    pLiftTlv->field_1_unknown = 3;
+                    pLiftTlv->field_18_id = field_278_point_id;
+
+                    Event_Broadcast_417220(kEventNoise_0, this);
+                    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
+
+                    field_27A_flags.Set(Flags::eBit2_bTopFloor);
+                    field_B8_vely = FP_FromInteger(0);
+                }
+                break;
+
+            case 1:
+                if (field_B8_vely <= FP_FromInteger(0))
+                {
+                    if (field_B8_vely != FP_FromInteger(0) || (distanceToFloor <= kMinus25Scaled) || distanceToFloor >= k30Scaled)
+                    {
+                        field_27A_flags.Clear(Flags::eBit4_bBottomFloor);
+                        pLiftTlv->field_1_unknown = 1;
+                    }
+                    else
+                    {
+                        field_AC_ypos = field_270_floorYLevel - distanceToFloor;
+
+                        field_12C_bMoving |= 1u;
+
+                        field_27A_flags.Set(Flags::eBit6_bMoveToFloorLevel);
+                        field_27A_flags.Set(Flags::eBit4_bBottomFloor);
+
+                        pLiftTlv->field_1_unknown |= 3;
+                        pLiftTlv->field_18_id = field_278_point_id;
+                    }
+                }
+                else if (field_B8_vely + lineY >= FP_FromInteger(pTlvIter->field_10_top_left.field_2_y))
+                {
+                    if (!field_27A_flags.Get(Flags::eBit4_bBottomFloor))
+                    {
+                        field_AC_ypos = FP_FromInteger(pLiftTlv->field_10_top_left.field_2_y - field_11C);
+                        SFX_Play_43AD70(SoundEffect::LiftStop_35, 0);
+                        SFX_Play_43AE60(SoundEffect::LiftStop_35, 80, -2000);
+                    }
+
+                    field_12C_bMoving &= ~1u;
+                    pLiftTlv->field_1_unknown = 3;
+                    pLiftTlv->field_18_id = field_278_point_id;
+
+                    Event_Broadcast_417220(kEventNoise_0, this);
+                    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
+
+                    field_27A_flags.Set(Flags::eBit4_bBottomFloor);
+                    field_B8_vely = FP_FromInteger(0);
+                }
+                break;
+
+            case 2:
+                if (distanceToFloor <= kMinus25Scaled || distanceToFloor >= k30Scaled)
+                {
+                    pLiftTlv->field_1_unknown = 1;
+                }
+                else
+                {
+                    if (field_27A_flags.Get(Flags::eBit8_KeepOnMiddleFloor))
+                    {
+                        if (!field_27A_flags.Get(Flags::eBit3_bMiddleFloor))
+                        {
+                            field_AC_ypos = FP_FromInteger(pLiftTlv->field_10_top_left.field_2_y - field_11C);
+                            SFX_Play_43AD70(SoundEffect::LiftStop_35, 0);
+                            SFX_Play_43AE60(SoundEffect::LiftStop_35, 80, -2000);
+                        }
+                        field_12C_bMoving &= ~1u;
+                        pLiftTlv->field_1_unknown = 3;
+                        pLiftTlv->field_18_id = field_278_point_id;
+
+                        Event_Broadcast_417220(kEventNoise_0, this);
+                        Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
+
+                        field_27A_flags.Clear(Flags::eBit8_KeepOnMiddleFloor);
+                        field_B8_vely = FP_FromInteger(0);
+                    }
+
+                    if (field_B8_vely == FP_FromInteger(0))
+                    {
+                        field_AC_ypos = field_270_floorYLevel - distanceToFloor;
+
+                        field_12C_bMoving |= 1u;
+                        field_27A_flags.Set(Flags::eBit6_bMoveToFloorLevel);
+                    }
+
+                    field_27A_flags.Set(Flags::eBit3_bMiddleFloor);
+                    pLiftTlv->field_18_id = field_278_point_id;
+                    pLiftTlv->field_1_unknown = 3;
+                }
+                break;
+
+            case 4:
+                if (pLiftTlv)
+                {
+                    pLiftTlv->field_1_unknown = 1;
+                }
+
+                field_27A_flags.Clear(Flags::eBit2_bTopFloor);
+                field_27A_flags.Clear(Flags::eBit3_bMiddleFloor);
+                field_27A_flags.Clear(Flags::eBit4_bBottomFloor);
+                break;
+
+            default:
+                break;
+            }
+        }
+
+        field_A8_xpos += field_B4_velx;
+        field_AC_ypos += field_B8_vely;
+
+        if (field_120_pCollisionLine)
+        {
+            SyncCollisionLinePosition_451540();
+        }
+        KeepThingsOnPlatform_451690(field_B4_velx);
+    }
+
+    const FP v49 = (FP_FromInteger(25) * field_BC_sprite_scale);
+    Rope* pRope2 = field_134_pRope2;
+
+    const FP v51 = FP_FromInteger(field_120_pCollisionLine->field_0_rect.y);
+    pRope2->field_F2_bottom = FP_GetExponent(v51 + v49);
+    field_138_pRope1->field_F2_bottom = FP_GetExponent(v51 + (FP_FromInteger(25) * field_BC_sprite_scale));
+
+    if (field_27A_flags.Get(Flags::eBit5))
+    {
+        const FP v52 = FP_FromInteger(-19) * field_BC_sprite_scale;
+        const FP v53 = FP_FromInteger(field_26E_pulley_ypos);
+        pRope2->field_EE_top = FP_GetExponent(v53 + v52);
+        field_138_pRope1->field_EE_top = FP_GetExponent(v53 + (FP_FromInteger(-19) * field_BC_sprite_scale));
+    }
+
+    const FP v54 = (field_AC_ypos * FP_FromDouble(1.5));
+    const FP v55 = FP_FromRaw(FP_GetExponent(v54 * field_BC_sprite_scale) % FP_FromInteger(pRope2->field_E6_rope_length).fpValue);
+    pRope2->field_AC_ypos = FP_NoFractional((field_AC_ypos + v55 + (FP_FromInteger(25) * field_BC_sprite_scale) + FP_FromInteger(pRope2->field_E6_rope_length)));
+
+
+    field_138_pRope1->field_AC_ypos = FP_NoFractional((field_AC_ypos + (FP_FromInteger(25) * field_BC_sprite_scale)
+        + FP_FromInteger(field_138_pRope1->field_E6_rope_length)
+        - v55));
+
+
+    field_13C_lift_wheel.field_4_flags.Set(AnimFlags::eBit2_Animate);
+    field_1D4_pulley_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
+
+    if (field_B8_vely == FP_FromInteger(0))
+    {
+        field_13C_lift_wheel.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+        field_1D4_pulley_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+    }
+    else if (field_B8_vely > FP_FromInteger(0))
+    {
+        field_13C_lift_wheel.field_4_flags.Clear(AnimFlags::eBit19_LoopBackwards);
+        field_1D4_pulley_anim.field_4_flags.Set(AnimFlags::eBit19_LoopBackwards);
+    }
+    else if (field_B8_vely < FP_FromInteger(0))
+    {
+        field_13C_lift_wheel.field_4_flags.Set(AnimFlags::eBit19_LoopBackwards);
+        field_1D4_pulley_anim.field_4_flags.Clear(AnimFlags::eBit19_LoopBackwards);
+    }
+
+    if (field_13C_lift_wheel.field_92_current_frame == 1)
+    {
+        if (field_13C_lift_wheel.field_4_flags.Get(AnimFlags::eBit2_Animate))
+        {
+            SFX_Play_43AD70(SoundEffect::WheelSqueak_36, 0);
+        }
+    }
+
+    if (field_B2_lvl_number != gMap_507BA8.field_0_current_level ||
+        field_B0_path_number != gMap_507BA8.field_2_current_path ||
+        Event_Get_417250(kEventDeathReset_4))
+    {
+        if (field_114_count <= 0)
+        {
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        }
+    }
 }
 
 void LiftPoint::VRender(int** pOrderingTable)

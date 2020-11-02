@@ -4353,7 +4353,7 @@ __int16 Slig::Brain_Unknown_46B250()
         {
             if (sActiveHero_507678->field_100_health > FP_FromInteger(0))
             {
-                BaseAliveGameObject *pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEvent_10));
+                BaseAliveGameObject *pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEventSuspiciousNoise_10));
                 if (!pEvent)
                 {
                     pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEventSpeaking_1));
@@ -5117,7 +5117,7 @@ __int16 Slig::Brain_Idle_46D6E0()
         ToAbeDead_466270();
         return 104;
     }
-    auto pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEvent_10));
+    auto pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEventSuspiciousNoise_10));
 
     if(!pEvent)
     {
@@ -5396,7 +5396,7 @@ __int16 Slig::Brain_Walking_46DE90()
         ToAbeDead_466270();
         return 108;
     }
-    auto pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEvent_10));
+    auto pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEventSuspiciousNoise_10));
     if (!pEvent)
     {
         pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEventSpeaking_1));
@@ -5503,7 +5503,7 @@ __int16 Slig::Brain_GetAlertedTurn_46E520()
     {
         if (!Event_Get_417250(kEventAbeOhm_8) || Event_Get_417250(kEventResetting_6))
         {
-            BaseAliveGameObject* pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEvent_10));
+            BaseAliveGameObject* pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEventSuspiciousNoise_10));
             if (!pEvent)
             {
                 pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEventSpeaking_1));
@@ -5525,7 +5525,7 @@ __int16 Slig::Brain_GetAlertedTurn_46E520()
             }
             else
             {
-                pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEvent_10));
+                pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEventSuspiciousNoise_10));
                 if (!pEvent)
                 {
                     pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEventSpeaking_1));
@@ -5608,7 +5608,7 @@ __int16 Slig::Brain_GetAlerted_46E800()
     {
         if (!Event_Get_417250(kEventAbeOhm_8) || Event_Get_417250(kEventResetting_6))
         {
-            BaseAliveGameObject *pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEvent_10));
+            BaseAliveGameObject *pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEventSuspiciousNoise_10));
             if (!pEvent)
             {
                 pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEventSpeaking_1));

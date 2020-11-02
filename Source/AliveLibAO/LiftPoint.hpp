@@ -32,7 +32,7 @@ public:
         eBit4_bBottomFloor = 0x8,
         eBit5 = 0x10,
         eBit6_bMoveToFloorLevel = 0x20,
-        eBit7 = 0x40,
+        eBit7_bIgnoreLiftMover = 0x40,
         eBit8_KeepOnMiddleFloor = 0x80,
     };
 
@@ -84,7 +84,7 @@ public:
     Animation field_1D4_pulley_anim;
     __int16 field_26C_pulley_xpos;
     __int16 field_26E_pulley_ypos;
-    int field_270;
+    FP field_270_floorYLevel;
     BYTE** field_274_ppRes;
     short field_278_point_id;
     BitField16<Flags> field_27A_flags;

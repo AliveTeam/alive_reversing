@@ -45,6 +45,16 @@ BaseGameObject* PlatformBase::dtor_451490()
     return dtor_401000();
 }
 
+void PlatformBase::SyncCollisionLinePosition_451540()
+{
+    NOT_IMPLEMENTED();
+}
+
+void PlatformBase::KeepThingsOnPlatform_451690(FP /*xpos*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 void PlatformBase::VAdd_4515D0(BaseAliveGameObject* /*pObj*/)
 {
     NOT_IMPLEMENTED();
