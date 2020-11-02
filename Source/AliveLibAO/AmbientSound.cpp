@@ -177,9 +177,24 @@ EXPORT void CC Start_Sounds_for_TLV_476640(CameraPos direction, Path_TLV* pTlv)
     }
 }
 
+
 EXPORT void CC SND_Init_Ambiance_4765C0()
 {
-    NOT_IMPLEMENTED();
+    for (auto& amb : sTopBottomAmbiance_9F11D0.mArray)
+    {
+        // TODO: Check if dtor should be called here like in AO ??
+        amb.field_8_pScopedSeq = nullptr;
+    }
+
+    for (auto& amb : sRightAmbiance_9F1228.mArray)
+    {
+        amb.field_8_pScopedSeq = nullptr;
+    }
+
+    for (auto& amb : sLeftAmbiance_9F1280.mArray)
+    {
+        amb.field_8_pScopedSeq = nullptr;
+    }
 }
 
 END_NS_AO
