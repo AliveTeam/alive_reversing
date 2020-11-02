@@ -86,7 +86,7 @@ __int16 CC MusicController::Create_4436C0()
             pMusicController_507B98->field_4E = 0;
             pMusicController_507B98->field_2C = counter_507B9C / 2;
             pMusicController_507B98->field_50 = counter_507B9C / 2;
-            pMusicController_507B98->field_48 = 2;
+            pMusicController_507B98->field_48_state = 2;
         }
         pMusicController_507B98->sub_442A10();
     }
@@ -114,7 +114,7 @@ MusicController* MusicController::ctor_442930()
     field_40 = 0;
     field_30 = 0;
     field_34 = 1;
-    field_48 = 0;
+    field_48_state = 0;
     field_4A = 0;
     field_4C = 0;
     field_4E = 0;
@@ -221,11 +221,11 @@ void MusicController::VUpdate_443300()
 
                     if (field_12)
                     {
-                        field_48 = 3;
+                        field_48_state = 3;
                     }
                     else
                     {
-                        field_48 = 2;
+                        field_48_state = 2;
                     }
                 }
 
@@ -266,7 +266,43 @@ __int16 CC MusicController::sub_443840(WORD* /*seq1*/, WORD* /*seq2*/, WORD* /*s
 
 void MusicController::sub_442A10()
 {
-    NOT_IMPLEMENTED();
+    if (!field_48_state)
+    {
+        field_28 = 0;
+        field_2C = counter_507B9C / 2;
+        field_40 = counter_507B9C / 2;
+    }
+    else if (field_48_state == 2)
+    {
+        field_48_state = 0;
+        field_4C = 0;
+
+        if (field_26_seq > SeqId::None_M1)
+        {
+            SND_Seq_Stop_477A60(field_26_seq);
+            field_26_seq = SeqId::None_M1;
+        }
+
+        if (field_38_seq > SeqId::None_M1)
+        {
+            SND_Seq_Stop_477A60(field_38_seq);
+            field_38_seq = SeqId::None_M1;
+        }
+    }
+    else if (field_48_state == 3)
+    {
+        field_4C = field_4E;
+        field_48_state = 1;
+        if (field_26_seq > SeqId::None_M1)
+        {
+            SND_SEQ_SetVol_477970(field_26_seq, field_4C, field_4C);
+        }
+
+        if (field_38_seq > SeqId::None_M1)
+        {
+            SND_SEQ_SetVol_477970(field_38_seq, field_4C, field_4C);
+        }
+    }
 }
 
 void MusicController::Shutdown_4437E0()

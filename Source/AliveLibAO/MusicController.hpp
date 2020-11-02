@@ -93,7 +93,7 @@ public:
     int field_40;
     __int16 field_44;
     __int16 field_46;
-    __int16 field_48;
+    __int16 field_48_state;
     __int16 field_4A;
     __int16 field_4C;
     __int16 field_4E;
