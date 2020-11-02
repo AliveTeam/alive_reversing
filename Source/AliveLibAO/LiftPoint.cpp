@@ -9,6 +9,8 @@
 #include "Game.hpp"
 #include "Sfx.hpp"
 #include "Events.hpp"
+#include "ShadowZone.hpp"
+#include "ScreenManager.hpp"
 
 START_NS_AO
 
@@ -200,7 +202,7 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, int tlvInfo)
         field_134_pRope2->field_AC_ypos = FP_NoFractional(field_AC_ypos + v29 + (FP_FromInteger(25) * field_BC_sprite_scale) + FP_FromInteger(field_134_pRope2->field_E6_rope_length));
         field_138_pRope1->field_AC_ypos = FP_NoFractional(field_AC_ypos + v29 - (FP_FromInteger(25) * field_BC_sprite_scale) + FP_FromInteger(field_138_pRope1->field_E6_rope_length));
 
-        field_27A_flags.Clear(Flags::eBit5);
+        field_27A_flags.Clear(Flags::eBit5_bHasPulley);
 
         CreatePulleyIfExists_435AE0(0, 0);
 
@@ -537,7 +539,7 @@ void LiftPoint::VUpdate_434D10()
     pRope2->field_F2_bottom = FP_GetExponent(v51 + v49);
     field_138_pRope1->field_F2_bottom = FP_GetExponent(v51 + (FP_FromInteger(25) * field_BC_sprite_scale));
 
-    if (field_27A_flags.Get(Flags::eBit5))
+    if (field_27A_flags.Get(Flags::eBit5_bHasPulley))
     {
         const FP v52 = FP_FromInteger(-19) * field_BC_sprite_scale;
         const FP v53 = FP_FromInteger(field_26E_pulley_ypos);
@@ -598,9 +600,106 @@ void LiftPoint::VRender(int** pOrderingTable)
     VRender_435780(pOrderingTable);
 }
 
-void LiftPoint::VRender_435780(int** /*ppOt*/)
+void LiftPoint::VRender_435780(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    PSX_Point mapCoord = {};
+    gMap_507BA8.GetCurrentCamCoords_444890(&mapCoord);
+    if (field_B2_lvl_number == gMap_507BA8.field_0_current_level)
+    {
+        if (field_B0_path_number == gMap_507BA8.field_2_current_path)
+        {
+            if (field_A8_xpos >= FP_FromInteger(mapCoord.field_0_x) && field_A8_xpos <= FP_FromInteger(mapCoord.field_0_x + 1024))
+            {
+                BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+
+                __int16 liftWheelR = field_C0_r;
+                __int16 liftWheelG = field_C2_g;
+                __int16 liftWheelB = field_C4_b;
+
+                PSX_RECT boundingRect = {};
+                VGetBoundingRect(&boundingRect, 1);
+
+                ShadowZone::ShadowZones_Calculate_Colour_435FF0(
+                    FP_GetExponent(field_A8_xpos),
+                    (boundingRect.y + boundingRect.h) / 2,
+                    field_C6_scale,
+                    &liftWheelR,
+                    &liftWheelG,
+                    &liftWheelB);
+
+                field_13C_lift_wheel.field_8_r = static_cast<BYTE>(liftWheelR);
+                field_13C_lift_wheel.field_9_g = static_cast<BYTE>(liftWheelG);
+                field_13C_lift_wheel.field_A_b = static_cast<BYTE>(liftWheelB);
+
+                const FP xOff = (FP_FromInteger(3) * field_BC_sprite_scale);
+                const FP yOff = (FP_FromInteger(-5) * field_BC_sprite_scale);
+
+                field_13C_lift_wheel.VRender_403AE0(
+                    FP_GetExponent(field_A8_xpos
+                        + xOff
+                        + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
+                    FP_GetExponent(field_AC_ypos
+                        + yOff
+                        + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+                    ppOt,
+                    0,
+                    0);
+
+                PSX_RECT liftWheelRect = {};
+                field_13C_lift_wheel.Get_Frame_Rect_402B50(&liftWheelRect);
+                pScreenManager_4FF7C8->InvalidateRect_406E40(
+                    liftWheelRect.x,
+                    liftWheelRect.y,
+                    liftWheelRect.w,
+                    liftWheelRect.h,
+                    pScreenManager_4FF7C8->field_2E_idx);
+
+                if (field_27A_flags.Get(Flags::eBit5_bHasPulley))
+                {
+                    const FP pulley_xpos = FP_FromInteger(field_26C_pulley_xpos);
+                    const FP pulley_ypos = FP_FromInteger(field_26E_pulley_ypos);
+                    if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                        field_B2_lvl_number,
+                        field_B0_path_number,
+                        pulley_xpos,
+                        pulley_ypos,
+                        0))
+                    {
+                        __int16 r = field_C0_r;
+                        __int16 g = field_C2_g;
+                        __int16 b = field_C4_b;
+
+                        ShadowZone::ShadowZones_Calculate_Colour_435FF0(
+                            field_26C_pulley_xpos,
+                            field_26E_pulley_ypos,
+                            field_C6_scale,
+                            &r,
+                            &g,
+                            &b);
+  
+                        field_1D4_pulley_anim.field_8_r = static_cast<BYTE>(r);
+                        field_1D4_pulley_anim.field_9_g = static_cast<BYTE>(g);
+                        field_1D4_pulley_anim.field_A_b = static_cast<BYTE>(b);
+
+                        field_1D4_pulley_anim.VRender_403AE0(
+                            FP_GetExponent(pulley_xpos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
+                            FP_GetExponent(pulley_ypos + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+                            ppOt,
+                            0,
+                            0);
+                        PSX_RECT pulleyRect = {};
+                        field_1D4_pulley_anim.Get_Frame_Rect_402B50(&pulleyRect);
+                        pScreenManager_4FF7C8->InvalidateRect_406E40(
+                            pulleyRect.x,
+                            pulleyRect.y,
+                            pulleyRect.w,
+                            pulleyRect.h,
+                            pScreenManager_4FF7C8->field_2E_idx);
+                    }
+                }
+            }
+        }
+    }
 }
 
 void LiftPoint::VScreenChanged()
@@ -610,7 +709,7 @@ void LiftPoint::VScreenChanged()
 
 void LiftPoint::VScreenChanged_435CC0()
 {
-    if (!field_27A_flags.Get(Flags::eBit5))
+    if (!field_27A_flags.Get(Flags::eBit5_bHasPulley))
     {
         CreatePulleyIfExists_435AE0(0, -1);
     }
@@ -666,7 +765,7 @@ BaseGameObject* LiftPoint::dtor_4355E0()
 
     field_13C_lift_wheel.VCleanUp_403F40();
 
-    if (field_27A_flags.Get(Flags::eBit5))
+    if (field_27A_flags.Get(Flags::eBit5_bHasPulley))
     {
         field_1D4_pulley_anim.VCleanUp_403F40();
     }
@@ -729,7 +828,7 @@ void LiftPoint::CreatePulleyIfExists_435AE0(short camX, short camY)
         field_1D4_pulley_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
         field_1D4_pulley_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
 
-        field_27A_flags.Set(Flags::eBit5);
+        field_27A_flags.Set(Flags::eBit5_bHasPulley);
 
         field_1D4_pulley_anim.field_8_r = 128;
         field_1D4_pulley_anim.field_9_g = 128;

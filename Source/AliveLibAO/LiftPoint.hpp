@@ -26,11 +26,11 @@ public:
     enum Flags
     {
         // These have been shuffled around compared to AE for more pain
-        eBit1 = 0x1,
+        eBit1 = 0x1, // Not used ?
         eBit2_bTopFloor = 0x2,
         eBit3_bMiddleFloor = 0x4,
         eBit4_bBottomFloor = 0x8,
-        eBit5 = 0x10,
+        eBit5_bHasPulley = 0x10,
         eBit6_bMoveToFloorLevel = 0x20,
         eBit7_bIgnoreLiftMover = 0x40,
         eBit8_KeepOnMiddleFloor = 0x80,
