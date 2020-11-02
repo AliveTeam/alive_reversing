@@ -6,6 +6,23 @@
 
 START_NS_AO
 
+ALIVE_VAR(1, 0x507B98, MusicController*, pMusicController_507B98, nullptr);
+
+constexpr auto RCntCNT3 = 0xf2000003; // VSync (VBlank)
+
+// TODO: Move out PSX emu parts
+ALIVE_VAR(1, 0x507BA0, int, psx_root_event_507BA0, 0);
+ALIVE_VAR(1, 0xAC0BE0, void*, dword_AC0BE0, nullptr);
+
+EXPORT int CC Psx_Root_Counter_Event_Free_49C2B0(int event)
+{
+    if (event == RCntCNT3)
+    {
+        dword_AC0BE0 = nullptr;
+    }
+    return 1;
+}
+
 __int16 CC MusicController::Create_4436C0()
 {
     NOT_IMPLEMENTED();
@@ -105,7 +122,14 @@ __int16 CC MusicController::sub_443840(WORD* /*seq1*/, WORD* /*seq2*/, WORD* /*s
 
 void MusicController::Shutdown_4437E0()
 {
-    NOT_IMPLEMENTED();
+    if (pMusicController_507B98)
+    {
+        pMusicController_507B98->field_6_flags.Set(Options::eDead_Bit3);
+        pMusicController_507B98 = nullptr;
+        //nullsub_5();
+        Psx_Root_Counter_Event_Free_49C2B0(psx_root_event_507BA0);
+        //nullsub_6();
+    }
 }
 
 void CC MusicController::EnableMusic_443900(__int16 /*bEnable*/)
