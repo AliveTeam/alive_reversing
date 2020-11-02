@@ -3,6 +3,8 @@
 #include "MusicController.hpp"
 #include "Midi.hpp"
 #include "stdlib.hpp"
+#include "Abe.hpp"
+#include "Events.hpp"
 
 START_NS_AO
 
@@ -103,7 +105,7 @@ MusicController* MusicController::ctor_442930()
     field_10 = 1;
     field_3A = 0;
     field_16 = 1;
-    field_1C = 0;
+    field_1C_pObj = nullptr;
     field_20 = 0;
     field_28 = 0;
     field_22 = 1;
@@ -119,9 +121,9 @@ MusicController* MusicController::ctor_442930()
     field_50 = 0;
     field_12 = 70;
     field_14 = 100;
-    field_38 = SeqId::None_M1;
-    field_18 = -1;
-    field_26 = -1;
+    field_38_seq = SeqId::None_M1;
+    field_18_level = LevelIds::eNone;
+    field_26_seq = SeqId::None_M1;
 
     return this;
 }
@@ -129,9 +131,9 @@ MusicController* MusicController::ctor_442930()
 BaseGameObject* MusicController::dtor_4429B0()
 {
     SetVTable(this, 0x4BBBA8);
-    if (field_38 != SeqId::None_M1)
+    if (field_38_seq != SeqId::None_M1)
     {
-        SND_Seq_Stop_477A60(field_38);
+        SND_Seq_Stop_477A60(field_38_seq);
     }
     return dtor_487DF0();
 }
@@ -163,7 +165,87 @@ BaseGameObject* MusicController::VDestructor(signed int flags)
 
 void MusicController::VUpdate_443300()
 {
-    NOT_IMPLEMENTED();
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        field_20 = 1;
+        field_1C_pObj = sActiveHero_507678;
+    }
+
+    if (field_16)
+    {
+        field_16 = 0;
+
+        if (gMap_507BA8.field_0_current_level != field_18_level)
+        {
+            field_3C = 0;
+            field_34 = 1;
+            field_40 = counter_507B9C / 2;
+            field_28 = 0;
+            field_22 = 1;
+            field_1C_pObj = nullptr;
+            field_20 = 0;
+
+            if (field_26_seq > SeqId::None_M1)
+            {
+                SND_Seq_Stop_477A60(field_26_seq);
+                field_26_seq = SeqId::None_M1;
+            }
+
+            if (field_38_seq > SeqId::None_M1)
+            {
+                SND_Seq_Stop_477A60(field_38_seq);
+                field_38_seq = SeqId::None_M1;
+            }
+
+            field_18_level = gMap_507BA8.field_0_current_level;
+
+            if (field_10)
+            {
+                if (field_12 != field_4C)
+                {
+                    field_4A = field_4C;
+
+                    __int16 v10 = 0;
+                    if (field_12 <= 0)
+                    {
+                        v10 = 0;
+                    }
+                    else
+                    {
+                        v10 = field_12;
+                    }
+
+                    field_4E = v10;
+                    field_2C = counter_507B9C / 2;
+                    field_50 = counter_507B9C / 2;
+
+                    if (field_12)
+                    {
+                        field_48 = 3;
+                    }
+                    else
+                    {
+                        field_48 = 2;
+                    }
+                }
+
+                sub_443460(0, 0, 1, 0);
+            }
+        }
+    }
+
+    if (field_3A > 1 && (counter_507B9C / 2) - field_40 >= 160)
+    {
+        sub_443460(0, 0, 1, 0);
+    }
+
+    sub_442A10();
+    
+    if (field_10)
+    {
+        sub_442C20();
+        sub_442AC0();
+    }
 }
 
 void MusicController::VUpdate()
@@ -208,6 +290,21 @@ int CC MusicController::OnRootCounter_4437D0()
 {
     counter_507B9C++;
     return 0;
+}
+
+void MusicController::sub_443460(signed __int16 /*a2*/, int /*a3*/, __int16 /*a4*/, __int16 /*a5*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void MusicController::sub_442C20()
+{
+    NOT_IMPLEMENTED();
+}
+
+void MusicController::sub_442AC0()
+{
+    NOT_IMPLEMENTED();
 }
 
 END_NS_AO
