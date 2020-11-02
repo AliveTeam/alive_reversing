@@ -1,14 +1,48 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
+#include "Ddcheat.hpp"
 #include "DemoPlayback.hpp"
+#include "Function.hpp"
+#include "Game.hpp"
+#include "ResourceManager.hpp"
+#include "SaveGame.hpp"
 #include "stdlib.hpp"
 
 START_NS_AO
 
-EXPORT DemoPlayback* DemoPlayback::ctor_4517B0(BYTE**, __int16)
+ALIVE_VAR_EXTERN(BYTE, sRandomSeed_50A228); //Math.cpp
+
+EXPORT DemoPlayback* DemoPlayback::ctor_4517B0(BYTE** ppPlaybackData, __int16 a3)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    ctor_487E10(1);
+    SetVTable(this, 0x4BBF98);
+
+    field_6_flags.Clear(Options::eDrawable_Bit4);
+    field_6_flags.Set(Options::eSurviveDeathReset_Bit9);
+    field_4_typeId = Types::e64;
+    field_1C = a3;
+    sDDCheat_FlyingEnabled_50771C = 0;
+    if (gAttract_507698 == 0)
+    {
+        field_18_ppRes = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_Play, 1, 0x2000);
+        if (!field_18_ppRes)
+        {
+            field_6_flags.Clear(Options::eDead_Bit3);
+        }
+        SaveGame::Save_459490(reinterpret_cast<SaveData*>(*field_18_ppRes));
+    }
+    else
+    {
+        field_18_ppRes = nullptr;
+    }
+
+    auto pd = reinterpret_cast<PlaybackData*>(*ppPlaybackData);
+    ResourceManager::Set_Header_Flags_4557D0(ppPlaybackData, ResourceManager::ResourceHeaderFlags::eLocked);
+    SaveGame::Load_459970(&pd->saveData, 1);
+    sRandomSeed_50A228 = pd->randomSeed;
+    field_10 = 0;
+    field_14 = ppPlaybackData;
+    field_8_update_delay = 1;
+    return this;
 }
 
 BaseGameObject* DemoPlayback::VDestructor(signed int flags)

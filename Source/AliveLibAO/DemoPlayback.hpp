@@ -2,8 +2,16 @@
 
 #include "FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
+#include "SaveGame.hpp"
 
 START_NS_AO
+
+struct PlaybackData
+{
+    SaveData saveData;
+    BYTE randomSeed;
+    //TODO probably more variables after
+};
 
 class DemoPlayback : public BaseGameObject
 {
@@ -18,7 +26,7 @@ public:
 
     int field_10;
     BYTE** field_14;
-    BYTE** field_18;
+    BYTE** field_18_ppRes;
     __int16 field_1C;
     __int16 field_1E;
     int field_20;

@@ -70,7 +70,7 @@ enum class Types : __int16
     eRollingBallStopper_60 = 60,
     ePauseMenu_61 = 61,
     eParamite_62 = 62,
-
+    e64 = 64,
     eBirdPortal_65 = 65,
     e66 = 66,
     eFG1_67 = 67,
