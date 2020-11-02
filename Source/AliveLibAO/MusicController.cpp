@@ -8,11 +8,24 @@ START_NS_AO
 
 ALIVE_VAR(1, 0x507B98, MusicController*, pMusicController_507B98, nullptr);
 
+using TRootCallBackFn = decltype(&MusicController::OnRootCounter_4437D0);
+
 constexpr auto RCntCNT3 = 0xf2000003; // VSync (VBlank)
 
 // TODO: Move out PSX emu parts
 ALIVE_VAR(1, 0x507BA0, int, psx_root_event_507BA0, 0);
-ALIVE_VAR(1, 0xAC0BE0, void*, dword_AC0BE0, nullptr);
+ALIVE_VAR(1, 0xAC0BE0, TRootCallBackFn, dword_AC0BE0, nullptr);
+ALIVE_VAR(1, 0x507B9C, int, counter_507B9C, 0);
+
+
+EXPORT int CC Psx_Root_Counter_49C280(int event, int unknown1, int unknown2, TRootCallBackFn pFn)
+{
+    if (event == RCntCNT3 && unknown1 == 2 && unknown2 == 4096)
+    {
+        dword_AC0BE0 = pFn;
+    }
+    return 1;
+}
 
 EXPORT int CC Psx_Root_Counter_Event_Free_49C2B0(int event)
 {
@@ -23,10 +36,59 @@ EXPORT int CC Psx_Root_Counter_Event_Free_49C2B0(int event)
     return 1;
 }
 
+EXPORT int CC Psx_Root_Counter_49C3B0(int /*not_used*/)
+{
+    return 0;
+}
+
+EXPORT int CC Psx_Root_Counter_49C340(int /*a1*/, int /*a2*/)
+{
+    return 0;
+}
+
+EXPORT int Psx_Root_Counter_49C360(int /*not_used*/)
+{
+    return 0;
+}
+
+EXPORT int CC Psx_Root_Counter_49C370(int /*counter*/)
+{
+    return 0;
+}
+
 __int16 CC MusicController::Create_4436C0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (pMusicController_507B98)
+    {
+        return 0;
+    }
+
+    pMusicController_507B98 = ao_new<MusicController>();
+    if (pMusicController_507B98)
+    {
+        pMusicController_507B98->ctor_442930();
+    }
+
+    psx_root_event_507BA0 = Psx_Root_Counter_49C280(RCntCNT3, 2, 4096, MusicController::OnRootCounter_4437D0);
+    Psx_Root_Counter_49C3B0(psx_root_event_507BA0);
+    Psx_Root_Counter_49C340(RCntCNT3, 1);
+    Psx_Root_Counter_49C360(RCntCNT3);
+    Psx_Root_Counter_49C370(RCntCNT3);
+
+    if (pMusicController_507B98->field_10)
+    {
+        pMusicController_507B98->field_10 = 0;
+        if (pMusicController_507B98->field_4C)
+        {
+            pMusicController_507B98->field_4A = pMusicController_507B98->field_4C;
+            pMusicController_507B98->field_4E = 0;
+            pMusicController_507B98->field_2C = counter_507B9C / 2;
+            pMusicController_507B98->field_50 = counter_507B9C / 2;
+            pMusicController_507B98->field_48 = 2;
+        }
+        pMusicController_507B98->sub_442A10();
+    }
+    return 1;
 }
 
 
@@ -120,6 +182,11 @@ __int16 CC MusicController::sub_443840(WORD* /*seq1*/, WORD* /*seq2*/, WORD* /*s
     return 0;
 }
 
+void MusicController::sub_442A10()
+{
+    NOT_IMPLEMENTED();
+}
+
 void MusicController::Shutdown_4437E0()
 {
     if (pMusicController_507B98)
@@ -135,6 +202,12 @@ void MusicController::Shutdown_4437E0()
 void CC MusicController::EnableMusic_443900(__int16 /*bEnable*/)
 {
     NOT_IMPLEMENTED();
+}
+
+int CC MusicController::OnRootCounter_4437D0()
+{
+    counter_507B9C++;
+    return 0;
 }
 
 END_NS_AO

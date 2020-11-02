@@ -56,9 +56,13 @@ public:
 
     EXPORT static __int16 CC sub_443840(WORD* seq1, WORD* seq2, WORD* seqTime);
 
+    EXPORT void sub_442A10();
+
     static EXPORT void Shutdown_4437E0();
 
     static EXPORT void CC EnableMusic_443900(__int16 bEnable);
+
+    static int CC OnRootCounter_4437D0();
 
     __int16 field_10;
     __int16 field_12;
