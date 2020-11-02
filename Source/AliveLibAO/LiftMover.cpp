@@ -208,7 +208,7 @@ LiftPoint* LiftMover::FindLiftPointWithId(short id)
         if (pItem->field_4_typeId == Types::eLiftPoint_51)
         {
             auto pLiftPoint = static_cast<LiftPoint*>(pItem);
-            if (pLiftPoint->field_278 == id)
+            if (pLiftPoint->field_278_point_id == id)
             {
                 return pLiftPoint;
             }

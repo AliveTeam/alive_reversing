@@ -4,10 +4,21 @@
 #include "BaseAliveGameObject.hpp"
 #include "Animation.hpp"
 #include "PlatformBase.hpp"
+#include "Map.hpp"
 
 START_NS_AO
 
-class Map;
+struct Path_LiftPoint : public Path_TLV
+{
+    __int16 field_18_id;
+    __int16 field_1A_bstart_point;
+    __int16 field_1C_lift_type;
+    __int16 field_1E_lift_point_stop_type;
+    __int16 field_20_scale;
+    __int16 field_22_bIgnore_lift_mover;
+};
+
+class Rope;
 
 class LiftPoint : public PlatformBase
 {
@@ -25,7 +36,7 @@ public:
         eBit8_KeepOnMiddleFloor = 0x80,
     };
 
-    EXPORT LiftPoint* ctor_434710(unsigned __int8* pTlv, Map* pPath, int tlvInfo);
+    EXPORT LiftPoint* ctor_434710(Path_LiftPoint* pTlv, Map* pPath, int tlvInfo);
     
     EXPORT void Move_435740(FP xSpeed, FP ySpeed, int not_used);
 
@@ -55,27 +66,26 @@ public:
 
     EXPORT void VScreenChanged_435CC0();
 
-    EXPORT void sub_435AE0(int a2, int a3);
-
     LiftPoint* Vdtor_435D10(signed int flags);
 
     EXPORT BaseGameObject* dtor_4355E0();
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
+    EXPORT void CreatePulleyIfExists_435AE0(int camX, int camY);
+
     __int16 field_12C_bMoving;
     __int16 field_12E;
-    __int16 field_130;
+    __int16 field_130_stop_type;
     __int16 field_132;
-    int field_134_pRope2;
-    int field_138_pRope1;
+    Rope* field_134_pRope2;
+    Rope* field_138_pRope1;
     Animation field_13C_lift_wheel;
     Animation field_1D4_pulley_anim;
     int field_26C_pulley_xpos;
     int field_270_pulley_ypos;
-    int field_274;
-    char field_278;
-    char field_279;
+    BYTE** field_274_ppRes;
+    short field_278_point_id;
     BitField16<Flags> field_27A_flags;
 };
 

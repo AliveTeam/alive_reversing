@@ -3254,7 +3254,7 @@ short Mudokon::Brain_LiftUse_5_43C180()
             if (pObj->field_4_typeId == Types::eLiftPoint_51)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(pObj);
-                if (field_110 == pLiftPoint->field_278)
+                if (field_110 == pLiftPoint->field_278_point_id)
                 {
                     field_194_pLiftPoint = pLiftPoint;
                     pObj->field_C_refCount++;
