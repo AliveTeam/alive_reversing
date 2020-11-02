@@ -2238,7 +2238,7 @@ __int16 Slog::Brain_1_Idle_4719C0()
 
     case 1:
         if (Event_Is_Event_In_Range_417270(
-            kEvent_10,
+            kEventSuspiciousNoise_10,
             field_A8_xpos,
             field_AC_ypos,
             field_BC_sprite_scale))
@@ -2290,7 +2290,7 @@ __int16 Slog::Brain_1_Idle_4719C0()
 
     case 4:
         if (Event_Is_Event_In_Range_417270(
-            kEvent_10,
+            kEventSuspiciousNoise_10,
             field_A8_xpos,
             field_AC_ypos,
             field_BC_sprite_scale))
@@ -2361,7 +2361,7 @@ __int16 Slog::Brain_1_Idle_4719C0()
 
     case 5:
         if (Event_Is_Event_In_Range_417270(
-            kEvent_10,
+            kEventSuspiciousNoise_10,
             field_A8_xpos,
             field_AC_ypos,
             field_BC_sprite_scale))

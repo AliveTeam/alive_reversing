@@ -1381,7 +1381,7 @@ void Mudokon::State_0_Idle_43CA70()
 void Mudokon::State_1_WalkLoop_43CC80()
 {
     Event_Broadcast_417220(kEventNoise_0, this);
-    Event_Broadcast_417220(kEvent_10, this);
+    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
 
     if (WallHit_401930(
         field_BC_sprite_scale * FP_FromInteger(50),
@@ -1481,7 +1481,7 @@ void Mudokon::State_3_Speak_43D440()
     CheckFloorGone_43C9B0();
 
     Event_Broadcast_417220(kEventNoise_0, this);
-    Event_Broadcast_417220(kEvent_10, this);
+    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -1507,7 +1507,7 @@ void Mudokon::State_6_Speak_43D440()
 void Mudokon::State_7_WalkBegin_43CE60()
 {
     Event_Broadcast_417220(kEventNoise_0, this);
-    Event_Broadcast_417220(kEvent_10, this);
+    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
 
     if (WallHit_401930(
         field_BC_sprite_scale * FP_FromInteger(50),
@@ -1528,7 +1528,7 @@ void Mudokon::State_7_WalkBegin_43CE60()
 void Mudokon::State_8_WalkToIdle_43CEF0()
 {
     Event_Broadcast_417220(kEventNoise_0, this);
-    Event_Broadcast_417220(kEvent_10, this);
+    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
 
     if (WallHit_401930(
         field_BC_sprite_scale * FP_FromInteger(50),
@@ -1580,7 +1580,7 @@ void Mudokon::State_11_Null_43D350()
 void Mudokon::State_12_LiftUse_43D360()
 {
     auto pLiftPoint = static_cast<LiftPoint*>(field_194_pLiftPoint);
-    if (!pLiftPoint->OnAnyFloor() || pLiftPoint->field_27A_flags.Get(LiftPoint::Flags::eBit7))
+    if (!pLiftPoint->OnAnyFloor() || pLiftPoint->field_27A_flags.Get(LiftPoint::Flags::eBit7_bIgnoreLiftMover))
     {
         pLiftPoint->Move_435740(FP_FromInteger(0), FP_FromInteger(3), 0);
     }
@@ -1780,7 +1780,7 @@ void Mudokon::State_26_CrouchToStand_43E640()
 void Mudokon::State_27_RunToWalk_43D980()
 {
     Event_Broadcast_417220(kEventNoise_0, this);
-    Event_Broadcast_417220(kEvent_10, this);
+    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -1809,7 +1809,7 @@ void Mudokon::State_27_RunToWalk_43D980()
 void Mudokon::State_28_MidRunToWalk_43DA40()
 {
     Event_Broadcast_417220(kEventNoise_0, this);
-    Event_Broadcast_417220(kEvent_10, this);
+    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -1840,7 +1840,7 @@ void Mudokon::State_28_MidRunToWalk_43DA40()
 void Mudokon::State_29_RunLoop_43DB10()
 {
     Event_Broadcast_417220(kEventNoise_0, this);
-    Event_Broadcast_417220(kEvent_10, this);
+    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
 
     if (WallHit_401930(
         field_BC_sprite_scale * FP_FromInteger(50),
@@ -1929,7 +1929,7 @@ void Mudokon::State_29_RunLoop_43DB10()
 void Mudokon::State_30_RunToWalk_43DD50()
 {
     Event_Broadcast_417220(kEventNoise_0, this);
-    Event_Broadcast_417220(kEvent_10, this);
+    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -1958,7 +1958,7 @@ void Mudokon::State_30_RunToWalk_43DD50()
 void Mudokon::State_31_MidRunToWalk_43DE10()
 {
     Event_Broadcast_417220(kEventNoise_0, this);
-    Event_Broadcast_417220(kEvent_10, this);
+    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -1989,7 +1989,7 @@ void Mudokon::State_31_MidRunToWalk_43DE10()
 void Mudokon::State_32_RunSlideStop_43DEE0()
 {
     Event_Broadcast_417220(kEventNoise_0, this);
-    Event_Broadcast_417220(kEvent_10, this);
+    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
 
     if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), field_B4_velx))
     {
@@ -2014,7 +2014,7 @@ void Mudokon::State_32_RunSlideStop_43DEE0()
 void Mudokon::State_33_RunSlideTurn_43DF80()
 {
     Event_Broadcast_417220(kEventNoise_0, this);
-    Event_Broadcast_417220(kEvent_10, this);
+    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
 
     if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), field_B4_velx))
     {
@@ -2048,7 +2048,7 @@ void Mudokon::State_33_RunSlideTurn_43DF80()
 void Mudokon::State_34_RunTurnToRun_43E070()
 {
     Event_Broadcast_417220(kEventNoise_0, this);
-    Event_Broadcast_417220(kEvent_10, this);
+    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
 
     if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), field_B4_velx))
     {
@@ -2270,7 +2270,7 @@ void Mudokon::State_42_MidSneakToIdle_43E560()
 void Mudokon::State_43_JumpBegin_43E870()
 {
     Event_Broadcast_417220(kEventNoise_0, this);
-    Event_Broadcast_417220(kEvent_10, this);
+    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
 
     CheckFloorGone_43C9B0();
 
@@ -2305,7 +2305,7 @@ void Mudokon::State_43_JumpBegin_43E870()
 void Mudokon::State_44_JumpMid_43E960()
 {
     Event_Broadcast_417220(kEventNoise_0, this);
-    Event_Broadcast_417220(kEvent_10, this);
+    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
 
     if (field_10_anim.field_92_current_frame == 5)
     {
@@ -2360,7 +2360,7 @@ void Mudokon::State_45_ToRunToPortal_43EB00()
     }
 
     Event_Broadcast_417220(kEventNoise_0, this);
-    Event_Broadcast_417220(kEvent_10, this);
+    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
 
     if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), field_B4_velx))
     {
@@ -2399,7 +2399,7 @@ void Mudokon::State_46_FallLandDie_43E660()
 void Mudokon::State_47_Knockback_43E730()
 {
     Event_Broadcast_417220(kEventNoise_0, this);
-    Event_Broadcast_417220(kEvent_10, this);
+    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
 
     if ((gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1
         || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13
@@ -2433,7 +2433,7 @@ void Mudokon::State_48_KnockbackGetUp_43E7D0()
     CheckFloorGone_43C9B0();
 
     Event_Broadcast_417220(kEventNoise_0, this);
-    Event_Broadcast_417220(kEvent_10, this);
+    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -3254,7 +3254,7 @@ short Mudokon::Brain_LiftUse_5_43C180()
             if (pObj->field_4_typeId == Types::eLiftPoint_51)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(pObj);
-                if (field_110 == pLiftPoint->field_278)
+                if (field_110 == pLiftPoint->field_278_point_id)
                 {
                     field_194_pLiftPoint = pLiftPoint;
                     pObj->field_C_refCount++;

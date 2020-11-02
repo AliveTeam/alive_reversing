@@ -22,6 +22,10 @@ public:
 
     EXPORT BaseGameObject* dtor_451490();
 
+    EXPORT void SyncCollisionLinePosition_451540();
+
+    EXPORT void KeepThingsOnPlatform_451690(FP xpos);
+
     int field_10C;
     int field_110;
     int field_114_count;

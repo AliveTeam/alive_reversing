@@ -171,7 +171,16 @@ void SlingMudokon::VUpdate_46FBF0()
 {
     const auto old_motion = field_FC_current_motion;
     
+    static auto oldBrain = field_138_brain_state;
+
+   
     VCallBrain_46F880();
+
+    if (oldBrain != field_138_brain_state)
+    {
+        LOG_INFO("Brain is " << field_138_brain_state);
+        oldBrain = field_138_brain_state;
+    }
 
     const auto old_x = field_A8_xpos;
     const auto old_y = field_AC_ypos;

@@ -70,4 +70,9 @@ EXPORT void CC SND_Shutdown_476EC0()
     NOT_IMPLEMENTED();
 }
 
+EXPORT void CC SND_SEQ_SetVol_477970(SeqId /*idx*/, __int16 /*volLeft*/, __int16 /*volRight*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 END_NS_AO

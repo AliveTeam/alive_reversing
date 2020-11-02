@@ -632,6 +632,7 @@ void LiftPoint::vUpdate_461AE0()
                 }
             }
 
+            // TODO: Bugged if lift point not found - last TLV will get casted which could be anything
             auto pLiftTlv = static_cast<Path_LiftPoint*>(pTlvIter);
             if (pLiftTlv)
             {
@@ -653,6 +654,7 @@ void LiftPoint::vUpdate_461AE0()
                 }
             }
 
+            // TODO: Also bugged because will always be true
             if (pLiftTlv)
             {
                 sub_461000(pLiftTlv);

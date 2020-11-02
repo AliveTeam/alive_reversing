@@ -72,6 +72,7 @@
 #include "ShadowZone.hpp"
 #include "OneShotSwitchIdSetter.hpp"
 #include "SwitchStateBooleanLogic.hpp"
+#include "LiftPoint.hpp"
 
 START_NS_AO
 
@@ -262,9 +263,151 @@ EXPORT void Factory_ShadowZone_482080(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnio
 }
 
 
-EXPORT void Factory_LiftPoint_4820F0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+
+
+EXPORT void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
-    NOT_IMPLEMENTED();
+    static CompileTimeResourceList<3> kResources =
+    {
+        { ResourceManager::Resource_Animation, 53 },
+        { ResourceManager::Resource_Animation, 1001 },
+        { ResourceManager::Resource_Animation, 1032 }
+    };
+
+    if (loadMode == 1 || loadMode == 2)
+    {
+        switch (gMap_507BA8.field_0_current_level)
+        {
+        case LevelIds::eRuptureFarms_1:
+        case LevelIds::eBoardRoom_12:
+        case LevelIds::eRuptureFarmsReturn_13:
+            ResourceManager::LoadResource_446C90("R1ROPES.BAN", ResourceManager::Resource_Animation, 1000, loadMode);
+            ResourceManager::LoadResourcesFromList_446E80("RLIFT.BND", kResources.AsList(), loadMode, 0);
+            break;
+
+        case LevelIds::eLines_2:
+            ResourceManager::LoadResource_446C90("ROPES.BAN", ResourceManager::Resource_Animation, 1000, loadMode);
+            ResourceManager::LoadResourcesFromList_446E80("LLIFT.BND", kResources.AsList(), loadMode, 0);
+            break;
+
+        case LevelIds::eDesert_8:
+            ResourceManager::LoadResource_446C90("D1ROPES.BAN", ResourceManager::Resource_Animation, 1000, loadMode);
+            ResourceManager::LoadResourcesFromList_446E80("D1LIFT.BND", kResources.AsList(), loadMode, 0);
+            break;
+
+        case LevelIds::eDesertTemple_9:
+        case LevelIds::eDesertEscape:
+            ResourceManager::LoadResource_446C90("D1ROPES.BAN", ResourceManager::Resource_Animation, 1000, loadMode);
+            ResourceManager::LoadResourcesFromList_446E80("D2LIFT.BND", kResources.AsList(), loadMode, 0);
+            break;
+
+        default:
+            ResourceManager::LoadResource_446C90("ROPES.BAN", ResourceManager::Resource_Animation, 1000, loadMode);
+            ResourceManager::LoadResourcesFromList_446E80("FLIFT.BND", kResources.AsList(), loadMode, 0);
+            break;
+        }
+    }
+    else
+    {
+        for (int idx = 0; idx < gBaseGameObject_list_9F2DF0->Size(); idx++)
+        {
+            BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(idx);
+            if (!pObjIter)
+            {
+                break;
+            }
+
+            if (!pObjIter->field_6_flags.Get(BaseGameObject::eDead_Bit3) && pObjIter->field_4_typeId == Types::eLiftPoint_51)
+            {
+                auto pLiftObj = static_cast<LiftPoint*>(pObjIter);
+
+                const short xpos_i = FP_GetExponent(pLiftObj->field_A8_xpos);
+                if (pTlv->field_10_top_left.field_0_x <= xpos_i
+                    && xpos_i <= pTlv->field_14_bottom_right.field_0_x
+                    && pLiftObj->field_B2_lvl_number == gMap_507BA8.field_0_current_level
+                    && pLiftObj->field_B0_path_number == gMap_507BA8.field_2_current_path)
+                {
+                    gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+                    return;
+                }
+
+            }
+        }
+
+        // TODO: This got moved to a helper iin AE
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1032, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1001, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 53, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1000, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        if (pTlv->field_1_unknown & 2 || (pTlv->field_1_unknown == 0 && static_cast<Path_LiftPoint*>(pTlv)->field_1A_bstart_point))
+        {
+            auto pLiftPoint = ao_new<LiftPoint>();
+            if (pLiftPoint)
+            {
+                pLiftPoint->ctor_434710(static_cast<Path_LiftPoint*>(pTlv), pMap, tlvOffsetLevelIdPathId.all);
+            }
+        }
+        else
+        {
+            Path_TLV* pTlvIter = nullptr;
+            short pointNumber = 1;
+            while (pointNumber < 8)
+            {
+                pTlvIter = gMap_507BA8.Get_First_TLV_For_Offsetted_Camera_4463B0(
+                    0,
+                    pointNumber / 2 * (pointNumber % 2 != 0 ? -1 : 1));
+                while (pTlvIter)
+                {
+                    if (pTlvIter->field_4_type == TlvTypes::LiftPoint_8)
+                    {
+                        const auto tlv_x = pTlv->field_C_sound_pos.field_0_x;
+                        const auto absX = pTlvIter->field_C_sound_pos.field_0_x - tlv_x >= 0 ? pTlvIter->field_C_sound_pos.field_0_x - tlv_x : tlv_x - pTlvIter->field_C_sound_pos.field_0_x;
+                        if (absX < 5)
+                        {
+                            if (pTlvIter->field_1_unknown & 2 ||
+                                (pTlvIter->field_1_unknown == 0 && static_cast<Path_LiftPoint*>(pTlvIter)->field_1A_bstart_point))
+                            {
+                                auto pLiftPoint = ao_new<LiftPoint>();
+                                if (pLiftPoint)
+                                {
+                                    pLiftPoint->ctor_434710(static_cast<Path_LiftPoint*>(pTlvIter), pMap, tlvOffsetLevelIdPathId.all);
+                                }
+                                return;
+                            }
+                        }
+                    }
+                    pTlvIter = Path_TLV::Next_446460(pTlvIter);
+                }
+                pointNumber++;
+            }
+
+            auto pLiftPoint = ao_new<LiftPoint>();
+            if (pLiftPoint)
+            {
+                pLiftPoint->ctor_434710(static_cast<Path_LiftPoint*>(pTlv), pMap, tlvOffsetLevelIdPathId.all);
+            }
+        }
+    }
 }
 
 

@@ -72,7 +72,7 @@ void Explosion::VUpdate_458D00()
 {
     Event_Broadcast_417220(kEvent_2, this);
     Event_Broadcast_417220(kEvent_14, this);
-    Event_Broadcast_417220(kEvent_10, this);
+    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
 
     PSX_RECT rect = {};
 

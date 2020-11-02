@@ -48,6 +48,8 @@ enum TlvTypes : __int16
 
     LiftMud_32 = 32,
 
+    Pulley_35 = 35,
+
     ElumStart_38 = 38,
 
     HoneyDripTarget_42 = 42,
