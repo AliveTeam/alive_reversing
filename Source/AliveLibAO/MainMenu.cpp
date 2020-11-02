@@ -1123,7 +1123,7 @@ EXPORT void Menu::MainScreen_Update_47AF60()
         bSmallerTimeout = gDemoPlay_507694;
     }
 
-    const int idleMax = bSmallerTimeout != 0 ? 10 : 15;
+    const int idleMax = bSmallerTimeout != 0 ? 300 : 1500;
     if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x8F0 || field_1DC_idle_input_counter > idleMax) // TODO: input constants
     {
         if (field_1DC_idle_input_counter <= idleMax)
