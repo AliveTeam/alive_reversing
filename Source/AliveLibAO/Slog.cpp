@@ -763,9 +763,91 @@ void Slog::ToJump_473FB0()
     }
 }
 
-void Slog::Sfx_475BD0(int /*idx*/)
+SfxDefinition sSlogSfx_4CFE40[20] =
 {
-    NOT_IMPLEMENTED();
+    { 0, 12, 38, 30, 0, 0, 0 },
+    { 0, 12, 39, 30, 0, 0, 0 },
+    { 0, 12, 40, 100, -256, 0, 0 },
+    { 0, 12, 41, 60, 0, 0, 0 },
+    { 0, 12, 42, 50, 0, 0, 0 },
+    { 0, 12, 40, 100, -256, 0, 0 },
+    { 0, 12, 44, 90, 0, 0, 0 },
+    { 0, 12, 60, 100, 0, 0, 0 },
+    { 0, 18, 45, 100, -256, 0, 0 },
+    { 0, 18, 46, 127, -127, 127, 0 },
+    { 0, 18, 47, 70, 0, 0, 0 },
+    { 0, 18, 48, 70, 0, 0, 0 },
+    { 0, 18, 49, 30, 0, 0, 0 },
+    { 0, 22, 61, 45, 0, 0, 0 },
+    { 0, 22, 62, 45, 0, 0, 0 },
+    { 0, 3, 59, 67, 0, 0, 0 },
+    { 0, 22, 33, 45, 0, 0, 0 },
+    { 0, 22, 34, 45, 0, 0, 0 },
+    { 0, 22, 35, 45, 0, 0, 0 },
+    { 0, 22, 36, 45, 0, 0, 0 }
+};
+
+void Slog::Sfx_475BD0(int soundId)
+{
+    int volumeLeft = 0;
+    int volumeRight = 0;
+
+    const SfxDefinition& sndDef = sSlogSfx_4CFE40[static_cast<int>(soundId)];
+    const auto defaultSndIdxVol = sndDef.field_C_default_volume;
+    if (field_BC_sprite_scale == FP_FromInteger(1))
+    {
+        volumeRight = defaultSndIdxVol;
+    }
+    else
+    {
+        volumeRight = defaultSndIdxVol / 2;
+    }
+
+    CameraPos direction = gMap_507BA8.GetDirection(
+        field_B2_lvl_number,
+        field_B0_path_number,
+        field_A8_xpos,
+        field_AC_ypos
+    );
+    PSX_RECT worldRect;
+    gMap_507BA8.Get_Camera_World_Rect_444C30(direction, &worldRect);
+    volumeLeft = volumeRight;
+    switch (direction)
+    {
+        case CameraPos::eCamCurrent_0:
+        {
+            break;
+        }
+        case CameraPos::eCamTop_1:
+        case CameraPos::eCamBottom_2:
+        {
+            volumeLeft = FP_GetExponent(FP_FromInteger(defaultSndIdxVol * 2) / FP_FromInteger(3));
+            volumeRight = volumeLeft;
+        }
+        break;
+        case CameraPos::eCamLeft_3:
+        {
+            FP percentHowFar = (FP_FromInteger(worldRect.w) - field_A8_xpos) / FP_FromInteger(368);
+            volumeLeft = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - (volumeRight / 3)));
+            volumeRight -= FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight));
+            break;
+        }
+        case CameraPos::eCamRight_4:
+        {
+            FP percentHowFar = (field_A8_xpos - FP_FromInteger(worldRect.x)) / FP_FromInteger(368);
+            volumeLeft = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight));
+            volumeRight -= FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - (volumeRight / 3)));
+            break;
+        }
+        default:
+            return;
+    }
+    SFX_SfxDefinition_Play_477330(&sndDef,
+        static_cast<short>(volumeLeft),
+        static_cast<short>(volumeRight),
+        static_cast<short>(sndDef.field_E_pitch_min),
+        static_cast<short>(sndDef.field_10_pitch_max)
+    );
 }
 
 __int16 Slog::IsPlayerNear_471930()
