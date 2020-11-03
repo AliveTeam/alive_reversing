@@ -10,7 +10,7 @@
 
 START_NS_AO
 
-void SaveGame::sub_459970(SaveData*, int)
+void SaveGame::Load_459970(SaveData*, int)
 {
     NOT_IMPLEMENTED();
 }
@@ -356,7 +356,7 @@ short CC SaveGame::Read_459D30(const char* name)
     if (hashVal == gSaveBuffer_500A18.field_200_hashValue)
     {
         gSaveBuffer_505668 = gSaveBuffer_500A18;
-        sub_459970(&gSaveBuffer_505668, 1);
+        Load_459970(&gSaveBuffer_505668, 1);
         gSaveBuffer_505668.field_238_current_camera = gSaveBuffer_505668.field_216_saved_camera;
         sCurrentControllerIndex_5076B8 = 0;
         gSaveBuffer_505668.field_234_current_level = gSaveBuffer_505668.field_212_saved_level;

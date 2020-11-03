@@ -5,7 +5,14 @@
 #include "ScreenManager.hpp"
 #include "Game.hpp"
 #include "Math.hpp"
+#include "Map.hpp"
+#include "PsxDisplay.hpp"
 #include "stdlib.hpp"
+#include "Primitives_common.hpp"
+#include <algorithm>
+
+#undef min
+#undef max
 
 START_NS_AO
 
@@ -219,9 +226,89 @@ void Blood::VRender(int** pOrderingTable)
     VRender_407810(pOrderingTable);
 }
 
-void Blood::VRender_407810(int** /*ppOt*/)
+void Blood::VRender_407810(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    const auto bufferIdx = gPsxDisplay_504C78.field_A_buffer_index;
+    if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+        field_B2_lvl_number,
+        field_B0_path_number,
+        field_A8_xpos,
+        field_AC_ypos,
+        0))
+    {
+        PSX_Point xy = { 32767, 32767 };
+        PSX_Point wh = { -32767, -32767 };
+
+        for (int i = 0; i < field_112_to_render_count; i++)
+        {
+            BloodParticle* pParticle = &field_E8_pResBuf[i];
+            Prim_Sprt* pSprt = &pParticle->field_10_prims[gPsxDisplay_504C78.field_A_buffer_index];
+
+            BYTE u0 = field_10_anim.field_84_vram_rect.x & 63;
+            if (field_10C_texture_mode == 1)
+            {
+                u0 *= 2;
+            }
+            else if (field_10C_texture_mode == 0)
+            {
+                u0 *= 4;
+            }
+
+            SetUV0(pSprt, u0, static_cast<BYTE>(field_10_anim.field_84_vram_rect.y));
+
+            FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(
+                &(*field_10_anim.field_20_ppBlock)[field_10_anim.Get_FrameHeader_403A00(-1)->field_0_frame_header_offset]
+            );
+
+            pSprt->field_14_w = pFrameHeader->field_4_width - 1;
+            pSprt->field_16_h = pFrameHeader->field_5_height - 1;
+
+            const short x0 = PsxToPCX(FP_GetExponent(pParticle->field_0_x));
+            const short y0 = FP_GetExponent(pParticle->field_4_y);
+
+            SetXY0(pSprt, x0, y0);
+
+            if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit16_bBlending))
+            {
+                SetRGB0(pSprt, field_10_anim.field_8_r, field_10_anim.field_9_g, field_10_anim.field_A_b);
+            }
+
+            OrderingTable_Add_498A80(
+                &ppOt[field_11C_render_layer],
+                &pSprt->mBase.header
+            );
+
+            xy.field_0_x = std::min(x0, xy.field_0_x);
+            xy.field_2_y = std::min(y0, xy.field_2_y);
+
+            wh.field_0_x = std::max(x0, wh.field_0_x);
+            wh.field_2_y = std::max(y0, wh.field_2_y);
+        }
+
+        short tpageY = 256;
+        if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit10_alternating_flag)
+            && field_10_anim.field_84_vram_rect.y < 0x100)
+        {
+            tpageY = 0;
+        }
+        auto tpage = PSX_getTPage_4965D0(
+            static_cast<char>(field_10C_texture_mode),
+            0,
+            field_10_anim.field_84_vram_rect.x & 0xFFC0,
+            tpageY
+        );
+        Prim_SetTPage* pTPage = &field_EC_tPages[bufferIdx];
+        Init_SetTPage_495FB0(pTPage, 0, 0, tpage);
+        OrderingTable_Add_498A80(&ppOt[field_11C_render_layer], &pTPage->mBase);
+
+        pScreenManager_4FF7C8->InvalidateRect_406E40(
+            (xy.field_0_x - 12),
+            (xy.field_2_y - 12),
+            (wh.field_0_x + 12),
+            (wh.field_2_y + 12),
+            pScreenManager_4FF7C8->field_2E_idx
+        );
+    }
 }
 
 void Blood::VScreenChanged()

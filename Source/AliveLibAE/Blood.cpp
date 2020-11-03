@@ -236,9 +236,11 @@ void Blood::vRender_40F780(int** pOt)
                 u0 *= 4;
             }
             
-            SetUV0(pSprt, u0, field_20_animation.field_84_vram_rect.y & 0xFF);
+            SetUV0(pSprt, u0, static_cast<BYTE>(field_20_animation.field_84_vram_rect.y));
 
-            FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(&(*field_20_animation.field_20_ppBlock)[field_20_animation.Get_FrameHeader_40B730(-1)->field_0_frame_header_offset]);
+            FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(
+                &(*field_20_animation.field_20_ppBlock)[field_20_animation.Get_FrameHeader_40B730(-1)->field_0_frame_header_offset]
+            );
 
             pSprt->field_14_w = pFrameHeader->field_4_width - 1;
             pSprt->field_16_h = pFrameHeader->field_5_height - 1;
@@ -257,25 +259,11 @@ void Blood::vRender_40F780(int** pOt)
                 &pOt[field_12C_render_layer],
                 &pSprt->mBase.header);
 
-            if (x0 < xy.field_0_x)
-            {
-                xy.field_0_x = x0;
-            }
+            xy.field_0_x = std::min(x0, xy.field_0_x);
+            xy.field_2_y = std::min(y0, xy.field_2_y);
 
-            if (x0 > wh.field_0_x)
-            {
-                wh.field_0_x = x0;
-            }
-
-            if (y0 < xy.field_2_y)
-            {
-                xy.field_2_y = y0;
-            }
-
-            if (y0 > wh.field_2_y)
-            {
-                wh.field_2_y = y0;
-            }
+            wh.field_0_x = std::max(x0, wh.field_0_x);
+            wh.field_2_y = std::max(y0, wh.field_2_y);
         }
         
         const int tpage = PSX_getTPage_4F60E0(

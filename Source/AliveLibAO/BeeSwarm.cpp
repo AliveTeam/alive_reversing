@@ -7,6 +7,11 @@
 #include "stdlib.hpp"
 #include "Abe.hpp"
 #include "Game.hpp"
+#include "PsxDisplay.hpp"
+#include "ScreenManager.hpp"
+#include <algorithm>
+#undef max
+#undef min
 
 START_NS_AO
 
@@ -199,9 +204,69 @@ void BeeSwarm::VRender(int** pOrderingTable)
     VRender_480AC0(pOrderingTable);
 }
 
-void BeeSwarm::VRender_480AC0(int** /*ppOt*/)
+void BeeSwarm::VRender_480AC0(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    field_10_anim.field_C_layer = 38;
+    field_10_anim.field_8_r = static_cast<BYTE>(field_C0_r);
+    field_10_anim.field_9_g = static_cast<BYTE>(field_C2_g);
+    field_10_anim.field_A_b = static_cast<BYTE>(field_C4_b);
+    field_10_anim.field_14_scale = field_BC_sprite_scale;
+
+    const auto campos_x_delta = pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
+    const auto campos_y_delta = pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
+    const auto cam_x_abs = pScreenManager_4FF7C8->field_10_pCamPos->field_0_x + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
+    const auto cam_y_abs = pScreenManager_4FF7C8->field_10_pCamPos->field_4_y + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
+
+    PSX_Point xy = { 32767, 32767 };
+    PSX_Point wh = { -32767, -32767 };
+
+    BOOL bDontClear = 1;
+    for(int next = 0; next < field_D66_bee_count; next++)
+    {
+        auto bee = &field_E4_bees.bees[next];
+        PSX_RECT out = {};
+        if (bee->field_0_xpos >= campos_x_delta && bee->field_0_xpos <= cam_x_abs &&
+            bee->field_4_ypos >= campos_y_delta && bee->field_4_ypos <= cam_y_abs)
+        {
+            if (bDontClear)
+            {
+                field_10_anim.vRender(
+                    FP_GetExponent(bee->field_0_xpos - campos_x_delta),
+                    FP_GetExponent(bee->field_4_ypos - campos_y_delta),
+                    ppOt,
+                    0,
+                    0
+                );
+                bDontClear = 0;
+                field_10_anim.Get_Frame_Rect_402B50(&out);
+            }
+            else
+            {
+                bee->field_10_anim.VRender2(
+                    FP_GetExponent(PsxToPCX((bee->field_0_xpos - campos_x_delta), FP_FromInteger(11))),
+                    FP_GetExponent(bee->field_4_ypos - campos_y_delta),
+                    ppOt
+                );
+                bee->field_10_anim.GetRenderedSize_404220(&out);
+            }
+
+            out.x = std::min(out.x, xy.field_0_x);
+            out.y = std::min(out.y, xy.field_2_y);
+
+            out.w = std::max(out.w, wh.field_0_x);
+            out.h = std::max(out.h, wh.field_2_y);
+        }
+        if (!bDontClear)
+        {
+            pScreenManager_4FF7C8->InvalidateRect_406E40(
+                out.x,
+                out.y,
+                out.w,
+                out.h,
+                pScreenManager_4FF7C8->field_2E_idx
+            );
+        }
+    }
 }
 
 END_NS_AO

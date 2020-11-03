@@ -9,8 +9,8 @@ START_NS_AO
 
 struct BeeSwarmParticle
 {
-    int field_0_xpos;
-    int field_4_ypos;
+    FP field_0_xpos;
+    FP field_4_ypos;
     char field_8;
     char field_9;
     __int16 field_A;

@@ -7026,7 +7026,7 @@ void Abe::State_61_Respawn_42CD20()
                     field_138_zone_top_left.field_0_x = camPos.field_0_x + 512;
                     field_138_zone_top_left.field_2_y = camPos.field_2_y + 240;
                 }
-                SaveGame::sub_459970(&gSaveBuffer_505668, 0);
+                SaveGame::Load_459970(&gSaveBuffer_505668, 0);
                 if (field_19C_throwable_count)
                 {
                     LoadRockTypes_454370(gSaveBuffer_505668.field_234_current_level, gSaveBuffer_505668.field_236_current_path);
