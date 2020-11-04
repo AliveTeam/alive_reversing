@@ -66,7 +66,7 @@ public:
 
     static EXPORT int CC OnRootCounter_4437D0();
 
-    EXPORT void sub_443460(signed __int16 a2, int a3, __int16 a4, __int16 a5);
+    EXPORT void sub_443460(MusicTypes a2, BaseGameObject* a3, __int16 a4, __int16 a5);
 
     EXPORT void sub_442C20();
 

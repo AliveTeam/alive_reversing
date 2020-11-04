@@ -229,14 +229,14 @@ void MusicController::VUpdate_443300()
                     }
                 }
 
-                sub_443460(0, 0, 1, 0);
+                sub_443460(MusicTypes::eType0, nullptr, 1, 0);
             }
         }
     }
 
     if (field_3A > 1 && (counter_507B9C / 2) - field_40 >= 160)
     {
-        sub_443460(0, 0, 1, 0);
+        sub_443460(MusicTypes::eType0, nullptr, 1, 0);
     }
 
     sub_442A10();
@@ -253,9 +253,12 @@ void MusicController::VUpdate()
     VUpdate_443300();
 }
 
-void CC MusicController::sub_443810(MusicTypes /*a1*/, BaseGameObject* /*a2*/, __int16 /*a3*/, __int16 /*a4*/)
+void CC MusicController::sub_443810(MusicTypes a1, BaseGameObject* a2, __int16 a3, __int16 a4)
 {
-    NOT_IMPLEMENTED();
+    if (pMusicController_507B98)
+    {
+        pMusicController_507B98->sub_443460(a1, a2, a3, a4);
+    }
 }
 
 __int16 CC MusicController::sub_443840(SeqId * seq1, SeqId * seq2, WORD* seqTime)
@@ -353,7 +356,7 @@ int CC MusicController::OnRootCounter_4437D0()
     return 0;
 }
 
-void MusicController::sub_443460(signed __int16 /*a2*/, int /*a3*/, __int16 /*a4*/, __int16 /*a5*/)
+void MusicController::sub_443460(MusicTypes /*a2*/, BaseGameObject* /*a3*/, __int16 /*a4*/, __int16 /*a5*/)
 {
     NOT_IMPLEMENTED();
 }
