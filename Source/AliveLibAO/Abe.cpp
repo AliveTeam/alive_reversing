@@ -2935,7 +2935,7 @@ __int16 Abe::MoveLiftUpOrDown_42F190(FP yVelocity)
     pLiftPoint->Move_435740(FP_FromInteger(0), yVelocity, 0);
     FollowLift_42EE90();
 
-    if (gBeeInstanceCount_5076B0 && word_5076AC)
+    if (gBeeInstanceCount_5076B0 && gBeesNearAbe_5076AC)
     {
         return eAbeStates::State_141_BeesStrugglingOnLift_42F390;
     }
@@ -4075,7 +4075,7 @@ void Abe::State_0_Idle_423520()
             {
                 field_FC_current_motion = HandleDoAction_429A70();
             }
-            else if (gBeeInstanceCount_5076B0 && word_5076AC)
+            else if (gBeeInstanceCount_5076B0 && gBeesNearAbe_5076AC)
             {
                 field_FC_current_motion = eAbeStates::State_140_BeesStruggling_423F30;
             }
@@ -9008,7 +9008,7 @@ void Abe::State_135_LiftGrabIdle_42F000()
     
     field_B8_vely = FP_FromInteger(0);
 
-    if (gBeeInstanceCount_5076B0 > 0 && word_5076AC)
+    if (gBeeInstanceCount_5076B0 > 0 && gBeesNearAbe_5076AC)
     {
         field_FC_current_motion = eAbeStates::State_141_BeesStrugglingOnLift_42F390;
     }
@@ -9224,7 +9224,7 @@ void Abe::State_139_ElumMountBegin_42E090()
 void Abe::State_140_BeesStruggling_423F30()
 {
     State_0_Idle_423520();
-    if ((!gBeeInstanceCount_5076B0 || !word_5076AC) && field_FC_current_motion == eAbeStates::State_140_BeesStruggling_423F30)
+    if ((!gBeeInstanceCount_5076B0 || !gBeesNearAbe_5076AC) && field_FC_current_motion == eAbeStates::State_140_BeesStruggling_423F30)
     {
         ToIdle_422D50();
     }
