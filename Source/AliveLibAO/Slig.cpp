@@ -2114,7 +2114,7 @@ void Slig::OperateLift()
 
         const auto camPos = gMap_507BA8.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos);
         if ((camPos != CameraPos::eCamCurrent_0 && camPos != CameraPos::eCamInvalid_m1)
-            && MusicController::sub_443840(0, 0, 0) <= 4)
+            && MusicController::sub_443840(0, 0, 0) <= MusicController::MusicTypes::eType4)
         {
             MusicController::sub_443810(MusicController::MusicTypes::eType4, this, 0, 0);
         }
@@ -2630,7 +2630,7 @@ void Slig::State_2_Walking_469130()
         field_B0_path_number,
         field_A8_xpos,
         field_AC_ypos) >= CameraPos::eCamCurrent_0
-        && MusicController::sub_443840(0, 0, 0) <= 4)
+        && MusicController::sub_443840(0, 0, 0) <= MusicController::MusicTypes::eType4)
     {
         MusicController::sub_443810(MusicController::MusicTypes::eType4, this, 0, 0);
     }
@@ -2788,9 +2788,9 @@ void Slig::State_4_Running_469690()
         field_B0_path_number,
         field_A8_xpos,
         field_AC_ypos) >= CameraPos::eCamCurrent_0
-        && MusicController::sub_443840(0, 0, 0) != eSligStates::State_6_Shoot_468820)
+        && MusicController::sub_443840(0, 0, 0) != MusicController::MusicTypes::eType6)
     {
-        MusicController::sub_443810(MusicController::MusicTypes::eType4, 0, 0, 0);
+        MusicController::sub_443810(MusicController::MusicTypes::eType5, 0, 0, 0);
     }
 
     field_126_input |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_6_held;
@@ -2880,7 +2880,7 @@ void Slig::State_5_TurnAroundStanding_469C80()
         field_B0_path_number,
         field_A8_xpos,
         field_AC_ypos) >= CameraPos::eCamCurrent_0
-        && MusicController::sub_443840(0, 0, 0) <= 4)
+        && MusicController::sub_443840(0, 0, 0) <= MusicController::MusicTypes::eType4)
     {
         MusicController::sub_443810(MusicController::MusicTypes::eType4, this, 0, 0);
     }

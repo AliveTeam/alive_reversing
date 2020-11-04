@@ -1052,7 +1052,7 @@ void Slog::State_0_Idle_4742E0()
                         field_A8_xpos,
                         field_AC_ypos) >= CameraPos::eCamCurrent_0)
                 {
-                    if (MusicController::sub_443840(0, 0, 0) == 9)
+                    if (MusicController::sub_443840(0, 0, 0) == MusicController::MusicTypes::eType9)
                     {
                         MusicController::sub_443810(MusicController::MusicTypes::eType9, this, 0, 0);
                     }
