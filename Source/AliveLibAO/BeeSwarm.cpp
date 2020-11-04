@@ -390,7 +390,7 @@ void BeeSwarm::VUpdate_47FF50()
 
     if (!(gnFrameCount_507670 % 4) && field_DA4_update_chase_timer < static_cast<int>(gnFrameCount_507670))
     {
-        if (field_D80_state == States::eState_1_AttackChase || field_D80_state == States::eState_2_FollowPathLines)
+        if (field_D80_state != States::eState_0_Idle && field_D80_state != States::eState_3_FlyAwayAndDie)
         {
             for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
             {
@@ -412,6 +412,8 @@ void BeeSwarm::VUpdate_47FF50()
                             FP_FromInteger(objRect.h) >= field_D8C_rect_y &&
                             FP_FromInteger(objRect.y) <= field_D94_rect_h)
                         {
+                            LOG_INFO("Got new target");
+
                             const auto oldChaseTimer = field_D9C_alive_timer;
 
                             // De-ref old target
@@ -432,7 +434,7 @@ void BeeSwarm::VUpdate_47FF50()
                             field_DA4_update_chase_timer = gnFrameCount_507670 + 60;
 
                             // ?? why not check < 0 then calc
-                            if (oldChaseTimer > 0)
+                            if (oldChaseTimer != 0)
                             {
                                 field_D9C_alive_timer = oldChaseTimer;
                             }
@@ -446,11 +448,11 @@ void BeeSwarm::VUpdate_47FF50()
         }
     }
 
-    // Set max rect
-    field_D88_rect_x = FP_FromInteger(32768);
-    field_D90_rect_w = FP_FromInteger(-32768);
-    field_D8C_rect_y = FP_FromInteger(32768);
-    field_D94_rect_h = FP_FromInteger(-32768);
+    // Set max rect (just below max int16 else will overflow in fixed point)
+    field_D88_rect_x = FP_FromInteger(32767);
+    field_D90_rect_w = FP_FromInteger(-32767);
+    field_D8C_rect_y = FP_FromInteger(32767);
+    field_D94_rect_h = FP_FromInteger(-32767);
 
     // Alive bees update
     for (int i = 0; i < field_D66_bee_count; i++)
@@ -540,28 +542,22 @@ void BeeSwarm::VUpdate_47FF50()
         pBee->field_0_xpos += xMove; // ??? overwrites above calc
         pBee->field_8_angle += pBee->field_9_angle_speed;
 
-        if (pBee->field_0_xpos >= field_D88_rect_x)
-        {
-            if (pBee->field_0_xpos > field_D90_rect_w)
-            {
-                field_D90_rect_w = pBee->field_0_xpos;
-            }
-        }
-        else
+        if (pBee->field_0_xpos < field_D88_rect_x)
         {
             field_D88_rect_x = pBee->field_0_xpos;
         }
-
-        if (pBee->field_4_ypos >= field_D8C_rect_y)
+        else if (pBee->field_0_xpos > field_D90_rect_w)
         {
-            if (pBee->field_4_ypos > field_D94_rect_h)
-            {
-                field_D94_rect_h = pBee->field_4_ypos;
-            }
+            field_D90_rect_w = pBee->field_0_xpos;
         }
-        else
+
+        if (pBee->field_4_ypos < field_D8C_rect_y)
         {
-            field_D8C_rect_y = pBee->field_4_ypos;
+             field_D8C_rect_y = pBee->field_4_ypos;
+        }
+        else if (pBee->field_4_ypos > field_D94_rect_h)
+        {
+            field_D94_rect_h = pBee->field_4_ypos;
         }
     }
 
