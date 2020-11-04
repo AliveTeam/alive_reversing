@@ -345,9 +345,64 @@ void MusicController::Shutdown_4437E0()
     }
 }
 
-void CC MusicController::EnableMusic_443900(__int16 /*bEnable*/)
+void CC MusicController::EnableMusic_443900(__int16 bEnable)
 {
-    NOT_IMPLEMENTED();
+    if (pMusicController_507B98->field_10 != bEnable)
+    {
+        pMusicController_507B98->field_10 = bEnable;
+        if (bEnable)
+        {
+            if (pMusicController_507B98->field_12 != pMusicController_507B98->field_4C)
+            {
+                pMusicController_507B98->field_4A = pMusicController_507B98->field_4C;
+
+                __int16 v5 = 0;
+                if (pMusicController_507B98->field_12 <= 0)
+                {
+                    v5 = 0;
+                }
+                else
+                {
+                    v5 = pMusicController_507B98->field_12;
+                }
+
+                pMusicController_507B98->field_4E = v5;
+                pMusicController_507B98->field_2C = counter_507B9C / 2;
+                pMusicController_507B98->field_50 = counter_507B9C / 2;
+                if (pMusicController_507B98->field_12)
+                {
+                    pMusicController_507B98->field_48_state = 3;
+                }
+                else
+                {
+                    pMusicController_507B98->field_48_state = 2;
+                }
+            }
+            
+            pMusicController_507B98->field_3C = 0;
+            pMusicController_507B98->field_28 = 0;
+            pMusicController_507B98->field_40 = counter_507B9C / 2;
+
+            __int16 v6 = pMusicController_507B98->field_3A - 6;
+            if (v6 == 0 || (v6 - 2 == 0) || (v6 - 2) == 3)
+            {
+                pMusicController_507B98->field_44 = 1;
+                pMusicController_507B98->sub_442A10();
+            }
+        }
+        else
+        {
+            if (pMusicController_507B98->field_4C)
+            {
+                pMusicController_507B98->field_4A = pMusicController_507B98->field_4C;
+                pMusicController_507B98->field_4E = 0;
+                pMusicController_507B98->field_2C = counter_507B9C / 2;
+                pMusicController_507B98->field_50 = counter_507B9C / 2;
+                pMusicController_507B98->field_48_state = 2;
+            }
+        }
+        pMusicController_507B98->sub_442A10();
+    }
 }
 
 int CC MusicController::OnRootCounter_4437D0()
