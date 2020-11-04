@@ -5,6 +5,7 @@
 #include "stdlib.hpp"
 #include "Abe.hpp"
 #include "Events.hpp"
+#include "Elum.hpp"
 
 START_NS_AO
 
@@ -103,7 +104,7 @@ MusicController* MusicController::ctor_442930()
     field_4_typeId = Types::eNone_0;
 
     field_10 = 1;
-    field_3A = 0;
+    field_3A = MusicTypes::eType0;
     field_16 = 1;
     field_1C_pObj = nullptr;
     field_20 = 0;
@@ -234,7 +235,7 @@ void MusicController::VUpdate_443300()
         }
     }
 
-    if (field_3A > 1 && (counter_507B9C / 2) - field_40 >= 160)
+    if (field_3A > MusicTypes::eType1 && (counter_507B9C / 2) - field_40 >= 160)
     {
         sub_443460(MusicTypes::eType0, nullptr, 1, 0);
     }
@@ -261,11 +262,11 @@ void CC MusicController::sub_443810(MusicTypes a1, BaseGameObject* a2, __int16 a
     }
 }
 
-__int16 CC MusicController::sub_443840(SeqId * seq1, SeqId * seq2, WORD* seqTime)
+MusicController::MusicTypes CC MusicController::sub_443840(SeqId * seq1, SeqId * seq2, WORD* seqTime)
 {
     if (!pMusicController_507B98)
     {
-        return -1;
+        return MusicTypes::eTypeNull;
     }
 
     if (seq1)
@@ -280,7 +281,7 @@ __int16 CC MusicController::sub_443840(SeqId * seq1, SeqId * seq2, WORD* seqTime
 
     if (seqTime)
     {
-        if (!pMusicController_507B98->field_3A)
+        if (pMusicController_507B98->field_3A == MusicTypes::eType0)
         {
             *seqTime = static_cast<WORD>(pMusicController_507B98->field_28 - (counter_507B9C / 2));
         }
@@ -383,8 +384,9 @@ void CC MusicController::EnableMusic_443900(__int16 bEnable)
             pMusicController_507B98->field_28 = 0;
             pMusicController_507B98->field_40 = counter_507B9C / 2;
 
-            __int16 v6 = pMusicController_507B98->field_3A - 6;
-            if (v6 == 0 || (v6 - 2 == 0) || (v6 - 2) == 3)
+            if (pMusicController_507B98->field_3A == MusicTypes::eType0 ||
+                pMusicController_507B98->field_3A == MusicTypes::eType8 ||
+                pMusicController_507B98->field_3A == MusicTypes::eType11)
             {
                 pMusicController_507B98->field_44 = 1;
                 pMusicController_507B98->sub_442A10();
@@ -411,9 +413,73 @@ int CC MusicController::OnRootCounter_4437D0()
     return 0;
 }
 
-void MusicController::sub_443460(MusicTypes /*a2*/, BaseGameObject* /*a3*/, __int16 /*a4*/, __int16 /*a5*/)
+void MusicController::sub_443460(MusicTypes musicType, BaseGameObject* pObj, __int16 a4, __int16 a5)
 {
-    NOT_IMPLEMENTED();
+    if (musicType == MusicTypes::eType0 || musicType == MusicTypes::eType1 || pObj)
+    {
+        if (musicType == MusicTypes::eType0)
+        {
+            if (gElum_507680)
+            {
+                if (sControlledCharacter_50767C == gElum_507680)
+                {
+                    musicType = MusicTypes::eType1;
+                }
+            }
+        }
+
+        if (musicType == field_3A)
+        {
+            if (musicType != MusicTypes::eType0)
+            {
+                field_40 = counter_507B9C / 2;
+            }
+
+            if (field_1C_pObj)
+            {
+                if (field_1C_pObj == pObj)
+                {
+                    field_20 = a4;
+                }
+            }
+
+            if (!field_44)
+            {
+                field_44 = a5;
+            }
+            return;
+        }
+
+        if (!pObj)
+        {
+            if (field_20)
+            {
+                return;
+            }
+
+            if (a4)
+            {
+                field_1C_pObj = 0;
+            }
+
+            field_3A = musicType;
+            field_40 = counter_507B9C / 2;
+            field_3C = 0;
+            field_44 = 1;
+            return;
+        }
+
+        if (pObj == field_1C_pObj || !field_1C_pObj || !field_20 && (a4 || musicType >= field_3A))
+        {
+            field_1C_pObj = pObj;
+            field_20 = a4;
+            field_3A = musicType;
+            field_40 = counter_507B9C / 2;
+            field_3C = 0;
+            field_44 = 1;
+            return;
+        }
+    }
 }
 
 void MusicController::sub_442C20()
