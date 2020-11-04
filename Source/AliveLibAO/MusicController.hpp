@@ -56,7 +56,7 @@ public:
 
     EXPORT static void CC sub_443810(MusicTypes a1, BaseGameObject* a2, __int16 a3, __int16 a4);
 
-    EXPORT static __int16 CC sub_443840(WORD* seq1, WORD* seq2, WORD* seqTime);
+    EXPORT static __int16 CC sub_443840(SeqId * seq1, SeqId * seq2, WORD* seqTime);
 
     EXPORT void sub_442A10();
 

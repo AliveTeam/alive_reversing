@@ -258,10 +258,35 @@ void CC MusicController::sub_443810(MusicTypes /*a1*/, BaseGameObject* /*a2*/, _
     NOT_IMPLEMENTED();
 }
 
-__int16 CC MusicController::sub_443840(WORD* /*seq1*/, WORD* /*seq2*/, WORD* /*seqTime*/)
+__int16 CC MusicController::sub_443840(SeqId * seq1, SeqId * seq2, WORD* seqTime)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (!pMusicController_507B98)
+    {
+        return -1;
+    }
+
+    if (seq1)
+    {
+        *seq1 = pMusicController_507B98->field_26_seq;
+    }
+
+    if (seq2)
+    {
+        *seq2 = pMusicController_507B98->field_38_seq;
+    }
+
+    if (seqTime)
+    {
+        if (!pMusicController_507B98->field_3A)
+        {
+            *seqTime = static_cast<WORD>(pMusicController_507B98->field_28 - (counter_507B9C / 2));
+        }
+        else
+        {
+            *seqTime = static_cast<WORD>(pMusicController_507B98->field_3C - (counter_507B9C / 2));
+        }
+    }
+    return pMusicController_507B98->field_3A;
 }
 
 void MusicController::sub_442A10()
