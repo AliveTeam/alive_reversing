@@ -9,6 +9,9 @@
 #include "ScreenManager.hpp"
 #include "PsxDisplay.hpp"
 #include "CameraSwapper.hpp"
+#include "Events.hpp"
+#include "Sfx.hpp"
+#include "BaseAliveGameObject.hpp"
 
 START_NS_AO
 
@@ -195,7 +198,70 @@ void ParticleBurst::VUpdate()
 
 void ParticleBurst::VUpdate_40D600()
 {
-    NOT_IMPLEMENTED();
+    for (int i = 0; i < field_EC_count; i++)
+    {
+        ParticleBurst_Item* pItem = &field_E8_pRes[i];
+
+        pItem->field_0_x += pItem->field_C_x_speed;
+        pItem->field_4_y += pItem->field_10_y_speed;
+        pItem->field_8_z += pItem->field_14_z_speed;
+
+        pItem->field_10_y_speed += FP_FromDouble(0.25);
+
+        WORD result = 0;
+        pItem->field_0_x = CamX_VoidSkipper_418590(pItem->field_0_x, pItem->field_C_x_speed, 16, &result);
+        pItem->field_4_y = CamY_VoidSkipper_418690(pItem->field_4_y, pItem->field_10_y_speed, 16, &result);
+
+        if (pItem->field_8_z + FP_FromInteger(300) < FP_FromInteger(15))
+        {
+            pItem->field_14_z_speed = -pItem->field_14_z_speed;
+            pItem->field_8_z += pItem->field_14_z_speed;
+
+            if (field_F4_type == BurstType::eType_4)
+            {
+                if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                    gMap_507BA8.field_0_current_level,
+                    gMap_507BA8.field_2_current_path,
+                    pItem->field_0_x,
+                    pItem->field_4_y,
+                    0))
+                {
+                    SFX_Play_43AE60(SoundEffect::KillEffect_78, 50, Math_RandomRange_450F20(-900, -300));
+                }
+            }
+            else
+            {
+                // TODO: Never used by OG ??
+                // Math_RandomRange_450F20(-64, 46);
+
+                const short volume = static_cast<short>(Math_RandomRange_450F20(-10, 10) + ((field_F0_timer - gnFrameCount_507670) / 91) + 25);
+
+                const BYTE next_rand = Math_NextRandom();
+                if (next_rand < 43)
+                {
+                    SFX_Play_43AED0(SoundEffect::ParticleBurst_32, volume, CameraPos::eCamLeft_3);
+                }
+                else if (next_rand >= 85)
+                {
+                    SFX_Play_43AED0(SoundEffect::ParticleBurst_32, volume, CameraPos::eCamRight_4);
+                }
+                else
+                {
+                    SFX_Play_43AED0(SoundEffect::ParticleBurst_32, volume, CameraPos::eCamCurrent_0);
+                }
+            }
+        }
+    }
+
+    if (static_cast<int>(gnFrameCount_507670) > field_F0_timer)
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
 }
 
 void ParticleBurst::VRender(int** pOrderingTable)
