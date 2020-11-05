@@ -6,6 +6,9 @@
 #include "ResourceManager.hpp"
 #include "Map.hpp"
 #include "Game.hpp"
+#include "ScreenManager.hpp"
+#include "PsxDisplay.hpp"
+#include "CameraSwapper.hpp"
 
 START_NS_AO
 
@@ -200,9 +203,62 @@ void ParticleBurst::VRender(int** pOrderingTable)
     VRender_40D7F0(pOrderingTable);
 }
 
-void ParticleBurst::VRender_40D7F0(int** /*ppOt*/)
+void ParticleBurst::VRender_40D7F0(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    if (sNumCamSwappers_507668 != 0)
+    {
+        return;
+    }
+
+    field_10_anim.field_14_scale = field_BC_sprite_scale;
+
+    const FP_Point* pCamPos = pScreenManager_4FF7C8->field_10_pCamPos;
+    const FP screen_left = pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
+    const FP screen_right = pCamPos->field_0_x + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
+
+    const FP screen_top = pCamPos->field_4_y + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
+    const FP screen_bottom = pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
+    
+    bool bFirst = true;
+    for (int i = 0; i < field_EC_count; i++)
+    {
+        ParticleBurst_Item* pItem = &field_E8_pRes[i];
+        if (pItem->field_0_x >= screen_left && pItem->field_0_x <= screen_right)
+        {
+            if (pItem->field_4_y >= screen_bottom && pItem->field_4_y <= screen_top)
+            {
+                PSX_RECT rect = {};
+                if (bFirst)
+                {
+                    field_10_anim.field_14_scale = FP_FromInteger(100) / (pItem->field_8_z + FP_FromInteger(300));
+                    field_10_anim.VRender_403AE0(
+                        FP_GetExponent(PsxToPCX(pItem->field_0_x - screen_left, FP_FromInteger(11))),
+                        FP_GetExponent(pItem->field_4_y - screen_bottom),
+                        ppOt,
+                        0,
+                        0);
+                    field_10_anim.Get_Frame_Rect_402B50(&rect);
+                    bFirst = false;
+                }
+                else
+                {
+                    pItem->field_18_anim.field_6C_scale = FP_FromInteger(100) / (pItem->field_8_z + FP_FromInteger(300));
+                    pItem->field_18_anim.VRender2(
+                        FP_GetExponent(PsxToPCX(pItem->field_0_x - screen_left, FP_FromInteger(11))),
+                        FP_GetExponent(pItem->field_4_y - screen_bottom),
+                        ppOt);
+                    pItem->field_18_anim.GetRenderedSize_404220(&rect);
+                }
+
+                pScreenManager_4FF7C8->InvalidateRect_406E40(
+                    rect.x,
+                    rect.y,
+                    rect.w,
+                    rect.h,
+                    pScreenManager_4FF7C8->field_2E_idx);
+            }
+        }
+    }
 }
 
 END_NS_AO
