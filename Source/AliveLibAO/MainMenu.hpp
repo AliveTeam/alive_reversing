@@ -248,6 +248,7 @@ public:
 ALIVE_ASSERT_SIZEOF(Menu, 0x234);
 
 ALIVE_VAR_EXTERN(int, gMainMenuInstanceCount_9F2DE0);
+ALIVE_VAR_EXTERN(BYTE, sJoyResId_50769C);
 
 END_NS_AO
 

@@ -24,8 +24,22 @@ public:
 
     EXPORT DemoPlayback* Vdtor_451F50(signed int flags);
 
-    int field_10;
-    BYTE** field_14;
+    virtual void VScreenChanged() override;
+
+    virtual void VRender(int** ppOt);
+
+    virtual void VUpdate() override;
+
+    EXPORT void VUpdate_451960();
+
+    enum class States : int
+    {
+        eState_0_Init = 0,
+        eState_1_Playing = 1,
+        eState_2_Done = 2,
+    };
+    States field_10_state;
+    BYTE** field_14_ppDemoRes;
     BYTE** field_18_ppRes;
     __int16 field_1C;
     __int16 field_1E;
