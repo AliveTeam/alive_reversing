@@ -6747,7 +6747,7 @@ void Abe::State_58_ToSpeak_42F8D0()
         }
         else
         {
-            Event_Broadcast_417220(1, this);
+            Event_Broadcast_417220(kEventSpeaking_1, this);
         }
         field_10C_prev_held = 0;
     }
@@ -6799,11 +6799,12 @@ void Abe::State_60_Dead_42C4C0()
 {
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
     FollowLift_42EE90();
+
     switch (field_114_gnFrame)
     {
         case 0:
         {
-            Event_Broadcast_417220(kEventHeroDying, this);
+            Event_Broadcast_417220(kEventHeroDying_3, this);
             field_118 = gnFrameCount_507670 + 30;
             field_120 = FP_FromInteger(0);
             field_124 = 0;
@@ -6839,7 +6840,7 @@ void Abe::State_60_Dead_42C4C0()
         }
         case 1:
         {
-            Event_Broadcast_417220(3, this);
+            Event_Broadcast_417220(kEventHeroDying_3, this);
             auto pDeathBirdParticle = ao_new<DeathBirdParticle>();
             if (!(gnFrameCount_507670 % 4) && pDeathBirdParticle)
             {
@@ -6877,23 +6878,23 @@ void Abe::State_60_Dead_42C4C0()
                         field_118 = (gnFrameCount_507670 + 60) + 45;
                     }
                 }
-                ++field_114_gnFrame;
+                field_114_gnFrame++;
                 MusicController::sub_443810(MusicController::MusicTypes::eType14, this, 1, 0);
             }
             return;
         }
         case 2:
         {
-            Event_Broadcast_417220(kEventHeroDying, this);
+            Event_Broadcast_417220(kEventHeroDying_3, this);
             if (static_cast<int>(gnFrameCount_507670) > field_118)
             {
-                ++field_114_gnFrame;
+                field_114_gnFrame++;
             }
             return;
         }
         case 3:
         {
-            Event_Broadcast_417220(kEventHeroDying, this);
+            Event_Broadcast_417220(kEventHeroDying_3, this);
             if (field_158_pDeathFadeout)
             {
                 field_158_pDeathFadeout->field_6_flags.Set(Options::eDead_Bit3);
@@ -6908,15 +6909,15 @@ void Abe::State_60_Dead_42C4C0()
             field_158_pDeathFadeout->field_C_refCount++;
             if (field_164_pCircularFade)
             {
-                field_158_pDeathFadeout->field_6_flags.Set(Options::eDead_Bit3);
+                field_164_pCircularFade->field_6_flags.Set(Options::eDead_Bit3);
                 field_164_pCircularFade = nullptr;
             }
-            ++field_114_gnFrame;
+            field_114_gnFrame++;
             return;
         }
         case 4:
         {
-            Event_Broadcast_417220(3, this);
+            Event_Broadcast_417220(kEventHeroDying_3, this);
             if (field_158_pDeathFadeout->field_6E_bDone)
             {
                 if (!field_104_pending_resource_count)
@@ -6960,7 +6961,7 @@ void Abe::State_60_Dead_42C4C0()
         }
         case 5:
         {
-            Event_Broadcast_417220(4, this);
+            Event_Broadcast_417220(kEventDeathReset_4, this);
             if (static_cast<int>(gnFrameCount_507670) > field_118)
             {
                 field_FC_current_motion = eAbeStates::State_61_Respawn_42CD20;
