@@ -116,7 +116,7 @@ public:
     __int16 field_E4_previous_motion;
     __int16 field_E6_last_anim_frame;
     FP field_E8_LastLineYPos;
-    __int16 field_EC;
+    __int16 field_EC; // can the bees attack - multiple values so prob more unknown meanings as well
     __int16 field_EE_type;
     Path_TLV* field_F0_pTlv;
     PathLine* field_F4_pLine;

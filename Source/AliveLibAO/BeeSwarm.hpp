@@ -11,9 +11,9 @@ struct BeeSwarmParticle
 {
     FP field_0_xpos;
     FP field_4_ypos;
-    char field_8;
-    char field_9;
-    __int16 field_A;
+    char field_8_angle;
+    char field_9_angle_speed;
+    __int16 field_A_pad;
     int field_C_timer;
     AnimationUnknown field_10_anim;
 };
@@ -50,6 +50,8 @@ public:
 
     EXPORT void VUpdate_47FF50();
 
+    void ToFlyAwayAndDie();
+
     virtual void VRender(int** pOrderingTable) override;
 
     EXPORT void VRender_480AC0(int** ppOt);
@@ -63,25 +65,38 @@ public:
     FP field_D70_chase_target_x;
     FP field_D74_chase_target_y;
     FP field_D78_speed;
-    int field_D7C;
-    __int16 field_D80_state;
-    __int16 field_D82;
+    FP field_D7C_pos_offset;
+
+    enum class States : __int16
+    {
+        eState_0_Idle = 0,
+        eState_1_AttackChase = 1,
+        eState_2_FollowPathLines = 2,
+        eState_3_FlyAwayAndDie = 3,
+    };
+    States field_D80_state;
+
+    __int16 field_D82_pad;
+
     int field_D84_chaseTicks;
-    int field_D88;
-    int field_D8C;
-    FP field_D90_fp;
-    FP field_D94_fp;
+
+    // TODO: Might be a rect
+    FP field_D88_rect_x;
+    FP field_D8C_rect_y;
+    FP field_D90_rect_w;
+    FP field_D94_rect_h;
+
     BaseAliveGameObject* field_D98_pChaseTarget;
-    int field_D9C_chase_timer;
-    int field_DA0_timer;
-    int field_DA4;
+    int field_D9C_alive_timer;
+    int field_DA0_do_damage_or_pain_sound_timer;
+    int field_DA4_update_chase_timer;
     PathLine* field_DA8_pLine;
     FP field_DAC_line_follow_speed;
 };
 ALIVE_ASSERT_SIZEOF(BeeSwarm, 0xDB0);
 
 ALIVE_VAR_EXTERN(short, gBeeInstanceCount_5076B0);
-ALIVE_VAR_EXTERN(short, word_5076AC);
+ALIVE_VAR_EXTERN(short, gBeesNearAbe_5076AC);
 
 END_NS_AO
 
