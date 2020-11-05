@@ -291,7 +291,7 @@ void DDCheat::Update_415780()
                 sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(pos.field_0_x + 184);
                 sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(pos.field_2_y + 60);
                 sActiveHero_5C1B68->field_106_current_motion = 3;
-                sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7);
+                sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_NoFallDamage_Bit7);
                 sActiveHero_5C1B68->field_C2_lvl_number = static_cast<LevelIds>(sTeleport_Level_550F5C);
                 sActiveHero_5C1B68->field_C0_path_number = sTeleport_Path_550F5E;
                 sDDCheat_FlyingEnabled_5C2C08 = false;
@@ -308,7 +308,7 @@ void DDCheat::Update_415780()
             {
                 if (sControlledCharacter_5C1B8C == sActiveHero_5C1B68)
                 {
-                    sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7);
+                    sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_NoFallDamage_Bit7);
                 }
                 sControlledCharacter_5C1B8C->field_100_pCollisionLine = nullptr;
                 sControlledCharacter_5C1B8C->field_F8_LastLineYPos = sControlledCharacter_5C1B8C->field_BC_ypos;
@@ -403,7 +403,7 @@ void DDCheat::Update_415780()
 
                 if (sControlledCharacter_5C1B8C == sActiveHero_5C1B68)
                 {
-                    sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7);
+                    sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_NoFallDamage_Bit7);
                 }
 
                 sControlledCharacter_5C1B8C->field_100_pCollisionLine = nullptr;
