@@ -6,6 +6,12 @@
 #include "ResourceManager.hpp"
 #include "Map.hpp"
 #include "Game.hpp"
+#include "ScreenManager.hpp"
+#include "PsxDisplay.hpp"
+#include "CameraSwapper.hpp"
+#include "Events.hpp"
+#include "Sfx.hpp"
+#include "BaseAliveGameObject.hpp"
 
 START_NS_AO
 
@@ -192,7 +198,70 @@ void ParticleBurst::VUpdate()
 
 void ParticleBurst::VUpdate_40D600()
 {
-    NOT_IMPLEMENTED();
+    for (int i = 0; i < field_EC_count; i++)
+    {
+        ParticleBurst_Item* pItem = &field_E8_pRes[i];
+
+        pItem->field_0_x += pItem->field_C_x_speed;
+        pItem->field_4_y += pItem->field_10_y_speed;
+        pItem->field_8_z += pItem->field_14_z_speed;
+
+        pItem->field_10_y_speed += FP_FromDouble(0.25);
+
+        WORD result = 0;
+        pItem->field_0_x = CamX_VoidSkipper_418590(pItem->field_0_x, pItem->field_C_x_speed, 16, &result);
+        pItem->field_4_y = CamY_VoidSkipper_418690(pItem->field_4_y, pItem->field_10_y_speed, 16, &result);
+
+        if (pItem->field_8_z + FP_FromInteger(300) < FP_FromInteger(15))
+        {
+            pItem->field_14_z_speed = -pItem->field_14_z_speed;
+            pItem->field_8_z += pItem->field_14_z_speed;
+
+            if (field_F4_type == BurstType::eType_4)
+            {
+                if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                    gMap_507BA8.field_0_current_level,
+                    gMap_507BA8.field_2_current_path,
+                    pItem->field_0_x,
+                    pItem->field_4_y,
+                    0))
+                {
+                    SFX_Play_43AE60(SoundEffect::KillEffect_78, 50, Math_RandomRange_450F20(-900, -300));
+                }
+            }
+            else
+            {
+                // TODO: Never used by OG ??
+                // Math_RandomRange_450F20(-64, 46);
+
+                const short volume = static_cast<short>(Math_RandomRange_450F20(-10, 10) + ((field_F0_timer - gnFrameCount_507670) / 91) + 25);
+
+                const BYTE next_rand = Math_NextRandom();
+                if (next_rand < 43)
+                {
+                    SFX_Play_43AED0(SoundEffect::ParticleBurst_32, volume, CameraPos::eCamLeft_3);
+                }
+                else if (next_rand >= 85)
+                {
+                    SFX_Play_43AED0(SoundEffect::ParticleBurst_32, volume, CameraPos::eCamRight_4);
+                }
+                else
+                {
+                    SFX_Play_43AED0(SoundEffect::ParticleBurst_32, volume, CameraPos::eCamCurrent_0);
+                }
+            }
+        }
+    }
+
+    if (static_cast<int>(gnFrameCount_507670) > field_F0_timer)
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
 }
 
 void ParticleBurst::VRender(int** pOrderingTable)
@@ -200,9 +269,62 @@ void ParticleBurst::VRender(int** pOrderingTable)
     VRender_40D7F0(pOrderingTable);
 }
 
-void ParticleBurst::VRender_40D7F0(int** /*ppOt*/)
+void ParticleBurst::VRender_40D7F0(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    if (sNumCamSwappers_507668 != 0)
+    {
+        return;
+    }
+
+    field_10_anim.field_14_scale = field_BC_sprite_scale;
+
+    const FP_Point* pCamPos = pScreenManager_4FF7C8->field_10_pCamPos;
+    const FP screen_left = pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
+    const FP screen_right = pCamPos->field_0_x + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
+
+    const FP screen_top = pCamPos->field_4_y + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
+    const FP screen_bottom = pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
+    
+    bool bFirst = true;
+    for (int i = 0; i < field_EC_count; i++)
+    {
+        ParticleBurst_Item* pItem = &field_E8_pRes[i];
+        if (pItem->field_0_x >= screen_left && pItem->field_0_x <= screen_right)
+        {
+            if (pItem->field_4_y >= screen_bottom && pItem->field_4_y <= screen_top)
+            {
+                PSX_RECT rect = {};
+                if (bFirst)
+                {
+                    field_10_anim.field_14_scale = FP_FromInteger(100) / (pItem->field_8_z + FP_FromInteger(300));
+                    field_10_anim.VRender_403AE0(
+                        FP_GetExponent(PsxToPCX(pItem->field_0_x - screen_left, FP_FromInteger(11))),
+                        FP_GetExponent(pItem->field_4_y - screen_bottom),
+                        ppOt,
+                        0,
+                        0);
+                    field_10_anim.Get_Frame_Rect_402B50(&rect);
+                    bFirst = false;
+                }
+                else
+                {
+                    pItem->field_18_anim.field_6C_scale = FP_FromInteger(100) / (pItem->field_8_z + FP_FromInteger(300));
+                    pItem->field_18_anim.VRender2(
+                        FP_GetExponent(PsxToPCX(pItem->field_0_x - screen_left, FP_FromInteger(11))),
+                        FP_GetExponent(pItem->field_4_y - screen_bottom),
+                        ppOt);
+                    pItem->field_18_anim.GetRenderedSize_404220(&rect);
+                }
+
+                pScreenManager_4FF7C8->InvalidateRect_406E40(
+                    rect.x,
+                    rect.y,
+                    rect.w,
+                    rect.h,
+                    pScreenManager_4FF7C8->field_2E_idx);
+            }
+        }
+    }
 }
 
 END_NS_AO
