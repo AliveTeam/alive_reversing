@@ -887,19 +887,19 @@ namespace Test
 
     static void TestAbeSave()
     {
-        Compare(Abe::Flags_1AC::e1AC_Bit1, Abe_SaveState::Flags_D4::eD4_Bit1);
+        Compare(Abe::Flags_1AC::e1AC_LiftPointDeadWhileUsingLift_Bit1, Abe_SaveState::Flags_D4::eD4_Bit1);
         Compare(Abe::Flags_1AC::e1AC_Bit2, Abe_SaveState::Flags_D4::eD4_Bit2);
         Compare(Abe::Flags_1AC::e1AC_Bit3_Fall_To_Well, Abe_SaveState::Flags_D4::eD4_Bit3);
         Compare(Abe::Flags_1AC::e1AC_Bit4, Abe_SaveState::Flags_D4::eD4_Bit4);
         Compare(Abe::Flags_1AC::e1AC_Bit5_bShrivel, [](Abe_SaveState& state) { ASSERT_EQ(state.bShrivel, 1); });
-        Compare(Abe::Flags_1AC::e1AC_Bit6, Abe_SaveState::Flags_D4::eD4_Bit5);
-        Compare(Abe::Flags_1AC::e1AC_Bit7, Abe_SaveState::Flags_D4::eD4_Bit6);
+        Compare(Abe::Flags_1AC::e1AC_GiveControlBackToAbe_Bit6, Abe_SaveState::Flags_D4::eD4_Bit5);
+        Compare(Abe::Flags_1AC::e1AC_NoFallDamage_Bit7, Abe_SaveState::Flags_D4::eD4_Bit6);
         Compare(Abe::Flags_1AC::e1AC_Bit8, Abe_SaveState::Flags_D4::eD4_Bit7);
         Compare(Abe::Flags_1AC::e1AC_Bit9_bLaughAtChantEnd, Abe_SaveState::Flags_D4::eD4_Bit8);
         // Abe::Flags_1AC::e1AC_Bit10 not persisted
         // Abe::Flags_1AC::e1AC_Bit11 not persisted
         Compare(Abe::Flags_1AC::e1AC_Bit12, Abe_SaveState::Flags_D4::eD4_Bit9);
-        Compare(Abe::Flags_1AC::e1AC_eBit13, Abe_SaveState::Flags_D4::eD4_Bit10);
+        Compare(Abe::Flags_1AC::e1AC_LedgeHangWobble_eBit13, Abe_SaveState::Flags_D4::eD4_Bit10);
         Compare(Abe::Flags_1AC::e1AC_eBit14, Abe_SaveState::Flags_D4::eD4_Bit11);
         Compare(Abe::Flags_1AC::e1AC_eBit15_bHaveHealing, Abe_SaveState::Flags_D4::eD4_Bit12);
         // Flags_114::e114_Bit1 not persisted

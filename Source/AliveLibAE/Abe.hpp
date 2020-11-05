@@ -545,7 +545,7 @@ public:
     EXPORT int NearDoorIsOpen_44EE10();
     EXPORT __int16 HandleDoAction_455BD0();
     EXPORT void PushWall_44E890();
-    EXPORT void sub_44E9A0();
+    EXPORT void MoveForward_44E9A0();
     EXPORT __int16 CrouchingGameSpeak_453E10();
     EXPORT BOOL Is_Celling_Above_44E8D0();
     EXPORT void MoveWithVelocity_450FA0(FP velocityX);
@@ -623,19 +623,19 @@ public:
 
     enum Flags_1AC
     {
-        e1AC_Bit1 = 0x1,
+        e1AC_LiftPointDeadWhileUsingLift_Bit1 = 0x1,
         e1AC_Bit2 = 0x2,
         e1AC_Bit3_Fall_To_Well = 0x4,
         e1AC_Bit4 = 0x8,
         e1AC_Bit5_bShrivel = 0x10,
-        e1AC_Bit6 = 0x20,
-        e1AC_Bit7 = 0x40,
+        e1AC_GiveControlBackToAbe_Bit6 = 0x20,
+        e1AC_NoFallDamage_Bit7 = 0x40,
         e1AC_Bit8 = 0x80,
         e1AC_Bit9_bLaughAtChantEnd = 0x100,
         e1AC_Bit10 = 0x200,
         e1AC_Bit11 = 0x400,
         e1AC_Bit12 = 0x800,
-        e1AC_eBit13 = 0x1000,
+        e1AC_LedgeHangWobble_eBit13 = 0x1000,
         e1AC_eBit14 = 0x2000,
         e1AC_eBit15_bHaveHealing = 0x4000,
         e1AC_eBit16_bIsMudancheeVault_Ender = 0x8000,

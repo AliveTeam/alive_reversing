@@ -2634,7 +2634,7 @@ __int16 Abe::TryMountElum_42E600()
 
             if (gElum_507680->field_FC_current_motion != eElumStates::State_1_Idle_412990
                 || gElum_507680->field_128_brain_idx == 1
-                || gElum_507680->field_170_flags.Get(Elum::Flags_170::eAttackedByBees_Bit1))
+                || gElum_507680->field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1))
             {
                 return eAbeStates::State_0_Idle_423520;
             }
@@ -4345,7 +4345,7 @@ void Abe::State_2_StandingTurn_426040()
             if (gElum_507680)
             {
                 if (gElum_507680->field_FC_current_motion == eElumStates::State_1_Idle_412990 &&
-                    !(gElum_507680->field_170_flags.Get(Elum::Flags_170::eAttackedByBees_Bit1)))
+                    !(gElum_507680->field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1)))
                 {
                     LoadMountElumResources_42E690();
                     field_FE_next_state = eAbeStates::State_0_Idle_423520;
@@ -7307,8 +7307,8 @@ void Abe::State_62_LoadedSaveSpawn_45ADD0()
             gElum_507680->field_130 = pSaveData->field_284_elum_field_130;
 
             gElum_507680->field_170_flags.Set(Elum::Flags_170::eFoundHoney_Bit4, pSaveData->field_28B_elumflag4 & 1);
-            gElum_507680->field_170_flags.Set(Elum::Flags_170::eBit3, pSaveData->field_28A_elumflag3 & 1);
-            gElum_507680->field_170_flags.Set(Elum::Flags_170::eBit2, pSaveData->field_289_elumflag2 & 1);
+            gElum_507680->field_170_flags.Set(Elum::Flags_170::eFalling_Bit3, pSaveData->field_28A_elumflag3 & 1);
+            gElum_507680->field_170_flags.Set(Elum::Flags_170::eStungByBees_Bit2, pSaveData->field_289_elumflag2 & 1);
             if (gElum_507680->field_B0_path_number == sActiveHero_507678->field_B0_path_number)
             {
                 if (pSaveData->field_270 != -1)

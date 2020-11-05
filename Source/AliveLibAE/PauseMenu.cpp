@@ -877,7 +877,7 @@ void PauseMenu_ForceLink() {
             const auto levelSelectEntry = gPerLvlData_561700[pm->index];
             pm->ClosePauseMenu();
             sActiveHero_5C1B68->field_106_current_motion = eAbeStates::State_3_Fall_459B60;
-            sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7);
+            sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_NoFallDamage_Bit7);
             sActiveHero_5C1B68->field_C2_lvl_number = levelSelectEntry.field_4_level;
             sActiveHero_5C1B68->field_C0_path_number = levelSelectEntry.field_6_path;
             sActiveHero_5C1B68->field_100_pCollisionLine = nullptr;

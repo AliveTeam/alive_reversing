@@ -96,13 +96,13 @@ public:
 
     enum Flags_170
     {
-        eAttackedByBees_Bit1 = 1,
-        eBit2 = 2,
-        eBit3 = 4, //falling?
+        eStrugglingWithBees_Bit1 = 1,
+        eStungByBees_Bit2 = 2,
+        eFalling_Bit3 = 4, //falling straight down?
         eFoundHoney_Bit4 = 8,
-        eBit5 = 16,
-        eBit6 = 32,
-        eBit7 = 64,
+        eChangedPathNotMounted_Bit5 = 16,
+        eCanSpeak_Bit6 = 32,
+        eChangedPathMounted_Bit7 = 64,
     };
     struct anythingForTheTimeBeing
     {
