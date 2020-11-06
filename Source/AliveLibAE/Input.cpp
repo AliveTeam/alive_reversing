@@ -563,58 +563,57 @@ struct KeyName
 
 struct KeyNames
 {
-    KeyName field_0[32];
+    KeyName keys[32];
 };
 
-ALIVE_VAR(1, 0x5C9E30, KeyNames, stru_5C9E30, {});
-ALIVE_VAR(1, 0x5C9798, KeyNames, stru_5C9798, {});
+ALIVE_VAR(1, 0x5C9E30, KeyNames, sKeyboardDisplayKeyNames_5C9E30, {});
+ALIVE_VAR(1, 0x5C9798, KeyNames, sGamepadDisplayKeyNames_5C9798, {});
 
 EXPORT void CC Input_Init_Names_491870()
 {
-    stru_5C9E30 = {};
+    sKeyboardDisplayKeyNames_5C9E30 = {};
 
-    strcpy(stru_5C9E30.field_0[0].field_0_name, "\x10");
-    strcpy(stru_5C9E30.field_0[1].field_0_name, "\x11");
-    strcpy(stru_5C9E30.field_0[2].field_0_name, "\x12");
-    strcpy(stru_5C9E30.field_0[3].field_0_name, "\x13");
+    strcpy(sKeyboardDisplayKeyNames_5C9E30.keys[0].field_0_name, "\x10");
+    strcpy(sKeyboardDisplayKeyNames_5C9E30.keys[1].field_0_name, "\x11");
+    strcpy(sKeyboardDisplayKeyNames_5C9E30.keys[2].field_0_name, "\x12");
+    strcpy(sKeyboardDisplayKeyNames_5C9E30.keys[3].field_0_name, "\x13");
 
     int bindingMask = 16;
-    for (int i = 4; i < 256; i++)
+    for (int i = 4; i < 32; i++)
     {
-        char* keyNamePtr = stru_5C9E30.field_0[i].field_0_name;
+        char* keyNamePtr = sKeyboardDisplayKeyNames_5C9E30.keys[i].field_0_name;
         for (int keyNameIdx = 0; keyNameIdx < 256; keyNameIdx++)
         {
-            // sKeyboardBindings_5C9930
             if (bindingMask & sKeyboardBindings_5C9930[keyNameIdx])
             {
                 strcpy(keyNamePtr, sKeyNames_5C9394[keyNameIdx]);
             }
         }
-        bindingMask *= 2; // Enable next bit
+        bindingMask <<= 2;
     }
 
-    int v10 = -1;
-    int v11 = -1;
+    int eSpeak1idx = -1;
+    int eSpeak2idx = -1;
 
-    stru_5C9798 = {};
+    sGamepadDisplayKeyNames_5C9798 = {};
 
     for (int i = 0; i < 10; i++)
     {
         if (sGamePadBindings_5C98E0[i] & InputCommands::eSpeak1)
         {
-            sprintf(stru_5C9798.field_0[10].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[3]);
-            sprintf(stru_5C9798.field_0[11].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[0]);
-            sprintf(stru_5C9798.field_0[12].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[1]);
-            sprintf(stru_5C9798.field_0[13].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[2]);
-            v10 = i;
+            sprintf(sGamepadDisplayKeyNames_5C9798.keys[10].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[3]);
+            sprintf(sGamepadDisplayKeyNames_5C9798.keys[11].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[0]);
+            sprintf(sGamepadDisplayKeyNames_5C9798.keys[12].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[1]);
+            sprintf(sGamepadDisplayKeyNames_5C9798.keys[13].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[2]);
+            eSpeak1idx = i;
         }
         else if (sGamePadBindings_5C98E0[i] & InputCommands::eSpeak2)
         {
-            sprintf(stru_5C9798.field_0[14].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[1]);
-            sprintf(stru_5C9798.field_0[15].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[3]);
-            sprintf(stru_5C9798.field_0[16].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[2]);
-            sprintf(stru_5C9798.field_0[17].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[0]);
-            v11 = i;
+            sprintf(sGamepadDisplayKeyNames_5C9798.keys[14].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[1]);
+            sprintf(sGamepadDisplayKeyNames_5C9798.keys[15].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[3]);
+            sprintf(sGamepadDisplayKeyNames_5C9798.keys[16].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[2]);
+            sprintf(sGamepadDisplayKeyNames_5C9798.keys[17].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[0]);
+            eSpeak2idx = i;
         }
 
         if (sGamePadBindings_5C98E0[i])
@@ -624,7 +623,7 @@ EXPORT void CC Input_Init_Names_491870()
             {
                 if (curBinding & 1)
                 {
-                    strcpy(stru_5C9798.field_0[k+1].field_0_name, sJoyButtonNames_5C9908[i]);
+                    strcpy(sGamepadDisplayKeyNames_5C9798.keys[k].field_0_name, sJoyButtonNames_5C9908[i]);
                 }
                 curBinding >>= 1;
                 if (!curBinding)
@@ -635,30 +634,30 @@ EXPORT void CC Input_Init_Names_491870()
         }
     }
 
-    if (v10 != -1 && v11 != -1)
+    if (eSpeak1idx != -1 && eSpeak2idx != -1)
     {
-        sprintf(stru_5C9798.field_0[18].field_0_name, "%s+%s", sJoyButtonNames_5C9908[v10], sJoyButtonNames_5C9908[v11]);
+        sprintf(sGamepadDisplayKeyNames_5C9798.keys[18].field_0_name, "%s+%s", sJoyButtonNames_5C9908[eSpeak1idx], sJoyButtonNames_5C9908[eSpeak2idx]);
     }
 }
 
-const char* CC Input_GetButtonString_492530(const char* idx, int a2)
+const char* CC Input_GetButtonString_492530(const char* idx, int controllerType)
 {
     const char* ret = nullptr;
-    if (a2 == 0)
+    if (controllerType == 0)
     {
-        ret = stru_5C9E30.field_0[*idx-1].field_0_name;
+        ret = sKeyboardDisplayKeyNames_5C9E30.keys[*idx-1].field_0_name;
     }
     else
     {
-        if (stru_5C9798.field_0[*idx].field_0_name[0])
+        if (sGamepadDisplayKeyNames_5C9798.keys[*idx-1].field_0_name[0])
         {
-            ret = stru_5C9798.field_0[*idx].field_0_name;
+            ret = sGamepadDisplayKeyNames_5C9798.keys[*idx-1].field_0_name;
         }
         else
         {
-            if (a2 == 2)
+            if (controllerType == 2)
             {
-                ret = stru_5C9E30.field_0[*idx-1].field_0_name;
+                ret = sKeyboardDisplayKeyNames_5C9E30.keys[*idx-1].field_0_name;
             }
         }
     }
