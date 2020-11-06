@@ -579,7 +579,7 @@ EXPORT void CC Input_Init_Names_491870()
     strcpy(stru_5C9E30.field_0[3].field_0_name, "\x13");
 
     int bindingMask = 16;
-    for (int i = 4; i < 256; i++)
+    for (int i = 4; i < 32; i++)
     {
         char* keyNamePtr = stru_5C9E30.field_0[i].field_0_name;
         for (int keyNameIdx = 0; keyNameIdx < 256; keyNameIdx++)
@@ -624,7 +624,7 @@ EXPORT void CC Input_Init_Names_491870()
             {
                 if (curBinding & 1)
                 {
-                    strcpy(stru_5C9798.field_0[k+1].field_0_name, sJoyButtonNames_5C9908[i]);
+                    strcpy(stru_5C9798.field_0[k].field_0_name, sJoyButtonNames_5C9908[i]);
                 }
                 curBinding >>= 1;
                 if (!curBinding)
@@ -650,9 +650,9 @@ const char* CC Input_GetButtonString_492530(const char* idx, int a2)
     }
     else
     {
-        if (stru_5C9798.field_0[*idx].field_0_name[0])
+        if (stru_5C9798.field_0[*idx-1].field_0_name[0])
         {
-            ret = stru_5C9798.field_0[*idx].field_0_name;
+            ret = stru_5C9798.field_0[*idx-1].field_0_name;
         }
         else
         {
