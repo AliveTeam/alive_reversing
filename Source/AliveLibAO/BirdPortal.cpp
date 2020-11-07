@@ -1058,10 +1058,66 @@ void BirdPortal::VGetMapChange_453840(LevelIds* level, WORD* path, WORD* camera,
     *screenChangeEffect = CameraSwapEffects::eEffect5_1_FMV;
 }
 
-__int16 BirdPortal::Vsub_4533E0(__int16 /*bUnknown*/)
+__int16 BirdPortal::Vsub_4533E0(__int16 bUnknown)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (bUnknown && field_14_state != States::State_6)
+    {
+        return 0;
+    }
+
+    if (field_44_pScreenClipper)
+    {
+        return 1;
+    }
+
+    const short portalX = static_cast<short>(PsxToPCX(pScreenManager_4FF7C8->field_14_xpos + FP_GetExponent(field_18_xpos) - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x), 11));
+
+    PSX_Point xy = {};
+    PSX_Point wh = {};
+    if (field_12_side != PortalSide::eRight_0)
+    {
+        xy.field_0_x = 0;
+        wh.field_0_x = portalX;
+    }
+    else
+    {
+        xy.field_0_x = portalX;
+        wh.field_0_x = 640;
+    }
+
+    xy.field_2_y = 0;
+    wh.field_2_y = 240;
+
+    field_44_pScreenClipper = ao_new<ScreenClipper>();
+    if (field_44_pScreenClipper)
+    {
+        field_44_pScreenClipper->ctor_40BD60(xy, wh, 0);
+
+        if (field_34_scale == FP_FromInteger(1))
+        {
+            field_44_pScreenClipper->field_38_ot_layer = 29;
+        }
+        else
+        {
+            field_44_pScreenClipper->field_38_ot_layer = 10;
+        }
+    }
+
+    field_48_pScreenClipper = ao_new<ScreenClipper>();
+    if (field_48_pScreenClipper)
+    {
+        field_48_pScreenClipper->ctor_40BD60({ 0, 0 }, { 640, 240 }, 0);
+        if (field_34_scale == FP_FromInteger(1))
+        {
+            field_48_pScreenClipper->field_38_ot_layer = 31;
+        }
+        else
+        {
+            field_48_pScreenClipper->field_38_ot_layer = 12;
+        }
+    }
+
+    return 1;
 }
 
 END_NS_AO
