@@ -189,7 +189,7 @@ struct Slig_State
     __int16 field_44_pitch_min;
     __int16 field_46_padding;
     int field_48_timer;
-    __int16 field_4C_reset_to_previous_motion;
+    __int16 field_4C_return_to_previous_motion;
     __int16 field_4E_checked_if_off_screen;
     __int16 field_50_input;
     __int16 field_52_padding;
@@ -531,7 +531,7 @@ public:
 private:
     __int16 field_11E_pitch_min;
     int field_120_timer;
-    __int16 field_124_reset_to_previous_motion;
+    __int16 field_124_return_to_previous_motion;
     __int16 field_126_checked_if_off_screen;
     int field_128_input;
     int field_12C_timer;

@@ -254,7 +254,7 @@ struct Mudokon_State
         eBit12_seen_while_sick = 0x800,
         eBit13_stop_trigger = 0x1000,
         eBit14_unused = 0x2000,
-        eBit15_reset_to_previous_motion = 0x4000,
+        eBit15_return_to_previous_motion = 0x4000,
         eBit16_get_depressed = 0x8000
     };
     BitField16<Flags_6A> field_6C;
@@ -574,7 +574,7 @@ public:
     Mud_AI_State field_18E_ai_state;
 private:
     __int16 field_190_sub_state;
-    __int16 field_192_reset_to_previous_motion;
+    __int16 field_192_return_to_previous_motion;
     int field_194_timer;
     int field_198_turning_wheel_timer;
 };

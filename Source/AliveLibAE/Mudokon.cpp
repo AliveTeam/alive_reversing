@@ -432,7 +432,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
     field_18E_ai_state = Mud_AI_State::AI_GiveRings_0_470C10;
     field_190_sub_state = 0;
     field_108_next_motion = -1;
-    field_192_reset_to_previous_motion = 0;
+    field_192_return_to_previous_motion = 0;
     field_13C_voice_pitch = 0;
 
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbebsic1ResID, TRUE, FALSE));
@@ -829,7 +829,7 @@ int CC Mudokon::CreateFromSaveState_4717C0(const BYTE* pBuffer)
     pMud->field_16A_flags.Set(Flags::eBit10_stop_trigger, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit13_stop_trigger));
     
     pMud->field_18C_unused = pState->field_6C.Get(Mudokon_State::Flags_6A::eBit14_unused);
-    pMud->field_192_reset_to_previous_motion = pState->field_6C.Get(Mudokon_State::Flags_6A::eBit15_reset_to_previous_motion);
+    pMud->field_192_return_to_previous_motion = pState->field_6C.Get(Mudokon_State::Flags_6A::eBit15_return_to_previous_motion);
 
     pMud->field_16A_flags.Set(Flags::eBit11_get_depressed, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit16_get_depressed));
 
@@ -976,7 +976,7 @@ int Mudokon::vGetSaveState_47B080(Mudokon_State* pState)
     pState->field_6C.Set(Mudokon_State::Flags_6A::eBit12_seen_while_sick, field_16A_flags.Get(Flags::eBit9_seen_while_sick));
     pState->field_6C.Set(Mudokon_State::Flags_6A::eBit13_stop_trigger, field_16A_flags.Get(Flags::eBit10_stop_trigger));
     pState->field_6C.Set(Mudokon_State::Flags_6A::eBit14_unused, field_18C_unused & 1);
-    pState->field_6C.Set(Mudokon_State::Flags_6A::eBit15_reset_to_previous_motion, field_192_reset_to_previous_motion & 1);
+    pState->field_6C.Set(Mudokon_State::Flags_6A::eBit15_return_to_previous_motion, field_192_return_to_previous_motion & 1);
     pState->field_6C.Set(Mudokon_State::Flags_6A::eBit16_get_depressed, field_16A_flags.Get(Flags::eBit11_get_depressed));
 
     pState->field_6E.Set(Mudokon_State::Flags_6E::e6E_Bit1_alert_enemies, field_16A_flags.Get(Flags::eBit12_alert_enemies));
@@ -1136,12 +1136,12 @@ void Mudokon::vUpdate_4757A0()
         field_114_flags.Clear(Flags_114::e114_MotionChanged_Bit2);
         vUpdateAnimRes_474D80();
     }
-    else if (field_192_reset_to_previous_motion)
+    else if (field_192_return_to_previous_motion)
     {
         field_106_current_motion = field_F4_previous_motion;
         vUpdateAnimRes_474D80();
         field_20_animation.SetFrame_409D50(field_F6_anim_frame);
-        field_192_reset_to_previous_motion = 0;
+        field_192_return_to_previous_motion = 0;
     }
 }
 
@@ -1321,7 +1321,7 @@ void Mudokon::dtor_475B60()
 
         if (field_168_ring_type == RingTypes::eHealing_Emit_Effect_11)
         {
-            sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_eBit15_bHaveHealing);
+            sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_eBit15_have_healing);
         }
     }
 
@@ -2102,7 +2102,7 @@ __int16 Mudokon::AI_GiveRings_0_470C10()
 
             if (field_168_ring_type == RingTypes::eHealing_Emit_Effect_11)
             {
-                sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_eBit15_bHaveHealing);
+                sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_eBit15_have_healing);
             }
 
             field_108_next_motion = Mud_Motion::M_Idle_0_4724E0;
@@ -6079,7 +6079,7 @@ void Mudokon::M_MidWalkToRun_20_4736D0()
         field_106_current_motion = Mud_Motion::M_MidWalkToRun_20_4736D0;
         field_F4_previous_motion = Mud_Motion::M_RunLoop_21_473720;
         field_F6_anim_frame = 8;
-        field_192_reset_to_previous_motion = 1;
+        field_192_return_to_previous_motion = 1;
     }
 }
 
@@ -6181,7 +6181,7 @@ void Mudokon::M_MidRunToWalk_23_4739B0()
         field_106_current_motion = Mud_Motion::M_MidRunToWalk_23_4739B0;
         field_F4_previous_motion = Mud_Motion::M_WalkLoop_1_4728B0;
         field_F6_anim_frame = 9;
-        field_192_reset_to_previous_motion = 1;
+        field_192_return_to_previous_motion = 1;
     }
 }
 
@@ -6355,7 +6355,7 @@ void Mudokon::M_MidWalkToSneak_30_473EE0()
         field_106_current_motion = Mud_Motion::M_MidWalkToSneak_30_473EE0;
         field_F4_previous_motion = Mud_Motion::M_SneakLoop_27_473C40;
         field_F6_anim_frame = 10;
-        field_192_reset_to_previous_motion = 1;
+        field_192_return_to_previous_motion = 1;
     }
 }
 
@@ -6368,7 +6368,7 @@ void Mudokon::M_MidSneakToWalk_31_473F30()
         field_106_current_motion = Mud_Motion::M_MidSneakToWalk_31_473F30;
         field_F4_previous_motion = Mud_Motion::M_WalkLoop_1_4728B0;
         field_F6_anim_frame = 9;
-        field_192_reset_to_previous_motion = 1;
+        field_192_return_to_previous_motion = 1;
     }
 }
 
@@ -7011,7 +7011,7 @@ __int16 Mudokon::CheckForPortal_4775E0()
                 {
                     if (pOpenPortal->field_24_portal_type == PortalType::eWorker_1 || pOpenPortal->field_24_portal_type == PortalType::eShrykull_2)
                     {
-                        sActiveHero_5C1B68->sub_45BB90(1);
+                        sActiveHero_5C1B68->ChangeChantState_45BB90(1);
                         field_11C_bird_portal_id = pOpenPortal->field_8_object_id;
                         ++word_5C3012;
                         field_16C |= 4u;
@@ -7034,7 +7034,7 @@ __int16 Mudokon::CheckForPortal_4775E0()
                 {
                     if (pPortal20->field_24_portal_type == PortalType::eWorker_1 || pPortal20->field_24_portal_type == PortalType::eShrykull_2)
                     {
-                        sActiveHero_5C1B68->sub_45BB90(1);
+                        sActiveHero_5C1B68->ChangeChantState_45BB90(1);
                         field_11C_bird_portal_id = pPortal20->field_8_object_id;
 
                         ++word_5C3012;
