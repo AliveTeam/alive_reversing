@@ -6,6 +6,7 @@
 #include "Sfx.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Rope.hpp"
+#include "Events.hpp"
 
 START_NS_AO
 
@@ -175,7 +176,148 @@ void PullRingRope::VUpdate()
 
 void PullRingRope::VUpdate_4549A0()
 {
-    NOT_IMPLEMENTED();
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+
+    if (field_F4_pPuller)
+    {
+        if (field_F4_pPuller->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+        {
+            field_F4_pPuller->field_C_refCount--;
+            field_F4_pPuller = nullptr;
+        }
+    }
+
+    switch (field_EC_state)
+    {
+    case 1:
+        if (field_10_anim.field_92_current_frame == 2)
+        {
+            SFX_Play_43AD70(SoundEffect::RingRopePull_65, 0);
+        }
+
+        field_AC_ypos += field_B8_vely;
+        field_F4_pPuller->field_AC_ypos += field_B8_vely;
+        field_E4_stay_in_state_ticks--;
+
+        if (field_E4_stay_in_state_ticks == 0)
+        {
+            field_B8_vely = FP_FromInteger(0);
+            field_EC_state = 2;
+
+            if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 ||
+                gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12 ||
+                gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+            {
+                SFX_Play_43AD70(SoundEffect::IndustrialTrigger_97, 0);
+            }
+
+            const auto oldSwitchValue = SwitchStates_Get(field_EE_id);
+            // TODO: OG bug - operation isn't applied to the switch ??
+            const auto switchValAfterOperation = SwitchStates_Get(field_EE_id);
+
+            // Due to seemingly OG bug this can never execute
+            if (oldSwitchValue != switchValAfterOperation)
+            {
+                int volLeft = 0;
+                int volRight = 0;
+                if (field_100_sound_direction == 1)
+                {
+                    volLeft = 1;
+                    volRight = 0;
+                }
+                else
+                {
+                    volLeft = field_100_sound_direction != 2;
+                    volRight = 1;
+                }
+
+                if (SwitchStates_Get(field_EE_id))
+                {
+                    switch (field_FC_on_sound)
+                    {
+                    case 1:
+                        SFX_Play_43ADE0(SoundEffect::WellExit_24, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
+                        break;
+
+                    case 2:
+                        SFX_Play_43ADE0(SoundEffect::RingBellHammer_9, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
+                        break;
+
+                    case 3:
+                        SFX_Play_43ADE0(SoundEffect::DoorEffect_66, 75 * volLeft + 15, 75 * volRight + 15, nullptr);
+                        break;
+                    }
+                }
+                else
+                {
+                    switch (field_FE_off_sound)
+                    {
+                    case 1:
+                        SFX_Play_43ADE0(SoundEffect::WellExit_24, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
+                        break;
+
+                    case 2:
+                        SFX_Play_43ADE0(SoundEffect::RingBellHammer_9, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
+                        break;
+
+                    case 3:
+                        SFX_Play_43ADE0(SoundEffect::DoorEffect_66, 75 * volLeft + 15, 75 * volRight + 15, nullptr);
+                        break;
+                    }
+                }
+            }
+        }
+        break;
+
+    case 2:
+        field_B8_vely = FP_FromInteger(4);
+        field_EC_state = 3;
+        field_F4_pPuller->field_C_refCount--;
+        field_F4_pPuller = nullptr;
+
+        field_E4_stay_in_state_ticks = 3;
+
+        if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 ||
+            gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12 ||
+            gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+        {
+            field_10_anim.Set_Animation_Data_402A40(4904, nullptr);
+        }
+        else
+        {
+            field_10_anim.Set_Animation_Data_402A40(2984, nullptr);
+        }
+        break;
+
+    case 3:
+        field_AC_ypos -= field_B8_vely;
+        field_E4_stay_in_state_ticks--;
+        if (field_E4_stay_in_state_ticks == 0)
+        {
+            field_B8_vely = FP_FromInteger(0);
+            field_EC_state = 0;
+
+            if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 ||
+                gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12 ||
+                gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+            {
+                field_10_anim.Set_Animation_Data_402A40(4832, nullptr);
+            }
+            else
+            {
+                field_10_anim.Set_Animation_Data_402A40(2912, nullptr);
+            }
+        }
+        break;
+
+    default:
+        break;
+    }
+
+    field_F8_pRope->field_AC_ypos = FP_NoFractional(FP_FromInteger(field_C8_yOffset - 16) + field_AC_ypos);
 }
 
 END_NS_AO

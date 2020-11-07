@@ -1592,9 +1592,9 @@ EXPORT void Factory_BirdPortal_486710(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
 }
 
 
-EXPORT void Factory_BirdPortalExit_486700(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
+EXPORT void Factory_BirdPortalExit_null_486700(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, __int16 /*loadMode*/)
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 
@@ -3058,7 +3058,7 @@ const PathFunctionTable kObjectFactory =
     Factory_RingMud_4858F0,
     Factory_MovieStone_Null_487430,
     Factory_BirdPortal_486710,
-    Factory_BirdPortalExit_486700,
+    Factory_BirdPortalExit_null_486700,
     Factory_BellSong_487450,
     Factory_TrapDoor_4868E0,
     Factory_RollingBall_486A60,
