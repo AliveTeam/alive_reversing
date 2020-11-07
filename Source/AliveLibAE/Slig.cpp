@@ -427,7 +427,7 @@ Slig* Slig::ctor_4B1370(Path_Slig* pTlv, int tlvInfo)
     field_120_timer = 0;
     field_11E_pitch_min = 45 * (Math_NextRandom() % 5 - 2);
     field_108_next_motion = eSligMotions::M_StandIdle_0_4B4EC0;
-    field_124_reset_to_previous_motion = 0;
+    field_124_return_to_previous_motion = 0;
     field_150_explode_timer = 0;
     field_14C_death_by_being_shot_timer = 0;
     field_FC_pPathTLV = pTlv;
@@ -438,7 +438,7 @@ Slig* Slig::ctor_4B1370(Path_Slig* pTlv, int tlvInfo)
     
     field_106_current_motion = eSligMotions::M_Falling_7_4B42D0;
 
-    field_124_reset_to_previous_motion = 0;
+    field_124_return_to_previous_motion = 0;
     field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
     field_130_falling_velx_scale_factor = FP_FromInteger(0);
@@ -820,7 +820,7 @@ int CC Slig::CreateFromSaveState_4B3B50(const BYTE* pBuffer)
     pSlig->field_11C_ai_sub_state = pState->field_42_ai_sub_state;
     pSlig->field_11E_pitch_min = pState->field_44_pitch_min;
     pSlig->field_120_timer = pState->field_48_timer;
-    pSlig->field_124_reset_to_previous_motion = pState->field_4C_reset_to_previous_motion;
+    pSlig->field_124_return_to_previous_motion = pState->field_4C_return_to_previous_motion;
     pSlig->field_126_checked_if_off_screen = pState->field_4E_checked_if_off_screen;
 
     pSlig->field_128_input = InputObject::Command_To_Raw_45EE40(pState->field_50_input);
@@ -1001,7 +1001,7 @@ void Slig::M_Walking_2_4B5BC0()
             {
                 if (sInputKey_Run_5550E8 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
                 {
-                    field_124_reset_to_previous_motion = 1;
+                    field_124_return_to_previous_motion = 1;
                     field_F4_previous_motion = eSligMotions::M_Running_4_4B6000;
                     field_F6_anim_frame = (field_20_animation.field_92_current_frame - 5) != 0 ? 13 : 5;
                     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -1425,7 +1425,7 @@ void Slig::M_SlidingToStand_8_4B6520()
                 {
                     field_F6_anim_frame = field_20_animation.field_92_current_frame;
                     field_F4_previous_motion = eSligMotions::M_SlidingTurn_9_4B6680;
-                    field_124_reset_to_previous_motion = 1;
+                    field_124_return_to_previous_motion = 1;
                 }
             }
             else if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -1646,7 +1646,7 @@ void Slig::M_Recoil_19_4B8270()
                     field_F4_previous_motion = eSligMotions::M_Shoot_6_4B55A0;
                     field_12C_timer = sGnFrame_5C1B84 + 60;
                     field_F6_anim_frame = 2;
-                    field_124_reset_to_previous_motion = 1;
+                    field_124_return_to_previous_motion = 1;
                 }
                 else
                 {
@@ -4676,7 +4676,7 @@ __int16 Slig::AI_GameEnder_35_4BF640()
 
     if (field_11C_ai_sub_state == AI_GameEnder::eState35_summoned_0)
     {
-        if (sNum_CamSwappers_5C1B66 > 0 || sActiveHero_5C1B68->field_1AC_flags.Get(Abe::e1AC_Bit5_bShrivel))
+        if (sNum_CamSwappers_5C1B66 > 0 || sActiveHero_5C1B68->field_1AC_flags.Get(Abe::e1AC_Bit5_shrivel))
         {
             return field_11C_ai_sub_state;
         }
@@ -5131,12 +5131,12 @@ void Slig::vUpdate_4B17C0()
             field_114_flags.Clear(Flags_114::e114_MotionChanged_Bit2);
             vUpdateAnim_4B1320();
         }
-        else if (field_124_reset_to_previous_motion)
+        else if (field_124_return_to_previous_motion)
         {
             field_106_current_motion = field_F4_previous_motion;
             vUpdateAnim_4B1320();
             field_20_animation.SetFrame_409D50(field_F6_anim_frame);
-            field_124_reset_to_previous_motion = 0;
+            field_124_return_to_previous_motion = 0;
         }
     }
 }
@@ -6534,7 +6534,7 @@ void Slig::PlayerControlRunningSlideStopOrTurnFrame12_4B8790()
 
     field_F4_previous_motion = eSligMotions::M_Walking_2_4B5BC0;
     field_F6_anim_frame = 15;
-    field_124_reset_to_previous_motion = 1;
+    field_124_return_to_previous_motion = 1;
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -6590,7 +6590,7 @@ void Slig::PlayerControlRunningSlideStopOrTurnFrame4_4B85D0()
 
     field_F4_previous_motion = eSligMotions::M_Walking_2_4B5BC0;
     field_F6_anim_frame = 6;
-    field_124_reset_to_previous_motion = 1;
+    field_124_return_to_previous_motion = 1;
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -6816,7 +6816,7 @@ int Slig::vGetSaveState_4BFB10(Slig_State* pState)
     pState->field_42_ai_sub_state = field_11C_ai_sub_state;
     pState->field_44_pitch_min = field_11E_pitch_min;
     pState->field_48_timer = field_120_timer;
-    pState->field_4C_reset_to_previous_motion = field_124_reset_to_previous_motion;
+    pState->field_4C_return_to_previous_motion = field_124_return_to_previous_motion;
     pState->field_4E_checked_if_off_screen = field_126_checked_if_off_screen;
     pState->field_50_input = InputObject::Raw_To_Command_45EF70(field_128_input);
     pState->field_54_timer = field_12C_timer;

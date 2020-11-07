@@ -126,7 +126,7 @@ __int16 CCSTD Shrykull::CanKill_4AEC50(BaseAnimatedWithPhysicsGameObject* pObj)
         pObj->field_4_typeId == Types::eCrawlingSlig_26 ||
         pObj->field_4_typeId == Types::eSlog_126 ||
         pObj->field_4_typeId == Types::eGlukkon_67 ||
-        pObj->field_4_typeId == Types::eType_47 ||
+        pObj->field_4_typeId == Types::eSecurityClaw_47 ||
         pObj->field_4_typeId == Types::eSecurityOrb_83
         ) &&
         pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render) && 

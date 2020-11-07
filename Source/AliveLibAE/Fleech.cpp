@@ -1193,7 +1193,7 @@ void Fleech::M_Consume_18_42FDF0()
     }
     else if (field_20_animation.field_92_current_frame == 15 && field_11C_obj_id == sActiveHero_5C1B68->field_8_object_id)
     {
-        sActiveHero_5C1B68->sub_459430();
+        sActiveHero_5C1B68->SetAsDead_459430();
 
         Sound_430520(FleechSound::Burp_1);
 
@@ -1248,7 +1248,7 @@ void Fleech::dtor_42A3A0()
         {
             if (field_11C_obj_id == sActiveHero_5C1B68->field_8_object_id)
             {
-                sActiveHero_5C1B68->sub_459430(); // kills abe ??
+                sActiveHero_5C1B68->SetAsDead_459430();
             }
         }
     }

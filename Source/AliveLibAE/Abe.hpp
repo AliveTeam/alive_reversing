@@ -226,22 +226,22 @@ struct Abe_1BC_20_sub_object
 {
     int field_0_gnFrame;
     int field_4_regen_health_timer;
-    FP field_8;
-    int field_C;
-    unsigned __int16 field_10;
+    FP field_8_x_vel_slow_by;
+    int field_C_unused;
+    unsigned __int16 field_10_resource_index;
     Mud_Emotion field_12_mood;
-    int field_14;
+    int field_14_rolling_motion_timer;
     MudSounds field_18_say;
-    __int16 field_1A;
+    __int16 field_1A_padding;
 };
 ALIVE_ASSERT_SIZEOF(Abe_1BC_20_sub_object, 0x1C);
 
-EXPORT void CC Mudokon_SFX_457EC0(MudSounds idx, __int16 volume, int pitch, BaseAliveGameObject *pHero);
+EXPORT void CC Mudokon_SFX_457EC0(MudSounds idx, __int16 volume, int pitch, BaseAliveGameObject* pHero);
 
 struct Abe_SaveState
 {
     Types field_0_id;
-    __int16 field_2_pad;
+    __int16 field_2_padding;
     FP field_4_xpos;
     FP field_8_ypos;
     FP field_c_velx;
@@ -268,16 +268,16 @@ struct Abe_SaveState
     short field_3a_collision_line_id;
     DWORD platform_obj_id;
     WORD bElectrocuted;
-    WORD word42;
+    WORD field_42_bInvisible;
     char field_44_is_abe_controlled;
     char field_45_padding;
     __int16 field_46_padding;
-    FP dword48;
-    DWORD dword4C;
-    DWORD dword50;
-    DWORD dword54;
-    DWORD dword58;
-    DWORD dword5C;
+    FP field_48_x_vel_slow_by;
+    DWORD field_4C_unused;
+    DWORD field_50_state;
+    DWORD field_54_timer;
+    DWORD field_58_gnFrame;
+    DWORD field_5C_regen_health_timer;
     Mud_Emotion mood;
     MudSounds say;
     DWORD auto_say_timer;
@@ -288,9 +288,9 @@ struct Abe_SaveState
     char bHaveInvisiblity;
     WORD prev_held;
     WORD released_buttons;
-    WORD word74;
+    WORD field_74_knockdown_motion;
     __int16 field_76_padding;
-    DWORD dword78;
+    DWORD field_78_rolling_motion_timer;
     DWORD fade_obj_id;
     DWORD circular_fade_id;
     DWORD orb_whirl_wind_id;
@@ -300,9 +300,9 @@ struct Abe_SaveState
     DWORD slapable_or_pickup_id;
     DWORD wheel_id;
     DWORD invisible_timer;
-    WORD wordA0;
-    WORD wordA2;
-    char byteA4;
+    WORD field_A0_unused;
+    WORD field_A2_invisibility_id;
+    char field_A4_cam_idx;
     char field_A5_padding;
     __int16 field_A6_padding;
     DWORD hand_stone_type;
@@ -310,48 +310,48 @@ struct Abe_SaveState
     WORD cam_id_1;
     WORD cam_id_2;
     WORD cam_id_3;
-    WORD wordB4;
-    WORD wordB6;
-    WORD wordB8;
-    WORD wordBA;
-    WORD wordBC;
-    WORD wordBE;
+    WORD field_B4_unused;
+    WORD field_B6_unused;
+    WORD field_B8_unused;
+    WORD field_BA_unused;
+    WORD field_BC_unused;
+    WORD field_BE_unused;
     WORD bHaveEvilFart;
     LevelIds to_level;
     WORD to_path;
     WORD to_camera;
     WORD door_id;
     char field_ca_throw_direction;
-    char field_CB;
-    WORD wordCC;
+    char field_CB_padding;
+    WORD field_CC_portal_sub_state;
     __int16 field_CE_padding;
     DWORD bird_portal_id;
     enum Flags_D4
     {
-        eD4_Bit1 = 0x1,
-        eD4_Bit2 = 0x2,
-        eD4_Bit3 = 0x4,
-        eD4_Bit4 = 0x8,
-        eD4_Bit5 = 0x10,
-        eD4_Bit6 = 0x20,
-        eD4_Bit7 = 0x40,
-        eD4_Bit8 = 0x80,
-        eD4_Bit9 = 0x100,
-        eD4_Bit10 = 0x200,
-        eD4_Bit11 = 0x400,
-        eD4_Bit12 = 0x800,
+        eD4_Bit1_lift_point_dead_while_using_lift = 0x1,
+        eD4_Bit2_return_to_previous_motion = 0x2,
+        eD4_Bit3_fall_to_well = 0x4,
+        eD4_Bit4_unused = 0x8,
+        eD4_Bit5_prevent_chanting = 0x10,
+        eD4_Bit6_land_softly = 0x20,
+        eD4_Bit7_unused = 0x40,
+        eD4_Bit8_laugh_at_chant_end = 0x80,
+        eD4_Bit9_unused = 0x100,
+        eD4_Bit10_play_ledge_grab_sounds = 0x200,
+        eD4_Bit11_unused = 0x400,
+        eD4_Bit12_have_healing = 0x800,
         eD4_eBit13 = 0x1000,
-        eD4_eBit14 = 0x2000,
-        eD4_eBit15 = 0x4000,
-        eD4_eBit16 = 0x8000,
+        eD4_eBit14_is_mudanchee_vault_ender = 0x2000,
+        eD4_eBit15_is_mudanchee_vault_ender = 0x4000,
+        eD4_eBit16_shadow_enabled = 0x8000,
     };
-    BitField16<Flags_D4> wordD4;
+    BitField16<Flags_D4> field_D4_flags;
 
     enum Flags_D6
     {
-        eD6_Bit1 = 0x1
+        eD6_Bit1_shadow_at_bottom = 0x1
     };
-    BitField16<Flags_D6> wordD6;
+    BitField16<Flags_D6> field_D6_flags;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Abe_SaveState, 216);
 
@@ -360,10 +360,10 @@ class Bullet;
 class Abe : public BaseAliveGameObject
 {
 public:
-    EXPORT Abe* ctor_44AD10(int frameTableOffset, int a3, int a4, int a5);
+    EXPORT Abe* ctor_44AD10(int frameTableOffset, int r, int g, int b);
     EXPORT void dtor_44B380();
 
-    EXPORT static signed int CC CreateFromSaveState_44D4F0(const BYTE* a1);
+    EXPORT static signed int CC CreateFromSaveState_44D4F0(const BYTE* pData);
     
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
@@ -387,14 +387,14 @@ public:
     EXPORT void vOnTrapDoorOpen_45A570();
 
     // Non virtuals
-    EXPORT void ToKnockback_44E700(__int16 a2, __int16 a3);
+    EXPORT void ToKnockback_44E700(__int16 bKnockbackSound, __int16 bDelayedAnger);
     EXPORT BaseAliveGameObject* FindObjectToPosses_44B7B0();
     EXPORT void Load_Basic_Resources_44D460();
     EXPORT void Free_Resources_44D420();
     EXPORT BOOL IsStanding_449D30();
     EXPORT void Free_Shrykull_Resources_45AA90();
 
-    EXPORT BYTE ** StateToAnimResource_44AAB0(short state);
+    EXPORT BYTE** StateToAnimResource_44AAB0(short state);
 
     // States
     EXPORT void State_0_Idle_44EEB0();
@@ -568,9 +568,9 @@ public:
 
     EXPORT __int16 GetEvilFart_4585F0(__int16 bDontLoad);
 
-    EXPORT void sub_45BB90(__int16 a2);
+    EXPORT void ChangeChantState_45BB90(__int16 bLaughAtChantEnd);
 
-    EXPORT void sub_459430();
+    EXPORT void SetAsDead_459430();
 
     EXPORT void ExitShrykull_45A9D0(__int16 bResetRingTimer);
 
@@ -578,8 +578,8 @@ public:
     int field_118_prev_held;
     int field_11C_released_buttons;
     unsigned __int16 field_120_state;
-    __int16 field_122;
-    int field_124_gnFrame;
+    __int16 field_122_knockdown_motion;
+    int field_124_timer;
     Abe_1BC_20_sub_object field_128;
     int field_144_auto_say_timer;
     int field_148_fade_obj_id;
@@ -594,22 +594,22 @@ public:
     __int16 field_16C_bHaveShrykull;
     __int16 field_16E_bHaveInvisiblity;
     int field_170_invisible_timer;
-    __int16 field_174;
-    __int16 field_176;
+    __int16 field_174_unused;
+    __int16 field_176_invisibility_id;
     int field_178_invisible_effect_id;
     char field_17C_cam_idx;
-    char field_17D;
-    char field_17E;
-    char field_17F;
+    char field_17D_padding;
+    char field_17E_padding;
+    char field_17F_padding;
     int field_180_hand_stone_type;
     __int16 field_184_fmv_id;
     __int16 field_186_to_camera_id[3];
-    __int16 field_18C_not_used;
-    __int16 field_18E;
-    __int16 field_190;
-    __int16 field_192;
-    __int16 field_194;
-    __int16 field_196;
+    __int16 field_18C_unused;
+    __int16 field_18E_unused;
+    __int16 field_190_unused;
+    __int16 field_192_unused;
+    __int16 field_194_unused;
+    __int16 field_196_unused;
     __int16 field_198_has_evil_fart;
     LevelIds field_19A_to_level;
     __int16 field_19C_to_path;
@@ -618,46 +618,45 @@ public:
     char field_1A2_throwable_count;
     char field_1A3_throw_direction;
     __int16 field_1A4_portal_sub_state;
-    __int16 field_1A6;
+    __int16 field_1A6_padding;
     int field_1A8_portal_id;
 
     enum Flags_1AC
     {
-        e1AC_LiftPointDeadWhileUsingLift_Bit1 = 0x1,
-        e1AC_Bit2 = 0x2,
-        e1AC_Bit3_Fall_To_Well = 0x4,
-        e1AC_Bit4 = 0x8,
-        e1AC_Bit5_bShrivel = 0x10,
-        e1AC_GiveControlBackToAbe_Bit6 = 0x20,
-        e1AC_NoFallDamage_Bit7 = 0x40,
-        e1AC_Bit8 = 0x80,
-        e1AC_Bit9_bLaughAtChantEnd = 0x100,
-        e1AC_Bit10 = 0x200,
-        e1AC_Bit11 = 0x400,
-        e1AC_Bit12 = 0x800,
-        e1AC_LedgeHangWobble_eBit13 = 0x1000,
-        e1AC_eBit14 = 0x2000,
-        e1AC_eBit15_bHaveHealing = 0x4000,
-        e1AC_eBit16_bIsMudancheeVault_Ender = 0x8000,
+        e1AC_Bit1_lift_point_dead_while_using_lift = 0x1,
+        e1AC_Bit2_return_to_previous_motion = 0x2,
+        e1AC_Bit3_fall_to_well = 0x4,
+        e1AC_Bit4_unused = 0x8,
+        e1AC_Bit5_shrivel = 0x10,
+        e1AC_Bit6_prevent_chanting = 0x20,
+        e1AC_Bit7_land_softly = 0x40,
+        e1AC_Bit8_unused = 0x80,
+        e1AC_Bit9_laugh_at_chant_end = 0x100,
+        e1AC_Bit10_padding = 0x200,
+        e1AC_Bit11_padding = 0x400,
+        e1AC_Bit12_unused = 0x800,
+        e1AC_eBit13_play_ledge_grab_sounds = 0x1000,
+        e1AC_eBit14_unused = 0x2000,
+        e1AC_eBit15_have_healing = 0x4000,
+        e1AC_eBit16_is_mudanchee_vault_ender = 0x8000,
     };
     BitField16<Flags_1AC> field_1AC_flags;
 
     enum Flags_1AE
     {
-        e1AE_Bit1_bIsMudancheeVault_Ender = 0x1,
-        e1AE_Bit2_bDoQuickSave = 0x2,
+        e1AE_Bit1_is_mudanchee_vault_ender = 0x1,
+        e1AE_Bit2_do_quicksave = 0x2,
     };
-    BitField16<Flags_1AE> field_1AE;
+    BitField16<Flags_1AE> field_1AE_flags;
 
     __int16 field_1B0_save_num;
-    // pad __int16
 
-    int field_1B4;
-    int field_1B8;
+    int field_1B4_padding;
+    int field_1B8_padding;
 };
 ALIVE_ASSERT_SIZEOF(Abe, 0x1BC);
 
-ALIVE_VAR_EXTERN(Abe *, sActiveHero_5C1B68);
+ALIVE_VAR_EXTERN(Abe*, sActiveHero_5C1B68);
 ALIVE_VAR_EXTERN(BaseAliveGameObject*, sControlledCharacter_5C1B8C);
 
 ALIVE_VAR_EXTERN(short, gAbeBulletProof_5C1BDA);

@@ -811,7 +811,7 @@ namespace Test
         Abe_SaveState state = {};
         abe.field_1AC_flags.Set(bitToSet);
         abe.VGetSaveState(reinterpret_cast<BYTE*>(&state));
-        ASSERT_TRUE(state.wordD4.Get(bitToExpect));
+        ASSERT_TRUE(state.field_D4_flags.Get(bitToExpect));
     }
 
     static void Compare(Abe::Flags_1AE bitToSet, Abe_SaveState::Flags_D4 bitToExpect)
@@ -820,9 +820,9 @@ namespace Test
         AbeSave abe = {};
         abe.field_E0_pShadow = &shadow;
         Abe_SaveState state = {};
-        abe.field_1AE.Set(bitToSet);
+        abe.field_1AE_flags.Set(bitToSet);
         abe.VGetSaveState(reinterpret_cast<BYTE*>(&state));
-        ASSERT_TRUE(state.wordD4.Get(bitToExpect));
+        ASSERT_TRUE(state.field_D4_flags.Get(bitToExpect));
     }
 
     static void Compare(Flags_114 bitToSet, Abe_SaveState::Flags_D4 bitToExpect)
@@ -833,7 +833,7 @@ namespace Test
         Abe_SaveState state = {};
         abe.field_114_flags.Set(bitToSet);
         abe.VGetSaveState(reinterpret_cast<BYTE*>(&state));
-        ASSERT_TRUE(state.wordD4.Get(bitToExpect));
+        ASSERT_TRUE(state.field_D4_flags.Get(bitToExpect));
     }
 
     template<class TComp>
@@ -857,7 +857,7 @@ namespace Test
         Abe_SaveState state = {};
         set(abe);
         abe.VGetSaveState(reinterpret_cast<BYTE*>(&state));
-        ASSERT_TRUE(state.wordD6.Get(bitToExpect));
+        ASSERT_TRUE(state.field_D6_flags.Get(bitToExpect));
     }
 
 
@@ -870,7 +870,7 @@ namespace Test
         Abe_SaveState state = {};
         set(abe);
         abe.VGetSaveState(reinterpret_cast<BYTE*>(&state));
-        ASSERT_TRUE(state.wordD4.Get(bitToExpect));
+        ASSERT_TRUE(state.field_D4_flags.Get(bitToExpect));
     }
 
     template<class TSet, class TCompare>
@@ -887,21 +887,21 @@ namespace Test
 
     static void TestAbeSave()
     {
-        Compare(Abe::Flags_1AC::e1AC_LiftPointDeadWhileUsingLift_Bit1, Abe_SaveState::Flags_D4::eD4_Bit1);
-        Compare(Abe::Flags_1AC::e1AC_Bit2, Abe_SaveState::Flags_D4::eD4_Bit2);
-        Compare(Abe::Flags_1AC::e1AC_Bit3_Fall_To_Well, Abe_SaveState::Flags_D4::eD4_Bit3);
-        Compare(Abe::Flags_1AC::e1AC_Bit4, Abe_SaveState::Flags_D4::eD4_Bit4);
-        Compare(Abe::Flags_1AC::e1AC_Bit5_bShrivel, [](Abe_SaveState& state) { ASSERT_EQ(state.bShrivel, 1); });
-        Compare(Abe::Flags_1AC::e1AC_GiveControlBackToAbe_Bit6, Abe_SaveState::Flags_D4::eD4_Bit5);
-        Compare(Abe::Flags_1AC::e1AC_NoFallDamage_Bit7, Abe_SaveState::Flags_D4::eD4_Bit6);
-        Compare(Abe::Flags_1AC::e1AC_Bit8, Abe_SaveState::Flags_D4::eD4_Bit7);
-        Compare(Abe::Flags_1AC::e1AC_Bit9_bLaughAtChantEnd, Abe_SaveState::Flags_D4::eD4_Bit8);
+        Compare(Abe::Flags_1AC::e1AC_Bit1_lift_point_dead_while_using_lift, Abe_SaveState::Flags_D4::eD4_Bit1_lift_point_dead_while_using_lift);
+        Compare(Abe::Flags_1AC::e1AC_Bit2_return_to_previous_motion, Abe_SaveState::Flags_D4::eD4_Bit2_return_to_previous_motion);
+        Compare(Abe::Flags_1AC::e1AC_Bit3_fall_to_well, Abe_SaveState::Flags_D4::eD4_Bit3_fall_to_well);
+        Compare(Abe::Flags_1AC::e1AC_Bit4_unused, Abe_SaveState::Flags_D4::eD4_Bit4_unused);
+        Compare(Abe::Flags_1AC::e1AC_Bit5_shrivel, [](Abe_SaveState& state) { ASSERT_EQ(state.bShrivel, 1); });
+        Compare(Abe::Flags_1AC::e1AC_Bit6_prevent_chanting, Abe_SaveState::Flags_D4::eD4_Bit5_prevent_chanting);
+        Compare(Abe::Flags_1AC::e1AC_Bit7_land_softly, Abe_SaveState::Flags_D4::eD4_Bit6_land_softly);
+        Compare(Abe::Flags_1AC::e1AC_Bit8_unused, Abe_SaveState::Flags_D4::eD4_Bit7_unused);
+        Compare(Abe::Flags_1AC::e1AC_Bit9_laugh_at_chant_end, Abe_SaveState::Flags_D4::eD4_Bit8_laugh_at_chant_end);
         // Abe::Flags_1AC::e1AC_Bit10 not persisted
         // Abe::Flags_1AC::e1AC_Bit11 not persisted
-        Compare(Abe::Flags_1AC::e1AC_Bit12, Abe_SaveState::Flags_D4::eD4_Bit9);
-        Compare(Abe::Flags_1AC::e1AC_LedgeHangWobble_eBit13, Abe_SaveState::Flags_D4::eD4_Bit10);
-        Compare(Abe::Flags_1AC::e1AC_eBit14, Abe_SaveState::Flags_D4::eD4_Bit11);
-        Compare(Abe::Flags_1AC::e1AC_eBit15_bHaveHealing, Abe_SaveState::Flags_D4::eD4_Bit12);
+        Compare(Abe::Flags_1AC::e1AC_Bit12_unused, Abe_SaveState::Flags_D4::eD4_Bit9_unused);
+        Compare(Abe::Flags_1AC::e1AC_eBit13_play_ledge_grab_sounds, Abe_SaveState::Flags_D4::eD4_Bit10_play_ledge_grab_sounds);
+        Compare(Abe::Flags_1AC::e1AC_eBit14_unused, Abe_SaveState::Flags_D4::eD4_Bit11_unused);
+        Compare(Abe::Flags_1AC::e1AC_eBit15_have_healing, Abe_SaveState::Flags_D4::eD4_Bit12_have_healing);
         // Flags_114::e114_Bit1 not persisted
         // Flags_114::e114_MotionChanged_Bit2 not persisted
         // Flags_114::e114_Bit3_Can_Be_Possessed not persisted
@@ -913,16 +913,16 @@ namespace Test
         // Flags_114::e114_Bit9 not persisted
         Compare(Flags_114::e114_Bit10, Abe_SaveState::Flags_D4::eD4_eBit13);
         // Flags_114::e114_Bit11 will crash as it attempts to iterate the object list to find the electrocute obj but it is not persisted directly
-        Compare(Abe::Flags_1AC::e1AC_eBit16_bIsMudancheeVault_Ender, Abe_SaveState::Flags_D4::eD4_eBit14);
-        Compare(Abe::Flags_1AE::e1AE_Bit1_bIsMudancheeVault_Ender, Abe_SaveState::Flags_D4::eD4_eBit15);
+        Compare(Abe::Flags_1AC::e1AC_eBit16_is_mudanchee_vault_ender, Abe_SaveState::Flags_D4::eD4_eBit14_is_mudanchee_vault_ender);
+        Compare(Abe::Flags_1AE::e1AE_Bit1_is_mudanchee_vault_ender, Abe_SaveState::Flags_D4::eD4_eBit15_is_mudanchee_vault_ender);
         // Abe::Flags_1AE::e1AE_Bit2_bDoQuickSave not persisted
-        Compare([](Abe& abe) { abe.field_E0_pShadow->field_14_flags.Set(Shadow::eBit1_ShadowAtBottom); }, Abe_SaveState::Flags_D6::eD6_Bit1);
+        Compare([](Abe& abe) { abe.field_E0_pShadow->field_14_flags.Set(Shadow::eBit1_ShadowAtBottom); }, Abe_SaveState::Flags_D6::eD6_Bit1_shadow_at_bottom);
 
         Compare([](Abe& abe) { abe.field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX); }, [](Abe_SaveState& state) { ASSERT_EQ(state.bAnimFlipX, 1); });
         Compare([](Abe& abe) { abe.field_6_flags.Set(BaseGameObject::eDrawable_Bit4); }, [](Abe_SaveState& state) { ASSERT_EQ(state.bDrawable, 1); });
         Compare([](Abe& abe) { abe.field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render); }, [](Abe_SaveState& state) { ASSERT_EQ(state.bAnimRender, 1); });
         Compare([](Abe& abe) { abe.field_114_flags.Set(Flags_114::e114_Bit7_Electrocuted); }, [](Abe_SaveState& state) { ASSERT_EQ(state.bElectrocuted, 1); });
-        Compare([](Abe& abe) { abe.field_114_flags.Set(Flags_114::e114_Bit8_bInvisible); }, [](Abe_SaveState& state) { ASSERT_EQ(state.word42, 1); });
+        Compare([](Abe& abe) { abe.field_114_flags.Set(Flags_114::e114_Bit8_bInvisible); }, [](Abe_SaveState& state) { ASSERT_EQ(state.field_42_bInvisible, 1); });
 
 
         // Needs resource manager and tons of other stuff, requires too many hacks to test this call
