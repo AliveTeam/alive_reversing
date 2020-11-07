@@ -9,6 +9,7 @@
 #include "Events.hpp"
 #include "Flash.hpp"
 #include "Particle.hpp"
+#include "BaseAliveGameObject.hpp"
 
 START_NS_AO
 
@@ -148,9 +149,80 @@ void BaseBomb::VUpdate()
     VUpdate_417580();
 }
 
-void BaseBomb::DealDamageRect_417A50(const PSX_RECT* /*pRect*/)
+void BaseBomb::DealDamageRect_417A50(const PSX_RECT* pRect)
 {
-    NOT_IMPLEMENTED();
+    if (gBaseAliveGameObjects_4FC8A0)
+    {
+        short min_w_x = pRect->w;
+        if (pRect->x <= pRect->w)
+        {
+            min_w_x = pRect->x;
+        }
+
+        auto min_x_w = pRect->w;
+        if (pRect->w <= pRect->x)
+        {
+            min_x_w = pRect->x;
+        }
+
+        auto min_y_h = pRect->h;
+        if (pRect->y <= pRect->h)
+        {
+            min_y_h = pRect->y;
+        }
+
+        short min_h_y = pRect->h;
+        if (pRect->h <= pRect->y)
+        {
+            min_h_y = pRect->y;
+        }
+
+        auto right = FP_GetExponent(field_A8_xpos) + min_x_w;
+        auto left = FP_GetExponent(field_A8_xpos) + min_w_x;
+        auto top = FP_GetExponent(field_AC_ypos) + min_y_h;
+        auto bottom = FP_GetExponent(field_AC_ypos) + min_h_y;
+
+        if ((abs(left) & 1023) < 256)
+        {
+            left -= 656;
+        }
+
+        if ((abs(right) & 1023) > 624)
+        {
+            right += 656;
+        }
+
+        if (top % 480 < 120)
+        {
+            top -= 240;
+        }
+
+        if (bottom % 480 > 360)
+        {
+            bottom += 240;
+        }
+
+        for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+        {
+            BaseAliveGameObject* pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
+            if (!pObj)
+            {
+                break;
+            }
+
+            const short obj_xpos = FP_GetExponent(pObj->field_A8_xpos);
+            if (obj_xpos >= left && obj_xpos <= right)
+            {
+                const short obj_ypos = FP_GetExponent(pObj->field_AC_ypos);
+                if (obj_ypos >= top &&
+                    obj_ypos <= bottom &&
+                    field_BC_sprite_scale == (pObj->field_BC_sprite_scale * FP_FromDouble(2.75)))
+                {
+                    pObj->VTakeDamage(this);
+                }
+            }
+        }
+    }
 }
 
 BaseBomb* BaseBomb::ctor_4173A0(FP xpos, FP ypos, int /*unused*/, FP scale)
