@@ -340,9 +340,9 @@ struct Abe_SaveState
         eD4_Bit10_play_ledge_grab_sounds = 0x200,
         eD4_Bit11_unused = 0x400,
         eD4_Bit12_have_healing = 0x800,
-        eD4_eBit13 = 0x1000,
+        eD4_eBit13 = 0x1000, // TODO: Connects to Flags_114::e114_Bit10 in the BaseAliveGameObject class.
         eD4_eBit14_is_mudanchee_vault_ender = 0x2000,
-        eD4_eBit15_is_mudanchee_vault_ender = 0x4000,
+        eD4_eBit15_is_mudomo_vault_ender = 0x4000,
         eD4_eBit16_shadow_enabled = 0x8000,
     };
     BitField16<Flags_D4> field_D4_flags;
@@ -644,7 +644,7 @@ public:
 
     enum Flags_1AE
     {
-        e1AE_Bit1_is_mudanchee_vault_ender = 0x1,
+        e1AE_Bit1_is_mudomo_vault_ender = 0x1,
         e1AE_Bit2_do_quicksave = 0x2,
     };
     BitField16<Flags_1AE> field_1AE_flags;

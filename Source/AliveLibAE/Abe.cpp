@@ -835,7 +835,7 @@ Abe* Abe::ctor_44AD10(int /*frameTableOffset*/, int /*r*/, int /*g*/, int /*b*/)
     field_160_slapable_or_pick_item_id = -1;
     field_15C_pull_rope_id = -1;
 
-    field_1AE_flags.Clear(Flags_1AE::e1AE_Bit1_is_mudanchee_vault_ender);
+    field_1AE_flags.Clear(Flags_1AE::e1AE_Bit1_is_mudomo_vault_ender);
     field_1AE_flags.Clear(Flags_1AE::e1AE_Bit2_do_quicksave);
 
     field_114_flags.Set(Flags_114::e114_Bit6_SetOffExplosives);
@@ -1209,7 +1209,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit10, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_eBit13));
     sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_eBit16_is_mudanchee_vault_ender, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_eBit14_is_mudanchee_vault_ender));
 
-    sActiveHero_5C1B68->field_1AE_flags.Set(Flags_1AE::e1AE_Bit1_is_mudanchee_vault_ender, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_eBit15_is_mudanchee_vault_ender));
+    sActiveHero_5C1B68->field_1AE_flags.Set(Flags_1AE::e1AE_Bit1_is_mudomo_vault_ender, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_eBit15_is_mudomo_vault_ender));
     sActiveHero_5C1B68->field_E0_pShadow->field_14_flags.Set(Shadow::Flags::eBit2_Enabled, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_eBit16_shadow_enabled));
 
     sActiveHero_5C1B68->field_E0_pShadow->field_14_flags.Set(Shadow::Flags::eBit1_ShadowAtBottom, pSaveState->field_D6_flags.Get(Abe_SaveState::eD6_Bit1_shadow_at_bottom));
@@ -1688,17 +1688,17 @@ void Abe::Update_449DC0()
             }
         }
 
-        // After the trials give abe the healing power for the necrum muds
+        // After the trials give Abe the healing power for the Necrum muds.
         if (field_1AC_flags.Get(Flags_1AC::e1AC_eBit16_is_mudanchee_vault_ender))
         {
-            if (field_1AE_flags.Get(Flags_1AE::e1AE_Bit1_is_mudanchee_vault_ender))
+            if (field_1AE_flags.Get(Flags_1AE::e1AE_Bit1_is_mudomo_vault_ender))
             {
                 if (gMap_5C3030.field_0_current_level == LevelIds::eNecrum_2)
                 {
                     field_168_ring_pulse_timer = sGnFrame_5C1B84 + 200000;
                     field_16C_bHaveShrykull = 0;
                     field_16E_bHaveInvisiblity = 0;
-                    field_1AE_flags.Clear(Flags_1AE::e1AE_Bit1_is_mudanchee_vault_ender);
+                    field_1AE_flags.Clear(Flags_1AE::e1AE_Bit1_is_mudomo_vault_ender);
                     field_1AC_flags.Clear(Flags_1AC::e1AC_eBit16_is_mudanchee_vault_ender);
                     field_1AC_flags.Set(Flags_1AC::e1AC_eBit15_have_healing);
                 }
@@ -1898,7 +1898,7 @@ void Abe::vScreenChanged_44D240()
 
             if (gMap_5C3030.field_0_current_level == LevelIds::eMudomoVault_Ender_11)
             {
-                field_1AE_flags.Set(Flags_1AE::e1AE_Bit1_is_mudanchee_vault_ender);
+                field_1AE_flags.Set(Flags_1AE::e1AE_Bit1_is_mudomo_vault_ender);
             }
         }
 
@@ -2173,7 +2173,7 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
     pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_eBit13, field_114_flags.Get(Flags_114::e114_Bit10));
     pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_eBit14_is_mudanchee_vault_ender, field_1AC_flags.Get(Flags_1AC::e1AC_eBit16_is_mudanchee_vault_ender));
 
-    pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_eBit15_is_mudanchee_vault_ender, field_1AE_flags.Get(Flags_1AE::e1AE_Bit1_is_mudanchee_vault_ender));
+    pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_eBit15_is_mudomo_vault_ender, field_1AE_flags.Get(Flags_1AE::e1AE_Bit1_is_mudomo_vault_ender));
     pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_eBit16_shadow_enabled, field_E0_pShadow->field_14_flags.Get(Shadow::Flags::eBit2_Enabled));
 
     pSaveState->field_D6_flags.Set(Abe_SaveState::eD6_Bit1_shadow_at_bottom, field_E0_pShadow->field_14_flags.Get(Shadow::Flags::eBit1_ShadowAtBottom));
@@ -8007,7 +8007,7 @@ void Abe::State_114_DoorEnter_459470()
         {
             if (gMap_5C3030.field_2_current_path == 11 &&
                 gMap_5C3030.field_4_current_camera == 2 &&
-                field_1AE_flags.Get(Flags_1AE::e1AE_Bit1_is_mudanchee_vault_ender))
+                field_1AE_flags.Get(Flags_1AE::e1AE_Bit1_is_mudomo_vault_ender))
             {
                 hackChange = true;
             }
