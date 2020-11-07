@@ -8,6 +8,8 @@
 #include "Math.hpp"
 #include "Sfx.hpp"
 #include "ScreenManager.hpp"
+#include "CameraSwapper.hpp"
+#include "PsxDisplay.hpp"
 
 START_NS_AO
 
@@ -244,9 +246,69 @@ public:
         VRender_432640(pOrderingTable);
     }
 
-    EXPORT void VRender_432640(int** /*ppOt*/)
+    EXPORT void VRender_432640(int** ppOt)
     {
-        NOT_IMPLEMENTED();
+        if (sNumCamSwappers_507668 == 0)
+        {
+            if (field_E4_bRender)
+            {
+                field_10_anim.field_9_g = 32;
+                field_10_anim.field_A_b = 32;
+                field_10_anim.field_8_r = 32;
+
+                const FP_Point* pCamPos = pScreenManager_4FF7C8->field_10_pCamPos;
+
+                const FP screen_left = pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
+                const FP screen_top = pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
+                const FP screen_right = pCamPos->field_0_x + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
+                const FP screen_bottom = pCamPos->field_4_y + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
+
+                field_10_anim.VRender_403AE0(
+                    FP_GetExponent(PsxToPCX(field_A8_xpos - screen_left)),
+                    FP_GetExponent(field_AC_ypos - screen_top),
+                    ppOt,
+                    0,
+                    0);
+
+                PSX_RECT rect1 = {};
+                field_10_anim.Get_Frame_Rect_402B50(&rect1);
+                pScreenManager_4FF7C8->InvalidateRect_406E40(
+                    rect1.x,
+                    rect1.y,
+                    rect1.w,
+                    rect1.h,
+                    pScreenManager_4FF7C8->field_2E_idx);
+
+                for (int i = 0; i < 6; i++)
+                {
+                    FlameSpark* pSpark = &field_E8_sparks[i];
+
+                    if (pSpark->field_12_bVisible)
+                    {
+                        if (pSpark->field_0_x >= screen_left && pSpark->field_0_x <= screen_right)
+                        {
+                            if (pSpark->field_4_y >= screen_top && pSpark->field_4_y <= screen_bottom)
+                            {
+                                pSpark->field_14.VRender2(
+                                    FP_GetExponent(PsxToPCX(pSpark->field_0_x - screen_left)),
+                                    FP_GetExponent(pSpark->field_4_y - screen_top),
+                                    ppOt);
+
+                                PSX_RECT rect2 = {};
+                                pSpark->field_14.GetRenderedSize_404220(&rect2);
+                                pScreenManager_4FF7C8->InvalidateRect_406E40(
+                                    rect2.x,
+                                    rect2.y,
+                                    rect2.w,
+                                    rect2.h,
+                                    pScreenManager_4FF7C8->field_2E_idx);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
     }
 
     int field_D4[4];
