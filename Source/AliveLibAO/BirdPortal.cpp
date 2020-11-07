@@ -1025,9 +1025,37 @@ void BirdPortal::VMudSaved_453830()
     field_56_num_muds_for_shrykul--;
 }
 
-void BirdPortal::VGetMapChange_453840(LevelIds* /*level*/, WORD* /*path*/, WORD* /*camera*/, CameraSwapEffects* /*screenChangeEffect*/, WORD* /*movieId*/)
+void BirdPortal::VGetMapChange_453840(LevelIds* level, WORD* path, WORD* camera, CameraSwapEffects* screenChangeEffect, WORD* movieId)
 {
-    NOT_IMPLEMENTED();
+    *level = field_50_dest_level;
+    *path = field_52_dest_path;
+    *camera = field_54_dest_camera;
+
+    // Positive
+    if (field_38_movie_id > 0)
+    {
+        *movieId = field_38_movie_id;
+        *screenChangeEffect = CameraSwapEffects::eEffect5_1_FMV;
+        return;
+    }
+
+    // Zero
+    if (field_38_movie_id == 0)
+    {
+        *screenChangeEffect = CameraSwapEffects::eEffect0_InstantChange;
+        return;
+    }
+
+    // Negative cases - dead code ??
+    if (sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone) && sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabinaDone))
+    {
+        *movieId = 1617 - (10000 * field_38_movie_id);
+        *screenChangeEffect = CameraSwapEffects::eEffect5_1_FMV;
+        return;
+    }
+
+    *movieId = 17 - (100 * field_38_movie_id);
+    *screenChangeEffect = CameraSwapEffects::eEffect5_1_FMV;
 }
 
 __int16 BirdPortal::Vsub_4533E0(__int16 /*bUnknown*/)
