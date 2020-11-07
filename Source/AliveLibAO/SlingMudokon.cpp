@@ -10,6 +10,11 @@
 #include "Abe.hpp"
 #include "Game.hpp"
 #include "CheatController.hpp"
+#include "Particle.hpp"
+#include "Flash.hpp"
+#include "Dove.hpp"
+#include "Math.hpp"
+#include "Events.hpp"
 
 void SlingMud_ForceLink() { }
 
@@ -541,8 +546,182 @@ __int16 SlingMudokon::tsub_46FEC0()
 
 __int16 SlingMudokon::tsub_470230()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    switch (field_13A_brain_state)
+    {
+    case 0:
+        field_140_timer = gnFrameCount_507670 + 10;
+        return 1;
+
+    case 1:
+        if (static_cast<int>(gnFrameCount_507670) <= field_140_timer)
+        {
+            return field_13A_brain_state;
+        }
+
+        SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400);
+        New_DestroyOrCreateObject_Particle_419D00(
+            field_A8_xpos,
+            (field_BC_sprite_scale * FP_FromInteger(20)) + field_AC_ypos,
+            field_BC_sprite_scale);
+        field_140_timer = gnFrameCount_507670 + 2;
+        return 2;
+
+    case 2:
+        if (static_cast<int>(gnFrameCount_507670) > field_140_timer)
+        {
+            field_10_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
+            field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+            field_FC_current_motion = eSlingMudStates::State_0_Idle_46FCB0;
+
+            auto pFlash = ao_new<Flash>();
+            if (pFlash)
+            {
+                pFlash->ctor_41A810(39, 255u, 0, 255u, 1, 3u, 1);
+            }
+
+            if (field_A8_xpos > sActiveHero_507678->field_A8_xpos)
+            {
+                field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+            }
+            field_140_timer = gnFrameCount_507670 + 40;
+            return 3;
+        }
+         return field_13A_brain_state;
+
+    case 3:
+        if (VIsObj_GettingNear_On_X(sActiveHero_507678))
+        {
+            field_FE_next_state = eSlingMudStates::State_1_Angry_46FCF0;
+            field_140_timer = gnFrameCount_507670 + 40;
+            Mudokon_SFX_42A4D0(MudSounds::eAngry_5, 0, 300, this);
+            return 5;
+        }
+
+        if (static_cast<int>(gnFrameCount_507670) > gnFrameCount_507670)
+        {
+            return field_13A_brain_state;
+        }
+        field_154 = field_138_brain_state;
+        field_156 = 4;
+        field_138_brain_state = 0;
+        field_13A_brain_state = 0;
+        return field_13A_brain_state;
+
+    case 4:
+        if (field_15A)
+        {
+            field_140_timer = gnFrameCount_507670 + 30;
+            SFX_Play_43AE60(SoundEffect::PossessEffect_21, 0, -600);
+            return 7;
+        }
+        else if (((field_11E_flags) >> 3) & 1)
+        {
+            field_FE_next_state = 1;
+            field_140_timer = gnFrameCount_507670 + 40;
+            Mudokon_SFX_42A4D0(MudSounds::eAngry_5, 0, 300, this);
+            return 5;
+        }
+        else
+        {
+            field_140_timer = gnFrameCount_507670 + 40;
+            return 3;
+        }
+        break;
+
+    case 5:
+        if (VIsObjNearby((ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(4)), sActiveHero_507678))
+        {
+            field_11E_flags |= 1u;
+            field_FE_next_state = eSlingMudStates::State_3_ShootStart_46FD90;
+            field_140_timer = gnFrameCount_507670 + 15;
+            return 6;
+        }
+
+        if (VIsObj_GettingNear_On_X(sActiveHero_507678))
+        {
+            field_140_timer = gnFrameCount_507670 + 40;
+        }
+        else
+        {
+            if (field_140_timer <= static_cast<int>(gnFrameCount_507670))
+            {
+                field_11E_flags &= ~8u;
+                field_140_timer = gnFrameCount_507670 + 40;
+                field_FE_next_state = eSlingMudStates::State_5_AngryToIdle_46FD50;
+                return 3;
+            }
+        }
+        return field_13A_brain_state;
+
+    case 6:
+        if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
+        {
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        }
+
+        if (field_140_timer > static_cast<int>(gnFrameCount_507670) || sActiveHero_507678->field_100_health <= FP_FromInteger(0))
+        {
+            return field_13A_brain_state;
+        }
+
+        field_140_timer = gnFrameCount_507670 + 30;
+        return 3;
+
+    case 7:
+        if (static_cast<int>(gnFrameCount_507670) >= field_140_timer)
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                auto pDove = ao_new<Dove>();
+                if (pDove)
+                {
+                    pDove->ctor_40EFF0(
+                        4988,
+                        41,
+                        20,
+                        60,
+                        field_A8_xpos + FP_FromInteger(Math_NextRandom() % 16),
+                        field_AC_ypos - FP_FromInteger(Math_NextRandom() % 16),
+                        field_BC_sprite_scale);
+                }
+
+                if (pDove->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    pDove->field_A8_xpos += FP_FromInteger(8);
+                }
+                else
+                {
+                    pDove->field_A8_xpos -= FP_FromInteger(8);
+                }
+            }
+
+            SFX_Play_43AD70(SoundEffect::FlyingDoves_19, 0);
+
+            field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+
+            if (field_15A)
+            {
+                field_11E_flags &= ~1u;
+            }
+            else
+            {
+                field_11E_flags |= 1u;
+            }
+
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            New_DestroyOrCreateObject_Particle_419D00(field_A8_xpos, (field_BC_sprite_scale * FP_FromInteger(20)) + field_AC_ypos, field_BC_sprite_scale);
+
+            auto pFlash = ao_new<Flash>();
+            if (pFlash)
+            {
+                pFlash->ctor_41A810(39, 255u, 0, 255u, 1, 3u, 1);
+            }
+        }
+        return field_13A_brain_state;
+
+    default:
+        return field_13A_brain_state;
+    }
 }
 
 __int16 SlingMudokon::tsub_4707B0()
