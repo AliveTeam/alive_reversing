@@ -1,0 +1,14 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+- script: |
+    git submodule update --init
+    cmake --version
+    mkdir build
+    cd build
+    cmake -G"Unix Makefiles" ..
+    make -j2
+  displayName: 'Run a multi-line script'
