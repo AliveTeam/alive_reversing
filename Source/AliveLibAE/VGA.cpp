@@ -156,20 +156,20 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
 
             int w = 0;
             int h = 0;
-            SDL_GetWindowSize(Sys_GetHWnd_4F2C70(), &w, &h);
+            SDL_GL_GetDrawableSize(Sys_GetHWnd_4F2C70(), &w, &h);
 
             int renderedWidth = w;
             int renderedHeight = h;
 
             if (s_VGA_KeepAspectRatio)
             {
-                if (w > (h * 1.333))
+                if (3 * w > 4 * h)
                 {
-                    renderedWidth = static_cast<int>(h * 1.333);
+                    renderedWidth = h * 4 / 3;
                 }
                 else
                 {
-                    renderedHeight = static_cast<int>(w * 0.75);
+                    renderedHeight = w * 3 / 4;
                 }
             }
 
