@@ -32,7 +32,7 @@ jobs:
   steps:
   - powershell: |
         git submodule update --init	
-        Start-FileDownload 'https://www.libsdl.org/release/SDL2-devel-2.0.9-VC.zip'
+        Invoke-WebRequest 'https://www.libsdl.org/release/SDL2-devel-2.0.9-VC.zip' -OutFile SDL2-devel-2.0.9-VC.zip
         7z x SDL2-devel-2.0.9-VC.zip
         mkdir build
         cd build
