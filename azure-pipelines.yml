@@ -9,8 +9,6 @@ steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
-
-steps:
 - script: ./build.sh
 - script: |
     echo Success 😀
