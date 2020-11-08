@@ -16,5 +16,5 @@ steps:
     mkdir build
     cd build
     cmake -G"Unix Makefiles" ..
-    make -j2
+    make -j3
   displayName: 'Clone and build'
