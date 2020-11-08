@@ -14,6 +14,7 @@ jobs:
   steps:
   - script: |
         brew install sdl2
+        git submodule update --init	
         cmake --version
         mkdir build
         cd build
@@ -29,7 +30,8 @@ jobs:
   pool:
     vmImage: 'windows-latest'
   steps:
-  - script: |
+  - powershell: |
+        git submodule update --init	
         Start-FileDownload 'https://www.libsdl.org/release/SDL2-devel-2.0.9-VC.zip'
         7z x SDL2-devel-2.0.9-VC.zip
         mkdir build
