@@ -269,7 +269,16 @@ void ZapLine::CalculateSpritePositionsOuter()
 
 void ZapLine::CalculateZapPoints_479380()
 {
-    NOT_IMPLEMENTED();
+    FP acc = FP_FromInteger(0);
+    const FP delta = FP_FromInteger(1) / FP_FromInteger(field_120_number_of_pieces_per_segment);
+    for (int i = 0; i < field_120_number_of_pieces_per_segment; i++)
+    {
+        const FP accSqrd = (acc * acc);
+        field_12C_zap_points[i].field_0 = accSqrd - FP_FromRaw(2 * acc.fpValue) + FP_FromInteger(1);
+        field_12C_zap_points[i].field_4 = -FP_FromRaw(2 * accSqrd.fpValue) + FP_FromRaw(2 * acc.fpValue) + FP_FromInteger(1);
+        field_12C_zap_points[i].field_8 = accSqrd;
+        acc += delta;
+    }
 }
 
 void ZapLine::CalculateThinSpriteSegmentPositions_4791F0()
