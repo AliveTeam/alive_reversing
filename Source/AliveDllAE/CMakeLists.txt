@@ -27,11 +27,16 @@ endif()
 if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
     add_custom_command(TARGET AliveDllAE
                        POST_BUILD
-                       COMMENT "Copying to game dir ${AE_PATH}"
+                       COMMENT "Copying to game dirs ${AE_PATH} ${AO_PATH}"
+                       COMMAND echo make ${AE_PATH}
                        COMMAND if not exist "${AE_PATH}" mkdir "${AE_PATH}"
+                       COMMAND echo make ${AO_PATH}
                        COMMAND if not exist "${AO_PATH}" mkdir "${AO_PATH}"
+                       COMMAND echo copy $(OutDir)$(TargetName)$(TargetExt) to ${AE_PATH}\\AliveDllAE.dll
                        COMMAND copy /y "$(OutDir)$(TargetName)$(TargetExt)" "${AE_PATH}\\AliveDllAE.dll"
+                       COMMAND echo copy $(OutDir)$(TargetName)$(TargetExt) to ${AO_PATH}\\AliveDllAE.dll
                        COMMAND copy /y "$(OutDir)$(TargetName)$(TargetExt)" "${AO_PATH}\\AliveDllAE.dll"
+                       COMMAND echo copy $(OutDir)$(TargetName).map to ${AE_PATH}\\AliveDllAE.dll
                        COMMAND copy /y "$(OutDir)$(TargetName).map" "${AE_PATH}\\AliveDllAE.map")
 endif()
 
