@@ -156,7 +156,7 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
 
             int w = 0;
             int h = 0;
-            SDL_GL_GetDrawableSize(Sys_GetHWnd_4F2C70(), &w, &h);
+            SDL_GetRendererOutputSize(gRenderer, &w, &h);
 
             int renderedWidth = w;
             int renderedHeight = h;
