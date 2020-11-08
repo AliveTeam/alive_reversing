@@ -32,7 +32,7 @@ jobs:
   - script: |
     Start-FileDownload 'https://www.libsdl.org/release/SDL2-devel-2.0.9-VC.zip'
     7z x SDL2-devel-2.0.9-VC.zip
-     mkdir build
+    mkdir build
     cd build
     call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" X86
     cmake .. -DSDL2_DIR=C:\ar\SDL2-2.0.9 -DBUILD_NUMBER=$(Build.BuildNumber) -G "Visual Studio 14 2015"
