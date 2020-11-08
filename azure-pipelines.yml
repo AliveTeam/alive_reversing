@@ -2,17 +2,48 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'ubuntu-latest'
+strategy:
+  matrix:
+    linux:
+      imageName: 'ubuntu-latest'
+    mac:
+      imageName: 'macos-10.14'
+    windows:
+      imageName: 'vs2017-win2016'
 
 steps:
-- script: |	
-    git submodule update --init	
-    sudo apt-get install libsdl2-dev	
-    cmake --version	
-    mkdir build	
-    cd build	
-    cmake -G"Unix Makefiles" ..	
-    make -j3	
-  displayName: 'Clone and build'
+# Linux
+- bash: |
+    git submodule update --init
+    sudo apt-get install libsdl2-dev
+    cmake --version
+    mkdir build
+    cd build
+    cmake -G"Unix Makefiles" ..
+    make -j3
+  condition: eq( variables['Agent.OS'], 'Linux' )
+  displayName: 'Clone and build Linux'
 
+# macOS
+- bash: |
+    git submodule update --init
+    brew install sdl2
+    cmake --version
+    mkdir build
+    cd build
+    cmake -G"Unix Makefiles" ..
+    make -j3
+  condition: eq( variables['Agent.OS'], 'Darwin' )
+  displayName: Get IP on macOS
+
+# Windows
+- powershell: |
+    Start-FileDownload 'https://www.libsdl.org/release/SDL2-devel-2.0.9-VC.zip'
+    7z x SDL2-devel-2.0.9-VC.zip
+    call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" Win64
+    cmake .. -DSDL2_DIR=C:\ar\SDL2-2.0.9 -DBUILD_NUMBER=%APPVEYOR_BUILD_NUMBER% -G "Visual Studio 14 2015 Win64"
+    cmake --build . --config Release
+    call "C:\Program Files (x86)\cmake\bin\cpack" -G ZIP -C %configuration%
+
+  condition: eq( variables['Agent.OS'], 'Windows_NT' )
+  displayName: Get IP on Windows
