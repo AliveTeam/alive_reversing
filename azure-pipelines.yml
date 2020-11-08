@@ -11,12 +11,7 @@ steps:
 
 - script: |
     git submodule update --init
-    curl -L https://www.libsdl.org/release/SDL2-2.0.8.tar.gz | tar xz
-    cd SDL2-2.0.8
-    ./configure
-    make -j2
-    sudo make install
-    cd ..
+    sudo apt-get install libsdl2-dev
     cmake --version
     mkdir build
     cd build
