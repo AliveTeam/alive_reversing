@@ -123,8 +123,8 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, int tlvInfo)
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
     const auto xMovedBy = FP_GetExponent(newX - oldX);
-    field_118 -= xMovedBy;
-    field_11A -= xMovedBy;
+    field_118_x_offset -= xMovedBy;
+    field_11A_width_offset -= xMovedBy;
 
     BYTE** ppLiftWheelRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1001, 1, 0);
     if (field_13C_lift_wheel.Init_402D20(
@@ -368,7 +368,7 @@ void LiftPoint::VUpdate_434D10()
                     pLiftTlv->field_1_unknown &= ~3;
                     pLiftTlv->field_1_unknown |= 1;
 
-                    field_270_floorYLevel = FP_FromInteger(pTlvIter->field_10_top_left.field_2_y - field_11C);
+                    field_270_floorYLevel = FP_FromInteger(pTlvIter->field_10_top_left.field_2_y - field_11C_y_offset);
                 }
                 else
                 {
@@ -407,7 +407,7 @@ void LiftPoint::VUpdate_434D10()
                 {
                     if (!field_27A_flags.Get(Flags::eBit2_bTopFloor))
                     {
-                        field_AC_ypos = FP_FromInteger(pLiftTlv->field_10_top_left.field_2_y - field_11C);
+                        field_AC_ypos = FP_FromInteger(pLiftTlv->field_10_top_left.field_2_y - field_11C_y_offset);
                         SFX_Play_43AD70(SoundEffect::LiftStop_35, 0);
                         SFX_Play_43AE60(SoundEffect::LiftStop_35, 80, -2000);
                     }
@@ -449,7 +449,7 @@ void LiftPoint::VUpdate_434D10()
                 {
                     if (!field_27A_flags.Get(Flags::eBit4_bBottomFloor))
                     {
-                        field_AC_ypos = FP_FromInteger(pLiftTlv->field_10_top_left.field_2_y - field_11C);
+                        field_AC_ypos = FP_FromInteger(pLiftTlv->field_10_top_left.field_2_y - field_11C_y_offset);
                         SFX_Play_43AD70(SoundEffect::LiftStop_35, 0);
                         SFX_Play_43AE60(SoundEffect::LiftStop_35, 80, -2000);
                     }
@@ -477,7 +477,7 @@ void LiftPoint::VUpdate_434D10()
                     {
                         if (!field_27A_flags.Get(Flags::eBit3_bMiddleFloor))
                         {
-                            field_AC_ypos = FP_FromInteger(pLiftTlv->field_10_top_left.field_2_y - field_11C);
+                            field_AC_ypos = FP_FromInteger(pLiftTlv->field_10_top_left.field_2_y - field_11C_y_offset);
                             SFX_Play_43AD70(SoundEffect::LiftStop_35, 0);
                             SFX_Play_43AE60(SoundEffect::LiftStop_35, 80, -2000);
                         }
