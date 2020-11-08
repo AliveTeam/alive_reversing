@@ -35,6 +35,8 @@ jobs:
         mkdir C:\temp
         powershell Invoke-WebRequest 'https://www.libsdl.org/release/SDL2-devel-2.0.9-VC.zip' -OutFile C:\temp\SDL2-devel-2.0.9-VC.zip
         7z x C:\Temp\SDL2-devel-2.0.9-VC.zip
+        dir C:\Temp
+        dir C:\Temp\SDL2-2.0.9
         mkdir build
         cd build
         cmake .. -DSDL2_DIR=C:\Temp\SDL2-2.0.9 -DBUILD_NUMBER=$(Build.BuildNumber) -G "Visual Studio 16 2019"
