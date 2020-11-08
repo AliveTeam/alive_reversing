@@ -18,3 +18,16 @@ steps:
     cmake -G"Unix Makefiles" ..
     make -j3
   displayName: 'Clone and build'
+
+
+steps:
+- script: ./build.sh
+- script: |
+    echo Success 😀
+    wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+    chmod +x send.sh
+    ./send.sh success $(WEBHOOK_URL_OK)
+  condition: succeeded()
+- script: echo Failed 🙁
+  condition: failed()
+
