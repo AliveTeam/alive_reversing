@@ -47,7 +47,10 @@ BaseGameObject* PlatformBase::dtor_451490()
 
 void PlatformBase::SyncCollisionLinePosition_451540()
 {
-    NOT_IMPLEMENTED();
+    field_120_pCollisionLine->field_0_rect.x = FP_GetExponent(field_A8_xpos + FP_FromInteger(field_118));
+    field_120_pCollisionLine->field_0_rect.w = FP_GetExponent(field_A8_xpos + FP_FromInteger(field_11A));
+    field_120_pCollisionLine->field_0_rect.y = FP_GetExponent(field_AC_ypos + FP_FromInteger(field_11C));
+    field_120_pCollisionLine->field_0_rect.h = FP_GetExponent(field_AC_ypos + FP_FromInteger(field_11E));
 }
 
 void PlatformBase::KeepThingsOnPlatform_451690(FP /*xpos*/)
