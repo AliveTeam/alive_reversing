@@ -11,7 +11,7 @@ steps:
 
 - script: |
     echo Success 😀
-    wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+    wget https://raw.githubusercontent.com/AliveTeam/travis-ci-discord-webhook/master/send.sh
     chmod +x send.sh
     ./send.sh success $(WEBHOOK_URL_OK)
   condition: succeeded()
