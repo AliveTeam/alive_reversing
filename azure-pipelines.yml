@@ -37,8 +37,8 @@ jobs:
         7z x C:\Temp\SDL2-devel-2.0.9-VC.zip -oC:\Temp
         mkdir build
         cd build
-        set AE_ROOT=C:/Temp/AE
-        set AO_ROOT=C:/Temp/AO
+        set AE_ROOT=C:\Temp\AE\
+        set AO_ROOT=C:\Temp\AO\
         cmake .. -DSDL2_DIR=C:\Temp\SDL2-2.0.9 -DBUILD_NUMBER=$(Build.BuildNumber) -G "Visual Studio 16 2019" -A Win32
         cmake --build .
         call "C:\Program Files (x86)\cmake\bin\cpack" -G ZIP -C X86
