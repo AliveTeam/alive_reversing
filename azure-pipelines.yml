@@ -6,15 +6,13 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Success 😀
-    wget https://raw.githubusercontent.com/AliveTeam/travis-ci-discord-webhook/master/send.sh
-    chmod +x send.sh
-    ./send.sh success $(WEBHOOK_URL_OK)
-  condition: succeeded()
-- script: echo Failed 🙁
-  condition: failed()
+- script: |	
+    git submodule update --init	
+    sudo apt-get install libsdl2-dev	
+    cmake --version	
+    mkdir build	
+    cd build	
+    cmake -G"Unix Makefiles" ..	
+    make -j3	
+  displayName: 'Clone and build'
 
