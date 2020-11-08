@@ -13,12 +13,12 @@ jobs:
     vmImage: 'macOS-latest'
   steps:
   - script: |
-    brew install sdl2
-    cmake --version
-    mkdir build
-    cd build
-    cmake -G"Unix Makefiles" ..
-    make -j3
+        brew install sdl2
+        cmake --version
+        mkdir build
+        cd build
+        cmake -G"Unix Makefiles" ..
+        make -j3
   displayName: 'Clone and build'
 - job: Windows32
   pool:
@@ -30,11 +30,11 @@ jobs:
     vmImage: 'windows-latest'
   steps:
   - script: |
-    Start-FileDownload 'https://www.libsdl.org/release/SDL2-devel-2.0.9-VC.zip'
-    7z x SDL2-devel-2.0.9-VC.zip
-    mkdir build
-    cd build
-    call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" X86
-    cmake .. -DSDL2_DIR=C:\ar\SDL2-2.0.9 -DBUILD_NUMBER=$(Build.BuildNumber) -G "Visual Studio 14 2015"
-    cmake --build . --config X86
-    call "C:\Program Files (x86)\cmake\bin\cpack" -G ZIP -C X86
+        Start-FileDownload 'https://www.libsdl.org/release/SDL2-devel-2.0.9-VC.zip'
+        7z x SDL2-devel-2.0.9-VC.zip
+        mkdir build
+        cd build
+        call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" X86
+        cmake .. -DSDL2_DIR=C:\ar\SDL2-2.0.9 -DBUILD_NUMBER=$(Build.BuildNumber) -G "Visual Studio 14 2015"
+        cmake --build . --config X86
+        call "C:\Program Files (x86)\cmake\bin\cpack" -G ZIP -C X86
