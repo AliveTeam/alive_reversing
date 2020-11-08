@@ -4,12 +4,12 @@ trigger:
 
 strategy:
   matrix:
-    linux:
-      imageName: 'ubuntu-latest'
-    mac:
-      imageName: 'macos-10.14'
-    windows:
-      imageName: 'vs2017-win2016'
+    'Ubuntu 18.04':
+      image: 'ubuntu-18.04'
+    'MacOS X Mojave':
+      image: 'macos-10.14'
+    'Windows Server 2019':
+      image: 'windows-2019'
 
 steps:
 # Linux
