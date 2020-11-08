@@ -283,7 +283,23 @@ void ZapLine::CalculateZapPoints_479380()
 
 void ZapLine::CalculateThinSpriteSegmentPositions_4791F0()
 {
-    NOT_IMPLEMENTED();
+    field_130_sprite_segment_positions[0].field_0_x = FP_FromInteger(field_10C_x_position_source);
+    field_130_sprite_segment_positions[0].field_4_y = FP_FromInteger(field_10E_y_position_source);
+    field_130_sprite_segment_positions[field_11E_number_of_segments - 1].field_0_x = FP_FromInteger(field_110_x_position_destination);
+    field_130_sprite_segment_positions[field_11E_number_of_segments - 1].field_4_y = FP_FromInteger(field_112_y_position_destination);
+
+    const FP x2Diff = FP_FromInteger(field_110_x_position_destination - field_10C_x_position_source) / FP_FromInteger(field_11E_number_of_segments);
+    const FP y2Diff = FP_FromInteger(field_112_y_position_destination - field_10E_y_position_source) / FP_FromInteger(field_11E_number_of_segments);
+
+    const FP y2DiffDiv = -y2Diff * FP_FromDouble(0.1);
+    const FP x2DiffDiv = x2Diff * FP_FromDouble(0.1);
+
+    for (int i = 1; i < field_11E_number_of_segments - 1; i++)
+    {
+        const FP rnd = FP_FromInteger(Math_NextRandom() % 32 - 16);
+        field_130_sprite_segment_positions[i].field_0_x = (y2DiffDiv * rnd) + FP_FromInteger(field_10C_x_position_source) + (FP_FromInteger(i) * x2Diff);
+        field_130_sprite_segment_positions[i].field_4_y = (x2DiffDiv * rnd) + FP_FromInteger(field_10E_y_position_source) + (FP_FromInteger(i) * y2Diff);
+    }
 }
 
 void ZapLine::CalculateThickSpriteSegmentPositions_478F20()
