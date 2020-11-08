@@ -30,9 +30,9 @@ jobs:
   pool:
     vmImage: 'windows-latest'
   steps:
-  - powershell: |
+  - script: |
         git submodule update --init	
-        Invoke-WebRequest 'https://www.libsdl.org/release/SDL2-devel-2.0.9-VC.zip' -OutFile SDL2-devel-2.0.9-VC.zip
+        powershell Invoke-WebRequest 'https://www.libsdl.org/release/SDL2-devel-2.0.9-VC.zip' -OutFile SDL2-devel-2.0.9-VC.zip
         7z x SDL2-devel-2.0.9-VC.zip
         mkdir build
         cd build
