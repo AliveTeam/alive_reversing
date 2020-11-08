@@ -347,7 +347,16 @@ void ZapLine::CalculateThickSpriteSegmentPositions_478F20()
 
 void ZapLine::UpdateSpriteVertexPositions_4795B0()
 {
-    NOT_IMPLEMENTED();
+    for (int i = 0; i < field_11E_number_of_segments; i++)
+    {
+        for (int j = 0; j < field_120_number_of_pieces_per_segment; j++)
+        {
+            const auto pPoint = &field_128_sprite_positions[j + (i * field_120_number_of_pieces_per_segment)];
+            Prim_Sprt* pSprt = &field_124_pSprts->field_0_sprts[j + (i * field_120_number_of_pieces_per_segment)];
+            SetXY0(&pSprt[0], pPoint->field_0_x, pPoint->field_2_y);
+            SetXY0(&pSprt[1], pPoint->field_0_x, pPoint->field_2_y);
+        }
+    }
 }
 
 void ZapLine::CalculateSpritePositionsInner_479400(int /*idx1*/, int /*idx2*/, int /*idx3*/, __int16 /*idx4*/)
