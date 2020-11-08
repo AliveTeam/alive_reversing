@@ -2,48 +2,19 @@
 trigger:
 - master
 
-strategy:
-  matrix:
-    'Ubuntu 18.04':
-      imageName: 'ubuntu-18.04'
-    'MacOS X Mojave':
-      imageName: 'macos-10.14'
-    'Windows Server 2019':
-      imageName: 'windows-2019'
-
-steps:
-# Linux
-- bash: |
-    git submodule update --init
-    sudo apt-get install libsdl2-dev
-    cmake --version
-    mkdir build
-    cd build
-    cmake -G"Unix Makefiles" ..
-    make -j3
-  condition: eq( variables['Agent.OS'], 'Linux' )
-  displayName: 'Clone and build Linux'
-
-# macOS
-- bash: |
-    git submodule update --init
-    brew install sdl2
-    cmake --version
-    mkdir build
-    cd build
-    cmake -G"Unix Makefiles" ..
-    make -j3
-  condition: eq( variables['Agent.OS'], 'Darwin' )
-  displayName: Get IP on macOS
-
-# Windows
-- powershell: |
-    Start-FileDownload 'https://www.libsdl.org/release/SDL2-devel-2.0.9-VC.zip'
-    7z x SDL2-devel-2.0.9-VC.zip
-    call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" Win64
-    cmake .. -DSDL2_DIR=C:\ar\SDL2-2.0.9 -DBUILD_NUMBER=%APPVEYOR_BUILD_NUMBER% -G "Visual Studio 14 2015 Win64"
-    cmake --build . --config Release
-    call "C:\Program Files (x86)\cmake\bin\cpack" -G ZIP -C %configuration%
-
-  condition: eq( variables['Agent.OS'], 'Windows_NT' )
-  displayName: Get IP on Windows
+jobs:
+- job: Linux
+  pool:
+    vmImage: 'ubuntu-latest'
+  steps:
+  - script: echo hello from Linux
+- job: macOS
+  pool:
+    vmImage: 'macOS-latest'
+  steps:
+  - script: echo hello from macOS
+- job: Windows
+  pool:
+    vmImage: 'windows-latest'
+  steps:
+  - script: echo hello from Windows
