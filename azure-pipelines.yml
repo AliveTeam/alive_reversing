@@ -13,8 +13,13 @@ jobs:
     vmImage: 'macOS-latest'
   steps:
   - script: echo hello from macOS
-- job: Windows
+- job: Windows 32
   pool:
     vmImage: 'windows-latest'
   steps:
-  - script: echo hello from Windows
+  - script: echo hello from Windows 32
+- job: Windows 64
+  pool:
+    vmImage: 'windows-latest'
+  steps:
+  - script: echo hello from Windows 64
