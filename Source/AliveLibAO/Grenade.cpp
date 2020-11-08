@@ -405,8 +405,124 @@ void Grenade::VOnTrapDoorOpen_41F920()
 
 signed __int16 Grenade::InTheAir_41EF10()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    field_120_xpos = field_A8_xpos;
+    field_124_ypos = field_AC_ypos;
+
+    field_B8_vely += FP_FromInteger(1);
+
+    field_A8_xpos += field_B4_velx;
+    field_AC_ypos += field_B8_vely;
+
+    WORD result = 0;
+    field_A8_xpos = CamX_VoidSkipper_418590(field_A8_xpos, field_B4_velx, 8, &result);
+    field_AC_ypos = CamY_VoidSkipper_418690(field_AC_ypos, field_B8_vely, 8, &result);
+
+    FP hitX = {};
+    FP hitY = {};
+    const auto bHit = sCollisions_DArray_504C6C->RayCast_40C410(
+        field_120_xpos,
+        field_124_ypos,
+        field_A8_xpos,
+        field_AC_ypos,
+        &field_114_pCollisionLine,
+        &hitX,
+        &hitY,
+        field_BC_sprite_scale != FP_FromInteger(1) ? 0x70 : 0x07);
+
+    result = bHit;
+
+    if (bHit == 1)
+    {
+        if (field_B8_vely > FP_FromInteger(0))
+        {
+            if (field_B8_vely < FP_FromInteger(1))
+            {
+                if (!field_F8_pLiftPoint)
+                {
+                    AddToPlatform_41F7C0();
+                }
+                return 0;
+            }
+
+            field_A8_xpos = hitX;
+            field_AC_ypos = hitY;
+            field_B8_vely = (-field_B8_vely / FP_FromInteger(2));
+            field_B4_velx =(field_B4_velx / FP_FromInteger(2));
+            if (field_118 <= 4)
+            {
+                short vol = 75 - 20 * field_118;
+                if (vol < 40)
+                {
+                    vol = 40;
+                }
+                SFX_Play_43AD70(SoundEffect::GrenadeBounce_82, vol);
+                field_118++;
+                Event_Broadcast_417220(kEventNoise_0, this);
+                Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
+                Event_Broadcast_417220(1, this);
+            }
+        }
+    }
+
+    const auto v20 = sCollisions_DArray_504C6C->RayCast_40C410(
+        field_120_xpos,
+        field_124_ypos,
+        field_A8_xpos,
+        field_AC_ypos,
+        &field_114_pCollisionLine,
+        &hitX,
+        &hitY,
+        field_BC_sprite_scale != FP_FromDouble(0.5) ? 6 : 96);
+
+    if (v20 == 1)
+    {
+        switch (field_114_pCollisionLine->field_8_type)
+        {
+        case 1:
+        case 5:
+            if (field_B4_velx < FP_FromInteger(0))
+            {
+                field_AC_ypos = hitY;
+                field_A8_xpos = hitX;
+                field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
+                short vol = 75 - 20 * field_118;
+                if (vol < 40)
+                {
+                    vol = 40;
+                }
+                SFX_Play_43AD70(SoundEffect::GrenadeBounce_82, vol, 0);
+                Event_Broadcast_417220(kEventNoise_0, this);
+                Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
+                Event_Broadcast_417220(kEventSpeaking_1, this);
+            }
+            break;
+
+        case 2:
+        case 6:
+            if (field_B4_velx > FP_FromInteger(0))
+            {
+                field_A8_xpos = hitX;
+                field_AC_ypos = hitY;
+                field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
+                short vol = 75 - 20 * field_118;
+                if (vol < 40)
+                {
+
+                    vol = 40;
+                }
+
+                SFX_Play_43AD70(SoundEffect::GrenadeBounce_82, vol, 0);
+                Event_Broadcast_417220(kEventNoise_0, this);
+                Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
+                Event_Broadcast_417220(kEventSpeaking_1, this);
+            }
+            break;
+
+        default:
+            return 1;
+        }
+    }
+    return 1;
 }
 
 
