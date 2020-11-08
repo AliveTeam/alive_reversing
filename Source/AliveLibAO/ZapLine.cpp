@@ -359,9 +359,33 @@ void ZapLine::UpdateSpriteVertexPositions_4795B0()
     }
 }
 
-void ZapLine::CalculateSpritePositionsInner_479400(int /*idx1*/, int /*idx2*/, int /*idx3*/, __int16 /*idx4*/)
+void ZapLine::CalculateSpritePositionsInner_479400(int idx1, int idx2, int idx3, __int16 idx4)
 {
-    NOT_IMPLEMENTED();
+    const FP x1 = field_130_sprite_segment_positions[idx1].field_0_x;
+    const FP y1 = field_130_sprite_segment_positions[idx1].field_4_y;
+
+    const FP x2 = field_130_sprite_segment_positions[idx2].field_0_x;
+    const FP y2 = field_130_sprite_segment_positions[idx2].field_4_y;
+
+    const FP x3 = field_130_sprite_segment_positions[idx3].field_0_x;
+    const FP y3 = field_130_sprite_segment_positions[idx3].field_4_y;
+
+    for (int i = 0; i < field_120_number_of_pieces_per_segment; i++)
+    {
+        auto pItem = &field_128_sprite_positions[i + (idx4 * field_120_number_of_pieces_per_segment)];
+
+        pItem->field_0_x = FP_GetExponent(
+            FP_FromRaw((
+                (field_12C_zap_points[i].field_8 * x3) +
+                (field_12C_zap_points[i].field_4 * x2) +
+                (field_12C_zap_points[i].field_0 * x1)).fpValue >> 1));
+
+        pItem->field_2_y = FP_GetExponent(
+            FP_FromRaw((
+                (field_12C_zap_points[i].field_8 * y3) +
+                (field_12C_zap_points[i].field_4 * y2) +
+                (field_12C_zap_points[i].field_0 * y1)).fpValue >> 1));
+    }
 }
 
 END_NS_AO
