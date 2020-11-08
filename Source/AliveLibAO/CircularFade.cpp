@@ -3,12 +3,125 @@
 #include "CircularFade.hpp"
 #include "stdlib.hpp"
 #include "ResourceManager.hpp"
+#include "ScreenManager.hpp"
+#include "PsxDisplay.hpp"
 
 START_NS_AO
 
-void CircularFade::VRender_47A080(int** /*ppOt*/)
+void CircularFade::VRender_47A080(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    const BYTE fade_rgb = static_cast<BYTE>((field_1A8_fade_colour * 60) / 100);
+
+    field_C0_r = fade_rgb;
+    field_C4_b = fade_rgb;
+    field_C2_g = fade_rgb;
+
+    field_10_anim.field_8_r = fade_rgb;
+    field_10_anim.field_9_g = fade_rgb;
+    field_10_anim.field_A_b = fade_rgb;
+
+    field_10_anim.vRender(
+        FP_GetExponent(field_A8_xpos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos + field_CA_xOffset)) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
+        FP_GetExponent(field_AC_ypos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_C8_yOffset)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+        ppOt,
+        0,
+        0);
+    PSX_RECT rect = {};
+    field_10_anim.Get_Frame_Rect_402B50(&rect);
+    pScreenManager_4FF7C8->InvalidateRect_406E40(rect.x, rect.y, rect.w, rect.h, pScreenManager_4FF7C8->field_2E_idx);
+
+    rect.h--;
+    rect.w--;
+
+    if (rect.y < 0)
+    {
+        rect.y = 0;
+    }
+
+    if (rect.x < 0)
+    {
+        rect.x = 0;
+    }
+
+    if (rect.w >= 640)
+    {
+        rect.w = 639;
+    }
+
+    if (rect.h >= 240)
+    {
+        rect.h = 240;
+    }
+
+    const BYTE fadeColour = static_cast<BYTE>(field_1A8_fade_colour);
+
+
+    Prim_Tile* pTile = &field_E8[gPsxDisplay_504C78.field_A_buffer_index];
+    Init_Tile(pTile);
+    SetRGB0(pTile, fadeColour, fadeColour, fadeColour);
+    SetXY0(pTile, 0, 0);
+    pTile->field_14_w = gPsxDisplay_504C78.field_0_width;
+    pTile->field_16_h = rect.y;
+    Poly_Set_SemiTrans_498A40(&pTile->mBase.header, 1);
+    OrderingTable_Add_498A80(&ppOt[field_10_anim.field_C_layer], &pTile->mBase.header);
+
+    Prim_Tile* pTile2_1 = &field_110[gPsxDisplay_504C78.field_A_buffer_index];
+    Init_Tile(pTile2_1);
+    SetRGB0(pTile2_1, fadeColour, fadeColour, fadeColour);
+
+    short w = 0;
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        w = rect.x + 1;
+    }
+    else
+    {
+        w = rect.x;
+    }
+    SetXY0(pTile2_1, 0, rect.y);
+    pTile2_1->field_14_w = w;
+    pTile2_1->field_16_h = rect.h - rect.y;
+    Poly_Set_SemiTrans_498A40(&pTile2_1->mBase.header, 1);
+    OrderingTable_Add_498A80(&ppOt[field_10_anim.field_C_layer], &pTile2_1->mBase.header);
+
+    Prim_Tile* pTile2 = &field_138[gPsxDisplay_504C78.field_A_buffer_index];
+    Init_Tile(pTile2);
+    SetRGB0(pTile2, fadeColour, fadeColour, fadeColour);
+    SetXY0(pTile2, rect.w + 1, rect.y);
+    pTile2->field_14_w = gPsxDisplay_504C78.field_0_width - rect.w;
+    pTile2->field_16_h = rect.h - rect.y;
+    Poly_Set_SemiTrans_498A40(&pTile2->mBase.header, 1);
+    OrderingTable_Add_498A80(&ppOt[field_10_anim.field_C_layer], &pTile2->mBase.header);
+
+    Prim_Tile* pTile3 = &field_160[gPsxDisplay_504C78.field_A_buffer_index];
+    Init_Tile(pTile3);
+    SetRGB0(pTile3, fadeColour, fadeColour, fadeColour);
+    SetXY0(pTile3, 0, rect.h);
+    pTile3->field_14_w = gPsxDisplay_504C78.field_0_width;
+    pTile3->field_16_h = gPsxDisplay_504C78.field_2_height - rect.h;
+    Poly_Set_SemiTrans_498A40(&pTile3->mBase.header, 1);
+    OrderingTable_Add_498A80(&ppOt[field_10_anim.field_C_layer], &pTile3->mBase.header);
+    OrderingTable_Add_498A80(&ppOt[field_10_anim.field_C_layer], &field_188[gPsxDisplay_504C78.field_A_buffer_index].mBase);
+
+    if (field_1A8_fade_colour < 255)
+    {
+        pScreenManager_4FF7C8->InvalidateRect_406CC0(
+            0,
+            0,
+            gPsxDisplay_504C78.field_0_width,
+            gPsxDisplay_504C78.field_2_height);
+    }
+
+    if ((field_1A8_fade_colour == 255 && field_E4_flags.Get(CircularFade::eBit1_FadeIn)) ||
+        (field_1A8_fade_colour == 0 && !field_E4_flags.Get(CircularFade::eBit1_FadeIn)))
+    {
+        field_E4_flags.Set(CircularFade::eBit2_Done);
+
+        if (field_E4_flags.Get(CircularFade::eBit3_DestroyOnDone))
+        {
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        }
+    }
 }
 
 char CircularFade::Vsub_479FE0(unsigned __int8 direction, char destroyOnDone)

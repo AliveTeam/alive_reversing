@@ -222,8 +222,8 @@ TrapDoor* TrapDoor::ctor_488010(Path_TrapDoor* pTlv, Map* pMap, int tlvInfo)
         field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
     }
 
-    field_118 = FP_GetExponent(FP_FromInteger(pTlv->field_10_top_left.field_0_x) - field_A8_xpos);
-    field_11A = FP_GetExponent(FP_FromInteger(pTlv->field_14_bottom_right.field_0_x) - field_A8_xpos);
+    field_118_x_offset = FP_GetExponent(FP_FromInteger(pTlv->field_10_top_left.field_0_x) - field_A8_xpos);
+    field_11A_width_offset = FP_GetExponent(FP_FromInteger(pTlv->field_14_bottom_right.field_0_x) - field_A8_xpos);
     field_13A_xOff = pTlv->field_24_anim_offset;
 
     if (field_136_state == 2)
