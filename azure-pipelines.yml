@@ -1,8 +1,13 @@
+
 trigger:
 - master
 
 pool:
   vmImage: 'ubuntu-latest'
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
 
 - script: |
     git submodule update --init
@@ -11,4 +16,4 @@ pool:
     cd build
     cmake -G"Unix Makefiles" ..
     make -j2
-  displayName: 'Run a multi-line script'
+  displayName: 'Clone and build'
