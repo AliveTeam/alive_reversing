@@ -1,0 +1,18 @@
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- script: |	
+    git submodule update --init	
+    sudo apt-get install libsdl2-dev	
+    cmake --version	
+    mkdir build	
+    cd build	
+    cmake -G"Unix Makefiles" ..	
+    make -j3	
+  displayName: 'Clone and build'
+
