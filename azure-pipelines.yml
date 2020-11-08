@@ -9,7 +9,6 @@ steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
-- script: ./build.sh
 - script: |
     echo Success 😀
     wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
