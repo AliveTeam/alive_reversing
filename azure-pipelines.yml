@@ -5,11 +5,11 @@ trigger:
 strategy:
   matrix:
     'Ubuntu 18.04':
-      image: 'ubuntu-18.04'
+      imageName: 'ubuntu-18.04'
     'MacOS X Mojave':
-      image: 'macos-10.14'
+      imageName: 'macos-10.14'
     'Windows Server 2019':
-      image: 'windows-2019'
+      imageName: 'windows-2019'
 
 steps:
 # Linux
