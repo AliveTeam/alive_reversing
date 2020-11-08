@@ -6,6 +6,8 @@
 #include "Map.hpp"
 #include "PsxDisplay.hpp"
 #include "ScreenManager.hpp"
+#include "Game.hpp"
+#include "Math.hpp"
 
 void ZapLine_ForceLink() {}
 
@@ -277,7 +279,70 @@ void ZapLine::CalculateThinSpriteSegmentPositions_4791F0()
 
 void ZapLine::CalculateThickSpriteSegmentPositions_478F20()
 {
-    NOT_IMPLEMENTED();
+    int v1 = 0;
+    if (field_116_alive_timer >= 8)
+    {
+        const int v4 = field_118_max_alive_time - field_116_alive_timer;
+        if (v4 >= 8)
+        {
+            v1 = 4;
+        }
+        else
+        {
+            v1 = (v4 / 4) + 3;
+        }
+    }
+    else
+    {
+        v1 = (field_116_alive_timer / 4) + 3;
+    }
+
+    int v5 = 1 << v1;
+    int v6 = 1 << (v1 - 1);
+
+    field_130_sprite_segment_positions[0].field_0_x = FP_FromInteger(field_10C_x_position_source);
+    field_130_sprite_segment_positions[0].field_4_y = FP_FromInteger(field_10E_y_position_source);
+
+    field_130_sprite_segment_positions[field_11E_number_of_segments - 1].field_0_x = FP_FromInteger(field_110_x_position_destination);
+    field_130_sprite_segment_positions[field_11E_number_of_segments - 1].field_4_y = FP_FromInteger(field_112_y_position_destination);
+    
+    int angExtra = 0;
+    if ((gnFrameCount_507670 / 8) & 1)
+    {
+        angExtra = 0;
+    }
+    else
+    {
+        angExtra = 128;
+    }
+
+    const FP xDiff = FP_FromInteger(field_110_x_position_destination - field_10C_x_position_source) / FP_FromInteger(field_11E_number_of_segments);
+    const FP xDiffDiv = (-xDiff * FP_FromDouble(1.5));
+
+    const FP yDiff = FP_FromInteger(field_112_y_position_destination - field_10E_y_position_source) / FP_FromInteger(field_11E_number_of_segments);
+    const FP yDiffDiv = (yDiff * FP_FromDouble(1.5));
+
+    for (int i = 1; i < field_11E_number_of_segments - 1; i++)
+    {
+        const BYTE ang = static_cast<BYTE>(angExtra + 18 * i);
+
+        field_130_sprite_segment_positions[i].field_0_x = 
+            FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine_4510A0(ang) * xDiffDiv) + FP_FromInteger(field_10C_x_position_source) + (FP_FromInteger(i) * xDiff) - FP_FromInteger(v6);
+
+        field_130_sprite_segment_positions[i].field_4_y = 
+            FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine_4510A0(ang) * yDiffDiv) + FP_FromInteger(field_10E_y_position_source) + (FP_FromInteger(i) * yDiff) - FP_FromInteger(v6);
+
+    }
+
+    field_134_rects[0].x = 0;
+    field_134_rects[0].y = 0;
+    field_134_rects[0].w = gPsxDisplay_504C78.field_0_width;
+    field_134_rects[0].h = gPsxDisplay_504C78.field_2_height;
+
+    field_134_rects[1].x = 0;
+    field_134_rects[1].y = 0;
+    field_134_rects[1].w = gPsxDisplay_504C78.field_0_width;;
+    field_134_rects[1].h = gPsxDisplay_504C78.field_2_height;
 }
 
 void ZapLine::UpdateSpriteVertexPositions_4795B0()
