@@ -31,8 +31,10 @@ jobs:
     vmImage: 'windows-latest'
   steps:
   - script: |
-        mkdir "C:\GOG Games\Abes Exoddus"
-        mkdir "C:\GOG Games\Abes Oddysee"
+        set AE_PATH=C:\\GOG Games\\Abes Exoddus
+        set AO_PATH=C:\\GOG Games\\Abes Oddysee
+        mkdir "C:\\GOG Games\\Abes Exoddus"
+        mkdir "C:\\GOG Games\\Abes Oddysee"
         git submodule update --init
         mkdir C:\temp
         powershell Invoke-WebRequest 'https://www.libsdl.org/release/SDL2-devel-2.0.9-VC.zip' -OutFile C:\temp\SDL2-devel-2.0.9-VC.zip
