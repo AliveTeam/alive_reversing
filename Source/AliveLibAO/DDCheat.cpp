@@ -1,5 +1,7 @@
 #include "stdafx_ao.h"
 #include "DDCheat.hpp"
+#include "PsxDisplay.hpp"
+#include "Psx.hpp"
 #include "ResourceManager.hpp"
 #include "ScreenManager.hpp"
 #include "Function.hpp"
@@ -126,9 +128,70 @@ ALIVE_VAR(1, 0x9F0E44, DWORD, dword_9F0E44, 1);
 ALIVE_VAR(1, 0x4FF854, DWORD, currentlyPressedButtons_4FF854, 0);
 ALIVE_VAR(1, 0x4C31A8, DWORD, dword_4C31A8, 10);
 
+
+template <class T>
+static void writeHeaderElement(const T& element, FILE* f)
+{
+    fwrite(&element, 1, sizeof(T), f);
+}
+
 void DDCheat::ScreenShot_409720()
 {
-    NOT_IMPLEMENTED();
+    auto pixelBuffer = reinterpret_cast<WORD*>(alloc_450740(640 * sizeof(WORD) * gPsxDisplay_504C78.field_2_height));
+    if (pixelBuffer)
+    {
+        char fileNameBuffer[16] = {};
+        sprintf(fileNameBuffer, "SD%06ld.TGA", gnFrameCount_507670 % 1000000);
+        const auto fileHandle = fopen(fileNameBuffer, "wb");
+        const PSX_RECT rect = { 0, 0, 640, static_cast<short>(gPsxDisplay_504C78.field_2_height) };
+        PSX_StoreImage_496320(&rect, pixelBuffer);
+        PSX_DrawSync_496750(0);
+
+        for (int i = 0; i < 640 * gPsxDisplay_504C78.field_2_height; i++)
+        {
+            const WORD pixel = pixelBuffer[i];
+            pixelBuffer[i] = ((pixel >> 10) & 0x1F) + (32 * (32 * (pixel & 0x1F) + ((pixel >> 5) & 0x1F)));
+        }
+
+        struct {
+            char  idlength = 0;
+            char  colourmaptype = 0;
+            char  datatypecode = 2;
+            short int colourmaporigin = 0;
+            short int colourmaplength = 0;
+            char  colourmapdepth = 0;
+            short int x_origin = 0;
+            short int y_origin = 0;
+            short width = 640;
+            short height = 480;
+            char  bitsperpixel = 16;
+            char  imagedescriptor = 0;
+        } headerTGA;
+
+        writeHeaderElement(headerTGA.idlength, fileHandle);
+        writeHeaderElement(headerTGA.colourmaptype, fileHandle);
+        writeHeaderElement(headerTGA.datatypecode, fileHandle);
+        writeHeaderElement(headerTGA.colourmaporigin, fileHandle);
+        writeHeaderElement(headerTGA.colourmaplength, fileHandle);
+        writeHeaderElement(headerTGA.colourmapdepth, fileHandle);
+        writeHeaderElement(headerTGA.x_origin, fileHandle);
+        writeHeaderElement(headerTGA.y_origin, fileHandle);
+        writeHeaderElement(headerTGA.width, fileHandle);
+        writeHeaderElement(headerTGA.height, fileHandle);
+        writeHeaderElement(headerTGA.bitsperpixel, fileHandle);
+        writeHeaderElement(headerTGA.bitsperpixel, fileHandle);
+
+        unsigned char *rowOfPixels = reinterpret_cast<unsigned char*>(pixelBuffer + 640 * 239);
+        const int rowNum = 240;
+        for(int i = 0; i < rowNum; i++)
+        {
+            fwrite(rowOfPixels, 1, 640 * sizeof(WORD), fileHandle);
+            fwrite(rowOfPixels, 1, 640 * sizeof(WORD), fileHandle);
+            rowOfPixels -= 640 * sizeof(WORD);
+        }
+        fclose(fileHandle);
+        ao_delete_free_450770(pixelBuffer);
+    }
 }
 
 EXPORT int CC sub_49AD50(int /*a1*/)
@@ -140,7 +203,7 @@ void DDCheat::VUpdate_4098C0()
 {
     if (gDDCheatMode_508BF8)
     {
-        const int otherControler = sCurrentControllerIndex_5076B8 == 0 ? 1 : 0;
+        const int otherController = sCurrentControllerIndex_5076B8 == 0 ? 1 : 0;
         Abe* pObj = sActiveHero_507678;
         int cheat_enabled = 0;
 
@@ -213,7 +276,7 @@ void DDCheat::VUpdate_4098C0()
         }
 
         const auto screenshotCombination = InputCommands::eDoAction | InputCommands::eSneak | InputCommands::eRun;
-        if ((sInputObject_5009E8.field_0_pads[otherControler].field_0_pressed & screenshotCombination) == screenshotCombination)
+        if ((sInputObject_5009E8.field_0_pads[otherController].field_0_pressed & screenshotCombination) == screenshotCombination)
         {
             ScreenShot_409720();
         }
@@ -275,8 +338,8 @@ void DDCheat::VUpdate_4098C0()
                     doNothing_4FF860 = doNothing_4FF860 == 0;
                 }
             }
-            field_24_input = sInputObject_5009E8.field_0_pads[otherControler].field_6_held;
-            auto isPressed = sInputObject_5009E8.field_0_pads[otherControler].field_0_pressed;
+            field_24_input = sInputObject_5009E8.field_0_pads[otherController].field_6_held;
+            auto isPressed = sInputObject_5009E8.field_0_pads[otherController].field_0_pressed;
             if (currentlyPressedButtons_4FF854 == isPressed && currentlyPressedButtons_4FF854)
             {
                 dword_4C31A8--;
