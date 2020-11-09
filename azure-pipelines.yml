@@ -8,6 +8,7 @@ jobs:
     vmImage: 'ubuntu-latest'
   steps:
   - script: echo hello from Linux
+
 - job: macOS
   pool:
     vmImage: 'macOS-latest'
@@ -20,27 +21,33 @@ jobs:
         cd build
         cmake -G"Unix Makefiles" ..
         make -j3
-  displayName: 'Clone and build'
+
 - job: Windows32
   pool:
     vmImage: 'windows-latest'
   steps:
-  - script: echo hello from Windows 32
-- job: Windows64
-  pool:
-    vmImage: 'windows-latest'
-  steps:
   - script: |
-        set AE_PATH=C:\\GOG Games\\Abes Exoddus
-        set AO_PATH=C:\\GOG Games\\Abes Oddysee
-        mkdir "C:\\GOG Games\\Abes Exoddus"
-        mkdir "C:\\GOG Games\\Abes Oddysee"
         git submodule update --init
         mkdir C:\temp
         powershell Invoke-WebRequest 'https://www.libsdl.org/release/SDL2-devel-2.0.9-VC.zip' -OutFile C:\temp\SDL2-devel-2.0.9-VC.zip
         7z x C:\Temp\SDL2-devel-2.0.9-VC.zip -oC:\Temp
         mkdir build
         cd build
-        cmake .. -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DSDL2_DIR=C:\Temp\SDL2-2.0.9 -G "Visual Studio 16 2019" -A Win32
+        cmake .. -G "Visual Studio 16 2019" -A Win32
         cmake --build .
         cpack.exe -G ZIP -C X86
+
+- job: Windows64
+  pool:
+    vmImage: 'windows-latest'
+  steps:
+  - script: |
+        git submodule update --init
+        mkdir C:\temp
+        powershell Invoke-WebRequest 'https://www.libsdl.org/release/SDL2-devel-2.0.9-VC.zip' -OutFile C:\temp\SDL2-devel-2.0.9-VC.zip
+        7z x C:\Temp\SDL2-devel-2.0.9-VC.zip -oC:\Temp
+        mkdir build
+        cd build
+        cmake .. -G "Visual Studio 16 2019" -A Win64
+        cmake --build .
+        cpack.exe -G ZIP -C X64
