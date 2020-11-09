@@ -43,4 +43,4 @@ jobs:
         cd build
         cmake .. -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DSDL2_DIR=C:\Temp\SDL2-2.0.9 -G "Visual Studio 16 2019" -A Win32
         cmake --build .
-        call "C:\Program Files (x86)\cmake\bin\cpack" -G ZIP -C X86
+        cpack.exe -G ZIP -C X86
