@@ -27,8 +27,11 @@ if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
     add_custom_command(TARGET AliveDllAO
                        POST_BUILD
                        COMMENT "Copying to game dir ${AO_PATH}"
+                       COMMAND echo make ${AO_PATH}
                        COMMAND if not exist "${AO_PATH}" mkdir "${AO_PATH}"
+                       COMMAND echo copy "$(OutDir)$(TargetName)$(TargetExt)" "${AO_PATH}\\AliveDllAO.dll"
                        COMMAND copy /y "$(OutDir)$(TargetName)$(TargetExt)" "${AO_PATH}\\AliveDllAO.dll"
+                       COMMAND echo copy "$(OutDir)$(TargetName).map" "${AO_PATH}\\AliveDllAO.map"
                        COMMAND copy /y "$(OutDir)$(TargetName).map" "${AO_PATH}\\AliveDllAO.map")
 endif()
 
@@ -40,10 +43,12 @@ install(FILES "${AO_PATH}\\AliveDllAO.map" DESTINATION ".")
 if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
     if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
         add_custom_command(TARGET AliveDllAO POST_BUILD
+            COMMAND echo copy "${SDL2_INCLUDE_DIR}/../lib/x86/SDL2.dll" "$(OutDir)SDL2.dll"
             COMMAND ${CMAKE_COMMAND} -E copy "${SDL2_INCLUDE_DIR}/../lib/x86/SDL2.dll" "$(OutDir)SDL2.dll")
         INSTALL(FILES "${SDL2_INCLUDE_DIR}/../lib/x86/SDL2.dll" DESTINATION ".")
     else()
         add_custom_command(TARGET AliveDllAO POST_BUILD
+            COMMAND echo copy "${SDL2_INCLUDE_DIR}/../lib/x64/SDL2.dll" "$(OutDir)SDL2.dll"
             COMMAND ${CMAKE_COMMAND} -E copy "${SDL2_INCLUDE_DIR}/../lib/x64/SDL2.dll" "$(OutDir)SDL2.dll")
         INSTALL(FILES "${SDL2_INCLUDE_DIR}/../lib/x64/SDL2.dll" DESTINATION ".")
     endif()
