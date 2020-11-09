@@ -770,7 +770,6 @@ int CC Mudokon::CreateFromSaveState_4717C0(const BYTE* pBuffer)
     pMud->field_106_current_motion = pState->field_24_current_motion;
 
     const AnimRecord& animRec = AnimRec(kMudFrameTableOffsets_55CD00[pMud->field_106_current_motion]);
-    //BYTE** ppRes = pMud->AnimBlockForMotion_474DC0(static_cast<short>(animRec.mResourceId));
     BYTE** ppRes = pMud->AnimBlockForMotion_474DC0(pState->field_24_current_motion);
     
     pMud->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
