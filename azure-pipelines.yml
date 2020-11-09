@@ -6,6 +6,7 @@ jobs:
 - job: Linux
   pool:
     vmImage: 'ubuntu-latest'
+  steps:
   - script: |
         sudo apt-get install libsdl2-dev
         git submodule update --init
@@ -30,6 +31,7 @@ jobs:
 - job: Windows32
   pool:
     vmImage: 'windows-latest'
+  steps:
   - script: |
         set AE_PATH=C:\\GOG Games\\Abes Exoddus
         set AO_PATH=C:\\GOG Games\\Abes Oddysee
