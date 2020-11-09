@@ -131,7 +131,7 @@ void DDCheat::ScreenShot_409720()
     NOT_IMPLEMENTED();
 }
 
-int __cdecl sub_49AD50(int /*a1*/)
+EXPORT int CC sub_49AD50(int /*a1*/)
 {
     return 0;
 }
