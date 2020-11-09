@@ -27,7 +27,6 @@ jobs:
         cd build
         cmake -G"Unix Makefiles" ..
         make -j4
-  displayName: 'Clone and build'
 - job: Windows32
   pool:
     vmImage: 'windows-latest'
@@ -61,6 +60,6 @@ jobs:
         7z x C:\Temp\SDL2-devel-2.0.9-VC.zip -oC:\Temp
         mkdir build
         cd build
-        cmake .. -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DSDL2_DIR=C:\Temp\SDL2-2.0.9 -G "Visual Studio 16 2019" -A Win64
+        cmake .. -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DSDL2_DIR=C:\Temp\SDL2-2.0.9 -G "Visual Studio 16 2019" -A x64
         cmake --build .
         cpack.exe -G ZIP -C X64
