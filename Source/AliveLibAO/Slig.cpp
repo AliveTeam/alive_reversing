@@ -756,7 +756,7 @@ void Slig::VUpdate_465050()
             Vshot_465C30();
         }
 
-        if (word_5076E0)
+        if (showDebugCreatureInfo_5076E0)
         {
             DebugOut_495990(
                 "Slig %d %d %d %d\n",

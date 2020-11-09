@@ -188,6 +188,9 @@ ALIVE_VAR_EXTERN(int, gFilesPending_507714);
 ALIVE_VAR_EXTERN(short, bLoadingAFile_50768C);
 ALIVE_VAR_EXTERN(DynamicArrayT<ResourceManager::ResourceManager_FileRecord>*, ObjList_5009E0);
 
+ALIVE_VAR_EXTERN(DWORD, sManagedMemoryUsedSize_9F0E48);
+ALIVE_VAR_EXTERN( DWORD, sPeakedManagedMemUsage_9F0E4C);
+
 enum ResourceID
 {
     kUnknownResID_200 = 200,

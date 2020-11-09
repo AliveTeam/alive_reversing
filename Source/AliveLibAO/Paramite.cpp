@@ -595,7 +595,7 @@ void Paramite::VUpdate_44A490()
         }
         oldBrain = field_10C_fn;
 
-        if (word_5076E0)
+        if (showDebugCreatureInfo_5076E0)
         {
             DebugOut_495990(
                 "Paramite %d %d %d %d\n",

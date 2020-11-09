@@ -72,6 +72,8 @@ public:
 
     EXPORT void VUpdate_4098C0();
 
+    EXPORT void ScreenShot_409720();
+
     EXPORT void Teleport_409CE0();
 
     EXPORT void Misc_409E90();
@@ -81,7 +83,7 @@ public:
     int field_18;
     int field_1C;
     int field_20;
-    int field_24;
+    int field_24_input;
 };
 ALIVE_ASSERT_SIZEOF(DDCheat, 0x28);
 
@@ -90,7 +92,7 @@ ALIVE_VAR_EXTERN(int, gTweak_Y_5076DC);
 
 ALIVE_VAR_EXTERN(short, sRescuedMudokons_5076C0);
 ALIVE_VAR_EXTERN(short, sKilledMudokons_5076BC);
-ALIVE_VAR_EXTERN(short, word_5076E0);
+ALIVE_VAR_EXTERN(short, showDebugCreatureInfo_5076E0);
 ALIVE_VAR_EXTERN(short, sDDCheat_FlyingEnabled_50771C);
 
 END_NS_AO
