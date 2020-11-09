@@ -23,8 +23,6 @@ endif()
 # Ninja will die when it sees $(OutDir) as it does not understand what it means, therefore if using msvc only
 # use these vars if its msvc and a native vcxproj.
 
-# Note: Copy AE dll to AO dir as the AO dll depends on it
-if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
     add_custom_command(TARGET AliveDllAE
                        POST_BUILD
                        COMMENT "Copying to game dirs ${AE_PATH} ${AO_PATH}"
@@ -36,7 +34,7 @@ if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
                        COMMAND copy /y "$(OutDir)$(TargetName)$(TargetExt)" "${AE_PATH}\\AliveDllAE.dll"
                        COMMAND echo copy $(OutDir)$(TargetName)$(TargetExt) to ${AO_PATH}\\AliveDllAE.dll
                        COMMAND copy /y "$(OutDir)$(TargetName)$(TargetExt)" "${AO_PATH}\\AliveDllAE.dll"
-                       COMMAND echo copy $(OutDir)$(TargetName).map to ${AE_PATH}\\AliveDllAE.dll
+                       COMMAND echo copy $(OutDir)$(TargetName).map to ${AE_PATH}\\AliveDllAE.map
                        COMMAND copy /y "$(OutDir)$(TargetName).map" "${AE_PATH}\\AliveDllAE.map")
 endif()
 
