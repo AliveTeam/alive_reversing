@@ -372,7 +372,7 @@ void Scrab::VUpdate_45B360()
         }
         oldBrain = field_10C_fn;
 
-        if (!word_5076E0)
+        if (!showDebugCreatureInfo_5076E0)
         {
             DebugOut_495990(
                 "Scrab %d %d %d %d\n",

@@ -434,7 +434,7 @@ void Slog::VUpdate_4739C0()
         //LOG_INFO("brain changed from " << GetOriginalFn(oldBrain, sSlogBrainTable).fnName << " to " << GetOriginalFn(sSlog_fns_brain_4CFE00[field_114_brain_idx], sSlogBrainTable).fnName);
     }
 
-    if (word_5076E0)
+    if (showDebugCreatureInfo_5076E0)
     {
         DebugOut_495990("Slog:  Motion=%d  BrainState=%d\n", field_FC_current_motion, field_116_brain_state);
     }
