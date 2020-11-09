@@ -443,7 +443,7 @@ MusicController* MusicController::ctor_47EE80()
 
     field_34_music_start_time = 0;
     field_48_last_music_frame = 0;
-    field_38 = 0;
+    field_38_unused = 0;
     field_4C_state = 0;
 
     field_4E_starting_volume = 0;
@@ -455,7 +455,7 @@ MusicController* MusicController::ctor_47EE80()
     
     field_20_vol = 100;
     field_22_vol = 127;
-    field_3C = 1;
+    field_3C_unused = 1;
     return this;
 }
 
@@ -619,7 +619,7 @@ void MusicController::Update_47F730()
         if (gMap_5C3030.field_0_current_level != field_24_currentLevelID)
         {
             field_44 = 0;
-            field_3C = 1;
+            field_3C_unused = 1;
             field_30_music_time = 0;
             field_58_flags.Clear(Flags_58::e58_Dead_Bit3);
             field_58_flags.Set(Flags_58::e58_Bit4);
@@ -754,7 +754,7 @@ void MusicController::sub_47F260()
         {
         case MusicTypes::eChime_2: // Silence/base line only?
             field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
-            field_3C = 1;
+            field_3C_unused = 1;
             SetMusicVolumeDelayed_47FB00(field_22_vol, 0);
             break;
         case MusicTypes::eType3: // The rupture farms screen change random ambiance?
@@ -767,7 +767,7 @@ void MusicController::sub_47F260()
                 idx = -1;
             }
             field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
-            field_3C = 1;
+            field_3C_unused = 1;
             SetMusicVolumeDelayed_47FB00(field_22_vol, 0);
             break;
         case MusicTypes::eTension_4: // danger near music - when slig is near
@@ -786,7 +786,7 @@ void MusicController::sub_47F260()
                 pRecord = &stru_55D424[static_cast<int>(field_24_currentLevelID)];
             }
             idx = pRecord->field_0;
-            field_3C = pRecord->field_1;
+            field_3C_unused = pRecord->field_1;
             field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
             field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5, (pRecord->field_2 & 1));
             SetMusicVolumeDelayed_47FB00(sSeqData_558D50.mSeqs[stru_55D008[pRecord->field_0].field_0_idx].field_9_volume, 0);
@@ -794,14 +794,14 @@ void MusicController::sub_47F260()
         case MusicTypes::eSlogChase_7: // chase music
             pRecord = &stru_55D3E0[static_cast<int>(field_24_currentLevelID)];
             idx = pRecord->field_0;
-            field_3C = pRecord->field_1;
+            field_3C_unused = pRecord->field_1;
             field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
             field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5, (pRecord->field_2 & 1));
             SetMusicVolumeDelayed_47FB00(sSeqData_558D50.mSeqs[stru_55D008[idx].field_0_idx].field_9_volume, 0);
             break;
         case MusicTypes::eChase_8: // slig chase?
             pRecord = &stru_55D314[static_cast<int>(field_24_currentLevelID)];
-            field_3C = pRecord->field_1;
+            field_3C_unused = pRecord->field_1;
             idx = pRecord->field_0;
             field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
             field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5, (pRecord->field_2 & 1));
@@ -811,7 +811,7 @@ void MusicController::sub_47F260()
             if (field_58_flags.Get(Flags_58::e58_UnPause_Bit6))
             {
                 pRecord = &stru_55D358[static_cast<int>(field_24_currentLevelID)];
-                field_3C = pRecord->field_1;
+                field_3C_unused = pRecord->field_1;
                 idx = stru_55D358[static_cast<int>(field_24_currentLevelID)].field_0;
                 field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
                 field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5, (pRecord->field_2 & 1));
@@ -820,31 +820,31 @@ void MusicController::sub_47F260()
             else
             {
                 field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5);
-                field_3C = 20;
+                field_3C_unused = 20;
                 SetMusicVolumeDelayed_47FB00(field_20_vol, 30);
                 field_58_flags.Set(Flags_58::e58_Bit7);
             }
             break;
         case MusicTypes::eDeathShort_10: // Death jingle short
-            field_3C = 1;
+            field_3C_unused = 1;
             idx = field_58_flags.Get(Flags_58::e58_UnPause_Bit6)? 2 : -1;
             field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
             SetMusicVolumeDelayed_47FB00(field_22_vol, 0);
             break;
         case MusicTypes::eDeathLong_11: // Death jingle long
-            field_3C = 1;
+            field_3C_unused = 1;
             idx = field_58_flags.Get(Flags_58::e58_UnPause_Bit6)? 3 : -1;
             field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
             SetMusicVolumeDelayed_47FB00(field_22_vol, 0);
             break;
         case MusicTypes::eType12: // secret area short
-            field_3C = 120;
+            field_3C_unused = 120;
             idx = field_58_flags.Get(Flags_58::e58_UnPause_Bit6)? 4 : -1;
             field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
             SetMusicVolumeDelayed_47FB00(127, 0);
             break;
         case MusicTypes::eSecretAreaLong_13: // secret area long
-            field_3C = 120;
+            field_3C_unused = 120;
             idx = field_58_flags.Get(Flags_58::e58_UnPause_Bit6)? 5 : -1;
             field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
             SetMusicVolumeDelayed_47FB00(80, 0);
@@ -852,7 +852,7 @@ void MusicController::sub_47F260()
         default: // no change ?
             SetMusicVolumeDelayed_47FB00(field_20_vol, 30);
             field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5);
-            field_3C = byte_55D468[static_cast<int>(field_24_currentLevelID)];
+            field_3C_unused = byte_55D468[static_cast<int>(field_24_currentLevelID)];
             break;
         }
 
@@ -868,7 +868,7 @@ void MusicController::sub_47F260()
             field_44 = 0;
         }
 
-        field_38 = sMusicTime_5C3024;
+        field_38_unused = sMusicTime_5C3024;
 
         if (!(field_58_flags.Get(Flags_58::e58_UnPause_Bit6)))
         {

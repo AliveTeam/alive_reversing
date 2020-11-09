@@ -6,8 +6,10 @@
 START_NS_AO
 
 class BaseGameObject;
+class BaseAliveGameObject;
 
 enum class SeqId : __int16;
+enum class LevelIds : __int16;
 
 class MusicController : public BaseGameObject
 {
@@ -54,34 +56,44 @@ public:
 
     EXPORT static void CC sub_443810(MusicTypes a1, BaseGameObject* a2, __int16 a3, __int16 a4);
 
-    EXPORT static __int16 CC sub_443840(WORD* seq1, WORD* seq2, WORD* seqTime);
+    EXPORT static MusicTypes CC sub_443840(SeqId * seq1, SeqId * seq2, WORD* seqTime);
+
+    EXPORT void sub_442A10();
 
     static EXPORT void Shutdown_4437E0();
 
     static EXPORT void CC EnableMusic_443900(__int16 bEnable);
 
+    static EXPORT int CC OnRootCounter_4437D0();
+
+    EXPORT void sub_443460(MusicTypes a2, BaseGameObject* a3, __int16 a4, __int16 a5);
+
+    EXPORT void sub_442C20();
+
+    EXPORT void sub_442AC0();
+
     __int16 field_10;
     __int16 field_12;
     __int16 field_14;
     __int16 field_16;
-    __int16 field_18;
+    LevelIds field_18_level;
     __int16 field_1A;
-    int field_1C;
+    BaseGameObject* field_1C_pObj;
     __int16 field_20;
     __int16 field_22;
     __int16 field_24;
-    __int16 field_26;
+    SeqId field_26_seq;
     int field_28;
     int field_2C;
     int field_30;
     int field_34;
-    SeqId field_38;
-    __int16 field_3A;
+    SeqId field_38_seq;
+    MusicTypes field_3A;
     int field_3C;
     int field_40;
     __int16 field_44;
     __int16 field_46;
-    __int16 field_48;
+    __int16 field_48_state;
     __int16 field_4A;
     __int16 field_4C;
     __int16 field_4E;

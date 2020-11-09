@@ -301,9 +301,9 @@ void CC SaveGame::Save_459490(SaveData* pSaveData)
         pSaveData->field_27A_elum_brain_state = gElum_507680->field_12A_brain_state;
         pSaveData->field_284_elum_field_130 = gElum_507680->field_130;
         pSaveData->field_280_honey_ypos = gElum_507680->field_146;
-        pSaveData->field_288_elumflag1 = gElum_507680->field_170_flags.Get(Elum::Flags_170::eAttackedByBees_Bit1);
-        pSaveData->field_289_elumflag2 = gElum_507680->field_170_flags.Get(Elum::Flags_170::eBit2);
-        pSaveData->field_28A_elumflag3 = gElum_507680->field_170_flags.Get(Elum::Flags_170::eBit3);
+        pSaveData->field_288_elumflag1 = gElum_507680->field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1);
+        pSaveData->field_289_elumflag2 = gElum_507680->field_170_flags.Get(Elum::Flags_170::eStungByBees_Bit2);
+        pSaveData->field_28A_elumflag3 = gElum_507680->field_170_flags.Get(Elum::Flags_170::eFalling_Bit3);
         pSaveData->field_28B_elumflag4 = gElum_507680->field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4);
     }
     if (sGasTimer_507700)

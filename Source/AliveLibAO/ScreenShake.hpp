@@ -2,6 +2,7 @@
 
 #include "FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
+#include "Primitives.hpp"
 
 START_NS_AO
 
@@ -24,14 +25,7 @@ public:
 
     EXPORT BaseGameObject* dtor_462550();
 
-    int field_10;
-    int field_14;
-    int field_18;
-    int field_1C;
-    int field_20;
-    int field_24;
-    int field_28;
-    int field_2C;
+    Prim_ScreenOffset field_10_screenOffset[2];
     __int16 field_30_shakeNumber;
     __int16 field_32_enableShakeEvent;
 };

@@ -1052,7 +1052,7 @@ void Slog::State_0_Idle_4742E0()
                         field_A8_xpos,
                         field_AC_ypos) >= CameraPos::eCamCurrent_0)
                 {
-                    if (MusicController::sub_443840(0, 0, 0) == 9)
+                    if (MusicController::sub_443840(0, 0, 0) == MusicController::MusicTypes::eType9)
                     {
                         MusicController::sub_443810(MusicController::MusicTypes::eType9, this, 0, 0);
                     }
@@ -2320,7 +2320,7 @@ __int16 Slog::Brain_1_Idle_4719C0()
 
     case 1:
         if (Event_Is_Event_In_Range_417270(
-            kEvent_10,
+            kEventSuspiciousNoise_10,
             field_A8_xpos,
             field_AC_ypos,
             field_BC_sprite_scale))
@@ -2372,7 +2372,7 @@ __int16 Slog::Brain_1_Idle_4719C0()
 
     case 4:
         if (Event_Is_Event_In_Range_417270(
-            kEvent_10,
+            kEventSuspiciousNoise_10,
             field_A8_xpos,
             field_AC_ypos,
             field_BC_sprite_scale))
@@ -2443,7 +2443,7 @@ __int16 Slog::Brain_1_Idle_4719C0()
 
     case 5:
         if (Event_Is_Event_In_Range_417270(
-            kEvent_10,
+            kEventSuspiciousNoise_10,
             field_A8_xpos,
             field_AC_ypos,
             field_BC_sprite_scale))

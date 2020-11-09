@@ -9,6 +9,8 @@
 #include "MusicTrigger.hpp"
 #include "Sfx.hpp"
 #include "Midi.hpp"
+#include "ScreenManager.hpp"
+#include "ShadowZone.hpp"
 
 START_NS_AO
 
@@ -309,9 +311,126 @@ void FlintLockFire::VRender(int** pOrderingTable)
     VRender_41B0F0(pOrderingTable);
 }
 
-void FlintLockFire::VRender_41B0F0(int** /*ppOt*/)
+void FlintLockFire::VRender_41B0F0(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
+    {
+        const int cur_lvl = static_cast<int>(gMap_507BA8.field_0_current_level);
+        field_10_anim.field_14_scale = field_BC_sprite_scale;
+        field_F0_anim.field_14_scale = field_BC_sprite_scale;
+
+        if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
+        {
+            field_188_anim.field_14_scale = (field_BC_sprite_scale * FP_FromDouble(1.33));
+            field_220_anim.field_14_scale = field_BC_sprite_scale;
+        }
+
+        short r = field_C0_r;
+        short g = field_C2_g;
+        short b = field_C4_b;
+
+        PSX_RECT bRect = {};
+        VGetBoundingRect(&bRect, 1);
+
+        if (field_CC_bApplyShadows & 1)
+        {
+            ShadowZone::ShadowZones_Calculate_Colour_435FF0(
+                FP_GetExponent(field_A8_xpos),
+                FP_GetExponent(FP_FromInteger((bRect.y + bRect.h) / 2)),
+                field_C6_scale,
+                &r,
+                &g,
+                &b);
+        }
+
+
+        field_10_anim.field_8_r = static_cast<BYTE>(r);
+        field_10_anim.field_9_g = static_cast<BYTE>(g);
+        field_10_anim.field_A_b = static_cast<BYTE>(b);
+
+        field_F0_anim.field_8_r = static_cast<BYTE>(r);
+        field_F0_anim.field_9_g = static_cast<BYTE>(g);
+        field_F0_anim.field_A_b = static_cast<BYTE>(b);
+
+        if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
+        {
+            field_188_anim.field_8_r = static_cast<BYTE>(r);
+            field_188_anim.field_9_g = static_cast<BYTE>(g);
+            field_188_anim.field_A_b = static_cast<BYTE>(b);
+
+            field_220_anim.field_8_r = static_cast<BYTE>(r);
+            field_220_anim.field_9_g = static_cast<BYTE>(g);
+            field_220_anim.field_A_b = static_cast<BYTE>(b);
+
+            field_220_anim.vRender(
+                FP_GetExponent(field_A8_xpos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
+                FP_GetExponent(field_AC_ypos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_C8_yOffset - 28)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+                ppOt,
+                0,
+                0);
+
+            field_188_anim.vRender(
+                FP_GetExponent(field_A8_xpos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos - 3)) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
+                FP_GetExponent(field_AC_ypos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_C8_yOffset - 28))  - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+                ppOt,
+                0,
+                0);
+        }
+
+        field_10_anim.vRender(
+            FP_GetExponent(field_A8_xpos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
+            FP_GetExponent(field_AC_ypos + (FP_FromInteger(field_C8_yOffset + pScreenManager_4FF7C8->field_16_ypos)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+            ppOt,
+            0,
+            0);
+
+        field_F0_anim.vRender(
+            FP_GetExponent(field_A8_xpos
+                + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)
+                - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
+            FP_GetExponent(field_AC_ypos
+                + (FP_FromInteger(field_C8_yOffset + pScreenManager_4FF7C8->field_16_ypos))
+                - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+            ppOt,
+            0,
+            0);
+
+        PSX_RECT frameRect = {};
+        field_10_anim.Get_Frame_Rect_402B50(&frameRect);
+        pScreenManager_4FF7C8->InvalidateRect_406E40(
+            frameRect.x,
+            frameRect.y,
+            frameRect.w,
+            frameRect.h,
+            pScreenManager_4FF7C8->field_2E_idx);
+
+        field_F0_anim.Get_Frame_Rect_402B50(&frameRect);
+        pScreenManager_4FF7C8->InvalidateRect_406E40(
+            frameRect.x,
+            frameRect.y,
+            frameRect.w,
+            frameRect.h,
+            pScreenManager_4FF7C8->field_2E_idx);
+
+        if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
+        {
+            field_188_anim.Get_Frame_Rect_402B50(&frameRect);
+            pScreenManager_4FF7C8->InvalidateRect_406E40(
+                frameRect.x,
+                frameRect.y,
+                frameRect.w,
+                frameRect.h,
+                pScreenManager_4FF7C8->field_2E_idx);
+
+            field_220_anim.Get_Frame_Rect_402B50(&frameRect);
+            pScreenManager_4FF7C8->InvalidateRect_406E40(
+                frameRect.x,
+                frameRect.y,
+                frameRect.w,
+                frameRect.h,
+                pScreenManager_4FF7C8->field_2E_idx);
+        }
+    }
 }
 
 END_NS_AO

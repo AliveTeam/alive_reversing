@@ -55,7 +55,7 @@ enum class Types : __int16
     ePalOverwriter_44 = 44,
     eType_45_EvilFart = 45,
     eBaseBomb_46 = 46,
-    eType_47 = 47,
+    eSecurityClaw_47 = 47,
     eRockSpawner_48 = 48,
     eType_49 = 49,
     eFleech_50 = 50,

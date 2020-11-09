@@ -3,6 +3,7 @@
 #include "Shadow.hpp"
 #include "Game.hpp"
 #include "ResourceManager.hpp"
+#include "ScreenManager.hpp"
 
 START_NS_AO
 
@@ -41,9 +42,39 @@ void Shadow::Calculate_Position_462040(FP /*xpos*/, FP /*ypos*/, PSX_RECT* /*pRe
     NOT_IMPLEMENTED();
 }
 
-void Shadow::Render_462410(int** /*ppOt*/)
+void Shadow::Render_462410(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    if (field_14_flags.Get(Flags::eBit2_Enabled))
+    {
+        field_18_animation.field_14_scale = FP_FromInteger(1);
+        
+        BYTE rgb = 63;
+        if (field_10_scale != FP_FromDouble(0.5))
+        {
+            rgb = 127;
+        }
+
+        field_18_animation.field_8_r = rgb;
+        field_18_animation.field_9_g = rgb;
+        field_18_animation.field_A_b = rgb;
+
+        field_18_animation.VRender_403AE0(
+            // Note: OG converted to FP and back here but its pointless
+            field_0_x1,
+            field_2_y1,
+            ppOt,
+            (field_4_x2 - field_0_x1) + 1,
+            (field_6_y2 - field_2_y1) + 1);
+
+        PSX_RECT frameRect = {};
+        field_18_animation.Get_Frame_Rect_402B50(&frameRect);
+        pScreenManager_4FF7C8->InvalidateRect_406E40(
+            frameRect.x,
+            frameRect.y,
+            frameRect.w,
+            frameRect.h,
+            pScreenManager_4FF7C8->field_2E_idx);
+    }
 }
 
 END_NS_AO

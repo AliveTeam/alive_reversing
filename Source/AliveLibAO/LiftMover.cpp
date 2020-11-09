@@ -137,35 +137,37 @@ void LiftMover::VUpdate_4055C0()
         break;
 
     case 2:
-        if (pLiftPoint->OnAnyFloor())
+        if (!pLiftPoint->OnAFloorLiftMoverCanUse())
+        {
+            pLiftPoint->Move_435740(FP_FromInteger(0), field_1C_speed, 0);
+        }
+        else
         {
             pLiftPoint->Move_435740(FP_FromInteger(0), FP_FromInteger(0), 0);
             field_20_state = 5;
         }
-        else
-        {
-            pLiftPoint->Move_435740(FP_FromInteger(0), field_1C_speed, 0);
-        }
         break;
 
     case 3:
-        if (!pLiftPoint->OnAnyFloor())
+        if (pLiftPoint->OnAFloorLiftMoverCanUse())
         {
-            pLiftPoint->field_27A_flags.Set(LiftPoint::Flags::eBit8_KeepOnMiddleFloor);
-            field_20_state = 4;
-        }
-        else
-        {
+            pLiftPoint->Move_435740(FP_FromInteger(0), field_1C_speed, 0);
+
             if (field_1C_speed > FP_FromInteger(0) && pLiftPoint->OnBottomFloor() ||
                 field_1C_speed < FP_FromInteger(0) && pLiftPoint->OnTopFloor())
             {
                 field_20_state = 2;
             }
         }
+        else
+        {
+            pLiftPoint->field_27A_flags.Set(LiftPoint::Flags::eBit8_KeepOnMiddleFloor);
+            field_20_state = 4;
+        }
         break;
 
     case 4:
-        if (pLiftPoint->OnAnyFloor())
+        if (pLiftPoint->OnAFloorLiftMoverCanUse())
         {
             pLiftPoint->Move_435740(FP_FromInteger(0), FP_FromInteger(0), 0);
             field_20_state = 0;
@@ -208,7 +210,7 @@ LiftPoint* LiftMover::FindLiftPointWithId(short id)
         if (pItem->field_4_typeId == Types::eLiftPoint_51)
         {
             auto pLiftPoint = static_cast<LiftPoint*>(pItem);
-            if (pLiftPoint->field_278 == id)
+            if (pLiftPoint->field_278_point_id == id)
             {
                 return pLiftPoint;
             }

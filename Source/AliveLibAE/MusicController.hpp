@@ -91,8 +91,8 @@ private:
     __int16 field_2E_padding;
     DWORD field_30_music_time;
     DWORD field_34_music_start_time;
-    DWORD field_38;
-    DWORD field_3C;
+    DWORD field_38_unused;
+    DWORD field_3C_unused;
     __int16 field_40_flags_and_idx;
     MusicTypes field_42_type;
     int field_44;

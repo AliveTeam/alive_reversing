@@ -24,4 +24,6 @@ EXPORT void CC PolyG4_Init_498890(Poly_G4* pPoly);
 
 EXPORT void CC Prim_Init_Poly_G3_498870(Poly_G3* pPrim);
 
+EXPORT void CC InitType_ScreenOffset_496000(Prim_ScreenOffset* pPrim, const PSX_Pos16* pOffset);
+
 END_NS_AO

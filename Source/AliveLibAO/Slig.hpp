@@ -174,7 +174,7 @@ enum class SligSfx : __int8
 struct Path_Slig_Bound : public Path_TLV
 {
     __int16 field_18_slig_id;
-    __int16 field_1A_disabled_resources;
+    BitField16<SligFlags_DisabledRes> field_1A_disabled_resources;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slig_Bound, 0x1C);
 

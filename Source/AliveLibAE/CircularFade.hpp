@@ -12,15 +12,15 @@ public:
     virtual void VScreenChanged() override;
 
     // New virtuals
-    virtual int Vsub_4CE300(__int16 direction, char destroyOnDone);
-    virtual int Vsub_4CE0B0();
+    virtual int VFadeIn_4CE300(__int16 direction, char destroyOnDone);
+    virtual int VDone_4CE0B0();
 
     EXPORT CircularFade* ctor_4CE100(FP xpos, FP ypos, FP scale, __int16 direction, char destroyOnDone);
 private:
     EXPORT void vRender_4CE3F0(int **pOt);
     EXPORT void vUpdate_4CE380();
-    EXPORT int vsub_4CE300(__int16 direction, char destroyOnDone); // TODO: Likely no return
-    EXPORT int vsub_4CE0B0();
+    EXPORT int vFadeIn_4CE300(__int16 direction, char destroyOnDone); // TODO: Likely no return
+    EXPORT int vDone_4CE0B0();
     EXPORT void dtor_4CE080();
     EXPORT CircularFade* vdtor_4CE0D0(signed int flags);
 private:

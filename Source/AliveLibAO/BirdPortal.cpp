@@ -1025,15 +1025,99 @@ void BirdPortal::VMudSaved_453830()
     field_56_num_muds_for_shrykul--;
 }
 
-void BirdPortal::VGetMapChange_453840(LevelIds* /*level*/, WORD* /*path*/, WORD* /*camera*/, CameraSwapEffects* /*screenChangeEffect*/, WORD* /*movieId*/)
+void BirdPortal::VGetMapChange_453840(LevelIds* level, WORD* path, WORD* camera, CameraSwapEffects* screenChangeEffect, WORD* movieId)
 {
-    NOT_IMPLEMENTED();
+    *level = field_50_dest_level;
+    *path = field_52_dest_path;
+    *camera = field_54_dest_camera;
+
+    // Positive
+    if (field_38_movie_id > 0)
+    {
+        *movieId = field_38_movie_id;
+        *screenChangeEffect = CameraSwapEffects::eEffect5_1_FMV;
+        return;
+    }
+
+    // Zero
+    if (field_38_movie_id == 0)
+    {
+        *screenChangeEffect = CameraSwapEffects::eEffect0_InstantChange;
+        return;
+    }
+
+    // Negative cases - dead code ??
+    if (sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone) && sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabinaDone))
+    {
+        *movieId = 1617 - (10000 * field_38_movie_id);
+        *screenChangeEffect = CameraSwapEffects::eEffect5_1_FMV;
+        return;
+    }
+
+    *movieId = 17 - (100 * field_38_movie_id);
+    *screenChangeEffect = CameraSwapEffects::eEffect5_1_FMV;
 }
 
-__int16 BirdPortal::Vsub_4533E0(__int16 /*bUnknown*/)
+__int16 BirdPortal::Vsub_4533E0(__int16 bUnknown)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (bUnknown && field_14_state != States::State_6)
+    {
+        return 0;
+    }
+
+    if (field_44_pScreenClipper)
+    {
+        return 1;
+    }
+
+    const short portalX = static_cast<short>(PsxToPCX(pScreenManager_4FF7C8->field_14_xpos + FP_GetExponent(field_18_xpos) - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x), 11));
+
+    PSX_Point xy = {};
+    PSX_Point wh = {};
+    if (field_12_side != PortalSide::eRight_0)
+    {
+        xy.field_0_x = 0;
+        wh.field_0_x = portalX;
+    }
+    else
+    {
+        xy.field_0_x = portalX;
+        wh.field_0_x = 640;
+    }
+
+    xy.field_2_y = 0;
+    wh.field_2_y = 240;
+
+    field_44_pScreenClipper = ao_new<ScreenClipper>();
+    if (field_44_pScreenClipper)
+    {
+        field_44_pScreenClipper->ctor_40BD60(xy, wh, 0);
+
+        if (field_34_scale == FP_FromInteger(1))
+        {
+            field_44_pScreenClipper->field_38_ot_layer = 29;
+        }
+        else
+        {
+            field_44_pScreenClipper->field_38_ot_layer = 10;
+        }
+    }
+
+    field_48_pScreenClipper = ao_new<ScreenClipper>();
+    if (field_48_pScreenClipper)
+    {
+        field_48_pScreenClipper->ctor_40BD60({ 0, 0 }, { 640, 240 }, 0);
+        if (field_34_scale == FP_FromInteger(1))
+        {
+            field_48_pScreenClipper->field_38_ot_layer = 31;
+        }
+        else
+        {
+            field_48_pScreenClipper->field_38_ot_layer = 12;
+        }
+    }
+
+    return 1;
 }
 
 END_NS_AO

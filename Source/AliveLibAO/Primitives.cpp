@@ -63,4 +63,12 @@ void CC Prim_Init_Poly_G3_498870(Poly_G3* pPrim)
     SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyG3);
 }
 
+void CC InitType_ScreenOffset_496000(Prim_ScreenOffset* pPrim, const PSX_Pos16* pOffset)
+{
+    SetUnknown(&pPrim->mBase);
+    SetCode(&pPrim->mBase, PrimTypeCodes::eScreenOffset);
+    pPrim->field_C_xoff = pOffset->x;
+    pPrim->field_E_yoff = pOffset->y;
+}
+
 END_NS_AO

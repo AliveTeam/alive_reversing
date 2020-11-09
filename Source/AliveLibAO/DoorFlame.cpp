@@ -8,6 +8,8 @@
 #include "Math.hpp"
 #include "Sfx.hpp"
 #include "ScreenManager.hpp"
+#include "CameraSwapper.hpp"
+#include "PsxDisplay.hpp"
 
 START_NS_AO
 
@@ -244,9 +246,66 @@ public:
         VRender_432640(pOrderingTable);
     }
 
-    EXPORT void VRender_432640(int** /*ppOt*/)
+    EXPORT void VRender_432640(int** ppOt)
     {
-        NOT_IMPLEMENTED();
+        if (sNumCamSwappers_507668 == 0)
+        {
+            if (field_E4_bRender)
+            {
+                field_10_anim.field_9_g = 32;
+                field_10_anim.field_A_b = 32;
+                field_10_anim.field_8_r = 32;
+
+                const FP_Point* pCamPos = pScreenManager_4FF7C8->field_10_pCamPos;
+
+                const FP screen_left = pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
+                const FP screen_right = pCamPos->field_0_x + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
+                const FP screen_top = pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
+                const FP screen_bottom = pCamPos->field_4_y + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
+
+                field_10_anim.VRender_403AE0(
+                    FP_GetExponent(PsxToPCX(field_A8_xpos - screen_left)),
+                    FP_GetExponent(field_AC_ypos - screen_top),
+                    ppOt,
+                    0,
+                    0);
+
+                PSX_RECT frameRect = {};
+                field_10_anim.Get_Frame_Rect_402B50(&frameRect);
+                pScreenManager_4FF7C8->InvalidateRect_406E40(
+                    frameRect.x,
+                    frameRect.y,
+                    frameRect.w,
+                    frameRect.h,
+                    pScreenManager_4FF7C8->field_2E_idx);
+
+                for (auto& anim : field_E8_sparks)
+                {
+                    if (anim.field_12_bVisible)
+                    {
+                        if (anim.field_0_x >= screen_left && anim.field_0_x <= screen_right)
+                        {
+                            if (anim.field_4_y >= screen_top && anim.field_4_y <= screen_bottom)
+                            {
+                                anim.field_14.VRender2(
+                                    FP_GetExponent(PsxToPCX(anim.field_0_x - screen_left)),
+                                    FP_GetExponent(anim.field_4_y - screen_top),
+                                    ppOt);
+
+                               anim.field_14.GetRenderedSize_404220(&frameRect);
+                                pScreenManager_4FF7C8->InvalidateRect_406E40(
+                                    frameRect.x,
+                                    frameRect.y,
+                                    frameRect.w,
+                                    frameRect.h,
+                                    pScreenManager_4FF7C8->field_2E_idx);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
     }
 
     int field_D4[4];

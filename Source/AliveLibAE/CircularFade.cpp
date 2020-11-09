@@ -26,14 +26,14 @@ void CircularFade::VScreenChanged()
     // null sub
 }
 
-int CircularFade::Vsub_4CE300(__int16 direction, char destroyOnDone)
+int CircularFade::VFadeIn_4CE300(__int16 direction, char destroyOnDone)
 {
-    return vsub_4CE300(direction, destroyOnDone);
+    return vFadeIn_4CE300(direction, destroyOnDone);
 }
 
-int CircularFade::Vsub_4CE0B0()
+int CircularFade::VDone_4CE0B0()
 {
-    return vsub_4CE0B0();
+    return vDone_4CE0B0();
 }
 
 CircularFade* CircularFade::ctor_4CE100(FP xpos, FP ypos, FP scale, __int16 direction, char destroyOnDone)
@@ -53,7 +53,7 @@ CircularFade* CircularFade::ctor_4CE100(FP xpos, FP ypos, FP scale, __int16 dire
         field_1B8_fade_colour = 255;
     }
 
-    vsub_4CE300(direction, destroyOnDone);
+    vFadeIn_4CE300(direction, destroyOnDone);
 
     const BYTE fade_rgb = static_cast<BYTE>((field_1B8_fade_colour * 60) / 100);
     field_D4_b = fade_rgb;
@@ -226,9 +226,9 @@ void CircularFade::vUpdate_4CE380()
     }
 }
 
-int CircularFade::vsub_4CE300(__int16 direction, char destroyOnDone) // TODO: Likely no return
+int CircularFade::vFadeIn_4CE300(__int16 direction, char destroyOnDone) // TODO: Likely no return
 {
-    ++sNum_CamSwappers_5C1B66;
+    sNum_CamSwappers_5C1B66++;
 
     field_F4_flags.Set(Flags::eBit1_FadeIn, direction);
 
@@ -249,7 +249,7 @@ int CircularFade::vsub_4CE300(__int16 direction, char destroyOnDone) // TODO: Li
     return field_F4_flags.Raw().all;
 }
 
-int CircularFade::vsub_4CE0B0()
+int CircularFade::vDone_4CE0B0()
 {
     return field_F4_flags.Get(Flags::eBit2_Done);
 }

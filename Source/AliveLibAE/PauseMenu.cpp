@@ -877,7 +877,7 @@ void PauseMenu_ForceLink() {
             const auto levelSelectEntry = gPerLvlData_561700[pm->index];
             pm->ClosePauseMenu();
             sActiveHero_5C1B68->field_106_current_motion = eAbeStates::State_3_Fall_459B60;
-            sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7);
+            sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
             sActiveHero_5C1B68->field_C2_lvl_number = levelSelectEntry.field_4_level;
             sActiveHero_5C1B68->field_C0_path_number = levelSelectEntry.field_6_path;
             sActiveHero_5C1B68->field_100_pCollisionLine = nullptr;
@@ -1531,7 +1531,7 @@ void PauseMenu::Update_48FD80()
                 && heroState != eAbeStates::jState_81_WellBegin_45C7F0
                 && heroState != eAbeStates::State_82_InsideWellExpress_45CC80
                 && heroState != eAbeStates::State_83_WellExpressShotOut_45CF70
-                && (sControlledCharacter_5C1B8C->field_4_typeId != Types::eType_45_EvilFart || LOWORD(static_cast<Abe*>(sControlledCharacter_5C1B8C)->field_124_gnFrame) != 2) // TODO: Cast seems wrong, missing intermediate base class??
+                && (sControlledCharacter_5C1B8C->field_4_typeId != Types::eType_45_EvilFart || LOWORD(static_cast<Abe*>(sControlledCharacter_5C1B8C)->field_124_timer) != 2) // TODO: Cast seems wrong, missing intermediate base class??
                 && sActiveHero_5C1B68->field_1A8_portal_id == -1)
             {
                 if (sQuicksave_SaveNextFrame_5CA4D8)
@@ -1579,7 +1579,7 @@ void PauseMenu::Update_48FD80()
                 && heroState != eAbeStates::jState_81_WellBegin_45C7F0
                 && heroState != eAbeStates::State_82_InsideWellExpress_45CC80
                 && heroState != eAbeStates::State_83_WellExpressShotOut_45CF70
-                && (pControlledChar->field_4_typeId != Types::eType_45_EvilFart || LOWORD(static_cast<Abe*>(pControlledChar)->field_124_gnFrame) != 2) // TODO: Why LOWORD only ?? TODO: Cast seems wrong, missing intermediate base class??
+                && (pControlledChar->field_4_typeId != Types::eType_45_EvilFart || LOWORD(static_cast<Abe*>(pControlledChar)->field_124_timer) != 2) // TODO: Why LOWORD only ?? TODO: Cast seems wrong, missing intermediate base class??
                 && pHero->field_1A8_portal_id == -1)
             {
                 SND_StopAll_4CB060();

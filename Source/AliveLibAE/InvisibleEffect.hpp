@@ -15,12 +15,24 @@ public:
         eBlending_Bit2 = 0x2,
         eIsInvisible_Bit3 = 0x4 //TODO @ 100% Remove it - Never actually checked for
     };
+
+    enum class InvisibleState : unsigned __int16
+    {
+        eSetRenderMode1_0 = 0,
+        eSetInvisibile_1 = 1,
+        eBecomeInvisible_2 = 2,
+        eUnknown_3 = 3,
+        eBecomeVisible_4 = 4,
+        eClearInvisibility_5 = 5,
+        eSetDead_6 = 6
+    };
+
     EXPORT InvisibleEffect* ctor_45F280(BaseAliveGameObject* pTarget);
     EXPORT void dtor_45F410();
-    EXPORT void sub_45FA00();
-    EXPORT void sub_45FA30();
-    EXPORT void sub_45FA50();
-    EXPORT void sub_45F9E0();
+    EXPORT void InstantInvisibility_45FA00();
+    EXPORT void BecomeVisible_45FA30();
+    EXPORT void ClearInvisibility_45FA50();
+    EXPORT void BecomeInvisible_45F9E0();
     EXPORT void vUpdate_45F4A0();
     EXPORT BaseGameObject* vdtor_45F3E0(signed int flags);
 
@@ -29,7 +41,7 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    unsigned __int16 field_20_state_or_op;
+    InvisibleState field_20_state_or_op;
     __int16 field_22;
     WORD* field_24_pAlloc;
     PSX_RECT field_28;

@@ -45,6 +45,20 @@ EXPORT void CC InputObject::Shutdown_433230()
     NOT_IMPLEMENTED();
 }
 
+
+void InputObject::SetDemoRes_433470(BYTE** ppDemoRes)
+{
+    field_1C_demo_command_index = 2051;
+    field_18_demo_res = ppDemoRes;
+    field_20_demo_playing |= 1u;
+    field_28_command_duration = 0;
+}
+
+int InputObject::IsDemoPlaying_4334A0()
+{
+    return field_20_demo_playing & 1;
+}
+
 bool InputObject::isPressed(DWORD command)
 {
     return (this->field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed & command) != 0;

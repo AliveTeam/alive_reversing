@@ -6,6 +6,8 @@
 #include "Game.hpp"
 #include "Map.hpp"
 #include "stdlib.hpp"
+#include "CameraSwapper.hpp"
+#include "ScreenManager.hpp"
 
 START_NS_AO
 
@@ -272,9 +274,61 @@ void Gibs::VRender(int** pOrderingTable)
 }
 
 
-void Gibs::VRender_408200(int** /*ppOt*/)
+void Gibs::VRender_408200(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    if (sNumCamSwappers_507668 != 0)
+    {
+        // Don't do anything during screen change
+        return;
+    }
+
+    field_BC_sprite_scale = FP_FromInteger(100) / (field_E8_z + FP_FromInteger(100));
+
+    // Head part rendering
+    BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+
+    const FP_Point* pCamPos = pScreenManager_4FF7C8->field_10_pCamPos;
+    const FP left = pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
+    const FP right = pCamPos->field_0_x + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
+
+    const FP up = pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
+    const FP down = pCamPos->field_4_y + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
+
+    for (int i = 0; i < field_5C4_parts_used_count; i++)
+    {
+        GibPart* pGib = &field_F4_parts[i];
+        if (pGib->field_0_x >= left && pGib->field_0_x <= right)
+        {
+            if (pGib->field_4_y >= up && pGib->field_4_y <= down)
+            {
+                pGib->field_18_anim.field_14_scale = FP_FromInteger(100) / (pGib->field_8_z + FP_FromInteger(100));
+                if (pGib->field_18_anim.field_14_scale < FP_FromInteger(1))
+                {
+                    pGib->field_18_anim.field_C_layer = 17;
+                }
+                else
+                {
+                    pGib->field_18_anim.field_C_layer = 37;
+                }
+
+                pGib->field_18_anim.VRender_403AE0(
+                    FP_GetExponent(pGib->field_0_x - left),
+                    FP_GetExponent(pGib->field_4_y - up),
+                    ppOt,
+                    0,
+                    0);
+
+                PSX_RECT frameRect = {};
+                pGib->field_18_anim.Get_Frame_Rect_402B50(&frameRect);
+                pScreenManager_4FF7C8->InvalidateRect_406E40(
+                    frameRect.x,
+                    frameRect.y,
+                    frameRect.w,
+                    frameRect.h,
+                    pScreenManager_4FF7C8->field_2E_idx);
+            }
+        }
+    }
 }
 
 BaseGameObject* Gibs::VDestructor(signed int flags)

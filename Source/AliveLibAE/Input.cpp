@@ -139,7 +139,7 @@ ALIVE_ARY(1, 0x55EAD8, InputBinding, 36, sDefaultKeyBindings_55EAD8, {
     { 0, static_cast<InputCommands>(0) }
 });
 
-const int sInputUnknown_55EA2C[] = { 32, 1049088, 128, 2097408, 8388608, 16, 16777216, 64, 0, 1572864 };
+const int sDefaultGameBindings_55EA2C[10] = { 32, 1049088, 128, 2097408, 8388608, 16, 16777216, 64, 0, 1572864 };
 
 
 // For joysticks with very little buttons, depending on strength of joystick, will make abe
@@ -1785,7 +1785,7 @@ EXPORT void CC Input_Init_491BC0()
         sKeyboardBindings_5C9930[kb->key] = kb->command;
     }
 
-    memcpy(sGamePadBindings_5C98E0, &sInputUnknown_55EA2C, sizeof(sInputUnknown_55EA2C));
+    memcpy(sGamePadBindings_5C98E0, &sDefaultGameBindings_55EA2C, sizeof(sDefaultGameBindings_55EA2C));
     Input_LoadSettingsIni_492D40();
     Input_Init_Names_491870();
     Input_SetCallback_4FA910(Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150);

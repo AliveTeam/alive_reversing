@@ -182,7 +182,7 @@ void SlapLock::GiveInvisibility_43E880()
     field_118_pTlv = static_cast<Path_SlapLock*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_11C_tlvInfo));
     if (sActiveHero_5C1B68)
     {
-        sActiveHero_5C1B68->field_176 = field_118_pTlv->field_1C_powerup_id;
+        sActiveHero_5C1B68->field_176_invisibility_id = field_118_pTlv->field_1C_powerup_id;
         sActiveHero_5C1B68->field_16C_bHaveShrykull = 0;
         sActiveHero_5C1B68->field_16E_bHaveInvisiblity = 1;
         sActiveHero_5C1B68->field_168_ring_pulse_timer = sGnFrame_5C1B84 + 200000;
