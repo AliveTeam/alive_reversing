@@ -61,6 +61,7 @@
 START_NS_AO;
 
 ALIVE_VAR(1, 0x5076E4, short, gAbeInvulnerableCheat_5076E4, 0);
+ALIVE_VAR(1, 0x5076F8, short, gAbeInvisibleCheat_5076F8, 0);
 
 ALIVE_VAR_EXTERN(SaveData, gSaveBuffer_505668);
 

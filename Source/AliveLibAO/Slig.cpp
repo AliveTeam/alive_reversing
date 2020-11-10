@@ -758,7 +758,7 @@ void Slig::VUpdate_465050()
 
         if (showDebugCreatureInfo_5076E0)
         {
-            DebugOut_495990(
+            DDCheat::DebugOut_495990(
                 "Slig %d %d %d %d\n",
                 field_10E_brain_state,
                 field_114_timer,
