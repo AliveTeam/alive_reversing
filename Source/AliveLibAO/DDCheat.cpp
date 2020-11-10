@@ -484,9 +484,79 @@ void DDCheat::Teleport_409CE0()
     }
 }
 
+ALIVE_VAR(1, 0x4C3158, DWORD, gScale_4C3158, 100);
+
 void DDCheat::Misc_409E90()
 {
-    NOT_IMPLEMENTED();
+    if (field_24_input & InputCommands::eLeft)
+    {
+        gScale_4C3158 = 100;
+        sControlledCharacter_50767C->field_BC_sprite_scale = FP_FromInteger(1);
+        sControlledCharacter_50767C->field_C6_scale = 1;
+        sControlledCharacter_50767C->field_10_anim.field_C_layer = 32;
+    }
+    else if (field_24_input & InputCommands::eRight)
+    {
+        sControlledCharacter_50767C = sControlledCharacter_50767C;
+        gScale_4C3158 = 50;
+        sControlledCharacter_50767C->field_BC_sprite_scale = FP_FromDouble(0.5);
+        sControlledCharacter_50767C->field_C6_scale = 0;
+        sControlledCharacter_50767C->field_10_anim.field_C_layer = 13;
+    }
+    else if (field_24_input & InputCommands::eDown)
+    {
+        gScale_4C3158 -= 5;
+        sControlledCharacter_50767C->field_BC_sprite_scale = FP_FromInteger(gScale_4C3158) * FP_FromDouble(0.01);
+    }
+    else if (field_24_input & InputCommands::eUp)
+    {
+        gScale_4C3158 += 5;
+        sControlledCharacter_50767C->field_BC_sprite_scale = FP_FromInteger(gScale_4C3158) * FP_FromDouble(0.01);
+    }
+    else if (field_24_input & InputCommands::eHop)
+    {
+        gAbeInvulnerableCheat_5076E4 = gAbeInvulnerableCheat_5076E4 == 0;
+    }
+    else if (field_24_input & InputCommands::eFartOrRoll)
+    {
+        gAbeInvisibleCheat_5076F8 = gAbeInvisibleCheat_5076F8 == 0;
+    }
+    DebugOut_495990("\nScale: up=+5 down=-5 left=100 right=50\n");
+    DebugOut_495990("Scale: %d\n\n", gScale_4C3158);
+
+    const char *invulnerableDisplayText = "on";
+    if (!gAbeInvulnerableCheat_5076E4)
+    {
+        invulnerableDisplayText = "off";
+    }
+    DebugOut_495990("triangle=invulnerable (%s)\n", invulnerableDisplayText);
+
+    char *invisibleDisplayText = "on";
+    if (!gAbeInvisibleCheat_5076F8)
+    {
+        invisibleDisplayText = "off";
+    }
+    DebugOut_495990("cross = invisible (%s)\n", invisibleDisplayText);
+
+    field_10 = 9;
+    if (!gElum_507680)
+    {
+        if (sControlledCharacter_50767C != gElum_507680)
+        {
+            return;
+        }
+    }
+    else if (sControlledCharacter_50767C != gElum_507680)
+    {
+        gElum_507680->field_BC_sprite_scale = sControlledCharacter_50767C->field_BC_sprite_scale;
+        gElum_507680->field_C6_scale = sControlledCharacter_50767C->field_C6_scale;
+        if (sControlledCharacter_50767C != gElum_507680)
+        {
+            return;
+        }
+    }
+    sActiveHero_507678->field_BC_sprite_scale = sControlledCharacter_50767C->field_BC_sprite_scale;
+    sActiveHero_507678->field_C6_scale = sControlledCharacter_50767C->field_C6_scale;
 }
 
 int DebugOut_495990(const char* /*pStr*/, ...)
