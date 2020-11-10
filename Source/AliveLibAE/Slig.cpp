@@ -5213,8 +5213,15 @@ void Slig::vShot_4B2EA0()
 
 void Slig::vUpdateAnim_4B1320()
 {
+    BYTE** ppRes = ResForMotion_4B1E90(field_106_current_motion);
+    if (!ppRes)
+    {
+        field_106_current_motion = eSligMotions::M_StandIdle_0_4B4EC0;
+        ppRes = ResForMotion_4B1E90(field_106_current_motion);
+    }
+
     const AnimRecord& animRec = AnimRec(sSligFrameTables_547318[field_106_current_motion]);
-    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ResForMotion_4B1E90(field_106_current_motion));
+    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
 }
 
 BOOL Slig::vUnderGlukkonCommand_4B1760()
