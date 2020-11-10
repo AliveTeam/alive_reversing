@@ -6,8 +6,6 @@
 
 START_NS_AO
 
-EXPORT int DebugOut_495990(const char* pStr, ...);
-
 enum class DDCheatValueType : int
 {
     eShort_1 = 1,
@@ -77,6 +75,10 @@ public:
     EXPORT void Teleport_409CE0();
 
     EXPORT void Misc_409E90();
+
+    EXPORT static int sub_498B40(int idx, const char* formatStr, ...);
+
+    EXPORT static int DebugOut_495990(const char* pStr, ...);
 
     int field_10;
     int field_14;

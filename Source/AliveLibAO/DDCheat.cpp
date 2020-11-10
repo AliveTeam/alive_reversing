@@ -559,9 +559,50 @@ void DDCheat::Misc_409E90()
     sActiveHero_507678->field_C6_scale = sControlledCharacter_50767C->field_C6_scale;
 }
 
-int DebugOut_495990(const char* /*pStr*/, ...)
+struct TextRecords
 {
-    NOT_IMPLEMENTED();
+    char field_0_src_txt[1024];
+    char field_400_dst_txt[1027];
+};
+ALIVE_ASSERT_SIZEOF(TextRecords, 0x803);
+
+struct DebugTexts
+{
+    BYTE field_0_xMargin;
+    BYTE field_1_yMargin;
+    BYTE field_2_displayWidth;
+    BYTE field_3_displayHeight;
+    DWORD field_4_max_len;
+    BYTE field_8_bgColour;
+    TextRecords field_9_text;
+};
+ALIVE_ASSERT_SIZEOF(DebugTexts, 0x80C);
+
+ALIVE_ARY(1, 0xAD0900, DebugTexts, 4, sTexts_AD0900, {});
+
+int DDCheat::sub_498B40(int idx, const char* formatStr, ...)
+{
+    va_list va;
+    va_start(va, formatStr);
+    if (idx < 0 || idx > 3)
+    {
+        return -1;
+    }
+
+    char buffer[1024] = {};
+    vsprintf(buffer, formatStr, va);
+    strncat(sTexts_AD0900[idx].field_9_text.field_0_src_txt, buffer, sTexts_AD0900[idx].field_4_max_len);
+    return static_cast<int>(strlen(sTexts_AD0900[idx].field_9_text.field_0_src_txt));
+}
+
+int DDCheat::DebugOut_495990(const char* pStr, ...)
+{
+    va_list va;
+    va_start(va, pStr);
+
+    char strBuffer[1024];
+    vsprintf(strBuffer, pStr, va);
+    DDCheat::sub_498B40(0, strBuffer);
     return 0;
 }
 
