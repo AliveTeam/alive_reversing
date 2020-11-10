@@ -117,7 +117,7 @@ void DDCheat::VUpdate()
 ALIVE_VAR(1, 0x4FF868, WORD, word_4FF868, 0);
 
 ALIVE_VAR(1, 0x4C315C, DWORD, level_4C315C, 3);
-ALIVE_VAR(1, 0x4C3160, DWORD, path_4C3160, 1);
+ALIVE_VAR(1, 0x4C3160, WORD, path_4C3160, 1);
 ALIVE_VAR(1, 0x4FF864, DWORD, gVox_4FF864, 0);
 ALIVE_VAR(1, 0x4FF860, WORD, doNothing_4FF860, 0);
 ALIVE_VAR_EXTERN(char, gDDCheatMode_508BF8);
@@ -383,9 +383,105 @@ void DDCheat::VUpdate_4098C0()
     }
 }
 
+const char *lvl_names_4C3168[16] =
+{
+    "Start screen",
+    "Rupture 1",
+    "Lines 1",
+    "Forest Outside",
+    "Forest Inside",
+    "Escape 1",
+    "Escape 2",
+    "(removed)",
+    "Desert Outside",
+    "Desert Inside",
+    "Credits",
+    "(removed)",
+    "Game Ender",
+    "Rupture 2",
+    "Forest Level Ender",
+    "Desert Level Ender"
+};
+
+ALIVE_VAR(1, 0x4C3164, short, camera_4C3164, 1);
+
 void DDCheat::Teleport_409CE0()
 {
-    NOT_IMPLEMENTED();
+    DebugOut_495990("\n[Teleport]\n");
+    DebugOut_495990("Level    (L,R):      %s \n", lvl_names_4C3168[level_4C315C]);
+    DebugOut_495990("Path    (Up/Down):   %d \n", path_4C3160);
+    DebugOut_495990("Camera (Left/Right): %d \n", static_cast<unsigned __int16>(camera_4C3164));
+    DebugOut_495990("Teleport = [] Reset = O\n"); //TODO don't display PSX buttons
+    int input = field_24_input;
+    field_10 = 6;
+    if (input &  InputCommands::eSneak)
+    {
+        if (level_4C315C)
+        {
+            --level_4C315C;
+        }
+    }
+    else if (input & InputCommands::eGameSpeak4)
+    {
+        if (level_4C315C < 15u)
+        {
+            ++level_4C315C;
+        }
+    }
+    else if (input & InputCommands::eUp)
+    {
+        ++path_4C3160;
+    }
+    else if (input & InputCommands::eDown)
+    {
+        if (path_4C3160 > 1u)
+        {
+            --path_4C3160;
+        }
+    }
+    else if (input & InputCommands::eLeft)
+    {
+        if (camera_4C3164 > 1)
+        {
+            --camera_4C3164;
+        }
+    }
+    else if (input & InputCommands::eRight)
+    {
+        ++camera_4C3164;
+    }
+    else if (input & InputCommands::eThrowItem)
+    {
+        path_4C3160 = gMap_507BA8.field_2_current_path;
+        level_4C315C = static_cast<DWORD>(gMap_507BA8.field_0_current_level);
+        camera_4C3164 = gMap_507BA8.field_4_current_camera;
+    }
+    else if (input & InputCommands::eDoAction)
+    {
+        if (path_4C3160 <= 21u)
+        {
+            const auto pPathRec = Path_Get_Bly_Record_434650(static_cast<LevelIds>(level_4C315C), path_4C3160);
+            if (pPathRec &&
+                pPathRec->field_0_blyName &&
+                pPathRec->field_4_pPathData &&
+                pPathRec->field_8_pCollisionData)
+            {
+                if (camera_4C3164 <= 21)
+                {
+                    sDDCheat_FlyingEnabled_50771C = 1;
+                    gMap_507BA8.SetActiveCam_444660(
+                        static_cast<LevelIds>(level_4C315C),
+                        path_4C3160,
+                        camera_4C3164,
+                        CameraSwapEffects::eEffect0_InstantChange,
+                        0,
+                        0
+                    );
+                    field_20 = 1;
+                }
+            }
+        }
+    }
 }
 
 void DDCheat::Misc_409E90()
