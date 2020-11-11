@@ -22,6 +22,8 @@ class HintFly : public BaseAnimatedWithPhysicsGameObject
 public:
     EXPORT HintFly* ctor_42A820(Path_HintFly* pTlv, int tlvInfo);
 
+    void InitParticle(HintFlyParticle* pParticle);
+
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
     EXPORT HintFly* Vdtor_42BCF0(signed int flags);
@@ -50,7 +52,18 @@ public:
     Prim_SetTPage field_EC_tPages[2];
     int field_10C_timer;
     __int16 field_110_bitMode;
-    __int16 field_112_state;
+
+    enum class State : __int16
+    {
+        eState_0 = 0,
+        eState_1 = 1,
+        eState_2 = 2,
+        eState_3 = 3,
+        eState_4 = 4,
+        eState_5 = 5,
+        eState_6 = 6,
+    };
+    State field_112_state;
     __int16 field_114_xScreen;
     __int16 field_116_yScreen;
     __int16 field_118_counter;
