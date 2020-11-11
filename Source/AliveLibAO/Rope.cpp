@@ -147,7 +147,7 @@ void Rope::VRender(int** pOrderingTable)
 
 void Rope::VRender_458780(int** ppOt)
 {
-    PSX_Point camPos;
+    PSX_Point camPos = {};
     gMap_507BA8.GetCurrentCamCoords_444890(&camPos);
     if (field_B2_lvl_number == gMap_507BA8.field_0_current_level)
     {
@@ -160,9 +160,9 @@ void Rope::VRender_458780(int** ppOt)
                 const FP camYPos = pScreenManager_4FF7C8->field_10_pCamPos->field_4_y;
 
 
-                int minY = FP_GetExponent((FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + (unsigned __int16) field_EE_top))
+                int minY = FP_GetExponent((FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_EE_top))
                     - camYPos);
-                int maxY = FP_GetExponent((FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + (unsigned __int16) field_F2_bottom))
+                int maxY = FP_GetExponent((FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_F2_bottom))
                     - camYPos);
 
                 __int16 ypos = FP_GetExponent(field_AC_ypos);
@@ -222,13 +222,13 @@ void Rope::VRender_458780(int** ppOt)
                             ppOt
                         );
 
-                        PSX_RECT pOut = {};
-                        field_E8_pRopeRes[idx].GetRenderedSize_404220(&pOut);
+                        PSX_RECT rect = {};
+                        field_E8_pRopeRes[idx].GetRenderedSize_404220(&rect);
                         pScreenManager_4FF7C8->InvalidateRect_406E40(
-                            pOut.x,
-                            pOut.y,
-                            pOut.w,
-                            pOut.h,
+                            rect.x,
+                            rect.y,
+                            rect.w,
+                            rect.h,
                             pScreenManager_4FF7C8->field_2E_idx
                         );
 

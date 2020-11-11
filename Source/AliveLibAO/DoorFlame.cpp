@@ -242,7 +242,7 @@ public:
         PSX_RECT rect = {};
         gMap_507BA8.Get_Camera_World_Rect_444C30(CameraPos::eCamCurrent_0, &rect);
         field_A8_xpos = FP_FromInteger(rect.w + 16);
-        field_AC_ypos = FP_FromInteger(rect.y + 0xFFF0);
+        field_AC_ypos = FP_FromInteger(rect.y - 16);
         if (field_E4_bRender)
         {
             for (auto& anim : field_E8_sparks)
