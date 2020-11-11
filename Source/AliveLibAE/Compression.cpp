@@ -48,19 +48,25 @@ private:
 };
 
 
-static bool Expand3To4Bytes(int& remainingCount, IPtrStream& stream, BYTE** ret, DWORD& dstPos)
+static bool Expand3To4Bytes(int& remainingCount, IPtrStream& stream, BYTE* ret, DWORD& dstPos)
 {
     if (!remainingCount)
     {
         return false;
     }
+
     const DWORD src3Bytes = stream.ReadU8() | (stream.ReadU16() << 8);
     remainingCount--;
 
-    // TODO: Should write each byte by itself
-    const DWORD value = (4 * (WORD)src3Bytes & 0x3F00) | (src3Bytes & 0x3F) | (16 * src3Bytes & 0x3F0000) | (4 * (16 * src3Bytes & 0xFC00000));
-    *reinterpret_cast<DWORD*>(&ret[dstPos]) = value;
-    dstPos += 4;
+    DWORD value;
+
+    // decompress each byte of the input value from least to most significant
+    value =  (BYTE)src3Bytes & 0x3F;
+    value |= ((DWORD)src3Bytes << 2) & 0x3F00;
+    value |= (src3Bytes << 4) & 0x3F0000;
+    value |= ((src3Bytes << 4) & 0x0FC00000) << 2;
+
+    reinterpret_cast<DWORD*>(ret)[dstPos++] = value;
 
     return true;
 }
@@ -77,7 +83,7 @@ EXPORT void CC CompressionType2_Decompress_40AA50(const BYTE* pSrc, BYTE* pDst, 
     {
         for (int i = 0; i < 4; i++)
         {
-            if (!Expand3To4Bytes(dwords_left, stream, &pDst, dstPos))
+            if (!Expand3To4Bytes(dwords_left, stream, pDst, dstPos))
             {
                 break;
             }
