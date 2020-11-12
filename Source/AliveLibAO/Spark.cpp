@@ -1,4 +1,6 @@
 #include "stdafx_ao.h"
+#include "CameraSwapper.hpp"
+#include "Events.hpp"
 #include "Function.hpp"
 #include "Spark.hpp"
 #include "Game.hpp"
@@ -146,7 +148,33 @@ void Spark::VUpdate()
 
 void Spark::VUpdate_477DB0()
 {
-    NOT_IMPLEMENTED();
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        field_6_flags.Set(Options::eDead_Bit3);
+    }
+    if (!sNumCamSwappers_507668)
+    {
+        if (static_cast<int>(gnFrameCount_507670) < field_50_timer)
+        {
+            if (static_cast<int>(gnFrameCount_507670) == field_50_timer - 1)
+            {
+                field_4C_count /= 3;
+            }
+            for (int idx = 0; idx < field_4C_count; idx++)
+            {
+                field_48_pRes[idx].field_0_x0 = field_48_pRes[idx].field_14_radius * Math_Sine_451110(field_48_pRes[idx].field_10_ang);
+                field_48_pRes[idx].field_4_y0 = field_48_pRes[idx].field_14_radius * Math_Cosine_4510A0(field_48_pRes[idx].field_10_ang);
+                field_48_pRes[idx].field_8_x1 = (field_48_pRes[idx].field_18_len + field_48_pRes[idx].field_14_radius) * Math_Sine_451110(field_48_pRes[idx].field_10_ang);
+                field_48_pRes[idx].field_C_y1 = (field_48_pRes[idx].field_18_len + field_48_pRes[idx].field_14_radius) * Math_Cosine_4510A0(field_48_pRes[idx].field_10_ang);
+                field_48_pRes[idx].field_14_radius = field_48_pRes[idx].field_18_len + FP_FromInteger(Math_RandomRange_450F20(2, 5));
+                field_48_pRes[idx].field_18_len = field_48_pRes[idx].field_18_len + FP_FromInteger(2);
+            }
+        }
+        else
+        {
+            field_6_flags.Set(Options::eDead_Bit3);
+        }
+    }
 }
 
 void Spark::VRender(int** ppOt)

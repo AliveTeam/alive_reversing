@@ -156,10 +156,11 @@ EXPORT void Rope::vRender_4A0E30(int** pOt)
     if (field_C2_lvl_number == gMap_5C3030.field_0_current_level && field_C0_path_number == gMap_5C3030.field_2_current_path)
     {
         // In the current camera x range?
-        if (field_B8_xpos >= FP_FromInteger(camPos.field_0_x) && field_B8_xpos <= FP_FromInteger(camPos.field_0_x + 375))
+        if (field_B8_xpos >= FP_FromInteger(camPos.field_0_x) &&
+            field_B8_xpos <= FP_FromInteger(camPos.field_0_x + 375))
         {
-            const FP camYPos = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
             const FP camXPos = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x;
+            const FP camYPos = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
 
             __int16 minY = FP_GetExponent(FP_FromInteger(field_102_top) - camYPos);
             __int16 maxY = FP_GetExponent(FP_FromInteger(field_106_bottom) - camYPos);
@@ -213,8 +214,15 @@ EXPORT void Rope::vRender_4A0E30(int** pOt)
                     field_FC_pRopeRes[idx].field_A_b = static_cast<BYTE>(b);
 
                     // Render the segment
+                    field_FC_pRopeRes[idx].vRender_40B820(
+                        screenX,
+                        screenY,
+                        pOt,
+                        0,
+                        0
+                    );
+
                     PSX_RECT rect = {};
-                    field_FC_pRopeRes[idx].vRender_40B820(screenX, screenY, pOt, 0, 0);
                     field_FC_pRopeRes[idx].GetRenderedSize_40C980(&rect);
                     pScreenManager_5BB5F4->InvalidateRect_40EC90(
                         rect.x,
@@ -223,7 +231,11 @@ EXPORT void Rope::vRender_4A0E30(int** pOt)
                         rect.h,
                         pScreenManager_5BB5F4->field_3A_idx);
 
-                    ClipPoly_Vertically_4A09E0(&field_FC_pRopeRes[idx].field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index], minY, maxY);
+                    ClipPoly_Vertically_4A09E0(
+                        &field_FC_pRopeRes[idx].field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index],
+                        minY,
+                        maxY
+                    );
 
                     screenY -= field_F6_rope_length;
 

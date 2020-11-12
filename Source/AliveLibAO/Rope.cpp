@@ -3,6 +3,9 @@
 #include "Rope.hpp"
 #include "stdlib.hpp"
 #include "PathData.hpp"
+#include "PsxDisplay.hpp"
+#include "ScreenManager.hpp"
+#include "ShadowZone.hpp"
 #include "Map.hpp"
 #include "ResourceManager.hpp"
 
@@ -142,9 +145,109 @@ void Rope::VRender(int** pOrderingTable)
     VRender_458780(pOrderingTable);
 }
 
-void Rope::VRender_458780(int** /*ppOt*/)
+void Rope::VRender_458780(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    PSX_Point camPos = {};
+    gMap_507BA8.GetCurrentCamCoords_444890(&camPos);
+    if (field_B2_lvl_number == gMap_507BA8.field_0_current_level)
+    {
+        if (field_B0_path_number == gMap_507BA8.field_2_current_path)
+        {
+            if (field_A8_xpos >= FP_FromInteger(camPos.field_0_x) &&
+                field_A8_xpos <= FP_FromInteger(camPos.field_0_x + 1024))
+            {
+                const FP camXPos = pScreenManager_4FF7C8->field_10_pCamPos->field_0_x;
+                const FP camYPos = pScreenManager_4FF7C8->field_10_pCamPos->field_4_y;
+
+
+                int minY = FP_GetExponent((FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_EE_top))
+                    - camYPos);
+                int maxY = FP_GetExponent((FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_F2_bottom))
+                    - camYPos);
+
+                __int16 ypos = FP_GetExponent(field_AC_ypos);
+                if (ypos > field_F2_bottom)
+                {
+                    ypos = field_F2_bottom + ((ypos - field_F2_bottom) % field_E6_rope_length);
+                }
+
+                short screenX = PsxToPCX(
+                    FP_GetExponent(field_A8_xpos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
+                    11
+                );
+                short screenY = FP_GetExponent(
+                    (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + FP_GetExponent(field_AC_ypos)))
+                    - camYPos
+                );
+
+                if (field_C8_yOffset + screenY > 240)
+                {
+                    screenY = screenY % field_E6_rope_length + 240;
+                    ypos = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y
+                        + FP_FromInteger(screenY - pScreenManager_4FF7C8->field_16_ypos));
+                }
+                if (minY < 0)
+                {
+                    minY = 0;
+                }
+                if (maxY > 240)
+                {
+                    maxY = 240;
+                }
+
+                field_10_anim.VRender_403AE0(640, 240, ppOt, 0, 0 );
+                if (screenY >= minY)
+                {
+                    for (int idx = 0; idx < field_E4_rope_segment_count; idx++)
+                    {
+                        short r = 128;
+                        short g = 128;
+                        short b = 128;
+                        ShadowZone::ShadowZones_Calculate_Colour_435FF0(
+                            FP_GetExponent(field_A8_xpos),
+                            ypos - (idx * field_E6_rope_length),
+                            field_C6_scale,
+                            &r,
+                            &g,
+                            &b
+                        );
+
+                        field_E8_pRopeRes[idx].field_8_r = static_cast<BYTE>(r);
+                        field_E8_pRopeRes[idx].field_9_g = static_cast<BYTE>(g);
+                        field_E8_pRopeRes[idx].field_A_b = static_cast<BYTE>(b);
+
+                        field_E8_pRopeRes[idx].VRender2(
+                            screenX,
+                            field_C8_yOffset + screenY,
+                            ppOt
+                        );
+
+                        PSX_RECT rect = {};
+                        field_E8_pRopeRes[idx].GetRenderedSize_404220(&rect);
+                        pScreenManager_4FF7C8->InvalidateRect_406E40(
+                            rect.x,
+                            rect.y,
+                            rect.w,
+                            rect.h,
+                            pScreenManager_4FF7C8->field_2E_idx
+                        );
+
+                        ClipPoly_Vertically_4584B0(
+                            &field_E8_pRopeRes[idx].field_10_polys[gPsxDisplay_504C78.field_A_buffer_index],
+                            minY,
+                            maxY
+                        );
+
+                        screenY -= field_E6_rope_length;
+                        if (screenY < minY)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 END_NS_AO

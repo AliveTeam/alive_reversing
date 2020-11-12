@@ -6,6 +6,7 @@
 #include "ResourceManager.hpp"
 #include "Midi.hpp"
 #include "Math.hpp"
+#include "Map.hpp"
 #include "Sfx.hpp"
 #include "ScreenManager.hpp"
 #include "CameraSwapper.hpp"
@@ -238,7 +239,47 @@ public:
 
     EXPORT void VUpdate_432440()
     {
-        NOT_IMPLEMENTED();
+        PSX_RECT rect = {};
+        gMap_507BA8.Get_Camera_World_Rect_444C30(CameraPos::eCamCurrent_0, &rect);
+        field_A8_xpos = FP_FromInteger(rect.w + 16);
+        field_AC_ypos = FP_FromInteger(rect.y - 16);
+        if (field_E4_bRender)
+        {
+            for (auto& anim : field_E8_sparks)
+            {
+                anim.field_10_random64--;
+                if (anim.field_12_bVisible == 0)
+                {
+                    if (anim.field_10_random64 <= 0)
+                    {
+                        anim.field_12_bVisible = 1;
+                        anim.field_10_random64 = Math_RandomRange_450F20(7, 9);
+
+                        anim.field_0_x = field_400_xpos;
+                        anim.field_4_y = field_404_ypos;
+
+                        anim.field_8_off_x = FP_FromInteger(Math_NextRandom() - 127) / FP_FromInteger(96);
+                        anim.field_C_off_y = FP_FromInteger(-Math_NextRandom()) / FP_FromInteger(96);
+                    }
+                }
+                else if (anim.field_10_random64 > 0)
+                {
+                    anim.field_0_x += anim.field_8_off_x;
+                    anim.field_4_y += anim.field_C_off_y;
+
+                    if (!(anim.field_10_random64 % 3))
+                    {
+                        anim.field_8_off_x += FP_FromInteger(Math_NextRandom() - 127) / FP_FromInteger(64);
+                        anim.field_C_off_y += FP_FromInteger(Math_NextRandom() - 127) / FP_FromInteger(64);
+                    }
+                }
+                else
+                {
+                    anim.field_12_bVisible = 0;
+                    anim.field_10_random64 = Math_RandomRange_450F20(90, 240);
+                }
+            }
+        }
     }
 
     virtual void VRender(int** pOrderingTable) override
