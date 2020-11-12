@@ -113,7 +113,7 @@ SnoozeParticle* SnoozeParticle::ctor_464320(FP xpos, FP ypos, __int16 layer, FP 
     field_32_r = 0;
     field_34_g = 0;
     field_36_b = 0;
-    field_1D4_state = 0;
+    field_1D4_state = SnoozeParticleState::Rising_0;
     field_3A_count_down = 1;
     field_38_idx = Math_NextRandom() % 36;
     field_20_dx = FP_FromInteger(xPositionDeltaEntries_4CF8E0[field_38_idx]);
@@ -174,7 +174,7 @@ void SnoozeParticle::VUpdate_464500()
             }
             else
             {
-                field_1D4_state = 2;
+                field_1D4_state = SnoozeParticleState::BlowingUp_2;
             }
             break;
 
