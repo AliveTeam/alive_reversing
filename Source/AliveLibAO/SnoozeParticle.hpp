@@ -10,6 +10,14 @@ START_NS_AO
 class SnoozeParticle : public BaseGameObject
 {
 public:
+
+    enum class SnoozeParticleState : __int16
+    {
+        Rising_0 = 0,
+        Unused_1 = 1,
+        BlowingUp_2 = 2
+    };
+
     EXPORT SnoozeParticle* ctor_464320(FP xpos, FP ypos, __int16 layer, FP scale);
 
     virtual void VScreenChanged() override;

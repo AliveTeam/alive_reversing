@@ -5,10 +5,13 @@
 #include "ResourceManager.hpp"
 #include "Math.hpp"
 #include "Game.hpp"
+#include "Events.hpp"
+#include "CameraSwapper.hpp"
+#include "Sfx.hpp"
 
 START_NS_AO
 
-const short word_4CF8E0[39] =
+const short xPositionDeltaEntries_4CF8E0[39] =
 {
     1,
     0,
@@ -113,7 +116,7 @@ SnoozeParticle* SnoozeParticle::ctor_464320(FP xpos, FP ypos, __int16 layer, FP 
     field_1D4_state = 0;
     field_3A_count_down = 1;
     field_38_idx = Math_NextRandom() % 36;
-    field_20_dx = FP_FromInteger(word_4CF8E0[field_38_idx]);
+    field_20_dx = FP_FromInteger(xPositionDeltaEntries_4CF8E0[field_38_idx]);
     field_38_idx++;
     return this;
 }
@@ -135,8 +138,69 @@ void SnoozeParticle::VUpdate()
 
 void SnoozeParticle::VUpdate_464500()
 {
-    NOT_IMPLEMENTED();
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+
+    if (!sNumCamSwappers_507668)
+    {
+        switch (field_1D4_state)
+        {
+        case SnoozeParticleState::Rising_0:
+            if (field_1C_y >= field_14_y_start - FP_FromInteger(20))
+            {
+                if (field_32_r < 70 &&
+                    field_34_g < 70 &&
+                    field_36_b < 20)
+                {
+                    field_32_r += 14;
+                    field_34_g += 14;
+                    field_36_b += 4;
+                }
+
+                field_28_scale += field_2C_scale_dx;
+
+                if (field_38_idx > 36)
+                {
+                    field_38_idx = 0;
+                }
+
+                const FP idx_toFP = FP_FromInteger(xPositionDeltaEntries_4CF8E0[field_38_idx]);
+                field_20_dx = idx_toFP;
+                field_38_idx += 1;
+                field_18_x += idx_toFP;
+                field_1C_y += field_24_dy;
+            }
+            else
+            {
+                field_1D4_state = 2;
+            }
+            break;
+
+        case SnoozeParticleState::Unused_1:
+            break;
+
+        case SnoozeParticleState::BlowingUp_2:
+            field_32_r /= 2;
+            field_34_g /= 2;
+            field_36_b /= 2;
+            field_18_x += field_20_dx;
+            field_1C_y += field_24_dy;
+
+            if (field_3A_count_down > 0)
+            {
+                field_3A_count_down--;
+            }
+            else
+            {
+                SFX_Play_43AD70(SoundEffect::ZPop_5, 0, 0);
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            }
+        }
+    }
 }
+
 
 void SnoozeParticle::VRender(int** ppOt)
 {
