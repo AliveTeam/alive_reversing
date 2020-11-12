@@ -7,6 +7,9 @@
 #include "Map.hpp"
 #include "stdlib.hpp"
 #include "ScreenManager.hpp"
+#include "Game.hpp"
+#include "Events.hpp"
+#include "PsxDisplay.hpp"
 
 void HintFly_ForceLink() {}
 
@@ -74,7 +77,7 @@ struct HintFlyParticle
 };
 ALIVE_ASSERT_SIZEOF(HintFlyParticle, 0x54);
 
-const BYTE* pData[] =
+const BYTE* pData_4C7268[] =
 {
     (const BYTE*)0x4C6DB0,
     (const BYTE*)0x4C6DC8,
@@ -184,7 +187,7 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, int tlvInfo)
             }
             else
             {
-                curWordLen += pData[(*pMsg) - 'A'][0];
+                curWordLen += pData_4C7268[(*pMsg) - 'A'][0];
             }
             pMsg++;
         }
@@ -196,7 +199,7 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, int tlvInfo)
         if (field_E4_ppRes)
         {
             field_E8_pRes = reinterpret_cast<HintFlyParticle*>(*field_E4_ppRes);
-            field_112_state = 1;
+            field_112_state = State::eState_1;
             field_10C_timer = 0;
 
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit13_Is8Bit))
@@ -264,15 +267,8 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, int tlvInfo)
             for (int i = 0; i < field_118_counter; i++)
             {
                 HintFlyParticle* pParticle = &field_E8_pRes[i];
-                pParticle->field_8_state = 3;
-                pParticle->field_0_xpos = FP_FromInteger((HintFly_NextRandom() & 0x1F) + field_114_xScreen - 16);
-                pParticle->field_4_ypos = FP_FromInteger((HintFly_NextRandom() & 0x1F) + field_116_yScreen - 16);
-                pParticle->field_20_angle = HintFly_NextRandom();
-                pParticle->field_21_angle_speed = (HintFly_NextRandom() % 4) + 12;
-                if (HintFly_NextRandom() % 2)
-                {
-                    pParticle->field_21_angle_speed = -pParticle->field_21_angle_speed;
-                }
+                InitParticle(pParticle);
+
             }
         }
         else
@@ -286,6 +282,19 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, int tlvInfo)
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
     return this;
+}
+
+void HintFly::InitParticle(HintFlyParticle* pParticle)
+{
+    pParticle->field_8_state = 3;
+    pParticle->field_0_xpos = FP_FromInteger((HintFly_NextRandom() & 0x1F) + field_114_xScreen - 16);
+    pParticle->field_4_ypos = FP_FromInteger((HintFly_NextRandom() & 0x1F) + field_116_yScreen - 16);
+    pParticle->field_20_angle = HintFly_NextRandom();
+    pParticle->field_21_angle_speed = (HintFly_NextRandom() % 4) + 12;
+    if (HintFly_NextRandom() % 2)
+    {
+        pParticle->field_21_angle_speed = -pParticle->field_21_angle_speed;
+    }
 }
 
 BaseGameObject* HintFly::VDestructor(signed int flags)
@@ -359,7 +368,7 @@ void HintFly::FormWordAndAdvanceToNextWord_42AF90()
     int particleIdx = 0;
     for (int i = 0; i < letterCount; i++)
     {
-        const auto pArray = pData[msgPtr[i] - 'A'];
+        const auto pArray = pData_4C7268[msgPtr[i] - 'A'];
         // First element is the count of "pixels" that make up a word
         const int total = pArray[0];
         for (int j = 0; j < total; j++)
@@ -448,7 +457,201 @@ void HintFly::VUpdate()
 
 void HintFly::VUpdate_42B3D0()
 {
-    NOT_IMPLEMENTED();
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+
+    switch (field_112_state)
+    {
+    case State::eState_1:
+        UpdateParticles_42B1B0();
+
+        if (Event_Get_417250(kEventAbeOhm_8))
+        {
+            field_11E_msg_idx = 0;
+            field_112_state = State::eState_3;
+            field_10C_timer = gnFrameCount_507670 + 15;
+        }
+        return;
+
+    case State::eState_2:
+        if (field_118_counter == field_122_target_count)
+        {
+            UpdateParticles_42B1B0();
+
+            if (!Event_Get_417250(kEventAbeOhm_8))
+            {
+                for (int i = 0; i < field_118_counter; i++)
+                {
+                    if (field_E8_pRes[i].field_8_state == 3)
+                    {
+                        break;
+                    }
+                    field_E8_pRes[i].field_8_state = 3;
+                }
+                field_120_idx = 0;
+                field_112_state = State::eState_5;
+                return;
+            }
+
+            if (field_118_counter == field_122_target_count)
+            {
+                FormWordAndAdvanceToNextWord_42AF90();
+                field_112_state = State::eState_4;
+                field_10C_timer = gnFrameCount_507670 + 30;
+            }
+        }
+
+        for (int i=0; i < 8; i++)
+        {
+            if (field_118_counter < field_122_target_count)
+            {
+                InitParticle(&field_E8_pRes[field_118_counter++]);
+            }
+            else
+            {
+                field_118_counter--;
+                if (field_120_idx < field_118_counter)
+                {
+
+                    InitParticle(&field_E8_pRes[field_120_idx++]);
+                }
+            }
+
+            if (field_118_counter == field_122_target_count)
+            {
+                break;
+            }
+        }
+
+        // TODO: This block is duplicated above
+        UpdateParticles_42B1B0();
+
+        if (!Event_Get_417250(kEventAbeOhm_8))
+        {
+            for (int i = 0; i < field_118_counter; i++)
+            {
+                if (field_E8_pRes[i].field_8_state == 3)
+                {
+                    break;
+                }
+                field_E8_pRes[i].field_8_state = 3;
+            }
+            field_120_idx = 0;
+            field_112_state = State::eState_5;
+            return;
+        }
+
+        if (field_118_counter == field_122_target_count)
+        {
+            FormWordAndAdvanceToNextWord_42AF90();
+            field_112_state = State::eState_4;
+            field_10C_timer = gnFrameCount_507670 + 30;
+        }
+        break;
+
+    case State::eState_3:
+        UpdateParticles_42B1B0();
+
+        if (!Event_Get_417250(kEventAbeOhm_8))
+        {
+            for (int i = 0; i < field_118_counter; i++)
+            {
+                if (field_E8_pRes[i].field_8_state == 3)
+                {
+                    break;
+                }
+                field_E8_pRes[i].field_8_state = 3;
+            }
+            field_120_idx = 0;
+            field_112_state = State::eState_5;
+            return;
+        }
+
+        if (static_cast<int>(gnFrameCount_507670) > field_10C_timer)
+        {
+            __int16 len = 0;
+            const char* pMsgIter = gHintFlyMessages_4C6A10[field_11C_message_id] + field_11E_msg_idx;
+            while (*pMsgIter != ' ' && *pMsgIter != '\0')
+            {
+                len += pData_4C7268[(*pMsgIter) - 'A'][0];
+                pMsgIter++;
+            }
+            field_120_idx = 0;
+            field_122_target_count = len + 12;
+            field_112_state = State::eState_2;
+        }
+        return;
+
+    case State::eState_4:
+        UpdateParticles_42B1B0();
+
+        if (Event_Get_417250(kEventAbeOhm_8))
+        {
+            if (static_cast<int>(gnFrameCount_507670) > field_10C_timer)
+            {
+                for (int i = 0; i < field_118_counter; i++)
+                {
+                    if (field_E8_pRes[i].field_8_state == 3)
+                    {
+                        break;
+                    }
+                    field_E8_pRes[i].field_8_state = 3;
+                }
+                field_112_state = State::eState_3;
+                field_10C_timer = gnFrameCount_507670 + 15;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < field_118_counter; i++)
+            {
+                if (field_E8_pRes[i].field_8_state == 3)
+                {
+                    break;
+                }
+                field_E8_pRes[i].field_8_state = 3;
+            }
+            field_120_idx = 0;
+            field_112_state = State::eState_5;
+        }
+        return;
+
+    case State::eState_5:
+        if (field_118_counter == 20)
+        {
+            if (Event_Get_417250(kEventAbeOhm_8))
+            {
+                field_112_state = State::eState_1;
+            }
+        }
+        // Fall through
+
+    case State::eState_6:
+        UpdateParticles_42B1B0();
+        if (field_120_idx >= 20)
+        {
+            field_118_counter -= 8;
+            if (field_118_counter < 20)
+            {
+                field_118_counter = 20;
+            }
+        }
+        else
+        {
+            InitParticle(&field_E8_pRes[field_120_idx++]);
+        }
+
+        if (field_118_counter == 20 && !Event_Get_417250(kEventAbeOhm_8))
+        {
+            field_112_state = State::eState_1;
+        }
+        return;
+
+    default:
+        return;
+    }
 }
 
 void HintFly::VRender(int** pOrderingTable)
@@ -456,9 +659,66 @@ void HintFly::VRender(int** pOrderingTable)
     VRender_42BAD0(pOrderingTable);
 }
 
-void HintFly::VRender_42BAD0(int** /*ppOt*/)
+void HintFly::VRender_42BAD0(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    Prim_SetTPage* pTPage = &field_EC_tPages[gPsxDisplay_504C78.field_A_buffer_index];
+
+    PSX_RECT rect = {};
+    rect.x = -32768;
+    rect.w = -32767;
+    rect.y = -32768;
+    rect.h = -32767;
+
+    for (int i = 0; i < field_118_counter; i++)
+    {
+        HintFlyParticle* pParticle = &field_E8_pRes[i];
+        Prim_Sprt* pSprt = &pParticle->field_24_sprt[gPsxDisplay_504C78.field_A_buffer_index];
+
+        const short flyX = FP_GetExponent(PsxToPCX(pParticle->field_0_xpos, FP_FromInteger(11)));
+        const short flyY = FP_GetExponent(pParticle->field_4_ypos);
+
+        SetXY0(pSprt, flyX, flyY);
+
+        OrderingTable_Add_498A80(&ppOt[39], &pSprt->mBase.header);
+
+        if (flyX < rect.x)
+        {
+            rect.x = flyX;
+        }
+
+        if (flyX > rect.w)
+        {
+            rect.w = flyX;
+        }
+
+        if (flyY < rect.y)
+        {
+            rect.y = flyY;
+        }
+
+        if (flyY > rect.h)
+        {
+            rect.h = flyY;
+        }
+    }
+
+    short tPageY = 256;
+    if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit10_alternating_flag) && field_10_anim.field_84_vram_rect.y < 256u)
+    {
+        tPageY = 0;
+    }
+
+    const int tpage = PSX_getTPage_4965D0(static_cast<char>(field_110_bitMode), 1, field_10_anim.field_84_vram_rect.x & 0xFFC0, tPageY);
+
+    Init_SetTPage_495FB0(pTPage, 0, 0, tpage);
+    OrderingTable_Add_498A80(&ppOt[39], &pTPage->mBase);
+
+    pScreenManager_4FF7C8->InvalidateRect_406E40(
+        rect.x - 6,
+        rect.y - 6,
+        rect.w + 9,
+        rect.h + 6,
+        pScreenManager_4FF7C8->field_2E_idx);
 }
 
 END_NS_AO
