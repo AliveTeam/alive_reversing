@@ -9,6 +9,7 @@
 #include "ScreenManager.hpp"
 #include "Game.hpp"
 #include "Events.hpp"
+#include "PsxDisplay.hpp"
 
 void HintFly_ForceLink() {}
 
@@ -658,9 +659,66 @@ void HintFly::VRender(int** pOrderingTable)
     VRender_42BAD0(pOrderingTable);
 }
 
-void HintFly::VRender_42BAD0(int** /*ppOt*/)
+void HintFly::VRender_42BAD0(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    Prim_SetTPage* pTPage = &field_EC_tPages[gPsxDisplay_504C78.field_A_buffer_index];
+
+    PSX_RECT rect = {};
+    rect.x = -32768;
+    rect.w = -32767;
+    rect.y = -32768;
+    rect.h = -32767;
+
+    for (int i = 0; i < field_118_counter; i++)
+    {
+        HintFlyParticle* pParticle = &field_E8_pRes[i];
+        Prim_Sprt* pSprt = &pParticle->field_24_sprt[gPsxDisplay_504C78.field_A_buffer_index];
+
+        const short flyX = FP_GetExponent(PsxToPCX(pParticle->field_0_xpos, FP_FromInteger(11)));
+        const short flyY = FP_GetExponent(pParticle->field_4_ypos);
+
+        SetXY0(pSprt, flyX, flyY);
+
+        OrderingTable_Add_498A80(&ppOt[39], &pSprt->mBase.header);
+
+        if (flyX < rect.x)
+        {
+            rect.x = flyX;
+        }
+
+        if (flyX > rect.w)
+        {
+            rect.w = flyX;
+        }
+
+        if (flyY < rect.y)
+        {
+            rect.y = flyY;
+        }
+
+        if (flyY > rect.h)
+        {
+            rect.h = flyY;
+        }
+    }
+
+    short tPageY = 256;
+    if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit10_alternating_flag) && field_10_anim.field_84_vram_rect.y < 256u)
+    {
+        tPageY = 0;
+    }
+
+    const int tpage = PSX_getTPage_4965D0(static_cast<char>(field_110_bitMode), 1, field_10_anim.field_84_vram_rect.x & 0xFFC0, tPageY);
+
+    Init_SetTPage_495FB0(pTPage, 0, 0, tpage);
+    OrderingTable_Add_498A80(&ppOt[39], &pTPage->mBase);
+
+    pScreenManager_4FF7C8->InvalidateRect_406E40(
+        rect.x - 6,
+        rect.y - 6,
+        rect.w + 9,
+        rect.h + 6,
+        pScreenManager_4FF7C8->field_2E_idx);
 }
 
 END_NS_AO
