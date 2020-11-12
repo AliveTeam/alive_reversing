@@ -10,6 +10,14 @@ START_NS_AO
 class SnoozeParticle : public BaseGameObject
 {
 public:
+
+    enum class SnoozeParticleState : __int16
+    {
+        Rising_0 = 0,
+        Unused_1 = 1,
+        BlowingUp_2 = 2
+    };
+
     EXPORT SnoozeParticle* ctor_464320(FP xpos, FP ypos, __int16 layer, FP scale);
 
     virtual void VScreenChanged() override;
@@ -47,7 +55,7 @@ public:
     Line_G4 field_3C_lines[2];
     Line_G2 field_94_lines[12];
     Prim_SetTPage field_1B4_tPage[2];
-    __int16 field_1D4_state;
+    SnoozeParticleState field_1D4_state;
     __int16 field_1D6_pad;
 };
 ALIVE_ASSERT_SIZEOF(SnoozeParticle, 0x1D8);
