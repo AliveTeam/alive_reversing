@@ -748,23 +748,23 @@ void MusicController::sub_442C20()
         case MusicTypes::eType1:
             if (field_18_level == LevelIds::eLines_2)
             {
-                //LOWORD(v4) = 86;
+                v4 = 86;
                 field_34 = 16;
             }
             else if (field_18_level == LevelIds::eForest_3)
             {
-                //LOWORD(v4) = 58;
+                v4 = 58;
                 field_34 = 20;
             }
             else
             {
                 if (field_18_level == LevelIds::eDesert_8)
                 {
-                    //LOWORD(v4) = 19;
+                    v4 = 19;
                 }
                 else
                 {
-                    //LOWORD(v4) = -1;
+                    v4 = -1;
                 }
                 field_34 = 20;
             }
@@ -805,7 +805,7 @@ void MusicController::sub_442C20()
 
         case MusicTypes::eType2:
             field_34 = 1;
-            //LOWORD(v4) = -1;
+            v4 = -1;
             field_24 = 0;
             if (field_14 != field_4C)
             {
@@ -831,11 +831,11 @@ void MusicController::sub_442C20()
         case MusicTypes::eType3:
             if (field_44)
             {
-                //LOWORD(v4) = Math_RandomRange_450F20(0, 1);
+                v4 = Math_RandomRange_450F20(0, 1);
             }
             else
             {
-                //LOWORD(v4) = -1;
+                v4 = -1;
             }
 
             field_34 = 1;
@@ -868,7 +868,7 @@ void MusicController::sub_442C20()
         case MusicTypes::eType5:
             v15 = &array_2_stru_4CDA58[static_cast<int>(field_18_level)];
         LABEL_39:
-            //LOWORD(v4) = v15->field_0;
+            v4 = v15->field_0;
             field_24 = v15->field_8;
             field_34 = v15->field_4;
             if (field_14 == field_4C)
@@ -900,21 +900,22 @@ void MusicController::sub_442C20()
             if (field_44)
             {
                 const MusicController_Record* v19 = &array_3_stru_4CDB58[static_cast<int>(field_18_level)];
-                //LOWORD(v4) = v19->field_0;
+                v4 = v19->field_0;
                 field_34 = v19->field_4;
                 field_24 = v19->field_8;
                 goto LABEL_98;
             }
-            //LOWORD(v4) = -1;
+            v4 = -1;
             field_34 = 20;
             goto LABEL_84;
 
         case MusicTypes::eType7:
-            //LOWORD(v4) = 117;
+            v4 = 117;
             field_34 = 22;
             if (field_14 == field_4C)
             {
-                goto LABEL_75;
+                field_24 = 0;
+                goto LABEL_129;
             }
             field_4A = field_4C;
             if (field_14 <= 0)
@@ -929,7 +930,9 @@ void MusicController::sub_442C20()
             field_50 = counterVal;
             if (field_14)
             {
-                goto LABEL_74;
+                field_48_state = 3;
+                field_24 = 0;
+                goto LABEL_129;
             }
             field_48_state = 2;
             field_24 = 0;
@@ -938,25 +941,26 @@ void MusicController::sub_442C20()
         case MusicTypes::eType8:
             if (gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12)
             {
-                //LOWORD(v4) = 102;
+                v4 = 102;
                 field_34 = 1;
             }
             else
             {
                 if (field_44)
                 {
-                    //LOWORD(v4) = 122;
+                    v4 = 122;
                 }
                 else
                 {
-                    //LOWORD(v4) = Math_RandomRange_450F20(118, 120);
+                    v4 = Math_RandomRange_450F20(118, 120);
                 }
                 field_34 = 22;
             }
 
             if (field_14 == field_4C)
             {
-                goto LABEL_75;
+                field_24 = 0;
+                goto LABEL_129;
             }
             
             field_4A = field_4C;
@@ -974,25 +978,30 @@ void MusicController::sub_442C20()
             field_50 = counterVal;
             if (field_14)
             {
-                goto LABEL_74;
+                field_48_state = 3;
+                field_24 = 0;
+                goto LABEL_129;
             }
             field_48_state = 2;
             field_24 = 0;
             goto LABEL_129;
 
         case MusicTypes::eType9:
-            //LOWORD(v4) = 121;
+            v4 = 121;
             goto LABEL_68;
 
         case MusicTypes::eType10:
-            //LOWORD(v4) = 122;
+            v4 = 122;
         LABEL_68:
             field_34 = 22;
             if (field_14 == field_4C)
             {
-                goto LABEL_75;
+                field_24 = 0;
+                goto LABEL_129;
             }
+
             field_4A = field_4C;
+
             if (field_14 <= 0)
             {
                 field_4E = 0;
@@ -1007,9 +1016,7 @@ void MusicController::sub_442C20()
 
             if (field_14)
             {
-            LABEL_74:
                 field_48_state = 3;
-            LABEL_75:
                 field_24 = 0;
             }
             else
@@ -1024,19 +1031,19 @@ void MusicController::sub_442C20()
             {
                 if (field_18_level == LevelIds::eForestChase)
                 {
-                    //LOWORD(v4) = 69;
+                    v4 = 69;
                 }
                 else
                 {
                     if (field_18_level != LevelIds::eDesertEscape)
                     {
-                        //LOWORD(v4) = 117;
+                        v4 = 117;
                         field_34 = 22;
                         field_24 = 0;
                         field_46 = 1;
                         goto LABEL_98;
                     }
-                    //LOWORD(v4) = 33;
+                    v4 = 33;
                 }
                 field_34 = 16;
                 field_24 = 0;
@@ -1070,7 +1077,7 @@ void MusicController::sub_442C20()
                 }
                 goto LABEL_129;
             }
-            //LOWORD(v4) = -1;
+            v4 = -1;
             field_34 = 16;
 
         LABEL_84:
@@ -1131,27 +1138,27 @@ void MusicController::sub_442C20()
         case MusicTypes::eType12:
             if (field_18_level == LevelIds::eForestChase)
             {
-                //LOWORD(v4) = 70;
+                v4 = 70;
                 field_34 = 16;
             }
             else if (field_18_level == LevelIds::eDesertEscape)
             {
-                //LOWORD(v4) = 34;
+                v4 = 34;
                 field_34 = 32;
             }
             else
             {
-                //LOWORD(v4) = 122;
+                v4 = 122;
                 field_34 = 22;
             }
             field_24 = 0;
             goto LABEL_98;
 
         case MusicTypes::eType13:
-            //v4 = -(field_44 != 0);
+            v4 = -(field_44 != 0);
             field_34 = 1;
 
-            //LOWORD(v4) = (v4 & 3) - 1;
+            v4 = (v4 & 3) - 1;
 
             field_24 = 0;
 
@@ -1183,7 +1190,7 @@ void MusicController::sub_442C20()
         case MusicTypes::eType14:
             field_34 = 1;
             field_24 = 0;
-            //v4 = field_44 != 0 ? 3 : -1;
+            v4 = field_44 != 0 ? 3 : -1;
             if (field_14 == field_4C)
             {
                 goto LABEL_129;
@@ -1207,15 +1214,15 @@ void MusicController::sub_442C20()
             goto LABEL_129;
 
         case MusicTypes::eType15:
-            //v4 = field_44 != 0 ? 5 : 0;
+            v4 = field_44 != 0 ? 5 : 0;
             goto LABEL_29;
 
         case MusicTypes::eType16:
-            //v4 = field_44 != 0 ? 6 : 0;
+            v4 = field_44 != 0 ? 6 : 0;
 
         LABEL_29:
             field_34 = 1;
-            //LOWORD(v4) = v4 - 1;
+            v4 = v4 - 1;
             field_24 = 0;
             if (field_4C != 127)
             {
@@ -1228,7 +1235,7 @@ void MusicController::sub_442C20()
             goto LABEL_129;
 
         default:
-            //LOWORD(v4) = -1;
+            v4 = -1;
             if (field_12 != field_4C)
             {
                 field_4A = field_4C;
