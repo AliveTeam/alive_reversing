@@ -1018,61 +1018,70 @@ void Menu::FMV_Or_Level_Select_Render_47EEA0(int** ppOt)
         if (field_21C != FP_FromInteger(0))
         {
             field_1E0_selected_index = field_218;
-            goto LABEL_9;
-        }
-        if (field_1E0_selected_index <= field_218)
-        {
-            if (field_1E0_selected_index >= field_218)
-            {
-                goto LABEL_9;
-            }
-            field_21C = FP_FromInteger(-1)  * FP_FromInteger(26);
         }
         else
         {
-            field_21C = FP_FromInteger(26);
+            if (field_1E0_selected_index <= field_218)
+            {
+                if (field_1E0_selected_index < field_218)
+                {
+                    field_21C = FP_FromInteger(-1) * FP_FromInteger(26);
+                }
+            }
+            else
+            {
+                field_21C = FP_FromInteger(26);
+            }
+            field_220 = FP_FromDouble(4.5);
+            field_218 = field_1E0_selected_index;
         }
-        field_220 = FP_FromDouble(4.5);
-        field_218 = field_1E0_selected_index;
     }
 
-LABEL_9:
-    field_21C = field_21C;
     if (field_21C >= FP_FromInteger(0))
     {
         if (field_21C <= FP_FromInteger(0))
         {
-            goto LABEL_19;
         }
+        else
+        {
+            field_21C -= field_220;
+            if (field_21C <= FP_FromInteger(0))
+            {
+                field_21C = FP_FromInteger(0);
+            }
+            else
+            {
+                field_220 -= FP_FromDouble(0.2);
 
-        field_21C = field_21C - field_220;
-        if (field_21C <= FP_FromInteger(0))
-        {
-            field_21C =  FP_FromInteger(0);
-            goto LABEL_19;
+                if (field_220 > FP_FromInteger(0))
+                {
+                }
+                else
+                {
+                    field_220 = FP_FromInteger(0);
+                }
+            }
         }
-        field_220 -= FP_FromDouble(0.2);
-        if (field_220 > FP_FromInteger(0))
-        {
-            goto LABEL_19;
-        }
-        goto LABEL_18;
     }
-
-    field_21C = field_220 + field_21C;
-    if (field_21C < FP_FromInteger(0))
+    else
     {
-        field_220 -= FP_FromDouble(0.2);
-        if (field_220  > FP_FromInteger(0))
+        field_21C += field_220;
+        if (field_21C < FP_FromInteger(0))
         {
-            goto LABEL_19;
+            field_220 -= FP_FromDouble(0.2);
+            if (field_220 > FP_FromInteger(0))
+            {
+            }
+            else
+            {
+                field_220 = FP_FromInteger(0);
+            }
         }
-    LABEL_18:
-        field_220 =  FP_FromInteger(0);
-        goto LABEL_19;
+        else
+        {
+            field_21C = FP_FromInteger(0);
+        }
     }
-    field_21C = FP_FromInteger(0);
-LABEL_19:
 
     int polyOffset = 0;
 
