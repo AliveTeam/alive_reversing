@@ -6,6 +6,7 @@
 #include "Abe.hpp"
 #include "Events.hpp"
 #include "Elum.hpp"
+#include "Math.hpp"
 
 START_NS_AO
 
@@ -173,138 +174,137 @@ const MusicController_Record array_3_stru_4CDB58[] =
 
 struct MusicController_Record2
 {
-    WORD field_0_idx;
+    SeqId field_0_idx;
     WORD field_2_duration;
 };
 ALIVE_ASSERT_SIZEOF(MusicController_Record2, 4);
 
-// TODO: Add placeholder SeqId's
 const MusicController_Record2 rec2s_4CD5A8[124] =
 {
-    { 41, 320 },
-    { 42, 320 },
-    { 43, 320 },
-    { 44, 320 },
-    { 45, 320 },
-    { 46, 320 },
-    { 47, 640 },
-    { 48, 640 },
-    { 49, 640 },
-    { 50, 640 },
-    { 51, 640 },
-    { 52, 640 },
-    { 53, 640 },
-    { 54, 640 },
-    { 55, 640 },
-    { 56, 640 },
-    { 57, 640 },
-    { 58, 640 },
-    { 59, 640 },
-    { 60, 160 },
-    { 61, 256 },
-    { 62, 256 },
-    { 63, 512 },
-    { 64, 448 },
-    { 65, 448 },
-    { 66, 448 },
-    { 67, 448 },
-    { 68, 448 },
-    { 69, 448 },
-    { 70, 256 },
-    { 71, 256 },
-    { 72, 512 },
-    { 73, 512 },
-    { 74, 512 },
-    { 75, 1024 },
-    { 76, 640 },
-    { 77, 640 },
-    { 78, 640 },
-    { 79, 640 },
-    { 80, 640 },
-    { 81, 640 },
-    { 82, 640 },
-    { 83, 640 },
-    { 84, 640 },
-    { 85, 640 },
-    { 86, 256 },
-    { 87, 256 },
-    { 88, 512 },
-    { 89, 640 },
-    { 90, 640 },
-    { 91, 640 },
-    { 92, 640 },
-    { 93, 640 },
-    { 94, 640 },
-    { 95, 640 },
-    { 96, 640 },
-    { 97, 640 },
-    { 98, 640 },
-    { 99, 160 },
-    { 100, 320 },
-    { 101, 320 },
-    { 102, 320 },
-    { 103, 512 },
-    { 104, 512 },
-    { 105, 512 },
-    { 106, 256 },
-    { 107, 256 },
-    { 108, 512 },
-    { 109, 512 },
-    { 110, 256 },
-    { 111, 1024 },
-    { 112, 512 },
-    { 113, 512 },
-    { 114, 512 },
-    { 115, 512 },
-    { 116, 512 },
-    { 117, 512 },
-    { 118, 512 },
-    { 119, 512 },
-    { 120, 512 },
-    { 121, 512 },
-    { 122, 512 },
-    { 123, 512 },
-    { 124, 512 },
-    { 125, 512 },
-    { 126, 512 },
-    { 127, 256 },
-    { 128, 256 },
-    { 129, 256 },
-    { 130, 512 },
-    { 131, 320 },
-    { 132, 320 },
-    { 133, 320 },
-    { 134, 320 },
-    { 135, 320 },
-    { 136, 320 },
-    { 137, 320 },
-    { 138, 320 },
-    { 139, 320 },
-    { 140, 320 },
-    { 141, 320 },
-    { 142, 320 },
-    { 143, 320 },
-    { 144, 320 },
-    { 145, 768 },
-    { 146, 384 },
-    { 147, 384 },
-    { 148, 640 },
-    { 149, 640 },
-    { 150, 640 },
-    { 151, 640 },
-    { 152, 640 },
-    { 153, 640 },
-    { 154, 640 },
-    { 155, 640 },
-    { 156, 640 },
-    { 157, 640 },
-    { 158, 176 },
-    { 159, 176 },
-    { 160, 176 },
-    { 161, 176 },
-    { 162, 176 },
-    { 163, 220 },
-    { 0, 0 }
+    { SeqId::Unknown_41, 320 },
+    { SeqId::Unknown_42, 320 },
+    { SeqId::Unknown_43, 320 },
+    { SeqId::Unknown_44, 320 },
+    { SeqId::Unknown_45, 320 },
+    { SeqId::Unknown_46, 320 },
+    { SeqId::Unknown_47, 640 },
+    { SeqId::Unknown_48, 640 },
+    { SeqId::Unknown_49, 640 },
+    { SeqId::Unknown_50, 640 },
+    { SeqId::Unknown_51, 640 },
+    { SeqId::Unknown_52, 640 },
+    { SeqId::Unknown_53, 640 },
+    { SeqId::Unknown_54, 640 },
+    { SeqId::Unknown_55, 640 },
+    { SeqId::Unknown_56, 640 },
+    { SeqId::Unknown_57, 640 },
+    { SeqId::Unknown_58, 640 },
+    { SeqId::Unknown_59, 640 },
+    { SeqId::Unknown_60, 160 },
+    { SeqId::Unknown_61, 256 },
+    { SeqId::Unknown_62, 256 },
+    { SeqId::Unknown_63, 512 },
+    { SeqId::Unknown_64, 448 },
+    { SeqId::Unknown_65, 448 },
+    { SeqId::Unknown_66, 448 },
+    { SeqId::Unknown_67, 448 },
+    { SeqId::Unknown_68, 448 },
+    { SeqId::Unknown_69, 448 },
+    { SeqId::Unknown_70, 256 },
+    { SeqId::Unknown_71, 256 },
+    { SeqId::Unknown_72, 512 },
+    { SeqId::Unknown_73, 512 },
+    { SeqId::Unknown_74, 512 },
+    { SeqId::Unknown_75, 1024 },
+    { SeqId::Unknown_76, 640 },
+    { SeqId::Unknown_77, 640 },
+    { SeqId::Unknown_78, 640 },
+    { SeqId::Unknown_79, 640 },
+    { SeqId::Unknown_80, 640 },
+    { SeqId::Unknown_81, 640 },
+    { SeqId::Unknown_82, 640 },
+    { SeqId::Unknown_83, 640 },
+    { SeqId::Unknown_84, 640 },
+    { SeqId::Unknown_85, 640 },
+    { SeqId::Unknown_86, 256 },
+    { SeqId::Unknown_87, 256 },
+    { SeqId::Unknown_88, 512 },
+    { SeqId::Unknown_89, 640 },
+    { SeqId::Unknown_90, 640 },
+    { SeqId::Unknown_91, 640 },
+    { SeqId::Unknown_92, 640 },
+    { SeqId::Unknown_93, 640 },
+    { SeqId::Unknown_94, 640 },
+    { SeqId::Unknown_95, 640 },
+    { SeqId::Unknown_96, 640 },
+    { SeqId::Unknown_97, 640 },
+    { SeqId::Unknown_98, 640 },
+    { SeqId::Unknown_99, 160 },
+    { SeqId::Unknown_100, 320 },
+    { SeqId::Unknown_101, 320 },
+    { SeqId::Unknown_102, 320 },
+    { SeqId::Unknown_103, 512 },
+    { SeqId::Unknown_104, 512 },
+    { SeqId::Unknown_105, 512 },
+    { SeqId::Unknown_106, 256 },
+    { SeqId::Unknown_107, 256 },
+    { SeqId::Unknown_108, 512 },
+    { SeqId::Unknown_109, 512 },
+    { SeqId::Unknown_110, 256 },
+    { SeqId::Unknown_111, 1024 },
+    { SeqId::Unknown_112, 512 },
+    { SeqId::Unknown_113, 512 },
+    { SeqId::Unknown_114, 512 },
+    { SeqId::Unknown_115, 512 },
+    { SeqId::Unknown_116, 512 },
+    { SeqId::Unknown_117, 512 },
+    { SeqId::Unknown_118, 512 },
+    { SeqId::Unknown_119, 512 },
+    { SeqId::Unknown_120, 512 },
+    { SeqId::Unknown_121, 512 },
+    { SeqId::Unknown_122, 512 },
+    { SeqId::Unknown_123, 512 },
+    { SeqId::Unknown_124, 512 },
+    { SeqId::Unknown_125, 512 },
+    { SeqId::Unknown_126, 512 },
+    { SeqId::Unknown_127, 256 },
+    { SeqId::Unknown_128, 256 },
+    { SeqId::Unknown_129, 256 },
+    { SeqId::Unknown_130, 512 },
+    { SeqId::Unknown_131, 320 },
+    { SeqId::Unknown_132, 320 },
+    { SeqId::Unknown_133, 320 },
+    { SeqId::Unknown_134, 320 },
+    { SeqId::Unknown_135, 320 },
+    { SeqId::Unknown_136, 320 },
+    { SeqId::Unknown_137, 320 },
+    { SeqId::Unknown_138, 320 },
+    { SeqId::Unknown_139, 320 },
+    { SeqId::Unknown_140, 320 },
+    { SeqId::Unknown_141, 320 },
+    { SeqId::Unknown_142, 320 },
+    { SeqId::Unknown_143, 320 },
+    { SeqId::Unknown_144, 320 },
+    { SeqId::Unknown_145, 768 },
+    { SeqId::Unknown_146, 384 },
+    { SeqId::Unknown_147, 384 },
+    { SeqId::Unknown_148, 640 },
+    { SeqId::Unknown_149, 640 },
+    { SeqId::Unknown_150, 640 },
+    { SeqId::Unknown_151, 640 },
+    { SeqId::Unknown_152, 640 },
+    { SeqId::Unknown_153, 640 },
+    { SeqId::Unknown_154, 640 },
+    { SeqId::Unknown_155, 640 },
+    { SeqId::Unknown_156, 640 },
+    { SeqId::Unknown_157, 640 },
+    { SeqId::Unknown_158, 176 },
+    { SeqId::Unknown_159, 176 },
+    { SeqId::Unknown_160, 176 },
+    { SeqId::Unknown_161, 176 },
+    { SeqId::Unknown_162, 176 },
+    { SeqId::Unknown_163, 220 },
+    { SeqId::Unknown_0, 0 }
 };
 
 __int16 CC MusicController::Create_4436C0()
@@ -737,7 +737,60 @@ void MusicController::sub_442C20()
 
 void MusicController::sub_442AC0()
 {
-    NOT_IMPLEMENTED();
+    if (field_24 || field_26_seq == SeqId::None_M1)
+    {
+        if (field_22)
+        {
+            field_22 = 0;
+            field_28 = 0;
+            field_2C = counter_507B9C >> 1;
+        }
+
+        if (counter_507B9C >> 1 >= field_28 && field_24)
+        {
+            if (field_26_seq != SeqId::None_M1)
+            {
+                SND_Seq_Stop_477A60(field_26_seq);
+            }
+
+            __int16 random = -1;
+            if (field_3A != MusicTypes::eType0)
+            {
+                const MusicController_Record3* pRec = &rec3s_4CD798[static_cast<int>(field_18_level)];
+                random = Math_RandomRange_450F20(pRec->field_0[0].field_4_min, pRec->field_0[0].field_6_max);
+            }
+            else
+            {
+                const MusicController_Record3* pRec = &rec3s_4CD798[static_cast<int>(field_18_level)];
+                for (const MusicController_Record3_Sub& rec : pRec->field_0)
+                {
+                    const auto diff = (counter_507B9C >> 1) - field_2C;
+                    if (rec.field_0_count < 0 || diff < rec.field_0_count)
+                    {
+                        random = Math_RandomRange_450F20(rec.field_4_min, rec.field_6_max);
+                        break;
+                    }
+                }
+            }
+
+            if (random < 0)
+            {
+                field_26_seq = SeqId::None_M1;
+                field_28 = counter_507B9C >> 1;
+            }
+            else
+            {
+                field_26_seq = rec2s_4CD5A8[random].field_0_idx;
+                SND_SEQ_Play_477760(field_26_seq, rec3s_4CD798[static_cast<int>(field_18_level)].field_18, field_4C, field_4C);
+                field_28 = (counter_507B9C >> 1)  + rec2s_4CD5A8[random].field_2_duration;
+            }
+        }
+    }
+    else
+    {
+        SND_Seq_Stop_477A60(field_26_seq);
+        field_26_seq = SeqId::None_M1;
+    }
 }
 
 END_NS_AO

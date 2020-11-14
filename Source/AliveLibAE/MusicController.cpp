@@ -907,7 +907,9 @@ void MusicController::sub_47F0B0()
                 musicTime = sMusicTime_5C3024;
             }
 
-            __int16 random = 0;
+            __int16 random = 0; // TODO: minus 1 ??
+            // TODO: Check this logic, seems to have changed a lot since AO so might
+            // be bugged
             if (field_42_type != MusicTypes::eNone_0)
             {
                 random = Math_RandomRange_496AB0(
