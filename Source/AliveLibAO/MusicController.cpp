@@ -329,12 +329,12 @@ __int16 CC MusicController::Create_4436C0()
     if (pMusicController_507B98->field_10)
     {
         pMusicController_507B98->field_10 = 0;
-        if (pMusicController_507B98->field_4C)
+        if (pMusicController_507B98->field_4C_current_vol)
         {
-            pMusicController_507B98->field_4A = pMusicController_507B98->field_4C;
+            pMusicController_507B98->field_4A_starting_volume = pMusicController_507B98->field_4C_current_vol;
             pMusicController_507B98->field_4E = 0;
-            pMusicController_507B98->field_2C = counter_507B9C / 2;
-            pMusicController_507B98->field_50 = counter_507B9C / 2;
+            pMusicController_507B98->field_2C_music_start_time = counter_507B9C / 2;
+            pMusicController_507B98->field_50_music_volume_change_time = counter_507B9C / 2;
             pMusicController_507B98->field_48_state = 2;
         }
         pMusicController_507B98->sub_442A10();
@@ -352,23 +352,23 @@ MusicController* MusicController::ctor_442930()
     field_4_typeId = Types::eNone_0;
 
     field_10 = 1;
-    field_3A = MusicTypes::eType0;
+    field_3A_type = MusicTypes::eType0;
     field_16 = 1;
     field_1C_pObj = nullptr;
     field_20 = 0;
     field_28 = 0;
     field_22 = 1;
-    field_24 = 1;
-    field_2C = 0;
+    field_24_bAmbientMusicEnabled = 1;
+    field_2C_music_start_time = 0;
     field_40 = 0;
     field_30 = 0;
     field_34 = 1;
     field_48_state = 0;
-    field_4A = 0;
-    field_4C = 0;
+    field_4A_starting_volume = 0;
+    field_4C_current_vol = 0;
     field_4E = 0;
-    field_50 = 0;
-    field_12 = 70;
+    field_50_music_volume_change_time = 0;
+    field_12_target_volume = 70;
     field_14 = 100;
     field_38_seq = SeqId::None_M1;
     field_18_level = LevelIds::eNone;
@@ -426,7 +426,7 @@ void MusicController::VUpdate_443300()
 
         if (gMap_507BA8.field_0_current_level != field_18_level)
         {
-            field_3C = 0;
+            field_3C_duration = 0;
             field_34 = 1;
             field_40 = counter_507B9C / 2;
             field_28 = 0;
@@ -450,25 +450,25 @@ void MusicController::VUpdate_443300()
 
             if (field_10)
             {
-                if (field_12 != field_4C)
+                if (field_12_target_volume != field_4C_current_vol)
                 {
-                    field_4A = field_4C;
+                    field_4A_starting_volume = field_4C_current_vol;
 
                     __int16 v10 = 0;
-                    if (field_12 <= 0)
+                    if (field_12_target_volume <= 0)
                     {
                         v10 = 0;
                     }
                     else
                     {
-                        v10 = field_12;
+                        v10 = field_12_target_volume;
                     }
 
                     field_4E = v10;
-                    field_2C = counter_507B9C / 2;
-                    field_50 = counter_507B9C / 2;
+                    field_2C_music_start_time = counter_507B9C / 2;
+                    field_50_music_volume_change_time = counter_507B9C / 2;
 
-                    if (field_12)
+                    if (field_12_target_volume)
                     {
                         field_48_state = 3;
                     }
@@ -483,7 +483,7 @@ void MusicController::VUpdate_443300()
         }
     }
 
-    if (field_3A > MusicTypes::eType1 && (counter_507B9C / 2) - field_40 >= 160)
+    if (field_3A_type > MusicTypes::eType1 && (counter_507B9C / 2) - field_40 >= 160)
     {
         sub_443460(MusicTypes::eType0, nullptr, 1, 0);
     }
@@ -529,16 +529,16 @@ MusicController::MusicTypes CC MusicController::sub_443840(SeqId * seq1, SeqId *
 
     if (seqTime)
     {
-        if (pMusicController_507B98->field_3A == MusicTypes::eType0)
+        if (pMusicController_507B98->field_3A_type == MusicTypes::eType0)
         {
             *seqTime = static_cast<WORD>(pMusicController_507B98->field_28 - (counter_507B9C / 2));
         }
         else
         {
-            *seqTime = static_cast<WORD>(pMusicController_507B98->field_3C - (counter_507B9C / 2));
+            *seqTime = static_cast<WORD>(pMusicController_507B98->field_3C_duration - (counter_507B9C / 2));
         }
     }
-    return pMusicController_507B98->field_3A;
+    return pMusicController_507B98->field_3A_type;
 }
 
 void MusicController::sub_442A10()
@@ -546,13 +546,13 @@ void MusicController::sub_442A10()
     if (!field_48_state)
     {
         field_28 = 0;
-        field_2C = counter_507B9C / 2;
+        field_2C_music_start_time = counter_507B9C / 2;
         field_40 = counter_507B9C / 2;
     }
     else if (field_48_state == 2)
     {
         field_48_state = 0;
-        field_4C = 0;
+        field_4C_current_vol = 0;
 
         if (field_26_seq > SeqId::None_M1)
         {
@@ -568,16 +568,16 @@ void MusicController::sub_442A10()
     }
     else if (field_48_state == 3)
     {
-        field_4C = field_4E;
+        field_4C_current_vol = field_4E;
         field_48_state = 1;
         if (field_26_seq > SeqId::None_M1)
         {
-            SND_SEQ_SetVol_477970(field_26_seq, field_4C, field_4C);
+            SND_SEQ_SetVol_477970(field_26_seq, field_4C_current_vol, field_4C_current_vol);
         }
 
         if (field_38_seq > SeqId::None_M1)
         {
-            SND_SEQ_SetVol_477970(field_38_seq, field_4C, field_4C);
+            SND_SEQ_SetVol_477970(field_38_seq, field_4C_current_vol, field_4C_current_vol);
         }
     }
 }
@@ -601,24 +601,24 @@ void CC MusicController::EnableMusic_443900(__int16 bEnable)
         pMusicController_507B98->field_10 = bEnable;
         if (bEnable)
         {
-            if (pMusicController_507B98->field_12 != pMusicController_507B98->field_4C)
+            if (pMusicController_507B98->field_12_target_volume != pMusicController_507B98->field_4C_current_vol)
             {
-                pMusicController_507B98->field_4A = pMusicController_507B98->field_4C;
+                pMusicController_507B98->field_4A_starting_volume = pMusicController_507B98->field_4C_current_vol;
 
                 __int16 v5 = 0;
-                if (pMusicController_507B98->field_12 <= 0)
+                if (pMusicController_507B98->field_12_target_volume <= 0)
                 {
                     v5 = 0;
                 }
                 else
                 {
-                    v5 = pMusicController_507B98->field_12;
+                    v5 = pMusicController_507B98->field_12_target_volume;
                 }
 
                 pMusicController_507B98->field_4E = v5;
-                pMusicController_507B98->field_2C = counter_507B9C / 2;
-                pMusicController_507B98->field_50 = counter_507B9C / 2;
-                if (pMusicController_507B98->field_12)
+                pMusicController_507B98->field_2C_music_start_time = counter_507B9C / 2;
+                pMusicController_507B98->field_50_music_volume_change_time = counter_507B9C / 2;
+                if (pMusicController_507B98->field_12_target_volume)
                 {
                     pMusicController_507B98->field_48_state = 3;
                 }
@@ -628,13 +628,13 @@ void CC MusicController::EnableMusic_443900(__int16 bEnable)
                 }
             }
             
-            pMusicController_507B98->field_3C = 0;
+            pMusicController_507B98->field_3C_duration = 0;
             pMusicController_507B98->field_28 = 0;
             pMusicController_507B98->field_40 = counter_507B9C / 2;
 
-            if (pMusicController_507B98->field_3A == MusicTypes::eType0 ||
-                pMusicController_507B98->field_3A == MusicTypes::eType8 ||
-                pMusicController_507B98->field_3A == MusicTypes::eType11)
+            if (pMusicController_507B98->field_3A_type == MusicTypes::eType0 ||
+                pMusicController_507B98->field_3A_type == MusicTypes::eType8 ||
+                pMusicController_507B98->field_3A_type == MusicTypes::eType11)
             {
                 pMusicController_507B98->field_44 = 1;
                 pMusicController_507B98->sub_442A10();
@@ -642,12 +642,12 @@ void CC MusicController::EnableMusic_443900(__int16 bEnable)
         }
         else
         {
-            if (pMusicController_507B98->field_4C)
+            if (pMusicController_507B98->field_4C_current_vol)
             {
-                pMusicController_507B98->field_4A = pMusicController_507B98->field_4C;
+                pMusicController_507B98->field_4A_starting_volume = pMusicController_507B98->field_4C_current_vol;
                 pMusicController_507B98->field_4E = 0;
-                pMusicController_507B98->field_2C = counter_507B9C / 2;
-                pMusicController_507B98->field_50 = counter_507B9C / 2;
+                pMusicController_507B98->field_2C_music_start_time = counter_507B9C / 2;
+                pMusicController_507B98->field_50_music_volume_change_time = counter_507B9C / 2;
                 pMusicController_507B98->field_48_state = 2;
             }
         }
@@ -676,7 +676,7 @@ void MusicController::sub_443460(MusicTypes musicType, BaseGameObject* pObj, __i
             }
         }
 
-        if (musicType == field_3A)
+        if (musicType == field_3A_type)
         {
             if (musicType != MusicTypes::eType0)
             {
@@ -710,20 +710,20 @@ void MusicController::sub_443460(MusicTypes musicType, BaseGameObject* pObj, __i
                 field_1C_pObj = 0;
             }
 
-            field_3A = musicType;
+            field_3A_type = musicType;
             field_40 = counter_507B9C / 2;
-            field_3C = 0;
+            field_3C_duration = 0;
             field_44 = 1;
             return;
         }
 
-        if (pObj == field_1C_pObj || !field_1C_pObj || !field_20 && (a4 || musicType >= field_3A))
+        if (pObj == field_1C_pObj || !field_1C_pObj || !field_20 && (a4 || musicType >= field_3A_type))
         {
             field_1C_pObj = pObj;
             field_20 = a4;
-            field_3A = musicType;
+            field_3A_type = musicType;
             field_40 = counter_507B9C / 2;
-            field_3C = 0;
+            field_3C_duration = 0;
             field_44 = 1;
             return;
         }
@@ -734,7 +734,7 @@ void MusicController::sub_442C20()
 {
     const int counterVal = counter_507B9C >> 1;
 
-    if (counterVal >= field_3C  && !(((counterVal) - field_30) % field_34))
+    if (counterVal >= field_3C_duration  && !(((counterVal) - field_30) % field_34))
     {
         if (field_38_seq != SeqId::None_M1)
         {
@@ -742,74 +742,71 @@ void MusicController::sub_442C20()
         }
 
         const MusicController_Record* v15 = nullptr;
-        int v4 = 0;
-        switch (field_3A)
+        int idx = 0;
+        switch (field_3A_type)
         {
         case MusicTypes::eType1:
             if (field_18_level == LevelIds::eLines_2)
             {
-                v4 = 86;
+                idx = 86;
                 field_34 = 16;
             }
             else if (field_18_level == LevelIds::eForest_3)
             {
-                v4 = 58;
+                idx = 58;
                 field_34 = 20;
             }
             else
             {
                 if (field_18_level == LevelIds::eDesert_8)
                 {
-                    v4 = 19;
+                    idx = 19;
                 }
                 else
                 {
-                    v4 = -1;
+                    idx = -1;
                 }
                 field_34 = 20;
             }
 
-            if (field_12 == field_4C)
+            if (field_12_target_volume != field_4C_current_vol)
             {
-                field_24 = 1;
-                field_22 = 1;
-                goto LABEL_129;
-            }
-            field_4A = field_4C;
+                field_4A_starting_volume = field_4C_current_vol;
 
-            if (field_12 <= 0)
-            {
-                field_4E = 0;
-            }
-            else
-            {
-                field_4E = field_12;
-            }
+                if (field_12_target_volume <= 0)
+                {
+                    field_4E = 0;
+                }
+                else
+                {
+                    field_4E = field_12_target_volume;
+                }
 
-            field_2C = counterVal;
-            field_50 = (counterVal) + 30;
+                field_2C_music_start_time = counterVal;
+                field_50_music_volume_change_time = (counterVal) + 30;
 
-            if (field_12)
-            {
-                field_48_state = 3;
-                field_24 = 1;
-                field_22 = 1;
+                if (field_12_target_volume)
+                {
+                    // vol state on?
+                    field_48_state = 3;
+                }
+                else
+                {
+                    // vol state off ?
+                    field_48_state = 2;
+                }
             }
-            else
-            {
-                field_48_state = 2;
-                field_24 = 1;
-                field_22 = 1;
-            }
+            field_24_bAmbientMusicEnabled = 1;
+            field_22 = 1;
             goto LABEL_129;
 
         case MusicTypes::eType2:
             field_34 = 1;
-            v4 = -1;
-            field_24 = 0;
-            if (field_14 != field_4C)
+            idx = -1;
+            field_24_bAmbientMusicEnabled = 0;
+            if (field_14 != field_4C_current_vol)
             {
-                field_4A = field_4C;
+                field_4A_starting_volume = field_4C_current_vol;
                 if (field_14 <= 0)
                 {
                     field_4E = 0;
@@ -818,8 +815,8 @@ void MusicController::sub_442C20()
                 {
                     field_4E = field_14;
                 }
-                field_2C = counterVal;
-                field_50 = counterVal;
+                field_2C_music_start_time = counterVal;
+                field_50_music_volume_change_time = counterVal;
                 if (field_14)
                 {
                     goto LABEL_104;
@@ -831,18 +828,18 @@ void MusicController::sub_442C20()
         case MusicTypes::eType3:
             if (field_44)
             {
-                v4 = Math_RandomRange_450F20(0, 1);
+                idx = Math_RandomRange_450F20(0, 1);
             }
             else
             {
-                v4 = -1;
+                idx = -1;
             }
 
             field_34 = 1;
-            field_24 = 0;
-            if (field_14 != field_4C)
+            field_24_bAmbientMusicEnabled = 0;
+            if (field_14 != field_4C_current_vol)
             {
-                field_4A = field_4C;
+                field_4A_starting_volume = field_4C_current_vol;
                 if (field_14 <= 0)
                 {
                     field_4E = 0;
@@ -851,8 +848,8 @@ void MusicController::sub_442C20()
                 {
                     field_4E = field_14;
                 }
-                field_2C = counterVal;
-                field_50 = counterVal;
+                field_2C_music_start_time = counterVal;
+                field_50_music_volume_change_time = counterVal;
                 if (field_14)
                 {
                     goto LABEL_104;
@@ -868,15 +865,15 @@ void MusicController::sub_442C20()
         case MusicTypes::eType5:
             v15 = &array_2_stru_4CDA58[static_cast<int>(field_18_level)];
         LABEL_39:
-            v4 = v15->field_0;
-            field_24 = v15->field_8;
+            idx = v15->field_0;
+            field_24_bAmbientMusicEnabled = v15->field_8;
             field_34 = v15->field_4;
-            if (field_14 == field_4C)
+            if (field_14 == field_4C_current_vol)
             {
                 goto LABEL_129;
             }
             
-            field_4A = field_4C;
+            field_4A_starting_volume = field_4C_current_vol;
 
             if (field_14 <= 0)
             {
@@ -887,8 +884,8 @@ void MusicController::sub_442C20()
                 field_4E = field_14;
             }
 
-            field_2C = counterVal;
-            field_50 = counterVal;
+            field_2C_music_start_time = counterVal;
+            field_50_music_volume_change_time = counterVal;
             if (field_14)
             {
                 goto LABEL_104;
@@ -900,24 +897,24 @@ void MusicController::sub_442C20()
             if (field_44)
             {
                 const MusicController_Record* v19 = &array_3_stru_4CDB58[static_cast<int>(field_18_level)];
-                v4 = v19->field_0;
+                idx = v19->field_0;
                 field_34 = v19->field_4;
-                field_24 = v19->field_8;
+                field_24_bAmbientMusicEnabled = v19->field_8;
                 goto LABEL_98;
             }
-            v4 = -1;
+            idx = -1;
             field_34 = 20;
             goto LABEL_84;
 
         case MusicTypes::eType7:
-            v4 = 117;
+            idx = 117;
             field_34 = 22;
-            if (field_14 == field_4C)
+            if (field_14 == field_4C_current_vol)
             {
-                field_24 = 0;
+                field_24_bAmbientMusicEnabled = 0;
                 goto LABEL_129;
             }
-            field_4A = field_4C;
+            field_4A_starting_volume = field_4C_current_vol;
             if (field_14 <= 0)
             {
                 field_4E = 0;
@@ -926,44 +923,44 @@ void MusicController::sub_442C20()
             {
                 field_4E = field_14;
             }
-            field_2C = counterVal;
-            field_50 = counterVal;
+            field_2C_music_start_time = counterVal;
+            field_50_music_volume_change_time = counterVal;
             if (field_14)
             {
                 field_48_state = 3;
-                field_24 = 0;
+                field_24_bAmbientMusicEnabled = 0;
                 goto LABEL_129;
             }
             field_48_state = 2;
-            field_24 = 0;
+            field_24_bAmbientMusicEnabled = 0;
             goto LABEL_129;
 
         case MusicTypes::eType8:
             if (gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12)
             {
-                v4 = 102;
+                idx = 102;
                 field_34 = 1;
             }
             else
             {
                 if (field_44)
                 {
-                    v4 = 122;
+                    idx = 122;
                 }
                 else
                 {
-                    v4 = Math_RandomRange_450F20(118, 120);
+                    idx = Math_RandomRange_450F20(118, 120);
                 }
                 field_34 = 22;
             }
 
-            if (field_14 == field_4C)
+            if (field_14 == field_4C_current_vol)
             {
-                field_24 = 0;
+                field_24_bAmbientMusicEnabled = 0;
                 goto LABEL_129;
             }
             
-            field_4A = field_4C;
+            field_4A_starting_volume = field_4C_current_vol;
 
             if (field_14 <= 0)
             {
@@ -974,33 +971,33 @@ void MusicController::sub_442C20()
                 field_4E = field_14;
             }
 
-            field_2C = counterVal;
-            field_50 = counterVal;
+            field_2C_music_start_time = counterVal;
+            field_50_music_volume_change_time = counterVal;
             if (field_14)
             {
                 field_48_state = 3;
-                field_24 = 0;
+                field_24_bAmbientMusicEnabled = 0;
                 goto LABEL_129;
             }
             field_48_state = 2;
-            field_24 = 0;
+            field_24_bAmbientMusicEnabled = 0;
             goto LABEL_129;
 
         case MusicTypes::eType9:
-            v4 = 121;
+            idx = 121;
             goto LABEL_68;
 
         case MusicTypes::eType10:
-            v4 = 122;
+            idx = 122;
         LABEL_68:
             field_34 = 22;
-            if (field_14 == field_4C)
+            if (field_14 == field_4C_current_vol)
             {
-                field_24 = 0;
+                field_24_bAmbientMusicEnabled = 0;
                 goto LABEL_129;
             }
 
-            field_4A = field_4C;
+            field_4A_starting_volume = field_4C_current_vol;
 
             if (field_14 <= 0)
             {
@@ -1011,18 +1008,18 @@ void MusicController::sub_442C20()
                 field_4E = field_14;
             }
 
-            field_2C = counterVal;
-            field_50 = counterVal;
+            field_2C_music_start_time = counterVal;
+            field_50_music_volume_change_time = counterVal;
 
             if (field_14)
             {
                 field_48_state = 3;
-                field_24 = 0;
+                field_24_bAmbientMusicEnabled = 0;
             }
             else
             {
                 field_48_state = 2;
-                field_24 = 0;
+                field_24_bAmbientMusicEnabled = 0;
             }
             goto LABEL_129;
 
@@ -1031,28 +1028,28 @@ void MusicController::sub_442C20()
             {
                 if (field_18_level == LevelIds::eForestChase)
                 {
-                    v4 = 69;
+                    idx = 69;
                 }
                 else
                 {
                     if (field_18_level != LevelIds::eDesertEscape)
                     {
-                        v4 = 117;
+                        idx = 117;
                         field_34 = 22;
-                        field_24 = 0;
+                        field_24_bAmbientMusicEnabled = 0;
                         field_46 = 1;
                         goto LABEL_98;
                     }
-                    v4 = 33;
+                    idx = 33;
                 }
                 field_34 = 16;
-                field_24 = 0;
+                field_24_bAmbientMusicEnabled = 0;
                 field_46 = 1;
 
             LABEL_98:
-                if (field_14 != field_4C)
+                if (field_14 != field_4C_current_vol)
                 {
-                    field_4A = field_4C;
+                    field_4A_starting_volume = field_4C_current_vol;
                     if (field_14 <= 0)
                     {
                         field_4E = 0;
@@ -1062,8 +1059,8 @@ void MusicController::sub_442C20()
                         field_4E = field_14;
                     }
 
-                    field_2C = counterVal;
-                    field_50 = counterVal;
+                    field_2C_music_start_time = counterVal;
+                    field_50_music_volume_change_time = counterVal;
 
                     if (field_14)
                     {
@@ -1077,27 +1074,27 @@ void MusicController::sub_442C20()
                 }
                 goto LABEL_129;
             }
-            v4 = -1;
+            idx = -1;
             field_34 = 16;
 
         LABEL_84:
-            field_24 = 1;
-            if (field_12 != field_4C)
+            field_24_bAmbientMusicEnabled = 1;
+            if (field_12_target_volume != field_4C_current_vol)
             {
-                field_4A = field_4C;
-                if (field_12 <= 0)
+                field_4A_starting_volume = field_4C_current_vol;
+                if (field_12_target_volume <= 0)
                 {
                     field_4E = 0;
                 }
                 else
                 {
-                    field_4E = field_12;
+                    field_4E = field_12_target_volume;
                 }
 
-                field_2C = counterVal;
-                field_50 = (counterVal) + 30;
+                field_2C_music_start_time = counterVal;
+                field_50_music_volume_change_time = (counterVal) + 30;
 
-                if (!field_12)
+                if (!field_12_target_volume)
                 {
                     field_48_state = 2;
                     field_46 = 1;
@@ -1106,68 +1103,41 @@ void MusicController::sub_442C20()
                 field_48_state = 3;
             }
             field_46 = 1;
-
-        LABEL_129:
-            if (v4 < 0)
-            {
-                field_38_seq = SeqId::None_M1;
-                field_3C = 0;
-            }
-            else
-            {
-                field_3C = (counterVal) + rec2s_4CD5A8[v4].field_2_duration;
-                field_38_seq = rec2s_4CD5A8[v4].field_0_idx;
-                SND_SEQ_Play_477760(field_38_seq, 1, field_4C, field_4C);
-            }
-
-            field_30 = counterVal;
-            if (field_44)
-            {
-                if (field_46)
-                {
-                    field_46 = 0;
-                }
-                else
-                {
-                    field_22 = 1;
-                }
-                field_44 = 0;
-            }
-            break;
+            goto LABEL_129;
 
         case MusicTypes::eType12:
             if (field_18_level == LevelIds::eForestChase)
             {
-                v4 = 70;
+                idx = 70;
                 field_34 = 16;
             }
             else if (field_18_level == LevelIds::eDesertEscape)
             {
-                v4 = 34;
+                idx = 34;
                 field_34 = 32;
             }
             else
             {
-                v4 = 122;
+                idx = 122;
                 field_34 = 22;
             }
-            field_24 = 0;
+            field_24_bAmbientMusicEnabled = 0;
             goto LABEL_98;
 
         case MusicTypes::eType13:
-            v4 = -(field_44 != 0);
+            idx = -(field_44 != 0);
             field_34 = 1;
 
-            v4 = (v4 & 3) - 1;
+            idx = (idx & 3) - 1;
 
-            field_24 = 0;
+            field_24_bAmbientMusicEnabled = 0;
 
-            if (field_14 == field_4C)
+            if (field_14 == field_4C_current_vol)
             {
                 goto LABEL_129;
             }
 
-            field_4A = field_4C;
+            field_4A_starting_volume = field_4C_current_vol;
 
             if (field_14 <= 0)
             {
@@ -1178,8 +1148,8 @@ void MusicController::sub_442C20()
                 field_4E = field_14;
             }
 
-            field_2C = counterVal;
-            field_50 = counterVal;
+            field_2C_music_start_time = counterVal;
+            field_50_music_volume_change_time = counterVal;
             if (field_14)
             {
                 goto LABEL_104;
@@ -1189,13 +1159,13 @@ void MusicController::sub_442C20()
 
         case MusicTypes::eType14:
             field_34 = 1;
-            field_24 = 0;
-            v4 = field_44 != 0 ? 3 : -1;
-            if (field_14 == field_4C)
+            field_24_bAmbientMusicEnabled = 0;
+            idx = field_44 != 0 ? 3 : -1;
+            if (field_14 == field_4C_current_vol)
             {
                 goto LABEL_129;
             }
-            field_4A = field_4C;
+            field_4A_starting_volume = field_4C_current_vol;
             if (field_14 <= 0)
             {
                 field_4E = 0;
@@ -1204,8 +1174,8 @@ void MusicController::sub_442C20()
             {
                 field_4E = field_14;
             }
-            field_2C = counterVal;
-            field_50 = counterVal;
+            field_2C_music_start_time = counterVal;
+            field_50_music_volume_change_time = counterVal;
             if (field_14)
             {
                 goto LABEL_104;
@@ -1214,44 +1184,36 @@ void MusicController::sub_442C20()
             goto LABEL_129;
 
         case MusicTypes::eType15:
-            v4 = field_44 != 0 ? 5 : 0;
+            idx = field_44 != 0 ? 5 : 0;
             goto LABEL_29;
 
         case MusicTypes::eType16:
-            v4 = field_44 != 0 ? 6 : 0;
+            idx = field_44 != 0 ? 6 : 0;
 
         LABEL_29:
             field_34 = 1;
-            v4 = v4 - 1;
-            field_24 = 0;
-            if (field_4C != 127)
+            idx = idx - 1;
+            field_24_bAmbientMusicEnabled = 0;
+            if (field_4C_current_vol != 127)
             {
-                field_4A = field_4C;
+                field_4A_starting_volume = field_4C_current_vol;
                 field_4E = 127;
-                field_2C = counterVal;
-                field_50 = counterVal;
+                field_2C_music_start_time = counterVal;
+                field_50_music_volume_change_time = counterVal;
                 field_48_state = 3;
             }
-            goto LABEL_129;
+            break;
 
         default:
-            v4 = -1;
-            if (field_12 != field_4C)
+            idx = -1;
+            if (field_12_target_volume != field_4C_current_vol)
             {
-                field_4A = field_4C;
-                if (field_12 <= 0)
-                {
-                    field_4E = 0;
-                }
-                else
-                {
-                    field_4E = field_12;
-                }
+                field_4A_starting_volume = field_4C_current_vol;
+                field_4E = (field_12_target_volume <= 0) ? 0 : field_12_target_volume;
+                field_2C_music_start_time = counterVal;
+                field_50_music_volume_change_time = (counterVal) + 30;
 
-                field_2C = counterVal;
-                field_50 = (counterVal) + 30;
-
-                if (field_12)
+                if (field_12_target_volume)
                 {
                     field_48_state = 3;
                 }
@@ -1260,25 +1222,55 @@ void MusicController::sub_442C20()
                     field_48_state = 2;
                 }
             }
+
             field_34 = 1;
-            field_24 = 1;
-            goto LABEL_129;
+            field_24_bAmbientMusicEnabled = 1;
+            break;
+        }
+
+    LABEL_129:
+        if (idx >= 0)
+        {
+            field_38_seq = rec2s_4CD5A8[idx].field_0_idx;
+            field_3C_duration = (counterVal)+rec2s_4CD5A8[idx].field_2_duration;
+            SND_SEQ_Play_477760(field_38_seq, 1, field_4C_current_vol, field_4C_current_vol);
+        }
+        else
+        {
+            field_38_seq = SeqId::None_M1;
+            field_3C_duration = 0;
+        }
+
+        field_30 = counterVal;
+
+        if (field_44)
+        {
+            field_44 = 0;
+
+            if (field_46)
+            {
+                field_46 = 0;
+            }
+            else
+            {
+                field_22 = 1;
+            }
         }
     }
 }
 
 void MusicController::sub_442AC0()
 {
-    if (field_24 || field_26_seq == SeqId::None_M1)
+    if (field_24_bAmbientMusicEnabled || field_26_seq == SeqId::None_M1)
     {
         if (field_22)
         {
             field_22 = 0;
             field_28 = 0;
-            field_2C = counter_507B9C >> 1;
+            field_2C_music_start_time = counter_507B9C >> 1;
         }
 
-        if (counter_507B9C >> 1 >= field_28 && field_24)
+        if (counter_507B9C >> 1 >= field_28 && field_24_bAmbientMusicEnabled)
         {
             if (field_26_seq != SeqId::None_M1)
             {
@@ -1286,7 +1278,7 @@ void MusicController::sub_442AC0()
             }
 
             __int16 random = -1;
-            if (field_3A != MusicTypes::eType0)
+            if (field_3A_type != MusicTypes::eType0)
             {
                 const MusicController_Record3* pRec = &rec3s_4CD798[static_cast<int>(field_18_level)];
                 random = Math_RandomRange_450F20(pRec->field_0[0].field_4_min, pRec->field_0[0].field_6_max);
@@ -1296,7 +1288,7 @@ void MusicController::sub_442AC0()
                 const MusicController_Record3* pRec = &rec3s_4CD798[static_cast<int>(field_18_level)];
                 for (const MusicController_Record3_Sub& rec : pRec->field_0)
                 {
-                    const auto diff = (counter_507B9C >> 1) - field_2C;
+                    const auto diff = (counter_507B9C >> 1) - field_2C_music_start_time;
                     if (rec.field_0_count < 0 || diff < rec.field_0_count)
                     {
                         random = Math_RandomRange_450F20(rec.field_4_min, rec.field_6_max);
@@ -1313,7 +1305,7 @@ void MusicController::sub_442AC0()
             else
             {
                 field_26_seq = rec2s_4CD5A8[random].field_0_idx;
-                SND_SEQ_Play_477760(field_26_seq, rec3s_4CD798[static_cast<int>(field_18_level)].field_18, field_4C, field_4C);
+                SND_SEQ_Play_477760(field_26_seq, rec3s_4CD798[static_cast<int>(field_18_level)].field_18, field_4C_current_vol, field_4C_current_vol);
                 field_28 = (counter_507B9C >> 1)  + rec2s_4CD5A8[random].field_2_duration;
             }
         }

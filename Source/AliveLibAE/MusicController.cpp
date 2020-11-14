@@ -856,7 +856,7 @@ void MusicController::sub_47F260()
             break;
         }
 
-        if (idx > 0)
+        if (idx > 0) // TODO: >=0 ??
         {
             field_40_flags_and_idx = stru_55D008[idx].field_0_idx;
             field_44 = sMusicTime_5C3024 + stru_55D008[idx].field_2_duration;

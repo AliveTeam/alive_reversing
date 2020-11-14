@@ -73,7 +73,7 @@ public:
     EXPORT void sub_442AC0();
 
     __int16 field_10;
-    __int16 field_12;
+    __int16 field_12_target_volume;
     __int16 field_14;
     __int16 field_16;
     LevelIds field_18_level;
@@ -81,23 +81,23 @@ public:
     BaseGameObject* field_1C_pObj;
     __int16 field_20;
     __int16 field_22;
-    __int16 field_24;
+    __int16 field_24_bAmbientMusicEnabled;
     SeqId field_26_seq;
     int field_28;
-    int field_2C;
+    int field_2C_music_start_time;
     int field_30;
     int field_34;
     SeqId field_38_seq;
-    MusicTypes field_3A;
-    int field_3C;
+    MusicTypes field_3A_type;
+    int field_3C_duration;
     int field_40;
     __int16 field_44;
     __int16 field_46;
     __int16 field_48_state;
-    __int16 field_4A;
-    __int16 field_4C;
+    __int16 field_4A_starting_volume;
+    __int16 field_4C_current_vol;
     __int16 field_4E;
-    int field_50;
+    int field_50_music_volume_change_time;
 };
 ALIVE_ASSERT_SIZEOF(MusicController, 0x54);
 
