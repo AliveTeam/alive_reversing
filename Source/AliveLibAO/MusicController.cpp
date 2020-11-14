@@ -98,10 +98,10 @@ const MusicController_Record3 rec3s_4CD798[16] =
 
 struct MusicController_Record
 {
-    __int16 field_0;
+    __int16 field_0_seqIdx;
     __int16 field_2;
     int field_4;
-    __int16 field_8;
+    __int16 field_8_bAmibentEnabled;
     __int16 field_A;
     __int16 field_C;
     __int16 field_E;
@@ -768,7 +768,6 @@ void MusicController::sub_442C20()
             SND_Seq_Stop_477A60(field_38_seq);
         }
 
-        const MusicController_Record* v15 = nullptr;
         int idx = 0;
         switch (field_3A_type)
         {
@@ -783,16 +782,14 @@ void MusicController::sub_442C20()
                 idx = 58;
                 field_34 = 20;
             }
+            else if (field_18_level == LevelIds::eDesert_8)
+            {
+                idx = 19;
+                field_34 = 20;
+            }
             else
             {
-                if (field_18_level == LevelIds::eDesert_8)
-                {
-                    idx = 19;
-                }
-                else
-                {
-                    idx = -1;
-                }
+                idx = -1;
                 field_34 = 20;
             }
             field_4E = SetMusicVolumeDelayed(field_12_target_volume, 30);
@@ -808,46 +805,43 @@ void MusicController::sub_442C20()
             break;
 
         case MusicTypes::eType3:
-            if (field_44)
-            {
-                idx = Math_RandomRange_450F20(0, 1);
-            }
-            else
-            {
-                idx = -1;
-            }
-
+            idx = field_44 ?  Math_RandomRange_450F20(0, 1) : -1;
             field_34 = 1;
             field_24_bAmbientMusicEnabled = 0;
             field_4E = SetMusicVolumeDelayed(field_14, 0);
             break;
 
         case MusicTypes::eType4:
-            v15 = &array_1_stru_4CD958[static_cast<int>(field_18_level)];
-            goto LABEL_39;
-
+            // Fall through
         case MusicTypes::eType5:
-            v15 = &array_2_stru_4CDA58[static_cast<int>(field_18_level)];
-
-        LABEL_39:
-            idx = v15->field_0;
-            field_24_bAmbientMusicEnabled = v15->field_8;
-            field_34 = v15->field_4;
+        {
+            const MusicController_Record* pRec = field_3A_type == MusicTypes::eType4 ?
+                &array_1_stru_4CD958[static_cast<int>(field_18_level)] :
+                &array_2_stru_4CDA58[static_cast<int>(field_18_level)];
+            idx = pRec->field_0_seqIdx;
+            field_24_bAmbientMusicEnabled = pRec->field_8_bAmibentEnabled;
+            field_34 = pRec->field_4;
             field_4E = SetMusicVolumeDelayed(field_14, 0);
             break;
+        }
 
         case MusicTypes::eType6:
             if (field_44)
             {
                 const MusicController_Record* pRec = &array_3_stru_4CDB58[static_cast<int>(field_18_level)];
-                idx = pRec->field_0;
+                idx = pRec->field_0_seqIdx;
                 field_34 = pRec->field_4;
-                field_24_bAmbientMusicEnabled = pRec->field_8;
-                goto LABEL_98;
+                field_24_bAmbientMusicEnabled = pRec->field_8_bAmibentEnabled;
+                field_4E = SetMusicVolumeDelayed(field_14, 0);
             }
-            idx = -1;
-            field_34 = 20;
-            goto LABEL_84;
+            else
+            {
+                idx = -1;
+                field_34 = 20;
+                field_24_bAmbientMusicEnabled = 1;
+                field_4E = SetMusicVolumeDelayed(field_12_target_volume, 30);
+                field_46 = 1;
+            }
 
         case MusicTypes::eType7:
             idx = 117;
@@ -880,13 +874,10 @@ void MusicController::sub_442C20()
             break;
 
         case MusicTypes::eType9:
-            idx = 121;
-            goto LABEL_68;
+            // Fall through
 
         case MusicTypes::eType10:
-            idx = 122;
-
-        LABEL_68:
+            idx = field_3A_type == MusicTypes::eType9 ? 121 : 122;
             field_34 = 22;
             field_4E = SetMusicVolumeDelayed(field_14, 0);
             field_24_bAmbientMusicEnabled = 0;
@@ -922,8 +913,6 @@ void MusicController::sub_442C20()
             {
                 idx = -1;
                 field_34 = 16;
-
-            LABEL_84:
                 field_24_bAmbientMusicEnabled = 1;
                 field_4E = SetMusicVolumeDelayed(field_12_target_volume, 30);
                 field_46 = 1;
@@ -947,12 +936,15 @@ void MusicController::sub_442C20()
                 field_34 = 22;
             }
             field_24_bAmbientMusicEnabled = 0;
-            goto LABEL_98;
+            field_4E = SetMusicVolumeDelayed(field_14, 0);
+            break;
 
         case MusicTypes::eType13:
+            // TODO: Refactor
             idx = -(field_44 != 0);
-            field_34 = 1;
             idx = (idx & 3) - 1;
+
+            field_34 = 1;
             field_24_bAmbientMusicEnabled = 0;
             field_4E = SetMusicVolumeDelayed(field_14, 0);
             break;
@@ -965,16 +957,21 @@ void MusicController::sub_442C20()
             break;
 
         case MusicTypes::eType15:
-            idx = field_44 != 0 ? 5 : 0;
-            goto LABEL_29;
+            // Fall through
 
         case MusicTypes::eType16:
-            idx = field_44 != 0 ? 6 : 0;
+            if (field_3A_type == MusicTypes::eType15)
+            {
+                 idx = field_44 != 0 ? 4 : -1;
+            }
+            else
+            {
+                 idx = field_44 != 0 ? 5 : -1;
+            }
 
-        LABEL_29:
             field_34 = 1;
-            idx = idx - 1;
             field_24_bAmbientMusicEnabled = 0;
+
             if (field_4C_current_vol != 127)
             {
                 field_4A_starting_volume = field_4C_current_vol;
