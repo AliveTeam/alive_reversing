@@ -22,6 +22,7 @@
 #include "LvlArchive.hpp"
 #include "SaveGame.hpp"
 #include "Midi.hpp"
+#include "Sound.hpp"
 #include "Particle.hpp"
 #include "../AliveLibAE/Io.hpp"
 
@@ -44,18 +45,6 @@ EXPORT void SND_Set_Stereo_477030()
 {
     //nullsub_64();
     sSoundMono_507690 = 0;
-}
-
-// TODO: Move out
-EXPORT void CC SND_StopAll_4762D0()
-{
-    NOT_IMPLEMENTED();
-}
-
-// TODO: Move out
-EXPORT void CC SND_Restart_476340()
-{
-    NOT_IMPLEMENTED();
 }
 
 // TODO: Move out

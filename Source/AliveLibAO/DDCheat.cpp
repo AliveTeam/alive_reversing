@@ -241,7 +241,7 @@ void DDCheat::VUpdate_4098C0()
         {
             if (pObj)
             {
-                if (sInputObject_5009E8.isHeld(InputCommands::eGameSpeak4))
+                if (sInputObject_5009E8.IsHeld(InputCommands::eGameSpeak4))
                 {
                     sDDCheat_FlyingEnabled_50771C = cheat_enabled == 0;
                     if (sDDCheat_FlyingEnabled_50771C)

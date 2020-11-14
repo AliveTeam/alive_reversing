@@ -84,7 +84,8 @@ EXPORT void CC SND_Init_476E40();
 
 EXPORT void CC SND_Shutdown_476EC0();
 
-
 EXPORT void CC SND_SEQ_SetVol_477970(SeqId idx, __int16 volLeft, __int16 volRight);
+
+EXPORT void CC SND_StopAll_4762D0();
 
 END_NS_AO

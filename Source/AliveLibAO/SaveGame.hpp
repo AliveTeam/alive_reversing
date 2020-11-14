@@ -104,8 +104,11 @@ public:
     EXPORT static short CC Read_459D30(const char* name);
     EXPORT static BOOL CC WriteSave_45A110(const char* name);
 
+    static short GetPathId(short pathToFind, short* outFoundPathRow = nullptr);
     static int Hash(SaveData* table);
 };
+
+extern const char word_4BC670[6][8];
 
 END_NS_AO
 

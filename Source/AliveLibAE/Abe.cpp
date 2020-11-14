@@ -7475,7 +7475,7 @@ void Abe::State_107_RockThrowCrouchingHold_454410()
         }
     }
 
-    if (sInputObject_5BD4E0.isReleased(sInputKey_ThrowItem_5550F4))
+    if (sInputObject_5BD4E0.IsReleased(sInputKey_ThrowItem_5550F4))
     {
         pRock->VToDead_4114B0();
         field_158_throwable_id = -1;

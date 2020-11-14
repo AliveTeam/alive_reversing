@@ -113,11 +113,11 @@ public:
     int field_28_command_duration;
     int field_2C;
 
-    bool isPressed(DWORD command);
+    bool IsPressed(DWORD command);
 
-    bool isHeld(DWORD command);
+    bool IsHeld(DWORD command);
 
-    bool isReleased(DWORD command);
+    bool IsReleased(DWORD command);
 };
 ALIVE_ASSERT_SIZEOF(InputObject, 0x30);
 

@@ -59,19 +59,19 @@ int InputObject::IsDemoPlaying_4334A0()
     return field_20_demo_playing & 1;
 }
 
-bool InputObject::isPressed(DWORD command)
+bool InputObject::IsPressed(DWORD command)
 {
-    return (this->field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed & command) != 0;
+    return (field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed & command) != 0;
 }
 
-bool InputObject::isHeld(DWORD command)
+bool InputObject::IsHeld(DWORD command)
 {
-    return (this->field_0_pads[sCurrentControllerIndex_5076B8].field_6_held & command) != 0;
+    return (field_0_pads[sCurrentControllerIndex_5076B8].field_6_held & command) != 0;
 }
 
-bool InputObject::isReleased(DWORD command)
+bool InputObject::IsReleased(DWORD command)
 {
-     return (this->field_0_pads[sCurrentControllerIndex_5076B8].field_8_released & command) != 0;
+     return (field_0_pads[sCurrentControllerIndex_5076B8].field_8_released & command) != 0;
 }
 
 BOOL CC Input_IsChanting_4334C0()

@@ -214,7 +214,7 @@ void GameEnderController::VUpdate_41C860()
         break;
 
     case 3:
-        if (sInputObject_5009E8.isHeld(sInputKey_FartRoll_4C65B0))
+        if (sInputObject_5009E8.IsHeld(sInputKey_FartRoll_4C65B0))
         {
             gMap_507BA8.SetActiveCam_444660(LevelIds::eRuptureFarmsReturn_13, 19, 3, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             field_14_state = 2;
@@ -222,7 +222,7 @@ void GameEnderController::VUpdate_41C860()
         break;
 
     case 4:
-        if (sInputObject_5009E8.isHeld(sInputKey_FartRoll_4C65B0))
+        if (sInputObject_5009E8.IsHeld(sInputKey_FartRoll_4C65B0))
         {
             gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 30, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             gMap_507BA8.field_DC_free_all_anim_and_palts = 1;
