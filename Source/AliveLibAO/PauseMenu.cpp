@@ -14,6 +14,7 @@
 #include "Sfx.hpp"
 #include "Sys.hpp"
 #include "Map.hpp"
+#include <cstdlib>
 
 START_NS_AO;
 
