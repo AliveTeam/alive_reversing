@@ -72,6 +72,8 @@ public:
 
     EXPORT void sub_442AC0();
 
+    __int16 SetMusicVolumeDelayed(__int16 vol, __int16 delay);
+
     __int16 field_10;
     __int16 field_12_target_volume;
     __int16 field_14;
