@@ -994,8 +994,6 @@ const Menu_Element x_and_esc_4D0660[] = { { 33, 29, 64 }, { 304, 165, 2048 } };
 
 void Menu::FMV_Or_Level_Select_Render_47EEA0(int** ppOt)
 {
-    //NOT_IMPLEMENTED();
-  
     // Glow hilight 
     field_134_anim.VRender_403AE0(
         stru_4D00D8.field_0_xpos,
@@ -1037,42 +1035,32 @@ void Menu::FMV_Or_Level_Select_Render_47EEA0(int** ppOt)
         }
     }
 
-    if (field_21C >= FP_FromInteger(0))
+    if (field_21C > FP_FromInteger(0))
     {
+        field_21C -= field_220;
+
         if (field_21C <= FP_FromInteger(0))
         {
+            field_21C = FP_FromInteger(0);
         }
         else
         {
-            field_21C -= field_220;
-            if (field_21C <= FP_FromInteger(0))
-            {
-                field_21C = FP_FromInteger(0);
-            }
-            else
-            {
-                field_220 -= FP_FromDouble(0.2);
+            field_220 -= FP_FromDouble(0.2);
 
-                if (field_220 > FP_FromInteger(0))
-                {
-                }
-                else
-                {
-                    field_220 = FP_FromInteger(0);
-                }
+            if (field_220 <= FP_FromInteger(0))
+            {
+                field_220 = FP_FromInteger(0);
             }
         }
     }
-    else
+    else if (field_21C < FP_FromInteger(0))
     {
         field_21C += field_220;
+
         if (field_21C < FP_FromInteger(0))
         {
             field_220 -= FP_FromDouble(0.2);
-            if (field_220 > FP_FromInteger(0))
-            {
-            }
-            else
+            if (field_220 <= FP_FromInteger(0))
             {
                 field_220 = FP_FromInteger(0);
             }
