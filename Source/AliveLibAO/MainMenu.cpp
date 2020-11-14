@@ -667,12 +667,12 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, int tlvInfo)
     {
         field_204_flags &= ~2u;
         field_224_bToFmvSelect = 1;
-        field_21C = 0;
+        field_21C = FP_FromInteger(0);
         field_1CC_fn_update = &Menu::FMV_Select_Update_47E8D0;
         field_1D0_fn_render = &Menu::FMV_Or_Level_Select_Render_47EEA0;
         field_1E0_selected_index = 0;
         field_218 = 0;
-        field_220 = 0;
+        field_220 = FP_FromInteger(0);
 
         sActiveList_9F2DE4 = gFmvs_4D0230;
         sListCount_4D0228 = ALIVE_COUNTOF(gFmvs_4D0230);
@@ -871,7 +871,7 @@ void Menu::FMV_Select_Update_47E8D0()
     {
         if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x1000) // TODO: Input constants
         {
-            if (field_1E0_selected_index > 0 && !field_21C)
+            if (field_1E0_selected_index > 0 && field_21C == FP_FromInteger(0))
             {
                 field_1E0_selected_index--;
                 SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
@@ -879,7 +879,7 @@ void Menu::FMV_Select_Update_47E8D0()
         }
         else if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x4100) // TODO: Input constants
         {
-            if (field_1E0_selected_index < (sListCount_4D0228 - 1) && !field_21C)
+            if (field_1E0_selected_index < (sListCount_4D0228 - 1) && field_21C == FP_FromInteger(0))
             {
                 field_1E0_selected_index++;
                 SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
@@ -989,9 +989,161 @@ void Menu::Empty_Render_47AC80(int**)
     // Draw nothing
 }
 
-void Menu::FMV_Or_Level_Select_Render_47EEA0(int**)
+const Menu_Button stru_4D00D8 = { 34, 65, 6152 };
+const Menu_Element x_and_esc_4D0660[] = { { 33, 29, 64 }, { 304, 165, 2048 } };
+
+void Menu::FMV_Or_Level_Select_Render_47EEA0(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    //NOT_IMPLEMENTED();
+  
+    // Glow hilight 
+    field_134_anim.VRender_403AE0(
+        stru_4D00D8.field_0_xpos,
+        stru_4D00D8.field_2_ypos,
+        ppOt,
+        0,
+        0);
+    
+    PSX_RECT rect = {};
+    field_134_anim.Get_Frame_Rect_402B50(&rect);
+    pScreenManager_4FF7C8->InvalidateRect_406E40(
+        rect.x,
+        rect.y,
+        rect.w,
+        rect.h,
+        pScreenManager_4FF7C8->field_2E_idx);
+
+    if (field_1E0_selected_index != field_218)
+    {
+        if (field_21C != FP_FromInteger(0))
+        {
+            field_1E0_selected_index = field_218;
+            goto LABEL_9;
+        }
+        if (field_1E0_selected_index <= field_218)
+        {
+            if (field_1E0_selected_index >= field_218)
+            {
+                goto LABEL_9;
+            }
+            field_21C = FP_FromInteger(-1)  * FP_FromInteger(26);
+        }
+        else
+        {
+            field_21C = FP_FromInteger(26);
+        }
+        field_220 = FP_FromDouble(4.5);
+        field_218 = field_1E0_selected_index;
+    }
+
+LABEL_9:
+    field_21C = field_21C;
+    if (field_21C >= FP_FromInteger(0))
+    {
+        if (field_21C <= FP_FromInteger(0))
+        {
+            goto LABEL_19;
+        }
+
+        field_21C = field_21C - field_220;
+        if (field_21C <= FP_FromInteger(0))
+        {
+            field_21C =  FP_FromInteger(0);
+            goto LABEL_19;
+        }
+        field_220 -= FP_FromDouble(0.2);
+        if (field_220 > FP_FromInteger(0))
+        {
+            goto LABEL_19;
+        }
+        goto LABEL_18;
+    }
+
+    field_21C = field_220 + field_21C;
+    if (field_21C < FP_FromInteger(0))
+    {
+        field_220 -= FP_FromDouble(0.2);
+        if (field_220  > FP_FromInteger(0))
+        {
+            goto LABEL_19;
+        }
+    LABEL_18:
+        field_220 =  FP_FromInteger(0);
+        goto LABEL_19;
+    }
+    field_21C = FP_FromInteger(0);
+LABEL_19:
+
+    int polyOffset = 0;
+
+    int idxStart = -1;
+    int textYOff = -26;
+    int v24 = -1;
+    int v25 = -26;
+    do
+    {
+        int itemIdx = field_1E0_selected_index + idxStart;
+        if (itemIdx >= 0 && itemIdx <= sListCount_4D0228 - 1)
+        {
+            field_1F4_text = sActiveList_9F2DE4[itemIdx].field_0_name;
+            const int textWidth = field_FC_font.MeasureWidth_41C280(field_1F4_text, FP_FromInteger(1));
+            short textXOff = 0;
+            if (textWidth >= 336)
+            {
+                textXOff = 16;
+            }
+            else
+            {
+                textXOff = static_cast<short>((368 - textWidth) / 2);
+            }
+
+            const short textYPos = static_cast<short>((FP_GetExponent(field_21C + FP_FromDouble(0.5))) + textYOff + 114);
+            const short textXPos = textXOff + 6;
+            polyOffset = field_FC_font.DrawString_41C360(
+                ppOt,
+                field_1F4_text,
+                textXPos,
+                textYPos,
+                0,
+                1,
+                0,
+                32,
+                210,
+                150,
+                80,
+                polyOffset,
+                FP_FromInteger(1),
+                640,
+                0);
+
+            polyOffset = field_FC_font.DrawString_41C360(
+                ppOt,
+                field_1F4_text,
+                textXPos + 2,
+                textYPos + 2,
+                0,
+                1,
+                0,
+                32,
+                0,
+                0,
+                0,
+                polyOffset,
+                FP_FromInteger(1),
+                640,
+                0);
+            textYOff = v25;
+        }
+        textYOff += 26;
+        idxStart = v24++ + 1;
+        v25 = textYOff;
+    } while (textYOff < 52);
+
+
+    for (int i = 0; i < 2; i++)
+    {
+        RenderElement_47A4E0(x_and_esc_4D0660[i].field_0_xpos, x_and_esc_4D0660[i].field_4_ypos, x_and_esc_4D0660[i].field_8_input_command, ppOt, &field_FC_font, &polyOffset);
+    }
 }
 
 void Menu::SayHelloWaitForLoading_47B690()
@@ -1226,6 +1378,8 @@ EXPORT void Menu::MainScreen_Update_47AF60()
         }
     }
 
+    sEnableCheatLevelSelect_507710 = 1;
+
     if (sEnableCheatLevelSelect_507710)
     {
         sEnableCheatLevelSelect_507710 = 0;
@@ -1376,12 +1530,12 @@ void Menu::ToNextMenuPage_47BD80()
         if (field_224_bToFmvSelect || field_226_bToLevelSelect)
         {
             field_204_flags &= ~2u;
-            field_21C = 0;
+            field_21C = FP_FromInteger(0);
             field_1CC_fn_update = &Menu::To_FMV_Or_Level_Select_Update_47EC30;
             field_1D0_fn_render = &Menu::FMV_Or_Level_Select_Render_47EEA0;
             field_1E0_selected_index = 0;
             field_218 = 0;
-            field_220 = 0;
+            field_220 = FP_FromInteger(0);
         }
         else
         {
