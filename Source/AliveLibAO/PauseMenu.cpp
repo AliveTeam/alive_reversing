@@ -353,7 +353,7 @@ void PauseMenu::VUpdate_44DFB0()
                                     {
                                         strcat(&saveNameBuffer_5080C6[2], "p");
                                     }
-                                    ltoa(curPathId, v22, 10);
+                                    itoa(curPathId, v22, 10);
                                     strncat(&saveNameBuffer_5080C6[2], v22, 19u);
                                 }
 
