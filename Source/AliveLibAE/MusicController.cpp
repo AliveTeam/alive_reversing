@@ -740,7 +740,7 @@ void MusicController::sub_47F260()
             || field_42_type == MusicTypes::eType3
             || field_42_type == MusicTypes::eDeathShort_10
             || field_42_type == MusicTypes::eDeathLong_11
-            || field_42_type == MusicTypes::eType12
+            || field_42_type == MusicTypes::eSecretAreaShort_12
             || field_42_type == MusicTypes::eSecretAreaLong_13
             || field_42_type == MusicTypes::eSlogChase_7
             || field_42_type == MusicTypes::eChase_8)))
@@ -837,7 +837,7 @@ void MusicController::sub_47F260()
             field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
             SetMusicVolumeDelayed_47FB00(field_22_vol, 0);
             break;
-        case MusicTypes::eType12: // secret area short
+        case MusicTypes::eSecretAreaShort_12: // secret area short
             field_3C_unused = 120;
             idx = field_58_flags.Get(Flags_58::e58_UnPause_Bit6)? 4 : -1;
             field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
@@ -856,7 +856,7 @@ void MusicController::sub_47F260()
             break;
         }
 
-        if (idx > 0) // TODO: >=0 ??
+        if (idx >= 0)
         {
             field_40_flags_and_idx = stru_55D008[idx].field_0_idx;
             field_44 = sMusicTime_5C3024 + stru_55D008[idx].field_2_duration;

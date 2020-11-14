@@ -362,7 +362,7 @@ MusicController* MusicController::ctor_442930()
     field_2C_music_start_time = 0;
     field_40 = 0;
     field_30 = 0;
-    field_34 = 1;
+    field_34_mod_val = 1;
     field_48_state = 0;
     field_4A_starting_volume = 0;
     field_4C_current_vol = 0;
@@ -427,7 +427,7 @@ void MusicController::VUpdate_443300()
         if (gMap_507BA8.field_0_current_level != field_18_level)
         {
             field_3C_duration = 0;
-            field_34 = 1;
+            field_34_mod_val = 1;
             field_40 = counter_507B9C / 2;
             field_28 = 0;
             field_22 = 1;
@@ -636,7 +636,7 @@ void CC MusicController::EnableMusic_443900(__int16 bEnable)
                 pMusicController_507B98->field_3A_type == MusicTypes::eType8 ||
                 pMusicController_507B98->field_3A_type == MusicTypes::eType11)
             {
-                pMusicController_507B98->field_44 = 1;
+                pMusicController_507B98->field_44_bUnPause = 1;
                 pMusicController_507B98->sub_442A10();
             }
         }
@@ -691,9 +691,9 @@ void MusicController::sub_443460(MusicTypes musicType, BaseGameObject* pObj, __i
                 }
             }
 
-            if (!field_44)
+            if (!field_44_bUnPause)
             {
-                field_44 = a5;
+                field_44_bUnPause = a5;
             }
             return;
         }
@@ -713,7 +713,7 @@ void MusicController::sub_443460(MusicTypes musicType, BaseGameObject* pObj, __i
             field_3A_type = musicType;
             field_40 = counter_507B9C / 2;
             field_3C_duration = 0;
-            field_44 = 1;
+            field_44_bUnPause = 1;
             return;
         }
 
@@ -724,7 +724,7 @@ void MusicController::sub_443460(MusicTypes musicType, BaseGameObject* pObj, __i
             field_3A_type = musicType;
             field_40 = counter_507B9C / 2;
             field_3C_duration = 0;
-            field_44 = 1;
+            field_44_bUnPause = 1;
             return;
         }
     }
@@ -761,7 +761,7 @@ void MusicController::sub_442C20()
 {
     const int counterVal = counter_507B9C >> 1;
 
-    if (counterVal >= field_3C_duration  && !(((counterVal) - field_30) % field_34))
+    if (counterVal >= field_3C_duration  && !((counterVal - field_30) % field_34_mod_val))
     {
         if (field_38_seq != SeqId::None_M1)
         {
@@ -775,22 +775,22 @@ void MusicController::sub_442C20()
             if (field_18_level == LevelIds::eLines_2)
             {
                 idx = 86;
-                field_34 = 16;
+                field_34_mod_val = 16;
             }
             else if (field_18_level == LevelIds::eForest_3)
             {
                 idx = 58;
-                field_34 = 20;
+                field_34_mod_val = 20;
             }
             else if (field_18_level == LevelIds::eDesert_8)
             {
                 idx = 19;
-                field_34 = 20;
+                field_34_mod_val = 20;
             }
             else
             {
                 idx = -1;
-                field_34 = 20;
+                field_34_mod_val = 20;
             }
             field_4E = SetMusicVolumeDelayed(field_12_target_volume, 30);
             field_24_bAmbientMusicEnabled = 1;
@@ -798,54 +798,55 @@ void MusicController::sub_442C20()
             break;
 
         case MusicTypes::eType2:
-            field_34 = 1;
+            field_34_mod_val = 1;
             idx = -1;
             field_24_bAmbientMusicEnabled = 0;
             field_4E = SetMusicVolumeDelayed(field_14, 0);
             break;
 
         case MusicTypes::eType3:
-            idx = field_44 ?  Math_RandomRange_450F20(0, 1) : -1;
-            field_34 = 1;
+            idx = field_44_bUnPause ?  Math_RandomRange_450F20(0, 1) : -1;
+            field_34_mod_val = 1;
             field_24_bAmbientMusicEnabled = 0;
             field_4E = SetMusicVolumeDelayed(field_14, 0);
             break;
 
-        case MusicTypes::eType4:
+        case MusicTypes::eChase_4:
             // Fall through
-        case MusicTypes::eType5:
+        case MusicTypes::eSlogChase_5:
         {
-            const MusicController_Record* pRec = field_3A_type == MusicTypes::eType4 ?
+            const MusicController_Record* pRec = field_3A_type == MusicTypes::eChase_4 ?
                 &array_1_stru_4CD958[static_cast<int>(field_18_level)] :
                 &array_2_stru_4CDA58[static_cast<int>(field_18_level)];
             idx = pRec->field_0_seqIdx;
             field_24_bAmbientMusicEnabled = pRec->field_8_bAmibentEnabled;
-            field_34 = pRec->field_4;
+            field_34_mod_val = pRec->field_4;
             field_4E = SetMusicVolumeDelayed(field_14, 0);
             break;
         }
 
-        case MusicTypes::eType6:
-            if (field_44)
+        case MusicTypes::ePossessed_6:
+            if (field_44_bUnPause)
             {
                 const MusicController_Record* pRec = &array_3_stru_4CDB58[static_cast<int>(field_18_level)];
                 idx = pRec->field_0_seqIdx;
-                field_34 = pRec->field_4;
+                field_34_mod_val = pRec->field_4;
                 field_24_bAmbientMusicEnabled = pRec->field_8_bAmibentEnabled;
                 field_4E = SetMusicVolumeDelayed(field_14, 0);
             }
             else
             {
                 idx = -1;
-                field_34 = 20;
+                field_34_mod_val = 20;
                 field_24_bAmbientMusicEnabled = 1;
                 field_4E = SetMusicVolumeDelayed(field_12_target_volume, 30);
                 field_46 = 1;
             }
+            break;
 
         case MusicTypes::eType7:
             idx = 117;
-            field_34 = 22;
+            field_34_mod_val = 22;
             field_4E = SetMusicVolumeDelayed(field_14, 30);
             field_24_bAmbientMusicEnabled = 0;
             break;
@@ -854,11 +855,11 @@ void MusicController::sub_442C20()
             if (gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12)
             {
                 idx = 102;
-                field_34 = 1;
+                field_34_mod_val = 1;
             }
             else
             {
-                if (field_44)
+                if (field_44_bUnPause)
                 {
                     idx = 122;
                 }
@@ -866,7 +867,7 @@ void MusicController::sub_442C20()
                 {
                     idx = Math_RandomRange_450F20(118, 120);
                 }
-                field_34 = 22;
+                field_34_mod_val = 22;
             }
 
             field_4E = SetMusicVolumeDelayed(field_14, 0);
@@ -878,41 +879,38 @@ void MusicController::sub_442C20()
 
         case MusicTypes::eType10:
             idx = field_3A_type == MusicTypes::eType9 ? 121 : 122;
-            field_34 = 22;
+            field_34_mod_val = 22;
             field_4E = SetMusicVolumeDelayed(field_14, 0);
             field_24_bAmbientMusicEnabled = 0;
             break;
 
         case MusicTypes::eType11:
-            if (field_44)
+            if (field_44_bUnPause)
             {
                 if (field_18_level == LevelIds::eForestChase)
                 {
                     idx = 69;
+                    field_34_mod_val = 16;
+                }
+                else if (field_18_level == LevelIds::eDesertEscape)
+                {
+                    idx = 33;
+                    field_34_mod_val = 16;
                 }
                 else
                 {
-                    if (field_18_level != LevelIds::eDesertEscape)
-                    {
-                        idx = 117;
-                        field_34 = 22;
-                        field_24_bAmbientMusicEnabled = 0;
-                        field_46 = 1;
-                        goto LABEL_98;
-                    }
-                    idx = 33;
+                    idx = 117;
+                    field_34_mod_val = 22;
                 }
-                field_34 = 16;
-                field_24_bAmbientMusicEnabled = 0;
-                field_46 = 1;
 
-            LABEL_98:
+                field_46 = 1;
+                field_24_bAmbientMusicEnabled = 0;
                 field_4E = SetMusicVolumeDelayed(field_14, 0);
             }
             else
             {
                 idx = -1;
-                field_34 = 16;
+                field_34_mod_val = 16;
                 field_24_bAmbientMusicEnabled = 1;
                 field_4E = SetMusicVolumeDelayed(field_12_target_volume, 30);
                 field_46 = 1;
@@ -923,53 +921,50 @@ void MusicController::sub_442C20()
             if (field_18_level == LevelIds::eForestChase)
             {
                 idx = 70;
-                field_34 = 16;
+                field_34_mod_val = 16;
             }
             else if (field_18_level == LevelIds::eDesertEscape)
             {
                 idx = 34;
-                field_34 = 32;
+                field_34_mod_val = 32;
             }
             else
             {
                 idx = 122;
-                field_34 = 22;
+                field_34_mod_val = 22;
             }
             field_24_bAmbientMusicEnabled = 0;
             field_4E = SetMusicVolumeDelayed(field_14, 0);
             break;
 
-        case MusicTypes::eType13:
-            // TODO: Refactor
-            idx = -(field_44 != 0);
-            idx = (idx & 3) - 1;
-
-            field_34 = 1;
+        case MusicTypes::eDeathShort_13:
+            idx = field_44_bUnPause != 0 ? 2 : -1;
+            field_34_mod_val = 1;
             field_24_bAmbientMusicEnabled = 0;
             field_4E = SetMusicVolumeDelayed(field_14, 0);
             break;
 
-        case MusicTypes::eType14:
-            field_34 = 1;
+        case MusicTypes::eDeathLong_14:
+            field_34_mod_val = 1;
             field_24_bAmbientMusicEnabled = 0;
-            idx = field_44 != 0 ? 3 : -1;
+            idx = field_44_bUnPause != 0 ? 3 : -1;
             field_4E = SetMusicVolumeDelayed(field_14, 0);
             break;
 
-        case MusicTypes::eType15:
+        case MusicTypes::eSecretAreaShort_15:
             // Fall through
 
-        case MusicTypes::eType16:
-            if (field_3A_type == MusicTypes::eType15)
+        case MusicTypes::eSecretAreaLong_16:
+            if (field_3A_type == MusicTypes::eSecretAreaShort_15)
             {
-                 idx = field_44 != 0 ? 4 : -1;
+                 idx = field_44_bUnPause != 0 ? 4 : -1;
             }
             else
             {
-                 idx = field_44 != 0 ? 5 : -1;
+                 idx = field_44_bUnPause != 0 ? 5 : -1;
             }
 
-            field_34 = 1;
+            field_34_mod_val = 1;
             field_24_bAmbientMusicEnabled = 0;
 
             if (field_4C_current_vol != 127)
@@ -985,7 +980,7 @@ void MusicController::sub_442C20()
         default:
             idx = -1;
             field_4E = SetMusicVolumeDelayed(field_12_target_volume, 30);
-            field_34 = 1;
+            field_34_mod_val = 1;
             field_24_bAmbientMusicEnabled = 1;
             break;
         }
@@ -1004,9 +999,9 @@ void MusicController::sub_442C20()
 
         field_30 = counterVal;
 
-        if (field_44)
+        if (field_44_bUnPause)
         {
-            field_44 = 0;
+            field_44_bUnPause = 0;
 
             if (field_46)
             {
