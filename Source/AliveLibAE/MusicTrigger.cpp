@@ -64,7 +64,7 @@ EXPORT void MusicTrigger::Init_47FFB0(__int16 type, __int16 enabledBy, __int16 d
         field_28_counter = delay;
         break;
     case 6:
-        field_26_music_type = MusicController::MusicTypes::eType12;
+        field_26_music_type = MusicController::MusicTypes::eSecretAreaShort_12;
         field_28_counter = 30;
         break;
     default:

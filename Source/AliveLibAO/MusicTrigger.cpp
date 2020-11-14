@@ -40,17 +40,17 @@ void MusicTrigger::Init_443AD0(__int16 type, __int16 enabledBy, unsigned __int16
         break;
 
     case 1:
-        field_1C_music_type = MusicController::MusicTypes::eType13;
+        field_1C_music_type = MusicController::MusicTypes::eDeathShort_13;
         field_18_counter = 30;
         break;
 
     case 2:
-        field_1C_music_type = MusicController::MusicTypes::eType16;
+        field_1C_music_type = MusicController::MusicTypes::eSecretAreaLong_16;
         field_18_counter = 30;
         break;
 
     case 3:
-        field_1C_music_type = MusicController::MusicTypes::eType5;
+        field_1C_music_type = MusicController::MusicTypes::eSlogChase_5;
         field_14_flags |= 4;
         break;
 
@@ -65,7 +65,7 @@ void MusicTrigger::Init_443AD0(__int16 type, __int16 enabledBy, unsigned __int16
         break;
 
     case 6:
-        field_1C_music_type = MusicController::MusicTypes::eType15;
+        field_1C_music_type = MusicController::MusicTypes::eSecretAreaShort_15;
         field_18_counter = 30;
         break;
 

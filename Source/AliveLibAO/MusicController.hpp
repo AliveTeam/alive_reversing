@@ -23,19 +23,19 @@ public:
         eType1 = 1,
         eType2 = 2,
         eType3 = 3,
-        eType4 = 4,
-        eType5 = 5,
-        eType6 = 6,
+        eChase_4 = 4,
+        eSlogChase_5 = 5,
+        ePossessed_6 = 6,
         eType7 = 7,
         eType8 = 8,
         eType9 = 9,
         eType10 = 10,
         eType11 = 11, //death jingle?
         eType12 = 12,
-        eType13 = 13,
-        eType14 = 14,
-        eType15 = 15,
-        eType16 = 16,
+        eDeathShort_13 = 13,
+        eDeathLong_14 = 14,
+        eSecretAreaShort_15 = 15,
+        eSecretAreaLong_16 = 16,
     };
 
     MusicController* ctor_442930();
@@ -72,8 +72,10 @@ public:
 
     EXPORT void sub_442AC0();
 
+    __int16 SetMusicVolumeDelayed(__int16 vol, __int16 delay);
+
     __int16 field_10;
-    __int16 field_12;
+    __int16 field_12_target_volume;
     __int16 field_14;
     __int16 field_16;
     LevelIds field_18_level;
@@ -81,23 +83,23 @@ public:
     BaseGameObject* field_1C_pObj;
     __int16 field_20;
     __int16 field_22;
-    __int16 field_24;
+    __int16 field_24_bAmbientMusicEnabled;
     SeqId field_26_seq;
     int field_28;
-    int field_2C;
+    int field_2C_music_start_time;
     int field_30;
-    int field_34;
+    int field_34_mod_val;
     SeqId field_38_seq;
-    MusicTypes field_3A;
-    int field_3C;
+    MusicTypes field_3A_type;
+    int field_3C_duration;
     int field_40;
-    __int16 field_44;
+    __int16 field_44_bUnPause;
     __int16 field_46;
     __int16 field_48_state;
-    __int16 field_4A;
-    __int16 field_4C;
+    __int16 field_4A_starting_volume;
+    __int16 field_4C_current_vol;
     __int16 field_4E;
-    int field_50;
+    int field_50_music_volume_change_time;
 };
 ALIVE_ASSERT_SIZEOF(MusicController, 0x54);
 

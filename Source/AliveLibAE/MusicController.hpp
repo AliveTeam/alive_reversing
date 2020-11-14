@@ -46,7 +46,7 @@ public:
         ePossessed_9 = 9,
         eDeathShort_10 = 10,
         eDeathLong_11 = 11, //death jingle?
-        eType12 = 12,
+        eSecretAreaShort_12 = 12,
         eSecretAreaLong_13 = 13,
     };
 
