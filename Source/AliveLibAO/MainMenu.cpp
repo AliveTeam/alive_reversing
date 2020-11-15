@@ -1375,8 +1375,6 @@ EXPORT void Menu::MainScreen_Update_47AF60()
         }
     }
 
-    sEnableCheatLevelSelect_507710 = 1;
-
     if (sEnableCheatLevelSelect_507710)
     {
         sEnableCheatLevelSelect_507710 = 0;
