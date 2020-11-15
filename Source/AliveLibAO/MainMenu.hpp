@@ -237,8 +237,8 @@ public:
     __int16 field_216_abe_ypos;
     __int16 field_218;
     __int16 field_21A;
-    int field_21C;
-    int field_220;
+    FP field_21C;
+    FP field_220;
     __int16 field_224_bToFmvSelect;
     __int16 field_226_bToLevelSelect;
     FP field_228;

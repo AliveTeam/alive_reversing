@@ -46,14 +46,7 @@ public:
 
     EXPORT void VRender_477ED0(int** ppOt);
 
-    int field_10;
-    int field_14;
-    int field_18;
-    int field_1C;
-    int field_20;
-    int field_24;
-    int field_28;
-    int field_2C;
+    Prim_SetTPage field_10_tPage[2];
     FP field_30_xpos;
     FP field_34_ypos;
     FP field_38_scale;
@@ -67,6 +60,7 @@ public:
     __int16 field_4E;
     int field_50_timer;
 };
+ALIVE_ASSERT_SIZEOF(Spark, 0x54);
 
 
 END_NS_AO
