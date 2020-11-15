@@ -14,7 +14,6 @@
 #include "Sfx.hpp"
 #include "Sys.hpp"
 #include "Map.hpp"
-#include <cstdlib>
 
 START_NS_AO;
 
@@ -344,7 +343,7 @@ void PauseMenu::VUpdate_44DFB0()
                                 }
 
                                 auto curPathId = gMap_507BA8.field_2_current_path;
-                                char v22[12] = {};
+                                char curPathIdNumBuf[12] = {};
 
                                 strncpy(&saveNameBuffer_5080C6[2], gLevelNames_4CE1D4[tmp], 19);
                                 if (tmp != 12 && tmp != 14 && tmp != 15)
@@ -354,8 +353,8 @@ void PauseMenu::VUpdate_44DFB0()
                                     {
                                         strcat(&saveNameBuffer_5080C6[2], "p");
                                     }
-                                    itoa(curPathId, v22, 10);
-                                    strncat(&saveNameBuffer_5080C6[2], v22, 19u);
+                                    sprintf(curPathIdNumBuf, "%d", curPathId);
+                                    strncat(&saveNameBuffer_5080C6[2], curPathIdNumBuf, 19u);
                                 }
 
                                 const char aux[2] = { 18, 0 };
