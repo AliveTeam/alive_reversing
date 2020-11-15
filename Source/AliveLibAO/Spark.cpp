@@ -9,6 +9,11 @@
 #include "stdlib.hpp"
 #include "Animation.hpp"
 #include "Particle.hpp"
+#include "ScreenManager.hpp"
+#include "PsxDisplay.hpp"
+
+#undef min
+#undef max
 
 void Spark_ForceLink() { }
 
@@ -182,9 +187,64 @@ void Spark::VRender(int** ppOt)
     VRender_477ED0(ppOt);
 }
 
-void Spark::VRender_477ED0(int** /*ppOt*/)
+void Spark::VRender_477ED0(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    PSX_RECT rect = {};
+    rect.x = 32767;
+    rect.y = 32767;
+    rect.w = -32767;
+    rect.h = -32767;
+
+    const FP_Point* pCamPos = pScreenManager_4FF7C8->field_10_pCamPos;
+
+    const short xOrg = FP_GetExponent(field_30_xpos) - FP_GetExponent(pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
+    const short yOrg = FP_GetExponent(field_34_ypos) - FP_GetExponent(pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
+
+    for (int i = 0; i < field_4C_count; i++)
+    {
+        SparkRes* pSpark = &field_48_pRes[i];
+
+        Line_G2* pPrim = &pSpark->field_1C_pLineG2s[gPsxDisplay_504C78.field_A_buffer_index];
+        LineG2_Init(pPrim);
+
+        const int y0 = yOrg + FP_GetExponent(pSpark->field_4_y0 * field_38_scale);
+        const int y1 = yOrg + FP_GetExponent(pSpark->field_C_y1 * field_38_scale);
+
+        const int x0 = PsxToPCX(xOrg + FP_GetExponent(pSpark->field_0_x0 * field_38_scale), 11);
+        const int x1 = PsxToPCX(xOrg + FP_GetExponent(pSpark->field_8_x1 * field_38_scale), 11);
+
+        SetXY0(pPrim, static_cast<short>(x0), static_cast<short>(y0));
+        SetXY1(pPrim, static_cast<short>(x1), static_cast<short>(y1));
+
+        SetRGB0(pPrim,
+            static_cast<BYTE>(field_3C_r / 2),
+            static_cast<BYTE>(field_3E_g / 2),
+            static_cast<BYTE>(field_40_b / 2));
+
+        SetRGB1(pPrim,
+            static_cast<BYTE>(field_3C_r),
+            static_cast<BYTE>(field_3E_g),
+            static_cast<BYTE>(field_40_b));
+
+        Poly_Set_SemiTrans_498A40(&pPrim->mBase.header, TRUE);
+        OrderingTable_Add_498A80(&ppOt[field_42_layer], &pPrim->mBase.header);
+        
+        rect.x = std::min(rect.x, std::min(static_cast<short>(x0), static_cast<short>(x1)));
+        rect.w = std::max(rect.w, std::max(static_cast<short>(x0), static_cast<short>(x1)));
+
+        rect.y = std::min(rect.y, std::min(static_cast<short>(y0), static_cast<short>(y1)));
+        rect.h = std::max(rect.h, std::max(static_cast<short>(y0), static_cast<short>(y1)));
+    }
+
+    Prim_SetTPage* pTPage = &field_10_tPage[gPsxDisplay_504C78.field_A_buffer_index];
+    Init_SetTPage_495FB0(pTPage, 1, 0, PSX_getTPage_4965D0(0, 1, 0, 0));
+    OrderingTable_Add_498A80(&ppOt[field_42_layer], &pTPage->mBase);
+    pScreenManager_4FF7C8->InvalidateRect_406E40(
+        rect.x,
+        rect.y,
+        rect.w,
+        rect.h,
+        pScreenManager_4FF7C8->field_2E_idx);
 }
 
 END_NS_AO
