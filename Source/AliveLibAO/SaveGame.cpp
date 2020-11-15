@@ -176,6 +176,31 @@ ALIVE_VAR(1, 0x5076B4, WORD, bUseAltSaveHeader_5076B4, 0);
 ALIVE_VAR(1, 0x500C184, DWORD, dword_500C18, 0);
 ALIVE_VAR(1, 0x500A18, SaveData, gSaveBuffer_500A18, {});
 
+short SaveGame::GetPathId(short pathToFind, short* outFoundPathRow)
+{
+    short path_id = -1;
+    for (short i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 8; j++)
+        {
+            const auto path = word_4BC670[i][j];
+            if (!path)
+            {
+                break;
+            }
+            if (pathToFind == path)
+            {
+                if (outFoundPathRow)
+                {
+                    *outFoundPathRow = i;
+                }
+                return path_id;
+            }
+        }
+    }
+    return path_id;
+}
+
 void CC SaveGame::Save_459490(SaveData* pSaveData)
 {
     Save_PSX_Header* pHeaderToUse = nullptr;
@@ -196,27 +221,10 @@ void CC SaveGame::Save_459490(SaveData* pSaveData)
         34
     );
 
-    char path = 0;
     if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
     {
-        short path_id = -1;
-        for (short i = 0; i < 4; i++)
-        {
-            for(int j = 0; j < 8; j++ )
-            {
-                path = word_4BC670[i][j];
-                if (!path)
-                {
-                    break;
-                }
-                if (gMap_507BA8.field_2_current_path == path)
-                {
-                    path_id = i;
-                    i = 4;
-                    break;
-                }
-            }
-        }
+        short path_id = GetPathId(gMap_507BA8.field_2_current_path);
+
         if (path_id != -1)
         {
             // - (minus sign)

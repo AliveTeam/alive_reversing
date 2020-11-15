@@ -2617,7 +2617,7 @@ signed int MainMenuController::RemapInput_Update_4D1820(DWORD input)
 {
     if (dword_BB43F8)
     {
-        if (dword_BB43F8 == 1 && sInputObject_5BD4E0.isReleased(0x100000))
+        if (dword_BB43F8 == 1 && sInputObject_5BD4E0.IsReleased(0x100000))
         {
             dword_BB43F8 = 2;
             return 0;
