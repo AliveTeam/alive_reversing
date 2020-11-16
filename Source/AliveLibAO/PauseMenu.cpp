@@ -215,7 +215,6 @@ enum PauseMenuPages
 
 void PauseMenu::VUpdate_44DFB0()
 {
-    //NOT_IMPLEMENTED();
     if (sInputObject_5009E8.IsHeld(0x800))
     {
         SND_StopAll_4762D0();
@@ -670,12 +669,12 @@ PauseMenu::PauseEntry keyboardGameSpeak_4CE0D0[21] =
     { 0, 0, nullptr, 0u, 0u, 0u, '\0' }
 };
 
-void PauseMenu::DrawEntries(int** ppOt, PauseEntry *entry, short someFlag, int polyOffset = 0)
+void PauseMenu::DrawEntries(int** ppOt, PauseEntry *entry, short selectedEntryId, int polyOffset = 0)
 {
     for (short entryId = 0; entry[entryId].field_4_strBuf; ++entryId)
     {
         __int16 colourOffset;
-        if (entryId == someFlag && (field_126_page != 1 || field_132))
+        if (entryId == selectedEntryId && (field_126_page != 1 || field_132))
         {
             colourOffset = field_11E;
         }
@@ -696,12 +695,12 @@ void PauseMenu::DrawEntries(int** ppOt, PauseEntry *entry, short someFlag, int p
         {
             break;
         }
-        char pStr[128];
-        String_FormatString_450DC0(stringBuffer, pStr);
+        char formattedString[128] = {};
+        String_FormatString_450DC0(stringBuffer, formattedString);
         signed __int16 clampedFontWidth;
         if (entry[entryId].field_B == 1)
         {
-            __int16 font_width_2 = static_cast<short>(field_E4_font.MeasureWidth_41C2B0(pStr));
+            __int16 font_width_2 = static_cast<short>(field_E4_font.MeasureWidth_41C2B0(formattedString));
             clampedFontWidth = font_width_2 >= 608 ? 16 : (entry[entryId].field_0_x - font_width_2 / 2);
         }
         else
@@ -710,7 +709,7 @@ void PauseMenu::DrawEntries(int** ppOt, PauseEntry *entry, short someFlag, int p
         }
         polyOffset = field_E4_font.DrawString_41C360(
             ppOt,
-            pStr,
+            formattedString,
             clampedFontWidth,
             entry[entryId].field_2_y,
             0,
