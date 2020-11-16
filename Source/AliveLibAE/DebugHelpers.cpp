@@ -190,7 +190,7 @@ public:
     float Vec2Distance(float x1, float y1, float x2, float y2)
     {
         // This takes into account the fact that the height of the screen is / 2
-        return sqrt(pow(x1 - x2, 2) + pow((y1 - y2) * 2, 2));
+        return static_cast<float>(sqrt(pow(x1 - x2, 2) + pow((y1 - y2) * 2, 2)));
     }
 
     bool isDragging = false;
