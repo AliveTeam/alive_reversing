@@ -178,9 +178,84 @@ void ZapLine::VRender(int** ppOt)
     VRender_479840(ppOt);
 }
 
-void ZapLine::VRender_479840(int** /*ppOt*/)
+void ZapLine::VRender_479840(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+        field_B2_lvl_number,
+        field_B0_path_number,
+        field_A8_xpos,
+        field_AC_ypos,
+        0)
+        && field_E4_state > ZapLineState::eInitSpriteVertices_2)
+    {
+        const auto bufferIdx = gPsxDisplay_504C78.field_A_buffer_index;
+
+        for (int i = 0; i < field_11E_number_of_segments; i++)
+        {
+            for (int j = 0; j < field_120_number_of_pieces_per_segment; j++)
+            {
+                Prim_Sprt* pSprt = &field_124_pSprts->field_0_sprts[j + (i * field_120_number_of_pieces_per_segment)];
+                 OrderingTable_Add_498A80(
+                    &ppOt[field_10_anim.field_C_layer],
+                    &pSprt[bufferIdx].mBase.header);
+            }
+        }
+
+        const int calcTPage = PSX_getTPage_4965D0(
+            static_cast<char>(field_114_tPageMode),
+            static_cast<char>(field_11C_tPageAbr),
+            field_10_anim.field_84_vram_rect.x,
+            field_10_anim.field_84_vram_rect.y & ~63); // TODO: Required ?
+
+        Prim_SetTPage* pTPage = &field_EC_tPage_p8[bufferIdx];
+        Init_SetTPage_495FB0(pTPage, 0, 0, calcTPage);
+        OrderingTable_Add_498A80(&ppOt[field_10_anim.field_C_layer], &pTPage->mBase);
+
+        PSX_RECT* pRect = &field_134_rects[bufferIdx];
+        pRect->x = 32767;
+        pRect->w = -32767;
+        pRect->y = 32767;
+        pRect->h = -32767;
+
+        for (int i = 0; i < field_11E_number_of_segments; i++)
+        {
+            const PSX_Point* pPoint = &field_128_sprite_positions[i * field_120_number_of_pieces_per_segment];
+            for (int j = 0; j < field_120_number_of_pieces_per_segment; j++)
+            {
+                if (pPoint->field_0_x < pRect->x)
+                {
+                    pRect->x = pPoint->field_0_x;
+                }
+
+                if (pPoint->field_0_x > pRect->w)
+                {
+                    pRect->w = pPoint->field_0_x;
+                }
+
+                if (pPoint->field_2_y < pRect->y)
+                {
+                    pRect->y = pPoint->field_2_y;
+                }
+
+                if (pPoint->field_2_y > pRect->h)
+                {
+                    pRect->h = pPoint->field_2_y;
+                }
+            }
+        }
+
+        pRect->x -= 25;
+        pRect->w += 25;
+        pRect->y -= 25;
+        pRect->h += 25;
+        const PSX_RECT* pRectToUse = &field_134_rects[gPsxDisplay_504C78.field_A_buffer_index];
+        pScreenManager_4FF7C8->InvalidateRect_406E40(
+            pRectToUse->x,
+            pRectToUse->y,
+            pRectToUse->w,
+            pRectToUse->h,
+            pScreenManager_4FF7C8->field_2E_idx);
+    }
 }
 
 void ZapLine::VUpdate()
