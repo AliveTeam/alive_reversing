@@ -11,8 +11,13 @@
 #include "DDCheat.hpp"
 #include "Game.hpp"
 #include "Alarm.hpp"
+#include "ScreenManager.hpp"
+#include "PsxDisplay.hpp"
 
 START_NS_AO
+
+#undef min
+#undef max
 
 MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, int tlvInfo)
 {
@@ -327,9 +332,51 @@ void MotionDetector::VRender(int** pOrderingTable)
     VRender_438250(pOrderingTable);
 }
 
-void MotionDetector::VRender_438250(int** /*ppOt*/)
+void MotionDetector::VRender_438250(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    field_A8_xpos += FP_FromInteger(11);
+    BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+    field_A8_xpos -= FP_FromInteger(11);
+
+    if (!SwitchStates_Get(field_F0_disable_id))
+    {
+        const short screen_top =  FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
+    
+        const short screen_left = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
+
+        PSX_RECT bLaserRect = {};
+        field_108_pLaser->VGetBoundingRect(&bLaserRect, 1);
+
+        const short x0 = static_cast<short>(PsxToPCX(FP_GetExponent(field_A8_xpos) - screen_left, 11));
+        const short y0 = FP_GetExponent(field_AC_ypos) - screen_top;
+        const short y1 = FP_GetExponent(field_108_pLaser->field_AC_ypos) - screen_top;
+        const short y2 = y1 + bLaserRect.y - bLaserRect.h;
+        const short x1 = static_cast<short>(PsxToPCX(FP_GetExponent(field_108_pLaser->field_A8_xpos) - screen_left, 11));
+
+        Poly_F3* pPrim = &field_10C_prims[gPsxDisplay_504C78.field_A_buffer_index];
+        PolyF3_Init(pPrim);
+
+        SetXY0(pPrim, x0, y0);
+        SetXY1(pPrim, x1, y1);
+        SetXY2(pPrim, x1, y2);
+
+        SetRGB0(pPrim, 64, 0, 0);
+
+        // Add triangle
+        Poly_Set_SemiTrans_498A40(&pPrim->mBase.header, TRUE);
+        OrderingTable_Add_498A80(&ppOt[field_10_anim.field_C_layer], &pPrim->mBase.header);
+
+        // Add tpage
+        Init_SetTPage_495FB0(&field_13C_tPage[gPsxDisplay_504C78.field_A_buffer_index], 0, 0,  PSX_getTPage_4965D0(2, field_160_bObjectInLaser != 0 ? 1 : 3, 0, 0)); // When detected transparency is off, gives the "solid red" triangle
+        OrderingTable_Add_498A80(&ppOt[field_10_anim.field_C_layer], &field_13C_tPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
+        
+        pScreenManager_4FF7C8->InvalidateRect_406E40(
+            std::min(x0, std::min(x1, x1)),
+            std::min(y0, std::min(y1, y2)),
+            std::max(x0, std::max(x1, x1)),
+            std::max(y0, std::max(y1, y2)),
+            pScreenManager_4FF7C8->field_2E_idx);
+    }
 }
 
 BaseGameObject* MotionDetectorLaser::VDestructor(signed int flags)

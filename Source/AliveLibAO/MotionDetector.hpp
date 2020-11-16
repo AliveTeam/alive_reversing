@@ -76,7 +76,7 @@ public:
     FP field_100_y1_fp;
     FP field_104;
     MotionDetectorLaser* field_108_pLaser;
-    int field_10C_prims[12];
+    Poly_F3 field_10C_prims[2];
     Prim_SetTPage field_13C_tPage[2];
     FP field_15C_speed;
     __int16 field_160_bObjectInLaser;
