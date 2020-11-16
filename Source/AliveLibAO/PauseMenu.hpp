@@ -34,9 +34,9 @@ public:
         __int16 field_0_x;
         __int16 field_2_y;
         const char *field_4_strBuf;
-        char field_8_r;
-        char field_9_g;
-        char field_A_b;
+        BYTE field_8_r;
+        BYTE field_9_g;
+        BYTE field_A_b;
         char field_B;
     };
     void DrawEntries(int** ppOt, PauseEntry* entries, short compilerhack, int polyOffset);
