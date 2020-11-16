@@ -592,7 +592,7 @@ PauseMenu::PauseEntry quitEntries_4CDEA8[3] =
 
 PauseMenu::PauseEntry saveEntries_4CDED0[4] =
 {
-    { 184, 120, "DUMMY THICC", 128u, 16u, 255u, '\x01' },
+    { 184, 120, "DUMMY_TEXT", 128u, 16u, 255u, '\x01' },
     { 184, 180, "enter   save", 160u, 160u, 160u, '\x01' },
     { 184, 205, "esc   cancel", 160u, 160u, 160u, '\x01' },
     { 0, 0, nullptr, 0u, 0u, 0u, '\0' }
