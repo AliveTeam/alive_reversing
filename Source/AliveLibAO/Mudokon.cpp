@@ -3375,7 +3375,7 @@ short Mudokon::Brain_GiveRings_7_43C2F0()
         if (sActiveHero_507678->field_168_ring_pulse_timer <= 0)
         {
             field_1B8_brain_idx = 2;
-            return 2;
+            return 0;
         }
         break;
 
