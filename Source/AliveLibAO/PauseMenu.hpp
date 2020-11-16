@@ -29,6 +29,18 @@ public:
 
     EXPORT void VRender_44E6F0(int** ppOt);
 
+    struct PauseEntry
+    {
+        __int16 field_0_x;
+        __int16 field_2_y;
+        const char *field_4_strBuf;
+        BYTE field_8_r;
+        BYTE field_9_g;
+        BYTE field_A_b;
+        char field_B;
+    };
+    void DrawEntries(int** ppOt, PauseEntry* entries, short compilerhack, int polyOffset);
+
     int field_D4[4];
     AliveFont field_E4_font;
     __int16 field_11C;
@@ -37,7 +49,7 @@ public:
     __int16 field_122;
     __int16 field_124;
     __int16 field_126_page;
-    __int16 field_128;
+    __int16 field_128_controller_id;
     __int16 field_12A;
     __int16 field_12C;
     __int16 field_12E;
@@ -45,28 +57,8 @@ public:
     __int16 field_132;
     __int16 field_134;
     __int16 field_136;
-    int field_138;
-    int field_13C;
-    int field_140;
-    int field_144;
-    int field_148;
-    int field_14C;
-    int field_150;
-    int field_154;
-    int field_158;
-    int field_15C;
-    int field_160;
-    int field_164;
-    int field_168;
-    int field_16C;
-    int field_170;
-    int field_174;
-    int field_178;
-    int field_17C;
-    int field_180;
-    int field_184;
-    int field_188;
-    int field_18C;
+    Prim_SetTPage field_138[2];
+    Poly_F4 field_158[2];
 };
 ALIVE_ASSERT_SIZEOF(PauseMenu, 0x190);
 

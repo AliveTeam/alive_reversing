@@ -331,7 +331,9 @@ int AliveFont::MeasureWidth_41C280(const char* text, FP scale)
     return FP_GetExponent((width * scale) + FP_FromDouble(0.5));
 }
 
-EXPORT int AliveFont::DrawString_41C360(int**, const char*, __int16, __int16, int, int, int, int, unsigned char, unsigned char, unsigned char, int, FP, int, int)
+EXPORT int AliveFont::DrawString_41C360(
+    int** /*ot*/, const char* /*text*/, __int16 /*x*/, __int16 /*y*/, char /*abr*/, int /*bSemiTrans*/, int /*a2*/,
+    int /*otLayer*/, unsigned char /*r*/, unsigned char /*g*/, unsigned char /*b*/, int /*polyOffset*/, FP /*scale*/, int /*a15*/, int /*colorRandomRange*/)
 {
     NOT_IMPLEMENTED();
     return 0;

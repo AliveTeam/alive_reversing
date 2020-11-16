@@ -174,9 +174,6 @@ const char* sLCDMessageTable_4C7420[90] =
     ""
 };
 
-
-ALIVE_VAR(1, 0x508A60, int, sJoystickEnabled_508A60, 0);
-
 LCDScreen* LCDScreen::ctor_433F60(Path_LCDScreen* pTlv, int tlvInfo)
 {
     ctor_487E10(1);
