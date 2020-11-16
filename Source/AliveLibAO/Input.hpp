@@ -123,6 +123,6 @@ ALIVE_ASSERT_SIZEOF(InputObject, 0x30);
 
 ALIVE_VAR_EXTERN(InputObject, sInputObject_5009E8);
 ALIVE_VAR_EXTERN(unsigned __int16, sCurrentControllerIndex_5076B8);
-
+ALIVE_VAR_EXTERN(int, sJoystickEnabled_508A60);
 
 END_NS_AO

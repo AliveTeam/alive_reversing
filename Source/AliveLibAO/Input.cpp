@@ -6,6 +6,7 @@ START_NS_AO
 
 ALIVE_VAR(1, 0x5009E8, InputObject, sInputObject_5009E8, {});
 ALIVE_VAR(1, 0x5076B8, unsigned __int16, sCurrentControllerIndex_5076B8, 0);
+ALIVE_VAR(1, 0x508A60, int, sJoystickEnabled_508A60, 0);
 
 const InputCommands sInputKey_Right_4C6590 = eRight;
 const InputCommands sInputKey_Left_4C6594 = eLeft;

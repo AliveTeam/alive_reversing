@@ -48,7 +48,6 @@ void PolyF4_Init(Poly_F4* pPrim)
     SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyF4);
 }
 
-
 void Prim_Init_MoveImage(Prim_MoveImage* pPrim, PSX_RECT* pRect, int xpos, int ypos)
 {
     SetUnknown(&pPrim->mPrimHeader);
