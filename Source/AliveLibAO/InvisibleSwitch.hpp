@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "Map.hpp"
 
-START_NS_AO
+namespace AO {
 
 enum class SwitchOp : __int16;
 
@@ -52,5 +52,5 @@ public:
 ALIVE_ASSERT_SIZEOF(InvisibleSwitch, 0x30);
 
 
-END_NS_AO
+}
 

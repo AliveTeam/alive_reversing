@@ -4,7 +4,7 @@
 #include "FunctionFwd.hpp"
 #include "FixedPoint.hpp"
 
-START_NS_AO
+namespace AO {
 
 enum eLineTypes : BYTE
 {
@@ -63,4 +63,4 @@ EXPORT PSX_RECT* CCSTD Rect_Clear_40C920(PSX_RECT* pRect);
 ALIVE_VAR_EXTERN(Collisions*, sCollisions_DArray_504C6C);
 
 
-END_NS_AO
+}

@@ -10,7 +10,7 @@
 #include "Events.hpp"
 #include "Game.hpp"
 
-START_NS_AO
+namespace AO {
 
 void BackgroundGlukkon::VScreenChanged()
 {
@@ -238,4 +238,4 @@ void BackgroundGlukkon::VUpdate_41DD60()
     }
 }
 
-END_NS_AO
+}

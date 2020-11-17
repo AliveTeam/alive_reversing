@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "BaseGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_BeeNest : public Path_TLV
 {
@@ -57,5 +57,5 @@ public:
 ALIVE_ASSERT_SIZEOF(BeeNest, 0x38);
 
 
-END_NS_AO
+}
 

@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_LightEffect : public Path_TLV
 {
@@ -59,5 +59,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(DoorLight, 0xF4);
 
-END_NS_AO
+}
 

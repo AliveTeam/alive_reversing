@@ -5,7 +5,7 @@
 #include "Psx.hpp"
 #include "AnimResources.hpp"
 
-START_NS_AO
+namespace AO {
 
 class BaseAliveGameObject;
 class Camera;
@@ -202,4 +202,4 @@ enum ResourceID
     kDeathFlareResID_349 = 349
 };
 
-END_NS_AO
+}

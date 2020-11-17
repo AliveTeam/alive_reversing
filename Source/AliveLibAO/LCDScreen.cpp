@@ -6,7 +6,7 @@
 #include "Game.hpp"
 #include "StringFormatters.hpp"
 
-START_NS_AO
+namespace AO {
 
 const BYTE sLCDScreen_Palette_4C75A8[32] =
 {
@@ -280,4 +280,4 @@ void LCDScreen::VRender_434400(int** /*ppOt*/)
     NOT_IMPLEMENTED();
 }
 
-END_NS_AO
+}

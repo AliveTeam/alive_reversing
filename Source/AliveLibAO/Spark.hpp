@@ -7,7 +7,7 @@
 
 void Spark_ForceLink(); 
 
-START_NS_AO
+namespace AO {
 
 struct SparkRes
 {
@@ -63,4 +63,4 @@ public:
 ALIVE_ASSERT_SIZEOF(Spark, 0x54);
 
 
-END_NS_AO
+}

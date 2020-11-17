@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 class AnimationUnknown;
 
@@ -37,5 +37,5 @@ ALIVE_ASSERT_SIZEOF(Rope, 0xF4);
 
 EXPORT void CC ClipPoly_Vertically_4584B0(Poly_FT4* pPoly, int minY, int maxY);
 
-END_NS_AO
+}
 

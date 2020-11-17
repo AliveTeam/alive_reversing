@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "BaseGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_GasEmitter : public Path_TLV
 {
@@ -41,5 +41,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(GasEmitter, 0x24);
 
-END_NS_AO
+}
 

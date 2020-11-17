@@ -6,7 +6,7 @@
 #include "Math.hpp"
 #include "Collisions.hpp"
 
-START_NS_AO
+namespace AO {
 
 void HoistParticle::VUpdate()
 {
@@ -205,4 +205,4 @@ void HoistRocksEffect::VUpdate_431860()
     }
 }
 
-END_NS_AO
+}

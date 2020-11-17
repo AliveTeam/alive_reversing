@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 class DeathBirdParticle : public BaseAnimatedWithPhysicsGameObject
 {
@@ -26,5 +26,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(DeathBirdParticle, 0xF0);
 
-END_NS_AO
+}
 

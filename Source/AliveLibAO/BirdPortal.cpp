@@ -21,7 +21,7 @@
 #include "BaseGameObject.hpp"
 #include "AbilityRing.hpp"
 
-START_NS_AO
+namespace AO {
 
 void BirdPortalTerminator::VScreenChanged()
 {
@@ -1120,4 +1120,4 @@ __int16 BirdPortal::Vsub_4533E0(__int16 bUnknown)
     return 1;
 }
 
-END_NS_AO
+}

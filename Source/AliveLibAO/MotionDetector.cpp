@@ -14,7 +14,7 @@
 #include "ScreenManager.hpp"
 #include "PsxDisplay.hpp"
 
-START_NS_AO
+namespace AO {
 
 #undef min
 #undef max
@@ -389,4 +389,4 @@ BaseGameObject* MotionDetectorLaser::VDestructor(signed int flags)
     return this;
 }
 
-END_NS_AO
+}

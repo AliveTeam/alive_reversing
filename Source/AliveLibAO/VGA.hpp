@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include "../AliveLibAE/bmp.hpp" // For TSurfaceType
 
-START_NS_AO
+namespace AO {
 
 EXPORT int CC VGA_FullScreenSet_490160(bool bFullScreen);
 
@@ -15,4 +15,4 @@ EXPORT void VGA_Shutdown_4900E0();
 
 ALIVE_VAR_EXTERN(Bitmap, sVGA_bmp_primary_A8A4C0);
 
-END_NS_AO
+}

@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "EffectBase.hpp"
 
-START_NS_AO
+namespace AO {
 
 class Flash : public EffectBase
 {
@@ -23,5 +23,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Flash, 0x6C);
 
-END_NS_AO
+}
 

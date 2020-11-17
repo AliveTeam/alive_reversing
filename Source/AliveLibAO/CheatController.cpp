@@ -5,7 +5,7 @@
 #include "Map.hpp"
 #include "Input.hpp"
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x4FF958, CheatController*, pCheatController_4FF958, nullptr);
 
@@ -180,4 +180,4 @@ void CheatController::VUpdate_40FC40()
     }
 }
 
-END_NS_AO
+}

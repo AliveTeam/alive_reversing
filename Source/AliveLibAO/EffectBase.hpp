@@ -4,7 +4,7 @@
 #include "Primitives.hpp"
 #include "FunctionFwd.hpp"
 
-START_NS_AO
+namespace AO {
 
 enum class LevelIds : __int16;
 
@@ -37,4 +37,4 @@ protected:
 };
 ALIVE_ASSERT_SIZEOF(EffectBase, 0x68);
 
-END_NS_AO
+}

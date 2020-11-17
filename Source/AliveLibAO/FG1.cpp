@@ -12,7 +12,7 @@
 #include "stdlib.hpp"
 #include "PsxDisplay.hpp"
 
-START_NS_AO
+namespace AO {
 
 enum eChunkTypes
 {
@@ -304,4 +304,4 @@ FG1* FG1::Vdtor_453E90(signed int flags)
     return this;
 }
 
-END_NS_AO
+}

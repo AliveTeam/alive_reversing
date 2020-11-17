@@ -14,7 +14,7 @@
 #include "Game.hpp"
 #include "Particle.hpp"
 
-START_NS_AO
+namespace AO {
 
 void RockSack::VUpdate()
 {
@@ -624,4 +624,4 @@ void Rock::VTimeToExplodeRandom()
     // Empty ?
 }
 
-END_NS_AO
+}

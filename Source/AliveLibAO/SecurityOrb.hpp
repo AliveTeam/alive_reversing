@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_SecurityOrb : public Path_TLV
 {
@@ -42,5 +42,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(SecurityOrb, 0x11C);
 
-END_NS_AO
+}
 

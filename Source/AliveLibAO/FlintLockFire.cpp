@@ -12,7 +12,7 @@
 #include "ScreenManager.hpp"
 #include "ShadowZone.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct FlintLockFireData
 {
@@ -433,4 +433,4 @@ void FlintLockFire::VRender_41B0F0(int** ppOt)
     }
 }
 
-END_NS_AO
+}

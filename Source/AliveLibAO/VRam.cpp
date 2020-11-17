@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "VRam.hpp"
 
-START_NS_AO
+namespace AO {
 
 const int kMaxAllocs = 512;
 ALIVE_ARY(1, 0x509018, PSX_RECT, kMaxAllocs, sVramAllocations_509018, {});
@@ -78,4 +78,4 @@ __int16 CC vram_alloc_450B20(unsigned __int16 /*width*/, __int16 /*height*/, uns
     return 0;
 }
 
-END_NS_AO
+}

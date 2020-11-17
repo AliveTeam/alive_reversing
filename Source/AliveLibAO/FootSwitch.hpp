@@ -4,7 +4,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
 
-START_NS_AO
+namespace AO {
 
 enum class FootSwitchTriggerBy : __int16
 {
@@ -60,4 +60,4 @@ public:
 ALIVE_ASSERT_SIZEOF(FootSwitch, 0xF4);
 
 
-END_NS_AO
+}

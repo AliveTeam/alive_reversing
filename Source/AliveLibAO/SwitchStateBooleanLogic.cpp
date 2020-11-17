@@ -5,7 +5,7 @@
 #include "stdlib.hpp"
 #include "Events.hpp"
 
-START_NS_AO
+namespace AO {
 
 void SwitchStateBooleanLogic::VUpdate()
 {
@@ -132,5 +132,5 @@ void SwitchStateBooleanLogic::VUpdate_436B60()
     }
 }
 
-END_NS_AO
+}
 

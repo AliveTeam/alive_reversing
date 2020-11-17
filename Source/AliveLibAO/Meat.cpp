@@ -11,7 +11,7 @@
 #include "Math.hpp"
 #include "Events.hpp"
 
-START_NS_AO
+namespace AO {
 
 MeatSack* MeatSack::ctor_4390F0(Path_MeatSack* pTlv, int tlvInfo)
 {
@@ -381,4 +381,4 @@ __int16 Meat::VGetCount_439020()
     return 0;
 }
 
-END_NS_AO
+}

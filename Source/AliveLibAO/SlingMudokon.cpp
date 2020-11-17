@@ -18,7 +18,7 @@
 
 void SlingMud_ForceLink() { }
 
-START_NS_AO
+namespace AO {
 
 using TSlingMudStateFunction = decltype(&SlingMudokon::State_0_Idle_46FCB0);
 
@@ -1011,4 +1011,4 @@ __int16 SlingMudokon::tsub_4707B0()
     }
 }
 
-END_NS_AO
+}

@@ -19,7 +19,7 @@
 #include "ScreenShake.hpp"
 #include "PossessionFlicker.hpp"
 
-START_NS_AO
+namespace AO {
 
 TintEntry stru_4C5488[] =
 {
@@ -511,4 +511,4 @@ void SecurityClaw::VOnThrowableHit(BaseGameObject* /*pFrom*/)
     // Empty
 }
 
-END_NS_AO
+}

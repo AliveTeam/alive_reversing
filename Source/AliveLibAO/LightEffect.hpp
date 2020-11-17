@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "DoorLight.hpp"
 
-START_NS_AO
+namespace AO {
 
 class LightEffect : public BaseAnimatedWithPhysicsGameObject
 {
@@ -40,5 +40,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(LightEffect, 0xFC);
 
-END_NS_AO
+}
 

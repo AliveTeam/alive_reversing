@@ -8,7 +8,7 @@
 #include "Rope.hpp"
 #include "Events.hpp"
 
-START_NS_AO
+namespace AO {
 
 PullRingRope* PullRingRope::ctor_4546B0(Path_PullRingRope* pTlv, int tlvInfo)
 {
@@ -320,4 +320,4 @@ void PullRingRope::VUpdate_4549A0()
     field_F8_pRope->field_AC_ypos = FP_NoFractional(FP_FromInteger(field_C8_yOffset - 16) + field_AC_ypos);
 }
 
-END_NS_AO
+}

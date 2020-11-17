@@ -5,7 +5,7 @@
 #include "Sfx.hpp"
 #include "stdlib.hpp"
 
-START_NS_AO
+namespace AO {
 
 void HoneyDrip::VUpdate()
 {
@@ -60,4 +60,4 @@ BaseGameObject* HoneyDrip::VDestructor(signed int flags)
     return this;
 }
 
-END_NS_AO
+}

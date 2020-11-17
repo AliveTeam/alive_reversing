@@ -5,7 +5,7 @@
 #include "Font.hpp"
 #include "Map.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_StatusBoard : public Path_TLV
 {
@@ -45,5 +45,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(StatsSign, 0xD0);
 
-END_NS_AO
+}
 

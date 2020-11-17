@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Fg1Block;
 struct Fg1Chunk;
@@ -44,4 +44,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(FG1, 0x24);
 
-END_NS_AO
+}

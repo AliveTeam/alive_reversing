@@ -8,7 +8,7 @@
 #include "Sfx.hpp"
 #include "Abe.hpp"
 
-START_NS_AO
+namespace AO {
 
 FootSwitch* FootSwitch::ctor_4887F0(Path_FootSwitch* pTlv, int tlvInfo)
 {
@@ -180,5 +180,5 @@ void FootSwitch::VUpdate_4888E0()
 
 }
 
-END_NS_AO
+}
 

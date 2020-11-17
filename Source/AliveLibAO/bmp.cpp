@@ -3,7 +3,7 @@
 #include "bmp.hpp"
 #include "Function.hpp"
 
-START_NS_AO
+namespace AO {
 
 EXPORT signed int CC BMP_ClearRect_48F810(Bitmap* pBmp, RECT* pRect, int fillColour)
 {
@@ -12,4 +12,4 @@ EXPORT signed int CC BMP_ClearRect_48F810(Bitmap* pBmp, RECT* pRect, int fillCol
     return BMP_ClearRect_4F1EE0(pBmp, pRect, fillColour);
 }
 
-END_NS_AO
+}

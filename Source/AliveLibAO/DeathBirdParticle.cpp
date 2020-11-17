@@ -8,7 +8,7 @@
 #include "Math.hpp"
 #include "Sfx.hpp"
 
-START_NS_AO
+namespace AO {
 
 void DeathBirdParticle::VUpdate_41DA60()
 {
@@ -121,5 +121,5 @@ BaseGameObject* DeathBirdParticle::VDestructor(signed int flags)
     return this;
 }
 
-END_NS_AO
+}
 

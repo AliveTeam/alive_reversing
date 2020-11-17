@@ -27,7 +27,7 @@
 
 void Slog_ForceLink() {}
 
-START_NS_AO
+namespace AO {
 
 using TSlogStateFunction = decltype(&Slog::State_0_Idle_4742E0);
 
@@ -2965,4 +2965,4 @@ void Slog::DelayedResponse(__int16 responseIdx)
     field_11C_timer = gnFrameCount_507670 + 10;
 }
 
-END_NS_AO
+}

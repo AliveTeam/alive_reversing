@@ -11,7 +11,7 @@
 #include "Sfx.hpp"
 #include "Collisions.hpp"
 
-START_NS_AO
+namespace AO {
 
 TintEntry stru_4C3140[3] =
 {
@@ -380,4 +380,4 @@ void TimedMine::vOnPickUpOrSlapped_408A80()
     }
 }
 
-END_NS_AO
+}

@@ -12,7 +12,7 @@
 #include "Spark.hpp"
 #include "Sparks.hpp"
 
-START_NS_AO
+namespace AO {
 
 EXPORT Bullet* Bullet::ctor_409380(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, int a7, FP scale, __int16 a9)
 {
@@ -326,4 +326,4 @@ BaseAliveGameObject* Bullet::ShootObject_409400(PSX_RECT* pRect)
     return pObjectToShoot;
 }
 
-END_NS_AO
+}

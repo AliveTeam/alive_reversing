@@ -2,7 +2,7 @@
 
 #include "FunctionFwd.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct SwitchStates
 {
@@ -28,4 +28,4 @@ void SwitchStates_ClearAll();
 
 ALIVE_VAR_EXTERN(SwitchStates, sSwitchStates_505568);
 
-END_NS_AO
+}

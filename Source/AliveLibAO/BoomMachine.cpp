@@ -10,7 +10,7 @@
 #include "Game.hpp"
 #include "Grenade.hpp"
 
-START_NS_AO
+namespace AO {
 
 class GrenadeMachineNozzel : public BaseAnimatedWithPhysicsGameObject
 {
@@ -58,20 +58,19 @@ public:
                 auto pNewNade = ao_new<Grenade>();
                 if (pNewNade)
                 {
-                    const FP scaled = (FP_FromInteger(-6) * field_BC_sprite_scale);
-                    FP sprite_scale = {};
+                    FP directedScale = {};
                     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                     {
-                        sprite_scale = -sprite_scale;
+                        directedScale = -field_BC_sprite_scale;
                     }
                     else
                     {
-                        sprite_scale = field_BC_sprite_scale;
+                        directedScale = field_BC_sprite_scale;
                     }
        
                     pNewNade->ctor_41EBD0(
-                        field_A8_xpos + (FP_FromInteger(6) * sprite_scale),
-                        field_AC_ypos + scaled,
+                        field_A8_xpos + (FP_FromInteger(6) * directedScale),
+                        field_AC_ypos + (-FP_FromInteger(6) * directedScale),
                         field_EC_num_grenades);
                 }
 
@@ -279,4 +278,4 @@ void BoomMachine::VScreenChanged_41E7F0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-END_NS_AO
+}

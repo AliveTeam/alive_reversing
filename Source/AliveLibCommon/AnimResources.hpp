@@ -854,11 +854,11 @@ enum AEResourceID
     kScrabSpeakResID = 170,
 };
 
-START_NS_AO
+namespace AO {
 
 enum AOResourceID
 {
     kSquibSmokeResID = 354
 };
 
-END_NS_AO
+}

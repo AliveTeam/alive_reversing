@@ -5,7 +5,7 @@
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_LiftMover : public Path_TLV
 {
@@ -43,4 +43,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(LiftMover, 0x24);
 
-END_NS_AO
+}

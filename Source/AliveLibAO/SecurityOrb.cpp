@@ -16,7 +16,7 @@
 #include "Game.hpp"
 #include "Events.hpp"
 
-START_NS_AO
+namespace AO {
 
 SecurityOrb* SecurityOrb::ctor_436C80(Path_SecurityOrb* pTlv, int tlvInfo)
 {
@@ -306,4 +306,4 @@ void SecurityOrb::VUpdate_436DF0()
     }
 }
 
-END_NS_AO
+}

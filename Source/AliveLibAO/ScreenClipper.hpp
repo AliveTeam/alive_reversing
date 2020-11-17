@@ -4,7 +4,7 @@
 #include "BaseGameObject.hpp"
 #include "Primitives.hpp"
 
-START_NS_AO
+namespace AO {
 
 class ScreenClipper : public BaseGameObject
 {
@@ -32,5 +32,5 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(ScreenClipper, 0x3C);
 
-END_NS_AO
+}
 

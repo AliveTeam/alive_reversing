@@ -4,7 +4,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_UXB : public Path_TLV
 {
@@ -71,5 +71,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(UXB, 0x1C0);
 
-END_NS_AO
+}
 

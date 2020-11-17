@@ -4,7 +4,7 @@
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 
-START_NS_AO
+namespace AO {
 
 class OrbWhirlWindParticle;
 class BaseAliveGameObject;
@@ -50,5 +50,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(OrbWhirlWind, 0x64);
 
-END_NS_AO
+}
 

@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "EffectBase.hpp"
 
-START_NS_AO
+namespace AO {
 
 class DeathFadeOut : public EffectBase
 {
@@ -33,5 +33,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(DeathFadeOut, 0x74);
 
-END_NS_AO
+}
 

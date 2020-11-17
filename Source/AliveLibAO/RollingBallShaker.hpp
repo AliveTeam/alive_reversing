@@ -6,7 +6,7 @@
 
 void RollingBallShaker_ForceLink();
 
-START_NS_AO
+namespace AO {
 
 class RollingBallShaker : public BaseGameObject
 {
@@ -27,4 +27,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(RollingBallShaker, 0x34);
 
-END_NS_AO
+}

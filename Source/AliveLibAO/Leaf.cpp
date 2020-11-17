@@ -8,7 +8,7 @@
 #include "Collisions.hpp"
 #include "Map.hpp"
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x4D148C, BYTE, sLeafRandIdx_4D148C, 8);
 
@@ -160,5 +160,5 @@ BaseGameObject* Leaf::VDestructor(signed int flags)
     return this;
 }
 
-END_NS_AO
+}
 

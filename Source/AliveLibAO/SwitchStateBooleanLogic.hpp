@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "BaseGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 enum class BooleanOperatorType : __int16
 {
@@ -51,5 +51,5 @@ public:
 ALIVE_ASSERT_SIZEOF(SwitchStateBooleanLogic, 0x1C);
 
 
-END_NS_AO
+}
 

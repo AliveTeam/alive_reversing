@@ -11,7 +11,7 @@
 #include "Events.hpp"
 #include "MusicTrigger.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Door_Data
 {
@@ -541,4 +541,4 @@ void Door::VUpdate_40E870()
     }
 }
 
-END_NS_AO
+}

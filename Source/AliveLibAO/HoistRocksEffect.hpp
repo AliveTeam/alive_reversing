@@ -4,7 +4,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_Hoist : public Path_TLV
 {
@@ -73,5 +73,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(HoistRocksEffect, 0x2C);
 
-END_NS_AO
+}
 

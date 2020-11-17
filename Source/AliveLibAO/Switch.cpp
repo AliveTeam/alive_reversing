@@ -7,7 +7,7 @@
 #include "Events.hpp"
 #include "Sfx.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Switch_Data
 {
@@ -276,5 +276,5 @@ int Switch::vPull_481640(__int16 a2)
     return SwitchStates_Get(field_E4_switchId);
 }
 
-END_NS_AO
+}
 

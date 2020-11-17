@@ -28,7 +28,7 @@
 #include "Elum.hpp"
 #include "Sys.hpp"
 
-START_NS_AO
+namespace AO {
 
 class BaseGameObject;
 
@@ -2187,4 +2187,4 @@ EXPORT Path_TLV* CCSTD Path_TLV::TLV_Next_Of_Type_446500(Path_TLV* pTlv, unsigne
     return pTlv;
 }
 
-END_NS_AO
+}

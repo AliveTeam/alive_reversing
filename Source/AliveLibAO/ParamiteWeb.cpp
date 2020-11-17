@@ -9,7 +9,7 @@
 #include "ScreenManager.hpp"
 #include "ShadowZone.hpp"
 
-START_NS_AO
+namespace AO {
 
 void ParamiteWeb::VUpdate()
 {
@@ -200,5 +200,5 @@ void ParamiteWeb::VRender_48AB10(int **pOt)
     }
 }
 
-END_NS_AO
+}
 

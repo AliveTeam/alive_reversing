@@ -5,7 +5,7 @@
 #include "Animation.hpp"
 #include "Map.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct BeeSwarmParticle
 {
@@ -98,5 +98,5 @@ ALIVE_ASSERT_SIZEOF(BeeSwarm, 0xDB0);
 ALIVE_VAR_EXTERN(short, gBeeInstanceCount_5076B0);
 ALIVE_VAR_EXTERN(short, gBeesNearAbe_5076AC);
 
-END_NS_AO
+}
 

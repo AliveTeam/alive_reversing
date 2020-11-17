@@ -4,7 +4,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_ZBall : public Path_TLV
 {
@@ -49,4 +49,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(ZBall, 0xEC);
 
-END_NS_AO
+}

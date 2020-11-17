@@ -14,7 +14,7 @@
 #undef min
 #undef max
 
-START_NS_AO
+namespace AO {
 
 void Blood_ForceLink() {}
 
@@ -316,4 +316,4 @@ void Blood::VScreenChanged()
     VScreenChanged_407AB0();
 }
 
-END_NS_AO
+}

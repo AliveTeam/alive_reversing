@@ -13,7 +13,7 @@
 #include "Blood.hpp"
 #include "ScreenManager.hpp"
 
-START_NS_AO
+namespace AO {
 
 void MeatSaw::VScreenChanged()
 {
@@ -445,4 +445,4 @@ void MeatSaw::VRender_439F50(int** ppOt)
     }
 }
 
-END_NS_AO
+}

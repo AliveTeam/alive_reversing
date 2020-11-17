@@ -17,7 +17,7 @@
 #include "Sys.hpp"
 #include "Map.hpp"
 
-START_NS_AO;
+namespace AO {
 
 ALIVE_VAR(1, 0x5080E0, PauseMenu*, pPauseMenu_5080E0, nullptr);
 
@@ -846,4 +846,4 @@ void PauseMenu::VRender_44E6F0(int** ppOt)
     }
 }
 
-END_NS_AO
+}

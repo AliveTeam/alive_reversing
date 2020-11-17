@@ -9,7 +9,7 @@
 
 void RollingBallShaker_ForceLink() {}
 
-START_NS_AO
+namespace AO {
 
 const static PSX_Pos16 sRollingBallShakerScreenOffsets_4BB740[18] =
 {
@@ -121,4 +121,4 @@ RollingBallShaker* RollingBallShaker::Vdtor_436350(signed int flags)
     return this;
 }
 
-END_NS_AO
+}

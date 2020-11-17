@@ -5,7 +5,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Primitives.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_MotionDetector : public Path_TLV
 {
@@ -84,5 +84,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(MotionDetector, 0x164);
 
-END_NS_AO
+}
 

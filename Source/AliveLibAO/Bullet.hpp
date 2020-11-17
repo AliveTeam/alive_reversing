@@ -4,7 +4,7 @@
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 
-START_NS_AO
+namespace AO {
 
 class BaseAliveGameObject;
 
@@ -45,5 +45,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Bullet, 0x38);
 
-END_NS_AO
+}
 

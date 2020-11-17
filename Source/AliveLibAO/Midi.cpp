@@ -2,7 +2,7 @@
 #include "Midi.hpp"
 #include "Function.hpp"
 
-START_NS_AO
+namespace AO {
 
 EXPORT void CC SND_Reset_476BA0()
 {
@@ -80,4 +80,4 @@ EXPORT void CC SND_StopAll_4762D0()
     NOT_IMPLEMENTED();
 }
 
-END_NS_AO
+}

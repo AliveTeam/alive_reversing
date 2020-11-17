@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 class PathLine;
 
@@ -31,4 +31,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(BulletShell, 0xF4);
 
-END_NS_AO
+}

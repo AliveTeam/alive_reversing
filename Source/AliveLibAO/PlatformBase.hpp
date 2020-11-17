@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseAliveGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 class Map;
 
@@ -44,5 +44,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(PlatformBase, 0x12C);
 
-END_NS_AO
+}
 

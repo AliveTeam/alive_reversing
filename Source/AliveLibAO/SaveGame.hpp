@@ -4,7 +4,7 @@
 #include "PathData.hpp"
 #include "Psx.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Save_PSX_Header
 {
@@ -110,5 +110,5 @@ public:
 
 extern const char word_4BC670[6][8];
 
-END_NS_AO
+}
 

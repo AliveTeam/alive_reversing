@@ -51,7 +51,7 @@
 #include "PsxRender.hpp"
 #include "Psx.hpp"
 
-START_NS_AO
+namespace AO {
 
 void Static_Inits_AO()
 {
@@ -99,4 +99,4 @@ EXPORT int CALLBACK WinMain_48EF50(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     return sExitCode_9F7734;
 }
 
-END_NS_AO
+}

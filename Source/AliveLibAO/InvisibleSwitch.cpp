@@ -8,7 +8,7 @@
 #include "Events.hpp"
 #include "Game.hpp"
 
-START_NS_AO
+namespace AO {
 
 void InvisibleSwitch::VScreenChanged()
 {
@@ -122,4 +122,4 @@ void InvisibleSwitch::VUpdate_4335A0()
     }
 }
 
-END_NS_AO
+}

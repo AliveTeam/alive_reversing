@@ -4,7 +4,7 @@
 #include "ResourceManager.hpp"
 //#include "../AliveLibAE/Psx.hpp" // AE lib hack
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x4FFD60, LvlArchive, sLvlArchive_4FFD60, {});
 ALIVE_VAR(1, 0x507C90, LvlArchive, stru_507C90, {});
@@ -127,4 +127,4 @@ EXPORT __int16 LvlArchive::Read_File_41BE40(const LvlFileRecord* pFileRec, void*
     return ret;
 }
 
-END_NS_AO
+}

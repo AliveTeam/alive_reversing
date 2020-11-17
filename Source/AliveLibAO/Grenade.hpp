@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "Throwable.hpp"
 
-START_NS_AO
+namespace AO {
 
 enum class GrenadeStates : short
 {
@@ -77,5 +77,5 @@ ALIVE_ASSERT_SIZEOF(Grenade, 0x128);
 
 ALIVE_VAR_EXTERN(short, gInfiniteGrenades_5076EC);
 
-END_NS_AO
+}
 

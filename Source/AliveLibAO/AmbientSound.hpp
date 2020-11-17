@@ -2,7 +2,7 @@
 
 #include "FunctionFwd.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_TLV;
 enum class CameraPos : __int16;
@@ -31,4 +31,4 @@ ALIVE_VAR_EXTERN(Sound_Ambiance_Array, sTopBottomAmbiance_9F11D0);
 ALIVE_VAR_EXTERN(Sound_Ambiance_Array, sRightAmbiance_9F1228);
 ALIVE_VAR_EXTERN(Sound_Ambiance_Array, sLeftAmbiance_9F1280);
 
-END_NS_AO
+}

@@ -3,7 +3,7 @@
 #include "FixedPoint_common.hpp"
 #include "FunctionFwd.hpp"
 
-START_NS_AO
+namespace AO {
 
 EXPORT unsigned int CC Math_FixedPoint_Multiply_451040(signed int op1, signed int op2);
 
@@ -23,4 +23,4 @@ inline FixedPoint operator/(const FixedPoint& lhs, const FixedPoint& rhs)
     return f;
 }
 
-END_NS_AO
+}

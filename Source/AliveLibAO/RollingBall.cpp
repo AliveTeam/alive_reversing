@@ -16,7 +16,7 @@
 #include "Abe.hpp"
 #include "Midi.hpp"
 
-START_NS_AO
+namespace AO {
 
 void RollingBall::VUpdate()
 {
@@ -454,4 +454,4 @@ void RollingBall::CrushThingsInTheWay_458310()
     }
 }
 
-END_NS_AO
+}

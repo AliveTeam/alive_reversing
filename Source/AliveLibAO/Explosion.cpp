@@ -11,7 +11,7 @@
 #include "Particle.hpp"
 #include "Map.hpp"
 
-START_NS_AO
+namespace AO {
 
 void Explosion::VUpdate()
 {
@@ -201,4 +201,4 @@ BaseGameObject* Explosion::VDestructor(signed int flags)
     return this;
 }
 
-END_NS_AO
+}

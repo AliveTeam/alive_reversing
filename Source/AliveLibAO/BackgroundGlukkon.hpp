@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_Glukkon : public Path_TLV
 {
@@ -49,4 +49,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(BackgroundGlukkon, 0x124);
 
-END_NS_AO
+}

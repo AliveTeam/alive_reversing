@@ -19,7 +19,7 @@
 #undef max
 #undef min
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x5076B0, short, gBeeInstanceCount_5076B0, 0);
 ALIVE_VAR(1, 0x5076AC, short, gBeesNearAbe_5076AC, 0);
@@ -674,4 +674,4 @@ void BeeSwarm::VRender_480AC0(int** ppOt)
     }
 }
 
-END_NS_AO
+}

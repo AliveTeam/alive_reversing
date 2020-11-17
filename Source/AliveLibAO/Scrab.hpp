@@ -7,7 +7,7 @@
 
 void Scrab_ForceLink();
 
-START_NS_AO
+namespace AO {
 
 #define SCRAB_STATES_ENUM(ENTRY) \
     ENTRY(State_0_Empty_45E3D0) \
@@ -222,5 +222,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Scrab, 0x18C);
 
-END_NS_AO
+}
 

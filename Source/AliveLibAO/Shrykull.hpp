@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseAliveGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 class ZapLine;
 
@@ -51,5 +51,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Shrykull, 0x124);
 
-END_NS_AO
+}
 

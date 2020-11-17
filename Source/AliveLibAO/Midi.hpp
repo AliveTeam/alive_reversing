@@ -2,7 +2,7 @@
 
 #include "FunctionFwd.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct SoundBlockInfo;
 struct OpenSeqHandle;
@@ -205,4 +205,4 @@ EXPORT void CC SND_SEQ_SetVol_477970(SeqId idx, __int16 volLeft, __int16 volRigh
 
 EXPORT void CC SND_StopAll_4762D0();
 
-END_NS_AO
+}

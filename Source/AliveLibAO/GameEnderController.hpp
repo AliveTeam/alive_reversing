@@ -5,7 +5,7 @@
 
 void GameEnderController_ForceLink();
 
-START_NS_AO
+namespace AO {
 
 class GameEnderController : public BaseGameObject
 {
@@ -34,5 +34,5 @@ ALIVE_ASSERT_SIZEOF(GameEnderController, 0x18);
 
 
 
-END_NS_AO
+}
 

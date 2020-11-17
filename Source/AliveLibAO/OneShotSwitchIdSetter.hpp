@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "BaseGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_OneShotSwitchIdSetter : public Path_TLV
 {
@@ -31,5 +31,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(OneShotSwitchIdSetter, 0x14);
 
-END_NS_AO
+}
 

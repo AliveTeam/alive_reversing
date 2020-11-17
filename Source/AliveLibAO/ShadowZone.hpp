@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "BaseGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 enum class ShadowZoneScale : __int16
 {
@@ -75,5 +75,5 @@ ALIVE_ASSERT_SIZEOF(ShadowZone, 0x34);
 
 ALIVE_VAR_EXTERN(DynamicArrayT<ShadowZone>*, sShadowZone_dArray_507B08);
 
-END_NS_AO
+}
 

@@ -38,7 +38,7 @@
 #undef max
 #undef min
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x9F11BC, int, dword_9F11BC, 0);
 ALIVE_VAR(1, 0x9F11C0, int, dword_9F11C0, 0);
@@ -6004,4 +6004,4 @@ bool Slig::BrainIs(Slig::TBrainFn fn)
     return ::BrainIs(fn, field_1F8_fn, sSligAITable);
 }
 
-END_NS_AO
+}

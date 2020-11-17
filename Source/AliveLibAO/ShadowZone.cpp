@@ -5,7 +5,7 @@
 #include "FixedPoint.hpp"
 #include "Events.hpp"
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x507B08, DynamicArrayT<ShadowZone>*, sShadowZone_dArray_507B08, nullptr);
 
@@ -201,4 +201,4 @@ void ShadowZone::GetColourAmount_435E40(FP* pOut, __int16 xpos, __int16 ypos)
     }
 }
 
-END_NS_AO
+}

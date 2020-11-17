@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "Psx.hpp"
 
-START_NS_AO
+namespace AO {
 
 EXPORT void CC Pal_Reset_4476C0(unsigned __int16 a1, unsigned __int16 a2);
 
@@ -25,4 +25,4 @@ EXPORT void CC Vram_alloc_explicit_4507F0(__int16 x, __int16 y, __int16 w, __int
 
 EXPORT __int16 CC vram_alloc_450B20(unsigned __int16 width, __int16 height, unsigned __int16 colourDepth, PSX_RECT* pRect);
 
-END_NS_AO
+}

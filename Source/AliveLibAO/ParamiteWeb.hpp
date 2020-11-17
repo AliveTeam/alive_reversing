@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 class AnimationUnknown;
 
@@ -39,5 +39,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(ParamiteWeb, 0xF4);
 
-END_NS_AO
+}
 

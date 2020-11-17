@@ -27,7 +27,7 @@
 
 void Paramite_ForceLink() {}
 
-START_NS_AO
+namespace AO {
 
 using TParamiteStateFunction = decltype(&Paramite::State_0_Idle_44B900);
 
@@ -3819,5 +3819,5 @@ void Paramite::State_25_Death_44DB90()
     }
 }
 
-END_NS_AO
+}
 

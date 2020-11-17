@@ -3,7 +3,7 @@
 #include "DeathFadeOut.hpp"
 #include "stdlib.hpp"
 
-START_NS_AO
+namespace AO {
 
 void DeathFadeOut::VRender_419ED0(int** ppOt)
 {
@@ -117,5 +117,5 @@ BaseGameObject* DeathFadeOut::VDestructor(signed int flags)
     return this;
 }
 
-END_NS_AO
+}
 

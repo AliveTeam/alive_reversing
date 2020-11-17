@@ -5,7 +5,7 @@
 
 void ZapLine_ForceLink();
 
-START_NS_AO
+namespace AO {
 
 struct ZapLineSprites
 {
@@ -101,5 +101,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(ZapLine, 0x144);
 
-END_NS_AO
+}
 

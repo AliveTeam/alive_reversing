@@ -5,7 +5,7 @@
 #include "Factory.hpp"
 #include "Map.hpp"
 
-START_NS_AO;
+namespace AO {
 
 #define ELUM_STATES_ENUM(ENTRY) \
     ENTRY(State_0_Respawn_414C60) \
@@ -286,4 +286,4 @@ ALIVE_ASSERT_SIZEOF(Elum, 0x1F4);
 
 ALIVE_VAR_EXTERN(Elum*, gElum_507680);
 
-END_NS_AO;
+}

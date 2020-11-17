@@ -4,7 +4,7 @@
 #include "BaseGameObject.hpp"
 #include "Primitives.hpp"
 
-START_NS_AO
+namespace AO {
 
 class ScreenShake : public BaseGameObject
 {
@@ -31,5 +31,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(ScreenShake, 0x34);
 
-END_NS_AO
+}
 

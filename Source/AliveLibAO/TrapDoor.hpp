@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "PlatformBase.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_TrapDoor : public Path_TLV
 {
@@ -76,4 +76,4 @@ public:
 ALIVE_ASSERT_SIZEOF(TrapDoor, 0x150);
 
 
-END_NS_AO
+}

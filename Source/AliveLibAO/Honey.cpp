@@ -5,7 +5,7 @@
 #include "Map.hpp"
 #include "stdlib.hpp"
 
-START_NS_AO
+namespace AO {
 
 void Honey::VScreenChanged()
 {
@@ -53,4 +53,4 @@ BaseGameObject* Honey::VDestructor(signed int flags)
     return this;
 }
 
-END_NS_AO
+}

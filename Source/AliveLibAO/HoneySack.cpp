@@ -11,7 +11,7 @@
 #include "Sfx.hpp"
 #include "Collisions.hpp"
 
-START_NS_AO
+namespace AO {
 
 HoneySack* HoneySack::ctor_42BD10(Path_HoneySack* pTlv, int tlvInfo)
 {
@@ -312,4 +312,4 @@ void HoneySack::VUpdate_42BFE0()
     }
 }
 
-END_NS_AO
+}

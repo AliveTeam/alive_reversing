@@ -9,7 +9,7 @@
 #include "CameraSwapper.hpp"
 #include "ScreenManager.hpp"
 
-START_NS_AO
+namespace AO {
 
 const Gib_Data kGibData_4C30B0[6] =
 {
@@ -336,4 +336,4 @@ BaseGameObject* Gibs::VDestructor(signed int flags)
     return Vdtor_4083D0(flags);
 }
 
-END_NS_AO
+}

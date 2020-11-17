@@ -17,7 +17,7 @@
 #include "Abe.hpp"
 #include "Math.hpp"
 
-START_NS_AO
+namespace AO {
 
 const TintEntry stru_4CD310[4] =
 {
@@ -570,4 +570,4 @@ void MovingBomb::VScreenChanged()
     VScreenChanged_43BC90();
 }
 
-END_NS_AO
+}

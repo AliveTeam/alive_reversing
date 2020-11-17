@@ -8,7 +8,7 @@
 #include "Error.hpp"
 #include "../AliveLibAE/Psx.hpp"
 
-START_NS_AO
+namespace AO {
 
 EXPORT void CC PSX_PutDispEnv_495D30(PSX_DISPENV* pDispEnv)
 {
@@ -292,4 +292,4 @@ int CC PSX_CD_OpenFile(const char* pFileName, int bTryAllPaths)
     return PSX_CD_OpenFile_4FAE80(pFileName, bTryAllPaths);
 }
 
-END_NS_AO
+}

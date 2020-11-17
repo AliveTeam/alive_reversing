@@ -31,7 +31,7 @@
 
 void Mud_ForceLink() {}
 
-START_NS_AO
+namespace AO {
 
 using TMudStateFunction = decltype(&Mudokon::State_0_Idle_43CA70);
 
@@ -4563,4 +4563,4 @@ short Mudokon::Brain_Choke_15_43C5D0()
     return 0;
 }
 
-END_NS_AO
+}

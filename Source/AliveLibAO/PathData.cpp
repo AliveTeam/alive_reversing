@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include "Collisions.hpp"
 
-START_NS_AO
+namespace AO {
 
 const PathBlyRec knullptrPathBlyRec = {};
 const SoundBlockInfo knullptrSoundBlockInfo = {};
@@ -839,4 +839,4 @@ int CC Path_Format_CameraName_4346B0(char* pNameBuffer, LevelIds level, __int16 
     return sprintf(pNameBuffer, "%sP%02dC%02d.CAM", gMapData_4CAB58.paths[static_cast<int>(level)].field_14_lvl_name, path, camera);
 }
 
-END_NS_AO
+}

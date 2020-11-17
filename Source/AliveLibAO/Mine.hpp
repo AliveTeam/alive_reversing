@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_Mine : public Path_TLV
 {
@@ -63,5 +63,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Mine, 0x1B4);
 
-END_NS_AO
+}
 

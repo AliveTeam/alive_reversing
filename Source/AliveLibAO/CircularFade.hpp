@@ -4,7 +4,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Primitives.hpp"
 
-START_NS_AO
+namespace AO {
 
 class CircularFade : public BaseAnimatedWithPhysicsGameObject
 {
@@ -50,5 +50,5 @@ ALIVE_ASSERT_SIZEOF(CircularFade, 0x1AC);
 
 EXPORT CircularFade* CC Make_Circular_Fade_447640(FP xpos, FP ypos, FP scale, __int16 direction, char destroyOnDone);
 
-END_NS_AO
+}
 

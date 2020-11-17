@@ -4,7 +4,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_ElectricWall : public Path_TLV
 {
@@ -43,5 +43,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(ElectricWall, 0xF0);
 
-END_NS_AO
+}
 

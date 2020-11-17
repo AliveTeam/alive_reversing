@@ -9,7 +9,7 @@
 #include "Map.hpp"
 #include "ResourceManager.hpp"
 
-START_NS_AO
+namespace AO {
 
 Rope* Rope::Vdtor_458B60(signed int flags)
 {
@@ -250,4 +250,4 @@ void Rope::VRender_458780(int** ppOt)
     }
 }
 
-END_NS_AO
+}

@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_BellHammer : public Path_TLV
 {
@@ -46,5 +46,5 @@ public:
 ALIVE_ASSERT_SIZEOF(BellHammer, 0xF4);
 
 
-END_NS_AO
+}
 

@@ -4,7 +4,7 @@
 #include "Input.hpp"
 #include "../AliveLibAE/Sys.hpp"
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x9F7718, LPSTR, sCommandLine_9F7718, 0);
 ALIVE_VAR(1, 0x9F771C, HINSTANCE, sInstance_9F771C, 0);
@@ -51,4 +51,4 @@ EXPORT void SYS_EventsPump_44FF90()
     Sys_PumpMessages_4EE4F4();
 }
 
-END_NS_AO
+}

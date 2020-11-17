@@ -4,7 +4,7 @@
 #include "stdlib.hpp"
 #include "ResourceManager.hpp"
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x9F309C, int, sMovie_ref_count_9F309C, 0);
 
@@ -81,4 +81,4 @@ void Movie::VUpdate_489EA0()
     NOT_IMPLEMENTED();
 }
 
-END_NS_AO
+}

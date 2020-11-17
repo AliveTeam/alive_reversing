@@ -6,7 +6,7 @@
 
 void AliveLibAO_ForceLink();
 
-START_NS_AO
+namespace AO {
 
 
 enum class Types : __int16
@@ -172,4 +172,4 @@ ALIVE_ASSERT_SIZEOF(BaseGameObject, 0x10);
 
 ALIVE_VAR_EXTERN(DynamicArrayT<BaseGameObject>*, gBaseGameObject_list_9F2DF0);
 
-END_NS_AO
+}

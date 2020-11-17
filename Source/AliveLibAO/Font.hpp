@@ -5,7 +5,7 @@
 #include "Psx.hpp"
 #include "Primitives.hpp"
 
-START_NS_AO
+namespace AO {
 
 
 struct File_Font
@@ -79,4 +79,4 @@ ALIVE_VAR_EXTERN(FontContext, sFontContext_4FFD68);
 ALIVE_VAR_EXTERN(short, sDisableFontFlicker_5080E4);
 ALIVE_VAR_EXTERN(BYTE, sFontDrawScreenSpace_508BF4);
 
-END_NS_AO
+}

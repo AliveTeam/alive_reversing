@@ -8,7 +8,7 @@
 #include "Abe.hpp"
 #include "Collisions.hpp"
 
-START_NS_AO
+namespace AO {
 
 BeeSwarmHole* BeeSwarmHole::ctor_4782B0(Path_BeeSwarmHole* pTlv, int tlvInfo)
 {
@@ -142,4 +142,4 @@ BaseGameObject* BeeSwarmHole::VDestructor(signed int flags)
     return this;
 }
 
-END_NS_AO
+}

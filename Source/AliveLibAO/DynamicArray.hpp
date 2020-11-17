@@ -2,7 +2,7 @@
 
 #include "FunctionFwd.hpp"
 
-START_NS_AO
+namespace AO {
 
 class DynamicArray
 {
@@ -75,4 +75,4 @@ public:
     }
 };
 
-END_NS_AO
+}

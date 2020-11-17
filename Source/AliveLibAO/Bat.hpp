@@ -4,7 +4,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_Bat : public Path_TLV
 {
@@ -60,5 +60,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Bat, 0x110);
 
-END_NS_AO
+}
 

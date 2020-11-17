@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 class BaseAliveGameObject;
 
@@ -39,5 +39,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(PossessionFlicker, 0x24);
 
-END_NS_AO
+}
 

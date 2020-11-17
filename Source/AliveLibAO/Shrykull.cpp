@@ -16,7 +16,7 @@
 #include "Math.hpp"
 #include "Game.hpp"
 
-START_NS_AO
+namespace AO {
 
 BaseGameObject* Shrykull::dtor_463990()
 {
@@ -387,4 +387,4 @@ void Shrykull::VUpdate_463AE0()
     }
 }
 
-END_NS_AO
+}

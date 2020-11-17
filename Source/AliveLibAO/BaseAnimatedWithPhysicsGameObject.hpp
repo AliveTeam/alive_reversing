@@ -6,7 +6,7 @@
 #include "Psx_common.hpp"
 #include "FunctionFwd.hpp"
 
-START_NS_AO
+namespace AO {
 
 class Shadow;
 class BaseAliveGameObject;
@@ -127,4 +127,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(BaseAnimatedWithPhysicsGameObject, 0xD4);
 
-END_NS_AO
+}

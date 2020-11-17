@@ -7,7 +7,7 @@
 #include "Rock.hpp"
 #include "Meat.hpp"
 
-START_NS_AO
+namespace AO {
 
 // Overlay to throwable type table ??
 const Types word_4CF158[54] =
@@ -90,5 +90,5 @@ void BaseThrowable::VOnPickUpOrSlapped()
     VToDead();
 }
 
-END_NS_AO
+}
 

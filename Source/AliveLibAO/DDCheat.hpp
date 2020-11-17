@@ -4,7 +4,7 @@
 #include "FunctionFwd.hpp"
 #include "FixedPoint.hpp"
 
-START_NS_AO
+namespace AO {
 
 enum class DDCheatValueType : int
 {
@@ -97,4 +97,4 @@ ALIVE_VAR_EXTERN(short, sKilledMudokons_5076BC);
 ALIVE_VAR_EXTERN(short, showDebugCreatureInfo_5076E0);
 ALIVE_VAR_EXTERN(short, sDDCheat_FlyingEnabled_50771C);
 
-END_NS_AO
+}

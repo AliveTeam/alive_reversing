@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include "stdlib.hpp"
 
-START_NS_AO
+namespace AO {
 
 DynamicArray* DynamicArray::ctor_4043E0(__int16 startingSize)
 {
@@ -96,4 +96,4 @@ __int16 DynamicArray::Remove_Item_404520(void *item)
     return 0;
 }
 
-END_NS_AO
+}

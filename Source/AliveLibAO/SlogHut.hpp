@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "BaseGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_SlogHut : public Path_TLV
 {
@@ -46,4 +46,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(SlogHut, 0x2C);
 
-END_NS_AO
+}

@@ -2,7 +2,7 @@
 
 #include "FunctionFwd.hpp"
 
-START_NS_AO
+namespace AO {
 
 enum class CameraPos : __int16;
 
@@ -19,4 +19,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(ScopedSeq, 0xC);
 
-END_NS_AO
+}

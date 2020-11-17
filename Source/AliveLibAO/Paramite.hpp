@@ -6,7 +6,7 @@
 
 void Paramite_ForceLink();
 
-START_NS_AO
+namespace AO {
 
 #define PARAMITE_STATES_ENUM(ENTRY) \
     ENTRY(State_0_Idle_44B900) \
@@ -205,5 +205,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Paramite, 0x190);
 
-END_NS_AO
+}
 

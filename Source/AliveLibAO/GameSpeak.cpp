@@ -4,7 +4,7 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 
-START_NS_AO
+namespace AO {
 
 const int dword_4CFFCC[11] =
 {
@@ -206,4 +206,4 @@ GameSpeakMatch GameSpeak::MatchBuffer_40FAA0(BYTE* pBuffer, __int16 bufferLen, s
     }
 }
 
-END_NS_AO
+}

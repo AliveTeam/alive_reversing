@@ -5,7 +5,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "PsxDisplay.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct EventsArray
 {
@@ -82,4 +82,4 @@ void CC Event_Cancel_For_Obj_417350(BaseGameObject* pObj)
     }
 }
 
-END_NS_AO
+}

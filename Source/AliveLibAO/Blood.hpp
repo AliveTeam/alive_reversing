@@ -5,7 +5,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "FixedPoint.hpp"
 
-START_NS_AO
+namespace AO {
 
 void Blood_ForceLink();
 
@@ -59,5 +59,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Blood, 0x120);
 
-END_NS_AO
+}
 

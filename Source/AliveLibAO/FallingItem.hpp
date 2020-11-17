@@ -4,7 +4,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct FallingItem_Data
 {
@@ -80,5 +80,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(FallingItem, 0x138);
 
-END_NS_AO
+}
 

@@ -5,7 +5,7 @@
 #include "Map.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 enum class LevelIds : __int16;
 
@@ -83,4 +83,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Door, 0x104);
 
-END_NS_AO
+}

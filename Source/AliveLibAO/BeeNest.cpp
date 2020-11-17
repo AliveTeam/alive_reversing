@@ -7,7 +7,7 @@
 #include "SwitchStates.hpp"
 #include "Abe.hpp"
 
-START_NS_AO
+namespace AO {
 
 BeeNest* BeeNest::ctor_480E20(Path_BeeNest* pTlv, int tlvInfo)
 {
@@ -148,4 +148,4 @@ void BeeNest::VUpdate_480F30()
     }
 }
 
-END_NS_AO
+}

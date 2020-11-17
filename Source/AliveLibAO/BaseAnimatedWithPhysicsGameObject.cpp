@@ -9,7 +9,7 @@
 #include "ShadowZone.hpp"
 #include "ResourceManager.hpp"
 
-START_NS_AO
+namespace AO {
 
 FP CC ScaleToGridSize_41FA30(FP scale)
 {
@@ -521,4 +521,4 @@ BaseAnimatedWithPhysicsGameObject::BetweenCamPos BaseAnimatedWithPhysicsGameObje
     }
 }
 
-END_NS_AO
+}

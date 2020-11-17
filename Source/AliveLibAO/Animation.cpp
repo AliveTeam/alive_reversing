@@ -27,7 +27,7 @@
 #undef min
 #undef max
 
-START_NS_AO
+namespace AO {
 
 EXPORT short* CC Animation_OnFrame_Slig_46F610(void* pObj, __int16* pData)
 {
@@ -1185,4 +1185,4 @@ void AnimationUnknown::GetRenderedSize_404220(PSX_RECT* pRect)
     Poly_FT4_Get_Rect(pRect, &field_10_polys[gPsxDisplay_504C78.field_A_buffer_index]);
 }
 
-END_NS_AO
+}

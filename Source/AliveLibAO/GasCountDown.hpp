@@ -5,7 +5,7 @@
 #include "FunctionFwd.hpp"
 #include "Map.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_GasCountDown : public Path_TLV
 {
@@ -52,4 +52,4 @@ ALIVE_ASSERT_SIZEOF(GasCountDown, 0x64);
 ALIVE_VAR_EXTERN(short, gGasOn_4FF888);
 ALIVE_VAR_EXTERN(int, sGasTimer_507700);
 
-END_NS_AO
+}

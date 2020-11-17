@@ -11,7 +11,7 @@
 
 void ZapLine_ForceLink() {}
 
-START_NS_AO
+namespace AO {
 
 BaseGameObject* ZapLine::VDestructor(signed int flags)
 {
@@ -488,4 +488,4 @@ void ZapLine::CalculateSpritePositionsInner_479400(int idx1, int idx2, int idx3,
     }
 }
 
-END_NS_AO
+}

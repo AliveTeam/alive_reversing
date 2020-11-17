@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 class Honey : public BaseAnimatedWithPhysicsGameObject
 {
@@ -23,5 +23,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Honey, 0xE8);
 
-END_NS_AO
+}
 

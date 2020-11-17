@@ -8,7 +8,7 @@
 #include "Slig.hpp"
 #include "Slog.hpp"
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x9F11D0, Sound_Ambiance_Array, sTopBottomAmbiance_9F11D0, {});
 ALIVE_VAR(1, 0x9F1228, Sound_Ambiance_Array, sRightAmbiance_9F1228, {});
@@ -196,4 +196,4 @@ EXPORT void CC SND_Init_Ambiance_4765C0()
     }
 }
 
-END_NS_AO
+}

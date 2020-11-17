@@ -7,7 +7,7 @@
 #include "Game.hpp"
 #include "DDCheat.hpp"
 
-START_NS_AO
+namespace AO {
 
 const BYTE sStatsSignFontPalette_4CD570[32] =
 {
@@ -200,4 +200,4 @@ void StatsSign::VRender_441AB0(int** ppOt)
         pScreenManager_4FF7C8->field_2E_idx);
 }
 
-END_NS_AO
+}

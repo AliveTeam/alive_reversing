@@ -6,7 +6,7 @@
 #include "Map.hpp"
 #include "Throwable.hpp"
 
-START_NS_AO;
+namespace AO {
 
 ALIVE_VAR(1, 0x50E26C, ThrowableArray*, gpThrowableArray_50E26C, nullptr);
 
@@ -282,4 +282,4 @@ void ThrowableArray::Add_453F70(__int16 count)
     field_10_count += count;
 }
 
-END_NS_AO;
+}

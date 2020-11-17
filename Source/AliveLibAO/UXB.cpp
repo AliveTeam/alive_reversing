@@ -9,7 +9,7 @@
 #include "Events.hpp"
 #include "ScreenManager.hpp"
 
-START_NS_AO
+namespace AO {
 
 UXB* UXB::ctor_488C80(Path_UXB* pTlv, int tlvInfo)
 {
@@ -606,4 +606,4 @@ BaseGameObject* UXB::VDestructor(signed int flags)
     return Vdtor_489C70(flags);
 }
 
-END_NS_AO
+}

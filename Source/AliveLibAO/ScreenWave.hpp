@@ -6,7 +6,7 @@
 
 void Forcelink_ScreenWave();
 
-START_NS_AO
+namespace AO {
 
 enum class LevelIds : __int16;
 
@@ -52,5 +52,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(ScreenWave, 0x40);
 
-END_NS_AO
+}
 

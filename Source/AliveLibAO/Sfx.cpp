@@ -2,7 +2,7 @@
 #include "Sfx.hpp"
 #include "Function.hpp"
 
-START_NS_AO
+namespace AO {
  
 int CC SFX_Play_real_43AE60(unsigned __int8 /*sfxId*/, int /*volume*/, int /*pitch*/, BaseAnimatedWithPhysicsGameObject* /*pObj*/)
 {
@@ -63,4 +63,4 @@ int CC SFX_Play_43AED0(unsigned __int8 sfxId, signed int volume, CameraPos direc
     return SFX_Play_real_43AED0(sfxId, volume, direction);
 }
 
-END_NS_AO
+}

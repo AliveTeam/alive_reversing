@@ -4,7 +4,7 @@
 #include "BaseGameObject.hpp"
 #include "Map.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_Slig;
 
@@ -31,5 +31,5 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(SligSpawner, 0x30);
 
-END_NS_AO
+}
 
