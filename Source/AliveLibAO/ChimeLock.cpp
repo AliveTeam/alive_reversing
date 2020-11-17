@@ -16,7 +16,7 @@
 #include "Input.hpp"
 #include "Particle.hpp"
 
-START_NS_AO
+namespace AO {
 
 // TODO: Index is always >=1 so first entry is redundant ??
 const int dword_4C5054[11] = { 0, 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000 };
@@ -661,5 +661,5 @@ BaseGameObject* ChimeLock::VDestructor(signed int flags)
     return Vdtor_40BD40(flags);
 }
 
-END_NS_AO
+}
 

@@ -6,7 +6,7 @@
 #include "ScreenManager.hpp"
 #include "PsxDisplay.hpp"
 
-START_NS_AO
+namespace AO {
 
 void CircularFade::VRender_47A080(int** ppOt)
 {
@@ -249,4 +249,4 @@ CircularFade* CC Make_Circular_Fade_447640(FP xpos, FP ypos, FP scale, __int16 d
     return pCircularFade;
 }
 
-END_NS_AO
+}

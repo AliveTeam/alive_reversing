@@ -10,7 +10,7 @@
 #include "Game.hpp"
 #include "Grenade.hpp"
 
-START_NS_AO
+namespace AO {
 
 class GrenadeMachineNozzel : public BaseAnimatedWithPhysicsGameObject
 {
@@ -279,4 +279,4 @@ void BoomMachine::VScreenChanged_41E7F0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-END_NS_AO
+}

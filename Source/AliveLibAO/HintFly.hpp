@@ -6,7 +6,7 @@
 
 void HintFly_ForceLink();
 
-START_NS_AO
+namespace AO {
 
 struct HintFlyParticle;
 
@@ -76,5 +76,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(HintFly, 0x128);
 
-END_NS_AO
+}
 

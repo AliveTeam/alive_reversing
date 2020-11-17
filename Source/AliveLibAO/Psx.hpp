@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "Psx_common.hpp"
 
-START_NS_AO
+namespace AO {
 
 using TPsxEmuCallBack = std::add_pointer<int(DWORD)>::type;
 
@@ -76,4 +76,4 @@ void Init_VGA_AndPsxVram();
 
 int CC PSX_CD_OpenFile(const char* pFileName, int bTryAllPaths);
 
-END_NS_AO
+}

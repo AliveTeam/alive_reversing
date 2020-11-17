@@ -5,7 +5,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "ScopedSeq.hpp"
 
-START_NS_AO
+namespace AO {
 
 enum class SwitchOp : __int16;
 
@@ -60,5 +60,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Switch, 0xFC);
 
-END_NS_AO
+}
 

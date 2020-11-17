@@ -6,7 +6,7 @@
 #include "Map.hpp"
 #include "stdlib.hpp"
 
-START_NS_AO
+namespace AO {
 
 Sparks* Sparks::ctor_40A3A0(FP xpos, FP ypos, FP scale)
 {
@@ -95,5 +95,5 @@ BaseGameObject* Sparks::VDestructor(signed int flags)
     return this;
 }
 
-END_NS_AO
+}
 

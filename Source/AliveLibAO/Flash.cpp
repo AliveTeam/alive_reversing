@@ -4,7 +4,7 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 
-START_NS_AO
+namespace AO {
 
 Flash* Flash::ctor_41A810(__int16 layer, unsigned __int8 r, unsigned __int8 g, unsigned __int8 b, int /*not_used*/, unsigned __int8 abr, int time)
 {
@@ -46,4 +46,4 @@ void Flash::VUpdate()
     VUpdate_41A870();
 }
 
-END_NS_AO
+}

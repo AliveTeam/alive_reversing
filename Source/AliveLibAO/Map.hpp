@@ -6,7 +6,7 @@
 #include "PathData.hpp"
 #include "BaseGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 void Map_ForceLink();
 
@@ -265,5 +265,5 @@ ALIVE_VAR_EXTERN(Camera*, sCameraBeingLoaded_507C98);
 
 EXPORT int CC MaxGridBlocks_41FA10(FP scale);
 
-END_NS_AO
+}
 

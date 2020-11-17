@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "Math.hpp"
 
-START_NS_AO
+namespace AO {
 
 ALIVE_ARY(1, 0x4BBE30, unsigned char, 256, sRandomBytes_4BBE30,
 {
@@ -87,4 +87,4 @@ FP CC Math_SquareRoot_FP_451210(FP /*v*/)
     return {};
 }
 
-END_NS_AO
+}

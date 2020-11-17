@@ -10,7 +10,7 @@
 #include "Events.hpp"
 #include "Sfx.hpp"
 
-START_NS_AO
+namespace AO {
 
 void Alarm_ForceLink() { }
 
@@ -188,4 +188,4 @@ void Alarm::VScreenChanged()
     VScreenChanged_402810();
 }
 
-END_NS_AO
+}

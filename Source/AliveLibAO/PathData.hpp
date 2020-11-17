@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "Factory.hpp"
 
-START_NS_AO
+namespace AO {
 
 enum class LevelIds : __int16
 {
@@ -196,4 +196,4 @@ EXPORT int CC Path_Format_CameraName_4346B0(char* pNameBuffer, LevelIds level, _
 
 extern PathRootContainer gMapData_4CAB58;
 
-END_NS_AO
+}

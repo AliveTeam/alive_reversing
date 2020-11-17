@@ -12,7 +12,7 @@
 
 void Forcelink_ScreenWave() {}
 
-START_NS_AO
+namespace AO {
 
 struct ScreenWave_Data
 {
@@ -190,4 +190,4 @@ void ScreenWave::VRender_463130(int** /*ppOt*/)
     NOT_IMPLEMENTED();
 }
 
-END_NS_AO
+}

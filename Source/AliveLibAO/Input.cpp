@@ -2,7 +2,7 @@
 #include "Input.hpp"
 #include "Function.hpp"
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x5009E8, InputObject, sInputObject_5009E8, {});
 ALIVE_VAR(1, 0x5076B8, unsigned __int16, sCurrentControllerIndex_5076B8, 0);
@@ -112,4 +112,4 @@ void Input_InitKeyStateArray_48E5F0()
     NOT_IMPLEMENTED();
 }
 
-END_NS_AO
+}

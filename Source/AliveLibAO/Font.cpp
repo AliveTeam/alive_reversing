@@ -6,7 +6,7 @@
 #include "FixedPoint.hpp"
 #include "Sys_common.hpp"
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x4FFD68, FontContext, sFontContext_4FFD68, {});
 
@@ -354,4 +354,4 @@ const char* AliveFont::SliceText_41C6C0(const char* /*text*/, int /*left*/, FP /
     return nullptr;
 }
 
-END_NS_AO
+}

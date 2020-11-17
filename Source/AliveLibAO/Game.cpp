@@ -33,7 +33,7 @@
 #include "Events.hpp"
 #include "Sound.hpp"
 
-START_NS_AO
+namespace AO {
 
 
 // TODO: Move these few funcs to correct location
@@ -613,5 +613,5 @@ EXPORT void Game_Main_450050()
     Game_Shutdown_48E050();
 }
 
-END_NS_AO
+}
 

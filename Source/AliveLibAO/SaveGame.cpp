@@ -8,7 +8,7 @@
 #include "Input.hpp"
 #include "SaveGame.hpp"
 
-START_NS_AO
+namespace AO {
 
 void SaveGame::Load_459970(SaveData*, int)
 {
@@ -394,4 +394,4 @@ BOOL CC SaveGame::WriteSave_45A110(const char *name)
     return written == sizeof(SaveData) ? 1 : 0;
 }
 
-END_NS_AO
+}

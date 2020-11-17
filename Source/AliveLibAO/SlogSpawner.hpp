@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "Map.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_SlogSpawner : public Path_TLV
 {
@@ -47,5 +47,5 @@ public:
 ALIVE_ASSERT_SIZEOF(SlogSpawner, 0x30);
 
 
-END_NS_AO
+}
 

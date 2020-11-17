@@ -18,7 +18,7 @@
 
 void GameEnderController_ForceLink() {}
 
-START_NS_AO
+namespace AO {
 
 void CC GameEnderController::CreateGameEnderController_41C7D0()
 {
@@ -235,4 +235,4 @@ void GameEnderController::VUpdate_41C860()
     }
 }
 
-END_NS_AO
+}

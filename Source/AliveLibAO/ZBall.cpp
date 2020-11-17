@@ -7,7 +7,7 @@
 #include "Sfx.hpp"
 #include "BaseAliveGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x9F1DCC, ZBall*, gCenter_ZBall_9F1DCC, nullptr);
 ALIVE_VAR(1, 0x9F1DD0, ZBall*, gOutZBall_9F1DD0, nullptr);
@@ -199,4 +199,4 @@ void ZBall::VUpdate_478720()
     }
 }
 
-END_NS_AO
+}

@@ -9,7 +9,7 @@
 #undef min
 #undef max
 
-START_NS_AO
+namespace AO {
 
 EXPORT Shadow* Shadow::ctor_461FB0()
 {
@@ -200,4 +200,4 @@ void Shadow::Render_462410(int** ppOt)
     }
 }
 
-END_NS_AO
+}

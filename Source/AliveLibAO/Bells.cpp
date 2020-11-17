@@ -9,7 +9,7 @@
 #include "Math.hpp"
 #include "Sfx.hpp"
 
-START_NS_AO
+namespace AO {
 
 Bells* Bells::ctor_40A650(BellType bellType, FP xpos, FP ypos, FP scale)
 {
@@ -218,4 +218,4 @@ BaseGameObject* Bells::VDestructor(signed int flags)
     return Vdtor_40AB00(flags);
 }
 
-END_NS_AO
+}

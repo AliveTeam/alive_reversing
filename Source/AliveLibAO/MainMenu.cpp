@@ -26,7 +26,7 @@
 #include "Particle.hpp"
 #include "../AliveLibAE/Io.hpp"
 
-START_NS_AO
+namespace AO {
 
 const int dword_4BB1B8[4] = { 6152, 6140, 6164, 0 };
 
@@ -3475,4 +3475,4 @@ void CC Menu::RenderElement_47A4E0(int xpos, int ypos, int input_command, int** 
     sFontDrawScreenSpace_508BF4 = bOldValue;
 }
 
-END_NS_AO
+}

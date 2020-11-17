@@ -13,7 +13,7 @@
 
 void HintFly_ForceLink() {}
 
-START_NS_AO
+namespace AO {
 
 const char* gHintFlyMessages_4C6A10[] =
 {
@@ -721,4 +721,4 @@ void HintFly::VRender_42BAD0(int** ppOt)
         pScreenManager_4FF7C8->field_2E_idx);
 }
 
-END_NS_AO
+}

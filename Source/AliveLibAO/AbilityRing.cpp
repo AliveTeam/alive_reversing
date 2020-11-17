@@ -13,7 +13,7 @@
 #include "Sfx.hpp"
 #include "PossessionFlicker.hpp"
 
-START_NS_AO
+namespace AO {
 
 static int MinDistance(int screenX, int screenY, int width1, int height1, int width2, int height2)
 {
@@ -395,4 +395,4 @@ void AbilityRing::VRender_456340(int** /*ppOt*/)
     NOT_IMPLEMENTED();
 }
 
-END_NS_AO
+}

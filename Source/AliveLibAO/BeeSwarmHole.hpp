@@ -5,7 +5,7 @@
 #include "Psx.hpp"
 #include "Map.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_BeeSwarmHole : public Path_TLV
 {
@@ -50,5 +50,5 @@ public:
 ALIVE_ASSERT_SIZEOF(BeeSwarmHole, 0x2C);
 
 
-END_NS_AO
+}
 

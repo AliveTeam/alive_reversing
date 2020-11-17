@@ -3,7 +3,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "FunctionFwd.hpp"
 
-START_NS_AO
+namespace AO {
 
 class Particle : public BaseAnimatedWithPhysicsGameObject
 {
@@ -33,4 +33,4 @@ EXPORT void CC New_ShootingZFire_Particle_419810(FP xpos, FP ypos, FP scale);
 
 EXPORT void CC New_ShootingFire_Particle_419720(FP xpos, FP ypos, char direction, FP scale);
 
-END_NS_AO
+}

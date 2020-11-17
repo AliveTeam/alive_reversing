@@ -9,7 +9,7 @@
 #include "Sfx.hpp"
 #include "DDCheat.hpp"
 
-START_NS_AO
+namespace AO {
 
 BackgroundAnimation* BackgroundAnimation::ctor_405A90(Path_BackgroundAnimation* pTlv, int tlvInfo)
 {
@@ -166,4 +166,4 @@ void BackgroundAnimation::VUpdate_405C30()
     }
 }
 
-END_NS_AO
+}

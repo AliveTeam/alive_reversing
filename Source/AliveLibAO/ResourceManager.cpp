@@ -12,7 +12,7 @@
 #include "Map.hpp"
 #include "Sys.hpp"
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x5009E0, DynamicArrayT<ResourceManager::ResourceManager_FileRecord>*, ObjList_5009E0, nullptr);
 
@@ -1190,7 +1190,7 @@ void CC ResourceManager::Free_Resource_Of_Type_455810(DWORD type)
     }
 }
 
-END_NS_AO
+}
 
 
 

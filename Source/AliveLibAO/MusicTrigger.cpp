@@ -7,7 +7,7 @@
 #include "MusicController.hpp"
 #include "Game.hpp"
 
-START_NS_AO
+namespace AO {
 
 MusicTrigger* MusicTrigger::ctor_443A60(__int16 type, __int16 enabledBy, int id, __int16 delay)
 {
@@ -219,4 +219,4 @@ void MusicTrigger::VUpdate_443C90()
     }
 }
 
-END_NS_AO
+}

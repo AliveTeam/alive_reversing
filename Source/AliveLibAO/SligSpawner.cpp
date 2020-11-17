@@ -6,7 +6,7 @@
 #include "Events.hpp"
 #include "stdlib.hpp"
 
-START_NS_AO
+namespace AO {
 
 SligSpawner* SligSpawner::ctor_402850(Path_Slig* pTlv, int tlvInfo)
 {
@@ -98,4 +98,4 @@ EXPORT SligSpawner* SligSpawner::VDtor_4029F0(signed int flags)
     return this;
 }
 
-END_NS_AO
+}

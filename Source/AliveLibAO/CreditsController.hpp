@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_TLV;
 
@@ -26,4 +26,4 @@ ALIVE_ASSERT_SIZEOF(CreditsController, 0x18);
 
 ALIVE_VAR_EXTERN(__int16, gCreditsControllerExists_507684);
 
-END_NS_AO
+}

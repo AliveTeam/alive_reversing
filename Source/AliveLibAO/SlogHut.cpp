@@ -7,7 +7,7 @@
 #include "Game.hpp"
 #include "SwitchStates.hpp"
 
-START_NS_AO
+namespace AO {
 
 void SlogHut::VScreenChanged()
 {
@@ -94,4 +94,4 @@ void SlogHut::VUpdate_472D50()
     }
 }
 
-END_NS_AO
+}

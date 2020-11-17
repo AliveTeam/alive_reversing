@@ -9,7 +9,7 @@
 #include "BaseBomb.hpp"
 #include "ScreenManager.hpp"
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x507B88, Mine*, sMinePlayingSound_507B88, nullptr);
 
@@ -383,4 +383,4 @@ __int16 Mine::IsColliding_43AA60()
     return 0;
 }
 
-END_NS_AO
+}

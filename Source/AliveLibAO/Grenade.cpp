@@ -14,7 +14,7 @@
 #include "Collisions.hpp"
 #include "Game.hpp"
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x5076EC, short, gInfiniteGrenades_5076EC, 0);
 
@@ -610,4 +610,4 @@ __int16 Grenade::VIsFalling_453ED0()
     return FALSE;
 }
 
-END_NS_AO
+}

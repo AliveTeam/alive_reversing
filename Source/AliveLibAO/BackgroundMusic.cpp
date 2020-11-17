@@ -5,7 +5,7 @@
 #include "Map.hpp"
 #include "Midi.hpp"
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x4CFFF8, short, sBackgroundMusic_seq_id_4CFFF8, -1);
 
@@ -77,4 +77,4 @@ void CC BackgroundMusic::Play_4762B0()
     }
 }
 
-END_NS_AO
+}

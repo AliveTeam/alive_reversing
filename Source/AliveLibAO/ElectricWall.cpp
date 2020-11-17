@@ -12,7 +12,7 @@
 #include "Events.hpp"
 #include "BaseAliveGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 ElectricWall* ElectricWall::ctor_40FCF0(Path_ElectricWall* pTlv, int tlvInfo)
 {
@@ -204,4 +204,4 @@ void ElectricWall::VUpdate_40FEF0()
     }
 }
 
-END_NS_AO
+}

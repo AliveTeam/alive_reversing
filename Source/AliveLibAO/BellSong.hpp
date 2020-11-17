@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 enum class BellsongTypes : __int16
 {
@@ -32,5 +32,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(BellSong, 0x20);
 
-END_NS_AO
+}
 

@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct ParticleBurst_Item;
 
@@ -46,4 +46,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(ParticleBurst, 0xF8);
 
-END_NS_AO
+}

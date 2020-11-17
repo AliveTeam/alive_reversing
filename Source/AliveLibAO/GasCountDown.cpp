@@ -12,7 +12,7 @@
 #include "Sfx.hpp"
 #include "DeathGas.hpp"
 
-START_NS_AO
+namespace AO {
 
 const BYTE byte_4C5080[32] =
 {
@@ -251,4 +251,4 @@ BaseGameObject* GasCountDown::VDestructor(int flags)
     return Vdtor_40C3F0(flags);
 }
 
-END_NS_AO
+}

@@ -3,7 +3,7 @@
 #include "BaseGameObject.hpp"
 #include "FunctionFwd.hpp"
 
-START_NS_AO
+namespace AO {
 
 class BackgroundMusic : public BaseGameObject
 {
@@ -30,4 +30,4 @@ public:
 ALIVE_ASSERT_SIZEOF(BackgroundMusic, 0x14);
 
 
-END_NS_AO
+}

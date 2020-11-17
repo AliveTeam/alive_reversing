@@ -9,7 +9,7 @@
 #include "CameraSwapper.hpp"
 #include "Sfx.hpp"
 
-START_NS_AO
+namespace AO {
 
 const short xPositionDeltaEntries_4CF8E0[39] =
 {
@@ -212,4 +212,4 @@ void SnoozeParticle::VRender_464620(int** /*ppOt*/)
     NOT_IMPLEMENTED();
 }
 
-END_NS_AO
+}

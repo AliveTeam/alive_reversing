@@ -3,7 +3,7 @@
 #include "BaseGameObject.hpp"
 #include "FunctionFwd.hpp"
 
-START_NS_AO
+namespace AO {
 
 class CheatController : public BaseGameObject
 {
@@ -34,4 +34,4 @@ ALIVE_VAR_EXTERN(short, sVoiceCheat_507708);
 ALIVE_VAR_EXTERN(short, sEnableCheatFMV_50770C);
 ALIVE_VAR_EXTERN(short, sEnableCheatLevelSelect_507710);
 
-END_NS_AO
+}

@@ -5,7 +5,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "DynamicArray.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_SecurityClaw : public Path_TLV
 {
@@ -74,5 +74,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(SecurityClaw, 0x140);
 
-END_NS_AO
+}
 

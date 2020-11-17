@@ -5,7 +5,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "SwitchStates.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_PullRingRope : public Path_TLV
 {
@@ -62,4 +62,4 @@ public:
 ALIVE_ASSERT_SIZEOF(PullRingRope, 0x104);
 
 
-END_NS_AO
+}

@@ -4,7 +4,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
 
-START_NS_AO
+namespace AO {
 
 class FireBackgroundGlow;
 class FlameSparks;
@@ -50,4 +50,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(DoorFlame, 0x100);
 
-END_NS_AO
+}

@@ -6,7 +6,7 @@
 #include "Midi.hpp"
 #include "Map.hpp"
 
-START_NS_AO
+namespace AO {
 
 ScopedSeq* ScopedSeq::ctor_476400(char ambianceId, CameraPos direction)
 {
@@ -89,4 +89,4 @@ ScopedSeq* ScopedSeq::VDtor(int flags)
     return this;
 }
 
-END_NS_AO
+}

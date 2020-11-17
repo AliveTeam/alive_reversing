@@ -2,7 +2,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
 
-START_NS_AO;
+namespace AO {;
 
 enum class LevelIds : __int16;
 
@@ -35,4 +35,4 @@ ALIVE_ASSERT_SIZEOF(ThrowableArray, 0x14);
 
 ALIVE_VAR_EXTERN(ThrowableArray*, gpThrowableArray_50E26C);
 
-END_NS_AO;
+};

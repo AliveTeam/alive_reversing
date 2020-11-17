@@ -6,7 +6,7 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 
-START_NS_AO
+namespace AO {
 
 LightEffect* LightEffect::ctor_4064C0(Path_LightEffect* pTlv, int tlvInfo)
 {
@@ -121,4 +121,4 @@ void LightEffect::VUpdate_406610()
     field_C4_b = rgb;
 }
 
-END_NS_AO
+}

@@ -13,7 +13,7 @@
 #include "Sfx.hpp"
 #include "BaseAliveGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct ParticleBurst_Item
 {
@@ -327,4 +327,4 @@ void ParticleBurst::VRender_40D7F0(int** ppOt)
     }
 }
 
-END_NS_AO
+}

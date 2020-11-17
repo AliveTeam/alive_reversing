@@ -6,7 +6,7 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 
-START_NS_AO
+namespace AO {
 
 void PlatformBase::VAdd(BaseAliveGameObject* pObj)
 {
@@ -156,5 +156,5 @@ void PlatformBase::VAdd_4515D0(BaseAliveGameObject* /*pObj*/)
     }
 }
 
-END_NS_AO
+}
 

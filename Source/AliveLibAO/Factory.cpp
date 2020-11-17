@@ -75,7 +75,7 @@
 #include "LiftPoint.hpp"
 #include "Sys_common.hpp"
 
-START_NS_AO
+namespace AO {
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -3360,4 +3360,4 @@ const PathFunctionTable kObjectFactory =
 };
 
 
-END_NS_AO
+}

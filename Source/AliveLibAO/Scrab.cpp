@@ -24,7 +24,7 @@
 
 void Scrab_ForceLink() {}
 
-START_NS_AO
+namespace AO {
 
 using TScrabStateFunction = decltype(&Scrab::State_0_Empty_45E3D0);
 
@@ -3961,4 +3961,4 @@ __int16 Scrab::GetMotionForPatrolType(__int16 patrolType)
     }
 }
 
-END_NS_AO
+}

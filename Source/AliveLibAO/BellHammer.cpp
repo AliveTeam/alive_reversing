@@ -9,7 +9,7 @@
 #include "Sfx.hpp"
 #include "Midi.hpp"
 
-START_NS_AO
+namespace AO {
 
 BellHammer* BellHammer::ctor_405010(Path_BellHammer* pTlv, int tlvInfo)
 {
@@ -217,4 +217,4 @@ void CC BellHammer::OnResLoaded_405210(BellHammer* pThis)
     pThis->field_EC_pending_resource_count--;
 }
 
-END_NS_AO
+}

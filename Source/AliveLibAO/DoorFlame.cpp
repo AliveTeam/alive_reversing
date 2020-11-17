@@ -12,7 +12,7 @@
 #include "CameraSwapper.hpp"
 #include "PsxDisplay.hpp"
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x507734, DoorFlame*, pFlameControllingTheSound_507734, nullptr);
 
@@ -562,5 +562,5 @@ void DoorFlame::VUpdate_432BA0()
     }
 }
 
-END_NS_AO
+}
 

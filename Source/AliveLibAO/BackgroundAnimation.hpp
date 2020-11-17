@@ -5,7 +5,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "FixedPoint.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_BackgroundAnimation : public Path_TLV
 {
@@ -58,5 +58,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(BackgroundAnimation, 0x108);
 
-END_NS_AO
+}
 

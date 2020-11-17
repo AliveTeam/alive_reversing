@@ -5,7 +5,7 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x507684, __int16, gCreditsControllerExists_507684, false);
 
@@ -71,4 +71,4 @@ void CreditsController::VUpdate_40D020()
     }
 }
 
-END_NS_AO
+}

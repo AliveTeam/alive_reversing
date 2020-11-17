@@ -3,7 +3,7 @@
 #include "Primitives_common.hpp"
 #include "FunctionFwd.hpp"
 
-START_NS_AO
+namespace AO {
 
 EXPORT void CC Init_SetTPage_495FB0(Prim_SetTPage* pPrim, int /*notUsed1*/, int /*notUsed2*/, int tpage);
 EXPORT int CC PSX_getTPage_4965D0(char tp, char abr, int x, __int16 y);
@@ -26,4 +26,4 @@ EXPORT void CC Prim_Init_Poly_G3_498870(Poly_G3* pPrim);
 
 EXPORT void CC InitType_ScreenOffset_496000(Prim_ScreenOffset* pPrim, const PSX_Pos16* pOffset);
 
-END_NS_AO
+}

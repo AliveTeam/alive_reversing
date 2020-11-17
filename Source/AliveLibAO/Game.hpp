@@ -5,7 +5,7 @@
 
 void Game_ForceLink();
 
-START_NS_AO
+namespace AO {
 
 class BaseGameObject;
 class AnimationBase;
@@ -32,4 +32,4 @@ EXPORT void CC Init_GameStates_41CEC0();
 
 EXPORT void Game_Main_450050();
 
-END_NS_AO
+}

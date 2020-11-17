@@ -17,7 +17,7 @@
 
 void Spark_ForceLink() { }
 
-START_NS_AO
+namespace AO {
 
 Spark* Spark::ctor_477B70(FP xpos, FP ypos, FP scale, unsigned __int8 count, __int16 min, __int16 max)
 {
@@ -247,4 +247,4 @@ void Spark::VRender_477ED0(int** ppOt)
         pScreenManager_4FF7C8->field_2E_idx);
 }
 
-END_NS_AO
+}

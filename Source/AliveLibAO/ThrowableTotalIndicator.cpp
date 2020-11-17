@@ -7,7 +7,7 @@
 #include "CameraSwapper.hpp"
 #include "Math.hpp"
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x504C70, WORD, bThrowableIndicatorExists_504C70, 0);
 
@@ -195,5 +195,5 @@ ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_41B520(FP xpos, FP ypos, 
     return this;
 }
 
-END_NS_AO
+}
 

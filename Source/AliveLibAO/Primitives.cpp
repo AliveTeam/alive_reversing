@@ -3,7 +3,7 @@
 #include "Function.hpp"
 //#include "../AliveLibAE/Primitives.hpp" // AE lib hack
 
-START_NS_AO
+namespace AO {
 
 void CC Init_SetTPage_495FB0(Prim_SetTPage* pPrim, int /*notUsed1*/, int /*notUsed2*/, int tpage)
 {
@@ -71,4 +71,4 @@ void CC InitType_ScreenOffset_496000(Prim_ScreenOffset* pPrim, const PSX_Pos16* 
     pPrim->field_E_yoff = pOffset->y;
 }
 
-END_NS_AO
+}

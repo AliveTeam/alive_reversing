@@ -6,7 +6,7 @@
 #include "PlatformBase.hpp"
 #include "Map.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_LiftPoint : public Path_TLV
 {
@@ -94,5 +94,5 @@ public:
 
 ALIVE_ASSERT_SIZEOF(LiftPoint, 0x27C);
 
-END_NS_AO
+}
 

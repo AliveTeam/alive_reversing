@@ -10,7 +10,7 @@
 #include "PsxDisplay.hpp"
 #include "DDCheat.hpp"
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x4D1488, BYTE, sWellRndSeed_4D1488, 4);
 
@@ -263,5 +263,5 @@ Well* Well::vdtor_48B4D0(signed int flags)
     return this;
 }
 
-END_NS_AO
+}
 

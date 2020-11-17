@@ -4,7 +4,7 @@
 #include "SwitchStates.hpp"
 #include "stdlib.hpp"
 
-START_NS_AO
+namespace AO {
 
 void OneShotSwitchIdSetter::VScreenChanged()
 {
@@ -57,5 +57,5 @@ void OneShotSwitchIdSetter::VScreenChanged_432F00()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-END_NS_AO
+}
 

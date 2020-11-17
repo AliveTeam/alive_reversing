@@ -10,7 +10,7 @@
 #include "Abe.hpp"
 #include "MainMenu.hpp"
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR_EXTERN(BYTE, sRandomSeed_50A228); //Math.cpp
 
@@ -148,4 +148,4 @@ void DemoPlayback::VUpdate_451960()
     }
 }
 
-END_NS_AO
+}

@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 class DeathGas : public BaseGameObject
 {
@@ -39,4 +39,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(DeathGas, 0x20);
 
-END_NS_AO
+}

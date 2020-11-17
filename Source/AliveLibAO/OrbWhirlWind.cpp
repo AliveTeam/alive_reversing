@@ -5,7 +5,7 @@
 #include "stdlib.hpp"
 #include "Game.hpp"
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x9F30A0, int, gOrbWhirlWind_instace_count_9F30A0, 0);
 
@@ -177,5 +177,5 @@ void OrbWhirlWind::ToStop_48BBB0()
     field_14_particles_state = ParticlesState::eActive;
 }
 
-END_NS_AO
+}
 

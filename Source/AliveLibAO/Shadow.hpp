@@ -5,7 +5,7 @@
 #include "FixedPoint.hpp"
 #include "BitField.hpp"
 
-START_NS_AO
+namespace AO {
 
 class Shadow
 {
@@ -35,5 +35,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Shadow, 0xB0);
 
-END_NS_AO
+}
 

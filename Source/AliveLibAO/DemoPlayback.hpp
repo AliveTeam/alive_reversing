@@ -4,7 +4,7 @@
 #include "BaseGameObject.hpp"
 #include "SaveGame.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct PlaybackData
 {
@@ -71,5 +71,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(DemoPlayback, 0x84);
 
-END_NS_AO
+}
 

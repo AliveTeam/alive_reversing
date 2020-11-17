@@ -6,7 +6,7 @@
 
 void Slog_ForceLink();
 
-START_NS_AO
+namespace AO {
 
 struct Path_Slog : public Path_TLV
 {
@@ -208,4 +208,4 @@ ALIVE_ASSERT_SIZEOF(Slog, 0x198);
 
 ALIVE_VAR_EXTERN(short, gNumSlogs_9F11C8);
 
-END_NS_AO
+}

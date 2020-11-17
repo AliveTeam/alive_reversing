@@ -14,7 +14,7 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct DDCheatProperties
 {
@@ -606,4 +606,4 @@ int DDCheat::DebugOut_495990(const char* pStr, ...)
     return 0;
 }
 
-END_NS_AO
+}

@@ -6,7 +6,7 @@
 #include "Sfx.hpp"
 #include "stdlib.hpp"
 
-START_NS_AO
+namespace AO {
 
 void BellSong::VUpdate_476130()
 {
@@ -90,5 +90,5 @@ BaseGameObject* BellSong::VDestructor(signed int flags)
     return this;
 }
 
-END_NS_AO
+}
 

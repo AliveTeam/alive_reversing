@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "Sys_common.hpp"
 
-START_NS_AO
+namespace AO {
 
 EXPORT TWindowHandleType CC Sys_GetWindowHandle_48E930();
 
@@ -18,4 +18,4 @@ EXPORT LPSTR CC Sys_GetCommandLine_48E920();
 void Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, int nShowCmd);
 
 
-END_NS_AO
+}

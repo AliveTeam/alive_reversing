@@ -6,7 +6,7 @@
 #include "SwitchStates.hpp"
 #include "stdlib.hpp"
 
-START_NS_AO
+namespace AO {
 
 LiftMover* LiftMover::ctor_4054E0(Path_LiftMover* pTlv, int tlvInfo)
 {
@@ -219,4 +219,4 @@ LiftPoint* LiftMover::FindLiftPointWithId(short id)
     return nullptr;
 }
 
-END_NS_AO
+}

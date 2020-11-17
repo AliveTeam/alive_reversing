@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 EXPORT void CC Get_fmvs_sectors_44FEB0(const char* pMovieName1, const char* pMovieName2, const char* pMovieName3, DWORD* pMovie1Sector, DWORD* pMovie2Sector, DWORD* pMovie3Sector);
 
@@ -44,4 +44,4 @@ ALIVE_ASSERT_SIZEOF(Movie, 0x40);
 
 ALIVE_VAR_EXTERN(int, sMovie_ref_count_9F309C);
 
-END_NS_AO
+}

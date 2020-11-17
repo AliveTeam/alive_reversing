@@ -3,7 +3,7 @@
 #include "BaseGameObject.hpp"
 #include "FunctionFwd.hpp"
 
-START_NS_AO
+namespace AO {
 
 enum class GameSpeakEvents : __int16
 {
@@ -90,4 +90,4 @@ EXPORT __int16 CC Code_Length_475FD0(unsigned int code);
 EXPORT int CC Code_Convert_476000(unsigned __int16 code1, unsigned __int16 code2);
 EXPORT GameSpeakEvents CC Code_LookUp_476050(unsigned int code, unsigned __int16 idx, unsigned __int16 code_len);
 
-END_NS_AO
+}

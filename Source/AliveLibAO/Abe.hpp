@@ -7,7 +7,7 @@
 #include "Map.hpp"
 #include "Input.hpp"
 
-START_NS_AO
+namespace AO {
 
 #define ABE_STATES_ENUM(ENTRY) \
     ENTRY(State_0_Idle_423520) \
@@ -720,4 +720,4 @@ EXPORT int CC Mudokon_SFX_42A4D0(MudSounds idx, int volume, int pitch, BaseAlive
 
 EXPORT int CC XGrid_Index_To_XPos_41FA60(FP scale, int xGridIndex);
 
-END_NS_AO;
+};

@@ -4,7 +4,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "FixedPoint.hpp"
 
-START_NS_AO
+namespace AO {
 
 enum class BellType : __int16
 {
@@ -51,5 +51,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Bells, 0xF8);
 
-END_NS_AO
+}
 

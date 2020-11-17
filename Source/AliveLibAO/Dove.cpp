@@ -12,7 +12,7 @@
 #include "Sfx.hpp"
 #include "Abe.hpp"
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x4FF94C, short, bTheOneControllingTheMusic_4FF94C, 0);
 
@@ -443,4 +443,4 @@ void Dove::VUpdate_40F430()
     }
 }
 
-END_NS_AO
+}

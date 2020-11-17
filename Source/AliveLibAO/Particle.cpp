@@ -5,7 +5,7 @@
 #include "ResourceManager.hpp"
 #include "Math.hpp"
 
-START_NS_AO
+namespace AO {
 
 Particle* CC New_DestroyOrCreateObject_Particle_419D00(FP xpos, FP ypos, FP scale)
 {
@@ -260,4 +260,4 @@ void Particle::VUpdate_478930()
     }
 }
 
-END_NS_AO
+}

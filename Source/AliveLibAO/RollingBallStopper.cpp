@@ -8,7 +8,7 @@
 #include "FixedPoint.hpp"
 #include "Sfx.hpp"
 
-START_NS_AO
+namespace AO {
 
 EXPORT RollingBallStopper* RollingBallStopper::ctor_43BCE0(Path_RollingBallStopper* pTlv, int tlvInfo)
 {
@@ -179,4 +179,4 @@ void RollingBallStopper::VUpdate()
     VUpdate_43BF70();
 }
 
-END_NS_AO
+}

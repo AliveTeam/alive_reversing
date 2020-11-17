@@ -8,7 +8,7 @@
 #include "ScreenManager.hpp"
 #include "PsxDisplay.hpp"
 
-START_NS_AO
+namespace AO {
 
 EffectBase* EffectBase::ctor_461550(__int16 layer, char abr)
 {
@@ -76,4 +76,4 @@ BaseGameObject* EffectBase::VDestructor(signed int flags)
     return Vdtor_461750(flags);
 }
 
-END_NS_AO
+}

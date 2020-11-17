@@ -5,7 +5,7 @@
 #include "Game.hpp"
 #include "BaseAliveGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 void PossessionFlicker::VUpdate()
 {
@@ -119,4 +119,4 @@ void PossessionFlicker::VUpdate_41A9B0()
     }
 }
 
-END_NS_AO
+}

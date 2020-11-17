@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "Psx_common.hpp"
 
-START_NS_AO
+namespace AO {
 
 
 EXPORT void CC PSX_ClearOTag_496760(int** otBuffer, int otBufferSize);
@@ -14,5 +14,5 @@ EXPORT signed int CC PSX_EMU_SetDispType_499E60(int dispType);
 
 EXPORT int CC PSX_ClearImage_496020(const PSX_RECT* pRect, unsigned __int8 r, unsigned __int8 g, unsigned __int8 b);
 
-END_NS_AO
+}
 

@@ -4,7 +4,7 @@
 #include "Function.hpp"
 #include "../AliveLibAE/Compression.hpp"
 
-START_NS_AO
+namespace AO {
 
 EXPORT void CC Decompress_Type_1_403150(const BYTE* /*pInput*/, BYTE* /*pOutput*/, unsigned int /*compressedLen*/, unsigned int /*decompressedLen*/)
 {
@@ -28,4 +28,4 @@ EXPORT void CC Decompress_Type_4_5_461770(const BYTE* pInput, BYTE* pOutput)
     CompressionType_4Or5_Decompress_4ABAB0(pInput, pOutput);
 }
 
-END_NS_AO
+}

@@ -6,7 +6,7 @@
 #include "Font.hpp"
 #include "Primitives.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_LCDScreen : public Path_TLV
 {
@@ -64,5 +64,5 @@ ALIVE_ASSERT_SIZEOF(LCDScreen, 0x2E0);
 
 ALIVE_VAR_EXTERN(int, sJoystickEnabled_508A60);
 
-END_NS_AO
+}
 

@@ -9,7 +9,7 @@
 #include "Game.hpp"
 #include "Collisions.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct TrapDoor_Data
 {
@@ -333,5 +333,5 @@ void TrapDoor::VUpdate_4883E0()
     }
 }
 
-END_NS_AO
+}
 

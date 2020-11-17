@@ -12,7 +12,7 @@
 #include "ScreenManager.hpp"
 #include "CameraSwapper.hpp"
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x4C30A8, int, gNextDoorLightUpdate_4C30A8, -1);
 ALIVE_VAR(1, 0x4FC8A4, int, gDoorLightUpdateTimer_4FC8A4, 0);
@@ -253,4 +253,4 @@ void DoorLight::VRender_406370(int** ppOt)
     }
 }
 
-END_NS_AO
+}

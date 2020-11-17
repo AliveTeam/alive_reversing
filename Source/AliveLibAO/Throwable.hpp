@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseAliveGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 extern const Types word_4CF158[];
 
@@ -37,5 +37,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(BaseThrowable, 0x110);
 
-END_NS_AO
+}
 

@@ -9,7 +9,7 @@
 #include "ScreenManager.hpp"
 #include "PsxRender.hpp"
 
-START_NS_AO
+namespace AO {
 
 ScreenShake* ScreenShake::ctor_4624D0(__int16 enableShakeEvent)
 {
@@ -178,4 +178,4 @@ BaseGameObject* ScreenShake::dtor_462550()
     return dtor_487DF0();
 }
 
-END_NS_AO
+}

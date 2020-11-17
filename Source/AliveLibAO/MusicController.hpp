@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 class BaseGameObject;
 class BaseAliveGameObject;
@@ -103,5 +103,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(MusicController, 0x54);
 
-END_NS_AO
+}
 

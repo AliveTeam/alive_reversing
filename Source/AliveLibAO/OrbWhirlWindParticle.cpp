@@ -9,7 +9,7 @@
 #include "ResourceManager.hpp"
 #include "BaseAliveGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 void OrbWhirlWindParticle::CalculateRenderProperties_48BDC0(__int16 bStarted)
 {
@@ -253,5 +253,5 @@ void OrbWhirlWindParticle::Spin(FP xpos, FP ypos, BaseAliveGameObject* pObj)
     field_EC_ypos = ypos;
 }
 
-END_NS_AO
+}
 

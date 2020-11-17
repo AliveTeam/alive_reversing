@@ -2,7 +2,7 @@
 
 #include "FunctionFwd.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_TLV;
 class Map;
@@ -38,4 +38,4 @@ struct PathFunctionTable
 
 extern const PathFunctionTable kObjectFactory;
 
-END_NS_AO
+}

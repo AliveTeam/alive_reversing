@@ -14,7 +14,7 @@
 #include "SwitchStates.hpp"
 #include "CheatController.hpp"
 
-START_NS_AO
+namespace AO {
 
 void SecurityDoor::VScreenChanged()
 {
@@ -348,5 +348,5 @@ void SecurityDoor::VUpdate_461AD0()
 }
 
 
-END_NS_AO
+}
 

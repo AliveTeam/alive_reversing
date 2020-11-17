@@ -8,7 +8,7 @@
 #undef min
 #undef max
 
-START_NS_AO
+namespace AO {
 
 BaseGameObject* ScreenClipper::Vdtor_40BF40(unsigned int flags)
 {
@@ -98,5 +98,5 @@ void ScreenClipper::Update_Clip_Rect_40BE40(PSX_Point xy, PSX_Point wh)
     field_30_rect.h = std::max(wh.field_2_y, field_30_rect.h);
 }
 
-END_NS_AO
+}
 

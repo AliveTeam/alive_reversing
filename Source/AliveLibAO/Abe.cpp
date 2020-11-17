@@ -58,7 +58,7 @@
 
 #include "Sys_common.hpp"
 
-START_NS_AO;
+namespace AO {;
 
 ALIVE_VAR(1, 0x5076E4, short, gAbeInvulnerableCheat_5076E4, 0);
 ALIVE_VAR(1, 0x5076F8, short, gAbeInvisibleCheat_5076F8, 0);
@@ -10057,5 +10057,5 @@ void Abe::State_164_PoisonGasDeath_42A120()
     }
 }
 
-END_NS_AO;
+};
 

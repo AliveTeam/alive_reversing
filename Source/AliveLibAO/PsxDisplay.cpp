@@ -6,7 +6,7 @@
 #include "VRam.hpp"
 #include "Primitives.hpp"
 
-START_NS_AO
+namespace AO {
 
 const PSX_Display_Params kDisplayParams = { 640, 240, 16, 1, 42, 32, 1, 0 };
 ALIVE_VAR(1, 0x4BB830, PSX_Display_Params, gPsxDisplayParams_4BB830, kDisplayParams);
@@ -205,4 +205,4 @@ EXPORT void CC DebugFont_Flush_487F50()
     NOT_IMPLEMENTED();
 }
 
-END_NS_AO
+}

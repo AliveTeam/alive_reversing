@@ -6,7 +6,7 @@
 
 void Mud_ForceLink();
 
-START_NS_AO
+namespace AO {
 
 #define MUD_STATES_ENUM(ENTRY) \
     ENTRY(State_0_Idle_43CA70) \
@@ -353,5 +353,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Mudokon, 0x1C8);
 
-END_NS_AO
+}
 

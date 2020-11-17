@@ -5,7 +5,7 @@
 #include "FixedPoint.hpp"
 #include "Primitives.hpp"
 
-START_NS_AO
+namespace AO {
 
 enum class LevelIds : __int16;
 
@@ -132,4 +132,4 @@ ALIVE_ASSERT_SIZEOF(ScreenManager, 0x148);
 
 ALIVE_VAR_EXTERN(ScreenManager*, pScreenManager_4FF7C8);
 
-END_NS_AO
+}

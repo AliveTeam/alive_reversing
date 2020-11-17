@@ -5,7 +5,7 @@
 #include "Map.hpp"
 #include "FixedPoint.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_Dove : public Path_TLV
 {
@@ -73,5 +73,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Dove, 0x108);
 
-END_NS_AO
+}
 

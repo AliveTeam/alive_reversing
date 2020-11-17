@@ -8,7 +8,7 @@
 #include "Elum.hpp"
 #include "Math.hpp"
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x507B98, MusicController*, pMusicController_507B98, nullptr);
 
@@ -1073,4 +1073,4 @@ void MusicController::sub_442AC0()
     }
 }
 
-END_NS_AO
+}

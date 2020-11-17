@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "FixedPoint.hpp"
 
-START_NS_AO
+namespace AO {
 
 BYTE Math_NextRandom();
 
@@ -21,5 +21,5 @@ EXPORT FP CC Math_SquareRoot_FP_451210(FP v);
 
 ALIVE_ARY_EXTERN(unsigned char, 256, sRandomBytes_4BBE30);
 
-END_NS_AO
+}
 

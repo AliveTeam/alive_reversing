@@ -5,7 +5,7 @@
 #include "Map.hpp"
 #include "MusicController.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_MusicTrigger : public Path_TLV
 {
@@ -49,5 +49,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(MusicTrigger, 0x20);
 
-END_NS_AO
+}
 

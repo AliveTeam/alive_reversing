@@ -5,7 +5,7 @@
 #include "Primitives.hpp"
 #include "FixedPoint.hpp"
 
-START_NS_AO
+namespace AO {
 
 class SnoozeParticle : public BaseGameObject
 {
@@ -61,4 +61,4 @@ public:
 ALIVE_ASSERT_SIZEOF(SnoozeParticle, 0x1D8);
 
 
-END_NS_AO
+}

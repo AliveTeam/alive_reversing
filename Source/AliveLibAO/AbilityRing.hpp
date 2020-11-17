@@ -6,7 +6,7 @@
 #include "Primitives.hpp"
 #include "FixedPoint.hpp"
 
-START_NS_AO
+namespace AO {
 
 class BaseAliveGameObject;
 
@@ -81,5 +81,5 @@ ALIVE_ASSERT_SIZEOF(AbilityRing, 0x27C);
 
 
 
-END_NS_AO
+}
 

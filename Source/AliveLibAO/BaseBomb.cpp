@@ -11,7 +11,7 @@
 #include "Particle.hpp"
 #include "BaseAliveGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x4FFA4C, short, word_4FFA4C, 0);
 
@@ -302,5 +302,5 @@ BaseGameObject* BaseBomb::VDestructor(signed int flags)
     return this;
 }
 
-END_NS_AO
+}
 

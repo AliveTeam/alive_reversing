@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_TimedMine : public Path_TLV
 {
@@ -64,5 +64,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(TimedMine, 0x1BC);
 
-END_NS_AO
+}
 

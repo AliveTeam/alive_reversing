@@ -14,7 +14,7 @@
 #include "Midi.hpp"
 #include "SwitchStates.hpp"
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x4FFA54, FallingItem*, pPrimaryFallingItem_4FFA54, nullptr);
 
@@ -409,4 +409,4 @@ BaseGameObject* FallingItem::VDestructor(signed int flags)
     return Vdtor_41A7F0(flags);
 }
 
-END_NS_AO
+}

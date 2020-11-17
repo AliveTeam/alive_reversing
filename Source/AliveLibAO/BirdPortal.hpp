@@ -5,7 +5,7 @@
 #include "Map.hpp"
 #include "DynamicArray.hpp"
 
-START_NS_AO
+namespace AO {
 
 enum class LevelIds : __int16;
 
@@ -165,4 +165,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(BirdPortal, 0x6C);
 
-END_NS_AO
+}

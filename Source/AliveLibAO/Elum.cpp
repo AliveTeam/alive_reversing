@@ -20,7 +20,7 @@
 #include "GameSpeak.hpp"
 #include "Math.hpp"
 
-START_NS_AO;
+namespace AO {;
 
 ALIVE_VAR(1, 0x507680, Elum*, gElum_507680, nullptr);
 
@@ -4009,4 +4009,4 @@ Elum* Elum::ctor_410870(int, anythingForTheTimeBeing, anythingForTheTimeBeing, i
     return this;
 }
 
-END_NS_AO;
+};

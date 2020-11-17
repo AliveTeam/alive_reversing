@@ -12,7 +12,7 @@
 #include "ShadowZone.hpp"
 #include "ScreenManager.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct LiftPointCoord
 {
@@ -853,4 +853,4 @@ LiftPoint* LiftPoint::Vdtor_435D10(signed int flags)
     return this;
 }
 
-END_NS_AO
+}

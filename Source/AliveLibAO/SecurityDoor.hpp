@@ -4,7 +4,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_SecurityDoor : public Path_TLV
 {
@@ -57,5 +57,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(SecurityDoor, 0x11C);
 
-END_NS_AO
+}
 

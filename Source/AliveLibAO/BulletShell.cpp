@@ -8,7 +8,7 @@
 #include "Collisions.hpp"
 #include "Sfx.hpp"
 
-START_NS_AO
+namespace AO {
 
 BulletShell* BulletShell::ctor_462790(FP xpos, FP ypos, __int16 direction, FP scale)
 {
@@ -139,4 +139,4 @@ void BulletShell::VUpdate_4628C0()
     }
 }
 
-END_NS_AO
+}

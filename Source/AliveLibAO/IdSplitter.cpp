@@ -6,7 +6,7 @@
 #include "Game.hpp"
 #include "SwitchStates.hpp"
 
-START_NS_AO
+namespace AO {
 
 void IdSplitter::VUpdate()
 {
@@ -139,5 +139,5 @@ void IdSplitter::VUpdate_479C40()
     }
 }
 
-END_NS_AO
+}
 

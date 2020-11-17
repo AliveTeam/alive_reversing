@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_MeatSaw : public Path_TLV
 {
@@ -74,5 +74,5 @@ public:
 ALIVE_ASSERT_SIZEOF(MeatSaw, 0x1AC);
 
 
-END_NS_AO
+}
 

@@ -4,7 +4,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
 
-START_NS_AO
+namespace AO {
 
 class GrenadeMachineNozzel;
 
@@ -49,5 +49,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(BoomMachine, 0xF0);
 
-END_NS_AO
+}
 

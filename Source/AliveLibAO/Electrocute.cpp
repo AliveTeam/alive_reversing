@@ -8,7 +8,7 @@
 #include "VRam.hpp"
 #include "Map.hpp"
 
-START_NS_AO
+namespace AO {
 
 class PalleteOverwriter : public BaseGameObject
 {
@@ -359,4 +359,4 @@ void Electrocute::VScreenChanged()
     VScreenChanged_48D8B0();
 }
 
-END_NS_AO
+}

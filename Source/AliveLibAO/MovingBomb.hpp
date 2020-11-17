@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 class Path_MovingBomb : public Path_TLV
 {
@@ -72,4 +72,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(MovingBomb, 0x12C);
 
-END_NS_AO
+}

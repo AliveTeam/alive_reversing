@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_RollingBall : public Path_TLV
 {
@@ -52,5 +52,5 @@ public:
 ALIVE_ASSERT_SIZEOF(RollingBall, 0x12C);
 
 
-END_NS_AO
+}
 

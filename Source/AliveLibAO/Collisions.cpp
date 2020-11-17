@@ -10,7 +10,7 @@
 #undef min
 #undef max
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x504C6C, Collisions*, sCollisions_DArray_504C6C, nullptr);
 
@@ -588,4 +588,4 @@ PathLine* PathLine::MoveOnLine_40CA20(FP* pXPos, FP* pYPos, const FP distToMove)
     return this;
 }
 
-END_NS_AO
+}

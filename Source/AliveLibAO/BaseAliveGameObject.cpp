@@ -12,7 +12,7 @@
 #include "BirdPortal.hpp"
 #include "Sys_common.hpp"
 
-START_NS_AO
+namespace AO {
 
 void BaseAliveGameObject_ForceLink() {}
 
@@ -980,4 +980,4 @@ BaseGameObject* CC BaseAliveGameObject::FindObjectOfType_418280(Types typeToFind
     return nullptr;
 }
 
-END_NS_AO
+}

@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_FlintLockFire : public Path_TLV
 {
@@ -51,5 +51,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(FlintLockFire, 0x2B8);
 
-END_NS_AO
+}
 

@@ -4,7 +4,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
 
-START_NS_AO
+namespace AO {
 
 class PathLine;
 
@@ -40,4 +40,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(RollingBallStopper, 0x11C);
 
-END_NS_AO
+}

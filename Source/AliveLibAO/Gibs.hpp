@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct GibPart
 {
@@ -58,4 +58,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Gibs, 0x5C8);
 
-END_NS_AO
+}

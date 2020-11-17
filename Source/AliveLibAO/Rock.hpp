@@ -5,7 +5,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Throwable.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct Path_RockSack : public Path_TLV
 {
@@ -94,4 +94,4 @@ public:
 ALIVE_ASSERT_SIZEOF(Rock, 0x128);
 
 
-END_NS_AO
+}

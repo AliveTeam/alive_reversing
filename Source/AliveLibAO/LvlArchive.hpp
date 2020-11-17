@@ -2,7 +2,7 @@
 
 #include "FunctionFwd.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct LvlFileRecord
 {
@@ -61,4 +61,4 @@ ALIVE_ASSERT_SIZEOF(LvlArchive, 0x8);
 ALIVE_VAR_EXTERN(LvlArchive, sLvlArchive_4FFD60);
 ALIVE_VAR_EXTERN(LvlArchive, stru_507C90);
 
-END_NS_AO
+}

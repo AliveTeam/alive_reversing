@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 class Sparks : public BaseAnimatedWithPhysicsGameObject
 {
@@ -22,5 +22,5 @@ public:
     __int16 field_EA_random;
 };
 
-END_NS_AO
+}
 

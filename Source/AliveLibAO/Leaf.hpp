@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-START_NS_AO
+namespace AO {
 
 class Leaf : public BaseAnimatedWithPhysicsGameObject
 {
@@ -26,5 +26,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Leaf, 0xE8);
 
-END_NS_AO
+}
 

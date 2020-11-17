@@ -12,7 +12,7 @@
 #include "stdlib.hpp"
 #include "Midi.hpp"
 
-START_NS_AO
+namespace AO {
 
 Bat* Bat::ctor_4046E0(Path_Bat* pTlv, int tlvInfo)
 {
@@ -339,4 +339,4 @@ void Bat::VUpdate_404950()
     }
 }
 
-END_NS_AO
+}

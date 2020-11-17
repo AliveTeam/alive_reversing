@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "FixedPoint.hpp"
 
-START_NS_AO
+namespace AO {
 
 class BaseGameObject;
 class BaseAnimatedWithPhysicsGameObject;
@@ -41,4 +41,4 @@ EXPORT void CC Events_Reset_Active_417320();
 
 EXPORT void CC Event_Cancel_For_Obj_417350(BaseGameObject* pObj);
 
-END_NS_AO
+}

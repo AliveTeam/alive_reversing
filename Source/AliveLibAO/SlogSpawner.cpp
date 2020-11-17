@@ -8,7 +8,7 @@
 #include "Events.hpp"
 #include "Math.hpp"
 
-START_NS_AO
+namespace AO {
 
 void SlogSpawner::VScreenChanged_475F90()
 {
@@ -95,4 +95,4 @@ void SlogSpawner::VUpdate_475E30()
     }
 }
 
-END_NS_AO
+}

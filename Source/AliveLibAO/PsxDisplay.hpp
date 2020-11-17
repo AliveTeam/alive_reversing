@@ -4,7 +4,7 @@
 #include "Psx_common.hpp"
 #include "FixedPoint.hpp"
 
-START_NS_AO
+namespace AO {
 
 // 368*40/23 =640
 // This seems to convert from PSX coordinate space to PC coordinate space
@@ -80,4 +80,4 @@ EXPORT int CC DebugFont_Init_487EC0();
 EXPORT void CC DebugFont_Flush_487F50();
 
 
-END_NS_AO
+}

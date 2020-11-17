@@ -5,7 +5,7 @@
 #include "Primitives.hpp"
 #include "FixedPoint.hpp"
 
-START_NS_AO
+namespace AO {
 
 enum class ThrowableTotalIndicatorState : __int16
 {
@@ -67,5 +67,5 @@ ALIVE_ASSERT_SIZEOF(ThrowableTotalIndicator, 0x1A0);
 
 ALIVE_VAR_EXTERN(WORD, bThrowableIndicatorExists_504C70);
 
-END_NS_AO
+}
 

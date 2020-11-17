@@ -7,7 +7,7 @@
 
 void SlingMud_ForceLink();
 
-START_NS_AO
+namespace AO {
 
 struct Path_SlingMud : public Path_TLV
 {
@@ -101,5 +101,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(SlingMudokon, 0x15C);
 
-END_NS_AO
+}
 

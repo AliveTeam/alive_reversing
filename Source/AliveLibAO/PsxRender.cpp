@@ -3,7 +3,7 @@
 #include "PsxRender.hpp"
 #include "../AliveLibAE/PsxRender.hpp"
 
-START_NS_AO
+namespace AO {
 
 EXPORT void CC PSX_ClearOTag_496760(int** otBuffer, int otBufferSize)
 {
@@ -33,4 +33,4 @@ EXPORT int CC PSX_ClearImage_496020(const PSX_RECT* pRect, unsigned __int8 r, un
     return PSX_ClearImage_4F5BD0(reinterpret_cast<const ::PSX_RECT*>(pRect), r, g, b);
 }
 
-END_NS_AO
+}

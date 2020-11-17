@@ -2,7 +2,7 @@
 #include "SwitchStates.hpp"
 #include "Function.hpp"
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x505568, SwitchStates, sSwitchStates_505568, {});
 
@@ -78,4 +78,4 @@ EXPORT void CC SwitchStates_Do_Operation_436A10(signed __int16 idx, SwitchOp ope
     }
 }
 
-END_NS_AO
+}

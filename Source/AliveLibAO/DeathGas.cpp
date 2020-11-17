@@ -11,7 +11,7 @@
 #include "ScreenManager.hpp"
 #include "PsxDisplay.hpp"
 
-START_NS_AO
+namespace AO {
 
 struct GasPolys
 {
@@ -337,4 +337,4 @@ void DeathGas::VRender_41D190(int** ppOt)
     }
 }
 
-END_NS_AO
+}

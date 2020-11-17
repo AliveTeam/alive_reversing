@@ -7,7 +7,7 @@
 
 void AliveLibAO_ForceLink() {}
 
-START_NS_AO
+namespace AO {
 
 ALIVE_VAR(1, 0x9F2DF0, DynamicArrayT<BaseGameObject>*, gBaseGameObject_list_9F2DF0, nullptr);
 
@@ -66,4 +66,4 @@ void BaseGameObject::VScreenChanged_487E70()
     }
 }
 
-END_NS_AO
+}

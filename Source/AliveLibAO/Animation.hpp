@@ -7,7 +7,7 @@
 #include "Psx.hpp"
 #include "Primitives.hpp"
 
-START_NS_AO
+namespace AO {
 
 using TFrameCallBackType = short* (CC*)(void*, __int16*);
 
@@ -274,4 +274,4 @@ ALIVE_ASSERT_SIZEOF(AnimationUnknown, 0x70);
 
 
 
-END_NS_AO
+}

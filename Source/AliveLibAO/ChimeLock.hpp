@@ -4,7 +4,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
 
-START_NS_AO
+namespace AO {
 
 class Bells;
 
@@ -90,5 +90,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(ChimeLock, 0x168);
 
-END_NS_AO
+}
 
