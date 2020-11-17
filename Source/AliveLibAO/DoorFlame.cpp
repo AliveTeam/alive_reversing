@@ -295,7 +295,7 @@ public:
             {
                 field_10_anim.field_9_g = 32;
                 field_10_anim.field_A_b = 32;
-                field_10_anim.field_8_r = 32;
+                field_10_anim.field_8_r = 240;
 
                 const FP_Point* pCamPos = pScreenManager_4FF7C8->field_10_pCamPos;
 
