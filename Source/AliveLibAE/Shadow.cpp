@@ -44,7 +44,7 @@ void Shadow::Calculate_Position_4ACA50(FP xpos, FP ypos, PSX_RECT* frameRect, FP
         const short objX = (23 * frameRect->x) / 40;
         const short objW = (23 * frameRect->w) / 40;
 
-        FP objY;
+        FP objY = {};
         if (field_14_flags.Get(Flags::eBit1_ShadowAtBottom))
         {
             // Get the bottom of the object
