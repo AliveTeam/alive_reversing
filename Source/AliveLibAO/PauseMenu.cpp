@@ -17,7 +17,7 @@
 #include "Sys.hpp"
 #include "Map.hpp"
 
-namespace AO {;
+namespace AO {
 
 ALIVE_VAR(1, 0x5080E0, PauseMenu*, pPauseMenu_5080E0, nullptr);
 

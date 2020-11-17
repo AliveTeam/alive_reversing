@@ -4,7 +4,7 @@
 #include "Font.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-namespace AO {;
+namespace AO {
 
 class PauseMenu : public BaseAnimatedWithPhysicsGameObject
 {
@@ -64,4 +64,4 @@ ALIVE_ASSERT_SIZEOF(PauseMenu, 0x190);
 
 ALIVE_VAR_EXTERN(PauseMenu*, pPauseMenu_5080E0);
 
-};
+}
