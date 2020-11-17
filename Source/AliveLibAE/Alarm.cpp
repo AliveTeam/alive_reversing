@@ -49,7 +49,7 @@ Alarm* Alarm::ctor_409300(Path_Alarm* pTlv, int tlvInfo)
     return this;
 }
 
-Alarm* Alarm::ctor_4091F0(__int16 a2, __int16 switchId, __int16 a4, __int16 layer)
+Alarm* Alarm::ctor_4091F0(__int16 durationOffset, __int16 switchId, __int16 timerOffset, __int16 layer)
 {
     ctor_4AB7A0(layer, 3);
 
@@ -59,8 +59,8 @@ Alarm* Alarm::ctor_4091F0(__int16 a2, __int16 switchId, __int16 a4, __int16 laye
     field_78_r_value = 0;
     field_90_state = eState_1_AfterConstructed;
     field_84_tlvOffsetLevelPathCamId = 0xFFFF;
-    field_7C_15_timer = sGnFrame_5C1B84 + a4;
-    field_80_duration_timer = field_7C_15_timer + a2;
+    field_7C_15_timer = sGnFrame_5C1B84 + timerOffset;
+    field_80_duration_timer = field_7C_15_timer + durationOffset;
     field_88_switch_id = switchId;
 
     alarmInstanceCount_5C1BB4++;
@@ -143,121 +143,121 @@ void Alarm::vUpdate_409460()
 
     switch (field_90_state)
     {
-    case eState_0_WaitForSwitchEnable:
-        if (Event_Get_422C00(kEventDeathReset))
-        {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        }
+        case eState_0_WaitForSwitchEnable:
+            if (Event_Get_422C00(kEventDeathReset))
+            {
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            }
 
-        if (!SwitchStates_Get_466020(field_88_switch_id))
-        {
+            if (!SwitchStates_Get_466020(field_88_switch_id))
+            {
+                field_6E_r = field_78_r_value;
+                return;
+            }
+
+            alarmInstanceCount_5C1BB4++;
+            if (alarmInstanceCount_5C1BB4 > 1)
+            {
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            }
+            else
+            {
+                sAlarmObjId_550D70 = field_8_object_id;
+            }
+
+            field_90_state = eState_2_Enabling;
+            SFX_Play_46FA90(SoundEffect::SecurityDoorDeny_38, 0);
+            field_80_duration_timer = sGnFrame_5C1B84 + field_8A_duration;
             field_6E_r = field_78_r_value;
-            return;
-        }
+            break;
 
-        alarmInstanceCount_5C1BB4++;
-        if (alarmInstanceCount_5C1BB4 > 1)
-        {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        }
-        else
-        {
-            sAlarmObjId_550D70 = field_8_object_id;
-        }
+        case eState_1_AfterConstructed: // When not created by a map TLV
+            if (Event_Get_422C00(kEventHeroDying))
+            {
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            }
+            else
+            {
+                if (static_cast<int>(sGnFrame_5C1B84) <= field_7C_15_timer)
+                {
+                    field_6E_r = field_78_r_value;
+                    return;
+                }
 
-        field_90_state = eState_2_Enabling;
-        SFX_Play_46FA90(SoundEffect::SecurityDoorDeny_38, 0);
-        field_80_duration_timer = sGnFrame_5C1B84 + field_8A_duration;
-        field_6E_r = field_78_r_value;
-        break;
+                field_90_state = eState_2_Enabling;
+                SFX_Play_46FA90(SoundEffect::SecurityDoorDeny_38, 0);
 
-    case eState_1_AfterConstructed: // When not created by a map TLV
-        if (Event_Get_422C00(kEventHeroDying))
-        {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        }
-        else
-        {
+                if (!field_88_switch_id)
+                {
+                    field_6E_r = field_78_r_value;
+                    return;
+                }
+
+                SwitchStates_Set_465FF0(field_88_switch_id, 1);
+                field_6E_r = field_78_r_value;
+            }
+            break;
+
+        case eState_2_Enabling:
+            field_78_r_value += 25;
+
+            if (field_78_r_value < 100)
+            {
+                field_6E_r = field_78_r_value;
+                return;
+            }
+
+            field_78_r_value = 100;
+            field_90_state = eState_3_OnFlash;
+            field_7C_15_timer = sGnFrame_5C1B84 + 15;
+            SFX_Play_46FA90(SoundEffect::SecurityDoorDeny_38, 0);
+            field_6E_r = field_78_r_value;
+            break;
+
+        case eState_3_OnFlash:
             if (static_cast<int>(sGnFrame_5C1B84) <= field_7C_15_timer)
             {
                 field_6E_r = field_78_r_value;
                 return;
             }
 
-            field_90_state = eState_2_Enabling;
-            SFX_Play_46FA90(SoundEffect::SecurityDoorDeny_38, 0);
+            field_90_state = eState_4_Disabling;
+            field_6E_r = field_78_r_value;
+            break;
 
-            if (!field_88_switch_id)
+        case eState_4_Disabling:
+            field_78_r_value -= 25;
+
+            if (field_78_r_value > 0)
             {
                 field_6E_r = field_78_r_value;
                 return;
             }
 
-            SwitchStates_Set_465FF0(field_88_switch_id, 1);
+            field_78_r_value = 0;
+            field_7C_15_timer = sGnFrame_5C1B84 + 15;
+            field_90_state = eState_5_Disabled;
             field_6E_r = field_78_r_value;
-        }
-        break;
+            break;
 
-    case eState_2_Enabling:
-        field_78_r_value += 25;
-
-        if (field_78_r_value < 100)
-        {
-            field_6E_r = field_78_r_value;
-            return;
-        }
-
-        field_78_r_value = 100;
-        field_90_state = eState_3_OnFlash;
-        field_7C_15_timer = sGnFrame_5C1B84 + 15;
-        SFX_Play_46FA90(SoundEffect::SecurityDoorDeny_38, 0);
-        field_6E_r = field_78_r_value;
-        break;
-
-    case eState_3_OnFlash:
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_7C_15_timer)
-        {
-            field_6E_r = field_78_r_value;
-            return;
-        }
-
-        field_90_state = eState_4_Disabling;
-        field_6E_r = field_78_r_value;
-        break;
-
-    case eState_4_Disabling:
-        field_78_r_value -= 25;
-
-        if (field_78_r_value > 0)
-        {
-            field_6E_r = field_78_r_value;
-            return;
-        }
-
-        field_78_r_value = 0;
-        field_7C_15_timer = sGnFrame_5C1B84 + 15;
-        field_90_state = eState_5_Disabled;
-        field_6E_r = field_78_r_value;
-        break;
-
-    case eState_5_Disabled:
-        if (Event_Get_422C00(kEventHeroDying))
-        {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        }
-        else
-        {
-            if (static_cast<int>(sGnFrame_5C1B84) > field_7C_15_timer)
+        case eState_5_Disabled:
+            if (Event_Get_422C00(kEventHeroDying))
             {
-                field_90_state = eState_2_Enabling;
-                SFX_Play_46FA90(SoundEffect::SecurityDoorDeny_38, 0);
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
-            field_6E_r = field_78_r_value;
-        }
-        break;
+            else
+            {
+                if (static_cast<int>(sGnFrame_5C1B84) > field_7C_15_timer)
+                {
+                    field_90_state = eState_2_Enabling;
+                    SFX_Play_46FA90(SoundEffect::SecurityDoorDeny_38, 0);
+                }
+                field_6E_r = field_78_r_value;
+            }
+            break;
 
-    default:
-        field_6E_r = field_78_r_value;
-        break;
+        default:
+            field_6E_r = field_78_r_value;
+            break;
     }
 }
