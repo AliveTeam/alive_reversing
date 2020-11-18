@@ -5551,12 +5551,17 @@ void Abe::State_30_HopMid_4264D0()
         }
         else
         {
-            SetActiveCameraDelayedFromDir_401C90();
-
             PathLine* pLine = nullptr;
             FP hitX = {};
             FP hitY = {};
-            if (InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.80)))
+
+            // this has to be called before SetActiveCameraDelayedFromDir_401C90,
+            // due to both of them modifying the same private fields in a fixed order
+            BOOL hasCollidedWithAir = InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.80));
+
+            SetActiveCameraDelayedFromDir_401C90();
+
+            if (hasCollidedWithAir)
             {
                 Event_Broadcast_417220(kEventNoise_0, this);
                 Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
