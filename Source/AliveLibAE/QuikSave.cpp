@@ -688,7 +688,7 @@ void CC Quicksave_ReadWorldInfo_4C9490(const Quicksave_WorldInfo* pInfo)
     // Last is read from another field
     sSavedKilledMudsPerPath_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerPath_5C1B50.mData)-1] = pInfo->field_17_last_saved_killed_muds_per_path;
 
-    sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit9);
+    sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
     sStatsSignCurrentArea_5C1A20 = pInfo->field_2C_stats_sign_current_area;
     sKilledMudokons_5C1BC0 = pInfo->field_14_killed_muds;
     sRescuedMudokons_5C1BC2 = pInfo->field_12_saved_muds;
@@ -909,10 +909,10 @@ namespace Test
         // Flags_114::e114_Bit5 not persisted
         // Flags_114::e114_Bit6_SetOffExplosives not persisted
         // Flags_114::e114_Bit7_Electrocuted not persisted
-        // Flags_114::e114_Bit8 not persisted
-        // Flags_114::e114_Bit9 not persisted
-        Compare(Flags_114::e114_Bit10, Abe_SaveState::Flags_D4::eD4_eBit13);
-        // Flags_114::e114_Bit11 will crash as it attempts to iterate the object list to find the electrocute obj but it is not persisted directly
+        // Flags_114::e114_Bit8_bInvisible not persisted
+        // Flags_114::e114_Bit9_RestoredFromQuickSave not persisted
+        Compare(Flags_114::e114_Bit10_Teleporting, Abe_SaveState::Flags_D4::eD4_eBit13_teleporting);
+        // Flags_114::e114_Bit11_Electrocuting will crash as it attempts to iterate the object list to find the electrocute obj but it is not persisted directly
         Compare(Abe::Flags_1AC::e1AC_eBit16_is_mudanchee_vault_ender, Abe_SaveState::Flags_D4::eD4_eBit14_is_mudanchee_vault_ender);
         Compare(Abe::Flags_1AE::e1AE_Bit1_is_mudomo_vault_ender, Abe_SaveState::Flags_D4::eD4_eBit15_is_mudomo_vault_ender);
         // Abe::Flags_1AE::e1AE_Bit2_bDoQuickSave not persisted

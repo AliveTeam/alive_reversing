@@ -161,7 +161,7 @@ void Teleporter::vUpdate_4DC400()
             return;
         }
 
-        if (sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit10))
+        if (sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit10_Teleporting))
         {
             return;
         }
@@ -170,7 +170,7 @@ void Teleporter::vUpdate_4DC400()
         field_50_objId = Teleporter::Create_ElectrocuteEffect_4DCEB0()->field_8_object_id;
 
         SFX_Play_46FBA0(SoundEffect::Zap1_49, 60, -400);
-        sControlledCharacter_5C1B8C->field_114_flags.Set(Flags_114::e114_Bit10);
+        sControlledCharacter_5C1B8C->field_114_flags.Set(Flags_114::e114_Bit10_Teleporting);
         
         SpawnRingSparks(&field_34_mTlvData);
     }
@@ -398,7 +398,7 @@ void Teleporter::vUpdate_4DC400()
 
         field_54_effect_created = 0;
         sControlledCharacter_5C1B8C->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
-        sControlledCharacter_5C1B8C->field_114_flags.Clear(Flags_114::e114_Bit10);
+        sControlledCharacter_5C1B8C->field_114_flags.Clear(Flags_114::e114_Bit10_Teleporting);
         field_2C_switch_state = SwitchStates_Get_466020(field_34_mTlvData.field_1A_trigger_id);
         field_30_state = TeleporterState::eWaitForSwitchOn_0;
     }

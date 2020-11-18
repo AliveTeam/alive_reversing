@@ -22,13 +22,13 @@ enum Flags_114
     e114_MotionChanged_Bit2 = 0x2,
     e114_Bit3_Can_Be_Possessed = 0x4,
     e114_Bit4_bPossesed = 0x8,
-    e114_Bit5 = 0x10,
+    e114_Bit5_ZappedByShrykull = 0x10,
     e114_Bit6_SetOffExplosives = 0x20,
     e114_Bit7_Electrocuted = 0x40,
     e114_Bit8_bInvisible = 0x80,
-    e114_Bit9 = 0x100,
-    e114_Bit10 = 0x200,
-    e114_Bit11 = 0x400,
+    e114_Bit9_RestoredFromQuickSave = 0x100,
+    e114_Bit10_Teleporting = 0x200,
+    e114_Bit11_Electrocuting = 0x400,
 };
 
 class BaseAliveGameObject : public BaseAnimatedWithPhysicsGameObject
@@ -64,7 +64,7 @@ private:
     EXPORT BirdPortal* vIntoBirdPortal_408FD0(__int16 gridBlocks);
     EXPORT void vOnTrapDoorOpen_4081F0();
 protected:
-    EXPORT signed __int16 SetBaseAnimPaletteTint_425690(TintEntry *pTintArray, LevelIds level_id, int resourceID);
+    EXPORT signed __int16 SetBaseAnimPaletteTint_425690(TintEntry* pTintArray, LevelIds level_id, int resourceID);
 
     EXPORT BOOL Check_IsOnEndOfLine_408E90(__int16 direction, __int16 distance);
 
@@ -77,7 +77,7 @@ public:
     EXPORT __int16 MapFollowMe_408D10(__int16 snapToGrid);
 protected:
     EXPORT BOOL WallHit_408750(FP offY, FP offX);
-    EXPORT BOOL InAirCollision_408810(PathLine **ppPathLine, FP* hitX, FP* hitY, FP velY);
+    EXPORT BOOL InAirCollision_408810(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY);
     EXPORT BaseGameObject* FindObjectOfType_425180(Types typeToFind, FP xpos, FP ypos);
 public:
     EXPORT __int16 OnTrapDoorIntersection_408BA0(PlatformBase* pOther);
@@ -90,11 +90,11 @@ public:
     __int16 field_104_collision_line_type;
     __int16 field_106_current_motion;
     __int16 field_108_next_motion;
-    __int16 field_10A;
+    __int16 field_10A_unused;
     FP field_10C_health;
     int field_110_id;
     BitField16<Flags_114> field_114_flags;
-    __int16 field_116_pad;
+    __int16 field_116_padding;
 };
 ALIVE_ASSERT_SIZEOF(BaseAliveGameObject, 0x118);
 

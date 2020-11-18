@@ -354,7 +354,7 @@ int CC Slog::CreateFromSaveState_4C54F0(const BYTE* pBuffer)
     pSlog->field_106_current_motion = pState->field_34_current_motion;
     pSlog->field_108_next_motion = pState->field_36_next_motion;
     pSlog->field_F8_LastLineYPos = FP_FromInteger(pState->field_38_last_line_ypos);
-    pSlog->field_114_flags.Set(Flags_114::e114_Bit9);
+    pSlog->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
     pSlog->field_104_collision_line_type = pState->field_3A_line_type;
     pSlog->field_12C_tlvInfo = pState->field_40_tlvInfo;
     pSlog->field_118_target_id = pState->field_44_obj_id;
@@ -2938,9 +2938,9 @@ void Slog::Init_4C46A0()
 
 void Slog::vUpdate_4C50D0()
 {
-    if (field_114_flags.Get(Flags_114::e114_Bit9))
+    if (field_114_flags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave))
     {
-        field_114_flags.Clear(Flags_114::e114_Bit9);
+        field_114_flags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
         if (field_104_collision_line_type == -1)
         {
             field_100_pCollisionLine = nullptr;

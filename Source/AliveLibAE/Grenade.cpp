@@ -120,7 +120,7 @@ int CC Grenade::CreateFromSaveState_449410(const BYTE* pBuffer)
     pGrenade->field_6_flags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(Grenade_SaveState::eBit2_bDrawable));
     pGrenade->field_6_flags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(Grenade_SaveState::eBit4_bInteractive));
 
-    pGrenade->field_114_flags.Set(Flags_114::e114_Bit9);
+    pGrenade->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
     pGrenade->field_104_collision_line_type = pState->field_28_line_type;
     pGrenade->field_118_count = pState->field_2A_savedcount;
     pGrenade->field_120_state = pState->field_2C_state;
@@ -352,9 +352,9 @@ void Grenade::vUpdate_4489C0()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (field_114_flags.Get(Flags_114::e114_Bit9))
+    if (field_114_flags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave))
     {
-        field_114_flags.Clear(Flags_114::e114_Bit9);
+        field_114_flags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
         if (field_104_collision_line_type == -1)
         {
             field_100_pCollisionLine = nullptr;

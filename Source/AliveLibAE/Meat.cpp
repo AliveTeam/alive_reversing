@@ -561,7 +561,7 @@ int CC Meat::CreateFromSaveState_46A9E0(const BYTE* pBuffer)
     pMeat->field_6_flags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(Meat_SaveState::eBit2_bDrawable));
     pMeat->field_6_flags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(Meat_SaveState::eBit4_bInteractive));
 
-    pMeat->field_114_flags.Set(Flags_114::e114_Bit9);
+    pMeat->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
 
     pMeat->field_128_timer = sGnFrame_5C1B84;
     pMeat->field_104_collision_line_type = pState->field_28_line_type;

@@ -1190,7 +1190,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
 
     sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit7_Electrocuted, pSaveState->bElectrocuted & 1);
     sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit8_bInvisible, pSaveState->field_42_bInvisible & 1);
-    sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit10, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_eBit13));
+    sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit10_Teleporting, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_eBit13_teleporting));
 
     sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit1_lift_point_dead_while_using_lift, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit1_lift_point_dead_while_using_lift));
     sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit2_return_to_previous_motion, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit2_return_to_previous_motion));
@@ -1206,7 +1206,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_eBit13_play_ledge_grab_sounds, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit10_play_ledge_grab_sounds));
     sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_eBit14_unused, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit11_unused));
     sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_eBit15_have_healing, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit12_have_healing));
-    sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit10, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_eBit13));
+    sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit10_Teleporting, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_eBit13_teleporting));
     sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_eBit16_is_mudanchee_vault_ender, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_eBit14_is_mudanchee_vault_ender));
 
     sActiveHero_5C1B68->field_1AE_flags.Set(Flags_1AE::e1AE_Bit1_is_mudomo_vault_ender, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_eBit15_is_mudomo_vault_ender));
@@ -1340,9 +1340,9 @@ void Abe::Update_449DC0()
         field_10C_health = FP_FromDouble(1.0);
     }
 
-    if (field_114_flags.Get(Flags_114::e114_Bit9))
+    if (field_114_flags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave))
     {
-        field_114_flags.Clear(Flags_114::e114_Bit9);
+        field_114_flags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
         if (field_104_collision_line_type != -1)
         {
             sCollisions_DArray_5C1128->Raycast_417A60(
@@ -1491,7 +1491,7 @@ void Abe::Update_449DC0()
         const FP oldYPos = field_BC_ypos;
         (this->*(sAbeStateMachineTable_554910)[state_idx])();
 
-        if (field_114_flags.Get(Flags_114::e114_Bit9) || field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_shrivel))
+        if (field_114_flags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave) || field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_shrivel))
         {
             return;
         }
@@ -1919,7 +1919,7 @@ void Abe::vScreenChanged_44D240()
         }
     }
 
-    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level && !(field_114_flags.Get(Flags_114::e114_Bit9)))
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level && !(field_114_flags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave)))
     {
         for (char& val : sSavedKilledMudsPerPath_5C1B50.mData)
         {
@@ -1947,7 +1947,7 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
     pSaveState->field_20_g = field_D2_g;
     pSaveState->field_22_b = field_D4_b;
 
-    if (field_114_flags.Get(Flags_114::e114_Bit11))
+    if (field_114_flags.Get(Flags_114::e114_Bit11_Electrocuting))
     {
         for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
         {
@@ -2154,7 +2154,7 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
 
     pSaveState->bElectrocuted = field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted);
     pSaveState->field_42_bInvisible = field_114_flags.Get(Flags_114::e114_Bit8_bInvisible);
-    pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_eBit13, sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit10));
+    pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_eBit13_teleporting, sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit10_Teleporting));
 
     pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_Bit1_lift_point_dead_while_using_lift, field_1AC_flags.Get(Flags_1AC::e1AC_Bit1_lift_point_dead_while_using_lift));
     pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_Bit2_return_to_previous_motion, field_1AC_flags.Get(Flags_1AC::e1AC_Bit2_return_to_previous_motion));
@@ -2170,7 +2170,7 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
     pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_Bit10_play_ledge_grab_sounds, field_1AC_flags.Get(Flags_1AC::e1AC_eBit13_play_ledge_grab_sounds));
     pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_Bit11_unused, field_1AC_flags.Get(Flags_1AC::e1AC_eBit14_unused));
     pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_Bit12_have_healing, field_1AC_flags.Get(Flags_1AC::e1AC_eBit15_have_healing));
-    pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_eBit13, field_114_flags.Get(Flags_114::e114_Bit10));
+    pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_eBit13_teleporting, field_114_flags.Get(Flags_114::e114_Bit10_Teleporting));
     pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_eBit14_is_mudanchee_vault_ender, field_1AC_flags.Get(Flags_1AC::e1AC_eBit16_is_mudanchee_vault_ender));
 
     pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_eBit15_is_mudomo_vault_ender, field_1AE_flags.Get(Flags_1AE::e1AE_Bit1_is_mudomo_vault_ender));
@@ -2206,7 +2206,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
         return 0;
     }
 
-    if (field_114_flags.Get(Flags_114::e114_Bit10))
+    if (field_114_flags.Get(Flags_114::e114_Bit10_Teleporting))
     {
         return 0;
     }
@@ -3261,7 +3261,7 @@ void Abe::State_0_Idle_44EEB0()
 
             case TlvTypes::LocalWell_8:
             {
-                if (field_114_flags.Get(Flags_114::e114_Bit10))
+                if (field_114_flags.Get(Flags_114::e114_Bit10_Teleporting))
                 {
                     break;
                 }
@@ -3281,7 +3281,7 @@ void Abe::State_0_Idle_44EEB0()
 
             case TlvTypes::WellExpress_23:
             {
-                if (field_114_flags.Get(Flags_114::e114_Bit10))
+                if (field_114_flags.Get(Flags_114::e114_Bit10_Teleporting))
                 {
                     break;
                 }
@@ -5915,7 +5915,7 @@ void Abe::State_57_Dead_4589A0()
             return;
         }
 
-        if (field_10A)
+        if (field_10A_unused)
         {
             return;
         }
@@ -6180,7 +6180,7 @@ void Abe::State_67_LedgeHang_454E20()
 {
     field_E0_pShadow->field_14_flags.Set(Shadow::Flags::eBit1_ShadowAtBottom);
     const int pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
-    if (sInputKey_Up_5550D8 & pressed || field_114_flags.Get(Flags_114::e114_Bit10))
+    if (sInputKey_Up_5550D8 & pressed || field_114_flags.Get(Flags_114::e114_Bit10_Teleporting))
     {
         field_106_current_motion = eAbeStates::State_65_LedgeAscend_4548E0;
     }
@@ -6286,7 +6286,7 @@ void Abe::State_69_LedgeHangWobble_454EF0()
 
     // Going up the ledge on wobble?
     const DWORD pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
-    if (sInputKey_Up_5550D8 & pressed || field_114_flags.Get(Flags_114::e114_Bit10))
+    if (sInputKey_Up_5550D8 & pressed || field_114_flags.Get(Flags_114::e114_Bit10_Teleporting))
     {
         field_1AC_flags.Clear(Flags_1AC::e1AC_eBit13_play_ledge_grab_sounds);
         field_106_current_motion = eAbeStates::State_65_LedgeAscend_4548E0;
@@ -7293,7 +7293,7 @@ void Abe::State_99_LeverUse_455AC0()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        if (field_114_flags.Get(Flags_114::e114_Bit10))
+        if (field_114_flags.Get(Flags_114::e114_Bit10_Teleporting))
         {
             field_106_current_motion = eAbeStates::State_34_DunnoBegin_44ECF0;
         }
@@ -9187,7 +9187,7 @@ __int16 Abe::RunTryEnterWell_451060()
         TlvTypes::LocalWell_8));
     if (pWellLocal)
     {
-        if (!(field_114_flags.Get(Flags_114::e114_Bit10)))
+        if (!(field_114_flags.Get(Flags_114::e114_Bit10_Teleporting)))
         {
             if ((pWellLocal->field_0_scale == 0 && field_CC_sprite_scale == FP_FromInteger(1)) ||
                 (pWellLocal->field_0_scale == 1 && field_CC_sprite_scale == FP_FromDouble(0.5)))
@@ -9208,7 +9208,7 @@ __int16 Abe::RunTryEnterWell_451060()
         TlvTypes::WellExpress_23));
     if (pWellExpress)
     {
-        if (!(field_114_flags.Get(Flags_114::e114_Bit10)))
+        if (!(field_114_flags.Get(Flags_114::e114_Bit10_Teleporting)))
         {
             if ((pWellExpress->field_0_scale == 0 && field_CC_sprite_scale == FP_FromInteger(1)) ||
                 (pWellExpress->field_0_scale == 1 && field_CC_sprite_scale == FP_FromDouble(0.5)))

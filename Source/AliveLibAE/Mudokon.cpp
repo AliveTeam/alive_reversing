@@ -446,7 +446,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
 
     field_DC_bApplyShadows |= 2u;
 
-    field_114_flags.Clear(Flags_114::e114_Bit9);
+    field_114_flags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
     field_114_flags.Set(Flags_114::e114_Bit6_SetOffExplosives);
 
     field_18C_unused = 0;
@@ -793,7 +793,7 @@ int CC Mudokon::CreateFromSaveState_4717C0(const BYTE* pBuffer)
     pMud->field_F8_LastLineYPos = FP_FromInteger(pState->field_34_lastLineYPos);
 
     pMud->field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed, pState->field_3C_can_be_possessed & 1);
-    pMud->field_114_flags.Set(Flags_114::e114_Bit9);
+    pMud->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
 
     pMud->field_104_collision_line_type = pState->field_36_line_type;
     pMud->field_11C_bird_portal_id = pState->field_4C_portal_id;
@@ -1002,9 +1002,9 @@ int Mudokon::vGetSaveState_47B080(Mudokon_State* pState)
 
 void Mudokon::vUpdate_4757A0()
 {
-    if (field_114_flags.Get(Flags_114::e114_Bit9))
+    if (field_114_flags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave))
     {
-        field_114_flags.Clear(Flags_114::e114_Bit9);
+        field_114_flags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
         if (field_104_collision_line_type != -1)
         {
             sCollisions_DArray_5C1128->Raycast_417A60(

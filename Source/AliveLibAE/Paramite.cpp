@@ -349,7 +349,7 @@ int CC Paramite::CreateFromSaveState_4855A0(const BYTE* pBuffer)
     pParamite->field_106_current_motion = pState->field_30_current_motion;
     pParamite->field_108_next_motion = pState->field_32_next_motion;
     pParamite->field_F8_LastLineYPos = FP_FromInteger(pState->field_34_last_line_ypos);
-    pParamite->field_114_flags.Set(Flags_114::e114_Bit9);
+    pParamite->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
     pParamite->field_104_collision_line_type = pState->field_36_line_type;
 
     pParamite->field_118_meat_id = pState->field_40_meat_id;
@@ -5172,9 +5172,9 @@ Paramite* Paramite::vdtor_487F90(signed int flags)
 
 void Paramite::vUpdate_4871B0()
 {
-    if (field_114_flags.Get(Flags_114::e114_Bit9))
+    if (field_114_flags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave))
     {
-        field_114_flags.Clear(Flags_114::e114_Bit9);
+        field_114_flags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
         if (field_104_collision_line_type == -1)
         {
             field_100_pCollisionLine = nullptr;

@@ -353,9 +353,9 @@ void Rock::vUpdate_49E9F0()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (field_114_flags.Get(Flags_114::e114_Bit9))
+    if (field_114_flags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave))
     {
-        field_114_flags.Clear(Flags_114::e114_Bit9);
+        field_114_flags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
         if (field_104_collision_line_type == -1)
         {
             field_100_pCollisionLine = nullptr;
@@ -541,7 +541,7 @@ int CC Rock::CreateFromSaveState_49F720(const BYTE* pData)
     pRock->field_6_flags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(RockSaveState::eBit2_bDrawable));
     pRock->field_6_flags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(RockSaveState::eBit4_bInteractive));
 
-    pRock->field_114_flags.Set(Flags_114::e114_Bit9);
+    pRock->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
 
     pRock->field_128_shimmer_timer = sGnFrame_5C1B84;
 

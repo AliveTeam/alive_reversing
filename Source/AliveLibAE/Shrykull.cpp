@@ -177,7 +177,7 @@ void Shrykull::vUpdate_4AEDE0()
                 break;
             }
 
-            if (CanKill_4AEC50(pObj) && !pObj->field_114_flags.Get(Flags_114::e114_Bit5))
+            if (CanKill_4AEC50(pObj) && !pObj->field_114_flags.Get(Flags_114::e114_Bit5_ZappedByShrykull))
             {
                 field_128_obj_being_zapped_id = pObj->field_8_object_id;
 
@@ -248,7 +248,7 @@ void Shrykull::vUpdate_4AEDE0()
                     FP_FromInteger((ourRect.y + ourRect.h) / 2),
                     RingTypes::eShrykull_Pulse_Large_5, field_CC_sprite_scale);
                 
-                pObj->field_114_flags.Set(Flags_114::e114_Bit5);
+                pObj->field_114_flags.Set(Flags_114::e114_Bit5_ZappedByShrykull);
 
                 SFX_Play_46FBA0(SoundEffect::ShrykullZap_18, 100, 2000);
                 SFX_Play_46FA90(SoundEffect::Zap1_49, 0);

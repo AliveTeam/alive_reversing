@@ -223,9 +223,9 @@ void SlapLock::vUpdate_43DF90()
     }
     else
     {
-        if (field_114_flags.Get(Flags_114::e114_Bit9))
+        if (field_114_flags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave))
         {
-            field_114_flags.Clear(Flags_114::e114_Bit9);
+            field_114_flags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
 
             if (field_118_pTlv->field_1_unknown)
             {

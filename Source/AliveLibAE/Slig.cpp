@@ -411,7 +411,7 @@ Slig* Slig::ctor_4B1370(Path_Slig* pTlv, int tlvInfo)
     field_4_typeId = Types::eSlig_125;
 
     field_114_flags.Clear(Flags_114::e114_Bit4_bPossesed);
-    field_114_flags.Clear(Flags_114::e114_Bit9);
+    field_114_flags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
     field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
     field_114_flags.Set(Flags_114::e114_Bit6_SetOffExplosives);
 
@@ -814,7 +814,7 @@ int CC Slig::CreateFromSaveState_4B3B50(const BYTE* pBuffer)
     pSlig->field_108_next_motion = pState->field_36_next_motion;
     pSlig->field_F8_LastLineYPos = FP_FromInteger(pState->field_38_last_line_ypos);
 
-    pSlig->field_114_flags.Set(Flags_114::e114_Bit9);
+    pSlig->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
 
     pSlig->field_104_collision_line_type = pState->field_3A_collision_line_type;
     pSlig->field_11C_ai_sub_state = pState->field_42_ai_sub_state;
@@ -2289,7 +2289,7 @@ void Slig::M_PullLever_45_4B8950()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        if (field_114_flags.Get(Flags_114::e114_Bit10))
+        if (field_114_flags.Get(Flags_114::e114_Bit10_Teleporting))
         {
             Slig_GameSpeak_SFX_4C04F0(SligSpeak::eBlurgh_11, 0, field_11E_pitch_min, this);
             field_106_current_motion = eSligMotions::M_Blurgh_31_4B5510;
@@ -4993,7 +4993,7 @@ const FP dword_547408[22] =
 
 void Slig::vUpdate_4B17C0()
 {
-    if (field_114_flags.Get(Flags_114::e114_Bit9))
+    if (field_114_flags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave))
     {
         if (field_104_collision_line_type != -1)
         {
@@ -5027,7 +5027,7 @@ void Slig::vUpdate_4B17C0()
         {
             sSligsUnderControlCount_BAF7E8++;
         }
-        field_114_flags.Clear(Flags_114::e114_Bit9);
+        field_114_flags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
         field_104_collision_line_type = 0;
     }
 
@@ -5655,7 +5655,7 @@ __int16 Slig::HandlePlayerControlled_4B7800()
         }
 
         auto pSwitch = static_cast<Switch*>(FindObjectOfType_425180(Types::eLever_139, switchYPos, switchXPos));
-        if (pSwitch && !field_114_flags.Get(Flags_114::e114_Bit10))
+        if (pSwitch && !field_114_flags.Get(Flags_114::e114_Bit10_Teleporting))
         {
             pSwitch->VPull_4D6050(field_B8_xpos < pSwitch->field_B8_xpos);
             field_106_current_motion = eSligMotions::M_PullLever_45_4B8950;
@@ -5671,7 +5671,7 @@ __int16 Slig::HandlePlayerControlled_4B7800()
     {
         if (!sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC) ||
             field_CC_sprite_scale != FP_FromDouble(0.5) ||
-            field_114_flags.Get(Flags_114::e114_Bit10))
+            field_114_flags.Get(Flags_114::e114_Bit10_Teleporting))
         {
             field_106_current_motion = eSligMotions::M_Shoot_6_4B55A0;
         }
@@ -5713,7 +5713,7 @@ __int16 Slig::HandlePlayerControlled_4B7800()
 
             if (sInputObject_5BD4E0.isPressed(sInputKey_ThrowItem_5550F4) && 
                 field_CC_sprite_scale == FP_FromDouble(0.5) && 
-                !field_114_flags.Get(Flags_114::e114_Bit10))
+                !field_114_flags.Get(Flags_114::e114_Bit10_Teleporting))
             {
                 field_106_current_motion = eSligMotions::M_ShootZ_42_4B7560;
                 field_108_next_motion = -1;
@@ -6779,7 +6779,7 @@ int Slig::vGetSaveState_4BFB10(Slig_State* pState)
     pState->field_20_g = field_D2_g;
     pState->field_22_b = field_D4_b;
 
-    if (field_114_flags.Get(Flags_114::e114_Bit11))
+    if (field_114_flags.Get(Flags_114::e114_Bit11_Electrocuting))
     {
         for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
         {
@@ -7017,7 +7017,7 @@ __int16 Slig::HeardGlukkonToListenTo_4B9690(GameSpeakEvents glukkonSpeak)
 
 __int16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
 {
-    if (field_114_flags.Get(Flags_114::e114_Bit10))
+    if (field_114_flags.Get(Flags_114::e114_Bit10_Teleporting))
     {
         return 0;
     }

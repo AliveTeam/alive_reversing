@@ -820,7 +820,7 @@ std::vector<CustomPauseMenuItem> devCheatsMenuItems({
     { "Kill All Mudokons", [](CustomPauseMenu*) { sRescuedMudokons_5C1BC2 = 0; sKilledMudokons_5C1BC0 = 300; DEV_CONSOLE_MESSAGE("(CHEAT) Killed all Mudokons", 4); }  },
     { "Give Rocks", [](CustomPauseMenu*) { sActiveHero_5C1B68->field_1A2_throwable_count = 99; DEV_CONSOLE_MESSAGE("(CHEAT) Got Bones", 4); }  },
     { "Open All Doors", [](CustomPauseMenu* pm) {  pm->ClosePauseMenu(); Cheat_OpenAllDoors(); } },
-    { "Invisible", [](CustomPauseMenu* pm) { DEV_CONSOLE_MESSAGE("(CHEAT) Invisibility!", 4);  pm->ClosePauseMenu(); sActiveHero_5C1B68->field_170_invisible_timer = 65535; sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit9);  sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit8_bInvisible); } },
+    { "Invisible", [](CustomPauseMenu* pm) { DEV_CONSOLE_MESSAGE("(CHEAT) Invisibility!", 4);  pm->ClosePauseMenu(); sActiveHero_5C1B68->field_170_invisible_timer = 65535; sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);  sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit8_bInvisible); } },
     { "Give Explosive Fart", [](CustomPauseMenu * pm) {
         DEV_CONSOLE_MESSAGE("(CHEAT) Oh man that stinks.", 4);
         pm->ClosePauseMenu();
@@ -1516,7 +1516,7 @@ void PauseMenu::Update_48FD80()
     else
     {
         pControlledChar = sControlledCharacter_5C1B8C;
-        if (!(sControlledCharacter_5C1B8C->field_114_flags.Get(e114_Bit10)))
+        if (!(sControlledCharacter_5C1B8C->field_114_flags.Get(e114_Bit10_Teleporting)))
         {
             const __int16 heroState = sActiveHero_5C1B68->field_106_current_motion;
             if (heroState != eAbeStates::State_86_HandstoneBegin_45BD00
@@ -1564,7 +1564,7 @@ void PauseMenu::Update_48FD80()
     {
         if (pHero->field_10C_health > FP_FromInteger(0)
             && !(pHero->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
-            && !(pControlledChar->field_114_flags.Get(Flags_114::e114_Bit10)))
+            && !(pControlledChar->field_114_flags.Get(Flags_114::e114_Bit10_Teleporting)))
         {
             const short heroState = pHero->field_106_current_motion;
             if (heroState != eAbeStates::State_86_HandstoneBegin_45BD00

@@ -321,7 +321,7 @@ int CC NakedSlig::CreateFromSaveState_41AE80(const BYTE* pBuffer)
     pNakedSlig->field_106_current_motion = pState->field_34_cur_motion;
     pNakedSlig->field_108_next_motion = pState->field_36_next_motion;
     pNakedSlig->field_F8_LastLineYPos = FP_FromInteger(pState->field_38_last_line_ypos);
-    pNakedSlig->field_114_flags.Set(Flags_114::e114_Bit9);
+    pNakedSlig->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
     pNakedSlig->field_1AC_timer = pState->field_54_timer;
     pNakedSlig->field_104_collision_line_type = pState->field_3A_line_type;
     pNakedSlig->field_118_tlvInfo = pState->field_44_tlvInfo;
@@ -477,9 +477,9 @@ void NakedSlig::vUpdate_419100()
     }
     else
     {
-        if (field_114_flags.Get(Flags_114::e114_Bit9))
+        if (field_114_flags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave))
         {
-            field_114_flags.Clear(Flags_114::e114_Bit9);
+            field_114_flags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
             if (field_104_collision_line_type == -1)
             {
                 field_100_pCollisionLine = 0;
