@@ -59,13 +59,13 @@ EXPORT BaseAliveGameObject* BaseAliveGameObject::ctor_408240(short resourceArray
     field_114_flags.Clear(Flags_114::e114_MotionChanged_Bit2);
     field_114_flags.Clear(Flags_114::e114_Bit3_Can_Be_Possessed);
     field_114_flags.Clear(Flags_114::e114_Bit4_bPossesed);
-    field_114_flags.Clear(Flags_114::e114_Bit5);
+    field_114_flags.Clear(Flags_114::e114_Bit5_ZappedByShrykull);
     field_114_flags.Clear(Flags_114::e114_Bit6_SetOffExplosives);
     field_114_flags.Clear(Flags_114::e114_Bit7_Electrocuted);
     field_114_flags.Clear(Flags_114::e114_Bit8_bInvisible);
-    field_114_flags.Clear(Flags_114::e114_Bit9);
-    field_114_flags.Clear(Flags_114::e114_Bit10);
-    field_114_flags.Clear(Flags_114::e114_Bit11);
+    field_114_flags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
+    field_114_flags.Clear(Flags_114::e114_Bit10_Teleporting);
+    field_114_flags.Clear(Flags_114::e114_Bit11_Electrocuting);
 
     field_FC_pPathTLV = nullptr;
     field_100_pCollisionLine = nullptr;
@@ -76,7 +76,7 @@ EXPORT BaseAliveGameObject* BaseAliveGameObject::ctor_408240(short resourceArray
     field_F4_previous_motion = 0;
     field_F6_anim_frame = 0;
     field_F8_LastLineYPos = FP_FromInteger(0);
-    field_10A = 0;
+    field_10A_unused = 0;
 
     gBaseAliveGameObjects_5C1B7C->Push_Back(this);
 
@@ -98,7 +98,7 @@ EXPORT void BaseAliveGameObject::dtor_4080B0()
         field_110_id = -1;
     }
 
-    if (field_10A)
+    if (field_10A_unused)
     {
         pResourceManager_5C1BB0->Shutdown_465610();
     }
@@ -264,37 +264,37 @@ void BaseAliveGameObject::vOnPathTransition_408320(__int16 cameraWorldXPos, __in
     const FP oldY = field_BC_ypos;
     switch (direction)
     {
-    case CameraPos::eCamTop_1:
-        field_B8_xpos = FP_FromInteger(cameraWorldXPos + FP_GetExponent(field_B8_xpos) % 375);
-        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit22_DeadMode))
-        {
-            ALIVE_FATAL("Impossible case BaseAliveGameObject::vOnPathTransition_408320 AnimFlags::eBit22_DeadMode");
-        }
-        else
-        {
-            // TODO: This is actualy wrong !!
-            const DWORD off = field_20_animation.Get_FrameHeader_40B730(-1)->field_0_frame_header_offset;
-            field_BC_ypos = FP_FromInteger((*field_20_animation.field_20_ppBlock)[off + 5] + cameraWorldYPos + 236);
-        }
-        break;
+        case CameraPos::eCamTop_1:
+            field_B8_xpos = FP_FromInteger(cameraWorldXPos + FP_GetExponent(field_B8_xpos) % 375);
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit22_DeadMode))
+            {
+                ALIVE_FATAL("Impossible case BaseAliveGameObject::vOnPathTransition_408320 AnimFlags::eBit22_DeadMode");
+            }
+            else
+            {
+                // TODO: This is actually wrong!!
+                const DWORD off = field_20_animation.Get_FrameHeader_40B730(-1)->field_0_frame_header_offset;
+                field_BC_ypos = FP_FromInteger((*field_20_animation.field_20_ppBlock)[off + 5] + cameraWorldYPos + 236);
+            }
+            break;
 
-    case CameraPos::eCamBottom_2:
-        field_B8_xpos = FP_FromInteger(cameraWorldXPos + FP_GetExponent(field_B8_xpos) % 375);
-        field_BC_ypos = FP_FromInteger(cameraWorldYPos + 4);
-        break;
+        case CameraPos::eCamBottom_2:
+            field_B8_xpos = FP_FromInteger(cameraWorldXPos + FP_GetExponent(field_B8_xpos) % 375);
+            field_BC_ypos = FP_FromInteger(cameraWorldYPos + 4);
+            break;
 
-    case CameraPos::eCamLeft_3:
-        field_B8_xpos = FP_FromInteger(cameraWorldXPos + (XGrid_Index_To_XPos_4498F0(field_CC_sprite_scale, MaxGridBlocks_449880(field_CC_sprite_scale) - 1)));
-        field_BC_ypos = FP_FromInteger(cameraWorldYPos + FP_GetExponent(field_BC_ypos) % 260);
-        break;
+        case CameraPos::eCamLeft_3:
+            field_B8_xpos = FP_FromInteger(cameraWorldXPos + (XGrid_Index_To_XPos_4498F0(field_CC_sprite_scale, MaxGridBlocks_449880(field_CC_sprite_scale) - 1)));
+            field_BC_ypos = FP_FromInteger(cameraWorldYPos + FP_GetExponent(field_BC_ypos) % 260);
+            break;
 
-    case CameraPos::eCamRight_4:
-        field_B8_xpos = FP_FromInteger(cameraWorldXPos + XGrid_Index_To_XPos_4498F0(field_CC_sprite_scale, 1));
-        field_BC_ypos = FP_FromInteger(cameraWorldYPos + FP_GetExponent(field_BC_ypos) % 260);
-        break;
+        case CameraPos::eCamRight_4:
+            field_B8_xpos = FP_FromInteger(cameraWorldXPos + XGrid_Index_To_XPos_4498F0(field_CC_sprite_scale, 1));
+            field_BC_ypos = FP_FromInteger(cameraWorldYPos + FP_GetExponent(field_BC_ypos) % 260);
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 
     field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
@@ -478,11 +478,11 @@ void BaseAliveGameObject::vOnTrapDoorOpen_4081F0()
     // Empty
 }
 
-signed __int16 BaseAliveGameObject::SetBaseAnimPaletteTint_425690(TintEntry * pTintArray, LevelIds level_id, int resourceID)
+signed __int16 BaseAliveGameObject::SetBaseAnimPaletteTint_425690(TintEntry* pTintArray, LevelIds level_id, int resourceID)
 {
     SetTint_425600(pTintArray, level_id);
 
-    BYTE ** pPalResource = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, resourceID, 1u, 0);
+    BYTE** pPalResource = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, resourceID, 1u, 0);
 
     if (!pPalResource)
     {
@@ -573,39 +573,39 @@ EXPORT void BaseAliveGameObject::SetActiveCameraDelayedFromDir_408C40()
      {
          switch (Is_In_Current_Camera_424A70())
          {
-         case CameraPos::eCamTop_1:
-             if (field_C8_vely < FP_FromInteger(0))
-             {
-                 gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapTop_2, this, -1);
-             }
-             break;
+             case CameraPos::eCamTop_1:
+                 if (field_C8_vely < FP_FromInteger(0))
+                 {
+                     gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapTop_2, this, -1);
+                 }
+                 break;
 
-         case CameraPos::eCamBottom_2:
-             if (field_C8_vely > FP_FromInteger(0))
-             {
-                 gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapBottom_3, this, -1);
-             }
-             break;
+             case CameraPos::eCamBottom_2:
+                 if (field_C8_vely > FP_FromInteger(0))
+                 {
+                     gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapBottom_3, this, -1);
+                 }
+                 break;
 
-         case CameraPos::eCamLeft_3:
-             if (field_C4_velx < FP_FromInteger(0))
-             {
-                 gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapLeft_0, this, -1);
-             }
-             break;
+             case CameraPos::eCamLeft_3:
+                 if (field_C4_velx < FP_FromInteger(0))
+                 {
+                     gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapLeft_0, this, -1);
+                 }
+                 break;
 
-         case CameraPos::eCamRight_4:
-             if (field_C4_velx > FP_FromInteger(0))
-             {
-                 gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapRight_1, this, -1);
-             }
-             break;
+             case CameraPos::eCamRight_4:
+                 if (field_C4_velx > FP_FromInteger(0))
+                 {
+                     gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapRight_1, this, -1);
+                 }
+                 break;
 
-         case CameraPos::eCamCurrent_0:
-         case CameraPos::eCamNone_5:
-             return;
+             case CameraPos::eCamCurrent_0:
+             case CameraPos::eCamNone_5:
+                 return;
 
-         default: return;
+             default: return;
          }
      }
 }

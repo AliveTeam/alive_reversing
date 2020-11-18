@@ -141,7 +141,7 @@ int CC Bone::CreateFromSaveState_412C10(const BYTE* pData)
     pBone->field_6_flags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(Bone_SaveState::eBit2_bDrawable));
     pBone->field_6_flags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(Bone_SaveState::eBit4_bInteractive));
 
-    pBone->field_114_flags.Set(Flags_114::e114_Bit9);
+    pBone->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
 
     pBone->field_128_shine_timer = sGnFrame_5C1B84;
     

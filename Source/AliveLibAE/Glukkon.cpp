@@ -227,7 +227,7 @@ signed int CC Glukkon::CreateFromSaveState_442830(const BYTE* pData)
     pGlukkon->field_106_current_motion = pSaveState->field_34_current_motion;
     pGlukkon->field_108_next_motion = pSaveState->field_36_next_motion;
     pGlukkon->field_F8_LastLineYPos = FP_FromInteger(pSaveState->field_38);
-    pGlukkon->field_114_flags.Set(Flags_114::e114_Bit9);
+    pGlukkon->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
     pGlukkon->field_1D4_timer = pSaveState->field_54;
     pGlukkon->field_104_collision_line_type = pSaveState->field_3A_line_type;
     pGlukkon->field_214_tlv_info = pSaveState->field_44_tlvInfo;
@@ -2199,9 +2199,9 @@ void Glukkon::dtor_43F570()
 
 void Glukkon::vUpdate_43F770()
 {
-    if (field_114_flags.Get(Flags_114::e114_Bit9))
+    if (field_114_flags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave))
     {
-        field_114_flags.Clear(Flags_114::e114_Bit9);
+        field_114_flags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
         if (field_104_collision_line_type == -1)
         {
             field_100_pCollisionLine = nullptr;
@@ -2375,7 +2375,7 @@ void Glukkon::HandleInput_443BB0()
 {
     MapFollowMe_408D10(TRUE);
 
-    if (BrainIs(&Glukkon::AI_3_PlayerControlled_441A30) && field_210 == 1 && !(field_114_flags.Get(Flags_114::e114_Bit10)))
+    if (BrainIs(&Glukkon::AI_3_PlayerControlled_441A30) && field_210 == 1 && !(field_114_flags.Get(Flags_114::e114_Bit10_Teleporting)))
     {
         const auto inputHeld = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
         const auto matchButtons = 

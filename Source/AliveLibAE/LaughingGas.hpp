@@ -8,12 +8,12 @@
 // TODO: These can be combined
 struct Path_LaughingGas_Data
 {
-    __int16 field_0_is_laughin_gas;
+    __int16 field_0_is_laughing_gas;
     __int16 field_2_gas_id;
     __int16 field_4_red_percent;
     __int16 field_6_blue_percent;
     __int16 field_8_green_percent;
-    __int16 field_A_pad;
+    __int16 field_A_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LaughingGas_Data, 0xC);
 
@@ -24,7 +24,7 @@ struct Path_LaughingGas : public Path_TLV
     __int16 field_14_red_percent;
     __int16 field_16_green_percent;
     __int16 field_18_blue_percent;
-    __int16 field_1A;
+    __int16 field_1A_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LaughingGas, 0x1C);
 
@@ -64,23 +64,23 @@ private:
 
     EXPORT void sub_4328A0();
 private:
-    int field_20;
+    int field_20_padding;
     int field_24_tlvInfo;
     __int16 field_28_y;
     __int16 field_2A_x;
     __int16 field_2C_h;
     __int16 field_2E_w;
-    int field_30;
+    int field_30_padding;
     __int16 field_34_bEnabled;
     __int16 field_36_bGreen;
-    int field_38;
-    int field_3C;
-    int field_40;
-    int field_44;
+    int field_38_padding;
+    int field_3C_padding;
+    int field_40_padding;
+    int field_44_padding;
     Path_LaughingGas_Data field_48_tlv_data;
     FP field_54_amount_on;
     __int16 field_58_layer;
-    __int16 field_5A;
+    __int16 field_5A_padding;
 
     Prim_GasEffect field_5C_prim;
 

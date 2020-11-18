@@ -269,7 +269,7 @@ void Electrocute::vUpdate_4E6240()
                 field_28_b = pTargetObj->field_D4_b;
             }
             
-            pTargetObj->field_114_flags.Set(Flags_114::e114_Bit11);
+            pTargetObj->field_114_flags.Set(Flags_114::e114_Bit11_Electrocuting);
 
             pTargetObj->field_D4_b = 255;
             pTargetObj->field_D2_g = 255;
@@ -342,7 +342,7 @@ void Electrocute::vUpdate_4E6240()
                 pTargetObj->field_D2_g = field_26_g;
                 pTargetObj->field_D4_b = field_28_b;
 
-                pTargetObj->field_114_flags.Clear(Flags_114::e114_Bit11);
+                pTargetObj->field_114_flags.Clear(Flags_114::e114_Bit11_Electrocuting);
 
                 field_20_target_obj_id = -1;
                 field_44_state = 3;
@@ -397,7 +397,7 @@ void Electrocute::vStop_4E6150()
             pTarget->field_D2_g = field_26_g;
             pTarget->field_D4_b = field_28_b;
 
-            pTarget->field_114_flags.Clear(Flags_114::e114_Bit11);
+            pTarget->field_114_flags.Clear(Flags_114::e114_Bit11_Electrocuting);
         }
 
         pTarget->VTakeDamage_408730(this);

@@ -322,7 +322,7 @@ int CC Fleech::CreateFromSaveState_42DD50(const BYTE* pBuffer)
 
     pFleech->field_F8_LastLineYPos = FP_FromInteger(pState->field_38_lastLineYPos);
 
-    pFleech->field_114_flags.Set(Flags_114::e114_Bit9);
+    pFleech->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
 
     pFleech->field_104_collision_line_type = pState->field_3A_line_type;
     pFleech->field_118_tlvInfo = pState->field_40_tlvInfo;
@@ -1274,9 +1274,9 @@ Fleech* Fleech::vdtor_42A140(signed int flags)
 
 void Fleech::vUpdate_42AB20()
 {
-    if (field_114_flags.Get(Flags_114::e114_Bit9))
+    if (field_114_flags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave))
     {
-        field_114_flags.Clear(Flags_114::e114_Bit9);
+        field_114_flags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
         if (field_104_collision_line_type == -1)
         {
             field_100_pCollisionLine = nullptr;

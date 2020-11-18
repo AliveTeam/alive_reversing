@@ -296,7 +296,7 @@ int CC MineCar::CreateFromSaveState_467740(const BYTE* pBuffer)
 
     pMineCar->field_F8_LastLineYPos = FP_FromInteger(pState->field_44_last_line_ypos);
 
-    pMineCar->field_114_flags.Set(Flags_114::e114_Bit9);
+    pMineCar->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
 
     pMineCar->field_104_collision_line_type = pState->field_46_collision_line_type;
     pMineCar->field_118_tlvInfo = pState->field_4C_tlvInfo;
@@ -842,9 +842,9 @@ void MineCar::vUpdate_REAL_46C010()
 
 void MineCar::vUpdate_46C010()
 {
-    if (field_114_flags.Get(Flags_114::e114_Bit9))
+    if (field_114_flags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave))
     {
-        field_114_flags.Clear(Flags_114::e114_Bit9);
+        field_114_flags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
         if (field_104_collision_line_type != -1)
         {
             sCollisions_DArray_5C1128->Raycast_417A60(

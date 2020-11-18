@@ -137,7 +137,7 @@ Scrab* Scrab::ctor_4A3C40(Path_Scrab* pTlv, int tlvInfo, __int16 spawnedScale)
 
     field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
     field_114_flags.Set(Flags_114::e114_Bit6_SetOffExplosives);
-    field_114_flags.Clear(Flags_114::e114_Bit9);
+    field_114_flags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
 
     field_164_prevent_depossession = 0;
     field_16C_input = 0;
@@ -366,7 +366,7 @@ int CC Scrab::CreateFromSaveState_4A70A0(const BYTE* pBuffer)
     pScrab->field_108_next_motion = pState->field_36_next_motion;
     pScrab->field_F8_LastLineYPos = FP_FromInteger(pState->field_38_last_line_ypos);
     pScrab->field_130_depossession_timer = pState->field_60_depossession_timer;
-    pScrab->field_114_flags.Set(Flags_114::e114_Bit9);
+    pScrab->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
     pScrab->field_12C_timer = pState->field_5C_timer;
     pScrab->field_104_collision_line_type = pState->field_3A_line_type;
     pScrab->field_144_tlvInfo = pState->field_44_tlvInfo;
@@ -638,9 +638,9 @@ const FP dword_546DA4[11] =
 
 void Scrab::vUpdate_4A3530()
 {
-    if (field_114_flags.Get(Flags_114::e114_Bit9))
+    if (field_114_flags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave))
     {
-        field_114_flags.Clear(Flags_114::e114_Bit9);
+        field_114_flags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
         if (field_104_collision_line_type == -1)
         {
             field_100_pCollisionLine = nullptr;

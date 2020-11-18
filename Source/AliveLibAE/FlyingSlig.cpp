@@ -389,7 +389,7 @@ int CC FlyingSlig::CreateFromSaveState_437E40(const BYTE* pBuffer)
     pFlyingSlig->field_106_current_motion = pSaveState->field_30_current_state;
     pFlyingSlig->field_108_next_motion = pSaveState->field_32_delayed_state;
     pFlyingSlig->field_F8_LastLineYPos = FP_FromInteger(pSaveState->field_34_lastLineYPos);
-    pFlyingSlig->field_114_flags.Set(Flags_114::e114_Bit9);
+    pFlyingSlig->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
     pFlyingSlig->field_104_collision_line_type = -1;
 
     if (pSaveState->field_36_line_idx != -1)
@@ -651,9 +651,9 @@ void FlyingSlig::VUpdate()
 
 void FlyingSlig::vUpdate_434AD0()
 {
-    if (field_114_flags.Get(Flags_114::e114_Bit9))
+    if (field_114_flags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave))
     {
-        field_114_flags.Clear(Flags_114::e114_Bit9);
+        field_114_flags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
 
         if (!IsPossessed_436A90())
         {
