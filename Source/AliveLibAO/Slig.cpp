@@ -5480,108 +5480,77 @@ __int16 Slig::Brain_Walking_46DE90()
 
 __int16 Slig::Brain_GetAlertedTurn_46E520()
 {
-    if (field_114_timer == field_174_tlv.field_42_listen_time + static_cast<int>(gnFrameCount_507670) - 2 &&
-        Math_RandomRange_450F20(0, 100) < field_174_tlv.field_44_percent_say_what)
+    if (field_FC_current_motion == eSligStates::State_5_TurnAroundStanding_469C80 &&
+        field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_258_next_gamespeak_motion = eSligStates::State_30_SpeakWhat_468290;
-    }
-
-    if (!VOnSameYLevel(sControlledCharacter_50767C)
-        || !VIsFacingMe(sControlledCharacter_50767C)
-        || IsInInvisibleZone_418870(sControlledCharacter_50767C)
-        || IsWallBetween_46BE60(this, sControlledCharacter_50767C)
-        || !gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
-            field_B2_lvl_number,
-            field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos,
-            0)
-        || sControlledCharacter_50767C->field_4_typeId == Types::eSlig_88
-        && field_20E_spotted_possessed_slig
-        || IsAbeEnteringDoor_46BEE0(sControlledCharacter_50767C)
-        || Event_Get_417250(kEventResetting_6))
-    {
-        if (!Event_Get_417250(kEventAbeOhm_8) || Event_Get_417250(kEventResetting_6))
+        if (!Event_Get_417250(kEventSpeaking_1) || IsInInvisibleZone_418870(sControlledCharacter_50767C))
         {
-            BaseAliveGameObject* pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEventSuspiciousNoise_10));
-            if (!pEvent)
-            {
-                pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEventSpeaking_1));
-            }
-
-            if (pEvent && (pEvent == sControlledCharacter_50767C || pEvent->field_4_typeId == Types::eMudokon_75)
-                && VOnSameYLevel(pEvent)
-                && VIsFacingMe(pEvent)
-                && !IsInInvisibleZone_418870(sActiveHero_507678)
-                && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
-                    field_B2_lvl_number,
-                    field_B0_path_number,
-                    field_A8_xpos,
-                    field_AC_ypos,
-                    0)
-                && !Event_Get_417250(kEventResetting_6))
-            {
-                ToShoot_46F1D0();
-            }
-            else
-            {
-                pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEventSuspiciousNoise_10));
-                if (!pEvent)
-                {
-                    pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEventSpeaking_1));
-                }
-
-                if (pEvent && (pEvent == sControlledCharacter_50767C || pEvent->field_4_typeId != Types::eSlig_88)
-                    && !VIsFacingMe(pEvent)
-                    && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
-                        field_B2_lvl_number,
-                        field_B0_path_number,
-                        field_A8_xpos,
-                        field_AC_ypos,
-                        0)
-                    && !Event_Get_417250(kEventResetting_6))
-                {
-                    if (!Event_Get_417250(1)
-                        || IsInInvisibleZone_418870(sControlledCharacter_50767C))
-                    {
-                        field_FE_next_state = eSligStates::State_5_TurnAroundStanding_469C80;
-                        SetBrain(&Slig::Brain_GetAlertedTurn_46E520);
-                    }
-                    else
-                    {
-                        GameSpeakResponse_46ED60();
-                        field_114_timer = gnFrameCount_507670 + 20;
-                        if (!VIsFacingMe(sControlledCharacter_50767C))
-                        {
-                            field_FE_next_state = eSligStates::State_5_TurnAroundStanding_469C80;
-                        }
-                        SetBrain(&Slig::Brain_Discussion_46ECE0);
-                    }
-                }
-                else
-                {
-                    if (field_114_timer > static_cast<int>(gnFrameCount_507670))
-                    {
-                        ShouldStilBeAlive_46C0D0();
-                    }
-                    else
-                    {
-                        WaitOrWalk_46E440();
-                    }
-                }
-            }
+            field_FE_next_state = eSligStates::State_0_StandIdle_467640;
+            field_258_next_gamespeak_motion = eSligStates::State_30_SpeakWhat_468290;
+            SetBrain(&Slig::Brain_GetAlerted_46E800);
+            field_114_timer = gnFrameCount_507670 + field_174_tlv.field_42_listen_time;
         }
         else
         {
-            ToPanic_46CD40();
+            GameSpeakResponse_46ED60();
+            field_114_timer = gnFrameCount_507670 + 20;
+
+            if (!VIsFacingMe(sControlledCharacter_50767C))
+            {
+                field_FE_next_state = eSligStates::State_5_TurnAroundStanding_469C80;
+            }
+
+            SetBrain(&Slig::Brain_Discussion_46ECE0);
         }
+
+        return 123;
+    }
+
+    if (field_10_anim.field_92_current_frame == 4)
+    {
+        bool tryTurningToPlayer = true;
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            if (sControlledCharacter_50767C->field_B4_velx >= FP_FromInteger(0) &&
+                (sControlledCharacter_50767C->field_B4_velx > FP_FromInteger(0) || sControlledCharacter_50767C->field_A8_xpos >= field_A8_xpos))
+            {
+                tryTurningToPlayer = false;
+            }
+        }
+        else if (sControlledCharacter_50767C->field_B4_velx <= FP_FromInteger(0) &&
+            (sControlledCharacter_50767C->field_B4_velx > FP_FromInteger(0) || sControlledCharacter_50767C->field_A8_xpos <= field_A8_xpos))
+        {
+            tryTurningToPlayer = false;
+        }
+
+        if (tryTurningToPlayer)
+        {
+            if (!IsInInvisibleZone_418870(sControlledCharacter_50767C))
+            {
+                PSX_RECT bRect = {};
+                VGetBoundingRect(&bRect, 1);
+
+                PSX_RECT bRectChar = {};
+                sControlledCharacter_50767C->VGetBoundingRect(&bRectChar, 1);
+
+                if (PSX_Rects_overlap_no_adjustment(&bRectChar, &bRect))
+                {
+                    field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+                    return 123;
+                }
+            }
+        }
+    }
+
+    if (field_FC_current_motion != eSligStates::State_0_StandIdle_467640)
+    {
+        ShouldStilBeAlive_46C0D0();
     }
     else
     {
-        ShootTurnTowardsOrKillSound_465DF0();
+        field_FE_next_state = eSligStates::State_5_TurnAroundStanding_469C80;
     }
-
-    return 124;
+    return 123;
 }
 
 __int16 Slig::Brain_GetAlerted_46E800()
