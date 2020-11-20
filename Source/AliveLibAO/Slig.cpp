@@ -5608,18 +5608,29 @@ __int16 Slig::Brain_GetAlerted_46E800()
     {
         if (!Event_Get_417250(kEventAbeOhm_8) || Event_Get_417250(kEventResetting_6))
         {
-            BaseAliveGameObject *pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEventSuspiciousNoise_10));
+            BaseAliveGameObject* pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEventSuspiciousNoise_10));
             if (!pEvent)
             {
                 pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEventSpeaking_1));
             }
 
-            if (pEvent)
+            if (pEvent && (pEvent == sControlledCharacter_50767C || pEvent->field_4_typeId == Types::eMudokon_75)
+                && VOnSameYLevel(pEvent)
+                && VIsFacingMe(pEvent)
+                && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                field_B2_lvl_number,
+                field_B0_path_number,
+                field_A8_xpos,
+                field_AC_ypos,
+                0)
+                && !Event_Get_417250(kEventResetting_6))
             {
-                if ((pEvent == sControlledCharacter_50767C
-                    || pEvent->field_4_typeId == Types::eMudokon_75)
-                    && VOnSameYLevel(pEvent)
-                    && VIsFacingMe(pEvent)
+                ToShoot_46F1D0();
+            }
+            else
+            {
+                if (pEvent && (pEvent == sControlledCharacter_50767C || pEvent->field_4_typeId != Types::eSlig_88)
+                    && !VIsFacingMe(pEvent)
                     && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
                     field_B2_lvl_number,
                     field_B0_path_number,
@@ -5628,49 +5639,32 @@ __int16 Slig::Brain_GetAlerted_46E800()
                     0)
                     && !Event_Get_417250(kEventResetting_6))
                 {
-                    ToShoot_46F1D0();
-                }
-                else
-                {
-                    if ((pEvent == sControlledCharacter_50767C
-                        || pEvent->field_4_typeId != Types::eSlig_88)
-                        && !VIsFacingMe(pEvent)
-                        && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
-                        field_B2_lvl_number,
-                        field_B0_path_number,
-                        field_A8_xpos,
-                        field_AC_ypos,
-                        0)
-                        && !Event_Get_417250(kEventResetting_6))
+                    if (!Event_Get_417250(kEventSpeaking_1) || IsInInvisibleZone_418870(sControlledCharacter_50767C))
                     {
-                        if (!Event_Get_417250(kEventSpeaking_1)
-                            || IsInInvisibleZone_418870(sControlledCharacter_50767C))
-                        {
-                            field_FE_next_state = eSligStates::State_5_TurnAroundStanding_469C80;
-                            SetBrain(&Slig::Brain_GetAlertedTurn_46E520);
-                        }
-                        else
-                        {
-                            GameSpeakResponse_46ED60();
-                            field_114_timer = static_cast<int>(gnFrameCount_507670) + 20;
-                            if (!VIsFacingMe(sControlledCharacter_50767C))
-                            {
-                                field_FE_next_state = eSligStates::State_5_TurnAroundStanding_469C80;
-                            }
-
-                            SetBrain(&Slig::Brain_Discussion_46ECE0);
-                        }
+                        field_FE_next_state = eSligStates::State_5_TurnAroundStanding_469C80;
+                        SetBrain(&Slig::Brain_GetAlertedTurn_46E520);
                     }
                     else
                     {
-                        if (field_114_timer > static_cast<int>(gnFrameCount_507670))
+                        GameSpeakResponse_46ED60();
+                        field_114_timer = gnFrameCount_507670 + 20;
+                        if (!VIsFacingMe(sControlledCharacter_50767C))
                         {
-                            ShouldStilBeAlive_46C0D0();
+                            field_FE_next_state = eSligStates::State_5_TurnAroundStanding_469C80;
                         }
-                        else
-                        {
-                            WaitOrWalk_46E440();
-                        }
+
+                        SetBrain(&Slig::Brain_Discussion_46ECE0);
+                    }
+                }
+                else
+                {
+                    if (field_114_timer > static_cast<int>(gnFrameCount_507670))
+                    {
+                        ShouldStilBeAlive_46C0D0();
+                    }
+                    else
+                    {
+                        WaitOrWalk_46E440();
                     }
                 }
             }
