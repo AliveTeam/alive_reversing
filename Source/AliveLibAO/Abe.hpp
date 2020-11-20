@@ -433,7 +433,7 @@ public:
 
     EXPORT void ToIdle_422D50();
 
-    EXPORT void sub_422FC0();
+    EXPORT void MoveForward_422FC0();
 
     EXPORT __int16 MoveLiftUpOrDown_42F190(FP ySpeed);
 
