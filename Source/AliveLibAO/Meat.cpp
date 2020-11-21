@@ -10,6 +10,7 @@
 #include "Sfx.hpp"
 #include "Math.hpp"
 #include "Events.hpp"
+#include "LiftPoint.hpp"
 
 namespace AO {
 
@@ -349,9 +350,34 @@ void Meat::VUpdate_438A20()
     NOT_IMPLEMENTED();
 }
 
-__int16 Meat::OnCollision_438D80(BaseAliveGameObject* /*pObj*/)
+__int16 Meat::OnCollision_438D80(BaseAliveGameObject* pHit)
 {
-    NOT_IMPLEMENTED();
+    if (!pHit->field_6_flags.Get(BaseGameObject::eCanExplode_Bit7))
+    {
+        return 1;
+    }
+
+    if (pHit->field_4_typeId == Types::eMine_57 || pHit->field_4_typeId == Types::eUXB_99 || pHit->field_4_typeId == Types::eTimedMine_8)
+    {
+        return 1;
+    }
+
+    PSX_RECT bRect = {};
+    pHit->VGetBoundingRect(&bRect, 1);
+
+    if (field_114_xpos < FP_FromInteger(bRect.x) || field_114_xpos > FP_FromInteger(bRect.w))
+    {
+        field_A8_xpos -= field_B4_velx;
+        field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
+    }
+    else
+    {
+        field_AC_ypos -= field_B8_vely;
+        field_B8_vely = (-field_B8_vely / FP_FromInteger(2));
+    }
+
+    pHit->VOnThrowableHit(this);
+    SFX_Play_43AE60(SoundEffect::MeatBounce_43, 0, -650, 0);
     return 0;
 }
 
@@ -367,7 +393,16 @@ void Meat::VOnTrapDoorOpen()
 
 void Meat::VOnTrapDoorOpen_438FD0()
 {
-    NOT_IMPLEMENTED();
+    if (field_F8_pLiftPoint)
+    {
+        field_F8_pLiftPoint->VRemove(this);
+        field_F8_pLiftPoint->field_C_refCount--;
+        field_F8_pLiftPoint = nullptr;
+        if (field_110_state == 3 || field_110_state == 4)
+        {
+            field_110_state = 1;
+        }
+    }
 }
 
 __int16 Meat::VGetCount()
