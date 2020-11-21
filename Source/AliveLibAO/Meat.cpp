@@ -11,6 +11,7 @@
 #include "Math.hpp"
 #include "Events.hpp"
 #include "LiftPoint.hpp"
+#include "Collisions.hpp"
 
 namespace AO {
 
@@ -336,9 +337,121 @@ void Meat::VTimeToExplodeRandom()
 
 void Meat::InTheAir_438720()
 {
-    NOT_IMPLEMENTED();
-}
+    field_114_xpos = field_A8_xpos;
+    field_118_ypos = field_AC_ypos;
 
+    if (field_B8_vely < FP_FromInteger(18))
+    {
+        field_B8_vely += FP_FromInteger(1);
+    }
+
+    field_A8_xpos += field_B4_velx;
+    field_AC_ypos += field_B8_vely;
+
+    WORD result = 0;
+    const FP CamX_VoidSkipper = CamX_VoidSkipper_418590(field_A8_xpos, field_B4_velx, 8, &result);
+    field_A8_xpos = CamX_VoidSkipper;
+
+    if (result)
+    {
+        field_114_xpos = CamX_VoidSkipper - field_B4_velx;
+    }
+
+    const FP CamY_VoidSkipper = CamY_VoidSkipper_418690(field_AC_ypos,field_B8_vely, 8, &result);
+    field_AC_ypos = CamY_VoidSkipper;
+
+    if (result)
+    {
+        field_118_ypos = CamY_VoidSkipper - field_B8_vely;
+    }
+
+    FP hitX = {};
+    FP hitY = {};
+
+    const short CollisionRaycast = sCollisions_DArray_504C6C->RayCast_40C410(
+        field_114_xpos,
+        field_118_ypos,
+        CamX_VoidSkipper,
+        CamY_VoidSkipper,
+        &field_124_pLine,
+        &hitX,
+        &hitY,
+        field_BC_sprite_scale != FP_FromInteger(1) ? 0x70 : 7);
+
+
+    if (CollisionRaycast == 1)
+    {
+        switch (field_124_pLine->field_8_type)
+        {
+        case 0:
+        case 4:
+        case 32:
+        case 36:
+            if (field_B8_vely > FP_FromInteger(0))
+            {
+                field_110_state = 3;
+
+                field_A8_xpos = FP_FromInteger(SnapToXGrid_41FAA0(field_BC_sprite_scale, FP_GetExponent(hitX)));
+                field_AC_ypos = hitY;
+
+                field_B8_vely = FP_FromInteger(0);
+                field_B4_velx = FP_FromInteger(0);
+
+                SFX_Play_43AE60(SoundEffect::MeatBounce_43, 0, -650, 0);
+                Event_Broadcast_417220(kEventNoise_0, this);
+                Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
+                AddToPlatform_438EA0();
+            }
+            break;
+
+        case 1:
+        case 5:
+            if (field_B4_velx >= FP_FromInteger(0))
+            {
+                field_124_pLine = nullptr;
+                break;
+            }
+
+            field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
+
+            SFX_Play_43AE60(SoundEffect::MeatBounce_43, 0, -650, 0);
+            Event_Broadcast_417220(kEventNoise_0, this);
+            Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
+
+            if (field_B8_vely >= FP_FromInteger(0))
+            {
+                field_124_pLine = nullptr;
+                break;
+            }
+
+            field_B8_vely = FP_FromInteger(0);
+            field_124_pLine = nullptr;
+            break;
+
+        case 2:
+        case 6:
+            if (field_B4_velx > FP_FromInteger(0))
+            {
+                field_B4_velx = (-field_B4_velx / FP_FromInteger(4));
+
+                SFX_Play_43AE60(SoundEffect::MeatBounce_43, 0, -650, 0);
+                Event_Broadcast_417220(kEventNoise_0, this);
+                Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
+
+                if (field_B8_vely < FP_FromInteger(0))
+                {
+                    field_B8_vely = FP_FromInteger(0);
+                }
+            }
+
+            field_124_pLine = nullptr;
+            break;
+
+        default:
+            return;
+        }
+    }
+}
 
 void Meat::VUpdate()
 {
