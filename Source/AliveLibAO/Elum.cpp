@@ -3636,7 +3636,7 @@ void Elum::VUpdate_4102A0()
             field_174_resources.res[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 200, 1, 0);
         }
 
-        if (!(field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4) && field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1)) && field_128_brain_idx != 1)
+        if (!(field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4) || field_170_flags.Get(Elum::Flags_170::eStungByBees_Bit2)) && field_128_brain_idx != 1)
         {
             FindHoney_411600();
         }
