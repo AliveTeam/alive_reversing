@@ -537,6 +537,7 @@ void ChimeLock::VUpdate_40AEF0()
                 // hit all 3 bells from left to right
                 SetTargetBellIfSpace(1);
                 field_138_flags |= 2u;
+                field_134_pressed = pressed;
                 return;
             }
 
