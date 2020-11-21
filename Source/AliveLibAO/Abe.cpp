@@ -1818,7 +1818,7 @@ void Abe::ToIdle_422D50()
     field_10E_released_buttons = 0;
 }
 
-void Abe::sub_422FC0()
+void Abe::MoveForward_422FC0()
 {
     FollowLift_42EE90();
 
@@ -2517,7 +2517,7 @@ void Abe::MoveWithVelocity_4257F0(FP speed)
 
     if (FP_GetExponent(field_B4_velx))
     {
-        sub_422FC0();
+        MoveForward_422FC0();
     }
 }
 
@@ -4150,7 +4150,7 @@ void Abe::State_1_WalkLoop_423F90()
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
     
-    sub_422FC0();
+    MoveForward_422FC0();
 
     if (field_FC_current_motion == eAbeStates::State_1_WalkLoop_423F90)
     {
@@ -4600,7 +4600,7 @@ void Abe::State_4_WalkToIdle_4243C0()
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
     
-    sub_422FC0();
+    MoveForward_422FC0();
 
     if (field_10_anim.field_92_current_frame != 0)
     {
@@ -4644,7 +4644,7 @@ void Abe::State_5_MidWalkToIdle_424490()
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
     
-    sub_422FC0();
+    MoveForward_422FC0();
 
     if (field_10_anim.field_92_current_frame)
     {
@@ -4699,7 +4699,7 @@ void Abe::State_6_WalkBegin_424300()
     }
     else
     {
-        sub_422FC0();
+        MoveForward_422FC0();
     }
 }
 
@@ -5182,7 +5182,7 @@ void Abe::State_24_RollBegin_427A20()
     }
     else
     {
-        sub_422FC0();
+        MoveForward_422FC0();
 
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
@@ -5224,7 +5224,7 @@ void Abe::State_25_RollLoop_427BB0()
     }
     else
     {
-        sub_422FC0();
+        MoveForward_422FC0();
 
         if (field_FC_current_motion == eAbeStates::State_25_RollLoop_427BB0)
         {
@@ -5283,7 +5283,7 @@ void Abe::State_26_RollEnd_427EA0()
     }
     else
     {
-        sub_422FC0();
+        MoveForward_422FC0();
 
         if (field_FC_current_motion == eAbeStates::State_26_RollEnd_427EA0)
         {
@@ -6022,7 +6022,7 @@ void Abe::State_35_RunLoop_425060()
         return;
     }
 
-    sub_422FC0();
+    MoveForward_422FC0();
 
     if (field_FC_current_motion != eAbeStates::State_35_RunLoop_425060)
     {
@@ -6220,7 +6220,7 @@ void Abe::State_40_RunToRoll_427AE0()
     }
     else
     {
-        sub_422FC0();
+        MoveForward_422FC0();
 
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
@@ -6250,7 +6250,7 @@ void Abe::State_41_StandingToRun_425530()
     }
     else
     {
-        sub_422FC0();
+        MoveForward_422FC0();
     }
 }
 
@@ -6263,7 +6263,7 @@ void Abe::State_42_SneakLoop_424BB0()
         return;
     }
 
-    sub_422FC0();
+    MoveForward_422FC0();
 
     if (field_FC_current_motion == eAbeStates::State_42_SneakLoop_424BB0)
     {
@@ -6372,7 +6372,7 @@ void Abe::State_43_WalkToSneak_424790()
     }
     else
     {
-        sub_422FC0();
+        MoveForward_422FC0();
     }
 }
 
@@ -6401,7 +6401,7 @@ void Abe::State_44_SneakToWalk_4249A0()
     }
     else
     {
-        sub_422FC0();
+        MoveForward_422FC0();
     }
 }
 
@@ -6432,7 +6432,7 @@ void Abe::State_45_MidWalkToSneak_424890()
     }
     else
     {
-        sub_422FC0();
+        MoveForward_422FC0();
     }
 }
 
@@ -6463,7 +6463,7 @@ void Abe::State_46_MidSneakToWalk_424AA0()
     }
     else
     {
-        sub_422FC0();
+        MoveForward_422FC0();
     }
 }
 
@@ -6483,7 +6483,7 @@ void Abe::State_47_SneakBegin_424ED0()
     }
     else
     {
-        sub_422FC0();
+        MoveForward_422FC0();
     }
 }
 
@@ -6494,7 +6494,7 @@ void Abe::State_48_SneakToIdle_424F80()
         Environment_SFX_42A220(EnvironmentSfx::eSneakFootstep_3, 0, 0x7FFF, this);
     }
 
-    sub_422FC0();
+    MoveForward_422FC0();
     
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -6510,7 +6510,7 @@ void Abe::State_49_MidSneakToIdle_424FF0()
         Environment_SFX_42A220(EnvironmentSfx::eSneakFootstep_3, 0, 0x7FFF, this);
     }
 
-    sub_422FC0();
+    MoveForward_422FC0();
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -6549,7 +6549,7 @@ void Abe::State_50_WalkToRun_424560()
     }
     else
     {
-        sub_422FC0();
+        MoveForward_422FC0();
     }
 }
 
@@ -6583,7 +6583,7 @@ void Abe::State_51_MidWalkToRun_424670()
     }
     else
     {
-        sub_422FC0();
+        MoveForward_422FC0();
     }
 }
 
@@ -6614,7 +6614,7 @@ void Abe::State_52_RunToWalk_4255E0()
     }
     else
     {
-        sub_422FC0();
+        MoveForward_422FC0();
     }
 }
 
@@ -6647,7 +6647,7 @@ void Abe::State_53_MidRunToWalk_4256E0()
     }
     else
     {
-        sub_422FC0();
+        MoveForward_422FC0();
     }
 }
 
@@ -6664,7 +6664,7 @@ void Abe::State_54_RunTurnToRun_425EA0()
     }
     else
     {
-        sub_422FC0();
+        MoveForward_422FC0();
 
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
@@ -6688,7 +6688,7 @@ void Abe::State_55_RunTurnToWalk_425F70()
     }
     else
     {
-        sub_422FC0();
+        MoveForward_422FC0();
 
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
@@ -6709,7 +6709,7 @@ void Abe::State_56_RunJumpLandRun_4278E0()
     }
     else
     {
-        sub_422FC0();
+        MoveForward_422FC0();
 
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
@@ -6729,7 +6729,7 @@ void Abe::State_57_RunJumpLand_Walk_427980()
     }
     else
     {
-        sub_422FC0();
+        MoveForward_422FC0();
 
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
@@ -7379,7 +7379,7 @@ void Abe::State_63_TurnToRun_42A0A0()
     }
     else
     {
-        sub_422FC0();
+        MoveForward_422FC0();
 
         if (field_FC_current_motion == eAbeStates::State_63_TurnToRun_42A0A0)
         {
