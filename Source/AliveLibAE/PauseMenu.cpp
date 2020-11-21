@@ -1192,7 +1192,7 @@ void PauseMenu::Page_Save_Update_491210()
             if (hFile)
             {
                 fwrite(&sActiveQuicksaveData_BAF7F8, sizeof(Quicksave), 1u, hFile);
-                ae_fclose_520CBE(hFile);
+                fclose(hFile);
                 sSavedGameToLoadIdx_BB43FC = 0;
             }
             word12C_flags &= ~1u;
