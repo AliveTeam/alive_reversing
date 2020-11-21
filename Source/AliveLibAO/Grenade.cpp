@@ -157,10 +157,10 @@ void Grenade::AddToPlatform_41F7C0()
 
                 if (pObjIter->field_4_typeId == Types::eLiftPoint_51 || pObjIter->field_4_typeId == Types::eTrapDoor_98)
                 {
-                    auto pIteratedLiftPoint = static_cast<LiftPoint*>(pObjIter);
+                    auto pPlatformBase = static_cast<PlatformBase*>(pObjIter);
 
                     PSX_RECT objRect = {};
-                    pIteratedLiftPoint->VGetBoundingRect(&objRect, 1);
+                    pPlatformBase->VGetBoundingRect(&objRect, 1);
 
                     if (FP_GetExponent(field_A8_xpos) > objRect.x &&
                         FP_GetExponent(field_A8_xpos) < objRect.w &&
@@ -168,7 +168,7 @@ void Grenade::AddToPlatform_41F7C0()
                     {
                         if (field_F8_pLiftPoint)
                         {
-                            if (field_F8_pLiftPoint == pIteratedLiftPoint)
+                            if (field_F8_pLiftPoint == pPlatformBase)
                             {
                                 return;
                             }
@@ -177,7 +177,7 @@ void Grenade::AddToPlatform_41F7C0()
                             field_F8_pLiftPoint = nullptr;
                         }
 
-                        field_F8_pLiftPoint = pIteratedLiftPoint;
+                        field_F8_pLiftPoint = pPlatformBase;
                         field_F8_pLiftPoint->VAdd(this);
                         field_F8_pLiftPoint->field_C_refCount++;
                         return;
