@@ -377,8 +377,12 @@ __int16 Meat::VGetCount()
 
 __int16 Meat::VGetCount_439020()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (field_110_state == 4 && field_10C_count == 0)
+    {
+        return 1;
+    }
+
+    return field_10C_count;
 }
 
 }
