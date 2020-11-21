@@ -589,7 +589,8 @@ EXPORT void CC Input_Init_Names_491870()
                 strcpy(keyNamePtr, sKeyNames_5C9394[keyNameIdx]);
             }
         }
-        bindingMask <<= 2;
+
+        bindingMask <<= 1;
     }
 
     int eSpeak1idx = -1;
