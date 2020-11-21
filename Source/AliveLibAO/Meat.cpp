@@ -12,6 +12,7 @@
 #include "Events.hpp"
 #include "LiftPoint.hpp"
 #include "Collisions.hpp"
+#include "Throwable.hpp"
 
 namespace AO {
 
@@ -496,7 +497,62 @@ __int16 Meat::OnCollision_438D80(BaseAliveGameObject* pHit)
 
 void Meat::AddToPlatform_438EA0()
 {
-    NOT_IMPLEMENTED();
+    const FP scale = field_BC_sprite_scale - FP_FromDouble(0.5);
+
+    PathLine* pLine = nullptr;
+    FP hitX = {};
+    FP hitY = {};
+    if (sCollisions_DArray_504C6C->RayCast_40C410(
+        field_A8_xpos,
+        field_AC_ypos - FP_FromInteger(20),
+        field_A8_xpos,
+        field_AC_ypos + FP_FromInteger(20),
+        &pLine,
+        &hitX,
+        &hitY,
+        scale != FP_FromInteger(0) ? 7 : 0x70))
+    {
+        if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
+        {
+            for (int i = 0; i < ObjListPlatforms_50766C->Size(); i++)
+            {
+                BaseGameObject* pObjIter = ObjListPlatforms_50766C->ItemAt(i);
+                if (!pObjIter)
+                {
+                    break;
+                }
+
+                if (pObjIter->field_4_typeId == Types::eLiftPoint_51 || pObjIter->field_4_typeId == Types::eTrapDoor_98)
+                {
+                    auto pIteratedLiftPoint = static_cast<LiftPoint*>(pObjIter);
+
+                    PSX_RECT objRect = {};
+                    pIteratedLiftPoint->VGetBoundingRect(&objRect, 1);
+
+                    if (FP_GetExponent(field_A8_xpos) > objRect.x &&
+                        FP_GetExponent(field_A8_xpos) < objRect.w &&
+                        FP_GetExponent(field_AC_ypos) < objRect.h)
+                    {
+                        if (field_F8_pLiftPoint)
+                        {
+                            if (field_F8_pLiftPoint == pIteratedLiftPoint)
+                            {
+                                return;
+                            }
+                            field_F8_pLiftPoint->VRemove(this);
+                            field_F8_pLiftPoint->field_C_refCount--;
+                            field_F8_pLiftPoint = nullptr;
+                        }
+
+                        field_F8_pLiftPoint = pIteratedLiftPoint;
+                        field_F8_pLiftPoint->VAdd(this);
+                        field_F8_pLiftPoint->field_C_refCount++;
+                        return;
+                    }
+                }
+            }
+        }
+    }
 }
 
 void Meat::VOnTrapDoorOpen()
