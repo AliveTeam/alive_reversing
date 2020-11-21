@@ -829,8 +829,8 @@ void Elum::HandleElumPathTrans_411460()
     }
     else
     {
-        field_A8_xpos = ScaleToGridSize_41FA30(field_BC_sprite_scale) -
-            FP_FromInteger(camCoords.field_0_x +  XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, 0));
+        field_A8_xpos = FP_FromInteger(camCoords.field_0_x + XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, 0)) -
+            ScaleToGridSize_41FA30(field_BC_sprite_scale);
     }
 
     if (sActiveHero_507678->field_F4_pLine)
@@ -3636,7 +3636,7 @@ void Elum::VUpdate_4102A0()
             field_174_resources.res[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 200, 1, 0);
         }
 
-        if (!(field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4) && field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1)) && field_128_brain_idx != 1)
+        if (!(field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4) || field_170_flags.Get(Elum::Flags_170::eStungByBees_Bit2)) && field_128_brain_idx != 1)
         {
             FindHoney_411600();
         }
