@@ -13,6 +13,8 @@
 #include "LiftPoint.hpp"
 #include "Collisions.hpp"
 #include "Throwable.hpp"
+#include "CameraSwapper.hpp"
+#include "Particle.hpp"
 
 namespace AO {
 
@@ -461,7 +463,115 @@ void Meat::VUpdate()
 
 void Meat::VUpdate_438A20()
 {
-    NOT_IMPLEMENTED();
+    if (sNumCamSwappers_507668 == 0)
+    {
+        if (Event_Get_417250(kEventDeathReset_4))
+        {
+            field_6_flags.Set(Options::eDead_Bit3);
+        }
+
+        switch (field_110_state)
+        {
+        case 1:
+            InTheAir_438720();
+            break;
+
+        case 2:
+        {
+            InTheAir_438720();
+            PSX_RECT bRect = {};
+
+            VGetBoundingRect(&bRect, 1);
+            const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
+            const PSX_Point wh = { bRect.w, static_cast<short>(bRect.h + 5) };
+
+            VOnCollisionWith(xy, wh, gBaseGameObject_list_9F2DF0, 1, (TCollisionCallBack)&Meat::OnCollision_438D80);
+
+            if (field_AC_ypos > FP_FromInteger(gMap_507BA8.field_D4_pPathData->field_A_bBottom))
+            {
+                field_6_flags.Set(Options::eDead_Bit3);
+            }
+            break;
+        }
+
+        case 3:
+            if (FP_Abs(field_B4_velx) < FP_FromInteger(1))
+            {
+                field_10_anim.field_4_flags.Clear(AnimFlags::eBit8_Loop);
+            }
+
+            if (FP_Abs(field_B4_velx) >= FP_FromDouble(0.5))
+            {
+                if (field_B4_velx <= FP_FromInteger(0))
+                {
+                    field_B4_velx += FP_FromDouble(0.01);
+                }
+                else
+                {
+                    field_B4_velx -= FP_FromDouble(0.01);
+                }
+
+                field_124_pLine = field_124_pLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_B4_velx);
+                if (!field_124_pLine)
+                {
+                    field_110_state = 2;
+                    field_10_anim.field_4_flags.Set(AnimFlags::eBit8_Loop);
+                }
+            }
+            else
+            {
+                field_B4_velx = FP_FromInteger(0);
+                field_D4_collection_rect.x = field_A8_xpos - ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2);
+                field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale);
+                field_D4_collection_rect.w = field_A8_xpos + ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2);
+                field_D4_collection_rect.h = field_AC_ypos;
+
+                field_6_flags.Set(Options::eInteractive_Bit8);
+                field_110_state = 4;
+            }
+            break;
+
+        case 4:
+            if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos, 0))
+            {
+                field_120_deadtimer = gnFrameCount_507670 + 600;
+            }
+
+            if (static_cast<int>(gnFrameCount_507670) > field_11C_timer)
+            {
+                New_Shiny_Particle_4199A0(
+                    field_A8_xpos + field_BC_sprite_scale,
+                    field_AC_ypos + (field_BC_sprite_scale * FP_FromInteger(-7)),
+                    FP_FromDouble(0.3),
+                    36);
+                field_11C_timer = Math_NextRandom() % 16 + gnFrameCount_507670 + 60;
+            }
+            if (field_120_deadtimer < static_cast<int>(gnFrameCount_507670))
+            {
+                field_6_flags.Set(Options::eDead_Bit3);
+            }
+            break;
+
+        case 5:
+            field_B8_vely += FP_FromInteger(1);
+            field_A8_xpos += field_B4_velx;
+            field_AC_ypos += field_B8_vely;
+
+            if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                field_B2_lvl_number,
+                field_B0_path_number,
+                field_A8_xpos,
+                field_B8_vely + field_AC_ypos,
+                0))
+            {
+                field_6_flags.Set(Options::eDead_Bit3);
+            }
+            break;
+
+        default:
+            return;
+        }
+    }
 }
 
 __int16 Meat::OnCollision_438D80(BaseAliveGameObject* pHit)
