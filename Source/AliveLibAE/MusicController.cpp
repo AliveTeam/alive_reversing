@@ -856,7 +856,8 @@ void MusicController::sub_47F260()
             break;
         }
 
-        if (idx >= 0)
+        // Don't play if -1 or 0 (for some reason 0 is special cased)
+        if (idx > 0)
         {
             field_40_flags_and_idx = stru_55D008[idx].field_0_idx;
             field_44 = sMusicTime_5C3024 + stru_55D008[idx].field_2_duration;
@@ -870,19 +871,18 @@ void MusicController::sub_47F260()
 
         field_38_unused = sMusicTime_5C3024;
 
-        if (!(field_58_flags.Get(Flags_58::e58_UnPause_Bit6)))
+        if (field_58_flags.Get(Flags_58::e58_UnPause_Bit6))
         {
-            return;
-        }
-        field_58_flags.Clear(Flags_58::e58_UnPause_Bit6);
+            field_58_flags.Clear(Flags_58::e58_UnPause_Bit6);
 
-        if (field_58_flags.Get(Flags_58::e58_Bit7))
-        {
-            field_58_flags.Clear(Flags_58::e58_Bit7);
-        }
-        else
-        {
-            field_58_flags.Set(Flags_58::e58_Bit4);
+            if (field_58_flags.Get(Flags_58::e58_Bit7))
+            {
+                field_58_flags.Clear(Flags_58::e58_Bit7);
+            }
+            else
+            {
+                field_58_flags.Set(Flags_58::e58_Bit4);
+            }
         }
     }
 }
