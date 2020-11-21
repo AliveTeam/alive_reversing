@@ -511,65 +511,64 @@ void ChimeLock::VUpdate_40AEF0()
             }
 
             const auto pressed = sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
-            if (pressed & 0x20 && !(field_134_pressed & 0x20))
+            if (sInputObject_5009E8.IsPressed(eThrowItem) && !(field_134_pressed & eThrowItem))
             {
                 SetTargetBellIfSpace(3);
                 field_134_pressed = pressed;
                 return;
             }
 
-            if (pressed & 0x10 && !(field_134_pressed & 0x10))
+            if (sInputObject_5009E8.IsPressed(eHop) && !(field_134_pressed & eHop))
             {
                 SetTargetBellIfSpace(2);
                 field_134_pressed = pressed;
                 return;
             }
 
-            if ((pressed & 0x80u) && !(field_134_pressed & 0x80))
+            if (sInputObject_5009E8.IsPressed(eDoAction) && !(field_134_pressed & eDoAction))
             {
-                // ??
                 SetTargetBellIfSpace(1);
                 field_134_pressed = pressed;
                 return;
             }
 
-            if ((pressed & 0x40) && !(field_134_pressed & 0x40))
+            if (sInputObject_5009E8.IsPressed(eFartOrRoll) && !(field_134_pressed & eFartOrRoll))
             {
+                // hit all 3 bells from left to right
                 SetTargetBellIfSpace(1);
                 field_138_flags |= 2u;
-                field_134_pressed = pressed;
+                return;
             }
 
-            if (pressed & 0x1000 && !(field_134_pressed & 0x1000))
+            if (sInputObject_5009E8.IsPressed(eRight) && !(field_134_pressed & eRight))
+            {
+                SetTargetBellIfSpace(3);
+                field_134_pressed = pressed;
+                return;
+            }
+
+            if (sInputObject_5009E8.IsPressed(eUp) && !(field_134_pressed & eUp))
             {
                 SetTargetBellIfSpace(2);
                 field_134_pressed = pressed;
                 return;
             }
 
-            if (pressed & 0x2000 && !(field_134_pressed & 0x2000))
-            {
-                // ??
-                SetTargetBellIfSpace(1);
-                field_134_pressed = pressed;
-                return;
-            }
-
-            // TODO: But already checked OG bug??
-            if ((pressed & 0x80u) && !(field_134_pressed & 0x80))
+            if (sInputObject_5009E8.IsPressed(eLeft) && !(field_134_pressed & eLeft))
             {
                 SetTargetBellIfSpace(1);
                 field_134_pressed = pressed;
                 return;
             }
 
-            if ((pressed & 0x4000) && !(field_134_pressed & 0x4000))
+            if (sInputObject_5009E8.IsPressed(eDown) && !(field_134_pressed & eDown))
             {
+                // hit all 3 bells from left to right
                 SetTargetBellIfSpace(1);
-                field_134_pressed = pressed;
                 field_138_flags |= 2u;
-                return;
             }
+            field_134_pressed = pressed;
+            return;
         }
 
         if (static_cast<int>(gnFrameCount_507670) >= field_12C_timer)
