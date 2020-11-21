@@ -427,7 +427,7 @@ signed __int16 Grenade::InTheAir_41EF10()
         &field_114_pCollisionLine,
         &hitX,
         &hitY,
-        field_BC_sprite_scale != FP_FromInteger(1) ? 0x70 : 0x07);
+        field_BC_sprite_scale != FP_FromDouble(0.5) ? 1 : 0);
 
     result = bHit;
 
