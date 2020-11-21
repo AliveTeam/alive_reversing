@@ -258,38 +258,38 @@ public:
 
     enum Flags
     {
-        eBit1 = 0x1,
-        eBit2 = 0x2,
-        eBit3 = 0x4,
-        eBit4 = 0x8,
-        eBit5 = 0x10,
-        eBit6 = 0x20,
-        eBit7 = 0x40,
-        eBit8 = 0x80,
-        eBit9 = 0x100,
-        eBit10 = 0x200,
-        eBit11 = 0x400,
-        eBit12 = 0x800,
-        eBit13 = 0x1000,
-        eBit14 = 0x2000,
-        eBit15 = 0x4000,
-        eBit16 = 0x8000,
+        eBit1_padding = 0x1,
+        eBit2_padding = 0x2,
+        eBit3_padding = 0x4,
+        eBit4_padding = 0x8,
+        eBit5_padding = 0x10,
+        eBit6_padding = 0x20,
+        eBit7_padding = 0x40,
+        eBit8_padding = 0x80,
+        eBit9_padding = 0x100,
+        eBit10_padding = 0x200,
+        eBit11_padding = 0x400,
+        eBit12_padding = 0x800,
+        eBit13_padding = 0x1000,
+        eBit14_padding = 0x2000,
+        eBit15_unused = 0x4000,
+        eBit16_padding = 0x8000,
         eBit17_bDisableChangingSelection = 0x10000,
         eBit18_Loading = 0x20000,
-        eBit19 = 0x40000,
-        eBit20 = 0x80000,
-        eBit21 = 0x100000,
+        eBit19_unused = 0x40000,
+        eBit20_padding = 0x80000,
+        eBit21_LoadingSave = 0x100000,
         eBit22_GameSpeakPlaying = 0x200000,
-        eBit23 = 0x400000,
+        eBit23_unused = 0x400000,
         eBit24_Chant_Seq_Playing = 0x800000,
-        eBit25 = 0x1000000,
+        eBit25_CheatLevelSelectLoading = 0x1000000,
     };
 
 
     MainMenuControllerResources field_F4_resources;
     Alive::Font field_120_font;
     Animation field_158_animation;
-    int field_1F0;
+    int field_1F0_tlvOffsetLevelIdPathId;
     int field_1F4_credits_next_frame;
     int field_1F8_page_timeout; // Timer for starting demos automatically / backing out of menus
     __int16 field_1FC_button_index;
@@ -300,26 +300,26 @@ public:
     MainMenuTransition* field_208_transition_obj;
 
     // These appear to never be used
-    BaseGameObject* field_20C;
-    BaseGameObject* field_210_pUnknown;
+    BaseGameObject* field_20C_pUnused;
+    BaseGameObject* field_210_pUnused;
 
     __int16 field_214_page_index;
-    __int16 field_216;
+    __int16 field_216_previous_page_index;
     __int16 field_218_target_page_index;
     __int16 field_21A_target_cam;
     __int16 field_21C_bDoScreenTransistionEffect;
     __int16 field_21E_bChangeScreen;
     __int16 field_220_frame_table_idx;
-    char field_222;
-    int field_224;
+    char field_222_unused;
+    int field_224_timer_anim_delay;
     __int16 field_228_res_idx;
     __int16 field_22A_anim_frame_num;
-    int field_22C_T80;
-    __int16 field_230_selected_entry_index;
-    __int16 field_232;
+    int field_22C_T80_animation_delay;
+    __int16 field_230_target_entry_index;
+    __int16 field_232_unused;
     const char* field_234_pStr;
-    __int16 field_238;
-    __int16 field_23A;
+    __int16 field_238_unused;
+    __int16 field_23A_Inside_LoadGame_Screen;
     BitField32<Flags> field_23C_T80;
     int field_240_credits_current_cam;
     LevelIds field_244_lvl_id;
@@ -328,12 +328,12 @@ public:
     __int16 field_24A_abeXOff;
     __int16 field_24C_abeYOff;
     __int16 field_24E_start_scale;
-    __int16 field_250;
-    __int16 field_252;
+    __int16 field_250_selected_entry_index;
+    __int16 field_252_unused;
     FP field_254;
     FP field_258;
-    __int16 field_25C;
-    __int16 field_25E;
+    __int16 field_25C_Inside_FMV_Screen;
+    __int16 field_25E_Inside_CheatLevelSelect_Screen;
 private:
     void Unload_Resource(BYTE**& res);
 };

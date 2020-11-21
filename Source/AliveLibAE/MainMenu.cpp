@@ -546,7 +546,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
 
     field_1FE_highlite_alpha = 40;
     field_200_highlite_glow_speed = -8;
-    field_1F0 = tlvOffsetLevelIdPathId.all; // TODO: Should probably be using the same types here, depending on how it gets used
+    field_1F0_tlvOffsetLevelIdPathId = tlvOffsetLevelIdPathId.all; // TODO: Should probably be using the same types here, depending on how it gets used
 
     field_214_page_index = static_cast<short>(GetPageIndexFromCam_4D05A0(gMap_5C3030.field_4_current_camera));
     field_21C_bDoScreenTransistionEffect = 1;
@@ -555,16 +555,16 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     field_220_frame_table_idx = 1;
     field_228_res_idx = 0;
     field_22A_anim_frame_num = 0;
-    field_22C_T80 = 0;
-    field_224 = 0;
+    field_22C_T80_animation_delay = 0;
+    field_224_timer_anim_delay = 0;
     field_202_input_hold_down_timer = 15;
     field_204_prev_pressed = 0;
-    field_230_selected_entry_index = 0; // Double check
+    field_230_target_entry_index = 0; // Double check
 
     field_23C_T80.Clear(Flags::eBit17_bDisableChangingSelection);
     field_23C_T80.Clear(Flags::eBit18_Loading);
     field_23C_T80.Clear(Flags::eBit22_GameSpeakPlaying);
-    field_23C_T80.Clear(Flags::eBit23);
+    field_23C_T80.Clear(Flags::eBit23_unused);
     field_23C_T80.Clear(Flags::eBit24_Chant_Seq_Playing);
 
     if (gMap_5C3030.field_4_current_camera == 1)
@@ -580,19 +580,19 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
 #endif
     }
 
-    field_23C_T80.Clear(Flags::eBit19);
-    field_23C_T80.Clear(Flags::eBit21);
-    field_23C_T80.Clear(Flags::eBit25);
+    field_23C_T80.Clear(Flags::eBit19_unused);
+    field_23C_T80.Clear(Flags::eBit21_LoadingSave);
+    field_23C_T80.Clear(Flags::eBit25_CheatLevelSelectLoading);
 
     field_1FC_button_index = 0;
     field_208_transition_obj = 0;
-    field_20C = 0;
-    field_210_pUnknown = nullptr;
-    field_23A = 0;
+    field_20C_pUnused = nullptr;
+    field_210_pUnused = nullptr;
+    field_23A_Inside_LoadGame_Screen = 0;
     field_234_pStr = &byte_5C2F68;
-    field_238 = 0;
-    field_25C = 0;
-    field_25E = 0;
+    field_238_unused = 0;
+    field_25C_Inside_FMV_Screen = 0;
+    field_25E_Inside_CheatLevelSelect_Screen = 0;
 
     sSavedKilledMudsPerPath_5C1B50 = {};
 
@@ -608,10 +608,10 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     if (gMap_5C3030.field_4_current_camera == 6)
     {
         field_1FC_button_index = 0;
-        field_250 = 0;
+        field_250_selected_entry_index = 0;
         field_254 = FP_FromInteger(0);
         field_258 = FP_FromInteger(0);
-        field_25C = 1;
+        field_25C_Inside_FMV_Screen = 1;
         pDemosOrFmvs_BB4414.mFmvRec = &sFmvs_561540[0];
         sMenuItemCount_561538 = ALIVE_COUNTOF(sFmvs_561540);
         field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
@@ -629,12 +629,12 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
         
         pResourceManager_5C1BB0->LoadingLoop_465590(false);
         field_1FC_button_index = 0;
-        field_250 = word_5C1B9E;
+        field_250_selected_entry_index = word_5C1B9E;
         field_254 = FP_FromInteger(0);
         field_258 = FP_FromInteger(0);
         pDemosOrFmvs_BB4414.mDemoRec = &sDemos_5617F0[0];
         sMenuItemCount_561538 = ALIVE_COUNTOF(sDemos_5617F0);
-        field_230_selected_entry_index = word_5C1B9E;
+        field_230_target_entry_index = word_5C1B9E;
         field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
         Load_Anim_Pal_4D06A0(&field_20_animation);
     }
@@ -655,7 +655,7 @@ void MainMenuController::dtor_4CEF30()
 {
     SetVTable(this, 0x547958);
 
-    Path::TLV_Reset_4DB8E0(field_1F0, -1, 0, 0);
+    Path::TLV_Reset_4DB8E0(field_1F0_tlvOffsetLevelIdPathId, -1, 0, 0);
     field_158_animation.vCleanUp_40C630();
 
     for (auto& res : field_F4_resources.field_0_resources)
@@ -816,10 +816,10 @@ void MainMenuController::AbeSpeak_Render_4D2060(int** ot)
 signed int MainMenuController::AbeSpeak_Update_4D2D20(DWORD input_held)
 {
     // 8 is when returning to previous screen
-    if (field_230_selected_entry_index != 8 && field_23C_T80.Get(Flags::eBit24_Chant_Seq_Playing))
+    if (field_230_target_entry_index != 8 && field_23C_T80.Get(Flags::eBit24_Chant_Seq_Playing))
     {
         // Only 1 when chanting
-        if (field_230_selected_entry_index == 1 && (sGnFrame_5C1B84 % 8) == 0)
+        if (field_230_target_entry_index == 1 && (sGnFrame_5C1B84 % 8) == 0)
         {
             // Spawn chant star/flare particle at random locations around abes head
             field_F4_resources.field_0_resources[MenuResIds::eOptionFlare] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kOptflareResID, FALSE, FALSE);
@@ -870,7 +870,7 @@ signed int MainMenuController::AbeSpeak_Update_4D2D20(DWORD input_held)
             SND_SEQ_Stop_4CAE60(SeqId::MudokonChant1_10);
 
             // TODO: Extra case for Abe - recover the type
-            if (field_20C)
+            if (field_20C_pUnused)
             {
                 ALIVE_FATAL("Never expected to be used");
             }
@@ -1241,26 +1241,26 @@ void MainMenuController::Demo_And_FMV_List_Render_4D4F30(int** pOt)
 
     word_BB4418 = sDoesCreditsControllerExist_5C1B90;
 
-    if (field_230_selected_entry_index != field_250)
+    if (field_230_target_entry_index != field_250_selected_entry_index)
     {
         if (field_254 != FP_FromInteger(0))
         {
-            field_230_selected_entry_index = field_250;
+            field_230_target_entry_index = field_250_selected_entry_index;
         }
-        else if (field_230_selected_entry_index <= field_250)
+        else if (field_230_target_entry_index <= field_250_selected_entry_index)
         {
-            if (field_230_selected_entry_index < field_250)
+            if (field_230_target_entry_index < field_250_selected_entry_index)
             {
                 field_254 = FP_FromInteger(-26);
                 field_258 = FP_FromInteger(6);
-                field_250 = field_230_selected_entry_index;
+                field_250_selected_entry_index = field_230_target_entry_index;
             }
         }
         else
         {
             field_254 = FP_FromInteger(26);
             field_258 = FP_FromInteger(6);
-            field_250 = field_230_selected_entry_index;
+            field_250_selected_entry_index = field_230_target_entry_index;
         }
     }
 
@@ -1314,7 +1314,7 @@ void MainMenuController::Demo_And_FMV_List_Render_4D4F30(int** pOt)
     int loopCount = -2;
     do
     {
-        int idx = field_230_selected_entry_index + loopCount;
+        int idx = field_230_target_entry_index + loopCount;
         if (idx >= 0 && idx <= sMenuItemCount_561538 - 1)
         {
             field_234_pStr = pDemosOrFmvs_BB4414.mDemoRec[idx].field_0_display_name;
@@ -1362,8 +1362,8 @@ void MainMenuController::t_Load_AbeSpeak_Res_4D4A20()
 
     field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbespeakResID, TRUE, FALSE);
 
-    field_25C = 0;
-    field_25E = 0;
+    field_25C_Inside_FMV_Screen = 0;
+    field_25E_Inside_CheatLevelSelect_Screen = 0;
 }
 
 ALIVE_VAR(1, 0x55C128, int, dword_55C128, 0);
@@ -1402,55 +1402,55 @@ signed int MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_held)
 
     if (inputToUse & (InputCommands::eLeft | InputCommands::eUp))
     {
-        if (field_230_selected_entry_index > 0 && field_254 == FP_FromInteger(0))
+        if (field_230_target_entry_index > 0 && field_254 == FP_FromInteger(0))
         {
-            field_230_selected_entry_index--;
+            field_230_target_entry_index--;
             SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
     else if (inputToUse & (InputCommands::eRight | InputCommands::eDown))
     {
-        if (field_230_selected_entry_index < sMenuItemCount_561538 - 1 && field_254 == FP_FromInteger(0))
+        if (field_230_target_entry_index < sMenuItemCount_561538 - 1 && field_254 == FP_FromInteger(0))
         {
-            field_230_selected_entry_index++;
+            field_230_target_entry_index++;
             SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
 
-    if (inputToUse & 0x20000000)
+    if (inputToUse & InputCommands::ePageUp)
     {
         if (field_254 == FP_FromInteger(0))
         {
-            if (field_230_selected_entry_index <= 3)
+            if (field_230_target_entry_index <= 3)
             {
-                field_230_selected_entry_index = 0;
+                field_230_target_entry_index = 0;
             }
             else
             {
-                field_230_selected_entry_index -= 3;
+                field_230_target_entry_index -= 3;
             }
             SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
-    else if (inputToUse & 0x40000000)
+    else if (inputToUse & InputCommands::ePageDown)
     {
         if (field_254 == FP_FromInteger(0))
         {
-            if (field_230_selected_entry_index >= sMenuItemCount_561538 - 3)
+            if (field_230_target_entry_index >= sMenuItemCount_561538 - 3)
             {
-                field_230_selected_entry_index = sMenuItemCount_561538 - 1;
+                field_230_target_entry_index = sMenuItemCount_561538 - 1;
             }
             else
             {
-                field_230_selected_entry_index += 3;
+                field_230_target_entry_index += 3;
             }
             SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
 
-    if (inputToUse & 0x200000)
+    if (inputToUse & InputCommands::eBack)
     {
-        field_23C_T80.Clear(Flags::eBit25);
+        field_23C_T80.Clear(Flags::eBit25_CheatLevelSelectLoading);
         return 1;
     }
 
@@ -1459,9 +1459,9 @@ signed int MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_held)
         return 0;
     }
 
-    if (field_25C)
+    if (field_25C_Inside_FMV_Screen)
     {
-        MenuFMV* v12 = &pDemosOrFmvs_BB4414.mFmvRec[field_230_selected_entry_index];
+        MenuFMV* v12 = &pDemosOrFmvs_BB4414.mFmvRec[field_230_target_entry_index];
         if (v12->field_A_fmv_id >= 0)
         {
             FmvInfo* pFmvRecord = Path_Get_FMV_Record_460F70(v12->field_4_level_id, v12->field_A_fmv_id);
@@ -1504,14 +1504,14 @@ signed int MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_held)
         return 0;
     }
 
-    field_23C_T80.Set(Flags::eBit25);
+    field_23C_T80.Set(Flags::eBit25_CheatLevelSelectLoading);
 
-    field_244_lvl_id = pDemosOrFmvs_BB4414.mDemoRec[field_230_selected_entry_index].field_4_level;
-    field_246_path_id = pDemosOrFmvs_BB4414.mDemoRec[field_230_selected_entry_index].field_6_path;
-    field_248_camera = pDemosOrFmvs_BB4414.mDemoRec[field_230_selected_entry_index].field_8_camera;
-    field_24A_abeXOff = pDemosOrFmvs_BB4414.mDemoRec[field_230_selected_entry_index].field_C_abe_x_off;
-    field_24C_abeYOff = pDemosOrFmvs_BB4414.mDemoRec[field_230_selected_entry_index].field_E_abe_y_off;
-    field_24E_start_scale = pDemosOrFmvs_BB4414.mDemoRec[field_230_selected_entry_index].field_A_id; // some how id and scale ??
+    field_244_lvl_id = pDemosOrFmvs_BB4414.mDemoRec[field_230_target_entry_index].field_4_level;
+    field_246_path_id = pDemosOrFmvs_BB4414.mDemoRec[field_230_target_entry_index].field_6_path;
+    field_248_camera = pDemosOrFmvs_BB4414.mDemoRec[field_230_target_entry_index].field_8_camera;
+    field_24A_abeXOff = pDemosOrFmvs_BB4414.mDemoRec[field_230_target_entry_index].field_C_abe_x_off;
+    field_24C_abeYOff = pDemosOrFmvs_BB4414.mDemoRec[field_230_target_entry_index].field_E_abe_y_off;
+    field_24E_start_scale = pDemosOrFmvs_BB4414.mDemoRec[field_230_target_entry_index].field_A_id; // some how id and scale ??
 
     return 0xFFFF000D;
 }
@@ -1549,7 +1549,7 @@ void MainMenuController::AbeMotions_Render_4D25E0(int ** ot)
 
 signed int MainMenuController::Gamespeak_Update_4D1FC0(DWORD input_held)
 {
-    field_230_selected_entry_index = 0;
+    field_230_target_entry_index = 0;
 
     if (input_held & InputCommands::eBack)
     {
@@ -1671,14 +1671,14 @@ signed int MainMenuController::Page_Front_Update_4D0720(DWORD input)
             return 11;
         case 2:
             // Load
-            field_230_selected_entry_index = 0;
+            field_230_target_entry_index = 0;
             return 0xFFFF0004;
         case 3:
             // Options
             return 3;
         case 4:
             // Game speak
-            field_230_selected_entry_index = 0;
+            field_230_target_entry_index = 0;
             return 2;
         }
     }
@@ -1687,11 +1687,11 @@ signed int MainMenuController::Page_Front_Update_4D0720(DWORD input)
     {
         // To FMV list menu
         sEnableCheatFMV_5C1BEC = 0;
-        field_25C = 1;
+        field_25C_Inside_FMV_Screen = 1;
         pDemosOrFmvs_BB4414.mFmvRec = &sFmvs_561540[0];
         sMenuItemCount_561538 = ALIVE_COUNTOF(sFmvs_561540);
-        field_230_selected_entry_index = 0;
-        field_250 = 0;
+        field_230_target_entry_index = 0;
+        field_250_selected_entry_index = 0;
         field_254 = FP_FromInteger(0);
         field_258 = FP_FromInteger(0);
         return 0xFFFF0006;
@@ -1701,11 +1701,11 @@ signed int MainMenuController::Page_Front_Update_4D0720(DWORD input)
     {
         // To level select menu
         sEnableCheatLevelSelect_5C1BEE = 0;
-        field_25E = 1;
+        field_25E_Inside_CheatLevelSelect_Screen = 1;
         pDemosOrFmvs_BB4414.mDemoRec = &gPerLvlData_561700[0];
         sMenuItemCount_561538 = ALIVE_COUNTOF(gPerLvlData_561700) - 2; // exclude menu and credits levels
-        field_230_selected_entry_index = 0;
-        field_250 = 0;
+        field_230_target_entry_index = 0;
+        field_250_selected_entry_index = 0;
         field_254 = FP_FromInteger(0);
         field_258 = FP_FromInteger(0);
         return 0xFFFF001F;
@@ -1725,7 +1725,7 @@ ALIVE_VAR(1, 0x5c1b88, int, sGameStartedFrame_5C1B88, 0);
 signed int MainMenuController::LoadNewGame_Update_4D0920(DWORD /*input*/)
 {
     // TODO: De-dupe the big parts of duplicated code in here
-    if (field_23C_T80.Get(Flags::eBit21))
+    if (field_23C_T80.Get(Flags::eBit21_LoadingSave))
     {
         if (field_23C_T80.Get(Flags::eBit18_Loading))
         {
@@ -1765,14 +1765,14 @@ signed int MainMenuController::LoadNewGame_Update_4D0920(DWORD /*input*/)
                 field_208_transition_obj->field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
 
-            if (field_20C)
+            if (field_20C_pUnused)
             {
-                field_20C->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                field_20C_pUnused->field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
 
-            if (field_210_pUnknown)
+            if (field_210_pUnused)
             {
-                field_210_pUnknown->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                field_210_pUnused->field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
 
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -1824,9 +1824,9 @@ signed int MainMenuController::LoadNewGame_Update_4D0920(DWORD /*input*/)
         }
     }
 
-    if (field_23C_T80.Get(Flags::eBit25))
+    if (field_23C_T80.Get(Flags::eBit25_CheatLevelSelectLoading))
     {
-        field_23C_T80.Clear(Flags::eBit25);
+        field_23C_T80.Clear(Flags::eBit25_CheatLevelSelectLoading);
 
         sActiveHero_5C1B68->field_1C_update_delay = 1;
         gMap_5C3030.SetActiveCam_480D30(field_244_lvl_id, field_246_path_id, field_248_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
@@ -1862,14 +1862,14 @@ signed int MainMenuController::LoadNewGame_Update_4D0920(DWORD /*input*/)
         field_208_transition_obj->field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (field_20C)
+    if (field_20C_pUnused)
     {
-        field_20C->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        field_20C_pUnused->field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (field_210_pUnknown)
+    if (field_210_pUnused)
     {
-        field_210_pUnknown->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        field_210_pUnused->field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -1941,7 +1941,7 @@ EXPORT signed int MainMenuController::BackStory_Or_NewGame_Update_4D1C60(DWORD i
                 reinterpret_cast<Camera *>(this), nullptr);
         }
         word_BB43DC = 1;
-        field_23C_T80.Clear(Flags::eBit25);
+        field_23C_T80.Clear(Flags::eBit25_CheatLevelSelectLoading);
         return 1;
     }
 
@@ -2105,13 +2105,13 @@ signed int MainMenuController::LoadDemo_Update_4D1040(DWORD)
         {
             field_208_transition_obj->field_6_flags.Set(Options::eDead_Bit3);
         }
-        if (field_20C)
+        if (field_20C_pUnused)
         {
-            field_20C->field_6_flags.Set(Options::eDead_Bit3);
+            field_20C_pUnused->field_6_flags.Set(Options::eDead_Bit3);
         }
-        if (field_210_pUnknown)
+        if (field_210_pUnused)
         {
-            field_210_pUnknown->field_6_flags.Set(Options::eDead_Bit3);
+            field_210_pUnused->field_6_flags.Set(Options::eDead_Bit3);
         }
         field_6_flags.Set(Options::eDead_Bit3);
 
@@ -2168,41 +2168,41 @@ signed int MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
 
     if (input_or_field_204 & 5)
     {
-        if (field_230_selected_entry_index > 0 && field_254 == FP_FromInteger(0))
+        if (field_230_target_entry_index > 0 && field_254 == FP_FromInteger(0))
         {
-            field_230_selected_entry_index--;
+            field_230_target_entry_index--;
             SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
     else if (input_or_field_204 & 0xA)
     {
-        if (field_230_selected_entry_index < sMenuItemCount_561538 - 1 && field_254 == FP_FromInteger(0))
+        if (field_230_target_entry_index < sMenuItemCount_561538 - 1 && field_254 == FP_FromInteger(0))
         {
-            field_230_selected_entry_index++;
+            field_230_target_entry_index++;
             SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
 
     if (input_or_field_204 & 0x20000000)
     {
-        if (field_230_selected_entry_index > 0 && field_254 == FP_FromInteger(0))
+        if (field_230_target_entry_index > 0 && field_254 == FP_FromInteger(0))
         {
-            field_230_selected_entry_index -= 3;
-            if (field_230_selected_entry_index < 0)
+            field_230_target_entry_index -= 3;
+            if (field_230_target_entry_index < 0)
             {
-                field_230_selected_entry_index = 0;
+                field_230_target_entry_index = 0;
             }
             SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
     else if (input_or_field_204 & 0x40000000)
     {
-        if (field_230_selected_entry_index < sMenuItemCount_561538 - 1 && field_254 == FP_FromInteger(0))
+        if (field_230_target_entry_index < sMenuItemCount_561538 - 1 && field_254 == FP_FromInteger(0))
         {
-            field_230_selected_entry_index += 3;
-            if (field_230_selected_entry_index > sMenuItemCount_561538 - 1)
+            field_230_target_entry_index += 3;
+            if (field_230_target_entry_index > sMenuItemCount_561538 - 1)
             {
-                field_230_selected_entry_index = sMenuItemCount_561538 - 1;
+                field_230_target_entry_index = sMenuItemCount_561538 - 1;
             }
             SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         }
@@ -2217,7 +2217,7 @@ signed int MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
         return 0; //Nothing Pressed
     }
     word_5C1B9C = 1;
-    word_5C1B9E = field_230_selected_entry_index;
+    word_5C1B9E = field_230_target_entry_index;
     return 0xFFFF0016; //Enter Pressed
 }
 
@@ -2229,8 +2229,8 @@ EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
     if (input & InputCommands::eBack)
     {
         // Go back to start page
-        field_23C_T80.Clear(Flags::eBit21);
-        field_23A = 0;
+        field_23C_T80.Clear(Flags::eBit21_LoadingSave);
+        field_23A_Inside_LoadGame_Screen = 0;
         return 0x20001;
     }
     // Up a single save
@@ -2251,7 +2251,7 @@ EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
             indexChanged = true;
         }
     }
-    else if (input & 0x20000000)
+    else if (input & InputCommands::ePageUp)
     {
         // Page up underflow
         if (sSelectedSavedGameIdx_BB43E8 >= 3 && !sTextYPos_BB43F0.fpValue)
@@ -2265,7 +2265,7 @@ EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
             indexChanged = true;
         }
     }
-    else if (input & 0x40000000)
+    else if (input & InputCommands::ePageDown)
     {
         // Page down overflow
         if (sSelectedSavedGameIdx_BB43E8 < sTotalSaveFilesCount_BB43E0 - 3 && !sTextYPos_BB43F0.fpValue)
@@ -2291,8 +2291,8 @@ EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
         if (sTotalSaveFilesCount_BB43E0 == 0)
         {
             // Go back to start page
-            field_23C_T80.Clear(Flags::eBit21);
-            field_23A = 0;
+            field_23C_T80.Clear(Flags::eBit21_LoadingSave);
+            field_23A_Inside_LoadGame_Screen = 0;
             return 0x20001;
         }
 
@@ -2312,7 +2312,7 @@ EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
         IO_Read(hFile, &sActiveQuicksaveData_BAF7F8, sizeof(Quicksave), 1u);
         IO_Close(hFile);
 
-        field_23C_T80.Set(Flags::eBit21);
+        field_23C_T80.Set(Flags::eBit21_LoadingSave);
         return 0xFFFF000D;
     }
     else
@@ -2323,12 +2323,12 @@ EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
 
 void MainMenuController::tLoadGame_Load_4D42F0()
 {
-    field_23A = 6;
-    field_230_selected_entry_index = 0;
+    field_23A_Inside_LoadGame_Screen = 6;
+    field_230_target_entry_index = 0;
     field_1FC_button_index = -1;
     Quicksave_FindSaves_4D4150();
     sSelectedSavedGameIdx_BB43E8 = sSavedGameToLoadIdx_BB43FC;
-    field_23C_T80.Clear(Flags::eBit15);
+    field_23C_T80.Clear(Flags::eBit15_unused);
     field_1F4_credits_next_frame = 0;
 }
 
@@ -2362,14 +2362,14 @@ signed int MainMenuController::Options_Update_4D1AB0(DWORD input)
         }
         case 1:
         {
-            field_250 = 0;
+            field_250_selected_entry_index = 0;
             field_254 = FP_FromInteger(0);
             field_258 = FP_FromInteger(0);
             pDemosOrFmvs_BB4414.mDemoRec = &sDemos_5617F0[0];
             sMenuItemCount_561538 = ALIVE_COUNTOF(sDemos_5617F0);
             field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_0_resources[1]);
             Load_Anim_Pal_4D06A0(&field_20_animation);
-            field_230_selected_entry_index = 0;
+            field_230_target_entry_index = 0;
             return -65506;
         }
         default:
@@ -2707,11 +2707,11 @@ signed int MainMenuController::RemapInput_Update_4D1820(DWORD input)
 
 void MainMenuController::tLoadGame_Unload_4D4360()
 {
-    field_23C_T80.Clear(Flags::eBit15);
+    field_23C_T80.Clear(Flags::eBit15_unused);
 
     sub_4A2D40();
 
-    if (field_23C_T80.Get(Flags::eBit21))
+    if (field_23C_T80.Get(Flags::eBit21_LoadingSave))
     {
         for (auto& ppRes : field_F4_resources.field_0_resources)
         {
@@ -2734,89 +2734,89 @@ signed int MainMenuController::HandleGameSpeakInput(DWORD input_held, std::funct
     field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
     field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
 
-    if (field_230_selected_entry_index == 8)
+    if (field_230_target_entry_index == 8)
     {
         return 0;
     }
 
     if (Input_IsChanting_45F260())
     {
-        field_230_selected_entry_index = 1;
+        field_230_target_entry_index = 1;
         return fnOnGameSpeak(InputCommands::eChant);
     }
     // Hi
     else if (input_held & InputCommands::eGameSpeak1) // 0x400
     {
-        field_230_selected_entry_index = 0;
+        field_230_target_entry_index = 0;
         return fnOnGameSpeak(InputCommands::eGameSpeak1);
     }
     // Git 'im
     else if (input_held & InputCommands::eGameSpeak4) // 0x2000
     {
-        field_230_selected_entry_index = 1;
+        field_230_target_entry_index = 1;
         return fnOnGameSpeak(InputCommands::eGameSpeak4);
     }
     // Freeze
     else if (input_held & InputCommands::eGameSpeak3) // 0x1000
     {
-        field_230_selected_entry_index = 2;
+        field_230_target_entry_index = 2;
         return fnOnGameSpeak(InputCommands::eGameSpeak3);
     }
     // Here boy
     else if (input_held & InputCommands::eGameSpeak2) // 0x800
     {
-        field_230_selected_entry_index = 3;
+        field_230_target_entry_index = 3;
         return fnOnGameSpeak(InputCommands::eGameSpeak2);
     }
     // Bs
     else if (input_held & InputCommands::eGameSpeak6) // 0x8000
     {
-        field_230_selected_entry_index = 4;
+        field_230_target_entry_index = 4;
         return fnOnGameSpeak(InputCommands::eGameSpeak6);
     }
     // Look out
     else if (input_held & InputCommands::eGameSpeak7) // 0x10000
     {
-        field_230_selected_entry_index = 5;
+        field_230_target_entry_index = 5;
         return fnOnGameSpeak(InputCommands::eGameSpeak7);
     }
     // S'mo bs
     else if (input_held & InputCommands::eGameSpeak5) // 0x4000
     {
-        field_230_selected_entry_index = 6;
+        field_230_target_entry_index = 6;
         return fnOnGameSpeak(InputCommands::eGameSpeak5);
     }
     // Laugh
     else if (input_held & InputCommands::eGameSpeak8) // 0x20000
     {
-        field_230_selected_entry_index = 7;
+        field_230_target_entry_index = 7;
         return fnOnGameSpeak(InputCommands::eGameSpeak8);
     }
     else if (input_held & InputCommands::eBack) // 0x200000
     {
         // Exit
       
-        field_230_selected_entry_index = 8;
+        field_230_target_entry_index = 8;
         field_1FC_button_index = -1;
 
-        if (field_210_pUnknown)
+        if (field_210_pUnused)
         {
             // TODO: Recover type
-            WORD* pUnknown = (WORD *)field_210_pUnknown;
+            WORD* pUnknown = (WORD *)field_210_pUnused;
             pUnknown[124] = 1;
-            field_210_pUnknown = nullptr;
+            field_210_pUnused = nullptr;
         }
 
         return fnOnGameSpeak(InputCommands::eBack);
     }
     else
     {
-        if (field_210_pUnknown)
+        if (field_210_pUnused)
         {
             // TODO: Recover type
-            WORD* pUnknown = (WORD *)field_210_pUnknown;
+            WORD* pUnknown = (WORD *)field_210_pUnused;
             pUnknown[124] = 1;
-            field_210_pUnknown = nullptr;
+            field_210_pUnused = nullptr;
         }
         return 0;
     }
@@ -3316,7 +3316,7 @@ signed int MainMenuController::ChangeScreenAndIntroLogic_4CF640()
         }
 
         field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
-        field_216 = field_214_page_index;
+        field_216_previous_page_index = field_214_page_index;
         field_214_page_index = field_218_target_page_index;
         field_21E_bChangeScreen = 5;
 
@@ -3403,11 +3403,11 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
 {
     if (!sMainMenuPages_561960[field_214_page_index].field_E_show_character)
     {
-        field_22C_T80 = 0;
+        field_22C_T80_animation_delay = 0;
         return;
     }
 
-    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame) && !field_22C_T80)
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame) && !field_22C_T80_animation_delay)
     {
         if (!field_228_res_idx)
         {
@@ -3419,16 +3419,16 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
         switch (field_220_frame_table_idx)
         {
         case AnimIds::eAbe_Idle:
-            if (field_224 <= static_cast<int>(sGnFrame_5C1B84))
+            if (field_224_timer_anim_delay <= static_cast<int>(sGnFrame_5C1B84))
             {
                 Set_Anim_4D05E0(2, 0);
-                field_224 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(120, 450);
+                field_224_timer_anim_delay = sGnFrame_5C1B84 + Math_RandomRange_496AB0(120, 450);
             }
             break;
 
         case 9: // ??
             field_6_flags.Clear(BaseGameObject::eUpdateDuringCamSwap_Bit10);
-            field_22C_T80 = 15;
+            field_22C_T80_animation_delay = 15;
             
             if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbespeakResID, FALSE, FALSE))
             {
@@ -3453,7 +3453,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
                     reinterpret_cast<Camera *>(this), nullptr);
             }
             field_23C_T80.Clear(Flags::eBit17_bDisableChangingSelection);
-            field_224 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(300, 450);
+            field_224_timer_anim_delay = sGnFrame_5C1B84 + Math_RandomRange_496AB0(300, 450);
             break;
 
         case AnimIds::eAbe_Chant:
@@ -3465,12 +3465,12 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
             {
                 SND_SEQ_Stop_4CAE60(SeqId::MudokonChant1_10);
 
-                if (field_20C)
+                if (field_20C_pUnused)
                 {
                     ALIVE_FATAL("Never expected field_20C to be used");
                 }
 
-                if (field_210_pUnknown)
+                if (field_210_pUnused)
                 {
                     ALIVE_FATAL("Never expected field_210_pUnknown to be used");
                 }
@@ -3485,26 +3485,26 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
             break;
 
         case AnimIds::eGlukkon_Idle:
-            if (field_224 <= static_cast<int>(sGnFrame_5C1B84))
+            if (field_224_timer_anim_delay <= static_cast<int>(sGnFrame_5C1B84))
             {
                 Set_Anim_4D05E0(28); // ??
-                field_224 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(120, 450);
+                field_224_timer_anim_delay = sGnFrame_5C1B84 + Math_RandomRange_496AB0(120, 450);
             }
             break;
 
         case AnimIds::eScrab_Idle:
-            if (field_224 <= static_cast<int>(sGnFrame_5C1B84))
+            if (field_224_timer_anim_delay <= static_cast<int>(sGnFrame_5C1B84))
             {
                 Set_Anim_4D05E0(38); // ??
-                field_224 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(120, 450);
+                field_224_timer_anim_delay = sGnFrame_5C1B84 + Math_RandomRange_496AB0(120, 450);
             }
             break;
 
         case AnimIds::eParamite_Idle:
-            if (field_224 <= static_cast<int>(sGnFrame_5C1B84))
+            if (field_224_timer_anim_delay <= static_cast<int>(sGnFrame_5C1B84))
             {
                 Set_Anim_4D05E0(42); // ??
-                field_224 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(120, 450);
+                field_224_timer_anim_delay = sGnFrame_5C1B84 + Math_RandomRange_496AB0(120, 450);
             }
             break;
 
@@ -3566,9 +3566,9 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
         }
     }
 
-    if (field_22C_T80)
+    if (field_22C_T80_animation_delay)
     {
-        field_22C_T80 = field_22C_T80 - 1;
+        field_22C_T80_animation_delay--;
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)
@@ -3582,7 +3582,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
         || field_220_frame_table_idx == eParamite_Idle
         || field_220_frame_table_idx == 42)
     {
-        if (!field_22C_T80)
+        if (!field_22C_T80_animation_delay)
         {
             if (field_F4_resources.field_0_resources[sMainMenuFrameTable_561CC8[field_228_res_idx].field_4_menu_res_id])
             {

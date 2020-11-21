@@ -45,13 +45,13 @@ enum InputCommands : unsigned int
     eBack =         1u << 21, // 0x200000
     eCheatMode =    1u << 22,
     eSpeak1   =    1u << 23, // 0x800000
-    eSpeak2 =      1u << 24, // 0x1000000    = nothing
+    eSpeak2 =      1u << 24, // 0x1000000
     // 0x2000000    = nothing
     // 0x4000000    = nothing
     // 0x8000000    = nothing
     // 0x10000000   = nothing
-    // 0x20000000   = nothing
-    // 0x40000000   = nothing
+    ePageUp =       1u << 29, // 0x20000000
+    ePageDown =     1u << 30, // 0x40000000
     eConfigure   = 1u << 31, // 0x80000000
 };
 
