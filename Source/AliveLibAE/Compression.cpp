@@ -248,8 +248,8 @@ EXPORT void CC CompressionType6Ae_Decompress_40A8A0(const BYTE* pSrc, BYTE* pDst
     bool bSkip = false;
     DWORD dstPos = 0;
 
-    int w = stream.ReadU16();
-    int h = stream.ReadU16();
+    const int w = stream.ReadU16();
+    const int h = stream.ReadU16();
 
     if (h > 0)
     {
