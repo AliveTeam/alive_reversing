@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "Primitives.hpp"
 #include "Function.hpp"
-//#include "../AliveLibAE/Primitives.hpp" // AE lib hack
+#include "../AliveLibAE/Primitives.hpp" // AE lib hack
 
 namespace AO {
 
@@ -44,11 +44,10 @@ void CC Init_PrimClipper_495FD0(Prim_PrimClipper* /*pPrim*/, const PSX_RECT* /*p
     NOT_IMPLEMENTED();
 }
 
-void CC OrderingTable_Add_498A80(int** /*ppOt*/, PrimHeader* /*pItem*/)
+void CC OrderingTable_Add_498A80(int** ppOt, PrimHeader* pItem)
 {
-    NOT_IMPLEMENTED();
-    //AE_IMPLEMENTED();
-    //OrderingTable_Add_4F8AA0(ppOt, pItem);
+    AE_IMPLEMENTED();
+    OrderingTable_Add_4F8AA0(ppOt, pItem);
 }
 
 void CC PolyG4_Init_498890(Poly_G4* /*pPoly*/)
