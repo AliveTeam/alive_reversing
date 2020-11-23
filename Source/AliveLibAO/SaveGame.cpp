@@ -7,24 +7,149 @@
 #include "Grenade.hpp"
 #include "Input.hpp"
 #include "SaveGame.hpp"
+#include "MusicController.hpp"
+#include "ResourceManager.hpp"
 
 namespace AO {
 
-void SaveGame::Load_459970(SaveData*, int)
+ALIVE_VAR_EXTERN(int, sGasTimer_507700);
+ALIVE_VAR_EXTERN(short, sRescuedMudokons_5076C0);
+ALIVE_VAR_EXTERN(short, sKilledMudokons_5076BC);
+ALIVE_VAR(1, 0x4CF2B0, Save_PSX_Header, sSaveHeader2_4CF2B0, {});
+ALIVE_VAR(1, 0x4BC250, Save_PSX_Header, sSaveHeader1_4BC250, {});
+ALIVE_VAR(1, 0x5076B4, WORD, bUseAltSaveHeader_5076B4, 0);
+
+ALIVE_VAR(1, 0x500C184, DWORD, dword_500C18, 0);
+ALIVE_VAR(1, 0x500A18, SaveData, gSaveBuffer_500A18, {});
+
+ALIVE_VAR(1, 0x505668, SaveData, gSaveBuffer_505668, {});
+
+EXPORT void Kill_Objects_451720()
 {
-    NOT_IMPLEMENTED();
+    ResourceManager::LoadingLoop_41EAD0(0);
+
+    for (int i = 0; i < 2; i++)
+    {
+        for (int j=0; j < gBaseGameObject_list_9F2DF0->Size(); j++)
+        {
+            BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(j);
+            if (!pObj)
+            {
+                break;
+            }
+
+            // OG BaseGameObject name = Task ?
+            //Debug_Print_Stub_48DD70("pTask = 0x%lx\n", pObjIter);
+            
+            // Kill during a reset and there are no references
+            if (!pObj->field_6_flags.Get(BaseGameObject::eSurviveDeathReset_Bit9) && pObj->field_C_refCount == 0)
+            {
+                // So die
+                j = gBaseGameObject_list_9F2DF0->RemoveAt(j);
+                pObj->VDestructor(1);
+            }
+        }
+    }
+}
+
+void SaveGame::Load_459970(SaveData* pData, int bKillObjects)
+{
+    // Never actually used
+    //const int hash = Hash(pData);
+
+    if (bKillObjects)
+    {
+        Kill_Objects_451720();
+    }
+
+    bUseAltSaveHeader_5076B4 = pData->field_2AC_bUseAltSaveHeader;
+
+    sControlledCharacter_50767C = sActiveHero_507678;
+
+    sActiveHero_507678->field_146_zone_number = pData->field_204_zone_number;
+    sActiveHero_507678->field_148_clear_from_id = pData->field_206_clear_from_id;
+    sActiveHero_507678->field_14A_clear_to_id = pData->field_208_clear_to_id;
+    sActiveHero_507678->field_138_zone_top_left = pData->field_20A_zone_top_left;
+    sActiveHero_507678->field_13C_zone_bottom_right = pData->field_20E_zone_bottom_right;
+    sActiveHero_507678->field_144_saved_level = pData->field_212_saved_level;
+    sActiveHero_507678->field_142_saved_path = pData->field_214_saved_path;
+    sActiveHero_507678->field_140_saved_camera = pData->field_216_saved_camera;
+    sActiveHero_507678->field_14C_saved_sprite_scale = pData->field_218_saved_sprite_scale;
+    sActiveHero_507678->field_150_saved_ring_timer = pData->field_21C_saved_ring_timer;
+    sActiveHero_507678->field_154_bSavedHaveShrykull = pData->field_220_bSavedHaveShrykull;
+    sActiveHero_507678->field_168_ring_pulse_timer = pData->field_254_ring_pulse_timer;
+    sActiveHero_507678->field_16C_bHaveShrykull = pData->field_258_bHaveShrykull;
+
+    sRescuedMudokons_5076C0 = pData->field_2A0_rescued_mudokons;
+    sKilledMudokons_5076BC = pData->field_2A2_killed_mudokons;
+
+    gRestartRuptureFarmsSavedMuds_5076C8 = pData->field_2A4_restartRuptureFarmsSavedMudokons;
+    gRestartRuptureFarmsKilledMuds_5076C4 = pData->field_2A6_restartRuptureFarmsKilledMudokons;
+
+    sActiveHero_507678->field_100_health = FP_FromInteger(1);
+    sActiveHero_507678->field_11C_regen_health_timer = gnFrameCount_507670;
+    sActiveHero_507678->field_BC_sprite_scale = pData->field_230_ah_sprite_scale;
+    sActiveHero_507678->field_118 = pData->field_24C_field_118;
+    sActiveHero_507678->field_19C_throwable_count = static_cast<char>(pData->field_250_throwable_count); // TODO: Type check when other save func done
+    sActiveHero_507678->field_106_shot = 0;
+
+    sActiveHero_507678->field_2A8_flags.Clear();
+    sActiveHero_507678->field_2A8_flags.Set(Flags_2A8::e2A8_Bit12_bParamoniaDone, pData->field_252_paramonia_done & 1);
+    sActiveHero_507678->field_2A8_flags.Set(Flags_2A8::e2A8_eBit13_bScrabinaDone, pData->field_253_scrabania_done & 1);
+
+    sActiveHero_507678->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pData->field_23C_ah_flipX & 1);
+    sActiveHero_507678->field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+
+    gMap_507BA8.field_E0_save_data = pData->field_2B0_pSaveBuffer;
+
+    if (sActiveHero_507678->field_168_ring_pulse_timer)
+    {
+        if (sActiveHero_507678->field_16C_bHaveShrykull)
+        {
+            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 117, 0, 0))
+            {
+                ResourceManager::LoadResourceFile_4551E0("SHRYPORT.BND", nullptr, nullptr, nullptr);
+                ResourceManager::LoadingLoop_41EAD0(0);
+            }
+
+            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 355, 0, 0))
+            {
+                ResourceManager::LoadResourceFile_4551E0("SPLINE.BAN", nullptr, nullptr, nullptr);
+                ResourceManager::LoadingLoop_41EAD0(0);
+            }
+
+            Abe::Get_Shrykull_Resources_42F480();
+        }
+    }
+
+    if (pData->field_2A8_gasTimer)
+    {
+        sGasTimer_507700 = gnFrameCount_507670 - pData->field_2A8_gasTimer;
+    }
+    else
+    {
+        sGasTimer_507700 = 0;
+    }
+
+    sActiveHero_507678->field_2AC_pSaveData = pData;
+    sActiveHero_507678->field_FC_current_motion = eAbeStates::State_62_LoadedSaveSpawn_45ADD0;
+    sActiveHero_507678->field_114_gnFrame = 0;
+    
+    MusicController::sub_443810(MusicController::MusicTypes::eType0, sActiveHero_507678, 0, 0);
+
+    gMap_507BA8.SetActiveCam_444660(
+        pData->field_234_current_level,
+        pData->field_236_current_path,
+        pData->field_238_current_camera,
+        CameraSwapEffects::eEffect0_InstantChange,
+        0,
+        1);
 }
 
 void SaveGame::sub_45A2D0(unsigned char*, const unsigned char* const* , int)
 {
     NOT_IMPLEMENTED();
 }
-
-ALIVE_VAR_EXTERN(int, sGasTimer_507700);
-ALIVE_VAR_EXTERN(short, sRescuedMudokons_5076C0);
-ALIVE_VAR_EXTERN(short, sKilledMudokons_5076BC);
-
-ALIVE_VAR(1, 0x505668, SaveData, gSaveBuffer_505668, {});
 
 
 const char word_4BC670[6][8] =
@@ -169,13 +294,6 @@ const unsigned char* const dword_4BC62C[] =
     byte_4BC4A0
 };
 
-ALIVE_VAR(1, 0x4CF2B0, Save_PSX_Header, sSaveHeader2_4CF2B0, {});
-ALIVE_VAR(1, 0x4BC250, Save_PSX_Header, sSaveHeader1_4BC250, {});
-ALIVE_VAR(1, 0x5076B4, WORD, bUseAltSaveHeader_5076B4, 0);
-
-ALIVE_VAR(1, 0x500C184, DWORD, dword_500C18, 0);
-ALIVE_VAR(1, 0x500A18, SaveData, gSaveBuffer_500A18, {});
-
 short SaveGame::GetPathId(short pathToFind, short* outFoundPathRow)
 {
     short path_id = -1;
@@ -316,13 +434,13 @@ void CC SaveGame::Save_459490(SaveData* pSaveData)
     }
     if (sGasTimer_507700)
     {
-        pSaveData->field_2A8 = (gnFrameCount_507670 - sGasTimer_507700 <= 1) ? 1 : gnFrameCount_507670 - sGasTimer_507700;
+        pSaveData->field_2A8_gasTimer = (gnFrameCount_507670 - sGasTimer_507700 <= 1) ? 1 : gnFrameCount_507670 - sGasTimer_507700;
     }
     else
     {
-        pSaveData->field_2A8 = 0;
+        pSaveData->field_2A8_gasTimer = 0;
     }
-    pSaveData->field_2AC = bUseAltSaveHeader_5076B4;
+    pSaveData->field_2AC_bUseAltSaveHeader = bUseAltSaveHeader_5076B4;
     pSaveData->field_2AE = sCurrentControllerIndex_5076B8;
     gMap_507BA8.SaveBlyData_446900(pSaveData->field_2B0_pSaveBuffer);
 
