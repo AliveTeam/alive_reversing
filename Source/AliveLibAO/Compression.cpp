@@ -23,7 +23,8 @@ EXPORT void CC Decompress_Type_3_4031E0(const BYTE* pInput, BYTE* pOutput, int l
     unsigned int in_dwords = len & ~3u;
     int in_remainder = len & 3;
     
-    const BYTE* pInputIter = pInput;
+    PtrStream stream(&pInput);
+
     const BYTE* pInputIter_off = pInput + (6 * in_dwords) / 8;
     
     int total_len = (out_len + 3) / 4;
@@ -45,15 +46,13 @@ EXPORT void CC Decompress_Type_3_4031E0(const BYTE* pInput, BYTE* pOutput, int l
                 if (bits == 14)
                 {
                     bits = 30;
-                    tmp |= *(unsigned __int16*)pInputIter << 14;
-                    pInputIter += 2;
+                    tmp |= stream.ReadU16() << 14;
                 }
             }
             else
             {
-                tmp = *(DWORD*)pInputIter;
+                tmp = stream.ReadU32();
                 bits = 32;
-                pInputIter += 4;
             }
             bits -= 6;
             const BYTE src_val = tmp & 0x3F;
@@ -75,8 +74,7 @@ EXPORT void CC Decompress_Type_3_4031E0(const BYTE* pInput, BYTE* pOutput, int l
                                 if (bits == 14)
                                 {
                                     bits = 30;
-                                    tmp |= *(unsigned __int16*)pInputIter << 14;
-                                    pInputIter += 2;
+                                    tmp |= stream.ReadU16()<< 14;
                                 }
                                 bits -= 6;
                                 out_val = tmp & 0x3F;
@@ -85,8 +83,7 @@ EXPORT void CC Decompress_Type_3_4031E0(const BYTE* pInput, BYTE* pOutput, int l
                             }
                             else
                             {
-                                const int out_val_ = *(DWORD*)pInputIter;
-                                pInputIter += 4;
+                                const int out_val_ = stream.ReadU32();
                                 out_val = out_val_ & 0x3F;
                                 bits = 26;
                                 tmp = (unsigned int)out_val_ >> 6;
