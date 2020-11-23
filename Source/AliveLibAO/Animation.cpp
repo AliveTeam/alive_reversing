@@ -470,7 +470,7 @@ void Animation::VDecode_403550()
         {
             // TODO: Refactor structure to get pixel data/remove casts
             Decompress_Type_3_4031E0(
-                (unsigned __int16*)&pFrameHeader[1],
+                (BYTE*)&pFrameHeader[1],
                 *field_24_dbuf,
                 *(DWORD*)&pFrameHeader->field_8_width2,
                 2 * pFrameHeader->field_5_height * width_bpp_adjusted);
