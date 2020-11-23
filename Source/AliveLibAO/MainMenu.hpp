@@ -71,7 +71,7 @@ public:
     __int16 field_23C_layer;
     __int16 field_23E_width;
     __int16 field_240_k120;
-    __int16 field_242;
+    __int16 field_242_idx;
     char field_244;
     char field_245;
     char field_246_colour_fade_value;

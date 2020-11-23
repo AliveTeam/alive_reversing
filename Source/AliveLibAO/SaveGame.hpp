@@ -88,8 +88,8 @@ struct SaveData
     WORD field_2A2_killed_mudokons;
     WORD field_2A4_restartRuptureFarmsSavedMudokons;
     WORD field_2A6_restartRuptureFarmsKilledMudokons;
-    int field_2A8;
-    short field_2AC;
+    int field_2A8_gasTimer;
+    short field_2AC_bUseAltSaveHeader;
     short field_2AE;
     BYTE field_2B0_pSaveBuffer[7501];
 };
@@ -98,7 +98,7 @@ ALIVE_ASSERT_SIZEOF(SaveData, 0x2000);
 class SaveGame
 {
 public:
-    EXPORT static void CC Load_459970(SaveData*, int);
+    EXPORT static void CC Load_459970(SaveData* pData, int bKillObjects);
     EXPORT static void CC sub_45A2D0(unsigned char*, const unsigned char* const*, int);
     EXPORT static void CC Save_459490(SaveData* pSaveData);
     EXPORT static short CC Read_459D30(const char* name);
