@@ -24,6 +24,7 @@
 #include "Particle.hpp"
 #include "Door.hpp"
 #include "Sound/PsxSpuApi.hpp"
+#include "Sys.hpp"
 #include <assert.h>
 
 void Map_ForceLink() { }

@@ -123,6 +123,8 @@ Rope* Rope::ctor_458520(unsigned __int16 left, __int16 top, unsigned __int16 bot
         {
             // Placement new the items
             AnimationUnknown* pSegment = &field_E8_pRopeRes[i];
+            new (pSegment) AnimationUnknown();
+
             SetVTable(pSegment, 0x4BA470);
             pSegment->field_4_flags.Set(AnimFlags::eBit3_Render);
             pSegment->field_68_anim_ptr = &field_10_anim;

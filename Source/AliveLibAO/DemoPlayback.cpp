@@ -107,7 +107,7 @@ void DemoPlayback::VUpdate_451960()
         sActiveHero_507678->field_6_flags.Set(Options::eDrawable_Bit4);
         sActiveHero_507678->field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
 
-        sInputObject_5009E8.SetDemoRes_433470(field_14_ppDemoRes);
+        sInputObject_5009E8.SetDemoRes_433470(reinterpret_cast<DWORD**>(field_14_ppDemoRes));
 
         field_6_flags.Set(Options::eDrawable_Bit4);
         field_10_state = States::eState_1_Playing;

@@ -11,7 +11,7 @@ enum class MouseButtons
     eRight
 };
 bool Sys_IsMouseButtonDown(MouseButtons button);
-
+EXPORT void CC SYS_EventsPump_494580();
 void Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, int nShowCmd);
 EXPORT LPSTR CC Sys_GetCommandLine_4EE176();
 #if _WIN32

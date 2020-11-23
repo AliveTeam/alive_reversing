@@ -16,7 +16,6 @@ namespace Test
 }
 
 EXPORT void CC Game_Main_4949F0();
-EXPORT void CC SYS_EventsPump_494580();
 EXPORT void DestroyObjects_4A1F20();
 EXPORT void CC Init_GameStates_43BF40();
 EXPORT FP CC ScaleToGridSize_4498B0(FP scale);
