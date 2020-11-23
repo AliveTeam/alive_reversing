@@ -4,10 +4,10 @@
 
 void Compression_ForceLink() { }
 
-class IPtrStream
+class PtrStream
 {
 public:
-    IPtrStream(const BYTE** ppStream)
+    PtrStream(const BYTE** ppStream)
         : mppStream(ppStream)
     {
 
@@ -48,7 +48,7 @@ private:
 };
 
 
-static bool Expand3To4Bytes(int& remainingCount, IPtrStream& stream, BYTE* ret, DWORD& dstPos)
+static bool Expand3To4Bytes(int& remainingCount, PtrStream& stream, BYTE* ret, DWORD& dstPos)
 {
     if (!remainingCount)
     {
@@ -73,7 +73,7 @@ static bool Expand3To4Bytes(int& remainingCount, IPtrStream& stream, BYTE* ret, 
 
 EXPORT void CC CompressionType2_Decompress_40AA50(const BYTE* pSrc, BYTE* pDst, DWORD dataSize)
 {
-    IPtrStream stream(&pSrc);
+    PtrStream stream(&pSrc);
 
     int dwords_left = dataSize / 4;
     int remainder = dataSize % 4;
@@ -99,7 +99,7 @@ EXPORT void CC CompressionType2_Decompress_40AA50(const BYTE* pSrc, BYTE* pDst, 
 }
 
 template<typename T>
-static void ReadNextSource(IPtrStream& stream, int& control_byte, T& dstIndex)
+static void ReadNextSource(PtrStream& stream, int& control_byte, T& dstIndex)
 {
     if (control_byte)
     {
@@ -119,7 +119,7 @@ static void ReadNextSource(IPtrStream& stream, int& control_byte, T& dstIndex)
 
 EXPORT void CC CompressionType_3Ae_Decompress_40A6A0(const BYTE* pData, BYTE* decompressedData)
 {
-    IPtrStream stream(&pData);
+    PtrStream stream(&pData);
 
     int dstPos = 0;
     int control_byte = 0;
@@ -184,7 +184,7 @@ EXPORT void CC CompressionType_3Ae_Decompress_40A6A0(const BYTE* pData, BYTE* de
 // 1xxx xxyy yyyy yyyy = copy from y bytes back, x bytes
 EXPORT void CC CompressionType_4Or5_Decompress_4ABAB0(const BYTE* pData, BYTE* decompressedData)
 {
-    IPtrStream stream(&pData);
+    PtrStream stream(&pData);
 
     // Get the length of the destination buffer
     DWORD nDestinationLength = 0;
@@ -225,7 +225,7 @@ EXPORT void CC CompressionType_4Or5_Decompress_4ABAB0(const BYTE* pData, BYTE* d
     }
 }
 
-static BYTE NextNibble(IPtrStream& stream, bool& readLo, BYTE& srcByte)
+static BYTE NextNibble(PtrStream& stream, bool& readLo, BYTE& srcByte)
 {
     if (readLo)
     {
@@ -242,7 +242,7 @@ static BYTE NextNibble(IPtrStream& stream, bool& readLo, BYTE& srcByte)
 
 EXPORT void CC CompressionType6Ae_Decompress_40A8A0(const BYTE* pSrc, BYTE* pDst)
 {
-    IPtrStream stream(&pSrc);
+    PtrStream stream(&pSrc);
 
     bool bNibbleToRead = false;
     bool bSkip = false;
