@@ -116,7 +116,7 @@ EXPORT short CC Math_RandomRange_496AB0(signed short min, signed short max)
 }
 
 // This seems to have been inlined a lot
-BYTE Math_NextRandom()
+EXPORT BYTE Math_NextRandom()
 {
     return sRandomBytes_546744[sRandomSeed_5D1E10++];
 }

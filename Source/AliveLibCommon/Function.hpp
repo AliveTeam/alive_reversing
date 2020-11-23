@@ -27,7 +27,7 @@
 #define AE_IMPLEMENTED()
 #else
 // Similar to STDLIB_FUNCTION but calls AE funcs
-#define AE_IMPLEMENTED()  { const static auto __kAddr__ = __FUNCTION__ "\0" __FUNCDNAME__; if (RunningAsInjectedDll()) { __asm push eax __asm mov eax, __kAddr__ __asm pop eax __asm nop __asm nop __asm nop __asm nop __asm int 3 __asm nop __asm nop __asm nop __asm nop } else { static bool __logged = false; if (!__logged) { __logged = true; LOG_INFO("Using AE code");}} }
+#define AE_IMPLEMENTED()  { const static auto __kAddr__ = __FUNCTION__ "\0" __FUNCDNAME__; if (RunningAsInjectedDll()) { __asm push eax __asm mov eax, __kAddr__ __asm pop eax __asm nop __asm nop __asm nop __asm nop __asm int 3 __asm nop __asm nop __asm nop __asm nop } }
 #endif
 
 #else

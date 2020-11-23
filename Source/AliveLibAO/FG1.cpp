@@ -11,6 +11,7 @@
 #include "VRam.hpp"
 #include "stdlib.hpp"
 #include "PsxDisplay.hpp"
+#include "Compression.hpp"
 
 namespace AO {
 
@@ -50,18 +51,7 @@ struct Fg1Block
 };
 ALIVE_ASSERT_SIZEOF(Fg1Block, 0x68);
 
-// TODO: Needs moving to compression.hpp
-EXPORT void CC Decompress_Type_4_5_461770(const BYTE* /*pInput*/, BYTE* /*pOutput*/);
-
-// TODO: Needs moving to vram.hpp
-EXPORT int CC vram_alloc_450860(__int16 /*width*/, __int16 /*height*/, const PSX_RECT* /*pRect*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
 const short sFg1_layer_to_bits_layer_4BC024[] = { 37u, 18u };
-
 
 void FG1::Convert_Chunk_To_Render_Block_453BA0(const Fg1Chunk* pChunk, Fg1Block* pBlock)
 {

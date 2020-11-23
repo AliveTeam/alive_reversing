@@ -25,4 +25,8 @@ EXPORT void CC Vram_alloc_explicit_4507F0(__int16 x, __int16 y, __int16 w, __int
 
 EXPORT __int16 CC vram_alloc_450B20(unsigned __int16 width, __int16 height, unsigned __int16 colourDepth, PSX_RECT* pRect);
 
+
+EXPORT int CC vram_alloc_450860(__int16 width, __int16 height, PSX_RECT* pRect);
+
+
 }
