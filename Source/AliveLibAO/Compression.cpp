@@ -70,7 +70,6 @@ EXPORT void CC Decompress_Type_3_4031E0(const BYTE* pInput, BYTE* pOutput, int l
             const int src_masked = (input_byte & 0x1F) + 1;
             for (int i = 0; i < src_masked; i++)
             {
-                BYTE out_val = 0;
                 if (in_dwords)
                 {
                     if (control_byte)
@@ -81,31 +80,32 @@ EXPORT void CC Decompress_Type_3_4031E0(const BYTE* pInput, BYTE* pOutput, int l
                             dstIndex |= inStream.ReadU16() << 14;
                         }
                         control_byte -= 6;
-                        out_val = dstIndex & 0x3F;
+
+                        *pOutIter++ = dstIndex & 0x3F;
                         dstIndex = dstIndex >> 6;
                         in_dwords--;
-                        *pOutIter++ = out_val;
                     }
                     else
                     {
-                        const unsigned int out_val_ = inStream.ReadU32();
-                        out_val = out_val_ & 0x3F;
+                        dstIndex = inStream.ReadU32();
                         control_byte = 26;
-                        dstIndex = out_val_ >> 6;
+
+                        *pOutIter++ = dstIndex & 0x3F;
+                        dstIndex = dstIndex >> 6;
                         in_dwords--;
-                        *pOutIter++ = out_val;
                     }
                 }
                 else
                 {
-                    out_val = *pInputIter_off++ & 0x3F;
+                    const BYTE copyByte = *pInputIter_off++ & 0x3F;
                     in_remainder--;
-                    *pOutIter++ = out_val;
+                    *pOutIter++ = copyByte;
                 }
             }
         }
         else
         {
+            // Near direct copy byte
             pOutIter += input_byte + 1;
         }
     }
