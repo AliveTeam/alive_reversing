@@ -2,6 +2,7 @@
 #include "stdlib.hpp"
 #include "Compression.hpp"
 #include "Function.hpp"
+#include "PtrStream.hpp"
 #include "../AliveLibAE/Compression.hpp"
 
 namespace AO {
@@ -17,42 +18,26 @@ EXPORT void CC Decompress_Type_2_403390(const BYTE* pInput, BYTE* pOutput, int d
     CompressionType2_Decompress_40AA50(pInput, pOutput, decompressedLen);
 }
 
-EXPORT void CC Decompress_Type_3_4031E0(const unsigned __int16* pInput, BYTE* pOutput, int len, int out_len)
+EXPORT void CC Decompress_Type_3_4031E0(const BYTE* pInput, BYTE* pOutput, int len, int out_len)
 {
-    unsigned int in_dwords; // edi
-    const BYTE* pInputIter; // ebx
-    signed int bits; // esi
-    const BYTE* pInputIter_off; // ebp
-    int total_len; // eax
-    BYTE* pOutIter; // edx
-    int tmp; // eax
-    unsigned __int8 src_val; // cl
-    int src_masked; // ecx
-    int out_val_; // eax
-    BYTE out_val; // cl
-    bool bEndOut; // zf
-    unsigned __int8 input_byte; // al
-    int counter_val; // eax
-    int counter; // ecx
-    BYTE input_byte_direct; // al
-    int in_remainder; // [esp+20h] [ebp+Ch]
-    int out_couter; // [esp+24h] [ebp+10h]
-
-    in_dwords = len & ~3u;
-    in_remainder = len & 3;
-    pInputIter = (const BYTE*)pInput;
-    bits = 0;
-    pInputIter_off = (const BYTE*)pInput + (signed int)(6 * in_dwords) / 8;
-    total_len = (out_len + 3) / 4;
+    unsigned int in_dwords = len & ~3u;
+    int in_remainder = len & 3;
+    
+    const BYTE* pInputIter = pInput;
+    const BYTE* pInputIter_off = pInput + (6 * in_dwords) / 8;
+    
+    int total_len = (out_len + 3) / 4;
     if (total_len)
     {
         memset(pOutput, 0, 4 * total_len);
     }
 
-    pOutIter = pOutput;
+    int bits = 0;
+
+    BYTE* pOutIter = pOutput;
     if (in_dwords)
     {
-        tmp = 0;// (int)pOutput;                     // ??
+        int tmp = 0;
         do
         {
             if (bits)
@@ -71,17 +56,18 @@ EXPORT void CC Decompress_Type_3_4031E0(const unsigned __int16* pInput, BYTE* pO
                 pInputIter += 4;
             }
             bits -= 6;
-            src_val = tmp & 0x3F;
+            const BYTE src_val = tmp & 0x3F;
             tmp = (unsigned int)tmp >> 6;
             --in_dwords;
             if (src_val & 0x20)
             {
-                src_masked = (src_val & 0x1F) + 1;
+                const int src_masked = (src_val & 0x1F) + 1;
                 if (src_masked)
                 {
-                    out_couter = src_masked;
+                    int out_couter = src_masked;
                     do
                     {
+                        BYTE out_val = 0;
                         if (in_dwords)
                         {
                             if (bits)
@@ -99,7 +85,7 @@ EXPORT void CC Decompress_Type_3_4031E0(const unsigned __int16* pInput, BYTE* pO
                             }
                             else
                             {
-                                out_val_ = *(DWORD*)pInputIter;
+                                const int out_val_ = *(DWORD*)pInputIter;
                                 pInputIter += 4;
                                 out_val = out_val_ & 0x3F;
                                 bits = 26;
@@ -114,10 +100,9 @@ EXPORT void CC Decompress_Type_3_4031E0(const unsigned __int16* pInput, BYTE* pO
                             pOutIter = pOutput;
                         }
                         *pOutIter++ = out_val;
-                        bEndOut = out_couter == 1;
                         pOutput = pOutIter;
                         --out_couter;
-                    } while (!bEndOut);
+                    } while (out_couter != 0);
                 }
             }
             else
@@ -129,17 +114,17 @@ EXPORT void CC Decompress_Type_3_4031E0(const unsigned __int16* pInput, BYTE* pO
     }
     while (in_remainder)
     {
-        input_byte = *pInputIter_off++ & 0x3F;
+        const BYTE input_byte = *pInputIter_off++ & 0x3F;
         --in_remainder;
         if (input_byte & 0x20)
         {
-            counter_val = (input_byte & 0x1F) + 1;
+            const int counter_val = (input_byte & 0x1F) + 1;
             if (counter_val)
             {
-                counter = counter_val;
+                int counter = counter_val;
                 do
                 {
-                    input_byte_direct = *pInputIter_off++ & 0x3F;
+                    const BYTE input_byte_direct = *pInputIter_off++ & 0x3F;
                     *pOutIter++ = input_byte_direct;
                     --counter;
                     --in_remainder;
