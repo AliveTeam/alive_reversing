@@ -65,7 +65,7 @@ EXPORT int CC Input_Remap_44F300(InputCommands /*inputCmd*/)
 EXPORT const char* CC Input_GetButtonString_44F1C0(InputCommands /*input_command*/)
 {
     NOT_IMPLEMENTED();
-    return nullptr;
+    return "lol"; // don't kill standalone
 }
 
 ALIVE_VAR(1, 0x9F2DE8, short, bWaitingForRemapInput_9F2DE8, 0);

@@ -63,33 +63,20 @@ __int16 DynamicArray::Push_Back_404450(void *item)
 
 __int16 DynamicArray::Remove_Item_404520(void *item)
 {
-    // TODO: FIX ME
-    NOT_IMPLEMENTED();
-
-    int counter = 0;
-    void* pCurItem = nullptr;
-    for (;;)
+    for (__int16 idx = 0; idx < field_4_used_size; idx++)
     {
-        if (counter < field_4_used_size)
-        {
-            counter++;
-            pCurItem = field_0_array[counter];
-        }
-        else
-        {
-            pCurItem = nullptr;
-        }
-
-        if (!pCurItem)
+        void* pCurrentItem = field_0_array[idx];
+        if (!pCurrentItem)
         {
             break;
         }
 
-        if (pCurItem == item)
+        if (pCurrentItem == item)
         {
             field_4_used_size--;
-            field_0_array[counter - 1] = field_0_array[field_4_used_size];
-            field_0_array[field_4_used_size] = nullptr;
+
+            // Overwrite the items to remove with the item from the end
+            field_0_array[idx] = field_0_array[field_4_used_size];
             return 1;
         }
     }

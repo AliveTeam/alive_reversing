@@ -17,9 +17,10 @@ int CC PSX_getTPage_4965D0(char tp, char abr, int x, __int16 y)
     return ((((tp) & 0x3) << 7) | (((abr) & 0x3) << 5) | (((y) & 0x100) >> 4) | (((x) & 0x3ff) >> 6) | (((y) & 0x200) << 2));
 }
 
-void CC Poly_Set_Blending_498A00(PrimHeader* /*pPrim*/, int /*bBlending*/)
+void CC Poly_Set_Blending_498A00(PrimHeader* pPrim, int bBlending)
 {
-    NOT_IMPLEMENTED();
+    AE_IMPLEMENTED();
+    Poly_Set_Blending_4F8A20(pPrim, bBlending);
 }
 
 int CC PSX_getClut_496840(int x, int y)
@@ -27,9 +28,10 @@ int CC PSX_getClut_496840(int x, int y)
     return (y << 6) | (x >> 4) & 63;
 }
 
-void CC Poly_Set_SemiTrans_498A40(PrimHeader* /*pPrim*/, int /*bSemiTrans*/)
+void CC Poly_Set_SemiTrans_498A40(PrimHeader* pPrim, int bSemiTrans)
 {
-    NOT_IMPLEMENTED();
+    AE_IMPLEMENTED();
+    Poly_Set_SemiTrans_4F8A60(pPrim, bSemiTrans);
 }
 
 void CC Sprt_Init(Prim_Sprt* pPrim)

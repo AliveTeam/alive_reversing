@@ -1,6 +1,8 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "Math.hpp"
+#include "../AliveLibAE/Math.hpp"
+#include "../AliveLibAE/FixedPoint.hpp" // TODO: Move Square root funcs
 
 namespace AO {
 
@@ -29,25 +31,29 @@ ALIVE_VAR(1, 0x50A228, BYTE, sRandomSeed_50A228, 0);
 
 BYTE Math_NextRandom()
 {
-    return sRandomBytes_4BBE30[sRandomSeed_50A228++];
+    if (!RunningAsInjectedDll())
+    {
+        return sRandomBytes_4BBE30[sRandomSeed_50A228++];
+    }
+    return ::Math_NextRandom(); // Ae ver
 }
 
-short CC Math_RandomRange_450F20(signed short /*min*/, signed short /*max*/)
+short CC Math_RandomRange_450F20(signed short min, signed short max)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    AE_IMPLEMENTED();
+    return Math_RandomRange_496AB0(min, max);
 }
 
-FP CC Math_Sine_451110(BYTE /*v*/)
+FP CC Math_Sine_451110(BYTE v)
 {
-    NOT_IMPLEMENTED();
-    return {};
+    AE_IMPLEMENTED();
+    return Math_Sine_496DD0(v);
 }
 
-FP CC Math_Cosine_4510A0(BYTE /*v*/)
+FP CC Math_Cosine_4510A0(BYTE v)
 {
-    NOT_IMPLEMENTED();
-    return {};
+    AE_IMPLEMENTED();
+    return Math_Cosine_496CD0(v);
 }
 
 
@@ -75,16 +81,16 @@ int CC Math_Distance_451270(int x1, int y1, int x2, int y2)
     }
 }
 
-int CC Math_SquareRoot_Int_4511B0(int /*a1*/)
+int CC Math_SquareRoot_Int_4511B0(int a1)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    AE_IMPLEMENTED();
+    return Math_SquareRoot_Int_496E70(a1);
 }
 
-FP CC Math_SquareRoot_FP_451210(FP /*v*/)
+FP CC Math_SquareRoot_FP_451210(FP v)
 {
-    NOT_IMPLEMENTED();
-    return {};
+    AE_IMPLEMENTED();
+    return Math_SquareRoot_FP_496E90(v);
 }
 
 }
