@@ -22,11 +22,11 @@ EXPORT void CC Decompress_Type_3_4031E0(const BYTE* pInput, BYTE* pOutput, int l
 {
     unsigned int in_dwords = len & ~3u;
     int in_remainder = len & 3;
-    
-    PtrStream stream(&pInput);
+ 
+    PtrStream inStream(&pInput);
 
     const BYTE* pInputIter_off = pInput + (6 * in_dwords) / 8;
-    
+
     int total_len = (out_len + 3) / 4;
     if (total_len)
     {
@@ -38,7 +38,7 @@ EXPORT void CC Decompress_Type_3_4031E0(const BYTE* pInput, BYTE* pOutput, int l
     BYTE* pOutIter = pOutput;
     if (in_dwords)
     {
-        int tmp = 0;
+        unsigned int tmp = 0;
         do
         {
             if (bits)
@@ -46,17 +46,18 @@ EXPORT void CC Decompress_Type_3_4031E0(const BYTE* pInput, BYTE* pOutput, int l
                 if (bits == 14)
                 {
                     bits = 30;
-                    tmp |= stream.ReadU16() << 14;
+                    tmp |= inStream.ReadU16() << 14;
                 }
             }
             else
             {
-                tmp = stream.ReadU32();
+                tmp = inStream.ReadU32();
                 bits = 32;
             }
             bits -= 6;
+
             const BYTE src_val = tmp & 0x3F;
-            tmp = (unsigned int)tmp >> 6;
+            tmp = tmp >> 6;
             --in_dwords;
             if (src_val & 0x20)
             {
@@ -74,19 +75,19 @@ EXPORT void CC Decompress_Type_3_4031E0(const BYTE* pInput, BYTE* pOutput, int l
                                 if (bits == 14)
                                 {
                                     bits = 30;
-                                    tmp |= stream.ReadU16()<< 14;
+                                    tmp |= inStream.ReadU16()<< 14;
                                 }
                                 bits -= 6;
                                 out_val = tmp & 0x3F;
-                                tmp = (unsigned int)tmp >> 6;
+                                tmp = tmp >> 6;
                                 --in_dwords;
                             }
                             else
                             {
-                                const int out_val_ = stream.ReadU32();
+                                const unsigned int out_val_ = inStream.ReadU32();
                                 out_val = out_val_ & 0x3F;
                                 bits = 26;
-                                tmp = (unsigned int)out_val_ >> 6;
+                                tmp = out_val_ >> 6;
                                 --in_dwords;
                             }
                         }
@@ -94,10 +95,8 @@ EXPORT void CC Decompress_Type_3_4031E0(const BYTE* pInput, BYTE* pOutput, int l
                         {
                             out_val = *pInputIter_off++ & 0x3F;
                             --in_remainder;
-                            pOutIter = pOutput;
                         }
                         *pOutIter++ = out_val;
-                        pOutput = pOutIter;
                         --out_couter;
                     } while (out_couter != 0);
                 }
@@ -105,10 +104,10 @@ EXPORT void CC Decompress_Type_3_4031E0(const BYTE* pInput, BYTE* pOutput, int l
             else
             {
                 pOutIter += src_val + 1;
-                pOutput = pOutIter;
             }
         } while (in_dwords);
     }
+
     while (in_remainder)
     {
         const BYTE input_byte = *pInputIter_off++ & 0x3F;
