@@ -100,12 +100,12 @@ public:
 
     static EXPORT void CC Shutdown_433230();
 
-    EXPORT void SetDemoRes_433470(BYTE** ppDemoRes);
+    EXPORT void SetDemoRes_433470(DWORD** ppDemoRes);
 
     EXPORT int IsDemoPlaying_4334A0();
 
     PSX_Pad field_0_pads[2];
-    BYTE** field_18_demo_res;
+    DWORD** field_18_demo_res;
     int field_1C_demo_command_index;
     __int16 field_20_demo_playing;
     __int16 field_22;
