@@ -35,7 +35,7 @@
     #define STDLIB_FUNCTION()
 
 
-    #define AE_IMPLEMENTED() { static bool __logged = false; if (!__logged) { __logged = true; LOG_INFO("Using AE code"); }
+    #define AE_IMPLEMENTED() { static bool __logged = false; if (!__logged) { __logged = true; LOG_INFO("Using AE code"); } }
 #endif
 
 
