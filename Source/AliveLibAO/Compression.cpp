@@ -4,12 +4,13 @@
 #include "Function.hpp"
 #include "PtrStream.hpp"
 #include "../AliveLibAE/Compression.hpp"
+#include "Sys_common.hpp"
 
 namespace AO {
 
 EXPORT void CC Decompress_Type_1_403150(const BYTE* /*pInput*/, BYTE* /*pOutput*/, unsigned int /*compressedLen*/, unsigned int /*decompressedLen*/)
 {
-    NOT_IMPLEMENTED();
+    ALIVE_FATAL("Decompress_Type_1_403150 never expected be called");
 }
 
 EXPORT void CC Decompress_Type_2_403390(const BYTE* pInput, BYTE* pOutput, int decompressedLen)
