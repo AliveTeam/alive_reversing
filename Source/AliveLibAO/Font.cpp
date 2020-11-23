@@ -318,10 +318,31 @@ EXPORT unsigned int AliveFont::MeasureWidth_41C2B0(const char* /*pStr*/)
     return 0;
 }
 
-EXPORT int AliveFont::MeasureWidth_41C200(char /*a2*/)
+EXPORT int AliveFont::MeasureWidth_41C200(char character)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    int result = 0;
+    int charIndex = 0;
+
+    if (character <= 32 || character > 175)
+    {
+        if (character < 8 || character > 31)
+        {
+            return field_34_font_context->field_8_atlas_array[1].field_2_width;
+        }
+        charIndex = character + 84;
+    }
+    else
+    {
+        charIndex = character - 31;
+    }
+    result = field_34_font_context->field_8_atlas_array[charIndex].field_2_width;
+
+    if (!sFontDrawScreenSpace_508BF4)
+    {
+        result = static_cast<int>(result * 0.575);
+    }
+
+    return result;
 }
 
 
