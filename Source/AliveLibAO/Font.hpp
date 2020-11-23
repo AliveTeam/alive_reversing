@@ -56,7 +56,7 @@ public:
 
     EXPORT unsigned int MeasureWidth_41C2B0(const char* /*pStr*/);
 
-    EXPORT int MeasureWidth_41C200(char a2);
+    EXPORT int MeasureWidth_41C200(char character);
 
     EXPORT int MeasureWidth_41C280(const char* text, FP scale);
 

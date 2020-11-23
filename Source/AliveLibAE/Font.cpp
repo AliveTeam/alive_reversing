@@ -251,9 +251,9 @@ namespace Alive
         int result = 0;
         int charIndex = 0;
 
-        if (character <= 0x20u || character > 0xAFu)
+        if (character <= 32u || character > 175u)
         {
-            if (character < 7u || character > 0x1Fu)
+            if (character < 7u || character > 31u)
             {
                 return field_34_font_context->field_8_atlas_array[1].field_2_width;
             }

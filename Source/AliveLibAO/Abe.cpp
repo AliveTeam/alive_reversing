@@ -7526,7 +7526,7 @@ void Abe::State_68_LedgeHangWobble_428E50()
         if (!(field_2AA_flags & 2))
         {
             field_2AA_flags |= 2;
-            Environment_SFX_42A220(EnvironmentSfx::eElumGetMountedNoise_18, 0, 127, this);
+            Mudokon_SFX_42A4D0(MudSounds::eBeesStruggle_18, 45, -200, this);
         }
     }
     else
