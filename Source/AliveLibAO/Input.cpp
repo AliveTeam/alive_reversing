@@ -34,6 +34,13 @@ const InputCommands sInputKey_GameSpeak8_4C65E0 = eDoAction;
 EXPORT void InputObject::InitPad_4331A0(unsigned int /*padCount*/)
 {
     NOT_IMPLEMENTED();
+
+    for (PSX_Pad& pad : field_0_pads)
+    {
+        pad = {};
+    }
+
+    field_20_demo_playing &= ~1u;
 }
 
 EXPORT void InputObject::Update_433250()

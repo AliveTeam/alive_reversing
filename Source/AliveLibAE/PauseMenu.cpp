@@ -15,6 +15,7 @@
 #include "QuikSave.hpp"
 #include "VGA.hpp"
 #include "Mudokon.hpp"
+#include "Sys.hpp"
 
 ALIVE_VAR(1, 0x5ca4d8, char, sQuicksave_SaveNextFrame_5CA4D8, 0);
 ALIVE_VAR(1, 0x5ca4d9, char, sQuicksave_LoadNextFrame_5CA4D9, 0);

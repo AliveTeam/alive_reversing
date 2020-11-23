@@ -44,7 +44,7 @@ EXPORT int CC Sys_WindowClass_Register_48E9E0(LPCSTR lpClassName, LPCSTR lpWindo
 EXPORT void SYS_EventsPump_44FF90()
 {
     AE_IMPLEMENTED();
-    Sys_PumpMessages_4EE4F4();
+    SYS_EventsPump_494580();
 }
 
 }
