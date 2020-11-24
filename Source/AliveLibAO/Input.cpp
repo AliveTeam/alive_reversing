@@ -44,26 +44,20 @@ EXPORT void InputObject::InitPad_4331A0(unsigned int /*padCount*/)
     field_20_demo_playing &= ~1u;
 }
 
+ALIVE_ARY(1, 0x507778, BYTE, 64, sPad1Buffer_507778, {});
+ALIVE_ARY(1, 0x507738, BYTE, 64, sPad2Buffer_507738, {});
+
 EXPORT void InputObject::Update_433250()
 {
-    NOT_IMPLEMENTED();
+    const BYTE byte_4BB428[16] = { 0u, 64u, 0u, 32u, 192u, 0u, 224u, 0u, 128u, 96u, 0u, 0u, 160u, 0u, 0u, 0u };
 
-    // TODO: Try to mostly use the AE code - this changed quite a bit between games though
-
-    /*
-    pPadIter = &field_0_pads[0].field_2;
-    gnFrame = 2;
-    do
+    for (int i = 0; i < 2; i++)
     {
-        *((_WORD*)pPadIter + 1) = *((_WORD*)pPadIter - 1);
-        pPadIter[8] = *pPadIter;
-        pPadIter[9] = pPadIter[1];
-        pPadIter += 0xC;
-        --gnFrame;
-    } while (gnFrame);
-    */
+        field_0_pads[i].field_A = field_0_pads[i].field_2;
+        field_0_pads[i].field_B = field_0_pads[i].field_3;
+        field_0_pads[i].field_4_previously_pressed = field_0_pads[i].field_0_pressed;
+    }
 
-    /*
     if (sPad1Buffer_507778[0])                // can call Input_Read_Pad_49AF10 instead here to match AE
     {
         field_0_pads[0].field_0_pressed = 0;
@@ -81,15 +75,14 @@ EXPORT void InputObject::Update_433250()
     {
         field_0_pads[1].field_0_pressed = ~(sPad2Buffer_507738[3] + (sPad2Buffer_507738[2] << 8));
     }
-    */
 
     if (field_20_demo_playing & 1)
     {
         // Stop if any button on any pad is pressed
         if (field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed)
         {
-            //field_20_demo_playing &= ~1u;
-            //return;
+            field_20_demo_playing &= ~1u;
+            return;
         }
 
         if (static_cast<int>(gnFrameCount_507670) >= field_28_command_duration)
@@ -112,27 +105,13 @@ EXPORT void InputObject::Update_433250()
         }
     }
 
-    /*
-    pad_field4 = &field_0_pads[0].field_4;
-    k2Counter = 2;
-    do
+    for (int i = 0; i < 2; i++)
     {
-        LOWORD(gnFrame) = *pad_field4;
-        LOWORD(duration) = ~*(pad_field4 - 2);
-        v8 = duration & gnFrame;
-        pad_field4[2] = v8;
-        LOWORD(duration) = *pad_field4;
-        LOWORD(v8) = *(pad_field4 - 2);
-        pad_field4 += 6;
-        LOWORD(duration) = ~(_WORD)duration;
-        gnFrame = duration & v8;
-        *(pad_field4 - 5) = gnFrame;
-        *((_BYTE*)pad_field4 - 14) = byte_4BB428[(unsigned int)(unsigned __int16)*(pad_field4 - 8) >> 12];
-        duration = (unsigned __int8)(*((_BYTE*)pad_field4 - 16) >> 4);
-        --k2Counter;
-        *((_BYTE*)pad_field4 - 13) = byte_4BB428[duration];
-    } while (k2Counter);
-    */
+        field_0_pads[i].field_8_released = ~field_0_pads[i].field_0_pressed & field_0_pads[i].field_4_previously_pressed;
+        field_0_pads[i].field_6_held = ~field_0_pads[i].field_4_previously_pressed & field_0_pads[i].field_0_pressed;
+        field_0_pads[i].field_2 = byte_4BB428[(field_0_pads[i].field_0_pressed >> 12) & 0xF];
+        field_0_pads[i].field_3 = byte_4BB428[(field_0_pads[i].field_0_pressed >> 4) & 0xF];
+    }
 }
 
 EXPORT void CC InputObject::Shutdown_433230()

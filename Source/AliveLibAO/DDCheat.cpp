@@ -143,6 +143,10 @@ void DDCheat::ScreenShot_409720()
         char fileNameBuffer[16] = {};
         sprintf(fileNameBuffer, "SD%06ld.TGA", gnFrameCount_507670 % 1000000);
         const auto fileHandle = fopen(fileNameBuffer, "wb");
+        if (!fileHandle)
+        {
+            return;
+        }
         const PSX_RECT rect = { 0, 0, 640, static_cast<short>(gPsxDisplay_504C78.field_2_height) };
         PSX_StoreImage_496320(&rect, pixelBuffer);
         PSX_DrawSync_496750(0);
