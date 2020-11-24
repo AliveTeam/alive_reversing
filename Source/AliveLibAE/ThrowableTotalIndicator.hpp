@@ -42,7 +42,7 @@ private:
     __int16 field_44_g;
     __int16 field_46_b;
     __int16 field_48_num_to_show;
-    Line_G2 field_4C_prims[2][6];
+    Line_G2 field_4C_lines[2][6];
     Prim_SetTPage field_16C_tPage[2];
     ThrowableTotalIndicatorState field_18C_state;
     __int16 field_18E_bFade;

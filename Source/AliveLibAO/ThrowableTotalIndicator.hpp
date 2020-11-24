@@ -54,11 +54,7 @@ public:
     __int16 field_38_num_to_show;
     __int16 field_3A_pad;
 
-    // TODO: This data structure is probably wrong
-    Line_G2 field_3C[2][6];
-    Prim_SetTPage field_15C[2];
-    // end wrongness
-
+    Line_F2 field_3C_lines[2][8];
     Prim_SetTPage field_17C_tPage[2];
     ThrowableTotalIndicatorState field_19C_state;
     __int16 field_19E_bFade;

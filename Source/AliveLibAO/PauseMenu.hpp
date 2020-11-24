@@ -63,5 +63,6 @@ public:
 ALIVE_ASSERT_SIZEOF(PauseMenu, 0x190);
 
 ALIVE_VAR_EXTERN(PauseMenu*, pPauseMenu_5080E0);
+ALIVE_VAR_EXTERN(char, byte_A88B90);
 
 }
