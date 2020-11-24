@@ -81,7 +81,7 @@ void PolyGT3_Init(Poly_GT3* pPrim)
 
 void Line_F2_Init(Line_F2* pPrim)
 {
-    SetNumLongs(&pPrim->mBase.header, 4);
+    SetNumLongs(&pPrim->mBase.header, 3);
     SetUnknown(&pPrim->mBase.header);
     SetCode(&pPrim->mBase.header, PrimTypeCodes::eLineF2);
 }

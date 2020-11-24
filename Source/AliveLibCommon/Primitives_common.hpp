@@ -185,7 +185,7 @@ struct Line_F2
     Poly_Base mBase;
     FVertWrapper mVerts[1];
 };
-// TODO: Assert size
+ALIVE_ASSERT_SIZEOF(Line_F2, 0x14);
 
 struct Line_F3
 {

@@ -326,7 +326,7 @@ void ThrowableTotalIndicator::vRender_432070(int** pOt)
         const FP y0 = FP_FromInteger(kNumbersArray_551B20[field_48_num_to_show][(4 * counter) + 2]) * field_38_scale;
         const FP x1 = FP_FromInteger(kNumbersArray_551B20[field_48_num_to_show][(4 * counter) + 3]) * field_38_scale;
         const FP y1 = FP_FromInteger(kNumbersArray_551B20[field_48_num_to_show][(4 * counter) + 4]) * field_38_scale;
-        Line_G2* pLine = &field_4C_prims[gPsxDisplay_5C1130.field_C_buffer_index][counter];
+        Line_G2* pLine = &field_4C_lines[gPsxDisplay_5C1130.field_C_buffer_index][counter];
 
         LineG2_Init(pLine);
 
@@ -350,5 +350,6 @@ void ThrowableTotalIndicator::vRender_432070(int** pOt)
         ypos - 8,
         xpos + 8,
         ypos + 8,
-        pScreenManager_5BB5F4->field_3A_idx);
+        pScreenManager_5BB5F4->field_3A_idx
+    );
 }
