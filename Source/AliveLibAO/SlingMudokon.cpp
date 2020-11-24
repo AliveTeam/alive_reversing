@@ -597,7 +597,7 @@ __int16 SlingMudokon::tsub_470230()
             return 5;
         }
 
-        if (static_cast<int>(gnFrameCount_507670) > gnFrameCount_507670)
+        if (field_140_timer > static_cast<int>(gnFrameCount_507670))
         {
             return field_13A_brain_state;
         }
