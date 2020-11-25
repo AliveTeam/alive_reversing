@@ -48,10 +48,63 @@ EXPORT void SND_Set_Stereo_477030()
 }
 
 // TODO: Move out
-EXPORT int CC Input_SaveSettingsIni_44F460()
+EXPORT const char* CC Input_GetButtonString_44F1C0(InputCommands /*input_command*/)
 {
     NOT_IMPLEMENTED();
-    return 0;
+    return "lol"; // don't kill standalone
+}
+
+ALIVE_VAR(1, 0x508A64, DWORD, dword_508A64, 0);
+
+// TODO: Move out
+EXPORT int CC Input_SaveSettingsIni_44F460()
+{
+    FILE* iniFileHandle = fopen("abe.ini", "w");
+    if (!iniFileHandle)
+    {
+        return 0;
+    }
+
+    dword_508A64 = 1;
+    fprintf(iniFileHandle, "[Control Layout]\n");
+    if (sJoystickEnabled_508A60)
+    {
+        if (sJoystickEnabled_508A60 == 1)
+        {
+            fprintf(iniFileHandle, "controller = Game Pad\n");
+        }
+    }
+    else
+    {
+        fprintf(iniFileHandle, "controller = Keyboard\n");
+    }
+    auto oldJoystickEnabled = sJoystickEnabled_508A60;
+
+    sJoystickEnabled_508A60 = 0;
+
+    fprintf(iniFileHandle, "[Keyboard]\n");
+    fprintf(iniFileHandle, "run = %s\n", Input_GetButtonString_44F1C0(InputCommands::eRun));
+    fprintf(iniFileHandle, "sneak = %s\n", Input_GetButtonString_44F1C0(InputCommands::eSneak));
+    fprintf(iniFileHandle, "jump = %s\n", Input_GetButtonString_44F1C0(InputCommands::eHop));
+    fprintf(iniFileHandle, "action = %s\n", Input_GetButtonString_44F1C0(InputCommands::eDoAction));
+    fprintf(iniFileHandle, "throw = %s\n", Input_GetButtonString_44F1C0(InputCommands::eThrowItem));
+    fprintf(iniFileHandle, "crouch = %s\n", Input_GetButtonString_44F1C0(InputCommands::eFartOrRoll));
+
+    sJoystickEnabled_508A60 = 1;
+
+    fprintf(iniFileHandle, "[Game Pad]\n");
+    fprintf(iniFileHandle, "run = %s\n", Input_GetButtonString_44F1C0(InputCommands::eRun));
+    fprintf(iniFileHandle, "sneak = %s\n", Input_GetButtonString_44F1C0(InputCommands::eSneak));
+    fprintf(iniFileHandle, "jump = %s\n", Input_GetButtonString_44F1C0(InputCommands::eHop));
+    fprintf(iniFileHandle, "action = %s\n", Input_GetButtonString_44F1C0(InputCommands::eDoAction));
+    fprintf(iniFileHandle, "throw = %s\n", Input_GetButtonString_44F1C0(InputCommands::eThrowItem));
+    fprintf(iniFileHandle, "crouch = %s\n", Input_GetButtonString_44F1C0(InputCommands::eFartOrRoll));
+
+    sJoystickEnabled_508A60 = oldJoystickEnabled;
+
+    fclose(iniFileHandle);
+    dword_508A64 = 0;
+    return 1;
 }
 
 // TODO: Move out
@@ -59,13 +112,6 @@ EXPORT int CC Input_Remap_44F300(InputCommands /*inputCmd*/)
 {
     NOT_IMPLEMENTED();
     return 0;
-}
-
-// TODO: Move out
-EXPORT const char* CC Input_GetButtonString_44F1C0(InputCommands /*input_command*/)
-{
-    NOT_IMPLEMENTED();
-    return "lol"; // don't kill standalone
 }
 
 ALIVE_VAR(1, 0x9F2DE8, short, bWaitingForRemapInput_9F2DE8, 0);
@@ -2947,7 +2993,7 @@ const Menu_Element chooseAndExitRemapButtons_4D0690[2] =
     { 301, 163, 2048 }
 };
 
-const Menu_Button remapButtons_4D0170[8] =
+const Menu_Button remapButtons_4D0170[10] =
 {
     { 172, 78, 6176 },
     { 172, 109, 6176 },
@@ -2956,7 +3002,9 @@ const Menu_Button remapButtons_4D0170[8] =
     { 258, 77, 6176 },
     { 258, 109, 6176 },
     { 258, 138, 6176 },
-    { 258, 169, 6176 }
+    { 258, 169, 6176 },
+    { 41, 69, 6152 },
+    { 302, 199, 6152 }
 };
 
 const char* inputActions_4D0070[8] =
@@ -2979,7 +3027,7 @@ void Menu::ButtonRemap_Render_47F940(int** ppOt)
     field_134_anim.Set_Animation_Data_402A40(frameTable, 0);
 
     int polyOffset = 0;
-    for (int i = 0; i < ALIVE_COUNTOF(remapButtons_4D0170); i++)
+    for (int i = 0; i < ALIVE_COUNTOF(remapButtons_4D0170) - 2; i++)
     {
         RenderElement_47A4E0(
             remapButtons_4D0170[i].field_0_xpos,
