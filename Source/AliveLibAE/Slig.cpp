@@ -6943,7 +6943,7 @@ __int16 CCSTD Slig::InZCover_4BB7C0(BaseAliveGameObject* pObj)
     PSX_RECT bRect = {};
     pObj->vGetBoundingRect_424FD0(&bRect, 1);
 
-    return Bullet::InZBulletCover(FP_FromInteger(bRect.x), FP_FromInteger(bRect.y), bRect);
+    return Bullet::InZBulletCover(pObj->field_B8_xpos, FP_FromInteger(bRect.y), bRect);
 }
 
 BOOL CCSTD Slig::RenderLayerIs_4BBBC0(BaseAliveGameObject* pThis)
