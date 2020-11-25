@@ -77,9 +77,9 @@ Dove* Dove::ctor_41F430(int frameTableOffset, int /*maxW*/, unsigned __int16 /*m
         field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
     }
 
-    field_C8_vely = FP_FromInteger(-4 - (Math_NextRandom() & 3));
+    field_C8_vely = FP_FromInteger(-4 - (Math_NextRandom() % 4));
     field_FE_state = State::State_0_OnGround;
-    field_20_animation.SetFrame_409D50(Math_NextRandom() & 7);
+    field_20_animation.SetFrame_409D50(Math_NextRandom() % 8);
     field_FC_keepInGlobalArray = FALSE;
     field_F8_tlvInfo = tlvInfo;
 
@@ -130,7 +130,7 @@ Dove* Dove::ctor_41F660(int frameTableOffset, int /*maxW*/, __int16 /*maxH*/, in
         field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
     }
 
-    field_C8_vely = FP_FromInteger(-4 - (Math_NextRandom() & 3));
+    field_C8_vely = FP_FromInteger(-4 - (Math_NextRandom() % 4));
     field_FE_state = State::State_1_FlyAway;
     field_FC_keepInGlobalArray = TRUE;
     field_F4_counter = 0;
@@ -233,17 +233,18 @@ void Dove::AsJoin_41F940(FP xpos, FP ypos)
     field_108_timer = sGnFrame_5C1B84 + 47;
 }
 
-void Dove::FlyAway_420020(__int16 a2)
+void Dove::FlyAway_420020(BOOL spookedInstantly)
 {
     if (field_FE_state != State::State_1_FlyAway)
     {
         field_FE_state = State::State_1_FlyAway;
-        if (a2)
+        if (spookedInstantly)
         {
             field_F4_counter = -1;
         }
         else
         {
+            // extra delay before flying away
             field_F4_counter = -10 - Math_NextRandom() % 10;
         }
     }
@@ -251,9 +252,9 @@ void Dove::FlyAway_420020(__int16 a2)
 
 ALIVE_VAR(1, 0x5BC10C, int, bExtraSeqStarted_5BC10C, 0);
 
-static int dword_5BC114 = 0;
-static short word_551546 = 0;
-static short word_551544 = 0;
+static int sAbePortalTimer_5BC114 = 0;
+static short sAbePortalDirection_551546 = 0;
+static short sAbePortalWidth_551544 = 0;
 
 void Dove::vUpdate_41FAE0()
 {
@@ -312,9 +313,9 @@ void Dove::vUpdate_41FAE0()
         field_C8_vely = (field_C8_vely * FP_FromDouble(1.03));
         field_C4_velx = (field_C4_velx * FP_FromDouble(1.03));
 
-        if (field_F4_counter >= (25 - (Math_NextRandom() & 7)))
+        if (field_F4_counter >= (25 - (Math_NextRandom() % 8)))
         {
-            field_F4_counter += (Math_NextRandom() & 7) - 25;
+            field_F4_counter += (Math_NextRandom() % 8) - 25;
             field_C4_velx = -field_C4_velx;
         }
 
@@ -364,24 +365,28 @@ void Dove::vUpdate_41FAE0()
         return;
 
     case State::State_4_AlmostACircle:
-        if (dword_5BC114 != static_cast<int>(sGnFrame_5C1B84))
+        if (sAbePortalTimer_5BC114 != static_cast<int>(sGnFrame_5C1B84))
         {
-            const int v22 = word_551546 + word_551544;
-            dword_5BC114 = sGnFrame_5C1B84;
-            word_551544 += word_551546;
-            if (word_551546 + word_551544 == 0)
+            // increase or decrease the width of the Abe portal
+            sAbePortalWidth_551544 += sAbePortalDirection_551546;
+            sAbePortalTimer_5BC114 = sGnFrame_5C1B84;
+
+            if (sAbePortalWidth_551544 == 0)
             {
-                word_551546 = 1;
+                // expanding
+                sAbePortalDirection_551546 = 1;
             }
-            else if (v22 == 30)
+            else if (sAbePortalWidth_551544 == 30)
             {
-                word_551546 = -1;
+                // contracting
+                sAbePortalDirection_551546 = -1;
             }
         }
+
         field_114_prevY = field_BC_ypos;
         field_10C_angle += 4;
         field_110_prevX = field_B8_xpos;
-        field_B8_xpos = ((Math_Sine_496DD0(field_10C_angle) * FP_FromInteger(word_551544)) * field_CC_sprite_scale) + field_100_xJoin;
+        field_B8_xpos = ((Math_Sine_496DD0(field_10C_angle) * FP_FromInteger(sAbePortalWidth_551544)) * field_CC_sprite_scale) + field_100_xJoin;
         field_BC_ypos = ((Math_Cosine_496CD0(field_10C_angle) * FP_FromInteger(35)) * field_CC_sprite_scale) + field_104_yJoin;
         return;
 
@@ -400,7 +405,7 @@ void Dove::vUpdate_41FAE0()
     }
 }
 
-void CC Dove::All_FlyAway_41FA60(__int16 a1)
+void CC Dove::All_FlyAway_41FA60(BOOL spookedInstantly)
 {
     for (int i = 0; i < gDovesArray_5BC100.Size(); i++)
     {
@@ -409,7 +414,8 @@ void CC Dove::All_FlyAway_41FA60(__int16 a1)
         {
             break;
         }
-        pDove->FlyAway_420020(a1);
+
+        pDove->FlyAway_420020(spookedInstantly);
     }
 
     bExtraSeqStarted_5BC10C = 0; // TODO: Never read ??
