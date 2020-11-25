@@ -146,12 +146,6 @@ void SaveGame::Load_459970(SaveData* pData, int bKillObjects)
         1);
 }
 
-void SaveGame::sub_45A2D0(unsigned char*, const unsigned char* const* , int)
-{
-    NOT_IMPLEMENTED();
-}
-
-
 const char word_4BC670[6][8] =
 {
     { 0x0F, 0x10, 0x11, 0x12, 0x13, 0x14, 0x00, 0x00 },
@@ -277,7 +271,7 @@ const BYTE byte_4BC608[] =
 };
 
 using byteArray = decltype(byte_4BC450);
-const unsigned char* const dword_4BC62C[] =
+const unsigned char* encodedLevelNames_4BC62C[] =
 {
     nullptr,
     byte_4BC450,
@@ -292,6 +286,22 @@ const unsigned char* const dword_4BC62C[] =
     nullptr,
     nullptr,
     byte_4BC4A0
+};
+
+const char* rawLevelNames[] = {
+    nullptr,
+    "RuptureFarms     ",
+    "Stockyard Escape ",
+    "Paramonia        ",
+    "Paramonian Temple",
+    "Stockyard Escape ",
+    "Stockyard Return ",
+    nullptr,
+    "Scrabania        ",
+    "Scrabanian Temple",
+    nullptr,
+    nullptr,
+    "The Boardroom    "
 };
 
 short SaveGame::GetPathId(short pathToFind, short* outFoundPathRow)
@@ -333,11 +343,15 @@ void CC SaveGame::Save_459490(SaveData* pSaveData)
 
     pSaveData->field_0_header = *pHeaderToUse;
 
-    sub_45A2D0(
-        &pSaveData->field_0_header.field_0_frame_1_name[4],
-        &dword_4BC62C[static_cast<int>(gMap_507BA8.field_0_current_level)],
-        34
-    );
+    auto lvName = rawLevelNames[static_cast<int>(gMap_507BA8.field_0_current_level)];
+    if (lvName != nullptr)
+    {
+        memcpy(
+            reinterpret_cast<char*>(&pSaveData->field_0_header.field_0_frame_1_name[4]),
+            lvName,
+            18
+        );
+    }
 
     if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
     {

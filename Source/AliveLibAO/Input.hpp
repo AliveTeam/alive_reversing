@@ -9,9 +9,11 @@ struct PSX_Pad
     unsigned __int16 field_0_pressed;
     unsigned __int8 field_2;
     char field_3;
-    __int16 field_4;
+    __int16 field_4_previously_pressed;
     unsigned __int16 field_6_held;
-    int field_8_released;
+    __int16 field_8_released;
+    __int8 field_A;
+    __int8 field_B;
 };
 ALIVE_ASSERT_SIZEOF(PSX_Pad, 0xC);
 

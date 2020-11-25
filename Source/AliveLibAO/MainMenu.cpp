@@ -48,10 +48,63 @@ EXPORT void SND_Set_Stereo_477030()
 }
 
 // TODO: Move out
-EXPORT int CC Input_SaveSettingsIni_44F460()
+EXPORT const char* CC Input_GetButtonString_44F1C0(InputCommands /*input_command*/)
 {
     NOT_IMPLEMENTED();
-    return 0;
+    return "lol"; // don't kill standalone
+}
+
+ALIVE_VAR(1, 0x508A64, DWORD, dword_508A64, 0);
+
+// TODO: Move out
+EXPORT int CC Input_SaveSettingsIni_44F460()
+{
+    FILE* iniFileHandle = fopen("abe.ini", "w");
+    if (!iniFileHandle)
+    {
+        return 0;
+    }
+
+    dword_508A64 = 1;
+    fprintf(iniFileHandle, "[Control Layout]\n");
+    if (sJoystickEnabled_508A60)
+    {
+        if (sJoystickEnabled_508A60 == 1)
+        {
+            fprintf(iniFileHandle, "controller = Game Pad\n");
+        }
+    }
+    else
+    {
+        fprintf(iniFileHandle, "controller = Keyboard\n");
+    }
+    auto oldJoystickEnabled = sJoystickEnabled_508A60;
+
+    sJoystickEnabled_508A60 = 0;
+
+    fprintf(iniFileHandle, "[Keyboard]\n");
+    fprintf(iniFileHandle, "run = %s\n", Input_GetButtonString_44F1C0(InputCommands::eRun));
+    fprintf(iniFileHandle, "sneak = %s\n", Input_GetButtonString_44F1C0(InputCommands::eSneak));
+    fprintf(iniFileHandle, "jump = %s\n", Input_GetButtonString_44F1C0(InputCommands::eHop));
+    fprintf(iniFileHandle, "action = %s\n", Input_GetButtonString_44F1C0(InputCommands::eDoAction));
+    fprintf(iniFileHandle, "throw = %s\n", Input_GetButtonString_44F1C0(InputCommands::eThrowItem));
+    fprintf(iniFileHandle, "crouch = %s\n", Input_GetButtonString_44F1C0(InputCommands::eFartOrRoll));
+
+    sJoystickEnabled_508A60 = 1;
+
+    fprintf(iniFileHandle, "[Game Pad]\n");
+    fprintf(iniFileHandle, "run = %s\n", Input_GetButtonString_44F1C0(InputCommands::eRun));
+    fprintf(iniFileHandle, "sneak = %s\n", Input_GetButtonString_44F1C0(InputCommands::eSneak));
+    fprintf(iniFileHandle, "jump = %s\n", Input_GetButtonString_44F1C0(InputCommands::eHop));
+    fprintf(iniFileHandle, "action = %s\n", Input_GetButtonString_44F1C0(InputCommands::eDoAction));
+    fprintf(iniFileHandle, "throw = %s\n", Input_GetButtonString_44F1C0(InputCommands::eThrowItem));
+    fprintf(iniFileHandle, "crouch = %s\n", Input_GetButtonString_44F1C0(InputCommands::eFartOrRoll));
+
+    sJoystickEnabled_508A60 = oldJoystickEnabled;
+
+    fclose(iniFileHandle);
+    dword_508A64 = 0;
+    return 1;
 }
 
 // TODO: Move out
@@ -59,13 +112,6 @@ EXPORT int CC Input_Remap_44F300(InputCommands /*inputCmd*/)
 {
     NOT_IMPLEMENTED();
     return 0;
-}
-
-// TODO: Move out
-EXPORT const char* CC Input_GetButtonString_44F1C0(InputCommands /*input_command*/)
-{
-    NOT_IMPLEMENTED();
-    return "lol"; // don't kill standalone
 }
 
 ALIVE_VAR(1, 0x9F2DE8, short, bWaitingForRemapInput_9F2DE8, 0);
@@ -2941,9 +2987,198 @@ void Menu::Goto_ConfigureController_OrSave_SettingIni_Update_47F380()
     }
 }
 
-void Menu::ButtonRemap_Render_47F940(int** /*ppOt*/)
+const Menu_Element chooseAndExitRemapButtons_4D0690[2] =
 {
-    NOT_IMPLEMENTED();
+    { 40, 34, 64 },
+    { 301, 163, 2048 }
+};
+
+const Menu_Button remapButtons_4D0170[10] =
+{
+    { 172, 78, 6176 },
+    { 172, 109, 6176 },
+    { 172, 138, 6176 },
+    { 172, 169, 6176 },
+    { 258, 77, 6176 },
+    { 258, 109, 6176 },
+    { 258, 138, 6176 },
+    { 258, 169, 6176 },
+    { 41, 69, 6152 },
+    { 302, 199, 6152 }
+};
+
+const char* inputActions_4D0070[8] =
+{
+    "Run", "Sneak", "Jump", "Speak 1", "Action", "Throw", "Crouch", "Speak 2"
+};
+
+
+void Menu::ButtonRemap_Render_47F940(int** ppOt)
+{
+    int frameTable = 0;
+    if (field_230_bGoBack == -1)
+    {
+        frameTable = remapButtons_4D0170[field_1E0_selected_index].field_4_frame_table;
+    }
+    else
+    {
+        frameTable = remapButtons_4D0170[field_230_bGoBack].field_4_frame_table;
+    }
+    field_134_anim.Set_Animation_Data_402A40(frameTable, 0);
+
+    int polyOffset = 0;
+    for (int i = 0; i < ALIVE_COUNTOF(remapButtons_4D0170) - 2; i++)
+    {
+        RenderElement_47A4E0(
+            remapButtons_4D0170[i].field_0_xpos,
+            remapButtons_4D0170[i].field_2_ypos,
+            dword_4D0030.buttons[sJoystickEnabled_508A60 != 0][i],
+            ppOt,
+            &field_FC_font,
+            &polyOffset
+        );
+    }
+
+    if (field_230_bGoBack == -1)
+    {
+        field_134_anim.VRender_403AE0(
+            remapButtons_4D0170[field_1E0_selected_index].field_0_xpos - 3,
+            remapButtons_4D0170[field_1E0_selected_index].field_2_ypos + 1,
+            ppOt,
+            0,
+            0
+        );
+    }
+    else
+    {
+        field_134_anim.VRender_403AE0(
+            remapButtons_4D0170[field_230_bGoBack].field_0_xpos,
+            remapButtons_4D0170[field_230_bGoBack].field_2_ypos,
+            ppOt,
+            0,
+            0
+        );
+    }
+    if (field_230_bGoBack == 8)
+    {
+        const int maxFontWidth = 336;
+        if (sJoystickEnabled_508A60)
+        {
+            field_1F4_text = "Press button to use";
+        }
+        else
+        {
+            field_1F4_text = "Press key to use";
+        }
+        int fontWidth = field_FC_font.MeasureWidth_41C280(field_1F4_text, FP_FromInteger(1));
+        short calculatedXposBasedOnWidth = 0;
+        if (fontWidth >= maxFontWidth)
+        {
+            calculatedXposBasedOnWidth = 16;
+        }
+        else
+        {
+            calculatedXposBasedOnWidth = static_cast<short>((368 - fontWidth) / 2);
+        }
+        int drawnStringOffset = field_FC_font.DrawString_41C360(
+            ppOt,
+            field_1F4_text,
+            calculatedXposBasedOnWidth,
+            88,
+            0,
+            1,
+            0,
+            41,
+            40,
+            20,
+            0,
+            polyOffset,
+            FP_FromInteger(1),
+            640,
+            0);
+        polyOffset = drawnStringOffset;
+
+        char buffer[40] = {};
+        sprintf(buffer, "for %s", inputActions_4D0070[field_1E0_selected_index]);
+        field_1F4_text = buffer;
+        auto fontWidth2 = field_FC_font.MeasureWidth_41C280(buffer, FP_FromInteger(1));
+        short calculatedXposBasedOnWidth2 = 0;
+        if (fontWidth2 >= maxFontWidth)
+        {
+            calculatedXposBasedOnWidth2 = 16;
+        }
+        else
+        {
+            calculatedXposBasedOnWidth2 = static_cast<short>((368 - fontWidth2) / 2);
+        }
+        polyOffset = field_FC_font.DrawString_41C360(
+            ppOt,
+            field_1F4_text,
+            calculatedXposBasedOnWidth2,
+            120,
+            0,
+            1,
+            0,
+            41,
+            40,
+            20,
+            0,
+            polyOffset,
+            FP_FromInteger(1),
+            640,
+            0
+        );
+        field_1F4_text = "or Esc for none";
+        auto fontWidth3 = field_FC_font.MeasureWidth_41C280("or Esc for none", FP_FromInteger(1));
+        short calculatedXposBasedOnWidth3 = 0;
+        if (fontWidth3 >= maxFontWidth)
+        {
+            calculatedXposBasedOnWidth3 = 16;
+        }
+        else
+        {
+            calculatedXposBasedOnWidth3 = static_cast<short>((368 - fontWidth3) / 2);
+        }
+        polyOffset = field_FC_font.DrawString_41C360(
+            ppOt,
+            field_1F4_text,
+            calculatedXposBasedOnWidth3,
+            152,
+            0,
+            1,
+            0,
+            41,
+            40,
+            20,
+            0,
+            polyOffset,
+            FP_FromInteger(1),
+            640,
+            0
+        );
+    }
+
+    PSX_RECT pRect = {};
+    field_134_anim.Get_Frame_Rect_402B50(&pRect);
+    pScreenManager_4FF7C8->InvalidateRect_406E40(
+        pRect.x,
+        pRect.y,
+        pRect.w,
+        pRect.h,
+        pScreenManager_4FF7C8->field_2E_idx
+    );
+
+    for( int i = 0; i < ALIVE_COUNTOF(chooseAndExitRemapButtons_4D0690); i++)
+    {
+        RenderElement_47A4E0(
+            chooseAndExitRemapButtons_4D0690[i].field_0_xpos,
+            chooseAndExitRemapButtons_4D0690[i].field_4_ypos,
+            chooseAndExitRemapButtons_4D0690[i].field_8_input_command,
+            ppOt,
+            &field_FC_font,
+            &polyOffset
+        );
+    }
 }
 
 void Menu::To_ButtonRemap_Update_47F860()
