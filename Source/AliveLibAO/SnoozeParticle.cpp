@@ -7,6 +7,8 @@
 #include "Game.hpp"
 #include "Events.hpp"
 #include "CameraSwapper.hpp"
+#include "PsxDisplay.hpp"
+#include "ScreenManager.hpp"
 #include "Sfx.hpp"
 
 namespace AO {
@@ -207,9 +209,148 @@ void SnoozeParticle::VRender(int** ppOt)
     VRender_464620(ppOt);
 }
 
-void SnoozeParticle::VRender_464620(int** /*ppOt*/)
+//Identical to AE
+const PSX_Point explosionVerts[6][2] =
 {
-    NOT_IMPLEMENTED();
+    { { -3, -4 }, { -6, -7 } },
+    { { 3, -4 }, { 6, -7 } },
+    { { 4, -1 }, { 7, -1 } },
+    { { -4, 1 }, { -7, 1 } },
+    { { -3, 4 }, { -6, 7 } },
+    { { 3, 4 }, { 6, 7 } }
+};
+const __int16 zVerts[8] =
+{
+    -4,
+    -4,
+    4,
+    -4,
+    -4,
+    4,
+    4,
+    4
+};
+
+void SnoozeParticle::VRender_464620(int** ppOt)
+{
+    //Identical to AE except xInScreen, yInScreen are offset by pScreenManager_4FF7C8 positions
+    PSX_RECT rectToInvalidate = {};
+    FP_Point* pCamPos = pScreenManager_4FF7C8->field_10_pCamPos;
+    const __int16 bufIdx = gPsxDisplay_504C78.field_A_buffer_index;
+
+    if (field_1D4_state == SnoozeParticleState::BlowingUp_2)
+    {
+        const __int16 xInScreen = FP_GetExponent(field_18_x - pCamPos->field_0_x) + pScreenManager_4FF7C8->field_14_xpos;
+        const __int16 yInScreen = FP_GetExponent(field_1C_y - pCamPos->field_4_y) + pScreenManager_4FF7C8->field_16_ypos;
+
+        for (int i = 0; i < ALIVE_COUNTOF(explosionVerts); i++)
+        {
+            Line_G2* pZExplosionLine = &field_94_lines[bufIdx][i];
+            LineG2_Init(pZExplosionLine);
+
+            const int scaledLineRelativeStartX = FP_GetExponent(FP_FromInteger(explosionVerts[i][0].field_0_x) * field_28_scale);
+            const int scaledLineRelativeStartY = FP_GetExponent(FP_FromInteger(explosionVerts[i][0].field_2_y) * field_28_scale);
+            const int scaledLineRelativeEndX = FP_GetExponent(FP_FromInteger(explosionVerts[i][1].field_0_x) * field_28_scale);
+            const int scaledLineRelativeEndY = FP_GetExponent(FP_FromInteger(explosionVerts[i][1].field_2_y) * field_28_scale);
+            SetXY0(pZExplosionLine,
+                static_cast<__int16>(PsxToPCX(xInScreen + scaledLineRelativeStartX, 11)),
+                static_cast<__int16>(yInScreen + scaledLineRelativeStartY)
+            );
+            SetXY1(pZExplosionLine,
+                static_cast<__int16>(PsxToPCX(xInScreen + scaledLineRelativeEndX, 11)),
+                static_cast<__int16>(yInScreen + scaledLineRelativeEndY)
+            );
+
+            SetRGB0(pZExplosionLine,
+                static_cast<BYTE>(field_32_r / 2),
+                static_cast<BYTE>(field_34_g / 2),
+                static_cast<BYTE>(field_36_b / 2)
+            );
+            SetRGB1(pZExplosionLine,
+                static_cast<BYTE>(field_32_r),
+                static_cast<BYTE>(field_34_g),
+                static_cast<BYTE>(field_36_b)
+            );
+
+            Poly_Set_SemiTrans_498A40(&pZExplosionLine->mBase.header, 1);
+            OrderingTable_Add_498A80(&ppOt[field_30_layer], &pZExplosionLine->mBase.header);
+        }
+        rectToInvalidate.x = static_cast<__int16>(PsxToPCX(xInScreen - 8, 0));
+        rectToInvalidate.w = static_cast<__int16>(PsxToPCX(xInScreen + 8, 0));
+        rectToInvalidate.y = static_cast<__int16>(yInScreen - 8);
+        rectToInvalidate.h = static_cast<__int16>(yInScreen + 8);
+    }
+    else
+    {
+        Line_G4* pZLine = &field_3C_lines[bufIdx];
+        LineG4_Init(pZLine);
+
+        const __int16 xInScreen = FP_GetExponent(field_18_x - pCamPos->field_0_x) + pScreenManager_4FF7C8->field_14_xpos;
+        const __int16 yInScreen = FP_GetExponent(field_1C_y - pCamPos->field_4_y) + pScreenManager_4FF7C8->field_16_ypos;
+
+        const __int16 RectX_v_Psx = xInScreen + FP_GetExponent(FP_FromInteger(zVerts[0]) * field_28_scale);
+        const __int16 RectW_v_Psx = xInScreen + FP_GetExponent(FP_FromInteger(zVerts[5]) * field_28_scale);
+
+        const __int16 rectX_v = PsxToPCX(RectX_v_Psx, 11);
+        const __int16 rectY_v = FP_GetExponent(FP_FromInteger(zVerts[1]) * field_28_scale) + yInScreen;
+        const __int16 rectW_v = PsxToPCX(RectW_v_Psx, 11);
+        const __int16 rectH_v = yInScreen + FP_GetExponent(FP_FromInteger(zVerts[7]) * field_28_scale);
+
+        SetXY0(pZLine,
+            rectX_v,
+            rectY_v
+        );
+        SetXY1(pZLine,
+            static_cast<__int16>(PsxToPCX(xInScreen + FP_GetExponent(FP_FromInteger(zVerts[2]) * field_28_scale), 11)),
+            yInScreen + FP_GetExponent(FP_FromInteger(zVerts[3]) * field_28_scale)
+        );
+        SetXY2(pZLine,
+            static_cast<__int16>(PsxToPCX(xInScreen + FP_GetExponent(FP_FromInteger(zVerts[4]) * field_28_scale), 11)),
+            yInScreen + FP_GetExponent(FP_FromInteger(zVerts[5]) * field_28_scale)
+        );
+        SetXY3(pZLine,
+            rectW_v,
+            rectH_v
+        );
+
+        SetRGB0(pZLine,
+            static_cast<BYTE>(field_32_r * 8 / 10),
+            static_cast<BYTE>(field_34_g * 8 / 10),
+            static_cast<BYTE>(field_36_b * 8 / 10)
+        );
+        SetRGB1(pZLine,
+            static_cast<BYTE>(field_32_r),
+            static_cast<BYTE>(field_34_g),
+            static_cast<BYTE>(field_36_b)
+        );
+        SetRGB2(pZLine,
+            static_cast<BYTE>(field_32_r * 7 / 10),
+            static_cast<BYTE>(field_34_g * 7 / 10),
+            static_cast<BYTE>(field_36_b * 7 / 10)
+        );
+        SetRGB3(pZLine,
+            static_cast<BYTE>(field_32_r / 2),
+            static_cast<BYTE>(field_34_g / 2),
+            static_cast<BYTE>(field_36_b / 2)
+        );
+
+        Poly_Set_SemiTrans_498A40(&pZLine->mBase.header, 1);
+        OrderingTable_Add_498A80(&ppOt[field_30_layer], &pZLine->mBase.header);
+        rectToInvalidate.x = rectX_v;
+        rectToInvalidate.y = rectY_v;
+        rectToInvalidate.w = rectW_v;
+        rectToInvalidate.h = rectH_v;
+    }
+    Prim_SetTPage* thisTPage = &field_1B4_tPage[bufIdx];
+    const int tPage = PSX_getTPage_4965D0(0, 1, 0, 0);
+    Init_SetTPage_495FB0(thisTPage, 1, 0, tPage);
+    OrderingTable_Add_498A80(&ppOt[field_30_layer], &thisTPage->mBase);
+
+    pScreenManager_4FF7C8->InvalidateRect_406E40(
+        rectToInvalidate.x, rectToInvalidate.y,
+        rectToInvalidate.w, rectToInvalidate.h,
+        pScreenManager_4FF7C8->field_2E_idx
+    );
 }
 
 }

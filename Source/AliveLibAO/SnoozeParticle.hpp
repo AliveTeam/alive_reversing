@@ -53,7 +53,7 @@ public:
     __int16 field_38_idx;
     __int16 field_3A_count_down;
     Line_G4 field_3C_lines[2];
-    Line_G2 field_94_lines[12];
+    Line_G2 field_94_lines[2][6];
     Prim_SetTPage field_1B4_tPage[2];
     SnoozeParticleState field_1D4_state;
     __int16 field_1D6_pad;
