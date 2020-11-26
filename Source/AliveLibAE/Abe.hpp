@@ -375,6 +375,8 @@ public:
     virtual BirdPortal* VIntoBirdPortal_408FD0(__int16 gridBlocks) override;
     virtual void VOnTrapDoorOpen() override;
 
+    void DoRunJump();
+
     // Virtual impls
     EXPORT BaseGameObject* vdtor_44B350(signed int flags);
     EXPORT void Update_449DC0();
