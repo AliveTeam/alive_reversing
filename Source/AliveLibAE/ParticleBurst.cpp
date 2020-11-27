@@ -166,7 +166,7 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int numOfPa
                 Random_Speed_41CEE0(&field_F8_pRes[i].field_10_y_speed);
                 // OG bug sign could be wrong here as it called random again to Abs() it!
                 FP zRandom = {};
-                field_F8_pRes[i].field_14_z_speed = FP_Abs(*Random_Speed_41CEE0(&zRandom));
+                field_F8_pRes[i].field_14_z_speed = -FP_Abs(*Random_Speed_41CEE0(&zRandom));
             }
         }
     }
