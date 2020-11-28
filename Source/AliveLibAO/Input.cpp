@@ -2,7 +2,7 @@
 #include "Input.hpp"
 #include "Function.hpp"
 #include "Game.hpp"
-#include "..\AliveLibAE\Input.hpp"
+#include "../AliveLibAE/Input.hpp"
 
 namespace AO {
 
@@ -43,6 +43,9 @@ EXPORT void InputObject::InitPad_4331A0(unsigned int /*padCount*/)
     }
 
     field_20_demo_playing &= ~1u;
+
+    Input_Pads_Reset_4FA960();
+    Input_EnableInput_4EDDD0();
 }
 
 ALIVE_ARY(1, 0x507778, BYTE, 64, sPad1Buffer_507778, {});
@@ -54,7 +57,7 @@ EXPORT void InputObject::Update_433250()
 
     for (int i = 0; i < 2; i++)
     {
-        field_0_pads[i].field_A = field_0_pads[i].field_2_dir;
+        field_0_pads[i].field_A_prev_dir = field_0_pads[i].field_2_dir;
         field_0_pads[i].field_B = field_0_pads[i].field_3;
         field_0_pads[i].field_4_previously_pressed = field_0_pads[i].field_0_pressed;
     }
@@ -65,7 +68,7 @@ EXPORT void InputObject::Update_433250()
     }
     else
     {
-        field_0_pads[0].field_0_pressed = ~(sPad1Buffer_507778[3] + (sPad1Buffer_507778[2] << 8));
+        field_0_pads[0].field_0_pressed = static_cast<unsigned short>(Input_Read_Pad_4FA9C0(0));// ~(sPad1Buffer_507778[3] + (sPad1Buffer_507778[2] << 8));
     }
 
     if (sPad2Buffer_507738[0])
