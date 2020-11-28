@@ -2,7 +2,7 @@
 #include "Input.hpp"
 #include "Function.hpp"
 #include "Game.hpp"
-//#include "..\AliveLibAE\Input.hpp"
+#include "..\AliveLibAE\Input.hpp"
 
 namespace AO {
 
@@ -168,7 +168,7 @@ void InputObject::SetCurrentController(PadIndex padIdx)
 
 bool InputObject::JoyStickEnabled() const
 {
-    return sJoystickEnabled_508A60;
+    return sJoystickEnabled_508A60 ? true : false;
 }
 
 bool InputObject::IsAnyPressed(DWORD command) const
@@ -250,35 +250,33 @@ unsigned short InputObject::Released() const
 
 BOOL CC Input_IsChanting_4334C0()
 {
-    NOT_IMPLEMENTED();
-    //return Input_IsChanting_45F260();
+    AE_IMPLEMENTED();
+    return Input_IsChanting_45F260();
     //return (sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed & sInputKey_Chant) == sInputKey_Chant;
-    return 0;
 }
 
-void CC Input_SetKeyState_48E610(int /*key*/, char /*bIsDown*/)
+void CC Input_SetKeyState_48E610(int key, char bIsDown)
 {
-    NOT_IMPLEMENTED();
-    //Input_SetKeyState_4EDD80(key, bIsDown);
+    AE_IMPLEMENTED();
+    Input_SetKeyState_4EDD80(key, bIsDown);
 }
 
-EXPORT char CC Input_IsVKPressed_48E5D0(int /*key*/)
+EXPORT char CC Input_IsVKPressed_48E5D0(int key)
 {
-    NOT_IMPLEMENTED();
-    //return Input_IsVKPressed_4EDD40(key);
-    return 0;
+    AE_IMPLEMENTED();
+    return Input_IsVKPressed_4EDD40(key);
 }
 
 EXPORT void CC Input_Init_44EB60()
 {
-    NOT_IMPLEMENTED();
-    //Input_Init_491BC0();
+    AE_IMPLEMENTED();
+    Input_Init_491BC0();
 }
 
 EXPORT void Input_DisableInput_48E690()
 {
     AE_IMPLEMENTED();
-    //Input_DisableInputForPauseMenuAndDebug_4EDDC0();
+    Input_DisableInputForPauseMenuAndDebug_4EDDC0();
 }
 
 // Only really needed for SHIFT being pressed for the AO ddcheat, may as well just remove the requirement
@@ -291,7 +289,7 @@ EXPORT void Input_GetCurrentKeyStates_48E630()
 void Input_InitKeyStateArray_48E5F0()
 {
     AE_IMPLEMENTED();
-    //Input_InitKeyStateArray_4EDD60();
+    Input_InitKeyStateArray_4EDD60();
 }
 
 EXPORT const char* CC Input_GetButtonString_44F1C0(InputCommands /*input_command*/)
@@ -300,11 +298,10 @@ EXPORT const char* CC Input_GetButtonString_44F1C0(InputCommands /*input_command
     return "lol"; // don't kill standalone
 }
 
-EXPORT int CC Input_Remap_44F300(InputCommands /*inputCmd*/)
+EXPORT int CC Input_Remap_44F300(InputCommands inputCmd)
 {
-    NOT_IMPLEMENTED();
-    //return Input_Remap_492680(static_cast<::InputCommands>(inputCmd));
-    return 0;
+    AE_IMPLEMENTED();
+    return Input_Remap_492680(static_cast<::InputCommands>(inputCmd));
 }
 
 ALIVE_VAR(1, 0x508A64, DWORD, dword_508A64, 0);
@@ -314,7 +311,7 @@ EXPORT int CC Input_SaveSettingsIni_44F460()
     // Call AE func in standalone
     if (!RunningAsInjectedDll())
     {
-        //Input_SaveSettingsIni_492840();
+        Input_SaveSettingsIni_492840();
         return 1;
     }
 
