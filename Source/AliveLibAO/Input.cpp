@@ -68,7 +68,7 @@ EXPORT void InputObject::Update_433250()
     }
     else
     {
-        field_0_pads[0].field_0_pressed = static_cast<unsigned short>(Input_Read_Pad_4FA9C0(0));// ~(sPad1Buffer_507778[3] + (sPad1Buffer_507778[2] << 8));
+        field_0_pads[0].field_0_pressed = ~(sPad1Buffer_507778[3] + (sPad1Buffer_507778[2] << 8));
     }
 
     if (sPad2Buffer_507738[0])
