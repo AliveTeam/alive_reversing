@@ -215,7 +215,7 @@ enum PauseMenuPages
 
 void PauseMenu::VUpdate_44DFB0()
 {
-    if (sInputObject_5009E8.IsHeld(0x800))
+    if (Input().IsAnyHeld(0x800))
     {
         SND_StopAll_4762D0();
         SFX_Play_43AE60(SoundEffect::PossessEffect_21, 40, 2400, 0);
@@ -255,7 +255,7 @@ void PauseMenu::VUpdate_44DFB0()
             PSX_DrawSync_496750(0);
             ResourceManager::Reclaim_Memory_455660(500000);
             gPsxDisplay_504C78.PSX_Display_Render_OT_40DD20();
-            sInputObject_5009E8.Update_433250();
+            Input().Update_433250();
 
             if (field_120 > 0)
             {
@@ -292,7 +292,7 @@ void PauseMenu::VUpdate_44DFB0()
             {
                 case PauseMenuPages::ePause_0:
                 {
-                    if (sInputObject_5009E8.IsHeld(0x100))
+                    if (Input().IsAnyHeld(0x100))
                     {
                         field_124++;
                         if (field_124 > 3)
@@ -301,7 +301,8 @@ void PauseMenu::VUpdate_44DFB0()
                         }
                         SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, 0);
                     }
-                    if (sInputObject_5009E8.IsHeld(0x1000))
+
+                    if (Input().IsAnyHeld(0x1000))
                     {
                         field_124--;
                         if (field_124 < 0)
@@ -310,7 +311,8 @@ void PauseMenu::VUpdate_44DFB0()
                         }
                         SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, 0);
                     }
-                    if (sInputObject_5009E8.IsHeld(0x4000))
+
+                    if (Input().IsAnyHeld(0x4000))
                     {
                         field_124++;
                         if (field_124 > 3)
@@ -319,7 +321,8 @@ void PauseMenu::VUpdate_44DFB0()
                         }
                         SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, 0);
                     }
-                    if (sInputObject_5009E8.IsHeld(0x8F0))
+
+                    if (Input().IsAnyHeld(0x8F0))
                     {
                         switch (field_124)
                         {
@@ -496,12 +499,13 @@ void PauseMenu::VUpdate_44DFB0()
                 }
                 case PauseMenuPages::eControls_2:
                 {
-                    if (sInputObject_5009E8.IsHeld(0x810))
+                    if (Input().IsAnyHeld(0x810))
                     {
                         field_126_page = 0;
                         SFX_Play_43AE60(SoundEffect::PossessEffect_21, 40, 2400, 0);
                     }
-                    if (sInputObject_5009E8.IsHeld(0xF1E0))
+
+                    if (Input().IsAnyHeld(0xF1E0))
                     {
                         field_128_controller_id++;
                         if (field_128_controller_id < 2)
@@ -519,12 +523,13 @@ void PauseMenu::VUpdate_44DFB0()
                 }
                 case PauseMenuPages::eQuit_3:
                 {
-                    if (sInputObject_5009E8.IsHeld(0x810))
+                    if (Input().IsAnyHeld(0x810))
                     {
                         field_126_page = 0;
                         SFX_Play_43AE60(SoundEffect::PossessEffect_21, 40, 2400, 0);
                     }
-                    if (sInputObject_5009E8.IsHeld(0xE0))
+
+                    if (Input().IsAnyHeld(0xE0))
                     {
                         field_11C = 0;
                         SFX_Play_43AE60(SoundEffect::PossessEffect_21, 40, 2400, 0);
@@ -539,7 +544,7 @@ void PauseMenu::VUpdate_44DFB0()
                         pPauseMenu_5080E0 = 0;
                         gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
                         gMap_507BA8.field_DC_free_all_anim_and_palts = 1;
-                        sCurrentControllerIndex_5076B8 = 0;
+                        Input().SetCurrentController(InputObject::PadIndex::First);
                     }
                     break;
                 }
@@ -548,9 +553,10 @@ void PauseMenu::VUpdate_44DFB0()
                     break;
                 }
             }
+
             if (!field_11C)
             {
-                sInputObject_5009E8.Update_433250();
+                Input().Update_433250();
                 field_6_flags.Clear(Options::eDrawable_Bit4);
                 break;
             }
@@ -823,7 +829,7 @@ void PauseMenu::VRender_44E6F0(int** ppOt)
             PauseEntry *entries = nullptr;
             if (field_128_controller_id == 1)
             {
-                if (sJoystickEnabled_508A60)
+                if (Input().JoyStickEnabled())
                 {
                     entries = &gamepadGameSpeak_4CDFD0[0];
                 }

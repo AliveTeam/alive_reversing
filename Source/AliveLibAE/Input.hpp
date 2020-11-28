@@ -78,6 +78,7 @@ extern const InputCommands sInputKey_Chant;
 
 EXPORT int CC Input_Remap_492680(InputCommands inputCmd);
 EXPORT void CC Input_ResetBinding_4925A0(int input_command, int bIsGamePad);
+EXPORT int CC Input_Read_Pad_4FA9C0(int padNum);
 
 // Not to be confused for PsxButtonBits.
 // This is used internally in input functions.

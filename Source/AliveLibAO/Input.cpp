@@ -2,6 +2,7 @@
 #include "Input.hpp"
 #include "Function.hpp"
 #include "Game.hpp"
+#include "../AliveLibAE/Input.hpp"
 
 namespace AO {
 
@@ -42,6 +43,9 @@ EXPORT void InputObject::InitPad_4331A0(unsigned int /*padCount*/)
     }
 
     field_20_demo_playing &= ~1u;
+
+    Input_Pads_Reset_4FA960();
+    Input_EnableInput_4EDDD0();
 }
 
 ALIVE_ARY(1, 0x507778, BYTE, 64, sPad1Buffer_507778, {});
@@ -53,7 +57,7 @@ EXPORT void InputObject::Update_433250()
 
     for (int i = 0; i < 2; i++)
     {
-        field_0_pads[i].field_A = field_0_pads[i].field_2;
+        field_0_pads[i].field_A_prev_dir = field_0_pads[i].field_2_dir;
         field_0_pads[i].field_B = field_0_pads[i].field_3;
         field_0_pads[i].field_4_previously_pressed = field_0_pads[i].field_0_pressed;
     }
@@ -109,7 +113,7 @@ EXPORT void InputObject::Update_433250()
     {
         field_0_pads[i].field_8_released = ~field_0_pads[i].field_0_pressed & field_0_pads[i].field_4_previously_pressed;
         field_0_pads[i].field_6_held = ~field_0_pads[i].field_4_previously_pressed & field_0_pads[i].field_0_pressed;
-        field_0_pads[i].field_2 = byte_4BB428[(field_0_pads[i].field_0_pressed >> 12) & 0xF];
+        field_0_pads[i].field_2_dir = byte_4BB428[(field_0_pads[i].field_0_pressed >> 12) & 0xF];
         field_0_pads[i].field_3 = byte_4BB428[(field_0_pads[i].field_0_pressed >> 4) & 0xF];
     }
 }
@@ -133,48 +137,153 @@ int InputObject::IsDemoPlaying_4334A0()
     return field_20_demo_playing & 1;
 }
 
-bool InputObject::IsPressed(DWORD command)
+static int PadIndexToInt(InputObject::PadIndex idx)
 {
-    return (field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed & command) != 0;
+    switch (idx)
+    {
+    case InputObject::PadIndex::Active:
+        return sCurrentControllerIndex_5076B8;
+
+    case InputObject::PadIndex::Second:
+        return 1;
+
+    case InputObject::PadIndex::First:
+    default:
+        return 0;
+    }
 }
 
-bool InputObject::IsHeld(DWORD command)
+InputObject::PadIndex InputObject::CurrentController() const
 {
-    return (field_0_pads[sCurrentControllerIndex_5076B8].field_6_held & command) != 0;
+    if (sCurrentControllerIndex_5076B8 == 0)
+    {
+        return PadIndex::First;
+    }
+    return PadIndex::Second;
 }
 
-bool InputObject::IsReleased(DWORD command)
+
+void InputObject::SetCurrentController(PadIndex padIdx)
 {
-     return (field_0_pads[sCurrentControllerIndex_5076B8].field_8_released & command) != 0;
+    sCurrentControllerIndex_5076B8 = padIdx == InputObject::PadIndex::First ? 0 : 1;
+}
+
+
+bool InputObject::JoyStickEnabled() const
+{
+    return sJoystickEnabled_508A60 ? true : false;
+}
+
+bool InputObject::IsAnyPressed(DWORD command) const
+{
+    return IsAnyPressed(PadIndex::Active, command);
+}
+
+bool InputObject::IsAnyPressed(PadIndex padIx, DWORD command) const
+{
+    return (field_0_pads[PadIndexToInt(padIx)].field_0_pressed & command) != 0;
+}
+
+bool InputObject::IsAnyHeld(DWORD command) const
+{
+    return IsAnyHeld(PadIndex::Active, command);
+}
+
+bool InputObject::IsAnyHeld(PadIndex padIx, DWORD command) const
+{
+    return (field_0_pads[PadIndexToInt(padIx)].field_6_held & command) != 0;
+}
+
+bool InputObject::IsAnyReleased(DWORD command) const
+{
+    return IsAnyReleased(PadIndex::Active, command);
+}
+
+bool InputObject::IsAnyReleased(PadIndex padIx, DWORD command) const
+{
+    return (field_0_pads[PadIndexToInt(padIx)].field_8_released & command) != 0;
+}
+
+unsigned __int8 InputObject::Dir() const
+{
+    return sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_2_dir;
+}
+
+
+bool InputObject::IsAllPressed(DWORD commands) const
+{
+    return IsAllPressed(PadIndex::Active, commands);
+}
+
+bool InputObject::IsAllPressed(PadIndex padIx, DWORD commands) const
+{
+    return (field_0_pads[PadIndexToInt(padIx)].field_0_pressed & commands) == commands;
+}
+
+
+bool InputObject::IsAllHeld(DWORD commands) const
+{
+    return (field_0_pads[sCurrentControllerIndex_5076B8].field_6_held & commands) == commands;
+}
+
+unsigned __int16 InputObject::Pressed() const
+{
+    return Pressed(PadIndex::Active);
+}
+
+unsigned __int16 InputObject::Pressed(PadIndex padIx) const
+{
+    return field_0_pads[PadIndexToInt(padIx)].field_0_pressed;
+}
+
+unsigned short InputObject::Held() const
+{
+    return Held(PadIndex::Active);
+}
+
+unsigned short InputObject::Held(PadIndex padIx) const
+{
+    return sInputObject_5009E8.field_0_pads[PadIndexToInt(padIx)].field_6_held;
+}
+
+unsigned short InputObject::Released() const
+{
+    return sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_8_released;
 }
 
 BOOL CC Input_IsChanting_4334C0()
 {
-    return (sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed & sInputKey_Chant) == sInputKey_Chant;
+    AE_IMPLEMENTED();
+    return Input_IsChanting_45F260();
+    //return (sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed & sInputKey_Chant) == sInputKey_Chant;
 }
 
-void CC Input_SetKeyState_48E610(int /*key*/, char /*bIsDown*/)
+void CC Input_SetKeyState_48E610(int key, char bIsDown)
 {
-    NOT_IMPLEMENTED();
+    AE_IMPLEMENTED();
+    Input_SetKeyState_4EDD80(key, bIsDown);
 }
 
-EXPORT char CC Input_IsVKPressed_48E5D0(int /*key*/)
+EXPORT char CC Input_IsVKPressed_48E5D0(int key)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    AE_IMPLEMENTED();
+    return Input_IsVKPressed_4EDD40(key);
 }
 
 EXPORT void CC Input_Init_44EB60()
 {
-    NOT_IMPLEMENTED();
+    AE_IMPLEMENTED();
+    Input_Init_491BC0();
 }
-
 
 EXPORT void Input_DisableInput_48E690()
 {
-    NOT_IMPLEMENTED();
+    AE_IMPLEMENTED();
+    Input_DisableInputForPauseMenuAndDebug_4EDDC0();
 }
 
+// Only really needed for SHIFT being pressed for the AO ddcheat, may as well just remove the requirement
+// for shift to be pressed because it is a pain anyway.
 EXPORT void Input_GetCurrentKeyStates_48E630()
 {
     NOT_IMPLEMENTED();
@@ -182,7 +291,84 @@ EXPORT void Input_GetCurrentKeyStates_48E630()
 
 void Input_InitKeyStateArray_48E5F0()
 {
+    AE_IMPLEMENTED();
+    Input_InitKeyStateArray_4EDD60();
+}
+
+EXPORT const char* CC Input_GetButtonString_44F1C0(InputCommands /*input_command*/)
+{
     NOT_IMPLEMENTED();
+    return "lol"; // don't kill standalone
+}
+
+EXPORT int CC Input_Remap_44F300(InputCommands inputCmd)
+{
+    AE_IMPLEMENTED();
+    return Input_Remap_492680(static_cast<::InputCommands>(inputCmd));
+}
+
+ALIVE_VAR(1, 0x508A64, DWORD, dword_508A64, 0);
+
+EXPORT int CC Input_SaveSettingsIni_44F460()
+{
+    // Call AE func in standalone
+    if (!RunningAsInjectedDll())
+    {
+        Input_SaveSettingsIni_492840();
+        return 1;
+    }
+
+    FILE* iniFileHandle = fopen("abe.ini", "w");
+    if (!iniFileHandle)
+    {
+        return 0;
+    }
+
+    dword_508A64 = 1;
+    fprintf(iniFileHandle, "[Control Layout]\n");
+    if (sJoystickEnabled_508A60)
+    {
+        if (sJoystickEnabled_508A60 == 1)
+        {
+            fprintf(iniFileHandle, "controller = Game Pad\n");
+        }
+    }
+    else
+    {
+        fprintf(iniFileHandle, "controller = Keyboard\n");
+    }
+    auto oldJoystickEnabled = sJoystickEnabled_508A60;
+
+    sJoystickEnabled_508A60 = 0;
+
+    fprintf(iniFileHandle, "[Keyboard]\n");
+    fprintf(iniFileHandle, "run = %s\n", Input_GetButtonString_44F1C0(InputCommands::eRun));
+    fprintf(iniFileHandle, "sneak = %s\n", Input_GetButtonString_44F1C0(InputCommands::eSneak));
+    fprintf(iniFileHandle, "jump = %s\n", Input_GetButtonString_44F1C0(InputCommands::eHop));
+    fprintf(iniFileHandle, "action = %s\n", Input_GetButtonString_44F1C0(InputCommands::eDoAction));
+    fprintf(iniFileHandle, "throw = %s\n", Input_GetButtonString_44F1C0(InputCommands::eThrowItem));
+    fprintf(iniFileHandle, "crouch = %s\n", Input_GetButtonString_44F1C0(InputCommands::eFartOrRoll));
+
+    sJoystickEnabled_508A60 = 1;
+
+    fprintf(iniFileHandle, "[Game Pad]\n");
+    fprintf(iniFileHandle, "run = %s\n", Input_GetButtonString_44F1C0(InputCommands::eRun));
+    fprintf(iniFileHandle, "sneak = %s\n", Input_GetButtonString_44F1C0(InputCommands::eSneak));
+    fprintf(iniFileHandle, "jump = %s\n", Input_GetButtonString_44F1C0(InputCommands::eHop));
+    fprintf(iniFileHandle, "action = %s\n", Input_GetButtonString_44F1C0(InputCommands::eDoAction));
+    fprintf(iniFileHandle, "throw = %s\n", Input_GetButtonString_44F1C0(InputCommands::eThrowItem));
+    fprintf(iniFileHandle, "crouch = %s\n", Input_GetButtonString_44F1C0(InputCommands::eFartOrRoll));
+
+    sJoystickEnabled_508A60 = oldJoystickEnabled;
+
+    fclose(iniFileHandle);
+    dword_508A64 = 0;
+    return 1;
+}
+
+InputObject& Input()
+{
+    return sInputObject_5009E8;
 }
 
 }

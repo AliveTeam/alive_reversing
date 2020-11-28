@@ -501,7 +501,7 @@ void ChimeLock::VUpdate_40AEF0()
             {
                 field_136 = 30;
                 field_110_state = 3;
-                field_134_pressed = sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
+                field_134_pressed = Input().Pressed();
                 
                 field_164_target_bell_num[0] = 0;
                 field_164_target_bell_num[1] = 0;
@@ -510,29 +510,29 @@ void ChimeLock::VUpdate_40AEF0()
                 return;
             }
 
-            const auto pressed = sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
-            if (sInputObject_5009E8.IsPressed(eThrowItem) && !(field_134_pressed & eThrowItem))
+            const auto pressed = Input().Pressed();
+            if (Input().IsAnyPressed(eThrowItem) && !(field_134_pressed & eThrowItem))
             {
                 SetTargetBellIfSpace(3);
                 field_134_pressed = pressed;
                 return;
             }
 
-            if (sInputObject_5009E8.IsPressed(eHop) && !(field_134_pressed & eHop))
+            if (Input().IsAnyPressed(eHop) && !(field_134_pressed & eHop))
             {
                 SetTargetBellIfSpace(2);
                 field_134_pressed = pressed;
                 return;
             }
 
-            if (sInputObject_5009E8.IsPressed(eDoAction) && !(field_134_pressed & eDoAction))
+            if (Input().IsAnyPressed(eDoAction) && !(field_134_pressed & eDoAction))
             {
                 SetTargetBellIfSpace(1);
                 field_134_pressed = pressed;
                 return;
             }
 
-            if (sInputObject_5009E8.IsPressed(eFartOrRoll) && !(field_134_pressed & eFartOrRoll))
+            if (Input().IsAnyPressed(eFartOrRoll) && !(field_134_pressed & eFartOrRoll))
             {
                 // hit all 3 bells from left to right
                 SetTargetBellIfSpace(1);
@@ -541,28 +541,28 @@ void ChimeLock::VUpdate_40AEF0()
                 return;
             }
 
-            if (sInputObject_5009E8.IsPressed(eRight) && !(field_134_pressed & eRight))
+            if (Input().IsAnyPressed(eRight) && !(field_134_pressed & eRight))
             {
                 SetTargetBellIfSpace(3);
                 field_134_pressed = pressed;
                 return;
             }
 
-            if (sInputObject_5009E8.IsPressed(eUp) && !(field_134_pressed & eUp))
+            if (Input().IsAnyPressed(eUp) && !(field_134_pressed & eUp))
             {
                 SetTargetBellIfSpace(2);
                 field_134_pressed = pressed;
                 return;
             }
 
-            if (sInputObject_5009E8.IsPressed(eLeft) && !(field_134_pressed & eLeft))
+            if (Input().IsAnyPressed(eLeft) && !(field_134_pressed & eLeft))
             {
                 SetTargetBellIfSpace(1);
                 field_134_pressed = pressed;
                 return;
             }
 
-            if (sInputObject_5009E8.IsPressed(eDown) && !(field_134_pressed & eDown))
+            if (Input().IsAnyPressed(eDown) && !(field_134_pressed & eDown))
             {
                 // hit all 3 bells from left to right
                 SetTargetBellIfSpace(1);

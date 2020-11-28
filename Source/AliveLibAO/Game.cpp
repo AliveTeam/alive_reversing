@@ -473,7 +473,7 @@ EXPORT void CC Game_Loop_437630()
         }
 
         gMap_507BA8.ScreenChange_4444D0();
-        sInputObject_5009E8.Update_433250();
+        Input().Update_433250();
 
         if (sNumCamSwappers_507668 == 0)
         {
@@ -528,7 +528,7 @@ EXPORT void Game_Run_4373D0()
     //Nop_49BB50();
 
     gPsxDisplay_504C78.ctor_40DAB0(&gPsxDisplayParams_4BB830);
-    sInputObject_5009E8.InitPad_4331A0(1);
+    Input().InitPad_4331A0(1);
 
     gBaseGameObject_list_9F2DF0 = ao_new<DynamicArrayT<BaseGameObject>>();
     gBaseGameObject_list_9F2DF0->ctor_4043E0(90);

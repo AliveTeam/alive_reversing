@@ -455,7 +455,7 @@ void CC SaveGame::Save_459490(SaveData* pSaveData)
         pSaveData->field_2A8_gasTimer = 0;
     }
     pSaveData->field_2AC_bUseAltSaveHeader = bUseAltSaveHeader_5076B4;
-    pSaveData->field_2AE = sCurrentControllerIndex_5076B8;
+    pSaveData->field_2AE = Input().CurrentController() == InputObject::PadIndex::First ? 0 : 1;
     gMap_507BA8.SaveBlyData_446900(pSaveData->field_2B0_pSaveBuffer);
 
     pSaveData->field_200_hashValue = Hash(pSaveData);
@@ -498,7 +498,7 @@ short CC SaveGame::Read_459D30(const char* name)
         gSaveBuffer_505668 = gSaveBuffer_500A18;
         Load_459970(&gSaveBuffer_505668, 1);
         gSaveBuffer_505668.field_238_current_camera = gSaveBuffer_505668.field_216_saved_camera;
-        sCurrentControllerIndex_5076B8 = 0;
+        Input().SetCurrentController(InputObject::PadIndex::First);
         gSaveBuffer_505668.field_234_current_level = gSaveBuffer_505668.field_212_saved_level;
         gSaveBuffer_505668.field_236_current_path = gSaveBuffer_505668.field_214_saved_path;
         return 1;
