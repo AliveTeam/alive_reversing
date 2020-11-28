@@ -9760,8 +9760,8 @@ void Abe::IntoPortalStates_451990()
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
                 field_C8_vely = FP_FromInteger(0);
                 field_C4_velx = FP_FromInteger(0);
-                pBirdPortal->Vsub_499610();
-                pBirdPortal->VGiveShrukul_499680(TRUE);
+                pBirdPortal->VKillPortalClipper_499610();
+                pBirdPortal->VGiveShrukull_499680(TRUE);
                 field_1A4_portal_sub_state = 1;
             }
 
@@ -9771,7 +9771,7 @@ void Abe::IntoPortalStates_451990()
             return;
 
         case 1:
-            if (pBirdPortal->VStateIs16_499850())
+            if (pBirdPortal->VAbeInsidePortal_499850())
             {
                 LevelIds level = {};
                 WORD path = 0;
@@ -9786,12 +9786,12 @@ void Abe::IntoPortalStates_451990()
             break;
 
         case 2:
-            if (pBirdPortal->VIsState20_499A00())
+            if (pBirdPortal->VPortalExit_AbeExitting_499A00())
             {
-                pBirdPortal->Vsub_499430(0);
+                pBirdPortal->VPortalClipper_499430(0);
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
                 field_106_current_motion = eAbeStates::State_27_HopBegin_4521C0;
-                pBirdPortal->Vsub_499A20();
+                pBirdPortal->VKillPortalClipper_499A20();
                 field_1A8_portal_id = -1;
             }
             break;

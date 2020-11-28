@@ -32,7 +32,7 @@
 #include "LaughingGas.hpp"
 #include "Sys_common.hpp"
 
-ALIVE_VAR(1, 0x5C3012, short, word_5C3012, 0);
+ALIVE_VAR(1, 0x5C3012, short, sGoingToBirdPortalMudCount_5C3012, 0);
 
 const TintEntry kMudTints_55C744[18] =
 {
@@ -660,7 +660,7 @@ const AnimId kMudFrameTableOffsets_55CD00[60] =
 };
 
 ALIVE_VAR(1, 0x5C3010, short, sAlertedMudCount_5C3010, 0);
-ALIVE_VAR(1, 0x5C3018, short, word_5C3018, 0);
+ALIVE_VAR(1, 0x5C3018, short, sIsMudStandingUp_5C3018, 0);
 
 
 int CC Mudokon::CreateFromSaveState_4717C0(const BYTE* pBuffer)
@@ -872,7 +872,7 @@ int CC Mudokon::CreateFromSaveState_4717C0(const BYTE* pBuffer)
 
     if (pState->field_6E.Get(Mudokon_State::Flags_6E::e6E_Bit6))
     {
-        word_5C3018 = 1;
+        sIsMudStandingUp_5C3018 = 1;
     }
 
     pMud->field_188_pTblEntry = GetResponseEntry_471790(pState->field_84_response_entry_idx);
@@ -1046,11 +1046,11 @@ void Mudokon::vUpdate_4757A0()
                 if (pObj->field_C_objectId == field_11C_bird_portal_id)
                 {
                     field_11C_bird_portal_id = pObj->field_8_object_id;
-                    word_5C3012++;
+                    sGoingToBirdPortalMudCount_5C3012++;
                     field_16C |= 4u;
                     if (field_18E_ai_state == Mud_AI_State::AI_Escape_6_47A560 && field_190_sub_state == 3)
                     {
-                        static_cast<BirdPortal*>(pObj)->Vsub_499430(1);
+                        static_cast<BirdPortal*>(pObj)->VPortalClipper_499430(1);
                         field_20_animation.field_C_render_layer = field_CC_sprite_scale != FP_FromInteger(1) ? 11 : 30;
                     }
                     break;
@@ -1283,14 +1283,14 @@ void Mudokon::dtor_475B60()
 
     if (field_16C & 4)
     {
-        word_5C3012--;
+        sGoingToBirdPortalMudCount_5C3012--;
         field_16C &= ~4u;
-        if (!word_5C3012)
+        if (!sGoingToBirdPortalMudCount_5C3012)
         {
             if (pBirdPortal)
             {
-                pBirdPortal->Vsub_499610();
-                pBirdPortal->VGiveShrukul_499680(TRUE);
+                pBirdPortal->VKillPortalClipper_499610();
+                pBirdPortal->VGiveShrukull_499680(TRUE);
             }
         }
         field_11C_bird_portal_id = -1;
@@ -1347,14 +1347,14 @@ void Mudokon::vScreenChanged_476F30()
         // TODO: Duplicated in dtors + other places
         if (field_16C & 4)
         {
-            word_5C3012--;
+            sGoingToBirdPortalMudCount_5C3012--;
             field_16C &= ~4u;
-            if (!word_5C3012)
+            if (!sGoingToBirdPortalMudCount_5C3012)
             {
                 if (pBirdPortal)
                 {
-                    pBirdPortal->Vsub_499610();
-                    pBirdPortal->VGiveShrukul_499680(TRUE);
+                    pBirdPortal->VKillPortalClipper_499610();
+                    pBirdPortal->VGiveShrukull_499680(TRUE);
                 }
             }
             field_11C_bird_portal_id = -1;
@@ -2136,7 +2136,7 @@ signed __int16 Mudokon::AI_Chisel_1_47C5F0()
     {
         if (field_190_sub_state != AI_Chisle::eState1_StandUp_3)
         {
-            word_5C3018 = 0;
+            sIsMudStandingUp_5C3018 = 0;
             field_16C &= ~2u;
         }
     }
@@ -2258,7 +2258,7 @@ signed __int16 Mudokon::AI_Chisel_1_47C5F0()
         bool ignoreHellOrAllYa = false;
         if (lastSpeak == GameSpeakEvents::eHello_9)
         {
-            if (word_5C3018 || !CanRespond_4770B0())
+            if (sIsMudStandingUp_5C3018 || !CanRespond_4770B0())
             {
                 ignoreHellOrAllYa = true;
             }
@@ -2272,7 +2272,7 @@ signed __int16 Mudokon::AI_Chisel_1_47C5F0()
         {
             field_108_next_motion = Mud_Motion::M_Idle_0_4724E0;
             field_194_timer = StableDelay_477570() + sGnFrame_5C1B84 + 10;
-            word_5C3018 = 1;
+            sIsMudStandingUp_5C3018 = 1;
             field_16C |= 2u;
 
             AddAlerted();
@@ -2318,7 +2318,7 @@ signed __int16 Mudokon::AI_Chisel_1_47C5F0()
         bool ignoreHellOrAllYa = false;
         if (lastSpeak == GameSpeakEvents::eHello_9)
         {
-            if (word_5C3018 || !CanRespond_4770B0())
+            if (sIsMudStandingUp_5C3018 || !CanRespond_4770B0())
             {
                 ignoreHellOrAllYa = true;
             }
@@ -2334,7 +2334,7 @@ signed __int16 Mudokon::AI_Chisel_1_47C5F0()
 
             field_108_next_motion = Mud_Motion::M_Idle_0_4724E0;
             field_194_timer = StableDelay_477570() + sGnFrame_5C1B84 + 10;
-            word_5C3018 = 1;
+            sIsMudStandingUp_5C3018 = 1;
             field_16C |= 2u;
             return AI_Chisle::eState1_StandUp_3;
         }
@@ -2370,12 +2370,12 @@ signed __int16 Mudokon::AI_Chisel_1_47C5F0()
             }
         }
 
-        if (!skip && (bForce || (!word_5C3018 && CanRespond_4770B0())))
+        if (!skip && (bForce || (!sIsMudStandingUp_5C3018 && CanRespond_4770B0())))
         {
             if (sActiveHero_5C1B68->field_CC_sprite_scale == field_CC_sprite_scale)
             {
                 AddAlerted();
-                word_5C3018 = 1;
+                sIsMudStandingUp_5C3018 = 1;
                 field_16C |= 2u;
 
                 field_16A_flags.Clear(Flags::eBit14_make_sad_noise);
@@ -2416,7 +2416,7 @@ signed __int16 Mudokon::AI_Chisel_1_47C5F0()
         }
         else
         {
-            word_5C3018 = 0;
+            sIsMudStandingUp_5C3018 = 0;
             field_16C &= ~2u;
             if (field_180_emo_tbl != Mud_Emotion::eAngry_1 || !field_16A_flags.Get(Flags::eBit8_do_angry))
             {
@@ -2513,7 +2513,7 @@ __int16 Mudokon::AI_Scrub_2_47D270()
     {
         if (field_190_sub_state != AI_Scrub::eState2_StandUp_3)
         {
-            word_5C3018 = 0;
+            sIsMudStandingUp_5C3018 = 0;
             field_16C &= ~2u;
         }
     }
@@ -2702,7 +2702,7 @@ __int16 Mudokon::AI_Scrub_2_47D270()
         bool checkAlerted = true;
         if (lastSpeak == GameSpeakEvents::eHello_9)
         {
-            if (word_5C3018 || !CanRespond_4770B0())
+            if (sIsMudStandingUp_5C3018 || !CanRespond_4770B0())
             {
                 checkAlerted = false;
             }
@@ -2717,7 +2717,7 @@ __int16 Mudokon::AI_Scrub_2_47D270()
             if (sActiveHero_5C1B68->field_CC_sprite_scale == field_CC_sprite_scale)
             {
                 AddAlerted();
-                word_5C3018 = 1;
+                sIsMudStandingUp_5C3018 = 1;
                 field_16C |= 2u;
                 field_194_timer = StableDelay_477570() + sGnFrame_5C1B84 + 10;
                 return AI_Scrub::eState2_StandUp_3;
@@ -2770,7 +2770,7 @@ __int16 Mudokon::AI_Scrub_2_47D270()
         bool checkAlerted = true;
         if (lastSpeak == GameSpeakEvents::eHello_9)
         {
-            if (word_5C3018 || !CanRespond_4770B0())
+            if (sIsMudStandingUp_5C3018 || !CanRespond_4770B0())
             {
                 checkAlerted = false;
             }
@@ -2785,7 +2785,7 @@ __int16 Mudokon::AI_Scrub_2_47D270()
             if (sActiveHero_5C1B68->field_CC_sprite_scale == field_CC_sprite_scale)
             {
                 AddAlerted();
-                word_5C3018 = 1;
+                sIsMudStandingUp_5C3018 = 1;
                 field_16C |= 2u;
                 field_194_timer = StableDelay_477570() + sGnFrame_5C1B84 + 10;
                 return AI_Scrub::eState2_StandUp_3;
@@ -2835,7 +2835,7 @@ __int16 Mudokon::AI_Scrub_2_47D270()
             bool checkAlerted = lastSpeak == GameSpeakEvents::eHello_9;
             if (lastSpeak == GameSpeakEvents::eAllYa_23)
             {
-                if (!word_5C3018 && CanRespond_4770B0())
+                if (!sIsMudStandingUp_5C3018 && CanRespond_4770B0())
                 {
                     checkAlerted = true;
                 }
@@ -2846,7 +2846,7 @@ __int16 Mudokon::AI_Scrub_2_47D270()
                 if (sActiveHero_5C1B68->field_CC_sprite_scale == field_CC_sprite_scale)
                 {
                     AddAlerted();
-                    word_5C3018 = 1;
+                    sIsMudStandingUp_5C3018 = 1;
                     field_16C |= 2u;
                     field_16A_flags.Clear(Flags::eBit14_make_sad_noise);
                     field_16A_flags.Clear(Flags::eBit6_standing_for_sad_or_angry);
@@ -2884,7 +2884,7 @@ __int16 Mudokon::AI_Scrub_2_47D270()
         }
         else
         {
-            word_5C3018 = 0;
+            sIsMudStandingUp_5C3018 = 0;
             field_16C &= ~2u;
             if (field_180_emo_tbl != Mud_Emotion::eAngry_1 || !field_16A_flags.Get(Flags::eBit8_do_angry))
             {
@@ -2916,7 +2916,7 @@ __int16 Mudokon::AI_Scrub_2_47D270()
         bool checkAlerted = true;
         if (lastSpeak == GameSpeakEvents::eHello_9)
         {
-            if (word_5C3018 || !CanRespond_4770B0())
+            if (sIsMudStandingUp_5C3018 || !CanRespond_4770B0())
             {
                 checkAlerted = false;
             }
@@ -2931,7 +2931,7 @@ __int16 Mudokon::AI_Scrub_2_47D270()
             if (sActiveHero_5C1B68->field_CC_sprite_scale == field_CC_sprite_scale)
             {
                 AddAlerted();
-                word_5C3018 = 1;
+                sIsMudStandingUp_5C3018 = 1;
                 field_16C |= 2u;
                 field_194_timer = StableDelay_477570() + sGnFrame_5C1B84 + 10;
                 return AI_Scrub::eState2_StandUp_3;
@@ -2988,7 +2988,7 @@ __int16 Mudokon::AI_TurnWheel_3_47E0D0()
     {
         if (field_190_sub_state != AI_TurnWheel::eState3_InterruptAction_2)
         {
-            word_5C3018 = 0;
+            sIsMudStandingUp_5C3018 = 0;
             field_16C &= ~2u;
         }
     }
@@ -3105,7 +3105,7 @@ __int16 Mudokon::AI_TurnWheel_3_47E0D0()
     case AI_TurnWheel::eState3_TurningWheel_0:
         if (lastSpeak == GameSpeakEvents::eHello_9)
         {
-            if (word_5C3018 || !CanRespond_4770B0())
+            if (sIsMudStandingUp_5C3018 || !CanRespond_4770B0())
             {
                 return TurningWheelHelloOrAllYaResponse();
             }
@@ -3120,7 +3120,7 @@ __int16 Mudokon::AI_TurnWheel_3_47E0D0()
             AddAlerted();
             field_108_next_motion = Mud_Motion::M_Idle_0_4724E0;
             field_194_timer = StableDelay_477570() + sGnFrame_5C1B84 + 10;
-            word_5C3018 = 1;
+            sIsMudStandingUp_5C3018 = 1;
             field_16C |= 2u;
             return AI_TurnWheel::eState3_InterruptAction_2;
         }
@@ -3179,7 +3179,7 @@ __int16 Mudokon::AI_TurnWheel_3_47E0D0()
         else
         {
             field_18E_ai_state = Mud_AI_State::AI_ListeningToAbe_4_477B40;
-            word_5C3018 = 0;
+            sIsMudStandingUp_5C3018 = 0;
             field_16C &= ~2u;
             return AI_ListeningToAbe::eState4_Inactive_0;
         }
@@ -5030,15 +5030,15 @@ __int16 Mudokon::AI_Escape_6_47A560()
 
         if (bOver60Away || noBirdPortalOrPortalIsDead)
         {
-            --word_5C3012;
+            sGoingToBirdPortalMudCount_5C3012--;
             field_16C &= ~4u;
 
             if (pBirdPortal)
             {
-                if (word_5C3012 == 0)
+                if (sGoingToBirdPortalMudCount_5C3012 == 0)
                 {
-                    pBirdPortal->Vsub_499610();
-                    pBirdPortal->VGiveShrukul_499680(TRUE);
+                    pBirdPortal->VKillPortalClipper_499610();
+                    pBirdPortal->VGiveShrukull_499680(TRUE);
                 }
                 field_11C_bird_portal_id = -1;
             }
@@ -5052,7 +5052,7 @@ __int16 Mudokon::AI_Escape_6_47A560()
             switch (field_190_sub_state)
             {
             case AI_Escape::eState6_PortalOppened_0:
-                if (!pBirdPortal->VStateIs6_499830())
+                if (!pBirdPortal->VActivePortal_499830())
                 {
                     return field_190_sub_state;
                 }
@@ -5855,7 +5855,7 @@ void Mudokon::M_WalkToIdle_8_472B30()
     {
         MoveOnLine_4720D0();
 
-        if (!field_20_animation.field_92_current_frame)
+        if (field_20_animation.field_92_current_frame == 0)
         {
             Environment_SFX_457A40(EnvironmentSfx::eWalkingFootstep_1, 0, 32767, this);
             return;
@@ -7012,7 +7012,7 @@ __int16 Mudokon::CheckForPortal_4775E0()
                     {
                         sActiveHero_5C1B68->ChangeChantState_45BB90(1);
                         field_11C_bird_portal_id = pOpenPortal->field_8_object_id;
-                        ++word_5C3012;
+                        sGoingToBirdPortalMudCount_5C3012++;
                         field_16C |= 4u;
                         return 1;
                     }
@@ -7036,7 +7036,7 @@ __int16 Mudokon::CheckForPortal_4775E0()
                         sActiveHero_5C1B68->ChangeChantState_45BB90(1);
                         field_11C_bird_portal_id = pPortal20->field_8_object_id;
 
-                        ++word_5C3012;
+                        sGoingToBirdPortalMudCount_5C3012++;
                         field_16C |= 4u;
                         return 1;
                     }
