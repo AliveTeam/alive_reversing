@@ -47,73 +47,6 @@ EXPORT void SND_Set_Stereo_477030()
     sSoundMono_507690 = 0;
 }
 
-// TODO: Move out
-EXPORT const char* CC Input_GetButtonString_44F1C0(InputCommands /*input_command*/)
-{
-    NOT_IMPLEMENTED();
-    return "lol"; // don't kill standalone
-}
-
-ALIVE_VAR(1, 0x508A64, DWORD, dword_508A64, 0);
-
-// TODO: Move out
-EXPORT int CC Input_SaveSettingsIni_44F460()
-{
-    FILE* iniFileHandle = fopen("abe.ini", "w");
-    if (!iniFileHandle)
-    {
-        return 0;
-    }
-
-    dword_508A64 = 1;
-    fprintf(iniFileHandle, "[Control Layout]\n");
-    if (sJoystickEnabled_508A60)
-    {
-        if (sJoystickEnabled_508A60 == 1)
-        {
-            fprintf(iniFileHandle, "controller = Game Pad\n");
-        }
-    }
-    else
-    {
-        fprintf(iniFileHandle, "controller = Keyboard\n");
-    }
-    auto oldJoystickEnabled = sJoystickEnabled_508A60;
-
-    sJoystickEnabled_508A60 = 0;
-
-    fprintf(iniFileHandle, "[Keyboard]\n");
-    fprintf(iniFileHandle, "run = %s\n", Input_GetButtonString_44F1C0(InputCommands::eRun));
-    fprintf(iniFileHandle, "sneak = %s\n", Input_GetButtonString_44F1C0(InputCommands::eSneak));
-    fprintf(iniFileHandle, "jump = %s\n", Input_GetButtonString_44F1C0(InputCommands::eHop));
-    fprintf(iniFileHandle, "action = %s\n", Input_GetButtonString_44F1C0(InputCommands::eDoAction));
-    fprintf(iniFileHandle, "throw = %s\n", Input_GetButtonString_44F1C0(InputCommands::eThrowItem));
-    fprintf(iniFileHandle, "crouch = %s\n", Input_GetButtonString_44F1C0(InputCommands::eFartOrRoll));
-
-    sJoystickEnabled_508A60 = 1;
-
-    fprintf(iniFileHandle, "[Game Pad]\n");
-    fprintf(iniFileHandle, "run = %s\n", Input_GetButtonString_44F1C0(InputCommands::eRun));
-    fprintf(iniFileHandle, "sneak = %s\n", Input_GetButtonString_44F1C0(InputCommands::eSneak));
-    fprintf(iniFileHandle, "jump = %s\n", Input_GetButtonString_44F1C0(InputCommands::eHop));
-    fprintf(iniFileHandle, "action = %s\n", Input_GetButtonString_44F1C0(InputCommands::eDoAction));
-    fprintf(iniFileHandle, "throw = %s\n", Input_GetButtonString_44F1C0(InputCommands::eThrowItem));
-    fprintf(iniFileHandle, "crouch = %s\n", Input_GetButtonString_44F1C0(InputCommands::eFartOrRoll));
-
-    sJoystickEnabled_508A60 = oldJoystickEnabled;
-
-    fclose(iniFileHandle);
-    dword_508A64 = 0;
-    return 1;
-}
-
-// TODO: Move out
-EXPORT int CC Input_Remap_44F300(InputCommands /*inputCmd*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
 ALIVE_VAR(1, 0x9F2DE8, short, bWaitingForRemapInput_9F2DE8, 0);
 
 struct Buttons
@@ -1049,7 +982,7 @@ void Menu::FMV_Select_Update_47E8D0()
 
     if (sMovie_ref_count_9F309C == 0)
     {
-        if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x1000) // TODO: Input constants
+        if (Input().IsAnyPressed(InputObject::PadIndex::First, 0x1000)) // TODO: Input constants
         {
             if (field_1E0_selected_index > 0 && field_21C == FP_FromInteger(0))
             {
@@ -1057,7 +990,7 @@ void Menu::FMV_Select_Update_47E8D0()
                 SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
             }
         }
-        else if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x4100) // TODO: Input constants
+        else if (Input().IsAnyPressed(InputObject::PadIndex::First, 0x4100)) // TODO: Input constants
         {
             if (field_1E0_selected_index < (sListCount_4D0228 - 1) && field_21C == FP_FromInteger(0))
             {
@@ -1066,7 +999,7 @@ void Menu::FMV_Select_Update_47E8D0()
             }
         }
        
-        if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x810) // TODO: Input constants
+        if (Input().IsAnyHeld(InputObject::PadIndex::First, 0x810)) // TODO: Input constants
         {
             // Go back to main screen
             field_20C_bStartInSpecificMap = 0;
@@ -1083,7 +1016,7 @@ void Menu::FMV_Select_Update_47E8D0()
             field_1CC_fn_update = &Menu::FMV_Or_Level_Select_To_Back_Update_47EC70;
         }
 
-        if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x40) // TODO: Input constants
+        if (Input().IsAnyHeld(InputObject::PadIndex::First, 0x40)) // TODO: Input constants
         {
             if (field_224_bToFmvSelect)
             {
@@ -1412,7 +1345,7 @@ EXPORT void Menu::MainScreen_Update_47AF60()
 {
     // Calculate idle timers for playing game play demos
     int bSmallerTimeout = 0;
-    if (sInputObject_5009E8.field_0_pads[0].field_0_pressed)
+    if (Input().Pressed(InputObject::PadIndex::First))
     {
         bSmallerTimeout = 0;
         field_1DC_idle_input_counter = 0;
@@ -1425,7 +1358,7 @@ EXPORT void Menu::MainScreen_Update_47AF60()
     }
 
     // Backwards menu button
-    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x9000u) // TODO: input constants
+    if (Input().IsAnyHeld(InputObject::PadIndex::First, 0x9000u)) // TODO: input constants
     {
         field_1E0_selected_index--;
         if (field_1E0_selected_index < 0)
@@ -1439,7 +1372,7 @@ EXPORT void Menu::MainScreen_Update_47AF60()
     }
 
     // Forward menu button
-    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x6100) // TODO: input constants
+    if (Input().IsAnyHeld(InputObject::PadIndex::First, 0x6100)) // TODO: input constants
     {
         field_1E0_selected_index++;
         if (field_1E0_selected_index > 4) // TODO: Why isn't count of stru_4D00B0 ??
@@ -1453,7 +1386,7 @@ EXPORT void Menu::MainScreen_Update_47AF60()
     }
 
     const int idleMax = bSmallerTimeout != 0 ? 300 : 1500;
-    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x8F0 || field_1DC_idle_input_counter > idleMax) // TODO: input constants
+    if (Input().IsAnyHeld(InputObject::PadIndex::First, 0x8F0) || field_1DC_idle_input_counter > idleMax) // TODO: input constants
     {
         if (field_1DC_idle_input_counter <= idleMax)
         {
@@ -2188,7 +2121,7 @@ void Menu::NewGameStart_47B9C0()
 void Menu::Options_Update_47BF90()
 {
     // Idle time calculate
-    if (sInputObject_5009E8.field_0_pads[0].field_0_pressed)
+    if (Input().Pressed(InputObject::PadIndex::First))
     {
         field_1DC_idle_input_counter = 0;
     }
@@ -2198,7 +2131,7 @@ void Menu::Options_Update_47BF90()
     }
 
     // Menu backwards
-    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x1000) // TODO: Input constants
+    if (Input().IsAnyHeld(InputObject::PadIndex::First, 0x1000)) // TODO: Input constants
     {
         if (field_1E0_selected_index <= 0)
         {
@@ -2214,7 +2147,7 @@ void Menu::Options_Update_47BF90()
     }
 
     // Menu forwards
-    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x4100) // TODO: Input constants
+    if (Input().IsAnyHeld(InputObject::PadIndex::First, 0x4100)) // TODO: Input constants
     {
         if (field_1E0_selected_index >= 1)
         {
@@ -2229,14 +2162,14 @@ void Menu::Options_Update_47BF90()
         SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400);
     }
 
-    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0xC0) // TODO: Input constants
+    if (Input().IsAnyHeld(InputObject::PadIndex::First, 0xC0)) // TODO: Input constants
     {
         Mudokon_SFX_42A4D0(MudSounds::eOkay_13, 0, 0, 0);
         field_10_anim.Set_Animation_Data_402A40(201632, field_E4_res_array[1]);
         field_1CC_fn_update = &Menu::Options_WaitForAbeSpeak_Update_47C280;
     }
 
-    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x810 || field_1DC_idle_input_counter > 900) // TODO: Input constants
+    if (Input().IsAnyHeld(InputObject::PadIndex::First, 0x810) || field_1DC_idle_input_counter > 900) // TODO: Input constants
     {
         // Back to main menu
         field_1E0_selected_index = 2;
@@ -2423,7 +2356,7 @@ void Menu::Options_Sound_Render_47C630(int** ppOt)
 
 void Menu::Options_Sound_Update_47C420()
 {
-    if (sInputObject_5009E8.field_0_pads[0].field_0_pressed)
+    if (Input().Pressed(InputObject::PadIndex::First))
     {
         field_1DC_idle_input_counter = 0;
     }
@@ -2432,7 +2365,7 @@ void Menu::Options_Sound_Update_47C420()
         field_1DC_idle_input_counter++;
     }
 
-    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x1000) // TODO: Input constants
+    if (Input().IsAnyHeld(InputObject::PadIndex::First, 0x1000)) // TODO: Input constants
     {
         if (field_1E0_selected_index <= 0)
         {
@@ -2447,7 +2380,7 @@ void Menu::Options_Sound_Update_47C420()
         SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400);
     }
 
-    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x4100) // TODO: Input constants
+    if (Input().IsAnyHeld(InputObject::PadIndex::First, 0x4100)) // TODO: Input constants
     {
         if (field_1E0_selected_index >= 1)
         {
@@ -2462,7 +2395,7 @@ void Menu::Options_Sound_Update_47C420()
         SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400);
     }
 
-    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x40) // TODO: Input constants
+    if (Input().IsAnyHeld(InputObject::PadIndex::First, 0x40)) // TODO: Input constants
     {
         if (field_1E0_selected_index)
         {
@@ -2479,7 +2412,7 @@ void Menu::Options_Sound_Update_47C420()
         field_1CC_fn_update = &Menu::Options_WaitForAbeSayOK_Update_47C720;
     }
 
-    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x810 || field_1DC_idle_input_counter > 900) // TODO: Input constants
+    if (Input().IsAnyHeld(InputObject::PadIndex::First, 0x810) || field_1DC_idle_input_counter > 900) // TODO: Input constants
     {
         field_1E0_selected_index = 2;
         field_134_anim.Set_Animation_Data_402A40(stru_4D01C0[2].field_4_frame_table, nullptr);
@@ -2545,7 +2478,7 @@ void Menu::To_MainOptions_Screen_After_Camera_Change_Update_47C7A0()
 
 void Menu::GameSpeak_Update_47CBD0()
 {
-    if (sInputObject_5009E8.field_0_pads[0].field_0_pressed)
+    if (Input().Pressed(InputObject::PadIndex::First))
     {
         field_1DC_idle_input_counter = 0;
     }
@@ -2665,7 +2598,7 @@ void Menu::GameSpeak_Update_47CBD0()
         return;
     }
 
-    if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & sInputKey_LeftGameSpeakEnabler_4C65B8)
+    if (Input().IsAnyPressed(InputObject::PadIndex::First, sInputKey_LeftGameSpeakEnabler_4C65B8))
     {
         if (field_1F0_pObj2)
         {
@@ -2685,7 +2618,7 @@ void Menu::GameSpeak_Update_47CBD0()
             }
         }
 
-        if (sInputObject_5009E8.field_0_pads[0].field_6_held & sInputKey_GameSpeak2_4C65BC)
+        if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak2_4C65BC))
         {
             Mudokon_SFX_42A4D0(MudSounds::eFollowMe_4, 0, 0, 0);
             field_204_flags |= 1u;
@@ -2697,7 +2630,7 @@ void Menu::GameSpeak_Update_47CBD0()
                 pFade->ctor_42A5A0(stru_4D00E0[2].field_0_xpos, stru_4D00E0[2].field_2_ypos + 36, 0, 1);
             }
         }
-        else if (sInputObject_5009E8.field_0_pads[0].field_6_held & sInputKey_GameSpeak4_4C65C4)
+        else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak4_4C65C4))
         {
             Mudokon_SFX_42A4D0(MudSounds::eWait_6, 0, 0, 0);
             field_204_flags |= 1u;
@@ -2709,7 +2642,7 @@ void Menu::GameSpeak_Update_47CBD0()
                 pFade->ctor_42A5A0(stru_4D00E0[0].field_0_xpos, stru_4D00E0[0].field_2_ypos + 36, 0, 1);
             }
         }
-        else if (sInputObject_5009E8.field_0_pads[0].field_6_held & sInputKey_GameSpeak1_4C65C8)
+        else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak1_4C65C8))
         {
             Mudokon_SFX_42A4D0(MudSounds::eHello_3, 0, 0, 0);
             field_204_flags |= 1u;
@@ -2721,7 +2654,7 @@ void Menu::GameSpeak_Update_47CBD0()
                 pFade->ctor_42A5A0(stru_4D00E0[1].field_0_xpos, stru_4D00E0[1].field_2_ypos + 36, 0, 1);
             }
         }
-        else if (sInputObject_5009E8.field_0_pads[0].field_6_held & sInputKey_GameSpeak3_4C65C0)
+        else if (Input().IsAnyPressed(InputObject::PadIndex::First, sInputKey_GameSpeak3_4C65C0))
         {
             Mudokon_SFX_42A4D0(MudSounds::eAngry_5, 0, 0, 0);
             field_204_flags |= 1u;
@@ -2737,7 +2670,7 @@ void Menu::GameSpeak_Update_47CBD0()
         return;
     }
 
-    if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & sInputKey_RightGameSpeakEnabler_4C65DC)
+    if (Input().IsAnyPressed(InputObject::PadIndex::First, sInputKey_RightGameSpeakEnabler_4C65DC))
     {
         if (field_1F0_pObj2)
         {
@@ -2756,7 +2689,8 @@ void Menu::GameSpeak_Update_47CBD0()
                 field_1F0_pObj2->ctor_42A5A0(stru_4D00E0[12].field_0_xpos, stru_4D00E0[12].field_2_ypos + 36, 0, 0);
             }
         }
-        if (sInputObject_5009E8.field_0_pads[0].field_6_held & sInputKey_GameSpeak6_4C65E8)
+
+        if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak6_4C65E8))
         {
             Mudokon_SFX_42A4D0(MudSounds::eWhistle1_1, 0, 0, 0);
             field_204_flags |= 1u;
@@ -2768,7 +2702,7 @@ void Menu::GameSpeak_Update_47CBD0()
                 pFade->ctor_42A5A0(stru_4D00E0[4].field_0_xpos, stru_4D00E0[4].field_2_ypos + 36, 0, 1);
             }
         }
-        else if (sInputObject_5009E8.field_0_pads[0].field_6_held & sInputKey_GameSpeak5_4C65EC)
+        else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak5_4C65EC))
         {
             Mudokon_SFX_42A4D0(MudSounds::eWhistle2_2, 0, 0, 0);
             field_204_flags |= 1u;
@@ -2780,7 +2714,7 @@ void Menu::GameSpeak_Update_47CBD0()
                 pFade->ctor_42A5A0(stru_4D00E0[5].field_0_xpos, stru_4D00E0[5].field_2_ypos + 36, 0, 1);
             }
         }
-        else if (sInputObject_5009E8.field_0_pads[0].field_6_held & sInputKey_GameSpeak8_4C65E0)
+        else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak8_4C65E0))
         {
             Mudokon_SFX_42A4D0(MudSounds::eLaugh2_11, 0, 0, 0);
             field_204_flags |= 1u;
@@ -2792,7 +2726,7 @@ void Menu::GameSpeak_Update_47CBD0()
                 pFade->ctor_42A5A0(stru_4D00E0[6].field_0_xpos, stru_4D00E0[6].field_2_ypos + 36, 0, 1);
             }
         }
-        else if (sInputObject_5009E8.field_0_pads[0].field_6_held & sInputKey_GameSpeak7_4C65E4)
+        else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak7_4C65E4))
         {
             Mudokon_SFX_42A4D0(MudSounds::eFart_7, 0, 0, 0);
             field_204_flags |= 1u;
@@ -2808,7 +2742,7 @@ void Menu::GameSpeak_Update_47CBD0()
         return;
     }
 
-    if (!(sInputObject_5009E8.field_0_pads[0].field_6_held & 0x800) && field_1DC_idle_input_counter <= 1600)
+    if (!Input().IsAnyHeld(InputObject::PadIndex::First, 0x800) && field_1DC_idle_input_counter <= 1600)
     {
         if (field_1F0_pObj2)
         {
@@ -2901,7 +2835,7 @@ void Menu::Level_Cheat_To_Loading_Update_47ED50()
 
 void Menu::Options_Controller_Update_47F210()
 {
-    if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x1000) // TODO: Input constants
+    if (Input().IsAnyPressed(InputObject::PadIndex::First, 0x1000)) // TODO: Input constants
     {
         if (field_1E0_selected_index > 0 && field_228 == FP_FromInteger(0))
         {
@@ -2909,7 +2843,7 @@ void Menu::Options_Controller_Update_47F210()
             SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
         }
     }
-    else if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x4100) // TODO: Input constants
+    else if (Input().IsAnyPressed(InputObject::PadIndex::First, 0x4100)) // TODO: Input constants
     {
         if (field_1E0_selected_index < dword_4CE598 - 1 && field_228 == FP_FromInteger(0))
         {
@@ -2918,14 +2852,14 @@ void Menu::Options_Controller_Update_47F210()
         }
     }
 
-    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x810) // TODO: Input constants
+    if (Input().IsAnyPressed(InputObject::PadIndex::First, 0x810)) // TODO: Input constants
     {
         field_230_bGoBack = 1;
         field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
         field_1CC_fn_update = &Menu::GoTo_ControllerConfigure_Or_Back_AfterScreenTrans_Update_47F330;
     }
 
-    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0xE0)
+    if (Input().IsAnyHeld(InputObject::PadIndex::First, 0xE0))
     {
         field_230_bGoBack = 0;
         field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
@@ -3200,7 +3134,7 @@ void Menu::ButtonRemap_Update_47F6F0()
 {
     if (bWaitingForRemapInput_9F2DE8)
     {
-        if (!sInputObject_5009E8.field_0_pads[0].field_0_pressed)
+        if (!Input().Pressed(InputObject::PadIndex::First))
         {
             bWaitingForRemapInput_9F2DE8 = 0;
         }
@@ -3220,7 +3154,7 @@ void Menu::ButtonRemap_Update_47F6F0()
         return;
     }
 
-    if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & InputCommands::eLeft) // TODO: Input constants
+    if (Input().IsAnyPressed(InputObject::PadIndex::First, InputCommands::eLeft)) // TODO: Input constants
     {
         if (field_1E0_selected_index >= 4)
         {
@@ -3229,7 +3163,7 @@ void Menu::ButtonRemap_Update_47F6F0()
         SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, 0); // TODO: Input constants
         bWaitingForRemapInput_9F2DE8 = 1;
     }
-    else if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & InputCommands::eRight) // TODO: Input constants
+    else if (Input().IsAnyPressed(InputObject::PadIndex::First, InputCommands::eRight)) // TODO: Input constants
     {
         if (field_1E0_selected_index < 4)
         {
@@ -3238,13 +3172,13 @@ void Menu::ButtonRemap_Update_47F6F0()
         SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, 0); // TODO: Input constants
         bWaitingForRemapInput_9F2DE8 = 1;
     }
-    else if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x1000) // TODO: Input constants
+    else if (Input().IsAnyPressed(InputObject::PadIndex::First, 0x1000)) // TODO: Input constants
     {
         field_1E0_selected_index--;
         SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, 0); // TODO: Input constants
         bWaitingForRemapInput_9F2DE8 = 1;
     }
-    else if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x4100) // TODO: Input constants
+    else if (Input().IsAnyPressed(InputObject::PadIndex::First, 0x4100)) // TODO: Input constants
     {
         field_1E0_selected_index++;
         SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, 0); // TODO: Input constants
@@ -3261,7 +3195,7 @@ void Menu::ButtonRemap_Update_47F6F0()
         field_1E0_selected_index = 0;
     }
 
-    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x810) // TODO: Input constants
+    if (Input().IsAnyHeld(InputObject::PadIndex::First, 0x810)) // TODO: Input constants
     {
         // Show abe motions screen
         field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
@@ -3269,7 +3203,7 @@ void Menu::ButtonRemap_Update_47F6F0()
         field_1CC_fn_update = &Menu::To_ShowAbeMotions_ChangeCamera_Update_47F8A0;
     }
 
-    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0xE0) // TODO: Input constants
+    if (Input().IsAnyHeld(InputObject::PadIndex::First, 0xE0)) // TODO: Input constants
     {
         // Rebind a key (in that horrible white blinding screen)
         field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
@@ -3450,7 +3384,7 @@ void Menu::CreditsEnd_BackTo_FMV_Or_Level_List_Update_47F170()
 
 void Menu::Load_Update_47D760()
 {
-    if (sInputObject_5009E8.field_0_pads[0].field_0_pressed)
+    if (Input().Pressed(InputObject::PadIndex::First))
     {
         field_1DC_idle_input_counter = 0;
     }
@@ -3459,8 +3393,8 @@ void Menu::Load_Update_47D760()
         field_1DC_idle_input_counter++;
     }
 
-    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x800 // TODO: Input constants
-        || sInputObject_5009E8.field_0_pads[0].field_6_held & 0x10 && !field_1FE // TODO: Input constants
+    if (Input().IsAnyHeld(InputObject::PadIndex::First, 0x800) // TODO: Input constants
+        || Input().IsAnyHeld(InputObject::PadIndex::First, 0x10) && !field_1FE // TODO: Input constants
         || field_1DC_idle_input_counter > 1000)
     {
         field_1FA = 0;
@@ -3471,7 +3405,7 @@ void Menu::Load_Update_47D760()
         field_202 = 0;
     }
 
-    if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x1000) // TODO: Input constants
+    if (Input().IsAnyPressed(InputObject::PadIndex::First,  0x1000)) // TODO: Input constants
     {
         if (field_1E0_selected_index > 0 && field_228 == FP_FromInteger(0))
         {
@@ -3479,7 +3413,7 @@ void Menu::Load_Update_47D760()
 
             SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
 
-            if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x810) // TODO: Input constants
+            if (Input().IsAnyHeld(InputObject::PadIndex::First, 0x810)) // TODO: Input constants
             {
                 field_230_bGoBack = 1;
                 field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
@@ -3491,7 +3425,7 @@ void Menu::Load_Update_47D760()
     }
     else 
     {
-        if (sInputObject_5009E8.field_0_pads[0].field_0_pressed & 0x4100) // TODO: Input constants
+        if (Input().IsAnyPressed(InputObject::PadIndex::First, 0x4100)) // TODO: Input constants
         {
             if (field_1E0_selected_index < (sSaveIdx_9F2DD8 - 1) && field_228 == FP_FromInteger(0))
             {
@@ -3499,7 +3433,7 @@ void Menu::Load_Update_47D760()
 
                 SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
 
-                if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x810) // TODO: Input constants
+                if (Input().IsAnyHeld(InputObject::PadIndex::First, 0x810)) // TODO: Input constants
                 {
                     field_230_bGoBack = 1;
                     field_1E8_pMenuTrans->StartTrans_436560(40, 1, 0, 16);
@@ -3511,7 +3445,7 @@ void Menu::Load_Update_47D760()
         }
     }
 
-    if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0xE0) // TODO: Input constants
+    if (Input().IsAnyHeld(InputObject::PadIndex::First, 0xE0)) // TODO: Input constants
     {
         if (sSaveIdx_9F2DD8)
         {
@@ -3584,7 +3518,7 @@ void Menu::ToggleMotions_Render_47CAB0(int** ppOt)
 
 void Menu::ToggleMotions_Update_47C800()
 {
-    if (sInputObject_5009E8.field_0_pads[0].field_0_pressed)
+    if (Input().Pressed(InputObject::PadIndex::First))
     {
         field_1DC_idle_input_counter = 0;
     }
@@ -3595,7 +3529,7 @@ void Menu::ToggleMotions_Update_47C800()
 
     if (sNumCamSwappers_507668 <= 0)
     {
-        if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x1C0) // TODO: Input constants
+        if (Input().IsAnyHeld(InputObject::PadIndex::First, 0x1C0)) // TODO: Input constants
         {
             if (sJoystickEnabled_508A60)
             {
@@ -3613,7 +3547,7 @@ void Menu::ToggleMotions_Update_47C800()
             SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
         }
 
-        if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x810 || field_1DC_idle_input_counter > 1600) // TODO: Input constants
+        if (Input().IsAnyHeld(InputObject::PadIndex::First, 0x810) || field_1DC_idle_input_counter > 1600) // TODO: Input constants
         {
             // Back to options
             field_1E0_selected_index = 2;
@@ -3626,7 +3560,7 @@ void Menu::ToggleMotions_Update_47C800()
 
 void Menu::Toggle_Motions_Screens_Update_47C8F0()
 {
-    if (sInputObject_5009E8.field_0_pads[0].field_0_pressed)
+    if (Input().Pressed(InputObject::PadIndex::First))
     {
         field_1DC_idle_input_counter = 0;
     }
@@ -3637,7 +3571,7 @@ void Menu::Toggle_Motions_Screens_Update_47C8F0()
 
     if (sNumCamSwappers_507668 <= 0)
     {
-        if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x1C0) // TODO: Input constants
+        if (Input().IsAnyHeld(InputObject::PadIndex::First, 0x1C0)) // TODO: Input constants
         {
             if (sJoystickEnabled_508A60)
             {
@@ -3654,7 +3588,7 @@ void Menu::Toggle_Motions_Screens_Update_47C8F0()
             SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, 0);
         }
 
-        if (sInputObject_5009E8.field_0_pads[0].field_6_held & 0x810 || field_1DC_idle_input_counter > 1600) // TODO: Input constants
+        if (Input().IsAnyHeld(InputObject::PadIndex::First, 0x810) || field_1DC_idle_input_counter > 1600) // TODO: Input constants
         {
             field_1E0_selected_index = 2;
             field_134_anim.Set_Animation_Data_402A40(stru_4D01D8[2].field_4_frame_table, 0);

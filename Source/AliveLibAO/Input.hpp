@@ -7,7 +7,7 @@ namespace AO {
 struct PSX_Pad
 {
     unsigned __int16 field_0_pressed;
-    unsigned __int8 field_2;
+    unsigned __int8 field_2_dir;
     char field_3;
     __int16 field_4_previously_pressed;
     unsigned __int16 field_6_held;
@@ -93,6 +93,12 @@ EXPORT void CC Input_Init_44EB60();
 
 EXPORT void Input_DisableInput_48E690();
 
+EXPORT const char* CC Input_GetButtonString_44F1C0(InputCommands input_command);
+
+EXPORT int CC Input_Remap_44F300(InputCommands inputCmd);
+
+EXPORT int CC Input_SaveSettingsIni_44F460();
+
 class InputObject
 {
 public:
@@ -115,16 +121,44 @@ public:
     int field_28_command_duration;
     int field_2C;
 
-    bool IsPressed(DWORD command);
+    // These use the active pad
+    bool IsAnyPressed(DWORD command) const;
+    bool IsAnyHeld(DWORD command) const;
+    bool IsAnyReleased(DWORD command) const;
+    unsigned __int8 Dir() const;
+    bool IsAllPressed(DWORD commands) const;
+    bool IsAllHeld(DWORD commands) const;
 
-    bool IsHeld(DWORD command);
+    enum class PadIndex
+    {
+        First,
+        Second,
+        Active,
+    };
 
-    bool IsReleased(DWORD command);
+    PadIndex CurrentController() const;
+
+    void SetCurrentController(PadIndex padIdx);
+
+    bool JoyStickEnabled() const;
+
+    // Check a specific pad
+    bool IsAnyPressed(PadIndex padIx, DWORD command) const;
+    bool IsAnyHeld(PadIndex padIx, DWORD command) const;
+    bool IsAnyReleased(PadIndex padIx, DWORD command) const;
+    bool IsAllPressed(PadIndex padIx, DWORD commands) const;
+
+    unsigned __int16 Pressed(PadIndex padIx) const;
+
+    // These use the active pad
+    unsigned __int16 Pressed() const;
+    unsigned short Held() const;
+    unsigned short Released() const;
+
+    unsigned short Held(PadIndex padIx) const;
 };
 ALIVE_ASSERT_SIZEOF(InputObject, 0x30);
 
-ALIVE_VAR_EXTERN(InputObject, sInputObject_5009E8);
-ALIVE_VAR_EXTERN(unsigned __int16, sCurrentControllerIndex_5076B8);
-ALIVE_VAR_EXTERN(int, sJoystickEnabled_508A60);
+InputObject& Input();
 
 }

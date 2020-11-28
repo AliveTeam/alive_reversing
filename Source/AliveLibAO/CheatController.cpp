@@ -148,11 +148,11 @@ void CheatController::VUpdate()
 
 void CheatController::VUpdate_40FC40()
 {
-    const unsigned __int16 held = sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_6_held;
+    const unsigned __int16 held = Input().Held();
     if (held)
     {
         // Only do cheat code check if shift is held
-        if (sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed & InputCommands::eRun)
+        if (Input().IsAnyPressed(InputCommands::eRun))
         {
             for (auto& cheatEntry : stru_4C50F8)
             {

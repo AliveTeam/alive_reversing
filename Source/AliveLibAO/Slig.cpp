@@ -686,13 +686,13 @@ void Slig::VUpdate_465050()
     if (sDDCheat_FlyingEnabled_50771C && sControlledCharacter_50767C == this)
     {
         field_F4_pLine = nullptr;
-        if (sInputObject_5009E8.IsPressed(0xF000))
+        if (Input().IsAnyPressed(0xF000))
         {
-            const int dir = sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_2 >> 5;
+            const int dir = Input().Dir();
             field_B4_velx = FP_FromRaw(sSligVelXTable_4BCA30[dir]);
             field_B8_vely = FP_FromRaw(sSligVelYTable_4BCA50[dir]);
 
-            if (sInputObject_5009E8.IsPressed(0x20))
+            if (Input().IsAnyPressed(0x20))
             {
                 const FP velX = FP_FromRaw(sSligVelXTable_4BCA30[dir]);
                 const FP velY = FP_FromRaw(sSligVelYTable_4BCA50[dir]);
@@ -1690,7 +1690,7 @@ __int16 Slig::GetNextMotionIncGameSpeak_467700(unsigned __int16 input)
         return eSligStates::State_37_Depossessing_4684D0;
     }
 
-    if (sInputObject_5009E8.IsPressed(sInputKey_LeftGameSpeakEnabler_4C65B8))
+    if (Input().IsAnyPressed(sInputKey_LeftGameSpeakEnabler_4C65B8))
     {
         if (input & sInputKey_GameSpeak2_4C65BC)
         {
@@ -1720,7 +1720,7 @@ __int16 Slig::GetNextMotionIncGameSpeak_467700(unsigned __int16 input)
         }
         return -1;
     }
-    else if (sInputObject_5009E8.IsPressed(sInputKey_RightGameSpeakEnabler_4C65DC))
+    else if (Input().IsAnyPressed(sInputKey_RightGameSpeakEnabler_4C65DC))
     {
         if (input & sInputKey_GameSpeak8_4C65E0)
         {
@@ -1899,12 +1899,12 @@ __int16 Slig::MoveLift_4665E0(FP ySpeed)
             return eSligStates::State_51_LiftGripping_466480;
         }
 
-        if (sInputObject_5009E8.IsPressed(sInputKey_Up_4C6598))
+        if (Input().IsAnyPressed(sInputKey_Up_4C6598))
         {
             return eSligStates::State_47_LiftUp_4665A0;
         }
 
-        if (sInputObject_5009E8.IsPressed(sInputKey_Down_4C659C))
+        if (Input().IsAnyPressed(sInputKey_Down_4C659C))
         {
             return eSligStates::State_48_LiftDown_4665C0;
         }
@@ -1916,19 +1916,19 @@ __int16 Slig::MoveLift_4665E0(FP ySpeed)
             return eSligStates::State_51_LiftGripping_466480;
         }
 
-        if (sInputObject_5009E8.IsPressed(sInputKey_Down_4C659C))
+        if (Input().IsAnyPressed(sInputKey_Down_4C659C))
         {
             return eSligStates::State_48_LiftDown_4665C0;
         }
 
-        if (sInputObject_5009E8.IsPressed(sInputKey_Up_4C6598))
+        if (Input().IsAnyPressed(sInputKey_Up_4C6598))
         {
             return eSligStates::State_47_LiftUp_4665A0;
         }
     }
 
     // Strange how this isn't "if nothing pressed and on a floor then let go ??"
-    if (sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed && pLiftPoint->OnAnyFloor())
+    if (Input().Pressed() && pLiftPoint->OnAnyFloor())
     {
         return eSligStates::State_50_LiftUngrip_466460;
     }
@@ -2135,7 +2135,7 @@ signed __int16 Slig::HandlePlayerControlled_4667B0()
 {
     FP kScaleGrid = ScaleToGridSize_41FA30(field_BC_sprite_scale);
 
-    const auto pressed = sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
+    const auto pressed = Input().Pressed();
     if (pressed & sInputKey_Right_4C6590)
     {
         if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -2206,7 +2206,7 @@ signed __int16 Slig::HandlePlayerControlled_4667B0()
         }
     }
 
-    if (sInputObject_5009E8.IsHeld(sInputKey_DoAction_4C65A4)
+    if (Input().IsAnyHeld(sInputKey_DoAction_4C65A4)
         && !(pressed & (sInputKey_LeftGameSpeakEnabler_4C65B8 | sInputKey_RightGameSpeakEnabler_4C65DC)))
     {
         if (!Input_IsChanting_4334C0())
@@ -2309,7 +2309,7 @@ signed __int16 Slig::HandlePlayerControlled_4667B0()
         }
         else
         {
-            if (sInputObject_5009E8.IsHeld(sInputKey_Down_4C659C))
+            if (Input().IsAnyHeld(sInputKey_Down_4C659C))
             {
                 Slig::Slig_GameSpeak_SFX_46F560(SligSpeak::eWhat_9, 0, field_110_pitch_min, this);
                 field_FC_current_motion = eSligStates::State_30_SpeakWhat_468290;
@@ -2334,7 +2334,7 @@ signed __int16 Slig::HandlePlayerControlled_4667B0()
         }
         else
         {
-            if (sInputObject_5009E8.IsHeld(sInputKey_Up_4C6598))
+            if (Input().IsAnyHeld(sInputKey_Up_4C6598))
             {
                 Slig::Slig_GameSpeak_SFX_46F560(SligSpeak::eWhat_9, 0, field_110_pitch_min, this);
                 field_FC_current_motion = eSligStates::State_30_SpeakWhat_468290;
@@ -2345,7 +2345,7 @@ signed __int16 Slig::HandlePlayerControlled_4667B0()
         }
     }
 
-    if (sInputObject_5009E8.IsHeld(sInputKey_Hop_4C65A0 | sInputKey_FartRoll_4C65B0) && !(sInputObject_5009E8.IsPressed(sInputKey_LeftGameSpeakEnabler_4C65B8 | sInputKey_RightGameSpeakEnabler_4C65DC)))
+    if (Input().IsAnyHeld(sInputKey_Hop_4C65A0 | sInputKey_FartRoll_4C65B0) && !(Input().IsAnyPressed(sInputKey_LeftGameSpeakEnabler_4C65B8 | sInputKey_RightGameSpeakEnabler_4C65DC)))
     {
         Slig::Slig_GameSpeak_SFX_46F560(SligSpeak::eBlurgh_11, 0, field_110_pitch_min, this);
         field_FC_current_motion = eSligStates::State_32_Blurgh_468410;
@@ -2357,7 +2357,7 @@ signed __int16 Slig::HandlePlayerControlled_4667B0()
 
 void Slig::PlayerControlRunningSlideStopOrTurn(short last_anim_frame)
 {
-    if (field_B4_velx > FP_FromInteger(0) && sInputObject_5009E8.IsPressed(sInputKey_Left_4C6594))
+    if (field_B4_velx > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left_4C6594))
     {
         field_B4_velx = field_BC_sprite_scale * FP_FromDouble(13.2);
         field_FC_current_motion = eSligStates::State_10_SlidingTurn_469F10;
@@ -2365,7 +2365,7 @@ void Slig::PlayerControlRunningSlideStopOrTurn(short last_anim_frame)
         return;
     }
 
-    if (field_B4_velx < FP_FromInteger(0) && sInputObject_5009E8.IsPressed(sInputKey_Right_4C6590))
+    if (field_B4_velx < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right_4C6590))
     {
         field_B4_velx = field_BC_sprite_scale * FP_FromDouble(-13.2);
         field_FC_current_motion = eSligStates::State_10_SlidingTurn_469F10;
@@ -2373,7 +2373,7 @@ void Slig::PlayerControlRunningSlideStopOrTurn(short last_anim_frame)
         return;
     }
 
-    if (!sInputObject_5009E8.IsPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
+    if (!Input().IsAnyPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
     {
         if (field_B4_velx >= FP_FromInteger(0))
         {
@@ -2389,7 +2389,7 @@ void Slig::PlayerControlRunningSlideStopOrTurn(short last_anim_frame)
         return;
     }
 
-    if (sInputObject_5009E8.IsPressed(sInputKey_Run_4C65A8))
+    if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
     {
         field_126_input = 0;
         return;
@@ -2593,11 +2593,11 @@ void Slig::State_0_StandIdle_467640()
                     return;
                 }
             }
-            else if (sInputObject_5009E8.IsPressed(0x04 | 0x01))
+            else if (Input().IsAnyPressed(0x04 | 0x01))
             {
-                if (sInputObject_5009E8.IsHeld(0xF0))
+                if (Input().IsAnyHeld(0xF0))
                 {
-                    field_126_input = sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_6_held;
+                    field_126_input = Input().Held();
                     field_FC_current_motion = eSligStates::State_18_GameSpeak_467B10;
                     return;
                 }
@@ -2613,7 +2613,7 @@ void Slig::State_0_StandIdle_467640()
 
 void Slig::State_1_StandToWalk_4695D0()
 {
-    field_126_input |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_6_held;
+    field_126_input |= Input().Held();
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -2635,7 +2635,7 @@ void Slig::State_2_Walking_469130()
         MusicController::sub_443810(MusicController::MusicTypes::eChase_4, this, 0, 0);
     }
 
-    field_126_input |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_6_held;
+    field_126_input |= Input().Held();
 
     if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(35), field_B4_velx * FP_FromInteger(2)))
     {
@@ -2660,9 +2660,9 @@ void Slig::State_2_Walking_469130()
             }
             if (sControlledCharacter_50767C == this && field_100_health > FP_FromInteger(0))
             {
-                if (sInputObject_5009E8.IsPressed(sInputKey_Run_4C65A8))
+                if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
                 {
-                    field_E4_previous_motion = 4;
+                    field_E4_previous_motion = eSligStates::State_4_Running_469690;
                     field_E6_last_anim_frame = 5;
                     field_11E = 1;
 
@@ -2710,9 +2710,9 @@ void Slig::State_2_Walking_469130()
             }
             else
             {
-                if (field_B4_velx > FP_FromInteger(0) && sInputObject_5009E8.IsPressed(sInputKey_Left_4C6594)
-                    || field_B4_velx < FP_FromInteger(0) && sInputObject_5009E8.IsPressed(sInputKey_Right_4C6590)
-                    || !(sInputObject_5009E8.IsPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594)))
+                if (field_B4_velx > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left_4C6594)
+                    || field_B4_velx < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right_4C6590)
+                    || !(Input().IsAnyPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594)))
                 {
                     field_FC_current_motion = eSligStates::State_19_WalkToStand_469610;
                 }
@@ -2731,7 +2731,7 @@ void Slig::State_2_Walking_469130()
 
             if (sControlledCharacter_50767C == this && field_100_health > FP_FromInteger(0))
             {
-                if (sInputObject_5009E8.IsPressed(sInputKey_Run_4C65A8))
+                if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
                 {
                     field_E4_previous_motion = 4;
                     field_E6_last_anim_frame = 13;
@@ -2762,7 +2762,7 @@ void Slig::State_2_Walking_469130()
 
 void Slig::State_3_StandToRun_469C00()
 {
-    field_126_input |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_6_held;
+    field_126_input |= Input().Held();
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -2793,7 +2793,7 @@ void Slig::State_4_Running_469690()
         MusicController::sub_443810(MusicController::MusicTypes::eSlogChase_5, 0, 0, 0);
     }
 
-    field_126_input |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_6_held;
+    field_126_input |= Input().Held();
 
     Event_Broadcast_417220(kEventNoise_0, this);
 
@@ -2900,14 +2900,14 @@ void Slig::State_6_Shoot_468820()
     {
         if (sControlledCharacter_50767C == this && field_100_health > FP_FromInteger(0))
         {
-            if (sInputObject_5009E8.IsPressed(sInputKey_ThrowItem_4C65B4))
+            if (Input().IsAnyPressed(sInputKey_ThrowItem_4C65B4))
             {
                 const FP k35Scaled = field_BC_sprite_scale * FP_FromInteger(35);
                 const FP kGridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
                 const FP k8 = FP_FromInteger(8);
 
                 // Recoil right
-                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && sInputObject_5009E8.IsPressed(sInputKey_Right_4C6590))
+                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Right_4C6590))
                 {
                     PathLine* pLine = nullptr;
                     FP hitX = {};
@@ -2939,7 +2939,7 @@ void Slig::State_6_Shoot_468820()
                 }
 
                 // Recoil left
-                if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && sInputObject_5009E8.IsPressed(sInputKey_Left_4C6594))
+                if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Left_4C6594))
                 {
                     PathLine* pLine = nullptr;
                     FP hitX = {};
@@ -3163,8 +3163,8 @@ void Slig::State_9_SlidingToStand_469DF0()
                     MainMovement_467020();
                 }
             }
-            else if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && sInputObject_5009E8.IsPressed(sInputKey_Right_4C6590)
-                || !(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX)) && sInputObject_5009E8.IsPressed(sInputKey_Left_4C6594))
+            else if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Right_4C6590)
+                || !(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX)) && Input().IsAnyPressed(sInputKey_Left_4C6594))
             {
                 field_E4_previous_motion = eSligStates::State_10_SlidingTurn_469F10;
                 field_E6_last_anim_frame = field_10_anim.field_92_current_frame;
@@ -3202,7 +3202,7 @@ void Slig::State_10_SlidingTurn_469F10()
             }
             else
             {
-                if (sInputObject_5009E8.IsPressed(sInputKey_Run_4C65A8))
+                if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
                 {
                     field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
                     field_FC_current_motion = eSligStates::State_12_SlidingTurnToRun_46A160;
@@ -3225,7 +3225,7 @@ void Slig::State_10_SlidingTurn_469F10()
             }
             else
             {
-                if (sInputObject_5009E8.IsPressed(sInputKey_Run_4C65A8))
+                if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
                 {
                     field_FC_current_motion = eSligStates::State_12_SlidingTurnToRun_46A160;
                     field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
@@ -3304,7 +3304,7 @@ void Slig::State_16_StandingToStep_468FD0()
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        if (sInputObject_5009E8.IsPressed(sInputKey_Left_4C6594 | sInputKey_Right_4C6590))
+        if (Input().IsAnyPressed(sInputKey_Left_4C6594 | sInputKey_Right_4C6590))
         {
             field_FC_current_motion = eSligStates::State_1_StandToWalk_4695D0;
         }
@@ -3328,7 +3328,7 @@ void Slig::State_17_DepossessingAbort_468750()
 
 void Slig::State_18_GameSpeak_467B10()
 {
-    field_126_input |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_6_held;
+    field_126_input |= Input().Held();
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -3378,7 +3378,7 @@ void Slig::State_20_Recoil_468D30()
                     field_FE_next_state = -1;
                 }
             }
-            else if (sInputObject_5009E8.IsPressed(sInputKey_ThrowItem_4C65B4))
+            else if (Input().IsAnyPressed(sInputKey_ThrowItem_4C65B4))
             {
                 field_B4_velx = FP_FromInteger(0);
                 field_E4_previous_motion = eSligStates::State_6_Shoot_468820;
@@ -3995,7 +3995,7 @@ void Slig::State_49_LiftGrip_4663A0()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        if (sInputObject_5009E8.IsPressed(sInputKey_Up_4C6598))
+        if (Input().IsAnyPressed(sInputKey_Up_4C6598))
         {
             if (pLiftPoint->OnTopFloor())
             {
@@ -4009,7 +4009,7 @@ void Slig::State_49_LiftGrip_4663A0()
             return;
         }
         
-        if (sInputObject_5009E8.IsPressed(sInputKey_Down_4C659C))
+        if (Input().IsAnyPressed(sInputKey_Down_4C659C))
         {
             if (pLiftPoint->OnBottomFloor())
             {
@@ -4045,7 +4045,7 @@ void Slig::State_51_LiftGripping_466480()
     pLift->Move_435740(FP_FromInteger(0), FP_FromInteger(0), 0);
     field_B8_vely = FP_FromInteger(0);
 
-    if (sInputObject_5009E8.IsPressed(sInputKey_Up_4C6598))
+    if (Input().IsAnyPressed(sInputKey_Up_4C6598))
     {
         if (!pLift->OnTopFloor())
         {
@@ -4054,7 +4054,7 @@ void Slig::State_51_LiftGripping_466480()
     }
     else
     {
-        if (sInputObject_5009E8.IsPressed(sInputKey_Down_4C659C))
+        if (Input().IsAnyPressed(sInputKey_Down_4C659C))
         {
             if (!pLift->OnBottomFloor())
             {

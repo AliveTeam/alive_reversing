@@ -207,7 +207,7 @@ void DDCheat::VUpdate_4098C0()
 {
     if (gDDCheatMode_508BF8)
     {
-        const int otherController = sCurrentControllerIndex_5076B8 == 0 ? 1 : 0;
+        const InputObject::PadIndex otherController = Input().CurrentController() == InputObject::PadIndex::First ? InputObject::PadIndex::Second : InputObject::PadIndex::First;
         Abe* pObj = sActiveHero_507678;
         int cheat_enabled = 0;
 
@@ -245,7 +245,7 @@ void DDCheat::VUpdate_4098C0()
         {
             if (pObj)
             {
-                if (sInputObject_5009E8.IsHeld(InputCommands::eGameSpeak4))
+                if (Input().IsAnyHeld(InputCommands::eGameSpeak4))
                 {
                     sDDCheat_FlyingEnabled_50771C = cheat_enabled == 0;
                     if (sDDCheat_FlyingEnabled_50771C)
@@ -280,7 +280,7 @@ void DDCheat::VUpdate_4098C0()
         }
 
         const auto screenshotCombination = InputCommands::eDoAction | InputCommands::eSneak | InputCommands::eRun;
-        if ((sInputObject_5009E8.field_0_pads[otherController].field_0_pressed & screenshotCombination) == screenshotCombination)
+        if (Input().IsAllPressed(otherController, screenshotCombination))
         {
             ScreenShot_409720();
         }
@@ -327,7 +327,7 @@ void DDCheat::VUpdate_4098C0()
             }
             if (cheat_enabled)
             {
-                auto isHeld = sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_6_held;
+                auto isHeld = Input().Held();
                 if (isHeld & InputCommands::eDoAction)
                 {
                     showDebugCreatureInfo_5076E0 = showDebugCreatureInfo_5076E0 == 0;
@@ -342,8 +342,8 @@ void DDCheat::VUpdate_4098C0()
                     doNothing_4FF860 = doNothing_4FF860 == 0;
                 }
             }
-            field_24_input = sInputObject_5009E8.field_0_pads[otherController].field_6_held;
-            auto isPressed = sInputObject_5009E8.field_0_pads[otherController].field_0_pressed;
+            field_24_input = Input().Held(otherController);
+            auto isPressed = Input().Pressed(otherController);
             if (currentlyPressedButtons_4FF854 == isPressed && currentlyPressedButtons_4FF854)
             {
                 dword_4C31A8--;

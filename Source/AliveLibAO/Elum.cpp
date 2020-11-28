@@ -502,9 +502,9 @@ void Elum::WalkLeft_412FA0()
         }
     }
 
-    if ((field_B4_velx > FP_FromInteger(0) && sInputObject_5009E8.IsPressed(sInputKey_Left_4C6594)) ||
-        (field_B4_velx < FP_FromInteger(0) && sInputObject_5009E8.IsPressed(sInputKey_Right_4C6590)) ||
-        !sInputObject_5009E8.IsPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
+    if ((field_B4_velx > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left_4C6594)) ||
+        (field_B4_velx < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right_4C6590)) ||
+        !Input().IsAnyPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
     {
         field_FC_current_motion = eElumStates::State_6_MidWalkToIdle_4133F0;
         field_10E = 0;
@@ -538,9 +538,9 @@ void Elum::WalkRight_4130D0()
         }
     }
 
-    if ((field_B4_velx > FP_FromInteger(0) && sInputObject_5009E8.IsPressed(sInputKey_Left_4C6594)) ||
-        (field_B4_velx < FP_FromInteger(0) && sInputObject_5009E8.IsPressed(sInputKey_Right_4C6590)) ||
-        !sInputObject_5009E8.IsPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
+    if ((field_B4_velx > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left_4C6594)) ||
+        (field_B4_velx < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right_4C6590)) ||
+        !Input().IsAnyPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
     {
         field_FC_current_motion = eElumStates::State_5_WalkToIdle_4132D0;
         field_10E = 0;
@@ -754,10 +754,10 @@ __int16 Elum::ToNextStateAbeControlled_411E40()
         }
     }
 
-    if (sInputObject_5009E8.IsPressed(sInputKey_Left_4C6594 | sInputKey_Right_4C6590))
+    if (Input().IsAnyPressed(sInputKey_Left_4C6594 | sInputKey_Right_4C6590))
     {
         FP gridSize = {};
-        if (sInputObject_5009E8.IsPressed(sInputKey_Right_4C6590))
+        if (Input().IsAnyPressed(sInputKey_Right_4C6590))
         {
             gridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
 
@@ -767,7 +767,7 @@ __int16 Elum::ToNextStateAbeControlled_411E40()
                 return 1;
             }
         }
-        else if (sInputObject_5009E8.IsPressed(sInputKey_Left_4C6594))
+        else if (Input().IsAnyPressed(sInputKey_Left_4C6594))
         {
             gridSize = -ScaleToGridSize_41FA30(field_BC_sprite_scale);
 
@@ -783,7 +783,7 @@ __int16 Elum::ToNextStateAbeControlled_411E40()
             return 0;
         }
 
-        if (sInputObject_5009E8.IsPressed(sInputKey_Run_4C65A8))
+        if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
         {
             field_B4_velx = gridSize / FP_FromInteger(4);
             field_FC_current_motion = eElumStates::State_39_IdleToRun_413B00;
@@ -797,8 +797,8 @@ __int16 Elum::ToNextStateAbeControlled_411E40()
     }
     else
     {
-        if (sInputObject_5009E8.IsPressed(sInputKey_LeftGameSpeakEnabler_4C65B8 | sInputKey_RightGameSpeakEnabler_4C65DC)
-            || !(sInputObject_5009E8.IsPressed(sInputKey_Hop_4C65A0)))
+        if (Input().IsAnyPressed(sInputKey_LeftGameSpeakEnabler_4C65B8 | sInputKey_RightGameSpeakEnabler_4C65DC)
+            || !(Input().IsAnyPressed(sInputKey_Hop_4C65A0)))
         {
             return 0;
         }
@@ -1943,7 +1943,7 @@ void Elum::State_2_Unknown_412C30()
 
 void Elum::State_3_WalkLoop_412C90()
 {
-    field_10E |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
+    field_10E |= Input().Pressed();
     
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
@@ -2010,7 +2010,7 @@ void Elum::State_3_WalkLoop_412C90()
                 return;
             }
 
-            if (sInputObject_5009E8.IsPressed(sInputKey_Run_4C65A8))
+            if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
             {
                 field_FC_current_motion = eElumStates::State_41_MidWalkToRun_413560;
             }
@@ -2078,7 +2078,7 @@ void Elum::State_3_WalkLoop_412C90()
                 return;
             }
 
-            if (sInputObject_5009E8.IsPressed(sInputKey_Run_4C65A8))
+            if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
             {
                 field_FC_current_motion = eElumStates::State_40_WalkToRun_4134B0;
             }
@@ -2213,7 +2213,7 @@ void Elum::State_6_MidWalkToIdle_4133F0()
 
 void Elum::State_7_Unknown_413200()
 {
-    field_10E |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
+    field_10E |= Input().Pressed();
 
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
@@ -2230,7 +2230,7 @@ void Elum::State_7_Unknown_413200()
 
 void Elum::State_8_IdleToWalk_413270()
 {
-    field_10E |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
+    field_10E |= Input().Pressed();
 
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
@@ -2320,7 +2320,7 @@ void Elum::State_12_RunTurn_414520()
         MapFollowMe_401D30(TRUE);
 
         const FP gridSize = (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX)) ? ScaleToGridSize_41FA30(field_BC_sprite_scale) : -ScaleToGridSize_41FA30(field_BC_sprite_scale);
-        if (sInputObject_5009E8.IsPressed(sInputKey_Run_4C65A8))
+        if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
         {
             field_B4_velx = gridSize / FP_FromInteger(4);
             field_FC_current_motion = eElumStates::State_38_RunTurnToRun_414810;
@@ -3001,7 +3001,7 @@ void Elum::State_35_RunJumpLand_415580()
 
 void Elum::State_36_RunLoop_413720()
 {
-    field_10E |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
+    field_10E |= Input().Pressed();
 
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
@@ -3048,17 +3048,17 @@ void Elum::State_36_RunLoop_413720()
                 field_FC_current_motion = eElumStates::State_33_RunJumpBegin_415400;
                 field_10E = 0;
             }
-            else if (sInputObject_5009E8.IsPressed(sInputKey_Right_4C6590) && field_B4_velx < FP_FromInteger(0))
+            else if (Input().IsAnyPressed(sInputKey_Right_4C6590) && field_B4_velx < FP_FromInteger(0))
             {
                 field_FC_current_motion = eElumStates::State_12_RunTurn_414520;
                 field_B4_velx = field_BC_sprite_scale * FP_FromDouble(-13.3);
             }
-            else if (sInputObject_5009E8.IsPressed(sInputKey_Left_4C6594) && field_B4_velx > FP_FromInteger(0))
+            else if (Input().IsAnyPressed(sInputKey_Left_4C6594) && field_B4_velx > FP_FromInteger(0))
             {
                 field_FC_current_motion = eElumStates::State_12_RunTurn_414520;
                 field_B4_velx = field_BC_sprite_scale * FP_FromDouble(13.3);
             }
-            else if (!sInputObject_5009E8.IsPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
+            else if (!Input().IsAnyPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
             {
                 field_FC_current_motion = eElumStates::State_37_RunSlideStop_4142E0;
 
@@ -3071,7 +3071,7 @@ void Elum::State_36_RunLoop_413720()
                     field_B4_velx = (field_BC_sprite_scale * FP_FromDouble(-13.3));
                 }
             }
-            else if (!sInputObject_5009E8.IsPressed(sInputKey_Run_4C65A8))
+            else if (!Input().IsAnyPressed(sInputKey_Run_4C65A8))
             {
                 if (field_10_anim.field_92_current_frame == 0)
                 {
@@ -3123,10 +3123,10 @@ void Elum::State_37_RunSlideStop_4142E0()
 
     if (sControlledCharacter_50767C == this && field_10_anim.field_92_current_frame < 7)
     {
-        if (sInputObject_5009E8.IsPressed(sInputKey_Right_4C6590) ||
-            sInputObject_5009E8.IsPressed(sInputKey_Left_4C6594))
+        if (Input().IsAnyPressed(sInputKey_Right_4C6590) ||
+            Input().IsAnyPressed(sInputKey_Left_4C6594))
         {
-            field_E4_previous_motion = 12;
+            field_E4_previous_motion = eElumStates::State_12_RunTurn_414520;
             field_E6_last_anim_frame = field_10_anim.field_92_current_frame;
             field_120 = 1;
         }
@@ -3168,7 +3168,7 @@ void Elum::State_39_IdleToRun_413B00()
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
     Event_Broadcast_417220(kEvent_11, this);
 
-    field_10E |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
+    field_10E |= Input().Pressed();
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -3180,7 +3180,7 @@ void Elum::State_39_IdleToRun_413B00()
 
 void Elum::State_40_WalkToRun_4134B0()
 {
-    field_10E |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
+    field_10E |= Input().Pressed();
 
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
@@ -3205,7 +3205,7 @@ void Elum::State_40_WalkToRun_4134B0()
 
 void Elum::State_41_MidWalkToRun_413560()
 {
-    field_10E |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
+    field_10E |= Input().Pressed();
 
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
@@ -3235,7 +3235,7 @@ void Elum::State_42_RunToWalk_413B60()
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
 
-    field_10E |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
+    field_10E |= Input().Pressed();
 
     FP velX {};
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -3294,7 +3294,7 @@ void Elum::State_43_MidRunToWalk_413E20()
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
 
-    field_10E |= sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed;
+    field_10E |= Input().Pressed();
 
     FP velX = {};
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -3571,13 +3571,13 @@ void Elum::VUpdate_4102A0()
              4
         };
 
-        if (sInputObject_5009E8.IsPressed(0xF000u))
+        if (Input().IsAnyPressed(0xF000u))
         {
-            const int tableIdx = sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_2 >> 5;
+            const int tableIdx = Input().Dir();
             field_B4_velx = FP_FromRaw(sElum_velx_table_4FF968[tableIdx]);
             field_B8_vely = FP_FromRaw(sElum_vely_table_4FF988[tableIdx]);
 
-            if (sInputObject_5009E8.IsPressed(sInputKey_Run_4C65A8))
+            if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
             {
                 field_B4_velx += FP_FromRaw(sElum_velx_table_4FF968[tableIdx] * 2);
                 field_B8_vely += FP_FromRaw(sElum_vely_table_4FF988[tableIdx]);
