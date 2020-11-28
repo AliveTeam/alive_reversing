@@ -85,7 +85,6 @@ static void InitOtherHooksAndRunTests()
     FixedPoint_ForceLink();
     SwitchStates_ForceLink();
     MainMenu_ForceLink();
-    LCDScreen_ForceLink();
     Compression_ForceLink();
     StatsSign_ForceLink();
     UXB_ForceLink();

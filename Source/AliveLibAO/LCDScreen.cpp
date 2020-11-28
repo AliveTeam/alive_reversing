@@ -1,4 +1,9 @@
 #include "stdafx_ao.h"
+#include "Events.hpp"
+#include "PsxDisplay.hpp"
+#include "ScreenManager.hpp"
+#include "Math.hpp"
+#include "Sfx.hpp"
 #include "Function.hpp"
 #include "LCDScreen.hpp"
 #include "VRam.hpp"
@@ -133,32 +138,32 @@ const char* sLCDMessageTable_4C7420[90] =
     "",
     "",
     "",
-    "",
-    "",
-    "                               To sneak past the sleeping Slig, hold \v while you move.",
-    "                               To pull the lever, stand next to it and press \r.",
-    "",
-    "",
-    "",
-    "",
-    "                               Sneak to shadows by holding \v while you move.   Stand still in shadows while Slig is facing you, or you will be seen.  Sneak behind Slig hen t  walks away from you.",
-    "",
+    "                               To hoist, stand under the ledge and press \x10 (up).",
+    "                               To jump, press \x0c.   To run and jump, press \x0c while you run using \x0a.",
+    "                               To sneak past the sleeping Slig, hold \x0b while you move.",
+    "                               To pull the lever, stand next to it and press \x0d.",
+    "                               To use the ring, stand under it, and press \x10, just like a hoist.",
+    "                               To ride the platform, stand in the center of it, and press \x11 (down).",
+    "                               To enter the door, stand in front of it and press \x10.",
+    "                               To deactivate a bomb, crouch next to it by pressing \x11.   Then carefully press \x0d when the bomb blinks green.  Press \x0d again to reactivate it.",
+    "                               Sneak to shadows by holding \x0b while you move.   Stand still in shadows while Slig is facing you, or you will be seen.  Sneak behind Slig when it walks away from you.",
+    "                               To get a grenade from the Boom Machine, stand in front of it and press \x10.   To pick up a grenade, crouch next to it and press \x0d.   To throw the grenade, hold \x0e, then press any directional button.   Different directions will throw at different angles.",
     "                               It is possible to throw while crouching.",
-    "",
-    "                               Possess Sligs by chanting.   Chant by holding \b and \t at the same time or pressing (0) (zero) on the keyboard.",
-    "                               To help Mudokons escape from slavery in Rupture Farms, chant when you see a circle of birds.   To chant, hold \b and \t at the same time or     essing (0) on the keyboard.",
-    "",
-    "",
+    "                               To alert a Mudokon, say hello by holding \x08 and pressing \x0c.   Then, talk to Mudokons by holding \x08 or \x09 and pressing the \x0c, \x0d, \x0e, or \x0f button.   Experiment!",
+    "                               Possess Sligs by chanting.   Chant by holding \x08 and \x09 at the same time or pressing (0) (zero) on the keyboard.",
+    "                               To help Mudokons escape from slavery in Rupture Farms, chant when you see a circle of birds.   To chant, hold \x08 and \x09 at the same time or pressing (0) on the keyboard.",
+    "                               To roll, first crouch by pressing \x11.   Then roll left or right by pressing \x12 or \x13.",
+    "                               To run, hold \x0a while you press \x12 (left) or \x13 (right).",
     "                               To avoid the alarm, stand still when the Motion Detectors touch you.",
     "                               Use Slig to talk your way past the security door.",
     "                               Sligs can talk to Slogs.",
     "                               Use lever to operate meat saw.",
-    "                               Lead Mudokons to bird portals, then chant to rescue them.  Chant by holding \b and \t.",
+    "                               Lead Mudokons to bird portals, then chant to rescue them.  Chant by holding \x08 and \x09.",
     "",
     "",
     "",
     "",
-    "                               You're almost free, Abe!   You must get through the stockyards.   Good luck ...  and watch out for those Scrabs!   They haven't been fed in     hile.",
+    "                               You're almost free, Abe!   You must get through the stockyards.   Good luck ...  and watch out for those Scrabs!   They haven't been fed in awhile.",
     "                               Mudokons entering this door will be slaughtered and packaged as disgusting yet yummy novelty meat products.",
     "                               Do it, Abe ...  do it!!!",
     "                               Your first task is to escape from Rupture Farms. Watch out for Sligs!",
@@ -210,14 +215,15 @@ LCDScreen* LCDScreen::ctor_433F60(Path_LCDScreen* pTlv, int tlvInfo)
     field_6_flags.Set(Options::eDrawable_Bit4);
 
     field_2D8_message_rand_min = pTlv->field_1A_message_rand_min;
-    field_2DA = pTlv->field_1C_message_rand_max;
+    pad_2DA = pTlv->field_1C_message_rand_max;
+
+    field_2DC_message_rand_max = pTlv->field_1C_message_rand_max;
 
     sFontDrawScreenSpace_508BF4 = 1;
     field_2B4_character_width = field_60_font.MeasureWidth_41C200(field_AC_message_buffer[0]);
     sFontDrawScreenSpace_508BF4 = 0;
 
     field_2D4 = 0;
-    field_2DC_message_rand_max = pTlv->field_1C_message_rand_max;
     gObjList_drawables_504618->Push_Back(this);
 
     return this;
@@ -267,7 +273,89 @@ void LCDScreen::VUpdate()
 
 void LCDScreen::VUpdate_4341B0()
 {
-    NOT_IMPLEMENTED();
+    if (Event_Get_417250(kEventDeathReset_4))
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+
+#if LCD_PS1_SPEED
+    field_2B0_x_offset += 6;
+#else
+    field_2B0_x_offset += 3;
+#endif
+
+    if (field_2B0_x_offset > field_2B4_character_width)
+    {
+        field_2B0_x_offset -= field_2B4_character_width;
+        char* pMsg = field_A0_message;
+        field_A0_message++;
+        if (!*pMsg)
+        {
+            field_A0_message = field_AC_message_buffer;
+            field_2D4++;
+            if (field_2D4 == 1)
+            {
+                auto rangedRandom = Math_RandomRange_450F20(
+                    field_2D8_message_rand_min,
+                    field_2DC_message_rand_max
+                );
+                if (sJoystickEnabled_508A60 || rangedRandom != 62)
+                {
+                    String_FormatString_450DC0(sLCDMessageTable_4C7420[rangedRandom], field_AC_message_buffer);
+                }
+                else
+                {
+                    strcpy(
+                        field_AC_message_buffer,
+                        "                               To alert a Mudokon, say hello by holding (1) on the keyboard.   Then, talk to Mudokons by using the keyboard numbers (1) thru (8).   Experiment!"
+                    );
+                }
+            }
+            else
+            {
+                field_2D4 = 0;
+                if (sJoystickEnabled_508A60 || field_2AC_message_1_id != 62)
+                {
+                    String_FormatString_450DC0(
+                        sLCDMessageTable_4C7420[field_2AC_message_1_id],
+                        field_AC_message_buffer
+                    );
+                }
+                else
+                {
+                    strcpy(
+                        field_AC_message_buffer,
+                        "                               To alert a Mudokon, say hello by holding (1) on the keyboard.   Then, talk to Mudokons by using the keyboard numbers (1) thru (8).   Experiment!"
+                    );
+                }
+            }
+            auto palSwap = field_98_pal_rect;
+            field_98_pal_rect = field_60_font.field_28_palette_rect;
+            field_60_font.field_28_palette_rect = palSwap;
+        }
+        sFontDrawScreenSpace_508BF4 = 1;
+        field_2B4_character_width = field_60_font.MeasureWidth_41C200(*field_A0_message);
+    }
+    sFontDrawScreenSpace_508BF4 = 1;
+
+    auto screenLeft = field_2BC_tlv.field_10_top_left.field_0_x - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
+    auto screenRight = field_2BC_tlv.field_14_bottom_right.field_0_x - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
+
+    const char *slicedText = field_60_font.SliceText_41C6C0(
+        field_A0_message,
+        PsxToPCX(screenLeft - pScreenManager_4FF7C8->field_14_xpos, 11) - field_2B0_x_offset,
+        FP_FromInteger(1),
+        screenRight - pScreenManager_4FF7C8->field_14_xpos
+    );
+    sFontDrawScreenSpace_508BF4 = 0;
+    if (slicedText != field_A4_message_cutoff_ptr)
+    {
+        field_A4_message_cutoff_ptr = slicedText;
+        if (*slicedText != ' ')
+        {
+            SFX_Play_43AD70(SoundEffect::LCDScreen_87, 0, 0);
+        }
+    }
 }
 
 void LCDScreen::VRender(int** ppOt)

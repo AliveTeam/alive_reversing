@@ -133,30 +133,6 @@ const char *sLCDMessageTable_555768[101] =
     "",
 };
 
-void DumpLCDTextEntries()
-{
-    std::stringstream output;
-    output << "const char *sLCDMessageTable_555768[101] =\n";
-    output << "{\n";
-
-    for (int i = 0; i < 101; i++)
-    {
-        auto escaped = EscapeUnknownCharacters(std::string(sLCDMessageTable_555768[i]));
-        output << "\"" << escaped << "\",\n";
-    }
-
-    output << "};";
-
-    std::ofstream fileOut("lcd_dump.h");
-    fileOut << output.rdbuf();
-
-    DEV_CONSOLE_MESSAGE_C("LCD Text Table DUMPED", 6, 0, 127, 0);
-}
-
-void LCDScreen_ForceLink() {
-    //DumpLCDTextEntries();
-}
-
 LCDScreen * LCDScreen::ctor_460680(Path_LCDScreen * params, TlvItemInfoUnion itemInfo)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
@@ -265,17 +241,18 @@ void LCDScreen::Update_460A00()
     auto screenRight = field_2C0_tlv.field_C_bottom_right.field_0_x - FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
 
     sFontDrawScreenSpace_5CA4B4 = 1;
-    auto v14 = field_60_font.SliceText_433BD0(
+    auto slicedText = field_60_font.SliceText_433BD0(
         field_A0_message,
-        static_cast<int>((screenLeft * 0.575) - field_2AC_x_offset),
-        FP_FromDouble(1.0),
-        screenRight);
+        PCToPsxX(screenLeft) - field_2AC_x_offset,
+        FP_FromInteger(1),
+        screenRight
+    );
     sFontDrawScreenSpace_5CA4B4 = 0;
-    if (v14 != field_A4_message_cutoff_ptr)
+    if (slicedText != field_A4_message_cutoff_ptr)
     {
         field_2A8_play_sound_toggle = !field_2A8_play_sound_toggle;
-        field_A4_message_cutoff_ptr = v14;
-        if (*v14 != ' ')
+        field_A4_message_cutoff_ptr = slicedText;
+        if (*slicedText != ' ')
         {
             if (field_2A8_play_sound_toggle)
             {

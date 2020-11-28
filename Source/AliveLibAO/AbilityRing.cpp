@@ -12,6 +12,8 @@
 #include "Abe.hpp"
 #include "Sfx.hpp"
 #include "PossessionFlicker.hpp"
+#undef min
+#undef max
 
 namespace AO {
 
@@ -390,9 +392,79 @@ void AbilityRing::VRender(int** ppOt)
     VRender_456340(ppOt);
 }
 
-void AbilityRing::VRender_456340(int** /*ppOt*/)
+void AbilityRing::VRender_456340(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+        field_270_level,
+        field_272_path,
+        field_23C_xpos,
+        field_240_ypos,
+        0)
+        )//&& !field_290_bFindingTarget) Missing part of the check from AE
+    {
+        short y3 = field_264_screenYPos;
+        short y4 = field_264_screenYPos;
+
+        short x3 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_262_screenXPos) + (field_244_left * field_250_scaleX)), 11);
+        short x4 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_262_screenXPos) + (field_248_right * field_250_scaleX)), 11);
+
+        //Not hardcoded in Exoddus
+        BYTE ang = 4;
+        auto count = 64;
+
+        for (int i = 0; i < count; i++)
+        {
+            const short x1 = (short) PsxToPCX(field_262_screenXPos + FP_GetExponent(field_244_left * Math_Sine_451110(ang) * field_250_scaleX), 11);
+            const short x2 = (short) PsxToPCX(field_262_screenXPos + FP_GetExponent(field_248_right * Math_Sine_451110(ang) * field_250_scaleX), 11);
+
+            const short y1 = field_264_screenYPos + FP_GetExponent(field_244_left * Math_Cosine_4510A0(ang) * field_254_scaleY);
+            const short y2 = field_264_screenYPos + FP_GetExponent(field_248_right * Math_Cosine_4510A0(ang) * field_254_scaleY);
+
+            const short x = std::min(std::min(x1, x3), std::min(x2, x4));
+            const short y = std::min(std::min(y1, y3), std::min(y2, y4));
+            const short w = std::max(std::max(x1, x3), std::max(x2, x4));
+            const short h = std::max(std::max(y1, y3), std::max(y2, y4));
+
+            const PSX_RECT rect = { x, y, w, h };
+            if (rect.w < 0 || rect.x > 640 || rect.y > 240 || rect.h < 0)
+            {
+                //TODO untie from Render() into Update()
+                field_3C_collide_rects[i].x = 0;
+                field_3C_collide_rects[i].w = 0;
+                field_3C_collide_rects[i].y = 0;
+                field_3C_collide_rects[i].h = 0;
+            }
+            else
+            {
+                Poly_F4* pPoly = &field_14_pRes[i].mPolys[gPsxDisplay_504C78.field_A_buffer_index];
+                SetXY0(pPoly, x1, y1);
+                SetXY1(pPoly, x2, y2);
+                SetXY2(pPoly, x3, y3);
+                SetXY3(pPoly, x4, y4);
+
+                OrderingTable_Add_498A80(&ppOt[field_10_layer], &pPoly->mBase.header);
+
+                pScreenManager_4FF7C8->InvalidateRect_406E40(
+                    rect.x,
+                    rect.y,
+                    rect.w,
+                    rect.h,
+                    pScreenManager_4FF7C8->field_2E_idx);
+
+                field_3C_collide_rects[i] = rect;
+                field_3C_collide_rects[i].x = PCToPsxX(field_3C_collide_rects[i].x, 20);
+                field_3C_collide_rects[i].w = PCToPsxX(field_3C_collide_rects[i].w, 20);
+            }
+
+            x3 = x1;
+            y3 = y1;
+            x4 = x2;
+            y4 = y2;
+
+            ang += 4;
+        }
+        OrderingTable_Add_498A80(&ppOt[field_10_layer], &field_1C_primSetTPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
+    }
 }
 
 }
