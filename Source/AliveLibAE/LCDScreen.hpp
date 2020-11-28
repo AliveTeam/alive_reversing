@@ -6,8 +6,6 @@
 #include "Path.hpp"
 #include "Factory.hpp"
 
-void LCDScreen_ForceLink();
-
 extern const char * sLCDMessageTable_555768[101];
 
 struct Path_LCDScreen : public Path_TLV

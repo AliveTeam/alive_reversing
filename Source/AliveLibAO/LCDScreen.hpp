@@ -46,7 +46,7 @@ public:
     AliveFont field_60_font;
     PSX_RECT field_98_pal_rect;
     char* field_A0_message;
-    int field_A4_message_cutoff_ptr;
+    const char* field_A4_message_cutoff_ptr;
     int field_A8;
     char field_AC_message_buffer[512];
     int field_2AC_message_1_id;
@@ -55,9 +55,10 @@ public:
     int field_2B8_tlv_item_info;
     Path_TLV field_2BC_tlv;
     int field_2D4;
-    __int16 field_2D8_message_rand_min;
-    __int16 field_2DA;
-    int field_2DC_message_rand_max;
+    short field_2D8_message_rand_min;
+    short pad_2DA;
+    short field_2DC_message_rand_max;
+    short pad_2DE;
 };
 ALIVE_ASSERT_SIZEOF(LCDScreen, 0x2E0);
 
