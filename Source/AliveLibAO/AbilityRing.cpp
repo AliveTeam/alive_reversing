@@ -428,7 +428,7 @@ void AbilityRing::VRender_456340(int** ppOt)
             const PSX_RECT rect = { x, y, w, h };
             if (rect.w < 0 || rect.x > 640 || rect.y > 240 || rect.h < 0)
             {
-                //Untie from Render() into Update()
+                //TODO untie from Render() into Update()
                 field_3C_collide_rects[i].x = 0;
                 field_3C_collide_rects[i].w = 0;
                 field_3C_collide_rects[i].y = 0;
