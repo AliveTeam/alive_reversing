@@ -2776,7 +2776,7 @@ BaseAliveGameObject* Abe::FindObjectToPosses_44B7B0()
                 break;
 
                 // First priority
-            case Types::eType_45_EvilFart:
+            case Types::eEvilFart_45:
                 pInRangeFart = pObj;
                 break;
 

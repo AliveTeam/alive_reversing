@@ -3241,7 +3241,7 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
 
     case Types::eGrinder_30:
     case Types::eBaseBomb_46:
-    case Types::eType_86:
+    case Types::eMeatSaw_86:
     case Types::eExplosion_109:
         SetBrain(&Glukkon::AI_4_Death_442010);
         field_210 = 2;

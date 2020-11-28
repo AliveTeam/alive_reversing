@@ -1480,7 +1480,7 @@ __int16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
 
     case Types::eGrinder_30:
     case Types::eBaseBomb_46:
-    case Types::eType_86:
+    case Types::eMeatSaw_86:
     case Types::eExplosion_109:
         if (field_10C_health <= FP_FromInteger(0) ||
             (FindObjectOfType_425180(Types::eTorturedMud_141,field_B8_xpos, field_BC_ypos - FP_FromInteger(50))

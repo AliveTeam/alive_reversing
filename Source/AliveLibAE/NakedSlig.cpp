@@ -654,7 +654,7 @@ __int16 NakedSlig::vTakeDamage_4192B0(BaseGameObject* pFrom)
         case Types::eGrinder_30:
         case Types::eBaseBomb_46:
         case Types::eRockSpawner_48:
-        case Types::eType_86:
+        case Types::eMeatSaw_86:
         case Types::eMineCar_89:
         case Types::eType_107:
         case Types::eExplosion_109:

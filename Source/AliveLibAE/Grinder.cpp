@@ -750,7 +750,7 @@ __int16 Grinder::DamageTouchingObjects_421060()
             if (pObj->field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
             {
                 if (pObj->field_4_typeId != Types::eMeat_84 &&
-                    pObj->field_4_typeId != Types::eType_45_EvilFart && 
+                    pObj->field_4_typeId != Types::eEvilFart_45 && 
                     (pObj->field_4_typeId != Types::eAbe_69 || pObj->field_106_current_motion != eAbeStates::State_68_ToOffScreenHoist_454B80))
                 {
                     PSX_RECT objRect = {};
