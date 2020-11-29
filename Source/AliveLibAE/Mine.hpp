@@ -22,8 +22,8 @@ ALIVE_ASSERT_SIZEOF(Path_Mine, 0x1C);
 
 enum Mine_Flags_1BC
 {
-    e1BC_Bit0 = 0x1,
-    e1BC_Bit1 = 0x2,
+    eBit0_Unused = 0x1,
+    eBit1_PersistOffscreen = 0x2
 };
 
 class Mine : public BaseAliveGameObject
