@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include "stdlib.hpp"
 
-ALIVE_VAR(1, 0x5bc204, int, dword_5BC204, 0);
+ALIVE_VAR(1, 0x5bc204, int, sIsFadingOut_5BC204, 0);
 
 BaseGameObject* DeathFadeOut::VDestructor(signed int flags)
 {
@@ -74,7 +74,7 @@ void DeathFadeOut::Init_427140(__int16 layer, __int16 direction, __int16 destroy
         field_7A_speed = speed;
     }
 
-    dword_5BC204 = 1;
+    sIsFadingOut_5BC204 = TRUE;
 }
 
 void DeathFadeOut::dtor_427120()
@@ -123,19 +123,16 @@ void DeathFadeOut::vRender_427210(int** pOt)
         (field_78_current_fade_rgb == 0 && !field_7C_direction))
     {
         field_7E_bDone = 1;
-        if (dword_5BC204 <= 0)
+        if (!sIsFadingOut_5BC204)
         {
-            if (dword_5BC204 == 0)
+            if (field_80_destroy_on_done)
             {
-                if (field_80_destroy_on_done)
-                {
-                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
-                }
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
         }
         else
         {
-            --dword_5BC204;
+            sIsFadingOut_5BC204 = FALSE;
         }
     }
 }

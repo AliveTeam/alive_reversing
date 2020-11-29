@@ -43,7 +43,7 @@ unsigned char pal_560F80[] =
 ALIVE_VAR(1, 0x5c1bee, char, sEnableCheatLevelSelect_5C1BEE, 0);
 ALIVE_VAR(1, 0x5c1bec, char, sEnableCheatFMV_5C1BEC, 0);
 
-ALIVE_VAR(1, 0x5c1b9e, __int16, word_5C1B9E, 0);
+ALIVE_VAR(1, 0x5c1b9e, __int16, sDemoIdChosenFromDemoMenu_5C1B9E, 0);
 
 ALIVE_VAR(1, 0x561538, short, sMenuItemCount_561538, 0);
 ALIVE_VAR(1, 0x5C1B50, PerPathMudStats, sSavedKilledMudsPerPath_5C1B50, {});
@@ -629,12 +629,12 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
         
         pResourceManager_5C1BB0->LoadingLoop_465590(false);
         field_1FC_button_index = 0;
-        field_250_selected_entry_index = word_5C1B9E;
+        field_250_selected_entry_index = sDemoIdChosenFromDemoMenu_5C1B9E;
         field_254 = FP_FromInteger(0);
         field_258 = FP_FromInteger(0);
         pDemosOrFmvs_BB4414.mDemoRec = &sDemos_5617F0[0];
         sMenuItemCount_561538 = ALIVE_COUNTOF(sDemos_5617F0);
-        field_230_target_entry_index = word_5C1B9E;
+        field_230_target_entry_index = sDemoIdChosenFromDemoMenu_5C1B9E;
         field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
         Load_Anim_Pal_4D06A0(&field_20_animation);
     }
@@ -2037,19 +2037,21 @@ char MainMenuController::checkIfDemoFileExists_4D1430(char* input)
     }
 }
 
-ALIVE_VAR(1, 0x5C1B9C, short, word_5C1B9C, 0);
-ALIVE_VAR(1, 0x5C1BA2, BYTE, byte_5C1BA2, 0);
+// true if demo was started manually from the demos menu,
+// false if demo was started automatically due to idling
+ALIVE_VAR(1, 0x5C1B9C, short, gIsDemoStartedManually_5C1B9C, FALSE);
 
+ALIVE_VAR(1, 0x5C1BA2, BYTE, sCurrentDemoIdForIdlingDemoPlayback_5C1BA2, 0);
 signed int MainMenuController::LoadDemo_Update_4D1040(DWORD)
 {
     const int maxDemoId = ALIVE_COUNTOF(sDemos_5617F0);
 
     if (field_23C_T80.Get(Flags::eBit18_Loading))
     {
-        __int16 demoId = word_5C1B9E;
-        if (word_5C1B9C == 0)
+        __int16 demoId = sDemoIdChosenFromDemoMenu_5C1B9E;
+        if (!gIsDemoStartedManually_5C1B9C)
         {
-            demoId = byte_5C1BA2;
+            demoId = sCurrentDemoIdForIdlingDemoPlayback_5C1BA2;
         }
         if (demoId >= maxDemoId)
         {
@@ -2065,14 +2067,16 @@ signed int MainMenuController::LoadDemo_Update_4D1040(DWORD)
         while (!MainMenuController::checkIfDemoFileExists_4D1430(lvFilenameNoPrefix) && !MainMenuController::checkIfDemoFileExists_4D1430(lvFilename))
         {
             sLevelId_dword_5CA408 = levelId;
-            if (word_5C1B9C)
+            if (gIsDemoStartedManually_5C1B9C)
             {
                 dword_55C128 = -1;
             }
             if (!Display_Full_Screen_Message_Blocking_465820(sPathData_559660.paths[levelId].field_1A_unused, MessageType::eSkipDemo_2))
             {
                 field_1F8_page_timeout = 0;
-                return word_5C1B9C != 0 ? 30 : 1;
+                // cam 30: demo selection screen
+                // cam 1: main screen
+                return gIsDemoStartedManually_5C1B9C ? 30 : 1;
             }
         }
 
@@ -2091,14 +2095,15 @@ signed int MainMenuController::LoadDemo_Update_4D1040(DWORD)
             if (abe)
             {
                 sActiveHero_5C1B68 = abe->ctor_44AD10(58808, 85, 57, 55);
+                sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(0);
+                sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(0);
             }
             else
             {
-                sActiveHero_5C1B68 = 0;
+                sActiveHero_5C1B68 = nullptr;
             }
         }
-        sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(0);
-        sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(0);
+
         gAttract_5C1BA0 = 1;
 
         if (field_208_transition_obj)
@@ -2115,16 +2120,19 @@ signed int MainMenuController::LoadDemo_Update_4D1040(DWORD)
         }
         field_6_flags.Set(Options::eDead_Bit3);
 
-        demoId = word_5C1B9E;
-        if (word_5C1B9C <= 0)
+        demoId = sDemoIdChosenFromDemoMenu_5C1B9E;
+        if (!gIsDemoStartedManually_5C1B9C)
         {
-            byte_5C1BA2++;
-            if (byte_5C1BA2 > maxDemoId)
+            sCurrentDemoIdForIdlingDemoPlayback_5C1BA2++;
+
+            if (sCurrentDemoIdForIdlingDemoPlayback_5C1BA2 > maxDemoId)
             {
-                byte_5C1BA2 = 1;
+                // all the "idling" demos have been played, wrap around
+                sCurrentDemoIdForIdlingDemoPlayback_5C1BA2 = 1;
             }
-            demoId = byte_5C1BA2;
+            demoId = sCurrentDemoIdForIdlingDemoPlayback_5C1BA2;
         }
+
         char file[32] = {};
         sprintf(file, "ATTR%04d.SAV", sDemos_5617F0[demoId].field_A_id);
         ResourceManager::LoadResourceFile_49C170(file, nullptr);
@@ -2132,7 +2140,7 @@ signed int MainMenuController::LoadDemo_Update_4D1040(DWORD)
         sActiveQuicksaveData_BAF7F8 = *(reinterpret_cast<Quicksave*>(*resource));
         ResourceManager::FreeResource_49C330(resource);
 
-        if (word_5C1B9C)
+        if (gIsDemoStartedManually_5C1B9C)
         {
             sActiveQuicksaveData_BAF7F8.field_200_accumulated_obj_count = 1024;
         }
@@ -2148,7 +2156,7 @@ signed int MainMenuController::LoadDemo_Update_4D1040(DWORD)
 signed int MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
 {
     gAttract_5C1BA0 = 0;
-    word_5C1B9C = 0;
+    gIsDemoStartedManually_5C1B9C = FALSE;
 
     int input_or_field_204 = input;
     if (field_204_prev_pressed && field_204_prev_pressed == sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
@@ -2166,16 +2174,18 @@ signed int MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
         field_204_prev_pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
     }
 
-    if (input_or_field_204 & 5)
+    if (input_or_field_204 & (InputCommands::eUp | InputCommands::eLeft))
     {
+        // move to previous entry
         if (field_230_target_entry_index > 0 && field_254 == FP_FromInteger(0))
         {
             field_230_target_entry_index--;
             SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
-    else if (input_or_field_204 & 0xA)
+    else if (input_or_field_204 & (InputCommands::eDown | InputCommands::eRight))
     {
+        // move to next entry
         if (field_230_target_entry_index < sMenuItemCount_561538 - 1 && field_254 == FP_FromInteger(0))
         {
             field_230_target_entry_index++;
@@ -2183,8 +2193,9 @@ signed int MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
         }
     }
 
-    if (input_or_field_204 & 0x20000000)
+    if (input_or_field_204 & InputCommands::ePageUp)
     {
+        // move one whole page back
         if (field_230_target_entry_index > 0 && field_254 == FP_FromInteger(0))
         {
             field_230_target_entry_index -= 3;
@@ -2195,8 +2206,9 @@ signed int MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
             SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
-    else if (input_or_field_204 & 0x40000000)
+    else if (input_or_field_204 & InputCommands::ePageDown)
     {
+        // move one whole page forward
         if (field_230_target_entry_index < sMenuItemCount_561538 - 1 && field_254 == FP_FromInteger(0))
         {
             field_230_target_entry_index += 3;
@@ -2208,17 +2220,20 @@ signed int MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
         }
     }
 
-    if (input_or_field_204 & 0x200000)
+    if (input_or_field_204 & InputCommands::eBack)
     {
         return 0x10003; //Esc Pressed
     }
-    if (!(input_or_field_204 & 0x100000))
+
+    if (input_or_field_204 & InputCommands::eUnPause_OrConfirm)
     {
-        return 0; //Nothing Pressed
+        // selected a demo for playing
+        gIsDemoStartedManually_5C1B9C = TRUE;
+        sDemoIdChosenFromDemoMenu_5C1B9E = field_230_target_entry_index;
+        return 0xFFFF0016; //Enter Pressed
     }
-    word_5C1B9C = 1;
-    word_5C1B9E = field_230_target_entry_index;
-    return 0xFFFF0016; //Enter Pressed
+
+    return 0; //Nothing Pressed
 }
 
 EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
@@ -2340,7 +2355,7 @@ EXPORT void sub_4A2D40()
 
 signed int MainMenuController::Options_Update_4D1AB0(DWORD input)
 {
-    if (!(input & 0x100000))
+    if (!(input & InputCommands::eUnPause_OrConfirm))
     {
         if (input & InputCommands::eBack)
         {
@@ -2397,14 +2412,14 @@ signed int MainMenuController::AbeMotions_Update_4D1F50(DWORD input)
     }
 
     // To the game speak screen
-    if (input & 0x100000)
+    if (input & InputCommands::eUnPause_OrConfirm)
     {
         SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         return 2;
     }
 
     // Return to previous screen
-    if (input & 0x200000)
+    if (input & InputCommands::eBack)
     {
         return 3;
     }
