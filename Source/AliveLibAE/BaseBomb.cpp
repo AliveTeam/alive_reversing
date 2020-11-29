@@ -85,9 +85,7 @@ BaseBomb * BaseBomb::ctor_423E70(FP x, FP y, int /*unused*/, FP scale)
     };
     DealDamageRect_4247A0(&damageRect);
 
-    static int dword_5BC1FC = 0;
-    dword_5BC1FC = (dword_5BC1FC + 1) % 2;
-    SND_SEQ_PlaySeq_4CA960(static_cast<short>(14 + dword_5BC1FC), 1, 1);
+    SND_SEQ_PlaySeq_4CA960(SeqId::Explosion2_15, 1, 1);
 
     return this;
 }
