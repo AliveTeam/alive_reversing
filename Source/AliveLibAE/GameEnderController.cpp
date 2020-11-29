@@ -142,7 +142,7 @@ void GameEnderController::vUpdate_43B920()
         auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds_5C1B70.Find_449CF0(sActiveHero_5C1B68->field_1A8_portal_id));
         if (pBirdPortal)
         {
-            if (pBirdPortal->field_28_state == BirdPortal::States::State_10)
+            if (pBirdPortal->field_28_state == BirdPortal::PortalStates::CollapseTerminators_10)
             {
                 auto pAlarm = sObjectIds_5C1B70.Find_449CF0(sAlarmObjId_550D70);
                 if (pAlarm)

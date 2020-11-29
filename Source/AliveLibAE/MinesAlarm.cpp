@@ -37,7 +37,7 @@ BaseGameObject* MinesAlarm::ctor_417870(int timer)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x5445FC);
-    field_4_typeId = Types::eType_25;
+    field_4_typeId = Types::eMinesAlarm_25;
     sTimerValue_5C1BFC = timer;
     return this;
 }
@@ -64,7 +64,7 @@ int MinesAlarm::VGetSaveState(BYTE* pSaveBuffer)
 
 int MinesAlarm::vGetSaveState_4177C0(MinesAlarm_State* pState)
 {
-    pState->field_0_type = Types::eType_25;
+    pState->field_0_type = Types::eMinesAlarm_25;
     pState->field_4_timer = sTimerValue_5C1BFC;
     return sizeof(MinesAlarm_State);
 }

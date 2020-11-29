@@ -446,7 +446,7 @@ BirdPortal* BaseAliveGameObject::vIntoBirdPortal_408FD0(__int16 numGridBlocks)
                     if (pBirdPortal->field_2C_xpos - field_B8_xpos <= (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(numGridBlocks)) &&
                         !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
                     {
-                        if (FP_Abs(field_BC_ypos - pBirdPortal->field_3C_YPos) < field_CC_sprite_scale * FP_FromInteger(10) && pBirdPortal->Vsub_499430(1))
+                        if (FP_Abs(field_BC_ypos - pBirdPortal->field_3C_YPos) < field_CC_sprite_scale * FP_FromInteger(10) && pBirdPortal->VPortalClipper_499430(1))
                         {
                             field_20_animation.field_C_render_layer = field_CC_sprite_scale != FP_FromInteger(1) ? 11 : 30;
                             return pBirdPortal;
@@ -460,7 +460,7 @@ BirdPortal* BaseAliveGameObject::vIntoBirdPortal_408FD0(__int16 numGridBlocks)
                 {
                     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                     {
-                        if (FP_Abs(field_BC_ypos - pBirdPortal->field_3C_YPos) < field_CC_sprite_scale * FP_FromInteger(10) && pBirdPortal->Vsub_499430(1))
+                        if (FP_Abs(field_BC_ypos - pBirdPortal->field_3C_YPos) < field_CC_sprite_scale * FP_FromInteger(10) && pBirdPortal->VPortalClipper_499430(1))
                         {
                             field_20_animation.field_C_render_layer = field_CC_sprite_scale != FP_FromInteger(1) ? 11 : 30;
                             return pBirdPortal;

@@ -57,7 +57,7 @@ public:
     EXPORT BaseAnimatedWithPhysicsGameObject* ctor_497960(FP xpos, FP ypos, FP scale, PortalType portalType);
     virtual void VScreenChanged() override;
     virtual BaseGameObject* VDestructor(signed int flags) override;
-    EXPORT void sub_497AC0();
+    EXPORT void Fadeout_497AC0();
 private:
     EXPORT BaseAnimatedWithPhysicsGameObject* vdtor_497A70(signed int flags);
 };
@@ -79,15 +79,15 @@ public:
 
     // New virtuals
 
-    virtual signed __int16 Vsub_499430(__int16 bUnknown);
-    virtual void Vsub_499610();
+    virtual signed __int16 VPortalClipper_499430(__int16 bUnknown);
+    virtual void VKillPortalClipper_499610();
     virtual void VMudSaved_499A50();
-    virtual BOOL VStateIs6_499830();
-    virtual void VGiveShrukul_499680(__int16 bPlaySound);
-    virtual BOOL VStateIs16_499850();
+    virtual BOOL VActivePortal_499830();
+    virtual void VGiveShrukull_499680(__int16 bPlaySound);
+    virtual BOOL VAbeInsidePortal_499850();
     virtual void VExitPortal_499870();
-    virtual BOOL VIsState20_499A00();
-    virtual void Vsub_499A20();
+    virtual BOOL VPortalExit_AbeExitting_499A00();
+    virtual void VKillPortalClipper_499A20();
     virtual void VGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera, CameraSwapEffects* screenChangeEffect, WORD* movieId);
 
     EXPORT static int CC CreateFromSaveState_499C90(const BYTE* pBuffer);
@@ -100,15 +100,15 @@ private:
     EXPORT void vStopAudio_499260();
     EXPORT signed int vGetSaveState_499F50(BYTE* pState);
 
-    EXPORT signed __int16 vsub_499430(__int16 bUnknown);
-    EXPORT void vsub_499610();
+    EXPORT signed __int16 vPortalClipper_499430(__int16 bUnknown);
+    EXPORT void vKillPortalClipper_499610();
     EXPORT void vMudSaved_499A50();
-    EXPORT BOOL vStateIs6_499830();
-    EXPORT void vGiveShrukul_499680(__int16 bPlaySound);
-    EXPORT BOOL vStateIs16_499850();
+    EXPORT BOOL vActivePortal_499830();
+    EXPORT void vGiveShrukull_499680(__int16 bPlaySound);
+    EXPORT BOOL vAbeInsidePortal_499850();
     EXPORT void vExitPortal_499870();
-    EXPORT BOOL vIsState20_499A00();
-    EXPORT void vsub_499A20();
+    EXPORT BOOL vPortalExit_AbeExitting_499A00();
+    EXPORT void vKillPortalClipper_499A20();
     EXPORT void vGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera, CameraSwapEffects* screenChangeEffect, WORD* movieId);
     EXPORT void dtor_4980A0();
 
@@ -116,7 +116,7 @@ private:
 
     EXPORT void CreateDovesAndShrykullNumber_497B50();
 
-    EXPORT void GoAwayIfType100_499220();
+    EXPORT void KillTerminators_499220();
 
     EXPORT void CreateTerminators_497D10();
 
@@ -128,33 +128,33 @@ public:
     PortalType field_24_portal_type;
     PortalSide field_26_side;
 public:
-    enum class States : __int16
+    enum class PortalStates : __int16
     {
-        State_0 = 0,
-        State_1 = 1,
-        State_2 = 2,
-        State_3 = 3,
-        State_4 = 4,
-        State_5 = 5,
-        State_6 = 6,
-        State_7 = 7,
-        State_8 = 8,
-        State_9 = 9,
-        State_10 = 10,
-        State_11 = 11,
-        State_12 = 12,
-        State_13 = 13,
-        State_14 = 14,
-        State_15 = 15,
-        State_16 = 16,
-        State_17 = 17,
-        State_18 = 18,
-        State_19 = 19,
-        State_20 = 20,
-        State_21 = 21,
-        State_22 = 22,
+        CreatePortal_0 = 0,
+        IdlePortal_1 = 1,
+        JoinBirdsInCenter_2 = 2,
+        KillBirds_3 = 3,
+        CreateTerminators_4 = 4,
+        ExpandTerminators_5 = 5,
+        ActivePortal_6 = 6,
+        ShrykullGetDoves_7 = 7,
+        Unused_8 = 8,
+        GetShrykull_9 = 9,
+        CollapseTerminators_10 = 10,
+        StopSound_11 = 11,
+        CreateFlash1_12 = 12,
+        CreateFlash2_13 = 13,
+        CreateFlash3_14 = 14,
+        KillPortal_15 = 15,
+        AbeInsidePortal_16 = 16,
+        PortalExit_SetPosition_17 = 17,
+        PortalExit_CreateTerminators_18 = 18,
+        PortalExit_ExpandTerminators_19 = 19,
+        PortalExit_AbeExitting_20 = 20,
+        KillPortalClipper_21 = 21,
+        FadeoutTerminators_22 = 22,
     };
-    States field_28_state;
+    PortalStates field_28_state;
 private:
     __int16 field_2A_pad;
 public:
@@ -180,7 +180,7 @@ private:
     LevelIds field_7C_dest_level;
     __int16 field_7E_dest_path;
     __int16 field_80_dest_camera;
-    __int16 field_82_num_muds_for_shrykul;
+    __int16 field_82_num_muds_for_shrykull;
     __int16 field_84;
     __int16 field_86_pad;
     OrbWhirlWind* field_88_pWhirlWind;

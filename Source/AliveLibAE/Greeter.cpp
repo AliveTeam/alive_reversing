@@ -499,7 +499,7 @@ EXPORT signed __int16 Greeter::vTakeDamage_447C20(BaseGameObject* pFrom)
 
     case Types::eBaseBomb_46:
     case Types::eRockSpawner_48:
-    case Types::eType_86:
+    case Types::eMeatSaw_86:
     case Types::eMineCar_89:
     case Types::eType_107:
     case Types::eExplosion_109:

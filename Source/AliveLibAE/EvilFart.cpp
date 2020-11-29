@@ -24,7 +24,7 @@ EvilFart* EvilFart::ctor_422E30()
     ctor_408240(0);
     SetVTable(this, 0x544BE0);
 
-    field_4_typeId = Types::eType_45_EvilFart;
+    field_4_typeId = Types::eEvilFart_45;
 
     const AnimRecord& rec = AnimRec(AnimId::Fart);
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -175,7 +175,7 @@ int CC EvilFart::CreateFromSaveState_4281C0(const BYTE* pBuffer)
 
 int EvilFart::vGetSaveState_4283F0(EvilFart_State* pState)
 {
-    pState->field_0_type = Types::eType_45_EvilFart;
+    pState->field_0_type = Types::eEvilFart_45;
 
     pState->field_C_xpos = field_B8_xpos;
     pState->field_10_ypos = field_BC_ypos;
