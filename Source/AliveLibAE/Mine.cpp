@@ -128,10 +128,10 @@ Mine * Mine::ctor_46B120(Path_Mine * pPath, TlvItemInfoUnion tlv)
 
     field_11A_disabled_resources = pPath->field_16_disabled_resources;
 
-    field_1BC_flags.Clear(Mine_Flags_1BC::e1BC_Bit1);
+    field_1BC_flags.Clear(Mine_Flags_1BC::eBit1_PersistOffscreen);
     if (pPath->field_18_persists_offscreen & 1)
     {
-        field_1BC_flags.Set(Mine_Flags_1BC::e1BC_Bit1);
+        field_1BC_flags.Set(Mine_Flags_1BC::eBit1_PersistOffscreen);
     }
 
     Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAbebombResID);
@@ -270,7 +270,7 @@ void Mine::ScreenChanged_46BAE0()
 {
     if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level
         || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path
-        || !field_1BC_flags.Get(Mine_Flags_1BC::e1BC_Bit1))
+        || !field_1BC_flags.Get(Mine_Flags_1BC::eBit1_PersistOffscreen))
     {
         field_6_flags.Set(Options::eDead_Bit3);
     }

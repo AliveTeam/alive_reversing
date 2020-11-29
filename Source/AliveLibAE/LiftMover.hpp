@@ -8,12 +8,12 @@ class LiftPoint;
 
 enum class LiftMoverStates : short
 {
-    e0 = 0,
-    e1 = 1,
-    e2 = 2,
-    e3 = 3,
-    e4 = 4,
-    e5 = 5,
+    eInactive_0 = 0,
+    eStartMovingDown_1 = 1,
+    eMovingDown_2 = 2,
+    eStartMovingUp_3 = 3,
+    eMovingUp_4 = 4,
+    eMovingDone_5 = 5,
 };
 
 struct LiftMover_State
@@ -29,7 +29,7 @@ struct Path_LiftMover : public Path_TLV
 {
     __int16 field_10_switch_id;
     __int16 field_12_lift_id;
-    __int16 field_14_direction;
+    __int16 field_14_direction_up;
     //__int16 pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LiftMover, 0x18);
@@ -46,7 +46,6 @@ public:
 
 private:
     EXPORT void vUpdate_40CE20();
-    EXPORT void vUpdate_REAL_40CE20();
     EXPORT void dtor_40CDA0();
     EXPORT LiftMover* vdtor_40CD70(signed int flags);
     EXPORT int vGetSaveState_40D240(LiftMover_State* pState);
