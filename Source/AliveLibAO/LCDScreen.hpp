@@ -41,7 +41,7 @@ public:
 
     EXPORT void VRender_434400(int** ppOt);
 
-    Prim_PrimClipper field_10_prim_clippers[4];
+    Prim_PrimClipper field_10_prim_clippers[2][2];
     FontContext field_50_font_context;
     AliveFont field_60_font;
     PSX_RECT field_98_pal_rect;
