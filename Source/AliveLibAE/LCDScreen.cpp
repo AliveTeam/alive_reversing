@@ -267,12 +267,17 @@ void LCDScreen::Render_460CB0(int ** ot)
     if (sNum_CamSwappers_5C1B66 == 0)
     {
         const FP_Point* camPos = pScreenManager_5BB5F4->field_20_pCamPos;
-        const int screenX = this->field_2C0_tlv.field_8_top_left.field_0_x - FP_GetExponent(camPos->field_0_x);
-        const int screenY = ((this->field_2C0_tlv.field_8_top_left.field_2_y + this->field_2C0_tlv.field_C_bottom_right.field_2_y) / 2 - FP_GetExponent(camPos->field_4_y)) - 7;
-        const int screenXWorld = static_cast<int>(screenX / 0.575f);
-        const int maxWidth = this->field_2C0_tlv.field_C_bottom_right.field_0_x - FP_GetExponent(camPos->field_0_x);
+        const int screenX = field_2C0_tlv.field_8_top_left.field_0_x - FP_GetExponent(camPos->field_0_x);
+        const int screenY = ((field_2C0_tlv.field_8_top_left.field_2_y + field_2C0_tlv.field_C_bottom_right.field_2_y) / 2 - FP_GetExponent(camPos->field_4_y)) - 7;
+        const int screenXWorld = PsxToPCX(screenX);
+        const int maxWidth = field_2C0_tlv.field_C_bottom_right.field_0_x - FP_GetExponent(camPos->field_0_x);
 
-        PSX_RECT clipRect = { 0,0,640,240 };
+        PSX_RECT clipRect = {
+            0,
+            0,
+            640,
+            240
+        };
 
         Init_PrimClipper_4F5B80(&field_20_prim_clippers[0][gPsxDisplay_5C1130.field_C_buffer_index], &clipRect);
         OrderingTable_Add_4F8AA0(&ot[24], &field_20_prim_clippers[0][gPsxDisplay_5C1130.field_C_buffer_index].mBase);
@@ -291,17 +296,29 @@ void LCDScreen::Render_460CB0(int ** ot)
             127,
             127,
             0,
-            FP_FromDouble(1.0),
+            FP_FromInteger(1),
             maxWidth,
             sDisableFontFlicker_5C9304 != 0 ? 0 : 40);
         sFontDrawScreenSpace_5CA4B4 = 0;
 
-        clipRect = { static_cast<short>(screenXWorld), static_cast<short>(screenY - 12), static_cast<short>((maxWidth - screenX) / 0.575), 48 };
+        clipRect = {
+            static_cast<short>(screenXWorld),
+            static_cast<short>(screenY - 12),
+            static_cast<short>(PsxToPCX(maxWidth - screenX)),
+            48
+        };
 
-        Init_PrimClipper_4F5B80(&field_20_prim_clippers[1][gPsxDisplay_5C1130.field_C_buffer_index], &clipRect);
-        OrderingTable_Add_4F8AA0(&ot[24], &field_20_prim_clippers[1][gPsxDisplay_5C1130.field_C_buffer_index].mBase);
+        auto* clipper = &field_20_prim_clippers[1][gPsxDisplay_5C1130.field_C_buffer_index];
+        Init_PrimClipper_4F5B80(clipper, &clipRect);
+        OrderingTable_Add_4F8AA0(&ot[24], &clipper->mBase);
 
-        pScreenManager_5BB5F4->InvalidateRect_40EC90(screenXWorld, screenY, clipRect.w, 24, pScreenManager_5BB5F4->field_3A_idx);
+        pScreenManager_5BB5F4->InvalidateRect_40EC90(
+            screenXWorld,
+            screenY,
+            clipRect.w,
+            24,
+            pScreenManager_5BB5F4->field_3A_idx
+        );
     }
 }
 

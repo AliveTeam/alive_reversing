@@ -1,4 +1,5 @@
 #include "stdafx_ao.h"
+#include "CameraSwapper.hpp"
 #include "Events.hpp"
 #include "PsxDisplay.hpp"
 #include "ScreenManager.hpp"
@@ -10,6 +11,7 @@
 #include "stdlib.hpp"
 #include "Game.hpp"
 #include "StringFormatters.hpp"
+#include "Primitives_common.hpp"
 
 namespace AO {
 
@@ -363,9 +365,82 @@ void LCDScreen::VRender(int** ppOt)
     VRender_434400(ppOt);
 }
 
-void LCDScreen::VRender_434400(int** /*ppOt*/)
+void LCDScreen::VRender_434400(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    if (sNumCamSwappers_507668 == 0)
+    {
+        const FP_Point* camPos = pScreenManager_4FF7C8->field_10_pCamPos;
+
+        auto endY = field_2BC_tlv.field_10_top_left.field_2_y + field_2BC_tlv.field_14_bottom_right.field_2_y;
+        auto endX = pScreenManager_4FF7C8->field_14_xpos + field_2BC_tlv.field_14_bottom_right.field_0_x;
+
+        const int screenX = field_2BC_tlv.field_10_top_left.field_0_x - FP_GetExponent(camPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
+        const int screenY = endY / 2 - FP_GetExponent(camPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos)) - 7;
+        const int maxWidth = FP_GetExponent(FP_FromInteger(endX) - camPos->field_0_x);
+
+        PSX_RECT clipRect = {
+            0,
+            0,
+            640,
+            static_cast<short>(gPsxDisplay_504C78.field_2_height)
+        };
+
+        auto* pClippers = &field_10_prim_clippers[0][gPsxDisplay_504C78.field_A_buffer_index];
+        Init_PrimClipper_495FD0(
+            pClippers,
+            &clipRect
+        );
+        OrderingTable_Add_498A80(&ppOt[22], &pClippers->mBase);
+
+        auto fontFlickerAmount = 50;
+        if (sDisableFontFlicker_5080E4)
+        {
+            fontFlickerAmount = 0;
+        }
+        if (fontFlickerAmount)
+        {
+            fontFlickerAmount = 40;
+        }
+
+        sFontDrawScreenSpace_508BF4 = 1;
+        field_60_font.DrawString_41C360(
+            ppOt,
+            field_A0_message,
+            static_cast<short>(PsxToPCX(screenX, 11) - field_2B0_x_offset),
+            static_cast<short>(screenY),
+            1,
+            1,
+            0,
+            22,
+            127,
+            127,
+            127,
+            0,
+            FP_FromInteger(1),
+            maxWidth,
+            fontFlickerAmount
+        );
+        sFontDrawScreenSpace_508BF4 = 0;
+
+        PSX_RECT clipRect2 = {};
+
+        clipRect2.x = static_cast<short>(PsxToPCX(screenX, 11));
+        clipRect2.y = static_cast<short>(screenY - 12);
+        clipRect2.w = static_cast<short>(PsxToPCX(maxWidth - screenX, 51));
+        clipRect2.h = 48;
+
+        auto* clipper = &field_10_prim_clippers[1][gPsxDisplay_504C78.field_A_buffer_index];
+        Init_PrimClipper_495FD0(clipper, &clipRect2);
+        OrderingTable_Add_498A80(&ppOt[22], &clipper->mBase);
+
+        pScreenManager_4FF7C8->InvalidateRect_406E40(
+            clipRect2.x,
+            clipRect2.y,
+            clipRect2.w,
+            24,
+            pScreenManager_4FF7C8->field_2E_idx
+        );
+    }
 }
 
 }
