@@ -100,7 +100,7 @@ SecurityClaw* SecurityClaw::ctor_418A70(Path_SecurityClaw* pTlv, int tlvInfo)
     field_118_alarm_id = pTlv->field_1A_alarm_id;
     field_11A = pTlv->field_1C_alarm_time;
 
-    field_110_state = 0;
+    field_110_state = SecurityClawStates::eCamSwap_0;
 
     auto pClaw = ao_new<Claw>();
     if (pClaw)
@@ -325,7 +325,7 @@ void SecurityClaw::VUpdate_418DE0()
 
     switch (field_110_state)
     {
-    case 0:
+    case SecurityClawStates::eCamSwap_0:
         for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
         {
             BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
@@ -353,15 +353,15 @@ void SecurityClaw::VUpdate_418DE0()
                 field_13C_pArray->Push_Back(pDetector);
             }
         }
-        field_110_state = 1;
+        field_110_state = SecurityClawStates::eIdle_1;
         field_6_flags.Clear(Options::eUpdateDuringCamSwap_Bit10);
         break;
 
-    case 1:
+    case SecurityClawStates::eIdle_1:
         if (Event_Get_417250(kEventAbeOhm_8))
         {
-            field_114 = gnFrameCount_507670 + 20;
-            field_110_state = 2;
+            field_114_timer = gnFrameCount_507670 + 20;
+            field_110_state = SecurityClawStates::eDoZapEffects_2;
             field_130_pClaw->field_10_anim.Set_Animation_Data_402A40(22420, nullptr);
             SFX_Play_43AD70(95u, 60, 0);
             SFX_Play_43AE60(95u, 90, -1000, 0);
@@ -380,8 +380,8 @@ void SecurityClaw::VUpdate_418DE0()
         }
         break;
 
-    case 2:
-        if (static_cast<int>(gnFrameCount_507670) > field_114)
+    case SecurityClawStates::eDoZapEffects_2:
+        if (static_cast<int>(gnFrameCount_507670) > field_114_timer)
         {
             PSX_RECT rect = {};
             sActiveHero_507678->VGetBoundingRect(&rect, 1);
@@ -460,13 +460,13 @@ void SecurityClaw::VUpdate_418DE0()
                 }
             }
 
-            field_110_state = 3;
-            field_114 = gnFrameCount_507670 + 8;
+            field_110_state = SecurityClawStates::eAnimateClaw_DoFlashAndSound_3;
+            field_114_timer = gnFrameCount_507670 + 8;
         }
         break;
 
-    case 3:
-        if (static_cast<int>(gnFrameCount_507670) == field_114 - 5 || static_cast<int>(gnFrameCount_507670) == field_114 - 1)
+    case SecurityClawStates::eAnimateClaw_DoFlashAndSound_3:
+        if (static_cast<int>(gnFrameCount_507670) == field_114_timer - 5 || static_cast<int>(gnFrameCount_507670) == field_114_timer - 1)
         {
             auto pFlash = ao_new<Flash>();
             if (pFlash)
@@ -475,7 +475,7 @@ void SecurityClaw::VUpdate_418DE0()
             }
         }
 
-        if (static_cast<int>(gnFrameCount_507670) == field_114 - 4)
+        if (static_cast<int>(gnFrameCount_507670) == field_114_timer - 4)
         {
             auto pFlash = ao_new<Flash>();
             if (pFlash)
@@ -484,18 +484,18 @@ void SecurityClaw::VUpdate_418DE0()
             }
         }
 
-        if (field_114 - gnFrameCount_507670 == 4)
+        if (field_114_timer - gnFrameCount_507670 == 4)
         {
             SFX_Play_43AD70(57u, 0, 0);
         }
-        else if (field_114 - gnFrameCount_507670 == 1)
+        else if (field_114_timer - gnFrameCount_507670 == 1)
         {
             SFX_Play_43AD70(58u, 0, 0);
         }
 
-        if (static_cast<int>(gnFrameCount_507670) > field_114)
+        if (static_cast<int>(gnFrameCount_507670) > field_114_timer)
         {
-            field_110_state = 1;
+            field_110_state = SecurityClawStates::eIdle_1;
             field_130_pClaw->field_10_anim.Set_Animation_Data_402A40(22568, nullptr);
             SFX_Play_43AD70(97u, 0, 0);
         }

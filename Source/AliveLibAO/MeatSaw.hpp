@@ -8,7 +8,7 @@ namespace AO {
 
 struct Path_MeatSaw : public Path_TLV
 {
-    __int16 field_18_scale;
+    __int16 field_18_scale_background;
     __int16 field_1A_min_time_off1;
     __int16 field_1C_max_time_off1;
     __int16 field_1E_max_rise_time;
@@ -22,6 +22,13 @@ struct Path_MeatSaw : public Path_TLV
     __int16 field_2E_inital_position;
 };
 ALIVE_ASSERT_SIZEOF(Path_MeatSaw, 0x30);
+
+enum class MeatSawStates : __int16
+{
+    eIdle_0 = 0,
+    eGoingDown_1 = 1,
+    eGoingUp_2 = 2
+};
 
 class MeatSaw : public BaseAnimatedWithPhysicsGameObject
 {
@@ -48,8 +55,8 @@ public:
 
     EXPORT void VRender_439F50(int** ppOt);
 
-    int field_D4[4];
-    __int16 field_E4_state;
+    int field_D4_padding[4];
+    MeatSawStates field_E4_state;
     unsigned __int16 field_E6_max_rise_time;
     __int16 field_E8_speed2;
     __int16 field_EA_speed1;
@@ -62,14 +69,14 @@ public:
     __int16 field_F8_field_1C_max_time_off1;
     __int16 field_FA_min_time_off2;
     __int16 field_FC_max_time_off2;
-    __int16 field_FE;
+    __int16 field_FE_padding;
     int field_100_tlvInfo;
-    int field_104;
-    int field_108;
-    int field_10C;
+    int field_104_idle_timer;
+    int field_108_SFX_timer;
+    int field_10C_FrameCount;
     Animation field_110_anim;
     unsigned __int16 field_1A8_flags;
-    __int16 field_1AA;
+    __int16 field_1AA_padding;
 };
 ALIVE_ASSERT_SIZEOF(MeatSaw, 0x1AC);
 

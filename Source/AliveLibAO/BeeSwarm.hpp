@@ -67,14 +67,14 @@ public:
     FP field_D78_speed;
     FP field_D7C_pos_offset;
 
-    enum class States : __int16
+    enum class BeeSwarmStates : __int16
     {
-        eState_0_Idle = 0,
-        eState_1_AttackChase = 1,
-        eState_2_FollowPathLines = 2,
-        eState_3_FlyAwayAndDie = 3,
+        eIdle_0 = 0,
+        eAttackChase_1 = 1,
+        eFollowPathLines_2 = 2,
+        eFlyAwayAndDie_3 = 3,
     };
-    States field_D80_state;
+    BeeSwarmStates field_D80_state;
 
     __int16 field_D82_pad;
 

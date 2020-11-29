@@ -29,6 +29,14 @@ public:
 
 class MotionDetector;
 
+enum class SecurityClawStates : __int16
+{
+    eCamSwap_0,
+    eIdle_1,
+    eDoZapEffects_2,
+    eAnimateClaw_DoFlashAndSound_3
+};
+
 class SecurityClaw : public BaseAliveGameObject
 {
 public:
@@ -55,9 +63,9 @@ public:
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
 
     int field_10C_tlvInfo;
-    __int16 field_110_state;
+    SecurityClawStates field_110_state;
     __int16 field_112;
-    int field_114;
+    int field_114_timer;
     __int16 field_118_alarm_id;
     __int16 field_11A;
     FP field_11C_clawX;

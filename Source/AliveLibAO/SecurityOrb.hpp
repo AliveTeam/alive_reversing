@@ -13,6 +13,13 @@ struct Path_SecurityOrb : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_SecurityOrb, 0x1C);
 
+enum class SecurityOrbStates : __int16
+{
+    eIdle_0,
+    eDoZapEffects_1,
+    eDoFlashAndSound_2
+};
+
 class SecurityOrb : public BaseAliveGameObject
 {
 public:
@@ -35,7 +42,7 @@ public:
     EXPORT void VUpdate_436DF0();
 
     int field_10C_tlvInfo;
-    __int16 field_110_state;
+    SecurityOrbStates field_110_state;
     __int16 field_112_pad;
     int field_114_timer;
     int field_118_sound_channels;

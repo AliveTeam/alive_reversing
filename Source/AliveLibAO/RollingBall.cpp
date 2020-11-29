@@ -41,7 +41,7 @@ BaseGameObject* RollingBall::VDestructor(signed int flags)
 BaseGameObject* RollingBall::dtor_458230()
 {
     SetVTable(this, 0x4BC180);
-    if (field_112_state)
+    if (field_112_state != RollingBallStates::eInactive_0)
     {
         gMap_507BA8.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 1);
     }
@@ -102,7 +102,7 @@ RollingBall* RollingBall::ctor_4578C0(Path_RollingBall* pTlv, int tlvInfo)
         field_118_speed = -FP_FromRaw(pTlv->field_1E_speed << 8);
     }
 
-    field_11C = FP_FromRaw(pTlv->field_20_acceleration << 8);
+    field_11C_acceleration = FP_FromRaw(pTlv->field_20_acceleration << 8);
 
     field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
     field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
@@ -126,7 +126,7 @@ RollingBall* RollingBall::ctor_4578C0(Path_RollingBall* pTlv, int tlvInfo)
 
     MapFollowMe_401D30(TRUE);
     field_10C_tlvInfo = tlvInfo;
-    field_112_state = 0;
+    field_112_state = RollingBallStates::eInactive_0;
     field_114_pRollingBallShaker = nullptr;
     field_120_pCollisionLine = nullptr;
 
@@ -150,7 +150,7 @@ RollingBall* RollingBall::ctor_4578C0(Path_RollingBall* pTlv, int tlvInfo)
         field_A8_xpos = FP_FromInteger(2522);
         field_AC_ypos = FP_FromInteger(1300);
         field_10_anim.field_C_layer = 35;
-        field_112_state = 4;
+        field_112_state = RollingBallStates::eCrushedBees_4;
     }
 
     return this;
@@ -160,11 +160,11 @@ void RollingBall::VUpdate_457AF0()
 {
     switch (field_112_state)
     {
-    case 0:
+    case RollingBallStates::eInactive_0:
         if (SwitchStates_Get(field_110_release_switch_id))
         {
             field_B8_vely = FP_FromDouble(2.5);
-            field_112_state = 1;
+            field_112_state = RollingBallStates::eStartRolling_1;
             field_10_anim.Set_Animation_Data_402A40(15608, 0);
             field_114_pRollingBallShaker = ao_new<RollingBallShaker>();
             if (field_114_pRollingBallShaker)
@@ -184,7 +184,7 @@ void RollingBall::VUpdate_457AF0()
         }
         return;
 
-    case 1:
+    case RollingBallStates::eStartRolling_1:
         if (!(field_10_anim.field_92_current_frame % 3))
         {
             SFX_Play_43AD70(static_cast<char>(Math_RandomRange_450F20(71, 72)), 0, 0);
@@ -207,12 +207,12 @@ void RollingBall::VUpdate_457AF0()
                 field_A8_xpos = hitX;
                 field_AC_ypos = hitY;
                 field_F4_pLine = pLine;
-                field_112_state = 2;
+                field_112_state = RollingBallStates::eRolling_2;
             }
         }
         return;
 
-    case 2:
+    case RollingBallStates::eRolling_2:
     {
         if (!(field_10_anim.field_92_current_frame % 3))
         {
@@ -245,7 +245,7 @@ void RollingBall::VUpdate_457AF0()
         }
         else if (!field_F4_pLine)
         {
-            field_112_state = 3;
+            field_112_state = RollingBallStates::eFallingAndHittingWall_3;
 
             field_114_pRollingBallShaker->field_C_refCount--;
             field_114_pRollingBallShaker->field_32_bKillMe = 1;
@@ -257,7 +257,7 @@ void RollingBall::VUpdate_457AF0()
         return;
     }
 
-    case 3:
+    case RollingBallStates::eFallingAndHittingWall_3:
     {
         if (WallHit_401930(FP_FromInteger(30), field_B4_velx))
         {
@@ -286,7 +286,7 @@ void RollingBall::VUpdate_457AF0()
 
             field_6_flags.Set(Options::eDead_Bit3);
 
-            const  CameraPos direction = gMap_507BA8.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos);
+            const CameraPos direction = gMap_507BA8.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos);
             SFX_Play_43AED0(SoundEffect::IngameTransition_107, 50, direction);
 
             switch (direction)
@@ -336,7 +336,7 @@ void RollingBall::VUpdate_457AF0()
                     field_A8_xpos = FP_FromInteger(2522);
                     field_AC_ypos = FP_FromInteger(1300);
                     field_10_anim.field_C_layer = 35;
-                    field_112_state = 4;
+                    field_112_state = RollingBallStates::eCrushedBees_4;
                     CrushThingsInTheWay_458310();
                     return;
                 }
@@ -389,10 +389,10 @@ void RollingBall::VUpdate_457AF0()
         return;
     }
 
-    case 4:
+    case RollingBallStates::eCrushedBees_4:
         if (field_B2_lvl_number != gMap_507BA8.field_0_current_level ||
             field_B0_path_number != gMap_507BA8.field_2_current_path ||
-            Event_Get_417250(4))
+            Event_Get_417250(kEventDeathReset_4))
         {
             field_6_flags.Set(Options::eDead_Bit3);
         }
@@ -409,7 +409,7 @@ void RollingBall::SpeedUpOrDown_458410()
     {
         if (field_B4_velx > field_118_speed)
         {
-            field_B4_velx -= field_11C;
+            field_B4_velx -= field_11C_acceleration;
             field_B8_vely = (-field_B4_velx * FP_FromDouble(0.5));
         }
     }
@@ -417,7 +417,7 @@ void RollingBall::SpeedUpOrDown_458410()
     {
         if (field_B4_velx < field_118_speed)
         {
-            field_B4_velx += field_11C;
+            field_B4_velx += field_11C_acceleration;
             field_B8_vely = (field_B4_velx * FP_FromDouble(0.5));
         }
     }
