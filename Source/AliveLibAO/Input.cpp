@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "Game.hpp"
 #include "../AliveLibAE/Input.hpp"
+#include "BitField.hpp"
 
 namespace AO {
 
@@ -51,8 +52,97 @@ EXPORT void InputObject::InitPad_4331A0(unsigned int /*padCount*/)
 ALIVE_ARY(1, 0x507778, BYTE, 64, sPad1Buffer_507778, {});
 ALIVE_ARY(1, 0x507738, BYTE, 64, sPad2Buffer_507738, {});
 
+static BitField32<InputCommands> ConvertInput(const BitField32<::InputCommands>& aeInput)
+{
+    BitField32<InputCommands> r;
+    r.Set(InputCommands::eGameSpeak3, aeInput.Get(::InputCommands::eGameSpeak3));
+    r.Set(InputCommands::eSneak, aeInput.Get(::InputCommands::eSneak));
+    r.Set(InputCommands::eGameSpeak6, aeInput.Get(::InputCommands::eGameSpeak6));
+    r.Set(InputCommands::eRun, aeInput.Get(::InputCommands::eRun));
+    r.Set(InputCommands::eHop, aeInput.Get(::InputCommands::eHop));
+    r.Set(InputCommands::eThrowItem, aeInput.Get(::InputCommands::eThrowItem));
+    r.Set(InputCommands::eFartOrRoll, aeInput.Get(::InputCommands::eFartOrRoll));
+    r.Set(InputCommands::eDoAction, aeInput.Get(::InputCommands::eDoAction));
+    r.Set(InputCommands::eGameSpeak4, aeInput.Get(::InputCommands::eGameSpeak4));
+    r.Set(InputCommands::eGameSpeak5, aeInput.Get(::InputCommands::eGameSpeak5));
+    r.Set(InputCommands::eGameSpeak1, aeInput.Get(::InputCommands::eGameSpeak1));
+    r.Set(InputCommands::eGameSpeak2, aeInput.Get(::InputCommands::eGameSpeak2));
+    r.Set(InputCommands::eUp, aeInput.Get(::InputCommands::eUp));
+    r.Set(InputCommands::eRight, aeInput.Get(::InputCommands::eRight));
+    r.Set(InputCommands::eDown, aeInput.Get(::InputCommands::eDown));
+    r.Set(InputCommands::eLeft, aeInput.Get(::InputCommands::eLeft));
+    r.Set(InputCommands::eGameSpeak7, aeInput.Get(::InputCommands::eGameSpeak7));
+    r.Set(InputCommands::eGameSpeak8, aeInput.Get(::InputCommands::eGameSpeak8));
+    r.Set(InputCommands::eChant, aeInput.Get(::InputCommands::eChant));
+    r.Set(InputCommands::ePause, aeInput.Get(::InputCommands::ePause));
+    r.Set(InputCommands::eUnPause_OrConfirm, aeInput.Get(::InputCommands::eUnPause_OrConfirm));
+    r.Set(InputCommands::eBack, aeInput.Get(::InputCommands::eBack));
+    r.Set(InputCommands::eCheatMode, aeInput.Get(::InputCommands::eCheatMode));
+    r.Set(InputCommands::eSpeak1, aeInput.Get(::InputCommands::eSpeak1));
+    r.Set(InputCommands::eSpeak2, aeInput.Get(::InputCommands::eSpeak2));
+    r.Set(InputCommands::e0x80000000, aeInput.Get(::InputCommands::eConfigure));
+
+    return r;
+}
+
+static BitField32<::InputCommands> MakeBits(DWORD bits)
+{
+    BitField32<::InputCommands> r;
+    r.Raw().all = bits;
+    return r;
+}
+
 EXPORT void InputObject::Update_433250()
 {
+    if (!RunningAsInjectedDll())
+    {
+        // Do AE input reading
+        ::Input().Update_45F040();
+
+        // Convert from AE bit flags to AO bit flags
+        field_0_pads[0].field_0_pressed = static_cast<unsigned short>(ConvertInput(MakeBits(::Input().field_0_pads[0].field_0_pressed)).Raw().all);
+
+        // TODO: This one probably needs its own conversion
+        field_0_pads[0].field_2_dir = ::Input().field_0_pads[0].field_4_dir;
+
+        field_0_pads[0].field_4_previously_pressed = static_cast<unsigned short>(ConvertInput(MakeBits(::Input().field_0_pads[0].field_8_previous)).Raw().all);
+        field_0_pads[0].field_6_held = static_cast<unsigned short>(ConvertInput(MakeBits(::Input().field_0_pads[0].field_C_held)).Raw().all);
+        field_0_pads[0].field_8_released = static_cast<unsigned short>(ConvertInput(MakeBits(::Input().field_0_pads[0].field_10_released)).Raw().all);
+
+        // Handle demo in put (AO impl)
+        if (field_20_demo_playing & 1)
+        {
+            // Stop if any button on any pad is pressed
+            if (field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed)
+            {
+                field_20_demo_playing &= ~1u;
+                return;
+            }
+
+            if (static_cast<int>(gnFrameCount_507670) >= field_28_command_duration)
+            {
+                const DWORD command = (*field_18_demo_res)[field_1C_demo_command_index++];
+                field_24_command = command >> 16;
+                field_28_command_duration = gnFrameCount_507670 + command & 0xFFFF;
+
+                // End demo/quit command
+                if (command & 0x8000)
+                {
+                    field_20_demo_playing &= ~1u;
+                }
+            }
+
+            // Will do nothing if we hit the end command..
+            if (field_20_demo_playing & 1)
+            {
+                field_0_pads[0].field_0_pressed = static_cast<unsigned short>(field_24_command);
+            }
+        }
+
+        return;
+    }
+
+    // Original AO impl
     const BYTE byte_4BB428[16] = { 0u, 64u, 0u, 32u, 192u, 0u, 224u, 0u, 128u, 96u, 0u, 0u, 160u, 0u, 0u, 0u };
 
     for (int i = 0; i < 2; i++)
@@ -62,7 +152,7 @@ EXPORT void InputObject::Update_433250()
         field_0_pads[i].field_4_previously_pressed = field_0_pads[i].field_0_pressed;
     }
 
-    if (sPad1Buffer_507778[0])                // can call Input_Read_Pad_49AF10 instead here to match AE
+    if (sPad1Buffer_507778[0])
     {
         field_0_pads[0].field_0_pressed = 0;
     }
