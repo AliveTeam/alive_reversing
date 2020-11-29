@@ -646,6 +646,7 @@ void Animation::VRender_403AE0(int xpos, int ypos, int** ppOt, __int16 width, __
             SetXY2(pPoly, xConverted, height_adjusted);
             SetXY3(pPoly, width_adjusted, height_adjusted);
 
+            SetPrimExtraPointerHack(pPoly, nullptr);
             OrderingTable_Add_498A80(&ppOt[field_C_layer], &pPoly->mBase.header);
         }
     }
@@ -1176,6 +1177,7 @@ void AnimationUnknown::VRender2_403FD0(int xpos, int ypos, int** ppOt)
         SetXY2(pPoly, static_cast<short>(polyX), static_cast<short>(h));
         SetXY3(pPoly, static_cast<short>(w), static_cast<short>(h));
 
+        SetPrimExtraPointerHack(pPoly, nullptr);
         OrderingTable_Add_498A80(&ppOt[field_C_layer], &pPoly->mBase.header);
     }
 }

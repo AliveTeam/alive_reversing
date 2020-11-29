@@ -269,10 +269,13 @@ void FG1::VRender_453D50(int** ppOt)
             if (pBlock->field_58_rect.w > 0)
             {
                 Poly_FT4* pPoly = &pBlock->field_0_polys[gPsxDisplay_504C78.field_A_buffer_index];
+
+                SetPrimExtraPointerHack(pPoly, nullptr);
+
                 OrderingTable_Add_498A80(
                     &ppOt[pBlock->field_66_mapped_layer],
                     &pPoly->mBase.header);
-
+                
                 pScreenManager_4FF7C8->InvalidateRect_406E40(
                     X0(pPoly),
                     Y0(pPoly),
