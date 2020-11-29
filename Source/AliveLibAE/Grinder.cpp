@@ -52,27 +52,27 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
     SetTint_425600(kGrinderTints_551548, gMap_5C3030.field_0_current_level);
     Path_Grinder_Data tlvData = pTlv->field_10_data;
 
-    field_128_flags.Clear(Flags::eBit2_StartOn);
-    field_128_flags.Clear(Flags::eBit5);
+    field_128_flags.Clear(Flags::eBit2_ToggleStartState_StartOn);
+    field_128_flags.Clear(Flags::eBit5_SpeedChanged);
     field_128_flags.Clear(Flags::eBit4_Toggle);
 
-    if (tlvData.field_1C_start_state)
+    if (tlvData.field_1C_start_state_on)
     {
-        field_128_flags.Clear(Flags::eBit1);
+        field_128_flags.Clear(Flags::eBit1_StartOff);
     }
     else
     {
-        field_128_flags.Set(Flags::eBit1);
+        field_128_flags.Set(Flags::eBit1_StartOff);
     }
 
     field_F8_id = tlvData.field_16_id;
 
-    if (SwitchStates_Get_466020(field_F8_id) && field_128_flags.Get(Flags::eBit1))
+    if (SwitchStates_Get_466020(field_F8_id) && field_128_flags.Get(Flags::eBit1_StartOff))
     {
-        field_128_flags.Set(Flags::eBit2_StartOn);
+        field_128_flags.Set(Flags::eBit2_ToggleStartState_StartOn);
     }
 
-    if (tlvData.field_10_scale == 0)
+    if (!tlvData.field_10_scale_background)
     {
         field_CC_sprite_scale = FP_FromInteger(1);
         field_20_animation.field_C_render_layer = 24;
@@ -95,7 +95,7 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
         field_128_flags.Clear(Flags::eBit6_StartPosIsBottom);
     }
 
-    if (field_128_flags.Get(Flags::eBit2_StartOn))
+    if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
     {
         if (field_128_flags.Get(Flags::eBit6_StartPosIsBottom))
         {
@@ -121,7 +121,7 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
         field_B8_xpos = field_110_xPos;
         field_114_yPos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
 
-        if (field_128_flags.Get(Flags::eBit2_StartOn))
+        if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
         {
 			const AnimRecord& animRec = AnimRec(AnimId::Bone_Saw_Vertical_On);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
@@ -149,7 +149,7 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
         field_114_yPos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
         field_BC_ypos = field_114_yPos;
 
-        if (field_128_flags.Get(Flags::eBit2_StartOn))
+        if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
         {
             const AnimRecord& animRec = AnimRec(AnimId::Bone_Saw_Horizontal_On);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
@@ -179,7 +179,7 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
         field_114_yPos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
         field_BC_ypos = field_114_yPos;
 
-        if (field_128_flags.Get(Flags::eBit2_StartOn))
+        if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
         {
             const AnimRecord& animRec = AnimRec(AnimId::Bone_Saw_Horizontal_On);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
@@ -206,15 +206,14 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
 
     field_FE_max_off_time = tlvData.field_14_max_off_time;
     field_FC_min_off_time = tlvData.field_12_min_off_time;
-
     switch (tlvData.field_18_behavior)
     {
-    case 1:
+    case GrinderBehavior::eToggle_1:
         field_128_flags.Set(Flags::eBit3_UseId);
         field_128_flags.Clear(Flags::eBit4_Toggle);
         break;
 
-    case 2:
+    case GrinderBehavior::eUse_2:
         field_128_flags.Set(Flags::eBit3_UseId);
         field_128_flags.Set(Flags::eBit4_Toggle);
         break;
@@ -353,7 +352,7 @@ void Grinder::vUpdate_420C50()
     case GrinderStates::State_0_Restart_Cycle:
         if (Expired(field_108_off_timer) || field_128_flags.Get(eBit4_Toggle))
         {
-            if ((!field_128_flags.Get(Flags::eBit3_UseId)) || (!!SwitchStates_Get_466020(field_F8_id) == (field_128_flags.Get(eBit1))))
+            if ((!field_128_flags.Get(Flags::eBit3_UseId)) || (!!SwitchStates_Get_466020(field_F8_id) == (field_128_flags.Get(eBit1_StartOff))))
             {
                 field_F4_state = GrinderStates::State_1_Going_Down;
 
@@ -374,15 +373,14 @@ void Grinder::vUpdate_420C50()
                 }
                 }
 
-                field_128_flags.Clear(Flags::eBit5);
+                field_128_flags.Clear(Flags::eBit5_SpeedChanged);
                 field_11C_speed2 = field_118_speed;
                 field_10C_audio_channels_mask = SFX_Play_46FC20(SoundEffect::DrillMovement_97, 25, soundDirection);
                 return;
             }
         }
 
-        if (field_128_flags.Get(Flags::eBit3_UseId) && 
-            !(field_128_flags.Get(Flags::eBit4_Toggle)) && 
+        if (field_128_flags.Get(Flags::eBit3_UseId) && !field_128_flags.Get(Flags::eBit4_Toggle) && 
             FP_GetExponent(field_120_off_speed) > 0 && Expired(field_108_off_timer))
         {
             field_F4_state = GrinderStates::State_1_Going_Down;
@@ -412,7 +410,7 @@ void Grinder::vUpdate_420C50()
             }
             }
 
-            field_128_flags.Set(Flags::eBit5);
+            field_128_flags.Set(Flags::eBit5_SpeedChanged);
             field_11C_speed2 = field_120_off_speed;
             field_10C_audio_channels_mask = SFX_Play_46FC20(SoundEffect::DrillMovement_97, 25, soundDirection);
         }
@@ -457,7 +455,7 @@ void Grinder::vUpdate_420C50()
 
             short max_off = 0;
             short min_off = 0;
-            if (field_128_flags.Get(Flags::eBit5))
+            if (field_128_flags.Get(Flags::eBit5_SpeedChanged))
             {
                 max_off = field_102_max_off_time2;
                 min_off = field_100_min_off_time2;
@@ -483,7 +481,7 @@ void Grinder::vUpdate_420C50()
 
             if (field_128_flags.Get(eBit4_Toggle))
             {
-                SwitchStates_Set_465FF0(field_F8_id, !field_128_flags.Get(eBit1));
+                SwitchStates_Set_465FF0(field_F8_id, !field_128_flags.Get(eBit1_StartOff));
             }
         }
 
@@ -502,7 +500,7 @@ void Grinder::dtor_420B60()
         field_10C_audio_channels_mask = 0;
     }
 
-    if (field_128_flags.Get(Flags::eBit3_UseId) && !!SwitchStates_Get_466020(field_F8_id) != field_128_flags.Get(Flags::eBit1))
+    if (field_128_flags.Get(Flags::eBit3_UseId) && !!SwitchStates_Get_466020(field_F8_id) != field_128_flags.Get(Flags::eBit1_StartOff))
     {
         Path::TLV_Reset_4DB8E0(field_104_tlv, 1, 0, 0);
     }
