@@ -3315,7 +3315,7 @@ void Abe::State_0_Idle_44EEB0()
                 ));
                 if (pMachineButton)
                 {
-                    pMachineButton->Vsub_445F00();
+                    pMachineButton->VHandleButton_445F00();
                     field_106_current_motion = eAbeStates::State_88_GrenadeMachineUse_45C510;
                 }
                 else
@@ -8889,11 +8889,11 @@ __int16 Abe::HandleDoAction_455BD0()
         case TlvTypes::GrenadeMachine_59:
         {
             auto pGrenadeMachine = static_cast<BoomMachine*>(FindObjectOfType_425180(Types::eGrenadeMachine_66, field_B8_xpos,  field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(25))));
-            if (!pGrenadeMachine || !(pGrenadeMachine->Vsub_445DF0()))
+            if (!pGrenadeMachine || !(pGrenadeMachine->VIsButtonOn_445DF0()))
             {
                 return eAbeStates::State_34_DunnoBegin_44ECF0;
             }
-            pGrenadeMachine->Vsub_445F00();
+            pGrenadeMachine->VHandleButton_445F00();
             return eAbeStates::State_88_GrenadeMachineUse_45C510;
         }
 

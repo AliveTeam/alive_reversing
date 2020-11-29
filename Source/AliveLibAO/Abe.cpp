@@ -3207,9 +3207,9 @@ __int16 Abe::HandleDoAction_429A70()
                 field_A8_xpos,
                 field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(25))));
 
-            if (pBoomMachine && pBoomMachine->Vsub_41E840())
+            if (pBoomMachine && pBoomMachine->VIsButtonOn_41E840())
             {
-                pBoomMachine->Vsub_41E6F0();
+                pBoomMachine->VHandleButton_41E6F0();
                 return eAbeStates::State_90_GrenadeMachineUse_430EA0;
             }
             return eAbeStates::State_36_DunnoBegin_423260;
@@ -4001,7 +4001,7 @@ void Abe::State_0_Idle_423520()
                     ));
                     if (pMachineButton)
                     {
-                        pMachineButton->Vsub_41E6F0();
+                        pMachineButton->VHandleButton_41E6F0();
                         field_FC_current_motion = eAbeStates::State_90_GrenadeMachineUse_430EA0;
                     }
                     else

@@ -12,15 +12,21 @@ enum class GrinderDirection : __int16
     eLeft_2 = 2,
 };
 
+enum class GrinderBehavior : __int16
+{
+    eToggle_1 = 1,
+    eUse_2 = 2
+};
+
 struct Path_Grinder_Data
 {
-    __int16 field_10_scale; // TODO: Enum
+    __int16 field_10_scale_background;
     __int16 field_12_min_off_time;
     __int16 field_14_max_off_time;
     __int16 field_16_id;
-    __int16 field_18_behavior; // TODO: Enum
+    GrinderBehavior field_18_behavior;
     __int16 field_1A_speed;
-    __int16 field_1C_start_state; // TODO: Enum
+    __int16 field_1C_start_state_on;
     __int16 field_1E_off_speed;
     __int16 field_20_min_off_time2;
     __int16 field_22_max_off_time2;
@@ -98,11 +104,11 @@ private:
     FP field_124_xyoff;
     enum Flags
     {
-        eBit1 = 0x1,
-        eBit2_StartOn = 0x2,
+        eBit1_StartOff = 0x1,
+        eBit2_ToggleStartState_StartOn = 0x2,
         eBit3_UseId = 0x4,
         eBit4_Toggle = 0x8,
-        eBit5 = 0x10,
+        eBit5_SpeedChanged = 0x10,
         eBit6_StartPosIsBottom = 0x20,
     };
     BitField16<Flags> field_128_flags;
