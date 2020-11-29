@@ -2166,16 +2166,18 @@ signed int MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
         field_204_prev_pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
     }
 
-    if (input_or_field_204 & 5)
+    if (input_or_field_204 & (InputCommands::eUp | InputCommands::eLeft))
     {
+        // move to previous entry
         if (field_230_target_entry_index > 0 && field_254 == FP_FromInteger(0))
         {
             field_230_target_entry_index--;
             SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
-    else if (input_or_field_204 & 0xA)
+    else if (input_or_field_204 & (InputCommands::eDown | InputCommands::eRight))
     {
+        // move to next entry
         if (field_230_target_entry_index < sMenuItemCount_561538 - 1 && field_254 == FP_FromInteger(0))
         {
             field_230_target_entry_index++;
@@ -2183,8 +2185,9 @@ signed int MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
         }
     }
 
-    if (input_or_field_204 & 0x20000000)
+    if (input_or_field_204 & InputCommands::ePageUp)
     {
+        // move one whole page back
         if (field_230_target_entry_index > 0 && field_254 == FP_FromInteger(0))
         {
             field_230_target_entry_index -= 3;
@@ -2195,8 +2198,9 @@ signed int MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
             SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
-    else if (input_or_field_204 & 0x40000000)
+    else if (input_or_field_204 & InputCommands::ePageDown)
     {
+        // move one whole page forward
         if (field_230_target_entry_index < sMenuItemCount_561538 - 1 && field_254 == FP_FromInteger(0))
         {
             field_230_target_entry_index += 3;
@@ -2208,11 +2212,12 @@ signed int MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
         }
     }
 
-    if (input_or_field_204 & 0x200000)
+    if (input_or_field_204 & InputCommands::eBack)
     {
         return 0x10003; //Esc Pressed
     }
-    if (!(input_or_field_204 & 0x100000))
+
+    if (!(input_or_field_204 & InputCommands::eUnPause_OrConfirm))
     {
         return 0; //Nothing Pressed
     }
@@ -2340,7 +2345,7 @@ EXPORT void sub_4A2D40()
 
 signed int MainMenuController::Options_Update_4D1AB0(DWORD input)
 {
-    if (!(input & 0x100000))
+    if (!(input & InputCommands::eUnPause_OrConfirm))
     {
         if (input & InputCommands::eBack)
         {
@@ -2397,14 +2402,14 @@ signed int MainMenuController::AbeMotions_Update_4D1F50(DWORD input)
     }
 
     // To the game speak screen
-    if (input & 0x100000)
+    if (input & InputCommands::eUnPause_OrConfirm)
     {
         SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         return 2;
     }
 
     // Return to previous screen
-    if (input & 0x200000)
+    if (input & InputCommands::eBack)
     {
         return 3;
     }
