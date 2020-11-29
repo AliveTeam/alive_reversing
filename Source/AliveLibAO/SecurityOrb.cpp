@@ -51,7 +51,7 @@ SecurityOrb* SecurityOrb::ctor_436C80(Path_SecurityOrb* pTlv, int tlvInfo)
         field_C6_scale = 1;
     }
 
-    field_110_state = 0;
+    field_110_state = SecurityOrbStates::eIdle_0;
     field_118_sound_channels = 0;
 
     return this;
@@ -161,7 +161,7 @@ void SecurityOrb::VUpdate_436DF0()
 
     switch (field_110_state)
     {
-    case 0:
+    case SecurityOrbStates::eIdle_0:
         if (field_10_anim.field_92_current_frame == 2 ||
             field_10_anim.field_92_current_frame == 6 ||
             field_10_anim.field_92_current_frame == 10)
@@ -183,12 +183,12 @@ void SecurityOrb::VUpdate_436DF0()
 
         if (Event_Get_417250(kEventAbeOhm_8))
         {
-            field_110_state = 1;
+            field_110_state = SecurityOrbStates::eDoZapEffects_1;
             field_114_timer = gnFrameCount_507670 + 20;
         }
         break;
 
-    case 1:
+    case SecurityOrbStates::eDoZapEffects_1:
         if (static_cast<int>(gnFrameCount_507670) > field_114_timer)
         {
             PSX_RECT abeRect = {};
@@ -218,7 +218,7 @@ void SecurityOrb::VUpdate_436DF0()
 
             sActiveHero_507678->VTakeDamage(this);
             field_114_timer = gnFrameCount_507670 + 8;
-            field_110_state = 2;
+            field_110_state = SecurityOrbStates::eDoFlashAndSound_2;
 
             auto pScreenShake = ao_new<ScreenShake>();
             if (pScreenShake)
@@ -270,7 +270,7 @@ void SecurityOrb::VUpdate_436DF0()
         }
         break;
 
-    case 2:
+    case SecurityOrbStates::eDoFlashAndSound_2:
         if (static_cast<int>(gnFrameCount_507670) == field_114_timer - 5 || static_cast<int>(gnFrameCount_507670) == field_114_timer - 1)
         {
             auto pFlash = ao_new<Flash>();
@@ -300,7 +300,7 @@ void SecurityOrb::VUpdate_436DF0()
 
         if (static_cast<int>(gnFrameCount_507670) > field_114_timer)
         {
-            field_110_state = 0;
+            field_110_state = SecurityOrbStates::eIdle_0;
         }
         break;
     }

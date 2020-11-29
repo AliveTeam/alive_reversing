@@ -66,7 +66,7 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, int tlvInfo)
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_10_anim.field_B_render_mode = 0;
 
-    if (pTlv->field_18_scale == 1)
+    if (pTlv->field_18_scale_background)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_10_anim.field_C_layer = 5;
@@ -145,15 +145,15 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, int tlvInfo)
         field_F2_switch_value = field_F2_switch_value == 0;
     }
 
-    field_104 = 0;
-    field_E4_state = 0;
-    field_10C = 0;
+    field_104_idle_timer = 0;
+    field_E4_state = MeatSawStates::eIdle_0;
+    field_10C_FrameCount = 0;
     field_AC_ypos -= FP_FromInteger(pTlv->field_1E_max_rise_time);
     field_100_tlvInfo = tlvInfo;
 
     if (!pTlv->field_2E_inital_position == 0)
     {
-        field_E4_state = 2;
+        field_E4_state = MeatSawStates::eGoingUp_2;
         field_F4 = pTlv->field_1E_max_rise_time + pTlv->field_24_speed - pTlv->field_1E_max_rise_time % pTlv->field_24_speed;
     }
 
@@ -225,29 +225,29 @@ void MeatSaw::VUpdate_4399D0()
         field_A8_xpos,
         field_AC_ypos);
 
-    if (!(field_10C % 87))
+    if (!(field_10C_FrameCount % 87))
     {
         SFX_Play_43AED0(SoundEffect::MeatsawOffscreen_88, 45, direction);
     }
 
-    if (!(field_10C % 25))
+    if (!(field_10C_FrameCount % 25))
     {
         SFX_Play_43AED0(SoundEffect::MeatsawIdle_89, 45, direction);
     }
 
-    field_10C++;
+    field_10C_FrameCount++;
 
     switch (field_E4_state)
     {
-    case 0:
-        if ((field_104 <= static_cast<int>(gnFrameCount_507670) || (field_1A8_flags & 2)) &&
+    case MeatSawStates::eIdle_0:
+        if ((field_104_idle_timer <= static_cast<int>(gnFrameCount_507670) || (field_1A8_flags & 2)) &&
             ((!(field_1A8_flags & 1)) ||  SwitchStates_Get(field_EE_switch_id) == field_F0_switch_value))
         {
-            field_E4_state = 1;
+            field_E4_state = MeatSawStates::eGoingDown_1;
             field_10_anim.Set_Animation_Data_402A40(15232, nullptr);
             field_1A8_flags &= ~4u;
             field_E8_speed2 = field_EA_speed1;
-            field_108 = gnFrameCount_507670 + 2;
+            field_108_SFX_timer = gnFrameCount_507670 + 2;
         }
         else
         {
@@ -257,13 +257,13 @@ void MeatSaw::VUpdate_4399D0()
                 {
                     if (field_EC_off_speed)
                     {
-                        if (field_104 <= static_cast<int>(gnFrameCount_507670))
+                        if (field_104_idle_timer <= static_cast<int>(gnFrameCount_507670))
                         {
-                            field_E4_state = 1;
+                            field_E4_state = MeatSawStates::eGoingDown_1;
                             field_10_anim.Set_Animation_Data_402A40(15232, nullptr);
                             field_1A8_flags |= 4u;
                             field_E8_speed2 = field_EC_off_speed;
-                            field_108 = gnFrameCount_507670 + 2;
+                            field_108_SFX_timer = gnFrameCount_507670 + 2;
                         }
                     }
                 }
@@ -271,25 +271,25 @@ void MeatSaw::VUpdate_4399D0()
         }
         break;
 
-    case 1:
+    case MeatSawStates::eGoingDown_1:
         field_F4 += field_E8_speed2;
 
-        if (!((gnFrameCount_507670 - field_108) % 8))
+        if (!((gnFrameCount_507670 - field_108_SFX_timer) % 8))
         {
             SFX_Play_43AED0(SoundEffect::MeatsawDown_91, 50, direction);
         }
 
         if (field_F4 >= field_E6_max_rise_time)
         {
-            field_E4_state = 2;
-            field_108 = gnFrameCount_507670 + 2;
+            field_E4_state = MeatSawStates::eGoingUp_2;
+            field_108_SFX_timer = gnFrameCount_507670 + 2;
         }
         break;
 
-    case 2:
-        if (!((gnFrameCount_507670 - field_108) % 10))
+    case MeatSawStates::eGoingUp_2:
+        if (!((gnFrameCount_507670 - field_108_SFX_timer) % 10))
         {
-            field_108 = gnFrameCount_507670;
+            field_108_SFX_timer = gnFrameCount_507670;
             SFX_Play_43AED0(SoundEffect::MeatsawUp_90, 50, direction);
         }
 
@@ -297,7 +297,7 @@ void MeatSaw::VUpdate_4399D0()
 
         if (field_F4 <= 0)
         {
-            field_E4_state = 0;
+            field_E4_state = MeatSawStates::eIdle_0;
             short minRnd = 0;
             short maxRnd = 0;
             if ((field_1A8_flags >> 2) & 1)
@@ -311,7 +311,7 @@ void MeatSaw::VUpdate_4399D0()
                 minRnd = field_F6_min_time_off1;
             }
 
-            field_104 = gnFrameCount_507670 + Math_RandomRange_450F20(minRnd, maxRnd);
+            field_104_idle_timer = gnFrameCount_507670 + Math_RandomRange_450F20(minRnd, maxRnd);
             field_10_anim.Set_Animation_Data_402A40(15200, 0);
             if (((field_1A8_flags) >> 1) & 1)
             {

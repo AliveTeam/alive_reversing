@@ -35,7 +35,7 @@ BeeNest* BeeNest::ctor_480E20(Path_BeeNest* pTlv, int tlvInfo)
 
     field_34_pBeeSwarm = nullptr;
 
-    field_2E_state = 0;
+    field_2E_state = BeeNestStates::eWaitForTrigger_0;
 
     if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 61, 0, 0))
     {
@@ -113,7 +113,7 @@ void BeeNest::VUpdate_480F30()
 {
     switch (field_2E_state)
     {
-    case 0:
+    case BeeNestStates::eWaitForTrigger_0:
         if (SwitchStates_Get(field_28_switch_id))
         {
             field_34_pBeeSwarm = ao_new<BeeSwarm>();
@@ -128,15 +128,15 @@ void BeeNest::VUpdate_480F30()
 
                 field_34_pBeeSwarm->field_C_refCount++;
                 field_34_pBeeSwarm->Chase_47FEB0(sActiveHero_507678);
-                field_2E_state = 1;
+                field_2E_state = BeeNestStates::eResetIfDead_1;
             }
         }
         break;
 
-    case 1:
+    case BeeNestStates::eResetIfDead_1:
         if (field_34_pBeeSwarm->field_6_flags.Get(BaseGameObject::eDead_Bit3))
         {
-            field_2E_state = 0;
+            field_2E_state = BeeNestStates::eWaitForTrigger_0;
             field_34_pBeeSwarm->field_C_refCount--;
             field_34_pBeeSwarm = nullptr;
             SwitchStates_Set(field_28_switch_id, 0);

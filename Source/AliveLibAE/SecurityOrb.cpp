@@ -162,6 +162,7 @@ void SecurityOrb::vUpdate_4665A0()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
+    // TODO: untangle
     if (field_11C_state)
     {
         const int stateM1 = field_11C_state - 1;

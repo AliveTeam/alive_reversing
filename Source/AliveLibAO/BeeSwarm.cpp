@@ -74,7 +74,7 @@ BeeSwarm* BeeSwarm::ctor_47FC60(FP xpos, FP ypos, FP speed, signed __int16 numBe
     field_D68_xpos = xpos;
     field_A8_xpos = xpos;
     field_D6C_ypos = ypos;
-    field_D80_state = States::eState_0_Idle;
+    field_D80_state = BeeSwarmStates::eIdle_0;
     field_D98_pChaseTarget = 0;
     field_DA4_update_chase_timer = 0;
     field_D9C_alive_timer = 0;
@@ -149,7 +149,7 @@ void BeeSwarm::VScreenChange_480D40()
     {
         if (field_D98_pChaseTarget->field_6_flags.Get(BaseGameObject::eDead_Bit3))
         {
-            field_D80_state = States::eState_3_FlyAwayAndDie;
+            field_D80_state = BeeSwarmStates::eFlyAwayAndDie_3;
             field_D74_chase_target_y -= FP_FromInteger(240);
             field_D9C_alive_timer = gnFrameCount_507670 + 120;
             gBeesNearAbe_5076AC = 0;
@@ -169,7 +169,7 @@ void BeeSwarm::FollowLine_47FF10(PathLine* pLine, FP target_x, FP target_y, FP s
 {
     field_DA8_pLine = pLine;
     field_DAC_line_follow_speed = speed;
-    field_D80_state = States::eState_2_FollowPathLines;
+    field_D80_state = BeeSwarmStates::eFollowPathLines_2;
     field_D70_chase_target_x = target_x;
     field_D74_chase_target_y = target_y;
     field_D98_pChaseTarget = nullptr;
@@ -182,7 +182,7 @@ void BeeSwarm::Chase_47FEB0(BaseAliveGameObject* pChaseTarget)
         field_D98_pChaseTarget->field_C_refCount--;
     }
 
-    field_D80_state = States::eState_1_AttackChase;
+    field_D80_state = BeeSwarmStates::eAttackChase_1;
 
     field_D98_pChaseTarget = pChaseTarget;
     field_DA4_update_chase_timer = 0;
@@ -223,8 +223,8 @@ void BeeSwarm::VUpdate_47FF50()
     }
 
     // Play random bee sounds
-    const short volMax = field_D80_state == States::eState_1_AttackChase ? 24 : 16;
-    const short volMin = field_D80_state == States::eState_1_AttackChase ? 30 : 22;
+    const short volMax = field_D80_state == BeeSwarmStates::eAttackChase_1 ? 24 : 16;
+    const short volMin = field_D80_state == BeeSwarmStates::eAttackChase_1 ? 30 : 22;
     for (int i = 0; i < 2; i++)
     {
         if (Math_RandomRange_450F20(0, 100) < 40)
@@ -236,7 +236,7 @@ void BeeSwarm::VUpdate_47FF50()
 
     switch (field_D80_state)
     {
-    case States::eState_0_Idle:
+    case BeeSwarmStates::eIdle_0:
         if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
@@ -248,7 +248,7 @@ void BeeSwarm::VUpdate_47FF50()
         }
         break;
 
-    case States::eState_1_AttackChase:
+    case BeeSwarmStates::eAttackChase_1:
         if (static_cast<int>(gnFrameCount_507670) > field_D9C_alive_timer)
         {
             ToFlyAwayAndDie();
@@ -361,7 +361,7 @@ void BeeSwarm::VUpdate_47FF50()
         }
         break;
 
-    case States::eState_2_FollowPathLines:
+    case BeeSwarmStates::eFollowPathLines_2:
         field_DA8_pLine = field_DA8_pLine->MoveOnLine_40CA20(
             &field_D70_chase_target_x,
             &field_D74_chase_target_y,
@@ -372,7 +372,7 @@ void BeeSwarm::VUpdate_47FF50()
         }
         break;
 
-    case States::eState_3_FlyAwayAndDie:
+    case BeeSwarmStates::eFlyAwayAndDie_3:
         if (field_D7C_pos_offset < FP_FromInteger(4))
         {
             field_D7C_pos_offset += FP_FromDouble(0.2);
@@ -390,7 +390,7 @@ void BeeSwarm::VUpdate_47FF50()
 
     if (!(gnFrameCount_507670 % 4) && field_DA4_update_chase_timer < static_cast<int>(gnFrameCount_507670))
     {
-        if (field_D80_state != States::eState_0_Idle && field_D80_state != States::eState_3_FlyAwayAndDie)
+        if (field_D80_state != BeeSwarmStates::eIdle_0 && field_D80_state != BeeSwarmStates::eFlyAwayAndDie_3)
         {
             for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
             {
@@ -426,7 +426,7 @@ void BeeSwarm::VUpdate_47FF50()
                             field_D98_pChaseTarget = pObjIter;
                             field_D98_pChaseTarget->field_C_refCount++;
 
-                            field_D80_state = States::eState_1_AttackChase;
+                            field_D80_state = BeeSwarmStates::eAttackChase_1;
                             field_D70_chase_target_x = pObjIter->field_A8_xpos;
                             field_D74_chase_target_y = pObjIter->field_AC_ypos;
 
@@ -593,7 +593,7 @@ void BeeSwarm::ToFlyAwayAndDie()
 {
     field_D9C_alive_timer = gnFrameCount_507670 + 120;
     field_D74_chase_target_y -= FP_FromInteger(240);
-    field_D80_state = States::eState_3_FlyAwayAndDie;
+    field_D80_state = BeeSwarmStates::eFlyAwayAndDie_3;
 
     gBeesNearAbe_5076AC = FALSE;
 

@@ -11,12 +11,18 @@ class PathLine;
 struct Path_RollingBallStopper : public Path_TLV
 {
     __int16 field_18_id_on;
-    __int16 field_1A_scale;
+    __int16 field_1A_scale_background;
     __int16 field_1C_id_off;
     __int16 field_1E_direction;
 };
 ALIVE_ASSERT_SIZEOF(Path_RollingBallStopper, 0x20);
 
+enum class RollingBallStopperStates : __int16
+{
+    eWaitForTrigger_0,
+    eMoveStopper_1,
+    eMovingDone_2
+};
 
 class RollingBallStopper : public BaseAliveGameObject
 {
@@ -33,7 +39,7 @@ public:
 
     int field_10C_tlvInfo;
     __int16 field_110_unused;
-    __int16 field_112_state;
+    RollingBallStopperStates field_112_state;
     unsigned __int16 field_114_switch_on_id;
     unsigned __int16 field_116_switch_id_off;
     PathLine* field_118_pLine;
