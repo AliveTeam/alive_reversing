@@ -205,11 +205,12 @@ void BaseBomb::vUpdate_424180()
                     214,
                     49,
                     ppRes);
+
+                pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+                pParticle->field_DC_bApplyShadows &= ~1;
+                pParticle->field_20_animation.field_B_render_mode = 1;
+                pParticle->field_CC_sprite_scale = field_CC_sprite_scale * FP_FromDouble(0.7);
             }
-            pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
-            pParticle->field_DC_bApplyShadows &= ~1;
-            pParticle->field_20_animation.field_B_render_mode = 1;
-            pParticle->field_CC_sprite_scale = field_CC_sprite_scale * FP_FromDouble(0.7);
         }
     }
 

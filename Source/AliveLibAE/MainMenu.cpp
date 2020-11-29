@@ -2091,14 +2091,15 @@ signed int MainMenuController::LoadDemo_Update_4D1040(DWORD)
             if (abe)
             {
                 sActiveHero_5C1B68 = abe->ctor_44AD10(58808, 85, 57, 55);
+                sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(0);
+                sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(0);
             }
             else
             {
-                sActiveHero_5C1B68 = 0;
+                sActiveHero_5C1B68 = nullptr;
             }
         }
-        sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(0);
-        sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(0);
+
         gAttract_5C1BA0 = 1;
 
         if (field_208_transition_obj)
