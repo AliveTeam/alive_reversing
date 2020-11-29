@@ -1641,13 +1641,13 @@ signed int MainMenuController::Page_Front_Update_4D0720(DWORD input)
     if (sInputObject_5BD4E0.field_0_pads[0].field_0_pressed)
     {
         field_1F8_page_timeout = 0;
-        word_5C1B9A = 0;
+        bLongerTimeoutToNextDemo_5C1B9A = 0;
     }
 
     // Go to loading a demo screen if no input after time out, after one demo plays the next time out is lower if input isn't pressed
-    if (field_1F8_page_timeout > (word_5C1B9A != 0 ? 300 : 1500))
+    if (field_1F8_page_timeout > (bLongerTimeoutToNextDemo_5C1B9A ? 1500 : 300))
     {
-        word_5C1B9A = 1;
+        bLongerTimeoutToNextDemo_5C1B9A = 1;
         field_1FC_button_index = 0;
         return 0xFFFF0016;
     }

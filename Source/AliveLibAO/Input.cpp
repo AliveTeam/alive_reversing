@@ -296,7 +296,7 @@ bool InputObject::IsAnyReleased(PadIndex padIx, DWORD command) const
 
 unsigned __int8 InputObject::Dir() const
 {
-    return sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_2_dir;
+    return sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_2_dir >> 5;
 }
 
 

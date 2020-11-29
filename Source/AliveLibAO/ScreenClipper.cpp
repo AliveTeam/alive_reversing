@@ -57,9 +57,9 @@ void ScreenClipper::VScreenChanged()
     // Empty
 }
 
-void ScreenClipper::VRender(int** /*ot*/)
+void ScreenClipper::VRender(int** ot)
 {
-
+    VRender_40BEB0(ot);
 }
 
 BaseGameObject* ScreenClipper::VDestructor(signed int flags)
