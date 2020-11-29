@@ -1870,6 +1870,12 @@ EXPORT int CC Input_Read_Pad_4FA9C0(int padNum)
     return sLastPad_Input_BD1878;
 }
 
+
+EXPORT InputObject& Input()
+{
+    return sInputObject_5BD4E0;
+}
+
 EXPORT void CC Input_Pads_Reset_4FA960()
 {
     sLastPad_Input_BD1878 = 0;
