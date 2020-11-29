@@ -79,7 +79,7 @@ ALIVE_ARY(1, 0xBD2F60, unsigned char, 256, sInputKeyStates_BD2F60, {});
 ALIVE_VAR(1, 0xBBB9D0, BYTE, sInputEnabled_BBB9D0, 0);
 ALIVE_VAR(1, 0x5BD4E0, InputObject, sInputObject_5BD4E0, {});
 ALIVE_VAR(1, 0x5C1BBE, unsigned __int16, sCurrentControllerIndex_5C1BBE, 0);
-ALIVE_VAR(1, 0x5C1B9A, __int16, word_5C1B9A, 0);
+ALIVE_VAR(1, 0x5C1B9A, __int16, bLongerTimeoutToNextDemo_5C1B9A, 0);
 ALIVE_VAR(1, 0xbd30a0, DWORD, sLastPressedKey_BD30A0, 0);
 ALIVE_VAR(1, 0xbd309c, int, sIsAKeyDown_BD309C, 0);
 ALIVE_ARY(1, 0x5C9D30, char, 256, sAllowedGameKeys_5C9D30, {});
@@ -1934,7 +1934,7 @@ void InputObject::Update_45F040()
         // Stop if any button on any pad is pressed
         if (field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
         {
-            word_5C1B9A = 0;
+            bLongerTimeoutToNextDemo_5C1B9A = 0;
             UnsetDemoPlaying_45F240();
             return;
         }
