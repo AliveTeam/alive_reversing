@@ -41,9 +41,10 @@ void CC Sprt_Init(Prim_Sprt* pPrim)
     SetCode(&pPrim->mBase.header, PrimTypeCodes::eSprt);
 }
 
-void CC Init_PrimClipper_495FD0(Prim_PrimClipper* /*pPrim*/, const PSX_RECT* /*pClipRect*/)
+void CC Init_PrimClipper_495FD0(Prim_PrimClipper* pPrim, const PSX_RECT* pClipRect)
 {
-    NOT_IMPLEMENTED();
+    AE_IMPLEMENTED();
+    Init_PrimClipper_4F5B80(pPrim, pClipRect);
 }
 
 void CC OrderingTable_Add_498A80(int** ppOt, PrimHeader* pItem)
@@ -52,9 +53,10 @@ void CC OrderingTable_Add_498A80(int** ppOt, PrimHeader* pItem)
     OrderingTable_Add_4F8AA0(ppOt, pItem);
 }
 
-void CC PolyG4_Init_498890(Poly_G4* /*pPoly*/)
+void CC PolyG4_Init_498890(Poly_G4* pPoly)
 {
-    NOT_IMPLEMENTED();
+    AE_IMPLEMENTED();
+    PolyG4_Init_4F88B0(pPoly);
 }
 
 void CC Prim_Init_Poly_G3_498870(Poly_G3* pPrim)
