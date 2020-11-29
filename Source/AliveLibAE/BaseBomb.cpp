@@ -85,7 +85,11 @@ BaseBomb * BaseBomb::ctor_423E70(FP x, FP y, int /*unused*/, FP scale)
     };
     DealDamageRect_4247A0(&damageRect);
 
-    SND_SEQ_PlaySeq_4CA960(SeqId::Explosion2_15, 1, 1);
+    // alternate between Explosion1 and Explosion2 on each call
+    static int staticIdFlip = 0;
+    const short explosionSeqId = static_cast<short>(staticIdFlip ? SeqId::Explosion1_14 : SeqId::Explosion2_15);
+    SND_SEQ_PlaySeq_4CA960(explosionSeqId, 1, 1);
+    staticIdFlip = !staticIdFlip;
 
     return this;
 }
