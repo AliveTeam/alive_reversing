@@ -75,12 +75,15 @@ void DemoPlayback::vUpdate_4978E0()
 
     if (!sInputObject_5BD4E0.Is_Demo_Playing_45F220())
     {
-        if (word_5C1B9C)
+        // demo finished playing, go back to the appropriate menu
+        if (gIsDemoStartedManually_5C1B9C)
         {
+            // go back to the demo selection menu
             gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 30, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
         }
         else
         {
+            // go back to the main screen
             gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
         }
 
