@@ -9,6 +9,7 @@ void Forcelink_ScreenWave();
 namespace AO {
 
 enum class LevelIds : __int16;
+struct ScreenWave_Data;
 
 class ScreenWave : public BaseGameObject
 {
@@ -35,7 +36,7 @@ public:
 
     __int16 field_10_layer;
     __int16 field_12_pad;
-    BYTE** field_14_ppRes;
+    ScreenWave_Data** field_14_ppRes;
     FP field_18_xpos;
     FP field_1C_ypos;
     FP field_20_fp1;
