@@ -187,14 +187,8 @@ void ScreenWave::VRender(int** ppOt)
 
 void ScreenWave::VRender_463130(int** ppOt)
 {
-    int v20; // ecx
-    int v27; // edx
-    __int16 v20_or_v22_smaller_picker; // bp
-    __int16 v38_or_v27_smaller_picker; // ax
-    int v38; // [esp+Ch] [ebp-58h]
-
-    int v22; // [esp+2Ch] [ebp-38h]
-
+    //TODO fix bad UV mapping
+    NOT_IMPLEMENTED();
 
     if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
         field_3A_level,
@@ -230,8 +224,8 @@ void ScreenWave::VRender_463130(int** ppOt)
         {
             const FP_Point *workingUv2 = &pScreenWaveData->field_500_uv2[currUvIdx][polygonIdx];
 
-            const auto uv2_0_screen_Y_i = field_38_screen_ypos + FP_GetExponent(workingUv2[0].field_4_y);
             const auto uv2_0_screen_X_i = field_36_screen_xpos + FP_GetExponent(workingUv2[0].field_0_x);
+            const auto uv2_0_screen_Y_i = field_38_screen_ypos + FP_GetExponent(workingUv2[0].field_4_y);
             const auto uv2_1_screen_X_i = field_36_screen_xpos + FP_GetExponent(workingUv2[1].field_0_x);
             const auto uv2_1_screen_Y_i = field_38_screen_ypos + FP_GetExponent(workingUv2[1].field_4_y);
 
@@ -293,36 +287,38 @@ void ScreenWave::VRender_463130(int** ppOt)
                 const FP_Point *workingUv1 = &pScreenWaveData->field_0_uv1[currUvIdx][polygonIdx];
                 const FP_Point *workingUv1IncrCap = &pScreenWaveData->field_0_uv1[currUvIdx_plusOne_clamped][polygonIdx];
 
-                v20 = PsxToPCX(field_36_screen_xpos + FP_GetExponent(workingUv1[0].field_0_x), 11);
-                v22 = PsxToPCX(field_36_screen_xpos + FP_GetExponent(workingUv1[1].field_0_x), 11);
-                v38 = PsxToPCX(field_36_screen_xpos + FP_GetExponent(workingUv1IncrCap[0].field_0_x), 11);
-                v27 = PsxToPCX(field_36_screen_xpos + FP_GetExponent(workingUv1IncrCap[1].field_0_x), 11);
-                v20_or_v22_smaller_picker = static_cast<short>(std::min(v22, v20));
-                v38_or_v27_smaller_picker = static_cast<short>(std::min(v38, v27));
-                int min_out_of_v20_v22_v38_v27 = std::min(v20_or_v22_smaller_picker, v38_or_v27_smaller_picker);
-                auto min_out_of_v20_v22_v38_v27_capped = min_out_of_v20_v22_v38_v27 & 0xC0;
+                const auto uv0_x_part = PsxToPCX(field_36_screen_xpos + FP_GetExponent(workingUv1[0].field_0_x), 11);
+                const auto uv1_x_part = PsxToPCX(field_36_screen_xpos + FP_GetExponent(workingUv1[1].field_0_x), 11);
+                const auto uv2_x_part = PsxToPCX(field_36_screen_xpos + FP_GetExponent(workingUv1IncrCap[0].field_0_x), 11);
+                const auto uv3_x_part = PsxToPCX(field_36_screen_xpos + FP_GetExponent(workingUv1IncrCap[1].field_0_x), 11);
+
+                const int min_out_of_uv_x_parts = std::min(
+                    std::min(uv1_x_part, uv0_x_part),
+                    std::min(uv2_x_part, uv3_x_part)
+                );
+                const BYTE min_out_of_uv_x_parts_capped = static_cast<BYTE>(min_out_of_uv_x_parts) & 0xC0;
 
                 SetTPage(somePrimObj, static_cast<short>(PSX_getTPage_4965D0(
                     2,
                     0,
-                    static_cast<short>(min_out_of_v20_v22_v38_v27_capped),
+                    static_cast<short>(min_out_of_uv_x_parts_capped),
                     0
                 )));
 
                 SetUV0(somePrimObj,
-                    static_cast<BYTE>(v20 - min_out_of_v20_v22_v38_v27_capped),
+                    static_cast<BYTE>(uv0_x_part) - min_out_of_uv_x_parts_capped,
                     static_cast<BYTE>(field_38_screen_ypos + FP_GetExponent(workingUv1[0].field_4_y))
                 );
                 SetUV1(somePrimObj,
-                    static_cast<BYTE>(v22 - min_out_of_v20_v22_v38_v27_capped),
+                    static_cast<BYTE>(uv1_x_part) - min_out_of_uv_x_parts_capped,
                     static_cast<BYTE>(field_38_screen_ypos + FP_GetExponent(workingUv1[1].field_4_y))
                 );
                 SetUV2(somePrimObj,
-                    static_cast<BYTE>(v38 - min_out_of_v20_v22_v38_v27_capped),
+                    static_cast<BYTE>(uv2_x_part) - min_out_of_uv_x_parts_capped,
                     static_cast<BYTE>(field_38_screen_ypos + FP_GetExponent(workingUv1IncrCap[0].field_4_y))
                 );
                 SetUV3(somePrimObj,
-                    static_cast<BYTE>(v27 - min_out_of_v20_v22_v38_v27_capped),
+                    static_cast<BYTE>(uv3_x_part) - min_out_of_uv_x_parts_capped,
                     static_cast<BYTE>(field_38_screen_ypos + FP_GetExponent(workingUv1IncrCap[1].field_4_y))
                 );
 
