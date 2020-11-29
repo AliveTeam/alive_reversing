@@ -32,6 +32,7 @@
 #include "Error.hpp"
 #include "Events.hpp"
 #include "Sound.hpp"
+#include "../AliveLibAE/Game.hpp"
 
 namespace AO {
 
@@ -187,10 +188,10 @@ ALIVE_ARY(1, 0x4CECC8, char, 3, gDriveLetter_4CECC8, { 'D', ':', '0' });
 
 
 
-EXPORT int CC Game_End_Frame_4505D0(DWORD /*bSkip*/)
+EXPORT int CC Game_End_Frame_4505D0(DWORD bSkip)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    AE_IMPLEMENTED();
+    return Game_End_Frame_4950F0(bSkip);
 }
 
 static void Main_ParseCommandLineArguments()

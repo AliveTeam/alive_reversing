@@ -577,3 +577,7 @@ void PolyF4_Init(Poly_F4* pPrim);
 void Prim_Init_MoveImage(Prim_MoveImage* pPrim, PSX_RECT* pRect, int xpos, int ypos);
 
 int PSX_Prim_Code_Without_Blending_Or_SemiTransparency(int code);
+
+
+void SetPrimExtraPointerHack(Poly_FT4* pPoly, const void* ptr);
+const void* GetPrimExtraPointerHack(Poly_FT4* pPoly);

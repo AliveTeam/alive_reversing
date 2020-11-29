@@ -28,6 +28,3 @@ EXPORT void CC OrderingTable_Add_4F8AA0(int** pOt, PrimHeader* pItem);
 EXPORT void CC Init_SetTPage_4F5B60(Prim_SetTPage* pPrim, int /*notUsed1*/, int /*notUsed2*/, int tpage);
 EXPORT int CC PSX_getTPage_4F60E0(char tp, char abr, int x, __int16 y);
 EXPORT int CC PSX_getClut_4F6350(int x, int y);
-
-void SetPrimExtraPointerHack(Poly_FT4* pPoly, const void* ptr);
-const void* GetPrimExtraPointerHack(Poly_FT4* pPoly);

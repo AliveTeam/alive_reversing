@@ -19,6 +19,7 @@ EXPORT void CC Game_Main_4949F0();
 EXPORT void DestroyObjects_4A1F20();
 EXPORT void CC Init_GameStates_43BF40();
 EXPORT FP CC ScaleToGridSize_4498B0(FP scale);
+EXPORT int CC Game_End_Frame_4950F0(DWORD flags);
 
 ALIVE_VAR_EXTERN(unsigned int, sGnFrame_5C1B84);
 ALIVE_VAR_EXTERN(bool, sCommandLine_DDCheatEnabled_5CA4B5);

@@ -145,29 +145,3 @@ EXPORT int CC PSX_getClut_4F6350(int x, int y)
 {
     return (y << 6) | ((x >> 4) & 63);
 }
-
-void SetPrimExtraPointerHack(Poly_FT4* pPoly, const void* ptr)
-{
-#if _WIN32 && !_WIN64
-    // Store the pointer to the bit field data - this gets used by the lowest level software rendering func
-    // TODO: OG game hack
-    // TODO: 64bit fail
-    DWORD asPtr = *((DWORD*)&ptr);
-
-    signed int ptr_first_half = (signed int)asPtr >> 16;
-    __int16 ptr_second_half = (WORD)(signed int)(asPtr);
-    pPoly->mVerts[1].mUv.tpage_clut_pad = ptr_second_half;
-    pPoly->mVerts[2].mUv.tpage_clut_pad = static_cast<WORD>(ptr_first_half);
-#else
-    pPoly->mBase.header.hackPtr = ptr;
-#endif
-}
-
-const void* GetPrimExtraPointerHack(Poly_FT4* pPoly)
-{
-#if _WIN32 && !_WIN64
-    return reinterpret_cast<void*>(pPoly->mVerts[1].mUv.tpage_clut_pad + (pPoly->mVerts[2].mUv.tpage_clut_pad << 16));
-#else
-    return pPoly->mBase.header.hackPtr;
-#endif
-}
