@@ -21,49 +21,33 @@ class Grenade : public BaseThrowable
 {
 public:
     EXPORT void AddToPlatform_41F7C0();
-
-    virtual __int16 VCanThrow() override;
-
-    EXPORT __int16 VCanThrow_453EC0();
-
-    virtual __int16 VIsFalling() override;
-
-    EXPORT __int16 VIsFalling_453ED0();
-
     EXPORT signed __int16 BlowUp_41EDD0();
-
     EXPORT signed __int16 OnCollision_BounceOff_41F650(BaseGameObject* pHit);
-
     EXPORT signed __int16 InTheAir_41EF10();
 
+    virtual __int16 VCanThrow() override;
+    virtual __int16 VIsFalling() override;
     virtual void VTimeToExplodeRandom() override;
-
-    EXPORT void VTimeToExplodeRandom_41F9B0();
-
     virtual void VThrow(FP velX, FP velY) override;
-
-    EXPORT void VThrow_41ED90(FP velX, FP velY);
-
     virtual void VOnTrapDoorOpen() override;
-
-    EXPORT void VOnTrapDoorOpen_41F920();
-
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_41F240();
-
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_41F720();
-
     EXPORT Grenade* ctor_41EBD0(FP xpos, FP ypos, __int16 numGrenades);
-
     EXPORT BaseGameObject* dtor_41ECD0();
-
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
+private:
     EXPORT Grenade* Vdtor_41F9F0(signed int flags);
+    EXPORT void VScreenChanged_41F720();
+    EXPORT void VUpdate_41F240();
+    EXPORT void VOnTrapDoorOpen_41F920();
+    EXPORT void VThrow_41ED90(FP velX, FP velY);
+    EXPORT void VTimeToExplodeRandom_41F9B0();
+    EXPORT __int16 VIsFalling_453ED0();
+    EXPORT __int16 VCanThrow_453EC0();
 
+public:
     GrenadeStates field_110_state;
     __int16 field_112_explode_timer;
     PathLine* field_114_pCollisionLine;
