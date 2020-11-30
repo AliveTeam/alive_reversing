@@ -109,6 +109,11 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(GrenadeMachineNozzle, 0xF0);
 
+void BoomMachine::VHandleButton()
+{
+    VHandleButton_41E6F0();
+}
+
 void BoomMachine::VHandleButton_41E6F0()
 {
     if (VIsButtonOn_41E840())
@@ -129,9 +134,19 @@ void BoomMachine::VHandleButton_41E6F0()
     }
 }
 
+BOOL BoomMachine::VIsButtonOn()
+{
+    return VIsButtonOn_41E840();
+}
+
 BOOL BoomMachine::VIsButtonOn_41E840()
 {
     return field_E8_bIsButtonOn == 1;
+}
+
+void BoomMachine::VUpdate()
+{
+    VUpdate_41E750();
 }
 
 void BoomMachine::VUpdate_41E750()
