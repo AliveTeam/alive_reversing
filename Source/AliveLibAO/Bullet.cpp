@@ -43,6 +43,11 @@ BaseGameObject* Bullet::VDestructor(signed int flags)
     return this;
 }
 
+void Bullet::VUpdate()
+{
+    VUpdate_408E30();
+}
+
 void Bullet::VUpdate_408E30()
 {
     if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
