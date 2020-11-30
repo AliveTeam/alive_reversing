@@ -673,6 +673,7 @@ enum ResourceID
     kHappyiconResID = 201,
     kAngryiconResID = 202,
     kNormaliconResID = 203,
+    kUnknownResID_204 = 204,
     kUnknownResID_216 = 216, // AO only
     kElumUnknownResID_220 = 220, // AO only
     kElumUnknownResID_221 = 221, // AO only
