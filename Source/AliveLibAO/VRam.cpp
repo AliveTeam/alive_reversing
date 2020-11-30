@@ -77,7 +77,7 @@ __int16 CC vram_alloc_450B20(unsigned __int16 width, __int16 height, unsigned __
 EXPORT int CC vram_alloc_450860(__int16 width, __int16 height, PSX_RECT* pRect)
 {
     AE_IMPLEMENTED();
-    return Vram_alloc_4956C0(width, height, 0, pRect); // TODO: Check depth
+    return Vram_alloc_4956C0(width, height, 16, pRect);
 }
 
 }
