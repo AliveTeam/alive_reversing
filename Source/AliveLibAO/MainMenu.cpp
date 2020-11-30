@@ -2269,8 +2269,8 @@ void Menu::To_Options_Controller_Update_47F2E0()
     }
 }
 
-Menu_Button controllerSelectButtons_4D0160[2] = { { 44, 236, 6152 }, { 290, 236, 6152 } };
-Menu_Element controllerSelectElements_4D0678[2] = { { 43, 200, 64 }, { 289, 200, 2048 } };
+const Menu_Button controllerSelectButtons_4D0160[2] = { { 44, 236, 6152 }, { 290, 236, 6152 } };
+const Menu_Element controllerSelectElements_4D0678[2] = { { 43, 200, 64 }, { 289, 200, 2048 } };
 
 void Menu::Options_Controller_Render_47F430(int** ppOt)
 {
@@ -2337,14 +2337,14 @@ void Menu::Options_Controller_Render_47F430(int** ppOt)
             }
 
             const short fontWidth = static_cast<short>(field_FC_font.MeasureWidth_41C280(field_1F4_text, FP_FromInteger(1)));
-            int x = fontWidth >= 336 ? 16 : (368 - fontWidth) / 2;
-            int y = FP_GetExponent(field_228 + FP_FromDouble(0.5)) + yOffset + 112;
+            const short x = static_cast<short>(fontWidth >= 336 ? 16 : (368 - fontWidth) / 2);
+            const short y = static_cast<short>(FP_GetExponent(field_228 + FP_FromDouble(0.5)) + yOffset + 112);
 
             polyOffset = field_FC_font.DrawString_41C360(
                 ppOt,
                 field_1F4_text,
-                static_cast<short>(x),
-                static_cast<short>(y),
+                x,
+                y,
                 0,
                 1,
                 0,
@@ -2360,8 +2360,8 @@ void Menu::Options_Controller_Render_47F430(int** ppOt)
             polyOffset = field_FC_font.DrawString_41C360(
                 ppOt,
                 field_1F4_text,
-                static_cast<short>(x + 2),
-                static_cast<short>(y + 2),
+                x + 2,
+                y + 2,
                 0,
                 1,
                 0,
