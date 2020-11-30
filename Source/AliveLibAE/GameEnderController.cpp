@@ -62,7 +62,7 @@ GameEnderController* GameEnderController::ctor_43B840()
     SetVTable(this, 0x545198);
     field_4_typeId = Types::eGameEnderController_57;
     field_24_state = GameEnderController_States::eInit_0;
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kDeathFlareResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID);
     return this;
 }
 

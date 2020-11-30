@@ -2801,7 +2801,7 @@ EXPORT void Factory_LightEffect_484170(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
             ResourceManager::LoadResource_446C90("STAR.BAN", ResourceManager::Resource_Animation, 1039, loadMode);
             break;
 
-        case Path_LightEffect::Type::RedGoldGlow_1:
+        case Path_LightEffect::Type::RedGlow_1:
             ResourceManager::LoadResource_446C90("GOLDGLOW.BAN", ResourceManager::Resource_Animation, 6011, loadMode);
             break;
 
@@ -2813,12 +2813,12 @@ EXPORT void Factory_LightEffect_484170(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
             ResourceManager::LoadResource_446C90("FLNTGLOW.BAN", ResourceManager::Resource_Animation, 6028, loadMode);
             break;
 
-        case Path_LightEffect::Type::FlintDoor_4:
+        case Path_LightEffect::Type::Switchable_RedGreenDoorLights_4:
             ResourceManager::LoadResource_446C90("HUBLIGHT.BAN", ResourceManager::Resource_Animation, 6031, loadMode);
             ResourceManager::LoadResource_446C90("HUBRED.BAN", ResourceManager::Resource_Animation, 6032, loadMode);
             break;
 
-        case Path_LightEffect::Type::FlintHub_5:
+        case Path_LightEffect::Type::Switchable_RedGreenHubLight_5:
             ResourceManager::LoadResource_446C90("HUBLIGHT.BAN", ResourceManager::Resource_Animation, 6031, loadMode);
             ResourceManager::LoadResource_446C90("HUBRED.BAN", ResourceManager::Resource_Animation, 6032, loadMode);
             break;
@@ -2846,7 +2846,7 @@ EXPORT void Factory_LightEffect_484170(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
             }
             break;
 
-        case Path_LightEffect::Type::RedGoldGlow_1:
+        case Path_LightEffect::Type::RedGlow_1:
             if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6011, 0, 0))
             {
                 auto pLight = ao_new<DoorLight>();
@@ -2891,8 +2891,8 @@ EXPORT void Factory_LightEffect_484170(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
             }
             break;
 
-        case Path_LightEffect::Type::FlintDoor_4:
-        case Path_LightEffect::Type::FlintHub_5:
+        case Path_LightEffect::Type::Switchable_RedGreenDoorLights_4:
+        case Path_LightEffect::Type::Switchable_RedGreenHubLight_5:
             if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6031, 0, 0) &&
                 ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6032, 0, 0))
             {

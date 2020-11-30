@@ -32,10 +32,10 @@ BaseGameObject* BirdPortal::ctor_497E00(Path_BirdPortal* pTlv, int tlvInfo)
     field_C_objectId = tlvInfo;
     field_40_throwable_indicator_id = -1;
 
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kPortalTerminatorID);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kDovbasicResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kPortliteResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kSplineResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPortalTerminatorID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDovbasicResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPortliteResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSplineResID);
 
     field_20_tlvInfo = tlvInfo;
 
@@ -240,7 +240,7 @@ void BirdPortal::vUpdate_498280()
         {
             if ((Math_NextRandom() % 8) == 0)
             {
-                BYTE** ppLightRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kPortliteResID, TRUE, FALSE);
+                BYTE** ppLightRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kPortliteResID, TRUE, FALSE);
                 if (ppLightRes)
                 {
                     auto pParticle = ae_new<Particle>();
@@ -359,7 +359,7 @@ void BirdPortal::vUpdate_498280()
         pTerminator2->field_BC_ypos -= (FP_FromDouble(3.5) * field_60_scale);
         if (FP_GetExponent(pTerminator1->field_BC_ypos) >= FP_GetExponent(pTerminator2->field_BC_ypos))
         {
-            BYTE** ppLightRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kPortlitResID);
+            BYTE** ppLightRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPortlitResID);
             if (ppLightRes)
             {
                 auto pParticle = ae_new<Particle>();
@@ -721,18 +721,18 @@ int CC BirdPortal::CreateFromSaveState_499C90(const BYTE* pBuffer)
         return sizeof(BirdPortal_State);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kPortliteResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kPortliteResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("PORTAL.BND", nullptr);
     }
 
     if (pTlv->field_1C_portal_type == PortalType::eShrykull_2)
     {
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSplineResID, FALSE, FALSE))
+        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSplineResID, FALSE, FALSE))
         {
             ResourceManager::LoadResourceFile_49C170("SPLINE.BAN", nullptr);
         }
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbemorphResID, FALSE, FALSE))
+        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbemorphResID, FALSE, FALSE))
         {
             ResourceManager::LoadResourceFile_49C170("SHRYPORT.BND", nullptr);
         }
@@ -1215,7 +1215,7 @@ BaseAnimatedWithPhysicsGameObject* BirdPortalTerminator::ctor_497960(FP xpos, FP
 
     field_4_typeId = Types::eEyeOrbPart_74;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kPortalTerminatorID);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPortalTerminatorID);
     Animation_Init_424E10(4144, 32, 18, ppRes, 1, 1);
 
     field_20_animation.field_B_render_mode = 1;

@@ -16,7 +16,7 @@ SligGetPantsAndWings* SligGetPantsAndWings::ctor_465BF0(Path_TLV* pTlv, int tlvI
     field_4_typeId = Types::eSligGetPantsOrWings_80;
     field_F8_tlvInfo = tlvInfo;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kUnknownResID_448);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_448);
     Animation_Init_424E10(4352, 37, 70u, ppRes, 1, 1);
 
     // HACK: See header for details

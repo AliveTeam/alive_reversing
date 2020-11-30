@@ -488,7 +488,7 @@ int CC SlamDoor::CreateFromSaveState_4C08B0(const BYTE* pData)
 {
     const Quicksave_Obj_SlamDoor* pSaveState = reinterpret_cast<const Quicksave_Obj_SlamDoor*>(pData);
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSlamResID, 0, 0))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlamResID, 0, 0))
     {
         switch (gMap_5C3030.field_0_current_level)
         {

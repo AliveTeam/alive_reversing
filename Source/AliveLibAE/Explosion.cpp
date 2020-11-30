@@ -246,8 +246,8 @@ void Explosion::vUpdate_4A1510()
     if (field_20_animation.field_92_current_frame == 1)
     {
         BYTE** ppRes = field_F4_bSmall ?
-            Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kSmallExplo2ResID) :
-            Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
+            Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSmallExplo2ResID) :
+            Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
         if (ppRes)
         {
             auto pParticle = ae_new<Particle>();

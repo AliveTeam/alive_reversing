@@ -11,11 +11,11 @@ struct Path_LightEffect : public Path_TLV
     enum class Type : __int16
     {
         Star_0 = 0,
-        RedGoldGlow_1 = 1,
+        RedGlow_1 = 1,
         GreenGlow_2 = 2,
         FlintGlow_3 = 3,
-        FlintDoor_4 = 4,
-        FlintHub_5 = 5,
+        Switchable_RedGreenDoorLights_4 = 4,
+        Switchable_RedGreenHubLight_5 = 5,
     };
     Type field_18_type;
     __int16 field_1A_size;
@@ -29,33 +29,28 @@ class DoorLight : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT DoorLight* ctor_405D90(Path_LightEffect* pTlv, int tlvInfo);
-
     EXPORT BaseGameObject* dtor_4062F0();
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
-
-    EXPORT DoorLight* Vdtor_4064A0(signed int flags);
-
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_406360();
-
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_4060A0();
-
     virtual void VRender(int** pOrderingTable) override;
 
+private:
+    EXPORT DoorLight* Vdtor_4064A0(signed int flags);
+    EXPORT void VScreenChanged_406360();
+    EXPORT void VUpdate_4060A0();
     EXPORT void VRender_406370(int** ppOt);
 
-    int field_D4[4];
+public:
+    int field_D4_padding[4];
     int field_E4_tlvInfo;
     __int16 field_E8_width;
     __int16 field_EA_height;
-    __int16 field_EC;
+    __int16 field_EC_bHasID;
     __int16 field_EE_switch_value;
-    __int16 field_F0;
-    __int16 field_F2;
+    __int16 field_F0_id;
+    __int16 field_F2_padding;
 };
 ALIVE_ASSERT_SIZEOF(DoorLight, 0xF4);
 

@@ -42,7 +42,7 @@ EXPORT void CCSTD sub_465BC0(int /*a1*/)
 // TODO: Move to own file
 EXPORT void CC Game_ShowLoadingIcon_482D80()
 {
-    BYTE** ppLoadingAnimRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kLoadingResID, FALSE, FALSE);
+    BYTE** ppLoadingAnimRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kLoadingResID, FALSE, FALSE);
     if (!ppLoadingAnimRes)
     {
         return;

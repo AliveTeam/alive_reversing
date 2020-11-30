@@ -196,7 +196,7 @@ void BaseBomb::vUpdate_424180()
     {
         BYTE** ppRes = Add_Resource_4DC130(
             ResourceManager::Resource_Animation,
-            AEResourceID::kBgexpldResID);
+            ResourceID::kBgexpldResID);
         if (ppRes)
         {
             Particle* pParticle = ae_new<Particle>();
