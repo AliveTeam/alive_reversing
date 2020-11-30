@@ -16,6 +16,9 @@ public:
 
     EXPORT LightEffect* Vdtor_406800(signed int flags);
 
+    EXPORT void VRender_4067F0(int** ppOt);
+
+    virtual void VRender(int** pOrderingTable) override;
 
     virtual void VScreenChanged() override;
 

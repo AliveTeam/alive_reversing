@@ -5,6 +5,8 @@
 #include "Math.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
+#include "CameraSwapper.hpp"
+#include "ScreenManager.hpp"
 
 namespace AO {
 
@@ -28,12 +30,13 @@ LightEffect* LightEffect::ctor_4064C0(Path_LightEffect* pTlv, int tlvInfo)
 
     field_10_anim.field_4_flags.Set(AnimFlags::eBit20_use_xy_offset);
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_10_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+    field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
 
     field_10_anim.field_C_layer = 17;
     field_10_anim.field_B_render_mode = 0;
     field_10_anim.SetFrame_402AC0(1);
 
+    // maybe width height like in door effect
     field_E8 = 0;
     field_EA = 0;
 
@@ -65,6 +68,45 @@ LightEffect* LightEffect::Vdtor_406800(signed int flags)
     return this;
 }
 
+
+void LightEffect::VRender_4067F0(int** /*ppOt*/)
+{
+    // Pretty much the same as door effect render - commented out because OG is empty which means the "stock yard stars" are missing.
+    // However rendering as-is produces over bright ugly looking stars and is probably why DD turned it off
+    /*
+    if (sNumCamSwappers_507668 == 0)
+    {
+        const FP xpos = FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) + field_A8_xpos - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x;
+        const FP ypos = FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) + field_AC_ypos - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y;
+
+        field_10_anim.field_8_r = static_cast<BYTE>(field_C0_r/4);
+        field_10_anim.field_9_g = static_cast<BYTE>(field_C2_g/4);
+        field_10_anim.field_A_b = static_cast<BYTE>(field_C4_b/4);
+
+        field_10_anim.vRender(
+            FP_GetExponent(FP_FromInteger((FP_GetExponent(xpos)))),
+            FP_GetExponent(FP_FromInteger((FP_GetExponent(ypos)))),
+            ppOt,
+            0,
+            0);
+
+        PSX_RECT rect = {};
+        field_10_anim.Get_Frame_Rect_402B50(&rect);
+        pScreenManager_4FF7C8->InvalidateRect_406E40(
+            rect.x,
+            rect.y,
+            rect.w,
+            rect.h,
+            pScreenManager_4FF7C8->field_2E_idx);
+    }
+    */
+}
+
+void LightEffect::VRender(int** pOrderingTable)
+{
+    VRender_4067F0(pOrderingTable);
+}
+
 void LightEffect::VScreenChanged()
 {
     VScreenChanged_4067E0();
@@ -82,14 +124,9 @@ void LightEffect::VUpdate()
 
 void LightEffect::VUpdate_406610()
 {
-    BYTE rgb = 0;
-    if (static_cast<int>(gnFrameCount_507670) <= field_F0_rnd2)
+    
+    if (static_cast<int>(gnFrameCount_507670) >= field_EC_rnd1)
     {
-        if (static_cast<int>(gnFrameCount_507670) < field_EC_rnd1)
-        {
-            return;
-        }
-
         const int v6 = field_F0_rnd2 - field_EC_rnd1;
         if (static_cast<int>(gnFrameCount_507670) == v6 / 2)
         {
@@ -100,6 +137,8 @@ void LightEffect::VUpdate_406610()
         const FP v11 = -Math_Cosine_4510A0(FP_GetExponent(v9) & 0xFF);
 
         int tmp = field_F4_rnd3 + FP_GetExponent(FP_FromInteger(field_F8_rnd4) * v11);
+        
+        BYTE rgb = 0;
         if (tmp <= 255)
         {
             rgb = tmp & 0xFF;
@@ -108,17 +147,23 @@ void LightEffect::VUpdate_406610()
         {
             rgb = 255;
         }
+
+        field_C0_r = rgb;
+        field_C2_g = rgb;
+        field_C4_b = rgb;
     }
-    else
+    else if (static_cast<int>(gnFrameCount_507670) > field_F0_rnd2)
     {
         field_EC_rnd1 = gnFrameCount_507670 + Math_RandomRange_450F20(2, 8);
         field_F0_rnd2 = field_EC_rnd1 + Math_RandomRange_450F20(4, 8);
         field_F8_rnd4 = Math_RandomRange_450F20(150, 180);
-        rgb = 96;
+        BYTE rgb = 96;
+
+        field_C0_r = rgb;
+        field_C2_g = rgb;
+        field_C4_b = rgb;
     }
-    field_C0_r = rgb;
-    field_C2_g = rgb;
-    field_C4_b = rgb;
+
 }
 
 }
