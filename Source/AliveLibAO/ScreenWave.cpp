@@ -327,6 +327,9 @@ void ScreenWave::VRender_463130(int** ppOt)
 
                 Poly_Set_SemiTrans_498A40(&pPoly->mBase.header, 0);
                 Poly_Set_Blending_498A00(&pPoly->mBase.header, 1);
+                
+                SetPrimExtraPointerHack(pPoly, nullptr);
+
                 OrderingTable_Add_498A80(
                     &ppOt[field_10_layer],
                     &pPoly->mBase.header
