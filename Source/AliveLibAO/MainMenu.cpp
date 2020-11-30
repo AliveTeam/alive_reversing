@@ -2285,13 +2285,13 @@ void Menu::Options_Controller_Render_47F430(int** ppOt)
         );
     }
 
-    PSX_RECT pRect = {};
-    field_134_anim.Get_Frame_Rect_402B50(&pRect);
+    PSX_RECT rect = {};
+    field_134_anim.Get_Frame_Rect_402B50(&rect);
     pScreenManager_4FF7C8->InvalidateRect_406E40(
-        pRect.x,
-        pRect.y,
-        pRect.w,
-        pRect.h,
+        rect.x,
+        rect.y,
+        rect.w,
+        rect.h,
         pScreenManager_4FF7C8->field_2E_idx
     );
 
@@ -2336,7 +2336,7 @@ void Menu::Options_Controller_Render_47F430(int** ppOt)
                 field_1F4_text = "Gamepad";
             }
 
-            short fontWidth = static_cast<short>(field_FC_font.MeasureWidth_41C280(field_1F4_text, FP_FromInteger(1)));
+            const short fontWidth = static_cast<short>(field_FC_font.MeasureWidth_41C280(field_1F4_text, FP_FromInteger(1)));
             int x = fontWidth >= 336 ? 16 : (368 - fontWidth) / 2;
             int y = FP_GetExponent(field_228 + FP_FromDouble(0.5)) + yOffset + 112;
 
