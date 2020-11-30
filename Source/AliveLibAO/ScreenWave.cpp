@@ -14,12 +14,15 @@ void Forcelink_ScreenWave() {}
 
 namespace AO {
 
+static constexpr int kMaxUVCount = 32;
+static constexpr int kMaxPolygons = 4;
+
 struct ScreenWave_Data
 {
-    FP_Point field_0_uv1[32][5];
-    FP_Point field_500_uv2[32][5];
-    FP_Point field_A00_xy[32];
-    Poly_FT4 field_B00_poly[2][32][4];
+    FP_Point field_0_uv1[kMaxUVCount][kMaxPolygons+1];
+    FP_Point field_500_uv2[kMaxUVCount][kMaxPolygons+1];
+    FP_Point field_A00_xy[kMaxUVCount];
+    Poly_FT4 field_B00_poly[2][kMaxUVCount][kMaxPolygons];
 };
 ALIVE_ASSERT_SIZEOF(ScreenWave_Data, 0x3700);
 
@@ -76,7 +79,7 @@ ScreenWave* ScreenWave::ctor_462A70(FP xpos, FP ypos, __int16 layer, FP width, F
     const FP uv1_off = (width / FP_FromInteger(4));
     const FP uv2_off = (width / FP_FromInteger(2));
 
-    auto pData = reinterpret_cast<ScreenWave_Data*>(*field_14_ppRes);
+    ScreenWave_Data* pData = *field_14_ppRes;
 
     BYTE ang2 = 0;
     for (int i = 0; i < 32; i++)
@@ -187,9 +190,6 @@ void ScreenWave::VRender(int** ppOt)
 
 void ScreenWave::VRender_463130(int** ppOt)
 {
-    //TODO fix bad UV mapping
-    NOT_IMPLEMENTED();
-
     if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
         field_3A_level,
         field_3C_path,
@@ -200,139 +200,142 @@ void ScreenWave::VRender_463130(int** ppOt)
         return;
     }
 
-    ScreenWave_Data *pScreenWaveData = *field_14_ppRes;
+    ScreenWave_Data* pScreenWaveData = *field_14_ppRes;
 
-    const PSX_Point displaySize = {
+    const PSX_Point displaySize = 
+    {
         static_cast<short>(gPsxDisplay_504C78.field_0_width),
         static_cast<short>(gPsxDisplay_504C78.field_2_height)
     };
 
     PSX_RECT clearRectSize = {};
 
-    clearRectSize.x = displaySize.field_0_x;
-    clearRectSize.y = displaySize.field_0_x;
+    clearRectSize.x = 0;
+    clearRectSize.y = 0;
     clearRectSize.w = displaySize.field_0_x;
-    clearRectSize.h = displaySize.field_0_x;
+    clearRectSize.h = displaySize.field_2_y;
 
-    constexpr int uvNum = 32;
-    for(int currUvIdx = 0; currUvIdx < uvNum; currUvIdx++)
+    for (int i = 0; i < kMaxUVCount; i++)
     {
-        const int currUvIdx_incr = currUvIdx + 1;
-
-        constexpr int polygonNum = 4;
-        for (int polygonIdx = 0; polygonIdx < polygonNum; polygonIdx++)
+        const int i_inc = i + 1;
+        for (int j = 0; j < kMaxPolygons; j++)
         {
-            const FP_Point *workingUv2 = &pScreenWaveData->field_500_uv2[currUvIdx][polygonIdx];
+            const short x0 = field_36_screen_xpos + FP_GetExponent(pScreenWaveData->field_500_uv2[i][j].field_0_x);
+            const short y0 = field_38_screen_ypos + FP_GetExponent(pScreenWaveData->field_500_uv2[i][j].field_4_y);
+            const short x1 = field_36_screen_xpos + FP_GetExponent(pScreenWaveData->field_500_uv2[i][j + 1].field_0_x);
+            const short y1 = field_38_screen_ypos + FP_GetExponent(pScreenWaveData->field_500_uv2[i][j + 1].field_4_y);
 
-            const auto uv2_0_screen_X_i = field_36_screen_xpos + FP_GetExponent(workingUv2[0].field_0_x);
-            const auto uv2_0_screen_Y_i = field_38_screen_ypos + FP_GetExponent(workingUv2[0].field_4_y);
-            const auto uv2_1_screen_X_i = field_36_screen_xpos + FP_GetExponent(workingUv2[1].field_0_x);
-            const auto uv2_1_screen_Y_i = field_38_screen_ypos + FP_GetExponent(workingUv2[1].field_4_y);
+            const int next_i = i_inc == kMaxUVCount ? 0 : i_inc;
 
-            const auto currUvIdx_plusOne_clamped = currUvIdx_incr == 32 ? 0 : currUvIdx_incr;
+            const short x2 = field_36_screen_xpos + FP_GetExponent(pScreenWaveData->field_500_uv2[next_i][j].field_0_x);
+            const short y2 = field_38_screen_ypos + FP_GetExponent(pScreenWaveData->field_500_uv2[next_i][j].field_4_y);
+            const short x3 = field_36_screen_xpos + FP_GetExponent(pScreenWaveData->field_500_uv2[next_i][j + 1].field_0_x);
+            const short y3 = field_38_screen_ypos + FP_GetExponent(pScreenWaveData->field_500_uv2[next_i][j + 1].field_4_y);
 
-            const FP_Point *workingUv2Cap = &pScreenWaveData->field_500_uv2[currUvIdx_plusOne_clamped][polygonIdx];
-
-            const auto uv2_next_0_X_i = field_36_screen_xpos + FP_GetExponent(workingUv2Cap[0].field_0_x);
-            const auto uv2_next_0_Y_i = field_38_screen_ypos + FP_GetExponent(workingUv2Cap[0].field_4_y);
-            const auto uv2_next_1_X_i = field_36_screen_xpos + FP_GetExponent(workingUv2Cap[1].field_0_x);
-            const auto uv2_next_1_Y_i = field_38_screen_ypos + FP_GetExponent(workingUv2Cap[1].field_4_y);
-
-            const auto uv2_smallest_X_out_of_both = static_cast<short>(std::min(
-                std::min(uv2_0_screen_X_i, uv2_1_screen_X_i),
-                std::min(uv2_next_0_X_i, uv2_next_1_X_i)
+            const short minX = static_cast<short>(std::min(
+                std::min(x0, x1),
+                std::min(x2, x3)
             ));
 
-            const auto uv2_smallest_Y_out_of_both = static_cast<short>(std::min(
-                std::min(uv2_0_screen_Y_i, uv2_1_screen_Y_i),
-                std::min(uv2_next_0_Y_i, uv2_next_1_Y_i)
+            const short minY = static_cast<short>(std::min(
+                std::min(y0, y1),
+                std::min(y2, y3)
             ));
 
-            const auto uv2_biggest_X_out_of_both = static_cast<short>(std::max(
-                std::max(uv2_0_screen_X_i, uv2_1_screen_X_i),
-                std::max(uv2_next_0_X_i, uv2_next_1_X_i)
+            const short maxX = static_cast<short>(std::max(
+                std::max(x0, x1),
+                std::max(x2, x3)
             ));
 
-            const auto uv2_biggest_Y_out_of_both = static_cast<short>(std::max(
-                std::max(uv2_0_screen_Y_i, uv2_1_screen_Y_i),
-                std::max(uv2_next_0_Y_i, uv2_next_1_Y_i)
-                ));
+            const short maxY = static_cast<short>(std::max(
+                std::max(y0, y1),
+                std::max(y2, y3)
+            ));
 
             if (
-                uv2_biggest_X_out_of_both >= 0 &&
-                uv2_biggest_Y_out_of_both >= 0 &&
-                uv2_smallest_X_out_of_both < displaySize.field_0_x &&
-                uv2_smallest_Y_out_of_both < displaySize.field_2_y
+                maxX >= 0 &&
+                maxY >= 0 &&
+                minX < displaySize.field_0_x &&
+                minY < displaySize.field_2_y
                 )
             {
-                auto somePrimObj = &pScreenWaveData->field_B00_poly[gPsxDisplay_504C78.field_A_buffer_index][currUvIdx][polygonIdx];
+                Poly_FT4* pPoly = &pScreenWaveData->field_B00_poly[gPsxDisplay_504C78.field_A_buffer_index][i][j];
 
-                SetXY0(somePrimObj,
-                    static_cast<short>(PsxToPCX(uv2_0_screen_X_i, 11)),
-                    static_cast<short>(uv2_0_screen_Y_i)
+                SetXY0(pPoly,
+                    static_cast<short>(PsxToPCX(x0, 11)),
+                    static_cast<short>(y0)
                 );
-                SetXY1(somePrimObj,
-                    static_cast<short>(PsxToPCX(uv2_1_screen_X_i, 11)),
-                    static_cast<short>(uv2_1_screen_Y_i)
+                SetXY1(pPoly,
+                    static_cast<short>(PsxToPCX(x1, 11)),
+                    static_cast<short>(y1)
                 );
-                SetXY2(somePrimObj,
-                    static_cast<short>(PsxToPCX(uv2_next_0_X_i, 11)),
-                    static_cast<short>(uv2_next_0_Y_i)
+                SetXY2(pPoly,
+                    static_cast<short>(PsxToPCX(x2, 11)),
+                    static_cast<short>(y2)
                 );
-                SetXY3(somePrimObj,
-                    static_cast<short>(PsxToPCX(uv2_next_1_X_i, 11)),
-                    static_cast<short>(uv2_next_1_Y_i)
+                SetXY3(pPoly,
+                    static_cast<short>(PsxToPCX(x3, 11)),
+                    static_cast<short>(y3)
                 );
 
-                const FP_Point *workingUv1 = &pScreenWaveData->field_0_uv1[currUvIdx][polygonIdx];
-                const FP_Point *workingUv1IncrCap = &pScreenWaveData->field_0_uv1[currUvIdx_plusOne_clamped][polygonIdx];
+                short u0 = static_cast<short>(PsxToPCX(field_36_screen_xpos + FP_GetExponent(pScreenWaveData->field_0_uv1[i][j].field_0_x), 11));
+                const short v0 = field_38_screen_ypos + FP_GetExponent(pScreenWaveData->field_0_uv1[i][j].field_4_y);
 
-                const auto uv0_x_part = PsxToPCX(field_36_screen_xpos + FP_GetExponent(workingUv1[0].field_0_x), 11);
-                const auto uv1_x_part = PsxToPCX(field_36_screen_xpos + FP_GetExponent(workingUv1[1].field_0_x), 11);
-                const auto uv2_x_part = PsxToPCX(field_36_screen_xpos + FP_GetExponent(workingUv1IncrCap[0].field_0_x), 11);
-                const auto uv3_x_part = PsxToPCX(field_36_screen_xpos + FP_GetExponent(workingUv1IncrCap[1].field_0_x), 11);
+                short u1 = static_cast<short>(PsxToPCX(field_36_screen_xpos + FP_GetExponent(pScreenWaveData->field_0_uv1[i][j + 1].field_0_x), 11));
+                const short v1 = field_38_screen_ypos + FP_GetExponent(pScreenWaveData->field_0_uv1[i][j + 1].field_4_y);
 
-                const int min_out_of_uv_x_parts = std::min(
-                    std::min(uv1_x_part, uv0_x_part),
-                    std::min(uv2_x_part, uv3_x_part)
+                short u2 = static_cast<short>(PsxToPCX(field_36_screen_xpos + FP_GetExponent(pScreenWaveData->field_0_uv1[next_i][j].field_0_x), 11));
+                const short v2 = field_38_screen_ypos + FP_GetExponent(pScreenWaveData->field_0_uv1[next_i][j].field_4_y);
+
+                short u3 = static_cast<short>(PsxToPCX(field_36_screen_xpos + FP_GetExponent(pScreenWaveData->field_0_uv1[next_i][j + 1].field_0_x), 11));
+                const short v3 = field_38_screen_ypos + FP_GetExponent(pScreenWaveData->field_0_uv1[next_i][j + 1].field_4_y);
+
+                const short minU = std::min(
+                    std::min(u1, u0),
+                    std::min(u2, u3)
                 );
-                const BYTE min_out_of_uv_x_parts_capped = static_cast<BYTE>(min_out_of_uv_x_parts) & 0xC0;
+                const short minU_capped = minU & 0xffC0;
 
-                SetTPage(somePrimObj, static_cast<short>(PSX_getTPage_4965D0(
+                u0 -= minU_capped;
+                u1 -= minU_capped;
+                u2 -= minU_capped;
+                u3 -= minU_capped;
+
+                SetTPage(pPoly, static_cast<short>(PSX_getTPage_4965D0(
                     2,
                     0,
-                    static_cast<short>(min_out_of_uv_x_parts_capped),
+                    static_cast<short>(minU_capped),
                     0
                 )));
 
-                SetUV0(somePrimObj,
-                    static_cast<BYTE>(uv0_x_part) - min_out_of_uv_x_parts_capped,
-                    static_cast<BYTE>(field_38_screen_ypos + FP_GetExponent(workingUv1[0].field_4_y))
+                SetUV0(pPoly,
+                    static_cast<BYTE>(u0),
+                    static_cast<BYTE>(v0)
                 );
-                SetUV1(somePrimObj,
-                    static_cast<BYTE>(uv1_x_part) - min_out_of_uv_x_parts_capped,
-                    static_cast<BYTE>(field_38_screen_ypos + FP_GetExponent(workingUv1[1].field_4_y))
+                SetUV1(pPoly,
+                    static_cast<BYTE>(u1),
+                    static_cast<BYTE>(v1)
                 );
-                SetUV2(somePrimObj,
-                    static_cast<BYTE>(uv2_x_part) - min_out_of_uv_x_parts_capped,
-                    static_cast<BYTE>(field_38_screen_ypos + FP_GetExponent(workingUv1IncrCap[0].field_4_y))
+                SetUV2(pPoly,
+                    static_cast<BYTE>(u2),
+                    static_cast<BYTE>(v2)
                 );
-                SetUV3(somePrimObj,
-                    static_cast<BYTE>(uv3_x_part) - min_out_of_uv_x_parts_capped,
-                    static_cast<BYTE>(field_38_screen_ypos + FP_GetExponent(workingUv1IncrCap[1].field_4_y))
+                SetUV3(pPoly,
+                    static_cast<BYTE>(u3),
+                    static_cast<BYTE>(v3)
                 );
 
-                Poly_Set_SemiTrans_498A40(&somePrimObj->mBase.header, 0);
-                Poly_Set_Blending_498A00(&somePrimObj->mBase.header, 1);
+                Poly_Set_SemiTrans_498A40(&pPoly->mBase.header, 0);
+                Poly_Set_Blending_498A00(&pPoly->mBase.header, 1);
                 OrderingTable_Add_498A80(
                     &ppOt[field_10_layer],
-                    &somePrimObj->mBase.header
+                    &pPoly->mBase.header
                 );
 
-                clearRectSize.x = std::min(clearRectSize.x, uv2_smallest_X_out_of_both);
-                clearRectSize.y = std::min(clearRectSize.y, uv2_smallest_Y_out_of_both);
-                clearRectSize.w = std::max(clearRectSize.w, uv2_biggest_X_out_of_both);
-                clearRectSize.h = std::max(clearRectSize.h, uv2_biggest_Y_out_of_both);
+                clearRectSize.x = std::min(clearRectSize.x, minX);
+                clearRectSize.y = std::min(clearRectSize.y, minY);
+                clearRectSize.w = std::max(clearRectSize.w, maxX);
+                clearRectSize.h = std::max(clearRectSize.h, maxY);
             }
         }
         if (clearRectSize.y <= clearRectSize.h && clearRectSize.x <= clearRectSize.w)
