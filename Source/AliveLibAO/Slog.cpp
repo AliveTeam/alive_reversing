@@ -587,11 +587,11 @@ void Slog::Init_473130()
     field_184_resources[3] = nullptr;
     field_184_resources[4] = nullptr;
 
-    field_184_resources[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 570, 1, 0);
-    field_184_resources[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 571, 1, 0);
-    field_184_resources[2] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 572, 1, 0);
-    field_184_resources[3] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 573, 1, 0);
-    field_184_resources[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 574, 1, 0);
+    field_184_resources[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogbasicResID, 1, 0);
+    field_184_resources[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogrstnResID, 1, 0);
+    field_184_resources[2] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogattkResID, 1, 0);
+    field_184_resources[3] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogknfdResID, 1, 0);
+    field_184_resources[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogidleResID, 1, 0);
     
     Animation_Init_417FD0(
         94456,

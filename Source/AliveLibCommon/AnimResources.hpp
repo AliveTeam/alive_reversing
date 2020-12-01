@@ -702,6 +702,7 @@ enum ResourceID
     kSmokeResID = 318,
     kBigflashResID = 319,
     kWorkwhelResID = 320,
+    kUnknownResID_333 = 333,
     kHoneyResID = 337,
     kWellLeafResID = 341,
     kSquibResID = 343,
