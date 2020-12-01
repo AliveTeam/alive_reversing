@@ -19,7 +19,7 @@ HoneySack* HoneySack::ctor_42BD10(Path_HoneySack* pTlv, int tlvInfo)
     SetVTable(this, 0x4BB238);
     field_4_typeId = Types::eHoneySack_45;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1013, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kP2c3HiveResID, 1, 0);
     Animation_Init_417FD0(9312, 140, 38, ppRes, 1);
 
     field_6_flags.Set(Options::eCanExplode_Bit7);
@@ -60,7 +60,7 @@ HoneySack* HoneySack::ctor_42BD10(Path_HoneySack* pTlv, int tlvInfo)
         field_E8_state = 0;
         field_EC_timer = gnFrameCount_507670 + 90;
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 61, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWaspResID, 0, 0))
         {
             ResourceManager::LoadResourceFile_455270("WASP.BAN", nullptr);
         }

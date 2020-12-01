@@ -102,7 +102,7 @@ Leaf* Leaf::ctor_48B4F0(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
     field_C2_g = 100;
     field_C4_b = 100;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 341, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWellLeafResID, 1, 0);
     if (!ppRes)
     {
         return this;

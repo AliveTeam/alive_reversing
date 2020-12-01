@@ -1369,7 +1369,7 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, int tlvInfo)
     SetVTable(this, 0x4BB200);
     field_E4_ppRes = nullptr;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 62, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHintflyResID, 1, 0);
     if (ppRes)
     {
         Animation_Init_417FD0(556, 10, 7, ppRes, 1);
