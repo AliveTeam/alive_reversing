@@ -74,7 +74,7 @@ Rope* Rope::ctor_458520(unsigned __int16 left, __int16 top, unsigned __int16 bot
         field_E6_rope_length = 7;
     }
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1000, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRopesResID, 1, 0);
     switch (gMap_507BA8.field_0_current_level)
     {
     case LevelIds::eRuptureFarms_1:

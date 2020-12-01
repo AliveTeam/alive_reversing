@@ -40,7 +40,7 @@ void Claw::ctor()
     ctor_417C10();
     SetVTable(this, 0x4BAA70);
     field_4_typeId = Types::eClaw_48;
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2008, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2eyeorbResID, 1, 0);
     Animation_Init_417FD0(22468, 152, 31, ppRes, 1);
 }
 
@@ -69,7 +69,7 @@ SecurityClaw* SecurityClaw::ctor_418A70(Path_SecurityClaw* pTlv, int tlvInfo)
     field_6_flags.Set(Options::eCanExplode_Bit7);
     field_12C_pDetector = 1;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2008, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2eyeorbResID, 1, 0);
     Animation_Init_417FD0(22480, 152, 31, ppRes, 1);
 
     field_10C_tlvInfo = tlvInfo;
