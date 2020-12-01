@@ -606,9 +606,15 @@ void CC ResourceManager::Free_Resources_For_Camera_447170(Camera* pCamera)
                 if (pFilePartRecord->field_8_pCamera == pCamera)
                 {
                     j = pFileSecsArray->RemoveAt(j);
-                }
 
-                ao_delete_free_447540(pFilePartRecord);
+                    // Only delete the record we just removed
+                    ao_delete_free_447540(pFilePartRecord);
+                }
+                else
+                {
+                    LOG_WARNING("OG bug fix 0x" << pFilePartRecord << " would have been deleted here!");
+                }
+                
             }
 
             // Free the containing record if its section array is now empty

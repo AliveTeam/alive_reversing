@@ -39,7 +39,7 @@ void Claw::ctor()
 {
     ctor_417C10();
     SetVTable(this, 0x4BAA70);
-    field_4_typeId = Types::eClaw_48;
+    field_4_typeId = Types::eClawOrBirdPortalTerminator_48;
     BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2008, 1, 0);
     Animation_Init_417FD0(22468, 152, 31, ppRes, 1);
 }

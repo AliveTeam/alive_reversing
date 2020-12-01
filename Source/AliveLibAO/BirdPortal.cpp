@@ -33,7 +33,7 @@ BirdPortalTerminator* BirdPortalTerminator::ctor_451F70(FP xpos, FP ypos, FP sca
     ctor_417C10();
     SetVTable(this, 0x4BBFB0);
 
-    field_4_typeId = Types::eClaw_48;
+    field_4_typeId = Types::eClawOrBirdPortalTerminator_48;
 
     BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 313, 1, 0);
     Animation_Init_417FD0(3860, 31, 18, ppRes, 1);
