@@ -129,35 +129,35 @@ void GameEnderController::VUpdate_41C860()
                         // Very bad ending
                         gInfiniteGrenades_5076EC = TRUE;
 
-                        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 12, 1, 0))
+                        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbepickResID, 1, 0))
                         {
                             ResourceManager::LoadResourceFile_455270("ABEPICK.BAN", 0);
-                            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 12, 1, 0);
+                            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbepickResID, 1, 0);
                         }
-                        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 14, 1, 0))
+                        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbethrowResID, 1, 0))
                         {
                             ResourceManager::LoadResourceFile_455270("ABETHROW.BAN", 0);
-                            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 14, 1, 0);
+                            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbethrowResID, 1, 0);
                         }
-                        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6005, 1, 0))
+                        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID, 1, 0))
                         {
                             ResourceManager::LoadResourceFile_455270("GRENADE.BAN", 0);
-                            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6005, 1, 0);
+                            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID, 1, 0);
                         }
-                        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 301, 1, 0))
+                        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 1, 0))
                         {
                             ResourceManager::LoadResourceFile_455270("EXPLO2.BAN", 0);
-                            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 301, 1, 0);
+                            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 1, 0);
                         }
-                        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 25, 1, 0))
+                        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 1, 0))
                         {
                             ResourceManager::LoadResourceFile_455270("ABEBLOW.BAN", 0);
-                            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 25, 1, 0);
+                            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 1, 0);
                         }
-                        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 365, 1, 0))
+                        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMetalResID, 1, 0))
                         {
                             ResourceManager::LoadResourceFile_455270("METAL.BAN", 0);
-                            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 365, 1, 0);
+                            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMetalResID, 1, 0);
                         }
 
                         if (!gpThrowableArray_50E26C)

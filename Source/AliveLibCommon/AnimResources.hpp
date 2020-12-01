@@ -609,11 +609,12 @@ struct AnimRecord
 const PalRecord& PalRec(PalId toFind);
 const AnimRecord& AnimRec(AnimId toFind);
 
-// AE specific resource ids
-enum AEResourceID
+// AE and AO resource ids
+enum ResourceID
 {
     kUnknownResID_0 = 0,
     kDemoResID = 1,
+    kLcdfontResID = 2,
     kAbebasicResID = 10,
     kAbepullResID = 11,
     kAbepickResID = 12,
@@ -653,6 +654,13 @@ enum AEResourceID
     kBatBasicResID = 63,
     kFireFlyResID = 64,
     kDovshootResID = 66,
+    kElumUnknownResID_100 = 100, // AO only
+    kAneknbkResID = 106, // AO only
+    kAneedgeResID = 108, // AO only
+    kElumUnknownResID_110 = 110, // AO only
+    kElumUnknownResID_112 = 112, // AO only
+    kAbeCarResId = 113,
+    kAneprmntResID = 115,
     kAbemorphResID = 117,
     kAbegasResID = 118,
     kShrmorphResID = 121,
@@ -660,9 +668,24 @@ enum AEResourceID
     kAbespeakResID = 130,
     kAbeintroResID = 131,
     kAbespek2ResID = 132,
+    kSligSpeakResID = 140,
+    kGlukkonSpeakResID = 150,
+    kParamiteSpeakResID = 160,
+    kScrabSpeakResID = 170,
+    kElmbasicResID_200 = 200, // AO only
     kHappyiconResID = 201,
     kAngryiconResID = 202,
     kNormaliconResID = 203,
+    kUnknownResID_204 = 204,
+    kElmnknbkResID = 215, // AO only
+    kElmfallResID_216 = 216, // AO only
+    kElmblowResID_217 = 217,
+    kElumUnknownResID_220 = 220, // AO only
+    kElumUnknownResID_221 = 221, // AO only
+    kElmprmntResID__222 = 222, // AO only
+    kElumUnknownResID_223 = 223, // AO only
+    kElumUnknownResID_224 = 224, // AO only
+    kElmaloneResID_230 = 230, // AO only
     kBgexpldResID = 300,
     kExplo2ResID = 301,
     kAlrmFlarResID = 302,
@@ -679,6 +702,7 @@ enum AEResourceID
     kSmokeResID = 318,
     kBigflashResID = 319,
     kWorkwhelResID = 320,
+    kUnknownResID_333 = 333,
     kHoneyResID = 337,
     kWellLeafResID = 341,
     kSquibResID = 343,
@@ -703,6 +727,7 @@ enum AEResourceID
     kAntResID = 370,
     kDanliteResID = 371,
     kSmallExplo2ResID = 372,
+    kStatusLightResID = 373,
     kUnknownResID_374 = 374,
     kTorturedMudTearsResID = 375,
     kSlgbasicResID = 412,
@@ -719,6 +744,7 @@ enum AEResourceID
     kUnknownResID_448 = 448,
     bUnknownResID_449 = 449,
     kFlySligResID = 450,
+    kSlingmudResID_508 = 508,
     kMudscrubResID = 510,
     kMudchslResID = 511,
     kMudidleResID = 512,
@@ -803,13 +829,16 @@ enum AEResourceID
     kUnknwonResID_1057 = 1057,
     kDebrisID00 = 1105,
     kTubeResID = 1200,
+
+    kTestanimResID = 2000,
+
     kF2zballResID = 2001,
     kF2stnbalResID = 2002,
     kF2stnsckResID = 2003,
     kChimeResID = 2005,
-    kF2eyeorbResID = 2008,
     kMaimGameResID = 2006,
     kF2rockResID = 2007,
+    kF2eyeorbResID = 2008,
     kPupilResID = 2009,
     kTriggerResID = 2010,
     kF2p3dorResID = 2012,
@@ -818,47 +847,47 @@ enum AEResourceID
     kRockdoorResID = 2018,
     kHubdoorResID = 2019,
     kSlamResID = 2020,
-    kGourdResID = 2028,
     kMeatResID = 2023,
     kF2ChimeBallResID = 2024,
     kF2ChimeRackResID = 2025,
+    kGourdResID = 2028,
     kWebResID = 2034,
     kRockShadowResID = 2035,
-    kTestanimResID = 2000,
     kMovebombResID = 3006,
     kD2elumResID = 4002,
     kElecwallResID = 6000,
     kMotionResID = 6001,
     kMflareResID = 6002,
     kMeatsawResID = 6003,
+    kDrillResID = 6004,
     kGrenadeResID = 6005,
     kR1sdoorResID = 6006,
     kR1buttonResID = 6008,
     kR1bpipeResID = 6009,
-    kUnknownResID_6027 = 6027,
+    kGreenGlowResID_6010 = 6010, // AO only
+    kRedGlowResID_6011 = 6011, // AO only
+    kUnknownResID_6013 = 6013,
+    kUnknownResID_6014 = 6014, // AO only
+    kUnknownResID_6016 = 6016,
+    kEvilFartResID = 6017,
+    kR1sdosResID_6027 = 6027,
+    kFlintGlowResID_6028 = 6028, // AO only
+    kGreenDoorLightResID_6031 = 6031, // AO only
+    kRedDoorLightResID_6032 = 6032, // AO only
     kTwnkleResID = 7012,
     kControlsResID = 8000,
     kDoorResID = 8001,
     kHighliteResID = 8002,
     kHighlitePalResID = 8003,
     kLoadingResID = 8010,
-    kAbeCarResId = 113,
-    kStatusLightResID = 373,
-    kEvilFartResID = 6017,
-    kDrillResID = 6004,
-    kUnknownResID_6013 = 6013,
-    kUnknownResID_6016 = 6016,
-    kSligSpeakResID = 140,
-    kGlukkonSpeakResID = 150,
-    kParamiteSpeakResID = 160,
-    kScrabSpeakResID = 170,
 };
 
 namespace AO {
 
 enum AOResourceID
 {
-    kSquibSmokeResID = 354
+
+
 };
 
 }

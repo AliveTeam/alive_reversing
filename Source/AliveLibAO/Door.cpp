@@ -89,7 +89,7 @@ Door* Door::ctor_40E010(Path_Door* pTlv, int tlvInfo)
     switch (field_E8_start_state)
     {
     case eDoorStates::eOpen_0:
-        ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2012, 1, 0);
+        ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2p3dorResID, 1, 0);
         if (!ppRes)
         {
             field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
@@ -170,7 +170,7 @@ Door* Door::ctor_40E010(Path_Door* pTlv, int tlvInfo)
             field_10_anim.field_C_layer = 6;
             scale = FP_FromDouble(0.5);
         }
-        ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2019, 1, 0);
+        ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHubdoorResID, 1, 0);
         if (!ppRes || sDoorData_4BA508[idx].field_14 == 0)
         {
             field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
@@ -223,11 +223,11 @@ Door* Door::ctor_40E010(Path_Door* pTlv, int tlvInfo)
         if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13 ||
             gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1)
         {
-            ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2012, 1, 0);
+            ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2p3dorResID, 1, 0);
         }
         else
         {
-            ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2018, 1, 0);
+            ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRockdoorResID, 1, 0);
         }
 
         if (ppRes)

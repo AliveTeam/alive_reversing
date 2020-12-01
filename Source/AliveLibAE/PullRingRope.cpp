@@ -40,7 +40,7 @@ PullRingRope* PullRingRope::ctor_49B2D0(Path_PullRingRope* pTlv, int tlvInfo)
 
     field_4_typeId = Types::ePullRope_103;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kPullringResID);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPullringResID);
     Animation_Init_424E10(3020, 35, 0x16u, ppRes, 1, 1);
 
     SetTint_425600(sPullRingRopeTints_55FD1C, gMap_5C3030.field_0_current_level);

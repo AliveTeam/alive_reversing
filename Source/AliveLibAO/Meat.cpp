@@ -25,7 +25,7 @@ MeatSack* MeatSack::ctor_4390F0(Path_MeatSack* pTlv, int tlvInfo)
 
     field_4_typeId = Types::eMeatStack_55;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 4002, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kD2elumResID, 1, 0);
     Animation_Init_417FD0(
         15688,
         92,
@@ -203,7 +203,7 @@ Meat* Meat::ctor_438550(FP xpos, FP ypos, __int16 count)
 
     field_4_typeId = Types::eMeat_54;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2023, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMeatResID, 1, 0);
     Animation_Init_417FD0(
         500,
         18,

@@ -28,50 +28,50 @@ DoorLight* DoorLight::ctor_405D90(Path_LightEffect* pTlv, int tlvInfo)
     SetVTable(this, 0x4BA1A8);
 
     field_4_typeId = Types::eNone_0;
-    field_EC = 0;
-    field_F0 = pTlv->field_1C_id;
+    field_EC_bHasID = 0;
+    field_F0_id = pTlv->field_1C_id;
     field_EE_switch_value = SwitchStates_Get(pTlv->field_1C_id);
 
     int xOff = 0;
     switch (pTlv->field_18_type)
     {
-    case Path_LightEffect::Type::RedGoldGlow_1:
-        Animation_Init_417FD0(236, 19, 15, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6011, 1, 0), 1);
+    case Path_LightEffect::Type::RedGlow_1:
+        Animation_Init_417FD0(236, 19, 15, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRedGlowResID_6011, 1, 0), 1);
         break;
 
     case Path_LightEffect::Type::GreenGlow_2:
-        Animation_Init_417FD0(96, 5, 6, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6010, 1, 0), 1);
+        Animation_Init_417FD0(96, 5, 6, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGreenGlowResID_6010, 1, 0), 1);
         break;
 
     case Path_LightEffect::Type::FlintGlow_3:
-        Animation_Init_417FD0(756, 59, 54, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6028, 1, 0), 1);
-        field_EC = 1;
+        Animation_Init_417FD0(756, 59, 54, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kFlintGlowResID_6028, 1, 0), 1);
+        field_EC_bHasID = 1;
         break;
 
-    case Path_LightEffect::Type::FlintDoor_4:
+    case Path_LightEffect::Type::Switchable_RedGreenDoorLights_4:
         field_E8_width = 0;
         field_EA_height = 0;
         if (SwitchStates_Get(pTlv->field_1C_id))
         {
-            Animation_Init_417FD0(448, 20, 11, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6031, 1, 0), 1);
+            Animation_Init_417FD0(448, 20, 11, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGreenDoorLightResID_6031, 1, 0), 1);
         }
         else
         {
-            Animation_Init_417FD0(460, 20, 11, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6032, 1, 0), 1);
+            Animation_Init_417FD0(460, 20, 11, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRedDoorLightResID_6032, 1, 0), 1);
             xOff = 6;
         }
         break;
 
-    case Path_LightEffect::Type::FlintHub_5:
+    case Path_LightEffect::Type::Switchable_RedGreenHubLight_5:
         field_E8_width = 0;
         field_EA_height = 0;
         if (SwitchStates_Get(pTlv->field_1C_id))
         {
-            Animation_Init_417FD0(460, 20, 11, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6031, 1, 0), 1);
+            Animation_Init_417FD0(460, 20, 11, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGreenDoorLightResID_6031, 1, 0), 1);
         }
         else
         {
-            Animation_Init_417FD0(448, 20, 11, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6032, 1, 0), 1);
+            Animation_Init_417FD0(448, 20, 11, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRedDoorLightResID_6032, 1, 0), 1);
         }
         break;
 
@@ -178,9 +178,9 @@ void DoorLight::VUpdate_4060A0()
             rgb = 255;
         }
 
-        if (field_EC)
+        if (field_EC_bHasID)
         {
-            if (SwitchStates_Get(field_F0))
+            if (SwitchStates_Get(field_F0_id))
             {
                 if (field_EE_switch_value == 0)
                 {

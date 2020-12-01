@@ -301,7 +301,7 @@ MainMenuFade* MainMenuFade::ctor_42A5A0(__int16 xpos, __int16 ypos, unsigned __i
     field_C2_g = 128;
     field_C0_r = 128;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 8002, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHighliteResID, 1, 0);
     Animation_Init_417FD0(
         dword_4BB1B8[idx_1],
         99,
@@ -700,9 +700,9 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, int tlvInfo)
 
     field_FC_font.ctor_41C170(240, byte_4D0090, &sFontContext_4FFD68);
     field_E4_res_array[0] = nullptr;
-    field_E4_res_array[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 132, 1, 0);
-    field_E4_res_array[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 367, 1, 0);
-    field_E4_res_array[5] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, 8003, 1, 0);
+    field_E4_res_array[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbespek2ResID, 1, 0);
+    field_E4_res_array[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOptflareResID, 1, 0);
+    field_E4_res_array[5] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kHighlitePalResID, 1, 0);
 
     // 30 = fmv select
     if ( gMap_507BA8.field_4_current_camera == 30)
@@ -714,9 +714,9 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, int tlvInfo)
     else
     {
         ResourceManager::LoadResourceFile_455270("ABEINTRO.BAN", nullptr);
-        field_E4_res_array[2] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 131, 1, 0);
+        field_E4_res_array[2] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeintroResID, 1, 0);
         ResourceManager::LoadResourceFile_455270("DOOR.BAN", nullptr);
-        field_E4_res_array[3] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 8001, 1, 0);
+        field_E4_res_array[3] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDoorResID, 1, 0);
         Animation_Init_417FD0(41420, 134, 90, field_E4_res_array[3], 1);
     }
 
@@ -724,7 +724,7 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, int tlvInfo)
     field_10_anim.field_9_g = 127;
     field_10_anim.field_8_r = 127;
 
-    BYTE** v8 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 8002, 1, 0);
+    BYTE** v8 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHighliteResID, 1, 0);
     field_134_anim.Init_402D20(6152, gObjList_animations_505564, this, 99, 43, v8, 1, 0, 0);
 
     field_134_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
@@ -1993,7 +1993,7 @@ void Menu::FMV_Or_Level_Select_Back_Update_47ECB0()
     if (sNumCamSwappers_507668 <= 0)
     {
         ResourceManager::LoadResourceFile_455270("ABESPEAK.BAN", nullptr);
-        field_E4_res_array[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 130, 1, 0);
+        field_E4_res_array[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, 1, 0);
         field_1E8_pMenuTrans->StartTrans_436560(40, 0, 0, 16);
         field_1E0_selected_index = 1;
         field_134_anim.Set_Animation_Data_402A40(sMainScreenButtons_4D00B0[1].field_4_frame_table, nullptr);
@@ -2578,7 +2578,7 @@ void Menu::GameSpeak_Update_47CBD0()
     {
         if (field_1E0_selected_index == 8 && !(gnFrameCount_507670 % 8))
         {
-            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 367, 1, 0);
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOptflareResID, 1, 0);
             auto pParticle = ao_new<Particle>();
             if (pParticle)
             {
@@ -3789,7 +3789,7 @@ void Menu::GameSpeak_To_MainScreen_Update_47D690()
 
 void CC Menu::OnResourceLoaded_47ADA0(Menu* pMenu)
 {
-    pMenu->field_E4_res_array[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 130, 1, 0);
+    pMenu->field_E4_res_array[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, 1, 0);
 }
 
 void CC Menu::RenderElement_47A4E0(int xpos, int ypos, int input_command, int** ot, AliveFont* pFont, int* pPolyOffset)

@@ -211,7 +211,7 @@ void TimedMine::Render_410CD0(int** pOt)
 
 void TimedMine::InitBlinkAnimation_4108E0(Animation* pAnimation)
 {
-    if (pAnimation->Init_40A030(544, gObjList_animations_5C1A24, this, 36, 0x15u, Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kBombflshResID), 1, 0, 0))
+    if (pAnimation->Init_40A030(544, gObjList_animations_5C1A24, this, 36, 0x15u, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kBombflshResID), 1, 0, 0))
     {
         pAnimation->field_C_render_layer = field_20_animation.field_C_render_layer;
         pAnimation->field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);

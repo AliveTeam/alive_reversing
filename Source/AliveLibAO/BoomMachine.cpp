@@ -201,7 +201,7 @@ BoomMachine* BoomMachine::ctor_41E420(Path_BoomMachine* pTlv, int tlvInfo)
     SetVTable(this, 0x4BB008);
     field_4_typeId = Types::eGrenadeMachine_41;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6008, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kR1buttonResID, 1, 0);
     Animation_Init_417FD0(1600, 26, 17, ppRes, 1);
 
     field_CC_bApplyShadows &= ~1u;
@@ -232,7 +232,7 @@ BoomMachine* BoomMachine::ctor_41E420(Path_BoomMachine* pTlv, int tlvInfo)
         pNozzle->ctor_417C10();
         SetVTable(pNozzle, 0x4BAFD0);
 
-        BYTE** ppNozzleRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6009, 1, 0);
+        BYTE** ppNozzleRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kR1bpipeResID, 1, 0);
         pNozzle->Animation_Init_417FD0(3616, 66, 36, ppNozzleRes, 1);
 
         pNozzle->field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);

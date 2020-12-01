@@ -18,7 +18,7 @@ LightEffect* LightEffect::ctor_4064C0(Path_LightEffect* pTlv, int tlvInfo)
     field_4_typeId = Types::eNone_0;
     field_E4_tlvInfo = tlvInfo;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1039, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBGStarResID, 1, 0);
     Animation_Init_417FD0(748, 20, 12, ppRes, 1);
 
     field_EC_rnd1 = gnFrameCount_507670 + Math_RandomRange_450F20(2, 8);

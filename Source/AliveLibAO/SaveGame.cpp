@@ -106,13 +106,13 @@ void SaveGame::Load_459970(SaveData* pData, int bKillObjects)
     {
         if (sActiveHero_507678->field_16C_bHaveShrykull)
         {
-            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 117, 0, 0))
+            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbemorphResID, 0, 0))
             {
                 ResourceManager::LoadResourceFile_4551E0("SHRYPORT.BND", nullptr, nullptr, nullptr);
                 ResourceManager::LoadingLoop_41EAD0(0);
             }
 
-            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 355, 0, 0))
+            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSplineResID, 0, 0))
             {
                 ResourceManager::LoadResourceFile_4551E0("SPLINE.BAN", nullptr, nullptr, nullptr);
                 ResourceManager::LoadingLoop_41EAD0(0);

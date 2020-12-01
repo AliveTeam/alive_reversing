@@ -54,27 +54,27 @@ ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, __int16 particleCoun
         switch (type)
         {
         case BurstType::eType_0:
-            Animation_Init_417FD0(8108, 71, 36, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1105, 1, 0), 1);
+            Animation_Init_417FD0(8108, 71, 36, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDebrisID00, 1, 0), 1);
             field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
             field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
             break;
 
         case BurstType::eType_1:
-            Animation_Init_417FD0(2800, 47, 29, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 358, 1, 0), 1);
+            Animation_Init_417FD0(2800, 47, 29, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kStickResID, 1, 0), 1);
             scale = FP_FromDouble(0.4) * scale;
             field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
             field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
             break;
 
         case BurstType::eType_2:
-            Animation_Init_417FD0(6284, 70, 43, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 349, 1, 0), 1);
+            Animation_Init_417FD0(6284, 70, 43, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID, 1, 0), 1);
             field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
             field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
             field_10_anim.field_B_render_mode = 1;
             break;
 
         case BurstType::eType_3:
-            Animation_Init_417FD0(6284, 70, 43, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 349, 1, 0), 1);
+            Animation_Init_417FD0(6284, 70, 43, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID, 1, 0), 1);
 
             field_10_anim.field_B_render_mode = 1;
             field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -86,7 +86,7 @@ ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, __int16 particleCoun
             break;
 
         case BurstType::eType_4:
-            Animation_Init_417FD0(8908, 69, 30, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6014, 1, 0), 1);
+            Animation_Init_417FD0(8908, 69, 30, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_6014, 1, 0), 1);
             field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
             field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
             break;

@@ -60,7 +60,7 @@ CircularFade* CircularFade::ctor_4CE100(FP xpos, FP ypos, FP scale, __int16 dire
     field_D2_g = fade_rgb;
     field_D0_r = fade_rgb;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kSpotliteResID);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSpotliteResID);
     Animation_Init_424E10(1536, 57, 32, ppRes, 1, 1u);
 
     field_DC_bApplyShadows &= ~1u;

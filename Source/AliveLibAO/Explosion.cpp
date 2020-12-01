@@ -28,7 +28,7 @@ Explosion* Explosion::ctor_458B80(FP xpos, FP ypos, FP scale)
     ctor_417C10();
     SetVTable(this, 0x4BC218);
     field_4_typeId = Types::eExplosion_74;
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 301, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 1, 0);
     Animation_Init_417FD0(27376, 200, 91, ppRes, 1);
     
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit18_IsLastFrame);
@@ -153,7 +153,7 @@ void Explosion::VUpdate_458D00()
 
     if (field_10_anim.field_92_current_frame == 1)
     {
-        const auto GetLoadedResource = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_301, 1, 0);
+        const auto GetLoadedResource = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 1, 0);
         if (GetLoadedResource)
         {
             auto pParticle = ao_new<Particle>();

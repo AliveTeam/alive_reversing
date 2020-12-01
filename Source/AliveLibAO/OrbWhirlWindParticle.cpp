@@ -213,7 +213,7 @@ OrbWhirlWindParticle* OrbWhirlWindParticle::ctor_48BC10(FP xpos, FP ypos, FP sca
 
     SetVTable(this, 0x4BD7B8);
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 312, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 1, 0);
     field_8_anim.Init_402D20(1492, gObjList_animations_505564, 0, 38, 21, ppRes, 1, 0, 0);
 
     field_8_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);

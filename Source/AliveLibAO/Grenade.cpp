@@ -39,7 +39,7 @@ Grenade* Grenade::ctor_41EBD0(FP xpos, FP ypos, __int16 numGrenades)
     field_10E_bDead = 0;
     SetVTable(this, 0x4BB0A0);
     field_4_typeId = Types::eGrenade_40;
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6005, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID, 1, 0);
     Animation_Init_417FD0(
         1132,
         17,

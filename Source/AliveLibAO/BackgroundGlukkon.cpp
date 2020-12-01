@@ -59,7 +59,7 @@ BackgroundGlukkon* BackgroundGlukkon::ctor_41DBD0(Path_Glukkon* pTlv, int tlvInf
         46096,
         68,
         60,
-        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 800, 1, 0),
+        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGlkbasicResID, 1, 0),
         1);
 
     field_10C_tlvInfo = tlvInfo;

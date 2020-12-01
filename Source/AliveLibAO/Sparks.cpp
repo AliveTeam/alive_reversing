@@ -14,7 +14,7 @@ Sparks* Sparks::ctor_40A3A0(FP xpos, FP ypos, FP scale)
     SetVTable(this, 0x4BA358);
     field_4_typeId = Types::eSpark_15;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 312, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 1, 0);
     Animation_Init_417FD0(1532, 38, 21, ppRes, 1);
 
     field_10_anim.field_A_b = 80;

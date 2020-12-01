@@ -78,13 +78,13 @@ MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, int tlvInfo)
     field_134_disable_resources = pTlv->field_1A_disable_resources;
     if (!(field_134_disable_resources & 1))
     {
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
+        Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
     }
 
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kMetalResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Palt, AEResourceID::kAbeblowResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Palt, AEResourceID::kSlogBlowResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kAbeblowResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kSlogBlowResID);
     
     FP hitX = {};
     FP hitY = {};

@@ -71,7 +71,7 @@ Shrykull* Shrykull::ctor_463880()
     field_6_flags.Set(Options::eCanExplode_Bit7);
     SetVTable(this, 0x4BC9B8);
     field_4_typeId = Types::eShrykull_85;
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 121, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kShrmorphResID, 1, 0);
     Animation_Init_417FD0(
         92004,
         121,

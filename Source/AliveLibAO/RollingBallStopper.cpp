@@ -16,7 +16,7 @@ EXPORT RollingBallStopper* RollingBallStopper::ctor_43BCE0(Path_RollingBallStopp
 
     SetVTable(this, 0x4BBAC8);
     field_4_typeId = Types::eRollingBallStopper_60;
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2003, TRUE, FALSE);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2stnsckResID, TRUE, FALSE);
     Animation_Init_417FD0(1256, 106, 73, ppRes, 1);
     field_10_anim.field_C_layer = 37;
     

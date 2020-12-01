@@ -18,7 +18,7 @@ Rock* Rock::ctor_49E150(FP xpos, FP ypos, __int16 count)
 
     field_11A_bDead = 0;
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAberockResID, 0, 0))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAberockResID, 0, 0))
     {
         LoadRockTypes_49AB30(field_C2_lvl_number, field_C0_path_number);
     }
@@ -43,7 +43,7 @@ Rock* Rock::ctor_49E150(FP xpos, FP ypos, __int16 count)
     field_118_count = count;
     field_11C_state = RockStates::eState_0_None;
 
-    BYTE** ppPal = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, AEResourceID::kAberockResID, 0, 0);
+    BYTE** ppPal = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, ResourceID::kAberockResID, 0, 0);
     if (ppPal)
     {
         field_20_animation.Load_Pal_40A530(ppPal, 0);

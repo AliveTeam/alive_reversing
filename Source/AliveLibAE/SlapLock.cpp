@@ -134,7 +134,7 @@ int CC SlapLock::CreateFromSaveState_43EA00(const BYTE* pBuffer)
 
     auto pTlv = static_cast<Path_SlapLock*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4_tlvInfo));
   
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kUnknownResID_1053, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_1053, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("GHOSTTRP.BAN", nullptr);
     }
