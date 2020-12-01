@@ -150,7 +150,7 @@ RockSack* RockSack::ctor_4573F0(Path_RockSack* pTlv, int tlvInfo)
 
     field_4_typeId = Types::eRockSack_71;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1002, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kP2c2bagResID, 1, 0);
 
     //  Set RockSack idle anim speed
     auto pAnimationHeader = reinterpret_cast<AnimationHeader*>(*ppRes + 6878);
@@ -190,7 +190,7 @@ RockSack* RockSack::ctor_4573F0(Path_RockSack* pTlv, int tlvInfo)
 
     if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
     {
-        BYTE** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, 1002, 0, 0);
+        BYTE** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kP2c2bagResID, 0, 0);
         field_10_anim.LoadPal_403090(ppPal, 0);
     }
 
@@ -217,7 +217,7 @@ Rock* Rock::ctor_456960(FP xpos, FP ypos, __int16 count)
 
     field_10E_bDead = 0;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 350, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAberockResID, 1, 0);
     Animation_Init_417FD0(
         500,
         18,
@@ -238,7 +238,7 @@ Rock* Rock::ctor_456960(FP xpos, FP ypos, __int16 count)
     field_10C_count = count;
     field_110_state = 0;
 
-    BYTE** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, 350, 0, 0);
+    BYTE** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kAberockResID, 0, 0);
     if (ppPal)
     {
         field_10_anim.LoadPal_403090(ppPal, 0);

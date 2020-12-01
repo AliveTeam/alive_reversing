@@ -62,7 +62,7 @@ BaseGameObject* RollingBall::dtor_458230()
         field_114_pRollingBallShaker = nullptr;
     }
 
-    BYTE** pRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1105, 0, 0);
+    BYTE** pRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDebrisID00, 0, 0);
     ResourceManager::FreeResource_455550(pRes);
     return dtor_401000();
 }
@@ -72,7 +72,7 @@ RollingBall* RollingBall::ctor_4578C0(Path_RollingBall* pTlv, int tlvInfo)
     ctor_401090();
     SetVTable(this, 0x4BC180);
     field_4_typeId = Types::eRollingBall_72;
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2002, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2stnbalResID, 1, 0);
     Animation_Init_417FD0(
         15596,
         131,
@@ -137,7 +137,7 @@ RollingBall* RollingBall::ctor_4578C0(Path_RollingBall* pTlv, int tlvInfo)
     }
 
     // Looks strange, it just bumps the res ref count
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1105, 1, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDebrisID00, 1, 0);
 
     if (!SwitchStates_Get(field_110_release_switch_id))
     {
