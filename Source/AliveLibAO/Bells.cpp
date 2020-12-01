@@ -20,7 +20,7 @@ Bells* Bells::ctor_40A650(BellType bellType, FP xpos, FP ypos, FP scale)
 
     field_4_typeId = Types::eBells_13;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2005, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBellResID, 1, 0);
 
     switch (bellType)
     {

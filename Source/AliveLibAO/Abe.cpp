@@ -1917,7 +1917,7 @@ void Abe::ElumFree_4228F0()
     {
         ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElumUnknownResID_110, 1, 0));
         ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElumUnknownResID_223, 1, 0));
-        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElumUnknownResID__222, 0, 0));
+        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElmprmntResID__222, 0, 0));
         
         if (gElum_507680->field_FC_current_motion != eElumStates::State_1_Idle_412990)
         {

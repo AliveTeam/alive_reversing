@@ -669,15 +669,15 @@ enum ResourceID
     kGlukkonSpeakResID = 150,
     kParamiteSpeakResID = 160,
     kScrabSpeakResID = 170,
-    kUnknownResID_200 = 200, // AO only
+    kElmbasicResID_200 = 200, // AO only
     kHappyiconResID = 201,
     kAngryiconResID = 202,
     kNormaliconResID = 203,
     kUnknownResID_204 = 204,
-    kUnknownResID_216 = 216, // AO only
+    kElmfallResID_216 = 216, // AO only
     kElumUnknownResID_220 = 220, // AO only
     kElumUnknownResID_221 = 221, // AO only
-    kElumUnknownResID__222 = 222, // AO only
+    kElmprmntResID__222 = 222, // AO only
     kElumUnknownResID_223 = 223, // AO only
     kElumUnknownResID_224 = 224, // AO only
     kElmaloneResID_230 = 230, // AO only
@@ -832,6 +832,7 @@ enum ResourceID
     kF2stnsckResID = 2003,
     kChimeResID = 2005,
     kF2eyeorbResID = 2008,
+    kBellResID = 2005,
     kMaimGameResID = 2006,
     kF2rockResID = 2007,
     kPupilResID = 2009,
