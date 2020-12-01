@@ -614,6 +614,7 @@ enum ResourceID
 {
     kUnknownResID_0 = 0,
     kDemoResID = 1,
+    kLcdfontResID = 2,
     kAbebasicResID = 10,
     kAbepullResID = 11,
     kAbepickResID = 12,
@@ -654,6 +655,8 @@ enum ResourceID
     kFireFlyResID = 64,
     kDovshootResID = 66,
     kElumUnknownResID_100 = 100, // AO only
+    kAneknbkResID = 106, // AO only
+    kAneedgeResID = 108, // AO only
     kElumUnknownResID_110 = 110, // AO only
     kElumUnknownResID_112 = 112, // AO only
     kAbeCarResId = 113,
@@ -674,6 +677,7 @@ enum ResourceID
     kAngryiconResID = 202,
     kNormaliconResID = 203,
     kUnknownResID_204 = 204,
+    kElmnknbkResID = 215, // AO only
     kElmfallResID_216 = 216, // AO only
     kElmblowResID_217 = 217,
     kElumUnknownResID_220 = 220, // AO only
@@ -739,6 +743,7 @@ enum ResourceID
     kUnknownResID_448 = 448,
     bUnknownResID_449 = 449,
     kFlySligResID = 450,
+    kSlingmudResID_508 = 508,
     kMudscrubResID = 510,
     kMudchslResID = 511,
     kMudidleResID = 512,
@@ -841,10 +846,10 @@ enum ResourceID
     kRockdoorResID = 2018,
     kHubdoorResID = 2019,
     kSlamResID = 2020,
-    kGourdResID = 2028,
     kMeatResID = 2023,
     kF2ChimeBallResID = 2024,
     kF2ChimeRackResID = 2025,
+    kGourdResID = 2028,
     kWebResID = 2034,
     kRockShadowResID = 2035,
     kMovebombResID = 3006,
@@ -864,7 +869,7 @@ enum ResourceID
     kUnknownResID_6014 = 6014, // AO only
     kUnknownResID_6016 = 6016,
     kEvilFartResID = 6017,
-    kUnknownResID_6027 = 6027,
+    kR1sdosResID_6027 = 6027,
     kFlintGlowResID_6028 = 6028, // AO only
     kGreenDoorLightResID_6031 = 6031, // AO only
     kRedDoorLightResID_6032 = 6032, // AO only
