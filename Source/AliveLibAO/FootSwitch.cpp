@@ -16,7 +16,7 @@ FootSwitch* FootSwitch::ctor_4887F0(Path_FootSwitch* pTlv, int tlvInfo)
     SetVTable(this, 0x4BD648);
     field_4_typeId = Types::eFootSwitch36;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2010, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kTriggerResID, 1, 0);
     Animation_Init_417FD0(744, 68, 15, ppRes, 1);
 
     field_10_anim.field_C_layer = 25;
