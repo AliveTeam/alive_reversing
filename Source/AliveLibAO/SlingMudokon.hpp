@@ -49,6 +49,8 @@ public:
 
     EXPORT void VUpdate_46FBF0();
 
+    void VUpdate() override;
+
     EXPORT virtual void VCallBrain_46F880();
 
     EXPORT virtual void VCallMotion_46F8E0();
