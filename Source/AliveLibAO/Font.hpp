@@ -54,7 +54,7 @@ class AliveFont
 public:
     EXPORT AliveFont* ctor_41C170(int maxCharLength, const BYTE* palette, FontContext* fontContext);
 
-    EXPORT unsigned int MeasureWidth_41C2B0(const char* /*pStr*/);
+    EXPORT unsigned int MeasureWidth_41C2B0(const char* character);
 
     EXPORT int MeasureWidth_41C200(char character);
 
