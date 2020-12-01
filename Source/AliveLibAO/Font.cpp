@@ -438,6 +438,9 @@ EXPORT int AliveFont::DrawString_41C360(int** ot, const char* text, __int16 x, _
         const short heightScaled = static_cast<short>(charHeight * FP_GetDouble(scale));
 
         PolyFT4_Init(poly);
+
+        SetPrimExtraPointerHack(poly, nullptr);
+
         Poly_Set_SemiTrans_498A40(&poly->mBase.header, bSemiTrans);
         Poly_Set_Blending_498A00(&poly->mBase.header, blendMode);
 

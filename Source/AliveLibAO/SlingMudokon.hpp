@@ -49,7 +49,7 @@ public:
 
     EXPORT void VUpdate_46FBF0();
 
-    void VUpdate() override;
+    virtual void VUpdate() override;
 
     EXPORT virtual void VCallBrain_46F880();
 
