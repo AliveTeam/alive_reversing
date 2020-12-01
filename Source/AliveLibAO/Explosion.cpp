@@ -1,5 +1,7 @@
 #include "stdafx_ao.h"
+#include "AmbientSound.hpp"
 #include "Function.hpp"
+#include "Gibs.hpp"
 #include "Explosion.hpp"
 #include "ScreenShake.hpp"
 #include "ResourceManager.hpp"
@@ -8,8 +10,11 @@
 #include "Events.hpp"
 #include "ParticleBurst.hpp"
 #include "Flash.hpp"
+#include "Slig.hpp"
 #include "Particle.hpp"
 #include "Map.hpp"
+#undef min
+#undef max
 
 namespace AO {
 
@@ -185,10 +190,103 @@ void Explosion::VUpdate_458D00()
     }
 }
 
-
-void Explosion::DealBlastDamage_459160(PSX_RECT* /*pRect*/)
+void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
 {
-    NOT_IMPLEMENTED();
+    if (!gBaseAliveGameObjects_4FC8A0)
+    {
+        return;
+    }
+
+    PSX_RECT expandedRect = {};
+    expandedRect.x = std::min(pRect->x, pRect->w);
+    expandedRect.w = std::max(pRect->x, pRect->w);
+
+    expandedRect.y = std::min(pRect->y, pRect->h);
+    expandedRect.h = std::max(pRect->y, pRect->h);
+
+    expandedRect.x += FP_GetExponent(field_A8_xpos);
+    expandedRect.y += FP_GetExponent(field_AC_ypos);
+
+    expandedRect.w += FP_GetExponent(field_A8_xpos);
+    expandedRect.h += FP_GetExponent(field_AC_ypos);
+
+    if ((expandedRect.x % 1024) < 256)
+    {
+        expandedRect.x -= 656;
+    }
+    if ((expandedRect.w % 1024) > 624)
+    {
+        expandedRect.w += 656;
+    }
+    if (expandedRect.y % 480 < 120)
+    {
+        expandedRect.y -= 240;
+    }
+    if (expandedRect.h % 480 > 360)
+    {
+        expandedRect.h += 240;
+    }
+
+    for(int idx = 0; idx < gBaseAliveGameObjects_4FC8A0->Size(); idx++)
+    {
+        auto pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(idx);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_6_flags.Get(Options::eIsBaseAliveGameObject_Bit6))
+        {
+            PSX_RECT rect = {};
+            pObj->VGetBoundingRect(&rect, 1);
+
+            if (PSX_Rects_overlap_no_adjustment(&rect, &expandedRect) &&
+                field_E4_scale == pObj->field_BC_sprite_scale)
+            {
+                pObj->VTakeDamage(this);
+            }
+        }
+    }
+
+    auto pTlv = static_cast<Path_Slig*>(gMap_507BA8.TLV_Get_At_446260(
+        expandedRect.x,
+        expandedRect.y,
+        expandedRect.w,
+        expandedRect.h,
+        TlvTypes::Slig_24
+    ));
+
+    if (pTlv)
+    {
+        if (!(pTlv->field_0_flags.Get(TLV_Flags::eBit2_Unknown) && pTlv->field_1A_start_state == Path_Slig::StartState::Sleeping_2))
+        {
+            pTlv->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
+            auto dir = gMap_507BA8.GetDirection_444A40(
+                static_cast<int>(gMap_507BA8.field_0_current_level),
+                gMap_507BA8.field_2_current_path,
+                FP_FromInteger(pTlv->field_C_sound_pos.field_0_x),
+                FP_FromInteger(pTlv->field_C_sound_pos.field_2_y)
+            );
+
+            if (dir == CameraPos::eCamLeft_3)
+            {
+                auto gibs = ao_new<Gibs>();;
+                if (gibs)
+                {
+                    gibs->ctor_407B20(1, field_A8_xpos + FP_FromInteger(656), field_AC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
+                }
+            }
+            else if(dir == CameraPos::eCamRight_4)
+            {
+                auto gibs = ao_new<Gibs>();;
+                if (gibs)
+                {
+                    gibs->ctor_407B20(1, field_A8_xpos - FP_FromInteger(656), field_AC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
+                }
+            }
+            Stop_slig_sounds_476A20(dir, 0);
+        }
+    }
 }
 
 BaseGameObject* Explosion::VDestructor(signed int flags)

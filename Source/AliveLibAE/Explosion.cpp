@@ -133,7 +133,8 @@ void Explosion::DealBlastDamage_4A1BD0(PSX_RECT* pRect)
         expandedRect.y,
         expandedRect.w,
         expandedRect.h,
-        TlvTypes::Slig_15));
+        TlvTypes::Slig_15
+    ));
 
     if (pTlv)
     {

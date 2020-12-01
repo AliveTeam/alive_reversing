@@ -25,7 +25,7 @@ EXPORT void CC ClipPoly_Vertically_4584B0(Poly_FT4* pPoly, int minY, int maxY)
 {
     const int d1 = minY - Y0(pPoly);
     const short polyHeight = Y3(pPoly) - Y0(pPoly);
-    if (minY - Y0(pPoly) > 0 && d1 <= polyHeight)
+    if (d1 > 0 && d1 <= polyHeight)
     {
         SetXY0(pPoly, X0(pPoly), Y0(pPoly) + (short)d1);
         SetXY1(pPoly, X1(pPoly), Y1(pPoly) + (short)d1);
@@ -158,9 +158,7 @@ void Rope::VRender_458780(int** ppOt)
             if (field_A8_xpos >= FP_FromInteger(camPos.field_0_x) &&
                 field_A8_xpos <= FP_FromInteger(camPos.field_0_x + 1024))
             {
-                const FP camXPos = pScreenManager_4FF7C8->field_10_pCamPos->field_0_x;
                 const FP camYPos = pScreenManager_4FF7C8->field_10_pCamPos->field_4_y;
-
 
                 int minY = FP_GetExponent((FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_EE_top))
                     - camYPos);
@@ -178,7 +176,7 @@ void Rope::VRender_458780(int** ppOt)
                     11
                 );
                 short screenY = FP_GetExponent(
-                    (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + FP_GetExponent(field_AC_ypos)))
+                    (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + ypos))
                     - camYPos
                 );
 
@@ -236,8 +234,8 @@ void Rope::VRender_458780(int** ppOt)
 
                         ClipPoly_Vertically_4584B0(
                             &field_E8_pRopeRes[idx].field_10_polys[gPsxDisplay_504C78.field_A_buffer_index],
-                            minY,
-                            maxY
+                            minY + field_C8_yOffset,
+                            maxY + field_C8_yOffset
                         );
 
                         screenY -= field_E6_rope_length;
