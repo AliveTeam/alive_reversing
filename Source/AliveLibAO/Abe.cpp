@@ -8998,6 +8998,7 @@ void Abe::State_133_LiftGrabBegin_42EF20()
             if (!pLiftPoint->OnTopFloor())
             {
                 field_FC_current_motion = eAbeStates::State_131_LiftUseUp_42F150;
+                return;
             }
         }
         else if (Input().IsAnyPressed(sInputKey_Down_4C659C))
@@ -9005,12 +9006,10 @@ void Abe::State_133_LiftGrabBegin_42EF20()
             if (!pLiftPoint->OnBottomFloor())
             {
                 field_FC_current_motion = eAbeStates::State_132_LiftUseDown_42F170;
+                return;
             }
         }
-        else
-        {
-            field_FC_current_motion = eAbeStates::State_135_LiftGrabIdle_42F000;
-        }
+        field_FC_current_motion = eAbeStates::State_135_LiftGrabIdle_42F000;
     }
 }
 
