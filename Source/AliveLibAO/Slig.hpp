@@ -471,6 +471,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Slig, 0x25C);
 
-EXPORT void CC Start_Slig_sounds_476960(CameraPos a1, unsigned __int8 a2);
-
 }

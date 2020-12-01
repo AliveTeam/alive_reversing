@@ -11,7 +11,7 @@ class ScopedSeq
 public:
     EXPORT ScopedSeq* ctor_476400(char ambianceId, CameraPos direction);
 
-    virtual ScopedSeq* VDtor(int flags);
+    virtual ScopedSeq* VDestructor(int flags);
 
     __int16 field_4_seq_id;
     __int16 field_6_pad;

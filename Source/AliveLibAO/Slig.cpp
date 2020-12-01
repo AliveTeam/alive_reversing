@@ -4436,31 +4436,6 @@ void Start_Slig_Sounds_Helper(Sound_Ambiance_Array array, CameraPos camPos, unsi
     }
 }
 
-void CC Start_Slig_sounds_476960(CameraPos camPos, unsigned __int8 ambianceId)
-{
-    switch (camPos)
-    {
-        case CameraPos::eCamTop_1:
-        case CameraPos::eCamBottom_2:
-        {
-            Start_Slig_Sounds_Helper(sTopBottomAmbiance_9F11D0, camPos, ambianceId);
-            break;
-        }
-        case CameraPos::eCamLeft_3:
-        {
-            Start_Slig_Sounds_Helper(sLeftAmbiance_9F1280, camPos, ambianceId);
-            break;
-        }
-        case CameraPos::eCamRight_4:
-        {
-            Start_Slig_Sounds_Helper(sRightAmbiance_9F1228, camPos, ambianceId);
-            break;
-        }
-        default:
-            break;
-    }
-}
-
 __int16 Slig::Brain_Sleeping_46B4E0()
 {
     const auto pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEventNoise_0));

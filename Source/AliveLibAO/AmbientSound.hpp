@@ -13,6 +13,10 @@ EXPORT void CC Start_Sounds_for_TLV_476640(CameraPos direction, Path_TLV* pTlv);
 
 EXPORT void CC SND_Init_Ambiance_4765C0();
 
+EXPORT void CC Start_Slig_sounds_476960(CameraPos direction, char kZero);
+
+EXPORT void CC Stop_slig_sounds_476A20(CameraPos direction, char kZero);
+
 class ScopedSeq;
 struct Sound_Ambiance
 {
@@ -27,8 +31,8 @@ struct Sound_Ambiance_Array
     Sound_Ambiance mArray[7];
 };
 
-ALIVE_VAR_EXTERN(Sound_Ambiance_Array, sTopBottomAmbiance_9F11D0);
-ALIVE_VAR_EXTERN(Sound_Ambiance_Array, sRightAmbiance_9F1228);
-ALIVE_VAR_EXTERN(Sound_Ambiance_Array, sLeftAmbiance_9F1280);
+//ALIVE_VAR_EXTERN(Sound_Ambiance_Array, sTopBottomAmbiance_9F11D0);
+//ALIVE_VAR_EXTERN(Sound_Ambiance_Array, sRightAmbiance_9F1228);
+//ALIVE_VAR_EXTERN(Sound_Ambiance_Array, sLeftAmbiance_9F1280);
 
 }
