@@ -55,7 +55,7 @@ ZBall* ZBall::ctor_478590(Path_ZBall* pTlv, int tlvInfo)
     field_C2_g = 128;
     field_C0_r = 128;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2001, TRUE, FALSE);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2zballResID, TRUE, FALSE);
     
     switch (pTlv->field_1C_speed)
     {
