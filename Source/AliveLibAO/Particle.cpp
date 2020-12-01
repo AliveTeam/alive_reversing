@@ -176,7 +176,7 @@ void CC New_ShootingZFire_Particle_419810(FP xpos, FP ypos, FP scale)
 
 void CC New_ShootingFire_Particle_419720(FP xpos, FP ypos, char direction, FP scale)
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 319, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBigflashResID, 1, 0);
     auto pParticle = ao_new<Particle>();
     if (pParticle)
     {
