@@ -172,6 +172,11 @@ void SlingMudokon::VScreenChanged_46FBE0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
+void SlingMudokon::VUpdate()
+{
+    VUpdate_46FBF0();
+}
+
 void SlingMudokon::VUpdate_46FBF0()
 {
     const auto old_motion = field_FC_current_motion;
