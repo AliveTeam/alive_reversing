@@ -675,6 +675,7 @@ enum ResourceID
     kNormaliconResID = 203,
     kUnknownResID_204 = 204,
     kElmfallResID_216 = 216, // AO only
+    kElmblowResID_217 = 217,
     kElumUnknownResID_220 = 220, // AO only
     kElumUnknownResID_221 = 221, // AO only
     kElmprmntResID__222 = 222, // AO only
@@ -682,8 +683,6 @@ enum ResourceID
     kElumUnknownResID_224 = 224, // AO only
     kElmaloneResID_230 = 230, // AO only
     kBgexpldResID = 300,
-    kUnknownResID_301 = 301,
-
     kExplo2ResID = 301,
     kAlrmFlarResID = 302,
     kDustResID = 303,
@@ -831,10 +830,9 @@ enum ResourceID
     kF2stnbalResID = 2002,
     kF2stnsckResID = 2003,
     kChimeResID = 2005,
-    kF2eyeorbResID = 2008,
-    kBellResID = 2005,
     kMaimGameResID = 2006,
     kF2rockResID = 2007,
+    kF2eyeorbResID = 2008,
     kPupilResID = 2009,
     kTriggerResID = 2010,
     kF2p3dorResID = 2012,
@@ -863,6 +861,7 @@ enum ResourceID
     kGreenGlowResID_6010 = 6010, // AO only
     kRedGlowResID_6011 = 6011, // AO only
     kUnknownResID_6013 = 6013,
+    kUnknownResID_6014 = 6014, // AO only
     kUnknownResID_6016 = 6016,
     kEvilFartResID = 6017,
     kUnknownResID_6027 = 6027,
