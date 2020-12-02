@@ -265,12 +265,7 @@ BoomMachine* BoomMachine::ctor_41E420(Path_BoomMachine* pTlv, int tlvInfo)
 
 BaseGameObject* BoomMachine::VDestructor(signed int flags)
 {
-    dtor_417D10();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
+    return Vdtor_41E850(flags);
 }
 
 BoomMachine* BoomMachine::Vdtor_41E850(signed int flags)
