@@ -55,7 +55,7 @@ SlingMudokon* SlingMudokon::ctor_46F940(Path_SlingMud* pTlv, int tlvInfo)
     field_136 = -1;
     field_150_res = 0;
 
-    field_150_res = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 508, 1, 0);
+    field_150_res = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlingmudResID_508, 1, 0);
     Animation_Init_417FD0(
         22636,
         96,
@@ -170,6 +170,11 @@ void SlingMudokon::VScreenChanged()
 void SlingMudokon::VScreenChanged_46FBE0()
 {
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
+}
+
+void SlingMudokon::VUpdate()
+{
+    VUpdate_46FBF0();
 }
 
 void SlingMudokon::VUpdate_46FBF0()

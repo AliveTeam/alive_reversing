@@ -20,7 +20,7 @@ EXPORT void CC SND_Reset_Ambiance_4765E0()
     {
         if (amb.field_8_pScopedSeq)
         {
-            amb.field_8_pScopedSeq->VDtor(1);
+            amb.field_8_pScopedSeq->VDestructor(1);
             amb.field_8_pScopedSeq = nullptr;
         }
     }
@@ -29,7 +29,7 @@ EXPORT void CC SND_Reset_Ambiance_4765E0()
     {
         if (amb.field_8_pScopedSeq)
         {
-            amb.field_8_pScopedSeq->VDtor(1);
+            amb.field_8_pScopedSeq->VDestructor(1);
             amb.field_8_pScopedSeq = nullptr;
         }
     }
@@ -38,7 +38,7 @@ EXPORT void CC SND_Reset_Ambiance_4765E0()
     {
         if (amb.field_8_pScopedSeq)
         {
-            amb.field_8_pScopedSeq->VDtor(1);
+            amb.field_8_pScopedSeq->VDestructor(1);
             amb.field_8_pScopedSeq = nullptr;
         }
     }
@@ -174,6 +174,57 @@ EXPORT void CC Start_Sounds_for_TLV_476640(CameraPos direction, Path_TLV* pTlv)
                 pMusicTrigger->ctor_443A60(0, 1, 0, 40);
             }
         }
+    }
+}
+
+EXPORT void CC Start_Slig_sounds_476960(CameraPos direction, char kZero)
+{
+    Sound_Ambiance_Array* pTable = nullptr;
+    switch (direction)
+    {
+        case CameraPos::eCamTop_1:
+        case CameraPos::eCamBottom_2:
+            pTable = &sTopBottomAmbiance_9F11D0;
+            break;
+        case CameraPos::eCamLeft_3:
+            pTable = &sLeftAmbiance_9F1280;
+            break;
+        case CameraPos::eCamRight_4:
+            pTable = &sRightAmbiance_9F1228;
+            break;
+        default:
+            return;
+    }
+
+    ScopedSeq** ppSeqPtr = &pTable->mArray[kZero].field_8_pScopedSeq;
+    if (!*ppSeqPtr)
+    {
+        *ppSeqPtr = ao_new<ScopedSeq>()->ctor_476400(kZero, direction);
+    }
+}
+
+EXPORT void CC Stop_slig_sounds_476A20(CameraPos direction, char kZero)
+{
+    Sound_Ambiance_Array* pTable = nullptr;
+    switch (direction)
+    {
+        case CameraPos::eCamTop_1:
+        case CameraPos::eCamBottom_2:
+            pTable = &sTopBottomAmbiance_9F11D0;
+            break;
+        case CameraPos::eCamLeft_3:
+            pTable = &sLeftAmbiance_9F1280;
+            break;
+        case CameraPos::eCamRight_4:
+            pTable = &sRightAmbiance_9F1228;
+            break;
+        default:
+            return;
+    }
+
+    if (pTable->mArray[kZero].field_8_pScopedSeq)
+    {
+        pTable->mArray[kZero].field_8_pScopedSeq->VDestructor(1);
     }
 }
 

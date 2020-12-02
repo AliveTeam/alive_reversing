@@ -202,7 +202,7 @@ TrapDoor* TrapDoor::ctor_488010(Path_TrapDoor* pTlv, Map* pMap, int tlvInfo)
         field_C6_scale = 1;
     }
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1004, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kP6c1trapResID, 1, 0);
 
     AddDynamicCollision_4512C0(
         sTrapDoorData_4BD4A0[cur_lvl].field_4_maxW,

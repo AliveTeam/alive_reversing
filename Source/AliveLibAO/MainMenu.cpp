@@ -301,7 +301,7 @@ MainMenuFade* MainMenuFade::ctor_42A5A0(__int16 xpos, __int16 ypos, unsigned __i
     field_C2_g = 128;
     field_C0_r = 128;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 8002, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHighliteResID, 1, 0);
     Animation_Init_417FD0(
         dword_4BB1B8[idx_1],
         99,
@@ -600,18 +600,18 @@ void MainMenuTransition::VRender_436610(int** ot)
     int r0g0 = -64 / ((v5 >> 2) + 1);
     for (int i = 0; i < 8; i++)
     {
-        int idx = i + (8 * this->field_242_idx);
+        int idx = i + (8 * field_242_idx);
         int v8 = stru_55C038[idx].field_4 << 8;
         int v9 = stru_55C038[idx].field_2 << 16;
         int v10 = (signed __int16)stru_55C038[idx].field_0 << 16;
         int v11 = Math_FixedPoint_Multiply_451040(v9, val1);
         int v12 = Math_FixedPoint_Multiply_451040(v10, val2) - v11;
         int v13 = Math_FixedPoint_Multiply_451040(op1, v8);
-        __int16 x0 = this->field_23E_width + 640 * ((signed int)Math_FixedPoint_Multiply_451040(v12, v13) >> 16) / 368;
+        __int16 x0 = field_23E_width + 640 * ((signed int)Math_FixedPoint_Multiply_451040(v12, v13) >> 16) / 368;
         int v14 = Math_FixedPoint_Multiply_451040(v9, val2);
         int v15 = Math_FixedPoint_Multiply_451040(v10, val1) + v14;
         int v16 = Math_FixedPoint_Multiply_451040(op1, v8);
-        __int16 y0 = this->field_240_k120 + (Math_FixedPoint_Multiply_451040(v15, v16) >> 16);
+        __int16 y0 = field_240_k120 + (Math_FixedPoint_Multiply_451040(v15, v16) >> 16);
 
         int v17 = 0;
         if (i < 7)
@@ -623,7 +623,7 @@ void MainMenuTransition::VRender_436610(int** ot)
             v17 = 0;
         }
 
-        int idx2 = (8 * this->field_242_idx);
+        int idx2 = (8 * field_242_idx);
         int v36 = (signed __int16)stru_55C038[idx2 + v17].field_0 << 16;
         int v19 = 0;
         if (i < 7)
@@ -652,11 +652,11 @@ void MainMenuTransition::VRender_436610(int** ot)
         int x1 = Math_FixedPoint_Multiply_451040(v36, val2) - v23;
         int v25 = Math_FixedPoint_Multiply_451040(op1, y1);
         // TODO: Use PsxToPCX
-        x1 = this->field_23E_width + 40 * ((signed int)Math_FixedPoint_Multiply_451040(x1, v25) >> 16) / 23; // LOWORD
+        x1 = field_23E_width + 40 * ((signed int)Math_FixedPoint_Multiply_451040(x1, v25) >> 16) / 23; // LOWORD
         int v26 = Math_FixedPoint_Multiply_451040(v38, val2);
         int v27 = v26 + Math_FixedPoint_Multiply_451040(v36, val1);
         int v28 = Math_FixedPoint_Multiply_451040(op1, y1);
-        y1 = this->field_240_k120 + (Math_FixedPoint_Multiply_451040(v27, v28) >> 16); // LOWORD
+        y1 = field_240_k120 + (Math_FixedPoint_Multiply_451040(v27, v28) >> 16); // LOWORD
         Poly_G3* pPoly = &field_1C_polys[gPsxDisplay_504C78.field_A_buffer_index].field_0_polys[i];
 
         SetRGB0(pPoly, static_cast<BYTE>(r0g0), static_cast<BYTE>(r0g0), 255);
@@ -700,9 +700,9 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, int tlvInfo)
 
     field_FC_font.ctor_41C170(240, byte_4D0090, &sFontContext_4FFD68);
     field_E4_res_array[0] = nullptr;
-    field_E4_res_array[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 132, 1, 0);
-    field_E4_res_array[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 367, 1, 0);
-    field_E4_res_array[5] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, 8003, 1, 0);
+    field_E4_res_array[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbespek2ResID, 1, 0);
+    field_E4_res_array[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOptflareResID, 1, 0);
+    field_E4_res_array[5] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kHighlitePalResID, 1, 0);
 
     // 30 = fmv select
     if ( gMap_507BA8.field_4_current_camera == 30)
@@ -714,9 +714,9 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, int tlvInfo)
     else
     {
         ResourceManager::LoadResourceFile_455270("ABEINTRO.BAN", nullptr);
-        field_E4_res_array[2] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 131, 1, 0);
+        field_E4_res_array[2] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeintroResID, 1, 0);
         ResourceManager::LoadResourceFile_455270("DOOR.BAN", nullptr);
-        field_E4_res_array[3] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 8001, 1, 0);
+        field_E4_res_array[3] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDoorResID, 1, 0);
         Animation_Init_417FD0(41420, 134, 90, field_E4_res_array[3], 1);
     }
 
@@ -724,7 +724,7 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, int tlvInfo)
     field_10_anim.field_9_g = 127;
     field_10_anim.field_8_r = 127;
 
-    BYTE** v8 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 8002, 1, 0);
+    BYTE** v8 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHighliteResID, 1, 0);
     field_134_anim.Init_402D20(6152, gObjList_animations_505564, this, 99, 43, v8, 1, 0, 0);
 
     field_134_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
@@ -1105,6 +1105,43 @@ void Menu::Empty_Render_47AC80(int**)
 const Menu_Button stru_4D00D8 = { 34, 65, 6152 };
 const Menu_Element x_and_esc_4D0660[] = { { 33, 29, 64 }, { 304, 165, 2048 } };
 
+
+void NavigateBetweenTwoPoints(FP& a, FP& b)
+{
+    if (a > FP_FromInteger(0))
+    {
+        a -= b;
+        if (a <= FP_FromInteger(0))
+        {
+            a = FP_FromInteger(0);
+        }
+        else
+        {
+            b -= FP_FromDouble(0.2);
+            if (b <= FP_FromInteger(0))
+            {
+                b = FP_FromInteger(0);
+            }
+        }
+    }
+    else if (a < FP_FromInteger(0))
+    {
+        a += b;
+        if (a < FP_FromInteger(0))
+        {
+            b -= FP_FromDouble(0.2);
+            if (b <= FP_FromInteger(0))
+            {
+                b = FP_FromInteger(0);
+            }
+        }
+        else
+        {
+            a = FP_FromInteger(0);
+        }
+    }
+}
+
 void Menu::FMV_Or_Level_Select_Render_47EEA0(int** ppOt)
 {
     // Glow hilight 
@@ -1148,41 +1185,7 @@ void Menu::FMV_Or_Level_Select_Render_47EEA0(int** ppOt)
         }
     }
 
-    if (field_21C > FP_FromInteger(0))
-    {
-        field_21C -= field_220;
-
-        if (field_21C <= FP_FromInteger(0))
-        {
-            field_21C = FP_FromInteger(0);
-        }
-        else
-        {
-            field_220 -= FP_FromDouble(0.2);
-
-            if (field_220 <= FP_FromInteger(0))
-            {
-                field_220 = FP_FromInteger(0);
-            }
-        }
-    }
-    else if (field_21C < FP_FromInteger(0))
-    {
-        field_21C += field_220;
-
-        if (field_21C < FP_FromInteger(0))
-        {
-            field_220 -= FP_FromDouble(0.2);
-            if (field_220 <= FP_FromInteger(0))
-            {
-                field_220 = FP_FromInteger(0);
-            }
-        }
-        else
-        {
-            field_21C = FP_FromInteger(0);
-        }
-    }
+    NavigateBetweenTwoPoints(field_21C, field_220);
 
     int polyOffset = 0;
 
@@ -1851,41 +1854,7 @@ void Menu::Load_Render_47DDA0(int** ppOt)
         }
     }
 
-    if (field_228 >= FP_FromInteger(0))
-    {
-        if (field_228 > FP_FromInteger(0))
-        {
-            field_228 -= field_22C;
-            if (field_228 <= FP_FromInteger(0))
-            {
-                field_228 = FP_FromInteger(0);
-            }
-            else
-            {
-                field_22C -= FP_FromDouble(0.2);
-                if (field_22C <= FP_FromInteger(0))
-                {
-                    field_22C = FP_FromInteger(0);
-                }
-            }
-        }
-    }
-    else
-    {
-        field_228 += field_22C;
-        if (field_228 >= FP_FromInteger(0))
-        {
-            field_228 = FP_FromInteger(0);
-        }
-        else
-        {
-            field_22C -= FP_FromDouble(0.2);
-            if (field_22C <= FP_FromInteger(0))
-            {
-                field_22C = FP_FromInteger(0);
-            }
-        }
-    }
+    NavigateBetweenTwoPoints(field_228, field_22C);
 
     int start = 0;
     int end = 0;
@@ -2024,7 +1993,7 @@ void Menu::FMV_Or_Level_Select_Back_Update_47ECB0()
     if (sNumCamSwappers_507668 <= 0)
     {
         ResourceManager::LoadResourceFile_455270("ABESPEAK.BAN", nullptr);
-        field_E4_res_array[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 130, 1, 0);
+        field_E4_res_array[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, 1, 0);
         field_1E8_pMenuTrans->StartTrans_436560(40, 0, 0, 16);
         field_1E0_selected_index = 1;
         field_134_anim.Set_Animation_Data_402A40(sMainScreenButtons_4D00B0[1].field_4_frame_table, nullptr);
@@ -2300,9 +2269,127 @@ void Menu::To_Options_Controller_Update_47F2E0()
     }
 }
 
-void Menu::Options_Controller_Render_47F430(int** /*ppOt*/)
+const Menu_Button controllerSelectButtons_4D0160[2] = { { 44, 236, 6152 }, { 290, 236, 6152 } };
+const Menu_Element controllerSelectElements_4D0678[2] = { { 43, 200, 64 }, { 289, 200, 2048 } };
+
+void Menu::Options_Controller_Render_47F430(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    if (field_230_bGoBack != -1)
+    {
+        field_134_anim.vRender(
+            controllerSelectButtons_4D0160[field_230_bGoBack].field_0_xpos,
+            controllerSelectButtons_4D0160[field_230_bGoBack].field_2_ypos,
+            ppOt,
+            0,
+            0
+        );
+    }
+
+    PSX_RECT rect = {};
+    field_134_anim.Get_Frame_Rect_402B50(&rect);
+    pScreenManager_4FF7C8->InvalidateRect_406E40(
+        rect.x,
+        rect.y,
+        rect.w,
+        rect.h,
+        pScreenManager_4FF7C8->field_2E_idx
+    );
+
+    if (field_1E0_selected_index != sJoystickEnabled_508A60)
+    {
+        if (field_228 > FP_FromInteger(0))
+        {
+            field_1E0_selected_index = static_cast<short>(sJoystickEnabled_508A60);
+        }
+        else
+        {
+            if (field_1E0_selected_index < sJoystickEnabled_508A60)
+            {
+                field_228 = FP_FromInteger(-1) * FP_FromInteger(26);
+                field_22C = FP_FromDouble(4.5);
+                sJoystickEnabled_508A60 = field_1E0_selected_index;
+            }
+            else if (field_1E0_selected_index > sJoystickEnabled_508A60)
+            {
+                field_228 = FP_FromInteger(26);
+                field_22C = FP_FromDouble(4.5);
+                sJoystickEnabled_508A60 = field_1E0_selected_index;
+            }
+        }
+    }
+
+    NavigateBetweenTwoPoints(field_228, field_22C);
+
+    int yOffset = -26;
+    int polyOffset = 0;
+    for (int i = 0; i < 3; i++)
+    {
+        int selection = field_1E0_selected_index + i - 1;
+        if (selection >= 0 && selection < dword_4CE598)
+        {
+            if (selection == 0)
+            {
+                field_1F4_text = "Keyboard";
+            }
+            else
+            {
+                field_1F4_text = "Gamepad";
+            }
+
+            const short fontWidth = static_cast<short>(field_FC_font.MeasureWidth_41C280(field_1F4_text, FP_FromInteger(1)));
+            const short x = static_cast<short>(fontWidth >= 336 ? 16 : (368 - fontWidth) / 2);
+            const short y = static_cast<short>(FP_GetExponent(field_228 + FP_FromDouble(0.5)) + yOffset + 112);
+
+            polyOffset = field_FC_font.DrawString_41C360(
+                ppOt,
+                field_1F4_text,
+                x,
+                y,
+                0,
+                1,
+                0,
+                32,
+                210,
+                150,
+                80,
+                polyOffset,
+                FP_FromInteger(1),
+                640,
+                0
+            );
+            polyOffset = field_FC_font.DrawString_41C360(
+                ppOt,
+                field_1F4_text,
+                x + 2,
+                y + 2,
+                0,
+                1,
+                0,
+                32,
+                0,
+                0,
+                0,
+                polyOffset,
+                FP_FromInteger(1),
+                640,
+                0
+            );
+        }
+        yOffset += 26;
+    };
+
+    for(int i = 0; i < ALIVE_COUNTOF(controllerSelectElements_4D0678); i++)
+    {
+        const auto& menuElement = controllerSelectElements_4D0678[i];
+        Menu::RenderElement_47A4E0(
+            menuElement.field_0_xpos,
+            menuElement.field_4_ypos,
+            menuElement.field_8_input_command,
+            ppOt,
+            &field_FC_font,
+            &polyOffset
+        );
+    }
 }
 
 void Menu::To_Options_Sound_Update_47C6F0()
@@ -2491,7 +2578,7 @@ void Menu::GameSpeak_Update_47CBD0()
     {
         if (field_1E0_selected_index == 8 && !(gnFrameCount_507670 % 8))
         {
-            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 367, 1, 0);
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOptflareResID, 1, 0);
             auto pParticle = ao_new<Particle>();
             if (pParticle)
             {
@@ -3702,7 +3789,7 @@ void Menu::GameSpeak_To_MainScreen_Update_47D690()
 
 void CC Menu::OnResourceLoaded_47ADA0(Menu* pMenu)
 {
-    pMenu->field_E4_res_array[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 130, 1, 0);
+    pMenu->field_E4_res_array[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, 1, 0);
 }
 
 void CC Menu::RenderElement_47A4E0(int xpos, int ypos, int input_command, int** ot, AliveFont* pFont, int* pPolyOffset)

@@ -21,7 +21,7 @@ Bat* Bat::ctor_4046E0(Path_Bat* pTlv, int tlvInfo)
 
     field_4_typeId = Types::eBat_6;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 63, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBatBasicResID, 1, 0);
     if (!ppRes)
     {
         field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);

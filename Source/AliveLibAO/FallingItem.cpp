@@ -48,7 +48,7 @@ FallingItem* FallingItem::ctor_419F30(Path_FallingItem* pTlv, int tlvInfo)
 
     field_10C_tlvInfo = tlvInfo;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2007, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2rockResID, 1, 0);
     const int lvlIdx = static_cast<int>(gMap_507BA8.field_0_current_level);
     Animation_Init_417FD0(
         sFallingItemData_4BAB20[lvlIdx].field_0,

@@ -84,7 +84,7 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, int tlvInfo)
 
     pTlv->field_1_unknown = 3;
 
-    BYTE** ppLiftRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1032, 1, 0);
+    BYTE** ppLiftRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kLiftResID, 1, 0);
     if (pTlv->field_20_scale)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
@@ -126,7 +126,7 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, int tlvInfo)
     field_118_x_offset -= xMovedBy;
     field_11A_width_offset -= xMovedBy;
 
-    BYTE** ppLiftWheelRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1001, 1, 0);
+    BYTE** ppLiftWheelRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPulleyResID, 1, 0);
     if (field_13C_lift_wheel.Init_402D20(
         stru_4BB480[idx].field_C_lift_wheel_frame_table_offset,
         gObjList_animations_505564,
@@ -159,7 +159,7 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, int tlvInfo)
         field_13C_lift_wheel.field_4_flags.Clear(AnimFlags::eBit2_Animate);
 
         field_12C_bMoving &= ~1u;
-        field_274_ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 53, 1, 0);
+        field_274_ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeliftResID, 1, 0);
         field_B4_velx = FP_FromInteger(0);
         field_13C_lift_wheel.field_8_r = 128;
         field_13C_lift_wheel.field_9_g = 128;
@@ -810,7 +810,7 @@ void LiftPoint::CreatePulleyIfExists_435AE0(short camX, short camY)
 
         field_26C_pulley_xpos = FP_GetExponent(((k13_scaled + kM10_scaled) / FP_FromInteger(2)) + FP_NoFractional(field_A8_xpos));
 
-        BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1001, 1, 0); 
+        BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPulleyResID, 1, 0);
         const int idx = static_cast<int>(gMap_507BA8.field_0_current_level);
 
         field_1D4_pulley_anim.Init_402D20(

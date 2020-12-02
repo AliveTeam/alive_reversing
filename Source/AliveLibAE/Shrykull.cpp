@@ -26,7 +26,7 @@ Shrykull* Shrykull::ctor_4AEA20()
     field_128_obj_being_zapped_id = -1;
     field_124_zap_line_id = -1;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kShrmorphResID);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kShrmorphResID);
     Animation_Init_424E10(82676, 123, 79u, ppRes, 1, 1u);
 
     field_B8_xpos = sActiveHero_5C1B68->field_B8_xpos;

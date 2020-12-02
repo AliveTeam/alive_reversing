@@ -35,7 +35,7 @@ BirdPortalTerminator* BirdPortalTerminator::ctor_451F70(FP xpos, FP ypos, FP sca
 
     field_4_typeId = Types::eClawOrBirdPortalTerminator_48;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 313, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortalTerminatorID, 1, 0);
     Animation_Init_417FD0(3860, 31, 18, ppRes, 1);
     field_10_anim.field_B_render_mode = 1;
     field_BC_sprite_scale = scale;
@@ -131,13 +131,13 @@ BaseGameObject* BirdPortal::dtor_452230()
     }
 
     BYTE** ppRes = nullptr;
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 313, 0, 0);
+    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortalTerminatorID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 351, 0, 0);
+    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortliteResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 353, 0, 0);
+    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortlitResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 60, 0, 0);
+    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDovbasicResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
 
     if (field_68_sfx_ret)
@@ -171,10 +171,10 @@ BirdPortal* BirdPortal::ctor_4520A0(Path_BirdPortal* pTlv, int tlvInfo)
 
     field_4_typeId = Types::eBirdPortal_65;
 
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 313, 1, 0);
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 60, 1, 0);
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 351, 1, 0);
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 353, 1, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortalTerminatorID, 1, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDovbasicResID, 1, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortliteResID, 1, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortlitResID, 1, 0);
 
     field_2C_tlvInfo = tlvInfo;
 
@@ -472,7 +472,7 @@ void BirdPortal::VUpdate_4523D0()
         {
             if ((Math_NextRandom() % 8) == 0)
             {
-                BYTE** ppLightRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 351, 1, 0);
+                BYTE** ppLightRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortliteResID, 1, 0);
                 if (ppLightRes)
                 {
                     auto pParticle = ao_new<Particle>();
@@ -598,7 +598,7 @@ void BirdPortal::VUpdate_4523D0()
 
         if (FP_GetExponent(field_3C_pTerminator1->field_AC_ypos) >= FP_GetExponent(field_40_pTerminator2->field_AC_ypos))
         {
-            BYTE** ppLightRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 353, 1, 0);
+            BYTE** ppLightRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortlitResID, 1, 0);
             if (ppLightRes)
             {
                 auto pParticle_1 = ao_new<Particle>();

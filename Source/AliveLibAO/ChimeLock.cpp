@@ -29,7 +29,7 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo)
 
     field_10C_tlvInfo = tlvInfo;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2024, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2ChimeBallResID, 1, 0);
     Animation_Init_417FD0(136, 16, 8, ppRes, 1);
     field_10_anim.field_C_layer = 37;
 

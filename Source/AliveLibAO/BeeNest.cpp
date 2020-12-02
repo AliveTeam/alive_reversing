@@ -37,7 +37,7 @@ BeeNest* BeeNest::ctor_480E20(Path_BeeNest* pTlv, int tlvInfo)
 
     field_2E_state = BeeNestStates::eWaitForTrigger_0;
 
-    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 61, 0, 0))
+    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWaspResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_455270("WASP.BAN", nullptr);
     }

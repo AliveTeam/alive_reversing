@@ -157,8 +157,8 @@ FlintLockFire* FlintLockFire::ctor_41AA90(Path_FlintLockFire* pTlv, int tlvInfo)
 
     if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
     {
-        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 304, 1, 0);
-        BYTE** v16 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 304, 1, 0);
+        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHubFireResID, 1, 0);
+        BYTE** v16 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHubFireResID, 1, 0);
         field_188_anim.Init_402D20(
             5072,
             gObjList_animations_505564,

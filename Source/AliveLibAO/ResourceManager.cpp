@@ -221,7 +221,7 @@ ALIVE_ASSERT_SIZEOF(ResourceManager_FileRecord_Unknown, 0x30);
 
 void CC Game_ShowLoadingIcon_445EB0()
 {
-    BYTE** ppLoadingAnimRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 8010, 1, 0);
+    BYTE** ppLoadingAnimRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kLoadingResID, 1, 0);
     if (ppLoadingAnimRes)
     {
         auto pParticle = ao_new<Particle>();

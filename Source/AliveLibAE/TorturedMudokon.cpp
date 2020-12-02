@@ -68,7 +68,7 @@ BaseGameObject* TorturedMudokon::VDestructor(signed int flags)
 
 void TorturedMudokon::SetupTearsAnimation_47BE60(Animation* pAnim)
 {
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kTorturedMudTearsResID);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kTorturedMudTearsResID);
     if (pAnim->Init_40A030(500, gObjList_animations_5C1A24, this, 17, 19, ppRes, 1, 0, 0))
     {
         pAnim->field_C_render_layer = field_20_animation.field_C_render_layer;
@@ -85,7 +85,7 @@ void TorturedMudokon::SetupTearsAnimation_47BE60(Animation* pAnim)
 
 void TorturedMudokon::SetupZapAnimation_47BEF0(Animation* pAnim)
 {
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kElecwallResID);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kElecwallResID);
     if (pAnim->Init_40A030(15384, gObjList_animations_5C1A24, this, 50, 80, ppRes, 1, 0, 0))
     {
         pAnim->field_C_render_layer = field_20_animation.field_C_render_layer - 1;

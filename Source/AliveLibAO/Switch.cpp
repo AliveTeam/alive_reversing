@@ -209,7 +209,7 @@ Switch* Switch::ctor_481110(Path_Switch* pTlv, int tlvInfo)
     SetVTable(this, 0x4BD100);
 
     field_4_typeId = Types::eLever_97;
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1009, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSwitchResID, 1, 0);
 
     const int idx = static_cast<int>(gMap_507BA8.field_0_current_level);
     Animation_Init_417FD0(

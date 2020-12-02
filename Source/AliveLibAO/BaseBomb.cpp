@@ -113,7 +113,7 @@ void BaseBomb::VUpdate_417580()
 
     if (field_10_anim.field_92_current_frame == 3)
     {
-        BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 300, 1, 0);
+        BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBgexpldResID, 1, 0);
         if (ppRes)
         {
             Particle* pParticle = ao_new<Particle>();
@@ -231,7 +231,7 @@ BaseBomb* BaseBomb::ctor_4173A0(FP xpos, FP ypos, int /*unused*/, FP scale)
     SetVTable(this, 0x4BAA00);
     field_4_typeId = Types::eBaseBomb_30;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 300, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBgexpldResID, 1, 0);
     Animation_Init_417FD0(51600, 214, 49, ppRes, 1);
 
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit18_IsLastFrame);

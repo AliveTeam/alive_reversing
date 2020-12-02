@@ -91,7 +91,7 @@ Spark* Spark::ctor_4CBBB0(FP xpos, FP ypos, FP scale, unsigned __int8 count, __i
         else
         {
             // Normal drill/grinder type sparks
-            BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kOmmflareResID);
+            BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID);
             auto pParticle = ae_new<Particle>();
             if (pParticle)
             {

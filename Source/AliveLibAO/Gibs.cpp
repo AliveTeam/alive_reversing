@@ -105,11 +105,11 @@ Gibs* Gibs::ctor_407B20(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scal
         // TODO: Enum for gib types, 0 = abe, 4 = mud
         if (gibType == 0 || gibType == 4)
         {
-            ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, 25, 0, 0);
+            ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kAbeblowResID, 0, 0);
         }
         else if (gibType == 2)
         {
-            ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, 576, 0, 0);
+            ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kSlogBlowResID, 0, 0);
         }
     }
 

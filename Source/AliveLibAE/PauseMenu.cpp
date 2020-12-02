@@ -530,11 +530,11 @@ BaseGameObject* PauseMenu::vdtor_48FCB0(signed int flags)
 void PauseMenu::Init_491760()
 {
     ResourceManager::LoadResourceFile_49C170("EMOHAP.BAN", 0);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kHappyiconResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kHappyiconResID);
     ResourceManager::LoadResourceFile_49C170("EMOANGRY.BAN", 0);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAngryiconResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAngryiconResID);
     ResourceManager::LoadResourceFile_49C170("EMONORM.BAN", 0);
-    BYTE **ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kNormaliconResID);
+    BYTE **ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kNormaliconResID);
 
     if (field_158_animation.Init_40A030(1248, gObjList_animations_5C1A24, this, 54, 47, ppAnimData, 1, 0, 0))
     {
@@ -826,13 +826,13 @@ std::vector<CustomPauseMenuItem> devCheatsMenuItems({
         DEV_CONSOLE_MESSAGE("(CHEAT) Oh man that stinks.", 4);
         pm->ClosePauseMenu();
         sActiveHero_5C1B68->field_198_has_evil_fart = true;
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID, FALSE, FALSE))
+        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kEvilFartResID, FALSE, FALSE))
         {
             ResourceManager::LoadResourceFile_49C170("EVILFART.BAN", nullptr);
         }
         if (!sActiveHero_5C1B68->field_10_resources_array.ItemAt(22))
         {
-            sActiveHero_5C1B68->field_10_resources_array.SetAt(22, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID, TRUE, FALSE));
+            sActiveHero_5C1B68->field_10_resources_array.SetAt(22, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kEvilFartResID, TRUE, FALSE));
         }
     } },
 });
@@ -1627,15 +1627,15 @@ void PauseMenu::Update_48FD80()
 
                 if (sActiveHero_5C1B68->field_128.field_12_mood == Mud_Emotion::eNormal_0)
                 {
-                    field_158_animation.Set_Animation_Data_409C80(1248, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kNormaliconResID, 1u, 0));
+                    field_158_animation.Set_Animation_Data_409C80(1248, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kNormaliconResID, 1u, 0));
                 }
                 else if (sActiveHero_5C1B68->field_128.field_12_mood == Mud_Emotion::eSad_3)
                 {
-                    field_158_animation.Set_Animation_Data_409C80(1076, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAngryiconResID, 1u, 0));
+                    field_158_animation.Set_Animation_Data_409C80(1076, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAngryiconResID, 1u, 0));
                 }
                 else if (sActiveHero_5C1B68->field_128.field_12_mood == Mud_Emotion::eHappy_5)
                 {
-                    field_158_animation.Set_Animation_Data_409C80(1252, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kHappyiconResID, 1u, 0));
+                    field_158_animation.Set_Animation_Data_409C80(1252, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kHappyiconResID, 1u, 0));
                 }
 
                 FrameInfoHeader* pFrameInfoHeader = field_158_animation.Get_FrameHeader_40B730(0);

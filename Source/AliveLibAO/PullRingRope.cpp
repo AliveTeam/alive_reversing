@@ -15,7 +15,7 @@ PullRingRope* PullRingRope::ctor_4546B0(Path_PullRingRope* pTlv, int tlvInfo)
     ctor_417C10();
     SetVTable(this, 0x4BC058);
     field_4_typeId = Types::ePullRingRope_68;
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1014, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPullringResID, 1, 0);
 
     int lvl_x_off = 0;
     switch (gMap_507BA8.field_0_current_level)

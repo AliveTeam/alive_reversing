@@ -131,12 +131,12 @@ int CC WorkWheel::CreateFromSaveState_4E3B10(const BYTE* pState)
 
     Path_Wheel* pTlv = static_cast<Path_Wheel*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pData->field_4_tlvInfo));
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeworkResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeworkResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("ABEWORK.BAN", nullptr);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kWorkwhelResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kWorkwhelResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("WORKWHEL.BAN", nullptr);
     }

@@ -67,7 +67,7 @@ ScopedSeq* ScopedSeq::ctor_476400(char ambianceId, CameraPos direction)
     return this;
 }
 
-ScopedSeq* ScopedSeq::VDtor(int flags)
+ScopedSeq* ScopedSeq::VDestructor(int flags)
 {
     SetVTable(this, 0x4BCD44);
 

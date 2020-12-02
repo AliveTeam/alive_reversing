@@ -20,7 +20,7 @@ Mine* Mine::ctor_43A330(Path_Mine* pTlv, int tlvInfo)
     SetVTable(&field_118_animation, 0x4BA2B8);
     field_4_typeId = Types::eMine_57;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1036, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kLandmineResID, 1, 0);
     Animation_Init_417FD0(748, 38, 13, ppRes, 1);
 
     field_6_flags.Set(Options::eCanExplode_Bit7);
@@ -46,7 +46,7 @@ Mine* Mine::ctor_43A330(Path_Mine* pTlv, int tlvInfo)
     field_110_tlv = tlvInfo;
     field_114_gnframe = gnFrameCount_507670;
 
-    BYTE** v8 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1040, 1, 0);
+    BYTE** v8 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMineflshResID, 1, 0);
     field_118_animation.Init_402D20(
         772,
         gObjList_animations_505564,
@@ -73,23 +73,23 @@ Mine* Mine::ctor_43A330(Path_Mine* pTlv, int tlvInfo)
     // TODO
     field_1B0_flags = 2 * (pTlv->field_20_persists_offscreen & 1) | field_1B0_flags & ~2;
 
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 13, 1, 0);
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1105, 1, 0);
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 300, 1, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbebombResID, 1, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDebrisID00, 1, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBgexpldResID, 1, 0);
 
     if (!(pTlv->field_1E_disabled_resources & 1))
     {
-        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 25, 1, 0);
+        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 1, 0);
     }
 
     if (!(pTlv->field_1E_disabled_resources & 4))
     {
-        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 217, 1, 0);
+        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElmblowResID_217, 1, 0);
     }
 
     if (!(pTlv->field_1E_disabled_resources & 2))
     {
-        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 576, 1, 0);
+        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, 1, 0);
     }
 
     if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
@@ -97,8 +97,8 @@ Mine* Mine::ctor_43A330(Path_Mine* pTlv, int tlvInfo)
         field_C4_b = 50;
         field_C2_g = 50;
         field_C0_r = 50;
-        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, 25, 1, 0);
-        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, 576, 1, 0);
+        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kAbeblowResID, 1, 0);
+        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kSlogBlowResID, 1, 0);
     }
 
     field_D4_collection_rect.x = field_A8_xpos - (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
@@ -126,28 +126,28 @@ BaseGameObject* Mine::dtor_43A640()
 
     field_118_animation.vCleanUp();
 
-    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 13, 0, 0));
-    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1105, 0, 0));
-    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 300, 0, 0));
+    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbebombResID, 0, 0));
+    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDebrisID00, 0, 0));
+    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBgexpldResID, 0, 0));
 
     if (!(field_10E_disabled_resources & 1))
     {
 
-        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 25, 0, 0));
+        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0));
     }
 
     if (!(field_10E_disabled_resources & 4))
     {
-        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 217, 0, 0));
+        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElmblowResID_217, 0, 0));
     }
 
     if (!(field_10E_disabled_resources & 2))
     {
-        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 576, 0, 0));
+        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, 0, 0));
     }
 
-    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, 25, 0, 0));
-    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, 576, 0, 0));
+    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kAbeblowResID, 0, 0));
+    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kSlogBlowResID, 0, 0));
 
     field_6_flags.Clear(Options::eInteractive_Bit8);
 

@@ -68,7 +68,7 @@ ParamiteWeb* ParamiteWeb::ctor_48A920(FP xpos, __int16 bottom, __int16 top, FP s
         field_E6_segment_length = 7;
     }
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2034, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWebResID, 1, 0);
     Animation_Init_417FD0(88, 3, 16, ppRes, 1);
 
     field_10_anim.field_14_scale = scale;

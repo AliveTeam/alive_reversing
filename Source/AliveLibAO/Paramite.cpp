@@ -112,16 +112,16 @@ Paramite* Paramite::ctor_44A7A0(Path_Paramite* pTlv, int tlvInfo)
         field_150_resources[i] = nullptr;
     }
 
-    field_150_resources[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 600, 1, 0);
-    field_150_resources[5] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 605, 1, 0);
-    field_150_resources[14] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 614, 1, 0);
-    field_150_resources[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 604, 1, 0);
-    field_150_resources[9] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 609, 1, 0);
-    field_150_resources[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 601, 1, 0);
-    field_150_resources[15] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 615, 1, 0);
-    field_150_resources[10] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 610, 1, 0);
+    field_150_resources[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArjbasicResID, 1, 0);
+    field_150_resources[5] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArjpumpResID, 1, 0);
+    field_150_resources[14] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArjponceResID, 1, 0);
+    field_150_resources[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArjclimbResID, 1, 0);
+    field_150_resources[9] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArjscrchResID, 1, 0);
+    field_150_resources[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArjeatResID, 1, 0);
+    field_150_resources[15] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArjfalrkResID, 1, 0);
+    field_150_resources[10] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArjwaspResID, 1, 0);
 
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2034, 1, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWebResID, 1, 0);
 
     Animation_Init_417FD0(
         57152,
@@ -249,7 +249,7 @@ BaseGameObject* Paramite::dtor_44AB00()
         }
     }
 
-    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2034, 0, 0));
+    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWebResID, 0, 0));
     if (field_100_health <= FP_FromInteger(0))
     {
         gMap_507BA8.TLV_Reset_446870(field_12C, -1, 0, 1);

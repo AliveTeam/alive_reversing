@@ -119,22 +119,22 @@ EXPORT void Factory_Hoist_487230(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("ABEHOIST.BAN", ResourceManager::Resource_Animation, 42, loadMode);
+        ResourceManager::LoadResource_446C90("ABEHOIST.BAN", ResourceManager::Resource_Animation, ResourceID::kAbehoistResID, loadMode);
         switch (gMap_507BA8.field_0_current_level)
         {
         case LevelIds::eRuptureFarms_1:
         case LevelIds::eRuptureFarmsReturn_13:
-            ResourceManager::LoadResource_446C90("DRPSPRK.BAN", ResourceManager::Resource_Animation, 357, loadMode);
+            ResourceManager::LoadResource_446C90("DRPSPRK.BAN", ResourceManager::Resource_Animation, ResourceID::kDrpRockResID, loadMode);
             break;
 
         case LevelIds::eForest_3:
         case LevelIds::eDesert_8:
-            ResourceManager::LoadResource_446C90("ANEEDGE.BAN", ResourceManager::Resource_Animation, 108, loadMode);
-            ResourceManager::LoadResource_446C90("DRPROCK.BAN", ResourceManager::Resource_Animation, 357, loadMode);
+            ResourceManager::LoadResource_446C90("ANEEDGE.BAN", ResourceManager::Resource_Animation, ResourceID::kAneedgeResID, loadMode);
+            ResourceManager::LoadResource_446C90("DRPROCK.BAN", ResourceManager::Resource_Animation, ResourceID::kDrpRockResID, loadMode);
             break;
 
         default:
-            ResourceManager::LoadResource_446C90("DRPROCK.BAN", ResourceManager::Resource_Animation, 357, loadMode);
+            ResourceManager::LoadResource_446C90("DRPROCK.BAN", ResourceManager::Resource_Animation, ResourceID::kDrpRockResID, loadMode);
             break;
         }
     }
@@ -162,11 +162,11 @@ EXPORT void Factory_Edge_481730(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUn
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("ABEHOIST.BAN", ResourceManager::Resource_Animation, 42, loadMode, 0);
+        ResourceManager::LoadResource_446C90("ABEHOIST.BAN", ResourceManager::Resource_Animation, ResourceID::kAbehoistResID, loadMode, 0);
 
         if (gMap_507BA8.field_0_current_level == LevelIds::eForest_3 || gMap_507BA8.field_0_current_level == LevelIds::eDesert_8)
         {
-            ResourceManager::LoadResource_446C90("ANEEDGE.BAN", ResourceManager::Resource_Animation, 108, loadMode, 0);
+            ResourceManager::LoadResource_446C90("ANEEDGE.BAN", ResourceManager::Resource_Animation, ResourceID::kAneedgeResID, loadMode, 0);
         }
     }
     else
@@ -188,11 +188,11 @@ EXPORT void Factory_Door_481C80(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
     {
         static CompileTimeResourceList<3> kResources =
         {
-            { ResourceManager::Resource_Animation, 2012 },
-            { ResourceManager::Resource_Animation, 2019 },
-            { ResourceManager::Resource_Animation, 2018 }
+            { ResourceManager::Resource_Animation, ResourceID::kF2p3dorResID },
+            { ResourceManager::Resource_Animation, ResourceID::kHubdoorResID },
+            { ResourceManager::Resource_Animation, ResourceID::kRockdoorResID }
         };
-        ResourceManager::LoadResource_446C90("ABEDOOR.BAN", ResourceManager::Resource_Animation, 45, loadMode);
+        ResourceManager::LoadResource_446C90("ABEDOOR.BAN", ResourceManager::Resource_Animation, ResourceID::kAbedoorResID, loadMode);
         switch (gMap_507BA8.field_0_current_level)
         {
         case LevelIds::eRuptureFarms_1:
@@ -218,25 +218,25 @@ EXPORT void Factory_Door_481C80(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
     }
     else
     {
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 45, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbedoorResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2012, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2p3dorResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2019, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHubdoorResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2018, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRockdoorResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
@@ -270,9 +270,9 @@ EXPORT void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion
 {
     static CompileTimeResourceList<3> kResources =
     {
-        { ResourceManager::Resource_Animation, 53 },
-        { ResourceManager::Resource_Animation, 1001 },
-        { ResourceManager::Resource_Animation, 1032 }
+        { ResourceManager::Resource_Animation, ResourceID::kAbeliftResID },
+        { ResourceManager::Resource_Animation, ResourceID::kPulleyResID },
+        { ResourceManager::Resource_Animation, ResourceID::kLiftResID }
     };
 
     if (loadMode == 1 || loadMode == 2)
@@ -282,28 +282,28 @@ EXPORT void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion
         case LevelIds::eRuptureFarms_1:
         case LevelIds::eBoardRoom_12:
         case LevelIds::eRuptureFarmsReturn_13:
-            ResourceManager::LoadResource_446C90("R1ROPES.BAN", ResourceManager::Resource_Animation, 1000, loadMode);
+            ResourceManager::LoadResource_446C90("R1ROPES.BAN", ResourceManager::Resource_Animation, ResourceID::kRopesResID, loadMode);
             ResourceManager::LoadResourcesFromList_446E80("RLIFT.BND", kResources.AsList(), loadMode, 0);
             break;
 
         case LevelIds::eLines_2:
-            ResourceManager::LoadResource_446C90("ROPES.BAN", ResourceManager::Resource_Animation, 1000, loadMode);
+            ResourceManager::LoadResource_446C90("ROPES.BAN", ResourceManager::Resource_Animation, ResourceID::kRopesResID, loadMode);
             ResourceManager::LoadResourcesFromList_446E80("LLIFT.BND", kResources.AsList(), loadMode, 0);
             break;
 
         case LevelIds::eDesert_8:
-            ResourceManager::LoadResource_446C90("D1ROPES.BAN", ResourceManager::Resource_Animation, 1000, loadMode);
+            ResourceManager::LoadResource_446C90("D1ROPES.BAN", ResourceManager::Resource_Animation, ResourceID::kRopesResID, loadMode);
             ResourceManager::LoadResourcesFromList_446E80("D1LIFT.BND", kResources.AsList(), loadMode, 0);
             break;
 
         case LevelIds::eDesertTemple_9:
         case LevelIds::eDesertEscape:
-            ResourceManager::LoadResource_446C90("D1ROPES.BAN", ResourceManager::Resource_Animation, 1000, loadMode);
+            ResourceManager::LoadResource_446C90("D1ROPES.BAN", ResourceManager::Resource_Animation, ResourceID::kRopesResID, loadMode);
             ResourceManager::LoadResourcesFromList_446E80("D2LIFT.BND", kResources.AsList(), loadMode, 0);
             break;
 
         default:
-            ResourceManager::LoadResource_446C90("ROPES.BAN", ResourceManager::Resource_Animation, 1000, loadMode);
+            ResourceManager::LoadResource_446C90("ROPES.BAN", ResourceManager::Resource_Animation, ResourceID::kRopesResID, loadMode);
             ResourceManager::LoadResourcesFromList_446E80("FLIFT.BND", kResources.AsList(), loadMode, 0);
             break;
         }
@@ -336,25 +336,25 @@ EXPORT void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion
         }
 
         // TODO: This got moved to a helper iin AE
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1032, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kLiftResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1001, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPulleyResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 53, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeliftResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1000, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRopesResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
@@ -428,13 +428,13 @@ EXPORT void Factory_WellExpress_483340(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("ABEWELL.BAN", ResourceManager::Resource_Animation, 47, loadMode);
-        ResourceManager::LoadResource_446C90("WELLLEAF.BAN", ResourceManager::Resource_Animation, 341, loadMode);
+        ResourceManager::LoadResource_446C90("ABEWELL.BAN", ResourceManager::Resource_Animation, ResourceID::kAbewellResID, loadMode);
+        ResourceManager::LoadResource_446C90("WELLLEAF.BAN", ResourceManager::Resource_Animation, ResourceID::kWellLeafResID, loadMode);
     }
     else
     {
-        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 47, 0, 0) &&
-            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 341, 0, 0))
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbewellResID, 0, 0) &&
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWellLeafResID, 0, 0))
         {
             const FP xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
             const FP ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
@@ -454,7 +454,7 @@ EXPORT void Factory_Dove_4834C0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
 {
     if (loadMode != 1 && loadMode != 2)
     {
-        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 60, 0, 0))
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDovbasicResID, 0, 0))
         {
             auto pDoveTlv = static_cast<Path_Dove*>(pTlv);
 
@@ -499,22 +499,22 @@ EXPORT void Factory_RockSack_483680(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUn
     {
         static CompileTimeResourceList<3> kResources =
         {
-            { ResourceManager::Resource_Animation, 12 },
-            { ResourceManager::Resource_Animation, 14 },
-            { ResourceManager::Resource_Animation, 350 }
+            { ResourceManager::Resource_Animation, ResourceID::kAbepickResID },
+            { ResourceManager::Resource_Animation, ResourceID::kAbethrowResID },
+            { ResourceManager::Resource_Animation, ResourceID::kAberockResID }
         };
 
         ResourceManager::LoadResourcesFromList_446E80("RTHROW.BND", kResources.AsList(), loadMode, 0);
         if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || 
             gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
         {
-            ResourceManager::LoadResource_446C90("E1BAG.BAN", ResourceManager::Resource_Palt, 1002, loadMode);
-            ResourceManager::LoadResource_446C90("EPUIROCK.BAN", ResourceManager::Resource_Palt, 350, loadMode);
+            ResourceManager::LoadResource_446C90("E1BAG.BAN", ResourceManager::Resource_Palt, ResourceID::kP2c2bagResID, loadMode);
+            ResourceManager::LoadResource_446C90("EPUIROCK.BAN", ResourceManager::Resource_Palt, ResourceID::kAberockResID, loadMode);
         }
     }
     else
     {
-        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1002, 0, 0))
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kP2c2bagResID, 0, 0))
         {
             auto pRockSack = ao_new<RockSack>();
             if (pRockSack)
@@ -536,8 +536,8 @@ EXPORT void Factory_ZBall_483890(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion
     {
         if (gMap_507BA8.field_0_current_level == LevelIds::eForestTemple_4)
         {
-            ResourceManager::LoadResource_446C90("F2ZBALL.BAN", ResourceManager::Resource_Animation, 2001, loadMode);
-            ResourceManager::LoadResource_446C90("ABEKNOKZ.BAN", ResourceManager::Resource_Animation, 28, loadMode);
+            ResourceManager::LoadResource_446C90("F2ZBALL.BAN", ResourceManager::Resource_Animation, ResourceID::kF2zballResID, loadMode);
+            ResourceManager::LoadResource_446C90("ABEKNOKZ.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeknokzResID, loadMode);
         }
     }
     else
@@ -559,41 +559,41 @@ EXPORT void Factory_FallingItem_483940(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
         {
         case LevelIds::eRuptureFarms_1:
         case LevelIds::eRuptureFarmsReturn_13:
-            ResourceManager::LoadResource_446C90("R1BARREL.BAN", ResourceManager::Resource_Animation, 2007, loadMode);
-            ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, 358, loadMode);
-            ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, 2035, loadMode);
-            ResourceManager::LoadResource_446C90("R1MEAT.BAN", ResourceManager::Resource_Animation, 6014, loadMode);
+            ResourceManager::LoadResource_446C90("R1BARREL.BAN", ResourceManager::Resource_Animation, ResourceID::kF2rockResID, loadMode);
+            ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, ResourceID::kStickResID, loadMode);
+            ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, loadMode);
+            ResourceManager::LoadResource_446C90("R1MEAT.BAN", ResourceManager::Resource_Animation, ResourceID::kUnknownResID_6014, loadMode);
             break;
 
         case LevelIds::eLines_2:
         case LevelIds::eBoardRoom_12:
-            ResourceManager::LoadResource_446C90("F2ROCK.BAN", ResourceManager::Resource_Animation, 2007, loadMode);
-            ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, 358, loadMode);
-            ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, 2035, loadMode);
-            ResourceManager::LoadResource_446C90("DEBRIS00.BAN", ResourceManager::Resource_Animation, 1105, loadMode);
+            ResourceManager::LoadResource_446C90("F2ROCK.BAN", ResourceManager::Resource_Animation, ResourceID::kF2rockResID, loadMode);
+            ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, ResourceID::kStickResID, loadMode);
+            ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, loadMode);
+            ResourceManager::LoadResource_446C90("DEBRIS00.BAN", ResourceManager::Resource_Animation, ResourceID::kDebrisID00, loadMode);
             break;
 
         case LevelIds::eStockYards_5:
-            ResourceManager::LoadResource_446C90("F2ROCK.BAN", ResourceManager::Resource_Animation, 2007, loadMode);
-            ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, 358, loadMode);
-            ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, 2035, loadMode);
-            ResourceManager::LoadResource_446C90("DEBRIS00.BAN", ResourceManager::Resource_Animation, 1105, loadMode);
+            ResourceManager::LoadResource_446C90("F2ROCK.BAN", ResourceManager::Resource_Animation, ResourceID::kF2rockResID, loadMode);
+            ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, ResourceID::kStickResID, loadMode);
+            ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, loadMode);
+            ResourceManager::LoadResource_446C90("DEBRIS00.BAN", ResourceManager::Resource_Animation, ResourceID::kDebrisID00, loadMode);
             break;
 
         case LevelIds::eDesert_8:
         case LevelIds::eDesertTemple_9:
         case LevelIds::eDesertEscape:
-            ResourceManager::LoadResource_446C90("F2ROCK.BAN", ResourceManager::Resource_Animation, 2007, loadMode);
-            ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, 358, loadMode);
-            ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, 2035, loadMode);
-            ResourceManager::LoadResource_446C90("DEBRIS00.BAN", ResourceManager::Resource_Animation, 1105, loadMode);
+            ResourceManager::LoadResource_446C90("F2ROCK.BAN", ResourceManager::Resource_Animation, ResourceID::kF2rockResID, loadMode);
+            ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, ResourceID::kStickResID, loadMode);
+            ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, loadMode);
+            ResourceManager::LoadResource_446C90("DEBRIS00.BAN", ResourceManager::Resource_Animation, ResourceID::kDebrisID00, loadMode);
             break;
 
         default:
-            ResourceManager::LoadResource_446C90("F2ROCK.BAN", ResourceManager::Resource_Animation, 2007, loadMode);
-            ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, 358, loadMode);
-            ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, 2035, loadMode);
-            ResourceManager::LoadResource_446C90("DEBRIS00.BAN", ResourceManager::Resource_Animation, 1105, loadMode);
+            ResourceManager::LoadResource_446C90("F2ROCK.BAN", ResourceManager::Resource_Animation, ResourceID::kF2rockResID, loadMode);
+            ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, ResourceID::kStickResID, loadMode);
+            ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, loadMode);
+            ResourceManager::LoadResource_446C90("DEBRIS00.BAN", ResourceManager::Resource_Animation, ResourceID::kDebrisID00, loadMode);
             break;
         }
     }
@@ -603,7 +603,7 @@ EXPORT void Factory_FallingItem_483940(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
         {
         case LevelIds::eRuptureFarms_1:
         case LevelIds::eRuptureFarmsReturn_13:
-            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6014, 0, 0))
+            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_6014, 0, 0))
             {
                 gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
                 return;
@@ -611,7 +611,7 @@ EXPORT void Factory_FallingItem_483940(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
             break;
 
         case LevelIds::eLines_2:
-            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1105, 0, 0))
+            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDebrisID00, 0, 0))
             {
                 gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
                 return;
@@ -621,7 +621,7 @@ EXPORT void Factory_FallingItem_483940(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
         case LevelIds::eStockYards_5:
         case LevelIds::eDesert_8:
         case LevelIds::eDesertTemple_9:
-            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1105, 0, 0))
+            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDebrisID00, 0, 0))
             {
                 gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
                 return;
@@ -629,16 +629,16 @@ EXPORT void Factory_FallingItem_483940(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
             break;
 
         default:
-            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1105, 0, 0))
+            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDebrisID00, 0, 0))
             {
                 gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
                 return;
             }
         }
 
-        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2007, 0, 0) &&
-            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 358, 0, 0) &&
-            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2035, 0, 0))
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2rockResID, 0, 0) &&
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kStickResID, 0, 0) &&
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, 0, 0))
         {
             auto pFallingItem = ao_new<FallingItem>();
             if (pFallingItem)
@@ -675,26 +675,26 @@ EXPORT void Factory_PullRingRope_483DA0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
         case LevelIds::eRuptureFarms_1:
         case LevelIds::eBoardRoom_12:
         case LevelIds::eRuptureFarmsReturn_13:
-            ResourceManager::LoadResource_446C90("R1ROPES.BAN", ResourceManager::Resource_Animation, 1000, loadMode);
-            ResourceManager::LoadResource_446C90("R1PULRNG.BAN", ResourceManager::Resource_Animation, 1014, loadMode);
+            ResourceManager::LoadResource_446C90("R1ROPES.BAN", ResourceManager::Resource_Animation, ResourceID::kRopesResID, loadMode);
+            ResourceManager::LoadResource_446C90("R1PULRNG.BAN", ResourceManager::Resource_Animation, ResourceID::kPullringResID, loadMode);
             break;
 
         case LevelIds::eDesert_8:
         case LevelIds::eDesertTemple_9:
-            ResourceManager::LoadResource_446C90("D1ROPES.BAN", ResourceManager::Resource_Animation, 1000, loadMode);
-            ResourceManager::LoadResource_446C90("PULLRING.BAN", ResourceManager::Resource_Animation, 1014, loadMode);
+            ResourceManager::LoadResource_446C90("D1ROPES.BAN", ResourceManager::Resource_Animation, ResourceID::kRopesResID, loadMode);
+            ResourceManager::LoadResource_446C90("PULLRING.BAN", ResourceManager::Resource_Animation, ResourceID::kPullringResID, loadMode);
             break;
 
         default:
-            ResourceManager::LoadResource_446C90("ROPES.BAN", ResourceManager::Resource_Animation, 1000, loadMode);
-            ResourceManager::LoadResource_446C90("PULLRING.BAN", ResourceManager::Resource_Animation, 1014, loadMode);
+            ResourceManager::LoadResource_446C90("ROPES.BAN", ResourceManager::Resource_Animation, ResourceID::kRopesResID, loadMode);
+            ResourceManager::LoadResource_446C90("PULLRING.BAN", ResourceManager::Resource_Animation, ResourceID::kPullringResID, loadMode);
             break;
         }
     }
     else
     {
-        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1014, 0, 0) &&
-            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1000, 0, 0))
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPullringResID, 0, 0) &&
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRopesResID, 0, 0))
         {
             auto pPullRingRope = ao_new<PullRingRope>();
             if (pPullRingRope)
@@ -725,14 +725,14 @@ EXPORT void Factory_Honey_4844A0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("ELMHONEY.BAN", ResourceManager::Resource_Animation, 203, loadMode);
-        ResourceManager::LoadResource_446C90("ELMWASP.BAN", ResourceManager::Resource_Animation, 204, loadMode);
-        ResourceManager::LoadResource_446C90("HONEY.BAN", ResourceManager::Resource_Animation, 337, loadMode);
+        ResourceManager::LoadResource_446C90("ELMHONEY.BAN", ResourceManager::Resource_Animation, ResourceID::kNormaliconResID, loadMode);
+        ResourceManager::LoadResource_446C90("ELMWASP.BAN", ResourceManager::Resource_Animation, ResourceID::kUnknownResID_204, loadMode);
+        ResourceManager::LoadResource_446C90("HONEY.BAN", ResourceManager::Resource_Animation, ResourceID::kHoneyResID, loadMode);
     }
     else
     {
-        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 203, 0, 0) &&
-            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 204, 0, 0))
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kNormaliconResID, 0, 0) &&
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_204, 0, 0))
         {
             auto pHoney = ao_new<Honey>();
             if (pHoney)
@@ -765,64 +765,64 @@ EXPORT void Factory_TimedMine_484650(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
     const auto disabledResource = pTimedMineTlv->field_20_disable_resources;
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, 25, loadMode, disabledResource & 1);
-        ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, 576, loadMode, disabledResource & 2);
-        ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, 217, loadMode, disabledResource & 4);
+        ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, loadMode, disabledResource & 1);
+        ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, loadMode, disabledResource & 2);
+        ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kElmblowResID_217, loadMode, disabledResource & 4);
         if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
         {
-            ResourceManager::LoadResource_446C90("E1BOMB.BAN", ResourceManager::Resource_Palt, 1005, loadMode);
-            ResourceManager::LoadResource_446C90("ABEE1PAL.BAN", ResourceManager::Resource_Palt, 25, loadMode);
-            ResourceManager::LoadResource_446C90("DOGE1PAL.BAN", ResourceManager::Resource_Palt, 576, loadMode);
+            ResourceManager::LoadResource_446C90("E1BOMB.BAN", ResourceManager::Resource_Palt, ResourceID::kBombResID, loadMode);
+            ResourceManager::LoadResource_446C90("ABEE1PAL.BAN", ResourceManager::Resource_Palt, ResourceID::kAbeblowResID, loadMode);
+            ResourceManager::LoadResource_446C90("DOGE1PAL.BAN", ResourceManager::Resource_Palt, ResourceID::kSlogBlowResID, loadMode);
         }
 
         static CompileTimeResourceList<2> kBombResources = 
         {
-            { ResourceManager::Resource_Animation, 1005 },
-            { ResourceManager::Resource_Animation, 1011 }
+            { ResourceManager::Resource_Animation, ResourceID::kBombResID },
+            { ResourceManager::Resource_Animation, ResourceID::kBombflshResID }
         };
         ResourceManager::LoadResourcesFromList_446E80("BOMB.BND", kBombResources.AsList(), loadMode, 0);
 
         static CompileTimeResourceList<3> kExplodeResources =
         {
-            { ResourceManager::Resource_Animation, 13 },
-            { ResourceManager::Resource_Animation, 1105 },
-            { ResourceManager::Resource_Animation, 300 }
+            { ResourceManager::Resource_Animation, ResourceID::kAbebombResID },
+            { ResourceManager::Resource_Animation, ResourceID::kDebrisID00 },
+            { ResourceManager::Resource_Animation, ResourceID::kBgexpldResID }
         };
         ResourceManager::LoadResourcesFromList_446E80("EXPLODE.BND", kExplodeResources.AsList(), loadMode, 0);
     }
     else
     {
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 13, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbebombResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1005, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBombResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1011, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBombflshResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 300, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBgexpldResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!(disabledResource & 1) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 25, 0, 0))
+        if (!(disabledResource & 1) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (disabledResource & 2 || ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 576, 0, 0))
+        if (disabledResource & 2 || ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, 0, 0))
         {
             auto pTimedMine = ao_new<TimedMine>();
             if (pTimedMine)
@@ -845,17 +845,17 @@ EXPORT void Factory_Null_482EA0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUn
 
 static CompileTimeResourceList<3> kResources_4BD1AC =
 {
-    { ResourceManager::Resource_Animation, 417 },
-    { ResourceManager::Resource_Animation, 344 },
-    { ResourceManager::Resource_Animation, 28 }
+    { ResourceManager::Resource_Animation, ResourceID::kSlgzshotResID },
+    { ResourceManager::Resource_Animation, ResourceID::kZflashResID },
+    { ResourceManager::Resource_Animation, ResourceID::kAbeknokzResID }
 };
 
 static CompileTimeResourceList<4> kResources_4BD1CC =
 {
-    { ResourceManager::Resource_Animation, 412 },
-    { ResourceManager::Resource_Animation, 414 },
-    { ResourceManager::Resource_Animation, 319 },
-    { ResourceManager::Resource_Animation, 360 }
+    { ResourceManager::Resource_Animation, ResourceID::kSlgbasicResID },
+    { ResourceManager::Resource_Animation, ResourceID::kSlgknbkResID },
+    { ResourceManager::Resource_Animation, ResourceID::kBigflashResID },
+    { ResourceManager::Resource_Animation, ResourceID::kShellResID }
 };
 
 
@@ -863,13 +863,13 @@ static bool LoadWalkingSligResources(__int16 loadMode, BitField16<SligFlags_Disa
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("SLGLEVER.BAN", ResourceManager::Resource_Animation, 419, loadMode, disabledResources.Get(eDisabledRes_Bit1));
-        ResourceManager::LoadResource_446C90("SLGLIFT.BAN", ResourceManager::Resource_Animation, 420, loadMode, disabledResources.Get(eDisabledRes_Bit2));
-        ResourceManager::LoadResource_446C90("SLGSLEEP.BAN", ResourceManager::Resource_Animation, 413, loadMode, disabledResources.Get(eDisabledRes_Bit7));
-        ResourceManager::LoadResource_446C90("SLGEDGE.BAN", ResourceManager::Resource_Animation, 415, loadMode, disabledResources.Get(eDisabledRes_Bit9));
-        ResourceManager::LoadResource_446C90("SLGSMASH.BAN", ResourceManager::Resource_Animation, 416, loadMode, disabledResources.Get(eDisabledRes_Bit10));
-        ResourceManager::LoadResource_446C90("SLGBEAT.BAN", ResourceManager::Resource_Animation, 426, loadMode, disabledResources.Get(eDisabledRes_Bit11));
-        ResourceManager::LoadResource_446C90("SLGKNFD.BAN", ResourceManager::Resource_Animation, 418, loadMode, disabledResources.Get(eDisabledRes_Bit8));
+        ResourceManager::LoadResource_446C90("SLGLEVER.BAN", ResourceManager::Resource_Animation, ResourceID::kSlgleverResID, loadMode, disabledResources.Get(eDisabledRes_Bit1));
+        ResourceManager::LoadResource_446C90("SLGLIFT.BAN", ResourceManager::Resource_Animation, ResourceID::kSlgliftResID, loadMode, disabledResources.Get(eDisabledRes_Bit2));
+        ResourceManager::LoadResource_446C90("SLGSLEEP.BAN", ResourceManager::Resource_Animation, ResourceID::kSlgsleepResID, loadMode, disabledResources.Get(eDisabledRes_Bit7));
+        ResourceManager::LoadResource_446C90("SLGEDGE.BAN", ResourceManager::Resource_Animation, ResourceID::kSlgedgeResID, loadMode, disabledResources.Get(eDisabledRes_Bit9));
+        ResourceManager::LoadResource_446C90("SLGSMASH.BAN", ResourceManager::Resource_Animation, ResourceID::kSlgsmashResID, loadMode, disabledResources.Get(eDisabledRes_Bit10));
+        ResourceManager::LoadResource_446C90("SLGBEAT.BAN", ResourceManager::Resource_Animation, ResourceID::kSlgbeatResID, loadMode, disabledResources.Get(eDisabledRes_Bit11));
+        ResourceManager::LoadResource_446C90("SLGKNFD.BAN", ResourceManager::Resource_Animation, ResourceID::kSlgknfdResID, loadMode, disabledResources.Get(eDisabledRes_Bit8));
 
         ResourceManager::LoadResourcesFromList_446E80(
             "SLIGZ.BND",
@@ -883,23 +883,23 @@ static bool LoadWalkingSligResources(__int16 loadMode, BitField16<SligFlags_Disa
             loadMode,
             0);
 
-        ResourceManager::LoadResource_446C90("SLGBLOW.BAN", ResourceManager::Resource_Animation, 423, loadMode, 0);
-        ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, 2035, loadMode, 0);
+        ResourceManager::LoadResource_446C90("SLGBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kSligBlowResID, loadMode, 0);
+        ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, loadMode, 0);
 
         if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
         {
-            ResourceManager::LoadResource_446C90("E1PAL.BAN", ResourceManager::Resource_Palt, 412, loadMode, 0);
+            ResourceManager::LoadResource_446C90("E1PAL.BAN", ResourceManager::Resource_Palt, ResourceID::kSlgbasicResID, loadMode, 0);
         }
     }
     else
     {
-        if (!(disabledResources.Get(eDisabledRes_Bit1)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 419, 0, 0))
+        if (!(disabledResources.Get(eDisabledRes_Bit1)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgleverResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return false;
         }
 
-        if (!(disabledResources.Get(eDisabledRes_Bit2)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 420, 0, 0))
+        if (!(disabledResources.Get(eDisabledRes_Bit2)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgliftResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return false;
@@ -907,7 +907,7 @@ static bool LoadWalkingSligResources(__int16 loadMode, BitField16<SligFlags_Disa
 
         if (!(disabledResources.Get(eDisabledRes_Bit3)))
         {
-            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 417, 0, 0))
+            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgzshotResID, 0, 0))
             {
                 gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
                 return false;
@@ -915,13 +915,13 @@ static bool LoadWalkingSligResources(__int16 loadMode, BitField16<SligFlags_Disa
 
             if (!(disabledResources.Get(eDisabledRes_Bit3)))
             {
-                if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 344, 0, 0))
+                if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kZflashResID, 0, 0))
                 {
                     gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
                     return false;
                 }
 
-                if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 28, 0, 0))
+                if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeknokzResID, 0, 0))
                 {
                     gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
                     return false;
@@ -929,67 +929,67 @@ static bool LoadWalkingSligResources(__int16 loadMode, BitField16<SligFlags_Disa
             }
         }
 
-        if (!(disabledResources.Get(eDisabledRes_Bit7)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 413, 0, 0))
+        if (!(disabledResources.Get(eDisabledRes_Bit7)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgsleepResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return false;
         }
 
-        if (!(disabledResources.Get(eDisabledRes_Bit9)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 415, 0, 0))
+        if (!(disabledResources.Get(eDisabledRes_Bit9)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgedgeResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return false;
         }
 
-        if (!(disabledResources.Get(eDisabledRes_Bit10)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 416, 0, 0))
+        if (!(disabledResources.Get(eDisabledRes_Bit10)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgsmashResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return false;
         }
 
-        if (!(disabledResources.Get(eDisabledRes_Bit11)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 426, 0, 0))
+        if (!(disabledResources.Get(eDisabledRes_Bit11)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgbeatResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return false;
         }
 
-        if (!(disabledResources.Get(eDisabledRes_Bit8)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 418, 0, 0))
+        if (!(disabledResources.Get(eDisabledRes_Bit8)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgknfdResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return false;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 319, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBigflashResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return false;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 360, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kShellResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return false;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2035, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return false;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 423, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSligBlowResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return false;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 412, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgbasicResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return false;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 414, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgknbkResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return false;
@@ -1025,41 +1025,41 @@ EXPORT void Factory_Slog_485030(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
     {
         static CompileTimeResourceList<4> kResources = 
         {
-            { ResourceManager::Resource_Animation, 570 },
-            { ResourceManager::Resource_Animation, 571 },
-            { ResourceManager::Resource_Animation, 572 },
-            { ResourceManager::Resource_Animation, 574 }
+            { ResourceManager::Resource_Animation, ResourceID::kDogbasicResID },
+            { ResourceManager::Resource_Animation, ResourceID::kDogrstnResID },
+            { ResourceManager::Resource_Animation, ResourceID::kDogattkResID },
+            { ResourceManager::Resource_Animation, ResourceID::kDogidleResID }
         };
         ResourceManager::LoadResourcesFromList_446E80("SLOG.BND", kResources.AsList(), loadMode, 0);
-        ResourceManager::LoadResource_446C90("DOGKNFD.BAN", ResourceManager::Resource_Animation, 573, loadMode, 0);
+        ResourceManager::LoadResource_446C90("DOGKNFD.BAN", ResourceManager::Resource_Animation, ResourceID::kDogknfdResID, loadMode, 0);
     }
     else
     {
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 570, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogbasicResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 571, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogrstnResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 572, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogattkResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 573, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogknfdResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 574, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogidleResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
@@ -1084,24 +1084,24 @@ EXPORT void Factory_Switch_485370(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnio
         case LevelIds::eStockYardsReturn_6:
         case LevelIds::eBoardRoom_12:
         case LevelIds::eRuptureFarmsReturn_13:
-            ResourceManager::LoadResource_446C90("R1SWITCH.BAN", ResourceManager::Resource_Animation, 1009, loadMode);
+            ResourceManager::LoadResource_446C90("R1SWITCH.BAN", ResourceManager::Resource_Animation, ResourceID::kSwitchResID, loadMode);
             break;
 
         case LevelIds::eLines_2:
-            ResourceManager::LoadResource_446C90("L1SWITCH.BAN", ResourceManager::Resource_Animation, 1009, loadMode);
+            ResourceManager::LoadResource_446C90("L1SWITCH.BAN", ResourceManager::Resource_Animation, ResourceID::kSwitchResID, loadMode);
             break;
 
         case LevelIds::eDesert_8:
         case LevelIds::eDesertTemple_9:
         case LevelIds::eDesertEscape:
-            ResourceManager::LoadResource_446C90("SWITCH1.BAN", ResourceManager::Resource_Animation, 1009, loadMode);
+            ResourceManager::LoadResource_446C90("SWITCH1.BAN", ResourceManager::Resource_Animation, ResourceID::kSwitchResID, loadMode);
             break;
 
         default:
-            ResourceManager::LoadResource_446C90("SWITCH1.BAN", ResourceManager::Resource_Animation, 1009, loadMode);
+            ResourceManager::LoadResource_446C90("SWITCH1.BAN", ResourceManager::Resource_Animation, ResourceID::kSwitchResID, loadMode);
             break;
         }
-        ResourceManager::LoadResource_446C90("ABEPULL.BAN", ResourceManager::Resource_Animation, 11, loadMode);
+        ResourceManager::LoadResource_446C90("ABEPULL.BAN", ResourceManager::Resource_Animation, ResourceID::kAbepullResID, loadMode);
     }
     else
     {
@@ -1118,7 +1118,7 @@ EXPORT void Factory_BellHammer_4854B0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
 {
     if (loadMode != 1 && loadMode != 2)
     {
-        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1019, 0, 0))
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHammerResID, 0, 0))
         {
             auto pBellHammer = ao_new<BellHammer>();
             if (pBellHammer)
@@ -1146,47 +1146,47 @@ EXPORT void Factory_SecurityOrb_485550(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
     const auto disabledResources = pSecurityOrbTlv->field_1A_disable_resources;
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("F2MAMORB.BAN", ResourceManager::Resource_Animation, 2006, loadMode, 0);
-        ResourceManager::LoadResource_446C90("SPLINE.BAN", ResourceManager::Resource_Animation, 355, loadMode, 0);
-        ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, 25, loadMode, disabledResources & 1);
-        ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, 576, loadMode, disabledResources & 2);
-        ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, 217, loadMode, disabledResources & 4);
-        ResourceManager::LoadResource_446C90("METAL.BAN", ResourceManager::Resource_Animation, 365, loadMode, disabledResources & 0x10);
-        ResourceManager::LoadResource_446C90("EXPLO2.BAN", ResourceManager::Resource_Animation, 301, loadMode, disabledResources & 0x20);
+        ResourceManager::LoadResource_446C90("F2MAMORB.BAN", ResourceManager::Resource_Animation, ResourceID::kMaimGameResID, loadMode, 0);
+        ResourceManager::LoadResource_446C90("SPLINE.BAN", ResourceManager::Resource_Animation, ResourceID::kSplineResID, loadMode, 0);
+        ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, loadMode, disabledResources & 1);
+        ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, loadMode, disabledResources & 2);
+        ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kElmblowResID_217, loadMode, disabledResources & 4);
+        ResourceManager::LoadResource_446C90("METAL.BAN", ResourceManager::Resource_Animation, ResourceID::kMetalResID, loadMode, disabledResources & 0x10);
+        ResourceManager::LoadResource_446C90("EXPLO2.BAN", ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, loadMode, disabledResources & 0x20);
     }
     else
     {
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2006, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMaimGameResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 355, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSplineResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!(disabledResources & 1) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 25, 0, 0))
+        if (!(disabledResources & 1) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!(disabledResources & 2) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 576, 0, 0))
+        if (!(disabledResources & 2) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!(disabledResources & 0x10) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 365, 0, 0))
+        if (!(disabledResources & 0x10) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMetalResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!(disabledResources & 0x20) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 301, 0, 0))
+        if (!(disabledResources & 0x20) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
@@ -1216,13 +1216,13 @@ EXPORT void Factory_LiftMud_4857D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUni
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("ABEBSIC1.BAN", ResourceManager::Resource_Animation, 55, loadMode);
-        ResourceManager::LoadResource_446C90("ABELIFT.BAN", ResourceManager::Resource_Animation, 53, loadMode);
+        ResourceManager::LoadResource_446C90("ABEBSIC1.BAN", ResourceManager::Resource_Animation, ResourceID::kAbebsic1ResID, loadMode);
+        ResourceManager::LoadResource_446C90("ABELIFT.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeliftResID, loadMode);
     }
     else 
     {
-        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 55, 0, 0) && 
-            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 53, 0, 0))
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbebsic1ResID, 0, 0) &&
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeliftResID, 0, 0))
         {
             auto pMud = ao_new<Mudokon>();
             if (pMud)
@@ -1248,11 +1248,11 @@ EXPORT void Factory_BeeSwarmHole_485E20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("ABEWASP.BAN", ResourceManager::Resource_Animation, 16, loadMode, 0);
-        ResourceManager::LoadResource_446C90("WASP.BAN", ResourceManager::Resource_Animation, 61, loadMode, 0);
+        ResourceManager::LoadResource_446C90("ABEWASP.BAN", ResourceManager::Resource_Animation, ResourceID::kAbewaspResID, loadMode, 0);
+        ResourceManager::LoadResource_446C90("WASP.BAN", ResourceManager::Resource_Animation, ResourceID::kWaspResID, loadMode, 0);
         if (gMap_507BA8.field_0_current_level == LevelIds::eForest_3 || gMap_507BA8.field_0_current_level == LevelIds::eDesert_8)
         {
-            ResourceManager::LoadResource_446C90("ELMWASP.BAN", ResourceManager::Resource_Animation, 204, loadMode, 0);
+            ResourceManager::LoadResource_446C90("ELMWASP.BAN", ResourceManager::Resource_Animation, ResourceID::kUnknownResID_204, loadMode, 0);
         }
     }
     else
@@ -1276,29 +1276,29 @@ EXPORT void Factory_HoneySack_485EF0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("HONEY.BAN", ResourceManager::Resource_Animation, 337, loadMode);
+        ResourceManager::LoadResource_446C90("HONEY.BAN", ResourceManager::Resource_Animation, ResourceID::kHoneyResID, loadMode);
     }
     else
     {
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1013, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kP2c3HiveResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 61, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWaspResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 16, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbewaspResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 337, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHoneyResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
@@ -1355,8 +1355,8 @@ EXPORT void Factory_ElumWall_487370(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemIn
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("ELMKNBK.BAN", ResourceManager::Resource_Animation, 215, loadMode, 0);
-        ResourceManager::LoadResource_446C90("ANEKNBK.BAN", ResourceManager::Resource_Animation, 106, loadMode, 0);
+        ResourceManager::LoadResource_446C90("ELMKNBK.BAN", ResourceManager::Resource_Animation, ResourceID::kElmnknbkResID, loadMode, 0);
+        ResourceManager::LoadResource_446C90("ANEKNBK.BAN", ResourceManager::Resource_Animation, ResourceID::kAneknbkResID, loadMode, 0);
     }
     else
     {
@@ -1369,8 +1369,8 @@ EXPORT void Factory_SlingMud_485A30(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUn
 {
     if (loadMode != 1 && loadMode != 2)
     {
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 508, 0, 0) ||
-            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 314, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlingmudResID_508, 0, 0) ||
+            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSparksResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
         }
@@ -1397,12 +1397,12 @@ EXPORT void Factory_BeeNest_486150(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUni
     {
         static CompileTimeResourceList<2> kResources =
         {
-           { ResourceManager::Resource_Animation, 61 }, 
-           { ResourceManager::Resource_Animation, 16 }
+           { ResourceManager::Resource_Animation, ResourceID::kWaspResID },
+           { ResourceManager::Resource_Animation, ResourceID::kAbewaspResID }
         };
 
         ResourceManager::LoadResourcesFromList_446E80("SWARMHOL.BND", kResources.AsList(), loadMode, 0);
-        ResourceManager::LoadResource_446C90("ELMWASP.BAN", ResourceManager::Resource_Animation, 204, loadMode);
+        ResourceManager::LoadResource_446C90("ELMWASP.BAN", ResourceManager::Resource_Animation, ResourceID::kUnknownResID_204, loadMode);
     }
     else
     {
@@ -1434,70 +1434,70 @@ EXPORT void Factory_Mine_4848D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
 
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, 25, loadMode, disabledResources & 1);
-        ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, 576, loadMode, disabledResources & 2);
-        ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, 217, loadMode, disabledResources & 4);
+        ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, loadMode, disabledResources & 1);
+        ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, loadMode, disabledResources & 2);
+        ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kElmblowResID_217, loadMode, disabledResources & 4);
         if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
         {
-            ResourceManager::LoadResource_446C90("LNDMNPAL.BAN", ResourceManager::Resource_Palt, 1036, loadMode);
-            ResourceManager::LoadResource_446C90("ABEE1PAL.BAN", ResourceManager::Resource_Palt, 25, loadMode);
-            ResourceManager::LoadResource_446C90("DOGE1PAL.BAN", ResourceManager::Resource_Palt, 576, loadMode);
+            ResourceManager::LoadResource_446C90("LNDMNPAL.BAN", ResourceManager::Resource_Palt, ResourceID::kLandmineResID, loadMode);
+            ResourceManager::LoadResource_446C90("ABEE1PAL.BAN", ResourceManager::Resource_Palt, ResourceID::kAbeblowResID, loadMode);
+            ResourceManager::LoadResource_446C90("DOGE1PAL.BAN", ResourceManager::Resource_Palt, ResourceID::kSlogBlowResID, loadMode);
         }
 
         static CompileTimeResourceList<2> kResourcesMine =
         {
-            { ResourceManager::Resource_Animation, 1036 },
-            { ResourceManager::Resource_Animation, 1040 }
+            { ResourceManager::Resource_Animation, ResourceID::kLandmineResID },
+            { ResourceManager::Resource_Animation, ResourceID::kMineflshResID }
         };
         ResourceManager::LoadResourcesFromList_446E80("MINE.BND", kResourcesMine.AsList(), loadMode, 0);
 
         static CompileTimeResourceList<3> kResourcesExplode =
         {
-            { ResourceManager::Resource_Animation, 13 },
-            { ResourceManager::Resource_Animation, 1105 },
-            { ResourceManager::Resource_Animation, 300 }
+            { ResourceManager::Resource_Animation, ResourceID::kAbebombResID },
+            { ResourceManager::Resource_Animation, ResourceID::kDebrisID00 },
+            { ResourceManager::Resource_Animation, ResourceID::kBgexpldResID }
         };
         ResourceManager::LoadResourcesFromList_446E80("EXPLODE.BND", kResourcesExplode.AsList(), loadMode, 0);
     }
     else
     {
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 13, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbebombResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1105, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDebrisID00, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1036, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kLandmineResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1040, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMineflshResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 300, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBgexpldResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!(disabledResources & 1) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 25, 0, 0))
+        if (!(disabledResources & 1) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!(disabledResources & 2) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 576, 0, 0))
+        if (!(disabledResources & 2) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
@@ -1518,65 +1518,67 @@ EXPORT void Factory_Uxb_484B70(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
 
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, 25, loadMode, pUxbTlv->field_20_disabled_resources & 1);
-        ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, 576, loadMode, pUxbTlv->field_20_disabled_resources & 2);
-        ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, 217, loadMode, pUxbTlv->field_20_disabled_resources & 4);
+        ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, loadMode, pUxbTlv->field_20_disabled_resources & 1);
+        ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, loadMode, pUxbTlv->field_20_disabled_resources & 2);
+        ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kElmblowResID_217, loadMode, pUxbTlv->field_20_disabled_resources & 4);
         if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
         {
-            ResourceManager::LoadResource_446C90("TBMBPAL.BAN", ResourceManager::Resource_Palt, 1037, loadMode);
-            ResourceManager::LoadResource_446C90("ABEE1PAL.BAN", ResourceManager::Resource_Palt, 25, loadMode);
-            ResourceManager::LoadResource_446C90("DOGE1PAL.BAN", ResourceManager::Resource_Palt, 576, loadMode);
+            ResourceManager::LoadResource_446C90("TBMBPAL.BAN", ResourceManager::Resource_Palt, ResourceID::kTbombResID, loadMode);
+            ResourceManager::LoadResource_446C90("ABEE1PAL.BAN", ResourceManager::Resource_Palt, ResourceID::kAbeblowResID, loadMode);
+            ResourceManager::LoadResource_446C90("DOGE1PAL.BAN", ResourceManager::Resource_Palt, ResourceID::kSlogBlowResID, loadMode);
         }
 
         static CompileTimeResourceList<3> kResourcesUxb =
         {
-            { ResourceManager::Resource_Animation, 1037 },
-            { ResourceManager::Resource_Animation, 1011 },
-            { ResourceManager::Resource_Palt, 1006 }
+            { ResourceManager::Resource_Animation, ResourceID::kTbombResID },
+            { ResourceManager::Resource_Animation, ResourceID::kBombflshResID },
+            { ResourceManager::Resource_Palt, ResourceID::kGrenflshResID }
         };
         ResourceManager::LoadResourcesFromList_446E80("UXB.BND", kResourcesUxb.AsList(), loadMode, 0);
 
         static CompileTimeResourceList<3> kResourcesExplode =
         {
-            { ResourceManager::Resource_Animation, 13 },
-            { ResourceManager::Resource_Animation, 1105 },
-            { ResourceManager::Resource_Animation, 300 }
+            { ResourceManager::Resource_Animation, ResourceID::kAbebombResID },
+            { ResourceManager::Resource_Animation, ResourceID::kDebrisID00 },
+            { ResourceManager::Resource_Animation, ResourceID::kBgexpldResID }
         };
         ResourceManager::LoadResourcesFromList_446E80("EXPLODE.BND", kResourcesExplode.AsList(), loadMode, 0);
     }
     else
     {
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 13, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbebombResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1037, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kTbombResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1011, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBombflshResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 300, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBgexpldResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!(pUxbTlv->field_20_disabled_resources & 1) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 25, 0, 0))
+        if (!(pUxbTlv->field_20_disabled_resources & 1) && 
+            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!(pUxbTlv->field_20_disabled_resources & 2) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 576, 0, 0))
+        if (!(pUxbTlv->field_20_disabled_resources & 2) && 
+            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
@@ -1597,29 +1599,29 @@ EXPORT void Factory_Paramite_4861F0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUn
     {
         static CompileTimeResourceList<9> kResources =
         {
-            { ResourceManager::Resource_Animation, 600 },
-            { ResourceManager::Resource_Animation, 605 },
-            { ResourceManager::Resource_Animation, 614 },
-            { ResourceManager::Resource_Animation, 604 },
-            { ResourceManager::Resource_Animation, 609 },
-            { ResourceManager::Resource_Animation, 601 },
-            { ResourceManager::Resource_Animation, 615 },
-            { ResourceManager::Resource_Animation, 610 },
-            { ResourceManager::Resource_Animation, 2034 }
+            { ResourceManager::Resource_Animation, ResourceID::kArjbasicResID },
+            { ResourceManager::Resource_Animation, ResourceID::kArjpumpResID },
+            { ResourceManager::Resource_Animation, ResourceID::kArjponceResID },
+            { ResourceManager::Resource_Animation, ResourceID::kArjclimbResID },
+            { ResourceManager::Resource_Animation, ResourceID::kArjscrchResID },
+            { ResourceManager::Resource_Animation, ResourceID::kArjeatResID },
+            { ResourceManager::Resource_Animation, ResourceID::kArjfalrkResID },
+            { ResourceManager::Resource_Animation, ResourceID::kArjwaspResID },
+            { ResourceManager::Resource_Animation, ResourceID::kWebResID }
         };
         ResourceManager::LoadResourcesFromList_446E80("PARAMITE.BND", kResources.AsList(), loadMode, 0);
         return;
     }
 
-    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 600, 0, 0) ||
-        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 605, 0, 0) ||
-        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 614, 0, 0) ||
-        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 604, 0, 0) ||
-        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 609, 0, 0) ||
-        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 601, 0, 0) ||
-        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 615, 0, 0) ||
-        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 610, 0, 0) ||
-        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2034, 0, 0))
+    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArjbasicResID, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArjpumpResID, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArjponceResID, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArjclimbResID, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArjscrchResID, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArjeatResID, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArjfalrkResID, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArjwaspResID, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWebResID, 0, 0))
     {
         gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
         return;
@@ -1637,9 +1639,9 @@ EXPORT void Factory_Bat_486630(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("BATBASIC.BAN", ResourceManager::Resource_Animation, 63, loadMode);
+        ResourceManager::LoadResource_446C90("BATBASIC.BAN", ResourceManager::Resource_Animation, ResourceID::kBatBasicResID, loadMode);
     }
-    else if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 63, 0, 0))
+    else if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBatBasicResID, 0, 0))
     {
         auto pBat = ao_new<Bat>();
         if (pBat)
@@ -1658,14 +1660,14 @@ EXPORT void Factory_RingMud_4858F0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUni
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("ABEBSIC1.BAN", ResourceManager::Resource_Animation, 55, loadMode);
-        ResourceManager::LoadResource_446C90("ABEPULL.BAN", ResourceManager::Resource_Animation, 11, loadMode);
-        ResourceManager::LoadResource_446C90("ABEOMM.BAN", ResourceManager::Resource_Animation, 48, loadMode);
+        ResourceManager::LoadResource_446C90("ABEBSIC1.BAN", ResourceManager::Resource_Animation, ResourceID::kAbebsic1ResID, loadMode);
+        ResourceManager::LoadResource_446C90("ABEPULL.BAN", ResourceManager::Resource_Animation, ResourceID::kAbepullResID, loadMode);
+        ResourceManager::LoadResource_446C90("ABEOMM.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeommResID, loadMode);
     }
     else 
     {
-        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 55, 0, 0) &&
-            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 11, 0, 0))
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbebsic1ResID, 0, 0) &&
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbepullResID, 0, 0))
         {
             auto pMud = ao_new<Mudokon>();
             if (pMud)
@@ -1694,9 +1696,9 @@ EXPORT void Factory_BirdPortal_486710(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
     {
         static CompileTimeResourceList<3> kResources1 =
         {
-            { ResourceManager::Resource_Animation, 313 },
-            { ResourceManager::Resource_Animation, 351 },
-            { ResourceManager::Resource_Animation, 353 }
+            { ResourceManager::Resource_Animation, ResourceID::kPortalTerminatorID },
+            { ResourceManager::Resource_Animation, ResourceID::kPortliteResID },
+            { ResourceManager::Resource_Animation, ResourceID::kPortlitResID }
         };
         ResourceManager::LoadResourcesFromList_446E80("PORTAL.BND", kResources1.AsList(), loadMode, 0);
 
@@ -1704,22 +1706,22 @@ EXPORT void Factory_BirdPortal_486710(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
         {
             static CompileTimeResourceList<2> kResources2 =
             {
-                { ResourceManager::Resource_Animation, 117 },
-                { ResourceManager::Resource_Animation, 121 }
+                { ResourceManager::Resource_Animation, ResourceID::kAbemorphResID },
+                { ResourceManager::Resource_Animation, ResourceID::kShrmorphResID }
             };
             ResourceManager::LoadResourcesFromList_446E80("SHRYPORT.BND", kResources2.AsList(), loadMode, 0);
-            ResourceManager::LoadResource_446C90("SPLINE.BAN", ResourceManager::Resource_Animation, 355, loadMode);
+            ResourceManager::LoadResource_446C90("SPLINE.BAN", ResourceManager::Resource_Animation, ResourceID::kSplineResID, loadMode);
         }
     }
     else
     {
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 313, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortalTerminatorID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 60, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDovbasicResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
@@ -1735,19 +1737,19 @@ EXPORT void Factory_BirdPortal_486710(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 117, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbemorphResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 121, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kShrmorphResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 355, 0, 0))
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSplineResID, 0, 0))
         {
             auto pBirdPortal = ao_new<BirdPortal>();
             if (pBirdPortal)
@@ -1786,27 +1788,27 @@ EXPORT void Factory_TrapDoor_4868E0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion 
         case LevelIds::eRuptureFarms_1:
         case LevelIds::eBoardRoom_12:
         case LevelIds::eRuptureFarmsReturn_13:
-            ResourceManager::LoadResource_446C90("R1TRAP.BAN", ResourceManager::Resource_Animation, 1004, loadMode, 0);
+            ResourceManager::LoadResource_446C90("R1TRAP.BAN", ResourceManager::Resource_Animation, ResourceID::kP6c1trapResID, loadMode, 0);
             break;
         case LevelIds::eLines_2:
-            ResourceManager::LoadResource_446C90("P6C1TRAP.BAN", ResourceManager::Resource_Animation, 1004, loadMode, 0);
+            ResourceManager::LoadResource_446C90("P6C1TRAP.BAN", ResourceManager::Resource_Animation, ResourceID::kP6c1trapResID, loadMode, 0);
             break;
         case LevelIds::eStockYards_5:
-            ResourceManager::LoadResource_446C90("P6C1TRAP.BAN", ResourceManager::Resource_Animation, 1004, loadMode, 0);
+            ResourceManager::LoadResource_446C90("P6C1TRAP.BAN", ResourceManager::Resource_Animation, ResourceID::kP6c1trapResID, loadMode, 0);
             break;
         case LevelIds::eDesert_8:
         case LevelIds::eDesertTemple_9:
         case LevelIds::eDesertEscape:
-            ResourceManager::LoadResource_446C90("D2TRAP.BAN", ResourceManager::Resource_Animation, 1004, loadMode, 0);
+            ResourceManager::LoadResource_446C90("D2TRAP.BAN", ResourceManager::Resource_Animation, ResourceID::kP6c1trapResID, loadMode, 0);
             break;
         default:
-            ResourceManager::LoadResource_446C90("P6C1TRAP.BAN", ResourceManager::Resource_Animation, 1004, loadMode, 0);
+            ResourceManager::LoadResource_446C90("P6C1TRAP.BAN", ResourceManager::Resource_Animation, ResourceID::kP6c1trapResID, loadMode, 0);
             break;
         }
     }
     else
     {
-        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1004, 0, 0))
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kP6c1trapResID, 0, 0))
         {
             auto pTrapDoor = ao_new<TrapDoor>();
             if (pTrapDoor)
@@ -1826,13 +1828,13 @@ EXPORT void Factory_RollingBall_486A60(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("F2STNBAL.BAN", ResourceManager::Resource_Animation, 2002, loadMode);
-        ResourceManager::LoadResource_446C90("DEBRIS00.BAN", ResourceManager::Resource_Animation, 1105, loadMode);
+        ResourceManager::LoadResource_446C90("F2STNBAL.BAN", ResourceManager::Resource_Animation, ResourceID::kF2stnbalResID, loadMode);
+        ResourceManager::LoadResource_446C90("DEBRIS00.BAN", ResourceManager::Resource_Animation, ResourceID::kDebrisID00, loadMode);
     }
     else
     {
-        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2002, 0, 0) &&
-            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1105, 0, 0))
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2stnbalResID, 0, 0) &&
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDebrisID00, 0, 0))
         {
             auto pRollingBall = ao_new<RollingBall>();
             if (pRollingBall)
@@ -1917,9 +1919,9 @@ EXPORT void Factory_RollingBallStopper_486B90(Path_TLV* pTlv, Map* /*pMap*/, Tlv
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("F2STNSCK.BAN", ResourceManager::Resource_Animation, 2003, loadMode);
+        ResourceManager::LoadResource_446C90("F2STNSCK.BAN", ResourceManager::Resource_Animation, ResourceID::kF2stnsckResID, loadMode);
     }
-    else if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2003, FALSE, FALSE))
+    else if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2stnsckResID, FALSE, FALSE))
     {
         auto pRollingBallStopper = ao_new<RollingBallStopper>();
         pRollingBallStopper->ctor_43BCE0(static_cast<Path_RollingBallStopper*>(pTlv), tlvOffsetLevelIdPathId.all);
@@ -1934,11 +1936,11 @@ EXPORT void Factory_FootSwitch_486C60(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("TRIGGER.BAN", ResourceManager::Resource_Animation, 2010, loadMode);
+        ResourceManager::LoadResource_446C90("TRIGGER.BAN", ResourceManager::Resource_Animation, ResourceID::kTriggerResID, loadMode);
     }
     else
     {
-        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2010, 0, 0))
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kTriggerResID, 0, 0))
         {
             auto pFootSwitch = ao_new<FootSwitch>();
             if (pFootSwitch)
@@ -1960,46 +1962,46 @@ EXPORT void Factory_SecurityClaw_486D50(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
 
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("F2EYEORB.BAN", ResourceManager::Resource_Animation, 2008, loadMode);
-        ResourceManager::LoadResource_446C90("SPLINE.BAN", ResourceManager::Resource_Animation, 355, loadMode);
-        ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, 25, loadMode, disabledResources & 1);
-        ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, 576, loadMode, disabledResources & 2);
-        ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, 217, loadMode, disabledResources & 4);
-        ResourceManager::LoadResource_446C90("METAL.BAN", ResourceManager::Resource_Animation, 365, loadMode, disabledResources & 0x10);
-        ResourceManager::LoadResource_446C90("EXPLO2.BAN", ResourceManager::Resource_Animation, 301, loadMode, disabledResources & 0x20);
+        ResourceManager::LoadResource_446C90("F2EYEORB.BAN", ResourceManager::Resource_Animation, ResourceID::kF2eyeorbResID, loadMode);
+        ResourceManager::LoadResource_446C90("SPLINE.BAN", ResourceManager::Resource_Animation, ResourceID::kSplineResID, loadMode);
+        ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, loadMode, disabledResources & 1);
+        ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, loadMode, disabledResources & 2);
+        ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kElmblowResID_217, loadMode, disabledResources & 4);
+        ResourceManager::LoadResource_446C90("METAL.BAN", ResourceManager::Resource_Animation, ResourceID::kMetalResID, loadMode, disabledResources & 0x10);
+        ResourceManager::LoadResource_446C90("EXPLO2.BAN", ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, loadMode, disabledResources & 0x20);
     }
     else
     {
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2008, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2eyeorbResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 355, 0, 0))
-        {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return;
-        }
-
-        if (!(disabledResources & 1) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 25, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSplineResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!(disabledResources & 2) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 576, 0, 0))
+        if (!(disabledResources & 1) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!(disabledResources & 0x10) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 365, 0, 0))
+        if (!(disabledResources & 2) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!(disabledResources & 0x20) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 301, 0, 0))
+        if (!(disabledResources & 0x10) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMetalResID, 0, 0))
+        {
+            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            return;
+        }
+
+        if (!(disabledResources & 0x20) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
         }
@@ -2017,7 +2019,7 @@ EXPORT void Factory_MotionDector_486FD0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
 {
     if (loadMode != 1 && loadMode != 2)
     {
-        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 349, 0, 0))
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID, 0, 0))
         {
             auto pMotionDetector = ao_new<MotionDetector>();
             if (pMotionDetector)
@@ -2075,7 +2077,7 @@ EXPORT void Factory_ElectricWall_4874E0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
 {
     if (loadMode != 1 && loadMode != 2)
     {
-        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6000, 0, 0))
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElecwallResID, 0, 0))
         {
             auto pElectricWall = ao_new<ElectricWall>();
             if (pElectricWall)
@@ -2108,8 +2110,8 @@ EXPORT void Factory_ChimeLock_4870D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
 {
     if (loadMode != 1 && loadMode != 2)
     {
-        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2005, 0, 0) &&
-            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2024, 0, 0))
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kChimeResID, 0, 0) &&
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2ChimeBallResID, 0, 0))
         {
             auto pChimeLock = ao_new<ChimeLock>();
             if (pChimeLock)
@@ -2130,9 +2132,9 @@ EXPORT void Factory_ElumStart_Unknown_4873D0(Path_TLV* pTlv, Map* /*pMap*/, TlvI
     if (loadMode == 1 || loadMode == 2)
     {
         static CompileTimeResourceList<3> kResources({
-            { ResourceManager::Resource_Animation, 200 },
-            { ResourceManager::Resource_Animation, 230 },
-            { ResourceManager::Resource_Animation, 216 },
+            { ResourceManager::Resource_Animation, ResourceID::kElmbasicResID_200 },
+            { ResourceManager::Resource_Animation, ResourceID::kElmaloneResID_230 },
+            { ResourceManager::Resource_Animation, ResourceID::kElmfallResID_216 },
             });
         ResourceManager::LoadResourcesFromList_446E80("ELMSTART.BND", kResources.AsList(), loadMode, 0);
     }
@@ -2151,20 +2153,20 @@ EXPORT void Factory_MeatSack_483790(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUn
     {
         static CompileTimeResourceList<3> kResources(
         { 
-            { ResourceManager::Resource_Animation, 12 },
-            { ResourceManager::Resource_Animation, 14 },
-            { ResourceManager::Resource_Animation, 2023 } 
+            { ResourceManager::Resource_Animation, ResourceID::kAbepickResID },
+            { ResourceManager::Resource_Animation, ResourceID::kAbethrowResID },
+            { ResourceManager::Resource_Animation, ResourceID::kMeatResID }
         });
 
         ResourceManager::LoadResourcesFromList_446E80("MTHROW.BND", kResources.AsList(), loadMode, 0);
         if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
         {
-            ResourceManager::LoadResource_446C90("E1BAG.BAN", ResourceManager::Resource_Palt, 1002, loadMode);
+            ResourceManager::LoadResource_446C90("E1BAG.BAN", ResourceManager::Resource_Palt, ResourceID::kP2c2bagResID, loadMode);
         }
     }
     else
     {
-        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 4002, 0, 0))
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kD2elumResID, 0, 0))
         {
             auto pMeatSack = ao_new<MeatSack>();
             if (pMeatSack)
@@ -2186,35 +2188,35 @@ EXPORT void Factory_Scrab_4863E0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion
     {
         static CompileTimeResourceList<12> kResources(
         {
-            { ResourceManager::Resource_Animation, 700 },
-            { ResourceManager::Resource_Animation, 706 },
-            { ResourceManager::Resource_Animation, 708 },
-            { ResourceManager::Resource_Animation, 710 },
-            { ResourceManager::Resource_Animation, 705 },
-            { ResourceManager::Resource_Animation, 709 },
-            { ResourceManager::Resource_Animation, 704 },
-            { ResourceManager::Resource_Animation, 711 },
-            { ResourceManager::Resource_Animation, 701 },
-            { ResourceManager::Resource_Animation, 702 },
-            { ResourceManager::Resource_Animation, 703 },
-            { ResourceManager::Resource_Animation, 713 }
+            { ResourceManager::Resource_Animation, ResourceID::kArsbasicResID },
+            { ResourceManager::Resource_Animation, ResourceID::kArsdanceResID },
+            { ResourceManager::Resource_Animation, ResourceID::kArsdeadResID },
+            { ResourceManager::Resource_Animation, ResourceID::kArsgrwlResID },
+            { ResourceManager::Resource_Animation, ResourceID::kArshowlResID },
+            { ResourceManager::Resource_Animation, ResourceID::kArsroarResID },
+            { ResourceManager::Resource_Animation, ResourceID::kArswhirlResID },
+            { ResourceManager::Resource_Animation, ResourceID::kArschewResID },
+            { ResourceManager::Resource_Animation, ResourceID::kArseatResID },
+            { ResourceManager::Resource_Animation, ResourceID::kArsprceResID },
+            { ResourceManager::Resource_Animation, ResourceID::kArsskwrResID },
+            { ResourceManager::Resource_Animation, ResourceID::kArscrshResID }
         });
         ResourceManager::LoadResourcesFromList_446E80("SCRAB.BND", kResources.AsList(), loadMode, 0);
         return;
     }
 
-    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 710, 0, 0) ||
-        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 708, 0, 0) ||
-        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 706, 0, 0) ||
-        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 700, 0, 0) ||
-        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 705, 0, 0) ||
-        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 709, 0, 0) ||
-        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 704, 0, 0) ||
-        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 711, 0, 0) ||
-        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 701, 0, 0) ||
-        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 702, 0, 0) ||
-        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 703, 0, 0) ||
-        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 713, 0, 0))
+    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArsgrwlResID, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArsdeadResID, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArsdanceResID, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArsbasicResID, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArshowlResID, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArsroarResID, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArswhirlResID, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArschewResID, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArseatResID, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArsprceResID, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArsskwrResID, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArscrshResID, 0, 0))
     {
         gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
         return;
@@ -2232,13 +2234,13 @@ EXPORT void Factory_FlintLockFire_487640(Path_TLV* pTlv, Map* /*pMap*/, TlvItemI
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("FIRE.BAN", ResourceManager::Resource_Animation, 304, loadMode);
+        ResourceManager::LoadResource_446C90("FIRE.BAN", ResourceManager::Resource_Animation, ResourceID::kHubFireResID, loadMode);
     }
     else 
     {
-        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2017, 0, 0) &&
-            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 2028, 0, 0) &&
-            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 304, 0, 0))
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kFlintLockResID, 0, 0) &&
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGourdResID, 0, 0) &&
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHubFireResID, 0, 0))
         {
             auto pFlintlockFire = ao_new<FlintLockFire>();
             if (pFlintlockFire)
@@ -2317,14 +2319,14 @@ EXPORT void Factory_WorkerMud_485B20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
     auto pMudTlv = static_cast<Path_Mud*>(pTlv);
     if (loadMode != 1 && loadMode != 2)
     {
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 55, 0, 0) ||
-            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 10, 0, 0) ||
-            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 27, 0, 0) ||
-            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 26, 0, 0) ||
-            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 43, 0, 0) ||
-            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 510, 0, 0) ||
-            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 514, 0, 0) ||
-            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 517, 0, 0)
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbebsic1ResID, 0, 0) ||
+            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbebasicResID, 0, 0) ||
+            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeknfdResID, 0, 0) ||
+            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeknbkResID, 0, 0) ||
+            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeedgeResID, 0, 0) ||
+            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMudscrubResID, 0, 0) ||
+            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMudoduckResID, 0, 0) ||
+            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMudbtlnkResID, 0, 0)
             )
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
@@ -2334,7 +2336,7 @@ EXPORT void Factory_WorkerMud_485B20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
         switch (pMudTlv->field_1A_job)
         {
         case 0:
-            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 511, 0, 0))
+            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMudchslResID, 0, 0))
             {
                 gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
                 return;
@@ -2342,7 +2344,7 @@ EXPORT void Factory_WorkerMud_485B20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
             break;
 
         case 2:
-            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 516, 0, 0))
+            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMudltusResID, 0, 0))
             {
                 gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
                 return;
@@ -2358,12 +2360,12 @@ EXPORT void Factory_WorkerMud_485B20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
     }
     else
     {
-        ResourceManager::LoadResource_446C90("ABEBSIC1.BAN", ResourceManager::Resource_Animation, 55, loadMode);
-        ResourceManager::LoadResource_446C90("ABEBSIC.BAN", ResourceManager::Resource_Animation, 10, loadMode);
-        ResourceManager::LoadResource_446C90("ABEKNFD.BAN", ResourceManager::Resource_Animation, 27, loadMode);
-        ResourceManager::LoadResource_446C90("ABEKNBK.BAN", ResourceManager::Resource_Animation, 26, loadMode);
-        ResourceManager::LoadResource_446C90("ABEEDGE.BAN", ResourceManager::Resource_Animation, 43, loadMode);
-        ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, 2035, loadMode);
+        ResourceManager::LoadResource_446C90("ABEBSIC1.BAN", ResourceManager::Resource_Animation, ResourceID::kAbebsic1ResID, loadMode);
+        ResourceManager::LoadResource_446C90("ABEBSIC.BAN", ResourceManager::Resource_Animation, ResourceID::kAbebasicResID, loadMode);
+        ResourceManager::LoadResource_446C90("ABEKNFD.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeknfdResID, loadMode);
+        ResourceManager::LoadResource_446C90("ABEKNBK.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeknbkResID, loadMode);
+        ResourceManager::LoadResource_446C90("ABEEDGE.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeedgeResID, loadMode);
+        ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, loadMode);
 
         switch (pMudTlv->field_1A_job)
         {
@@ -2371,11 +2373,11 @@ EXPORT void Factory_WorkerMud_485B20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
         {
             static CompileTimeResourceList<3> kResources =
             {
-                { ResourceManager::Resource_Animation, 514 },
-                { ResourceManager::Resource_Animation, 510 },
-                { ResourceManager::Resource_Animation, 517 }
+                { ResourceManager::Resource_Animation, ResourceID::kMudoduckResID },
+                { ResourceManager::Resource_Animation, ResourceID::kMudscrubResID },
+                { ResourceManager::Resource_Animation, ResourceID::kMudbtlnkResID }
             };
-            ResourceManager::LoadResource_446C90("MUDCHSL.BAN", ResourceManager::Resource_Animation, 511, loadMode);
+            ResourceManager::LoadResource_446C90("MUDCHSL.BAN", ResourceManager::Resource_Animation, ResourceID::kMudchslResID, loadMode);
             ResourceManager::LoadResourcesFromList_446E80("MUDWORK.BND", kResources.AsList(), loadMode, 0);
         }
             break;
@@ -2384,9 +2386,9 @@ EXPORT void Factory_WorkerMud_485B20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
         {
             static CompileTimeResourceList<3> kResources =
             {
-                { ResourceManager::Resource_Animation, 514 },
-                { ResourceManager::Resource_Animation, 510 },
-                { ResourceManager::Resource_Animation, 517 }
+                { ResourceManager::Resource_Animation, ResourceID::kMudoduckResID },
+                { ResourceManager::Resource_Animation, ResourceID::kMudscrubResID },
+                { ResourceManager::Resource_Animation, ResourceID::kMudbtlnkResID }
             };
             ResourceManager::LoadResourcesFromList_446E80("MUDWORK.BND", kResources.AsList(), loadMode, 0);
         }
@@ -2396,10 +2398,10 @@ EXPORT void Factory_WorkerMud_485B20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
         {
             static CompileTimeResourceList<4> kResources =
             {
-                { ResourceManager::Resource_Animation, 516 },
-                { ResourceManager::Resource_Animation, 514 },
-                { ResourceManager::Resource_Animation, 510 },
-                { ResourceManager::Resource_Animation, 517 }
+                { ResourceManager::Resource_Animation, ResourceID::kMudltusResID },
+                { ResourceManager::Resource_Animation, ResourceID::kMudoduckResID },
+                { ResourceManager::Resource_Animation, ResourceID::kMudscrubResID },
+                { ResourceManager::Resource_Animation, ResourceID::kMudbtlnkResID }
             };
             ResourceManager::LoadResourcesFromList_446E80("MUDLOTUS.BND", kResources.AsList(), loadMode, 0);
         }
@@ -2419,13 +2421,13 @@ EXPORT void Factory_DoorFlame_481E80(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("FIRE.BAN", ResourceManager::Resource_Animation, 304, loadMode, 0);
-        ResourceManager::LoadResource_446C90("GLOW1.BAN", ResourceManager::Resource_Animation, 361, loadMode, 0);
+        ResourceManager::LoadResource_446C90("FIRE.BAN", ResourceManager::Resource_Animation, ResourceID::kHubFireResID, loadMode, 0);
+        ResourceManager::LoadResource_446C90("GLOW1.BAN", ResourceManager::Resource_Animation, ResourceID::kGlowResID, loadMode, 0);
     }
     else
     {
-        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 304, 0, 0) &&
-            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 361, 0, 0))
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHubFireResID, 0, 0) &&
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGlowResID, 0, 0))
         {
             auto pDoorFlame = ao_new<DoorFlame>();
             if (pDoorFlame)
@@ -2460,29 +2462,29 @@ EXPORT void Factory_MovingBomb_484E00(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
 
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("D1MBOMB.BAN", ResourceManager::Resource_Animation, 3006, loadMode, 0);
-        ResourceManager::LoadResource_446C90("EXPLO2.BAN", ResourceManager::Resource_Animation, 301, loadMode, 0);
-        ResourceManager::LoadResource_446C90("METAL.BAN", ResourceManager::Resource_Animation, 365, loadMode, 0);
-        ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, 25, loadMode, pMovingBombTlv->field_22_disabled_resources & 1);
-        ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, 217, loadMode, pMovingBombTlv->field_22_disabled_resources & 4);
+        ResourceManager::LoadResource_446C90("D1MBOMB.BAN", ResourceManager::Resource_Animation, ResourceID::kMovebombResID, loadMode, 0);
+        ResourceManager::LoadResource_446C90("EXPLO2.BAN", ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, loadMode, 0);
+        ResourceManager::LoadResource_446C90("METAL.BAN", ResourceManager::Resource_Animation, ResourceID::kMetalResID, loadMode, 0);
+        ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, loadMode, pMovingBombTlv->field_22_disabled_resources & 1);
+        ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kElmblowResID_217, loadMode, pMovingBombTlv->field_22_disabled_resources & 4);
 
         if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
         {
-            ResourceManager::LoadResource_446C90("ABEE1PAL.BAN", ResourceManager::Resource_Palt, 25, loadMode, 0);
-            ResourceManager::LoadResource_446C90("DOGE1PAL.BAN", ResourceManager::Resource_Palt, 576, loadMode, 0);
+            ResourceManager::LoadResource_446C90("ABEE1PAL.BAN", ResourceManager::Resource_Palt, ResourceID::kAbeblowResID, loadMode, 0);
+            ResourceManager::LoadResource_446C90("DOGE1PAL.BAN", ResourceManager::Resource_Palt, ResourceID::kSlogBlowResID, loadMode, 0);
         }
     }
     else
     {
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 3006, 0, 0) ||
-            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 301, 0, 0) ||
-            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 365, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMovebombResID, 0, 0) ||
+            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 0, 0) ||
+            !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMetalResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!(pMovingBombTlv->field_22_disabled_resources & 1) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 25, 0, 0))
+        if (!(pMovingBombTlv->field_22_disabled_resources & 1) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
@@ -2507,13 +2509,13 @@ EXPORT void Factory_MeatSaw_483F70(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUni
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("R1METSAW.BAN", ResourceManager::Resource_Animation, 6003, loadMode);
-        ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, 25, loadMode);
+        ResourceManager::LoadResource_446C90("R1METSAW.BAN", ResourceManager::Resource_Animation, ResourceID::kMeatsawResID, loadMode);
+        ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, loadMode);
     }
     else 
     {
-        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6003, 0, 0) &&
-            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 25, 0, 0))
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMeatsawResID, 0, 0) &&
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0))
         {
             auto pMeatSaw = ao_new<MeatSaw>();
             if (pMeatSaw)
@@ -2542,22 +2544,22 @@ EXPORT void Factory_MenuController_481AC0(Path_TLV* pTlv, Map* /*pMap*/, TlvItem
         {
              static CompileTimeResourceList<4> kResources =
             {
-                { ResourceManager::Resource_Animation, 132 },
-                { ResourceManager::Resource_Animation, 8002 },
-                { ResourceManager::Resource_Animation, 367 },
-                { ResourceManager::Resource_Palt, 8003 }
+                { ResourceManager::Resource_Animation, ResourceID::kAbespek2ResID },
+                { ResourceManager::Resource_Animation, ResourceID::kHighliteResID },
+                { ResourceManager::Resource_Animation, ResourceID::kOptflareResID },
+                { ResourceManager::Resource_Palt, ResourceID::kHighlitePalResID }
             };
             ResourceManager::LoadResourcesFromList_446E80("STARTANM.BND", kResources.AsList(), loadMode, 0);
         }
-        else if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 132, 0, 0))
+        else if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbespek2ResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
         }
-        else if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 8002, 0, 0))
+        else if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHighliteResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
         }
-        else if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 367, 0, 0))
+        else if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOptflareResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
         }
@@ -2616,11 +2618,11 @@ EXPORT void Factory_SecurityDoor_487790(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("R1SDOS.BAN", ResourceManager::Resource_Animation, 6027, loadMode);
+        ResourceManager::LoadResource_446C90("R1SDOS.BAN", ResourceManager::Resource_Animation, ResourceID::kR1sdosResID_6027, loadMode);
     }
     else
     {
-        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6027, 0, 0))
+        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kR1sdosResID_6027, 0, 0))
         {
             auto pSecurityDoor = ao_new<SecurityDoor>();
             if (pSecurityDoor)
@@ -2650,33 +2652,33 @@ EXPORT void Factory_GrenadeMachine_487860(Path_TLV* pTlv, Map* /*pMap*/, TlvItem
     {
         static CompileTimeResourceList<3> kResources =
         {
-            { ResourceManager::Resource_Animation, 14 },
-            { ResourceManager::Resource_Animation, 12 },
-            { ResourceManager::Resource_Animation, 6005 }
+            { ResourceManager::Resource_Animation, ResourceID::kAbethrowResID },
+            { ResourceManager::Resource_Animation, ResourceID::kAbepickResID },
+            { ResourceManager::Resource_Animation, ResourceID::kGrenadeResID }
         };
         ResourceManager::LoadResourcesFromList_446E80("GTHROW.BND", kResources.AsList(), loadMode, 0);
-        ResourceManager::LoadResource_446C90("EXPLO2.BAN", ResourceManager::Resource_Animation, 301, loadMode);
-        ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, 25, loadMode);
-        ResourceManager::LoadResource_446C90("METAL.BAN", ResourceManager::Resource_Animation, 365, loadMode);
-        ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, 576, loadMode, disabledResources & 2);
+        ResourceManager::LoadResource_446C90("EXPLO2.BAN", ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, loadMode);
+        ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, loadMode);
+        ResourceManager::LoadResource_446C90("METAL.BAN", ResourceManager::Resource_Animation, ResourceID::kMetalResID, loadMode);
+        ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, loadMode, disabledResources & 2);
         return;
     }
 
-    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6008, 0, 0) ||
-        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6009, 0, 0) ||
-        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 21, 0, 0) ||
-        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 14, 0, 0) ||
-        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 12, 0, 0) || 
-        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6005, 0, 0) ||
-        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 301, 0, 0) ||
-        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 25, 0, 0) ||
-        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 365, 0, 0))
+    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kR1buttonResID, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kR1bpipeResID, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbestoneResID, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbethrowResID, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbepickResID, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0) ||
+        !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMetalResID, 0, 0))
     {
         gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
         return;
     }
 
-    if (!(disabledResources & 2) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 576, 0, 0))
+    if (!(disabledResources & 2) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, 0, 0))
     {
         gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
         return;
@@ -2694,7 +2696,7 @@ EXPORT void Factory_LCD_481950(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("LCDFONT.FNT", ResourceManager::Resource_Font, 2, loadMode);
+        ResourceManager::LoadResource_446C90("LCDFONT.FNT", ResourceManager::Resource_Font, ResourceID::kLcdfontResID, loadMode);
     }
     else
     {
@@ -2717,8 +2719,8 @@ EXPORT void Factory_HandStone_487480(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemI
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("ABESTONE.BAN", ResourceManager::Resource_Animation, 21, loadMode);
-        ResourceManager::LoadResource_446C90("SPOTLITE.BAN", ResourceManager::Resource_Animation, 316, loadMode);
+        ResourceManager::LoadResource_446C90("ABESTONE.BAN", ResourceManager::Resource_Animation, ResourceID::kAbestoneResID, loadMode);
+        ResourceManager::LoadResource_446C90("SPOTLITE.BAN", ResourceManager::Resource_Animation, ResourceID::kSpotliteResID, loadMode);
     }
     else
     {
@@ -2753,7 +2755,7 @@ EXPORT void Factory_StatusBoard_487AF0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("LCDFONT.FNT", ResourceManager::Resource_Font, 2, loadMode);
+        ResourceManager::LoadResource_446C90("LCDFONT.FNT", ResourceManager::Resource_Font, ResourceID::kLcdfontResID, loadMode);
     }
     else
     {
@@ -2798,29 +2800,29 @@ EXPORT void Factory_LightEffect_484170(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
         switch (pPathLightTlv->field_18_type)
         {
         case Path_LightEffect::Type::Star_0:
-            ResourceManager::LoadResource_446C90("STAR.BAN", ResourceManager::Resource_Animation, 1039, loadMode);
+            ResourceManager::LoadResource_446C90("STAR.BAN", ResourceManager::Resource_Animation, ResourceID::kBGStarResID, loadMode);
             break;
 
-        case Path_LightEffect::Type::RedGoldGlow_1:
-            ResourceManager::LoadResource_446C90("GOLDGLOW.BAN", ResourceManager::Resource_Animation, 6011, loadMode);
+        case Path_LightEffect::Type::RedGlow_1:
+            ResourceManager::LoadResource_446C90("GOLDGLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kRedGlowResID_6011, loadMode);
             break;
 
         case Path_LightEffect::Type::GreenGlow_2:
-            ResourceManager::LoadResource_446C90("GRENGLOW.BAN", ResourceManager::Resource_Animation, 6010, loadMode);
+            ResourceManager::LoadResource_446C90("GRENGLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kGreenGlowResID_6010, loadMode);
             break;
 
         case Path_LightEffect::Type::FlintGlow_3:
-            ResourceManager::LoadResource_446C90("FLNTGLOW.BAN", ResourceManager::Resource_Animation, 6028, loadMode);
+            ResourceManager::LoadResource_446C90("FLNTGLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kFlintGlowResID_6028, loadMode);
             break;
 
-        case Path_LightEffect::Type::FlintDoor_4:
-            ResourceManager::LoadResource_446C90("HUBLIGHT.BAN", ResourceManager::Resource_Animation, 6031, loadMode);
-            ResourceManager::LoadResource_446C90("HUBRED.BAN", ResourceManager::Resource_Animation, 6032, loadMode);
+        case Path_LightEffect::Type::Switchable_RedGreenDoorLights_4:
+            ResourceManager::LoadResource_446C90("HUBLIGHT.BAN", ResourceManager::Resource_Animation, ResourceID::kGreenDoorLightResID_6031, loadMode);
+            ResourceManager::LoadResource_446C90("HUBRED.BAN", ResourceManager::Resource_Animation, ResourceID::kRedDoorLightResID_6032, loadMode);
             break;
 
-        case Path_LightEffect::Type::FlintHub_5:
-            ResourceManager::LoadResource_446C90("HUBLIGHT.BAN", ResourceManager::Resource_Animation, 6031, loadMode);
-            ResourceManager::LoadResource_446C90("HUBRED.BAN", ResourceManager::Resource_Animation, 6032, loadMode);
+        case Path_LightEffect::Type::Switchable_RedGreenHubLight_5:
+            ResourceManager::LoadResource_446C90("HUBLIGHT.BAN", ResourceManager::Resource_Animation, ResourceID::kGreenDoorLightResID_6031, loadMode);
+            ResourceManager::LoadResource_446C90("HUBRED.BAN", ResourceManager::Resource_Animation, ResourceID::kRedDoorLightResID_6032, loadMode);
             break;
 
         default:
@@ -2832,7 +2834,7 @@ EXPORT void Factory_LightEffect_484170(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
         switch (pPathLightTlv->field_18_type)
         {
         case Path_LightEffect::Type::Star_0:
-            if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 1039, 0, 0))
+            if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBGStarResID, 0, 0))
             {
                 auto pLight = ao_new<LightEffect>();
                 if (pLight)
@@ -2846,8 +2848,8 @@ EXPORT void Factory_LightEffect_484170(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
             }
             break;
 
-        case Path_LightEffect::Type::RedGoldGlow_1:
-            if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6011, 0, 0))
+        case Path_LightEffect::Type::RedGlow_1:
+            if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRedGlowResID_6011, 0, 0))
             {
                 auto pLight = ao_new<DoorLight>();
                 if (pLight)
@@ -2862,7 +2864,7 @@ EXPORT void Factory_LightEffect_484170(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
             break;
 
         case Path_LightEffect::Type::GreenGlow_2:
-            if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6010, 0, 0))
+            if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGreenGlowResID_6010, 0, 0))
             {
                 auto pLight = ao_new<DoorLight>();
                 if (pLight)
@@ -2877,7 +2879,7 @@ EXPORT void Factory_LightEffect_484170(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
             break;
 
         case Path_LightEffect::Type::FlintGlow_3:
-            if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6028, 0, 0))
+            if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kFlintGlowResID_6028, 0, 0))
             {
                 auto pLight = ao_new<DoorLight>();
                 if (pLight)
@@ -2891,10 +2893,10 @@ EXPORT void Factory_LightEffect_484170(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
             }
             break;
 
-        case Path_LightEffect::Type::FlintDoor_4:
-        case Path_LightEffect::Type::FlintHub_5:
-            if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6031, 0, 0) &&
-                ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6032, 0, 0))
+        case Path_LightEffect::Type::Switchable_RedGreenDoorLights_4:
+        case Path_LightEffect::Type::Switchable_RedGreenHubLight_5:
+            if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGreenDoorLightResID_6031, 0, 0) &&
+                ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRedDoorLightResID_6032, 0, 0))
             {
                 auto pLight = ao_new<DoorLight>();
                 if (pLight)
@@ -2921,42 +2923,42 @@ EXPORT void Factory_SlogSpawner_4851D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
     {
         static CompileTimeResourceList<4> kResources =
         {
-            { ResourceManager::Resource_Animation, 570 },
-            { ResourceManager::Resource_Animation, 571 },
-            { ResourceManager::Resource_Animation, 572 },
-            { ResourceManager::Resource_Animation, 574 }
+            { ResourceManager::Resource_Animation, ResourceID::kDogbasicResID },
+            { ResourceManager::Resource_Animation, ResourceID::kDogrstnResID },
+            { ResourceManager::Resource_Animation, ResourceID::kDogattkResID },
+            { ResourceManager::Resource_Animation, ResourceID::kDogidleResID }
         };
 
         ResourceManager::LoadResourcesFromList_446E80("SLOG.BND", kResources.AsList(), loadMode, 0);
-        ResourceManager::LoadResource_446C90("DOGKNFD.BAN", ResourceManager::Resource_Animation, 573, loadMode);
+        ResourceManager::LoadResource_446C90("DOGKNFD.BAN", ResourceManager::Resource_Animation, ResourceID::kDogknfdResID, loadMode);
     }
     else
     {
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 570, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogbasicResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 572, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogattkResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 573, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogknfdResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 574, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogidleResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 571, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogrstnResID, 0, 0))
         {
             gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
             return;
@@ -2976,8 +2978,8 @@ EXPORT void Factory_GasCountDown_487BE0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        ResourceManager::LoadResource_446C90("LCDFONT.FNT",  ResourceManager::Resource_Font, 2, loadMode);
-        ResourceManager::LoadResource_446C90("ABEGAS.BAN", ResourceManager::Resource_Animation, 118, loadMode);
+        ResourceManager::LoadResource_446C90("LCDFONT.FNT",  ResourceManager::Resource_Font, ResourceID::kLcdfontResID, loadMode);
+        ResourceManager::LoadResource_446C90("ABEGAS.BAN", ResourceManager::Resource_Animation, ResourceID::kAbegasResID, loadMode);
     }
     else
     {
@@ -3049,17 +3051,17 @@ EXPORT void Factory_BackgroundGlukkon_487CE0(Path_TLV* pTlv, Map* /*pMap*/, TlvI
     {
         static CompileTimeResourceList<5> kResources =
         {
-          { ResourceManager::Resource_Animation, 800 },
-          { ResourceManager::Resource_Palt, 825 },
-          { ResourceManager::Resource_Palt, 826 },
-          { ResourceManager::Resource_Palt, 827 },
-          { ResourceManager::Resource_Palt, 828 }
+          { ResourceManager::Resource_Animation, ResourceID::kGlkbasicResID },
+          { ResourceManager::Resource_Palt, ResourceID::kGlukredResID },
+          { ResourceManager::Resource_Palt, ResourceID::kGlukgrenResID },
+          { ResourceManager::Resource_Palt, ResourceID::kGlukblueResID },
+          { ResourceManager::Resource_Palt, ResourceID::kGlukaquaResID }
         };
 
 
         ResourceManager::LoadResourcesFromList_446E80("GLUKKON.BND", kResources.AsList(), loadMode, 0);
-        ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, 576, loadMode);
-        ResourceManager::LoadResource_446C90("EXPLO2.BAN", ResourceManager::Resource_Animation, 301, loadMode);
+        ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, loadMode);
+        ResourceManager::LoadResource_446C90("EXPLO2.BAN", ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, loadMode);
     }
     else
     {

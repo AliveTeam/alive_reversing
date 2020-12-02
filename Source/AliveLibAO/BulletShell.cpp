@@ -17,7 +17,7 @@ BulletShell* BulletShell::ctor_462790(FP xpos, FP ypos, __int16 direction, FP sc
 
     field_4_typeId = Types::eNone_0;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 360, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kShellResID, 1, 0);
     Animation_Init_417FD0(308, 6, 5, ppRes, 1);
 
     field_BC_sprite_scale = scale;

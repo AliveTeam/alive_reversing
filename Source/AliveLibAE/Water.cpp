@@ -18,14 +18,14 @@ Water* Water::ctor_4E02C0(Path_Water* pTlv, int tlvInfo)
 
     SetVTable(this, 0x547F10); // vTbl_Water_547F10
  
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kWdropResID);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kWdropResID);
     if (ppRes)
     {
         Animation_Init_424E10(104, 11, 7, ppRes, 1, 1);
         field_20_animation.field_4_flags.Set(AnimFlags::eBit25_bDecompressDone);
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kSplashResID);
+        Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSplashResID);
 
         field_114_tlvInfo = tlvInfo;
         field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);

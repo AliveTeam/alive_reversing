@@ -24,7 +24,7 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, int tlvIn
     ctor_417C10();
     SetVTable(this, 0x4BB878);
     field_4_typeId = Types::eMotionDetector_59;
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6002, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMflareResID, 1, 0);
     Animation_Init_417FD0(1108, 32, 22, ppRes, 1);
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
@@ -66,7 +66,7 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, int tlvIn
             pMotionDetectors->ctor_417C10();
             SetVTable(pMotionDetectors, 0x4BB840);
             pMotionDetectors->field_4_typeId = Types::eRedLaser_76;
-            BYTE** v16 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6001, 1, 0);
+            BYTE** v16 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMotionResID, 1, 0);
             pMotionDetectors->Animation_Init_417FD0(
                 23660,
                 37,
@@ -91,7 +91,7 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, int tlvIn
             pMotionDetectors->ctor_417C10();
             SetVTable(pMotionDetectors, 0x4BB840);
             pMotionDetectors->field_4_typeId = Types::eRedLaser_76;
-            BYTE** ppRes_1 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 6001, 1, 0);
+            BYTE** ppRes_1 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMotionResID, 1, 0);
             pMotionDetectors->Animation_Init_417FD0(
                 23660,
                 37,

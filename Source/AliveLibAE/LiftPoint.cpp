@@ -82,7 +82,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, int tlvInfo)
 
     field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr_4DB7C0(pTlv);
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kLiftResID);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kLiftResID);
     if (pTlv->field_18_scale)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
@@ -125,7 +125,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, int tlvInfo)
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
 
-    BYTE** ppPulleyAnim = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kPulleyResID);
+    BYTE** ppPulleyAnim = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPulleyResID);
     const LiftPointData& rLiftWheelData = sLiftPointData_545AC8[static_cast<int>(gMap_5C3030.field_0_current_level)];
     if (field_13C_lift_wheel.Init_40A030(
         rLiftWheelData.field_C_lift_wheel_frame_table_offset,
@@ -149,7 +149,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, int tlvInfo)
             field_13C_lift_wheel.field_14_scale = field_CC_sprite_scale;
         }
 
-        BYTE** ppAbeLiftRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeliftResID, TRUE, FALSE);
+        BYTE** ppAbeLiftRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeliftResID, TRUE, FALSE);
 
         field_13C_lift_wheel.field_4_flags.Clear(AnimFlags::eBit2_Animate);
         field_13C_lift_wheel.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -273,11 +273,11 @@ int LiftPoint::VGetSaveState(BYTE* pSaveBuffer)
 
 static void LoadLiftResourceBans(const char* pRopeBanName, const char* pLiftBanName)
 {
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kRopesResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kRopesResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170(pRopeBanName, nullptr);
     }
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kLiftResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kLiftResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170(pLiftBanName, nullptr);
     }
@@ -289,7 +289,7 @@ int CC LiftPoint::CreateFromSaveState_4630F0(const BYTE* pData)
 
     Path_LiftPoint* pTlv = static_cast<Path_LiftPoint*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_C_tlvInfo));
     
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeliftResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeliftResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("ABELIFT.BAN", nullptr);
     }
@@ -987,7 +987,7 @@ void LiftPoint::CreatePulleyIfExists_462C80()
     field_26C_pulley_xpos = FP_GetExponent(((kM10_scaled + k13_scaled) / FP_FromInteger(2)) + FP_NoFractional(field_B8_xpos));
     field_26E_pulley_ypos = pFound->field_8_top_left.field_2_y;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kPulleyResID);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPulleyResID);
     const LiftPointData& data = sLiftPointData_545AC8[static_cast<int>(gMap_5C3030.field_0_current_level)];
     field_1D4_pulley_anim.Init_40A030(
         data.field_10_pulley_frame_table_offset,
@@ -1032,7 +1032,7 @@ void LiftPoint::vScreenChanged_463020()
         {
             if (field_274_ppRes == nullptr)
             {
-                field_274_ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeliftResID, TRUE, FALSE);
+                field_274_ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeliftResID, TRUE, FALSE);
             }
         }
         else

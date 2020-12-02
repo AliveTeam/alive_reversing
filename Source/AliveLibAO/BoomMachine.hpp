@@ -39,6 +39,13 @@ public:
 
     virtual void VScreenChanged() override;
 
+    virtual void VUpdate() override;
+
+    virtual BOOL VIsButtonOn();
+
+    virtual void VHandleButton();
+
+private:
     EXPORT void VScreenChanged_41E7F0();
 
     EXPORT void VUpdate_41E750();
@@ -47,6 +54,7 @@ public:
 
     EXPORT void VHandleButton_41E6F0();
 
+public:
 
     int field_D4_padding[4];
     int field_E4_tlvInfo;

@@ -211,7 +211,7 @@ CircularFade* CircularFade::ctor_479E20(FP xpos, FP ypos, FP scale, __int16 dire
     field_C2_g = fade_rgb;
     field_C0_r = fade_rgb;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 316, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSpotliteResID, 1, 0);
     Animation_Init_417FD0(2472, 57, 32, ppRes, 1);
 
     field_CC_bApplyShadows &= ~1u;
