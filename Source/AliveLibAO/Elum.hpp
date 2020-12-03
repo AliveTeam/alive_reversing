@@ -219,6 +219,7 @@ public:
     EXPORT void State_34_RunJumpMid_415240();
     EXPORT void State_35_RunJumpLand_415580();
     EXPORT void State_36_RunLoop_413720();
+    void RunSlideStopKnockback();
     EXPORT void State_37_RunSlideStop_4142E0();
     EXPORT void State_38_RunTurnToRun_414810();
     EXPORT void State_39_IdleToRun_413B00();
