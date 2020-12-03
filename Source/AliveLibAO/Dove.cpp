@@ -375,7 +375,7 @@ void Dove::VUpdate_40F430()
             field_B4_velx = -field_B4_velx;
         }
 
-        field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_B4_velx >= FP_FromInteger(0));
+        field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_B4_velx < FP_FromInteger(0));
         break;
 
     case State::State_2_Join:
