@@ -2926,7 +2926,7 @@ void Elum::State_34_RunJumpMid_415240()
                 field_FC_current_motion = eElumStates::State_35_RunJumpLand_415580;
                 field_AC_ypos = hitY;
                 MapFollowMe_401D30(TRUE);
-                break;
+                return;
             default:
                 break;
             }
