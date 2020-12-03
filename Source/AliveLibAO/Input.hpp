@@ -20,9 +20,9 @@ ALIVE_ASSERT_SIZEOF(PSX_Pad, 0xC);
 // TODO: most of these are gonna be wrong bar the ones in abe.cpp
 enum InputCommands : unsigned int
 {
-    eGameSpeak3 = 1u << 0,  // 0x1
+    eRightGameSpeak = 1u << 0,  // 0x1
     eSneak = 1u << 1,  // 0x2
-    eGameSpeak6 = 1u << 2,  // 0x4
+    eLeftGamespeak = 1u << 2,  // 0x4
     eRun = 1u << 3,  // 0x8
     eHop = 1u << 4,  // 0x10
     eThrowItem = 1u << 5,  // 0x20
@@ -77,7 +77,7 @@ extern const InputCommands sInputKey_GameSpeak6_4C65E8;
 extern const InputCommands sInputKey_GameSpeak7_4C65E4;
 extern const InputCommands sInputKey_GameSpeak8_4C65E0;
 
-const InputCommands sInputKey_Chant = static_cast<InputCommands>(eGameSpeak3 | eGameSpeak6);
+const InputCommands sInputKey_Chant = static_cast<InputCommands>(eRightGameSpeak | eLeftGamespeak);
 
 EXPORT BOOL CC Input_IsChanting_4334C0();
 EXPORT void Input_InitKeyStateArray_48E5F0();
