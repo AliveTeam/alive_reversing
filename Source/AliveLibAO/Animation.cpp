@@ -911,7 +911,7 @@ signed __int16 Animation::Init_402D20(int frameTableOffset, DynamicArray* /*anim
     }
 
     // NOTE: OG bug or odd compiler code gen? Why isn't it using the passed in list which appears to always be this anyway ??
-    bool result = gObjList_animations_505564->Push_Back(this);
+    const auto result = gObjList_animations_505564->Push_Back(this);
     if (!result)
     {
         return 0;
