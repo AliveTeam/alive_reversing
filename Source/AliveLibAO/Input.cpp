@@ -94,21 +94,6 @@ void ConvertGamespeakAEtoAO(BitField32<InputCommands>& value, const BitField32<:
         value.Set(InputCommands::eRightGameSpeak);
         value.Set(InputCommands::eFartOrRoll);
     }
-    else if (aeInput.Get(::InputCommands::eGameSpeak8))
-    {
-        value.Set(InputCommands::eRightGameSpeak);
-        value.Set(InputCommands::eFartOrRoll);
-    }
-    else if (aeInput.Get(::InputCommands::eGameSpeak8))
-    {
-        value.Set(InputCommands::eRightGameSpeak);
-        value.Set(InputCommands::eFartOrRoll);
-    }
-    else if (aeInput.Get(::InputCommands::eGameSpeak8))
-    {
-        value.Set(InputCommands::eRightGameSpeak);
-        value.Set(InputCommands::eFartOrRoll);
-    }
     else if (aeInput.Get(::InputCommands::eBack))
     {
         value.Set(InputCommands::eGameSpeak2);
