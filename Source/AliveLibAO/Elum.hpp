@@ -181,6 +181,14 @@ public:
 
     EXPORT __int16 Brain_1_HoneyAddiction_411730();
 
+    enum class MidType
+    {
+        eHopMid = 0,
+        eRunJumpMid = 1
+    };
+
+    void RunJumpMidAndHopMid(MidType midType);
+
     // States
     EXPORT void State_0_Respawn_414C60();
     EXPORT void State_1_Idle_412990();
