@@ -56,7 +56,7 @@ enum class Types : __int16
     eHoneySack_45 = 45,
 
     eHoney_47 = 47,
-    eClaw_48 = 48,
+    eClawOrBirdPortalTerminator_48 = 48,
 
     eMudokon_52 = 52,
     eLiftPoint_51 = 51,
