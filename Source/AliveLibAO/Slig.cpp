@@ -557,6 +557,7 @@ void Slig::Init_46B890()
     field_11C = gMap_507BA8.field_4_current_camera;
     field_20E_spotted_possessed_slig = 0;
     field_114_timer = gnFrameCount_507670 + field_174_tlv.field_1C_pause_time;
+
     switch (field_174_tlv.field_1A_start_state)
     {
         case Path_Slig::StartState::Paused_1:
@@ -590,9 +591,10 @@ void Slig::Init_46B890()
         }
         case Path_Slig::StartState::GameEnder_4:
         {
+            field_114_timer = gnFrameCount_507670 + field_174_tlv.field_1C_pause_time;
             SetBrain(&Slig::Brain_GameEnder_46EEE0);
             SetBrain2(&Slig::Brain_GameEnder_46EEE0);
-            field_130 = static_cast<short>(field_114_timer);
+            field_130 = field_174_tlv.field_1C_pause_time;
             break;
         }
         case Path_Slig::StartState::Paused_5:
@@ -2790,7 +2792,7 @@ void Slig::State_4_Running_469690()
         field_AC_ypos) >= CameraPos::eCamCurrent_0
         && MusicController::sub_443840(0, 0, 0) != MusicController::MusicTypes::ePossessed_6)
     {
-        MusicController::sub_443810(MusicController::MusicTypes::eSlogChase_5, 0, 0, 0);
+        MusicController::sub_443810(MusicController::MusicTypes::eSlogChase_5, this, 0, 0);
     }
 
     field_126_input |= Input().Held();
