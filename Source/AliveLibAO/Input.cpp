@@ -22,13 +22,13 @@ const InputCommands sInputKey_Sneak_4C65AC = eSneak;
 const InputCommands sInputKey_FartRoll_4C65B0 = eFartOrRoll;
 const InputCommands sInputKey_ThrowItem_4C65B4 = eThrowItem;
 
-const InputCommands sInputKey_LeftGameSpeakEnabler_4C65B8 = eGameSpeak6;
+const InputCommands sInputKey_LeftGameSpeakEnabler_4C65B8 = eLeftGamespeak;
 const InputCommands sInputKey_GameSpeak1_4C65C8 = eHop;
 const InputCommands sInputKey_GameSpeak2_4C65BC = eDoAction;
 const InputCommands sInputKey_GameSpeak3_4C65C0 = eThrowItem;
 const InputCommands sInputKey_GameSpeak4_4C65C4 = eFartOrRoll;
 
-const InputCommands sInputKey_RightGameSpeakEnabler_4C65DC = eGameSpeak3;
+const InputCommands sInputKey_RightGameSpeakEnabler_4C65DC = eRightGameSpeak;
 const InputCommands sInputKey_GameSpeak5_4C65EC = eFartOrRoll;
 const InputCommands sInputKey_GameSpeak6_4C65E8 = eHop;
 const InputCommands sInputKey_GameSpeak7_4C65E4 = eThrowItem;
@@ -52,36 +52,88 @@ EXPORT void InputObject::InitPad_4331A0(unsigned int /*padCount*/)
 ALIVE_ARY(1, 0x507778, BYTE, 64, sPad1Buffer_507778, {});
 ALIVE_ARY(1, 0x507738, BYTE, 64, sPad2Buffer_507738, {});
 
+void ConvertGamespeakAEtoAO(BitField32<InputCommands>& value, const BitField32<::InputCommands>& aeInput)
+{
+    if (aeInput.Get(::InputCommands::eGameSpeak1))
+    {
+        value.Set(InputCommands::eLeftGamespeak);
+        value.Set(InputCommands::eHop);
+    }
+    else if (aeInput.Get(::InputCommands::eGameSpeak2))
+    {
+        value.Set(InputCommands::eLeftGamespeak);
+        value.Set(InputCommands::eDoAction);
+    }
+    else if (aeInput.Get(::InputCommands::eGameSpeak3))
+    {
+        value.Set(InputCommands::eLeftGamespeak);
+        value.Set(InputCommands::eFartOrRoll);
+    }
+    else if (aeInput.Get(::InputCommands::eGameSpeak4))
+    {
+        value.Set(InputCommands::eLeftGamespeak);
+        value.Set(InputCommands::eThrowItem);
+    }
+    else if (aeInput.Get(::InputCommands::eGameSpeak5))
+    {
+        value.Set(InputCommands::eRightGameSpeak);
+        value.Set(InputCommands::eDoAction);
+    }
+    else if (aeInput.Get(::InputCommands::eGameSpeak6))
+    {
+        value.Set(InputCommands::eRightGameSpeak);
+        value.Set(InputCommands::eHop);
+    }
+    else if (aeInput.Get(::InputCommands::eGameSpeak7))
+    {
+        value.Set(InputCommands::eRightGameSpeak);
+        value.Set(InputCommands::eThrowItem);
+    }
+    else if (aeInput.Get(::InputCommands::eGameSpeak8))
+    {
+        value.Set(InputCommands::eRightGameSpeak);
+        value.Set(InputCommands::eFartOrRoll);
+    }
+    else if (aeInput.Get(::InputCommands::eGameSpeak8))
+    {
+        value.Set(InputCommands::eRightGameSpeak);
+        value.Set(InputCommands::eFartOrRoll);
+    }
+    else if (aeInput.Get(::InputCommands::eGameSpeak8))
+    {
+        value.Set(InputCommands::eRightGameSpeak);
+        value.Set(InputCommands::eFartOrRoll);
+    }
+    else if (aeInput.Get(::InputCommands::eGameSpeak8))
+    {
+        value.Set(InputCommands::eRightGameSpeak);
+        value.Set(InputCommands::eFartOrRoll);
+    }
+    else if (aeInput.Get(::InputCommands::eBack))
+    {
+        value.Set(InputCommands::eGameSpeak2);
+    }
+    else if (aeInput.Get(::InputCommands::eCheatMode))
+    {
+        value.Set(InputCommands::eGameSpeak4);
+    }
+}
+
 static BitField32<InputCommands> ConvertInput(const BitField32<::InputCommands>& aeInput)
 {
     BitField32<InputCommands> r;
-    r.Set(InputCommands::eGameSpeak3, aeInput.Get(::InputCommands::eGameSpeak3));
-    r.Set(InputCommands::eSneak, aeInput.Get(::InputCommands::eSneak));
-    r.Set(InputCommands::eGameSpeak6, aeInput.Get(::InputCommands::eGameSpeak6));
-    r.Set(InputCommands::eRun, aeInput.Get(::InputCommands::eRun));
-    r.Set(InputCommands::eHop, aeInput.Get(::InputCommands::eHop));
-    r.Set(InputCommands::eThrowItem, aeInput.Get(::InputCommands::eThrowItem));
-    r.Set(InputCommands::eFartOrRoll, aeInput.Get(::InputCommands::eFartOrRoll));
-    r.Set(InputCommands::eDoAction, aeInput.Get(::InputCommands::eDoAction));
-    r.Set(InputCommands::eGameSpeak4, aeInput.Get(::InputCommands::eGameSpeak4));
-    r.Set(InputCommands::eGameSpeak5, aeInput.Get(::InputCommands::eGameSpeak5));
-    r.Set(InputCommands::eGameSpeak1, aeInput.Get(::InputCommands::eGameSpeak1));
-    r.Set(InputCommands::eGameSpeak2, aeInput.Get(::InputCommands::eGameSpeak2));
     r.Set(InputCommands::eUp, aeInput.Get(::InputCommands::eUp));
     r.Set(InputCommands::eRight, aeInput.Get(::InputCommands::eRight));
     r.Set(InputCommands::eDown, aeInput.Get(::InputCommands::eDown));
     r.Set(InputCommands::eLeft, aeInput.Get(::InputCommands::eLeft));
-    r.Set(InputCommands::eGameSpeak7, aeInput.Get(::InputCommands::eGameSpeak7));
-    r.Set(InputCommands::eGameSpeak8, aeInput.Get(::InputCommands::eGameSpeak8));
-    r.Set(InputCommands::eChant, aeInput.Get(::InputCommands::eChant));
-    r.Set(InputCommands::ePause, aeInput.Get(::InputCommands::ePause));
-    r.Set(InputCommands::eUnPause_OrConfirm, aeInput.Get(::InputCommands::eUnPause_OrConfirm));
+    r.Set(InputCommands::eRun, aeInput.Get(::InputCommands::eRun));
+    r.Set(InputCommands::eHop, aeInput.Get(::InputCommands::eHop));
+    r.Set(InputCommands::eSneak, aeInput.Get(::InputCommands::eSneak));
+    r.Set(InputCommands::eThrowItem, aeInput.Get(::InputCommands::eThrowItem));
+    r.Set(InputCommands::eFartOrRoll, aeInput.Get(::InputCommands::eFartOrRoll));
+    r.Set(InputCommands::eDoAction, aeInput.Get(::InputCommands::eDoAction));
     r.Set(InputCommands::eBack, aeInput.Get(::InputCommands::eBack));
-    r.Set(InputCommands::eCheatMode, aeInput.Get(::InputCommands::eCheatMode));
-    r.Set(InputCommands::eSpeak1, aeInput.Get(::InputCommands::eSpeak1));
-    r.Set(InputCommands::eSpeak2, aeInput.Get(::InputCommands::eSpeak2));
-    r.Set(InputCommands::e0x80000000, aeInput.Get(::InputCommands::eConfigure));
-
+    ConvertGamespeakAEtoAO(r, aeInput);
     return r;
 }
 
@@ -206,6 +258,7 @@ EXPORT void InputObject::Update_433250()
         field_0_pads[i].field_2_dir = byte_4BB428[(field_0_pads[i].field_0_pressed >> 12) & 0xF];
         field_0_pads[i].field_3 = byte_4BB428[(field_0_pads[i].field_0_pressed >> 4) & 0xF];
     }
+
 }
 
 EXPORT void CC InputObject::Shutdown_433230()
