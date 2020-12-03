@@ -3102,20 +3102,38 @@ void Elum::State_36_RunLoop_413720()
     }
 }
 
+void Elum::RunSlideStopKnockback()
+{
+    field_FC_current_motion = eElumStates::State_50_Knockback_415DC0;
+    if (field_F4_pLine)
+    {
+        field_B4_velx = -field_B4_velx;
+        MoveOnLine_412580(FALSE);
+    }
+    else
+    {
+        field_A8_xpos -= field_B4_velx;
+    }
+    field_B4_velx = FP_FromInteger(0);
+    MapFollowMe_401D30(TRUE);
+    Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 95, -200, this);
+}
+
 void Elum::State_37_RunSlideStop_4142E0()
 {
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
 
-    if (!field_10_anim.field_92_current_frame)
+    if (field_10_anim.field_92_current_frame == 0)
     {
         Elum_SFX_416E10(ElumSounds::eRunSlide_5, 0);
     }
 
     const FP offY = (sControlledCharacter_50767C == this) ? field_BC_sprite_scale * FP_FromInteger(40) : field_BC_sprite_scale * FP_FromInteger(25);
+
     if (WallHit_401930(offY, field_B4_velx))
     {
-        ToKnockback();
+        RunSlideStopKnockback();
         return;
     }
 
