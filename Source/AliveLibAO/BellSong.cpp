@@ -41,11 +41,13 @@ void BellSong::VUpdate_476130()
                 switch (code_looked_up)
                 {
                     case GameSpeakEvents::eWhistle1_1:
-                        Mudokon_SFX_42A4D0(MudSounds::eFart_7, 0, 0, 0);
+                        Mudokon_SFX_42A4D0(MudSounds::eWhistle1_1, 0, 0, 0);
+                        break;
                     case GameSpeakEvents::eWhistle2_2:
                         Mudokon_SFX_42A4D0(MudSounds::eWhistle2_2, 0, 0, 0);
+                        break;
                     default:
-                        Mudokon_SFX_42A4D0(MudSounds::eWhistle1_1, 0, 0, 0);
+                        Mudokon_SFX_42A4D0(MudSounds::eFart_7, 0, 0, 0);
                 }
                 field_8_update_delay = 30;
                 break;
