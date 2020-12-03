@@ -258,7 +258,6 @@ EXPORT void InputObject::Update_433250()
         field_0_pads[i].field_2_dir = byte_4BB428[(field_0_pads[i].field_0_pressed >> 12) & 0xF];
         field_0_pads[i].field_3 = byte_4BB428[(field_0_pads[i].field_0_pressed >> 4) & 0xF];
     }
-
 }
 
 EXPORT void CC InputObject::Shutdown_433230()
