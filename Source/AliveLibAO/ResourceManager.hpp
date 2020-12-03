@@ -26,6 +26,8 @@ public:
         Resource_DecompressionBuffer = 0x66754244,
         Resource_VLC = 0x20434C56,
         Resource_Animation = 0x6D696E41,
+        Resource_VabHeader = 0x48424156,
+        Resource_VabBody = 0x42424156,
         Resource_Font = 0x746E6F46,
         Resource_Path = 0x68746150,
         Resource_Palt = 0x746C6150,
