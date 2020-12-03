@@ -2783,10 +2783,15 @@ void Elum::State_30_HopBegin_414E30()
     field_F4_pLine = nullptr;
 }
 
-void Elum::State_31_HopMid_414C70()
+void Elum::RunJumpMidAndHopMid(MidType midType)
 {
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
+
+    if (midType == MidType::eRunJumpMid)
+    {
+        Event_Broadcast_417220(kEvent_11, this);
+    }
 
     if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), field_B4_velx))
     {
@@ -2801,21 +2806,39 @@ void Elum::State_31_HopMid_414C70()
 
         FP hitX = {};
         FP hitY = {};
-        if (InAirCollision_4019C0(&field_F4_pLine, &hitX, &hitY, FP_FromDouble(0.9)))
+
+        const FP velY = midType == MidType::eRunJumpMid ? FP_FromDouble(0.9) : FP_FromDouble(0.8);
+        const FP unknown_field = midType == MidType::eRunJumpMid ? FP_FromDouble(2.15) : FP_FromDouble(1.1);
+
+        if (InAirCollision_4019C0(&field_F4_pLine, &hitX, &hitY, velY))
         {
             switch (field_F4_pLine->field_8_type)
             {
-            case 0:
-            case 4:
+            case eFloor_0:
+            case eBackGroundFloor_4:
             case 32:
             case 36:
                 Elum_SFX_416E10(ElumSounds::eHitGroundSoft_4, 0);
                 field_B4_velx = FP_FromInteger(0);
-                field_FC_current_motion = eElumStates::State_32_HopLand_415140;
+
+                switch (midType)
+                {
+                case MidType::eRunJumpMid:
+                    field_FC_current_motion = eElumStates::State_35_RunJumpLand_415580;
+                    break;
+                    
+                case MidType::eHopMid:
+                    field_FC_current_motion = eElumStates::State_32_HopLand_415140;
+                    break;
+
+                default:
+                    break;
+                }
+
                 field_B8_vely = FP_FromInteger(0);
                 field_A8_xpos = hitX;
                 field_AC_ypos = hitY;
-                break;
+                return;
             default:
                 break;
             }
@@ -2823,10 +2846,15 @@ void Elum::State_31_HopMid_414C70()
 
         if (field_AC_ypos - field_E8_LastLineYPos > FP_FromInteger(2))
         {
-            field_118 = FP_FromDouble(2.15);
+            field_118 = unknown_field;
             field_FC_current_motion = eElumStates::State_24_JumpToFall_415ED0;
         }
     }
+}
+
+void Elum::State_31_HopMid_414C70()
+{
+    RunJumpMidAndHopMid(MidType::eHopMid);
 }
 
 void Elum::State_32_HopLand_415140()
@@ -2896,47 +2924,7 @@ void Elum::State_33_RunJumpBegin_415400()
 
 void Elum::State_34_RunJumpMid_415240()
 {
-    Event_Broadcast_417220(kEventNoise_0, this);
-    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
-    Event_Broadcast_417220(kEvent_11, this);
-
-    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), field_B4_velx))
-    {
-        ToKnockback();
-    }
-    else
-    {
-        if (sControlledCharacter_50767C == this)
-        {
-            SetActiveCameraDelayedFromDir_401C90();
-        }
-
-        FP hitX = {};
-        FP hitY = {};
-        if (InAirCollision_4019C0(&field_F4_pLine, &hitX, &hitY, FP_FromDouble(0.8)))
-        {
-            switch (field_F4_pLine->field_8_type)
-            {
-            case 0:
-            case 4:
-            case 32:
-            case 36:
-                Elum_SFX_416E10(ElumSounds::eHitGroundSoft_4, 0);
-                field_A8_xpos = hitX;
-                field_FC_current_motion = eElumStates::State_35_RunJumpLand_415580;
-                field_AC_ypos = hitY;
-                MapFollowMe_401D30(TRUE);
-                return;
-            default:
-                break;
-            }
-        }
-        if (field_AC_ypos - field_E8_LastLineYPos > FP_FromInteger(2))
-        {
-            field_118 = FP_FromDouble(1.1);
-            field_FC_current_motion = eElumStates::State_24_JumpToFall_415ED0;
-        }
-    }
+    RunJumpMidAndHopMid(MidType::eRunJumpMid);
 }
 
 void Elum::State_35_RunJumpLand_415580()
