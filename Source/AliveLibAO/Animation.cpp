@@ -659,7 +659,7 @@ void Animation::vCleanUp()
 
 void Animation::VCleanUp_403F40()
 {
-    if (field_4_flags.Get(AnimFlags::eBit17))
+    if (field_4_flags.Get(AnimFlags::eBit17_bFreeResource))
     {
         ResourceManager::FreeResource_455550(field_20_ppBlock);
     }
@@ -826,6 +826,7 @@ signed __int16 Animation::Init_402D20(int frameTableOffset, DynamicArray* /*anim
     field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
     field_4_flags.Set(AnimFlags::eBit16_bBlending);
+    field_4_flags.Set(AnimFlags::eBit17_bFreeResource);
 
     if (bAllocateVRam)
     {

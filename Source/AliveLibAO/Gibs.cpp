@@ -170,7 +170,7 @@ Gibs* Gibs::ctor_407B20(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scal
         pPart->field_18_anim.field_C_layer = field_10_anim.field_C_layer;
         pPart->field_18_anim.field_14_scale = scale;
 
-        pPart->field_18_anim.field_4_flags.Clear(AnimFlags::eBit17); // Else the gibs seem to kill meat grinders and other objects ??
+        pPart->field_18_anim.field_4_flags.Clear(AnimFlags::eBit17_bFreeResource); // Else the gibs seem to kill meat grinders and other objects ??
         pPart->field_18_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
         pPart->field_18_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 

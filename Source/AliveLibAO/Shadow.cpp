@@ -28,7 +28,7 @@ EXPORT Shadow* Shadow::ctor_461FB0()
     field_18_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
     field_18_anim.field_4_flags.Set(AnimFlags::eBit8_Loop);
     field_18_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_18_anim.field_4_flags.Set(AnimFlags::eBit17);
+    field_18_anim.field_4_flags.Set(AnimFlags::eBit17_bFreeResource);
     field_18_anim.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
     field_18_anim.field_4_flags.Set(AnimFlags::eBit20_use_xy_offset);
     field_18_anim.field_4_flags.Set(AnimFlags::eBit21);

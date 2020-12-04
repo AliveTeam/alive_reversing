@@ -139,7 +139,7 @@ enum AnimFlags
     eBit16_bBlending = 0x8000,
 
     // Bit 17 = is last frame? causes instance chiseling of muds
-    eBit17 = 0x10000,
+    eBit17_bFreeResource = 0x10000,
 
     // Bit 18 = backwards (or forwards?) frame order
     eBit18_IsLastFrame = 0x20000,
