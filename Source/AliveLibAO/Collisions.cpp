@@ -38,6 +38,7 @@ Collisions* Collisions::ctor_40CF30(const CollisionInfo* pCollisionInfo, const B
 
     // Allocate memory for collisions array
     field_0_pArray = reinterpret_cast<PathLine*>(ao_new_malloc_447520(field_C_max_count * sizeof(PathLine)));
+    memset(field_0_pArray, 0, field_C_max_count * sizeof(PathLine));
 
     // Copy collision line data out of Path resource
     memcpy(field_0_pArray, &ppPathData[pCollisionInfo->field_C_collision_offset], field_4_current_item_count * sizeof(PathLine));

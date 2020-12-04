@@ -60,57 +60,38 @@ class Slog : public BaseAliveGameObject
 {
 public:
     EXPORT Slog* ctor_472EE0(Path_Slog* pTlv, int tlvInfo);
-
     EXPORT Slog* ctor_473050(FP xpos, FP ypos, FP scale);
-
-    virtual BaseGameObject* VDestructor(signed int flags) override;
-
-    EXPORT Slog* Vdtor_473CB0(signed int flags);
-
     EXPORT BaseGameObject* dtor_473370();
 
-    virtual __int16 VTakeDamage(BaseGameObject* pFrom) override;
-
-    EXPORT __int16 VTakeDamage_473610(BaseGameObject* pFrom);
-
-    virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
-
-    EXPORT void VOn_Tlv_Collision_473970(Path_TLV* pTlv);
-
-    EXPORT void VUpdate_4739C0();
-
+    EXPORT __int16 HandleEnemyStopper_473BD0();
+    EXPORT void ToJump_473FB0();
+    EXPORT void Sfx_475BD0(int idx);
+    EXPORT __int16 IsPlayerNear_471930();
+    EXPORT BaseAliveGameObject* FindAbeMudOrSlig_4722F0();
     EXPORT void Init_473130();
-
     EXPORT __int16 ToNextMotion_473CE0();
-
     void ToIdle();
 
-    EXPORT void ToJump_473FB0();
-
-    EXPORT void Sfx_475BD0(int idx);
-
-    EXPORT __int16 IsPlayerNear_471930();
-
-    EXPORT BaseAliveGameObject* FindAbeMudOrSlig_4722F0();
-
+    virtual __int16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_473480();
-
     virtual void VRender(int** pOrderingTable) override;
-
-    EXPORT void VRender_4735D0(int** ppOt);
-
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
-
-    EXPORT void VOnThrowableHit_4735F0(BaseGameObject* pFrom);
-
-    EXPORT __int16 HandleEnemyStopper_473BD0();
-
     virtual void VOnTrapDoorOpen() override;
+    virtual void VUpdate() override;
+    virtual BaseGameObject* VDestructor(signed int flags) override;
 
+private:
     void VOnTrapDoorOpen_4740C0();
+    EXPORT void VOnThrowableHit_4735F0(BaseGameObject* pFrom);
+    EXPORT void VRender_4735D0(int** ppOt);
+    EXPORT void VScreenChanged_473480();
+    EXPORT void VUpdate_4739C0();
+    EXPORT void VOn_Tlv_Collision_473970(Path_TLV* pTlv);
+    EXPORT __int16 VTakeDamage_473610(BaseGameObject* pFrom);
+    EXPORT Slog* Vdtor_473CB0(signed int flags);
 
+public:
     void SetAnimFrame();
 
     BYTE** ResBlockForMotion(__int16 motion);

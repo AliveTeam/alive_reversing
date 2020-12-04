@@ -21,36 +21,27 @@ class TimedMine : public BaseAliveGameObject
 {
 public:
     EXPORT TimedMine* ctor_4083F0(Path_TimedMine* pTlv, int tlvInfo);
-
     EXPORT BaseGameObject* dtor_408690();
-
-    virtual BaseGameObject* VDestructor(signed int flags) override;
-
-    EXPORT TimedMine* Vdtor_408E10(signed int flags);
-
-    virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_408DD0();
-
-    virtual __int16 VTakeDamage(BaseGameObject* pFrom) override;
-
-    EXPORT __int16 VTakeDamage_408B90(BaseGameObject* pFrom);
-
-    virtual void VRender(int** pOt) override;
-
-    EXPORT void VRender_408960(int** pOt);
-
-    virtual void VUpdate() override;
-
-    EXPORT void VUpdate_408760();
-
     EXPORT void StickToLiftPoint_408CA0();
 
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual void VScreenChanged() override;
+    virtual __int16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual void VRender(int** pOt) override;
+    virtual void VUpdate() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
+    virtual void VOnPickUpOrSlapped();
 
+private:
     EXPORT void VOnThrowableHit_408B10(BaseGameObject* pFrom);
     EXPORT void vOnPickUpOrSlapped_408A80();
+    EXPORT void VUpdate_408760();
+    EXPORT __int16 VTakeDamage_408B90(BaseGameObject* pFrom);
+    EXPORT void VScreenChanged_408DD0();
+    EXPORT TimedMine* Vdtor_408E10(signed int flags);
+    EXPORT void VRender_408960(int** pOt);
 
+public:
     __int16 field_10C_armed;
     unsigned __int16 field_10E_explode_timeout;
     int field_110_tlvInfo;
