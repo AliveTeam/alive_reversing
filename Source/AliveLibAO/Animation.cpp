@@ -914,6 +914,7 @@ signed __int16 Animation::Init_402D20(int frameTableOffset, DynamicArray* /*anim
     const auto result = gObjList_animations_505564->Push_Back(this);
     if (!result)
     {
+        LOG_ERROR("gObjList_animations_505564->Push_Back(this) returned 0 but shouldn't");
         return 0;
     }
     
