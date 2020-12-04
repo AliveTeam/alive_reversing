@@ -418,6 +418,11 @@ void Slog::VOn_Tlv_Collision_473970(Path_TLV* pTlv)
     }
 }
 
+void Slog::VUpdate()
+{
+    VUpdate_4739C0();
+}
+
 void Slog::VUpdate_4739C0()
 {
     if (Event_Get_417250(kEventDeathReset_4))
