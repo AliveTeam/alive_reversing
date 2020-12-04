@@ -862,6 +862,10 @@ signed __int16 Animation::Init_402D20(int frameTableOffset, DynamicArray* /*anim
         vram_width = maxW * 2;
         field_4_flags.Set(AnimFlags::eBit14_Is16Bit);
     }
+    else
+    {
+        return 0;
+    }
 
     int bVramAllocOK = 1;
     if (bAllocateVRam)
@@ -908,8 +912,10 @@ signed __int16 Animation::Init_402D20(int frameTableOffset, DynamicArray* /*anim
     }
 
     // NOTE: OG bug or odd compiler code gen? Why isn't it using the passed in list which appears to always be this anyway ??
-    if (!gObjList_animations_505564->Push_Back(this))
+    const auto result = gObjList_animations_505564->Push_Back(this);
+    if (!result)
     {
+        LOG_ERROR("gObjList_animations_505564->Push_Back(this) returned 0 but shouldn't");
         return 0;
     }
     
@@ -919,7 +925,7 @@ signed __int16 Animation::Init_402D20(int frameTableOffset, DynamicArray* /*anim
     field_E_frame_change_counter = 1;
     field_92_current_frame = -1;
 
-    return 1;
+    return result;
 }
 
 __int16 Animation::Get_Frame_Count_403540()
