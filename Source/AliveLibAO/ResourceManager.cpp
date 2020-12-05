@@ -881,6 +881,11 @@ EXPORT BYTE** CC ResourceManager::Allocate_New_Block_454FE0(DWORD sizeBytes, Blo
     }
 }
 
+__int16 CC ResourceManager::LoadResourceFileWrapper(const char* filename, Camera* pCam)
+{
+    return LoadResourceFile_455270(filename, pCam, BlockAllocMethod::eFirstMatching);
+}
+
 EXPORT __int16 CC ResourceManager::LoadResourceFile_455270(const char* filename, Camera* pCam, BlockAllocMethod allocMethod)
 {
     // Note: None gPcOpenEnabled_508BF0 block not impl as never used

@@ -158,6 +158,8 @@ public:
 
     static EXPORT void CC LoadingLoop_41EAD0(__int16 bShowLoadingIcon);
 
+    static __int16 CC LoadResourceFileWrapper(const char* filename, Camera* pCam);
+
     static EXPORT __int16 CC LoadResourceFile_455270(const char* filename, Camera* pCam, BlockAllocMethod allocMethod = BlockAllocMethod::eFirstMatching);
 
     static EXPORT BYTE** CC Allocate_New_Locked_Resource_454F80(DWORD type, DWORD id, DWORD size);

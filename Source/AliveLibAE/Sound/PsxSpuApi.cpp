@@ -9,7 +9,6 @@
 #include "PathData.hpp" // SoundBlockInfo, SeqPathDataRecord
 
 const int kNumChannels = 24;
-const int kMaxVabs = 4;
 
 struct VagAtr
 {
@@ -35,24 +34,6 @@ struct VagAtr
     __int16 field_16_vag;
     __int16 field_18_reserved[4];
 };
-
-struct Converted_Vag
-{
-    WORD field_0_adsr_attack;
-    WORD field_2_adsr_sustain_level;
-    WORD field_4_adsr_decay;
-    WORD field_6_adsr_release;
-    BYTE field_8_min;
-    BYTE field_9_max;
-    __int16 field_A_shift_cen;
-    BYTE field_C;
-    BYTE field_D_vol;
-    BYTE field_E_priority;
-    BYTE field_F_prog;
-    BYTE field_10_vag;
-    char field_11_pad;
-};
-ALIVE_ASSERT_SIZEOF(Converted_Vag, 0x12);
 
 struct MIDI_ProgramVolume
 {
@@ -110,17 +91,6 @@ struct VabUnknown
 ALIVE_ASSERT_SIZEOF(VabUnknown, 512);
 
 
-struct ConvertedVagTable
-{
-    Converted_Vag table[kMaxVabs][128][16]; // 16 = max tones, 128 = max progs
-};
-ALIVE_ASSERT_SIZEOF(ConvertedVagTable, 147456);
-
-struct SoundEntryTable
-{
-    SoundEntry table[kMaxVabs][256];
-};
-ALIVE_ASSERT_SIZEOF(SoundEntryTable, 36864);
 
 struct MidiChannels
 {
@@ -146,12 +116,30 @@ ALIVE_ASSERT_SIZEOF(MidiSeqSongsTable, 3200);
 ALIVE_VAR(1, 0xC13400, MidiSeqSongsTable, sMidiSeqSongs_C13400, {});
 ALIVE_VAR(1, 0xbd1cf4, int, sMidi_Inited_dword_BD1CF4, 0);
 ALIVE_VAR(1, 0xbd1cec, unsigned int, sMidiTime_BD1CEC, 0);
-ALIVE_VAR(1, 0xbd1ce8, BOOL, sSoundDatIsNull_BD1CE8, TRUE);
+ALIVE_VAR(1, 0xbd1ce8, BOOL, sSoundDatIsNull_BD1CE8, 0);
 ALIVE_VAR(1, 0xbd1ce4, char, sbDisableSeqs_BD1CE4, 0);
 ALIVE_VAR(1, 0x578E20, DWORD, sLastTime_578E20, 0xFFFFFFFF);
 ALIVE_VAR(1, 0xbd1cf0, DWORD, sMidi_WaitUntil_BD1CF0, 0);
 
+EXPORT VabHeader* GetVabHeaders()
+{
+    return *spVabHeaders_C13160;
+}
 
+EXPORT BYTE* GetVagCounts()
+{
+    return sVagCounts_BE6144;
+}
+
+EXPORT ConvertedVagTable& GetConvertedVagTable()
+{
+    return sConvertedVagTable_BEF160;
+}
+
+EXPORT SoundEntryTable& GetSoundEntryTable()
+{
+    return sSoundEntryTable16_BE6160;
+}
 
 template<typename T> T SwapBytes(T value);
 
