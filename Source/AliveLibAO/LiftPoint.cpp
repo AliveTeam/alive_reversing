@@ -557,8 +557,6 @@ void LiftPoint::VUpdate_434D10()
     const FP new_ypos = (field_AC_ypos * FP_FromDouble(1.5));
     const FP remaining_rope = FP_FromRaw(FP_GetExponent(new_ypos * field_BC_sprite_scale) % rope2_rope_length.fpValue);
 
-    LOG_INFO(FP_GetExponent(remaining_rope));
-
     pRope2->field_AC_ypos = FP_NoFractional((field_AC_ypos + remaining_rope) + (FP_25xScale + rope2_rope_length));
     pRope1->field_AC_ypos = FP_NoFractional((field_AC_ypos + FP_25xScale) + (rope1_rope_length - remaining_rope));
 
