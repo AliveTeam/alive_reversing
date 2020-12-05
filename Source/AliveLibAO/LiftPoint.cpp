@@ -532,29 +532,35 @@ void LiftPoint::VUpdate_434D10()
         KeepThingsOnPlatform_451690(field_B4_velx);
     }
 
-    const FP v49 = (FP_FromInteger(25) * field_BC_sprite_scale);
-    Rope* pRope2 = field_134_pRope2;
+    const FP FP_25xScale = FP_FromInteger(25) * field_BC_sprite_scale;
+    const FP FP_m19xScale = FP_FromInteger(-19) * field_BC_sprite_scale;
 
-    const FP v51 = FP_FromInteger(field_120_pCollisionLine->field_0_rect.y);
-    pRope2->field_F2_bottom = FP_GetExponent(v51 + v49);
-    field_138_pRope1->field_F2_bottom = FP_GetExponent(v51 + (FP_FromInteger(25) * field_BC_sprite_scale));
+    Rope* pRope2 = field_134_pRope2;
+    Rope* pRope1 = field_138_pRope1;
+
+    const FP rope2_rope_length = FP_FromInteger(pRope2->field_E6_rope_length);
+    const FP rope1_rope_length = FP_FromInteger(pRope1->field_E6_rope_length);
+
+    const FP pColliRectY = FP_FromInteger(field_120_pCollisionLine->field_0_rect.y);
+
+    pRope2->field_F2_bottom = FP_GetExponent(pColliRectY + FP_25xScale);
+    pRope1->field_F2_bottom = FP_GetExponent(pColliRectY + FP_25xScale);
 
     if (field_27A_flags.Get(Flags::eBit5_bHasPulley))
     {
-        const FP v52 = FP_FromInteger(-19) * field_BC_sprite_scale;
-        const FP v53 = FP_FromInteger(field_26E_pulley_ypos);
-        pRope2->field_EE_top = FP_GetExponent(v53 + v52);
-        field_138_pRope1->field_EE_top = FP_GetExponent(v53 + (FP_FromInteger(-19) * field_BC_sprite_scale));
+        const FP pulley_ypos = FP_FromInteger(field_26E_pulley_ypos);
+
+        pRope2->field_EE_top = FP_GetExponent(pulley_ypos + FP_m19xScale);
+        pRope1->field_EE_top = FP_GetExponent(pulley_ypos + FP_m19xScale);
     }
 
-    const FP v54 = (field_AC_ypos * FP_FromDouble(1.5));
-    const FP v55 = FP_FromRaw(FP_GetExponent(v54 * field_BC_sprite_scale) % FP_FromInteger(pRope2->field_E6_rope_length).fpValue);
-    pRope2->field_AC_ypos = FP_NoFractional((field_AC_ypos + v55 + (FP_FromInteger(25) * field_BC_sprite_scale) + FP_FromInteger(pRope2->field_E6_rope_length)));
+    const FP new_ypos = (field_AC_ypos * FP_FromDouble(1.5));
+    const FP remaining_rope = FP_FromRaw(FP_GetExponent(new_ypos * field_BC_sprite_scale) % rope2_rope_length.fpValue);
 
+    LOG_INFO(FP_GetExponent(remaining_rope));
 
-    field_138_pRope1->field_AC_ypos = FP_NoFractional((field_AC_ypos + (FP_FromInteger(25) * field_BC_sprite_scale)
-        + FP_FromInteger(field_138_pRope1->field_E6_rope_length)
-        - v55));
+    pRope2->field_AC_ypos = FP_NoFractional((field_AC_ypos + remaining_rope) + (FP_25xScale + rope2_rope_length));
+    pRope1->field_AC_ypos = FP_NoFractional((field_AC_ypos + FP_25xScale) + (rope1_rope_length - remaining_rope));
 
 
     field_13C_lift_wheel.field_4_flags.Set(AnimFlags::eBit2_Animate);
