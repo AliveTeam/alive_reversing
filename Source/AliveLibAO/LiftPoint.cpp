@@ -178,9 +178,9 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, int tlvInfo)
                 0,
                 FP_GetExponent(field_AC_ypos + (FP_FromInteger(25) * field_BC_sprite_scale)),
                 field_BC_sprite_scale);
+            pRopeMem->field_C_refCount++;
+            field_138_pRope1 = pRopeMem;
         }
-
-        field_138_pRope1 = pRopeMem;
 
         auto pRopeMem2 = ao_new<Rope>();
         if (pRopeMem2)
