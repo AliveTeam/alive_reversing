@@ -1746,8 +1746,15 @@ void Map::GoTo_Camera_445050()
         }
 
         SND_Load_VABS_477040(rPathRoot.field_8_pMusicInfo, rPathRoot.field_10_reverb);
-        SND_Load_Seqs_477AB0(g_SeqTable_4C9E70, rPathRoot.field_C_bsq_file_name);
-
+        if (RunningAsInjectedDll())
+        {
+            // Struct is using AE format so pass adddress of seq table in the exe to avoid a crash
+            SND_Load_Seqs_477AB0(reinterpret_cast<OpenSeqHandleAE*>(0x4C9E70), rPathRoot.field_C_bsq_file_name);
+        }
+        else
+        {
+            SND_Load_Seqs_477AB0(g_SeqTable_4C9E70, rPathRoot.field_C_bsq_file_name);
+        }
         auto pBackgroundMusic = ao_new<BackgroundMusic>();
         pBackgroundMusic->ctor_476370(rPathRoot.field_12_bg_music_id);
 
