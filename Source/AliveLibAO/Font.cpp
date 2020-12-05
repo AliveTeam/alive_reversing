@@ -393,11 +393,11 @@ EXPORT int AliveFont::DrawString_41C360(int** ot, const char* text, __int16 x, _
 {
     if (!sFontDrawScreenSpace_508BF4)
     {
-        x = static_cast<short>(x / 0.575); // 368 to 640. Convert world space to screen space coords.
+        x = PsxToPCX(x);
     }
 
     int characterRenderCount = 0;
-    const int maxRenderX = static_cast<int>(maxRenderWidth / 0.575);
+    const int maxRenderX = PsxToPCX(maxRenderWidth);
     short offsetX = x;
     int charInfoIndex = 0;
     auto poly = &field_24_fnt_poly_array[gPsxDisplay_504C78.field_A_buffer_index + (2 * polyOffset)];
@@ -414,9 +414,9 @@ EXPORT int AliveFont::DrawString_41C360(int** ot, const char* text, __int16 x, _
 
         if (c <= 32 || c > 175)
         {
-            if (c < 7 || c > 31)
+            if (c < 8 || c > 31)
             {
-                offsetX += field_34_font_context->field_8_atlas_array[1].field_2_width;
+                offsetX += field_34_font_context->field_8_atlas_array[0].field_2_width + field_34_font_context->field_8_atlas_array[1].field_2_width;
                 continue;
             }
             charInfoIndex = c + 84;
