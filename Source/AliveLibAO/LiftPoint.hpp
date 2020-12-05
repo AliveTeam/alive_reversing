@@ -35,7 +35,6 @@ public:
         eBit7_bIgnoreLiftMover = 0x40,
         eBit8_KeepOnMiddleFloor = 0x80,
     };
-
     EXPORT LiftPoint* ctor_434710(Path_LiftPoint* pTlv, Map* pPath, int tlvInfo);
     
     EXPORT void Move_435740(FP xSpeed, FP ySpeed, int not_used);
