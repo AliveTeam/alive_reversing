@@ -20,7 +20,7 @@ public:
     {
         eTypeNull = -1,
         eType0 = 0,
-        eType1 = 1,
+        eAbeOnElum_1 = 1,
         eType2 = 2,
         eType3 = 3,
         eChase_4 = 4,
@@ -74,31 +74,31 @@ public:
 
     __int16 SetMusicVolumeDelayed(__int16 vol, __int16 delay);
 
-    __int16 field_10;
+    __int16 field_10_bEnableMusic;
     __int16 field_12_target_volume;
     __int16 field_14;
-    __int16 field_16;
+    __int16 field_16_bScreenChanged;
     LevelIds field_18_level;
     __int16 field_1A;
     BaseGameObject* field_1C_pObj;
     __int16 field_20;
     __int16 field_22;
     __int16 field_24_bAmbientMusicEnabled;
-    SeqId field_26_seq;
-    int field_28;
+    SeqId field_26_ambient_seq;
+    int field_28_amibent_seq_duration;
     int field_2C_music_start_time;
-    int field_30;
-    int field_34_mod_val;
-    SeqId field_38_seq;
+    int field_30_music_timer;
+    int field_34_sync_after_beats;
+    SeqId field_38_music_seq;
     MusicTypes field_3A_type;
-    int field_3C_duration;
+    int field_3C_music_seq_duration;
     int field_40;
     __int16 field_44_bUnPause;
-    __int16 field_46;
+    __int16 field_46_restart_track;
     __int16 field_48_state;
     __int16 field_4A_starting_volume;
     __int16 field_4C_current_vol;
-    __int16 field_4E;
+    __int16 field_4E_vol;
     int field_50_music_volume_change_time;
 };
 ALIVE_ASSERT_SIZEOF(MusicController, 0x54);

@@ -9111,7 +9111,7 @@ void Abe::State_136_ElumMountEnd_42E110()
             field_1A4_resources.res[58] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElumUnknownResID_112, 1, 0);
             field_FC_current_motion = eAbeStates::State_103_ElumIdle_42DCD0;
             sControlledCharacter_50767C = gElum_507680;
-            MusicController::sub_443810(MusicController::MusicTypes::eType1, 0, 0, 0);
+            MusicController::sub_443810(MusicController::MusicTypes::eAbeOnElum_1, 0, 0, 0);
             sActiveHero_507678->field_D0_pShadow->field_14_flags.Clear(Shadow::Flags::eBit2_Enabled);
             Environment_SFX_42A220(EnvironmentSfx::eAbeMountedElumNoise_19, 0, 0x7FFF, this);
         }
