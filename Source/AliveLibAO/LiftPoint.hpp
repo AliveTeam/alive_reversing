@@ -40,6 +40,10 @@ public:
     
     EXPORT void Move_435740(FP xSpeed, FP ySpeed, int not_used);
 
+    void StayOnFloor(__int16 floor, Path_LiftPoint* pTlv);
+
+    void Sub_Unknown(Path_TLV* pTlv);
+
     // flags & 0x2 && !flags & 0x20
     bool OnTopFloor() const;
 
