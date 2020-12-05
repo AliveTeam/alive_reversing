@@ -16,7 +16,9 @@
 #include "Sfx.hpp"
 #include "../AliveLibAE/Sfx.hpp"
 
+#ifdef _WIN32
 #define NO_WAVE
+#endif
 
 #include "../AliveLibAE/Sound/PsxSpuApi.hpp"
 #include "../AliveLibAE/Sound/Midi.hpp"

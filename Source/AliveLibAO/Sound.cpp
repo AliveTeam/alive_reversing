@@ -6,7 +6,9 @@
 #include "Midi.hpp"
 #include "BackgroundMusic.hpp"
 
+#ifdef _WIN32
 #define NO_WAVE
+#endif
 #include "../AliveLibAE/Sound/Sound.hpp"
 
 namespace AO
