@@ -19,10 +19,14 @@
 #include "PsxSpuApi.hpp"
 #include "AmbientSound.hpp"
 
-EXPORT void SND_Stop_All_Seqs_4CA850();
+
 EXPORT void CC SFX_SetPitch_4CA510(const SfxDefinition* pSfx, int channelsBits, __int16 pitch);
 
-const int kSeqTableSize = 144;
+const int kSeqTableSizeAE = 144;
+
+static TSNDStopAll sSNDStopAllCallBack = nullptr;
+static TSNDRestart sSNDRestartCallBack = nullptr;
+
 
 struct SeqIds
 {
@@ -42,6 +46,20 @@ const SoundBlockInfo soundBlock = { "MONK.VH", "MONK.VB", -1, nullptr };
 
 ALIVE_VAR(1, 0x560F48, SoundBlockInfo, sMonkVh_Vb_560F48, soundBlock);
 
+EXPORT SoundBlockInfo* GetLastLoadedSoundBlockInfo()
+{
+    return sLastLoadedSoundBlockInfo_BB2E34;
+}
+
+EXPORT void SetLastLoadedSoundBlockInfo(SoundBlockInfo* pInfo)
+{
+    sLastLoadedSoundBlockInfo_BB2E34 = pInfo;
+}
+
+EXPORT SoundBlockInfo& GetMonkVb()
+{
+    return sMonkVh_Vb_560F48;
+}
 
 EXPORT void CC SND_Free_All_VABS_4C9EB0()
 {
@@ -59,7 +77,8 @@ EXPORT void CC SND_Free_All_VABS_4C9EB0()
 
 EXPORT void CC SND_Free_All_Seqs_4C9F40()
 {
-    for (int i = 0; i < kSeqTableSize; i++)
+    const int tableSize = sSNDStopAllCallBack ? 164 : kSeqTableSizeAE; // Use AO table size hack
+    for (int i = 0; i < tableSize; i++)
     {
         if (sSeqDataTable_BB2E38[i].field_C_ppSeq_Data)
         {
@@ -86,7 +105,7 @@ EXPORT signed __int16 CC SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, __
     {
         return 0;
     }
-
+    
     // Find the VH file record
     int headerSize = 0;
     LvlFileRecord* pVabHeaderFile = sLvlArchive_5BC520.Find_File_Record_433160(pSoundBlockInfo->field_0_vab_header_name);
@@ -658,7 +677,7 @@ EXPORT void CC SND_SEQ_Stop_4CAE60(unsigned __int16 idx)
     }
 }
 
-EXPORT void CC SND_Load_Seqs_4CAED0(OpenSeqHandle* pSeqTable, const char* bsqFileName)
+EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, int tableSize, const char* bsqFileName, TReclaimMemoryFn pReclaimMemoryFn, TLoadResourceFileFn pLoadResourceFileFn, TGetLoadedResourceFn pGetLoadedResourceFn)
 {
     if (pSeqTable && bsqFileName)
     {
@@ -667,23 +686,23 @@ EXPORT void CC SND_Load_Seqs_4CAED0(OpenSeqHandle* pSeqTable, const char* bsqFil
         // Generate resource ids from hashing the name if we haven't already
         if (sNeedToHashSeqNames_560F40)
         {
-            for (int i = 0; i < kSeqTableSize; i++)
+            for (int i = 0; i < tableSize; i++)
             {
                 sSeqDataTable_BB2E38[i].field_C_ppSeq_Data = nullptr;
                 sSeqDataTable_BB2E38[i].field_A_id_seqOpenId = -1;
                 sSeqDataTable_BB2E38[i].field_4_generated_res_id = ResourceManager::SEQ_HashName_49BE30(sSeqDataTable_BB2E38[i].field_0_mBsqName);
             }
-            sNeedToHashSeqNames_560F40 = 0;
+            sNeedToHashSeqNames_560F40 = FALSE;
         }
 
         // Load the BSQ
-        ResourceManager::Reclaim_Memory_49C470(0);
-        ResourceManager::LoadResourceFile_49C170(bsqFileName, nullptr);
+        pReclaimMemoryFn(0);
+        pLoadResourceFileFn(bsqFileName, nullptr);
 
         // Get a pointer to each SEQ
-        for (int i = 0; i < kSeqTableSize; i++)
+        for (int i = 0; i < tableSize; i++)
         {
-            BYTE** ppSeq = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Seq, sSeqDataTable_BB2E38[i].field_4_generated_res_id, 1, 1);
+            BYTE** ppSeq = pGetLoadedResourceFn(ResourceManager::Resource_Seq, sSeqDataTable_BB2E38[i].field_4_generated_res_id, 1, 1);
             if (ppSeq)
             {
                 sSeqDataTable_BB2E38[i].field_C_ppSeq_Data = *ppSeq;
@@ -696,38 +715,70 @@ EXPORT void CC SND_Load_Seqs_4CAED0(OpenSeqHandle* pSeqTable, const char* bsqFil
     }
 }
 
+EXPORT void CC SND_Load_Seqs_4CAED0(OpenSeqHandle* pSeqTable, const char* bsqFileName)
+{
+    SND_Load_Seqs_Impl(pSeqTable, kSeqTableSizeAE, bsqFileName, ResourceManager::Reclaim_Memory_49C470, ResourceManager::LoadResourceFile_49C170, ResourceManager::GetLoadedResource_49C2A0);
+}
+
 EXPORT char CC SND_Seq_Table_Valid_4CAFE0()
 {
     return sSeqDataTable_BB2E38 != 0;
 }
 
+// So AO can redirect SND_StopAll_4CB060 to its own func when called from SYS_ funcs
+EXPORT void SND_StopAll_SetCallBack(TSNDStopAll cb)
+{
+    sSNDStopAllCallBack = cb;
+}
+
 EXPORT void CC SND_StopAll_4CB060()
 {
-    MusicController::EnableMusic_47FE10(FALSE);
-    BackgroundMusic::Stop_4CB000();
-    SND_Reset_Ambiance_4CB4B0();
-    SND_Stop_All_Seqs_4CA850();
-    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    if (sSNDStopAllCallBack)
     {
-        BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
-        if (!pObj)
-        {
-            break;
-        }
-
-        if (!pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
-        {
-            pObj->VStopAudio();
-        }
+        sSNDStopAllCallBack();
     }
-    SsUtAllKeyOff_4FDFE0(0);
+    else
+    {
+        MusicController::EnableMusic_47FE10(FALSE);
+        BackgroundMusic::Stop_4CB000();
+        SND_Reset_Ambiance_4CB4B0();
+        SND_Stop_All_Seqs_4CA850();
+        for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+        {
+            BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+            if (!pObj)
+            {
+                break;
+            }
+
+            if (!pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+            {
+                pObj->VStopAudio();
+            }
+        }
+        SsUtAllKeyOff_4FDFE0(0);
+    }
+}
+
+
+// So AO can redirect SND_Restart_4CB0E0 to its own func when called from SYS_ funcs
+EXPORT void SND_Restart_SetCallBack(TSNDRestart cb)
+{
+    sSNDRestartCallBack = cb;
 }
 
 EXPORT void CC SND_Restart_4CB0E0()
 {
-    MusicController::EnableMusic_47FE10(TRUE);
-    BackgroundMusic::Play_4CB030();
-    Start_Sounds_For_Objects_In_Near_Cameras_4CBB60();
+    if (sSNDRestartCallBack)
+    {
+        sSNDRestartCallBack();
+    }
+    else
+    {
+        MusicController::EnableMusic_47FE10(TRUE);
+        BackgroundMusic::Play_4CB030();
+        Start_Sounds_For_Objects_In_Near_Cameras_4CBB60();
+    }
 }
 
 // Next -> Background music object

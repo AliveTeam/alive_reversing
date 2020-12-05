@@ -1,6 +1,7 @@
 #pragma once
 
 #include "FunctionFwd.hpp"
+#include "Sound/Sound.hpp"
 
 struct ProgAtr
 {
@@ -43,6 +44,44 @@ struct VabBodyRecord
     int field_4_unused;
     DWORD field_8_fileOffset;
 };
+
+struct Converted_Vag
+{
+    WORD field_0_adsr_attack;
+    WORD field_2_adsr_sustain_level;
+    WORD field_4_adsr_decay;
+    WORD field_6_adsr_release;
+    BYTE field_8_min;
+    BYTE field_9_max;
+    __int16 field_A_shift_cen;
+    BYTE field_C;
+    BYTE field_D_vol;
+    BYTE field_E_priority;
+    BYTE field_F_prog;
+    BYTE field_10_vag;
+    char field_11_pad;
+};
+ALIVE_ASSERT_SIZEOF(Converted_Vag, 0x12);
+
+constexpr int kMaxVabs = 4;
+
+struct ConvertedVagTable
+{
+    Converted_Vag table[kMaxVabs][128][16]; // 16 = max tones, 128 = max progs
+};
+ALIVE_ASSERT_SIZEOF(ConvertedVagTable, 147456);
+
+struct SoundEntryTable
+{
+    SoundEntry table[kMaxVabs][256];
+};
+ALIVE_ASSERT_SIZEOF(SoundEntryTable, 36864);
+
+
+EXPORT VabHeader* GetVabHeaders();
+EXPORT BYTE* GetVagCounts();
+EXPORT ConvertedVagTable& GetConvertedVagTable();
+EXPORT SoundEntryTable& GetSoundEntryTable();
 
 EXPORT void CC SsVabTransBody_4FC840(VabBodyRecord* pVabBody, __int16 vabId);
 

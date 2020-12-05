@@ -6,7 +6,8 @@
 #define NOMINMAX
 
 // TODO: reference additional headers your program requires here
-#include <windows.h>
+//#include <windows.h>
+#define _WAVEFORMATEX_
 
 
 #define DIRECTINPUT_VERSION 0x700

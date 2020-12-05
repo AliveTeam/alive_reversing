@@ -26,6 +26,8 @@ public:
         Resource_DecompressionBuffer = 0x66754244,
         Resource_VLC = 0x20434C56,
         Resource_Animation = 0x6D696E41,
+        Resource_VabHeader = 0x48424156,
+        Resource_VabBody = 0x42424156,
         Resource_Font = 0x746E6F46,
         Resource_Path = 0x68746150,
         Resource_Palt = 0x746C6150,
@@ -155,6 +157,8 @@ public:
     static EXPORT BYTE** CC GetLoadedResource_4554F0(DWORD type, DWORD resourceId, __int16 addUseCount, __int16 bLock);
 
     static EXPORT void CC LoadingLoop_41EAD0(__int16 bShowLoadingIcon);
+
+    static __int16 CC LoadResourceFileWrapper(const char* filename, Camera* pCam);
 
     static EXPORT __int16 CC LoadResourceFile_455270(const char* filename, Camera* pCam, BlockAllocMethod allocMethod = BlockAllocMethod::eFirstMatching);
 

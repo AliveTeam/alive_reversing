@@ -1,28 +1,31 @@
 #pragma once
 
 #include "FunctionFwd.hpp"
+#include "config.h"
 
 
 #if !USE_SDL2_SOUND
-#include <mmeapi.h>
-#include <dsound.h>
+//#include <mmeapi.h>
+//#include <dsound.h>
 #else
 /*
  *  extended waveform format structure used for all non-PCM formats. this
  *  structure is common to all non-PCM formats.
  */
  // NOTE: Windows type
+#ifndef NO_WAVE
 typedef struct tWAVEFORMATEX
 {
-    WORD        wFormatTag;         /* format type */
-    WORD        nChannels;          /* number of channels (i.e. mono, stereo...) */
-    DWORD       nSamplesPerSec;     /* sample rate */
-    DWORD       nAvgBytesPerSec;    /* for buffer estimation */
-    WORD        nBlockAlign;        /* block size of data */
-    WORD        wBitsPerSample;     /* number of bits per sample of mono data */
-    WORD        cbSize;             /* the count in bytes of the size of */
-                                    /* extra information (after cbSize) */
+    WORD        wFormatTag;         
+    WORD        nChannels;          
+    DWORD       nSamplesPerSec;     
+    DWORD       nAvgBytesPerSec;    
+    WORD        nBlockAlign;        
+    WORD        wBitsPerSample;     
+    WORD        cbSize;             
+                                    
 } WAVEFORMATEX, *PWAVEFORMATEX, *NPWAVEFORMATEX, *LPWAVEFORMATEX;
+#endif 
 
 /* flags for wFormatTag field of WAVEFORMAT */
 #define WAVE_FORMAT_PCM     1
