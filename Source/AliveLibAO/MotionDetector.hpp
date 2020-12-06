@@ -71,10 +71,10 @@ public:
     __int16 field_F2_alarm_trigger;
     __int16 field_F4_alarm_time;
     __int16 field_F6_bDontComeBack;
-    FP field_F8;
-    FP field_FC;
-    FP field_100_y1_fp;
-    FP field_104;
+    FP field_F8_top_left_x;
+    FP field_FC_top_left_y;
+    FP field_100_bottom_right_x;
+    FP field_104_bottom_right_y;
     MotionDetectorLaser* field_108_pLaser;
     Poly_F3 field_10C_prims[2];
     Prim_SetTPage field_13C_tPage[2];

@@ -26,7 +26,7 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, int tlvIn
     field_4_typeId = Types::eMotionDetector_59;
     BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMflareResID, 1, 0);
     Animation_Init_417FD0(1108, 32, 22, ppRes, 1);
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_10_anim.field_4_flags.Set(AnimFlags::eBit7_SwapXY);
 
     field_10_anim.field_B_render_mode = 1;
     field_10_anim.field_C_layer = 36;
@@ -47,17 +47,18 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, int tlvIn
         field_BC_sprite_scale = FP_FromInteger(1);
     }
 
-    field_F8 =  FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    field_100_y1_fp =  FP_FromInteger(pTlv->field_14_bottom_right.field_0_x);
-    field_FC =  FP_FromInteger(pTlv->field_10_top_left.field_2_y);
-    field_104 =  FP_FromInteger(pTlv->field_14_bottom_right.field_2_y);
+    field_F8_top_left_x = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    field_100_bottom_right_x = FP_FromInteger(pTlv->field_14_bottom_right.field_0_x);
 
-    field_A8_xpos =FP_FromInteger(pTlv->field_1A_device_x);
-    field_AC_ypos =  FP_FromInteger(pTlv->field_1C_device_y);
+    field_FC_top_left_y = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    field_104_bottom_right_y = FP_FromInteger(pTlv->field_14_bottom_right.field_2_y);
+
+    field_A8_xpos = FP_FromInteger(pTlv->field_1A_device_x);
+    field_AC_ypos = FP_FromInteger(pTlv->field_1C_device_y);
 
     field_15C_speed = FP_FromRaw(pTlv->field_1E_speed_x256 << 8);
 
-    if ( pTlv->field_20_start_on == 0)
+    if (pTlv->field_20_start_on == 0)
     {
         field_E8_state = 0;
         auto pMotionDetectors = ao_new<MotionDetectorLaser>();
@@ -66,17 +67,19 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, int tlvIn
             pMotionDetectors->ctor_417C10();
             SetVTable(pMotionDetectors, 0x4BB840);
             pMotionDetectors->field_4_typeId = Types::eRedLaser_76;
-            BYTE** v16 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMotionResID, 1, 0);
+            BYTE** ppMotionRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMotionResID, 1, 0);
             pMotionDetectors->Animation_Init_417FD0(
                 23660,
                 37,
                 60,
-                v16,
+                ppMotionRes,
                 1);
             pMotionDetectors->field_10_anim.field_B_render_mode = 1;
             pMotionDetectors->field_10_anim.field_C_layer = 36;
-            pMotionDetectors->field_A8_xpos = field_F8;
-            pMotionDetectors->field_AC_ypos = field_104;
+
+            pMotionDetectors->field_A8_xpos = field_F8_top_left_x;
+            pMotionDetectors->field_AC_ypos = field_104_bottom_right_y;
+
             pMotionDetectors->field_BC_sprite_scale = field_BC_sprite_scale;
             pMotionDetectors->field_C8_yOffset = 0;
             field_108_pLaser = pMotionDetectors;
@@ -91,17 +94,17 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, int tlvIn
             pMotionDetectors->ctor_417C10();
             SetVTable(pMotionDetectors, 0x4BB840);
             pMotionDetectors->field_4_typeId = Types::eRedLaser_76;
-            BYTE** ppRes_1 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMotionResID, 1, 0);
+            BYTE** ppMotionRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMotionResID, 1, 0);
             pMotionDetectors->Animation_Init_417FD0(
                 23660,
                 37,
                 60,
-                ppRes_1,
+                ppMotionRes,
                 1);
             pMotionDetectors->field_10_anim.field_B_render_mode = 1;
             pMotionDetectors->field_10_anim.field_C_layer = 36;
-            pMotionDetectors->field_A8_xpos = field_F8;
-            pMotionDetectors->field_AC_ypos = field_104;
+            pMotionDetectors->field_A8_xpos = field_100_bottom_right_x;
+            pMotionDetectors->field_AC_ypos = field_104_bottom_right_y;
             pMotionDetectors->field_BC_sprite_scale = field_BC_sprite_scale;
             pMotionDetectors->field_C8_yOffset = 0;
             field_108_pLaser = pMotionDetectors;
@@ -112,9 +115,9 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, int tlvIn
 
     field_F0_disable_id = pTlv->field_24_disable_id;
 
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render, SwitchStates_Get(field_F0_disable_id) == 0);
+    field_108_pLaser->field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render, SwitchStates_Get(field_F0_disable_id) == 0);
 
-    field_108_pLaser->field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render,  pTlv->field_22_draw_flare & 1);
+    field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render, pTlv->field_22_draw_flare & 1);
 
     field_F4_alarm_time = pTlv->field_28_alarm_ticks;
 
@@ -280,7 +283,7 @@ void MotionDetector::VUpdate_437E90()
             switch (field_E8_state)
             {
             case 0:
-                if (field_108_pLaser->field_A8_xpos >= field_100_y1_fp)
+                if (field_108_pLaser->field_A8_xpos >= field_100_bottom_right_x)
                 {
                     field_E8_state = 1;
                     field_EC_timer = gnFrameCount_507670 + 15;
@@ -300,7 +303,7 @@ void MotionDetector::VUpdate_437E90()
                 break;
 
             case 2:
-                if (field_108_pLaser->field_A8_xpos <= field_F8)
+                if (field_108_pLaser->field_A8_xpos <= field_F8_top_left_x)
                 {
                     field_E8_state = 3;
                     field_EC_timer = gnFrameCount_507670 + 15;
