@@ -273,7 +273,7 @@ EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wP
 
         if (SND_Seq_Table_Valid_4CAFE0())
         {
-            SND_Restart_4CB0E0();
+            GetSoundAPI().SND_Restart();
         }
 
         if (!sMovieSoundEntry_5CA230)
@@ -742,7 +742,7 @@ static int Sys_EventFilter(void* /*userData*/, SDL_Event* event)
         const MessageBoxButton button = Sys_MessageBox(Sys_GetWindowHandle_4EE180(), "Do you really want to quit?", "Abe's Exoddus 1.0", MessageBoxType::eQuestion);
         if (SND_Seq_Table_Valid_4CAFE0())
         {
-            SND_Restart_4CB0E0();
+            GetSoundAPI().SND_Restart();
         }
 
 #if !USE_SDL2_SOUND

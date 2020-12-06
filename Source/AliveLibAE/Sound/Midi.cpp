@@ -271,7 +271,7 @@ EXPORT void SND_Shutdown_4CA280()
 
     SsExt_CloseAllVabs();
 
-    SND_SsQuit_4EFD50();
+    GetSoundAPI().SND_SsQuit();
 }
 
 

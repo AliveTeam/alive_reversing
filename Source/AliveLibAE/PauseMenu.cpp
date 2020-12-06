@@ -661,7 +661,7 @@ public:
     {
         pPauseMenu_5C9300->word12C_flags &= ~1;
         SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
-        SND_Restart_4CB0E0();
+        GetSoundAPI().SND_Restart();
         customMenuStack.clear();
     }
 
@@ -1000,7 +1000,7 @@ void PauseMenu::RestartPath()
 
     word12C_flags &= ~1;
     SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 3400);
-    SND_Restart_4CB0E0();
+    GetSoundAPI().SND_Restart();
 }
 
 const char kArrowChar = 3;
@@ -1032,7 +1032,7 @@ void PauseMenu::Page_Main_Update_4903E0()
     {
         word12C_flags &= ~1u;
         SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
-        SND_Restart_4CB0E0();
+        GetSoundAPI().SND_Restart();
     }
     else if (sInputObject_5BD4E0.isHeld(InputCommands::eUnPause_OrConfirm))
     {
@@ -1041,13 +1041,13 @@ void PauseMenu::Page_Main_Update_4903E0()
         case MainPages::ePage_Continue_0:
             word12C_flags &= ~1u;
             SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
-            SND_Restart_4CB0E0();
+            GetSoundAPI().SND_Restart();
             return;
 
         case MainPages::ePage_QuickSave_1:
             word12C_flags &= ~1u;
             SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
-            SND_Restart_4CB0E0();
+            GetSoundAPI().SND_Restart();
             Quicksave_4C90D0();
             return;
 
@@ -1198,7 +1198,7 @@ void PauseMenu::Page_Save_Update_491210()
             }
             word12C_flags &= ~1u;
             SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
-            SND_Restart_4CB0E0();
+            GetSoundAPI().SND_Restart();
         }
         else
         {

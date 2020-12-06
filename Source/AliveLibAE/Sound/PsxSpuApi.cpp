@@ -222,7 +222,7 @@ void SsExt_StopPlayingSamples()
     {
         if (gSpuVars->sMidi_Channels().channels[i].field_1C_adsr.field_3_state)
         {
-            SND_Stop_Sample_At_Idx_4EFA90(gSpuVars->sMidi_Channels().channels[i].field_0_sound_buffer_field_4);
+            GetSoundAPI().SND_Stop_Sample_At_Idx(gSpuVars->sMidi_Channels().channels[i].field_0_sound_buffer_field_4);
         }
     }
 }
@@ -232,7 +232,7 @@ EXPORT void CC SSInit_4FC230()
     gSpuVars->sGlobalVolumeLevel_right() = 127;
     gSpuVars->sGlobalVolumeLevel_left() = 127;
 
-    SND_CreateDS_4EEAA0(22050u, 16, 1);
+    GetSoundAPI().SND_CreateDS(22050u, 16, 1);
 }
 
 EXPORT void CC SpuInitHot_4FC320()
@@ -320,7 +320,7 @@ EXPORT void CC SsVabClose_4FC5B0(int vabId)
         // Free backwards
         for (int i = gSpuVars->sVagCounts()[vabId] - 1; i >= 0; i--)
         {
-            SND_Free_4EFA30(&gSpuVars->sSoundEntryTable16().table[vabId][i]);
+            GetSoundAPI().SND_Free(&gSpuVars->sSoundEntryTable16().table[vabId][i]);
         }
     }
 
@@ -459,7 +459,7 @@ EXPORT void CC SsVabTransBody_4FC840(VabBodyRecord* pVabBody, __int16 vabId)
             }
 
             // Allocate pEntry
-            if (SND_New_4EEFF0(pEntry, sampleLen, 44100, 16, 0) == 0)
+            if (GetSoundAPI().SND_New(pEntry, sampleLen, 44100, 16, 0) == 0)
             {
                 // Allocate a temp buffer to read sounds.dat bytes into
                 void* pTempBuffer = ae_malloc_4F4E60(sampleLen * pEntry->field_1D_blockAlign);
@@ -470,7 +470,7 @@ EXPORT void CC SsVabTransBody_4FC840(VabBodyRecord* pVabBody, __int16 vabId)
                     if (SND_SoundsDat_Read_4FC4E0(pVabHeader, pVabBody, i, pTempBuffer))
                     {
                         // Load it into the sound buffer
-                        SND_Load_4EF680(pEntry, pTempBuffer, sampleLen);
+                        GetSoundAPI().SND_Load(pEntry, pTempBuffer, sampleLen);
                     }
                     ae_free_4F4EA0(pTempBuffer);
                 }
@@ -515,7 +515,7 @@ EXPORT signed int CC MIDI_Allocate_Channel_4FCA50(int /*not_used*/, int priority
     // Try to find a channel that isn't playing anything
     for (int i = 0; i < 24; i++)
     {
-        if (SND_Get_Buffer_Status_4EE8F0(gSpuVars->sMidi_Channels().channels[i].field_0_sound_buffer_field_4) == 0)
+        if (GetSoundAPI().SND_Get_Buffer_Status(gSpuVars->sMidi_Channels().channels[i].field_0_sound_buffer_field_4) == 0)
         {
             gSpuVars->sMidi_Channels().channels[i].field_1C_adsr.field_3_state = 0;
             return i;
@@ -528,7 +528,7 @@ EXPORT signed int CC MIDI_Allocate_Channel_4FCA50(int /*not_used*/, int priority
     {
         return -1;
     }
-    SND_Stop_Sample_At_Idx_4EFA90(gSpuVars->sMidi_Channels().channels[idx].field_0_sound_buffer_field_4);
+    GetSoundAPI().SND_Stop_Sample_At_Idx(gSpuVars->sMidi_Channels().channels[idx].field_0_sound_buffer_field_4);
     return idx;
 }
 
@@ -674,7 +674,7 @@ EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int lef
                         MIDI_Wait_4FCE50();
                     }
 
-                    SND_PlayEx_4EF740(
+                    GetSoundAPI().SND_PlayEx(
                         &gSpuVars->sSoundEntryTable16().table[vabId][pVagIter->field_10_vag],
                         panLeft,
                         panRight,
@@ -1439,7 +1439,7 @@ EXPORT void CC MIDI_ADSR_Update_4FDCE0()
                 if (timeDiff1 >= pChannel->field_1C_adsr.field_A_release)
                 {
                     pChannel->field_1C_adsr.field_3_state = 0;
-                    SND_Stop_Sample_At_Idx_4EFA90(pChannel->field_0_sound_buffer_field_4);
+                    GetSoundAPI().SND_Stop_Sample_At_Idx(pChannel->field_0_sound_buffer_field_4);
                 }
                 else
                 {
@@ -1463,7 +1463,7 @@ EXPORT signed int CC MIDI_Set_Volume_4FDE80(MIDI_Channel* pData, int vol)
 
     pData->field_8_left_vol = static_cast<char>(vol);
 
-    if (!SND_Buffer_Set_Volume_4EFAD0(pData->field_0_sound_buffer_field_4, vol))
+    if (!GetSoundAPI().SND_Buffer_Set_Volume(pData->field_0_sound_buffer_field_4, vol))
     {
         return 1;
     }
@@ -1481,7 +1481,7 @@ EXPORT __int16 CC MIDI_PitchBend_4FDEC0(__int16 program, __int16 pitch)
         if (gSpuVars->sMidi_Channels().channels[i].field_1C_adsr.field_1_program == program)
         {
             const float freq = pitcha * gSpuVars->sMidi_Channels().channels[i].field_10_freq;
-            SND_Buffer_Set_Frequency_4EFC00(gSpuVars->sMidi_Channels().channels[i].field_C_vol, freq);
+            GetSoundAPI().SND_Buffer_Set_Frequency2(gSpuVars->sMidi_Channels().channels[i].field_C_vol, freq);
         }
     }
     return 0;
@@ -1491,7 +1491,7 @@ EXPORT __int16 CC MIDI_PitchBend_4FDEC0(__int16 program, __int16 pitch)
 EXPORT __int16 CC SsUtChangePitch_4FDF70(__int16 voice, int /*vabId*/, int /*prog*/, __int16 old_note, __int16 old_fine, __int16 new_note, __int16 new_fine)
 {
     const float freq = pow(1.059463094359f, (float)(new_fine + ((new_note - (signed int)old_note) << 7) - old_fine) * 0.0078125f);
-    SND_Buffer_Set_Frequency_4EFC90(gSpuVars->sMidi_Channels().channels[voice].field_0_sound_buffer_field_4, freq);
+    GetSoundAPI().SND_Buffer_Set_Frequency1(gSpuVars->sMidi_Channels().channels[voice].field_0_sound_buffer_field_4, freq);
     return 0;
 }
 

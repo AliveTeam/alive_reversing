@@ -1792,7 +1792,7 @@ __int16 Glukkon::AI_3_PlayerControlled_441A30()
         return 6;
 
     case 6:
-        SND_Restart_4CB0E0();
+        GetSoundAPI().SND_Restart();
         pScreenManager_5BB5F4->field_40_flags |= 0x10000;
         field_1D4_timer = sGnFrame_5C1B84 + 30;
         SFX_Play_46FA90(SoundEffect::PossessEffect_17, 0);

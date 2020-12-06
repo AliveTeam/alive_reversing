@@ -21,6 +21,13 @@ ALIVE_ARY(1, 0xBBBF38, SoundEntry*, 256, sSoundSamples_BBBF38, {});
 
 const DWORD k127_dword_575158 = 127;
 
+static SoundApi sSoundApi;
+
+EXPORT SoundApi& GetSoundAPI()
+{
+    return sSoundApi;
+}
+
 #if USE_SDL2_SOUND
 ALIVE_VAR(1, 0xBBC344, SDLSoundSystem*, sDSound_BBC344, nullptr);
 #else
@@ -187,7 +194,7 @@ EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRigh
     }
     else
     {
-        SoundBuffer* pSoundBuffer = SND_Get_Sound_Buffer_4EF970(pSnd->field_0_tableIdx, panRightConverted + priority);
+        SoundBuffer* pSoundBuffer = GetSoundAPI().SND_Get_Sound_Buffer(pSnd->field_0_tableIdx, panRightConverted + priority);
         if (!pSoundBuffer)
         {
             return -1;
@@ -196,7 +203,7 @@ EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRigh
         HRESULT v15 = sDSound_BBC344->DuplicateSoundBuffer(pDSoundBuffer, &pSoundBuffer->field_0_pDSoundBuffer);
         if (FAILED(v15))
         {
-            Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 921, -1, SND_HR_Err_To_String_4EEC70(v15));
+            Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 921, -1, GetSoundAPI().SND_HR_Err_To_String(v15));
             return -1;
         }
 
@@ -238,7 +245,7 @@ EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRigh
     if (hr == DSERR_BUFFERLOST)
     {
         // Restore the lost buffer
-        if (SND_LoadSamples_4EF1C0(pSnd, 0, pSnd->field_8_pSoundBuffer, pSnd->field_C_buffer_size_bytes / pSnd->field_1D_blockAlign) == 0)
+        if (GetSoundAPI().SND_LoadSamples(pSnd, 0, pSnd->field_8_pSoundBuffer, pSnd->field_C_buffer_size_bytes / pSnd->field_1D_blockAlign) == 0)
         {
             // Try again
             if (SUCCEEDED(pDSoundBuffer->Play(0, 0, playFlags)))
@@ -281,7 +288,7 @@ EXPORT signed int CC SND_New_4EEFF0(SoundEntry *pSnd, int sampleLength, int samp
         waveFormatEx.nAvgBytesPerSec = 0;
         waveFormatEx.nBlockAlign = 0;
         waveFormatEx.cbSize = 0;
-        SND_Init_WaveFormatEx_4EEA00(&waveFormatEx, sampleRate, static_cast<unsigned char>(bitsPerSample), isStereo & 1);
+        GetSoundAPI().SND_Init_WaveFormatEx(&waveFormatEx, sampleRate, static_cast<unsigned char>(bitsPerSample), isStereo & 1);
 
         const int sampleByteSize = sampleLength * waveFormatEx.nBlockAlign;
         bufferDesc.dwReserved = 0;
@@ -292,11 +299,10 @@ EXPORT signed int CC SND_New_4EEFF0(SoundEntry *pSnd, int sampleLength, int samp
         bufferDesc.dwFlags = 82152;
 
         const HRESULT sbHR = sDSound_BBC344->CreateSoundBuffer(&bufferDesc, &pSnd->field_4_pDSoundBuffer, 0);
-
-        if (sbHR)
+        if (FAILED(sbHR))
         {
             Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 598, -1, "SND_New(): Cannot create ds sound buffer");
-            Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 599, -1, SND_HR_Err_To_String_4EEC70(sbHR));
+            Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 599, -1, GetSoundAPI().SND_HR_Err_To_String(sbHR));
             return -1;
         }
         else
@@ -362,7 +368,7 @@ EXPORT signed int CC SND_Renew_4EEDD0(SoundEntry *pSnd)
     waveFormat.nBlockAlign = 0;
     waveFormat.cbSize = 0;
 
-    SND_Init_WaveFormatEx_4EEA00(&waveFormat, pSnd->field_18_sampleRate, pSnd->field_1C_bitsPerSample, pSnd->field_20_isStereo & 1);
+    GetSoundAPI().SND_Init_WaveFormatEx(&waveFormat, pSnd->field_18_sampleRate, pSnd->field_1C_bitsPerSample, pSnd->field_20_isStereo & 1);
 
     bufferDesc.dwBufferBytes = pSnd->field_14_buffer_size_bytes;
     bufferDesc.dwReserved = 0;
@@ -370,7 +376,7 @@ EXPORT signed int CC SND_Renew_4EEDD0(SoundEntry *pSnd)
     bufferDesc.dwSize = 20;
     bufferDesc.dwFlags = 82144; // TODO: Fix constants
 
-    if (sDSound_BBC344->CreateSoundBuffer(&bufferDesc, &pSnd->field_4_pDSoundBuffer, 0))
+    if (FAILED(sDSound_BBC344->CreateSoundBuffer(&bufferDesc, &pSnd->field_4_pDSoundBuffer, 0)))
     {
         Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 371, -1, "SND_Renew(): Cannot create ds sound buffer");
         return -1;
@@ -429,8 +435,8 @@ EXPORT DWORD * CC SND_4F00B0(unsigned int* /*a1*/, unsigned int /*a2*/, int /*a3
 
 EXPORT int CC SND_Load_4EF680(SoundEntry* pSnd, const void* pWaveData, int waveDataLen)
 {
-    SND_Free_4EFA30(pSnd);
-    if (!SND_New_4EEFF0(pSnd, waveDataLen, pSnd->field_18_sampleRate, pSnd->field_1C_bitsPerSample, pSnd->field_20_isStereo))
+    GetSoundAPI().SND_Free(pSnd);
+    if (!GetSoundAPI().SND_New(pSnd, waveDataLen, pSnd->field_18_sampleRate, pSnd->field_1C_bitsPerSample, pSnd->field_20_isStereo))
     {
         if (waveDataLen * pSnd->field_1D_blockAlign > pSnd->field_C_buffer_size_bytes)
         {
@@ -443,7 +449,7 @@ EXPORT int CC SND_Load_4EF680(SoundEntry* pSnd, const void* pWaveData, int waveD
             memcpy(pSnd->field_8_pSoundBuffer, pWaveData, waveDataLen * pSnd->field_1D_blockAlign);
         }
     }
-    return SND_LoadSamples_4EF1C0(pSnd, 0, pSnd->field_8_pSoundBuffer, pSnd->field_C_buffer_size_bytes / pSnd->field_1D_blockAlign);
+    return GetSoundAPI().SND_LoadSamples(pSnd, 0, pSnd->field_8_pSoundBuffer, pSnd->field_C_buffer_size_bytes / pSnd->field_1D_blockAlign);
 }
 
 EXPORT int CC SND_Buffer_Set_Frequency_4EFC90(int idx, float hzChangeFreq)
@@ -462,7 +468,7 @@ EXPORT int CC SND_Buffer_Set_Frequency_4EFC90(int idx, float hzChangeFreq)
     }
 
     DWORD currrentFreqHz = 0;
-    if (!pDSoundBuffer->GetFrequency(&currrentFreqHz))
+    if (SUCCEEDED(pDSoundBuffer->GetFrequency(&currrentFreqHz)))
     {
         DWORD freqHz = static_cast<DWORD>(currrentFreqHz * hzChangeFreq);
         if (freqHz < DSBFREQUENCY_MIN)
@@ -633,4 +639,37 @@ EXPORT SoundBuffer* CC SND_Get_Sound_Buffer_4EF970(int sampleIdx, int field10)
         return &sSoundBuffers_BBBAB8[0];
     }
     return SND_Recycle_Sound_Buffer_4EF9C0(idx, sampleIdx, field10);
+}
+
+EXPORT SoundApi::SoundApi()
+{
+   
+    SND_Get_Sound_Entry_Pos = SND_Get_Sound_Entry_Pos_4EF620;
+   
+    SND_Clear = SND_Clear_4EF350;
+    SND_SsQuit = SND_SsQuit_4EFD50;
+    SND_CreateDS = SND_CreateDS_4EEAA0;
+    SND_Init_WaveFormatEx = SND_Init_WaveFormatEx_4EEA00;
+    SND_New = SND_New_4EEFF0;
+    SND_Load = SND_Load_4EF680;
+    SND_HR_Err_To_String = SND_HR_Err_To_String_4EEC70;
+    SND_Free = SND_Free_4EFA30;
+    SND_Restart = SND_Restart_4CB0E0;
+    #if !USE_SDL2_SOUND
+    SND_SetPrimarySoundBufferFormat = SND_SetPrimarySoundBufferFormat_4EE990;
+    #endif
+    SND_InitVolumeTable = SND_InitVolumeTable_4EEF60;
+    #if !USE_SDL2_SOUND
+    SND_CreatePrimarySoundBuffer = SND_CreatePrimarySoundBuffer_4EEEC0;
+    #endif
+    SND_Renew = SND_Renew_4EEDD0;
+    SND_Get_Buffer_Status = SND_Get_Buffer_Status_4EE8F0;
+    SND_Stop_Sample_At_Idx = SND_Stop_Sample_At_Idx_4EFA90;
+    SND_Buffer_Set_Volume = SND_Buffer_Set_Volume_4EFAD0;
+    SND_Get_Sound_Buffer = SND_Get_Sound_Buffer_4EF970;
+    SND_Buffer_Set_Frequency1 = SND_Buffer_Set_Frequency_4EFC90;
+    SND_Buffer_Set_Frequency2 = SND_Buffer_Set_Frequency_4EFC00;
+    SND_LoadSamples = SND_LoadSamples_4EF1C0;
+    SND_unknown = SND_4F00B0;
+    SND_PlayEx = SND_PlayEx_4EF740;
 }
