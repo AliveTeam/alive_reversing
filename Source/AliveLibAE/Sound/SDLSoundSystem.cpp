@@ -47,7 +47,7 @@ void SDLSoundSystem::Init(unsigned int /*sampleRate*/, int /*bitsPerSample*/, in
 
     Reverb_Init(mAudioDeviceSpec.freq);
 
-    SND_InitVolumeTable_4EEF60();
+    GetSoundAPI().SND_InitVolumeTable();
 
     if (sLoadedSoundsCount_BBC394)
     {
@@ -55,8 +55,8 @@ void SDLSoundSystem::Init(unsigned int /*sampleRate*/, int /*bitsPerSample*/, in
         {
             if (sSoundSamples_BBBF38[i])
             {
-                SND_Renew_4EEDD0(sSoundSamples_BBBF38[i]);
-                SND_LoadSamples_4EF1C0(sSoundSamples_BBBF38[i], 0, sSoundSamples_BBBF38[i]->field_8_pSoundBuffer, sSoundSamples_BBBF38[i]->field_C_buffer_size_bytes / (unsigned __int8)sSoundSamples_BBBF38[i]->field_1D_blockAlign);
+                GetSoundAPI().SND_Renew(sSoundSamples_BBBF38[i]);
+                GetSoundAPI().SND_LoadSamples(sSoundSamples_BBBF38[i], 0, sSoundSamples_BBBF38[i]->field_8_pSoundBuffer, sSoundSamples_BBBF38[i]->field_C_buffer_size_bytes / (unsigned __int8)sSoundSamples_BBBF38[i]->field_1D_blockAlign);
                 if ((i + 1) == sLoadedSoundsCount_BBC394)
                     break;
             }

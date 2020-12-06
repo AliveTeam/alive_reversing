@@ -124,6 +124,40 @@ EXPORT DWORD * CC SND_4F00B0(unsigned int* /*a1*/, unsigned int /*a2*/, int /*a3
 struct MIDI_Channel;
 EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRight, float freq, MIDI_Channel* pMidiStru, int playFlags, int priority);
 
+struct SoundApi
+{
+    EXPORT SoundApi();
+    decltype(&SND_Get_Sound_Entry_Pos_4EF620) SND_Get_Sound_Entry_Pos;
+    decltype(&SND_Clear_4EF350) SND_Clear;
+    decltype(&SND_SsQuit_4EFD50) SND_SsQuit;
+    decltype(&SND_CreateDS_4EEAA0) SND_CreateDS;
+    decltype(&SND_Init_WaveFormatEx_4EEA00) SND_Init_WaveFormatEx;
+    decltype(&SND_New_4EEFF0) SND_New;
+    decltype(&SND_Load_4EF680) SND_Load;
+    decltype(&SND_HR_Err_To_String_4EEC70) SND_HR_Err_To_String;
+    decltype(&SND_Free_4EFA30) SND_Free;
+    decltype(&SND_Restart_4CB0E0) SND_Restart;
+    #if !USE_SDL2_SOUND
+    decltype(&SND_SetPrimarySoundBufferFormat_4EE990) SND_SetPrimarySoundBufferFormat;
+    #endif
+    decltype(&SND_InitVolumeTable_4EEF60) SND_InitVolumeTable;
+    #if !USE_SDL2_SOUND
+    decltype(&SND_CreatePrimarySoundBuffer_4EEEC0) SND_CreatePrimarySoundBuffer;
+    #endif
+    decltype(&SND_Renew_4EEDD0) SND_Renew;
+    decltype(&SND_Get_Buffer_Status_4EE8F0) SND_Get_Buffer_Status;
+    decltype(&SND_Stop_Sample_At_Idx_4EFA90) SND_Stop_Sample_At_Idx;
+    decltype(&SND_Buffer_Set_Volume_4EFAD0) SND_Buffer_Set_Volume;
+    decltype(&SND_Get_Sound_Buffer_4EF970) SND_Get_Sound_Buffer;
+    decltype(&SND_Buffer_Set_Frequency_4EFC90) SND_Buffer_Set_Frequency1;
+    decltype(&SND_Buffer_Set_Frequency_4EFC00) SND_Buffer_Set_Frequency2;
+    decltype(&SND_LoadSamples_4EF1C0) SND_LoadSamples;
+    decltype(&SND_4F00B0) SND_unknown;
+    decltype(&SND_PlayEx_4EF740) SND_PlayEx;
+};
+
+EXPORT SoundApi& GetSoundAPI();
+
 // Vars used only by other sound driver impls
 ALIVE_ARY_EXTERN(int, 127, sVolumeTable_BBBD38);
 ALIVE_ARY_EXTERN(SoundEntry*, 256, sSoundSamples_BBBF38);

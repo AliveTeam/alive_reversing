@@ -284,7 +284,7 @@ EXPORT char CC Display_Full_Screen_Message_Blocking_465820(int /*not_used*/, Mes
 
     if (SND_Seq_Table_Valid_4CAFE0())
     {
-        SND_Restart_4CB0E0();
+        GetSoundAPI().SND_Restart();
     }
 
     SYS_EventsPump_494580();
