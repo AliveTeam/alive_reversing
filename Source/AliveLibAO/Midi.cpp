@@ -32,12 +32,68 @@ namespace AO {
 
 const int kSeqTableSizeAO = 164;
 
+ALIVE_VAR(1, 0x9F12D8, SeqIds, sSeq_Ids_word_9F12D8, {});
 ALIVE_VAR(1, 0x9F1DC4, WORD, sSnd_ReloadAbeResources_9F1DC4, 0);
-//ALIVE_VAR(1, 0x9F1DB8, SoundBlockInfo *, sLastLoadedSoundBlockInfo_9F1DB8, nullptr);
+ALIVE_VAR(1, 0x9F1DBC, OpenSeqHandle *, sSeqDataTable_9F1DBC, nullptr);
+ALIVE_VAR(1, 0x9F1DC0, __int16, sSeqsPlaying_count_word_9F1DC0, 0);
+ALIVE_VAR(1, 0x9F1DB8, SoundBlockInfo *, sLastLoadedSoundBlockInfo_9F1DB8, nullptr);
+ALIVE_VAR(1, 0x4D0018, __int16, sSFXPitchVariationEnabled_4D0018, true);
+ALIVE_VAR(1, 0x4D0000, short, sNeedToHashSeqNames_4D0000, 1);
 
 // I think this is the burrrrrrrrrrrrrrrrrrrr loading sound
-//const SoundBlockInfo soundBlock = { "MONK.VH", "MONK.VB", -1, nullptr };
-//ALIVE_VAR(1, 0x4D0008, SoundBlockInfo, sMonkVh_Vb_4D0008, soundBlock);
+const SoundBlockInfo soundBlock = { "MONK.VH", "MONK.VB", -1, nullptr };
+ALIVE_VAR(1, 0x4D0008, SoundBlockInfo, sMonkVh_Vb_4D0008, soundBlock);
+
+class AOMidiVars : public IMidiVars
+{
+public:
+    virtual SeqIds& sSeq_Ids_word() override
+    {
+        return sSeq_Ids_word_9F12D8;
+    }
+
+    virtual WORD& sSnd_ReloadAbeResources() override
+    {
+        return sSnd_ReloadAbeResources_9F1DC4;
+    }
+
+    virtual OpenSeqHandle*& sSeqDataTable() override
+    {
+        return sSeqDataTable_9F1DBC;
+    }
+
+    virtual __int16& sSeqsPlaying_count_word() override
+    {
+        return sSeqsPlaying_count_word_9F1DC0;
+    }
+
+    virtual ::SoundBlockInfo*& sLastLoadedSoundBlockInfo() override
+    {
+        return reinterpret_cast<::SoundBlockInfo*&>(sLastLoadedSoundBlockInfo_9F1DB8);
+    }
+
+    virtual __int16& sSFXPitchVariationEnabled() override
+    {
+        return sSFXPitchVariationEnabled_4D0018;
+    }
+
+    virtual short& sNeedToHashSeqNames() override
+    {
+        return sNeedToHashSeqNames_4D0000;
+    }
+
+    virtual ::SoundBlockInfo& sMonkVh_Vb() override
+    {
+        return reinterpret_cast<::SoundBlockInfo&>(sMonkVh_Vb_4D0008);
+    }
+
+    virtual int MidiTableSize() override
+    {
+        return kSeqTableSizeAO;
+    }
+};
+
+static AOMidiVars sAoMidiVars;
 
 ALIVE_VAR(1, 0xA8918E, __int16, sGlobalVolumeLevel_right_A8918E, 0);
 ALIVE_VAR(1, 0xA8918C, __int16, sGlobalVolumeLevel_left_A8918C, 0);
@@ -164,7 +220,14 @@ EXPORT void CC SND_Reset_476BA0()
 
 EXPORT void CC SsUtAllKeyOff_49EDE0(int mode)
 {
+    AE_IMPLEMENTED();
     SsUtAllKeyOff_4FDFE0(mode);
+}
+
+EXPORT void CC SND_Stop_All_Seqs_4774D0()
+{
+    AE_IMPLEMENTED();
+    SND_Stop_All_Seqs_4CA850();
 }
 
 VabBodyRecord* IterateVBRecords(VabBodyRecord* ret, int i_3)
@@ -180,11 +243,26 @@ VabBodyRecord* IterateVBRecords(VabBodyRecord* ret, int i_3)
 
 // Loads vab body sample data to memory
 
-// TODO: Need to test this with dll/og as it might be wrong
-EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, __int16 vabId)
+EXPORT void CC SsSeqCalledTbyT_49E9F0()
 {
     AE_IMPLEMENTED();
+    SsSeqCalledTbyT_4FDC80();
+}
 
+EXPORT signed int CC SND_New_492790(SoundEntry* pSnd, int sampleLength, int sampleRate, int bitsPerSample, int isStereo)
+{
+    AE_IMPLEMENTED();
+    return SND_New_4EEFF0(pSnd, sampleLength, sampleRate, bitsPerSample, isStereo);
+}
+
+EXPORT int CC SND_Load_492F40(SoundEntry* pSnd, const void* pWaveData, int waveDataLen)
+{
+    AE_IMPLEMENTED();
+    return SND_Load_4EF680(pSnd, pWaveData, waveDataLen);
+}
+
+EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, __int16 vabId)
+{
     if (vabId < 0)
     {
         return;
@@ -199,7 +277,7 @@ EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, __int16 vabId)
 
         if (!(i & 7))
         {
-            SsSeqCalledTbyT_4FDC80();
+            SsSeqCalledTbyT_49E9F0();
         }
 
         memset(pEntry, 0, sizeof(SoundEntry));
@@ -236,7 +314,7 @@ EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, __int16 vabId)
                 }
             }
 
-            if (!SND_New_4EEFF0(pEntry, sampleLen, 44100, 16u, 0))
+            if (!SND_New_492790(pEntry, sampleLen, 44100, 16u, 0))
             {
                 auto pTempBuffer = (DWORD*)malloc(sampleLen * pEntry->field_1D_blockAlign);
                 if (pTempBuffer)
@@ -258,7 +336,7 @@ EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, __int16 vabId)
 
                     if (sampleLen2)
                     {
-                        SND_Load_4EF680(pEntry, pTempBuffer, sampleLen2);
+                        SND_Load_492F40(pEntry, pTempBuffer, sampleLen2);
                     }
 
                     free(pTempBuffer);
@@ -270,7 +348,8 @@ EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, __int16 vabId)
 
 EXPORT signed __int16 CC SND_VAB_Load_476CB0(SoundBlockInfo* pSoundBlockInfo, __int16 vabId)
 {
-    AE_IMPLEMENTED();
+    SetSpuApiVars(&sAoSpuVars);
+    SetMidiApiVars(&sAoMidiVars);
 
     // Fail if no file name
     if (!pSoundBlockInfo->field_0_vab_header_name)
@@ -332,22 +411,23 @@ EXPORT signed __int16 CC SND_VAB_Load_476CB0(SoundBlockInfo* pSoundBlockInfo, __
 
 EXPORT void CC SND_Load_VABS_477040(SoundBlockInfo* pSoundBlockInfo, int reverb)
 {
-    AE_IMPLEMENTED();
+    SetSpuApiVars(&sAoSpuVars);
+    SetMidiApiVars(&sAoMidiVars);
 
     SoundBlockInfo* pSoundBlockInfoIter = pSoundBlockInfo;
     sSnd_ReloadAbeResources_9F1DC4 = FALSE;
-    if (GetLastLoadedSoundBlockInfo() != reinterpret_cast<::SoundBlockInfo*>(pSoundBlockInfo))
+    if (GetMidiVars()->sLastLoadedSoundBlockInfo() != reinterpret_cast<::SoundBlockInfo*>(pSoundBlockInfo))
     {
         SsUtReverbOff_4FE350();
         SsUtSetReverbDepth_4FE380(0, 0);
         SpuClearReverbWorkArea_4FA690(4);
 
-        if (GetMonkVb().field_8_vab_id < 0)
+        if (GetMidiVars()->sMonkVh_Vb().field_8_vab_id < 0)
         {
-            SND_VAB_Load_476CB0(reinterpret_cast<SoundBlockInfo*>(&GetMonkVb()), 32);
+            SND_VAB_Load_476CB0(reinterpret_cast<SoundBlockInfo*>(&GetMidiVars()->sMonkVh_Vb()), 32);
         }
 
-        SetLastLoadedSoundBlockInfo(reinterpret_cast<::SoundBlockInfo*>(pSoundBlockInfo));
+        GetMidiVars()->sLastLoadedSoundBlockInfo() = reinterpret_cast<::SoundBlockInfo*>(pSoundBlockInfo);
 
         __int16 vabId = 0;
         while (SND_VAB_Load_476CB0(pSoundBlockInfoIter, vabId))
@@ -378,7 +458,6 @@ EXPORT void CC SND_Load_Seqs_477AB0(OpenSeqHandleAE* pSeqTable, const char* bsqF
     AE_IMPLEMENTED();
     SND_Load_Seqs_Impl(
         reinterpret_cast<::OpenSeqHandle*>(pSeqTable),
-        kSeqTableSizeAO,
         bsqFileName,
         reinterpret_cast<TReclaimMemoryFn>(ResourceManager::Reclaim_Memory_455660),
         reinterpret_cast<TLoadResourceFileFn>(ResourceManager::LoadResourceFileWrapper),
@@ -441,6 +520,7 @@ EXPORT void CC SND_Init_476E40()
 {
     AE_IMPLEMENTED();
     SetSpuApiVars(&sAoSpuVars);
+    SetMidiApiVars(&sAoMidiVars);
     SND_Init_4CA1F0();
     SND_Restart_SetCallBack(SND_Restart_476340);
     SND_StopAll_SetCallBack(SND_StopAll_4762D0);
@@ -460,8 +540,6 @@ EXPORT void CC SND_SEQ_SetVol_477970(SeqId idx, __int16 volLeft, __int16 volRigh
 
 EXPORT void CC SND_StopAll_4762D0()
 {
-    AE_IMPLEMENTED();
-
     MusicController::EnableMusic_443900(0);
 
     if (sBackgroundMusic_seq_id_4CFFF8 >= 0)
@@ -470,8 +548,7 @@ EXPORT void CC SND_StopAll_4762D0()
     }
 
     SND_Reset_Ambiance_4765E0();
-    //SND_Stop_All_Seqs_4774D0();
-    SND_Stop_All_Seqs_4CA850();
+    SND_Stop_All_Seqs_4774D0();
 
     for (int i=0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {

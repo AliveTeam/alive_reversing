@@ -27,12 +27,6 @@ const int kSeqTableSizeAE = 144;
 static TSNDStopAll sSNDStopAllCallBack = nullptr;
 static TSNDRestart sSNDRestartCallBack = nullptr;
 
-
-struct SeqIds
-{
-    __int16 ids[16];
-};
-
 ALIVE_VAR(1, 0xBB2354, SeqIds, sSeq_Ids_word_BB2354, {});
 ALIVE_VAR(1, 0xbb2e3e, WORD, sSnd_ReloadAbeResources_BB2E3E, 0);
 ALIVE_VAR(1, 0xbb2e38, OpenSeqHandle *, sSeqDataTable_BB2E38, nullptr);
@@ -46,24 +40,71 @@ const SoundBlockInfo soundBlock = { "MONK.VH", "MONK.VB", -1, nullptr };
 
 ALIVE_VAR(1, 0x560F48, SoundBlockInfo, sMonkVh_Vb_560F48, soundBlock);
 
-EXPORT SoundBlockInfo* GetLastLoadedSoundBlockInfo()
+class AEMidiVars : public IMidiVars
 {
-    return sLastLoadedSoundBlockInfo_BB2E34;
+public:
+    virtual SeqIds& sSeq_Ids_word() override
+    {
+        return sSeq_Ids_word_BB2354;
+    }
+
+    virtual WORD& sSnd_ReloadAbeResources() override
+    {
+        return sSnd_ReloadAbeResources_BB2E3E;
+    }
+
+    virtual OpenSeqHandle*& sSeqDataTable() override
+    {
+        return sSeqDataTable_BB2E38;
+    }
+
+    virtual __int16& sSeqsPlaying_count_word() override
+    {
+        return sSeqsPlaying_count_word_BB2E3C;
+    }
+
+    virtual SoundBlockInfo*& sLastLoadedSoundBlockInfo() override
+    {
+        return sLastLoadedSoundBlockInfo_BB2E34;
+    }
+
+    virtual __int16& sSFXPitchVariationEnabled() override
+    {
+        return sSFXPitchVariationEnabled_560F58;
+    }
+
+    virtual short& sNeedToHashSeqNames() override
+    {
+        return sNeedToHashSeqNames_560F40;
+    }
+
+    virtual SoundBlockInfo& sMonkVh_Vb() override
+    {
+        return sMonkVh_Vb_560F48;
+    }
+
+    virtual int MidiTableSize() override
+    {
+        return kSeqTableSizeAE;
+    }
+};
+
+static AEMidiVars sAEMidiVars;
+static IMidiVars* spMidiVars = &sAEMidiVars; // Default to AE vars
+
+EXPORT IMidiVars* GetMidiVars()
+{
+    return spMidiVars;
 }
 
-EXPORT void SetLastLoadedSoundBlockInfo(SoundBlockInfo* pInfo)
+EXPORT void SetMidiApiVars(IMidiVars* pVars)
 {
-    sLastLoadedSoundBlockInfo_BB2E34 = pInfo;
-}
-
-EXPORT SoundBlockInfo& GetMonkVb()
-{
-    return sMonkVh_Vb_560F48;
+    spMidiVars = pVars;
 }
 
 EXPORT void CC SND_Free_All_VABS_4C9EB0()
 {
-    SoundBlockInfo* pIter = sLastLoadedSoundBlockInfo_BB2E34;
+    SoundBlockInfo* pIter = GetMidiVars()->sLastLoadedSoundBlockInfo();
     while (pIter && pIter->field_4_vab_body_name)
     {
         ResourceManager::FreeResource_Impl_49C360(pIter->field_C_pVabHeader);
@@ -72,19 +113,18 @@ EXPORT void CC SND_Free_All_VABS_4C9EB0()
         pIter->field_8_vab_id = -1;
         pIter++;
     }
-    sLastLoadedSoundBlockInfo_BB2E34 = nullptr;
+    GetMidiVars()->sLastLoadedSoundBlockInfo() = nullptr;
 }
 
 EXPORT void CC SND_Free_All_Seqs_4C9F40()
 {
-    const int tableSize = sSNDStopAllCallBack ? 164 : kSeqTableSizeAE; // Use AO table size hack
-    for (int i = 0; i < tableSize; i++)
+    for (int i = 0; i < GetMidiVars()->MidiTableSize(); i++)
     {
-        if (sSeqDataTable_BB2E38[i].field_C_ppSeq_Data)
+        if (GetMidiVars()->sSeqDataTable()[i].field_C_ppSeq_Data)
         {
-            BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Seq, sSeqDataTable_BB2E38[i].field_4_generated_res_id, 0, 0);
+            BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Seq, GetMidiVars()->sSeqDataTable()[i].field_4_generated_res_id, 0, 0);
             ResourceManager::FreeResource_49C330(ppRes);
-            sSeqDataTable_BB2E38[i].field_C_ppSeq_Data = nullptr;
+            GetMidiVars()->sSeqDataTable()[i].field_C_ppSeq_Data = nullptr;
         }
     }
 }
@@ -147,9 +187,9 @@ EXPORT signed __int16 CC SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, __
     if (!ppVabBody)
     {
         // Maybe filed due to OOM cause its huge, free the abe resources and try again
-        if (!sSnd_ReloadAbeResources_BB2E3E)
+        if (!GetMidiVars()->sSnd_ReloadAbeResources())
         {
-            sSnd_ReloadAbeResources_BB2E3E = TRUE;
+            GetMidiVars()->sSnd_ReloadAbeResources() = TRUE;
             sActiveHero_5C1B68->Free_Resources_44D420();
         }
 
@@ -200,8 +240,8 @@ EXPORT void CC SND_Init_4CA1F0()
     VSyncCallback_4F8C40(SND_CallBack_4020A4);
     SpuInitHot_4FC320();
     SsSetMVol_4FC360(100, 100);
-    memset(&sSeq_Ids_word_BB2354, -1, sizeof(SeqIds));
-    sSeqsPlaying_count_word_BB2E3C = 0;
+    memset(&GetMidiVars()->sSeq_Ids_word(), -1, sizeof(SeqIds));
+    GetMidiVars()->sSeqsPlaying_count_word() = 0;
 }
 
 // SND_SetMono_NoRefs_4CA310
@@ -212,13 +252,13 @@ EXPORT void SND_Shutdown_4CA280()
 {
     SND_Reset_4C9FB0();
 
-    if (sMonkVh_Vb_560F48.field_8_vab_id >= 0)
+    if (GetMidiVars()->sMonkVh_Vb().field_8_vab_id >= 0)
     {
-        ResourceManager::FreeResource_Impl_49C360(sMonkVh_Vb_560F48.field_C_pVabHeader);
-        sMonkVh_Vb_560F48.field_C_pVabHeader = nullptr;
+        ResourceManager::FreeResource_Impl_49C360(GetMidiVars()->sMonkVh_Vb().field_C_pVabHeader);
+        GetMidiVars()->sMonkVh_Vb().field_C_pVabHeader = nullptr;
 
-        SsVabClose_4FC5B0(sMonkVh_Vb_560F48.field_8_vab_id);
-        sMonkVh_Vb_560F48.field_8_vab_id = -1;
+        SsVabClose_4FC5B0(GetMidiVars()->sMonkVh_Vb().field_8_vab_id);
+        GetMidiVars()->sMonkVh_Vb().field_8_vab_id = -1;
     }
 
     SsSetMVol_4FC360(0, 0);
@@ -238,19 +278,19 @@ EXPORT void SND_Shutdown_4CA280()
 EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, int reverb)
 {
     SoundBlockInfo* pSoundBlockInfoIter = pSoundBlockInfo;
-    sSnd_ReloadAbeResources_BB2E3E = FALSE;
-    if (sLastLoadedSoundBlockInfo_BB2E34 != pSoundBlockInfo)
+    GetMidiVars()->sSnd_ReloadAbeResources() = FALSE;
+    if (GetMidiVars()->sLastLoadedSoundBlockInfo() != pSoundBlockInfo)
     {
         SsUtReverbOff_4FE350();
         SsUtSetReverbDepth_4FE380(0, 0);
         SpuClearReverbWorkArea_4FA690(4);
 
-        if (sMonkVh_Vb_560F48.field_8_vab_id < 0)
+        if (GetMidiVars()->sMonkVh_Vb().field_8_vab_id < 0)
         {
-            SND_VAB_Load_4C9FE0(&sMonkVh_Vb_560F48, 32);
+            SND_VAB_Load_4C9FE0(&GetMidiVars()->sMonkVh_Vb(), 32);
         }
 
-        sLastLoadedSoundBlockInfo_BB2E34 = pSoundBlockInfo;
+        GetMidiVars()->sLastLoadedSoundBlockInfo() = pSoundBlockInfo;
 
         __int16 vabId = 0;
         while (SND_VAB_Load_4C9FE0(pSoundBlockInfoIter, vabId))
@@ -260,7 +300,7 @@ EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, int reverb)
         }
 
         // Put abes resources back if we had to unload them to fit the VB in memory
-        if (sSnd_ReloadAbeResources_BB2E3E)
+        if (GetMidiVars()->sSnd_ReloadAbeResources())
         {
             ResourceManager::Reclaim_Memory_49C470(0);
             sActiveHero_5C1B68->Load_Basic_Resources_44D460();
@@ -300,12 +340,12 @@ int CC SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, __int16 volume
 
     // Note: Inlined in psx
     auto midiHandle = MIDI_Play_Single_Note_4CA1B0(
-        sfxDef->field_1_program | (sLastLoadedSoundBlockInfo_BB2E34[sfxDef->field_0_block_idx].field_8_vab_id << 8),
+        sfxDef->field_1_program | (GetMidiVars()->sLastLoadedSoundBlockInfo()[sfxDef->field_0_block_idx].field_8_vab_id << 8),
         sfxDef->field_2_note << 8,
         volume,
         volume);
 
-    if (!sSFXPitchVariationEnabled_560F58)
+    if (!GetMidiVars()->sSFXPitchVariationEnabled())
     {
         return 0;
     }
@@ -365,7 +405,7 @@ EXPORT int CC SND_4CA5D0(int program, int vabId, int note, __int16 vol, __int16 
 
     // Note: Inlined in psx
     const int channelBits = MIDI_Play_Single_Note_4CA1B0(vabId | ((signed __int16)program << 8), note << 8, volClamped, volClamped);
-    if (!sSFXPitchVariationEnabled_560F58)
+    if (!GetMidiVars()->sSFXPitchVariationEnabled())
     {
         return 0;
     }
@@ -430,12 +470,12 @@ int CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, __int16 volLef
 
     // Note: Inlined in psx
     auto midiHandle = MIDI_Play_Single_Note_4CA1B0(
-        sfxDef->field_1_program | (sLastLoadedSoundBlockInfo_BB2E34[sfxDef->field_0_block_idx].field_8_vab_id << 8),
+        sfxDef->field_1_program | (GetMidiVars()->sLastLoadedSoundBlockInfo()[sfxDef->field_0_block_idx].field_8_vab_id << 8),
         sfxDef->field_2_note << 8,
         volLeft,
         volRight);
 
-    if (!sSFXPitchVariationEnabled_560F58)
+    if (!GetMidiVars()->sSFXPitchVariationEnabled())
     {
         return 0;
     }
@@ -464,18 +504,18 @@ EXPORT void CC SND_Stop_Channels_Mask_4CA810(DWORD bitMask)
 EXPORT void SND_Stop_All_Seqs_4CA850()
 {
     // TODO: Why is there 16 of these but 32 of sMidiStruct2Ary32_C13400? Seems like they should match in size
-    sSeqsPlaying_count_word_BB2E3C = 0;
+    GetMidiVars()->sSeqsPlaying_count_word() = 0;
     for (short i = 0; i < 16; i++)
     {
-        if (sSeq_Ids_word_BB2354.ids[i] >= 0)
+        if (GetMidiVars()->sSeq_Ids_word().ids[i] >= 0)
         {
             if (SsIsEos_4FDA80(i, 0))
             {
                 SsSeqStop_4FD9C0(i);
             }
             SsSeqClose_4FD8D0(i);
-            sSeqDataTable_BB2E38[sSeq_Ids_word_BB2354.ids[i]].field_A_id_seqOpenId = -1;
-            sSeq_Ids_word_BB2354.ids[i] = -1;
+            GetMidiVars()->sSeqDataTable()[GetMidiVars()->sSeq_Ids_word().ids[i]].field_A_id_seqOpenId = -1;
+            GetMidiVars()->sSeq_Ids_word().ids[i] = -1;
         }
     }
 }
@@ -485,14 +525,14 @@ EXPORT void SND_Seq_Stop_4CA8E0()
 {
     for (short i = 0; i < 16; i++)
     {
-        if (sSeq_Ids_word_BB2354.ids[i] >= 0)
+        if (GetMidiVars()->sSeq_Ids_word().ids[i] >= 0)
         {
             if (!SsIsEos_4FDA80(i, 0))
             {
                 SsSeqClose_4FD8D0(i);
-                sSeqDataTable_BB2E38[sSeq_Ids_word_BB2354.ids[i]].field_A_id_seqOpenId = -1;
-                sSeq_Ids_word_BB2354.ids[i] = -1;
-                sSeqsPlaying_count_word_BB2E3C--;
+                GetMidiVars()->sSeqDataTable()[GetMidiVars()->sSeq_Ids_word().ids[i]].field_A_id_seqOpenId = -1;
+                GetMidiVars()->sSeq_Ids_word().ids[i] = -1;
+                GetMidiVars()->sSeqsPlaying_count_word()--;
             }
         }
     }
@@ -500,7 +540,7 @@ EXPORT void SND_Seq_Stop_4CA8E0()
 
 EXPORT signed __int16 CC SND_SEQ_PlaySeq_4CA960(unsigned __int16 idx, __int16 repeatCount, __int16 bDontStop)
 {
-    OpenSeqHandle& rec = sSeqDataTable_BB2E38[idx];
+    OpenSeqHandle& rec = GetMidiVars()->sSeqDataTable()[idx];
     if (!rec.field_C_ppSeq_Data)
     {
         return 0;
@@ -508,21 +548,21 @@ EXPORT signed __int16 CC SND_SEQ_PlaySeq_4CA960(unsigned __int16 idx, __int16 re
 
     if (rec.field_A_id_seqOpenId < 0)
     {
-        if (sSeqsPlaying_count_word_BB2E3C >= 16)
+        if (GetMidiVars()->sSeqsPlaying_count_word() >= 16)
         {
             // Note: Inlined in psx
             SND_Seq_Stop_4CA8E0();
-            if (sSeqsPlaying_count_word_BB2E3C >= 16)
+            if (GetMidiVars()->sSeqsPlaying_count_word() >= 16)
             {
                 return 0;
             }
         }
 
-        const int vabId = sLastLoadedSoundBlockInfo_BB2E34[rec.field_8_sound_block_idx].field_8_vab_id;
+        const int vabId = GetMidiVars()->sLastLoadedSoundBlockInfo()[rec.field_8_sound_block_idx].field_8_vab_id;
         rec.field_A_id_seqOpenId = SsSeqOpen_4FD6D0(rec.field_C_ppSeq_Data, static_cast<short>(vabId));
 
-        sSeq_Ids_word_BB2354.ids[rec.field_A_id_seqOpenId] = idx;
-        sSeqsPlaying_count_word_BB2E3C++;
+        GetMidiVars()->sSeq_Ids_word().ids[rec.field_A_id_seqOpenId] = idx;
+        GetMidiVars()->sSeqsPlaying_count_word()++;
     }
     else if (SsIsEos_4FDA80(rec.field_A_id_seqOpenId, 0))
     {
@@ -563,7 +603,7 @@ EXPORT signed __int16 CC SND_SEQ_PlaySeq_4CA960(unsigned __int16 idx, __int16 re
 
 EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 repeatCount, __int16 volLeft, __int16 volRight)
 {
-    OpenSeqHandle& rec = sSeqDataTable_BB2E38[idx];
+    OpenSeqHandle& rec = GetMidiVars()->sSeqDataTable()[idx];
     if (!rec.field_C_ppSeq_Data)
     {
         return 0;
@@ -573,25 +613,25 @@ EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 repeatCount,
     if (rec.field_A_id_seqOpenId < 0)
     {
         // Too many playing
-        if (sSeqsPlaying_count_word_BB2E3C >= 16)
+        if (GetMidiVars()->sSeqsPlaying_count_word() >= 16)
         {
             // Stop any SEQs that are done
             SND_Seq_Stop_4CA8E0();
 
             // If none where done then can't continue
-            if (sSeqsPlaying_count_word_BB2E3C >= 16)
+            if (GetMidiVars()->sSeqsPlaying_count_word() >= 16)
             {
                 return 0;
             }
         }
 
         // Open the SEQ
-        const short vabId = static_cast<short>(sLastLoadedSoundBlockInfo_BB2E34[rec.field_8_sound_block_idx].field_8_vab_id);
+        const short vabId = static_cast<short>(GetMidiVars()->sLastLoadedSoundBlockInfo()[rec.field_8_sound_block_idx].field_8_vab_id);
         rec.field_A_id_seqOpenId = SsSeqOpen_4FD6D0(rec.field_C_ppSeq_Data, vabId);
 
         // Index into the IDS via the seq ID and map it to the index
-        sSeq_Ids_word_BB2354.ids[rec.field_A_id_seqOpenId] = idx;
-        sSeqsPlaying_count_word_BB2E3C++;
+        GetMidiVars()->sSeq_Ids_word().ids[rec.field_A_id_seqOpenId] = idx;
+        GetMidiVars()->sSeqsPlaying_count_word()++;
     }
     else if (SsIsEos_4FDA80(rec.field_A_id_seqOpenId, 0))
     {
@@ -645,7 +685,7 @@ EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 repeatCount,
 
 EXPORT int CC SND_SsIsEos_DeInlined_4CACD0(unsigned __int16 idx)
 {
-    OpenSeqHandle* pRec = &sSeqDataTable_BB2E38[idx];
+    OpenSeqHandle* pRec = &GetMidiVars()->sSeqDataTable()[idx];
     if (pRec->field_A_id_seqOpenId != -1 && pRec->field_C_ppSeq_Data)
     {
         return SsIsEos_4FDA80(pRec->field_A_id_seqOpenId, 0) != 0;
@@ -657,42 +697,42 @@ EXPORT int CC SND_SsIsEos_DeInlined_4CACD0(unsigned __int16 idx)
 EXPORT void CC SND_SEQ_SetVol_4CAD20(int idx, __int16 volLeft, __int16 volRight)
 {
     unsigned __int16 limitedIdx = idx & 0xFFFF;
-    if (sSeqDataTable_BB2E38[limitedIdx].field_A_id_seqOpenId != -1
-        && sSeqDataTable_BB2E38[limitedIdx].field_C_ppSeq_Data
+    if (GetMidiVars()->sSeqDataTable()[limitedIdx].field_A_id_seqOpenId != -1
+        && GetMidiVars()->sSeqDataTable()[limitedIdx].field_C_ppSeq_Data
         && SND_SsIsEos_DeInlined_4CACD0(limitedIdx))
     {
-        SsSeqSetVol_4FDAC0(sSeqDataTable_BB2E38[limitedIdx].field_A_id_seqOpenId, volLeft, volRight);
+        SsSeqSetVol_4FDAC0(GetMidiVars()->sSeqDataTable()[limitedIdx].field_A_id_seqOpenId, volLeft, volRight);
     }
 }
 
 
 EXPORT void CC SND_SEQ_Stop_4CAE60(unsigned __int16 idx)
 {
-    if (sSeqDataTable_BB2E38[idx].field_A_id_seqOpenId != -1 && sSeqDataTable_BB2E38[idx].field_C_ppSeq_Data)
+    if (GetMidiVars()->sSeqDataTable()[idx].field_A_id_seqOpenId != -1 && GetMidiVars()->sSeqDataTable()[idx].field_C_ppSeq_Data)
     {
-        if (SsIsEos_4FDA80(sSeqDataTable_BB2E38[idx].field_A_id_seqOpenId, 0))
+        if (SsIsEos_4FDA80(GetMidiVars()->sSeqDataTable()[idx].field_A_id_seqOpenId, 0))
         {
-            SsSeqStop_4FD9C0(sSeqDataTable_BB2E38[idx].field_A_id_seqOpenId);
+            SsSeqStop_4FD9C0(GetMidiVars()->sSeqDataTable()[idx].field_A_id_seqOpenId);
         }
     }
 }
 
-EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, int tableSize, const char* bsqFileName, TReclaimMemoryFn pReclaimMemoryFn, TLoadResourceFileFn pLoadResourceFileFn, TGetLoadedResourceFn pGetLoadedResourceFn)
+EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const char* bsqFileName, TReclaimMemoryFn pReclaimMemoryFn, TLoadResourceFileFn pLoadResourceFileFn, TGetLoadedResourceFn pGetLoadedResourceFn)
 {
     if (pSeqTable && bsqFileName)
     {
-        sSeqDataTable_BB2E38 = pSeqTable;
+        GetMidiVars()->sSeqDataTable() = pSeqTable;
 
         // Generate resource ids from hashing the name if we haven't already
-        if (sNeedToHashSeqNames_560F40)
+        if (GetMidiVars()->sNeedToHashSeqNames())
         {
-            for (int i = 0; i < tableSize; i++)
+            for (int i = 0; i < GetMidiVars()->MidiTableSize(); i++)
             {
-                sSeqDataTable_BB2E38[i].field_C_ppSeq_Data = nullptr;
-                sSeqDataTable_BB2E38[i].field_A_id_seqOpenId = -1;
-                sSeqDataTable_BB2E38[i].field_4_generated_res_id = ResourceManager::SEQ_HashName_49BE30(sSeqDataTable_BB2E38[i].field_0_mBsqName);
+                GetMidiVars()->sSeqDataTable()[i].field_C_ppSeq_Data = nullptr;
+                GetMidiVars()->sSeqDataTable()[i].field_A_id_seqOpenId = -1;
+                GetMidiVars()->sSeqDataTable()[i].field_4_generated_res_id = ResourceManager::SEQ_HashName_49BE30(GetMidiVars()->sSeqDataTable()[i].field_0_mBsqName);
             }
-            sNeedToHashSeqNames_560F40 = FALSE;
+            GetMidiVars()->sNeedToHashSeqNames() = FALSE;
         }
 
         // Load the BSQ
@@ -700,16 +740,16 @@ EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, int tableSize, const
         pLoadResourceFileFn(bsqFileName, nullptr);
 
         // Get a pointer to each SEQ
-        for (int i = 0; i < tableSize; i++)
+        for (int i = 0; i < GetMidiVars()->MidiTableSize(); i++)
         {
-            BYTE** ppSeq = pGetLoadedResourceFn(ResourceManager::Resource_Seq, sSeqDataTable_BB2E38[i].field_4_generated_res_id, 1, 1);
+            BYTE** ppSeq = pGetLoadedResourceFn(ResourceManager::Resource_Seq, GetMidiVars()->sSeqDataTable()[i].field_4_generated_res_id, 1, 1);
             if (ppSeq)
             {
-                sSeqDataTable_BB2E38[i].field_C_ppSeq_Data = *ppSeq;
+                GetMidiVars()->sSeqDataTable()[i].field_C_ppSeq_Data = *ppSeq;
             }
             else
             {
-                sSeqDataTable_BB2E38[i].field_C_ppSeq_Data = nullptr;
+                GetMidiVars()->sSeqDataTable()[i].field_C_ppSeq_Data = nullptr;
             }
         }
     }
@@ -717,12 +757,12 @@ EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, int tableSize, const
 
 EXPORT void CC SND_Load_Seqs_4CAED0(OpenSeqHandle* pSeqTable, const char* bsqFileName)
 {
-    SND_Load_Seqs_Impl(pSeqTable, kSeqTableSizeAE, bsqFileName, ResourceManager::Reclaim_Memory_49C470, ResourceManager::LoadResourceFile_49C170, ResourceManager::GetLoadedResource_49C2A0);
+    SND_Load_Seqs_Impl(pSeqTable, bsqFileName, ResourceManager::Reclaim_Memory_49C470, ResourceManager::LoadResourceFile_49C170, ResourceManager::GetLoadedResource_49C2A0);
 }
 
 EXPORT char CC SND_Seq_Table_Valid_4CAFE0()
 {
-    return sSeqDataTable_BB2E38 != 0;
+    return GetMidiVars()->sSeqDataTable() != 0;
 }
 
 // So AO can redirect SND_StopAll_4CB060 to its own func when called from SYS_ funcs
