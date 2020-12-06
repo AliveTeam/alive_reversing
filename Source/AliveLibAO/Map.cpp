@@ -1744,7 +1744,7 @@ void Map::GoTo_Camera_445050()
         pBackgroundMusic->ctor_476370(rPathRoot.field_12_bg_music_id);
 
         // TODO: Re-add function
-        for (int i = 0; i < 59; i++)
+        for (int i = 0; i < 236; i++)
         {
             sSwitchStates_505568.mData[i] = 0;
         }
