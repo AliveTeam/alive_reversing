@@ -56,9 +56,9 @@ public:
 
     EXPORT static void CC sub_443810(MusicTypes a1, BaseGameObject* a2, __int16 a3, __int16 a4);
 
-    EXPORT static MusicTypes CC sub_443840(SeqId * seq1, SeqId * seq2, WORD* seqTime);
+    EXPORT static MusicTypes CC GetAbmientAndMusicInfo_443840(SeqId* ambientSeq, SeqId* musicSeq, WORD* ambientOrMusicDuration);
 
-    EXPORT void sub_442A10();
+    EXPORT void UpdateVolumeState_442A10();
 
     static EXPORT void Shutdown_4437E0();
 
@@ -68,9 +68,9 @@ public:
 
     EXPORT void sub_443460(MusicTypes a2, BaseGameObject* a3, __int16 a4, __int16 a5);
 
-    EXPORT void sub_442C20();
+    EXPORT void UpdateMusic_442C20();
 
-    EXPORT void sub_442AC0();
+    EXPORT void UpdateAmbiance_442AC0();
 
     __int16 SetMusicVolumeDelayed(__int16 vol, __int16 delay);
 
@@ -95,7 +95,7 @@ public:
     int field_40;
     __int16 field_44_bUnPause;
     __int16 field_46_restart_track;
-    __int16 field_48_state;
+    __int16 field_48_vol_state;
     __int16 field_4A_starting_volume;
     __int16 field_4C_current_vol;
     __int16 field_4E_vol;
