@@ -35,3 +35,5 @@ MessageBoxButton CC Sys_MessageBox(TWindowHandleType windowHandle, const char* m
 void Sys_Main_Common();
 
 [[noreturn]] void ALIVE_FATAL(const char* errMsg);
+
+DWORD SYS_GetTicks();

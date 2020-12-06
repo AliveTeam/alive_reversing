@@ -512,7 +512,7 @@ void MusicController::EnableMusic_47FB80(__int16 bEnable)
             // No so turn off volume to disable music
             SetMusicVolumeDelayed_47FB00(0, 0);
         }
-        sub_47EFD0();
+        UpdateVolumeState_47EFD0();
     }
 }
 
@@ -538,7 +538,7 @@ void MusicController::SetMusicVolumeDelayed_47FB00(__int16 vol, __int16 delay)
     }
 }
 
-void MusicController::sub_47EFD0()
+void MusicController::UpdateVolumeState_47EFD0()
 {
     if (field_4C_state)
     {
@@ -606,6 +606,7 @@ void MusicController::VUpdate()
 void MusicController::Update_47F730()
 {
     MusicController::UpdateMusicTime_47F8B0();
+
     if (Event_Get_422C00(kEventDeathReset))
     {
         field_58_flags.Set(Flags_58::e58_Dead_Bit3);
@@ -654,18 +655,17 @@ void MusicController::Update_47F730()
         PlayMusic_47F910(MusicTypes::eNone_0, 0, 1, 0);
     }
 
-    sub_47EFD0();
+    UpdateVolumeState_47EFD0();
 
     if (field_58_flags.Get(Flags_58::e58_MusicEnabled_Bit1))
     {
-        sub_47F260();
-        sub_47F0B0();
+        UpdateMusic_47F260();
+        UpdateAmbiance_47F0B0();
     }
 }
 
 void MusicController::PlayMusic_47F910(MusicTypes typeToSet, const BaseGameObject* pObj, __int16 bFlag4, char bFlag0x20)
 {
-    //NOT_IMPLEMENTED();
 
     MusicController::UpdateMusicTime_47F8B0();
 
@@ -728,7 +728,7 @@ void MusicController::PlayMusic_47F910(MusicTypes typeToSet, const BaseGameObjec
     }
 }
 
-void MusicController::sub_47F260()
+void MusicController::UpdateMusic_47F260()
 {
     int idx = 0;
     const MusicController_Record* pRecord = nullptr;
@@ -887,7 +887,7 @@ void MusicController::sub_47F260()
     }
 }
 
-void MusicController::sub_47F0B0()
+void MusicController::UpdateAmbiance_47F0B0()
 {
     if (field_58_flags.Get(Flags_58::e58_AmbientMusicEnabled_Bit5) || (field_2C_flags_and_seq_idx < 0))
     {
