@@ -393,11 +393,11 @@ EXPORT int AliveFont::DrawString_41C360(int** ot, const char* text, __int16 x, _
 {
     if (!sFontDrawScreenSpace_508BF4)
     {
-        x = PsxToPCX(x);
+        x = PsxToPCX(x, 11);
     }
 
     int characterRenderCount = 0;
-    const int maxRenderX = PsxToPCX(maxRenderWidth);
+    const int maxRenderX = PsxToPCX(maxRenderWidth, 11);
     short offsetX = x;
     int charInfoIndex = 0;
     auto poly = &field_24_fnt_poly_array[gPsxDisplay_504C78.field_A_buffer_index + (2 * polyOffset)];
@@ -501,7 +501,7 @@ void AliveFont::dtor_41C130()
 const char* AliveFont::SliceText_41C6C0(const char* text, int left, FP scale, int right)
 {
     int xOff = 0;
-    int rightWorldSpace = static_cast<int>(right * 0.575);
+    int rightWorldSpace = PsxToPCX(right, 11);
 
     if (sFontDrawScreenSpace_508BF4)
     {
@@ -509,31 +509,26 @@ const char* AliveFont::SliceText_41C6C0(const char* text, int left, FP scale, in
     }
     else
     {
-        xOff = static_cast<int>(left / 0.575);
+        xOff = PsxToPCX(left, 11);
     }
-
 
     for (const char* strPtr = text; *strPtr; strPtr++)
     {
         int atlasIdx = 0;
         char character = *strPtr;
         if (xOff >= rightWorldSpace)
-            return strPtr;
-        if (character <= 32u || character > 122u)
+            break;
+
+        if (character <= 32 || character > 122)
         {
-            if (character < 7u || character > 31u)
-            {
-                xOff += field_34_font_context->field_8_atlas_array[1].field_2_width;
-                continue;
-            }
-            atlasIdx = character + 137;
+            atlasIdx = character < 8 || character > 31 ? 1 : character + 84;
         }
         else
         {
             atlasIdx = character - 31;
         }
 
-        xOff += static_cast<signed int>(field_34_font_context->field_8_atlas_array[atlasIdx].field_2_width * FP_GetDouble(scale)) / 0x10000 + field_34_font_context->field_8_atlas_array->field_2_width;
+        xOff += static_cast<signed int>(field_34_font_context->field_8_atlas_array[atlasIdx].field_2_width * FP_GetDouble(scale)) + field_34_font_context->field_8_atlas_array->field_2_width;
     }
 
     return text;
