@@ -184,23 +184,16 @@ void FallingItem::VUpdate_41A120()
         if (!((gnFrameCount_507670 - field_134_created_gnFrame) % 25))
         {
             SFX_Play_43AD70(SoundEffect::MeatsawIdle_89, 45, 0);
-
         }
     }
 
     switch (field_110_state)
     {
     case State::eState_0_WaitForIdEnable:
-        if (SwitchStates_Get(field_112_id))
+        if (!SwitchStates_Get(field_112_id))
         {
-            field_6_flags.Clear(Options::eCanExplode_Bit7);
-            field_110_state = State::eState_1_GoWaitForDelay;
-            field_B4_velx = FP_FromInteger(0);
-            field_B8_vely = FP_FromInteger(0);
-            field_10_anim.Set_Animation_Data_402A40(sFallingItemData_4BAB20[static_cast<int>(gMap_507BA8.field_0_current_level)].field_4, nullptr);
-            field_11C_delay_timer = gnFrameCount_507670 + field_118_delay_time;
+            return;
         }
-        break;
 
     case State::eState_1_GoWaitForDelay:
         field_6_flags.Clear(Options::eCanExplode_Bit7);
