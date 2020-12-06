@@ -20,6 +20,8 @@
 #define NO_WAVE
 #endif
 
+struct IO_FileHandleType;
+
 #include "../AliveLibAE/Sound/PsxSpuApi.hpp"
 #include "../AliveLibAE/Sound/Midi.hpp"
 #include "../AliveLibAE/Sound/Sound.hpp"
@@ -30,18 +32,135 @@ namespace AO {
 
 const int kSeqTableSizeAO = 164;
 
-EXPORT void CC SND_Reset_476BA0()
-{
-    AE_IMPLEMENTED();
-    SND_Reset_4C9FB0();
-}
-
 ALIVE_VAR(1, 0x9F1DC4, WORD, sSnd_ReloadAbeResources_9F1DC4, 0);
 //ALIVE_VAR(1, 0x9F1DB8, SoundBlockInfo *, sLastLoadedSoundBlockInfo_9F1DB8, nullptr);
 
 // I think this is the burrrrrrrrrrrrrrrrrrrr loading sound
 //const SoundBlockInfo soundBlock = { "MONK.VH", "MONK.VB", -1, nullptr };
 //ALIVE_VAR(1, 0x4D0008, SoundBlockInfo, sMonkVh_Vb_4D0008, soundBlock);
+
+ALIVE_VAR(1, 0xA8918E, __int16, sGlobalVolumeLevel_right_A8918E, 0);
+ALIVE_VAR(1, 0xA8918C, __int16, sGlobalVolumeLevel_left_A8918C, 0);
+ALIVE_VAR(1, 0xABF8C0, VabUnknown, s512_byte_ABF8C0, {});
+ALIVE_ARY(1, 0xA9289C, BYTE, kMaxVabs, sVagCounts_A9289C, {});
+ALIVE_ARY(1, 0xA92898, BYTE, kMaxVabs, sProgCounts_A92898, {});
+ALIVE_ARY(1, 0xABF8A0, VabHeader*, 4, spVabHeaders_ABF8A0, {});
+ALIVE_VAR(1, 0xA9B8A0, ConvertedVagTable, sConvertedVagTable_A9B8A0, {});
+ALIVE_VAR(1, 0xA928A0, SoundEntryTable, sSoundEntryTable16_A928A0, {});
+ALIVE_VAR(1, 0xAC07C0, MidiChannels, sMidi_Channels_AC07C0, {});
+ALIVE_VAR(1, 0xABFB40, MidiSeqSongsTable, sMidiSeqSongs_ABFB40, {});
+ALIVE_VAR(1, 0xA89198, int, sMidi_Inited_dword_A89198, 0); 
+ALIVE_VAR(1, 0xA89194, unsigned int, sMidiTime_A89194, 0);
+ALIVE_VAR(1, 0xA89190, char, sbDisableSeqs_A89190, 0);
+ALIVE_VAR(1, 0x4E8FD8, DWORD, sLastTime_4E8FD8, 0xFFFFFFFF);
+ALIVE_VAR(1, 0xA8919C, BYTE, sControllerValue_A8919C, 0);
+
+class AOPsxSpuApiVars : public IPsxSpuApiVars
+{
+public:
+    virtual __int16& sGlobalVolumeLevel_right() override
+    {
+        return sGlobalVolumeLevel_right_A8918E;
+    }
+
+    virtual __int16& sGlobalVolumeLevel_left() override
+    {
+        return sGlobalVolumeLevel_left_A8918C;
+    }
+
+    virtual VabUnknown& s512_byte() override
+    {
+        return s512_byte_ABF8C0;
+    }
+
+    virtual BYTE* sVagCounts() override
+    {
+        return sVagCounts_A9289C;
+    }
+
+    virtual BYTE* sProgCounts() override
+    {
+        return sProgCounts_A92898;
+    }
+
+    virtual VabHeader** spVabHeaders() override
+    {
+        return spVabHeaders_ABF8A0;
+    }
+
+    virtual ConvertedVagTable& sConvertedVagTable() override
+    {
+        return sConvertedVagTable_A9B8A0;
+    }
+
+    virtual SoundEntryTable& sSoundEntryTable16() override
+    {
+        return sSoundEntryTable16_A928A0;
+    }
+
+    virtual MidiChannels& sMidi_Channels() override
+    {
+        return sMidi_Channels_AC07C0;
+    }
+
+    virtual MidiSeqSongsTable& sMidiSeqSongs() override
+    {
+        return sMidiSeqSongs_ABFB40;
+    }
+
+    virtual int& sMidi_Inited_dword() override
+    {
+        return sMidi_Inited_dword_A89198;
+    }
+
+    virtual unsigned int& sMidiTime() override
+    {
+        return sMidiTime_A89194;
+    }
+
+    virtual BOOL& sSoundDatIsNull() override
+    {
+        return mSoundDatIsNull;
+    }
+
+    virtual char& sbDisableSeqs() override
+    {
+        return sbDisableSeqs_A89190;
+    }
+
+    virtual DWORD& sLastTime() override
+    {
+        return sLastTime_4E8FD8;
+    }
+
+    virtual DWORD& sMidi_WaitUntil() override
+    {
+        // Always 0 in AO cause it dont exist 
+        return mMidi_WaitUntil;
+    }
+
+    virtual IO_FileHandleType& sSoundDatFileHandle() override
+    {
+        // Should never be called
+        throw std::logic_error("The method or operation is not implemented.");
+    }
+
+    virtual BYTE& sControllerValue() override
+    {
+        return sControllerValue_A8919C;
+    }
+private:
+    BOOL mSoundDatIsNull = FALSE; // Pretend we have sounds dat opened so AE funcs work
+    DWORD mMidi_WaitUntil = 0;
+};
+
+static AOPsxSpuApiVars sAoSpuVars;
+
+EXPORT void CC SND_Reset_476BA0()
+{
+    AE_IMPLEMENTED();
+    SND_Reset_4C9FB0();
+}
 
 EXPORT void CC SsUtAllKeyOff_49EDE0(int mode)
 {
@@ -50,16 +169,11 @@ EXPORT void CC SsUtAllKeyOff_49EDE0(int mode)
 
 VabBodyRecord* IterateVBRecords(VabBodyRecord* ret, int i_3)
 {
-    if (i_3 - 1 >= 0)
+    for (int i = 0; i < i_3; i++)
     {
-        int remainder_counter_ = i_3;
-        do
-        {
-            --remainder_counter_;
-            ret = (VabBodyRecord*)((char*)ret
-                + ret->field_0_length_or_duration
-                + 8);
-        } while (remainder_counter_);
+        ret = (VabBodyRecord*)((char*)ret
+            + ret->field_0_length_or_duration
+            + 8);
     }
     return ret;
 }
@@ -76,12 +190,12 @@ EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, __int16 vabId)
         return;
     }
 
-    VabHeader* pVabHeader = &GetVabHeaders()[vabId];
-    const int vagCount = GetVagCounts()[vabId];
+    VabHeader* pVabHeader = GetSpuApiVars()->spVabHeaders()[vabId];
+    const int vagCount = GetSpuApiVars()->sVagCounts()[vabId];
 
     for (int i = 0; i < vagCount; i++)
     {
-        SoundEntry* pEntry = &GetSoundEntryTable().table[vabId][i];
+        SoundEntry* pEntry = &GetSpuApiVars()->sSoundEntryTable16().table[vabId][i];
 
         if (!(i & 7))
         {
@@ -104,21 +218,19 @@ EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, __int16 vabId)
                 v10 = IterateVBRecords(pVabBody, i);
             }
 
-            const auto unused_field = v10->field_4_unused >= 0 ? 0 : 4;
+            const BYTE unused_field = v10->field_4_unused != 0 ? 0 : 4;
             for (int prog = 0; prog < 128; prog++)
             {
                 for (int tone = 0; tone < 16; tone++)
                 {
-                    auto pVag = &GetConvertedVagTable().table[vabId][prog][tone];
+                    auto pVag = &GetSpuApiVars()->sConvertedVagTable().table[vabId][prog][tone];
                     if (pVag->field_10_vag == i)
                     {
-                        pVag->field_C = static_cast<BYTE>(unused_field);
-                        if (!(unused_field & 4) && !pVag->field_0_adsr_attack)
+                        pVag->field_C = unused_field;
+
+                        if (!(unused_field & 4) && !pVag->field_0_adsr_attack && pVag->field_6_adsr_release)
                         {
-                            if (pVag->field_6_adsr_release)
-                            {
-                                pVag->field_6_adsr_release = 0;
-                            }
+                            pVag->field_6_adsr_release = 0;
                         }
                     }
                 }
@@ -328,6 +440,7 @@ EXPORT int CC SFX_SfxDefinition_Play_4770F0(const SfxDefinition* sfxDef, int vol
 EXPORT void CC SND_Init_476E40()
 {
     AE_IMPLEMENTED();
+    SetSpuApiVars(&sAoSpuVars);
     SND_Init_4CA1F0();
     SND_Restart_SetCallBack(SND_Restart_476340);
     SND_StopAll_SetCallBack(SND_StopAll_4762D0);
