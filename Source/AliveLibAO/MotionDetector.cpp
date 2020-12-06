@@ -26,7 +26,7 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, int tlvIn
     field_4_typeId = Types::eMotionDetector_59;
     BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMflareResID, 1, 0);
     Animation_Init_417FD0(1108, 32, 22, ppRes, 1);
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+    field_10_anim.field_4_flags.Set(AnimFlags::eBit7_SwapXY);
 
     field_10_anim.field_B_render_mode = 1;
     field_10_anim.field_C_layer = 36;
