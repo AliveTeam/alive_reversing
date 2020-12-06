@@ -3840,23 +3840,28 @@ void Abe::State_0_Idle_423520()
 
     if (Input().IsAnyPressed(sInputKey_Down_4C659C))
     {
-        const FP halfGrid = ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2);
-        const FP liftPlatformXMidPoint = FP_FromInteger((field_F4_pLine->field_0_rect.x + field_F4_pLine->field_0_rect.w) / 2);
-        if (field_F8_pLiftPoint && field_F8_pLiftPoint->field_4_typeId == Types::eLiftPoint_51 &&
-            FP_Abs(field_A8_xpos - liftPlatformXMidPoint) < halfGrid)
+        if (field_F8_pLiftPoint)
         {
-            //AO exclusive - Abe only uses lift facing one side
-            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            const FP liftPlatformXMidPoint = FP_FromInteger((field_F4_pLine->field_0_rect.x + field_F4_pLine->field_0_rect.w) / 2);
+            const FP halfGrid = ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2);
+
+            if (field_F8_pLiftPoint->field_4_typeId == Types::eLiftPoint_51 &&
+                FP_Abs(field_A8_xpos - liftPlatformXMidPoint) < halfGrid)
             {
-                field_FC_current_motion = eAbeStates::State_2_StandingTurn_426040;
-                field_FE_next_state = eAbeStates::State_133_LiftGrabBegin_42EF20;
+                //AO exclusive - Abe only uses lift facing one side
+                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    field_FC_current_motion = eAbeStates::State_2_StandingTurn_426040;
+                    field_FE_next_state = eAbeStates::State_133_LiftGrabBegin_42EF20;
+                }
+                else
+                {
+                    field_FC_current_motion = eAbeStates::State_133_LiftGrabBegin_42EF20;
+                }
+                return;
             }
-            else
-            {
-                field_FC_current_motion = eAbeStates::State_133_LiftGrabBegin_42EF20;
-            }
-            return; 
         }
+
 
         const auto pHoist = static_cast<Path_Hoist*>(gMap_507BA8.TLV_Get_At_446260(
             FP_GetExponent(field_A8_xpos),
