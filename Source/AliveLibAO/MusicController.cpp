@@ -18,7 +18,7 @@ constexpr auto RCntCNT3 = 0xf2000003; // VSync (VBlank)
 
 // TODO: Move out PSX emu parts
 ALIVE_VAR(1, 0x507BA0, int, psx_root_event_507BA0, 0);
-ALIVE_VAR(1, 0xAC0BE0, TRootCallBackFn, dword_AC0BE0, nullptr);
+ALIVE_VAR(1, 0xAC0BE0, TRootCallBackFn, sRootCounerFn_AC0BE0, nullptr);
 ALIVE_VAR(1, 0x507B9C, int, counter_507B9C, 0);
 
 
@@ -26,7 +26,7 @@ EXPORT int CC Psx_Root_Counter_49C280(int event, int unknown1, int unknown2, TRo
 {
     if (event == RCntCNT3 && unknown1 == 2 && unknown2 == 4096)
     {
-        dword_AC0BE0 = pFn;
+        sRootCounerFn_AC0BE0 = pFn;
     }
     return 1;
 }
@@ -35,7 +35,7 @@ EXPORT int CC Psx_Root_Counter_Event_Free_49C2B0(int event)
 {
     if (event == RCntCNT3)
     {
-        dword_AC0BE0 = nullptr;
+        sRootCounerFn_AC0BE0 = nullptr;
     }
     return 1;
 }

@@ -105,3 +105,14 @@ MessageBoxButton CC Sys_MessageBox(TWindowHandleType windowHandle, const char* m
     }
 #endif
 }
+
+void Sys_Main_Common()
+{
+#if USE_SDL2
+    if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0)
+    {
+        LOG_ERROR(SDL_GetError());
+        ALIVE_FATAL(SDL_GetError());
+    }
+#endif
+}

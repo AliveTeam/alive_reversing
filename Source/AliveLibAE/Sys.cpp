@@ -218,6 +218,7 @@ void Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, int nShowCmd)
     sInstance_BBB9EC = hInstance;
     sCmdShow_BBB9FC = nShowCmd;
     sCommandLine_BBB9E8 = lpCmdLine;
+    Sys_Main_Common();
 }
 
 #if _WIN32
