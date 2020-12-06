@@ -180,11 +180,26 @@ VabBodyRecord* IterateVBRecords(VabBodyRecord* ret, int i_3)
 
 // Loads vab body sample data to memory
 
-// TODO: Need to test this with dll/og as it might be wrong
-EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, __int16 vabId)
+EXPORT void CC SsSeqCalledTbyT_49E9F0()
 {
     AE_IMPLEMENTED();
+    SsSeqCalledTbyT_4FDC80();
+}
 
+EXPORT signed int CC SND_New_492790(SoundEntry* pSnd, int sampleLength, int sampleRate, int bitsPerSample, int isStereo)
+{
+    AE_IMPLEMENTED();
+    return SND_New_4EEFF0(pSnd, sampleLength, sampleRate, bitsPerSample, isStereo);
+}
+
+EXPORT int CC SND_Load_492F40(SoundEntry* pSnd, const void* pWaveData, int waveDataLen)
+{
+    AE_IMPLEMENTED();
+    return SND_Load_4EF680(pSnd, pWaveData, waveDataLen);
+}
+
+EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, __int16 vabId)
+{
     if (vabId < 0)
     {
         return;
@@ -199,7 +214,7 @@ EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, __int16 vabId)
 
         if (!(i & 7))
         {
-            SsSeqCalledTbyT_4FDC80();
+            SsSeqCalledTbyT_49E9F0();
         }
 
         memset(pEntry, 0, sizeof(SoundEntry));
@@ -236,7 +251,7 @@ EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, __int16 vabId)
                 }
             }
 
-            if (!SND_New_4EEFF0(pEntry, sampleLen, 44100, 16u, 0))
+            if (!SND_New_492790(pEntry, sampleLen, 44100, 16u, 0))
             {
                 auto pTempBuffer = (DWORD*)malloc(sampleLen * pEntry->field_1D_blockAlign);
                 if (pTempBuffer)
@@ -258,7 +273,7 @@ EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, __int16 vabId)
 
                     if (sampleLen2)
                     {
-                        SND_Load_4EF680(pEntry, pTempBuffer, sampleLen2);
+                        SND_Load_492F40(pEntry, pTempBuffer, sampleLen2);
                     }
 
                     free(pTempBuffer);
@@ -270,7 +285,7 @@ EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, __int16 vabId)
 
 EXPORT signed __int16 CC SND_VAB_Load_476CB0(SoundBlockInfo* pSoundBlockInfo, __int16 vabId)
 {
-    AE_IMPLEMENTED();
+    SetSpuApiVars(&sAoSpuVars);
 
     // Fail if no file name
     if (!pSoundBlockInfo->field_0_vab_header_name)
