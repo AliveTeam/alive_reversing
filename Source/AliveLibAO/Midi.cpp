@@ -32,12 +32,68 @@ namespace AO {
 
 const int kSeqTableSizeAO = 164;
 
+ALIVE_VAR(1, 0x9F12D8, SeqIds, sSeq_Ids_word_9F12D8, {});
 ALIVE_VAR(1, 0x9F1DC4, WORD, sSnd_ReloadAbeResources_9F1DC4, 0);
-//ALIVE_VAR(1, 0x9F1DB8, SoundBlockInfo *, sLastLoadedSoundBlockInfo_9F1DB8, nullptr);
+ALIVE_VAR(1, 0x9F1DBC, OpenSeqHandle *, sSeqDataTable_9F1DBC, nullptr);
+ALIVE_VAR(1, 0x9F1DC0, __int16, sSeqsPlaying_count_word_9F1DC0, 0);
+ALIVE_VAR(1, 0x9F1DB8, SoundBlockInfo *, sLastLoadedSoundBlockInfo_9F1DB8, nullptr);
+ALIVE_VAR(1, 0x4D0018, __int16, sSFXPitchVariationEnabled_4D0018, true);
+ALIVE_VAR(1, 0x4D0000, short, sNeedToHashSeqNames_4D0000, 1);
 
 // I think this is the burrrrrrrrrrrrrrrrrrrr loading sound
-//const SoundBlockInfo soundBlock = { "MONK.VH", "MONK.VB", -1, nullptr };
-//ALIVE_VAR(1, 0x4D0008, SoundBlockInfo, sMonkVh_Vb_4D0008, soundBlock);
+const SoundBlockInfo soundBlock = { "MONK.VH", "MONK.VB", -1, nullptr };
+ALIVE_VAR(1, 0x4D0008, SoundBlockInfo, sMonkVh_Vb_4D0008, soundBlock);
+
+class AOMidiVars : public IMidiVars
+{
+public:
+    virtual SeqIds& sSeq_Ids_word() override
+    {
+        return sSeq_Ids_word_9F12D8;
+    }
+
+    virtual WORD& sSnd_ReloadAbeResources() override
+    {
+        return sSnd_ReloadAbeResources_9F1DC4;
+    }
+
+    virtual OpenSeqHandle*& sSeqDataTable() override
+    {
+        return sSeqDataTable_9F1DBC;
+    }
+
+    virtual __int16& sSeqsPlaying_count_word() override
+    {
+        return sSeqsPlaying_count_word_9F1DC0;
+    }
+
+    virtual ::SoundBlockInfo*& sLastLoadedSoundBlockInfo() override
+    {
+        return reinterpret_cast<::SoundBlockInfo*&>(sLastLoadedSoundBlockInfo_9F1DB8);
+    }
+
+    virtual __int16& sSFXPitchVariationEnabled() override
+    {
+        return sSFXPitchVariationEnabled_4D0018;
+    }
+
+    virtual short& sNeedToHashSeqNames() override
+    {
+        return sNeedToHashSeqNames_4D0000;
+    }
+
+    virtual ::SoundBlockInfo& sMonkVh_Vb() override
+    {
+        return reinterpret_cast<::SoundBlockInfo&>(sMonkVh_Vb_4D0008);
+    }
+
+    virtual int MidiTableSize() override
+    {
+        return kSeqTableSizeAO;
+    }
+};
+
+static AOMidiVars sAoMidiVars;
 
 ALIVE_VAR(1, 0xA8918E, __int16, sGlobalVolumeLevel_right_A8918E, 0);
 ALIVE_VAR(1, 0xA8918C, __int16, sGlobalVolumeLevel_left_A8918C, 0);
@@ -358,18 +414,18 @@ EXPORT void CC SND_Load_VABS_477040(SoundBlockInfo* pSoundBlockInfo, int reverb)
 
     SoundBlockInfo* pSoundBlockInfoIter = pSoundBlockInfo;
     sSnd_ReloadAbeResources_9F1DC4 = FALSE;
-    if (GetLastLoadedSoundBlockInfo() != reinterpret_cast<::SoundBlockInfo*>(pSoundBlockInfo))
+    if (GetMidiVars()->sLastLoadedSoundBlockInfo() != reinterpret_cast<::SoundBlockInfo*>(pSoundBlockInfo))
     {
         SsUtReverbOff_4FE350();
         SsUtSetReverbDepth_4FE380(0, 0);
         SpuClearReverbWorkArea_4FA690(4);
 
-        if (GetMonkVb().field_8_vab_id < 0)
+        if (GetMidiVars()->sMonkVh_Vb().field_8_vab_id < 0)
         {
-            SND_VAB_Load_476CB0(reinterpret_cast<SoundBlockInfo*>(&GetMonkVb()), 32);
+            SND_VAB_Load_476CB0(reinterpret_cast<SoundBlockInfo*>(&GetMidiVars()->sMonkVh_Vb()), 32);
         }
 
-        SetLastLoadedSoundBlockInfo(reinterpret_cast<::SoundBlockInfo*>(pSoundBlockInfo));
+        GetMidiVars()->sLastLoadedSoundBlockInfo() = reinterpret_cast<::SoundBlockInfo*>(pSoundBlockInfo);
 
         __int16 vabId = 0;
         while (SND_VAB_Load_476CB0(pSoundBlockInfoIter, vabId))
@@ -400,7 +456,6 @@ EXPORT void CC SND_Load_Seqs_477AB0(OpenSeqHandleAE* pSeqTable, const char* bsqF
     AE_IMPLEMENTED();
     SND_Load_Seqs_Impl(
         reinterpret_cast<::OpenSeqHandle*>(pSeqTable),
-        kSeqTableSizeAO,
         bsqFileName,
         reinterpret_cast<TReclaimMemoryFn>(ResourceManager::Reclaim_Memory_455660),
         reinterpret_cast<TLoadResourceFileFn>(ResourceManager::LoadResourceFileWrapper),
@@ -463,6 +518,7 @@ EXPORT void CC SND_Init_476E40()
 {
     AE_IMPLEMENTED();
     SetSpuApiVars(&sAoSpuVars);
+    SetMidiApiVars(&sAoMidiVars);
     SND_Init_4CA1F0();
     SND_Restart_SetCallBack(SND_Restart_476340);
     SND_StopAll_SetCallBack(SND_StopAll_4762D0);

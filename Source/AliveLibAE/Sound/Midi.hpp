@@ -8,6 +8,29 @@ struct OpenSeqHandle;
 struct SfxDefinition;
 class Camera;
 
+struct SeqIds
+{
+    __int16 ids[16];
+};
+
+class IMidiVars
+{
+public:
+    ~IMidiVars() { }
+    virtual SeqIds& sSeq_Ids_word() = 0;
+    virtual WORD& sSnd_ReloadAbeResources() = 0;
+    virtual OpenSeqHandle*& sSeqDataTable() = 0;
+    virtual __int16& sSeqsPlaying_count_word() = 0;
+    virtual SoundBlockInfo*& sLastLoadedSoundBlockInfo() = 0;
+    virtual __int16& sSFXPitchVariationEnabled() = 0;
+    virtual short& sNeedToHashSeqNames() = 0;
+    virtual SoundBlockInfo& sMonkVh_Vb() = 0;
+    virtual int MidiTableSize() = 0;
+};
+
+EXPORT IMidiVars* GetMidiVars();
+EXPORT void SetMidiApiVars(IMidiVars* pVars);
+
 using TReclaimMemoryFn = void(CC*)(unsigned int);
 using TLoadResourceFileFn = signed __int16(CC*)(const char*, Camera*);
 using TGetLoadedResourceFn = BYTE * *(CC*)(DWORD, DWORD, unsigned __int16, unsigned __int16);
@@ -20,12 +43,8 @@ EXPORT void SND_StopAll_SetCallBack(TSNDStopAll cb);
 // So AO can redirect SND_Restart_4CB0E0 to its own func when called from SYS_ funcs
 EXPORT void SND_Restart_SetCallBack(TSNDRestart cb);
 
-EXPORT SoundBlockInfo* GetLastLoadedSoundBlockInfo();
-EXPORT void SetLastLoadedSoundBlockInfo(SoundBlockInfo* pInfo);
 
-EXPORT SoundBlockInfo& GetMonkVb();
-
-EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, int tableSize, const char* bsqFileName, TReclaimMemoryFn pReclaimMemoryFn, TLoadResourceFileFn pLoadResourceFileFn, TGetLoadedResourceFn pGetLoadedResourceFn);
+EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const char* bsqFileName, TReclaimMemoryFn pReclaimMemoryFn, TLoadResourceFileFn pLoadResourceFileFn, TGetLoadedResourceFn pGetLoadedResourceFn);
 
 EXPORT void SND_Stop_All_Seqs_4CA850();
 
