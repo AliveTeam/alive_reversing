@@ -50,16 +50,11 @@ EXPORT void CC SsUtAllKeyOff_49EDE0(int mode)
 
 VabBodyRecord* IterateVBRecords(VabBodyRecord* ret, int i_3)
 {
-    if (i_3 - 1 >= 0)
+    for (int i = 0; i < i_3; i++)
     {
-        int remainder_counter_ = i_3;
-        do
-        {
-            --remainder_counter_;
-            ret = (VabBodyRecord*)((char*)ret
-                + ret->field_0_length_or_duration
-                + 8);
-        } while (remainder_counter_);
+        ret = (VabBodyRecord*)((char*)ret
+            + ret->field_0_length_or_duration
+            + 8);
     }
     return ret;
 }
@@ -104,7 +99,7 @@ EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, __int16 vabId)
                 v10 = IterateVBRecords(pVabBody, i);
             }
 
-            const auto unused_field = v10->field_4_unused >= 0 ? 0 : 4;
+            const BYTE unused_field = v10->field_4_unused != 0 ? 0 : 4;
             for (int prog = 0; prog < 128; prog++)
             {
                 for (int tone = 0; tone < 16; tone++)
@@ -112,13 +107,11 @@ EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, __int16 vabId)
                     auto pVag = &GetConvertedVagTable().table[vabId][prog][tone];
                     if (pVag->field_10_vag == i)
                     {
-                        pVag->field_C = static_cast<BYTE>(unused_field);
-                        if (!(unused_field & 4) && !pVag->field_0_adsr_attack)
+                        pVag->field_C = unused_field;
+
+                        if (!(unused_field & 4) && !pVag->field_0_adsr_attack && pVag->field_6_adsr_release)
                         {
-                            if (pVag->field_6_adsr_release)
-                            {
-                                pVag->field_6_adsr_release = 0;
-                            }
+                            pVag->field_6_adsr_release = 0;
                         }
                     }
                 }
