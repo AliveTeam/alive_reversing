@@ -164,7 +164,14 @@ EXPORT void CC SND_Reset_476BA0()
 
 EXPORT void CC SsUtAllKeyOff_49EDE0(int mode)
 {
+    AE_IMPLEMENTED();
     SsUtAllKeyOff_4FDFE0(mode);
+}
+
+EXPORT void CC SND_Stop_All_Seqs_4774D0()
+{
+    AE_IMPLEMENTED();
+    SND_Stop_All_Seqs_4CA850();
 }
 
 VabBodyRecord* IterateVBRecords(VabBodyRecord* ret, int i_3)
@@ -475,8 +482,6 @@ EXPORT void CC SND_SEQ_SetVol_477970(SeqId idx, __int16 volLeft, __int16 volRigh
 
 EXPORT void CC SND_StopAll_4762D0()
 {
-    AE_IMPLEMENTED();
-
     MusicController::EnableMusic_443900(0);
 
     if (sBackgroundMusic_seq_id_4CFFF8 >= 0)
@@ -485,8 +490,7 @@ EXPORT void CC SND_StopAll_4762D0()
     }
 
     SND_Reset_Ambiance_4765E0();
-    //SND_Stop_All_Seqs_4774D0();
-    SND_Stop_All_Seqs_4CA850();
+    SND_Stop_All_Seqs_4774D0();
 
     for (int i=0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {
