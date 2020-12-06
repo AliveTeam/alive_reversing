@@ -16,6 +16,12 @@ class MusicController : public BaseGameObject
 public:
     EXPORT static __int16 CC Create_4436C0();
 
+    static void CC SetBaseTimeStamp();
+
+    static void CC UpdateMusicTime();
+
+    static int GetMusicTime();
+
     enum class MusicTypes : __int16
     {
         eTypeNull = -1,
@@ -66,7 +72,7 @@ public:
 
     static EXPORT int CC OnRootCounter_4437D0();
 
-    EXPORT void sub_443460(MusicTypes a2, BaseGameObject* a3, __int16 a4, __int16 a5);
+    EXPORT void PlayMusic_443460(MusicTypes a2, BaseGameObject* a3, __int16 a4, __int16 a5);
 
     EXPORT void UpdateMusic_442C20();
 
@@ -79,7 +85,7 @@ public:
     __int16 field_14;
     __int16 field_16_bScreenChanged;
     LevelIds field_18_level;
-    __int16 field_1A;
+    __int16 field_1A_pad;
     BaseGameObject* field_1C_pObj;
     __int16 field_20;
     __int16 field_22;
