@@ -2,6 +2,7 @@
 
 #include "FunctionFwd.hpp"
 #include "Sound/Sound.hpp"
+#include "Io.hpp"
 
 struct ProgAtr
 {
@@ -77,11 +78,117 @@ struct SoundEntryTable
 };
 ALIVE_ASSERT_SIZEOF(SoundEntryTable, 36864);
 
+struct VabUnknown
+{
+    char field_0[4][128];
+};
+ALIVE_ASSERT_SIZEOF(VabUnknown, 512);
 
-EXPORT VabHeader* GetVabHeaders();
-EXPORT BYTE* GetVagCounts();
-EXPORT ConvertedVagTable& GetConvertedVagTable();
-EXPORT SoundEntryTable& GetSoundEntryTable();
+const int kNumChannels = 24;
+
+// Only exposed for SND_PlayEx_4EF740!
+struct MIDI_ADSR_State
+{
+    unsigned __int8 field_0_seq_idx;
+    unsigned __int8 field_1_program;
+    unsigned __int8 field_2_note_byte1;
+    char field_3_state;
+    unsigned __int16 field_4_attack;
+    unsigned __int16 field_6_sustain;
+    unsigned __int16 field_8_decay;
+    unsigned __int16 field_A_release;
+    unsigned __int16 field_C;
+    unsigned __int8 field_E_ref_count;
+    char field_F_pad;
+};
+ALIVE_ASSERT_SIZEOF(MIDI_ADSR_State, 0x10);
+
+struct MIDI_Channel
+{
+    int field_0_sound_buffer_field_4;
+    int field_4_priority;
+    int field_8_left_vol;
+    int field_C_vol; // pan vol?
+    float field_10_freq;
+    int field_14_time;
+    int field_18_rightVol;
+    MIDI_ADSR_State field_1C_adsr;
+};
+ALIVE_ASSERT_SIZEOF(MIDI_Channel, 0x2C);
+
+struct MidiChannels
+{
+    MIDI_Channel channels[kNumChannels];
+};
+ALIVE_ASSERT_SIZEOF(MidiChannels, 1056);
+
+struct MIDI_ProgramVolume
+{
+    char field_0_program;
+    char field_1_left_vol;
+    char field_2_right_vol;
+};
+ALIVE_ASSERT_SIZEOF(MIDI_ProgramVolume, 3);
+
+struct MIDI_SeqSong
+{
+    BYTE* field_0_seq_data;
+    unsigned int field_4_time;
+    int field_8_playTimeStamp;
+    int field_C_volume;
+    int field_10_quaterNoteRes;
+    int field_14_tempo;
+    int field_18_repeatCount;
+    BYTE* field_1C_pSeqData;
+    void* field_20_fn_ptr; // read but never written
+    BYTE* field_24_loop_start;
+    __int16 field_seq_idx;
+    unsigned char field_2A_running_status;
+    char field_2B_repeatMode; // TODO: Check
+    char field_2C_loop_count;
+    char field_2D_pad;
+    __int16 field_2E_seqAccessNum; // never written in a meaningful way
+    char field_30_timeSignatureBars;
+    char field_31_timeSignatureBars2; // bug: maybe they should have assigned beats instead? but never read anyway
+    MIDI_ProgramVolume field_32_progVols[16];
+    char field_62_pad;
+    char field_63_pad;
+};
+ALIVE_ASSERT_SIZEOF(MIDI_SeqSong, 100);
+
+struct MidiSeqSongsTable
+{
+    MIDI_SeqSong table[32];
+};
+
+ALIVE_ASSERT_SIZEOF(MidiSeqSongsTable, 3200);
+
+class IPsxSpuApiVars
+{
+public:
+    virtual ~IPsxSpuApiVars() {}
+    virtual __int16& sGlobalVolumeLevel_right() = 0;
+    virtual __int16& sGlobalVolumeLevel_left() = 0;
+    virtual VabUnknown& s512_byte() = 0;
+    virtual BYTE* sVagCounts() = 0;
+    virtual BYTE* sProgCounts() = 0;
+    virtual VabHeader** spVabHeaders() = 0;
+    virtual ConvertedVagTable& sConvertedVagTable() = 0;
+    virtual SoundEntryTable& sSoundEntryTable16() = 0;
+    virtual MidiChannels& sMidi_Channels() = 0;
+    virtual MidiSeqSongsTable& sMidiSeqSongs() = 0;
+    virtual int& sMidi_Inited_dword() = 0;
+    virtual unsigned int& sMidiTime() = 0;
+    virtual BOOL& sSoundDatIsNull() = 0;
+    virtual char& sbDisableSeqs() = 0;
+    virtual DWORD& sLastTime() = 0;
+    virtual DWORD& sMidi_WaitUntil() = 0;
+    virtual IO_FileHandleType& sSoundDatFileHandle() = 0;
+    virtual BYTE& sControllerValue() = 0;
+};
+
+EXPORT void SetSpuApiVars(IPsxSpuApiVars* pVars);
+EXPORT IPsxSpuApiVars* GetSpuApiVars();
 
 EXPORT void CC SsVabTransBody_4FC840(VabBodyRecord* pVabBody, __int16 vabId);
 
@@ -120,36 +227,6 @@ using TVSyncCallBackFn = void(CC *)();
 EXPORT void CC VSyncCallback_4F8C40(TVSyncCallBackFn callBack);
 EXPORT void CC SND_CallBack_4020A4(); // TODO: Naming??
 EXPORT void CC SsSeqCalledTbyT_4FDC80();
-
-// Only exposed for SND_PlayEx_4EF740!
-struct MIDI_ADSR_State
-{
-    unsigned __int8 field_0_seq_idx;
-    unsigned __int8 field_1_program;
-    unsigned __int8 field_2_note_byte1;
-    char field_3_state;
-    unsigned __int16 field_4_attack;
-    unsigned __int16 field_6_sustain;
-    unsigned __int16 field_8_decay;
-    unsigned __int16 field_A_release;
-    unsigned __int16 field_C;
-    unsigned __int8 field_E_ref_count;
-    char field_F_pad;
-};
-ALIVE_ASSERT_SIZEOF(MIDI_ADSR_State, 0x10);
-
-struct MIDI_Channel
-{
-    int field_0_sound_buffer_field_4;
-    int field_4_priority;
-    int field_8_left_vol;
-    int field_C_vol; // pan vol?
-    float field_10_freq;
-    int field_14_time;
-    int field_18_rightVol;
-    MIDI_ADSR_State field_1C_adsr;
-};
-ALIVE_ASSERT_SIZEOF(MIDI_Channel, 0x2C);
 
 // Most likely PC specific extensions that have been inlined
 void SsExt_CloseAllVabs();
