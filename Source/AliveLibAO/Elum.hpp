@@ -133,7 +133,9 @@ public:
 
     EXPORT __int16 VTakeDamage_411020(BaseGameObject* pFrom);
 
-    EXPORT void Vsub_412700();
+    virtual void VOnTrapDoorOpen() override;
+
+    EXPORT void VOnTrapDoorOpen_412700();
 
     // TODO: Add new virtuals
     EXPORT void Vsub_411260();

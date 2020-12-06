@@ -173,7 +173,7 @@ EXPORT BaseGameObject *Elum::dtor_410BC0()
     }
 
     gElum_507680 = nullptr;
-    Vsub_412700();
+    VOnTrapDoorOpen_412700();
 
     ResourceManager::FreeResource_455550(
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAneprmntResID, 0, 0)
@@ -316,6 +316,11 @@ __int16 Elum::VTakeDamage_411020(BaseGameObject* pFrom)
     return 1;
 }
 
+void Elum::VOnTrapDoorOpen()
+{
+    VOnTrapDoorOpen_412700();
+}
+
 void Elum::ToKnockback()
 {
     field_B4_velx = FP_FromInteger(0);
@@ -329,7 +334,7 @@ void Elum::ToKnockback()
     Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 95, -200, this);
 }
 
-void Elum::Vsub_412700()
+void Elum::VOnTrapDoorOpen_412700()
 {
     if (field_F8_pLiftPoint)
     {
