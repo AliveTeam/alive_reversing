@@ -92,8 +92,8 @@ public:
     SeqId field_38_music_seq;
     MusicTypes field_3A_type;
     int field_3C_music_seq_duration;
-    int field_40;
-    __int16 field_44_bUnPause;
+    int field_40_started_time;
+    __int16 field_44_bTypeChanged;
     __int16 field_46_restart_track;
     __int16 field_48_vol_state;
     __int16 field_4A_starting_volume;
