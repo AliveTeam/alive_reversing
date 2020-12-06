@@ -296,7 +296,7 @@ EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, __int16 vabId)
                 v10 = IterateVBRecords(pVabBody, i);
             }
 
-            const BYTE unused_field = v10->field_4_unused != 0 ? 0 : 4;
+            const BYTE unused_field = v10->field_4_unused >= 0 ? 0 : 4;
             for (int prog = 0; prog < 128; prog++)
             {
                 for (int tone = 0; tone < 16; tone++)
