@@ -349,6 +349,7 @@ EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, __int16 vabId)
 EXPORT signed __int16 CC SND_VAB_Load_476CB0(SoundBlockInfo* pSoundBlockInfo, __int16 vabId)
 {
     SetSpuApiVars(&sAoSpuVars);
+    SetMidiApiVars(&sAoMidiVars);
 
     // Fail if no file name
     if (!pSoundBlockInfo->field_0_vab_header_name)
@@ -410,7 +411,8 @@ EXPORT signed __int16 CC SND_VAB_Load_476CB0(SoundBlockInfo* pSoundBlockInfo, __
 
 EXPORT void CC SND_Load_VABS_477040(SoundBlockInfo* pSoundBlockInfo, int reverb)
 {
-    AE_IMPLEMENTED();
+    SetSpuApiVars(&sAoSpuVars);
+    SetMidiApiVars(&sAoMidiVars);
 
     SoundBlockInfo* pSoundBlockInfoIter = pSoundBlockInfo;
     sSnd_ReloadAbeResources_9F1DC4 = FALSE;
