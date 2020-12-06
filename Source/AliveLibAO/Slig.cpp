@@ -2116,7 +2116,7 @@ void Slig::OperateLift()
 
         const auto camPos = gMap_507BA8.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos);
         if ((camPos != CameraPos::eCamCurrent_0 && camPos != CameraPos::eCamInvalid_m1)
-            && MusicController::sub_443840(0, 0, 0) <= MusicController::MusicTypes::eChase_4)
+            && MusicController::GetAbmientAndMusicInfo_443840(nullptr, nullptr, nullptr) <= MusicController::MusicTypes::eChase_4)
         {
             MusicController::sub_443810(MusicController::MusicTypes::eChase_4, this, 0, 0);
         }
@@ -2632,7 +2632,7 @@ void Slig::State_2_Walking_469130()
         field_B0_path_number,
         field_A8_xpos,
         field_AC_ypos) >= CameraPos::eCamCurrent_0
-        && MusicController::sub_443840(0, 0, 0) <= MusicController::MusicTypes::eChase_4)
+        && MusicController::GetAbmientAndMusicInfo_443840(nullptr, nullptr, nullptr) <= MusicController::MusicTypes::eChase_4)
     {
         MusicController::sub_443810(MusicController::MusicTypes::eChase_4, this, 0, 0);
     }
@@ -2790,7 +2790,7 @@ void Slig::State_4_Running_469690()
         field_B0_path_number,
         field_A8_xpos,
         field_AC_ypos) >= CameraPos::eCamCurrent_0
-        && MusicController::sub_443840(0, 0, 0) != MusicController::MusicTypes::ePossessed_6)
+        && MusicController::GetAbmientAndMusicInfo_443840(nullptr, nullptr, nullptr) != MusicController::MusicTypes::ePossessed_6)
     {
         MusicController::sub_443810(MusicController::MusicTypes::eSlogChase_5, this, 0, 0);
     }
@@ -2882,7 +2882,7 @@ void Slig::State_5_TurnAroundStanding_469C80()
         field_B0_path_number,
         field_A8_xpos,
         field_AC_ypos) >= CameraPos::eCamCurrent_0
-        && MusicController::sub_443840(0, 0, 0) <= MusicController::MusicTypes::eChase_4)
+        && MusicController::GetAbmientAndMusicInfo_443840(nullptr, nullptr, nullptr) <= MusicController::MusicTypes::eChase_4)
     {
         MusicController::sub_443810(MusicController::MusicTypes::eChase_4, this, 0, 0);
     }

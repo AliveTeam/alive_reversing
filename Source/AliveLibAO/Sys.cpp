@@ -16,6 +16,7 @@ void Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, int nShowCmd)
     sInstance_9F771C = hInstance;
     sCmdShow_9F772C = nShowCmd;
     sCommandLine_9F7718 = lpCmdLine;
+    Sys_Main_Common();
 }
 
 EXPORT LPSTR CC Sys_GetCommandLine_48E920()
