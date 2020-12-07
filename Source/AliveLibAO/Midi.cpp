@@ -111,6 +111,9 @@ ALIVE_VAR(1, 0xA89190, char, sbDisableSeqs_A89190, 0);
 ALIVE_VAR(1, 0x4E8FD8, DWORD, sLastTime_4E8FD8, 0xFFFFFFFF);
 ALIVE_VAR(1, 0xA8919C, BYTE, sControllerValue_A8919C, 0);
 
+EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx);
+EXPORT void CC SsUtKeyOffV_49EE50(__int16 idx);
+
 class AOPsxSpuApiVars : public IPsxSpuApiVars
 {
 public:
@@ -204,6 +207,16 @@ public:
     virtual BYTE& sControllerValue() override
     {
         return sControllerValue_A8919C;
+    }
+
+    virtual void MIDI_ParseMidiMessage(int idx) override
+    {
+        MIDI_ParseMidiMessage_49DD30(idx);
+    }
+    
+    virtual void SsUtKeyOffV(int idx) override
+    {
+        SsUtKeyOffV_49EE50(static_cast<short>(idx));
     }
 private:
     BOOL mSoundDatIsNull = FALSE; // Pretend we have sounds dat opened so AE funcs work
@@ -321,10 +334,10 @@ EXPORT int CC MIDI_PlayerPlayMidiNote_49DAD0(int vabId, int program, int note, i
     return MIDI_PlayerPlayMidiNote_4FCE80(vabId, program, note, leftVol, rightVol, volume);
 }
 
-EXPORT int CC SsUtKeyOffV_493570(int /*idx*/)
+EXPORT int CC SND_Stop_Sample_At_Idx_493570(int idx)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    AE_IMPLEMENTED();
+    return SND_Stop_Sample_At_Idx_4EFA90(idx);
 }
 
 // NOTE!!! not the same as AE
@@ -337,7 +350,7 @@ EXPORT void CC SsUtKeyOffV_49EE50(__int16 idx)
         if (adsr_state == 4)
         {
             pChannel->field_1C_adsr.field_3_state = 0;
-            SsUtKeyOffV_493570(pChannel->field_0_sound_buffer_field_4);
+            SND_Stop_Sample_At_Idx_493570(pChannel->field_0_sound_buffer_field_4);
         }
     }
     else
@@ -847,8 +860,7 @@ EXPORT void CC SND_Init_476E40()
     GetSoundAPI().SND_Load = SND_Load_492F40;
     GetSoundAPI().SND_PlayEx = SND_PlayEx_493040;
     GetSoundAPI().SND_Get_Buffer_Status = SND_Get_Buffer_Status_491D40;
-    // SND_Stop_Sample_At_Idx
-    //GetSoundAPI().SND_Stop_Sample_At_Idx = nullptr;
+    GetSoundAPI().SND_Stop_Sample_At_Idx = SND_Stop_Sample_At_Idx_493570;
     GetSoundAPI().SND_Buffer_Set_Frequency2 = SND_Buffer_Set_Frequency_493820;
 
     // SND_Buffer_Set_Frequency1 SND_Buffer_Set_Frequency_493790

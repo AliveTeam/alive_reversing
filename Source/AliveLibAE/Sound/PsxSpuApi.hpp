@@ -185,6 +185,8 @@ public:
     virtual DWORD& sMidi_WaitUntil() = 0;
     virtual IO_FileHandleType& sSoundDatFileHandle() = 0;
     virtual BYTE& sControllerValue() = 0;
+    virtual void MIDI_ParseMidiMessage(int idx) = 0;
+    virtual void SsUtKeyOffV(int idx) = 0;
 };
 
 EXPORT void SetSpuApiVars(IPsxSpuApiVars* pVars);
