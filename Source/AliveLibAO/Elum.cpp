@@ -2800,7 +2800,7 @@ void Elum::RunJumpMidAndHopMid(MidType midType)
 
     if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), field_B4_velx))
     {
-        ToKnockback();
+        RunSlideStopKnockback();
     }
     else
     {
@@ -2812,8 +2812,8 @@ void Elum::RunJumpMidAndHopMid(MidType midType)
         FP hitX = {};
         FP hitY = {};
 
-        const FP velY = midType == MidType::eRunJumpMid ? FP_FromDouble(0.9) : FP_FromDouble(0.8);
-        const FP unknown_field = midType == MidType::eRunJumpMid ? FP_FromDouble(2.15) : FP_FromDouble(1.1);
+        const FP velY = midType == MidType::eRunJumpMid ? FP_FromDouble(0.8) : FP_FromDouble(0.9);
+        const FP unknown_field = midType == MidType::eRunJumpMid ? FP_FromDouble(1.1) : FP_FromDouble(2.15);
 
         if (InAirCollision_4019C0(&field_F4_pLine, &hitX, &hitY, velY))
         {
@@ -2824,15 +2824,17 @@ void Elum::RunJumpMidAndHopMid(MidType midType)
             case 32:
             case 36:
                 Elum_SFX_416E10(ElumSounds::eHitGroundSoft_4, 0);
-                field_B4_velx = FP_FromInteger(0);
 
                 switch (midType)
                 {
                 case MidType::eRunJumpMid:
                     field_FC_current_motion = eElumStates::State_35_RunJumpLand_415580;
+                    MapFollowMe_401D30(TRUE);
                     break;
                     
                 case MidType::eHopMid:
+                    field_B8_vely = FP_FromInteger(0);
+                    field_B4_velx = FP_FromInteger(0);
                     field_FC_current_motion = eElumStates::State_32_HopLand_415140;
                     break;
 
@@ -2840,7 +2842,6 @@ void Elum::RunJumpMidAndHopMid(MidType midType)
                     break;
                 }
 
-                field_B8_vely = FP_FromInteger(0);
                 field_A8_xpos = hitX;
                 field_AC_ypos = hitY;
                 return;
