@@ -529,6 +529,7 @@ const char* AliveFont::SliceText_41C6C0(const char* text, int left, FP scale, in
         }
 
         xOff += static_cast<signed int>(field_34_font_context->field_8_atlas_array[atlasIdx].field_2_width * FP_GetDouble(scale)) + field_34_font_context->field_8_atlas_array->field_2_width;
+        text = strPtr;
     }
 
     return text;
