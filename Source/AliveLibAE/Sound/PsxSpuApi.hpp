@@ -185,6 +185,8 @@ public:
     virtual DWORD& sMidi_WaitUntil() = 0;
     virtual IO_FileHandleType& sSoundDatFileHandle() = 0;
     virtual BYTE& sControllerValue() = 0;
+    virtual void MIDI_ParseMidiMessage(int idx) = 0;
+    virtual void SsUtKeyOffV(int idx) = 0;
 };
 
 EXPORT void SetSpuApiVars(IPsxSpuApiVars* pVars);
@@ -229,6 +231,7 @@ EXPORT BYTE CC MIDI_ReadByte_4FD6B0(MIDI_SeqSong* pData);
 EXPORT void CC MIDI_SkipBytes_4FD6C0(MIDI_SeqSong* pData, int length);
 EXPORT void CC MIDI_SetTempo_4FDB80(__int16 idx, __int16 kZero, __int16 tempo);
 EXPORT int CC MIDI_PlayerPlayMidiNote_4FCE80(int vabId, int program, int note, int leftVol, int rightVol, int volume);
+EXPORT signed int CC MIDI_Allocate_Channel_4FCA50(int not_used, int priority);
 
 using TVSyncCallBackFn = void(CC *)();
 EXPORT void CC VSyncCallback_4F8C40(TVSyncCallBackFn callBack);

@@ -496,7 +496,7 @@ EXPORT void CC SND_Stop_Channels_Mask_4CA810(DWORD bitMask)
         if ((1 << i) & bitMask)
         {
             // Turn it off
-            SsUtKeyOffV_4FE010(static_cast<short>(i));
+            GetSpuApiVars()->SsUtKeyOffV(static_cast<short>(i));
         }
     }
 }

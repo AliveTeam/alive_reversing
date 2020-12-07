@@ -165,6 +165,16 @@ public:
     {
         return sControllerValue_BD1CFC;
     }
+
+    virtual void MIDI_ParseMidiMessage(int idx) override
+    {
+        MIDI_ParseMidiMessage_4FD100(idx);
+    }
+
+    virtual void SsUtKeyOffV(int idx) override
+    {
+        SsUtKeyOffV_4FE010(static_cast<short>(idx));
+    }
 };
 
 static AEPsxSpuApiVars gAeSpuVars;
@@ -766,7 +776,7 @@ EXPORT int CC MIDI_Stop_Existing_Single_Note_4FCFF0(int VabIdAndProgram, int not
             && pSub->field_1_program == (VabIdAndProgram & 127)
             && pSub->field_2_note_byte1 == ((note >> 8) & 127))
         {
-            SsUtKeyOffV_4FE010(i);
+            gSpuVars->SsUtKeyOffV(i);
             return 0;
         }
     }
@@ -948,7 +958,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
                         pAdsr->field_E_ref_count = v33;
                         if (!v33)
                         {
-                            SsUtKeyOffV_4FE010(v31);
+                            gSpuVars->SsUtKeyOffV(v31);
                             BYTE1(v16) = BYTE1(v42);
                             pAdsr->field_C = 0;
                         }
@@ -1019,7 +1029,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
                             pSubChan1->field_E_ref_count = refCount1;
                             if (!refCount1)
                             {
-                                SsUtKeyOffV_4FE010(i);
+                                gSpuVars->SsUtKeyOffV(i);
                                 BYTE1(v16) = BYTE1(v42);
                                 v18 = v43;
                                 pSubChan1->field_C = 0;
@@ -1273,7 +1283,7 @@ EXPORT void CC SsSeqStop_4FD9C0(__int16 idx)
         field_C = field_C >> 4;
         if (field_C == static_cast<unsigned int>(idx))
         {
-            SsUtKeyOffV_4FE010(static_cast<short>(i));
+            gSpuVars->SsUtKeyOffV(static_cast<short>(i));
             gSpuVars->sMidi_Channels().channels[i].field_1C_adsr.field_C = 0;
         }
     }
@@ -1351,7 +1361,7 @@ EXPORT void CC SsSeqCalledTbyT_4FDC80()
                 {
                     if (gSpuVars->sMidiSeqSongs().table[i].field_2B_repeatMode == 1)
                     {
-                        MIDI_ParseMidiMessage_4FD100(i);
+                        gSpuVars->MIDI_ParseMidiMessage(i);
                     }
                 }
             }
@@ -1382,7 +1392,7 @@ EXPORT void CC MIDI_ADSR_Update_4FDCE0()
             case 0:
                 if (timeDiff1 > 90000)
                 {
-                    SsUtKeyOffV_4FE010(static_cast<short>(i));
+                    gSpuVars->SsUtKeyOffV(static_cast<short>(i));
                 }
                 break;
             case 2:
@@ -1502,7 +1512,7 @@ EXPORT void CC SsUtAllKeyOff_4FDFE0(int)
     short idx = kNumChannels - 1;
     do
     {
-        SsUtKeyOffV_4FE010(idx--);
+        gSpuVars->SsUtKeyOffV(idx--);
     } while (idx >= 0);
 }
 

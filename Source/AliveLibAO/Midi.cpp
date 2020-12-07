@@ -111,6 +111,9 @@ ALIVE_VAR(1, 0xA89190, char, sbDisableSeqs_A89190, 0);
 ALIVE_VAR(1, 0x4E8FD8, DWORD, sLastTime_4E8FD8, 0xFFFFFFFF);
 ALIVE_VAR(1, 0xA8919C, BYTE, sControllerValue_A8919C, 0);
 
+EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx);
+EXPORT void CC SsUtKeyOffV_49EE50(__int16 idx);
+
 class AOPsxSpuApiVars : public IPsxSpuApiVars
 {
 public:
@@ -204,6 +207,16 @@ public:
     virtual BYTE& sControllerValue() override
     {
         return sControllerValue_A8919C;
+    }
+
+    virtual void MIDI_ParseMidiMessage(int idx) override
+    {
+        MIDI_ParseMidiMessage_49DD30(idx);
+    }
+    
+    virtual void SsUtKeyOffV(int idx) override
+    {
+        SsUtKeyOffV_49EE50(static_cast<short>(idx));
     }
 private:
     BOOL mSoundDatIsNull = FALSE; // Pretend we have sounds dat opened so AE funcs work
@@ -315,16 +328,197 @@ EXPORT void CC MIDI_SetTempo_49E8F0(__int16 idx, __int16 kZero, __int16 tempo)
     MIDI_SetTempo_4FDB80(idx, kZero, tempo);
 }
 
-EXPORT int CC MIDI_PlayerPlayMidiNote_49DAD0(int vabId, int program, int note, int leftVol, int rightVol, int volume)
+EXPORT signed int CC MIDI_Allocate_Channel_49D660(int not_used, int priority)
 {
     AE_IMPLEMENTED();
-    return MIDI_PlayerPlayMidiNote_4FCE80(vabId, program, note, leftVol, rightVol, volume);
+    return MIDI_Allocate_Channel_4FCA50(not_used, priority);
 }
 
-EXPORT int CC SsUtKeyOffV_493570(int /*idx*/)
+EXPORT int CC MIDI_PlayerPlayMidiNote_49DAD0(int vabId, int program, int note, int leftVolume, int rightVolume, int volume)
 {
-    NOT_IMPLEMENTED();
+    //AE_IMPLEMENTED();
+    //return MIDI_PlayerPlayMidiNote_4FCE80(vabId, program, note, leftVol, rightVol, volume);
+
+    auto vabId_ = vabId;
+    auto leftVolume_ = leftVolume;
+    auto v7 = ((program | (vabId << 8)) >> 8) & 0x1F;
+    auto noteKeyNumber = (note >> 8) & 0x7F;
+    //auto v9 = 0;
+    auto v32 = rightVolume;
+    auto usedChannelBits = 0;
+
+    if (sVagCounts_A9289C[v7])
+    {
+        for (int i = 0; i < 24; i++)
+        {
+            auto pAdsr = &sMidi_Channels_AC07C0.channels[i].field_1C_adsr;
+            if (!pAdsr->field_3_state
+                || pAdsr->field_0_seq_idx != v7
+                || pAdsr->field_1_program != ((program | (vabId << 8)) & 0x7F)
+                || pAdsr->field_2_note_byte1 != noteKeyNumber)
+            {
+                // No match
+            }
+            else
+            {
+                SsUtKeyOffV_49EE50(static_cast<short>(i));
+                break;
+            }
+        }
+    }
+
+    auto bLeftVolLessThanZero = leftVolume < 0;
+    if (!leftVolume)
+    {
+        if (!rightVolume)
+        {
+            return 0;
+        }
+        bLeftVolLessThanZero = 0;
+    }
+
+    if (bLeftVolLessThanZero || rightVolume < 0)
+    {
+        return 0;
+    }
+
+    auto volume_ = volume;
+    if (!volume)
+    {
+        return 0;
+    }
+
+    if (!sVagCounts_A9289C[vabId_])
+    {
+        return 0;
+    }
+
+    auto k16Counter = 16;
+    auto pVagOff = &sConvertedVagTable_A9B8A0.table[0][program + (vabId_ << 7)][0];
+    while (1)
+    {
+        if (!pVagOff->field_D_vol ||
+            pVagOff->field_8_min > noteKeyNumber ||
+            pVagOff->field_9_max < noteKeyNumber)
+        {
+
+        }
+        else
+        {
+            auto vag_vol = pVagOff->field_D_vol;
+            auto vag_num = pVagOff->field_10_vag;
+            auto panLeft = vag_vol * (unsigned __int16)sGlobalVolumeLevel_left_A8918C * volume_ * leftVolume_ >> 21;
+            auto panRight = vag_vol * (unsigned __int16)sGlobalVolumeLevel_right_A8918E * volume_ * v32 >> 21;
+            auto bPanLeftLessThanZero = panLeft < 0;
+            auto playFlags = ((unsigned int)pVagOff->field_C >> 2) & 1;
+
+            if (panLeft || panRight)
+            {
+                if (!panLeft)
+                {
+                    bPanLeftLessThanZero = 0;
+                }
+
+                if (!bPanLeftLessThanZero && panRight >= 0)
+                {
+                    if (((unsigned int)pVagOff->field_C >> 2) & 1)
+                    {
+                        if (panLeft > 90)
+                        {
+                            panLeft = 90;
+                        }
+                        if (panRight > 90)
+                        {
+                            panRight = 90;
+                        }
+                    }
+                    auto maxPan = panRight;
+                    if (panLeft >= panRight)
+                    {
+                        maxPan = panLeft;
+                    }
+                    
+                    auto midiChannel = MIDI_Allocate_Channel_49D660(maxPan, pVagOff->field_E_priority);
+                    auto midiChannel_ = midiChannel;
+                    if (midiChannel >= 0)
+                    {
+                        auto pChannel = &sMidi_Channels_AC07C0.channels[midiChannel];
+                        auto bUnknown = playFlags
+                            && (pVagOff->field_0_adsr_attack
+                                || pVagOff->field_2_adsr_sustain_level
+                                || pVagOff->field_4_adsr_decay != 16
+                                || pVagOff->field_6_adsr_release >= 33u);
+                        pChannel->field_C_vol = maxPan;
+                        if (bUnknown)
+                        {
+                            auto v23 = pVagOff->field_0_adsr_attack;
+                            pChannel->field_1C_adsr.field_3_state = 1;
+                            auto v24 = v23 * (127 - volume);
+                            auto v25 = pVagOff->field_4_adsr_decay;
+                            pChannel->field_1C_adsr.field_4_attack = static_cast<unsigned short>(v24 >> 6);
+                            pChannel->field_1C_adsr.field_6_sustain = pVagOff->field_2_adsr_sustain_level;
+                            v24 = pVagOff->field_6_adsr_release;
+                            pChannel->field_1C_adsr.field_8_decay = v25;
+                            pChannel->field_1C_adsr.field_A_release = (unsigned short)v24;
+                            if (pChannel->field_1C_adsr.field_4_attack)
+                            {
+                                panLeft = 2;
+                                maxPan = 2;
+                                v32 = 2;
+                                leftVolume_ = 2;
+                                panRight = 2;
+                            }
+                        }
+                        else if (playFlags)
+                        {
+                            pChannel->field_1C_adsr.field_3_state = -1;
+                        }
+                        else
+                        {
+                            pChannel->field_1C_adsr.field_3_state = -2;
+                        }
+                        auto priority = pVagOff->field_E_priority;
+                        pChannel->field_8_left_vol = maxPan;
+                        auto priority_ = priority;
+                        pChannel->field_4_priority = priority;
+                        auto midi_time = sMidiTime_A89194;
+                        pChannel->field_18_rightVol = playFlags;
+                        pChannel->field_14_time = midi_time;
+                        pChannel->field_1C_adsr.field_0_seq_idx = (BYTE)vabId;
+                        pChannel->field_1C_adsr.field_1_program = (BYTE)program;
+                        auto v29 = pVagOff->field_A_shift_cen;
+                        pChannel->field_1C_adsr.field_2_note_byte1 = BYTE1(note) & 0x7F;
+                        auto freq = pow(1.059463094359, (double)(note - v29) * 0.00390625);
+                        pChannel->field_10_freq = (float)freq;
+                        SND_PlayEx_493040(
+                            &sSoundEntryTable16_A928A0.table[vabId][vag_num],
+                            panLeft,
+                            panRight,
+                            (float)freq,
+                            pChannel,
+                            playFlags,
+                            priority_);
+                        volume_ = volume;
+                        usedChannelBits |= 1 << midiChannel_;
+                    }
+                }
+            }
+            noteKeyNumber = (note >> 8) & 0x7F;
+        }
+        ++pVagOff;
+        if (!--k16Counter)
+        {
+            return usedChannelBits;
+        }
+    }
     return 0;
+
+}
+
+EXPORT int CC SND_Stop_Sample_At_Idx_493570(int idx)
+{
+    AE_IMPLEMENTED();
+    return SND_Stop_Sample_At_Idx_4EFA90(idx);
 }
 
 // NOTE!!! not the same as AE
@@ -337,7 +531,7 @@ EXPORT void CC SsUtKeyOffV_49EE50(__int16 idx)
         if (adsr_state == 4)
         {
             pChannel->field_1C_adsr.field_3_state = 0;
-            SsUtKeyOffV_493570(pChannel->field_0_sound_buffer_field_4);
+            SND_Stop_Sample_At_Idx_493570(pChannel->field_0_sound_buffer_field_4);
         }
     }
     else
@@ -847,8 +1041,7 @@ EXPORT void CC SND_Init_476E40()
     GetSoundAPI().SND_Load = SND_Load_492F40;
     GetSoundAPI().SND_PlayEx = SND_PlayEx_493040;
     GetSoundAPI().SND_Get_Buffer_Status = SND_Get_Buffer_Status_491D40;
-    // SND_Stop_Sample_At_Idx
-    //GetSoundAPI().SND_Stop_Sample_At_Idx = nullptr;
+    GetSoundAPI().SND_Stop_Sample_At_Idx = SND_Stop_Sample_At_Idx_493570;
     GetSoundAPI().SND_Buffer_Set_Frequency2 = SND_Buffer_Set_Frequency_493820;
 
     // SND_Buffer_Set_Frequency1 SND_Buffer_Set_Frequency_493790
