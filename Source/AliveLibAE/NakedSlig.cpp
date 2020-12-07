@@ -1656,11 +1656,11 @@ void NakedSlig::M_Snoozing_9_41BD80()
     {
         if ((sGnFrame_5C1B84 / 25) & 1)
         {
-            Slig_SoundEffect_4BFFE0(SligSfx::eUnknown_5, this);
+            Slig_SoundEffect_4BFFE0(SligSfx::eSnooze1_5, this);
         }
         else
         {
-            Slig_SoundEffect_4BFFE0(SligSfx::eUnknown_4, this);
+            Slig_SoundEffect_4BFFE0(SligSfx::eSnooze2_4, this);
         }
 
         if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(

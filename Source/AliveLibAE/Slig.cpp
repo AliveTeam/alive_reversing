@@ -57,13 +57,14 @@ const SfxDefinition stru_5607E0[17] =
 
 void CC Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj)
 {
+    LOG_INFO((int)effect);
     const SfxDefinition* pEffect = &stru_5607E0[static_cast<int>(effect)];
     short vLeft = 0;
     short vRight = 0;
     if (Calc_Slig_Sound_Direction_4C01B0(pObj, 0, pEffect, &vLeft, &vRight))
     {
         short pitch = 0;
-        if (effect == SligSfx::eUnknown_9 || effect == SligSfx::eUnknown_10 || effect == SligSfx::eUnknown_11)
+        if (effect == SligSfx::ePropeller1_9 || effect == SligSfx::ePropeller2_10 || effect == SligSfx::ePropeller3_11)
         {
             FP sndDistance = FP_FromInteger(abs(Math_Distance_496EB0(0, 0, FP_GetExponent(pObj->field_C4_velx), FP_GetExponent(pObj->field_C8_vely))));
             if (sndDistance > FP_FromInteger(8))
@@ -989,7 +990,7 @@ void Slig::M_Walking_2_4B5BC0()
     {
         if (field_20_animation.field_92_current_frame == 5 || field_20_animation.field_92_current_frame == 14)
         {
-            Slig_SoundEffect_4BFFE0(SligSfx::eUnknown_2, this);
+            Slig_SoundEffect_4BFFE0(SligSfx::eWalkingStep_2, this);
 
             if (!field_126_checked_if_off_screen)
             {
@@ -1108,7 +1109,7 @@ void Slig::M_Running_4_4B6000()
         {
             if (field_20_animation.field_92_current_frame == 4 || field_20_animation.field_92_current_frame == 12)
             {
-                Slig_SoundEffect_4BFFE0(SligSfx::eUnknown_3, this);
+                Slig_SoundEffect_4BFFE0(SligSfx::eRunningStep_3, this);
 
                 if (field_126_checked_if_off_screen == 0)
                 {
@@ -1182,7 +1183,7 @@ void Slig::M_TurnAroundStanding_5_4B6390()
         MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eTension_4, this, 0, 0);
     }
 
-    Slig_SoundEffect_4BFFE0(SligSfx::eUnknown_1, this);
+    Slig_SoundEffect_4BFFE0(SligSfx::eStandingTurn_1, this);
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -1518,11 +1519,11 @@ void Slig::M_ReloadGun_12_4B5530()
 {
     if (field_20_animation.field_92_current_frame == 1)
     {
-        Slig_SoundEffect_4BFFE0(SligSfx::eUnknown_6, this);
+        Slig_SoundEffect_4BFFE0(SligSfx::eReload1_6, this);
     }
     else if (field_20_animation.field_92_current_frame == 4)
     {
-        Slig_SoundEffect_4BFFE0(SligSfx::eUnknown_7, this);
+        Slig_SoundEffect_4BFFE0(SligSfx::eReload2_7, this);
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -1541,9 +1542,9 @@ void Slig::M_ShootToStand_13_4B5580()
 
 void Slig::M_SteppingToStand_14_4B8480()
 {
-    if (!field_20_animation.field_92_current_frame)
+    if (field_20_animation.field_92_current_frame == 0)
     {
-        Slig_SoundEffect_4BFFE0(SligSfx::eUnknown_2, this);
+        Slig_SoundEffect_4BFFE0(SligSfx::eWalkingStep_2, this);
     }
 
     if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), field_C4_velx))
@@ -1761,7 +1762,7 @@ void Slig::M_Sleeping_32_4B89A0()
     {
         if (!(static_cast<int>(sGnFrame_5C1B84 - 20) % 60))
         {
-            Slig_SoundEffect_4BFFE0(SligSfx::eUnknown_5, this);
+            Slig_SoundEffect_4BFFE0(SligSfx::ePropeller3_11, this);
             if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
             {
                 auto pSnoozeParticle = ae_new<SnoozeParticle>();
@@ -1787,7 +1788,7 @@ void Slig::M_Sleeping_32_4B89A0()
     }
     else
     {
-        Slig_SoundEffect_4BFFE0(SligSfx::eUnknown_4, this);
+        Slig_SoundEffect_4BFFE0(SligSfx::eSnooze2_4, this);
 
         if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
             field_C2_lvl_number,
@@ -1838,12 +1839,12 @@ void Slig::M_SleepingToStand_33_4B8C50()
 
     if (field_20_animation.field_92_current_frame >= 2 && field_20_animation.field_92_current_frame <= 10)
     {
-        Slig_SoundEffect_4BFFE0(SligSfx::eUnknown_0, this);
+        Slig_SoundEffect_4BFFE0(SligSfx::eToStand_0, this);
     }
 
     if (field_20_animation.field_92_current_frame == 9)
     {
-        Slig_SoundEffect_4BFFE0(SligSfx::eUnknown_2, this);
+        Slig_SoundEffect_4BFFE0(SligSfx::eWalkingStep_2, this);
     }
 
     switch (field_20_animation.field_92_current_frame)
@@ -1955,12 +1956,12 @@ void Slig::M_KnockbackToStand_35_4B6A30()
 
     if (field_20_animation.field_92_current_frame >= 2 && field_20_animation.field_92_current_frame <= 10)
     {
-        Slig_SoundEffect_4BFFE0(SligSfx::eUnknown_0, this);
+        Slig_SoundEffect_4BFFE0(SligSfx::eToStand_0, this);
     }
 
     if (field_20_animation.field_92_current_frame == 9)
     {
-        Slig_SoundEffect_4BFFE0(SligSfx::eUnknown_2, this);
+        Slig_SoundEffect_4BFFE0(SligSfx::eWalkingStep_2, this);
     }
 
     FP gridSize = {};

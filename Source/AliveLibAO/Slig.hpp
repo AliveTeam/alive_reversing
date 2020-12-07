@@ -151,23 +151,26 @@ enum class SligSpeak : unsigned __int8
 
 enum class SligSfx : __int8
 {
-    eUnknown_0 = 0,
-    eUnknown_1 = 1,
-    eUnknown_2 = 2,
-    eUnknown_3 = 3,
-    eUnknown_4 = 4,
-    eUnknown_5 = 5,
-    eUnknown_6 = 6,
-    eUnknown_7 = 7,
-    eUnknown_8 = 8,
-    eUnknown_9 = 9,
-    eUnknown_10 = 10,
-    eUnknown_11 = 11,
-    eUnknown_12 = 12,
-    eUnknown_13 = 13,
-    eUnknown_14 = 14,
-    eUnknown_15 = 15,
-    eUnknown_16 = 16
+    eToStand_0 = 0,
+    eStandingTurn_1 = 1,
+    eWalkingStep_2 = 2,
+    eRunningStep_3 = 3,
+    eSnooze1_4 = 4,
+    eSnooze2_5 = 5,
+
+    // These are all unused
+    eHi_6 = 6,
+    eHereBoy_7 = 7,
+    eGetHim_8 = 8,
+    eStay_9 = 9,
+    eBullshit_10 = 10,
+    eLookOut_11 = 11,
+    eBullshit2_12 = 12,
+    eLaugh_13 = 13,
+    eFreeze_14 = 14,
+    eWhat_15 = 15,
+    eHelp_16 = 16,
+    eBlurgh_17 = 17,
 };
 
 // This is a left bound, right bound and a persist.
