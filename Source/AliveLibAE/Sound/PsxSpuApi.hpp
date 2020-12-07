@@ -223,6 +223,8 @@ EXPORT unsigned __int16 CC SsIsEos_4FDA80(__int16 idx, __int16 seqNum);
 EXPORT void CC SsSeqSetVol_4FDAC0(__int16 idx, __int16 volLeft, __int16 volRight);
 EXPORT void CC SsSeqPlay_4FD900(unsigned __int16 idx, char playMode, __int16 repeatCount);
 
+EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx);
+
 using TVSyncCallBackFn = void(CC *)();
 EXPORT void CC VSyncCallback_4F8C40(TVSyncCallBackFn callBack);
 EXPORT void CC SND_CallBack_4020A4(); // TODO: Naming??
