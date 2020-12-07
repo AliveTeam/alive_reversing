@@ -346,6 +346,12 @@ EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, __int16 vabId)
     }
 }
 
+EXPORT __int16 CC SsVabOpenHead_49CFB0(VabHeader* pVabHeader)
+{
+    AE_IMPLEMENTED();
+    return SsVabOpenHead_4FC620(pVabHeader);
+}
+
 EXPORT signed __int16 CC SND_VAB_Load_476CB0(SoundBlockInfo* pSoundBlockInfo, __int16 vabId)
 {
     SetSpuApiVars(&sAoSpuVars);
@@ -400,7 +406,7 @@ EXPORT signed __int16 CC SND_VAB_Load_476CB0(SoundBlockInfo* pSoundBlockInfo, __
     }
 
     sLvlArchive_4FFD60.Read_File_41BE40(pVabBodyFile, *ppVabBody);
-    pSoundBlockInfo->field_8_vab_id = SsVabOpenHead_4FC620(reinterpret_cast<VabHeader*>(pSoundBlockInfo->field_C_pVabHeader));
+    pSoundBlockInfo->field_8_vab_id = SsVabOpenHead_49CFB0(reinterpret_cast<VabHeader*>(pSoundBlockInfo->field_C_pVabHeader));
     SsVabTransBody_49D3E0(reinterpret_cast<VabBodyRecord*>(*ppVabBody), static_cast<short>(pSoundBlockInfo->field_8_vab_id));
     SsVabTransCompleted_4FE060(SS_WAIT_COMPLETED);
 
@@ -521,6 +527,10 @@ EXPORT void CC SND_Init_476E40()
     AE_IMPLEMENTED();
     SetSpuApiVars(&sAoSpuVars);
     SetMidiApiVars(&sAoMidiVars);
+//
+ //   GetSoundAPI().SND_Load = SND_Load_492F40;
+
+
     SND_Init_4CA1F0();
     SND_Restart_SetCallBack(SND_Restart_476340);
     SND_StopAll_SetCallBack(SND_StopAll_4762D0);
