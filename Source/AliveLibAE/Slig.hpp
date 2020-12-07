@@ -436,6 +436,16 @@ private:
 
     EXPORT __int16 MainMovement_4B4720();
 
+    enum class Direction
+    {
+        eLeft = 0,
+        eRight = 1
+    };
+    __int16 LeftRigtMovement(Direction direction);
+    __int16 PullLever();
+    __int16 ShootZ();
+    __int16 ShootOrShootZ();
+    __int16 GrabNearbyLift();
     EXPORT __int16 HandlePlayerControlled_4B7800();
 
     EXPORT __int16 GetNextMotionIncGameSpeak_4B5080(int input);
