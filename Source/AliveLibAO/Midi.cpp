@@ -401,103 +401,110 @@ EXPORT int CC MIDI_PlayerPlayMidiNote_49DAD0(int vabId, int program, int note, i
             pVagOff->field_8_min > noteKeyNumber ||
             pVagOff->field_9_max < noteKeyNumber)
         {
-            goto next_item;
-        }
 
-        auto vag_vol = pVagOff->field_D_vol;
-        auto vag_num = pVagOff->field_10_vag;
-        auto panLeft = vag_vol * (unsigned __int16)sGlobalVolumeLevel_left_A8918C * volume_ * leftVolume_ >> 21;
-        auto panRight = vag_vol * (unsigned __int16)sGlobalVolumeLevel_right_A8918E * volume_ * v32 >> 21;
-        auto bPanLeftLessThanZero = panLeft < 0;
-        auto playFlags = ((unsigned int)pVagOff->field_C >> 2) & 1;
-        if (panLeft)
-        {
-            goto LABEL_31;
         }
-
-        if (panRight)
+        else
         {
-            bPanLeftLessThanZero = 0;
-        LABEL_31:
-            if (!bPanLeftLessThanZero && panRight >= 0)
+            auto vag_vol = pVagOff->field_D_vol;
+            auto vag_num = pVagOff->field_10_vag;
+            auto panLeft = vag_vol * (unsigned __int16)sGlobalVolumeLevel_left_A8918C * volume_ * leftVolume_ >> 21;
+            auto panRight = vag_vol * (unsigned __int16)sGlobalVolumeLevel_right_A8918E * volume_ * v32 >> 21;
+            auto bPanLeftLessThanZero = panLeft < 0;
+            auto playFlags = ((unsigned int)pVagOff->field_C >> 2) & 1;
+
+            if (panLeft || panRight)
             {
-                if (((unsigned int)pVagOff->field_C >> 2) & 1)
+                if (!panLeft)
                 {
-                    if (panLeft > 90)
-                        panLeft = 90;
-                    if (panRight > 90)
-                        panRight = 90;
+                    bPanLeftLessThanZero = 0;
                 }
-                auto maxPan = panRight;
-                if (panLeft >= panRight)
-                    maxPan = panLeft;
-                auto midiChannel = MIDI_Allocate_Channel_49D660(maxPan, pVagOff->field_E_priority);
-                auto midiChannel_ = midiChannel;
-                if (midiChannel >= 0)
+
+                if (!bPanLeftLessThanZero && panRight >= 0)
                 {
-                    auto pChannel = &sMidi_Channels_AC07C0.channels[midiChannel];
-                    auto bUnknown = playFlags
-                        && (pVagOff->field_0_adsr_attack
-                            || pVagOff->field_2_adsr_sustain_level
-                            || pVagOff->field_4_adsr_decay != 16
-                            || pVagOff->field_6_adsr_release >= 33u);
-                    pChannel->field_C_vol = maxPan;
-                    if (bUnknown)
+                    if (((unsigned int)pVagOff->field_C >> 2) & 1)
                     {
-                        auto v23 = pVagOff->field_0_adsr_attack;
-                        pChannel->field_1C_adsr.field_3_state = 1;
-                        auto v24 = v23 * (127 - volume);
-                        auto v25 = pVagOff->field_4_adsr_decay;
-                        pChannel->field_1C_adsr.field_4_attack = static_cast<unsigned short>(v24 >> 6);
-                        pChannel->field_1C_adsr.field_6_sustain = pVagOff->field_2_adsr_sustain_level;
-                        v24 = pVagOff->field_6_adsr_release;
-                        pChannel->field_1C_adsr.field_8_decay = v25;
-                        pChannel->field_1C_adsr.field_A_release = (unsigned short)v24;
-                        if (pChannel->field_1C_adsr.field_4_attack)
+                        if (panLeft > 90)
                         {
-                            panLeft = 2;
-                            maxPan = 2;
-                            v32 = 2;
-                            leftVolume_ = 2;
-                            panRight = 2;
+                            panLeft = 90;
+                        }
+                        if (panRight > 90)
+                        {
+                            panRight = 90;
                         }
                     }
-                    else if (playFlags)
+                    auto maxPan = panRight;
+                    if (panLeft >= panRight)
                     {
-                        pChannel->field_1C_adsr.field_3_state = -1;
+                        maxPan = panLeft;
                     }
-                    else
+                    
+                    auto midiChannel = MIDI_Allocate_Channel_49D660(maxPan, pVagOff->field_E_priority);
+                    auto midiChannel_ = midiChannel;
+                    if (midiChannel >= 0)
                     {
-                        pChannel->field_1C_adsr.field_3_state = -2;
+                        auto pChannel = &sMidi_Channels_AC07C0.channels[midiChannel];
+                        auto bUnknown = playFlags
+                            && (pVagOff->field_0_adsr_attack
+                                || pVagOff->field_2_adsr_sustain_level
+                                || pVagOff->field_4_adsr_decay != 16
+                                || pVagOff->field_6_adsr_release >= 33u);
+                        pChannel->field_C_vol = maxPan;
+                        if (bUnknown)
+                        {
+                            auto v23 = pVagOff->field_0_adsr_attack;
+                            pChannel->field_1C_adsr.field_3_state = 1;
+                            auto v24 = v23 * (127 - volume);
+                            auto v25 = pVagOff->field_4_adsr_decay;
+                            pChannel->field_1C_adsr.field_4_attack = static_cast<unsigned short>(v24 >> 6);
+                            pChannel->field_1C_adsr.field_6_sustain = pVagOff->field_2_adsr_sustain_level;
+                            v24 = pVagOff->field_6_adsr_release;
+                            pChannel->field_1C_adsr.field_8_decay = v25;
+                            pChannel->field_1C_adsr.field_A_release = (unsigned short)v24;
+                            if (pChannel->field_1C_adsr.field_4_attack)
+                            {
+                                panLeft = 2;
+                                maxPan = 2;
+                                v32 = 2;
+                                leftVolume_ = 2;
+                                panRight = 2;
+                            }
+                        }
+                        else if (playFlags)
+                        {
+                            pChannel->field_1C_adsr.field_3_state = -1;
+                        }
+                        else
+                        {
+                            pChannel->field_1C_adsr.field_3_state = -2;
+                        }
+                        auto priority = pVagOff->field_E_priority;
+                        pChannel->field_8_left_vol = maxPan;
+                        auto priority_ = priority;
+                        pChannel->field_4_priority = priority;
+                        auto midi_time = sMidiTime_A89194;
+                        pChannel->field_18_rightVol = playFlags;
+                        pChannel->field_14_time = midi_time;
+                        pChannel->field_1C_adsr.field_0_seq_idx = (BYTE)vabId;
+                        pChannel->field_1C_adsr.field_1_program = (BYTE)program;
+                        auto v29 = pVagOff->field_A_shift_cen;
+                        pChannel->field_1C_adsr.field_2_note_byte1 = BYTE1(note) & 0x7F;
+                        auto freq = pow(1.059463094359, (double)(note - v29) * 0.00390625);
+                        pChannel->field_10_freq = (float)freq;
+                        SND_PlayEx_493040(
+                            &sSoundEntryTable16_A928A0.table[vabId][vag_num],
+                            panLeft,
+                            panRight,
+                            (float)freq,
+                            pChannel,
+                            playFlags,
+                            priority_);
+                        volume_ = volume;
+                        usedChannelBits |= 1 << midiChannel_;
                     }
-                    auto priority = pVagOff->field_E_priority;
-                    pChannel->field_8_left_vol = maxPan;
-                    auto priority_ = priority;
-                    pChannel->field_4_priority = priority;
-                    auto midi_time = sMidiTime_A89194;
-                    pChannel->field_18_rightVol = playFlags;
-                    pChannel->field_14_time = midi_time;
-                    pChannel->field_1C_adsr.field_0_seq_idx = (BYTE)vabId;
-                    pChannel->field_1C_adsr.field_1_program = (BYTE)program;
-                    auto v29 = pVagOff->field_A_shift_cen;
-                    pChannel->field_1C_adsr.field_2_note_byte1 = BYTE1(note) & 0x7F;
-                    auto freq = pow(1.059463094359, (double)(note - v29) * 0.00390625);
-                    pChannel->field_10_freq = (float)freq;
-                    SND_PlayEx_493040(
-                        &sSoundEntryTable16_A928A0.table[vabId][vag_num],
-                        panLeft,
-                        panRight,
-                        (float)freq,
-                        pChannel,
-                        playFlags,
-                        priority_);
-                    volume_ = volume;
-                    usedChannelBits |= 1 << midiChannel_;
                 }
             }
+            noteKeyNumber = (note >> 8) & 0x7F;
         }
-        noteKeyNumber = (note >> 8) & 0x7F;
-    next_item:
         ++pVagOff;
         if (!--k16Counter)
         {
