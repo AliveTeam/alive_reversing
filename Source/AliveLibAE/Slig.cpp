@@ -5654,7 +5654,6 @@ void Slig::PullLever()
 
     Slig_GameSpeak_SFX_4C04F0(SligSpeak::eWhat_9, 0, field_11E_pitch_min, this);
     field_106_current_motion = eSligMotions::M_SpeakWhat_29_4B54D0;
-    return;
 }
 
 __int16 Slig::ToShootZ()
