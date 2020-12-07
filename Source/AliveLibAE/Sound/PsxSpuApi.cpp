@@ -197,11 +197,9 @@ inline unsigned SwapBytes<unsigned>(unsigned value)
 
 EXPORT void CC MIDI_ADSR_Update_4FDCE0();
 EXPORT __int16 CC MIDI_PitchBend_4FDEC0(__int16 field4_match, __int16 pitch);
-EXPORT BYTE CC MIDI_ReadByte_4FD6B0(MIDI_SeqSong* pData);
 EXPORT void CC MIDI_Read_SEQ_Header_4FD870(BYTE** pSrc, SeqHeader* pDst, unsigned int size);
 EXPORT void CC MIDI_SetTempo_4FDB80(__int16 idx, __int16 kZero, __int16 tempo);
 EXPORT signed int CC MIDI_Set_Volume_4FDE80(MIDI_Channel* pData, int vol);
-EXPORT void CC MIDI_SkipBytes_4FD6C0(MIDI_SeqSong* pData, int length);
 EXPORT int CC MIDI_Stop_Existing_Single_Note_4FCFF0(int VabIdAndProgram, int note);
 EXPORT void CC MIDI_Wait_4FCE50();
 
@@ -824,7 +822,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
 
     MIDI_ADSR_State *pSubChan1; // esi
     unsigned __int8 refCount1; // dl
-    MIDI_ADSR_State *pSub1; // esi
+    MIDI_ADSR_State *pAdsr; // esi
     int v29; // edi
     __int16 v31 = 0; // bp
     unsigned __int8 v33; // cl
@@ -887,6 +885,8 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
                         {
                             tempoByte3 = MIDI_ReadByte_4FD6B0(pCtx) << 16;
                             tempoByte2 = MIDI_ReadByte_4FD6B0(pCtx) << 8;
+                            
+                            // TODO: This is too short
                             fullTempo = tempoByte3 | tempoByte2 | MIDI_ReadByte_4FD6B0(pCtx);
                             MIDI_SetTempo_4FDB80(static_cast<short>(idx), 0, static_cast<short>(fullTempo));
                         }
@@ -936,21 +936,21 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
             v32 = &gSpuVars->sMidiSeqSongs().table[idx2].field_32_progVols[v29];
             for (int i = 0; i < 24; i++)
             {
-                pSub1 = &gSpuVars->sMidi_Channels().channels[i].field_1C_adsr;
-                if (pSub1->field_3_state)
+                pAdsr = &gSpuVars->sMidi_Channels().channels[i].field_1C_adsr;
+                if (pAdsr->field_3_state)
                 {
-                    if (pSub1->field_0_seq_idx == gSpuVars->sMidiSeqSongs().table[idx].field_seq_idx
-                        && pSub1->field_1_program == v32->field_0_program // or field_2_not_inited ??
-                        && pSub1->field_C == v29 + 16 * idx
-                        && pSub1->field_2_note_byte1 == BYTE1(v16))
+                    if (pAdsr->field_0_seq_idx == gSpuVars->sMidiSeqSongs().table[idx].field_seq_idx
+                        && pAdsr->field_1_program == v32->field_0_program // or field_2_not_inited ??
+                        && pAdsr->field_C == v29 + 16 * idx
+                        && pAdsr->field_2_note_byte1 == BYTE1(v16))
                     {
-                        v33 = pSub1->field_E_ref_count - 1;
-                        pSub1->field_E_ref_count = v33;
+                        v33 = pAdsr->field_E_ref_count - 1;
+                        pAdsr->field_E_ref_count = v33;
                         if (!v33)
                         {
                             SsUtKeyOffV_4FE010(v31);
                             BYTE1(v16) = BYTE1(v42);
-                            pSub1->field_C = 0;
+                            pAdsr->field_C = 0;
                         }
                     }
                 }

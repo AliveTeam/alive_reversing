@@ -296,10 +296,293 @@ EXPORT int CC SND_Buffer_Set_Frequency_493820(int idx, float freq)
     return SND_Buffer_Set_Frequency_4EFC00(idx, freq);
 }
 
-EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
+// TODO: Check is 2nd one
+EXPORT int CC SND_Buffer_Set_Frequency_493790(int idx, float freq)
 {
     AE_IMPLEMENTED();
-    return MIDI_ParseMidiMessage_4FD100(idx);
+    return SND_Buffer_Set_Frequency_4EFC00(idx, freq);
+}
+
+EXPORT void CC SsSeqStop_49E6E0(short idx)
+{
+    AE_IMPLEMENTED();
+    SsSeqStop_4FD9C0(idx);
+}
+
+EXPORT void CC MIDI_SetTempo_49E8F0(__int16 idx, __int16 kZero, __int16 tempo)
+{
+    AE_IMPLEMENTED();
+    MIDI_SetTempo_4FDB80(idx, kZero, tempo);
+}
+
+EXPORT int CC MIDI_PlayerPlayMidiNote_49DAD0(int vabId, int program, int note, int leftVol, int rightVol, int volume)
+{
+    AE_IMPLEMENTED();
+    return MIDI_PlayerPlayMidiNote_4FCE80(vabId, program, note, leftVol, rightVol, volume);
+}
+
+EXPORT int CC SsUtKeyOffV_493570(int /*idx*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+// NOTE!!! not the same as AE
+EXPORT void CC SsUtKeyOffV_49EE50(__int16 idx)
+{
+    auto adsr_state = sMidi_Channels_AC07C0.channels[idx].field_1C_adsr.field_3_state;
+    auto pChannel = &sMidi_Channels_AC07C0.channels[idx];
+    if ((adsr_state <= 0 || adsr_state >= 4) && adsr_state != -1)
+    {
+        if (adsr_state == 4)
+        {
+            pChannel->field_1C_adsr.field_3_state = 0;
+            SsUtKeyOffV_493570(pChannel->field_0_sound_buffer_field_4);
+        }
+    }
+    else
+    {
+        pChannel->field_1C_adsr.field_3_state = 4;
+        pChannel->field_C_vol = pChannel->field_8_left_vol;
+        if (!pChannel->field_1C_adsr.field_A_release)
+        {
+            pChannel->field_1C_adsr.field_A_release = 125;
+        }
+        pChannel->field_14_time = sMidiTime_A89194;
+    }
+}
+
+EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
+{
+    MIDI_SeqSong* pCtx = &sMidiSeqSongs_ABFB40.table[idx];
+    BYTE** ppSeqData = &pCtx->field_0_seq_data;
+    if (pCtx->field_4_time <= sMidiTime_A89194)
+    {
+        while (1)
+        {
+            BYTE* midiByte1 = *ppSeqData + 1;
+            const BYTE midiByte1_copy = **ppSeqData;
+            *ppSeqData = midiByte1;
+            BYTE midiByte1_copy_ = midiByte1_copy;
+            if (midiByte1_copy < 0xF0u)
+            {
+                BYTE v20 = 0;
+                if (midiByte1_copy >= 0x80u)
+                {
+                    v20 = *(*ppSeqData)++;
+                    pCtx->field_2A_running_status = midiByte1_copy;
+                }
+                else
+                {
+                    if (!pCtx->field_2A_running_status)
+                    {
+                        return 0;
+                    }
+                    v20 = midiByte1_copy;
+                    midiByte1_copy_ = pCtx->field_2A_running_status;
+                }
+
+                int v21 = 0;
+                v21 |= (WORD)(v20 << 8);
+                //LOBYTE(v21) = 0;
+                //HIBYTE(v21) = v20;
+
+                int v22 = midiByte1_copy_ | v21;
+                int cmd = midiByte1_copy_ & 0xF0;
+                if (cmd != 0xC0 && cmd != 0xD0)
+                {
+                    v22 |= (MIDI_ReadByte_4FD6B0(pCtx) << 16);
+                }
+
+                switch (cmd)
+                {
+                case 0x80u:                 // Note off
+                {
+                    int vab_id = (((pCtx->field_seq_idx << 8) | *(&sMidiSeqSongs_ABFB40.table[0].field_32_progVols[0].field_0_program
+                        + 2 * (v22 & 0xF)
+                        + (v22 & 0xF)
+                        + idx * 100)) >> 8) & 0x1F;
+                    if (sVagCounts_A9289C[vab_id])
+                    {
+                        for (short i = 0; i < 24; i++)
+                        {
+                             MIDI_ADSR_State* pAdsr = &sMidi_Channels_AC07C0.channels[i].field_1C_adsr;
+                             if (!pAdsr->field_3_state
+                                 || pAdsr->field_0_seq_idx != ((((pCtx->field_seq_idx << 8) | *(&sMidiSeqSongs_ABFB40.table[0].field_32_progVols[0].field_0_program + 2 * (v22 & 0xF) + (v22 & 0xF) + idx * 100)) >> 8) & 0x1F)
+                                 || pAdsr->field_1_program != (((pCtx->field_seq_idx << 8) | *(&sMidiSeqSongs_ABFB40.table[0].field_32_progVols[0].field_0_program + 2 * (v22 & 0xF) + (v22 & 0xF) + idx * 100)) & 0x7F)
+                                 || pAdsr->field_2_note_byte1 != (((signed int)v22 >> 8) & 0x7F))
+                             {
+                                 // not a match
+                             }
+                             else
+                             {
+                                 SsUtKeyOffV_49EE50(i);
+                                 break;
+                             }
+                        }
+                        goto next_time_stamp;
+                    }
+                    break;
+                }
+
+                case 0x90u:                 // note on
+                {
+                    auto note_vol = pCtx->field_C_volume;
+                    auto prog_num_ = v22 & 0xF;
+                    auto v27 = idx * 100 + 2 * prog_num_;
+                    auto r_vol = *(&sMidiSeqSongs_ABFB40.table[0].field_32_progVols[0].field_2_right_vol + prog_num_ + v27);
+                    MIDI_ProgramVolume* pProgVol = (MIDI_ProgramVolume*)((char*)sMidiSeqSongs_ABFB40.table[0].field_32_progVols + prog_num_ + v27);
+                    auto note = v22 & 0xFF00;
+                    auto program = pProgVol->field_0_program;
+                    auto l_vol = (signed __int16)((unsigned int)(pProgVol->field_1_left_vol * note_vol) >> 7);
+
+                    auto freq = v22 >> 16;
+                    MIDI_PlayerPlayMidiNote_49DAD0(pCtx->field_seq_idx, program, note, l_vol, r_vol, freq); // Note: inlined
+                    break;
+                }
+
+                case 0xB0u:                 // controller change
+                    switch ((cmd >> 8) & 0x7F)
+                    {
+                    case 6u:
+                    case 0x26u:
+                        switch (sControllerValue_A8919C)
+                        {
+                        case 20:    // set loop
+                            pCtx->field_24_loop_start = (BYTE*)ppSeqData; // ???
+                            pCtx->field_2C_loop_count = BYTE2(cmd);
+                            break;
+
+                        case 30:    // loop
+                            if (pCtx->field_24_loop_start)
+                            {
+                                if (pCtx->field_2C_loop_count > 0)
+                                {
+                                    *ppSeqData = pCtx->field_24_loop_start;
+                                    if (pCtx->field_2C_loop_count < 127)
+                                    {
+                                        sControllerValue_A8919C = 0;
+                                        pCtx->field_2C_loop_count--;
+                                        goto next_time_stamp;
+                                    }
+                                }
+                            }
+                            break;
+
+                        case 40:
+                        {
+                            auto pFn = pCtx->field_20_fn_ptr;
+                            if (pFn)
+                            {
+                                //((void(__cdecl*)(int, _DWORD, _DWORD))pFn)(idx, 0, BYTE2(cmd));
+                                sControllerValue_A8919C = 0;
+                                goto next_time_stamp;
+                            }
+                            break;
+                        }
+                        }
+                        sControllerValue_A8919C = 0;
+                        break;
+
+                    case 0x63u:
+                        sControllerValue_A8919C = BYTE2(cmd);
+                        goto next_time_stamp;
+
+                    default:
+                        goto next_time_stamp;
+                    }
+                    break;
+
+                case 0xC0u:                 // program change
+                    *(&sMidiSeqSongs_ABFB40.table[0].field_32_progVols[0].field_0_program
+                        + 2 * (v22 & 0xF)
+                        + (v22 & 0xF)
+                        + idx * 100) = BYTE1(v22);
+                    break;
+
+                case 0xE0u:                 // pitch bend
+                {
+                    const int prog_num = *(&sMidiSeqSongs_ABFB40.table[0].field_32_progVols[0].field_0_program
+                        + 2 * (v22 & 0xF)
+                        + (v22 & 0xF)
+                        + idx * 100);
+
+                    // Inlined MIDI_PitchBend
+                    const float freq_conv = (float)pow(1.059463094359, (double)(signed __int16)(((v22 >> 8) - 0x4000) >> 4) * 0.0078125);
+
+                    for (int i = 0; i < 24; i++)
+                    {
+                        MIDI_Channel* pChannel = &sMidi_Channels_AC07C0.channels[i];
+                        if (pChannel->field_1C_adsr.field_1_program == prog_num)
+                        {
+                            const float freq_1 = freq_conv * pChannel->field_10_freq;
+                            SND_Buffer_Set_Frequency_493790(i, freq_1);
+                        }
+                    }
+                    break;
+                }
+
+                default:
+                    break;
+                }
+            }
+            else if (midiByte1_copy == 0xF0 || midiByte1_copy == 0xF7)
+            {
+                const int lenToSkip = MIDI_Read_Var_Len_4FD0D0(pCtx);
+                MIDI_SkipBytes_4FD6C0(pCtx, lenToSkip);
+            }
+            else if (midiByte1_copy == 0xFF)  // Sysex len
+            {
+                BYTE metaEvent =  MIDI_ReadByte_4FD6B0(pCtx);
+                if (metaEvent == 0x2F)               // End of track
+                {
+                    if (pCtx->field_18_repeatCount)
+                    {
+                        pCtx->field_18_repeatCount--;
+
+                        if (!pCtx->field_18_repeatCount)
+                        {
+                            SsSeqStop_49E6E0(static_cast<short>(idx)); // Note: inlined 
+                            return 1;
+                        }
+                    }
+                    // Reset to start
+                    pCtx->field_0_seq_data = pCtx->field_1C_pSeqData;
+                }
+                else
+                {
+                    const int tempoChange = MIDI_Read_Var_Len_4FD0D0(pCtx);
+                    if (tempoChange)
+                    {
+                        if (metaEvent == 0x51)       // Tempo in microseconds per quarter note (24-bit value)
+                        {
+                            const int tempoByte3 = MIDI_ReadByte_4FD6B0(pCtx) << 16;
+                            const int tempoByte2 = MIDI_ReadByte_4FD6B0(pCtx) << 8;
+                            // TODO: Argument is truncated
+                            const int fullTempo = tempoByte3 | tempoByte2 | MIDI_ReadByte_4FD6B0(pCtx);
+                            MIDI_SetTempo_49E8F0(static_cast<short>(idx), 0, static_cast<short>(fullTempo));
+                        }
+                        else
+                        {
+                            MIDI_SkipBytes_4FD6C0(pCtx, tempoChange);
+                        }
+                    }
+                }
+            }
+
+        next_time_stamp:
+            const int timeStamp = MIDI_Read_Var_Len_4FD0D0(pCtx);
+            if (timeStamp)
+            {
+                pCtx->field_4_time = timeStamp * pCtx->field_14_tempo / 1000 + pCtx->field_4_time;
+                if (pCtx->field_4_time > sMidiTime_A89194)
+                {
+                    return 1;
+                }
+            }
+        }
+    }
+    return 1;
 }
 
 EXPORT void CC SND_Shutdown_476EC0()
