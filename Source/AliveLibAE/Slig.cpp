@@ -5568,7 +5568,7 @@ __int16 Slig::MainMovement_4B4720()
     return 1;
 }
 
-__int16 Slig::LeftRigtMovement(Direction direction)
+__int16 Slig::LeftRigtMovement(MovementDirection direction)
 {
     FP offX1 = {};
     FP offX2 = {};
@@ -5578,7 +5578,7 @@ __int16 Slig::LeftRigtMovement(Direction direction)
 
     switch (direction)
     {
-    case Direction::eLeft:
+    case MovementDirection::eLeft:
         StandToRunVelX = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4));
         StandingToStepVelX = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(9));
         SteppingToStandVelX = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(6));
@@ -5586,7 +5586,7 @@ __int16 Slig::LeftRigtMovement(Direction direction)
         offX2 = -(ScaleToGridSize_4498B0(field_CC_sprite_scale));
         break;
 
-    case Direction::eRight:
+    case MovementDirection::eRight:
         StandToRunVelX = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4));
         StandingToStepVelX = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(9));
         SteppingToStandVelX = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(6));
@@ -5598,8 +5598,8 @@ __int16 Slig::LeftRigtMovement(Direction direction)
         break;
     }
 
-    if (direction == Direction::eLeft && !field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ||
-        direction == Direction::eRight && field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (direction == MovementDirection::eLeft && !field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ||
+        direction == MovementDirection::eRight && field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         field_106_current_motion = eSligMotions::M_TurnAroundStanding_5_4B6390;
         return 1;
@@ -5629,7 +5629,7 @@ __int16 Slig::LeftRigtMovement(Direction direction)
     return 1;
 }
 
-__int16 Slig::PullLever()
+void Slig::PullLever()
 {
     FP switchXPos = {};
     FP switchYPos = {};
@@ -5649,15 +5649,15 @@ __int16 Slig::PullLever()
     {
         pSwitch->VPull_4D6050(field_B8_xpos < pSwitch->field_B8_xpos);
         field_106_current_motion = eSligMotions::M_PullLever_45_4B8950;
-        return 1;
+        return;
     }
 
     Slig_GameSpeak_SFX_4C04F0(SligSpeak::eWhat_9, 0, field_11E_pitch_min, this);
     field_106_current_motion = eSligMotions::M_SpeakWhat_29_4B54D0;
-    return 1;
+    return;
 }
 
-__int16 Slig::ShootZ()
+__int16 Slig::ToShootZ()
 {
     if (sInputObject_5BD4E0.isPressed(sInputKey_ThrowItem_5550F4) &&
         field_CC_sprite_scale == FP_FromDouble(0.5) &&
@@ -5671,7 +5671,7 @@ __int16 Slig::ShootZ()
     return 0;
 }
 
-__int16 Slig::ShootOrShootZ()
+void Slig::ShootOrShootZ()
 {
     if (!sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC) ||
         field_CC_sprite_scale != FP_FromDouble(0.5) ||
@@ -5686,7 +5686,6 @@ __int16 Slig::ShootOrShootZ()
 
     field_108_next_motion = -1;
     field_12C_timer = sGnFrame_5C1B84 + 60;
-    return 1;
 }
 
 __int16 Slig::GrabNearbyLift()
@@ -5710,22 +5709,24 @@ __int16 Slig::HandlePlayerControlled_4B7800()
 {
     if (sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0))
     {
-        return LeftRigtMovement(Direction::eRight);
+        return LeftRigtMovement(MovementDirection::eRight);
     }
 
     if (sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4))
     {
-        return LeftRigtMovement(Direction::eLeft);
+        return LeftRigtMovement(MovementDirection::eLeft);
     }
 
     if (sInputObject_5BD4E0.isHeld(sInputKey_DoAction_5550E4))
     {
-        return PullLever();
+        PullLever();
+        return 1;
     }
 
     if (sInputObject_5BD4E0.isPressed(sInputKey_ThrowItem_5550F4))
     {
-        return ShootOrShootZ();
+        ShootOrShootZ();
+        return 1;
     }
 
     if (sInputObject_5BD4E0.isPressed(sInputKey_FartRoll_5550F0))
@@ -5743,7 +5744,7 @@ __int16 Slig::HandlePlayerControlled_4B7800()
             return ShouldGrabLift;
         }
 
-        const auto ShouldShootZ = ShootZ();
+        const auto ShouldShootZ = ToShootZ();
         if (ShouldShootZ)
         {
             return ShouldShootZ;
