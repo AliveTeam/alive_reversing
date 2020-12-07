@@ -230,19 +230,6 @@ EXPORT void CC SND_Stop_All_Seqs_4774D0()
     SND_Stop_All_Seqs_4CA850();
 }
 
-VabBodyRecord* IterateVBRecords(VabBodyRecord* ret, int i_3)
-{
-    for (int i = 0; i < i_3; i++)
-    {
-        ret = (VabBodyRecord*)((char*)ret
-            + ret->field_0_length_or_duration
-            + 8);
-    }
-    return ret;
-}
-
-// Loads vab body sample data to memory
-
 EXPORT void CC SsSeqCalledTbyT_49E9F0()
 {
     AE_IMPLEMENTED();
@@ -261,6 +248,84 @@ EXPORT int CC SND_Load_492F40(SoundEntry* pSnd, const void* pWaveData, int waveD
     return SND_Load_4EF680(pSnd, pWaveData, waveDataLen);
 }
 
+EXPORT __int16 CC SsVabOpenHead_49CFB0(VabHeader* pVabHeader)
+{
+    AE_IMPLEMENTED();
+    return SsVabOpenHead_4FC620(pVabHeader);
+}
+
+EXPORT void CC SND_Stop_Channels_Mask_4774A0(int mask)
+{
+    AE_IMPLEMENTED();
+    SND_Stop_Channels_Mask_4CA810(mask);
+}
+
+EXPORT signed __int16 CC SND_SEQ_PlaySeq_4775A0(SeqId idx, int repeatCount, __int16 bDontStop)
+{
+    AE_IMPLEMENTED();
+    return SND_SEQ_PlaySeq_4CA960(static_cast<unsigned __int16>(idx), static_cast<short>(repeatCount), bDontStop);
+}
+
+EXPORT void CC SND_Seq_Stop_477A60(SeqId idx)
+{
+    AE_IMPLEMENTED();
+    SND_SEQ_Stop_4CAE60(static_cast<unsigned __int16>(idx));
+}
+EXPORT __int16 CC SND_SsIsEos_DeInlined_477930(SeqId idx)
+{
+    AE_IMPLEMENTED();
+    return static_cast<__int16>(SND_SsIsEos_DeInlined_4CACD0(static_cast<unsigned __int16>(idx)));
+}
+
+EXPORT int CC SND_PlayEx_493040(const SoundEntry* pSnd, int panLeft, int panRight, float freq, MIDI_Channel* pMidiStru, int playFlags, int priority)
+{
+    AE_IMPLEMENTED();
+    return SND_PlayEx_4EF740(pSnd, panLeft, panRight, freq, pMidiStru, playFlags, priority);
+}
+
+EXPORT int CC SND_Get_Buffer_Status_491D40(int idx)
+{
+    AE_IMPLEMENTED();
+    return SND_Get_Buffer_Status_4EE8F0(idx);
+}
+
+// TODO: Check correct one
+EXPORT int CC SND_Buffer_Set_Frequency_493820(int idx, float freq)
+{
+    AE_IMPLEMENTED();
+    return SND_Buffer_Set_Frequency_4EFC00(idx, freq);
+}
+
+EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
+{
+    AE_IMPLEMENTED();
+    return MIDI_ParseMidiMessage_4FD100(idx);
+}
+
+EXPORT void CC SND_Shutdown_476EC0()
+{
+    AE_IMPLEMENTED();
+    SND_Shutdown_4CA280();
+}
+
+EXPORT void CC SND_SEQ_SetVol_477970(SeqId idx, __int16 volLeft, __int16 volRight)
+{
+    AE_IMPLEMENTED();
+    SND_SEQ_SetVol_4CAD20(static_cast<unsigned __int16>(idx), volLeft, volRight);
+}
+
+static VabBodyRecord* IterateVBRecords(VabBodyRecord* ret, int i_3)
+{
+    for (int i = 0; i < i_3; i++)
+    {
+        ret = (VabBodyRecord*)((char*)ret
+            + ret->field_0_length_or_duration
+            + 8);
+    }
+    return ret;
+}
+
+// Loads vab body sample data to memory
 EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, __int16 vabId)
 {
     if (vabId < 0)
@@ -346,17 +411,8 @@ EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, __int16 vabId)
     }
 }
 
-EXPORT __int16 CC SsVabOpenHead_49CFB0(VabHeader* pVabHeader)
-{
-    AE_IMPLEMENTED();
-    return SsVabOpenHead_4FC620(pVabHeader);
-}
-
 EXPORT signed __int16 CC SND_VAB_Load_476CB0(SoundBlockInfo* pSoundBlockInfo, __int16 vabId)
 {
-    SetSpuApiVars(&sAoSpuVars);
-    SetMidiApiVars(&sAoMidiVars);
-
     // Fail if no file name
     if (!pSoundBlockInfo->field_0_vab_header_name)
     {
@@ -417,9 +473,6 @@ EXPORT signed __int16 CC SND_VAB_Load_476CB0(SoundBlockInfo* pSoundBlockInfo, __
 
 EXPORT void CC SND_Load_VABS_477040(SoundBlockInfo* pSoundBlockInfo, int reverb)
 {
-    SetSpuApiVars(&sAoSpuVars);
-    SetMidiApiVars(&sAoMidiVars);
-
     SoundBlockInfo* pSoundBlockInfoIter = pSoundBlockInfo;
     sSnd_ReloadAbeResources_9F1DC4 = FALSE;
     if (GetMidiVars()->sLastLoadedSoundBlockInfo() != reinterpret_cast<::SoundBlockInfo*>(pSoundBlockInfo))
@@ -453,12 +506,6 @@ EXPORT void CC SND_Load_VABS_477040(SoundBlockInfo* pSoundBlockInfo, int reverb)
     }
 }
 
-EXPORT void CC SND_Stop_Channels_Mask_4774A0(int mask)
-{
-    AE_IMPLEMENTED();
-    SND_Stop_Channels_Mask_4CA810(mask);
-}
-
 EXPORT void CC SND_Load_Seqs_477AB0(OpenSeqHandleAE* pSeqTable, const char* bsqFileName)
 {
     AE_IMPLEMENTED();
@@ -470,30 +517,12 @@ EXPORT void CC SND_Load_Seqs_477AB0(OpenSeqHandleAE* pSeqTable, const char* bsqF
         reinterpret_cast<TGetLoadedResourceFn>(ResourceManager::GetLoadedResource_4554F0));
 }
 
-EXPORT signed __int16 CC SND_SEQ_PlaySeq_4775A0(SeqId idx, int repeatCount, __int16 bDontStop)
-{
-    AE_IMPLEMENTED();
-    return SND_SEQ_PlaySeq_4CA960(static_cast<unsigned __int16>(idx), static_cast<short>(repeatCount), bDontStop);
-}
-
-EXPORT void CC SND_Seq_Stop_477A60(SeqId idx)
-{
-    AE_IMPLEMENTED();
-    SND_SEQ_Stop_4CAE60(static_cast<unsigned __int16>(idx));
-}
-
 EXPORT signed __int16 CC SND_SEQ_Play_477760(SeqId idx, int repeatCount, __int16 volLeft, __int16 volRight)
 {
     AE_IMPLEMENTED();
     const auto ret = SND_SEQ_PlaySeq_4CA960(static_cast<unsigned __int16>(idx), static_cast<short>(repeatCount), 1); // TODO ??
     SsSeqSetVol_4FDAC0(static_cast<unsigned __int16>(idx), volLeft, volRight);
     return ret;
-}
-
-EXPORT __int16 CC SND_SsIsEos_DeInlined_477930(SeqId idx)
-{
-    AE_IMPLEMENTED();
-    return static_cast<__int16>(SND_SsIsEos_DeInlined_4CACD0(static_cast<unsigned __int16>(idx)));
 }
 
 static ::SfxDefinition ToAeSfxDef(const SfxDefinition* sfxDef)
@@ -522,30 +551,35 @@ EXPORT int CC SFX_SfxDefinition_Play_4770F0(const SfxDefinition* sfxDef, int vol
     return SFX_SfxDefinition_Play_4CA420(&aeDef, static_cast<short>(vol), static_cast<short>(pitch_min), static_cast<short>(pitch_max));
 }
 
-EXPORT void CC SND_Init_476E40()
-{
-    AE_IMPLEMENTED();
-    SetSpuApiVars(&sAoSpuVars);
-    SetMidiApiVars(&sAoMidiVars);
-//
- //   GetSoundAPI().SND_Load = SND_Load_492F40;
-
-
-    SND_Init_4CA1F0();
-    SND_Restart_SetCallBack(SND_Restart_476340);
-    SND_StopAll_SetCallBack(SND_StopAll_4762D0);
-}
-
-EXPORT void CC SND_Shutdown_476EC0()
+EXPORT void CC SND_Init_Real_476E40()
 {
     NOT_IMPLEMENTED();
-    SND_Shutdown_4CA280();
 }
 
-EXPORT void CC SND_SEQ_SetVol_477970(SeqId idx, __int16 volLeft, __int16 volRight)
+EXPORT void CC SND_Init_476E40()
 {
-    AE_IMPLEMENTED();
-    SND_SEQ_SetVol_4CAD20(static_cast<unsigned __int16>(idx), volLeft, volRight);
+    SetSpuApiVars(&sAoSpuVars);
+    SetMidiApiVars(&sAoMidiVars);
+
+    GetSoundAPI().SND_Load = SND_Load_492F40;
+    GetSoundAPI().SND_PlayEx = SND_PlayEx_493040;
+    GetSoundAPI().SND_Get_Buffer_Status = SND_Get_Buffer_Status_491D40;
+    // SND_Stop_Sample_At_Idx
+    //GetSoundAPI().SND_Stop_Sample_At_Idx = nullptr;
+    GetSoundAPI().SND_Buffer_Set_Frequency2 = SND_Buffer_Set_Frequency_493820;
+
+    // SND_Buffer_Set_Frequency1 SND_Buffer_Set_Frequency_493790
+
+    if (RunningAsInjectedDll())
+    {
+        SND_Init_Real_476E40();
+    }
+    else
+    {
+        SND_Init_4CA1F0();
+        SND_Restart_SetCallBack(SND_Restart_476340);
+        SND_StopAll_SetCallBack(SND_StopAll_4762D0);
+    }
 }
 
 EXPORT void CC SND_StopAll_4762D0()
