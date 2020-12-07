@@ -231,6 +231,7 @@ EXPORT BYTE CC MIDI_ReadByte_4FD6B0(MIDI_SeqSong* pData);
 EXPORT void CC MIDI_SkipBytes_4FD6C0(MIDI_SeqSong* pData, int length);
 EXPORT void CC MIDI_SetTempo_4FDB80(__int16 idx, __int16 kZero, __int16 tempo);
 EXPORT int CC MIDI_PlayerPlayMidiNote_4FCE80(int vabId, int program, int note, int leftVol, int rightVol, int volume);
+EXPORT signed int CC MIDI_Allocate_Channel_4FCA50(int not_used, int priority);
 
 using TVSyncCallBackFn = void(CC *)();
 EXPORT void CC VSyncCallback_4F8C40(TVSyncCallBackFn callBack);
