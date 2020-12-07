@@ -2265,7 +2265,7 @@ signed __int16 Slig::HandlePlayerControlled_4667B0()
                     field_FC_current_motion = eSligStates::State_5_TurnAroundStanding_469C80;
                     return 1;
                 }
-                Slig::Slig_GameSpeak_SFX_46F560(SligSpeak::eWhat_9, 0, FP_GetExponent(field_A8_xpos), this);
+                Slig::Slig_GameSpeak_SFX_46F560(SligSpeak::eWhat_9, 0, field_110_pitch_min, this);
             }
             else
             {
