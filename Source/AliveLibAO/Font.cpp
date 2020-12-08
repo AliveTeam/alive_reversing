@@ -349,7 +349,8 @@ EXPORT unsigned int AliveFont::MeasureWidth_41C2B0(const char* text)
 
     if (!sFontDrawScreenSpace_508BF4)
     {
-        result = static_cast<int>(result * 0.575); // Convert screen space to world space.
+        result -= field_34_font_context->field_8_atlas_array[0].field_2_width;
+        result = PCToPsxX(result, 20);
     }
 
     return result;
@@ -479,7 +480,7 @@ EXPORT int AliveFont::DrawString_41C360(int** ot, const char* text, __int16 x, _
 
         ++characterRenderCount;
 
-        offsetX += widthScaled + static_cast<short>(field_34_font_context->field_8_atlas_array[0].field_2_width * FP_GetExponent(scale));
+        offsetX += widthScaled + FP_GetExponent(FP_FromInteger(field_34_font_context->field_8_atlas_array[0].field_2_width) * scale);
 
         poly += 2;
     }
