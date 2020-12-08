@@ -211,6 +211,15 @@ enum Flags_2A8
     e2A8_eBit16_AbeSpawnDir = 0x8000,
 };
 
+enum Flags_2AA
+{
+    e2AA_Bit1 = 0x1,
+    e2AA_Bit2_bSfxPlaying = 0x2,
+    e2AA_Bit3_ElumMountBegin = 0x4,
+    e2AA_Bit4_ElumMountEnd = 0x8,
+    e2AA_Bit5_ElumUnmountBegin = 0x10
+};
+
 enum class StoneStates : __int16
 {
     eUnknown_0 = 0,
@@ -705,7 +714,7 @@ public:
     BirdPortal* field_1A0_portal;
     AbeResources field_1A4_resources;
     BitField16<Flags_2A8> field_2A8_flags;
-    __int16 field_2AA_flags;
+    BitField16<Flags_2AA> field_2AA_flags;
     SaveData* field_2AC_pSaveData;
     int field_2B0;
 };

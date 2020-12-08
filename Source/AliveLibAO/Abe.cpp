@@ -827,8 +827,11 @@ Abe* Abe::ctor_420770(int frameTableOffset, int /*r*/, int /*g*/, int /*b*/)
     field_140_saved_camera = -1;
     field_10A_flags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
 
-    // TODO: Bitflags
-    field_2AA_flags &= ~0x1Fu;
+    field_2AA_flags.Clear(Flags_2AA::e2AA_Bit1);
+    field_2AA_flags.Clear(Flags_2AA::e2AA_Bit2_bSfxPlaying);
+    field_2AA_flags.Clear(Flags_2AA::e2AA_Bit3_ElumMountBegin);
+    field_2AA_flags.Clear(Flags_2AA::e2AA_Bit4_ElumMountEnd);
+    field_2AA_flags.Clear(Flags_2AA::e2AA_Bit5_ElumUnmountBegin);
 
     field_14C_saved_sprite_scale = field_BC_sprite_scale;
     field_144_saved_level = gMap_507BA8.field_0_current_level;
@@ -1005,7 +1008,7 @@ const unsigned int sAbe_yVel_table_4BB138[8] = { 0, 4294705152, 4294705152, 4294
 
 void Abe::vUpdate_41FDB0()
 {
-    if (!(field_2AA_flags & 1))
+    if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit1))
     {
         if (gAbeInvulnerableCheat_5076E4)
         {
@@ -1312,29 +1315,29 @@ void Abe::FreeElumRes_420F80()
 {
     if (field_FC_current_motion == eAbeStates::State_139_ElumMountBegin_42E090)
     {
-        field_2AA_flags |= 4u;
+        field_2AA_flags.Set(Flags_2AA::e2AA_Bit3_ElumMountBegin);
     }
     else
     {
-        field_2AA_flags &= ~4u;
+        field_2AA_flags.Clear(Flags_2AA::e2AA_Bit3_ElumMountBegin);
     }
 
     if (field_FC_current_motion == eAbeStates::State_136_ElumMountEnd_42E110)
     {
-        field_2AA_flags |= 8u;
+        field_2AA_flags.Set(Flags_2AA::e2AA_Bit4_ElumMountEnd);
     }
     else
     {
-        field_2AA_flags &= ~8u;
+        field_2AA_flags.Clear(Flags_2AA::e2AA_Bit4_ElumMountEnd);
     }
 
     if (field_FC_current_motion == eAbeStates::State_137_ElumUnmountBegin_42E2B0)
     {
-        field_2AA_flags |= 0x10u;
+        field_2AA_flags.Set(Flags_2AA::e2AA_Bit5_ElumUnmountBegin);
     }
     else
     {
-        field_2AA_flags &= ~0x10u;
+        field_2AA_flags.Clear(Flags_2AA::e2AA_Bit5_ElumUnmountBegin);
     }
 
     ElumFree_4228F0();
@@ -1350,7 +1353,7 @@ void Abe::FreeElumRes_420F80()
     field_1A4_resources.res[46] = nullptr;
     if (gElum_507680)
     {
-        gElum_507680->Vsub_411200();
+        gElum_507680->VFreeMountedResources_411200();
     }
 
     if (field_FC_current_motion != eAbeStates::State_138_ElumUnmountEnd_42E390)
@@ -1585,7 +1588,9 @@ void Abe::ToKnockback_422D90(__int16 bKnockbackSound, __int16 bDelayedAnger)
     if (sControlledCharacter_50767C->field_4_typeId != Types::eSlig_88 || field_100_health <= FP_FromInteger(0))
     {
         SND_Seq_Stop_477A60(SeqId::Unknown_11);
-        field_2AA_flags &= ~0x1Cu;
+        field_2AA_flags.Clear(Flags_2AA::e2AA_Bit3_ElumMountBegin);
+        field_2AA_flags.Clear(Flags_2AA::e2AA_Bit4_ElumMountEnd);
+        field_2AA_flags.Clear(Flags_2AA::e2AA_Bit5_ElumUnmountBegin);
 
         if (field_188_pOrbWhirlWind)
         {
@@ -1913,7 +1918,7 @@ void Abe::MoveForward_422FC0()
 
 void Abe::ElumFree_4228F0()
 {
-    if ((field_2AA_flags >> 2) & 1)
+    if (field_2AA_flags.Get(Flags_2AA::e2AA_Bit4_ElumMountEnd))
     {
         ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElumUnknownResID_110, 1, 0));
         ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElumUnknownResID_223, 1, 0));
@@ -1925,7 +1930,7 @@ void Abe::ElumFree_4228F0()
         }
     }
 
-    if ((field_2AA_flags >> 3) & 1)
+    if (field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
     {
         ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElumUnknownResID_100, 1, 0));
         ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElumUnknownResID_112, 1, 0));
@@ -1933,7 +1938,7 @@ void Abe::ElumFree_4228F0()
         ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElumUnknownResID_221, 1, 0));
     }
 
-    if ((field_2AA_flags >> 4) & 1)
+    if (field_2AA_flags.Get(Flags_2AA::e2AA_Bit1))
     {
         ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeCarResId, 1, 0));
         ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElumUnknownResID_224, 1, 0));
@@ -2100,12 +2105,12 @@ void Abe::SyncToElum_42D850(__int16 elumMotion)
             ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
             break;
 
-        case eElumStates::State_7_Unknown_413200:
+        case eElumStates::State_7_IdleToWalk1_413200:
             field_FC_current_motion = eAbeStates::State_116_42DFB0;
             ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
             break;
 
-        case eElumStates::State_8_IdleToWalk_413270:
+        case eElumStates::State_8_IdleToWalk2_413270:
             field_FC_current_motion = eAbeStates::State_117_ElumWalkBegin_42DFC0;
             ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
             break;
@@ -6970,7 +6975,7 @@ void Abe::State_60_Dead_42C4C0()
                         {
                             if (gElum_507680->field_144)
                             {
-                                gElum_507680->Vsub_411260();
+                                gElum_507680->VLoadUnmountedResources_411260();
                             }
                             else
                             {
@@ -7522,23 +7527,23 @@ void Abe::State_68_LedgeHangWobble_428E50()
 {
     if (field_10_anim.field_92_current_frame == 0)
     {
-        if (!(field_2AA_flags & 2))
+        if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
         {
-            field_2AA_flags |= 2;
+            field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
             Environment_SFX_42A220(EnvironmentSfx::eWalkingFootstep_1, 0, 127, this);
         }
     }
     else if (field_10_anim.field_92_current_frame == 2)
     {
-        if (!(field_2AA_flags & 2))
+        if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
         {
-            field_2AA_flags |= 2;
+            field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
             Mudokon_SFX_42A4D0(MudSounds::eBeesStruggle_18, 45, -200, this);
         }
     }
     else
     {
-        field_2AA_flags &= ~2u;
+        field_2AA_flags.Clear(Flags_2AA::e2AA_Bit2_bSfxPlaying);
     }
 
     Event_Broadcast_417220(kEventNoise_0, this);
@@ -7548,14 +7553,14 @@ void Abe::State_68_LedgeHangWobble_428E50()
 
     if (Input().IsAnyPressed(sInputKey_Up_4C6598))
     {
-        field_2AA_flags &= ~2u;
+        field_2AA_flags.Clear(Flags_2AA::e2AA_Bit2_bSfxPlaying);
         field_FC_current_motion = eAbeStates::State_64_LedgeAscend_428B60;
     }
     else
     {
         if (Input().IsAnyPressed(sInputKey_Down_4C659C))
         {
-            field_2AA_flags &= ~2u;
+            field_2AA_flags.Clear(Flags_2AA::e2AA_Bit2_bSfxPlaying);
 
             VOnTrapDoorOpen();
             field_F4_pLine = nullptr;
@@ -7567,7 +7572,7 @@ void Abe::State_68_LedgeHangWobble_428E50()
         }
         else if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            field_2AA_flags &= ~2u;
+            field_2AA_flags.Clear(Flags_2AA::e2AA_Bit2_bSfxPlaying);
             field_FC_current_motion = eAbeStates::State_66_LedgeHang_428D90;
         }
     }
@@ -7644,7 +7649,7 @@ void Abe::State_70_Knockback_428FB0()
                 field_1A4_resources.res[38] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeommResID, 1, 0);
                 field_1A4_resources.res[9] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbesmashResID, 1, 0);
 
-                if (!(field_2AA_flags & 4))
+                if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit3_ElumMountBegin))
                 {
                     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAneprmntResID, 1, 0);
                 }
@@ -7823,8 +7828,8 @@ void Abe::State_77_WellBegin_430F10()
             }
             default:
             {
-                LOG_ERROR(field_FC_current_motion);
-                ALIVE_FATAL("Unrecognized stat called Abe::State_77_WellBegin_430F10!");
+                LOG_ERROR("Unrecognized state called: " << field_FC_current_motion);
+                ALIVE_FATAL("Unrecognized state in Abe::State_77_WellBegin_430F10 called!");
                 break;
             }
         }
@@ -8922,7 +8927,7 @@ void Abe::State_128_KnockForward_429330()
                 field_1A4_resources.res[38] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeommResID, 1, 0);
                 field_1A4_resources.res[9] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbesmashResID, 1, 0);
 
-                if (!(field_2AA_flags & 4))
+                if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit3_ElumMountBegin))
                 {
                     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAneprmntResID, 1, 0);
                 }
@@ -9071,40 +9076,40 @@ void Abe::State_136_ElumMountEnd_42E110()
     switch (field_10_anim.field_92_current_frame)
     {
     case 0:
-        if (!(field_2AA_flags & 2))
+        if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
         {
-            field_2AA_flags |= 2;
+            field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
             SFX_Play_43AD70(SoundEffect::AbeGenericMovement_37, 0, this);
         }
         break;
 
     case 5:
-        if (!(field_2AA_flags & 2))
+        if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
         {
-            field_2AA_flags |= 2;
+            field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
             Environment_SFX_42A220(EnvironmentSfx::eExhaustingElumMount_16, 0, 0x7FFF, this);
         }
         break;
 
     case 12:
-        if (!(field_2AA_flags & 2))
+        if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
         {
-            field_2AA_flags |= 2;
+            field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
             Environment_SFX_42A220(EnvironmentSfx::eMountElumSmackNoise_17, 0, 0x7FFF, this);
             SFX_Play_43AD70(SoundEffect::MountingElum_38, 0, this);
         }
         break;
 
     case 15:
-        if (!(field_2AA_flags & 2))
+        if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
         {
-            field_2AA_flags |= 2;
+            field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
             Environment_SFX_42A220(EnvironmentSfx::eElumGetMountedNoise_18, 0, 0x7FFF, this);
         }
         break;
 
     default:
-        field_2AA_flags &= ~2u;
+        field_2AA_flags.Clear(Flags_2AA::e2AA_Bit2_bSfxPlaying);
         break;
     }
 
@@ -9153,39 +9158,39 @@ void Abe::State_138_ElumUnmountEnd_42E390()
     switch (field_10_anim.field_92_current_frame)
     {
     case 4:
-        if (!(field_2AA_flags & 2))
+        if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
         {
-            field_2AA_flags |= 2;
+            field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
             SFX_Play_43AD70(SoundEffect::AbeGenericMovement_37, 17, this);
         }
         break;
 
     case 12:
-        if (!(field_2AA_flags & 2))
+        if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
         {
-            field_2AA_flags |= 2;
+            field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
             Environment_SFX_42A220(EnvironmentSfx::eExhaustingElumMount_16, 0, 0x7FFF, this);
         }
         break;
 
     case 19:
-        if (!(field_2AA_flags & 2))
+        if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
         {
-            field_2AA_flags |= 2;
+            field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
             Environment_SFX_42A220(EnvironmentSfx::eElumGetMountedNoise_18, 0, 0x7FFF, this);
         }
         break;
 
     case 20:
-        if (!(field_2AA_flags & 2))
+        if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
         {
-            field_2AA_flags |= 2;
+            field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
             SFX_Play_43AD70(SoundEffect::MountingElum_38, 0, this);
         }
         break;
 
     default:
-        field_2AA_flags &= ~2u;
+        field_2AA_flags.Clear(Flags_2AA::e2AA_Bit2_bSfxPlaying);
         break;
     }
 
