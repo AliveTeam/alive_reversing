@@ -2535,7 +2535,7 @@ __int16 Paramite::Brain_SpottedMeat_449CD0()
 
     case AI_SpottedMeat::eState5_Turning_4:
         if (field_FC_current_motion != eParamiteStates::State_5_Turn_44C8E0
-            || !field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            || !field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             return field_110_state;
         }
