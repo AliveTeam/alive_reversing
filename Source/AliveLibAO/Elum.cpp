@@ -2827,6 +2827,8 @@ void Elum::RunJumpMidAndHopMid(MidType midType)
                 switch (midType)
                 {
                 case MidType::eRunJumpMid:
+                    field_A8_xpos = hitX;
+                    field_AC_ypos = hitY;
                     field_FC_current_motion = eElumStates::State_35_RunJumpLand_415580;
                     MapFollowMe_401D30(TRUE);
                     break;
@@ -2835,14 +2837,14 @@ void Elum::RunJumpMidAndHopMid(MidType midType)
                     field_B8_vely = FP_FromInteger(0);
                     field_B4_velx = FP_FromInteger(0);
                     field_FC_current_motion = eElumStates::State_32_HopLand_415140;
+                    field_A8_xpos = hitX;
+                    field_AC_ypos = hitY;
                     break;
 
                 default:
                     break;
                 }
 
-                field_A8_xpos = hitX;
-                field_AC_ypos = hitY;
                 return;
             default:
                 break;
