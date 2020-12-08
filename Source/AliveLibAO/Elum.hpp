@@ -15,8 +15,8 @@ namespace AO {
     ENTRY(State_4_Turn_4140F0) \
     ENTRY(State_5_WalkToIdle_4132D0) \
     ENTRY(State_6_MidWalkToIdle_4133F0) \
-    ENTRY(State_7_Unknown_413200) \
-    ENTRY(State_8_IdleToWalk_413270) \
+    ENTRY(State_7_IdleToWalk1_413200) \
+    ENTRY(State_8_IdleToWalk2_413270) \
     ENTRY(State_9_ToYell_415890) \
     ENTRY(State_10_Yell_4158E0) \
     ENTRY(State_11_Unknown_4159A0) \
@@ -25,8 +25,8 @@ namespace AO {
     ENTRY(State_14_Speak_414860) \
     ENTRY(State_15_Speak_4148F0) \
     ENTRY(State_16_Speak_414980) \
-    ENTRY(State_17_Unknown_413620) \
-    ENTRY(State_18_Unknown_4136A0) \
+    ENTRY(State_17_WalkToHop_413620) \
+    ENTRY(State_18_MidWalkToHop_4136A0) \
     ENTRY(State_19_Dead_415F90) \
     ENTRY(State_20_Fall_415F70) \
     ENTRY(State_21_Land_414A20) \
@@ -138,15 +138,15 @@ public:
     EXPORT void VOnTrapDoorOpen_412700();
 
     // TODO: Add new virtuals
-    EXPORT void Vsub_411260();
+    EXPORT void VLoadUnmountedResources_411260();
 
-    EXPORT void Vsub_411200();
+    EXPORT void VFreeMountedResources_411200();
 
     EXPORT void Vsub_416120();
 
-    EXPORT void Vsub_411300();
+    EXPORT void VLoadMountedResources_411300();
 
-    EXPORT void Vsub_4112B0();
+    EXPORT void VFreeUnmountedResources_4112B0();
 
     void ToKnockback();
 
@@ -154,9 +154,9 @@ public:
 
     EXPORT BYTE** GetResBlock_410D00(short currentMotion);
 
-    EXPORT void WalkLeft_412FA0();
+    EXPORT void MidWalkToNextMotion_412FA0();
 
-    EXPORT void WalkRight_4130D0();
+    EXPORT void WalkToNextMotion_4130D0();
 
     EXPORT void SlowOnX_414210(FP amount);
 
@@ -199,8 +199,8 @@ public:
     EXPORT void State_4_Turn_4140F0();
     EXPORT void State_5_WalkToIdle_4132D0();
     EXPORT void State_6_MidWalkToIdle_4133F0();
-    EXPORT void State_7_Unknown_413200();
-    EXPORT void State_8_IdleToWalk_413270();
+    EXPORT void State_7_IdleToWalk2_413200();
+    EXPORT void State_8_IdleToWalk1_413270();
     EXPORT void State_9_ToYell_415890();
     EXPORT void State_10_Yell_4158E0();
     EXPORT void State_11_Unknown_4159A0();
@@ -254,7 +254,7 @@ public:
     };
 
     __int16 field_10C;
-    __int16 field_10E;
+    __int16 field_10E_pressed;
     int field_110_timer;
     int field_114;
     FP field_118;

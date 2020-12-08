@@ -2120,7 +2120,7 @@ void Slig::OperateLift()
         {
             MusicController::sub_443810(MusicController::MusicTypes::eChase_4, this, 0, 0);
         }
-        Slig::Slig_SoundEffect_46F310(SligSfx::eUnknown_1);
+        Slig::Slig_SoundEffect_46F310(SligSfx::eStandingTurn_1);
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             field_10_anim.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
@@ -2654,7 +2654,7 @@ void Slig::State_2_Walking_469130()
         {
         case 5:
 
-            Slig_SoundEffect_46F310(SligSfx::eUnknown_2);
+            Slig_SoundEffect_46F310(SligSfx::eWalkingStep_2);
             if (!field_120_checked_if_off_screen)
             {
                 field_120_checked_if_off_screen = 1;
@@ -2723,7 +2723,7 @@ void Slig::State_2_Walking_469130()
             break;
         case 14:
 
-            Slig_SoundEffect_46F310(SligSfx::eUnknown_2);
+            Slig_SoundEffect_46F310(SligSfx::eWalkingStep_2);
 
             if (!field_120_checked_if_off_screen)
             {
@@ -2811,7 +2811,7 @@ void Slig::State_4_Running_469690()
         {
             if (field_10_anim.field_92_current_frame == 4 || field_10_anim.field_92_current_frame == 12)
             {
-                Slig_SoundEffect_46F310(SligSfx::eUnknown_3);
+                Slig_SoundEffect_46F310(SligSfx::eRunningStep_3);
 
                 if (field_120_checked_if_off_screen == 0)
                 {
@@ -2887,7 +2887,7 @@ void Slig::State_5_TurnAroundStanding_469C80()
         MusicController::sub_443810(MusicController::MusicTypes::eChase_4, this, 0, 0);
     }
 
-    Slig_SoundEffect_46F310(SligSfx::eUnknown_1);
+    Slig_SoundEffect_46F310(SligSfx::eStandingTurn_1);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -3281,7 +3281,7 @@ void Slig::State_15_SteppingToStand_469080()
 {
     if (!field_10_anim.field_92_current_frame)
     {
-        Slig_SoundEffect_46F310(SligSfx::eUnknown_2);
+        Slig_SoundEffect_46F310(SligSfx::eWalkingStep_2);
     }
 
     if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(35), field_B4_velx))
@@ -3478,7 +3478,7 @@ void Slig::State_33_Sleeping_46A410()
     {
         if (!((gnFrameCount_507670 - 20) % 60))
         {
-            Slig_SoundEffect_46F310(SligSfx::eUnknown_5);
+            Slig_SoundEffect_46F310(SligSfx::eSnooze2_5);
 
             if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
                 field_B2_lvl_number,
@@ -3503,7 +3503,7 @@ void Slig::State_33_Sleeping_46A410()
     }
     else
     {
-        Slig_SoundEffect_46F310(SligSfx::eUnknown_4);
+        Slig_SoundEffect_46F310(SligSfx::eSnooze1_4);
 
         if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
@@ -3546,12 +3546,12 @@ void Slig::State_34_SleepingToStand_46A5F0()
 
     if (field_10_anim.field_92_current_frame >= 2 && field_10_anim.field_92_current_frame <= 10)
     {
-        Slig_SoundEffect_46F310(SligSfx::eUnknown_0);
+        Slig_SoundEffect_46F310(SligSfx::eToStand_0);
     }
     
     if (field_10_anim.field_92_current_frame == 9)
     {
-        Slig_SoundEffect_46F310(SligSfx::eUnknown_2);
+        Slig_SoundEffect_46F310(SligSfx::eWalkingStep_2);
     }
 
     switch (field_10_anim.field_92_current_frame)
@@ -3648,12 +3648,12 @@ void Slig::State_36_KnockbackToStand_46A7F0()
     
     if (field_10_anim.field_92_current_frame >= 2 && field_10_anim.field_92_current_frame <= 10)
     {
-        Slig_SoundEffect_46F310(SligSfx::eUnknown_0);
+        Slig_SoundEffect_46F310(SligSfx::eToStand_0);
     }
 
     if (field_10_anim.field_92_current_frame == 9)
     {
-        Slig_SoundEffect_46F310(SligSfx::eUnknown_2);
+        Slig_SoundEffect_46F310(SligSfx::eWalkingStep_2);
     }
 
     FP gridSize = {};

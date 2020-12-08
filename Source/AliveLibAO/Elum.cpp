@@ -35,8 +35,8 @@ const TElumStateFunction sElum_motion_table_4C5148[] =
     &Elum::State_4_Turn_4140F0,
     &Elum::State_5_WalkToIdle_4132D0,
     &Elum::State_6_MidWalkToIdle_4133F0,
-    &Elum::State_7_Unknown_413200,
-    &Elum::State_8_IdleToWalk_413270,
+    &Elum::State_7_IdleToWalk2_413200,
+    &Elum::State_8_IdleToWalk1_413270,
     &Elum::State_9_ToYell_415890,
     &Elum::State_10_Yell_4158E0,
     &Elum::State_11_Unknown_4159A0,
@@ -344,7 +344,7 @@ void Elum::VOnTrapDoorOpen_412700()
     }
 }
 
-void Elum::Vsub_411260()
+void Elum::VLoadUnmountedResources_411260()
 {
     if (!field_174_resources.res[30])
     {
@@ -354,7 +354,7 @@ void Elum::Vsub_411260()
 }
 
 
-void Elum::Vsub_411200()
+void Elum::VFreeMountedResources_411200()
 {
     if (field_126_res_idx != 20)
     {
@@ -379,13 +379,13 @@ void Elum::Vsub_416120()
         GetResBlock_410D00(field_FC_current_motion));
 }
 
-void Elum::Vsub_411300()
+void Elum::VLoadMountedResources_411300()
 {
     field_174_resources.res[20] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElumUnknownResID_220, 1, 0);
     field_174_resources.res[21] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElumUnknownResID_221, 1, 0);
 }
 
-void Elum::Vsub_4112B0()
+void Elum::VFreeUnmountedResources_4112B0()
 {
     ResourceManager::FreeResource_455550(field_174_resources.res[30]);
 
@@ -488,7 +488,7 @@ BYTE** Elum::GetResBlock_410D00(short currentMotion)
     return field_174_resources.res[new_idx];
 }
 
-void Elum::WalkLeft_412FA0()
+void Elum::MidWalkToNextMotion_412FA0()
 {
     if (field_B4_velx <= FP_FromInteger(0))
     {
@@ -512,19 +512,18 @@ void Elum::WalkLeft_412FA0()
         !Input().IsAnyPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
     {
         field_FC_current_motion = eElumStates::State_6_MidWalkToIdle_4133F0;
-        field_10E = 0;
     }
     else
     {
-        if (field_10E & sInputKey_Hop_4C65A0)
+        if (field_10E_pressed & sInputKey_Hop_4C65A0)
         {
-            field_FC_current_motion = eElumStates::State_18_Unknown_4136A0;
+            field_FC_current_motion = eElumStates::State_18_MidWalkToHop_4136A0;
         }
-        field_10E = 0;
     }
+    field_10E_pressed = 0;
 }
 
-void Elum::WalkRight_4130D0()
+void Elum::WalkToNextMotion_4130D0()
 {
     if (field_B4_velx <= FP_FromInteger(0))
     {
@@ -548,15 +547,15 @@ void Elum::WalkRight_4130D0()
         !Input().IsAnyPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
     {
         field_FC_current_motion = eElumStates::State_5_WalkToIdle_4132D0;
-        field_10E = 0;
+        field_10E_pressed = 0;
     }
     else
     {
-        if (field_10E & sInputKey_Hop_4C65A0)
+        if (field_10E_pressed & sInputKey_Hop_4C65A0)
         {
-            field_FC_current_motion = eElumStates::State_17_Unknown_413620;
+            field_FC_current_motion = eElumStates::State_17_WalkToHop_413620;
         }
-        field_10E = 0;
+        field_10E_pressed = 0;
     }
 }
 
@@ -703,12 +702,12 @@ __int16 Elum::ToNextState_4120F0()
 
         if (field_124)
         {
-            field_FC_current_motion = eElumStates::State_7_Unknown_413200;
+            field_FC_current_motion = eElumStates::State_7_IdleToWalk1_413200;
             field_124 = field_124 == 0;
         }
         else
         {
-            field_FC_current_motion = eElumStates::State_8_IdleToWalk_413270;
+            field_FC_current_motion = eElumStates::State_8_IdleToWalk2_413270;
             field_124 = 1;
         }
 
@@ -796,7 +795,7 @@ __int16 Elum::ToNextStateAbeControlled_411E40()
         else
         {
             field_B4_velx = gridSize / FP_FromInteger(9);
-            field_FC_current_motion = eElumStates::State_8_IdleToWalk_413270;
+            field_FC_current_motion = eElumStates::State_8_IdleToWalk2_413270;
         }
         return 1;
     }
@@ -1939,8 +1938,8 @@ void Elum::State_2_Unknown_412C30()
 {
     if (field_104_pending_resource_count == 0)
     {
-        Vsub_411200();
-        Vsub_411260();
+        VFreeMountedResources_411200();
+        VLoadUnmountedResources_411260();
 
         ToIdle();
     }
@@ -1948,7 +1947,7 @@ void Elum::State_2_Unknown_412C30()
 
 void Elum::State_3_WalkLoop_412C90()
 {
-    field_10E |= Input().Pressed();
+    field_10E_pressed |= Input().Pressed();
     
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
@@ -1981,7 +1980,7 @@ void Elum::State_3_WalkLoop_412C90()
                 }
                 else if (sControlledCharacter_50767C == this && !field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4))
                 {
-                    WalkLeft_412FA0();
+                    MidWalkToNextMotion_412FA0();
                 }
                 else if (field_104_pending_resource_count > 0)
                 {
@@ -2020,7 +2019,7 @@ void Elum::State_3_WalkLoop_412C90()
                 field_FC_current_motion = eElumStates::State_41_MidWalkToRun_413560;
             }
 
-            field_10E = 0;
+            field_10E_pressed = 0;
             Elum_SFX_416E10(ElumSounds::eWalkingFootstep_0, 0);
         }
         else if (field_10_anim.field_92_current_frame == 11)
@@ -2047,7 +2046,7 @@ void Elum::State_3_WalkLoop_412C90()
                 }
                 else if (sControlledCharacter_50767C == this && !field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4))
                 {
-                    WalkRight_4130D0();
+                    WalkToNextMotion_4130D0();
                 }
                 else if (field_104_pending_resource_count)
                 {
@@ -2088,7 +2087,7 @@ void Elum::State_3_WalkLoop_412C90()
                 field_FC_current_motion = eElumStates::State_40_WalkToRun_4134B0;
             }
 
-            field_10E = 0;
+            field_10E_pressed = 0;
             Elum_SFX_416E10(ElumSounds::eWalkingFootstep_0, 0);
         }
         else
@@ -2216,9 +2215,9 @@ void Elum::State_6_MidWalkToIdle_4133F0()
     }
 }
 
-void Elum::State_7_Unknown_413200()
+void Elum::State_7_IdleToWalk2_413200()
 {
-    field_10E |= Input().Pressed();
+    field_10E_pressed |= Input().Pressed();
 
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
@@ -2233,9 +2232,9 @@ void Elum::State_7_Unknown_413200()
     MoveOnLine_412580(0);
 }
 
-void Elum::State_8_IdleToWalk_413270()
+void Elum::State_8_IdleToWalk1_413270()
 {
-    field_10E |= Input().Pressed();
+    field_10E_pressed |= Input().Pressed();
 
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
@@ -2271,7 +2270,7 @@ void Elum::State_10_Yell_4158E0()
     else
     {
         Elum_SFX_416E10(ElumSounds::eHowl_2, this);
-        field_170_flags.Set(Elum::Flags_170::eCanSpeak_Bit6);
+        field_170_flags.Clear(Elum::Flags_170::eCanSpeak_Bit6);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -2499,7 +2498,7 @@ void Elum::State_19_Dead_415F90()
 
             if (!field_174_resources.res[30])
             {
-                Vsub_411260();
+                VLoadUnmountedResources_411260();
             }
         }
     }
@@ -2669,7 +2668,7 @@ void Elum::State_25_LickingHoney_415B50()
             field_FC_current_motion = eElumStates::State_26_LickingToStruggling_415AC0;
             if (!field_174_resources.res[30])
             {
-                Vsub_411260();
+                VLoadUnmountedResources_411260();
             }
         }
     }
@@ -2684,7 +2683,7 @@ void Elum::State_27_AbeMountingEnd_415CA0()
 {
     if (sActiveHero_507678->field_FC_current_motion != eAbeStates::State_136_ElumMountEnd_42E110  && field_104_pending_resource_count == 0)
     {
-        Vsub_411300();
+        VLoadMountedResources_411300();
         ToIdle();
     }
 }
@@ -2694,7 +2693,7 @@ void Elum::State_28_AbeUnmountingEnd_415D60()
     if (sActiveHero_507678->field_FC_current_motion != State_138_ElumUnmountEnd_42E390
         && !field_104_pending_resource_count)
     {
-        Vsub_411260();
+        VLoadUnmountedResources_411260();
         ToIdle();
     }
 }
@@ -2708,7 +2707,7 @@ void Elum::State_29_BeesStruggling_412A90()
         field_FC_current_motion = eElumStates::State_44_ScratchBegin_412730;
         if (!field_174_resources.res[30])
         {
-            Vsub_411260();
+            VLoadUnmountedResources_411260();
         }
         field_FE_next_state = -1;
         return;
@@ -2733,7 +2732,7 @@ void Elum::State_29_BeesStruggling_412A90()
         return;
     }
 
-    field_FC_current_motion = eElumStates::State_8_IdleToWalk_413270;
+    field_FC_current_motion = eElumStates::State_8_IdleToWalk2_413270;
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         field_FE_next_state = -1;
@@ -2995,7 +2994,7 @@ void Elum::State_35_RunJumpLand_415580()
 
 void Elum::State_36_RunLoop_413720()
 {
-    field_10E |= Input().Pressed();
+    field_10E_pressed |= Input().Pressed();
 
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
@@ -3037,10 +3036,10 @@ void Elum::State_36_RunLoop_413720()
 
         if (sControlledCharacter_50767C == this)
         {
-            if (sInputKey_Hop_4C65A0 & field_10E)
+            if (sInputKey_Hop_4C65A0 & field_10E_pressed)
             {
                 field_FC_current_motion = eElumStates::State_33_RunJumpBegin_415400;
-                field_10E = 0;
+                field_10E_pressed = 0;
             }
             else if (Input().IsAnyPressed(sInputKey_Right_4C6590) && field_B4_velx < FP_FromInteger(0))
             {
@@ -3092,7 +3091,7 @@ void Elum::State_36_RunLoop_413720()
             }
         }
 
-        field_10E = 0;
+        field_10E_pressed = 0;
     }
 }
 
@@ -3154,7 +3153,7 @@ void Elum::State_37_RunSlideStop_4142E0()
             field_B8_vely = FP_FromInteger(0);
             field_FC_current_motion = eAbeStates::State_1_WalkLoop_423F90;
             field_110_timer = gnFrameCount_507670;
-            field_10E = 0;
+            field_10E_pressed = 0;
             MapFollowMe_401D30(TRUE);
         }
     }
@@ -3180,7 +3179,7 @@ void Elum::State_39_IdleToRun_413B00()
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
     Event_Broadcast_417220(kEvent_11, this);
 
-    field_10E |= Input().Pressed();
+    field_10E_pressed |= Input().Pressed();
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -3192,7 +3191,7 @@ void Elum::State_39_IdleToRun_413B00()
 
 void Elum::State_40_WalkToRun_4134B0()
 {
-    field_10E |= Input().Pressed();
+    field_10E_pressed |= Input().Pressed();
 
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
@@ -3217,7 +3216,7 @@ void Elum::State_40_WalkToRun_4134B0()
 
 void Elum::State_41_MidWalkToRun_413560()
 {
-    field_10E |= Input().Pressed();
+    field_10E_pressed |= Input().Pressed();
 
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
@@ -3247,7 +3246,7 @@ void Elum::State_42_RunToWalk_413B60()
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
 
-    field_10E |= Input().Pressed();
+    field_10E_pressed |= Input().Pressed();
 
     FP velX {};
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -3306,7 +3305,7 @@ void Elum::State_43_MidRunToWalk_413E20()
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
 
-    field_10E |= Input().Pressed();
+    field_10E_pressed |= Input().Pressed();
 
     FP velX = {};
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -3398,7 +3397,7 @@ void Elum::State_46_ScratchEnd_412800()
                 if (!WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), -ScaleToGridSize_41FA30(field_BC_sprite_scale)))
                 {
                     field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(9));
-                    field_FC_current_motion = eElumStates::State_8_IdleToWalk_413270;
+                    field_FC_current_motion = eElumStates::State_8_IdleToWalk2_413270;
                     field_FE_next_state = -1;
                     return;
                 }
@@ -3408,7 +3407,7 @@ void Elum::State_46_ScratchEnd_412800()
                 if (!WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), ScaleToGridSize_41FA30(field_BC_sprite_scale)))
                 {
                     field_B4_velx =  (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(9));
-                    field_FC_current_motion = eElumStates::State_8_IdleToWalk_413270;
+                    field_FC_current_motion = eElumStates::State_8_IdleToWalk2_413270;
                     field_FE_next_state = -1;
                     return;
                 }
@@ -3438,8 +3437,8 @@ void Elum::ToIdle()
     field_B4_velx = FP_FromInteger(0);
     field_B8_vely = FP_FromInteger(0);
     field_FC_current_motion = eElumStates::State_1_Idle_412990;
-    field_10E = 0;
-    MapFollowMe_401D30(1);
+    field_10E_pressed = 0;
+    MapFollowMe_401D30(TRUE);
 }
 
 void Elum::State_47_Unknown_415A30()
@@ -3461,7 +3460,7 @@ void Elum::State_48_AbeMoutingBegin_415C40()
 {
     if (sActiveHero_507678->field_FC_current_motion == eAbeStates::State_136_ElumMountEnd_42E110)
     {
-        Vsub_4112B0();
+        VFreeUnmountedResources_4112B0();
         
         field_104_pending_resource_count += 2;
 
@@ -3483,7 +3482,7 @@ void Elum::State_49_AbeUnmountingBegin_415D00()
 {
     if (sActiveHero_507678->field_FC_current_motion != eAbeStates::State_137_ElumUnmountBegin_42E2B0)
     {
-        Vsub_411200();
+        VFreeMountedResources_411200();
         
         field_104_pending_resource_count += 2;
 
@@ -3526,7 +3525,7 @@ void Elum::State_50_Knockback_415DC0()
                     && !field_174_resources.res[30]
                     && !field_104_pending_resource_count)
                 {
-                    Vsub_411260();
+                    VLoadUnmountedResources_411260();
                 }
 
                 ToIdle();
@@ -3718,7 +3717,14 @@ void Elum::VUpdate_4102A0()
             }
             
             (this->*sElum_motion_table_4C5148[field_FC_current_motion])();
-            
+
+            if (oldMotion != field_FC_current_motion &&
+                oldMotion == 2 || oldMotion == 11 ||
+                oldMotion == 47)
+            {
+                LOG_INFO("old motion: " << oldMotion << " | new motion: " << field_FC_current_motion);
+            }
+
             if (old_x != field_A8_xpos || old_y != field_AC_ypos)
             {
                 field_F0_pTlv = gMap_507BA8.TLV_Get_At_446060(
@@ -3986,7 +3992,7 @@ Elum* Elum::ctor_410870(int, anythingForTheTimeBeing, anythingForTheTimeBeing, i
 
     field_122 = 0;
     field_124 = 1;
-    field_10E = 0;
+    field_10E_pressed = 0;
     field_EC = 2;
     field_E6_last_anim_frame = 0;
     field_130 = 0;

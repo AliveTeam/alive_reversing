@@ -993,7 +993,7 @@ void FlyingSlig::Movement_4396E0()
     const int v38 = static_cast<int>(sGnFrame_5C1B84) % ((FP_FromInteger(v37) < field_2A8_max_x_speed) + 2);
     if (!v38 && field_10C_health > FP_FromInteger(0))
     {
-        Slig_SoundEffect_4BFFE0((Math_NextRandom() % 3) ? SligSfx::eUnknown_10 : SligSfx::eUnknown_9, this);
+        Slig_SoundEffect_4BFFE0((Math_NextRandom() % 3) ? SligSfx::ePropeller2_10 : SligSfx::ePropeller1_9, this);
     }
 
     field_17E_flags.Clear(Flags_17E::eBit5_Throw);
@@ -2349,7 +2349,7 @@ void FlyingSlig::ThrowGrenade_43A1E0()
     pGrenade->VThrow_49E460(grenadeXVel, grenadeYVel);
 
     New_ShootingFire_Particle_426890(xpos + field_B8_xpos, ypos + field_BC_ypos, field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX), field_CC_sprite_scale);
-    Slig_SoundEffect_4BFFE0(SligSfx::eUnknown_8, this);
+    Slig_SoundEffect_4BFFE0(SligSfx::eThrowGrenade_8, this);
     Event_Broadcast_422BC0(kEventShooting, this);
     Event_Broadcast_422BC0(kEventLoudNoise, this);
 
@@ -3163,7 +3163,7 @@ __int16 FlyingSlig::CollisionUp_43A640(FP velY)
             }
         }
 
-        Slig_SoundEffect_4BFFE0(sGnFrame_5C1B84 & 1 ? SligSfx::eUnknown_12 : SligSfx::eUnknown_13, this);
+        Slig_SoundEffect_4BFFE0(sGnFrame_5C1B84 & 1 ? SligSfx::eCollideWithWall1_12 : SligSfx::eCollideWithWall2_13, this);
 
         field_BC_ypos += velY + hitY - y2;
         return 1;
@@ -3275,7 +3275,7 @@ __int16 FlyingSlig::CollisionLeftRight_43AC80(FP velX)
             k25Directed = FP_FromInteger(25);
         }
         sparkX = (k25Directed * field_CC_sprite_scale) + field_B8_xpos;
-        Slig_SoundEffect_4BFFE0(sGnFrame_5C1B84 & 1 ? SligSfx::eUnknown_12 : SligSfx::eUnknown_13, this);
+        Slig_SoundEffect_4BFFE0(sGnFrame_5C1B84 & 1 ? SligSfx::eCollideWithWall1_12 : SligSfx::eCollideWithWall2_13, this);
     }
     else
     {
