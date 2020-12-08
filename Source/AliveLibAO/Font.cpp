@@ -480,7 +480,7 @@ EXPORT int AliveFont::DrawString_41C360(int** ot, const char* text, __int16 x, _
 
         ++characterRenderCount;
 
-        offsetX += widthScaled + static_cast<short>(field_34_font_context->field_8_atlas_array[0].field_2_width * FP_GetDouble(scale));
+        offsetX += widthScaled + FP_GetExponent(FP_FromInteger(field_34_font_context->field_8_atlas_array[0].field_2_width) * scale);
 
         poly += 2;
     }
