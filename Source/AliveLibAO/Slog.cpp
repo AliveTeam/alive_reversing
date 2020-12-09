@@ -144,7 +144,7 @@ Slog* Slog::ctor_472EE0(Path_Slog* pTlv, int tlvInfo)
 
     field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1A_direction == 0);
 
-    field_15A = pTlv->field_1E_bark_anger + pTlv->field_20_sleeps + pTlv->field_22_chase_anger;
+    field_15A = pTlv->field_1E_bark_anger + pTlv->field_20_sleeps;
     field_15C = pTlv->field_1E_bark_anger + pTlv->field_20_sleeps + pTlv->field_22_chase_anger;
     field_10C_pTarget = 0;
     field_17E = pTlv->field_1C_wakeup_anger;
