@@ -54,7 +54,7 @@ Bat* Bat::ctor_4046E0(Path_Bat* pTlv, int tlvInfo)
         field_AC_ypos = FP_FromInteger(field_E4_pLine->field_0_rect.y);
     }
 
-    field_EC = pTlv->field_18_ticks_before_moving;
+    field_EC_ticks_before_moving = pTlv->field_18_ticks_before_moving;
     field_E8_speed = FP_FromRaw(pTlv->field_1A_speed << 8);
 
     if (pTlv->field_1C_scale == 1)
@@ -70,7 +70,7 @@ Bat* Bat::ctor_4046E0(Path_Bat* pTlv, int tlvInfo)
         field_10_anim.field_C_layer = 25;
     }
 
-    field_F4_state = States::e0;
+    field_F4_state = States::eSetTimer_0;
     field_10C = nullptr;
     field_F6_attack_duration = pTlv->field_1E_attack_duration;
 
@@ -115,13 +115,13 @@ Bat* Bat::Vdtor_404FF0(signed int flags)
 
 void Bat::FlyTo_404E50(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed)
 {
-    const FP xd = FP_Abs(xpos - field_104);
+    const FP xd = FP_Abs(xpos - field_104_xpos);
     if (xd > FP_FromInteger(350))
     {
         field_A8_xpos += *xSpeed;
     }
 
-    const FP yd = FP_Abs(ypos - field_108);
+    const FP yd = FP_Abs(ypos - field_108_ypos);
     if (yd > FP_FromInteger(200))
     {
         field_AC_ypos += *ySpeed;
@@ -130,8 +130,8 @@ void Bat::FlyTo_404E50(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed)
     *xSpeed = xd;
     *ySpeed = yd;
 
-    field_104 = xpos;
-    field_108 = ypos;
+    field_104_xpos = xpos;
+    field_108_ypos = ypos;
 
     *xSpeed = FP_FromInteger((Math_NextRandom() & 63) - 32) + xpos - field_A8_xpos;
     *ySpeed = FP_FromInteger((Math_NextRandom() & 31) - 8) + ypos - field_AC_ypos;
@@ -169,50 +169,50 @@ void Bat::VUpdate_404950()
 
     switch (field_F4_state)
     {
-    case States::e0:
-        field_F4_state = States::e1;
-        field_F8 = gnFrameCount_507670 + field_EC;
+    case States::eSetTimer_0:
+        field_F4_state = States::eInit_1;
+        field_F8_timer = gnFrameCount_507670 + field_EC_ticks_before_moving;
         break;
 
-    case States::e1:
-        if (static_cast<int>(gnFrameCount_507670) > field_F8)
+    case States::eInit_1:
+        if (static_cast<int>(gnFrameCount_507670) > field_F8_timer)
         {
-            field_F4_state = States::e2;
-            field_100 = FP_FromInteger(0);
+            field_F4_state = States::eStartMoving_2;
+            field_100_velx = FP_FromInteger(0);
             field_10_anim.Set_Animation_Data_402A40(6608, nullptr);
         }
         break;
 
-    case States::e2:
-        if (field_100 < field_E8_speed)
+    case States::eStartMoving_2:
+        if (field_100_velx < field_E8_speed)
         {
-            field_100 += FP_FromDouble(1.8);
-            if (field_100 > field_E8_speed)
+            field_100_velx += FP_FromDouble(1.8);
+            if (field_100_velx > field_E8_speed)
             {
-                field_100 = field_E8_speed;
+                field_100_velx = field_E8_speed;
             }
         }
 
         if (field_E4_pLine)
         {
-            field_E4_pLine = field_E4_pLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_100);
+            field_E4_pLine = field_E4_pLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_100_velx);
         }
 
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            field_F4_state = States::e3;
+            field_F4_state = States::eFlying_3;
             field_10_anim.Set_Animation_Data_402A40(6644, nullptr);
-            field_F8 = gnFrameCount_507670 + Math_RandomRange_450F20(0, 90);
+            field_F8_timer = gnFrameCount_507670 + Math_RandomRange_450F20(0, 90);
         }
         break;
 
-    case States::e3:
-        if (field_100 < field_E8_speed)
+    case States::eFlying_3:
+        if (field_100_velx < field_E8_speed)
         {
-            field_100 += FP_FromDouble(1.8);
-            if (field_100 > field_E8_speed)
+            field_100_velx += FP_FromDouble(1.8);
+            if (field_100_velx > field_E8_speed)
             {
-                field_100 = field_E8_speed;
+                field_100_velx = field_E8_speed;
             }
         }
 
@@ -221,15 +221,15 @@ void Bat::VUpdate_404950()
             SFX_Play_43AD70(Math_RandomRange_450F20(41, 42) & 0xFF, Math_RandomRange_450F20(20, 26), 0);
         }
 
-        if (static_cast<int>(gnFrameCount_507670) > field_F8)
+        if (static_cast<int>(gnFrameCount_507670) > field_F8_timer)
         {
             SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_18, 1, 1);
-            field_F8 = gnFrameCount_507670 + Math_RandomRange_450F20(120, 240);
+            field_F8_timer = gnFrameCount_507670 + Math_RandomRange_450F20(120, 240);
         }
 
         if (field_E4_pLine)
         {
-            field_E4_pLine = field_E4_pLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_100);
+            field_E4_pLine = field_E4_pLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_100_velx);
         }
 
         if (!field_E4_pLine)
@@ -273,14 +273,14 @@ void Bat::VUpdate_404950()
                                 pBat->field_10C = pObjIter;
                                 pBat->field_10C->field_C_refCount++;
 
-                                pBat->field_F4_state = States::e4;
+                                pBat->field_F4_state = States::eAttackTarget_4;
                                 pBat->field_10_anim.Set_Animation_Data_402A40(6644, nullptr);
 
-                                pBat->field_F8 = 0;
-                                pBat->field_FC = gnFrameCount_507670 + pBat->field_F6_attack_duration;
+                                pBat->field_F8_timer = 0;
+                                pBat->field_FC_attack_duration_timer = gnFrameCount_507670 + pBat->field_F6_attack_duration;
 
-                                pBat->field_104 = pBat->field_10C->field_A8_xpos;
-                                pBat->field_108 = pBat->field_10C->field_AC_ypos;
+                                pBat->field_104_xpos = pBat->field_10C->field_A8_xpos;
+                                pBat->field_108_ypos = pBat->field_10C->field_AC_ypos;
                             }
                         }
                     }
@@ -289,7 +289,7 @@ void Bat::VUpdate_404950()
         }
         break;
 
-    case States::e4:
+    case States::eAttackTarget_4:
     {
         if (field_10C->field_6_flags.Get(BaseGameObject::eDead_Bit3) || Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
         {
@@ -307,24 +307,24 @@ void Bat::VUpdate_404950()
 
         if (FP_Abs(xSpeed) < FP_FromInteger(10))
         {
-            if (FP_Abs(ySpeed) < FP_FromInteger(20) && static_cast<int>(gnFrameCount_507670) > field_F8)
+            if (FP_Abs(ySpeed) < FP_FromInteger(20) && static_cast<int>(gnFrameCount_507670) > field_F8_timer)
             {
                 field_10C->VTakeDamage(this);
-                field_F8 = gnFrameCount_507670 + 30;
+                field_F8_timer = gnFrameCount_507670 + 30;
                 SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_18, 1, 1);
             }
         }
 
-        if (field_FC <= static_cast<int>(gnFrameCount_507670))
+        if (field_FC_attack_duration_timer <= static_cast<int>(gnFrameCount_507670))
         {
             field_10C->field_C_refCount--;
             field_10C = nullptr;
-            field_F4_state = States::e5;
+            field_F4_state = States::eFlyAwayAndDie_5;
         }
     }
     break;
 
-    case States::e5:
+    case States::eFlyAwayAndDie_5:
     {
         FlyTo_404E50(field_A8_xpos, field_AC_ypos - FP_FromInteger(40), &xSpeed, &ySpeed);
         if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
