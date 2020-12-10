@@ -417,21 +417,20 @@ void ZapLine::CalculateThickSpriteSegmentPositions_478F20()
     }
 
     const FP xDiff = FP_FromInteger(field_110_x_position_destination - field_10C_x_position_source) / FP_FromInteger(field_11E_number_of_segments);
-    const FP xDiffDiv = (-xDiff * FP_FromDouble(1.5));
+    const FP xDiffDiv = (xDiff * FP_FromDouble(1.5));
 
     const FP yDiff = FP_FromInteger(field_112_y_position_destination - field_10E_y_position_source) / FP_FromInteger(field_11E_number_of_segments);
-    const FP yDiffDiv = (yDiff * FP_FromDouble(1.5));
+    const FP yDiffDiv = (-yDiff * FP_FromDouble(1.5));
 
     for (int i = 1; i < field_11E_number_of_segments - 1; i++)
     {
         const BYTE ang = static_cast<BYTE>(angExtra + 18 * i);
 
-        field_130_sprite_segment_positions[i].field_0_x = 
-            FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine_4510A0(ang) * xDiffDiv) + FP_FromInteger(field_10C_x_position_source) + (FP_FromInteger(i) * xDiff) - FP_FromInteger(v6);
+        field_130_sprite_segment_positions[i].field_0_x =
+            FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine_4510A0(ang) * yDiffDiv) + FP_FromInteger(field_10C_x_position_source) + (FP_FromInteger(i) * xDiff) - FP_FromInteger(v6);
 
-        field_130_sprite_segment_positions[i].field_4_y = 
-            FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine_4510A0(ang) * yDiffDiv) + FP_FromInteger(field_10E_y_position_source) + (FP_FromInteger(i) * yDiff) - FP_FromInteger(v6);
-
+        field_130_sprite_segment_positions[i].field_4_y =
+            FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine_4510A0(ang) * xDiffDiv) + FP_FromInteger(field_10E_y_position_source) + (FP_FromInteger(i) * yDiff) - FP_FromInteger(v6);
     }
 
     field_134_rects[0].x = 0;
