@@ -1879,9 +1879,9 @@ signed int MainMenuController::LoadNewGame_Update_4D0920(DWORD /*input*/)
 
 EXPORT signed int MainMenuController::BackStory_Or_NewGame_Update_4D1C60(DWORD input_held)
 {
-    if (input_held & 0x100000) // TODO: start button ?
+    if (input_held & InputCommands::eUnPause_OrConfirm)
     {
-        if (field_1FC_button_index == 0) // Back story
+        if (field_1FC_button_index == 0) // Show backstory
         {
             FmvInfo* pFmvRecord = Path_Get_FMV_Record_460F70(LevelIds::eMenu_0, 4u);
             while (Input_IsVKPressed_4EDD40(VK_RETURN))
@@ -2359,7 +2359,7 @@ signed int MainMenuController::Options_Update_4D1AB0(DWORD input)
     {
         if (input & InputCommands::eBack)
         {
-            Set_Anim_4D05E0(4, 0);
+            Set_Anim_4D05E0(AnimIds::eAbe_OK, 0);
             return 1;
         }
         else
@@ -2367,7 +2367,7 @@ signed int MainMenuController::Options_Update_4D1AB0(DWORD input)
             return 0;
         }
     }
-    Set_Anim_4D05E0(4, 0);
+    Set_Anim_4D05E0(AnimIds::eAbe_OK, 0);
 
     switch (field_1FC_button_index)
     {
@@ -2391,7 +2391,7 @@ signed int MainMenuController::Options_Update_4D1AB0(DWORD input)
         {
             if (input & InputCommands::eBack)
             {
-                Set_Anim_4D05E0(4, 0);
+                Set_Anim_4D05E0(AnimIds::eAbe_OK, 0);
                 return 1;
             }
             else
@@ -2628,14 +2628,13 @@ signed int MainMenuController::ControllerMenu_Update_4D16D0(DWORD input)
         }
     }
 
-    // Escape/back
-    if (input & 0x200000)
+    if (input & InputCommands::eBack)
     {
         return 3;
     }
 
     // Enter - set active input device
-    if (input & 0x100000)
+    if (input & InputCommands::eUnPause_OrConfirm)
     {
         sJoystickEnabled_5C9F70 = controllerEntryToSelect_BB43D8;
         Input_Init_Names_491870();
@@ -2643,7 +2642,7 @@ signed int MainMenuController::ControllerMenu_Update_4D16D0(DWORD input)
         return 3;
     }
     
-    if (input & 0x80000000)
+    if (input & InputCommands::eConfigure)
     {
         // c configure controller
         sJoystickEnabled_5C9F70 = controllerEntryToSelect_BB43D8;
@@ -2673,7 +2672,7 @@ signed int MainMenuController::RemapInput_Update_4D1820(DWORD input)
 {
     if (dword_BB43F8)
     {
-        if (dword_BB43F8 == 1 && sInputObject_5BD4E0.IsReleased(0x100000))
+        if (dword_BB43F8 == 1 && sInputObject_5BD4E0.IsReleased(InputCommands::eUnPause_OrConfirm))
         {
             dword_BB43F8 = 2;
             return 0;
@@ -2744,7 +2743,7 @@ signed int MainMenuController::RemapInput_Update_4D1820(DWORD input)
             SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
         }
 
-        if (input & 0x200000)
+        if (input & InputCommands::eBack)
         {
             Input_SaveSettingsIni_492840();
             field_1FC_button_index = -1;
