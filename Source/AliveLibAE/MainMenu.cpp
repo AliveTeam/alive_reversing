@@ -223,17 +223,17 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         &MainMenuController::tLoadGame_Load_4D42F0,
         &MainMenuController::tLoadGame_Unload_4D4360
     },
-    { // 8 choose button for remap page ?
+    { // Page 8: Solo or Co-op newgame selection (PSX only, unused on PC)
         5,        0,        900,        1,        0,        0,        1,
-        &MainMenuController::tsub_4D48C0,
+        &MainMenuController::PSX_Gamemode_Selection_Update_4D48C0,
         nullptr,
         sBtnArray_PSX_1Player_Or_2Player_NewGame_5613C8,
         nullptr,
         nullptr
     },
-    { // 9
+    { // Page 9: Cooperative mode (2-player) description screen (PSX only, unused on PC)
         11,        0,        1800,        5,        0,        1,        0,
-        &MainMenuController::tsub_Input_Check_4D49B0,
+        &MainMenuController::PSX_Cooperative_Mode_Update_4D49B0,
         nullptr,
         sBtnArray_Cooperative_Mode_Prompt_5613F8,
         nullptr,
@@ -2430,17 +2430,58 @@ signed int MainMenuController::AbeMotions_Update_4D1F50(DWORD input)
     }
 }
 
-signed int MainMenuController::tsub_Input_Check_4D49B0(DWORD /*input*/)
+signed int MainMenuController::PSX_Cooperative_Mode_Update_4D49B0(DWORD /*input*/)
 {
-    NOT_IMPLEMENTED();
+    DWORD held = sInputObject_5BD4E0.field_0_pads[0].field_C_held;
+    if ( held & (InputCommands::eUnPause_OrConfirm | InputCommands::eBack))
+    {
+        return 12;
+    }
+
     return 0;
 }
 
-
-signed int MainMenuController::tsub_4D48C0(DWORD /*input*/)
+signed int MainMenuController::PSX_Gamemode_Selection_Update_4D48C0(DWORD input)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    __int16 result; // ax
+    BitField32<Flags> menuFlags = this->field_23C_T80;
+
+    if (input & InputCommands::eUnPause_OrConfirm)
+    {
+        sGameStartedFrame_5C1B88 = sGnFrame_5C1B84;
+        sCurrentControllerIndex_5C1BBE = 0;
+        BOOL twoPlayerModeSelected = this->field_1FC_button_index == 1;
+
+        MainMenuController::Set_Anim_4D05E0(AnimIds::eAbe_FollowMe);
+        if (menuFlags.Get(Flags::eBit25_CheatLevelSelectLoading))
+        {
+            result = 13;
+        }
+        else
+        {
+            // apparently cam 11 was originally for the cooperative mode
+            // description screen on the PSX
+            result = twoPlayerModeSelected ? 11 : 12;
+        }
+    }
+    else if (input & InputCommands::eBack)
+    {
+        if (menuFlags.Get(Flags::eBit25_CheatLevelSelectLoading))
+        {
+            result = 31;
+        }
+        else
+        {
+            MainMenuController::Set_Anim_4D05E0(AnimIds::eAbe_OK);
+            result = 1;
+        }
+    }
+    else
+    {
+        result = 0;
+    }
+
+    return result;
 }
 
 ALIVE_VAR(1, 0xBB43F8, int, dword_BB43F8, 0);
