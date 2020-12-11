@@ -2260,7 +2260,7 @@ signed int MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
         return 0xFFFF0016; //Enter Pressed
     }
 
-    return 0; //Nothing Pressed
+    return MainMenuCams::eNoChange; // Nothing Pressed
 }
 
 EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
