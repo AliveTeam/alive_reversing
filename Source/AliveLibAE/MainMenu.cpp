@@ -158,65 +158,72 @@ SfxDefinition stru_55D7C0[] =
 
 ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960, 
 {
-    { // 0
-        23,       0,        0,        0,        -1,        0,        0,
+    { // Page 0: Controller selection menu
+        MainMenuCams::eControllerSelectionCam,
+        0,        0,        0,       -1,        0,        0,
         &MainMenuController::ControllerMenu_Update_4D16D0,
         &MainMenuController::ControllerMenu_Render_Text_4D26C0,
         nullptr,
         &MainMenuController::ControllerMenu_Load_4D16B0,
         nullptr
     }, 
-    { // 1
-        5,        0,        0,        0,        -1,        0,        0,
+    { // Page 1: Input remapping menu
+        MainMenuCams::eRemapInputsCam,
+        0,        0,        0,       -1,        0,        0,
         &MainMenuController::RemapInput_Update_4D1820,
         &MainMenuController::RemapInput_Render_4D2A10,
         nullptr,
         &MainMenuController::RemapInput_Load_4D17E0,
         nullptr
     }, 
-    { // 2
-        11,        0,        0,        0,        -1,        0,       0,
+    { // Page 2: Dummy blank screen for quitting
+        MainMenuCams::eDummyBlankCam,
+        0,        0,        0,       -1,        0,        0,
         nullptr,
         nullptr,
         nullptr,
         &MainMenuController::Game_Force_Quit_Load_4D1A90,
         nullptr
     },
-    { // 3
-        // Main menu screen where abe says hello
-        1,        0,        0,        0,        -1,        -1,    1,
+    { // Page 3: Main menu screen where abe says hello
+        MainMenuCams::eMainMenuCam,
+        0,        0,        0,       -1,       -1,        1,
         &MainMenuController::Page_Front_Update_4D0720,
         &MainMenuController::Page_Front_Render_4D24B0,
         sBtnArray_FrontEnd_560FA0,
         nullptr,
         nullptr
     },
-    { // Gamespeak Page 4
-        2,        0,        900,        1,        0,        4,        0,
+    { // Page 4: Gamespeak character selection screen
+        MainMenuCams::eGamespeakCharacterSelectionCam,
+        0,        900,      1,        0,        4,        0,
         &MainMenuController::Gamespeak_Update_4D1FC0,
         &MainMenuController::Gamespeak_Render_4D24F0,
         sBtnArray_Gamespeak_561310,
         nullptr,
         nullptr
     },
-    { // Options Page 5
-        3,        0,        900,        1,        0,        3,        1,
+    { // Page 5: Options 
+        MainMenuCams::eOptionsCam,
+        0,        900,      1,        0,        3,        1,
         &MainMenuController::Options_Update_4D1AB0,
         &MainMenuController::Options_Render_4D2540,
         sBtnArray_Options_561368,
         nullptr,
         nullptr
     },
-    { // 6
-        9,        0,        1600,        3,        0,        0,        0,
+    { // Page 6: Abe's motions 
+        MainMenuCams::eAbesMotionKeysCam,
+        0,        1600,     3,        0,        0,        0,
         &MainMenuController::AbeMotions_Update_4D1F50,
         &MainMenuController::AbeMotions_Render_4D25E0,
         nullptr,
         nullptr,
         nullptr
     },
-    { // Load game page 7
-        4,        0,        1000,        1,        0,        2,        0,
+    { // Page 7: Load game menu
+        MainMenuCams::eLoadGameMenuCam,
+        0,        1000,     1,        0,        2,        0,
         &MainMenuController::tLoadGame_Input_4D3EF0,
         &MainMenuController::tLoadGame_Render_4D44D0,
         sBtnArray_LoadGame_561450,
@@ -224,7 +231,8 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         &MainMenuController::tLoadGame_Unload_4D4360
     },
     { // Page 8: Solo or Co-op newgame selection (PSX only, unused on PC)
-        5,        0,        900,        1,        0,        0,        1,
+        MainMenuCams::eRemapInputsCam,
+        0,        900,      1,        0,        0,        1,
         &MainMenuController::PSX_Gamemode_Selection_Update_4D48C0,
         nullptr,
         sBtnArray_PSX_1Player_Or_2Player_NewGame_5613C8,
@@ -232,105 +240,119 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         nullptr
     },
     { // Page 9: Cooperative mode (2-player) description screen (PSX only, unused on PC)
-        11,        0,        1800,        5,        0,        1,        0,
+        MainMenuCams::eDummyBlankCam,
+        0,        1800,     5,        0,        1,        0,
         &MainMenuController::PSX_Cooperative_Mode_Update_4D49B0,
         nullptr,
         sBtnArray_Cooperative_Mode_Prompt_5613F8,
         nullptr,
         nullptr
     },
-    { // 10
-        6,        0,        0,        1,        0,        0,        0,
+    { // Page 10: FMV selection cheat menu
+        MainMenuCams::eCheatMenu_SelectFMVCam,
+        0,        0,        1,        0,        0,        0,
         &MainMenuController::Page_FMV_Level_Update_4D4AB0,
         &MainMenuController::Demo_And_FMV_List_Render_4D4F30,
         sBtnArray_Cheat_Level_Or_FMVSelection_560FE8,
         &MainMenuController::t_Unload_AbeSpeak_Res_4D49F0,
         &MainMenuController::t_Load_AbeSpeak_Res_4D4A20
     },
-    { // 11
-        31,        0,        0,        1,        0,        0,        0,
+    { // Page 11: Level selection cheat menu
+        MainMenuCams::eCheatMenu_SelectLevelCam,
+        0,        0,        1,        0,        0,        0,
         &MainMenuController::Page_FMV_Level_Update_4D4AB0,
         &MainMenuController::Demo_And_FMV_List_Render_4D4F30,
         sBtnArray_Cheat_Level_Or_FMVSelection_560FE8,
         nullptr,
         nullptr
     },
-    { // 12
-        30,        0,        0,        1,        0,        1,        0,
+    { // Page 12: Demo selection menu
+        MainMenuCams::eDemoSelectionCam,
+        0,        0,        1,        0,        1,        0,
         &MainMenuController::DemoSelect_Update_4D0E10,
         &MainMenuController::Demo_And_FMV_List_Render_4D4F30,
         nullptr,
         nullptr,
         nullptr
     },
-    { // 13
-        13,        0,        0,        0,        -1,        -1,        0,
+    { // Page 13: "Game is loading" splash screen
+        MainMenuCams::eGameIsLoading_ShaddapCam,
+        0,        0,        0,       -1,       -1,        0,
         &MainMenuController::LoadNewGame_Update_4D0920,
         nullptr,
         nullptr,
         nullptr,
         nullptr
     },
-    { // 14
-        22,        0,        0,        0,        -1,        -1,        0,
+    { // Page 14: "Demo is loading" splash screen
+        MainMenuCams::eDemoIsLoading_ShaddapCam,
+        0,        0,        0,       -1,       -1,        0,
         &MainMenuController::LoadDemo_Update_4D1040,
         nullptr,
         nullptr,
         nullptr,
         nullptr
     },
-    {  // 15
-        20, 0, 150, 25, 1, -1, 0, nullptr, nullptr, nullptr, nullptr, nullptr
+    { // Page 15: Unknown, possibly startup-related?
+        MainMenuCams::eUnknown20Cam,
+        0, 150, 25, 1, -1, 0, nullptr, nullptr, nullptr, nullptr, nullptr
     },
-    { // 16
-        // Copy right boot screen
-        25, 0, 150, 1, 7, 0, 0, nullptr, nullptr, nullptr, nullptr, nullptr
+    { // Page 16: Copyright boot screen
+        MainMenuCams::eGameBootCopyrightSplashCam,
+        0, 150, 1, 7, 0, 0, nullptr, nullptr, nullptr, nullptr, nullptr
     },
-    { // 17
-        23, 0, 150, 25, 1, -1, 0, nullptr, nullptr, nullptr, nullptr, nullptr
+    { // Page 17: Unknown, possibly startup-related?
+        MainMenuCams::eControllerSelectionCam,
+        0, 150, 25, 1, -1, 0, nullptr, nullptr, nullptr, nullptr, nullptr
     },
-    { // 18
-        14,        0,        1600,        2,        0,        0,        1,
+    { // Page 18: Abe Gamespeak screen
+        MainMenuCams::eAbeGamespeakCam,
+        0,        1600,     2,        0,        0,        1,
         &MainMenuController::AbeSpeak_Update_4D2D20,
         &MainMenuController::AbeSpeak_Render_4D2060,
         nullptr,
         nullptr,
         nullptr
     },
-    { // 19
-        15,        0,        1600,        2,        0,        1,        1,
+    { // Page 19: Slig Gamespeak screen
+        MainMenuCams::eSligGamespeakCam,
+        0,        1600,     2,        0,        1,        1,
         &MainMenuController::SligSpeak_Update_4D3280,
         &MainMenuController::SligSpeak_Render_4D2370,
         nullptr,
         &MainMenuController::SligSpeak_Load_4D3090,
         &MainMenuController::SligSpeak_Unload_4D3170
     },
-    { // 20
-        16,        0,        1600,        2,        0,        2,        1,
+    { // Page 20: Glukkon Gamespeak screen
+        MainMenuCams::eGlukkonGamespeakCam,
+        0,        1600,     2,        0,        2,        1,
         &MainMenuController::GlukkonSpeak_Update_4D3670,
         &MainMenuController::GlukkonSpeak_Render_4D23C0,
         nullptr,
         &MainMenuController::GlukkonSpeak_Load_4D3480,
         &MainMenuController::GlukkonSpeak_Unload_4D3560
     },
-    { // 21
-        17,        0,        1600,        2,        0,        3,        1,
+    { // Page 21: Scrab Gamespeak screen
+        MainMenuCams::eScrabGamespeakCam,
+        0,        1600,     2,        0,        3,        1,
         &MainMenuController::ScrabSpeak_Update_4D3A60,
         &MainMenuController::ScrabSpeak_Render_4D2410,
         nullptr,
         &MainMenuController::ScrabSpeak_Load_4D3870,
         &MainMenuController::ScrabSpeak_Unload_4D3950
     },
-    { // 22
-        18,        0,        1600,        2,        0,        4,        1,
+    { // Page 22: Paramite Gamespeak screen
+        MainMenuCams::eParamiteGamespeakCam,
+        0,        1600,     2,        0,        4,        1,
         &MainMenuController::ParamiteSpeak_Update_4D3D60,
         &MainMenuController::ParamiteSpeak_Render_4D2460,
         nullptr,
         &MainMenuController::ParamiteSpeak_Load_4D3B70,
         &MainMenuController::ParamiteSpeak_Unload_4D3C50
     },
-    { // 23
-        12,        0,        900,        1,        0,        0,        0,
+    { // Page 23: Backstory Or Just Start a New Game screen
+        MainMenuCams::eBackstory_Or_NewGameCam,
+        0,        900,      1,        0,        0,        0,
         &MainMenuController::BackStory_Or_NewGame_Update_4D1C60,
         &MainMenuController::BackStory_Or_NewGame_Render_4D2630,
         sBtnArray_Game_BackStory_Or_NewGame_561420,
