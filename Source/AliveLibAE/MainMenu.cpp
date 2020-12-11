@@ -71,7 +71,7 @@ MainMenuButton sBtnArray_FrontEnd_560FA0[] =
     { 0, 0, 0, 0, 0 }
 };
 
-MainMenuButton stru_560FE8[] =
+MainMenuButton sBtnArray_Cheat_Level_Or_FMVSelection_560FE8[] =
 {
     { 3, 34, 65, 0, 13912 },
     { 0, 0, 0, 0, 0 },
@@ -114,7 +114,7 @@ MainMenuButton sBtnArray_Options_561368[] =
     { 0, 0, 0, 0, 0 }
 };
 
-MainMenuButton stru_5613C8[] =
+MainMenuButton sBtnArray_PSX_1Player_Or_2Player_NewGame_5613C8[] =
 {
     { 1, 33, 62, 0, 13912 },
     { 1, 336, 60, 0, 13912 },
@@ -122,7 +122,7 @@ MainMenuButton stru_5613C8[] =
     { 0, 0, 0, 0, 0 }
 };
 
-MainMenuButton stru_5613F8[] =
+MainMenuButton sBtnArray_Cooperative_Mode_Prompt_5613F8[] =
 { 
     { 1, 31, 62, 0, 13912 },
     { 3, 331, 240, 0, 13912 },
@@ -227,7 +227,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         5,        0,        900,        1,        0,        0,        1,
         &MainMenuController::tsub_4D48C0,
         nullptr,
-        stru_5613C8,
+        sBtnArray_PSX_1Player_Or_2Player_NewGame_5613C8,
         nullptr,
         nullptr
     },
@@ -235,7 +235,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         11,        0,        1800,        5,        0,        1,        0,
         &MainMenuController::tsub_Input_Check_4D49B0,
         nullptr,
-        stru_5613F8,
+        sBtnArray_Cooperative_Mode_Prompt_5613F8,
         nullptr,
         nullptr
     },
@@ -243,7 +243,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         6,        0,        0,        1,        0,        0,        0,
         &MainMenuController::Page_FMV_Level_Update_4D4AB0,
         &MainMenuController::Demo_And_FMV_List_Render_4D4F30,
-        stru_560FE8,
+        sBtnArray_Cheat_Level_Or_FMVSelection_560FE8,
         &MainMenuController::t_Unload_AbeSpeak_Res_4D49F0,
         &MainMenuController::t_Load_AbeSpeak_Res_4D4A20
     },
@@ -251,7 +251,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         31,        0,        0,        1,        0,        0,        0,
         &MainMenuController::Page_FMV_Level_Update_4D4AB0,
         &MainMenuController::Demo_And_FMV_List_Render_4D4F30,
-        stru_560FE8,
+        sBtnArray_Cheat_Level_Or_FMVSelection_560FE8,
         nullptr,
         nullptr
     },
