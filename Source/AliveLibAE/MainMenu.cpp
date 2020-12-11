@@ -2992,7 +2992,7 @@ void MainMenuController::HandleMainMenuUpdate()
         ++field_1F8_page_timeout;
     }
 
-    auto v8 = 0;
+    auto isScreenTransitionNecessary = 0;
 
     if (pPage->field_4_time_out <= 0 ||
         pPage->field_8_next_idx <= 0 ||
@@ -3074,33 +3074,35 @@ void MainMenuController::HandleMainMenuUpdate()
         }
 
         // Todo: change all field_10_fn_update function types to unsigned.
-        const unsigned int pageUpdateRet = (this->*(pPage->field_10_fn_update))(inputHeld);
+        const unsigned int pageUpdateReturnedCam = (this->*(pPage->field_10_fn_update))(inputHeld);
 
-        if (pageUpdateRet <= 0 || (pageUpdateRet & 0xFF) == static_cast<unsigned int>(gMap_5C3030.field_4_current_camera))
+        if (pageUpdateReturnedCam <= 0 || (pageUpdateReturnedCam & 0xFF) == static_cast<unsigned int>(gMap_5C3030.field_4_current_camera))
         {
+            // stay on the same screen
             return;
         }
 
-        field_218_target_page_index = static_cast<short>(GetPageIndexFromCam_4D05A0(pageUpdateRet & 0xFF));
+        field_218_target_page_index = static_cast<short>(GetPageIndexFromCam_4D05A0(pageUpdateReturnedCam & 0xFF));
 
         // The return variable of page update seems to have multiple bits of data masked.
-        auto v19 = (pageUpdateRet >> 16) & 0xFF;
+        auto v19 = (pageUpdateReturnedCam >> 16) & 0xFF;
         field_21A_target_cam = static_cast<short>(v19);
         if (v19 == 0xFF)
         {
             field_21A_target_cam = -1;
         }
-        v8 = BYTE1(pageUpdateRet);
+
+        isScreenTransitionNecessary = BYTE1(pageUpdateReturnedCam);
     }
     else
     {
         field_1F8_page_timeout = 0;
         field_218_target_page_index = static_cast<short>(GetPageIndexFromCam_4D05A0(pPage->field_8_next_idx));
         field_21A_target_cam = pPage->field_C_target_camera;
-        v8 = pPage->field_A_transistion_effect;
+        isScreenTransitionNecessary = pPage->field_A_transistion_effect;
     }
 
-    field_21C_bDoScreenTransistionEffect = static_cast<short>(v8);
+    field_21C_bDoScreenTransistionEffect = static_cast<short>(isScreenTransitionNecessary);
     field_21E_bChangeScreen = 1;
 }
 
