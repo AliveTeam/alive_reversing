@@ -222,9 +222,9 @@ public:
     
     EXPORT signed int AbeMotions_Update_4D1F50(DWORD input);
 
-    EXPORT signed int tsub_Input_Check_4D49B0(DWORD input);
+    EXPORT signed int PSX_Cooperative_Mode_Update_4D49B0(DWORD input);
 
-    EXPORT signed int tsub_4D48C0(DWORD input);
+    EXPORT signed int PSX_Gamemode_Selection_Update_4D48C0(DWORD input);
 
     EXPORT void RemapInput_Load_4D17E0();
 
