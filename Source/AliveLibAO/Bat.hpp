@@ -38,24 +38,24 @@ public:
     int field_D4[4];
     PathLine* field_E4_pLine;
     FP field_E8_speed;
-    int field_EC;
+    int field_EC_ticks_before_moving;
     int field_F0_tlvInfo;
     enum class States : __int16
     {
-        e0 = 0,
-        e1 = 1,
-        e2 = 2,
-        e3 = 3,
-        e4 = 4,
-        e5 = 5,
+        eSetTimer_0 = 0,
+        eInit_1 = 1,
+        eStartMoving_2 = 2,
+        eFlying_3 = 3,
+        eAttackTarget_4 = 4,
+        eFlyAwayAndDie_5 = 5,
     };
     States field_F4_state;
     __int16 field_F6_attack_duration;
-    int field_F8;
-    int field_FC;
-    FP field_100;
-    FP field_104;
-    FP field_108;
+    int field_F8_timer;
+    int field_FC_attack_duration_timer;
+    FP field_100_velx;
+    FP field_104_xpos;
+    FP field_108_ypos;
     BaseAliveGameObject* field_10C;
 };
 ALIVE_ASSERT_SIZEOF(Bat, 0x110);
