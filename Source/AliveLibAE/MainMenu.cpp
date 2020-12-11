@@ -2462,10 +2462,10 @@ signed int MainMenuController::PSX_Cooperative_Mode_Update_4D49B0(DWORD /*input*
     DWORD held = sInputObject_5BD4E0.field_0_pads[0].field_C_held;
     if ( held & (InputCommands::eUnPause_OrConfirm | InputCommands::eBack))
     {
-        return 12;
+        return MainMenuCams::eBackstory_Or_NewGameCam;
     }
 
-    return 0;
+    return MainMenuCams::eNoChange;
 }
 
 signed int MainMenuController::PSX_Gamemode_Selection_Update_4D48C0(DWORD input)
@@ -2482,30 +2482,30 @@ signed int MainMenuController::PSX_Gamemode_Selection_Update_4D48C0(DWORD input)
         MainMenuController::Set_Anim_4D05E0(AnimIds::eAbe_FollowMe);
         if (menuFlags.Get(Flags::eBit25_CheatLevelSelectLoading))
         {
-            result = 13;
+            result = MainMenuCams::eGameIsLoading_ShaddapCam;
         }
         else
         {
             // apparently cam 11 was originally for the cooperative mode
             // description screen on the PSX
-            result = twoPlayerModeSelected ? 11 : 12;
+            result = twoPlayerModeSelected ? MainMenuCams::eDummyBlankCam : MainMenuCams::eBackstory_Or_NewGameCam;
         }
     }
     else if (input & InputCommands::eBack)
     {
         if (menuFlags.Get(Flags::eBit25_CheatLevelSelectLoading))
         {
-            result = 31;
+            result = MainMenuCams::eCheatMenu_SelectLevelCam;
         }
         else
         {
             MainMenuController::Set_Anim_4D05E0(AnimIds::eAbe_OK);
-            result = 1;
+            result = MainMenuCams::eMainMenuCam;
         }
     }
     else
     {
-        result = 0;
+        result = MainMenuCams::eNoChange;
     }
 
     return result;
