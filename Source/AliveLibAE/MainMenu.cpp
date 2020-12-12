@@ -2459,7 +2459,7 @@ signed int MainMenuController::AbeMotions_Update_4D1F50(DWORD input)
 
 signed int MainMenuController::PSX_Cooperative_Mode_Update_4D49B0(DWORD /*input*/)
 {
-    DWORD held = sInputObject_5BD4E0.field_0_pads[0].field_C_held;
+    const DWORD held = sInputObject_5BD4E0.field_0_pads[0].field_C_held;
     if ( held & (InputCommands::eUnPause_OrConfirm | InputCommands::eBack))
     {
         return MainMenuCams::eBackstory_Or_NewGameCam;
@@ -2470,45 +2470,38 @@ signed int MainMenuController::PSX_Cooperative_Mode_Update_4D49B0(DWORD /*input*
 
 signed int MainMenuController::PSX_Gamemode_Selection_Update_4D48C0(DWORD input)
 {
-    __int16 result; // ax
-    BitField32<Flags> menuFlags = this->field_23C_T80;
-
     if (input & InputCommands::eUnPause_OrConfirm)
     {
         sGameStartedFrame_5C1B88 = sGnFrame_5C1B84;
         sCurrentControllerIndex_5C1BBE = 0;
-        BOOL twoPlayerModeSelected = this->field_1FC_button_index == 1;
+        const BOOL twoPlayerModeSelected = field_1FC_button_index == 1;
 
         MainMenuController::Set_Anim_4D05E0(AnimIds::eAbe_FollowMe);
-        if (menuFlags.Get(Flags::eBit25_CheatLevelSelectLoading))
+        if (field_23C_T80.Get(Flags::eBit25_CheatLevelSelectLoading))
         {
-            result = MainMenuCams::eGameIsLoading_ShaddapCam;
+            return MainMenuCams::eGameIsLoading_ShaddapCam;
         }
         else
         {
             // apparently cam 11 was originally for the cooperative mode
             // description screen on the PSX
-            result = twoPlayerModeSelected ? MainMenuCams::eDummyBlankCam : MainMenuCams::eBackstory_Or_NewGameCam;
+            return twoPlayerModeSelected ? MainMenuCams::eDummyBlankCam : MainMenuCams::eBackstory_Or_NewGameCam;
         }
     }
     else if (input & InputCommands::eBack)
     {
-        if (menuFlags.Get(Flags::eBit25_CheatLevelSelectLoading))
+        if (field_23C_T80.Get(Flags::eBit25_CheatLevelSelectLoading))
         {
-            result = MainMenuCams::eCheatMenu_SelectLevelCam;
+            return MainMenuCams::eCheatMenu_SelectLevelCam;
         }
         else
         {
             MainMenuController::Set_Anim_4D05E0(AnimIds::eAbe_OK);
-            result = MainMenuCams::eMainMenuCam;
+            return MainMenuCams::eMainMenuCam;
         }
     }
-    else
-    {
-        result = MainMenuCams::eNoChange;
-    }
 
-    return result;
+    return MainMenuCams::eNoChange;
 }
 
 ALIVE_VAR(1, 0xBB43F8, int, dword_BB43F8, 0);
