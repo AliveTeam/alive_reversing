@@ -181,11 +181,13 @@ public:
 
     EXPORT __int16 Brain_Death_45CB80();
 
+    EXPORT __int16 Brain_ChasingEnemy_Real_45CC90();
+
     EXPORT __int16 Brain_ChasingEnemy_45CC90();
 
     EXPORT __int16 Brain_Patrol_460020();
 
-    EXPORT __int16 Brain_460D80();
+    EXPORT __int16 Brain_WalkAround_460D80();
 
     using TBrainType = decltype(&Scrab::Brain_Fighting_45C370);
 
@@ -209,8 +211,8 @@ public:
     __int16 field_132_res_block_idx;
     int field_134_tlvInfo;
     int field_138_attack_duration;
-    int field_13C;
-    int field_140;
+    int field_13C_attack_timer;
+    int field_140_last_shriek_timer;
     __int16 field_144_left_min_delay;
     __int16 field_146_left_max_delay;
     __int16 field_148_right_min_delay;
