@@ -521,7 +521,7 @@ EXPORT void Game_Run_4373D0()
     gTimeOut_NotUsed_507B0C = 6000;
     gFileOffset_NotUsed_507B10 = 34;
 
-    DDCheat::DebugOut_495990("Abe's Oddysee Attract=%d Timeout=%d FileOffset=%d DA Track=NA\n", 0, 200, 34);
+    DDCheat::DebugStr_495990("Abe's Oddysee Attract=%d Timeout=%d FileOffset=%d DA Track=NA\n", 0, 200, 34);
     SYS_EventsPump_44FF90();
     PSX_ResetCallBack_49AFB0();
 
@@ -594,7 +594,7 @@ EXPORT void Game_Run_4373D0()
     InputObject::Shutdown_433230();
     PSX_ResetGraph_4987E0(3);
 
-    DDCheat::DebugOut_495990("Abe's Oddysee Demo Done\n");
+    DDCheat::DebugStr_495990("Abe's Oddysee Demo Done\n");
 }
 
 

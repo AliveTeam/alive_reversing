@@ -441,7 +441,7 @@ void Slog::VUpdate_4739C0()
 
     if (showDebugCreatureInfo_5076E0)
     {
-        DDCheat::DebugOut_495990("Slog:  Motion=%d  BrainState=%d\n", field_FC_current_motion, field_116_brain_state);
+        DDCheat::DebugStr_495990("Slog:  Motion=%d  BrainState=%d\n", field_FC_current_motion, field_116_brain_state);
     }
 
     const FP old_x = field_A8_xpos;

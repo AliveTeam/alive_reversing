@@ -76,9 +76,9 @@ public:
 
     EXPORT void Misc_409E90();
 
-    EXPORT static int sub_498B40(int idx, const char* formatStr, ...);
+    EXPORT static int DebugFont_Printf_498B40(int idx, const char* formatStr, ...);
 
-    EXPORT static int DebugOut_495990(const char* pStr, ...);
+    EXPORT static int DebugStr_495990(const char* pStr, ...);
 
     int field_10;
     int field_14;

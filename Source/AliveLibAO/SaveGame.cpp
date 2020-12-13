@@ -52,7 +52,7 @@ EXPORT void Kill_Objects_451720()
     }
 }
 
-void SaveGame::Load_459970(SaveData* pData, int bKillObjects)
+void SaveGame::LoadFromMemory_459970(SaveData* pData, int bKillObjects)
 {
     // Never actually used
     //const int hash = Hash(pData);
@@ -93,11 +93,12 @@ void SaveGame::Load_459970(SaveData* pData, int bKillObjects)
     sActiveHero_507678->field_19C_throwable_count = static_cast<char>(pData->field_250_throwable_count); // TODO: Type check when other save func done
     sActiveHero_507678->field_106_shot = 0;
 
-    sActiveHero_507678->field_2A8_flags.Clear();
+    sActiveHero_507678->field_2A8_flags.Clear(Flags_2A8::e2A8_Bit6_bShrivel);
     sActiveHero_507678->field_2A8_flags.Set(Flags_2A8::e2A8_Bit12_bParamoniaDone, pData->field_252_paramonia_done & 1);
     sActiveHero_507678->field_2A8_flags.Set(Flags_2A8::e2A8_eBit13_bScrabinaDone, pData->field_253_scrabania_done & 1);
 
     sActiveHero_507678->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pData->field_23C_ah_flipX & 1);
+
     sActiveHero_507678->field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
 
     gMap_507BA8.field_E0_save_data = pData->field_2B0_pSaveBuffer;
@@ -329,7 +330,7 @@ short SaveGame::GetPathId(short pathToFind, short* outFoundPathRow)
     return path_id;
 }
 
-void CC SaveGame::Save_459490(SaveData* pSaveData)
+void CC SaveGame::SaveToMemory_459490(SaveData* pSaveData)
 {
     Save_PSX_Header* pHeaderToUse = nullptr;
     if (bUseAltSaveHeader_5076B4)
@@ -473,7 +474,7 @@ int SaveGame::Hash(SaveData* sData)
     return counter;
 }
 
-short CC SaveGame::Read_459D30(const char* name)
+short CC SaveGame::LoadFromFile_459D30(const char* name)
 {
     char buffer[40] = {};
 
@@ -496,7 +497,7 @@ short CC SaveGame::Read_459D30(const char* name)
     if (hashVal == gSaveBuffer_500A18.field_200_hashValue)
     {
         gSaveBuffer_505668 = gSaveBuffer_500A18;
-        Load_459970(&gSaveBuffer_505668, 1);
+        LoadFromMemory_459970(&gSaveBuffer_505668, 1);
         gSaveBuffer_505668.field_238_current_camera = gSaveBuffer_505668.field_216_saved_camera;
         Input().SetCurrentController(InputObject::PadIndex::First);
         gSaveBuffer_505668.field_234_current_level = gSaveBuffer_505668.field_212_saved_level;
@@ -509,7 +510,7 @@ short CC SaveGame::Read_459D30(const char* name)
     }
 }
 
-BOOL CC SaveGame::WriteSave_45A110(const char *name)
+BOOL CC SaveGame::SaveToFile_45A110(const char *name)
 {
     char buffer[40] = {};
 

@@ -94,10 +94,10 @@ ALIVE_ASSERT_SIZEOF(SaveData, 0x2000);
 class SaveGame
 {
 public:
-    EXPORT static void CC Load_459970(SaveData* pData, int bKillObjects);
-    EXPORT static void CC Save_459490(SaveData* pSaveData);
-    EXPORT static short CC Read_459D30(const char* name);
-    EXPORT static BOOL CC WriteSave_45A110(const char* name);
+    EXPORT static void CC LoadFromMemory_459970(SaveData* pData, int bKillObjects);
+    EXPORT static void CC SaveToMemory_459490(SaveData* pSaveData);
+    EXPORT static short CC LoadFromFile_459D30(const char* name);
+    EXPORT static BOOL CC SaveToFile_45A110(const char* name);
 
     static short GetPathId(short pathToFind, short* outFoundPathRow = nullptr);
     static int Hash(SaveData* table);

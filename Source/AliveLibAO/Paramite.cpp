@@ -597,7 +597,7 @@ void Paramite::VUpdate_44A490()
 
         if (showDebugCreatureInfo_5076E0)
         {
-            DDCheat::DebugOut_495990(
+            DDCheat::DebugStr_495990(
                 "Paramite %d %d %d %d\n",
                 field_110_state,
                 field_114_timer,
