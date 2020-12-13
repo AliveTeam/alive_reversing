@@ -843,7 +843,7 @@ Abe* Abe::ctor_420770(int frameTableOffset, int /*r*/, int /*g*/, int /*b*/)
     field_154_bSavedHaveShrykull = 0;
 
     field_2A8_flags.Raw().all = 0;
-    field_2A8_flags.Set(Flags_2A8::e2A8_Bit8);
+    field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
 
     // Changes Abe's "default" colour depending on the level we are in
     SetTint_418750(sTintTable_Abe_4C6438, gMap_507BA8.field_0_current_level);
@@ -4494,7 +4494,7 @@ void Abe::State_3_Fall_42E7F0()
                         TlvTypes::SoftLanding_114
                 ));
 
-                if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit8)
+                if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit8_bLandSoft)
                     || (pSoftLanding && field_100_health > FP_FromInteger(0))
                     || ((field_AC_ypos - field_E8_LastLineYPos) < (field_BC_sprite_scale * FP_FromInteger(180))
                     && (field_100_health > FP_FromInteger(0) || gAbeInvulnerableCheat_5076E4)))
@@ -7089,7 +7089,7 @@ void Abe::State_61_Respawn_42CD20()
 
             field_E8_LastLineYPos = field_AC_ypos;
 
-            field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone)); //todo check
+            field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_2A8_flags.Get(Flags_2A8::e2A8_eBit16_AbeSpawnDir));
             MapFollowMe_401D30(TRUE);
             SetTint_418750(sTintTable_Abe_4C6438, gMap_507BA8.field_0_current_level);
             if (gElum_507680)
@@ -7194,7 +7194,7 @@ void Abe::State_61_Respawn_42CD20()
                 field_D0_pShadow->field_14_flags.Set(Shadow::Flags::eBit2_Enabled);
                 field_D0_pShadow->field_14_flags.Clear(Shadow::Flags::eBit1_ShadowAtBottom);
                 MusicController::sub_443810(MusicController::MusicTypes::eType0, this, 0, 0);
-                field_2A8_flags.Set(Flags_2A8::e2A8_Bit8);
+                field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
                 field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
                 field_6_flags.Set(Options::eDrawable_Bit4);
                 field_FC_current_motion = eAbeStates::State_3_Fall_42E7F0;
@@ -7237,6 +7237,7 @@ const elumSpawn dword_4CF550[] =
 void Abe::State_62_LoadedSaveSpawn_45ADD0()
 {
     Event_Broadcast_417220(kEventResetting_6, this);
+
     if (field_114_gnFrame)
     {
         auto pSaveData = field_2AC_pSaveData;
@@ -7263,9 +7264,9 @@ void Abe::State_62_LoadedSaveSpawn_45ADD0()
         }
         else
         {
-            sActiveHero_507678->field_FC_current_motion = 3;
+            sActiveHero_507678->field_FC_current_motion = eAbeStates::State_3_Fall_42E7F0;
         }
-        sActiveHero_507678->field_2A8_flags.Clear(Flags_2A8::e2A8_Bit8);
+        sActiveHero_507678->field_2A8_flags.Clear(Flags_2A8::e2A8_Bit8_bLandSoft);
         sActiveHero_507678->field_E8_LastLineYPos = sActiveHero_507678->field_AC_ypos;
         sActiveHero_507678->field_110_state.raw = static_cast<__int16>(pSaveData->field_244_stone_state);
         sActiveHero_507678->field_114_gnFrame = pSaveData->field_248_gnFrame;
@@ -8609,13 +8610,13 @@ void Abe::State_98_LandSoft_42ED40()
 
     if (field_10_anim.field_92_current_frame == 2)
     {
-        if (!(field_2A8_flags.Get(Flags_2A8::e2A8_Bit8)))
+        if (!(field_2A8_flags.Get(Flags_2A8::e2A8_Bit8_bLandSoft)))
         {
             Event_Broadcast_417220(kEventNoise_0, this);
             Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
         }
 
-        field_2A8_flags.Clear(Flags_2A8::e2A8_Bit8);
+        field_2A8_flags.Clear(Flags_2A8::e2A8_Bit8_bLandSoft);
 
         if (field_E4_previous_motion == eAbeStates::State_3_Fall_42E7F0)
         {

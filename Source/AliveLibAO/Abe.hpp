@@ -200,7 +200,7 @@ enum Flags_2A8
     e2A8_Bit5 = 0x10,
     e2A8_Bit6_bShrivel = 0x20,
     e2A8_Bit7 = 0x40,
-    e2A8_Bit8 = 0x80,
+    e2A8_Bit8_bLandSoft = 0x80,
     e2A8_Bit9 = 0x100,
     e2A8_Bit10 = 0x200,
     e2A8_Bit11_bLaughAtChantEnd = 0x400,

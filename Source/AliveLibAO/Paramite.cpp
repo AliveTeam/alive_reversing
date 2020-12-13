@@ -591,7 +591,7 @@ void Paramite::VUpdate_44A490()
         static auto oldBrain = field_10C_fn;
         if (field_10C_fn != oldBrain)
         {
-            LOG_INFO("Brain changed from " << GetOriginalFn(oldBrain, sParamiteAITable).fnName << " to " << GetOriginalFn(field_10C_fn, sParamiteAITable).fnName);
+            //LOG_INFO("Brain changed from " << GetOriginalFn(oldBrain, sParamiteAITable).fnName << " to " << GetOriginalFn(field_10C_fn, sParamiteAITable).fnName);
         }
         oldBrain = field_10C_fn;
 
