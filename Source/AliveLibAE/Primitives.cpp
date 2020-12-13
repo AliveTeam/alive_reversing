@@ -118,8 +118,8 @@ void CC OrderingTable_Add_4F8AA0(int** ppOt, PrimHeader* pItem)
 {
     // Debugging code, rendering type 2 will currently crash.
     // I can't see where in the code type 2 is ever used but somehow it must be
-    // given it crashed in standalone rendering type 2.
-    if (pItem->rgb_code.code_or_pad == 2)
+    // given it crashed in standalone rendering type 2. Type may also be 0 with blending enabled.
+    if (pItem->rgb_code.code_or_pad == 2 || pItem->rgb_code.code_or_pad == 0)
     {
         abort();
     }
