@@ -407,7 +407,7 @@ void PauseMenu::VUpdate_44DFB0()
                             }
                             else
                             {
-                                SaveGame::WriteSave_45A110(&saveNameBuffer_5080C6.characters[2]);
+                                SaveGame::SaveToFile_45A110(&saveNameBuffer_5080C6.characters[2]);
                                 field_12C = 5;
                                 field_12A = 13;
                                 field_122 = 120;

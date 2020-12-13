@@ -3339,7 +3339,7 @@ void Menu::LoadSave_Update_47DB40()
         sActiveHero_507678->ctor_420770(55888, 85, 57, 55);
     }
 
-    if (!SaveGame::Read_459D30(sSaveNames_9F1DD8[field_1E0_selected_index].field_0_mName))
+    if (!SaveGame::LoadFromFile_459D30(sSaveNames_9F1DD8[field_1E0_selected_index].field_0_mName))
     {
         field_1CC_fn_update = &Menu::SaveLoadFailed_Update_47DCD0;
         field_1D0_fn_render = &Menu::SaveLoadFailed_Render_47DCF0;
