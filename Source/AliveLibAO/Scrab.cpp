@@ -2585,7 +2585,7 @@ __int16 Scrab::Brain_ChasingEnemy_Real_45CC90()
 __int16 Scrab::Brain_ChasingEnemy_45CC90()
 {
     // 0 to 17
-    if (field_110_brain_ret == 1)
+    if (field_110_brain_ret == 8)
     {
         //return Brain_ChasingEnemy_Real_45CC90();
     }
@@ -2761,7 +2761,7 @@ __int16 Scrab::Brain_ChasingEnemy_45CC90()
             const bool bLeft = pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 && field_120_pTarget->field_A8_xpos < field_A8_xpos;
             const bool bRight = pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 && field_120_pTarget->field_A8_xpos > field_A8_xpos;
             const bool bBoth = pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Both_2;
-            const bool bSwitchOn = SwitchStates_Get(pStopper->field_1A_id);
+            const bool bSwitchOn = SwitchStates_Get(pStopper->field_1A_id) ? true : false;
             if ((bLeft || bRight || bBoth) && !bSwitchOn)
             {
                 if (field_FC_current_motion == eScrabStates::State_1_Stand_45E620 &&
@@ -3036,10 +3036,11 @@ __int16 Scrab::Brain_ChasingEnemy_45CC90()
 
         if (pStopper)
         {
-            if ((pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 && field_120_pTarget->field_A8_xpos < field_A8_xpos ||
-                pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 && field_120_pTarget->field_A8_xpos > field_A8_xpos) ||
-                pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Both_2 &&
-                !SwitchStates_Get(pStopper->field_1A_id))
+            const bool bLeft = pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 && field_120_pTarget->field_A8_xpos < field_A8_xpos;
+            const bool bRight = pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 && field_120_pTarget->field_A8_xpos > field_A8_xpos;
+            const bool bBoth = pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Both_2;
+            const bool bSwitchOn = SwitchStates_Get(pStopper->field_1A_id) ? true : false;
+            if ((bLeft || bRight || bBoth) && !bSwitchOn)
             {
                 return 1;
             }
