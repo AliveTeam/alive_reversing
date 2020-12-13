@@ -233,7 +233,7 @@ void DDCheat::VUpdate_4098C0()
                 pObj->field_A8_xpos = FP_FromInteger(point.field_0_x + 448);
                 pObj->field_AC_ypos = FP_FromInteger(point.field_2_y + 180);
                 pObj->field_FC_current_motion = 3;
-                pObj->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8);
+                pObj->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
                 pObj->field_B2_lvl_number = static_cast<LevelIds>(level_4C315C);
                 pObj->field_B0_path_number = static_cast<short>(path_4C3160);
                 sDDCheat_FlyingEnabled_50771C = 1;
@@ -250,7 +250,7 @@ void DDCheat::VUpdate_4098C0()
                     sDDCheat_FlyingEnabled_50771C = cheat_enabled == 0;
                     if (sDDCheat_FlyingEnabled_50771C)
                     {
-                        pObj->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8);
+                        pObj->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
                         showDebugCreatureInfo_5076E0 = 0;
                         sControlledCharacter_50767C->field_F4_pLine = 0;
                         sControlledCharacter_50767C->field_E8_LastLineYPos = sControlledCharacter_50767C->field_AC_ypos;
@@ -290,7 +290,7 @@ void DDCheat::VUpdate_4098C0()
             {
                 if (pObj)
                 {
-                    pObj->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8);
+                    pObj->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
                 }
                 sControlledCharacter_50767C->field_F4_pLine = 0;
                 sControlledCharacter_50767C->field_E8_LastLineYPos = sControlledCharacter_50767C->field_AC_ypos;

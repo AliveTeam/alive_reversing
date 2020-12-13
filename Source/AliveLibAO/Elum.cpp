@@ -2446,7 +2446,7 @@ void Elum::State_19_Dead_415F90()
     if (sActiveHero_507678->field_100_health > FP_FromInteger(0))
     {
         if (!sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel) &&
-            sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit8) &&
+            sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit8_bLandSoft) &&
             field_104_pending_resource_count == 0)
         {
             field_A8_xpos = FP_FromInteger(field_138_continue_rect.x);
