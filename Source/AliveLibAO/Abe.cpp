@@ -1369,7 +1369,7 @@ void Abe::FreeElumRes_420F80()
 
         if (gElum_507680)
         {
-            if (gElum_507680->field_144)
+            if (gElum_507680->field_144_bRespawnOnDead)
             {
                 field_104_pending_resource_count++;
                 ResourceManager::LoadResourceFile("ELMPRMNT.BAN", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
@@ -6959,7 +6959,7 @@ void Abe::State_60_Dead_42C4C0()
                     field_F4_pLine = nullptr;
                     if (gElum_507680)
                     {
-                        if (!gElum_507680->field_144)
+                        if (!gElum_507680->field_144_bRespawnOnDead)
                         {
                             gElum_507680->field_6_flags.Set(Options::eDead_Bit3);
                         }
@@ -6973,7 +6973,7 @@ void Abe::State_60_Dead_42C4C0()
                         field_1A4_resources.res[61] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAneprmntResID, 1, 0);
                         if (gElum_507680)
                         {
-                            if (gElum_507680->field_144)
+                            if (gElum_507680->field_144_bRespawnOnDead)
                             {
                                 gElum_507680->VLoadUnmountedResources_411260();
                             }
@@ -7288,7 +7288,7 @@ void Abe::State_62_LoadedSaveSpawn_45ADD0()
             }
             gpThrowableArray_50E26C->Add_453F70(sActiveHero_507678->field_19C_throwable_count);
         }
-        if (pSaveData->field_264 == -1)
+        if (pSaveData->field_264_bInfiniteGrenades == -1)
         {
             LoadRockTypes_454370(LevelIds::eRuptureFarmsReturn_13, 19);
             if (!gpThrowableArray_50E26C)
@@ -7306,7 +7306,7 @@ void Abe::State_62_LoadedSaveSpawn_45ADD0()
         {
             gInfiniteGrenades_5076EC = 0;
         }
-        if (pSaveData->field_25A_something_elum_related)
+        if (pSaveData->field_25A_bElumExists)
         {
             if (!gElum_507680)
             {
@@ -7325,7 +7325,7 @@ void Abe::State_62_LoadedSaveSpawn_45ADD0()
             gElum_507680->field_148_continue_path = pSaveData->field_298_elum_continue_path;
             gElum_507680->field_14A_continue_level = pSaveData->field_29A_continue_level;
             gElum_507680->field_150_continue_sprite_scale = pSaveData->field_29C_elum_sprite_scale;
-            gElum_507680->field_144 = pSaveData->field_25E_elum_field_144;
+            gElum_507680->field_144_bRespawnOnDead = pSaveData->field_25E_bElumRespawnOnDead;
             gElum_507680->field_B2_lvl_number = pSaveData->field_260_elum_lvl_number;
             gElum_507680->field_B0_path_number = pSaveData->field_262_elum_path_number;
             gElum_507680->field_A8_xpos = FP_FromInteger(pSaveData->field_268_elum_xpos);
@@ -7340,12 +7340,12 @@ void Abe::State_62_LoadedSaveSpawn_45ADD0()
             gElum_507680->field_146 = pSaveData->field_280_honey_ypos;
             gElum_507680->field_130 = pSaveData->field_284_elum_field_130;
 
-            gElum_507680->field_170_flags.Set(Elum::Flags_170::eFoundHoney_Bit4, pSaveData->field_28B_elumflag4 & 1);
-            gElum_507680->field_170_flags.Set(Elum::Flags_170::eFalling_Bit3, pSaveData->field_28A_elumflag3 & 1);
-            gElum_507680->field_170_flags.Set(Elum::Flags_170::eStungByBees_Bit2, pSaveData->field_289_elumflag2 & 1);
+            gElum_507680->field_170_flags.Set(Elum::Flags_170::eFoundHoney_Bit4, pSaveData->field_28B_elum_FoundHoney & 1);
+            gElum_507680->field_170_flags.Set(Elum::Flags_170::eFalling_Bit3, pSaveData->field_28A_elum_Falling & 1);
+            gElum_507680->field_170_flags.Set(Elum::Flags_170::eStungByBees_Bit2, pSaveData->field_289_elum_StungByBees & 1);
             if (gElum_507680->field_B0_path_number == sActiveHero_507678->field_B0_path_number)
             {
-                if (pSaveData->field_270 != -1)
+                if (pSaveData->field_270_elum_line_type != -1)
                 {
                     PathLine* pLine = nullptr;
                     FP hitX = {};
@@ -7358,7 +7358,7 @@ void Abe::State_62_LoadedSaveSpawn_45ADD0()
                         &pLine,
                         &hitX,
                         &hitY,
-                        1 << pSaveData->field_270))
+                        1 << pSaveData->field_270_elum_line_type))
                     {
                         gElum_507680->field_F4_pLine = pLine;
                         gElum_507680->field_FC_current_motion = eElumStates::State_1_Idle_412990;

@@ -272,7 +272,7 @@ public:
     PSX_RECT field_138_continue_rect;
     __int16 field_140_continue_zone_number;
     __int16 field_142_zone_number;
-    __int16 field_144;
+    __int16 field_144_bRespawnOnDead;
     __int16 field_146;
     __int16 field_148_continue_path;
     LevelIds field_14A_continue_level;

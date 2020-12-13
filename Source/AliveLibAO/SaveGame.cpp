@@ -389,7 +389,7 @@ void CC SaveGame::Save_459490(SaveData* pSaveData)
     pSaveData->field_238_current_camera = gMap_507BA8.field_4_current_camera;
     pSaveData->field_2A6_restartRuptureFarmsKilledMudokons = gRestartRuptureFarmsKilledMuds_5076C4;
     pSaveData->field_240_last_anim_frame = sActiveHero_507678->field_10_anim.field_92_current_frame;
-    pSaveData->field_23E = sActiveHero_507678->field_FC_current_motion;
+    pSaveData->field_23E_current_motion = sActiveHero_507678->field_FC_current_motion;
     pSaveData->field_224_xpos = FP_GetExponent(sActiveHero_507678->field_A8_xpos);
     pSaveData->field_228_ypos = FP_GetExponent(sActiveHero_507678->field_AC_ypos);
     if (sActiveHero_507678->field_F4_pLine)
@@ -408,13 +408,13 @@ void CC SaveGame::Save_459490(SaveData* pSaveData)
     pSaveData->field_24C_field_118 = sActiveHero_507678->field_118;
     pSaveData->field_250_throwable_count = sActiveHero_507678->field_19C_throwable_count;
     pSaveData->field_253_scrabania_done = sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabinaDone);
-    pSaveData->field_264 = gInfiniteGrenades_5076EC ? -1 : 0;
+    pSaveData->field_264_bInfiniteGrenades = gInfiniteGrenades_5076EC ? -1 : 0;
     pSaveData->field_252_paramonia_done = sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone);
-    pSaveData->field_25A_something_elum_related = gElum_507680 != 0;
+    pSaveData->field_25A_bElumExists = gElum_507680 != 0;
     if (gElum_507680 != 0)
     {
-        pSaveData->field_25C = sControlledCharacter_50767C == gElum_507680;
-        pSaveData->field_25E_elum_field_144 = gElum_507680->field_144;
+        pSaveData->field_25C_bControllingElum = sControlledCharacter_50767C == gElum_507680;
+        pSaveData->field_25E_bElumRespawnOnDead = gElum_507680->field_144_bRespawnOnDead;
         pSaveData->field_28C_elum_continue_rect = gElum_507680->field_138_continue_rect;
         pSaveData->field_294_continue_zone_number = gElum_507680->field_140_continue_zone_number;
         pSaveData->field_296_elum_zone_number = gElum_507680->field_142_zone_number;
@@ -427,13 +427,13 @@ void CC SaveGame::Save_459490(SaveData* pSaveData)
         pSaveData->field_26C_elum_ypos = FP_GetExponent(gElum_507680->field_AC_ypos);
         if (gElum_507680->field_F4_pLine)
         {
-            pSaveData->field_270 = gElum_507680->field_F4_pLine->field_8_type;
+            pSaveData->field_270_elum_line_type = gElum_507680->field_F4_pLine->field_8_type;
         }
         else
         {
-            pSaveData->field_270 = -1;
+            pSaveData->field_270_elum_line_type = -1;
         }
-        pSaveData->field_274 = gElum_507680->field_FC_current_motion;
+        pSaveData->field_274_elum_current_motion = gElum_507680->field_FC_current_motion;
         pSaveData->field_272_elum_flipX = gElum_507680->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX);
         pSaveData->field_278_brain_idx = gElum_507680->field_128_brain_idx;
         pSaveData->field_276_elum_122 = gElum_507680->field_122;
@@ -441,10 +441,10 @@ void CC SaveGame::Save_459490(SaveData* pSaveData)
         pSaveData->field_27A_elum_brain_state = gElum_507680->field_12A_brain_state;
         pSaveData->field_284_elum_field_130 = gElum_507680->field_130;
         pSaveData->field_280_honey_ypos = gElum_507680->field_146;
-        pSaveData->field_288_elumflag1 = gElum_507680->field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1);
-        pSaveData->field_289_elumflag2 = gElum_507680->field_170_flags.Get(Elum::Flags_170::eStungByBees_Bit2);
-        pSaveData->field_28A_elumflag3 = gElum_507680->field_170_flags.Get(Elum::Flags_170::eFalling_Bit3);
-        pSaveData->field_28B_elumflag4 = gElum_507680->field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4);
+        pSaveData->field_288_elum_StrugglingWithBees = gElum_507680->field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1);
+        pSaveData->field_289_elum_StungByBees = gElum_507680->field_170_flags.Get(Elum::Flags_170::eStungByBees_Bit2);
+        pSaveData->field_28A_elum_Falling = gElum_507680->field_170_flags.Get(Elum::Flags_170::eFalling_Bit3);
+        pSaveData->field_28B_elum_FoundHoney = gElum_507680->field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4);
     }
     if (sGasTimer_507700)
     {
@@ -455,7 +455,7 @@ void CC SaveGame::Save_459490(SaveData* pSaveData)
         pSaveData->field_2A8_gasTimer = 0;
     }
     pSaveData->field_2AC_bUseAltSaveHeader = bUseAltSaveHeader_5076B4;
-    pSaveData->field_2AE = Input().CurrentController() == InputObject::PadIndex::First ? 0 : 1;
+    pSaveData->field_2AE_controller_idx = Input().CurrentController() == InputObject::PadIndex::First ? 0 : 1;
     gMap_507BA8.SaveBlyData_446900(pSaveData->field_2B0_pSaveBuffer);
 
     pSaveData->field_200_hashValue = Hash(pSaveData);

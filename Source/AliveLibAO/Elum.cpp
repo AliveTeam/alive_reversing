@@ -223,7 +223,7 @@ void Elum::VOn_TLV_Collision_410F10(Path_TLV* pTlv)
                 field_14C_continue_camera = gMap_507BA8.field_4_current_camera;
                 field_14A_continue_level =  gMap_507BA8.field_0_current_level;
                 field_150_continue_sprite_scale = field_BC_sprite_scale;
-                field_144 = 1;
+                field_144_bRespawnOnDead = 1;
             }
         }
         else if (pTlv->field_4_type == TlvTypes::DeathDrop_5 && field_100_health > FP_FromInteger(0))
@@ -3986,7 +3986,7 @@ Elum* Elum::ctor_410870(int, anythingForTheTimeBeing, anythingForTheTimeBeing, i
     field_12E_honey_ypos = 0;
     field_12C_honey_xpos = 0;
 
-    field_144 = 0;
+    field_144_bRespawnOnDead = 0;
     field_110_timer = gnFrameCount_507670;
 
     field_A8_xpos = sActiveHero_507678->field_A8_xpos - (ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(2));
