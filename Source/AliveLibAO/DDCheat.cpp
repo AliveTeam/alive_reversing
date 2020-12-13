@@ -311,17 +311,17 @@ void DDCheat::VUpdate_4098C0()
             }
             if (cheat_enabled || showDebugCreatureInfo_5076E0 || doNothing_4FF860)
             {
-                DebugOut_495990(
+                DebugStr_495990(
                     "\n%sP%dC%d %6d",
                     gMapData_4CAB58.paths[static_cast<int>(gMap_507BA8.field_0_current_level)].field_14_lvl_name,
                     gMap_507BA8.field_2_current_path,
                     gMap_507BA8.field_4_current_camera,
                     gnFrameCount_507670);
-                DebugOut_495990(
+                DebugStr_495990(
                     " %5d %5d  ",
                     (sManagedMemoryUsedSize_9F0E48 + 999) / 1000,
                     (sPeakedManagedMemUsage_9F0E4C + 999) / 1000);
-                DebugOut_495990(" Vox %d\n", gVox_4FF864);
+                DebugStr_495990(" Vox %d\n", gVox_4FF864);
                 cheat_enabled = sDDCheat_FlyingEnabled_50771C;
                 field_10 = 6;
             }
@@ -411,11 +411,11 @@ ALIVE_VAR(1, 0x4C3164, short, camera_4C3164, 1);
 
 void DDCheat::Teleport_409CE0()
 {
-    DebugOut_495990("\n[Teleport]\n");
-    DebugOut_495990("Level    (L,R):      %s \n", lvl_names_4C3168[level_4C315C]);
-    DebugOut_495990("Path    (Up/Down):   %d \n", path_4C3160);
-    DebugOut_495990("Camera (Left/Right): %d \n", static_cast<unsigned __int16>(camera_4C3164));
-    DebugOut_495990("Teleport = [] Reset = O\n"); //TODO don't display PSX buttons
+    DebugStr_495990("\n[Teleport]\n");
+    DebugStr_495990("Level    (L,R):      %s \n", lvl_names_4C3168[level_4C315C]);
+    DebugStr_495990("Path    (Up/Down):   %d \n", path_4C3160);
+    DebugStr_495990("Camera (Left/Right): %d \n", static_cast<unsigned __int16>(camera_4C3164));
+    DebugStr_495990("Teleport = [] Reset = O\n"); //TODO don't display PSX buttons
     int input = field_24_input;
     field_10 = 6;
     if (input &  InputCommands::eSneak)
@@ -525,22 +525,22 @@ void DDCheat::Misc_409E90()
     {
         gAbeInvisibleCheat_5076F8 = gAbeInvisibleCheat_5076F8 == 0;
     }
-    DebugOut_495990("\nScale: up=+5 down=-5 left=100 right=50\n");
-    DebugOut_495990("Scale: %d\n\n", gScale_4C3158);
+    DebugStr_495990("\nScale: up=+5 down=-5 left=100 right=50\n");
+    DebugStr_495990("Scale: %d\n\n", gScale_4C3158);
 
     const char *invulnerableDisplayText = "on";
     if (!gAbeInvulnerableCheat_5076E4)
     {
         invulnerableDisplayText = "off";
     }
-    DebugOut_495990("triangle=invulnerable (%s)\n", invulnerableDisplayText);
+    DebugStr_495990("triangle=invulnerable (%s)\n", invulnerableDisplayText);
 
     char *invisibleDisplayText = "on";
     if (!gAbeInvisibleCheat_5076F8)
     {
         invisibleDisplayText = "off";
     }
-    DebugOut_495990("cross = invisible (%s)\n", invisibleDisplayText);
+    DebugStr_495990("cross = invisible (%s)\n", invisibleDisplayText);
 
     field_10 = 9;
     if (!gElum_507680)
@@ -584,7 +584,7 @@ ALIVE_ASSERT_SIZEOF(DebugTexts, 0x80C);
 
 ALIVE_ARY(1, 0xAD0900, DebugTexts, 4, sTexts_AD0900, {});
 
-int DDCheat::sub_498B40(int idx, const char* formatStr, ...)
+int DDCheat::DebugFont_Printf_498B40(int idx, const char* formatStr, ...)
 {
     va_list va;
     va_start(va, formatStr);
@@ -595,18 +595,19 @@ int DDCheat::sub_498B40(int idx, const char* formatStr, ...)
 
     char buffer[1024] = {};
     vsprintf(buffer, formatStr, va);
+
     strncat(sTexts_AD0900[idx].field_9_text.field_0_src_txt, buffer, sTexts_AD0900[idx].field_4_max_len);
     return static_cast<int>(strlen(sTexts_AD0900[idx].field_9_text.field_0_src_txt));
 }
 
-int DDCheat::DebugOut_495990(const char* pStr, ...)
+int DDCheat::DebugStr_495990(const char* pStr, ...)
 {
     va_list va;
     va_start(va, pStr);
 
     char strBuffer[1024];
     vsprintf(strBuffer, pStr, va);
-    DDCheat::sub_498B40(0, strBuffer);
+    DDCheat::DebugFont_Printf_498B40(0, strBuffer);
     return 0;
 }
 

@@ -374,7 +374,7 @@ void Scrab::VUpdate_45B360()
 
         if (showDebugCreatureInfo_5076E0)
         {
-            DDCheat::DebugOut_495990(
+            DDCheat::DebugStr_495990(
                 "Scrab %d %d %d %d\n",
                 field_110_brain_ret,
                 field_118_timer,
