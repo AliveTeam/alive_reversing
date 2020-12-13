@@ -93,11 +93,12 @@ void SaveGame::LoadFromMemory_459970(SaveData* pData, int bKillObjects)
     sActiveHero_507678->field_19C_throwable_count = static_cast<char>(pData->field_250_throwable_count); // TODO: Type check when other save func done
     sActiveHero_507678->field_106_shot = 0;
 
-    sActiveHero_507678->field_2A8_flags.Clear();
+    sActiveHero_507678->field_2A8_flags.Clear(Flags_2A8::e2A8_Bit6_bShrivel);
     sActiveHero_507678->field_2A8_flags.Set(Flags_2A8::e2A8_Bit12_bParamoniaDone, pData->field_252_paramonia_done & 1);
     sActiveHero_507678->field_2A8_flags.Set(Flags_2A8::e2A8_eBit13_bScrabinaDone, pData->field_253_scrabania_done & 1);
 
     sActiveHero_507678->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pData->field_23C_ah_flipX & 1);
+
     sActiveHero_507678->field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
 
     gMap_507BA8.field_E0_save_data = pData->field_2B0_pSaveBuffer;
