@@ -248,7 +248,7 @@ void OrbWhirlWindParticle::Spin(FP xpos, FP ypos, BaseAliveGameObject* pObj)
     field_B4_state = State::State_1_Spin;
     field_E4_pObj = pObj;
 
-    field_B0_ypos_increment = (field_C0_current_scale * field_E0_yMove - field_D0_ypos_mid) / FP_FromInteger(16);
+    field_B0_ypos_increment = (field_C0_current_scale * (field_E0_yMove - field_D0_ypos_mid)) / FP_FromInteger(16);
     field_E8_xpos = xpos;
     field_EC_ypos = ypos;
 }
