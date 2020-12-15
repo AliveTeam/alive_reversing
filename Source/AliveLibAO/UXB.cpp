@@ -277,7 +277,7 @@ __int16 UXB::VTakeDamage(BaseGameObject* pFrom)
 
 __int16 UXB::VTakeDamage_489AB0(BaseGameObject* pFrom)
 {
-    if (field_6_flags.Get(BaseGameObject::eInteractive_Bit8))
+    if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
         return 0;
     }
