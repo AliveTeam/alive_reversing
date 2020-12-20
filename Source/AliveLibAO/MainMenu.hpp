@@ -20,6 +20,8 @@ public:
 
     EXPORT void VRender_42A7A0(int** ppOt);
 
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+
     int field_D4[4];
     __int16 field_E4;
     __int16 field_E6;

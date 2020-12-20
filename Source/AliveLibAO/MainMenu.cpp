@@ -392,6 +392,15 @@ void MainMenuFade::VRender_42A7A0(int** ppOt)
         pScreenManager_4FF7C8->field_2E_idx);
 }
 
+BaseGameObject* MainMenuFade::VDestructor(signed int flags)
+{
+    dtor_417D10();
+    if (flags & 1)
+    {
+        ao_delete_free_447540(this);
+    }
+    return this;
+}
 
 struct MainMenu_TransitionData
 {
