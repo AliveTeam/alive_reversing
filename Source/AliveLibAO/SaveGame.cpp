@@ -54,6 +54,8 @@ EXPORT void Kill_Objects_451720()
 
 void SaveGame::LoadFromMemory_459970(SaveData* pData, int bKillObjects)
 {
+    TRACE_ENTRYEXIT;
+
     // Never actually used
     //const int hash = Hash(pData);
 

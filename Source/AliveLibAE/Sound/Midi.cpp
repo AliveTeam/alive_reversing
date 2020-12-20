@@ -87,6 +87,47 @@ public:
     {
         return kSeqTableSizeAE;
     }
+
+    virtual signed __int16 FreeResource_Impl(BYTE* handle) override
+    {
+        return ResourceManager::FreeResource_Impl_49C360(handle);
+    }
+
+    virtual BYTE** GetLoadedResource(DWORD type, DWORD resourceID, unsigned __int16 addUseCount, unsigned __int16 bLock) override
+    {
+        return ResourceManager::GetLoadedResource_49C2A0(type, resourceID, addUseCount, bLock);
+    }
+
+    virtual signed __int16 FreeResource(BYTE** handle) override
+    {
+        return ResourceManager::FreeResource_49C330(handle);
+    }
+
+    virtual BYTE** Allocate_New_Locked_Resource(DWORD type, DWORD id, DWORD size) override
+    {
+        return ResourceManager::Allocate_New_Locked_Resource_49BF40(type, id, size);
+    }
+
+    virtual void LoadingLoop(__int16 bShowLoadingIcon) override
+    {
+        pResourceManager_5C1BB0->LoadingLoop_465590(bShowLoadingIcon);
+    }
+
+    virtual void Reclaim_Memory(unsigned int size) override
+    {
+        ResourceManager::Reclaim_Memory_49C470(size);
+    }
+
+    virtual BYTE** Alloc_New_Resource(DWORD type, DWORD id, DWORD size) override
+    {
+        return ResourceManager::Alloc_New_Resource_49BED0(type, id, size);
+    }
+
+    virtual signed __int16 LoadResourceFile(const char* pFileName, Camera* pCamera) override
+    {
+        return ResourceManager::LoadResourceFile_49C170(pFileName, pCamera);
+    }
+
 };
 
 static AEMidiVars sAEMidiVars;
@@ -107,7 +148,7 @@ EXPORT void CC SND_Free_All_VABS_4C9EB0()
     SoundBlockInfo* pIter = GetMidiVars()->sLastLoadedSoundBlockInfo();
     while (pIter && pIter->field_4_vab_body_name)
     {
-        ResourceManager::FreeResource_Impl_49C360(pIter->field_C_pVabHeader);
+        GetMidiVars()->FreeResource_Impl(pIter->field_C_pVabHeader);
         pIter->field_C_pVabHeader = nullptr;
         SsVabClose_4FC5B0(pIter->field_8_vab_id);
         pIter->field_8_vab_id = -1;
@@ -122,8 +163,8 @@ EXPORT void CC SND_Free_All_Seqs_4C9F40()
     {
         if (GetMidiVars()->sSeqDataTable()[i].field_C_ppSeq_Data)
         {
-            BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Seq, GetMidiVars()->sSeqDataTable()[i].field_4_generated_res_id, 0, 0);
-            ResourceManager::FreeResource_49C330(ppRes);
+            BYTE** ppRes = GetMidiVars()->GetLoadedResource(ResourceManager::Resource_Seq, GetMidiVars()->sSeqDataTable()[i].field_4_generated_res_id, 0, 0);
+            GetMidiVars()->FreeResource(ppRes);
             GetMidiVars()->sSeqDataTable()[i].field_C_ppSeq_Data = nullptr;
         }
     }
@@ -159,10 +200,10 @@ EXPORT signed __int16 CC SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, __
     }
 
     // Load the VH file data
-    BYTE** ppVabHeader = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_VabHeader, vabId, headerSize);
+    BYTE** ppVabHeader = GetMidiVars()->Allocate_New_Locked_Resource(ResourceManager::Resource_VabHeader, vabId, headerSize);
     pSoundBlockInfo->field_C_pVabHeader = *ppVabHeader;
     sLvlArchive_5BC520.Read_File_4330A0(pVabHeaderFile, *ppVabHeader);
-    pResourceManager_5C1BB0->LoadingLoop_465590(0);
+    GetMidiVars()->LoadingLoop(0);
 
     // Find the VB file record
     LvlFileRecord* pVabBodyFile = sLvlArchive_5BC520.Find_File_Record_433160(pSoundBlockInfo->field_4_vab_body_name);
@@ -183,7 +224,7 @@ EXPORT signed __int16 CC SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, __
     }
 
     // Load the VB file data
-    BYTE** ppVabBody = ResourceManager::Alloc_New_Resource_49BED0(ResourceManager::Resource_VabBody, vabId, vabBodySize);
+    BYTE** ppVabBody = GetMidiVars()->Alloc_New_Resource(ResourceManager::Resource_VabBody, vabId, vabBodySize);
     if (!ppVabBody)
     {
         // Maybe filed due to OOM cause its huge, free the abe resources and try again
@@ -194,10 +235,10 @@ EXPORT signed __int16 CC SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, __
         }
 
         // Compact/reclaim any other memory we can too
-        ResourceManager::Reclaim_Memory_49C470(0);
+        GetMidiVars()->Reclaim_Memory(0);
 
         // If it fails again there is no recovery, in either case caller will restore abes resources
-        ppVabBody = ResourceManager::Alloc_New_Resource_49BED0(ResourceManager::Resource_VabBody, vabId, vabBodySize);
+        ppVabBody = GetMidiVars()->Alloc_New_Resource(ResourceManager::Resource_VabBody, vabId, vabBodySize);
         if (!ppVabBody)
         {
             return 0;
@@ -217,7 +258,7 @@ EXPORT signed __int16 CC SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, __
     SsVabTransCompleted_4FE060(SS_WAIT_COMPLETED);
 
     // Now the sound samples are loaded we don't need the VB data anymore
-    ResourceManager::FreeResource_49C330(ppVabBody);
+    GetMidiVars()->FreeResource(ppVabBody);
     return 1;
 }
 
@@ -254,7 +295,7 @@ EXPORT void SND_Shutdown_4CA280()
 
     if (GetMidiVars()->sMonkVh_Vb().field_8_vab_id >= 0)
     {
-        ResourceManager::FreeResource_Impl_49C360(GetMidiVars()->sMonkVh_Vb().field_C_pVabHeader);
+        GetMidiVars()->FreeResource_Impl(GetMidiVars()->sMonkVh_Vb().field_C_pVabHeader);
         GetMidiVars()->sMonkVh_Vb().field_C_pVabHeader = nullptr;
 
         SsVabClose_4FC5B0(GetMidiVars()->sMonkVh_Vb().field_8_vab_id);
@@ -302,7 +343,7 @@ EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, int reverb)
         // Put abes resources back if we had to unload them to fit the VB in memory
         if (GetMidiVars()->sSnd_ReloadAbeResources())
         {
-            ResourceManager::Reclaim_Memory_49C470(0);
+            GetMidiVars()->Reclaim_Memory(0);
             sActiveHero_5C1B68->Load_Basic_Resources_44D460();
         }
 
@@ -717,7 +758,7 @@ EXPORT void CC SND_SEQ_Stop_4CAE60(unsigned __int16 idx)
     }
 }
 
-EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const char* bsqFileName, TReclaimMemoryFn pReclaimMemoryFn, TLoadResourceFileFn pLoadResourceFileFn, TGetLoadedResourceFn pGetLoadedResourceFn)
+EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const char* bsqFileName)
 {
     if (pSeqTable && bsqFileName)
     {
@@ -736,13 +777,13 @@ EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const char* bsqFileN
         }
 
         // Load the BSQ
-        pReclaimMemoryFn(0);
-        pLoadResourceFileFn(bsqFileName, nullptr);
+        GetMidiVars()->Reclaim_Memory(0);
+        GetMidiVars()->LoadResourceFile(bsqFileName, nullptr);
 
         // Get a pointer to each SEQ
         for (int i = 0; i < GetMidiVars()->MidiTableSize(); i++)
         {
-            BYTE** ppSeq = pGetLoadedResourceFn(ResourceManager::Resource_Seq, GetMidiVars()->sSeqDataTable()[i].field_4_generated_res_id, 1, 1);
+            BYTE** ppSeq = GetMidiVars()->GetLoadedResource(ResourceManager::Resource_Seq, GetMidiVars()->sSeqDataTable()[i].field_4_generated_res_id, 1, 1);
             if (ppSeq)
             {
                 GetMidiVars()->sSeqDataTable()[i].field_C_ppSeq_Data = *ppSeq;
@@ -757,7 +798,7 @@ EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const char* bsqFileN
 
 EXPORT void CC SND_Load_Seqs_4CAED0(OpenSeqHandle* pSeqTable, const char* bsqFileName)
 {
-    SND_Load_Seqs_Impl(pSeqTable, bsqFileName, ResourceManager::Reclaim_Memory_49C470, ResourceManager::LoadResourceFile_49C170, ResourceManager::GetLoadedResource_49C2A0);
+    SND_Load_Seqs_Impl(pSeqTable, bsqFileName);
 }
 
 EXPORT char CC SND_Seq_Table_Valid_4CAFE0()

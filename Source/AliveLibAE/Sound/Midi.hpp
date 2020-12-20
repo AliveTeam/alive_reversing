@@ -26,6 +26,16 @@ public:
     virtual short& sNeedToHashSeqNames() = 0;
     virtual SoundBlockInfo& sMonkVh_Vb() = 0;
     virtual int MidiTableSize() = 0;
+
+    // Res manager wrapper
+    virtual signed __int16 FreeResource_Impl(BYTE* handle) = 0;
+    virtual BYTE** GetLoadedResource(DWORD type, DWORD resourceID, unsigned __int16 addUseCount, unsigned __int16 bLock) = 0;
+    virtual signed __int16 FreeResource(BYTE** handle) = 0;
+    virtual BYTE** Allocate_New_Locked_Resource(DWORD type, DWORD id, DWORD size) = 0;
+    virtual void LoadingLoop(__int16 bShowLoadingIcon) = 0;
+    virtual void Reclaim_Memory(unsigned int size) = 0;
+    virtual BYTE** Alloc_New_Resource(DWORD type, DWORD id, DWORD size) = 0;
+    virtual signed __int16 LoadResourceFile(const char* pFileName, Camera* pCamera) = 0;
 };
 
 EXPORT IMidiVars* GetMidiVars();
@@ -44,7 +54,7 @@ EXPORT void SND_StopAll_SetCallBack(TSNDStopAll cb);
 EXPORT void SND_Restart_SetCallBack(TSNDRestart cb);
 
 
-EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const char* bsqFileName, TReclaimMemoryFn pReclaimMemoryFn, TLoadResourceFileFn pLoadResourceFileFn, TGetLoadedResourceFn pGetLoadedResourceFn);
+EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const char* bsqFileName);
 
 EXPORT void SND_Stop_All_Seqs_4CA850();
 
