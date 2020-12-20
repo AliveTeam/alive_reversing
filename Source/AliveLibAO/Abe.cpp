@@ -7021,6 +7021,21 @@ void Abe::State_60_Dead_42C4C0()
 
 void Abe::State_61_Respawn_42CD20()
 {
+    // This will crash the game if abe didnt touch a checkpoint yet
+
+    TRACE_ENTRYEXIT;
+
+    if (gAttract_507698)
+    {
+        // Depending on the randomn seed value abe can die in a demo, if so the checkpoint save will load
+        // depending on the saved camera number on returning the main menu this can crash. Hack fix it
+        // by killing abe so the bad save cant get loaded before we return to the menu.
+        LOG_WARNING("Destroying abe to prevent game crash, he isnt supposed to die in a demo!");
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        sActiveHero_507678 = nullptr;
+        return;
+    }
+
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
     FollowLift_42EE90();
     Event_Broadcast_417220(kEventResetting_6, this);
