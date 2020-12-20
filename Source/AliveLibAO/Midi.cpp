@@ -91,6 +91,47 @@ public:
     {
         return kSeqTableSizeAO;
     }
+
+    virtual signed __int16 FreeResource_Impl(BYTE* handle) override
+    {
+        return ResourceManager::FreeResource_Impl_4555B0(handle);
+    }
+
+    virtual BYTE** GetLoadedResource(DWORD type, DWORD resourceID, unsigned __int16 addUseCount, unsigned __int16 bLock) override
+    {
+        return ResourceManager::GetLoadedResource_4554F0(type, resourceID, addUseCount, bLock);
+    }
+
+    virtual signed __int16 FreeResource(BYTE** handle) override
+    {
+        return ResourceManager::FreeResource_455550(handle);
+    }
+
+    virtual BYTE** Allocate_New_Locked_Resource(DWORD type, DWORD id, DWORD size) override
+    {
+        return ResourceManager::Allocate_New_Locked_Resource_454F80(type, id, size);
+    }
+
+    virtual void LoadingLoop(__int16 bShowLoadingIcon) override
+    {
+        ResourceManager::LoadingLoop_41EAD0(bShowLoadingIcon);
+    }
+
+    virtual void Reclaim_Memory(unsigned int size) override
+    {
+        ResourceManager::Reclaim_Memory_455660(size);
+    }
+
+    virtual BYTE** Alloc_New_Resource(DWORD type, DWORD id, DWORD size) override
+    {
+        return ResourceManager::Alloc_New_Resource_454F20(type, id, size);
+    }
+
+    virtual signed __int16 LoadResourceFile(const char* pFileName, ::Camera* pCamera) override
+    {
+        return ResourceManager::LoadResourceFileWrapper(pFileName, reinterpret_cast<Camera*>(pCamera));
+    }
+
 };
 
 static AOMidiVars sAoMidiVars;
@@ -988,10 +1029,7 @@ EXPORT void CC SND_Load_Seqs_477AB0(OpenSeqHandleAE* pSeqTable, const char* bsqF
     AE_IMPLEMENTED();
     SND_Load_Seqs_Impl(
         reinterpret_cast<::OpenSeqHandle*>(pSeqTable),
-        bsqFileName,
-        reinterpret_cast<TReclaimMemoryFn>(ResourceManager::Reclaim_Memory_455660),
-        reinterpret_cast<TLoadResourceFileFn>(ResourceManager::LoadResourceFileWrapper),
-        reinterpret_cast<TGetLoadedResourceFn>(ResourceManager::GetLoadedResource_4554F0));
+        bsqFileName);
 }
 
 EXPORT signed __int16 CC SND_SEQ_Play_477760(SeqId idx, int repeatCount, __int16 volLeft, __int16 volRight)
