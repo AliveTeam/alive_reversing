@@ -26,10 +26,7 @@ public:
     __int16 field_18_path;
     LevelIds field_1A_level;
     __int16 field_1C;
-    char field_1E_fileName[6];
-    int field_24;
-    int field_28;
-    int field_2C;
+    char field_1E_fileName[18];
     __int16 field_30_flags;
     __int16 field_32;
 };
