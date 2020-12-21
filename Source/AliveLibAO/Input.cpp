@@ -4,12 +4,15 @@
 #include "Game.hpp"
 #include "../AliveLibAE/Input.hpp"
 #include "BitField.hpp"
+#include "Sys.hpp"
 
 namespace AO {
 
 ALIVE_VAR(1, 0x5009E8, InputObject, sInputObject_5009E8, {});
 ALIVE_VAR(1, 0x5076B8, unsigned __int16, sCurrentControllerIndex_5076B8, 0);
 ALIVE_VAR(1, 0x508A60, int, sJoystickEnabled_508A60, 0);
+ALIVE_VAR(1, 0x9F7710, BYTE, sInputEnabled_9F7710, 0);
+ALIVE_VAR(1, 0xA8A604, DWORD, sLastPressedKey_A8A604, 0);
 
 const InputCommands sInputKey_Right_4C6590 = eRight;
 const InputCommands sInputKey_Left_4C6594 = eLeft;
@@ -433,6 +436,33 @@ EXPORT int CC Input_Remap_44F300(InputCommands inputCmd)
     AE_IMPLEMENTED();
     return Input_Remap_492680(static_cast<::InputCommands>(inputCmd));
 }
+
+
+EXPORT char Input_GetLastPressedKey_44F2C0()
+{
+    if (!Sys_IsAnyKeyDown_48E6C0())
+    {
+        return 0;
+    }
+
+    const char result = static_cast<char>(sLastPressedKey_A8A604);
+    sIsAKeyDown_A8A600 = 0;
+    sLastPressedKey_A8A604 = 0;
+    return result;
+}
+
+EXPORT int Input_Enable_48E6A0()
+{
+    sInputEnabled_9F7710 = 1;
+    return 0;
+}
+
+EXPORT void Input_Reset_44F2F0()
+{
+    Input_Enable_48E6A0();
+    Input_InitKeyStateArray_48E5F0();
+}
+
 
 ALIVE_VAR(1, 0x508A64, DWORD, dword_508A64, 0);
 
