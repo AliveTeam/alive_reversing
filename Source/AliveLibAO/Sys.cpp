@@ -13,6 +13,13 @@ ALIVE_VAR(1, 0xA8A600, DWORD, sIsAKeyDown_A8A600, 0);
 
 int Sys_IsAnyKeyDown_48E6C0()
 {
+    // AE impl
+    if (!RunningAsInjectedDll())
+    {
+        return ::Sys_IsAnyKeyDown_4EDDF0();
+    }
+
+    // AO impl
     return sIsAKeyDown_A8A600;
 }
 

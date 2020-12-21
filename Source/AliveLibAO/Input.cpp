@@ -437,9 +437,15 @@ EXPORT int CC Input_Remap_44F300(InputCommands inputCmd)
     return Input_Remap_492680(static_cast<::InputCommands>(inputCmd));
 }
 
-
 EXPORT char Input_GetLastPressedKey_44F2C0()
 {
+    // AE impl
+    if (!RunningAsInjectedDll())
+    {
+        return static_cast<char>(::Input_GetLastPressedKey_492610());
+    }
+
+    // AO impl
     if (!Sys_IsAnyKeyDown_48E6C0())
     {
         return 0;
@@ -453,12 +459,21 @@ EXPORT char Input_GetLastPressedKey_44F2C0()
 
 EXPORT int Input_Enable_48E6A0()
 {
+    // AE impl
+    if (!RunningAsInjectedDll())
+    {
+        ::Input_EnableInput_4EDDD0();
+        return 0;
+    }
+
+    // AO impl
     sInputEnabled_9F7710 = 1;
     return 0;
 }
 
 EXPORT void Input_Reset_44F2F0()
 {
+    // Funcs below call AE impls in standalone
     Input_Enable_48E6A0();
     Input_InitKeyStateArray_48E5F0();
 }
