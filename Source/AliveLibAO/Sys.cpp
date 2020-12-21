@@ -9,7 +9,19 @@ namespace AO {
 ALIVE_VAR(1, 0x9F7718, LPSTR, sCommandLine_9F7718, 0);
 ALIVE_VAR(1, 0x9F771C, HINSTANCE, sInstance_9F771C, 0);
 ALIVE_VAR(1, 0x9F772C, int, sCmdShow_9F772C, 0);
+ALIVE_VAR(1, 0xA8A600, DWORD, sIsAKeyDown_A8A600, 0);
 
+int Sys_IsAnyKeyDown_48E6C0()
+{
+    // AE impl
+    if (!RunningAsInjectedDll())
+    {
+        return ::Sys_IsAnyKeyDown_4EDDF0();
+    }
+
+    // AO impl
+    return sIsAKeyDown_A8A600;
+}
 
 void Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, int nShowCmd)
 {

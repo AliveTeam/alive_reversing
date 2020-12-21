@@ -139,47 +139,11 @@ EXPORT signed __int16 Reset_Unknown_45A5B0()
     return 1;
 }
 
-ALIVE_VAR(1, 0xA8A600, DWORD, sIsAKeyDown_A8A600, 0);
-ALIVE_VAR(1, 0xA8A604, DWORD, sLastPressedKey_A8A604, 0);
-
-
 struct saveName
 {
     char characters[26];
 };
 ALIVE_VAR(1, 0x5080C6, saveName, saveNameBuffer_5080C6, {});
-
-EXPORT int Sys_IsAnyKeyDown_48E6C0()
-{
-    return sIsAKeyDown_A8A600;
-}
-
-EXPORT char Input_GetLastPressedKey_44F2C0()
-{
-    if (!Sys_IsAnyKeyDown_48E6C0())
-    {
-        return 0;
-    }
-
-    const char result = static_cast<char>(sLastPressedKey_A8A604);
-    sIsAKeyDown_A8A600 = 0;
-    sLastPressedKey_A8A604 = 0;
-    return result;
-}
-
-ALIVE_VAR(1, 0x9F7710, BYTE, sInputEnabled_9F7710, 0);
-
-EXPORT int Input_Enable_48E6A0()
-{
-    sInputEnabled_9F7710 = 1;
-    return 0;
-}
-
-EXPORT void Input_Reset_44F2F0()
-{
-    Input_Enable_48E6A0();
-    Input_InitKeyStateArray_48E5F0();
-}
 
 const char *gLevelNames_4CE1D4[20] =
 {
@@ -349,7 +313,7 @@ void PauseMenu::VUpdate_44DFB0()
                                     if (pathId != -1)
                                     {
                                         tmp += row + 3;
-                                    };
+                                    }
                                 }
 
                                 auto curPathId = gMap_507BA8.field_2_current_path;

@@ -99,6 +99,10 @@ EXPORT int CC Input_Remap_44F300(InputCommands inputCmd);
 
 EXPORT int CC Input_SaveSettingsIni_44F460();
 
+EXPORT char Input_GetLastPressedKey_44F2C0();
+
+EXPORT void Input_Reset_44F2F0();
+
 class InputObject
 {
 public:

@@ -17,5 +17,8 @@ EXPORT LPSTR CC Sys_GetCommandLine_48E920();
 
 void Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, int nShowCmd);
 
+EXPORT int Sys_IsAnyKeyDown_48E6C0();
+
+ALIVE_VAR_EXTERN(DWORD, sIsAKeyDown_A8A600);
 
 }
