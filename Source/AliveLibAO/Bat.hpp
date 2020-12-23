@@ -54,8 +54,8 @@ public:
     int field_F8_timer;
     int field_FC_attack_duration_timer;
     FP field_100_velx;
-    FP field_104_xpos;
-    FP field_108_ypos;
+    FP field_104_target_xpos;
+    FP field_108_target_ypos;
     BaseAliveGameObject* field_10C;
 };
 ALIVE_ASSERT_SIZEOF(Bat, 0x110);
