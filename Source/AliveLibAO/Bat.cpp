@@ -115,30 +115,35 @@ Bat* Bat::Vdtor_404FF0(signed int flags)
 
 void Bat::FlyTo_404E50(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed)
 {
-    const FP xd = FP_Abs(xpos - field_104_xpos);
+    const FP xd = FP_Abs(xpos - field_104_target_xpos);
     if (xd > FP_FromInteger(350))
     {
         field_A8_xpos += *xSpeed;
     }
 
-    const FP yd = FP_Abs(ypos - field_108_ypos);
+    const FP yd = FP_Abs(ypos - field_108_target_ypos);
     if (yd > FP_FromInteger(200))
     {
         field_AC_ypos += *ySpeed;
     }
 
-    *xSpeed = xd;
-    *ySpeed = yd;
+    field_104_target_xpos = xpos;
+    field_108_target_ypos = ypos;
 
-    field_104_xpos = xpos;
-    field_108_ypos = ypos;
+    *xSpeed = xpos + FP_FromInteger((Math_NextRandom() & 63) - 32);
+    *xSpeed = *xSpeed - field_A8_xpos;
 
-    *xSpeed = FP_FromInteger((Math_NextRandom() & 63) - 32) + xpos - field_A8_xpos;
-    *ySpeed = FP_FromInteger((Math_NextRandom() & 31) - 8) + ypos - field_AC_ypos;
+    *ySpeed = ypos + FP_FromInteger((Math_NextRandom() & 31) - 8);
+    *ySpeed = *ySpeed - field_AC_ypos;
 
     const int ySpeedi = FP_GetExponent(*ySpeed);
     const int xSpeedi = FP_GetExponent(*xSpeed);
-    const FP x_final = FP_FromInteger(Math_SquareRoot_Int_4511B0((ySpeedi * ySpeedi) + (xSpeedi * xSpeedi)));
+    FP x_final = FP_FromInteger(Math_SquareRoot_Int_4511B0((ySpeedi * ySpeedi) + (xSpeedi * xSpeedi)));
+    if (FP_GetExponent(x_final) == 0)
+    {
+        LOG_WARNING("Fixing divide by zero crash");
+        x_final += FP_FromInteger(1);
+    }
 
     field_B4_velx = (FP_FromInteger(8) * *xSpeed) / x_final;
     field_B8_vely = (FP_FromInteger(8) * *ySpeed) / x_final;
@@ -279,8 +284,8 @@ void Bat::VUpdate_404950()
                                 pBat->field_F8_timer = 0;
                                 pBat->field_FC_attack_duration_timer = gnFrameCount_507670 + pBat->field_F6_attack_duration;
 
-                                pBat->field_104_xpos = pBat->field_10C->field_A8_xpos;
-                                pBat->field_108_ypos = pBat->field_10C->field_AC_ypos;
+                                pBat->field_104_target_xpos = pBat->field_10C->field_A8_xpos;
+                                pBat->field_108_target_ypos = pBat->field_10C->field_AC_ypos;
                             }
                         }
                     }
