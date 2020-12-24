@@ -266,7 +266,8 @@ void LiftPoint::StayOnFloor(__int16 floor, Path_LiftPoint* pLiftTlv)
 
 void LiftPoint::Sub_Unknown(Path_TLV* pTlv)
 {
-    pTlv->field_1_unknown &= ~3;
+    pTlv->field_0_flags.Clear(eBit1_Created);
+    pTlv->field_0_flags.Clear(eBit2_Unknown);
     pTlv->field_1_unknown |= 1;
 }
 
@@ -348,56 +349,48 @@ void LiftPoint::VUpdate_434D10()
             field_130_stop_type = 4;
             const FP lineY = FP_FromInteger(field_120_pCollisionLine->field_0_rect.y);
 
+            Path_LiftPoint* pLiftTlv = nullptr;
             Path_TLV* pTlvIter = gMap_507BA8.TLV_Get_At_446060(
                 nullptr,
                 field_A8_xpos,
                 lineY,
                 field_A8_xpos,
                 (field_BC_sprite_scale * FP_FromInteger(30)) + lineY);
-
-            if (pTlvIter)
+            while (pTlvIter)
             {
-                while (pTlvIter->field_4_type != TlvTypes::LiftPoint_8)
+                if (pTlvIter->field_4_type == TlvTypes::LiftPoint_8)
                 {
-                    pTlvIter = gMap_507BA8.TLV_Get_At_446060(
-                        pTlvIter,
-                        field_A8_xpos,
-                        lineY,
-                        field_A8_xpos,
-                        lineY + (field_BC_sprite_scale * FP_FromInteger(30)));
-                    if (!pTlvIter)
-                    {
-                        break;
-                    }
+                    pLiftTlv = static_cast<Path_LiftPoint*>(pTlvIter);
+                    field_130_stop_type = pLiftTlv->field_1E_lift_point_stop_type;
+                    break;
                 }
-
+                pTlvIter = gMap_507BA8.TLV_Get_At_446060(
+                    pTlvIter,
+                    field_A8_xpos,
+                    lineY,
+                    field_A8_xpos,
+                    lineY + (field_BC_sprite_scale * FP_FromInteger(30)));
             }
 
-            auto pLiftTlv = static_cast<Path_LiftPoint*>(pTlvIter);
+            if (pLiftTlv && pLiftTlv->field_1A_bstart_point)
+            {
+                field_27A_flags.Set(Flags::eBit7_bIgnoreLiftMover);
+            }
+            else
+            {
+                field_27A_flags.Clear(Flags::eBit7_bIgnoreLiftMover);
+            }
+
             if (pLiftTlv)
             {
-                field_130_stop_type = pLiftTlv->field_1E_lift_point_stop_type;
+                Sub_Unknown(pLiftTlv);
 
-                if (pLiftTlv->field_1A_bstart_point) // TODO: should be ignore lift mover ??
-                {
-                    field_27A_flags.Set(Flags::eBit7_bIgnoreLiftMover);
-                }
-                else
-                {
-                    field_27A_flags.Clear(Flags::eBit7_bIgnoreLiftMover);
-                }
-
-                if (pLiftTlv)
-                {
-                    Sub_Unknown(pLiftTlv);
-
-                    field_270_floorYLevel = FP_FromInteger(pTlvIter->field_10_top_left.field_2_y + -field_11C_y_offset);
-                }
-                else
-                {
-                    field_270_floorYLevel = FP_FromInteger(0);
-                    field_130_stop_type = 4;
-                }
+                field_270_floorYLevel = FP_FromInteger(pTlvIter->field_10_top_left.field_2_y + -field_11C_y_offset);
+            }
+            else
+            {
+                field_270_floorYLevel = FP_FromInteger(0);
+                field_130_stop_type = 4;
             }
 
             const auto distanceToFloor = field_270_floorYLevel - field_AC_ypos;

@@ -8,6 +8,7 @@
 #include "Game.hpp"
 #include "Error.hpp"
 #include "Compression.hpp"
+#include "Sys_common.hpp"
 #include <gmock/gmock.h>
 
 
@@ -3314,7 +3315,9 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
             switch (itemToDrawType)
             {
             case 2: // TODO: unknown
-                PSX_Render_TILE_4F6A70(nullptr, &any.mTile->mBase.header);
+                // This is like Prim_MoveImage without x/y but is not actually used anywhere
+                //PSX_Render_TILE_4F6A70(nullptr, &any.mTile->mBase.header); // passing nullptr was also wrong and will always crash
+                ALIVE_FATAL("Prim type 2 should never be added to the OT");
                 break;
 
             case PrimTypeCodes::eSetTPage:
