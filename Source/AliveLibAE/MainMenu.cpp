@@ -2567,7 +2567,7 @@ void MainMenuController::ControllerMenu_Load_4D16B0()
     selectedControllerEntry_BB43F4 = sJoystickEnabled_5C9F70;
 }
 
-const char* sButtonNames_562790[8] =
+const char* sInputButtonNames_562790[8] =
 { 
     "Run",
     "Sneak",
@@ -2620,7 +2620,7 @@ void MainMenuController::RemapInput_Render_4D2A10(int** ot)
         }
         polyIndex = field_120_font.DrawString_4337D0(ot, field_234_pStr, nextTextXPos, 88, 0, 1, 0, 41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
         char buffer[512] = {};
-        sprintf(buffer, "for %s", sButtonNames_562790[sButtonToRemapIdx_BB43EC]);
+        sprintf(buffer, "for %s", sInputButtonNames_562790[sButtonToRemapIdx_BB43EC]);
         field_234_pStr = buffer;
         textWidth = field_120_font.MeasureWidth_4336C0(buffer, FP_FromInteger(1));
         if (textWidth >= 336)
@@ -2757,6 +2757,7 @@ MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(DWORD input)
     }
     else
     {
+        // prepare animating the blinking outline of the rectangular input slots
         field_158_animation.Set_Animation_Data_409C80(13936, nullptr);
 
         if (input & InputCommands::eUp)
@@ -3045,7 +3046,7 @@ void MainMenuController::HandleMainMenuUpdate()
         {
             if (field_1FC_button_index != NO_SELECTABLE_BUTTONS)
             {
-                if (inputHeld & (eLeft | eUp))
+                if (inputHeld & (InputCommands::eLeft | InputCommands::eUp))
                 {
                     if (pPage->field_0_cam_id != MainMenuCams::eLoadGameMenuCam)
                     {
