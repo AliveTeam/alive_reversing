@@ -92,6 +92,42 @@ extern PerLvlData gPerLvlData_561700[17];
 struct Path_TLV;
 class MainMenuTransition;
 
+enum MainMenuCams : WORD
+{
+    eNoChange = 0,
+    eMainMenuCam = 1,
+    eGamespeakCharacterSelectionCam = 2,
+    eOptionsCam = 3,
+    eLoadGameMenuCam = 4,
+    eRemapInputsCam = 5,
+    eCheatMenu_SelectFMVCam = 6,
+    eUnknown7Cam = 7,
+    eUnknown8Cam = 8,
+    eAbesMotionKeysCam = 9,
+    eUnknown10Cam = 10,
+    eDummyBlankCam = 11,
+    eBackstory_Or_NewGameCam = 12,
+    eGameIsLoading_ShaddapCam = 13,
+    eAbeGamespeakCam = 14,
+    eSligGamespeakCam = 15,
+    eGlukkonGamespeakCam = 16,
+    eScrabGamespeakCam = 17,
+    eParamiteGamespeakCam = 18,
+    eUnknown19Cam = 19,
+    eUnknown20Cam = 20,
+    eUnknown21Cam = 21,
+    eDemoIsLoading_ShaddapCam = 22,
+    eControllerSelectionCam = 23,
+    eUnknown24Cam = 24,
+    eGameBootCopyrightSplashCam = 25,
+    eUnknown26Cam = 26,
+    eUnknown27Cam = 27,
+    eUnknown28Cam = 28,
+    eUnknown29Cam = 29,
+    eDemoSelectionCam = 30,
+    eCheatMenu_SelectLevelCam = 31,
+};
+
 struct MainMenuNextCam
 {
     short page_update_camera; // LOWORD
@@ -360,42 +396,6 @@ using TFnRender = void (MainMenuController::*)(int**);
 using TFnLoad = void (MainMenuController::*)();
 using TFnUnLoad = void (MainMenuController::*)();
 
-enum MainMenuCams : WORD
-{
-    eNoChange = 0,
-    eMainMenuCam = 1,
-    eGamespeakCharacterSelectionCam = 2,
-    eOptionsCam = 3,
-    eLoadGameMenuCam = 4,
-    eRemapInputsCam = 5,
-    eCheatMenu_SelectFMVCam = 6,
-    eUnknown7Cam = 7,
-    eUnknown8Cam = 8,
-    eAbesMotionKeysCam = 9,
-    eUnknown10Cam = 10,
-    eDummyBlankCam = 11,
-    eBackstory_Or_NewGameCam = 12,
-    eGameIsLoading_ShaddapCam = 13,
-    eAbeGamespeakCam = 14,
-    eSligGamespeakCam = 15,
-    eGlukkonGamespeakCam = 16,
-    eScrabGamespeakCam = 17,
-    eParamiteGamespeakCam = 18,
-    eUnknown19Cam = 19,
-    eUnknown20Cam = 20,
-    eUnknown21Cam = 21,
-    eDemoIsLoading_ShaddapCam = 22,
-    eControllerSelectionCam = 23,
-    eUnknown24Cam = 24,
-    eGameBootCopyrightSplashCam = 25,
-    eUnknown26Cam = 26,
-    eUnknown27Cam = 27,
-    eUnknown28Cam = 28,
-    eUnknown29Cam = 29,
-    eDemoSelectionCam = 30,
-    eCheatMenu_SelectLevelCam = 31,
-    eNothing = 0xFFFF, // special case
-};
 
 struct MainMenuPage
 {
