@@ -91,6 +91,9 @@ struct MainMenuNextCam
     short button_idx_to_highlight = 0x0000; // HIWORD - by default, always the first button on the given page should be highlighted
 };
 
+// Indicates a button index value on a given page where there is no button to animate with a glowing outline
+const short NO_SELECTABLE_BUTTONS = -1;
+
 class MainMenuController : public BaseAnimatedWithPhysicsGameObject
 {
 public:

@@ -160,7 +160,8 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
 {
     { // Page 0: Controller selection menu
         MainMenuCams::eControllerSelectionCam,
-        0,        0,        0,       -1,        0,        0,
+        0,        0,        0,       -1,        0,
+        FALSE,
         &MainMenuController::ControllerMenu_Update_4D16D0,
         &MainMenuController::ControllerMenu_Render_Text_4D26C0,
         nullptr,
@@ -169,7 +170,8 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     }, 
     { // Page 1: Input remapping menu
         MainMenuCams::eRemapInputsCam,
-        0,        0,        0,       -1,        0,        0,
+        0,        0,        0,       -1,        0,
+        FALSE,
         &MainMenuController::RemapInput_Update_4D1820,
         &MainMenuController::RemapInput_Render_4D2A10,
         nullptr,
@@ -178,7 +180,8 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     }, 
     { // Page 2: Dummy blank screen for quitting
         MainMenuCams::eDummyBlankCam,
-        0,        0,        0,       -1,        0,        0,
+        0,        0,        0,       -1,        0,
+        FALSE,
         nullptr,
         nullptr,
         nullptr,
@@ -187,7 +190,8 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     { // Page 3: Main menu screen where abe says hello
         MainMenuCams::eMainMenuCam,
-        0,        0,        0,       -1,       -1,        1,
+        0,        0,        0,       -1,        NO_SELECTABLE_BUTTONS,
+        TRUE,
         &MainMenuController::Page_Front_Update_4D0720,
         &MainMenuController::Page_Front_Render_4D24B0,
         sBtnArray_FrontEnd_560FA0,
@@ -196,7 +200,8 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     { // Page 4: Gamespeak character selection screen
         MainMenuCams::eGamespeakCharacterSelectionCam,
-        0,        900,      1,        0,        4,        0,
+        0,        900,      1,        0,        4,
+        FALSE,
         &MainMenuController::Gamespeak_Update_4D1FC0,
         &MainMenuController::Gamespeak_Render_4D24F0,
         sBtnArray_Gamespeak_561310,
@@ -205,7 +210,8 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     { // Page 5: Options 
         MainMenuCams::eOptionsCam,
-        0,        900,      1,        0,        3,        1,
+        0,        900,      1,        0,        3,
+        TRUE,
         &MainMenuController::Options_Update_4D1AB0,
         &MainMenuController::Options_Render_4D2540,
         sBtnArray_Options_561368,
@@ -214,7 +220,8 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     { // Page 6: Abe's motions 
         MainMenuCams::eAbesMotionKeysCam,
-        0,        1600,     3,        0,        0,        0,
+        0,        1600,     3,        0,        0,
+        FALSE,
         &MainMenuController::AbeMotions_Update_4D1F50,
         &MainMenuController::AbeMotions_Render_4D25E0,
         nullptr,
@@ -223,7 +230,8 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     { // Page 7: Load game menu
         MainMenuCams::eLoadGameMenuCam,
-        0,        1000,     1,        0,        2,        0,
+        0,        1000,     1,        0,        2,
+        FALSE,
         &MainMenuController::tLoadGame_Input_4D3EF0,
         &MainMenuController::tLoadGame_Render_4D44D0,
         sBtnArray_LoadGame_561450,
@@ -232,7 +240,8 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     { // Page 8: Solo or Co-op newgame selection (PSX only, unused on PC)
         MainMenuCams::eRemapInputsCam,
-        0,        900,      1,        0,        0,        1,
+        0,        900,      1,        0,        0,
+        TRUE,
         &MainMenuController::PSX_Gamemode_Selection_Update_4D48C0,
         nullptr,
         sBtnArray_PSX_1Player_Or_2Player_NewGame_5613C8,
@@ -241,7 +250,8 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     { // Page 9: Cooperative mode (2-player) description screen (PSX only, unused on PC)
         MainMenuCams::eDummyBlankCam,
-        0,        1800,     5,        0,        1,        0,
+        0,        1800,     5,        0,        1,
+        FALSE,
         &MainMenuController::PSX_Cooperative_Mode_Update_4D49B0,
         nullptr,
         sBtnArray_Cooperative_Mode_Prompt_5613F8,
@@ -250,7 +260,8 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     { // Page 10: FMV selection cheat menu
         MainMenuCams::eCheatMenu_SelectFMVCam,
-        0,        0,        1,        0,        0,        0,
+        0,        0,        1,        0,        0,
+        FALSE,
         &MainMenuController::Page_FMV_Level_Update_4D4AB0,
         &MainMenuController::Demo_And_FMV_List_Render_4D4F30,
         sBtnArray_Cheat_Level_Or_FMVSelection_560FE8,
@@ -259,7 +270,8 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     { // Page 11: Level selection cheat menu
         MainMenuCams::eCheatMenu_SelectLevelCam,
-        0,        0,        1,        0,        0,        0,
+        0,        0,        1,        0,        0,
+        FALSE,
         &MainMenuController::Page_FMV_Level_Update_4D4AB0,
         &MainMenuController::Demo_And_FMV_List_Render_4D4F30,
         sBtnArray_Cheat_Level_Or_FMVSelection_560FE8,
@@ -268,7 +280,8 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     { // Page 12: Demo selection menu
         MainMenuCams::eDemoSelectionCam,
-        0,        0,        1,        0,        1,        0,
+        0,        0,        1,        0,        1,
+        FALSE,
         &MainMenuController::DemoSelect_Update_4D0E10,
         &MainMenuController::Demo_And_FMV_List_Render_4D4F30,
         nullptr,
@@ -277,7 +290,8 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     { // Page 13: "Game is loading" splash screen
         MainMenuCams::eGameIsLoading_ShaddapCam,
-        0,        0,        0,       -1,       -1,        0,
+        0,        0,        0,       -1,        NO_SELECTABLE_BUTTONS,
+        FALSE,
         &MainMenuController::LoadNewGame_Update_4D0920,
         nullptr,
         nullptr,
@@ -286,7 +300,8 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     { // Page 14: "Demo is loading" splash screen
         MainMenuCams::eDemoIsLoading_ShaddapCam,
-        0,        0,        0,       -1,       -1,        0,
+        0,        0,        0,       -1,        NO_SELECTABLE_BUTTONS,
+        FALSE,
         &MainMenuController::LoadDemo_Update_4D1040,
         nullptr,
         nullptr,
@@ -295,19 +310,20 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     { // Page 15: Unknown, possibly startup-related?
         MainMenuCams::eUnknown20Cam,
-        0, 150, 25, 1, -1, 0, nullptr, nullptr, nullptr, nullptr, nullptr
+        0, 150, 25, 1, NO_SELECTABLE_BUTTONS, FALSE, nullptr, nullptr, nullptr, nullptr, nullptr
     },
     { // Page 16: Copyright boot screen
         MainMenuCams::eGameBootCopyrightSplashCam,
-        0, 150, 1, 7, 0, 0, nullptr, nullptr, nullptr, nullptr, nullptr
+        0, 150, 1, 7, 0, FALSE, nullptr, nullptr, nullptr, nullptr, nullptr
     },
     { // Page 17: Unknown, possibly startup-related?
         MainMenuCams::eControllerSelectionCam,
-        0, 150, 25, 1, -1, 0, nullptr, nullptr, nullptr, nullptr, nullptr
+        0, 150, 25, 1, NO_SELECTABLE_BUTTONS, FALSE, nullptr, nullptr, nullptr, nullptr, nullptr
     },
     { // Page 18: Abe Gamespeak screen
         MainMenuCams::eAbeGamespeakCam,
-        0,        1600,     2,        0,        0,        1,
+        0,        1600,     2,        0,        0,
+        TRUE,
         &MainMenuController::AbeSpeak_Update_4D2D20,
         &MainMenuController::AbeSpeak_Render_4D2060,
         nullptr,
@@ -316,7 +332,8 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     { // Page 19: Slig Gamespeak screen
         MainMenuCams::eSligGamespeakCam,
-        0,        1600,     2,        0,        1,        1,
+        0,        1600,     2,        0,        1,
+        TRUE,
         &MainMenuController::SligSpeak_Update_4D3280,
         &MainMenuController::SligSpeak_Render_4D2370,
         nullptr,
@@ -325,7 +342,8 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     { // Page 20: Glukkon Gamespeak screen
         MainMenuCams::eGlukkonGamespeakCam,
-        0,        1600,     2,        0,        2,        1,
+        0,        1600,     2,        0,        2,
+        TRUE,
         &MainMenuController::GlukkonSpeak_Update_4D3670,
         &MainMenuController::GlukkonSpeak_Render_4D23C0,
         nullptr,
@@ -334,7 +352,8 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     { // Page 21: Scrab Gamespeak screen
         MainMenuCams::eScrabGamespeakCam,
-        0,        1600,     2,        0,        3,        1,
+        0,        1600,     2,        0,        3,
+        TRUE,
         &MainMenuController::ScrabSpeak_Update_4D3A60,
         &MainMenuController::ScrabSpeak_Render_4D2410,
         nullptr,
@@ -343,7 +362,8 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     { // Page 22: Paramite Gamespeak screen
         MainMenuCams::eParamiteGamespeakCam,
-        0,        1600,     2,        0,        4,        1,
+        0,        1600,     2,        0,        4,
+        TRUE,
         &MainMenuController::ParamiteSpeak_Update_4D3D60,
         &MainMenuController::ParamiteSpeak_Render_4D2460,
         nullptr,
@@ -352,7 +372,8 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     { // Page 23: Backstory Or Just Start a New Game screen
         MainMenuCams::eBackstory_Or_NewGameCam,
-        0,        900,      1,        0,        0,        0,
+        0,        900,      1,        0,        0,
+        FALSE,
         &MainMenuController::BackStory_Or_NewGame_Update_4D1C60,
         &MainMenuController::BackStory_Or_NewGame_Render_4D2630,
         sBtnArray_Game_BackStory_Or_NewGame_561420,
@@ -723,7 +744,7 @@ void MainMenuController::Render_4CF4C0(int** ot)
     {
         if (!field_23C_T80.Get(Flags::eBit17_bDisableChangingSelection))
         {
-            if (field_1FC_button_index != -1)
+            if (field_1FC_button_index != NO_SELECTABLE_BUTTONS)
             {
                 field_158_animation.vRender_40B820(pButtons[field_1FC_button_index].field_2_x, pButtons[field_1FC_button_index].field_4_y, ot, 0, 0);
                 PSX_RECT rect = {};
@@ -1553,7 +1574,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_hel
     field_24C_abeYOff = pDemosOrFmvs_BB4414.mDemoRec[field_230_target_entry_index].field_E_abe_y_off;
     field_24E_start_scale = pDemosOrFmvs_BB4414.mDemoRec[field_230_target_entry_index].field_A_id; // some how id and scale ??
 
-    return { MainMenuCams::eGameIsLoading_ShaddapCam, -1 };
+    return { MainMenuCams::eGameIsLoading_ShaddapCam, NO_SELECTABLE_BUTTONS };
 }
 
 MainMenuText sLoadButtonGraphics[2] =
@@ -1604,19 +1625,19 @@ MainMenuNextCam MainMenuController::Gamespeak_Update_4D1FC0(DWORD input_held)
     switch (field_1FC_button_index)
     {
     case 0:
-        return { MainMenuCams::eAbeGamespeakCam, -1 };
+        return { MainMenuCams::eAbeGamespeakCam, NO_SELECTABLE_BUTTONS };
         break;
     case 1:
-        return { MainMenuCams::eSligGamespeakCam, -1 };
+        return { MainMenuCams::eSligGamespeakCam, NO_SELECTABLE_BUTTONS };
         break;
     case 2:
-        return { MainMenuCams::eGlukkonGamespeakCam, -1 };
+        return { MainMenuCams::eGlukkonGamespeakCam, NO_SELECTABLE_BUTTONS };
         break;
     case 3:
-        return { MainMenuCams::eScrabGamespeakCam, -1 };
+        return { MainMenuCams::eScrabGamespeakCam, NO_SELECTABLE_BUTTONS };
         break;
     case 4:
-        return { MainMenuCams::eParamiteGamespeakCam, -1 };
+        return { MainMenuCams::eParamiteGamespeakCam, NO_SELECTABLE_BUTTONS };
         break;
     default:
         return { MainMenuCams::eNoChange };
@@ -1689,7 +1710,7 @@ MainMenuNextCam MainMenuController::Page_Front_Update_4D0720(DWORD input)
     {
         bLongerTimeoutToNextDemo_5C1B9A = 1;
         field_1FC_button_index = 0;
-        return { MainMenuCams::eDemoIsLoading_ShaddapCam, -1 };
+        return { MainMenuCams::eDemoIsLoading_ShaddapCam, NO_SELECTABLE_BUTTONS };
     }
 
     // Enter pressed on selected menu item?
@@ -1712,7 +1733,7 @@ MainMenuNextCam MainMenuController::Page_Front_Update_4D0720(DWORD input)
         case 2:
             // Load
             field_230_target_entry_index = 0;
-            return { MainMenuCams::eLoadGameMenuCam, -1 };
+            return { MainMenuCams::eLoadGameMenuCam, NO_SELECTABLE_BUTTONS };
         case 3:
             // Options
             return { MainMenuCams::eOptionsCam };
@@ -1734,7 +1755,7 @@ MainMenuNextCam MainMenuController::Page_Front_Update_4D0720(DWORD input)
         field_250_selected_entry_index = 0;
         field_254 = FP_FromInteger(0);
         field_258 = FP_FromInteger(0);
-        return { MainMenuCams::eCheatMenu_SelectFMVCam, -1 };
+        return { MainMenuCams::eCheatMenu_SelectFMVCam, NO_SELECTABLE_BUTTONS };
     }
     
     if (sEnableCheatLevelSelect_5C1BEE)
@@ -1748,7 +1769,7 @@ MainMenuNextCam MainMenuController::Page_Front_Update_4D0720(DWORD input)
         field_250_selected_entry_index = 0;
         field_254 = FP_FromInteger(0);
         field_258 = FP_FromInteger(0);
-        return { MainMenuCams::eCheatMenu_SelectLevelCam, -1 };
+        return { MainMenuCams::eCheatMenu_SelectLevelCam, NO_SELECTABLE_BUTTONS };
     }
 
     return { MainMenuCams::eNoChange };
@@ -1967,7 +1988,7 @@ EXPORT MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(DW
         {
             sCurrentControllerIndex_5C1BBE = 0;
             sGameStartedFrame_5C1B88 = sGnFrame_5C1B84;
-            return { MainMenuCams::eGameIsLoading_ShaddapCam, -1 };
+            return { MainMenuCams::eGameIsLoading_ShaddapCam, NO_SELECTABLE_BUTTONS };
         }
     }
     else if (input_held & InputCommands::eBack) // Escape/back
@@ -2275,7 +2296,7 @@ MainMenuNextCam MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
         // selected a demo for playing
         gIsDemoStartedManually_5C1B9C = TRUE;
         sDemoIdChosenFromDemoMenu_5C1B9E = field_230_target_entry_index;
-        return { MainMenuCams::eDemoIsLoading_ShaddapCam, -1 }; //Enter Pressed
+        return { MainMenuCams::eDemoIsLoading_ShaddapCam, NO_SELECTABLE_BUTTONS }; //Enter Pressed
     }
 
     return { MainMenuCams::eNoChange }; // Nothing Pressed
@@ -2373,7 +2394,7 @@ EXPORT MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
         IO_Close(hFile);
 
         field_23C_T80.Set(Flags::eBit21_LoadingSave);
-        return { MainMenuCams::eGameIsLoading_ShaddapCam, -1 };
+        return { MainMenuCams::eGameIsLoading_ShaddapCam, NO_SELECTABLE_BUTTONS };
     }
 
     return { MainMenuCams::eNoChange };
@@ -2383,7 +2404,7 @@ void MainMenuController::tLoadGame_Load_4D42F0()
 {
     field_23A_Inside_LoadGame_Screen = 6;
     field_230_target_entry_index = 0;
-    field_1FC_button_index = -1;
+    field_1FC_button_index = NO_SELECTABLE_BUTTONS;
     Quicksave_FindSaves_4D4150();
     sSelectedSavedGameIdx_BB43E8 = sSavedGameToLoadIdx_BB43FC;
     field_23C_T80.Clear(Flags::eBit15_unused);
@@ -2428,7 +2449,7 @@ MainMenuNextCam MainMenuController::Options_Update_4D1AB0(DWORD input)
             field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_0_resources[1]);
             Load_Anim_Pal_4D06A0(&field_20_animation);
             field_230_target_entry_index = 0;
-            return { MainMenuCams::eDemoSelectionCam, -1 };
+            return { MainMenuCams::eDemoSelectionCam, NO_SELECTABLE_BUTTONS };
         }
         default:
         {
@@ -2778,7 +2799,7 @@ MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(DWORD input)
         if (input & InputCommands::eBack)
         {
             Input_SaveSettingsIni_492840();
-            field_1FC_button_index = -1;
+            field_1FC_button_index = NO_SELECTABLE_BUTTONS;
             return { MainMenuCams::eAbesMotionKeysCam };
         }
 
@@ -2884,7 +2905,7 @@ MainMenuNextCam MainMenuController::HandleGameSpeakInput(DWORD input_held, std::
         // Exit
       
         field_230_target_entry_index = 8;
-        field_1FC_button_index = -1;
+        field_1FC_button_index = NO_SELECTABLE_BUTTONS;
 
         if (field_210_pUnused)
         {
@@ -3008,7 +3029,7 @@ void MainMenuController::HandleMainMenuUpdate()
 
         if (btnArray)
         {
-            if (field_1FC_button_index != -1)
+            if (field_1FC_button_index != NO_SELECTABLE_BUTTONS)
             {
                 if (inputHeld & (eLeft | eUp))
                 {
@@ -3410,7 +3431,7 @@ signed int MainMenuController::ChangeScreenAndIntroLogic_4CF640()
         if (sMainMenuPages_561960[field_218_target_page_index].field_18_buttons != nullptr)
         {
             field_1FC_button_index = field_21A_target_button_index;
-            if (field_1FC_button_index == -1)
+            if (field_1FC_button_index == NO_SELECTABLE_BUTTONS)
             {
                 MainMenuButton* pButtonsIter = sMainMenuPages_561960[field_218_target_page_index].field_18_buttons;
                 short useButtonIdx = 0;
@@ -3434,7 +3455,7 @@ signed int MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 }
             }
 
-            if (field_1FC_button_index != -1)
+            if (field_1FC_button_index != NO_SELECTABLE_BUTTONS)
             {
                 field_158_animation.Set_Animation_Data_409C80(
                     sMainMenuPages_561960[field_218_target_page_index].field_18_buttons[field_1FC_button_index].field_8_anim_frame_offset,
