@@ -85,6 +85,12 @@ extern PerLvlData gPerLvlData_561700[17];
 struct Path_TLV;
 class MainMenuTransition;
 
+struct MainMenuNextCam
+{
+    short page_update_camera; // LOWORD
+    short button_idx_to_highlight = 0x0000; // HIWORD - by default, always the first button on the given page should be highlighted
+};
+
 class MainMenuController : public BaseAnimatedWithPhysicsGameObject
 {
 public:
@@ -162,29 +168,29 @@ public:
 
     // Page Functions
     EXPORT void AbeSpeak_Render_4D2060(int** ot);
-    EXPORT signed int AbeSpeak_Update_4D2D20(DWORD input_held);
+    EXPORT MainMenuNextCam AbeSpeak_Update_4D2D20(DWORD input_held);
 
     EXPORT void SligSpeak_Render_4D2370(int** ot);
-    EXPORT signed int SligSpeak_Update_4D3280(DWORD input_held);
+    EXPORT MainMenuNextCam SligSpeak_Update_4D3280(DWORD input_held);
     EXPORT void SligSpeak_Unload_4D3170();
     EXPORT void SligSpeak_Load_4D3090();
 
     EXPORT void GlukkonSpeak_Render_4D23C0(int** ot);
-    EXPORT signed int GlukkonSpeak_Update_4D3670(DWORD input_held);
+    EXPORT MainMenuNextCam GlukkonSpeak_Update_4D3670(DWORD input_held);
     EXPORT void GlukkonSpeak_Unload_4D3560();
     EXPORT void GlukkonSpeak_Load_4D3480();
 
     EXPORT void ScrabSpeak_Render_4D2410(int** ot);
-    EXPORT signed int ScrabSpeak_Update_4D3A60(DWORD input_held);
+    EXPORT MainMenuNextCam ScrabSpeak_Update_4D3A60(DWORD input_held);
     EXPORT void ScrabSpeak_Unload_4D3950();
     EXPORT void ScrabSpeak_Load_4D3870();
 
     EXPORT void ParamiteSpeak_Render_4D2460(int** ot);
-    EXPORT signed int ParamiteSpeak_Update_4D3D60(DWORD input_held);
+    EXPORT MainMenuNextCam ParamiteSpeak_Update_4D3D60(DWORD input_held);
     EXPORT void ParamiteSpeak_Unload_4D3C50();
     EXPORT void ParamiteSpeak_Load_4D3B70();
 
-    EXPORT signed int Gamespeak_Update_4D1FC0(DWORD input_held);
+    EXPORT MainMenuNextCam Gamespeak_Update_4D1FC0(DWORD input_held);
 
     void RenderOnScreenTextHelper(int ** ot, const MainMenuText * menuTextArray, int count, char isSingleChar);
 
@@ -201,30 +207,30 @@ public:
 
     EXPORT void t_Load_AbeSpeak_Res_4D4A20();
 
-    EXPORT signed int Page_FMV_Level_Update_4D4AB0(DWORD input_held);
+    EXPORT MainMenuNextCam Page_FMV_Level_Update_4D4AB0(DWORD input_held);
 
     void Unload_AbeSpeakResources();
     void Load_AbeSpeakResources();
 
     // Front End
-    EXPORT signed int Page_Front_Update_4D0720(DWORD input);
+    EXPORT MainMenuNextCam Page_Front_Update_4D0720(DWORD input);
     EXPORT void Page_Front_Render_4D24B0(int **ot);
 
-    EXPORT signed int LoadNewGame_Update_4D0920(DWORD input);
+    EXPORT MainMenuNextCam LoadNewGame_Update_4D0920(DWORD input);
 
-    EXPORT signed int BackStory_Or_NewGame_Update_4D1C60(DWORD input_held);
+    EXPORT MainMenuNextCam BackStory_Or_NewGame_Update_4D1C60(DWORD input_held);
     EXPORT void BackStory_Or_NewGame_Load_4D1BA0();
     EXPORT void BackStory_Or_NewGame_Unload_4D1BE0();
 
-    EXPORT signed int LoadDemo_Update_4D1040(DWORD input);
-    EXPORT signed int DemoSelect_Update_4D0E10(DWORD input);
-    EXPORT signed int Options_Update_4D1AB0(DWORD input);
+    EXPORT MainMenuNextCam LoadDemo_Update_4D1040(DWORD input);
+    EXPORT MainMenuNextCam DemoSelect_Update_4D0E10(DWORD input);
+    EXPORT MainMenuNextCam Options_Update_4D1AB0(DWORD input);
     
-    EXPORT signed int AbeMotions_Update_4D1F50(DWORD input);
+    EXPORT MainMenuNextCam AbeMotions_Update_4D1F50(DWORD input);
 
-    EXPORT signed int PSX_Cooperative_Mode_Update_4D49B0(DWORD input);
+    EXPORT MainMenuNextCam PSX_Cooperative_Mode_Update_4D49B0(DWORD input);
 
-    EXPORT signed int PSX_Gamemode_Selection_Update_4D48C0(DWORD input);
+    EXPORT MainMenuNextCam PSX_Gamemode_Selection_Update_4D48C0(DWORD input);
 
     EXPORT void RemapInput_Load_4D17E0();
 
@@ -232,11 +238,11 @@ public:
 
     EXPORT void RemapInput_Render_4D2A10(int** ot);
 
-    EXPORT signed int ControllerMenu_Update_4D16D0(DWORD input);
+    EXPORT MainMenuNextCam ControllerMenu_Update_4D16D0(DWORD input);
 
-    EXPORT signed int RemapInput_Update_4D1820(DWORD input);
+    EXPORT MainMenuNextCam RemapInput_Update_4D1820(DWORD input);
 
-    EXPORT signed int tLoadGame_Input_4D3EF0(DWORD input);
+    EXPORT MainMenuNextCam tLoadGame_Input_4D3EF0(DWORD input);
     EXPORT void tLoadGame_Render_4D44D0( int **pOt);
     
     EXPORT void tLoadGame_Load_4D42F0();
@@ -250,7 +256,7 @@ public:
 
     static MainMenuController * gMainMenuController;
 private:
-    signed int HandleGameSpeakInput(DWORD input_held, std::function<signed int(InputCommands cmd)> fnOnGameSpeak);
+    MainMenuNextCam HandleGameSpeakInput(DWORD input_held, std::function<MainMenuNextCam(InputCommands cmd)> fnOnGameSpeak);
 
     void HandleCreditsControllerUpdate();
     void HandleMainMenuUpdate();
