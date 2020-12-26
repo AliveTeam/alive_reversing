@@ -136,7 +136,7 @@ public:
     {
         /*struct MainMenuButton
         {
-        __int16 field_0;
+        __int16 field_0_type;
         __int16 field_2_x;
         __int16 field_4_y;
         __int16 field_6;
@@ -146,7 +146,7 @@ public:
 
         auto list = reinterpret_cast<MainMenuButton *>(0x5610B8);
 
-        while (list->field_0)
+        while (list->field_0_type)
         {
         pIndex = mFont.DrawString_4337D0(pOrderingTable, "O", list->field_2_x, list->field_4_y, 0, 1, 0, 40, 255, 0, 0, pIndex, FP_FromDouble(1.0), 640, 0);
         list++;
@@ -624,7 +624,7 @@ void Command_Menu(const std::vector<std::string>& args)
     int menuCam = std::stoi(args[0]);
     if (MainMenuController::gMainMenuController != nullptr)
     {
-        MainMenuController::gMainMenuController->field_21A_target_cam = static_cast<short>(menuCam);
+        MainMenuController::gMainMenuController->field_21A_target_button_index = static_cast<short>(menuCam);
         MainMenuController::gMainMenuController->field_218_target_page_index = static_cast<short>(MainMenuController::GetPageIndexFromCam_4D05A0(menuCam));
         MainMenuController::gMainMenuController->field_21C_bDoScreenTransistionEffect = static_cast<short>(menuCam);
         MainMenuController::gMainMenuController->field_23C_T80.Set(MainMenuController::Flags::eBit22_GameSpeakPlaying);
