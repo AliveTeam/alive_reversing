@@ -3088,15 +3088,15 @@ void MainMenuController::HandleMainMenuUpdate()
         }
 
         field_218_target_page_index = static_cast<short>(GetPageIndexFromCam_4D05A0(pageUpdateReturnedCam.page_update_camera));
-        field_21A_target_cam = pageUpdateReturnedCam.button_idx_to_highlight;
+        field_21A_target_button_index = pageUpdateReturnedCam.button_idx_to_highlight;
         isScreenTransitionNecessary = BYTE1(pageUpdateReturnedCam.page_update_camera);
     }
     else
     {
         field_1F8_page_timeout = 0;
         field_218_target_page_index = static_cast<short>(GetPageIndexFromCam_4D05A0(pPage->field_8_next_idx));
-        field_21A_target_cam = pPage->field_C_target_camera;
-        isScreenTransitionNecessary = pPage->field_A_transistion_effect;
+        field_21A_target_button_index = pPage->field_C_initial_button_idx_to_highlight;
+        isScreenTransitionNecessary = pPage->field_A_transition_effect;
     }
 
     field_21C_bDoScreenTransistionEffect = static_cast<short>(isScreenTransitionNecessary);
@@ -3220,7 +3220,7 @@ signed int MainMenuController::ChangeScreenAndIntroLogic_4CF640()
         return 1;
 
     case 2:
-        if (sMainMenuPages_561960[field_214_page_index].field_A_transistion_effect == 7)
+        if (sMainMenuPages_561960[field_214_page_index].field_A_transition_effect == 7)
         {
             char buffer[256] = {};
 
@@ -3409,8 +3409,8 @@ signed int MainMenuController::ChangeScreenAndIntroLogic_4CF640()
 
         if (sMainMenuPages_561960[field_218_target_page_index].field_18_buttons != nullptr)
         {
-            field_1FC_button_index = field_21A_target_cam;
-            if (field_21A_target_cam == -1)
+            field_1FC_button_index = field_21A_target_button_index;
+            if (field_1FC_button_index == -1)
             {
                 MainMenuButton* pButtonsIter = sMainMenuPages_561960[field_218_target_page_index].field_18_buttons;
                 short useButtonIdx = 0;

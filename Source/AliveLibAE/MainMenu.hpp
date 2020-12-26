@@ -312,7 +312,7 @@ public:
     __int16 field_214_page_index;
     __int16 field_216_previous_page_index;
     __int16 field_218_target_page_index;
-    __int16 field_21A_target_cam;
+    __int16 field_21A_target_button_index;
     __int16 field_21C_bDoScreenTransistionEffect;
     __int16 field_21E_bChangeScreen;
     __int16 field_220_frame_table_idx;
@@ -345,7 +345,7 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(MainMenuController, 0x260);
 
-using TFnInput = signed int (MainMenuController::*)(DWORD);
+using TFnInput = MainMenuNextCam (MainMenuController::*)(DWORD);
 using TFnRender = void (MainMenuController::*)(int**);
 using TFnLoad = void (MainMenuController::*)();
 using TFnUnLoad = void (MainMenuController::*)();
@@ -393,8 +393,8 @@ struct MainMenuPage
     __int16 field_2_pad;
     int field_4_time_out;
     __int16 field_8_next_idx;
-    __int16 field_A_transistion_effect;
-    __int16 field_C_target_camera;
+    __int16 field_A_transition_effect;
+    __int16 field_C_initial_button_idx_to_highlight; // which button index to put the cursor on upon page opening
     __int16 field_E_show_character;
     TFnInput field_10_fn_update;
     TFnRender field_14_fn_render;
