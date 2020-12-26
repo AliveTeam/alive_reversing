@@ -63,76 +63,90 @@ ALIVE_VAR(1, 0x5c2f68, const char, byte_5C2F68, 0);
 
 MainMenuButton sBtnArray_FrontEnd_560FA0[] =
 {
-    { 1, 33, 82, 0, 13912 },
-    { 1, 32, 104, 0, 13912 },
-    { 1, 337, 219, 0, 13912 },
-    { 1, 337, 239, 0, 13912 },
-    { 1, 33, 62, 0, 13912 },
+    { MainMenuButtonType::eCircularSelectableButton, 33, 82, 0, 13912 },   // Begin
+    { MainMenuButtonType::eCircularSelectableButton, 32, 104, 0, 13912 },  // Quit
+    { MainMenuButtonType::eCircularSelectableButton, 337, 219, 0, 13912 }, // Load
+    { MainMenuButtonType::eCircularSelectableButton, 337, 239, 0, 13912 }, // Options
+    { MainMenuButtonType::eCircularSelectableButton, 33, 62, 0, 13912 },   // Gamespeak
     { 0, 0, 0, 0, 0 }
 };
 
 MainMenuButton sBtnArray_Cheat_Level_Or_FMVSelection_560FE8[] =
 {
-    { 3, 34, 65, 0, 13912 },
-    { 0, 0, 0, 0, 0 },
-    { 2, 51, 119, 0, 13912 },
-    { 2, 46, 151, 0, 13912 },
-    { 2, 46, 182, 0, 13912 },
-    { 2, 55, 211, 0, 13912 },
-    { 2, 314, 119, 0, 13912 },
-    { 2, 323, 151, 0, 13912 },
-    { 2, 323, 182, 0, 13912 },
-    { 2, 317, 211, 0, 13912 },
-    { 3, 166, 240, 0, 13924 },
+    { MainMenuButtonType::eUnused_3, 34, 65, 0, 13912 },
+    { 0, 0, 0, 0, 0 }
+};
+
+MainMenuButton sBtnArray_InputKeys_561000[] =
+{
+    // first column
+    { MainMenuButtonType::eUnused_2, 51, 119, 0, 13912 }, // Run
+    { MainMenuButtonType::eUnused_2, 46, 151, 0, 13912 }, // Sneak
+    { MainMenuButtonType::eUnused_2, 46, 182, 0, 13912 }, // Jump
+    { MainMenuButtonType::eUnused_2, 55, 211, 0, 13912 }, // Speak I
+    // second column
+    { MainMenuButtonType::eUnused_2, 314, 119, 0, 13912 }, // Action
+    { MainMenuButtonType::eUnused_2, 323, 151, 0, 13912 }, // Throw
+    { MainMenuButtonType::eUnused_2, 323, 182, 0, 13912 }, // Fart/Roll
+    { MainMenuButtonType::eUnused_2, 317, 211, 0, 13912 }, // Speak II
+    { MainMenuButtonType::eUnused_3, 166, 240, 0, 13924 },
+    { 0, 0, 0, 0, 0 }
+};
+
+MainMenuButton sBtnArray_Unknown_5610C0[] =
+{
+    { MainMenuButtonType::eUnused_2, 150, 26, 0, 13900 },
+    { MainMenuButtonType::eUnused_2, 198, 26, 0, 13900 },
+    { MainMenuButtonType::eUnused_2, 292, 35, 0, 13900 },
     { 0, 0, 0, 0, 0 }
 };
 
 MainMenuButton sBtnArray_Game_BackStory_Or_NewGame_561420[] = 
 {
-    { 1, 59, 199, 0, 13912 },
-    { 1, 248, 199, 0, 13912 },
-    { 3, 180, 240, 0, 13912 },
+    { MainMenuButtonType::eCircularSelectableButton, 59, 199, 0, 13912 },  // Show me what happened
+    { MainMenuButtonType::eCircularSelectableButton, 248, 199, 0, 13912 }, // Just start the game
+    { MainMenuButtonType::eUnused_3, 180, 240, 0, 13912 },
     { 0, 0, 0, 0, 0 }
 };
 
 MainMenuButton sBtnArray_Gamespeak_561310[] =
 {
-    { 1, 153, 122, 0, 13912 },
-    { 1, 153, 143, 0, 13912 },
-    { 1, 153, 164, 0, 13912 },
-    { 1, 153, 184, 0, 13912 },
-    { 1, 153, 205, 0, 13912 },
-    { 3, 313, 240, 0, 13924 },
+    { MainMenuButtonType::eCircularSelectableButton, 153, 122, 0, 13912 }, // Abe
+    { MainMenuButtonType::eCircularSelectableButton, 153, 143, 0, 13912 }, // Slig
+    { MainMenuButtonType::eCircularSelectableButton, 153, 164, 0, 13912 }, // Glukkon
+    { MainMenuButtonType::eCircularSelectableButton, 153, 184, 0, 13912 }, // Scrab
+    { MainMenuButtonType::eCircularSelectableButton, 153, 205, 0, 13912 }, // Paramite
+    { MainMenuButtonType::eUnused_3, 313, 240, 0, 13924 },
     { 0, 0, 0, 0, 0 }
 };
 
 MainMenuButton sBtnArray_Options_561368[] =
 {
-    { 1, 33, 62, 0, 13912 },
-    { 1, 336, 61, 0, 13912 },
-    { 3, 332, 240, 0, 13912 },
+    { MainMenuButtonType::eCircularSelectableButton, 33, 62, 0, 13912 },   // Controls
+    { MainMenuButtonType::eCircularSelectableButton, 336, 61, 0, 13912 },  // Demos
+    { MainMenuButtonType::eUnused_3, 332, 240, 0, 13912 },
     { 0, 0, 0, 0, 0 }
 };
 
 MainMenuButton sBtnArray_PSX_1Player_Or_2Player_NewGame_5613C8[] =
 {
-    { 1, 33, 62, 0, 13912 },
-    { 1, 336, 60, 0, 13912 },
-    { 3, 331, 240, 0, 13912 },
+    { MainMenuButtonType::eCircularSelectableButton, 33, 62, 0, 13912 },   // One player
+    { MainMenuButtonType::eCircularSelectableButton, 336, 60, 0, 13912 },  // Two players
+    { MainMenuButtonType::eUnused_3, 331, 240, 0, 13912 },
     { 0, 0, 0, 0, 0 }
 };
 
 MainMenuButton sBtnArray_Cooperative_Mode_Prompt_5613F8[] =
 { 
-    { 1, 31, 62, 0, 13912 },
-    { 3, 331, 240, 0, 13912 },
+    { MainMenuButtonType::eCircularSelectableButton, 31, 62, 0, 13912 },   // Begin
+    { MainMenuButtonType::eUnused_3, 331, 240, 0, 13912 },
     { 0, 0, 0, 0, 0 }
 };
 
 MainMenuButton sBtnArray_LoadGame_561450[] =
 {
-    { 1, 32, 62, 0, 13912 },
-    { 3, 331, 239, 0, 13912 },
+    { MainMenuButtonType::eCircularSelectableButton, 32, 62, 0, 13912 },   // probably used to be the select button, isn't actually rendered
+    { MainMenuButtonType::eUnused_3, 331, 239, 0, 13912 },
     { 0, 0, 0, 0, 0 },
 };
 
@@ -3041,13 +3055,13 @@ void MainMenuController::HandleMainMenuUpdate()
                             if (field_1FC_button_index < 0)
                             {
                                 short lastIndex = 0;
-                                while (btnArray[lastIndex].field_0 == 1)
+                                while (btnArray[lastIndex].field_0_type == MainMenuButtonType::eCircularSelectableButton)
                                 {
                                     lastIndex++;
                                 }
                                 field_1FC_button_index = lastIndex;
                             }
-                            else if (btnArray[field_1FC_button_index].field_0 == 1)
+                            else if (btnArray[field_1FC_button_index].field_0_type == MainMenuButtonType::eCircularSelectableButton)
                             {
                                 break;
                             }
@@ -3066,12 +3080,12 @@ void MainMenuController::HandleMainMenuUpdate()
                         for (;;)
                         {
                             field_1FC_button_index++;
-                            if (!btnArray[field_1FC_button_index].field_0)
+                            if (btnArray[field_1FC_button_index].field_0_type == MainMenuButtonType::eNoButton)
                             {
                                 field_1FC_button_index = 0;
                                 break;
                             }
-                            else if (btnArray[field_1FC_button_index].field_0 == 1)
+                            else if (btnArray[field_1FC_button_index].field_0_type == MainMenuButtonType::eCircularSelectableButton)
                             {
                                 break;
                             }
@@ -3436,7 +3450,7 @@ signed int MainMenuController::ChangeScreenAndIntroLogic_4CF640()
             // PSX leftover:
             // This logic only seems to have been used on the PSX loadgame page,
             // as that's the only page which has NO_SELECTABLE_BUTTONS set,
-            // yet still has a field_0 == 1 button in its btnArray.
+            // yet still has a button with field_0_type == eCircularSelectableButton in its btnArray.
             //
             // What it does is it searches for the first highlightable button
             // on the loadgame page, if any (i.e. when there are valid saves on the memory card).

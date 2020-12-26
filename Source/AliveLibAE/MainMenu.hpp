@@ -25,10 +25,17 @@ struct MenuFMV
     __int16 field_E;
 };
 
+enum MainMenuButtonType
+{
+    eNoButton = 0, // signifies the end of the BtnArray
+    eCircularSelectableButton = 1,
+    eUnused_2 = 2,
+    eUnused_3 = 3
+};
 
 struct MainMenuButton
 {
-    __int16 field_0;
+    __int16 field_0_type;
     __int16 field_2_x;
     __int16 field_4_y;
     __int16 field_6;
