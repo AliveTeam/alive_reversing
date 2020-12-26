@@ -3427,38 +3427,52 @@ signed int MainMenuController::ChangeScreenAndIntroLogic_4CF640()
         field_216_previous_page_index = field_214_page_index;
         field_214_page_index = field_218_target_page_index;
         field_21E_bChangeScreen = 5;
+        const MainMenuPage targetPage = sMainMenuPages_561960[field_218_target_page_index];
 
-        if (sMainMenuPages_561960[field_218_target_page_index].field_18_buttons != nullptr)
+        if (targetPage.field_18_buttons != nullptr)
         {
             field_1FC_button_index = field_21A_target_button_index;
-            if (field_1FC_button_index == NO_SELECTABLE_BUTTONS)
-            {
-                MainMenuButton* pButtonsIter = sMainMenuPages_561960[field_218_target_page_index].field_18_buttons;
-                short useButtonIdx = 0;
-                for (;;)
-                {
-                    // Last item ?
-                    if (pButtonsIter->field_0 == 0)
-                    {
-                        break;
-                    }
 
-                    // "Pressed" item ?
-                    if (pButtonsIter->field_0 == 1)
-                    {
-                        field_1FC_button_index = useButtonIdx;
-                        break;
-                    }
+            // PSX leftover:
+            // This logic only seems to have been used on the PSX loadgame page,
+            // as that's the only page which has NO_SELECTABLE_BUTTONS set,
+            // yet still has a field_0 == 1 button in its btnArray.
+            //
+            // What it does is it searches for the first highlightable button
+            // on the loadgame page, if any (i.e. when there are valid saves on the memory card).
+            //
+            // Useless on PC as the loadgame page layout is different and does not have
+            // any highlightable/selectable buttons, only static ones.
+            //
+            //if (field_1FC_button_index == NO_SELECTABLE_BUTTONS)
+            //{
+                //MainMenuButton* pButtonsIter = targetPage.field_18_buttons;
+                //short useButtonIdx = 0;
+                //for (;;)
+                //{
+                //    // Last row of buttons, don't look further
+                //    if (pButtonsIter->field_0 == 0)
+                //    {
+                //        break;
+                //    }
 
-                    useButtonIdx++;
-                    pButtonsIter++;
-                }
-            }
+                //    // Found button to highlight
+                //    if (pButtonsIter->field_0 == 1)
+                //    {
+                //        field_1FC_button_index = useButtonIdx;
+                //        break;
+                //    }
+
+                //    useButtonIdx++;
+                //    pButtonsIter++;
+                //}
+            //}
 
             if (field_1FC_button_index != NO_SELECTABLE_BUTTONS)
             {
+                // prepare for animating the blinking outline of the currently highlighted button
                 field_158_animation.Set_Animation_Data_409C80(
-                    sMainMenuPages_561960[field_218_target_page_index].field_18_buttons[field_1FC_button_index].field_8_anim_frame_offset,
+                    targetPage.field_18_buttons[field_1FC_button_index].field_8_anim_frame_offset,
                     nullptr);
             }
         }
@@ -3466,7 +3480,7 @@ signed int MainMenuController::ChangeScreenAndIntroLogic_4CF640()
 
         if (sMainMenuPages_561960[field_214_page_index].field_1C_fn_on_load)
         {
-            (this->*sMainMenuPages_561960[field_214_page_index].field_1C_fn_on_load)();
+            (this->*targetPage.field_1C_fn_on_load)();
         }
 
         return 1;
