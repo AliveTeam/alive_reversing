@@ -2481,12 +2481,11 @@ signed int MainMenuController::PSX_Gamemode_Selection_Update_4D48C0(DWORD input)
         {
             return MainMenuCams::eGameIsLoading_ShaddapCam;
         }
-        else
-        {
-            // apparently cam 11 was originally for the cooperative mode
-            // description screen on the PSX
-            return twoPlayerModeSelected ? MainMenuCams::eDummyBlankCam : MainMenuCams::eBackstory_Or_NewGameCam;
-        }
+
+        // apparently cam 11 was originally for the cooperative mode
+        // description screen on the PSX
+        return twoPlayerModeSelected ?
+            MainMenuCams::eDummyBlankCam: MainMenuCams::eBackstory_Or_NewGameCam;
     }
     else if (input & InputCommands::eBack)
     {
@@ -2494,11 +2493,9 @@ signed int MainMenuController::PSX_Gamemode_Selection_Update_4D48C0(DWORD input)
         {
             return MainMenuCams::eCheatMenu_SelectLevelCam;
         }
-        else
-        {
-            MainMenuController::Set_Anim_4D05E0(AnimIds::eAbe_OK);
-            return MainMenuCams::eMainMenuCam;
-        }
+
+        MainMenuController::Set_Anim_4D05E0(AnimIds::eAbe_OK);
+        return MainMenuCams::eMainMenuCam;
     }
 
     return MainMenuCams::eNoChange;
