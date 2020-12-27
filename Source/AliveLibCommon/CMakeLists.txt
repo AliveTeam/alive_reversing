@@ -20,6 +20,10 @@ SET(AliveLibSrcCommon
     Masher.cpp
     masher_tables.hpp
     Types.hpp
+    PSXADPCMDecoder.cpp
+    PSXADPCMDecoder.h
+    PSXMDECDecoder.cpp
+    PSXMDECDecoder.h
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx_common.h stdafx_common.cpp AliveLibSrcCommon)
