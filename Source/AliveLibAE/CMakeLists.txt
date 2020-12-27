@@ -1,6 +1,7 @@
 project(AliveLibAE VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibAESrc
+    vlctable.hpp
     Input.cpp
     Input.hpp
     DynamicArray.cpp

@@ -5,7 +5,6 @@
 #include "ResourceManager.hpp"
 #include "vlctable.hpp"
 #include <gmock/gmock.h>
-#include "vlctable.hpp"
 #include "Primitives.hpp"
 #include "VRam.hpp"
 #include "Psx.hpp"
