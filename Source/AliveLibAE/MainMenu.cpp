@@ -1640,19 +1640,14 @@ MainMenuNextCam MainMenuController::Gamespeak_Update_4D1FC0(DWORD input_held)
     {
     case 0:
         return MainMenuNextCam(MainMenuCams::eAbeGamespeakCam, NO_SELECTABLE_BUTTONS);
-        break;
     case 1:
         return MainMenuNextCam(MainMenuCams::eSligGamespeakCam, NO_SELECTABLE_BUTTONS);
-        break;
     case 2:
         return MainMenuNextCam(MainMenuCams::eGlukkonGamespeakCam, NO_SELECTABLE_BUTTONS);
-        break;
     case 3:
         return MainMenuNextCam(MainMenuCams::eScrabGamespeakCam, NO_SELECTABLE_BUTTONS);
-        break;
     case 4:
         return MainMenuNextCam(MainMenuCams::eParamiteGamespeakCam, NO_SELECTABLE_BUTTONS);
-        break;
     default:
         return MainMenuNextCam(MainMenuCams::eNoChange);
     }
