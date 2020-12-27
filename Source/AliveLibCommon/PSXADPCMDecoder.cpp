@@ -1,7 +1,6 @@
 #include "PSXADPCMDecoder.h"
 #include "logger.hpp"
 #include <algorithm>
-#include <array>
 #include "Types.hpp"
 
 // Pos / neg Tables

@@ -8,6 +8,7 @@
 #include <vector>
 #include "SDL_stdinc.h"
 #include "Types.hpp"
+#include <array>
 
 class PSXADPCMDecoder
 {
