@@ -3028,8 +3028,6 @@ void MainMenuController::HandleMainMenuUpdate()
         ++field_1F8_page_timeout;
     }
 
-    auto isScreenTransitionNecessary = 0;
-
     if (pPage->field_4_time_out <= 0 ||
         pPage->field_8_next_idx <= 0 ||
         field_1F8_page_timeout <= pPage->field_4_time_out)
@@ -3120,17 +3118,20 @@ void MainMenuController::HandleMainMenuUpdate()
 
         field_218_target_page_index = static_cast<short>(GetPageIndexFromCam_4D05A0(pageUpdateReturnedCam.page_update_camera));
         field_21A_target_button_index = pageUpdateReturnedCam.button_idx_to_highlight;
-        isScreenTransitionNecessary = BYTE1(pageUpdateReturnedCam.page_update_camera);
+
+        // Originally was:
+        //field_21C_bDoScreenTransistionEffect = BYTE1(pageUpdateReturnedCam.page_update_camera);
+        // No need to read BYTE1 of the cam though, as it's always 0.
+        field_21C_bDoScreenTransistionEffect = 0;
     }
     else
     {
         field_1F8_page_timeout = 0;
         field_218_target_page_index = static_cast<short>(GetPageIndexFromCam_4D05A0(pPage->field_8_next_idx));
         field_21A_target_button_index = pPage->field_C_initial_button_idx_to_highlight;
-        isScreenTransitionNecessary = pPage->field_A_transition_effect;
+        field_21C_bDoScreenTransistionEffect = pPage->field_A_transition_effect;
     }
 
-    field_21C_bDoScreenTransistionEffect = static_cast<short>(isScreenTransitionNecessary);
     field_21E_bChangeScreen = 1;
 }
 
