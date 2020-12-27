@@ -131,7 +131,14 @@ enum MainMenuCams : WORD
 struct MainMenuNextCam
 {
     short page_update_camera; // LOWORD
-    short button_idx_to_highlight = 0x0000; // HIWORD - by default, always the first button on the given page should be highlighted
+    short button_idx_to_highlight; // HIWORD - by default, always the first button on the given page should be highlighted
+
+    // ctor is needed for gcc/clang to not complain about inline struct definitions in return statements
+    MainMenuNextCam(short pageUpdateCam, short btnIdx = 0x0000)
+    {
+        page_update_camera = pageUpdateCam;
+        button_idx_to_highlight = btnIdx;
+    }
 };
 
 // Indicates a button index value on a given page where there is no button to animate with a glowing outline
