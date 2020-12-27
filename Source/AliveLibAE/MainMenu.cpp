@@ -3461,18 +3461,18 @@ signed int MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 //for (;;)
                 //{
                 //    // Last row of buttons, don't look further
-                //    if (pButtonsIter->field_0 == 0)
+                //    if (pButtonsIter->field_0_type == MainMenuButtonType::eNoButton)
                 //    {
                 //        break;
                 //    }
-
+                //
                 //    // Found button to highlight
-                //    if (pButtonsIter->field_0 == 1)
+                //    if (pButtonsIter->field_0_type == MainMenuButtonType::eCircularSelectableButton)
                 //    {
                 //        field_1FC_button_index = useButtonIdx;
                 //        break;
                 //    }
-
+                //
                 //    useButtonIdx++;
                 //    pButtonsIter++;
                 //}
