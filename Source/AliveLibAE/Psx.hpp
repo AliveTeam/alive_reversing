@@ -56,6 +56,8 @@ EXPORT int CC PSX_CD_File_Seek_4FB1E0(char mode, const CdlLOC* pLoc);
 EXPORT int CC PSX_CD_File_Read_4FB210(int numSectors, void* pBuffer);
 EXPORT int CC PSX_CD_FileIOWait_4FB260(int bASync);
 
+EXPORT Bitmap& GetPsxVram();
+
 ALIVE_VAR_EXTERN(Bitmap, sPsxVram_C1D160);
 ALIVE_VAR_EXTERN(BYTE, turn_off_rendering_BD0F20);
 ALIVE_VAR_EXTERN(PSX_DRAWENV, sPSX_EMU_DrawEnvState_C3D080);
