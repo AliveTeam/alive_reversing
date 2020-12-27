@@ -2,6 +2,7 @@
 #include "Masher.hpp"
 #include "Function.hpp"
 #include "masher_tables.hpp"
+#include "Sys_common.hpp"
 #include <array>
 
 ALIVE_VAR(1, 0xbbb314, Movie_IO, sMovie_IO_BBB314, {});
@@ -329,6 +330,11 @@ static int decode_bitstream(u16* pFrameData, unsigned short int* pOutput)
                                         break;
                                     }
                                     const int table_index_1 = ExtractBits(workBits, 17); // 0x1FFFF / 131072, 131072/4=32768 entries?
+                                    if (table_index_1 > ALIVE_COUNTOF(gTbl1))
+                                    {
+                                        LOG_ERROR("Table index " << table_index_1);
+                                        ALIVE_FATAL("Table 1 index out of bounds");
+                                    }
 
                                     SkipBits(workBits, 8, usedBitCount);
 
@@ -447,7 +453,7 @@ static int decode_bitstream(u16* pFrameData, unsigned short int* pOutput)
     return ret;
 }
 
-const u32 gQuant1_dword_42AEC8[64] =
+const u32 k_YTable_Matrix_42AEC8[64] =
 {
     0x0000000C, 0x0000000B, 0x0000000A, 0x0000000C, 0x0000000E, 0x0000000E, 0x0000000D, 0x0000000E,
     0x00000010, 0x00000018, 0x00000013, 0x00000010, 0x00000011, 0x00000012, 0x00000018, 0x00000016,
@@ -459,7 +465,7 @@ const u32 gQuant1_dword_42AEC8[64] =
     0x0000004D, 0x0000005C, 0x00000078, 0x00000064, 0x00000067, 0x00000065, 0x00000063, 0x00000010
 };
 
-const u32 gQaunt2_dword_42AFC4[64] =
+const u32 k_CTable_Matrix_42AFC4[64] =
 {
     0x00000010, 0x00000012, 0x00000012, 0x00000018, 0x00000015, 0x00000018, 0x0000002F, 0x0000001A,
     0x0000001A, 0x0000002F, 0x00000063, 0x00000042, 0x00000038, 0x00000042, 0x00000063, 0x00000063,
@@ -520,22 +526,22 @@ const u32 g_block_related_3_dword_42B0D0[64] =
     0x00000036, 0x0000002F, 0x00000037, 0x0000003E, 0x0000003F, 0x0000098E, 0x0000098E, 0x0000F384
 };
 
-u32 g_252_buffer_unk_635A0C[64] = {};
-u32 g_252_buffer_unk_63580C[64] = {};
+u32 g_CTable[64] = {};
+u32 g_YTable[64] = {};
 
 // Return val becomes param 1
 
 // for Cr, Cb, Y1, Y2, Y3, Y4
-int16_t* ddv_func7_DecodeMacroBlock_impl(int16_t* inPtr, int16_t* outputBlockPtr, bool isYBlock)
+int16_t* RunLengthToBlock(int16_t* inPtr, int16_t* outputBlockPtr, bool isYBlock)
 {
     const int v1 = isYBlock;
-    const u32* pTable = isYBlock ? &g_252_buffer_unk_63580C[1] : &g_252_buffer_unk_635A0C[1];
+    const u32* pTable = isYBlock ? &g_YTable[1] : &g_CTable[1];
     unsigned int counter = 0;
     u16* pInput = (u16*)inPtr;
     u32* pOutput = (u32*)outputBlockPtr;              // off 10 quantised coefficients
 
                                                       // 0xFE00 == END_OF_BLOCK, hence this loop moves past the EOB
-    while (*pInput == 0xFE00u)
+    while (*pInput == 0xFE00u) // VLC_EOB
     {
         pInput++;
     }
@@ -548,7 +554,7 @@ int16_t* ddv_func7_DecodeMacroBlock_impl(int16_t* inPtr, int16_t* outputBlockPtr
         do
         {
             const unsigned int macroBlockWord = *pInput++;// bail if end
-            if (macroBlockWord == 0xFE00)
+            if (macroBlockWord == 0xFE00) // VLC_EOB
             {
                 break;
             }
@@ -711,19 +717,22 @@ void idct(int16_t* input, T64IntsArray& pDestination) // dst is 64 dwords
 }
 
 
-static void after_block_decode_no_effect_q_impl(int quantScale)
+static void Populate_Y_C_Tables(int quantScale)
 {
-    g_252_buffer_unk_63580C[0] = 16;
-    g_252_buffer_unk_635A0C[0] = 16;
     if (quantScale > 0)
     {
+        g_YTable[0] = 16;
+        g_CTable[0] = 16;
         signed int result = 0;
         do
         {
-            auto val = gQuant1_dword_42AEC8[result];
-            result++;
-            g_252_buffer_unk_63580C[result] = quantScale * val;
-            g_252_buffer_unk_635A0C[result] = quantScale * gQaunt2_dword_42AFC4[result];
+            // 0
+            auto val = k_YTable_Matrix_42AEC8[result];
+
+            result++; // TODO: Bug ?  Surely Y and C should be done the same way
+            // 1
+            g_YTable[result] = quantScale * val;
+            g_CTable[result] = quantScale * k_CTable_Matrix_42AFC4[result];
 
 
         } while (result < 63);                   // 252/4=63
@@ -733,11 +742,9 @@ static void after_block_decode_no_effect_q_impl(int quantScale)
         // These are simply null buffers to start with
         for (int i = 0; i < 64; i++)
         {
-            g_252_buffer_unk_635A0C[i] = 16;
-            g_252_buffer_unk_63580C[i] = 16;
+            g_CTable[i] = 16;
+            g_YTable[i] = 16;
         }
-        // memset(&g_252_buffer_unk_635A0C[1], 16, 252  /*sizeof(g_252_buffer_unk_635A0C)*/); // u32[63]
-        // memset(&g_252_buffer_unk_63580C[1], 16, 252 /*sizeof(g_252_buffer_unk_63580C)*/);
     }
 
 }
@@ -1031,7 +1038,7 @@ void Masher::MMX_Decode_4E6C60(BYTE* pPixelBuffer)
 
     const int quantScale = decode_bitstream((u16*)field_40_video_frame_to_decode, field_44_decoded_frame_data_buffer);
 
-    after_block_decode_no_effect_q_impl(quantScale);
+    Populate_Y_C_Tables(quantScale);
 
     int16_t* bitstreamCurPos = (int16_t*)field_44_decoded_frame_data_buffer;
     int16_t* block1Output = (int16_t*)field_8C_macro_block_buffer;
@@ -1044,27 +1051,27 @@ void Masher::MMX_Decode_4E6C60(BYTE* pPixelBuffer)
         {
             const int dataSizeBytes = field_90_64_or_0 * 2; // Convert to byte count 64*4=256
 
-            int16_t* afterBlock1Ptr = ddv_func7_DecodeMacroBlock_impl(bitstreamCurPos, block1Output, 0);
+            int16_t* afterBlock1Ptr = RunLengthToBlock(bitstreamCurPos, block1Output, 0);
             idct(block1Output, Cr_block);
             int16_t* block2Output = dataSizeBytes + block1Output;
 
-            int16_t* afterBlock2Ptr = ddv_func7_DecodeMacroBlock_impl(afterBlock1Ptr, block2Output, 0);
+            int16_t* afterBlock2Ptr = RunLengthToBlock(afterBlock1Ptr, block2Output, 0);
             idct(block2Output, Cb_block);
             int16_t* block3Output = dataSizeBytes + block2Output;
 
-            int16_t* afterBlock3Ptr = ddv_func7_DecodeMacroBlock_impl(afterBlock2Ptr, block3Output, 1);
+            int16_t* afterBlock3Ptr = RunLengthToBlock(afterBlock2Ptr, block3Output, 1);
             idct(block3Output, Y1_block);
             int16_t* block4Output = dataSizeBytes + block3Output;
 
-            int16_t* afterBlock4Ptr = ddv_func7_DecodeMacroBlock_impl(afterBlock3Ptr, block4Output, 1);
+            int16_t* afterBlock4Ptr = RunLengthToBlock(afterBlock3Ptr, block4Output, 1);
             idct(block4Output, Y2_block);
             int16_t* block5Output = dataSizeBytes + block4Output;
 
-            int16_t* afterBlock5Ptr = ddv_func7_DecodeMacroBlock_impl(afterBlock4Ptr, block5Output, 1);
+            int16_t* afterBlock5Ptr = RunLengthToBlock(afterBlock4Ptr, block5Output, 1);
             idct(block5Output, Y3_block);
             int16_t* block6Output = dataSizeBytes + block5Output;
 
-            bitstreamCurPos = ddv_func7_DecodeMacroBlock_impl(afterBlock5Ptr, block6Output, 1);
+            bitstreamCurPos = RunLengthToBlock(afterBlock5Ptr, block6Output, 1);
             idct(block6Output, Y4_block);
             block1Output = dataSizeBytes + block6Output;
 
