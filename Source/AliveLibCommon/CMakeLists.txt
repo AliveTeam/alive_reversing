@@ -16,6 +16,10 @@ SET(AliveLibSrcCommon
     AnimResources.hpp
     AnimResources.cpp
     PtrStream.hpp
+    Masher.hpp
+    Masher.cpp
+    masher_tables.hpp
+    Types.hpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx_common.h stdafx_common.cpp AliveLibSrcCommon)

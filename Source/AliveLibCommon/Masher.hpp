@@ -3,6 +3,16 @@
 #include "FunctionFwd.hpp"
 #include "Types.hpp"
 
+struct Movie_IO
+{
+    void(CC* mIO_Close)(void* pHandle);
+    BOOL(CC* mIO_Wait)(void* pHandle);
+    BOOL(CC* mIO_Seek)(void* pHandle, DWORD offset, DWORD origin);
+    void* (CC* mIO_Open)(const char* pFileName);
+    BOOL(CC* mIO_Read)(void* pHandle, void* pBuffer, DWORD size);
+};
+
+Movie_IO& GetMovieIO();
 
 struct Masher_Header
 {
@@ -66,29 +76,29 @@ class Masher
 {
 public:
     // Same as 0x523FA0 in MGSI.exe
-    EXPORT int Init_4E6770(const char* movieFileName);
+    int Init_4E6770(const char* movieFileName);
 
     // Same as 0x524214 in MGSI.exe
-    EXPORT void dtor_4E6AB0();
+    void dtor_4E6AB0();
 
     // Same as 0x52427C in MGSI.exe
-    EXPORT int sub_4E6B30();
+    int sub_4E6B30();
 
     // Same as 0x52897C in MSGI.exe
-    static EXPORT int CC sub_4EAC30(Masher* pMasher);
+    static int CC sub_4EAC30(Masher* pMasher);
 
     // Same as 0x528985 in MGSI.exe
-    EXPORT void Decode_4EA670();
-    EXPORT void MMX_Decode_4E6C60(BYTE* pPixelBuffer);
+    void Decode_4EA670();
+    void MMX_Decode_4E6C60(BYTE* pPixelBuffer);
 
     // Same as 0x52B015 in MGSI.exe
-    static EXPORT void CC DDV_SND_4ECFD0(int numChannels, int bitsPerSample);
+    static void CC DDV_SND_4ECFD0(int numChannels, int bitsPerSample);
 
     // Same as 0x52B028 in MGSI.exe
-    static EXPORT void CC DDV_SND_4ECFF0(int* pMasherFrame, BYTE* pDecodedFrame, int frameSize);
+    static void CC DDV_SND_4ECFF0(int* pMasherFrame, BYTE* pDecodedFrame, int frameSize);
 
     // Same as 0x52899C in MGSI.exe
-    static EXPORT void* CC GetDecompressedAudioFrame_4EAC60(Masher* pMasher);
+    static void* CC GetDecompressedAudioFrame_4EAC60(Masher* pMasher);
 private:
     struct Macroblock_RGB_Struct
     {
