@@ -38,16 +38,6 @@ struct IO_Movie_Handle
 };
 ALIVE_ASSERT_SIZEOF(IO_Movie_Handle, 0x20);
 
-struct Movie_IO
-{
-    void(CC* mIO_Close)(void* pHandle);
-    BOOL(CC* mIO_Wait)(void* pHandle);
-    BOOL(CC* mIO_Seek)(void* pHandle, DWORD offset, DWORD origin);
-    void* (CC* mIO_Open)(const char* pFileName);
-    BOOL(CC* mIO_Read)(void* pHandle, void* pBuffer, DWORD size);
-};
-
-ALIVE_VAR_EXTERN(Movie_IO, sMovie_IO_BBB314);
 
 EXPORT IO_Handle* CC IO_Open_4F2320(const char* fileName, int modeFlag);
 EXPORT void CC IO_WaitForComplete_4F2510(IO_Handle* hFile);

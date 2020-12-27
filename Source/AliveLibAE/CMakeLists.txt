@@ -1,6 +1,7 @@
 project(AliveLibAE VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibAESrc
+    vlctable.hpp
     Input.cpp
     Input.hpp
     DynamicArray.cpp
@@ -71,7 +72,6 @@ SET(AliveLibAESrc
     ScreenManager.hpp
     Camera.cpp
     Camera.hpp
-    vlctable.hpp
     Animation.cpp
     Animation.hpp
     BackgroundAnimation.cpp
@@ -171,8 +171,6 @@ SET(AliveLibAESrc
     OrbWhirlWindParticle.hpp
     Blood.cpp
     Blood.hpp
-    Masher.hpp
-    Masher.cpp
     PullRingRope.hpp
     PullRingRope.cpp
     HoistRocksEffect.hpp
@@ -225,7 +223,6 @@ SET(AliveLibAESrc
     Well.cpp
     Water.hpp
     Water.cpp
-    Types.hpp
     Rope.hpp
     Rope.cpp
     PlatformBase.hpp

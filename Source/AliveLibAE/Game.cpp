@@ -38,7 +38,6 @@
 #include "PsxRender.hpp"
 #include "Slurg.hpp"
 #include "Movie.hpp"
-#include "Masher.hpp"
 
 void Game_ForceLink() { }
 

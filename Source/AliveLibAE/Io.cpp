@@ -2,6 +2,7 @@
 #include "Io.hpp"
 #include "Function.hpp"
 #include "stdlib.hpp"
+#include "Masher.hpp"
 
 #if !_WIN32
 #include <dirent.h>
@@ -237,7 +238,6 @@ EXPORT int CC IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount)
     }
 }
 
-ALIVE_VAR(1, 0xbbb314, Movie_IO, sMovie_IO_BBB314, {});
 
 #if _WIN32 && !USE_SDL2_IO
 EXPORT DWORD CCSTD IO_ASync_Thread_4EAE20(LPVOID lpThreadParameter)
@@ -408,11 +408,11 @@ EXPORT void CC IO_Init_SyncOrASync_4EAC80(int bASync)
     {
         (void)bASync;
 
-        sMovie_IO_BBB314.mIO_Open = IO_Open_Sync_4EAEB0;
-        sMovie_IO_BBB314.mIO_Close = IO_Close_Sync_4EAD90;
-        sMovie_IO_BBB314.mIO_Read = IO_Read_Sync_4EAF50;
-        sMovie_IO_BBB314.mIO_Wait = IO_Wait_Sync_4EAD30;
-        sMovie_IO_BBB314.mIO_Seek = IO_Seek_Sync_4EAFC0;
+        GetMovieIO().mIO_Open = IO_Open_Sync_4EAEB0;
+        GetMovieIO().mIO_Close = IO_Close_Sync_4EAD90;
+        GetMovieIO().mIO_Read = IO_Read_Sync_4EAF50;
+        GetMovieIO().mIO_Wait = IO_Wait_Sync_4EAD30;
+        GetMovieIO().mIO_Seek = IO_Seek_Sync_4EAFC0;
     }
 }
 
@@ -444,10 +444,10 @@ EXPORT BOOL CC IO_fwait_4942F0(void* pHandle)
 EXPORT void IO_Init_494230()
 {
     // NOTE: These are dead given they are instantly overwritten
-    sMovie_IO_BBB314.mIO_Open = IO_fopen_494280;
-    sMovie_IO_BBB314.mIO_Close = IO_fclose_4942A0;
-    sMovie_IO_BBB314.mIO_Read = IO_request_fread_4942C0;
-    sMovie_IO_BBB314.mIO_Wait = IO_fwait_4942F0;
+    GetMovieIO().mIO_Open = IO_fopen_494280;
+    GetMovieIO().mIO_Close = IO_fclose_4942A0;
+    GetMovieIO().mIO_Read = IO_request_fread_4942C0;
+    GetMovieIO().mIO_Wait = IO_fwait_4942F0;
 
     IO_Init_SyncOrASync_4EAC80(TRUE);
 }

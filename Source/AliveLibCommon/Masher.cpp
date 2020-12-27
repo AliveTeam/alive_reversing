@@ -1,10 +1,15 @@
-#include "stdafx.h"
+#include "stdafx_common.h"
 #include "Masher.hpp"
 #include "Function.hpp"
 #include "masher_tables.hpp"
-#include "Io.hpp"
 #include <array>
 
+ALIVE_VAR(1, 0xbbb314, Movie_IO, sMovie_IO_BBB314, {});
+
+Movie_IO& GetMovieIO()
+{
+    return sMovie_IO_BBB314;
+}
 
 AudioDecompressor::AudioDecompressor()
 {
