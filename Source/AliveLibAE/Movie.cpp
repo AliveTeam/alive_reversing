@@ -14,6 +14,9 @@
 #include "DDraw.hpp"
 #include "VGA.hpp"
 
+// Inputs on the controller that can be used for aborting skippable movies
+const unsigned int MOVIE_SKIPPER_GAMEPAD_INPUTS = (InputCommands::eUnPause_OrConfirm | InputCommands::eBack | InputCommands::ePause);
+
 ALIVE_VAR(1, 0x5ca208, SoundEntry, sDDV_SoundEntry_5CA208, {});
 
 EXPORT Masher * CC Masher_Alloc_4EAB80(
@@ -311,7 +314,8 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
         return 0;
     }
 
-    while (Input_IsVKPressed_4EDD40(VK_ESCAPE) || Input_IsVKPressed_4EDD40(VK_RETURN))
+    while (Input_IsVKPressed_4EDD40(VK_ESCAPE) || Input_IsVKPressed_4EDD40(VK_RETURN) ||
+        Input_Read_Pad_4FA9C0(sCurrentControllerIndex_5C1BBE) & MOVIE_SKIPPER_GAMEPAD_INPUTS)
     {
         SYS_EventsPump_494580();
     }
@@ -408,7 +412,8 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
 
             if (sFrameInterleaveNum_5CA23C > 15)
             {
-                if (Input_IsVKPressed_4EDD40(VK_ESCAPE) || Input_IsVKPressed_4EDD40(VK_RETURN))
+                if (Input_IsVKPressed_4EDD40(VK_ESCAPE) || Input_IsVKPressed_4EDD40(VK_RETURN) ||
+                    Input_Read_Pad_4FA9C0(sCurrentControllerIndex_5C1BBE) & MOVIE_SKIPPER_GAMEPAD_INPUTS) // OG bugfix - previously controllers couldn't skip movies
                 {
                     // User quit video playback
                     if (sDDV_SoundEntry_5CA208.field_4_pDSoundBuffer)
@@ -424,7 +429,8 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
 #endif
                     DD_Flip_4940F0();
 
-                    while (Input_IsVKPressed_4EDD40(VK_ESCAPE) || Input_IsVKPressed_4EDD40(VK_RETURN))
+                    while (Input_IsVKPressed_4EDD40(VK_ESCAPE) || Input_IsVKPressed_4EDD40(VK_RETURN) ||
+                        Input_Read_Pad_4FA9C0(sCurrentControllerIndex_5C1BBE))
                     {
                         SYS_EventsPump_494580();
                     }
