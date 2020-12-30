@@ -72,8 +72,12 @@ SET(AliveLibAESrc
     ScreenManager.hpp
     Camera.cpp
     Camera.hpp
+    AnimationBase.cpp
+    AnimationBase.hpp
     Animation.cpp
     Animation.hpp
+    AnimationUnknown.cpp
+    AnimationUnknown.hpp
     BackgroundAnimation.cpp
     BackgroundAnimation.hpp
     PathData.cpp
