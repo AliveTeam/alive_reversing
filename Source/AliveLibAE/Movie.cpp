@@ -314,8 +314,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
         return 0;
     }
 
-    while (Input_IsVKPressed_4EDD40(VK_ESCAPE) || Input_IsVKPressed_4EDD40(VK_RETURN) ||
-        Input_Read_Pad_4FA9C0(sCurrentControllerIndex_5C1BBE) & MOVIE_SKIPPER_GAMEPAD_INPUTS)
+    while (AreMovieSkippingInputsHeld())
     {
         SYS_EventsPump_494580();
     }
@@ -412,8 +411,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
 
             if (sFrameInterleaveNum_5CA23C > 15)
             {
-                if (Input_IsVKPressed_4EDD40(VK_ESCAPE) || Input_IsVKPressed_4EDD40(VK_RETURN) ||
-                    Input_Read_Pad_4FA9C0(sCurrentControllerIndex_5C1BBE) & MOVIE_SKIPPER_GAMEPAD_INPUTS) // OG bugfix - previously controllers couldn't skip movies
+                if (AreMovieSkippingInputsHeld())
                 {
                     // User quit video playback
                     if (sDDV_SoundEntry_5CA208.field_4_pDSoundBuffer)
@@ -429,8 +427,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
 #endif
                     DD_Flip_4940F0();
 
-                    while (Input_IsVKPressed_4EDD40(VK_ESCAPE) || Input_IsVKPressed_4EDD40(VK_RETURN) ||
-                        Input_Read_Pad_4FA9C0(sCurrentControllerIndex_5C1BBE))
+                    while (AreMovieSkippingInputsHeld())
                     {
                         SYS_EventsPump_494580();
                     }
@@ -721,4 +718,17 @@ void Movie::DeInit_4E0210()
     --sMovie_ref_count_BB4AE4;
 
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
+}
+
+bool AreMovieSkippingInputsHeld()
+{
+    if (sJoystickEnabled_5C9F70)
+    {
+        // OG bugfix - previously controllers couldn't skip movies
+        return Input_Read_Pad_4FA9C0(sCurrentControllerIndex_5C1BBE) & MOVIE_SKIPPER_GAMEPAD_INPUTS;
+    }
+    else
+    {
+        return Input_IsVKPressed_4EDD40(VK_ESCAPE) || Input_IsVKPressed_4EDD40(VK_RETURN);
+    }
 }
