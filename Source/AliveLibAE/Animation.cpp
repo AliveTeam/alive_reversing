@@ -269,11 +269,7 @@ TFrameCallBackType kFleech_Anim_Frame_Fns_55EFD0[3] =
     Animation_OnFrame_Fleech_449A60
 };
 
-
-void AnimationBase::vDecode_40AC90()
-{
-    ALIVE_FATAL("Should never be called");
-}
+// ================================================================
 
 bool Animation::EnsureDecompressionBuffer()
 {
@@ -352,14 +348,14 @@ void Animation::DecompressFrame()
 
     case 1:
         // This isn't in any of the animation data files on disk, therefore can't ever be used.
-        ALIVE_FATAL("Compression type 1 never expected to be used");
+        ALIVE_FATAL("Compression type 1 never expected to be used.");
         break;
 
     case 2:
         field_4_flags.Set(AnimFlags::eBit25_bDecompressDone);
         if (EnsureDecompressionBuffer())
         {
-            // TODO: Refactor structure to get pixel data
+            // TODO: Refactor structure to get pixel data.
             CompressionType2_Decompress_40AA50(
                 reinterpret_cast<const BYTE*>(&pFrameHeader[1]),
                 *field_24_dbuf,
@@ -374,7 +370,7 @@ void Animation::DecompressFrame()
         {
             if (EnsureDecompressionBuffer())
             {
-                // TODO: Refactor structure to get pixel data
+                // TODO: Refactor structure to get pixel data.
                 CompressionType_3Ae_Decompress_40A6A0(reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2), *field_24_dbuf);
                 PSX_LoadImage_4F5FB0(&vram_rect, *field_24_dbuf);
             }
@@ -385,7 +381,7 @@ void Animation::DecompressFrame()
     case 5:
         if (EnsureDecompressionBuffer())
         {
-            // TODO: Refactor structure to get pixel data
+            // TODO: Refactor structure to get pixel data.
             CompressionType_4Or5_Decompress_4ABAB0(reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2), *field_24_dbuf);
             PSX_LoadImage_4F5FB0(&vram_rect, *field_24_dbuf);
         }
@@ -396,7 +392,7 @@ void Animation::DecompressFrame()
         {
             if (EnsureDecompressionBuffer())
             {
-                // TODO: Refactor structure to get pixel data
+                // TODO: Refactor structure to get pixel data.
                 CompressionType6Ae_Decompress_40A8A0(reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2), *field_24_dbuf);
                 PSX_LoadImage_4F5FB0(&vram_rect, *field_24_dbuf);
             }
@@ -739,19 +735,6 @@ void Animation::Invoke_CallBacks_40B7A0()
     }
 }
 
-void AnimationBase::vRender_40B820(int /*xpos*/, int /*ypos*/, int** /*pOt*/, __int16 /*width*/, signed int /*height*/)
-{
-    ALIVE_FATAL("Should never be called");
-//    return 0;
-}
-
-char AnimationBase::Animation_v_40BEE0(__int16 /*a2*/, __int16 /*a3*/, int /*a4*/, __int16 /*a5*/, __int16 /*op1*/)
-{
-    NOT_IMPLEMENTED();
-    LOG_INFO("Animation_v_40BEE0");
-    return 0;
-}
-
 signed __int16 Animation::Set_Animation_Data_409C80(int frameTableOffset, BYTE** pAnimRes)
 {
     if (pAnimRes)
@@ -819,34 +802,6 @@ void Animation::Animation_Pal_Free_40C4C0()
 
     }
 }
-
-void CC AnimationBase::AnimateAll_40AC20(DynamicArrayT<AnimationBase>* pAnims)
-{
-    for (auto i = 0; i < pAnims->Size(); i++)
-    {
-        AnimationBase* pAnim = pAnims->ItemAt(i);
-        if (!pAnim)
-        {
-            break;
-        }
-
-        if (!pAnim->field_4_flags.Get(AnimFlags::eBit2_Animate))
-        {
-            continue;
-        }
-
-        if (pAnim->field_E_frame_change_counter > 0)
-        {
-            pAnim->field_E_frame_change_counter--;
-            if (pAnim->field_E_frame_change_counter == 0)
-            {
-                pAnim->vDecode_40AC90();
-            }
-        }
-    }
-}
-
-// ================================================================
 
 void Animation::SetFrame_409D50(__int16 newFrame)
 {
@@ -934,7 +889,7 @@ WORD Animation::Get_Frame_Count_40AC70()
     return pHead->field_2_num_frames;
 }
 
-signed __int16 Animation::Init_40A030(int frameTableOffset, DynamicArray* /*animList*/, BaseGameObject *pGameObj, unsigned __int16 maxW, unsigned __int16 maxH, BYTE **ppAnimData, unsigned __int8 bFlag_17, signed int b_StartingAlternationState, char bEnable_flag10_alternating)
+signed __int16 Animation::Init_40A030(int frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, unsigned __int16 maxW, unsigned __int16 maxH, BYTE** ppAnimData, unsigned __int8 bFlag_17, signed int b_StartingAlternationState, char bEnable_flag10_alternating)
 {
     field_4_flags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
     field_4_flags.Set(AnimFlags::eBit21);
@@ -1104,7 +1059,7 @@ signed __int16 Animation::Init_40A030(int frameTableOffset, DynamicArray* /*anim
     return 1;
 }
 
-void Animation::Load_Pal_40A530(BYTE ** pAnimData, int palOffset)
+void Animation::Load_Pal_40A530(BYTE** pAnimData, int palOffset)
 {
     if (!pAnimData)
     {
@@ -1142,142 +1097,6 @@ void Animation::Get_Frame_Width_Height_40C400(__int16* pWidth, __int16* pHeight)
         *pWidth = pHeader->field_4_width;
         *pHeight = pHeader->field_5_height;
     }
-}
-
-// ================================================================
-
-void AnimationUnknown::vDecode_40AC90()
-{
-    // VNull_409C20
-}
-
-void AnimationUnknown::vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, signed int height)
-{
-    vRender_40C690(xpos, ypos, pOt, width, height);
-}
-
-void AnimationUnknown::vCleanUp_40C630()
-{
-    vCleanUp_40C9C0();
-}
-
-void AnimationUnknown::GetRenderedSize_40C980(PSX_RECT* pRect)
-{
-    Poly_FT4_Get_Rect_409DA0(pRect, &field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index]);
-}
-
-void AnimationUnknown::vRender_40C690(int xpos, int ypos, int** pOt, int /*width*/, int /*height*/)
-{
-    Poly_FT4* pPoly = &field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index];
-    if (field_4_flags.Get(AnimFlags::eBit3_Render))
-    {
-        // Copy from animation to local
-        *pPoly = field_68_anim_ptr->field_2C_ot_data[gPsxDisplay_5C1130.field_C_buffer_index];
-        FrameInfoHeader* pFrameInfoHeader = field_68_anim_ptr->Get_FrameHeader_40B730(-1);
-
-        if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit22_DeadMode))
-        {
-            ALIVE_FATAL("Impossible branch");
-        }
-
-        FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(&(*field_68_anim_ptr->field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
-
-        int frameH = pFrameHeader->field_5_height;
-        int frameW = pFrameHeader->field_4_width;
-
-        int frameOffX = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.x;
-        int frameOffY = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.y;
-
-        if (field_6C_scale != FP_FromInteger(1))
-        {
-            frameOffX = FP_GetExponent((FP_FromInteger(frameOffX) * field_6C_scale));
-            frameOffY = FP_GetExponent((FP_FromInteger(frameOffY) * field_6C_scale));
-
-            frameH = FP_GetExponent(FP_FromInteger(frameH) * field_6C_scale);
-            frameW = FP_GetExponent((FP_FromInteger(frameW) * field_6C_scale));
-        }
-
-        int polyX = 0;
-        int polyY = 0;
-        int xConverted = PsxToPCX(xpos);
-        if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit7_SwapXY))
-        {
-            if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit6_FlipY))
-            {
-                if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit5_FlipX))
-                {
-                    polyX = xConverted - frameOffY - frameH;
-                }
-                else
-                {
-                    polyX = frameOffY + xConverted;
-                }
-                polyY = frameOffX + ypos;
-            }
-            else
-            {
-                if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit5_FlipX))
-                {
-                    polyX = xConverted - frameOffY - frameH;
-                }
-                else
-                {
-                    polyX = frameOffY + xConverted;
-                }
-                polyY = ypos - frameOffX - frameW;
-            }
-        }
-        else if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit6_FlipY))
-        {
-            if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit5_FlipX))
-            {
-                polyX = xConverted - frameOffX - frameW;
-            }
-            else
-            {
-                polyX = frameOffX + xConverted;
-            }
-            polyY = ypos - frameOffY - frameH;
-        }
-        else
-        {
-            if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit5_FlipX))
-            {
-                polyX = xConverted - frameOffX - frameW;
-            }
-            else
-            {
-                polyX = frameOffX + xConverted;
-            }
-            polyY = frameOffY + ypos;
-        }
-
-        if (!field_4_flags.Get(AnimFlags::eBit16_bBlending))
-        {
-            SetRGB0(pPoly, field_8_r, field_9_g, field_A_b);
-        }
-
-        SetXYWH(pPoly,
-            static_cast<short>(polyX),
-            static_cast<short>(polyY),
-            static_cast<short>(frameW - 1),
-            static_cast<short>(frameH - 1));
-
-        if (pFrameHeader->field_7_compression_type == 3 || pFrameHeader->field_7_compression_type == 6)
-        {
-            SetPrimExtraPointerHack(pPoly, &pFrameHeader->field_8_width2);
-        }
-        else
-        {
-            SetPrimExtraPointerHack(pPoly, nullptr);
-        }
-        OrderingTable_Add_4F8AA0(&pOt[field_C_render_layer], &pPoly->mBase.header);
-    }
-}
-
-void AnimationUnknown::vCleanUp_40C9C0()
-{
-    field_68_anim_ptr = nullptr;
 }
 
 // ================================================================
