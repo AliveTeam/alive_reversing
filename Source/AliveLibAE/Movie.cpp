@@ -725,7 +725,7 @@ bool AreMovieSkippingInputsHeld()
     if (sJoystickEnabled_5C9F70)
     {
         // OG bugfix - previously controllers couldn't skip movies
-        return Input_Read_Pad_4FA9C0(sCurrentControllerIndex_5C1BBE) & MOVIE_SKIPPER_GAMEPAD_INPUTS;
+        return (Input_Read_Pad_4FA9C0(sCurrentControllerIndex_5C1BBE) & MOVIE_SKIPPER_GAMEPAD_INPUTS) != 0;
     }
     else
     {
