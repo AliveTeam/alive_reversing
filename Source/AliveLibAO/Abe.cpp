@@ -8026,7 +8026,9 @@ void Abe::State_81_InsideWellExpress_431320()
         field_194_camera = pExpressWell->field_28_off_camera;
         field_196_door_id = pExpressWell->field_2A_off_well_id;
     }
+    
     field_120 = FP_FromInteger(0);
+
     if (gMap_507BA8.field_0_current_level == LevelIds::eLines_2)
     {
         if (field_190_level == LevelIds::eForest_3)
@@ -8039,8 +8041,10 @@ void Abe::State_81_InsideWellExpress_431320()
                 State_78_InsideWellLocal_4310A0();
                 return;
             }
-            field_2A8_flags.Set(Flags_2A8::e2A8_Bit4_Fall_To_Well);
+            LOG_INFO("set bParamoniaDone");
+            field_2A8_flags.Set(Flags_2A8::e2A8_Bit12_bParamoniaDone);
         }
+
         if (field_190_level == LevelIds::eDesert_8)
         {
             if (field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabinaDone))
@@ -8051,8 +8055,10 @@ void Abe::State_81_InsideWellExpress_431320()
                 State_78_InsideWellLocal_4310A0();
                 return;
             }
-            field_2A8_flags.Set(Flags_2A8::e2A8_Bit5);
+            LOG_INFO("set bScrabinaDone");
+            field_2A8_flags.Set(Flags_2A8::e2A8_eBit13_bScrabinaDone);
         }
+
     }
     if (field_190_level != gMap_507BA8.field_0_current_level
         || field_192_path != gMap_507BA8.field_2_current_path
