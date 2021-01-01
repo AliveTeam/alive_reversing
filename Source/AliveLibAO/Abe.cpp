@@ -1246,7 +1246,7 @@ void Abe::vUpdate_41FDB0()
 
                 if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone))
                 {
-                    if (field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabinaDone))
+                    if (field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabaniaDone))
                     {
                         if (!field_2A8_flags.Get(Flags_2A8::e2A8_eBit15_bGiveShrykullFromBigFace) &&
                             gMap_507BA8.field_A_level == LevelIds::eLines_2)
@@ -8047,7 +8047,7 @@ void Abe::State_81_InsideWellExpress_431320()
 
         if (field_190_level == LevelIds::eDesert_8)
         {
-            if (field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabinaDone))
+            if (field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabaniaDone))
             {
                 field_2A8_flags.Set(Flags_2A8::e2A8_Bit3_WalkToRun);
                 field_114_gnFrame = 0;
@@ -8056,7 +8056,7 @@ void Abe::State_81_InsideWellExpress_431320()
                 return;
             }
             LOG_INFO("set bScrabinaDone");
-            field_2A8_flags.Set(Flags_2A8::e2A8_eBit13_bScrabinaDone);
+            field_2A8_flags.Set(Flags_2A8::e2A8_eBit13_bScrabaniaDone);
         }
 
     }

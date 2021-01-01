@@ -97,7 +97,7 @@ void SaveGame::LoadFromMemory_459970(SaveData* pData, int bKillObjects)
 
     sActiveHero_507678->field_2A8_flags.Clear(Flags_2A8::e2A8_Bit6_bShrivel);
     sActiveHero_507678->field_2A8_flags.Set(Flags_2A8::e2A8_Bit12_bParamoniaDone, pData->field_252_paramonia_done & 1);
-    sActiveHero_507678->field_2A8_flags.Set(Flags_2A8::e2A8_eBit13_bScrabinaDone, pData->field_253_scrabania_done & 1);
+    sActiveHero_507678->field_2A8_flags.Set(Flags_2A8::e2A8_eBit13_bScrabaniaDone, pData->field_253_scrabania_done & 1);
 
     sActiveHero_507678->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pData->field_23C_ah_flipX & 1);
 
@@ -410,7 +410,7 @@ void CC SaveGame::SaveToMemory_459490(SaveData* pSaveData)
     pSaveData->field_248_gnFrame = sActiveHero_507678->field_114_gnFrame;
     pSaveData->field_24C_field_118 = sActiveHero_507678->field_118;
     pSaveData->field_250_throwable_count = sActiveHero_507678->field_19C_throwable_count;
-    pSaveData->field_253_scrabania_done = sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabinaDone);
+    pSaveData->field_253_scrabania_done = sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabaniaDone);
     pSaveData->field_264_bInfiniteGrenades = gInfiniteGrenades_5076EC ? -1 : 0;
     pSaveData->field_252_paramonia_done = sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone);
     pSaveData->field_25A_bElumExists = gElum_507680 != 0;

@@ -205,7 +205,7 @@ enum Flags_2A8
     e2A8_Bit10 = 0x200,
     e2A8_Bit11_bLaughAtChantEnd = 0x400,
     e2A8_Bit12_bParamoniaDone = 0x800,
-    e2A8_eBit13_bScrabinaDone = 0x1000,
+    e2A8_eBit13_bScrabaniaDone = 0x1000,
     e2A8_eBit14_bGotShrykullFromBigFace = 0x2000,
     e2A8_eBit15_bGiveShrykullFromBigFace = 0x4000,
     e2A8_eBit16_AbeSpawnDir = 0x8000,
