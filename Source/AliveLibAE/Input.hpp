@@ -17,7 +17,10 @@ EXPORT void Input_Reset_492660();
 EXPORT unsigned int Input_IsChanting_45F260();
 EXPORT void CC Input_Pads_Reset_4FA960();
 EXPORT void CC Input_Init_Names_491870();
-EXPORT const char* CC Input_GetButtonString_492530(const char* idx, int a2);
+EXPORT const char* CC Input_GetButtonString_492530(const char* idx, int controllerType);
+
+EXPORT bool Input_JoyStickEnabled();
+EXPORT void Input_SetJoyStickEnabled(bool enabled);
 
 enum InputCommands : unsigned int
 {

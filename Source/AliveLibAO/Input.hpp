@@ -103,6 +103,9 @@ EXPORT char Input_GetLastPressedKey_44F2C0();
 
 EXPORT void Input_Reset_44F2F0();
 
+bool Input_JoyStickEnabled();
+void Input_SetJoyStickEnabled(bool enabled);
+
 class InputObject
 {
 public:

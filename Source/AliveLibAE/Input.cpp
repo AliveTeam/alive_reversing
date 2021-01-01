@@ -665,6 +665,16 @@ const char* CC Input_GetButtonString_492530(const char* idx, int controllerType)
     return ret;
 }
 
+EXPORT bool Input_JoyStickEnabled()
+{
+    return sJoystickEnabled_5C9F70 ? true : false;
+}
+
+EXPORT void Input_SetJoyStickEnabled(bool enabled)
+{
+    sJoystickEnabled_5C9F70 = enabled;
+}
+
 int CC Input_Remap_492680(InputCommands inputCmd)
 {
     if (!Input_GetInputEnabled_4EDDE0())

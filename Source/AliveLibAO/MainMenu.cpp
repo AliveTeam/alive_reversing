@@ -809,9 +809,9 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, int tlvInfo)
     }
 
     dword_4CE598 = (dword_5079A4 != 0) + 1;
-    if (sJoystickEnabled_508A60 > (dword_5079A4 != 0) + 1)
+    if ((Input_JoyStickEnabled() ? 1 : 0) > (dword_5079A4 != 0) + 1)
     {
-        sJoystickEnabled_508A60 = 0;
+        Input_SetJoyStickEnabled(false);
     }
 
     return this;
@@ -1576,7 +1576,7 @@ void Menu::GoToSelectedMenuPage_47BC50()
             field_204_flags &= ~1u;
 
             // Diff cam depending on input method ?
-            if (sJoystickEnabled_508A60)
+            if (Input_JoyStickEnabled())
             {
                 gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 3, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             }
@@ -1739,7 +1739,7 @@ void Menu::GameSpeak_Render_47D700(int** ppOt)
 {
     // Only renders exit and keys
     int polyOffset = 0;
-    int count = sJoystickEnabled_508A60 != 0 ? 13 : 1;
+    const int count = Input_JoyStickEnabled() != 0 ? 13 : 1;
     for (int i = 20; i < 20 + count; i++)
     {
         RenderElement_47A4E0(stru_4D04A0[i].field_0_xpos, stru_4D04A0[i].field_4_ypos, stru_4D04A0[i].field_8_input_command, ppOt, &field_FC_font, &polyOffset);
@@ -2232,7 +2232,7 @@ void Menu::Options_To_Selected_After_Cam_Change_Update_47C330()
             field_228 = FP_FromInteger(0);
             field_1CC_fn_update = &Menu::To_Options_Controller_Update_47F2E0;
             field_1D0_fn_render = &Menu::Options_Controller_Render_47F430;
-            field_1E0_selected_index = static_cast<short>(sJoystickEnabled_508A60);
+            field_1E0_selected_index = static_cast<short>(Input_JoyStickEnabled());
             field_230_bGoBack = -1;
             field_22C = FP_FromInteger(0);
             break;
@@ -2272,7 +2272,7 @@ void Menu::To_Options_Controller_Update_47F2E0()
             field_1CC_fn_update = &Menu::Options_Controller_Update_47F210;
             field_1D0_fn_render = &Menu::Options_Controller_Render_47F430;
             field_1DC_idle_input_counter = 0;
-            field_1E0_selected_index = static_cast<short>(sJoystickEnabled_508A60);
+            field_1E0_selected_index = static_cast<short>(Input_JoyStickEnabled());
             field_228 = FP_FromInteger(0);
         }
     }
@@ -2304,25 +2304,25 @@ void Menu::Options_Controller_Render_47F430(int** ppOt)
         pScreenManager_4FF7C8->field_2E_idx
     );
 
-    if (field_1E0_selected_index != sJoystickEnabled_508A60)
+    if (field_1E0_selected_index != (Input_JoyStickEnabled() ? 1 : 0))
     {
         if (field_228 > FP_FromInteger(0))
         {
-            field_1E0_selected_index = static_cast<short>(sJoystickEnabled_508A60);
+            field_1E0_selected_index = static_cast<short>(Input_JoyStickEnabled());
         }
         else
         {
-            if (field_1E0_selected_index < sJoystickEnabled_508A60)
+            if (field_1E0_selected_index < (Input_JoyStickEnabled() ? 1 : 0))
             {
                 field_228 = FP_FromInteger(-1) * FP_FromInteger(26);
                 field_22C = FP_FromDouble(4.5);
-                sJoystickEnabled_508A60 = field_1E0_selected_index;
+                Input_SetJoyStickEnabled(field_1E0_selected_index ? true : false);
             }
-            else if (field_1E0_selected_index > sJoystickEnabled_508A60)
+            else if (field_1E0_selected_index > (Input_JoyStickEnabled() ? 1 : 0))
             {
                 field_228 = FP_FromInteger(26);
                 field_22C = FP_FromDouble(4.5);
-                sJoystickEnabled_508A60 = field_1E0_selected_index;
+                Input_SetJoyStickEnabled(field_1E0_selected_index ? true : false);
             }
         }
     }
@@ -2655,7 +2655,7 @@ void Menu::GameSpeak_Update_47CBD0()
 
         if (!field_1EC_pObj1)
         {
-            if (sJoystickEnabled_508A60)
+            if (Input_JoyStickEnabled())
             {
                 field_1EC_pObj1 = ao_new<MainMenuFade>();
                 if (field_1EC_pObj1)
@@ -2678,7 +2678,7 @@ void Menu::GameSpeak_Update_47CBD0()
             field_1F0_pObj2->field_E8_bDestroyOnDone = 1;
         }
 
-        if (sJoystickEnabled_508A60)
+        if (Input_JoyStickEnabled())
         {
             field_1F0_pObj2 = ao_new<MainMenuFade>();
             if (field_1F0_pObj2)
@@ -2705,7 +2705,7 @@ void Menu::GameSpeak_Update_47CBD0()
                 field_1F0_pObj2->field_AC_ypos = FP_FromInteger(stru_4D00E0[10].field_2_ypos + 36);
             }
         }
-        else if (sJoystickEnabled_508A60)
+        else if (Input_JoyStickEnabled())
         {
             field_1F0_pObj2 = ao_new<MainMenuFade>();
             if (field_1F0_pObj2)
@@ -2777,7 +2777,7 @@ void Menu::GameSpeak_Update_47CBD0()
                 field_1F0_pObj2->field_AC_ypos = FP_FromInteger(stru_4D00E0[12].field_2_ypos + 36);
             }
         }
-        else if (sJoystickEnabled_508A60)
+        else if (Input_JoyStickEnabled())
         {
             field_1F0_pObj2 = ao_new<MainMenuFade>();
             if (field_1F0_pObj2)
@@ -3062,7 +3062,7 @@ void Menu::ButtonRemap_Render_47F940(int** ppOt)
         RenderElement_47A4E0(
             remapButtons_4D0170[i].field_0_xpos,
             remapButtons_4D0170[i].field_2_ypos,
-            dword_4D0030.buttons[sJoystickEnabled_508A60 != 0][i],
+            dword_4D0030.buttons[Input_JoyStickEnabled() != 0][i],
             ppOt,
             &field_FC_font,
             &polyOffset
@@ -3092,7 +3092,7 @@ void Menu::ButtonRemap_Render_47F940(int** ppOt)
     if (field_230_bGoBack == 8)
     {
         const int maxFontWidth = 336;
-        if (sJoystickEnabled_508A60)
+        if (Input_JoyStickEnabled())
         {
             field_1F4_text = "Press button to use";
         }
@@ -3239,7 +3239,7 @@ void Menu::ButtonRemap_Update_47F6F0()
 
     if (field_230_bGoBack == 8)
     {
-        if (!Input_Remap_44F300(static_cast<InputCommands>(dword_4D0030.buttons[sJoystickEnabled_508A60][field_1E0_selected_index])))
+        if (!Input_Remap_44F300(static_cast<InputCommands>(dword_4D0030.buttons[Input_JoyStickEnabled() ? 1 : 0][field_1E0_selected_index])))
         {
             return;
         }
@@ -3586,7 +3586,7 @@ void Menu::ToggleMotions_Render_47CAB0(int** ppOt)
     else if (BrainIs(&Menu::Toggle_Motions_Screens_Update_47C8F0, field_1CC_fn_update, kUpdateTable))
     {
         int polyOffset = 0;
-        if (sJoystickEnabled_508A60)
+        if (Input_JoyStickEnabled())
         {
             for (int i = 0; i < 19; i++)
             {
@@ -3627,7 +3627,7 @@ void Menu::ToggleMotions_Update_47C800()
     {
         if (Input().IsAnyHeld(InputObject::PadIndex::First, 0x1C0)) // TODO: Input constants
         {
-            if (sJoystickEnabled_508A60)
+            if (Input_JoyStickEnabled())
             {
                 gMap_507BA8.SetActiveCameraDelayed_444CA0(Map::MapDirections::eMapBottom_3, 0, -1);
             }
@@ -3669,7 +3669,7 @@ void Menu::Toggle_Motions_Screens_Update_47C8F0()
     {
         if (Input().IsAnyHeld(InputObject::PadIndex::First, 0x1C0)) // TODO: Input constants
         {
-            if (sJoystickEnabled_508A60)
+            if (Input_JoyStickEnabled())
             {
                 gMap_507BA8.SetActiveCameraDelayed_444CA0(Map::MapDirections::eMapTop_2, 0, -1);
             }
