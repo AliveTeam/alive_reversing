@@ -1047,7 +1047,7 @@ void BirdPortal::VGetMapChange_453840(LevelIds* level, WORD* path, WORD* camera,
     }
 
     // Negative cases - dead code ??
-    if (sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone) && sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabinaDone))
+    if (sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone) && sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabaniaDone))
     {
         *movieId = 1617 - (10000 * field_38_movie_id);
         *screenChangeEffect = CameraSwapEffects::eEffect5_1_FMV;
