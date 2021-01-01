@@ -429,6 +429,11 @@ EXPORT const char* CC Input_GetButtonString_44F1C0(InputCommands /*input_command
 {
     NOT_IMPLEMENTED();
 
+    if (Input_JoyStickEnabled())
+    {
+       // ::Input_GetButtonString_492530()
+    }
+
     return "lol"; // don't kill standalone
 }
 
@@ -486,7 +491,7 @@ bool Input_JoyStickEnabled()
     if (RunningAsInjectedDll())
     {
         // Use AO var
-        return sJoystickEnabled_508A60;
+        return sJoystickEnabled_508A60 ? true : false;
     }
     else
     {
