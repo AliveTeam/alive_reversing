@@ -12,6 +12,7 @@
 #include "Game.hpp"
 #include "StringFormatters.hpp"
 #include "Primitives_common.hpp"
+#include "Input.hpp"
 
 namespace AO {
 
@@ -199,7 +200,7 @@ LCDScreen* LCDScreen::ctor_433F60(Path_LCDScreen* pTlv, int tlvInfo)
     const PSX_RECT palSize = { field_98_pal_rect.x, field_98_pal_rect.y,16, 1 };
     PSX_LoadImage16_4962A0(&palSize, sLCDScreen_Palette2_4C7588);
 
-    if (sJoystickEnabled_508A60 || field_2AC_message_1_id != 62)
+    if (Input_JoyStickEnabled() || field_2AC_message_1_id != 62)
     {
         String_FormatString_450DC0(sLCDMessageTable_4C7420[field_2AC_message_1_id], field_AC_message_buffer);
     }
@@ -297,11 +298,12 @@ void LCDScreen::VUpdate_4341B0()
             field_2D4++;
             if (field_2D4 == 1)
             {
-                auto rangedRandom = Math_RandomRange_450F20(
+                const auto rangedRandom = Math_RandomRange_450F20(
                     field_2D8_message_rand_min,
                     field_2DC_message_rand_max
                 );
-                if (sJoystickEnabled_508A60 || rangedRandom != 62)
+
+                if (Input_JoyStickEnabled() || rangedRandom != 62)
                 {
                     String_FormatString_450DC0(sLCDMessageTable_4C7420[rangedRandom], field_AC_message_buffer);
                 }
@@ -316,7 +318,8 @@ void LCDScreen::VUpdate_4341B0()
             else
             {
                 field_2D4 = 0;
-                if (sJoystickEnabled_508A60 || field_2AC_message_1_id != 62)
+
+                if (Input_JoyStickEnabled() || field_2AC_message_1_id != 62)
                 {
                     String_FormatString_450DC0(
                         sLCDMessageTable_4C7420[field_2AC_message_1_id],

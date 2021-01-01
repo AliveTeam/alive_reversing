@@ -62,8 +62,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(LCDScreen, 0x2E0);
 
-
-ALIVE_VAR_EXTERN(int, sJoystickEnabled_508A60);
-
 }
 

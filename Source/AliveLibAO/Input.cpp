@@ -125,7 +125,7 @@ static BitField32<InputCommands> ConvertInput(const BitField32<::InputCommands>&
     return r;
 }
 
-static BitField32<::InputCommands> MakeBits(DWORD bits)
+static BitField32<::InputCommands> MakeAEInputBits(DWORD bits)
 {
     BitField32<::InputCommands> r;
     r.Raw().all = bits;
@@ -140,14 +140,14 @@ EXPORT void InputObject::Update_433250()
         ::Input().Update_45F040();
 
         // Convert from AE bit flags to AO bit flags
-        field_0_pads[0].field_0_pressed = static_cast<unsigned short>(ConvertInput(MakeBits(::Input().field_0_pads[0].field_0_pressed)).Raw().all);
+        field_0_pads[0].field_0_pressed = static_cast<unsigned short>(ConvertInput(MakeAEInputBits(::Input().field_0_pads[0].field_0_pressed)).Raw().all);
 
         // TODO: This one probably needs its own conversion
         field_0_pads[0].field_2_dir = ::Input().field_0_pads[0].field_4_dir;
 
-        field_0_pads[0].field_4_previously_pressed = static_cast<unsigned short>(ConvertInput(MakeBits(::Input().field_0_pads[0].field_8_previous)).Raw().all);
-        field_0_pads[0].field_6_held = static_cast<unsigned short>(ConvertInput(MakeBits(::Input().field_0_pads[0].field_C_held)).Raw().all);
-        field_0_pads[0].field_8_released = static_cast<unsigned short>(ConvertInput(MakeBits(::Input().field_0_pads[0].field_10_released)).Raw().all);
+        field_0_pads[0].field_4_previously_pressed = static_cast<unsigned short>(ConvertInput(MakeAEInputBits(::Input().field_0_pads[0].field_8_previous)).Raw().all);
+        field_0_pads[0].field_6_held = static_cast<unsigned short>(ConvertInput(MakeAEInputBits(::Input().field_0_pads[0].field_C_held)).Raw().all);
+        field_0_pads[0].field_8_released = static_cast<unsigned short>(ConvertInput(MakeAEInputBits(::Input().field_0_pads[0].field_10_released)).Raw().all);
 
         // Handle demo in put (AO impl)
         if (field_20_demo_playing & 1)
@@ -301,7 +301,7 @@ void InputObject::SetCurrentController(PadIndex padIdx)
 
 bool InputObject::JoyStickEnabled() const
 {
-    return sJoystickEnabled_508A60 ? true : false;
+    return Input_JoyStickEnabled();
 }
 
 bool InputObject::IsAnyPressed(DWORD command) const
@@ -428,12 +428,14 @@ void Input_InitKeyStateArray_48E5F0()
 EXPORT const char* CC Input_GetButtonString_44F1C0(InputCommands /*input_command*/)
 {
     NOT_IMPLEMENTED();
+
     return "lol"; // don't kill standalone
 }
 
 EXPORT int CC Input_Remap_44F300(InputCommands inputCmd)
 {
     AE_IMPLEMENTED();
+    // TODO: Needs conversion
     return Input_Remap_492680(static_cast<::InputCommands>(inputCmd));
 }
 
@@ -479,6 +481,34 @@ EXPORT void Input_Reset_44F2F0()
 }
 
 
+bool Input_JoyStickEnabled()
+{
+    if (RunningAsInjectedDll())
+    {
+        // Use AO var
+        return sJoystickEnabled_508A60;
+    }
+    else
+    {
+        // Use AE var
+        return ::Input_JoyStickEnabled();
+    }
+}
+
+void Input_SetJoyStickEnabled(bool enabled)
+{
+    if (RunningAsInjectedDll())
+    {
+        // Use AO var
+        sJoystickEnabled_508A60 = enabled;
+    }
+    else
+    {
+        // Use AE var
+        return ::Input_SetJoyStickEnabled(enabled);
+    }
+}
+
 ALIVE_VAR(1, 0x508A64, DWORD, dword_508A64, 0);
 
 EXPORT int CC Input_SaveSettingsIni_44F460()
@@ -498,20 +528,19 @@ EXPORT int CC Input_SaveSettingsIni_44F460()
 
     dword_508A64 = 1;
     fprintf(iniFileHandle, "[Control Layout]\n");
-    if (sJoystickEnabled_508A60)
+    if (Input_JoyStickEnabled())
     {
-        if (sJoystickEnabled_508A60 == 1)
-        {
-            fprintf(iniFileHandle, "controller = Game Pad\n");
-        }
+        fprintf(iniFileHandle, "controller = Game Pad\n");
+
     }
     else
     {
         fprintf(iniFileHandle, "controller = Keyboard\n");
     }
-    auto oldJoystickEnabled = sJoystickEnabled_508A60;
+    
+    const auto oldJoystickEnabled = Input_JoyStickEnabled();
 
-    sJoystickEnabled_508A60 = 0;
+    Input_SetJoyStickEnabled(false);
 
     fprintf(iniFileHandle, "[Keyboard]\n");
     fprintf(iniFileHandle, "run = %s\n", Input_GetButtonString_44F1C0(InputCommands::eRun));
@@ -521,7 +550,7 @@ EXPORT int CC Input_SaveSettingsIni_44F460()
     fprintf(iniFileHandle, "throw = %s\n", Input_GetButtonString_44F1C0(InputCommands::eThrowItem));
     fprintf(iniFileHandle, "crouch = %s\n", Input_GetButtonString_44F1C0(InputCommands::eFartOrRoll));
 
-    sJoystickEnabled_508A60 = 1;
+    Input_SetJoyStickEnabled(true);
 
     fprintf(iniFileHandle, "[Game Pad]\n");
     fprintf(iniFileHandle, "run = %s\n", Input_GetButtonString_44F1C0(InputCommands::eRun));
@@ -531,7 +560,7 @@ EXPORT int CC Input_SaveSettingsIni_44F460()
     fprintf(iniFileHandle, "throw = %s\n", Input_GetButtonString_44F1C0(InputCommands::eThrowItem));
     fprintf(iniFileHandle, "crouch = %s\n", Input_GetButtonString_44F1C0(InputCommands::eFartOrRoll));
 
-    sJoystickEnabled_508A60 = oldJoystickEnabled;
+    Input_SetJoyStickEnabled(oldJoystickEnabled);
 
     fclose(iniFileHandle);
     dword_508A64 = 0;
