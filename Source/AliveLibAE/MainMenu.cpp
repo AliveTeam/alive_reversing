@@ -396,9 +396,6 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     }
 });
 
-const char byte_55EE00[2] = { '\x18', '\0' };
-const char byte_55EDEC[2] = { '\x19', '\0' };
-
 inline std::int16_t operator "" _s(unsigned long long value)
 {
     return static_cast<std::int16_t>(value);
@@ -2579,14 +2576,14 @@ const MainMenuText stru_5626A0[10] =
 {
     { 35, 34, "x", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u },
     { 331, 204, "esc", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u },
-    { 152, 75, "\x5", 3u, 0u, 0u, 0u,  0.88f, 1u, 0u, 0u, 0u },
-    { 152, 107, "\a", 3u, 0u, 0u, 0u,  0.88f, 1u, 0u, 0u, 0u },
-    { 152, 140, "\t", 3u, 0u, 0u, 0u,  0.88f, 1u, 0u, 0u, 0u },
-    { 152, 172, "\x18", 3u, 0u, 0u, 0u,  0.88f, 1u, 0u, 0u, 0u },
-    { 250, 75, "\x6", 3u, 0u, 0u, 0u,  0.88f, 1u, 0u, 0u, 0u },
-    { 250, 107, "\b", 3u, 0u, 0u, 0u,  0.88f, 1u, 0u, 0u, 0u },
-    { 250, 140, "\n", 3u, 0u, 0u, 0u,  0.88f, 1u, 0u, 0u, 0u },
-    { 250, 172, byte_55EDEC, 3u, 0u, 0u, 0u,  0.88f, 1u, 0u, 0u, 0u }
+    { 152, 75, kRun, 3u, 0u, 0u, 0u,  0.88f, 1u, 0u, 0u, 0u },
+    { 152, 107, kSneak, 3u, 0u, 0u, 0u,  0.88f, 1u, 0u, 0u, 0u },
+    { 152, 140, kJump, 3u, 0u, 0u, 0u,  0.88f, 1u, 0u, 0u, 0u },
+    { 152, 172, kSpeak1, 3u, 0u, 0u, 0u,  0.88f, 1u, 0u, 0u, 0u },
+    { 250, 75, kAction, 3u, 0u, 0u, 0u,  0.88f, 1u, 0u, 0u, 0u },
+    { 250, 107, kThrow, 3u, 0u, 0u, 0u,  0.88f, 1u, 0u, 0u, 0u },
+    { 250, 140, kFart, 3u, 0u, 0u, 0u,  0.88f, 1u, 0u, 0u, 0u },
+    { 250, 172, kSpeak2, 3u, 0u, 0u, 0u,  0.88f, 1u, 0u, 0u, 0u }
 };
 
 void MainMenuController::RemapInput_Render_4D2A10(int** ot)
@@ -3822,8 +3819,8 @@ void MainMenuController::callback_4D06E0(MainMenuController* pMenu)
 
 void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, int** ot, Alive::Font* font, int* polyIndex, char op2)
 {
-    const bool bCancel = strstr(array->field_8_text, byte_55EE00) != 0; // cancel
-    const bool bEndOfMedium = strstr(array->field_8_text, byte_55EDEC) != 0; // end of medium
+    const bool bSpeak1 = strstr(array->field_8_text, kSpeak1) != 0;
+    const bool bSpeak2 = strstr(array->field_8_text, kSpeak2) != 0;
 
     char textBuffer[32] = {};
     String_FormatString_4969D0(array->field_8_text, textBuffer, ALIVE_COUNTOF(textBuffer), array->field_14 == 0);
@@ -3841,7 +3838,7 @@ void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, int** ot
     {
         if (textBuffer[0])
         {
-            if (bCancel != bEndOfMedium)
+            if (bSpeak1 != bSpeak2)
             {
                 strcat(textBuffer, "+");
             }
