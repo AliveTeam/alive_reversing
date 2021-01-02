@@ -13,6 +13,8 @@
 #include "Elum.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
+#include "FixedPoint.hpp"
+#include "../AliveLibAE/PsxDisplay.hpp"
 
 namespace AO {
 
@@ -292,8 +294,12 @@ void DDCheat::VUpdate_4098C0()
                 {
                     pObj->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
                 }
-                sControlledCharacter_50767C->field_F4_pLine = 0;
-                sControlledCharacter_50767C->field_E8_LastLineYPos = sControlledCharacter_50767C->field_AC_ypos;
+
+                if (sControlledCharacter_50767C)
+                {
+                    sControlledCharacter_50767C->field_F4_pLine = nullptr;
+                    sControlledCharacter_50767C->field_E8_LastLineYPos = sControlledCharacter_50767C->field_AC_ypos;
+                }
             }
             if (!(gnFrameCount_507670 % 10))
             {
@@ -318,10 +324,19 @@ void DDCheat::VUpdate_4098C0()
                     gMap_507BA8.field_4_current_camera,
                     gnFrameCount_507670);
                 DebugStr_495990(
-                    " %5d %5d  ",
+                    " mem used %5d mem peak %5d",
                     (sManagedMemoryUsedSize_9F0E48 + 999) / 1000,
                     (sPeakedManagedMemUsage_9F0E4C + 999) / 1000);
-                DebugStr_495990(" Vox %d\n", gVox_4FF864);
+                //DebugStr_495990(" Vox %d\n", gVox_4FF864);
+
+                if (sActiveHero_507678)
+                {
+                    DebugStr_495990(
+                        "\nheroxy=%4d,%4d\n",
+                        FP_GetExponent(sActiveHero_507678->field_A8_xpos),
+                        FP_GetExponent(sActiveHero_507678->field_AC_ypos));
+                }
+
                 cheat_enabled = sDDCheat_FlyingEnabled_50771C;
                 field_10 = 6;
             }
@@ -563,29 +578,12 @@ void DDCheat::Misc_409E90()
     sActiveHero_507678->field_C6_scale = sControlledCharacter_50767C->field_C6_scale;
 }
 
-struct TextRecords
-{
-    char field_0_src_txt[1024];
-    char field_400_dst_txt[1027];
-};
-ALIVE_ASSERT_SIZEOF(TextRecords, 0x803);
 
-struct DebugTexts
-{
-    BYTE field_0_xMargin;
-    BYTE field_1_yMargin;
-    BYTE field_2_displayWidth;
-    BYTE field_3_displayHeight;
-    DWORD field_4_max_len;
-    BYTE field_8_bgColour;
-    TextRecords field_9_text;
-};
-ALIVE_ASSERT_SIZEOF(DebugTexts, 0x80C);
-
-ALIVE_ARY(1, 0xAD0900, DebugTexts, 4, sTexts_AD0900, {});
 
 int DDCheat::DebugFont_Printf_498B40(int idx, const char* formatStr, ...)
 {
+    AE_IMPLEMENTED();
+
     va_list va;
     va_start(va, formatStr);
     if (idx < 0 || idx > 3)
@@ -596,8 +594,7 @@ int DDCheat::DebugFont_Printf_498B40(int idx, const char* formatStr, ...)
     char buffer[1024] = {};
     vsprintf(buffer, formatStr, va);
 
-    strncat(sTexts_AD0900[idx].field_9_text.field_0_src_txt, buffer, sTexts_AD0900[idx].field_4_max_len);
-    return static_cast<int>(strlen(sTexts_AD0900[idx].field_9_text.field_0_src_txt));
+    return ::DebugFont_Printf_4F8B60(idx, buffer);
 }
 
 int DDCheat::DebugStr_495990(const char* pStr, ...)
