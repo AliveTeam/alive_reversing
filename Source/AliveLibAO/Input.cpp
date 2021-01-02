@@ -134,8 +134,17 @@ static BitField32<::InputCommands> MakeAEInputBits(DWORD bits)
 
 EXPORT void InputObject::Update_433250()
 {
+    const BYTE byte_4BB428[16] = { 0u, 64u, 0u, 32u, 192u, 0u, 224u, 0u, 128u, 96u, 0u, 0u, 160u, 0u, 0u, 0u };
+
     if (!RunningAsInjectedDll())
     {
+        for (int i = 0; i < 2; i++)
+        {
+            field_0_pads[i].field_A_prev_dir = field_0_pads[i].field_2_dir;
+            field_0_pads[i].field_B = field_0_pads[i].field_3;
+            field_0_pads[i].field_4_previously_pressed = field_0_pads[i].field_0_pressed;
+        }
+
         // Do AE input reading
         ::Input().Update_45F040();
 
@@ -179,11 +188,18 @@ EXPORT void InputObject::Update_433250()
             }
         }
 
+        for (int i = 0; i < 2; i++)
+        {
+            field_0_pads[i].field_8_released = ~field_0_pads[i].field_0_pressed & field_0_pads[i].field_4_previously_pressed;
+            field_0_pads[i].field_6_held = ~field_0_pads[i].field_4_previously_pressed & field_0_pads[i].field_0_pressed;
+            field_0_pads[i].field_2_dir = byte_4BB428[(field_0_pads[i].field_0_pressed >> 12) & 0xF];
+            field_0_pads[i].field_3 = byte_4BB428[(field_0_pads[i].field_0_pressed >> 4) & 0xF];
+        }
+
         return;
     }
 
     // Original AO impl
-    const BYTE byte_4BB428[16] = { 0u, 64u, 0u, 32u, 192u, 0u, 224u, 0u, 128u, 96u, 0u, 0u, 160u, 0u, 0u, 0u };
 
     for (int i = 0; i < 2; i++)
     {
