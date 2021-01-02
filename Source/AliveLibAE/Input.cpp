@@ -573,10 +573,10 @@ EXPORT void CC Input_Init_Names_491870()
 {
     sKeyboardDisplayKeyNames_5C9E30 = {};
 
-    strcpy(sKeyboardDisplayKeyNames_5C9E30.keys[0].field_0_name, "\x10");
-    strcpy(sKeyboardDisplayKeyNames_5C9E30.keys[1].field_0_name, "\x11");
-    strcpy(sKeyboardDisplayKeyNames_5C9E30.keys[2].field_0_name, "\x12");
-    strcpy(sKeyboardDisplayKeyNames_5C9E30.keys[3].field_0_name, "\x13");
+    strcpy(sKeyboardDisplayKeyNames_5C9E30.keys[0].field_0_name, kAllYa);
+    strcpy(sKeyboardDisplayKeyNames_5C9E30.keys[1].field_0_name, kSorry);
+    strcpy(sKeyboardDisplayKeyNames_5C9E30.keys[2].field_0_name, kStopIt);
+    strcpy(sKeyboardDisplayKeyNames_5C9E30.keys[3].field_0_name, kChant);
 
     int bindingMask = 16;
     for (int i = 4; i < 32; i++)
@@ -1062,6 +1062,7 @@ void NewParseSettingsIni()
 #endif
 }
 
+
 EXPORT void Input_SaveSettingsIni_492840()
 {
     if (!canOverwriteIni)
@@ -1097,32 +1098,32 @@ EXPORT void Input_SaveSettingsIni_492840()
 
     const char * btnString = nullptr;
 
-    btnString = Input_GetButtonString_492530("\x5", 0);
+    btnString = Input_GetButtonString_492530(kRun, 0);
     if (btnString)
     {
         output << "run = " << btnString << "\n";
     }
-    btnString = Input_GetButtonString_492530("\x7", 0);
+    btnString = Input_GetButtonString_492530(kSneak, 0);
     if (btnString)
     {
         output << "sneak = " << btnString << "\n";
     }
-    btnString = Input_GetButtonString_492530("\x9", 0);
+    btnString = Input_GetButtonString_492530(kJump, 0);
     if (btnString)
     {
         output << "jump = " << btnString << "\n";
     }
-    btnString = Input_GetButtonString_492530("\x6", 0);
+    btnString = Input_GetButtonString_492530(kAction, 0);
     if (btnString)
     {
         output << "action = " << btnString << "\n";
     }
-    btnString = Input_GetButtonString_492530("\x8", 0);
+    btnString = Input_GetButtonString_492530(kThrow, 0);
     if (btnString)
     {
         output << "throw = " << btnString << "\n";
     }
-    btnString = Input_GetButtonString_492530("\xA", 0);
+    btnString = Input_GetButtonString_492530(kFart, 0);
     if (btnString)
     {
         output << "fart = " << btnString << "\n";
@@ -1136,49 +1137,49 @@ EXPORT void Input_SaveSettingsIni_492840()
     output << "[" << iniCategories[2] << "]" << "\n";
     output << "buttons = " << sJoystickNumButtons_5C2EFC << "\n";
 
-    btnString = Input_GetButtonString_492530("\x5", 1);
+    btnString = Input_GetButtonString_492530(kRun, 1);
     if (btnString)
     {
         output << "run = " << btnString << "\n";
     }
 
-    btnString = Input_GetButtonString_492530("\x7", 1);
+    btnString = Input_GetButtonString_492530(kSneak, 1);
     if (btnString)
     {
         output << "sneak = " << btnString << "\n";
     }
 
-    btnString = Input_GetButtonString_492530("\x9", 1);
+    btnString = Input_GetButtonString_492530(kJump, 1);
     if (btnString)
     {
         output << "jump = " << btnString << "\n";
     }
 
-    btnString = Input_GetButtonString_492530("\x6", 1);
+    btnString = Input_GetButtonString_492530(kAction, 1);
     if (btnString)
     {
         output << "action = " << btnString << "\n";
     }
 
-    btnString = Input_GetButtonString_492530("\x8", 1);
+    btnString = Input_GetButtonString_492530(kThrow, 1);
     if (btnString)
     {
         output << "throw = " << btnString << "\n";
     }
 
-    btnString = Input_GetButtonString_492530("\xA", 1);
+    btnString = Input_GetButtonString_492530(kFart, 1);
     if (btnString)
     {
         output << "fart = " << btnString << "\n";
     }
 
-    btnString = Input_GetButtonString_492530("\x18", 1);
+    btnString = Input_GetButtonString_492530(kSpeak1, 1);
     if (btnString)
     {
         output << "speak1 = " << btnString << "\n";
     }
 
-    btnString = Input_GetButtonString_492530("\x19", 1);
+    btnString = Input_GetButtonString_492530(kSpeak2, 1);
     if (btnString)
     {
         output << "speak2 = " << btnString << "\n";
@@ -1191,7 +1192,7 @@ EXPORT void Input_SaveSettingsIni_492840()
     // New Renderer Options
     output << "[" << iniCategories[3] << "]" << "\n";
 
-    for (auto s : gCustomSaveEntries)
+    for (const auto& s : gCustomSaveEntries)
     {
         if (s.isBool)
         {
@@ -1681,10 +1682,10 @@ EXPORT void CC Input_Init_491BC0()
     sAllowedGameKeys_5C9D30[VK_DECIMAL] = 1;
     sAllowedGameKeys_5C9D30[0] = 1;
 
-    sKeyNames_5C9394[VK_UP] = "\x10";
-    sKeyNames_5C9394[VK_DOWN] = "\x11";
-    sKeyNames_5C9394[VK_LEFT] = "\x12";
-    sKeyNames_5C9394[VK_RIGHT] = "\x13";
+    sKeyNames_5C9394[VK_UP] = kAllYa;
+    sKeyNames_5C9394[VK_DOWN] = kSorry;
+    sKeyNames_5C9394[VK_LEFT] = kStopIt;
+    sKeyNames_5C9394[VK_RIGHT] = kChant;
     sKeyNames_5C9394[VK_SHIFT] = "shift";
     sKeyNames_5C9394[VK_CONTROL] = "ctrl";
     sKeyNames_5C9394[VK_RETURN] = "enter";

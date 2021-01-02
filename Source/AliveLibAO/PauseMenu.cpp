@@ -556,7 +556,7 @@ PauseMenu::PauseEntry PauseEntry2_4CDE98[2] =
 PauseMenu::PauseEntry quitEntries_4CDEA8[3] =
 {
     { 184, 110, "REALLY QUIT?", 128u, 16u, 255u, '\x01' },
-    { 184, 135, "\x0F yes   \x06 no", 160u, 160u, 160u, '\x01' },
+    { 184, 135, kAO_Enter " yes   " kAO_Esc " no", 160u, 160u, 160u, '\x01' },
     { 0, 0, nullptr, 0u, 0u, 0u, '\0' }
 };
 
@@ -570,30 +570,30 @@ PauseMenu::PauseEntry saveEntries_4CDED0[4] =
 
 PauseMenu::PauseEntry controlsPageOne_4CDF00[17] =
 {
-    { 184, 205, "\x0F more  \x06 exit", 128u, 16u, 255u, '\x01' },
+    { 184, 205, kAO_Enter " more  " kAO_Esc " exit", 128u, 16u, 255u, '\x01' },
     { 184, 20, "Actions", 127u, 127u, 127u, '\x01' },
-    { 80, 50, "\x0A + \x12 \x13", 160u, 160u, 160u, '\0' },
-    { 80, 70, "\x0B + \x12 \x13", 160u, 160u, 160u, '\0' },
-    { 80, 90, "\x0C + \x14 \x10", 160u, 160u, 160u, '\0' },
-    { 80, 110, "\x0F + \x14 \x11", 160u, 160u, 160u, '\0' },
-    { 80, 130, "\x0E + \x15", 160u, 160u, 160u, '\0' },
-    { 80, 150, "\x0D", 160u, 160u, 160u, '\0' },
-    { 80, 170, "\x10", 160u, 160u, 160u, '\0' },
+    { 80, 50, kAO_Run " + " kAO_Left " " kAO_Right, 160u, 160u, 160u, '\0' },
+    { 80, 70, kAO_Sneak " + " kAO_Left " " kAO_Right, 160u, 160u, 160u, '\0' },
+    { 80, 90, kAO_Jump_Or_Hello " + " kAO_MountZTurn " " kAO_Up, 160u, 160u, 160u, '\0' },
+    { 80, 110, kAO_Enter " + " kAO_MountZTurn " " kAO_Down, 160u, 160u, 160u, '\0' },
+    { 80, 130, kAO_Throw " + " kAO_15, 160u, 160u, 160u, '\0' },
+    { 80, 150, kAO_Action, 160u, 160u, 160u, '\0' },
+    { 80, 170, kAO_Up, 160u, 160u, 160u, '\0' },
     { 200, 50, "run", 128u, 16u, 255u, '\0' },
     { 200, 70, "sneak", 128u, 16u, 255u, '\0' },
     { 200, 90, "jump", 128u, 16u, 255u, '\0' },
     { 200, 110, "crouch", 128u, 16u, 255u, '\0' },
     { 200, 130, "throw", 128u, 16u, 255u, '\0' },
     { 200, 150, "action", 128u, 16u, 255u, '\0' },
-    { 200, 170, "mount \x14 zturn", 128u, 16u, 255u, '\0' },
+    { 200, 170, "mount " kAO_MountZTurn " zturn", 128u, 16u, 255u, '\0' },
     { 0, 0, nullptr, 0u, 0u, 0u, '\0' }
 };
 
 PauseMenu::PauseEntry gamepadGameSpeak_4CDFD0[21] =
 {
-    { 184, 205, "\x06 exit", 128u, 16u, 255u, '\x01' },
+    { 184, 205, kAO_Esc " exit", 128u, 16u, 255u, '\x01' },
     { 184, 20, "GameSpeak", 127u, 127u, 127u, '\x01' },
-    { 184, 55, "\x8 + \x9", 160u, 160u, 160u, '\x01' },
+    { 184, 55, kAO_Speak1 " + " kAO_Speak2, 160u, 160u, 160u, '\x01' },
     { 184, 75, "chant", 128u, 16u, 255u, '\x01' },
     { 100, 104, "hello", 128u, 16u, 255u, '\0' },
     { 100, 126, "angry", 128u, 16u, 255u, '\0' },
@@ -603,20 +603,20 @@ PauseMenu::PauseEntry gamepadGameSpeak_4CDFD0[21] =
     { 290, 126, "fart", 128u, 16u, 255u, '\0' },
     { 290, 148, "whistle ", 128u, 16u, 255u, '\0' },
     { 290, 170, "laugh", 128u, 16u, 255u, '\0' },
-    { 2, 104, "\x8+\xC", 160u, 160u, 160u, '\0' },
-    { 2, 126, "\x8+\xE", 160u, 160u, 160u, '\0' },
-    { 2, 148, "\x8+\xF", 160u, 160u, 160u, '\0' },
-    { 2, 170, "\x8+\xD", 160u, 160u, 160u, '\0' },
-    { 192, 104, "\x9+\xC", 160u, 160u, 160u, '\0' },
-    { 192, 126, "\x9+\xE", 160u, 160u, 160u, '\0' },
-    { 192, 148, "\x9+\xF", 160u, 160u, 160u, '\0' },
-    { 192, 170, "\x9+\xD", 160u, 160u, 160u, '\0' },
+    { 2, 104, kAO_Speak1 "+" kAO_Jump_Or_Hello, 160u, 160u, 160u, '\0' },
+    { 2, 126, kAO_Speak1 "+" kAO_Throw, 160u, 160u, 160u, '\0' },
+    { 2, 148, kAO_Speak1 "+" kAO_Enter, 160u, 160u, 160u, '\0' },
+    { 2, 170, kAO_Speak1 "+" kAO_Action, 160u, 160u, 160u, '\0' },
+    { 192, 104, kAO_Speak2 "+" kAO_Jump_Or_Hello, 160u, 160u, 160u, '\0' },
+    { 192, 126, kAO_Speak2 "+" kAO_Throw, 160u, 160u, 160u, '\0' },
+    { 192, 148, kAO_Speak2 "+" kAO_Enter, 160u, 160u, 160u, '\0' },
+    { 192, 170, kAO_Speak2 "+" kAO_Action, 160u, 160u, 160u, '\0' },
     { 0, 0, nullptr, 0u, 0u, 0u, '\0' }
 };
 
 PauseMenu::PauseEntry keyboardGameSpeak_4CE0D0[21] =
 {
-    { 184, 205, "\x06 exit", 128u, 16u, 255u, '\x01' },
+    { 184, 205, kAO_Esc " exit", 128u, 16u, 255u, '\x01' },
     { 184, 20, "GameSpeak", 127u, 127u, 127u, '\x01' },
     { 184, 55, "0", 160u, 160u, 160u, '\x01' },
     { 184, 75, "chant", 128u, 16u, 255u, '\x01' },
