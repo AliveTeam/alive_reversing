@@ -79,6 +79,34 @@ extern const InputCommands sInputKey_GameSpeak7_555114;
 
 extern const InputCommands sInputKey_Chant;
 
+
+#define kUp "\x01"
+#define kDown "\x02"
+#define kLeft "\x03"
+#define kRight "\x04"
+#define kRun "\x05"
+#define kAction "\x06"
+#define kSneak "\x07"
+#define kThrow "\x08"
+#define kJump "\x09"
+#define kAllYa "\x10"
+#define kSorry "\x11"
+#define kStopIt "\x12"
+#define kChant "\x13"
+
+#define kFart "\x0a"
+#define kHello "\x0b"
+#define kFollowMe "\x0c"
+#define kWait "\x0d"
+#define kWork "\x0e"
+#define kAnger "\x0f"
+
+#define kSpeak1 "\x18"
+#define kSpeak2 "\x19"
+
+#define kHoistZTurn "\x1b"
+#define kThrowDirs "\x1a"
+
 EXPORT int CC Input_Remap_492680(InputCommands inputCmd);
 EXPORT void CC Input_ResetBinding_4925A0(int input_command, int bIsGamePad);
 EXPORT int CC Input_Read_Pad_4FA9C0(int padNum);

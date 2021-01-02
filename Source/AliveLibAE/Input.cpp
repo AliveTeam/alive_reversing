@@ -1062,6 +1062,7 @@ void NewParseSettingsIni()
 #endif
 }
 
+
 EXPORT void Input_SaveSettingsIni_492840()
 {
     if (!canOverwriteIni)
@@ -1097,32 +1098,32 @@ EXPORT void Input_SaveSettingsIni_492840()
 
     const char * btnString = nullptr;
 
-    btnString = Input_GetButtonString_492530("\x5", 0);
+    btnString = Input_GetButtonString_492530(kRun, 0);
     if (btnString)
     {
         output << "run = " << btnString << "\n";
     }
-    btnString = Input_GetButtonString_492530("\x7", 0);
+    btnString = Input_GetButtonString_492530(kSneak, 0);
     if (btnString)
     {
         output << "sneak = " << btnString << "\n";
     }
-    btnString = Input_GetButtonString_492530("\x9", 0);
+    btnString = Input_GetButtonString_492530(kJump, 0);
     if (btnString)
     {
         output << "jump = " << btnString << "\n";
     }
-    btnString = Input_GetButtonString_492530("\x6", 0);
+    btnString = Input_GetButtonString_492530(kAction, 0);
     if (btnString)
     {
         output << "action = " << btnString << "\n";
     }
-    btnString = Input_GetButtonString_492530("\x8", 0);
+    btnString = Input_GetButtonString_492530(kThrow, 0);
     if (btnString)
     {
         output << "throw = " << btnString << "\n";
     }
-    btnString = Input_GetButtonString_492530("\xA", 0);
+    btnString = Input_GetButtonString_492530(kFart, 0);
     if (btnString)
     {
         output << "fart = " << btnString << "\n";
@@ -1136,49 +1137,49 @@ EXPORT void Input_SaveSettingsIni_492840()
     output << "[" << iniCategories[2] << "]" << "\n";
     output << "buttons = " << sJoystickNumButtons_5C2EFC << "\n";
 
-    btnString = Input_GetButtonString_492530("\x5", 1);
+    btnString = Input_GetButtonString_492530(kRun, 1);
     if (btnString)
     {
         output << "run = " << btnString << "\n";
     }
 
-    btnString = Input_GetButtonString_492530("\x7", 1);
+    btnString = Input_GetButtonString_492530(kSneak, 1);
     if (btnString)
     {
         output << "sneak = " << btnString << "\n";
     }
 
-    btnString = Input_GetButtonString_492530("\x9", 1);
+    btnString = Input_GetButtonString_492530(kJump, 1);
     if (btnString)
     {
         output << "jump = " << btnString << "\n";
     }
 
-    btnString = Input_GetButtonString_492530("\x6", 1);
+    btnString = Input_GetButtonString_492530(kAction, 1);
     if (btnString)
     {
         output << "action = " << btnString << "\n";
     }
 
-    btnString = Input_GetButtonString_492530("\x8", 1);
+    btnString = Input_GetButtonString_492530(kThrow, 1);
     if (btnString)
     {
         output << "throw = " << btnString << "\n";
     }
 
-    btnString = Input_GetButtonString_492530("\xA", 1);
+    btnString = Input_GetButtonString_492530(kFart, 1);
     if (btnString)
     {
         output << "fart = " << btnString << "\n";
     }
 
-    btnString = Input_GetButtonString_492530("\x18", 1);
+    btnString = Input_GetButtonString_492530(kSpeak1, 1);
     if (btnString)
     {
         output << "speak1 = " << btnString << "\n";
     }
 
-    btnString = Input_GetButtonString_492530("\x19", 1);
+    btnString = Input_GetButtonString_492530(kSpeak2, 1);
     if (btnString)
     {
         output << "speak2 = " << btnString << "\n";
@@ -1191,7 +1192,7 @@ EXPORT void Input_SaveSettingsIni_492840()
     // New Renderer Options
     output << "[" << iniCategories[3] << "]" << "\n";
 
-    for (auto s : gCustomSaveEntries)
+    for (const auto& s : gCustomSaveEntries)
     {
         if (s.isBool)
         {
