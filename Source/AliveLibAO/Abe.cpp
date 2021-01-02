@@ -989,6 +989,7 @@ BaseGameObject* Abe::dtor_420C80()
     }
 
     sActiveHero_507678 = nullptr;
+    sControlledCharacter_50767C = nullptr;
 
     return dtor_401000();
 }
@@ -7033,6 +7034,7 @@ void Abe::State_61_Respawn_42CD20()
         LOG_WARNING("Destroying abe to prevent game crash, he isnt supposed to die in a demo!");
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
         sActiveHero_507678 = nullptr;
+        sControlledCharacter_50767C = nullptr;
         return;
     }
 
