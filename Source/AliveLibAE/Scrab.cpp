@@ -1276,12 +1276,12 @@ __int16 Scrab::AI_ChasingEnemy_1_4A6470()
         return AI_ChasingEnemy::eState1_Idle_1;
 
     case AI_ChasingEnemy::eState1_Idle_1:
-        if (!field_106_current_motion)
+        if (field_106_current_motion == eScrabMotions::M_Stand_0_4A8220)
         {
             field_194_speak = LastSpeak_4A56F0();
-            if ((field_1A2_speak_counter < field_1A0_speak_max
-                && LastSpeak_4A56F0() == GameSpeakEvents::Scrab_Howl_53)
-                || LastSpeak_4A56F0() == GameSpeakEvents::Scrab_Shriek_54)
+            if (field_1A2_speak_counter < field_1A0_speak_max
+                && (LastSpeak_4A56F0() == GameSpeakEvents::Scrab_Howl_53
+                || LastSpeak_4A56F0() == GameSpeakEvents::Scrab_Shriek_54))
             {
                 return AI_ChasingEnemy::eState1_PreparingToHowlOrShriek_15;
             }
@@ -1302,7 +1302,7 @@ __int16 Scrab::AI_ChasingEnemy_1_4A6470()
             return AI_ChasingEnemy::eState1_Turning_3;
         }
 
-        if (vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(5), pObj)
+        if (vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromDouble(1.5), pObj)
             && vOnSameYLevel_425520(pObj))
         {
             if (!vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale), pObj))
@@ -2473,7 +2473,7 @@ const FP dword_546EFC[10] =
 void Scrab::M_RunToStand_4_4A90C0()
 {
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_120_obj_id));
-    field_C4_velx = field_CC_sprite_scale * dword_546EFC[field_20_animation.field_92_current_frame & 10]; // TODO: check size
+    field_C4_velx = field_CC_sprite_scale * dword_546EFC[field_20_animation.field_92_current_frame]; // TODO: check size
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         field_C4_velx = -field_C4_velx;
