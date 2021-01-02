@@ -105,7 +105,7 @@ extern const InputCommands sInputKey_Chant;
 #define kSpeak2 "\x19"
 
 #define kHoistZTurn "\x1b"
-#define kThrowDirs "\x1a"
+#define kDPad "\x1a"
 
 EXPORT int CC Input_Remap_492680(InputCommands inputCmd);
 EXPORT void CC Input_ResetBinding_4925A0(int input_command, int bIsGamePad);

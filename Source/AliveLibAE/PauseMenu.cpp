@@ -80,7 +80,7 @@ PauseMenuPageEntry PauseMenu__PageEntryList_ControlActions_55d820[17] =
     { 1, 180, 50, 0, kRun "+" kLeft kRight, 160, 160, 160, Right },
     { 1, 180, 70, 0, kSneak "+" kLeft kRight, 160, 160, 160, Right },
     { 1, 180, 90, 0, kJump, 160, 160, 160, Right },
-    { 1, 180, 110, 0, kThrow "+" kThrowDirs, 160, 160, 160, Right },
+    { 1, 180, 110, 0, kThrow "+" kDPad, 160, 160, 160, Right },
     { 1, 180, 135, 0, kDown, 160, 160, 160, Right },
     { 1, 180, 150, 0, kAction, 160, 160, 160, Right },
     { 1, 180, 173, 0, kUp, 160, 160, 160, Right },
@@ -635,11 +635,11 @@ public:
         compiledEntries.push_back({ 0, 184, 16, 0, (char*)title.c_str(), 127, 127, 127, Centre });
         if (size > 7 && index < size - 2)
         {
-            compiledEntries.push_back({ 0, 184, 210, 0, "\x02", 127, 127, 127, Centre });
+            compiledEntries.push_back({ 0, 184, 210, 0, kDown, 127, 127, 127, Centre });
         }
         if (index > 5)
         {
-            compiledEntries.push_back({ 0, 184, 42, 0, "\x01", 127, 127, 127, Centre });
+            compiledEntries.push_back({ 0, 184, 42, 0, kUp, 127, 127, 127, Centre });
         }
         compiledEntries.push_back({ 0, 0, 0, 0, nullptr, 0, 0, 0, 0 });
         mMenuPage.field_0_fn_update = &PauseMenu::CustomPauseMenuUpdate;
@@ -1484,7 +1484,7 @@ void PauseMenu::Page_Load_Render_4910A0(int** ot, PauseMenuPage* mp)
     {
         // This has to be set every time there is at least one save,
         // otherwise a call to this function with no saves hides this row forever
-        PauseMenu__PageEntryList_Load_55e3a0[6].field_8_text = "\x01 \x02 Select    Enter Load    Del Delete";
+        PauseMenu__PageEntryList_Load_55e3a0[6].field_8_text = kUp " " kDown " Select    Enter Load    Del Delete";
     }
     else
     {

@@ -573,10 +573,10 @@ EXPORT void CC Input_Init_Names_491870()
 {
     sKeyboardDisplayKeyNames_5C9E30 = {};
 
-    strcpy(sKeyboardDisplayKeyNames_5C9E30.keys[0].field_0_name, "\x10");
-    strcpy(sKeyboardDisplayKeyNames_5C9E30.keys[1].field_0_name, "\x11");
-    strcpy(sKeyboardDisplayKeyNames_5C9E30.keys[2].field_0_name, "\x12");
-    strcpy(sKeyboardDisplayKeyNames_5C9E30.keys[3].field_0_name, "\x13");
+    strcpy(sKeyboardDisplayKeyNames_5C9E30.keys[0].field_0_name, kAllYa);
+    strcpy(sKeyboardDisplayKeyNames_5C9E30.keys[1].field_0_name, kSorry);
+    strcpy(sKeyboardDisplayKeyNames_5C9E30.keys[2].field_0_name, kStopIt);
+    strcpy(sKeyboardDisplayKeyNames_5C9E30.keys[3].field_0_name, kChant);
 
     int bindingMask = 16;
     for (int i = 4; i < 32; i++)
@@ -1682,10 +1682,10 @@ EXPORT void CC Input_Init_491BC0()
     sAllowedGameKeys_5C9D30[VK_DECIMAL] = 1;
     sAllowedGameKeys_5C9D30[0] = 1;
 
-    sKeyNames_5C9394[VK_UP] = "\x10";
-    sKeyNames_5C9394[VK_DOWN] = "\x11";
-    sKeyNames_5C9394[VK_LEFT] = "\x12";
-    sKeyNames_5C9394[VK_RIGHT] = "\x13";
+    sKeyNames_5C9394[VK_UP] = kAllYa;
+    sKeyNames_5C9394[VK_DOWN] = kSorry;
+    sKeyNames_5C9394[VK_LEFT] = kStopIt;
+    sKeyNames_5C9394[VK_RIGHT] = kChant;
     sKeyNames_5C9394[VK_SHIFT] = "shift";
     sKeyNames_5C9394[VK_CONTROL] = "ctrl";
     sKeyNames_5C9394[VK_RETURN] = "enter";

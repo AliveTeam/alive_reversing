@@ -782,87 +782,87 @@ MainMenuText sMMT_FrontPage_5623A0[1] = { 35, 205, "x", 3u, 0u, 0u, 0u,  0.75, 0
 const MainMenuText sParamiteSpeak_5622C8[9] =
 {
     { 153, 212, "esc", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u },
-    { 75, 55, "\x18", 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
-    { 240, 57, "\x19", 1u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
-    { 62, 85,"\v", 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
-    { 57, 117, "\f" , 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
-    { 57, 148, "\r", 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
-    { 66, 175, "\x0E", 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
-    { 308, 85, "\x0F" , 1u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
-    { 317, 115, "\x10" , 1u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u }
+    { 75, 55, kSpeak1, 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 240, 57, kSpeak2, 1u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 62, 85,kHello, 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 57, 117, kFollowMe , 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 57, 148, kWait, 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 66, 175, kWork, 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 308, 85, kAnger , 1u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 317, 115, kAllYa , 1u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u }
 };
 
 const MainMenuText sAbeGameSpeak_561F38[12] =
 {
-    { 184, 25, "\x13", 3u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 184, 25, kChant, 3u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
     { 153, 212, "esc", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u },
-    { 75, 57, "\x18", 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
-    { 240, 57, "\x19", 1u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
-    { 55, 85, "\v", 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
-    { 52, 112, "\f", 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
-    { 55, 151, "\r", 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
-    { 64, 177, "\x0E", 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
-    { 307, 85, "\x0F", 1u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
-    { 314, 115, "\x10", 1u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
-    { 319, 145, "\x11", 1u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
-    { 306, 175, "\x12", 1u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u }
+    { 75, 57, kSpeak1, 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 240, 57, kSpeak2, 1u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 55, 85, kHello, 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 52, 112, kFollowMe, 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 55, 151, kWait, 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 64, 177, kWork, 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 307, 85, kAnger, 1u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 314, 115, kAllYa, 1u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 319, 145, kSorry, 1u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 306, 175, kStopIt, 1u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u }
 };
 
 const MainMenuText sSligGameSpeak_562058[11] =
 {
     { 153, 212, "esc", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u },
-    { 75, 55, "\x18", 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
-    { 240, 57, "\x19", 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
-    { 55, 82, "\v", 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
-    { 51, 105, "\f", 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
-    { 51, 144, "\r", 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
-    { 51, 171, "\x0E", 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
-    { 317, 84, "\x0F", 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
-    { 317, 108, "\x10", 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
-    { 317, 131, "\x11", 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
-    { 317, 173, "\x12", 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u }
+    { 75, 55, kSpeak1, 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 240, 57, kSpeak2, 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 55, 82, kHello, 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 51, 105, kFollowMe, 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 51, 144, kWait, 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 51, 171, kWork, 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 317, 84,  kAnger, 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 317, 108, kAllYa, 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 317, 131, kSorry, 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 317, 173, kStopIt, 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u }
 };
 
 const MainMenuText sGlukkonGameSpeak_562160[11] =
 {
     { 153, 212, "esc", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u },
-    { 75, 55, "\x18", 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
-    { 240, 57, "\x19", 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
-    { 55, 80, "\v", 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
-    { 42, 107, "\f", 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
-    { 43, 137, "\r", 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
-    { 53, 177, "\x0E", 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
-    { 317, 85, "\x0F", 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
-    { 325, 117, "\x10", 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
-    { 321, 147, "\x11", 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
-    { 313, 178, "\x12", 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u }
+    { 75, 55, kSpeak1, 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 240, 57, kSpeak2, 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 55, 80, kHello, 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 42, 107, kFollowMe, 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 43, 137, kWait, 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 53, 177, kWork, 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 317, 85, kAnger, 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 325, 117, kAllYa, 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 321, 147, kSorry, 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 313, 178, kStopIt, 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u }
 };
 
 const MainMenuText sScrabGameSpeak_562268[4] =
 {
     { 153, 215, "esc", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u },
-    { 75, 55, "\x18", 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
-    { 60, 86, "\v", 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
-    { 60, 133, "\f", 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u }
+    { 75, 55, kSpeak1, 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 60, 86, kHello, 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 60, 133, kFollowMe, 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u }
 };
 
 const MainMenuText sAbeMotions_562448[15] =
 {
     { 55, 182, "X", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u },
     { 153, 211, "esc", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u },            
-    { 175, 60, "\x4", 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },            //walk right arrow        //rebindables are in []
-    { 175, 79, "\x7+ \x4", 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },       //sneak [alt] + right arrow 
-    { 175, 98, "\x5+ \x4", 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },       //run [shift] + right arrow
-    { 175, 117, "\t", 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },            //jump [space]
-    { 175, 136, "\x5+\t", 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },        //runjump [shift]+[space]
-    { 175, 158, "\x2", 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },           //crouch down arrow
-    { 330, 60, "\x4", 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },            //roll from crouch right arrow
-    { 330, 79, "\x1", 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },            //zturn up arrow
-    { 330, 98, "\x6", 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },            //action [ctrl]
-    { 334, 117, "Z+\x1A", 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },        //throw [z] + Dpad
-    { 330, 136, "\n", 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },            //fart [x]
-    { 330, 155, "\x11", 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },          //sympathy [7]
-    { 330, 174, "\x0F", 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },          //angry slap [5]
+    { 175, 60, kRight, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },            //walk right arrow        //rebindables are in []
+    { 175, 79, kSneak "+ " kRight, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u }, //sneak [alt] + right arrow 
+    { 175, 98, kRun "+ " kRight, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },  //run [shift] + right arrow
+    { 175, 117, kJump, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },            //jump [space]
+    { 175, 136, kRun "+" kJump, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },   //runjump [shift]+[space]
+    { 175, 158, kDown, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },            //crouch down arrow
+    { 330, 60, kRight, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },            //roll from crouch right arrow
+    { 330, 79, kUp, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },               //zturn up arrow
+    { 330, 98, kAction, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },           //action [ctrl]
+    { 334, 117, "Z+" kDPad, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },       //throw [z] + Dpad
+    { 330, 136, kFart, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },            //fart [x]
+    { 330, 155, kSorry, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },           //sympathy [7]
+    { 330, 174, kAnger, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },           //angry slap [5]
 };
 
 void MainMenuController::AbeSpeak_Render_4D2060(int** ot)
