@@ -445,9 +445,9 @@ EXPORT const char* CC Input_GetButtonString_44F1C0(InputCommands /*input_command
 {
     NOT_IMPLEMENTED();
 
-    if (Input_JoyStickEnabled())
+    //if (Input_JoyStickEnabled())
     {
-       // ::Input_GetButtonString_492530()
+        //return ::Input_GetButtonString_492530("", 0);
     }
 
     return "lol"; // don't kill standalone
