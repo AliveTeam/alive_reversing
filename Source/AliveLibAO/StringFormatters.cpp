@@ -88,12 +88,12 @@ const char* kButtonNamesOrAtlasNums_4CEDA8[] =
     "\x17",
     "\x18",
     "\x19",
-    "\x1A",
-    "\x1B",
-    "\x1C",
-    "\x1D",
-    "\x1E",
-    "\x1F",
+    "\x1A", // corruption
+    "\x1B", // blank
+    "\x1C", // blank
+    "\x1D", // blank
+    "\x1E", // blank
+    "\x1F", // blank
     "\x2D", // todo: might not be part of this
 };
 
