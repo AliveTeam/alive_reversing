@@ -1062,8 +1062,7 @@ void NewParseSettingsIni()
 #endif
 }
 
-
-EXPORT void Input_SaveSettingsIni_492840()
+EXPORT void Input_SaveSettingsIni_Common(bool isAo)
 {
     if (!canOverwriteIni)
     {
@@ -1096,7 +1095,7 @@ EXPORT void Input_SaveSettingsIni_492840()
     // Keyboard remap
     output << "[" << iniCategories[1] << "]" << "\n";
 
-    const char * btnString = nullptr;
+    const char* btnString = nullptr;
 
     btnString = Input_GetButtonString_492530(kRun, 0);
     if (btnString)
@@ -1126,7 +1125,14 @@ EXPORT void Input_SaveSettingsIni_492840()
     btnString = Input_GetButtonString_492530(kFart, 0);
     if (btnString)
     {
-        output << "fart = " << btnString << "\n";
+        if (isAo)
+        {
+            output << "fart = " << btnString << "\n";
+        }
+        else
+        {
+            output << "fart = " << btnString << "\n";
+        }
     }
 
     sJoystickEnabled_5C9F70 = 1;
@@ -1170,7 +1176,14 @@ EXPORT void Input_SaveSettingsIni_492840()
     btnString = Input_GetButtonString_492530(kFart, 1);
     if (btnString)
     {
-        output << "fart = " << btnString << "\n";
+        if (isAo)
+        {
+            output << "fart = " << btnString << "\n";
+        }
+        else
+        {
+            output << "fart = " << btnString << "\n";
+        }
     }
 
     btnString = Input_GetButtonString_492530(kSpeak1, 1);
@@ -1206,11 +1219,16 @@ EXPORT void Input_SaveSettingsIni_492840()
 
     std::string strPath = FS::GetPrefPath() + "abe2.ini";
     std::ofstream fileOut(strPath.c_str());
-    
+
     fileOut << output.rdbuf();
     fileOut.close();
 
     Input_Init_Names_491870();
+}
+
+EXPORT void Input_SaveSettingsIni_492840()
+{
+    Input_SaveSettingsIni_Common(false);
 }
 
 EXPORT void CC Input_LoadSettingsIni_492D40()

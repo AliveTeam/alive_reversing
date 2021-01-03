@@ -28,30 +28,30 @@ enum InputCommands : unsigned int
     eThrowItem = 1u << 5,  // 0x20
     eFartOrRoll = 1u << 6, // 0x40
     eDoAction  = 1u << 7,  // 0x80
-    eGameSpeak4 = 1u << 8,  // 0x100
-    eGameSpeak5 = 1u << 9,  // 0x200
-    eGameSpeak1 = 1u << 10, // 0x400
-    eGameSpeak2 = 1u << 11, // 0x800
+    eCheatMode = 1u << 8,  // 0x100
+    //eGameSpeak5 = 1u << 9,  // 0x200
+    //eGameSpeak1 = 1u << 10, // 0x400
+    eBack = 1u << 11, // 0x800
     eUp = 1u << 12, // 0x1000
     eRight = 1u << 13, // 0x2000
     eDown = 1u << 14, // 0x4000
     eLeft = 1u << 15, // 0x8000
-    eGameSpeak7 = 1u << 16, // 0x10000
-    eGameSpeak8 = 1u << 17, // 0x20000
-    eChant = 1u << 18, // 0x40000
-    ePause = 1u << 19, // Or enter
-    eUnPause_OrConfirm = 1u << 20, // Or/and back
-    eBack = 1u << 21, // 0x200000
-    eCheatMode = 1u << 22,
-    eSpeak1 = 1u << 23, // 0x800000
-    eSpeak2 = 1u << 24, // 0x1000000    = nothing
+    //eGameSpeak7 = 1u << 16, // 0x10000
+    //eGameSpeak8 = 1u << 17, // 0x20000
+    //eChant = 1u << 18, // 0x40000
+    //ePause = 1u << 19, // Or enter
+    //eUnPause_OrConfirm = 1u << 20, // Or/and back
+    //eBack = 1u << 21, // 0x200000
+    //eCheatMode = 1u << 22,
+    //eSpeak1 = 1u << 23, // 0x800000
+    //eSpeak2 = 1u << 24, // 0x1000000    = nothing
     // 0x2000000    = nothing
     // 0x4000000    = nothing
     // 0x8000000    = nothing
     // 0x10000000   = nothing
     // 0x20000000   = nothing
     // 0x40000000   = nothing
-    e0x80000000 = 1u << 31,
+    //e0x80000000 = 1u << 31,
 };
 
 extern const InputCommands sInputKey_Right_4C6590;

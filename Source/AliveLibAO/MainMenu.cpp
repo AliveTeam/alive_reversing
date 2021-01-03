@@ -107,27 +107,27 @@ struct Menu_Element
     int field_8_input_command;
 };
 
-const Menu_Element stru_4D03F0[] = { 146, 205, 64 };
-const Menu_Element stru_4D0400[2] = { { 145, 204, 64 }, { 286, 202, 2048 } };
+const Menu_Element stru_4D03F0[] = { 146, 205, InputCommands::eFartOrRoll };
+const Menu_Element stru_4D0400[2] = { { 145, 204, InputCommands::eFartOrRoll }, { 286, 202, InputCommands::eBack } };
 const Menu_Element stru_4D0418[11] =
 {
-    { 144, 205, 64 },
-    { 288, 203, 2048 },
-    { 112, 87, 64 },
+    { 144, 205, InputCommands::eFartOrRoll },
+    { 288, 203, InputCommands::eBack },
+    { 112, 87, InputCommands::eFartOrRoll },
     { 283, 87, 9 },
     { 89, 118, 9 },
     { 124, 118, 16 },
     { 293, 119, 6 },
     { 264, 151, 32 },
     { 273, 183, 128 },
-    { 115, 216, 64 }, // 2nd
-    { 307, 203, 2048 }, // 1st
+    { 115, 216, InputCommands::eFartOrRoll }, // 2nd
+    { 307, 203, InputCommands::eBack }, // 1st
 };
 
 const Menu_Element stru_4D04A0[33] =
 {
-    { 115, 216, 64 },
-    { 307, 203, 2048 },
+    { 115, 216, InputCommands::eFartOrRoll },
+    { 307, 203, InputCommands::eBack },
     { 90, 53, 6 },
     { 125, 53, 9 },
     { 81, 80, 6 },
@@ -135,7 +135,7 @@ const Menu_Element stru_4D04A0[33] =
     { 79, 112, 6 },
     { 122, 112, 32 },
     { 78, 147, 6 },
-    { 119, 147, 64 },
+    { 119, 147, InputCommands::eFartOrRoll },
     { 82, 180, 6 },
     { 120, 180, 128 },
     { 258, 62, 9 },
@@ -146,22 +146,22 @@ const Menu_Element stru_4D04A0[33] =
     { 307, 139, 64 },
     { 259, 178, 9 },
     { 296, 178, 128 }, // 1st
-    { 308, 205, 2048 }, // end
+    { 308, 205, InputCommands::eBack }, // end
     { 96, 32, 6 },
     { 305, 32, 9 },
     { 157, 29, 6 },
     { 205, 29, 9 },
     { 38, 81, 16 },
     { 42, 118, 32 },
-    { 49, 151, 64 },
+    { 49, 151, InputCommands::eFartOrRoll },
     { 65, 190, 128 },
     { 322, 82, 16 },
     { 307, 117, 32 },
-    { 301, 146, 64 },
+    { 301, 146, InputCommands::eFartOrRoll },
     { 278, 184, 128 }, // 1st
 };
 
-const Menu_Element stru_4D0630[2] = { { 62, 204, 64 }, { 293, 205, 2048 } };
+const Menu_Element stru_4D0630[2] = { { 62, 204, InputCommands::eFartOrRoll }, { 293, 205, InputCommands::eBack } };
 
 const AIFunctionData<Menu::TUpdateFn> kUpdateTable[] =
 {
@@ -1112,7 +1112,7 @@ void Menu::Empty_Render_47AC80(int**)
 }
 
 const Menu_Button stru_4D00D8 = { 34, 65, 6152 };
-const Menu_Element x_and_esc_4D0660[] = { { 33, 29, 64 }, { 304, 165, 2048 } };
+const Menu_Element x_and_esc_4D0660[] = { { 33, 29, InputCommands::eFartOrRoll }, { 304, 165, InputCommands::eBack } };
 
 
 void NavigateBetweenTwoPoints(FP& a, FP& b)
@@ -2279,7 +2279,7 @@ void Menu::To_Options_Controller_Update_47F2E0()
 }
 
 const Menu_Button controllerSelectButtons_4D0160[2] = { { 44, 236, 6152 }, { 290, 236, 6152 } };
-const Menu_Element controllerSelectElements_4D0678[2] = { { 43, 200, 64 }, { 289, 200, 2048 } };
+const Menu_Element controllerSelectElements_4D0678[2] = { { 43, 200, InputCommands::eFartOrRoll }, { 289, 200, InputCommands::eBack } };
 
 void Menu::Options_Controller_Render_47F430(int** ppOt)
 {
@@ -3019,8 +3019,8 @@ void Menu::Goto_ConfigureController_OrSave_SettingIni_Update_47F380()
 
 const Menu_Element chooseAndExitRemapButtons_4D0690[2] =
 {
-    { 40, 34, 64 },
-    { 301, 163, 2048 }
+    { 40, 34, InputCommands::eFartOrRoll },
+    { 301, 163, InputCommands::eBack }
 };
 
 const Menu_Button remapButtons_4D0170[10] =
