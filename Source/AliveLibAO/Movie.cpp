@@ -35,12 +35,25 @@ ALIVE_VAR(1, 0x508C0C, BYTE, sMovieNameIdx_508C0C, 0);
 
 SoundEntry fmv_sound_entry;
 
-const int kSingleAudioFrameSize = 2016*2;  // todo: nuke
-const int kNumFramesInterleave = 5; // todo: nuke
 
 const int kXaFrameDataSize = 2016;
 const int kNumAudioChannels = 2;
 const int kBytesPerSample = 2;
+
+
+const int num_frames_interleave = 0; // maybe 20 ??
+const int fmv_single_audio_frame_size_in_samples = 2016;
+const auto fmv_sound_entry_size = fmv_single_audio_frame_size_in_samples * (num_frames_interleave + 6);
+const int kSamplesPerSecond = 37800;
+const int kFmvFrameRate = 15;
+
+int bNoAudioOrAudioError = 0;
+int fmv_audio_sample_offset = 0;
+bool bStartedPlayingSound = false;
+int fmv_num_played_audio_frames = 0;
+int current_audio_offset = 0;
+int oldBufferPlayPos = 0;
+
 class PsxStr
 {
 public:
@@ -54,9 +67,7 @@ public:
     int mFrameW = 0;
     int mFrameH = 0;
 
-    int mSoundPos = 0; // 2016*20
-    bool mSoundPlaying = false;
-    std::vector<s16> outPtr;
+     std::vector<s16> outPtr;
 
     bool DecodeAudioAndVideo()
     {
@@ -120,8 +131,40 @@ public:
             }
             else if (w.mSectorType == kVale)
             {
-                outPtr.resize(outPtr.size() + (2016*2));
+                outPtr.resize(2016*2);
                 mAdpcm.DecodeFrameToPCM(outPtr, (uint8_t*)&w.mAkikMagic);
+
+                if (!bNoAudioOrAudioError)
+                {
+                    // Push new samples into the buffer
+                    if (GetSoundAPI().SND_LoadSamples(&fmv_sound_entry, fmv_audio_sample_offset, (unsigned char*)outPtr.data(), fmv_single_audio_frame_size_in_samples) < 0)
+                    {
+                        // Reload with data fail
+                        bNoAudioOrAudioError = 1;
+                    }
+
+                    fmv_audio_sample_offset += fmv_single_audio_frame_size_in_samples;
+
+                    // Loop back to the start of the audio buffer
+                    if (fmv_audio_sample_offset >= fmv_sound_entry_size)
+                    {
+                        fmv_audio_sample_offset = 0;
+                    }
+
+                    // If this is the first time then start to play the buffer
+                    if (!bStartedPlayingSound && !bNoAudioOrAudioError)
+                    {
+                        bStartedPlayingSound = true;
+                        if (FAILED(GetSoundAPI().SND_PlayEx(&fmv_sound_entry, 116, 116, 1.0, 0, 1, 100)))
+                        {
+                            bNoAudioOrAudioError = 1;
+                        }
+
+                        current_audio_offset = fmv_audio_sample_offset;
+                        oldBufferPlayPos = 0;
+                    }
+                }
+
                 //return true;
             }
             else
@@ -347,6 +390,8 @@ private:
     SDL_Surface* wholeImage = nullptr;
 };
 
+
+
 void Movie::VUpdate_489EA0()
 {
     AE_IMPLEMENTED();
@@ -357,17 +402,14 @@ void Movie::VUpdate_489EA0()
         PsxStr psxStr;
         psxStr.mFile = hMovieFile;
 
-        int bNoAudioOrAudioError = 0;
-        const int num_frames_interleave = 0; // maybe 20 ??
-        const int fmv_single_audio_frame_size_in_samples = 2016;
-        const auto fmv_sound_entry_size = fmv_single_audio_frame_size_in_samples * (num_frames_interleave + 6);
-        const int kSamplesPerSecond = 37800;
-        int fmv_audio_sample_offset = 0;
-        bool bStartedPlayingSound = false;
-        const int kFmvFrameRate = 15;
-        int fmv_num_played_audio_frames = 0;
-        int current_audio_offset = 0;
-        int oldBufferPlayPos = 0;
+
+        bNoAudioOrAudioError = 0;
+        fmv_audio_sample_offset = 0;
+        bStartedPlayingSound = false;
+        fmv_num_played_audio_frames = 0;
+        current_audio_offset = 0;
+        oldBufferPlayPos = 0;
+
 
         if (GetSoundAPI().SND_New(
             &fmv_sound_entry,
@@ -414,42 +456,6 @@ void Movie::VUpdate_489EA0()
 
                 // Copy temp surface to tmpBmp (colour depth conversion)
                 tempSurface.BlitScaledTo(tmpBmp.field_0_pSurface);
-            }
-
-            // 
-            // Audio frame logic
-            //
-            if (!bNoAudioOrAudioError)
-            {
-                // Push new samples into the buffer
-                if (GetSoundAPI().SND_LoadSamples(&fmv_sound_entry, fmv_audio_sample_offset, (unsigned char*)psxStr.outPtr.data(), fmv_single_audio_frame_size_in_samples) < 0)
-                {
-                    // Reload with data fail
-                    bNoAudioOrAudioError = 1;
-                }
-
-                fmv_audio_sample_offset += fmv_single_audio_frame_size_in_samples;
-
-                // Loop back to the start of the audio buffer
-                if (fmv_audio_sample_offset >= fmv_sound_entry_size)
-                {
-                    fmv_audio_sample_offset = 0;
-                }
-
-                // If this is the first time then start to play the buffer
-                if (!bStartedPlayingSound && !bNoAudioOrAudioError)
-                {
-                    bStartedPlayingSound = true;
-                    if (FAILED(GetSoundAPI().SND_PlayEx(&fmv_sound_entry, 116, 116, 1.0, 0, 1, 100)))
-                    {
-                        bNoAudioOrAudioError = 1;
-                    }
-
-                    current_audio_offset = fmv_audio_sample_offset;
-                    oldBufferPlayPos = 0;
-                }
-
-      
             }
 
             // Check for quitting video every 15 frames
