@@ -55,7 +55,7 @@ EXPORT void InputObject::InitPad_4331A0(unsigned int /*padCount*/)
 ALIVE_ARY(1, 0x507778, BYTE, 64, sPad1Buffer_507778, {});
 ALIVE_ARY(1, 0x507738, BYTE, 64, sPad2Buffer_507738, {});
 
-void ConvertGamespeakAEtoAO(BitField32<InputCommands>& value, const BitField32<::InputCommands>& aeInput)
+static void ConvertAEGamespeakAEtoAOGamespeak(BitField32<InputCommands>& value, const BitField32<::InputCommands>& aeInput)
 {
     if (aeInput.Get(::InputCommands::eGameSpeak1))
     {
@@ -99,15 +99,15 @@ void ConvertGamespeakAEtoAO(BitField32<InputCommands>& value, const BitField32<:
     }
     else if (aeInput.Get(::InputCommands::eBack))
     {
-        value.Set(InputCommands::eGameSpeak2);
+        value.Set(InputCommands::eBack);
     }
     else if (aeInput.Get(::InputCommands::eCheatMode))
     {
-        value.Set(InputCommands::eGameSpeak4);
+        value.Set(InputCommands::eCheatMode);
     }
 }
 
-static BitField32<InputCommands> ConvertInput(const BitField32<::InputCommands>& aeInput)
+static BitField32<InputCommands> AEInputCommandsToAOInputCommands(const BitField32<::InputCommands>& aeInput)
 {
     BitField32<InputCommands> r;
     r.Set(InputCommands::eUp, aeInput.Get(::InputCommands::eUp));
@@ -121,13 +121,139 @@ static BitField32<InputCommands> ConvertInput(const BitField32<::InputCommands>&
     r.Set(InputCommands::eFartOrRoll, aeInput.Get(::InputCommands::eFartOrRoll));
     r.Set(InputCommands::eDoAction, aeInput.Get(::InputCommands::eDoAction));
     r.Set(InputCommands::eBack, aeInput.Get(::InputCommands::eBack));
-    ConvertGamespeakAEtoAO(r, aeInput);
+    ConvertAEGamespeakAEtoAOGamespeak(r, aeInput);
     return r;
 }
+
+static BitField32<::InputCommands> AOInputCommandsToAEInputCommands(const BitField32<InputCommands>& aoInput)
+{
+     BitField32<::InputCommands> r;
+     r.Set(::InputCommands::eUp, aoInput.Get(InputCommands::eUp));
+     r.Set(::InputCommands::eRight, aoInput.Get(InputCommands::eRight));
+     r.Set(::InputCommands::eDown, aoInput.Get(InputCommands::eDown));
+     r.Set(::InputCommands::eLeft, aoInput.Get(InputCommands::eLeft));
+     r.Set(::InputCommands::eRun, aoInput.Get(InputCommands::eRun));
+     r.Set(::InputCommands::eHop, aoInput.Get(InputCommands::eHop));
+     r.Set(::InputCommands::eSneak, aoInput.Get(InputCommands::eSneak));
+     r.Set(::InputCommands::eThrowItem, aoInput.Get(InputCommands::eThrowItem));
+     r.Set(::InputCommands::eFartOrRoll, aoInput.Get(InputCommands::eFartOrRoll));
+     r.Set(::InputCommands::eDoAction, aoInput.Get(InputCommands::eDoAction));
+     r.Set(::InputCommands::eBack, aoInput.Get(InputCommands::eBack));
+
+     // OG issue - LCD screens says hold alt + shift which is wrong
+     r.Set(::InputCommands::eChant, aoInput.Get(InputCommands::eLeftGamespeak) && aoInput.Get(InputCommands::eRightGameSpeak));
+
+     r.Set(::InputCommands::eGameSpeak1, aoInput.Get(InputCommands::eLeftGamespeak) && aoInput.Get(InputCommands::eHop));
+     r.Set(::InputCommands::eGameSpeak2, aoInput.Get(InputCommands::eLeftGamespeak) && aoInput.Get(InputCommands::eDoAction));
+     r.Set(::InputCommands::eGameSpeak3, aoInput.Get(InputCommands::eLeftGamespeak) && aoInput.Get(InputCommands::eFartOrRoll));
+     r.Set(::InputCommands::eGameSpeak4, aoInput.Get(InputCommands::eLeftGamespeak) && aoInput.Get(InputCommands::eThrowItem));
+     r.Set(::InputCommands::eGameSpeak5, aoInput.Get(InputCommands::eRightGameSpeak) && aoInput.Get(InputCommands::eDoAction));
+     r.Set(::InputCommands::eGameSpeak6, aoInput.Get(InputCommands::eRightGameSpeak) && aoInput.Get(InputCommands::eHop));
+     r.Set(::InputCommands::eGameSpeak7, aoInput.Get(InputCommands::eRightGameSpeak) && aoInput.Get(InputCommands::eThrowItem));
+     r.Set(::InputCommands::eGameSpeak8, aoInput.Get(InputCommands::eRightGameSpeak) && aoInput.Get(InputCommands::eFartOrRoll));
+     r.Set(::InputCommands::eCheatMode, aoInput.Get(InputCommands::eCheatMode));
+
+     return r;
+}
+
+const char* AEInputCommandToAEInputString(::InputCommands input_command)
+{
+    if (input_command & ::InputCommands::eUp)
+    {
+        return kUp;
+    }
+
+    if (input_command & ::InputCommands::eDown)
+    {
+        return kDown;
+    }
+
+    if (input_command & ::InputCommands::eLeft)
+    {
+        return kLeft;
+    }
+
+    if (input_command & ::InputCommands::eRight)
+    {
+        return kRight;
+    }
+
+    if (input_command & ::InputCommands::eRun)
+    {
+        return kRun;
+    }
+
+    if (input_command & ::InputCommands::eHop)
+    {
+        return kJump;
+    }
+
+    if (input_command & ::InputCommands::eSneak)
+    {
+        return kSneak;
+    }
+
+    if (input_command & ::InputCommands::eThrowItem)
+    {
+        return kThrow;
+    }
+
+    if (input_command & ::InputCommands::eFartOrRoll)
+    {
+        return kFart; // TODO: wrong ?
+    }
+
+    if (input_command & ::InputCommands::eDoAction)
+    {
+        return kAction;
+    }
+
+    if (input_command & ::InputCommands::eChant)
+    {
+        return kChant;
+    }
+
+    if (input_command & ::InputCommands::eSpeak1)
+    {
+        return kSpeak1;
+    }
+
+    if (input_command & ::InputCommands::eSpeak2)
+    {
+        return kSpeak2;
+    }
+
+    // TODO: Game speaks
+/*
+#define kAllYa "\x10"
+#define kSorry "\x11"
+#define kStopIt "\x12"
+
+#define kFart "\x0a"
+#define kHello "\x0b"
+#define kFollowMe "\x0c"
+#define kWait "\x0d"
+#define kWork "\x0e"
+#define kAnger "\x0f"
+
+#define kHoistZTurn "\x1b"
+#define kDPad "\x1a"
+*/
+
+    return kUp;
+}
+
 
 static BitField32<::InputCommands> MakeAEInputBits(DWORD bits)
 {
     BitField32<::InputCommands> r;
+    r.Raw().all = bits;
+    return r;
+}
+
+static BitField32<InputCommands> MakeAOInputBits(DWORD bits)
+{
+    BitField32<InputCommands> r;
     r.Raw().all = bits;
     return r;
 }
@@ -149,14 +275,14 @@ EXPORT void InputObject::Update_433250()
         ::Input().Update_45F040();
 
         // Convert from AE bit flags to AO bit flags
-        field_0_pads[0].field_0_pressed = static_cast<unsigned short>(ConvertInput(MakeAEInputBits(::Input().field_0_pads[0].field_0_pressed)).Raw().all);
+        field_0_pads[0].field_0_pressed = static_cast<unsigned short>(AEInputCommandsToAOInputCommands(MakeAEInputBits(::Input().field_0_pads[0].field_0_pressed)).Raw().all);
 
         // TODO: This one probably needs its own conversion
         field_0_pads[0].field_2_dir = ::Input().field_0_pads[0].field_4_dir;
 
-        field_0_pads[0].field_4_previously_pressed = static_cast<unsigned short>(ConvertInput(MakeAEInputBits(::Input().field_0_pads[0].field_8_previous)).Raw().all);
-        field_0_pads[0].field_6_held = static_cast<unsigned short>(ConvertInput(MakeAEInputBits(::Input().field_0_pads[0].field_C_held)).Raw().all);
-        field_0_pads[0].field_8_released = static_cast<unsigned short>(ConvertInput(MakeAEInputBits(::Input().field_0_pads[0].field_10_released)).Raw().all);
+        field_0_pads[0].field_4_previously_pressed = static_cast<unsigned short>(AEInputCommandsToAOInputCommands(MakeAEInputBits(::Input().field_0_pads[0].field_8_previous)).Raw().all);
+        field_0_pads[0].field_6_held = static_cast<unsigned short>(AEInputCommandsToAOInputCommands(MakeAEInputBits(::Input().field_0_pads[0].field_C_held)).Raw().all);
+        field_0_pads[0].field_8_released = static_cast<unsigned short>(AEInputCommandsToAOInputCommands(MakeAEInputBits(::Input().field_0_pads[0].field_10_released)).Raw().all);
 
         // Handle demo in put (AO impl)
         if (field_20_demo_playing & 1)
@@ -401,7 +527,6 @@ BOOL CC Input_IsChanting_4334C0()
 {
     AE_IMPLEMENTED();
     return Input_IsChanting_45F260();
-    //return (sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed & sInputKey_Chant) == sInputKey_Chant;
 }
 
 void CC Input_SetKeyState_48E610(int key, char bIsDown)
@@ -441,23 +566,25 @@ void Input_InitKeyStateArray_48E5F0()
     Input_InitKeyStateArray_4EDD60();
 }
 
-EXPORT const char* CC Input_GetButtonString_44F1C0(InputCommands /*input_command*/)
+EXPORT const char* CC Input_GetButtonString_44F1C0(InputCommands input_command)
 {
-    NOT_IMPLEMENTED();
+    AE_IMPLEMENTED();
 
-    //if (Input_JoyStickEnabled())
+    const auto aeBits = static_cast<::InputCommands>(AOInputCommandsToAEInputCommands(MakeAOInputBits(input_command)).Raw().all);
+    if (aeBits & ::InputCommands::eBack)
     {
-        //return ::Input_GetButtonString_492530("", 0);
+        return "esc";
     }
 
-    return "lol"; // don't kill standalone
+
+    return ::Input_GetButtonString_492530(AEInputCommandToAEInputString(aeBits), Input_JoyStickEnabled() ? 1 : 0);
 }
 
 EXPORT int CC Input_Remap_44F300(InputCommands inputCmd)
 {
     AE_IMPLEMENTED();
-    // TODO: Needs conversion
-    return Input_Remap_492680(static_cast<::InputCommands>(inputCmd));
+
+    return Input_Remap_492680(static_cast<::InputCommands>(AOInputCommandsToAEInputCommands(MakeAOInputBits(inputCmd)).Raw().all));
 }
 
 EXPORT char Input_GetLastPressedKey_44F2C0()
@@ -537,7 +664,7 @@ EXPORT int CC Input_SaveSettingsIni_44F460()
     // Call AE func in standalone
     if (!RunningAsInjectedDll())
     {
-        Input_SaveSettingsIni_492840();
+        Input_SaveSettingsIni_Common(true);
         return 1;
     }
 

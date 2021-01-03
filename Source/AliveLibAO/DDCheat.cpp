@@ -247,7 +247,7 @@ void DDCheat::VUpdate_4098C0()
         {
             if (pObj)
             {
-                if (Input().IsAnyHeld(InputCommands::eGameSpeak4))
+                if (Input().IsAnyHeld(InputCommands::eCheatMode))
                 {
                     sDDCheat_FlyingEnabled_50771C = cheat_enabled == 0;
                     if (sDDCheat_FlyingEnabled_50771C)
@@ -373,18 +373,18 @@ void DDCheat::VUpdate_4098C0()
                 currentlyPressedButtons_4FF854 = isPressed;
                 dword_4C31A8 = 10;
             }
-            if (field_24_input & InputCommands::eGameSpeak2)
+            if (field_24_input & InputCommands::eBack)
             {
                 field_18 = field_18 == 0;
             }
             if (field_18)
             {
                 if (isPressed & InputCommands::eSneak &&
-                    isPressed & InputCommands::eGameSpeak4)
+                    isPressed & InputCommands::eCheatMode)
                 {
                     field_14 = 0;
                 }
-                else if (field_24_input & InputCommands::eGameSpeak4)
+                else if (field_24_input & InputCommands::eCheatMode)
                 {
                     field_14++;
                     if (field_14 >= 2)
@@ -440,7 +440,7 @@ void DDCheat::Teleport_409CE0()
             --level_4C315C;
         }
     }
-    else if (input & InputCommands::eGameSpeak4)
+    else if (input & InputCommands::eCheatMode)
     {
         if (level_4C315C < 15u)
         {
