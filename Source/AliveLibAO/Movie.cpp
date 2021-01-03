@@ -329,24 +329,17 @@ static void Render_Str_Frame(Bitmap& tmpBmp)
     }
 }
 
-
-void Movie::VUpdate_489EA0()
+class TempSurface
 {
-    AE_IMPLEMENTED();
-
-
-    //if (!bLoadingAFile_50768C)
+public:
+    bool InitIf(int width, int height)
     {
-      //  bLoadingAFile_50768C = TRUE;
-
-        void* hMovie = GetMovieIO().mIO_Open(sMovieNames_508B08.mNames[sMovieNameIdx_508C0C].mName);
-        if (hMovie)
+        if (mFrameW != width || mFrameH != height)
         {
-            PsxStr psxStr;
-            psxStr.mFile = hMovie;
+            FreeSurface();
 
-            Bitmap tmpBmp = {};
-            BMP_New_4F1990(&tmpBmp, 320, 192, 15, 0);
+            mFrameW = width;
+            mFrameH = height;
 
             Uint32 rmask, gmask, bmask, amask;
 
@@ -362,12 +355,64 @@ void Movie::VUpdate_489EA0()
             amask = 0xff000000;
 #endif
 
-            SDL_Surface* wholeImage = SDL_CreateRGBSurface(0, 320, 192, 32, rmask, gmask, bmask, amask);
-            if (wholeImage == NULL)
+            wholeImage = SDL_CreateRGBSurface(0, 320, 192, 32, rmask, gmask, bmask, amask);
+            if (!wholeImage)
             {
-                fprintf(stderr, "CreateRGBSurface failed: %s\n", SDL_GetError());
-                exit(1);
+                LOG_ERROR("CreateRGBSurface failed: " << SDL_GetError());
+                ALIVE_FATAL("CreateRGBSurface failed");
             }
+            return true;
+        }
+        return false;
+    }
+
+    void BlitScaledTo(SDL_Surface* pDst)
+    {
+        SDL_BlitScaled(wholeImage, nullptr, pDst, nullptr);
+        //SDL_SaveBMP(wholeImage, "test.bmp");
+    }
+
+    void SetPixels(const std::vector<u8>& pixels)
+    {
+        SDL_LockSurface(wholeImage);
+        memcpy(wholeImage->pixels, pixels.data(), mFrameW * mFrameH * 4);
+        SDL_UnlockSurface(wholeImage);
+    }
+
+    ~TempSurface()
+    {
+        FreeSurface();
+    }
+
+private:
+    void FreeSurface()
+    {
+        if (wholeImage)
+        {
+            SDL_FreeSurface(wholeImage);
+            wholeImage = nullptr;
+        }
+    }
+
+    int mFrameW = 0;
+    int mFrameH = 0;
+    SDL_Surface* wholeImage = nullptr;
+};
+
+void Movie::VUpdate_489EA0()
+{
+    AE_IMPLEMENTED();
+
+
+    //if (!bLoadingAFile_50768C)
+    {
+      //  bLoadingAFile_50768C = TRUE;
+
+        void* hMovieFile = GetMovieIO().mIO_Open(sMovieNames_508B08.mNames[sMovieNameIdx_508C0C].mName);
+        if (hMovieFile)
+        {
+            PsxStr psxStr;
+            psxStr.mFile = hMovieFile;
 
             if (GetSoundAPI().SND_New(
                 &soundEntry,
@@ -386,27 +431,46 @@ void Movie::VUpdate_489EA0()
 
             const auto movieStartTimeStamp = SYS_GetTicks();
 
+
             int dword_5CA1FC = 0;
             int total_audio_offset = 0;
             const int kFrameRate = 30;
             int oldBufferPlayPos = 0;
+
+            TempSurface tempSurface;
+            Bitmap tmpBmp = {};
+
+            // Till EOF decoding loop
             while (psxStr.Decode())
             {
+                //
+                // Video frame logic
+                //
                 if (!psxStr.pixelBuffer.empty())
                 {
-                    SDL_LockSurface(wholeImage);
-                    memcpy(wholeImage->pixels, psxStr.pixelBuffer.data(), psxStr.mFrameW * psxStr.mFrameH * 4);
-                    SDL_UnlockSurface(wholeImage);
+                    // Create if it hasnt or recreate if w/h changed
+                    if (tempSurface.InitIf(psxStr.mFrameW, psxStr.mFrameH))
+                    {
+                        // Ditto
+                        if (tmpBmp.field_0_pSurface)
+                        {
+                            Bmp_Free_4F1950(&tmpBmp);
+                            tmpBmp = {};
+                        }
+                        BMP_New_4F1990(&tmpBmp, 320, 192, 15, 0);
+                    }
 
-                    SDL_BlitScaled(wholeImage, nullptr, tmpBmp.field_0_pSurface, nullptr);
+                    // Copy decoded frame to tempSurface
+                    tempSurface.SetPixels(psxStr.pixelBuffer);
 
-                    //SDL_SaveBMP(wholeImage, "test.bmp");
+                    // Copy temp surface to tmpBmp (colour depth conversion)
+                    tempSurface.BlitScaledTo(tmpBmp.field_0_pSurface);
                 }
-
-                //SDL_LockSurface(tmpBmp.field_0_pSurface);
-                //SDL_UnlockSurface(tmpBmp.field_0_pSurface);
-
                 Render_Str_Frame(tmpBmp);
+
+                // 
+                // Audio frame logic
+                //
 
                 // Sync on where the audio playback is up to
                 total_audio_offset += kSingleAudioFrameSize;
@@ -462,7 +526,6 @@ void Movie::VUpdate_489EA0()
                     }
                 }
 
-
                 SYS_EventsPump_44FF90();
                 PSX_VSync_496620(0);
 
@@ -475,11 +538,9 @@ void Movie::VUpdate_489EA0()
 
             GetSoundAPI().SND_Free(&soundEntry);
 
-            SDL_FreeSurface(wholeImage);
-
             Bmp_Free_4F1950(&tmpBmp);
 
-            GetMovieIO().mIO_Close(hMovie);
+            GetMovieIO().mIO_Close(hMovieFile);
         }
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
