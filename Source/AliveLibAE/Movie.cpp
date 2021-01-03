@@ -338,7 +338,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
             (pMasher_audio_header_5CA1E0->field_0_audio_format & 2) != 0 ? 16 : 8,
             (pMasher_audio_header_5CA1E0->field_0_audio_format & 1) | 6) < 0)
         {
-            // New fail
+            // SND_New failed
             fmv_sound_entry_5CA208.field_4_pDSoundBuffer = nullptr;
             bNoAudioOrAudioError_5CA1F4 = 1;
         }
@@ -396,6 +396,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                 void* pDecompressedAudioFrame = Masher::GetDecompressedAudioFrame_4EAC60(pMasherInstance_5CA1EC);
                 if (pDecompressedAudioFrame)
                 {
+                    // Push new samples into the buffer
                     if (GetSoundAPI().SND_LoadSamples(&fmv_sound_entry_5CA208, fmv_audio_sample_offset_5CA238, (unsigned char*)pDecompressedAudioFrame, fmv_single_audio_frame_size_in_samples_5CA240) < 0)
                     {
                         // Reload with data fail

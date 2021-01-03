@@ -33,11 +33,14 @@ struct MovieQueue
 ALIVE_VAR(1, 0x508B08, MovieQueue, sMovieNames_508B08, {});
 ALIVE_VAR(1, 0x508C0C, BYTE, sMovieNameIdx_508C0C, 0);
 
-SoundEntry soundEntry;
+SoundEntry fmv_sound_entry;
 
-const int kSingleAudioFrameSize = 2016*2;
-const int kNumFramesInterleave = 5;
+const int kSingleAudioFrameSize = 2016*2;  // todo: nuke
+const int kNumFramesInterleave = 5; // todo: nuke
 
+const int kXaFrameDataSize = 2016;
+const int kNumAudioChannels = 2;
+const int kBytesPerSample = 2;
 class PsxStr
 {
 public:
@@ -52,15 +55,11 @@ public:
     int mFrameH = 0;
 
     int mSoundPos = 0; // 2016*20
+    bool mSoundPlaying = false;
+    std::array<s16, (kXaFrameDataSize* kNumAudioChannels* kBytesPerSample) / 2> outPtr;
 
-    bool Decode()
+    bool DecodeAudioAndVideo()
     {
-
-        const int kXaFrameDataSize = 2016;
-        const int kNumAudioChannels = 2;
-        const int kBytesPerSample = 2;
-        std::array<s16, (kXaFrameDataSize* kNumAudioChannels* kBytesPerSample) / 2> outPtr;
-
         if (mDemuxBuffer.empty())
         {
             mDemuxBuffer.resize(1024 * 1024);
@@ -120,61 +119,7 @@ public:
             else if (w.mSectorType == kVale)
             {
                 mAdpcm.DecodeFrameToPCM(outPtr, (uint8_t*)&w.mAkikMagic);
-
-
-                //if (!noAudio)
-                {
-                    //  // Restore the lost buffer
-//                    if (GetSoundAPI().SND_LoadSamples(pSnd, 0, pSnd->field_8_pSoundBuffer, pSnd->field_C_buffer_size_bytes / pSnd->field_1D_blockAlign) == 0)
-
-                    // 2352
-                    if (GetSoundAPI().SND_LoadSamples(&soundEntry, mSoundPos, (unsigned char*)outPtr.data(), (outPtr.size() * 2) / soundEntry.field_1D_blockAlign) < 0)
-                    {
-
-                    }
-
-                    mSoundPos += 2016;
-
-                    if (mSoundPos > (2016 * (kNumFramesInterleave+6)))
-                    {
-                        mSoundPos = 0;
-                    }
-
-                    return true;
-
-                    /*
-                    size_t consumedSrc = 0;
-                    size_t wroteSamples = 0;
-                    size_t inLenSampsPerChan = kXaFrameDataSize;
-                    size_t outLenSampsPerChan = inLenSampsPerChan * 2;
-                    std::vector<u8> tmp2(2352 * 4);
-
-                    soxr_io_spec_t ioSpec = soxr_io_spec(
-                        SOXR_INT16_I,   // In type
-                        SOXR_INT16_I);  // Out type
-
-                    soxr_oneshot(
-                        37800,       // Input rate
-                        44100,      // Output rate
-                        2,          // Num channels
-                        outPtr.data(),
-                        inLenSampsPerChan,
-                        &consumedSrc,
-                        tmp2.data(),
-                        outLenSampsPerChan,
-                        &wroteSamples,
-                        &ioSpec,    // IO spec
-                        nullptr,    // Quality spec
-                        nullptr     // Runtime spec
-                    );
-
-
-                    for (auto i = 0u; i < wroteSamples * 4; i++)
-                    {
-                        mAudioBuffer.push_back(tmp2[i]);
-                    }
-                    */
-                }
+                return true;
             }
             else
             {
@@ -403,147 +348,200 @@ void Movie::VUpdate_489EA0()
 {
     AE_IMPLEMENTED();
 
-
-    //if (!bLoadingAFile_50768C)
+    void* hMovieFile = GetMovieIO().mIO_Open(sMovieNames_508B08.mNames[sMovieNameIdx_508C0C].mName);
+    if (hMovieFile)
     {
-      //  bLoadingAFile_50768C = TRUE;
+        PsxStr psxStr;
+        psxStr.mFile = hMovieFile;
 
-        void* hMovieFile = GetMovieIO().mIO_Open(sMovieNames_508B08.mNames[sMovieNameIdx_508C0C].mName);
-        if (hMovieFile)
+        int bNoAudioOrAudioError = 0;
+        const int num_frames_interleave = 1; // maybe 20 ??
+        const int fmv_single_audio_frame_size_in_samples = 2016;
+        const auto fmv_sound_entry_size = fmv_single_audio_frame_size_in_samples * (num_frames_interleave + 6);
+        const int kSamplesPerSecond = 37800;
+        int fmv_audio_sample_offset = 0;
+        bool bStartedPlayingSound = false;
+        const int kFmvFrameRate = 15; // TODO: or is it 30 ?
+        int fmv_num_played_audio_frames = 0;
+        int current_audio_offset = 0;
+        int oldBufferPlayPos = 0;
+
+        if (GetSoundAPI().SND_New(
+            &fmv_sound_entry,
+            fmv_sound_entry_size,
+            kSamplesPerSecond,
+            16,
+            1) < 0)
         {
-            PsxStr psxStr;
-            psxStr.mFile = hMovieFile;
+            // SND_New failed
+            fmv_sound_entry.field_4_pDSoundBuffer = nullptr;
+            bNoAudioOrAudioError = 1;
+        }
 
-            if (GetSoundAPI().SND_New(
-                &soundEntry,
-                2016*(kNumFramesInterleave + 6), // OG passes  2016*20 =40320
-                37800,
-                16,
-                1) < 0)
+        const auto movieStartTimeStamp = SYS_GetTicks();
+        int fmv_num_read_frames = 0;
+
+        TempSurface tempSurface;
+        Bitmap tmpBmp = {};
+
+        // Till EOF decoding loop
+        while (psxStr.DecodeAudioAndVideo())
+        {
+            fmv_num_read_frames++;
+
+            //
+            // Video frame logic
+            //
+            if (!psxStr.pixelBuffer.empty())
             {
-
-            }
-
-            if (FAILED(GetSoundAPI().SND_PlayEx(&soundEntry, 116, 116, 1.0, 0, 1, 100)))
-            {
-
-            }
-
-            const auto movieStartTimeStamp = SYS_GetTicks();
-
-
-            int dword_5CA1FC = 0;
-            int total_audio_offset = 0;
-            const int kFrameRate = 30;
-            int oldBufferPlayPos = 0;
-
-            TempSurface tempSurface;
-            Bitmap tmpBmp = {};
-
-            // Till EOF decoding loop
-            while (psxStr.Decode())
-            {
-                //
-                // Video frame logic
-                //
-                if (!psxStr.pixelBuffer.empty())
+                // Create if it hasnt or recreate if w/h changed
+                if (tempSurface.InitIf(psxStr.mFrameW, psxStr.mFrameH))
                 {
-                    // Create if it hasnt or recreate if w/h changed
-                    if (tempSurface.InitIf(psxStr.mFrameW, psxStr.mFrameH))
+                    // Ditto
+                    if (tmpBmp.field_0_pSurface)
                     {
-                        // Ditto
-                        if (tmpBmp.field_0_pSurface)
-                        {
-                            Bmp_Free_4F1950(&tmpBmp);
-                            tmpBmp = {};
-                        }
-                        BMP_New_4F1990(&tmpBmp, 320, 192, 15, 0);
+                        Bmp_Free_4F1950(&tmpBmp);
+                        tmpBmp = {};
+                    }
+                    BMP_New_4F1990(&tmpBmp, psxStr.mFrameW, psxStr.mFrameH, 15, 0);
+                }
+
+                // Copy decoded frame to tempSurface
+                tempSurface.SetPixels(psxStr.pixelBuffer);
+
+                // Copy temp surface to tmpBmp (colour depth conversion)
+                tempSurface.BlitScaledTo(tmpBmp.field_0_pSurface);
+            }
+
+            // 
+            // Audio frame logic
+            //
+            if (!bNoAudioOrAudioError)
+            {
+                // Push new samples into the buffer
+                if (GetSoundAPI().SND_LoadSamples(&fmv_sound_entry, fmv_audio_sample_offset, (unsigned char*)psxStr.outPtr.data(), fmv_single_audio_frame_size_in_samples) < 0)
+                {
+                    // Reload with data fail
+                    bNoAudioOrAudioError = 1;
+                }
+
+                // If this is the first time then start to play the buffer
+                if (!bStartedPlayingSound && !bNoAudioOrAudioError)
+                {
+                    bStartedPlayingSound = true;
+                    if (FAILED(GetSoundAPI().SND_PlayEx(&fmv_sound_entry, 116, 116, 1.0, 0, 1, 100)))
+                    {
+                        bNoAudioOrAudioError = 1;
                     }
 
-                    // Copy decoded frame to tempSurface
-                    tempSurface.SetPixels(psxStr.pixelBuffer);
-
-                    // Copy temp surface to tmpBmp (colour depth conversion)
-                    tempSurface.BlitScaledTo(tmpBmp.field_0_pSurface);
+                    // TODO: Need to set current_audio_offset here ??
+                    oldBufferPlayPos = 0;
                 }
-                Render_Str_Frame(tmpBmp);
 
-                // 
-                // Audio frame logic
-                //
+                fmv_audio_sample_offset += fmv_single_audio_frame_size_in_samples;
 
-                // Sync on where the audio playback is up to
-                total_audio_offset += kSingleAudioFrameSize;
-
-                const int sampleLength = kSingleAudioFrameSize * 26;
-
-                const DWORD soundBufferPlayPos = SND_Get_Sound_Entry_Pos_4EF620(&soundEntry);
-                if ((signed int)(oldBufferPlayPos - soundBufferPlayPos) > sampleLength / 2)
+                // Loop back to the start of the audio buffer
+                if (fmv_audio_sample_offset >= fmv_sound_entry_size)
                 {
-                    dword_5CA1FC++;
+                    fmv_audio_sample_offset = 0;
+                }
+            }
+
+            // Check for quitting video every 15 frames
+            if (fmv_num_read_frames > 15)
+            {
+                // TODO: Not complete
+                if (Input_IsVKPressed_4EDD40(VK_ESCAPE) || Input_IsVKPressed_4EDD40(VK_RETURN))
+                {
+                    break;
+                }
+            }
+            else
+            {
+                // This clears the pressed state to avoid the above check stopping the FMV too early.
+                // E.g user presses return before FMV starts, then after 15 frames it would quit without this call clearing the pressed flag.
+                Input_IsVKPressed_4EDD40(VK_ESCAPE);
+                Input_IsVKPressed_4EDD40(VK_RETURN);
+            }
+
+            Render_Str_Frame(tmpBmp);
+
+            if (bNoAudioOrAudioError)
+            {
+                while ((signed int)(SYS_GetTicks() - movieStartTimeStamp) <= (1000 * fmv_num_read_frames / kFmvFrameRate))
+                {
+                    // Wait for the amount of time the frame would take to display at the given framerate
+                }
+            }
+            else
+            {
+                // Sync on where the audio playback is up to
+                current_audio_offset += fmv_single_audio_frame_size_in_samples;
+                const DWORD soundBufferPlayPos = SND_Get_Sound_Entry_Pos_4EF620(&fmv_sound_entry);
+                if ((signed int)(oldBufferPlayPos - soundBufferPlayPos) > fmv_sound_entry_size / 2)
+                {
+                    fmv_num_played_audio_frames++;
                 }
 
                 oldBufferPlayPos = soundBufferPlayPos;
 
-                const int maxWait = 1000 * kNumFramesInterleave / kFrameRate + 2000; // check max
-                if (total_audio_offset >= 0)
+                const int maxAudioSyncTimeWait = 1000 * fmv_num_read_frames / kFmvFrameRate + 2000;
+                if (current_audio_offset >= 0)
                 {
                     int counter = 0;
                     for (;;)
                     {
-                        const unsigned int soundPlayingPos = SND_Get_Sound_Entry_Pos_4EF620(&soundEntry);
-                        const int remainderLen = oldBufferPlayPos - soundPlayingPos;
-                        if (remainderLen > sampleLength / 2)
+                        const unsigned int fmv_cur_audio_pos = SND_Get_Sound_Entry_Pos_4EF620(&fmv_sound_entry);
+                        const int fmv_audio_left_to_play = oldBufferPlayPos - fmv_cur_audio_pos;
+                        if (fmv_audio_left_to_play > fmv_sound_entry_size / 2)
                         {
-                            dword_5CA1FC++;
+                            fmv_num_played_audio_frames++;
                         }
 
-                        oldBufferPlayPos = soundPlayingPos;
+                        oldBufferPlayPos = fmv_cur_audio_pos;
 
-                        ++counter;
+                        counter++;
 
-                        const int kTargetOff = 
-                              kSingleAudioFrameSize
-                            * kNumFramesInterleave
-                            + soundPlayingPos
-                            + sampleLength * dword_5CA1FC;
+                        const int kTotalAudioToPlay = fmv_single_audio_frame_size_in_samples
+                            * num_frames_interleave
+                            + fmv_cur_audio_pos
+                            + (fmv_sound_entry_size * fmv_num_played_audio_frames);
 
                         if (counter > 10000)
                         {
                             counter = 0;
-                            if ((signed int)(SYS_GetTicks() - movieStartTimeStamp) > maxWait)
+                            if ((signed int)(SYS_GetTicks() - movieStartTimeStamp) > maxAudioSyncTimeWait)
                             {
                                 // TODO: Unknown failure case
-                                //bNoAudio_5CA1F4 = 1;
+                                bNoAudioOrAudioError = 1;
                                 break;
                             }
                         }
 
-                        if (total_audio_offset < kTargetOff)
+                        if (current_audio_offset < kTotalAudioToPlay)
                         {
                             break;
                         }
                     }
                 }
-
-                SYS_EventsPump_44FF90();
-                PSX_VSync_496620(0);
-
-                if (Input_IsVKPressed_4EDD40(VK_ESCAPE) || Input_IsVKPressed_4EDD40(VK_RETURN))
-                {
-                    break;
-                }
-
             }
 
-            GetSoundAPI().SND_Free(&soundEntry);
-
-            Bmp_Free_4F1950(&tmpBmp);
-
-            GetMovieIO().mIO_Close(hMovieFile);
+            SYS_EventsPump_44FF90();
+            PSX_VSync_496620(0);
         }
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+
+        if (fmv_sound_entry.field_4_pDSoundBuffer)
+        {
+            GetSoundAPI().SND_Free(&fmv_sound_entry);
+            fmv_sound_entry.field_4_pDSoundBuffer = nullptr;
+        }
+
+        Bmp_Free_4F1950(&tmpBmp);
+
+        GetMovieIO().mIO_Close(hMovieFile);
     }
+
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
 }
