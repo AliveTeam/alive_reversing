@@ -82,20 +82,20 @@ public:
     void dtor_4E6AB0();
 
     // Same as 0x52427C in MGSI.exe
-    int sub_4E6B30();
+    int ReadNextFrame_4E6B30();
 
     // Same as 0x52897C in MSGI.exe
-    static int CC sub_4EAC30(Masher* pMasher);
+    static int CC ReadNextFrameToMemory_4EAC30(Masher* pMasher);
 
     // Same as 0x528985 in MGSI.exe
     void Decode_4EA670();
-    void MMX_Decode_4E6C60(BYTE* pPixelBuffer);
+    void VideoFrameDecode_4E6C60(BYTE* pPixelBuffer);
 
     // Same as 0x52B015 in MGSI.exe
-    static void CC DDV_SND_4ECFD0(int numChannels, int bitsPerSample);
+    static void CC DDV_Set_Channels_And_BitsPerSample_4ECFD0(int numChannels, int bitsPerSample);
 
     // Same as 0x52B028 in MGSI.exe
-    static void CC DDV_SND_4ECFF0(int* pMasherFrame, BYTE* pDecodedFrame, int frameSize);
+    static void CC DDV_DecompressAudioFrame_4ECFF0(int* pMasherFrame, BYTE* pDecodedFrame, int frameSize);
 
     // Same as 0x52899C in MGSI.exe
     static void* CC GetDecompressedAudioFrame_4EAC60(Masher* pMasher);

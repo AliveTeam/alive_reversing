@@ -935,7 +935,7 @@ void Masher::dtor_4E6AB0()
     }
 }
 
-int Masher::sub_4E6B30()
+int Masher::ReadNextFrame_4E6B30()
 {
     // Read next frame data if we are not at the end
     if (field_68_frame_number < field_4_ddv_header.field_C_number_of_frames)
@@ -985,7 +985,7 @@ int Masher::sub_4E6B30()
     return ++field_68_frame_number < field_4_ddv_header.field_C_number_of_frames + 2;
 }
 
-int CC Masher::sub_4EAC30(Masher* pMasher)
+int CC Masher::ReadNextFrameToMemory_4EAC30(Masher* pMasher)
 {
     int* pFrameSize = pMasher->field_74_pCurrentFrameSize;
     int sizeToRead = *pFrameSize;
@@ -1002,10 +1002,10 @@ int CC Masher::sub_4EAC30(Masher* pMasher)
 void Masher::Decode_4EA670()
 {
     // This seems to be used to just skip data without rendering ??
-    MMX_Decode_4E6C60(nullptr);
+    VideoFrameDecode_4E6C60(nullptr);
 }
 
-void Masher::MMX_Decode_4E6C60(BYTE* pPixelBuffer)
+void Masher::VideoFrameDecode_4E6C60(BYTE* pPixelBuffer)
 {
     if (!field_61_bHasVideo)
     {
@@ -1096,13 +1096,13 @@ void Masher::MMX_Decode_4E6C60(BYTE* pPixelBuffer)
 ALIVE_VAR(1, 0xbbb9b4, int, gMasher_num_channels_BBB9B4, 0);
 ALIVE_VAR(1, 0xbbb9a8, int, gMasher_bits_per_sample_BBB9A8, 0);
 
-void CC Masher::DDV_SND_4ECFD0(int numChannels, int bitsPerSample)
+void CC Masher::DDV_Set_Channels_And_BitsPerSample_4ECFD0(int numChannels, int bitsPerSample)
 {
     gMasher_num_channels_BBB9B4 = numChannels;
     gMasher_bits_per_sample_BBB9A8 = bitsPerSample;
 }
 
-void CC Masher::DDV_SND_4ECFF0(int* pMasherFrame, BYTE* pDecodedFrame, int frameSize)
+void CC Masher::DDV_DecompressAudioFrame_4ECFF0(int* pMasherFrame, BYTE* pDecodedFrame, int frameSize)
 {
     AudioDecompressor decompressor;
     const int bytesPerSample = gMasher_bits_per_sample_BBB9A8 / 8;
@@ -1136,8 +1136,8 @@ void* CC Masher::GetDecompressedAudioFrame_4EAC60(Masher* pMasher)
     if (pMasher->field_60_bHasAudio
         && pMasher->field_64_audio_frame_idx < pMasher->field_4_ddv_header.field_C_number_of_frames)
     {
-        DDV_SND_4ECFD0(pMasher->field_50_num_channels, pMasher->field_54_bits_per_sample);
-        DDV_SND_4ECFF0(
+        DDV_Set_Channels_And_BitsPerSample_4ECFD0(pMasher->field_50_num_channels, pMasher->field_54_bits_per_sample);
+        DDV_DecompressAudioFrame_4ECFF0(
             pMasher->field_48_sound_frame_to_decode,
             (BYTE*)pMasher->field_4C_decoded_audio_buffer,
             pMasher->field_2C_audio_header.field_C_single_audio_frame_size);
