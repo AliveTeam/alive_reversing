@@ -354,7 +354,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
 
     if (DDV_StartAudio_493DF0() && Masher_ReadNextFrame_4EAC20(pMasherInstance_5CA1EC) && Masher_ReadNextFrame_4EAC20(pMasherInstance_5CA1EC))
     {
-        const int dword_5CA244 = SYS_GetTicks();
+        const int movieStartTimeStamp_5CA244 = SYS_GetTicks();
         for (;;)
         {
             sFrameInterleaveNum_5CA23C++;
@@ -451,7 +451,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
             const int bMoreFrames = Masher_ReadNextFrame_4EAC20(pMasherInstance_5CA1EC); // read audio and video frame
             if (bNoAudio_5CA1F4)
             {
-                while ((signed int)(SYS_GetTicks() - dword_5CA244) <= (1000 * sFrameInterleaveNum_5CA23C / pMasher_header_5CA1E4->field_8_frame_rate))
+                while ((signed int)(SYS_GetTicks() - movieStartTimeStamp_5CA244) <= (1000 * sFrameInterleaveNum_5CA23C / pMasher_header_5CA1E4->field_8_frame_rate))
                 {
                     // Wait for the amount of time the frame would take to display at the given framerate
                 }
@@ -493,7 +493,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                         if (counter > 10000)
                         {
                             counter = 0;
-                            if ((signed int)(SYS_GetTicks() - dword_5CA244) > maxWait)
+                            if ((signed int)(SYS_GetTicks() - movieStartTimeStamp_5CA244) > maxWait)
                             {
                                 // TODO: Unknown failure case
                                 bNoAudio_5CA1F4 = 1;
