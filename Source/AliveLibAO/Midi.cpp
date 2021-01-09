@@ -597,6 +597,18 @@ EXPORT void CC SsUtKeyOffV_49EE50(__int16 idx)
     }
 }
 
+enum MidiEvent
+{
+    NoteOff_80 = 0x80,
+    NoteOn_90 = 0x90,
+    Aftertouch_A0 = 0xA0,
+    ControllerChange_B0 = 0xB0,
+    ProgramChange_C0 = 0xC0,
+    ChannelPressure_D0 = 0xD0,
+    PitchBend_E0 = 0xE0,
+    OtherCommands_F0 = 0xF0
+};
+
 EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
 {
     MIDI_SeqSong* pCtx = &GetSpuApiVars()->sMidiSeqSongs().table[idx];
@@ -605,17 +617,13 @@ EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
     {
         while (1)
         {
-            BYTE* midiByte1 = *ppSeqData + 1;
-            const BYTE midiByte1_copy = **ppSeqData;
-            *ppSeqData = midiByte1;
-            BYTE midiByte1_copy_ = midiByte1_copy;
-            if (midiByte1_copy < 0xF0u)
+            const BYTE midiByte1 = MIDI_ReadByte_4FD6B0(pCtx);
+            BYTE midiByte1_copy = midiByte1;
+            if (midiByte1 < MidiEvent::OtherCommands_F0)
             {
-                BYTE v20 = 0;
-                if (midiByte1_copy >= 0x80u)
+                if (midiByte1 >= MidiEvent::NoteOff_80)
                 {
-                    v20 = *(*ppSeqData)++;
-                    pCtx->field_2A_running_status = midiByte1_copy;
+                    pCtx->field_2A_running_status = MIDI_ReadByte_4FD6B0(pCtx);
                 }
                 else
                 {
@@ -623,25 +631,24 @@ EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
                     {
                         return 0;
                     }
-                    v20 = midiByte1_copy;
-                    midiByte1_copy_ = pCtx->field_2A_running_status;
+                    midiByte1_copy = pCtx->field_2A_running_status;
                 }
 
                 int v21 = 0;
-                v21 |= (WORD)(v20 << 8);
+                v21 |= (midiByte1 << 8);
                 //LOBYTE(v21) = 0;
                 //HIBYTE(v21) = v20;
 
-                int v22 = midiByte1_copy_ | v21;
-                int cmd = midiByte1_copy_ & 0xF0;
-                if (cmd != 0xC0 && cmd != 0xD0)
+                int v22 = midiByte1_copy | v21;
+                int midiEvent = midiByte1_copy & 0xF0;
+                if (midiEvent != MidiEvent::ProgramChange_C0 && midiEvent != MidiEvent::ChannelPressure_D0)
                 {
                     v22 |= (MIDI_ReadByte_4FD6B0(pCtx) << 16);
                 }
 
-                switch (cmd)
+                switch (midiEvent)
                 {
-                case 0x80u:                 // Note off
+                case MidiEvent::NoteOff_80:
                 {
                     int vab_id = (((pCtx->field_seq_idx << 8) | *(&GetSpuApiVars()->sMidiSeqSongs().table[0].field_32_progVols[0].field_0_program
                         + 2 * (v22 & 0xF)
@@ -670,7 +677,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
                     break;
                 }
 
-                case 0x90u:                 // note on
+                case MidiEvent::NoteOn_90:
                 {
                     auto note_vol = pCtx->field_C_volume;
                     auto prog_num_ = v22 & 0xF;
@@ -686,8 +693,8 @@ EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
                     break;
                 }
 
-                case 0xB0u:                 // controller change
-                    switch ((cmd >> 8) & 0x7F)
+                case MidiEvent::ControllerChange_B0:
+                    switch ((midiEvent >> 8) & 0x7F)
                     {
                     case 6u:
                     case 0x26u:
@@ -695,7 +702,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
                         {
                         case 20:    // set loop
                             pCtx->field_24_loop_start = (BYTE*)ppSeqData; // ???
-                            pCtx->field_2C_loop_count = BYTE2(cmd);
+                            pCtx->field_2C_loop_count = BYTE2(midiEvent);
                             break;
 
                         case 30:    // loop
@@ -730,7 +737,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
                         break;
 
                     case 0x63u:
-                        GetSpuApiVars()->sControllerValue() = BYTE2(cmd);
+                        GetSpuApiVars()->sControllerValue() = BYTE2(midiEvent);
                         goto next_time_stamp;
 
                     default:
@@ -738,14 +745,14 @@ EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
                     }
                     break;
 
-                case 0xC0u:                 // program change
+                case MidiEvent::ProgramChange_C0:
                     *(&GetSpuApiVars()->sMidiSeqSongs().table[0].field_32_progVols[0].field_0_program
                         + 2 * (v22 & 0xF)
                         + (v22 & 0xF)
                         + idx * 100) = BYTE1(v22);
                     break;
 
-                case 0xE0u:                 // pitch bend
+                case MidiEvent::PitchBend_E0:
                 {
                     const int prog_num = *(&GetSpuApiVars()->sMidiSeqSongs().table[0].field_32_progVols[0].field_0_program
                         + 2 * (v22 & 0xF)
@@ -771,12 +778,12 @@ EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
                     break;
                 }
             }
-            else if (midiByte1_copy == 0xF0 || midiByte1_copy == 0xF7)
+            else if (midiByte1 == MidiEvent::OtherCommands_F0 || midiByte1 == 0xF7)
             {
                 const int lenToSkip = MIDI_Read_Var_Len_4FD0D0(pCtx);
                 MIDI_SkipBytes_4FD6C0(pCtx, lenToSkip);
             }
-            else if (midiByte1_copy == 0xFF)  // Sysex len
+            else if (midiByte1 == 0xFF)  // Sysex len
             {
                 BYTE metaEvent =  MIDI_ReadByte_4FD6B0(pCtx);
                 if (metaEvent == 0x2F)               // End of track
