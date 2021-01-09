@@ -662,19 +662,19 @@ EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
                 {
                 case MidiEvent::NoteOff_80:
                 {
-                    int vab_id = (((pCtx->field_seq_idx << 8) | *(&GetSpuApiVars()->sMidiSeqSongs().table[0].field_32_progVols[0].field_0_program
-                        + 2 * (data.Channel())
-                        + (data.Channel())
-                        + idx * 100)) >> 8) & 0x1F;
+                    // Cant see how the ADSR compare would ever be true, the logic makes no sense
+                    const BYTE program = pCtx->field_32_progVols[data.Channel()].field_0_program;
+                    const int programShifted = ((int)program >> 8);
+                    const int vab_id = (pCtx->field_seq_idx << 8) | (programShifted & 0x1F);
                     if (GetSpuApiVars()->sVagCounts()[vab_id])
                     {
                         for (short i = 0; i < 24; i++)
                         {
                              MIDI_ADSR_State* pAdsr = &GetSpuApiVars()->sMidi_Channels().channels[i].field_1C_adsr;
                              if (!pAdsr->field_3_state
-                                 || pAdsr->field_0_seq_idx != ((((pCtx->field_seq_idx << 8) | *(&GetSpuApiVars()->sMidiSeqSongs().table[0].field_32_progVols[0].field_0_program + 2 * (data.Channel()) + (data.Channel()) + idx * 100)) >> 8) & 0x1F)
-                                 || pAdsr->field_1_program != (((pCtx->field_seq_idx << 8) | *(&GetSpuApiVars()->sMidiSeqSongs().table[0].field_32_progVols[0].field_0_program + 2 * (data.Channel()) + (data.Channel()) + idx * 100)) & 0x7F)
-                                 || pAdsr->field_2_note_byte1 != (data.param2 & 0x7F))
+                                 || pAdsr->field_0_seq_idx != (((pCtx->field_seq_idx << 8) | programShifted) & 0x1F)
+                                 || pAdsr->field_1_program != (((pCtx->field_seq_idx << 8) | programShifted) & 0x7F)
+                                 || pAdsr->field_2_note_byte1 != (data.param1 & 0x7F))
                              {
                                  // not a match
                              }
@@ -691,14 +691,11 @@ EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
 
                 case MidiEvent::NoteOn_90:
                 {
-                    auto note_vol = pCtx->field_C_volume;
-                    auto prog_num_ = data.Channel();
-                    auto v27 = idx * 100 + 2 * prog_num_;
-                    auto r_vol = *(&GetSpuApiVars()->sMidiSeqSongs().table[0].field_32_progVols[0].field_2_right_vol + prog_num_ + v27);
-                    MIDI_ProgramVolume* pProgVol = (MIDI_ProgramVolume*)((char*)GetSpuApiVars()->sMidiSeqSongs().table[0].field_32_progVols + prog_num_ + v27);
+                    MIDI_ProgramVolume* pProgVol = &pCtx->field_32_progVols[data.Channel()];
+                    auto r_vol = pProgVol->field_2_right_vol;
                     auto note = data.param1 << 8;
                     auto program = pProgVol->field_0_program;
-                    auto l_vol = (signed __int16)((unsigned int)(pProgVol->field_1_left_vol * note_vol) >> 7);
+                    auto l_vol = (signed __int16)((unsigned int)(pProgVol->field_1_left_vol * pCtx->field_C_volume) >> 7);
 
                     auto freq = data.param2;
                     MIDI_PlayerPlayMidiNote_49DAD0(pCtx->field_seq_idx, program, note, l_vol, r_vol, freq); // Note: inlined
