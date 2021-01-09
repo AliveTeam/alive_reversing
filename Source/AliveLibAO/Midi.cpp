@@ -618,6 +618,19 @@ EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
         while (1)
         {
             const BYTE curMidiByte = MIDI_ReadByte_4FD6B0(pCtx);
+
+
+            struct MidiData
+            {
+                BYTE status;
+                BYTE param1;
+                BYTE param2;
+
+                const BYTE EventType() const { return status & 0xF0; }
+                const BYTE Channel() const { return status & 0x0F; }
+            };
+            MidiData data = {};
+
             BYTE originalMidiByte = curMidiByte;
             BYTE statusByte = curMidiByte;
             if (originalMidiByte < MidiEvent::OtherCommands_F0)
@@ -647,10 +660,16 @@ EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
                 if (midiEvent != MidiEvent::ProgramChange_C0 && midiEvent != MidiEvent::ChannelPressure_D0)
                 {
                     // Read parameter 2
-                    midi3Bytes |= (MIDI_ReadByte_4FD6B0(pCtx) << 16);
+                    const BYTE param2 = MIDI_ReadByte_4FD6B0(pCtx);
+                    data.param2 = param2;
+                    midi3Bytes |= (param2 << 16);
                 }
 
-                switch (midiEvent)
+                data.status = statusByte;
+                data.param1 = param1;
+             
+
+                switch (data.EventType())
                 {
                 case MidiEvent::NoteOff_80:
                 {
