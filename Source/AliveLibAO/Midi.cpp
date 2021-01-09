@@ -619,7 +619,6 @@ EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
         {
             const BYTE curMidiByte = MIDI_ReadByte_4FD6B0(pCtx);
 
-
             struct MidiData
             {
                 BYTE status;
@@ -631,15 +630,14 @@ EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
             };
             MidiData data = {};
 
-            BYTE originalMidiByte = curMidiByte;
             BYTE statusByte = curMidiByte;
-            if (originalMidiByte < MidiEvent::OtherCommands_F0)
+            if (curMidiByte < MidiEvent::OtherCommands_F0)
             {
                 BYTE param1 = 0;
-                if (originalMidiByte >= MidiEvent::NoteOff_80)
+                if (curMidiByte >= MidiEvent::NoteOff_80)
                 {
                     param1 = MIDI_ReadByte_4FD6B0(pCtx);
-                    pCtx->field_2A_running_status = originalMidiByte;
+                    pCtx->field_2A_running_status = curMidiByte;
                 }
                 else
                 {
@@ -647,7 +645,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
                     {
                         return 0;
                     }
-                    param1 = originalMidiByte;
+                    param1 = curMidiByte;
                     statusByte = pCtx->field_2A_running_status;
                 }
 
@@ -684,7 +682,6 @@ EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
                                  break;
                              }
                         }
-                        goto next_time_stamp;
                     }
                     break;
                 }
@@ -724,7 +721,6 @@ EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
                                     {
                                         GetSpuApiVars()->sControllerValue() = 0;
                                         pCtx->field_2C_loop_count--;
-                                        goto next_time_stamp;
                                     }
                                 }
                             }
@@ -737,36 +733,32 @@ EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
                             {
                                 //((void(__cdecl*)(int, _DWORD, _DWORD))pFn)(idx, 0, BYTE2(cmd));
                                 GetSpuApiVars()->sControllerValue() = 0;
-                                goto next_time_stamp;
                             }
                             break;
                         }
+
+                        default:
+                            GetSpuApiVars()->sControllerValue() = 0;
+                            break;
                         }
-                        GetSpuApiVars()->sControllerValue() = 0;
                         break;
 
                     case 0x63u:
                         GetSpuApiVars()->sControllerValue() = data.param2;// BYTE2(midiEvent);
-                        goto next_time_stamp;
+                        break;
 
                     default:
-                        goto next_time_stamp;
+                        break;
                     }
                     break;
 
                 case MidiEvent::ProgramChange_C0:
-                    *(&GetSpuApiVars()->sMidiSeqSongs().table[0].field_32_progVols[0].field_0_program
-                        + 2 * (data.Channel())
-                        + (data.Channel())
-                        + idx * 100) = data.param1;
+                    pCtx->field_32_progVols[data.Channel()].field_0_program = data.param1;
                     break;
 
                 case MidiEvent::PitchBend_E0:
                 {
-                    const int prog_num = *(&GetSpuApiVars()->sMidiSeqSongs().table[0].field_32_progVols[0].field_0_program
-                        + 2 * (data.Channel())
-                        + (data.Channel())
-                        + idx * 100);
+                    const int prog_num = pCtx->field_32_progVols[data.Channel()].field_0_program;
 
                     // Inlined MIDI_PitchBend
                     const float freq_conv = (float)pow(1.059463094359, (double)(signed __int16)(((data.param1) - 0x4000) >> 4) * 0.0078125);
@@ -831,7 +823,6 @@ EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
                 }
             }
 
-        next_time_stamp:
             const int timeStamp = MIDI_Read_Var_Len_4FD0D0(pCtx);
             if (timeStamp)
             {
@@ -841,7 +832,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
                     return 1;
                 }
             }
-        }
+        } // Loop end
     }
     return 1;
 }
