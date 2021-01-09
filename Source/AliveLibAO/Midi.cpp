@@ -674,8 +674,8 @@ EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
                 case MidiEvent::NoteOff_80:
                 {
                     int vab_id = (((pCtx->field_seq_idx << 8) | *(&GetSpuApiVars()->sMidiSeqSongs().table[0].field_32_progVols[0].field_0_program
-                        + 2 * (midi3Bytes & 0xF)
-                        + (midi3Bytes & 0xF)
+                        + 2 * (data.Channel())
+                        + (data.Channel())
                         + idx * 100)) >> 8) & 0x1F;
                     if (GetSpuApiVars()->sVagCounts()[vab_id])
                     {
@@ -683,8 +683,8 @@ EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
                         {
                              MIDI_ADSR_State* pAdsr = &GetSpuApiVars()->sMidi_Channels().channels[i].field_1C_adsr;
                              if (!pAdsr->field_3_state
-                                 || pAdsr->field_0_seq_idx != ((((pCtx->field_seq_idx << 8) | *(&GetSpuApiVars()->sMidiSeqSongs().table[0].field_32_progVols[0].field_0_program + 2 * (midi3Bytes & 0xF) + (midi3Bytes & 0xF) + idx * 100)) >> 8) & 0x1F)
-                                 || pAdsr->field_1_program != (((pCtx->field_seq_idx << 8) | *(&GetSpuApiVars()->sMidiSeqSongs().table[0].field_32_progVols[0].field_0_program + 2 * (midi3Bytes & 0xF) + (midi3Bytes & 0xF) + idx * 100)) & 0x7F)
+                                 || pAdsr->field_0_seq_idx != ((((pCtx->field_seq_idx << 8) | *(&GetSpuApiVars()->sMidiSeqSongs().table[0].field_32_progVols[0].field_0_program + 2 * (data.Channel()) + (data.Channel()) + idx * 100)) >> 8) & 0x1F)
+                                 || pAdsr->field_1_program != (((pCtx->field_seq_idx << 8) | *(&GetSpuApiVars()->sMidiSeqSongs().table[0].field_32_progVols[0].field_0_program + 2 * (data.Channel()) + (data.Channel()) + idx * 100)) & 0x7F)
                                  || pAdsr->field_2_note_byte1 != (((signed int)midi3Bytes >> 8) & 0x7F))
                              {
                                  // not a match
@@ -703,11 +703,11 @@ EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
                 case MidiEvent::NoteOn_90:
                 {
                     auto note_vol = pCtx->field_C_volume;
-                    auto prog_num_ = midi3Bytes & 0xF;
+                    auto prog_num_ = data.Channel();
                     auto v27 = idx * 100 + 2 * prog_num_;
                     auto r_vol = *(&GetSpuApiVars()->sMidiSeqSongs().table[0].field_32_progVols[0].field_2_right_vol + prog_num_ + v27);
                     MIDI_ProgramVolume* pProgVol = (MIDI_ProgramVolume*)((char*)GetSpuApiVars()->sMidiSeqSongs().table[0].field_32_progVols + prog_num_ + v27);
-                    auto note = midi3Bytes & 0xFF00;
+                    auto note = data.param1 << 8;
                     auto program = pProgVol->field_0_program;
                     auto l_vol = (signed __int16)((unsigned int)(pProgVol->field_1_left_vol * note_vol) >> 7);
 
@@ -770,16 +770,16 @@ EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
 
                 case MidiEvent::ProgramChange_C0:
                     *(&GetSpuApiVars()->sMidiSeqSongs().table[0].field_32_progVols[0].field_0_program
-                        + 2 * (midi3Bytes & 0xF)
-                        + (midi3Bytes & 0xF)
+                        + 2 * (data.Channel())
+                        + (data.Channel())
                         + idx * 100) = BYTE1(midi3Bytes);
                     break;
 
                 case MidiEvent::PitchBend_E0:
                 {
                     const int prog_num = *(&GetSpuApiVars()->sMidiSeqSongs().table[0].field_32_progVols[0].field_0_program
-                        + 2 * (midi3Bytes & 0xF)
-                        + (midi3Bytes & 0xF)
+                        + 2 * (data.Channel())
+                        + (data.Channel())
                         + idx * 100);
 
                     // Inlined MIDI_PitchBend
