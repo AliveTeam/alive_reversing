@@ -24,6 +24,7 @@ SET(AliveLibSrcCommon
     PSXADPCMDecoder.h
     PSXMDECDecoder.cpp
     PSXMDECDecoder.h
+    W32CrashHandler.hpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx_common.h stdafx_common.cpp AliveLibSrcCommon)

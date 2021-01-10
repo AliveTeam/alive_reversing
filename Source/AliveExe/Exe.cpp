@@ -9,10 +9,13 @@
 
 #include "../AliveLibAE/WinMain.hpp"
 #include "../AliveLibAO/WinMain.hpp"
+#include "W32CrashHandler.hpp"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
 #if _WIN32
+    ::SetUnhandledExceptionFilter(unhandled_handler);
+
     ::AllocConsole();
     ::freopen("CONOUT$", "w", stdout);
     ::SetConsoleTitleA("Debug Console");
