@@ -1842,9 +1842,7 @@ void Mudokon::State_29_RunLoop_43DB10()
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
 
-    if (WallHit_401930(
-        field_BC_sprite_scale * FP_FromInteger(50),
-        field_B4_velx))
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), field_B4_velx))
     {
         ToKnockBack_43D6E0();
         return;
@@ -1854,7 +1852,7 @@ void Mudokon::State_29_RunLoop_43DB10()
 
     if (field_FC_current_motion == eMudStates::State_29_RunLoop_43DB10)
     {
-        if (field_10_anim.field_92_current_frame == 0)
+        if (field_10_anim.field_92_current_frame == 0 || field_10_anim.field_92_current_frame == 8)
         {
             if (!field_144_flags.Get(Flags_144::e144_Bit7))
             {
@@ -1868,21 +1866,7 @@ void Mudokon::State_29_RunLoop_43DB10()
                 field_FE_next_state = -1;
             }
         }
-        else if (field_10_anim.field_92_current_frame == 8)
-        {
-            if (!field_144_flags.Get(Flags_144::e144_Bit7))
-            {
-                field_144_flags.Set(Flags_144::e144_Bit7);
-                MapFollowMe_401D30(field_144_flags.Get(Flags_144::e144_Bit4_bSnapToGrid));
-            }
-
-            if (field_FE_next_state == eMudStates::State_44_JumpMid_43E960)
-            {
-                field_FC_current_motion = eMudStates::State_43_JumpBegin_43E870;
-                field_FE_next_state = -1;
-            }
-        }
-        else if (field_10_anim.field_92_current_frame == 12 || field_10_anim.field_92_current_frame == 4)
+        else if (field_10_anim.field_92_current_frame == 4 || field_10_anim.field_92_current_frame == 12)
         {
             Environment_SFX_42A220(EnvironmentSfx::eRunningFootstep_2, 0, 0x7FFF, this);
             if (!field_144_flags.Get(Flags_144::e144_Bit7))
@@ -1891,32 +1875,43 @@ void Mudokon::State_29_RunLoop_43DB10()
                 MapFollowMe_401D30(field_144_flags.Get(Flags_144::e144_Bit4_bSnapToGrid));
             }
 
-            if (field_10_anim.field_92_current_frame == 4 && field_FE_next_state == eMudStates::State_1_WalkLoop_43CC80)
+            switch (field_FE_next_state)
             {
-                field_FC_current_motion = eMudStates::State_30_RunToWalk_43DD50;
-                field_FE_next_state = -1;
-            }
-            else if (field_10_anim.field_92_current_frame == 12 && field_FE_next_state == eMudStates::State_29_RunLoop_43DB10)
-            {
-                field_FC_current_motion = eMudStates::State_28_MidRunToWalk_43DA40;
-                field_FE_next_state = -1;
-            }
-            else if (field_FE_next_state == eMudStates::State_0_Idle_43CA70)
-            {
+            case eMudStates::State_1_WalkLoop_43CC80:
+                if (field_10_anim.field_92_current_frame == 4)
+                {
+                    field_FC_current_motion = eMudStates::State_30_RunToWalk_43DD50;
+                    field_FE_next_state = -1;
+                }
+                return;
+
+                // TODO: OG bug - MidRunToWalk will always be set on frame 12. AE doesn't do this.
+                // couldn't see any breaking changes after commenting this out.
+
+            /*case eMudStates::State_29_RunLoop_43DB10:
+                if (field_10_anim.field_92_current_frame == 12)
+                {
+                    field_FC_current_motion = eMudStates::State_28_MidRunToWalk_43DA40;
+                    field_FE_next_state = -1;
+                }
+                return;*/
+
+            case eMudStates::State_0_Idle_43CA70:
                 field_FC_current_motion = eMudStates::State_32_RunSlideStop_43DEE0;
                 field_FE_next_state = -1;
                 Environment_SFX_42A220(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, this);
-            }
-            else if (field_FE_next_state == eMudStates::State_33_RunSlideTurn_43DF80)
-            {
+                return;
+
+            case eMudStates::State_33_RunSlideTurn_43DF80:
                 field_FC_current_motion = eMudStates::State_33_RunSlideTurn_43DF80;
                 field_FE_next_state = -1;
                 Environment_SFX_42A220(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, this);
-            }
-            else if (field_FE_next_state == eMudStates::State_44_JumpMid_43E960)
-            {
+                return;
+
+            case eMudStates::State_44_JumpMid_43E960:
                 field_FC_current_motion = eMudStates::State_43_JumpBegin_43E870;
                 field_FE_next_state = -1;
+                return;
             }
         }
         else
@@ -1971,7 +1966,7 @@ void Mudokon::State_31_MidRunToWalk_43DE10()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_E4_previous_motion = 1;
+        field_E4_previous_motion = eMudStates::State_1_WalkLoop_43CC80;
         field_E6_last_anim_frame = 9;
         field_1BC = 1;
     }
