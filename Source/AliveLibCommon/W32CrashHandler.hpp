@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include "SDL.h"
 #include "config.h"
+#include "Sys_common.hpp"
 
 #pragma comment (lib, "dbghelp.lib")
 
@@ -41,16 +42,9 @@ inline void create_minidump(PEXCEPTION_POINTERS apExceptionInfo)
         ::MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), hFile, static_cast<MINIDUMP_TYPE>(flags), &exceptionInfo, nullptr, nullptr);
         ::CloseHandle(hFile);
 
-#ifdef BUILD_NUMBER
-        // Automated AppVeyor build title
-        #define TITLE_STR "R.E.L.I.V.E. (AV Build: " BUILD_NUMBER ")"
-#else
-        #define TITLE_STR "R.E.L.I.V.E."
-#endif
         char errMsg[1024] = {};
         _snprintf(errMsg, _countof(errMsg), "R.E.L.I.V.E. has crashed, dump written to %s in the game folder", fileNameA);
-
-        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, TITLE_STR, errMsg, nullptr);
+        Alive_Show_ErrorMsg(errMsg);
     }
 }
 
