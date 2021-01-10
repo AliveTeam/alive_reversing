@@ -98,7 +98,7 @@ const TMudAIStateFunction sMudokon_AI_Table_55CDF0[10] =
     ENTRY(M_RunToWalk_22_4738E0) \
     ENTRY(M_MidRunToWalk_23_4739B0) \
     ENTRY(M_RunSlideStop_24_473A00) \
-    ENTRY(M_RunTurn_25_473AA0) \
+    ENTRY(M_RunSlideTurn_25_473AA0) \
     ENTRY(M_RunTurnToRun_26_473BB0) \
     ENTRY(M_SneakLoop_27_473C40) \
     ENTRY(M_WalkToSneak_28_473D60) \
@@ -4139,7 +4139,7 @@ __int16 Mudokon::AI_ListeningToAbe_State_6()
 
     if (!field_16A_flags.Get(Flags::eBit4_blind))
     {
-        field_108_next_motion = Mud_Motion::M_RunTurn_25_473AA0;
+        field_108_next_motion = Mud_Motion::M_RunSlideTurn_25_473AA0;
         return AI_ListeningToAbe::eState4_CrazySlideTurn_8;
     }
 
@@ -5099,7 +5099,7 @@ __int16 Mudokon::AI_Escape_6_47A560()
 
                 if (!FacingTarget_473140(pBirdPortal))
                 {
-                    field_108_next_motion = Mud_Motion::M_RunTurn_25_473AA0;
+                    field_108_next_motion = Mud_Motion::M_RunSlideTurn_25_473AA0;
                     return field_190_sub_state;
                 }
 
@@ -6091,7 +6091,7 @@ void Mudokon::M_RunLoop_21_473720()
         Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
     }
 
-    if (WallHit_408750((field_CC_sprite_scale * FP_FromInteger(50)), field_C4_velx))
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx))
     {
         StandingKnockBack_473190();
         return;
@@ -6120,7 +6120,14 @@ void Mudokon::M_RunLoop_21_473720()
             {
             case Mud_Motion::M_WalkLoop_1_4728B0:
                 field_108_next_motion = -1;
-                field_106_current_motion = (field_20_animation.field_92_current_frame == 4) ? Mud_Motion::M_MidRunToWalk_23_4739B0 : Mud_Motion::M_RunToWalk_22_4738E0;
+                if (field_20_animation.field_92_current_frame == 4)
+                {
+                    field_106_current_motion = Mud_Motion::M_MidRunToWalk_23_4739B0;
+                }
+                else
+                {
+                    field_106_current_motion = Mud_Motion::M_RunToWalk_22_4738E0;
+                }
                 return;
 
             case Mud_Motion::M_Idle_0_4724E0:
@@ -6129,8 +6136,8 @@ void Mudokon::M_RunLoop_21_473720()
                 Environment_SFX_457A40(EnvironmentSfx::eRunSlide_4, 0, 32767, this);
                 return;
 
-            case Mud_Motion::M_RunTurn_25_473AA0:
-                field_106_current_motion = Mud_Motion::M_RunTurn_25_473AA0;
+            case Mud_Motion::M_RunSlideTurn_25_473AA0:
+                field_106_current_motion = Mud_Motion::M_RunSlideTurn_25_473AA0;
                 field_108_next_motion = -1;
                 Environment_SFX_457A40(EnvironmentSfx::eRunSlide_4, 0, 32767, this);
                 return;
@@ -6219,7 +6226,7 @@ void Mudokon::M_RunTurn_25_473AA0()
     {
         ReduceXVelocityBy_472260(FP_FromDouble(0.375));
 
-        if (field_106_current_motion == Mud_Motion::M_RunTurn_25_473AA0)
+        if (field_106_current_motion == Mud_Motion::M_RunSlideTurn_25_473AA0)
         {
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {

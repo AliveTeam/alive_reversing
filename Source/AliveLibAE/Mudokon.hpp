@@ -150,7 +150,7 @@ enum Mud_Motion : unsigned __int16
     M_RunToWalk_22_4738E0,
     M_MidRunToWalk_23_4739B0,
     M_RunSlideStop_24_473A00,
-    M_RunTurn_25_473AA0,
+    M_RunSlideTurn_25_473AA0,
     M_RunTurnToRun_26_473BB0,
     M_SneakLoop_27_473C40,
     M_WalkToSneak_28_473D60,
