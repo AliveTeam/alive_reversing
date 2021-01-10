@@ -10,6 +10,55 @@
 #include "../AliveLibAE/WinMain.hpp"
 #include "../AliveLibAO/WinMain.hpp"
 #include "W32CrashHandler.hpp"
+#include "SDL.h"
+#include "Sys_common.hpp"
+
+enum class GameType
+{
+    eAo,
+    eAe,
+};
+
+static bool FileExists(const char* fileName)
+{
+    FILE* f = fopen(fileName, "r");
+    if (f)
+    {
+        fclose(f);
+        return true;
+    }
+    return false;
+}
+
+
+
+static bool CheckRequiredGameFilesExist(GameType gameType)
+{
+    if (gameType == GameType::eAe)
+    {
+        if (!FileExists("st.lvl") || !FileExists("mi.lvl"))
+        {
+            SDL_Init(SDL_INIT_EVENTS);
+            Alive_Show_ErrorMsg("Abes Exoddus cant start because st.lvl or mi.lvl was not found in the working directory. Copy relive files to the root game directory to fix this.");
+            return false;
+        }
+        return true;
+    }
+    else if (gameType == GameType::eAo)
+    {
+        if (!FileExists("s1.lvl") || !FileExists("r1.lvl"))
+        {
+            SDL_Init(SDL_INIT_EVENTS);
+            Alive_Show_ErrorMsg("Abes Oddysee cant start because s1.lvl or r1.lvl was not found in the working directory. Copy relive files to the root game directory to fix this.");
+            return false;
+        }
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
@@ -30,10 +79,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     LOG_INFO("AE standalone starting...");
     // In the real game these are called before main, but shouldn't really matter in this case
     Static_Inits_AE();
+    if (!CheckRequiredGameFilesExist(GameType::eAe))
+    {
+        return 1;
+    }
     return WinMain_4EE631(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
 #elif AO_EXE
     LOG_INFO("AO standalone starting...");
     AO::Static_Inits_AO();
+    if (!CheckRequiredGameFilesExist(GameType::eAo))
+    {
+        return 1;
+    }
     return AO::WinMain_48EF50(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
 #else
     // Default to AE but allow switching to AO with a command line, if AO is anywhere in the command line then assume we want to run AO
@@ -41,6 +98,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     {
         LOG_INFO("AO standalone starting...");
         AO::Static_Inits_AO();
+        if (!CheckRequiredGameFilesExist(GameType::eAo))
+        {
+            return 1;
+        }
         return AO::WinMain_48EF50(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
     }
     else
@@ -48,6 +109,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         LOG_INFO("AE standalone starting...");
         // In the real game these are called before main, but shouldn't really matter in this case
         Static_Inits_AE();
+        if (!CheckRequiredGameFilesExist(GameType::eAe))
+        {
+            return 1;
+        }
         return WinMain_4EE631(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
     }
     return 0;
