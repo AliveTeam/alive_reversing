@@ -739,7 +739,7 @@ static int Sys_EventFilter(void* /*userData*/, SDL_Event* event)
             }
         }
 
-        const MessageBoxButton button = Sys_MessageBox(Sys_GetWindowHandle_4EE180(), "Do you really want to quit?", "Abe's Exoddus 1.0", MessageBoxType::eQuestion);
+        const MessageBoxButton button = Sys_MessageBox(Sys_GetWindowHandle_4EE180(), "Do you really want to quit?", "R.E.L.I.V.E.", MessageBoxType::eQuestion);
         if (SND_Seq_Table_Valid_4CAFE0())
         {
             GetSoundAPI().SND_Restart();
