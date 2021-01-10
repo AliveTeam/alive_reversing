@@ -34,6 +34,7 @@ enum class MessageBoxButton
 MessageBoxButton CC Sys_MessageBox(TWindowHandleType windowHandle, const char* message, const char* title, MessageBoxType type = MessageBoxType::eStandard);
 void Sys_Main_Common();
 
+void Alive_Show_ErrorMsg(const char* msg);
 [[noreturn]] void ALIVE_FATAL(const char* errMsg);
 
 DWORD SYS_GetTicks();
