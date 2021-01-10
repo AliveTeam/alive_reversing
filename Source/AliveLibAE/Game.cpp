@@ -38,6 +38,7 @@
 #include "PsxRender.hpp"
 #include "Slurg.hpp"
 #include "Movie.hpp"
+#include <string>
 
 void Game_ForceLink() { }
 
@@ -309,20 +310,20 @@ EXPORT void CC Main_ParseCommandLineArguments_494EA0(const char* /*pCmdLineNotUs
     }
 
     PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(".", strDrive, strDrive);
+
+    std::string windowTitle("R.E.L.I.V.E. Oddworld Abe's Exoddus");
+
 #if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
-    #ifdef BUILD_NUMBER
-        // Automated AppVeyor build title
-        const char* kWindowTitle = "Oddworld Abe's Exoddus (AV Build: " BUILD_NUMBER ")";
-    #else
-        // Local build title
-        const char* kWindowTitle = "Oddworld Abe's Exoddus";
-    #endif
-#else
-    // Original build title
-    const char* kWindowTitle = "Oddworld Abe's Exoddus";
+    std::string kBitness = sizeof(void*) == 4 ? " (32 bit)" : " (64 bit)";
+#ifdef BUILD_NUMBER
+    // Automated AppVeyor build title
+    windowTitle += "(AV Build: " BUILD_NUMBER ")";
+#endif
+    windowTitle += kBitness;
 #endif
 
-    Sys_WindowClass_Register_4EE22F("ABE_WINCLASS", kWindowTitle, 32, 64, 640, 480);
+
+    Sys_WindowClass_Register_4EE22F("ABE_WINCLASS", windowTitle.c_str(), 32, 64, 640, 480);
     Sys_Set_Hwnd_4F2C50(Sys_GetWindowHandle_4EE180());
 
     dword_5CA4D4 = 0;
