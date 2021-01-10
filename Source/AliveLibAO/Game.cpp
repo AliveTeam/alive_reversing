@@ -216,7 +216,7 @@ static void Main_ParseCommandLineArguments()
     std::string kBitness = sizeof(void*) == 4 ? " (32 bit)" : " (64 bit)";
 #ifdef BUILD_NUMBER
     // Automated AppVeyor build title
-    windowTitle += "(AV Build: " BUILD_NUMBER ")";
+    windowTitle += " (AV Build: " BUILD_NUMBER ")";
 #endif
     windowTitle += kBitness;
 #endif
