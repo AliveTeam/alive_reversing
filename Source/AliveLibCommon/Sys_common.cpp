@@ -9,17 +9,6 @@
 #include <windows.h>
 #endif
 
-void Alive_Show_ErrorMsg(const char* msg)
-{
-#ifdef BUILD_NUMBER
-    // Automated AppVeyor build title
-#define TITLE_STR "R.E.L.I.V.E. (AV Build: " BUILD_NUMBER ")"
-#else
-#define TITLE_STR "R.E.L.I.V.E."
-#endif
-    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, TITLE_STR, msg, nullptr);
-}
-
 [[noreturn]] void ALIVE_FATAL(const char* errMsg)
 {
     Sys_MessageBox(nullptr, errMsg, "ALIVE Hook fatal error.");

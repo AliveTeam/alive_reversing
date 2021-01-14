@@ -78,8 +78,8 @@ ALIVE_VAR(1, 0xC2D03C, int, sNumRenderedPrims_C2D03C, 0);
 ALIVE_VAR(1, 0x5CA300, int, sFrameCount_5CA300, 0);
 
 ALIVE_VAR(1, 0x5C1B94, short, word_5C1B94, 0);
-ALIVE_VAR(1, 0x5C2A4C, Abe, stru_5C2A4C, {}); // TODO: Refactor to remove global object, in fact it seems pointless since an abe can get new'ed up, just check the BaseGameObject type instead ??
-ALIVE_VAR(1, 0x554D5C, Abe*, spAbe_554D5C, &stru_5C2A4C);
+ALIVE_VAR(1, 0x5C2A4C, Abe, gAbeObj_5C2A4C, {}); // TODO: Refactor to remove global object, in fact it seems pointless since an abe can get new'ed up, just check the BaseGameObject type instead ??
+ALIVE_VAR(1, 0x554D5C, Abe*, spAbe_554D5C, &gAbeObj_5C2A4C);
 
 
 ALIVE_VAR(1, 0x5C2F6C, DWORD, dword_5C2F6C, 0);
