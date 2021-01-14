@@ -13,11 +13,94 @@
 #include "SDL.h"
 #include "Sys_common.hpp"
 
-enum class GameType
+#include "../AliveLibAE/Map.hpp"
+#include "../AliveLibAE/Font.hpp"
+#include "../AliveLibAE/Abe.hpp"
+
+enum class GameType : int
 {
-    eAo,
-    eAe,
+    eAo = 0,
+    eAe = 1,
 };
+
+namespace AutoSplitterData
+{
+    struct GuidStr
+    {
+        const char guid[39];
+    };
+
+    struct AOGameInfo
+    {
+        GuidStr guid;
+        GameType* gameType;
+        // TODO
+    };
+
+    struct AEGameInfo
+    {
+        GuidStr guid;
+        // 1 byte padding/null
+        GameType* gameType;         // 0
+        LevelIds* levelId;          // 1
+        __int16* pathId;            // 2
+        __int16* camId;             // 3
+        unsigned  __int16* fmvId;   // 4
+        unsigned int* gnFrame;      // 5
+        Abe** pAbe;                 // 6
+        int abeYOffSet;             // 7
+        char* isPaused;             // 8
+    };
+
+    extern "C"
+    {
+        GameType gameType = GameType::eAo;
+
+        // Auto splitter looks for this guid, if it exists then it assumes its the 64bit relive
+#ifdef _WIN64
+        EXPORT constexpr GuidStr k64BitGuid = {"{069DDB51-609D-49AB-B69D-5CC6D13E73EE}"};
+        
+        // If not exported the var will get optimized away
+        EXPORT const void* Get64BitInfo()
+        {
+            return &k64BitGuid;
+        }
+#endif
+
+        EXPORT constexpr AEGameInfo kAeInfo =
+        {
+            "{DBC2AE1C-A5DE-465F-A89A-C385BE1DEFCC}",
+            // 2 byte padding (32bit)
+            &gameType,
+            &LocalVar_gMap_5C3030.field_0_current_level,
+            &LocalVar_gMap_5C3030.field_2_current_path,
+            &LocalVar_gMap_5C3030.field_4_current_camera,
+            &LocalVar_gMap_5C3030.field_12_fmv_base_id,
+            &LocalVar_sGnFrame_5C1B84,
+            &LocalVar_spAbe_554D5C,
+            offsetof(Abe, Abe::field_BC_ypos),
+            &LocalVar_sDisableFontFlicker_5C9304
+        };
+
+        EXPORT const void* GetAeInfo()
+        {
+            return &kAeInfo;
+        }
+
+        EXPORT constexpr AOGameInfo kAoInfo =
+        {
+            "{1D2E2B5A-19EE-4776-A0EE-98F49F781370}",
+            // 2 byte padding (32bit)
+            &gameType
+        };
+
+    }
+}
+
+void PopulateAutoSplitterVars(GameType gameType)
+{
+    AutoSplitterData::gameType = gameType;
+}
 
 static bool FileExists(const char* fileName)
 {
@@ -79,6 +162,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     LOG_INFO("AE standalone starting...");
     // In the real game these are called before main, but shouldn't really matter in this case
     Static_Inits_AE();
+    PopulateAutoSplitterVars(GameType::eAe);
     if (!CheckRequiredGameFilesExist(GameType::eAe))
     {
         return 1;
@@ -87,6 +171,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #elif AO_EXE
     LOG_INFO("AO standalone starting...");
     AO::Static_Inits_AO();
+    PopulateAutoSplitterVars(GameType::eAo);
     if (!CheckRequiredGameFilesExist(GameType::eAo))
     {
         return 1;
@@ -98,6 +183,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     {
         LOG_INFO("AO standalone starting...");
         AO::Static_Inits_AO();
+        PopulateAutoSplitterVars(GameType::eAo);
         if (!CheckRequiredGameFilesExist(GameType::eAo))
         {
             return 1;
@@ -109,6 +195,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         LOG_INFO("AE standalone starting...");
         // In the real game these are called before main, but shouldn't really matter in this case
         Static_Inits_AE();
+        PopulateAutoSplitterVars(GameType::eAe);
         if (!CheckRequiredGameFilesExist(GameType::eAe))
         {
             return 1;
