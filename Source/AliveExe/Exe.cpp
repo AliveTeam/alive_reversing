@@ -78,7 +78,7 @@ namespace AutoSplitterData
             &LocalVar_gMap_5C3030.field_12_fmv_base_id,
             &LocalVar_sGnFrame_5C1B84,
             &LocalVar_spAbe_554D5C,
-            offsetof(Abe, Abe::field_BC_ypos),
+            offsetof(Abe, field_BC_ypos),
             &LocalVar_sDisableFontFlicker_5C9304
         };
 
