@@ -3,7 +3,10 @@
 #ifdef WIN32
 
 #include <windows.h>
+#pragma warning(push)
+#pragma warning(disable:4091) // typedef ': ignored on left of '' when no variable is declared in SDK header
 #include <Dbghelp.h>
+#pragma warning(pop)
 #include <tchar.h>
 #include <stdio.h>
 #include "SDL.h"
