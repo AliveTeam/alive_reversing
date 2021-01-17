@@ -70,7 +70,7 @@ using TAbeStateFunction = decltype(&Abe::State_0_Idle_423520);
 #define MAKE_STRINGS(VAR) #VAR,
 const char* const sAbeStateNames[] =
 {
-    ABE_STATES_ENUM(MAKE_STRINGS)
+    AO_ABE_STATES_ENUM(MAKE_STRINGS)
 };
 
 const TAbeStateFunction sAbeStateMachineTable_4C5F08[] =

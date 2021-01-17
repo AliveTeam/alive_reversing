@@ -17,6 +17,12 @@
 #include "../AliveLibAE/Font.hpp"
 #include "../AliveLibAE/Abe.hpp"
 
+#include "../AliveLibAO/Map.hpp"
+#include "../AliveLibAO/Abe.hpp"
+#include "../AliveLibAO/Font.hpp"
+#include "../AliveLibAO/Game.hpp"
+#include "../AliveLibAO/SwitchStates.hpp"
+
 enum class GameType : int
 {
     eAo = 0,
@@ -33,8 +39,15 @@ namespace AutoSplitterData
     struct AOGameInfo
     {
         GuidStr guid;
-        GameType* gameType;
-        // TODO
+        GameType* gameType;         // 0
+        AO::LevelIds* levelId;      // 1
+        __int16* pathId;            // 2
+        __int16* camId;             // 3
+        unsigned int* gnFrame;      // 4
+        AO::Abe** pAbe;             // 5
+        int abeYOffSet;             // 6
+        short* isGameRunning;       // 7
+        char* isGameBeaten;         // 8
     };
 
     struct AEGameInfo
@@ -91,8 +104,21 @@ namespace AutoSplitterData
         {
             "{1D2E2B5A-19EE-4776-A0EE-98F49F781370}",
             // 2 byte padding (32bit)
-            &gameType
+            &gameType,
+            &AO::LocalVar_gMap_507BA8.field_0_current_level,
+            &AO::LocalVar_gMap_507BA8.field_2_current_path,
+            &AO::LocalVar_gMap_507BA8.field_4_current_camera,
+            &AO::LocalVar_gnFrameCount_507670,
+            &AO::LocalVar_sActiveHero_507678,
+            offsetof(AO::Abe, field_AC_ypos) + sizeof(short), // +2 for exp only
+            &AO::LocalVar_sDisableFontFlicker_5080E4,
+            &AO::LocalVar_sSwitchStates_505568.mData[70]
         };
+
+        EXPORT const void* GetAoInfo()
+        {
+            return &kAoInfo;
+        }
 
     }
 }

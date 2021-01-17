@@ -9,7 +9,7 @@
 
 namespace AO {
 
-#define ABE_STATES_ENUM(ENTRY) \
+#define AO_ABE_STATES_ENUM(ENTRY) \
     ENTRY(State_0_Idle_423520) \
     ENTRY(State_1_WalkLoop_423F90) \
     ENTRY(State_2_StandingTurn_426040) \
@@ -179,7 +179,7 @@ namespace AO {
 #define MAKE_ENUM(VAR) VAR,
 enum eAbeStates : short
 {
-    ABE_STATES_ENUM(MAKE_ENUM)
+    AO_ABE_STATES_ENUM(MAKE_ENUM)
 };
 
 class DeathFadeOut;
