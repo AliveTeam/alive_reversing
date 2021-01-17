@@ -6148,7 +6148,8 @@ void Abe::State_35_RunLoop_425060()
     }
     else
     {
-        MapFollowMe_401D30(TRUE);
+        CheckForPortalAndRunJump();
+        return;
     }
 
     if (!(field_2A8_flags.Get(e2A8_Bit4_Fall_To_Well)))
