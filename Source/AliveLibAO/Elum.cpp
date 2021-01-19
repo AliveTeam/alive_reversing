@@ -3787,7 +3787,7 @@ void Elum::VUpdate_4102A0()
                         {
                             sActiveHero_507678->field_A8_xpos = field_A8_xpos;
                             sActiveHero_507678->field_AC_ypos = field_AC_ypos;
-                            field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, sActiveHero_507678->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX));
+                            sActiveHero_507678->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX));
                         }
                         return;
                     }
@@ -3802,7 +3802,7 @@ void Elum::VUpdate_4102A0()
             {
                 sActiveHero_507678->field_A8_xpos = field_A8_xpos;
                 sActiveHero_507678->field_AC_ypos = field_AC_ypos;
-                field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, sActiveHero_507678->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX));
+                sActiveHero_507678->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX));
             }
             return;
         }
