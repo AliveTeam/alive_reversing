@@ -1503,7 +1503,7 @@ __int16 Abe::RunTryEnterWell_425880()
         if (pWellLocal->field_18_scale == 0 && field_BC_sprite_scale == FP_FromInteger(1) ||
             pWellLocal->field_18_scale == 1 && field_BC_sprite_scale == FP_FromDouble(0.5))
         {
-            field_2A8_flags.Clear(Flags_2A8::e2A8_Bit4_Fall_To_Well);
+            field_2A8_flags.Clear(Flags_2A8::e2A8_Bit4_snap_abe);
             field_F0_pTlv = pWellLocal;
             field_FC_current_motion = eAbeStates::State_77_WellBegin_430F10;
             return 1;
@@ -1521,7 +1521,7 @@ __int16 Abe::RunTryEnterWell_425880()
         if (pWellExpress->field_18_scale == 0 && field_BC_sprite_scale == FP_FromInteger(1) ||
             pWellExpress->field_18_scale == 1 && field_BC_sprite_scale == FP_FromDouble(0.5))
         {
-            field_2A8_flags.Clear(Flags_2A8::e2A8_Bit4_Fall_To_Well);
+            field_2A8_flags.Clear(Flags_2A8::e2A8_Bit4_snap_abe);
             field_F0_pTlv = pWellExpress;
             field_FC_current_motion = eAbeStates::State_80_430EF0;
         }
@@ -3975,7 +3975,7 @@ void Abe::State_0_Idle_423520()
                     {
                         break;
                     }
-                    field_2A8_flags.Clear(Flags_2A8::e2A8_Bit4_Fall_To_Well);
+                    field_2A8_flags.Clear(Flags_2A8::e2A8_Bit4_snap_abe);
                     field_F0_pTlv = pTlv;
                     field_FC_current_motion = eAbeStates::State_77_WellBegin_430F10;
                     return;
@@ -3988,7 +3988,7 @@ void Abe::State_0_Idle_423520()
                     {
                         break;
                     }
-                    field_2A8_flags.Clear(Flags_2A8::e2A8_Bit4_Fall_To_Well);
+                    field_2A8_flags.Clear(Flags_2A8::e2A8_Bit4_snap_abe);
                     field_F0_pTlv = pTlv;
                     field_FC_current_motion = eAbeStates::State_80_430EF0;
                     return;
@@ -4459,7 +4459,7 @@ void Abe::State_3_Fall_42E7F0()
                 if ((pWellBase->field_18_scale == 0 && field_BC_sprite_scale == FP_FromInteger(1))
                     || (pWellBase->field_18_scale == 1 && field_BC_sprite_scale == FP_FromDouble(0.5)))
                 {
-                    field_2A8_flags.Set(Flags_2A8::e2A8_Bit4_Fall_To_Well);
+                    field_2A8_flags.Set(Flags_2A8::e2A8_Bit4_snap_abe);
                     field_FC_current_motion = eAbeStates::State_74_JumpIntoWell_430EC0;
                     return;
                 }
@@ -6021,7 +6021,7 @@ void Abe::State_34_RunJumpLand_427560()
     }
 }
 
-void Abe::CheckForPortalAndRunJump()
+bool Abe::CheckForPortalAndRunJump()
 {
     if (field_10C_prev_held & sInputKey_Hop_4C65A0)
     {
@@ -6040,7 +6040,9 @@ void Abe::CheckForPortalAndRunJump()
 
         field_FC_current_motion = eAbeStates::State_32_RunJumpBegin_427440;
         field_10C_prev_held = 0;
+        return true;
     }
+    return false;
 }
 
 void Abe::State_35_RunLoop_425060()
@@ -6063,102 +6065,107 @@ void Abe::State_35_RunLoop_425060()
         return;
     }
 
-    if (field_10_anim.field_92_current_frame != 0 && field_10_anim.field_92_current_frame != 8)
+    if (field_10_anim.field_92_current_frame == 0 || field_10_anim.field_92_current_frame == 8)
     {
-        if (field_10_anim.field_92_current_frame == 4 || field_10_anim.field_92_current_frame == 12)
+        if (!field_2A8_flags.Get(e2A8_Bit3_WalkToRun))
         {
-            Environment_SFX_42A220(EnvironmentSfx::eRunningFootstep_2, 0, 0x7FFF, this);
+            field_2A8_flags.Set(e2A8_Bit3_WalkToRun);
+            MapFollowMe_401D30(TRUE);
+        }
 
-            if (!(field_2A8_flags.Get(e2A8_Bit4_Fall_To_Well)))
+        CheckForPortalAndRunJump();
+    }
+    else if (field_10_anim.field_92_current_frame == 4 || field_10_anim.field_92_current_frame == 12)
+    {
+        Environment_SFX_42A220(EnvironmentSfx::eRunningFootstep_2, 0, 0x7FFF, this);
+
+        // Snap
+        if (!field_2A8_flags.Get(e2A8_Bit3_WalkToRun))
+        {
+            field_2A8_flags.Set(e2A8_Bit3_WalkToRun);
+            MapFollowMe_401D30(TRUE);
+        }
+
+        // Check turning in middle of run (pressing reverse direction of movement)
+        if (field_B4_velx > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left_4C6594) &&
+            field_B4_velx < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right_4C6590))
+        {
+            field_FC_current_motion = eAbeStates::State_28_RunTurn_425CE0;
+            Environment_SFX_42A220(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, this);
+            field_10C_prev_held = 0;
+            return;
+        }
+
+        // Check jumping into a portal
+        if (CheckForPortalAndRunJump())
+        {
+            return;
+        }
+
+        // Running to roll
+        if (field_10C_prev_held & sInputKey_FartRoll_4C65B0)
+        {
+            field_FC_current_motion = eAbeStates::State_40_RunToRoll_427AE0;
+
+            // For some reason dont clear released in the frame 12 case
+            if (field_10_anim.field_92_current_frame == 4)
             {
-                field_2A8_flags.Set(e2A8_Bit4_Fall_To_Well);
-                MapFollowMe_401D30(TRUE);
+                field_10E_released_buttons = 0;
             }
+            field_10C_prev_held = 0;
+            return;
+        }
 
-            if (field_B4_velx > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left_4C6594) ||
-                field_B4_velx < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right_4C6590))
-            {
-                field_FC_current_motion = eAbeStates::State_28_RunTurn_425CE0;
-                Environment_SFX_42A220(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, this);
-                field_10C_prev_held = 0;
-                return;
-            }
+        // No longer running
+        if (!Input().IsAnyPressed(sInputKey_Right_4C6590) &&
+            !Input().IsAnyPressed(sInputKey_Left_4C6594))
+        {
+            field_FC_current_motion = eAbeStates::State_27_RunSlideStop_425B60;
+            Environment_SFX_42A220(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, this);
+            field_10C_prev_held = 0;
+            return;
+        }
 
-            CheckForPortalAndRunJump();
+        // Continue running
+        if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
+        {
+            field_10C_prev_held = 0;
+            return;
+        }
 
-            if (!(field_10C_prev_held & sInputKey_Hop_4C65A0))
-            {
-                if (field_10C_prev_held & sInputKey_FartRoll_4C65B0)
-                {
-                    field_FC_current_motion = eAbeStates::State_40_RunToRoll_427AE0;
-                    field_10E_released_buttons = 0;
-                    field_10C_prev_held = 0;
-                    return;
-                }
-
-                if (Input().IsAnyPressed(sInputKey_Right_4C6590) ||
-                    Input().IsAnyPressed(sInputKey_Left_4C6594))
-                {
-                    if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
-                    {
-                        field_10C_prev_held = 0;
-                        return;
-                    }
-
-                    FP gridSize = {};
-                    if (field_B4_velx >= FP_FromInteger(0))
-                    {
-                        gridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
-                    }
-                    else
-                    {
-                        gridSize = -ScaleToGridSize_41FA30(field_BC_sprite_scale);
-                    }
-
-                    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), gridSize))
-                    {
-                        ToKnockback_422D90(1, 1);
-                    }
-                    else
-                    {
-                        if (field_10_anim.field_92_current_frame != 4)
-                        {
-                            field_FC_current_motion = eAbeStates::State_52_RunToWalk_4255E0;
-                        }
-                        else
-                        {
-                            field_FC_current_motion = eAbeStates::State_53_MidRunToWalk_4256E0;
-                        }
-                    }
-                }
-                else
-                {
-                    field_FC_current_motion = eAbeStates::State_27_RunSlideStop_425B60;
-                    Environment_SFX_42A220(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, this);
-                }
-
-                field_10C_prev_held = 0;
-            }
+        // Stop running
+        FP gridSize = {};
+        if (field_B4_velx >= FP_FromInteger(0))
+        {
+            gridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
         }
         else
         {
-            field_2A8_flags.Clear(e2A8_Bit4_Fall_To_Well);
-            return;
+            gridSize = -ScaleToGridSize_41FA30(field_BC_sprite_scale);
         }
+
+        if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), gridSize))
+        {
+            ToKnockback_422D90(1, 1);
+        }
+        else
+        {
+            if (field_10_anim.field_92_current_frame == 4)
+            {
+                field_FC_current_motion = eAbeStates::State_52_RunToWalk_4255E0;
+            }
+            else
+            {
+                field_FC_current_motion = eAbeStates::State_53_MidRunToWalk_4256E0;
+            }
+        }
+
+        field_10C_prev_held = 0;
     }
     else
     {
-        CheckForPortalAndRunJump();
-        return;
+        field_2A8_flags.Clear(e2A8_Bit3_WalkToRun);
     }
-
-    if (!(field_2A8_flags.Get(e2A8_Bit4_Fall_To_Well)))
-    {
-        field_2A8_flags.Set(e2A8_Bit4_Fall_To_Well);
-        MapFollowMe_401D30(TRUE);
-    }
-
-    CheckForPortalAndRunJump();
 }
 
 void Abe::State_36_DunnoBegin_423260()
@@ -7885,11 +7892,12 @@ void Abe::State_78_InsideWellLocal_4310A0()
 
         field_120 = FP_FromInteger(0);
 
-        if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit4_Fall_To_Well))
+        if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit4_snap_abe))
         {
+            // Snap to exit point
             field_B4_velx = (field_BC_sprite_scale * (FP_FromInteger(pWellBase->field_20_exit_x) / FP_FromInteger(100)));
             field_B8_vely = (field_BC_sprite_scale * (FP_FromInteger(pWellBase->field_22_exit_y) / FP_FromInteger(100)));
-            field_2A8_flags.Clear(Flags_2A8::e2A8_Bit4_Fall_To_Well);
+            field_2A8_flags.Clear(Flags_2A8::e2A8_Bit4_snap_abe);
         }
         else
         {
@@ -8008,7 +8016,7 @@ void Abe::State_81_InsideWellExpress_431320()
     }
 
 
-    if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit4_Fall_To_Well))
+    if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit4_snap_abe))
     {
         field_FC_current_motion = eAbeStates::State_78_InsideWellLocal_4310A0;
         return;
@@ -8081,10 +8089,10 @@ void Abe::State_81_InsideWellExpress_431320()
     else
     {
         State_82_WellExpressShotOut_4315A0();
-        field_2A8_flags.Set(Flags_2A8::e2A8_Bit3_WalkToRun);
         field_B4_velx = FP_FromInteger(0);
         field_B8_vely = FP_FromInteger(0);
         field_AC_ypos = field_AC_ypos - field_B8_vely;
+        field_2A8_flags.Set(Flags_2A8::e2A8_Bit3_WalkToRun);
         field_FC_current_motion = eAbeStates::State_78_InsideWellLocal_4310A0;
     }
 }
@@ -8138,7 +8146,7 @@ void Abe::State_82_WellExpressShotOut_4315A0()
         field_F0_pTlv = pWell;
         field_A8_xpos = FP_FromInteger((pWell->field_10_top_left.field_0_x + pWell->field_14_bottom_right.field_0_x) / 2);
         field_AC_ypos = FP_FromInteger(pWell->field_14_bottom_right.field_2_y);
-        field_2A8_flags.Set(Flags_2A8::e2A8_Bit4_Fall_To_Well);
+        field_2A8_flags.Set(Flags_2A8::e2A8_Bit4_snap_abe);
     }
     else
     {

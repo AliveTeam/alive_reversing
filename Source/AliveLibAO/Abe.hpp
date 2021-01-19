@@ -196,7 +196,7 @@ enum Flags_2A8
     e2A8_Bit1 = 0x1,
     e2A8_Bit2 = 0x2,
     e2A8_Bit3_WalkToRun = 0x4,
-    e2A8_Bit4_Fall_To_Well = 0x8,
+    e2A8_Bit4_snap_abe = 0x8,
     e2A8_Bit5 = 0x10,
     e2A8_Bit6_bShrivel = 0x20,
     e2A8_Bit7 = 0x40,
@@ -414,7 +414,7 @@ public:
 
     // Non virtuals
 
-    void CheckForPortalAndRunJump();
+    bool CheckForPortalAndRunJump();
 
     static EXPORT void Free_Shrykull_Resources_42F4C0();
 
