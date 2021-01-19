@@ -3136,8 +3136,8 @@ void Elum::State_37_RunSlideStop_4142E0()
 
     if (sControlledCharacter_50767C == this && field_10_anim.field_92_current_frame < 7)
     {
-        if (Input().IsAnyPressed(sInputKey_Right_4C6590) ||
-            Input().IsAnyPressed(sInputKey_Left_4C6594))
+        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Right_4C6590) ||
+            !field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Left_4C6594))
         {
             field_E4_previous_motion = eElumStates::State_12_RunTurn_414520;
             field_E6_last_anim_frame = field_10_anim.field_92_current_frame;
