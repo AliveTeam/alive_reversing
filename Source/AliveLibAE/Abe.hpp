@@ -330,7 +330,7 @@ struct Abe_SaveState
     {
         eD4_Bit1_lift_point_dead_while_using_lift = 0x1,
         eD4_Bit2_return_to_previous_motion = 0x2,
-        eD4_Bit3_fall_to_well = 0x4,
+        eD4_Bit3_WalkToRun = 0x4,
         eD4_Bit4_unused = 0x8,
         eD4_Bit5_prevent_chanting = 0x10,
         eD4_Bit6_land_softly = 0x20,
@@ -627,7 +627,7 @@ public:
     {
         e1AC_Bit1_lift_point_dead_while_using_lift = 0x1,
         e1AC_Bit2_return_to_previous_motion = 0x2,
-        e1AC_Bit3_fall_to_well = 0x4,
+        e1AC_Bit3_WalkToRun = 0x4,
         e1AC_Bit4_unused = 0x8,
         e1AC_Bit5_shrivel = 0x10,
         e1AC_Bit6_prevent_chanting = 0x20,

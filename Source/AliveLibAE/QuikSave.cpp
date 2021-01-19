@@ -889,7 +889,7 @@ namespace Test
     {
         Compare(Abe::Flags_1AC::e1AC_Bit1_lift_point_dead_while_using_lift, Abe_SaveState::Flags_D4::eD4_Bit1_lift_point_dead_while_using_lift);
         Compare(Abe::Flags_1AC::e1AC_Bit2_return_to_previous_motion, Abe_SaveState::Flags_D4::eD4_Bit2_return_to_previous_motion);
-        Compare(Abe::Flags_1AC::e1AC_Bit3_fall_to_well, Abe_SaveState::Flags_D4::eD4_Bit3_fall_to_well);
+        Compare(Abe::Flags_1AC::e1AC_Bit3_WalkToRun, Abe_SaveState::Flags_D4::eD4_Bit3_WalkToRun);
         Compare(Abe::Flags_1AC::e1AC_Bit4_unused, Abe_SaveState::Flags_D4::eD4_Bit4_unused);
         Compare(Abe::Flags_1AC::e1AC_Bit5_shrivel, [](Abe_SaveState& state) { ASSERT_EQ(state.bShrivel, 1); });
         Compare(Abe::Flags_1AC::e1AC_Bit6_prevent_chanting, Abe_SaveState::Flags_D4::eD4_Bit5_prevent_chanting);

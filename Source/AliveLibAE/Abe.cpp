@@ -846,7 +846,7 @@ Abe* Abe::ctor_44AD10(int /*frameTableOffset*/, int /*r*/, int /*g*/, int /*b*/)
     field_1AC_flags.Set(Flags_1AC::e1AC_Bit7_land_softly);
 
     field_1AC_flags.Clear(Flags_1AC::e1AC_Bit5_shrivel);
-    field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_fall_to_well);
+    field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_WalkToRun);
     field_1AC_flags.Clear(Flags_1AC::e1AC_Bit2_return_to_previous_motion);
     field_1AC_flags.Clear(Flags_1AC::e1AC_Bit1_lift_point_dead_while_using_lift);
 
@@ -1194,7 +1194,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
 
     sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit1_lift_point_dead_while_using_lift, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit1_lift_point_dead_while_using_lift));
     sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit2_return_to_previous_motion, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit2_return_to_previous_motion));
-    sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit3_fall_to_well, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit3_fall_to_well));
+    sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit3_WalkToRun, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit3_WalkToRun));
     sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit4_unused, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit4_unused));
     sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit5_shrivel, pSaveState->bShrivel);
     sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit6_prevent_chanting, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit5_prevent_chanting));
@@ -2158,7 +2158,7 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
 
     pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_Bit1_lift_point_dead_while_using_lift, field_1AC_flags.Get(Flags_1AC::e1AC_Bit1_lift_point_dead_while_using_lift));
     pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_Bit2_return_to_previous_motion, field_1AC_flags.Get(Flags_1AC::e1AC_Bit2_return_to_previous_motion));
-    pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_Bit3_fall_to_well, field_1AC_flags.Get(Flags_1AC::e1AC_Bit3_fall_to_well));
+    pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_Bit3_WalkToRun, field_1AC_flags.Get(Flags_1AC::e1AC_Bit3_WalkToRun));
     pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_Bit4_unused, field_1AC_flags.Get(Flags_1AC::e1AC_Bit4_unused));
     pSaveState->bShrivel = field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_shrivel);
     pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_Bit5_prevent_chanting, field_1AC_flags.Get(Flags_1AC::e1AC_Bit6_prevent_chanting));
@@ -3273,7 +3273,7 @@ void Abe::State_0_Idle_44EEB0()
                     break;
                 }
 
-                field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_fall_to_well);
+                field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_WalkToRun);
                 field_FC_pPathTLV = pTlv;
                 field_106_current_motion = eAbeStates::State_78_WellBegin_45C810;
             }
@@ -3293,7 +3293,7 @@ void Abe::State_0_Idle_44EEB0()
                     break;
                 }
 
-                field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_fall_to_well);
+                field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_WalkToRun);
                 field_FC_pPathTLV = pTlv;
                 field_106_current_motion = eAbeStates::jState_81_WellBegin_45C7F0;
             }
@@ -3676,7 +3676,7 @@ void Abe::State_3_Fall_459B60()
                 if ((pWellBase->field_0_scale == 0 && field_CC_sprite_scale == FP_FromInteger(1))
                     || (pWellBase->field_0_scale == 1 && field_CC_sprite_scale == FP_FromDouble(0.5)))
                 {
-                    field_1AC_flags.Set(Flags_1AC::e1AC_Bit3_fall_to_well);
+                    field_1AC_flags.Set(Flags_1AC::e1AC_Bit3_WalkToRun);
                     field_106_current_motion = eAbeStates::State_75_JumpIntoWell_45C7B0;
                     return;
                 }
@@ -6577,7 +6577,7 @@ void Abe::State_79_InsideWellLocal_45CA60()
         }
 
         field_128.field_8_x_vel_slow_by = FP_FromInteger(0);
-        field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_fall_to_well);
+        field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_WalkToRun);
 
         Path_Well_Base* pBaseWell = static_cast<Path_Well_Base*>(field_FC_pPathTLV);
         if (pBaseWell->field_4_type == TlvTypes::LocalWell_8)
@@ -6769,7 +6769,7 @@ void Abe::State_82_InsideWellExpress_45CC80()
         field_BC_ypos -= field_C8_vely * field_CC_sprite_scale;
         field_C8_vely = FP_FromInteger(0);
         field_C4_velx = FP_FromInteger(0);
-        field_1AC_flags.Set(Flags_1AC::e1AC_Bit3_fall_to_well);
+        field_1AC_flags.Set(Flags_1AC::e1AC_Bit3_WalkToRun);
         field_106_current_motion = eAbeStates::State_79_InsideWellLocal_45CA60;
     }
 }
@@ -6832,7 +6832,7 @@ void Abe::State_83_WellExpressShotOut_45CF70()
 
         field_FC_pPathTLV = pWell;
 
-        field_1AC_flags.Set(Flags_1AC::e1AC_Bit3_fall_to_well);
+        field_1AC_flags.Set(Flags_1AC::e1AC_Bit3_WalkToRun);
         field_106_current_motion = eAbeStates::State_79_InsideWellLocal_45CA60;
     }
     else
@@ -9198,7 +9198,7 @@ __int16 Abe::RunTryEnterWell_451060()
             if ((pWellLocal->field_0_scale == 0 && field_CC_sprite_scale == FP_FromInteger(1)) ||
                 (pWellLocal->field_0_scale == 1 && field_CC_sprite_scale == FP_FromDouble(0.5)))
             {
-                field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_fall_to_well);
+                field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_WalkToRun);
                 field_FC_pPathTLV = pWellLocal;
                 field_106_current_motion = eAbeStates::State_78_WellBegin_45C810;
                 return 1;
@@ -9219,7 +9219,7 @@ __int16 Abe::RunTryEnterWell_451060()
             if ((pWellExpress->field_0_scale == 0 && field_CC_sprite_scale == FP_FromInteger(1)) ||
                 (pWellExpress->field_0_scale == 1 && field_CC_sprite_scale == FP_FromDouble(0.5)))
             {
-                field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_fall_to_well);
+                field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_WalkToRun);
                 field_FC_pPathTLV = pWellExpress;
                 field_106_current_motion = eAbeStates::jState_81_WellBegin_45C7F0;
                 return 1;
