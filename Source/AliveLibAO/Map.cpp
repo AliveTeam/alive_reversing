@@ -994,34 +994,48 @@ void Map::RestoreBlyData_446A90(const BYTE* pSaveData)
 
 void Map::Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos direction, __int16 cam_x_idx, __int16 cam_y_idx)
 {
-    Path_TLV* pTlv = Get_First_TLV_For_Offsetted_Camera_4463B0(cam_x_idx, cam_y_idx);
-    if (pTlv)
-    {
-        for (;;)
-        {
-            const auto cam_global_left = field_D4_pPathData->field_C_grid_width * cam_x_idx;
-            const auto cam_y_grid_top = field_D4_pPathData->field_E_grid_height * cam_y_idx;
+    BYTE* pPathData = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
+    unsigned int* pIndexTableStart = reinterpret_cast<unsigned int*>(pPathData + field_D4_pPathData->field_18_object_index_table_offset);
 
-            if (pTlv->field_C_sound_pos.field_0_x >= cam_global_left &&
-                pTlv->field_C_sound_pos.field_0_x <= cam_global_left + field_D4_pPathData->field_C_grid_width)
+    const int totalCams = field_26_max_cams_y * field_24_max_cams_x;
+
+    const int cam_global_left = field_D4_pPathData->field_C_grid_width * cam_x_idx;
+    const int cam_global_right = cam_global_left + field_D4_pPathData->field_C_grid_width;
+
+    const int cam_y_grid_top = field_D4_pPathData->field_E_grid_height * cam_y_idx;
+    const int cam_y_grid_bottom = cam_y_grid_top + field_D4_pPathData->field_E_grid_height;
+
+    for (int camNum = 0; camNum < totalCams; camNum++)
+    {
+        const int index_table_value = pIndexTableStart[camNum];
+        if (index_table_value != -1 && index_table_value < 0x100000)
+        {
+            // Get the first TLV at this index table entry
+            Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(&pPathData[index_table_value + field_D4_pPathData->field_14_object_offset]);
+            pTlv->RangeCheck();
+
+            // Enumerate the TLVs
+            for (;;)
             {
-                if (pTlv->field_C_sound_pos.field_2_y >= cam_y_grid_top &&
-                    pTlv->field_C_sound_pos.field_2_y <= cam_y_grid_top + field_D4_pPathData->field_E_grid_height)
+                if (pTlv->field_C_sound_pos.field_0_x >= cam_global_left &&
+                    pTlv->field_C_sound_pos.field_0_x <= cam_global_right)
                 {
-                    if (!(pTlv->field_0_flags.Get(TLV_Flags::eBit1_Created) && !(pTlv->field_0_flags.Get(TLV_Flags::eBit2_Unknown))))
+                    if (pTlv->field_C_sound_pos.field_2_y >= cam_y_grid_top &&
+                        pTlv->field_C_sound_pos.field_2_y <= cam_y_grid_bottom &&
+                        (!pTlv->field_0_flags.Get(eBit1_Created) && !pTlv->field_0_flags.Get(eBit2_Unknown)))
                     {
                         Start_Sounds_for_TLV_476640(direction, pTlv);
                     }
                 }
-            }
 
-            if (pTlv->field_0_flags.Get(TLV_Flags::eBit3_End_TLV_List))
-            {
-                break;
-            }
+                if (pTlv->field_0_flags.Get(eBit3_End_TLV_List))
+                {
+                    break;
+                }
 
-            pTlv->RangeCheck();
-            pTlv = Path_TLV::Next_446460(pTlv);
+                pTlv = Path_TLV::Next_NoCheck(pTlv);
+                pTlv->RangeCheck();
+            }
         }
     }
 }
