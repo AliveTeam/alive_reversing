@@ -1007,20 +1007,15 @@ void Map::Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos direction, __int16
 
     if (totalCams > 0)
     {
-        unsigned int* curCamIndexTable = pIndexTable;
         for (int camNum = 0; camNum < totalCams; camNum++)
         {
-            int index_table_value = *pIndexTable;
-            if (*pIndexTable != -1 && index_table_value < 0x100000)
+            const int index_table_value = pIndexTable[camNum];
+            if (index_table_value != -1 && index_table_value < 0x100000)
             {
-                Path_TLV* pTlv = (Path_TLV*)(pPathData + index_table_value + field_D4_pPathData->field_14_object_offset);
-                const __int16 tlv_len_2 = pTlv->field_2_length;
-                if (tlv_len_2 < 24u || tlv_len_2 > 480u)
-                {
-                    pTlv->field_0_flags.Set(eBit3_End_TLV_List);
-                }
+                Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(&pPathData[index_table_value + field_D4_pPathData->field_14_object_offset]);
+                pTlv->RangeCheck();
 
-                while (1)
+                for (;;)
                 {
                     if (pTlv->field_C_sound_pos.field_0_x >= cam_global_left &&
                         pTlv->field_C_sound_pos.field_0_x <= cam_global_right)
@@ -1038,18 +1033,10 @@ void Map::Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos direction, __int16
                         break;
                     }
 
-                    const __int16  tlv_len_1 = pTlv->field_2_length;
-                    pTlv = (Path_TLV*)((char*)pTlv + tlv_len_1);
-                    index_table_value += tlv_len_1;
-                    const __int16 tlv_len = pTlv->field_2_length;
-                    if (tlv_len < 24u || tlv_len > 480u)
-                    {
-                        pTlv->field_0_flags.Set(eBit3_End_TLV_List);
-                    }
+                    pTlv = Path_TLV::Next_NoCheck(pTlv);
+                    pTlv->RangeCheck();
                 }
             }
-            pIndexTable = curCamIndexTable + 1;
-            ++curCamIndexTable;
         }
     }
 }
