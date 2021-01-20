@@ -995,47 +995,46 @@ void Map::RestoreBlyData_446A90(const BYTE* pSaveData)
 void Map::Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos direction, __int16 cam_x_idx, __int16 cam_y_idx)
 {
     BYTE* pPathData = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
-    unsigned int* pIndexTable = reinterpret_cast<unsigned int*>(pPathData + field_D4_pPathData->field_18_object_index_table_offset);
-    
+    unsigned int* pIndexTableStart = reinterpret_cast<unsigned int*>(pPathData + field_D4_pPathData->field_18_object_index_table_offset);
+
     const int totalCams = field_26_max_cams_y * field_24_max_cams_x;
-    
+
     const int cam_global_left = field_D4_pPathData->field_C_grid_width * cam_x_idx;
     const int cam_global_right = cam_global_left + field_D4_pPathData->field_C_grid_width;
 
-    const int cam_y_grid_top  = field_D4_pPathData->field_E_grid_height * cam_y_idx;
+    const int cam_y_grid_top = field_D4_pPathData->field_E_grid_height * cam_y_idx;
     const int cam_y_grid_bottom = cam_y_grid_top + field_D4_pPathData->field_E_grid_height;
 
-    if (totalCams > 0)
+    for (int camNum = 0; camNum < totalCams; camNum++)
     {
-        for (int camNum = 0; camNum < totalCams; camNum++)
+        const int index_table_value = pIndexTableStart[camNum];
+        if (index_table_value != -1 && index_table_value < 0x100000)
         {
-            const int index_table_value = pIndexTable[camNum];
-            if (index_table_value != -1 && index_table_value < 0x100000)
+            // Get the first TLV at this index table entry
+            Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(&pPathData[index_table_value + field_D4_pPathData->field_14_object_offset]);
+            pTlv->RangeCheck();
+
+            // Enumerate the TLVs
+            for (;;)
             {
-                Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(&pPathData[index_table_value + field_D4_pPathData->field_14_object_offset]);
-                pTlv->RangeCheck();
-
-                for (;;)
+                if (pTlv->field_C_sound_pos.field_0_x >= cam_global_left &&
+                    pTlv->field_C_sound_pos.field_0_x <= cam_global_right)
                 {
-                    if (pTlv->field_C_sound_pos.field_0_x >= cam_global_left &&
-                        pTlv->field_C_sound_pos.field_0_x <= cam_global_right)
+                    if (pTlv->field_C_sound_pos.field_2_y >= cam_y_grid_top &&
+                        pTlv->field_C_sound_pos.field_2_y <= cam_y_grid_bottom &&
+                        (!pTlv->field_0_flags.Get(eBit1_Created) && !pTlv->field_0_flags.Get(eBit2_Unknown)))
                     {
-                        if (pTlv->field_C_sound_pos.field_2_y >= cam_y_grid_top &&
-                            pTlv->field_C_sound_pos.field_2_y <= cam_y_grid_bottom &&
-                            (pTlv->field_0_flags.Raw().all & 3) == 0)
-                        {
-                            Start_Sounds_for_TLV_476640(direction, pTlv);
-                        }
+                        Start_Sounds_for_TLV_476640(direction, pTlv);
                     }
-
-                    if (pTlv->field_0_flags.Get(eBit3_End_TLV_List))
-                    {
-                        break;
-                    }
-
-                    pTlv = Path_TLV::Next_NoCheck(pTlv);
-                    pTlv->RangeCheck();
                 }
+
+                if (pTlv->field_0_flags.Get(eBit3_End_TLV_List))
+                {
+                    break;
+                }
+
+                pTlv = Path_TLV::Next_NoCheck(pTlv);
+                pTlv->RangeCheck();
             }
         }
     }
