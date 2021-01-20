@@ -994,35 +994,70 @@ void Map::RestoreBlyData_446A90(const BYTE* pSaveData)
 
 void Map::Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos direction, __int16 cam_x_idx, __int16 cam_y_idx)
 {
-    Path_TLV* pTlv = Get_First_TLV_For_Offsetted_Camera_4463B0(cam_x_idx, cam_y_idx);
-    if (pTlv)
-    {
-        for (;;)
-        {
-            const auto cam_global_left = field_D4_pPathData->field_C_grid_width * cam_x_idx;
-            const auto cam_y_grid_top = field_D4_pPathData->field_E_grid_height * cam_y_idx;
+    BYTE* pPathData2 = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
+    unsigned int* pIndexTable = reinterpret_cast<unsigned int*>(pPathData2 + field_D4_pPathData->field_18_object_index_table_offset);
+    
+    const int totalCams = field_26_max_cams_y * field_24_max_cams_x;
+    
+    const int cam_global_left = field_D4_pPathData->field_C_grid_width * cam_x_idx;
+    const int cam_global_right = cam_global_left + field_D4_pPathData->field_C_grid_width;
 
-            if (pTlv->field_C_sound_pos.field_0_x >= cam_global_left &&
-                pTlv->field_C_sound_pos.field_0_x <= cam_global_left + field_D4_pPathData->field_C_grid_width)
+    const int cam_y_grid_top  = field_D4_pPathData->field_E_grid_height * cam_y_idx;
+    const int cam_y_grid_bottom = cam_y_grid_top + field_D4_pPathData->field_E_grid_height;
+
+ 
+    if (totalCams > 0)
+    {
+        unsigned int* curCamIndexTable = (unsigned int*)(pPathData2 + field_D4_pPathData->field_18_object_index_table_offset);
+        int totalCamCounter = totalCams;
+        bool bLastCam = false;
+        do
+        {
+            int index_table_value = *pIndexTable;
+            if (*pIndexTable != -1 && index_table_value < 0x100000)
             {
-                if (pTlv->field_C_sound_pos.field_2_y >= cam_y_grid_top &&
-                    pTlv->field_C_sound_pos.field_2_y <= cam_y_grid_top + field_D4_pPathData->field_E_grid_height)
+                Path_TLV* pTlv = (Path_TLV*)(pPathData2 + index_table_value + field_D4_pPathData->field_14_object_offset);
+                const __int16 tlv_len_2 = pTlv->field_2_length;
+                if (tlv_len_2 < 24u || tlv_len_2 > 480u)
                 {
-                    if (!(pTlv->field_0_flags.Get(TLV_Flags::eBit1_Created) && !(pTlv->field_0_flags.Get(TLV_Flags::eBit2_Unknown))))
+                    pTlv->field_0_flags.Set(eBit3_End_TLV_List);
+                }
+
+                while (1)
+                {
+                    const short bottom_right_x = pTlv->field_C_sound_pos.field_0_x;
+                    if (bottom_right_x >= cam_global_left &&
+                        bottom_right_x <= cam_global_right)
                     {
-                        Start_Sounds_for_TLV_476640(direction, pTlv);
+                        const short bottom_right_y = pTlv->field_C_sound_pos.field_2_y;
+                        if (bottom_right_y >= cam_y_grid_top &&
+                            bottom_right_y <= cam_y_grid_bottom &&
+                            (pTlv->field_0_flags.Raw().all & 3) == 0)
+                        {
+                            Start_Sounds_for_TLV_476640(direction, pTlv);
+                        }
+                    }
+
+                    if (pTlv->field_0_flags.Get(eBit3_End_TLV_List))
+                    {
+                        break;
+                    }
+
+                    const __int16  tlv_len_1 = pTlv->field_2_length;
+                    pTlv = (Path_TLV*)((char*)pTlv + tlv_len_1);
+                    index_table_value += tlv_len_1;
+                    const __int16 tlv_len = pTlv->field_2_length;
+                    if (tlv_len < 24u || tlv_len > 480u)
+                    {
+                        pTlv->field_0_flags.Set(eBit3_End_TLV_List);
                     }
                 }
             }
-
-            if (pTlv->field_0_flags.Get(TLV_Flags::eBit3_End_TLV_List))
-            {
-                break;
-            }
-
-            pTlv->RangeCheck();
-            pTlv = Path_TLV::Next_446460(pTlv);
-        }
+            pIndexTable = curCamIndexTable + 1;
+            bLastCam = totalCamCounter == 1;
+            ++curCamIndexTable;
+            --totalCamCounter;
+        } while (!bLastCam);
     }
 }
 
