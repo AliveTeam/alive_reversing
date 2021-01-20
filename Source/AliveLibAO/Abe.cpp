@@ -989,6 +989,9 @@ BaseGameObject* Abe::dtor_420C80()
     }
 
     sActiveHero_507678 = nullptr;
+    
+    // OG fix for going back to menu with DDCheat on and then it crashes reading a deleted pointer
+    // ditto for the ending where MeatSaw/Invisible switch screen change/update funcs read it.
     sControlledCharacter_50767C = nullptr;
 
     return dtor_401000();

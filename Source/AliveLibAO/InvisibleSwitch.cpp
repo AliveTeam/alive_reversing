@@ -77,7 +77,9 @@ void InvisibleSwitch::VUpdate_4335A0()
     switch (field_28_state)
     {
     case 0:
-        if (sControlledCharacter_50767C->field_A8_xpos >= FP_FromInteger(field_20_top_left.field_0_x) &&
+        // sControlledCharacter_50767C can be nullptr during the game ender
+        if (sControlledCharacter_50767C && 
+            sControlledCharacter_50767C->field_A8_xpos >= FP_FromInteger(field_20_top_left.field_0_x) &&
             sControlledCharacter_50767C->field_A8_xpos <= FP_FromInteger(field_24_bottom_right.field_0_x))
         {
             if (sControlledCharacter_50767C->field_AC_ypos >= FP_FromInteger(field_20_top_left.field_2_y) &&
