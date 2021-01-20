@@ -615,9 +615,11 @@ void Slig::Init_46B890()
     {
         field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
     }
-    field_1F4_points_count = 1;
-    field_1CC_points[0].field_0_x = FP_GetExponent(field_A8_xpos);
-    field_1CC_points[0].field_2_y = FP_GetExponent(field_AC_ypos);
+    field_1F4_points_count = 0;
+
+    field_1CC_points[field_1F4_points_count].field_0_x = FP_GetExponent(field_A8_xpos);
+    field_1CC_points[field_1F4_points_count].field_2_y = FP_GetExponent(field_AC_ypos);
+    field_1F4_points_count++;
 
     for (short yCam = -2; yCam < 3; yCam++)
     {
@@ -645,7 +647,10 @@ void Slig::Init_46B890()
                 }
                 else if (pTlvIter->field_4_type == TlvTypes::eSligPersist_77)
                 {
-                    addPoint = true;
+                    if (static_cast<Path_Slig_Persist*>(pTlvIter)->field_18_slig_id == field_174_tlv.field_40_slig_id)
+                    {
+                        addPoint = true;
+                    }
                 }
 
                 if (addPoint)
@@ -4138,7 +4143,7 @@ __int16 Slig::Brain_SpottedEnemy_465EB0()
             ToShoot_46F1D0();
         }
         else if (VOnSameYLevel(sControlledCharacter_50767C)
-            && Event_Get_417250(8)
+            && Event_Get_417250(kEventAbeOhm_8)
             && VIsFacingMe(sControlledCharacter_50767C))
         {
             ToShoot_46F1D0();
