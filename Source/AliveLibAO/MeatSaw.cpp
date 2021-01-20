@@ -199,6 +199,7 @@ void MeatSaw::VScreenChanged_43A060()
 {
     if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level ||
         gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path ||
+        !sControlledCharacter_50767C || // Can be nullptr during the game ender
         FP_Abs(sControlledCharacter_50767C->field_A8_xpos - field_A8_xpos) > FP_FromInteger(1024))
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);

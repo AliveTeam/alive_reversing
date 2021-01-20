@@ -95,7 +95,8 @@ void GameEnderController::VUpdate_41C860()
             if (sActiveHero_507678->field_FC_current_motion != eAbeStates::State_162_ToShrykull_42F410 &&
                 sActiveHero_507678->field_FC_current_motion != eAbeStates::State_163_ShrykullEnd_42F520)
             {
-                // Kill certain types of objects for some reason
+                // Kill certain types of objects to prevent them appearing on the ending screen or crashing the game
+                // by trying to use the sControlledCharacter_50767C pointer.
                 for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
                 {
                     BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
@@ -104,7 +105,11 @@ void GameEnderController::VUpdate_41C860()
                         break;
                     }
 
-                    if (pObjIter->field_4_typeId == Types::eParticleBurst_19 || pObjIter->field_4_typeId == Types::eAlarm_1 || pObjIter->field_4_typeId == Types::eUXB_99)
+                    if (pObjIter->field_4_typeId == Types::eParticleBurst_19 ||
+                        pObjIter->field_4_typeId == Types::eAlarm_1 ||
+                        pObjIter->field_4_typeId == Types::eUXB_99 ||
+                        pObjIter->field_4_typeId == Types::eMeatSaw_56
+                        )
                     {
                         pObjIter->field_6_flags.Set(Options::eDead_Bit3);
                     }
