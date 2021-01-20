@@ -6090,7 +6090,7 @@ void Abe::State_35_RunLoop_425060()
         }
 
         // Check turning in middle of run (pressing reverse direction of movement)
-        if (field_B4_velx > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left_4C6594) &&
+        if (field_B4_velx > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left_4C6594) ||
             field_B4_velx < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right_4C6590))
         {
             field_FC_current_motion = eAbeStates::State_28_RunTurn_425CE0;
