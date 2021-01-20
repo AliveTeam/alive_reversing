@@ -2803,18 +2803,20 @@ void Elum::RunJumpMidAndHopMid(MidType midType)
     }
     else
     {
-        if (sControlledCharacter_50767C == this)
-        {
-            SetActiveCameraDelayedFromDir_401C90();
-        }
-
         FP hitX = {};
         FP hitY = {};
 
         const FP velY = midType == MidType::eRunJumpMid ? FP_FromDouble(0.8) : FP_FromDouble(0.9);
         const FP unknown_field = midType == MidType::eRunJumpMid ? FP_FromDouble(1.1) : FP_FromDouble(2.15);
 
-        if (InAirCollision_4019C0(&field_F4_pLine, &hitX, &hitY, velY))
+        const auto InAirCollision = InAirCollision_4019C0(&field_F4_pLine, &hitX, &hitY, velY);
+
+        if (sControlledCharacter_50767C == this)
+        {
+            SetActiveCameraDelayedFromDir_401C90();
+        }
+
+        if (InAirCollision)
         {
             switch (field_F4_pLine->field_8_type)
             {
