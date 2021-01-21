@@ -550,14 +550,18 @@ MusicController::MusicTypes CC MusicController::GetAbmientAndMusicInfo_443840(Se
 
 void MusicController::UpdateVolumeState_442A10()
 {
-    if (field_48_vol_state == 0)
+    switch (field_48_vol_state)
     {
+    case 0:
         field_28_amibent_seq_duration = 0;
         field_2C_music_start_time = GetMusicTime();
         field_40_started_time = GetMusicTime();
-    }
-    else if (field_48_vol_state == 2)
-    {
+        break;
+
+    case 1:
+        break;
+
+    case 2:
         field_48_vol_state = 0;
         field_4C_current_vol = 0;
 
@@ -572,9 +576,9 @@ void MusicController::UpdateVolumeState_442A10()
             SND_Seq_Stop_477A60(field_38_music_seq);
             field_38_music_seq = SeqId::None_M1;
         }
-    }
-    else if (field_48_vol_state == 3)
-    {
+        break;
+
+    case 3:
         field_4C_current_vol = field_4E_vol;
         field_48_vol_state = 1;
         if (field_26_ambient_seq > SeqId::None_M1)
@@ -586,6 +590,10 @@ void MusicController::UpdateVolumeState_442A10()
         {
             SND_SEQ_SetVol_477970(field_38_music_seq, field_4C_current_vol, field_4C_current_vol);
         }
+        break;
+
+    default:
+        break;
     }
 }
 
