@@ -540,51 +540,53 @@ void MusicController::SetMusicVolumeDelayed_47FB00(__int16 vol, __int16 delay)
 
 void MusicController::UpdateVolumeState_47EFD0()
 {
-    if (field_4C_state)
+    switch (field_4C_state)
     {
-        // volume off ?
-        if (field_4C_state == 2)
-        {
-            field_4C_state = 0;
-            field_50_current_vol = 0;
-
-            if (field_2C_flags_and_seq_idx > 0) 
-            {
-                SND_SEQ_Stop_4CAE60(field_2C_flags_and_seq_idx);
-                field_2C_flags_and_seq_idx = -1;
-            }
-
-            if (field_40_flags_and_idx > 0)
-            {
-                SND_SEQ_Stop_4CAE60(field_40_flags_and_idx);
-                field_40_flags_and_idx = -1;
-            }
-        }
-        else
-        {
-            // change volume ?
-            if (field_4C_state == 3)
-            {
-                field_50_current_vol = field_52_target_volume;
-                field_4C_state = 1; // Playing ?
-                
-                if (field_2C_flags_and_seq_idx  > 0)
-                {
-                    SND_SEQ_SetVol_4CAD20(field_2C_flags_and_seq_idx, field_50_current_vol, field_50_current_vol);
-                }
-
-                if (field_40_flags_and_idx > 0)
-                {
-                    SND_SEQ_SetVol_4CAD20(field_40_flags_and_idx, field_50_current_vol, field_50_current_vol);
-                }
-            }
-        }
-    }
-    else
-    {
+    case 0:
         field_30_music_time = 0;
         field_34_music_start_time = sMusicTime_5C3024;
         field_48_last_music_frame = sMusicTime_5C3024;
+        break;
+
+    case 1:
+        // volume off ?
+        break;
+
+    case 2:
+        field_4C_state = 0;
+        field_50_current_vol = 0;
+
+        if (field_2C_flags_and_seq_idx > 0)
+        {
+            SND_SEQ_Stop_4CAE60(field_2C_flags_and_seq_idx);
+            field_2C_flags_and_seq_idx = -1;
+        }
+
+        if (field_40_flags_and_idx > 0)
+        {
+            SND_SEQ_Stop_4CAE60(field_40_flags_and_idx);
+            field_40_flags_and_idx = -1;
+        }
+        break;
+
+    case 3:
+        // change volume ?
+        field_50_current_vol = field_52_target_volume;
+        field_4C_state = 1; // Playing ?
+
+        if (field_2C_flags_and_seq_idx > 0)
+        {
+            SND_SEQ_SetVol_4CAD20(field_2C_flags_and_seq_idx, field_50_current_vol, field_50_current_vol);
+        }
+
+        if (field_40_flags_and_idx > 0)
+        {
+            SND_SEQ_SetVol_4CAD20(field_40_flags_and_idx, field_50_current_vol, field_50_current_vol);
+        }
+        break;
+
+    default:
+        break;
     }
 }
 

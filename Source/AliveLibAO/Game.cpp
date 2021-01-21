@@ -232,7 +232,7 @@ static void Main_ParseCommandLineArguments()
     const LPSTR pCmdLine = Sys_GetCommandLine_48E920();
     if (pCmdLine)
     {
-        if (!memcmp(pCmdLine, "-it_is_me_your_father", 22u))
+        if (_strcmpi(pCmdLine, "-it_is_me_your_father") == 0)
         {
             Input_GetCurrentKeyStates_48E630();
             if (Input_IsVKPressed_48E5D0(VK_SHIFT))
