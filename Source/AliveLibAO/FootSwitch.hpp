@@ -8,7 +8,7 @@ namespace AO {
 
 enum class FootSwitchTriggerBy : __int16
 {
-    eOnlyAbe_0 = 1,
+    eOnlyAbe_0 = 0,
     eAnyone_1 = 1,
 };
 
