@@ -44,7 +44,7 @@ public:
 
     EXPORT void VUpdate_457AF0();
 
-    EXPORT void SpeedUpOrDown_458410();
+    EXPORT void Accelerate_458410();
 
     EXPORT void CrushThingsInTheWay_458310();
 

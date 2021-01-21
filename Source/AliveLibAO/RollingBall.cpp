@@ -191,7 +191,7 @@ void RollingBall::VUpdate_457AF0()
             SFX_Play_43AD70(static_cast<char>(Math_RandomRange_450F20(71, 72)), 0, 0);
         }
 
-        SpeedUpOrDown_458410();
+        Accelerate_458410();
 
         PathLine* pLine = nullptr;
         FP hitX = {};
@@ -220,7 +220,7 @@ void RollingBall::VUpdate_457AF0()
             SFX_Play_43AD70(static_cast<char>(Math_RandomRange_450F20(71, 72)), 0, 0);
         }
 
-        SpeedUpOrDown_458410();
+        Accelerate_458410();
 
         field_F4_pLine = field_F4_pLine->MoveOnLine_40CA20(
             &field_A8_xpos,
@@ -404,7 +404,7 @@ void RollingBall::VUpdate_457AF0()
     }
 }
 
-void RollingBall::SpeedUpOrDown_458410()
+void RollingBall::Accelerate_458410()
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
