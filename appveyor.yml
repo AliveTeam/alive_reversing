@@ -28,7 +28,8 @@ install:
 
 after_build:
  - 7z a RELIVE_Symbols_%APPVEYOR_BUILD_NUMBER%.zip c:\ar\build\Source\AliveDllAE\%CONFIGURATION%\AliveDllAE.pdb c:\ar\build\Source\AliveDllAO\%CONFIGURATION%\AliveDllAO.pdb c:\ar\build\Source\AliveExe\%CONFIGURATION%\AliveExe.pdb c:\ar\build\Source\AliveExe\%CONFIGURATION%\AliveExeAO.pdb c:\ar\build\Source\AliveExe\%CONFIGURATION%\AliveExeAE.pdb
- - rename c:\ar\build\ar-*.zip c:\ar\build\RELIVE_Binaries_%APPVEYOR_BUILD_NUMBER%_%CONFIGURATION%.zip
+ - dir
+ - rename ar-*.zip RELIVE_Binaries_%APPVEYOR_BUILD_NUMBER%_%CONFIGURATION%.zip
 
 artifacts:
  - path: c:\ar\build\RELIVE_Symbols*.zip
