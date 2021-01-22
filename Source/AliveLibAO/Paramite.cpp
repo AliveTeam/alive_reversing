@@ -831,12 +831,14 @@ Meat* Paramite::FindMeat_44B160()
                     0)
                     && !WallHit_401930(field_AC_ypos, pMeat->field_A8_xpos - field_A8_xpos))
                 {
-                    if (pMeat->field_124_pLine)
+                    if (!pMeat->field_124_pLine)
                     {
-                        if (FP_Abs(pMeat->field_AC_ypos - field_AC_ypos) < (field_BC_sprite_scale * FP_FromInteger(100)))
-                        {
-                            return pMeat;
-                        }
+                        return pMeat;
+                    }
+
+                    if (FP_Abs(pMeat->field_AC_ypos - field_AC_ypos) < (field_BC_sprite_scale * FP_FromInteger(100)))
+                    {
+                        return pMeat;
                     }
                 }
             }

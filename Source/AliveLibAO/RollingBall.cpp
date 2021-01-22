@@ -185,32 +185,33 @@ void RollingBall::VUpdate_457AF0()
         return;
 
     case RollingBallStates::eStartRolling_1:
+    {
         if (!(field_10_anim.field_92_current_frame % 3))
         {
             SFX_Play_43AD70(static_cast<char>(Math_RandomRange_450F20(71, 72)), 0, 0);
         }
-        else
+
+        Accelerate_458410();
+
+        PathLine* pLine = nullptr;
+        FP hitX = {};
+        FP hitY = {};
+
+        if (InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromInteger(0)))
         {
-            SpeedUpOrDown_458410();
-
-            PathLine* pLine = nullptr;
-            FP hitX = {};
-            FP hitY = {};
-            if (InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromInteger(0)))
+            if (pLine->field_8_type && pLine->field_8_type != 4)
             {
-                if (pLine->field_8_type && pLine->field_8_type != 4)
-                {
-                    return;
-                }
-
-                field_B8_vely = FP_FromInteger(0);
-                field_A8_xpos = hitX;
-                field_AC_ypos = hitY;
-                field_F4_pLine = pLine;
-                field_112_state = RollingBallStates::eRolling_2;
+                return;
             }
+
+            field_B8_vely = FP_FromInteger(0);
+            field_A8_xpos = hitX;
+            field_AC_ypos = hitY;
+            field_F4_pLine = pLine;
+            field_112_state = RollingBallStates::eRolling_2;
         }
         return;
+    }
 
     case RollingBallStates::eRolling_2:
     {
@@ -219,7 +220,7 @@ void RollingBall::VUpdate_457AF0()
             SFX_Play_43AD70(static_cast<char>(Math_RandomRange_450F20(71, 72)), 0, 0);
         }
 
-        SpeedUpOrDown_458410();
+        Accelerate_458410();
 
         field_F4_pLine = field_F4_pLine->MoveOnLine_40CA20(
             &field_A8_xpos,
@@ -403,7 +404,7 @@ void RollingBall::VUpdate_457AF0()
     }
 }
 
-void RollingBall::SpeedUpOrDown_458410()
+void RollingBall::Accelerate_458410()
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
