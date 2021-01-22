@@ -27,7 +27,7 @@ install:
  - 7z x SDL2-devel-2.0.9-VC.zip
 
 after_build:
- - 7z a RELIVE_Symbols_%APPVEYOR_BUILD_NUMBER%.zip c:\ar\build\Source\AliveDllAE\%CONFIGURATION%\AliveDllAE.pdb c:\ar\build\Source\AliveDllAO\%CONFIGURATION%\AliveDllAO.pdb c:\ar\build\Source\AliveExe\%CONFIGURATION%\AliveExe.pdb c:\ar\build\Source\AliveExeAO\%CONFIGURATION%\AliveExeAO.pdb c:\ar\build\Source\AliveExeAE\%CONFIGURATION%\AliveExeAE.pdb
+ - 7z a RELIVE_Symbols_%APPVEYOR_BUILD_NUMBER%.zip c:\ar\build\Source\AliveDllAE\%CONFIGURATION%\AliveDllAE.pdb c:\ar\build\Source\AliveDllAO\%CONFIGURATION%\AliveDllAO.pdb c:\ar\build\Source\AliveExe\%CONFIGURATION%\AliveExe.pdb c:\ar\build\Source\AliveExe\%CONFIGURATION%\AliveExeAO.pdb c:\ar\build\Source\AliveExe\%CONFIGURATION%\AliveExeAE.pdb
  - ps Rename-Item -Path c:\ar\build\ar-*.zip -NewName c:\ar\build\RELIVE_Binaries_%APPVEYOR_BUILD_NUMBER%_%CONFIGURATION%.zip
 
 artifacts:
