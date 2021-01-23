@@ -123,6 +123,10 @@ public:
 
     virtual MIDI_SeqSong& sMidiSeqSongs(int idx) override
     {
+        if (idx < 0 || idx >= 32)
+        {
+            ALIVE_FATAL("sMidiSeqSongs out of bounds");
+        }
         return sMidiSeqSongs_C13400.table[idx];
     }
 
