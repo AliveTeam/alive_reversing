@@ -91,7 +91,7 @@ void SaveGame::LoadFromMemory_459970(SaveData* pData, int bKillObjects)
     sActiveHero_507678->field_100_health = FP_FromInteger(1);
     sActiveHero_507678->field_11C_regen_health_timer = gnFrameCount_507670;
     sActiveHero_507678->field_BC_sprite_scale = pData->field_230_ah_sprite_scale;
-    sActiveHero_507678->field_118 = pData->field_24C_field_118;
+    sActiveHero_507678->field_118_timer = pData->field_24C_field_118;
     sActiveHero_507678->field_19C_throwable_count = static_cast<char>(pData->field_250_throwable_count); // TODO: Type check when other save func done
     sActiveHero_507678->field_106_shot = 0;
 
@@ -408,7 +408,7 @@ void CC SaveGame::SaveToMemory_459490(SaveData* pSaveData)
     pSaveData->field_230_ah_sprite_scale = sActiveHero_507678->field_BC_sprite_scale;
     pSaveData->field_244_stone_state = static_cast<int>(sActiveHero_507678->field_110_state.raw);
     pSaveData->field_248_gnFrame = sActiveHero_507678->field_114_gnFrame;
-    pSaveData->field_24C_field_118 = sActiveHero_507678->field_118;
+    pSaveData->field_24C_field_118 = sActiveHero_507678->field_118_timer;
     pSaveData->field_250_throwable_count = sActiveHero_507678->field_19C_throwable_count;
     pSaveData->field_253_scrabania_done = sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabaniaDone);
     pSaveData->field_264_bInfiniteGrenades = gInfiniteGrenades_5076EC ? -1 : 0;

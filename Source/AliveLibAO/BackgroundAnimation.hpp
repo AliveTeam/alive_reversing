@@ -39,21 +39,21 @@ public:
 
     EXPORT void VUpdate_405C30();
 
-    int field_D4;
-    int field_D8;
-    int field_DC;
-    int field_E0;
+    int field_D4_padding;
+    int field_D8_padding;
+    int field_DC_padding;
+    int field_E0_padding;
     BYTE** field_E4_res;
     __int16 field_E8_xpos;
     __int16 field_EA_ypos;
     __int16 field_EC_w;
     __int16 field_EE_h;
     int field_F0_tlvInfo;
-    int field_F4;
+    int field_F4_padding;
     FP field_F8_animXPos;
     FP field_FC_animYPos;
     __int16 field_100_sound_effect;
-    __int16 field_102;
+    __int16 field_102_padding;
     int field_104_sound_channels_mask;
 };
 ALIVE_ASSERT_SIZEOF(BackgroundAnimation, 0x108);
