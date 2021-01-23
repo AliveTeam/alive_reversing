@@ -1089,7 +1089,11 @@ EXPORT signed __int16 CC SND_SEQ_Play_477760(SeqId idx, int repeatCount, __int16
         }
     }
 
-    SsSeqSetVol_4FDAC0(pOpenSeq->field_A_id_seqOpenId, clampedVolLeft, clampedVolRight);
+    // Can happen in the board room as there is no music
+    if (pOpenSeq->field_A_id_seqOpenId != -1)
+    {
+        SsSeqSetVol_4FDAC0(pOpenSeq->field_A_id_seqOpenId, clampedVolLeft, clampedVolRight);
+    }
     return ret;
 }
 
