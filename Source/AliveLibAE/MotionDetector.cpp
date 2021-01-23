@@ -138,7 +138,7 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvIn
             field_F8_laser_id = pLaser->field_8_object_id;
             field_108_disable_id = pTlv->field_1C_disable_id;
 
-            if (SwitchStates_Get_466020(static_cast<WORD>(field_F8_laser_id)) == 0)
+            if (SwitchStates_Get_466020(field_108_disable_id) == 0)
             {
                 pLaser->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
             }

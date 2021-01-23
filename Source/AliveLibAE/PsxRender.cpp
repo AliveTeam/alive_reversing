@@ -3962,6 +3962,16 @@ EXPORT void CC PSX_EMU_Render_SPRT_51EF90(__int16 x, __int16 y, int u, int v, BY
 
 ALIVE_ARY(1, 0xBD1D00, OT_Prim, 7, stru_BD1D00, {});
 
+static OT_Vert* GetVert(OT_Prim* prim, int idx)
+{
+    if (idx < 0) { idx = 0; }
+    if (idx < 0 || idx >= 9)
+    {
+        ALIVE_FATAL("Vertex out of bounds");
+    }
+    return &prim->field_14_verts[idx];
+}
+
 OT_Prim* PSX_clip_polys_impl(OT_Prim* pOt)
 {
     OT_Prim primLocal = {};
@@ -3985,9 +3995,9 @@ OT_Prim* PSX_clip_polys_impl(OT_Prim* pOt)
     int idx = 0;
     while (1)
     {
-        OT_Vert* pLastVert =  &pOt->field_14_verts[pOt->field_C_vert_count];
-        OT_Vert* pLastVert1 = &pOt->field_14_verts[pOt->field_C_vert_count - 1];
-        OT_Vert* pLastVert2 = &pOt->field_14_verts[pOt->field_C_vert_count - 1];
+        OT_Vert* pLastVert =  GetVert(pOt, pOt->field_C_vert_count);
+        OT_Vert* pLastVert1 = GetVert(pOt, pOt->field_C_vert_count - 1);
+        OT_Vert* pLastVert2 = GetVert(pOt, pOt->field_C_vert_count - 1);
         
         bool bClip = false;
         switch (idx)
@@ -4009,6 +4019,7 @@ OT_Prim* PSX_clip_polys_impl(OT_Prim* pOt)
             break;
         }
 
+        int vertIdx = 0;
         OT_Vert* pVerts = pOt->field_14_verts;
         result->field_C_vert_count = 0;
 
@@ -4036,7 +4047,8 @@ OT_Prim* PSX_clip_polys_impl(OT_Prim* pOt)
                         }
 
                         scaleFactor = (float)(sPsx_drawenv_clipx_BDCD40 - pVerts->field_0_x0) / (float)x0_diff;
-                        pTmpVert = &result->field_14_verts[result->field_C_vert_count++];
+                        pTmpVert = GetVert(result, result->field_C_vert_count);
+                        result->field_C_vert_count++;
                         pTmpVert->field_4_y0 = static_cast<int>(((float)(y0_diff * scaleFactor) + (float)pVerts->field_4_y0));
                         pTmpVert->field_0_x0 = sPsx_drawenv_clipx_BDCD40;
                         result = pLocal;
@@ -4053,7 +4065,8 @@ OT_Prim* PSX_clip_polys_impl(OT_Prim* pOt)
                         }
 
                         scaleFactor = (float)(sPsx_drawenv_clipy_BDCD44 - pVerts->field_4_y0) / (float)y0_diff;
-                        pTmpVert = &result->field_14_verts[result->field_C_vert_count++];
+                        pTmpVert = GetVert(result, result->field_C_vert_count);
+                        result->field_C_vert_count++;
                         pTmpVert->field_0_x0 = static_cast<int>(((float)(x0_diff * scaleFactor) + (float)pVerts->field_0_x0));
                         pTmpVert->field_4_y0 = sPsx_drawenv_clipy_BDCD44;
                         result = pLocal;
@@ -4070,7 +4083,8 @@ OT_Prim* PSX_clip_polys_impl(OT_Prim* pOt)
                         }
                         
                         scaleFactor = (float)(sPsx_drawenv_clipw_BDCD48 - pVerts->field_0_x0) / (float)x0_diff;
-                        pTmpVert = &result->field_14_verts[result->field_C_vert_count++];
+                        pTmpVert = GetVert(result, result->field_C_vert_count);
+                        result->field_C_vert_count++;
                         pTmpVert->field_4_y0 = static_cast<int>(((float)(y0_diff * scaleFactor) + (float)pVerts->field_4_y0));
                         pTmpVert->field_0_x0 = sPsx_drawenv_clipw_BDCD48;
                         result = pLocal;
@@ -4087,7 +4101,8 @@ OT_Prim* PSX_clip_polys_impl(OT_Prim* pOt)
                         }
 
                         scaleFactor = (float)(sPsx_drawenv_cliph_BDCD4C - pVerts->field_4_y0) / (float)y0_diff;
-                        pTmpVert = &result->field_14_verts[result->field_C_vert_count++];
+                        pTmpVert = GetVert(result, result->field_C_vert_count);
+                        result->field_C_vert_count++;
                         pTmpVert->field_0_x0 =  static_cast<int>((float)(x0_diff * scaleFactor) + (float)pVerts->field_0_x0);
                         pTmpVert->field_4_y0 = sPsx_drawenv_cliph_BDCD4C;
                         result = pLocal;
@@ -4129,14 +4144,13 @@ OT_Prim* PSX_clip_polys_impl(OT_Prim* pOt)
 
                 if (!bWasClipped)
                 {
-                    memcpy(
-                        &result->field_14_verts[result->field_C_vert_count++],
-                        pVerts,
-                        sizeof(OT_Vert));
+                    memcpy(GetVert(result, result->field_C_vert_count), pVerts, sizeof(OT_Vert));
+                    result->field_C_vert_count++;
                 }
 
                 pLastVert2 = pVerts;
                 pVerts++;
+                vertIdx++;
                 bClip = bWasClipped;
 
                 if (pVerts >= pLastVert)

@@ -12,6 +12,7 @@
 #include "MusicController.hpp"
 #include "AmbientSound.hpp"
 #include "Sound.hpp"
+#include "Sys_common.hpp"
 
 #include "Sfx.hpp"
 #include "../AliveLibAE/Sfx.hpp"
@@ -203,9 +204,13 @@ public:
         return sMidi_Channels_AC07C0;
     }
 
-    virtual MidiSeqSongsTable& sMidiSeqSongs() override
+    virtual MIDI_SeqSong& sMidiSeqSongs(int idx) override
     {
-        return sMidiSeqSongs_ABFB40;
+        if (idx < 0 || idx >= 32)
+        {
+            ALIVE_FATAL("sMidiSeqSongs out of bounds");
+        }
+        return sMidiSeqSongs_ABFB40.table[idx];
     }
 
     virtual int& sMidi_Inited_dword() override
@@ -611,7 +616,7 @@ enum MidiEvent
 
 EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
 {
-    MIDI_SeqSong* pCtx = &GetSpuApiVars()->sMidiSeqSongs().table[idx];
+    MIDI_SeqSong* pCtx = &GetSpuApiVars()->sMidiSeqSongs(idx);
     BYTE** ppSeqData = &pCtx->field_0_seq_data;
     if (pCtx->field_4_time <= GetSpuApiVars()->sMidiTime())
     {
@@ -1052,8 +1057,39 @@ EXPORT void CC SND_Load_Seqs_477AB0(OpenSeqHandleAE* pSeqTable, const char* bsqF
 EXPORT signed __int16 CC SND_SEQ_Play_477760(SeqId idx, int repeatCount, __int16 volLeft, __int16 volRight)
 {
     AE_IMPLEMENTED();
+
     const auto ret = SND_SEQ_PlaySeq_4CA960(static_cast<unsigned __int16>(idx), static_cast<short>(repeatCount), 1); // TODO ??
-    SsSeqSetVol_4FDAC0(static_cast<unsigned __int16>(idx), volLeft, volRight);
+
+    OpenSeqHandle* pOpenSeq = &GetMidiVars()->sSeqDataTable()[static_cast<unsigned __int16>(idx)];
+
+    // Clamp vol
+    __int16 clampedVolLeft = volLeft;
+    if (clampedVolLeft <= 10)
+    {
+        clampedVolLeft = 10;
+    }
+    else
+    {
+        if (clampedVolLeft >= 127)
+        {
+            clampedVolLeft = 127;
+        }
+    }
+
+    __int16 clampedVolRight = volRight;
+    if (clampedVolRight <= 10)
+    {
+        clampedVolRight = 10;
+    }
+    else
+    {
+        if (clampedVolRight >= 127)
+        {
+            clampedVolRight = 127;
+        }
+    }
+
+    SsSeqSetVol_4FDAC0(pOpenSeq->field_A_id_seqOpenId, clampedVolLeft, clampedVolRight);
     return ret;
 }
 
