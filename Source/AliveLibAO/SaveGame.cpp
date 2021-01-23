@@ -304,7 +304,10 @@ const char* rawLevelNames[] = {
     "Scrabanian Temple",
     nullptr,
     nullptr,
-    "The Boardroom    "
+    "The Boardroom    ",
+    "Rupture Farms II ",
+    "Paramonian Chase ",
+    "Scrabania Chase  ",
 };
 
 short SaveGame::GetPathId(short pathToFind, short* outFoundPathRow)
