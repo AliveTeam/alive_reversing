@@ -203,9 +203,9 @@ public:
         return sMidi_Channels_AC07C0;
     }
 
-    virtual MidiSeqSongsTable& sMidiSeqSongs() override
+    virtual MIDI_SeqSong& sMidiSeqSongs(int idx) override
     {
-        return sMidiSeqSongs_ABFB40;
+        return sMidiSeqSongs_ABFB40.table[idx];
     }
 
     virtual int& sMidi_Inited_dword() override
@@ -611,7 +611,7 @@ enum MidiEvent
 
 EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
 {
-    MIDI_SeqSong* pCtx = &GetSpuApiVars()->sMidiSeqSongs().table[idx];
+    MIDI_SeqSong* pCtx = &GetSpuApiVars()->sMidiSeqSongs(idx);
     BYTE** ppSeqData = &pCtx->field_0_seq_data;
     if (pCtx->field_4_time <= GetSpuApiVars()->sMidiTime())
     {
