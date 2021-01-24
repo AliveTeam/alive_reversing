@@ -104,6 +104,7 @@ ParamiteWeb* ParamiteWeb::ctor_48A920(FP xpos, __int16 bottom, __int16 top, FP s
         for (int i = 0; i < field_E4_number_of_segments; i++)
         {
             AnimationUnknown* pSegment = &field_EC_pRes[i];
+            pSegment = new (pSegment) AnimationUnknown(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
             SetVTable(pSegment, 0x4BA470);
             pSegment->field_4_flags.Set(AnimFlags::eBit3_Render);
             pSegment->field_68_anim_ptr = &field_10_anim;
@@ -129,6 +130,11 @@ void ParamiteWeb::VUpdate_48AE70()
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
     }
+}
+
+void ParamiteWeb::VRender(int** ppOt)
+{
+    VRender_48AB10(ppOt);
 }
 
 //TODO @ 100% - merge with Rope::vRender()
