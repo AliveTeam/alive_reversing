@@ -135,7 +135,6 @@ Paramite* Paramite::ctor_44A7A0(Path_Paramite* pTlv, int tlvInfo)
 
     field_10A_flags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
     field_114_timer = 0;
-    SetBrain(&Paramite::Brain_Patrol_447A10);
     field_110_state = 0;
     field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
     field_EC = 3;
@@ -163,9 +162,13 @@ Paramite* Paramite::ctor_44A7A0(Path_Paramite* pTlv, int tlvInfo)
         field_C6_scale = 1;
     }
 
-    if (pTlv->field_1A_entrance_type)
+    if (pTlv->field_1A_bEnter_from_web)
     {
         SetBrain(&Paramite::Brain_SurpriseWeb_448D00);
+    }
+    else
+    {
+        SetBrain(&Paramite::Brain_Patrol_447A10);
     }
 
     field_11E_attack_delay = pTlv->field_1C_attack_delay;

@@ -48,7 +48,7 @@ class Meat;
 struct Path_Paramite : public Path_TLV
 {
     __int16 field_18_scale;
-    __int16 field_1A_entrance_type;
+    __int16 field_1A_bEnter_from_web;
     __int16 field_1C_attack_delay;
     __int16 field_1E_drop_in_timer;
     __int16 field_20_meat_eating_time;
