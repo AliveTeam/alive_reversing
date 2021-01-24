@@ -1036,6 +1036,7 @@ __int16 Paramite::Brain_Patrol_447A10()
         return AI_Patrol::eState0_IdleForAbe_1;
 
     case AI_Patrol::eState0_IdleForAbe_1:
+    {
         field_148_pMeat = FindMeat_44B160();
         if (field_148_pMeat)
         {
@@ -1087,76 +1088,126 @@ __int16 Paramite::Brain_Patrol_447A10()
             field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
             SetBrain(&Paramite::Brain_ChasingAbe_449170);
             field_138_attack_timer = gnFrameCount_507670 + field_134_attack_duration;
-            return 0;
+            return AI_Patrol::eState0_Inactive_0;
         }
 
-        // mid range - warn abe if cornered or wait for new movement
-        if (VIsObjNearby(kGridSize * FP_FromInteger(6), sActiveHero_507678))
+        // TODO: refactor
+
+        const auto gridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
+        const auto anim_flags = field_10_anim.field_4_flags;
+        gridSize * FP_FromInteger(6);
+
+        if (!VIsObjNearby(gridSize * FP_FromInteger(6), sActiveHero_507678))
         {
-            if (VIsFacingMe(sActiveHero_507678))
+            if (!VIsObjNearby(gridSize * FP_FromInteger(8), sActiveHero_507678))
             {
-                if ((!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(1, 2)) ||
-                    (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(0, 2)))
+                if (!VIsFacingMe(sActiveHero_507678))
                 {
-                    field_FE_next_state = eParamiteStates::State_13_GameSpeakBegin_44D050;
-                    return AI_Patrol::eState0_StuckToWall_8;
+                    if (anim_flags.Get(AnimFlags::eBit5_FlipX) && !Check_IsOnEndOfLine_4021A0(0, 2))
+                    {
+                        field_FE_next_state = eParamiteStates::State_5_Turn_44C8E0;
+                        return 6;
+                    }
+                    if (!anim_flags.Get(AnimFlags::eBit5_FlipX) && !Check_IsOnEndOfLine_4021A0(1, 2))
+                    {
+                        field_FE_next_state = eParamiteStates::State_5_Turn_44C8E0;
+                        return 6;
+                    }
                 }
-                Sound_44DBB0(5u);
-                field_FE_next_state = eParamiteStates::State_5_Turn_44C8E0;
-                return AI_Patrol::eState0_TurningForAbe_6;
+                else
+                {
+                    if (anim_flags.Get(AnimFlags::eBit5_FlipX) && !Check_IsOnEndOfLine_4021A0(1, 2))
+                    {
+                        field_FE_next_state = eParamiteStates::State_2_Walking_44B9E0;
+                        return 4;
+                    }
+                    if (!anim_flags.Get(AnimFlags::eBit5_FlipX) && !Check_IsOnEndOfLine_4021A0(0, 2))
+                    {
+                        field_FE_next_state = eParamiteStates::State_2_Walking_44B9E0;
+                        return 4;
+                    }
+                }
             }
 
-            // close range - run away or attack if cornered
-            if (VIsObjNearby(kGridSize * FP_FromInteger(4), sActiveHero_507678))
+            if (VIsFacingMe(sActiveHero_507678))
             {
-                if ((field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(1, 2)) ||
-                    (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(0, 2)))
+                return field_110_state;
+            }
+
+            field_FE_next_state = eParamiteStates::State_5_Turn_44C8E0;
+            return 6;
+        }
+
+        if (VIsFacingMe(sActiveHero_507678))
+        {
+            if (anim_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                if (Check_IsOnEndOfLine_4021A0(0, 2))
+                {
+                    field_FE_next_state = eParamiteStates::State_13_GameSpeakBegin_44D050;
+                    return 8;
+                }
+
+                if (anim_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    Sound_44DBB0(5u);
+                    field_FE_next_state = eParamiteStates::State_5_Turn_44C8E0;
+                    return 6;
+                }
+            }
+
+            if (!Check_IsOnEndOfLine_4021A0(1, 2))
+            {
+                Sound_44DBB0(5u);
+                field_FE_next_state = eParamiteStates::State_5_Turn_44C8E0;
+                return 6;
+            }
+            else
+            {
+                field_FE_next_state = eParamiteStates::State_13_GameSpeakBegin_44D050;
+                return 8;
+            }
+        }
+        else
+        {
+            if (!VIsObjNearby(gridSize * FP_FromInteger(4), sActiveHero_507678))
+            {
+                if (anim_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(1, 2))
+                {
+                    field_FE_next_state = eParamiteStates::State_5_Turn_44C8E0;
+                    return 7;
+                }
+                if (anim_flags.Get(AnimFlags::eBit5_FlipX)|| !Check_IsOnEndOfLine_4021A0(0, 2))
                 {
                     field_FE_next_state = eParamiteStates::State_2_Walking_44B9E0;
                     field_128_never_read = 0;
-                    return AI_Patrol::eState0_FearingAbe_2;
+                    return 2;
                 }
-                field_FE_next_state = eParamiteStates::State_3_Running_44C070;
-                return AI_Patrol::eState0_RunningFromAbe_3;
-            }
-
-            if ((field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(1, 2)) ||
-                !field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(0, 2))
-            {
-                field_FE_next_state = eParamiteStates::State_5_Turn_44C8E0;
-                return AI_Patrol::eState0_HittingAbe_7;
-            }
-
-            field_FE_next_state = eParamiteStates::State_2_Walking_44B9E0;
-            return AI_Patrol::eState0_FearingAbe_2;
-        }
-
-        // far range - follow abe 
-        if (!VIsObjNearby(kGridSize * FP_FromInteger(8), sActiveHero_507678))
-        {
-            if (!VIsFacingMe(sActiveHero_507678))
-            {
-                if ((field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && !Check_IsOnEndOfLine_4021A0(0, 2)) ||
-                    (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && !Check_IsOnEndOfLine_4021A0(1, 2)))
+                else
                 {
                     field_FE_next_state = eParamiteStates::State_5_Turn_44C8E0;
-                    return AI_Patrol::eState0_TurningForAbe_6;
+                    return 7;
                 }
             }
-            else if ((field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && !Check_IsOnEndOfLine_4021A0(1, 2)) ||
-                    (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && !Check_IsOnEndOfLine_4021A0(0, 2)))
+            else
             {
-                field_FE_next_state = eParamiteStates::State_2_Walking_44B9E0;
-                return AI_Patrol::eState0_ApproachingAbe_4;
+                if (anim_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(1, 2))
+                {
+                    field_FE_next_state = eParamiteStates::State_5_Turn_44C8E0;
+                    return 7;
+                }
+                if (anim_flags.Get(AnimFlags::eBit5_FlipX) || !Check_IsOnEndOfLine_4021A0(0, 2))
+                {
+                    field_FE_next_state = eParamiteStates::State_3_Running_44C070;
+                    return 3;
+                }
+                field_FE_next_state = eParamiteStates::State_5_Turn_44C8E0;
+                return 7;
             }
         }
-
-        if (!VIsFacingMe(sActiveHero_507678))
-        {
-            field_FE_next_state = eParamiteStates::State_5_Turn_44C8E0;
-            return AI_Patrol::eState0_TurningForAbe_6;
-        }
-        return field_110_state;
+        break;
+    }
+    //return result;
 
     case AI_Patrol::eState0_FearingAbe_2:
         if (!VOnSameYLevel(sActiveHero_507678) || field_BC_sprite_scale != sActiveHero_507678->field_BC_sprite_scale)
