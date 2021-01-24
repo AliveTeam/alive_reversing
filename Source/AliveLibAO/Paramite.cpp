@@ -1095,8 +1095,8 @@ __int16 Paramite::Brain_Patrol_447A10()
         {
             if (VIsFacingMe(sActiveHero_507678))
             {
-                if ((field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(1, 2)) ||
-                    (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(0, 2)))
+                if ((!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(1, 2)) ||
+                    (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(0, 2)))
                 {
                     field_FE_next_state = eParamiteStates::State_13_GameSpeakBegin_44D050;
                     return AI_Patrol::eState0_StuckToWall_8;
@@ -1110,7 +1110,7 @@ __int16 Paramite::Brain_Patrol_447A10()
             else if (VIsObjNearby(kGridSize * FP_FromInteger(4), sActiveHero_507678))
             {
                 if ((field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(1, 2)) ||
-                    !(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(0, 2)))
+                    (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(0, 2)))
                 {
                     field_FE_next_state = eParamiteStates::State_5_Turn_44C8E0;
                     return AI_Patrol::eState0_HittingAbe_7;
@@ -1122,7 +1122,7 @@ __int16 Paramite::Brain_Patrol_447A10()
             else
             {
                 if ((field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(1, 2)) ||
-                    !(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(0, 2)))
+                    (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(0, 2)))
                 {
                     field_FE_next_state = eParamiteStates::State_5_Turn_44C8E0;
                     return AI_Patrol::eState0_HittingAbe_7;
@@ -1137,7 +1137,7 @@ __int16 Paramite::Brain_Patrol_447A10()
             if (!VIsFacingMe(sActiveHero_507678))
             {
                 if ((field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(0, 2)) ||
-                    !(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(1, 2)))
+                    (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(1, 2)))
                 {
                     field_FE_next_state = eParamiteStates::State_5_Turn_44C8E0;
                     return AI_Patrol::eState0_TurningForAbe_6;
