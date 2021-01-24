@@ -53,7 +53,7 @@ struct Path_Paramite : public Path_TLV
     __int16 field_1E_drop_in_timer;
     __int16 field_20_meat_eating_time;
     __int16 field_22_attack_duration;
-    __int16 field_24_disabled_resources;
+    __int16 field_24_disabled_resources; // Not actually used
     __int16 field_26_id;
     __int16 field_28_hiss_before_attack;
     __int16 field_2A_delete_when_far_away;
@@ -183,7 +183,7 @@ public:
     __int16 field_112_drop_in_timer;
     int field_114_timer;
     int field_118_not_used;
-    __int16 field_11C_meat_eat_time;
+    __int16 field_11C_meat_eating_time;
     __int16 field_11E_attack_delay;
     int field_120_wait_timer;
     FP field_124_XSpeed;
@@ -191,13 +191,13 @@ public:
     __int16 field_12A_res_idx;
     int field_12C_tlvInfo;
     int field_130_not_used;
-    int field_134_time_to_chase;
+    int field_134_attack_duration;
     int field_138_chase_timer;
-    __int16 field_13C_hiss_before_attack;
-    __int16 field_13E_bHissing;
+    __int16 field_13C_id;
+    __int16 field_13E_hiss_before_attack;
     __int16 field_140_use_prev_motion;
     __int16 field_142_bSnapped;
-    __int16 field_144_dont_persist;
+    __int16 field_144_delete_when_far_away;
     __int16 field_146_not_used;
     Meat* field_148_pMeat;
     ParamiteWeb* field_14C_pWeb;
