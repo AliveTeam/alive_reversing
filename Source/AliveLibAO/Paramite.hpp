@@ -48,15 +48,15 @@ class Meat;
 struct Path_Paramite : public Path_TLV
 {
     __int16 field_18_scale;
-    __int16 field_1A_entrance_type;
+    __int16 field_1A_bEnter_from_web;
     __int16 field_1C_attack_delay;
-    __int16 field_1E_meat_eating_time;
-    __int16 field_20_attack_duration;
-    __int16 field_22_disabled_resources;
-    __int16 field_24_id;
-    __int16 field_26_hiss_before_attack;
-    __int16 field_28_delete_when_far_away;
-    __int16 field_2A_unknown;
+    __int16 field_1E_drop_in_timer;
+    __int16 field_20_meat_eating_time;
+    __int16 field_22_attack_duration;
+    __int16 field_24_disabled_resources; // Not actually used
+    __int16 field_26_id;
+    __int16 field_28_hiss_before_attack;
+    __int16 field_2A_delete_when_far_away;
 };
 ALIVE_ASSERT_SIZEOF(Path_Paramite, 0x2C);
 
@@ -180,25 +180,25 @@ public:
 
     TParamiteBrain field_10C_fn;
     __int16 field_110_state;
-    __int16 field_112_meat_eating_time;
+    __int16 field_112_drop_in_timer;
     int field_114_timer;
-    int field_118;
-    __int16 field_11C_attack_duration;
+    int field_118_not_used;
+    __int16 field_11C_meat_eating_time;
     __int16 field_11E_attack_delay;
-    int field_120;
-    FP field_124;
-    __int16 field_128;
+    int field_120_wait_timer;
+    FP field_124_XSpeed;
+    __int16 field_128_never_read;
     __int16 field_12A_res_idx;
-    int field_12C;
-    int field_130;
-    int field_134_disabled_resources;
-    int field_138;
-    __int16 field_13C_hiss_before_attack;
-    __int16 field_13E_bHissing;
-    __int16 field_140;
-    __int16 field_142;
-    __int16 field_144;
-    __int16 field_146;
+    int field_12C_tlvInfo;
+    int field_130_not_used;
+    int field_134_attack_duration;
+    int field_138_attack_timer;
+    __int16 field_13C_id;
+    __int16 field_13E_hiss_before_attack;
+    __int16 field_140_use_prev_motion;
+    __int16 field_142_bSnapped;
+    __int16 field_144_delete_when_far_away;
+    __int16 field_146_not_used;
     Meat* field_148_pMeat;
     ParamiteWeb* field_14C_pWeb;
     BYTE** field_150_resources[16];
