@@ -24,9 +24,11 @@ public:
 
     virtual void VUpdate() override;
 
+    virtual void VRender(int** ppOt) override;
+
     EXPORT void VUpdate_48AE70();
 
-    EXPORT void VRender_48AB10(int **ppOt);
+    EXPORT void VRender_48AB10(int** ppOt);
 
     int field_D4[4];
     __int16 field_E4_number_of_segments;
