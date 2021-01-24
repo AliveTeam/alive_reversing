@@ -192,7 +192,7 @@ public:
     int field_12C_tlvInfo;
     int field_130_not_used;
     int field_134_attack_duration;
-    int field_138_chase_timer;
+    int field_138_attack_timer;
     __int16 field_13C_id;
     __int16 field_13E_hiss_before_attack;
     __int16 field_140_use_prev_motion;

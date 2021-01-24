@@ -1086,7 +1086,7 @@ __int16 Paramite::Brain_Patrol_447A10()
             Sound_44DBB0(5u);
             field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
             SetBrain(&Paramite::Brain_ChasingAbe_449170);
-            field_138_chase_timer = gnFrameCount_507670 + field_134_attack_duration;
+            field_138_attack_timer = gnFrameCount_507670 + field_134_attack_duration;
             return 0;
         }
 
@@ -1200,7 +1200,7 @@ __int16 Paramite::Brain_Patrol_447A10()
             Sound_44DBB0(5u);
             field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
             SetBrain(&Paramite::Brain_ChasingAbe_449170);
-            field_138_chase_timer = gnFrameCount_507670 + field_134_attack_duration;
+            field_138_attack_timer = gnFrameCount_507670 + field_134_attack_duration;
             return 0;
         }
 
@@ -1254,7 +1254,7 @@ __int16 Paramite::Brain_Patrol_447A10()
             Sound_44DBB0(5u);
             field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
             SetBrain(&Paramite::Brain_ChasingAbe_449170);
-            field_138_chase_timer = gnFrameCount_507670 + field_134_attack_duration;
+            field_138_attack_timer = gnFrameCount_507670 + field_134_attack_duration;
             return 0;
         }
 
@@ -1282,7 +1282,7 @@ __int16 Paramite::Brain_Patrol_447A10()
         {
             Sound_44DBB0(5u);
             field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
-            field_138_chase_timer = gnFrameCount_507670 + field_134_attack_duration;
+            field_138_attack_timer = gnFrameCount_507670 + field_134_attack_duration;
             SetBrain(&Paramite::Brain_ChasingAbe_449170);
             return 0;
         }
@@ -1345,7 +1345,7 @@ __int16 Paramite::Brain_Patrol_447A10()
         {
             Sound_44DBB0(5u);
             field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
-            field_138_chase_timer = gnFrameCount_507670 + field_134_attack_duration;
+            field_138_attack_timer = gnFrameCount_507670 + field_134_attack_duration;
             SetBrain(&Paramite::Brain_ChasingAbe_449170);
             return 0;
         }
@@ -1812,7 +1812,7 @@ __int16 Paramite::Brain_ChasingAbe_449170()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (field_138_chase_timer <= static_cast<int>(gnFrameCount_507670)
+    if (field_138_attack_timer <= static_cast<int>(gnFrameCount_507670)
         && (!VOnSameYLevel(sActiveHero_507678)
             || field_BC_sprite_scale != sActiveHero_507678->field_BC_sprite_scale)
         && sActiveHero_507678->field_100_health > FP_FromInteger(0))
