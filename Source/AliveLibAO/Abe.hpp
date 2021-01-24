@@ -670,15 +670,15 @@ public:
     AllInternalStates field_110_state;
     __int16 field_112_prev_motion;
     int field_114_gnFrame;
-    int field_118;
+    int field_118_timer;
     int field_11C_regen_health_timer;
-    FP field_120;
-    int field_124;
-    __int16 field_128;
-    __int16 field_12A;
+    FP field_120_x_vel_slow_by;
+    int field_124_unused;
+    __int16 field_128_resource_idx;
+    __int16 field_12A_unused;
     int field_12C_timer;
     __int16 field_130_say;
-    __int16 field_132;
+    __int16 field_132_padding;
     int field_134_auto_say_timer;
     PSX_Point field_138_zone_top_left;
     PSX_Point field_13C_zone_bottom_right;
@@ -691,7 +691,7 @@ public:
     FP field_14C_saved_sprite_scale;
     int field_150_saved_ring_timer; // todo: check
     __int16 field_154_bSavedHaveShrykull;
-    __int16 field_156;
+    __int16 field_156_padding;
     DeathFadeOut* field_158_pDeathFadeout;
     BaseThrowable* field_15C_pThrowable;
     PullRingRope* field_160_pRope;
@@ -716,7 +716,7 @@ public:
     BitField16<Flags_2A8> field_2A8_flags;
     BitField16<Flags_2AA> field_2AA_flags;
     SaveData* field_2AC_pSaveData;
-    int field_2B0;
+    int field_2B0_padding;
 };
 ALIVE_ASSERT_SIZEOF(Abe, 0x2B4);
 

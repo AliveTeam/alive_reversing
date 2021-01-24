@@ -45,7 +45,7 @@ public:
     int field_118_timer1;
     int field_11C_voice_adjust;
     __int16 field_120_target_id;
-    __int16 field_122;
+    __int16 field_122_padding;
 };
 ALIVE_ASSERT_SIZEOF(BackgroundGlukkon, 0x124);
 

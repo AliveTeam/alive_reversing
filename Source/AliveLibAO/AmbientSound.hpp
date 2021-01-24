@@ -20,8 +20,8 @@ EXPORT void CC Stop_slig_sounds_476A20(CameraPos direction, char kZero);
 class ScopedSeq;
 struct Sound_Ambiance
 {
-    int field_0;
-    int field_4;
+    int field_0_padding;
+    int field_4_padding;
     ScopedSeq* field_8_pScopedSeq;
 };
 ALIVE_ASSERT_SIZEOF(Sound_Ambiance, 0xC);

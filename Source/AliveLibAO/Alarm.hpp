@@ -36,8 +36,8 @@ private:
     int field_6C_15_timer;
     int field_70_duration_timer;
     __int16 field_74_switch_id;
-    __int16 field_76;
-    int field_78;
+    __int16 field_76_padding;
+    int field_78_padding;
 };
 ALIVE_ASSERT_SIZEOF(Alarm, 0x7C);
 

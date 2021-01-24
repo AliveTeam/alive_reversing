@@ -74,7 +74,7 @@ public:
     LevelIds field_270_level;
     __int16 field_272_path;
     __int16 field_274_ring_type;
-    __int16 field_276;
+    __int16 field_276_padding;
     BaseAliveGameObject* field_278_pTarget_obj;
 };
 ALIVE_ASSERT_SIZEOF(AbilityRing, 0x27C);
