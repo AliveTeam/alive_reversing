@@ -176,7 +176,7 @@ public:
     virtual ConvertedVagTable& sConvertedVagTable() = 0;
     virtual SoundEntryTable& sSoundEntryTable16() = 0;
     virtual MidiChannels& sMidi_Channels() = 0;
-    virtual MidiSeqSongsTable& sMidiSeqSongs() = 0;
+    virtual MIDI_SeqSong& sMidiSeqSongs(int idx) = 0;
     virtual int& sMidi_Inited_dword() = 0;
     virtual unsigned int& sMidiTime() = 0;
     virtual BOOL& sSoundDatIsNull() = 0;
