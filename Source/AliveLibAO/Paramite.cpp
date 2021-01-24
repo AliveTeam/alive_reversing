@@ -1048,7 +1048,7 @@ __int16 Paramite::Brain_Patrol_447A10()
             || field_BC_sprite_scale != sActiveHero_507678->field_BC_sprite_scale
             || WallHit_401930(field_BC_sprite_scale * FP_FromInteger(5), sActiveHero_507678->field_A8_xpos - field_A8_xpos))
         {
-            field_120 = gnFrameCount_507670 + Math_RandomRange_450F20(45, 135);
+            field_120_wait_timer = gnFrameCount_507670 + Math_RandomRange_450F20(45, 135);
             return AI_Patrol::eState0_Idle_12;
         }
 
@@ -1497,21 +1497,21 @@ __int16 Paramite::Brain_Patrol_447A10()
             field_FE_next_state = eParamiteStates::State_15_Hiss_44D300;
             return AI_Patrol::eState0_Panic_15;
         }
-        if (field_120 > static_cast<int>(gnFrameCount_507670))
+
+        if (field_120_wait_timer <= static_cast<int>(gnFrameCount_507670))
         {
-            return field_110_state;
+            if (Math_NextRandom() >= 6u)
+            {
+                field_FE_next_state = eParamiteStates::State_5_Turn_44C8E0;
+                return AI_Patrol::eState0_Turning_14;
+            }
+            else
+            {
+                field_FE_next_state = eParamiteStates::State_13_GameSpeakBegin_44D050;
+                return AI_Patrol::eState0_IdleAnimation_13;
+            }
         }
-        if (Math_NextRandom() >= 6u)
-        {
-            field_FE_next_state = eParamiteStates::State_5_Turn_44C8E0;
-            return AI_Patrol::eState0_Turning_14;
-        }
-        else
-        {
-            field_FE_next_state = eParamiteStates::State_13_GameSpeakBegin_44D050;
-            return AI_Patrol::eState0_IdleAnimation_13;
-        }
-        break;
+        return field_110_state;
 
     case AI_Patrol::eState0_IdleAnimation_13:
         if (field_FC_current_motion != eParamiteStates::State_14_PreHiss_44D170
@@ -1520,7 +1520,7 @@ __int16 Paramite::Brain_Patrol_447A10()
             return field_110_state;
         }
         field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
-        field_120 = gnFrameCount_507670 + Math_RandomRange_450F20(45, 135);
+        field_120_wait_timer = gnFrameCount_507670 + Math_RandomRange_450F20(45, 135);
         return AI_Patrol::eState0_Idle_12;
 
     case AI_Patrol::eState0_Turning_14:
@@ -1529,7 +1529,7 @@ __int16 Paramite::Brain_Patrol_447A10()
         {
             return field_110_state;
         }
-        field_120 = gnFrameCount_507670 + Math_RandomRange_450F20(45, 135);
+        field_120_wait_timer = gnFrameCount_507670 + Math_RandomRange_450F20(45, 135);
         return AI_Patrol::eState0_Idle_12;
 
     case AI_Patrol::eState0_Panic_15:

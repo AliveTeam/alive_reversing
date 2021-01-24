@@ -185,7 +185,7 @@ public:
     int field_118;
     __int16 field_11C_attack_duration;
     __int16 field_11E_attack_delay;
-    int field_120;
+    int field_120_wait_timer;
     FP field_124;
     __int16 field_128;
     __int16 field_12A_res_idx;
