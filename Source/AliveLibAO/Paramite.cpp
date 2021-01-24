@@ -169,15 +169,15 @@ Paramite* Paramite::ctor_44A7A0(Path_Paramite* pTlv, int tlvInfo)
     }
 
     field_11E_attack_delay = pTlv->field_1C_attack_delay;
-    field_112_drop_in_timer = pTlv->field_1E_meat_eating_time;
-    field_11C_meat_eat_time = pTlv->field_20_attack_duration;
-    field_134_time_to_chase = pTlv->field_22_disabled_resources;
+    field_112_drop_in_timer = pTlv->field_1E_drop_in_timer;
+    field_11C_meat_eat_time = pTlv->field_20_meat_eating_time;
+    field_134_time_to_chase = pTlv->field_22_attack_duration;
 
     // TODO: The TLV data is wrong - figured out correct order/names
-    field_13C_hiss_before_attack = pTlv->field_26_hiss_before_attack; // switch id
-    field_13E_bHissing = pTlv->field_28_delete_when_far_away;
+    field_13C_hiss_before_attack = pTlv->field_26_id; // switch id
+    field_13E_bHissing = pTlv->field_28_hiss_before_attack;
 
-    field_144_dont_persist = pTlv->field_2A_unknown;
+    field_144_dont_persist = pTlv->field_2A_delete_when_far_away;
 
     FP hitX = {};
     FP hitY = {};

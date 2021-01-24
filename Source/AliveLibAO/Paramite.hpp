@@ -50,13 +50,13 @@ struct Path_Paramite : public Path_TLV
     __int16 field_18_scale;
     __int16 field_1A_entrance_type;
     __int16 field_1C_attack_delay;
-    __int16 field_1E_meat_eating_time;
-    __int16 field_20_attack_duration;
-    __int16 field_22_disabled_resources;
-    __int16 field_24_id;
-    __int16 field_26_hiss_before_attack;
-    __int16 field_28_delete_when_far_away;
-    __int16 field_2A_unknown;
+    __int16 field_1E_drop_in_timer;
+    __int16 field_20_meat_eating_time;
+    __int16 field_22_attack_duration;
+    __int16 field_24_disabled_resources;
+    __int16 field_26_id;
+    __int16 field_28_hiss_before_attack;
+    __int16 field_2A_delete_when_far_away;
 };
 ALIVE_ASSERT_SIZEOF(Path_Paramite, 0x2C);
 
