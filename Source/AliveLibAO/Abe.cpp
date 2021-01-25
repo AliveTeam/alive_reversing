@@ -1922,6 +1922,7 @@ void Abe::MoveForward_422FC0()
 
 void Abe::ElumFree_4228F0()
 {
+    LOG_INFO("test pr");
     if (field_2AA_flags.Get(Flags_2AA::e2AA_Bit4_ElumMountEnd))
     {
         ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElumUnknownResID_110, 1, 0));
