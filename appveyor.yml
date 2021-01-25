@@ -34,12 +34,12 @@ after_build:
 
 artifacts:
  - path: build\RELIVE_Symbols*.zip
-   name: RELIVE_Symbols$(PR_STR)_$(configuration)_$(APPVEYOR_BUILD_NUMBER)
+   name: RELIVE_Symbols_$(configuration)_$(APPVEYOR_BUILD_NUMBER)
 
  - path: build\RELIVE_Binaries_Full*.zip
-   name: RELIVE_Binaries_Full$(PR_STR)_$(configuration)_$(APPVEYOR_BUILD_NUMBER)
+   name: RELIVE_Binaries_Full_$(configuration)_$(APPVEYOR_BUILD_NUMBER)
 
  - path: build\RELIVE_Binaries_Lite_*.zip
-   name: RELIVE_Binaries$(PR_STR)_$(configuration)_$(PLATFORM)
+   name: RELIVE_Binaries_$(configuration)_$(PLATFORM)
 
 test: off
