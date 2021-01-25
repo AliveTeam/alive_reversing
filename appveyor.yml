@@ -27,7 +27,7 @@ install:
  - 7z x SDL2-devel-2.0.9-VC.zip
 
 after_build:
- - ps: if($env:APPVEYOR_PULL_REQUEST_NUMBER) { $env:PR_STR = _PR%APPVEYOR_PULL_REQUEST_NUMBER%; }
+ - ps: if($env:APPVEYOR_PULL_REQUEST_NUMBER) { $env:PR_STR = "_PR$env:APPVEYOR_PULL_REQUEST_NUMBER" }
  - 7z a RELIVE_Symbols%PR_STR%%CONFIGURATION%_%PLATFORM%_%APPVEYOR_BUILD_NUMBER%.zip c:\ar\build\Source\AliveDllAE\%CONFIGURATION%\AliveDllAE.pdb c:\ar\build\Source\AliveDllAO\%CONFIGURATION%\AliveDllAO.pdb c:\ar\build\Source\AliveExe\%CONFIGURATION%\AliveExe.pdb c:\ar\build\Source\AliveExe\%CONFIGURATION%\AliveExeAO.pdb c:\ar\build\Source\AliveExe\%CONFIGURATION%\AliveExeAE.pdb
  - rename ar-*.zip RELIVE_Binaries_Full%PR_STR%%CONFIGURATION%_%PLATFORM%_%APPVEYOR_BUILD_NUMBER%.zip
  - 7z a RELIVE_Binaries%PR_STR%%CONFIGURATION%_%PLATFORM%.zip c:\ar\build\Source\AliveExe\%CONFIGURATION%\AliveExeAO.exe c:\ar\build\Source\AliveExe\%CONFIGURATION%\AliveExeAE.exe C:\ar\build\Source\AliveDllAE\%CONFIGURATION%\SDL2.dll
