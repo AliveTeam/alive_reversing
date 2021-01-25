@@ -108,7 +108,10 @@ void GameEnderController::VUpdate_41C860()
                     if (pObjIter->field_4_typeId == Types::eParticleBurst_19 ||
                         pObjIter->field_4_typeId == Types::eAlarm_1 ||
                         pObjIter->field_4_typeId == Types::eUXB_99 ||
-                        pObjIter->field_4_typeId == Types::eMeatSaw_56
+                        pObjIter->field_4_typeId == Types::eMeatSaw_56 ||
+                        pObjIter->field_4_typeId == Types::eSlig_88 || // EvenWurst Wieners fix - uses these extra objects that need to be deleted
+                        pObjIter->field_4_typeId == Types::eSligSpawner_91 ||
+                        pObjIter->field_4_typeId == Types::eSlog_89
                         )
                     {
                         pObjIter->field_6_flags.Set(Options::eDead_Bit3);
