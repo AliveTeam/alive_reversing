@@ -30,16 +30,16 @@ after_build:
  - ps: if($env:APPVEYOR_PULL_REQUEST_NUMBER) { $env:PR_STR = "_PR$env:APPVEYOR_PULL_REQUEST_NUMBER" } else {  $env:PR_STR = "" }
  - 7z a RELIVE_Symbols%PR_STR%_%CONFIGURATION%_%PLATFORM%_%APPVEYOR_BUILD_NUMBER%.zip c:\ar\build\Source\AliveDllAE\%CONFIGURATION%\AliveDllAE.pdb c:\ar\build\Source\AliveDllAO\%CONFIGURATION%\AliveDllAO.pdb c:\ar\build\Source\AliveExe\%CONFIGURATION%\AliveExe.pdb c:\ar\build\Source\AliveExe\%CONFIGURATION%\AliveExeAO.pdb c:\ar\build\Source\AliveExe\%CONFIGURATION%\AliveExeAE.pdb
  - rename ar-*.zip RELIVE_Binaries_Full%PR_STR%_%CONFIGURATION%_%PLATFORM%_%APPVEYOR_BUILD_NUMBER%.zip
- - 7z a RELIVE_Binaries%PR_STR%_%CONFIGURATION%_%PLATFORM%.zip c:\ar\build\Source\AliveExe\%CONFIGURATION%\AliveExeAO.exe c:\ar\build\Source\AliveExe\%CONFIGURATION%\AliveExeAE.exe C:\ar\build\Source\AliveDllAE\%CONFIGURATION%\SDL2.dll
+ - 7z a RELIVE_Binaries_Lite%PR_STR%_%CONFIGURATION%_%PLATFORM%.zip c:\ar\build\Source\AliveExe\%CONFIGURATION%\AliveExeAO.exe c:\ar\build\Source\AliveExe\%CONFIGURATION%\AliveExeAE.exe C:\ar\build\Source\AliveDllAE\%CONFIGURATION%\SDL2.dll
 
 artifacts:
- - path: build\RELIVE_Symbols$(PR_STR)_$(CONFIGURATION)_$(PLATFORM)_$(APPVEYOR_BUILD_NUMBER).zip
+ - path: build\RELIVE_Symbols*.zip
    name: RELIVE_Symbols$(PR_STR)_$(configuration)_$(APPVEYOR_BUILD_NUMBER)
 
- - path: build\RELIVE_Binaries_Full%PR_STR%_$(CONFIGURATION)_$(PLATFORM)_$(APPVEYOR_BUILD_NUMBER).zip
+ - path: build\RELIVE_Binaries_Full*.zip
    name: RELIVE_Binaries_Full$(PR_STR)_$(configuration)_$(APPVEYOR_BUILD_NUMBER)
 
- - path: build\RELIVE_Binaries$(PR_STR)_$(CONFIGURATION)_$(PLATFORM).zip
+ - path: build\RELIVE_Binaries_Lite_*.zip
    name: RELIVE_Binaries$(PR_STR)_$(configuration)_$(PLATFORM)
 
 test: off
