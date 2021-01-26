@@ -461,14 +461,9 @@ __int16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(const T
 
 void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType_418930(Types typeToFind)
 {
-    const short offsets[] =
+    const short offsets[6] =
     {
-        0,
-        3,
-        -3,
-        6,
-        -6,
-        2
+        0, 3, -3, 6, -6, 2
     };
 
     int array_idx = 0;
@@ -483,7 +478,7 @@ void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType_418930(Types typeT
         if (pObjIter->field_4_typeId == typeToFind && pObjIter != this)
         {
             array_idx++;
-            if (array_idx > ALIVE_COUNTOF(offsets))
+            if (array_idx >= ALIVE_COUNTOF(offsets))
             {
                 array_idx = 0;
             }
