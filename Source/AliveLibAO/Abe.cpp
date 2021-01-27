@@ -7035,8 +7035,6 @@ void Abe::State_61_Respawn_42CD20()
 {
     // This will crash the game if abe didnt touch a checkpoint yet
 
-    TRACE_ENTRYEXIT;
-
     if (gAttract_507698)
     {
         // Depending on the randomn seed value abe can die in a demo, if so the checkpoint save will load
