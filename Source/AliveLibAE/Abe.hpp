@@ -229,25 +229,18 @@ enum class ChantStates : unsigned __int16
     eUnpossessing_4 = 4,
     ePadding_5 = 5,
     eChantingForBirdPortal_6 = 6,
-    ePadding_7 = 7,
-
-    ePadding_12 = 12,
-    ePadding_13 = 13
 };
 
 enum class StoneStates : unsigned __int16
 {
-    eUnknown_0 = 0,
-    eUnknown_1 = 1,
-    eUnknown_2 = 2,
-    eUnknown_3 = 3,
-    eUnknown_4 = 4,
-    eUnknown_5 = 5,
-    eUnknown_6 = 6,
-    eUnknown_7 = 7,
-
-    eUnknown_12 = 12,
-    eUnknown_13 = 13
+    eHandstoneBegin_0 = 0,
+    eGetHandstoneType_1 = 1,
+    eHandstoneMovieDone_2 = 2,
+    eHandstoneEnd_3 = 3,
+    eWaitForInput_4 = 4,
+    eCamChangeTransition_5 = 5,
+    eSetActiveCamToAbe_6 = 6,
+    eCircularFadeExit_7 = 7,
 };
 
 // assumed to be the same as AO

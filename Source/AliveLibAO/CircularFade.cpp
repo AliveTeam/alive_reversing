@@ -124,7 +124,7 @@ void CircularFade::VRender_47A080(int** ppOt)
     }
 }
 
-char CircularFade::Vsub_479FE0(unsigned __int8 direction, char destroyOnDone)
+char CircularFade::VFadeIn_479FE0(unsigned __int8 direction, char destroyOnDone)
 {
     field_E4_flags.Set(Flags::eBit1_FadeIn, direction);
 
@@ -204,7 +204,7 @@ CircularFade* CircularFade::ctor_479E20(FP xpos, FP ypos, FP scale, __int16 dire
     }
 
     // NOTE: Inlined
-    Vsub_479FE0(static_cast<char>(direction), destroyOnDone);
+    VFadeIn_479FE0(static_cast<char>(direction), destroyOnDone);
 
     const BYTE fade_rgb = static_cast<BYTE>((field_1A8_fade_colour * 60) / 100);
     field_C4_b = fade_rgb;
@@ -234,7 +234,7 @@ CircularFade* CircularFade::ctor_479E20(FP xpos, FP ypos, FP scale, __int16 dire
     return this;
 }
 
-int CircularFade::Vsub_47A4C0()
+int CircularFade::VDone_47A4C0()
 {
     return field_E4_flags.Get(Flags::eBit2_Done);
 }
