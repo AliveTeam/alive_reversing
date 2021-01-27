@@ -1139,7 +1139,7 @@ __int16 Mudokon::FindBirdPortal_440250()
     {
         if (field_1AC_pBirdPortal->field_10_portal_type == PortalType::eWorker_1 || field_1AC_pBirdPortal->field_10_portal_type == PortalType::eShrykull_2)
         {
-            sActiveHero_507678->sub_430510(1);
+            sActiveHero_507678->ChangeChantState_430510(1);
             field_1AC_pBirdPortal->field_C_refCount++;
             word_507B94++;
             return 1;

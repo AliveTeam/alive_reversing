@@ -821,7 +821,7 @@ Abe* Abe::ctor_420770(int frameTableOffset, int /*r*/, int /*g*/, int /*b*/)
     field_158_pDeathFadeout = nullptr;
     field_164_pCircularFade = nullptr;
     field_188_pOrbWhirlWind = nullptr;
-    field_18C_pObjToPosses = nullptr;
+    field_18C_pObjToPossess = nullptr;
     field_138_zone_top_left = {};
     field_13C_zone_bottom_right = {};
     field_140_saved_camera = -1;
@@ -974,11 +974,11 @@ BaseGameObject* Abe::dtor_420C80()
         field_188_pOrbWhirlWind = nullptr;
     }
 
-    if (field_18C_pObjToPosses)
+    if (field_18C_pObjToPossess)
     {
-        field_18C_pObjToPosses->field_C_refCount--;
-        field_18C_pObjToPosses->field_6_flags.Set(Options::eDead_Bit3);
-        field_18C_pObjToPosses = nullptr;
+        field_18C_pObjToPossess->field_C_refCount--;
+        field_18C_pObjToPossess->field_6_flags.Set(Options::eDead_Bit3);
+        field_18C_pObjToPossess = nullptr;
     }
 
     if (field_198_pThrowable)
@@ -1533,19 +1533,19 @@ __int16 Abe::RunTryEnterWell_425880()
     return 0;
 }
 
-void Abe::sub_430510(__int16 toggle)
+void Abe::ChangeChantState_430510(__int16 toggle)
 {
     if (toggle)
     {
-        field_110_state.chant = ChantStates::eUnknown_6;
+        field_110_state.chant = ChantStates::eChantingForBirdPortal_6;
     }
     else
     {
-        field_110_state.chant = ChantStates::eUnknown_0;
+        field_110_state.chant = ChantStates::eIdleChanting_0;
     }
 }
 
-BaseAliveGameObject* CC Abe::FindObjectToPosses_421410()
+BaseAliveGameObject* CC Abe::FindObjectToPossess_421410()
 {
     for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
     {
@@ -1961,7 +1961,7 @@ short Abe::DoGameSpeak_42F5C0(unsigned __int16 input)
     {
         field_114_gnFrame = gnFrameCount_507670 + 90;
         SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_11, 0, 1);
-        field_110_state.chant = ChantStates::eUnknown_0;
+        field_110_state.chant = ChantStates::eIdleChanting_0;
         return eAbeStates::State_150_Chant_42FD50;
     }
 
@@ -3257,10 +3257,10 @@ __int16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
         field_188_pOrbWhirlWind = nullptr;
     }
 
-    if (field_18C_pObjToPosses)
+    if (field_18C_pObjToPossess)
     {
-        field_18C_pObjToPosses->field_C_refCount--;
-        field_18C_pObjToPosses = nullptr;
+        field_18C_pObjToPossess->field_C_refCount--;
+        field_18C_pObjToPossess = nullptr;
     }
 
     switch (field_FC_current_motion)
@@ -9539,19 +9539,19 @@ void Abe::New_RandomizedChant_Particle()
 void Abe::State_150_Chant_42FD50()
 {
     FollowLift_42EE90();
-    if (field_110_state.chant != ChantStates::eUnknown_3 &&
-        field_110_state.chant != ChantStates::eUnknown_4)
+    if (field_110_state.chant != ChantStates::eWaitForUnpossessing_3 &&
+        field_110_state.chant != ChantStates::eUnpossessing_4)
     {
         SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_11, 0, 0);
     }
 
     switch (field_110_state.chant)
     {
-        case ChantStates::eUnknown_0:
+        case ChantStates::eIdleChanting_0:
         {
             Event_Broadcast_417220(kEventSpeaking_1, this);
             Event_Broadcast_417220(kEventAbeOhm_8, this);
-            auto pObjToPossess = FindObjectToPosses_421410();
+            auto pObjToPossess = FindObjectToPossess_421410();
             if (field_168_ring_pulse_timer)
             {
                 if (!field_16C_bHaveShrykull)
@@ -9628,16 +9628,16 @@ void Abe::State_150_Chant_42FD50()
 
             if (static_cast<int>(gnFrameCount_507670) > field_114_gnFrame)
             {
-                field_18C_pObjToPosses = pObjToPossess;
-                if (field_18C_pObjToPosses)
+                field_18C_pObjToPossess = pObjToPossess;
+                if (field_18C_pObjToPossess)
                 {
-                    field_18C_pObjToPosses->field_C_refCount++;
+                    field_18C_pObjToPossess->field_C_refCount++;
                     SFX_Play_43AE60(SoundEffect::PossessEffect_21, 0, -600, 0);
                     field_114_gnFrame = gnFrameCount_507670 + 30;
-                    field_110_state.chant = ChantStates::eUnknown_1;
+                    field_110_state.chant = ChantStates::ePossessVictim_1;
 
                     PSX_RECT rect = {};
-                    field_18C_pObjToPosses->VGetBoundingRect(
+                    field_18C_pObjToPossess->VGetBoundingRect(
                         &rect,
                         1
                     );
@@ -9656,30 +9656,30 @@ void Abe::State_150_Chant_42FD50()
             }
             break;
         }
-        case ChantStates::eUnknown_1:
+        case ChantStates::ePossessVictim_1:
         {
             if (static_cast<int>(gnFrameCount_507670) > field_114_gnFrame)
             {
-                field_110_state.chant = ChantStates::eUnknown_2;
+                field_110_state.chant = ChantStates::ePossessedVictim_2;
                 return;
             }
-            if (field_18C_pObjToPosses)
+            if (field_18C_pObjToPossess)
             {
-                if (field_18C_pObjToPosses->field_6_flags.Get(Options::eDead_Bit3))
+                if (field_18C_pObjToPossess->field_6_flags.Get(Options::eDead_Bit3))
                 {
-                    field_18C_pObjToPosses->field_C_refCount--;
-                    field_18C_pObjToPosses = nullptr;
+                    field_18C_pObjToPossess->field_C_refCount--;
+                    field_18C_pObjToPossess = nullptr;
                 }
             }
-            if (field_18C_pObjToPosses)
+            if (field_18C_pObjToPossess)
             {
-                if (field_18C_pObjToPosses->Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
+                if (field_18C_pObjToPossess->Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
                 {
                     return;
                 }
                 field_FC_current_motion = eAbeStates::State_151_ChantEnd_430530;
-                field_18C_pObjToPosses->field_C_refCount--;
-                field_18C_pObjToPosses = nullptr;
+                field_18C_pObjToPossess->field_C_refCount--;
+                field_18C_pObjToPossess = nullptr;
             }
             else
             {
@@ -9692,25 +9692,25 @@ void Abe::State_150_Chant_42FD50()
             }
             break;
         }
-        case ChantStates::eUnknown_2:
+        case ChantStates::ePossessedVictim_2:
         {
             Event_Broadcast_417220(kEventSpeaking_1, this);
             Event_Broadcast_417220(kEventAbeOhm_8, this);
             field_188_pOrbWhirlWind = nullptr;
-            if (field_18C_pObjToPosses)
+            if (field_18C_pObjToPossess)
             {
-                if (field_18C_pObjToPosses->field_6_flags.Get(Options::eDead_Bit3))
+                if (field_18C_pObjToPossess->field_6_flags.Get(Options::eDead_Bit3))
                 {
-                    field_18C_pObjToPosses->field_C_refCount--;
-                    field_18C_pObjToPosses = nullptr;
+                    field_18C_pObjToPossess->field_C_refCount--;
+                    field_18C_pObjToPossess = nullptr;
                 }
             }
-            if (field_18C_pObjToPosses)
+            if (field_18C_pObjToPossess)
             {
-                sControlledCharacter_50767C = field_18C_pObjToPosses;
-                field_18C_pObjToPosses->VPossessed();
-                field_18C_pObjToPosses->field_C_refCount--;
-                field_18C_pObjToPosses = nullptr;
+                sControlledCharacter_50767C = field_18C_pObjToPossess;
+                field_18C_pObjToPossess->VPossessed();
+                field_18C_pObjToPossess->field_C_refCount--;
+                field_18C_pObjToPossess = nullptr;
                 if (sControlledCharacter_50767C->field_4_typeId == Types::eSlig_88)
                 {
                     field_2A8_flags.Set(Flags_2A8::e2A8_Bit11_bLaughAtChantEnd);
@@ -9724,7 +9724,7 @@ void Abe::State_150_Chant_42FD50()
 
                 SND_Seq_Stop_477A60(SeqId::Unknown_11);
                 SFX_Play_43AE60(SoundEffect::PossessEffect_21, 70, 400, 0);
-                field_110_state.chant = ChantStates::eUnknown_3;
+                field_110_state.chant = ChantStates::eWaitForUnpossessing_3;
             }
             else if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
@@ -9732,7 +9732,7 @@ void Abe::State_150_Chant_42FD50()
             }
             break;
         }
-        case ChantStates::eUnknown_3:
+        case ChantStates::eWaitForUnpossessing_3:
         {
             if (sControlledCharacter_50767C == this)
             {
@@ -9742,12 +9742,12 @@ void Abe::State_150_Chant_42FD50()
                     pPossessionFlicker->ctor_41A8C0(sControlledCharacter_50767C, 15, 128, 255, 255);
                 }
 
-                field_110_state.chant = ChantStates::eUnknown_4;
+                field_110_state.chant = ChantStates::eUnpossessing_4;
                 field_114_gnFrame = gnFrameCount_507670 + 15;
             }
             break;
         }
-        case ChantStates::eUnknown_4:
+        case ChantStates::eUnpossessing_4:
         {
             if (!(gnFrameCount_507670 % 4))
             {
@@ -9762,7 +9762,7 @@ void Abe::State_150_Chant_42FD50()
             }
             break;
         }
-        case ChantStates::eUnknown_6:
+        case ChantStates::eChantingForBirdPortal_6:
         {
             Event_Broadcast_417220(kEventSpeaking_1, this);
             Event_Broadcast_417220(kEventAbeOhm_8, this);
