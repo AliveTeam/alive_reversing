@@ -24,9 +24,9 @@ public:
     EXPORT void VRender_47A080(int** ppOt);
 
     // New virtuals
-    virtual EXPORT char Vsub_479FE0(unsigned __int8 direction, char destroyOnDone);
+    virtual EXPORT char VFadeIn_479FE0(unsigned __int8 direction, char destroyOnDone);
 
-    virtual EXPORT int Vsub_47A4C0();
+    virtual EXPORT int VDone_47A4C0();
 
     int field_D4[4];
     enum Flags

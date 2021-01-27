@@ -3302,7 +3302,7 @@ void Abe::State_0_Idle_44EEB0()
             case TlvTypes::HandStone_61:
                 field_FC_pPathTLV = pTlv;
                 field_106_current_motion = eAbeStates::State_86_HandstoneBegin_45BD00;
-                field_120_state.stone = StoneStates::eUnknown_0;
+                field_120_state.stone = StoneStates::eHandstoneBegin_0;
                 return;
 
             case TlvTypes::GrenadeMachine_59:
@@ -6884,13 +6884,13 @@ void Abe::State_86_HandstoneBegin_45BD00()
 
     switch (field_120_state.stone)
     {
-    case StoneStates::eUnknown_0:
+    case StoneStates::eHandstoneBegin_0:
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
         {
             // Add ref
             ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSpotliteResID, TRUE, 0);
 
-            CircularFade* pUnknown = Make_Circular_Fade_4CE8C0(
+            CircularFade* pCircularFade2 = Make_Circular_Fade_4CE8C0(
                 field_B8_xpos,
                 field_BC_ypos,
                 field_CC_sprite_scale,
@@ -6900,15 +6900,15 @@ void Abe::State_86_HandstoneBegin_45BD00()
 
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
-                pUnknown->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+                pCircularFade2->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
             }
             else
             {
-                pUnknown->field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+                pCircularFade2->field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
             }
 
-            field_14C_circular_fade_id = pUnknown->field_8_object_id;
-            field_120_state.stone = StoneStates::eUnknown_1;
+            field_14C_circular_fade_id = pCircularFade2->field_8_object_id;
+            field_120_state.stone = StoneStates::eGetHandstoneType_1;
 
             SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
 
@@ -6971,7 +6971,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
         }
         break;
 
-    case StoneStates::eUnknown_1:
+    case StoneStates::eGetHandstoneType_1:
         if (pCircularFade->VDone_4CE0B0())
         {
             if (field_180_hand_stone_type == TlvTypes::MovieHandStone_27)
@@ -6989,13 +6989,13 @@ void Abe::State_86_HandstoneBegin_45BD00()
                 {
                     pMovie->ctor_4DFDE0(pFmvRec->field_4_id, pos, pFmvRec->field_6_flags & 1, pFmvRec->field_8_flags, pFmvRec->field_A_volume);
                 }
-                field_120_state.stone = StoneStates::eUnknown_2;
+                field_120_state.stone = StoneStates::eHandstoneMovieDone_2;
             }
             else if (field_180_hand_stone_type == TlvTypes::HandStone_61)
             {
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
                 field_17C_cam_idx = 1;
-                field_120_state.stone = StoneStates::eUnknown_4;
+                field_120_state.stone = StoneStates::eWaitForInput_4;
                 pCircularFade->field_6_flags.Set(BaseGameObject::eDead_Bit3);
                 field_14C_circular_fade_id = -1;
                 DeathFadeOut* pFade33 = ae_new<DeathFadeOut>();
@@ -7011,18 +7011,18 @@ void Abe::State_86_HandstoneBegin_45BD00()
         }
         break;
 
-    case StoneStates::eUnknown_2:
+    case StoneStates::eHandstoneMovieDone_2:
         if (sMovie_ref_count_BB4AE4 == 0)
         {
             gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
             pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60((unsigned __int16 **)gMap_5C3030.field_2C_camera_array[0]->field_C_pCamRes);
             pScreenManager_5BB5F4->field_40_flags |= 0x10000;
             pCircularFade->VFadeIn_4CE300(0, 0);
-            field_120_state.stone = StoneStates::eUnknown_3;
+            field_120_state.stone = StoneStates::eHandstoneEnd_3;
         }
         break;
 
-    case StoneStates::eUnknown_3:
+    case StoneStates::eHandstoneEnd_3:
         if (pCircularFade->VDone_4CE0B0())
         {
             pCircularFade->field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -7041,24 +7041,24 @@ void Abe::State_86_HandstoneBegin_45BD00()
         }
         break;
 
-    case StoneStates::eUnknown_4:
+    case StoneStates::eWaitForInput_4:
         if (pFade->field_7E_bDone)
         {
             if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & 0x300000)
             {
                 pFade->Init_427140(40, 1, 0, 8);
-                field_120_state.stone = StoneStates::eUnknown_5;
+                field_120_state.stone = StoneStates::eCamChangeTransition_5;
                 SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
             }
         }
         break;
 
-    case StoneStates::eUnknown_5:
+    case StoneStates::eCamChangeTransition_5:
         if (pFade->field_7E_bDone)
         {
             if (field_17C_cam_idx < 3 && field_186_to_camera_id[field_17C_cam_idx] != 0)
             {
-                field_120_state.stone = StoneStates::eUnknown_4;
+                field_120_state.stone = StoneStates::eWaitForInput_4;
 
                 pFade->field_6_flags.Set(BaseGameObject::eDead_Bit3);
                 pFade = ae_new<DeathFadeOut>();
@@ -7080,16 +7080,16 @@ void Abe::State_86_HandstoneBegin_45BD00()
             }
             else
             {
-                field_120_state.stone = StoneStates::eUnknown_6;
+                field_120_state.stone = StoneStates::eSetActiveCamToAbe_6;
             }
         }
         break;
 
-    case StoneStates::eUnknown_6:
+    case StoneStates::eSetActiveCamToAbe_6:
         if (pFade->field_7E_bDone)
         {
             field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
-            field_120_state.stone = StoneStates::eUnknown_7;
+            field_120_state.stone = StoneStates::eCircularFadeExit_7;
             gMap_5C3030.SetActiveCam_480D30(
                 field_C2_lvl_number,
                 field_C0_path_number,
@@ -7100,7 +7100,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
         }
         break;
 
-    case StoneStates::eUnknown_7:
+    case StoneStates::eCircularFadeExit_7:
     {
         pFade->field_6_flags.Set(BaseGameObject::eDead_Bit3);
         field_148_fade_obj_id = -1;
@@ -7116,7 +7116,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
         }
 
         field_14C_circular_fade_id = pCircularFade2->field_8_object_id;
-        field_120_state.stone = StoneStates::eUnknown_3;
+        field_120_state.stone = StoneStates::eHandstoneEnd_3;
 
         if (sHandstoneSoundChannels_5C2C68)
         {
