@@ -237,17 +237,17 @@ enum class StoneStates : __int16
 
 enum class ChantStates : __int16
 {
-    eUnknown_0 = 0,
-    eUnknown_1 = 1,
-    eUnknown_2 = 2,
-    eUnknown_3 = 3,
-    eUnknown_4 = 4,
-    eUnknown_5 = 5,
-    eUnknown_6 = 6,
-    eUnknown_7 = 7,
+    eIdleChanting_0 = 0,
+    ePossessVictim_1 = 1,
+    ePossessedVictim_2 = 2,
+    eWaitForUnpossessing_3 = 3,
+    eUnpossessing_4 = 4,
+    ePadding_5 = 5,
+    eChantingForBirdPortal_6 = 6,
+    ePadding_7 = 7,
 
-    eUnknown_12 = 12,
-    eUnknown_13 = 13
+    ePadding_12 = 12,
+    ePadding_13 = 13
 };
 
 enum class DoorStates : __int16
@@ -430,9 +430,9 @@ public:
 
     EXPORT __int16 RunTryEnterWell_425880();
 
-    EXPORT void sub_430510(__int16 a2);
+    EXPORT void ChangeChantState_430510(__int16 a2);
 
-    EXPORT static BaseAliveGameObject* CC FindObjectToPosses_421410();
+    EXPORT static BaseAliveGameObject* CC FindObjectToPossess_421410();
 
     EXPORT static void CC Get_Shrykull_Resources_42F480();
 
@@ -702,7 +702,7 @@ public:
     int field_170_hand_stone_type;
     AllStone field_174_pathStone;
     OrbWhirlWind* field_188_pOrbWhirlWind;
-    BaseAliveGameObject* field_18C_pObjToPosses;
+    BaseAliveGameObject* field_18C_pObjToPossess;
     LevelIds field_190_level;
     __int16 field_192_path;
     __int16 field_194_camera;

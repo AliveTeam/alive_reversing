@@ -220,6 +220,64 @@ enum class EnvironmentSfx : char
     eFallingDeathScreamHitGround_15 = 15 // TODO: better name
 };
 
+enum class ChantStates : unsigned __int16
+{
+    eIdleChanting_0 = 0,
+    ePossessVictim_1 = 1,
+    ePossessedVictim_2 = 2,
+    eWaitForUnpossessing_3 = 3,
+    eUnpossessing_4 = 4,
+    ePadding_5 = 5,
+    eChantingForBirdPortal_6 = 6,
+    ePadding_7 = 7,
+
+    ePadding_12 = 12,
+    ePadding_13 = 13
+};
+
+enum class StoneStates : unsigned __int16
+{
+    eUnknown_0 = 0,
+    eUnknown_1 = 1,
+    eUnknown_2 = 2,
+    eUnknown_3 = 3,
+    eUnknown_4 = 4,
+    eUnknown_5 = 5,
+    eUnknown_6 = 6,
+    eUnknown_7 = 7,
+
+    eUnknown_12 = 12,
+    eUnknown_13 = 13
+};
+
+// assumed to be the same as AO
+enum class DoorStates : unsigned __int16
+{
+    eAbeComesIn_0 = 0,
+    eUnknown_1 = 1,
+    eUnknown_2 = 2,
+    eUnknown_3 = 3,
+    eUnknown_4 = 4,
+    eUnknown_5 = 5,
+    eAbeComesOut_6 = 6
+};
+
+enum class WorkWheelStates : unsigned __int16
+{
+    eTurningWheel_0 = 0,
+    eCheckForNoLongerTurningWheel_1 = 1,
+    eMapChanging_2 = 2,
+};
+
+union AllInternalStates
+{
+    ChantStates chant;
+    StoneStates stone;
+    DoorStates door;
+    WorkWheelStates wheel;
+    unsigned __int16 raw;
+};
+
 enum class Mud_Emotion : __int16;
 
 struct Abe_1BC_20_sub_object
@@ -390,7 +448,7 @@ public:
 
     // Non virtuals
     EXPORT void ToKnockback_44E700(__int16 bKnockbackSound, __int16 bDelayedAnger);
-    EXPORT BaseAliveGameObject* FindObjectToPosses_44B7B0();
+    EXPORT BaseAliveGameObject* FindObjectToPossess_44B7B0();
     EXPORT void Load_Basic_Resources_44D460();
     EXPORT void Free_Resources_44D420();
     EXPORT BOOL IsStanding_449D30();
@@ -579,7 +637,7 @@ public:
 public:
     int field_118_prev_held;
     int field_11C_released_buttons;
-    unsigned __int16 field_120_state;
+    AllInternalStates field_120_state;
     __int16 field_122_knockdown_motion;
     int field_124_timer;
     Abe_1BC_20_sub_object field_128;
@@ -587,7 +645,7 @@ public:
     int field_148_fade_obj_id;
     int field_14C_circular_fade_id;
     int field_150_OrbWhirlWind_id;
-    int field_154_possesed_object_id;
+    int field_154_possessed_object_id;
     int field_158_throwable_id;
     int field_15C_pull_rope_id;
     int field_160_slapable_or_pick_item_id;

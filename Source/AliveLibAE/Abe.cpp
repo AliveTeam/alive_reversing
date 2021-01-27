@@ -826,7 +826,7 @@ Abe* Abe::ctor_44AD10(int /*frameTableOffset*/, int /*r*/, int /*g*/, int /*b*/)
     field_198_has_evil_fart = 0;
     field_1A2_throwable_count = 0;
     field_158_throwable_id = -1;
-    field_154_possesed_object_id = -1;
+    field_154_possessed_object_id = -1;
     field_150_OrbWhirlWind_id = -1;
     field_14C_circular_fade_id = -1;
     field_148_fade_obj_id = -1;
@@ -858,7 +858,7 @@ Abe* Abe::ctor_44AD10(int /*frameTableOffset*/, int /*r*/, int /*g*/, int /*b*/)
 
     field_118_prev_held = 0;
     field_F6_anim_frame = 0;
-    field_120_state = 0;
+    field_120_state.raw = 0;
     field_168_ring_pulse_timer = 0;
     field_16E_bHaveInvisiblity = 0;
     field_170_invisible_timer = 0;
@@ -897,7 +897,7 @@ void Abe::dtor_44B380()
     BaseGameObject* pField_148 = sObjectIds_5C1B70.Find_449CF0(field_148_fade_obj_id);
     BaseGameObject* pField_14C = sObjectIds_5C1B70.Find_449CF0(field_14C_circular_fade_id);
     BaseGameObject* pField_150 = sObjectIds_5C1B70.Find_449CF0(field_150_OrbWhirlWind_id);
-    BaseGameObject* pField_154 = sObjectIds_5C1B70.Find_449CF0(field_154_possesed_object_id);
+    BaseGameObject* pField_154 = sObjectIds_5C1B70.Find_449CF0(field_154_possessed_object_id);
     BaseGameObject* pField_158 = sObjectIds_5C1B70.Find_449CF0(field_158_throwable_id);
     BaseGameObject* pField_15C = sObjectIds_5C1B70.Find_449CF0(field_15C_pull_rope_id);
     BaseGameObject* pField_160 = sObjectIds_5C1B70.Find_449CF0(field_160_slapable_or_pick_item_id);
@@ -936,7 +936,7 @@ void Abe::dtor_44B380()
 
     if (pField_154)
     {
-        field_154_possesed_object_id = -1;
+        field_154_possessed_object_id = -1;
     }
 
     if (pField_158)
@@ -1112,7 +1112,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_108_next_motion = pSaveState->next_motion;
     sActiveHero_5C1B68->field_F8_LastLineYPos = FP_FromInteger(pSaveState->last_line_ypos);
     sActiveHero_5C1B68->field_110_id = pSaveState->platform_obj_id;
-    sActiveHero_5C1B68->field_120_state = static_cast<WORD>(pSaveState->field_50_state);
+    sActiveHero_5C1B68->field_120_state.raw = static_cast<WORD>(pSaveState->field_50_state);
     sActiveHero_5C1B68->field_124_timer = pSaveState->field_54_timer;
     sActiveHero_5C1B68->field_128.field_0_gnFrame = pSaveState->field_58_gnFrame;
     sActiveHero_5C1B68->field_128.field_4_regen_health_timer = pSaveState->field_5C_regen_health_timer;
@@ -1156,7 +1156,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_148_fade_obj_id = pSaveState->fade_obj_id;
     sActiveHero_5C1B68->field_14C_circular_fade_id = pSaveState->circular_fade_id;
     sActiveHero_5C1B68->field_150_OrbWhirlWind_id = pSaveState->orb_whirl_wind_id;
-    sActiveHero_5C1B68->field_154_possesed_object_id = pSaveState->possesed_object_id;
+    sActiveHero_5C1B68->field_154_possessed_object_id = pSaveState->possesed_object_id;
     sActiveHero_5C1B68->field_158_throwable_id = pSaveState->throwabe_obj_id;
     sActiveHero_5C1B68->field_15C_pull_rope_id = pSaveState->pull_ring_rope_id;
     sActiveHero_5C1B68->field_160_slapable_or_pick_item_id = pSaveState->slapable_or_pickup_id;
@@ -1363,7 +1363,7 @@ void Abe::Update_449DC0()
         field_14C_circular_fade_id = BaseGameObject::Find_Flags_4DC170(field_14C_circular_fade_id);
         field_1A8_portal_id = BaseGameObject::Find_Flags_4DC170(field_1A8_portal_id);
         field_150_OrbWhirlWind_id = BaseGameObject::Find_Flags_4DC170(field_150_OrbWhirlWind_id);
-        field_154_possesed_object_id = BaseGameObject::Find_Flags_4DC170(field_154_possesed_object_id);
+        field_154_possessed_object_id = BaseGameObject::Find_Flags_4DC170(field_154_possessed_object_id);
         field_158_throwable_id = BaseGameObject::Find_Flags_4DC170(field_158_throwable_id);
         field_15C_pull_rope_id = BaseGameObject::Find_Flags_4DC170(field_15C_pull_rope_id);
         field_160_slapable_or_pick_item_id = BaseGameObject::Find_Flags_4DC170(field_160_slapable_or_pick_item_id);
@@ -2014,7 +2014,7 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
     }
 
     pSaveState->field_44_is_abe_controlled = (this == sControlledCharacter_5C1B8C);
-    pSaveState->field_50_state = field_120_state;
+    pSaveState->field_50_state = field_120_state.raw;
     pSaveState->field_54_timer = field_124_timer;
     pSaveState->field_58_gnFrame = field_128.field_0_gnFrame;
     pSaveState->field_5C_regen_health_timer = field_128.field_4_regen_health_timer;
@@ -2063,11 +2063,11 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
         }
     }
 
-    pSaveState->possesed_object_id = field_154_possesed_object_id;
+    pSaveState->possesed_object_id = field_154_possessed_object_id;
 
-    if (field_154_possesed_object_id != -1)
+    if (field_154_possessed_object_id != -1)
     {
-        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_154_possesed_object_id);
+        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_154_possessed_object_id);
         if (pObj)
         {
             pSaveState->possesed_object_id = pObj->field_C_objectId;
@@ -2718,7 +2718,7 @@ void Abe::vOn_TLV_Collision_44B5D0(Path_TLV* pTlv)
 
 }
 
-BaseAliveGameObject* Abe::FindObjectToPosses_44B7B0()
+BaseAliveGameObject* Abe::FindObjectToPossess_44B7B0()
 {
     BaseAliveGameObject* pTargetObj = nullptr;
     BaseAliveGameObject* pInRangeFart = nullptr;
@@ -3050,16 +3050,15 @@ void Abe::State_0_Idle_44EEB0()
         if (field_168_ring_pulse_timer && field_16C_bHaveShrykull)
         {
             field_106_current_motion = eAbeStates::State_119_ToShrykull_45A990;
-            field_120_state = 0;
         }
         else
         {
             // Go to chanting.
             field_124_timer = sGnFrame_5C1B84 + 90;
             field_106_current_motion = eAbeStates::State_112_Chant_45B1C0;
-            field_120_state = 0;
             SND_SEQ_PlaySeq_4CA960(SeqId::MudokonChant1_10, 0, 1);
         }
+        field_120_state.raw = 0;
         return;
     }
 
@@ -3245,7 +3244,7 @@ void Abe::State_0_Idle_44EEB0()
                 if (NearDoorIsOpen_44EE10() && !field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
                 {
                     field_FC_pPathTLV = pTlv;
-                    field_120_state = 0;
+                    field_120_state.door = DoorStates::eAbeComesIn_0;
                     field_106_current_motion = eAbeStates::State_114_DoorEnter_459470;
                 }
                 else
@@ -3303,7 +3302,7 @@ void Abe::State_0_Idle_44EEB0()
             case TlvTypes::HandStone_61:
                 field_FC_pPathTLV = pTlv;
                 field_106_current_motion = eAbeStates::State_86_HandstoneBegin_45BD00;
-                field_120_state = 0;
+                field_120_state.stone = StoneStates::eUnknown_0;
                 return;
 
             case TlvTypes::GrenadeMachine_59:
@@ -3376,7 +3375,7 @@ void Abe::State_0_Idle_44EEB0()
 
             case TlvTypes::FartMachine_101:
                 field_106_current_motion = eAbeStates::State_89_BrewMachineBegin_4584C0;
-                field_120_state = 0;
+                field_120_state.raw = 0;
                 break;
 
             default:
@@ -5956,7 +5955,7 @@ void Abe::State_57_Dead_4589A0()
 
 void Abe::State_58_DeadPre_4593E0()
 {
-    if (field_120_state == 1)
+    if (field_120_state.raw == 1)
     {
         field_106_current_motion = eAbeStates::State_57_Dead_4589A0;
         field_124_timer = 2;
@@ -6883,9 +6882,9 @@ void Abe::State_86_HandstoneBegin_45BD00()
     CircularFade* pCircularFade = static_cast<CircularFade*>(sObjectIds_5C1B70.Find_449CF0(field_14C_circular_fade_id));
     DeathFadeOut* pFade = static_cast<DeathFadeOut*>(sObjectIds_5C1B70.Find_449CF0(field_148_fade_obj_id));
 
-    switch (field_120_state)
+    switch (field_120_state.stone)
     {
-    case 0u:
+    case StoneStates::eUnknown_0:
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
         {
             // Add ref
@@ -6909,7 +6908,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
             }
 
             field_14C_circular_fade_id = pUnknown->field_8_object_id;
-            field_120_state = 1;
+            field_120_state.stone = StoneStates::eUnknown_1;
 
             SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
 
@@ -6972,7 +6971,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
         }
         break;
 
-    case 1u:
+    case StoneStates::eUnknown_1:
         if (pCircularFade->VDone_4CE0B0())
         {
             if (field_180_hand_stone_type == TlvTypes::MovieHandStone_27)
@@ -6990,13 +6989,13 @@ void Abe::State_86_HandstoneBegin_45BD00()
                 {
                     pMovie->ctor_4DFDE0(pFmvRec->field_4_id, pos, pFmvRec->field_6_flags & 1, pFmvRec->field_8_flags, pFmvRec->field_A_volume);
                 }
-                field_120_state = 2;
+                field_120_state.stone = StoneStates::eUnknown_2;
             }
             else if (field_180_hand_stone_type == TlvTypes::HandStone_61)
             {
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
                 field_17C_cam_idx = 1;
-                field_120_state = 4;
+                field_120_state.stone = StoneStates::eUnknown_4;
                 pCircularFade->field_6_flags.Set(BaseGameObject::eDead_Bit3);
                 field_14C_circular_fade_id = -1;
                 DeathFadeOut* pFade33 = ae_new<DeathFadeOut>();
@@ -7012,18 +7011,18 @@ void Abe::State_86_HandstoneBegin_45BD00()
         }
         break;
 
-    case 2u:
+    case StoneStates::eUnknown_2:
         if (sMovie_ref_count_BB4AE4 == 0)
         {
             gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
             pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60((unsigned __int16 **)gMap_5C3030.field_2C_camera_array[0]->field_C_pCamRes);
             pScreenManager_5BB5F4->field_40_flags |= 0x10000;
             pCircularFade->VFadeIn_4CE300(0, 0);
-            field_120_state = 3;
+            field_120_state.stone = StoneStates::eUnknown_3;
         }
         break;
 
-    case 3u:
+    case StoneStates::eUnknown_3:
         if (pCircularFade->VDone_4CE0B0())
         {
             pCircularFade->field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -7042,24 +7041,24 @@ void Abe::State_86_HandstoneBegin_45BD00()
         }
         break;
 
-    case 4u:
+    case StoneStates::eUnknown_4:
         if (pFade->field_7E_bDone)
         {
             if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & 0x300000)
             {
                 pFade->Init_427140(40, 1, 0, 8);
-                field_120_state = 5;
+                field_120_state.stone = StoneStates::eUnknown_5;
                 SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
             }
         }
         break;
 
-    case 5u:
+    case StoneStates::eUnknown_5:
         if (pFade->field_7E_bDone)
         {
             if (field_17C_cam_idx < 3 && field_186_to_camera_id[field_17C_cam_idx] != 0)
             {
-                field_120_state = 4;
+                field_120_state.stone = StoneStates::eUnknown_4;
 
                 pFade->field_6_flags.Set(BaseGameObject::eDead_Bit3);
                 pFade = ae_new<DeathFadeOut>();
@@ -7081,16 +7080,16 @@ void Abe::State_86_HandstoneBegin_45BD00()
             }
             else
             {
-                field_120_state = 6;
+                field_120_state.stone = StoneStates::eUnknown_6;
             }
         }
         break;
 
-    case 6u:
+    case StoneStates::eUnknown_6:
         if (pFade->field_7E_bDone)
         {
             field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
-            field_120_state = 7;
+            field_120_state.stone = StoneStates::eUnknown_7;
             gMap_5C3030.SetActiveCam_480D30(
                 field_C2_lvl_number,
                 field_C0_path_number,
@@ -7101,7 +7100,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
         }
         break;
 
-    case 7u:
+    case StoneStates::eUnknown_7:
     {
         pFade->field_6_flags.Set(BaseGameObject::eDead_Bit3);
         field_148_fade_obj_id = -1;
@@ -7117,7 +7116,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
         }
 
         field_14C_circular_fade_id = pCircularFade2->field_8_object_id;
-        field_120_state = 3;
+        field_120_state.stone = StoneStates::eUnknown_3;
 
         if (sHandstoneSoundChannels_5C2C68)
         {
@@ -7150,15 +7149,15 @@ void Abe::State_88_GrenadeMachineUse_45C510()
 
 void Abe::State_89_BrewMachineBegin_4584C0()
 {
-    if (field_120_state > 0)
+    if (field_120_state.raw > 0)
     {
-        if (field_120_state <= 36u)
+        if (field_120_state.raw <= 36u)
         {
-            if (field_120_state > 11u && !((field_120_state - 12) % 6))
+            if (field_120_state.raw > 11u && !((field_120_state.raw - 12) % 6))
             {
-                SFX_Play_46FBA0(SoundEffect::BrewMachineUseEnd_119, 0, 32 * field_120_state);
+                SFX_Play_46FBA0(SoundEffect::BrewMachineUseEnd_119, 0, 32 * field_120_state.raw);
             }
-            field_120_state++;
+            field_120_state.raw++;
         }
         else
         {
@@ -7181,7 +7180,7 @@ void Abe::State_89_BrewMachineBegin_4584C0()
         if (GetEvilFart_4585F0(TRUE))
         {
             SFX_Play_46FA90(SoundEffect::BrewMachineUseMid_117, 0);
-            field_120_state = 1;
+            field_120_state.raw = 1;
         }
         else
         {
@@ -7593,10 +7592,11 @@ void Abe::State_111_PickupItem_4564A0()
 
 void Abe::State_112_Chant_45B1C0()
 {
-    BaseAliveGameObject* pPossesTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_154_possesed_object_id));
+    BaseAliveGameObject* pPossessTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_154_possessed_object_id));
     OrbWhirlWind* pOrbWhirlWind = static_cast<OrbWhirlWind*>(sObjectIds_5C1B70.Find_449CF0(field_150_OrbWhirlWind_id));
 
-    if (field_120_state != 3 && field_120_state != 4)
+    if (field_120_state.chant != ChantStates::eWaitForUnpossessing_3 &&
+        field_120_state.chant != ChantStates::eUnpossessing_4)
     {
         SND_SEQ_PlaySeq_4CA960(SeqId::MudokonChant1_10, 0, 0);
     }
@@ -7606,14 +7606,14 @@ void Abe::State_112_Chant_45B1C0()
         field_150_OrbWhirlWind_id = -1;
     }
 
-    switch (field_120_state)
+    switch (field_120_state.chant)
     {
-    case 0u:
+    case ChantStates::eIdleChanting_0:
     {
         Event_Broadcast_422BC0(kEventSpeaking, this);
         Event_Broadcast_422BC0(kEventAbeOhm, this);
 
-        BaseAliveGameObject* pObj = FindObjectToPosses_44B7B0(); // Find a victim.
+        BaseAliveGameObject* pObj = FindObjectToPossess_44B7B0(); // Find a victim.
 
         if (field_168_ring_pulse_timer)
         {
@@ -7710,7 +7710,7 @@ void Abe::State_112_Chant_45B1C0()
         if ((field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame) || field_20_animation.field_92_current_frame == 3) && !Input_IsChanting_45F260())
         {
             field_106_current_motion = eAbeStates::State_113_ChantEnd_45BBE0;
-            field_154_possesed_object_id = -1;
+            field_154_possessed_object_id = -1;
             if (pOrbWhirlWind)
             {
                 pOrbWhirlWind->ToStop_4E4050();
@@ -7772,9 +7772,9 @@ void Abe::State_112_Chant_45B1C0()
             return;
         }
 
-        field_154_possesed_object_id = pObj->field_8_object_id;
+        field_154_possessed_object_id = pObj->field_8_object_id;
         SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 0, -600);
-        field_120_state = 1;
+        field_120_state.chant = ChantStates::ePossessVictim_1;
         field_124_timer = sGnFrame_5C1B84 + 30;
 
         PSX_RECT bRect = {};
@@ -7794,20 +7794,20 @@ void Abe::State_112_Chant_45B1C0()
     }
     return;
 
-    case 1u:
+    case ChantStates::ePossessVictim_1:
     {
         Event_Broadcast_422BC0(kEventSpeaking, this);
         Event_Broadcast_422BC0(kEventAbeOhm, this);
 
         if (static_cast<int>(sGnFrame_5C1B84) <= field_124_timer)
         {
-            if (!pPossesTarget ||
-                pPossesTarget->field_6_flags.Get(BaseGameObject::eDead_Bit3) ||
-                pPossesTarget->field_10C_health <= FP_FromInteger(0) ||
-                pPossesTarget->Is_In_Current_Camera_424A70() != CameraPos::eCamCurrent_0)
+            if (!pPossessTarget ||
+                pPossessTarget->field_6_flags.Get(BaseGameObject::eDead_Bit3) ||
+                pPossessTarget->field_10C_health <= FP_FromInteger(0) ||
+                pPossessTarget->Is_In_Current_Camera_424A70() != CameraPos::eCamCurrent_0)
             {
                 field_106_current_motion = eAbeStates::State_113_ChantEnd_45BBE0;
-                field_154_possesed_object_id = -1;
+                field_154_possessed_object_id = -1;
                 if (pOrbWhirlWind)
                 {
                     pOrbWhirlWind->ToStop_4E4050();
@@ -7817,18 +7817,18 @@ void Abe::State_112_Chant_45B1C0()
         }
         else
         {
-            field_120_state = 2;
+            field_120_state.chant = ChantStates::ePossessedVictim_2;
         }
     }
     return;
 
-    case 2u:
+    case ChantStates::ePossessedVictim_2:
     {
         Event_Broadcast_422BC0(kEventSpeaking, this);
         Event_Broadcast_422BC0(kEventAbeOhm, this);
         field_150_OrbWhirlWind_id = -1;
 
-        if (!pPossesTarget)
+        if (!pPossessTarget)
         {
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
@@ -7837,12 +7837,12 @@ void Abe::State_112_Chant_45B1C0()
             return;
         }
 
-        if (pPossesTarget->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+        if (pPossessTarget->field_6_flags.Get(BaseGameObject::eDead_Bit3))
         {
-            field_154_possesed_object_id = -1;
+            field_154_possessed_object_id = -1;
         }
 
-        if (pPossesTarget->field_10C_health <= FP_FromInteger(0))
+        if (pPossessTarget->field_10C_health <= FP_FromInteger(0))
         {
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
@@ -7851,11 +7851,11 @@ void Abe::State_112_Chant_45B1C0()
             return;
         }
 
-        sControlledCharacter_5C1B8C = pPossesTarget;
+        sControlledCharacter_5C1B8C = pPossessTarget;
 
-        pPossesTarget->VPossessed_408F70();
+        pPossessTarget->VPossessed_408F70();
 
-        field_154_possesed_object_id = -1;
+        field_154_possessed_object_id = -1;
 
         if (sControlledCharacter_5C1B8C->field_4_typeId == Types::eSlig_125 ||
             sControlledCharacter_5C1B8C->field_4_typeId == Types::eFlyingSlig_54 ||
@@ -7872,11 +7872,11 @@ void Abe::State_112_Chant_45B1C0()
         }
         SND_SEQ_Stop_4CAE60(SeqId::MudokonChant1_10);
         SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 70, 400);
-        field_120_state = 3;
+        field_120_state.chant = ChantStates::eWaitForUnpossessing_3;
     }
     return;
 
-    case 3u:
+    case ChantStates::eWaitForUnpossessing_3:
     {
         if (sControlledCharacter_5C1B8C != this)
         {
@@ -7889,12 +7889,12 @@ void Abe::State_112_Chant_45B1C0()
             pFlicker->ctor_4319E0(sControlledCharacter_5C1B8C, 15, 128, 255, 255);
         }
 
-        field_120_state = 4;
+        field_120_state.chant = ChantStates::eUnpossessing_4;
         field_124_timer = sGnFrame_5C1B84 + 15;
     }
     return;
 
-    case 4u:
+    case ChantStates::eUnpossessing_4:
     {
         if (!(sGnFrame_5C1B84 % 4))
         {
@@ -7913,7 +7913,7 @@ void Abe::State_112_Chant_45B1C0()
     }
     return;
 
-    case 6u:
+    case ChantStates::eChantingForBirdPortal_6:
     {
         Event_Broadcast_422BC0(kEventSpeaking, this);
         Event_Broadcast_422BC0(kEventAbeOhm, this);
@@ -7950,35 +7950,35 @@ void Abe::State_113_ChantEnd_45BBE0()
 
 void Abe::State_114_DoorEnter_459470()
 {
-    switch (field_120_state)
+    switch (field_120_state.door)
     {
-    case 0u:
+    case DoorStates::eAbeComesIn_0:
         if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
         {
             return;
         }
-        field_120_state = 2;
+        field_120_state.door = DoorStates::eUnknown_2;
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         field_128.field_0_gnFrame = sGnFrame_5C1B84 + 3;
         return;
 
-    case 2u:
+    case DoorStates::eUnknown_2:
         if (field_128.field_0_gnFrame > static_cast<int>(sGnFrame_5C1B84))
         {
             return;
         }
-        field_120_state = 3;
+        field_120_state.door = DoorStates::eUnknown_3;
         field_128.field_0_gnFrame = sGnFrame_5C1B84 + 3;
         return;
 
-    case 3u:
+    case DoorStates::eUnknown_3:
         if (field_128.field_0_gnFrame <= static_cast<int>(sGnFrame_5C1B84))
         {
-            field_120_state = 4;
+            field_120_state.door = DoorStates::eUnknown_4;
         }
         return;
 
-    case 4u:
+    case DoorStates::eUnknown_4:
     {
         Path_Door* pDoorTlv = static_cast<Path_Door*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
             FP_GetExponent(field_B8_xpos),
@@ -8053,12 +8053,12 @@ void Abe::State_114_DoorEnter_459470()
             pDoorTlv->field_34_movie_number,
             bForceChange);
 
-        field_120_state = 5;
+        field_120_state.door = DoorStates::eUnknown_5;
         field_1A0_door_id = pDoorTlv->field_1C_target_door_number;
     }
     return;
 
-    case 5u:
+    case DoorStates::eUnknown_5:
     {
         gMap_5C3030.field_1E_door = 0;
         field_C2_lvl_number = gMap_5C3030.field_0_current_level;
@@ -8144,18 +8144,18 @@ void Abe::State_114_DoorEnter_459470()
         }
 
         field_10C_health = FP_FromInteger(1);
-        field_120_state = 6;
+        field_120_state.door = DoorStates::eAbeComesOut_6;
         field_128.field_0_gnFrame = sGnFrame_5C1B84 + 30;
     }
     return;
 
-    case 6u:
+    case DoorStates::eAbeComesOut_6:
         if (field_128.field_0_gnFrame > static_cast<int>(sGnFrame_5C1B84))
         {
             return;
         }
 
-        field_120_state = 0;
+        field_120_state.door = DoorStates::eAbeComesIn_0;
         if (field_100_pCollisionLine)
         {
             field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
@@ -8230,13 +8230,13 @@ void Abe::State_115_DoorExit_459A40()
 
 void Abe::State_116_MineCarEnter_458780()
 {
-    if (field_120_state == 0)
+    if (field_120_state.raw == 0)
     {
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
-            field_120_state = 1;
+            field_120_state.raw = 1;
             field_106_current_motion = eAbeStates::State_117_InMineCar_4587C0;
         }
     }
@@ -8285,14 +8285,14 @@ void Abe::State_118_MineCarExit_458890()
 
 void Abe::State_119_ToShrykull_45A990()
 {
-    if (field_120_state == 0)
+    if (field_120_state.raw == 0)
     {
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
 
-            field_120_state = 1;
+            field_120_state.raw = 1;
  
             auto pShryZapper = ae_new<Shrykull>();
             if (pShryZapper)
@@ -8403,25 +8403,19 @@ void Abe::State_126_TurnWheelBegin_456700()
             pWheel->VStartTurning();
         }
         field_106_current_motion = eAbeStates::State_127_TurnWheelLoop_456750;
-        field_120_state = 0;
+        field_120_state.wheel = WorkWheelStates::eTurningWheel_0;
     }
 }
 
 void Abe::State_127_TurnWheelLoop_456750()
 {
-    enum eStates
-    {
-        eTurningWheel = 0,
-        eCheckForNoLongerTurningWheel = 1,
-        eMapChanging = 2,
-    };
-
-    if (field_120_state == eTurningWheel || field_120_state == eCheckForNoLongerTurningWheel) // The state we enter the main state at
+    if (field_120_state.wheel == WorkWheelStates::eTurningWheel_0 ||
+        field_120_state.wheel == WorkWheelStates::eCheckForNoLongerTurningWheel_1) // The state we enter the main state at
     {
         Path_LevelLoader* pLevelLoader = static_cast<Path_LevelLoader*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes::LevelLoader_86, 0));
         if (pLevelLoader && SwitchStates_Get_466020(pLevelLoader->field_10_id))
         {
-            field_120_state = eMapChanging;
+            field_120_state.wheel = WorkWheelStates::eMapChanging_2;
             SND_SEQ_Play_4CAB10(SeqId::SaveTriggerMusic_31, 1, 127, 127);
             auto pMusicTrigger = ae_new<MusicTrigger>();
             if (pMusicTrigger)
@@ -8433,11 +8427,11 @@ void Abe::State_127_TurnWheelLoop_456750()
         else
         {
             // Must ALSO do logic below in this instance
-            field_120_state = eCheckForNoLongerTurningWheel;
+            field_120_state.wheel = WorkWheelStates::eCheckForNoLongerTurningWheel_1;
         }
     }
 
-    if (field_120_state == eCheckForNoLongerTurningWheel)
+    if (field_120_state.wheel == WorkWheelStates::eCheckForNoLongerTurningWheel_1)
     {
         if (!(sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & sInputKey_Up_5550D8))
         {
@@ -8451,7 +8445,7 @@ void Abe::State_127_TurnWheelLoop_456750()
             field_106_current_motion = eAbeStates::State_128_TurnWheelEnd_4569A0;
         }
     }
-    else if (field_120_state == eMapChanging)
+    else if (field_120_state.wheel == WorkWheelStates::eMapChanging_2)
     {
         // This happens for the mines tunnel 1 ender
         if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
@@ -8548,7 +8542,7 @@ void Abe::FleechDeath_459350()
     }
     field_1AC_flags.Set(Flags_1AC::e1AC_Bit5_shrivel);
     field_106_current_motion = eAbeStates::State_58_DeadPre_4593E0;
-    field_120_state = 0;
+    field_120_state.raw = 0;
     field_10C_health = FP_FromInteger(0);
     MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eDeathLong_11, this, 1, 0);
     field_100_pCollisionLine = nullptr;
@@ -8797,7 +8791,7 @@ __int16 Abe::TryEnterMineCar_4569E0()
                     {
                         if (pObj->field_B8_xpos - field_B8_xpos < distanceCheck)
                         {
-                            field_120_state = 0;
+                            field_120_state.raw = 0;
                             field_106_current_motion = eAbeStates::State_116_MineCarEnter_458780;
                             field_B8_xpos = FP_FromInteger((mineCarRect.x + mineCarRect.w) / 2);
                             MapFollowMe_408D10(TRUE);
@@ -9169,7 +9163,7 @@ __int16 Abe::RunTryEnterDoor_451220()
     }
 
     field_FC_pPathTLV = pDoorTlv;
-    field_120_state = 0;
+    field_120_state.raw = 0;
     field_106_current_motion = eAbeStates::State_114_DoorEnter_459470;
     field_B8_xpos = FP_FromInteger((pDoorTlv->field_8_top_left.field_0_x + pDoorTlv->field_C_bottom_right.field_0_x) / 2);
     MapFollowMe_408D10(TRUE);
@@ -9261,7 +9255,7 @@ short Abe::DoGameSpeak_45AB70(int input)
         {
             field_124_timer = sGnFrame_5C1B84 + 90;
             SND_SEQ_PlaySeq_4CA960(SeqId::MudokonChant1_10, 0, 1);
-            field_120_state = 0;
+            field_120_state.chant = ChantStates::eIdleChanting_0;
             nextState = eAbeStates::State_112_Chant_45B1C0;
         }
     }
@@ -10034,21 +10028,21 @@ EXPORT void Abe::ChangeChantState_45BB90(__int16 bLaughAtChantEnd)
     if (bLaughAtChantEnd)
     {
         field_1AC_flags.Set(Flags_1AC::e1AC_Bit9_laugh_at_chant_end);
-        field_120_state = 6; // Holds chant, then laughs.
+        field_120_state.chant = ChantStates::eChantingForBirdPortal_6; // Holds chant, then laughs.
     }
     else if (sControlledCharacter_5C1B8C == this)
     {
-        field_120_state = 0; // Chants briefly, then stops.
+        field_120_state.chant = ChantStates::eIdleChanting_0; // Chants briefly, then stops.
     }
     else
     {
-        field_120_state = 3; // Chants briefly with a possession flicker, then stops.
+        field_120_state.chant = ChantStates::eWaitForUnpossessing_3; // Chants briefly with a possession flicker, then stops.
     }
 }
 
 void Abe::SetAsDead_459430()
 {
-    field_120_state = 1;
+    field_120_state.raw = 1;
 }
 
 void Abe::ExitShrykull_45A9D0(__int16 bResetRingTimer)
