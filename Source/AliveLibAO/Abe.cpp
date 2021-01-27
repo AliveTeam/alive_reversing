@@ -9544,6 +9544,7 @@ void Abe::State_150_Chant_42FD50()
     {
         SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_11, 0, 0);
     }
+
     switch (field_110_state.chant)
     {
         case ChantStates::eUnknown_0:
@@ -9712,7 +9713,7 @@ void Abe::State_150_Chant_42FD50()
                 field_18C_pObjToPosses = nullptr;
                 if (sControlledCharacter_50767C->field_4_typeId == Types::eSlig_88)
                 {
-                    field_2A8_flags.Set(Flags_2A8::e2A8_Bit3_WalkToRun);
+                    field_2A8_flags.Set(Flags_2A8::e2A8_Bit11_bLaughAtChantEnd);
                 }
 
                 auto pPossessionFlicker = ao_new<PossessionFlicker>();
