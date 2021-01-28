@@ -1761,7 +1761,7 @@ void Slig::M_Sleeping_32_4B89A0()
     {
         if (!(static_cast<int>(sGnFrame_5C1B84 - 20) % 60))
         {
-            Slig_SoundEffect_4BFFE0(SligSfx::ePropeller3_11, this);
+            Slig_SoundEffect_4BFFE0(SligSfx::eSnooze1_5, this);
             if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
             {
                 auto pSnoozeParticle = ae_new<SnoozeParticle>();
