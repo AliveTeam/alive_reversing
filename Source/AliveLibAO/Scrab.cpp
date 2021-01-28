@@ -262,7 +262,7 @@ BaseGameObject* Scrab::dtor_45BA50()
         gMap_507BA8.TLV_Reset_446870(field_134_tlvInfo, -1, 0, 0);
     }
 
-    MusicController::sub_443810(MusicController::MusicTypes::eType0, this, 0, 0);
+    MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 0, 0);
 
     return dtor_401000();
 }
@@ -364,13 +364,6 @@ void Scrab::VUpdate_45B360()
         const auto old_motion = field_FC_current_motion;
 
         field_110_brain_ret = (this->*field_10C_fn)();
-     
-        static auto oldBrain = field_10C_fn;
-        if (field_10C_fn != oldBrain)
-        {
-            LOG_INFO("Brain changed from " << GetOriginalFn(oldBrain, sScrabAITable).fnName << " to " << GetOriginalFn(field_10C_fn, sScrabAITable).fnName);
-        }
-        oldBrain = field_10C_fn;
 
         if (showDebugCreatureInfo_5076E0)
         {
@@ -1094,7 +1087,7 @@ void Scrab::State_1_Stand_45E620()
         field_A8_xpos,
         field_AC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_443810(MusicController::MusicTypes::eType11, this, 0, 0);
+        MusicController::PlayMusic_443810(MusicController::MusicTypes::eType11, this, 0, 0);
     }
 }
 
@@ -1202,7 +1195,7 @@ void Scrab::State_2_Walk_45E730()
             field_A8_xpos,
             field_AC_ypos) >= CameraPos::eCamCurrent_0)
         {
-            MusicController::sub_443810(MusicController::MusicTypes::eType11, this, 0, 0);
+            MusicController::PlayMusic_443810(MusicController::MusicTypes::eType11, this, 0, 0);
         }
     }
 }
@@ -1328,7 +1321,7 @@ void Scrab::State_3_Run_45EAB0()
                 field_A8_xpos,
                 field_AC_ypos) >= CameraPos::eCamCurrent_0)
             {
-                MusicController::sub_443810(MusicController::MusicTypes::eType12, this, 0, 0);
+                MusicController::PlayMusic_443810(MusicController::MusicTypes::eType12, this, 0, 0);
             }
         }
     }
@@ -1804,7 +1797,7 @@ void Scrab::State_13_RunJumpBegin_45F5D0()
             field_A8_xpos,
             field_AC_ypos) >= CameraPos::eCamCurrent_0)
         {
-            MusicController::sub_443810(MusicController::MusicTypes::eType11, this, 0, 0);
+            MusicController::PlayMusic_443810(MusicController::MusicTypes::eType11, this, 0, 0);
         }
     }
 }
@@ -1872,7 +1865,7 @@ void Scrab::State_16_Stamp_45F920()
         field_A8_xpos,
         field_AC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_443810(MusicController::MusicTypes::eType12, this, 0, 0);
+        MusicController::PlayMusic_443810(MusicController::MusicTypes::eType12, this, 0, 0);
     }
 }
 
@@ -1910,7 +1903,7 @@ void Scrab::State_19_Unused_45F9D0()
         field_A8_xpos,
         field_AC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_443810(MusicController::MusicTypes::eType11, this, 0, 0);
+        MusicController::PlayMusic_443810(MusicController::MusicTypes::eType11, this, 0, 0);
     }
 }
 
@@ -1935,7 +1928,7 @@ void Scrab::State_20_HowlBegin_45FA60()
         field_A8_xpos,
         field_AC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_443810(MusicController::MusicTypes::eType12, this, 0, 0);
+        MusicController::PlayMusic_443810(MusicController::MusicTypes::eType12, this, 0, 0);
     }
 }
 
@@ -1968,7 +1961,7 @@ void Scrab::State_22_Shriek_45FB00()
         field_A8_xpos,
         field_AC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_443810(MusicController::MusicTypes::eType11, this, 0, 0);
+        MusicController::PlayMusic_443810(MusicController::MusicTypes::eType11, this, 0, 0);
     }
 }
 
@@ -1990,7 +1983,7 @@ void Scrab::State_23_ScrabBattleAnim_45FBA0()
         field_A8_xpos,
         field_AC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_443810(MusicController::MusicTypes::eType12, this, 0, 0);
+        MusicController::PlayMusic_443810(MusicController::MusicTypes::eType12, this, 0, 0);
     }
 }
 
@@ -2016,7 +2009,7 @@ void Scrab::State_24_FeedToGulp_45FC30()
         field_A8_xpos,
         field_AC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_443810(MusicController::MusicTypes::eType11, this, 0, 0);
+        MusicController::PlayMusic_443810(MusicController::MusicTypes::eType11, this, 0, 0);
     }
 }
 
@@ -2131,7 +2124,7 @@ void Scrab::State_27_AttackLunge_45FDF0()
         field_A8_xpos,
         field_AC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_443810(MusicController::MusicTypes::eType12, this, 0, 0);
+        MusicController::PlayMusic_443810(MusicController::MusicTypes::eType12, this, 0, 0);
     }
 }
 

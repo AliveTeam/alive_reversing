@@ -23,7 +23,7 @@ BellHammer* BellHammer::ctor_405010(Path_BellHammer* pTlv, int tlvInfo)
 
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
     field_F0_bSpawnElum = 0;
-    field_E4_state = 0;
+    field_E4_state = BellHammerStates::eWaitForActivation_0;
 
     field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x + 82);
     field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y + 94);
@@ -149,18 +149,18 @@ void BellHammer::VUpdate_405320()
 {
     switch (field_E4_state)
     {
-    case 0:
+    case BellHammerStates::eWaitForActivation_0:
         if (SwitchStates_Get(field_E6_switch_id))
         {
-            field_E4_state = 1;
+            field_E4_state = BellHammerStates::eSmashingBell_1;
             field_10_anim.Set_Animation_Data_402A40(4500, nullptr);
         }
         break;
 
-    case 1:
+    case BellHammerStates::eSmashingBell_1:
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            field_E4_state = 0;
+            field_E4_state = BellHammerStates::eWaitForActivation_0;
             field_10_anim.Set_Animation_Data_402A40(4488, nullptr);
             SwitchStates_Set(field_E6_switch_id, 0);
 
@@ -179,7 +179,7 @@ void BellHammer::VUpdate_405320()
             }
             else if (field_10_anim.field_92_current_frame == 15)
             {
-                SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_13, 1, 1);
+                SND_SEQ_PlaySeq_4775A0(SeqId::eRingBellHammerAndExtraSound_13, 1, 1);
             }
         }
         break;

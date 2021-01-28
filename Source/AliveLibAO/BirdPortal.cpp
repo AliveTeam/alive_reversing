@@ -185,7 +185,7 @@ BirdPortal* BirdPortal::ctor_4520A0(Path_BirdPortal* pTlv, int tlvInfo)
     field_52_dest_path = pTlv->field_1C_dest_path;
     field_10_portal_type = pTlv->field_24_portal_type;
     field_38_movie_id = pTlv->field_22_movie_id;
-    field_56_num_muds_for_shrykul = pTlv->field_26_num_muds_for_shrykul;
+    field_56_num_muds_for_shrykull = pTlv->field_26_num_muds_for_shrykul;
     if (pTlv->field_20_scale == 1)
     {
         field_34_scale = FP_FromDouble(0.5);
@@ -306,7 +306,7 @@ void BirdPortal::VUpdate_4523D0()
                     field_1C_ypos + FP_FromInteger(10),
                     field_34_scale != FP_FromDouble(0.5) ? 27 : 8,
                     field_34_scale,
-                    field_56_num_muds_for_shrykul,
+                    field_56_num_muds_for_shrykull,
                     0);
             }
             field_5C->field_C_refCount++;
@@ -830,7 +830,7 @@ __int16 BirdPortal::IsScaredAway_4532E0()
 
 void BirdPortal::VGiveShrukull_4535A0(__int16 bPlaySound)
 {
-    if (field_10_portal_type == PortalType::eShrykull_2 && field_56_num_muds_for_shrykul <= 0)
+    if (field_10_portal_type == PortalType::eShrykull_2 && field_56_num_muds_for_shrykull <= 0)
     {
         field_14_state = States::State_7;
         field_30_timer = gnFrameCount_507670 + 12;
@@ -946,7 +946,7 @@ void BirdPortal::VStopAudio_4532C0()
     }
 }
 
-void BirdPortal::Vsub_453570()
+void BirdPortal::VKillPortalClipper_453570()
 {
     if (field_44_pScreenClipper)
     {
@@ -1022,7 +1022,7 @@ void BirdPortal::Vsub_453810()
 
 void BirdPortal::VMudSaved_453830()
 {
-    field_56_num_muds_for_shrykul--;
+    field_56_num_muds_for_shrykull--;
 }
 
 void BirdPortal::VGetMapChange_453840(LevelIds* level, WORD* path, WORD* camera, CameraSwapEffects* screenChangeEffect, WORD* movieId)

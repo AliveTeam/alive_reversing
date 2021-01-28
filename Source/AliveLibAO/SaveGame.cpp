@@ -138,7 +138,7 @@ void SaveGame::LoadFromMemory_459970(SaveData* pData, int bKillObjects)
     sActiveHero_507678->field_FC_current_motion = eAbeStates::State_62_LoadedSaveSpawn_45ADD0;
     sActiveHero_507678->field_114_gnFrame = 0;
     
-    MusicController::sub_443810(MusicController::MusicTypes::eType0, sActiveHero_507678, 0, 0);
+    MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, sActiveHero_507678, 0, 0);
 
     gMap_507BA8.SetActiveCam_444660(
         pData->field_234_current_level,

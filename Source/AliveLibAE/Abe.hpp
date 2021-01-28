@@ -243,16 +243,24 @@ enum class StoneStates : unsigned __int16
     eCircularFadeExit_7 = 7,
 };
 
-// assumed to be the same as AO
 enum class DoorStates : unsigned __int16
 {
     eAbeComesIn_0 = 0,
-    eUnknown_1 = 1,
-    eUnknown_2 = 2,
-    eUnknown_3 = 3,
-    eUnknown_4 = 4,
-    eUnknown_5 = 5,
+    ePadding_1 = 1,
+    eWaitABit_2 = 2,
+    eToState4_3 = 3,
+    eSetNewActiveCamera_4 = 4,
+    eSetNewAbePosition_5 = 5,
     eAbeComesOut_6 = 6
+};
+
+enum class PortalSubStates : __int16
+{
+    eJumpingInsidePortal_0 = 0,
+    eSetNewActiveCamera_1 = 1,
+    eHopOutOfPortal_2 = 2,
+    ePadding_3 = 3,
+    eSetNewAbePosition_4 = 4
 };
 
 enum class WorkWheelStates : unsigned __int16
@@ -275,7 +283,7 @@ enum class Mud_Emotion : __int16;
 
 struct Abe_1BC_20_sub_object
 {
-    int field_0_gnFrame;
+    int field_0_abe_timer;
     int field_4_regen_health_timer;
     FP field_8_x_vel_slow_by;
     int field_C_unused;
@@ -327,7 +335,7 @@ struct Abe_SaveState
     DWORD field_4C_unused;
     DWORD field_50_state;
     DWORD field_54_timer;
-    DWORD field_58_gnFrame;
+    DWORD field_58_abe_timer;
     DWORD field_5C_regen_health_timer;
     Mud_Emotion mood;
     MudSounds say;
@@ -670,7 +678,7 @@ public:
     __int16 field_1A0_door_id;
     char field_1A2_throwable_count;
     char field_1A3_throw_direction;
-    __int16 field_1A4_portal_sub_state;
+    PortalSubStates field_1A4_portal_sub_state;
     __int16 field_1A6_padding;
     int field_1A8_portal_id;
 

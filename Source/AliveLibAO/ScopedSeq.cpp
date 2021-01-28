@@ -53,7 +53,7 @@ ScopedSeq* ScopedSeq::ctor_476400(char ambianceId, CameraPos direction)
 
     case 4:
         field_4_seq_id = 30;
-        SND_SEQ_Play_477760(SeqId::Unknown_30, 0, 25 * volLeft + 10, 25 * volRight + 10);
+        SND_SEQ_Play_477760(SeqId::eParamiteNearby_30, 0, 25 * volLeft + 10, 25 * volRight + 10);
         break;
 
     case 6:

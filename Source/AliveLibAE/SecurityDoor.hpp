@@ -15,7 +15,7 @@ struct Path_SecurityDoor : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SecurityDoor, 0x1C);
 
-enum class DoorState : __int16
+enum class SecurityDoorStates : __int16
 {
     eInactive_0 = 0,
     eSuccessChime_1 = 1,
@@ -57,7 +57,7 @@ private:
 
 private:
     int field_F4_tlvInfo;
-    DoorState field_F8_state;
+    SecurityDoorStates field_F8_state;
     __int16 field_FA_id;
     int field_FC_code_converted;
     __int16 field_100_code_len;

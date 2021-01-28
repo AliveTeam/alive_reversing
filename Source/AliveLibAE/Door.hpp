@@ -65,10 +65,10 @@ protected:
     int field_F4_tlvInfo;
     enum DoorTypes
     {
-        eType_0 = 0,
-        eType_1 = 1,
-        eType_2 = 2,
-        eType_3 = 3,
+        eBasicDoor_0 = 0,
+        ePadding_1 = 1,
+        eTasksWithSecretMusicDoor_2 = 2,
+        eTasksDoor_3 = 3,
     };
     __int16 field_F8_door_type;
 public:

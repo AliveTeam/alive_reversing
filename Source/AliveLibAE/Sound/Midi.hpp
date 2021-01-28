@@ -101,7 +101,7 @@ enum SeqId
     SleepingSligOffscreen_22 = 22,
     AwakeSlogOffscreen_23 = 23,
     SleepingSlogOffscreen_24 = 24,
-    ParamiteOffscreen_25 = 25,
+    ParamiteNearby_25 = 25,
     SleepingFleechOffscreen_26 = 26,
     ToCalm1_27 = 27, //Unused, from Oddysee
     ToCalm2_28 = 28, //Unused, from Oddysee

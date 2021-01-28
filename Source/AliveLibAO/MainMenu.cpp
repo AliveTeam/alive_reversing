@@ -2612,7 +2612,7 @@ void Menu::GameSpeak_Update_47CBD0()
             {
                 if (!Input_IsChanting_4334C0())
                 {
-                    SND_Seq_Stop_477A60(SeqId::Unknown_11);
+                    SND_Seq_Stop_477A60(SeqId::eMudokonChant1_11);
 
                     field_1EC_pObj1->field_E8_bDestroyOnDone = 1;
                     field_1EC_pObj1 = nullptr;
@@ -2647,7 +2647,7 @@ void Menu::GameSpeak_Update_47CBD0()
 
     if (Input_IsChanting_4334C0())
     {
-        SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_11, 0, 1);
+        SND_SEQ_PlaySeq_4775A0(SeqId::eMudokonChant1_11, 0, 1);
 
         field_204_flags |= 1u;
         field_10_anim.Set_Animation_Data_402A40(2115472, field_E4_res_array[0]);
