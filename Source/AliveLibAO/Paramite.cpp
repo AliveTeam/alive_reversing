@@ -259,9 +259,9 @@ BaseGameObject* Paramite::dtor_44AB00()
         gMap_507BA8.TLV_Reset_446870(field_12C_tlvInfo, -1, 0, 0);
     }
 
-    SND_Seq_Stop_477A60(SeqId::Unknown_30);
+    SND_Seq_Stop_477A60(SeqId::eParamiteNearby_30);
     
-    MusicController::sub_443810(MusicController::MusicTypes::eType0, this, 0, 0);
+    MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 0, 0);
 
     return dtor_401000();
 }
@@ -501,7 +501,7 @@ void Paramite::VUpdate_44A490()
             field_AC_ypos,
             0))
     {
-        SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_30, 1, 0);
+        SND_SEQ_PlaySeq_4775A0(SeqId::eParamiteNearby_30, 1, 0);
     }
     else
     {
@@ -532,7 +532,7 @@ void Paramite::VUpdate_44A490()
 
         if (!bFound)
         {
-            SND_Seq_Stop_477A60(SeqId::Unknown_30);
+            SND_Seq_Stop_477A60(SeqId::eParamiteNearby_30);
         }
     }
 
@@ -973,11 +973,11 @@ void Paramite::SetMusic()
     {
         if (BrainIs(&Paramite::Brain_ChasingAbe_449170))
         {
-            MusicController::sub_443810(MusicController::MusicTypes::eType12, this, 0, 0);
+            MusicController::PlayMusic_443810(MusicController::MusicTypes::eType12, this, 0, 0);
         }
         else
         {
-            MusicController::sub_443810(MusicController::MusicTypes::eType11, this, 0, 0);
+            MusicController::PlayMusic_443810(MusicController::MusicTypes::eType11, this, 0, 0);
         }
     }
 }
@@ -2690,11 +2690,11 @@ void Paramite::State_0_Idle_44B900()
     {
         if (BrainIs(&Paramite::Brain_ChasingAbe_449170))
         {
-            MusicController::sub_443810(MusicController::MusicTypes::eType12, this, 0, 0);
+            MusicController::PlayMusic_443810(MusicController::MusicTypes::eType12, this, 0, 0);
         }
         else
         {
-            MusicController::sub_443810(MusicController::MusicTypes::eType11, this, 0, 0);
+            MusicController::PlayMusic_443810(MusicController::MusicTypes::eType11, this, 0, 0);
         }
     }
 }
@@ -2837,11 +2837,11 @@ void Paramite::State_2_Walking_44B9E0()
     {
         if (BrainIs(&Paramite::Brain_ChasingAbe_449170))
         {
-            MusicController::sub_443810(MusicController::MusicTypes::eType12, this, 0, 0);
+            MusicController::PlayMusic_443810(MusicController::MusicTypes::eType12, this, 0, 0);
         }
         else
         {
-            MusicController::sub_443810(MusicController::MusicTypes::eType11, this, 0, 0);
+            MusicController::PlayMusic_443810(MusicController::MusicTypes::eType11, this, 0, 0);
         }
     }
 }
@@ -3155,7 +3155,7 @@ void Paramite::State_6_Hop_44CB20()
             field_A8_xpos,
             field_AC_ypos) >= CameraPos::eCamCurrent_0)
         {
-            MusicController::sub_443810(MusicController::MusicTypes::eType12, this, 0, 0);
+            MusicController::PlayMusic_443810(MusicController::MusicTypes::eType12, this, 0, 0);
         }
 
     }
@@ -3416,7 +3416,7 @@ void Paramite::State_13_GameSpeakBegin_44D050()
         field_A8_xpos,
         field_AC_ypos) == CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_443810(MusicController::MusicTypes::eType12, this, 0, 0);
+        MusicController::PlayMusic_443810(MusicController::MusicTypes::eType12, this, 0, 0);
     }
 }
 
@@ -3479,7 +3479,7 @@ void Paramite::State_14_PreHiss_44D170()
         field_A8_xpos,
         field_AC_ypos) == CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_443810(MusicController::MusicTypes::eType12, this, 0, 0);
+        MusicController::PlayMusic_443810(MusicController::MusicTypes::eType12, this, 0, 0);
     }
 }
 
@@ -3688,7 +3688,7 @@ void Paramite::State_18_RunningAttack_44D5D0()
         field_A8_xpos,
         field_AC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_443810(MusicController::MusicTypes::eType12, this, 0, 0);
+        MusicController::PlayMusic_443810(MusicController::MusicTypes::eType12, this, 0, 0);
     }
 }
 
@@ -3746,7 +3746,7 @@ void Paramite::State_20_SurpriseWeb_44D9A0()
         field_A8_xpos,
         field_AC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_443810(MusicController::MusicTypes::eType11, this, 0, 0);
+        MusicController::PlayMusic_443810(MusicController::MusicTypes::eType11, this, 0, 0);
     }
 }
 

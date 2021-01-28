@@ -5140,7 +5140,7 @@ void Paramite::dtor_487FC0()
         Path::TLV_Reset_4DB8E0(field_140_tlvInfo, -1, 0, 1);
     }
 
-    SND_SEQ_Stop_4CAE60(SeqId::ParamiteOffscreen_25);
+    SND_SEQ_Stop_4CAE60(SeqId::ParamiteNearby_25);
     MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
 
     if (sControlledCharacter_5C1B8C == this)
@@ -5221,11 +5221,11 @@ void Paramite::vUpdate_4871B0()
             field_BC_ypos,
             0))
     {
-        SND_SEQ_PlaySeq_4CA960(SeqId::ParamiteOffscreen_25, 1, 0);
+        SND_SEQ_PlaySeq_4CA960(SeqId::ParamiteNearby_25, 1, 0);
     }
     else if (!Find_Paramite_488810())
     {
-        SND_SEQ_Stop_4CAE60(SeqId::ParamiteOffscreen_25);
+        SND_SEQ_Stop_4CAE60(SeqId::ParamiteNearby_25);
     }
 
     if (Event_Get_422C00(kEventDeathReset))

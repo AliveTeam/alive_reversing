@@ -617,12 +617,12 @@ int CC Mudokon_SFX_42A4D0(MudSounds idx, int volume, int pitch, BaseAliveGameObj
     {
         if (pHero && pHero->field_BC_sprite_scale == FP_FromDouble(0.5))
         {
-            SND_SEQ_Play_477760(SeqId::Unknown_23, 1, 85, 85);
+            SND_SEQ_Play_477760(SeqId::eAbeOops_23, 1, 85, 85);
             return 0;
         }
         else
         {
-            SND_SEQ_Play_477760(SeqId::Unknown_23, 1, 110, 110);
+            SND_SEQ_Play_477760(SeqId::eAbeOops_23, 1, 110, 110);
             return 0;
         }
     }
@@ -881,7 +881,7 @@ BaseGameObject* Abe::dtor_420C80()
 {
     SetVTable(this, 0x4BB158);
     
-    SND_Seq_Stop_477A60(SeqId::Unknown_11);
+    SND_Seq_Stop_477A60(SeqId::eMudokonChant1_11);
 
     BYTE** ppRes = nullptr;
 
@@ -1403,7 +1403,7 @@ void Abe::ToDeathDropFall_42C3D0()
     field_FC_current_motion = eAbeStates::State_59_DeathDropFall_42CBE0;
     field_114_gnFrame = 0;
     field_100_health = FP_FromInteger(0);
-    MusicController::sub_443810(MusicController::MusicTypes::eType0, this, 1, 0);
+    MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 1, 0);
 }
 
 BOOL Abe::IsStanding_41FC10()
@@ -1584,14 +1584,14 @@ void Abe::ToDieFinal_42C400()
     field_FC_current_motion = eAbeStates::State_60_Dead_42C4C0;
     field_114_gnFrame = 0;
     field_100_health = FP_FromInteger(0);
-    MusicController::sub_443810(MusicController::MusicTypes::eDeathLong_14, this, 1, 0);
+    MusicController::PlayMusic_443810(MusicController::MusicTypes::eDeathLong_14, this, 1, 0);
 }
 
 void Abe::ToKnockback_422D90(__int16 bKnockbackSound, __int16 bDelayedAnger)
 {
     if (sControlledCharacter_50767C->field_4_typeId != Types::eSlig_88 || field_100_health <= FP_FromInteger(0))
     {
-        SND_Seq_Stop_477A60(SeqId::Unknown_11);
+        SND_Seq_Stop_477A60(SeqId::eMudokonChant1_11);
         field_2AA_flags.Clear(Flags_2AA::e2AA_Bit3_ElumMountBegin);
         field_2AA_flags.Clear(Flags_2AA::e2AA_Bit4_ElumMountEnd);
         field_2AA_flags.Clear(Flags_2AA::e2AA_Bit5_ElumUnmountBegin);
@@ -1960,7 +1960,7 @@ short Abe::DoGameSpeak_42F5C0(unsigned __int16 input)
     if (Input_IsChanting_4334C0())
     {
         field_114_gnFrame = gnFrameCount_507670 + 90;
-        SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_11, 0, 1);
+        SND_SEQ_PlaySeq_4775A0(SeqId::eMudokonChant1_11, 0, 1);
         field_110_state.chant = ChantStates::eIdleChanting_0;
         return eAbeStates::State_150_Chant_42FD50;
     }
@@ -3246,7 +3246,7 @@ __int16 Abe::VTakeDamage(BaseGameObject* pFrom)
 
 __int16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
 {
-    SND_Seq_Stop_477A60(SeqId::Unknown_11);
+    SND_Seq_Stop_477A60(SeqId::eMudokonChant1_11);
 
     const auto old_say = field_130_say;
     field_130_say = -1;
@@ -3804,7 +3804,7 @@ void Abe::State_0_Idle_423520()
         {
             field_114_gnFrame = gnFrameCount_507670 + 90;
             field_FC_current_motion = eAbeStates::State_150_Chant_42FD50;
-            SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_11, 0, 1);
+            SND_SEQ_PlaySeq_4775A0(SeqId::eMudokonChant1_11, 0, 1);
         }
         field_110_state.raw = 0;
         return;
@@ -6817,7 +6817,7 @@ void Abe::State_59_DeathDropFall_42CBE0()
     {
         if (static_cast<int>(gnFrameCount_507670) == field_118_timer - 30)
         {
-            SND_SEQ_Play_477760(SeqId::Unknown_10, 1, 65, 65);
+            SND_SEQ_Play_477760(SeqId::eHitBottomOfDeathPit_10, 1, 65, 65);
         }
         else if (static_cast<int>(gnFrameCount_507670) == field_118_timer - 24)
         {
@@ -6835,7 +6835,7 @@ void Abe::State_59_DeathDropFall_42CBE0()
             field_FC_current_motion = eAbeStates::State_60_Dead_42C4C0;
             field_114_gnFrame = 0;
             field_100_health = FP_FromInteger(0);
-            MusicController::sub_443810(MusicController::MusicTypes::eDeathLong_14, this, 1, 0);
+            MusicController::PlayMusic_443810(MusicController::MusicTypes::eDeathLong_14, this, 1, 0);
         }
     }
 }
@@ -6925,7 +6925,7 @@ void Abe::State_60_Dead_42C4C0()
                     }
                 }
                 field_114_gnFrame++;
-                MusicController::sub_443810(MusicController::MusicTypes::eDeathLong_14, this, 1, 0);
+                MusicController::PlayMusic_443810(MusicController::MusicTypes::eDeathLong_14, this, 1, 0);
             }
             return;
         }
@@ -7013,7 +7013,7 @@ void Abe::State_60_Dead_42C4C0()
                 field_FC_current_motion = eAbeStates::State_61_Respawn_42CD20;
                 field_118_timer = gnFrameCount_507670 + 2;
                 field_114_gnFrame = 0;
-                MusicController::sub_443810(MusicController::MusicTypes::eType0, this, 1, 0);
+                MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 1, 0);
                 if (field_168_ring_pulse_timer && field_16C_bHaveShrykull)
                 {
                     Abe::Free_Shrykull_Resources_42F4C0();
@@ -7222,7 +7222,7 @@ void Abe::State_61_Respawn_42CD20()
             {
                 field_D0_pShadow->field_14_flags.Set(Shadow::Flags::eBit2_Enabled);
                 field_D0_pShadow->field_14_flags.Clear(Shadow::Flags::eBit1_ShadowAtBottom);
-                MusicController::sub_443810(MusicController::MusicTypes::eType0, this, 0, 0);
+                MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 0, 0);
                 field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
                 field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
                 field_6_flags.Set(Options::eDrawable_Bit4);
@@ -8184,7 +8184,7 @@ void Abe::State_86_FallLandDie_42EDD0()
     if (field_10_anim.field_92_current_frame == 0)
     {
         SFX_Play_43AD70(SoundEffect::KillEffect_78, 85, 0);
-        SND_SEQ_Play_477760(SeqId::Unknown_10, 1, 95, 95);
+        SND_SEQ_Play_477760(SeqId::eHitBottomOfDeathPit_10, 1, 95, 95);
         auto pScreenShake = ao_new<ScreenShake>();
         if (pScreenShake)
         {
@@ -9155,7 +9155,7 @@ void Abe::State_136_ElumMountEnd_42E110()
             field_1A4_resources.res[58] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElumUnknownResID_112, 1, 0);
             field_FC_current_motion = eAbeStates::State_103_ElumIdle_42DCD0;
             sControlledCharacter_50767C = gElum_507680;
-            MusicController::sub_443810(MusicController::MusicTypes::eAbeOnElum_1, 0, 0, 0);
+            MusicController::PlayMusic_443810(MusicController::MusicTypes::eAbeOnElum_1, 0, 0, 0);
             sActiveHero_507678->field_D0_pShadow->field_14_flags.Clear(Shadow::Flags::eBit2_Enabled);
             Environment_SFX_42A220(EnvironmentSfx::eAbeMountedElumNoise_19, 0, 0x7FFF, this);
         }
@@ -9264,7 +9264,7 @@ void Abe::State_138_ElumUnmountEnd_42E390()
             }
         }
         sControlledCharacter_50767C = sActiveHero_507678;
-        MusicController::sub_443810(MusicController::MusicTypes::eType0, this, 0, 0);
+        MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 0, 0);
         sActiveHero_507678->field_D0_pShadow->field_14_flags.Clear(Shadow::Flags::eBit2_Enabled);
         ToIdle_422D50();
     }
@@ -9540,7 +9540,7 @@ void Abe::State_150_Chant_42FD50()
     if (field_110_state.chant != ChantStates::eWaitForUnpossessing_3 &&
         field_110_state.chant != ChantStates::eUnpossessing_4)
     {
-        SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_11, 0, 0);
+        SND_SEQ_PlaySeq_4775A0(SeqId::eMudokonChant1_11, 0, 0);
     }
 
     switch (field_110_state.chant)
@@ -9720,7 +9720,7 @@ void Abe::State_150_Chant_42FD50()
                     pPossessionFlicker->ctor_41A8C0(sControlledCharacter_50767C, 60, 128, 255, 255);
                 }
 
-                SND_Seq_Stop_477A60(SeqId::Unknown_11);
+                SND_Seq_Stop_477A60(SeqId::eMudokonChant1_11);
                 SFX_Play_43AE60(SoundEffect::PossessEffect_21, 70, 400, 0);
                 field_110_state.chant = ChantStates::eWaitForUnpossessing_3;
             }
@@ -9778,7 +9778,7 @@ void Abe::State_150_Chant_42FD50()
 
 void Abe::State_151_ChantEnd_430530()
 {
-    SND_Seq_Stop_477A60(SeqId::Unknown_11);
+    SND_Seq_Stop_477A60(SeqId::eMudokonChant1_11);
 
     FollowLift_42EE90();
 

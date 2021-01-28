@@ -433,7 +433,7 @@ BaseGameObject* Mudokon::dtor_43F6A0()
     if (field_FC_current_motion == eMudStates::State_52_Chant_43D520 ||
         field_FC_current_motion == eMudStates::State_59_CrouchChant_43EC20)
     {
-        SND_Seq_Stop_477A60(SeqId::Unknown_12);
+        SND_Seq_Stop_477A60(SeqId::eMudokonChant_12);
     }
 
     return dtor_401000();
@@ -1348,7 +1348,7 @@ void Mudokon::State_0_Idle_43CA70()
         break;
 
     case eMudStates::State_52_Chant_43D520:
-        SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_12, 0, 1);
+        SND_SEQ_PlaySeq_4775A0(SeqId::eMudokonChant_12, 0, 1);
         field_FC_current_motion = eMudStates::State_52_Chant_43D520;
         field_FE_next_state = -1;
         break;
@@ -2320,7 +2320,7 @@ void Mudokon::State_44_JumpMid_43E960()
         field_B8_vely = FP_FromInteger(0);
         field_B4_velx = FP_FromInteger(0);
 
-        SND_SEQ_Play_477760(SeqId::Unknown_45, 1, 127, 127);
+        SND_SEQ_Play_477760(SeqId::eSaveTriggerMusic_45, 1, 127, 127);
 
 
         auto pMusicMem = ao_new<MusicTrigger>();
@@ -2568,16 +2568,16 @@ void Mudokon::State_52_Chant_43D520()
             0);
     }
 
-    if (!SND_SsIsEos_DeInlined_477930(SeqId::Unknown_12))
+    if (!SND_SsIsEos_DeInlined_477930(SeqId::eMudokonChant_12))
     {
-        SND_SEQ_Play_477760(SeqId::Unknown_12, 1, 50, 50);
+        SND_SEQ_Play_477760(SeqId::eMudokonChant_12, 1, 50, 50);
     }
 
     if (field_FE_next_state == eMudStates::State_0_Idle_43CA70)
     {
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            SND_Seq_Stop_477A60(SeqId::Unknown_12);
+            SND_Seq_Stop_477A60(SeqId::eMudokonChant_12);
             field_FC_current_motion = eMudStates::State_53_ChantEnd_43D640;
             field_FE_next_state = -1;
         }
@@ -2662,15 +2662,15 @@ void Mudokon::State_59_CrouchChant_43EC20()
             0);
     }
 
-    if (!SND_SsIsEos_DeInlined_477930(SeqId::Unknown_12))
+    if (!SND_SsIsEos_DeInlined_477930(SeqId::eMudokonChant_12))
     {
         if (field_BC_sprite_scale == FP_FromDouble(0.5))
         {
-            SND_SEQ_Play_477760(SeqId::Unknown_12, 1, 30, 30);
+            SND_SEQ_Play_477760(SeqId::eMudokonChant_12, 1, 30, 30);
         }
         else
         {
-            SND_SEQ_Play_477760(SeqId::Unknown_12, 1, 50, 50);
+            SND_SEQ_Play_477760(SeqId::eMudokonChant_12, 1, 50, 50);
         }
     }
 }
@@ -4434,7 +4434,7 @@ short Mudokon::Brain_FallAndSmackDeath_13_43C700()
         {
             if (static_cast<int>(gnFrameCount_507670) == field_1C0_timer - 6)
             {
-                SND_SEQ_Play_477760(SeqId::Unknown_10, 1, 65, 65);
+                SND_SEQ_Play_477760(SeqId::eHitBottomOfDeathPit_10, 1, 65, 65);
             }
 
             if (static_cast<int>(gnFrameCount_507670) > field_1C0_timer)

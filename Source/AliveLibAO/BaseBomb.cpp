@@ -286,7 +286,7 @@ BaseBomb* BaseBomb::ctor_4173A0(FP xpos, FP ypos, int /*unused*/, FP scale)
     DealDamageRect_417A50(&damageRect);
 
     word_4FFA4C = 0;
-    SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_21, 1, 1);
+    SND_SEQ_PlaySeq_4775A0(SeqId::eExplosion1_21, 1, 1);
 
     return this;
 }

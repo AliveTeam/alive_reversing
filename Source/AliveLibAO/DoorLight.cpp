@@ -196,7 +196,7 @@ void DoorLight::VUpdate_4060A0()
                     }
                     else
                     {
-                        SND_SEQ_Play_477760(SeqId::Unknown_45, 1, 127, 127);
+                        SND_SEQ_Play_477760(SeqId::eSaveTriggerMusic_45, 1, 127, 127);
                     }
                 }
                 field_C0_r = 32;

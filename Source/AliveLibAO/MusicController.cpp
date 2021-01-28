@@ -187,8 +187,8 @@ const MusicController_Record2 rec2s_4CD5A8[124] =
     { SeqId::Unknown_42, 320 },
     { SeqId::Unknown_43, 320 },
     { SeqId::Unknown_44, 320 },
-    { SeqId::Unknown_45, 320 },
-    { SeqId::Unknown_46, 320 },
+    { SeqId::eSaveTriggerMusic_45, 320 },
+    { SeqId::eSecretMusic_46, 320 },
     { SeqId::Unknown_47, 640 },
     { SeqId::Unknown_48, 640 },
     { SeqId::Unknown_49, 640 },
@@ -507,11 +507,11 @@ void MusicController::VUpdate()
     VUpdate_443300();
 }
 
-void CC MusicController::sub_443810(MusicTypes a1, BaseGameObject* a2, __int16 a3, __int16 a4)
+void CC MusicController::PlayMusic_443810(MusicTypes musicType, BaseGameObject* pObj, __int16 a3, __int16 a4)
 {
     if (pMusicController_507B98)
     {
-        pMusicController_507B98->PlayMusic_443460(a1, a2, a3, a4);
+        pMusicController_507B98->PlayMusic_443460(musicType, pObj, a3, a4);
     }
 }
 
@@ -693,7 +693,7 @@ void MusicController::PlayMusic_443460(MusicTypes musicType, BaseGameObject* pOb
 
             if (a4)
             {
-                field_1C_pObj = 0;
+                field_1C_pObj = nullptr;
             }
 
             field_3A_type = musicType;

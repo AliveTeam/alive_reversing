@@ -293,20 +293,20 @@ void RollingBall::VUpdate_457AF0()
             switch (direction)
             {
             case CameraPos::eCamCurrent_0:
-                SND_SEQ_Play_477760(SeqId::Unknown_21, 1, 60, 60);
+                SND_SEQ_Play_477760(SeqId::eExplosion1_21, 1, 60, 60);
                 break;
 
             case CameraPos::eCamTop_1:
             case CameraPos::eCamBottom_2:
-                SND_SEQ_Play_477760(SeqId::Unknown_21, 1, 40, 40);
+                SND_SEQ_Play_477760(SeqId::eExplosion1_21, 1, 40, 40);
                 break;
 
             case CameraPos::eCamLeft_3:
-                SND_SEQ_Play_477760(SeqId::Unknown_21, 1, 40, 13);
+                SND_SEQ_Play_477760(SeqId::eExplosion1_21, 1, 40, 13);
                 break;
 
             case CameraPos::eCamRight_4:
-                SND_SEQ_Play_477760(SeqId::Unknown_21, 1, 13, 40);
+                SND_SEQ_Play_477760(SeqId::eExplosion1_21, 1, 13, 40);
                 break;
 
             default:
@@ -363,23 +363,23 @@ void RollingBall::VUpdate_457AF0()
         switch (direction)
         {
         case CameraPos::eCamCurrent_0:
-            SND_SEQ_Play_477760(SeqId::Unknown_21, 1, 60, 60);
+            SND_SEQ_Play_477760(SeqId::eExplosion1_21, 1, 60, 60);
             CrushThingsInTheWay_458310();
             break;
 
         case CameraPos::eCamTop_1:
         case CameraPos::eCamBottom_2:
-            SND_SEQ_Play_477760(SeqId::Unknown_21, 1, 40, 40);
+            SND_SEQ_Play_477760(SeqId::eExplosion1_21, 1, 40, 40);
             CrushThingsInTheWay_458310();
             break;
 
         case CameraPos::eCamLeft_3:
-            SND_SEQ_Play_477760(SeqId::Unknown_21, 1, 40, 13);
+            SND_SEQ_Play_477760(SeqId::eExplosion1_21, 1, 40, 13);
             CrushThingsInTheWay_458310();
             break;
 
         case CameraPos::eCamRight_4:
-            SND_SEQ_Play_477760(SeqId::Unknown_21, 1, 13, 40);
+            SND_SEQ_Play_477760(SeqId::eExplosion1_21, 1, 13, 40);
             CrushThingsInTheWay_458310();
             break;
 

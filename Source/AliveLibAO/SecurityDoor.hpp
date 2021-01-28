@@ -17,6 +17,21 @@ struct Path_SecurityDoor : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_SecurityDoor, 0x24);
 
+enum SecurityDoorStates : __int16
+{
+    eInactive_0 = 0,
+    eSuccessChime_1 = 1,
+    eSayingHi_2 = 2,
+    eListeningForHi_3 = 3,
+    eWaitingToSayPassword_4 = 4,
+    ePreparingToSayPassword_5 = 5,
+    eSayingPassword_6 = 6,
+    ePausing_7 = 7,
+    eListeningForPassword_8 = 8,
+    eCheckingIfPasswordMatches_9 = 9,
+    eLaughAtFailure_10 = 10
+};
+
 class SecurityDoor : public BaseAnimatedWithPhysicsGameObject
 {
 public:

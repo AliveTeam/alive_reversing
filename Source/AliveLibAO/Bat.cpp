@@ -228,7 +228,7 @@ void Bat::VUpdate_404950()
 
         if (static_cast<int>(gnFrameCount_507670) > field_F8_timer)
         {
-            SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_18, 1, 1);
+            SND_SEQ_PlaySeq_4775A0(SeqId::eBatSqueaking_18, 1, 1);
             field_F8_timer = gnFrameCount_507670 + Math_RandomRange_450F20(120, 240);
         }
 
@@ -316,7 +316,7 @@ void Bat::VUpdate_404950()
             {
                 field_10C->VTakeDamage(this);
                 field_F8_timer = gnFrameCount_507670 + 30;
-                SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_18, 1, 1);
+                SND_SEQ_PlaySeq_4775A0(SeqId::eBatSqueaking_18, 1, 1);
             }
         }
 

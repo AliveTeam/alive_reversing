@@ -60,7 +60,7 @@ public:
 
     EXPORT MusicController* Vdtor_4439D0(signed int flags);
 
-    EXPORT static void CC sub_443810(MusicTypes a1, BaseGameObject* a2, __int16 a3, __int16 a4);
+    EXPORT static void CC PlayMusic_443810(MusicTypes a1, BaseGameObject* a2, __int16 a3, __int16 a4);
 
     EXPORT static MusicTypes CC GetAbmientAndMusicInfo_443840(SeqId* ambientSeq, SeqId* musicSeq, WORD* ambientOrMusicDuration);
 

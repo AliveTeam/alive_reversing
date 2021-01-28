@@ -135,7 +135,7 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, int tlvInfo)
         }
     }
 
-    if (field_F8_door_type == DoorTypes::eType_3)
+    if (field_F8_door_type == DoorTypes::eTasksDoor_3)
     {
         field_102_hub_ids[0] = pTlvData->field_22_hubs[0];
         field_102_hub_ids[1] = pTlvData->field_22_hubs[1];
@@ -197,7 +197,7 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, int tlvInfo)
         field_FC_current_state = eOpen_0;
     }
 
-    if (field_F8_door_type == DoorTypes::eType_2)
+    if (field_F8_door_type == DoorTypes::eTasksWithSecretMusicDoor_2)
     {
         field_102_hub_ids[0] = pTlvData->field_22_hubs[0];
         field_102_hub_ids[1] = pTlvData->field_22_hubs[1];
@@ -372,7 +372,7 @@ Door* Door::vdtor_41E9D0(signed int flags)
 void Door::PlaySound_41EA90()
 {
     __int16 volume = 0;
-    if (field_F8_door_type != DoorTypes::eType_0 || field_CC_sprite_scale != FP_FromInteger(1))
+    if (field_F8_door_type != DoorTypes::eBasicDoor_0 || field_CC_sprite_scale != FP_FromInteger(1))
     {
         volume = 60;
     }
@@ -403,16 +403,16 @@ void Door::vUpdate_41EBE0()
 
     if (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_114_DoorEnter_459470 || sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_115_DoorExit_459A40)
     {
-        if (field_FC_current_state == eClosed_1 && field_FA_door_number == sActiveHero_5C1B68->field_1A0_door_id)
+        if (field_FC_current_state == Door::eStates::eClosed_1 && field_FA_door_number == sActiveHero_5C1B68->field_1A0_door_id)
         {
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
-            field_FC_current_state = eOpen_0;
+            field_FC_current_state = Door::eStates::eOpen_0;
         }
     }
     else
     {
         field_FA_door_number = -1;
-        if (field_F8_door_type == DoorTypes::eType_2 || field_F8_door_type == DoorTypes::eType_3)
+        if (field_F8_door_type == DoorTypes::eTasksWithSecretMusicDoor_2 || field_F8_door_type == DoorTypes::eTasksDoor_3)
         {
             if (SwitchStates_Get_466020(field_102_hub_ids[0])
                 && SwitchStates_Get_466020(field_102_hub_ids[1])
@@ -423,7 +423,7 @@ void Door::vUpdate_41EBE0()
                 && SwitchStates_Get_466020(field_102_hub_ids[6])
                 && SwitchStates_Get_466020(field_102_hub_ids[7]))
             {
-                if (!SwitchStates_Get_466020(field_100_switch_id) && field_F8_door_type == DoorTypes::eType_2)
+                if (!SwitchStates_Get_466020(field_100_switch_id) && field_F8_door_type == DoorTypes::eTasksWithSecretMusicDoor_2)
                 {
                     SND_SEQ_Play_4CAB10(SeqId::SecretMusic_32, 1, 127, 127);
                     auto pMusicTrigger = ae_new<MusicTrigger>();
@@ -441,13 +441,13 @@ void Door::vUpdate_41EBE0()
         }
         switch (field_FC_current_state)
         {
-        case eOpen_0:
+        case Door::eStates::eOpen_0:
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
 
             if ((!field_FE_start_state && SwitchStates_Get_466020(field_100_switch_id))
-                || (field_FE_start_state == 1 && !SwitchStates_Get_466020(field_100_switch_id)))
+                || (field_FE_start_state == Door::eStates::eClosed_1 && !SwitchStates_Get_466020(field_100_switch_id)))
             {
-                field_FC_current_state = eClosing_3;
+                field_FC_current_state = Door::eStates::eClosing_3;
                 if (gMap_5C3030.field_22_overlayID == 108)
                 {
                     field_20_animation.Set_Animation_Data_409C80(6616, nullptr);
@@ -463,14 +463,14 @@ void Door::vUpdate_41EBE0()
             }
             break;
 
-        case eClosed_1:
+        case Door::eStates::eClosed_1:
             field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
             field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
 
-            if ((field_FE_start_state == eClosed_1 && SwitchStates_Get_466020(field_100_switch_id)) ||
-                (field_FE_start_state == eOpen_0 && !SwitchStates_Get_466020(field_100_switch_id)))
+            if ((field_FE_start_state == Door::eStates::eClosed_1 && SwitchStates_Get_466020(field_100_switch_id)) ||
+                (field_FE_start_state == Door::eStates::eOpen_0 && !SwitchStates_Get_466020(field_100_switch_id)))
             {
-                field_FC_current_state = eOpening_2;
+                field_FC_current_state = Door::eStates::eOpening_2;
                 if (gMap_5C3030.field_22_overlayID == 108)
                 {
                     field_20_animation.Set_Animation_Data_409C80(6616, nullptr);
@@ -488,23 +488,23 @@ void Door::vUpdate_41EBE0()
             }
             break;
 
-        case eOpening_2:
+        case Door::eStates::eOpening_2:
             field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
             field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
 
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_FC_current_state = eOpen_0;
+                field_FC_current_state = Door::eStates::eOpen_0;
             }
             break;
 
-        case eClosing_3:
+        case Door::eStates::eClosing_3:
             field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
             field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
 
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_FC_current_state = eClosed_1;
+                field_FC_current_state = Door::eStates::eClosed_1;
                 PlaySound_41EA90();
             }
             break;
