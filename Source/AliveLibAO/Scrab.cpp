@@ -364,13 +364,6 @@ void Scrab::VUpdate_45B360()
         const auto old_motion = field_FC_current_motion;
 
         field_110_brain_ret = (this->*field_10C_fn)();
-     
-        static auto oldBrain = field_10C_fn;
-        if (field_10C_fn != oldBrain)
-        {
-            LOG_INFO("Brain changed from " << GetOriginalFn(oldBrain, sScrabAITable).fnName << " to " << GetOriginalFn(field_10C_fn, sScrabAITable).fnName);
-        }
-        oldBrain = field_10C_fn;
 
         if (showDebugCreatureInfo_5076E0)
         {
