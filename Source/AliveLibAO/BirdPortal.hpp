@@ -88,7 +88,7 @@ public:
 
     EXPORT void VStopAudio_4532C0();
 
-    EXPORT void Vsub_453570();
+    EXPORT void VKillPortalClipper_453570();
 
     EXPORT BOOL VStateIs6_453700();
 
@@ -154,7 +154,7 @@ public:
     LevelIds field_50_dest_level;
     __int16 field_52_dest_path;
     __int16 field_54_dest_camera;
-    __int16 field_56_num_muds_for_shrykul;
+    __int16 field_56_num_muds_for_shrykull;
     __int16 field_58;
     __int16 field_5A;
     ThrowableTotalIndicator* field_5C;

@@ -846,7 +846,7 @@ void Mudokon::KillBirdPortal()
         word_507B94--;
         if (word_507B94 == 0)
         {
-            field_1AC_pBirdPortal->Vsub_453570();
+            field_1AC_pBirdPortal->VKillPortalClipper_453570();
             field_1AC_pBirdPortal->VGiveShrukull_4535A0(1);
         }
 

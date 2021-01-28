@@ -253,12 +253,21 @@ enum class ChantStates : __int16
 enum class DoorStates : __int16
 {
     eAbeComesIn_0 = 0,
-    eUnknown_1 = 1,
-    eUnknown_2 = 2,
-    eUnknown_3 = 3,
-    eUnknown_4 = 4,
-    eUnknown_5 = 5,
+    eUnused_1 = 1,
+    eWaitABit_2 = 2,
+    eClearTlvIds_3 = 3,
+    eSetNewActiveCamera_4 = 4,
+    eSetNewAbePosition_5 = 5,
     eAbeComesOut_6 = 6
+};
+
+enum class PortalSubStates : __int16
+{
+    eJumpingInsidePortal_0 = 0,
+    eSetNewActiveCamera_1 = 1,
+    eHopOutOfPortal_2 = 2,
+    ePadding_3 = 3,
+    eSetNewAbePosition_4 = 4
 };
 
 union AllInternalStates
@@ -710,7 +719,7 @@ public:
     BaseThrowable* field_198_pThrowable;
     char field_19C_throwable_count;
     char field_19D_throw_direction;
-    __int16 field_19E_portal_sub_state;
+    PortalSubStates field_19E_portal_sub_state;
     BirdPortal* field_1A0_portal;
     AbeResources field_1A4_resources;
     BitField16<Flags_2A8> field_2A8_flags;

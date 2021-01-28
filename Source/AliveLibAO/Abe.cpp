@@ -3835,7 +3835,7 @@ void Abe::State_0_Idle_423520()
                 {
                     pObj = nullptr;
                 }
-                field_19E_portal_sub_state = 0;
+                field_19E_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
             }
             field_1A0_portal = pObj;
         }
@@ -4107,15 +4107,15 @@ void Abe::State_0_Idle_423520()
                 // Force load idle anims to restore the feature, it kinda sucks though
                 if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeyawnResID, 0, 0))
                 {
-                    ResourceManager::LoadResourceFile_455270("ABEYAWN.BAN", nullptr, 0);
+                    ResourceManager::LoadResourceFile_455270("ABEYAWN.BAN", nullptr, ResourceManager::BlockAllocMethod::eFirstMatching);
                 }
                 if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAberubResID, 0, 0))
                 {
-                    ResourceManager::LoadResourceFile_455270("ABERUB.BAN", nullptr, 0);
+                    ResourceManager::LoadResourceFile_455270("ABERUB.BAN", nullptr, ResourceManager::BlockAllocMethod::eFirstMatching);
                 }
                 if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbesizeResID, 0, 0))
                 {
-                    ResourceManager::LoadResourceFile_455270("ABESIZE.BAN", nullptr, 0);
+                    ResourceManager::LoadResourceFile_455270("ABESIZE.BAN", nullptr, ResourceManager::BlockAllocMethod::eFirstMatching);
                 }
 #endif
 
@@ -4641,7 +4641,7 @@ void Abe::State_4_WalkToIdle_4243C0()
 
                 if (field_1A0_portal)
                 {
-                    field_19E_portal_sub_state = 0;
+                    field_19E_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
                 }
             }
             else
@@ -4683,7 +4683,7 @@ void Abe::State_5_MidWalkToIdle_424490()
 
                 if (field_1A0_portal)
                 {
-                    field_19E_portal_sub_state = 0;
+                    field_19E_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
                 }
             }
             else
@@ -4959,7 +4959,7 @@ void Abe::State_18_HoistLand_426EB0()
 
                 if (field_1A0_portal)
                 {
-                    field_19E_portal_sub_state = 0;
+                    field_19E_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
                 }
             }
         }
@@ -5459,7 +5459,7 @@ void Abe::State_29_HopBegin_4267B0()
 
             if (field_1A0_portal)
             {
-                field_19E_portal_sub_state = 0;
+                field_19E_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
             }
         }
     }
@@ -5469,7 +5469,7 @@ void Abe::IntoPortalStates_4262A0()
 {
     switch (field_19E_portal_sub_state)
     {
-        case 0:
+    case PortalSubStates::eJumpingInsidePortal_0:
         {
             PSX_RECT bRect = {};
             VGetBoundingRect( &bRect, 1 );
@@ -5480,16 +5480,16 @@ void Abe::IntoPortalStates_4262A0()
                 field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
                 field_B8_vely = FP_FromInteger(0);
                 field_B4_velx = FP_FromInteger(0);
-                field_1A0_portal->Vsub_453570();
+                field_1A0_portal->VKillPortalClipper_453570();
                 field_1A0_portal->VGiveShrukull_4535A0(TRUE);
-                field_19E_portal_sub_state = 1;
+                field_19E_portal_sub_state = PortalSubStates::eSetNewActiveCamera_1;
             }
             field_B8_vely += field_BC_sprite_scale * FP_FromDouble(1.8);
             field_A8_xpos += field_B4_velx;
             field_AC_ypos += field_B8_vely;
             return;
         }
-        case 1:
+    case PortalSubStates::eSetNewActiveCamera_1:
         {
             if (field_1A0_portal->VStateIs16_453710())
             {
@@ -5500,11 +5500,11 @@ void Abe::IntoPortalStates_4262A0()
                 WORD movieId = 0;
                 field_1A0_portal->VGetMapChange_453840(&level, &path, &camera, &screenChangeEffect, &movieId);
                 gMap_507BA8.SetActiveCam_444660(level, path, camera, screenChangeEffect, movieId, FALSE);
-                field_19E_portal_sub_state = 4;
+                field_19E_portal_sub_state = PortalSubStates::eSetNewAbePosition_4;
             }
             break;
         }
-        case 2:
+    case PortalSubStates::eHopOutOfPortal_2:
         {
             if (field_1A0_portal->VStateIs20_453800())
             {
@@ -5516,10 +5516,10 @@ void Abe::IntoPortalStates_4262A0()
             }
             break;
         }
-        case 4:
+    case PortalSubStates::eSetNewAbePosition_4:
         {
             field_1A0_portal->VExitPortal_453720();
-            field_19E_portal_sub_state = 2;
+            field_19E_portal_sub_state = PortalSubStates::eHopOutOfPortal_2;
             field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_1A0_portal->field_12_side == PortalSide::eLeft_1);
 
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -5929,7 +5929,7 @@ void Abe::State_34_RunJumpLand_427560()
 
             if (field_1A0_portal)
             {
-                field_19E_portal_sub_state = 0;
+                field_19E_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
             }
 
             field_FC_current_motion = eAbeStates::State_32_RunJumpBegin_427440;
@@ -5952,7 +5952,7 @@ void Abe::State_34_RunJumpLand_427560()
 
                 if (field_1A0_portal)
                 {
-                    field_19E_portal_sub_state = 0;
+                    field_19E_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
                 }
 
                 field_FC_current_motion = eAbeStates::State_32_RunJumpBegin_427440;
@@ -6015,7 +6015,7 @@ void Abe::State_34_RunJumpLand_427560()
 
             if (field_1A0_portal)
             {
-                field_19E_portal_sub_state = 0;
+                field_19E_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
             }
 
             field_FC_current_motion = eAbeStates::State_29_HopBegin_4267B0;
@@ -6037,7 +6037,7 @@ bool Abe::CheckForPortalAndRunJump()
             }
             else
             {
-                field_19E_portal_sub_state = 0;
+                field_19E_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
             }
         }
 
@@ -6845,6 +6845,7 @@ void Abe::State_60_Dead_42C4C0()
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
     FollowLift_42EE90();
 
+    // TODO: states
     switch (field_114_gnFrame)
     {
         case 0:
@@ -7050,6 +7051,8 @@ void Abe::State_61_Respawn_42CD20()
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
     FollowLift_42EE90();
     Event_Broadcast_417220(kEventResetting_6, this);
+
+    // TODO: states
     switch (field_114_gnFrame)
     {
         case 0:
@@ -7622,7 +7625,7 @@ void Abe::State_70_Knockback_428FB0()
 
     if (field_1A0_portal)
     {
-        field_1A0_portal->Vsub_453570();
+        field_1A0_portal->VKillPortalClipper_453570();
         field_1A0_portal = nullptr;
     }
 
@@ -7867,10 +7870,10 @@ ALIVE_VAR(1, 0x4C73CC, FP, gPointlessWellScale_4C73CC, FP_FromDouble(1.8));
 
 void Abe::State_78_InsideWellLocal_4310A0()
 {
-    const int v2 = field_114_gnFrame;
+    const int old_gnFrame = field_114_gnFrame;
     field_114_gnFrame--;
 
-    if (!v2)
+    if (old_gnFrame == 0)
     {
         field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(
             FP_GetExponent(field_A8_xpos),
@@ -7931,7 +7934,7 @@ void Abe::State_78_InsideWellLocal_4310A0()
 
         SFX_Play_43AD70(SoundEffect::WellExit_24, 0, this);
 
-        field_FC_current_motion++; // ARGH todo figure out what the actual motion should be, 79 ??
+        field_FC_current_motion++; // can be motion 76 and 79 maybe more?
 
         if (field_BC_sprite_scale == FP_FromDouble(0.5))
         {
@@ -9833,35 +9836,36 @@ void Abe::State_156_DoorEnter_42D370()
         {
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_110_state.door = DoorStates::eUnknown_2;
+                field_110_state.door = DoorStates::eWaitABit_2;
                 field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
                 field_118_timer = gnFrameCount_507670 + 3;
             }
             return;
         }
-        case DoorStates::eUnknown_1:
+        case DoorStates::eUnused_1:
         {
             if (field_158_pDeathFadeout->field_6E_bDone)
             {
-                field_110_state.door = DoorStates::eUnknown_2;
+                field_110_state.door = DoorStates::eWaitABit_2;
                 field_118_timer = gnFrameCount_507670 + 5;
             }
+            ALIVE_FATAL("never expected DoorStates::eUnused_1 to be called");
             return;
         }
-        case DoorStates::eUnknown_2:
+        case DoorStates::eWaitABit_2:
         {
             if (field_118_timer <= static_cast<int>(gnFrameCount_507670))
             {
-                field_110_state.door = DoorStates::eUnknown_3;
+                field_110_state.door = DoorStates::eClearTlvIds_3;
                 field_118_timer = gnFrameCount_507670 + 3;
             }
             return;
         }
-        case DoorStates::eUnknown_3:
+        case DoorStates::eClearTlvIds_3:
         {
             if (field_118_timer <= static_cast<int>(gnFrameCount_507670))
             {
-                field_110_state.door = DoorStates::eUnknown_4;
+                field_110_state.door = DoorStates::eSetNewActiveCamera_4;
                 auto pTlv = static_cast<Path_Reset*>(gMap_507BA8.TLV_Get_At_446260(
                     FP_GetExponent(field_A8_xpos),
                     FP_GetExponent(field_AC_ypos),
@@ -9890,14 +9894,14 @@ void Abe::State_156_DoorEnter_42D370()
             }
             return;
         }
-        case DoorStates::eUnknown_4:
+        case DoorStates::eSetNewActiveCamera_4:
         {
             auto pDoorTlv = static_cast<Path_Door*>(gMap_507BA8.TLV_Get_At_446260(
                 FP_GetExponent(field_A8_xpos),
                 FP_GetExponent(field_AC_ypos),
                 FP_GetExponent(field_A8_xpos),
                 FP_GetExponent(field_AC_ypos),
-                Door_6
+                TlvTypes::Door_6
             ));
             field_F0_pTlv = pDoorTlv;
             gMap_507BA8.field_1E_door = 1;
@@ -9915,11 +9919,11 @@ void Abe::State_156_DoorEnter_42D370()
                 pDoorTlv->field_3C_movie_number,
                 flag
             );
-            field_110_state.door = DoorStates::eUnknown_5;
+            field_110_state.door = DoorStates::eSetNewAbePosition_5;
             field_196_door_id = pDoorTlv->field_24_target_door_number;
             return;
         }
-        case DoorStates::eUnknown_5:
+        case DoorStates::eSetNewAbePosition_5:
         {
             field_B2_lvl_number = gMap_507BA8.field_0_current_level;
             field_B0_path_number = gMap_507BA8.field_2_current_path;
@@ -9931,7 +9935,7 @@ void Abe::State_156_DoorEnter_42D370()
             {
                 pPathDoor = static_cast<Path_Door*>(Path_TLV::TLV_Next_Of_Type_446500(
                     field_F0_pTlv,
-                    Door_6
+                    TlvTypes::Door_6
                 ));
                 field_F0_pTlv = pPathDoor;
             }
@@ -9993,7 +9997,7 @@ void Abe::State_156_DoorEnter_42D370()
             if (field_118_timer <= static_cast<int>(gnFrameCount_507670))
             {
                 field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
-                field_110_state.raw = 0;
+                field_110_state.door = DoorStates::eAbeComesIn_0;
                 field_FC_current_motion = eAbeStates::State_157_DoorExit_42D780;
             }
             return;
