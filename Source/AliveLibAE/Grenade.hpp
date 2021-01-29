@@ -37,7 +37,7 @@ struct Grenade_SaveState
         eBit4_bInteractive = 0x8,
         eBit5_unused = 0x10,
         eBit6_bExplodeNow = 0x20,
-        eBit7 = 0x40,
+        eBit7_bBlowUpOnCollision = 0x40,
     };
     BitField16<Flags_20> field_20_flags;
     __int16 field_22_padding;

@@ -130,7 +130,7 @@ int CC Grenade::CreateFromSaveState_449410(const BYTE* pBuffer)
 
     pGrenade->field_130_unused = pState->field_20_flags.Get(Grenade_SaveState::eBit5_unused);
     pGrenade->field_134_bExplodeNow = pState->field_20_flags.Get(Grenade_SaveState::eBit6_bExplodeNow);
-    pGrenade->field_132_bBlowUpOnCollision = pState->field_20_flags.Get(Grenade_SaveState::eBit7);
+    pGrenade->field_132_bBlowUpOnCollision = pState->field_20_flags.Get(Grenade_SaveState::eBit7_bBlowUpOnCollision);
 
     pGrenade->field_122_explode_timer = pState->field_30_explode_timer;
 
@@ -175,7 +175,7 @@ int Grenade::GetSaveState_4496B0(Grenade_SaveState* pState)
 
     pState->field_20_flags.Set(Grenade_SaveState::eBit5_unused, field_130_unused & 1);
     pState->field_20_flags.Set(Grenade_SaveState::eBit6_bExplodeNow, field_134_bExplodeNow & 1);
-    pState->field_20_flags.Set(Grenade_SaveState::eBit7, field_132_bBlowUpOnCollision & 1);
+    pState->field_20_flags.Set(Grenade_SaveState::eBit7_bBlowUpOnCollision, field_132_bBlowUpOnCollision & 1);
 
     pState->field_30_explode_timer = field_122_explode_timer;
 
