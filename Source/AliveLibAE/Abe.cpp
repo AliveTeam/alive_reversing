@@ -75,7 +75,7 @@ const TAbeStateFunction sAbeStateMachineTable_554910[] =
     &Abe::State_8_Speak_45B160,
     &Abe::State_9_Speak_45B180,
     &Abe::State_10_Fart_45B1A0,
-    &Abe::State_11_Speak_45B0A0,
+    &Abe::State_11_ToSpeak_45B0A0,
     &Abe::State_12_Null_4569C0,
     &Abe::State_13_HoistBegin_452B20,
     &Abe::State_14_HoistIdle_452440,
@@ -3914,28 +3914,28 @@ void Abe::State_6_WalkBegin_44FEE0()
 void Abe::State_7_Speak_45B140()
 {
     // TODO: Note jState_11_Speak_40388C omitted
-    State_11_Speak_45B0A0();
+    State_11_ToSpeak_45B0A0();
 }
 
 void Abe::State_8_Speak_45B160()
 {
     // TODO: Note jState_11_Speak_40388C omitted
-    State_11_Speak_45B0A0();
+    State_11_ToSpeak_45B0A0();
 }
 
 void Abe::State_9_Speak_45B180()
 {
     // TODO: Note jState_11_Speak_40388C omitted
-    State_11_Speak_45B0A0();
+    State_11_ToSpeak_45B0A0();
 }
 
 void Abe::State_10_Fart_45B1A0()
 {
     // TODO: Note jState_11_Speak_40388C omitted
-    State_11_Speak_45B0A0();
+    State_11_ToSpeak_45B0A0();
 }
 
-void Abe::State_11_Speak_45B0A0()
+void Abe::State_11_ToSpeak_45B0A0()
 {
     field_118_prev_held |= Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -3944,7 +3944,6 @@ void Abe::State_11_Speak_45B0A0()
         if (field_106_current_motion == -1)
         {
             ToIdle_44E6B0();
-            field_118_prev_held = 0;
         }
         else
         {
@@ -3952,10 +3951,9 @@ void Abe::State_11_Speak_45B0A0()
             {
                 Event_Broadcast_422BC0(kEventSpeaking, this);
             }
-
             field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
-            field_118_prev_held = 0;
         }
+        field_118_prev_held = 0;
     }
 }
 
@@ -9360,7 +9358,7 @@ short Abe::DoGameSpeak_45AB70(int input)
     {
         Mudokon_SFX_457EC0(MudSounds::eStopIt_26, 0, 0, this);
         pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eStopIt_22);
-        nextState = 7;
+        nextState = eAbeStates::State_7_Speak_45B140;
     }
     else if (input & sInputKey_GameSpeak7_555114)
     {

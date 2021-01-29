@@ -56,11 +56,11 @@ public:
     __int16 field_EC_keepInGlobalArray;
     enum class State : __int16
     {
-        State_0_OnGround = 0,
-        State_1_FlyAway = 1,
-        State_2_Join = 2,
-        State_3_Circle = 3,
-        State_4_AlmostACircle = 4,
+        eOnGround_0 = 0,
+        eFlyAway_1 = 1,
+        eJoin_2 = 2,
+        eCircle_3 = 3,
+        eAlmostACircle_4 = 4,
     };
     State field_EE_state;
     FP field_F0_xJoin;

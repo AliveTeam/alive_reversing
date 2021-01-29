@@ -32,7 +32,7 @@ HoneySack* HoneySack::ctor_42BD10(Path_HoneySack* pTlv, int tlvInfo)
     field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
     field_FC_ypos2 = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
-    field_EA = 0;
+    field_EA_bHit_ground = 0;
 
     if (pTlv->field_1A_scale == 1)
     {
@@ -49,7 +49,7 @@ HoneySack* HoneySack::ctor_42BD10(Path_HoneySack* pTlv, int tlvInfo)
     {
         field_AC_ypos += FP_FromInteger(pTlv->field_1_unknown);
 
-        field_E8_state = 3;
+        field_E8_state = State::eUpdateHoneySackOnGround_3;
         field_10_anim.Set_Animation_Data_402A40(9360, 0);
         field_F0_pBee = nullptr;
     }
@@ -57,7 +57,7 @@ HoneySack* HoneySack::ctor_42BD10(Path_HoneySack* pTlv, int tlvInfo)
     {
         field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
 
-        field_E8_state = 0;
+        field_E8_state = State::eDripHoney_0;
         field_EC_timer = gnFrameCount_507670 + 90;
 
         if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWaspResID, 0, 0))
@@ -91,7 +91,7 @@ BaseGameObject* HoneySack::dtor_42BF20()
     SetVTable(this, 0x4BB238);
     field_6_flags.Clear(Options::eCanExplode_Bit7);
 
-    if (field_E8_state == 0)
+    if (field_E8_state == State::eDripHoney_0)
     {
         gMap_507BA8.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
     }
@@ -145,7 +145,7 @@ void HoneySack::VOnThrowableHit(BaseGameObject* pFrom)
 void HoneySack::VOnThrowableHit_42C370(BaseGameObject* /*pFrom*/)
 {
     field_6_flags.Clear(Options::eCanExplode_Bit7);
-    field_E8_state = 1;
+    field_E8_state = State::eSetFallAnimation_1;
 }
 
 void HoneySack::VUpdate()
@@ -155,7 +155,7 @@ void HoneySack::VUpdate()
 
 void HoneySack::VUpdate_42BFE0()
 {
-    if (Event_Get_417250(4))
+    if (Event_Get_417250(kEventDeathReset_4))
     {
         field_6_flags.Set(Options::eDead_Bit3);
     }
@@ -171,7 +171,7 @@ void HoneySack::VUpdate_42BFE0()
 
     switch (field_E8_state)
     {
-    case 0:
+    case State::eDripHoney_0:
         if (static_cast<int>(gnFrameCount_507670) > field_EC_timer)
         {
             auto pHoneyDrip = ao_new<HoneyDrip>();
@@ -192,17 +192,17 @@ void HoneySack::VUpdate_42BFE0()
         }
         break;
 
-    case 1:
+    case State::eSetFallAnimation_1:
         if (static_cast<int>(gnFrameCount_507670) > field_EC_timer - 68)
         {
             field_10_anim.Set_Animation_Data_402A40(9336, 0);
-            field_E8_state = 2;
+            field_E8_state = State::eFallOnGround_2;
             field_B4_velx = FP_FromInteger(0);
             field_B8_vely = FP_FromInteger(0);
         }
         break;
 
-    case 2:
+    case State::eFallOnGround_2:
     {
         if (field_B8_vely < FP_FromInteger(18))
         {
@@ -235,7 +235,7 @@ void HoneySack::VUpdate_42BFE0()
             SFX_Play_43AD70(SoundEffect::MountingElum_38, 90, 0);
             Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 90, -1000, nullptr);
             field_AC_ypos = hitY;
-            field_E8_state = 3;
+            field_E8_state = State::eUpdateHoneySackOnGround_3;
             field_10_anim.Set_Animation_Data_402A40(9280, 0);
 
             auto pNewBee = ao_new<BeeSwarm>();
@@ -268,7 +268,7 @@ void HoneySack::VUpdate_42BFE0()
                 if (pObj->field_4_typeId == Types::eHoney_47)
                 {
                     pObj->field_6_flags.Set(Options::eDead_Bit3);
-                    field_EA = 1;
+                    field_EA_bHit_ground = 1;
                     return;
                 }
             }
@@ -276,8 +276,8 @@ void HoneySack::VUpdate_42BFE0()
     }
         break;
 
-    case 3:
-        if (!field_EA)
+    case State::eUpdateHoneySackOnGround_3:
+        if (!field_EA_bHit_ground)
         {
             for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
             {
@@ -290,7 +290,7 @@ void HoneySack::VUpdate_42BFE0()
                 if (pObj->field_4_typeId == Types::eHoney_47)
                 {
                     pObj->field_6_flags.Set(Options::eDead_Bit3);
-                    field_EA = 1;
+                    field_EA_bHit_ground = 1;
                     break;
                 }
             }

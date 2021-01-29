@@ -82,7 +82,7 @@ Dove* Dove::ctor_40EE50(int frameTableOffset, int maxW, int maxH, int resourceID
         field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
     }
 
-    field_EE_state = State::State_0_OnGround;
+    field_EE_state = State::eOnGround_0;
 
     field_B8_vely = FP_FromInteger(-4 - (Math_NextRandom() & 3));
     field_10_anim.SetFrame_402AC0(Math_NextRandom() & 7);
@@ -145,7 +145,7 @@ Dove* Dove::ctor_40EFF0(int frameTableOffset, int maxW, int maxH, int resourceID
     }
 
     field_B8_vely = FP_FromInteger(-4 - ((Math_NextRandom()) & 3));
-    field_EE_state = Dove::State::State_1_FlyAway;
+    field_EE_state = Dove::State::eFlyAway_1;
     field_EC_keepInGlobalArray = TRUE;
     field_E4_counter = 0;
 
@@ -199,7 +199,7 @@ BaseGameObject* Dove::dtor_40F1B0()
 void Dove::AsAlmostACircle_40F300(FP xpos, FP ypos, BYTE angle)
 {
     AsACircle_40F280(xpos, ypos, angle);
-    field_EE_state = State::State_4_AlmostACircle;
+    field_EE_state = State::eAlmostACircle_4;
 }
 
 void Dove::AsACircle_40F280(FP xpos, FP ypos, BYTE angle)
@@ -207,7 +207,7 @@ void Dove::AsACircle_40F280(FP xpos, FP ypos, BYTE angle)
     field_F0_xJoin = xpos;
     field_F4_yJoin = ypos;
     field_FC_angle = angle;
-    field_EE_state = State::State_3_Circle;
+    field_EE_state = State::eCircle_3;
 
     // TODO: Removed unused code
 }
@@ -216,15 +216,15 @@ void Dove::AsJoin_40F250(FP xpos, FP ypos)
 {
     field_F0_xJoin = xpos;
     field_F4_yJoin = ypos;
-    field_EE_state = State::State_2_Join;
+    field_EE_state = State::eJoin_2;
     field_F8_timer = gnFrameCount_507670 + 47;
 }
 
 void Dove::FlyAway_40F8F0(__int16 a2)
 {
-    if (field_EE_state != State::State_1_FlyAway)
+    if (field_EE_state != State::eFlyAway_1)
     {
-        field_EE_state = State::State_1_FlyAway;
+        field_EE_state = State::eFlyAway_1;
         if (a2)
         {
             field_E4_counter = -1;
@@ -303,7 +303,7 @@ void Dove::VUpdate_40F430()
 
     switch (field_EE_state)
     {
-    case State::State_0_OnGround:
+    case State::eOnGround_0:
         if (Event_Get_417250(kEventSpeaking_1))
         {
             for (int i = 0; i < gDovesArray_4FF938.Size(); i++)
@@ -348,7 +348,7 @@ void Dove::VUpdate_40F430()
         }
         break;
 
-    case State::State_1_FlyAway:
+    case State::eFlyAway_1:
         field_E4_counter++;
         if (field_E4_counter == 0)
         {
@@ -378,7 +378,7 @@ void Dove::VUpdate_40F430()
         field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_B4_velx < FP_FromInteger(0));
         break;
 
-    case State::State_2_Join:
+    case State::eJoin_2:
     {
         if (static_cast<int>(gnFrameCount_507670) > field_F8_timer)
         {
@@ -393,7 +393,7 @@ void Dove::VUpdate_40F430()
     }
         return;
 
-    case State::State_3_Circle:
+    case State::eCircle_3:
         field_100_prevX = field_A8_xpos;
         field_104_prevY = field_AC_ypos;
 
@@ -404,7 +404,7 @@ void Dove::VUpdate_40F430()
         field_AC_ypos = ((Math_Cosine_4510A0(field_FC_angle) * FP_FromInteger(35)) * field_BC_sprite_scale) + field_F4_yJoin;
         return;
 
-    case State::State_4_AlmostACircle:
+    case State::eAlmostACircle_4:
         if (dword_4FF950 != static_cast<int>(gnFrameCount_507670))
         {
             dword_4FF950 = gnFrameCount_507670;

@@ -56,37 +56,62 @@ public:
     void SetTargetBellIfSpace(__int16 targetNum);
 
     int field_10C_tlvInfo;
-    __int16 field_110_state;
-    __int16 field_112;
-    Bells* field_114_bells;
-    Bells* field_118_bells;
-    Bells* field_11C_bells;
+    enum class ChimeLockStates : __int16
+    {
+        eIdle_0 = 0,
+        eUnused_1 = 1,
+        ePossessed_2 = 2,
+        eUnPossessing_3 = 3,
+        eUnPossess_4 = 4,
+        eUnused_5 = 5,
+        eNeverRead_6 = 6
+    };
+    ChimeLockStates field_110_state;
+    __int16 field_112_padding;
+    Bells* field_114_left_bell;
+    Bells* field_118_center_bell;
+    Bells* field_11C_right_bell;
     unsigned __int16 field_120_max_idx;
-    __int16 field_122;
+    __int16 field_122_padding;
     int field_124_code1;
     __int16 field_128_idx;
-    __int16 field_12A;
+    __int16 field_12A_padding;
     int field_12C_timer;
     __int16 field_130_song_matching;
     __int16 field_132_solve_id;
     __int16 field_134_pressed;
-    __int16 field_136;
+    __int16 field_136_unpossession_timer;
     __int16 field_138_flags;
-    __int16 field_13A;
+    __int16 field_13A_padding;
     FP field_13C_targetX;
     FP field_140_targetY;
     FP field_144_ball_start_x;
     FP field_148_ball_start_y;
-    FP field_14C;
+    FP field_14C_increase_vely_by;
     FP field_150;
     FP field_154;
     __int16 field_158_xSize;
     __int16 field_15A_ySize;
-    __int16 field_15C_ball_state;
+    enum class BallStates : __int16
+    {
+        eIdle_0 = 0,
+        eMovingToBell_1 = 1,
+        eMovingBackToIdle_2 = 2,
+        eNeverRead_3 = 3
+    };
+    BallStates field_15C_ball_state;
     __int16 field_15E_ball_angle;
     __int16 field_160_ball_timer;
-    __int16 field_162;
-    __int16 field_164_target_bell_num[1];
+    __int16 field_162_never_set;
+    enum class BellPositions : __int16
+    {
+        eNone_0 = 0,
+        eLeftBell_1 = 1,
+        eCenterBell_2 = 2,
+        eRightBell_3 = 3,
+        eUnused_4 = 4
+    };
+    BellPositions field_164_ChimeLock_num[1];
 };
 ALIVE_ASSERT_SIZEOF(ChimeLock, 0x168);
 

@@ -40,7 +40,7 @@ public:
     FP field_E8_speed;
     int field_EC_ticks_before_moving;
     int field_F0_tlvInfo;
-    enum class States : __int16
+    enum class BatStates : __int16
     {
         eSetTimer_0 = 0,
         eInit_1 = 1,
@@ -49,7 +49,7 @@ public:
         eAttackTarget_4 = 4,
         eFlyAwayAndDie_5 = 5,
     };
-    States field_F4_state;
+    BatStates field_F4_state;
     __int16 field_F6_attack_duration;
     int field_F8_timer;
     int field_FC_attack_duration_timer;
