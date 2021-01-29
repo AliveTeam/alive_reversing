@@ -69,7 +69,6 @@ void Bells::VUpdate()
 
 void Bells::VUpdate_40A770()
 {
-    LOG_INFO("timer: " << (int)field_F0_timer);
     if (field_F0_timer > 0 && static_cast<int>(gnFrameCount_507670) >= field_F4_timer)
     {
         field_F4_timer = gnFrameCount_507670 + 4;

@@ -13,7 +13,12 @@ struct Path_MotionDetector : public Path_TLV
     __int16 field_1A_device_x;
     __int16 field_1C_device_y;
     __int16 field_1E_speed_x256;
-    __int16 field_20_start_on;
+    enum class StartMoveDirection : __int16
+    {
+        eRight_0 = 0,
+        eLeft_1 = 1
+    };
+    StartMoveDirection field_20_start_move_direction;
     __int16 field_22_draw_flare;
     __int16 field_24_disable_id;
     __int16 field_26_alarm_id;
@@ -62,9 +67,16 @@ public:
 
     EXPORT void VRender_438250(int** ppOt);
 
-    int field_D4[4];
+    int field_D4_padding[4];
     int field_E4_tlvInfo;
-    __int16 field_E8_state;
+    enum class States : __int16
+    {
+        eMoveRight_0 = 0,
+        eWaitThenMoveLeft_1 = 1,
+        eMoveLeft_2 = 2,
+        eWaitThenMoveRight_3 = 3
+    };
+    States field_E8_state;
     __int16 field_EA_pad;
     int field_EC_timer;
     unsigned __int16 field_F0_disable_id;

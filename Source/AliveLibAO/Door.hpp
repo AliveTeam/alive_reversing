@@ -9,7 +9,7 @@ namespace AO {
 
 enum class LevelIds : __int16;
 
-enum class eDoorStates : __int16
+enum class DoorStates : __int16
 {
     eOpen_0 = 0,
     eClosed_1 = 1,
@@ -26,7 +26,7 @@ struct Path_Door : public Path_TLV
     unsigned __int16 field_20_door_number;
     __int16 field_22_id;
     __int16 field_24_target_door_number;
-    eDoorStates field_26_start_state;
+    DoorStates field_26_start_state;
     __int16 field_28_door_closed;
     __int16 field_2A_hubs[8];
     __int16 field_3A_wipe_effect;
@@ -73,9 +73,9 @@ public:
 
     int field_D4[4];
     int field_E4_tlvInfo;
-    eDoorStates field_E8_start_state;
+    DoorStates field_E8_start_state;
     __int16 field_EA_door_number;
-    eDoorStates field_EC_current_state;
+    DoorStates field_EC_current_state;
     __int16 field_EE_door_closed;
     __int16 field_F0_switch_id;
     __int16 field_F2_hubs_ids[8];

@@ -446,13 +446,13 @@ DoorFlame* DoorFlame::ctor_432860(Path_DoorFlame* pTlv, int tlvInfo)
 
     switch (pTlv->field_1C_colour)
     {
-    case 1:
+    case Path_DoorFlame::Colour::red_1:
         field_C0_r = 127;
         break;
-    case 2:
+    case Path_DoorFlame::Colour::green_2:
         field_C2_g = 127;
         break;
-    case 3:
+    case Path_DoorFlame::Colour::blue_3:
         field_C4_b = 127;
         break;
     default:
@@ -464,12 +464,12 @@ DoorFlame* DoorFlame::ctor_432860(Path_DoorFlame* pTlv, int tlvInfo)
     if (SwitchStates_Get(pTlv->field_18_id))
     {
         field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
-        field_EC_state = 1;
+        field_EC_state = States::eEnabled_1;
     }
     else
     {
         field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
-        field_EC_state = 0;
+        field_EC_state = States::eDisabled_0;
     }
 
     field_10_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
@@ -486,8 +486,9 @@ DoorFlame* DoorFlame::ctor_432860(Path_DoorFlame* pTlv, int tlvInfo)
 
 void DoorFlame::VUpdate_432BA0()
 {
-    if (field_EC_state == 0)
+    switch (field_EC_state)
     {
+    case States::eDisabled_0:
         field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
         if (field_FC_pFlameSparks)
         {
@@ -496,7 +497,7 @@ void DoorFlame::VUpdate_432BA0()
 
         if (SwitchStates_Get(field_E8_switch_id))
         {
-            field_EC_state = 1;
+            field_EC_state = States::eEnabled_1;
         }
 
         if (field_F8_pFireBackgroundGlow)
@@ -505,9 +506,9 @@ void DoorFlame::VUpdate_432BA0()
             field_F8_pFireBackgroundGlow->field_6_flags.Set(Options::eDead_Bit3);
             field_F8_pFireBackgroundGlow = nullptr;
         }
-    }
-    else if (field_EC_state == 1)
-    {
+        break;
+
+    case States::eEnabled_1:
         if (!pFlameControllingTheSound_507734)
         {
             pFlameControllingTheSound_507734 = this;
@@ -531,7 +532,7 @@ void DoorFlame::VUpdate_432BA0()
 
         if (!SwitchStates_Get(field_E8_switch_id))
         {
-            field_EC_state = 0;
+            field_EC_state = States::eDisabled_0;
         }
 
         if (!field_F8_pFireBackgroundGlow)
@@ -543,12 +544,18 @@ void DoorFlame::VUpdate_432BA0()
                     field_A8_xpos,
                     field_AC_ypos + FP_FromInteger(4),
                     FP_FromDouble(0.5));
+
+                field_F8_pFireBackgroundGlow->field_C_refCount++;
+                field_F8_pFireBackgroundGlow->field_C0_r = field_C0_r;
+                field_F8_pFireBackgroundGlow->field_C2_g = field_C2_g;
+                field_F8_pFireBackgroundGlow->field_C4_b = field_C4_b;
             }
-            field_F8_pFireBackgroundGlow->field_C_refCount++;
-            field_F8_pFireBackgroundGlow->field_C0_r = field_C0_r;
-            field_F8_pFireBackgroundGlow->field_C2_g = field_C2_g;
-            field_F8_pFireBackgroundGlow->field_C4_b = field_C4_b;
+
         }
+        break;
+
+    default:
+        break;
     }
 
     if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(

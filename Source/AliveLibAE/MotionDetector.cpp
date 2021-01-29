@@ -13,7 +13,7 @@
 #include "Sfx.hpp"
 #include "Alarm.hpp"
 #include "Function.hpp"
-
+#include "Sys_common.hpp"
 
 MotionDetectorLaser* MotionDetectorLaser::ctor_468290(FP xpos, FP ypos, FP scale, __int16 layer)
 {
@@ -105,23 +105,27 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvIn
         field_174_speed = FP_FromRaw((unsigned __int16)pTlv->field_16_speed_x256 << 8);
 
         MotionDetectorLaser* pLaser = nullptr;
-        if (pTlv->field_18_start_on)
+        if (pTlv->field_18_start_move_direction == Path_MotionDetector::StartMoveDirection::eLeft_1)
         {
-            field_100_state = States::eState_2_Go_Left;
+            field_100_state = States::eMoveLeft_2;
             pLaser = ae_new<MotionDetectorLaser>();
             if (pLaser)
             {
                 pLaser->ctor_468290(field_11C_y1_fp, field_120_y2_fp, field_CC_sprite_scale, 36);
             }
         }
-        else
+        else if (pTlv->field_18_start_move_direction == Path_MotionDetector::StartMoveDirection::eRight_0)
         {
-            field_100_state = States::eState_0_Go_Right;
+            field_100_state = States::eMoveRight_0;
             pLaser = ae_new<MotionDetectorLaser>();
             if (pLaser)
             {
                 pLaser->ctor_468290(field_114_x1_fp, field_120_y2_fp, field_CC_sprite_scale, 36);
             }
+        }
+        else
+        {
+            ALIVE_FATAL("couldn't find start move direction for motion detector");
         }
 
         if (pTlv->field_1A_draw_flare & 1)
@@ -165,7 +169,7 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvIn
     field_BC_ypos = pOwner->field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(20));
 
     field_174_speed = FP_FromInteger(2);
-    field_100_state = States::eState_0_Go_Right;
+    field_100_state = States::eMoveRight_0;
 
     auto pLaserMem = ae_new<MotionDetectorLaser>();
     if (pLaserMem)
@@ -475,10 +479,10 @@ void MotionDetector::vUpdate_468A90()
 
         switch (field_100_state)
         {
-        case States::eState_0_Go_Right:
+        case States::eMoveRight_0:
             if (pLaser->field_B8_xpos >= field_11C_y1_fp)
             {
-                field_100_state = States::eState_1_Wait_Then_Go_Left;
+                field_100_state = States::eWaitThenMoveLeft_1;
                 field_104_timer = sGnFrame_5C1B84 + 15;
                 const CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(
                     field_C2_lvl_number,
@@ -493,17 +497,17 @@ void MotionDetector::vUpdate_468A90()
             }
             break;
 
-        case States::eState_1_Wait_Then_Go_Left:
+        case States::eWaitThenMoveLeft_1:
             if (static_cast<int>(sGnFrame_5C1B84) > field_104_timer)
             {
-                field_100_state = States::eState_2_Go_Left;
+                field_100_state = States::eMoveLeft_2;
             }
             break;
 
-        case States::eState_2_Go_Left:
+        case States::eMoveLeft_2:
             if (pLaser->field_B8_xpos <= field_114_x1_fp)
             {
-                field_100_state = States::eState_3_Wait_Then_Go_Right;
+                field_100_state = States::eWaitThenMoveRight_3;
                 field_104_timer = sGnFrame_5C1B84 + 15;
                 const CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(
                     field_C2_lvl_number,
@@ -518,10 +522,10 @@ void MotionDetector::vUpdate_468A90()
             }
             break;
 
-        case States::eState_3_Wait_Then_Go_Right:
+        case States::eWaitThenMoveRight_3:
             if (static_cast<int>(sGnFrame_5C1B84) > field_104_timer)
             {
-                field_100_state = States::eState_0_Go_Right;
+                field_100_state = States::eMoveRight_0;
             }
             break;
         }

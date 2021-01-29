@@ -442,11 +442,11 @@ void CC SaveGame::SaveToMemory_459490(SaveData* pSaveData)
         pSaveData->field_274_elum_current_motion = gElum_507680->field_FC_current_motion;
         pSaveData->field_272_elum_flipX = gElum_507680->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX);
         pSaveData->field_278_brain_idx = gElum_507680->field_128_brain_idx;
-        pSaveData->field_276_elum_122 = gElum_507680->field_122;
+        pSaveData->field_276_bDontFollowAbe = gElum_507680->field_122_bDontFollowAbe;
         pSaveData->field_27C_honey_xpos = gElum_507680->field_12C_honey_xpos;
         pSaveData->field_27A_elum_brain_state = gElum_507680->field_12A_brain_state;
-        pSaveData->field_284_elum_field_130 = gElum_507680->field_130;
-        pSaveData->field_280_honey_ypos = gElum_507680->field_146;
+        pSaveData->field_284_unused = gElum_507680->field_130_unused;
+        pSaveData->field_280_honey_ypos = gElum_507680->field_146_honey_ypos;
         pSaveData->field_288_elum_StrugglingWithBees = gElum_507680->field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1);
         pSaveData->field_289_elum_StungByBees = gElum_507680->field_170_flags.Get(Elum::Flags_170::eStungByBees_Bit2);
         pSaveData->field_28A_elum_Falling = gElum_507680->field_170_flags.Get(Elum::Flags_170::eFalling_Bit3);

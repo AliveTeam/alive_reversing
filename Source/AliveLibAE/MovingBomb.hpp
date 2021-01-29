@@ -8,7 +8,7 @@ struct Path_MovingBomb : public Path_TLV
 {
     unsigned __int16 field_10_speed;
     __int16 field_12_id;
-    __int16 field_14_start_type;
+    __int16 field_14_bStart_type_triggered_by_alarm;
     __int16 field_16_scale;
     __int16 field_18_max_rise;
     __int16 field_1A_disable_resources;
@@ -17,12 +17,12 @@ struct Path_MovingBomb : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovingBomb, 0x20);
 
-struct Path_MovingBomb_Point : public Path_TLV
+struct Path_MovingBombStopper : public Path_TLV
 {
     __int16 field_10_min;
     __int16 field_12_max;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovingBomb_Point, 0x14);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovingBombStopper, 0x14);
 
 class MovingBomb : public BaseAliveGameObject
 {
@@ -48,7 +48,18 @@ private:
     EXPORT void vUpdate_4701E0();
 
 private:
-    __int16 field_118_state;
+    enum class States : __int16
+    {
+        eTriggeredByAlarm_0 = 0,
+        eTriggeredBySwitch_1 = 1,
+        eMoving_2 = 2,
+        eStopMoving_3 = 3,
+        eWaitABit_4 = 4,
+        eToMoving_5 = 5,
+        eBlowingUp_6 = 6,
+        eKillMovingBomb_7 = 7
+    };
+    States field_118_state;
     __int16 field_11A_padding;
     int field_11C_tlvInfo;
     int field_120_timer;

@@ -41,7 +41,14 @@ private:
     __int16 field_3C_extraOverwriter;
     __int16 field_3E_padding;
     WORD* field_40_pPalData;
-    __int16 field_44_state;
+    enum class States : __int16
+    {
+        eSetNewColour_0 = 0,
+        eAlphaFadeout_1 = 1,
+        eHandleDamage_2 = 2,
+        eKillElectrocute_3 = 3
+    };
+    States field_44_state;
     __int16 field_46_padding;   // Ditto
     int field_48_padding;
     PSX_RECT field_4C_pal_rect;

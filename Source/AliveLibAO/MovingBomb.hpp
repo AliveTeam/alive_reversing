@@ -13,7 +13,7 @@ public:
 
     __int16 field_18_speed;
     __int16 field_1A_id;
-    __int16 field_1C_start_type;
+    __int16 field_1C_bStart_type_triggered_by_alarm;
     __int16 field_1E_scale;
     __int16 field_20_max_rise;
     __int16 field_22_disabled_resources;
@@ -57,7 +57,18 @@ public:
 
     EXPORT void VUpdate_43B440();
 
-    __int16 field_10C_state;
+    enum class States : __int16
+    {
+        eTriggeredByAlarm_0 = 0,
+        eTriggeredBySwitch_1 = 1,
+        eMoving_2 = 2,
+        eStopMoving_3 = 3,
+        eWaitABit_4 = 4,
+        eToMoving_5 = 5,
+        eBlowingUp_6 = 6,
+        eKillMovingBomb_7 = 7
+    };
+    States field_10C_state;
     __int16 field_10E_pad;
     int field_110_tlvInfo;
     int field_114_timer;

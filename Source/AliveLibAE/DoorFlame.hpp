@@ -53,12 +53,12 @@ private:
     int field_F4_tlvInfo;
     __int16 field_F8_switch_id;
     __int16 field_FA_frame_count;
-    enum class State : __int16
+    enum class States : __int16
     {
-        State_0_Off = 0,
-        State_1_On = 1,
+        eDisabled_0 = 0,
+        eEnabled_1 = 1,
     };
-    State field_FC_state;
+    States field_FC_state;
     __int16 field_FE_2_random;
     int field_100_sounds_mask;
     __int16 field_104_padding;

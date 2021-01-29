@@ -13,6 +13,7 @@
 #include "Alarm.hpp"
 #include "ScreenManager.hpp"
 #include "PsxDisplay.hpp"
+#include "Sys_common.hpp"
 
 namespace AO {
 
@@ -58,9 +59,9 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, int tlvIn
 
     field_15C_speed = FP_FromRaw(pTlv->field_1E_speed_x256 << 8);
 
-    if (pTlv->field_20_start_on == 0)
+    if (pTlv->field_20_start_move_direction == Path_MotionDetector::StartMoveDirection::eRight_0)
     {
-        field_E8_state = 0;
+        field_E8_state = States::eMoveRight_0;
         auto pMotionDetectors = ao_new<MotionDetectorLaser>();
         if (pMotionDetectors)
         {
@@ -85,9 +86,9 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, int tlvIn
             field_108_pLaser = pMotionDetectors;
         }
     }
-    else
+    else if (pTlv->field_20_start_move_direction == Path_MotionDetector::StartMoveDirection::eLeft_1)
     {
-        field_E8_state = 2;
+        field_E8_state = States::eMoveLeft_2;
         auto pMotionDetectors = ao_new<MotionDetectorLaser>();
         if (pMotionDetectors)
         {
@@ -109,6 +110,10 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, int tlvIn
             pMotionDetectors->field_C8_yOffset = 0;
             field_108_pLaser = pMotionDetectors;
         }
+    }
+    else
+    {
+        ALIVE_FATAL("couldn't find start move direction for motion detector");
     }
 
     field_108_pLaser->field_C_refCount++;
@@ -280,12 +285,13 @@ void MotionDetector::VUpdate_437E90()
                 }
             }
 
+
             switch (field_E8_state)
             {
-            case 0:
+            case States::eMoveRight_0:
                 if (field_108_pLaser->field_A8_xpos >= field_100_bottom_right_x)
                 {
-                    field_E8_state = 1;
+                    field_E8_state = States::eWaitThenMoveLeft_1;
                     field_EC_timer = gnFrameCount_507670 + 15;
                     SFX_Play_43AD70(SoundEffect::MenuNavigation_61, 0);
                 }
@@ -295,17 +301,17 @@ void MotionDetector::VUpdate_437E90()
                 }
                 break;
 
-            case 1:
+            case States::eWaitThenMoveLeft_1:
                 if (static_cast<int>(gnFrameCount_507670) > field_EC_timer)
                 {
-                    field_E8_state = 2;
+                    field_E8_state = States::eMoveLeft_2;
                 }
                 break;
 
-            case 2:
+            case States::eMoveLeft_2:
                 if (field_108_pLaser->field_A8_xpos <= field_F8_top_left_x)
                 {
-                    field_E8_state = 3;
+                    field_E8_state = States::eWaitThenMoveRight_3;
                     field_EC_timer = gnFrameCount_507670 + 15;
                     SFX_Play_43AD70(SoundEffect::MenuNavigation_61, 0);
                 }
@@ -315,10 +321,10 @@ void MotionDetector::VUpdate_437E90()
                 }
                 break;
 
-            case 3:
+            case States::eWaitThenMoveRight_3:
                 if (static_cast<int>(gnFrameCount_507670) > field_EC_timer)
                 {
-                    field_E8_state = 0;
+                    field_E8_state = States::eMoveRight_0;
                 }
                 break;
 

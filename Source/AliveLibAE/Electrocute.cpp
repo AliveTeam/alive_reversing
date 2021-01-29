@@ -168,7 +168,7 @@ Electrocute* Electrocute::ctor_4E5E80(BaseAliveGameObject* pTargetObj, __int16 b
     field_4_typeId = Types::eElectrocute_150;
 
     field_20_target_obj_id = pTargetObj->field_8_object_id;
-    field_44_state = 0;
+    field_44_state = States::eSetNewColour_0;
     field_3C_extraOverwriter = bExtraOverwriter;
     field_2C_bKillTarget = bKillTarget;
     field_2E_overwriter_count = bExtraOverwriter ? 3 : 2;
@@ -255,12 +255,12 @@ void Electrocute::vUpdate_4E6240()
     {
         switch (field_44_state)
         {
-        case 0:
+        case States::eSetNewColour_0:
             if (pTargetObj->field_4_typeId == Types::eAbe_69)
             {
-                field_28_b = 127;
-                field_26_g = 127;
                 field_24_r = 127;
+                field_26_g = 127;
+                field_28_b = 127;
             }
             else
             {
@@ -274,10 +274,10 @@ void Electrocute::vUpdate_4E6240()
             pTargetObj->field_D4_b = 255;
             pTargetObj->field_D2_g = 255;
             pTargetObj->field_D0_r = 255;
-            field_44_state = 1;
+            field_44_state = States::eAlphaFadeout_1;
             break;
 
-        case 1:
+        case States::eAlphaFadeout_1:
             field_30_pPalOverwriters[0] = ae_new<PalleteOverwriter>();
             if (field_30_pPalOverwriters[0])
             {
@@ -312,13 +312,13 @@ void Electrocute::vUpdate_4E6240()
                 }
             }
 
-            field_44_state = 2;
+            field_44_state = States::eHandleDamage_2;
             break;
 
-        case 2:
+        case States::eHandleDamage_2:
         {
-            PalleteOverwriter* v13 = field_30_pPalOverwriters[field_2E_overwriter_count - 1];
-            if (!v13 || v13->field_CE_bDone)
+            PalleteOverwriter* pPalOverwriter = field_30_pPalOverwriters[field_2E_overwriter_count - 1];
+            if (!pPalOverwriter || pPalOverwriter->field_CE_bDone)
             {
                 if (field_40_pPalData)
                 {
@@ -345,12 +345,12 @@ void Electrocute::vUpdate_4E6240()
                 pTargetObj->field_114_flags.Clear(Flags_114::e114_Bit11_Electrocuting);
 
                 field_20_target_obj_id = -1;
-                field_44_state = 3;
+                field_44_state = States::eKillElectrocute_3;
             }
         }
             break;
 
-        case 3:
+        case States::eKillElectrocute_3:
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
             break;
 

@@ -16,10 +16,15 @@ private:
     EXPORT DeathBirdParticle* vdtor_43EE20(signed int flags);
 private:
     char field_F4_random;
-    char field_F5_state;
+    enum class States : char
+    {
+        eAnimateDeathFlares_0 = 0,
+        eTransformStarsToDoves_1 = 1
+    };
+    States field_F5_state;
     // 2 byte pad
     int field_F8_start;
-    __int16 field_FC_playSound;
+    __int16 field_FC_bPlaySound;
     // 2 byte pad
 };
 ALIVE_ASSERT_SIZEOF(DeathBirdParticle, 0x100);

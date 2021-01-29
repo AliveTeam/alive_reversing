@@ -2629,7 +2629,7 @@ void Abe::ElumKnockForward_42E780(int /*not_used*/)
     field_108_bMotionChanged = 1;
     field_10_anim.Set_Animation_Data_402A40(sAbeFrameOffsetTable_4C61A0[field_FC_current_motion], StateToAnimResource_4204F0(eAbeStates::State_128_KnockForward_429330));
     sControlledCharacter_50767C = sActiveHero_507678;
-    gElum_507680->field_154 = 1;
+    gElum_507680->field_154_bAbeForcedDownFromElum = 1;
 }
 
 __int16 Abe::TryMountElum_42E600()
@@ -7361,13 +7361,13 @@ void Abe::State_62_LoadedSaveSpawn_45ADD0()
             gElum_507680->field_AC_ypos = FP_FromInteger(pSaveData->field_26C_elum_ypos);
             gElum_507680->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pSaveData->field_272_elum_flipX & 1);
             gElum_507680->field_E6_last_anim_frame = 0;
-            gElum_507680->field_120 = 1;
-            gElum_507680->field_122 = pSaveData->field_276_elum_122;
+            gElum_507680->field_120_bUnknown = 1;
+            gElum_507680->field_122_bDontFollowAbe = pSaveData->field_276_bDontFollowAbe;
             gElum_507680->field_128_brain_idx = pSaveData->field_278_brain_idx;
             gElum_507680->field_12A_brain_state = pSaveData->field_27A_elum_brain_state;
             gElum_507680->field_12C_honey_xpos = static_cast<short>(pSaveData->field_27C_honey_xpos);
-            gElum_507680->field_146 = pSaveData->field_280_honey_ypos;
-            gElum_507680->field_130 = pSaveData->field_284_elum_field_130;
+            gElum_507680->field_146_honey_ypos = pSaveData->field_280_honey_ypos;
+            gElum_507680->field_130_unused = pSaveData->field_284_unused;
 
             gElum_507680->field_170_flags.Set(Elum::Flags_170::eFoundHoney_Bit4, pSaveData->field_28B_elum_FoundHoney & 1);
             gElum_507680->field_170_flags.Set(Elum::Flags_170::eFalling_Bit3, pSaveData->field_28A_elum_Falling & 1);
@@ -9832,40 +9832,40 @@ void Abe::State_156_DoorEnter_42D370()
 {
     switch (field_110_state.door)
     {
-        case DoorStates::eAbeComesIn_0:
+        case AbeDoorStates::eAbeComesIn_0:
         {
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_110_state.door = DoorStates::eWaitABit_2;
+                field_110_state.door = AbeDoorStates::eWaitABit_2;
                 field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
                 field_118_timer = gnFrameCount_507670 + 3;
             }
             return;
         }
-        case DoorStates::eUnused_1:
+        case AbeDoorStates::eUnused_1:
         {
             if (field_158_pDeathFadeout->field_6E_bDone)
             {
-                field_110_state.door = DoorStates::eWaitABit_2;
+                field_110_state.door = AbeDoorStates::eWaitABit_2;
                 field_118_timer = gnFrameCount_507670 + 5;
             }
-            ALIVE_FATAL("never expected DoorStates::eUnused_1 to be called");
+            ALIVE_FATAL("never expected AbeDoorStates::eUnused_1 to be called");
             return;
         }
-        case DoorStates::eWaitABit_2:
+        case AbeDoorStates::eWaitABit_2:
         {
             if (field_118_timer <= static_cast<int>(gnFrameCount_507670))
             {
-                field_110_state.door = DoorStates::eClearTlvIds_3;
+                field_110_state.door = AbeDoorStates::eClearTlvIds_3;
                 field_118_timer = gnFrameCount_507670 + 3;
             }
             return;
         }
-        case DoorStates::eClearTlvIds_3:
+        case AbeDoorStates::eClearTlvIds_3:
         {
             if (field_118_timer <= static_cast<int>(gnFrameCount_507670))
             {
-                field_110_state.door = DoorStates::eSetNewActiveCamera_4;
+                field_110_state.door = AbeDoorStates::eSetNewActiveCamera_4;
                 auto pTlv = static_cast<Path_Reset*>(gMap_507BA8.TLV_Get_At_446260(
                     FP_GetExponent(field_A8_xpos),
                     FP_GetExponent(field_AC_ypos),
@@ -9894,7 +9894,7 @@ void Abe::State_156_DoorEnter_42D370()
             }
             return;
         }
-        case DoorStates::eSetNewActiveCamera_4:
+        case AbeDoorStates::eSetNewActiveCamera_4:
         {
             auto pDoorTlv = static_cast<Path_Door*>(gMap_507BA8.TLV_Get_At_446260(
                 FP_GetExponent(field_A8_xpos),
@@ -9919,11 +9919,11 @@ void Abe::State_156_DoorEnter_42D370()
                 pDoorTlv->field_3C_movie_number,
                 flag
             );
-            field_110_state.door = DoorStates::eSetNewAbePosition_5;
+            field_110_state.door = AbeDoorStates::eSetNewAbePosition_5;
             field_196_door_id = pDoorTlv->field_24_target_door_number;
             return;
         }
-        case DoorStates::eSetNewAbePosition_5:
+        case AbeDoorStates::eSetNewAbePosition_5:
         {
             field_B2_lvl_number = gMap_507BA8.field_0_current_level;
             field_B0_path_number = gMap_507BA8.field_2_current_path;
@@ -9940,7 +9940,7 @@ void Abe::State_156_DoorEnter_42D370()
                 field_F0_pTlv = pPathDoor;
             }
 
-            if (pPathDoor->field_26_start_state == eDoorStates::eOpen_0)
+            if (pPathDoor->field_26_start_state == DoorStates::eOpen_0)
             {
                 if (pPathDoor->field_1E_scale == 1)
                 {
@@ -9955,7 +9955,7 @@ void Abe::State_156_DoorEnter_42D370()
                     field_C6_scale = 1;
                 }
             }
-            else if (pPathDoor->field_26_start_state == eDoorStates::eClosed_1 || pPathDoor->field_26_start_state == eDoorStates::eOpening_2)
+            else if (pPathDoor->field_26_start_state == DoorStates::eClosed_1 || pPathDoor->field_26_start_state == DoorStates::eOpening_2)
             {
                 if (gMap_507BA8.field_0_current_level != LevelIds::eRuptureFarmsReturn_13)
                 {
@@ -9988,16 +9988,16 @@ void Abe::State_156_DoorEnter_42D370()
                 field_AC_ypos = hitY;
             }
 
-            field_110_state.door = DoorStates::eAbeComesOut_6;
+            field_110_state.door = AbeDoorStates::eAbeComesOut_6;
             field_118_timer = gnFrameCount_507670 + 30;
             return;
         }
-        case DoorStates::eAbeComesOut_6:
+        case AbeDoorStates::eAbeComesOut_6:
         {
             if (field_118_timer <= static_cast<int>(gnFrameCount_507670))
             {
                 field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
-                field_110_state.door = DoorStates::eAbeComesIn_0;
+                field_110_state.door = AbeDoorStates::eAbeComesIn_0;
                 field_FC_current_motion = eAbeStates::State_157_DoorExit_42D780;
             }
             return;

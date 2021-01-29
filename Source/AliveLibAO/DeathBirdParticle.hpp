@@ -16,13 +16,18 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
-    int field_D4[4];
+    int field_D4_padding[4];
     char field_E4_random;
-    char field_E5_state;
-    __int16 field_E6;
+    enum class States : char
+    {
+        eAnimateDeathFlares_0 = 0,
+        eTransformStarsToDoves_1 = 1
+    };
+    States field_E5_state;
+    __int16 field_E6_padding;
     int field_E8_start;
-    __int16 field_EC_playSound;
-    __int16 field_EE;
+    __int16 field_EC_bPlaySound;
+    __int16 field_EE_padding;
 };
 ALIVE_ASSERT_SIZEOF(DeathBirdParticle, 0xF0);
 

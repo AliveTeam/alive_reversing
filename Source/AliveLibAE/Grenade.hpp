@@ -4,16 +4,16 @@
 
 enum class GrenadeStates : __int16
 {
-    eState_0_FallingToBeCollected = 0,
-    eState_1_WaitToBeCollected = 1,
-    eState_2 = 2,
-    eState_3_CountingDown = 3,
-    eState_4_Falling = 4,
-    eState_5_HitGround = 5,
-    eState_6_WaitForExplodeEnd = 6,
-    eState_7_Exploded = 7,
-    eState_8 = 8,
-    eState_9_FallingBlowUpOnGround = 9,
+    eFallingToBeCollected_0 = 0,
+    eWaitToBeCollected_1 = 1,
+    eDoesNothing_2 = 2,
+    eCountingDown_3 = 3,
+    eFalling_4 = 4,
+    eHitGround_5 = 5,
+    eWaitForExplodeEnd_6 = 6,
+    eExploded_7 = 7,
+    eDoesNothing_8 = 8,
+    eFallingBlowUpOnGround_9 = 9,
 };
 
 struct Grenade_SaveState
@@ -35,9 +35,9 @@ struct Grenade_SaveState
         eBit2_bDrawable = 0x2,
         eBit3_bLoop = 0x4,
         eBit4_bInteractive = 0x8,
-        eBit5 = 0x10,
+        eBit5_unused = 0x10,
         eBit6_bExplodeNow = 0x20,
-        eBit7 = 0x40,
+        eBit7_bBlowUpOnCollision = 0x40,
     };
     BitField16<Flags_20> field_20_flags;
     __int16 field_22_padding;
@@ -138,10 +138,10 @@ private:
     __int16 field_126_input;
     FP field_128_xpos;
     FP field_12C_ypos;
-    __int16 field_130;
-    __int16 field_132;
+    __int16 field_130_unused;
+    __int16 field_132_bBlowUpOnCollision;
     __int16 field_134_bExplodeNow;
-    __int16 field_136;
+    __int16 field_136_padding;
     BaseGameObject* field_138_pOwner;
 };
 ALIVE_ASSERT_SIZEOF(Grenade, 0x13C);
