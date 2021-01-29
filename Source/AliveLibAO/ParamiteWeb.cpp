@@ -132,7 +132,7 @@ void ParamiteWeb::VUpdate_48AE70()
     }
 }
 
-void ParamiteWeb::VRender(int** ppOt)
+void ParamiteWeb::VRender(PrimHeader** ppOt)
 {
     VRender_48AB10(ppOt);
 }
