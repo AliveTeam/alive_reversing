@@ -68,7 +68,7 @@ public:
     
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VStopAudio() override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
@@ -79,7 +79,7 @@ private:
     EXPORT void dtor_420B60();
     EXPORT Grinder* vdtor_4206A0(signed int flags);
     EXPORT void vScreenChanged_4214B0();
-    EXPORT void vRender_4213D0(int** pOt);
+    EXPORT void vRender_4213D0(PrimHeader** ppOt);
     EXPORT void vStopAudio_4215C0();
     EXPORT int vGetSaveState_4217B0(BYTE* /*pSaveBuffer*/);
     EXPORT void EmitSparks_4206D0();

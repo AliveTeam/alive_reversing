@@ -368,12 +368,12 @@ void MainMenuFade::VUpdate_42A730()
     field_10_anim.field_8_r = static_cast<BYTE>(field_E4);
 }
 
-void MainMenuFade::VRender(int** pOrderingTable)
+void MainMenuFade::VRender(PrimHeader** ppOt)
 {
-    VRender_42A7A0(pOrderingTable);
+    VRender_42A7A0(ppOt);
 }
 
-void MainMenuFade::VRender_42A7A0(int** ppOt)
+void MainMenuFade::VRender_42A7A0(PrimHeader** ppOt)
 {
     field_10_anim.vRender(
         FP_GetExponent(field_A8_xpos),
@@ -578,12 +578,12 @@ void MainMenuTransition::StartTrans_436560(__int16 layer, __int16 fadeDirection,
     }
 }
 
-void MainMenuTransition::VRender(int** ppOt)
+void MainMenuTransition::VRender(PrimHeader** ppOt)
 {
     VRender_436610(ppOt);
 }
 
-void MainMenuTransition::VRender_436610(int** ot)
+void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
 {
     // TODO: The fixed point math/var needs cleaning up/refactoring in here
     int currentValue = field_10_current_Value;
@@ -676,10 +676,10 @@ void MainMenuTransition::VRender_436610(int** ot)
         SetXY1(pPoly, x0, y0);
         SetXY2(pPoly, static_cast<short>(x1), static_cast<short>(y1));
 
-        OrderingTable_Add_498A80(&ot[field_23C_layer], &pPoly->mBase.header);
+        OrderingTable_Add_498A80(&ppOt[field_23C_layer], &pPoly->mBase.header);
     }
 
-    OrderingTable_Add_498A80(&ot[field_23C_layer], &field_21C_tPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
+    OrderingTable_Add_498A80(&ppOt[field_23C_layer], &field_21C_tPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
 
     pScreenManager_4FF7C8->InvalidateRect_406CC0(0, 0, gPsxDisplay_504C78.field_0_width, gPsxDisplay_504C78.field_2_height);
 
@@ -876,7 +876,7 @@ void Menu::VUpdate()
     VUpdate_47ABB0();
 }
 
-void Menu::VRender_47AC00(int** ppOt)
+void Menu::VRender_47AC00(PrimHeader** ppOt)
 {
     if ((field_204_flags >> 1) & 1)
     {
@@ -899,7 +899,7 @@ void Menu::VScreenChanged()
     // Empty
 }
 
-void Menu::VRender(int** ppOt)
+void Menu::VRender(PrimHeader** ppOt)
 {
     VRender_47AC00(ppOt);
 }
@@ -1106,7 +1106,7 @@ void Menu::FMV_Select_Update_47E8D0()
     }
 }
 
-void Menu::Empty_Render_47AC80(int**)
+void Menu::Empty_Render_47AC80(PrimHeader**)
 {
     // Draw nothing
 }
@@ -1151,7 +1151,7 @@ void NavigateBetweenTwoPoints(FP& a, FP& b)
     }
 }
 
-void Menu::FMV_Or_Level_Select_Render_47EEA0(int** ppOt)
+void Menu::FMV_Or_Level_Select_Render_47EEA0(PrimHeader** ppOt)
 {
     // Glow hilight 
     field_134_anim.VRender_403AE0(
@@ -1328,7 +1328,7 @@ void Menu::ProgressInProgressFilesLoading()
     } while (loadingFileExists);
 }
 
-void Menu::MainScreen_Render_47BED0(int** ppOt)
+void Menu::MainScreen_Render_47BED0(PrimHeader** ppOt)
 {
     field_134_anim.VRender_403AE0(
         sMainScreenButtons_4D00B0[field_1E0_selected_index].field_0_xpos,
@@ -1735,7 +1735,7 @@ void Menu::ToGameSpeak_Update_47D620()
 }
 
 
-void Menu::GameSpeak_Render_47D700(int** ppOt)
+void Menu::GameSpeak_Render_47D700(PrimHeader** ppOt)
 {
     // Only renders exit and keys
     int polyOffset = 0;
@@ -1763,7 +1763,7 @@ void Menu::Update_NoRefs_47E3C0()
 }
 
 
-void Menu::Render_NoRefs_47E5B0(int** /*ppOt*/)
+void Menu::Render_NoRefs_47E5B0(PrimHeader** /*ppOt*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -1812,7 +1812,7 @@ void Menu::To_Load_Update_47D8E0()
 }
 
 
-void Menu::Load_Render_47DDA0(int** ppOt)
+void Menu::Load_Render_47DDA0(PrimHeader** ppOt)
 {
     if (field_230_bGoBack || !sSaveIdx_9F2DD8)
     {
@@ -1972,7 +1972,7 @@ void Menu::To_Options_Update_47C250()
     }
 }
 
-void Menu::Options_Render_47C190(int** ppOt)
+void Menu::Options_Render_47C190(PrimHeader** ppOt)
 {
     field_134_anim.VRender_403AE0(
         stru_4D0148[field_1E0_selected_index].field_0_xpos,
@@ -2281,7 +2281,7 @@ void Menu::To_Options_Controller_Update_47F2E0()
 const Menu_Button controllerSelectButtons_4D0160[2] = { { 44, 236, 6152 }, { 290, 236, 6152 } };
 const Menu_Element controllerSelectElements_4D0678[2] = { { 43, 200, InputCommands::eFartOrRoll }, { 289, 200, InputCommands::eBack } };
 
-void Menu::Options_Controller_Render_47F430(int** ppOt)
+void Menu::Options_Controller_Render_47F430(PrimHeader** ppOt)
 {
     if (field_230_bGoBack != -1)
     {
@@ -2425,7 +2425,7 @@ void Menu::To_MainScreen_Update_47BB60()
     }
 }
 
-void Menu::Options_Sound_Render_47C630(int** ppOt)
+void Menu::Options_Sound_Render_47C630(PrimHeader** ppOt)
 {
     field_134_anim.VRender_403AE0(
         stru_4D01C0[field_1E0_selected_index].field_0_xpos,
@@ -3043,7 +3043,7 @@ const char* inputActions_4D0070[8] =
 };
 
 
-void Menu::ButtonRemap_Render_47F940(int** ppOt)
+void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
 {
     int frameTable = 0;
     if (field_230_bGoBack == -1)
@@ -3366,7 +3366,7 @@ void Menu::SaveLoadFailed_Update_47DCD0()
     }
 }
 
-void Menu::SaveLoadFailed_Render_47DCF0(int** ppOt)
+void Menu::SaveLoadFailed_Render_47DCF0(PrimHeader** ppOt)
 {
     // Note: This string in OG was just "Error" which is completely useless, changed to at least
     // give people a clue about what broke.
@@ -3566,7 +3566,7 @@ int CC Menu::StringsEqual_47DA20(const void* pStr1, const void* pStr2)
     return _strcmpi(static_cast<const char*>(pStr1), static_cast<const char*>(pStr2));
 }
 
-void Menu::ToggleMotions_Render_47CAB0(int** ppOt)
+void Menu::ToggleMotions_Render_47CAB0(PrimHeader** ppOt)
 {
     field_134_anim.VRender_403AE0(
         stru_4D01D8[field_1E0_selected_index].field_0_xpos,
@@ -3801,7 +3801,7 @@ void CC Menu::OnResourceLoaded_47ADA0(Menu* pMenu)
     pMenu->field_E4_res_array[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, 1, 0);
 }
 
-void CC Menu::RenderElement_47A4E0(int xpos, int ypos, int input_command, int** ot, AliveFont* pFont, int* pPolyOffset)
+void CC Menu::RenderElement_47A4E0(int xpos, int ypos, int input_command, PrimHeader** ot, AliveFont* pFont, int* pPolyOffset)
 {
     char text[32] = {};
     strcpy(text, Input_GetButtonString_44F1C0(static_cast<InputCommands>(input_command))); // TODO: Strongly type all the way back to the button structure

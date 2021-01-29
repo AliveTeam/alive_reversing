@@ -61,7 +61,7 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
 
@@ -76,7 +76,7 @@ private:
     EXPORT AbilityRing* vdtor_49D080(signed int flags);
     EXPORT void vUpdate_49D160();
     EXPORT void CollideWithObjects_49D5E0(__int16 bDealDamage);
-    EXPORT void vRender_49D790(int** ppOt);
+    EXPORT void vRender_49D790(PrimHeader** ppOt);
     EXPORT void vScreenChanged_49DE70();
     EXPORT int vGetSaveState_49E070(AbilityRing_State* pSaveState);
 

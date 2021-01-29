@@ -203,9 +203,9 @@ void Fleech::VUpdate()
     vUpdate_42AB20();
 }
 
-void Fleech::VRender(int** pOt)
+void Fleech::VRender(PrimHeader** ppOt)
 {
-    vRender_42A550(pOt);
+    vRender_42A550(ppOt);
 }
 
 void Fleech::VScreenChanged()
@@ -1356,7 +1356,7 @@ void Fleech::vUpdate_42AB20()
     }
 }
 
-void Fleech::vRender_42A550(int** ot)
+void Fleech::vRender_42A550(PrimHeader** ot)
 {
     if (field_1C_update_delay == 0)
     {
@@ -1365,7 +1365,7 @@ void Fleech::vRender_42A550(int** ot)
     }
 }
 
-void Fleech::RenderEx_42C5A0(int** ot)
+void Fleech::RenderEx_42C5A0(PrimHeader** ot)
 {
     if (field_18A.Get(Fleech::Flags_18A::e18A_Render_Bit2))
     {

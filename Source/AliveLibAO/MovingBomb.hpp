@@ -41,9 +41,9 @@ public:
 
     EXPORT __int16 VTakeDamage_43BB60(BaseGameObject* pFrom);
 
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_43B910(int** ppOt);
+    EXPORT void VRender_43B910(PrimHeader** ppOt);
 
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
 

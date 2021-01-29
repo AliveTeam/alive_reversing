@@ -426,7 +426,7 @@ public:
     
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
     virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
@@ -439,7 +439,7 @@ public:
     // Virtual impls
     EXPORT BaseGameObject* vdtor_44B350(signed int flags);
     EXPORT void Update_449DC0();
-    EXPORT void vRender_44B580(int** pOrderingTable);
+    EXPORT void vRender_44B580(PrimHeader** ppOt);
     EXPORT void vScreenChanged_44D240();
     EXPORT int vGetSaveState_457110(BYTE* pSaveBuffer);
     EXPORT __int16 vTakeDamage_44BB50(BaseGameObject* pFrom);

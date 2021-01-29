@@ -18,7 +18,7 @@ class Blood : public BaseAnimatedWithPhysicsGameObject
 public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 
     EXPORT Blood* ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 count);
@@ -27,7 +27,7 @@ private:
 
     EXPORT BaseGameObject* vDtor_40F5A0(signed int /*flags*/);
     EXPORT void vUpdate_40F650();
-    EXPORT void vRender_40F780(int** /*pOrderingTable*/);
+    EXPORT void vRender_40F780(PrimHeader** ppOt);
     EXPORT void vScreenChanged_40FAD0();
 private:
     BYTE** field_F4_ppResBuf;

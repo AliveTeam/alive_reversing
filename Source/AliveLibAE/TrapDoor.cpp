@@ -77,9 +77,9 @@ void TrapDoor::VUpdate()
     vUpdate_4DDA90();
 }
 
-void TrapDoor::VRender(int** pOrderingTable)
+void TrapDoor::VRender(PrimHeader** ppOt)
 {
-    vRender_4DDDD0(pOrderingTable);
+    vRender_4DDDD0(ppOt);
 }
 
 void TrapDoor::VScreenChanged()
@@ -325,10 +325,10 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
     }
 }
 
-EXPORT void TrapDoor::vRender_4DDDD0(int **ot)
+EXPORT void TrapDoor::vRender_4DDDD0(PrimHeader** ppOt)
 {
     field_B8_xpos += FP_FromInteger(field_13A_xOff);
-    BaseAliveGameObject::VRender(ot);
+    BaseAliveGameObject::VRender(ppOt);
     field_B8_xpos -= FP_FromInteger(field_13A_xOff);
 }
 

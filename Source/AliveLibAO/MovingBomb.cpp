@@ -258,12 +258,12 @@ __int16 MovingBomb::VTakeDamage_43BB60(BaseGameObject* pFrom)
     return 0;
 }
 
-void MovingBomb::VRender(int** pOrderingTable)
+void MovingBomb::VRender(PrimHeader** ppOt)
 {
-    VRender_43B910(pOrderingTable);
+    VRender_43B910(ppOt);
 }
 
-void MovingBomb::VRender_43B910(int** ppOt)
+void MovingBomb::VRender_43B910(PrimHeader** ppOt)
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
     {

@@ -216,12 +216,12 @@ void NakedSlig::VUpdate()
     vUpdate_419100();
 }
 
-void NakedSlig::VRender(int** pOrderingTable)
+void NakedSlig::VRender(PrimHeader** ppOt)
 {
-    vRender_419990(pOrderingTable);
+    vRender_419990(ppOt);
 }
 
-void NakedSlig::vRender_419990(int** ot)
+void NakedSlig::vRender_419990(PrimHeader** ot)
 {
     const __int16 eyeIndices[] = { 60, 62 };
     renderWithGlowingEyes(ot, this, &field_11C_pPalAlloc[0], ALIVE_COUNTOF(field_11C_pPalAlloc),

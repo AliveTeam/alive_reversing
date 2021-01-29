@@ -121,9 +121,9 @@ void MovingBomb::VUpdate()
     vUpdate_4701E0();
 }
 
-void MovingBomb::VRender(int** pOrderingTable)
+void MovingBomb::VRender(PrimHeader** ppOt)
 {
-    vRender_4707D0(pOrderingTable);
+    vRender_4707D0(ppOt);
 }
 
 void MovingBomb::VOnThrowableHit(BaseGameObject* pFrom)
@@ -191,7 +191,7 @@ EXPORT void MovingBomb::BlowUp_470070()
     SFX_Play_46FA90(SoundEffect::GreenTick_2, 100, field_CC_sprite_scale);
 }
 
-void MovingBomb::vRender_4707D0(int** ot)
+void MovingBomb::vRender_4707D0(PrimHeader** ot)
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {

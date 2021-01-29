@@ -264,12 +264,12 @@ void ParticleBurst::VUpdate_40D600()
     }
 }
 
-void ParticleBurst::VRender(int** pOrderingTable)
+void ParticleBurst::VRender(PrimHeader** ppOt)
 {
-    VRender_40D7F0(pOrderingTable);
+    VRender_40D7F0(ppOt);
 }
 
-void ParticleBurst::VRender_40D7F0(int** ppOt)
+void ParticleBurst::VRender_40D7F0(PrimHeader** ppOt)
 {
     if (sNumCamSwappers_507668 != 0)
     {

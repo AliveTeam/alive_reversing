@@ -733,18 +733,18 @@ void MainMenuController::VUpdate()
     Update_4CF010();
 }
 
-void MainMenuController::VRender(int** pOrderingTable)
+void MainMenuController::VRender(PrimHeader** ppOt)
 {
-    Render_4CF4C0(pOrderingTable);
+    Render_4CF4C0(ppOt);
 }
 
-void MainMenuController::Render_4CF4C0(int** ot)
+void MainMenuController::Render_4CF4C0(PrimHeader** ppOt)
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit2_Animate)
         && sMainMenuPages_561960[field_214_page_index].field_E_show_character 
         && field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
-        field_20_animation.vRender_40B820(184, 162, ot, 0, 0);
+        field_20_animation.vRender_40B820(184, 162, ppOt, 0, 0);
         PSX_RECT pRect = {};
         field_20_animation.Get_Frame_Rect_409E10(&pRect);
         pScreenManager_5BB5F4->InvalidateRect_40EC90(pRect.x, pRect.y, pRect.w, pRect.h, pScreenManager_5BB5F4->field_3A_idx);
@@ -757,7 +757,7 @@ void MainMenuController::Render_4CF4C0(int** ot)
         {
             if (field_1FC_button_index != NO_SELECTABLE_BUTTONS)
             {
-                field_158_animation.vRender_40B820(pButtons[field_1FC_button_index].field_2_x, pButtons[field_1FC_button_index].field_4_y, ot, 0, 0);
+                field_158_animation.vRender_40B820(pButtons[field_1FC_button_index].field_2_x, pButtons[field_1FC_button_index].field_4_y, ppOt, 0, 0);
                 PSX_RECT rect = {};
                 field_158_animation.Get_Frame_Rect_409E10(&rect);
                 pScreenManager_5BB5F4->InvalidateRect_40EC90(rect.x, rect.y, rect.w, rect.h, pScreenManager_5BB5F4->field_3A_idx);
@@ -768,7 +768,7 @@ void MainMenuController::Render_4CF4C0(int** ot)
     auto renderFunc = sMainMenuPages_561960[field_214_page_index].field_14_fn_render;
     if (renderFunc)
     {
-        (this->*renderFunc)(ot);
+        (this->*renderFunc)(ppOt);
     }
 }
 
@@ -862,7 +862,7 @@ const MainMenuText sAbeMotions_562448[15] =
     { 330, 174, kAnger, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },           //angry slap [5]
 };
 
-void MainMenuController::AbeSpeak_Render_4D2060(int** ot)
+void MainMenuController::AbeSpeak_Render_4D2060(PrimHeader** ot)
 {
     RenderOnScreenTextHelper(ot, &sAbeGameSpeak_561F38[0], ALIVE_COUNTOF(sAbeGameSpeak_561F38), 1);
 }
@@ -937,17 +937,17 @@ MainMenuNextCam MainMenuController::AbeSpeak_Update_4D2D20(DWORD input_held)
     });
 }
 
-void MainMenuController::SligSpeak_Render_4D2370(int** ot)
+void MainMenuController::SligSpeak_Render_4D2370(PrimHeader** ot)
 {
     RenderOnScreenTextHelper(ot, &sSligGameSpeak_562058[0], ALIVE_COUNTOF(sSligGameSpeak_562058), 1);
 }
 
-void MainMenuController::GlukkonSpeak_Render_4D23C0(int** ot)
+void MainMenuController::GlukkonSpeak_Render_4D23C0(PrimHeader** ot)
 {
     RenderOnScreenTextHelper(ot, &sGlukkonGameSpeak_562160[0], ALIVE_COUNTOF(sGlukkonGameSpeak_562160), 1);
 }
 
-void MainMenuController::ScrabSpeak_Render_4D2410(int** ot)
+void MainMenuController::ScrabSpeak_Render_4D2410(PrimHeader** ot)
 {
     RenderOnScreenTextHelper(ot, &sScrabGameSpeak_562268[0], ALIVE_COUNTOF(sScrabGameSpeak_562268), 1);
 }
@@ -1078,7 +1078,7 @@ void MainMenuController::ScrabSpeak_Load_4D3870()
     Set_Anim_4D05E0(AnimIds::eScrab_Idle);
 }
 
-void MainMenuController::ParamiteSpeak_Render_4D2460(int** ot)
+void MainMenuController::ParamiteSpeak_Render_4D2460(PrimHeader** ot)
 {
     RenderOnScreenTextHelper(ot, &sParamiteSpeak_5622C8[0], ALIVE_COUNTOF(sParamiteSpeak_5622C8), 1);
 }
@@ -1125,11 +1125,11 @@ void MainMenuController::ParamiteSpeak_Load_4D3B70()
     Set_Anim_4D05E0(AnimIds::eParamite_Idle);
 }
 
-static int DrawMenuStringWithShadow(int** ot, Alive::Font& field_120_font, const char* text, __int16 x, __int16 y, BYTE r, BYTE g, BYTE b, int& polyOffset)
+static int DrawMenuStringWithShadow(PrimHeader** ppOt, Alive::Font& field_120_font, const char* text, __int16 x, __int16 y, BYTE r, BYTE g, BYTE b, int& polyOffset)
 {
     int polyOff = polyOffset;
     polyOff = field_120_font.DrawString_4337D0(
-        ot,
+        ppOt,
         text,
         x,
         y,
@@ -1147,7 +1147,7 @@ static int DrawMenuStringWithShadow(int** ot, Alive::Font& field_120_font, const
     );
 
     polyOffset = field_120_font.DrawString_4337D0(
-        ot,
+        ppOt,
         text,
         x+2,
         y+2,
@@ -1170,7 +1170,7 @@ ALIVE_VAR(1, 0xBB43F0, FP, sTextYPos_BB43F0, {});
 ALIVE_VAR(1, 0xBB43E4, FP, dword_BB43E4, {});
 
 static void RenderScrollableTextEntries(
-    int** ot, int& targetEntry, int& selectedEntry, int totalItemsCount,
+    PrimHeader** ot, int& targetEntry, int& selectedEntry, int totalItemsCount,
     FP& TextYPos, FP& TextYPos2, const char* field_234_pStr, const SaveFileRec* stringList, Alive::Font& field_120_font, int& polyOffset
 )
 {
@@ -1290,7 +1290,7 @@ ALIVE_VAR(1, 0xBB43D8, int, controllerEntryToSelect_BB43D8, 0);
 ALIVE_VAR(1, 0xBB43F4, int, selectedControllerEntry_BB43F4, 0);
 ALIVE_VAR(1, 0x55E838, int, controllerCount_55E838, ALIVE_COUNTOF(aKeyboard_1));
 
-void MainMenuController::ControllerMenu_Render_Text_4D26C0(int ** ot)
+void MainMenuController::ControllerMenu_Render_Text_4D26C0(PrimHeader ** ot)
 {
     int polyOffset = 0;
     RenderScrollableTextEntries(ot, controllerEntryToSelect_BB43D8, selectedControllerEntry_BB43F4, controllerCount_55E838, sTextYPos_BB43F0, dword_BB43E4, field_234_pStr, aKeyboard_1, field_120_font, polyOffset);
@@ -1303,7 +1303,7 @@ void MainMenuController::ControllerMenu_Render_Text_4D26C0(int ** ot)
 
 ALIVE_VAR(1, 0xBB4418, short, word_BB4418, 0);
 
-void MainMenuController::Demo_And_FMV_List_Render_4D4F30(int** pOt)
+void MainMenuController::Demo_And_FMV_List_Render_4D4F30(PrimHeader** ppOt)
 {
     if (word_BB4418)
     {
@@ -1380,7 +1380,7 @@ void MainMenuController::Demo_And_FMV_List_Render_4D4F30(int** pOt)
     int polyIndex = 0;
     for (const MainMenuText& text : stru_5625F8)
     {
-        DrawMenuText_4D20D0(&text, pOt, &field_120_font, &polyIndex, 1);
+        DrawMenuText_4D20D0(&text, ppOt, &field_120_font, &polyIndex, 1);
     }
 
     int loopCount = -2;
@@ -1404,13 +1404,13 @@ void MainMenuController::Demo_And_FMV_List_Render_4D4F30(int** pOt)
             const short textYPos = static_cast<short>((FP_GetExponent(field_254 + FP_FromDouble(0.5))) + 26 * loopCount + 117);
             if (loopCount)
             {
-                polyIndex = field_120_font.DrawString_4337D0(pOt, field_234_pStr, nextTextXPos, textYPos, 0, 1, 0, 32, 210, 150, 80, polyIndex, FP_FromInteger(1), 640, 0);
+                polyIndex = field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos, textYPos, 0, 1, 0, 32, 210, 150, 80, polyIndex, FP_FromInteger(1), 640, 0);
             }
             else
             {
-                polyIndex = field_120_font.DrawString_4337D0(pOt, field_234_pStr, nextTextXPos, textYPos, 0, 1, 0, 32, 255, 218, 140, polyIndex, FP_FromInteger(1), 640, 0);
+                polyIndex = field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos, textYPos, 0, 1, 0, 32, 255, 218, 140, polyIndex, FP_FromInteger(1), 640, 0);
             }
-            polyIndex = field_120_font.DrawString_4337D0(pOt, field_234_pStr, nextTextXPos + 2, textYPos + 2, 0, 1, 0, 32, 0, 0, 0, polyIndex, FP_FromInteger(1), 640, 0);
+            polyIndex = field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos + 2, textYPos + 2, 0, 1, 0, 32, 0, 0, 0, polyIndex, FP_FromInteger(1), 640, 0);
         }
         loopCount++;
     } while (loopCount < 2);
@@ -1596,7 +1596,7 @@ MainMenuText sLoadButtonGraphics[2] =
 
 ALIVE_VAR(1, 0xBB43E8, int, sSelectedSavedGameIdx_BB43E8, 0);
 
-void MainMenuController::tLoadGame_Render_4D44D0(int** ot)
+void MainMenuController::tLoadGame_Render_4D44D0(PrimHeader** ot)
 {
     int polyOffset = 0;
     RenderScrollableTextEntries(
@@ -1614,7 +1614,7 @@ void MainMenuController::tLoadGame_Render_4D44D0(int** ot)
     }
 }
 
-void MainMenuController::AbeMotions_Render_4D25E0(int ** ot)
+void MainMenuController::AbeMotions_Render_4D25E0(PrimHeader ** ot)
 {
     RenderOnScreenTextHelper(ot, &sAbeMotions_562448[0], ALIVE_COUNTOF(sAbeMotions_562448), 0);
 }
@@ -1650,7 +1650,7 @@ MainMenuNextCam MainMenuController::Gamespeak_Update_4D1FC0(DWORD input_held)
     }
 }
 
-void MainMenuController::RenderOnScreenTextHelper(int ** ot, const MainMenuText * menuTextArray, int count, char isSingleChar)
+void MainMenuController::RenderOnScreenTextHelper(PrimHeader** ot, const MainMenuText * menuTextArray, int count, char isSingleChar)
 {
     int polyIndex = 0;
 
@@ -1675,17 +1675,17 @@ MainMenuText sMTxt_NewGame_562598[3] = {
     { 161, 164, "x", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u },
 };
 
-void MainMenuController::Gamespeak_Render_4D24F0(int ** ot)
+void MainMenuController::Gamespeak_Render_4D24F0(PrimHeader** ot)
 {
     RenderOnScreenTextHelper(ot, sMTxt_Gamespeak_5623B8, 2, 1);
 }
 
-void MainMenuController::Options_Render_4D2540(int ** ot)
+void MainMenuController::Options_Render_4D2540(PrimHeader** ot)
 {
     RenderOnScreenTextHelper(ot, sMTxt_Gamespeak_5623E8, 2, 1);
 }
 
-void MainMenuController::BackStory_Or_NewGame_Render_4D2630(int ** ot)
+void MainMenuController::BackStory_Or_NewGame_Render_4D2630(PrimHeader** ot)
 {
     RenderOnScreenTextHelper(ot, sMTxt_NewGame_562598, 2, 1);
 }
@@ -1781,7 +1781,7 @@ MainMenuNextCam MainMenuController::Page_Front_Update_4D0720(DWORD input)
     return MainMenuNextCam(MainMenuCams::eNoChange);
 }
 
-void MainMenuController::Page_Front_Render_4D24B0(int** ot)
+void MainMenuController::Page_Front_Render_4D24B0(PrimHeader** ot)
 {
     RenderOnScreenTextHelper(ot, &sMMT_FrontPage_5623A0[0], ALIVE_COUNTOF(sMMT_FrontPage_5623A0), 1);
 }
@@ -2586,7 +2586,7 @@ const MainMenuText stru_5626A0[10] =
     { 250, 172, kSpeak2, 3u, 0u, 0u, 0u,  0.88f, 1u, 0u, 0u, 0u }
 };
 
-void MainMenuController::RemapInput_Render_4D2A10(int** ot)
+void MainMenuController::RemapInput_Render_4D2A10(PrimHeader** ppOt)
 {
     int polyIndex = 0;
     if (dword_BB43F8 == 3)
@@ -2610,7 +2610,7 @@ void MainMenuController::RemapInput_Render_4D2A10(int** ot)
         {
             nextTextXPos = (368 - textWidth) / 2;
         }
-        polyIndex = field_120_font.DrawString_4337D0(ot, field_234_pStr, nextTextXPos, 88, 0, 1, 0, 41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
+        polyIndex = field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos, 88, 0, 1, 0, 41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
         char buffer[512] = {};
         sprintf(buffer, "for %s", sInputButtonNames_562790[sButtonToRemapIdx_BB43EC]);
         field_234_pStr = buffer;
@@ -2623,7 +2623,7 @@ void MainMenuController::RemapInput_Render_4D2A10(int** ot)
         {
             nextTextXPos = (368 - textWidth) / 2;
         }
-        polyIndex = field_120_font.DrawString_4337D0(ot, field_234_pStr, nextTextXPos, 120, 0, 1, 0, 41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
+        polyIndex = field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos, 120, 0, 1, 0, 41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
         field_234_pStr = "Press BackSpace for none, Esc to exit";
         textWidth = field_120_font.MeasureWidth_4336C0(field_234_pStr, FP_FromInteger(1));
         if (textWidth >= 336)
@@ -2634,7 +2634,7 @@ void MainMenuController::RemapInput_Render_4D2A10(int** ot)
         {
             nextTextXPos = (368 - textWidth) / 2;
         }
-        field_120_font.DrawString_4337D0(ot, field_234_pStr, nextTextXPos, 152, 0, 1, 0, 41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
+        field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos, 152, 0, 1, 0, 41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
     }
     else
     {
@@ -2646,14 +2646,14 @@ void MainMenuController::RemapInput_Render_4D2A10(int** ot)
             // Speak 2
             const MainMenuText stru_562778 = { 250, 174, "-", 3u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u };
 
-            DrawMenuText_4D20D0(&stru_562760, ot, &field_120_font, &polyIndex, 1);
-            DrawMenuText_4D20D0(&stru_562778, ot, &field_120_font, &polyIndex, 1);
+            DrawMenuText_4D20D0(&stru_562760, ppOt, &field_120_font, &polyIndex, 1);
+            DrawMenuText_4D20D0(&stru_562778, ppOt, &field_120_font, &polyIndex, 1);
         }
 
         // Note: OG renders this list backwards
         for (const MainMenuText& item : stru_5626A0)
         {
-            DrawMenuText_4D20D0(&item, ot, &field_120_font, &polyIndex, 1);
+            DrawMenuText_4D20D0(&item, ppOt, &field_120_font, &polyIndex, 1);
         }
 
         // Render "glowing" box around the selected buttons
@@ -2664,7 +2664,7 @@ void MainMenuController::RemapInput_Render_4D2A10(int** ot)
         field_158_animation.vRender_40B820(
             stru_5626A0[sButtonToRemapIdx_BB43EC + 2].field_0_x - 18,
             stru_5626A0[sButtonToRemapIdx_BB43EC + 2].field_4_y + 8,
-            ot, 0, 0);
+            ppOt, 0, 0);
     }
 }
 
@@ -3817,7 +3817,7 @@ void MainMenuController::callback_4D06E0(MainMenuController* pMenu)
             ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, TRUE, FALSE);
 }
 
-void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, int** ot, Alive::Font* font, int* polyIndex, char op2)
+void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHeader** ot, Alive::Font* font, int* polyIndex, char op2)
 {
     const bool bSpeak1 = strstr(array->field_8_text, kSpeak1) != 0;
     const bool bSpeak2 = strstr(array->field_8_text, kSpeak2) != 0;

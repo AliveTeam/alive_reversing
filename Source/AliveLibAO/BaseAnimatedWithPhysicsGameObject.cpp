@@ -108,7 +108,7 @@ CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera()
     return gMap_507BA8.Rect_Location_Relative_To_Active_Camera_4448C0(&rect, 0);
 }
 
-void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(int** ppOt)
+void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(PrimHeader** ppOt)
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
@@ -187,9 +187,9 @@ BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::Vdtor_4189
 }
 
 
-void BaseAnimatedWithPhysicsGameObject::VRender(int** pOrderingTable)
+void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
 {
-    VRender_417DA0(pOrderingTable);
+    VRender_417DA0(ppOt);
 }
 
 void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, int startingPointIdx, TCollisionCallBack pFn)

@@ -81,9 +81,9 @@ void ParamiteWeb::VScreenChanged()
     vScreenChanged_4E1F80();
 }
 
-void ParamiteWeb::VRender(int** pOrderingTable)
+void ParamiteWeb::VRender(PrimHeader** ppOt)
 {
-    vRender_4E1BA0(pOrderingTable);
+    vRender_4E1BA0(ppOt);
 }
 
 BaseGameObject* ParamiteWeb::VDestructor(signed int flags)
@@ -128,7 +128,7 @@ void ParamiteWeb::vScreenChanged_4E1F80()
     }
 }
 
-void ParamiteWeb::vRender_4E1BA0(int** pOt)
+void ParamiteWeb::vRender_4E1BA0(PrimHeader** ppOt)
 {
     PSX_Point camCoords = {};
     gMap_5C3030.GetCurrentCamCoords_480680(&camCoords);
@@ -167,7 +167,7 @@ void ParamiteWeb::vRender_4E1BA0(int** pOt)
                 maxY = 240;
             }
 
-            field_20_animation.vRender_40B820(640, 240, pOt, 0, 0);
+            field_20_animation.vRender_40B820(640, 240, ppOt, 0, 0);
 
             if (y_start >= minY)
             {
@@ -180,7 +180,7 @@ void ParamiteWeb::vRender_4E1BA0(int** pOt)
                     field_100_pRes[idx].field_8_r = static_cast<BYTE>(r);
                     field_100_pRes[idx].field_9_g = static_cast<BYTE>(g);
                     field_100_pRes[idx].field_A_b = static_cast<BYTE>(b);
-                    field_100_pRes[idx].vRender_40B820(x_start, y_start, pOt, 0, 0);
+                    field_100_pRes[idx].vRender_40B820(x_start, y_start, ppOt, 0, 0);
                     PSX_RECT rect = {};
                     field_100_pRes[idx].GetRenderedSize_40C980(&rect);
                     pScreenManager_5BB5F4->InvalidateRect_40EC90(rect.x, rect.y, rect.w, rect.h, pScreenManager_5BB5F4->field_3A_idx);

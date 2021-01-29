@@ -19,9 +19,9 @@ public:
 
     EXPORT ScreenShake* Vdtor_462770(signed int flags);
 
-    virtual void VRender(int** ppOt) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_4625E0(int** ppOt);
+    EXPORT void VRender_4625E0(PrimHeader** ppOt);
 
     EXPORT BaseGameObject* dtor_462550();
 

@@ -249,7 +249,7 @@ public:
 
     virtual void VUpdate() override;
 
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
     virtual void VScreenChanged() override;
 
@@ -399,7 +399,7 @@ private:
 
     EXPORT void vUpdate_4B17C0();
 
-    EXPORT void vRender_4B1F80(int** ot);
+    EXPORT void vRender_4B1F80(PrimHeader** ot);
 
     EXPORT void vScreenChanged_4B1E20();
 
@@ -616,6 +616,6 @@ ALIVE_ASSERT_SIZEOF(Slig, 0x298);
 EXPORT int CC Animation_OnFrame_Slig_4C0600(void* pObj, signed __int16* pData);
 EXPORT void CC Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj);
 
-void renderWithGlowingEyes(int** ot, BaseAliveGameObject* actor, __int16* pPalAlloc, __int16 palSize, PSX_RECT* palRect,
+void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, __int16* pPalAlloc, __int16 palSize, PSX_RECT* palRect,
     __int16& r, __int16& g, __int16& b,
     const __int16* eyeColourIndices, __int16 eyeColourIndicesSize);

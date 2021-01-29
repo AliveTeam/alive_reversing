@@ -1875,12 +1875,12 @@ void HintFly::VUpdate_42B3D0()
     }
 }
 
-void HintFly::VRender(int** pOrderingTable)
+void HintFly::VRender(PrimHeader** ppOt)
 {
-    VRender_42BAD0(pOrderingTable);
+    VRender_42BAD0(ppOt);
 }
 
-void HintFly::VRender_42BAD0(int** ppOt)
+void HintFly::VRender_42BAD0(PrimHeader** ppOt)
 {
     Prim_SetTPage* pTPage = &field_EC_tPages[gPsxDisplay_504C78.field_A_buffer_index];
 

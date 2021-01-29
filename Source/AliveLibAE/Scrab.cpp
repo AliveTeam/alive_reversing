@@ -3701,11 +3701,11 @@ void Scrab::vScreenChanged_4A5560()
     }
 }
 
-void Scrab::vRender_4A45B0(int** ot)
+void Scrab::vRender_4A45B0(PrimHeader** ppOt)
 {
     if (field_1C_update_delay == 0)
     {
-        BaseAnimatedWithPhysicsGameObject::VRender(ot);
+        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
 }
 

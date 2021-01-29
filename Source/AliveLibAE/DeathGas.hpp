@@ -16,7 +16,7 @@ public:
 
     virtual void VUpdate() override;
 
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
 private:
     EXPORT DeathGas* vdtor_43C240(signed int flags);
@@ -27,7 +27,7 @@ private:
 
     EXPORT void vUpdate_43C300();
 
-    EXPORT void vRender_43C350(int** pOt);
+    EXPORT void vRender_43C350(PrimHeader** ppOt);
 private:
     __int16 field_20_total;
     __int16 field_22_unused; // Gets increased by two every vUpdate_43C300. Isn't used anywhere else -- Nemin (6/7/2020)

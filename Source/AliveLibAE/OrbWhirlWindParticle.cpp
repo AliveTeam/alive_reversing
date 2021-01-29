@@ -199,7 +199,7 @@ void OrbWhirlWindParticle::VUpdate_4E4510()
     }
 }
 
-void OrbWhirlWindParticle::VRender_4E4B10(int** ppOt)
+void OrbWhirlWindParticle::VRender_4E4B10(PrimHeader** ppOt)
 {
     const FP x = std::min(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x,
                           pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + FP_FromInteger(367));

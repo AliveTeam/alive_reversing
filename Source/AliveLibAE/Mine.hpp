@@ -31,7 +31,7 @@ class Mine : public BaseAliveGameObject
 public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VOnPickUpOrSlapped() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
@@ -42,7 +42,7 @@ private:
     EXPORT Mine* vdtor_46B4C0(signed int flags);
     EXPORT void dtor_46B4F0();
     EXPORT void Update_46B5D0();
-    EXPORT void Render_46B7A0(int ** pOt);
+    EXPORT void Render_46B7A0(PrimHeader** ppOt);
     EXPORT void ScreenChanged_46BAE0();
     EXPORT void vOnPickUpOrSlapped_46B880();
     EXPORT void vOnThrowableHit_46BA40(BaseGameObject* pFrom);

@@ -11,13 +11,13 @@ public:
    
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VRender(int** pOt) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
 private:
     EXPORT void dtor_4AD060();
     EXPORT void vUpdate_4AD0E0();
     EXPORT BaseGameObject* vdtor_4AD030(signed int flags);
-    EXPORT void vRender_4AD120(int** /*pOt*/);
+    EXPORT void vRender_4AD120(PrimHeader** /*ppOt*/);
 
 private:
     Prim_ScreenOffset field_20_screenOffset[2];

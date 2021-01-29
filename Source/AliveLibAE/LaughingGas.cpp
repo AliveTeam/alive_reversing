@@ -98,9 +98,9 @@ void LaughingGas::VUpdate()
     vUpdate_432C40();
 }
 
-void LaughingGas::VRender(int** pOt)
+void LaughingGas::VRender(PrimHeader** ppOt)
 {
-    vRender_432D10(pOt);
+    vRender_432D10(ppOt);
 }
 
 void LaughingGas::vScreenChanged_432DE0()
@@ -182,7 +182,7 @@ LaughingGas* LaughingGas::vdtor_432670(signed int flags)
     return this;
 }
 
-void LaughingGas::vRender_432D10(int** pOt)
+void LaughingGas::vRender_432D10(PrimHeader** ppOt)
 {
     if (field_54_amount_on > FP_FromDouble(0.1) || !field_36_bGreen)
     {
@@ -192,7 +192,7 @@ void LaughingGas::vRender_432D10(int** pOt)
             {
                 DoRender_432740();
             }
-            OrderingTable_Add_4F8AA0(&pOt[field_58_layer], &field_5C_prim.mPrimHeader);
+            OrderingTable_Add_4F8AA0(&ppOt[field_58_layer], &field_5C_prim.mPrimHeader);
         }
         pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height);
     }

@@ -47,7 +47,7 @@ void CC Init_PrimClipper_495FD0(Prim_PrimClipper* pPrim, const PSX_RECT* pClipRe
     Init_PrimClipper_4F5B80(pPrim, pClipRect);
 }
 
-void CC OrderingTable_Add_498A80(int** ppOt, PrimHeader* pItem)
+void CC OrderingTable_Add_498A80(PrimHeader** ppOt, PrimHeader* pItem)
 {
     AE_IMPLEMENTED();
     OrderingTable_Add_4F8AA0(ppOt, pItem);

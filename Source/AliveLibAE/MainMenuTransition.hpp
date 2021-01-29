@@ -15,12 +15,12 @@ public:
     EXPORT MainMenuTransition* ctor_464110(__int16 layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 fadeSpeed, char abr);
     EXPORT void StartTrans_464370(__int16 layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 speed);
     EXPORT void Update_464400();
-    EXPORT void Render_464470(int** ot);
+    EXPORT void Render_464470(PrimHeader** ppOt);
     EXPORT void dtor_4642F0();
     EXPORT BaseGameObject* vdtor_4642C0(signed int flags);
     EXPORT void vScreenChanged_4648D0();
 
-    virtual void VRender(int** ot) override;
+    virtual void VRender(PrimHeader** ppOt) override;
     virtual void VUpdate() override;
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VScreenChanged() override;

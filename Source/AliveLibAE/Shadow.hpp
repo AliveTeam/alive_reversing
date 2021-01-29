@@ -10,7 +10,7 @@ public:
     EXPORT Shadow* ctor_4AC990();
     EXPORT void dtor_4ACA30();
     EXPORT void Calculate_Position_4ACA50(FP xpos, FP ypos, PSX_RECT* frameRect, FP spriteScale, __int16 scale);
-    EXPORT void Render_4ACE60(int** pOt);
+    EXPORT void Render_4ACE60(PrimHeader** ppOt);
 private:
     __int16 field_0_x1;
     __int16 field_2_y1;

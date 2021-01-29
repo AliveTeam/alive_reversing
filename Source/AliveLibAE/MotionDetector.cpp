@@ -196,9 +196,9 @@ void MotionDetector::VUpdate()
     vUpdate_468A90();
 }
 
-void MotionDetector::VRender(int** pOrderingTable)
+void MotionDetector::VRender(PrimHeader** ppOt)
 {
-    vRender_469120(pOrderingTable);
+    vRender_469120(ppOt);
 }
 
 void MotionDetector::VScreenChanged()
@@ -252,9 +252,9 @@ void MotionDetector::vScreenChanged_469460()
     }
 }
 
-void MotionDetector::vRender_469120(int** pOt)
+void MotionDetector::vRender_469120(PrimHeader** ppOt)
 {
-    BaseAnimatedWithPhysicsGameObject::VRender(pOt);
+    BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
@@ -284,13 +284,13 @@ void MotionDetector::vRender_469120(int** pOt)
 
         // Add triangle
         Poly_Set_SemiTrans_4F8A60(&pPrim->mBase.header, TRUE);
-        OrderingTable_Add_4F8AA0(&pOt[field_20_animation.field_C_render_layer], &pPrim->mBase.header);
+        OrderingTable_Add_4F8AA0(&ppOt[field_20_animation.field_C_render_layer], &pPrim->mBase.header);
         
         // Add tpage
         const int tpage = PSX_getTPage_4F60E0(2, field_178_bObjectInLaser != 0 ? 1 : 3, 0, 0); // When detected transparency is off, gives the "solid red" triangle
         Prim_SetTPage* pTPage = &field_154_tPage[gPsxDisplay_5C1130.field_C_buffer_index];
         Init_SetTPage_4F5B60(pTPage, 0, 0, tpage);
-        OrderingTable_Add_4F8AA0(&pOt[field_20_animation.field_C_render_layer], &pTPage->mBase);
+        OrderingTable_Add_4F8AA0(&ppOt[field_20_animation.field_C_render_layer], &pTPage->mBase);
       
         pScreenManager_5BB5F4->InvalidateRect_40EC90(
             std::min(x0, std::min(x1, x1)),

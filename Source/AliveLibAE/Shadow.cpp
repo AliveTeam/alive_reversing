@@ -156,7 +156,7 @@ void Shadow::Calculate_Position_4ACA50(FP xpos, FP ypos, PSX_RECT* frameRect, FP
     }
 }
 
-void Shadow::Render_4ACE60(int** pOt)
+void Shadow::Render_4ACE60(PrimHeader** ppOt)
 {
     if (field_14_flags.Get(Flags::eBit2_Enabled))
     {
@@ -178,7 +178,7 @@ void Shadow::Render_4ACE60(int** pOt)
             // Note: OG converted to FP and back here but its pointless
             field_0_x1,
             field_2_y1,
-            pOt,
+            ppOt,
             (field_4_x2 - field_0_x1) + 1,
             (field_6_y2 - field_2_y1) + 1);
 

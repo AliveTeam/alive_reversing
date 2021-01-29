@@ -87,7 +87,7 @@ public:
     // TODO: Virtuals must be on the base type, yet there is only 1 vtable pointing to derived?
     virtual void vDecode_40AC90();
 
-    virtual void vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, signed int height);
+    virtual void vRender_40B820(int xpos, int ypos, PrimHeader** ppOt, __int16 width, signed int height);
     virtual void vCleanUp_40C630() = 0;
 
     // TODO: Restore vTable entry.

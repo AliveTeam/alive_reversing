@@ -49,7 +49,7 @@ int OrbWhirlWindParticle::IsActive()
     return field_4_flags & 1;
 }
 
-void OrbWhirlWindParticle::VRender_48C430(int** ppOt)
+void OrbWhirlWindParticle::VRender_48C430(PrimHeader** ppOt)
 {
     field_8_anim.field_14_scale = field_A8_render_as_scale;
 

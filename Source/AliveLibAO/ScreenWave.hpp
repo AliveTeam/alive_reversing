@@ -30,9 +30,9 @@ public:
 
     EXPORT void VUpdate_463080();
 
-    virtual void VRender(int** ppOt) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_463130(int** ppOt);
+    EXPORT void VRender_463130(PrimHeader** ppOt);
 
     __int16 field_10_layer;
     __int16 field_12_pad;

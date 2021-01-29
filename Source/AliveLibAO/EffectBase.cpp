@@ -44,12 +44,12 @@ EffectBase* EffectBase::Vdtor_461750(signed int flags)
 }
 
 
-void EffectBase::VRender(int** ppOt)
+void EffectBase::VRender(PrimHeader** ppOt)
 {
     VRender_461690(ppOt);
 }
 
-void EffectBase::VRender_461690(int** ppOt)
+void EffectBase::VRender_461690(PrimHeader** ppOt)
 {
     Prim_Tile* pTile = &field_14_tile[gPsxDisplay_504C78.field_A_buffer_index];
     Init_Tile(pTile);

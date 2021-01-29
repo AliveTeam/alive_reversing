@@ -35,9 +35,9 @@ public:
 
     EXPORT void VUpdate_41B690();
 
-    virtual void VRender(int** ppOt) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_41B810(int** ppOt);
+    EXPORT void VRender_41B810(PrimHeader** ppOt);
 
     FP field_10_xpos;
     FP field_14_ypos;

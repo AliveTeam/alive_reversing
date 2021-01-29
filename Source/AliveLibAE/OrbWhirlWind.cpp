@@ -14,9 +14,9 @@ void OrbWhirlWind::VUpdate()
     return vUpdate_4E3E20();
 }
 
-void OrbWhirlWind::VRender(int** pOrderingTable)
+void OrbWhirlWind::VRender(PrimHeader** ppOt)
 {
-    return vRender_4E3F80(pOrderingTable);
+    return vRender_4E3F80(ppOt);
 }
 
 OrbWhirlWind* OrbWhirlWind::ctor_4E3C90(FP xpos, FP ypos, FP scale, __int16 bIsMudokonSpirit)
@@ -75,7 +75,7 @@ void OrbWhirlWind::ToStop_4E4050()
     field_24_particles_state = ParticlesState::eActive;
 }
 
-void OrbWhirlWind::vRender_4E3F80(int** ppOt)
+void OrbWhirlWind::vRender_4E3F80(PrimHeader** ppOt)
 {
     for (int i = 0; i < field_28_particleIdx; i++)
     {

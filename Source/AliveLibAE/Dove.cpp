@@ -164,15 +164,15 @@ void Dove::VUpdate()
     vUpdate_41FAE0();
 }
 
-void Dove::VRender(int** pOrderingTable)
+void Dove::VRender(PrimHeader** ppOt)
 {
-    vRender_4200B0(pOrderingTable);
+    vRender_4200B0(ppOt);
 }
 
-void Dove::vRender_4200B0(int** ot)
+void Dove::vRender_4200B0(PrimHeader** ppOt)
 {
     // Kind of pointless, the override just calls base
-    Render_424B90(ot);
+    Render_424B90(ppOt);
 }
 
 void Dove::dtor_41F870()

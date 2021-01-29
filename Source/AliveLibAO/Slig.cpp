@@ -812,12 +812,12 @@ void Slig::VUpdate_465050()
     }
 }
 
-void Slig::VRender(int** ppOt)
+void Slig::VRender(PrimHeader** ppOt)
 {
     VRender_465590(ppOt);
 }
 
-void Slig::VRender_465590(int** ppOt)
+void Slig::VRender_465590(PrimHeader** ppOt)
 {
     if (field_8_update_delay == 0)
     {

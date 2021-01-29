@@ -8,7 +8,7 @@
 
 namespace AO {
 
-void CircularFade::VRender_47A080(int** ppOt)
+void CircularFade::VRender_47A080(PrimHeader** ppOt)
 {
     const BYTE fade_rgb = static_cast<BYTE>((field_1A8_fade_colour * 60) / 100);
 
@@ -164,7 +164,7 @@ void CircularFade::VUpdate_47A030()
     }
 }
 
-void CircularFade::VRender(int** ppOt)
+void CircularFade::VRender(PrimHeader** ppOt)
 {
     VRender_47A080(ppOt);
 }

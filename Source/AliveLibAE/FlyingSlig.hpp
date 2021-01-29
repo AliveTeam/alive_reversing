@@ -135,7 +135,7 @@ public:
 
     virtual void VUpdate() override;
 
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
     virtual void VScreenChanged() override;
 
@@ -164,7 +164,7 @@ private:
 
     EXPORT void vUpdate_434AD0();
 
-    EXPORT void vRender_435130(int** ot);
+    EXPORT void vRender_435130(PrimHeader** ot);
 
     EXPORT __int16 IsPossessed_436A90();
     EXPORT void sub_4348A0();

@@ -265,9 +265,9 @@ void Grinder::VUpdate()
     vUpdate_420C50();
 }
 
-void Grinder::VRender(int** pOrderingTable)
+void Grinder::VRender(PrimHeader** ppOt)
 {
-    vRender_4213D0(pOrderingTable);
+    vRender_4213D0(ppOt);
 }
 
 void Grinder::VScreenChanged()
@@ -572,7 +572,7 @@ void Grinder::vScreenChanged_4214B0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-void Grinder::vRender_4213D0(int** pOt)
+void Grinder::vRender_4213D0(PrimHeader** ppOt)
 {
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
         field_C2_lvl_number,
@@ -584,17 +584,17 @@ void Grinder::vRender_4213D0(int** pOt)
         if (field_FA_direction == GrinderDirection::eDown_0)
         {
             field_BC_ypos = field_114_yPos - field_124_xyoff;
-            BaseAnimatedWithPhysicsGameObject::VRender(pOt);
+            BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
         }
         else if (field_FA_direction == GrinderDirection::eRight_1)
         {
             field_B8_xpos = field_110_xPos + field_124_xyoff;
-            BaseAnimatedWithPhysicsGameObject::VRender(pOt);
+            BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
         }
         else if (field_FA_direction == GrinderDirection::eLeft_2)
         {
             field_B8_xpos = field_110_xPos - field_124_xyoff;
-            BaseAnimatedWithPhysicsGameObject::VRender(pOt);
+            BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
         }
     }
 }

@@ -1153,19 +1153,19 @@ EXPORT int CC PSX_ClearImage_4F5BD0(const PSX_RECT* pRect, unsigned __int8 r, un
     return 1;
 }
 
-EXPORT void CC PSX_ClearOTag_4F6290(int** otBuffer, int otBufferSize)
+EXPORT void CC PSX_ClearOTag_4F6290(PrimHeader** otBuffer, int otBufferSize)
 {
-    PSX_OrderingTable_4F62C0(otBuffer, otBufferSize);
+   // PSX_OrderingTable_4F62C0(otBuffer, otBufferSize);
 
     // Set each element to point to the next
     int i = 0;
     for (i = 0; i < otBufferSize - 1; i++)
     {
-        otBuffer[i] = reinterpret_cast<int*>(&otBuffer[i + 1]);
+        otBuffer[i] = reinterpret_cast<PrimHeader*>(&otBuffer[i + 1]);
     }
 
     // Terminate the list
-    otBuffer[i] = reinterpret_cast<int*>(0xFFFFFFFF);
+    otBuffer[i] = reinterpret_cast<PrimHeader*>(0xFFFFFFFF);
 }
 
 EXPORT void CC PSX_OrderingTable_4F62C0(int** otBuffer, int otBufferSize)
@@ -3282,12 +3282,13 @@ static void DrawOTag_HandlePrimRendering(PrimAny& any, __int16 drawEnv_of0, __in
     }
 }
 
-static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
+static bool DrawOTagImpl(PrimHeader** ppOt, __int16 drawEnv_of0, __int16 drawEnv_of1)
 {
     sScreenXOffSet_BD30E4 = 0;
     sScreenYOffset_BD30A4 = 0;
     sActiveTPage_578318 = -1;
 
+    /*
     int otIdx = PSX_OT_Idx_From_Ptr_4F6A40(pOT);
     if (otIdx < 0)
     {
@@ -3295,11 +3296,12 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
     }
 
     int** pLastOtItem = sOt_Stack_BD0D88[otIdx].field_4;
-    int** pOtEnd = sOt_Stack_BD0D88[otIdx].field_8_pOt_End;
-    int** pOtItem = pOT;
-    while (pOtItem)
+    PrimHeader** ppOtEnd = sOt_Stack_BD0D88[otIdx].field_8_pOt_End;
+    */
+    PrimHeader** ppOtItem = ppOt;
+    while (ppOtItem)
     {
-        if (pOtItem == reinterpret_cast<int**>(0xFFFFFFFF))
+        if (ppOtItem == reinterpret_cast<PrimHeader**>(0xFFFFFFFF))
         {
             break;
         }
@@ -3307,9 +3309,9 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
         SsSeqCalledTbyT_4FDC80();
 
         PrimAny any;
-        any.mVoid = pOtItem;
+        any.mVoid = ppOtItem;
 
-        if (pOtItem < pLastOtItem || pOtItem >= pOtEnd) // Must actually be start otherwise check makes no sense ??
+        //if (pOtItem < pLastOtItem || pOtItem >= pOtEnd) // Must actually be start otherwise check makes no sense ??
         {
             int itemToDrawType = any.mPrimHeader->rgb_code.code_or_pad;
             switch (itemToDrawType)
@@ -3372,13 +3374,13 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
         }
 
         // To the next item
-        pOtItem = (int **)any.mPrimHeader->tag;
+        ppOtItem = reinterpret_cast<PrimHeader**>(any.mPrimHeader->tag);
     }
 
     return false;
 }
 
-EXPORT void CC PSX_DrawOTag_4F6540(int** pOT)
+EXPORT void CC PSX_DrawOTag_4F6540(PrimHeader** ppOt)
 {
     if (!sPsxEmu_EndFrameFnPtr_C1D17C || !sPsxEmu_EndFrameFnPtr_C1D17C(0))
     {
@@ -3416,7 +3418,7 @@ EXPORT void CC PSX_DrawOTag_4F6540(int** pOT)
             drawEnv_of1 = sPSX_EMU_DrawEnvState_C3D080.field_8_ofs[1];
         }
 
-        if (DrawOTagImpl(pOT, drawEnv_of0, drawEnv_of1))
+        if (DrawOTagImpl(ppOt, drawEnv_of0, drawEnv_of1))
         {
             return;
         }

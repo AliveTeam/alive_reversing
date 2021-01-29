@@ -21,9 +21,9 @@ void HoistRocksEffect::VUpdate()
     Update_45D460();
 }
 
-void HoistRocksEffect::VRender(int** pOrderingTable)
+void HoistRocksEffect::VRender(PrimHeader** ppOt)
 {
-    Render_45D7B0(pOrderingTable);
+    Render_45D7B0(ppOt);
 }
 
 void HoistRocksEffect::VScreenChanged()
@@ -209,7 +209,7 @@ void HoistRocksEffect::Update_45D460()
     }
 }
 
-void HoistRocksEffect::Render_45D7B0(int** pOrderingTable)
+void HoistRocksEffect::Render_45D7B0(PrimHeader** ppOt)
 {
     for (HoistRockParticle& particle : field_30_rocks)
     {
@@ -218,7 +218,7 @@ void HoistRocksEffect::Render_45D7B0(int** pOrderingTable)
             particle.field_10_mAnim.vRender_40B820(
                 FP_GetExponent(particle.field_4_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
                 FP_GetExponent(particle.field_8_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
-                pOrderingTable,
+                ppOt,
                 0,
                 0);
 

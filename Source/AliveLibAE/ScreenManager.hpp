@@ -77,14 +77,14 @@ public:
 
     EXPORT static int CC GetTPage_40F040(char tp, char abr, int* xpos, int* ypos);
     
-    virtual void VRender(int** pOrderingTable) override;
-    EXPORT void Render_Helper_40E9F0(int xpos, int ypos, int idx, int sprite_idx, int** ot);
+    virtual void VRender(PrimHeader** ppOt) override;
+    EXPORT void Render_Helper_40E9F0(int xpos, int ypos, int idx, int sprite_idx, PrimHeader** ppOt);
     EXPORT void sub_40EE50();
-    EXPORT void VRender_40E6E0(int **ot);
+    EXPORT void VRender_40E6E0(PrimHeader** ppOt);
 
     virtual void VScreenChanged() override;
 private:
-    void AddCurrentSPRT_TPage(int **ot);
+    void AddCurrentSPRT_TPage(PrimHeader** ppOt);
 
 public:
     FP_Point* field_20_pCamPos;

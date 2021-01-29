@@ -363,12 +363,12 @@ void LCDScreen::VUpdate_4341B0()
     }
 }
 
-void LCDScreen::VRender(int** ppOt)
+void LCDScreen::VRender(PrimHeader** ppOt)
 {
     VRender_434400(ppOt);
 }
 
-void LCDScreen::VRender_434400(int** ppOt)
+void LCDScreen::VRender_434400(PrimHeader** ppOt)
 {
     if (sNumCamSwappers_507668 == 0)
     {

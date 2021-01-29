@@ -19,9 +19,9 @@ public:
 
     EXPORT EffectBase* Vdtor_461750(signed int flags);
 
-    virtual void VRender(int** ppOt) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_461690(int** ppOt);
+    EXPORT void VRender_461690(PrimHeader** ppOt);
 protected:
 
     __int16 field_10_path_id;

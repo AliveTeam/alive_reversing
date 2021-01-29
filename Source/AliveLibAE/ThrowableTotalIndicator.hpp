@@ -19,14 +19,14 @@ public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
 private:
     EXPORT void dtor_431E10();
     EXPORT BaseGameObject* vdtor_431DE0(signed int flags);
     EXPORT void vScreenChanged_4323E0();
     EXPORT void vUpdate_431EA0();
-    EXPORT void vRender_432070(int** pOt);
+    EXPORT void vRender_432070(PrimHeader** ppOt);
 
 private:
     FP field_20_xpos;

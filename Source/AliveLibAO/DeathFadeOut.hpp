@@ -18,9 +18,9 @@ public:
 
     EXPORT void VUpdate_419E90();
 
-    virtual void VRender(int** ppOt) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_419ED0(int** ppOt);
+    EXPORT void VRender_419ED0(PrimHeader** ppOt);
 
     BaseGameObject* VDestructor(signed int flags) override;
 

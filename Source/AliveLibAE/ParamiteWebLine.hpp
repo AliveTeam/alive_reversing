@@ -26,7 +26,7 @@ public:
 
     virtual PSX_RECT* vGetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx) override;
 
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
 private:
     EXPORT ParamiteWebLine* vdtor_4E2460(signed int flags);
@@ -37,7 +37,7 @@ private:
 
     EXPORT PSX_RECT* vGetBoundingRect_4E2B40(PSX_RECT* pRect, int idx);
 
-    EXPORT void vRender_4E2530(int **ppOt);
+    EXPORT void vRender_4E2530(PrimHeader** ppOt);
 private:
 
     EXPORT void vScreenChanged_4E2BC0();

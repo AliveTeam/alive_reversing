@@ -165,7 +165,7 @@ void Shadow::Calculate_Position_462040(FP xpos, FP ypos, PSX_RECT* frameRect, FP
     }
 }
 
-void Shadow::Render_462410(int** ppOt)
+void Shadow::Render_462410(PrimHeader** ppOt)
 {
     if (field_14_flags.Get(Flags::eBit2_Enabled))
     {

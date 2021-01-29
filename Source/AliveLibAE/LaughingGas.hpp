@@ -42,7 +42,7 @@ public:
 
     virtual void VUpdate() override;
 
-    virtual void VRender(int** pOt) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
 private:
     EXPORT void vScreenChanged_432DE0();
@@ -51,7 +51,7 @@ private:
 
     EXPORT LaughingGas* vdtor_432670(signed int flags);
 
-    EXPORT void vRender_432D10(int** pOt);
+    EXPORT void vRender_432D10(PrimHeader** ppOt);
 
     EXPORT void DoRender_432740();
 

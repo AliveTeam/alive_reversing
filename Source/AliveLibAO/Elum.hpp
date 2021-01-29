@@ -112,14 +112,14 @@ public:
 
     EXPORT Elum* Vdtor_411710(signed int flags);
     EXPORT void VUpdate_4102A0();
-    EXPORT void VRender_410E40(int** pOrderingTable);
+    EXPORT void VRender_410E40(PrimHeader** ppOt);
     EXPORT void vScreenChange_411340();
 
     EXPORT static void Spawn_410E90(TlvItemInfoUnion tlvInfo);
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 
     EXPORT Elum* ctor_410870(int a2, anythingForTheTimeBeing a3, anythingForTheTimeBeing a4, int a5, TlvItemInfoUnion a6);

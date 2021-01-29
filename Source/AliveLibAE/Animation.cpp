@@ -411,7 +411,7 @@ inline short FP_AdjustedToInteger(FP fp, FP adjustment)
     return FP_GetExponent(fp + adjustment);
 }
 
-void Animation::vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, signed int height)
+void Animation::vRender_40B820(int xpos, int ypos, PrimHeader** ppOt, __int16 width, signed int height)
 {
     if ((field_84_vram_rect.x || field_84_vram_rect.y) && !(field_4_flags.Get(AnimFlags::eBit25_bDecompressDone)))
     {
@@ -595,7 +595,7 @@ void Animation::vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, sig
         SetPrimExtraPointerHack(pPoly, nullptr);
     }
 
-    OrderingTable_Add_4F8AA0(&pOt[field_C_render_layer], &pPoly->mBase.header);
+    OrderingTable_Add_4F8AA0(&ppOt[field_C_render_layer], &pPoly->mBase.header);
 }
 
 void Animation::vCleanUp_40C630()
@@ -1142,14 +1142,14 @@ namespace Test
 
         gPsxDisplay_5C1130.field_C_buffer_index = 0;
       
-        int ot[256] = {};
+        PrimHeader* ot[256] = {};
         Poly_FT4* pPoly = &anim.field_2C_ot_data[gPsxDisplay_5C1130.field_C_buffer_index];
 
         {
             *pPoly = {};
 
             anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
-            anim.vRender_40B820(20, 30, (int**)&ot, 0, 0);
+            anim.vRender_40B820(20, 30, ot, 0, 0);
 
             ASSERT_EQ(X0(pPoly), 37);
             ASSERT_EQ(Y0(pPoly), 37);
@@ -1181,7 +1181,7 @@ namespace Test
         {
             *pPoly = {};
             anim.field_4_flags.Set(eBit5_FlipX);
-            anim.vRender_40B820(20, 30, (int**)&ot, 0, 0);
+            anim.vRender_40B820(20, 30, ot, 0, 0);
 
             ASSERT_EQ(X0(pPoly), 11);
             ASSERT_EQ(Y0(pPoly), 37);
@@ -1214,7 +1214,7 @@ namespace Test
             anim.field_4_flags.Set(eBit5_FlipX);
             anim.field_4_flags.Set(eBit13_Is8Bit);
 
-            anim.vRender_40B820(20, 30, (int**)&ot, 0, 0);
+            anim.vRender_40B820(20, 30, ot, 0, 0);
 
             ASSERT_EQ(X0(pPoly), 11);
             ASSERT_EQ(Y0(pPoly), 37);

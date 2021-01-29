@@ -162,7 +162,7 @@ public:
 
     virtual void VUpdate() override;
 
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
 
@@ -242,7 +242,7 @@ private:
 
     EXPORT void SpeakRandomish_4405D0();
 
-    EXPORT void vRender_4406C0(int** ot);
+    EXPORT void vRender_4406C0(PrimHeader** ot);
 
     EXPORT __int16 DoMovement_444190();
 

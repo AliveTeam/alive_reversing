@@ -268,13 +268,13 @@ BaseGameObject* Gibs::Vdtor_4083D0(unsigned int flags)
 }
 
 
-void Gibs::VRender(int** pOrderingTable)
+void Gibs::VRender(PrimHeader** ppOt)
 {
-    VRender_408200(pOrderingTable);
+    VRender_408200(ppOt);
 }
 
 
-void Gibs::VRender_408200(int** ppOt)
+void Gibs::VRender_408200(PrimHeader** ppOt)
 {
     if (sNumCamSwappers_507668 != 0)
     {

@@ -114,7 +114,7 @@ void CC Poly_Set_SemiTrans_4F8A60(PrimHeader* pPrim, int bSemiTrans)
     }
 }
 
-void CC OrderingTable_Add_4F8AA0(int** ppOt, PrimHeader* pItem)
+void CC OrderingTable_Add_4F8AA0(PrimHeader** ppOt, PrimHeader* pItem)
 {
     // Debugging code, rendering type 2 will currently crash.
     // I can't see where in the code type 2 is ever used but somehow it must be
@@ -125,10 +125,10 @@ void CC OrderingTable_Add_4F8AA0(int** ppOt, PrimHeader* pItem)
     }
 
     // Get current OT ptr
-    int* pOt = *ppOt;
+    PrimHeader* pOt = *ppOt;
 
     // OT points to the new item
-    *ppOt = reinterpret_cast<int*>(pItem);
+    *ppOt = pItem;
 
     // Item points back to whatever used to be in the OT, either a pointer to the next OT element
     // or the previously added prim.

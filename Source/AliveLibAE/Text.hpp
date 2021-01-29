@@ -16,14 +16,14 @@ class Text : public BaseGameObject
 public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 
     EXPORT Text* ctor_46ADA0(const char* pMessage, int renderCount, int bShadow);
     EXPORT BaseGameObject* vdtor_46AED0(signed int flags);
     EXPORT void dtor_46AF00();
     EXPORT void SetYPos_46AFB0(int /*not_used*/, __int16 ypos);
-    EXPORT void Render_46AFD0(int** pOt);
+    EXPORT void Render_46AFD0(PrimHeader** ppOt);
 private:
     Alive::Font field_20_font;
     __int16 field_58_k0_unused;

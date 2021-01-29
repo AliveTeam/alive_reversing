@@ -204,7 +204,7 @@ void SnoozeParticle::VUpdate_464500()
 }
 
 
-void SnoozeParticle::VRender(int** ppOt)
+void SnoozeParticle::VRender(PrimHeader** ppOt)
 {
     VRender_464620(ppOt);
 }
@@ -231,7 +231,7 @@ const __int16 zVerts[8] =
     4
 };
 
-void SnoozeParticle::VRender_464620(int** ppOt)
+void SnoozeParticle::VRender_464620(PrimHeader** ppOt)
 {
     //Identical to AE except xInScreen, yInScreen are offset by pScreenManager_4FF7C8 positions
     PSX_RECT rectToInvalidate = {};

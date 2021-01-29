@@ -76,12 +76,12 @@ public:
         // Empty
     }
 
-    virtual void VRender(int** ppOt) override
+    virtual void VRender(PrimHeader** ppOt) override
     {
         VRender_432210(ppOt);
     }
 
-    EXPORT void VRender_432210(int** ppOt)
+    EXPORT void VRender_432210(PrimHeader** ppOt)
     {
         if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
         {
@@ -282,12 +282,12 @@ public:
         }
     }
 
-    virtual void VRender(int** pOrderingTable) override
+    virtual void VRender(PrimHeader** ppOt) override
     {
-        VRender_432640(pOrderingTable);
+        VRender_432640(ppOt);
     }
 
-    EXPORT void VRender_432640(int** ppOt)
+    EXPORT void VRender_432640(PrimHeader** ppOt)
     {
         if (sNumCamSwappers_507668 == 0)
         {

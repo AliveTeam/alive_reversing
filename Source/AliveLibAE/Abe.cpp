@@ -1260,9 +1260,9 @@ void Abe::VUpdate()
     Update_449DC0();
 }
 
-void Abe::VRender(int** pOrderingTable)
+void Abe::VRender(PrimHeader** ppOt)
 {
-    vRender_44B580(pOrderingTable);
+    vRender_44B580(ppOt);
 }
 
 void Abe::VScreenChanged()
@@ -1834,7 +1834,7 @@ void Abe::ToKnockback_44E700(__int16 bKnockbackSound, __int16 bDelayedAnger)
     }
 }
 
-void Abe::vRender_44B580(int** pOrderingTable)
+void Abe::vRender_44B580(PrimHeader** ppOt)
 {
     // When in death shrivel don't reset scale else can't shrivel into a black blob
     if (!(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_shrivel)))
@@ -1844,7 +1844,7 @@ void Abe::vRender_44B580(int** pOrderingTable)
 
     if (field_106_current_motion != eAbeStates::State_79_InsideWellLocal_45CA60 && field_106_current_motion != eAbeStates::State_82_InsideWellExpress_45CC80 && field_106_current_motion != eAbeStates::State_76_ToInsideOfAWellLocal_45CA40)
     {
-        Render_424B90(pOrderingTable);
+        Render_424B90(ppOt);
     }
 }
 

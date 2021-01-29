@@ -17,9 +17,9 @@ void Blood::VUpdate()
     vUpdate_40F650();
 }
 
-void Blood::VRender(int** pOrderingTable)
+void Blood::VRender(PrimHeader** ppOt)
 {
-    vRender_40F780(pOrderingTable);
+    vRender_40F780(ppOt);
 }
 
 void Blood::VScreenChanged()
@@ -209,7 +209,7 @@ void Blood::vUpdate_40F650()
     field_128_timer++;
 }
 
-void Blood::vRender_40F780(int** pOt)
+void Blood::vRender_40F780(PrimHeader** ppOt)
 {
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
         field_C2_lvl_number,
@@ -256,7 +256,7 @@ void Blood::vRender_40F780(int** pOt)
             }
 
             OrderingTable_Add_4F8AA0(
-                &pOt[field_12C_render_layer],
+                &ppOt[field_12C_render_layer],
                 &pSprt->mBase.header);
 
             xy.field_0_x = std::min(x0, xy.field_0_x);
@@ -274,7 +274,7 @@ void Blood::vRender_40F780(int** pOt)
 
         Prim_SetTPage* pTPage = &field_FC_tPages[gPsxDisplay_5C1130.field_C_buffer_index];
         Init_SetTPage_4F5B60(pTPage, 0, 0, static_cast<short>(tpage));
-        OrderingTable_Add_4F8AA0(&pOt[field_12C_render_layer], &pTPage->mBase);
+        OrderingTable_Add_4F8AA0(&ppOt[field_12C_render_layer], &pTPage->mBase);
 
         pScreenManager_5BB5F4->InvalidateRect_40EC90(
             (xy.field_0_x - 12),

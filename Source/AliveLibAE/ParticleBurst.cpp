@@ -187,9 +187,9 @@ void ParticleBurst::VUpdate()
     vUpdate_41D590();
 }
 
-void ParticleBurst::VRender(int** pOrderingTable)
+void ParticleBurst::VRender(PrimHeader** ppOt)
 {
-    vRender_41D7B0(pOrderingTable);
+    vRender_41D7B0(ppOt);
 }
 
 FP* ParticleBurst::Random_Speed_41CEE0(FP* random)
@@ -219,7 +219,7 @@ void ParticleBurst::dtor_41D510()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-void ParticleBurst::vRender_41D7B0(int** pOt)
+void ParticleBurst::vRender_41D7B0(PrimHeader** ppOt)
 {
     bool bFirst = true;
     if (sNum_CamSwappers_5C1B66 == 0)
@@ -264,7 +264,7 @@ void ParticleBurst::vRender_41D7B0(int** pOt)
                     field_20_animation.vRender_40B820(
                         FP_GetExponent(field_F8_pRes[i].field_0_x - camX),
                         FP_GetExponent(field_F8_pRes[i].field_4_y - camY),
-                        pOt,
+                        ppOt,
                         0,
                         0);
                     
@@ -320,7 +320,7 @@ void ParticleBurst::vRender_41D7B0(int** pOt)
                     field_F8_pRes[i].field_18_anim.vRender_40B820(
                         FP_GetExponent(field_F8_pRes[i].field_0_x - camX),
                         FP_GetExponent(field_F8_pRes[i].field_4_y - camY),
-                        pOt,
+                        ppOt,
                         0,
                         0);
                     

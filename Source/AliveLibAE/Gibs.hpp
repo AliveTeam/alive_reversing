@@ -48,12 +48,12 @@ public:
     EXPORT Gibs* ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 bMakeSmaller);
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 private:
     EXPORT void dtor_410170();
     EXPORT Gibs* vdtor_410100(signed int flags);
     EXPORT void vUpdate_410210();
-    EXPORT void vRender_4103A0(int** ot);
+    EXPORT void vRender_4103A0(PrimHeader** ppOt);
 private:
     void* field_F4_not_used; // Used to be gib data, only used in ctor and replaced with AnimRecords
     FP field_F8_z;

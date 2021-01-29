@@ -49,9 +49,9 @@ public:
         vUpdate_422A70();
     }
 
-    virtual void VRender(int** pOrderingTable) override
+    virtual void VRender(PrimHeader** ppOt) override
     {
-        vRender_422B30(pOrderingTable);
+        vRender_422B30(ppOt);
     }
 
     virtual void VScreenChanged() override
@@ -108,7 +108,7 @@ private:
         return this;
     }
 
-    EXPORT void vRender_422B30(int** /*pOt*/)
+    EXPORT void vRender_422B30(PrimHeader** /*ppOt*/)
     {
         if (!field_CE_bDone)
         {

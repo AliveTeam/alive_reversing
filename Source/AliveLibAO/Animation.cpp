@@ -507,12 +507,12 @@ void Animation::VDecode_403550()
     }
 }
 
-void Animation::vRender(int xpos, int ypos, int** pOt, __int16 width, __int16 height)
+void Animation::vRender(int xpos, int ypos, PrimHeader** ppOt, __int16 width, __int16 height)
 {
-    VRender_403AE0(xpos, ypos, pOt, width, height);
+    VRender_403AE0(xpos, ypos, ppOt, width, height);
 }
 
-void Animation::VRender_403AE0(int xpos, int ypos, int** ppOt, __int16 width, __int16 height)
+void Animation::VRender_403AE0(int xpos, int ypos, PrimHeader** ppOt, __int16 width, __int16 height)
 {
     if (field_4_flags.Get(AnimFlags::eBit3_Render))
     {
@@ -1073,12 +1073,12 @@ void AnimationUnknown::vCleanUp()
     VCleanUp2_404280();
 }
 
-void AnimationUnknown::VRender2(int xpos, int ypos, int** ppOt)
+void AnimationUnknown::VRender2(int xpos, int ypos, PrimHeader** ppOt)
 {
     VRender2_403FD0(xpos, ypos, ppOt);
 }
 
-void AnimationUnknown::vRender(int /*xpos*/, int /*ypos*/, int** /*pOt*/, __int16 /*width*/, __int16 /*height*/)
+void AnimationUnknown::vRender(int /*xpos*/, int /*ypos*/, PrimHeader** /*pOt*/, __int16 /*width*/, __int16 /*height*/)
 {
     // Empty @ 402A20
 }
@@ -1093,7 +1093,7 @@ void AnimationUnknown::VCleanUp2_404280()
     field_68_anim_ptr = nullptr;
 }
 
-void AnimationUnknown::VRender2_403FD0(int xpos, int ypos, int** ppOt)
+void AnimationUnknown::VRender2_403FD0(int xpos, int ypos, PrimHeader** ppOt)
 {
     Poly_FT4* pPoly = &field_10_polys[gPsxDisplay_504C78.field_A_buffer_index];
     if (field_4_flags.Get(AnimFlags::eBit3_Render))

@@ -29,9 +29,9 @@ void Mine::VUpdate()
     Update_46B5D0();
 }
 
-void Mine::VRender(int ** pOrderingTable)
+void Mine::VRender(PrimHeader** ppOt)
 {
-    Render_46B7A0(pOrderingTable);
+    Render_46B7A0(ppOt);
 }
 
 BaseGameObject* Mine::VDestructor(signed int flags)
@@ -244,7 +244,7 @@ void Mine::Update_46B5D0()
     }
 }
 
-void Mine::Render_46B7A0(int ** pOt)
+void Mine::Render_46B7A0(PrimHeader** ppOt)
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
@@ -257,11 +257,11 @@ void Mine::Render_46B7A0(int ** pOt)
         {
             this->field_124_animation.vRender_40B820(FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
                 FP_GetExponent(FP_FromInteger(field_D8_yOffset) + field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
-                pOt,
+                ppOt,
                 0,
                 0);
 
-            Render_424B90(pOt);
+            Render_424B90(ppOt);
         }
     }
 }

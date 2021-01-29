@@ -642,7 +642,7 @@ signed int BirdPortal::vGetSaveState_499F50(BYTE* pBuffer)
     return sizeof(BirdPortal_State);
 }
 
-void BirdPortal::VRender(int** /*pOrderingTable*/)
+void BirdPortal::VRender(PrimHeader** /*ppOt*/)
 {
     // Null
 }

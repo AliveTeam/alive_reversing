@@ -25,9 +25,9 @@ public:
 
     EXPORT void VUpdate_44DFB0();
 
-    virtual void VRender(int** ppOt) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_44E6F0(int** ppOt);
+    EXPORT void VRender_44E6F0(PrimHeader** ppOt);
 
     struct PauseEntry
     {
@@ -39,7 +39,7 @@ public:
         BYTE field_A_b;
         char field_B;
     };
-    void DrawEntries(int** ppOt, PauseEntry* entries, short compilerhack, int polyOffset);
+    void DrawEntries(PrimHeader** ppOt, PauseEntry* entries, short compilerhack, int polyOffset);
 
     int field_D4[4];
     AliveFont field_E4_font;

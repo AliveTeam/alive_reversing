@@ -206,9 +206,9 @@ public:
 
     EXPORT void VUpdate_465050();
 
-    virtual void VRender(int** ppOt) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_465590(int** ppOt);
+    EXPORT void VRender_465590(PrimHeader** ppOt);
 
     virtual void VOnTrapDoorOpen() override;
 

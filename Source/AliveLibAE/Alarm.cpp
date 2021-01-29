@@ -21,9 +21,9 @@ void Alarm::VUpdate()
     vUpdate_409460();
 }
 
-void Alarm::VRender(int** pOrderingTable)
+void Alarm::VRender(PrimHeader** ppOt)
 {
-    vRender_409710(pOrderingTable);
+    vRender_409710(ppOt);
 }
 
 Alarm* Alarm::ctor_409300(Path_Alarm* pTlv, int tlvInfo)
@@ -121,11 +121,11 @@ Alarm* Alarm::vdtor_4092D0(signed int flags)
     return this;
 }
 
-void Alarm::vRender_409710(int **pOt)
+void Alarm::vRender_409710(PrimHeader** ppOt)
 {
     if (sNum_CamSwappers_5C1B66 == 0)
     {
-        EffectBase::VRender(pOt);
+        EffectBase::VRender(ppOt);
     }
 }
 

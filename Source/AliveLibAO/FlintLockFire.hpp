@@ -36,9 +36,9 @@ public:
 
     EXPORT void VUpdate_41AEE0();
 
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_41B0F0(int** ppOt);
+    EXPORT void VRender_41B0F0(PrimHeader** ppOt);
 
     int field_D4_padding[4];
     enum class States : __int16

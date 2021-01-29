@@ -21,9 +21,9 @@ public:
         vScreenChanged_4B1300();
     }
 
-    virtual void VRender(int** pOt) override
+    virtual void VRender(PrimHeader** ppOt) override
     {
-        Render_4B0AF0(pOt);
+        Render_4B0AF0(ppOt);
     }
 
     virtual void VUpdate() override
@@ -48,7 +48,7 @@ private:
 
     EXPORT void Update_4B0980();
 
-    EXPORT void Render_4B0AF0(int** pOt);
+    EXPORT void Render_4B0AF0(PrimHeader** ppOt);
 
 private:
     FP field_20_x_start;

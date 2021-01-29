@@ -174,9 +174,9 @@ public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
 
-    virtual void VRender(int** pOrderingTable) override
+    virtual void VRender(PrimHeader** ppOt) override
     {
-        vRender_4A45B0(pOrderingTable);
+        vRender_4A45B0(ppOt);
     }
 
     virtual void VPossessed_408F70() override
@@ -312,7 +312,7 @@ private:
 
     EXPORT void vScreenChanged_4A5560();
 
-    EXPORT void vRender_4A45B0(int** ot);
+    EXPORT void vRender_4A45B0(PrimHeader** ppOt);
 
     EXPORT void TryMoveOrStand_4A7570();
 

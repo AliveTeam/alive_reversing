@@ -210,12 +210,12 @@ void GasCountDown::DealDamage()
     }
 }
 
-void GasCountDown::VRender(int** ppOt)
+void GasCountDown::VRender(PrimHeader** ppOt)
 {
     VRender_40C2F0(ppOt);
 }
 
-void GasCountDown::VRender_40C2F0(int** ppOt)
+void GasCountDown::VRender_40C2F0(PrimHeader** ppOt)
 {
     char text[128] = {}; 
     sprintf(text, "%02d:%02d", field_62_time_left / 60, field_62_time_left % 60);

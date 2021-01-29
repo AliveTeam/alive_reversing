@@ -573,12 +573,12 @@ void LiftPoint::VUpdate_434D10()
     }
 }
 
-void LiftPoint::VRender(int** pOrderingTable)
+void LiftPoint::VRender(PrimHeader** ppOt)
 {
-    VRender_435780(pOrderingTable);
+    VRender_435780(ppOt);
 }
 
-void LiftPoint::VRender_435780(int** ppOt)
+void LiftPoint::VRender_435780(PrimHeader** ppOt)
 {
     PSX_Point mapCoord = {};
     gMap_507BA8.GetCurrentCamCoords_444890(&mapCoord);

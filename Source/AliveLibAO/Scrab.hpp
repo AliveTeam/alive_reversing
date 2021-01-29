@@ -84,9 +84,9 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_45BBF0(int** ppOt);
+    EXPORT void VRender_45BBF0(PrimHeader** ppOt);
 
     EXPORT Scrab* Vdtor_45C310(signed int flags);
 

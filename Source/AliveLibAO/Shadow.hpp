@@ -16,7 +16,7 @@ public:
 
     EXPORT void Calculate_Position_462040(FP xpos, FP ypos, PSX_RECT* pRect, FP scale);
 
-    EXPORT void Render_462410(int** ppOt);
+    EXPORT void Render_462410(PrimHeader** ppOt);
 
     __int16 field_0_x1;
     __int16 field_2_y1;

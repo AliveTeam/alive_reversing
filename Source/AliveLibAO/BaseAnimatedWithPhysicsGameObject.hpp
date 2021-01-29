@@ -41,7 +41,7 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
     virtual void VOnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, int startingPointIdx, TCollisionCallBack pFn);
 
@@ -90,7 +90,7 @@ private:
 
     EXPORT BaseAnimatedWithPhysicsGameObject* Vdtor_4189C0(signed int flags);
   
-    EXPORT void VRender_417DA0(int** ppOt);
+    EXPORT void VRender_417DA0(PrimHeader** ppOt);
 
     EXPORT __int16 VOnSameYLevel_418450(BaseAnimatedWithPhysicsGameObject* pOther);
 

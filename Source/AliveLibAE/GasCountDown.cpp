@@ -111,9 +111,9 @@ void GasCountDown::VScreenChanged()
     vScreenChanged_417700();
 }
 
-void GasCountDown::VRender(int** pOrderingTable)
+void GasCountDown::VRender(PrimHeader** ppOt)
 {
-    vRender_4175A0(pOrderingTable);
+    vRender_4175A0(ppOt);
 }
 
 void GasCountDown::VUpdate()
@@ -151,14 +151,14 @@ void GasCountDown::vScreenChanged_417700()
     }
 }
 
-void GasCountDown::vRender_4175A0(int **pOt)
+void GasCountDown::vRender_4175A0(PrimHeader** ppOt)
 {
     char text[128] = {}; // Bigger buffer to handle large numbers or negative numbers causing a buffer overflow/crash.
     sprintf(text, "%02d:%02d", field_74_time_left / 60, field_74_time_left % 60);
 
     const auto textWidth = field_30_font.MeasureWidth_433700(text);
     field_30_font.DrawString_4337D0(
-        pOt,
+        ppOt,
         text,
         field_6C_xpos,
         field_6E_ypos,

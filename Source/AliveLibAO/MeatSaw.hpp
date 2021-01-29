@@ -51,9 +51,9 @@ public:
 
     EXPORT void GrindUpObjects_439CD0();
 
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_439F50(int** ppOt);
+    EXPORT void VRender_439F50(PrimHeader** ppOt);
 
     int field_D4_padding[4];
     MeatSawStates field_E4_state;

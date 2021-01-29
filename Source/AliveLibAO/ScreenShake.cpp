@@ -67,7 +67,7 @@ ScreenShake* ScreenShake::Vdtor_462770(signed int flags)
 }
 
 
-void ScreenShake::VRender(int** ppOt)
+void ScreenShake::VRender(PrimHeader** ppOt)
 {
     VRender_4625E0(ppOt);
 }
@@ -93,7 +93,7 @@ const FP_Point stru_4CF850[16] =
 };
 
 
-void ScreenShake::VRender_4625E0(int** ppOt)
+void ScreenShake::VRender_4625E0(PrimHeader** ppOt)
 {
     if (field_30_shakeNumber < 14)
     {

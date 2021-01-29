@@ -138,7 +138,7 @@ void ParamiteWeb::VRender(int** ppOt)
 }
 
 //TODO @ 100% - merge with Rope::vRender()
-void ParamiteWeb::VRender_48AB10(int **pOt)
+void ParamiteWeb::VRender_48AB10(PrimHeader** ppOt)
 {
     PSX_Point camCoords = {};
     gMap_507BA8.GetCurrentCamCoords_444890(&camCoords);
@@ -177,7 +177,7 @@ void ParamiteWeb::VRender_48AB10(int **pOt)
                 maxY = 240;
             }
 
-            field_10_anim.VRender_403AE0(640, 240, pOt, 0, 0);
+            field_10_anim.VRender_403AE0(640, 240, ppOt, 0, 0);
 
             if (y_start >= minY)
             {
@@ -190,7 +190,7 @@ void ParamiteWeb::VRender_48AB10(int **pOt)
                     field_EC_pRes[idx].field_8_r = static_cast<BYTE>(r);
                     field_EC_pRes[idx].field_9_g = static_cast<BYTE>(g);
                     field_EC_pRes[idx].field_A_b = static_cast<BYTE>(b);
-                    field_EC_pRes[idx].VRender2(x_start, y_start + field_C8_yOffset, pOt);
+                    field_EC_pRes[idx].VRender2(x_start, y_start + field_C8_yOffset, ppOt);
                     PSX_RECT rect = {};
                     field_EC_pRes[idx].GetRenderedSize_404220(&rect);
                     pScreenManager_4FF7C8->InvalidateRect_406E40(rect.x, rect.y, rect.w, rect.h, pScreenManager_4FF7C8->field_2E_idx);

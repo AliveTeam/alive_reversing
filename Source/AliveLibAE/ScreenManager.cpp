@@ -541,16 +541,16 @@ int CC ScreenManager::GetTPage_40F040(char tp, char abr, int* xpos, int* ypos)
     return PSX_getTPage_4F60E0(tp, abr, clampedXPos, clampedYPos);
 }
 
-void ScreenManager::VRender(int** pOrderingTable)
+void ScreenManager::VRender(PrimHeader** ppOt)
 {
-    VRender_40E6E0(pOrderingTable);
+    VRender_40E6E0(ppOt);
 }
 
 ALIVE_VAR(1, 0x5BB5DC, SprtTPage*, pCurrent_SprtTPage_5BB5DC, nullptr);
 ALIVE_VAR(1, 0x5bb5f0, int, sCurrentYPos_5BB5F0, 0);
 ALIVE_VAR(1, 0x5bb5d8, int, sIdx_5BB5D8, 0);
 
-void ScreenManager::Render_Helper_40E9F0(int xpos, int ypos, int idx, int sprite_idx, int** ot)
+void ScreenManager::Render_Helper_40E9F0(int xpos, int ypos, int idx, int sprite_idx, PrimHeader** ppOt)
 {
     if (IsDirty_40EBC0(field_3A_idx, xpos, ypos) || IsDirty_40EBC0(field_3C_y_idx, xpos, ypos) || IsDirty_40EBC0(3, xpos, ypos))
     {
@@ -559,8 +559,8 @@ void ScreenManager::Render_Helper_40E9F0(int xpos, int ypos, int idx, int sprite
         {
             if (pCurrent_SprtTPage_5BB5DC)
             {
-                OrderingTable_Add_4F8AA0(&ot[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mSprt.mBase.header);
-                OrderingTable_Add_4F8AA0(&ot[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mTPage.mBase);
+                OrderingTable_Add_4F8AA0(&ppOt[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mSprt.mBase.header);
+                OrderingTable_Add_4F8AA0(&ppOt[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mTPage.mBase);
             }
             pSprite->mSprt.field_14_w = 32;
             pCurrent_SprtTPage_5BB5DC = pSprite;
@@ -574,8 +574,8 @@ void ScreenManager::Render_Helper_40E9F0(int xpos, int ypos, int idx, int sprite
     }
     else if (pCurrent_SprtTPage_5BB5DC)
     {
-        OrderingTable_Add_4F8AA0(&ot[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mSprt.mBase.header);
-        OrderingTable_Add_4F8AA0(&ot[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mTPage.mBase);
+        OrderingTable_Add_4F8AA0(&ppOt[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mSprt.mBase.header);
+        OrderingTable_Add_4F8AA0(&ppOt[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mTPage.mBase);
         pCurrent_SprtTPage_5BB5DC = nullptr;
         sCurrentYPos_5BB5F0 = -1;
     }
@@ -592,7 +592,7 @@ void ScreenManager::sub_40EE50()
     UnsetDirtyBits_40EDE0(field_3A_idx);
 }
 
-void ScreenManager::VRender_40E6E0(int **ot)
+void ScreenManager::VRender_40E6E0(PrimHeader** ppOt)
 {
     if (!(field_40_flags & 0x10000)) // Render enabled flag ?
     {
@@ -611,25 +611,25 @@ void ScreenManager::VRender_40E6E0(int **ot)
 
         if (IsDirty_40EBC0(7, spriteX, spriteY))
         {
-            Render_Helper_40E9F0(spriteX, spriteY, 37, i, ot);
+            Render_Helper_40E9F0(spriteX, spriteY, 37, i, ppOt);
         }
         else if (IsDirty_40EBC0(6, spriteX, spriteY))
         {
-            Render_Helper_40E9F0(spriteX, spriteY, 23, i, ot);
+            Render_Helper_40E9F0(spriteX, spriteY, 23, i, ppOt);
         }
         else if (IsDirty_40EBC0(5, spriteX, spriteY))
         {
-            Render_Helper_40E9F0(spriteX, spriteY, 18, i, ot);
+            Render_Helper_40E9F0(spriteX, spriteY, 18, i, ppOt);
         }
         else if (IsDirty_40EBC0(4, spriteX, spriteY))
         {
-            Render_Helper_40E9F0(spriteX, spriteY, 4, i, ot);
+            Render_Helper_40E9F0(spriteX, spriteY, 4, i, ppOt);
         }
         else if (IsDirty_40EBC0(field_3C_y_idx, spriteX, spriteY) || IsDirty_40EBC0(3, spriteX, spriteY))
         {
             if (spriteY != sCurrentYPos_5BB5F0 || sIdx_5BB5D8 != 1)
             {
-                AddCurrentSPRT_TPage(ot);
+                AddCurrentSPRT_TPage(ppOt);
                 pSpriteTPage->mSprt.field_14_w = 32;
                 pCurrent_SprtTPage_5BB5DC = pSpriteTPage;
                 sIdx_5BB5D8 = 1;
@@ -644,14 +644,14 @@ void ScreenManager::VRender_40E6E0(int **ot)
         {
             if (pCurrent_SprtTPage_5BB5DC)
             {
-                AddCurrentSPRT_TPage(ot);
+                AddCurrentSPRT_TPage(ppOt);
                 pCurrent_SprtTPage_5BB5DC = nullptr;
                 sCurrentYPos_5BB5F0 = -1;
             }
         }
     }
 
-    AddCurrentSPRT_TPage(ot);
+    AddCurrentSPRT_TPage(ppOt);
 
     sub_40EE50();
 
@@ -668,12 +668,12 @@ void ScreenManager::VScreenChanged()
     // NullSub@0x40F090
 }
 
-void ScreenManager::AddCurrentSPRT_TPage(int **ot)
+void ScreenManager::AddCurrentSPRT_TPage(PrimHeader** ppOt)
 {
     if (pCurrent_SprtTPage_5BB5DC)
     {
-        OrderingTable_Add_4F8AA0(&ot[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mSprt.mBase.header);
-        OrderingTable_Add_4F8AA0(&ot[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mTPage.mBase);
+        OrderingTable_Add_4F8AA0(&ppOt[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mSprt.mBase.header);
+        OrderingTable_Add_4F8AA0(&ppOt[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mTPage.mBase);
     }
 }
 
