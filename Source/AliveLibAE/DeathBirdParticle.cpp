@@ -16,7 +16,7 @@ void DeathBirdParticle::VUpdate()
     Update_43EE70();
 }
 
-DeathBirdParticle* DeathBirdParticle::ctor_43ECB0(FP xpos, FP ypos, int start, __int16 playSound, FP scale)
+DeathBirdParticle* DeathBirdParticle::ctor_43ECB0(FP xpos, FP ypos, int start, __int16 bPlaySound, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
@@ -50,8 +50,8 @@ DeathBirdParticle* DeathBirdParticle::ctor_43ECB0(FP xpos, FP ypos, int start, _
         field_BC_ypos = ypos;
         field_F4_random = Math_NextRandom();
         field_F8_start = start;
-        field_F5_state = 0;
-        field_FC_playSound = playSound;
+        field_F5_state = States::eAnimateDeathFlares_0;
+        field_FC_bPlaySound = bPlaySound;
     }
 
     return this;
@@ -61,16 +61,16 @@ void DeathBirdParticle::Update_43EE70()
 {
     switch (field_F5_state)
     {
-    case 0:
+    case States::eAnimateDeathFlares_0:
         if (static_cast<int>(sGnFrame_5C1B84) > field_F8_start)
         {
             // Death "star"
             field_20_animation.Set_Animation_Data_409C80(9912, 0);
-            field_F5_state = 1;
+            field_F5_state = States::eTransformStarsToDoves_1;
         }
         break;
 
-    case 1:
+    case States::eTransformStarsToDoves_1:
         // Has the Death "star" finished animating?
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
@@ -100,7 +100,7 @@ void DeathBirdParticle::Update_43EE70()
             pDove->field_CC_sprite_scale = field_CC_sprite_scale;
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
 
-            if (field_FC_playSound)
+            if (field_FC_bPlaySound)
             {
                 SFX_Play_46FA90(SoundEffect::AbeDove_15, 0);
             }

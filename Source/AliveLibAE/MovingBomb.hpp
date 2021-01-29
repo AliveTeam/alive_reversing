@@ -8,7 +8,7 @@ struct Path_MovingBomb : public Path_TLV
 {
     unsigned __int16 field_10_speed;
     __int16 field_12_id;
-    __int16 field_14_start_type;
+    __int16 field_14_bStart_type_triggered_by_alarm;
     __int16 field_16_scale;
     __int16 field_18_max_rise;
     __int16 field_1A_disable_resources;
@@ -48,7 +48,18 @@ private:
     EXPORT void vUpdate_4701E0();
 
 private:
-    __int16 field_118_state;
+    enum class States : __int16
+    {
+        eTriggeredByAlarm_0 = 0,
+        eTriggeredBySwitch_1 = 1,
+        eMoving_2 = 2,
+        eStopMoving_3 = 3,
+        eWaitABit_4 = 4,
+        eUnknown_5 = 5,
+        eBlowingUp_6 = 6,
+        eKillMovingBomb_7 = 7
+    };
+    States field_118_state;
     __int16 field_11A_padding;
     int field_11C_tlvInfo;
     int field_120_timer;

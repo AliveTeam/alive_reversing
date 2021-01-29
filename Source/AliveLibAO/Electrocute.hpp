@@ -40,7 +40,14 @@ public:
     __int16 field_2C_r;
     __int16 field_2E_g;
     __int16 field_30_b;
-    __int16 field_32_state;
+    enum class States : __int16
+    {
+        eSetNewColour_0 = 0,
+        eAlphaFadeout_1 = 1,
+        eHandleDamage_2 = 2,
+        eKillElectrocute_3 = 3
+    };
+    States field_32_state;
     int field_34_pad;
     PSX_RECT field_38_pal_rect;
 };

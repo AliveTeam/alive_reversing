@@ -143,7 +143,7 @@ Electrocute* Electrocute::ctor_48D3A0(BaseAliveGameObject* pTargetObj, __int16 b
 
     pTargetObj->field_C_refCount++;
     field_10_obj_target = pTargetObj;
-    field_32_state = 0;
+    field_32_state = States::eSetNewColour_0;
     field_24_extraOverwriter = bExtraOverwriter;
     field_14_overwriter_count = bExtraOverwriter ? 3 : 2;
     field_28_pPalData = nullptr;
@@ -264,9 +264,10 @@ void Electrocute::VUpdate_48D5C0()
         return;
     }
 
+    LOG_INFO("state: " << (int)field_32_state);
     switch (field_32_state)
     {
-    case 0:
+    case States::eSetNewColour_0:
         field_2C_r = field_10_obj_target->field_C0_r;
         field_2E_g = field_10_obj_target->field_C2_g;
         field_30_b = field_10_obj_target->field_C4_b;
@@ -275,10 +276,10 @@ void Electrocute::VUpdate_48D5C0()
         field_10_obj_target->field_C4_b = 255;
         field_10_obj_target->field_C2_g = 255;
 
-        field_32_state = 1;
+        field_32_state = States::eAlphaFadeout_1;
         return;
 
-    case 1:
+    case States::eAlphaFadeout_1:
         field_18_pPalOverwriters[0] = ao_new<PalleteOverwriter>();
         if (field_18_pPalOverwriters[0])
             field_18_pPalOverwriters[0]->ctor_416FF0(
@@ -308,13 +309,13 @@ void Electrocute::VUpdate_48D5C0()
                     static_cast<short>(Pal_Make_Colour_447950(0, 0, 0, 0)));
 
                 field_18_pPalOverwriters[2]->field_8_update_delay = 8;
-                field_32_state = 2;
+                field_32_state = States::eHandleDamage_2;
             }
         }
-        field_32_state = 2;
+        field_32_state = States::eHandleDamage_2;
         break;
 
-    case 2:
+    case States::eHandleDamage_2:
     {
         PalleteOverwriter* pOverwritter = field_18_pPalOverwriters[field_14_overwriter_count - 1];
         if (pOverwritter && pOverwritter->field_BE_bDone)
@@ -332,20 +333,20 @@ void Electrocute::VUpdate_48D5C0()
                 field_10_obj_target->field_C2_g = field_2E_g;
                 field_10_obj_target->field_C4_b = field_30_b;
 
-                field_32_state = 3;
+                field_32_state = States::eKillElectrocute_3;
             }
             else
             {
                 field_10_obj_target->VTakeDamage(this);
                 field_10_obj_target->field_C_refCount--;
                 field_10_obj_target = nullptr;
-                field_32_state = 3;
+                field_32_state = States::eKillElectrocute_3;
             }
         }
     }
         break;
 
-    case 3:
+    case States::eKillElectrocute_3:
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
         break;
 

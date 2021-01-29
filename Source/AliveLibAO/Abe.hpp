@@ -211,6 +211,7 @@ enum Flags_2A8
     e2A8_eBit16_AbeSpawnDir = 0x8000,
 };
 
+// elum flags?
 enum Flags_2AA
 {
     e2AA_Bit1 = 0x1,
@@ -250,7 +251,7 @@ enum class ChantStates : __int16
     ePadding_13 = 13
 };
 
-enum class DoorStates : __int16
+enum class AbeDoorStates : __int16
 {
     eAbeComesIn_0 = 0,
     eUnused_1 = 1,
@@ -274,7 +275,7 @@ union AllInternalStates
 {
     ChantStates chant;
     StoneStates stone;
-    DoorStates door;
+    AbeDoorStates door;
     __int16 raw;
 };
 

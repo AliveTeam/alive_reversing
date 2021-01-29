@@ -10,7 +10,12 @@ struct Path_MotionDetector : public Path_TLV
     __int16 field_12_device_x;
     __int16 field_14_device_y;
     __int16 field_16_speed_x256;
-    __int16 field_18_start_on;
+    enum class StartMoveDirection : __int16
+    {
+        eRight_0 = 0,
+        eLeft_1 = 1
+    };
+    StartMoveDirection field_18_start_move_direction;
     __int16 field_1A_draw_flare;
     __int16 field_1C_disable_id;
     __int16 field_1E_alarm_id;
@@ -57,12 +62,11 @@ private:
 
     enum class States : __int16
     {
-        eState_0_Go_Right = 0,
-        eState_1_Wait_Then_Go_Left = 1,
-        eState_2_Go_Left = 2,
-        eState_3_Wait_Then_Go_Right = 3
+        eMoveRight_0 = 0,
+        eWaitThenMoveLeft_1 = 1,
+        eMoveLeft_2 = 2,
+        eWaitThenMoveRight_3 = 3
     };
-
     States field_100_state;
 
     __int16 field_102_pad;

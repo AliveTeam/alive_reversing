@@ -40,11 +40,17 @@ public:
 
     EXPORT void VRender_41B0F0(int** ppOt);
 
-    int field_D4[4];
-    __int16 field_E4_state;
+    int field_D4_padding[4];
+    enum class States : __int16
+    {
+        eDisabled_0 = 0,
+        eActivating_1 = 1,
+        eActivated_2 = 2
+    };
+    States field_E4_state;
     __int16 field_E6_switch_id;
     int field_E8_tlvInfo;
-    int field_EC_sound;
+    int field_EC_fire_sound;
     Animation field_F0_anim;
     Animation field_188_anim;
     Animation field_220_anim;

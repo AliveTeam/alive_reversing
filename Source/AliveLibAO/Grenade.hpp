@@ -5,23 +5,11 @@
 
 namespace AO {
 
-enum class GrenadeStates : short
-{
-    eState_0_FallingToBeCollected = 0,
-    eState_1_WaitToBeCollected = 1,
-    eState_2 = 2,
-    eState_3_CountingDown = 3,
-    eState_4_Falling = 4,
-    eState_5_HitGround = 5,
-    eState_6_WaitForExplodeEnd = 6,
-    eState_7_Exploded = 7
-};
-
 class Grenade : public BaseThrowable
 {
 public:
     EXPORT void AddToPlatform_41F7C0();
-    EXPORT signed __int16 BlowUp_41EDD0();
+    EXPORT signed __int16 BlowUpAfterCountdown_41EDD0();
     EXPORT signed __int16 OnCollision_BounceOff_41F650(BaseGameObject* pHit);
     EXPORT signed __int16 InTheAir_41EF10();
 
@@ -48,11 +36,22 @@ private:
     EXPORT __int16 VCanThrow_453EC0();
 
 public:
-    GrenadeStates field_110_state;
+    enum class States : short
+    {
+        eFallingToBeCollected_0 = 0,
+        eWaitToBeCollected_1 = 1,
+        eDoesNothing_2 = 2,
+        eCountingDown_3 = 3,
+        eFalling_4 = 4,
+        eHitGround_5 = 5,
+        eWaitForExplodeEnd_6 = 6,
+        eExploded_7 = 7
+    };
+    States field_110_state;
     __int16 field_112_explode_timer;
     PathLine* field_114_pCollisionLine;
     __int16 field_118;
-    __int16 field_11A;
+    __int16 field_11A_padding;
     BaseGameObject* field_11C;
     FP field_120_xpos;
     FP field_124_ypos;

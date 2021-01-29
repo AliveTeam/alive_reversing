@@ -14,7 +14,7 @@
 #include "Gibs.hpp"
 #include "Explosion.hpp"
 
-Grenade* Grenade::ctor_447F70(FP xpos, FP ypos, __int16 numGrenades, __int16 a5, __int16 a6, BaseGameObject* pOwner)
+Grenade* Grenade::ctor_447F70(FP xpos, FP ypos, __int16 numGrenades, __int16 bBlowUpOnCollision, __int16 unused, BaseGameObject* pOwner)
 {
     ctor_408240(0);
     SetVTable(this, 0x5456E0);
@@ -24,25 +24,25 @@ Grenade* Grenade::ctor_447F70(FP xpos, FP ypos, __int16 numGrenades, __int16 a5,
     Init_448110(xpos, ypos);
 
     field_118_count = numGrenades;
-    field_132 = a5;
+    field_132_bBlowUpOnCollision = bBlowUpOnCollision;
 
-    if (a5)
+    if (bBlowUpOnCollision)
     {
-        field_120_state = GrenadeStates::eState_8;
+        field_120_state = GrenadeStates::eDoesNothing_8;
         field_11A_bDead = 1;
     }
     else if (numGrenades)
     {
-        field_120_state = GrenadeStates::eState_0_FallingToBeCollected;
+        field_120_state = GrenadeStates::eFallingToBeCollected_0;
     }
     else
     {
-        field_120_state = GrenadeStates::eState_3_CountingDown;
+        field_120_state = GrenadeStates::eCountingDown_3;
         field_122_explode_timer = 90;
     }
 
     field_138_pOwner = pOwner;
-    field_130 = a6;
+    field_130_unused = unused;
 
     return this;
 }
@@ -128,9 +128,9 @@ int CC Grenade::CreateFromSaveState_449410(const BYTE* pBuffer)
     pGrenade->field_128_xpos = pState->field_34_xpos;
     pGrenade->field_12C_ypos = pState->field_38_ypos;
 
-    pGrenade->field_130 = pState->field_20_flags.Get(Grenade_SaveState::eBit5);
+    pGrenade->field_130_unused = pState->field_20_flags.Get(Grenade_SaveState::eBit5_unused);
     pGrenade->field_134_bExplodeNow = pState->field_20_flags.Get(Grenade_SaveState::eBit6_bExplodeNow);
-    pGrenade->field_132 = pState->field_20_flags.Get(Grenade_SaveState::eBit7);
+    pGrenade->field_132_bBlowUpOnCollision = pState->field_20_flags.Get(Grenade_SaveState::eBit7);
 
     pGrenade->field_122_explode_timer = pState->field_30_explode_timer;
 
@@ -173,9 +173,9 @@ int Grenade::GetSaveState_4496B0(Grenade_SaveState* pState)
     pState->field_34_xpos = field_128_xpos;
     pState->field_38_ypos = field_12C_ypos;
 
-    pState->field_20_flags.Set(Grenade_SaveState::eBit5, field_130 & 1);
+    pState->field_20_flags.Set(Grenade_SaveState::eBit5_unused, field_130_unused & 1);
     pState->field_20_flags.Set(Grenade_SaveState::eBit6_bExplodeNow, field_134_bExplodeNow & 1);
-    pState->field_20_flags.Set(Grenade_SaveState::eBit7, field_132 & 1);
+    pState->field_20_flags.Set(Grenade_SaveState::eBit7, field_132_bBlowUpOnCollision & 1);
 
     pState->field_30_explode_timer = field_122_explode_timer;
 
@@ -230,13 +230,13 @@ void Grenade::vOnTrapDoorOpen_449390()
     {
         pPlatform->VRemove(this);
         field_110_id = -1;
-        if (field_120_state == GrenadeStates::eState_1_WaitToBeCollected || field_120_state == GrenadeStates::eState_2)
+        if (field_120_state == GrenadeStates::eWaitToBeCollected_1 || field_120_state == GrenadeStates::eDoesNothing_2)
         {
-            field_120_state = GrenadeStates::eState_0_FallingToBeCollected;
+            field_120_state = GrenadeStates::eFallingToBeCollected_0;
         }
-        else if (field_120_state != GrenadeStates::eState_6_WaitForExplodeEnd)
+        else if (field_120_state != GrenadeStates::eWaitForExplodeEnd_6)
         {
-            field_120_state = GrenadeStates::eState_4_Falling;
+            field_120_state = GrenadeStates::eFalling_4;
         }
     }
 }
@@ -248,16 +248,16 @@ void Grenade::vThrow_4482E0(FP velX, FP velY)
     field_C4_velx = velX;
     field_C8_vely = velY;
 
-    if (field_132 == 0)
+    if (field_132_bBlowUpOnCollision == 0)
     {
         if (field_118_count == 0)
         {
-            field_120_state = GrenadeStates::eState_4_Falling;
+            field_120_state = GrenadeStates::eFalling_4;
         }
     }
     else
     {
-        field_120_state = GrenadeStates::eState_9_FallingBlowUpOnGround;
+        field_120_state = GrenadeStates::eFallingBlowUpOnGround_9;
     }
 }
 
@@ -291,7 +291,7 @@ void Grenade::BlowUp_4483C0(__int16 bSmallExplosion)
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
 
-    field_120_state = GrenadeStates::eState_6_WaitForExplodeEnd;
+    field_120_state = GrenadeStates::eWaitForExplodeEnd_6;
 
     auto pGibs = ae_new<Gibs>();
     if (pGibs)
@@ -376,7 +376,7 @@ void Grenade::vUpdate_4489C0()
 
     switch (field_120_state)
     {
-    case GrenadeStates::eState_0_FallingToBeCollected:
+    case GrenadeStates::eFallingToBeCollected_0:
         if (!InTheAir_4484F0(FALSE))
         {
             field_E4_collection_rect.x = field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
@@ -385,11 +385,11 @@ void Grenade::vUpdate_4489C0()
             field_E4_collection_rect.h = field_BC_ypos;
 
             field_6_flags.Set(BaseGameObject::eInteractive_Bit8);
-            field_120_state = GrenadeStates::eState_1_WaitToBeCollected;
+            field_120_state = GrenadeStates::eWaitToBeCollected_1;
         }
         break;
 
-    case GrenadeStates::eState_1_WaitToBeCollected:
+    case GrenadeStates::eWaitToBeCollected_1:
         if (FP_Abs(field_C4_velx) >= FP_FromInteger(1))
         {
             if (field_C4_velx <= FP_FromInteger(0))
@@ -411,7 +411,7 @@ void Grenade::vUpdate_4489C0()
             if (!field_100_pCollisionLine)
             {
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
-                field_120_state = GrenadeStates::eState_0_FallingToBeCollected;
+                field_120_state = GrenadeStates::eFallingToBeCollected_0;
             }
         }
         else if (abs(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)) - FP_GetExponent(field_B8_xpos)) > 1)
@@ -426,7 +426,7 @@ void Grenade::vUpdate_4489C0()
             if (!field_100_pCollisionLine)
             {
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
-                field_120_state = GrenadeStates::eState_4_Falling;
+                field_120_state = GrenadeStates::eFalling_4;
             }
         }
         else
@@ -439,18 +439,18 @@ void Grenade::vUpdate_4489C0()
             field_E4_collection_rect.h = field_BC_ypos;
 
             field_6_flags.Set(BaseGameObject::eInteractive_Bit8);
-            field_120_state = GrenadeStates::eState_2;
+            field_120_state = GrenadeStates::eDoesNothing_2;
         }
         break;
 
-    case GrenadeStates::eState_2:
+    case GrenadeStates::eDoesNothing_2:
         break;
 
-    case GrenadeStates::eState_3_CountingDown:
+    case GrenadeStates::eCountingDown_3:
         TimeToBlowUp_448350();
         break;
 
-    case GrenadeStates::eState_4_Falling:
+    case GrenadeStates::eFalling_4:
         if (InTheAir_4484F0(FALSE))
         {
             if (!TimeToBlowUp_448350())
@@ -465,39 +465,39 @@ void Grenade::vUpdate_4489C0()
         }
         else
         {
-            field_120_state = GrenadeStates::eState_5_HitGround;
+            field_120_state = GrenadeStates::eHitGround_5;
         }
         break;
 
-    case GrenadeStates::eState_5_HitGround:
+    case GrenadeStates::eHitGround_5:
         field_C4_velx = FP_FromRaw(field_C4_velx.fpValue / 2);
 
         field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
         if (!field_100_pCollisionLine)
         {
             field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
-            field_120_state = GrenadeStates::eState_4_Falling;
+            field_120_state = GrenadeStates::eFalling_4;
         }
 
         TimeToBlowUp_448350();
         break;
 
-    case GrenadeStates::eState_6_WaitForExplodeEnd:
+    case GrenadeStates::eWaitForExplodeEnd_6:
         if (!pExplosion || pExplosion->field_6_flags.Get(BaseGameObject::eDead_Bit3))
         {
-            field_120_state = GrenadeStates::eState_7_Exploded;
+            field_120_state = GrenadeStates::eExploded_7;
             field_11C_explosion_id = -1;
         }
         break;
 
-    case GrenadeStates::eState_7_Exploded:
+    case GrenadeStates::eExploded_7:
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
         break;
 
-    case GrenadeStates::eState_8:
+    case GrenadeStates::eDoesNothing_8:
         break;
 
-    case GrenadeStates::eState_9_FallingBlowUpOnGround:
+    case GrenadeStates::eFallingBlowUpOnGround_9:
     {
         InTheAir_4484F0(TRUE);
 

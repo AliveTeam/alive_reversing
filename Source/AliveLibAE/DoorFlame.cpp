@@ -396,12 +396,12 @@ DoorFlame* DoorFlame::ctor_45E460(Path_DoorFlame* pTlv, int tlvInfo)
     if (SwitchStates_Get_466020(field_F8_switch_id))
     {
         field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
-        field_FC_state = State::State_1_On;
+        field_FC_state = States::eEnabled_1;
     }
     else
     {
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
-        field_FC_state = State::State_0_Off;
+        field_FC_state = States::eDisabled_0;
     }
     
     field_FE_2_random = Math_NextRandom() % 2;
@@ -486,8 +486,9 @@ void DoorFlame::vUpdate_45E830()
     auto pFireBackgroundGlow = static_cast<FireBackgroundGlow*>(sObjectIds_5C1B70.Find_449CF0(field_108_fire_background_glow_id));
     auto pFlameSparks = static_cast<FlameSparks*>(sObjectIds_5C1B70.Find_449CF0(field_10C_flame_sparks_id));
 
-    if (field_FC_state == State::State_0_Off)
+    switch (field_FC_state)
     {
+    case States::eDisabled_0:
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
 
         if (pFlameSparks)
@@ -497,7 +498,7 @@ void DoorFlame::vUpdate_45E830()
 
         if (SwitchStates_Get_466020(field_F8_switch_id))
         {
-            field_FC_state = State::State_1_On;
+            field_FC_state = States::eEnabled_1;
         }
 
         if (pFireBackgroundGlow)
@@ -506,9 +507,9 @@ void DoorFlame::vUpdate_45E830()
             pFireBackgroundGlow = nullptr;
             field_108_fire_background_glow_id = -1;
         }
-    }
-    else if (field_FC_state == State::State_1_On)
-    {
+        break;
+
+    case States::eEnabled_1:
         if (!pFlameControllingTheSound_5C2C6C)
         {
             pFlameControllingTheSound_5C2C6C = this;
@@ -533,7 +534,7 @@ void DoorFlame::vUpdate_45E830()
 
         if (!SwitchStates_Get_466020(field_F8_switch_id))
         {
-            field_FC_state = State::State_0_Off;
+            field_FC_state = States::eDisabled_0;
         }
 
         if (!pFireBackgroundGlow)
@@ -548,6 +549,10 @@ void DoorFlame::vUpdate_45E830()
                 field_108_fire_background_glow_id = pFireBackgroundGlow->field_8_object_id;
             }
         }
+        break;
+
+    default:
+        break;
     }
 
     if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(

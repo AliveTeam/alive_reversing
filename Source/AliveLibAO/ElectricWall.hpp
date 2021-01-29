@@ -35,7 +35,7 @@ public:
 
     EXPORT void VUpdate_40FEF0();
 
-    int field_D4[4];
+    int field_D4_padding[4];
     int field_E4_tlv;
     __int16 field_E8_switch_id;
     __int16 field_EA_start_state;

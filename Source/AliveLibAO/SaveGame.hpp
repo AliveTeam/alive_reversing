@@ -63,13 +63,13 @@ struct SaveData
     short field_270_elum_line_type;
     short field_272_elum_flipX;
     short field_274_elum_current_motion;
-    WORD field_276_elum_122;
+    WORD field_276_bDontFollowAbe;
     WORD field_278_brain_idx;
     WORD field_27A_elum_brain_state;
     DWORD field_27C_honey_xpos;
     WORD field_280_honey_ypos;
     short field_282_pad;
-    DWORD field_284_elum_field_130;
+    DWORD field_284_unused;
     char field_288_elum_StrugglingWithBees;
     char field_289_elum_StungByBees;
     char field_28A_elum_Falling;

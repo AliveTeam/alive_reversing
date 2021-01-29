@@ -66,10 +66,10 @@ void FlintLockFire::VScreenChanged()
 
 void FlintLockFire::VStopAudio_41B0C0()
 {
-    if (field_EC_sound)
+    if (field_EC_fire_sound)
     {
-        SND_Stop_Channels_Mask_4774A0(field_EC_sound);
-        field_EC_sound = 0;
+        SND_Stop_Channels_Mask_4774A0(field_EC_fire_sound);
+        field_EC_fire_sound = 0;
     }
 }
 
@@ -104,9 +104,9 @@ BaseGameObject* FlintLockFire::dtor_41AE20()
     {
         field_188_anim.vCleanUp();
         field_220_anim.vCleanUp();
-        if (field_EC_sound)
+        if (field_EC_fire_sound)
         {
-            SND_Stop_Channels_Mask_4774A0(field_EC_sound);
+            SND_Stop_Channels_Mask_4774A0(field_EC_fire_sound);
         }
     }
     return dtor_417D10();
@@ -183,8 +183,8 @@ FlintLockFire* FlintLockFire::ctor_41AA90(Path_FlintLockFire* pTlv, int tlvInfo)
         field_220_anim.SetFrame_402AC0(3u);
     }
 
-    field_E4_state = 0;
-    field_EC_sound = 0;
+    field_E4_state = States::eDisabled_0;
+    field_EC_fire_sound = 0;
     field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
     field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
     field_E8_tlvInfo = tlvInfo;
@@ -215,7 +215,7 @@ FlintLockFire* FlintLockFire::ctor_41AA90(Path_FlintLockFire* pTlv, int tlvInfo)
 
     if (SwitchStates_Get(pTlv->field_1A_id))
     {
-        field_E4_state = 2;
+        field_E4_state = States::eActivated_2;
         field_10_anim.Set_Animation_Data_402A40(sFlintLockFireData_4BAC70[cur_lvl].field_18_fireFrameTable, nullptr);
         field_10_anim.SetFrame_402AC0(field_10_anim.Get_Frame_Count_403540() - 1);
         field_10_anim.vDecode();
@@ -230,7 +230,7 @@ FlintLockFire* FlintLockFire::ctor_41AA90(Path_FlintLockFire* pTlv, int tlvInfo)
             field_220_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
             field_220_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
 
-            field_EC_sound = SFX_Play_43AD70(SoundEffect::Fire_69, 0, 0);
+            field_EC_fire_sound = SFX_Play_43AD70(SoundEffect::Fire_69, 0, 0);
         }
     }
     return this;
@@ -247,17 +247,17 @@ void FlintLockFire::VUpdate_41AEE0()
 
     switch (field_E4_state)
     {
-    case 0:
+    case States::eDisabled_0:
         if (SwitchStates_Get(field_E6_switch_id))
         {
-            field_E4_state = 1;
+            field_E4_state = States::eActivating_1;
             field_10_anim.Set_Animation_Data_402A40(
                 sFlintLockFireData_4BAC70[cur_lvl].field_18_fireFrameTable,
                 0);
         }
         break;
 
-    case 1:
+    case States::eActivating_1:
         if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
         {
             if (field_10_anim.field_92_current_frame == 6)
@@ -269,7 +269,7 @@ void FlintLockFire::VUpdate_41AEE0()
 
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
         {
-            field_E4_state = 2;
+            field_E4_state = States::eActivated_2;
 
             field_F0_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
             if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
@@ -280,7 +280,7 @@ void FlintLockFire::VUpdate_41AEE0()
                 field_220_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
                 field_220_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
 
-                field_EC_sound = SFX_Play_43AD70(SoundEffect::Fire_69, 0, 0);
+                field_EC_fire_sound = SFX_Play_43AD70(SoundEffect::Fire_69, 0, 0);
             }
 
             auto pMusicTrigger = ao_new<MusicTrigger>();
@@ -291,12 +291,12 @@ void FlintLockFire::VUpdate_41AEE0()
         }
         break;
 
-    case 2:
+    case States::eActivated_2:
         if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
         {
-            if (!field_EC_sound)
+            if (!field_EC_fire_sound)
             {
-                field_EC_sound = SFX_Play_43AD70(SoundEffect::Fire_69, 0, 0);
+                field_EC_fire_sound = SFX_Play_43AD70(SoundEffect::Fire_69, 0, 0);
             }
         }
         break;

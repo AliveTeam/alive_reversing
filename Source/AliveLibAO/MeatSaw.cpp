@@ -108,7 +108,6 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, int tlvInfo)
 
     field_EA_speed1 = pTlv->field_24_speed;
     field_E8_speed2 = pTlv->field_24_speed;
-
     if (pTlv->field_26_start_state == 0)
     {
         field_F0_switch_value = SwitchStates_Get(pTlv->field_20_id) == 0;
