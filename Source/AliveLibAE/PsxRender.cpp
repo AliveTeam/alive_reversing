@@ -3298,10 +3298,10 @@ static bool DrawOTagImpl(PrimHeader** ppOt, __int16 drawEnv_of0, __int16 drawEnv
     int** pLastOtItem = sOt_Stack_BD0D88[otIdx].field_4;
     PrimHeader** ppOtEnd = sOt_Stack_BD0D88[otIdx].field_8_pOt_End;
     */
-    PrimHeader** ppOtItem = ppOt;
+    PrimHeader* ppOtItem = ppOt[0];
     while (ppOtItem)
     {
-        if (ppOtItem == reinterpret_cast<PrimHeader**>(0xFFFFFFFF))
+        if (ppOtItem == reinterpret_cast<PrimHeader*>(0xFFFFFFFF))
         {
             break;
         }
@@ -3374,7 +3374,7 @@ static bool DrawOTagImpl(PrimHeader** ppOt, __int16 drawEnv_of0, __int16 drawEnv
         }
 
         // To the next item
-        ppOtItem = reinterpret_cast<PrimHeader**>(any.mPrimHeader->tag);
+        ppOtItem = any.mPrimHeader->tag;
     }
 
     return false;
