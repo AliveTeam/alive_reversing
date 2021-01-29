@@ -70,7 +70,7 @@ Bat* Bat::ctor_4046E0(Path_Bat* pTlv, int tlvInfo)
         field_10_anim.field_C_layer = 25;
     }
 
-    field_F4_state = States::eSetTimer_0;
+    field_F4_state = BatStates::eSetTimer_0;
     field_10C = nullptr;
     field_F6_attack_duration = pTlv->field_1E_attack_duration;
 
@@ -174,21 +174,21 @@ void Bat::VUpdate_404950()
 
     switch (field_F4_state)
     {
-    case States::eSetTimer_0:
-        field_F4_state = States::eInit_1;
+    case BatStates::eSetTimer_0:
+        field_F4_state = BatStates::eInit_1;
         field_F8_timer = gnFrameCount_507670 + field_EC_ticks_before_moving;
         break;
 
-    case States::eInit_1:
+    case BatStates::eInit_1:
         if (static_cast<int>(gnFrameCount_507670) > field_F8_timer)
         {
-            field_F4_state = States::eStartMoving_2;
+            field_F4_state = BatStates::eStartMoving_2;
             field_100_velx = FP_FromInteger(0);
             field_10_anim.Set_Animation_Data_402A40(6608, nullptr);
         }
         break;
 
-    case States::eStartMoving_2:
+    case BatStates::eStartMoving_2:
         if (field_100_velx < field_E8_speed)
         {
             field_100_velx += FP_FromDouble(1.8);
@@ -205,13 +205,13 @@ void Bat::VUpdate_404950()
 
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            field_F4_state = States::eFlying_3;
+            field_F4_state = BatStates::eFlying_3;
             field_10_anim.Set_Animation_Data_402A40(6644, nullptr);
             field_F8_timer = gnFrameCount_507670 + Math_RandomRange_450F20(0, 90);
         }
         break;
 
-    case States::eFlying_3:
+    case BatStates::eFlying_3:
         if (field_100_velx < field_E8_speed)
         {
             field_100_velx += FP_FromDouble(1.8);
@@ -278,7 +278,7 @@ void Bat::VUpdate_404950()
                                 pBat->field_10C = pObjIter;
                                 pBat->field_10C->field_C_refCount++;
 
-                                pBat->field_F4_state = States::eAttackTarget_4;
+                                pBat->field_F4_state = BatStates::eAttackTarget_4;
                                 pBat->field_10_anim.Set_Animation_Data_402A40(6644, nullptr);
 
                                 pBat->field_F8_timer = 0;
@@ -294,7 +294,7 @@ void Bat::VUpdate_404950()
         }
         break;
 
-    case States::eAttackTarget_4:
+    case BatStates::eAttackTarget_4:
     {
         if (field_10C->field_6_flags.Get(BaseGameObject::eDead_Bit3) || Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
         {
@@ -324,12 +324,12 @@ void Bat::VUpdate_404950()
         {
             field_10C->field_C_refCount--;
             field_10C = nullptr;
-            field_F4_state = States::eFlyAwayAndDie_5;
+            field_F4_state = BatStates::eFlyAwayAndDie_5;
         }
     }
     break;
 
-    case States::eFlyAwayAndDie_5:
+    case BatStates::eFlyAwayAndDie_5:
     {
         FlyTo_404E50(field_A8_xpos, field_AC_ypos - FP_FromInteger(40), &xSpeed, &ySpeed);
         if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))

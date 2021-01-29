@@ -56,7 +56,7 @@ public:
     enum class State : __int16
     {
         eState_0 = 0,
-        eState_1 = 1,
+        eIdleWaitForChanting_1 = 1,
         eState_2 = 2,
         eState_3 = 3,
         eState_4 = 4,

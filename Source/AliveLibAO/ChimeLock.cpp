@@ -15,6 +15,7 @@
 #include "MusicTrigger.hpp"
 #include "Input.hpp"
 #include "Particle.hpp"
+#include "Sys_common.hpp"
 
 namespace AO {
 
@@ -43,39 +44,39 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo)
         scale = FP_FromInteger(1);
     }
 
-    field_114_bells = ao_new<Bells>();
-    if (field_114_bells)
+    field_114_left_bell = ao_new<Bells>();
+    if (field_114_left_bell)
     {
-        field_114_bells->ctor_40A650(
-            BellType::eType_0,
+        field_114_left_bell->ctor_40A650(
+            BellSize::eBig_0,
             FP_FromInteger(pTlv->field_C_sound_pos.field_0_x),
             FP_FromInteger(pTlv->field_C_sound_pos.field_2_y),
             scale);
+        field_114_left_bell->field_C_refCount++;
     }
 
-    field_118_bells = ao_new<Bells>();
-    if (field_118_bells)
+    field_118_center_bell = ao_new<Bells>();
+    if (field_118_center_bell)
     {
-        field_118_bells->ctor_40A650(
-            BellType::eType_1,
+        field_118_center_bell->ctor_40A650(
+            BellSize::eMedium_1,
             FP_FromInteger(pTlv->field_C_sound_pos.field_0_x),
             FP_FromInteger(pTlv->field_C_sound_pos.field_2_y),
             scale);
+        field_118_center_bell->field_C_refCount++;
     }
 
-    field_11C_bells = ao_new<Bells>();
-    if (field_11C_bells)
+    field_11C_right_bell = ao_new<Bells>();
+    if (field_11C_right_bell)
     {
-        field_11C_bells->ctor_40A650(
-            BellType::eType_2,
+        field_11C_right_bell->ctor_40A650(
+            BellSize::eSmall_2,
             FP_FromInteger(pTlv->field_C_sound_pos.field_0_x),
             FP_FromInteger(pTlv->field_C_sound_pos.field_2_y),
             scale);
+        field_11C_right_bell->field_C_refCount++;
     }
 
-    field_114_bells->field_C_refCount++;
-    field_118_bells->field_C_refCount++;
-    field_11C_bells->field_C_refCount++;
 
     field_124_code1 = pTlv->field_1C_code1;
 
@@ -109,7 +110,7 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo)
 
     field_13C_targetX = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
     field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
-    field_14C = FP_FromInteger(1);
+    field_14C_increase_vely_by = FP_FromInteger(1);
 
     field_130_song_matching = 0;
     if (SwitchStates_Get(pTlv->field_20_id))
@@ -127,11 +128,11 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo)
 
     field_132_solve_id = pTlv->field_1A_solve_id;
 
-    field_15C_ball_state = 0;
+    field_15C_ball_state = BallStates::eIdle_0;
     field_128_idx = 0;
-    field_164_target_bell_num[0] = 0;
-    field_164_target_bell_num[1] = 0;
-    field_110_state = 0;
+    field_164_ChimeLock_num[0] = BellPositions::eNone_0;
+    field_164_ChimeLock_num[1] = BellPositions::eNone_0;
+    field_110_state = ChimeLockStates::eIdle_0;
 
     return this;
 }
@@ -141,19 +142,19 @@ BaseGameObject* ChimeLock::dtor_40AE60()
 {
     SetVTable(this, 0x4BA3C8);
 
-    if (field_114_bells)
+    if (field_114_left_bell)
     {
-        field_114_bells->field_6_flags.Set(Options::eDead_Bit3);
+        field_114_left_bell->field_6_flags.Set(Options::eDead_Bit3);
     }
 
-    if (field_118_bells)
+    if (field_118_center_bell)
     {
-        field_118_bells->field_6_flags.Set(Options::eDead_Bit3);
+        field_118_center_bell->field_6_flags.Set(Options::eDead_Bit3);
     }
 
-    if (field_11C_bells)
+    if (field_11C_right_bell)
     {
-        field_11C_bells->field_6_flags.Set(Options::eDead_Bit3);
+        field_11C_right_bell->field_6_flags.Set(Options::eDead_Bit3);
     }
 
     gMap_507BA8.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 0);
@@ -180,25 +181,25 @@ void ChimeLock::VScreenChanged()
 
 void ChimeLock::VScreenChanged_40BCD0()
 {
-    if (field_114_bells)
+    if (field_114_left_bell)
     {
-        field_114_bells->field_6_flags.Set(Options::eDead_Bit3);
-        field_114_bells->field_C_refCount--;
-        field_114_bells = nullptr;
+        field_114_left_bell->field_6_flags.Set(Options::eDead_Bit3);
+        field_114_left_bell->field_C_refCount--;
+        field_114_left_bell = nullptr;
     }
 
-    if (field_118_bells)
+    if (field_118_center_bell)
     {
-        field_118_bells->field_6_flags.Set(Options::eDead_Bit3);
-        field_118_bells->field_C_refCount--;
-        field_118_bells = nullptr;
+        field_118_center_bell->field_6_flags.Set(Options::eDead_Bit3);
+        field_118_center_bell->field_C_refCount--;
+        field_118_center_bell = nullptr;
     }
 
-    if (field_11C_bells)
+    if (field_11C_right_bell)
     {
-        field_11C_bells->field_6_flags.Set(Options::eDead_Bit3);
-        field_11C_bells->field_C_refCount--;
-        field_11C_bells = nullptr;
+        field_11C_right_bell->field_6_flags.Set(Options::eDead_Bit3);
+        field_11C_right_bell->field_C_refCount--;
+        field_11C_right_bell = nullptr;
     }
 
     field_6_flags.Set(Options::eDead_Bit3);
@@ -217,7 +218,7 @@ void ChimeLock::VUnPosses()
 void ChimeLock::VUnPosses_40BC90()
 {
     field_10A_flags.Clear(Flags_10A::e10A_Bit2_bPossesed);
-    field_110_state = 0;
+    field_110_state = ChimeLockStates::eIdle_0;
     sActiveHero_507678->SetActiveControlledCharacter_421480();
     SFX_Play_43AE60(SoundEffect::PossessEffect_21, 70, 400, 0);
 }
@@ -273,16 +274,16 @@ void ChimeLock::SetBallTarget_40B7B0(FP ballTargetX, FP ballTargetY, __int16 tim
 
         if (bHitBell)
         {
-            field_15C_ball_state = 1;
+            field_15C_ball_state = BallStates::eMovingToBell_1;
         }
         else
         {
-            field_15C_ball_state = 2;
+            field_15C_ball_state = BallStates::eMovingBackToIdle_2;
         }
     }
     else
     {
-        field_15C_ball_state = 0;
+        field_15C_ball_state = BallStates::eIdle_0;
     }
 }
 
@@ -292,13 +293,13 @@ __int16 ChimeLock::UpdateBall_40B8A0()
 
     switch (field_15C_ball_state)
     {
-    case 0:
+    case BallStates::eIdle_0:
         field_A8_xpos = (FP_FromInteger(5) * Math_Cosine_4510A0((4 * field_15E_ball_angle) & 0xFF)) + field_13C_targetX;
         field_AC_ypos = (FP_FromInteger(3) * Math_Cosine_4510A0((3 * field_15E_ball_angle) & 0xFF)) + field_140_targetY;
         return 0;
 
-    case 1:
-    case 2:
+    case BallStates::eMovingToBell_1:
+    case BallStates::eMovingBackToIdle_2:
         field_144_ball_start_x += field_B4_velx;
         field_148_ball_start_y += field_B8_vely;
         field_A8_xpos = (FP_FromInteger(field_158_xSize) * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(field_15E_ball_angle) * field_150) & 0xFF)) + field_144_ball_start_x;
@@ -307,18 +308,21 @@ __int16 ChimeLock::UpdateBall_40B8A0()
         {
             field_15E_ball_angle = 0;
 
-            if (field_15C_ball_state == 1)
+            if (field_15C_ball_state == BallStates::eMovingToBell_1)
             {
-                field_15C_ball_state = 2;
+                field_15C_ball_state = BallStates::eMovingBackToIdle_2;
                 return 1;
             }
-            field_15C_ball_state = 0;
+            field_15C_ball_state = BallStates::eIdle_0;
         }
         return 0;
 
-    case 3:
+    case BallStates::eNeverRead_3:
     {
-        field_B8_vely += field_14C;
+        if (true)
+            ALIVE_FATAL("never expected BallStates::eNeverRead_3 to be called");
+
+        field_B8_vely += field_14C_increase_vely_by;
         field_AC_ypos += field_B8_vely;
 
         FP hitX = {};
@@ -337,7 +341,7 @@ __int16 ChimeLock::UpdateBall_40B8A0()
             {
                 field_AC_ypos = hitY - FP_FromInteger(1);
                 field_B8_vely = -(field_B8_vely * FP_FromDouble(0.4));
-                if (field_162 >= 3)
+                if (field_162_never_set >= 3)
                 {
                     return 1;
                 }
@@ -365,44 +369,45 @@ void ChimeLock::VUpdate_40AEF0()
 
     switch (field_110_state)
     {
-    case 0:
+    case ChimeLockStates::eIdle_0:
         UpdateBall_40B8A0();
         return;
 
-    case 1:
+    case ChimeLockStates::eUnused_1:
         if (UpdateBall_40B8A0())
         {
-            field_110_state = 2;
-            field_15C_ball_state = 0;
+            field_110_state = ChimeLockStates::ePossessed_2;
+            field_15C_ball_state = BallStates::eIdle_0;
         }
+        ALIVE_FATAL("never expected ChimeLockStates::eUnused_1 to be called");
         return;
 
-    case 2:
+    case ChimeLockStates::ePossessed_2:
         if (UpdateBall_40B8A0())
         {
-            const __int16 curBellNum = field_164_target_bell_num[0];
-            field_164_target_bell_num[0] = 0;
+            BellPositions Bell = field_164_ChimeLock_num[0];
+            field_164_ChimeLock_num[0] = BellPositions::eNone_0;
 
-            switch (curBellNum)
+            switch (Bell)
             {
-            case 1u:
-                field_114_bells->Ring_40AA80();
+            case BellPositions::eLeftBell_1:
+                field_114_left_bell->Ring_40AA80();
                 if ((field_138_flags >> 1) & 1)
                 {
                     SetTargetBellIfSpace(2);
                 }
                 break;
 
-            case 2u:
-                field_118_bells->Ring_40AA80();
+            case BellPositions::eCenterBell_2:
+                field_118_center_bell->Ring_40AA80();
                 if ((field_138_flags >> 1) & 1)
                 {
                     SetTargetBellIfSpace(3);
                 }
                 break;
 
-            case 3u:
-                field_11C_bells->Ring_40AA80();
+            case BellPositions::eRightBell_3:
+                field_11C_right_bell->Ring_40AA80();
                 if ((field_138_flags >> 1) & 1)
                 {
                     field_138_flags &= ~2u;
@@ -418,9 +423,9 @@ void ChimeLock::VUpdate_40AEF0()
                 Math_RandomRange_450F20(6, 9),
                 0);
 
-            if (DoNote_40BB20(curBellNum))
+            if (DoNote_40BB20(static_cast<short>(Bell)))
             {
-                field_110_state = 6;
+                field_110_state = ChimeLockStates::eNeverRead_6;
                 SwitchStates_Do_Operation_436A10(field_132_solve_id, SwitchOp::eSetTrue_0);
                 VUnPosses();
                 auto pMusic = ao_new<MusicTrigger>();
@@ -432,12 +437,12 @@ void ChimeLock::VUpdate_40AEF0()
             }
         }
 
-        if (field_15C_ball_state != 1)
+        if (field_15C_ball_state != BallStates::eMovingToBell_1)
         {
-            switch (field_164_target_bell_num[0])
+            switch (field_164_ChimeLock_num[0])
             {
-            case 1:
-                if (field_114_bells->CanSmash_40AA70())
+            case BellPositions::eLeftBell_1:
+                if (field_114_left_bell->CanSmash_40AA70())
                 {
                     SetBallTarget_40B7B0(
                         field_13C_targetX - FP_FromInteger(35),
@@ -449,8 +454,8 @@ void ChimeLock::VUpdate_40AEF0()
                 }
                 break;
 
-            case 2:
-                if (field_118_bells->CanSmash_40AA70())
+            case BellPositions::eCenterBell_2:
+                if (field_118_center_bell->CanSmash_40AA70())
                 {
                     SetBallTarget_40B7B0(
                         field_13C_targetX - FP_FromInteger(4),
@@ -462,8 +467,8 @@ void ChimeLock::VUpdate_40AEF0()
                 }
                 break;
 
-            case 3:
-                if (field_11C_bells->CanSmash_40AA70())
+            case BellPositions::eRightBell_3:
+                if (field_11C_right_bell->CanSmash_40AA70())
                 {
                     SetBallTarget_40B7B0(
                         field_13C_targetX + FP_FromInteger(37),
@@ -475,7 +480,7 @@ void ChimeLock::VUpdate_40AEF0()
                 }
                 break;
 
-            case 4:
+            case BellPositions::eUnused_4:
                 SetBallTarget_40B7B0(
                     field_13C_targetX,
                     field_140_targetY,
@@ -483,6 +488,7 @@ void ChimeLock::VUpdate_40AEF0()
                     Math_RandomRange_450F20(6, 9),
                     Math_RandomRange_450F20(6, 9),
                     1);
+                ALIVE_FATAL("never expected target bell num 4 in ChimeLockStates::ePossessed_2 to be called");
                 break;
 
             default:
@@ -499,12 +505,12 @@ void ChimeLock::VUpdate_40AEF0()
 
             if (field_138_flags & 1 && Input_IsChanting_4334C0())
             {
-                field_136 = 30;
-                field_110_state = 3;
+                field_136_unpossession_timer = 30;
+                field_110_state = ChimeLockStates::eUnPossessing_3;
                 field_134_pressed = Input().Pressed();
                 
-                field_164_target_bell_num[0] = 0;
-                field_164_target_bell_num[1] = 0;
+                field_164_ChimeLock_num[0] = BellPositions::eNone_0;
+                field_164_ChimeLock_num[1] = BellPositions::eNone_0;
 
                 SFX_Play_43AE60(SoundEffect::PossessEffect_21, 0, -600, 0);
                 return;
@@ -579,7 +585,7 @@ void ChimeLock::VUpdate_40AEF0()
         }
         return;
 
-    case 3:
+        case ChimeLockStates::eUnPossessing_3:
         if (UpdateBall_40B8A0())
         {
             SetBallTarget_40B7B0(field_13C_targetX, field_140_targetY, 36, Math_RandomRange_450F20(6, 9), Math_RandomRange_450F20(6, 9), 0);
@@ -587,15 +593,15 @@ void ChimeLock::VUpdate_40AEF0()
 
         if (!Input_IsChanting_4334C0())
         {
-            field_110_state = 2;
+            field_110_state = ChimeLockStates::ePossessed_2;
         }
         else
         {
-            field_136--;
+            field_136_unpossession_timer--;
 
-            if (field_136 == 0)
+            if (field_136_unpossession_timer == 0)
             {
-                field_110_state = 4;
+                field_110_state = ChimeLockStates::eUnPossess_4;
             }
         }
 
@@ -611,15 +617,16 @@ void ChimeLock::VUpdate_40AEF0()
             0);
         return;
 
-    case 4:
+        case ChimeLockStates::eUnPossess_4:
         VUnPosses();
         return;
 
-    case 5:
+    case ChimeLockStates::eUnused_5:
         if (UpdateBall_40B8A0())
         {
-            field_110_state = 0;
+            field_110_state = ChimeLockStates::eIdle_0;
         }
+        ALIVE_FATAL("never expected ChimeLockStates::eUnused_5 to be called");
         return;
 
     default:
@@ -630,30 +637,33 @@ void ChimeLock::VUpdate_40AEF0()
 
 void ChimeLock::SetTargetBellIfSpace(__int16 targetNum)
 {
-    int v3 = 0;
-    auto v4 = &field_164_target_bell_num[0];
-    while (*v4)
+    int magic = 0;
+    auto pChimeLock_num = &field_164_ChimeLock_num[0];
+
+    // looks like it's just doing: field_164_ChimeLock_num[0] = static_cast<BellPositions>(targetNum);
+    // everytime. the while loop looks pointless to me
+    while (*pChimeLock_num != BellPositions::eNone_0)
     {
-        ++v3;
-        ++v4;
-        if (v3 >= ALIVE_COUNTOF(field_164_target_bell_num))
+        ++magic;
+        ++pChimeLock_num;
+        if (magic >= ALIVE_COUNTOF(field_164_ChimeLock_num))
         {
             return;
         }
     }
-    field_164_target_bell_num[v3] = targetNum;
+    field_164_ChimeLock_num[magic] = static_cast<BellPositions>(targetNum);
 }
 
 void ChimeLock::VPossessed_40BC40()
 {
     field_138_flags &= ~3u;
     field_10A_flags.Set(Flags_10A::e10A_Bit2_bPossesed);
-    field_110_state = 2;
+    field_110_state = ChimeLockStates::ePossessed_2;
     field_128_idx = 0;
     field_12C_timer = gnFrameCount_507670 + 45;
-    field_15C_ball_state = 0;
-    field_164_target_bell_num[0] = 0;
-    field_164_target_bell_num[1] = 0;
+    field_15C_ball_state = BallStates::eIdle_0;
+    field_164_ChimeLock_num[0] = BellPositions::eNone_0;
+    field_164_ChimeLock_num[1] = BellPositions::eNone_0;
 }
 
 BaseGameObject* ChimeLock::VDestructor(signed int flags)

@@ -469,7 +469,7 @@ public:
     EXPORT void State_8_Speak_45B160();
     EXPORT void State_9_Speak_45B180();
     EXPORT void State_10_Fart_45B1A0();
-    EXPORT void State_11_Speak_45B0A0();
+    EXPORT void State_11_ToSpeak_45B0A0();
     void State_12_Null_4569C0();
     EXPORT void State_13_HoistBegin_452B20();
     EXPORT void State_14_HoistIdle_452440();

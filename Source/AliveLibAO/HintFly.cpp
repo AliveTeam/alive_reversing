@@ -1420,7 +1420,7 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, int tlvInfo)
         if (field_E4_ppRes)
         {
             field_E8_pRes = reinterpret_cast<HintFlyParticle*>(*field_E4_ppRes);
-            field_112_state = State::eState_1;
+            field_112_state = State::eIdleWaitForChanting_1;
             field_10C_timer = 0;
 
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit13_Is8Bit))
@@ -1685,7 +1685,7 @@ void HintFly::VUpdate_42B3D0()
 
     switch (field_112_state)
     {
-    case State::eState_1:
+    case State::eIdleWaitForChanting_1:
         UpdateParticles_42B1B0();
 
         if (Event_Get_417250(kEventAbeOhm_8))
@@ -1844,7 +1844,7 @@ void HintFly::VUpdate_42B3D0()
         {
             if (Event_Get_417250(kEventAbeOhm_8))
             {
-                field_112_state = State::eState_1;
+                field_112_state = State::eIdleWaitForChanting_1;
             }
         }
         // Fall through
@@ -1866,7 +1866,7 @@ void HintFly::VUpdate_42B3D0()
 
         if (field_118_counter == 20 && !Event_Get_417250(kEventAbeOhm_8))
         {
-            field_112_state = State::eState_1;
+            field_112_state = State::eIdleWaitForChanting_1;
         }
         return;
 
