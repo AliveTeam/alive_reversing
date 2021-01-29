@@ -17,12 +17,12 @@ struct Path_MovingBomb : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovingBomb, 0x20);
 
-struct Path_MovingBomb_Point : public Path_TLV
+struct Path_MovingBombStopper : public Path_TLV
 {
     __int16 field_10_min;
     __int16 field_12_max;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovingBomb_Point, 0x14);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovingBombStopper, 0x14);
 
 class MovingBomb : public BaseAliveGameObject
 {
@@ -55,7 +55,7 @@ private:
         eMoving_2 = 2,
         eStopMoving_3 = 3,
         eWaitABit_4 = 4,
-        eUnknown_5 = 5,
+        eToMoving_5 = 5,
         eBlowingUp_6 = 6,
         eKillMovingBomb_7 = 7
     };

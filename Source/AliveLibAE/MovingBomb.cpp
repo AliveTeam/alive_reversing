@@ -320,7 +320,6 @@ signed __int16 MovingBomb::HitObject_470830()
 
 void MovingBomb::vUpdate_4701E0()
 {
-    LOG_INFO("state: " << (int)field_118_state);
     if (Event_Get_422C00(kEventDeathReset))
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -412,13 +411,13 @@ void MovingBomb::vUpdate_4701E0()
             FP_GetExponent(field_BC_ypos),
             FP_GetExponent(field_B8_xpos),
             FP_GetExponent(field_BC_ypos),
-            TlvTypes::MovingBombPoint_53);
+            TlvTypes::MovingBombStopper_53);
 
         if (field_FC_pPathTLV)
         {
-            auto pBombPoint = static_cast<Path_MovingBomb_Point*>(field_FC_pPathTLV);
-            field_12A_min = pBombPoint->field_10_min;
-            field_12C_max = pBombPoint->field_12_max;
+            auto pStopper = static_cast<Path_MovingBombStopper*>(field_FC_pPathTLV);
+            field_12A_min = pStopper->field_10_min;
+            field_12C_max = pStopper->field_12_max;
             field_118_state = States::eStopMoving_3;
         }
         break;
@@ -437,11 +436,11 @@ void MovingBomb::vUpdate_4701E0()
     case States::eWaitABit_4:
         if (field_120_timer <= static_cast<int>(sGnFrame_5C1B84))
         {
-            field_118_state = States::eUnknown_5;
+            field_118_state = States::eToMoving_5;
         }
         break;
 
-    case States::eUnknown_5:
+    case States::eToMoving_5:
         if (field_C4_velx < field_124_speed)
         {
             field_C4_velx += (field_CC_sprite_scale * FP_FromDouble(0.5));
@@ -454,7 +453,7 @@ void MovingBomb::vUpdate_4701E0()
             FP_GetExponent(field_BC_ypos),
             FP_GetExponent(field_B8_xpos),
             FP_GetExponent(field_BC_ypos),
-            TlvTypes::MovingBombPoint_53);
+            TlvTypes::MovingBombStopper_53);
 
         if (!field_FC_pPathTLV)
         {
