@@ -154,7 +154,11 @@ public:
 
     static EXPORT void CC LoadResource_446C90(const char* pFileName, DWORD type, DWORD resourceId, __int16 loadMode, __int16 bDontLoad = FALSE);
 
+  
     static EXPORT BYTE** CC GetLoadedResource_4554F0(DWORD type, DWORD resourceId, __int16 addUseCount, __int16 bLock);
+
+    static void CheckResourceIsLoaded(DWORD type, ResourceID resourceId);
+    static void CheckResourceIsLoaded(DWORD type, std::initializer_list<ResourceID>& resourceIds);
 
     static EXPORT void CC LoadingLoop_41EAD0(__int16 bShowLoadingIcon);
 
