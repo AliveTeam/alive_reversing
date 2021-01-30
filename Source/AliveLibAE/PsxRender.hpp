@@ -11,7 +11,7 @@ namespace Test
 }
 
 EXPORT void CC PSX_DrawOTag_4F6540(PrimHeader** ppOt);
-EXPORT void CC PSX_OrderingTable_4F62C0(int** otBuffer, int otBufferSize);
+EXPORT void CC PSX_OrderingTable_SaveRecord_4F62C0(int** otBuffer, int otBufferSize);
 EXPORT void CC PSX_ClearOTag_4F6290(PrimHeader** otBuffer, int otBufferSize);
 
 EXPORT void CC PSX_TPage_Change_4F6430(__int16 tPage);

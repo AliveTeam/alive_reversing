@@ -1153,9 +1153,63 @@ EXPORT int CC PSX_ClearImage_4F5BD0(const PSX_RECT* pRect, unsigned __int8 r, un
     return 1;
 }
 
+struct OTInformation
+{
+    PrimHeader** mOt;
+    int mOtSize;
+
+    bool IsRootPointer(PrimHeader* pItem) const
+    {
+        const BYTE* ptr = reinterpret_cast<const BYTE*>(pItem);
+        const BYTE* pStart = reinterpret_cast<const BYTE*>(mOt);
+        const BYTE* pEnd = pStart + (mOtSize * sizeof(void*));
+        return ptr >= pStart && ptr <= pEnd;
+    }
+};
+static OTInformation gSavedOtInfo[32] = {};
+
+static void Push_OTInformation(PrimHeader** otBuffer, int otBufferSize)
+{
+    for (int i = 0; i < ALIVE_COUNTOF(gSavedOtInfo); i++)
+    {
+        if (gSavedOtInfo[i].mOt == otBuffer)
+        {
+            LOG_WARNING("OT record pushed more than once, update existing");
+            gSavedOtInfo[i].mOt = otBuffer;
+            gSavedOtInfo[i].mOtSize = otBufferSize;
+            return;
+        }
+    }
+
+    for (int i = 0; i < ALIVE_COUNTOF(gSavedOtInfo); i++)
+    {
+        if (gSavedOtInfo[i].mOt == nullptr)
+        {
+            gSavedOtInfo[i].mOt = otBuffer;
+            gSavedOtInfo[i].mOtSize = otBufferSize;
+            return;
+        }
+    }
+}
+
+static bool Pop_OTInformation(PrimHeader** otBuffer, OTInformation& info)
+{
+    for (int i = 0; i < ALIVE_COUNTOF(gSavedOtInfo); i++)
+    {
+        if (gSavedOtInfo[i].mOt == otBuffer)
+        {
+            info = gSavedOtInfo[i];
+            gSavedOtInfo[i] = {};
+            return true;
+        }
+    }
+    return false;
+}
+
 EXPORT void CC PSX_ClearOTag_4F6290(PrimHeader** otBuffer, int otBufferSize)
 {
-   // PSX_OrderingTable_4F62C0(otBuffer, otBufferSize);
+   // PSX_OrderingTable_SaveRecord_4F62C0(otBuffer, otBufferSize);
+    Push_OTInformation(otBuffer, otBufferSize);
 
     // Set each element to point to the next
     int i = 0;
@@ -1168,7 +1222,7 @@ EXPORT void CC PSX_ClearOTag_4F6290(PrimHeader** otBuffer, int otBufferSize)
     otBuffer[i] = reinterpret_cast<PrimHeader*>(0xFFFFFFFF);
 }
 
-EXPORT void CC PSX_OrderingTable_4F62C0(int** otBuffer, int otBufferSize)
+EXPORT void CC PSX_OrderingTable_SaveRecord_4F62C0(int** otBuffer, int otBufferSize)
 {
     int otIdx = 0;
     for (otIdx = 0; otIdx < 32; otIdx++)
@@ -3279,6 +3333,11 @@ static void DrawOTag_HandlePrimRendering(PrimAny& any, __int16 drawEnv_of0, __in
             }
         }
         break;
+
+    default:
+        LOG_ERROR("Unknown prim type " << static_cast<int>(any.mPrimHeader->rgb_code.code_or_pad));
+        ALIVE_FATAL("Unknown prim type");
+        break;
     }
 }
 
@@ -3287,6 +3346,13 @@ static bool DrawOTagImpl(PrimHeader** ppOt, __int16 drawEnv_of0, __int16 drawEnv
     sScreenXOffSet_BD30E4 = 0;
     sScreenYOffset_BD30A4 = 0;
     sActiveTPage_578318 = -1;
+
+    OTInformation otInfo = {};
+    if (!Pop_OTInformation(ppOt, otInfo))
+    {
+        ALIVE_FATAL("Failed to look up OT info record");
+    }
+
 
     /*
     int otIdx = PSX_OT_Idx_From_Ptr_4F6A40(pOT);
@@ -3298,10 +3364,10 @@ static bool DrawOTagImpl(PrimHeader** ppOt, __int16 drawEnv_of0, __int16 drawEnv
     int** pLastOtItem = sOt_Stack_BD0D88[otIdx].field_4;
     PrimHeader** ppOtEnd = sOt_Stack_BD0D88[otIdx].field_8_pOt_End;
     */
-    PrimHeader* ppOtItem = ppOt[0];
-    while (ppOtItem)
+    PrimHeader* pOtItem = ppOt[0];
+    while (pOtItem)
     {
-        if (ppOtItem == reinterpret_cast<PrimHeader*>(0xFFFFFFFF))
+        if (pOtItem == reinterpret_cast<PrimHeader*>(0xFFFFFFFF))
         {
             break;
         }
@@ -3309,9 +3375,9 @@ static bool DrawOTagImpl(PrimHeader** ppOt, __int16 drawEnv_of0, __int16 drawEnv
         SsSeqCalledTbyT_4FDC80();
 
         PrimAny any;
-        any.mVoid = ppOtItem;
+        any.mVoid = pOtItem;
 
-        //if (pOtItem < pLastOtItem || pOtItem >= pOtEnd) // Must actually be start otherwise check makes no sense ??
+        if (!otInfo.IsRootPointer(pOtItem))
         {
             int itemToDrawType = any.mPrimHeader->rgb_code.code_or_pad;
             switch (itemToDrawType)
@@ -3372,9 +3438,13 @@ static bool DrawOTagImpl(PrimHeader** ppOt, __int16 drawEnv_of0, __int16 drawEnv
                 break;
             }
         }
+        else
+        {
+            //LOG_INFO("Skip root");
+        }
 
         // To the next item
-        ppOtItem = any.mPrimHeader->tag;
+        pOtItem = any.mPrimHeader->tag; // offset 0
     }
 
     return false;
