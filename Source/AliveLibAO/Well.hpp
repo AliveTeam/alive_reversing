@@ -59,9 +59,9 @@ public:
 
     EXPORT void VUpdate_48B270();
 
-    virtual void VRender(int** ppOt) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_48B3D0(int** ppOt);
+    EXPORT void VRender_48B3D0(PrimHeader** ppOt);
 
     virtual void VScreenChanged() override;
 

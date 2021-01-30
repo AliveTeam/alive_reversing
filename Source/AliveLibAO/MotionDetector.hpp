@@ -63,9 +63,9 @@ public:
 
     EXPORT void VUpdate_437E90();
 
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_438250(int** ppOt);
+    EXPORT void VRender_438250(PrimHeader** ppOt);
 
     int field_D4_padding[4];
     int field_E4_tlvInfo;

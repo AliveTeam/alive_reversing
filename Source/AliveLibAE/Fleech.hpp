@@ -154,7 +154,7 @@ public:
 
     virtual void VUpdate() override;
 
-    virtual void VRender(int** pOt) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
     virtual void VScreenChanged() override;
 
@@ -244,9 +244,9 @@ private:
 
     EXPORT void vUpdate_42AB20();
 
-    EXPORT void vRender_42A550(int** ot);
+    EXPORT void vRender_42A550(PrimHeader** ot);
 
-    EXPORT void RenderEx_42C5A0(int** ot);
+    EXPORT void RenderEx_42C5A0(PrimHeader** ot);
 
     EXPORT void vScreenChanged_42A4C0();
 

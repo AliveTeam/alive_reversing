@@ -79,7 +79,7 @@ void Alarm::VScreenChanged_402810()
     }
 }
 
-void Alarm::VRender_4027F0(int** ppOt)
+void Alarm::VRender_4027F0(PrimHeader** ppOt)
 {
     if (!sNumCamSwappers_507668)
     {
@@ -178,7 +178,7 @@ void Alarm::VUpdate_402660()
     field_5E_r = field_68_r_value;
 }
 
-void Alarm::VRender(int** ppOt)
+void Alarm::VRender(PrimHeader** ppOt)
 {
     VRender_4027F0(ppOt);
 }

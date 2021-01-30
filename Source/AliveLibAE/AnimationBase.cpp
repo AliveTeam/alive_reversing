@@ -9,7 +9,7 @@ void AnimationBase::vDecode_40AC90()
     ALIVE_FATAL("Should never be called");
 }
 
-void AnimationBase::vRender_40B820(int /*xpos*/, int /*ypos*/, int** /*pOt*/, __int16 /*width*/, signed int /*height*/)
+void AnimationBase::vRender_40B820(int /*xpos*/, int /*ypos*/, PrimHeader** /*pOt*/, __int16 /*width*/, signed int /*height*/)
 {
     ALIVE_FATAL("Should never be called");
 //    return 0;

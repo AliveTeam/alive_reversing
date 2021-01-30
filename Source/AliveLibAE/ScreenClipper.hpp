@@ -9,10 +9,10 @@ class ScreenClipper : public BaseGameObject
 public:
     EXPORT ScreenClipper* ctor_416D60(PSX_Point xy, PSX_Point wh, __int16 layer);
     virtual BaseGameObject* VDestructor(signed int flags) override;
-    virtual void VRender(int** ot) override;
+    virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
-    void vRender_416F70(int** ot);
+    void vRender_416F70(PrimHeader** ot);
 private:
     EXPORT void dtor_416E30();
     EXPORT BaseGameObject* vdtor_416E00(signed int flags);

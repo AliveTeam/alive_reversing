@@ -45,7 +45,7 @@ void Well::VScreenChanged()
     VScreenChanged_48B450();
 }
 
-void Well::VRender_48B3D0(int** ppOt)
+void Well::VRender_48B3D0(PrimHeader** ppOt)
 {
     field_A8_xpos += FP_FromInteger(gTweak_X_5076D8);
     field_AC_ypos += FP_FromInteger(gTweak_Y_5076DC);
@@ -54,7 +54,7 @@ void Well::VRender_48B3D0(int** ppOt)
     field_AC_ypos -= FP_FromInteger(gTweak_Y_5076DC);
 }
 
-void Well::VRender(int** ppOt)
+void Well::VRender(PrimHeader** ppOt)
 {
     VRender_48B3D0(ppOt);
 }

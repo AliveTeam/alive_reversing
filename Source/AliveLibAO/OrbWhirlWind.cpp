@@ -24,7 +24,7 @@ void OrbWhirlWind::ToSpin_48BAD0(FP xpos, FP ypos, BaseAliveGameObject* pObj)
     field_14_particles_state = ParticlesState::eActive;
 }
 
-void OrbWhirlWind::VRender_48BA90(int** ppOt)
+void OrbWhirlWind::VRender_48BA90(PrimHeader** ppOt)
 {
     for (int i = 0; i < field_16_particleIdx; i++)
     {
@@ -38,7 +38,7 @@ void OrbWhirlWind::VRender_48BA90(int** ppOt)
     }
 }
 
-void OrbWhirlWind::VRender(int** ppOt)
+void OrbWhirlWind::VRender(PrimHeader** ppOt)
 {
     VRender_48BA90(ppOt);
 }

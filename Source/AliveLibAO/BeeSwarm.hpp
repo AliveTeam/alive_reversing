@@ -52,9 +52,9 @@ public:
 
     void ToFlyAwayAndDie();
 
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_480AC0(int** ppOt);
+    EXPORT void VRender_480AC0(PrimHeader** ppOt);
 
     int field_D4[4];
     BeeSwarmParticles field_E4_bees;

@@ -326,12 +326,12 @@ void Glukkon::VUpdate()
     vUpdate_43F770();
 }
 
-void Glukkon::VRender(int** pOrderingTable)
+void Glukkon::VRender(PrimHeader** ppOt)
 {
-    vRender_4406C0(pOrderingTable);
+    vRender_4406C0(ppOt);
 }
 
-void Glukkon::vRender_4406C0(int** ot)
+void Glukkon::vRender_4406C0(PrimHeader** ot)
 {
     __int16 eyeIndices[1];
     if (field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Aslik_1 ||

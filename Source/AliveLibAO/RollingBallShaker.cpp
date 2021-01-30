@@ -65,7 +65,7 @@ void RollingBallShaker::VUpdate_436260()
     }
 }
 
-void RollingBallShaker::VRender_436280(int** ppOt)
+void RollingBallShaker::VRender_436280(PrimHeader** ppOt)
 {
     Prim_ScreenOffset* pPrim = &field_10_prim_screen_offset[gPsxDisplay_504C78.field_A_buffer_index + 1];
     if (field_32_bKillMe != 0)
@@ -106,7 +106,7 @@ void RollingBallShaker::VUpdate()
     return VUpdate_436260();
 }
 
-void RollingBallShaker::VRender(int** ppOt)
+void RollingBallShaker::VRender(PrimHeader** ppOt)
 {
     VRender_436280(ppOt);
 }

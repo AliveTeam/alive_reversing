@@ -25,9 +25,9 @@ public:
 
     EXPORT void VScreenChanged_453DE0();
 
-    virtual void VRender(int** ppOt) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_453D50(int** ppOt);
+    EXPORT void VRender_453D50(PrimHeader** ppOt);
 
     EXPORT void Convert_Chunk_To_Render_Block_453BA0(const Fg1Chunk* pChunk, Fg1Block* pBlock);
 

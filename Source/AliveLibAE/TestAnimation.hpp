@@ -14,7 +14,7 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
     void DelayLoad();
 

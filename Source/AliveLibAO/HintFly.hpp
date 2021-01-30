@@ -42,9 +42,9 @@ public:
 
     EXPORT void VUpdate_42B3D0();
 
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_42BAD0(int** ppOt);
+    EXPORT void VRender_42BAD0(PrimHeader** ppOt);
 
     int field_D4[4];
     BYTE** field_E4_ppRes;

@@ -783,8 +783,8 @@ EXPORT void CC Game_Loop_467230()
             AnimationBase::AnimateAll_40AC20(gObjList_animations_5C1A24);
         }
 
-        int** pOtBuffer = gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer;
-        
+        PrimHeader** ppOtBuffer = gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer;
+
         // Render objects
         for (int i=0; i < gObjList_drawables_5C1124->Size(); i++)
         {
@@ -801,7 +801,7 @@ EXPORT void CC Game_Loop_467230()
             else if (pObj->field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
             {
                 pObj->field_6_flags.Set(BaseGameObject::eCantKill_Bit11);
-                pObj->VRender(pOtBuffer);
+                pObj->VRender(ppOtBuffer);
             }
         }
 
@@ -821,13 +821,13 @@ EXPORT void CC Game_Loop_467230()
             else if (pFG1->field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
             {
                 pFG1->field_6_flags.Set(BaseGameObject::eCantKill_Bit11);
-                pFG1->VRender(pOtBuffer);
+                pFG1->VRender(ppOtBuffer);
             }
         }
         
         DebugFont_Flush_4DD050();
         PSX_DrawSync_4F6280(0);
-        pScreenManager_5BB5F4->VRender(pOtBuffer);
+        pScreenManager_5BB5F4->VRender(ppOtBuffer);
         SYS_EventsPump_494580(); // Exit checking?
 
         gPsxDisplay_5C1130.PSX_Display_Render_OT_41DDF0();

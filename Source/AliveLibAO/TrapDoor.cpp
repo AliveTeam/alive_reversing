@@ -48,14 +48,14 @@ void TrapDoor::VUpdate()
     VUpdate_4883E0();
 }
 
-void TrapDoor::VRender_4886F0(int** ppOt)
+void TrapDoor::VRender_4886F0(PrimHeader** ppOt)
 {
     field_A8_xpos += FP_FromInteger(field_13A_xOff);
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     field_A8_xpos -= FP_FromInteger(field_13A_xOff);
 }
 
-void TrapDoor::VRender(int** ppOt)
+void TrapDoor::VRender(PrimHeader** ppOt)
 {
     VRender_4886F0(ppOt);
 }

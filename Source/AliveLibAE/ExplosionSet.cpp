@@ -51,9 +51,9 @@ void ExplosionSet::VScreenChanged()
     vScreenChanged_415190();
 }
 
-void ExplosionSet::VRender(int** pOrderingTable)
+void ExplosionSet::VRender(PrimHeader** ppOt)
 {
-    vRender_4150D0(pOrderingTable);
+    vRender_4150D0(ppOt);
 }
 
 void ExplosionSet::VUpdate()
@@ -148,7 +148,7 @@ const Point2 stru_550F38[12] =
     { 0,  0 }
 };
 
-void ExplosionSet::vRender_4150D0(int** pOt)
+void ExplosionSet::vRender_4150D0(PrimHeader** ppOt)
 {
     if (bEnabled_5C1BB6)
     {
@@ -163,7 +163,7 @@ void ExplosionSet::vRender_4150D0(int** pOt)
         }
 
         InitType_ScreenOffset_4F5BB0(pScreenOff, &point);
-        OrderingTable_Add_4F8AA0(pOt, &pScreenOff->mBase);
+        OrderingTable_Add_4F8AA0(ppOt, &pScreenOff->mBase);
 
         /* constant 1, so always false, dead code.
         if (!dword_55EF94)

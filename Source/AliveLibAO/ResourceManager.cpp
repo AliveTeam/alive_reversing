@@ -235,7 +235,7 @@ void CC Game_ShowLoadingIcon_445EB0()
 
         pParticle->field_10_anim.field_C_layer = 0;
 
-        int* local_ot[42] = {};
+        PrimHeader* local_ot[42] = {};
         PSX_DRAWENV drawEnv = {};
 
         PSX_SetDefDrawEnv_495EF0(&drawEnv, 0, 0, 640, 240);

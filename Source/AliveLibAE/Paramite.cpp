@@ -5728,11 +5728,11 @@ PathLine* Paramite::WebCollision_4888A0(FP yOff, FP xOff)
     return pLine;
 }
 
-void Paramite::vRender_488220(int** ot)
+void Paramite::vRender_488220(PrimHeader** ppOt)
 {
     if (field_1C_update_delay == 0)
     {
-        BaseAnimatedWithPhysicsGameObject::VRender(ot);
+        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
 }
 

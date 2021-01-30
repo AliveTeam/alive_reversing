@@ -6,6 +6,8 @@
 
 void AliveLibAO_ForceLink();
 
+struct PrimHeader;
+
 namespace AO {
 
 
@@ -140,7 +142,7 @@ public:
         // Empty
     }
 
-    virtual void VRender(int**)
+    virtual void VRender(PrimHeader**)
     {
         // Empty
     }

@@ -159,7 +159,7 @@ void CheatController::VUpdate()
     Update_421C70();
 }
 
-void CheatController::VRender(int ** /*pOrderingTable*/)
+void CheatController::VRender(PrimHeader** /*ppOt*/)
 {
     // NULL
 }

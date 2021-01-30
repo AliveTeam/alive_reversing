@@ -39,7 +39,7 @@ public:
 
     BaseGameObject* vdtor_408210(signed int flags);
 
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
     virtual void VUnPosses_408F90();

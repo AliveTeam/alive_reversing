@@ -24,9 +24,9 @@ void TimedMine::VUpdate()
     Update_410A80();
 }
 
-void TimedMine::VRender(int** pOrderingTable)
+void TimedMine::VRender(PrimHeader** ppOt)
 {
-    Render_410CD0(pOrderingTable);
+    Render_410CD0(ppOt);
 }
 
 BaseGameObject* TimedMine::VDestructor(signed int flags)
@@ -179,7 +179,7 @@ void TimedMine::Update_410A80()
     }
 }
 
-void TimedMine::Render_410CD0(int** pOt)
+void TimedMine::Render_410CD0(PrimHeader** ppOt)
 {
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
         field_C2_lvl_number,
@@ -191,7 +191,7 @@ void TimedMine::Render_410CD0(int** pOt)
         field_124_animation.vRender_40B820(
             FP_GetExponent((field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x)),
             FP_GetExponent((field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y - FP_NoFractional(field_CC_sprite_scale * FP_FromDouble(14)))),
-            pOt,
+            ppOt,
             0,
             0);
 
@@ -205,7 +205,7 @@ void TimedMine::Render_410CD0(int** pOt)
             frameRect.h,
             pScreenManager_5BB5F4->field_3A_idx);
 
-        Render_424B90(pOt);
+        Render_424B90(ppOt);
     }
 }
 

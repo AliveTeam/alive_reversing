@@ -10,14 +10,14 @@ class Alarm : public EffectBase
 public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
     EXPORT Alarm* ctor_409300(Path_Alarm* pTlv, int tlvInfo);
     EXPORT Alarm* ctor_4091F0(__int16 durationOffset, __int16 switchId, __int16 timerOffset, __int16 layer);
 private:
     EXPORT void dtor_409380();
     EXPORT Alarm* vdtor_4092D0(signed int flags);
-    EXPORT void vRender_409710(int **pOt);
+    EXPORT void vRender_409710(PrimHeader** ppOt);
     EXPORT void vUpdate_409460();
 private:
     __int16 field_78_r_value;

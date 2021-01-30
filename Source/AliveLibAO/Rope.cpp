@@ -142,12 +142,12 @@ void Rope::VUpdate()
     // Empty
 }
 
-void Rope::VRender(int** pOrderingTable)
+void Rope::VRender(PrimHeader** ppOt)
 {
-    VRender_458780(pOrderingTable);
+    VRender_458780(ppOt);
 }
 
-void Rope::VRender_458780(int** ppOt)
+void Rope::VRender_458780(PrimHeader** ppOt)
 {
     PSX_Point camPos = {};
     gMap_507BA8.GetCurrentCamCoords_444890(&camPos);

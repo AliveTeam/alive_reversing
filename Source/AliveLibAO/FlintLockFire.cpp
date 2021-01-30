@@ -306,12 +306,12 @@ void FlintLockFire::VUpdate_41AEE0()
     }
 }
 
-void FlintLockFire::VRender(int** pOrderingTable)
+void FlintLockFire::VRender(PrimHeader** ppOt)
 {
-    VRender_41B0F0(pOrderingTable);
+    VRender_41B0F0(ppOt);
 }
 
-void FlintLockFire::VRender_41B0F0(int** ppOt)
+void FlintLockFire::VRender_41B0F0(PrimHeader** ppOt)
 {
     if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
     {

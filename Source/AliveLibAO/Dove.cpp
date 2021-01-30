@@ -258,12 +258,12 @@ void Dove::All_FlyAway_40F390()
     }
 }
 
-void Dove::VRender(int** ppOt)
+void Dove::VRender(PrimHeader** ppOt)
 {
     VRender_40F960(ppOt);
 }
 
-void Dove::VRender_40F960(int** ppOt)
+void Dove::VRender_40F960(PrimHeader** ppOt)
 {
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 }

@@ -142,7 +142,7 @@ public:
 
     virtual void VUpdate() override;
 
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
     virtual void VPossessed_408F70() override;
 
@@ -171,7 +171,7 @@ private:
 
     EXPORT void vUpdate_419100();
 
-    EXPORT void vRender_419990(int** ot);
+    EXPORT void vRender_419990(PrimHeader** ot);
 
     EXPORT __int16 HandleEnemyStopper_41C740(FP velX);
 

@@ -32,9 +32,9 @@ public:
 
     EXPORT void VUpdate_48B990();
 
-    virtual void VRender(int** ppOt) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_48BA90(int** ppOt);
+    EXPORT void VRender_48BA90(PrimHeader** ppOt);
 
     EXPORT void ToSpin_48BAD0(FP xpos, FP ypos, BaseAliveGameObject* pObj);
 

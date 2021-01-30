@@ -251,9 +251,9 @@ BaseGameObject* LiftPoint::VDestructor(signed int flags)
     return vdtor_4619D0(flags);
 }
 
-void LiftPoint::VRender(int** pOrderingTable)
+void LiftPoint::VRender(PrimHeader** ppOt)
 {
-    vRender_462730(pOrderingTable);
+    vRender_462730(ppOt);
 }
 
 void LiftPoint::VUpdate()
@@ -441,7 +441,7 @@ EXPORT void LiftPoint::vMove_4626A0(FP xSpeed, FP ySpeed, int /*not_used*/)
     }
 }
 
-void LiftPoint::vRender_462730(int** pOt)
+void LiftPoint::vRender_462730(PrimHeader** ppOt)
 {
     // Renders the pulley, lift platform and lift platform wheel
 
@@ -478,7 +478,7 @@ void LiftPoint::vRender_462730(int** pOt)
                 field_13C_lift_wheel.vRender_40B820(
                     FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + (FP_FromInteger(3) * field_CC_sprite_scale)),
                     FP_GetExponent(field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + (FP_FromInteger(-5) * field_CC_sprite_scale)),
-                    pOt,
+                    ppOt,
                     0,
                     0);
 
@@ -520,7 +520,7 @@ void LiftPoint::vRender_462730(int** pOt)
                     field_1D4_pulley_anim.vRender_40B820(
                         FP_GetExponent(FP_FromInteger(field_26C_pulley_xpos) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
                         FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
-                        pOt,
+                        ppOt,
                         0,
                         0);
 
@@ -536,14 +536,14 @@ void LiftPoint::vRender_462730(int** pOt)
             }
 
             // The base animation is the actual lift/platform itself
-            BaseAnimatedWithPhysicsGameObject::VRender(pOt);
+            BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 
             if (gMap_5C3030.field_0_current_level == LevelIds::eNecrum_2 && Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
             {
                 field_13C_lift_wheel.vRender_40B820(
                     FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + (FP_FromInteger(3) * field_CC_sprite_scale)),
                     FP_GetExponent(field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + (FP_FromInteger(-5) *field_CC_sprite_scale)),
-                    pOt,
+                    ppOt,
                     0,
                     0);
 

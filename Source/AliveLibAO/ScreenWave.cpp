@@ -183,12 +183,12 @@ void ScreenWave::VUpdate_463080()
     }
 }
 
-void ScreenWave::VRender(int** ppOt)
+void ScreenWave::VRender(PrimHeader** ppOt)
 {
     VRender_463130(ppOt);
 }
 
-void ScreenWave::VRender_463130(int** ppOt)
+void ScreenWave::VRender_463130(PrimHeader** ppOt)
 {
     if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
         field_3A_level,

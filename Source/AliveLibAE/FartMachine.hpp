@@ -19,13 +19,13 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
 private:
     EXPORT FartMachine* vdtor_413290(signed int flags);
     EXPORT void dtor_413330();
     EXPORT void vUpdate_4132C0();
-    EXPORT void vRender_4133F0(int** pOt);
+    EXPORT void vRender_4133F0(PrimHeader** ppOt);
 
 private:
     Font_Context field_F4_font_context;

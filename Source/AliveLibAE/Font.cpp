@@ -103,7 +103,7 @@ namespace Alive
 #endif
     }
 
-    int Font::DrawString_4337D0(int **ot, const char *text, int x, __int16 y, char abr, int bSemiTrans, int blendMode, int otLayer, BYTE r, BYTE g, BYTE b, int polyOffset, FP scale, int maxRenderWidth, __int16 colorRandomRange)
+    int Font::DrawString_4337D0(PrimHeader **ppOt, const char *text, int x, __int16 y, char abr, int bSemiTrans, int blendMode, int otLayer, BYTE r, BYTE g, BYTE b, int polyOffset, FP scale, int maxRenderWidth, __int16 colorRandomRange)
     {
         if (!sFontDrawScreenSpace_5CA4B4)
         {
@@ -186,7 +186,7 @@ namespace Alive
             SetXY3(poly, offsetX + widthScaled, y + heightScaled);
             SetUV3(poly, texture_u + charWidth, texture_v + charHeight);
 
-            OrderingTable_Add_4F8AA0(&ot[otLayer], &poly->mBase.header);
+            OrderingTable_Add_4F8AA0(&ppOt[otLayer], &poly->mBase.header);
 
             ++characterRenderCount;
 

@@ -142,7 +142,7 @@ DeathGas* DeathGas::Vdtor_41D740(signed int flags)
     return this;
 }
 
-void DeathGas::VRender(int** ppOt)
+void DeathGas::VRender(PrimHeader** ppOt)
 {
     VRender_41D190(ppOt);
 }
@@ -155,7 +155,7 @@ ALIVE_VAR(1, 0x500908, Data_FP, xData_500908, {});
 ALIVE_VAR(1, 0x5007E8, Data_FP, yData_5007E8, {});
 ALIVE_VAR(1, 0x4FFD78, Data_Byte, sbyte_3_4FFD78, {});
 
-void DeathGas::VRender_41D190(int** ppOt)
+void DeathGas::VRender_41D190(PrimHeader** ppOt)
 {
     field_12_unused += 2;
 

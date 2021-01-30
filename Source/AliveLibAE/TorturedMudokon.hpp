@@ -22,7 +22,7 @@ class TorturedMudokon : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT TorturedMudokon* ctor_47BC60(Path_TorturedMudokon* pTlv, int tlvInfo);
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
     virtual BaseGameObject* VDestructor(signed int flags) override;
@@ -30,7 +30,7 @@ private:
     EXPORT void SetupTearsAnimation_47BE60(Animation* pAnim);
     EXPORT void SetupZapAnimation_47BEF0(Animation* pAnim);
     EXPORT void vScreenChanged_47C440();
-    EXPORT void vRender_47C460(int** ppOt);
+    EXPORT void vRender_47C460(PrimHeader** ppOt);
     EXPORT void dtor_47C380();
     EXPORT TorturedMudokon* vdtor_47BE30(signed int flags);
     EXPORT void vUpdate_47BF80();

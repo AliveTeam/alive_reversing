@@ -46,9 +46,9 @@ TorturedMudokon* TorturedMudokon::ctor_47BC60(Path_TorturedMudokon* pTlv, int tl
     return this;
 }
 
-void TorturedMudokon::VRender(int** pOrderingTable)
+void TorturedMudokon::VRender(PrimHeader** ppOt)
 {
-    vRender_47C460(pOrderingTable);
+    vRender_47C460(ppOt);
 }
 
 void TorturedMudokon::VScreenChanged()
@@ -105,7 +105,7 @@ void TorturedMudokon::vScreenChanged_47C440()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-void TorturedMudokon::vRender_47C460(int** ppOt)
+void TorturedMudokon::vRender_47C460(PrimHeader** ppOt)
 {
    field_F4_tears_animation.vRender_40B820(
         FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),

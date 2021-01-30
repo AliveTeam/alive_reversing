@@ -219,12 +219,12 @@ void DoorLight::VUpdate_4060A0()
     }
 }
 
-void DoorLight::VRender(int** pOrderingTable)
+void DoorLight::VRender(PrimHeader** ppOt)
 {
-    VRender_406370(pOrderingTable);
+    VRender_406370(ppOt);
 }
 
-void DoorLight::VRender_406370(int** ppOt)
+void DoorLight::VRender_406370(PrimHeader** ppOt)
 {
     if (sNumCamSwappers_507668 == 0)
     {

@@ -15,11 +15,11 @@ public:
     EXPORT BaseGameObject* dtor_436200();
     EXPORT RollingBallShaker* Vdtor_436350(signed int flags);
     EXPORT void VUpdate_436260();
-    EXPORT void VRender_436280(int** ppOt);
+    EXPORT void VRender_436280(PrimHeader** ppOt);
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VRender(int** ppOt) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
     Prim_ScreenOffset field_10_prim_screen_offset[2];
     __int16 field_30_shake_table_idx;

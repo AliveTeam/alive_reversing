@@ -254,12 +254,12 @@ void FG1::VScreenChanged_453DE0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-void FG1::VRender(int** ppOt)
+void FG1::VRender(PrimHeader** ppOt)
 {
     VRender_453D50(ppOt);
 }
 
-void FG1::VRender_453D50(int** ppOt)
+void FG1::VRender_453D50(PrimHeader** ppOt)
 {
     if (field_18_render_block_count > 0)
     {

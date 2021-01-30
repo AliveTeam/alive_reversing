@@ -530,7 +530,7 @@ void PauseMenu::VUpdate_44DFB0()
     }
 }
 
-void PauseMenu::VRender(int** ppOt)
+void PauseMenu::VRender(PrimHeader** ppOt)
 {
     VRender_44E6F0(ppOt);
 }
@@ -639,7 +639,7 @@ PauseMenu::PauseEntry keyboardGameSpeak_4CE0D0[21] =
     { 0, 0, nullptr, 0u, 0u, 0u, '\0' }
 };
 
-void PauseMenu::DrawEntries(int** ppOt, PauseEntry *entry, short selectedEntryId, int polyOffset = 0)
+void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry *entry, short selectedEntryId, int polyOffset = 0)
 {
     for (short entryId = 0; entry[entryId].field_4_strBuf; ++entryId)
     {
@@ -722,7 +722,7 @@ void PauseMenu::DrawEntries(int** ppOt, PauseEntry *entry, short selectedEntryId
     );
 }
 
-void PauseMenu::VRender_44E6F0(int** ppOt)
+void PauseMenu::VRender_44E6F0(PrimHeader** ppOt)
 {
     switch (field_126_page)
     {

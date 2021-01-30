@@ -22,9 +22,9 @@ void Text::VUpdate()
     // Empty
 }
 
-void Text::VRender(int** pOrderingTable)
+void Text::VRender(PrimHeader** ppOt)
 {
-    Render_46AFD0(pOrderingTable);
+    Render_46AFD0(ppOt);
 }
 
 void Text::VScreenChanged()
@@ -84,13 +84,13 @@ EXPORT void Text::SetYPos_46AFB0(int /*not_used*/, __int16 ypos)
     field_5E_ypos = ypos;
 }
 
-EXPORT void Text::Render_46AFD0(int** pOt)
+EXPORT void Text::Render_46AFD0(PrimHeader** ppOt)
 {
     const __int16 ypos = field_5E_ypos + 100;
     const int xpos = (368 / 2) - (field_5C_xpos / 2);
 
     int drawRet1 = field_20_font.DrawString_4337D0(
-        pOt,
+        ppOt,
         field_68_txt_buffer,
         xpos,
         ypos,
@@ -110,7 +110,7 @@ EXPORT void Text::Render_46AFD0(int** pOt)
     if (field_60_bShadow)
     {
         int drawRet2 = field_20_font.DrawString_4337D0(
-            pOt,
+            ppOt,
             field_68_txt_buffer,
             xpos + 2,
             ypos + 2,
@@ -127,7 +127,7 @@ EXPORT void Text::Render_46AFD0(int** pOt)
             0);
 
         field_20_font.DrawString_4337D0(
-            pOt,
+            ppOt,
             field_68_txt_buffer,
             xpos - 1,
             ypos - 1,

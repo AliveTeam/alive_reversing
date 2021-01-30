@@ -43,7 +43,7 @@ public:
     EXPORT Water* ctor_4E02C0(Path_Water* pTlv, int tlvInfo);
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VStopAudio() override;
 private:
@@ -54,7 +54,7 @@ private:
     EXPORT void Disable_Water_Particle_4E0B10(__int16 idx);
     EXPORT void Add_Water_Particle_4E09A0();
     EXPORT void vUpdate_4E0B50();
-    EXPORT void vRender_4E1440(int** pOt);
+    EXPORT void vRender_4E1440(PrimHeader** ppOt);
 private:
     BYTE** field_F4_ppWaterRes;
     Water_Res* field_F8_pWaterRes;

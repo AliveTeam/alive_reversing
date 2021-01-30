@@ -153,10 +153,10 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override { }
 
-    EXPORT void Render_4CF4C0(int **ot);
+    EXPORT void Render_4CF4C0(PrimHeader** ppOt);
     EXPORT void Update_4CF010();
 
     EXPORT static int CCSTD GetPageIndexFromCam_4D05A0(int camId);
@@ -217,44 +217,44 @@ public:
     EXPORT void AnimationAndSoundLogic_4CFE80();
     EXPORT void UpdateHighliteGlow_4D0630();
     EXPORT static void callback_4D06E0(MainMenuController *a1);
-    EXPORT static void DrawMenuText_4D20D0(const MainMenuText *array, int **ot, Alive::Font *font, int *polyIndex, char a5);
+    EXPORT static void DrawMenuText_4D20D0(const MainMenuText *array, PrimHeader** ot, Alive::Font *font, int *polyIndex, char a5);
 
     // Page Functions
-    EXPORT void AbeSpeak_Render_4D2060(int** ot);
+    EXPORT void AbeSpeak_Render_4D2060(PrimHeader** ot);
     EXPORT MainMenuNextCam AbeSpeak_Update_4D2D20(DWORD input_held);
 
-    EXPORT void SligSpeak_Render_4D2370(int** ot);
+    EXPORT void SligSpeak_Render_4D2370(PrimHeader** ot);
     EXPORT MainMenuNextCam SligSpeak_Update_4D3280(DWORD input_held);
     EXPORT void SligSpeak_Unload_4D3170();
     EXPORT void SligSpeak_Load_4D3090();
 
-    EXPORT void GlukkonSpeak_Render_4D23C0(int** ot);
+    EXPORT void GlukkonSpeak_Render_4D23C0(PrimHeader** ot);
     EXPORT MainMenuNextCam GlukkonSpeak_Update_4D3670(DWORD input_held);
     EXPORT void GlukkonSpeak_Unload_4D3560();
     EXPORT void GlukkonSpeak_Load_4D3480();
 
-    EXPORT void ScrabSpeak_Render_4D2410(int** ot);
+    EXPORT void ScrabSpeak_Render_4D2410(PrimHeader** ot);
     EXPORT MainMenuNextCam ScrabSpeak_Update_4D3A60(DWORD input_held);
     EXPORT void ScrabSpeak_Unload_4D3950();
     EXPORT void ScrabSpeak_Load_4D3870();
 
-    EXPORT void ParamiteSpeak_Render_4D2460(int** ot);
+    EXPORT void ParamiteSpeak_Render_4D2460(PrimHeader** ot);
     EXPORT MainMenuNextCam ParamiteSpeak_Update_4D3D60(DWORD input_held);
     EXPORT void ParamiteSpeak_Unload_4D3C50();
     EXPORT void ParamiteSpeak_Load_4D3B70();
 
     EXPORT MainMenuNextCam Gamespeak_Update_4D1FC0(DWORD input_held);
 
-    void RenderOnScreenTextHelper(int ** ot, const MainMenuText * menuTextArray, int count, char isSingleChar);
+    void RenderOnScreenTextHelper(PrimHeader** ot, const MainMenuText * menuTextArray, int count, char isSingleChar);
 
-    EXPORT void AbeMotions_Render_4D25E0(int **ot);
-    EXPORT void Gamespeak_Render_4D24F0(int** ot);
-    EXPORT void Options_Render_4D2540(int** ot);
-    EXPORT void BackStory_Or_NewGame_Render_4D2630(int** ot);
+    EXPORT void AbeMotions_Render_4D25E0(PrimHeader **ot);
+    EXPORT void Gamespeak_Render_4D24F0(PrimHeader** ot);
+    EXPORT void Options_Render_4D2540(PrimHeader** ot);
+    EXPORT void BackStory_Or_NewGame_Render_4D2630(PrimHeader** ot);
 
-    EXPORT void ControllerMenu_Render_Text_4D26C0(int **pOt);
+    EXPORT void ControllerMenu_Render_Text_4D26C0(PrimHeader** pOt);
 
-    EXPORT void Demo_And_FMV_List_Render_4D4F30(int** pOt);
+    EXPORT void Demo_And_FMV_List_Render_4D4F30(PrimHeader** ppOt);
 
     EXPORT void t_Unload_AbeSpeak_Res_4D49F0();
 
@@ -267,7 +267,7 @@ public:
 
     // Front End
     EXPORT MainMenuNextCam Page_Front_Update_4D0720(DWORD input);
-    EXPORT void Page_Front_Render_4D24B0(int **ot);
+    EXPORT void Page_Front_Render_4D24B0(PrimHeader **ot);
 
     EXPORT MainMenuNextCam LoadNewGame_Update_4D0920(DWORD input);
 
@@ -289,14 +289,14 @@ public:
 
     EXPORT void ControllerMenu_Load_4D16B0();
 
-    EXPORT void RemapInput_Render_4D2A10(int** ot);
+    EXPORT void RemapInput_Render_4D2A10(PrimHeader** ot);
 
     EXPORT MainMenuNextCam ControllerMenu_Update_4D16D0(DWORD input);
 
     EXPORT MainMenuNextCam RemapInput_Update_4D1820(DWORD input);
 
     EXPORT MainMenuNextCam tLoadGame_Input_4D3EF0(DWORD input);
-    EXPORT void tLoadGame_Render_4D44D0( int **pOt);
+    EXPORT void tLoadGame_Render_4D44D0(PrimHeader **pOt);
     
     EXPORT void tLoadGame_Load_4D42F0();
     EXPORT static char CC checkIfDemoFileExists_4D1430(char *path);
@@ -399,7 +399,7 @@ private:
 ALIVE_ASSERT_SIZEOF(MainMenuController, 0x260);
 
 using TFnInput = MainMenuNextCam (MainMenuController::*)(DWORD);
-using TFnRender = void (MainMenuController::*)(int**);
+using TFnRender = void (MainMenuController::*)(PrimHeader**);
 using TFnLoad = void (MainMenuController::*)();
 using TFnUnLoad = void (MainMenuController::*)();
 

@@ -44,9 +44,9 @@ public:
 
     EXPORT void VOnPickUpOrSlapped_43AA30();
 
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_43A970(int** ppOt);
+    EXPORT void VRender_43A970(PrimHeader** ppOt);
 
     virtual void VUpdate() override;
 

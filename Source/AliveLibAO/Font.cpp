@@ -390,7 +390,7 @@ int AliveFont::MeasureWidth_41C280(const char* text, FP scale)
     return FP_GetExponent((width * scale) + FP_FromDouble(0.5));
 }
 
-EXPORT int AliveFont::DrawString_41C360(int** ot, const char* text, __int16 x, __int16 y, char abr, int bSemiTrans, int blendMode, int otLayer, unsigned char r, unsigned char g, unsigned char b, int polyOffset, FP scale, int maxRenderWidth, int colorRandomRange)
+EXPORT int AliveFont::DrawString_41C360(PrimHeader** ppOt, const char* text, __int16 x, __int16 y, char abr, int bSemiTrans, int blendMode, int otLayer, unsigned char r, unsigned char g, unsigned char b, int polyOffset, FP scale, int maxRenderWidth, int colorRandomRange)
 {
     if (!sFontDrawScreenSpace_508BF4)
     {
@@ -476,7 +476,7 @@ EXPORT int AliveFont::DrawString_41C360(int** ot, const char* text, __int16 x, _
         SetXY3(poly, offsetX + widthScaled, y + heightScaled);
         SetUV3(poly, texture_u + charWidth, texture_v + charHeight);
 
-        OrderingTable_Add_498A80(&ot[otLayer], &poly->mBase.header);
+        OrderingTable_Add_498A80(&ppOt[otLayer], &poly->mBase.header);
 
         ++characterRenderCount;
 

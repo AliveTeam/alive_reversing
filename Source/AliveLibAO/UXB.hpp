@@ -51,9 +51,9 @@ public:
 
     EXPORT __int16 IsColliding_489900();
 
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_4896C0(int** ppOt);
+    EXPORT void VRender_4896C0(PrimHeader** ppOt);
 
     __int16 field_10C_state;
     __int16 field_10E_starting_state;

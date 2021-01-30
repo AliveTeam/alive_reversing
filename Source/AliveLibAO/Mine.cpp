@@ -261,12 +261,12 @@ void Mine::VOnPickUpOrSlapped_43AA30()
     }
 }
 
-void Mine::VRender(int** pOrderingTable)
+void Mine::VRender(PrimHeader** ppOt)
 {
-    VRender_43A970(pOrderingTable);
+    VRender_43A970(ppOt);
 }
 
-void Mine::VRender_43A970(int** ppOt)
+void Mine::VRender_43A970(PrimHeader** ppOt)
 {
     if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
         field_B2_lvl_number,

@@ -20,9 +20,9 @@ void DeathFadeOut::VScreenChanged()
     // Empty
 }
 
-void DeathFadeOut::VRender(int** pOrderingTable)
+void DeathFadeOut::VRender(PrimHeader** ppOt)
 {
-    vRender_427210(pOrderingTable);
+    vRender_427210(ppOt);
 }
 
 DeathFadeOut* DeathFadeOut::ctor_427030(__int16 layer, __int16 direction, __int16 destroyOnDone, short speed, char abr)
@@ -111,13 +111,13 @@ void DeathFadeOut::Update_4271C0()
     }
 }
 
-void DeathFadeOut::vRender_427210(int** pOt)
+void DeathFadeOut::vRender_427210(PrimHeader** ppOt)
 {
     field_72_b = field_78_current_fade_rgb;
     field_70_g = field_78_current_fade_rgb;
     field_6E_r = field_78_current_fade_rgb;
 
-    EffectBase::VRender(pOt);
+    EffectBase::VRender(ppOt);
 
     if ((field_78_current_fade_rgb == 255 && field_7C_direction) ||
         (field_78_current_fade_rgb == 0 && !field_7C_direction))

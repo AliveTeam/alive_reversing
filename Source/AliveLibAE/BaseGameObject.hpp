@@ -165,6 +165,8 @@ enum class Types : __int16
     eDebugPathRenderer_1003 = 1003,
 };
 
+struct PrimHeader;
+
 class BaseGameObject
 {
 public:
@@ -207,7 +209,7 @@ public:
     // Order must match VTable
     virtual BaseGameObject* VDestructor(signed int) = 0; // Not an actual dtor because the generated compiler code has the param to determine if heap allocated or not
     virtual void VUpdate();
-    virtual void VRender(int** pOrderingTable);
+    virtual void VRender(PrimHeader** pOrderingTable);
     virtual void VScreenChanged();
     virtual void VStopAudio();
     virtual int VGetSaveState(BYTE* pSaveBuffer);

@@ -24,12 +24,12 @@ class Spark : public BaseGameObject
 public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     EXPORT Spark* ctor_4CBBB0(FP xpos, FP ypos, FP scale, unsigned __int8 count, __int16 min, __int16 max, __int16 type);
 private:
     EXPORT void vUpdate_4CBEF0();
-    EXPORT void vRender_4CC050(int** ppOt);
+    EXPORT void vRender_4CC050(PrimHeader** ppOt);
     EXPORT void vScreenChange_4CC4A0();
     EXPORT Spark* vdtor_4CBE30(signed int flags);
     EXPORT void dtor_4CBE60();

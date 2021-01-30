@@ -75,7 +75,7 @@ public:
     virtual __int16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
     virtual void VScreenChanged() override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual void VOnTrapDoorOpen() override;
     virtual void VUpdate() override;
@@ -84,7 +84,7 @@ public:
 private:
     void VOnTrapDoorOpen_4740C0();
     EXPORT void VOnThrowableHit_4735F0(BaseGameObject* pFrom);
-    EXPORT void VRender_4735D0(int** ppOt);
+    EXPORT void VRender_4735D0(PrimHeader** ppOt);
     EXPORT void VScreenChanged_473480();
     EXPORT void VUpdate_4739C0();
     EXPORT void VOn_Tlv_Collision_473970(Path_TLV* pTlv);

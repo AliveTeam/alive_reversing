@@ -173,7 +173,7 @@ void GameSpeak::VUpdate()
     Update_421920();
 }
 
-void GameSpeak::VRender(int** /*pOrderingTable*/)
+void GameSpeak::VRender(PrimHeader** /*ppOt*/)
 {
     // Null @ 0x4DBF80
 }

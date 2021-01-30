@@ -14,7 +14,7 @@ void BaseGameObject::VUpdate()
     // Empty 0x4DC080
 }
 
-void BaseGameObject::VRender(int** /*pOrderingTable*/)
+void BaseGameObject::VRender(PrimHeader** /*ppOt*/)
 {
     // Empty 0x4DBF80
 }

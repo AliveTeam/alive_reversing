@@ -23,14 +23,14 @@ class HoistRocksEffect : public BaseGameObject
 public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     EXPORT HoistRocksEffect* ctor_45D270(Path_Hoist* pTlv, int tlvInfo);
 private:
     EXPORT HoistRocksEffect* vdtor_45D430(signed int flags);
     EXPORT void dtor_45D6D0();
     EXPORT void Update_45D460();
-    EXPORT void Render_45D7B0(int** pOrderingTable);
+    EXPORT void Render_45D7B0(PrimHeader** ppOt);
     EXPORT void vScreenChanged_45D790();
 private:
     __int16 field_20_xpos;

@@ -52,9 +52,9 @@ public:
         return vdtor_45D9B0(flags);
     }
 
-    virtual void VRender(int** pOrderingTable) override
+    virtual void VRender(PrimHeader** ppOt) override
     {
-        vRender_45DCD0(pOrderingTable);
+        vRender_45DCD0(ppOt);
     }
 
     EXPORT void Calc_Rect_45DA00()
@@ -87,7 +87,7 @@ public:
         field_100_yOff = screenY + FP_FromInteger(offYScaled + FP_GetExponent(frameHScaled)) + FP_FromInteger(Math_NextRandom() % 3) - FP_FromInteger(1);
     }
 
-    EXPORT void vRender_45DCD0(int **pOt)
+    EXPORT void vRender_45DCD0(PrimHeader** ppOt)
     {
         if (Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
         {
@@ -103,7 +103,7 @@ public:
                 field_20_animation.vRender_40B820(
                     FP_GetExponent(field_F4_xPos),
                     FP_GetExponent(field_F8_yPos),
-                    pOt,
+                    ppOt,
                     FP_GetExponent(xOff) + 1,
                     FP_GetExponent(yOff) + 1);
 
@@ -220,9 +220,9 @@ public:
         vUpdate_45DFE0();
     }
 
-    virtual void VRender(int** pOrderingTable) override
+    virtual void VRender(PrimHeader** ppOt) override
     {
-        vRender_45E260(pOrderingTable);
+        vRender_45E260(ppOt);
     }
 
     EXPORT void SetRenderEnabled_45E240(__int16 bEnable)
@@ -278,7 +278,7 @@ private:
         }
     }
 
-    EXPORT void vRender_45E260(int **pOt)
+    EXPORT void vRender_45E260(PrimHeader** ppOt)
     {
         if (sNum_CamSwappers_5C1B66 == 0)
         {
@@ -291,7 +291,7 @@ private:
                 field_20_animation.vRender_40B820(
                         FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
                         FP_GetExponent(field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
-                        pOt,
+                        ppOt,
                         0,
                         0);
 
@@ -319,7 +319,7 @@ private:
                                 anim.field_14.vRender_40B820(
                                     FP_GetExponent(anim.field_0_x - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
                                     FP_GetExponent(anim.field_4_y - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
-                                    pOt,
+                                    ppOt,
                                     0,
                                     0);
 

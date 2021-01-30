@@ -5,6 +5,8 @@
 #include "Psx.hpp"
 #include "Primitives.hpp"
 
+struct PrimHeader;
+
 namespace AO {
 
 
@@ -60,7 +62,7 @@ public:
 
     EXPORT int MeasureWidth_41C280(const char* text, FP scale);
 
-    EXPORT int DrawString_41C360(int** ot, const char* text, __int16 x, __int16 y, char abr, int bSemiTrans, int a2, int otLayer, unsigned char r, unsigned char g, unsigned char b, int polyOffset, FP scale, int a15, int colorRandomRange);
+    EXPORT int DrawString_41C360(PrimHeader** ppOt, const char* text, __int16 x, __int16 y, char abr, int bSemiTrans, int a2, int otLayer, unsigned char r, unsigned char g, unsigned char b, int polyOffset, FP scale, int a15, int colorRandomRange);
 
     EXPORT void dtor_41C130();
 

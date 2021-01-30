@@ -233,12 +233,12 @@ int ScreenManager::GetTPage(char tp, char abr, int* xpos, int* ypos)
     return PSX_getTPage_4965D0(tp, abr, clampedXPos, clampedYPos);
 }
 
-void ScreenManager::VRender(int** ppOt)
+void ScreenManager::VRender(PrimHeader** ppOt)
 {
     VRender_406A60(ppOt);
 }
 
-void ScreenManager::VRender_406A60(int** ppOt)
+void ScreenManager::VRender_406A60(PrimHeader** ppOt)
 {
     if (!(field_36_flags & 1))  // Render enabled flag ?
     {

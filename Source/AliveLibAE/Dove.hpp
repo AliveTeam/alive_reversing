@@ -23,7 +23,7 @@ public:
     EXPORT Dove* ctor_41F660(int frameTableOffset, int maxW, __int16 maxH, int resourceID, FP xpos, FP ypos, FP scale);
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
     EXPORT void dtor_41F870();
 
     EXPORT void AsAlmostACircle_41FA20(FP xpos, FP ypos, BYTE angle);
@@ -34,7 +34,7 @@ public:
     static void CC All_FlyAway_41FA60(BOOL spookedInstantly);
 
 private:
-    EXPORT void vRender_4200B0(int** ot);
+    EXPORT void vRender_4200B0(PrimHeader** ppOt);
     EXPORT Dove* vdtor_41F630(signed int flags);
     EXPORT void vUpdate_41FAE0();
 

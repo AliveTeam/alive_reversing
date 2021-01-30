@@ -42,9 +42,9 @@ public:
 
     EXPORT void VUpdate_477DB0();
 
-    virtual void VRender(int** ppOt);
+    virtual void VRender(PrimHeader** ppOt);
 
-    EXPORT void VRender_477ED0(int** ppOt);
+    EXPORT void VRender_477ED0(PrimHeader** ppOt);
 
     Prim_SetTPage field_10_tPage[2];
     FP field_30_xpos;

@@ -87,7 +87,7 @@ const ScreenOffset sShakeOffsets_560388[16] =
     { -9, 9 },
 };
 
-EXPORT void ScreenShake::vRender_4AD120(int** pOt)
+EXPORT void ScreenShake::vRender_4AD120(PrimHeader** ppOt)
 {
     Prim_ScreenOffset* pPrim = &field_20_screenOffset[gPsxDisplay_5C1130.field_C_buffer_index];
     if (field_40_shakeNumber < 14)
@@ -118,7 +118,7 @@ EXPORT void ScreenShake::vRender_4AD120(int** pOt)
         }
 
         InitType_ScreenOffset_4F5BB0(pPrim, &offset);
-        OrderingTable_Add_4F8AA0(pOt, &pPrim->mBase);
+        OrderingTable_Add_4F8AA0(ppOt, &pPrim->mBase);
 
         if (offset.y != 0)
         {
@@ -177,7 +177,7 @@ void ScreenShake::VUpdate()
     vUpdate_4AD0E0();
 }
 
-void ScreenShake::VRender(int** pOt)
+void ScreenShake::VRender(PrimHeader** ppOt)
 {
-    vRender_4AD120(pOt);
+    vRender_4AD120(ppOt);
 }
