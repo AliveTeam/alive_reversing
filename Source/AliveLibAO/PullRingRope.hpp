@@ -37,7 +37,7 @@ public:
 
     EXPORT void VScreenChanged_454D70();
 
-    EXPORT BOOL sub_454D60();
+    EXPORT BOOL vIsNotBeingPulled_454D60();
 
     EXPORT __int16 Pull_454CB0(BaseAliveGameObject* pFrom);
 
@@ -45,10 +45,17 @@ public:
 
     EXPORT void VUpdate_4549A0();
 
-    int field_D4[4];
+    int field_D4_padding[4];
     int field_E4_stay_in_state_ticks;
-    int field_E8;
-    __int16 field_EC_state;
+    int field_E8_tlv_info;
+    enum class States : __int16
+    {
+        eIdle_0 = 0,
+        eBeingPulled_1 = 1,
+        eTriggerEvent_2 = 2,
+        eReturnToIdle_3 = 3
+    };
+    States field_EC_state;
     __int16 field_EE_id;
     SwitchOp field_F0_action;
     __int16 field_F2_pad;

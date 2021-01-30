@@ -28,6 +28,56 @@ void BirdPortalTerminator::VScreenChanged()
     // Staying alive
 }
 
+__int16 BirdPortal::VPortalClipper(__int16 bUnknown)
+{
+    return VPortalClipper_4533E0(bUnknown);
+}
+
+void BirdPortal::VMudSaved()
+{
+    VMudSaved_453830();
+}
+
+void BirdPortal::VGetMapChange(LevelIds* level, WORD* path, WORD* camera, CameraSwapEffects* screenChangeEffect, WORD* movieId)
+{
+    VGetMapChange_453840(level, path, camera, screenChangeEffect, movieId);
+}
+
+void BirdPortal::VIncreaseTimerAndKillPortalClipper()
+{
+    VIncreaseTimerAndKillPortalClipper_453810();
+}
+
+void BirdPortal::VKillPortalClipper()
+{
+    VKillPortalClipper_453570();
+}
+
+BOOL BirdPortal::VStateIs20()
+{
+    return VStateIs20_453800();
+}
+
+void BirdPortal::VExitPortal()
+{
+    VExitPortal_453720();
+}
+
+BOOL BirdPortal::VStateIs16()
+{
+    return VStateIs16_453710();
+}
+
+BOOL BirdPortal::VStateIs6()
+{
+    return VStateIs6_453700();
+}
+
+void BirdPortal::VGiveShrukull(__int16 bPlaySound)
+{
+    VGiveShrukull_4535A0(bPlaySound);
+}
+
 BirdPortalTerminator* BirdPortalTerminator::ctor_451F70(FP xpos, FP ypos, FP scale, PortalType /*portalType*/)
 {
     ctor_417C10();
@@ -1014,7 +1064,7 @@ BOOL BirdPortal::VStateIs20_453800()
     return field_14_state == States::State_20;
 }
 
-void BirdPortal::Vsub_453810()
+void BirdPortal::VIncreaseTimerAndKillPortalClipper_453810()
 {
     field_14_state = States::State_21;
     field_30_timer = gnFrameCount_507670 + 30;
@@ -1058,7 +1108,7 @@ void BirdPortal::VGetMapChange_453840(LevelIds* level, WORD* path, WORD* camera,
     *screenChangeEffect = CameraSwapEffects::eEffect5_1_FMV;
 }
 
-__int16 BirdPortal::Vsub_4533E0(__int16 bUnknown)
+__int16 BirdPortal::VPortalClipper_4533E0(__int16 bUnknown)
 {
     if (bUnknown && field_14_state != States::State_6)
     {

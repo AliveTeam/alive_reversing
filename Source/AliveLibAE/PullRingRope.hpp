@@ -42,14 +42,14 @@ private:
     int field_F4_stay_in_state_ticks;
     int field_F8_rope_id;
     int field_FC_ring_puller_id;
-    enum class State : __int16
+    enum class States : __int16
     {
         eIdle_0 = 0,
         eBeingPulled_1 = 1,
         eTriggerEvent_2 = 2,
         eReturnToIdle_3 = 3,
     };
-    State field_100_state;
+    States field_100_state;
     __int16 field_102_id;
     SwitchOp field_104_target_action;
     __int16 field_106_on_sound;

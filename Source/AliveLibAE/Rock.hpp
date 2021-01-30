@@ -7,12 +7,12 @@ enum class LevelIds : __int16;
 
 enum class RockStates : __int16
 {
-    eState_0_None = 0,
-    eState_1_FallingOutOfRockSack = 1,
-    eState_2_Rolling = 2,
-    eState_3_OnGround = 3,
-    eState_4_Bouncing = 4,
-    eState_5_FallingOutOfWorld = 5,
+    eNone_0 = 0,
+    eFallingOutOfRockSack_1 = 1,
+    eRolling_2 = 2,
+    eOnGround_3 = 3,
+    eBouncing_4 = 4,
+    eFallingOutOfWorld_5 = 5,
 };
 
 struct RockSaveState

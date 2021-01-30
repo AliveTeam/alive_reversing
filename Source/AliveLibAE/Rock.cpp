@@ -41,7 +41,7 @@ Rock* Rock::ctor_49E150(FP xpos, FP ypos, __int16 count)
     field_C8_vely = FP_FromInteger(0);
 
     field_118_count = count;
-    field_11C_state = RockStates::eState_0_None;
+    field_11C_state = RockStates::eNone_0;
 
     BYTE** ppPal = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, ResourceID::kAberockResID, 0, 0);
     if (ppPal)
@@ -122,12 +122,12 @@ void Rock::vScreenChanged_49F030()
 
 BOOL Rock::vIsFalling_49E330()
 {
-    return field_11C_state == RockStates::eState_5_FallingOutOfWorld;
+    return field_11C_state == RockStates::eFallingOutOfWorld_5;
 }
 
 BOOL Rock::vCanThrow_49E350()
 {
-    return field_11C_state == RockStates::eState_4_Bouncing;
+    return field_11C_state == RockStates::eBouncing_4;
 }
 
 Rock* Rock::vdtor_49E370(signed int flags)
@@ -163,11 +163,11 @@ void Rock::vThrow_49E460(FP velX, FP velY)
 
     if (field_118_count == 0)
     {
-        field_11C_state = RockStates::eState_4_Bouncing;
+        field_11C_state = RockStates::eBouncing_4;
     }
     else
     {
-        field_11C_state = RockStates::eState_1_FallingOutOfRockSack;
+        field_11C_state = RockStates::eFallingOutOfRockSack_1;
     }
 }
 
@@ -214,15 +214,15 @@ void Rock::InTheAir_49E4B0()
                 return;
             }
 
-            if (field_11C_state == RockStates::eState_4_Bouncing && field_C8_vely < FP_FromInteger(5))
+            if (field_11C_state == RockStates::eBouncing_4 && field_C8_vely < FP_FromInteger(5))
             {
-                field_11C_state = RockStates::eState_5_FallingOutOfWorld;
+                field_11C_state = RockStates::eFallingOutOfWorld_5;
                 return;
             }
 
-            if (field_11C_state == RockStates::eState_1_FallingOutOfRockSack && field_C8_vely < FP_FromInteger(1))
+            if (field_11C_state == RockStates::eFallingOutOfRockSack_1 && field_C8_vely < FP_FromInteger(1))
             {
-                field_11C_state = RockStates::eState_2_Rolling;
+                field_11C_state = RockStates::eRolling_2;
 
                 if (field_C4_velx >= FP_FromInteger(0) && field_C4_velx < FP_FromInteger(1))
                 {
@@ -377,14 +377,14 @@ void Rock::vUpdate_49E9F0()
 
     switch (field_11C_state)
     {
-    case RockStates::eState_0_None:
+    case RockStates::eNone_0:
         break;
 
-    case RockStates::eState_1_FallingOutOfRockSack:
+    case RockStates::eFallingOutOfRockSack_1:
         InTheAir_49E4B0();
         return;
 
-    case RockStates::eState_2_Rolling:
+    case RockStates::eRolling_2:
         if (FP_Abs(field_C4_velx) >= FP_FromInteger(1))
         {
             if (field_C4_velx <= FP_FromInteger(0))
@@ -407,7 +407,7 @@ void Rock::vUpdate_49E9F0()
                 field_6_flags.Set(BaseGameObject::eInteractive_Bit8);
                 field_E4_collection_rect.h = field_BC_ypos;
                 field_E4_collection_rect.y = field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
-                field_11C_state = RockStates::eState_3_OnGround;
+                field_11C_state = RockStates::eOnGround_3;
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit8_Loop);
                 field_128_shimmer_timer = sGnFrame_5C1B84;
                 return;
@@ -421,10 +421,10 @@ void Rock::vUpdate_49E9F0()
         }
 
         field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
-        field_11C_state = RockStates::eState_4_Bouncing;
+        field_11C_state = RockStates::eBouncing_4;
         return;
 
-    case RockStates::eState_3_OnGround:
+    case RockStates::eOnGround_3:
         if (static_cast<int>(sGnFrame_5C1B84) <= field_128_shimmer_timer || pObj)
         {
             return;
@@ -438,7 +438,7 @@ void Rock::vUpdate_49E9F0()
         field_128_shimmer_timer = (Math_NextRandom() % 16) + sGnFrame_5C1B84 + 60;
         return;
 
-    case RockStates::eState_4_Bouncing:
+    case RockStates::eBouncing_4:
     {
         InTheAir_49E4B0();
         PSX_RECT bRect = {};
@@ -452,12 +452,12 @@ void Rock::vUpdate_49E9F0()
 
         if (field_C8_vely > FP_FromInteger(30))
         {
-            field_11C_state = RockStates::eState_5_FallingOutOfWorld;
+            field_11C_state = RockStates::eFallingOutOfWorld_5;
         }
     }
         return;
 
-    case RockStates::eState_5_FallingOutOfWorld:
+    case RockStates::eFallingOutOfWorld_5:
         field_C8_vely += FP_FromDouble(1.01);
         field_B8_xpos += field_C4_velx;
         field_BC_ypos = field_C8_vely + field_BC_ypos;

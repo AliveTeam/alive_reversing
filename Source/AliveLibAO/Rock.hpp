@@ -82,7 +82,16 @@ public:
 
     virtual void VTimeToExplodeRandom() override;
 
-    __int16 field_110_state;
+    enum class States : __int16
+    {
+        eNone_0 = 0,
+        eFallingOutOfRockSack_1 = 1,
+        eRolling_2 = 2,
+        eOnGround_3 = 3,
+        eBouncing_4 = 4,
+        eFallingOutOfWorld_5 = 5,
+    };
+    States field_110_state;
     __int16 field_112;
     PathLine* field_114_pLine;
     __int16 field_118_vol;

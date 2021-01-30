@@ -846,8 +846,8 @@ void Mudokon::KillBirdPortal()
         word_507B94--;
         if (word_507B94 == 0)
         {
-            field_1AC_pBirdPortal->VKillPortalClipper_453570();
-            field_1AC_pBirdPortal->VGiveShrukull_4535A0(1);
+            field_1AC_pBirdPortal->VKillPortalClipper();
+            field_1AC_pBirdPortal->VGiveShrukull(1);
         }
 
         field_1AC_pBirdPortal->field_C_refCount--;
@@ -2333,7 +2333,7 @@ void Mudokon::State_44_JumpMid_43E960()
 
         if (field_1AC_pBirdPortal)
         {
-            field_1AC_pBirdPortal->VMudSaved_453830();
+            field_1AC_pBirdPortal->VMudSaved();
         }
 
         if (field_1B2_switch_id)
@@ -4318,7 +4318,7 @@ short Mudokon::Brain_Escape_12_440FD0()
     switch (field_1BA_sub_state)
     {
     case 0:
-        if (pPortal->VStateIs6_453700())
+        if (pPortal->VStateIs6())
         {
             field_1C0_timer = gnFrameCount_507670 + (Math_NextRandom() % 8);
             return 1;

@@ -49,18 +49,18 @@ EXPORT RollingBallStopper* RollingBallStopper::ctor_43BCE0(Path_RollingBallStopp
         field_AC_ypos += field_BC_sprite_scale * FP_FromInteger(70);
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
         {
-            field_112_state = RollingBallStopperStates::eMovingDone_2;
+            field_112_state = States::eMovingDone_2;
             field_A8_xpos += field_BC_sprite_scale * FP_FromInteger(35);
         }
         else
         {
-            field_112_state = RollingBallStopperStates::eMovingDone_2;
+            field_112_state = States::eMovingDone_2;
             field_A8_xpos -= field_BC_sprite_scale * FP_FromInteger(35);
         }
     }
     else
     {
-        field_112_state = RollingBallStopperStates::eWaitForTrigger_0;
+        field_112_state = States::eWaitForTrigger_0;
         SwitchStates_Set(pTlv->field_1C_id_off, 0);
         SwitchStates_Set(pTlv->field_18_id_on, 0);
     }
@@ -107,7 +107,7 @@ BaseGameObject* RollingBallStopper::dtor_43C0A0()
 {
     SetVTable(this, 0x4BBAC8);
 
-    if (field_112_state != RollingBallStopperStates::eWaitForTrigger_0)
+    if (field_112_state != States::eWaitForTrigger_0)
     {
         gMap_507BA8.TLV_Reset_446870(field_10C_tlvInfo, 1, 0, 0);
     }
@@ -126,7 +126,7 @@ BaseGameObject* RollingBallStopper::dtor_43C0A0()
 
 void RollingBallStopper::VScreenChanged_43C130()
 {
-    if (field_112_state == RollingBallStopperStates::eMoveStopper_1)
+    if (field_112_state == States::eMoveStopper_1)
     {
         SwitchStates_Set(field_116_switch_id_off, 1);
     }
@@ -137,18 +137,18 @@ void RollingBallStopper::VUpdate_43BF70()
 {
     switch (field_112_state)
     {
-    case RollingBallStopperStates::eWaitForTrigger_0:
+    case States::eWaitForTrigger_0:
         if (SwitchStates_Get(field_114_switch_on_id))
         {
             Rect_Clear_40C920(&field_118_pLine->field_0_rect);
             field_118_pLine = nullptr;
-            field_112_state = RollingBallStopperStates::eMoveStopper_1;
+            field_112_state = States::eMoveStopper_1;
             SFX_Play_43AE60(SoundEffect::PickupItem_33, 100, -2400, 0);
             SFX_Play_43AE60(SoundEffect::LiftStop_35, 80, -800, 0);
         }
         break;
 
-    case RollingBallStopperStates::eMoveStopper_1:
+    case States::eMoveStopper_1:
         field_B8_vely += (field_BC_sprite_scale * FP_FromInteger(25));
         if (field_B8_vely <= (field_BC_sprite_scale * FP_FromInteger(70)))
         {
@@ -157,7 +157,7 @@ void RollingBallStopper::VUpdate_43BF70()
         }
         else
         {
-            field_112_state = RollingBallStopperStates::eMovingDone_2;
+            field_112_state = States::eMovingDone_2;
             SwitchStates_Set(field_116_switch_id_off, 1);
         }
         break;
