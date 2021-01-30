@@ -41,7 +41,7 @@ BaseGameObject* RollingBall::VDestructor(signed int flags)
 BaseGameObject* RollingBall::dtor_458230()
 {
     SetVTable(this, 0x4BC180);
-    if (field_112_state != RollingBallStates::eInactive_0)
+    if (field_112_state != States::eInactive_0)
     {
         gMap_507BA8.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 1);
     }
@@ -126,7 +126,7 @@ RollingBall* RollingBall::ctor_4578C0(Path_RollingBall* pTlv, int tlvInfo)
 
     MapFollowMe_401D30(TRUE);
     field_10C_tlvInfo = tlvInfo;
-    field_112_state = RollingBallStates::eInactive_0;
+    field_112_state = States::eInactive_0;
     field_114_pRollingBallShaker = nullptr;
     field_120_pCollisionLine = nullptr;
 
@@ -150,7 +150,7 @@ RollingBall* RollingBall::ctor_4578C0(Path_RollingBall* pTlv, int tlvInfo)
         field_A8_xpos = FP_FromInteger(2522);
         field_AC_ypos = FP_FromInteger(1300);
         field_10_anim.field_C_layer = 35;
-        field_112_state = RollingBallStates::eCrushedBees_4;
+        field_112_state = States::eCrushedBees_4;
     }
 
     return this;
@@ -160,11 +160,11 @@ void RollingBall::VUpdate_457AF0()
 {
     switch (field_112_state)
     {
-    case RollingBallStates::eInactive_0:
+    case States::eInactive_0:
         if (SwitchStates_Get(field_110_release_switch_id))
         {
             field_B8_vely = FP_FromDouble(2.5);
-            field_112_state = RollingBallStates::eStartRolling_1;
+            field_112_state = States::eStartRolling_1;
             field_10_anim.Set_Animation_Data_402A40(15608, 0);
             field_114_pRollingBallShaker = ao_new<RollingBallShaker>();
             if (field_114_pRollingBallShaker)
@@ -184,7 +184,7 @@ void RollingBall::VUpdate_457AF0()
         }
         return;
 
-    case RollingBallStates::eStartRolling_1:
+    case States::eStartRolling_1:
     {
         if (!(field_10_anim.field_92_current_frame % 3))
         {
@@ -208,12 +208,12 @@ void RollingBall::VUpdate_457AF0()
             field_A8_xpos = hitX;
             field_AC_ypos = hitY;
             field_F4_pLine = pLine;
-            field_112_state = RollingBallStates::eRolling_2;
+            field_112_state = States::eRolling_2;
         }
         return;
     }
 
-    case RollingBallStates::eRolling_2:
+    case States::eRolling_2:
     {
         if (!(field_10_anim.field_92_current_frame % 3))
         {
@@ -246,7 +246,7 @@ void RollingBall::VUpdate_457AF0()
         }
         else if (!field_F4_pLine)
         {
-            field_112_state = RollingBallStates::eFallingAndHittingWall_3;
+            field_112_state = States::eFallingAndHittingWall_3;
 
             field_114_pRollingBallShaker->field_C_refCount--;
             field_114_pRollingBallShaker->field_32_bKillMe = 1;
@@ -258,7 +258,7 @@ void RollingBall::VUpdate_457AF0()
         return;
     }
 
-    case RollingBallStates::eFallingAndHittingWall_3:
+    case States::eFallingAndHittingWall_3:
     {
         if (WallHit_401930(FP_FromInteger(30), field_B4_velx))
         {
@@ -337,7 +337,7 @@ void RollingBall::VUpdate_457AF0()
                     field_A8_xpos = FP_FromInteger(2522);
                     field_AC_ypos = FP_FromInteger(1300);
                     field_10_anim.field_C_layer = 35;
-                    field_112_state = RollingBallStates::eCrushedBees_4;
+                    field_112_state = States::eCrushedBees_4;
                     CrushThingsInTheWay_458310();
                     return;
                 }
@@ -390,7 +390,7 @@ void RollingBall::VUpdate_457AF0()
         return;
     }
 
-    case RollingBallStates::eCrushedBees_4:
+    case States::eCrushedBees_4:
         if (field_B2_lvl_number != gMap_507BA8.field_0_current_level ||
             field_B0_path_number != gMap_507BA8.field_2_current_path ||
             Event_Get_417250(kEventDeathReset_4))

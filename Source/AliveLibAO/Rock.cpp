@@ -236,7 +236,7 @@ Rock* Rock::ctor_456960(FP xpos, FP ypos, __int16 count)
     field_B4_velx = FP_FromInteger(0);
     field_B8_vely = FP_FromInteger(0);
     field_10C_count = count;
-    field_110_state = 0;
+    field_110_state = States::eNone_0;
 
     BYTE** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kAberockResID, 0, 0);
     if (ppPal)
@@ -306,11 +306,11 @@ void Rock::VUpdate_456EC0()
 
     switch (field_110_state)
     {
-    case 1:
+    case States::eFallingOutOfRockSack_1:
         InTheAir_456B60();
         break;
 
-    case 2:
+    case States::eRolling_2:
         if (FP_Abs(field_B4_velx) >= FP_FromInteger(1))
         {
             if (field_B4_velx < FP_FromInteger(0))
@@ -329,7 +329,7 @@ void Rock::VUpdate_456EC0()
 
             if (!field_114_pLine)
             {
-                field_110_state = 4;
+                field_110_state = States::eBouncing_4;
                 field_10_anim.field_4_flags.Set(AnimFlags::eBit8_Loop);
             }
         }
@@ -345,7 +345,7 @@ void Rock::VUpdate_456EC0()
                     field_B4_velx);
                 if (!field_114_pLine)
                 {
-                    field_110_state = 4;
+                    field_110_state = States::eBouncing_4;
                     field_10_anim.field_4_flags.Set(AnimFlags::eBit8_Loop);
                 }
             }
@@ -360,13 +360,13 @@ void Rock::VUpdate_456EC0()
                 field_10_anim.field_4_flags.Clear(AnimFlags::eBit8_Loop);
                 field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale);
                 field_D4_collection_rect.h = field_AC_ypos;
-                field_110_state = 3;
+                field_110_state = States::eOnGround_3;
                 field_124 = gnFrameCount_507670;
             }
         }
         break;
 
-    case 3:
+    case States::eOnGround_3:
         if (static_cast<int>(gnFrameCount_507670) > field_124)
         {
             New_Shiny_Particle_4199A0(
@@ -378,7 +378,7 @@ void Rock::VUpdate_456EC0()
         }
         break;
 
-    case 4:
+    case States::eBouncing_4:
     {
         InTheAir_456B60();
         PSX_RECT bRect = {};
@@ -394,12 +394,12 @@ void Rock::VUpdate_456EC0()
 
         if (field_B8_vely > FP_FromInteger(30))
         {
-            field_110_state = 5;
+            field_110_state = States::eFallingOutOfWorld_5;
         }
     }
     break;
 
-    case 5:
+    case States::eFallingOutOfWorld_5:
         field_B8_vely += FP_FromInteger(1);
         field_A8_xpos += field_B4_velx;
         field_AC_ypos += field_B8_vely;
@@ -447,11 +447,11 @@ void Rock::VThrow_456B20(FP velX, FP velY)
 
     if (field_10C_count == 0)
     {
-        field_110_state = 4;
+        field_110_state = States::eBouncing_4;
     }
     else
     {
-        field_110_state = 1;
+        field_110_state = States::eFallingOutOfRockSack_1;
     }
 }
 
@@ -462,7 +462,7 @@ __int16 Rock::VCanThrow()
 
 __int16 Rock::VCanThrow_4573C0()
 {
-    return field_110_state == 4;
+    return field_110_state == States::eBouncing_4;
 }
 
 void Rock::InTheAir_456B60()
@@ -480,9 +480,9 @@ void Rock::InTheAir_456B60()
     field_A8_xpos += field_B4_velx;
     field_AC_ypos += field_B8_vely;
 
-    WORD a4 = 0;
-    field_A8_xpos = CamX_VoidSkipper_418590(field_A8_xpos, field_B4_velx, 8, &a4);
-    field_AC_ypos = CamY_VoidSkipper_418690(field_AC_ypos, field_B8_vely, 8, &a4);
+    WORD result = 0;
+    field_A8_xpos = CamX_VoidSkipper_418590(field_A8_xpos, field_B4_velx, 8, &result);
+    field_AC_ypos = CamY_VoidSkipper_418690(field_AC_ypos, field_B8_vely, 8, &result);
 
     FP hitX = {};
     FP hitY = {};
@@ -504,9 +504,9 @@ void Rock::InTheAir_456B60()
         case 36:
             if (field_B8_vely > FP_FromInteger(0))
             {
-                if (field_110_state != 4 || field_B8_vely >= FP_FromInteger(5))
+                if (field_110_state != States::eBouncing_4 || field_B8_vely >= FP_FromInteger(5))
                 {
-                    if (field_110_state != 1 || field_B8_vely >= FP_FromInteger(1))
+                    if (field_110_state != States::eFallingOutOfRockSack_1 || field_B8_vely >= FP_FromInteger(1))
                     {
                         field_AC_ypos = hitY;
                         field_B8_vely = (-field_B8_vely / FP_FromInteger(2));
@@ -523,7 +523,7 @@ void Rock::InTheAir_456B60()
                     }
                     else
                     {
-                        field_110_state = 2;
+                        field_110_state = States::eRolling_2;
                         if (field_B4_velx >= FP_FromInteger(0) && field_B4_velx < FP_FromInteger(1))
                         {
                             field_B4_velx = FP_FromInteger(1);
@@ -537,7 +537,7 @@ void Rock::InTheAir_456B60()
                 }
                 else
                 {
-                    field_110_state = 5;
+                    field_110_state = States::eFallingOutOfWorld_5;
                 }
             }
             break;
@@ -616,7 +616,7 @@ __int16 Rock::VIsFalling()
 {
     // Same as meat falling func - compiler seems to have made them both
     // use the same func, or should it go in the base ??
-    return field_110_state == 5;
+    return field_110_state == States::eFallingOutOfWorld_5;
 }
 
 void Rock::VTimeToExplodeRandom()

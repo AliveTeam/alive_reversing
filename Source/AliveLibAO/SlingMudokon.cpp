@@ -50,7 +50,7 @@ SlingMudokon* SlingMudokon::ctor_46F940(Path_SlingMud* pTlv, int tlvInfo)
 
     field_4_typeId = Types::SlingMud_90;
 
-    field_120 = -1;
+    field_120_last_event_idx = -1;
     field_134_buffer_start = 0;
     field_136 = -1;
     field_150_res = 0;
@@ -439,7 +439,7 @@ __int16 SlingMudokon::tsub_46FEC0()
         }
 
         GameSpeakEvents lastIdx;
-        if (field_120 == pEventSystem_4FF954->field_18_last_event_index)
+        if (field_120_last_event_idx == pEventSystem_4FF954->field_18_last_event_index)
         {
             if (pEventSystem_4FF954->field_10_last_event == GameSpeakEvents::eNone_m1)
             {
@@ -452,7 +452,7 @@ __int16 SlingMudokon::tsub_46FEC0()
         }
         else
         {
-            field_120 = pEventSystem_4FF954->field_18_last_event_index;
+            field_120_last_event_idx = pEventSystem_4FF954->field_18_last_event_index;
             lastIdx = pEventSystem_4FF954->field_10_last_event;
         }
 
@@ -474,7 +474,7 @@ __int16 SlingMudokon::tsub_46FEC0()
         else
         {
             GameSpeakEvents lastIdx;
-            if (field_120 == pEventSystem_4FF954->field_18_last_event_index)
+            if (field_120_last_event_idx == pEventSystem_4FF954->field_18_last_event_index)
             {
                 if (pEventSystem_4FF954->field_10_last_event == GameSpeakEvents::eNone_m1)
                 {
@@ -487,13 +487,13 @@ __int16 SlingMudokon::tsub_46FEC0()
             }
             else
             {
-                field_120 = pEventSystem_4FF954->field_18_last_event_index;
+                field_120_last_event_idx = pEventSystem_4FF954->field_18_last_event_index;
                 lastIdx = pEventSystem_4FF954->field_10_last_event;
             }
 
             if (lastIdx != GameSpeakEvents::eNone_m1)
             {
-                field_120 = gnFrameCount_507670 + 40;
+                field_120_last_event_idx = gnFrameCount_507670 + 40;
                 field_144_timer2 = gnFrameCount_507670 + 40;
             }
 
@@ -805,7 +805,7 @@ __int16 SlingMudokon::tsub_4707B0()
         else
         {
             GameSpeakEvents speak = {};
-            if (field_120 == pEventSystem_4FF954->field_18_last_event_index)
+            if (field_120_last_event_idx == pEventSystem_4FF954->field_18_last_event_index)
             {
                 if (pEventSystem_4FF954->field_10_last_event == GameSpeakEvents::eNone_m1)
                 {
@@ -818,7 +818,7 @@ __int16 SlingMudokon::tsub_4707B0()
             }
             else
             {
-                field_120 = pEventSystem_4FF954->field_18_last_event_index;
+                field_120_last_event_idx = pEventSystem_4FF954->field_18_last_event_index;
                 speak = pEventSystem_4FF954->field_10_last_event;
             }
 
@@ -837,7 +837,7 @@ __int16 SlingMudokon::tsub_4707B0()
         if (!VIsObj_GettingNear_On_X(sActiveHero_507678))
         {
             GameSpeakEvents speak = {};
-            if (field_120 == pEventSystem_4FF954->field_18_last_event_index)
+            if (field_120_last_event_idx == pEventSystem_4FF954->field_18_last_event_index)
             {
                 if (pEventSystem_4FF954->field_10_last_event == GameSpeakEvents::eNone_m1)
                 {
@@ -850,7 +850,7 @@ __int16 SlingMudokon::tsub_4707B0()
             }
             else
             {
-                field_120 = pEventSystem_4FF954->field_18_last_event_index;
+                field_120_last_event_idx = pEventSystem_4FF954->field_18_last_event_index;
                 speak = pEventSystem_4FF954->field_10_last_event;
             }
 

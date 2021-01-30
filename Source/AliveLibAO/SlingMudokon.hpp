@@ -77,13 +77,13 @@ public:
 
     EXPORT __int16 tsub_4707B0();
 
-    int field_10C;
+    int field_10C_padding;
     int field_110_tlvInfo;
-    int field_114;
+    int field_114_paddding;
     int field_118_code_converted;
     __int16 field_11C_code_length;
     __int16 field_11E_flags;
-    int field_120;
+    int field_120_last_event_idx;
     BYTE field_124_code_buffer[16];
     __int16 field_134_buffer_start;
     __int16 field_136;

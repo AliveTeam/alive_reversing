@@ -40,8 +40,8 @@ PullRingRope* PullRingRope::ctor_4546B0(Path_PullRingRope* pTlv, int tlvInfo)
 
     field_EE_id = pTlv->field_18_id;
     field_F0_action = pTlv->field_1A_action;
-    field_E8 = tlvInfo;
-    field_EC_state = 0;
+    field_E8_tlv_info = tlvInfo;
+    field_EC_state = States::eIdle_0;
     field_E4_stay_in_state_ticks = 0;
 
     field_AC_ypos += FP_FromInteger(pTlv->field_1C_rope_length + pTlv->field_C_sound_pos.field_2_y + 24);
@@ -81,9 +81,9 @@ PullRingRope* PullRingRope::ctor_4546B0(Path_PullRingRope* pTlv, int tlvInfo)
     return this;
 }
 
-BOOL PullRingRope::sub_454D60()
+BOOL PullRingRope::vIsNotBeingPulled_454D60()
 {
-    return field_EC_state != 1;
+    return field_EC_state != States::eBeingPulled_1;
 }
 
 void PullRingRope::VScreenChanged_454D70()
@@ -117,7 +117,7 @@ BaseGameObject* PullRingRope::VDestructor(signed int flags)
 BaseGameObject* PullRingRope::dtor_454910()
 {
     SetVTable(this, 0x4BC058);
-    gMap_507BA8.TLV_Reset_446870(field_E8, -1, 0, 0);
+    gMap_507BA8.TLV_Reset_446870(field_E8_tlv_info, -1, 0, 0);
 
     if (field_F4_pPuller)
     {
@@ -140,7 +140,7 @@ __int16 PullRingRope::Pull_454CB0(BaseAliveGameObject* pFrom)
         return 0;
     }
 
-    if (field_EC_state != 0)
+    if (field_EC_state != States::eIdle_0)
     {
         return 0;
     }
@@ -148,7 +148,7 @@ __int16 PullRingRope::Pull_454CB0(BaseAliveGameObject* pFrom)
     field_F4_pPuller = pFrom;
     field_F4_pPuller->field_C_refCount++;
 
-    field_EC_state = 1;
+    field_EC_state = States::eBeingPulled_1;
     field_B8_vely = FP_FromInteger(2);
     field_E4_stay_in_state_ticks = 6;
 
@@ -192,7 +192,7 @@ void PullRingRope::VUpdate_4549A0()
 
     switch (field_EC_state)
     {
-    case 1:
+    case States::eBeingPulled_1:
         if (field_10_anim.field_92_current_frame == 2)
         {
             SFX_Play_43AD70(SoundEffect::RingRopePull_65, 0);
@@ -205,7 +205,7 @@ void PullRingRope::VUpdate_4549A0()
         if (field_E4_stay_in_state_ticks == 0)
         {
             field_B8_vely = FP_FromInteger(0);
-            field_EC_state = 2;
+            field_EC_state = States::eTriggerEvent_2;
 
             if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 ||
                 gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12 ||
@@ -272,9 +272,9 @@ void PullRingRope::VUpdate_4549A0()
         }
         break;
 
-    case 2:
+    case States::eTriggerEvent_2:
         field_B8_vely = FP_FromInteger(4);
-        field_EC_state = 3;
+        field_EC_state = States::eReturnToIdle_3;
         field_F4_pPuller->field_C_refCount--;
         field_F4_pPuller = nullptr;
 
@@ -292,13 +292,13 @@ void PullRingRope::VUpdate_4549A0()
         }
         break;
 
-    case 3:
+    case States::eReturnToIdle_3:
         field_AC_ypos -= field_B8_vely;
         field_E4_stay_in_state_ticks--;
         if (field_E4_stay_in_state_ticks == 0)
         {
             field_B8_vely = FP_FromInteger(0);
-            field_EC_state = 0;
+            field_EC_state = States::eIdle_0;
 
             if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 ||
                 gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12 ||

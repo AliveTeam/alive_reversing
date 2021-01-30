@@ -20,15 +20,6 @@ ALIVE_ASSERT_SIZEOF(Path_RollingBall, 0x24);
 class RollingBallShaker;
 class PathLine;
 
-enum class RollingBallStates : __int16
-{
-    eInactive_0,
-    eStartRolling_1,
-    eRolling_2,
-    eFallingAndHittingWall_3,
-    eCrushedBees_4
-};
-
 class RollingBall : public BaseAliveGameObject
 {
 public:
@@ -50,7 +41,15 @@ public:
 
     int field_10C_tlvInfo;
     unsigned __int16 field_110_release_switch_id;
-    RollingBallStates field_112_state;
+    enum class States : __int16
+    {
+        eInactive_0,
+        eStartRolling_1,
+        eRolling_2,
+        eFallingAndHittingWall_3,
+        eCrushedBees_4
+    };
+    States field_112_state;
     RollingBallShaker* field_114_pRollingBallShaker;
     FP field_118_speed;
     FP field_11C_acceleration;

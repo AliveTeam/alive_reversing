@@ -7610,7 +7610,7 @@ void Abe::State_68_LedgeHangWobble_428E50()
 
 void Abe::State_69_RingRopePull_4299B0()
 {
-    if (field_160_pRope->sub_454D60())
+    if (field_160_pRope->vIsNotBeingPulled_454D60())
     {
         field_FC_current_motion = eAbeStates::State_91_FallingFromGrab_429780;
         field_160_pRope->field_C_refCount--;

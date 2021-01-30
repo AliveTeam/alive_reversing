@@ -52,7 +52,7 @@ PullRingRope* PullRingRope::ctor_49B2D0(Path_PullRingRope* pTlv, int tlvInfo)
     field_102_id = pTlv->field_10_id;
     field_104_target_action = pTlv->field_12_target_action;
     field_110_tlvInfo = tlvInfo;
-    field_100_state = State::eIdle_0;
+    field_100_state = States::eIdle_0;
     field_F4_stay_in_state_ticks = 0;
 
     field_BC_ypos += FP_FromInteger(pTlv->field_14_length_of_rope);
@@ -168,7 +168,7 @@ void PullRingRope::vUpdate_49B720()
 
     switch (field_100_state)
     {
-    case State::eBeingPulled_1:
+    case States::eBeingPulled_1:
         if (field_20_animation.field_92_current_frame == 2)
         {
             SFX_Play_46FA90(SoundEffect::RingRopePull_56, 0);
@@ -182,7 +182,7 @@ void PullRingRope::vUpdate_49B720()
         {
             field_C8_vely = FP_FromInteger(0);
             field_10C_is_pulled &= ~1u;
-            field_100_state = State::eTriggerEvent_2;
+            field_100_state = States::eTriggerEvent_2;
 
             if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1 ||
                 gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 ||
@@ -195,12 +195,12 @@ void PullRingRope::vUpdate_49B720()
         }
         break;
 
-    case State::eTriggerEvent_2:
+    case States::eTriggerEvent_2:
         if (field_10C_is_pulled & 1)
         {
             field_C8_vely = FP_FromInteger(4) * field_CC_sprite_scale;
             field_FC_ring_puller_id = -1;
-            field_100_state = State::eReturnToIdle_3;
+            field_100_state = States::eReturnToIdle_3;
             field_F4_stay_in_state_ticks = 3;
             field_20_animation.Set_Animation_Data_409C80(3092, 0);
 
@@ -255,13 +255,13 @@ void PullRingRope::vUpdate_49B720()
         }
         break;
 
-    case State::eReturnToIdle_3:
+    case States::eReturnToIdle_3:
         field_BC_ypos -= field_C8_vely;
         field_F4_stay_in_state_ticks--;
         if (field_F4_stay_in_state_ticks == 0)
         {
             field_C8_vely = FP_FromInteger(0);
-            field_100_state = State::eIdle_0;
+            field_100_state = States::eIdle_0;
             field_20_animation.Set_Animation_Data_409C80(3020, 0);
         }
         break;
@@ -286,13 +286,13 @@ void PullRingRope::vScreenChanged_49BCB0()
 
 __int16 PullRingRope::vPull_49BBD0(BaseGameObject* pObj)
 {
-    if (!pObj || field_100_state != State::eIdle_0)
+    if (!pObj || field_100_state != States::eIdle_0)
     {
         return 0;
     }
 
     field_FC_ring_puller_id = pObj->field_8_object_id;
-    field_100_state = State::eBeingPulled_1;
+    field_100_state = States::eBeingPulled_1;
     field_C8_vely = FP_FromInteger(2) * field_CC_sprite_scale;
     field_F4_stay_in_state_ticks = 6;
     field_20_animation.Set_Animation_Data_409C80(3060, 0);
@@ -303,7 +303,7 @@ __int16 PullRingRope::vPull_49BBD0(BaseGameObject* pObj)
 
 BOOL PullRingRope::vIsNotBeingPulled_49BC90()
 {
-    return field_100_state != State::eBeingPulled_1;
+    return field_100_state != States::eBeingPulled_1;
 }
 
 void PullRingRope::vMarkAsPulled_49B610()
