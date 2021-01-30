@@ -52,7 +52,7 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
-    int field_D4[4];
+    int field_D4_padding[4];
 };
 ALIVE_ASSERT_SIZEOF(BirdPortalTerminator, 0xE4);
 
@@ -65,47 +65,42 @@ class BirdPortal : public BaseGameObject
 {
 public:
     EXPORT BirdPortal* ctor_4520A0(Path_BirdPortal* pTlv, int tlvInfo);
-
     EXPORT BaseGameObject* dtor_452230();
-
-    virtual BaseGameObject* VDestructor(signed int flags) override;
-
-    EXPORT BirdPortal* Vdtor_453990(signed int flags);
-
-    virtual void VUpdate() override;
-
-    EXPORT void VUpdate_4523D0();
-
     EXPORT __int16 IsScaredAway_4532E0();
 
-    EXPORT void VGiveShrukull_4535A0(__int16 bPlaySound);
-
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_4538E0();
-
     virtual void VStopAudio() override;
 
-    EXPORT void VStopAudio_4532C0();
+    virtual __int16 VPortalClipper(__int16 bUnknown);
+    virtual void VMudSaved();
+    virtual void VGetMapChange(LevelIds* level, WORD* path, WORD* camera, CameraSwapEffects* screenChangeEffect, WORD* movieId);
+    virtual void VIncreaseTimerAndKillPortalClipper();
+    virtual void VKillPortalClipper();
+    virtual BOOL VStateIs20();
+    virtual void VExitPortal();
+    virtual BOOL VStateIs16();
+    virtual BOOL VStateIs6();
+    virtual void VGiveShrukull(__int16 bPlaySound);
 
-    EXPORT void VKillPortalClipper_453570();
-
-    EXPORT BOOL VStateIs6_453700();
-
-    EXPORT BOOL VStateIs16_453710();
-
-    EXPORT void VExitPortal_453720();
-
-    EXPORT BOOL VStateIs20_453800();
-
-    EXPORT void Vsub_453810();
-
+private:
+    EXPORT __int16 VPortalClipper_4533E0(__int16 bUnknown);
     EXPORT void VMudSaved_453830();
-
     EXPORT void VGetMapChange_453840(LevelIds* level, WORD* path, WORD* camera, CameraSwapEffects* screenChangeEffect, WORD* movieId);
+    EXPORT void VIncreaseTimerAndKillPortalClipper_453810();
+    EXPORT BOOL VStateIs20_453800();
+    EXPORT void VExitPortal_453720();
+    EXPORT BOOL VStateIs16_453710();
+    EXPORT BOOL VStateIs6_453700();
+    EXPORT void VKillPortalClipper_453570();
+    EXPORT void VStopAudio_4532C0();
+    EXPORT void VScreenChanged_4538E0();
+    EXPORT void VGiveShrukull_4535A0(__int16 bPlaySound);
+    EXPORT void VUpdate_4523D0();
+    EXPORT BirdPortal* Vdtor_453990(signed int flags);
 
-    EXPORT __int16 Vsub_4533E0(__int16 bUnknown);
-
+public:
     PortalType field_10_portal_type;
     PortalSide field_12_side;
     enum class States : __int16

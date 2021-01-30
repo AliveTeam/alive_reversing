@@ -5480,8 +5480,8 @@ void Abe::IntoPortalStates_4262A0()
                 field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
                 field_B8_vely = FP_FromInteger(0);
                 field_B4_velx = FP_FromInteger(0);
-                field_1A0_portal->VKillPortalClipper_453570();
-                field_1A0_portal->VGiveShrukull_4535A0(TRUE);
+                field_1A0_portal->VKillPortalClipper();
+                field_1A0_portal->VGiveShrukull(TRUE);
                 field_19E_portal_sub_state = PortalSubStates::eSetNewActiveCamera_1;
             }
             field_B8_vely += field_BC_sprite_scale * FP_FromDouble(1.8);
@@ -5491,14 +5491,14 @@ void Abe::IntoPortalStates_4262A0()
         }
     case PortalSubStates::eSetNewActiveCamera_1:
         {
-            if (field_1A0_portal->VStateIs16_453710())
+            if (field_1A0_portal->VStateIs16())
             {
                 LevelIds level = {};
                 WORD path = 0;
                 WORD camera = 0;
                 CameraSwapEffects screenChangeEffect = {};
                 WORD movieId = 0;
-                field_1A0_portal->VGetMapChange_453840(&level, &path, &camera, &screenChangeEffect, &movieId);
+                field_1A0_portal->VGetMapChange(&level, &path, &camera, &screenChangeEffect, &movieId);
                 gMap_507BA8.SetActiveCam_444660(level, path, camera, screenChangeEffect, movieId, FALSE);
                 field_19E_portal_sub_state = PortalSubStates::eSetNewAbePosition_4;
             }
@@ -5506,19 +5506,19 @@ void Abe::IntoPortalStates_4262A0()
         }
     case PortalSubStates::eHopOutOfPortal_2:
         {
-            if (field_1A0_portal->VStateIs20_453800())
+            if (field_1A0_portal->VStateIs20())
             {
-                field_1A0_portal->Vsub_4533E0(0);
+                field_1A0_portal->VPortalClipper(0);
                 field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
                 field_FC_current_motion = eAbeStates::State_29_HopBegin_4267B0;
-                field_1A0_portal->Vsub_453810();
+                field_1A0_portal->VIncreaseTimerAndKillPortalClipper();
                 field_1A0_portal = 0;
             }
             break;
         }
     case PortalSubStates::eSetNewAbePosition_4:
         {
-            field_1A0_portal->VExitPortal_453720();
+            field_1A0_portal->VExitPortal();
             field_19E_portal_sub_state = PortalSubStates::eHopOutOfPortal_2;
             field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_1A0_portal->field_12_side == PortalSide::eLeft_1);
 
@@ -7625,7 +7625,7 @@ void Abe::State_70_Knockback_428FB0()
 
     if (field_1A0_portal)
     {
-        field_1A0_portal->VKillPortalClipper_453570();
+        field_1A0_portal->VKillPortalClipper();
         field_1A0_portal = nullptr;
     }
 

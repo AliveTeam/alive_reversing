@@ -329,7 +329,7 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(__int16 distance)
                         {
                             if (FP_Abs(field_AC_ypos - pPortal->field_28_ypos) < field_BC_sprite_scale * FP_FromInteger(10))
                             {
-                                if (pPortal->Vsub_4533E0(1))
+                                if (pPortal->VPortalClipper(1))
                                 {
                                     field_10_anim.field_C_layer = field_BC_sprite_scale != FP_FromInteger(1) ? 11 : 30;
                                     return pPortal;
@@ -349,7 +349,7 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(__int16 distance)
                         {
                             if (FP_Abs(field_AC_ypos - pPortal->field_28_ypos) < (field_BC_sprite_scale * FP_FromInteger(10)))
                             {
-                                if (pPortal->Vsub_4533E0(1))
+                                if (pPortal->VPortalClipper(1))
                                 {
                                     field_10_anim.field_C_layer = field_BC_sprite_scale != FP_FromInteger(1) ? 11 : 30;
                                     return pPortal;

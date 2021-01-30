@@ -704,7 +704,7 @@ BOOL BirdPortal::VPortalExit_AbeExitting_499A00()
 
 void BirdPortal::VKillPortalClipper_499A20()
 {
-    vKillPortalClipper_499A20();
+    vIncreaseTimerAndKillPortalClipper_499A20();
 }
 
 void BirdPortal::VGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera, CameraSwapEffects* screenChangeEffect, WORD* movieId)
@@ -976,7 +976,7 @@ BOOL BirdPortal::vPortalExit_AbeExitting_499A00()
     return field_28_state == PortalStates::PortalExit_AbeExitting_20;
 }
 
-void BirdPortal::vKillPortalClipper_499A20()
+void BirdPortal::vIncreaseTimerAndKillPortalClipper_499A20()
 {
     field_28_state = PortalStates::KillPortalClipper_21;
     field_5C_timer = sGnFrame_5C1B84 + 30;

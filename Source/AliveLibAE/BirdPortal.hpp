@@ -108,7 +108,7 @@ private:
     EXPORT BOOL vAbeInsidePortal_499850();
     EXPORT void vExitPortal_499870();
     EXPORT BOOL vPortalExit_AbeExitting_499A00();
-    EXPORT void vKillPortalClipper_499A20();
+    EXPORT void vIncreaseTimerAndKillPortalClipper_499A20();
     EXPORT void vGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera, CameraSwapEffects* screenChangeEffect, WORD* movieId);
     EXPORT void dtor_4980A0();
 
