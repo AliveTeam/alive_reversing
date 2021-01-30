@@ -1158,6 +1158,10 @@ struct OTInformation
     PrimHeader** mOt;
     int mOtSize;
 
+    // A "root" pointer is one of the root elements of the OT linked list. These are not pointers to actual PrimHeader
+    // objects but actually only a pointer to another PrimHeader. Therefore dereferencing any field other than "tag" which
+    // is at offset 0 and the pointer to the next item or the terminator value is UB as it will point to random and invalid data.
+    // These root pointers can ONLY be used to get the pointer to the next item in the OT.
     bool IsRootPointer(PrimHeader* pItem) const
     {
         const BYTE* ptr = reinterpret_cast<const BYTE*>(pItem);
@@ -1215,6 +1219,8 @@ EXPORT void CC PSX_ClearOTag_4F6290(PrimHeader** otBuffer, int otBufferSize)
     int i = 0;
     for (i = 0; i < otBufferSize - 1; i++)
     {
+        // If you think this seems strange you are correct. See OTInformation::IsRootPointer
+        // for why.
         otBuffer[i] = reinterpret_cast<PrimHeader*>(&otBuffer[i + 1]);
     }
 
