@@ -1636,7 +1636,7 @@ void Slog::State_16_Sleeping_4752E0()
     {
         pSnoozeParticle->ctor_464320(
             field_A8_xpos
-            + ((field_10_anim.field_4_flags.Get(AnimFlags::eBit10_alternating_flag)) != 0 ? FP_FromInteger(-18) : FP_FromInteger(18)),
+            + ((field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? FP_FromInteger(-18) : FP_FromInteger(18)),
             field_AC_ypos - FP_FromInteger(13),
             field_10_anim.field_C_layer,
             field_10_anim.field_14_scale);
