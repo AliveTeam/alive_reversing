@@ -1022,7 +1022,7 @@ BYTE** CC ResourceManager::GetLoadedResource_4554F0(DWORD type, DWORD resourceId
 }
 
 
-EXPORT void ResourceManager::CheckResourceIsLoaded(DWORD type, std::initializer_list<ResourceID> resourceIds)
+EXPORT void ResourceManager::CheckResourceIsLoaded(DWORD type, const std::initializer_list<ResourceID>& resourceIds)
 {
     for (const auto& resourceId : resourceIds)
     {

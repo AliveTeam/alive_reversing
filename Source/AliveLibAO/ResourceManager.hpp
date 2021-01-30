@@ -157,7 +157,7 @@ public:
   
     static EXPORT BYTE** CC GetLoadedResource_4554F0(DWORD type, DWORD resourceId, __int16 addUseCount, __int16 bLock);
 
-    static EXPORT void CheckResourceIsLoaded(DWORD type, std::initializer_list<ResourceID> resourceIds);
+    static EXPORT void CheckResourceIsLoaded(DWORD type, const std::initializer_list<ResourceID>& resourceIds);
 
     static EXPORT void CC LoadingLoop_41EAD0(__int16 bShowLoadingIcon);
 
