@@ -96,9 +96,9 @@ void FartMachine::VUpdate()
     vUpdate_4132C0();
 }
 
-void FartMachine::VRender(int** pOrderingTable)
+void FartMachine::VRender(PrimHeader** ppOt)
 {
-    vRender_4133F0(pOrderingTable);
+    vRender_4133F0(ppOt);
 }
 
 FartMachine* FartMachine::vdtor_413290(signed int flags)
@@ -138,7 +138,7 @@ void FartMachine::vUpdate_4132C0()
     }
 }
 
-void FartMachine::vRender_4133F0(int** pOt)
+void FartMachine::vRender_4133F0(PrimHeader** ppOt)
 {
     if (gMap_5C3030.field_4_current_camera == field_1E6_cam_id)
     {
@@ -152,7 +152,7 @@ void FartMachine::vRender_4133F0(int** pOt)
         }
 
         field_104_font.DrawString_4337D0(
-            pOt,
+            ppOt,
             text,
             field_13C_textX,
             field_13E_textY,
@@ -177,5 +177,5 @@ void FartMachine::vRender_4133F0(int** pOt)
             pScreenManager_5BB5F4->field_3A_idx);
     }
 
-    BaseAnimatedWithPhysicsGameObject::VRender(pOt);
+    BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 }

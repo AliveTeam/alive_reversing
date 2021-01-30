@@ -85,7 +85,7 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VStopAudio() override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
@@ -103,7 +103,7 @@ private:
     EXPORT BOOL CheckFloorCollision_46F730(FP hitX, FP hitY);
     EXPORT void vUpdate_46C010();
     EXPORT void vUpdate_REAL_46C010();
-    EXPORT void vRender_46E760(int **pOt);
+    EXPORT void vRender_46E760(PrimHeader** ppOt);
     EXPORT void Stop_46E570();
     EXPORT void Move_46E640(unsigned __int16 frameTabeOffset, FP velX, FP velY, InputCommands input, MineCarDirs dir, char bChangeDirection);
     EXPORT __int16 IsBlocked_46F4A0(__int16 a2, int a3);

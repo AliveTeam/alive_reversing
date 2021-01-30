@@ -453,9 +453,9 @@ void PauseMenu::VUpdate()
     Update_48FD80();
 }
 
-void PauseMenu::VRender(int** pOrderingTable)
+void PauseMenu::VRender(PrimHeader** ppOt)
 {
-    Render_490BD0(pOrderingTable);
+    Render_490BD0(ppOt);
 }
 
 void PauseMenu::VScreenChanged()
@@ -550,7 +550,7 @@ void PauseMenu::Init_491760()
     }
 }
 
-void PauseMenu::Render_490BD0(int** ot)
+void PauseMenu::Render_490BD0(PrimHeader** ot)
 {
     field_142_poly_offset = 0;
 
@@ -906,7 +906,7 @@ void PauseMenu_ForceLink() {
 #endif
 }
 
-void PauseMenu::Page_Base_Render_490A50(int** ot, PauseMenu::PauseMenuPage* mp)
+void PauseMenu::Page_Base_Render_490A50(PrimHeader** ot, PauseMenu::PauseMenuPage* mp)
 {
     int i = 0;
     PauseMenuPageEntry* e = &mp->field_8_menu_items[i];
@@ -1321,7 +1321,7 @@ PauseMenu::PauseMenuPage sOverwriteSaveConfirmPage_55E560 =
 };
 
 
-void PauseMenu::Page_Save_Render_491660(int** ot, PauseMenuPage* pPage)
+void PauseMenu::Page_Save_Render_491660(PrimHeader** ot, PauseMenuPage* pPage)
 {
     PauseMenuPage* pPageToRender = &sOverwriteSaveConfirmPage_55E560;
     if (field_13C_save_state != SaveState::SaveConfirmOverwrite_8)
@@ -1343,7 +1343,7 @@ void PauseMenu::Page_Status_Update_4916A0()
     }
 }
 
-void PauseMenu::Page_Status_Render_491710(int** ot, PauseMenuPage* pPage)
+void PauseMenu::Page_Status_Render_491710(PrimHeader** ot, PauseMenuPage* pPage)
 {
     // Render the status icon
     field_158_animation.field_C_render_layer = 41;
@@ -1462,7 +1462,7 @@ void PauseMenu::Page_Load_Update_490D50()
     }
 }
 
-void PauseMenu::Page_Load_Render_4910A0(int** ot, PauseMenuPage* mp)
+void PauseMenu::Page_Load_Render_4910A0(PrimHeader** ot, PauseMenuPage* mp)
 {
     int saveIdx = sSavedGameToLoadIdx_BB43FC - 2;
     for (int i = 0; i < 6; i++)

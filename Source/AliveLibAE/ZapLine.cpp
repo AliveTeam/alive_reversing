@@ -119,9 +119,9 @@ void ZapLine::VUpdate()
     vUpdate_4CD790();
 }
 
-void ZapLine::VRender(int** pOrderingTable)
+void ZapLine::VRender(PrimHeader** ppOt)
 {
-    vRender_4CD8C0(pOrderingTable);
+    vRender_4CD8C0(ppOt);
 }
 
 
@@ -406,7 +406,7 @@ void ZapLine::vUpdate_4CD790()
     }
 }
 
-void ZapLine::vRender_4CD8C0(int** pOt)
+void ZapLine::vRender_4CD8C0(PrimHeader** ppOt)
 {
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
         field_C2_lvl_number,
@@ -424,7 +424,7 @@ void ZapLine::vRender_4CD8C0(int** pOt)
             {
                 Prim_Sprt* pSprt = &field_134_pSprites->field_0_sprts[j + (i * field_130_number_of_pieces_per_segment)];
                 OrderingTable_Add_4F8AA0(
-                    &pOt[field_20_animation.field_C_render_layer],
+                    &ppOt[field_20_animation.field_C_render_layer],
                     &pSprt[bufferIdx].mBase.header);
             }
         }
@@ -437,7 +437,7 @@ void ZapLine::vRender_4CD8C0(int** pOt)
 
         Prim_SetTPage* pTPage = &field_FC_tPage_p8[bufferIdx];
         Init_SetTPage_4F5B60(pTPage, 0, 0, calcTPage);
-        OrderingTable_Add_4F8AA0(&pOt[field_20_animation.field_C_render_layer], &pTPage->mBase);
+        OrderingTable_Add_4F8AA0(&ppOt[field_20_animation.field_C_render_layer], &pTPage->mBase);
 
         PSX_RECT* pRect = &field_144_rects[bufferIdx];
         pRect->x = 32767;

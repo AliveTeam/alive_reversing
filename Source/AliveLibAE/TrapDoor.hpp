@@ -39,7 +39,7 @@ class TrapDoor : public PlatformBase
 public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
     virtual PSX_RECT* vGetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx) override;
@@ -53,7 +53,7 @@ public:
 private:
     EXPORT BaseGameObject* vdtor_4DD8A0(signed int flags);
     EXPORT void vUpdate_4DDA90();
-    EXPORT void vRender_4DDDD0(int** ot);
+    EXPORT void vRender_4DDDD0(PrimHeader** ppOt);
     EXPORT void vScreenChanged_4DDE40();
     EXPORT int vGetSaveState_4DE050(TrapDoor_State* pState);
     EXPORT PSX_RECT* vGetBoundingRect_4DD870(PSX_RECT* pRect, int /*not_used*/);

@@ -3543,9 +3543,9 @@ void Elum::VUpdate()
     VUpdate_4102A0();
 }
 
-void Elum::VRender(int** pOrderingTable)
+void Elum::VRender(PrimHeader** ppOt)
 {
-    VRender_410E40(pOrderingTable);
+    VRender_410E40(ppOt);
 }
 
 void Elum::VScreenChanged()
@@ -3811,13 +3811,13 @@ void Elum::VUpdate_4102A0()
     }
 }
 
-void Elum::VRender_410E40(int** ot)
+void Elum::VRender_410E40(PrimHeader** ppOt)
 {
     if (field_B2_lvl_number == gMap_507BA8.field_0_current_level
         && field_B0_path_number == gMap_507BA8.field_2_current_path
         && !field_8_update_delay)
     {
-        BaseAnimatedWithPhysicsGameObject::VRender(ot);
+        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
 }
 

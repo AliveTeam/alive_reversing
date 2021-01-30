@@ -10,9 +10,9 @@ void AnimationUnknown::vDecode_40AC90()
     // VNull_409C20
 }
 
-void AnimationUnknown::vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, signed int height)
+void AnimationUnknown::vRender_40B820(int xpos, int ypos, PrimHeader** ppOt, __int16 width, signed int height)
 {
-    vRender_40C690(xpos, ypos, pOt, width, height);
+    vRender_40C690(xpos, ypos, ppOt, width, height);
 }
 
 void AnimationUnknown::vCleanUp_40C630()
@@ -25,7 +25,7 @@ void AnimationUnknown::GetRenderedSize_40C980(PSX_RECT* pRect)
     Poly_FT4_Get_Rect_409DA0(pRect, &field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index]);
 }
 
-void AnimationUnknown::vRender_40C690(int xpos, int ypos, int** pOt, int /*width*/, int /*height*/)
+void AnimationUnknown::vRender_40C690(int xpos, int ypos, PrimHeader** ppOt, int /*width*/, int /*height*/)
 {
     Poly_FT4* pPoly = &field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index];
     if (field_4_flags.Get(AnimFlags::eBit3_Render))
@@ -130,7 +130,7 @@ void AnimationUnknown::vRender_40C690(int xpos, int ypos, int** pOt, int /*width
         {
             SetPrimExtraPointerHack(pPoly, nullptr);
         }
-        OrderingTable_Add_4F8AA0(&pOt[field_C_render_layer], &pPoly->mBase.header);
+        OrderingTable_Add_4F8AA0(&ppOt[field_C_render_layer], &pPoly->mBase.header);
     }
 }
 

@@ -31,7 +31,7 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
     virtual void VScreenChanged() override;
@@ -39,7 +39,7 @@ private:
     EXPORT MovingBomb* vdtor_470040(signed int flags);
     EXPORT void dtor_4700C0();
     EXPORT void BlowUp_470070();
-    EXPORT void vRender_4707D0(int** ot);
+    EXPORT void vRender_4707D0(PrimHeader** ot);
     EXPORT void vScreenChanged_470B90();
     EXPORT void FollowLine_470950();
     EXPORT __int16 vTakeDamage_470990(BaseGameObject* pFrom);

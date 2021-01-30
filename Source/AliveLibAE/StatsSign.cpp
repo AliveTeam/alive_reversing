@@ -39,9 +39,9 @@ void StatsSign::VUpdate()
     vUpdate_47B8D0();
 }
 
-void StatsSign::VRender(int** pOrderingTable)
+void StatsSign::VRender(PrimHeader** ppOt)
 {
-    vRender_47B900(pOrderingTable);
+    vRender_47B900(ppOt);
 }
 
 void StatsSign::VScreenChanged()
@@ -116,7 +116,7 @@ void StatsSign::vUpdate_47B8D0()
 }
 
 // Todo: clean up
-void StatsSign::vRender_47B900(int** pOt)
+void StatsSign::vRender_47B900(PrimHeader** ppOt)
 {
     if (!field_108_is_hidden)
     {
@@ -132,7 +132,7 @@ void StatsSign::vRender_47B900(int** pOt)
 
         // Muds In This Level
         field_90_font3.DrawString_4337D0(
-            pOt,
+            ppOt,
             text,
             field_104_position_x - maxWidth + 33,
             field_106_position_y,
@@ -154,7 +154,7 @@ void StatsSign::vRender_47B900(int** pOt)
         sprintf(text, "%3d", mudsLeftInArea);
         const int font4Width = field_C8_font4.MeasureWidth_433700(text);
         field_C8_font4.DrawString_4337D0(
-            pOt,
+            ppOt,
             text,
             field_104_position_x - font4Width + 33,
             field_106_position_y + 16,
@@ -175,7 +175,7 @@ void StatsSign::vRender_47B900(int** pOt)
         sprintf(text, "%3d", sRescuedMudokons_5C1BC2);
         const int font2Width = field_58_font2.MeasureWidth_433700(text);
         field_58_font2.DrawString_4337D0(
-            pOt,
+            ppOt,
             text,
             field_104_position_x - font2Width + 33,
             field_106_position_y + 32,
@@ -196,7 +196,7 @@ void StatsSign::vRender_47B900(int** pOt)
         sprintf(text, "%3d", sKilledMudokons_5C1BC0);
         const int font1Width = field_20_font1.MeasureWidth_433700(text);
         field_20_font1.DrawString_4337D0(
-            pOt,
+            ppOt,
             text,
             field_104_position_x - font1Width + 33,
             field_106_position_y + 48,

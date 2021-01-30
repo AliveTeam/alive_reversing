@@ -107,9 +107,9 @@ void MineCar::VUpdate()
     vUpdate_46C010();
 }
 
-void MineCar::VRender(int** pOrderingTable)
+void MineCar::VRender(PrimHeader** ppOt)
 {
-    vRender_46E760(pOrderingTable);
+    vRender_46E760(ppOt);
 }
 
 void MineCar::VScreenChanged()
@@ -425,7 +425,7 @@ BOOL MineCar::CheckFloorCollision_46F730(FP hitX, FP hitY)
     return 1;
 }
 
-void MineCar::vRender_46E760(int** pOt)
+void MineCar::vRender_46E760(PrimHeader** ppOt)
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
@@ -458,7 +458,7 @@ void MineCar::vRender_46E760(int** pOt)
             field_124_anim.vRender_40B820(
                 FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
                 FP_GetExponent(field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
-                pOt,
+                ppOt,
                 0,
                 0);
         }
@@ -471,7 +471,7 @@ void MineCar::vRender_46E760(int** pOt)
             frameRect.w,
             frameRect.h,
             pScreenManager_5BB5F4->field_3A_idx);
-        BaseAnimatedWithPhysicsGameObject::VRender(pOt);
+        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
 }
 

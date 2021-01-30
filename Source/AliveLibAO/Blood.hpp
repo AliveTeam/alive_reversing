@@ -38,9 +38,9 @@ public:
 
     EXPORT void VScreenChanged_407AB0();
 
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_407810(int** ppOt);
+    EXPORT void VRender_407810(PrimHeader** ppOt);
 
     int field_D4_not_used[4];
     BYTE** field_E4_ppResBuf;

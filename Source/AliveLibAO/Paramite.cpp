@@ -321,12 +321,12 @@ BYTE** Paramite::ResBlockForMotion_44AC10(__int16 motion)
     return field_150_resources[idx];
 }
 
-void Paramite::VRender(int** pOrderingTable)
+void Paramite::VRender(PrimHeader** ppOt)
 {
-    VRender_44ACA0(pOrderingTable);
+    VRender_44ACA0(ppOt);
 }
 
-void Paramite::VRender_44ACA0(int** ppOt)
+void Paramite::VRender_44ACA0(PrimHeader** ppOt)
 {
     if (field_8_update_delay == 0)
     {

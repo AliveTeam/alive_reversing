@@ -5,7 +5,7 @@
 
 namespace AO {
 
-void DeathFadeOut::VRender_419ED0(int** ppOt)
+void DeathFadeOut::VRender_419ED0(PrimHeader** ppOt)
 {
     field_62_b = field_68_current_fade_rgb;
     field_60_g = field_68_current_fade_rgb;
@@ -23,7 +23,7 @@ void DeathFadeOut::VRender_419ED0(int** ppOt)
     }
 }
 
-void DeathFadeOut::VRender(int** ppOt)
+void DeathFadeOut::VRender(PrimHeader** ppOt)
 {
     VRender_419ED0(ppOt);
 }

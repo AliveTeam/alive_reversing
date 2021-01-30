@@ -525,7 +525,7 @@ void Slig::VUpdate()
 }
 
 
-void renderWithGlowingEyes(int** ot, BaseAliveGameObject* actor, __int16* pPalAlloc, __int16 palSize, PSX_RECT* palRect,
+void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, __int16* pPalAlloc, __int16 palSize, PSX_RECT* palRect,
                             __int16& r, __int16& g, __int16& b,
                             const __int16* eyeColourIndices, __int16 eyeColourIndicesSize)
 {
@@ -634,12 +634,12 @@ void renderWithGlowingEyes(int** ot, BaseAliveGameObject* actor, __int16* pPalAl
     }
 }
 
-void Slig::VRender(int** pOrderingTable)
+void Slig::VRender(PrimHeader** ppOt)
 {
-    vRender_4B1F80(pOrderingTable);
+    vRender_4B1F80(ppOt);
 }
 
-void Slig::vRender_4B1F80(int** ot)
+void Slig::vRender_4B1F80(PrimHeader** ot)
 {
     const __int16 eyeIndices[] = { 61, 62 };
     renderWithGlowingEyes(ot, this, &field_178_pPalAlloc[0], ALIVE_COUNTOF(field_178_pPalAlloc),

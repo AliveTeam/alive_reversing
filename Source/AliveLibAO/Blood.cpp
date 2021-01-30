@@ -221,12 +221,12 @@ void Blood::VScreenChanged_407AB0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-void Blood::VRender(int** pOrderingTable)
+void Blood::VRender(PrimHeader** ppOt)
 {
-    VRender_407810(pOrderingTable);
+    VRender_407810(ppOt);
 }
 
-void Blood::VRender_407810(int** ppOt)
+void Blood::VRender_407810(PrimHeader** ppOt)
 {
     const auto bufferIdx = gPsxDisplay_504C78.field_A_buffer_index;
     if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(

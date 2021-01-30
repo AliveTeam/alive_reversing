@@ -108,7 +108,7 @@ public:
     bool EnsureDecompressionBuffer();
     void DecompressFrame();
 
-    EXPORT virtual void vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, signed int height) override;
+    EXPORT virtual void vRender_40B820(int xpos, int ypos, PrimHeader** ppOt, __int16 width, signed int height) override;
     EXPORT virtual void vCleanUp_40C630() override;
 
     EXPORT void vDecode2_40B200();

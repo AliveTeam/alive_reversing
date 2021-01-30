@@ -68,12 +68,12 @@ public:
         // Stayin' alive
     }
 
-    virtual void VRender(int** ppOt) override
+    virtual void VRender(PrimHeader** ppOt) override
     {
         VRender_4171A0(ppOt);
     }
 
-    EXPORT void VRender_4171A0(int** /*ppOt*/)
+    EXPORT void VRender_4171A0(PrimHeader** /*ppOt*/)
     {
         if (!field_BE_bDone)
         {

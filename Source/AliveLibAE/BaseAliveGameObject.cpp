@@ -117,9 +117,9 @@ BaseGameObject* BaseAliveGameObject::vdtor_408210(signed int flags)
     return this;
 }
 
-void BaseAliveGameObject::VRender(int** pOrderingTable)
+void BaseAliveGameObject::VRender(PrimHeader** ppOt)
 {
-    Render_424B90(pOrderingTable);
+    Render_424B90(ppOt);
 }
 
 BaseGameObject* BaseAliveGameObject::VDestructor(signed int flags)

@@ -170,9 +170,9 @@ PSX_RECT* ParamiteWebLine::vGetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx
     return vGetBoundingRect_4E2B40(pRect, pointIdx);
 }
 
-void ParamiteWebLine::VRender(int** pOrderingTable)
+void ParamiteWebLine::VRender(PrimHeader** ppOt)
 {
-    vRender_4E2530(pOrderingTable);
+    vRender_4E2530(ppOt);
 }
 
 ParamiteWebLine* ParamiteWebLine::vdtor_4E2460(signed int flags)
@@ -236,7 +236,7 @@ PSX_RECT* ParamiteWebLine::vGetBoundingRect_4E2B40(PSX_RECT* pRect, int /*idx*/)
 
 const __int16 word_563A8C[10] = { 0, 1, -3, 2, -4, 4, -6, 4, 0, 0 };
 
-void ParamiteWebLine::vRender_4E2530(int** ppOt)
+void ParamiteWebLine::vRender_4E2530(PrimHeader** ppOt)
 {
     if (!field_104_wobble_idx && !field_1A4_delay_counter)
     {

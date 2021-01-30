@@ -54,7 +54,7 @@ public:
     EXPORT LiftPoint* ctor_461030(Path_LiftPoint* pTlv, int tlvInfo);
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
@@ -72,7 +72,7 @@ public:
 
     EXPORT void vMove_4626A0(FP xSpeed, FP ySpeed, int not_used);
 private:
-    EXPORT void vRender_462730(int** pOt);
+    EXPORT void vRender_462730(PrimHeader** ppOt);
     EXPORT void vUpdate_461AE0();
     EXPORT void MoveObjectsOnLift_497600(FP xVelocity);
     EXPORT static void CCSTD sub_461000(Path_TLV* pTlv);

@@ -272,12 +272,12 @@ BaseGameObject* Scrab::VDestructor(signed int flags)
     return Vdtor_45C310(flags);
 }
 
-void Scrab::VRender(int** pOrderingTable)
+void Scrab::VRender(PrimHeader** ppOt)
 {
-    VRender_45BBF0(pOrderingTable);
+    VRender_45BBF0(ppOt);
 }
 
-void Scrab::VRender_45BBF0(int** ppOt)
+void Scrab::VRender_45BBF0(PrimHeader** ppOt)
 {
     if (field_8_update_delay == 0)
     {

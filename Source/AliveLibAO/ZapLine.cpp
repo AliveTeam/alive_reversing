@@ -173,12 +173,12 @@ void ZapLine::VScreenChanged_479B00()
     }
 }
 
-void ZapLine::VRender(int** ppOt)
+void ZapLine::VRender(PrimHeader** ppOt)
 {
     VRender_479840(ppOt);
 }
 
-void ZapLine::VRender_479840(int** ppOt)
+void ZapLine::VRender_479840(PrimHeader** ppOt)
 {
     if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
         field_B2_lvl_number,

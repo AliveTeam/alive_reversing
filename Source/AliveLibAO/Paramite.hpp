@@ -73,9 +73,9 @@ public:
 
     EXPORT BYTE** ResBlockForMotion_44AC10(__int16 motion);
 
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_44ACA0(int** ppOt);
+    EXPORT void VRender_44ACA0(PrimHeader** ppOt);
 
     virtual __int16 VTakeDamage(BaseGameObject* pFrom) override;
 

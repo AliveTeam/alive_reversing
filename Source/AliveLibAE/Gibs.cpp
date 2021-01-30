@@ -287,9 +287,9 @@ void Gibs::VUpdate()
     vUpdate_410210();
 }
 
-void Gibs::VRender(int** pOrderingTable)
+void Gibs::VRender(PrimHeader** ppOt)
 {
-    vRender_4103A0(pOrderingTable);
+    vRender_4103A0(ppOt);
 }
 
 void Gibs::dtor_410170()
@@ -351,7 +351,7 @@ void Gibs::vUpdate_410210()
     }
 }
 
-EXPORT void Gibs::vRender_4103A0(int** ot)
+EXPORT void Gibs::vRender_4103A0(PrimHeader** ppOt)
 {
     if (sNum_CamSwappers_5C1B66 > 0)
     {
@@ -366,7 +366,7 @@ EXPORT void Gibs::vRender_4103A0(int** ot)
     }
 
     // Head part rendering
-    BaseAnimatedWithPhysicsGameObject::VRender(ot);
+    BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 
     const FP_Point* pCamPos = pScreenManager_5BB5F4->field_20_pCamPos;
     const FP camXPos = pCamPos->field_0_x;
@@ -403,7 +403,7 @@ EXPORT void Gibs::vRender_4103A0(int** ot)
                     const int xpos = FP_GetExponent(field_104_parts[i].field_0_x - camXPos);
                     const int ypos = FP_GetExponent(field_104_parts[i].field_4_y - camYPos);
 
-                    field_104_parts[i].field_18_anim.vRender_40B820(xpos, ypos, ot, 0, 0);
+                    field_104_parts[i].field_18_anim.vRender_40B820(xpos, ypos, ppOt, 0, 0);
 
                     PSX_RECT frameRect = {};
                     field_104_parts[i].field_18_anim.Get_Frame_Rect_409E10(&frameRect);

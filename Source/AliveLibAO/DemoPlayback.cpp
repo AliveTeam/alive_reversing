@@ -87,7 +87,7 @@ void DemoPlayback::VScreenChanged()
     // Keep alive
 }
 
-void DemoPlayback::VRender(int** /*ppOt*/)
+void DemoPlayback::VRender(PrimHeader** /*ppOt*/)
 {
     // Render nothing
 }

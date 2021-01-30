@@ -30,7 +30,7 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
     virtual void VScreenChanged() override;
 public:

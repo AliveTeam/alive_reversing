@@ -16,9 +16,9 @@ public:
 
     EXPORT void VUpdate_42A730();
 
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_42A7A0(int** ppOt);
+    EXPORT void VRender_42A7A0(PrimHeader** ppOt);
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
@@ -58,9 +58,9 @@ public:
 
     EXPORT void StartTrans_436560(__int16 layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 speed);
 
-    virtual void VRender(int** ppOt) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_436610(int** ppOt);
+    EXPORT void VRender_436610(PrimHeader** ppOt);
 
     __int16 field_10_current_Value;
     __int16 field_12_change_by_speed;
@@ -99,9 +99,9 @@ public:
 
     EXPORT void VUpdate_47ABB0();
 
-    virtual void VRender(int** ppOt) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_47AC00(int** ppOt);
+    EXPORT void VRender_47AC00(PrimHeader** ppOt);
 
     virtual void VScreenChanged() override;
 
@@ -179,24 +179,24 @@ public:
 
     EXPORT void GameSpeak_To_MainScreen_Update_47D690();
 
-    EXPORT void ToggleMotions_Render_47CAB0(int** ppOt);
-    EXPORT void SaveLoadFailed_Render_47DCF0(int** ppOt);
-    EXPORT void ButtonRemap_Render_47F940(int** ppOt);
-    EXPORT void Options_Sound_Render_47C630(int** ppOt);
-    EXPORT void Options_Controller_Render_47F430(int** ppOt);
-    EXPORT void Empty_Render_47AC80(int** ppOt);
-    EXPORT void FMV_Or_Level_Select_Render_47EEA0(int** ppOt);
-    EXPORT void MainScreen_Render_47BED0(int** ppOt);
-    EXPORT void GameSpeak_Render_47D700(int** ppOt);
-    EXPORT void Render_NoRefs_47E5B0(int** ppOt);
-    EXPORT void Load_Render_47DDA0(int** ppOt);
-    EXPORT void Options_Render_47C190(int** ppOt);
+    EXPORT void ToggleMotions_Render_47CAB0(PrimHeader** ppOt);
+    EXPORT void SaveLoadFailed_Render_47DCF0(PrimHeader** ppOt);
+    EXPORT void ButtonRemap_Render_47F940(PrimHeader** ppOt);
+    EXPORT void Options_Sound_Render_47C630(PrimHeader** ppOt);
+    EXPORT void Options_Controller_Render_47F430(PrimHeader** ppOt);
+    EXPORT void Empty_Render_47AC80(PrimHeader** ppOt);
+    EXPORT void FMV_Or_Level_Select_Render_47EEA0(PrimHeader** ppOt);
+    EXPORT void MainScreen_Render_47BED0(PrimHeader** ppOt);
+    EXPORT void GameSpeak_Render_47D700(PrimHeader** ppOt);
+    EXPORT void Render_NoRefs_47E5B0(PrimHeader** ppOt);
+    EXPORT void Load_Render_47DDA0(PrimHeader** ppOt);
+    EXPORT void Options_Render_47C190(PrimHeader** ppOt);
 
     EXPORT void FMV_Or_Level_Select_Back_Update_47ECB0();
 
     EXPORT static void CC OnResourceLoaded_47ADA0(Menu* pMenu);
 
-    EXPORT static void CC RenderElement_47A4E0(int xpos, int ypos, int input_command, int** ot, AliveFont* pFont, int* pPolyOffset);
+    EXPORT static void CC RenderElement_47A4E0(int xpos, int ypos, int input_command, PrimHeader** ot, AliveFont* pFont, int* pPolyOffset);
 
     int field_D4[4];
     BYTE** field_E4_res_array[6];

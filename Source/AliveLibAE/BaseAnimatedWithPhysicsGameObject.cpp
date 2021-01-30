@@ -90,9 +90,9 @@ void BaseAnimatedWithPhysicsGameObject::VUpdate()
     Update_424AB0();
 }
 
-void BaseAnimatedWithPhysicsGameObject::VRender(int** pOrderingTable)
+void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
 {
-    Render_424B90(pOrderingTable);
+    Render_424B90(ppOt);
 }
 
 void BaseAnimatedWithPhysicsGameObject::Update_424AB0()
@@ -100,7 +100,7 @@ void BaseAnimatedWithPhysicsGameObject::Update_424AB0()
     // Empty
 }
 
-void BaseAnimatedWithPhysicsGameObject::Render_424B90(int** pOrderingTable)
+void BaseAnimatedWithPhysicsGameObject::Render_424B90(PrimHeader** ppOt)
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
@@ -136,7 +136,7 @@ void BaseAnimatedWithPhysicsGameObject::Render_424B90(int** pOrderingTable)
             field_20_animation.vRender_40B820(
                 FP_GetExponent((FP_FromInteger(field_DA_xOffset) + field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x)),
                 FP_GetExponent((FP_FromInteger(field_D8_yOffset) + field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y)),
-                pOrderingTable,
+                ppOt,
                 0,
                 0);
 
@@ -157,7 +157,7 @@ void BaseAnimatedWithPhysicsGameObject::Render_424B90(int** pOrderingTable)
                     &frameRect,
                     field_CC_sprite_scale,
                     field_D6_scale);
-                field_E0_pShadow->Render_4ACE60(pOrderingTable);
+                field_E0_pShadow->Render_4ACE60(ppOt);
             }
         }
     }

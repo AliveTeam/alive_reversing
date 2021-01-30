@@ -406,12 +406,12 @@ void MeatSaw::GrindUpObjects_439CD0()
     }
 }
 
-void MeatSaw::VRender(int** pOrderingTable)
+void MeatSaw::VRender(PrimHeader** ppOt)
 {
-    VRender_439F50(pOrderingTable);
+    VRender_439F50(ppOt);
 }
 
-void MeatSaw::VRender_439F50(int** ppOt)
+void MeatSaw::VRender_439F50(PrimHeader** ppOt)
 {
     if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
         field_B2_lvl_number,

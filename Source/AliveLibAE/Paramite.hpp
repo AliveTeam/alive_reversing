@@ -172,9 +172,9 @@ public:
 
     virtual void VUpdate() override;
 
-    virtual void VRender(int** pOrderingTable) override
+    virtual void VRender(PrimHeader** ppOt) override
     {
-        vRender_488220(pOrderingTable);
+        vRender_488220(ppOt);
     }
 
     virtual __int16 vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther) override
@@ -375,7 +375,7 @@ private:
 
     EXPORT PathLine* WebCollision_4888A0(FP yOff, FP xOff);
 
-    EXPORT void vRender_488220(int** ot);
+    EXPORT void vRender_488220(PrimHeader** ppOt);
 
     EXPORT void vOnTrapDoorOpen_489F60();
 

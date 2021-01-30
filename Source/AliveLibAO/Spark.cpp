@@ -182,12 +182,12 @@ void Spark::VUpdate_477DB0()
     }
 }
 
-void Spark::VRender(int** ppOt)
+void Spark::VRender(PrimHeader** ppOt)
 {
     VRender_477ED0(ppOt);
 }
 
-void Spark::VRender_477ED0(int** ppOt)
+void Spark::VRender_477ED0(PrimHeader** ppOt)
 {
     PSX_RECT rect = {};
     rect.x = 32767;

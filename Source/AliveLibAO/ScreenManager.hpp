@@ -93,9 +93,9 @@ public:
 
     int GetTPage(char tp, char abr, int* xpos, int* ypos);
 
-    virtual void VRender(int** ppOt) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_406A60(int** ppOt);
+    EXPORT void VRender_406A60(PrimHeader** ppOt);
 
     EXPORT void sub_406FF0();
 

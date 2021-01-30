@@ -4,6 +4,8 @@
 #include "Psx_common.hpp"
 #include "FixedPoint.hpp"
 
+struct PrimHeader;
+
 namespace AO {
 
 // 368*40/23 =640
@@ -46,7 +48,7 @@ struct PSX_Display_Buffer
 {
     PSX_DRAWENV field_0_draw_env;
     PSX_DISPENV field_5C_disp_env;
-    int* field_70_ot_buffer[256];
+    PrimHeader* field_70_ot_buffer[256];
 };
 ALIVE_ASSERT_SIZEOF(PSX_Display_Buffer, 0x470);
 

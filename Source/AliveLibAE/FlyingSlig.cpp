@@ -712,12 +712,12 @@ void FlyingSlig::vUpdate_434AD0()
     }
 }
 
-void FlyingSlig::VRender(int** pOrderingTable)
+void FlyingSlig::VRender(PrimHeader** ppOt)
 {
-    vRender_435130(pOrderingTable);
+    vRender_435130(ppOt);
 }
 
-void FlyingSlig::vRender_435130(int** ot)
+void FlyingSlig::vRender_435130(PrimHeader** ot)
 {
     const __int16 eyeIndices[] = { 60, 62 };
     renderWithGlowingEyes(ot, this, &field_1F4_pPalAlloc[0], ALIVE_COUNTOF(field_1F4_pPalAlloc),

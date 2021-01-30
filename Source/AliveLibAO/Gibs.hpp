@@ -43,9 +43,9 @@ public:
 
     EXPORT BaseGameObject* Vdtor_4083D0(unsigned int flags);
 
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_408200(int** ppOt);
+    EXPORT void VRender_408200(PrimHeader** ppOt);
 
     int field_D4[4];
     const Gib_Data* field_E4_pGibData;

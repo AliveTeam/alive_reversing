@@ -35,9 +35,9 @@ public:
 
     void DealDamage();
 
-    virtual void VRender(int** ppOt) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_40C2F0(int** ppOt);
+    EXPORT void VRender_40C2F0(PrimHeader** ppOt);
 
     FontContext field_10_font_context;
     AliveFont field_20_font;

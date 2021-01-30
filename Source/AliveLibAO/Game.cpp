@@ -445,7 +445,7 @@ EXPORT void CC Game_Loop_437630()
         }
 
         // Render objects
-        int** ppOt = gPsxDisplay_504C78.field_C_drawEnv[gPsxDisplay_504C78.field_A_buffer_index].field_70_ot_buffer;
+        PrimHeader** ppOt = gPsxDisplay_504C78.field_C_drawEnv[gPsxDisplay_504C78.field_A_buffer_index].field_70_ot_buffer;
 
         for (int i = 0; i < gObjList_drawables_504618->Size(); i++)
         {

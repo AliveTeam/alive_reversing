@@ -63,9 +63,9 @@ public:
 
     EXPORT void VUpdate_434D10();
 
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_435780(int** ppOt);
+    EXPORT void VRender_435780(PrimHeader** ppOt);
 
     virtual void VScreenChanged() override;
 

@@ -125,7 +125,7 @@ void ThrowableTotalIndicator::VUpdate_41B690()
     }
 }
 
-void ThrowableTotalIndicator::VRender(int** ppOt)
+void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
 {
     VRender_41B810(ppOt);
 }
@@ -281,7 +281,7 @@ const __int16 *kNumbersArray_4C56A8[12] =
     kCheckpoint
 };
 
-void ThrowableTotalIndicator::VRender_41B810(int** ppOt)
+void ThrowableTotalIndicator::VRender_41B810(PrimHeader** ppOt)
 {
     if (*kNumbersArray_4C56A8[field_38_num_to_show] <= 0)
     {

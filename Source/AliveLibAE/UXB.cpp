@@ -116,9 +116,9 @@ void UXB::VUpdate()
     Update_4DF030();
 }
 
-void UXB::VRender(int** pOrderingTable)
+void UXB::VRender(PrimHeader** ppOt)
 {
-    Render_4DF3D0(pOrderingTable);
+    Render_4DF3D0(ppOt);
 }
 
 BaseGameObject* UXB::VDestructor(signed int flags)
@@ -513,7 +513,7 @@ void UXB::Update_4DF030()
     }
 }
 
-void UXB::Render_4DF3D0(int** ppOt)
+void UXB::Render_4DF3D0(PrimHeader** ppOt)
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {

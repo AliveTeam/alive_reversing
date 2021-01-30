@@ -17,7 +17,7 @@ public:
     // WARNING: Not a derived type - keep virtuals in order for BC
     EXPORT virtual OrbWhirlWindParticle* vdtor_4E42D0(char flags);
     EXPORT virtual void VUpdate_4E4510();
-    EXPORT virtual void VRender_4E4B10(int** ppOt);
+    EXPORT virtual void VRender_4E4B10(PrimHeader** ppOt);
 
 private:
     EXPORT void dtor_4E4300();

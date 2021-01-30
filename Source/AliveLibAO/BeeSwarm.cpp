@@ -604,12 +604,12 @@ void BeeSwarm::ToFlyAwayAndDie()
     }
 }
 
-void BeeSwarm::VRender(int** pOrderingTable)
+void BeeSwarm::VRender(PrimHeader** ppOt)
 {
-    VRender_480AC0(pOrderingTable);
+    VRender_480AC0(ppOt);
 }
 
-void BeeSwarm::VRender_480AC0(int** ppOt)
+void BeeSwarm::VRender_480AC0(PrimHeader** ppOt)
 {
     field_10_anim.field_C_layer = 38;
     field_10_anim.field_8_r = static_cast<BYTE>(field_C0_r);

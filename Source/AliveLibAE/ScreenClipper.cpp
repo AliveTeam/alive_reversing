@@ -33,9 +33,9 @@ BaseGameObject* ScreenClipper::VDestructor(signed int flags)
     return vdtor_416E00(flags);
 }
 
-void ScreenClipper::VRender(int** ot)
+void ScreenClipper::VRender(PrimHeader** ppOt)
 {
-    vRender_416F70(ot);
+    vRender_416F70(ppOt);
 }
 
 void ScreenClipper::VScreenChanged()
@@ -48,7 +48,7 @@ void ScreenClipper::VUpdate()
     // Empty
 }
 
-void ScreenClipper::vRender_416F70(int** ot)
+void ScreenClipper::vRender_416F70(PrimHeader** ot)
 {
     PSX_RECT clipRect = {};
 

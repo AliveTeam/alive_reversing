@@ -187,12 +187,12 @@ __int16 TimedMine::VTakeDamage_408B90(BaseGameObject* pFrom)
     }
 }
 
-void TimedMine::VRender(int** pOt)
+void TimedMine::VRender(PrimHeader** ppOt)
 {
-    VRender_408960(pOt);
+    VRender_408960(ppOt);
 }
 
-void TimedMine::VRender_408960(int** ppOt)
+void TimedMine::VRender_408960(PrimHeader** ppOt)
 {
     if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,

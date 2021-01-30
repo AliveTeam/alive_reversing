@@ -28,7 +28,7 @@ public:
 
     virtual void VUpdate() override;
 
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
 private:
     EXPORT ColourfulMeter* vdtor_43D050(signed int flags);
@@ -39,7 +39,7 @@ private:
 
     EXPORT void vUpdate_43D140();
 
-    EXPORT void vRender_43D2B0(int** pOt);
+    EXPORT void vRender_43D2B0(PrimHeader** ppOt);
 
 private:
     Font_Context field_20_font_context;

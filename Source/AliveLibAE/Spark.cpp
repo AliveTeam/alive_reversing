@@ -20,9 +20,9 @@ void Spark::VUpdate()
     vUpdate_4CBEF0();
 }
 
-void Spark::VRender(int** pOrderingTable)
+void Spark::VRender(PrimHeader** ppOt)
 {
-    vRender_4CC050(pOrderingTable);
+    vRender_4CC050(ppOt);
 }
 
 void Spark::VScreenChanged()
@@ -166,7 +166,7 @@ void Spark::vUpdate_4CBEF0()
     }
 }
 
-void Spark::vRender_4CC050(int** ppOt)
+void Spark::vRender_4CC050(PrimHeader** ppOt)
 {
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
         sActiveHero_5C1B68->field_C2_lvl_number,

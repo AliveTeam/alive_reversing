@@ -20,7 +20,7 @@ public:
 
     EXPORT void SetActive(unsigned __int8 active);
 
-    virtual EXPORT void VRender_48C430(int** ppOt);
+    virtual EXPORT void VRender_48C430(PrimHeader** ppOt);
 
     // NOTE: inlined
     int IsActive();

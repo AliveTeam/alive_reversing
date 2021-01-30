@@ -8,7 +8,7 @@ class CircularFade : public BaseAnimatedWithPhysicsGameObject
 public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 
     // New virtuals
@@ -17,7 +17,7 @@ public:
 
     EXPORT CircularFade* ctor_4CE100(FP xpos, FP ypos, FP scale, __int16 direction, char destroyOnDone);
 private:
-    EXPORT void vRender_4CE3F0(int **pOt);
+    EXPORT void vRender_4CE3F0(PrimHeader** ppOt);
     EXPORT void vUpdate_4CE380();
     EXPORT int vFadeIn_4CE300(__int16 direction, char destroyOnDone); // TODO: Likely no return
     EXPORT int vDone_4CE0B0();

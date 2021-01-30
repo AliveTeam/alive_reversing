@@ -114,12 +114,12 @@ void StatsSign::VUpdate_441A90()
     }
 }
 
-void StatsSign::VRender(int** ppOt)
+void StatsSign::VRender(PrimHeader** ppOt)
 {
     VRender_441AB0(ppOt);
 }
 
-void StatsSign::VRender_441AB0(int** ppOt)
+void StatsSign::VRender_441AB0(PrimHeader** ppOt)
 {
     char text[12] = {};
     sprintf(text, "%02d", 99 - sRescuedMudokons_5076C0 - sKilledMudokons_5076BC);

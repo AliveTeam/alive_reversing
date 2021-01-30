@@ -98,7 +98,7 @@ void ThrowableArray::VUpdate()
     VUpdate_4542B0();
 }
 
-void ThrowableArray::VRender(int** /*pOrderingTable*/)
+void ThrowableArray::VRender(PrimHeader** /*ppOt*/)
 {
     //Nothing to do here
 }

@@ -949,12 +949,12 @@ void Slog::VScreenChanged_473480()
     }
 }
 
-void Slog::VRender(int** pOrderingTable)
+void Slog::VRender(PrimHeader** ppOt)
 {
-    VRender_4735D0(pOrderingTable);
+    VRender_4735D0(ppOt);
 }
 
-void Slog::VRender_4735D0(int** ppOt)
+void Slog::VRender_4735D0(PrimHeader** ppOt)
 {
     if (field_8_update_delay == 0)
     {

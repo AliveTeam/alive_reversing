@@ -26,7 +26,7 @@ public:
 
     virtual void VScreenChanged() override;
 
-    virtual void VRender(int** ppOt);
+    virtual void VRender(PrimHeader** ppOt);
 
     virtual void VUpdate() override;
 

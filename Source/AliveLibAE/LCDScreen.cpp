@@ -265,7 +265,7 @@ void LCDScreen::Update_460A00()
     }
 }
 
-void LCDScreen::Render_460CB0(int ** ot)
+void LCDScreen::Render_460CB0(PrimHeader** ppOt)
 {
     if (sNum_CamSwappers_5C1B66 == 0)
     {
@@ -283,11 +283,11 @@ void LCDScreen::Render_460CB0(int ** ot)
         };
 
         Init_PrimClipper_4F5B80(&field_20_prim_clippers[0][gPsxDisplay_5C1130.field_C_buffer_index], &clipRect);
-        OrderingTable_Add_4F8AA0(&ot[24], &field_20_prim_clippers[0][gPsxDisplay_5C1130.field_C_buffer_index].mBase);
+        OrderingTable_Add_4F8AA0(&ppOt[24], &field_20_prim_clippers[0][gPsxDisplay_5C1130.field_C_buffer_index].mBase);
 
         sFontDrawScreenSpace_5CA4B4 = 1;
         field_60_font.DrawString_4337D0(
-            ot,
+            ppOt,
             field_A0_message,
             static_cast<short>(screenXWorld - field_2AC_x_offset),
             static_cast<short>(screenY),
@@ -313,7 +313,7 @@ void LCDScreen::Render_460CB0(int ** ot)
 
         auto* clipper = &field_20_prim_clippers[1][gPsxDisplay_5C1130.field_C_buffer_index];
         Init_PrimClipper_4F5B80(clipper, &clipRect);
-        OrderingTable_Add_4F8AA0(&ot[24], &clipper->mBase);
+        OrderingTable_Add_4F8AA0(&ppOt[24], &clipper->mBase);
 
         pScreenManager_5BB5F4->InvalidateRect_40EC90(
             screenXWorld,
@@ -362,9 +362,9 @@ void LCDScreen::VUpdate()
     Update_460A00();
 }
 
-void LCDScreen::VRender(int** pOrderingTable)
+void LCDScreen::VRender(PrimHeader** ppOt)
 {
-    Render_460CB0(pOrderingTable);
+    Render_460CB0(ppOt);
 }
 
 BaseGameObject* LCDScreen::VDestructor(signed int flags)

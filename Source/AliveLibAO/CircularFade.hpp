@@ -19,9 +19,9 @@ public:
 
     EXPORT void VUpdate_47A030();
 
-    virtual void VRender(int** ppOt) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_47A080(int** ppOt);
+    EXPORT void VRender_47A080(PrimHeader** ppOt);
 
     // New virtuals
     virtual EXPORT char VFadeIn_479FE0(unsigned __int8 direction, char destroyOnDone);

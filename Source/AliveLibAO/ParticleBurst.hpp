@@ -31,9 +31,9 @@ public:
 
     EXPORT void VUpdate_40D600();
 
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_40D7F0(int** ppOt);
+    EXPORT void VRender_40D7F0(PrimHeader** ppOt);
 
     int field_D4[4];
     BYTE** field_E4_ppRes;

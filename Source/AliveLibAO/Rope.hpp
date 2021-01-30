@@ -20,9 +20,9 @@ public:
 
     virtual void VUpdate() override;
 
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_458780(int** ppOt);
+    EXPORT void VRender_458780(PrimHeader** ppOt);
 
     int field_D4[4];
     __int16 field_E4_rope_segment_count;

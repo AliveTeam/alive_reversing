@@ -27,7 +27,7 @@ public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VScreenChanged() override;
     virtual __int16 VTakeDamage(BaseGameObject* pFrom) override;
-    virtual void VRender(int** pOt) override;
+    virtual void VRender(PrimHeader** ppOt) override;
     virtual void VUpdate() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual void VOnPickUpOrSlapped();
@@ -39,7 +39,7 @@ private:
     EXPORT __int16 VTakeDamage_408B90(BaseGameObject* pFrom);
     EXPORT void VScreenChanged_408DD0();
     EXPORT TimedMine* Vdtor_408E10(signed int flags);
-    EXPORT void VRender_408960(int** pOt);
+    EXPORT void VRender_408960(PrimHeader** ppOt);
 
 public:
     __int16 field_10C_armed;

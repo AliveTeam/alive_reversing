@@ -12,7 +12,7 @@ public:
 
     virtual void VScreenChanged() override;
 
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
@@ -25,7 +25,7 @@ private:
 
     EXPORT void vScreenChanged_4E1F80();
 
-    EXPORT void vRender_4E1BA0(int** pOt);
+    EXPORT void vRender_4E1BA0(PrimHeader** ppOt);
 public:
     __int16 field_F4_number_of_segments;
     __int16 field_F6_segment_length;

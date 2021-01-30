@@ -89,9 +89,9 @@ void ColourfulMeter::VUpdate()
     vUpdate_43D140();
 }
 
-void ColourfulMeter::VRender(int** pOrderingTable)
+void ColourfulMeter::VRender(PrimHeader** ppOt)
 {
-    vRender_43D2B0(pOrderingTable);
+    vRender_43D2B0(ppOt);
 }
 
 ColourfulMeter* ColourfulMeter::vdtor_43D050(signed int flags)
@@ -213,7 +213,7 @@ const PSX_Point stru_5543F0[kMeterBarsXCount] =
     { 42, 9 },
 };
 
-void ColourfulMeter::vRender_43D2B0(int** pOt)
+void ColourfulMeter::vRender_43D2B0(PrimHeader** ppOt)
 {
     const short screenXOff = FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + FP_FromInteger(4));
     const short screenYOff = FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + FP_FromInteger(4));
@@ -255,7 +255,7 @@ void ColourfulMeter::vRender_43D2B0(int** pOt)
         }
 
         Poly_Set_SemiTrans_4F8A60(&pPolyG4->mBase.header, FALSE);
-        OrderingTable_Add_4F8AA0(&pOt[23], &pPolyG4->mBase.header);
+        OrderingTable_Add_4F8AA0(&ppOt[23], &pPolyG4->mBase.header);
     }
 
     if (gbDrawMeterCountDown_5C1BF8)
@@ -271,7 +271,7 @@ void ColourfulMeter::vRender_43D2B0(int** pOt)
         }
 
         field_30_font.DrawString_4337D0(
-            pOt,
+            ppOt,
             text,
             field_6C_text_x + 1,
             field_6E_text_y - 5,

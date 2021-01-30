@@ -897,10 +897,10 @@ namespace Test
 {
     static void Test_PSX_ClearOTag_4F6290()
     {
-        int* ot[5] = {};
+        PrimHeader* ot[5] = {};
         PSX_ClearOTag_4F6290(ot, 5);
-        ASSERT_EQ(ot[0], (int*)&ot[1]);
-        ASSERT_EQ(ot[4], (int*)0xFFFFFFFF);
+        ASSERT_EQ(ot[0], (PrimHeader*)&ot[1]);
+        ASSERT_EQ(ot[4], (PrimHeader*)0xFFFFFFFF);
     }
 
     void PsxTests()

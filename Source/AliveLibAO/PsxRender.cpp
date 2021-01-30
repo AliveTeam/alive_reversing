@@ -5,16 +5,16 @@
 
 namespace AO {
 
-EXPORT void CC PSX_ClearOTag_496760(int** otBuffer, int otBufferSize)
+EXPORT void CC PSX_ClearOTag_496760(PrimHeader** otBuffer, int otBufferSize)
 {
     AE_IMPLEMENTED();
     PSX_ClearOTag_4F6290(otBuffer, otBufferSize);
 }
 
-EXPORT void CC PSX_DrawOTag_4969F0(int** pOT)
+EXPORT void CC PSX_DrawOTag_4969F0(PrimHeader** ppOt)
 {
     AE_IMPLEMENTED();
-    PSX_DrawOTag_4F6540(pOT);
+    PSX_DrawOTag_4F6540(ppOt);
 }
 
 EXPORT signed int CC PSX_EMU_SetDispType_499E60(int dispType)

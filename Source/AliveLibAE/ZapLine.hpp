@@ -31,7 +31,7 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 private:
     EXPORT ZapLine* vdtor_4CCAA0(signed int flags);
@@ -47,7 +47,7 @@ private:
     EXPORT void UpdateSpriteVertexPositions_4CD650();
     EXPORT void CalculateSpritePositionsOuter_4CD5D0();
     EXPORT void vUpdate_4CD790();
-    EXPORT void vRender_4CD8C0(int** pOt);
+    EXPORT void vRender_4CD8C0(PrimHeader** ppOt);
 
 private:
     enum class ZapLineState : __int16

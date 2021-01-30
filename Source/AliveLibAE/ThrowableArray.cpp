@@ -299,7 +299,7 @@ void ThrowableArray::VUpdate()
     vUpdate_49AA50();
 }
 
-void ThrowableArray::VRender(int** /*pOrderingTable*/)
+void ThrowableArray::VRender(PrimHeader** /*ppOt*/)
 {
     // Empty 0x4DBF80
 }

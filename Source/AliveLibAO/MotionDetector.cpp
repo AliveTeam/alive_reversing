@@ -336,12 +336,12 @@ void MotionDetector::VUpdate_437E90()
 }
 
 
-void MotionDetector::VRender(int** pOrderingTable)
+void MotionDetector::VRender(PrimHeader** ppOt)
 {
-    VRender_438250(pOrderingTable);
+    VRender_438250(ppOt);
 }
 
-void MotionDetector::VRender_438250(int** ppOt)
+void MotionDetector::VRender_438250(PrimHeader** ppOt)
 {
     field_A8_xpos += FP_FromInteger(11);
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);

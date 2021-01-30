@@ -53,7 +53,7 @@ class UXB : public BaseAliveGameObject
 public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
     virtual void VOnPickUpOrSlapped() override;
@@ -69,7 +69,7 @@ private:
     EXPORT void dtor_4DEF60();
     EXPORT BaseGameObject* vdtor_4DEEA0(signed int flags);
     EXPORT void Update_4DF030();
-    EXPORT void Render_4DF3D0(int** pOt);
+    EXPORT void Render_4DF3D0(PrimHeader** ppOt);
     EXPORT void ScreenChanged_4DF9C0();
     EXPORT int GetSaveState_4DFD40(BYTE* pSaveBuffer);
     EXPORT void InitBlinkAnim_4DEED0(Animation* pAnimation);

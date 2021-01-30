@@ -81,7 +81,7 @@ class GameSpeak : public BaseGameObject
 public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 
     // A new virtual that is never overridden as there are no other known super classes

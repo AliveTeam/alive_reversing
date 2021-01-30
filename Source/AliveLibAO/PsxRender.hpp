@@ -3,12 +3,14 @@
 #include "FunctionFwd.hpp"
 #include "Psx_common.hpp"
 
+struct PrimHeader;
+
 namespace AO {
 
 
-EXPORT void CC PSX_ClearOTag_496760(int** otBuffer, int otBufferSize);
+EXPORT void CC PSX_ClearOTag_496760(PrimHeader** otBuffer, int otBufferSize);
 
-EXPORT void CC PSX_DrawOTag_4969F0(int** pOT);
+EXPORT void CC PSX_DrawOTag_4969F0(PrimHeader** ppOt);
 
 EXPORT signed int CC PSX_EMU_SetDispType_499E60(int dispType);
 

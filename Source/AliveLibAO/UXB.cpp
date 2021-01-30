@@ -563,12 +563,12 @@ __int16 UXB::IsColliding_489900()
 }
 
 
-void UXB::VRender(int** pOrderingTable)
+void UXB::VRender(PrimHeader** ppOt)
 {
-    VRender_4896C0(pOrderingTable);
+    VRender_4896C0(ppOt);
 }
 
-void UXB::VRender_4896C0(int** ppOt)
+void UXB::VRender_4896C0(PrimHeader** ppOt)
 {
     if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
         field_B2_lvl_number,

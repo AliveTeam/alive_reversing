@@ -99,9 +99,9 @@ void DeathGas::VUpdate()
     vUpdate_43C300();
 }
 
-void DeathGas::VRender(int** pOrderingTable)
+void DeathGas::VRender(PrimHeader** ppOt)
 {
-    vRender_43C350(pOrderingTable);
+    vRender_43C350(ppOt);
 }
 
 DeathGas* DeathGas::vdtor_43C240(signed int flags)
@@ -150,7 +150,7 @@ void DeathGas::vUpdate_43C300()
     }
 }
 
-void DeathGas::vRender_43C350(int** pOt)
+void DeathGas::vRender_43C350(PrimHeader** ppOt)
 {
     field_22_unused += 2;
 
@@ -276,12 +276,12 @@ void DeathGas::vRender_43C350(int** pOt)
                 SetXY2(pPoly, static_cast<short>(x2), static_cast<short>(y2 - yVal));
                 SetXY3(pPoly, static_cast<short>(x3), static_cast<short>(y3 - yVal));
 
-                OrderingTable_Add_4F8AA0(&pOt[field_28_layer], &pPoly->mBase.header);
+                OrderingTable_Add_4F8AA0(&ppOt[field_28_layer], &pPoly->mBase.header);
             }
         }
     }
 
-    OrderingTable_Add_4F8AA0(&pOt[field_28_layer], &gGasTPages_5BC6C8[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
+    OrderingTable_Add_4F8AA0(&ppOt[field_28_layer], &gGasTPages_5BC6C8[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
     pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height);
 
     if (field_20_total >= 255)

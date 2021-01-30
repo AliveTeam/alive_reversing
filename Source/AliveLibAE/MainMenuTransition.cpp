@@ -142,7 +142,7 @@ void MainMenuTransition::Update_464400()
     }
 }
 
-void MainMenuTransition::Render_464470(int** ot)
+void MainMenuTransition::Render_464470(PrimHeader** ppOt)
 {
     // TODO: The fixed point math/var needs cleaning up/refactoring in here
 
@@ -236,10 +236,10 @@ void MainMenuTransition::Render_464470(int** ot)
         SetXY1(pPoly, x0, y0);
         SetXY2(pPoly, static_cast<short>(x1), static_cast<short>(y1));
 
-        OrderingTable_Add_4F8AA0(&ot[field_24C_layer], &pPoly->mBase.header);
+        OrderingTable_Add_4F8AA0(&ppOt[field_24C_layer], &pPoly->mBase.header);
     }
 
-    OrderingTable_Add_4F8AA0(&ot[field_24C_layer], &field_22C_tPage[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
+    OrderingTable_Add_4F8AA0(&ppOt[field_24C_layer], &field_22C_tPage[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
 
     pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height);
 
@@ -278,9 +278,9 @@ void MainMenuTransition::vScreenChanged_4648D0()
     }
 }
 
-void MainMenuTransition::VRender(int** ot)
+void MainMenuTransition::VRender(PrimHeader** ppOt)
 {
-    Render_464470(ot);
+    Render_464470(ppOt);
 }
 
 void MainMenuTransition::VUpdate()

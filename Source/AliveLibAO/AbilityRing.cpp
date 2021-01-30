@@ -387,12 +387,12 @@ void AbilityRing::VUpdate_455ED0()
     }
 }
 
-void AbilityRing::VRender(int** ppOt)
+void AbilityRing::VRender(PrimHeader** ppOt)
 {
     VRender_456340(ppOt);
 }
 
-void AbilityRing::VRender_456340(int** ppOt)
+void AbilityRing::VRender_456340(PrimHeader** ppOt)
 {
     if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
         field_270_level,

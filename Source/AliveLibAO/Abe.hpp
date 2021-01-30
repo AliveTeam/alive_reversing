@@ -404,7 +404,7 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 
     virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
@@ -416,7 +416,7 @@ public:
     // Virtual impls
     EXPORT BaseGameObject* vdtor_422A70(signed int flags);
     EXPORT void vUpdate_41FDB0();
-    EXPORT void vRender_420F30(int** pOrderingTable);
+    EXPORT void vRender_420F30(PrimHeader** ppOt);
     EXPORT void vScreenChanged_422640();
 
     EXPORT void VOn_Tlv_Collision_421130(Path_TLV *pTlv);

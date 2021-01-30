@@ -20,10 +20,10 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    EXPORT void vRender_4E3F80(int** ppOt);
+    EXPORT void vRender_4E3F80(PrimHeader** ppOt);
     EXPORT void vUpdate_4E3E20();
     EXPORT void dtor_4E3D80();
     EXPORT OrbWhirlWind* vdtor_4E3D50(signed int flags);

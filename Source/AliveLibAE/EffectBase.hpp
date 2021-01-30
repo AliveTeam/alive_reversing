@@ -10,13 +10,13 @@ class EffectBase : public BaseGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
-    virtual void VRender(int** pOrderingTable) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
     EXPORT EffectBase* ctor_4AB7A0(__int16 layer, char abr);
     EXPORT void dtor_4AB8F0();
 private:
     EXPORT EffectBase* vdtor_4AB8C0(signed int flags);
-    EXPORT void vRender_4AB970(int** pOt);
+    EXPORT void vRender_4AB970(PrimHeader** ppOt);
 protected:
     __int16 field_20_path_id;
     LevelIds field_22_level_id;

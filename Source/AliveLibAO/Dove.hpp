@@ -37,9 +37,9 @@ public:
 
     EXPORT static void All_FlyAway_40F390();
 
-    virtual void VRender(int** ppOt) override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_40F960(int** ppOt);
+    EXPORT void VRender_40F960(PrimHeader** ppOt);
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 

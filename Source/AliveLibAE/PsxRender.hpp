@@ -3,15 +3,16 @@
 #include "FunctionFwd.hpp"
 
 struct PSX_RECT;
+struct PrimHeader;
 
 namespace Test
 {
     void PsxRenderTests();
 }
 
-EXPORT void CC PSX_DrawOTag_4F6540(int** pOT);
-EXPORT void CC PSX_OrderingTable_4F62C0(int** otBuffer, int otBufferSize);
-EXPORT void CC PSX_ClearOTag_4F6290(int** otBuffer, int otBufferSize);
+EXPORT void CC PSX_DrawOTag_4F6540(PrimHeader** ppOt);
+EXPORT void CC PSX_OrderingTable_SaveRecord_4F62C0(int** otBuffer, int otBufferSize);
+EXPORT void CC PSX_ClearOTag_4F6290(PrimHeader** otBuffer, int otBufferSize);
 
 EXPORT void CC PSX_TPage_Change_4F6430(__int16 tPage);
 EXPORT int CC PSX_EMU_SetDispType_4F9960(int dispType);

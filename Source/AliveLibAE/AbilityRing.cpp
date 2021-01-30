@@ -260,9 +260,9 @@ void AbilityRing::VUpdate()
     vUpdate_49D160();
 }
 
-void AbilityRing::VRender(int** pOrderingTable)
+void AbilityRing::VRender(PrimHeader** ppOt)
 {
-    vRender_49D790(pOrderingTable);
+    vRender_49D790(ppOt);
 }
 
 void AbilityRing::VScreenChanged()
@@ -489,7 +489,7 @@ void AbilityRing::CollideWithObjects_49D5E0(__int16 bDealDamage)
     }
 }
 
-void AbilityRing::vRender_49D790(int** ppOt)
+void AbilityRing::vRender_49D790(PrimHeader** ppOt)
 {
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
         field_280_level,

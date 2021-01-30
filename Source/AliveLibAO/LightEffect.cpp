@@ -69,7 +69,7 @@ LightEffect* LightEffect::Vdtor_406800(signed int flags)
 }
 
 
-void LightEffect::VRender_4067F0(int** /*ppOt*/)
+void LightEffect::VRender_4067F0(PrimHeader** /*ppOt*/)
 {
     // Pretty much the same as door effect render - commented out because OG is empty which means the "stock yard stars" are missing.
     // However rendering as-is produces over bright ugly looking stars and is probably why DD turned it off
@@ -102,9 +102,9 @@ void LightEffect::VRender_4067F0(int** /*ppOt*/)
     */
 }
 
-void LightEffect::VRender(int** pOrderingTable)
+void LightEffect::VRender(PrimHeader** ppOt)
 {
-    VRender_4067F0(pOrderingTable);
+    VRender_4067F0(ppOt);
 }
 
 void LightEffect::VScreenChanged()

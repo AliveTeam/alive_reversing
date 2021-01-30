@@ -112,10 +112,10 @@ BaseGameObject* TestAnimation::VDestructor(signed int flags)
     return this;
 }
 
-void TestAnimation::VRender(int** pOrderingTable)
+void TestAnimation::VRender(PrimHeader** ppOt)
 {
     if (mLoaded)
     {
-        BaseAnimatedWithPhysicsGameObject::VRender(pOrderingTable);
+        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
 }

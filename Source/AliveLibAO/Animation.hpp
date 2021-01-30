@@ -173,7 +173,7 @@ class AnimationBase
 public:
     virtual void vDecode() = 0;
 
-    virtual void vRender(int xpos, int ypos, int** pOt, __int16 width, __int16 height) = 0;
+    virtual void vRender(int xpos, int ypos, PrimHeader** ppOt, __int16 width, __int16 height) = 0;
 
     virtual void vCleanUp() = 0;
 
@@ -198,9 +198,9 @@ class Animation : public AnimationBase
 public:
     virtual void vDecode() override;
 
-    virtual void vRender(int xpos, int ypos, int** pOt, __int16 width, __int16 height) override;
+    virtual void vRender(int xpos, int ypos, PrimHeader** ppOt, __int16 width, __int16 height) override;
 
-    EXPORT void VRender_403AE0(int xpos, int ypos, int** ppOt, __int16 width, __int16 height);
+    EXPORT void VRender_403AE0(int xpos, int ypos, PrimHeader** ppOt, __int16 width, __int16 height);
 
     EXPORT void VDecode_403550();
 
@@ -251,11 +251,11 @@ class AnimationUnknown : public AnimationBase
 public:
     virtual void vDecode() override;
 
-    virtual void vRender(int xpos, int ypos, int** pOt, __int16 width, __int16 height) override;
+    virtual void vRender(int xpos, int ypos, PrimHeader** ppOt, __int16 width, __int16 height) override;
 
     virtual void vCleanUp() override;
 
-    virtual void VRender2(int xpos, int ypos, int** ppOt);
+    virtual void VRender2(int xpos, int ypos, PrimHeader** ppOt);
 
     EXPORT void GetRenderedSize_404220(PSX_RECT* pRect);
 
@@ -263,7 +263,7 @@ private:
     EXPORT void VCleanUp2_404280();
 
     // New virtual
-    EXPORT void VRender2_403FD0(int xpos, int ypos, int** ppOt);
+    EXPORT void VRender2_403FD0(int xpos, int ypos, PrimHeader** ppOt);
 
 public:
     Poly_FT4 field_10_polys[2];

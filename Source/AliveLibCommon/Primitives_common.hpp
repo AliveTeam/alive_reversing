@@ -37,7 +37,7 @@ ALIVE_ASSERT_SIZEOF(Prim_RGB, 0x4);
 
 struct PrimHeader
 {
-    int* tag;
+    struct PrimHeader* tag;
 #if !_WIN32 || _WIN64
     const void* hackPtr;
 #endif

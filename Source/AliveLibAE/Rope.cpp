@@ -126,9 +126,9 @@ void Rope::VUpdate()
     // nullsub@4A11E0
 }
 
-void Rope::VRender(int** pOrderingTable)
+void Rope::VRender(PrimHeader** ppOt)
 {
-    vRender_4A0E30(pOrderingTable);
+    vRender_4A0E30(ppOt);
 }
 
 void Rope::dtor_4A0DB0()
@@ -148,7 +148,7 @@ Rope* Rope::vdtor_4A0D80(signed int flags)
     return this;
 }
 
-EXPORT void Rope::vRender_4A0E30(int** pOt)
+EXPORT void Rope::vRender_4A0E30(PrimHeader** ppOt)
 {
     PSX_Point camPos = {};
     gMap_5C3030.GetCurrentCamCoords_480680(&camPos);
@@ -190,7 +190,7 @@ EXPORT void Rope::vRender_4A0E30(int** pOt)
                 maxY = 240;
             }
 
-            field_20_animation.vRender_40B820(640, 240, pOt, 0, 0);
+            field_20_animation.vRender_40B820(640, 240, ppOt, 0, 0);
 
             if (screenY >= minY)
             {
@@ -217,7 +217,7 @@ EXPORT void Rope::vRender_4A0E30(int** pOt)
                     field_FC_pRopeRes[idx].vRender_40B820(
                         screenX,
                         screenY,
-                        pOt,
+                        ppOt,
                         0,
                         0
                     );
