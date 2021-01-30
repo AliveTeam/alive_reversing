@@ -1021,6 +1021,20 @@ BYTE** CC ResourceManager::GetLoadedResource_4554F0(DWORD type, DWORD resourceId
     return nullptr;
 }
 
+
+EXPORT void ResourceManager::CheckResourceIsLoaded(DWORD type, std::initializer_list<ResourceID> resourceIds)
+{
+    for (const auto& resourceId : resourceIds)
+    {
+        BYTE** ppRes = GetLoadedResource_4554F0(type, resourceId, FALSE, FALSE);
+        if (!ppRes)
+        {
+            LOG_ERROR("Resource not loaded type " << type << " resource Id " << resourceId);
+            ALIVE_FATAL("Resource not loaded");
+        }
+    }
+}
+
 __int16 CC ResourceManager::FreeResource_455550(BYTE** handle)
 {
     // Note: Checks for ptrs of 0xCDCDCDCD and 0xDDDDDDDD removed

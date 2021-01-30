@@ -218,29 +218,14 @@ EXPORT void Factory_Door_481C80(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
     }
     else
     {
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbedoorResID, 0, 0))
-        {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return;
-        }
-
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2p3dorResID, 0, 0))
-        {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return;
-        }
-
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHubdoorResID, 0, 0))
-        {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return;
-        }
-
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRockdoorResID, 0, 0))
-        {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return;
-        }
+        const auto kResources = 
+        { 
+            ResourceID::kAbedoorResID,
+            ResourceID::kF2p3dorResID,
+            ResourceID::kHubdoorResID,
+            ResourceID::kRockdoorResID 
+        };
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResources);
 
         auto pDoor = ao_new<Door>();
         if (pDoor)
@@ -335,30 +320,14 @@ EXPORT void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion
             }
         }
 
-        // TODO: This got moved to a helper iin AE
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kLiftResID, 0, 0))
+        const auto kResourcesToCheck =
         {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return;
-        }
-
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPulleyResID, 0, 0))
-        {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return;
-        }
-
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeliftResID, 0, 0))
-        {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return;
-        }
-
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRopesResID, 0, 0))
-        {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return;
-        }
+            ResourceID::kLiftResID,
+            ResourceID::kAbeliftResID,
+            ResourceID::kRopesResID,
+            ResourceID::kRopesResID
+        };
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResourcesToCheck);
 
         if (pTlv->field_1_unknown & 2 || (pTlv->field_1_unknown == 0 && static_cast<Path_LiftPoint*>(pTlv)->field_1A_bstart_point))
         {
@@ -603,52 +572,35 @@ EXPORT void Factory_FallingItem_483940(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
         {
         case LevelIds::eRuptureFarms_1:
         case LevelIds::eRuptureFarmsReturn_13:
-            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_6014, 0, 0))
-            {
-                gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-                return;
-            }
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kUnknownResID_6014 });
             break;
 
         case LevelIds::eLines_2:
-            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDebrisID00, 0, 0))
-            {
-                gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-                return;
-            }
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kDebrisID00 });
             break;
 
         case LevelIds::eStockYards_5:
         case LevelIds::eDesert_8:
         case LevelIds::eDesertTemple_9:
-            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDebrisID00, 0, 0))
-            {
-                gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-                return;
-            }
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kDebrisID00 });
             break;
 
         default:
-            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDebrisID00, 0, 0))
-            {
-                gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-                return;
-            }
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kDebrisID00 });
         }
 
-        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2rockResID, 0, 0) &&
-            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kStickResID, 0, 0) &&
-            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, 0, 0))
+        const auto kResourcesToCheck =
         {
-            auto pFallingItem = ao_new<FallingItem>();
-            if (pFallingItem)
-            {
-                pFallingItem->ctor_419F30(static_cast<Path_FallingItem*>(pTlv), tlvOffsetLevelIdPathId.all);
-            }
-        }
-        else
+            ResourceID::kF2rockResID,
+            ResourceID::kStickResID,
+            ResourceID::kRockShadowResID,
+        };
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResourcesToCheck);
+
+        auto pFallingItem = ao_new<FallingItem>();
+        if (pFallingItem)
         {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            pFallingItem->ctor_419F30(static_cast<Path_FallingItem*>(pTlv), tlvOffsetLevelIdPathId.all);
         }
     }
 }
@@ -693,18 +645,17 @@ EXPORT void Factory_PullRingRope_483DA0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
     }
     else
     {
-        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPullringResID, 0, 0) &&
-            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRopesResID, 0, 0))
+        const auto kResourcesToCheck =
         {
-            auto pPullRingRope = ao_new<PullRingRope>();
-            if (pPullRingRope)
-            {
-                pPullRingRope->ctor_4546B0(static_cast<Path_PullRingRope*>(pTlv), tlvOffsetLevelIdPathId.all);
-            }
-        }
-        else
+            ResourceID::kPullringResID,
+            ResourceID::kRopesResID,
+        };
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResourcesToCheck);
+
+        auto pPullRingRope = ao_new<PullRingRope>();
+        if (pPullRingRope)
         {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            pPullRingRope->ctor_4546B0(static_cast<Path_PullRingRope*>(pTlv), tlvOffsetLevelIdPathId.all);
         }
     }
 }
@@ -731,23 +682,22 @@ EXPORT void Factory_Honey_4844A0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion
     }
     else
     {
-        if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kNormaliconResID, 0, 0) &&
-            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_204, 0, 0))
+        const auto kResourcesToCheck =
         {
-            auto pHoney = ao_new<Honey>();
-            if (pHoney)
-            {
-                const auto midPoint = (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2;
-                pHoney->ctor_431E30(
-                    FP_FromInteger(midPoint + pTlv->field_C_sound_pos.field_0_x),
-                    FP_FromInteger(pTlv->field_C_sound_pos.field_2_y + 24));
+            ResourceID::kNormaliconResID,
+            ResourceID::kUnknownResID_204,
+        };
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResourcesToCheck);
 
-                pHoney->field_E4_tlvInfo = tlvOffsetLevelIdPathId.all;
-            }
-        }
-        else
+        auto pHoney = ao_new<Honey>();
+        if (pHoney)
         {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            const auto midPoint = (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2;
+            pHoney->ctor_431E30(
+                FP_FromInteger(midPoint + pTlv->field_C_sound_pos.field_0_x),
+                FP_FromInteger(pTlv->field_C_sound_pos.field_2_y + 24));
+
+            pHoney->field_E4_tlvInfo = tlvOffsetLevelIdPathId.all;
         }
     }
 }
@@ -768,6 +718,7 @@ EXPORT void Factory_TimedMine_484650(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
         ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, loadMode, disabledResource & 1);
         ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, loadMode, disabledResource & 2);
         ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kElmblowResID_217, loadMode, disabledResource & 4);
+        
         if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
         {
             ResourceManager::LoadResource_446C90("E1BOMB.BAN", ResourceManager::Resource_Palt, ResourceID::kBombResID, loadMode);
@@ -792,47 +743,29 @@ EXPORT void Factory_TimedMine_484650(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
     }
     else
     {
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbebombResID, 0, 0))
+        const auto kResourcesToCheck =
         {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return;
+            ResourceID::kAbebombResID,
+            ResourceID::kBombResID,
+            ResourceID::kBombflshResID,
+            ResourceID::kBgexpldResID,
+        };
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResourcesToCheck);
+
+        if (!(disabledResource & 1))
+        {
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kAbeblowResID });
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBombResID, 0, 0))
+        if (!(disabledResource & 2))
         {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return;
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSlogBlowResID });
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBombflshResID, 0, 0))
+        auto pTimedMine = ao_new<TimedMine>();
+        if (pTimedMine)
         {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return;
-        }
-
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBgexpldResID, 0, 0))
-        {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return;
-        }
-
-        if (!(disabledResource & 1) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0))
-        {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return;
-        }
-
-        if (disabledResource & 2 || ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, 0, 0))
-        {
-            auto pTimedMine = ao_new<TimedMine>();
-            if (pTimedMine)
-            {
-                pTimedMine->ctor_4083F0(pTimedMineTlv, tlvOffsetLevelIdPathId.all);
-            }
-        }
-        else
-        {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            pTimedMine->ctor_4083F0(pTimedMineTlv, tlvOffsetLevelIdPathId.all);
         }
     }
 }
@@ -859,7 +792,7 @@ static CompileTimeResourceList<4> kResources_4BD1CC =
 };
 
 
-static bool LoadWalkingSligResources(__int16 loadMode, BitField16<SligFlags_DisabledRes> disabledResources, TlvItemInfoUnion tlvOffsetLevelIdPathId)
+static void LoadWalkingSligResources(__int16 loadMode, BitField16<SligFlags_DisabledRes> disabledResources)
 {
     if (loadMode == 1 || loadMode == 2)
     {
@@ -893,127 +826,72 @@ static bool LoadWalkingSligResources(__int16 loadMode, BitField16<SligFlags_Disa
     }
     else
     {
-        if (!(disabledResources.Get(eDisabledRes_Bit1)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgleverResID, 0, 0))
+        if (!(disabledResources.Get(eDisabledRes_Bit1)))
         {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return false;
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSlgleverResID });
         }
 
-        if (!(disabledResources.Get(eDisabledRes_Bit2)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgliftResID, 0, 0))
+        if (!(disabledResources.Get(eDisabledRes_Bit2)))
         {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return false;
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSlgliftResID });
         }
 
         if (!(disabledResources.Get(eDisabledRes_Bit3)))
         {
-            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgzshotResID, 0, 0))
-            {
-                gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-                return false;
-            }
-
-            if (!(disabledResources.Get(eDisabledRes_Bit3)))
-            {
-                if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kZflashResID, 0, 0))
-                {
-                    gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-                    return false;
-                }
-
-                if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeknokzResID, 0, 0))
-                {
-                    gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-                    return false;
-                }
-            }
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSlgzshotResID });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kZflashResID });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kAbeknokzResID });
         }
 
-        if (!(disabledResources.Get(eDisabledRes_Bit7)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgsleepResID, 0, 0))
+        if (!(disabledResources.Get(eDisabledRes_Bit7)))
         {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return false;
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSlgsleepResID });
         }
 
-        if (!(disabledResources.Get(eDisabledRes_Bit9)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgedgeResID, 0, 0))
+        if (!(disabledResources.Get(eDisabledRes_Bit9)))
         {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return false;
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSlgedgeResID });
         }
 
-        if (!(disabledResources.Get(eDisabledRes_Bit10)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgsmashResID, 0, 0))
+        if (!(disabledResources.Get(eDisabledRes_Bit10)))
         {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return false;
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSlgsmashResID });
         }
 
-        if (!(disabledResources.Get(eDisabledRes_Bit11)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgbeatResID, 0, 0))
+        if (!(disabledResources.Get(eDisabledRes_Bit11)))
         {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return false;
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSlgbeatResID });
         }
 
-        if (!(disabledResources.Get(eDisabledRes_Bit8)) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgknfdResID, 0, 0))
+        if (!(disabledResources.Get(eDisabledRes_Bit8)))
         {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return false;
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSlgknfdResID });
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBigflashResID, 0, 0))
-        {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return false;
-        }
-
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kShellResID, 0, 0))
-        {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return false;
-        }
-
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, 0, 0))
-        {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return false;
-        }
-
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSligBlowResID, 0, 0))
-        {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return false;
-        }
-
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgbasicResID, 0, 0))
-        {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return false;
-        }
-
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgknbkResID, 0, 0))
-        {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return false;
-        }
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kBigflashResID });
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kShellResID });
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kRockShadowResID });
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSligBlowResID });
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSlgbasicResID });
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSlgknbkResID });
     }
-    return true;
 }
 
 EXPORT void Factory_Slig_482EC0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
     auto pSligTlv = static_cast<Path_Slig*>(pTlv);
-    if (LoadWalkingSligResources(loadMode, pSligTlv->field_50_disable_resources, tlvOffsetLevelIdPathId))
+    LoadWalkingSligResources(loadMode, pSligTlv->field_50_disable_resources);
+
+    if (loadMode == 1 || loadMode == 2)
     {
-        if (loadMode == 1 || loadMode == 2)
+        // Do nothing
+    }
+    else
+    {
+        auto pSlig = ao_new<Slig>();
+        if (pSlig)
         {
-            // Do nothing
-        }
-        else
-        {
-            auto pSlig = ao_new<Slig>();
-            if (pSlig)
-            {
-                pSlig->ctor_464D40(pSligTlv, tlvOffsetLevelIdPathId.all);
-            }
+            pSlig->ctor_464D40(pSligTlv, tlvOffsetLevelIdPathId.all);
         }
     }
 }
@@ -1035,35 +913,15 @@ EXPORT void Factory_Slog_485030(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
     }
     else
     {
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogbasicResID, 0, 0))
+        const auto kResourceToCheck =
         {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return;
-        }
-
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogrstnResID, 0, 0))
-        {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return;
-        }
-
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogattkResID, 0, 0))
-        {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return;
-        }
-
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogknfdResID, 0, 0))
-        {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return;
-        }
-
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogidleResID, 0, 0))
-        {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return;
-        }
+            ResourceID::kDogbasicResID,
+            ResourceID::kDogrstnResID,
+            ResourceID::kDogattkResID,
+            ResourceID::kDogknfdResID,
+            ResourceID::kDogidleResID,
+        };
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResourceToCheck);
 
         auto pSlog = ao_new<Slog>();
         if (pSlog)
@@ -1156,22 +1014,13 @@ EXPORT void Factory_SecurityOrb_485550(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
     }
     else
     {
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMaimGameResID, 0, 0))
-        {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return;
-        }
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kMaimGameResID});
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSplineResID });
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSplineResID, 0, 0))
-        {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return;
-        }
 
-        if (!(disabledResources & 1) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0))
+        if (!(disabledResources & 1))
         {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
-            return;
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kAbeblowResID });
         }
 
         if (!(disabledResources & 2) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, 0, 0))
@@ -1878,33 +1727,32 @@ static Path_TLV* FindMatchingSligTLV(Path_TLV* pTlvIter, Path_Slig_Bound* pTlv)
 EXPORT void Factory_SligLeftBound_482520(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
     auto pBound = static_cast<Path_Slig_Bound*>(pTlv);
-    if (LoadWalkingSligResources(loadMode, pBound->field_1A_disabled_resources, tlvOffsetLevelIdPathId))
-    {
-        if (loadMode == 1 || loadMode == 2)
-        {
-            // Do nothing, handled in LoadSligResources
-        }
-        else
-        {
-            pBound->field_0_flags.Clear(TLV_Flags::eBit1_Created);
-            pBound->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
+    LoadWalkingSligResources(loadMode, pBound->field_1A_disabled_resources);
 
-            for (short camX_idx = -2; camX_idx < 3; camX_idx++)
+    if (loadMode == 1 || loadMode == 2)
+    {
+        // Do nothing, handled in LoadSligResources
+    }
+    else
+    {
+        pBound->field_0_flags.Clear(TLV_Flags::eBit1_Created);
+        pBound->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
+
+        for (short camX_idx = -2; camX_idx < 3; camX_idx++)
+        {
+            Path_TLV* pTlvIter = gMap_507BA8.Get_First_TLV_For_Offsetted_Camera_4463B0(camX_idx, 0);
+            pTlvIter = FindMatchingSligTLV(pTlvIter, pBound);
+            if (pTlvIter)
             {
-                Path_TLV* pTlvIter = gMap_507BA8.Get_First_TLV_For_Offsetted_Camera_4463B0(camX_idx, 0);
-                pTlvIter = FindMatchingSligTLV(pTlvIter, pBound);
-                if (pTlvIter)
+                pTlvIter->field_0_flags.Set(TLV_Flags::eBit1_Created);
+                pTlvIter->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
+                auto pSlig = ao_new<Slig>();
+                if (pSlig)
                 {
-                    pTlvIter->field_0_flags.Set(TLV_Flags::eBit1_Created);
-                    pTlvIter->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
-                    auto pSlig = ao_new<Slig>();
-                    if (pSlig)
-                    {
-                        // AO OG bug tlvOffsetLevelIdPathId not recalculated??
-                        pSlig->ctor_464D40(static_cast<Path_Slig*>(pTlvIter), tlvOffsetLevelIdPathId.all);
-                    }
-                    return;
+                    // AO OG bug tlvOffsetLevelIdPathId not recalculated??
+                    pSlig->ctor_464D40(static_cast<Path_Slig*>(pTlvIter), tlvOffsetLevelIdPathId.all);
                 }
+                return;
             }
         }
     }
@@ -2056,19 +1904,18 @@ EXPORT void Factory_Null_4870B0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUn
 EXPORT void CC Factory_SligSpawner_482A00(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
 {
     auto pSligTlv = static_cast<Path_Slig*>(pTlv);
-    if (LoadWalkingSligResources(loadMode, pSligTlv->field_50_disable_resources, tlvOffsetLevelIdPathId))
+    LoadWalkingSligResources(loadMode, pSligTlv->field_50_disable_resources);
+
+    if (loadMode == 1 || loadMode == 2)
     {
-        if (loadMode == 1 || loadMode == 2)
+        // Do nothing, handled in LoadSligResources
+    }
+    else
+    {
+        auto pSligSpawner = ao_new<SligSpawner>();
+        if (pSligSpawner)
         {
-            // Do nothing, handled in LoadSligResources
-        }
-        else
-        {
-            auto pSligSpawner = ao_new<SligSpawner>();
-            if (pSligSpawner)
-            {
-                pSligSpawner->ctor_402850(pSligTlv, tlvOffsetLevelIdPathId.all);
-            }
+            pSligSpawner->ctor_402850(pSligTlv, tlvOffsetLevelIdPathId.all);
         }
     }
 }
