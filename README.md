@@ -14,6 +14,12 @@ https://discord.gg/khs6KKS
 ## Contributing
 If you'd like to contribute to our reverse engineering efforts, make sure to follow our reverse engineering guidelines:
 
+### License
+
+So far the code is **not** shared under any license. Once the code has been refactored and the engines merged and it no longer has roots in the original code we would feel more confident giving it a license at that point.
+
+Until then, by contributing to this repository, you agree to license your work under any of the [GPL-Compatible](https://www.gnu.org/licenses/license-list.html#GPLCompatibleLicenses) licenses, which the core development team might decide to apply to this work in the future.
+
 ### IDA Guidelines
 - Use IDA 7
 - Use our git hosted IDB.
