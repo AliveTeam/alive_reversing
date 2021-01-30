@@ -218,7 +218,7 @@ EXPORT void Factory_Door_481C80(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
     }
     else
     {
-        const auto kResources = 
+        auto kResources = 
         { 
             ResourceID::kAbedoorResID,
             ResourceID::kF2p3dorResID,
@@ -320,7 +320,7 @@ EXPORT void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion
             }
         }
 
-        const auto kResourcesToCheck =
+        auto kResourcesToCheck =
         {
             ResourceID::kLiftResID,
             ResourceID::kAbeliftResID,
@@ -589,7 +589,7 @@ EXPORT void Factory_FallingItem_483940(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
             ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kDebrisID00 });
         }
 
-        const auto kResourcesToCheck =
+        auto kResourcesToCheck =
         {
             ResourceID::kF2rockResID,
             ResourceID::kStickResID,
@@ -645,7 +645,7 @@ EXPORT void Factory_PullRingRope_483DA0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
     }
     else
     {
-        const auto kResourcesToCheck =
+        auto kResourcesToCheck =
         {
             ResourceID::kPullringResID,
             ResourceID::kRopesResID,
@@ -682,7 +682,7 @@ EXPORT void Factory_Honey_4844A0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion
     }
     else
     {
-        const auto kResourcesToCheck =
+        auto kResourcesToCheck =
         {
             ResourceID::kNormaliconResID,
             ResourceID::kUnknownResID_204,
@@ -743,7 +743,7 @@ EXPORT void Factory_TimedMine_484650(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
     }
     else
     {
-        const auto kResourcesToCheck =
+        auto kResourcesToCheck =
         {
             ResourceID::kAbebombResID,
             ResourceID::kBombResID,
@@ -913,7 +913,7 @@ EXPORT void Factory_Slog_485030(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
     }
     else
     {
-        const auto kResourceToCheck =
+        auto kResourceToCheck =
         {
             ResourceID::kDogbasicResID,
             ResourceID::kDogrstnResID,
