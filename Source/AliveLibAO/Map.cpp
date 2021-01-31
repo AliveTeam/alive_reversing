@@ -1839,6 +1839,23 @@ void Map::GoTo_Camera_445050()
     {
         if (sCollisions_DArray_504C6C)
         {
+            // OG FIX: Remove any pointers to the line objects that we are about to delete
+            for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+            {
+                BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
+                if (!pObjIter)
+                {
+                    break;
+                }
+
+                if (pObjIter->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+                {
+                    auto pBaseAliveGameObj = static_cast<BaseAliveGameObject*>(pObjIter);
+                    pBaseAliveGameObj->field_F4_pLine = nullptr;
+                }
+            }
+
+
             sCollisions_DArray_504C6C->dtor_40CFB0();
             ao_delete_free_447540(sCollisions_DArray_504C6C);
         }

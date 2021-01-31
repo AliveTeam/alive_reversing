@@ -416,7 +416,7 @@ void CC SaveGame::SaveToMemory_459490(SaveData* pSaveData)
     pSaveData->field_253_scrabania_done = sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabaniaDone);
     pSaveData->field_264_bInfiniteGrenades = gInfiniteGrenades_5076EC ? -1 : 0;
     pSaveData->field_252_paramonia_done = sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone);
-    pSaveData->field_25A_bElumExists = gElum_507680 != 0;
+    pSaveData->field_25A_bElumExists = gElum_507680 != nullptr;
     if (gElum_507680 != 0)
     {
         pSaveData->field_25C_bControllingElum = sControlledCharacter_50767C == gElum_507680;
