@@ -1993,7 +1993,7 @@ void Map::Loader_446590(__int16 camX, __int16 camY, int loadMode, __int16 typeTo
                     data.parts.pathId = static_cast<BYTE>(field_2_current_path);
 
                     // Call the factory to construct the item
-                    field_D4_pPathData->field_1C_object_funcs.object_funcs[pPathTLV->field_4_type](pPathTLV, this, data, static_cast<short>(loadMode));
+                    field_D4_pPathData->field_1C_object_funcs.object_funcs[pPathTLV->field_4_type](pPathTLV, this, data, static_cast<LoadMode>(loadMode));
 
                     if (!loadMode)
                     {

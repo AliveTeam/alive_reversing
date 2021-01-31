@@ -4,6 +4,7 @@
 #include "FunctionFwd.hpp"
 #include "Psx.hpp"
 #include "AnimResources.hpp"
+#include "Factory.hpp"
 
 namespace AO {
 
@@ -152,7 +153,7 @@ public:
 
     static EXPORT __int16 CC FreeResource_455550(BYTE** ppRes);
 
-    static EXPORT void CC LoadResource_446C90(const char* pFileName, DWORD type, DWORD resourceId, __int16 loadMode, __int16 bDontLoad = FALSE);
+    static EXPORT void CC LoadResource_446C90(const char* pFileName, DWORD type, DWORD resourceId, LoadMode loadMode, __int16 bDontLoad = FALSE);
 
   
     static EXPORT BYTE** CC GetLoadedResource_4554F0(DWORD type, DWORD resourceId, __int16 addUseCount, __int16 bLock);
@@ -185,7 +186,7 @@ public:
 
     static EXPORT void CC Free_Resources_For_Camera_447170(Camera* pCamera);
 
-    static EXPORT void CC LoadResourcesFromList_446E80(const char* pFileName, ResourcesToLoadList* pList, __int16 loadMode, __int16);
+    static EXPORT void CC LoadResourcesFromList_446E80(const char* pFileName, ResourcesToLoadList* pList, LoadMode loadMode, __int16);
 
     static EXPORT Header* CC Get_Header_455620(BYTE** ppRes);
 };
