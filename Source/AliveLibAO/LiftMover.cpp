@@ -101,7 +101,7 @@ void LiftMover::VUpdate_4055C0()
                     {
                         for (short x = 0; x < gMap_507BA8.field_24_max_cams_x; x++)
                         {
-                            gMap_507BA8.Loader_446590(x, y, 0, TlvTypes::LiftPoint_8);
+                            gMap_507BA8.Loader_446590(x, y, LoadMode::Mode_0, TlvTypes::LiftPoint_8);
                         }
                     }
 

@@ -1282,10 +1282,18 @@ EXPORT void Factory_Mine_4848D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
             ResourceID::kLandmineResID,
             ResourceID::kMineflshResID,
             ResourceID::kBgexpldResID,
-            ResourceID::kAbeblowResID,
-            ResourceID::kSlogBlowResID,
         };
         ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResources);
+
+        if (!(disabledResources & 1))
+        {
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
+        }
+
+        if (!(disabledResources & 2))
+        {
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID);
+        }
 
         auto pMine = ao_new<Mine>();
         if (pMine)
@@ -1336,10 +1344,13 @@ EXPORT void Factory_Uxb_484B70(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
             ResourceID::kTbombResID,
             ResourceID::kBombflshResID,
             ResourceID::kBgexpldResID,
-            ResourceID::kAbeblowResID,
-
         };
         ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResources);
+
+        if (!(pUxbTlv->field_20_disabled_resources & 1))
+        {
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kAbeblowResID });
+        }
 
         if (!(pUxbTlv->field_20_disabled_resources & 2))
         {
@@ -1477,10 +1488,6 @@ EXPORT void Factory_BirdPortal_486710(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
         {
             ResourceID::kPortalTerminatorID,
             ResourceID::kDovbasicResID,
-
-            ResourceID::kAbemorphResID,
-            ResourceID::kShrmorphResID,
-            ResourceID::kSplineResID,
         };
         ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResources);
 
@@ -1493,6 +1500,14 @@ EXPORT void Factory_BirdPortal_486710(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
             }
             return;
         }
+
+        auto kResources2 =
+        {
+            ResourceID::kAbemorphResID,
+            ResourceID::kShrmorphResID,
+            ResourceID::kSplineResID,
+        };
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResources2);
 
         auto pBirdPortal = ao_new<BirdPortal>();
         if (pBirdPortal)
