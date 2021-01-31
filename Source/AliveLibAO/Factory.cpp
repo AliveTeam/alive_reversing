@@ -1832,7 +1832,7 @@ EXPORT void Factory_ChimeLock_4870D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
             ResourceID::kChimeResID,
             ResourceID::kF2ChimeBallResID,
         };
-        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kElecwallResID });
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResources);
 
         auto pChimeLock = ao_new<ChimeLock>();
         if (pChimeLock)
