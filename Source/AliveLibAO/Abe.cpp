@@ -1248,23 +1248,30 @@ void Abe::vUpdate_41FDB0()
                     field_130_say = -1;
                 }
 
-                if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone))
+                if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone) &&
+                    field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabaniaDone))
                 {
-                    if (field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabaniaDone))
+                    if (!field_2A8_flags.Get(Flags_2A8::e2A8_eBit15_bGiveShrykullFromBigFace) &&
+                        gMap_507BA8.field_A_level == LevelIds::eLines_2)
                     {
-                        if (!field_2A8_flags.Get(Flags_2A8::e2A8_eBit15_bGiveShrykullFromBigFace) &&
-                            gMap_507BA8.field_A_level == LevelIds::eLines_2)
-                        {
-                            field_2A8_flags.Set(Flags_2A8::e2A8_eBit15_bGiveShrykullFromBigFace);
-                        }
+                        LOG_INFO("Set e2A8_eBit15_bGiveShrykullFromBigFace");
+                        field_2A8_flags.Set(Flags_2A8::e2A8_eBit15_bGiveShrykullFromBigFace);
                     }
                 }
 
                 if (field_2A8_flags.Get(Flags_2A8::e2A8_eBit15_bGiveShrykullFromBigFace))
                 {
+                    static bool bLogged = false;
+                    if (!bLogged)
+                    {
+                        LOG_INFO("Have e2A8_eBit15_bGiveShrykullFromBigFace " << static_cast<int>(gMap_507BA8.field_0_current_level));
+                        bLogged = true;
+                    }
+
                     if (!field_2A8_flags.Get(Flags_2A8::e2A8_eBit14_bGotShrykullFromBigFace) &&
                         gMap_507BA8.field_0_current_level == LevelIds::eLines_2)
                     {
+                        LOG_INFO("Set field_16C_bHaveShrykull TRUE");
                         if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbemorphResID, 1, 0))
                         {
                             ResourceManager::LoadResourceFile_455270("ABEMORPH.BAN", nullptr);
