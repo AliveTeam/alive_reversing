@@ -2359,7 +2359,6 @@ EXPORT void Factory_GrenadeMachine_487860(Path_TLV* pTlv, Map* /*pMap*/, TlvItem
         ResourceID::kExplo2ResID,
         ResourceID::kAbeblowResID,
         ResourceID::kMetalResID,
-        ResourceID::kSlogBlowResID,
     };
     ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResources);
 
