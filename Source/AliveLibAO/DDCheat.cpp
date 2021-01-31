@@ -254,7 +254,7 @@ void DDCheat::VUpdate_4098C0()
                     {
                         pObj->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
                         showDebugCreatureInfo_5076E0 = 0;
-                        sControlledCharacter_50767C->field_F4_pLine = 0;
+                        sControlledCharacter_50767C->field_F4_pLine = nullptr;
                         sControlledCharacter_50767C->field_E8_LastLineYPos = sControlledCharacter_50767C->field_AC_ypos;
                         switch (sControlledCharacter_50767C->field_4_typeId)
                         {

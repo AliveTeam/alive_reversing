@@ -495,7 +495,9 @@ void BaseAliveGameObject::VOnPathTransition_401470(__int16 camWorldX, int camWor
     }
     else
     {
-        if (field_F4_pLine)
+        // OG FIX: After a path trans the collision items are free so we can't possibly have a line
+        // so try to find a new one under our feet.
+        if (!field_F4_pLine)
         {
             PathLine* pLine = nullptr;
             FP hitX = {};
@@ -518,7 +520,9 @@ void BaseAliveGameObject::VOnPathTransition_401470(__int16 camWorldX, int camWor
                 field_F4_pLine = nullptr;
             }
         }
-        else
+
+        // If we still didn't get a line then look for a start controller
+        if (!field_F4_pLine)
         {
             if (field_F0_pTlv->field_4_type == TlvTypes::StartController_28)
             {

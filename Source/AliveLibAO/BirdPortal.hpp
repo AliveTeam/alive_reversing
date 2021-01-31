@@ -74,15 +74,15 @@ public:
     virtual void VStopAudio() override;
 
     virtual __int16 VPortalClipper(__int16 bUnknown);
-    virtual void VMudSaved();
-    virtual void VGetMapChange(LevelIds* level, WORD* path, WORD* camera, CameraSwapEffects* screenChangeEffect, WORD* movieId);
-    virtual void VIncreaseTimerAndKillPortalClipper();
     virtual void VKillPortalClipper();
-    virtual BOOL VStateIs20();
-    virtual void VExitPortal();
-    virtual BOOL VStateIs16();
+    virtual void VMudSaved();
     virtual BOOL VStateIs6();
     virtual void VGiveShrukull(__int16 bPlaySound);
+    virtual BOOL VStateIs16();
+    virtual void VExitPortal();
+    virtual void VIncreaseTimerAndKillPortalClipper();
+    virtual BOOL VStateIs20();
+    virtual void VGetMapChange(LevelIds* level, WORD* path, WORD* camera, CameraSwapEffects* screenChangeEffect, WORD* movieId);
 
 private:
     EXPORT __int16 VPortalClipper_4533E0(__int16 bUnknown);
