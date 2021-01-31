@@ -156,7 +156,7 @@ public:
 
     EXPORT void GoTo_Camera_445050();
 
-    EXPORT void Loader_446590(__int16 camX, __int16 camY, int loadMode, __int16 typeToLoad);
+    EXPORT void Loader_446590(__int16 camX, __int16 camY, LoadMode loadMode, __int16 typeToLoad);
 
     EXPORT void TLV_Reset_446870(unsigned int tlvOffset_levelId_PathId, __int16 hiFlags, char bSetCreated, char bBit2);
 

@@ -28,8 +28,14 @@ union TlvItemInfoUnion
 };
 ALIVE_ASSERT_SIZEOF(TlvItemInfoUnion, 4);
 
+enum class LoadMode : __int16
+{
+    Mode_0 = 0,
+    Mode_1 = 1,
+    Mode_2 = 2
+};
 
-using TPathFunctionFn = void(CC*)(Path_TLV*, Map*, TlvItemInfoUnion, __int16);
+using TPathFunctionFn = void(CC*)(Path_TLV*, Map*, TlvItemInfoUnion, LoadMode);
 
 struct PathFunctionTable
 {

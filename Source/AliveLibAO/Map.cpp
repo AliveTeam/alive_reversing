@@ -1544,7 +1544,7 @@ void Map::Load_Path_Items_445DA0(Camera* pCamera, __int16 loadMode)
                 pCamera,
                 pCamera);
             sCameraBeingLoaded_507C98 = pCamera;
-            Loader_446590(pCamera->field_14_cam_x, pCamera->field_16_cam_y, 1, -1);
+            Loader_446590(pCamera->field_14_cam_x, pCamera->field_16_cam_y, LoadMode::Mode_1, -1);
         }
         else
         {
@@ -1553,7 +1553,7 @@ void Map::Load_Path_Items_445DA0(Camera* pCamera, __int16 loadMode)
             pCamera->field_30_flags |= 1u;
             pCamera->field_C_ppBits = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Bits, pCamera->field_10_resId, 1, 0);
             sCameraBeingLoaded_507C98 = pCamera;
-            Loader_446590(pCamera->field_14_cam_x, pCamera->field_16_cam_y, 2, -1);
+            Loader_446590(pCamera->field_14_cam_x, pCamera->field_16_cam_y, LoadMode::Mode_2, -1);
         }
         sCameraBeingLoaded_507C98 = nullptr;
     }
@@ -1901,7 +1901,7 @@ void Map::GoTo_Camera_445050()
         pScreenManager_4FF7C8->ctor_406830(field_34_camera_array[0]->field_C_ppBits, &field_2C_camera_offset);
     }
     
-    Loader_446590(field_20_camX_idx, field_22_camY_idx, 0, -1);
+    Loader_446590(field_20_camX_idx, field_22_camY_idx, LoadMode::Mode_0, -1);
 
     if (old_current_path != field_2_current_path || old_current_level != field_0_current_level)
     {
@@ -1961,7 +1961,7 @@ void Map::GoTo_Camera_445050()
     loading_ticks_5076A4 = 0;
 }
 
-void Map::Loader_446590(__int16 camX, __int16 camY, int loadMode, __int16 typeToLoad)
+void Map::Loader_446590(__int16 camX, __int16 camY, LoadMode loadMode, __int16 typeToLoad)
 {
     // Get a pointer to the array of index table offsets
     BYTE* pPathRes = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
@@ -1985,7 +1985,7 @@ void Map::Loader_446590(__int16 camX, __int16 camY, int loadMode, __int16 typeTo
         {
             if (typeToLoad == -1 || typeToLoad == pPathTLV->field_4_type)
             {
-                if (loadMode || !(pPathTLV->field_0_flags.Get(TLV_Flags::eBit1_Created) || pPathTLV->field_0_flags.Get(TLV_Flags::eBit2_Unknown)))
+                if (loadMode != LoadMode::Mode_0 || !(pPathTLV->field_0_flags.Get(TLV_Flags::eBit1_Created) || pPathTLV->field_0_flags.Get(TLV_Flags::eBit2_Unknown)))
                 {
                     TlvItemInfoUnion data;
                     data.parts.tlvOffset = static_cast<WORD>(objectTableIdx);
@@ -1993,9 +1993,9 @@ void Map::Loader_446590(__int16 camX, __int16 camY, int loadMode, __int16 typeTo
                     data.parts.pathId = static_cast<BYTE>(field_2_current_path);
 
                     // Call the factory to construct the item
-                    field_D4_pPathData->field_1C_object_funcs.object_funcs[pPathTLV->field_4_type](pPathTLV, this, data, static_cast<short>(loadMode));
+                    field_D4_pPathData->field_1C_object_funcs.object_funcs[pPathTLV->field_4_type](pPathTLV, this, data, loadMode);
 
-                    if (!loadMode)
+                    if (loadMode == LoadMode::Mode_0)
                     {
                         pPathTLV->field_0_flags.Set(TLV_Flags::eBit1_Created);
                         pPathTLV->field_0_flags.Set(TLV_Flags::eBit2_Unknown);

@@ -299,7 +299,7 @@ void CC ResourceManager::On_Loaded_446C10(ResourceManager_FileRecord* pLoaded)
     }
 }
 
-void CC ResourceManager::LoadResource_446C90(const char* pFileName, DWORD type, DWORD resourceId, __int16 loadMode, __int16 bDontLoad)
+void CC ResourceManager::LoadResource_446C90(const char* pFileName, DWORD type, DWORD resourceId, LoadMode loadMode, __int16 bDontLoad)
 {
     if (bDontLoad)
     {
@@ -313,7 +313,7 @@ void CC ResourceManager::LoadResource_446C90(const char* pFileName, DWORD type, 
         return;
     }
 
-    if (loadMode == 1)
+    if (loadMode == LoadMode::Mode_1)
     {
         for (int i = 0; i < ObjList_5009E0->Size(); i++)
         {
@@ -379,7 +379,7 @@ void CC ResourceManager::LoadResource_446C90(const char* pFileName, DWORD type, 
             ObjList_5009E0->Push_Back(pFileRec);
         }
     }
-    else if (loadMode == 2)
+    else if (loadMode == LoadMode::Mode_2)
     {
         ResourceManager::LoadResourceFile_455270(pFileName, nullptr);
         BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(type, resourceId, 1, 0);
@@ -390,7 +390,7 @@ void CC ResourceManager::LoadResource_446C90(const char* pFileName, DWORD type, 
     }
 }
 
-void CC ResourceManager::LoadResourcesFromList_446E80(const char* pFileName, ResourcesToLoadList* pTypeAndIdList, __int16 loadMode, __int16 bDontLoad)
+void CC ResourceManager::LoadResourcesFromList_446E80(const char* pFileName, ResourcesToLoadList* pTypeAndIdList, LoadMode loadMode, __int16 bDontLoad)
 {
     // Debug_Print_Stub_48DD70("Requesting tag res %s\n", pFileName);
 
@@ -429,7 +429,7 @@ void CC ResourceManager::LoadResourcesFromList_446E80(const char* pFileName, Res
         return;
     }
 
-    if (loadMode == 1)
+    if (loadMode == LoadMode::Mode_1)
     {
         for (int i = 0; i < ObjList_5009E0->Size(); i++)
         {
@@ -488,7 +488,7 @@ void CC ResourceManager::LoadResourcesFromList_446E80(const char* pFileName, Res
             pNewFileRec);
         ObjList_5009E0->Push_Back(pNewFileRec);
     }
-    else if (loadMode == 2)
+    else if (loadMode == LoadMode::Mode_2)
     {
         ResourceManager::LoadResourceFile_455270(pFileName, nullptr);
         for (int j = 0; j < pTypeAndIdList->field_0_count; j++)
