@@ -621,6 +621,9 @@ void Slig::Init_46B890()
     field_1CC_points[field_1F4_points_count].field_2_y = FP_GetExponent(field_AC_ypos);
     field_1F4_points_count++;
 
+    field_13C_zone_rect = {};
+    bool zoneRectSet = false;
+
     for (short yCam = -2; yCam < 3; yCam++)
     {
         for (short xCam = -2; xCam < 3; xCam++)
@@ -635,6 +638,7 @@ void Slig::Init_46B890()
                     {
                         field_13C_zone_rect.x = pTlvIter->field_C_sound_pos.field_0_x;
                         addPoint = true;
+                        zoneRectSet = true;
                     }
                 }
                 else if (pTlvIter->field_4_type == TlvTypes::eSligBoundRight_76)
@@ -643,6 +647,7 @@ void Slig::Init_46B890()
                     {
                         field_13C_zone_rect.w = pTlvIter->field_C_sound_pos.field_0_x;
                         addPoint = true;
+                        zoneRectSet = true;
                     }
                 }
                 else if (pTlvIter->field_4_type == TlvTypes::eSligPersist_77)
@@ -666,6 +671,16 @@ void Slig::Init_46B890()
                 pTlvIter = Path_TLV::Next_446460(pTlvIter);
             }
         }
+    }
+
+    // HACK FIX: Some slig spawners don't set a slig id that matches any left/right bound.
+    // In the OG this leaves the left/right zone bounds set as random values, here we fix
+    // to some of these seen random values that gives the slig some what predictable patrol zones.
+    if (!zoneRectSet)
+    {
+        LOG_INFO("Hack fix the slig walking zone (if you see this in a custom map please give your spwaned slig a left/right bound that matches the spawn id!)");
+        field_13C_zone_rect.x = 12809;
+        field_13C_zone_rect.w = 6405;
     }
 }
 
