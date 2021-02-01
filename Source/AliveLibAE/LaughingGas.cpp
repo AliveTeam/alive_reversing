@@ -12,6 +12,14 @@
 ALIVE_VAR(1, 0x5BC214, int, gGasInstanceCount_5BC214, 0);
 ALIVE_VAR(1, 0x5C1BA4, short, gLaughingGasOn_5C1BA4, FALSE);
 
+// On linux not using this random algorithm produces much bigger numbers
+// which causes flickering in the gas rendering. Apparently this is the MSVC algorithm.
+static int random_seed = 0;
+static int gas_rand()
+{
+    random_seed = (random_seed * 214013 + 2531011) & 0xFFFFFFFF;
+    return (random_seed >> 16) & 0x7FFF;
+}
 
 LaughingGas* LaughingGas::ctor_432400(__int16 layer, int /*notUsed*/, Path_LaughingGas* pTlv, int tlvInfo)
 {
@@ -160,11 +168,11 @@ void LaughingGas::Init_432980()
     {
         for (int j = 0; j < 6; j++)
         {
-            field_10C_ary6[i][j] = static_cast<float>(rand()) * 6.28f * 0.00003051850947599719f;
+            field_10C_gas_x[i][j] = static_cast<float>(gas_rand()) * 6.28f * (1.0f/32767.0f);
         }
     }
 
-    field_5C_prim.mPrimHeader.rgb_code.code_or_pad = PrimTypeCodes::eGas;
+    field_5C_prim.mPrimHeader.rgb_code.code_or_pad = PrimTypeCodes::eLaughingGas;
     field_5C_prim.x = field_2A_x;
     field_5C_prim.y = field_28_y;
     field_5C_prim.w = field_2E_w;
@@ -214,7 +222,7 @@ void LaughingGas::DoRender_432740()
     {
         for (int p = 0; p < 6; p++)
         {
-            local_array[p] = Calc_Y_4326F0(&field_7C[p][0], yCount);
+            local_array[p] = Calc_Y_4326F0(&field_7C_gas_y[p][0], yCount);
         }
 
         for (int xCount = 0; xCount < field_31F8_w_count; ++memPtr)
@@ -334,8 +342,9 @@ void LaughingGas::sub_4328A0()
     {
         for (int j = 0; j < 4; j++)
         {
-            field_7C      [1 + i][1 + j] = (sin(field_10C_ary6[1 + i][1 + j]) * 50.0f + 30.0f) * (float)field_54_amount_on.fpValue * 0.0000152587890625f;
-            field_10C_ary6[1 + i][1 + j] += (float)(rand() - 8191) * 0.03f * 0.00006103888176768602f;
+            const int rnd = gas_rand() - 8191;
+            field_7C_gas_y[1 + i][1 + j] = (sin(field_10C_gas_x[1 + i][1 + j]) * 50.0f + 30.0f) * static_cast<float>(FP_GetDouble(field_54_amount_on));
+            field_10C_gas_x[1 + i][1 + j] += (float)(rnd) * 0.03f * (1.0f / 16383.0f);
         }
     }
 }

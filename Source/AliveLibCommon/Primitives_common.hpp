@@ -274,7 +274,7 @@ enum PrimTypeCodes
     ePrimClipper = 0x81,
     eScreenOffset = 0x82,
     eMoveImage = 0x83,
-    eGas = 0x84,
+    eLaughingGas = 0x84,
 
     // TODO: Type 2
  
