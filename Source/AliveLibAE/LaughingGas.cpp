@@ -172,7 +172,7 @@ void LaughingGas::Init_432980()
         }
     }
 
-    field_5C_prim.mPrimHeader.rgb_code.code_or_pad = PrimTypeCodes::eGas;
+    field_5C_prim.mPrimHeader.rgb_code.code_or_pad = PrimTypeCodes::eLaughingGas;
     field_5C_prim.x = field_2A_x;
     field_5C_prim.y = field_28_y;
     field_5C_prim.w = field_2E_w;

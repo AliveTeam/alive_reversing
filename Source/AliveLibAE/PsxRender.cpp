@@ -3161,7 +3161,7 @@ EXPORT void CC PSX_Render_Line_Prim_4F7D90(void* pOtPrim, int offX, int offY)
     }
 }
 
-EXPORT void CC PSX_84_4F7B80(int xpos, int ypos, int width, int height, WORD* pData)
+EXPORT void CC PSX_RenderLaughingGasEffect_4F7B80(int xpos, int ypos, int width, int height, WORD* pData)
 {
     const WORD pixel_mask = ~((1 << sRedShift_C215C4) | (1 << sGreenShift_C1D180) | (1 << sBlueShift_C19140) | (1 << sSemiTransShift_C215C0));
     const int pitchWords = spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
@@ -3434,9 +3434,8 @@ static bool DrawOTagImpl(PrimHeader** ppOt, __int16 drawEnv_of0, __int16 drawEnv
                 }
                 return true;
 
-            case PrimTypeCodes::eGas:
-                // Appears for gas..
-                PSX_84_4F7B80(any.mGas->x, any.mGas->y, any.mGas->w, any.mGas->h, any.mGas->pData);
+            case PrimTypeCodes::eLaughingGas:
+                PSX_RenderLaughingGasEffect_4F7B80(any.mGas->x, any.mGas->y, any.mGas->w, any.mGas->h, any.mGas->pData);
                 break;
 
             default:
