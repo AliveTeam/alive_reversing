@@ -84,8 +84,8 @@ private:
 
     Prim_GasEffect field_5C_prim;
 
-    float field_7C[6][6];
-    float field_10C_ary6[6][6];
+    float field_7C_gas_y[6][6];
+    float field_10C_gas_x[6][6];
 
     WORD* field_19C_pMem;
 
