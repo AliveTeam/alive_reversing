@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
 option(RENDER_TEST "Create test object that renders all prim types on boot" OFF)
-option(DEVELOPER_MODE "Boot direct to main selection screen, enable debug.sav loading" ON)
+option(DEVELOPER_MODE "Boot direct to main selection screen, enable debug.sav loading" OFF)
 option(BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE "Force game to run in windowed mode" ON)
 option(BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS "Allow the game to load ddv and lvl files from their own folders. (movies, levels)" ON)
 option(FORCE_DDCHEAT "Force ddcheat mode to be enabled" ON)
