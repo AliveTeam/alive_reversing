@@ -3118,11 +3118,11 @@ void Paramite::M_Idle_0_489FB0()
     }
 }
 
-const int sWalkTable_5464BC[3] = // TODO: Convert
+const FP sWalkTable_5464BC[3] =
 {
-    0,
-    91888,
-    591491
+    FP_FromInteger(0),
+    FP_FromDouble(1.40),
+    FP_FromDouble(9.02)
 };
 
 void Paramite::M_WalkBegin_1_48A7B0()
@@ -3130,11 +3130,11 @@ void Paramite::M_WalkBegin_1_48A7B0()
     FP frameVelX = {};
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        frameVelX = - FP_FromRaw(sWalkTable_5464BC[field_20_animation.field_92_current_frame]);
+        frameVelX = - sWalkTable_5464BC[field_20_animation.field_92_current_frame];
     }
     else
     {
-        frameVelX = FP_FromRaw(sWalkTable_5464BC[field_20_animation.field_92_current_frame]);
+        frameVelX = sWalkTable_5464BC[field_20_animation.field_92_current_frame];
     }
 
     field_C4_velx = (field_CC_sprite_scale * frameVelX);
@@ -3153,22 +3153,22 @@ void Paramite::M_WalkBegin_1_48A7B0()
     }
 }
 
-const int sWalkTable_546484[14] = // TODO: Convert
+const FP sWalkTable_546484[14] =
 {
-    133524,
-    264052,
-    292668,
-    219373,
-    208975,
-    323594,
-    204912,
-    164380,
-    290982,
-    260097,
-    190383,
-    238565,
-    308112,
-    178444
+    FP_FromDouble(2.03),
+    FP_FromDouble(4.02),
+    FP_FromDouble(4.46),
+    FP_FromDouble(3.34),
+    FP_FromDouble(3.18),
+    FP_FromDouble(4.93),
+    FP_FromDouble(3.12),
+    FP_FromDouble(2.50),
+    FP_FromDouble(4.44),
+    FP_FromDouble(3.96),
+    FP_FromDouble(2.90),
+    FP_FromDouble(3.64),
+    FP_FromDouble(4.70),
+    FP_FromDouble(2.72)
 };
 
 
@@ -3177,11 +3177,11 @@ void Paramite::M_Walking_2_48A2D0()
     FP frameVelX = {};
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        frameVelX = -FP_FromRaw(sWalkTable_546484[field_20_animation.field_92_current_frame]);
+        frameVelX = -sWalkTable_546484[field_20_animation.field_92_current_frame];
     }
     else
     {
-        frameVelX = FP_FromRaw(sWalkTable_546484[field_20_animation.field_92_current_frame]);
+        frameVelX = sWalkTable_546484[field_20_animation.field_92_current_frame];
     }
 
     field_C4_velx = field_CC_sprite_scale * frameVelX;
@@ -3312,36 +3312,34 @@ void Paramite::M_Walking_2_48A2D0()
     }
 }
 
-const int sRunningTable_5464E8[14] = // TODO: Convert
+const FP sRunningTable_5464E8[14] =
 {
-    338545,
-    368618,
-    218134,
-    231502,
-    344828,
-    685751,
-    647332,
-    534050,
-    543610,
-    470669,
-    445321,
-    585377,
-    751093,
-    388423
+    FP_FromDouble(5.16),
+    FP_FromDouble(5.62),
+    FP_FromDouble(3.32),
+    FP_FromDouble(3.53),
+    FP_FromDouble(5.26),
+    FP_FromDouble(10.46),
+    FP_FromDouble(9.87),
+    FP_FromDouble(8.14),
+    FP_FromDouble(8.29),
+    FP_FromDouble(7.18),
+    FP_FromDouble(6.79),
+    FP_FromDouble(8.93),
+    FP_FromDouble(11.46),
+    FP_FromDouble(5.92)
 };
-
-
 
 void Paramite::M_Running_3_48AA00()
 {
     FP frameVelX = {};
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        frameVelX = -FP_FromRaw(sRunningTable_5464E8[field_20_animation.field_92_current_frame]);
+        frameVelX = -sRunningTable_5464E8[field_20_animation.field_92_current_frame];
     }
     else
     {
-        frameVelX = FP_FromRaw(sRunningTable_5464E8[field_20_animation.field_92_current_frame]);
+        frameVelX = sRunningTable_5464E8[field_20_animation.field_92_current_frame];
     }
 
     field_C4_velx = (field_CC_sprite_scale * frameVelX);
@@ -3481,35 +3479,22 @@ void Paramite::M_Turn_4_48B180()
     }
 }
 
-const int sHopTable_546544[27] = // TODO: Convert
+const FP sHopTable_546544[14] =
 {
-    424574,
-    455634,
-    300215,
-    314017,
-    431064,
-    795042,
-    731621,
-    421866,
-    423200,
-    352426,
-    387779,
-    483797,
-    439521,
-    593985,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0
+    FP_FromDouble(6.47),
+    FP_FromDouble(6.95),
+    FP_FromDouble(4.58),
+    FP_FromDouble(4.79),
+    FP_FromDouble(6.57),
+    FP_FromDouble(12.13),
+    FP_FromDouble(11.16),
+    FP_FromDouble(6.43),
+    FP_FromDouble(6.45),
+    FP_FromDouble(5.37),
+    FP_FromDouble(5.91),
+    FP_FromDouble(7.38),
+    FP_FromDouble(6.70),
+    FP_FromDouble(9.06)
 };
 
 void Paramite::M_Hop_5_48B5B0()
@@ -3517,11 +3502,11 @@ void Paramite::M_Hop_5_48B5B0()
     FP frameVelX = {};
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        frameVelX = -FP_FromRaw(sHopTable_546544[field_20_animation.field_92_current_frame]);
+        frameVelX = -sHopTable_546544[field_20_animation.field_92_current_frame];
     }
     else
     {
-        frameVelX = FP_FromRaw(sHopTable_546544[field_20_animation.field_92_current_frame]);
+        frameVelX = sHopTable_546544[field_20_animation.field_92_current_frame];
     }
 
     field_C4_velx = (field_CC_sprite_scale * frameVelX);
@@ -3611,13 +3596,13 @@ void Paramite::M_Hop_5_48B5B0()
     }
 }
 
-const int dword_5464D4[5] =
+const FP M_Unused_6_VelTable_5464D4[5] =
 {
-    147603,
-    369009,
-    479711,
-    479711,
-    369009
+    FP_FromDouble(2.25),
+    FP_FromDouble(5.63),
+    FP_FromDouble(7.31),
+    FP_FromDouble(7.31),
+    FP_FromDouble(5.63)
 };
 
 void Paramite::M_Unused_6_48A930()
@@ -3625,11 +3610,11 @@ void Paramite::M_Unused_6_48A930()
     FP frameVelX = {};
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        frameVelX = -FP_FromRaw(dword_5464D4[field_20_animation.field_92_current_frame]);
+        frameVelX = -M_Unused_6_VelTable_5464D4[field_20_animation.field_92_current_frame];
     }
     else
     {
-        frameVelX = FP_FromRaw(dword_5464D4[field_20_animation.field_92_current_frame]);
+        frameVelX = M_Unused_6_VelTable_5464D4[field_20_animation.field_92_current_frame];
     }
 
     field_C4_velx = (field_CC_sprite_scale * frameVelX);
@@ -3651,11 +3636,11 @@ void Paramite::M_Unused_6_48A930()
     }
 }
 
-const int sWalkToRunTable_546538[3] = // TODO: Convert
+const FP sWalkToRunTable_546538[3] =
 {
-    353663,
-    353662,
-    353664
+    FP_FromDouble(5.39),
+    FP_FromDouble(5.39),
+    FP_FromDouble(5.39)
 };
 
 void Paramite::M_WalkRunTransition_7_48B0C0()
@@ -3663,11 +3648,11 @@ void Paramite::M_WalkRunTransition_7_48B0C0()
     FP frameVelX = {};
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        frameVelX = -FP_FromRaw(sWalkToRunTable_546538[field_20_animation.field_92_current_frame]);
+        frameVelX = -sWalkToRunTable_546538[field_20_animation.field_92_current_frame];
     }
     else
     {
-        frameVelX = FP_FromRaw(sWalkToRunTable_546538[field_20_animation.field_92_current_frame]);
+        frameVelX = sWalkToRunTable_546538[field_20_animation.field_92_current_frame];
     }
 
     field_C4_velx = (field_CC_sprite_scale * frameVelX);
@@ -3687,11 +3672,11 @@ void Paramite::M_WalkRunTransition_7_48B0C0()
     }
 }
 
-const int sWalkEndTable_5464C8[3] = // TODO: Convert
+const FP sWalkEndTable_5464C8[3] =
 { 
-    153033,
-    330008,
-    439196 
+    FP_FromDouble(2.33),
+    FP_FromDouble(5.03),
+    FP_FromDouble(6.70)
 };
 
 void Paramite::M_WalkEnd_8_48A870()
@@ -3699,11 +3684,11 @@ void Paramite::M_WalkEnd_8_48A870()
     FP frameVelX = {};
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        frameVelX = -FP_FromRaw(sWalkEndTable_5464C8[field_20_animation.field_92_current_frame]);
+        frameVelX = -sWalkEndTable_5464C8[field_20_animation.field_92_current_frame];
     }
     else
     {
-        frameVelX = FP_FromRaw(sWalkEndTable_5464C8[field_20_animation.field_92_current_frame]);
+        frameVelX = sWalkEndTable_5464C8[field_20_animation.field_92_current_frame];
     }
 
     field_C4_velx = (field_CC_sprite_scale * frameVelX);
@@ -3722,11 +3707,11 @@ void Paramite::M_WalkEnd_8_48A870()
     }
 }
 
-const int sRunBeginTable_546520[3] = // TODO: Convert
+const FP sRunBeginTable_546520[3] =
 {
-    123139,
-    141508,
-    218262
+    FP_FromDouble(1.87),
+    FP_FromDouble(2.15),
+    FP_FromDouble(3.33)
 };
 
 void Paramite::M_RunBegin_9_48AF10()
@@ -3735,11 +3720,11 @@ void Paramite::M_RunBegin_9_48AF10()
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        field_C4_velx = (field_CC_sprite_scale * -FP_FromRaw(sRunBeginTable_546520[field_20_animation.field_92_current_frame]));
+        field_C4_velx = (field_CC_sprite_scale * -sRunBeginTable_546520[field_20_animation.field_92_current_frame]);
     }
     else
     {
-        field_C4_velx = (field_CC_sprite_scale * FP_FromRaw(sRunBeginTable_546520[field_20_animation.field_92_current_frame]));
+        field_C4_velx = (field_CC_sprite_scale * sRunBeginTable_546520[field_20_animation.field_92_current_frame]);
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -3759,11 +3744,11 @@ void Paramite::M_RunBegin_9_48AF10()
     }
 }
 
-const int sRunEndTable_54652C[3] = // TODO: Convert
+const FP sRunEndTable_54652C[3] =
 {
-    203900,
-    200766,
-    224956
+    FP_FromDouble(3.11),
+    FP_FromDouble(3.06),
+    FP_FromDouble(3.43)
 };
 
 void Paramite::M_RunEnd_10_48B000()
@@ -3771,11 +3756,11 @@ void Paramite::M_RunEnd_10_48B000()
     FP frameVelX = {};
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        frameVelX = -FP_FromRaw(sRunEndTable_54652C[field_20_animation.field_92_current_frame]);
+        frameVelX = -sRunEndTable_54652C[field_20_animation.field_92_current_frame];
     }
     else
     {
-        frameVelX = FP_FromRaw(sRunEndTable_54652C[field_20_animation.field_92_current_frame]);
+        frameVelX = sRunEndTable_54652C[field_20_animation.field_92_current_frame];
     }
 
     field_C4_velx = (field_CC_sprite_scale * frameVelX);

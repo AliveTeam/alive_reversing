@@ -1545,9 +1545,9 @@ __int16 Slig::HandleEnemyStopper_46BF30(int gridBlocks)
     return 0;
 }
 
-void Slig::ShootTurnTowardsOrKillSound_465DF0()
+void Slig::RespondToEnemyOrPatrol_465DF0()
 {
-    field_14C = 0;
+    field_14C_unused = 0;
 
     if (field_174_tlv.field_28_chal_time)
     {
@@ -4423,7 +4423,7 @@ __int16 Slig::Brain_Unknown_46B250()
     }
     else
     {
-        ShootTurnTowardsOrKillSound_465DF0();
+        RespondToEnemyOrPatrol_465DF0();
     }
     return 101;
 }
@@ -4989,7 +4989,7 @@ __int16 Slig::Brain_Chasing_46CD60()
         && !Event_Get_417250(kEventResetting_6))
     {
         field_20C_force_alive_state = 0;
-        ShootTurnTowardsOrKillSound_465DF0();
+        RespondToEnemyOrPatrol_465DF0();
         return 118;
     }
 
@@ -5106,7 +5106,7 @@ __int16 Slig::Brain_Idle_46D6E0()
             0
         ))
     {
-        Slig::ShootTurnTowardsOrKillSound_465DF0();
+        Slig::RespondToEnemyOrPatrol_465DF0();
         return 104;
     }
     if (sActiveHero_507678->field_100_health <= FP_FromInteger(0))
@@ -5361,7 +5361,7 @@ __int16 Slig::Brain_Walking_46DE90()
         {
             if (!IsAbeEnteringDoor_46BEE0(sControlledCharacter_50767C) && !Event_Get_417250(kEventResetting_6))
             {
-                ShootTurnTowardsOrKillSound_465DF0();
+                RespondToEnemyOrPatrol_465DF0();
                 return 108;
             }
         }
@@ -5642,7 +5642,7 @@ __int16 Slig::Brain_GetAlerted_46E800()
     }
     else
     {
-        ShootTurnTowardsOrKillSound_465DF0();
+        RespondToEnemyOrPatrol_465DF0();
     }
     return 124;
 }
