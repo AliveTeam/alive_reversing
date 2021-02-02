@@ -608,7 +608,7 @@ __int16 Scrab::OnFloor_4A41E0()
     return FALSE;
 }
 
-const FP dword_546D84[8] = 
+const FP velx_input_entries_546D84[8] =
 {
     FP_FromInteger(4),
     FP_FromInteger(4),
@@ -620,7 +620,7 @@ const FP dword_546D84[8] =
     FP_FromInteger(4)
 };
 
-const FP dword_546DA4[11] = 
+const FP vely_input_entries_546DA4[11] =
 {
     FP_FromInteger(0),
     FP_FromInteger(-4),
@@ -693,14 +693,14 @@ void Scrab::vUpdate_4A3530()
                 if (sInputObject_5BD4E0.isPressed(InputCommands::eUp | InputCommands::eDown | InputCommands::eLeft | InputCommands::eRight))
                 {
                     // TODO: InputCommand constants
-                    field_C4_velx = dword_546D84[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
-                    field_C8_vely = dword_546DA4[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+                    field_C4_velx = velx_input_entries_546D84[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+                    field_C8_vely = vely_input_entries_546DA4[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
 
                     if (sInputObject_5BD4E0.isPressed(InputCommands::eRun))
                     {
-                        field_C4_velx += dword_546D84[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
-                        field_C4_velx += dword_546D84[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
-                        field_C8_vely += dword_546DA4[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+                        field_C4_velx += velx_input_entries_546D84[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+                        field_C4_velx += velx_input_entries_546D84[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+                        field_C8_vely += vely_input_entries_546DA4[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
                     }
 
                     field_B8_xpos += field_C4_velx;
