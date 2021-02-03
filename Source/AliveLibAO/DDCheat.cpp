@@ -512,7 +512,7 @@ void DDCheat::Misc_409E90()
         gScale_4C3158 = 100;
         sControlledCharacter_50767C->field_BC_sprite_scale = FP_FromInteger(1);
         sControlledCharacter_50767C->field_C6_scale = 1;
-        sControlledCharacter_50767C->field_10_anim.field_C_layer = 32;
+        sControlledCharacter_50767C->field_10_anim.field_C_layer = Layer::eLayer_32;
     }
     else if (field_24_input & InputCommands::eRight)
     {
@@ -520,7 +520,7 @@ void DDCheat::Misc_409E90()
         gScale_4C3158 = 50;
         sControlledCharacter_50767C->field_BC_sprite_scale = FP_FromDouble(0.5);
         sControlledCharacter_50767C->field_C6_scale = 0;
-        sControlledCharacter_50767C->field_10_anim.field_C_layer = 13;
+        sControlledCharacter_50767C->field_10_anim.field_C_layer = Layer::eLayer_13;
     }
     else if (field_24_input & InputCommands::eDown)
     {

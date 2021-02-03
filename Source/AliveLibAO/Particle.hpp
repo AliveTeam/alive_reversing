@@ -25,9 +25,9 @@ EXPORT Particle* CC New_DestroyOrCreateObject_Particle_419D00(FP xpos, FP ypos, 
 
 EXPORT void CC New_Smoke_Particles_419A80(FP xpos, FP ypos, FP scale, __int16 count, __int16 type);
 
-EXPORT void CC New_Chant_Particle_4198E0(FP xpos, FP ypos, FP scale, __int16 layer);
+EXPORT void CC New_Chant_Particle_4198E0(FP xpos, FP ypos, FP scale, Layer layer);
 
-EXPORT void CC New_Shiny_Particle_4199A0(FP xpos, FP ypos, FP scale, __int16 layer);
+EXPORT void CC New_Shiny_Particle_4199A0(FP xpos, FP ypos, FP scale, Layer layer);
 
 EXPORT void CC New_ShootingZFire_Particle_419810(FP xpos, FP ypos, FP scale);
 

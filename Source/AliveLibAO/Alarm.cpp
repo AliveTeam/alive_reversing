@@ -16,17 +16,17 @@ void Alarm_ForceLink() { }
 
 ALIVE_VAR(1, 0x5076A8, short, alarmInstanceCount_5076A8, 0);
 
-EXPORT Alarm * Alarm::ctor_402570(__int16 a2, __int16 switchId, __int16 a4, __int16 layer)
+EXPORT Alarm * Alarm::ctor_402570(__int16 duration_timer, __int16 switchId, __int16 timer, Layer layer)
 {
     ctor_461550(layer, 1);
 
     SetVTable(this, 0x4BA060);
-    field_6C_15_timer = a4 + gnFrameCount_507670;
+    field_6C_15_timer = timer + gnFrameCount_507670;
     field_74_switch_id = switchId;
     field_4_typeId = Types::eAlarm_1;
     field_68_r_value = 0;
     field_6A_state = 0;
-    field_70_duration_timer = field_6C_15_timer + a2;
+    field_70_duration_timer = field_6C_15_timer + duration_timer;
 
     alarmInstanceCount_5076A8++;
     if (alarmInstanceCount_5076A8 > 1)

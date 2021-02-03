@@ -212,7 +212,7 @@ void SecurityOrb::VUpdate_436DF0()
                     FP_FromInteger(height / 2),
                     8,
                     ZapLineType::eThick_0,
-                    28);
+                    Layer::eLayer_28);
             }
 
             auto pPossessionFlicker = ao_new<PossessionFlicker>();
@@ -281,7 +281,7 @@ void SecurityOrb::VUpdate_436DF0()
             auto pFlash = ao_new<Flash>();
             if (pFlash)
             {
-                pFlash->ctor_41A810(39, 255u, 0, 0, 1, 3u, 1);
+                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 0, 1, 3u, 1);
             }
         }
 
@@ -290,7 +290,7 @@ void SecurityOrb::VUpdate_436DF0()
             auto pFlash = ao_new<Flash>();
             if (pFlash)
             {
-                pFlash->ctor_41A810(39, 255u, 0, 0, 1, 1u, 1);
+                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 0, 1, 1u, 1);
             }
         }
 

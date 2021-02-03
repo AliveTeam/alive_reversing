@@ -360,13 +360,13 @@ Slig* Slig::ctor_464D40(Path_Slig* pTlv, int tlvInfo)
     if (pTlv->field_18_scale == 0)
     {
         field_BC_sprite_scale = FP_FromInteger(1);
-        field_10_anim.field_C_layer = 33;
+        field_10_anim.field_C_layer = Layer::eLayer_33;
         field_C6_scale = 1;
     }
     else
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_10_anim.field_C_layer = 14;
+        field_10_anim.field_C_layer = Layer::eLayer_14;
         field_C6_scale = 0;
     }
 
@@ -1777,7 +1777,7 @@ __int16 Slig::GetNextMotionIncGameSpeak_467700(unsigned __int16 input)
 
 BOOL CCSTD Slig::RenderLayerIs_46C0A0(BaseAliveGameObject* pThis)
 {
-    return pThis->field_10_anim.field_C_layer == 3 || pThis->field_10_anim.field_C_layer == 22;
+    return pThis->field_10_anim.field_C_layer == Layer::eLayer_3 || pThis->field_10_anim.field_C_layer == Layer::eLayer_22;
 }
 
 __int16 CCSTD Slig::IsAbeEnteringDoor_46BEE0(BaseAliveGameObject* pThis)
@@ -3753,7 +3753,7 @@ void Slig::State_37_Depossessing_4684D0()
                 field_A8_xpos + (field_BC_sprite_scale * FP_FromInteger(Math_RandomRange_450F20(-20, 20))),
                 field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(Math_RandomRange_450F20(20, 50))),
                 field_BC_sprite_scale,
-                0);
+                Layer::eLayer_0);
         }
 
         if (static_cast<int>(gnFrameCount_507670) > field_128_timer)

@@ -31,7 +31,7 @@ ALIVE_VAR(1, 0x4FFDB0, Data_Byte, sbyte_1_4FFDB0, {});
 ALIVE_VAR(1, 0x5008B0, Data_Byte, sbyte_2_5008B0, {});
 ALIVE_VAR(1, 0x5009D0, int, gDeathGasCount_5009D0, 0);
 
-DeathGas* DeathGas::ctor_41CF40(__int16 layer, __int16 amount)
+DeathGas* DeathGas::ctor_41CF40(Layer layer, __int16 amount)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BAF08);

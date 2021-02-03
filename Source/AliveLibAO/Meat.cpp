@@ -54,13 +54,13 @@ MeatSack* MeatSack::ctor_4390F0(Path_MeatSack* pTlv, int tlvInfo)
     if (pTlv->field_1E_scale == 1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_10_anim.field_C_layer = 8;
+        field_10_anim.field_C_layer = Layer::eLayer_8;
         field_C6_scale = 0;
     }
     else
     {
         field_BC_sprite_scale = FP_FromInteger(1);
-        field_10_anim.field_C_layer = 27;
+        field_10_anim.field_C_layer = Layer::eLayer_27;
         field_C6_scale = 1;
     }
 
@@ -543,7 +543,7 @@ void Meat::VUpdate_438A20()
                     field_A8_xpos + field_BC_sprite_scale,
                     field_AC_ypos + (field_BC_sprite_scale * FP_FromInteger(-7)),
                     FP_FromDouble(0.3),
-                    36);
+                    Layer::eLayer_36);
                 field_11C_timer = Math_NextRandom() % 16 + gnFrameCount_507670 + 60;
             }
             if (field_120_deadtimer < static_cast<int>(gnFrameCount_507670))

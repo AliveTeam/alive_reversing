@@ -82,7 +82,7 @@ void SnoozeParticle::VScreenChanged()
     VScreenChanged_464CD0();
 }
 
-SnoozeParticle* SnoozeParticle::ctor_464320(FP xpos, FP ypos, __int16 layer, FP scale)
+SnoozeParticle* SnoozeParticle::ctor_464320(FP xpos, FP ypos, Layer layer, FP scale)
 {
     ctor_487E10(1);
 

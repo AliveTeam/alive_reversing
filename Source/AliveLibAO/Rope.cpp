@@ -94,12 +94,12 @@ Rope* Rope::ctor_458520(unsigned __int16 left, __int16 top, unsigned __int16 bot
     field_BC_sprite_scale = scale;
     if (scale == FP_FromInteger(1))
     {
-        field_10_anim.field_C_layer = 24;
+        field_10_anim.field_C_layer = Layer::eLayer_24;
         field_C6_scale = 1;
     }
     else
     {
-        field_10_anim.field_C_layer = 5;
+        field_10_anim.field_C_layer = Layer::eLayer_5;
         field_C6_scale = 0;
     }
 

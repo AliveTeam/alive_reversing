@@ -119,12 +119,12 @@ Leaf* Leaf::ctor_48B4F0(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
     field_BC_sprite_scale = scale;
     if (field_BC_sprite_scale == FP_FromInteger(1))
     {
-        field_10_anim.field_C_layer = 27;
+        field_10_anim.field_C_layer = Layer::eLayer_27;
         field_C6_scale = 1;
     }
     else
     {
-        field_10_anim.field_C_layer = 8;
+        field_10_anim.field_C_layer = Layer::eLayer_8;
         field_C6_scale = 0;
     }
 

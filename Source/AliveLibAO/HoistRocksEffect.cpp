@@ -41,11 +41,11 @@ HoistParticle* HoistParticle::ctor_431B00(FP xpos, FP ypos, FP scale, int frameT
 
     if (scale == FP_FromInteger(1))
     {
-        field_10_anim.field_C_layer = 25;
+        field_10_anim.field_C_layer = Layer::eLayer_25;
     }
     else
     {
-        field_10_anim.field_C_layer = 6;
+        field_10_anim.field_C_layer = Layer::eLayer_6;
     }
 
     field_E4_bHitGround = 0;

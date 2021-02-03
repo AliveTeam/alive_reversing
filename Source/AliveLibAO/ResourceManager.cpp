@@ -233,7 +233,7 @@ void CC Game_ShowLoadingIcon_445EB0()
         pParticle->field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
         pParticle->field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
 
-        pParticle->field_10_anim.field_C_layer = 0;
+        pParticle->field_10_anim.field_C_layer = Layer::eLayer_0;
 
         PrimHeader* local_ot[42] = {};
         PSX_DRAWENV drawEnv = {};

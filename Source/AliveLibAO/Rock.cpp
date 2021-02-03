@@ -373,7 +373,7 @@ void Rock::VUpdate_456EC0()
                 (field_BC_sprite_scale * FP_FromInteger(1)) + field_A8_xpos,
                 (field_BC_sprite_scale * FP_FromInteger(-7)) + field_AC_ypos,
                 FP_FromDouble(0.3),
-                36);
+                Layer::eLayer_36);
             field_124 = (Math_NextRandom() % 16) + gnFrameCount_507670 + 60;
         }
         break;

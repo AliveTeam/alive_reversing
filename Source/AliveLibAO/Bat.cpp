@@ -30,7 +30,7 @@ Bat* Bat::ctor_4046E0(Path_Bat* pTlv, int tlvInfo)
     }
 
     Animation_Init_417FD0(6560, 48, 17, ppRes, 1);
-    field_10_anim.field_C_layer = 33;
+    field_10_anim.field_C_layer = Layer::eLayer_33;
 
     FP hitX = {};
     FP hitY = {};
@@ -61,13 +61,13 @@ Bat* Bat::ctor_4046E0(Path_Bat* pTlv, int tlvInfo)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_C6_scale = 0;
-        field_10_anim.field_C_layer = 6;
+        field_10_anim.field_C_layer = Layer::eLayer_6;
     }
     else
     {
         field_BC_sprite_scale = FP_FromInteger(1);
         field_C6_scale = 1;
-        field_10_anim.field_C_layer = 25;
+        field_10_anim.field_C_layer = Layer::eLayer_25;
     }
 
     field_F4_state = BatStates::eSetTimer_0;

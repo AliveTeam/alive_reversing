@@ -232,13 +232,13 @@ Switch* Switch::ctor_481110(Path_Switch* pTlv, int tlvInfo)
     if (pTlv->field_1C_scale == 1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_10_anim.field_C_layer = 6;
+        field_10_anim.field_C_layer = Layer::eLayer_6;
         field_C6_scale = 0;
     }
     else
     {
         field_BC_sprite_scale = FP_FromInteger(1);
-        field_10_anim.field_C_layer = 25;
+        field_10_anim.field_C_layer = Layer::eLayer_25;
         field_C6_scale = 1;
     }
 

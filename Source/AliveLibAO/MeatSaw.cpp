@@ -69,13 +69,13 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, int tlvInfo)
     if (pTlv->field_18_scale_background)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_10_anim.field_C_layer = 5;
+        field_10_anim.field_C_layer = Layer::eLayer_5;
         field_C6_scale = 0;
     }
     else
     {
         field_BC_sprite_scale = FP_FromInteger(1);
-        field_10_anim.field_C_layer = 24;
+        field_10_anim.field_C_layer = Layer::eLayer_24;
         field_C6_scale = 1;
     }
 

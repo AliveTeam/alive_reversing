@@ -572,7 +572,7 @@ void BeeSwarm::VUpdate_47FF50()
         pBee->field_10_anim.field_68_anim_ptr = &field_10_anim;
         pBee->field_10_anim.field_6C_scale = field_BC_sprite_scale;
 
-        pBee->field_10_anim.field_C_layer = 38;
+        pBee->field_10_anim.field_C_layer = Layer::eLayer_38;
 
         pBee->field_0_xpos = field_D68_xpos;
         pBee->field_4_ypos = field_D6C_ypos;
@@ -611,7 +611,7 @@ void BeeSwarm::VRender(PrimHeader** ppOt)
 
 void BeeSwarm::VRender_480AC0(PrimHeader** ppOt)
 {
-    field_10_anim.field_C_layer = 38;
+    field_10_anim.field_C_layer = Layer::eLayer_38;
     field_10_anim.field_8_r = static_cast<BYTE>(field_C0_r);
     field_10_anim.field_9_g = static_cast<BYTE>(field_C2_g);
     field_10_anim.field_A_b = static_cast<BYTE>(field_C4_b);

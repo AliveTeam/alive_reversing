@@ -24,11 +24,11 @@ BulletShell* BulletShell::ctor_462790(FP xpos, FP ypos, __int16 direction, FP sc
 
     if (scale == FP_FromInteger(1))
     {
-        field_10_anim.field_C_layer = 36;
+        field_10_anim.field_C_layer = Layer::eLayer_36;
     }
     else
     {
-        field_10_anim.field_C_layer = 17;
+        field_10_anim.field_C_layer = Layer::eLayer_17;
     }
 
     field_CC_bApplyShadows &= ~1u;

@@ -10,7 +10,7 @@
 
 namespace AO {
 
-EffectBase* EffectBase::ctor_461550(__int16 layer, char abr)
+EffectBase* EffectBase::ctor_461550(Layer layer, char abr)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BC900);

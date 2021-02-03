@@ -32,7 +32,7 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo)
 
     BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2ChimeBallResID, 1, 0);
     Animation_Init_417FD0(136, 16, 8, ppRes, 1);
-    field_10_anim.field_C_layer = 37;
+    field_10_anim.field_C_layer = Layer::eLayer_37;
 
     FP scale = {};
     if (pTlv->field_18_scale == 1)
@@ -614,7 +614,7 @@ void ChimeLock::VUpdate_40AEF0()
             field_13C_targetX + (field_BC_sprite_scale * FP_FromInteger(Math_RandomRange_450F20(-30, 30))),
             field_140_targetY - (field_BC_sprite_scale * FP_FromInteger(Math_RandomRange_450F20(-20, 20))),
             field_BC_sprite_scale,
-            0);
+            Layer::eLayer_0);
         return;
 
         case ChimeLockStates::eUnPossess_4:

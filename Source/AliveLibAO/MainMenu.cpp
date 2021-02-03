@@ -739,7 +739,7 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, int tlvInfo)
     field_134_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
     field_134_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
-    field_134_anim.field_C_layer = 38;
+    field_134_anim.field_C_layer = Layer::eLayer_38;
     field_134_anim.field_14_scale = field_BC_sprite_scale;
     field_134_anim.field_B_render_mode = 1;
     field_134_anim.LoadPal_403090(field_E4_res_array[5], 0);
@@ -2602,7 +2602,7 @@ void Menu::GameSpeak_Update_47CBD0()
                     field_E4_res_array[4]);
 
                 pParticle->field_10_anim.field_B_render_mode = 1;
-                pParticle->field_10_anim.field_C_layer = 39;
+                pParticle->field_10_anim.field_C_layer = Layer::eLayer_39;
             }
         }
 

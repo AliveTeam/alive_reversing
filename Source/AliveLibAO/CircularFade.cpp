@@ -223,7 +223,7 @@ CircularFade* CircularFade::ctor_479E20(FP xpos, FP ypos, FP scale, __int16 dire
     field_A8_xpos = xpos;
     field_AC_ypos = ypos;
     field_10_anim.field_B_render_mode = 2;
-    field_10_anim.field_C_layer = 40;
+    field_10_anim.field_C_layer = Layer::eLayer_40;
     field_C0_r = field_1A8_fade_colour;
     field_C2_g = field_1A8_fade_colour;
     field_C4_b = field_1A8_fade_colour;

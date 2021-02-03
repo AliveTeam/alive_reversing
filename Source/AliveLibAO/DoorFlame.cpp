@@ -37,7 +37,7 @@ public:
         field_A8_xpos = xpos;
         field_AC_ypos = ypos + FP_FromInteger(4);
 
-        field_10_anim.field_C_layer = 12;
+        field_10_anim.field_C_layer = Layer::eLayer_12;
         field_10_anim.field_B_render_mode = 3;
 
         field_10_anim.field_8_r = 100;
@@ -178,7 +178,7 @@ public:
         field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
         field_CC_bApplyShadows |= 1u;
-        field_10_anim.field_C_layer = 17;
+        field_10_anim.field_C_layer = Layer::eLayer_17;
 
         field_A8_xpos = xpos;
         field_AC_ypos = ypos;
@@ -194,7 +194,8 @@ public:
             anim.field_14.field_4_flags.Set(AnimFlags::eBit3_Render);
             anim.field_14.field_4_flags.Set(AnimFlags::eBit16_bBlending);
 
-            anim.field_14.field_C_layer = field_10_anim.field_C_layer + Math_RandomRange_450F20(-1, 1);
+            short rndLayer = static_cast<short>(field_10_anim.field_C_layer) + Math_RandomRange_450F20(-1, 1);
+            anim.field_14.field_C_layer = static_cast<Layer>(rndLayer);
             anim.field_14.field_6C_scale = field_BC_sprite_scale;
 
             anim.field_0_x = field_A8_xpos;
@@ -427,7 +428,7 @@ DoorFlame* DoorFlame::ctor_432860(Path_DoorFlame* pTlv, int tlvInfo)
 
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_CC_bApplyShadows |= 1u;
-    field_10_anim.field_C_layer = 17;
+    field_10_anim.field_C_layer = Layer::eLayer_17;
     field_EA_frame_count = field_10_anim.Get_Frame_Count_403540();
     field_E8_switch_id = pTlv->field_18_id;
 

@@ -344,7 +344,7 @@ void ThrowableTotalIndicator::VRender_41B810(PrimHeader** ppOt)
     );
 }
 
-ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_41B520(FP xpos, FP ypos, __int16 layer, FP /*scale*/, __int16 count, __int16 bFade)
+ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_41B520(FP xpos, FP ypos, Layer layer, FP /*scale*/, __int16 count, __int16 bFade)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BAED8);

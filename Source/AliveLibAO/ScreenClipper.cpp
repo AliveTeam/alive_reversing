@@ -67,7 +67,7 @@ BaseGameObject* ScreenClipper::VDestructor(signed int flags)
     return Vdtor_40BF40(flags);
 }
 
-ScreenClipper* ScreenClipper::ctor_40BD60(PSX_Point xy, PSX_Point wh, __int16 layer)
+ScreenClipper* ScreenClipper::ctor_40BD60(PSX_Point xy, PSX_Point wh, Layer layer)
 {
     ctor_487E10(1);
 

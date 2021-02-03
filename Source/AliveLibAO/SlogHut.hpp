@@ -3,6 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "Map.hpp"
 #include "BaseGameObject.hpp"
+#include "Layer.hpp"
 
 namespace AO {
 

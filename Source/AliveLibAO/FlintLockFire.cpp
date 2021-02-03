@@ -158,14 +158,14 @@ FlintLockFire* FlintLockFire::ctor_41AA90(Path_FlintLockFire* pTlv, int tlvInfo)
     if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
     {
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHubFireResID, 1, 0);
-        BYTE** v16 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHubFireResID, 1, 0);
+        BYTE** ppHubFireRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHubFireResID, 1, 0);
         field_188_anim.Init_402D20(
             5072,
             gObjList_animations_505564,
             this,
             51,
             24,
-            v16,
+            ppHubFireRes,
             1,
             0,
             0);
@@ -174,7 +174,7 @@ FlintLockFire* FlintLockFire::ctor_41AA90(Path_FlintLockFire* pTlv, int tlvInfo)
         field_188_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
         field_188_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
-        field_220_anim.Init_402D20(5072, gObjList_animations_505564, this, 51, 24, v16, 1, 0, 0);
+        field_220_anim.Init_402D20(5072, gObjList_animations_505564, this, 51, 24, ppHubFireRes, 1, 0, 0);
         field_220_anim.field_B_render_mode = 0;
         field_220_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
         field_220_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
@@ -190,17 +190,17 @@ FlintLockFire* FlintLockFire::ctor_41AA90(Path_FlintLockFire* pTlv, int tlvInfo)
     field_E8_tlvInfo = tlvInfo;
     field_E6_switch_id = pTlv->field_1A_id;
 
-    __int16 layer = 0;
+    Layer layer = Layer::eLayer_0;
     if (pTlv->field_18_scale == 1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
-        layer = 6;
+        layer = Layer::eLayer_6;
         field_C6_scale = 0;
     }
     else
     {
         field_BC_sprite_scale = FP_FromInteger(1);
-        layer = 25;
+        layer = Layer::eLayer_25;
         field_C6_scale = 1;
     }
 

@@ -2,15 +2,16 @@
 
 #include "FunctionFwd.hpp"
 #include "EffectBase.hpp"
+#include "Layer.hpp"
 
 namespace AO {
 
 class DeathFadeOut : public EffectBase
 {
 public:
-    EXPORT DeathFadeOut* ctor_419DB0(__int16 layer, __int16 direction, __int16 destroyOnDone, int speed, __int16 abr);
+    EXPORT DeathFadeOut* ctor_419DB0(Layer layer, __int16 direction, __int16 destroyOnDone, int speed, __int16 abr);
 
-    EXPORT void Init_419E40(__int16 layer, __int16 direction, __int16 destroyOnDone, int speed);
+    EXPORT void Init_419E40(Layer layer, __int16 direction, __int16 destroyOnDone, int speed);
 
     virtual void VScreenChanged() override;
 

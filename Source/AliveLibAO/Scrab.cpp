@@ -163,13 +163,13 @@ Scrab* Scrab::ctor_45B5F0(Path_Scrab* pTlv, int tlvInfo)
     if (pTlv->field_18_scale == 1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_10_anim.field_C_layer = 8;
+        field_10_anim.field_C_layer = Layer::eLayer_8;
         field_C6_scale = 0;
     }
     else
     {
         field_BC_sprite_scale = FP_FromInteger(1);
-        field_10_anim.field_C_layer = 27;
+        field_10_anim.field_C_layer = Layer::eLayer_27;
         field_C6_scale = 1;
     }
 

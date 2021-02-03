@@ -5,6 +5,7 @@
 #include "Psx.hpp"
 #include "Primitives.hpp"
 #include "FixedPoint.hpp"
+#include "Layer.hpp"
 
 namespace AO {
 
@@ -47,7 +48,7 @@ public:
 
     EXPORT void VRender_456340(PrimHeader** ppOt);
 
-    __int16 field_10_layer;
+    Layer field_10_layer;
     __int16 field_12_pad;
     AbilityRing_PolyBuffer* field_14_pRes;
     BYTE** field_18_ppRes;

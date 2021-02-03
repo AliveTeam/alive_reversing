@@ -57,7 +57,7 @@ void DeathFadeOut::VScreenChanged()
     // Empty
 }
 
-void DeathFadeOut::Init_419E40(__int16 layer, __int16 direction, __int16 destroyOnDone, int speed)
+void DeathFadeOut::Init_419E40(Layer layer, __int16 direction, __int16 destroyOnDone, int speed)
 {
     field_5C_layer = layer;
     field_6C_direction = direction;
@@ -83,7 +83,7 @@ void DeathFadeOut::Init_419E40(__int16 layer, __int16 direction, __int16 destroy
     }
 }
 
-DeathFadeOut* DeathFadeOut::ctor_419DB0(__int16 layer, __int16 direction, __int16 destroyOnDone, int speed, __int16 abr)
+DeathFadeOut* DeathFadeOut::ctor_419DB0(Layer layer, __int16 direction, __int16 destroyOnDone, int speed, __int16 abr)
 {
     ctor_461550(layer, static_cast<char>(abr));
     SetVTable(this, 0x4BAB08);

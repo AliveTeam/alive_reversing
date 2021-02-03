@@ -93,11 +93,11 @@ DeathBirdParticle* DeathBirdParticle::ctor_41D950(FP xpos, FP ypos, int start, _
         field_10_anim.field_14_scale = scale;
         if (scale <= FP_FromDouble(0.5))
         {
-            field_10_anim.field_C_layer = 17;
+            field_10_anim.field_C_layer = Layer::eLayer_17;
         }
         else
         {
-            field_10_anim.field_C_layer = 39;
+            field_10_anim.field_C_layer = Layer::eLayer_39;
         }
 
         field_A8_xpos = xpos;

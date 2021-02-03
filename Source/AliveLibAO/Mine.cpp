@@ -31,13 +31,13 @@ Mine* Mine::ctor_43A330(Path_Mine* pTlv, int tlvInfo)
     if (pTlv->field_1C_scale == 1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_10_anim.field_C_layer = 16;
+        field_10_anim.field_C_layer = Layer::eLayer_16;
         field_C6_scale = 0;
     }
     else
     {
         field_BC_sprite_scale = FP_FromInteger(1);
-        field_10_anim.field_C_layer = 35;
+        field_10_anim.field_C_layer = Layer::eLayer_35;
         field_C6_scale = 1;
     }
 

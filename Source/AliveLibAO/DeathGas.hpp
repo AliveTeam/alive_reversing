@@ -2,13 +2,14 @@
 
 #include "FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
+#include "Layer.hpp"
 
 namespace AO {
 
 class DeathGas : public BaseGameObject
 {
 public:
-    EXPORT DeathGas* ctor_41CF40(__int16 layer, __int16 amount);
+    EXPORT DeathGas* ctor_41CF40(Layer layer, __int16 amount);
 
     virtual void VUpdate() override;
 

@@ -30,11 +30,11 @@ void OrbWhirlWindParticle::CalculateRenderProperties_48BDC0(__int16 bStarted)
     field_A8_render_as_scale = (field_C0_current_scale * field_C4_randomized_scale);
     if (field_C0_current_scale > FP_FromDouble(0.599))
     {
-        field_8_anim.field_C_layer = 32;
+        field_8_anim.field_C_layer = Layer::eLayer_32;
     }
     else
     {
-        field_8_anim.field_C_layer = 13;
+        field_8_anim.field_C_layer = Layer::eLayer_13;
     }
 }
 
@@ -218,7 +218,7 @@ OrbWhirlWindParticle* OrbWhirlWindParticle::ctor_48BC10(FP xpos, FP ypos, FP sca
 
     field_8_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
-    field_8_anim.field_C_layer = 32;
+    field_8_anim.field_C_layer = Layer::eLayer_32;
     field_8_anim.field_B_render_mode = 1;
 
     field_8_anim.field_8_r = 80;

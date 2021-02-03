@@ -162,7 +162,7 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, __int16 type)
         }
 
         field_272_path = gMap_507BA8.field_2_current_path;
-        field_10_layer = 39;
+        field_10_layer = Layer::eLayer_39;
         field_270_level = gMap_507BA8.field_0_current_level;
         field_26C_semiTrans = 1;
         field_26E_tPageMode = 1;

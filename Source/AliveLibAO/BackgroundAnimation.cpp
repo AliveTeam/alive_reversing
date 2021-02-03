@@ -77,7 +77,7 @@ BackgroundAnimation* BackgroundAnimation::ctor_405A90(Path_BackgroundAnimation* 
 
     field_10_anim.field_B_render_mode = static_cast<BYTE>(pTlv->field_1C_semi_trans_mode);
 
-    field_10_anim.field_C_layer = 1;
+    field_10_anim.field_C_layer = Layer::eLayer_1;
     field_C8_yOffset = 0;
 
     field_100_sound_effect = pTlv->field_1E_sound_effect;

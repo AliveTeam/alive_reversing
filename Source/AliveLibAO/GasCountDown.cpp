@@ -139,7 +139,7 @@ void GasCountDown::VUpdate_40C0E0()
         auto pAlarm = ao_new<Alarm>();
         if (pAlarm)
         {
-            pAlarm->ctor_402570(3600, 0, 0, 39);
+            pAlarm->ctor_402570(3600, 0, 0, Layer::eLayer_39);
         }
 
     }
@@ -205,7 +205,7 @@ void GasCountDown::DealDamage()
         auto pDeathGas = ao_new<DeathGas>();
         if (pDeathGas)
         {
-            pDeathGas->ctor_41CF40(39, 2);
+            pDeathGas->ctor_41CF40(Layer::eLayer_39, 2);
         }
     }
 }
