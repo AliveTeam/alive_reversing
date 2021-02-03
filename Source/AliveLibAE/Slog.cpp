@@ -547,26 +547,26 @@ void Slog::M_Idle_0_4C5F90()
     }
 }
 
-const int sSlogWalkVelXTable_5475EC[18] = // TODO: Convert values
+const FP sSlogWalkVelXTable_5475EC[18] =
 {
-    87355,
-    162991,
-    166294,
-    129418,
-    197630,
-    203424,
-    180786,
-    205305,
-    238954,
-    153781,
-    145622,
-    142723,
-    145083,
-    131209,
-    158174,
-    143230,
-    268753,
-    285268
+    FP_FromDouble(1.33),
+    FP_FromDouble(2.48),
+    FP_FromDouble(2.53),
+    FP_FromDouble(1.97),
+    FP_FromDouble(3.01),
+    FP_FromDouble(3.10),
+    FP_FromDouble(2.75),
+    FP_FromDouble(3.13),
+    FP_FromDouble(3.64),
+    FP_FromDouble(2.34),
+    FP_FromDouble(2.22),
+    FP_FromDouble(2.17),
+    FP_FromDouble(2.21),
+    FP_FromInteger(2),
+    FP_FromDouble(2.41),
+    FP_FromDouble(2.18),
+    FP_FromDouble(4.10),
+    FP_FromDouble(4.35)
 };
 
 void Slog::M_Walk_1_4C60C0()
@@ -574,11 +574,11 @@ void Slog::M_Walk_1_4C60C0()
     FP velX = {};
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        velX = -FP_FromRaw(sSlogWalkVelXTable_5475EC[field_20_animation.field_92_current_frame]);
+        velX = -sSlogWalkVelXTable_5475EC[field_20_animation.field_92_current_frame];
     }
     else
     {
-        velX = FP_FromRaw(sSlogWalkVelXTable_5475EC[field_20_animation.field_92_current_frame]);
+        velX = sSlogWalkVelXTable_5475EC[field_20_animation.field_92_current_frame];
     }
 
     field_C4_velx = (field_CC_sprite_scale * velX);
@@ -644,17 +644,16 @@ static BYTE Slog_NextRandom()
 }
 
 
-const int sSlogRunVelXTable_547634[9] = // TODO: Convert values
+const FP sSlogRunVelXTable_547634[8] =
 {
-    565307,
-    221956,
-    230637,
-    334381,
-    441752,
-    512611,
-    550112,
-    428138,
-    2097152000
+    FP_FromDouble(8.62),
+    FP_FromDouble(3.38),
+    FP_FromDouble(3.51),
+    FP_FromDouble(5.10),
+    FP_FromDouble(6.74),
+    FP_FromDouble(7.82),
+    FP_FromDouble(8.39),
+    FP_FromDouble(6.53)
 };
 
 void Slog::M_Run_2_4C6340()
@@ -666,11 +665,11 @@ void Slog::M_Run_2_4C6340()
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        field_C4_velx = (field_CC_sprite_scale * -FP_FromRaw(sSlogRunVelXTable_547634[field_20_animation.field_92_current_frame]));
+        field_C4_velx = (field_CC_sprite_scale * -sSlogRunVelXTable_547634[field_20_animation.field_92_current_frame]);
     }
     else
     {
-        field_C4_velx = (field_CC_sprite_scale * FP_FromRaw(sSlogRunVelXTable_547634[field_20_animation.field_92_current_frame]));
+        field_C4_velx = (field_CC_sprite_scale * sSlogRunVelXTable_547634[field_20_animation.field_92_current_frame]);
     }
 
     if (CollisionCheck_4C5480(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx * FP_FromInteger(4)))
@@ -845,19 +844,18 @@ void Slog::M_MoveHeadUpwards_5_4C5F20()
     }
 }
 
-const int sSlogStopRunningVelX_547658[11] =
+const FP sSlogStopRunningVelX_547658[10] =
 {
-    227344,
-    298123,
-    566427,
-    610336,
-    425656,
-    303562,
-    256704,
-    284098,
-    239927,
-    84017,
-    2097152000
+    FP_FromDouble(3.46),
+    FP_FromDouble(4.54),
+    FP_FromDouble(8.64),
+    FP_FromDouble(9.31),
+    FP_FromDouble(6.49),
+    FP_FromDouble(4.63),
+    FP_FromDouble(3.91),
+    FP_FromDouble(4.33),
+    FP_FromDouble(3.66),
+    FP_FromDouble(1.28)
 };
 
 void Slog::M_StopRunning_6_4C66C0()
@@ -870,11 +868,11 @@ void Slog::M_StopRunning_6_4C66C0()
     FP velX = {};
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        velX = -FP_FromRaw(sSlogStopRunningVelX_547658[field_20_animation.field_92_current_frame]);
+        velX = -sSlogStopRunningVelX_547658[field_20_animation.field_92_current_frame];
     }
     else
     {
-        velX = FP_FromRaw(sSlogStopRunningVelX_547658[field_20_animation.field_92_current_frame]);
+        velX = sSlogStopRunningVelX_547658[field_20_animation.field_92_current_frame];
     }
 
     field_C4_velx = (field_CC_sprite_scale * velX);
@@ -891,33 +889,21 @@ void Slog::M_StopRunning_6_4C66C0()
     ToIdle_4C5C10();
 }
 
-const int sSlogSlideTurnVelXTable_547684[25] = // TODO: Convert values
+const FP sSlogSlideTurnVelXTable_547684[25] =
 {
-    1127088,
-    780402,
-    558956,
-    480772,
-    273168,
-    348181,
-    249772,
-    98546,
-    33064,
-    -15903,
-    -39069,
-    -81467,
-    -320580,
-    2097152000,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0
+    FP_FromDouble(17.19),
+    FP_FromDouble(11.90),
+    FP_FromDouble(8.52),
+    FP_FromDouble(7.33),
+    FP_FromDouble(4.16),
+    FP_FromDouble(5.31),
+    FP_FromDouble(3.81),
+    FP_FromDouble(1.50),
+    FP_FromDouble(0.50),
+    FP_FromDouble(-0.24),
+    FP_FromDouble(-0.59),
+    FP_FromDouble(-1.24),
+    FP_FromDouble(-4.89)
 };
 
 
@@ -926,11 +912,11 @@ void Slog::M_SlideTurn_7_4C6790()
     FP velX = {};
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        velX = -FP_FromRaw(sSlogSlideTurnVelXTable_547684[field_20_animation.field_92_current_frame]);
+        velX = -sSlogSlideTurnVelXTable_547684[field_20_animation.field_92_current_frame];
     }
     else
     {
-        velX = FP_FromRaw(sSlogSlideTurnVelXTable_547684[field_20_animation.field_92_current_frame]);
+        velX = sSlogSlideTurnVelXTable_547684[field_20_animation.field_92_current_frame];
     }
 
     field_C4_velx = (field_CC_sprite_scale * velX);

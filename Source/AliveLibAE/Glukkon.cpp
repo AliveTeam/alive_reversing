@@ -568,7 +568,7 @@ void Glukkon::M_KnockBack_3_442F40()
     }
 }
 
-const FP dword_5453DC[16] =
+const FP sGlukkonVelY_5453DC[10] =
 {
     FP_FromDouble(-10.01),
     FP_FromDouble(-10.58),
@@ -579,17 +579,10 @@ const FP dword_5453DC[16] =
     FP_FromDouble(4.40),
     FP_FromDouble(7.07),
     FP_FromDouble(10.94),
-    FP_FromDouble(15.03),
-    FP_FromInteger(0),
-    FP_FromInteger(0),
-    FP_FromInteger(0),
-    FP_FromInteger(0),
-    FP_FromInteger(0),
-    FP_FromInteger(0)
+    FP_FromDouble(15.03)
 };
 
-
-const FP sJumpData_54539C[16] =
+const FP sGlukkonJumpVelX_54539C[10] =
 {
     FP_FromDouble(10.33),
     FP_FromDouble(21.65),
@@ -600,13 +593,7 @@ const FP sJumpData_54539C[16] =
     FP_FromDouble(5.19),
     FP_FromDouble(4.02),
     FP_FromDouble(2.60),
-    FP_FromDouble(0.92),
-    FP_FromInteger(0),
-    FP_FromInteger(0),
-    FP_FromInteger(0),
-    FP_FromInteger(0),
-    FP_FromInteger(0),
-    FP_FromInteger(0)
+    FP_FromDouble(0.92)
 };
 
 void Glukkon::M_Jump_4_443030()
@@ -631,16 +618,16 @@ void Glukkon::M_Jump_4_443030()
         field_100_pCollisionLine = nullptr;
     }
 
-    field_C8_vely = (field_CC_sprite_scale * dword_5453DC[field_20_animation.field_92_current_frame]);
+    field_C8_vely = (field_CC_sprite_scale * sGlukkonVelY_5453DC[field_20_animation.field_92_current_frame]);
 
     FP velXTableValue = {};
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        velXTableValue = -sJumpData_54539C[field_20_animation.field_92_current_frame];
+        velXTableValue = -sGlukkonJumpVelX_54539C[field_20_animation.field_92_current_frame];
     }
     else
     {
-        velXTableValue = sJumpData_54539C[field_20_animation.field_92_current_frame];
+        velXTableValue = sGlukkonJumpVelX_54539C[field_20_animation.field_92_current_frame];
     }
 
     field_C4_velx = (field_CC_sprite_scale * velXTableValue);
@@ -2704,7 +2691,7 @@ const FP* motion_velx_table_5547C4[25] =
     sWalkData_545354,           // M_Walk_1_442D30
     nullptr,                    // M_Turn_2_442F10
     nullptr,                    // M_KnockBack_3_442F40
-    sJumpData_54539C,           // M_Jump_4_443030
+    sGlukkonJumpVelX_54539C,           // M_Jump_4_443030
     sJumpToFallData_54542C,     // M_JumpToFall_5_4434C0
     sWalkToFallData_54541C,     // M_WalkToFall_6_4434E0
     nullptr,                    // M_Fall_7_443510

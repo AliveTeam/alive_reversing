@@ -291,7 +291,7 @@ public:
 
     EXPORT __int16 HandleEnemyStopper_46BF30(int gridBlocks);
 
-    EXPORT void ShootTurnTowardsOrKillSound_465DF0();
+    EXPORT void RespondToEnemyOrPatrol_465DF0();
 
     EXPORT void TurnOrWalk_46D5B0(int a2);
 
@@ -442,7 +442,7 @@ public:
     __int16 field_146;
     __int16 field_148;
     __int16 field_14A;
-    __int16 field_14C;
+    __int16 field_14C_unused;
     LevelIds field_14E_level;
     __int16 field_150_path;
     __int16 field_152_camera;

@@ -515,7 +515,7 @@ private:
 
     EXPORT void ToPanicRunning_4BCA30();
 
-    EXPORT void ShootTurnTowardsOrKillSound_4B3140();
+    EXPORT void RespondToEnemyOrPatrol_4B3140();
 
 
     EXPORT __int16 FindSwitch_4B9A50();

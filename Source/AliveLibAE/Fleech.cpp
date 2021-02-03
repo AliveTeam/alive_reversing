@@ -175,7 +175,7 @@ Fleech* Fleech::ctor_429DC0(Path_Fleech* pTlv, int tlvInfo)
         field_160_hoistX = (pTlv->field_C_bottom_right.field_0_x + pTlv->field_8_top_left.field_0_x) / 2;
         field_166_angle = Fleech_NextRandom();
         field_BC_ypos -= FP_FromInteger(pTlv->field_8_top_left.field_2_y - pTlv->field_C_bottom_right.field_2_y);
-        sub_42B9A0((pTlv->field_C_bottom_right.field_0_x + pTlv->field_8_top_left.field_0_x) / 2, pTlv->field_8_top_left.field_2_y);
+        TongueHangingFromWall_42B9A0((pTlv->field_C_bottom_right.field_0_x + pTlv->field_8_top_left.field_0_x) / 2, pTlv->field_8_top_left.field_2_y);
         field_106_current_motion = eFleechMotions::M_SleepingWithTongue_17_42F370;
         SetAnim_429D80();
     }
@@ -262,7 +262,7 @@ const static AnimId sFleechFrameTableOffsets_5517E4[19] =
     AnimId::Fleech_Eat
 };
 
-ALIVE_VAR(1, 0x551840, int, dword_551840, -1);
+ALIVE_VAR(1, 0x551840, int, current_target_object_id_551840, -1);
 
 int CC Fleech::CreateFromSaveState_42DD50(const BYTE* pBuffer)
 {
@@ -332,10 +332,10 @@ int CC Fleech::CreateFromSaveState_42DD50(const BYTE* pBuffer)
     pFleech->field_17A_tongue_sub_state = pState->field_4C_save_tongue_sub_state;
     pFleech->field_17C = pState->field_4E;
     pFleech->field_17E = pState->field_50;
-    pFleech->field_180_tongue_x = pState->field_52;
-    pFleech->field_182_tongue_y = pState->field_54;
-    pFleech->field_184_target_x = pState->field_56;
-    pFleech->field_186_target_y = pState->field_58;
+    pFleech->field_180_tongue_x = pState->field_52_tongue_x;
+    pFleech->field_182_tongue_y = pState->field_54_tongue_y;
+    pFleech->field_184_target_x = pState->field_56_target_x;
+    pFleech->field_186_target_y = pState->field_58_target_y;
     pFleech->field_188 = pState->field_5A;
 
     pFleech->field_18A.Set(Flags_18A::e18A_TongueActive_Bit1, pState->field_5C & 1);
@@ -377,7 +377,7 @@ int CC Fleech::CreateFromSaveState_42DD50(const BYTE* pBuffer)
 
     if (pState->field_4_obj_id == pState->field_AC_obj_id)
     {
-        dword_551840 = pFleech->field_8_object_id;
+        current_target_object_id_551840 = pFleech->field_8_object_id;
     }
 
     pFleech->field_174_flags.Set(Flags_174::eBit1_bHoistDone, pState->field_B0.Get(Fleech_State::eBit1));
@@ -463,10 +463,10 @@ int Fleech::vGetSaveState_42FF80(Fleech_State* pState)
     pState->field_4C_save_tongue_sub_state = field_17A_tongue_sub_state;
     pState->field_4E = field_17C;
     pState->field_50 = field_17E;
-    pState->field_52 = field_180_tongue_x;
-    pState->field_54 = field_182_tongue_y;
-    pState->field_56 = field_184_target_x;
-    pState->field_58 = field_186_target_y;
+    pState->field_52_tongue_x = field_180_tongue_x;
+    pState->field_54_tongue_y = field_182_tongue_y;
+    pState->field_56_target_x = field_184_target_x;
+    pState->field_58_target_y = field_186_target_y;
     pState->field_5A = field_188;
     pState->field_5C = field_18A.Get(Flags_18A::e18A_TongueActive_Bit1);
     pState->field_5D = field_18A.Get(Flags_18A::e18A_Render_Bit2);
@@ -516,7 +516,7 @@ int Fleech::vGetSaveState_42FF80(Fleech_State* pState)
         pState->field_A8 = -1;
     }
 
-    if (dword_551840 == field_8_object_id)
+    if (current_target_object_id_551840 == field_8_object_id)
     {
         pState->field_AC_obj_id = field_C_objectId;
     }
@@ -652,18 +652,15 @@ void Fleech::M_Idle_3_42E850()
 
 }
 
-const int sFleechCrawlVelX_544FA0[10] =
+const FP sFleechCrawlVelX_544FA0[7] =
 {
-    251423,
-    220780,
-    307251,
-    326921,
-    168913,
-    217015,
-    146093,
-    2097152000,
-    0,
-    0
+    FP_FromDouble(3.83),
+    FP_FromDouble(3.36),
+    FP_FromDouble(4.68),
+    FP_FromDouble(4.98),
+    FP_FromDouble(2.57),
+    FP_FromDouble(3.31),
+    FP_FromDouble(2.22)
 };
 
 void Fleech::M_Crawl_4_42E960()
@@ -676,11 +673,11 @@ void Fleech::M_Crawl_4_42E960()
     FP velXTable = {};
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        velXTable = -FP_FromRaw(sFleechCrawlVelX_544FA0[field_20_animation.field_92_current_frame]);
+        velXTable = -sFleechCrawlVelX_544FA0[field_20_animation.field_92_current_frame];
     }
     else
     {
-        velXTable = FP_FromRaw(sFleechCrawlVelX_544FA0[field_20_animation.field_92_current_frame]);
+        velXTable = sFleechCrawlVelX_544FA0[field_20_animation.field_92_current_frame];
     }
 
     field_C4_velx = (field_CC_sprite_scale * velXTable);
@@ -1055,7 +1052,7 @@ void Fleech::M_SettleOnGround_13_42FB00()
 {
     if (!field_20_animation.field_92_current_frame)
     {
-        sub_42BAD0();
+        SetTongueState5_42BAD0();
 
         PathLine* pLine = nullptr;
         FP hitX = {};
@@ -1144,7 +1141,7 @@ void Fleech::M_SleepingWithTongue_17_42F370()
 {
     if (field_108_next_motion != -1)
     {
-        sub_42B9F0();
+        SetTongueState1_42B9F0();
         field_106_current_motion = field_108_next_motion;
         field_108_next_motion = -1;
     }
@@ -1240,7 +1237,7 @@ void Fleech::dtor_42A3A0()
     }
 
     MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
-    sub_42CF70();
+    ResetTarget_42CF70();
 
     if (field_106_current_motion == 18)
     {
@@ -1849,30 +1846,30 @@ void Fleech::SetAnim_429D80()
     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
 }
 
-void Fleech::sub_42CF70()
+void Fleech::ResetTarget_42CF70()
 {
-    if (dword_551840 == field_8_object_id)
+    if (current_target_object_id_551840 == field_8_object_id)
     {
-        dword_551840 = -1;
+        current_target_object_id_551840 = -1;
     }
 }
 
-__int16 Fleech::sub_42CFA0()
+__int16 Fleech::GotNoTarget_42CFA0()
 {
-    return dword_551840 == -1 && !field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted);
+    return current_target_object_id_551840 == -1 && !field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted);
 }
 
-void Fleech::sub_42CF50()
+void Fleech::SetTarget_42CF50()
 {
-    dword_551840 = field_8_object_id;
+    current_target_object_id_551840 = field_8_object_id;
 }
 
-void Fleech::sub_42B9A0(__int16 a2, __int16 a3)
+void Fleech::TongueHangingFromWall_42B9A0(__int16 target_x, __int16 target_y)
 {
     field_18A.Set(Flags_18A::e18A_Render_Bit2);
     field_178_tongue_state = 2;
-    field_186_target_y = a3;
-    field_184_target_x = a2;
+    field_186_target_y = target_y;
+    field_184_target_x = target_x;
     field_188 = 0;
 }
 
@@ -1979,7 +1976,7 @@ void Fleech::TongueUpdate_42BD30()
 
                 case 2:
                     field_188 = -6;
-                    sub_42CF70();
+                    ResetTarget_42CF70();
                     break;
 
                 case 3:
@@ -2312,7 +2309,7 @@ __int16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
     }
     
     sub_42B8C0();
-    sub_42CF70();
+    ResetTarget_42CF70();
     
     switch (pFrom->field_4_typeId)
     {
@@ -2432,7 +2429,7 @@ void Fleech::vOnTrapDoorOpen_42E5C0()
     }
 }
 
-void Fleech::sub_42B9F0()
+void Fleech::SetTongueState1_42B9F0()
 {
     field_178_tongue_state = 1;
 }
@@ -2533,7 +2530,7 @@ void Fleech::PullTargetIn_42BAF0()
 
 void Fleech::sub_42B8C0()
 {
-    sub_42CF70();
+    ResetTarget_42CF70();
 
     if (field_178_tongue_state > 1)
     {
@@ -2560,7 +2557,7 @@ void Fleech::sub_42BA10()
     field_186_target_y = FP_GetExponent(((FP_FromInteger(field_162_hoistY)) + field_BC_ypos) / FP_FromInteger(2));
 }
 
-void Fleech::sub_42BAD0()
+void Fleech::SetTongueState5_42BAD0()
 {
     field_178_tongue_state = 5;
 }
@@ -3534,7 +3531,7 @@ __int16 Fleech::AI_ChasingAbe_1_428760()
                 return field_126_state;
             }
 
-            sub_42CF70();
+            ResetTarget_42CF70();
             return 1;
         }
         sub_42B8C0();
@@ -3548,7 +3545,7 @@ __int16 Fleech::AI_ChasingAbe_1_428760()
                 return field_126_state;
             }
             
-            sub_42CF70();
+            ResetTarget_42CF70();
             
             if (pObj->field_10C_health <= FP_FromInteger(0))
             {
@@ -3881,10 +3878,10 @@ __int16 Fleech::AI_ChasingAbe_State_1(BaseAliveGameObject* pObj)
             if (pObj->field_CC_sprite_scale == field_CC_sprite_scale &&
                 vIsFacingMe_4254A0(pObj) &&
                 !WallHit_408750(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), pObj->field_B8_xpos - field_B8_xpos) &&
-                sub_42CFA0() &&
+                GotNoTarget_42CFA0() &&
                 gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
             {
-                sub_42CF50();
+                SetTarget_42CF50();
                 field_108_next_motion = eFleechMotions::M_ExtendTongueFromEnemy_14_42FBD0;
                 return 10;
             }
@@ -3901,10 +3898,10 @@ __int16 Fleech::AI_ChasingAbe_State_1(BaseAliveGameObject* pObj)
                 if (pObj->field_CC_sprite_scale == field_CC_sprite_scale
                     && vIsFacingMe_4254A0(pObj) &&
                     !WallHit_408750(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), pObj->field_B8_xpos - field_B8_xpos) &&
-                    sub_42CFA0() &&
+                    GotNoTarget_42CFA0() &&
                     gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
                 {
-                    sub_42CF50();
+                    SetTarget_42CF50();
                     field_108_next_motion = eFleechMotions::M_ExtendTongueFromEnemy_14_42FBD0;
                     return 10;
                 }
@@ -4284,7 +4281,7 @@ __int16 Fleech::AI_Scared_2_42D310()
             !WallHit_408750(
                 FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5),
                 pDangerObj->field_B8_xpos - field_B8_xpos) &&
-            sub_42CFA0())
+            GotNoTarget_42CFA0())
         {
             field_11C_obj_id = field_170_danger_obj;
             return 5;
@@ -4331,12 +4328,12 @@ __int16 Fleech::AI_Scared_2_42D310()
 
             if (WallHit_408750(
                 FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5),
-                pDangerObj->field_B8_xpos - field_B8_xpos) || !sub_42CFA0())
+                pDangerObj->field_B8_xpos - field_B8_xpos) || !GotNoTarget_42CFA0())
             {
                 return field_126_state;
             }
 
-            sub_42CF50();
+            SetTarget_42CF50();
             field_108_next_motion = eFleechMotions::M_ExtendTongueFromEnemy_14_42FBD0;
             return 6;
         }
@@ -4360,7 +4357,7 @@ __int16 Fleech::AI_Scared_2_42D310()
                 {
                     return field_126_state;
                 }
-                sub_42CF70();
+                ResetTarget_42CF70();
                 return 1;
             }
         }
@@ -4379,7 +4376,7 @@ __int16 Fleech::AI_Scared_2_42D310()
                 return field_126_state;
             }
             
-            sub_42CF70();
+            ResetTarget_42CF70();
 
             if (pDangerObj->field_10C_health <= FP_FromInteger(0))
             {

@@ -1659,12 +1659,11 @@ void Scrab::State_9_JumpToFall_45EFD0()
     }
 }
 
-const FP sStandToWalkVelTable_4BC778[4] = 
+const FP sStandToWalkVelTable_4BC778[3] = 
 {
     FP_FromDouble(1.11),
     FP_FromDouble(2.36),
-    FP_FromDouble(3.20),
-    FP_FromInteger(0)
+    FP_FromDouble(3.20)
 };
 
 void Scrab::State_10_StandToWalk_45E670()
@@ -1698,12 +1697,11 @@ void Scrab::State_10_StandToWalk_45E670()
     }
 }
 
-const FP sStandToRunVel_4BC7F0[4] = 
+const FP sStandToRunVel_4BC7F0[3] = 
 { 
     FP_FromDouble(2.29),
     FP_FromDouble(2.69),
-    FP_FromDouble(3.87),
-    FP_FromInteger(0)
+    FP_FromDouble(3.87)
 };
 
 void Scrab::State_11_StandToRun_45E9F0()
@@ -1735,12 +1733,11 @@ void Scrab::State_11_StandToRun_45E9F0()
     }
 }
 
-const FP sWalkToStandVel_4BC7E0[4] = 
+const FP sWalkToStandVel_4BC7E0[3] = 
 { 
     FP_FromDouble(1.04),
     FP_FromDouble(3.29),
-    FP_FromDouble(2.85),
-    FP_FromInteger(0)
+    FP_FromDouble(2.85)
 };
 
 void Scrab::State_12_WalkToStand_45E930()

@@ -2152,35 +2152,35 @@ void Scrab::M_Stand_0_4A8220()
     ToNextMotion_4A7920();
 }
 
-const int sScrabWalkXVels_546E54[22] =
+const FP sScrabWalkXVels_546E54[22] =
 {
-    102930,
-    103419,
-    99987,
-    102573,
-    104637,
-    242098,
-    259357,
-    260279,
-    216749,
-    172338,
-    142077,
-    132519,
-    118230,
-    105285,
-    173137,
-    176018,
-    175184,
-    176362,
-    91533,
-    90242,
-    90225,
-    141864
+    FP_FromDouble(1.57),
+    FP_FromDouble(1.57),
+    FP_FromDouble(1.52),
+    FP_FromDouble(1.56),
+    FP_FromDouble(1.59),
+    FP_FromDouble(3.69),
+    FP_FromDouble(3.95),
+    FP_FromDouble(3.97),
+    FP_FromDouble(3.30),
+    FP_FromDouble(2.62),
+    FP_FromDouble(2.16),
+    FP_FromDouble(2.02),
+    FP_FromDouble(1.80),
+    FP_FromDouble(1.60),
+    FP_FromDouble(2.64),
+    FP_FromDouble(2.68),
+    FP_FromDouble(2.67),
+    FP_FromDouble(2.69),
+    FP_FromDouble(1.39),
+    FP_FromDouble(1.37),
+    FP_FromDouble(1.37),
+    FP_FromDouble(2.16)
 };
 
 void Scrab::M_Walk_1_4A84D0()
 {
-    field_C4_velx = field_CC_sprite_scale * FP_FromRaw(sScrabWalkXVels_546E54[field_20_animation.field_92_current_frame]);
+    field_C4_velx = field_CC_sprite_scale * sScrabWalkXVels_546E54[field_20_animation.field_92_current_frame];
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -2298,28 +2298,28 @@ void Scrab::M_Walk_1_4A84D0()
     }
 }
 
-static const int sScrabRunVelX_546EC4[14] =
+static const FP sScrabRunVelX_546EC4[14] =
 {
-    622509,
-    637911,
-    628107,
-    599066,
-    596319,
-    627575,
-    611255,
-    567207,
-    346759,
-    280505,
-    225862,
-    222655,
-    249941,
-    337964
+    FP_FromDouble(9.49),
+    FP_FromDouble(9.73),
+    FP_FromDouble(9.58),
+    FP_FromDouble(9.14),
+    FP_FromDouble(9.09),
+    FP_FromDouble(9.57),
+    FP_FromDouble(9.32),
+    FP_FromDouble(8.65),
+    FP_FromDouble(5.29),
+    FP_FromDouble(4.28),
+    FP_FromDouble(3.44),
+    FP_FromDouble(3.39),
+    FP_FromDouble(3.81),
+    FP_FromDouble(5.15)
 };
 
 void Scrab::M_Run_2_4A89C0()
 {
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_120_obj_id));
-    field_C4_velx = field_CC_sprite_scale * FP_FromRaw(sScrabRunVelX_546EC4[field_20_animation.field_92_current_frame]);
+    field_C4_velx = field_CC_sprite_scale * sScrabRunVelX_546EC4[field_20_animation.field_92_current_frame];
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -2500,12 +2500,12 @@ void Scrab::M_RunToStand_4_4A90C0()
     }
 }
 
-const int sScrabHopBeginVelX_546F24[4] =
+const FP sScrabHopBeginVelX_546F24[4] =
 {
-    -67391,
-    -120599,
-    -13453,
-    182100
+    FP_FromDouble(-1.02),
+    FP_FromDouble(-1.84),
+    FP_FromDouble(-0.20),
+    FP_FromDouble(2.77)
 };
 
 void Scrab::M_HopBegin_5_4A96C0()
@@ -2515,11 +2515,11 @@ void Scrab::M_HopBegin_5_4A96C0()
     FP frameVelX = {};
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        frameVelX = FP_FromRaw(-sScrabHopBeginVelX_546F24[field_20_animation.field_92_current_frame]);
+        frameVelX = -sScrabHopBeginVelX_546F24[field_20_animation.field_92_current_frame];
     }
     else
     {
-        frameVelX = FP_FromRaw(sScrabHopBeginVelX_546F24[field_20_animation.field_92_current_frame]);
+        frameVelX = sScrabHopBeginVelX_546F24[field_20_animation.field_92_current_frame];
     }
 
     field_C4_velx = field_CC_sprite_scale * frameVelX;
@@ -2563,16 +2563,16 @@ void Scrab::M_HopBegin_5_4A96C0()
     }
 }
 
-const int sScrabHopMidAirVelX_546F34[8] =
+const FP sScrabHopMidAirVelX_546F34[8] =
 {
-    328032,
-    450949,
-    1035263,
-    1199918,
-    1015439,
-    995306,
-    405215,
-    328032
+    FP_FromInteger(5),
+    FP_FromDouble(6.88),
+    FP_FromDouble(15.79),
+    FP_FromDouble(18.30),
+    FP_FromDouble(15.49),
+    FP_FromDouble(15.18),
+    FP_FromDouble(6.18),
+    FP_FromInteger(5)
 };
 
 void Scrab::M_HopMidair_6_4A9490()
@@ -2582,11 +2582,11 @@ void Scrab::M_HopMidair_6_4A9490()
     FP frameVelX = {};
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        frameVelX = FP_FromRaw(-sScrabHopMidAirVelX_546F34[field_20_animation.field_92_current_frame]);
+        frameVelX = -sScrabHopMidAirVelX_546F34[field_20_animation.field_92_current_frame];
     }
     else
     {
-        frameVelX = FP_FromRaw(sScrabHopMidAirVelX_546F34[field_20_animation.field_92_current_frame]);
+        frameVelX = sScrabHopMidAirVelX_546F34[field_20_animation.field_92_current_frame];
     }
 
     field_C4_velx = field_CC_sprite_scale * frameVelX;
@@ -2648,12 +2648,12 @@ void Scrab::M_HopMidair_6_4A9490()
     }
 }
 
-const int sScrabHopLandVelX_546F54[4] =
+const FP sScrabHopLandVelX_546F54[4] =
 {
-    182100,
-    61799,
-    28801,
-    25454
+    FP_FromDouble(2.77),
+    FP_FromDouble(0.94),
+    FP_FromDouble(0.43),
+    FP_FromDouble(0.38)
 };
 
 void Scrab::M_HopLand_7_4A9890()
@@ -2669,11 +2669,11 @@ void Scrab::M_HopLand_7_4A9890()
     FP frameVelX = {};
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        frameVelX = FP_FromRaw(-sScrabHopLandVelX_546F54[field_20_animation.field_92_current_frame]);
+        frameVelX = -sScrabHopLandVelX_546F54[field_20_animation.field_92_current_frame];
     }
     else
     {
-        frameVelX = FP_FromRaw(sScrabHopLandVelX_546F54[field_20_animation.field_92_current_frame]);
+        frameVelX = sScrabHopLandVelX_546F54[field_20_animation.field_92_current_frame];
     }
     field_C4_velx = (field_CC_sprite_scale * frameVelX);
 

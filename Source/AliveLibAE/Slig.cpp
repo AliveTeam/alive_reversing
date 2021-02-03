@@ -3721,7 +3721,7 @@ __int16 Slig::AI_Idle_15_4BD800()
         gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && 
         sControlledCharacter_5C1B8C->field_4_typeId != Types::eGlukkon_67)
     {
-        ShootTurnTowardsOrKillSound_4B3140();
+        RespondToEnemyOrPatrol_4B3140();
         return 104;
     }
 
@@ -3741,7 +3741,7 @@ __int16 Slig::AI_Idle_15_4BD800()
     {
         if (vIsFacingMe_4254A0(pShooter))
         {
-            ShootTurnTowardsOrKillSound_4B3140();
+            RespondToEnemyOrPatrol_4B3140();
             return 104;
         }
         else
@@ -3843,7 +3843,7 @@ __int16 Slig::AI_Chasing_17_4BCBD0()
         sControlledCharacter_5C1B8C->field_4_typeId != Types::eGlukkon_67)
     {
         field_15C_force_alive_state = 0;
-        ShootTurnTowardsOrKillSound_4B3140();
+        RespondToEnemyOrPatrol_4B3140();
         return 118;
     }
 
@@ -4071,7 +4071,7 @@ __int16 Slig::AI_Walking_21_4BE0C0()
         !Event_Get_422C00(kEventResetting) && 
         sControlledCharacter_5C1B8C->field_4_typeId != Types::eGlukkon_67)
     {
-        ShootTurnTowardsOrKillSound_4B3140();
+        RespondToEnemyOrPatrol_4B3140();
     }
     else
     {
@@ -4085,7 +4085,7 @@ __int16 Slig::AI_Walking_21_4BE0C0()
         {
             if (vIsFacingMe_4254A0(pShooter))
             {
-                ShootTurnTowardsOrKillSound_4B3140();
+                RespondToEnemyOrPatrol_4B3140();
             }
             else
             {
@@ -4253,7 +4253,7 @@ __int16 Slig::AI_GetAlerted_23_4BEC40()
         !Event_Get_422C00(kEventResetting) &&
         sControlledCharacter_5C1B8C->field_4_typeId != Types::eGlukkon_67)
     {
-        ShootTurnTowardsOrKillSound_4B3140();
+        RespondToEnemyOrPatrol_4B3140();
     }
     // Panic?
     else if ((Event_Get_422C00(kEventAbeOhm) || Event_Get_422C00(kEventAlarm)) && !Event_Get_422C00(kEventResetting) && field_218_tlv_data.field_2E_panic_timeout)
@@ -4273,7 +4273,7 @@ __int16 Slig::AI_GetAlerted_23_4BEC40()
         {
             if (vIsFacingMe_4254A0(pShootingSlig))
             {
-                ShootTurnTowardsOrKillSound_4B3140();
+                RespondToEnemyOrPatrol_4B3140();
             }
             else
             {
@@ -4563,7 +4563,7 @@ __int16 Slig::AI_Paused_33_4B8DD0()
         sControlledCharacter_5C1B8C->field_4_typeId != Types::eGlukkon_67
         )
     {
-        ShootTurnTowardsOrKillSound_4B3140();
+        RespondToEnemyOrPatrol_4B3140();
         return 101;
     }
 
@@ -6723,7 +6723,7 @@ void Slig::ToPanicRunning_4BCA30()
     MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eChase_8, this, 0, 0);
 }
 
-void Slig::ShootTurnTowardsOrKillSound_4B3140()
+void Slig::RespondToEnemyOrPatrol_4B3140()
 {
     field_144_unused = 0;
 
@@ -7206,7 +7206,7 @@ __int16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
         }
         else
         {
-            ShootTurnTowardsOrKillSound_4B3140();
+            RespondToEnemyOrPatrol_4B3140();
         }
 
         field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);

@@ -2699,12 +2699,11 @@ void Paramite::State_0_Idle_44B900()
     }
 }
 
-const FP sWalkBeginVelTable_4BBC88[4] = 
+const FP sWalkBeginVelTable_4BBC88[3] = 
 { 
     FP_FromInteger(0),
     FP_FromDouble(1.40),
-    FP_FromDouble(9.02),
-    FP_FromInteger(0)
+    FP_FromDouble(9.02)
 };
 
 void Paramite::State_1_WalkBegin_44BCA0()
@@ -3167,7 +3166,7 @@ void Paramite::State_6_Hop_44CB20()
     }
 }
 
-const FP dword_4BBCA8[2] = 
+const FP State_7_Unknown_VelTable_4BBCA8[2] = 
 { 
     FP_FromDouble(2.25),
     FP_FromDouble(5.63)
@@ -3179,11 +3178,11 @@ void Paramite::State_7_Unknown_44BF10()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        field_B4_velx = field_BC_sprite_scale * -dword_4BBCA8[field_10_anim.field_92_current_frame];
+        field_B4_velx = field_BC_sprite_scale * -State_7_Unknown_VelTable_4BBCA8[field_10_anim.field_92_current_frame];
     }
     else
     {
-        field_B4_velx = field_BC_sprite_scale * dword_4BBCA8[field_10_anim.field_92_current_frame];
+        field_B4_velx = field_BC_sprite_scale * State_7_Unknown_VelTable_4BBCA8[field_10_anim.field_92_current_frame];
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -3203,12 +3202,11 @@ void Paramite::State_7_Unknown_44BF10()
     }
 }
 
-const FP sWalkRunTransVelTable_4BBD18[4] = 
+const FP sWalkRunTransVelTable_4BBD18[3] = 
 { 
     FP_FromDouble(5.39),
     FP_FromDouble(5.39),
-    FP_FromDouble(5.39),
-    FP_FromInteger(0)
+    FP_FromDouble(5.39)
 };
 
 void Paramite::State_8_WalkRunTransition_44C790()
@@ -3239,12 +3237,11 @@ void Paramite::State_8_WalkRunTransition_44C790()
     }
 }
 
-const FP sWalkEndVelTable_4BBC98[4] = 
+const FP sWalkEndVelTable_4BBC98[3] = 
 { 
     FP_FromDouble(2.33),
     FP_FromDouble(5.03),
-    FP_FromDouble(6.70),
-    FP_FromInteger(0)
+    FP_FromDouble(6.70)
 };
 
 void Paramite::State_9_WalkEnd_44BDE0()
@@ -3276,12 +3273,11 @@ void Paramite::State_9_WalkEnd_44BDE0()
     ToIdle_44B580();
 }
 
-const FP sRunBeginVelTable_4BBCF8[4] = 
+const FP sRunBeginVelTable_4BBCF8[3] = 
 { 
     FP_FromDouble(1.87),
     FP_FromDouble(2.15),
-    FP_FromDouble(3.33),
-    FP_FromInteger(0)
+    FP_FromDouble(3.33)
 };
 
 void Paramite::State_10_RunBegin_44C4C0()
@@ -3314,12 +3310,11 @@ void Paramite::State_10_RunBegin_44C4C0()
     }
 }
 
-const FP sRunEndVelTable_4BBD08[4] = 
+const FP sRunEndVelTable_4BBD08[3] = 
 { 
     FP_FromDouble(3.11),
     FP_FromDouble(3.06),
-    FP_FromDouble(3.43),
-    FP_FromInteger(0)
+    FP_FromDouble(3.43)
 };
 
 void Paramite::State_11_RunEnd_44C620()
