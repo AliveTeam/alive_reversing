@@ -243,7 +243,7 @@ static void Main_ParseCommandLineArguments()
             }
         }
         // Force DDCheat
-#if DEVELOPER_MODE
+#if FORCE_DDCHEAT
         gDDCheatMode_508BF8 = 1;
 #endif
     }
