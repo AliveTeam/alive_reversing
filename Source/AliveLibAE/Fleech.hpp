@@ -81,10 +81,10 @@ struct Fleech_State
     __int16 field_4C_save_tongue_sub_state;
     __int16 field_4E;
     __int16 field_50;
-    __int16 field_52;
-    __int16 field_54;
-    __int16 field_56;
-    __int16 field_58;
+    __int16 field_52_tongue_x;
+    __int16 field_54_tongue_y;
+    __int16 field_56_target_x;
+    __int16 field_58_target_y;
     __int16 field_5A;
     char field_5C;
     char field_5D;
@@ -259,13 +259,13 @@ private:
     EXPORT void Init_42A170();
     EXPORT void InitTonguePolys_42B6E0();
     EXPORT void SetAnim_429D80();
-    EXPORT void sub_42CF70();
+    EXPORT void ResetTarget_42CF70();
 
-    EXPORT __int16 sub_42CFA0();
+    EXPORT __int16 GotNoTarget_42CFA0();
 
-    EXPORT void sub_42CF50();
+    EXPORT void SetTarget_42CF50();
 
-    EXPORT void sub_42B9A0(__int16 a2, __int16 a3);
+    EXPORT void TongueHangingFromWall_42B9A0(__int16 a2, __int16 a3);
 
     EXPORT void TongueUpdate_42BD30();
 
@@ -287,7 +287,7 @@ private:
 
     EXPORT void vOnTrapDoorOpen_42E5C0();
 
-    EXPORT void sub_42B9F0();
+    EXPORT void SetTongueState1_42B9F0();
 
     EXPORT void IncreaseAnger_430920();
 
@@ -299,7 +299,7 @@ private:
 
     EXPORT void sub_42BA10();
 
-    EXPORT void sub_42BAD0();
+    EXPORT void SetTongueState5_42BAD0();
 
     EXPORT BaseAliveGameObject* FindMudOrAbe_42CFD0();
 
