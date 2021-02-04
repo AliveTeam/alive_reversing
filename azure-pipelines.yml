@@ -32,7 +32,7 @@ jobs:
         cmake -G"Unix Makefiles" ..
         make -j4
         cpack -G DragNDrop
-  - publish: $(System.DefaultWorkingDirectory)/build/relive-0.1-MacOSX.dmg
+  - publish: $(System.DefaultWorkingDirectory)/build/relive-0.1-Darwin.dmg
     artifact: RELIVE.deb
 - job: Windows32
   pool:
