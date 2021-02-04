@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
-project(ar VERSION 0.1 LANGUAGES C CXX)
+project(relive VERSION 0.1 LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -90,4 +90,9 @@ if(WIN32)
     # On Windows generate ZIP packages
     SET(CPACK_GENERATOR "ZIP")
 endif()
+
+SET(CPACK_PACKAGE_CONTACT "nemin@oddwords.hu")
+SET(CPACK_DEBIAN_PACKAGE_HOMEPAGE "https://aliveteam.github.io/")
+SET(CPACK_DEBIAN_PACKAGE_DEPENDS "libsdl2, zenity")
+
 INCLUDE(CPack)
