@@ -72,7 +72,7 @@ CircularFade* CircularFade::ctor_4CE100(FP xpos, FP ypos, FP scale, __int16 dire
     field_B8_xpos = xpos;
     field_BC_ypos = ypos;
     field_20_animation.field_B_render_mode = 2;
-    field_20_animation.field_C_render_layer = 40;
+    field_20_animation.field_C_render_layer = Layer::eLayer_40;
     field_D0_r = field_1B8_fade_colour;
     field_D2_g = field_1B8_fade_colour;
     field_D4_b = field_1B8_fade_colour;
@@ -142,7 +142,7 @@ void CircularFade::vRender_4CE3F0(PrimHeader** ppOt)
     pTile1->field_14_w = gPsxDisplay_5C1130.field_0_width;
     pTile1->field_16_h = frameRect.y;
     Poly_Set_SemiTrans_4F8A60(&pTile1->mBase.header, 1);
-    OrderingTable_Add_4F8AA0(&ppOt[field_20_animation.field_C_render_layer], &pTile1->mBase.header);
+    OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pTile1->mBase.header);
 
 
     Prim_Tile* pTile2 = &field_120[gPsxDisplay_5C1130.field_C_buffer_index];
@@ -160,7 +160,7 @@ void CircularFade::vRender_4CE3F0(PrimHeader** ppOt)
     }
     pTile2->field_16_h = frameRect.h - frameRect.y;
     Poly_Set_SemiTrans_4F8A60(&pTile2->mBase.header, 1);
-    OrderingTable_Add_4F8AA0(&ppOt[field_20_animation.field_C_render_layer], &pTile2->mBase.header);
+    OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pTile2->mBase.header);
 
     Prim_Tile* pTile3 = &field_148[gPsxDisplay_5C1130.field_C_buffer_index];
     Init_Tile(pTile3);
@@ -169,7 +169,7 @@ void CircularFade::vRender_4CE3F0(PrimHeader** ppOt)
     pTile3->field_14_w = gPsxDisplay_5C1130.field_0_width - frameRect.w;
     pTile3->field_16_h = frameRect.h - frameRect.y;
     Poly_Set_SemiTrans_4F8A60(&pTile3->mBase.header, 1);
-    OrderingTable_Add_4F8AA0(&ppOt[field_20_animation.field_C_render_layer], &pTile3->mBase.header);
+    OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pTile3->mBase.header);
 
     Prim_Tile* pTile4 = &field_170[gPsxDisplay_5C1130.field_C_buffer_index];
     Init_Tile(pTile4);
@@ -178,9 +178,9 @@ void CircularFade::vRender_4CE3F0(PrimHeader** ppOt)
     pTile4->field_14_w = gPsxDisplay_5C1130.field_0_width;
     pTile4->field_16_h = gPsxDisplay_5C1130.field_2_height - frameRect.h;
     Poly_Set_SemiTrans_4F8A60(&pTile4->mBase.header, 1);
-    OrderingTable_Add_4F8AA0(&ppOt[field_20_animation.field_C_render_layer], &pTile4->mBase.header);
+    OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pTile4->mBase.header);
 
-    OrderingTable_Add_4F8AA0(&ppOt[field_20_animation.field_C_render_layer], &field_198_tPages[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
+    OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &field_198_tPages[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
 
     if (field_1B8_fade_colour < 255)
     {

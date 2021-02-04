@@ -47,11 +47,11 @@ Spark* Spark::ctor_4CBBB0(FP xpos, FP ypos, FP scale, unsigned __int8 count, __i
 
     if (scale == FP_FromDouble(0.5))
     {
-        field_52_layer = 17;
+        field_52_layer = Layer::eLayer_17;
     }
     else
     {
-        field_52_layer = 36;
+        field_52_layer = Layer::eLayer_36;
     }
 
     field_50_b = 127;
@@ -86,7 +86,7 @@ Spark* Spark::ctor_4CBBB0(FP xpos, FP ypos, FP scale, unsigned __int8 count, __i
         if (field_64_type == 1)
         {
             // Much bigger longer lasting sparks - uses chant particles
-            New_TintChant_Particle_426BE0(field_40_xpos, field_44_ypos - FP_FromInteger(4), scale, 0);
+            New_TintChant_Particle_426BE0(field_40_xpos, field_44_ypos - FP_FromInteger(4), scale, Layer::eLayer_0);
         }
         else
         {
@@ -113,11 +113,11 @@ Spark* Spark::ctor_4CBBB0(FP xpos, FP ypos, FP scale, unsigned __int8 count, __i
 
                 if (scale == FP_FromInteger(1))
                 {
-                    pParticle->field_20_animation.field_C_render_layer = 36;
+                    pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_36;
                 }
                 else
                 {
-                    pParticle->field_20_animation.field_C_render_layer = 17;
+                    pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_17;
                 }
 
                 pParticle->field_CC_sprite_scale = scale;
@@ -207,7 +207,7 @@ void Spark::vRender_4CC050(PrimHeader** ppOt)
                 static_cast<BYTE>(field_50_b));
 
             Poly_Set_SemiTrans_4F8A60(&pPrim->mBase.header, TRUE);
-            OrderingTable_Add_4F8AA0(&ppOt[field_52_layer], &pPrim->mBase.header);
+            OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_52_layer), &pPrim->mBase.header);
 
             // TODO: Can be refactored much further - looks like min/max stuff
             short x1Short = static_cast<short>(x1);
@@ -280,7 +280,7 @@ void Spark::vRender_4CC050(PrimHeader** ppOt)
 
         Prim_SetTPage* pTPage = &field_20_tPage[gPsxDisplay_5C1130.field_C_buffer_index];
         Init_SetTPage_4F5B60(pTPage, 1, 0, PSX_getTPage_4F60E0(0, 1, 0, 0));
-        OrderingTable_Add_4F8AA0(&ppOt[field_52_layer], &pTPage->mBase);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_52_layer), &pTPage->mBase);
         pScreenManager_5BB5F4->InvalidateRect_40EC90(
             xy.field_0_x,
             xy.field_2_y,

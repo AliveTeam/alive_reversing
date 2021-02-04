@@ -4,6 +4,7 @@
 #include "Primitives_common.hpp"
 #include "BaseGameObject.hpp"
 #include "Psx.hpp"
+#include "Layer.hpp"
 
 void Primitives_ForceLink();
 
@@ -23,6 +24,7 @@ EXPORT void CC InitType_ScreenOffset_4F5BB0(Prim_ScreenOffset* pPrim, const PSX_
 EXPORT void CC Poly_FT4_Get_Rect_409DA0(PSX_RECT* pRect, const Poly_FT4* pPoly);
 EXPORT void CC Poly_Set_Blending_4F8A20(PrimHeader* pPrim, int bBlending);
 EXPORT void CC Poly_Set_SemiTrans_4F8A60(PrimHeader* pPrim, int bSemiTrans);
+PrimHeader** OtLayer(PrimHeader** ppOt, Layer layer);
 EXPORT void CC OrderingTable_Add_4F8AA0(PrimHeader** ppOt, PrimHeader* pItem);
 
 EXPORT void CC Init_SetTPage_4F5B60(Prim_SetTPage* pPrim, int /*notUsed1*/, int /*notUsed2*/, int tpage);

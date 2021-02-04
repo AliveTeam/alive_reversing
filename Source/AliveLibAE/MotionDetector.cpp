@@ -15,7 +15,7 @@
 #include "Function.hpp"
 #include "Sys_common.hpp"
 
-MotionDetectorLaser* MotionDetectorLaser::ctor_468290(FP xpos, FP ypos, FP scale, __int16 layer)
+MotionDetectorLaser* MotionDetectorLaser::ctor_468290(FP xpos, FP ypos, FP scale, Layer layer)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x545FB0);
@@ -60,7 +60,7 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvIn
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_B_render_mode = 1;
-    field_20_animation.field_C_render_layer = 36;
+    field_20_animation.field_C_render_layer = Layer::eLayer_36;
     
     field_D8_yOffset = 0;
 
@@ -111,7 +111,7 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvIn
             pLaser = ae_new<MotionDetectorLaser>();
             if (pLaser)
             {
-                pLaser->ctor_468290(field_11C_y1_fp, field_120_y2_fp, field_CC_sprite_scale, 36);
+                pLaser->ctor_468290(field_11C_y1_fp, field_120_y2_fp, field_CC_sprite_scale, Layer::eLayer_36);
             }
         }
         else if (pTlv->field_18_start_move_direction == Path_MotionDetector::StartMoveDirection::eRight_0)
@@ -120,7 +120,7 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvIn
             pLaser = ae_new<MotionDetectorLaser>();
             if (pLaser)
             {
-                pLaser->ctor_468290(field_114_x1_fp, field_120_y2_fp, field_CC_sprite_scale, 36);
+                pLaser->ctor_468290(field_114_x1_fp, field_120_y2_fp, field_CC_sprite_scale, Layer::eLayer_36);
             }
         }
         else
@@ -174,7 +174,7 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvIn
     auto pLaserMem = ae_new<MotionDetectorLaser>();
     if (pLaserMem)
     {
-        pLaserMem->ctor_468290(pOwner->field_B8_xpos, pOwner->field_BC_ypos, field_CC_sprite_scale, 36);
+        pLaserMem->ctor_468290(pOwner->field_B8_xpos, pOwner->field_BC_ypos, field_CC_sprite_scale, Layer::eLayer_36);
     }
 
     field_F8_laser_id = pLaserMem->field_8_object_id;
@@ -284,13 +284,13 @@ void MotionDetector::vRender_469120(PrimHeader** ppOt)
 
         // Add triangle
         Poly_Set_SemiTrans_4F8A60(&pPrim->mBase.header, TRUE);
-        OrderingTable_Add_4F8AA0(&ppOt[field_20_animation.field_C_render_layer], &pPrim->mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pPrim->mBase.header);
         
         // Add tpage
         const int tpage = PSX_getTPage_4F60E0(2, field_178_bObjectInLaser != 0 ? 1 : 3, 0, 0); // When detected transparency is off, gives the "solid red" triangle
         Prim_SetTPage* pTPage = &field_154_tPage[gPsxDisplay_5C1130.field_C_buffer_index];
         Init_SetTPage_4F5B60(pTPage, 0, 0, tpage);
-        OrderingTable_Add_4F8AA0(&ppOt[field_20_animation.field_C_render_layer], &pTPage->mBase);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pTPage->mBase);
       
         pScreenManager_5BB5F4->InvalidateRect_40EC90(
             std::min(x0, std::min(x1, x1)),
@@ -421,7 +421,7 @@ void MotionDetector::vUpdate_468A90()
                                 auto pAlarmMem = ae_new<Alarm>();
                                 if (pAlarmMem)
                                 {
-                                    pAlarmMem->ctor_4091F0(field_10C_alarm_ticks, field_10A_alarm_id, 0, 39);
+                                    pAlarmMem->ctor_4091F0(field_10C_alarm_ticks, field_10A_alarm_id, 0, Layer::eLayer_39);
                                 }
 
                                 if (pObj == sActiveHero_5C1B68 && pObj->field_10C_health > FP_FromInteger(0))

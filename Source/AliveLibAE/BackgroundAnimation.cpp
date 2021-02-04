@@ -55,21 +55,21 @@ BackgroundAnimation* BackgroundAnimation::ctor_40D270(BackgroundAnimation_TLV* p
 
     field_20_animation.field_B_render_mode = static_cast<BYTE>(pPathParams->field_14_semi_trans_mode);
 
-    if (pPathParams->field_1A_layer > 0)
+    if (pPathParams->field_1A_layer > Layer::eLayer_0)
     {
-        const int translatedLayer = pPathParams->field_1A_layer - 1;
+        const int translatedLayer = static_cast<int>(pPathParams->field_1A_layer) - 1;
         if (!translatedLayer)
         {
-            field_20_animation.field_C_render_layer = 20;
+            field_20_animation.field_C_render_layer = Layer::eLayer_20;
         }
         if (translatedLayer == 1)
         {
-            field_20_animation.field_C_render_layer = 39;
+            field_20_animation.field_C_render_layer = Layer::eLayer_39;
         }
     }
     else
     {
-        field_20_animation.field_C_render_layer = 1;
+        field_20_animation.field_C_render_layer = Layer::eLayer_1;
     }
     return this;
 }

@@ -822,7 +822,7 @@ Abe* Abe::ctor_44AD10(int /*frameTableOffset*/, int /*r*/, int /*g*/, int /*b*/)
     field_100_pCollisionLine = nullptr;
     field_106_current_motion = eAbeStates::State_3_Fall_459B60;
     field_122_knockdown_motion = -1;
-    field_20_animation.field_C_render_layer = 32;
+    field_20_animation.field_C_render_layer = Layer::eLayer_32;
     field_198_has_evil_fart = 0;
     field_1A2_throwable_count = 0;
     field_158_throwable_id = -1;
@@ -1092,7 +1092,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pSaveState->bAnimRender & 1);
     sActiveHero_5C1B68->field_6_flags.Set(BaseGameObject::eDrawable_Bit4, pSaveState->bDrawable & 1);
 
-    sActiveHero_5C1B68->field_20_animation.field_C_render_layer = pSaveState->anim_render_layer;
+    sActiveHero_5C1B68->field_20_animation.field_C_render_layer = static_cast<Layer>(pSaveState->anim_render_layer);
 
     if (IsLastFrame(&sActiveHero_5C1B68->field_20_animation))
     {
@@ -5899,7 +5899,7 @@ void Abe::State_57_Dead_4589A0()
         auto pDeathFade = ae_new<DeathFadeOut>();
         if (pDeathFade)
         {
-            pDeathFade->ctor_427030(40, 1, 0, 8, 2);
+            pDeathFade->ctor_427030(Layer::eLayer_40, 1, 0, 8, 2);
             field_148_fade_obj_id = pDeathFade->field_8_object_id;
         }
 
@@ -6461,11 +6461,11 @@ void Abe::State_75_JumpIntoWell_45C7B0()
 
     if (field_CC_sprite_scale == FP_FromDouble(0.5))
     {
-        field_20_animation.field_C_render_layer = 3;
+        field_20_animation.field_C_render_layer = Layer::eLayer_3;
     }
     else
     {
-        field_20_animation.field_C_render_layer = 22;
+        field_20_animation.field_C_render_layer = Layer::eLayer_22;
     }
     jState_81_WellBegin_4017F8();
 }
@@ -6521,11 +6521,11 @@ void Abe::State_78_WellBegin_45C810()
     {
         if (field_CC_sprite_scale == FP_FromDouble(0.5))
         {
-            field_20_animation.field_C_render_layer = 3;
+            field_20_animation.field_C_render_layer = Layer::eLayer_3;
         }
         else
         {
-            field_20_animation.field_C_render_layer = 22;
+            field_20_animation.field_C_render_layer = Layer::eLayer_22;
         }
     }
 
@@ -6628,11 +6628,11 @@ void Abe::State_79_InsideWellLocal_45CA60()
 
         if (field_CC_sprite_scale == FP_FromDouble(0.5))
         {
-            field_20_animation.field_C_render_layer = 3;
+            field_20_animation.field_C_render_layer = Layer::eLayer_3;
         }
         else
         {
-            field_20_animation.field_C_render_layer = 22;
+            field_20_animation.field_C_render_layer = Layer::eLayer_22;
         }
 
         field_100_pCollisionLine = nullptr;
@@ -6668,11 +6668,11 @@ void Abe::State_80_WellShotOut_45D150()
     {
         if (field_CC_sprite_scale == FP_FromDouble(0.5))
         {
-            field_20_animation.field_C_render_layer = 13;
+            field_20_animation.field_C_render_layer = Layer::eLayer_13;
         }
         else
         {
-            field_20_animation.field_C_render_layer = 32;
+            field_20_animation.field_C_render_layer = Layer::eLayer_32;
         }
 
         field_E0_pShadow->field_14_flags.Set(Shadow::Flags::eBit2_Enabled);
@@ -6753,7 +6753,7 @@ void Abe::State_82_InsideWellExpress_45CC80()
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
             field_1AC_flags.Set(Flags_1AC::e1AC_Bit7_land_softly);
             field_106_current_motion = eAbeStates::jState_85_Fall_455070;
-            field_20_animation.field_C_render_layer = 32;
+            field_20_animation.field_C_render_layer = Layer::eLayer_32;
         }
         else
         {
@@ -7000,7 +7000,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
                 DeathFadeOut* pFade33 = ae_new<DeathFadeOut>();
                 if (pFade33)
                 {
-                    pFade33->ctor_427030(40, 0, 0, 8, 2);
+                    pFade33->ctor_427030(Layer::eLayer_40, 0, 0, 8, 2);
                 }
 
                 field_148_fade_obj_id = pFade33->field_8_object_id;
@@ -7045,7 +7045,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
         {
             if (Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & 0x300000)
             {
-                pFade->Init_427140(40, 1, 0, 8);
+                pFade->Init_427140(Layer::eLayer_40, 1, 0, 8);
                 field_120_state.stone = StoneStates::eCamChangeTransition_5;
                 SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
             }
@@ -7064,7 +7064,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
 
                 if (pFade)
                 {
-                    pFade->ctor_427030(40, 0, 0, 8, 2);
+                    pFade->ctor_427030(Layer::eLayer_40, 0, 0, 8, 2);
                 }
 
                 field_148_fade_obj_id = pFade->field_8_object_id;
@@ -8030,7 +8030,7 @@ void Abe::State_114_DoorEnter_459470()
             field_106_current_motion = eAbeStates::jState_85_Fall_455070;
             field_CC_sprite_scale = FP_FromInteger(1);
             field_D6_scale = 1;
-            field_20_animation.field_C_render_layer = 32;
+            field_20_animation.field_C_render_layer = Layer::eLayer_32;
             return;
         }
 
@@ -8077,13 +8077,13 @@ void Abe::State_114_DoorEnter_459470()
         if (pTargetDoorTlv->field_16_scale == 1)
         {
             field_CC_sprite_scale = FP_FromDouble(0.5);
-            field_20_animation.field_C_render_layer = 13;
+            field_20_animation.field_C_render_layer = Layer::eLayer_13;
             field_D6_scale = 0;
         }
         else
         {
             field_CC_sprite_scale = FP_FromDouble(1.0);
-            field_20_animation.field_C_render_layer = 32;
+            field_20_animation.field_C_render_layer = Layer::eLayer_32;
             field_D6_scale = 1;
         }
 

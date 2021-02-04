@@ -193,7 +193,7 @@ void Explosion::vUpdate_4A1510()
         auto pFlash = ae_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_428570(39, 255u, 255u, 255u, 1, 1, 1);
+            pFlash->ctor_428570(Layer::eLayer_39, 255u, 255u, 255u, 1, 1, 1);
         }
         rect.x = FP_GetExponent(FP_FromInteger(-38) * field_FC_explosion_size);
         rect.w = FP_GetExponent(FP_FromInteger(38) * field_FC_explosion_size);
@@ -223,7 +223,7 @@ void Explosion::vUpdate_4A1510()
         auto pFlash = ae_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_428570(39, 255u, 255u, 255u, 1, 3u, 1);
+            pFlash->ctor_428570(Layer::eLayer_39, 255u, 255u, 255u, 1, 3u, 1);
         }
     }
     break;

@@ -89,11 +89,11 @@ EXPORT int CC Animation_OnFrame_Common_4561B0(void* pObjPtr, signed __int16* pDa
 
         if (pObj->field_D6_scale == 1)
         {
-            pPartical->field_20_animation.field_C_render_layer = 36;
+            pPartical->field_20_animation.field_C_render_layer = Layer::eLayer_36;
         }
         else
         {
-            pPartical->field_20_animation.field_C_render_layer = 17;
+            pPartical->field_20_animation.field_C_render_layer = Layer::eLayer_17;
         }
 
         pPartical->field_D0_r = 45;
@@ -155,7 +155,7 @@ EXPORT int CC Animation_OnFrame_Common_434130(void* pObjPtr, signed __int16* pDa
     {
         pParticle->ctor_4CC4C0(xpos, ypos, 5264, 61, 44, ppAnimRes);
         pParticle->field_20_animation.field_B_render_mode = 1;
-        pParticle->field_20_animation.field_C_render_layer = 36;
+        pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_36;
         pParticle->field_D0_r = 64;
         pParticle->field_D2_g = 64;
         pParticle->field_D4_b = 64;
@@ -595,7 +595,7 @@ void Animation::vRender_40B820(int xpos, int ypos, PrimHeader** ppOt, __int16 wi
         SetPrimExtraPointerHack(pPoly, nullptr);
     }
 
-    OrderingTable_Add_4F8AA0(&ppOt[field_C_render_layer], &pPoly->mBase.header);
+    OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_C_render_layer), &pPoly->mBase.header);
 }
 
 void Animation::vCleanUp_40C630()
@@ -1118,7 +1118,7 @@ namespace Test
         anim.field_4_flags.Raw().all = 0;
         anim.field_4_flags.Set(AnimFlags::eBit3_Render);
         anim.field_92_current_frame = 0;
-        anim.field_C_render_layer = 0;
+        anim.field_C_render_layer = Layer::eLayer_0;
         anim.field_14_scale.fpValue = 0x10000;
         anim.field_B_render_mode = 0;
 

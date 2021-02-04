@@ -56,7 +56,7 @@ EXPORT void CC Game_ShowLoadingIcon_482D80()
     pParticle->field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
     pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
 
-    pParticle->field_20_animation.field_C_render_layer = 0;
+    pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_0;
     PSX_SetDefDrawEnv_4F5AA0(&dispBuffer.field_0_draw_env, 0, 0, 640, 240);
     PSX_PutDrawEnv_4F5980(&dispBuffer.field_0_draw_env);
     PSX_DrawSync_4F6280(0);

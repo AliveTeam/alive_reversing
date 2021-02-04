@@ -3,6 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
 #include "Primitives.hpp"
+#include "Layer.hpp"
 
 enum class LevelIds : __int16;
 
@@ -12,7 +13,7 @@ public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT EffectBase* ctor_4AB7A0(__int16 layer, char abr);
+    EXPORT EffectBase* ctor_4AB7A0(Layer layer, char abr);
     EXPORT void dtor_4AB8F0();
 private:
     EXPORT EffectBase* vdtor_4AB8C0(signed int flags);
@@ -22,7 +23,7 @@ protected:
     LevelIds field_22_level_id;
     Prim_Tile field_24_tile[2];
     Prim_SetTPage field_4C_tPage[2];
-    __int16 field_6C_layer;
+    Layer field_6C_layer;
     __int16 field_6E_r;
     __int16 field_70_g;
     __int16 field_72_b;

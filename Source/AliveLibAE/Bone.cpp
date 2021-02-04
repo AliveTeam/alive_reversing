@@ -567,7 +567,7 @@ void Bone::vUpdate_411BC0()
                     field_B8_xpos + (field_CC_sprite_scale * FP_FromInteger(1)),
                     (field_CC_sprite_scale * FP_FromInteger(-7)) + field_BC_ypos,
                     FP_FromDouble(0.3),
-                    36);
+                    Layer::eLayer_36);
 
             field_128_shine_timer = (Math_NextRandom() % 16) + sGnFrame_5C1B84 + 60;
         }

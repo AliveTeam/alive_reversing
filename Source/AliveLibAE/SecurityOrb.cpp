@@ -64,13 +64,13 @@ SecurityOrb* SecurityOrb::ctor_466350(Path_SecurityOrb* pTlv, int tlvInfo)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
         field_D6_scale = 0;
-        field_20_animation.field_C_render_layer = 8;
+        field_20_animation.field_C_render_layer = Layer::eLayer_8;
     }
     else
     {
         field_CC_sprite_scale = FP_FromInteger(1);
         field_D6_scale = 1;
-        field_20_animation.field_C_render_layer = 27;
+        field_20_animation.field_C_render_layer = Layer::eLayer_27;
     }
 
     field_DC_bApplyShadows |= 2u;
@@ -175,7 +175,7 @@ void SecurityOrb::vUpdate_4665A0()
                     auto pFlash1 = ae_new<Flash>();
                     if (pFlash1)
                     {
-                        pFlash1->ctor_428570(39, 255, 0, 0, 1, 3, 1);
+                        pFlash1->ctor_428570(Layer::eLayer_39, 255, 0, 0, 1, 3, 1);
                     }
                 }
                 if (static_cast<int>(sGnFrame_5C1B84) == field_120_timer - 4)
@@ -183,7 +183,7 @@ void SecurityOrb::vUpdate_4665A0()
                     auto pFlash2 = ae_new<Flash>();
                     if (pFlash2)
                     {
-                        pFlash2->ctor_428570(39, 255, 0, 0, 1, 1, 1);
+                        pFlash2->ctor_428570(Layer::eLayer_39, 255, 0, 0, 1, 1, 1);
                     }
                 }
 
@@ -221,7 +221,7 @@ void SecurityOrb::vUpdate_4665A0()
                     ypos,
                     8,
                     ZapLineType::eThick_0,
-                    28);
+                    Layer::eLayer_28);
             }
 
             auto pFlicker = ae_new<PossessionFlicker>();

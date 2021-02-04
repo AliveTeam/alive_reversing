@@ -81,7 +81,7 @@ void SlogHut::vUpdate_4C41B0()
         auto pSnoozeParticle = ae_new<SnoozeParticle>();
         if (pSnoozeParticle)
         {
-            pSnoozeParticle->ctor_4B06F0(field_20_xpos, field_24_ypos, 39, field_28_scale);
+            pSnoozeParticle->ctor_4B06F0(field_20_xpos, field_24_ypos, Layer::eLayer_39, field_28_scale);
         }
 
         field_34_z_timer = sGnFrame_5C1B84 + field_38_z_delay;

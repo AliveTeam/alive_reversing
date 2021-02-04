@@ -2022,7 +2022,7 @@ private:
 
             mAnim[i].field_14_scale = FP_FromDouble(2.0);
 
-            mAnim[i].field_C_render_layer = 38;
+            mAnim[i].field_C_render_layer = Layer::eLayer_38;
             mAnim[i].field_B_render_mode = 1;
 
             mAnim[i].field_A_b = 127;

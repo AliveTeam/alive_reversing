@@ -144,13 +144,13 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo)
     if (field_1E8_tlv.field_10_scale == Path_NakedSlig::Scale::Half_1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_20_animation.field_C_render_layer = 8;
+        field_20_animation.field_C_render_layer = Layer::eLayer_8;
         field_D6_scale = 0;
     }
     else  if (field_1E8_tlv.field_10_scale == Path_NakedSlig::Scale::Full_0)
     {
         field_CC_sprite_scale = FP_FromInteger(1);
-        field_20_animation.field_C_render_layer = 27;
+        field_20_animation.field_C_render_layer = Layer::eLayer_27;
         field_D6_scale = 1;
     }
 
@@ -166,11 +166,11 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo)
     {
         if (field_CC_sprite_scale == FP_FromInteger(1))
         {
-            field_20_animation.field_C_render_layer = 25;
+            field_20_animation.field_C_render_layer = Layer::eLayer_25;
         }
         else
         {
-            field_20_animation.field_C_render_layer = 6;
+            field_20_animation.field_C_render_layer = Layer::eLayer_6;
         }
         Set_AnimAndMotion_419890(NakedSligMotion::M_Snoozing_9_41BD80, TRUE);
         SetBrain(&NakedSlig::AI_0_Sleeping_419DE0);
@@ -851,11 +851,11 @@ __int16 NakedSlig::AI_0_Sleeping_419DE0()
 
     if (field_CC_sprite_scale == FP_FromInteger(1))
     {
-        field_20_animation.field_C_render_layer = 27;
+        field_20_animation.field_C_render_layer = Layer::eLayer_27;
     }
     else
     {
-        field_20_animation.field_C_render_layer = 8;
+        field_20_animation.field_C_render_layer = Layer::eLayer_8;
     }
 
     ToIdle_41C070();
@@ -1139,7 +1139,7 @@ __int16 NakedSlig::AI_3_Possessed_41A5B0()
                     (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 20))) + field_B8_xpos,
                     field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(0, 30))),
                     field_CC_sprite_scale,
-                    0);
+                    Layer::eLayer_0);
             }
 
             if (static_cast<int>(sGnFrame_5C1B84) <= field_1AC_timer && sActiveHero_5C1B68->field_10C_health > FP_FromInteger(0))

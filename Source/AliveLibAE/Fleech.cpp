@@ -1488,7 +1488,7 @@ void Fleech::RenderEx_42C5A0(PrimHeader** ot)
                 static_cast<BYTE>(b)
             );
 
-            OrderingTable_Add_4F8AA0(&ot[field_20_animation.field_C_render_layer], &currTonguePoly1->mBase.header);
+            OrderingTable_Add_4F8AA0(OtLayer(ot, field_20_animation.field_C_render_layer), &currTonguePoly1->mBase.header);
 
             Poly_G4* currTonguePoly2 = &field_2CC_tongue_polys2[i][gPsxDisplay_5C1130.field_C_buffer_index];
 
@@ -1544,7 +1544,7 @@ void Fleech::RenderEx_42C5A0(PrimHeader** ot)
                 static_cast<BYTE>(b)
             );
 
-            OrderingTable_Add_4F8AA0(&ot[field_20_animation.field_C_render_layer], &currTonguePoly2->mBase.header);
+            OrderingTable_Add_4F8AA0(OtLayer(ot, field_20_animation.field_C_render_layer), &currTonguePoly2->mBase.header);
 
             __int16 invRect_x;
             __int16 invRect_y;
@@ -1602,7 +1602,7 @@ void Fleech::RenderEx_42C5A0(PrimHeader** ot)
         const int tPage = PSX_getTPage_4F60E0(0, 0, 0, 0);
         Init_SetTPage_4F5B60(&field_40C[gPsxDisplay_5C1130.field_C_buffer_index], 1, 0, tPage);
         OrderingTable_Add_4F8AA0(
-            &ot[field_20_animation.field_C_render_layer],
+            OtLayer(ot, field_20_animation.field_C_render_layer),
             &field_40C[gPsxDisplay_5C1130.field_C_buffer_index].mBase
         );
         return;
@@ -1768,12 +1768,12 @@ void Fleech::Init_42A170()
     
     if (field_CC_sprite_scale == FP_FromInteger(1))
     {
-        field_20_animation.field_C_render_layer = 34;
+        field_20_animation.field_C_render_layer = Layer::eLayer_34;
         field_D6_scale = 1;
     }
     else
     {
-        field_20_animation.field_C_render_layer = 15;
+        field_20_animation.field_C_render_layer = Layer::eLayer_15;
         field_D6_scale = 0;
     }
 

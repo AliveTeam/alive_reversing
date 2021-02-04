@@ -88,7 +88,9 @@ void TorturedMudokon::SetupZapAnimation_47BEF0(Animation* pAnim)
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kElecwallResID);
     if (pAnim->Init_40A030(15384, gObjList_animations_5C1A24, this, 50, 80, ppRes, 1, 0, 0))
     {
-        pAnim->field_C_render_layer = field_20_animation.field_C_render_layer - 1;
+        // TODO: clean this up
+        const int layerM1 = static_cast<int>(field_20_animation.field_C_render_layer) - 1;
+        pAnim->field_C_render_layer = static_cast<Layer>(layerM1);
         pAnim->field_14_scale = field_CC_sprite_scale;
         pAnim->field_8_r = 128;
         pAnim->field_9_g = 128;
@@ -255,7 +257,7 @@ void TorturedMudokon::vUpdate_47BF80()
         auto pFlash = ae_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_428570(39, rgbBase + 50, rgbBase + 50, rgbBase + 110, 1, 1, 1);
+            pFlash->ctor_428570(Layer::eLayer_39, rgbBase + 50, rgbBase + 50, rgbBase + 110, 1, 1, 1);
         }
         field_18C_zap_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
         SFX_Play_46FA90(SoundEffect::ElectricZap_39, 70);
@@ -278,7 +280,7 @@ void TorturedMudokon::vUpdate_47BF80()
         auto pFlash = ae_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_428570(39, rgbBase + 10, rgbBase + 10, rgbBase + 50, 1, 1u, 1);
+            pFlash->ctor_428570(Layer::eLayer_39, rgbBase + 10, rgbBase + 10, rgbBase + 50, 1, 1u, 1);
         }
     }
 

@@ -25,14 +25,14 @@ ParamiteWeb* ParamiteWeb::ctor_4E1840(FP xpos, __int16 bottom, __int16 top, FP s
 
     if (scale == FP_FromInteger(1))
     {
-        field_20_animation.field_C_render_layer = 24;
+        field_20_animation.field_C_render_layer = Layer::eLayer_24;
         field_D6_scale = 1;
         field_20_animation.field_14_scale = FP_FromInteger(1);
         field_CC_sprite_scale = FP_FromInteger(1);
     }
     else
     {
-        field_20_animation.field_C_render_layer = 5;
+        field_20_animation.field_C_render_layer = Layer::eLayer_5;
         field_20_animation.field_14_scale = FP_FromDouble(0.7);
         field_CC_sprite_scale = FP_FromDouble(0.7);
         field_D6_scale = 0;

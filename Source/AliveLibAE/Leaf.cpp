@@ -24,12 +24,12 @@ Leaf* Leaf::ctor_4E3120(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
 
     if (scale == FP_FromInteger(1))
     {
-        field_20_animation.field_C_render_layer = 27;
+        field_20_animation.field_C_render_layer = Layer::eLayer_27;
         field_D6_scale = 1;
     }
     else
     {
-        field_20_animation.field_C_render_layer = 8;
+        field_20_animation.field_C_render_layer = Layer::eLayer_8;
         field_D6_scale = 0;
     }
 

@@ -15,7 +15,7 @@ Sparks* Sparks::ctor_416390(FP xpos, FP ypos, FP scale)
 
     field_DC_bApplyShadows &= ~1u;
 
-    field_20_animation.field_C_render_layer = 37;
+    field_20_animation.field_C_render_layer = Layer::eLayer_37;
     field_20_animation.field_B_render_mode = 1;
 
     field_20_animation.field_A_b = 80;

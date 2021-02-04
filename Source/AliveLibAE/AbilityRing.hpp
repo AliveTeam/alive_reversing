@@ -4,6 +4,7 @@
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 #include "Primitives.hpp"
+#include "Layer.hpp"
 
 enum class RingTypes : __int16
 {
@@ -81,7 +82,7 @@ private:
     EXPORT int vGetSaveState_49E070(AbilityRing_State* pSaveState);
 
 private:
-    __int16 field_20_layer;
+    Layer field_20_layer;
     //__int16 field_22_pad;
     AbilityRing_PolyBuffer* field_24_pRes;
     BYTE** field_28_ppRes;

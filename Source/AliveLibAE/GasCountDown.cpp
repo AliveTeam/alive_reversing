@@ -89,7 +89,7 @@ GasCountDown* GasCountDown::ctor_417010(Path_GasCountDown* pTlv, int tlvInfo)
         auto pAlarm = ae_new<Alarm>();
         if (pAlarm)
         {
-            pAlarm->ctor_4091F0(field_76_time, 0, 0, 39);
+            pAlarm->ctor_4091F0(field_76_time, 0, 0, Layer::eLayer_39);
             return this;
         }
     }
@@ -213,7 +213,7 @@ void GasCountDown::DealDamage()
             auto pGasEffect = ae_new<DeathGas>();
             if (pGasEffect)
             {
-                pGasEffect->ctor_43C030(39, 2);
+                pGasEffect->ctor_43C030(Layer::eLayer_39, 2);
             }
         }
     }
@@ -241,7 +241,7 @@ void GasCountDown::vUpdate_4172E0()
         auto pAlarm = ae_new<Alarm>();
         if (pAlarm)
         {
-            pAlarm->ctor_4091F0(field_76_time, 0, 0, 39);
+            pAlarm->ctor_4091F0(field_76_time, 0, 0, Layer::eLayer_39);
         }
     }
 

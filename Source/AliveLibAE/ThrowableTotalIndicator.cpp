@@ -122,7 +122,7 @@ const __int16* kNumbersArray_551B20[11] =
     kInfinity_551AEC
 };
 
-ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_431CB0(FP xpos, FP ypos, __int16 layer, FP /*scale*/, __int16 count, __int16 bFade)
+ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_431CB0(FP xpos, FP ypos, Layer layer, FP /*scale*/, __int16 count, __int16 bFade)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x544FE4);
@@ -337,13 +337,13 @@ void ThrowableTotalIndicator::vRender_432070(PrimHeader** ppOt)
         SetRGB1(pLine, field_42_r & 0xFF, field_44_g & 0xFF, field_46_b & 0xFF);
 
         Poly_Set_SemiTrans_4F8A60(&pLine->mBase.header, TRUE);
-        OrderingTable_Add_4F8AA0(&ppOt[field_40_layer], &pLine->mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_40_layer), &pLine->mBase.header);
     }
 
     Prim_SetTPage* pTPage = &field_16C_tPage[gPsxDisplay_5C1130.field_C_buffer_index];
     Init_SetTPage_4F5B60(pTPage, 1, 0, PSX_getTPage_4F60E0(0, 1, 0, 0));
 
-    OrderingTable_Add_4F8AA0(&ppOt[field_40_layer], &pTPage->mBase);
+    OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_40_layer), &pTPage->mBase);
 
     pScreenManager_5BB5F4->InvalidateRect_40EC90(
         xpos - 8,

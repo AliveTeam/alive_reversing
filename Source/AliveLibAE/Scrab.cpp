@@ -154,13 +154,13 @@ Scrab* Scrab::ctor_4A3C40(Path_Scrab* pTlv, int tlvInfo, __int16 spawnedScale)
     if (pTlv->field_10_scale == 1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_20_animation.field_C_render_layer = 8;
+        field_20_animation.field_C_render_layer = Layer::eLayer_8;
         field_D6_scale = 0;
     }
     else if (pTlv->field_10_scale == 0)
     {
         field_CC_sprite_scale = FP_FromInteger(1);
-        field_20_animation.field_C_render_layer = 27;
+        field_20_animation.field_C_render_layer = Layer::eLayer_27;
         field_D6_scale = 1;
     }
 
@@ -832,7 +832,7 @@ void Scrab::vUpdate_4A3530()
                         particleVelX,
                         particleVelY,
                         field_CC_sprite_scale,
-                        0,
+                        Layer::eLayer_0,
                         255,
                         0,
                         0);
@@ -3207,7 +3207,7 @@ void Scrab::M_GetDepossessedBegin_28_4AA200()
             const FP yRnd = FP_FromInteger(Math_RandomRange_496AB0(20, 50));
             const FP ypos = field_BC_ypos - (field_CC_sprite_scale * yRnd);
             const FP xpos = (field_CC_sprite_scale * xRnd) + field_B8_xpos;
-            New_TintChant_Particle_426BE0(xpos, ypos, field_CC_sprite_scale, 0);
+            New_TintChant_Particle_426BE0(xpos, ypos, field_CC_sprite_scale, Layer::eLayer_0);
         }
 
         if (static_cast<int>(sGnFrame_5C1B84) > field_130_depossession_timer || sActiveHero_5C1B68->field_10C_health <= FP_FromInteger(0))

@@ -124,13 +124,13 @@ SlamDoor* SlamDoor::ctor_4AF700(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
     if (pTlv->field_12_half_scale && pTlv->field_12_half_scale == 1)
     {
             field_CC_sprite_scale = FP_FromDouble(0.5);
-            field_20_animation.field_C_render_layer = 6;
+            field_20_animation.field_C_render_layer = Layer::eLayer_6;
             field_D6_scale = 0;
     }
     else
     {
         field_CC_sprite_scale = FP_FromDouble(1.0);
-        field_20_animation.field_C_render_layer = 25;
+        field_20_animation.field_C_render_layer = Layer::eLayer_25;
         field_D6_scale = 1;
     }
 

@@ -2,6 +2,7 @@
 
 #include "Function.hpp"
 #include "EffectBase.hpp"
+#include "Layer.hpp"
 
 struct Path_Alarm;
 
@@ -13,7 +14,7 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
     EXPORT Alarm* ctor_409300(Path_Alarm* pTlv, int tlvInfo);
-    EXPORT Alarm* ctor_4091F0(__int16 durationOffset, __int16 switchId, __int16 timerOffset, __int16 layer);
+    EXPORT Alarm* ctor_4091F0(__int16 durationOffset, __int16 switchId, __int16 timerOffset, Layer layer);
 private:
     EXPORT void dtor_409380();
     EXPORT Alarm* vdtor_4092D0(signed int flags);

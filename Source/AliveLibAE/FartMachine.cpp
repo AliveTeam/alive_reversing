@@ -60,7 +60,7 @@ FartMachine* FartMachine::ctor_413060(Path_FartMachine* pTlv, int tlvInfo)
 
     field_DC_bApplyShadows &= ~1u;
     field_140_tlvInfo = tlvInfo;
-    field_20_animation.field_C_render_layer = 23;
+    field_20_animation.field_C_render_layer = Layer::eLayer_23;
     field_1E4_remaining_brew_count = pTlv->field_10_num_brews;
 
     const BYTE savedBrewCount = pTlv->field_1_unknown;

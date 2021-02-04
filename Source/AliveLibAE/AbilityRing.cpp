@@ -212,14 +212,14 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
         }
 
         field_282_path = gMap_5C3030.field_2_current_path;
-        field_20_layer = 39;
+        field_20_layer = Layer::eLayer_39;
         field_280_level = gMap_5C3030.field_0_current_level;
         field_27C_semiTrans = 1;
         field_27E_tPageMode = 1;
 
         if (field_284_ring_type == RingTypes::eShrykull_Pulse_Orange_6 && scale == FP_FromDouble(0.5))
         {
-            field_20_layer = 16;
+            field_20_layer = Layer::eLayer_16;
         }
 
         field_260_scaleX = FP_FromDouble(1.0999); // TODO: Matching ?? 0x11999
@@ -556,7 +556,7 @@ void AbilityRing::vRender_49D790(PrimHeader** ppOt)
                 SetXY2(pPoly, x3, y3);
                 SetXY3(pPoly, x4, y4);
 
-                OrderingTable_Add_4F8AA0(&ppOt[field_20_layer], &pPoly->mBase.header);
+                OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_layer), &pPoly->mBase.header);
 
                 pScreenManager_5BB5F4->InvalidateRect_40EC90(
                     rect.x,
@@ -577,7 +577,7 @@ void AbilityRing::vRender_49D790(PrimHeader** ppOt)
 
             ang += angIncrement;
         }
-        OrderingTable_Add_4F8AA0(&ppOt[field_20_layer], &field_2C_primSetTPage[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_layer), &field_2C_primSetTPage[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
     }
 }
 
@@ -616,7 +616,7 @@ int AbilityRing::vGetSaveState_49E070(AbilityRing_State* pSaveState)
     pSaveState->field_8_ypos = field_250_ypos;
     pSaveState->field_C_ring_type = field_284_ring_type;
 
-    if (field_20_layer == 39)
+    if (field_20_layer == Layer::eLayer_39)
     {
         pSaveState->field_10_scale = FP_FromInteger(1);
     }

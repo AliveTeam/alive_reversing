@@ -147,11 +147,11 @@ void Shadow::Calculate_Position_4ACA50(FP xpos, FP ypos, PSX_RECT* frameRect, FP
 
         if (scale)
         {
-            field_18_animation.field_C_render_layer = 26;
+            field_18_animation.field_C_render_layer = Layer::eLayer_26;
         }
         else
         {
-            field_18_animation.field_C_render_layer = 7;
+            field_18_animation.field_C_render_layer = Layer::eLayer_7;
         }
     }
 }

@@ -106,11 +106,11 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, int tlvInfo)
 
     if (field_CC_sprite_scale == FP_FromInteger(1))
     {
-        field_20_animation.field_C_render_layer = 25;
+        field_20_animation.field_C_render_layer = Layer::eLayer_25;
     }
     else
     {
-        field_20_animation.field_C_render_layer = 6;
+        field_20_animation.field_C_render_layer = Layer::eLayer_6;
         field_124_pCollisionLine->field_8_type = 36; // TODO: Type
     }
 
@@ -140,12 +140,12 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, int tlvInfo)
     {
         if (pTlv->field_18_scale)
         {
-            field_13C_lift_wheel.field_C_render_layer = 6;
+            field_13C_lift_wheel.field_C_render_layer = Layer::eLayer_6;
             field_13C_lift_wheel.field_14_scale = field_CC_sprite_scale;
         }
         else
         {
-            field_13C_lift_wheel.field_C_render_layer = 25;
+            field_13C_lift_wheel.field_C_render_layer = Layer::eLayer_25;
             field_13C_lift_wheel.field_14_scale = field_CC_sprite_scale;
         }
 

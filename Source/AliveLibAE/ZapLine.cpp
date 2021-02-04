@@ -7,7 +7,7 @@
 #include "PsxDisplay.hpp"
 #include "Game.hpp"
 
-EXPORT ZapLine* ZapLine::ctor_4CC690(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, __int16 aliveTime, ZapLineType type, __int16 layer)
+EXPORT ZapLine* ZapLine::ctor_4CC690(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, __int16 aliveTime, ZapLineType type, Layer layer)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     field_12A_type = type;
@@ -424,7 +424,7 @@ void ZapLine::vRender_4CD8C0(PrimHeader** ppOt)
             {
                 Prim_Sprt* pSprt = &field_134_pSprites->field_0_sprts[j + (i * field_130_number_of_pieces_per_segment)];
                 OrderingTable_Add_4F8AA0(
-                    &ppOt[field_20_animation.field_C_render_layer],
+                    OtLayer(ppOt, field_20_animation.field_C_render_layer),
                     &pSprt[bufferIdx].mBase.header);
             }
         }
@@ -437,7 +437,7 @@ void ZapLine::vRender_4CD8C0(PrimHeader** ppOt)
 
         Prim_SetTPage* pTPage = &field_FC_tPage_p8[bufferIdx];
         Init_SetTPage_4F5B60(pTPage, 0, 0, calcTPage);
-        OrderingTable_Add_4F8AA0(&ppOt[field_20_animation.field_C_render_layer], &pTPage->mBase);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pTPage->mBase);
 
         PSX_RECT* pRect = &field_144_rects[bufferIdx];
         pRect->x = 32767;

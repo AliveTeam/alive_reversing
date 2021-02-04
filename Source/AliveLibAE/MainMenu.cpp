@@ -595,7 +595,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     field_158_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
     field_158_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
-    field_158_animation.field_C_render_layer = 38;
+    field_158_animation.field_C_render_layer = Layer::eLayer_38;
     field_158_animation.field_B_render_mode = 1;
 
     field_1FE_highlite_alpha = 40;
@@ -898,7 +898,7 @@ MainMenuNextCam MainMenuController::AbeSpeak_Update_4D2D20(DWORD input_held)
                 if (pParticle)
                 {
                     pParticle->field_20_animation.field_B_render_mode = 1;
-                    pParticle->field_20_animation.field_C_render_layer = 39;
+                    pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_39;
                 }
             }
         }
@@ -1906,13 +1906,13 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(DWORD /*input*/)
         {
             sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
             sActiveHero_5C1B68->field_D6_scale = 1;
-            sActiveHero_5C1B68->field_20_animation.field_C_render_layer = 32;
+            sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_32;
         }
         else if (field_24E_start_scale == -2)
         {
             sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(0.5);
             sActiveHero_5C1B68->field_D6_scale = 0;
-            sActiveHero_5C1B68->field_20_animation.field_C_render_layer = 13;
+            sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_13;
         }
 
     }

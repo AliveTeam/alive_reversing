@@ -120,12 +120,12 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int numOfPa
             if (field_CC_sprite_scale == FP_FromInteger(1))
             {
                 field_D6_scale = 1;
-                field_20_animation.field_C_render_layer = 39;
+                field_20_animation.field_C_render_layer = Layer::eLayer_39;
             }
             else
             {
                 field_D6_scale = 0;
-                field_20_animation.field_C_render_layer = 20;
+                field_20_animation.field_C_render_layer = Layer::eLayer_20;
             }
 
             field_FC_number_of_particles = static_cast<short>(numOfParticles);

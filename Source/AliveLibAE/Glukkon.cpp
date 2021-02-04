@@ -1688,7 +1688,7 @@ __int16 Glukkon::AI_3_PlayerControlled_441A30()
         auto pDeathFadeOutMem = ae_new<DeathFadeOut>();
         if (pDeathFadeOutMem)
         {
-            field_208_obj_id = pDeathFadeOutMem->ctor_427030(40, 1, 0, 8, 2)->field_8_object_id;
+            field_208_obj_id = pDeathFadeOutMem->ctor_427030(Layer::eLayer_40, 1, 0, 8, 2)->field_8_object_id;
         }
     }
         return 3;
@@ -1708,7 +1708,7 @@ __int16 Glukkon::AI_3_PlayerControlled_441A30()
                     (field_CC_sprite_scale * xRand) + field_B8_xpos,
                     field_BC_ypos - (field_CC_sprite_scale * yRand),
                     field_CC_sprite_scale,
-                    0);
+                    Layer::eLayer_0);
             }
 
             if (static_cast<int>(sGnFrame_5C1B84) > field_1D4_timer || sActiveHero_5C1B68->field_10C_health <= FP_FromInteger(0))
@@ -1773,7 +1773,7 @@ __int16 Glukkon::AI_3_PlayerControlled_441A30()
         pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60((WORD**)gMap_5C3030.field_2C_camera_array[0]->field_C_pCamRes); // TODO: Cast hack
         if (pDeathFadeOut)
         {
-            pDeathFadeOut->Init_427140(40, 0, 1, 8);
+            pDeathFadeOut->Init_427140(Layer::eLayer_40, 0, 1, 8);
         }
         return 6;
 
@@ -2100,13 +2100,13 @@ void Glukkon::Init_43F260()
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
         field_D6_scale = 0;
-        field_20_animation.field_C_render_layer = 8;
+        field_20_animation.field_C_render_layer = Layer::eLayer_8;
     }
     else if (field_1A8_tlvData.field_10_scale == 0)
     {
         field_CC_sprite_scale = FP_FromInteger(1);
         field_D6_scale = 1;
-        field_20_animation.field_C_render_layer = 27;
+        field_20_animation.field_C_render_layer = Layer::eLayer_27;
     }
 
     FP hitX = {};

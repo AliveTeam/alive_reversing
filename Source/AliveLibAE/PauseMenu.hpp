@@ -18,6 +18,7 @@
 #include "FixedPoint.hpp"
 #include "Sound/Midi.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "Layer.hpp"
 
 void PauseMenu_ForceLink();
 

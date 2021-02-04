@@ -5,7 +5,7 @@
 #include "Game.hpp"
 #include "PsxDisplay.hpp"
 
-ScreenClipper* ScreenClipper::ctor_416D60(PSX_Point xy, PSX_Point wh, __int16 layer)
+ScreenClipper* ScreenClipper::ctor_416D60(PSX_Point xy, PSX_Point wh, Layer layer)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
 
@@ -65,7 +65,7 @@ void ScreenClipper::vRender_416F70(PrimHeader** ot)
 
     Prim_PrimClipper* pClipper = &field_20_clippers[gPsxDisplay_5C1130.field_C_buffer_index];
     Init_PrimClipper_4F5B80(pClipper, &clipRect);
-    OrderingTable_Add_4F8AA0(&ot[field_48_ot_layer], &pClipper->mBase);
+    OrderingTable_Add_4F8AA0(OtLayer(ot, field_48_ot_layer), &pClipper->mBase);
 }
 
 void ScreenClipper::dtor_416E30()

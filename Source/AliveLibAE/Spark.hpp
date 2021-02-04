@@ -4,6 +4,7 @@
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 #include "Primitives.hpp"
+#include "Layer.hpp"
 
 struct SparkRes
 {
@@ -41,7 +42,7 @@ private:
     __int16 field_4C_r;
     __int16 field_4E_g;
     __int16 field_50_b;
-    __int16 field_52_layer;
+    Layer field_52_layer;
     BYTE **field_54_ppSprxRes;
     SparkRes *field_58_pRes;
     __int16 field_5C_count;

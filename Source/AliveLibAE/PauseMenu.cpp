@@ -1346,7 +1346,7 @@ void PauseMenu::Page_Status_Update_4916A0()
 void PauseMenu::Page_Status_Render_491710(PrimHeader** ot, PauseMenuPage* pPage)
 {
     // Render the status icon
-    field_158_animation.field_C_render_layer = 41;
+    field_158_animation.field_C_render_layer = Layer::eLayer_41;
     field_158_animation.vRender_40B820(180, 100, ot, 0, 0);
 
     // Render the text

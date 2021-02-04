@@ -131,13 +131,13 @@ Paramite* Paramite::ctor_4879B0(Path_Paramite* pTlv, int tlvInfo)
     if (pTlv->field_10_scale == 1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_20_animation.field_C_render_layer = 8;
+        field_20_animation.field_C_render_layer = Layer::eLayer_8;
         field_D6_scale = 0;
     }
     else if (pTlv->field_10_scale == 0)
     {
         field_CC_sprite_scale = FP_FromInteger(1);
-        field_20_animation.field_C_render_layer = 27;
+        field_20_animation.field_C_render_layer = Layer::eLayer_27;
         field_D6_scale = 1;
     }
 
@@ -4480,7 +4480,8 @@ void Paramite::M_GetDepossessedBegin_29_48D9D0()
             New_TintChant_Particle_426BE0(
                 (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 20))) + field_B8_xpos,
                 field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(20, 50))), 
-                field_CC_sprite_scale, 0);
+                field_CC_sprite_scale,
+                Layer::eLayer_0);
         }
 
         if (static_cast<int>(sGnFrame_5C1B84) > field_138_depossession_timer)
