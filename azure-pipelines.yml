@@ -18,7 +18,7 @@ jobs:
         make -j4
         cpack -G DEB
   - publish: $(System.DefaultWorkingDirectory)/build/relive-0.1-Linux.deb
-    artifact: RELIVE.deb
+    artifact: RELIVE-Linux.deb
 - job: macOS
   pool:
     vmImage: 'macOS-latest'
@@ -33,7 +33,7 @@ jobs:
         make -j4
         cpack -G DragNDrop
   - publish: $(System.DefaultWorkingDirectory)/build/relive-0.1-Darwin.dmg
-    artifact: RELIVE.deb
+    artifact: RELIVE-MacOSX.dmg
 - job: Windows32
   pool:
     vmImage: 'windows-latest'
