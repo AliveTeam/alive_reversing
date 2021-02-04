@@ -4,6 +4,7 @@
 #include "BaseGameObject.hpp"
 #include "Primitives.hpp"
 #include "FixedPoint.hpp"
+#include "Layer.hpp"
 
 namespace AO {
 
@@ -17,7 +18,7 @@ enum class ThrowableTotalIndicatorState : __int16
 class ThrowableTotalIndicator : public BaseGameObject
 {
 public:
-    EXPORT ThrowableTotalIndicator* ctor_41B520(FP xpos, FP ypos, __int16 layer, FP scale, __int16 count, __int16 bFade);
+    EXPORT ThrowableTotalIndicator* ctor_41B520(FP xpos, FP ypos, Layer layer, FP scale, __int16 count, __int16 bFade);
 
     EXPORT BaseGameObject* dtor_41B610();
 
@@ -47,7 +48,7 @@ public:
     FP field_24_yspeed;
     FP field_28_scale;
     FP field_2C_scale_speed;
-    __int16 field_30_layer;
+    Layer field_30_layer;
     __int16 field_32_r;
     __int16 field_34_g;
     __int16 field_36_b;

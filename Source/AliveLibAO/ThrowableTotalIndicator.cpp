@@ -329,11 +329,11 @@ void ThrowableTotalIndicator::VRender_41B810(PrimHeader** ppOt)
             static_cast<BYTE>(field_36_b)
         );
         Poly_Set_SemiTrans_498A40(&pLine->mBase.header, 1);
-        OrderingTable_Add_498A80(&ppOt[field_30_layer], &pLine->mBase.header);
+        OrderingTable_Add_498A80(OtLayer(ppOt, field_30_layer), &pLine->mBase.header);
     }
 
     Init_SetTPage_495FB0(&field_17C_tPage[gPsxDisplay_504C78.field_A_buffer_index], 1, 0, PSX_getTPage_4965D0(0, 1, 0, 0));
-    OrderingTable_Add_498A80(&ppOt[field_30_layer], &field_17C_tPage->mBase);
+    OrderingTable_Add_498A80(OtLayer(ppOt, field_30_layer), &field_17C_tPage->mBase);
 
     pScreenManager_4FF7C8->InvalidateRect_406E40(
         PsxToPCX(xpos - 31),
@@ -344,7 +344,7 @@ void ThrowableTotalIndicator::VRender_41B810(PrimHeader** ppOt)
     );
 }
 
-ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_41B520(FP xpos, FP ypos, __int16 layer, FP /*scale*/, __int16 count, __int16 bFade)
+ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_41B520(FP xpos, FP ypos, Layer layer, FP /*scale*/, __int16 count, __int16 bFade)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BAED8);

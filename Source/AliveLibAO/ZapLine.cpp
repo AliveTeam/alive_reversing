@@ -28,7 +28,7 @@ BaseGameObject* ZapLine::dtor_478E90()
     return dtor_417D10();
 }
 
-ZapLine* ZapLine::ctor_4789A0(FP x1, FP y1, FP x2, FP y2, __int16 aliveTime, ZapLineType type, __int16 layer)
+ZapLine* ZapLine::ctor_4789A0(FP x1, FP y1, FP x2, FP y2, __int16 aliveTime, ZapLineType type, Layer layer)
 {
     ctor_417C10();
     SetVTable(this, 0x4BCDE8);
@@ -196,7 +196,7 @@ void ZapLine::VRender_479840(PrimHeader** ppOt)
             {
                 Prim_Sprt* pSprt = &field_124_pSprts->field_0_sprts[j + (i * field_120_number_of_pieces_per_segment)];
                  OrderingTable_Add_498A80(
-                    &ppOt[field_10_anim.field_C_layer],
+                     OtLayer(ppOt, field_10_anim.field_C_layer),
                     &pSprt[bufferIdx].mBase.header);
             }
         }
@@ -209,7 +209,7 @@ void ZapLine::VRender_479840(PrimHeader** ppOt)
 
         Prim_SetTPage* pTPage = &field_EC_tPage_p8[bufferIdx];
         Init_SetTPage_495FB0(pTPage, 0, 0, calcTPage);
-        OrderingTable_Add_498A80(&ppOt[field_10_anim.field_C_layer], &pTPage->mBase);
+        OrderingTable_Add_498A80(OtLayer(ppOt, field_10_anim.field_C_layer), &pTPage->mBase);
 
         PSX_RECT* pRect = &field_134_rects[bufferIdx];
         pRect->x = 32767;

@@ -30,7 +30,7 @@ enum class ZapLineType : __int16
 class ZapLine : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT ZapLine* ctor_4789A0(FP x1, FP y1, FP x2, FP y2, __int16 aliveTime, ZapLineType type, __int16 layer);
+    EXPORT ZapLine* ctor_4789A0(FP x1, FP y1, FP x2, FP y2, __int16 aliveTime, ZapLineType type, Layer layer);
 
     EXPORT BaseGameObject* dtor_478E90();
 

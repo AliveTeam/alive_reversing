@@ -3,13 +3,14 @@
 #include "FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
 #include "Primitives.hpp"
+#include "Layer.hpp"
 
 namespace AO {
 
 class ScreenClipper : public BaseGameObject
 {
 public:
-    EXPORT ScreenClipper* ctor_40BD60(PSX_Point xy, PSX_Point wh, __int16 layer);
+    EXPORT ScreenClipper* ctor_40BD60(PSX_Point xy, PSX_Point wh, Layer layer);
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VRender(PrimHeader** ppOt) override;
@@ -26,7 +27,7 @@ private:
     Prim_PrimClipper field_10_clippers[2];
     PSX_RECT field_30_rect;
 public:
-    __int16 field_38_ot_layer;
+    Layer field_38_ot_layer;
 private:
     __int16 field_3A_pad;
 };

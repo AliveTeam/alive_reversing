@@ -254,7 +254,7 @@ void ScreenManager::VRender_406A60(PrimHeader** ppOt)
         const int spriteX = pSpriteTPage->mSprt.mBase.vert.x;
         const int spriteY = pSpriteTPage->mSprt.mBase.vert.y;
 
-        int layer = 0;
+        Layer layer = Layer::eLayer_0;
         if (field_58_20x16_dirty_bits[4].GetTile(spriteX / 32, spriteY / 16))
         {
             if (!(field_58_20x16_dirty_bits[field_2E_idx].GetTile(spriteX / 32, spriteY / 16)) &&
@@ -264,7 +264,7 @@ void ScreenManager::VRender_406A60(PrimHeader** ppOt)
             {
                 continue;
             }
-            layer = 37;
+            layer = Layer::eLayer_37;
         }
         else if (field_58_20x16_dirty_bits[5].GetTile(spriteX / 32, spriteY / 16))
         {
@@ -275,7 +275,7 @@ void ScreenManager::VRender_406A60(PrimHeader** ppOt)
             {
                 continue;
             }
-            layer = 18;
+            layer = Layer::eLayer_18;
         }
         else
         {
@@ -285,11 +285,11 @@ void ScreenManager::VRender_406A60(PrimHeader** ppOt)
             {
                 continue;
             }
-            layer = 1;
+            layer = Layer::eLayer_1;
         }
 
-        OrderingTable_Add_498A80(&ppOt[layer], &pSpriteTPage->mSprt.mBase.header);
-        OrderingTable_Add_498A80(&ppOt[layer], &pSpriteTPage->mTPage.mBase);
+        OrderingTable_Add_498A80(OtLayer(ppOt, layer), &pSpriteTPage->mSprt.mBase.header);
+        OrderingTable_Add_498A80(OtLayer(ppOt, layer), &pSpriteTPage->mTPage.mBase);
     }
 
     sub_406FF0();

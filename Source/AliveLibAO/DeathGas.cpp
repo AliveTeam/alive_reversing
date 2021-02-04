@@ -31,7 +31,7 @@ ALIVE_VAR(1, 0x4FFDB0, Data_Byte, sbyte_1_4FFDB0, {});
 ALIVE_VAR(1, 0x5008B0, Data_Byte, sbyte_2_5008B0, {});
 ALIVE_VAR(1, 0x5009D0, int, gDeathGasCount_5009D0, 0);
 
-DeathGas* DeathGas::ctor_41CF40(__int16 layer, __int16 amount)
+DeathGas* DeathGas::ctor_41CF40(Layer layer, __int16 amount)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BAF08);
@@ -281,7 +281,7 @@ void DeathGas::VRender_41D190(PrimHeader** ppOt)
                 SetXY2(pPoly, static_cast<short>(x2), static_cast<short>(y2 - yVal));
                 SetXY3(pPoly, static_cast<short>(x3), static_cast<short>(y3 - yVal));
 
-                OrderingTable_Add_498A80(&ppOt[field_18_layer], &pPoly->mBase.header);
+                OrderingTable_Add_498A80(OtLayer(ppOt, field_18_layer), &pPoly->mBase.header);
 
                 /*
                 v32 = gPsxDisplay_504C78.field_2_height;
@@ -323,7 +323,7 @@ void DeathGas::VRender_41D190(PrimHeader** ppOt)
         }
     }
 
-    OrderingTable_Add_498A80(&ppOt[field_18_layer], &gGasTPages_5008E8[gPsxDisplay_504C78.field_A_buffer_index].mBase);
+    OrderingTable_Add_498A80(OtLayer(ppOt, field_18_layer), &gGasTPages_5008E8[gPsxDisplay_504C78.field_A_buffer_index].mBase);
 
     pScreenManager_4FF7C8->InvalidateRect_406CC0(
         0,

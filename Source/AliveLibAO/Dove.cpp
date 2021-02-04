@@ -64,12 +64,12 @@ Dove* Dove::ctor_40EE50(int frameTableOffset, int maxW, int maxH, int resourceID
     if (scale == FP_FromInteger(1))
     {
         field_C6_scale = 1;
-        field_10_anim.field_C_layer = 27;
+        field_10_anim.field_C_layer = Layer::eLayer_27;
     }
     else
     {
         field_C6_scale = 0;
-        field_10_anim.field_C_layer = 8;
+        field_10_anim.field_C_layer = Layer::eLayer_8;
     }
 
     field_B4_velx = FP_FromInteger((Math_NextRandom() / 12 - 11));
@@ -127,11 +127,11 @@ Dove* Dove::ctor_40EFF0(int frameTableOffset, int maxW, int maxH, int resourceID
 
     if (scale == FP_FromInteger(1))
     {
-        field_10_anim.field_C_layer = 27;
+        field_10_anim.field_C_layer = Layer::eLayer_27;
     }
     else
     {
-        field_10_anim.field_C_layer = 8;
+        field_10_anim.field_C_layer = Layer::eLayer_8;
     }
 
     field_B4_velx = FP_FromInteger(Math_NextRandom() / 12 - 11);

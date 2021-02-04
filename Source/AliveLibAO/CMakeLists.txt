@@ -317,6 +317,7 @@ SET(AliveLibSrcAO
    ZBall.cpp
    RollingBallShaker.hpp
    RollingBallShaker.cpp
+   Layer.hpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx_ao.h stdafx_ao.cpp AliveLibSrcAO)

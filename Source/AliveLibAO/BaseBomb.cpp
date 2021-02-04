@@ -66,7 +66,7 @@ void BaseBomb::VUpdate_417580()
         Flash* pFlash = ao_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_41A810(39, 255u, 255u, 255u, 1, 3u, 1);
+            pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u, 1, 3u, 1);
         }
 
         rect.x = FP_GetExponent(FP_FromInteger(-113) * field_E4_scale);
@@ -82,7 +82,7 @@ void BaseBomb::VUpdate_417580()
         Flash* pFlash = ao_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_41A810(39, 255u, 255u, 255u, 1, 1u, 1);
+            pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u, 1, 1u, 1);
         }
     }
 
@@ -102,7 +102,7 @@ void BaseBomb::VUpdate_417580()
         Flash* pFlash = ao_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_41A810(39, 255u, 255u, 255u, 1, 3u, 1);
+            pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u, 1, 3u, 1);
         }
         break;
     }
@@ -246,11 +246,11 @@ BaseBomb* BaseBomb::ctor_4173A0(FP xpos, FP ypos, int /*unused*/, FP scale)
 
     if (scale == FP_FromInteger(1))
     {
-        field_10_anim.field_C_layer = 36;
+        field_10_anim.field_C_layer = Layer::eLayer_36;
     }
     else
     {
-        field_10_anim.field_C_layer = 17;
+        field_10_anim.field_C_layer = Layer::eLayer_17;
     }
 
     field_CC_bApplyShadows &= ~1u;

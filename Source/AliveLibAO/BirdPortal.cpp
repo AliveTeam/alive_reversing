@@ -91,11 +91,11 @@ BirdPortalTerminator* BirdPortalTerminator::ctor_451F70(FP xpos, FP ypos, FP sca
     field_BC_sprite_scale = scale;
     if (scale == FP_FromInteger(1))
     {
-        field_10_anim.field_C_layer = 39;
+        field_10_anim.field_C_layer = Layer::eLayer_39;
     }
     else
     {
-        field_10_anim.field_C_layer = 20;
+        field_10_anim.field_C_layer = Layer::eLayer_20;
     }
 
     field_CC_bApplyShadows &= ~1u;
@@ -173,11 +173,11 @@ BaseGameObject* BirdPortal::dtor_452230()
         }
     }
 
-    if (field_5C)
+    if (field_5C_pThrowableTotalIndicator)
     {
-        field_5C->field_6_flags.Set(Options::eDead_Bit3);
-        field_5C->field_C_refCount--;
-        field_5C = nullptr;
+        field_5C_pThrowableTotalIndicator->field_6_flags.Set(Options::eDead_Bit3);
+        field_5C_pThrowableTotalIndicator->field_C_refCount--;
+        field_5C_pThrowableTotalIndicator = nullptr;
     }
 
     BYTE** ppRes = nullptr;
@@ -203,11 +203,11 @@ BaseGameObject* BirdPortal::dtor_452230()
         {
             if (field_34_scale == FP_FromInteger(1))
             {
-                sActiveHero_507678->field_10_anim.field_C_layer = 32;
+                sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_32;
             }
             else
             {
-                sActiveHero_507678->field_10_anim.field_C_layer = 13;
+                sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_13;
             }
         }
     }
@@ -256,7 +256,7 @@ BirdPortal* BirdPortal::ctor_4520A0(Path_BirdPortal* pTlv, int tlvInfo)
     field_48_pScreenClipper = nullptr;
     field_4C_pDovesArray = nullptr;
     field_60_pOrbWhirlWind = nullptr;
-    field_5C = 0;
+    field_5C_pThrowableTotalIndicator = nullptr;
 
     PathLine* pLine = nullptr;
     FP hitX = {};
@@ -348,18 +348,27 @@ void BirdPortal::VUpdate_4523D0()
 
         if (field_10_portal_type == PortalType::eShrykull_2)
         {
-            field_5C = ao_new<ThrowableTotalIndicator>();
-            if (field_5C)
+            field_5C_pThrowableTotalIndicator = ao_new<ThrowableTotalIndicator>();
+            if (field_5C_pThrowableTotalIndicator)
             {
-                field_5C->ctor_41B520(
+                Layer indicatorLayer = Layer::eLayer_0;
+                if (field_34_scale != FP_FromDouble(0.5))
+                {
+                    indicatorLayer = Layer::eLayer_27;
+                }
+                else
+                {
+                    indicatorLayer = Layer::eLayer_8;
+                }
+                field_5C_pThrowableTotalIndicator->ctor_41B520(
                     field_18_xpos,
                     field_1C_ypos + FP_FromInteger(10),
-                    field_34_scale != FP_FromDouble(0.5) ? 27 : 8,
+                    indicatorLayer,
                     field_34_scale,
                     field_56_num_muds_for_shrykull,
                     0);
+                field_5C_pThrowableTotalIndicator->field_C_refCount++;
             }
-            field_5C->field_C_refCount++;
         }
 
         field_14_state = States::State_1;
@@ -398,11 +407,11 @@ void BirdPortal::VUpdate_4523D0()
 
                 field_4C_pDovesArray = nullptr;
 
-                if (field_5C)
+                if (field_5C_pThrowableTotalIndicator)
                 {
-                    field_5C->field_6_flags.Set(Options::eDead_Bit3);
-                    field_5C->field_C_refCount--;
-                    field_5C = nullptr;
+                    field_5C_pThrowableTotalIndicator->field_6_flags.Set(Options::eDead_Bit3);
+                    field_5C_pThrowableTotalIndicator->field_C_refCount--;
+                    field_5C_pThrowableTotalIndicator = nullptr;
                 }
 
                 SFX_Play_43AD70(SoundEffect::Dove_16, 70, 0);
@@ -411,11 +420,11 @@ void BirdPortal::VUpdate_4523D0()
         }
         else
         {
-            if (field_5C)
+            if (field_5C_pThrowableTotalIndicator)
             {
-                field_5C->field_6_flags.Set(Options::eDead_Bit3);
-                field_5C->field_C_refCount--;
-                field_5C = nullptr;
+                field_5C_pThrowableTotalIndicator->field_6_flags.Set(Options::eDead_Bit3);
+                field_5C_pThrowableTotalIndicator->field_C_refCount--;
+                field_5C_pThrowableTotalIndicator = nullptr;
             }
 
             for (int i = 0; i < field_4C_pDovesArray->Size(); i++)
@@ -694,7 +703,7 @@ void BirdPortal::VUpdate_4523D0()
         auto pFlash = ao_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_41A810(40, 255u, 255u, 255u, 1, 3u, 1);
+            pFlash->ctor_41A810(Layer::eLayer_40, 255u, 255u, 255u, 1, 3u, 1);
         }
         field_14_state = States::State_13;
     }
@@ -705,7 +714,7 @@ void BirdPortal::VUpdate_4523D0()
         auto pFlash = ao_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_41A810(40, 255u, 255u, 255u, 1, 0, 1);
+            pFlash->ctor_41A810(Layer::eLayer_40, 255u, 255u, 255u, 1, 0, 1);
         }
         field_14_state = States::State_14;
     }
@@ -716,7 +725,7 @@ void BirdPortal::VUpdate_4523D0()
         auto pFlash = ao_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_41A810(40, 255u, 255u, 255u, 0, 0, 1);
+            pFlash->ctor_41A810(Layer::eLayer_40, 255u, 255u, 255u, 0, 0, 1);
         }
         field_14_state = States::State_15;
         field_30_timer = gnFrameCount_507670 + 5;
@@ -1045,12 +1054,12 @@ void BirdPortal::VExitPortal_453720()
     if (pPortalExitTlv->field_1A_scale == 1)
     {
         field_34_scale = FP_FromDouble(0.5);
-        sActiveHero_507678->field_10_anim.field_C_layer = 11;
+        sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_11;
     }
     else
     {
         field_34_scale = FP_FromInteger(1);
-        sActiveHero_507678->field_10_anim.field_C_layer = 30;
+        sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_30;
     }
 
     sActiveHero_507678->field_BC_sprite_scale = field_34_scale;
@@ -1141,29 +1150,29 @@ __int16 BirdPortal::VPortalClipper_4533E0(__int16 bUnknown)
     field_44_pScreenClipper = ao_new<ScreenClipper>();
     if (field_44_pScreenClipper)
     {
-        field_44_pScreenClipper->ctor_40BD60(xy, wh, 0);
+        field_44_pScreenClipper->ctor_40BD60(xy, wh, Layer::eLayer_0);
 
         if (field_34_scale == FP_FromInteger(1))
         {
-            field_44_pScreenClipper->field_38_ot_layer = 29;
+            field_44_pScreenClipper->field_38_ot_layer = Layer::eLayer_29;
         }
         else
         {
-            field_44_pScreenClipper->field_38_ot_layer = 10;
+            field_44_pScreenClipper->field_38_ot_layer = Layer::eLayer_10;
         }
     }
 
     field_48_pScreenClipper = ao_new<ScreenClipper>();
     if (field_48_pScreenClipper)
     {
-        field_48_pScreenClipper->ctor_40BD60({ 0, 0 }, { 640, 240 }, 0);
+        field_48_pScreenClipper->ctor_40BD60({ 0, 0 }, { 640, 240 }, Layer::eLayer_0);
         if (field_34_scale == FP_FromInteger(1))
         {
-            field_48_pScreenClipper->field_38_ot_layer = 31;
+            field_48_pScreenClipper->field_38_ot_layer = Layer::eLayer_31;
         }
         else
         {
-            field_48_pScreenClipper->field_38_ot_layer = 12;
+            field_48_pScreenClipper->field_38_ot_layer = Layer::eLayer_12;
         }
     }
 

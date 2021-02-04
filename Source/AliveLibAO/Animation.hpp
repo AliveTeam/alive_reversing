@@ -6,6 +6,7 @@
 #include "BitField.hpp"
 #include "Psx.hpp"
 #include "Primitives.hpp"
+#include "Layer.hpp"
 
 namespace AO {
 
@@ -167,7 +168,6 @@ enum AnimFlags
     // Bit 26-32 = nothing ?
 };
 
-
 class AnimationBase
 {
 public:
@@ -187,7 +187,7 @@ public:
     BYTE field_A_b;
     BYTE field_B_render_mode;
 
-    __int16 field_C_layer;
+    Layer field_C_layer;
     __int16 field_E_frame_change_counter;
 };
 

@@ -264,7 +264,6 @@ void Electrocute::VUpdate_48D5C0()
         return;
     }
 
-    LOG_INFO("state: " << (int)field_32_state);
     switch (field_32_state)
     {
     case States::eSetNewColour_0:

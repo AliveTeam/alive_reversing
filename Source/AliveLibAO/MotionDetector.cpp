@@ -30,7 +30,7 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, int tlvIn
     field_10_anim.field_4_flags.Set(AnimFlags::eBit7_SwapXY);
 
     field_10_anim.field_B_render_mode = 1;
-    field_10_anim.field_C_layer = 36;
+    field_10_anim.field_C_layer = Layer::eLayer_36;
     field_C8_yOffset = 0;
     field_C0_r = 64;
     field_C4_b = 0;
@@ -76,7 +76,7 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, int tlvIn
                 ppMotionRes,
                 1);
             pMotionDetectors->field_10_anim.field_B_render_mode = 1;
-            pMotionDetectors->field_10_anim.field_C_layer = 36;
+            pMotionDetectors->field_10_anim.field_C_layer = Layer::eLayer_36;
 
             pMotionDetectors->field_A8_xpos = field_F8_top_left_x;
             pMotionDetectors->field_AC_ypos = field_104_bottom_right_y;
@@ -103,7 +103,7 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, int tlvIn
                 ppMotionRes,
                 1);
             pMotionDetectors->field_10_anim.field_B_render_mode = 1;
-            pMotionDetectors->field_10_anim.field_C_layer = 36;
+            pMotionDetectors->field_10_anim.field_C_layer = Layer::eLayer_36;
             pMotionDetectors->field_A8_xpos = field_100_bottom_right_x;
             pMotionDetectors->field_AC_ypos = field_104_bottom_right_y;
             pMotionDetectors->field_BC_sprite_scale = field_BC_sprite_scale;
@@ -272,7 +272,7 @@ void MotionDetector::VUpdate_437E90()
                                         field_F4_alarm_time,
                                         field_F2_alarm_trigger,
                                         0,
-                                        39);
+                                        Layer::eLayer_39);
                                 }
 
                                 if (pObj == sActiveHero_507678)
@@ -373,11 +373,11 @@ void MotionDetector::VRender_438250(PrimHeader** ppOt)
 
         // Add triangle
         Poly_Set_SemiTrans_498A40(&pPrim->mBase.header, TRUE);
-        OrderingTable_Add_498A80(&ppOt[field_10_anim.field_C_layer], &pPrim->mBase.header);
+        OrderingTable_Add_498A80(OtLayer(ppOt, field_10_anim.field_C_layer), &pPrim->mBase.header);
 
         // Add tpage
         Init_SetTPage_495FB0(&field_13C_tPage[gPsxDisplay_504C78.field_A_buffer_index], 0, 0,  PSX_getTPage_4965D0(2, field_160_bObjectInLaser != 0 ? 1 : 3, 0, 0)); // When detected transparency is off, gives the "solid red" triangle
-        OrderingTable_Add_498A80(&ppOt[field_10_anim.field_C_layer], &field_13C_tPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
+        OrderingTable_Add_498A80(OtLayer(ppOt, field_10_anim.field_C_layer), &field_13C_tPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
         
         pScreenManager_4FF7C8->InvalidateRect_406E40(
             std::min(x0, std::min(x1, x1)),

@@ -57,7 +57,7 @@ FallingItem* FallingItem::ctor_419F30(Path_FallingItem* pTlv, int tlvInfo)
         ppRes,
         1);
 
-    field_10_anim.field_C_layer = 31;
+    field_10_anim.field_C_layer = Layer::eLayer_31;
     if (gMap_507BA8.field_0_current_level == LevelIds::eLines_2)
     {
         field_C0_r = 77;

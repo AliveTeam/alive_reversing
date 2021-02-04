@@ -87,11 +87,11 @@ Spark* Spark::ctor_477B70(FP xpos, FP ypos, FP scale, unsigned __int8 count, __i
 
             if (scale == FP_FromInteger(1))
             {
-                pParticle->field_10_anim.field_C_layer = 36;
+                pParticle->field_10_anim.field_C_layer = Layer::eLayer_36;
             }
             else
             {
-                pParticle->field_10_anim.field_C_layer = 17;
+                pParticle->field_10_anim.field_C_layer = Layer::eLayer_17;
             }
 
             pParticle->field_BC_sprite_scale = scale;

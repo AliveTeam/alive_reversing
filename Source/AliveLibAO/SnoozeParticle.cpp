@@ -82,7 +82,7 @@ void SnoozeParticle::VScreenChanged()
     VScreenChanged_464CD0();
 }
 
-SnoozeParticle* SnoozeParticle::ctor_464320(FP xpos, FP ypos, __int16 layer, FP scale)
+SnoozeParticle* SnoozeParticle::ctor_464320(FP xpos, FP ypos, Layer layer, FP scale)
 {
     ctor_487E10(1);
 
@@ -273,7 +273,7 @@ void SnoozeParticle::VRender_464620(PrimHeader** ppOt)
             );
 
             Poly_Set_SemiTrans_498A40(&pZExplosionLine->mBase.header, 1);
-            OrderingTable_Add_498A80(&ppOt[field_30_layer], &pZExplosionLine->mBase.header);
+            OrderingTable_Add_498A80(OtLayer(ppOt, field_30_layer), &pZExplosionLine->mBase.header);
         }
         rectToInvalidate.x = static_cast<__int16>(PsxToPCX(xInScreen - 8, 0));
         rectToInvalidate.w = static_cast<__int16>(PsxToPCX(xInScreen + 8, 0));
@@ -335,7 +335,7 @@ void SnoozeParticle::VRender_464620(PrimHeader** ppOt)
         );
 
         Poly_Set_SemiTrans_498A40(&pZLine->mBase.header, 1);
-        OrderingTable_Add_498A80(&ppOt[field_30_layer], &pZLine->mBase.header);
+        OrderingTable_Add_498A80(OtLayer(ppOt, field_30_layer), &pZLine->mBase.header);
         rectToInvalidate.x = rectX_v;
         rectToInvalidate.y = rectY_v;
         rectToInvalidate.w = rectW_v;
@@ -344,7 +344,7 @@ void SnoozeParticle::VRender_464620(PrimHeader** ppOt)
     Prim_SetTPage* thisTPage = &field_1B4_tPage[bufIdx];
     const int tPage = PSX_getTPage_4965D0(0, 1, 0, 0);
     Init_SetTPage_495FB0(thisTPage, 1, 0, tPage);
-    OrderingTable_Add_498A80(&ppOt[field_30_layer], &thisTPage->mBase);
+    OrderingTable_Add_498A80(OtLayer(ppOt, field_30_layer), &thisTPage->mBase);
 
     pScreenManager_4FF7C8->InvalidateRect_406E40(
         rectToInvalidate.x, rectToInvalidate.y,

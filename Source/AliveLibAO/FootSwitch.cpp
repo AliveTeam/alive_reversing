@@ -19,7 +19,7 @@ FootSwitch* FootSwitch::ctor_4887F0(Path_FootSwitch* pTlv, int tlvInfo)
     BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kTriggerResID, 1, 0);
     Animation_Init_417FD0(744, 68, 15, ppRes, 1);
 
-    field_10_anim.field_C_layer = 25;
+    field_10_anim.field_C_layer = Layer::eLayer_25;
 
     field_EA_id = pTlv->field_18_id;
     if (pTlv->field_1A_scale == 1)

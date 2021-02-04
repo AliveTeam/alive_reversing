@@ -4,6 +4,7 @@
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 #include "Primitives.hpp"
+#include "Layer.hpp"
 
 namespace AO {
 

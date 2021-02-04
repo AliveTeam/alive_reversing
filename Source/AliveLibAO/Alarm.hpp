@@ -2,6 +2,7 @@
 
 #include "FunctionFwd.hpp"
 #include "EffectBase.hpp"
+#include "Layer.hpp"
 
 namespace AO {
 
@@ -11,7 +12,7 @@ void Alarm_ForceLink();
 class Alarm : public EffectBase
 {
 public:
-    EXPORT Alarm* ctor_402570(__int16 a2, __int16 switchId, __int16 a4, __int16 layer);
+    EXPORT Alarm* ctor_402570(__int16 a2, __int16 switchId, __int16 a4, Layer layer);
 
     EXPORT BaseGameObject* dtor_402630();
 

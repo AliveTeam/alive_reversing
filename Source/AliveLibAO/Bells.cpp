@@ -45,7 +45,7 @@ Bells* Bells::ctor_40A650(BellSize bellType, FP xpos, FP ypos, FP scale)
     field_A8_xpos = xpos;
     field_AC_ypos = ypos;
 
-    field_10_anim.field_C_layer = 36;
+    field_10_anim.field_C_layer = Layer::eLayer_36;
 
     field_E8_bSmashing = 0;
 

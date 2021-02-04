@@ -107,13 +107,14 @@ SecurityClaw* SecurityClaw::ctor_418A70(Path_SecurityClaw* pTlv, int tlvInfo)
     {
         pClaw->ctor();
         pClaw->field_BC_sprite_scale = field_BC_sprite_scale;
-        pClaw->field_10_anim.field_C_layer = field_10_anim.field_C_layer + 1;
-    }
-    field_130_pClaw = pClaw;
+        pClaw->field_10_anim.field_C_layer = field_BC_sprite_scale == FP_FromInteger(1) ? Layer::eLayer_28 : Layer::eLayer_9;
 
-    pClaw->field_A8_xpos = field_11C_clawX;
-    pClaw->field_AC_ypos = field_120_clawY;
-    pClaw->SetTint_418750(&stru_4C5498[0], gMap_507BA8.field_0_current_level);
+        field_130_pClaw = pClaw;
+
+        pClaw->field_A8_xpos = field_11C_clawX;
+        pClaw->field_AC_ypos = field_120_clawY;
+        pClaw->SetTint_418750(&stru_4C5498[0], gMap_507BA8.field_0_current_level);
+    }
 
     field_6_flags.Set(Options::eUpdateDuringCamSwap_Bit10);
     field_13C_pArray = nullptr;
@@ -374,7 +375,7 @@ void SecurityClaw::VUpdate_418DE0()
                 auto pAlarm = ao_new<Alarm>();
                 if (pAlarm)
                 {
-                    pAlarm->ctor_402570(field_11A, field_118_alarm_id, 30, 39);
+                    pAlarm->ctor_402570(field_11A, field_118_alarm_id, 30, Layer::eLayer_39);
                 }
             }
         }
@@ -402,7 +403,8 @@ void SecurityClaw::VUpdate_418DE0()
                     field_AC_ypos + (FP_FromInteger(5) * field_BC_sprite_scale),
                     hero_mid_x,
                     hero_mid_y,
-                    8, ZapLineType::eThick_0, 28);
+                    8, ZapLineType::eThick_0,
+                    Layer::eLayer_28);
             }
 
             auto pPossessionFlicker = ao_new<PossessionFlicker>();
@@ -471,7 +473,7 @@ void SecurityClaw::VUpdate_418DE0()
             auto pFlash = ao_new<Flash>();
             if (pFlash)
             {
-                pFlash->ctor_41A810(39, 255u, 0, 0, 1, 3u, 1);
+                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 0, 1, 3u, 1);
             }
         }
 
@@ -480,7 +482,7 @@ void SecurityClaw::VUpdate_418DE0()
             auto pFlash = ao_new<Flash>();
             if (pFlash)
             {
-                pFlash->ctor_41A810(39, 255u, 0, 0, 1, 1u, 1);
+                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 0, 1, 1u, 1);
             }
         }
 

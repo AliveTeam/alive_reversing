@@ -53,6 +53,11 @@ void CC OrderingTable_Add_498A80(PrimHeader** ppOt, PrimHeader* pItem)
     OrderingTable_Add_4F8AA0(ppOt, pItem);
 }
 
+PrimHeader** OtLayer(PrimHeader** ppOt, Layer layer)
+{
+    return &ppOt[static_cast<unsigned int>(layer)];
+}
+
 void CC PolyG4_Init_498890(Poly_G4* pPoly)
 {
     AE_IMPLEMENTED();

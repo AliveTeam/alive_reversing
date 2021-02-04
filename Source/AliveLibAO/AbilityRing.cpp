@@ -162,7 +162,7 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, __int16 type)
         }
 
         field_272_path = gMap_507BA8.field_2_current_path;
-        field_10_layer = 39;
+        field_10_layer = Layer::eLayer_39;
         field_270_level = gMap_507BA8.field_0_current_level;
         field_26C_semiTrans = 1;
         field_26E_tPageMode = 1;
@@ -442,7 +442,7 @@ void AbilityRing::VRender_456340(PrimHeader** ppOt)
                 SetXY2(pPoly, x3, y3);
                 SetXY3(pPoly, x4, y4);
 
-                OrderingTable_Add_498A80(&ppOt[field_10_layer], &pPoly->mBase.header);
+                OrderingTable_Add_498A80(OtLayer(ppOt, field_10_layer), &pPoly->mBase.header);
 
                 pScreenManager_4FF7C8->InvalidateRect_406E40(
                     rect.x,
@@ -463,7 +463,7 @@ void AbilityRing::VRender_456340(PrimHeader** ppOt)
 
             ang += 4;
         }
-        OrderingTable_Add_498A80(&ppOt[field_10_layer], &field_1C_primSetTPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
+        OrderingTable_Add_498A80(OtLayer(ppOt, field_10_layer), &field_1C_primSetTPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
     }
 }
 

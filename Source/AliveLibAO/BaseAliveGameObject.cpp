@@ -331,7 +331,7 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(__int16 distance)
                             {
                                 if (pPortal->VPortalClipper(1))
                                 {
-                                    field_10_anim.field_C_layer = field_BC_sprite_scale != FP_FromInteger(1) ? 11 : 30;
+                                    field_10_anim.field_C_layer = field_BC_sprite_scale != FP_FromInteger(1) ? Layer::eLayer_11 : Layer::eLayer_30;
                                     return pPortal;
                                 }
                             }
@@ -351,7 +351,7 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(__int16 distance)
                             {
                                 if (pPortal->VPortalClipper(1))
                                 {
-                                    field_10_anim.field_C_layer = field_BC_sprite_scale != FP_FromInteger(1) ? 11 : 30;
+                                    field_10_anim.field_C_layer = field_BC_sprite_scale != FP_FromInteger(1) ? Layer::eLayer_11 : Layer::eLayer_30;
                                     return pPortal;
                                 }
                             }

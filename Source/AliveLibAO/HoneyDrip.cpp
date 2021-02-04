@@ -26,7 +26,7 @@ HoneyDrip* HoneyDrip::ctor_431D10(FP xpos, FP ypos)
     field_AC_ypos = ypos;
     field_A8_xpos = xpos;
 
-    field_10_anim.field_C_layer = 22;
+    field_10_anim.field_C_layer = Layer::eLayer_22;
 
     field_E4_bSoundPlaying = FALSE;
 

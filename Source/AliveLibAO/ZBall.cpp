@@ -165,20 +165,20 @@ void ZBall::VUpdate_478720()
     {
         if (field_BC_sprite_scale == FP_FromInteger(1))
         {
-            field_10_anim.field_C_layer = 36;
+            field_10_anim.field_C_layer = Layer::eLayer_36;
         }
         else
         {
-            field_10_anim.field_C_layer = 17;
+            field_10_anim.field_C_layer = Layer::eLayer_17;
         }
     }
     else if (field_BC_sprite_scale == FP_FromInteger(1))
     {
-        field_10_anim.field_C_layer = 22;
+        field_10_anim.field_C_layer = Layer::eLayer_22;
     }
     else
     {
-        field_10_anim.field_C_layer = 3;
+        field_10_anim.field_C_layer = Layer::eLayer_3;
     }
 
     // Pointless because never seems to be read

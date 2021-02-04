@@ -4,6 +4,7 @@
 #include "BaseGameObject.hpp"
 #include "Primitives.hpp"
 #include "FixedPoint.hpp"
+#include "Layer.hpp"
 
 namespace AO {
 
@@ -18,7 +19,7 @@ public:
         BlowingUp_2 = 2
     };
 
-    EXPORT SnoozeParticle* ctor_464320(FP xpos, FP ypos, __int16 layer, FP scale);
+    EXPORT SnoozeParticle* ctor_464320(FP xpos, FP ypos, Layer layer, FP scale);
 
     virtual void VScreenChanged() override;
 
@@ -46,7 +47,7 @@ public:
     FP field_24_dy;
     FP field_28_scale;
     FP field_2C_scale_dx;
-    __int16 field_30_layer;
+    Layer field_30_layer;
     __int16 field_32_r;
     __int16 field_34_g;
     __int16 field_36_b;

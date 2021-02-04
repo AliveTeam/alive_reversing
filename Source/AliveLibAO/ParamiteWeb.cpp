@@ -76,12 +76,12 @@ ParamiteWeb* ParamiteWeb::ctor_48A920(FP xpos, __int16 bottom, __int16 top, FP s
 
     if (scale == FP_FromInteger(1))
     {
-        field_10_anim.field_C_layer = 24;
+        field_10_anim.field_C_layer = Layer::eLayer_24;
         field_C6_scale = 1;
     }
     else
     {
-        field_10_anim.field_C_layer = 5;
+        field_10_anim.field_C_layer = Layer::eLayer_5;
         field_C6_scale = 0;
     }
 

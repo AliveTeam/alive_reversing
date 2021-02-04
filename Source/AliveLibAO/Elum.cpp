@@ -3964,12 +3964,12 @@ Elum* Elum::ctor_410870(int, anythingForTheTimeBeing, anythingForTheTimeBeing, i
     if (field_BC_sprite_scale == FP_FromInteger(1))
     {
         field_C6_scale = 1;
-        field_10_anim.field_C_layer = 28;
+        field_10_anim.field_C_layer = Layer::eLayer_28;
     }
     else
     {
         field_C6_scale = 0;
-        field_10_anim.field_C_layer = 9;
+        field_10_anim.field_C_layer = Layer::eLayer_9;
     }
 
     field_10A_flags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);

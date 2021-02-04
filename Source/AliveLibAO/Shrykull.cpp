@@ -215,7 +215,8 @@ void Shrykull::VUpdate_463AE0()
                             FP_FromInteger((ourRect.y + ourRect.h) / 2),
                             FP_FromInteger((objRect.x + objRect.w) / 2),
                             FP_FromInteger((objRect.y + objRect.h) / 2),
-                            0, ZapLineType::eThin_1, 28);
+                            0, ZapLineType::eThin_1,
+                            Layer::eLayer_28);
                     }
                     pZapLine->field_C_refCount++;
                     field_118_zap_line = pZapLine;
@@ -353,7 +354,7 @@ void Shrykull::VUpdate_463AE0()
                     auto pFlash = ao_new<Flash>();
                     if (pFlash)
                     {
-                        pFlash->ctor_41A810(39, 255u, 255u, 255u, 1, 3u, 1);
+                        pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u, 1, 3u, 1);
                     }
 
                 }

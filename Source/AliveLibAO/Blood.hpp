@@ -4,6 +4,7 @@
 #include "Primitives.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "FixedPoint.hpp"
+#include "Layer.hpp"
 
 namespace AO {
 
@@ -54,7 +55,7 @@ public:
     char field_115_pad;
     __int16 field_116_total_count;
     int field_118_timer;
-    __int16 field_11C_render_layer;
+    Layer field_11C_render_layer;
     __int16 field_11E_pad;
 };
 ALIVE_ASSERT_SIZEOF(Blood, 0x120);
