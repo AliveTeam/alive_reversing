@@ -2,6 +2,7 @@
 
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "FunctionFwd.hpp"
+#include "Layer.hpp"
 
 struct BloodParticle
 {
@@ -41,7 +42,7 @@ private:
     // pad
     __int16 field_126_total_count;
     int field_128_timer;
-    __int16 field_12C_render_layer;
+    Layer field_12C_render_layer;
     //__int16 field_12E_pad;
 };
 ALIVE_ASSERT_SIZEOF(Blood, 0x130);

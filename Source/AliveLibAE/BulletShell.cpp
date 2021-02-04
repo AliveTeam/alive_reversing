@@ -31,11 +31,11 @@ BulletShell* BulletShell::ctor_4AD340(FP xpos, FP ypos, __int16 direction, FP sc
 
         if (scale == FP_FromInteger(1))
         {
-            field_20_animation.field_C_render_layer = 36;
+            field_20_animation.field_C_render_layer = Layer::eLayer_36;
         }
         else
         {
-            field_20_animation.field_C_render_layer = 17;
+            field_20_animation.field_C_render_layer = Layer::eLayer_17;
         }
 
         field_DC_bApplyShadows &= ~1u;

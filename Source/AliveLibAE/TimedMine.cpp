@@ -77,13 +77,13 @@ TimedMine* TimedMine::ctor_410600(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
         field_D6_scale = 0;
-        field_20_animation.field_C_render_layer = 16;
+        field_20_animation.field_C_render_layer = Layer::eLayer_16;
     }
     else
     {
         field_CC_sprite_scale = FP_FromDouble(1.0);
         field_D6_scale = 1;
-        field_20_animation.field_C_render_layer = 35;
+        field_20_animation.field_C_render_layer = Layer::eLayer_35;
     }
 
     InitBlinkAnimation_4108E0(&field_124_animation);

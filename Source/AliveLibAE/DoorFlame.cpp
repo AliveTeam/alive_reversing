@@ -34,8 +34,8 @@ public:
         field_B8_xpos = xpos;
         field_BC_ypos = ypos + FP_FromInteger(4);
 
-        field_20_animation.field_C_render_layer = 12;
-        field_20_animation.field_B_render_mode = 3;
+        field_20_animation.field_C_render_layer = Layer::eLayer_12;
+        field_20_animation.field_B_render_mode = static_cast<char>(Layer::eLayer_3);
 
         field_D0_r = 140;
         field_D2_g = 90;
@@ -177,7 +177,7 @@ public:
         field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
         field_DC_bApplyShadows |= 1u;
-        field_20_animation.field_C_render_layer = 17;
+        field_20_animation.field_C_render_layer = Layer::eLayer_17;
 
         field_B8_xpos = xpos;
         field_BC_ypos = ypos;
@@ -193,7 +193,9 @@ public:
             anim.field_14.field_4_flags.Set(AnimFlags::eBit3_Render);
             anim.field_14.field_4_flags.Set(AnimFlags::eBit16_bBlending);
 
-            anim.field_14.field_C_render_layer = field_20_animation.field_C_render_layer + Math_RandomRange_496AB0(-1, 1);
+            // TODO: clean this up
+            const int rndLayer = static_cast<int>(field_20_animation.field_C_render_layer) + Math_RandomRange_496AB0(-1, 1);
+            anim.field_14.field_C_render_layer = static_cast<Layer>(rndLayer);
             anim.field_14.field_6C_scale = field_CC_sprite_scale;
 
             anim.field_0_x = field_B8_xpos;
@@ -378,7 +380,7 @@ DoorFlame* DoorFlame::ctor_45E460(Path_DoorFlame* pTlv, int tlvInfo)
     
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_DC_bApplyShadows |= 1u;
-    field_20_animation.field_C_render_layer = 17;
+    field_20_animation.field_C_render_layer = Layer::eLayer_17;
     field_FA_frame_count = field_20_animation.Get_Frame_Count_40AC70();
     field_20_animation.SetFrame_409D50(Math_RandomRange_496AB0(0, field_FA_frame_count - 1));
     

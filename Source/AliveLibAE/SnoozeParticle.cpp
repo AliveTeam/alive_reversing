@@ -74,7 +74,7 @@ const PSX_Point explosionVerts[6][2] =
     { { 3, 4 }, { 6, 7 } }
 };
 
-SnoozeParticle* SnoozeParticle::ctor_4B06F0(FP xpos, FP ypos, __int16 layer, FP scale)
+SnoozeParticle* SnoozeParticle::ctor_4B06F0(FP xpos, FP ypos, Layer layer, FP scale)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
@@ -238,7 +238,7 @@ void SnoozeParticle::Render_4B0AF0(PrimHeader** ppOt)
             );
 
             Poly_Set_SemiTrans_4F8A60(&pZExplosionLine->mBase.header, 1);
-            OrderingTable_Add_4F8AA0(&ppOt[field_40_layer], &pZExplosionLine->mBase.header);
+            OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_40_layer), &pZExplosionLine->mBase.header);
         }
         rectToInvalidate.x = static_cast<__int16>(PsxToPCX(xInScreen - 8, 0));
         rectToInvalidate.w = static_cast<__int16>(PsxToPCX(xInScreen + 8, 0));
@@ -300,7 +300,7 @@ void SnoozeParticle::Render_4B0AF0(PrimHeader** ppOt)
         );
 
         Poly_Set_SemiTrans_4F8A60(&pZLine->mBase.header, 1);
-        OrderingTable_Add_4F8AA0(&ppOt[field_40_layer], &pZLine->mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_40_layer), &pZLine->mBase.header);
         rectToInvalidate.x = rectX_v;
         rectToInvalidate.y = rectY_v;
         rectToInvalidate.w = rectW_v;
@@ -309,7 +309,7 @@ void SnoozeParticle::Render_4B0AF0(PrimHeader** ppOt)
     Prim_SetTPage* thisTPage = &field_1C4_tPage[bufIdx];
     const int tPage = PSX_getTPage_4F60E0(0, 1, 0, 0);
     Init_SetTPage_4F5B60(thisTPage, 1, 0, tPage);
-    OrderingTable_Add_4F8AA0(&ppOt[field_40_layer], &thisTPage->mBase);
+    OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_40_layer), &thisTPage->mBase);
 
     pScreenManager_5BB5F4->InvalidateRect_40EC90(
         rectToInvalidate.x, rectToInvalidate.y,

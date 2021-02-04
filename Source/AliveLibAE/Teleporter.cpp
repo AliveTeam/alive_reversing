@@ -305,7 +305,7 @@ void Teleporter::vUpdate_4DC400()
                 sControlledCharacter_5C1B8C->field_C8_vely *= FP_FromDouble(0.5);
             }
             sControlledCharacter_5C1B8C->field_CC_sprite_scale = FP_FromDouble(0.5);
-            sControlledCharacter_5C1B8C->field_20_animation.field_C_render_layer = 13;
+            sControlledCharacter_5C1B8C->field_20_animation.field_C_render_layer = Layer::eLayer_13;
             sControlledCharacter_5C1B8C->field_D6_scale = 0;
         }
         else
@@ -316,7 +316,7 @@ void Teleporter::vUpdate_4DC400()
                 sControlledCharacter_5C1B8C->field_C8_vely *= FP_FromInteger(2);
             }
             sControlledCharacter_5C1B8C->field_CC_sprite_scale = FP_FromInteger(1);
-            sControlledCharacter_5C1B8C->field_20_animation.field_C_render_layer = 32;
+            sControlledCharacter_5C1B8C->field_20_animation.field_C_render_layer = Layer::eLayer_32;
             sControlledCharacter_5C1B8C->field_D6_scale = 1;
         }
 

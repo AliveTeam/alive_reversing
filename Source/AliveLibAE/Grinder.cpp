@@ -75,13 +75,13 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
     if (!tlvData.field_10_scale_background)
     {
         field_CC_sprite_scale = FP_FromInteger(1);
-        field_20_animation.field_C_render_layer = 24;
+        field_20_animation.field_C_render_layer = Layer::eLayer_24;
         field_D6_scale = 1;
     }
     else
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_20_animation.field_C_render_layer = 5;
+        field_20_animation.field_C_render_layer = Layer::eLayer_5;
         field_D6_scale = 0;
     }
 

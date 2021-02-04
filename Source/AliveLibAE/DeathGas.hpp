@@ -2,13 +2,14 @@
 
 #include "FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
+#include "Layer.hpp"
 
 ALIVE_VAR_EXTERN(int, gDeathGasCount_5BD24C);
 
 class DeathGas : public BaseGameObject
 {
 public:
-    EXPORT DeathGas* ctor_43C030(__int16 layer, __int16 amount);
+    EXPORT DeathGas* ctor_43C030(Layer layer, __int16 amount);
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
@@ -33,7 +34,7 @@ private:
     __int16 field_22_unused; // Gets increased by two every vUpdate_43C300. Isn't used anywhere else -- Nemin (6/7/2020)
     __int16 field_24_amount;
     __int16 field_26_flag;
-    __int16 field_28_layer;
+    Layer field_28_layer;
     __int16 field_2A_padding;
     __int16 field_2C_padding;
     __int16 field_2E_padding;

@@ -39,11 +39,11 @@ DeathBirdParticle* DeathBirdParticle::ctor_43ECB0(FP xpos, FP ypos, int start, _
 
         if (scale <= FP_FromDouble(0.5))
         {
-            field_20_animation.field_C_render_layer = 17;
+            field_20_animation.field_C_render_layer = Layer::eLayer_17;
         }
         else
         {
-            field_20_animation.field_C_render_layer = 39;
+            field_20_animation.field_C_render_layer = Layer::eLayer_39;
         }
 
         field_B8_xpos = xpos;

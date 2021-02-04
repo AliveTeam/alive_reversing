@@ -5,6 +5,7 @@
 #include "Animation.hpp"
 #include "Path.hpp"
 #include "Factory.hpp"
+#include "Layer.hpp"
 
 struct BackgroundAnimation_TLV : public Path_TLV
 {
@@ -13,7 +14,7 @@ struct BackgroundAnimation_TLV : public Path_TLV
     __int16 field_14_semi_trans_mode;
     __int16 field_16_sound_effect;
     __int16 field_18_id;
-    unsigned __int16 field_1A_layer;
+    Layer field_1A_layer;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(BackgroundAnimation_TLV, 0x1C);
 

@@ -40,11 +40,11 @@ EvilFart* EvilFart::ctor_422E30()
     field_D6_scale = sActiveHero_5C1B68->field_D6_scale;
     if (field_D6_scale == 1)
     {
-        field_20_animation.field_C_render_layer = 33;
+        field_20_animation.field_C_render_layer = Layer::eLayer_33;
     }
     else
     {
-        field_20_animation.field_C_render_layer = 14;
+        field_20_animation.field_C_render_layer = Layer::eLayer_14;
     }
 
     if (sActiveHero_5C1B68->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -565,7 +565,7 @@ void EvilFart::vUpdate_423100()
                 v19 + field_B8_xpos,
                 v18 + field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(54)),
                 field_CC_sprite_scale,
-                0);
+                Layer::eLayer_0);
         }
 
         if (!field_118_bBlowUp && static_cast<int>(sGnFrame_5C1B84) > field_128_timer)

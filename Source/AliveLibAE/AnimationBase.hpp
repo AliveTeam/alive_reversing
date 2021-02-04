@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Primitives.hpp"
+#include "Layer.hpp"
 
 enum AnimFlags
 {
@@ -101,7 +102,7 @@ public:
     BYTE field_9_g;
     BYTE field_A_b;
     BYTE field_B_render_mode;
-    WORD field_C_render_layer;
+    Layer field_C_render_layer;
     WORD field_E_frame_change_counter;
 };
 ALIVE_ASSERT_SIZEOF(AnimationBase, 0x10);

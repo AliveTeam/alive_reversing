@@ -32,13 +32,13 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, int tlvInfo)
 
     if (pTlv->field_10_scale)
     {
-        field_20_animation.field_C_render_layer = 14;
+        field_20_animation.field_C_render_layer = Layer::eLayer_14;
         field_CC_sprite_scale = FP_FromDouble(0.5);
         field_D6_scale = 0;
     }
     else
     {
-        field_20_animation.field_C_render_layer = 33;
+        field_20_animation.field_C_render_layer = Layer::eLayer_33;
         field_CC_sprite_scale = FP_FromInteger(1);
         field_D6_scale = 1;
     }
@@ -543,7 +543,7 @@ void Greeter::ZapTarget_447320(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
             ypos,
             8,
             ZapLineType::eThick_0,
-            28);
+            Layer::eLayer_28);
     }
 
     auto pZapLine2 = ae_new<ZapLine>();
@@ -556,7 +556,7 @@ void Greeter::ZapTarget_447320(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
             ypos,
             8,
             ZapLineType::eThick_0,
-            28);
+            Layer::eLayer_28);
     }
 
     auto pZapLine3 = ae_new<ZapLine>();
@@ -569,7 +569,7 @@ void Greeter::ZapTarget_447320(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
             ypos,
             8,
             ZapLineType::eThick_0,
-            28);
+            Layer::eLayer_28);
     }
 
     auto pParticleBurst = ae_new<ParticleBurst>();

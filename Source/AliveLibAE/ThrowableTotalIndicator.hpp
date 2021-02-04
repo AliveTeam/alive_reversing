@@ -4,6 +4,7 @@
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 #include "Primitives.hpp"
+#include "Layer.hpp"
 
 enum class ThrowableTotalIndicatorState : __int16
 {
@@ -15,7 +16,7 @@ enum class ThrowableTotalIndicatorState : __int16
 class ThrowableTotalIndicator : public BaseGameObject
 {
 public:
-    EXPORT ThrowableTotalIndicator* ctor_431CB0(FP xpos, FP ypos, __int16 layer, FP scale, __int16 count, __int16 bFade);
+    EXPORT ThrowableTotalIndicator* ctor_431CB0(FP xpos, FP ypos, Layer layer, FP scale, __int16 count, __int16 bFade);
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
@@ -37,7 +38,7 @@ private:
     FP field_34_yspeed;
     FP field_38_scale;
     FP field_3C_scale_speed;
-    __int16 field_40_layer;
+    Layer field_40_layer;
     __int16 field_42_r;
     __int16 field_44_g;
     __int16 field_46_b;

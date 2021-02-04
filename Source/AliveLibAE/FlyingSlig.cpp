@@ -212,13 +212,13 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
     if (field_118_data.field_10_data.field_0_scale == 1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_20_animation.field_C_render_layer = 14;
+        field_20_animation.field_C_render_layer = Layer::eLayer_14;
         field_D6_scale = 0;
     }
     else
     {
         field_CC_sprite_scale = FP_FromInteger(1);
-        field_20_animation.field_C_render_layer = 33;
+        field_20_animation.field_C_render_layer = Layer::eLayer_33;
         field_D6_scale = 1;
     }
 
@@ -1346,7 +1346,8 @@ void FlyingSlig::AI_DePossession_14_436180()
             New_TintChant_Particle_426BE0(
                 xOff + field_B8_xpos,
                 yOff + field_BC_ypos,
-                field_CC_sprite_scale, 0);
+                field_CC_sprite_scale, 
+                Layer::eLayer_0);
         }
     }
     else

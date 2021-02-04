@@ -371,6 +371,7 @@ SET(AliveLibAESrc
     Sparks.cpp
     TestAnimation.cpp
     TestAnimation.hpp
+    Layer.hpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx.h stdafx.cpp AliveLibAESrc)

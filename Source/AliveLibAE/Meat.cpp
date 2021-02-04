@@ -408,7 +408,8 @@ void Meat::vUpdate_469BA0()
                 New_TintShiny_Particle_426C30(
                     (field_CC_sprite_scale * FP_FromInteger(1)) + field_B8_xpos,
                     field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(-7)), 
-                    FP_FromDouble(0.3), 36);
+                    FP_FromDouble(0.3),
+                    Layer::eLayer_36);
                 field_128_timer = Math_NextRandom() % 16 + sGnFrame_5C1B84 + 60;
             }
             if (field_12C_deadtimer < (signed int)sGnFrame_5C1B84)
@@ -489,13 +490,13 @@ MeatSack* MeatSack::ctor_46A410(Path_MeatSack* pTlv, int tlvInfo)
     if (pTlv->field_16_scale == 1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_20_animation.field_C_render_layer = 8;
+        field_20_animation.field_C_render_layer = Layer::eLayer_8;
         field_D6_scale = 0;
     }
     else if (pTlv->field_16_scale == 0)
     {
         field_CC_sprite_scale = FP_FromInteger(1);
-        field_20_animation.field_C_render_layer = 27;
+        field_20_animation.field_C_render_layer = Layer::eLayer_27;
         field_D6_scale = 1;
     }
 

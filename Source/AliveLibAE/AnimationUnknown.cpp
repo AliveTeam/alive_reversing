@@ -130,7 +130,7 @@ void AnimationUnknown::vRender_40C690(int xpos, int ypos, PrimHeader** ppOt, int
         {
             SetPrimExtraPointerHack(pPoly, nullptr);
         }
-        OrderingTable_Add_4F8AA0(&ppOt[field_C_render_layer], &pPoly->mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_C_render_layer), &pPoly->mBase.header);
     }
 }
 

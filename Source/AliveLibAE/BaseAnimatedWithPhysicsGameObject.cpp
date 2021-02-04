@@ -179,11 +179,11 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(int frameTableOffs
     {
         if (field_CC_sprite_scale.fpValue == 0x10000)
         {
-            field_20_animation.field_C_render_layer = 27;
+            field_20_animation.field_C_render_layer = Layer::eLayer_27;
         }
         else
         {
-            field_20_animation.field_C_render_layer = 8;
+            field_20_animation.field_C_render_layer = Layer::eLayer_8;
             field_D6_scale = 0;
         }
 

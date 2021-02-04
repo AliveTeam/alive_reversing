@@ -192,7 +192,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         pScreenManager_5BB5F4->field_44_unused = 1;
 
         field_34_pSubObject = ae_new<ScreenClipper>();
-        field_34_pSubObject->ctor_416D60(xy, wh, 0);
+        field_34_pSubObject->ctor_416D60(xy, wh, Layer::eLayer_0);
         break;
 
     case CameraSwapEffects::eEffect2_RightToLeft:
@@ -210,7 +210,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         pScreenManager_5BB5F4->field_44_unused = 1;
 
         field_34_pSubObject = ae_new<ScreenClipper>();
-        field_34_pSubObject->ctor_416D60(xy, wh, 0);
+        field_34_pSubObject->ctor_416D60(xy, wh, Layer::eLayer_0);
         break;
 
     case CameraSwapEffects::eEffect3_TopToBottom:
@@ -228,7 +228,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         pScreenManager_5BB5F4->field_44_unused = 1;
 
         field_34_pSubObject = ae_new<ScreenClipper>();
-        field_34_pSubObject->ctor_416D60(xy, wh, 0);
+        field_34_pSubObject->ctor_416D60(xy, wh, Layer::eLayer_0);
         break;
 
     case CameraSwapEffects::eEffect4_BottomToTop:
@@ -246,7 +246,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         pScreenManager_5BB5F4->field_44_unused = 1;
 
         field_34_pSubObject = ae_new<ScreenClipper>();
-        field_34_pSubObject->ctor_416D60(xy, wh, 0);
+        field_34_pSubObject->ctor_416D60(xy, wh, Layer::eLayer_0);
         break;
 
     case CameraSwapEffects::eEffect6_VerticalSplit:
@@ -264,7 +264,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         wh.field_2_y = gPsxDisplay_5C1130.field_2_height;
 
         field_34_pSubObject = ae_new<ScreenClipper>();
-        field_34_pSubObject->ctor_416D60(xy, wh, 0);
+        field_34_pSubObject->ctor_416D60(xy, wh, Layer::eLayer_0);
         break;
 
     case CameraSwapEffects::eEffect7_HorizontalSplit:
@@ -282,7 +282,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         wh.field_2_y = gPsxDisplay_5C1130.field_2_height / 2;
 
         field_34_pSubObject = ae_new<ScreenClipper>();
-        field_34_pSubObject->ctor_416D60(xy, wh, 0);
+        field_34_pSubObject->ctor_416D60(xy, wh, Layer::eLayer_0);
         break;
 
     case CameraSwapEffects::eEffect8_BoxOut:
@@ -322,7 +322,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         xy.field_2_y = gPsxDisplay_5C1130.field_2_height - 1;
 
         field_34_pSubObject = ae_new<ScreenClipper>();
-        field_34_pSubObject->ctor_416D60(xy, { 1, 1 }, 0);
+        field_34_pSubObject->ctor_416D60(xy, { 1, 1 }, Layer::eLayer_0);
 
         // "Whoosh" door sound effect
         SFX_Play_46FA90(SoundEffect::IngameTransition_84, 127);
@@ -335,7 +335,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         pScreenManager_5BB5F4->field_44_unused = 1;
 
         field_34_pSubObject = ae_new<ScreenClipper>();
-        field_34_pSubObject->ctor_416D60({0, 0}, {1, 1}, 0);
+        field_34_pSubObject->ctor_416D60({0, 0}, {1, 1}, Layer::eLayer_0);
         break;
 
     default:

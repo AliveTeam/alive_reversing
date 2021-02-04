@@ -17,7 +17,7 @@ void EffectBase::VRender(PrimHeader** ppOt)
     vRender_4AB970(ppOt);
 }
 
-EffectBase* EffectBase::ctor_4AB7A0(__int16 layer, char abr)
+EffectBase* EffectBase::ctor_4AB7A0(Layer layer, char abr)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x54700C); // vTbl_EffectBase_54700C
@@ -65,8 +65,8 @@ void EffectBase::vRender_4AB970(PrimHeader** ppOt)
     if (field_6E_r || field_70_g || field_72_b || !field_74_bSemiTrans)
     {
         Poly_Set_SemiTrans_4F8A60(&pTile->mBase.header, field_74_bSemiTrans);
-        OrderingTable_Add_4F8AA0(&ppOt[field_6C_layer], &pTile->mBase.header);
-        OrderingTable_Add_4F8AA0(&ppOt[field_6C_layer], &field_4C_tPage[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_6C_layer), &pTile->mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_6C_layer), &field_4C_tPage[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
         if (!dword_5CA4D4 || !(PSX_getTPage_4F60E0(0, 1, 0, 0) & field_4C_tPage[0].field_C_tpage))
         {
             pScreenManager_5BB5F4->InvalidateRect_40EC10(

@@ -21,7 +21,7 @@ OrbWhirlWindParticle* OrbWhirlWindParticle::ctor_4E40C0(FP xpos, FP ypos, FP sca
 
     field_8_Anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
-    field_8_Anim.field_C_render_layer = 32;
+    field_8_Anim.field_C_render_layer = Layer::eLayer_32;
     field_8_Anim.field_B_render_mode = 1;
     if (bIsMudokonSpirit == 1)
     {
@@ -264,11 +264,11 @@ void OrbWhirlWindParticle::CalculateRenderProperties_4E4390(__int16 bStarted)
     
     if (field_C0_current_scale > FP_FromDouble(0.599)) // TODO: Check VS 39321
     {
-        field_8_Anim.field_C_render_layer = 32;
+        field_8_Anim.field_C_render_layer = Layer::eLayer_32;
     }
     else
     {
-        field_8_Anim.field_C_render_layer = 13;
+        field_8_Anim.field_C_render_layer = Layer::eLayer_13;
     }
 }
 

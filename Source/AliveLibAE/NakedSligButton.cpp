@@ -34,11 +34,11 @@ NakedSligButton* NakedSligButton::ctor_4148F0(Path_NakedSligButton* pTlv, int tl
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
         field_D6_scale = 0;
-        field_20_animation.field_C_render_layer = 6;
+        field_20_animation.field_C_render_layer = Layer::eLayer_6;
     }
     else if (pTlv->field_10_scale == 0)
     {
-        field_20_animation.field_C_render_layer = 25;
+        field_20_animation.field_C_render_layer = Layer::eLayer_25;
     }
 
     field_F8_id = pTlv->field_12_id;

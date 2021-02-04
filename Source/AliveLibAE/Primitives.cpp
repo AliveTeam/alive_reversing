@@ -135,6 +135,10 @@ void CC OrderingTable_Add_4F8AA0(PrimHeader** ppOt, PrimHeader* pItem)
     pItem->tag = pOt;
 }
 
+PrimHeader** OtLayer(PrimHeader** ppOt, Layer layer)
+{
+    return &ppOt[static_cast<unsigned int>(layer)];
+}
 
 int CC PSX_getTPage_4F60E0(char tp, char abr, int x, __int16 y)
 {

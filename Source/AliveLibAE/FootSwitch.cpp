@@ -68,7 +68,7 @@ FootSwitch* FootSwitch::ctor_4DE090(Path_FootSwitch* pTlv, int tlvInfo)
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    field_20_animation.field_C_render_layer = 25;
+    field_20_animation.field_C_render_layer = Layer::eLayer_25;
 
     SetTint_425600(sFootSwitchTints_5639F4, gMap_5C3030.field_0_current_level);
 
@@ -78,7 +78,7 @@ FootSwitch* FootSwitch::ctor_4DE090(Path_FootSwitch* pTlv, int tlvInfo)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
         field_D6_scale = 0;
-        field_20_animation.field_C_render_layer = 6;
+        field_20_animation.field_C_render_layer = Layer::eLayer_6;
     }
 
     field_FC_action = pTlv->field_14_action;

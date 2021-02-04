@@ -2,6 +2,7 @@
 
 #include "FunctionFwd.hpp"
 #include "EffectBase.hpp"
+#include "Layer.hpp"
 
 class DeathFadeOut : public EffectBase
 {
@@ -11,8 +12,8 @@ public:
     virtual void VScreenChanged() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT DeathFadeOut* ctor_427030(__int16 layer, __int16 direction, __int16 destroyOnDone, short speed, char abr);
-    EXPORT void Init_427140(__int16 layer, __int16 direction, __int16 destroyOnDone, short speed);
+    EXPORT DeathFadeOut* ctor_427030(Layer layer, __int16 direction, __int16 destroyOnDone, short speed, char abr);
+    EXPORT void Init_427140(Layer layer, __int16 direction, __int16 destroyOnDone, short speed);
 private:
     EXPORT void dtor_427120();
     EXPORT DeathFadeOut* vdtor_4270F0(signed int flags);

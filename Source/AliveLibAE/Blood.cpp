@@ -46,11 +46,11 @@ Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 
 
     if (field_CC_sprite_scale == FP_FromInteger(1))
     {
-        field_12C_render_layer = 36;
+        field_12C_render_layer = Layer::eLayer_36;
     }
     else
     {
-        field_12C_render_layer = 17;
+        field_12C_render_layer = Layer::eLayer_17;
     }
 
     field_126_total_count = count;
@@ -256,7 +256,7 @@ void Blood::vRender_40F780(PrimHeader** ppOt)
             }
 
             OrderingTable_Add_4F8AA0(
-                &ppOt[field_12C_render_layer],
+                OtLayer(ppOt, field_12C_render_layer),
                 &pSprt->mBase.header);
 
             xy.field_0_x = std::min(x0, xy.field_0_x);
@@ -274,7 +274,7 @@ void Blood::vRender_40F780(PrimHeader** ppOt)
 
         Prim_SetTPage* pTPage = &field_FC_tPages[gPsxDisplay_5C1130.field_C_buffer_index];
         Init_SetTPage_4F5B60(pTPage, 0, 0, static_cast<short>(tpage));
-        OrderingTable_Add_4F8AA0(&ppOt[field_12C_render_layer], &pTPage->mBase);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_12C_render_layer), &pTPage->mBase);
 
         pScreenManager_5BB5F4->InvalidateRect_40EC90(
             (xy.field_0_x - 12),

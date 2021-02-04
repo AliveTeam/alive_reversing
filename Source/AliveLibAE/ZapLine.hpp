@@ -2,6 +2,7 @@
 
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "FunctionFwd.hpp"
+#include "Layer.hpp"
 
 struct ZapLineSprites
 {
@@ -27,7 +28,7 @@ enum class ZapLineType : __int16
 class ZapLine : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT ZapLine* ctor_4CC690(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, __int16 aliveTime, ZapLineType type, __int16 layer);
+    EXPORT ZapLine* ctor_4CC690(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, __int16 aliveTime, ZapLineType type, Layer layer);
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;

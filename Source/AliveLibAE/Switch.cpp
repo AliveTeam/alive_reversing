@@ -70,13 +70,13 @@ Switch* Switch::ctor_4D5860(Path_Switch* pTlv, DWORD tlvInfo)
     if (pTlv->field_12_scale == 1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_20_animation.field_C_render_layer = 6;
+        field_20_animation.field_C_render_layer = Layer::eLayer_6;
         field_D6_scale = 0;
     }
     else if (pTlv->field_12_scale == 0)
     {
         field_CC_sprite_scale = FP_FromInteger(1);
-        field_20_animation.field_C_render_layer = 25;
+        field_20_animation.field_C_render_layer = Layer::eLayer_25;
         field_D6_scale = 1;
     }
 

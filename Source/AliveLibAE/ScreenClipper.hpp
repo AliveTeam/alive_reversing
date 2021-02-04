@@ -3,11 +3,12 @@
 #include "FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
 #include "Primitives.hpp"
+#include "Layer.hpp"
 
 class ScreenClipper : public BaseGameObject
 {
 public:
-    EXPORT ScreenClipper* ctor_416D60(PSX_Point xy, PSX_Point wh, __int16 layer);
+    EXPORT ScreenClipper* ctor_416D60(PSX_Point xy, PSX_Point wh, Layer layer);
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
@@ -22,6 +23,6 @@ private:
     Prim_PrimClipper field_20_clippers[2];
     PSX_RECT field_40_rect;
 public:
-    __int16 field_48_ot_layer;
+    Layer field_48_ot_layer;
 };
 ALIVE_ASSERT_SIZEOF(ScreenClipper, 0x4C);

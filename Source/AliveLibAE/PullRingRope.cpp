@@ -60,13 +60,13 @@ PullRingRope* PullRingRope::ctor_49B2D0(Path_PullRingRope* pTlv, int tlvInfo)
     if (pTlv->field_16_scale == 1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_20_animation.field_C_render_layer = 8;
+        field_20_animation.field_C_render_layer = Layer::eLayer_8;
         field_D6_scale = 0;
     }
     else
     {
         field_CC_sprite_scale = FP_FromInteger(1);
-        field_20_animation.field_C_render_layer = 27;
+        field_20_animation.field_C_render_layer = Layer::eLayer_27;
         field_D6_scale = 1;
     }
 

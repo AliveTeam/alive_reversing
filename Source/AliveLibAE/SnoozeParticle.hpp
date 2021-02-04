@@ -4,12 +4,13 @@
 #include "Primitives.hpp"
 #include "FixedPoint.hpp"
 #include "FunctionFwd.hpp"
+#include "Layer.hpp"
 
 class SnoozeParticle : public BaseGameObject
 {
 
 public:
-    EXPORT SnoozeParticle* ctor_4B06F0(FP xpos, FP ypos, __int16 layer, FP scale);
+    EXPORT SnoozeParticle* ctor_4B06F0(FP xpos, FP ypos, Layer layer, FP scale);
 
     BaseGameObject* VDestructor(signed int flags) override
     {
@@ -59,7 +60,7 @@ private:
     FP field_34_dy;
     FP field_38_scale;
     FP field_3C_scale_dx;
-    __int16 field_40_layer;
+    Layer field_40_layer;
     __int16 field_42_r;
     __int16 field_44_g;
     __int16 field_46_b;

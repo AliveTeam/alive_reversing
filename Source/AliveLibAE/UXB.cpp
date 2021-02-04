@@ -178,14 +178,14 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
         if (tlv_params->field_14_scale == 1)
         {
             field_CC_sprite_scale = FP_FromDouble(0.5);
-            field_20_animation.field_C_render_layer = 16;
+            field_20_animation.field_C_render_layer = Layer::eLayer_16;
             field_D6_scale = 0;
         }
     }
     else
     {
         field_CC_sprite_scale = FP_FromDouble(1.0);
-        field_20_animation.field_C_render_layer = 35;
+        field_20_animation.field_C_render_layer = Layer::eLayer_35;
         field_D6_scale = 1;
     }
 
