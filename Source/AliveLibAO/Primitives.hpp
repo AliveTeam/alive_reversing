@@ -2,6 +2,7 @@
 
 #include "Primitives_common.hpp"
 #include "FunctionFwd.hpp"
+#include "Layer.hpp"
 
 namespace AO {
 
@@ -17,6 +18,8 @@ EXPORT void CC Poly_Set_SemiTrans_498A40(PrimHeader* pPrim, int bSemiTrans);
 void CC Sprt_Init(Prim_Sprt* pPrim);
 
 EXPORT void CC Init_PrimClipper_495FD0(Prim_PrimClipper* pPrim, const PSX_RECT* pClipRect);
+
+PrimHeader** OtLayer(PrimHeader** ppOt, Layer layer);
 
 EXPORT void CC OrderingTable_Add_498A80(PrimHeader** ppOt, PrimHeader* pItem);
 

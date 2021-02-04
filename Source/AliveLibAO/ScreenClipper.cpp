@@ -44,7 +44,7 @@ void ScreenClipper::VRender_40BEB0(PrimHeader** ppOt)
 
     Prim_PrimClipper* pClipper = &field_10_clippers[gPsxDisplay_504C78.field_A_buffer_index];
     Init_PrimClipper_495FD0(pClipper, &clipRect);
-    OrderingTable_Add_498A80(&ppOt[field_38_ot_layer], &pClipper->mBase);
+    OrderingTable_Add_498A80(OtLayer(ppOt, field_38_ot_layer), &pClipper->mBase);
 }
 
 void ScreenClipper::VUpdate()

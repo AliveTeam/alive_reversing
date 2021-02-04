@@ -288,8 +288,8 @@ void ScreenManager::VRender_406A60(PrimHeader** ppOt)
             layer = Layer::eLayer_1;
         }
 
-        OrderingTable_Add_498A80(&ppOt[layer], &pSpriteTPage->mSprt.mBase.header);
-        OrderingTable_Add_498A80(&ppOt[layer], &pSpriteTPage->mTPage.mBase);
+        OrderingTable_Add_498A80(OtLayer(ppOt, layer), &pSpriteTPage->mSprt.mBase.header);
+        OrderingTable_Add_498A80(OtLayer(ppOt, layer), &pSpriteTPage->mTPage.mBase);
     }
 
     sub_406FF0();

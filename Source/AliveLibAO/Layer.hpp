@@ -2,7 +2,7 @@
 
 namespace AO {
 
-    enum Layer : __int16
+    enum class Layer : __int16
     {
         eLayer_0 = 0,
         eLayer_1 = 1,
@@ -43,5 +43,4 @@ namespace AO {
         eLayer_39 = 39,
         eLayer_40 = 40,
     };
-
 }

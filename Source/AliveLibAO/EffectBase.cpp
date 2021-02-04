@@ -64,9 +64,9 @@ void EffectBase::VRender_461690(PrimHeader** ppOt)
     pTile->field_16_h = gPsxDisplay_504C78.field_2_height;
 
     Poly_Set_SemiTrans_498A40(&pTile->mBase.header, field_64_bSemiTrans);
-    OrderingTable_Add_498A80(&ppOt[field_5C_layer], &pTile->mBase.header);
+    OrderingTable_Add_498A80(OtLayer(ppOt, field_5C_layer), &pTile->mBase.header);
     OrderingTable_Add_498A80(
-        &ppOt[field_5C_layer],
+        OtLayer(ppOt, field_5C_layer),
         &field_3C_tPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
     pScreenManager_4FF7C8->InvalidateRect_406CC0(0, 0, 640, gPsxDisplay_504C78.field_2_height);
 }

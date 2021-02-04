@@ -33,7 +33,7 @@ public:
     __int16 field_12_unused;
     __int16 field_14_amount;
     __int16 field_16_flag;
-    __int16 field_18_layer;
+    Layer field_18_layer;
     __int16 field_1A;
     __int16 field_1C;
     __int16 field_1E;

@@ -442,7 +442,7 @@ void AbilityRing::VRender_456340(PrimHeader** ppOt)
                 SetXY2(pPoly, x3, y3);
                 SetXY3(pPoly, x4, y4);
 
-                OrderingTable_Add_498A80(&ppOt[field_10_layer], &pPoly->mBase.header);
+                OrderingTable_Add_498A80(OtLayer(ppOt, field_10_layer), &pPoly->mBase.header);
 
                 pScreenManager_4FF7C8->InvalidateRect_406E40(
                     rect.x,
@@ -463,7 +463,7 @@ void AbilityRing::VRender_456340(PrimHeader** ppOt)
 
             ang += 4;
         }
-        OrderingTable_Add_498A80(&ppOt[field_10_layer], &field_1C_primSetTPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
+        OrderingTable_Add_498A80(OtLayer(ppOt, field_10_layer), &field_1C_primSetTPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
     }
 }
 

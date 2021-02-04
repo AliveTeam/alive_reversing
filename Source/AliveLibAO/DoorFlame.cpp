@@ -194,7 +194,7 @@ public:
             anim.field_14.field_4_flags.Set(AnimFlags::eBit3_Render);
             anim.field_14.field_4_flags.Set(AnimFlags::eBit16_bBlending);
 
-            short rndLayer = static_cast<short>(field_10_anim.field_C_layer) + Math_RandomRange_450F20(-1, 1);
+            const short rndLayer = static_cast<short>(field_10_anim.field_C_layer) + Math_RandomRange_450F20(-1, 1);
             anim.field_14.field_C_layer = static_cast<Layer>(rndLayer);
             anim.field_14.field_6C_scale = field_BC_sprite_scale;
 
@@ -350,9 +350,9 @@ public:
 
     }
 
-    int field_D4[4];
+    int field_D4_padding[4];
     __int16 field_E4_bRender;
-    __int16 field_E6_pad;
+    __int16 field_E6_padding;
     FlameSpark field_E8_sparks[6];
     FP field_400_xpos;
     FP field_404_ypos;

@@ -84,19 +84,19 @@ void SlogHut::VUpdate_472D50()
         auto pSnoozeParticle = ao_new<SnoozeParticle>();
         if (pSnoozeParticle)
         {
-            Layer SnoozeLayer = Layer::eLayer_0;
+            Layer snoozeLayer = Layer::eLayer_0;
             if (field_18_scale != FP_FromInteger(1))
             {
-                SnoozeLayer = Layer::eLayer_20;
+                snoozeLayer = Layer::eLayer_20;
             }
             else
             {
-                SnoozeLayer = Layer::eLayer_39;
+                snoozeLayer = Layer::eLayer_39;
             }
             pSnoozeParticle->ctor_464320(
                 field_10_xpos,
                 field_14_ypos,
-                SnoozeLayer,
+                snoozeLayer,
                 field_18_scale);
         }
         field_24_timer = gnFrameCount_507670 + field_28_z_delay;

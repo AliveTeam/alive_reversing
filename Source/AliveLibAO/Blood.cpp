@@ -36,11 +36,11 @@ Blood* Blood::ctor_4072B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 
 
     if (field_BC_sprite_scale == FP_FromInteger(1))
     {
-        field_11C_render_layer = 36;
+        field_11C_render_layer = Layer::eLayer_36;
     }
     else
     {
-        field_11C_render_layer = 17;
+        field_11C_render_layer = Layer::eLayer_17;
     }
 
     if (field_BC_sprite_scale != FP_FromInteger(1))
@@ -274,7 +274,7 @@ void Blood::VRender_407810(PrimHeader** ppOt)
             }
 
             OrderingTable_Add_498A80(
-                &ppOt[field_11C_render_layer],
+                OtLayer(ppOt, field_11C_render_layer),
                 &pSprt->mBase.header
             );
 
@@ -299,7 +299,7 @@ void Blood::VRender_407810(PrimHeader** ppOt)
         );
         Prim_SetTPage* pTPage = &field_EC_tPages[bufferIdx];
         Init_SetTPage_495FB0(pTPage, 0, 0, tpage);
-        OrderingTable_Add_498A80(&ppOt[field_11C_render_layer], &pTPage->mBase);
+        OrderingTable_Add_498A80(OtLayer(ppOt, field_11C_render_layer), &pTPage->mBase);
 
         pScreenManager_4FF7C8->InvalidateRect_406E40(
             (xy.field_0_x - 12),

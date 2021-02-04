@@ -1165,7 +1165,7 @@ __int16 BirdPortal::VPortalClipper_4533E0(__int16 bUnknown)
     field_48_pScreenClipper = ao_new<ScreenClipper>();
     if (field_48_pScreenClipper)
     {
-        field_48_pScreenClipper->ctor_40BD60({ 0, 0 }, { 240, 240 }, Layer::eLayer_0);
+        field_48_pScreenClipper->ctor_40BD60({ 0, 0 }, { 640, 240 }, Layer::eLayer_0);
         if (field_34_scale == FP_FromInteger(1))
         {
             field_48_pScreenClipper->field_38_ot_layer = Layer::eLayer_31;
