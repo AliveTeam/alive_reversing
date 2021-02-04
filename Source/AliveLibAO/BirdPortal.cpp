@@ -351,19 +351,19 @@ void BirdPortal::VUpdate_4523D0()
             field_5C_pThrowableTotalIndicator = ao_new<ThrowableTotalIndicator>();
             if (field_5C_pThrowableTotalIndicator)
             {
-                Layer IndicatorLayer = Layer::eLayer_0;
+                Layer indicatorLayer = Layer::eLayer_0;
                 if (field_34_scale != FP_FromDouble(0.5))
                 {
-                    IndicatorLayer = Layer::eLayer_27;
+                    indicatorLayer = Layer::eLayer_27;
                 }
                 else
                 {
-                    IndicatorLayer = Layer::eLayer_8;
+                    indicatorLayer = Layer::eLayer_8;
                 }
                 field_5C_pThrowableTotalIndicator->ctor_41B520(
                     field_18_xpos,
                     field_1C_ypos + FP_FromInteger(10),
-                    IndicatorLayer,
+                    indicatorLayer,
                     field_34_scale,
                     field_56_num_muds_for_shrykull,
                     0);
