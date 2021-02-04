@@ -51,3 +51,18 @@ git clone --recursive https://github.com/AliveTeam/alive_reversing.git
 4. `make -j$(nproc)`
 5. You'll find your executables in the `Source` folder under `AliveExe`.
 6. You can optionally install the package using `make install` or create a Debian-compatible package using `cpack -G DEB`.
+
+## Testing
+
+### Hook Manager
+
+For testing we provide an application called Hook Manager, which lets freely change whether specific functions use the original code or the rewritten one. This lets you figure out whether bugs are the result of errors in the rewrite or whether they are part of the original game.
+
+The hook manager can be downloaded from [this](https://github.com/AliveTeam/AliveHookManager/releases/tag/1.0) link. You also need a patched executable for the game of your choice, which you can download [here](https://cdn.discordapp.com/attachments/505078398087987201/807014898717425674/patched_dlls.zip).
+
+To use the manager you need to do the following:
+- Set the `AO_ROOT` and `AE_ROOT` environment variables to their respective game's install folders.
+- Compile R.E.L.I.V.E.
+- Drop the respective game's patched exe into their installation folder.
+- Launch the game using the patched exe.
+- Start the hook manager.
