@@ -33,6 +33,10 @@ foreach(CompilerFlag ${CompilerFlags})
   string(REPLACE "/W3" "" ${CompilerFlag} "${${CompilerFlag}}")
 endforeach()
 
+if(MSVC)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zi")
+endif()
+
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 MACRO(ADD_MSVC_PRECOMPILED_HEADER PrecompiledHeader PrecompiledSource SourcesVar)
