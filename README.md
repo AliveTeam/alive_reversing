@@ -56,13 +56,26 @@ git clone --recursive https://github.com/AliveTeam/alive_reversing.git
 
 ### Hook Manager
 
-For testing we provide an application called Hook Manager, which lets freely change whether specific functions use the original code or the rewritten one. This lets you figure out whether bugs are the result of errors in the rewrite or whether they are part of the original game.
+For testing we provide an application called Hook Manager, which lets you freely change whether specific functions use the original code or the rewritten one. This lets you figure out whether bugs are the result of errors in the rewrite or whether they are part of the original game.
 
 The hook manager can be downloaded from [this](https://github.com/AliveTeam/AliveHookManager/releases/tag/1.0) link. You also need a patched executable for the game of your choice, which you can download [here](https://cdn.discordapp.com/attachments/505078398087987201/807014898717425674/patched_dlls.zip).
 
 To use the manager you need to do the following:
+
+You need to obtain the .map and .dll files for whichever game you want to debug. You can do this in one of two ways:
+
 - Set the `AO_ROOT` and `AE_ROOT` environment variables to their respective game's install folders.
-- Compile R.E.L.I.V.E.
+- Compile R.E.L.I.V.E. using the `msbuild` method
+- Your .map and .dll files will be placed in the install folders.
+
+OR:
+
+- Download the .map and DLL files from AppVeyor:
+  - [32 bits](https://ci.appveyor.com/api/projects/paulsapps/alive-reversing/artifacts/build/RELIVE_Binaries_Full_Debug_x86.zip?branch=master&job=Platform%3A%20x86&pr=false)
+  - [64 bits](https://ci.appveyor.com/api/projects/paulsapps/alive-reversing/artifacts/build/RELIVE_Binaries_Full_Debug_x64.zip?branch=master&job=Platform%3A%20x64&pr=false)
+- Drop the .map and DLL files from the build folder into the respective game's installation folder.
+
+Regardless of which way you chose, this is how you finalize the process:
 - Drop the respective game's patched exe into their installation folder.
-- Launch the game using the patched exe.
-- Start the hook manager.
+- Launch the patched exe
+- Start the hook manager
