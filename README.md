@@ -10,7 +10,7 @@ For more details, please check the project's website: https://aliveteam.github.i
 Anyone who wishes to contribute is encouraged to join the project's [Discord](
 https://discord.gg/khs6KKS), where most of the communication happens.
 
-By contributing to this project, the contributor agrees and accepts that their code will be licensed under a GPL-compatible license in the future.
+By contributing to this project, the contributor agrees and accepts that their code will be licensed under a GPL-compatible license (most likely the [MIT/Expat](https://opensource.org/licenses/MIT) license) in the future.
 
 ## Building R.E.L.I.V.E.
 
