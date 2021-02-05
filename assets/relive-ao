@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # If the game is installed in the basic Steam location, use that.
-AEDIR="$HOME/.local/share/Steam/steamapps/common/Oddworld Abes Exoddus"
-if test -d "$AEDIR"; then
-  cd "$AEDIR"
-  AliveExeAE
+AODIR="$HOME/.local/share/Steam/steamapps/common/Oddworld Abes Oddysee"
+if test -d "$AODIR"; then
+  cd "$AODIR"
+  AliveExeAO
   exit
 fi
 
-CONFIG="$HOME/.config/relive"
+CONFIG="$HOME/.config/relive-ao"
 if ! test -d "$CONFIG"; then
   mkdir -p "$CONFIG"
 fi
@@ -19,16 +19,16 @@ FILE="$CONFIG/install_folder"
 if test -f "$FILE"; then
   read -r path < "$FILE"
   cd "$path"
-  AliveExeAE
+  AliveExeAO
 else
-  zenity --info --no-wrap --text="R.E.L.I.V.E. can't find the install directory of Abe's Exoddus.\nPlease select the folder containing the .lvl files."
+  zenity --info --no-wrap --text="R.E.L.I.V.E. can't find the install directory of Abe's Oddysee.\nPlease select the folder containing the .lvl files."
   path="$(zenity --file-selection --directory --title='Select install folder')"
 
   if [ $? -eq 1 ]; then
     exit
   fi
 
-  while ! test -f "$path/ba.lvl"; do
+  while ! test -f "$path/r1.lvl"; do
     zenity --warning --no-wrap --text="The path you entered is invalid. You need the folder with the .lvl files in it."
     path="$(zenity --file-selection --directory --title='Select install folder')"
     if [ $? -eq 1 ]; then
@@ -38,5 +38,5 @@ else
 
   echo "$path" > "$FILE"
   cd "$path"
-  AliveExeAE
+  AliveExeAO
 fi

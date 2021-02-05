@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# If the game is installed in the basic Steam location, use that.
+AEDIR="$HOME/.local/share/Steam/steamapps/common/Oddworld Abes Exoddus"
+if test -d "$AEDIR"; then
+  cd "$AEDIR"
+  AliveExeAE
+  exit
+fi
+
+CONFIG="$HOME/.config/relive-ae"
+if ! test -d "$CONFIG"; then
+  mkdir -p "$CONFIG"
+fi
+
+FILE="$CONFIG/install_folder"
+# If not, check whether we already asked the user for a path and if yes use that.
+# Otherwise ask for a path and validate it. Repeat until user presents a working path.
+if test -f "$FILE"; then
+  read -r path < "$FILE"
+  cd "$path"
+  AliveExeAE
+else
+  zenity --info --no-wrap --text="R.E.L.I.V.E. can't find the install directory of Abe's Exoddus.\nPlease select the folder containing the .lvl files."
+  path="$(zenity --file-selection --directory --title='Select install folder')"
+
+  if [ $? -eq 1 ]; then
+    exit
+  fi
+
+  while ! test -f "$path/ba.lvl"; do
+    zenity --warning --no-wrap --text="The path you entered is invalid. You need the folder with the .lvl files in it."
+    path="$(zenity --file-selection --directory --title='Select install folder')"
+    if [ $? -eq 1 ]; then
+      exit
+    fi
+  done
+
+  echo "$path" > "$FILE"
+  cd "$path"
+  AliveExeAE
+fi

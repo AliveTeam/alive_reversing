@@ -7,7 +7,7 @@ Type=Application
 Version=1.0
 
 # The name of the application
-Name=R.E.L.I.V.E.
+Name=R.E.L.I.V.E. - Oddworld: Abe's Oddysee
 
 # A comment which can/will be used as a tooltip
 Comment=An Open-Source Engine for Abe's Oddysee and Abe's Exoddus
@@ -16,7 +16,7 @@ Comment=An Open-Source Engine for Abe's Oddysee and Abe's Exoddus
 Path=/usr/bin/
 
 # The executable of the application, possibly with arguments.
-Exec=relive
+Exec=relive-ao
 
 # The name of the icon that will be used to display this entry
 Icon=relive.png

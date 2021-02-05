@@ -93,6 +93,6 @@ endif()
 
 SET(CPACK_PACKAGE_CONTACT "nemin@oddwords.hu")
 SET(CPACK_DEBIAN_PACKAGE_HOMEPAGE "https://aliveteam.github.io/")
-SET(CPACK_DEBIAN_PACKAGE_DEPENDS "libsdl2, zenity")
+SET(CPACK_DEBIAN_PACKAGE_DEPENDS "libsdl2-2.0-0, zenity")
 
 INCLUDE(CPack)
