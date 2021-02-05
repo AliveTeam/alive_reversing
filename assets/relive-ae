@@ -8,7 +8,7 @@ if test -d "$AEDIR"; then
   exit
 fi
 
-CONFIG="$HOME/.config/relive"
+CONFIG="$HOME/.config/relive-ae"
 if ! test -d "$CONFIG"; then
   mkdir -p "$CONFIG"
 fi
