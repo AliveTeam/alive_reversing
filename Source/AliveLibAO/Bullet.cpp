@@ -65,8 +65,8 @@ void Bullet::VUpdate_408E30()
 
     switch (field_10_type)
     {
-        case BulletType::Type_0:
-        case BulletType::Type_1:
+        case BulletType::ePossessedSlig_0:
+        case BulletType::eNormalBullet_1:
         {
             FP hitX = {};
             FP hitY = {};
@@ -157,7 +157,7 @@ void Bullet::VUpdate_408E30()
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
             return;
         }
-        case BulletType::ZBullet_2:
+        case BulletType::eZBullet_2:
         {
             FP distX_2 = {};
             FP distX_1 = {};
@@ -292,7 +292,7 @@ BaseAliveGameObject* Bullet::ShootObject_409400(PSX_RECT* pRect)
         {
             if (pObjIter->field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
             {
-                if (field_10_type == BulletType::Type_0
+                if (field_10_type == BulletType::ePossessedSlig_0
                     && (pObjIter->field_4_typeId == Types::eSlig_88
                     || pObjIter->field_4_typeId == Types::eMudokon_75
                     || pObjIter->field_4_typeId == Types::eAbe_43
@@ -309,7 +309,7 @@ BaseAliveGameObject* Bullet::ShootObject_409400(PSX_RECT* pRect)
                         pRect->h >= bRect.y &&
                         pRect->y <= bRect.h)
                     {
-                        if (field_10_type == BulletType::ZBullet_2 || field_30_pParent->field_BC_sprite_scale == pObjIter->field_BC_sprite_scale)
+                        if (field_10_type == BulletType::eZBullet_2 || field_30_pParent->field_BC_sprite_scale == pObjIter->field_BC_sprite_scale)
                         {
                             if (pObjectToShoot)
                             {

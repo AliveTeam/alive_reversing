@@ -3998,7 +3998,7 @@ __int16 Scrab::vTakeDamage_4A45E0(BaseGameObject* pFrom)
         return 0;
 
     case Types::eBullet_15:
-    case Types::eType_107:
+    case Types::eNeverSet_107:
     case Types::eScrab_112:
         break;
 
@@ -4171,7 +4171,7 @@ void Scrab::KillTarget_4A7F20(BaseAliveGameObject* pTarget)
                             if ((pObj->field_4_typeId == Types::eAbe_69 ||
                                 pObj->field_4_typeId == Types::eMudokon2_81 ||
                                 pObj->field_4_typeId == Types::eMudokon_110 ||
-                                pObj->field_4_typeId == Types::eType_127 ||
+                                pObj->field_4_typeId == Types::eNevetSet_127 ||
                                 pObj->field_4_typeId == Types::eFleech_50 ||
                                 pObj->field_4_typeId == Types::eScrab_112) &&
                                 field_D6_scale == pObj->field_D6_scale && pObj->field_10C_health > FP_FromInteger(0))
@@ -4257,7 +4257,7 @@ __int16 Scrab::FindAbeOrMud_4A4FD0()
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
             if ((pAliveObj->field_4_typeId == Types::eMudokon2_81 ||
                 pAliveObj->field_4_typeId == Types::eMudokon_110 ||
-                pAliveObj->field_4_typeId == Types::eType_127 ||
+                pAliveObj->field_4_typeId == Types::eNevetSet_127 ||
                 pAliveObj->field_4_typeId == Types::eScrab_112)  &&
                 (pAliveObj->field_4_typeId != Types::eScrab_112 || pAliveObj->field_114_flags.Get(Flags_114::e114_Bit4_bPossesed)) &&
                 CanSeeAbe_4A51A0(pAliveObj) &&

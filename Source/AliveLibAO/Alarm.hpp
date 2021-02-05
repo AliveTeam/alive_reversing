@@ -33,7 +33,15 @@ public:
     EXPORT void VUpdate_402660();
 private:
     __int16 field_68_r_value;
-    __int16 field_6A_state;
+    enum class States : __int16
+    {
+        eAfterConstructed_0 = 0,
+        eEnabling_1 = 1,
+        eOnFlash_2 = 2,
+        eDisabling_3 = 3,
+        eDisabled_4 = 4
+    };
+    States field_6A_state;
     int field_6C_15_timer;
     int field_70_duration_timer;
     __int16 field_74_switch_id;

@@ -321,38 +321,32 @@ void SlingMudokon::State_3_ShootStart_46FD90()
         if (field_10_anim.field_18_frame_table_offset == 22700)
         {
             const FP frame_x = FP_FromInteger(field_10_anim.Get_FrameHeader_403A00(-1)->field_8_data.points[2].x);
+            FP bulletXPos = {};
+            FP xDistance = {};
 
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
-                auto pBullet = ao_new<Bullet>();
-                if (pBullet)
-                {
-                    pBullet->ctor_409380(
-                        this,
-                        BulletType::Type_1,
-                        field_A8_xpos - frame_x,
-                        field_AC_ypos - FP_FromInteger(24),
-                        -FP_FromInteger(640),
-                        0,
-                        field_BC_sprite_scale,
-                        0);
-                }
+                bulletXPos = field_A8_xpos - frame_x;
+                xDistance = -FP_FromInteger(640);
             }
             else
             {
-                auto pBullet = ao_new<Bullet>();
-                if (pBullet)
-                {
-                    pBullet->ctor_409380(
-                        this,
-                        BulletType::Type_1,
-                        frame_x + field_A8_xpos,
-                        field_AC_ypos - FP_FromInteger(24),
-                        FP_FromInteger(640),
-                        0,
-                        field_BC_sprite_scale,
-                        0);
-                }
+                bulletXPos = frame_x + field_A8_xpos;
+                xDistance = FP_FromInteger(640);
+            }
+
+            auto pBullet = ao_new<Bullet>();
+            if (pBullet)
+            {
+                pBullet->ctor_409380(
+                    this,
+                    BulletType::eNormalBullet_1,
+                    bulletXPos,
+                    field_AC_ypos - FP_FromInteger(24),
+                    xDistance,
+                    0,
+                    field_BC_sprite_scale,
+                    0);
             }
             field_FC_current_motion = eSlingMudStates::State_4_ShootEnd_46FEA0;
         }

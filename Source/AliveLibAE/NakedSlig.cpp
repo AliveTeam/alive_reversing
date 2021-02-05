@@ -656,7 +656,7 @@ __int16 NakedSlig::vTakeDamage_4192B0(BaseGameObject* pFrom)
         case Types::eRockSpawner_48:
         case Types::eMeatSaw_86:
         case Types::eMineCar_89:
-        case Types::eType_107:
+        case Types::eNeverSet_107:
         case Types::eExplosion_109:
             if (!BrainIs(&NakedSlig::AI_4_GetKilled_41A880))
             {

@@ -3934,7 +3934,7 @@ void Slig::State_43_ShootZ_468E30()
         {
             pBullet->ctor_409380(
                 this,
-                BulletType::ZBullet_2,
+                BulletType::eZBullet_2,
                 field_A8_xpos,
                 field_AC_ypos - FP_FromInteger(12),
                 FP_FromInteger(640),

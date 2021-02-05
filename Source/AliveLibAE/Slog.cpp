@@ -3432,8 +3432,8 @@ __int16 Slog::vTakeDamage_4C4B80(BaseGameObject* pFrom)
         auto pBullet = static_cast<Bullet*>(pFrom);
         switch (pBullet->field_20_type)
         {
-        case BulletType::Type_0:
-        case BulletType::Type_2:
+        case BulletType::eSligPossessedOrUnderGlukkonCommand_0:
+        case BulletType::eNormalBullet_2:
             if (pBullet->field_30 <= FP_FromInteger(0))
             {
                 auto pBlood = ae_new<Blood>();
@@ -3462,7 +3462,7 @@ __int16 Slog::vTakeDamage_4C4B80(BaseGameObject* pFrom)
             }
             break;
 
-        case BulletType::Type_1:
+        case BulletType::ePossessedSligZBullet_1:
         case BulletType::ZBullet_3:
         {
             auto pBlood = ae_new<Blood>();
