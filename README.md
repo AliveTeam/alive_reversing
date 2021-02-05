@@ -65,17 +65,19 @@ To use the manager you need to do the following:
 You need to obtain the .map and .dll files for whichever game you want to debug. You can do this in one of two ways:
 
 - Set the `AO_ROOT` and `AE_ROOT` environment variables to their respective game's install folders.
-- Compile R.E.L.I.V.E. using the `msbuild` method
+- Compile R.E.L.I.V.E. using the `msbuild` method.
 - Your .map and .dll files will be placed in the install folders.
 
 OR:
 
 - Download the .map and DLL files from AppVeyor:
-  - [32 bits](https://ci.appveyor.com/api/projects/paulsapps/alive-reversing/artifacts/build/RELIVE_Binaries_Full_Debug_x86.zip?branch=master&job=Platform%3A%20x86&pr=false)
-  - [64 bits](https://ci.appveyor.com/api/projects/paulsapps/alive-reversing/artifacts/build/RELIVE_Binaries_Full_Debug_x64.zip?branch=master&job=Platform%3A%20x64&pr=false)
+  - Visit [AppVeyor](https://ci.appveyor.com/project/paulsapps/alive-reversing?branch=master)
+  - Click on whichever platform you need.
+  - Click on Artifacts on the top right corner of the page.
+  - Download `build\RELIVE_Binaries_Full_Debug_[ARCHITECTURE]_[BUILDNUMBER].zip`.
 - Drop the .map and DLL files from the build folder into the respective game's installation folder.
 
 Regardless of which way you chose, this is how you finalize the process:
 - Drop the respective game's patched exe into their installation folder.
-- Launch the patched exe
-- Start the hook manager
+- Launch the patched exe.
+- Start the hook manager.
