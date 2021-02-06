@@ -4,6 +4,8 @@ SET(AliveLibAESrc
     Renderer/IRenderer.hpp
     Renderer/SoftwareRenderer.hpp
     Renderer/SoftwareRenderer.cpp
+    Renderer/DirectX9Renderer.hpp
+    Renderer/DirectX9Renderer.cpp
     vlctable.hpp
     Input.cpp
     Input.hpp

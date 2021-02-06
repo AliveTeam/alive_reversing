@@ -6,6 +6,14 @@
 
 #if _WIN32
 
+#ifndef USE_SDL2
+#define DIRECTINPUT_VERSION 0x700
+#include <dinput.h>
+#define DIRECTDRAW_VERSION 0x700
+#include <ddraw.h>
+#define DIRECT3D_VERSION 0x700
+#include "d3d.h"
+
 RECT ClientToScreenConvert(HWND hwnd)
 {
     RECT rect = {};
@@ -932,4 +940,5 @@ EXPORT void CC DD_render_back_buffer_4F0D90(IDirectDrawSurface* pSurf, RECT* pRe
         }
     }
 }
+#endif
 #endif

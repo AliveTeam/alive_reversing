@@ -26,7 +26,7 @@ struct File_Font
     __int16 field_2_height;
     __int16 field_4_color_depth;
     __int16 field_6_palette_size;
-    byte field_8_palette[32];
+    BYTE field_8_palette[32];
     BYTE field_28_pixel_buffer[1];
 };
 //ALIVE_ASSERT_SIZEOF(File_Font, 0x28);
@@ -74,7 +74,7 @@ namespace Alive
         EXPORT int MeasureWidth_433630(unsigned char character);
         EXPORT const char * SliceText_433BD0(const char *text, int left, FP scale, int right);
     public:
-        byte gap0[32];
+        BYTE gap0[32];
         BYTE **field_20_fnt_poly_block_ptr;
         Poly_FT4 *field_24_fnt_poly_array;
         PSX_RECT field_28_palette_rect;
@@ -85,7 +85,7 @@ namespace Alive
 }
 
 ALIVE_VAR_EXTERN(__int16, sFontType2LoadCount_5BC5E8);
-ALIVE_VAR_EXTERN(byte, sFontDrawScreenSpace_5CA4B4);
+ALIVE_VAR_EXTERN(BYTE, sFontDrawScreenSpace_5CA4B4);
 
 ALIVE_VAR_EXTERN(Font_Context, sFont1Context_5BC5C8);
 ALIVE_VAR_EXTERN(Font_Context, sFont2Context_5BC5D8);
