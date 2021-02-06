@@ -8,6 +8,8 @@
 #include "PsxRender.hpp"
 #include "Psx.hpp"
 #include "TouchController.hpp"
+#include "Renderer/IRenderer.hpp"
+#include "Renderer/SoftwareRenderer.hpp"
 
 void VGA_ForceLink() {}
 
@@ -36,8 +38,28 @@ bool s_VGA_FilterScreen = false;
 
 #if USE_SDL2
 
-static SDL_Renderer* gRenderer = nullptr;
-static SDL_Texture* pScreenTexture = nullptr;
+static IRenderer* gRenderer = nullptr;
+
+EXPORT IRenderer* GetRenderer()
+{
+    return gRenderer;
+}
+
+EXPORT void CreateRenderer()
+{
+    if (gRenderer)
+    {
+        ALIVE_FATAL("Renderer already created");
+    }
+    gRenderer = new SoftwareRenderer();
+}
+
+EXPORT void FreeRenderer()
+{
+    delete gRenderer;
+    gRenderer = nullptr;
+}
+
 EXPORT signed int CC VGA_FullScreenSet_4F31F0(bool /*bFullScreen*/)
 {
     //  NOT_IMPLEMENTED();
@@ -68,7 +90,8 @@ EXPORT void CC VGA_Shutdown_4F3170()
     }
 #endif
 
-    SDL_DestroyTexture(pScreenTexture);
+    GetRenderer()->Destroy();
+    FreeRenderer();
 
     sVGA_Inited_BC0BB8 = false;
 
@@ -119,10 +142,7 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
 
     if (SDL_BlitSurface(pBmp->field_0_pSurface, pCopyRect, sVGA_bmp_primary_BD2A20.field_0_pSurface, nullptr) == 0)
     {
-        if (pScreenTexture == nullptr)
-        {
-            pScreenTexture = SDL_CreateTexture(gRenderer, pBmp->field_0_pSurface->format->format, SDL_TextureAccess::SDL_TEXTUREACCESS_STREAMING, pBmp->field_0_pSurface->w, pBmp->field_0_pSurface->h);
-        }
+        GetRenderer()->CreateBackBuffer(s_VGA_FilterScreen, pBmp->field_0_pSurface->format->format, pBmp->field_0_pSurface->w, pBmp->field_0_pSurface->h);
 
         static bool prevFilterScreenValue = !s_VGA_FilterScreen;
         static int prevWidth = pBmp->field_0_pSurface->w;
@@ -134,29 +154,17 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
             prevWidth = pBmp->field_0_pSurface->w;
             prevHeight = pBmp->field_0_pSurface->h;
 
-            if (s_VGA_FilterScreen)
-            {
-                SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
-            }
-            else
-            {
-                SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
-            }
-
-            SDL_DestroyTexture(pScreenTexture);
-            pScreenTexture = SDL_CreateTexture(gRenderer, pBmp->field_0_pSurface->format->format, SDL_TextureAccess::SDL_TEXTUREACCESS_STREAMING, pBmp->field_0_pSurface->w, pBmp->field_0_pSurface->h);
+            GetRenderer()->CreateBackBuffer(s_VGA_FilterScreen, pBmp->field_0_pSurface->format->format, pBmp->field_0_pSurface->w, pBmp->field_0_pSurface->h);
         }
 
-        SDL_UpdateTexture(pScreenTexture, nullptr, pBmp->field_0_pSurface->pixels, pBmp->field_0_pSurface->pitch);
-
-        if (pScreenTexture)
+        if (GetRenderer()->UpdateBackBuffer(pBmp->field_0_pSurface->pixels, pBmp->field_0_pSurface->pitch))
         {
             SDL_Rect* pDst = nullptr;
             SDL_Rect dst = {};
 
             int w = 0;
             int h = 0;
-            SDL_GetRendererOutputSize(gRenderer, &w, &h);
+            GetRenderer()->OutputSize(&w, &h);
 
             int renderedWidth = w;
             int renderedHeight = h;
@@ -197,9 +205,8 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
                 }
             }
 
-            SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
-            SDL_RenderClear(gRenderer);
-            SDL_RenderCopy(gRenderer, pScreenTexture, pCopyRect, pDst);
+            GetRenderer()->Clear(0, 0, 0);
+            GetRenderer()->BltBackBuffer(pCopyRect, pDst);
         }
         else
         {
@@ -217,8 +224,7 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
         gTouchController->Render();
     }
 #endif
-   
-    SDL_RenderPresent(gRenderer);
+    GetRenderer()->EndFrame();
 }
 
 EXPORT void CC VGA_CopyToFront_4F3710(Bitmap* pBmp, RECT* pRect)
@@ -293,14 +299,15 @@ EXPORT signed int CC VGA_DisplaySet_4F32C0(unsigned __int16 width, unsigned __in
 
         sVGA_Inited_BC0BB8 = 1;
 
-        gRenderer = SDL_CreateRenderer(Sys_GetHWnd_4F2C70(), -1, 0);
-        //  gRenderer = SDL_CreateSoftwareRenderer(sVGA_bmp_primary_BD2A20.field_0_pSurface);
-        if (!gRenderer)
+        CreateRenderer();
+
+        if (!GetRenderer()->Create(Sys_GetHWnd_4F2C70()))
         {
             LOG_ERROR("Render create failed " << SDL_GetError());
             ALIVE_FATAL("Render create failed");
         }
-        SDL_RenderClear(gRenderer);
+
+        GetRenderer()->Clear(0, 0, 0);
 
         switch (sVGA_bmp_primary_BD2A20.field_0_pSurface->format->BitsPerPixel)
         {

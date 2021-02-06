@@ -703,6 +703,7 @@ static int Sys_EventFilter(void* /*userData*/, SDL_Event* event)
         {
             Add_Dirty_Area_4ED970(0, 0, 640, 240);
         }
+        // SDL_WINDOWEVENT_SIZE_CHANGED
     }
     else if (event->type == SDL_QUIT)
     {

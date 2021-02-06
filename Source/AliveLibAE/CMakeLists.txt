@@ -1,6 +1,9 @@
 project(AliveLibAE VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibAESrc
+    Renderer/IRenderer.hpp
+    Renderer/SoftwareRenderer.hpp
+    Renderer/SoftwareRenderer.cpp
     vlctable.hpp
     Input.cpp
     Input.hpp
