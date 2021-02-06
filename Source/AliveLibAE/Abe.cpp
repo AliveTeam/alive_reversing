@@ -2530,7 +2530,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
     case Types::eAbilityRing_104:
         return 0;
 
-    case Types::eType_107:
+    case Types::eNeverSet_107:
         if (field_10C_health > FP_FromInteger(0))
         {
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pFrom);
@@ -9543,7 +9543,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
             &hitY,
             field_D6_scale != 0 ? 1 : 16) == 1)
         {
-            if (pBullet->field_20_type != BulletType::Type_1 && pBullet->field_20_type != BulletType::ZBullet_3)
+            if (pBullet->field_20_type != BulletType::ePossessedSligZBullet_1 && pBullet->field_20_type != BulletType::ZBullet_3)
             {
                 auto pSpark = ae_new<Spark>();
                 if (pSpark)
@@ -9560,8 +9560,8 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
 
     switch (pBullet->field_20_type)
     {
-    case BulletType::Type_0:
-    case BulletType::Type_2:
+    case BulletType::eSligPossessedOrUnderGlukkonCommand_0:
+    case BulletType::eNormalBullet_2:
     {
         FP bloodXOff = {};
         if (pBullet->field_30 <= FP_FromInteger(0))
@@ -9629,7 +9629,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
         break;
     }
 
-    case BulletType::Type_1:
+    case BulletType::ePossessedSligZBullet_1:
     case BulletType::ZBullet_3:
     {
         if (field_CC_sprite_scale == FP_FromDouble(0.5))

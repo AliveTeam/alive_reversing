@@ -2715,8 +2715,8 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
 
     switch (pBullet->field_10_type)
     {
-        case BulletType::Type_0:
-        case BulletType::Type_1:
+        case BulletType::ePossessedSlig_0:
+        case BulletType::eNormalBullet_1:
         {
             FP bloodXOff = {};
             if (pBullet->field_20 > FP_FromInteger(0))
@@ -2795,7 +2795,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
             }
             break;
         }
-        case BulletType::ZBullet_2:
+        case BulletType::eZBullet_2:
         {
             if (field_BC_sprite_scale == FP_FromDouble(0.5))
             {

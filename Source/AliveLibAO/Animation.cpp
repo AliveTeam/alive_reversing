@@ -37,15 +37,15 @@ EXPORT short* CC Animation_OnFrame_Slig_46F610(void* pObj, __int16* pData)
         return pData + 2;
     }
 
-    BulletType bulletType = BulletType::Type_0;
+    BulletType bulletType = BulletType::ePossessedSlig_0;
     if (pSlig->field_10A_flags.Get(Flags_10A::e10A_Bit2_bPossesed))
     {
         pSlig->field_254_prevent_depossession |= 1u;
-        bulletType = BulletType::Type_0;
+        bulletType = BulletType::ePossessedSlig_0;
     }
     else
     {
-        bulletType = BulletType::Type_1;
+        bulletType = BulletType::eNormalBullet_1;
     }
 
     const FP xOff = pSlig->field_BC_sprite_scale * FP_FromInteger(pData[0]);

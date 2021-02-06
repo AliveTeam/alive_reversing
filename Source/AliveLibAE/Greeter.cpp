@@ -501,7 +501,7 @@ EXPORT signed __int16 Greeter::vTakeDamage_447C20(BaseGameObject* pFrom)
     case Types::eRockSpawner_48:
     case Types::eMeatSaw_86:
     case Types::eMineCar_89:
-    case Types::eType_107:
+    case Types::eNeverSet_107:
     case Types::eExplosion_109:
         BlowUp_447E50();
         return 1;

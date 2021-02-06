@@ -16,7 +16,7 @@ void Alarm_ForceLink() { }
 
 ALIVE_VAR(1, 0x5076A8, short, alarmInstanceCount_5076A8, 0);
 
-EXPORT Alarm * Alarm::ctor_402570(__int16 duration_timer, __int16 switchId, __int16 timer, Layer layer)
+EXPORT Alarm* Alarm::ctor_402570(__int16 duration_timer, __int16 switchId, __int16 timer, Layer layer)
 {
     ctor_461550(layer, 1);
 
@@ -25,7 +25,7 @@ EXPORT Alarm * Alarm::ctor_402570(__int16 duration_timer, __int16 switchId, __in
     field_74_switch_id = switchId;
     field_4_typeId = Types::eAlarm_1;
     field_68_r_value = 0;
-    field_6A_state = 0;
+    field_6A_state = States::eAfterConstructed_0;
     field_70_duration_timer = field_6C_15_timer + duration_timer;
 
     alarmInstanceCount_5076A8++;
@@ -107,7 +107,7 @@ void Alarm::VUpdate_402660()
 
     switch (field_6A_state)
     {
-    case 0:
+    case States::eAfterConstructed_0:
         if (Event_Get_417250(kEventHeroDying_3))
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -116,7 +116,7 @@ void Alarm::VUpdate_402660()
 
         if (static_cast<int>(gnFrameCount_507670) > field_6C_15_timer)
         {
-            field_6A_state = 1;
+            field_6A_state = States::eEnabling_1;
 
             SFX_Play_43AD70(SoundEffect::Alarm_45, 0, 0);
 
@@ -127,37 +127,37 @@ void Alarm::VUpdate_402660()
         }
         break;
 
-    case 1:
+    case States::eEnabling_1:
         field_68_r_value += 25;
 
         if (field_68_r_value >= 100)
         {
             field_68_r_value = 100;
             field_6C_15_timer = gnFrameCount_507670 + 15;
-            field_6A_state = 2;
+            field_6A_state = States::eOnFlash_2;
             SFX_Play_43AD70(SoundEffect::Alarm_45, 0, 0);
         }
         break;
 
-    case 2:
+    case States::eOnFlash_2:
         if (static_cast<int>(gnFrameCount_507670) > field_6C_15_timer)
         {
-            field_6A_state = 3;
+            field_6A_state = States::eDisabling_3;
         }
         break;
 
-    case 3:
+    case States::eDisabling_3:
         field_68_r_value -= 25;
 
         if (field_68_r_value <= 0)
         {
             field_68_r_value = 0;
             field_6C_15_timer = gnFrameCount_507670 + 15;
-            field_6A_state = 4;
+            field_6A_state = States::eDisabled_4;
         }
         break;
 
-    case 4:
+    case States::eDisabled_4:
         if (Event_Get_417250(kEventHeroDying_3))
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -166,7 +166,7 @@ void Alarm::VUpdate_402660()
 
         if (static_cast<int>(gnFrameCount_507670) > field_6C_15_timer)
         {
-            field_6A_state = 1;
+            field_6A_state = States::eEnabling_1;
             SFX_Play_43AD70(SoundEffect::Alarm_45, 0, 0);
         }
         break;

@@ -13,10 +13,10 @@ class BaseAliveGameObject;
 
 enum class BulletType : __int16
 {
-    Type_0 = 0,
-    Type_1 = 1,
-    Type_2 = 2,
-    ZBullet_3 = 3,
+    eSligPossessedOrUnderGlukkonCommand_0 = 0,
+    ePossessedSligZBullet_1 = 1,
+    eNormalBullet_2 = 2,
+    ZBullet_3 = 3
 };
 
 class Bullet : public BaseGameObject

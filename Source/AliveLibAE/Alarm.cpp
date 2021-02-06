@@ -35,7 +35,7 @@ Alarm* Alarm::ctor_409300(Path_Alarm* pTlv, int tlvInfo)
     field_4_typeId = Types::eAlarm_1;
 
     field_78_r_value = 0;
-    field_90_state = eState_0_WaitForSwitchEnable;
+    field_90_state = States::eWaitForSwitchEnable_0;
 
     // This won't count as an alarm instance till this id is enabled
     field_88_switch_id = pTlv->field_10_id;
@@ -57,7 +57,7 @@ Alarm* Alarm::ctor_4091F0(__int16 durationOffset, __int16 switchId, __int16 time
     field_4_typeId = Types::eAlarm_1;
 
     field_78_r_value = 0;
-    field_90_state = eState_1_AfterConstructed;
+    field_90_state = States::eAfterConstructed_1;
     field_84_tlvOffsetLevelPathCamId = 0xFFFF;
     field_7C_15_timer = sGnFrame_5C1B84 + timerOffset;
     field_80_duration_timer = field_7C_15_timer + durationOffset;
@@ -86,7 +86,7 @@ void Alarm::dtor_409380()
 {
     SetVTable(this, 0x544074); // vTbl_GlukkonPanic_544074
 
-    if (field_90_state != eState_0_WaitForSwitchEnable)
+    if (field_90_state != States::eWaitForSwitchEnable_0)
     {
         --alarmInstanceCount_5C1BB4;
     }
@@ -131,7 +131,7 @@ void Alarm::vRender_409710(PrimHeader** ppOt)
 
 void Alarm::vUpdate_409460()
 {
-    if (field_90_state != eState_0_WaitForSwitchEnable)
+    if (field_90_state != States::eWaitForSwitchEnable_0)
     {
         Event_Broadcast_422BC0(kEventAlarm, this);
         if (static_cast<int>(sGnFrame_5C1B84) > field_80_duration_timer)
@@ -143,7 +143,7 @@ void Alarm::vUpdate_409460()
 
     switch (field_90_state)
     {
-        case eState_0_WaitForSwitchEnable:
+    case States::eWaitForSwitchEnable_0:
             if (Event_Get_422C00(kEventDeathReset))
             {
                 field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -165,13 +165,13 @@ void Alarm::vUpdate_409460()
                 sAlarmObjId_550D70 = field_8_object_id;
             }
 
-            field_90_state = eState_2_Enabling;
+            field_90_state = States::eEnabling_2;
             SFX_Play_46FA90(SoundEffect::SecurityDoorDeny_38, 0);
             field_80_duration_timer = sGnFrame_5C1B84 + field_8A_duration;
             field_6E_r = field_78_r_value;
             break;
 
-        case eState_1_AfterConstructed: // When not created by a map TLV
+        case States::eAfterConstructed_1: // When not created by a map TLV
             if (Event_Get_422C00(kEventHeroDying))
             {
                 field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -184,7 +184,7 @@ void Alarm::vUpdate_409460()
                     return;
                 }
 
-                field_90_state = eState_2_Enabling;
+                field_90_state = States::eEnabling_2;
                 SFX_Play_46FA90(SoundEffect::SecurityDoorDeny_38, 0);
 
                 if (!field_88_switch_id)
@@ -198,7 +198,7 @@ void Alarm::vUpdate_409460()
             }
             break;
 
-        case eState_2_Enabling:
+        case States::eEnabling_2:
             field_78_r_value += 25;
 
             if (field_78_r_value < 100)
@@ -208,24 +208,24 @@ void Alarm::vUpdate_409460()
             }
 
             field_78_r_value = 100;
-            field_90_state = eState_3_OnFlash;
+            field_90_state = States::eOnFlash_3;
             field_7C_15_timer = sGnFrame_5C1B84 + 15;
             SFX_Play_46FA90(SoundEffect::SecurityDoorDeny_38, 0);
             field_6E_r = field_78_r_value;
             break;
 
-        case eState_3_OnFlash:
+        case States::eOnFlash_3:
             if (static_cast<int>(sGnFrame_5C1B84) <= field_7C_15_timer)
             {
                 field_6E_r = field_78_r_value;
                 return;
             }
 
-            field_90_state = eState_4_Disabling;
+            field_90_state = States::eDisabling_4;
             field_6E_r = field_78_r_value;
             break;
 
-        case eState_4_Disabling:
+        case States::eDisabling_4:
             field_78_r_value -= 25;
 
             if (field_78_r_value > 0)
@@ -236,11 +236,11 @@ void Alarm::vUpdate_409460()
 
             field_78_r_value = 0;
             field_7C_15_timer = sGnFrame_5C1B84 + 15;
-            field_90_state = eState_5_Disabled;
+            field_90_state = States::eDisabled_5;
             field_6E_r = field_78_r_value;
             break;
 
-        case eState_5_Disabled:
+        case States::eDisabled_5:
             if (Event_Get_422C00(kEventHeroDying))
             {
                 field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -249,7 +249,7 @@ void Alarm::vUpdate_409460()
             {
                 if (static_cast<int>(sGnFrame_5C1B84) > field_7C_15_timer)
                 {
-                    field_90_state = eState_2_Enabling;
+                    field_90_state = States::eEnabling_2;
                     SFX_Play_46FA90(SoundEffect::SecurityDoorDeny_38, 0);
                 }
                 field_6E_r = field_78_r_value;

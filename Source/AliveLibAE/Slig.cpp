@@ -91,14 +91,14 @@ int CC Animation_OnFrame_Slig_4C0600(void* pObj, signed __int16* pData)
         return 1;
     }
 
-    BulletType bulletType = BulletType::Type_0;
+    BulletType bulletType = BulletType::eSligPossessedOrUnderGlukkonCommand_0;
     if (pSlig->field_114_flags.Get(Flags_114::e114_Bit4_bPossesed) || pSlig->vUnderGlukkonCommand_4B1760())
     {
-        bulletType = BulletType::Type_0;
+        bulletType = BulletType::eSligPossessedOrUnderGlukkonCommand_0;
     }
     else
     {
-        bulletType = BulletType::Type_2;
+        bulletType = BulletType::eNormalBullet_2;
     }
 
     const FP xOff = (pSlig->field_CC_sprite_scale * FP_FromInteger(pPoints->field_0_x));
@@ -2205,37 +2205,28 @@ void Slig::M_ShootZ_42_4B7560()
     }
     else if (field_20_animation.field_92_current_frame == 7)
     {
+        BulletType bulletType = BulletType::eSligPossessedOrUnderGlukkonCommand_0;
         if (sControlledCharacter_5C1B8C == this)
         {
-            auto pBullet = ae_new<Bullet>();
-            if (pBullet)
-            {
-                pBullet->ctor_414540(
-                    this,
-                    BulletType::Type_1,
-                    field_B8_xpos,
-                    field_BC_ypos - FP_FromInteger(12),
-                    FP_FromInteger(640),
-                    0,
-                    field_CC_sprite_scale,
-                    field_218_tlv_data.field_22_num_times_to_shoot - field_158_num_times_to_shoot - 1);
-            }
+            bulletType = BulletType::ePossessedSligZBullet_1;
         }
         else
         {
-            auto pBullet = ae_new<Bullet>();
-            if (pBullet)
-            {
-                pBullet->ctor_414540(
-                    this,
-                    BulletType::ZBullet_3,
-                    field_B8_xpos,
-                    field_BC_ypos - FP_FromInteger(12),
-                    FP_FromInteger(640),
-                    0,
-                    field_CC_sprite_scale,
-                    field_218_tlv_data.field_22_num_times_to_shoot - field_158_num_times_to_shoot - 1);
-            }
+            bulletType = BulletType::ZBullet_3;
+        }
+
+        auto pBullet = ae_new<Bullet>();
+        if (pBullet)
+        {
+            pBullet->ctor_414540(
+                this,
+                bulletType,
+                field_B8_xpos,
+                field_BC_ypos - FP_FromInteger(12),
+                FP_FromInteger(640),
+                0,
+                field_CC_sprite_scale,
+                field_218_tlv_data.field_22_num_times_to_shoot - field_158_num_times_to_shoot - 1);
         }
 
         New_ShootingZFire_Particle_4269B0(field_B8_xpos, field_BC_ypos - FP_FromInteger(12), field_CC_sprite_scale);
@@ -7051,8 +7042,8 @@ __int16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
         auto pBullet = static_cast<Bullet*>(pFrom);
         switch (pBullet->field_20_type)
         {
-        case BulletType::Type_0:
-        case BulletType::Type_2:
+        case BulletType::eSligPossessedOrUnderGlukkonCommand_0:
+        case BulletType::eNormalBullet_2:
         {
             auto pBlood1 = ae_new<Blood>();
             if (pBlood1)
@@ -7075,7 +7066,7 @@ __int16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
             break;
         }
 
-        case BulletType::Type_1:
+        case BulletType::ePossessedSligZBullet_1:
         case BulletType::ZBullet_3:
         {
             PSX_RECT myRect = {};
@@ -7279,7 +7270,7 @@ __int16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
         Event_Broadcast_422BC0(kEventMudokonComfort, this);
         return 1;
 
-    case Types::eType_8:
+    case Types::eNeverSet_8:
         break;
 
     default:

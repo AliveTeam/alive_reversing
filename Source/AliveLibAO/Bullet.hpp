@@ -10,9 +10,9 @@ class BaseAliveGameObject;
 
 enum class BulletType : __int16
 {
-    Type_0 = 0,
-    Type_1 = 1,
-    ZBullet_2 = 2
+    ePossessedSlig_0 = 0,
+    eNormalBullet_1 = 1,
+    eZBullet_2 = 2
 };
 
 enum class LevelIds : __int16;

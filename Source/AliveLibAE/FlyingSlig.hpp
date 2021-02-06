@@ -76,14 +76,14 @@ struct FlyingSlig_State
     BYTE field_39_pad;
     enum Flags_3A
     {
-        eBit1 = 0x1,
-        eBit2 = 0x2,
-        eBit3 = 0x4,
-        eBit4 = 0x8,
-        eBit5 = 0x10,
-        eBit6 = 0x20,
-        eBit7 = 0x40,
-        eBit8 = 0x80,
+        eBit1_bPossessed = 0x1,
+        eBit2_Throw = 0x2,
+        eBit3_bAlertedAndNotFacingAbe = 0x4,
+        eBit4_DoAction = 0x8,
+        eBit5_Chanting = 0x10,
+        eBit6_Speaking_flag2 = 0x20,
+        eBit7_Speaking_flag1 = 0x40,
+        eBit8_bLastLine = 0x80,
         eBit9 = 0x100,
         eBit10 = 0x200,
         eBit11 = 0x400,
@@ -106,16 +106,16 @@ struct FlyingSlig_State
     FP field_6C;
     FP field_70;
     FP field_74;
-    int field_78;
-    int field_7C;
-    int field_80;
-    int field_84;
+    int field_78_unused;
+    int field_7C_unused;
+    int field_80_unused;
+    int field_84_unused;
     FP field_88_nextXPos;
     FP field_8C_nextYPos;
     int field_90_fns1_idx;
     __int16 field_94;
     __int16 field_96;
-    __int16 field_98;
+    __int16 field_98_unused;
     LevelIds field_9A_abe_level;
     __int16 field_9C_abe_path;
     __int16 field_9E_abe_camera;
@@ -313,33 +313,33 @@ private:
     int field_154;
     int field_158_obj_id;
     __int16 field_15C_voice_pitch_min;
-    __int16 field_15E;
+    __int16 field_15E_useless;
     __int16 field_160_voice_pitch_min;
-    __int16 field_162;
-    int field_164;
-    __int16 field_168;
-    __int16 field_16A;
-    __int16 field_16C;
-    __int16 field_16E;
-    __int16 field_170;
-    __int16 field_172;
-    __int16 field_174;
-    __int16 field_176;
-    __int16 field_178;
-    __int16 field_17A;
+    __int16 field_162_padding;
+    int field_164_unused;
+    __int16 field_168_padding;
+    __int16 field_16A_padding;
+    __int16 field_16C_padding;
+    __int16 field_16E_padding;
+    __int16 field_170_padding;
+    __int16 field_172_padding;
+    __int16 field_174_padding;
+    __int16 field_176_padding;
+    __int16 field_178_unused;
+    __int16 field_17A_unused;
     BYTE field_17C_launch_id;
     SligSpeak field_17D_next_speak;
 
     enum Flags_17E
     {
         eBit1_Speaking_flag1 = 0x1,
-        eBit2 = 0x2,
+        eBit2_bLastLine = 0x2,
         eBit3 = 0x4,
         eBit4 = 0x8,
         eBit5_Throw = 0x10,
-        eBit6 = 0x20,
+        eBit6_bAlertedAndNotFacingAbe = 0x20,
         eBit7_DoAction = 0x40,
-        eBit8 = 0x80,
+        eBit8_Unused = 0x80,
         eBit9_Chanting = 0x100,
         eBit10_Speaking_flag2 = 0x200,
         eBit11_bNoPrevLine = 0x400,
@@ -355,30 +355,30 @@ private:
     FP field_190;
     FP field_194;
     FP field_198_line_length;
-    __int16 field_19C;
-    __int16 field_19E;
-    __int16 field_1A0;
-    __int16 field_1A2;
+    __int16 field_19C_padding;
+    __int16 field_19E_padding;
+    __int16 field_1A0_padding;
+    __int16 field_1A2_padding;
     FP_Rect field_1A4_rect;
-    __int16 field_1B4;
-    __int16 field_1B6;
-    __int16 field_1B8;
-    __int16 field_1BA;
+    __int16 field_1B4_padding;
+    __int16 field_1B6_padding;
+    __int16 field_1B8_padding;
+    __int16 field_1BA_padding;
     FP field_1BC;
     FP field_1C0;
     FP field_1C4;
     FP field_1C8;
     FP field_1CC;
-    __int16 field_1D0;
-    __int16 field_1D2;
-    __int16 field_1D4;
-    __int16 field_1D6;
-    int field_1D8;
-    int field_1DC;
-    int field_1E0;
-    int field_1E4;
-    __int16 field_1E8;
-    __int16 field_1EA;
+    __int16 field_1D0_padding;
+    __int16 field_1D2_padding;
+    __int16 field_1D4_padding;
+    __int16 field_1D6_padding;
+    int field_1D8_unused;
+    int field_1DC_unused;
+    int field_1E0_unused;
+    int field_1E4_unused;
+    __int16 field_1E8_unused;
+    __int16 field_1EA_padding;
     PathLine* field_1EC_pNextLine;
     PathLine* field_1F0_pPrevLine;
     __int16 field_1F4_pPalAlloc[64];
@@ -386,9 +386,9 @@ private:
     __int16 field_27C_r;
     __int16 field_27E_g;
     __int16 field_280_b;
-    __int16 field_282;
+    __int16 field_282_padding;
     FP field_284;
-    const FP* field_288;
+    const FP* field_288_unused;
     __int16 field_28C;
     __int16 field_28E;
     int field_290;

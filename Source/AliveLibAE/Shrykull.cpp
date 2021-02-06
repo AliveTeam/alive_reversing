@@ -99,7 +99,7 @@ __int16 CCSTD Shrykull::CanElectrocute_4AED10(BaseGameObject* pObj)
     switch (pObj->field_4_typeId)
     {
     case Types::eCrawlingSlig_26:
-    case Types::eType_40:
+    case Types::eNeverSet_40:
     case Types::eFlyingSlig_54:
     case Types::eGlukkon_67:
     case Types::eMudokon2_81:

@@ -29,14 +29,14 @@ private:
     __int16 field_88_switch_id;
     WORD field_8A_duration;
     int field_8C_padding;
-    enum States : __int16
+    enum class States : __int16
     {
-        eState_0_WaitForSwitchEnable = 0,
-        eState_1_AfterConstructed = 1,
-        eState_2_Enabling = 2,
-        eState_3_OnFlash = 3,
-        eState_4_Disabling = 4,
-        eState_5_Disabled = 5,
+        eWaitForSwitchEnable_0 = 0,
+        eAfterConstructed_1 = 1,
+        eEnabling_2 = 2,
+        eOnFlash_3 = 3,
+        eDisabling_4 = 4,
+        eDisabled_5 = 5,
     };
     States field_90_state;
     __int16 field_92_padding;

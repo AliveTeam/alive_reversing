@@ -3130,8 +3130,8 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
         auto pBullet = static_cast<Bullet*>(pFrom);
         switch (pBullet->field_20_type)
         {
-        case BulletType::Type_0:
-        case BulletType::Type_2:
+        case BulletType::eSligPossessedOrUnderGlukkonCommand_0:
+        case BulletType::eNormalBullet_2:
         {
             auto pBlood1 = ae_new<Blood>();
             if (pBlood1)
@@ -3164,7 +3164,7 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
         }
             break;
 
-        case BulletType::Type_1:
+        case BulletType::ePossessedSligZBullet_1:
         case BulletType::ZBullet_3:
         {
             auto pBlood2 = ae_new<Blood>();
@@ -3240,7 +3240,7 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
 
     case Types::eRockSpawner_48:
     case Types::eMineCar_89:
-    case Types::eType_107:
+    case Types::eNeverSet_107:
         SetAnim_43F9C0(eGlukkonMotions::M_DeathFall_8_443760, TRUE);
         SetBrain(&Glukkon::AI_4_Death_442010);
         field_210_sub_state = 0;
