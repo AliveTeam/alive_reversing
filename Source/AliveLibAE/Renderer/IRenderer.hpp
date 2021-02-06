@@ -9,6 +9,17 @@ struct PrimHeader;
 class IRenderer
 {
 public:
+    enum class Renderers
+    {
+        Software,
+        DirectX9,
+    };
+
+    static IRenderer* GetRenderer();
+    static void CreateRenderer(Renderers type);
+    static void FreeRenderer();
+
+public:
     virtual ~IRenderer() {}
     virtual void Destroy() = 0;
     virtual bool Create(TWindowHandleType window) = 0;
@@ -56,3 +67,4 @@ public:
     virtual void Draw(Poly_G4& poly) = 0;
 
 };
+

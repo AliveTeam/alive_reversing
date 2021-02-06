@@ -3281,7 +3281,7 @@ void DrawOTag_Render_TILE(PrimAny& any, short x, short y, short w, short h)
     PSX_Render_TILE_4F6A70(&rect, &any.mTile->mBase.header);
 }
 
-static void DrawOTag_HandlePrimRendering(PrimAny& any)
+static void DrawOTag_HandlePrimRendering(IRenderer& renderer, PrimAny& any)
 {
     switch (PSX_Prim_Code_Without_Blending_Or_SemiTransparency(any.mPrimHeader->rgb_code.code_or_pad))
     {
@@ -3330,43 +3330,43 @@ static void DrawOTag_HandlePrimRendering(PrimAny& any)
         break;
 
     case PrimTypeCodes::eSprt:
-        GetRenderer()->Draw(*any.mSprt);
+        renderer.Draw(*any.mSprt);
         break;
 
     case PrimTypeCodes::eTile:
-        GetRenderer()->Draw(*any.mTile);
+        renderer.Draw(*any.mTile);
         break;
 
     case PrimTypeCodes::eLineF2:
-        GetRenderer()->Draw(*any.mLineF2);
+        renderer.Draw(*any.mLineF2);
         break;
 
     case PrimTypeCodes::eLineG2:
-        GetRenderer()->Draw(*any.mLineG2);
+        renderer.Draw(*any.mLineG2);
         break;
 
     case PrimTypeCodes::eLineG4:
-        GetRenderer()->Draw(*any.mLineG4);
+        renderer.Draw(*any.mLineG4);
         break;
 
     case PrimTypeCodes::ePolyF3:
-        GetRenderer()->Draw(*any.mPolyF3);
+        renderer.Draw(*any.mPolyF3);
         break;
 
     case PrimTypeCodes::ePolyG3:
-        GetRenderer()->Draw(*any.mPolyG3);
+        renderer.Draw(*any.mPolyG3);
         break;
 
     case PrimTypeCodes::ePolyF4:
-        GetRenderer()->Draw(*any.mPolyF4);
+        renderer.Draw(*any.mPolyF4);
         break;
 
     case PrimTypeCodes::ePolyFT4:
-        GetRenderer()->Draw(*any.mPolyFT4);
+        renderer.Draw(*any.mPolyFT4);
         break;
 
     case PrimTypeCodes::ePolyG4:
-        GetRenderer()->Draw(*any.mPolyG4);
+        renderer.Draw(*any.mPolyG4);
         break;
 
     default:
@@ -3388,7 +3388,9 @@ static bool DrawOTagImpl(PrimHeader** ppOt, __int16 drawEnv_of0, __int16 drawEnv
         ALIVE_FATAL("Failed to look up OT info record");
     }
 
-    GetRenderer()->StartFrame(drawEnv_of0, drawEnv_of1);
+    IRenderer& renderer = *IRenderer::GetRenderer();
+
+    renderer.StartFrame(drawEnv_of0, drawEnv_of1);
 
     PrimHeader* pOtItem = ppOt[0];
     while (pOtItem)
@@ -3409,11 +3411,11 @@ static bool DrawOTagImpl(PrimHeader** ppOt, __int16 drawEnv_of0, __int16 drawEnv
             switch (itemToDrawType)
             {
             case PrimTypeCodes::eSetTPage:
-                GetRenderer()->SetTPage(static_cast<short>(any.mSetTPage->field_C_tpage));
+                renderer.SetTPage(static_cast<short>(any.mSetTPage->field_C_tpage));
                 break;
 
             case PrimTypeCodes::ePrimClipper:
-                GetRenderer()->SetClip(*any.mPrimClipper);
+                renderer.SetClip(*any.mPrimClipper);
                 break;
 
             // Always the lowest command in the list
@@ -3428,11 +3430,11 @@ static bool DrawOTagImpl(PrimHeader** ppOt, __int16 drawEnv_of0, __int16 drawEnv
                 break;
 
             case PrimTypeCodes::eLaughingGas:
-                GetRenderer()->Draw(*any.mGas);
+                renderer.Draw(*any.mGas);
                 break;
 
             default:
-                DrawOTag_HandlePrimRendering(any);
+                DrawOTag_HandlePrimRendering(renderer, any);
                 break;
             }
         }
@@ -3445,7 +3447,7 @@ static bool DrawOTagImpl(PrimHeader** ppOt, __int16 drawEnv_of0, __int16 drawEnv
         pOtItem = any.mPrimHeader->tag; // offset 0
     }
 
-    GetRenderer()->EndFrame();
+    renderer.EndFrame();
 
     return false;
 }
