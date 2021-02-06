@@ -231,6 +231,7 @@ EXPORT void CC Sys_SetWindowProc_Filter_4EE197(TWindowProcFilter pFilter)
 ALIVE_VAR(1, 0x5CA230, SoundEntry*, sMovieSoundEntry_5CA230, nullptr);
 
 #if _WIN32
+#ifndef USE_SDL2
 EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     LRESULT ret = 0;
@@ -360,6 +361,7 @@ EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wP
     }
     return ret;
 }
+#endif
 #endif
 
 #if USE_SDL2

@@ -502,11 +502,11 @@ void Map::Init_4803F0(LevelIds level, __int16 path, __int16 camera, CameraSwapEf
     sPath_dword_BB47C0 = ae_new<Path>();
     sPath_dword_BB47C0->ctor_4DB170();
 
-    field_2C_camera_array[0] = 0;
-    field_2C_camera_array[1] = 0;
-    field_2C_camera_array[2] = 0;
-    field_2C_camera_array[3] = 0;
-    field_2C_camera_array[4] = 0;
+    field_2C_camera_array[0] = nullptr;
+    field_2C_camera_array[1] = nullptr;
+    field_2C_camera_array[2] = nullptr;
+    field_2C_camera_array[3] = nullptr;
+    field_2C_camera_array[4] = nullptr;
 
     field_22_overlayID = -1;
 

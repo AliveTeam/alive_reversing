@@ -10,6 +10,7 @@
 #include "TouchController.hpp"
 #include "Renderer/IRenderer.hpp"
 #include "Renderer/SoftwareRenderer.hpp"
+#include "Renderer/DirectX9Renderer.hpp"
 
 void VGA_ForceLink() {}
 
@@ -45,13 +46,27 @@ EXPORT IRenderer* GetRenderer()
     return gRenderer;
 }
 
-EXPORT void CreateRenderer()
+EXPORT void CreateRenderer(Renderers type)
 {
     if (gRenderer)
     {
         ALIVE_FATAL("Renderer already created");
     }
-    gRenderer = new SoftwareRenderer();
+
+    if (type == Renderers::Software)
+    {
+        gRenderer = new SoftwareRenderer();
+    }
+#ifdef _WIN32
+    else if (type == Renderers::DirectX9)
+    {
+        gRenderer = new DirectX9Renderer();
+    }
+#endif
+    else
+    {
+        ALIVE_FATAL("Unknown renderer type");
+    }
 }
 
 EXPORT void FreeRenderer()
@@ -70,6 +85,7 @@ EXPORT signed int CC VGA_FullScreenSet_4F31F0(bool /*bFullScreen*/)
 EXPORT void CC VGA_Shutdown_4F3170()
 {
 #if _WIN32
+#ifndef USE_SDL2
     if (sDD_primary_surface_BBC3C8)
     {
         if (!sVGA_own_surfaces_BD0BFA)
@@ -88,6 +104,7 @@ EXPORT void CC VGA_Shutdown_4F3170()
         sDD_primary_surface_BBC3C8 = nullptr;
         sDD_surface_backbuffer_BBC3CC = nullptr;
     }
+#endif
 #endif
 
     GetRenderer()->Destroy();
@@ -299,7 +316,8 @@ EXPORT signed int CC VGA_DisplaySet_4F32C0(unsigned __int16 width, unsigned __in
 
         sVGA_Inited_BC0BB8 = 1;
 
-        CreateRenderer();
+        //CreateRenderer(Renderers::DirectX9);
+        CreateRenderer(Renderers::Software);
 
         if (!GetRenderer()->Create(Sys_GetHWnd_4F2C70()))
         {

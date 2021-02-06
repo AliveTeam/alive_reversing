@@ -6,7 +6,12 @@
 void VGA_ForceLink();
 
 EXPORT class IRenderer* GetRenderer();
-EXPORT void CreateRenderer();
+enum class Renderers
+{
+    Software,
+    DirectX9,
+};
+EXPORT void CreateRenderer(Renderers type);
 EXPORT void FreeRenderer();
 
 EXPORT void CC VGA_Shutdown_4F3170();
