@@ -57,10 +57,12 @@ EXPORT void CreateRenderer(Renderers type)
     {
         gRenderer = new SoftwareRenderer();
     }
+#ifdef _WIN32
     else if (type == Renderers::DirectX9)
     {
         gRenderer = new DirectX9Renderer();
     }
+#endif
     else
     {
         ALIVE_FATAL("Unknown renderer type");
