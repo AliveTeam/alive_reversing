@@ -10,7 +10,8 @@
 #include "Compression.hpp"
 #include "Sys_common.hpp"
 #include <gmock/gmock.h>
-
+#include "VGA.hpp"
+#include "Renderer/IRenderer.hpp"
 
 struct OtUnknown
 {
@@ -1178,7 +1179,7 @@ static void Push_OTInformation(PrimHeader** otBuffer, int otBufferSize)
     {
         if (gSavedOtInfo[i].mOt == otBuffer)
         {
-            LOG_WARNING("OT record pushed more than once, update existing");
+            //LOG_WARNING("OT record pushed more than once, update existing");
             gSavedOtInfo[i].mOt = otBuffer;
             gSavedOtInfo[i].mOtSize = otBufferSize;
             return;
@@ -3237,7 +3238,7 @@ EXPORT void CC PSX_RenderLaughingGasEffect_4F7B80(int xpos, int ypos, int width,
     }
 }
 
-static void DrawOTag_Render_SPRT(PrimAny& any, __int16 drawEnv_of0, __int16 drawEnv_of1, short width, short height)
+void DrawOTag_Render_SPRT(PrimAny& any, __int16 drawEnv_of0, __int16 drawEnv_of1, short width, short height)
 {
     BYTE b = 0;
     BYTE g = 0;
@@ -3274,70 +3275,98 @@ static void DrawOTag_Render_SPRT(PrimAny& any, __int16 drawEnv_of0, __int16 draw
         any.mPrimHeader->rgb_code.code_or_pad & 2); // Semi transparency bit
 }
 
-static void DrawOTag_Render_TILE(PrimAny& any, short x, short y, short w, short h)
+void DrawOTag_Render_TILE(PrimAny& any, short x, short y, short w, short h)
 {
     PSX_RECT rect = { x,y,w,h };
     PSX_Render_TILE_4F6A70(&rect, &any.mTile->mBase.header);
 }
 
-static void DrawOTag_HandlePrimRendering(PrimAny& any, __int16 drawEnv_of0, __int16 drawEnv_of1)
+static void DrawOTag_HandlePrimRendering(PrimAny& any)
 {
     switch (PSX_Prim_Code_Without_Blending_Or_SemiTransparency(any.mPrimHeader->rgb_code.code_or_pad))
     {
-    case PrimTypeCodes::eSprt:
-        DrawOTag_Render_SPRT(any, drawEnv_of0, drawEnv_of1, any.mSprt->field_14_w, any.mSprt->field_16_h);
-        break;
-
     case PrimTypeCodes::eSprt8:
-        DrawOTag_Render_SPRT(any, drawEnv_of0, drawEnv_of1, 8, 8);
+        ALIVE_FATAL("Never expected eSprt8 to be added to the OT");
         break;
 
     case PrimTypeCodes::eSprt16:
-        DrawOTag_Render_SPRT(any, drawEnv_of0, drawEnv_of1, 16, 16);
-        break;
-
-    case PrimTypeCodes::eTile:
-        DrawOTag_Render_TILE(any, drawEnv_of0 + any.mSprt->mBase.vert.x, drawEnv_of1 + any.mSprt->mBase.vert.y, any.mTile->field_14_w, any.mTile->field_16_h);
+        ALIVE_FATAL("Never expected eSprt16 to be added to the OT");
         break;
 
     case PrimTypeCodes::eTile1:
-        DrawOTag_Render_TILE(any, drawEnv_of0 + any.mSprt->mBase.vert.x, drawEnv_of1 + any.mSprt->mBase.vert.y, 1, 1);
+        ALIVE_FATAL("Never expected eTile1 to be added to the OT");
         break;
 
     case PrimTypeCodes::eTile8:
-        DrawOTag_Render_TILE(any, drawEnv_of0 + any.mSprt->mBase.vert.x, drawEnv_of1 + any.mSprt->mBase.vert.y, 8, 8);
+        ALIVE_FATAL("Never expected eTile8 to be added to the OT");
         break;
 
     case PrimTypeCodes::eTile16:
-        DrawOTag_Render_TILE(any, drawEnv_of0 + any.mSprt->mBase.vert.x, drawEnv_of1 + any.mSprt->mBase.vert.y, 16, 16);
+        ALIVE_FATAL("Never expected eTile16 to be added to the OT");
+        break;
+
+    case PrimTypeCodes::eLineF3:
+        ALIVE_FATAL("Never expected eLineF3 to be added to the OT");
+        break;
+
+    case PrimTypeCodes::eLineF4:
+        ALIVE_FATAL("Never expected eLineF4 to be added to the OT");
+        break;
+
+    case PrimTypeCodes::eLineG3:
+        ALIVE_FATAL("Never expected eLineG3 to be added to the OT");
+        break;
+
+    case PrimTypeCodes::ePolyFT3:
+        ALIVE_FATAL("Never expected ePolyFT3 to be added to the OT");
+        break;
+     
+    case PrimTypeCodes::ePolyGT3:
+        ALIVE_FATAL("Never expected ePolyGT3 to be added to the OT");
+        break;
+
+    case PrimTypeCodes::ePolyGT4:
+        ALIVE_FATAL("Never expected ePolyGT4 to be added to the OT");
+        break;
+
+    case PrimTypeCodes::eSprt:
+        GetRenderer()->Draw(*any.mSprt);
+        break;
+
+    case PrimTypeCodes::eTile:
+        GetRenderer()->Draw(*any.mTile);
         break;
 
     case PrimTypeCodes::eLineF2:
-    case PrimTypeCodes::eLineF3:
-    case PrimTypeCodes::eLineF4:
+        GetRenderer()->Draw(*any.mLineF2);
+        break;
+
     case PrimTypeCodes::eLineG2:
-    case PrimTypeCodes::eLineG3:
+        GetRenderer()->Draw(*any.mLineG2);
+        break;
+
     case PrimTypeCodes::eLineG4:
-        PSX_Render_Line_Prim_4F7D90(any.mVoid, drawEnv_of0, drawEnv_of1);
+        GetRenderer()->Draw(*any.mLineG4);
         break;
 
     case PrimTypeCodes::ePolyF3:
-    case PrimTypeCodes::ePolyFT3:
+        GetRenderer()->Draw(*any.mPolyF3);
+        break;
+
     case PrimTypeCodes::ePolyG3:
-    case PrimTypeCodes::ePolyGT3:
+        GetRenderer()->Draw(*any.mPolyG3);
+        break;
+
     case PrimTypeCodes::ePolyF4:
+        GetRenderer()->Draw(*any.mPolyF4);
+        break;
+
     case PrimTypeCodes::ePolyFT4:
+        GetRenderer()->Draw(*any.mPolyFT4);
+        break;
+
     case PrimTypeCodes::ePolyG4:
-    case PrimTypeCodes::ePolyGT4:
-        {
-            // This works by func 1 populating some data structure and then func 2 does the actual rendering
-            // for POLY_FT4 it may return nullptr as it short circuits this logic and renders the polygon itself in some cases.
-            OT_Prim* pPolyBuffer = PSX_Render_Convert_Polys_To_Internal_Format_4F7110(any.mVoid, drawEnv_of0, drawEnv_of1);
-            if (pPolyBuffer)
-            {
-                PSX_Render_Internal_Format_Polygon_4F7960(pPolyBuffer, drawEnv_of0, drawEnv_of1);
-            }
-        }
+        GetRenderer()->Draw(*any.mPolyG4);
         break;
 
     default:
@@ -3359,17 +3388,8 @@ static bool DrawOTagImpl(PrimHeader** ppOt, __int16 drawEnv_of0, __int16 drawEnv
         ALIVE_FATAL("Failed to look up OT info record");
     }
 
+    GetRenderer()->StartFrame(drawEnv_of0, drawEnv_of1);
 
-    /*
-    int otIdx = PSX_OT_Idx_From_Ptr_4F6A40(pOT);
-    if (otIdx < 0)
-    {
-        return false;
-    }
-
-    int** pLastOtItem = sOt_Stack_BD0D88[otIdx].field_4;
-    PrimHeader** ppOtEnd = sOt_Stack_BD0D88[otIdx].field_8_pOt_End;
-    */
     PrimHeader* pOtItem = ppOt[0];
     while (pOtItem)
     {
@@ -3388,29 +3408,15 @@ static bool DrawOTagImpl(PrimHeader** ppOt, __int16 drawEnv_of0, __int16 drawEnv
             int itemToDrawType = any.mPrimHeader->rgb_code.code_or_pad;
             switch (itemToDrawType)
             {
-            case 2: // TODO: unknown
-                // This is like Prim_MoveImage without x/y but is not actually used anywhere
-                //PSX_Render_TILE_4F6A70(nullptr, &any.mTile->mBase.header); // passing nullptr was also wrong and will always crash
-                ALIVE_FATAL("Prim type 2 should never be added to the OT");
-                break;
-
             case PrimTypeCodes::eSetTPage:
-                PSX_TPage_Change_4F6430(static_cast<short>(any.mSetTPage->field_C_tpage));
+                GetRenderer()->SetTPage(static_cast<short>(any.mSetTPage->field_C_tpage));
                 break;
 
             case PrimTypeCodes::ePrimClipper:
-                sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x = any.mPrimClipper->field_C_x;
-                sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y = any.mPrimClipper->field_E_y;
-                sPSX_EMU_DrawEnvState_C3D080.field_0_clip.w = any.mPrimHeader->header.mRect.w;
-                sPSX_EMU_DrawEnvState_C3D080.field_0_clip.h = any.mPrimHeader->header.mRect.h;
-                PSX_SetDrawEnv_Impl_4FE420(
-                    16 * any.mPrimClipper->field_C_x,
-                    16 * any.mPrimClipper->field_E_y,
-                    (16 * (any.mPrimClipper->field_C_x + any.mPrimHeader->header.mRect.w)) - 16,
-                    (16 * (any.mPrimClipper->field_E_y + any.mPrimHeader->header.mRect.h)) - 16,
-                    1000 / 2,
-                    nullptr);
+                GetRenderer()->SetClip(*any.mPrimClipper);
                 break;
+
+            // Always the lowest command in the list
             case PrimTypeCodes::eScreenOffset:
                 // NOTE: Conditional on dword_55EF94 removed as it is constant 1
                 sScreenXOffSet_BD30E4 = any.mScreenOffset->field_C_xoff * 2;
@@ -3418,28 +3424,15 @@ static bool DrawOTagImpl(PrimHeader** ppOt, __int16 drawEnv_of0, __int16 drawEnv
                 break;
 
             case PrimTypeCodes::eMoveImage:
-                // Unlock because move image will lock + unlock again
-                BMP_unlock_4F2100(&sPsxVram_C1D160);
-                PSX_MoveImage_4F5D50(&any.mMoveImage->rect, any.mMoveImage->xPos, any.mMoveImage->yPos);
-
-                // Hence lock again after move image
-                if (BMP_Lock_4F1FF0(&sPsxVram_C1D160))
-                {
-                    break;
-                }
-
-                if (sPsxEmu_EndFrameFnPtr_C1D17C)
-                {
-                    sPsxEmu_EndFrameFnPtr_C1D17C(1);
-                }
-                return true;
+                ALIVE_FATAL("eMoveImage should never be added to the OT");
+                break;
 
             case PrimTypeCodes::eLaughingGas:
-                PSX_RenderLaughingGasEffect_4F7B80(any.mGas->x, any.mGas->y, any.mGas->w, any.mGas->h, any.mGas->pData);
+                GetRenderer()->Draw(*any.mGas);
                 break;
 
             default:
-                DrawOTag_HandlePrimRendering(any, drawEnv_of0, drawEnv_of1);
+                DrawOTag_HandlePrimRendering(any);
                 break;
             }
         }
@@ -3451,6 +3444,8 @@ static bool DrawOTagImpl(PrimHeader** ppOt, __int16 drawEnv_of0, __int16 drawEnv
         // To the next item
         pOtItem = any.mPrimHeader->tag; // offset 0
     }
+
+    GetRenderer()->EndFrame();
 
     return false;
 }
@@ -4602,4 +4597,3 @@ namespace Test
         //Test_PSX_8Bit_PolyFT4();
     }
 }
-

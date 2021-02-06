@@ -135,6 +135,7 @@ PsxDisplay* PsxDisplay::ctor_40DAB0(const PSX_Display_Params* pParams)
     return this;
 }
 
+
 void PsxDisplay::PSX_Display_Render_OT_40DD20()
 {
     if (field_6_max_buffers <= 1u)
@@ -175,6 +176,7 @@ void PsxDisplay::PutCurrentDispEnv_40DE40()
     PSX_PutDispEnv_495CE0(&field_C_drawEnv[field_A_buffer_index].field_5C_disp_env);
 }
 
+// NOTE: Dead code after new FMVs are implemented
 void PsxDisplay::Movie_Render_40DE60(unsigned __int16 bufferIdx)
 {
     field_A_buffer_index = bufferIdx;

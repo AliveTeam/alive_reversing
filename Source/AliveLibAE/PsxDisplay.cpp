@@ -303,25 +303,10 @@ void PsxDisplay::PSX_Display_Render_OT_41DDF0()
         PSX_PutDispEnv_4F58E0(&field_10_drawEnv[0].field_5C_disp_env);
         PSX_ClearOTag_4F6290(field_10_drawEnv[0].field_70_ot_buffer, field_A_buffer_size);
         field_C_buffer_index = 0;
+
     }
     else
     {
-        PSX_DrawSync_4F6280(0);
-        PSX_VSync_4F6170(2);
-
-        const auto prevBufferIdx = field_C_buffer_index;
-        field_C_buffer_index++;
-        if (field_C_buffer_index > field_8_max_buffers)
-        {
-            field_C_buffer_index = 0;
-        }
-
-        // Set up next
-        PSX_ClearOTag_4F6290(field_10_drawEnv[field_C_buffer_index].field_70_ot_buffer,  field_A_buffer_size);
-        PSX_PutDispEnv_4F58E0(&field_10_drawEnv[field_C_buffer_index].field_5C_disp_env);
-        PSX_PutDrawEnv_4F5980(&field_10_drawEnv[field_C_buffer_index].field_0_draw_env);
-
-        // Display current
-        PSX_DrawOTag_4F6540(field_10_drawEnv[prevBufferIdx].field_70_ot_buffer);
+        ALIVE_FATAL("More than 1 render buffer used");
     }
 }
