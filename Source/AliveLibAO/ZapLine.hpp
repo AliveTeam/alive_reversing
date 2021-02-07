@@ -90,7 +90,8 @@ public:
     __int16 field_116_alive_timer;
     __int16 field_118_max_alive_time;
     ZapLineType field_11A_type;
-    __int16 field_11C_tPageAbr;
+    TPageAbr field_11C_tPageAbr;
+    // pad
     __int16 field_11E_number_of_segments;
     __int16 field_120_number_of_pieces_per_segment;
     __int16 field_122_number_of_sprites;

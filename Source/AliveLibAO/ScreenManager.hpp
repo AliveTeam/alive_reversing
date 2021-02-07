@@ -92,7 +92,7 @@ public:
 
     virtual void VUpdate() override;
 
-    int GetTPage(TPageMode tp, char abr, int* xpos, int* ypos);
+    int GetTPage(TPageMode tp, TPageAbr abr, int* xpos, int* ypos);
 
     virtual void VRender(PrimHeader** ppOt) override;
 

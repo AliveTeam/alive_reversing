@@ -390,7 +390,7 @@ int AliveFont::MeasureWidth_41C280(const char* text, FP scale)
     return FP_GetExponent((width * scale) + FP_FromDouble(0.5));
 }
 
-EXPORT int AliveFont::DrawString_41C360(PrimHeader** ppOt, const char* text, __int16 x, __int16 y, char abr, int bSemiTrans, int blendMode, Layer layer, unsigned char r, unsigned char g, unsigned char b, int polyOffset, FP scale, int maxRenderWidth, int colorRandomRange)
+EXPORT int AliveFont::DrawString_41C360(PrimHeader** ppOt, const char* text, __int16 x, __int16 y, TPageAbr abr, int bSemiTrans, int blendMode, Layer layer, unsigned char r, unsigned char g, unsigned char b, int polyOffset, FP scale, int maxRenderWidth, int colorRandomRange)
 {
     if (!sFontDrawScreenSpace_508BF4)
     {

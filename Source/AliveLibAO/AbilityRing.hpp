@@ -71,7 +71,8 @@ public:
     __int16 field_268_g;
     __int16 field_26A_b;
     __int16 field_26C_semiTrans;
-    __int16 field_26E_tPageMode;
+    TPageAbr field_26E_tPageMode;
+    // pad
     LevelIds field_270_level;
     __int16 field_272_path;
     __int16 field_274_ring_type;

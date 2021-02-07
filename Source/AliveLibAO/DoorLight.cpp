@@ -91,7 +91,7 @@ DoorLight* DoorLight::ctor_405D90(Path_LightEffect* pTlv, int tlvInfo)
 
     field_CC_bApplyShadows &= ~1u;
     field_10_anim.field_C_layer = Layer::eLayer_17;
-    field_10_anim.field_B_render_mode = 3;
+    field_10_anim.field_B_render_mode = TPageAbr::eBlend_3;
 
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);

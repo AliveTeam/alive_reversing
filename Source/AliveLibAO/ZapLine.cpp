@@ -42,14 +42,14 @@ ZapLine* ZapLine::ctor_4789A0(FP x1, FP y1, FP x2, FP y2, __int16 aliveTime, Zap
         field_120_number_of_pieces_per_segment = 20;
         field_11E_number_of_segments = 12;
         frameTable = 228;
-        field_11C_tPageAbr = 3;
+        field_11C_tPageAbr = TPageAbr::eBlend_3;
     }
     else if (field_11A_type == ZapLineType::eThick_0)
     {
         field_120_number_of_pieces_per_segment = 10;
         field_11E_number_of_segments = 28;
         frameTable = 240;
-        field_11C_tPageAbr = 1;
+        field_11C_tPageAbr = TPageAbr::eBlend_1;
     }
 
     BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSplineResID, 1, 0);
@@ -201,7 +201,7 @@ void ZapLine::VRender_479840(PrimHeader** ppOt)
 
         const int calcTPage = PSX_getTPage_4965D0(
             field_114_tPageMode,
-            static_cast<char>(field_11C_tPageAbr),
+            field_11C_tPageAbr,
             field_10_anim.field_84_vram_rect.x,
             field_10_anim.field_84_vram_rect.y & ~63); // TODO: Required ?
 

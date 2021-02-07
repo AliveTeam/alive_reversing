@@ -288,7 +288,7 @@ void Blood::VRender_407810(PrimHeader** ppOt)
         
         const auto tpage = PSX_getTPage_4965D0(
             field_10C_texture_mode,
-            0,
+            TPageAbr::eBlend_0,
             field_10_anim.field_84_vram_rect.x & 0xFFC0,
             tpageY
         );

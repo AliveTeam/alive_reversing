@@ -65,7 +65,7 @@ TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, int tlvInfo)
         field_118_anim.field_8_r = 128;
         field_118_anim.field_9_g = 128;
         field_118_anim.field_A_b = 128;
-        field_118_anim.field_B_render_mode = 1;
+        field_118_anim.field_B_render_mode = TPageAbr::eBlend_1;
     }
     else
     {

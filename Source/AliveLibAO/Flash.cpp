@@ -6,7 +6,7 @@
 
 namespace AO {
 
-Flash* Flash::ctor_41A810(Layer layer, unsigned __int8 r, unsigned __int8 g, unsigned __int8 b, int /*not_used*/, unsigned __int8 abr, int time)
+Flash* Flash::ctor_41A810(Layer layer, unsigned __int8 r, unsigned __int8 g, unsigned __int8 b, int /*not_used*/, TPageAbr abr, int time)
 {
     ctor_461550(layer, abr);
     SetVTable(this, 0x4BAC40);

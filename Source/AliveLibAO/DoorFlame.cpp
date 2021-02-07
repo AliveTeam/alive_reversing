@@ -38,7 +38,7 @@ public:
         field_AC_ypos = ypos + FP_FromInteger(4);
 
         field_10_anim.field_C_layer = Layer::eLayer_12;
-        field_10_anim.field_B_render_mode = 3;
+        field_10_anim.field_B_render_mode = TPageAbr::eBlend_3;
 
         field_10_anim.field_8_r = 100;
         field_10_anim.field_9_g = 100;

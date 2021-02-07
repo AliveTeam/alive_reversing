@@ -164,7 +164,7 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, int tlvInfo)
         field_13C_lift_wheel.field_8_r = 128;
         field_13C_lift_wheel.field_9_g = 128;
         field_13C_lift_wheel.field_A_b = 128;
-        field_13C_lift_wheel.field_B_render_mode = 0;
+        field_13C_lift_wheel.field_B_render_mode = TPageAbr::eBlend_0;
         field_10C = 1;
 
         field_B8_vely = FP_FromInteger(0);
@@ -814,7 +814,7 @@ void LiftPoint::CreatePulleyIfExists_435AE0(short camX, short camY)
 
         field_1D4_pulley_anim.field_C_layer = field_10_anim.field_C_layer;
         field_1D4_pulley_anim.field_14_scale = field_BC_sprite_scale;
-        field_1D4_pulley_anim.field_B_render_mode = 0;
+        field_1D4_pulley_anim.field_B_render_mode = TPageAbr::eBlend_0;
 
         field_134_pRope2->field_EE_top = FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) + (FP_FromInteger(-19) * field_1D4_pulley_anim.field_14_scale));
         field_138_pRope1->field_EE_top = FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) + (FP_FromInteger(-19) * field_1D4_pulley_anim.field_14_scale));

@@ -11,7 +11,8 @@ struct Path_BackgroundAnimation : public Path_TLV
 {
     unsigned __int16 field_18_animation_id;
     __int16 field_1A_is_semi_trans;
-    __int16 field_1C_semi_trans_mode;
+    TPageAbr field_1C_semi_trans_mode;
+    // pad
     __int16 field_1E_sound_effect;
 };
 ALIVE_ASSERT_SIZEOF(Path_BackgroundAnimation, 0x20);

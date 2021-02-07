@@ -64,7 +64,7 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, int tlvInfo)
     BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMeatsawResID, 1, 0);
     Animation_Init_417FD0(15200, 104, 36, ppRes, 1);
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_10_anim.field_B_render_mode = 0;
+    field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
 
     if (pTlv->field_18_scale_background)
     {
@@ -175,7 +175,7 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, int tlvInfo)
         field_110_anim.field_9_g = static_cast<BYTE>(field_C2_g);
         field_110_anim.field_A_b = static_cast<BYTE>(field_C4_b);
 
-        field_110_anim.field_B_render_mode = 0;
+        field_110_anim.field_B_render_mode = TPageAbr::eBlend_0;
 
         field_110_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
         field_110_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);

@@ -411,7 +411,7 @@ void LCDScreen::VRender_434400(PrimHeader** ppOt)
             field_A0_message,
             static_cast<short>(PsxToPCX(screenX, 11) - field_2B0_x_offset),
             static_cast<short>(screenY),
-            1,
+            TPageAbr::eBlend_1,
             1,
             0,
             Layer::eLayer_22,

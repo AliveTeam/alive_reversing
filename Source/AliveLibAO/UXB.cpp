@@ -28,7 +28,7 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, int tlvInfo)
         1);
 
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_10_anim.field_B_render_mode = 0;
+    field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
 
     field_6_flags.Set(Options::eInteractive_Bit8);
     field_1BC_flags &= ~1u;
@@ -180,7 +180,7 @@ void UXB::InitBlinkAnim()
         field_11C_anim.field_8_r = 128;
         field_11C_anim.field_9_g = 128;
         field_11C_anim.field_A_b = 128;
-        field_11C_anim.field_B_render_mode = 1;
+        field_11C_anim.field_B_render_mode = TPageAbr::eBlend_1;
     }
     else
     {

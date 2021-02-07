@@ -33,7 +33,7 @@ LightEffect* LightEffect::ctor_4064C0(Path_LightEffect* pTlv, int tlvInfo)
     field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
 
     field_10_anim.field_C_layer = Layer::eLayer_17;
-    field_10_anim.field_B_render_mode = 0;
+    field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
     field_10_anim.SetFrame_402AC0(1);
 
     // maybe width height like in door effect

@@ -20,7 +20,7 @@ EXPORT Shadow* Shadow::ctor_461FB0()
     field_14_flags.Clear(Flags::eBit1_ShadowAtBottom);
     field_14_flags.Set(Flags::eBit2_Enabled);
 
-    field_18_anim.field_B_render_mode = 2;
+    field_18_anim.field_B_render_mode = TPageAbr::eBlend_2;
 
     field_18_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
     field_18_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);

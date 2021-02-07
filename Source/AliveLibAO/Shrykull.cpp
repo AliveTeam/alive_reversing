@@ -354,7 +354,7 @@ void Shrykull::VUpdate_463AE0()
                     auto pFlash = ao_new<Flash>();
                     if (pFlash)
                     {
-                        pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u, 1, 3u, 1);
+                        pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u, 1, TPageAbr::eBlend_3, 1);
                     }
 
                 }

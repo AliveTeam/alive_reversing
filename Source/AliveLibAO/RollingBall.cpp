@@ -276,7 +276,7 @@ void RollingBall::VUpdate_457AF0()
             auto pFlash = ao_new<Flash>();
             if (pFlash)
             {
-                pFlash->ctor_41A810(Layer::eLayer_39, 255, 255, 255, 1, 1u, 1);
+                pFlash->ctor_41A810(Layer::eLayer_39, 255, 255, 255, 1, TPageAbr::eBlend_1, 1);
             }
 
             auto pScreenShake = ao_new<ScreenShake>();

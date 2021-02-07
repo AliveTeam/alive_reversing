@@ -18,7 +18,7 @@ Particle* CC New_DestroyOrCreateObject_Particle_419D00(FP xpos, FP ypos, FP scal
     }
 
     pParticle->ctor_478880(xpos, ypos, 6284, 70, 43, ppRes);
-    pParticle->field_10_anim.field_B_render_mode = 1;
+    pParticle->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
     pParticle->field_BC_sprite_scale = FP_FromInteger(2) * scale;
 
     if (scale == FP_FromInteger(1))
@@ -50,7 +50,7 @@ void CC New_Smoke_Particles_419A80(FP xpos, FP ypos, FP scale, __int16 count, __
             pParticle->field_CC_bApplyShadows &= ~1u;
             pParticle->field_10_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
             pParticle->field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-            pParticle->field_10_anim.field_B_render_mode = 3;
+            pParticle->field_10_anim.field_B_render_mode = TPageAbr::eBlend_3;
 
             if (type == 1)
             {
@@ -96,7 +96,7 @@ void CC New_Chant_Particle_4198E0(FP xpos, FP ypos, FP scale, Layer layer)
     {
         pParticle->ctor_478880(xpos, ypos, 1492, 38, 21, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 1, 0));
         pParticle->field_CC_bApplyShadows &= ~1u;
-        pParticle->field_10_anim.field_B_render_mode = 1;
+        pParticle->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
 
         if (layer != Layer::eLayer_0)
         {
@@ -124,7 +124,7 @@ void CC New_Shiny_Particle_4199A0(FP xpos, FP ypos, FP scale, Layer layer)
         pParticle->ctor_478880(xpos, ypos, 1492, 38, 21, ppRes);
 
         pParticle->field_CC_bApplyShadows &= ~1u;
-        pParticle->field_10_anim.field_B_render_mode = 1;
+        pParticle->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
         pParticle->field_C0_r = 100;
         pParticle->field_C2_g = 100;
         pParticle->field_C4_b = 100;
@@ -159,7 +159,7 @@ void CC New_ShootingZFire_Particle_419810(FP xpos, FP ypos, FP scale)
         pParticle->field_C2_g = 55;
         pParticle->field_C0_r = 55;
 
-        pParticle->field_10_anim.field_B_render_mode = 1;
+        pParticle->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
 
         if (scale == FP_FromInteger(1))
         {
@@ -186,7 +186,7 @@ void CC New_ShootingFire_Particle_419720(FP xpos, FP ypos, char direction, FP sc
         pParticle->field_C4_b = 55;
         pParticle->field_C2_g = 55;
         pParticle->field_C0_r = 55;
-        pParticle->field_10_anim.field_B_render_mode = 1;
+        pParticle->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
 
         if (scale == FP_FromInteger(1))
         {

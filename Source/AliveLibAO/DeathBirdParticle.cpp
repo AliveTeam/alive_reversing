@@ -88,7 +88,7 @@ DeathBirdParticle* DeathBirdParticle::ctor_41D950(FP xpos, FP ypos, int start, _
     else
     {
         field_CC_bApplyShadows &= ~1u;
-        field_10_anim.field_B_render_mode = 1;
+        field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
         field_BC_sprite_scale = scale;
         field_10_anim.field_14_scale = scale;
         if (scale <= FP_FromDouble(0.5))

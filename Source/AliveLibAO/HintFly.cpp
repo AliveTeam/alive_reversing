@@ -1928,7 +1928,7 @@ void HintFly::VRender_42BAD0(PrimHeader** ppOt)
         tPageY = 0;
     }
 
-    const int tpage = PSX_getTPage_4965D0(field_110_bitMode, 1, field_10_anim.field_84_vram_rect.x & 0xFFC0, tPageY);
+    const int tpage = PSX_getTPage_4965D0(field_110_bitMode, TPageAbr::eBlend_1, field_10_anim.field_84_vram_rect.x & 0xFFC0, tPageY);
 
     Init_SetTPage_495FB0(pTPage, 0, 0, tpage);
     OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_39), &pTPage->mBase);
