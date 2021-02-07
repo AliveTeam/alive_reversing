@@ -4,6 +4,7 @@
 #include "ResourceManager.hpp"
 #include "VRam.hpp"
 #include "stdlib.hpp"
+#include "../AliveLibAE/Renderer/IRenderer.hpp"
 
 #undef min
 #undef max
@@ -82,7 +83,8 @@ void ScreenManager::DecompressCameraToVRam_407110(unsigned __int16** ppBits)
            
             rect.x = field_20_upos + xpos;
             rect.y = field_22_vpos;
-            PSX_LoadImage_496480(&rect, reinterpret_cast<BYTE*>(pIter));
+            // TODO: Actually 16bit but must be uploaded as 8bit ??
+            IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e8Bit, rect, reinterpret_cast<BYTE*>(pIter));
 
             // To next slice
             pIter += (slice_len / sizeof(__int16));

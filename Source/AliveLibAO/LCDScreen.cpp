@@ -198,7 +198,7 @@ LCDScreen* LCDScreen::ctor_433F60(Path_LCDScreen* pTlv, int tlvInfo)
     Pal_Allocate_4476F0(&field_98_pal_rect, 16u);
 
     const PSX_RECT palSize = { field_98_pal_rect.x, field_98_pal_rect.y,16, 1 };
-    PSX_LoadImage16_4962A0(&palSize, sLCDScreen_Palette2_4C7588);
+    PSX_LoadImage16_4962A0(&palSize, sLCDScreen_Palette2_4C7588); // Load pal
 
     if (Input_JoyStickEnabled() || field_2AC_message_1_id != 62)
     {

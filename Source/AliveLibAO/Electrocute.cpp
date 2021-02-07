@@ -82,7 +82,7 @@ public:
             rect.x = field_10_pal_xy.field_0_x + field_B8_pal_x_index;
             rect.w = field_BA_pal_w;
             rect.h = 1;
-            PSX_LoadImage16_4962A0(&rect, reinterpret_cast<BYTE*>(field_A8_palBuffer));
+            PSX_LoadImage16_4962A0(&rect, reinterpret_cast<BYTE*>(field_A8_palBuffer)); // Overwrite pal
         }
     }
 
