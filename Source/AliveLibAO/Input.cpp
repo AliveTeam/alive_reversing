@@ -328,67 +328,67 @@ EXPORT void InputObject::Update_433250()
     }
 
     // Original AO impl
-    for (int i = 0; i < 2; i++)
-    {
-        field_0_pads[i].field_A_prev_dir = field_0_pads[i].field_2_dir;
-        field_0_pads[i].field_B = field_0_pads[i].field_3;
-        field_0_pads[i].field_4_previously_pressed = field_0_pads[i].field_0_pressed;
-    }
+    //for (int i = 0; i < 2; i++)
+    //{
+    //    field_0_pads[i].field_A_prev_dir = field_0_pads[i].field_2_dir;
+    //    field_0_pads[i].field_B = field_0_pads[i].field_3;
+    //    field_0_pads[i].field_4_previously_pressed = field_0_pads[i].field_0_pressed;
+    //}
 
-    if (sPad1Buffer_507778[0])
-    {
-        field_0_pads[0].field_0_pressed = 0;
-    }
-    else
-    {
-        field_0_pads[0].field_0_pressed = ~(sPad1Buffer_507778[3] + (sPad1Buffer_507778[2] << 8));
-    }
+    //if (sPad1Buffer_507778[0])
+    //{
+    //    field_0_pads[0].field_0_pressed = 0;
+    //}
+    //else
+    //{
+    //    field_0_pads[0].field_0_pressed = ~(sPad1Buffer_507778[3] + (sPad1Buffer_507778[2] << 8));
+    //}
 
-    if (sPad2Buffer_507738[0])
-    {
-        field_0_pads[1].field_0_pressed = 0;
-    }
-    else
-    {
-        field_0_pads[1].field_0_pressed = ~(sPad2Buffer_507738[3] + (sPad2Buffer_507738[2] << 8));
-    }
+    //if (sPad2Buffer_507738[0])
+    //{
+    //    field_0_pads[1].field_0_pressed = 0;
+    //}
+    //else
+    //{
+    //    field_0_pads[1].field_0_pressed = ~(sPad2Buffer_507738[3] + (sPad2Buffer_507738[2] << 8));
+    //}
 
-    if (field_20_demo_playing & 1)
-    {
-        // Stop if any button on any pad is pressed
-        if (field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed)
-        {
-            field_20_demo_playing &= ~1u;
-            return;
-        }
+    //if (field_20_demo_playing & 1)
+    //{
+    //    // Stop if any button on any pad is pressed
+    //    if (field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed)
+    //    {
+    //        field_20_demo_playing &= ~1u;
+    //        return;
+    //    }
 
-        if (static_cast<int>(gnFrameCount_507670) >= field_28_command_duration)
-        {
-            const DWORD command = (*field_18_demo_res)[field_1C_demo_command_index++];
-            field_24_command = command >> 16;
-            field_28_command_duration = gnFrameCount_507670 + command & 0xFFFF;
+    //    if (static_cast<int>(gnFrameCount_507670) >= field_28_command_duration)
+    //    {
+    //        const DWORD command = (*field_18_demo_res)[field_1C_demo_command_index++];
+    //        field_24_command = command >> 16;
+    //        field_28_command_duration = gnFrameCount_507670 + command & 0xFFFF;
 
-            // End demo/quit command
-            if (command & 0x8000)
-            {
-                field_20_demo_playing &= ~1u;
-            }
-        }
+    //        // End demo/quit command
+    //        if (command & 0x8000)
+    //        {
+    //            field_20_demo_playing &= ~1u;
+    //        }
+    //    }
 
-        // Will do nothing if we hit the end command..
-        if (field_20_demo_playing & 1)
-        {
-            field_0_pads[0].field_0_pressed = static_cast<unsigned short>(field_24_command);
-        }
-    }
+    //    // Will do nothing if we hit the end command..
+    //    if (field_20_demo_playing & 1)
+    //    {
+    //        field_0_pads[0].field_0_pressed = static_cast<unsigned short>(field_24_command);
+    //    }
+    //}
 
-    for (int i = 0; i < 2; i++)
-    {
-        field_0_pads[i].field_8_released = ~field_0_pads[i].field_0_pressed & field_0_pads[i].field_4_previously_pressed;
-        field_0_pads[i].field_6_held = ~field_0_pads[i].field_4_previously_pressed & field_0_pads[i].field_0_pressed;
-        field_0_pads[i].field_2_dir = byte_4BB428[(field_0_pads[i].field_0_pressed >> 12) & 0xF];
-        field_0_pads[i].field_3 = byte_4BB428[(field_0_pads[i].field_0_pressed >> 4) & 0xF];
-    }
+    //for (int i = 0; i < 2; i++)
+    //{
+    //    field_0_pads[i].field_8_released = ~field_0_pads[i].field_0_pressed & field_0_pads[i].field_4_previously_pressed;
+    //    field_0_pads[i].field_6_held = ~field_0_pads[i].field_4_previously_pressed & field_0_pads[i].field_0_pressed;
+    //    field_0_pads[i].field_2_dir = byte_4BB428[(field_0_pads[i].field_0_pressed >> 12) & 0xF];
+    //    field_0_pads[i].field_3 = byte_4BB428[(field_0_pads[i].field_0_pressed >> 4) & 0xF];
+    //}
 }
 
 EXPORT void CC InputObject::Shutdown_433230()

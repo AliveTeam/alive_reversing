@@ -1117,8 +1117,6 @@ EXPORT void CC SND_Init_476E40()
     SND_Init_4CA1F0();
     SND_Restart_SetCallBack(SND_Restart_476340);
     SND_StopAll_SetCallBack(SND_StopAll_4762D0);
-
-    //SND_Init_Real_476E40();
 }
 
 EXPORT void CC SND_StopAll_4762D0()
