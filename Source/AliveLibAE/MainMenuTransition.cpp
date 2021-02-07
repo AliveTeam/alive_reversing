@@ -47,7 +47,7 @@ const MainMenu_TransitionData stru_55C038[24] = // 3 x 8's ?
     { -16,       0,         256, 1 },
 };
 
-MainMenuTransition* MainMenuTransition::ctor_464110(__int16 layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 fadeSpeed, char abr)
+MainMenuTransition* MainMenuTransition::ctor_464110(Layer layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 fadeSpeed, char abr)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
 
@@ -92,7 +92,7 @@ MainMenuTransition* MainMenuTransition::ctor_464110(__int16 layer, __int16 fadeD
     return this;
 }
 
-void MainMenuTransition::StartTrans_464370(__int16 layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 speed)
+void MainMenuTransition::StartTrans_464370(Layer layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 speed)
 {
     field_24C_layer = layer;
     field_24_fade_direction = fadeDirection;
@@ -236,10 +236,10 @@ void MainMenuTransition::Render_464470(PrimHeader** ppOt)
         SetXY1(pPoly, x0, y0);
         SetXY2(pPoly, static_cast<short>(x1), static_cast<short>(y1));
 
-        OrderingTable_Add_4F8AA0(&ppOt[field_24C_layer], &pPoly->mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_24C_layer), &pPoly->mBase.header);
     }
 
-    OrderingTable_Add_4F8AA0(&ppOt[field_24C_layer], &field_22C_tPage[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
+    OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_24C_layer), &field_22C_tPage[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
 
     pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height);
 

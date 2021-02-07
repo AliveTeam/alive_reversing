@@ -12,7 +12,7 @@ struct Fg1Block
     int field_5C_padding;
     int field_60_padding;
     __int16 field_64_padding;
-    unsigned __int16 field_66_mapped_layer;
+    Layer field_66_mapped_layer;
     int field_68_array_of_height[16];
 };
 ALIVE_ASSERT_SIZEOF(Fg1Block, 0xA8);

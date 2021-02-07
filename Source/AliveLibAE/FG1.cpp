@@ -10,7 +10,7 @@
 
 ALIVE_VAR(1, 0x5D1E28, DynamicArrayT<FG1>*, gFG1List_5D1E28, nullptr);
 
-const static __int16 sFg1_layer_to_bits_layer_5469BC[6] = { 4, 18, 23, 37, 0, 0 };
+const static Layer sFg1_layer_to_bits_layer_5469BC[6] = { Layer::eLayer_4, Layer::eLayer_18, Layer::eLayer_23, Layer::eLayer_37, Layer::eLayer_0, Layer::eLayer_0 };
 
 enum eChunkTypes
 {
@@ -184,7 +184,7 @@ void FG1::vRender_49A3C0(PrimHeader** ppOt)
         const int ypos = Y0(pPoly);
         if (pScreenManager_5BB5F4->IsDirty_40EBC0(pScreenManager_5BB5F4->field_3A_idx, xpos, ypos) || pScreenManager_5BB5F4->IsDirty_40EBC0(3, xpos, ypos))
         {
-            OrderingTable_Add_4F8AA0(&ppOt[field_30_chnk_res[i].field_66_mapped_layer], &pPoly->mBase.header);
+            OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_30_chnk_res[i].field_66_mapped_layer), &pPoly->mBase.header);
             // NOTE: Polygon has a pointer to the bit fields for which pixels should be skipped
             pScreenManager_5BB5F4->InvalidateRect_40EC90(xpos, ypos, X3(pPoly), Y3(pPoly), pScreenManager_5BB5F4->field_3A_idx);
         }

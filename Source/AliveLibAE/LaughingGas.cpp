@@ -21,7 +21,7 @@ static int gas_rand()
     return (random_seed >> 16) & 0x7FFF;
 }
 
-LaughingGas* LaughingGas::ctor_432400(__int16 layer, int /*notUsed*/, Path_LaughingGas* pTlv, int tlvInfo)
+LaughingGas* LaughingGas::ctor_432400(Layer layer, int /*notUsed*/, Path_LaughingGas* pTlv, int tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x545000);
@@ -200,7 +200,7 @@ void LaughingGas::vRender_432D10(PrimHeader** ppOt)
             {
                 DoRender_432740();
             }
-            OrderingTable_Add_4F8AA0(&ppOt[field_58_layer], &field_5C_prim.mPrimHeader);
+            OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_58_layer), &field_5C_prim.mPrimHeader);
         }
         pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height);
     }

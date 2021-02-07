@@ -255,7 +255,7 @@ void ColourfulMeter::vRender_43D2B0(PrimHeader** ppOt)
         }
 
         Poly_Set_SemiTrans_4F8A60(&pPolyG4->mBase.header, FALSE);
-        OrderingTable_Add_4F8AA0(&ppOt[23], &pPolyG4->mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_23), &pPolyG4->mBase.header);
     }
 
     if (gbDrawMeterCountDown_5C1BF8)
@@ -275,7 +275,7 @@ void ColourfulMeter::vRender_43D2B0(PrimHeader** ppOt)
             text,
             field_6C_text_x + 1,
             field_6E_text_y - 5,
-            1, 1, 0, 22,
+            1, 1, 0, Layer::eLayer_22,
             127, 127, 127,
             0,
             FP_FromInteger(1),
