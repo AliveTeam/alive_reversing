@@ -302,7 +302,7 @@ void ScreenWave::VRender_463130(PrimHeader** ppOt)
                 u3 -= minU_capped;
 
                 SetTPage(pPoly, static_cast<short>(PSX_getTPage_4965D0(
-                    2,
+                    TPageMode::e16Bit_2,
                     0,
                     static_cast<short>(minU_capped),
                     0

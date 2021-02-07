@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "SoftwareRenderer.hpp"
 #include "PsxRender.hpp"
+#include "Psx.hpp"
 
 void SoftwareRenderer::Destroy()
 {
@@ -174,5 +175,24 @@ void SoftwareRenderer::DrawPoly(PrimAny& any)
     if (pPolyBuffer)
     {
         PSX_Render_Internal_Format_Polygon_4F7960(pPolyBuffer, static_cast<short>(mFrame_xOff), static_cast<short>(mFrame_yOff));
+    }
+}
+
+void SoftwareRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const BYTE* pPixels)
+{
+    switch (bitDepth)
+    {
+        case BitDepth::e16Bit:
+            PSX_LoadImage16_4F5E20(&rect, pPixels);
+            break;
+
+        case BitDepth::e8Bit:
+        case BitDepth::e4Bit:
+            PSX_LoadImage_4F5FB0(&rect, pPixels);
+            break;
+
+        default:
+            ALIVE_FATAL("unknown bit depth");
+            break;
     }
 }

@@ -28,6 +28,8 @@ public:
     void Draw(Poly_F4& poly) override;
     void Draw(Poly_FT4& poly) override;
     void Draw(Poly_G4& poly) override;
+
+    void Upload(BitDepth bitDepth, const PSX_RECT& rect, const BYTE* pPixels) override;
 private:
     bool mFrameStarted = false;
 

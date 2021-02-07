@@ -51,7 +51,8 @@ public:
     HintFlyParticle* field_E8_pRes;
     Prim_SetTPage field_EC_tPages[2];
     int field_10C_timer;
-    __int16 field_110_bitMode;
+    TPageMode field_110_bitMode;
+    // pad
 
     enum class State : __int16
     {

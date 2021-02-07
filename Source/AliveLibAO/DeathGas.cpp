@@ -43,8 +43,10 @@ DeathGas* DeathGas::ctor_41CF40(Layer layer, __int16 amount)
     field_6_flags.Set(Options::eDrawable_Bit4);
     field_16_flag = 0;
 
-    Init_SetTPage_495FB0(&gGasTPages_5008E8[0], 0, 1, PSX_getTPage_4965D0(2, 1, 0, 0));
-    Init_SetTPage_495FB0(&gGasTPages_5008E8[1], 0, 1, PSX_getTPage_4965D0(2, 1, 0, 0));
+    for (int i = 0; i < 2; i++)
+    {
+        Init_SetTPage_495FB0(&gGasTPages_5008E8[i], 0, 1, PSX_getTPage_4965D0(TPageMode::e16Bit_2, 1, 0, 0));
+    }
 
     for (int i = 0; i < 2; i++)
     {

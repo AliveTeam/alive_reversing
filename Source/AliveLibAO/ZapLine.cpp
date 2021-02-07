@@ -77,23 +77,23 @@ ZapLine* ZapLine::ctor_4789A0(FP x1, FP y1, FP x2, FP y2, __int16 aliveTime, Zap
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit13_Is8Bit))
     {
-        field_114_tPageMode = 1;
+        field_114_tPageMode = TPageMode::e8Bit_1;
     }
     else if (field_10_anim.field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
     {
-        field_114_tPageMode = 2;
+        field_114_tPageMode = TPageMode::e16Bit_2;
     }
     else
     {
-        field_114_tPageMode = 0;
+        field_114_tPageMode = TPageMode::e4Bit_0;
     }
 
     BYTE u0 = field_10_anim.field_84_vram_rect.x & 0x3F;
-    if (field_114_tPageMode == 1)
+    if (field_114_tPageMode == TPageMode::e8Bit_1)
     {
         u0 = 2 * u0;
     }
-    else if (!field_114_tPageMode)
+    else if (field_114_tPageMode == TPageMode::e4Bit_0)
     {
         u0 = 4 * u0;
     }
@@ -202,7 +202,7 @@ void ZapLine::VRender_479840(PrimHeader** ppOt)
         }
 
         const int calcTPage = PSX_getTPage_4965D0(
-            static_cast<char>(field_114_tPageMode),
+            field_114_tPageMode,
             static_cast<char>(field_11C_tPageAbr),
             field_10_anim.field_84_vram_rect.x,
             field_10_anim.field_84_vram_rect.y & ~63); // TODO: Required ?

@@ -173,4 +173,9 @@ void DirectX9Renderer::Draw(Poly_G4& /*poly*/)
 
 }
 
+void DirectX9Renderer::Upload(BitDepth /*bitDepth*/, const PSX_RECT& /*rect*/, const BYTE* /*pPixels*/)
+{
+
+}
+
 #endif

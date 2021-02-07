@@ -19,8 +19,10 @@ EffectBase* EffectBase::ctor_461550(Layer layer, char abr)
     field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
     field_10_path_id = gMap_507BA8.field_2_current_path;
     field_12_level_id = gMap_507BA8.field_0_current_level;
-    Init_SetTPage_495FB0(&field_3C_tPage[0], 0, 0, static_cast<short>(PSX_getTPage_4965D0(2, abr, 0, 0)));
-    Init_SetTPage_495FB0(&field_3C_tPage[1], 0, 0, static_cast<short>(PSX_getTPage_4965D0(2, abr, 0, 0)));
+    for (int i = 0; i < 2; i++)
+    {
+        Init_SetTPage_495FB0(&field_3C_tPage[i], 0, 0, static_cast<short>(PSX_getTPage_4965D0(TPageMode::e16Bit_2, abr, 0, 0)));
+    }
     field_5C_layer = layer;
     field_64_bSemiTrans = 1;
     return this;

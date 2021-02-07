@@ -228,9 +228,10 @@ CircularFade* CircularFade::ctor_479E20(FP xpos, FP ypos, FP scale, __int16 dire
     field_C2_g = field_1A8_fade_colour;
     field_C4_b = field_1A8_fade_colour;
 
-    Init_SetTPage_495FB0(field_188, 0, 0, PSX_getTPage_4965D0(2, 2, 0, 0));
-    Init_SetTPage_495FB0(&field_188[1], 0, 0, PSX_getTPage_4965D0(2, 2, 0, 0));
-
+    for (int i = 0; i < 2; i++)
+    {
+        Init_SetTPage_495FB0(&field_188[i], 0, 0, PSX_getTPage_4965D0(TPageMode::e16Bit_2, 2, 0, 0));
+    }
     return this;
 }
 

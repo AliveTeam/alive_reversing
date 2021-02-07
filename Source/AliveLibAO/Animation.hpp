@@ -47,13 +47,23 @@ struct AnimationHeader
     DWORD mFrameOffsets[1]; // Reading past 1 is UB.. will need to change this later (copy out the data or something)
 };
 
+enum class CompressionType : BYTE
+{
+    eType_0_NoCompression = 0,
+    eType_1_NotUsed = 1,
+    eType_2_ThreeToFourBytes = 2,
+    eType_3_RLE_Blocks = 3,
+    eType_4_RLE = 4,
+    eType_5_RLE = 5,
+};
+
 struct FrameHeader
 {
     DWORD field_0_clut_offset;
     BYTE field_4_width;
     BYTE field_5_height;
     BYTE field_6_colour_depth;
-    BYTE field_7_compression_type;
+    CompressionType field_7_compression_type;
     WORD field_8_width2;
     WORD mHeight2;
 };
@@ -227,6 +237,8 @@ public:
     EXPORT void VCleanUp_403F40();
 
     bool EnsureDecompressionBuffer();
+
+    void UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& vram_rect, short width_bpp_adjusted);
 
     int field_10_frame_delay;
     FP field_14_scale;

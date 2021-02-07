@@ -65,26 +65,23 @@ Blood* Blood::ctor_4072B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 
 
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit13_Is8Bit))
         {
-            // 8 bit
-            field_10C_texture_mode = 1;
+            field_10C_texture_mode = TPageMode::e8Bit_1;
         }
         else if (field_10_anim.field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
         {
-            // 16 bit
-            field_10C_texture_mode = 2;
+            field_10C_texture_mode = TPageMode::e16Bit_2;
         }
         else
         {
-            // 4 bit
-            field_10C_texture_mode = 0;
+            field_10C_texture_mode = TPageMode::e4Bit_0;
         }
 
         BYTE u0 = field_10_anim.field_84_vram_rect.x & 0x3F;
-        if (field_10C_texture_mode == 1)
+        if (field_10C_texture_mode == TPageMode::e8Bit_1)
         {
             u0 = 2 * u0;
         }
-        else if (field_10C_texture_mode == 0)
+        else if (field_10C_texture_mode == TPageMode::e4Bit_0)
         {
             u0 = 4 * u0;
         }
@@ -245,11 +242,11 @@ void Blood::VRender_407810(PrimHeader** ppOt)
             Prim_Sprt* pSprt = &pParticle->field_10_prims[gPsxDisplay_504C78.field_A_buffer_index];
 
             BYTE u0 = field_10_anim.field_84_vram_rect.x & 63;
-            if (field_10C_texture_mode == 1)
+            if (field_10C_texture_mode == TPageMode::e8Bit_1)
             {
                 u0 *= 2;
             }
-            else if (field_10C_texture_mode == 0)
+            else if (field_10C_texture_mode == TPageMode::e4Bit_0)
             {
                 u0 *= 4;
             }
@@ -287,12 +284,13 @@ void Blood::VRender_407810(PrimHeader** ppOt)
 
         short tpageY = 256;
         if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit10_alternating_flag)
-            && field_10_anim.field_84_vram_rect.y < 0x100)
+            && field_10_anim.field_84_vram_rect.y < 256)
         {
             tpageY = 0;
         }
-        auto tpage = PSX_getTPage_4965D0(
-            static_cast<char>(field_10C_texture_mode),
+        
+        const auto tpage = PSX_getTPage_4965D0(
+            field_10C_texture_mode,
             0,
             field_10_anim.field_84_vram_rect.x & 0xFFC0,
             tpageY

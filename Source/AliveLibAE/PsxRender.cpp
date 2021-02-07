@@ -3407,7 +3407,7 @@ static bool DrawOTagImpl(PrimHeader** ppOt, __int16 drawEnv_of0, __int16 drawEnv
 
         if (!otInfo.IsRootPointer(pOtItem))
         {
-            int itemToDrawType = any.mPrimHeader->rgb_code.code_or_pad;
+            const int itemToDrawType = any.mPrimHeader->rgb_code.code_or_pad;
             switch (itemToDrawType)
             {
             case PrimTypeCodes::eSetTPage:

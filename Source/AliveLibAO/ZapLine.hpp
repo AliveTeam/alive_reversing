@@ -85,7 +85,8 @@ public:
     __int16 field_10E_y_position_source;
     __int16 field_110_x_position_destination;
     __int16 field_112_y_position_destination;
-    __int16 field_114_tPageMode;
+    TPageMode field_114_tPageMode;
+    // pad
     __int16 field_116_alive_timer;
     __int16 field_118_max_alive_time;
     ZapLineType field_11A_type;

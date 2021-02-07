@@ -179,7 +179,7 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, __int16 type)
                 SetRGB0(pPoly, field_266_r & 255, field_268_g & 255, field_26A_b & 255);
                 Poly_Set_SemiTrans_498A40(&pPoly->mBase.header, field_26C_semiTrans);
             }
-            Init_SetTPage_495FB0(&field_1C_primSetTPage[y], 0, 0, PSX_getTPage_4965D0(2, static_cast<char>(field_26E_tPageMode), 0, 0));
+            Init_SetTPage_495FB0(&field_1C_primSetTPage[y], 0, 0, PSX_getTPage_4965D0(TPageMode::e16Bit_2, static_cast<char>(field_26E_tPageMode), 0, 0));
         }
     }
     else
