@@ -83,9 +83,9 @@ void DeathFadeOut::Init_419E40(Layer layer, __int16 direction, __int16 destroyOn
     }
 }
 
-DeathFadeOut* DeathFadeOut::ctor_419DB0(Layer layer, __int16 direction, __int16 destroyOnDone, int speed, __int16 abr)
+DeathFadeOut* DeathFadeOut::ctor_419DB0(Layer layer, __int16 direction, __int16 destroyOnDone, int speed, TPageAbr abr)
 {
-    ctor_461550(layer, static_cast<char>(abr));
+    ctor_461550(layer, abr);
     SetVTable(this, 0x4BAB08);
     field_4_typeId = Types::eDeathFadeOut_80;
 

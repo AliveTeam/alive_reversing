@@ -24,7 +24,7 @@ Sparks* Sparks::ctor_40A3A0(FP xpos, FP ypos, FP scale)
     field_CC_bApplyShadows &= ~1u;
 
     field_10_anim.field_C_layer = Layer::eLayer_37;
-    field_10_anim.field_B_render_mode = 1;
+    field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
 
     field_BC_sprite_scale = scale * ((FP_FromInteger(Math_NextRandom() % 6) / FP_FromInteger(10)) + FP_FromDouble(0.2));
     field_EA_random = Math_RandomRange_450F20(0, 16);

@@ -575,7 +575,7 @@ __int16 SlingMudokon::tsub_470230()
             auto pFlash = ao_new<Flash>();
             if (pFlash)
             {
-                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 255u, 1, 3u, 1);
+                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 255u);
             }
 
             if (field_A8_xpos > sActiveHero_507678->field_A8_xpos)
@@ -713,7 +713,7 @@ __int16 SlingMudokon::tsub_470230()
             auto pFlash = ao_new<Flash>();
             if (pFlash)
             {
-                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 255u, 1, 3u, 1);
+                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 255u);
             }
         }
         return field_13A_brain_state;
@@ -755,7 +755,7 @@ __int16 SlingMudokon::tsub_4707B0()
             auto pFlash = ao_new<Flash>();
             if (pFlash)
             {
-                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 255u, 1, 3u, 1);
+                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 255u);
             }
 
             field_140_timer = gnFrameCount_507670 + 30;
@@ -1000,7 +1000,7 @@ __int16 SlingMudokon::tsub_4707B0()
             auto pFlash = ao_new<Flash>();
             if (pFlash)
             {
-                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 255u, 1, 3u, 1);
+                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 255u);
             }
         }
         return field_13A_brain_state;

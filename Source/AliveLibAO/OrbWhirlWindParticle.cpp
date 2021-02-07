@@ -219,7 +219,7 @@ OrbWhirlWindParticle* OrbWhirlWindParticle::ctor_48BC10(FP xpos, FP ypos, FP sca
     field_8_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
     field_8_anim.field_C_layer = Layer::eLayer_32;
-    field_8_anim.field_B_render_mode = 1;
+    field_8_anim.field_B_render_mode = TPageAbr::eBlend_1;
 
     field_8_anim.field_8_r = 80;
     field_8_anim.field_9_g = 80;

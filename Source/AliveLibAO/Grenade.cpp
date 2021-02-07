@@ -48,7 +48,7 @@ Grenade* Grenade::ctor_41EBD0(FP xpos, FP ypos, __int16 numGrenades)
         1);
 
     field_6_flags.Clear(Options::eInteractive_Bit8);
-    field_10_anim.field_B_render_mode = 0;
+    field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
 
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);

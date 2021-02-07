@@ -50,7 +50,7 @@ MovingBomb* MovingBomb::ctor_43AFE0(Path_MovingBomb* pTlv, int tlvInfo)
         1);
 
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_10_anim.field_B_render_mode = 0;
+    field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
     field_10C_state = States::eTriggeredBySwitch_1;
 
     if (pTlv->field_1E_scale == 1)

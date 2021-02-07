@@ -47,7 +47,7 @@ BaseGameObject* PossessionFlicker::dtor_41A940()
     SetVTable(this, 0x4BAC58);
     if (field_10_pObj)
     {
-        field_10_pObj->field_10_anim.field_B_render_mode = 0;
+        field_10_pObj->field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
 
         field_10_pObj->field_C0_r = field_1E_old_r;
         field_10_pObj->field_C2_g = field_20_old_g;
@@ -74,7 +74,7 @@ PossessionFlicker* PossessionFlicker::ctor_41A8C0(BaseAliveGameObject* pToApplyF
     field_20_old_g = pToApplyFlicker->field_C2_g;
     field_22_old_b = pToApplyFlicker->field_C4_b;
 
-    pToApplyFlicker->field_10_anim.field_B_render_mode = 1;
+    pToApplyFlicker->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
 
     field_14_time_to_flicker = gnFrameCount_507670 + duration;
 

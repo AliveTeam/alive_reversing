@@ -12,7 +12,7 @@ enum class LevelIds : __int16;
 class EffectBase : public BaseGameObject
 {
 public:
-    EXPORT EffectBase *ctor_461550(Layer layer, char abr);
+    EXPORT EffectBase *ctor_461550(Layer layer, TPageAbr abr);
 
     EXPORT BaseGameObject* dtor_461630();
 

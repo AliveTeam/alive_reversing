@@ -473,7 +473,7 @@ void SecurityClaw::VUpdate_418DE0()
             auto pFlash = ao_new<Flash>();
             if (pFlash)
             {
-                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 0, 1, 3u, 1);
+                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 0);
             }
         }
 
@@ -482,7 +482,7 @@ void SecurityClaw::VUpdate_418DE0()
             auto pFlash = ao_new<Flash>();
             if (pFlash)
             {
-                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 0, 1, 1u, 1);
+                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 0, 1, TPageAbr::eBlend_1, 1);
             }
         }
 

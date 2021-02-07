@@ -206,7 +206,7 @@ BoomMachine* BoomMachine::ctor_41E420(Path_BoomMachine* pTlv, int tlvInfo)
 
     field_CC_bApplyShadows &= ~1u;
     field_E4_tlvInfo = tlvInfo;
-    field_10_anim.field_B_render_mode = 1;
+    field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
 
     if (pTlv->field_18_scale == 1)
     {

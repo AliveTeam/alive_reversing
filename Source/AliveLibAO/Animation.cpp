@@ -775,7 +775,7 @@ signed __int16 Animation::Init_402D20(int frameTableOffset, DynamicArray* /*anim
     field_10_frame_delay = pHeader->field_0_fps;
     field_E_frame_change_counter = 1;
     field_92_current_frame = -1;
-    field_B_render_mode = 0;
+    field_B_render_mode = TPageAbr::eBlend_0;
     field_8_r = 0;
     field_9_g = 0;
     field_A_b = 0;
@@ -868,7 +868,7 @@ signed __int16 Animation::Init_402D20(int frameTableOffset, DynamicArray* /*anim
 
         if (bVramAllocOK && bPalAllocOK)
         {
-            PSX_LoadImage16_4962A0(&palVRamRect, pClut + 4); // Skip len
+            PSX_LoadImage16_4962A0(&palVRamRect, pClut + 4); // +4 Skip len, load pal
         }
     }
 
@@ -975,7 +975,7 @@ void Animation::LoadPal_403090(BYTE** pPalData, int palOffset)
             return;
         }
         rect.h = 1;
-        PSX_LoadImage16_4962A0(&rect, pPalDataOffset + 4);
+        PSX_LoadImage16_4962A0(&rect, pPalDataOffset + 4); // +4 skip len, load pal
     }
 }
 

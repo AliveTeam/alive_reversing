@@ -83,7 +83,7 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(int frameTableOffs
 
         if (!a6 || gObjList_drawables_504618->Push_Back(this))
         {
-            field_10_anim.field_B_render_mode = 0;
+            field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
             field_10_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
             field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
         }

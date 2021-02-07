@@ -87,7 +87,7 @@ BirdPortalTerminator* BirdPortalTerminator::ctor_451F70(FP xpos, FP ypos, FP sca
 
     BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortalTerminatorID, 1, 0);
     Animation_Init_417FD0(3860, 31, 18, ppRes, 1);
-    field_10_anim.field_B_render_mode = 1;
+    field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
     field_BC_sprite_scale = scale;
     if (scale == FP_FromInteger(1))
     {
@@ -546,7 +546,7 @@ void BirdPortal::VUpdate_4523D0()
                             ppLightRes);
                     }
                     pParticle->field_CC_bApplyShadows &= ~1u;
-                    pParticle->field_10_anim.field_B_render_mode = 1;
+                    pParticle->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
                     pParticle->field_4_typeId = Types::e66;
                     pParticle->field_BC_sprite_scale = field_34_scale;
 
@@ -672,7 +672,7 @@ void BirdPortal::VUpdate_4523D0()
                         ppLightRes);
                 }
                 pParticle_1->field_CC_bApplyShadows &= ~1u;
-                pParticle_1->field_10_anim.field_B_render_mode = 1;
+                pParticle_1->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
                 pParticle_1->field_BC_sprite_scale = field_34_scale;
             }
 
@@ -703,7 +703,7 @@ void BirdPortal::VUpdate_4523D0()
         auto pFlash = ao_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_41A810(Layer::eLayer_40, 255u, 255u, 255u, 1, 3u, 1);
+            pFlash->ctor_41A810(Layer::eLayer_40, 255u, 255u, 255u);
         }
         field_14_state = States::State_13;
     }
@@ -714,7 +714,7 @@ void BirdPortal::VUpdate_4523D0()
         auto pFlash = ao_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_41A810(Layer::eLayer_40, 255u, 255u, 255u, 1, 0, 1);
+            pFlash->ctor_41A810(Layer::eLayer_40, 255u, 255u, 255u, 1, TPageAbr::eBlend_0, 1);
         }
         field_14_state = States::State_14;
     }
@@ -725,7 +725,7 @@ void BirdPortal::VUpdate_4523D0()
         auto pFlash = ao_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_41A810(Layer::eLayer_40, 255u, 255u, 255u, 0, 0, 1);
+            pFlash->ctor_41A810(Layer::eLayer_40, 255u, 255u, 255u, 0, TPageAbr::eBlend_0, 1);
         }
         field_14_state = States::State_15;
         field_30_timer = gnFrameCount_507670 + 5;

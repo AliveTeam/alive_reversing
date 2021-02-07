@@ -1474,6 +1474,8 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, int tlvInfo)
             field_114_xScreen = FP_GetExponent(field_A8_xpos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
             field_116_yScreen = FP_GetExponent(field_AC_ypos + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y);
 
+            // Some unknown pal hack that seems to do nothing
+            /*
             const PSX_RECT rect = { static_cast<short>(field_10_anim.field_8C_pal_vram_xy.field_0_x + 1), field_10_anim.field_8C_pal_vram_xy.field_2_y, 1, 1 };
             const BYTE data[] = { 0, 0, 0, 0 };
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
@@ -1484,6 +1486,7 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, int tlvInfo)
             {
                 PSX_LoadImage_496480(&rect, data);
             }
+            */
 
             for (int i = 0; i < field_118_counter; i++)
             {
@@ -1928,7 +1931,7 @@ void HintFly::VRender_42BAD0(PrimHeader** ppOt)
         tPageY = 0;
     }
 
-    const int tpage = PSX_getTPage_4965D0(field_110_bitMode, 1, field_10_anim.field_84_vram_rect.x & 0xFFC0, tPageY);
+    const int tpage = PSX_getTPage_4965D0(field_110_bitMode, TPageAbr::eBlend_1, field_10_anim.field_84_vram_rect.x & 0xFFC0, tPageY);
 
     Init_SetTPage_495FB0(pTPage, 0, 0, tpage);
     OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_39), &pTPage->mBase);

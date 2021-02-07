@@ -327,7 +327,7 @@ MainMenuFade* MainMenuFade::ctor_42A5A0(__int16 xpos, __int16 ypos, unsigned __i
         ppRes,
         1);
 
-    field_10_anim.field_B_render_mode = 1;
+    field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
     field_A8_xpos = FP_FromInteger(xpos);
     field_AC_ypos = FP_FromInteger(ypos);
     field_E8_bDestroyOnDone = bDestroyOnDone;
@@ -504,7 +504,7 @@ void MainMenuTransition::VUpdate()
     VUpdate_4365C0();
 }
 
-MainMenuTransition* MainMenuTransition::ctor_436370(Layer layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 speed, char abr)
+MainMenuTransition* MainMenuTransition::ctor_436370(Layer layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 speed, TPageAbr abr)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BB7A0);
@@ -761,7 +761,7 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, int tlvInfo)
 
     field_134_anim.field_C_layer = Layer::eLayer_38;
     field_134_anim.field_14_scale = field_BC_sprite_scale;
-    field_134_anim.field_B_render_mode = 1;
+    field_134_anim.field_B_render_mode = TPageAbr::eBlend_1;
     field_134_anim.LoadPal_403090(field_E4_res_array[5], 0);
     field_204_flags &= ~6u;
     field_1E2_rgb = 40;
@@ -1040,7 +1040,7 @@ void Menu::FMV_Select_Update_47E8D0()
             else
             {
                 field_1E8_pMenuTrans = ao_new<MainMenuTransition>();
-                field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_40, 1, 0, 16, 1);
+                field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_40, 1, 0, 16, TPageAbr::eBlend_1);
             }
             field_1CC_fn_update = &Menu::FMV_Or_Level_Select_To_Back_Update_47EC70;
         }
@@ -1246,7 +1246,7 @@ void Menu::FMV_Or_Level_Select_Render_47EEA0(PrimHeader** ppOt)
                 field_1F4_text,
                 textXPos,
                 textYPos,
-                0,
+                TPageAbr::eBlend_0,
                 1,
                 0,
                 Layer::eLayer_32,
@@ -1263,7 +1263,7 @@ void Menu::FMV_Or_Level_Select_Render_47EEA0(PrimHeader** ppOt)
                 field_1F4_text,
                 textXPos + 2,
                 textYPos + 2,
-                0,
+                TPageAbr::eBlend_0,
                 1,
                 0,
                 Layer::eLayer_32,
@@ -1457,7 +1457,7 @@ EXPORT void Menu::MainScreen_Update_47AF60()
                 else
                 {
                     field_1E8_pMenuTrans = ao_new<MainMenuTransition>();
-                    field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_40, 1, 0, 16, 1);
+                    field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_40, 1, 0, 16, TPageAbr::eBlend_1);
                     field_1E8_pMenuTrans->field_C_refCount++;
                 }
 
@@ -1483,7 +1483,7 @@ EXPORT void Menu::MainScreen_Update_47AF60()
             }
 
             field_1E8_pMenuTrans = ao_new<MainMenuTransition>();
-            field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_40, 1, 0, 16, 1);
+            field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_40, 1, 0, 16, TPageAbr::eBlend_1);
             field_1E8_pMenuTrans->field_C_refCount++;
             field_1CC_fn_update = &Menu::GoToSelectedMenuPage_47BC50;
         }
@@ -1510,7 +1510,7 @@ EXPORT void Menu::MainScreen_Update_47AF60()
             else
             {
                 field_1E8_pMenuTrans = ao_new<MainMenuTransition>();
-                field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_40, 1, 0, 16, 1);
+                field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_40, 1, 0, 16, TPageAbr::eBlend_1);
                 field_1E8_pMenuTrans->field_C_refCount++;
             }
 
@@ -1540,7 +1540,7 @@ EXPORT void Menu::MainScreen_Update_47AF60()
             else
             {
                 field_1E8_pMenuTrans = ao_new<MainMenuTransition>();
-                field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_40, 1, 0, 16, 1);
+                field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_40, 1, 0, 16, TPageAbr::eBlend_1);
                 field_1E8_pMenuTrans->field_C_refCount++;
             }
 
@@ -1653,7 +1653,7 @@ void Menu::WaitForSpeakFinishAndStartChangeEffect_47BB90()
         else
         {
             field_1E8_pMenuTrans = ao_new<MainMenuTransition>();
-            field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_40, 1, 0, 16, 1);
+            field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_40, 1, 0, 16, TPageAbr::eBlend_1);
             field_1E8_pMenuTrans->field_C_refCount++;
         }
 
@@ -1941,7 +1941,7 @@ void Menu::Load_Render_47DDA0(PrimHeader** ppOt)
                 field_1F4_text,
                 text_x,
                 text_y,
-                0,
+                TPageAbr::eBlend_0,
                 1,
                 0,
                 Layer::eLayer_32,
@@ -1958,7 +1958,7 @@ void Menu::Load_Render_47DDA0(PrimHeader** ppOt)
                 field_1F4_text,
                 text_x + 2,
                 text_y + 2,
-                0,
+                TPageAbr::eBlend_0,
                 1,
                 0,
                 Layer::eLayer_32,
@@ -2373,7 +2373,7 @@ void Menu::Options_Controller_Render_47F430(PrimHeader** ppOt)
                 field_1F4_text,
                 x,
                 y,
-                0,
+                TPageAbr::eBlend_0,
                 1,
                 0,
                 Layer::eLayer_32,
@@ -2390,7 +2390,7 @@ void Menu::Options_Controller_Render_47F430(PrimHeader** ppOt)
                 field_1F4_text,
                 x + 2,
                 y + 2,
-                0,
+                TPageAbr::eBlend_0,
                 1,
                 0,
                 Layer::eLayer_32,
@@ -2620,7 +2620,7 @@ void Menu::GameSpeak_Update_47CBD0()
                     47,
                     field_E4_res_array[4]);
 
-                pParticle->field_10_anim.field_B_render_mode = 1;
+                pParticle->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
                 pParticle->field_10_anim.field_C_layer = Layer::eLayer_39;
             }
         }
@@ -3134,7 +3134,7 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
             field_1F4_text,
             calculatedXposBasedOnWidth,
             88,
-            0,
+            TPageAbr::eBlend_0,
             1,
             0,
             Layer::eLayer_41,
@@ -3165,7 +3165,7 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
             field_1F4_text,
             calculatedXposBasedOnWidth2,
             120,
-            0,
+            TPageAbr::eBlend_0,
             1,
             0,
             Layer::eLayer_41,
@@ -3193,7 +3193,7 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
             field_1F4_text,
             calculatedXposBasedOnWidth3,
             152,
-            0,
+            TPageAbr::eBlend_0,
             1,
             0,
             Layer::eLayer_41,
@@ -3398,7 +3398,7 @@ void Menu::SaveLoadFailed_Render_47DCF0(PrimHeader** ppOt)
         kErrStr,
         xpos,
         210,
-        0,
+        TPageAbr::eBlend_0,
         1,
         0,
         Layer::eLayer_37,
@@ -3415,7 +3415,7 @@ void Menu::SaveLoadFailed_Render_47DCF0(PrimHeader** ppOt)
         kErrStr,
         xpos + 2,
         212,
-        0,
+        TPageAbr::eBlend_0,
         1,
         0,
         Layer::eLayer_37,
@@ -3855,7 +3855,7 @@ void CC Menu::RenderElement_47A4E0(int xpos, int ypos, int input_command, PrimHe
         text,
         converted_x,
         text_y,
-        0,
+        TPageAbr::eBlend_0,
         1,
         0,
         Layer::eLayer_39,
@@ -3873,7 +3873,7 @@ void CC Menu::RenderElement_47A4E0(int xpos, int ypos, int input_command, PrimHe
         text,
         converted_x - 1,
         text_y,
-        0,
+        TPageAbr::eBlend_0,
         1,
         0,
         Layer::eLayer_39,
@@ -3891,7 +3891,7 @@ void CC Menu::RenderElement_47A4E0(int xpos, int ypos, int input_command, PrimHe
         text,
         converted_x + 1,
         text_y,
-        3,
+        TPageAbr::eBlend_3,
         1,
         0,
         Layer::eLayer_39,

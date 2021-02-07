@@ -151,7 +151,7 @@ FlintLockFire* FlintLockFire::ctor_41AA90(Path_FlintLockFire* pTlv, int tlvInfo)
         0,
         0);
 
-    field_F0_anim.field_B_render_mode = 0;
+    field_F0_anim.field_B_render_mode = TPageAbr::eBlend_0;
     field_F0_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
     field_F0_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
@@ -169,13 +169,13 @@ FlintLockFire* FlintLockFire::ctor_41AA90(Path_FlintLockFire* pTlv, int tlvInfo)
             1,
             0,
             0);
-        field_188_anim.field_B_render_mode = 0;
+        field_188_anim.field_B_render_mode = TPageAbr::eBlend_0;
         field_188_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
         field_188_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
         field_188_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
         field_220_anim.Init_402D20(5072, gObjList_animations_505564, this, 51, 24, ppHubFireRes, 1, 0, 0);
-        field_220_anim.field_B_render_mode = 0;
+        field_220_anim.field_B_render_mode = TPageAbr::eBlend_0;
         field_220_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
         field_220_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
         field_220_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);

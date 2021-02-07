@@ -29,7 +29,7 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, int tlvIn
     Animation_Init_417FD0(1108, 32, 22, ppRes, 1);
     field_10_anim.field_4_flags.Set(AnimFlags::eBit7_SwapXY);
 
-    field_10_anim.field_B_render_mode = 1;
+    field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
     field_10_anim.field_C_layer = Layer::eLayer_36;
     field_C8_yOffset = 0;
     field_C0_r = 64;
@@ -75,7 +75,7 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, int tlvIn
                 60,
                 ppMotionRes,
                 1);
-            pMotionDetectors->field_10_anim.field_B_render_mode = 1;
+            pMotionDetectors->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
             pMotionDetectors->field_10_anim.field_C_layer = Layer::eLayer_36;
 
             pMotionDetectors->field_A8_xpos = field_F8_top_left_x;
@@ -102,7 +102,7 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, int tlvIn
                 60,
                 ppMotionRes,
                 1);
-            pMotionDetectors->field_10_anim.field_B_render_mode = 1;
+            pMotionDetectors->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
             pMotionDetectors->field_10_anim.field_C_layer = Layer::eLayer_36;
             pMotionDetectors->field_A8_xpos = field_100_bottom_right_x;
             pMotionDetectors->field_AC_ypos = field_104_bottom_right_y;
@@ -376,7 +376,7 @@ void MotionDetector::VRender_438250(PrimHeader** ppOt)
         OrderingTable_Add_498A80(OtLayer(ppOt, field_10_anim.field_C_layer), &pPrim->mBase.header);
 
         // Add tpage
-        Init_SetTPage_495FB0(&field_13C_tPage[gPsxDisplay_504C78.field_A_buffer_index], 0, 0,  PSX_getTPage_4965D0(TPageMode::e16Bit_2, field_160_bObjectInLaser != 0 ? 1 : 3, 0, 0)); // When detected transparency is off, gives the "solid red" triangle
+        Init_SetTPage_495FB0(&field_13C_tPage[gPsxDisplay_504C78.field_A_buffer_index], 0, 0,  PSX_getTPage_4965D0(TPageMode::e16Bit_2, field_160_bObjectInLaser != 0 ? TPageAbr::eBlend_1 : TPageAbr::eBlend_3, 0, 0)); // When detected transparency is off, gives the "solid red" triangle
         OrderingTable_Add_498A80(OtLayer(ppOt, field_10_anim.field_C_layer), &field_13C_tPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
         
         pScreenManager_4FF7C8->InvalidateRect_406E40(

@@ -848,8 +848,8 @@ Abe* Abe::ctor_420770(int frameTableOffset, int /*r*/, int /*g*/, int /*b*/)
     // Changes Abe's "default" colour depending on the level we are in
     SetTint_418750(sTintTable_Abe_4C6438, gMap_507BA8.field_0_current_level);
 
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);   
-    field_10_anim.field_B_render_mode = 0;
+    field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
 
     field_10C_prev_held = 0; // lowest to base class
     field_E6_last_anim_frame = 0;
@@ -6956,7 +6956,7 @@ void Abe::State_60_Dead_42C4C0()
             field_158_pDeathFadeout = ao_new<DeathFadeOut>();
             if (field_158_pDeathFadeout)
             {
-                field_158_pDeathFadeout->ctor_419DB0(Layer::eLayer_40, 1, 0, 8, 2);
+                field_158_pDeathFadeout->ctor_419DB0(Layer::eLayer_40, 1, 0, 8, TPageAbr::eBlend_2);
             }
 
             field_158_pDeathFadeout->field_C_refCount++;
@@ -7238,7 +7238,7 @@ void Abe::State_61_Respawn_42CD20()
                 auto pFlash = ao_new<Flash>();
                 if (pFlash)
                 {
-                    pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 255u, 1, 3u, 1);
+                    pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 255u);
                 }
                 field_106_shot = 0;
                 field_2A8_flags.Clear(Flags_2A8::e2A8_Bit6_bShrivel);
@@ -8384,7 +8384,7 @@ void Abe::State_88_HandstoneBegin_430590()
                         auto pDeathFadeOut = ao_new<DeathFadeOut>();
                         if (pDeathFadeOut)
                         {
-                            pDeathFadeOut->ctor_419DB0(Layer::eLayer_40, 0, 0, 8, 2);
+                            pDeathFadeOut->ctor_419DB0(Layer::eLayer_40, 0, 0, 8, TPageAbr::eBlend_2);
                         }
                         field_158_pDeathFadeout = pDeathFadeOut;
                         field_190_level = gMap_507BA8.field_0_current_level;
@@ -8499,7 +8499,7 @@ void Abe::State_88_HandstoneBegin_430590()
                     auto pDeathFadeOutMem = ao_new<DeathFadeOut>();
                     if (pDeathFadeOutMem)
                     {
-                        pDeathFadeOutMem->ctor_419DB0(Layer::eLayer_40, 0, 0, 8, 2);
+                        pDeathFadeOutMem->ctor_419DB0(Layer::eLayer_40, 0, 0, 8, TPageAbr::eBlend_2);
                     }
                     field_158_pDeathFadeout = pDeathFadeOutMem;
                     gMap_507BA8.SetActiveCam_444660(camera.level_1, camera.path_2, camera.camera_3, CameraSwapEffects::eEffect0_InstantChange, 0, 0);

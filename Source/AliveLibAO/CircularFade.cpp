@@ -222,7 +222,7 @@ CircularFade* CircularFade::ctor_479E20(FP xpos, FP ypos, FP scale, __int16 dire
 
     field_A8_xpos = xpos;
     field_AC_ypos = ypos;
-    field_10_anim.field_B_render_mode = 2;
+    field_10_anim.field_B_render_mode = TPageAbr::eBlend_2;
     field_10_anim.field_C_layer = Layer::eLayer_40;
     field_C0_r = field_1A8_fade_colour;
     field_C2_g = field_1A8_fade_colour;
@@ -230,7 +230,7 @@ CircularFade* CircularFade::ctor_479E20(FP xpos, FP ypos, FP scale, __int16 dire
 
     for (int i = 0; i < 2; i++)
     {
-        Init_SetTPage_495FB0(&field_188_tPage[i], 0, 0, PSX_getTPage_4965D0(TPageMode::e16Bit_2, 2, 0, 0));
+        Init_SetTPage_495FB0(&field_188_tPage[i], 0, 0, PSX_getTPage_4965D0(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
     }
     return this;
 }

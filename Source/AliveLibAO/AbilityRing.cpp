@@ -165,7 +165,7 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, __int16 type)
         field_10_layer = Layer::eLayer_39;
         field_270_level = gMap_507BA8.field_0_current_level;
         field_26C_semiTrans = 1;
-        field_26E_tPageMode = 1;
+        field_26E_tPageMode = TPageAbr::eBlend_1;
 
         field_250_scaleX = FP_FromDouble(1.0999); // TODO: Matching ?? 0x11999
         field_254_scaleY = FP_FromInteger(1);
@@ -179,7 +179,7 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, __int16 type)
                 SetRGB0(pPoly, field_266_r & 255, field_268_g & 255, field_26A_b & 255);
                 Poly_Set_SemiTrans_498A40(&pPoly->mBase.header, field_26C_semiTrans);
             }
-            Init_SetTPage_495FB0(&field_1C_primSetTPage[y], 0, 0, PSX_getTPage_4965D0(TPageMode::e16Bit_2, static_cast<char>(field_26E_tPageMode), 0, 0));
+            Init_SetTPage_495FB0(&field_1C_primSetTPage[y], 0, 0, PSX_getTPage_4965D0(TPageMode::e16Bit_2, field_26E_tPageMode, 0, 0));
         }
     }
     else

@@ -75,7 +75,7 @@ BackgroundAnimation* BackgroundAnimation::ctor_405A90(Path_BackgroundAnimation* 
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans, pTlv->field_1A_is_semi_trans);
     field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
 
-    field_10_anim.field_B_render_mode = static_cast<BYTE>(pTlv->field_1C_semi_trans_mode);
+    field_10_anim.field_B_render_mode = pTlv->field_1C_semi_trans_mode;
 
     field_10_anim.field_C_layer = Layer::eLayer_1;
     field_C8_yOffset = 0;

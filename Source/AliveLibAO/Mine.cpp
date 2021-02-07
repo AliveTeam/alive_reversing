@@ -67,7 +67,7 @@ Mine* Mine::ctor_43A330(Path_Mine* pTlv, int tlvInfo)
     field_118_animation.field_9_g = 128;
     field_118_animation.field_A_b = 128;
 
-    field_118_animation.field_B_render_mode = 0;
+    field_118_animation.field_B_render_mode = TPageAbr::eBlend_0;
     field_10E_disabled_resources = pTlv->field_1E_disabled_resources;
 
     // TODO
