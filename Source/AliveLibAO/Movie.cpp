@@ -15,8 +15,6 @@ EXPORT void CC Get_fmvs_sectors_44FEB0(const char* /*pMovieName1*/, const char* 
 
 Movie* Movie::ctor_489C90(int id, int /*pos*/, char bUnknown, int /*flags*/, __int16 volume)
 {
-    NOT_IMPLEMENTED();
-
     ctor_487E10(1);
     SetVTable(this, 0x4BD6E0);
 
@@ -78,7 +76,6 @@ void Movie::VUpdate()
 
 void Movie::VUpdate_489EA0()
 {
-    NOT_IMPLEMENTED();
 }
 
 }

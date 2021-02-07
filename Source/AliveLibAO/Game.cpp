@@ -190,7 +190,6 @@ ALIVE_ARY(1, 0x4CECC8, char, 3, gDriveLetter_4CECC8, { 'D', ':', '0' });
 
 EXPORT int CC Game_End_Frame_4505D0(DWORD bSkip)
 {
-    AE_IMPLEMENTED();
     return Game_End_Frame_4950F0(bSkip);
 }
 

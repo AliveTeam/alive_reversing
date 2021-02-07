@@ -15,13 +15,11 @@ namespace AO
 {
     EXPORT void SND_SsQuit_4938E0()
     {
-        AE_IMPLEMENTED();
         SND_SsQuit_4EFD50();
     }
 
     EXPORT void CC SND_Restart_476340()
     {
-        //NOT_IMPLEMENTED();
         MusicController::EnableMusic_443900(1);
         if (sBackgroundMusic_seq_id_4CFFF8 >= 0)
         {
