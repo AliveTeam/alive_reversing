@@ -40,7 +40,7 @@ ALIVE_ASSERT_SIZEOF(MainMenuTransition_Polys, 0x100);
 class MainMenuTransition : public BaseGameObject
 {
 public:
-    EXPORT MainMenuTransition* ctor_436370(__int16 layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 speed, char abr);
+    EXPORT MainMenuTransition* ctor_436370(Layer layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 speed, char abr);
 
     EXPORT BaseGameObject* dtor_436500();
 
@@ -56,7 +56,7 @@ public:
 
     EXPORT MainMenuTransition* Vdtor_4369F0(signed int flags);
 
-    EXPORT void StartTrans_436560(__int16 layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 speed);
+    EXPORT void StartTrans_436560(Layer layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 speed);
 
     virtual void VRender(PrimHeader** ppOt) override;
 
@@ -70,7 +70,7 @@ public:
     __int16 field_1A;
     MainMenuTransition_Polys field_1C_polys[2];
     Prim_SetTPage field_21C_tPage[2];
-    __int16 field_23C_layer;
+    Layer field_23C_layer;
     __int16 field_23E_width;
     __int16 field_240_k120;
     __int16 field_242_idx;

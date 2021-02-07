@@ -39,42 +39,6 @@ bool s_VGA_FilterScreen = false;
 
 #if USE_SDL2
 
-static IRenderer* gRenderer = nullptr;
-
-EXPORT IRenderer* GetRenderer()
-{
-    return gRenderer;
-}
-
-EXPORT void CreateRenderer(Renderers type)
-{
-    if (gRenderer)
-    {
-        ALIVE_FATAL("Renderer already created");
-    }
-
-    if (type == Renderers::Software)
-    {
-        gRenderer = new SoftwareRenderer();
-    }
-#ifdef _WIN32
-    else if (type == Renderers::DirectX9)
-    {
-        gRenderer = new DirectX9Renderer();
-    }
-#endif
-    else
-    {
-        ALIVE_FATAL("Unknown renderer type");
-    }
-}
-
-EXPORT void FreeRenderer()
-{
-    delete gRenderer;
-    gRenderer = nullptr;
-}
-
 EXPORT signed int CC VGA_FullScreenSet_4F31F0(bool /*bFullScreen*/)
 {
     //  NOT_IMPLEMENTED();
@@ -107,8 +71,8 @@ EXPORT void CC VGA_Shutdown_4F3170()
 #endif
 #endif
 
-    GetRenderer()->Destroy();
-    FreeRenderer();
+    IRenderer::GetRenderer()->Destroy();
+    IRenderer::FreeRenderer();
 
     sVGA_Inited_BC0BB8 = false;
 
@@ -159,7 +123,7 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
 
     if (SDL_BlitSurface(pBmp->field_0_pSurface, pCopyRect, sVGA_bmp_primary_BD2A20.field_0_pSurface, nullptr) == 0)
     {
-        GetRenderer()->CreateBackBuffer(s_VGA_FilterScreen, pBmp->field_0_pSurface->format->format, pBmp->field_0_pSurface->w, pBmp->field_0_pSurface->h);
+        IRenderer::GetRenderer()->CreateBackBuffer(s_VGA_FilterScreen, pBmp->field_0_pSurface->format->format, pBmp->field_0_pSurface->w, pBmp->field_0_pSurface->h);
 
         static bool prevFilterScreenValue = !s_VGA_FilterScreen;
         static int prevWidth = pBmp->field_0_pSurface->w;
@@ -171,17 +135,17 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
             prevWidth = pBmp->field_0_pSurface->w;
             prevHeight = pBmp->field_0_pSurface->h;
 
-            GetRenderer()->CreateBackBuffer(s_VGA_FilterScreen, pBmp->field_0_pSurface->format->format, pBmp->field_0_pSurface->w, pBmp->field_0_pSurface->h);
+            IRenderer::GetRenderer()->CreateBackBuffer(s_VGA_FilterScreen, pBmp->field_0_pSurface->format->format, pBmp->field_0_pSurface->w, pBmp->field_0_pSurface->h);
         }
 
-        if (GetRenderer()->UpdateBackBuffer(pBmp->field_0_pSurface->pixels, pBmp->field_0_pSurface->pitch))
+        if (IRenderer::GetRenderer()->UpdateBackBuffer(pBmp->field_0_pSurface->pixels, pBmp->field_0_pSurface->pitch))
         {
             SDL_Rect* pDst = nullptr;
             SDL_Rect dst = {};
 
             int w = 0;
             int h = 0;
-            GetRenderer()->OutputSize(&w, &h);
+            IRenderer::GetRenderer()->OutputSize(&w, &h);
 
             int renderedWidth = w;
             int renderedHeight = h;
@@ -222,8 +186,8 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
                 }
             }
 
-            GetRenderer()->Clear(0, 0, 0);
-            GetRenderer()->BltBackBuffer(pCopyRect, pDst);
+            IRenderer::GetRenderer()->Clear(0, 0, 0);
+            IRenderer::GetRenderer()->BltBackBuffer(pCopyRect, pDst);
         }
         else
         {
@@ -241,7 +205,7 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
         gTouchController->Render();
     }
 #endif
-    GetRenderer()->EndFrame();
+    IRenderer::GetRenderer()->EndFrame();
 }
 
 EXPORT void CC VGA_CopyToFront_4F3710(Bitmap* pBmp, RECT* pRect)
@@ -316,16 +280,16 @@ EXPORT signed int CC VGA_DisplaySet_4F32C0(unsigned __int16 width, unsigned __in
 
         sVGA_Inited_BC0BB8 = 1;
 
-        //CreateRenderer(Renderers::DirectX9);
-        CreateRenderer(Renderers::Software);
+        //IRenderer::CreateRenderer(IRenderer::Renderers::DirectX9);
+        IRenderer::CreateRenderer(IRenderer::Renderers::Software);
 
-        if (!GetRenderer()->Create(Sys_GetHWnd_4F2C70()))
+        if (!IRenderer::GetRenderer()->Create(Sys_GetHWnd_4F2C70()))
         {
             LOG_ERROR("Render create failed " << SDL_GetError());
             ALIVE_FATAL("Render create failed");
         }
 
-        GetRenderer()->Clear(0, 0, 0);
+        IRenderer::GetRenderer()->Clear(0, 0, 0);
 
         switch (sVGA_bmp_primary_BD2A20.field_0_pSurface->format->BitsPerPixel)
         {

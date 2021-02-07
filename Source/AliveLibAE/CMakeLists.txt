@@ -2,6 +2,7 @@ project(AliveLibAE VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibAESrc
     Renderer/IRenderer.hpp
+    Renderer/IRenderer.cpp
     Renderer/SoftwareRenderer.hpp
     Renderer/SoftwareRenderer.cpp
     Renderer/DirectX9Renderer.hpp

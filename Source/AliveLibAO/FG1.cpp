@@ -67,7 +67,7 @@ void FG1::Convert_Chunk_To_Render_Block_453BA0(const Fg1Chunk* pChunk, Fg1Block*
         rect.h = pChunk->field_A_height;
         PSX_LoadImage16_4962A0(&rect, (BYTE*)&pChunk[1]);
 
-        const short tPage = static_cast<short>(PSX_getTPage_4965D0(2, 0, rect.x /*& 0xFFC0*/, rect.y));
+        const short tPage = static_cast<short>(PSX_getTPage_4965D0(TPageMode::e16Bit_2, 0, rect.x /*& 0xFFC0*/, rect.y));
 
         const BYTE u0 = rect.x & 63;
         const BYTE v0 = static_cast<BYTE>(rect.y);

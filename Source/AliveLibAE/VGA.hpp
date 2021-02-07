@@ -5,15 +5,6 @@
 
 void VGA_ForceLink();
 
-EXPORT class IRenderer* GetRenderer();
-enum class Renderers
-{
-    Software,
-    DirectX9,
-};
-EXPORT void CreateRenderer(Renderers type);
-EXPORT void FreeRenderer();
-
 EXPORT void CC VGA_Shutdown_4F3170();
 EXPORT void CC VGA_CopyToFront_4F3710(Bitmap* pBmp, RECT* pRect);
 EXPORT void CC VGA_CopyToFront_4F3EB0(Bitmap* pBmp, RECT* pRect, unsigned __int8 screenMode);

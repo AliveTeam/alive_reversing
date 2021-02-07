@@ -9,6 +9,24 @@ struct PrimHeader;
 class IRenderer
 {
 public:
+    enum class Renderers
+    {
+        Software,
+        DirectX9,
+    };
+
+    enum class BitDepth
+    {
+        e16Bit,
+        e8Bit,
+        e4Bit,
+    };
+
+    EXPORT static IRenderer* GetRenderer();
+    EXPORT static void CreateRenderer(Renderers type);
+    EXPORT static void FreeRenderer();
+
+public:
     virtual ~IRenderer() {}
     virtual void Destroy() = 0;
     virtual bool Create(TWindowHandleType window) = 0;
@@ -23,6 +41,8 @@ public:
     virtual void SetTPage(short tPage) = 0;
 
     virtual void SetClip(Prim_PrimClipper& clipper) = 0;
+
+    virtual void Upload(BitDepth bitDepth, const PSX_RECT& rect, const BYTE* pPixels) = 0;
 
     // FG1/zaplines/blood/hintfly
     virtual void Draw(Prim_Sprt& sprt) = 0;
@@ -56,3 +76,4 @@ public:
     virtual void Draw(Poly_G4& poly) = 0;
 
 };
+

@@ -709,10 +709,10 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry *entry, short selected
     SetXY1(pPrim, 640, 0);
     SetXY2(pPrim, 0, 240);
     SetXY3(pPrim, 640, 240);
-    Prim_SetTPage *prim_tpage = &field_138[gPsxDisplay_504C78.field_A_buffer_index];
-    Init_SetTPage_495FB0(prim_tpage, 0, 0, PSX_getTPage_4965D0(0, 2, 0, 0));
-    OrderingTable_Add_498A80(ppOt + 41, &pPrim->mBase.header);
-    OrderingTable_Add_498A80(ppOt + 41, &prim_tpage->mBase);
+    Prim_SetTPage *prim_tpage = &field_138_tPage[gPsxDisplay_504C78.field_A_buffer_index];
+    Init_SetTPage_495FB0(prim_tpage, 0, 0, PSX_getTPage_4965D0(TPageMode::e4Bit_0, 2, 0, 0));
+    OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_41), &pPrim->mBase.header);
+    OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_41), &prim_tpage->mBase);
     pScreenManager_4FF7C8->InvalidateRect_406E40(
         0,
         0,

@@ -1425,28 +1425,28 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, int tlvInfo)
 
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit13_Is8Bit))
             {
-                field_110_bitMode = 1;
+                field_110_bitMode = TPageMode::e8Bit_1;
             }
             else if (field_10_anim.field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
             {
-                field_110_bitMode = 2;
+                field_110_bitMode = TPageMode::e16Bit_2;
             }
             else
             {
-                field_110_bitMode = 0;
+                field_110_bitMode = TPageMode::e4Bit_0;
             }
 
             int vram_x = field_10_anim.field_84_vram_rect.x & 0x3F;
-            if (field_110_bitMode == 1)
+            if (field_110_bitMode == TPageMode::e8Bit_1)
             {
                 vram_x = 2 * vram_x;
             }
-            else if (field_110_bitMode == 0)
+            else if (field_110_bitMode == TPageMode::e4Bit_0)
             {
                 vram_x = 4 * vram_x;
             }
 
-            auto pHeader = reinterpret_cast<FrameHeader*>(&(*field_10_anim.field_20_ppBlock)[field_10_anim.Get_FrameHeader_403A00(-1)->field_0_frame_header_offset]);
+            const auto pHeader = reinterpret_cast<const FrameHeader*>(&(*field_10_anim.field_20_ppBlock)[field_10_anim.Get_FrameHeader_403A00(-1)->field_0_frame_header_offset]);
 
             for (int i = 0; i < field_11A_msg_len; i++)
             {
@@ -1489,7 +1489,6 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, int tlvInfo)
             {
                 HintFlyParticle* pParticle = &field_E8_pRes[i];
                 InitParticle(pParticle);
-
             }
         }
         else
@@ -1929,10 +1928,10 @@ void HintFly::VRender_42BAD0(PrimHeader** ppOt)
         tPageY = 0;
     }
 
-    const int tpage = PSX_getTPage_4965D0(static_cast<char>(field_110_bitMode), 1, field_10_anim.field_84_vram_rect.x & 0xFFC0, tPageY);
+    const int tpage = PSX_getTPage_4965D0(field_110_bitMode, 1, field_10_anim.field_84_vram_rect.x & 0xFFC0, tPageY);
 
     Init_SetTPage_495FB0(pTPage, 0, 0, tpage);
-    OrderingTable_Add_498A80(&ppOt[39], &pTPage->mBase);
+    OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_39), &pTPage->mBase);
 
     pScreenManager_4FF7C8->InvalidateRect_406E40(
         rect.x - 6,

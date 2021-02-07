@@ -403,13 +403,15 @@ EXPORT int AliveFont::DrawString_41C360(PrimHeader** ppOt, const char* text, __i
     int charInfoIndex = 0;
     auto poly = &field_24_fnt_poly_array[gPsxDisplay_504C78.field_A_buffer_index + (2 * polyOffset)];
 
-    int tpage = PSX_getTPage_4965D0(0, abr, field_34_font_context->field_0_rect.x & ~63, field_34_font_context->field_0_rect.y);
-    int clut = PSX_getClut_496840(field_28_palette_rect.x, field_28_palette_rect.y);
+    const int tpage = PSX_getTPage_4965D0(TPageMode::e4Bit_0, abr, field_34_font_context->field_0_rect.x & ~63, field_34_font_context->field_0_rect.y);
+    const int clut = PSX_getClut_496840(field_28_palette_rect.x, field_28_palette_rect.y);
 
     for (unsigned int i = 0; i < strlen(text); i++)
     {
         if (offsetX >= maxRenderX)
+        {
             break;
+        }
 
         const unsigned char c = text[i];
 

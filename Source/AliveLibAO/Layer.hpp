@@ -42,5 +42,6 @@ namespace AO {
         eLayer_38 = 38,
         eLayer_39 = 39,
         eLayer_40 = 40,
+        eLayer_41 = 41,
     };
 }

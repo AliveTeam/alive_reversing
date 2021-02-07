@@ -47,7 +47,8 @@ public:
     BYTE** field_E4_ppResBuf;
     BloodParticle* field_E8_pResBuf;
     Prim_SetTPage field_EC_tPages[2];
-    __int16 field_10C_texture_mode;
+    TPageMode field_10C_texture_mode;
+    // pad
     __int16 field_10E_xpos;
     __int16 field_110_ypos;
     __int16 field_112_to_render_count;
