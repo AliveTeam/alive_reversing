@@ -46,10 +46,10 @@ namespace FS
 
 namespace DEV
 {
-    void DebugDrawLine(PrimHeader ** ot, int layer, int x1, int y1, int x2, int y2, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent = false);
-    void DebugDrawText(PrimHeader ** ot, int layer, std::string & text, int x, int y, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent);
-    void DebugFillRect(PrimHeader ** ot, int layer, int x, int y, int width, int height, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent = false);
-    void DebugDrawRect(PrimHeader ** ot, int layer, int x, int y, int width, int height, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent = false);
+    void DebugDrawLine(PrimHeader ** ot, Layer layer, int x1, int y1, int x2, int y2, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent = false);
+    void DebugDrawText(PrimHeader ** ot, Layer layer, std::string & text, int x, int y, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent);
+    void DebugFillRect(PrimHeader ** ot, Layer layer, int x, int y, int width, int height, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent = false);
+    void DebugDrawRect(PrimHeader ** ot, Layer layer, int x, int y, int width, int height, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent = false);
     void DebugOnFrameDraw(PrimHeader** ppOt);
 }
 

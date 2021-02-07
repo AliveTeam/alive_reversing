@@ -32,7 +32,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LaughingGas, 0x1C);
 class LaughingGas : public BaseGameObject
 {
 public:
-    EXPORT LaughingGas* ctor_432400(__int16 layer, int notUsed, Path_LaughingGas* pTlv, int tlvInfo);
+    EXPORT LaughingGas* ctor_432400(Layer layer, int notUsed, Path_LaughingGas* pTlv, int tlvInfo);
 
     EXPORT void dtor_432B80();
 
@@ -79,7 +79,7 @@ private:
     int field_44_padding;
     Path_LaughingGas_Data field_48_tlv_data;
     FP field_54_amount_on;
-    __int16 field_58_layer;
+    Layer field_58_layer;
     __int16 field_5A_padding;
 
     Prim_GasEffect field_5C_prim;

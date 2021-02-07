@@ -609,7 +609,7 @@ void Water::vRender_4E1440(PrimHeader** ppOt)
                 pPoly->mVerts[2].mUv.tpage_clut_pad = 0;
 
                 SetXYWH(pPoly, polyX, polyY, width, height);
-                OrderingTable_Add_4F8AA0(&ppOt[39], &pPoly->mBase.header);
+                OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_39), &pPoly->mBase.header);
 
                 if (polyX < xMin)
                 {

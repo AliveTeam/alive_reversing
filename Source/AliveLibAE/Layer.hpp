@@ -41,4 +41,5 @@ enum class Layer : __int16
     eLayer_39 = 39,
     eLayer_40 = 40,
     eLayer_41 = 41,
+    eLayer_42 = 42,
 };

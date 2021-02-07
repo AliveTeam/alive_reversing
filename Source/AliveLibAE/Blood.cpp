@@ -255,9 +255,7 @@ void Blood::vRender_40F780(PrimHeader** ppOt)
                 SetRGB0(pSprt, field_20_animation.field_8_r, field_20_animation.field_9_g, field_20_animation.field_A_b);
             }
 
-            OrderingTable_Add_4F8AA0(
-                OtLayer(ppOt, field_12C_render_layer),
-                &pSprt->mBase.header);
+            OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_12C_render_layer), &pSprt->mBase.header);
 
             xy.field_0_x = std::min(x0, xy.field_0_x);
             xy.field_2_y = std::min(y0, xy.field_2_y);

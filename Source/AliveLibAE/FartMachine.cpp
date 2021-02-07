@@ -159,7 +159,7 @@ void FartMachine::vRender_4133F0(PrimHeader** ppOt)
             1,
             1,
             0,
-            22,
+            Layer::eLayer_22,
             127,
             127,
             127,

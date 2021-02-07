@@ -181,8 +181,8 @@ public:
 
                 std::string text = std::to_string(static_cast<int>(pBaseGameObject->field_4_typeId));
 
-                mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureWidth_433700(text.c_str()) / 2) + 1, y + 1, 0, 0, 0, 39, 0, 0, 0, mFontPIndex, FP_FromDouble(1.0), 640, 0);
-                mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureWidth_433700(text.c_str()) / 2), y, 0, 1, 0, 40, 255, 255, 255, mFontPIndex, FP_FromDouble(1.0), 640, 0);
+                mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureWidth_433700(text.c_str()) / 2) + 1, y + 1, 0, 0, 0, Layer::eLayer_39, 0, 0, 0, mFontPIndex, FP_FromDouble(1.0), 640, 0);
+                mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureWidth_433700(text.c_str()) / 2), y, 0, 1, 0, Layer::eLayer_40, 255, 255, 255, mFontPIndex, FP_FromDouble(1.0), 640, 0);
             }
         }
     }
@@ -353,7 +353,7 @@ public:
         {
             const int gridX = 25 / 2;
             const int gridY = 20;
-            const int layer = 22;
+            const Layer layer = Layer::eLayer_22;
 
             for (int y = 0; y < 12; y++)
             {
@@ -394,10 +394,12 @@ public:
                     color = mLineColors[mode];
                 }
 
-                int layer = 40;
+                Layer fontLayer = Layer::eLayer_41;
+                Layer layer = Layer::eLayer_40;
                 if (mode == 4 || mode == 5 || mode == 6)
                 {
-                    layer = 23;
+                    layer = Layer::eLayer_23;
+                    fontLayer = Layer::eLayer_24;
                 }
                 DEV::DebugDrawLine(ppOt, layer, l->field_0_rect.x, l->field_0_rect.y, l->field_0_rect.w, l->field_0_rect.h, color.r, color.g, color.b, true, false);
 
@@ -406,8 +408,8 @@ public:
 
                 if (id_x > 0 && id_x <= 640 && id_y > 0 && id_y <= 240)
                 {
-                    pIndex = mFont.DrawString_4337D0(ppOt, std::to_string(mode).c_str(), id_x, id_y, 0, 0, 0, layer + 1, 255, 255, 255, pIndex, FP_FromDouble(1.0), 640, 0);
-                    pIndex = mFont.DrawString_4337D0(ppOt, std::to_string(mode).c_str(), id_x + 1, id_y + 1, 0, 0, 0, layer + 1, 0, 0, 0, pIndex, FP_FromDouble(1.0), 640, 0);
+                    pIndex = mFont.DrawString_4337D0(ppOt, std::to_string(mode).c_str(), id_x, id_y, 0, 0, 0,fontLayer, 255, 255, 255, pIndex, FP_FromDouble(1.0), 640, 0);
+                    pIndex = mFont.DrawString_4337D0(ppOt, std::to_string(mode).c_str(), id_x + 1, id_y + 1, 0, 0, 0, fontLayer, 0, 0, 0, pIndex, FP_FromDouble(1.0), 640, 0);
                 }
             }
         }
@@ -1118,8 +1120,8 @@ public:
 
             message->y = static_cast<float>(targetY);
 
-            pIndex = mFont.DrawString_4337D0(ppOt, message->message.c_str(), 0, static_cast<short>(message->y), 0, 1, 0, 40, message->r, message->g, message->b, pIndex, FP_FromDouble(1.0), 640, 0);
-            pIndex = mFont.DrawString_4337D0(ppOt, message->message.c_str(), 1, static_cast<short>(message->y) + 1, 0, 1, 0, 40, 0, 0, 0, pIndex, FP_FromDouble(1.0), 640, 0);
+            pIndex = mFont.DrawString_4337D0(ppOt, message->message.c_str(), 0, static_cast<short>(message->y), 0, 1, 0, Layer::eLayer_40, message->r, message->g, message->b, pIndex, FP_FromDouble(1.0), 640, 0);
+            pIndex = mFont.DrawString_4337D0(ppOt, message->message.c_str(), 1, static_cast<short>(message->y) + 1, 0, 1, 0, Layer::eLayer_40, 0, 0, 0, pIndex, FP_FromDouble(1.0), 640, 0);
         
             message->time--;
 
@@ -1137,8 +1139,8 @@ public:
         if (mCommandLineEnabled)
         {
             std::string trail = (sGnFrame_5C1B84 % 10 < 5) ? "" : "_";
-            pIndex = mFont.DrawString_4337D0(ppOt, (">" + mCommandLineInput + trail).c_str(), 0, 232, 0, 1, 0, 40, 255, 255, 255, pIndex, FP_FromDouble(1.0), 640, 0);
-            pIndex = mFont.DrawString_4337D0(ppOt, (" " + mAutoComplete).c_str(), 0, 232, 0, 1, 0, 40, 30, 30, 30, pIndex, FP_FromDouble(1.0), 640, 0);
+            pIndex = mFont.DrawString_4337D0(ppOt, (">" + mCommandLineInput + trail).c_str(), 0, 232, 0, 1, 0, Layer::eLayer_40, 255, 255, 255, pIndex, FP_FromDouble(1.0), 640, 0);
+            pIndex = mFont.DrawString_4337D0(ppOt, (" " + mAutoComplete).c_str(), 0, 232, 0, 1, 0, Layer::eLayer_40, 30, 30, 30, pIndex, FP_FromDouble(1.0), 640, 0);
         }
     }
 
@@ -1261,7 +1263,7 @@ public:
         xy.x = ypos;
         xy.y = ypos;
         InitType_ScreenOffset_4F5BB0(&mScreenOffset, &xy);
-        OrderingTable_Add_4F8AA0(&ppOt[30], &mScreenOffset.mBase);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mScreenOffset.mBase);
 
         static PSX_RECT clipRect = {};
         clipRect.x = 80;
@@ -1275,45 +1277,45 @@ public:
         // Tiles
         for (int i = 0; i < 10; i++)
         {
-            OrderingTable_Add_4F8AA0(&ppOt[30], &mTiles[i].mBase.header);
+            OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mTiles[i].mBase.header);
         }
-        OrderingTable_Add_4F8AA0(&ppOt[30], &mTile8.mBase.header);
-        OrderingTable_Add_4F8AA0(&ppOt[30], &mTile16.mBase.header);
-        OrderingTable_Add_4F8AA0(&ppOt[30], &mTile.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mTile8.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mTile16.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mTile.mBase.header);
 
         // Sprites
-        OrderingTable_Add_4F8AA0(&ppOt[30], &mSprt8.mBase.header);
-        OrderingTable_Add_4F8AA0(&ppOt[30], &mSprt8_TPage.mBase);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mSprt8.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mSprt8_TPage.mBase);
 
-        OrderingTable_Add_4F8AA0(&ppOt[30], &mSprt16.mBase.header);
-        OrderingTable_Add_4F8AA0(&ppOt[30], &mSprt16_TPage.mBase);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mSprt16.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mSprt16_TPage.mBase);
 
-        OrderingTable_Add_4F8AA0(&ppOt[30], &mSprt.mBase.header);
-        OrderingTable_Add_4F8AA0(&ppOt[30], &mSprt_TPage.mBase);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mSprt.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mSprt_TPage.mBase);
 
         // Lines
-        OrderingTable_Add_4F8AA0(&ppOt[30], &mLineF2.mBase.header);
-        OrderingTable_Add_4F8AA0(&ppOt[30], &mLineF3.mBase.header);
-        OrderingTable_Add_4F8AA0(&ppOt[30], &mLineF4.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mLineF2.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mLineF3.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mLineF4.mBase.header);
 
-        OrderingTable_Add_4F8AA0(&ppOt[30], &mLineG2.mBase.header);
-        OrderingTable_Add_4F8AA0(&ppOt[30], &mLineG3.mBase.header);
-        OrderingTable_Add_4F8AA0(&ppOt[30], &mLineG4.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mLineG2.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mLineG3.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mLineG4.mBase.header);
 
         for (int i = 0; i < 4; i++)
         {
-            OrderingTable_Add_4F8AA0(&ppOt[30], &mPolyFT4[i].mBase.header);
+            OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolyFT4[i].mBase.header);
         }
 
-        OrderingTable_Add_4F8AA0(&ppOt[30], &mPolyGT4.mBase.header);
-        OrderingTable_Add_4F8AA0(&ppOt[30], &mPolyF4.mBase.header);
-        OrderingTable_Add_4F8AA0(&ppOt[30], &mPolyG4.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolyGT4.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolyF4.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolyG4.mBase.header);
 
         // Polys
-        OrderingTable_Add_4F8AA0(&ppOt[30], &mPolyF3.mBase.header);
-        OrderingTable_Add_4F8AA0(&ppOt[30], &mPolyG3.mBase.header);
-        OrderingTable_Add_4F8AA0(&ppOt[30], &mPolyFT3.mBase.header);
-        OrderingTable_Add_4F8AA0(&ppOt[30], &mPolyGT3.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolyF3.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolyG3.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolyFT3.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolyGT3.mBase.header);
     }
 
 private:
@@ -1716,7 +1718,7 @@ public:
     {
         for (int i = 0; i < 4; i++)
         {
-            OrderingTable_Add_4F8AA0(&ppOt[30], &mPolys[i].mBase.header);
+            OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolys[i].mBase.header);
         }
     }
 
@@ -1793,11 +1795,11 @@ public:
     {
         for (int i = 0; i < 4; i++)
         {
-            OrderingTable_Add_4F8AA0(&ppOt[30], &mPoly_F4_Verts[i].mBase.header);
+            OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPoly_F4_Verts[i].mBase.header);
         }
 
-        OrderingTable_Add_4F8AA0(&ppOt[30], &mPoly_F3.mBase.header);
-        OrderingTable_Add_4F8AA0(&ppOt[30], &mPoly_F4.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPoly_F3.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPoly_F4.mBase.header);
     }
 
     void Update()
@@ -1968,7 +1970,7 @@ public:
         mAnim[3].vRender_40B820(40 + (2 * 85), 40 + (2 * 90), ot, 0, 0);
         mAnim[4].vRender_40B820(180 + 90, 170 + 45, ot, 0, 0);
 
-        OrderingTable_Add_4F8AA0(&ot[30], &mPolyFT4[0].mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ot, Layer::eLayer_30), &mPolyFT4[0].mBase.header);
 
         pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
     }
@@ -2238,7 +2240,7 @@ int sNextPolyF4Prim = 0;
 Line_G2 sLinePrimBuffer[1024];
 Poly_F4 sPolyF4PrimBuffer[1024];
 
-void DEV::DebugFillRect(PrimHeader ** ot, int layer, int x, int y, int width, int height, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent)
+void DEV::DebugFillRect(PrimHeader ** ot, Layer layer, int x, int y, int width, int height, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent)
 {
     Poly_F4 * mPolyF4 = &sPolyF4PrimBuffer[++sNextPolyF4Prim];
     *mPolyF4 = {};
@@ -2266,11 +2268,11 @@ void DEV::DebugFillRect(PrimHeader ** ot, int layer, int x, int y, int width, in
 
     Poly_Set_SemiTrans_4F8A60(&mPolyF4->mBase.header, semiTransparent);
 
-    OrderingTable_Add_4F8AA0(&ot[layer], &mPolyF4->mBase.header);
+    OrderingTable_Add_4F8AA0(OtLayer(ot, layer), &mPolyF4->mBase.header);
     pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
 }
 
-void DEV::DebugDrawRect(PrimHeader ** ot, int layer, int x, int y, int width, int height, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent)
+void DEV::DebugDrawRect(PrimHeader ** ot, Layer layer, int x, int y, int width, int height, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent)
 {
     DebugDrawLine(ot, layer, x, y, x + width, y, r, g, b, worldspace, semiTransparent);
     DebugDrawLine(ot, layer, x + width, y, x + width, y + height, r, g, b, worldspace, semiTransparent);
@@ -2278,7 +2280,7 @@ void DEV::DebugDrawRect(PrimHeader ** ot, int layer, int x, int y, int width, in
     DebugDrawLine(ot, layer, x, y + height, x, y, r, g, b, worldspace, semiTransparent);
 }
 
-void DEV::DebugDrawLine(PrimHeader ** ot, int layer, int x1, int y1, int x2, int y2, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent)
+void DEV::DebugDrawLine(PrimHeader ** ot, Layer layer, int x1, int y1, int x2, int y2, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent)
 {
     Line_G2 * mLineG2 = &sLinePrimBuffer[++sNextLinePrim];
     LineG2_Init(mLineG2);
@@ -2306,11 +2308,11 @@ void DEV::DebugDrawLine(PrimHeader ** ot, int layer, int x1, int y1, int x2, int
 
     Poly_Set_SemiTrans_4F8A60(&mLineG2->mBase.header, semiTransparent);
 
-    OrderingTable_Add_4F8AA0(&ot[layer], &mLineG2->mBase.header);
+    OrderingTable_Add_4F8AA0(OtLayer(ot, layer), &mLineG2->mBase.header);
     pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
 }
 
-void DEV::DebugDrawText(PrimHeader ** ot, int layer, std::string & text, int x, int y, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent)
+void DEV::DebugDrawText(PrimHeader ** ot, Layer layer, std::string & text, int x, int y, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent)
 {
     const auto camOffset = gMap_5C3030.field_24_camera_offset;
 
@@ -2321,7 +2323,7 @@ void DEV::DebugDrawText(PrimHeader ** ot, int layer, std::string & text, int x, 
     }
 
     g_DebugGlobalFontPolyIndex = g_DebugGlobalFont.DrawString_4337D0(ot, text.c_str(), x - (g_DebugGlobalFont.MeasureWidth_433700(text.c_str()) / 2), static_cast<short>(y), semiTransparent, 0, 0, layer, r, g, b, g_DebugGlobalFontPolyIndex, FP_FromDouble(1.0), 640, 0);
-    g_DebugGlobalFontPolyIndex = g_DebugGlobalFont.DrawString_4337D0(ot, text.c_str(), x - (g_DebugGlobalFont.MeasureWidth_433700(text.c_str()) / 2) + 1, static_cast<short>(y + 1), semiTransparent, 0, 0, layer - 1, 0, 0, 0, g_DebugGlobalFontPolyIndex, FP_FromDouble(1.0), 640, 0);
+    g_DebugGlobalFontPolyIndex = g_DebugGlobalFont.DrawString_4337D0(ot, text.c_str(), x - (g_DebugGlobalFont.MeasureWidth_433700(text.c_str()) / 2) + 1, static_cast<short>(y + 1), semiTransparent, 0, 0, layer, 0, 0, 0, g_DebugGlobalFontPolyIndex, FP_FromDouble(1.0), 640, 0);
 }
 
 void DEV::DebugOnFrameDraw(PrimHeader** ppOt)
@@ -2339,15 +2341,15 @@ void DEV::DebugOnFrameDraw(PrimHeader** ppOt)
                 const int hitX = FP_GetExponent(rc.hitX);
                 const int hitY = FP_GetExponent(rc.hitY);
 
-                DEV::DebugDrawLine(ppOt, 38, FP_GetExponent(rc.x1), FP_GetExponent(rc.y1), hitX, hitY, 255, 255, 0, true, true);
+                DEV::DebugDrawLine(ppOt, Layer::eLayer_38, FP_GetExponent(rc.x1), FP_GetExponent(rc.y1), hitX, hitY, 255, 255, 0, true, true);
 
 
-                DEV::DebugDrawLine(ppOt, 38, hitX - 1, hitY - 1, hitX + 1, hitY + 1, 255, 255, 255, true, true);
-                DEV::DebugDrawLine(ppOt, 38, hitX + 1, hitY - 1, hitX - 1, hitY + 1, 255, 255, 255, true, true);
+                DEV::DebugDrawLine(ppOt, Layer::eLayer_38, hitX - 1, hitY - 1, hitX + 1, hitY + 1, 255, 255, 255, true, true);
+                DEV::DebugDrawLine(ppOt, Layer::eLayer_38, hitX + 1, hitY - 1, hitX - 1, hitY + 1, 255, 255, 255, true, true);
             }
             else
             {
-                DEV::DebugDrawLine(ppOt, 38, FP_GetExponent(rc.x1), FP_GetExponent(rc.y1), FP_GetExponent(rc.x2), FP_GetExponent(rc.y2), 0, 255, 0, true, true);
+                DEV::DebugDrawLine(ppOt, Layer::eLayer_38, FP_GetExponent(rc.x1), FP_GetExponent(rc.y1), FP_GetExponent(rc.x2), FP_GetExponent(rc.y2), 0, 255, 0, true, true);
             }
         }
     }

@@ -1523,7 +1523,7 @@ EXPORT void CC Factory_WorkWheel_4D6B20(Path_TLV* pTlv , Path*, TlvItemInfoUnion
 
 EXPORT void CC Factory_Null_4DA850(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 
-EXPORT void CC Create_Gas_4DA8B0(__int16 layer, int neverUsed, Path_TLV* pTlv, int tlvInfo)
+EXPORT void CC Create_Gas_4DA8B0(Layer layer, int neverUsed, Path_TLV* pTlv, int tlvInfo)
 {
     if (!gGasInstanceCount_5BC214)
     {
@@ -1539,7 +1539,7 @@ EXPORT void CC Factory_LaughingGas_4DA870(Path_TLV* pTlv, Path*, TlvItemInfoUnio
 {
     if (loadMode != 1 && loadMode != 2)
     {
-        Create_Gas_4DA8B0(39, 2, pTlv, tlvInfo.all);
+        Create_Gas_4DA8B0(Layer::eLayer_39, 2, pTlv, tlvInfo.all);
     }
 }
 
