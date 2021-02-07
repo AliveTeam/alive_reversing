@@ -210,7 +210,7 @@ static void Main_ParseCommandLineArguments()
 
     PSX_EMU_Set_Cd_Emulation_Paths_49B000(".", cdDrivePath, nullptr);
 
-    std::string windowTitle("R.E.L.I.V.E. Abe's Oddworld Oddysee");
+    std::string windowTitle("R.E.L.I.V.E. Oddworld Abe's Oddysee");
 
 #if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
     std::string kBitness = sizeof(void*) == 4 ? " (32 bit)" : " (64 bit)";
@@ -221,7 +221,7 @@ static void Main_ParseCommandLineArguments()
     windowTitle += kBitness;
 #endif
 
-    Sys_WindowClass_Register_48E9E0("ABE_WINCLASS", windowTitle.c_str(), 32, 64, 640, 480); // Nice window title lol
+    Sys_WindowClass_Register_48E9E0("ABE_WINCLASS", windowTitle.c_str(), 32, 64, 640, 480);
 
 #ifdef _WIN32
 
