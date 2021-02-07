@@ -7238,7 +7238,7 @@ void Abe::State_61_Respawn_42CD20()
                 auto pFlash = ao_new<Flash>();
                 if (pFlash)
                 {
-                    pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 255u, 1, TPageAbr::eBlend_3, 1);
+                    pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 255u);
                 }
                 field_106_shot = 0;
                 field_2A8_flags.Clear(Flags_2A8::e2A8_Bit6_bShrivel);

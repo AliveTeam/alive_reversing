@@ -281,7 +281,7 @@ void SecurityOrb::VUpdate_436DF0()
             auto pFlash = ao_new<Flash>();
             if (pFlash)
             {
-                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 0, 1, TPageAbr::eBlend_3, 1);
+                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 0);
             }
         }
 

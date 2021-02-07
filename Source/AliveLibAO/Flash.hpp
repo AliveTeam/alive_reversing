@@ -9,7 +9,7 @@ namespace AO {
 class Flash : public EffectBase
 {
 public:
-    EXPORT Flash* ctor_41A810(Layer layer, unsigned __int8 r, unsigned __int8 g, unsigned __int8 b, int not_used, TPageAbr abr, int time);
+    EXPORT Flash* ctor_41A810(Layer layer, unsigned __int8 r, unsigned __int8 g, unsigned __int8 b, int not_used = 1, TPageAbr abr = TPageAbr::eBlend_3, int time = 1);
 
 
     virtual BaseGameObject* VDestructor(signed int flags) override;

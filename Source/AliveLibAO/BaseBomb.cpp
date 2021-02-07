@@ -66,7 +66,7 @@ void BaseBomb::VUpdate_417580()
         Flash* pFlash = ao_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u, 1, TPageAbr::eBlend_3, 1);
+            pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u);
         }
 
         rect.x = FP_GetExponent(FP_FromInteger(-113) * field_E4_scale);
@@ -102,7 +102,7 @@ void BaseBomb::VUpdate_417580()
         Flash* pFlash = ao_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u, 1, TPageAbr::eBlend_3, 1);
+            pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u);
         }
         break;
     }

@@ -703,7 +703,7 @@ void BirdPortal::VUpdate_4523D0()
         auto pFlash = ao_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_41A810(Layer::eLayer_40, 255u, 255u, 255u, 1, TPageAbr::eBlend_3, 1);
+            pFlash->ctor_41A810(Layer::eLayer_40, 255u, 255u, 255u);
         }
         field_14_state = States::State_13;
     }

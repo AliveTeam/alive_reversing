@@ -102,7 +102,7 @@ void Explosion::VUpdate_458D00()
         auto pFlash = ao_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u, 1, TPageAbr::eBlend_3, 1);
+            pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u);
         }
         break;
     }
@@ -142,7 +142,7 @@ void Explosion::VUpdate_458D00()
         auto pFlash = ao_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u, 1, TPageAbr::eBlend_3, 1);
+            pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u);
         }
         break;
     }
