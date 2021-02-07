@@ -42,7 +42,7 @@ public:
     Prim_Tile field_110[2];
     Prim_Tile field_138[2];
     Prim_Tile field_160[2];
-    Prim_SetTPage field_188[2];
+    Prim_SetTPage field_188_tPage[2];
     __int16 field_1A8_fade_colour;
     __int16 field_1AA_speed;
 };

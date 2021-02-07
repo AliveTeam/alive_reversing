@@ -53,7 +53,7 @@ public:
     __int16 field_3C_r;
     __int16 field_3E_g;
     __int16 field_40_b;
-    __int16 field_42_layer;
+    Layer field_42_layer;
     BYTE** field_44_ppSprxRes;
     SparkRes* field_48_pRes;
     __int16 field_4C_count;

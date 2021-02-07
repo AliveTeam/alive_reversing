@@ -47,11 +47,11 @@ struct Fg1Block
     PSX_RECT field_58_rect;
     int field_60_padding;
     __int16 field_64_padding;
-    unsigned __int16 field_66_mapped_layer;
+    Layer field_66_mapped_layer;
 };
 ALIVE_ASSERT_SIZEOF(Fg1Block, 0x68);
 
-const short sFg1_layer_to_bits_layer_4BC024[] = { 37u, 18u };
+const Layer sFg1_layer_to_bits_layer_4BC024[] = { Layer::eLayer_37, Layer::eLayer_18 };
 
 void FG1::Convert_Chunk_To_Render_Block_453BA0(const Fg1Chunk* pChunk, Fg1Block* pBlock)
 {
@@ -272,9 +272,7 @@ void FG1::VRender_453D50(PrimHeader** ppOt)
 
                 SetPrimExtraPointerHack(pPoly, nullptr);
 
-                OrderingTable_Add_498A80(
-                    &ppOt[pBlock->field_66_mapped_layer],
-                    &pPoly->mBase.header);
+                OrderingTable_Add_498A80(OtLayer(ppOt, pBlock->field_66_mapped_layer), &pPoly->mBase.header);
                 
                 pScreenManager_4FF7C8->InvalidateRect_406E40(
                     X0(pPoly),

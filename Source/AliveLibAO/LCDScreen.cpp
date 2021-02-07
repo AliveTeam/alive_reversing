@@ -393,7 +393,7 @@ void LCDScreen::VRender_434400(PrimHeader** ppOt)
             pClippers,
             &clipRect
         );
-        OrderingTable_Add_498A80(&ppOt[22], &pClippers->mBase);
+        OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_22), &pClippers->mBase);
 
         auto fontFlickerAmount = 50;
         if (sDisableFontFlicker_5080E4)
@@ -414,7 +414,7 @@ void LCDScreen::VRender_434400(PrimHeader** ppOt)
             1,
             1,
             0,
-            22,
+            Layer::eLayer_22,
             127,
             127,
             127,
@@ -434,7 +434,7 @@ void LCDScreen::VRender_434400(PrimHeader** ppOt)
 
         auto* clipper = &field_10_prim_clippers[1][gPsxDisplay_504C78.field_A_buffer_index];
         Init_PrimClipper_495FD0(clipper, &clipRect2);
-        OrderingTable_Add_498A80(&ppOt[22], &clipper->mBase);
+        OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_22), &clipper->mBase);
 
         pScreenManager_4FF7C8->InvalidateRect_406E40(
             clipRect2.x,

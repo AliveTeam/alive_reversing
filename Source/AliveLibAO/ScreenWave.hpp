@@ -9,12 +9,14 @@ void Forcelink_ScreenWave();
 namespace AO {
 
 enum class LevelIds : __int16;
+enum class Layer : __int16;
+
 struct ScreenWave_Data;
 
 class ScreenWave : public BaseGameObject
 {
 public:
-    EXPORT ScreenWave* ctor_462A70(FP xpos, FP ypos, __int16 layer, FP width, FP speed, __int16 radius);
+    EXPORT ScreenWave* ctor_462A70(FP xpos, FP ypos, Layer layer, FP width, FP speed, __int16 radius);
 
     EXPORT BaseGameObject* dtor_463010();
 
@@ -34,7 +36,7 @@ public:
 
     EXPORT void VRender_463130(PrimHeader** ppOt);
 
-    __int16 field_10_layer;
+    Layer field_10_layer;
     __int16 field_12_pad;
     ScreenWave_Data** field_14_ppRes;
     FP field_18_xpos;
