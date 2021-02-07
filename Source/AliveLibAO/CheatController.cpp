@@ -63,12 +63,12 @@ const InputCommands sCheatKeyArray_FartGas_4C50B8[] =
 
 const InputCommands sCheatKeyArray_VoiceLocks_4C50C8[] =
 {
-    eFartOrRoll,
+    eCrouchOrRoll,
     eDown,
     eThrowItem,
     eDoAction,
     eDown,
-    eFartOrRoll,
+    eCrouchOrRoll,
 };
 
 const InputCommands sCheatKeyArray_FMV_4C50D8[] =

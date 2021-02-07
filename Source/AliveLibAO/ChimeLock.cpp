@@ -538,7 +538,7 @@ void ChimeLock::VUpdate_40AEF0()
                 return;
             }
 
-            if (Input().IsAnyPressed(eFartOrRoll) && !(field_134_pressed & eFartOrRoll))
+            if (Input().IsAnyPressed(eCrouchOrRoll) && !(field_134_pressed & eCrouchOrRoll))
             {
                 // hit all 3 bells from left to right
                 SetTargetBellIfSpace(1);

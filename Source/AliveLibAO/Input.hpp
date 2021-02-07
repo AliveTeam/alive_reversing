@@ -26,21 +26,24 @@ enum InputCommands : unsigned int
     eRun = 1u << 3,  // 0x8
     eHop = 1u << 4,  // 0x10
     eThrowItem = 1u << 5,  // 0x20
-    eFartOrRoll = 1u << 6, // 0x40
+    eCrouchOrRoll = 1u << 6, // 0x40
     eDoAction  = 1u << 7,  // 0x80
     eCheatMode = 1u << 8,  // 0x100
-    //eGameSpeak5 = 1u << 9,  // 0x200
+    eUnPause_OrConfirm = 1u << 9, // 0x200 - not present/unused in OG!!
     //eGameSpeak1 = 1u << 10, // 0x400
     eBack = 1u << 11, // 0x800
     eUp = 1u << 12, // 0x1000
     eRight = 1u << 13, // 0x2000
     eDown = 1u << 14, // 0x4000
     eLeft = 1u << 15, // 0x8000
+    // ---
+    // anything else below this won't fit into 16-bit variables
+    // ---
     //eGameSpeak7 = 1u << 16, // 0x10000
     //eGameSpeak8 = 1u << 17, // 0x20000
     //eChant = 1u << 18, // 0x40000
     //ePause = 1u << 19, // Or enter
-    //eUnPause_OrConfirm = 1u << 20, // Or/and back
+    //eUnPause_OrConfirm = 1u << 20, // 0x100000 Or/and back
     //eBack = 1u << 21, // 0x200000
     //eCheatMode = 1u << 22,
     //eSpeak1 = 1u << 23, // 0x800000
@@ -89,15 +92,16 @@ const InputCommands sInputKey_Chant = static_cast<InputCommands>(eRightGameSpeak
 #define kAO_Down "\x11"
 #define kAO_Left "\x12"
 #define kAO_Right "\x13"
-#define kAO_MountZTurn "\x14"
-#define kAO_15 "\x15"
+#define kAO_Or "\x14"
+#define kAO_DirectionalButtons "\x15"
+#define kAO_ConfirmContinue "\x16"
 
 #define kAO_Run "\x0a"
 #define kAO_Sneak "\x0b"
 #define kAO_Jump_Or_Hello "\x0c"
 #define kAO_Action "\x0d"
 #define kAO_Throw "\x0e"
-#define kAO_Enter "\x0f"
+#define kAO_Crouch "\x0f"
 
 
 EXPORT BOOL CC Input_IsChanting_4334C0();

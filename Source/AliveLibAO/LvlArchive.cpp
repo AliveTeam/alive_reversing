@@ -41,10 +41,7 @@ EXPORT void LvlArchive::OpenArchive(const char* fileName, int pos)
 {
     // HACK: Added so that AE PSX emu lib works as we don't have a mapping of CDPos <> FileName in the AE emu 
     // (it was a stupid idea so I guess they removed it in the next iteration)
-    if (!RunningAsInjectedDll())
-    {
-        pos = PSX_CD_OpenFile(fileName, 1);
-    }
+    pos = PSX_CD_OpenFile(fileName, 1);
 
     // Allocate space for LVL archive header
     field_0_0x2800_res = ResourceManager::Allocate_New_Block_454FE0(kSectorSize * 5, ResourceManager::eFirstMatching);
@@ -57,17 +54,11 @@ EXPORT void LvlArchive::OpenArchive(const char* fileName, int pos)
     int retryCounter = 0;
     CdlLOC loc = {};
     
-    if (!RunningAsInjectedDll())
-    {
-        pos = 0; // AE lib hack
-    }
+    pos = 0; // AE lib hack
 
     PSX_Pos_To_CdLoc_49B340(pos, &loc);
     
-    if (!RunningAsInjectedDll())
-    {
-        field_4_cd_pos = PSX_CdLoc_To_Pos_4FAE40(&loc); // AE lib hack
-    }
+    field_4_cd_pos = PSX_CdLoc_To_Pos_4FAE40(&loc); // AE lib hack
 
     int bOk = 0;
     do

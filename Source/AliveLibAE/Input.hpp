@@ -94,6 +94,7 @@ extern const InputCommands sInputKey_Chant;
 #define kSorry "\x11"
 #define kStopIt "\x12"
 #define kChant "\x13"
+#define kConfirm "\x15"
 
 #define kFart "\x0a"
 #define kHello "\x0b"

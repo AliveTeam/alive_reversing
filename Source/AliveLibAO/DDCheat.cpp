@@ -536,7 +536,7 @@ void DDCheat::Misc_409E90()
     {
         gAbeInvulnerableCheat_5076E4 = gAbeInvulnerableCheat_5076E4 == 0;
     }
-    else if (field_24_input & InputCommands::eFartOrRoll)
+    else if (field_24_input & InputCommands::eCrouchOrRoll)
     {
         gAbeInvisibleCheat_5076F8 = gAbeInvisibleCheat_5076F8 == 0;
     }

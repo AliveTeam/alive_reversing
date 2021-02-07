@@ -14,13 +14,10 @@ ALIVE_VAR(1, 0xA8A600, DWORD, sIsAKeyDown_A8A600, 0);
 int Sys_IsAnyKeyDown_48E6C0()
 {
     // AE impl
-    if (!RunningAsInjectedDll())
-    {
-        return ::Sys_IsAnyKeyDown_4EDDF0();
-    }
+    return ::Sys_IsAnyKeyDown_4EDDF0();
 
     // AO impl
-    return sIsAKeyDown_A8A600;
+    //return sIsAKeyDown_A8A600;
 }
 
 void Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, int nShowCmd)
@@ -38,25 +35,21 @@ EXPORT LPSTR CC Sys_GetCommandLine_48E920()
 
 EXPORT TWindowHandleType CC Sys_GetWindowHandle_48E930()
 {
-    AE_IMPLEMENTED();
     return Sys_GetWindowHandle_4EE180();
 }
 
 EXPORT void CC Sys_Set_Hwnd_48E340(TWindowHandleType hwnd)
 {
-    AE_IMPLEMENTED();
     Sys_Set_Hwnd_4F2C50(hwnd);
 }
 
 EXPORT int CC Sys_WindowClass_Register_48E9E0(LPCSTR lpClassName, LPCSTR lpWindowName, int X, int Y, int nWidth, int nHeight)
 {
-    AE_IMPLEMENTED();
     return Sys_WindowClass_Register_4EE22F(lpClassName, lpWindowName, X, Y, nWidth, nHeight);
 }
 
 EXPORT void SYS_EventsPump_44FF90()
 {
-    AE_IMPLEMENTED();
     SYS_EventsPump_494580();
 }
 

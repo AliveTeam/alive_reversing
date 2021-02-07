@@ -199,13 +199,11 @@ void PsxDisplay::Movie_Render_40DE60(unsigned __int16 bufferIdx)
 
 EXPORT int CC DebugFont_Init_487EC0()
 {
-    AE_IMPLEMENTED();
     return ::DebugFont_Init_4DCF40();
 }
 
 EXPORT void CC DebugFont_Flush_487F50()
 {
-    AE_IMPLEMENTED();
     ::DebugFont_Flush_4DD050();
 }
 

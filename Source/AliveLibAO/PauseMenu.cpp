@@ -179,7 +179,7 @@ enum PauseMenuPages
 
 void PauseMenu::VUpdate_44DFB0()
 {
-    if (Input().IsAnyHeld(0x800))
+    if (Input().IsAnyHeld(InputCommands::eBack))
     {
         SND_StopAll_4762D0();
         SFX_Play_43AE60(SoundEffect::PossessEffect_21, 40, 2400, 0);
@@ -256,7 +256,7 @@ void PauseMenu::VUpdate_44DFB0()
             {
                 case PauseMenuPages::ePause_0:
                 {
-                    if (Input().IsAnyHeld(0x100))
+                    if (Input().IsAnyHeld(InputCommands::eCheatMode | InputCommands::eDown))
                     {
                         field_124++;
                         if (field_124 > 3)
@@ -266,7 +266,7 @@ void PauseMenu::VUpdate_44DFB0()
                         SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, 0);
                     }
 
-                    if (Input().IsAnyHeld(0x1000))
+                    if (Input().IsAnyHeld(InputCommands::eUp))
                     {
                         field_124--;
                         if (field_124 < 0)
@@ -276,17 +276,13 @@ void PauseMenu::VUpdate_44DFB0()
                         SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, 0);
                     }
 
-                    if (Input().IsAnyHeld(0x4000))
-                    {
-                        field_124++;
-                        if (field_124 > 3)
-                        {
-                            field_124 = 0;
-                        }
-                        SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, 0);
-                    }
-
-                    if (Input().IsAnyHeld(0x8F0))
+                    if (Input().IsAnyHeld(
+                        InputCommands::eHop |
+                        InputCommands::eThrowItem |
+                        InputCommands::eUnPause_OrConfirm |
+                        InputCommands::eDoAction |
+                        InputCommands::eBack
+                    ))
                     {
                         switch (field_124)
                         {
@@ -463,13 +459,22 @@ void PauseMenu::VUpdate_44DFB0()
                 }
                 case PauseMenuPages::eControls_2:
                 {
-                    if (Input().IsAnyHeld(0x810))
+                    if (Input().IsAnyHeld(InputCommands::eBack | InputCommands::eHop))
                     {
                         field_126_page = 0;
                         SFX_Play_43AE60(SoundEffect::PossessEffect_21, 40, 2400, 0);
                     }
 
-                    if (Input().IsAnyHeld(0xF1E0))
+                    if (Input().IsAnyHeld(
+                        InputCommands::eThrowItem |
+                        InputCommands::eUnPause_OrConfirm |
+                        InputCommands::eDoAction |
+                        InputCommands::eCheatMode |
+                        InputCommands::eUp |
+                        InputCommands::eRight |
+                        InputCommands::eDown |
+                        InputCommands::eLeft
+                    ))
                     {
                         field_128_controller_id++;
                         if (field_128_controller_id < 2)
@@ -487,13 +492,13 @@ void PauseMenu::VUpdate_44DFB0()
                 }
                 case PauseMenuPages::eQuit_3:
                 {
-                    if (Input().IsAnyHeld(0x810))
+                    if (Input().IsAnyHeld(InputCommands::eBack | InputCommands::eHop))
                     {
                         field_126_page = 0;
                         SFX_Play_43AE60(SoundEffect::PossessEffect_21, 40, 2400, 0);
                     }
 
-                    if (Input().IsAnyHeld(0xE0))
+                    if (Input().IsAnyHeld(InputCommands::eThrowItem | InputCommands::eUnPause_OrConfirm | InputCommands::eDoAction))
                     {
                         field_11C = 0;
                         SFX_Play_43AE60(SoundEffect::PossessEffect_21, 40, 2400, 0);
@@ -556,7 +561,7 @@ PauseMenu::PauseEntry PauseEntry2_4CDE98[2] =
 PauseMenu::PauseEntry quitEntries_4CDEA8[3] =
 {
     { 184, 110, "REALLY QUIT?", 128u, 16u, 255u, '\x01' },
-    { 184, 135, kAO_Enter " yes   " kAO_Esc " no", 160u, 160u, 160u, '\x01' },
+    { 184, 135, kAO_ConfirmContinue " yes   " kAO_Esc " no", 160u, 160u, 160u, '\x01' },
     { 0, 0, nullptr, 0u, 0u, 0u, '\0' }
 };
 
@@ -570,13 +575,13 @@ PauseMenu::PauseEntry saveEntries_4CDED0[4] =
 
 PauseMenu::PauseEntry controlsPageOne_4CDF00[17] =
 {
-    { 184, 205, kAO_Enter " more  " kAO_Esc " exit", 128u, 16u, 255u, '\x01' },
+    { 184, 205, kAO_ConfirmContinue " more  " kAO_Esc " exit", 128u, 16u, 255u, '\x01' },
     { 184, 20, "Actions", 127u, 127u, 127u, '\x01' },
     { 80, 50, kAO_Run " + " kAO_Left " " kAO_Right, 160u, 160u, 160u, '\0' },
     { 80, 70, kAO_Sneak " + " kAO_Left " " kAO_Right, 160u, 160u, 160u, '\0' },
-    { 80, 90, kAO_Jump_Or_Hello " + " kAO_MountZTurn " " kAO_Up, 160u, 160u, 160u, '\0' },
-    { 80, 110, kAO_Enter " + " kAO_MountZTurn " " kAO_Down, 160u, 160u, 160u, '\0' },
-    { 80, 130, kAO_Throw " + " kAO_15, 160u, 160u, 160u, '\0' },
+    { 80, 90, kAO_Jump_Or_Hello " + " kAO_Or " " kAO_Up, 160u, 160u, 160u, '\0' },
+    { 80, 110, kAO_Crouch " + " kAO_Or " " kAO_Down, 160u, 160u, 160u, '\0' },
+    { 80, 130, kAO_Throw " + " kAO_DirectionalButtons, 160u, 160u, 160u, '\0' },
     { 80, 150, kAO_Action, 160u, 160u, 160u, '\0' },
     { 80, 170, kAO_Up, 160u, 160u, 160u, '\0' },
     { 200, 50, "run", 128u, 16u, 255u, '\0' },
@@ -585,7 +590,7 @@ PauseMenu::PauseEntry controlsPageOne_4CDF00[17] =
     { 200, 110, "crouch", 128u, 16u, 255u, '\0' },
     { 200, 130, "throw", 128u, 16u, 255u, '\0' },
     { 200, 150, "action", 128u, 16u, 255u, '\0' },
-    { 200, 170, "mount " kAO_MountZTurn " zturn", 128u, 16u, 255u, '\0' },
+    { 200, 170, "mount " kAO_Or " zturn", 128u, 16u, 255u, '\0' },
     { 0, 0, nullptr, 0u, 0u, 0u, '\0' }
 };
 
@@ -605,11 +610,11 @@ PauseMenu::PauseEntry gamepadGameSpeak_4CDFD0[21] =
     { 290, 170, "laugh", 128u, 16u, 255u, '\0' },
     { 2, 104, kAO_Speak1 "+" kAO_Jump_Or_Hello, 160u, 160u, 160u, '\0' },
     { 2, 126, kAO_Speak1 "+" kAO_Throw, 160u, 160u, 160u, '\0' },
-    { 2, 148, kAO_Speak1 "+" kAO_Enter, 160u, 160u, 160u, '\0' },
+    { 2, 148, kAO_Speak1 "+" kAO_Crouch, 160u, 160u, 160u, '\0' },
     { 2, 170, kAO_Speak1 "+" kAO_Action, 160u, 160u, 160u, '\0' },
     { 192, 104, kAO_Speak2 "+" kAO_Jump_Or_Hello, 160u, 160u, 160u, '\0' },
     { 192, 126, kAO_Speak2 "+" kAO_Throw, 160u, 160u, 160u, '\0' },
-    { 192, 148, kAO_Speak2 "+" kAO_Enter, 160u, 160u, 160u, '\0' },
+    { 192, 148, kAO_Speak2 "+" kAO_Crouch, 160u, 160u, 160u, '\0' },
     { 192, 170, kAO_Speak2 "+" kAO_Action, 160u, 160u, 160u, '\0' },
     { 0, 0, nullptr, 0u, 0u, 0u, '\0' }
 };
