@@ -1899,7 +1899,7 @@ void HintFly::VRender_42BAD0(PrimHeader** ppOt)
 
         SetXY0(pSprt, flyX, flyY);
 
-        OrderingTable_Add_498A80(&ppOt[39], &pSprt->mBase.header);
+        OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_39), &pSprt->mBase.header);
 
         if (flyX < rect.x)
         {

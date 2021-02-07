@@ -35,11 +35,11 @@ Spark* Spark::ctor_477B70(FP xpos, FP ypos, FP scale, unsigned __int8 count, __i
 
     if (scale == FP_FromDouble(0.5))
     {
-        field_42_layer = 17;
+        field_42_layer = Layer::eLayer_17;
     }
     else
     {
-        field_42_layer = 36;
+        field_42_layer = Layer::eLayer_36;
     }
 
     field_40_b = 127;
@@ -227,7 +227,7 @@ void Spark::VRender_477ED0(PrimHeader** ppOt)
             static_cast<BYTE>(field_40_b));
 
         Poly_Set_SemiTrans_498A40(&pPrim->mBase.header, TRUE);
-        OrderingTable_Add_498A80(&ppOt[field_42_layer], &pPrim->mBase.header);
+        OrderingTable_Add_498A80(OtLayer(ppOt, field_42_layer), &pPrim->mBase.header);
         
         rect.x = std::min(rect.x, std::min(static_cast<short>(x0), static_cast<short>(x1)));
         rect.w = std::max(rect.w, std::max(static_cast<short>(x0), static_cast<short>(x1)));
@@ -238,7 +238,7 @@ void Spark::VRender_477ED0(PrimHeader** ppOt)
 
     Prim_SetTPage* pTPage = &field_10_tPage[gPsxDisplay_504C78.field_A_buffer_index];
     Init_SetTPage_495FB0(pTPage, 1, 0, PSX_getTPage_4965D0(TPageMode::e4Bit_0, 1, 0, 0));
-    OrderingTable_Add_498A80(&ppOt[field_42_layer], &pTPage->mBase);
+    OrderingTable_Add_498A80(OtLayer(ppOt, field_42_layer), &pTPage->mBase);
     pScreenManager_4FF7C8->InvalidateRect_406E40(
         rect.x,
         rect.y,

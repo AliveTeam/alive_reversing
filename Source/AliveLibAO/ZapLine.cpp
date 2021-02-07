@@ -195,9 +195,7 @@ void ZapLine::VRender_479840(PrimHeader** ppOt)
             for (int j = 0; j < field_120_number_of_pieces_per_segment; j++)
             {
                 Prim_Sprt* pSprt = &field_124_pSprts->field_0_sprts[j + (i * field_120_number_of_pieces_per_segment)];
-                 OrderingTable_Add_498A80(
-                     OtLayer(ppOt, field_10_anim.field_C_layer),
-                    &pSprt[bufferIdx].mBase.header);
+                 OrderingTable_Add_498A80(OtLayer(ppOt, field_10_anim.field_C_layer), &pSprt[bufferIdx].mBase.header);
             }
         }
 

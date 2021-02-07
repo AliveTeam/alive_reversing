@@ -77,7 +77,7 @@ void RollingBallShaker::VRender_436280(PrimHeader** ppOt)
             screenOff.y = gPsxDisplay_504C78.field_2_height;
         }
         InitType_ScreenOffset_496000(pPrim, &screenOff);
-        OrderingTable_Add_498A80(ppOt, &pPrim->mBase);
+        OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_0), &pPrim->mBase);
 
         // Kill yourself
         field_6_flags.Set(Options::eDead_Bit3);
@@ -91,7 +91,7 @@ void RollingBallShaker::VRender_436280(PrimHeader** ppOt)
         }
 
         InitType_ScreenOffset_496000(pPrim, &screenOff);
-        OrderingTable_Add_498A80(ppOt, &pPrim->mBase);
+        OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_0), &pPrim->mBase);
     }
     pScreenManager_4FF7C8->InvalidateRect_406CC0(0, 0, 640, gPsxDisplay_504C78.field_2_height);
 }

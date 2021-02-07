@@ -29,7 +29,7 @@ ALIVE_ASSERT_SIZEOF(ScreenWave_Data, 0x3700);
 #undef min
 #undef max
 
-ScreenWave* ScreenWave::ctor_462A70(FP xpos, FP ypos, __int16 layer, FP width, FP speed, __int16 radius)
+ScreenWave* ScreenWave::ctor_462A70(FP xpos, FP ypos, Layer layer, FP width, FP speed, __int16 radius)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BC9A0);
@@ -330,10 +330,7 @@ void ScreenWave::VRender_463130(PrimHeader** ppOt)
                 
                 SetPrimExtraPointerHack(pPoly, nullptr);
 
-                OrderingTable_Add_498A80(
-                    &ppOt[field_10_layer],
-                    &pPoly->mBase.header
-                );
+                OrderingTable_Add_498A80(OtLayer(ppOt, field_10_layer), &pPoly->mBase.header);
 
                 clearRectSize.x = std::min(clearRectSize.x, minX);
                 clearRectSize.y = std::min(clearRectSize.y, minY);
