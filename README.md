@@ -79,5 +79,6 @@ OR:
 
 Regardless of which way you chose, this is how you finalize the process:
 - Drop the respective game's patched exe into their installation folder.
-- Launch the patched exe.
 - Start the hook manager.
+- Select the checkbox for the function(s) you want to check for bugs.
+- To start the game with the changes you've made you need to click on the "Save and Launch" icon.
