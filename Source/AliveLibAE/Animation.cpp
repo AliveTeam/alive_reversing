@@ -85,7 +85,7 @@ EXPORT int CC Animation_OnFrame_Common_4561B0(void* pObjPtr, signed __int16* pDa
     if (pPartical)
     {
         pPartical->ctor_4CC4C0(xpos, ypos, 4488, 61, 44, ppAnimData);
-        pPartical->field_20_animation.field_B_render_mode = 1;
+        pPartical->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
 
         if (pObj->field_D6_scale == 1)
         {
@@ -154,7 +154,7 @@ EXPORT int CC Animation_OnFrame_Common_434130(void* pObjPtr, signed __int16* pDa
     if (pParticle)
     {
         pParticle->ctor_4CC4C0(xpos, ypos, 5264, 61, 44, ppAnimRes);
-        pParticle->field_20_animation.field_B_render_mode = 1;
+        pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
         pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_36;
         pParticle->field_D0_r = 64;
         pParticle->field_D2_g = 64;
@@ -467,21 +467,18 @@ void Animation::vRender_40B820(int xpos, int ypos, PrimHeader** ppOt, __int16 wi
         yOffset_fixed = FP_FromInteger(pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.y);
     }
 
-    char textureMode = 0;
+    TPageMode textureMode = {};
     if (field_4_flags.Get(AnimFlags::eBit13_Is8Bit))
     {
-        // 8 bit
-        textureMode = 1;
+        textureMode = TPageMode::e8Bit_1;
     }
     else if (field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
     {
-        // 16 bit
-        textureMode = 2;
+        textureMode = TPageMode::e16Bit_2;
     }
     else
     {
-        // 4 bit
-        textureMode = 0;
+        textureMode = TPageMode::e4Bit_0;
     }
 
     Poly_FT4* pPoly = &field_2C_ot_data[gPsxDisplay_5C1130.field_C_buffer_index];
@@ -493,12 +490,12 @@ void Animation::vRender_40B820(int xpos, int ypos, PrimHeader** ppOt, __int16 wi
     SetClut(pPoly, static_cast<WORD>(PSX_getClut_4F6350(field_8C_pal_vram_xy.field_0_x, field_8C_pal_vram_xy.field_2_y)));
 
     BYTE u1 = field_84_vram_rect.x & 63;
-    if (textureMode == 1)
+    if (textureMode == TPageMode::e8Bit_1)
     {
         // 8 bit
         u1 *= 2;
     }
-    else if (textureMode == 0)
+    else if (textureMode == TPageMode::e4Bit_0)
     {
         // 4 bit
         u1 *= 4;
@@ -957,7 +954,7 @@ signed __int16 Animation::Init_40A030(int frameTableOffset, DynamicArray* /*anim
     field_10_frame_delay = pHeader->field_0_fps;
     field_E_frame_change_counter = 1;
     field_92_current_frame = -1;
-    field_B_render_mode = 0;
+    field_B_render_mode = TPageAbr::eBlend_0;
     field_A_b = 0;
     field_9_g = 0;
     field_8_r = 0;
@@ -1119,8 +1116,8 @@ namespace Test
         anim.field_4_flags.Set(AnimFlags::eBit3_Render);
         anim.field_92_current_frame = 0;
         anim.field_C_render_layer = Layer::eLayer_0;
-        anim.field_14_scale.fpValue = 0x10000;
-        anim.field_B_render_mode = 0;
+        anim.field_14_scale = FP_FromInteger(1);
+        anim.field_B_render_mode = TPageAbr::eBlend_0;
 
         TestAnimData testData = {};
         testData.mHeader.mFrameOffsets[0] = sizeof(AnimationHeader);

@@ -13,7 +13,7 @@ public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT EffectBase* ctor_4AB7A0(Layer layer, char abr);
+    EXPORT EffectBase* ctor_4AB7A0(Layer layer, TPageAbr abr);
     EXPORT void dtor_4AB8F0();
 private:
     EXPORT EffectBase* vdtor_4AB8C0(signed int flags);

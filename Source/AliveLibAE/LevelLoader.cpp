@@ -48,7 +48,7 @@ void LevelLoader::vUpdate_4DD400()
                 auto pFade = ae_new<DeathFadeOut>();
                 if (pFade)
                 {
-                    pFade->ctor_427030(Layer::eLayer_40, 1, 1, 32, 2);
+                    pFade->ctor_427030(Layer::eLayer_40, 1, 1, 32, TPageAbr::eBlend_2);
                     field_22_state = States::eFadingOut_1;
                     field_30_fade_id = pFade->field_8_object_id;
                 }

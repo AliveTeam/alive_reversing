@@ -106,7 +106,7 @@ Spark* Spark::ctor_4CBBB0(FP xpos, FP ypos, FP scale, unsigned __int8 count, __i
                 pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
                 pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
 
-                pParticle->field_20_animation.field_B_render_mode = 1;
+                pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
                 pParticle->field_20_animation.field_8_r = 128;
                 pParticle->field_20_animation.field_9_g = 128;
                 pParticle->field_20_animation.field_A_b = 128;
@@ -279,7 +279,7 @@ void Spark::vRender_4CC050(PrimHeader** ppOt)
         }
 
         Prim_SetTPage* pTPage = &field_20_tPage[gPsxDisplay_5C1130.field_C_buffer_index];
-        Init_SetTPage_4F5B60(pTPage, 1, 0, PSX_getTPage_4F60E0(0, 1, 0, 0));
+        Init_SetTPage_4F5B60(pTPage, 1, 0, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_52_layer), &pTPage->mBase);
         pScreenManager_5BB5F4->InvalidateRect_40EC90(
             xy.field_0_x,

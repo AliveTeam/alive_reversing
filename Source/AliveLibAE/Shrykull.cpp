@@ -343,7 +343,7 @@ void Shrykull::vUpdate_4AEDE0()
                     auto pFlash = ae_new<Flash>();
                     if (pFlash)
                     {
-                        pFlash->ctor_428570(Layer::eLayer_39, 255u, 255u, 255u, 1, 3u, 1);
+                        pFlash->ctor_428570(Layer::eLayer_39, 255u, 255u, 255u, 1, TPageAbr::eBlend_3, 1);
                     }
                 }
                 pExistingZapLine->CalculateSourceAndDestinationPositions_4CCAD0(

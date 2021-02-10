@@ -1599,7 +1599,7 @@ void Fleech::RenderEx_42C5A0(PrimHeader** ot)
                 pScreenManager_5BB5F4->field_3A_idx
             );
         }
-        const int tPage = PSX_getTPage_4F60E0(0, 0, 0, 0);
+        const int tPage = PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_0, 0, 0);
         Init_SetTPage_4F5B60(&field_40C[gPsxDisplay_5C1130.field_C_buffer_index], 1, 0, tPage);
         OrderingTable_Add_4F8AA0(OtLayer(ot, field_20_animation.field_C_render_layer), &field_40C[gPsxDisplay_5C1130.field_C_buffer_index].mBase
         );

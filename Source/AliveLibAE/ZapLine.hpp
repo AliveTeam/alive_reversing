@@ -68,11 +68,13 @@ private:
     __int16 field_11E_y_position_source;
     __int16 field_120_x_position_destination;
     __int16 field_122_y_position_destination;
-    __int16 field_124_tPageMode;
+    TPageMode field_124_tPageMode;
+    // pad
     __int16 field_126_alive_timer;
     __int16 field_128_max_alive_time;
     ZapLineType field_12A_type;
-    __int16 field_12C_tPageAbr;
+    TPageAbr field_12C_tPageAbr;
+    // pad
     __int16 field_12E_number_of_segments;
     __int16 field_130_number_of_pieces_per_segment;
     __int16 field_132_number_of_sprites;

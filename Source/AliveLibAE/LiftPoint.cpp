@@ -167,7 +167,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, int tlvInfo)
         field_13C_lift_wheel.field_9_g = static_cast<BYTE>(field_D2_g);
         field_13C_lift_wheel.field_8_r = static_cast<BYTE>(field_D4_b);
         field_13C_lift_wheel.field_A_b = static_cast<BYTE>(field_D0_r);
-        field_13C_lift_wheel.field_B_render_mode = 0;
+        field_13C_lift_wheel.field_B_render_mode = TPageAbr::eBlend_0;
 
         field_C4_velx = FP_FromInteger(0);
         field_C8_vely = FP_FromInteger(0);
@@ -1014,7 +1014,7 @@ void LiftPoint::CreatePulleyIfExists_462C80()
     field_1D4_pulley_anim.field_9_g = static_cast<BYTE>(field_D2_g);
     field_1D4_pulley_anim.field_A_b = static_cast<BYTE>(field_D4_b);
 
-    field_1D4_pulley_anim.field_B_render_mode = 0;
+    field_1D4_pulley_anim.field_B_render_mode = TPageAbr::eBlend_0;
 
     // Set the top of the ropes to be the bottom of the pulley
     Rope* pRope1 = static_cast<Rope*>(sObjectIds_5C1B70.Find(field_134_rope2_id, Types::eLiftRope_108));

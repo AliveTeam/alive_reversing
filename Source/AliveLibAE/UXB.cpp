@@ -51,7 +51,7 @@ void UXB::InitBlinkAnim_4DEED0(Animation* pAnimation)
         pAnimation->field_8_r = 128;
         pAnimation->field_9_g = 128;
         pAnimation->field_A_b = 128;
-        pAnimation->field_B_render_mode = 1;
+        pAnimation->field_B_render_mode = TPageAbr::eBlend_1;
     }
     else
     {
@@ -148,7 +148,7 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     Animation_Init_424E10(8048, 59, 19, pResource, 1, 1u);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_20_animation.field_B_render_mode = 0;
+    field_20_animation.field_B_render_mode = TPageAbr::eBlend_0;
 
     SetTint_425600(sTintMap_UXB_563A3C, gMap_5C3030.field_0_current_level);
 

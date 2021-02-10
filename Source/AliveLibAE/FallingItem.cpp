@@ -389,7 +389,7 @@ EXPORT void FallingItem::vUpdate_427780()
                     91,
                     ppRes);
 
-                pParticle->field_20_animation.field_B_render_mode = 1;
+                pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
                 pParticle->field_CC_sprite_scale = field_CC_sprite_scale * FP_FromDouble(0.75);
             }
         }

@@ -189,7 +189,7 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(int frameTableOffs
 
         if (!a6 || (gObjList_drawables_5C1124->Push_Back_40CAF0(this)))
         {
-            field_20_animation.field_B_render_mode = 0;
+            field_20_animation.field_B_render_mode = TPageAbr::eBlend_0;
 
             // TODO: Double check this logic
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);

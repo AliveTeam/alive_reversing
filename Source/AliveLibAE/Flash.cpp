@@ -4,7 +4,7 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 
-Flash* Flash::ctor_428570(Layer layer, unsigned __int8 r, unsigned __int8 g, unsigned __int8 b, int /*not_used*/, unsigned __int8 abr, int time)
+Flash* Flash::ctor_428570(Layer layer, unsigned __int8 r, unsigned __int8 g, unsigned __int8 b, int /*not_used*/, TPageAbr abr, int time)
 {
     ctor_4AB7A0(layer, abr);
     SetVTable(this, 0x544F0C); // vTbl_Flash_544F0C

@@ -22,7 +22,7 @@ EXPORT ZapLine* ZapLine::ctor_4CC690(FP xPosSource, FP yPosSource, FP xPosDest, 
         const AnimRecord& rec = AnimRec(AnimId::Zap_Line_Blue);
         BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
         Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
-        field_12C_tPageAbr = 3;
+        field_12C_tPageAbr = TPageAbr::eBlend_3;
     }
     else if (type == ZapLineType::eThick_0)
     {
@@ -32,7 +32,7 @@ EXPORT ZapLine* ZapLine::ctor_4CC690(FP xPosSource, FP yPosSource, FP xPosDest, 
         const AnimRecord& rec = AnimRec(AnimId::Zap_Line_Red);
         BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
         Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
-        field_12C_tPageAbr = 1;
+        field_12C_tPageAbr = TPageAbr::eBlend_1;
     }
 
     field_132_number_of_sprites = field_12E_number_of_segments * field_130_number_of_pieces_per_segment;
@@ -57,23 +57,23 @@ EXPORT ZapLine* ZapLine::ctor_4CC690(FP xPosSource, FP yPosSource, FP xPosDest, 
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit13_Is8Bit))
     {
-        field_124_tPageMode = 1;
+        field_124_tPageMode = TPageMode::e8Bit_1;
     }
     else if (field_20_animation.field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
     {
-        field_124_tPageMode = 2;
+        field_124_tPageMode = TPageMode::e16Bit_2;
     }
     else
     {
-        field_124_tPageMode = 0; // 4 bit
+        field_124_tPageMode = TPageMode::e4Bit_0;
     }
 
     BYTE u0 = field_20_animation.field_84_vram_rect.x & 0x3F;
-    if (field_124_tPageMode == 1)
+    if (field_124_tPageMode == TPageMode::e8Bit_1)
     {
         u0 = 2 * u0;
     }
-    else if (!field_124_tPageMode)
+    else if (field_124_tPageMode == TPageMode::e4Bit_0)
     {
         u0 = 4 * u0;
     }
@@ -428,8 +428,8 @@ void ZapLine::vRender_4CD8C0(PrimHeader** ppOt)
         }
 
         const int calcTPage = PSX_getTPage_4F60E0(
-            static_cast<char>(field_124_tPageMode),
-            static_cast<char>(field_12C_tPageAbr),
+            field_124_tPageMode,
+            field_12C_tPageAbr,
             field_20_animation.field_84_vram_rect.x,
             field_20_animation.field_84_vram_rect.y);
 

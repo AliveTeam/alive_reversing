@@ -58,7 +58,7 @@ PossessionFlicker* PossessionFlicker::ctor_4319E0(BaseAliveGameObject* pToApplyF
 
     field_20_time_to_flicker = duration + sGnFrame_5C1B84;
 
-    pToApplyFlicker->field_20_animation.field_B_render_mode = 1;
+    pToApplyFlicker->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
 
     return this;
 }
@@ -86,7 +86,7 @@ void PossessionFlicker::dtor_431B00()
     BaseAnimatedWithPhysicsGameObject* pToApplyFlicker = static_cast<BaseAnimatedWithPhysicsGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_30_obj_id));
     if (pToApplyFlicker)
     {
-        pToApplyFlicker->field_20_animation.field_B_render_mode = 0;
+        pToApplyFlicker->field_20_animation.field_B_render_mode = TPageAbr::eBlend_0;
         pToApplyFlicker->field_D0_r = field_2A_old_r;
         pToApplyFlicker->field_D2_g = field_2C_old_g;
         pToApplyFlicker->field_D4_b = field_2E_old_b;

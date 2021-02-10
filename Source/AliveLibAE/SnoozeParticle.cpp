@@ -307,7 +307,7 @@ void SnoozeParticle::Render_4B0AF0(PrimHeader** ppOt)
         rectToInvalidate.h = rectH_v;
     }
     Prim_SetTPage* thisTPage = &field_1C4_tPage[bufIdx];
-    const int tPage = PSX_getTPage_4F60E0(0, 1, 0, 0);
+    const int tPage = PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0);
     Init_SetTPage_4F5B60(thisTPage, 1, 0, tPage);
     OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_40_layer), &thisTPage->mBase);
 

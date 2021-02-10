@@ -110,7 +110,7 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
         {
         case InvisibleState::eSetRenderMode1_0:
         {
-            pTarget->field_20_animation.field_B_render_mode = 1;
+            pTarget->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
             return;
         }
         case InvisibleState::eSetInvisibile_1:
@@ -125,7 +125,7 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
 
             pTarget->field_20_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
             pTarget->field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-            pTarget->field_20_animation.field_B_render_mode = 1;
+            pTarget->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
 
             field_1C_update_delay = 1;
             field_20_state_or_op = InvisibleState::eBecomeInvisible_2;
@@ -235,7 +235,7 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
             if (v3)
             {
                 Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy, pTarget->field_20_animation.field_90_pal_depth, (BYTE *)field_30_pPalAlloc, &field_34);
-                pTarget->field_20_animation.field_B_render_mode = 1;
+                pTarget->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
                 field_1C_update_delay = 5;
             }
             else

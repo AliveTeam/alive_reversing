@@ -72,23 +72,23 @@ Water* Water::ctor_4E02C0(Path_Water* pTlv, int tlvInfo)
 
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit13_Is8Bit))
             {
-                field_FE_texture_mode = 1;
+                field_FE_texture_mode = TPageMode::e8Bit_1;
             }
             else if (field_20_animation.field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
             {
-                field_FE_texture_mode = 2;
+                field_FE_texture_mode = TPageMode::e16Bit_2;
             }
             else
             {
-                field_FE_texture_mode = 0;
+                field_FE_texture_mode = TPageMode::e4Bit_0;
             }
 
             BYTE u0 = field_20_animation.field_84_vram_rect.x & 63;
-            if (field_FE_texture_mode == 1)
+            if (field_FE_texture_mode == TPageMode::e8Bit_1)
             {
                 u0 = 2 * u0;
             }
-            else if (field_FE_texture_mode == 0)
+            else if (field_FE_texture_mode == TPageMode::e4Bit_0)
             {
                 u0 = 4 * u0;
             }
@@ -103,8 +103,8 @@ Water* Water::ctor_4E02C0(Path_Water* pTlv, int tlvInfo)
             const BYTE v1 = pFrameHeader->field_5_height + v0 - 1;
 
             const int tPage = PSX_getTPage_4F60E0(
-                static_cast<char>(field_FE_texture_mode),
-                3,
+                field_FE_texture_mode,
+                TPageAbr::eBlend_3,
                 field_20_animation.field_84_vram_rect.x,
                 field_20_animation.field_84_vram_rect.y);
 

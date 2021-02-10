@@ -114,7 +114,7 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, int tl
 
         field_108_anim_flare.field_C_render_layer = field_20_animation.field_C_render_layer;
         field_108_anim_flare.field_14_scale = FP_FromDouble(0.3);
-        field_108_anim_flare.field_B_render_mode = 1;
+        field_108_anim_flare.field_B_render_mode = TPageAbr::eBlend_1;
 
         field_108_anim_flare.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
         field_108_anim_flare.field_4_flags.Clear(AnimFlags::eBit16_bBlending);

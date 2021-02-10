@@ -220,7 +220,7 @@ void TimedMine::InitBlinkAnimation_4108E0(Animation* pAnimation)
         pAnimation->field_8_r = 128;
         pAnimation->field_9_g = 128;
         pAnimation->field_A_b = 128;
-        pAnimation->field_B_render_mode = 1;
+        pAnimation->field_B_render_mode = TPageAbr::eBlend_1;
     }
     else
     {

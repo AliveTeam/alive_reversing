@@ -53,7 +53,7 @@ BackgroundAnimation* BackgroundAnimation::ctor_40D270(BackgroundAnimation_TLV* p
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans, pPathParams->field_12_is_semi_trans & 1);
     field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
 
-    field_20_animation.field_B_render_mode = static_cast<BYTE>(pPathParams->field_14_semi_trans_mode);
+    field_20_animation.field_B_render_mode = pPathParams->field_14_semi_trans_mode;
 
     if (pPathParams->field_1A_layer > Layer::eLayer_0)
     {

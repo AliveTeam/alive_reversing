@@ -162,7 +162,7 @@ void GasCountDown::vRender_4175A0(PrimHeader** ppOt)
         text,
         field_6C_xpos,
         field_6E_ypos,
-        1,
+        TPageAbr::eBlend_1,
         1,
         0,
         Layer::eLayer_22,

@@ -36,7 +36,7 @@ BaseBomb * BaseBomb::ctor_423E70(FP x, FP y, int /*unused*/, FP scale)
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit18_IsLastFrame); // Double Check
     field_20_animation.field_4_flags.Set(AnimFlags::eBit24);
 
-    field_20_animation.field_B_render_mode = 1;
+    field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
 
     field_20_animation.field_A_b = 128;
     field_20_animation.field_9_g = 128;
@@ -145,7 +145,7 @@ void BaseBomb::vUpdate_424180()
         Flash* pFlash = ae_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_428570(Layer::eLayer_39, 255, 255, 255, 1, 3u, 1);
+            pFlash->ctor_428570(Layer::eLayer_39, 255, 255, 255, 1, TPageAbr::eBlend_3, 1);
         }
 
         rect.x = FP_GetExponent(FP_FromInteger(-113) * field_f4_scale);
@@ -161,7 +161,7 @@ void BaseBomb::vUpdate_424180()
         Flash* pFlash = ae_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_428570(Layer::eLayer_39, 255, 255, 255, 1, 1u, 1);
+            pFlash->ctor_428570(Layer::eLayer_39, 255, 255, 255, 1, TPageAbr::eBlend_1, 1);
         }
         break;
     }
@@ -183,7 +183,7 @@ void BaseBomb::vUpdate_424180()
         Flash* pFlash = ae_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_428570(Layer::eLayer_39, 255, 255, 255, 1, 3u, 1);
+            pFlash->ctor_428570(Layer::eLayer_39, 255, 255, 255, 1, TPageAbr::eBlend_3, 1);
         }
         break;
     }
@@ -212,7 +212,7 @@ void BaseBomb::vUpdate_424180()
 
                 pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
                 pParticle->field_DC_bApplyShadows &= ~1;
-                pParticle->field_20_animation.field_B_render_mode = 1;
+                pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
                 pParticle->field_CC_sprite_scale = field_CC_sprite_scale * FP_FromDouble(0.7);
             }
         }

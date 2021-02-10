@@ -3,6 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
 #include "Psx.hpp"
+#include "Primitives.hpp"
 
 class BaseAliveGameObject;
 
@@ -50,7 +51,7 @@ private:
     int field_3C;
     int field_40;
     int field_44_objId;
-    char field_48_old_render_mode;
+    TPageAbr field_48_old_render_mode;
     char field_49;
     BitField16<Flags_4A> field_4A_flags;
 };
