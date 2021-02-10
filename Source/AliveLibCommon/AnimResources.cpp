@@ -37,7 +37,7 @@ constexpr AnimRecord kAnimRecords[] =
     { AnimId::Fleech_Body_Gib, "FLEEBLOW.BAN", 1128, 19, 8, kUnknownResID_580, PalId::Default },
     // Note: Fleech hasn't got arms
 
-    { AnimId::Metal_Gib, "METAL.BAN", 2244, 38, 29, kMetalResID, PalId::Default },
+    { AnimId::Metal_Gib, "METAL.BAN", 2244, 38, 29, kMetalGib, PalId::Default },
 
     { AnimId::Slig_Head_Gib, "SLGBLOW.BAN", 6480, 44, 26, kSligBlowResID, PalId::Default },
     { AnimId::Slig_Arm_Gib, "SLGBLOW.BAN", 6560, 44, 26, kSligBlowResID, PalId::Default },

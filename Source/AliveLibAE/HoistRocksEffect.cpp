@@ -62,7 +62,7 @@ HoistRocksEffect* HoistRocksEffect::ctor_45D270(Path_Hoist* pTlv, int tlvInfo)
         field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
     }
 
-    BYTE** ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDrpRockResID);
+    BYTE** ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kHoistRocks);
     for (HoistRockParticle& particle : field_30_rocks)
     {
         particle.field_10_mAnim.Init_40A030(

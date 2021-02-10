@@ -29,7 +29,7 @@ HoistParticle* HoistParticle::ctor_431B00(FP xpos, FP ypos, FP scale, int frameT
     SetVTable(this, 0x4BB288);
     field_A8_xpos = xpos;
     field_AC_ypos = ypos;
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDrpRockResID, 1, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHoistRocks, 1, 0);
     int maxH = 7;
     if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
     {

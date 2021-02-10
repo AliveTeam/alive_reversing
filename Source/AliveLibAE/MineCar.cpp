@@ -75,7 +75,7 @@ MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, int tlvInfo, int /*a4*/, int /
     }
 
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbeCarResId);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalGib);
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
 
@@ -158,7 +158,7 @@ int CC MineCar::CreateFromSaveState_467740(const BYTE* pBuffer)
         ResourceManager::LoadResourceFile_49C170("ABECAR.BAN", nullptr);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMetalResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMetalGib, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("METAL.BAN", nullptr);
     }

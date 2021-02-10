@@ -90,7 +90,7 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, int tlvInfo)
     
     field_128_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(70, 210);
 
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalGib);
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
 
@@ -161,7 +161,7 @@ int CC Greeter::CreateFromSaveState_446040(const BYTE* pBuffer)
     {
         ResourceManager::LoadResourceFile_49C170("SPLINE.BAN", nullptr);
     }
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMetalResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMetalGib, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("METAL.BAN", nullptr);
     }

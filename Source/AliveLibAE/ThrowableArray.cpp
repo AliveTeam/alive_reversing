@@ -46,7 +46,7 @@ void CC LoadRockTypes_49AB30(LevelIds levelNumber, unsigned __int16 pathNumber)
         break;
 
     case Types::eMetal_24:
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMetalResID, 0, 0))
+        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMetalGib, 0, 0))
         {
             bDoLoadingLoop = TRUE;
             ResourceManager::LoadResourceFile_49C130("METAL.BAN", 0, 0, 0);
@@ -78,7 +78,7 @@ void CC LoadRockTypes_49AB30(LevelIds levelNumber, unsigned __int16 pathNumber)
             ResourceManager::LoadResourceFile_49C130("DOGBLOW.BAN", 0, 0, 0);
         }
 
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMetalResID, 0, 0))
+        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMetalGib, 0, 0))
         {
             bDoLoadingLoop = TRUE;
             ResourceManager::LoadResourceFile_49C130("METAL.BAN", 0, 0, 0);
@@ -243,7 +243,7 @@ void ThrowableArray::Add_49A7A0(__int16 count)
                 break;
 
             case Types::eMetal_24:
-                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalResID);
+                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalGib);
                 Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID);
                 Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kGrenadeResID);
                 break;
@@ -252,7 +252,7 @@ void ThrowableArray::Add_49A7A0(__int16 count)
                 Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
                 Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
                 Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID);
-                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalResID);
+                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalGib);
                 Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID);
                 Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kGrenadeResID);
                 break;

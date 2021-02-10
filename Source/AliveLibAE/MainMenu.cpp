@@ -562,7 +562,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     field_F4_resources = {};
 
     field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespek2ResID, TRUE, FALSE);
-    field_F4_resources.field_0_resources[MenuResIds::eOptionFlare] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOptflareResID, TRUE, FALSE);
+    field_F4_resources.field_0_resources[MenuResIds::eOptionFlare] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOptionFlare, TRUE, FALSE);
 
     field_F4_resources.field_0_resources[MenuResIds::eUnknown] = nullptr;
     field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = nullptr;
@@ -876,7 +876,7 @@ MainMenuNextCam MainMenuController::AbeSpeak_Update_4D2D20(DWORD input_held)
         if (field_230_target_entry_index == 1 && (sGnFrame_5C1B84 % 8) == 0)
         {
             // Spawn chant star/flare particle at random locations around abes head
-            field_F4_resources.field_0_resources[MenuResIds::eOptionFlare] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOptflareResID, FALSE, FALSE);
+            field_F4_resources.field_0_resources[MenuResIds::eOptionFlare] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOptionFlare, FALSE, FALSE);
             Particle* pParticle = ae_new<Particle>();
             if (pParticle)
             {

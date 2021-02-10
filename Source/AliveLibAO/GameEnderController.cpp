@@ -162,10 +162,10 @@ void GameEnderController::VUpdate_41C860()
                             ResourceManager::LoadResourceFile_455270("ABEBLOW.BAN", 0);
                             ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 1, 0);
                         }
-                        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMetalResID, 1, 0))
+                        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMetalGib, 1, 0))
                         {
                             ResourceManager::LoadResourceFile_455270("METAL.BAN", 0);
-                            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMetalResID, 1, 0);
+                            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMetalGib, 1, 0);
                         }
 
                         if (!gpThrowableArray_50E26C)

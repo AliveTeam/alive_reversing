@@ -112,7 +112,7 @@ EXPORT void CC Factory_MainMenuController_4D6DB0(Path_TLV* pTlv, Path* /*pPath*/
         {
             static CompileTimeResourceList<3> kResources({
                 { ResourceManager::Resource_Animation, kHighliteResID },
-                { ResourceManager::Resource_Animation, kOptflareResID },
+                { ResourceManager::Resource_Animation, kOptionFlare },
                 { ResourceManager::Resource_Palt, kHighlitePalResID },
             });
 
@@ -139,7 +139,7 @@ EXPORT void CC Factory_Hoist_4D9E90(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfo
     if (loadmode == LoadMode::Mode_1 || loadmode == LoadMode::Mode_2)
     {
         Map::LoadResource_4DBE00("ABEHOIST.BAN", ResourceManager::Resource_Animation, ResourceID::kAbehoistResID, loadmode, 0);
-        Map::LoadResource_4DBE00("DRPROCK.BAN", ResourceManager::Resource_Animation, ResourceID::kDrpRockResID, loadmode, 0);
+        Map::LoadResource_4DBE00("DRPROCK.BAN", ResourceManager::Resource_Animation, ResourceID::kHoistRocks, loadmode, 0);
     }
     else if (pHoistTlv->field_10_type == Path_Hoist::Type::eOffScreen)
     {
@@ -470,7 +470,7 @@ EXPORT void CC Factory_FallingItem_4D81B0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
         if (gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8)
         {
             gMap_5C3030.LoadResource_4DBE00("FALLBONZ.BAN", ResourceManager::Resource_Animation, ResourceID::kF2rockResID, loadmode);
-            gMap_5C3030.LoadResource_4DBE00("STICK.BAN", ResourceManager::Resource_Animation, ResourceID::kStickResID, loadmode);
+            gMap_5C3030.LoadResource_4DBE00("STICK.BAN", ResourceManager::Resource_Animation, ResourceID::kStickGib, loadmode);
             gMap_5C3030.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, loadmode);
             gMap_5C3030.LoadResource_4DBE00("DEBRIS00.BAN", ResourceManager::Resource_Animation, ResourceID::kDebrisID00, loadmode);
             gMap_5C3030.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, loadmode);
@@ -478,7 +478,7 @@ EXPORT void CC Factory_FallingItem_4D81B0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
         else
         {
             gMap_5C3030.LoadResource_4DBE00("FALLROCK.BAN", ResourceManager::Resource_Animation, ResourceID::kF2rockResID, loadmode);
-            gMap_5C3030.LoadResource_4DBE00("STICK.BAN", ResourceManager::Resource_Animation, ResourceID::kStickResID, loadmode);
+            gMap_5C3030.LoadResource_4DBE00("STICK.BAN", ResourceManager::Resource_Animation, ResourceID::kStickGib, loadmode);
             gMap_5C3030.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, loadmode);
             gMap_5C3030.LoadResource_4DBE00("DEBRIS00.BAN", ResourceManager::Resource_Animation, ResourceID::kDebrisID00, loadmode);
         }
@@ -665,7 +665,7 @@ EXPORT void CC Factory_SecurityOrb_4D8D80(Path_TLV* pTlv, Path*, TlvItemInfoUnio
         gMap_5C3030.LoadResource_4DBE00("SPARKS.BAN", ResourceManager::Resource_Animation, ResourceID::kSparksResID, loadMode);
         gMap_5C3030.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, loadMode, disabledResources & 1);
         gMap_5C3030.LoadResource_4DBE00("DOGBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, loadMode, disabledResources & 2);
-        gMap_5C3030.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, ResourceID::kMetalResID, loadMode, disabledResources & 0x10);
+        gMap_5C3030.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, ResourceID::kMetalGib, loadMode, disabledResources & 0x10);
         gMap_5C3030.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, loadMode, disabledResources & 0x20);
     }
     else
@@ -1489,7 +1489,7 @@ EXPORT void CC Factory_Water_4DA730(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvI
 {
     if (loadmode == LoadMode::Mode_1 || loadmode == LoadMode::Mode_2)
     {
-        Map::LoadResource_4DBE00("WDROP.BAN", ResourceManager::Resource_Animation, ResourceID::kWdropResID, loadmode);
+        Map::LoadResource_4DBE00("WDROP.BAN", ResourceManager::Resource_Animation, ResourceID::kWaterDrop, loadmode);
         Map::LoadResource_4DBE00("SPLASH.BAN", ResourceManager::Resource_Animation, ResourceID::kSplashResID, loadmode);
     }
     else
@@ -1554,7 +1554,7 @@ static void LoadFlyingSligResources(LoadMode loadMode)
     gMap_5C3030.LoadResource_4DBE00("SLGBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kSligBlowResID, loadMode);
     gMap_5C3030.LoadResource_4DBE00("GRENADE.BAN", ResourceManager::Resource_Animation, ResourceID::kGrenadeResID, loadMode);
     gMap_5C3030.LoadResource_4DBE00("SMEXP.BAN", ResourceManager::Resource_Animation, ResourceID::kSmallExplo2ResID, loadMode);
-    gMap_5C3030.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, ResourceID::kMetalResID, loadMode);
+    gMap_5C3030.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, ResourceID::kMetalGib, loadMode);
     gMap_5C3030.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, loadMode);
     gMap_5C3030.LoadResource_4DBE00("BIGFLASH.BAN", ResourceManager::Resource_Animation, ResourceID::kBigflashResID, loadMode);
     gMap_5C3030.LoadResource_4DBE00("VAPOR.BAN", ResourceManager::Resource_Animation, ResourceID::kVaporResID, loadMode);
@@ -1744,7 +1744,7 @@ EXPORT void CC Factory_FlyingSligSpawner_4D9440(Path_TLV* pTlv, Path*, TlvItemIn
         gMap_5C3030.LoadResource_4DBE00("SLGBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kSligBlowResID, loadMode);
         gMap_5C3030.LoadResource_4DBE00("GRENADE.BAN", ResourceManager::Resource_Animation, ResourceID::kGrenadeResID, loadMode);
         gMap_5C3030.LoadResource_4DBE00("SMEXP.BAN", ResourceManager::Resource_Animation, ResourceID::kSmallExplo2ResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, ResourceID::kMetalResID, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, ResourceID::kMetalGib, loadMode);
         gMap_5C3030.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, loadMode);
         gMap_5C3030.LoadResource_4DBE00("BIGFLASH.BAN", ResourceManager::Resource_Animation, ResourceID::kBigflashResID, loadMode);
         gMap_5C3030.LoadResource_4DBE00("VAPOR.BAN", ResourceManager::Resource_Animation, ResourceID::kVaporResID, loadMode);
@@ -1766,7 +1766,7 @@ EXPORT void CC Factory_MineCar_4DACD0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
     {
         gMap_5C3030.LoadResource_4DBE00("BAYROLL.BAN", ResourceManager::Resource_Animation, ResourceID::kUnknownResID_6013, loadMode, 0);
         gMap_5C3030.LoadResource_4DBE00("ABECAR.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeCarResId, loadMode, 0);
-        gMap_5C3030.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, ResourceID::kMetalResID, loadMode, 0);
+        gMap_5C3030.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, ResourceID::kMetalGib, loadMode, 0);
         gMap_5C3030.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, loadMode, 0);
         gMap_5C3030.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, loadMode, 0);
     }
@@ -1813,15 +1813,15 @@ EXPORT void CC Factory_ExplosionSet_4DADC0(Path_TLV* pTlv, Path*, TlvItemInfoUni
     {
         if (gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8)
         {
-            gMap_5C3030.LoadResource_4DBE00("DRPROCK.BAN", ResourceManager::Resource_Animation, kDrpRockResID, loadMode);
+            gMap_5C3030.LoadResource_4DBE00("DRPROCK.BAN", ResourceManager::Resource_Animation, kHoistRocks, loadMode);
             gMap_5C3030.LoadResource_4DBE00("FALLBONZ.BAN", ResourceManager::Resource_Animation, kF2rockResID, loadMode);
         }
         else
         {
-            gMap_5C3030.LoadResource_4DBE00("DRPROCK.BAN", ResourceManager::Resource_Animation, kDrpRockResID, loadMode);
+            gMap_5C3030.LoadResource_4DBE00("DRPROCK.BAN", ResourceManager::Resource_Animation, kHoistRocks, loadMode);
             gMap_5C3030.LoadResource_4DBE00("FALLROCK.BAN", ResourceManager::Resource_Animation, kF2rockResID, loadMode);
         }
-        gMap_5C3030.LoadResource_4DBE00("STICK.BAN", ResourceManager::Resource_Animation, kStickResID, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("STICK.BAN", ResourceManager::Resource_Animation, kStickGib, loadMode);
         gMap_5C3030.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, kRockShadowResID, loadMode);
         gMap_5C3030.LoadResource_4DBE00("DEBRIS00.BAN", ResourceManager::Resource_Animation, kDebrisID00, loadMode);
         gMap_5C3030.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, kExplo2ResID, loadMode);
@@ -2026,7 +2026,7 @@ EXPORT void CC Factory_Greeter_4DAFE0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
         gMap_5C3030.LoadResource_4DBE00("MOTION.BAN", ResourceManager::Resource_Animation, ResourceID::kMotionResID, loadMode, 0);
         gMap_5C3030.LoadResource_4DBE00("GREETER.BAN", ResourceManager::Resource_Animation, ResourceID::kGreeterResID, loadMode, 0);
         gMap_5C3030.LoadResource_4DBE00("SPLINE.BAN", ResourceManager::Resource_Animation, ResourceID::kSplineResID, loadMode, 0);
-        gMap_5C3030.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, ResourceID::kMetalResID, loadMode, 0);
+        gMap_5C3030.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, ResourceID::kMetalGib, loadMode, 0);
         gMap_5C3030.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, loadMode, 0);
         gMap_5C3030.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, loadMode, 0);
     }
