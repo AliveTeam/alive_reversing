@@ -47,7 +47,7 @@ const MainMenu_TransitionData stru_55C038[24] = // 3 x 8's ?
     { -16,       0,         256, 1 },
 };
 
-MainMenuTransition* MainMenuTransition::ctor_464110(Layer layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 fadeSpeed, char abr)
+MainMenuTransition* MainMenuTransition::ctor_464110(Layer layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 fadeSpeed, TPageAbr abr)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
 
@@ -59,8 +59,8 @@ MainMenuTransition* MainMenuTransition::ctor_464110(Layer layer, __int16 fadeDir
 
     field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
 
-    Init_SetTPage_4F5B60(&field_22C_tPage[0], 0, 1, PSX_getTPage_4F60E0(2, abr, 0, 0));
-    Init_SetTPage_4F5B60(&field_22C_tPage[1], 0, 1, PSX_getTPage_4F60E0(2, abr, 0, 0));
+    Init_SetTPage_4F5B60(&field_22C_tPage[0], 0, 1, PSX_getTPage_4F60E0(TPageMode::e16Bit_2, abr, 0, 0));
+    Init_SetTPage_4F5B60(&field_22C_tPage[1], 0, 1, PSX_getTPage_4F60E0(TPageMode::e16Bit_2, abr, 0, 0));
 
     for (int i = 0; i < 8; i++)
     {

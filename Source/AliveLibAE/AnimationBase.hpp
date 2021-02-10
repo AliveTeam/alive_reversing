@@ -101,7 +101,7 @@ public:
     BYTE field_8_r;
     BYTE field_9_g;
     BYTE field_A_b;
-    BYTE field_B_render_mode;
+    TPageAbr field_B_render_mode;
     Layer field_C_render_layer;
     WORD field_E_frame_change_counter;
 };

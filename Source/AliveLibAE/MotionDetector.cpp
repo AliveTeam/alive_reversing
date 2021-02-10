@@ -26,7 +26,7 @@ MotionDetectorLaser* MotionDetectorLaser::ctor_468290(FP xpos, FP ypos, FP scale
     field_20_animation.field_C_render_layer = layer;
     field_B8_xpos = xpos;
     field_CC_sprite_scale = scale;
-    field_20_animation.field_B_render_mode = 1;
+    field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
     field_BC_ypos = ypos;
     return this;
 }
@@ -59,7 +59,7 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvIn
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_20_animation.field_B_render_mode = 1;
+    field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
     field_20_animation.field_C_render_layer = Layer::eLayer_36;
     
     field_D8_yOffset = 0;
@@ -287,7 +287,7 @@ void MotionDetector::vRender_469120(PrimHeader** ppOt)
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pPrim->mBase.header);
         
         // Add tpage
-        const int tpage = PSX_getTPage_4F60E0(2, field_178_bObjectInLaser != 0 ? 1 : 3, 0, 0); // When detected transparency is off, gives the "solid red" triangle
+        const int tpage = PSX_getTPage_4F60E0(TPageMode::e16Bit_2, field_178_bObjectInLaser != 0 ? TPageAbr::eBlend_1 : TPageAbr::eBlend_3, 0, 0); // When detected transparency is off, gives the "solid red" triangle
         Prim_SetTPage* pTPage = &field_154_tPage[gPsxDisplay_5C1130.field_C_buffer_index];
         Init_SetTPage_4F5B60(pTPage, 0, 0, tpage);
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pTPage->mBase);

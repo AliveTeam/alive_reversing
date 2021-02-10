@@ -47,7 +47,7 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 	
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_20_animation.field_B_render_mode = 0;
+    field_20_animation.field_B_render_mode = TPageAbr::eBlend_0;
 
     SetTint_425600(kGrinderTints_551548, gMap_5C3030.field_0_current_level);
     Path_Grinder_Data tlvData = pTlv->field_10_data;

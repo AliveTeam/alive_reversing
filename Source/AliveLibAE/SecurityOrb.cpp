@@ -175,7 +175,7 @@ void SecurityOrb::vUpdate_4665A0()
                     auto pFlash1 = ae_new<Flash>();
                     if (pFlash1)
                     {
-                        pFlash1->ctor_428570(Layer::eLayer_39, 255, 0, 0, 1, 3, 1);
+                        pFlash1->ctor_428570(Layer::eLayer_39, 255, 0, 0, 1, TPageAbr::eBlend_3, 1);
                     }
                 }
                 if (static_cast<int>(sGnFrame_5C1B84) == field_120_timer - 4)
@@ -183,7 +183,7 @@ void SecurityOrb::vUpdate_4665A0()
                     auto pFlash2 = ae_new<Flash>();
                     if (pFlash2)
                     {
-                        pFlash2->ctor_428570(Layer::eLayer_39, 255, 0, 0, 1, 1, 1);
+                        pFlash2->ctor_428570(Layer::eLayer_39, 255, 0, 0, 1, TPageAbr::eBlend_1, 1);
                     }
                 }
 

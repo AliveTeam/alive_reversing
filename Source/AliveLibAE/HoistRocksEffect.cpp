@@ -89,7 +89,7 @@ HoistRocksEffect* HoistRocksEffect::ctor_45D270(Path_Hoist* pTlv, int tlvInfo)
             particle.field_10_mAnim.field_C_render_layer = Layer::eLayer_25;
         }
 
-        particle.field_10_mAnim.field_B_render_mode = 0;
+        particle.field_10_mAnim.field_B_render_mode = TPageAbr::eBlend_0;
         particle.field_10_mAnim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
         particle.field_10_mAnim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
         particle.field_10_mAnim.field_14_scale = field_2C_scale;

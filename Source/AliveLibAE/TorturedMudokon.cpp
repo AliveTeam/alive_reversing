@@ -257,7 +257,7 @@ void TorturedMudokon::vUpdate_47BF80()
         auto pFlash = ae_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_428570(Layer::eLayer_39, rgbBase + 50, rgbBase + 50, rgbBase + 110, 1, 1, 1);
+            pFlash->ctor_428570(Layer::eLayer_39, rgbBase + 50, rgbBase + 50, rgbBase + 110, 1, TPageAbr::eBlend_1, 1);
         }
         field_18C_zap_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
         SFX_Play_46FA90(SoundEffect::ElectricZap_39, 70);
@@ -280,7 +280,7 @@ void TorturedMudokon::vUpdate_47BF80()
         auto pFlash = ae_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_428570(Layer::eLayer_39, rgbBase + 10, rgbBase + 10, rgbBase + 50, 1, 1u, 1);
+            pFlash->ctor_428570(Layer::eLayer_39, rgbBase + 10, rgbBase + 10, rgbBase + 50, 1, TPageAbr::eBlend_1, 1);
         }
     }
 

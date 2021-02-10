@@ -35,7 +35,7 @@ public:
         field_BC_ypos = ypos + FP_FromInteger(4);
 
         field_20_animation.field_C_render_layer = Layer::eLayer_12;
-        field_20_animation.field_B_render_mode = static_cast<char>(Layer::eLayer_3);
+        field_20_animation.field_B_render_mode = TPageAbr::eBlend_3;
 
         field_D0_r = 140;
         field_D2_g = 90;

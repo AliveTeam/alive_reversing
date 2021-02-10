@@ -22,7 +22,7 @@ OrbWhirlWindParticle* OrbWhirlWindParticle::ctor_4E40C0(FP xpos, FP ypos, FP sca
     field_8_Anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
     field_8_Anim.field_C_render_layer = Layer::eLayer_32;
-    field_8_Anim.field_B_render_mode = 1;
+    field_8_Anim.field_B_render_mode = TPageAbr::eBlend_1;
     if (bIsMudokonSpirit == 1)
     {
         field_8_Anim.field_8_r = 0;

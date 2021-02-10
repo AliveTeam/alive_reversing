@@ -52,7 +52,7 @@ void Path::Init_4DB200(const PathData* pPathData, LevelIds level, __int16 path, 
     field_8_cams_on_y = (field_C_pPathData->field_6_bBottom - field_C_pPathData->field_2_bRight) / field_C_pPathData->field_C_grid_height;
 }
 
-void Path::Loader_4DB800(__int16 xpos, __int16 ypos, __int16 loadMode, __int16 typeToLoad)
+void Path::Loader_4DB800(__int16 xpos, __int16 ypos, LoadMode loadMode, __int16 typeToLoad)
 {
     // Get a pointer to the array of index table offsets
     const int* indexTable = reinterpret_cast<const int*>(*field_10_ppRes + field_C_pPathData->field_16_object_indextable_offset);
@@ -71,9 +71,9 @@ void Path::Loader_4DB800(__int16 xpos, __int16 ypos, __int16 loadMode, __int16 t
     {
         if (typeToLoad == -1 || typeToLoad == pPathTLV->field_4_type) 
         {
-            if (loadMode || !(pPathTLV->field_0_flags.Get(TLV_Flags::eBit1_Created) || pPathTLV->field_0_flags.Get(TLV_Flags::eBit2_Unknown)))
+            if (loadMode != LoadMode::Mode_0 || !(pPathTLV->field_0_flags.Get(TLV_Flags::eBit1_Created) || pPathTLV->field_0_flags.Get(TLV_Flags::eBit2_Unknown)))
             {
-                if (!loadMode)
+                if (loadMode == LoadMode::Mode_0)
                 {
                     pPathTLV->field_0_flags.Set(TLV_Flags::eBit1_Created);
                     pPathTLV->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
@@ -325,7 +325,7 @@ DWORD Path::TLVInfo_From_TLVPtr_4DB7C0(Path_TLV* pTlv)
     data.parts.pathId = static_cast<BYTE>(field_2_pathId);
 
     // Num bytes into the path res block
-    const int diff = reinterpret_cast<BYTE*>(pTlv) - (*field_10_ppRes);
+    const std::size_t diff = reinterpret_cast<BYTE*>(pTlv) - (*field_10_ppRes);
 
     // Sub off the offset from the start of the path block to TLV data
     data.parts.tlvOffset = static_cast<WORD>(diff - field_C_pPathData->field_12_object_offset);

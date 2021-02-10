@@ -33,7 +33,7 @@ DeathBirdParticle* DeathBirdParticle::ctor_43ECB0(FP xpos, FP ypos, int start, _
     else
     {
         field_DC_bApplyShadows &= ~1u;
-        field_20_animation.field_B_render_mode = 1;
+        field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
         field_CC_sprite_scale = scale;
         field_20_animation.field_14_scale = scale;
 

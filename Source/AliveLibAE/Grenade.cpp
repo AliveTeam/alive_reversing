@@ -209,7 +209,7 @@ void Grenade::Init_448110(FP xpos, FP ypos)
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
-    field_20_animation.field_B_render_mode = 0;
+    field_20_animation.field_B_render_mode = TPageAbr::eBlend_0;
 
     field_11C_explosion_id = -1;
     field_B8_xpos = xpos;

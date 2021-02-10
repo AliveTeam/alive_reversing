@@ -35,7 +35,7 @@ Explosion* Explosion::ctor_4A1200(FP xpos, FP ypos, FP scale, __int16 bSmall)
     }
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit18_IsLastFrame);
-    field_20_animation.field_B_render_mode = 1;
+    field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
     field_F8_scale = scale;
     field_D6_scale = scale == FP_FromInteger(1);
     field_CC_sprite_scale = scale * FP_FromInteger(2);
@@ -193,7 +193,7 @@ void Explosion::vUpdate_4A1510()
         auto pFlash = ae_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_428570(Layer::eLayer_39, 255u, 255u, 255u, 1, 1, 1);
+            pFlash->ctor_428570(Layer::eLayer_39, 255u, 255u, 255u, 1, TPageAbr::eBlend_1, 1);
         }
         rect.x = FP_GetExponent(FP_FromInteger(-38) * field_FC_explosion_size);
         rect.w = FP_GetExponent(FP_FromInteger(38) * field_FC_explosion_size);
@@ -223,7 +223,7 @@ void Explosion::vUpdate_4A1510()
         auto pFlash = ae_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_428570(Layer::eLayer_39, 255u, 255u, 255u, 1, 3u, 1);
+            pFlash->ctor_428570(Layer::eLayer_39, 255u, 255u, 255u, 1, TPageAbr::eBlend_3, 1);
         }
     }
     break;
@@ -265,7 +265,7 @@ void Explosion::vUpdate_4A1510()
                 }
 
                 pParticle->field_DC_bApplyShadows &= ~1u;
-                pParticle->field_20_animation.field_B_render_mode = 1;
+                pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
 
                 if (field_20_animation.field_92_current_frame == 3)
                 {

@@ -69,7 +69,8 @@ private:
     };
 
     WaterState field_FC_state;
-    __int16 field_FE_texture_mode;
+    TPageMode field_FE_texture_mode;
+    // pad
     __int16 field_100_screen_x;
     __int16 field_102_screen_y;
     PSX_Point field_104_top_left;

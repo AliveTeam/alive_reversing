@@ -161,7 +161,7 @@ __int16 FG1::Convert_Chunk_To_Render_Block_49A210(const Fg1Chunk* pChunk, Fg1Blo
         Poly_Set_SemiTrans_4F8A60(&rPoly.mBase.header, FALSE);
         Poly_Set_Blending_4F8A20(&rPoly.mBase.header, TRUE);
 
-        SetTPage(&rPoly, static_cast<WORD>(PSX_getTPage_4F60E0(2, 0, 0, 0)));
+        SetTPage(&rPoly, static_cast<WORD>(PSX_getTPage_4F60E0(TPageMode::e16Bit_2, TPageAbr::eBlend_0, 0, 0)));
 
         SetXYWH(&rPoly, pChunk->field_4_xpos, pChunk->field_6_ypos, pChunk->field_8_width, pChunk->field_A_height);
 

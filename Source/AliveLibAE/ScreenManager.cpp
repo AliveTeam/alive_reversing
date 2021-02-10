@@ -506,7 +506,7 @@ void ScreenManager::Init_40E4B0(BYTE** ppBits)
 
         int u0 = field_2C_upos + 32 * (i % 20);
         int v0 = field_2E_vpos + 16 * (i / 20);
-        int tpage = ScreenManager::GetTPage_40F040(2, 0, &u0, &v0);
+        int tpage = ScreenManager::GetTPage_40F040(TPageMode::e16Bit_2, TPageAbr::eBlend_0, &u0, &v0);
 
         tpage |= 0x8000;
 
@@ -532,7 +532,7 @@ void ScreenManager::Init_40E4B0(BYTE** ppBits)
     field_3E_x_idx = 0;
 }
 
-int CC ScreenManager::GetTPage_40F040(char tp, char abr, int* xpos, int* ypos)
+int CC ScreenManager::GetTPage_40F040(TPageMode tp, TPageAbr abr, int* xpos, int* ypos)
 {
     const short clampedYPos = *ypos & 0xFF00;
     const short clampedXPos = *xpos & 0xFFC0;

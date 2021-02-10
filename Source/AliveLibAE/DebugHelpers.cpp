@@ -181,8 +181,8 @@ public:
 
                 std::string text = std::to_string(static_cast<int>(pBaseGameObject->field_4_typeId));
 
-                mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureWidth_433700(text.c_str()) / 2) + 1, y + 1, 0, 0, 0, Layer::eLayer_39, 0, 0, 0, mFontPIndex, FP_FromDouble(1.0), 640, 0);
-                mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureWidth_433700(text.c_str()) / 2), y, 0, 1, 0, Layer::eLayer_40, 255, 255, 255, mFontPIndex, FP_FromDouble(1.0), 640, 0);
+                mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureWidth_433700(text.c_str()) / 2) + 1, y + 1, TPageAbr::eBlend_0, 0, 0, Layer::eLayer_39, 0, 0, 0, mFontPIndex, FP_FromDouble(1.0), 640, 0);
+                mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureWidth_433700(text.c_str()) / 2), y, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_40, 255, 255, 255, mFontPIndex, FP_FromDouble(1.0), 640, 0);
             }
         }
     }
@@ -408,8 +408,8 @@ public:
 
                 if (id_x > 0 && id_x <= 640 && id_y > 0 && id_y <= 240)
                 {
-                    pIndex = mFont.DrawString_4337D0(ppOt, std::to_string(mode).c_str(), id_x, id_y, 0, 0, 0,fontLayer, 255, 255, 255, pIndex, FP_FromDouble(1.0), 640, 0);
-                    pIndex = mFont.DrawString_4337D0(ppOt, std::to_string(mode).c_str(), id_x + 1, id_y + 1, 0, 0, 0, fontLayer, 0, 0, 0, pIndex, FP_FromDouble(1.0), 640, 0);
+                    pIndex = mFont.DrawString_4337D0(ppOt, std::to_string(mode).c_str(), id_x, id_y, TPageAbr::eBlend_0, 0, 0,fontLayer, 255, 255, 255, pIndex, FP_FromDouble(1.0), 640, 0);
+                    pIndex = mFont.DrawString_4337D0(ppOt, std::to_string(mode).c_str(), id_x + 1, id_y + 1, TPageAbr::eBlend_0, 0, 0, fontLayer, 0, 0, 0, pIndex, FP_FromDouble(1.0), 640, 0);
                 }
             }
         }
@@ -846,8 +846,8 @@ void Command_Spawn(const std::vector<std::string>& args)
 
     if (factoryFunc != nullptr)
     {
-        factoryFunc(factoryTLV, nullptr, tlvinfo, 2);
-        factoryFunc(factoryTLV, nullptr, tlvinfo, 0);
+        factoryFunc(factoryTLV, nullptr, tlvinfo, LoadMode::Mode_2);
+        factoryFunc(factoryTLV, nullptr, tlvinfo, LoadMode::Mode_0);
     }
 }
 
@@ -902,10 +902,10 @@ public:
 
         InitDebugFont();
 
-        Map::LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, kAbeblowResID, 0, 0);
-        Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kAbebombResID, 0, 0);
-        Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kDebrisID00, 0, 0);
-        Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kBgexpldResID, 0, 0);
+        Map::LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, kAbeblowResID, LoadMode::Mode_0, 0);
+        Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kAbebombResID, LoadMode::Mode_0, 0);
+        Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kDebrisID00, LoadMode::Mode_0, 0);
+        Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kBgexpldResID, LoadMode::Mode_0, 0);
     }
 
     void Destruct()
@@ -1120,8 +1120,8 @@ public:
 
             message->y = static_cast<float>(targetY);
 
-            pIndex = mFont.DrawString_4337D0(ppOt, message->message.c_str(), 0, static_cast<short>(message->y), 0, 1, 0, Layer::eLayer_40, message->r, message->g, message->b, pIndex, FP_FromDouble(1.0), 640, 0);
-            pIndex = mFont.DrawString_4337D0(ppOt, message->message.c_str(), 1, static_cast<short>(message->y) + 1, 0, 1, 0, Layer::eLayer_40, 0, 0, 0, pIndex, FP_FromDouble(1.0), 640, 0);
+            pIndex = mFont.DrawString_4337D0(ppOt, message->message.c_str(), 0, static_cast<short>(message->y), TPageAbr::eBlend_0, 1, 0, Layer::eLayer_40, message->r, message->g, message->b, pIndex, FP_FromDouble(1.0), 640, 0);
+            pIndex = mFont.DrawString_4337D0(ppOt, message->message.c_str(), 1, static_cast<short>(message->y) + 1, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_40, 0, 0, 0, pIndex, FP_FromDouble(1.0), 640, 0);
         
             message->time--;
 
@@ -1139,8 +1139,8 @@ public:
         if (mCommandLineEnabled)
         {
             std::string trail = (sGnFrame_5C1B84 % 10 < 5) ? "" : "_";
-            pIndex = mFont.DrawString_4337D0(ppOt, (">" + mCommandLineInput + trail).c_str(), 0, 232, 0, 1, 0, Layer::eLayer_40, 255, 255, 255, pIndex, FP_FromDouble(1.0), 640, 0);
-            pIndex = mFont.DrawString_4337D0(ppOt, (" " + mAutoComplete).c_str(), 0, 232, 0, 1, 0, Layer::eLayer_40, 30, 30, 30, pIndex, FP_FromDouble(1.0), 640, 0);
+            pIndex = mFont.DrawString_4337D0(ppOt, (">" + mCommandLineInput + trail).c_str(), 0, 232, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_40, 255, 255, 255, pIndex, FP_FromDouble(1.0), 640, 0);
+            pIndex = mFont.DrawString_4337D0(ppOt, (" " + mAutoComplete).c_str(), 0, 232, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_40, 30, 30, 30, pIndex, FP_FromDouble(1.0), 640, 0);
         }
     }
 
@@ -1179,7 +1179,7 @@ struct TimInfo
     WORD mClut;
 };
 
-static void LoadTIM(TimInfo* pInfo, const BYTE* timBuffer, char abr)
+static void LoadTIM(TimInfo* pInfo, const BYTE* timBuffer, TPageAbr abr)
 {
     const PsxTimHeader* pHeader = reinterpret_cast<const PsxTimHeader*>(timBuffer);
     const PsxTimImageHeader* pImgHeader = nullptr;
@@ -1210,18 +1210,18 @@ static void LoadTIM(TimInfo* pInfo, const BYTE* timBuffer, char abr)
         PSX_LoadImage_4F5FB0(&pImgHeader->mImageRect, (BYTE*)&pImgHeader[1]);
     }
 
-    int mode = 2;
+    TPageMode mode = TPageMode::e16Bit_2;
     if (pHeader->mFlag == 2) // 16 bit
     {
-        mode = 2;
+        mode = TPageMode::e16Bit_2;
     }
     else if (pHeader->mFlag == 9) // 8 bit
     {
-        mode = 1;
+        mode = TPageMode::e8Bit_1;
     }
     else if (pHeader->mFlag == 8) // 4 bit
     {
-        mode = 0;
+        mode = TPageMode::e4Bit_0;
     }
     else
     {
@@ -1229,18 +1229,18 @@ static void LoadTIM(TimInfo* pInfo, const BYTE* timBuffer, char abr)
     }
 
     int widthMultipler = 1;
-    if (mode == 0)
+    if (mode == TPageMode::e4Bit_0)
     {
         widthMultipler = 4;
     }
-    else if (mode == 1)
+    else if (mode == TPageMode::e8Bit_1)
     {
         widthMultipler = 2;
     }
 
     pInfo->mRenderWidth = static_cast<short>(pImgHeader->mImageRect.w * widthMultipler);
     pInfo->mHeight = pImgHeader->mImageRect.h;
-    pInfo->mTPage = static_cast<WORD>(PSX_getTPage_4F60E0(static_cast<char>(mode), abr, pImgHeader->mImageRect.x, pImgHeader->mImageRect.y));
+    pInfo->mTPage = static_cast<WORD>(PSX_getTPage_4F60E0(mode, abr, pImgHeader->mImageRect.x, pImgHeader->mImageRect.y));
 }
 
 class RenderTest_AllPrims
@@ -1348,7 +1348,7 @@ private:
             PolyFT3_Init(&mPolyFT3);
 
             TimInfo timInfo = {};
-            LoadTIM(&timInfo, &tim_16_bit[0], 3);
+            LoadTIM(&timInfo, &tim_16_bit[0], TPageAbr::eBlend_3);
 
             SetRGB0(&mPolyFT3, 127, 127, 127);
 
@@ -1376,7 +1376,7 @@ private:
             PolyGT3_Init(&mPolyGT3);
 
             TimInfo timInfo = {};
-            LoadTIM(&timInfo, &tim_16_bit[0], 0);
+            LoadTIM(&timInfo, &tim_16_bit[0], TPageAbr::eBlend_0);
 
             SetRGB0(&mPolyGT3, 255, 0, 255);
             // Much like PolyGT4 these have no effect, so same behavior as PolyFT3
@@ -1422,25 +1422,25 @@ private:
                 TimInfo timInfo = {};
                 if (i == 0)
                 {
-                    LoadTIM(&timInfo, &tim_16_bit[0], 0);
+                    LoadTIM(&timInfo, &tim_16_bit[0], TPageAbr::eBlend_0);
                     Poly_Set_Blending_4F8A20(&mPolyFT4[i].mBase.header, 0);
                     Poly_Set_SemiTrans_4F8A60(&mPolyFT4[i].mBase.header, 0);
                 }
                 else if (i == 1)
                 {
-                    LoadTIM(&timInfo, &tim_8_bit[0], 1);
+                    LoadTIM(&timInfo, &tim_8_bit[0], TPageAbr::eBlend_1);
                     Poly_Set_Blending_4F8A20(&mPolyFT4[i].mBase.header, 1);
                     Poly_Set_SemiTrans_4F8A60(&mPolyFT4[i].mBase.header, 1);
                 }
                 else if (i == 2)
                 {
-                    LoadTIM(&timInfo, &tim_8_bit2[0], 2);
+                    LoadTIM(&timInfo, &tim_8_bit2[0], TPageAbr::eBlend_2);
                     Poly_Set_Blending_4F8A20(&mPolyFT4[i].mBase.header, 1);
                     Poly_Set_SemiTrans_4F8A60(&mPolyFT4[i].mBase.header, 1);
                 }
                 else
                 {
-                    LoadTIM(&timInfo, &tim_4_bit[0], 3);
+                    LoadTIM(&timInfo, &tim_4_bit[0], TPageAbr::eBlend_3);
                     Poly_Set_Blending_4F8A20(&mPolyFT4[i].mBase.header, 1);
                     Poly_Set_SemiTrans_4F8A60(&mPolyFT4[i].mBase.header, 1);
                 }
@@ -1471,7 +1471,7 @@ private:
             PolyGT4_Init(&mPolyGT4);
 
             TimInfo timInfo = {};
-            LoadTIM(&timInfo, &tim_16_bit[0], 0);
+            LoadTIM(&timInfo, &tim_16_bit[0], TPageAbr::eBlend_0);
 
             // So it appears that only RGB0 changes the colour, so GT4 behaves the same
             // as FT4.
@@ -1611,7 +1611,7 @@ private:
             SetXY0(&mSprt8, 520, 80);
 
             TimInfo timInfo = {};
-            LoadTIM(&timInfo, &tim_16_bit[0], 0);
+            LoadTIM(&timInfo, &tim_16_bit[0], TPageAbr::eBlend_0);
 
             SetClut(&mSprt8, timInfo.mClut);
             SetUV0(&mSprt8, 30, 30);
@@ -1625,7 +1625,7 @@ private:
             SetXY0(&mSprt16, 520, 120);
 
             TimInfo timInfo = {};
-            LoadTIM(&timInfo, &tim_16_bit[0], 0);
+            LoadTIM(&timInfo, &tim_16_bit[0], TPageAbr::eBlend_0);
 
             SetClut(&mSprt8, timInfo.mClut);
             SetUV0(&mSprt16, 30, 30);
@@ -1639,7 +1639,7 @@ private:
             SetXY0(&mSprt, 550, 120);
 
             TimInfo timInfo = {};
-            LoadTIM(&timInfo, &tim_16_bit[0], 0);
+            LoadTIM(&timInfo, &tim_16_bit[0], TPageAbr::eBlend_0);
 
             SetClut(&mSprt, timInfo.mClut);
             SetUV0(&mSprt, 10, 10);
@@ -2025,7 +2025,7 @@ private:
             mAnim[i].field_14_scale = FP_FromDouble(2.0);
 
             mAnim[i].field_C_render_layer = Layer::eLayer_38;
-            mAnim[i].field_B_render_mode = 1;
+            mAnim[i].field_B_render_mode = TPageAbr::eBlend_1;
 
             mAnim[i].field_A_b = 127;
             mAnim[i].field_9_g = 127;
@@ -2322,8 +2322,8 @@ void DEV::DebugDrawText(PrimHeader ** ot, Layer layer, std::string & text, int x
         y -= FP_GetExponent(camOffset.field_4_y);
     }
 
-    g_DebugGlobalFontPolyIndex = g_DebugGlobalFont.DrawString_4337D0(ot, text.c_str(), x - (g_DebugGlobalFont.MeasureWidth_433700(text.c_str()) / 2), static_cast<short>(y), semiTransparent, 0, 0, layer, r, g, b, g_DebugGlobalFontPolyIndex, FP_FromDouble(1.0), 640, 0);
-    g_DebugGlobalFontPolyIndex = g_DebugGlobalFont.DrawString_4337D0(ot, text.c_str(), x - (g_DebugGlobalFont.MeasureWidth_433700(text.c_str()) / 2) + 1, static_cast<short>(y + 1), semiTransparent, 0, 0, layer, 0, 0, 0, g_DebugGlobalFontPolyIndex, FP_FromDouble(1.0), 640, 0);
+    g_DebugGlobalFontPolyIndex = g_DebugGlobalFont.DrawString_4337D0(ot, text.c_str(), x - (g_DebugGlobalFont.MeasureWidth_433700(text.c_str()) / 2), static_cast<short>(y), semiTransparent ? TPageAbr::eBlend_1 : TPageAbr::eBlend_0, 0, 0, layer, r, g, b, g_DebugGlobalFontPolyIndex, FP_FromDouble(1.0), 640, 0);
+    g_DebugGlobalFontPolyIndex = g_DebugGlobalFont.DrawString_4337D0(ot, text.c_str(), x - (g_DebugGlobalFont.MeasureWidth_433700(text.c_str()) / 2) + 1, static_cast<short>(y + 1), semiTransparent ? TPageAbr::eBlend_1 : TPageAbr::eBlend_0, 0, 0, layer, 0, 0, 0, g_DebugGlobalFontPolyIndex, FP_FromDouble(1.0), 640, 0);
 }
 
 void DEV::DebugOnFrameDraw(PrimHeader** ppOt)

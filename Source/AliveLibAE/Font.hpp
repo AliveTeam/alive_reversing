@@ -68,7 +68,7 @@ namespace Alive
 
         EXPORT void ctor_433590(int maxCharLength, const BYTE *palette, Font_Context *fontContext);
         EXPORT void dtor_433540();
-        EXPORT int DrawString_4337D0(PrimHeader** ppOt, const char *text, int x, __int16 y, char abr, int bSemiTrans, int a2, Layer layer, BYTE r, BYTE g, BYTE b, int polyOffset, FP scale, int a15, __int16 colorRandomRange);
+        EXPORT int DrawString_4337D0(PrimHeader** ppOt, const char *text, int x, __int16 y, TPageAbr abr, int bSemiTrans, int a2, Layer layer, BYTE r, BYTE g, BYTE b, int polyOffset, FP scale, int a15, __int16 colorRandomRange);
         EXPORT int MeasureWidth_433700(const char * text);
         EXPORT int MeasureWidth_4336C0(const char *text, FP scale);
         EXPORT int MeasureWidth_433630(unsigned char character);

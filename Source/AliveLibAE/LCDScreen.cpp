@@ -291,7 +291,7 @@ void LCDScreen::Render_460CB0(PrimHeader** ppOt)
             field_A0_message,
             static_cast<short>(screenXWorld - field_2AC_x_offset),
             static_cast<short>(screenY),
-            1,
+            TPageAbr::eBlend_1,
             1,
             0,
             Layer::eLayer_24,

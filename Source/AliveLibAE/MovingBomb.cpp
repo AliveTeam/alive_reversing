@@ -39,7 +39,7 @@ MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, int tlvInfo)
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_20_animation.field_B_render_mode = 0;
+    field_20_animation.field_B_render_mode = TPageAbr::eBlend_0;
     field_118_state = States::eTriggeredBySwitch_1;
 
     if (pTlv->field_16_scale == 1)

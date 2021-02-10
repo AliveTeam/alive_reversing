@@ -34,7 +34,8 @@ private:
     BYTE** field_F4_ppResBuf;
     BloodParticle* field_F8_pResBuf;
     Prim_SetTPage field_FC_tPages[2];
-    __int16 field_11C_texture_mode;
+    TPageMode field_11C_texture_mode;
+    // pad
     __int16 field_11E_xpos;
     __int16 field_120_ypos;
     __int16 field_122_to_render_count;

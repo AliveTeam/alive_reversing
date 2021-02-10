@@ -105,7 +105,8 @@ private:
     __int16 field_278_g;
     __int16 field_27A_b;
     __int16 field_27C_semiTrans;
-    __int16 field_27E_tPageMode;
+    TPageAbr field_27E_tPageMode;
+    // pad
     LevelIds field_280_level;
     __int16 field_282_path;
     RingTypes field_284_ring_type;

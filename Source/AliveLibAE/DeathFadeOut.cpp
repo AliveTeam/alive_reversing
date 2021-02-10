@@ -25,7 +25,7 @@ void DeathFadeOut::VRender(PrimHeader** ppOt)
     vRender_427210(ppOt);
 }
 
-DeathFadeOut* DeathFadeOut::ctor_427030(Layer layer, __int16 direction, __int16 destroyOnDone, short speed, char abr)
+DeathFadeOut* DeathFadeOut::ctor_427030(Layer layer, __int16 direction, __int16 destroyOnDone, short speed, TPageAbr abr)
 {
     ctor_4AB7A0(layer, abr);
     SetVTable(this, 0x544DA0); // vTbl_DeathFadeOut_00544DA0

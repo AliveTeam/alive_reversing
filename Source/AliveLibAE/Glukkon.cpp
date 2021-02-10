@@ -1688,7 +1688,7 @@ __int16 Glukkon::AI_3_PlayerControlled_441A30()
         auto pDeathFadeOutMem = ae_new<DeathFadeOut>();
         if (pDeathFadeOutMem)
         {
-            field_208_obj_id = pDeathFadeOutMem->ctor_427030(Layer::eLayer_40, 1, 0, 8, 2)->field_8_object_id;
+            field_208_obj_id = pDeathFadeOutMem->ctor_427030(Layer::eLayer_40, 1, 0, 8, TPageAbr::eBlend_2)->field_8_object_id;
         }
     }
         return 3;

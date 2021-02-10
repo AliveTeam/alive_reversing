@@ -90,7 +90,7 @@ EvilFart* EvilFart::ctor_422E30()
 
     field_11A_bPossesed = 0;
 
-    field_20_animation.field_B_render_mode = 1;
+    field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
     field_11C_alive_timer = 220;
 
     return this;
@@ -280,7 +280,7 @@ void EvilFart::vOnPossesed_423DA0()
 
     field_11C_alive_timer = 900;
     
-    field_20_animation.field_B_render_mode = 1;
+    field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
 
     field_120_level = gMap_5C3030.field_0_current_level;
     field_11E_path = gMap_5C3030.field_2_current_path;
@@ -525,7 +525,7 @@ void EvilFart::vUpdate_423100()
 
         field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
-        field_20_animation.field_B_render_mode = 1;
+        field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
         if (field_C4_velx == FP_FromInteger(0) && field_C8_vely == FP_FromInteger(0))
         {
             if (Input_IsChanting_45F260())

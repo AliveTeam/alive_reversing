@@ -45,8 +45,8 @@ DeathGas* DeathGas::ctor_43C030(Layer layer, __int16 amount)
     field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
     field_26_flag = 0;
 
-    Init_SetTPage_4F5B60(&gGasTPages_5BC6C8[0], 0, 1, PSX_getTPage_4F60E0(2, 1, 0, 0));
-    Init_SetTPage_4F5B60(&gGasTPages_5BC6C8[1], 0, 1, PSX_getTPage_4F60E0(2, 1, 0, 0));
+    Init_SetTPage_4F5B60(&gGasTPages_5BC6C8[0], 0, 1, PSX_getTPage_4F60E0(TPageMode::e16Bit_2, TPageAbr::eBlend_1, 0, 0));
+    Init_SetTPage_4F5B60(&gGasTPages_5BC6C8[1], 0, 1, PSX_getTPage_4F60E0(TPageMode::e16Bit_2, TPageAbr::eBlend_1, 0, 0));
 
     for (int i = 0; i < 2; i++)
     {

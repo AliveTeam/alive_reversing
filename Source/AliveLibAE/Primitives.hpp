@@ -27,6 +27,22 @@ EXPORT void CC Poly_Set_SemiTrans_4F8A60(PrimHeader* pPrim, int bSemiTrans);
 PrimHeader** OtLayer(PrimHeader** ppOt, Layer layer);
 EXPORT void CC OrderingTable_Add_4F8AA0(PrimHeader** ppOt, PrimHeader* pItem);
 
+enum class TPageMode : char
+{
+    e4Bit_0 = 0,
+    e8Bit_1 = 1,
+    e16Bit_2 = 2,
+};
+
+enum class TPageAbr : char
+{
+    eBlend_0 = 0,
+    eBlend_1 = 1,
+    eBlend_2 = 2,
+    eBlend_3 = 3,
+};
+
+
 EXPORT void CC Init_SetTPage_4F5B60(Prim_SetTPage* pPrim, int /*notUsed1*/, int /*notUsed2*/, int tpage);
-EXPORT int CC PSX_getTPage_4F60E0(char tp, char abr, int x, __int16 y);
+EXPORT int CC PSX_getTPage_4F60E0(TPageMode tp, TPageAbr abr, int x, __int16 y);
 EXPORT int CC PSX_getClut_4F6350(int x, int y);

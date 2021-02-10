@@ -76,14 +76,14 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int numOfPa
             Animation_Init_424E10(9912, 122, 43, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID), 1, 1u);
             field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
             field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
-            field_20_animation.field_B_render_mode = 1;
+            field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
             break;
 
         case BurstType::eBigRedSparks_3:
         case BurstType::eGreenSparks_5:
         case BurstType::eSmallPurpleSparks_6:
             Animation_Init_424E10(9912, 122, 43, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID), 1, 1u);
-            field_20_animation.field_B_render_mode = 1;
+            field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
             field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
 

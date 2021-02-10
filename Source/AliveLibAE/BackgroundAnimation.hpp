@@ -11,7 +11,8 @@ struct BackgroundAnimation_TLV : public Path_TLV
 {
     unsigned __int16 field_10_res_id;
     __int16 field_12_is_semi_trans;
-    __int16 field_14_semi_trans_mode;
+    TPageAbr field_14_semi_trans_mode;
+    // pad
     __int16 field_16_sound_effect;
     __int16 field_18_id;
     Layer field_1A_layer;

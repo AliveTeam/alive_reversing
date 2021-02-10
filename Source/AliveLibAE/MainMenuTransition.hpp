@@ -12,7 +12,7 @@ ALIVE_ASSERT_SIZEOF(MainMenuTransition_Polys, 0x100);
 class MainMenuTransition : public BaseGameObject
 {
 public:
-    EXPORT MainMenuTransition* ctor_464110(Layer layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 fadeSpeed, char abr);
+    EXPORT MainMenuTransition* ctor_464110(Layer layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 fadeSpeed, TPageAbr abr);
     EXPORT void StartTrans_464370(Layer layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 speed);
     EXPORT void Update_464400();
     EXPORT void Render_464470(PrimHeader** ppOt);

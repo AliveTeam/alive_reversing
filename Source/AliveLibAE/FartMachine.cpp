@@ -156,7 +156,7 @@ void FartMachine::vRender_4133F0(PrimHeader** ppOt)
             text,
             field_13C_textX,
             field_13E_textY,
-            1,
+            TPageAbr::eBlend_1,
             1,
             0,
             Layer::eLayer_22,

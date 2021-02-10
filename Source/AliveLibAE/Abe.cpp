@@ -854,7 +854,7 @@ Abe* Abe::ctor_44AD10(int /*frameTableOffset*/, int /*r*/, int /*g*/, int /*b*/)
     SetTint_425600(&sTintTable_Abe_554D20[0], gMap_5C3030.field_0_current_level);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_20_animation.field_B_render_mode = 0;
+    field_20_animation.field_B_render_mode = TPageAbr::eBlend_0;
 
     field_118_prev_held = 0;
     field_F6_anim_frame = 0;
@@ -1104,7 +1104,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_20_animation.Load_Pal_40A530(sActiveHero_5C1B68->field_20_animation.field_20_ppBlock, pFrameHeader->field_0_clut_offset);
 
     sActiveHero_5C1B68->SetTint_425600(sTintTable_Abe_554D20, gMap_5C3030.field_0_current_level);
-    sActiveHero_5C1B68->field_20_animation.field_B_render_mode = 0;
+    sActiveHero_5C1B68->field_20_animation.field_B_render_mode = TPageAbr::eBlend_0;
     sActiveHero_5C1B68->field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     sActiveHero_5C1B68->field_20_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
     sActiveHero_5C1B68->field_10C_health = pSaveState->field_30_health;
@@ -5899,7 +5899,7 @@ void Abe::State_57_Dead_4589A0()
         auto pDeathFade = ae_new<DeathFadeOut>();
         if (pDeathFade)
         {
-            pDeathFade->ctor_427030(Layer::eLayer_40, 1, 0, 8, 2);
+            pDeathFade->ctor_427030(Layer::eLayer_40, 1, 0, 8, TPageAbr::eBlend_2);
             field_148_fade_obj_id = pDeathFade->field_8_object_id;
         }
 
@@ -7000,7 +7000,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
                 DeathFadeOut* pFade33 = ae_new<DeathFadeOut>();
                 if (pFade33)
                 {
-                    pFade33->ctor_427030(Layer::eLayer_40, 0, 0, 8, 2);
+                    pFade33->ctor_427030(Layer::eLayer_40, 0, 0, 8, TPageAbr::eBlend_2);
                 }
 
                 field_148_fade_obj_id = pFade33->field_8_object_id;
@@ -7064,7 +7064,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
 
                 if (pFade)
                 {
-                    pFade->ctor_427030(Layer::eLayer_40, 0, 0, 8, 2);
+                    pFade->ctor_427030(Layer::eLayer_40, 0, 0, 8, TPageAbr::eBlend_2);
                 }
 
                 field_148_fade_obj_id = pFade->field_8_object_id;

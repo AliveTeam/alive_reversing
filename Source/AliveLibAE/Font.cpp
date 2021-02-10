@@ -103,7 +103,7 @@ namespace Alive
 #endif
     }
 
-    int Font::DrawString_4337D0(PrimHeader **ppOt, const char *text, int x, __int16 y, char abr, int bSemiTrans, int blendMode, Layer layer, BYTE r, BYTE g, BYTE b, int polyOffset, FP scale, int maxRenderWidth, __int16 colorRandomRange)
+    int Font::DrawString_4337D0(PrimHeader **ppOt, const char *text, int x, __int16 y, TPageAbr abr, int bSemiTrans, int blendMode, Layer layer, BYTE r, BYTE g, BYTE b, int polyOffset, FP scale, int maxRenderWidth, __int16 colorRandomRange)
     {
         if (!sFontDrawScreenSpace_5CA4B4)
         {
@@ -116,7 +116,7 @@ namespace Alive
         int charInfoIndex = 0;
         auto poly = &field_24_fnt_poly_array[gPsxDisplay_5C1130.field_C_buffer_index + (2 * polyOffset)];
 
-        int tpage = PSX_getTPage_4F60E0(0, abr, field_34_font_context->field_0_rect.x & 0xFFC0, field_34_font_context->field_0_rect.y & 0xFF00);
+        int tpage = PSX_getTPage_4F60E0(TPageMode::e4Bit_0, abr, field_34_font_context->field_0_rect.x & 0xFFC0, field_34_font_context->field_0_rect.y & 0xFF00);
         int clut = PSX_getClut_4F6350(field_28_palette_rect.x, field_28_palette_rect.y);
 
         for (unsigned int i = 0; i < strlen(text); i++)

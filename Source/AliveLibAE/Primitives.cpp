@@ -139,10 +139,10 @@ PrimHeader** OtLayer(PrimHeader** ppOt, Layer layer)
 {
     return &ppOt[static_cast<unsigned int>(layer)];
 }
-
-int CC PSX_getTPage_4F60E0(char tp, char abr, int x, __int16 y)
+ 
+int CC PSX_getTPage_4F60E0(TPageMode tp, TPageAbr abr, int x, __int16 y)
 {
-    return ((((tp) & 0x3) << 7) | (((abr) & 0x3) << 5) | (((y) & 0x100) >> 4) | (((x) & 0x3ff) >> 6) | (((y) & 0x200) << 2));
+    return ((((static_cast<char>(tp)) & 0x3) << 7) | (((static_cast<char>(abr)) & 0x3) << 5) | (((y) & 0x100) >> 4) | (((x) & 0x3ff) >> 6) | (((y) & 0x200) << 2));
 }
 
 EXPORT int CC PSX_getClut_4F6350(int x, int y)

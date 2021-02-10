@@ -76,7 +76,7 @@ EXPORT Particle* CC New_DestroyOrCreateObject_Particle_426F40(FP xpos, FP ypos, 
     }
 
     pParticle->ctor_4CC4C0(xpos, ypos, 9912, 122, 43, ppRes);
-    pParticle->field_20_animation.field_B_render_mode = 1;
+    pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
     pParticle->field_CC_sprite_scale = FP_FromRaw(scale.fpValue * 2);
 
     if (scale == FP_FromInteger(1))
@@ -112,7 +112,7 @@ EXPORT Particle* CC New_Orb_Particle_426AA0(FP xpos, FP ypos, FP velX, FP velY, 
 
     pParticle->field_DC_bApplyShadows &= ~1u;
 
-    pParticle->field_20_animation.field_B_render_mode = 1;
+    pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
 
     if (layer != Layer::eLayer_0)
     {
@@ -156,7 +156,7 @@ EXPORT void CC New_Smoke_Particles_426C70(FP xpos, FP ypos, FP scale, __int16 co
             pParticle->field_DC_bApplyShadows &= ~1u;
             pParticle->field_20_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
             pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-            pParticle->field_20_animation.field_B_render_mode = 3;
+            pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_3;
 
             pParticle->field_D0_r = r;
             pParticle->field_D2_g = g;
@@ -210,7 +210,7 @@ void CC New_ShootingZFire_Particle_4269B0(FP xpos, FP ypos, FP scale)
         pParticle->field_D4_b = 55;
         pParticle->field_D2_g = 55;
         pParticle->field_D0_r = 55;
-        pParticle->field_20_animation.field_B_render_mode = 1;
+        pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
         if (scale == FP_FromInteger(1))
         {
             pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_36;
@@ -234,7 +234,7 @@ void CC New_ShootingFire_Particle_426890(FP xpos, FP ypos, char direction, FP sc
         pParticle->field_D4_b = 55;
         pParticle->field_D2_g = 55;
         pParticle->field_D0_r = 55;
-        pParticle->field_20_animation.field_B_render_mode = 1;
+        pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
 
         if (scale == FP_FromInteger(1))
         {

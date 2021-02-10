@@ -71,14 +71,14 @@ CircularFade* CircularFade::ctor_4CE100(FP xpos, FP ypos, FP scale, __int16 dire
 
     field_B8_xpos = xpos;
     field_BC_ypos = ypos;
-    field_20_animation.field_B_render_mode = 2;
+    field_20_animation.field_B_render_mode = TPageAbr::eBlend_2;
     field_20_animation.field_C_render_layer = Layer::eLayer_40;
     field_D0_r = field_1B8_fade_colour;
     field_D2_g = field_1B8_fade_colour;
     field_D4_b = field_1B8_fade_colour;
 
-    Init_SetTPage_4F5B60(&field_198_tPages[0], 0, 0, PSX_getTPage_4F60E0(2, 2, 0, 0));
-    Init_SetTPage_4F5B60(&field_198_tPages[1], 0, 0, PSX_getTPage_4F60E0(2, 2, 0, 0));
+    Init_SetTPage_4F5B60(&field_198_tPages[0], 0, 0, PSX_getTPage_4F60E0(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
+    Init_SetTPage_4F5B60(&field_198_tPages[1], 0, 0, PSX_getTPage_4F60E0(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
     return this;
 }
 

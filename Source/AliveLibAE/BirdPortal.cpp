@@ -255,7 +255,7 @@ void BirdPortal::vUpdate_498280()
                             ppLightRes);
                     }
                     pParticle->field_DC_bApplyShadows &= ~1u;
-                    pParticle->field_20_animation.field_B_render_mode = 1;
+                    pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
                     pParticle->field_4_typeId = Types::eBirdPortalTerminator_100;
                     pParticle->field_CC_sprite_scale = field_60_scale;
 
@@ -373,7 +373,7 @@ void BirdPortal::vUpdate_498280()
                         74,
                         ppLightRes);
                 }
-                pParticle->field_20_animation.field_B_render_mode = 1;
+                pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
                 pParticle->field_DC_bApplyShadows &= ~1u;
                 pParticle->field_CC_sprite_scale = field_60_scale;
             }
@@ -405,7 +405,7 @@ void BirdPortal::vUpdate_498280()
         auto pFlash = ae_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_428570(Layer::eLayer_40, 255u, 255u, 255u, 1, 3u, 1);
+            pFlash->ctor_428570(Layer::eLayer_40, 255u, 255u, 255u, 1, TPageAbr::eBlend_3, 1);
         }
         field_28_state = PortalStates::CreateFlash2_13;
     }
@@ -416,7 +416,7 @@ void BirdPortal::vUpdate_498280()
         auto pFlash = ae_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_428570(Layer::eLayer_40, 255u, 255u, 255u, 1, 0, 1);
+            pFlash->ctor_428570(Layer::eLayer_40, 255u, 255u, 255u, 1, TPageAbr::eBlend_0, 1);
         }
         field_28_state = PortalStates::CreateFlash3_14;
     }
@@ -427,7 +427,7 @@ void BirdPortal::vUpdate_498280()
         auto pFlash = ae_new<Flash>();
         if (pFlash)
         {
-            pFlash->ctor_428570(Layer::eLayer_40, 255u, 255u, 255u, 0, 0, 1);
+            pFlash->ctor_428570(Layer::eLayer_40, 255u, 255u, 255u, 0, TPageAbr::eBlend_0, 1);
         }
         field_28_state = PortalStates::KillPortal_15;
         field_5C_timer = sGnFrame_5C1B84 + 5;
@@ -1220,7 +1220,7 @@ BaseAnimatedWithPhysicsGameObject* BirdPortalTerminator::ctor_497960(FP xpos, FP
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPortalTerminatorID);
     Animation_Init_424E10(4144, 32, 18, ppRes, 1, 1);
 
-    field_20_animation.field_B_render_mode = 1;
+    field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
     field_CC_sprite_scale = scale;
     if (field_CC_sprite_scale == FP_FromInteger(1))
     {

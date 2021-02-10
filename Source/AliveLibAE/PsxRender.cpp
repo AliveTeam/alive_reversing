@@ -4443,28 +4443,6 @@ namespace Test
 
     }
 
-    static void Test_PSX_TPage_Change_4F6430()
-    {
-        sActiveTPage_578318 = 0;
-        sTexture_page_x_BD0F0C = 0;
-        sTexture_page_y_BD0F10 = 0;
-        sTexture_mode_BD0F14 = 0;
-        tpage_width_57831C = 0;
-
-        for (DWORD i = 0; i < 3; i++)
-        {
-            int tpage = PSX_getTPage_4F60E0(static_cast<char>(i), static_cast<char>(3 - i), 64 * i, (i == 0u) ? 0u : 256u);
-            PSX_TPage_Change_4F6430(static_cast<short>(tpage));
-
-            ASSERT_EQ(sActiveTPage_578318, tpage);
-            ASSERT_EQ(sTexture_page_x_BD0F0C, 64u * i);
-            ASSERT_EQ(sTexture_page_y_BD0F10, (i == 0) ? 0u : 256u);
-            ASSERT_EQ(sTexture_mode_BD0F14, i);
-            ASSERT_EQ(sTexture_page_abr_BD0F18, 3 - i);
-            ASSERT_EQ(tpage_width_57831C, 10u);
-        }
-    }
-
     static void Test_PSX_Render_Convert_Polys_To_Internal_Format_4F7110()
     {
         {
@@ -4590,7 +4568,6 @@ namespace Test
     
     void PsxRenderTests()
     {
-        Test_PSX_TPage_Change_4F6430();
         Test_PSX_Rects_intersect_point_4FA100();
         Test_PSX_Render_Convert_Polys_To_Internal_Format_4F7110();
         Test_PSX_poly_FShaded_NoTexture_517DF0();
