@@ -873,7 +873,7 @@ void Map::GoTo_Camera_481890()
         }
     }
 
-    sPath_dword_BB47C0->Loader_4DB800(field_D0_cam_x_idx, field_D2_cam_y_idx, 0, -1);
+    sPath_dword_BB47C0->Loader_4DB800(field_D0_cam_x_idx, field_D2_cam_y_idx, LoadMode::Mode_0, -1);
     if (prevPathId != field_2_current_path || prevLevelId != field_0_current_level)
     {
         if (sActiveHero_5C1B68)
@@ -1309,7 +1309,7 @@ void CCSTD Map::Load_Path_Items_482C10(Camera* pCamera, __int16 loadMode)
             ResourceManager::LoadResourceFile_49C130(pCamera->field_1E_cam_name, Camera::On_Loaded_480ED0, pCamera, pCamera);
 
             sCameraBeingLoaded_5C3118 = pCamera;
-            sPath_dword_BB47C0->Loader_4DB800(pCamera->field_14_xpos, pCamera->field_16_ypos, 1, -1);
+            sPath_dword_BB47C0->Loader_4DB800(pCamera->field_14_xpos, pCamera->field_16_ypos, LoadMode::Mode_1, -1);
         }
         else
         {
@@ -1319,30 +1319,30 @@ void CCSTD Map::Load_Path_Items_482C10(Camera* pCamera, __int16 loadMode)
             pCamera->field_C_pCamRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Bits, pCamera->field_10_camera_resource_id, 1, 0);
 
             sCameraBeingLoaded_5C3118 = pCamera;
-            sPath_dword_BB47C0->Loader_4DB800(pCamera->field_14_xpos, pCamera->field_16_ypos, 2, -1);
+            sPath_dword_BB47C0->Loader_4DB800(pCamera->field_14_xpos, pCamera->field_16_ypos, LoadMode::Mode_2, -1);
         }
         sCameraBeingLoaded_5C3118 = nullptr;
     }
 }
 
-void CC Map::LoadResource_4DBE00(const char* pFileName, int type, int resourceId, __int16 loadMode, __int16 bDontLoad)
+void CC Map::LoadResource_4DBE00(const char* pFileName, int type, int resourceId, LoadMode loadMode, __int16 bDontLoad)
 {
     if (!bDontLoad)
     {
         pResourceManager_5C1BB0->LoadResource_464EE0(pFileName, type, resourceId, sCameraBeingLoaded_5C3118, sCameraBeingLoaded_5C3118, 0, 1);
-        if (loadMode == 2)
+        if (loadMode == LoadMode::Mode_2)
         {
             pResourceManager_5C1BB0->LoadingLoop_465590(0);
         }
     }
 }
 
-void CC Map::LoadResourcesFromList_4DBE70(const char* pFileName, ResourceManager::ResourcesToLoadList* pList, __int16 loadMode, __int16 bDontLoad)
+void CC Map::LoadResourcesFromList_4DBE70(const char* pFileName, ResourceManager::ResourcesToLoadList* pList, LoadMode loadMode, __int16 bDontLoad)
 {
     if (!bDontLoad)
     {
         pResourceManager_5C1BB0->LoadResourcesFromList_465150(pFileName, pList, sCameraBeingLoaded_5C3118, sCameraBeingLoaded_5C3118, 0, 1);
-        if (loadMode == 2)
+        if (loadMode == LoadMode::Mode_2)
         {
             pResourceManager_5C1BB0->LoadingLoop_465590(0);
         }

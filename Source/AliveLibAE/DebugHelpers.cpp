@@ -846,8 +846,8 @@ void Command_Spawn(const std::vector<std::string>& args)
 
     if (factoryFunc != nullptr)
     {
-        factoryFunc(factoryTLV, nullptr, tlvinfo, 2);
-        factoryFunc(factoryTLV, nullptr, tlvinfo, 0);
+        factoryFunc(factoryTLV, nullptr, tlvinfo, LoadMode::Mode_2);
+        factoryFunc(factoryTLV, nullptr, tlvinfo, LoadMode::Mode_0);
     }
 }
 
@@ -902,10 +902,10 @@ public:
 
         InitDebugFont();
 
-        Map::LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, kAbeblowResID, 0, 0);
-        Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kAbebombResID, 0, 0);
-        Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kDebrisID00, 0, 0);
-        Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kBgexpldResID, 0, 0);
+        Map::LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, kAbeblowResID, LoadMode::Mode_0, 0);
+        Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kAbebombResID, LoadMode::Mode_0, 0);
+        Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kDebrisID00, LoadMode::Mode_0, 0);
+        Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kBgexpldResID, LoadMode::Mode_0, 0);
     }
 
     void Destruct()
