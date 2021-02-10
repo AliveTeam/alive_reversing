@@ -49,7 +49,7 @@ EXPORT void CC LoadRockTypes_454370(LevelIds levelNumber, unsigned __int16 path)
             ResourceManager::LoadResourceFile_4551E0("DOGBLOW.BAN", 0, 0, 0);
         }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMetalResID, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMetalGib, 0, 0))
         {
             bDoLoadingLoop = TRUE;
             ResourceManager::LoadResourceFile_4551E0("METAL.BAN", 0, 0, 0);
@@ -205,7 +205,7 @@ void ThrowableArray::Remove_4540D0(__int16 count)
                 ResourceManager::FreeResource_455550(ppRes);
             }
 
-            ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMetalResID, 0, 0));
+            ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMetalGib, 0, 0));
             ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID, 0, 0));
             ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kGrenadeResID, 0, 0);
             if (ppRes)
@@ -257,7 +257,7 @@ void ThrowableArray::Add_453F70(__int16 count)
                 ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 1, 0);
                 ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 1, 0);
                 ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, 1, 0);
-                ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMetalResID, 1, 0);
+                ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMetalGib, 1, 0);
                 ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID, 1, 0);
                 ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kGrenadeResID, 1, 0);
                 break;

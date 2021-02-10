@@ -82,7 +82,7 @@ MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, int tlvInfo)
     }
 
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalGib);
     Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kAbeblowResID);
     Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kSlogBlowResID);
     

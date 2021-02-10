@@ -730,7 +730,7 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, int tlvInfo)
     field_FC_font.ctor_41C170(240, byte_4D0090, &sFontContext_4FFD68);
     field_E4_res_array[0] = nullptr;
     field_E4_res_array[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbespek2ResID, 1, 0);
-    field_E4_res_array[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOptflareResID, 1, 0);
+    field_E4_res_array[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOptionFlare, 1, 0);
     field_E4_res_array[5] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kHighlitePalResID, 1, 0);
 
     // 30 = fmv select
@@ -2606,7 +2606,7 @@ void Menu::GameSpeak_Update_47CBD0()
     {
         if (field_1E0_selected_index == 8 && !(gnFrameCount_507670 % 8))
         {
-            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOptflareResID, 1, 0);
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOptionFlare, 1, 0);
             auto pParticle = ao_new<Particle>();
             if (pParticle)
             {

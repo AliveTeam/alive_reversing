@@ -124,17 +124,17 @@ EXPORT void Factory_Hoist_487230(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion
         {
         case LevelIds::eRuptureFarms_1:
         case LevelIds::eRuptureFarmsReturn_13:
-            ResourceManager::LoadResource_446C90("DRPSPRK.BAN", ResourceManager::Resource_Animation, ResourceID::kDrpRockResID, loadMode);
+            ResourceManager::LoadResource_446C90("DRPSPRK.BAN", ResourceManager::Resource_Animation, ResourceID::kHoistRocks, loadMode);
             break;
 
         case LevelIds::eForest_3:
         case LevelIds::eDesert_8:
             ResourceManager::LoadResource_446C90("ANEEDGE.BAN", ResourceManager::Resource_Animation, ResourceID::kAneedgeResID, loadMode);
-            ResourceManager::LoadResource_446C90("DRPROCK.BAN", ResourceManager::Resource_Animation, ResourceID::kDrpRockResID, loadMode);
+            ResourceManager::LoadResource_446C90("DRPROCK.BAN", ResourceManager::Resource_Animation, ResourceID::kHoistRocks, loadMode);
             break;
 
         default:
-            ResourceManager::LoadResource_446C90("DRPROCK.BAN", ResourceManager::Resource_Animation, ResourceID::kDrpRockResID, loadMode);
+            ResourceManager::LoadResource_446C90("DRPROCK.BAN", ResourceManager::Resource_Animation, ResourceID::kHoistRocks, loadMode);
             break;
         }
     }
@@ -520,7 +520,7 @@ EXPORT void Factory_FallingItem_483940(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
         case LevelIds::eRuptureFarms_1:
         case LevelIds::eRuptureFarmsReturn_13:
             ResourceManager::LoadResource_446C90("R1BARREL.BAN", ResourceManager::Resource_Animation, ResourceID::kF2rockResID, loadMode);
-            ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, ResourceID::kStickResID, loadMode);
+            ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, ResourceID::kStickGib, loadMode);
             ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, loadMode);
             ResourceManager::LoadResource_446C90("R1MEAT.BAN", ResourceManager::Resource_Animation, ResourceID::kUnknownResID_6014, loadMode);
             break;
@@ -528,14 +528,14 @@ EXPORT void Factory_FallingItem_483940(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
         case LevelIds::eLines_2:
         case LevelIds::eBoardRoom_12:
             ResourceManager::LoadResource_446C90("F2ROCK.BAN", ResourceManager::Resource_Animation, ResourceID::kF2rockResID, loadMode);
-            ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, ResourceID::kStickResID, loadMode);
+            ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, ResourceID::kStickGib, loadMode);
             ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, loadMode);
             ResourceManager::LoadResource_446C90("DEBRIS00.BAN", ResourceManager::Resource_Animation, ResourceID::kDebrisID00, loadMode);
             break;
 
         case LevelIds::eStockYards_5:
             ResourceManager::LoadResource_446C90("F2ROCK.BAN", ResourceManager::Resource_Animation, ResourceID::kF2rockResID, loadMode);
-            ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, ResourceID::kStickResID, loadMode);
+            ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, ResourceID::kStickGib, loadMode);
             ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, loadMode);
             ResourceManager::LoadResource_446C90("DEBRIS00.BAN", ResourceManager::Resource_Animation, ResourceID::kDebrisID00, loadMode);
             break;
@@ -544,14 +544,14 @@ EXPORT void Factory_FallingItem_483940(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
         case LevelIds::eDesertTemple_9:
         case LevelIds::eDesertEscape:
             ResourceManager::LoadResource_446C90("F2ROCK.BAN", ResourceManager::Resource_Animation, ResourceID::kF2rockResID, loadMode);
-            ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, ResourceID::kStickResID, loadMode);
+            ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, ResourceID::kStickGib, loadMode);
             ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, loadMode);
             ResourceManager::LoadResource_446C90("DEBRIS00.BAN", ResourceManager::Resource_Animation, ResourceID::kDebrisID00, loadMode);
             break;
 
         default:
             ResourceManager::LoadResource_446C90("F2ROCK.BAN", ResourceManager::Resource_Animation, ResourceID::kF2rockResID, loadMode);
-            ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, ResourceID::kStickResID, loadMode);
+            ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, ResourceID::kStickGib, loadMode);
             ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, loadMode);
             ResourceManager::LoadResource_446C90("DEBRIS00.BAN", ResourceManager::Resource_Animation, ResourceID::kDebrisID00, loadMode);
             break;
@@ -583,7 +583,7 @@ EXPORT void Factory_FallingItem_483940(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
         auto kResourcesToCheck =
         {
             ResourceID::kF2rockResID,
-            ResourceID::kStickResID,
+            ResourceID::kStickGib,
             ResourceID::kRockShadowResID,
         };
         ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResourcesToCheck);
@@ -994,7 +994,7 @@ EXPORT void Factory_SecurityOrb_485550(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
         ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, loadMode, disabledResources & 1);
         ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, loadMode, disabledResources & 2);
         ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kElmblowResID_217, loadMode, disabledResources & 4);
-        ResourceManager::LoadResource_446C90("METAL.BAN", ResourceManager::Resource_Animation, ResourceID::kMetalResID, loadMode, disabledResources & 0x10);
+        ResourceManager::LoadResource_446C90("METAL.BAN", ResourceManager::Resource_Animation, ResourceID::kMetalGib, loadMode, disabledResources & 0x10);
         ResourceManager::LoadResource_446C90("EXPLO2.BAN", ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, loadMode, disabledResources & 0x20);
     }
     else
@@ -1015,7 +1015,7 @@ EXPORT void Factory_SecurityOrb_485550(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
 
         if (!(disabledResources & 0x10))
         {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kMetalResID });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kMetalGib });
         }
 
         if (!(disabledResources & 0x20))
@@ -1702,7 +1702,7 @@ EXPORT void Factory_SecurityClaw_486D50(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
         ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, loadMode, disabledResources & 1);
         ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, loadMode, disabledResources & 2);
         ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kElmblowResID_217, loadMode, disabledResources & 4);
-        ResourceManager::LoadResource_446C90("METAL.BAN", ResourceManager::Resource_Animation, ResourceID::kMetalResID, loadMode, disabledResources & 0x10);
+        ResourceManager::LoadResource_446C90("METAL.BAN", ResourceManager::Resource_Animation, ResourceID::kMetalGib, loadMode, disabledResources & 0x10);
         ResourceManager::LoadResource_446C90("EXPLO2.BAN", ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, loadMode, disabledResources & 0x20);
     }
     else
@@ -1726,7 +1726,7 @@ EXPORT void Factory_SecurityClaw_486D50(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
 
         if (!(disabledResources & 0x10))
         {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kMetalResID });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kMetalGib });
         }
 
         if (!(disabledResources & 0x20))
@@ -2159,7 +2159,7 @@ EXPORT void Factory_MovingBomb_484E00(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
     {
         ResourceManager::LoadResource_446C90("D1MBOMB.BAN", ResourceManager::Resource_Animation, ResourceID::kMovebombResID, loadMode, 0);
         ResourceManager::LoadResource_446C90("EXPLO2.BAN", ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, loadMode, 0);
-        ResourceManager::LoadResource_446C90("METAL.BAN", ResourceManager::Resource_Animation, ResourceID::kMetalResID, loadMode, 0);
+        ResourceManager::LoadResource_446C90("METAL.BAN", ResourceManager::Resource_Animation, ResourceID::kMetalGib, loadMode, 0);
         ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, loadMode, pMovingBombTlv->field_22_disabled_resources & 1);
         ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kElmblowResID_217, loadMode, pMovingBombTlv->field_22_disabled_resources & 4);
 
@@ -2175,7 +2175,7 @@ EXPORT void Factory_MovingBomb_484E00(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
         {
             ResourceID::kMovebombResID,
             ResourceID::kExplo2ResID,
-            ResourceID::kMetalResID,
+            ResourceID::kMetalGib,
         };
         ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResources);
 
@@ -2239,7 +2239,7 @@ EXPORT void Factory_MenuController_481AC0(Path_TLV* pTlv, Map* /*pMap*/, TlvItem
             {
                 { ResourceManager::Resource_Animation, ResourceID::kAbespek2ResID },
                 { ResourceManager::Resource_Animation, ResourceID::kHighliteResID },
-                { ResourceManager::Resource_Animation, ResourceID::kOptflareResID },
+                { ResourceManager::Resource_Animation, ResourceID::kOptionFlare },
                 { ResourceManager::Resource_Palt, ResourceID::kHighlitePalResID }
             };
             ResourceManager::LoadResourcesFromList_446E80("STARTANM.BND", kResources.AsList(), loadMode, 0);
@@ -2250,7 +2250,7 @@ EXPORT void Factory_MenuController_481AC0(Path_TLV* pTlv, Map* /*pMap*/, TlvItem
             {
                 ResourceID::kAbespek2ResID,
                 ResourceID::kHighliteResID,
-                ResourceID::kOptflareResID,
+                ResourceID::kOptionFlare,
             };
             ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResources);
 
@@ -2343,7 +2343,7 @@ EXPORT void Factory_GrenadeMachine_487860(Path_TLV* pTlv, Map* /*pMap*/, TlvItem
         ResourceManager::LoadResourcesFromList_446E80("GTHROW.BND", kResources.AsList(), loadMode, 0);
         ResourceManager::LoadResource_446C90("EXPLO2.BAN", ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, loadMode);
         ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, loadMode);
-        ResourceManager::LoadResource_446C90("METAL.BAN", ResourceManager::Resource_Animation, ResourceID::kMetalResID, loadMode);
+        ResourceManager::LoadResource_446C90("METAL.BAN", ResourceManager::Resource_Animation, ResourceID::kMetalGib, loadMode);
         ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, loadMode, disabledResources & 2);
         return;
     }
@@ -2358,7 +2358,7 @@ EXPORT void Factory_GrenadeMachine_487860(Path_TLV* pTlv, Map* /*pMap*/, TlvItem
         ResourceID::kGrenadeResID,
         ResourceID::kExplo2ResID,
         ResourceID::kAbeblowResID,
-        ResourceID::kMetalResID,
+        ResourceID::kMetalGib,
     };
     ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResources);
 

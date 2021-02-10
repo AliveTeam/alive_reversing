@@ -60,7 +60,7 @@ ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, __int16 particleCoun
             break;
 
         case BurstType::eType_1:
-            Animation_Init_417FD0(2800, 47, 29, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kStickResID, 1, 0), 1);
+            Animation_Init_417FD0(2800, 47, 29, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kStickGib, 1, 0), 1);
             scale = FP_FromDouble(0.4) * scale;
             field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
             field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);

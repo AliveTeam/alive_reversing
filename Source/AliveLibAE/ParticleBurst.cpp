@@ -67,7 +67,7 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int numOfPa
             break;
 
         case BurstType::eSticks_1:
-            Animation_Init_424E10(1704, 49, 29, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kStickResID), 1, 1u);
+            Animation_Init_424E10(1704, 49, 29, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kStickGib), 1, 1u);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
             field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
             break;
