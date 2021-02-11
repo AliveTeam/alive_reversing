@@ -2642,7 +2642,7 @@ struct Path_ContinuePoint : public Path_TLV
     __int16 field_12_save_file_id;
 };
 
-struct Path_Type_76 : public Path_TLV
+struct Path_ResetSwitchRange : public Path_TLV
 {
     __int16 field_10_set_switches;
     __int16 field_12_start_id;
@@ -2652,7 +2652,7 @@ struct Path_Type_76 : public Path_TLV
     __int16 field_1A_path_to_free_id;
     __int16 field_1C_bEnabled;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Type_76, 0x20);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ResetSwitchRange, 0x20);
 
 void Abe::vOn_TLV_Collision_44B5D0(Path_TLV* pTlv)
 {
@@ -2692,23 +2692,23 @@ void Abe::vOn_TLV_Collision_44B5D0(Path_TLV* pTlv)
         }
         else if (pTlv->field_4_type == TlvTypes::Null_76)
         {
-            auto pUnknown = static_cast<Path_Type_76*>(pTlv);
-            if (pUnknown->field_1_unknown == 0 || pUnknown->field_1C_bEnabled)
+            auto pResetSwitchRange = static_cast<Path_ResetSwitchRange*>(pTlv);
+            if (pResetSwitchRange->field_1_unknown == 0 || pResetSwitchRange->field_1C_bEnabled)
             {
-                pUnknown->field_1_unknown = 1;
-                if (pUnknown->field_10_set_switches)
+                pResetSwitchRange->field_1_unknown = 1;
+                if (pResetSwitchRange->field_10_set_switches)
                 {
-                    for (short i = pUnknown->field_12_start_id; i <= pUnknown->field_14_end_id; i++)
+                    for (short i = pResetSwitchRange->field_12_start_id; i <= pResetSwitchRange->field_14_end_id; i++)
                     {
-                        if (i != pUnknown->field_16_skip_id && i > 1)
+                        if (i != pResetSwitchRange->field_16_skip_id && i > 1)
                         {
                             SwitchStates_Set_465FF0(i, 0);
                         }
                     }
                 }
-                if (pUnknown->field_18_free_path_res)
+                if (pResetSwitchRange->field_18_free_path_res)
                 {
-                    Path::Reset_TLVs_4DBCF0(pUnknown->field_1A_path_to_free_id);
+                    Path::Reset_TLVs_4DBCF0(pResetSwitchRange->field_1A_path_to_free_id);
                 }
             }
 
