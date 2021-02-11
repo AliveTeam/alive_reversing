@@ -326,6 +326,52 @@ const std::map<std::string, AO::TlvTypes> kObjectNameToAoTlv =
 
 #define NAME_OF( v ) #v
 
+const std::map<std::string, std::string> kTypeNames =
+{
+    { NAME_OF(Path_Hoist), "Hoist" },
+    { NAME_OF(Path_Hoist::Type), "Enum_HoistType" },
+    { NAME_OF(Path_Hoist::EdgeType), "Enum_HoistEdgeType" },
+    { NAME_OF(Path_Hoist::Scale), "Enum_HoistScale" },
+
+    { NAME_OF(Path_Edge), "Edge" },
+    { NAME_OF(Path_Edge::Type), "Enum_EdgeType" },
+    { NAME_OF(Path_Edge::Scale), "Enum_EdgeScale" },
+
+};
+
+const std::map<std::string, std::string> kEnum_HoistScale =
+{
+    { NAME_OF(Path_Hoist::Scale::eFull), "full" },
+    { NAME_OF(Path_Hoist::Scale::eHalf), "half" },
+};
+
+const std::map<std::string, std::string> kEnum_HoistType =
+{
+    { NAME_OF(Path_Hoist::Type::eNextFloor), "next_floor" },
+    { NAME_OF(Path_Hoist::Type::eNextEdge), "next_edge" },
+    { NAME_OF(Path_Hoist::Type::eOffScreen), "off_screen" },
+};
+
+const std::map<std::string, std::string> kEnum_HoistEdgeType =
+{
+    { NAME_OF(Path_Hoist::EdgeType::eLeft), "left" },
+    { NAME_OF(Path_Hoist::EdgeType::eRight), "right" },
+    { NAME_OF(Path_Hoist::EdgeType::eBoth), "both" },
+};
+
+const std::map<std::string, std::string> kEnum_EdgeType =
+{
+    { NAME_OF(Path_Edge::EdgeType::eLeft), "left" },
+    { NAME_OF(Path_Edge::EdgeType::eRight), "right" },
+    { NAME_OF(Path_Edge::EdgeType::eBoth), "both" },
+};
+
+const std::map<std::string, std::string> kEnum_EdgeScale =
+{
+    { NAME_OF(Path_Edge::Scale::eFull), "full" },
+    { NAME_OF(Path_Edge::Scale::eHalf), "half" },
+};
+
 class StructureDb
 {
 public:
@@ -366,20 +412,15 @@ public:
         {
             return "Byte";
         }
+        else if (typeName == NAME_OF(bool))
+        {
+            return "Bool";
+        }
         abort();
     }
 
     void Add_Path_Hoist(JsonDocument& doc)
     {
-        const std::map<std::string, std::string> kTypeNames =
-        {
-            { NAME_OF(Path_Hoist), "Hoist" },
-            { NAME_OF(Path_Hoist::Type), "Enum_HoistType" },
-            { NAME_OF(Path_Hoist::EdgeType), "Enum_HoistEdgeType" },
-            { NAME_OF(Path_Hoist::Scale), "Enum_HoistScale" },
-        };
-        auto& type = doc.AddStructure(Value(kTypeNames, NAME_OF(Path_Hoist)));
-
         const TFieldToNameAndTypeMapping kPath_Hoist =
         {
             { NAME_OF(Path_Hoist::field_10_type), {"HoistType", Value(kTypeNames, NAME_OF(Path_Hoist::Type)) } },
@@ -387,31 +428,28 @@ public:
             { NAME_OF(Path_Hoist::field_14_id), {"Id", TypeName(NAME_OF(BYTE)) } },
             { NAME_OF(Path_Hoist::field_16_scale), {"Scale", Value(kTypeNames, NAME_OF(Path_Hoist::Scale)) } },
         };
+
+        auto& type = doc.AddStructure(Value(kTypeNames, NAME_OF(Path_Hoist)));
         type.AddProps(kPath_Hoist);
-
-        const std::map<std::string, std::string> kEnum_HoistType =
-        {
-            { NAME_OF(Path_Hoist::Type::eNextFloor), "next_floor" },
-            { NAME_OF(Path_Hoist::Type::eNextEdge), "next_edge" },
-            { NAME_OF(Path_Hoist::Type::eOffScreen), "off_screen" },
-        };
         doc.AddEnum(Value(kTypeNames, NAME_OF(Path_Hoist::Type)), kEnum_HoistType);
-
-        const std::map<std::string, std::string> kEnum_HoistEdgeType =
-        {
-            { NAME_OF(Path_Hoist::EdgeType::eLeft), "left" },
-            { NAME_OF(Path_Hoist::EdgeType::eRight), "right" },
-            { NAME_OF(Path_Hoist::EdgeType::eBoth), "both" },
-        };
         doc.AddEnum(Value(kTypeNames, NAME_OF(Path_Hoist::EdgeType)), kEnum_HoistEdgeType);
-
-        const std::map<std::string, std::string> kEnum_HoistScale =
-        {
-            { NAME_OF(Path_Hoist::Scale::eFull), "full" },
-            { NAME_OF(Path_Hoist::Scale::eHalf), "half" },
-        };
         doc.AddEnum(Value(kTypeNames, NAME_OF(Path_Hoist::Scale)), kEnum_HoistScale);
     }
+
+    void Add_Path_Edge(JsonDocument& doc)
+    {
+        const TFieldToNameAndTypeMapping kPath_Edge =
+        {
+            { NAME_OF(Path_Edge::field_10_type), {"EdgeType", Value(kTypeNames, NAME_OF(Path_Edge::Type)) } },
+            { NAME_OF(Path_Edge::field_12_can_grab), {"CanGrab",  TypeName(NAME_OF(bool)) } },
+            { NAME_OF(Path_Edge::field_14_scale), {"Scale", Value(kTypeNames, NAME_OF(Path_Edge::Scale)) } },
+        };
+        auto& type = doc.AddStructure(Value(kTypeNames, NAME_OF(Path_Edge)));
+        type.AddProps(kPath_Edge);
+        doc.AddEnum(Value(kTypeNames, NAME_OF(Path_Edge::Type)), kEnum_EdgeType);
+        doc.AddEnum(Value(kTypeNames, NAME_OF(Path_Edge::Scale)), kEnum_EdgeScale);
+    }
+
 
     // TODO: Not used yet
     void CreateTLVAe(const std::string& type)
@@ -434,6 +472,7 @@ int main(int argc, char* argv[])
     StructureDb db;
     db.AddBasicTypes(doc);
     db.Add_Path_Hoist(doc);
+    db.Add_Path_Edge(doc);
 
    // AliveAPI::EnumeratePaths("C:\\GOG Games\\Abes Exoddus\\MI.LVL");
 
