@@ -256,7 +256,6 @@ void MotionDetector::VUpdate_437E90()
                                  FP_GetExponent(pObj->field_B8_vely))
                         {
                             alarm = true;
-                            break;
                         }
 
                         if (alarm)
