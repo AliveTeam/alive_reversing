@@ -2,6 +2,7 @@
 #include "PathData.hpp"
 #include "Function.hpp"
 #include "stdlib.hpp"
+#include "Sys_common.hpp"
 #include <sstream>
 #include <assert.h>
 
@@ -1187,7 +1188,13 @@ const char* CdLvlName(LevelIds lvlId)
 
 const PathBlyRec* CC Path_Get_Bly_Record_460F30(LevelIds lvlId, unsigned __int16 pathId)
 {
-    return &sPathData_559660.paths[static_cast<int>(lvlId)].field_0_pBlyArrayPtr[pathId];
+    const PathBlyRec* rec = &sPathData_559660.paths[static_cast<int>(lvlId)].field_0_pBlyArrayPtr[pathId];
+    if (!rec)
+    {
+        LOG_ERROR("path record not found for lvl " << static_cast<int>(lvlId) << " pathId " << pathId);
+        ALIVE_FATAL("Path record not found");
+    }
+    return rec;
 }
 
 FmvInfo* CC Path_Get_FMV_Record_460F70(LevelIds lvlId, unsigned __int16 fmvId)
