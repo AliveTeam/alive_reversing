@@ -4,6 +4,10 @@ elseif(WIN32)
   SET(BINPATH ".")
 endif()
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 if (WIN32)
     add_executable(vab_tool WIN32 vab_tool.cpp)
 
@@ -25,6 +29,7 @@ add_executable(alive_api WIN32 alive_api.cpp)
 
 target_include_directories(alive_api PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../3rdParty/magic_enum/include
     $<INSTALL_INTERFACE:include>
     PRIVATE ${CMAKE_BINARY_DIR})
 target_compile_features(alive_api

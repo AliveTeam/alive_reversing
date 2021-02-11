@@ -242,7 +242,8 @@ struct Path_Hoist : public Path_TLV
     };
     EdgeType field_12_edge_type;
 
-    __int16 field_14_id;
+    BYTE field_14_id; // never used
+    // pad
 
     enum class Scale : __int16
     {
