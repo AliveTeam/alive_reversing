@@ -177,7 +177,7 @@ LvlFileRecord* LvlArchive::Find_File_Record_433160(const char* pFileName)
         if (fileRecordIndex >= pHeader->field_0_num_files)
         {
             LOG_ERROR("Couldn't find " << pFileName << " in LVL");
-            assert(false);
+            //assert(false);
             return nullptr;
         }
     }
