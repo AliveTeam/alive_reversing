@@ -12,6 +12,8 @@
 
 #include <jsonxx/jsonxx.h>
 #include <gmock/gmock.h>
+#include <type_traits>
+#include <typeindex>
 
 #define NAME_OF( v ) #v
 
@@ -640,9 +642,388 @@ const std::map<std::string, AO::TlvTypes> kObjectNameToAoTlv =
     { "Hoist", AO::TlvTypes::Hoist_3 },
 };
 
+class ITypeBase
+{
+public:
+    explicit ITypeBase(const std::string& typeName) : mName(typeName)
+    {
+
+    }
+
+    std::string Name() const
+    {
+        return mName;
+    }
+
+    virtual std::type_index TypeIndex() const = 0;
+
+private:
+    std::string mName;
+};
+
+template<class T>
+class BasicType : public ITypeBase
+{
+public:
+    explicit BasicType(const std::string& typeName, int minVal, int maxVal)
+        : ITypeBase(typeName), mTypeIndex(typeid(T)), mMinVal(minVal), mMaxVal(maxVal)
+    {
+
+    }
+
+    std::type_index TypeIndex() const override
+    {
+        return mTypeIndex;
+    }
+
+private:
+    std::type_index mTypeIndex;
+    int mMinVal = 0;
+    int mMaxVal = 0;
+};
+
+template<class T>
+class EnumType : public ITypeBase
+{
+public:
+    explicit EnumType(const std::string& typeName)
+        : ITypeBase(typeName), mTypeIndex(typeid(T))
+    {
+
+    }
+
+    void Add(T enumValue, const std::string& name)
+    {
+        mMapping[enumValue] = name;
+    }
+
+    std::type_index TypeIndex() const override
+    {
+        return mTypeIndex;
+    }
+
+    T ValueFromString(const std::string& valueString) const
+    {
+        for (const auto [key, value] : mMapping)
+        {
+            if (value == valueString)
+            {
+                return key;
+            }
+        }
+        abort();
+    }
+
+    std::string ValueToString(T valueToFind) const
+    {
+        for (const auto [key, value] : mMapping)
+        {
+            if (key == valueToFind)
+            {
+                return value;
+            }
+        }
+        abort();
+    }
+
+private:
+    std::map<T, std::string> mMapping;
+    std::type_index mTypeIndex;
+};
+
+class TypesCollection
+{
+public:
+    TypesCollection()
+    {
+        AddBasicType<BYTE>("Byte", 0, 255);
+    }
+
+    std::string TypeName(std::type_index typeIndex) const
+    {
+        for (const auto& e : mTypes)
+        {
+            if (e->TypeIndex() == typeIndex)
+            {
+                return e->Name();
+            }
+        }
+        return "";
+    }
+
+    template<class T>
+    std::string TypeName() const
+    {
+        for (const auto& e : mTypes)
+        {
+            if (e->TypeIndex() == typeid(T))
+            {
+                return e->Name();
+            }
+        }
+        return "";
+    }
+
+    template<class T>
+    struct EnumPair
+    {
+        T mEnumValue;
+        std::string mName;
+    };
+
+    template<class T>
+    auto AddEnum(const std::string& enumName, const std::vector<EnumPair<T>>& enumItems)
+    {
+        EnumType<T>* ret = nullptr;
+        if (!TypeName<T>().empty())
+        {
+            // Type already exists
+            return ret;
+        }
+
+        auto newEnum = std::make_unique<EnumType<T>>(enumName);
+        for (const auto& enumItem : enumItems)
+        {
+            newEnum->Add(enumItem.mEnumValue, enumItem.mName);
+        }
+        ret = newEnum.get();
+        mTypes.push_back(std::move(newEnum));
+        return ret;
+    }
+
+    template<class T>
+    T EnumValueFromString(const std::string& enumTypeName, const std::string& enumValueString)
+    {
+        for (const auto& e : mTypes)
+        {
+            if (e->Name() == enumTypeName)
+            {
+               return static_cast<EnumType<T>*>(e.get())->ValueFromString(enumValueString);
+            }
+        }
+        abort();
+    }
+
+    template<class T>
+    std::string EnumValueToString(T enumValue)
+    {
+        for (const auto& e : mTypes)
+        {
+            if (e->TypeIndex() == typeid(T))
+            {
+                return static_cast<EnumType<T>*>(e.get())->ValueToString(enumValue);
+            }
+        }
+        abort();
+    }
+
+    template<class T>
+    auto AddBasicType(const std::string& typeName, int minVal, int maxVal)
+    {
+        BasicType<T>* ret = nullptr;
+        if (!TypeName<T>().empty())
+        {
+            // Type already exists
+            return ret;
+        }
+
+        auto newType = std::make_unique<BasicType<T>>(typeName, minVal, maxVal);
+        ret = newType.get();
+        mTypes.push_back(std::move(newType));
+        return ret;
+    }
+
+
+private:
+    std::vector<std::unique_ptr<ITypeBase>> mTypes;
+};
+
+class IMapObject
+{
+public:
+    explicit IMapObject(const std::string& typeName)
+        : mName(typeName)
+    {
+
+    }
+
+    virtual ~IMapObject() {}
+
+    std::string Name() const
+    {
+        return mName;
+    }
+
+    void AddProperty(const std::string& name, const std::string& typeName, void* key)
+    {
+        mInfo[key] = { name, typeName };
+    }
+
+    std::string PropName(void* key) const
+    {
+        auto it = mInfo.find(key);
+        if (it == std::end(mInfo))
+        {
+            abort();
+        }
+        return it->second.mName;
+    }
+
+    std::string PropType(void* key) const
+    {
+        auto it = mInfo.find(key);
+        if (it == std::end(mInfo))
+        {
+            abort();
+        }
+        return it->second.mTypeName;
+    }
+
+    template<class T>
+    void ReadEnumValue(TypesCollection& types, T& field, jsonxx::Object& properties)
+    {
+        const std::string propName = PropName(&field);
+        const std::string propType = PropType(&field);
+        const std::string jsonValue = properties.get<std::string>(propName);
+        field = types.EnumValueFromString<T>(propType, jsonValue);
+    }
+
+    template<class T>
+    void WriteEnumValue(TypesCollection& types, jsonxx::Object& properties, T& field)
+    {
+        properties << PropName(&field) << types.EnumValueToString<T>(field);
+    }
+
+    template<class T>
+    void ReadBasicType(T& field, jsonxx::Object& properties)
+    {
+        field = properties.get<T>(PropName(&field));
+    }
+
+    template<class T>
+    void WriteBasicType(T& field, jsonxx::Object& properties)
+    {
+        properties << properties.get<T>(PropName(&field));
+    }
+
+private:
+    struct PropertyInfo
+    {
+        std::string mName;
+        std::string mTypeName;
+    };
+    std::map<void*, PropertyInfo> mInfo;
+    std::string mName;
+protected:
+    std::string mDescription;
+};
+
+#define ADD_PROP(name, type) AddProperty(name, globalTypes.TypeName(typeid(type)), &type);
+
+namespace Editor
+{
+    class Path_Hoist : public IMapObject
+    {
+    public:
+        Path_Hoist(TypesCollection& globalTypes) : IMapObject("Hoist")
+        {
+            globalTypes.AddEnum<::Path_Hoist::Type>("Enum_HoistType",
+                {
+                    {::Path_Hoist::Type::eNextEdge, "next_edge"},
+                    {::Path_Hoist::Type::eNextFloor, "next_floor"},
+                    {::Path_Hoist::Type::eOffScreen, "off_screen"},
+                });
+
+            globalTypes.AddEnum<::Path_Hoist::EdgeType>("Enum_HoistEdgeType",
+                {
+                    {::Path_Hoist::EdgeType::eBoth, "both"},
+                    {::Path_Hoist::EdgeType::eLeft, "left"},
+                    {::Path_Hoist::EdgeType::eRight, "right"},
+                });
+
+            globalTypes.AddEnum<::Path_Hoist::Scale>("Enum_HoistScale", 
+                {
+                    {::Path_Hoist::Scale::eFull, "full"},
+                    {::Path_Hoist::Scale::eHalf, "half"}
+                });
+
+            ADD_PROP("HoistType", mData.field_10_type);
+            ADD_PROP("HoistEdgeType", mData.field_12_edge_type);
+            ADD_PROP("Id", mData.field_14_id);
+            ADD_PROP("Scale", mData.field_16_scale);
+        }
+
+        void InstanceFromJsonBase(jsonxx::Object& obj)
+        {
+            mDescription = obj.get<std::string>("name");
+
+            mData.field_8_top_left.field_0_x = obj.get<int>("xpos");
+            mData.field_8_top_left.field_2_y = obj.get<int>("ypos");
+            mData.field_C_bottom_right.field_0_x = obj.get<int>("width");
+            mData.field_C_bottom_right.field_2_y = obj.get<int>("height");
+        }
+
+        void InstanceFromJson(TypesCollection& types, jsonxx::Object& obj)
+        {
+            InstanceFromJsonBase(obj);
+
+            jsonxx::Object properties = obj.get<jsonxx::Object>("properties");
+
+            ReadEnumValue(types, mData.field_10_type, properties);
+            ReadEnumValue(types, mData.field_12_edge_type, properties);
+            ReadBasicType(mData.field_14_id, properties);
+            ReadEnumValue(types, mData.field_16_scale, properties);
+
+        }
+
+        void InstanceToJsonBase(jsonxx::Object& ret)
+        {
+            ret << "name" << mDescription;
+
+            ret << "xpos" << mData.field_8_top_left.field_0_x;
+            ret << "ypos" << mData.field_8_top_left.field_2_y;
+            ret << "width" << mData.field_C_bottom_right.field_0_x;
+            ret << "height" << mData.field_C_bottom_right.field_2_y;
+
+            ret << "object_structures_type" << Name();
+
+        }
+
+        jsonxx::Object InstanceToJson(TypesCollection& types)
+        {
+            jsonxx::Object ret;
+
+            InstanceToJsonBase(ret);
+
+            jsonxx::Object properties;
+
+            WriteEnumValue(types, properties, mData.field_10_type);
+            WriteEnumValue(types, properties, mData.field_12_edge_type);
+            WriteBasicType(mData.field_14_id, properties);
+            WriteEnumValue(types, properties, mData.field_16_scale);
+
+            ret << "properties" << properties;
+
+            return ret;
+        }
+
+
+
+    private:
+        ::Path_Hoist mData = {};
+    };
+}
 
 int main(int argc, char* argv[])
 {
+    TypesCollection globalTypes;
+    Editor::Path_Hoist eph(globalTypes);
+    auto obj = eph.InstanceToJson(globalTypes);
+    auto v = obj.json();
+    LOG_INFO(v);
+    eph.InstanceFromJson(globalTypes, obj);
+
+
     // Create "fixed" structure data
     StructuresAndTypes structuresAndTypes;
     structuresAndTypes.CreateCurrentVersion();
