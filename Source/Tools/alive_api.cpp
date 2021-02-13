@@ -897,13 +897,13 @@ public:
     template<class T>
     void ReadBasicType(T& field, jsonxx::Object& properties)
     {
-        field = properties.get<T>(PropName(&field));
+        field = properties.get<jsonxx::Number>(PropName(&field));
     }
 
     template<class T>
     void WriteBasicType(T& field, jsonxx::Object& properties)
     {
-        properties << properties.get<T>(PropName(&field));
+        properties << PropName(&field) << field;
     }
 
 private:
@@ -956,11 +956,11 @@ namespace Editor
         void InstanceFromJsonBase(jsonxx::Object& obj)
         {
             mDescription = obj.get<std::string>("name");
-
-            mData.field_8_top_left.field_0_x = obj.get<int>("xpos");
-            mData.field_8_top_left.field_2_y = obj.get<int>("ypos");
-            mData.field_C_bottom_right.field_0_x = obj.get<int>("width");
-            mData.field_C_bottom_right.field_2_y = obj.get<int>("height");
+            
+            mData.field_8_top_left.field_0_x = obj.get<jsonxx::Number>("xpos");
+            mData.field_8_top_left.field_2_y = obj.get<jsonxx::Number>("ypos");
+            mData.field_C_bottom_right.field_0_x = obj.get<jsonxx::Number>("width");
+            mData.field_C_bottom_right.field_2_y = obj.get<jsonxx::Number>("height");
         }
 
         void InstanceFromJson(TypesCollection& types, jsonxx::Object& obj)
@@ -968,12 +968,11 @@ namespace Editor
             InstanceFromJsonBase(obj);
 
             jsonxx::Object properties = obj.get<jsonxx::Object>("properties");
-
+            
             ReadEnumValue(types, mData.field_10_type, properties);
             ReadEnumValue(types, mData.field_12_edge_type, properties);
             ReadBasicType(mData.field_14_id, properties);
             ReadEnumValue(types, mData.field_16_scale, properties);
-
         }
 
         void InstanceToJsonBase(jsonxx::Object& ret)
@@ -986,7 +985,6 @@ namespace Editor
             ret << "height" << mData.field_C_bottom_right.field_2_y;
 
             ret << "object_structures_type" << Name();
-
         }
 
         jsonxx::Object InstanceToJson(TypesCollection& types)
@@ -996,12 +994,10 @@ namespace Editor
             InstanceToJsonBase(ret);
 
             jsonxx::Object properties;
-
             WriteEnumValue(types, properties, mData.field_10_type);
             WriteEnumValue(types, properties, mData.field_12_edge_type);
             WriteBasicType(mData.field_14_id, properties);
             WriteEnumValue(types, properties, mData.field_16_scale);
-
             ret << "properties" << properties;
 
             return ret;
