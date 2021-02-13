@@ -906,6 +906,31 @@ public:
         properties << PropName(&field) << field;
     }
 
+    template<class T>
+    void InstanceFromJsonBase(T& data, jsonxx::Object& obj)
+    {
+        mDescription = obj.get<std::string>("name");
+
+        data.field_8_top_left.field_0_x = obj.get<jsonxx::Number>("xpos");
+        data.field_8_top_left.field_2_y = obj.get<jsonxx::Number>("ypos");
+        data.field_C_bottom_right.field_0_x = obj.get<jsonxx::Number>("width");
+        data.field_C_bottom_right.field_2_y = obj.get<jsonxx::Number>("height");
+    }
+
+    template<class T>
+    void InstanceToJsonBase(T& data,jsonxx::Object& ret)
+    {
+        ret << "name" << mDescription;
+
+        ret << "xpos" << static_cast<int>(data.field_8_top_left.field_0_x);
+        ret << "ypos" << static_cast<int>(data.field_8_top_left.field_2_y);
+        ret << "width" << static_cast<int>(data.field_C_bottom_right.field_0_x);
+        ret << "height" << static_cast<int>(data.field_C_bottom_right.field_2_y);
+
+        ret << "object_structures_type" << Name();
+    }
+
+
 private:
     struct PropertyInfo
     {
@@ -953,19 +978,9 @@ namespace Editor
             ADD_PROP("Scale", mData.field_16_scale);
         }
 
-        void InstanceFromJsonBase(jsonxx::Object& obj)
-        {
-            mDescription = obj.get<std::string>("name");
-            
-            mData.field_8_top_left.field_0_x = obj.get<jsonxx::Number>("xpos");
-            mData.field_8_top_left.field_2_y = obj.get<jsonxx::Number>("ypos");
-            mData.field_C_bottom_right.field_0_x = obj.get<jsonxx::Number>("width");
-            mData.field_C_bottom_right.field_2_y = obj.get<jsonxx::Number>("height");
-        }
-
         void InstanceFromJson(TypesCollection& types, jsonxx::Object& obj)
         {
-            InstanceFromJsonBase(obj);
+            InstanceFromJsonBase(mData, obj);
 
             jsonxx::Object properties = obj.get<jsonxx::Object>("properties");
             
@@ -975,23 +990,11 @@ namespace Editor
             ReadEnumValue(types, mData.field_16_scale, properties);
         }
 
-        void InstanceToJsonBase(jsonxx::Object& ret)
-        {
-            ret << "name" << mDescription;
-
-            ret << "xpos" << mData.field_8_top_left.field_0_x;
-            ret << "ypos" << mData.field_8_top_left.field_2_y;
-            ret << "width" << mData.field_C_bottom_right.field_0_x;
-            ret << "height" << mData.field_C_bottom_right.field_2_y;
-
-            ret << "object_structures_type" << Name();
-        }
-
         jsonxx::Object InstanceToJson(TypesCollection& types)
         {
             jsonxx::Object ret;
 
-            InstanceToJsonBase(ret);
+            InstanceToJsonBase(mData, ret);
 
             jsonxx::Object properties;
             WriteEnumValue(types, properties, mData.field_10_type);
@@ -1013,11 +1016,15 @@ namespace Editor
 int main(int argc, char* argv[])
 {
     TypesCollection globalTypes;
+
     Editor::Path_Hoist eph(globalTypes);
     auto obj = eph.InstanceToJson(globalTypes);
+
     auto v = obj.json();
     LOG_INFO(v);
-    eph.InstanceFromJson(globalTypes, obj);
+
+    Editor::Path_Hoist eph2(globalTypes);
+    eph2.InstanceFromJson(globalTypes, obj);
 
 
     // Create "fixed" structure data
