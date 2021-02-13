@@ -36,7 +36,7 @@ target_compile_features(alive_api
     PRIVATE cxx_auto_type
     PRIVATE cxx_variadic_templates)
 target_compile_definitions(alive_api PRIVATE "_CRT_SECURE_NO_WARNINGS")
-target_link_libraries(alive_api AliveLibAE AliveLibAO)
+target_link_libraries(alive_api jsonxx AliveLibAE AliveLibAO)
 
 if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
     if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
