@@ -687,6 +687,8 @@ enum AbeResources
 {
     eAbeBSic = 0,
     eAbeBSic1 = 1,
+
+    eAbeWell = 15,
 };
 
 EXPORT int CC XGrid_Index_To_XPos_4498F0(FP scale, int xGridIndex)
@@ -767,6 +769,19 @@ Abe* Abe::ctor_44AD10(int /*frameTableOffset*/, int /*r*/, int /*g*/, int /*b*/)
         ResourceManager::LoadResourceFile_49C170("ABEKNBK.BAN", nullptr);
         ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeknbkResID, TRUE, FALSE);
     }
+
+    // OG BUG FIX: Speed runners will sometimes go through the floor to land in a well in a camera that didn't have its objects loaded yet.
+    // When falling into a well the abe well entering animation isn't loaded if there wasn't a well in the current 4 cameras. As such the animation is set to
+    // junk memory and sometimes you can get stuck because the frame delay in the random memory is some stupidly high value, also unsurprisingly this
+    // memory corruption can lead to a crash later on. I think this gets freed by the base class OK.
+    const auto& wellRec = AnimRec(AnimId::Abe_Well);
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, wellRec.mResourceId, TRUE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170(wellRec.mBanName, nullptr);
+        ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, wellRec.mResourceId, TRUE, FALSE);
+    }
+    field_10_resources_array.SetAt(AbeResources::eAbeWell, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, wellRec.mResourceId, FALSE, FALSE));
+
 
     ResourceManager::LoadResourceFile_49C170("ABENOELM.BND", nullptr);
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbefallResID);
