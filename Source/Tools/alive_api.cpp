@@ -656,7 +656,8 @@ public:
     }
 
     virtual std::type_index TypeIndex() const = 0;
-
+    virtual bool IsBasicType() const = 0;
+    virtual void ToJson(jsonxx::Object& obj) const = 0;
 private:
     std::string mName;
 };
@@ -674,6 +675,21 @@ public:
     std::type_index TypeIndex() const override
     {
         return mTypeIndex;
+    }
+
+    bool IsBasicType() const override
+    {
+        return true;
+    }
+
+    void ToJson(jsonxx::Object& obj) const override
+    {
+        jsonxx::Object ret;
+
+        ret << "min_value" << mMinVal;
+        ret << "max_value" << mMaxVal;
+
+        obj << Name() << ret;
     }
 
 private:
@@ -726,6 +742,21 @@ public:
         abort();
     }
 
+    bool IsBasicType() const override
+    {
+        return false;
+    }
+
+    void ToJson(jsonxx::Object& obj) const override
+    {
+        jsonxx::Array enumVals;
+        for (const auto& [key, value] : mMapping)
+        {
+            enumVals << value;
+        }
+        obj << Name() << enumVals;
+    }
+
 private:
     std::map<T, std::string> mMapping;
     std::type_index mTypeIndex;
@@ -737,6 +768,37 @@ public:
     TypesCollection()
     {
         AddBasicType<BYTE>("Byte", 0, 255);
+        AddBasicType<short>("UInt16", 0, 65535);
+    }
+
+    jsonxx::Object EnumsToJson() const
+    {
+        jsonxx::Object ret;
+        for (const auto& basicType : mTypes)
+        {
+            if (!basicType->IsBasicType())
+            {
+                basicType->ToJson(ret);
+            }
+        }
+        jsonxx::Object t;
+        t << "object_structure_property_enums" << ret;
+        return t;
+    }
+
+    jsonxx::Object BasicTypesToJson() const
+    {
+        jsonxx::Object ret;
+        for (const auto& basicType : mTypes)
+        {
+            if (basicType->IsBasicType())
+            {
+                basicType->ToJson(ret);
+            }
+        }
+        jsonxx::Object t;
+        t << "object_structure_property_basic_types" << ret;
+        return t;
     }
 
     std::string TypeName(std::type_index typeIndex) const
@@ -857,6 +919,16 @@ public:
     void AddProperty(const std::string& name, const std::string& typeName, void* key)
     {
         mInfo[key] = { name, typeName };
+    }
+
+    jsonxx::Object PropertiesToJson() const
+    {
+        jsonxx::Object ret;
+        for (const auto& [key, value] : mInfo)
+        {
+            ret << value.mName << value.mTypeName;
+        }
+        return ret;
     }
 
     std::string PropName(void* key) const
@@ -990,6 +1062,14 @@ namespace Editor
             ReadEnumValue(types, mData.field_16_scale, properties);
         }
 
+        jsonxx::Object StructureToJson()
+        {
+            jsonxx::Object ret;
+            ret << "name" << Name();
+            ret << "enum_and_basic_type_properties" << PropertiesToJson();
+            return ret;
+        }
+
         jsonxx::Object InstanceToJson(TypesCollection& types)
         {
             jsonxx::Object ret;
@@ -1006,8 +1086,6 @@ namespace Editor
             return ret;
         }
 
-
-
     private:
         ::Path_Hoist mData = {};
     };
@@ -1022,6 +1100,18 @@ int main(int argc, char* argv[])
 
     auto v = obj.json();
     LOG_INFO(v);
+
+    auto obj2 = eph.StructureToJson();
+    auto v2 = obj2.json();
+    LOG_INFO(v2);
+
+    auto obj3 = globalTypes.BasicTypesToJson();
+    auto v3 = obj3.json();
+    LOG_INFO(v3);
+
+    auto obj4 = globalTypes.EnumsToJson();
+    auto v4 = obj4.json();
+    LOG_INFO(v4);
 
     Editor::Path_Hoist eph2(globalTypes);
     eph2.InstanceFromJson(globalTypes, obj);
