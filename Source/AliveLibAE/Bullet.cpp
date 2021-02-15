@@ -12,7 +12,7 @@
 #include "Particle.hpp"
 #include "ScreenManager.hpp"
 
-Bullet* Bullet::ctor_414540(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, int a7, FP scale, __int16 a9)
+Bullet* Bullet::ctor_414540(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, int unused, FP scale, __int16 numberOfBullets)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x54446C);
@@ -24,9 +24,9 @@ Bullet* Bullet::ctor_414540(BaseAliveGameObject* pParent, BulletType type, FP xp
     field_40_pParent = pParent;
     field_38_level = gMap_5C3030.field_0_current_level;
     field_3C_scale = scale;
-    field_34 = a7;
-    field_44 = a9;
-    field_30 = xDist;
+    field_34_unused = unused;
+    field_44_number_of_bullets = numberOfBullets;
+    field_30_x_distance = xDist;
     field_22_unused = 0;
     return this;
 }
@@ -46,7 +46,7 @@ bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
     Path_TLV* pZCover = nullptr;
     while (1)
     {
-        // Go to the next entry (or first if first call)
+        // Go to the next entry (or first if first call).
         pZCover = sPath_dword_BB47C0->TLV_Get_At_4DB290(
             pZCover,
             xpos,
@@ -55,16 +55,16 @@ bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
             ypos
         );
 
-        // No more TLVs? Then no z cover
+        // No more TLVs? Then no Z Cover.
         if (!pZCover)
         {
             break;
         }
 
-        // Is it a zcover?
+        // Is it a Z Cover?
         if (pZCover->field_4_type == TlvTypes::ZSligCover_50)
         {
-            // Within zcover?
+            // Within Z Cover?
             if (objRect.x >= pZCover->field_8_top_left.field_0_x &&
                 objRect.x <= pZCover->field_C_bottom_right.field_0_x &&
                 objRect.y >= pZCover->field_8_top_left.field_2_y &&
@@ -184,7 +184,7 @@ void Bullet::vUpdate_413560()
         const FP randomHeight = FP_FromInteger(Math_RandomRange_496AB0(1, 5)) * field_3C_scale;
 
         PSX_RECT shootRect = {};
-        if (field_30 > FP_FromInteger(0))
+        if (field_30_x_distance > FP_FromInteger(0))
         {
             shootRect.x = FP_GetExponent(field_28_xpos);
             shootRect.w = FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + FP_FromInteger(640));
@@ -212,7 +212,7 @@ void Bullet::vUpdate_413560()
         if (sCollisions_DArray_5C1128->Raycast_417A60(
             field_28_xpos,
             field_2C_ypos - (FP_FromInteger(10) * field_3C_scale),
-            field_30 + field_28_xpos,
+            field_30_x_distance + field_28_xpos,
             field_2C_ypos - (FP_FromInteger(10) * field_3C_scale),
             &field_24_pLine,
             &hitX,
@@ -230,7 +230,7 @@ void Bullet::vUpdate_413560()
                             randomW = FP_GetExponent(FP_FromInteger(randomW) + (FP_FromInteger(14) * field_3C_scale));
                         }
 
-                        if (field_30 <= FP_FromInteger(0))
+                        if (field_30_x_distance <= FP_FromInteger(0))
                         {
                             auto pSpark = ae_new<Spark>();
                             if (pSpark)
@@ -279,7 +279,7 @@ void Bullet::vUpdate_413560()
                 }
             }
 
-            if (field_30 <= FP_FromInteger(0))
+            if (field_30_x_distance <= FP_FromInteger(0))
             {
                 auto pSpark = ae_new<Spark>();
                 if (pSpark)
@@ -321,7 +321,7 @@ void Bullet::vUpdate_413560()
                     randomW = FP_GetExponent(FP_FromInteger(randomW) + (FP_FromInteger(14) * field_3C_scale));
                 }
 
-                if (field_30 <= FP_FromInteger(0))
+                if (field_30_x_distance <= FP_FromInteger(0))
                 {
                     auto pSpark = ae_new<Spark>();
                     if (pSpark)
@@ -425,16 +425,16 @@ void Bullet::vUpdate_413560()
     case BulletType::ZBullet_3:
     {
         FP rectXPos = {};
-        // TODO: Check field_44 << 20 is FP_FromInt * 16
+        // TODO: Check field_44_number_of_bullets << 20 is FP_FromInt * 16.
         if (field_28_xpos >= sControlledCharacter_5C1B8C->field_B8_xpos)
         {
             const FP doubleVelX = (sControlledCharacter_5C1B8C->field_C4_velx * FP_FromInteger(2));
-            rectXPos = (FP_FromInteger(field_44 * 16)) + sControlledCharacter_5C1B8C->field_B8_xpos - doubleVelX;
+            rectXPos = (FP_FromInteger(field_44_number_of_bullets * 16)) + sControlledCharacter_5C1B8C->field_B8_xpos - doubleVelX;
         }
         else
         {
             const FP doubleVelX = (sControlledCharacter_5C1B8C->field_C4_velx * FP_FromInteger(2));
-            rectXPos = sControlledCharacter_5C1B8C->field_B8_xpos - doubleVelX - (FP_FromInteger(field_44 * 16));
+            rectXPos = sControlledCharacter_5C1B8C->field_B8_xpos - doubleVelX - (FP_FromInteger(field_44_number_of_bullets * 16));
         }
 
         PSX_RECT rect = {};
@@ -479,9 +479,9 @@ void Bullet::vUpdate_413560()
     }
 }
 
-void Bullet::PlayBulletSounds(short vol)
+void Bullet::PlayBulletSounds(short volume)
 {
-    SFX_Play_46FBA0(SoundEffect::AirStream_23, vol, 2000);
-    SFX_Play_46FBA0(SoundEffect::MeatBounce_36, vol, Math_RandomRange_496AB0(300, 700));
-    SFX_Play_46FBA0(SoundEffect::KillEffect_64, vol, Math_RandomRange_496AB0(900, 1400));
+    SFX_Play_46FBA0(SoundEffect::AirStream_23, volume, 2000);
+    SFX_Play_46FBA0(SoundEffect::MeatBounce_36, volume, Math_RandomRange_496AB0(300, 700));
+    SFX_Play_46FBA0(SoundEffect::KillEffect_64, volume, Math_RandomRange_496AB0(900, 1400));
 }

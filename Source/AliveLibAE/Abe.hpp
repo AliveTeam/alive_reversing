@@ -356,7 +356,7 @@ struct Abe_SaveState
     DWORD possesed_object_id;
     DWORD throwabe_obj_id;
     DWORD pull_ring_rope_id;
-    DWORD slapable_or_pickup_id;
+    DWORD slappable_or_pickup_id;
     DWORD wheel_id;
     DWORD invisible_timer;
     WORD field_A0_unused;
@@ -621,7 +621,7 @@ public:
     EXPORT void GiveControlBackToMe_44BA10();
     EXPORT PullRingRope* GetPullRope_44D120();
     EXPORT void IntoPortalStates_451990();
-    EXPORT void Calc_Well_Velocity_45C530(short x1, short y1, short x2, short y2);
+    EXPORT void Calc_Well_Velocity_45C530(short xPosSource, short yPosSource, short XPosDest, short yPosDest);
     EXPORT void FollowLift_45A500();
 
     EXPORT short MoveLiftUpOrDown_45A7E0(FP yVelocity);
@@ -649,7 +649,7 @@ public:
     int field_154_possessed_object_id;
     int field_158_throwable_id;
     int field_15C_pull_rope_id;
-    int field_160_slapable_or_pick_item_id;
+    int field_160_slappable_or_pick_item_id;
     int field_164_wheel_id;
     int field_168_ring_pulse_timer;
     __int16 field_16C_bHaveShrykull;

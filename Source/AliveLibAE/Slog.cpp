@@ -3434,7 +3434,7 @@ __int16 Slog::vTakeDamage_4C4B80(BaseGameObject* pFrom)
         {
         case BulletType::eSligPossessedOrUnderGlukkonCommand_0:
         case BulletType::eNormalBullet_2:
-            if (pBullet->field_30 <= FP_FromInteger(0))
+            if (pBullet->field_30_x_distance <= FP_FromInteger(0))
             {
                 auto pBlood = ae_new<Blood>();
                 if (pBlood)

@@ -29,7 +29,7 @@ private:
     BYTE** field_2C_ppRes;
     int field_30_padding;
     int field_34_padding;
-    int field_38_param_1;
+    int field_38_unused;
     int field_3C_unused;
     int field_40_padding;
     char field_44_cd_loc_min;

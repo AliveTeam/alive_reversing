@@ -457,7 +457,7 @@ EXPORT signed __int16 Greeter::vTakeDamage_447C20(BaseGameObject* pFrom)
     switch (pFrom->field_4_typeId)
     {
     case Types::eBullet_15:
-        if (static_cast<Bullet*>(pFrom)->field_30 <= FP_FromInteger(0))
+        if (static_cast<Bullet*>(pFrom)->field_30_x_distance <= FP_FromInteger(0))
         {
             field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
         }

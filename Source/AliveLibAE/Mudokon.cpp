@@ -1400,7 +1400,7 @@ __int16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
                 pBloodFromShot->ctor_40F0B0(
                     field_B8_xpos,
                     field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale),
-                    pBullet->field_30 <= FP_FromInteger(0) ? FP_FromInteger(-24) : FP_FromInteger(24),
+                    pBullet->field_30_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-24) : FP_FromInteger(24),
                     FP_FromInteger(0),
                     field_CC_sprite_scale,
                     50);
