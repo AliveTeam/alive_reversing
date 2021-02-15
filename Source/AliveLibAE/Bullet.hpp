@@ -22,7 +22,7 @@ enum class BulletType : __int16
 class Bullet : public BaseGameObject
 {
 public:
-    EXPORT Bullet* ctor_414540(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, int a7, FP scale, __int16 a9);
+    EXPORT Bullet* ctor_414540(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, int unused, FP scale, __int16 numberOfBullets);
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
     virtual void VUpdate() override;
@@ -36,7 +36,7 @@ private:
 
     EXPORT void vUpdate_413560();
 
-    void PlayBulletSounds(short vol);
+    void PlayBulletSounds(short volume);
 public:
     BulletType field_20_type;
 private:
@@ -46,14 +46,14 @@ private:
 public:
     FP field_2C_ypos;
 public:
-    FP field_30;
+    FP field_30_x_distance;
 private:
-    int field_34;
+    int field_34_unused;
     LevelIds field_38_level;
     __int16 field_3A_path;
     FP field_3C_scale;
     BaseAliveGameObject* field_40_pParent;
-    __int16 field_44;
-    __int16 field_46;
+    __int16 field_44_number_of_bullets;
+    __int16 field_46_padding;
 };
 ALIVE_ASSERT_SIZEOF(Bullet, 0x48);

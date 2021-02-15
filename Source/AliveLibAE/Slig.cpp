@@ -7049,18 +7049,18 @@ __int16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
             if (pBlood1)
             {
                 const FP yOff = FP_FromInteger(Math_NextRandom() % 16) - FP_FromInteger(8);
-                const FP xOff = ((pBullet->field_30 <= FP_FromInteger(0) ? FP_FromInteger(-1) : FP_FromInteger(1)) * FP_FromInteger(Math_NextRandom() & 15)) + FP_FromInteger(16);
+                const FP xOff = ((pBullet->field_30_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-1) : FP_FromInteger(1)) * FP_FromInteger(Math_NextRandom() & 15)) + FP_FromInteger(16);
                 const FP yPos = field_BC_ypos - (FP_FromInteger(25) * field_CC_sprite_scale);
-                const FP xPos = field_CC_sprite_scale * (pBullet->field_30 <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6));
+                const FP xPos = field_CC_sprite_scale * (pBullet->field_30_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6));
                 pBlood1->ctor_40F0B0(xPos + field_B8_xpos, yPos, xOff, yOff, field_CC_sprite_scale, 12);
             }
 
             auto pBlood2 = ae_new<Blood>();
             if (pBlood2)
             {
-                const FP xOff = pBullet->field_30 <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6);
+                const FP xOff = pBullet->field_30_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6);
                 const FP yPos = field_BC_ypos - (FP_FromInteger(25) * field_CC_sprite_scale);
-                const FP xPos = field_CC_sprite_scale * (pBullet->field_30 <= FP_FromInteger(0) ? FP_FromInteger(-12) : FP_FromInteger(12));
+                const FP xPos = field_CC_sprite_scale * (pBullet->field_30_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-12) : FP_FromInteger(12));
                 pBlood2->ctor_40F0B0(xPos + field_B8_xpos, yPos, xOff, FP_FromInteger(0), field_CC_sprite_scale, 8);
             }
             break;
@@ -7128,7 +7128,7 @@ __int16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
                 field_150_explode_timer = sGnFrame_5C1B84 + 20;
                 vShot_4B2EA0();
                 field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
-                if (static_cast<Bullet*>(pFrom)->field_30 < FP_FromInteger(0))
+                if (static_cast<Bullet*>(pFrom)->field_30_x_distance < FP_FromInteger(0))
                 {
                     field_C4_velx = FP_FromDouble(-0.001);
                     field_10C_health = FP_FromInteger(0);
