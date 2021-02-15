@@ -769,6 +769,26 @@ public:
     {
         AddBasicType<BYTE>("Byte", 0, 255);
         AddBasicType<short>("UInt16", 0, 65535);
+
+        AddEnum<::Path_Hoist::Type>("Enum_HoistType",
+            {
+                {::Path_Hoist::Type::eNextEdge, "next_edge"},
+                {::Path_Hoist::Type::eNextFloor, "next_floor"},
+                {::Path_Hoist::Type::eOffScreen, "off_screen"},
+            });
+
+        AddEnum<::Path_Hoist::EdgeType>("Enum_HoistEdgeType",
+            {
+                {::Path_Hoist::EdgeType::eBoth, "both"},
+                {::Path_Hoist::EdgeType::eLeft, "left"},
+                {::Path_Hoist::EdgeType::eRight, "right"},
+            });
+
+        AddEnum<::Path_Hoist::Scale>("Enum_HoistScale",
+            {
+                {::Path_Hoist::Scale::eFull, "full"},
+                {::Path_Hoist::Scale::eHalf, "half"}
+            });
     }
 
     jsonxx::Object EnumsToJson() const
@@ -903,8 +923,8 @@ private:
 class IMapObject
 {
 public:
-    explicit IMapObject(const std::string& typeName)
-        : mName(typeName)
+    IMapObject(const std::string& typeName, Path_TLV& tlv)
+        : mName(typeName), mTlv(tlv)
     {
 
     }
@@ -1003,6 +1023,36 @@ public:
     }
 
 
+    jsonxx::Object StructureToJson()
+    {
+        jsonxx::Object ret;
+        ret << "name" << Name();
+        ret << "enum_and_basic_type_properties" << PropertiesToJson();
+        return ret;
+    }
+
+    void InstanceFromJson(TypesCollection& types, jsonxx::Object& obj)
+    {
+        InstanceFromJsonBase(mTlv, obj);
+        jsonxx::Object properties = obj.get<jsonxx::Object>("properties");
+        PropertiesFromJson(types, properties);
+    }
+
+    virtual void PropertiesFromJson(TypesCollection& types, jsonxx::Object& properties) = 0;
+
+    jsonxx::Object InstanceToJson(TypesCollection& types)
+    {
+        jsonxx::Object ret;
+        InstanceToJsonBase(mTlv, ret);
+
+        jsonxx::Object properties;
+        PropertiesToJson(types, properties);
+        ret << "properties" << properties;
+        return ret;
+    }
+
+    virtual void PropertiesToJson(TypesCollection& types, jsonxx::Object& properties) = 0;
+
 private:
     struct PropertyInfo
     {
@@ -1011,79 +1061,46 @@ private:
     };
     std::map<void*, PropertyInfo> mInfo;
     std::string mName;
+    Path_TLV& mTlv;
 protected:
     std::string mDescription;
 };
 
-#define ADD_PROP(name, type) AddProperty(name, globalTypes.TypeName(typeid(type)), &type);
+#define ADD_PROP(name, type) AddProperty(name, globalTypes.TypeName(typeid(type)), &type)
+
+#define WRITE_BASIC(field) WriteBasicType(field, properties)
+#define WRITE_ENUMS(field) WriteEnumValue(types, properties, field)
+
+#define READ_BASIC(field) ReadBasicType(field, properties)
+#define READ_ENUMS(field) ReadEnumValue(types, field, properties)
 
 namespace Editor
 {
     class Path_Hoist : public IMapObject
     {
     public:
-        Path_Hoist(TypesCollection& globalTypes) : IMapObject("Hoist")
+        Path_Hoist(TypesCollection& globalTypes) : IMapObject("Hoist", mData)
         {
-            globalTypes.AddEnum<::Path_Hoist::Type>("Enum_HoistType",
-                {
-                    {::Path_Hoist::Type::eNextEdge, "next_edge"},
-                    {::Path_Hoist::Type::eNextFloor, "next_floor"},
-                    {::Path_Hoist::Type::eOffScreen, "off_screen"},
-                });
-
-            globalTypes.AddEnum<::Path_Hoist::EdgeType>("Enum_HoistEdgeType",
-                {
-                    {::Path_Hoist::EdgeType::eBoth, "both"},
-                    {::Path_Hoist::EdgeType::eLeft, "left"},
-                    {::Path_Hoist::EdgeType::eRight, "right"},
-                });
-
-            globalTypes.AddEnum<::Path_Hoist::Scale>("Enum_HoistScale", 
-                {
-                    {::Path_Hoist::Scale::eFull, "full"},
-                    {::Path_Hoist::Scale::eHalf, "half"}
-                });
-
             ADD_PROP("HoistType", mData.field_10_type);
             ADD_PROP("HoistEdgeType", mData.field_12_edge_type);
             ADD_PROP("Id", mData.field_14_id);
             ADD_PROP("Scale", mData.field_16_scale);
         }
 
-        void InstanceFromJson(TypesCollection& types, jsonxx::Object& obj)
+        void PropertiesFromJson(TypesCollection& types, jsonxx::Object& properties) override
         {
-            InstanceFromJsonBase(mData, obj);
-
-            jsonxx::Object properties = obj.get<jsonxx::Object>("properties");
-            
-            ReadEnumValue(types, mData.field_10_type, properties);
-            ReadEnumValue(types, mData.field_12_edge_type, properties);
-            ReadBasicType(mData.field_14_id, properties);
-            ReadEnumValue(types, mData.field_16_scale, properties);
+            READ_ENUMS(mData.field_10_type);
+            READ_ENUMS(mData.field_12_edge_type);
+            READ_BASIC(mData.field_14_id);
+            READ_ENUMS(mData.field_16_scale);
         }
 
-        jsonxx::Object StructureToJson()
+        void PropertiesToJson(TypesCollection& types, jsonxx::Object& properties) override
         {
-            jsonxx::Object ret;
-            ret << "name" << Name();
-            ret << "enum_and_basic_type_properties" << PropertiesToJson();
-            return ret;
-        }
-
-        jsonxx::Object InstanceToJson(TypesCollection& types)
-        {
-            jsonxx::Object ret;
-
-            InstanceToJsonBase(mData, ret);
-
-            jsonxx::Object properties;
-            WriteEnumValue(types, properties, mData.field_10_type);
-            WriteEnumValue(types, properties, mData.field_12_edge_type);
-            WriteBasicType(mData.field_14_id, properties);
-            WriteEnumValue(types, properties, mData.field_16_scale);
-            ret << "properties" << properties;
-
-            return ret;
+            WRITE_ENUMS(mData.field_10_type);
+            WRITE_ENUMS(mData.field_12_edge_type);
+            WRITE_BASIC(mData.field_14_id);
+            WRITE_ENUMS(mData.field_16_scale);
         }
 
     private:
@@ -1097,9 +1114,13 @@ int main(int argc, char* argv[])
 
     Editor::Path_Hoist eph(globalTypes);
     auto obj = eph.InstanceToJson(globalTypes);
-
     auto v = obj.json();
     LOG_INFO(v);
+
+    Editor::Path_Hoist eph2(globalTypes);
+    eph2.InstanceFromJson(globalTypes, obj);
+
+
 
     auto obj2 = eph.StructureToJson();
     auto v2 = obj2.json();
@@ -1113,10 +1134,9 @@ int main(int argc, char* argv[])
     auto v4 = obj4.json();
     LOG_INFO(v4);
 
-    Editor::Path_Hoist eph2(globalTypes);
-    eph2.InstanceFromJson(globalTypes, obj);
+    // TODO: Upgrading
 
-
+  
     // Create "fixed" structure data
     StructuresAndTypes structuresAndTypes;
     structuresAndTypes.CreateCurrentVersion();
