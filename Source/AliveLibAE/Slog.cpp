@@ -149,7 +149,7 @@ Slog* Slog::ctor_4C4540(FP xpos, FP ypos, FP scale, __int16 bListenToSligs, __in
 
     field_160_flags.Clear(Flags_160::eBit2_ListenToSligs);
     field_160_flags.Clear(Flags_160::eBit7_Asleep);
-    field_160_flags.Clear(Flags_160::eBit9_Unused);
+    field_160_flags.Clear(Flags_160::eBit9_MovedOffScreen);
 
     field_160_flags.Set(Flags_160::eBit2_ListenToSligs, bListenToSligs & 1);
 
@@ -186,7 +186,7 @@ Slog* Slog::ctor_4C42E0(Path_Slog* pTlv, int tlvInfo)
     
     Init_4C46A0();
 
-    field_160_flags.Clear(Flags_160::eBit9_Unused);
+    field_160_flags.Clear(Flags_160::eBit9_MovedOffScreen);
     field_160_flags.Set(Flags_160::eBit2_ListenToSligs);
     field_160_flags.Set(Flags_160::eBit7_Asleep, pTlv->field_14_asleep & 1);
     field_160_flags.Clear(Flags_160::eBit5_CommandedToAttack);
@@ -379,8 +379,8 @@ int CC Slog::CreateFromSaveState_4C54F0(const BYTE* pBuffer)
 
     pSlog->field_11C_biting_target = pState->field_74_flags.Get(Slog_State::eBit1_BitingTarget);
     // bit2 never read
-    pSlog->field_160_flags.Set(Flags_160::eBit7_Asleep, pState->field_74_flags.Get(Slog_State::eBit3_Asleep));
-    pSlog->field_160_flags.Set(Flags_160::eBit8_MovedOffScreen, pState->field_74_flags.Get(Slog_State::eBit4_MovedOffScreen));
+    pSlog->field_160_flags.Set(Flags_160::eBit8_Asleep, pState->field_74_flags.Get(Slog_State::eBit3_Asleep));
+    pSlog->field_160_flags.Set(Flags_160::eBit9_MovedOffScreen, pState->field_74_flags.Get(Slog_State::eBit4_MovedOffScreen));
     pSlog->field_160_flags.Set(Flags_160::eBit1_StopRunning, pState->field_74_flags.Get(Slog_State::eBit5_StopRunning));
     pSlog->field_160_flags.Set(Flags_160::eBit3_Shot, pState->field_74_flags.Get(Slog_State::eBit6_Shot));
     pSlog->field_160_flags.Set(Flags_160::eBit4_Hungry, pState->field_74_flags.Get(Slog_State::eBit7_Hungry));
@@ -498,7 +498,7 @@ int Slog::vGetSaveState_4C78F0(Slog_State* pState)
     pState->field_74_flags.Set(Slog_State::eBit1_BitingTarget, field_11C_biting_target & 1);
     pState->field_74_flags.Set(Slog_State::eBit2_Possessed, sControlledCharacter_5C1B8C == this); // Lol can't be possessed anyway so ??
     pState->field_74_flags.Set(Slog_State::eBit3_Asleep, field_160_flags.Get(Flags_160::eBit7_Asleep));
-    pState->field_74_flags.Set(Slog_State::eBit4_MovedOffScreen, field_160_flags.Get(Flags_160::eBit8_MovedOffScreen));
+    pState->field_74_flags.Set(Slog_State::eBit4_MovedOffScreen, field_160_flags.Get(Flags_160::eBit8_Asleep));
     pState->field_74_flags.Set(Slog_State::eBit5_StopRunning, field_160_flags.Get(Flags_160::eBit1_StopRunning));
     pState->field_74_flags.Set(Slog_State::eBit6_Shot, field_160_flags.Get(Flags_160::eBit3_Shot));
     pState->field_74_flags.Set(Slog_State::eBit7_Hungry, field_160_flags.Get(Flags_160::eBit4_Hungry));
@@ -618,9 +618,9 @@ void Slog::M_Walk_1_4C60C0()
             {
                 Sfx_4C7D30(SlogSound::SlowStep_18);
 
-                if (!field_160_flags.Get(Flags_160::eBit8_MovedOffScreen))
+                if (!field_160_flags.Get(Flags_160::eBit8_Asleep))
                 {
-                    field_160_flags.Set(Flags_160::eBit8_MovedOffScreen);
+                    field_160_flags.Set(Flags_160::eBit8_Asleep);
                     MapFollowMe_408D10(FALSE);
                 }
 
@@ -632,7 +632,7 @@ void Slog::M_Walk_1_4C60C0()
             }
             else
             {
-                field_160_flags.Clear(Flags_160::eBit8_MovedOffScreen);
+                field_160_flags.Clear(Flags_160::eBit8_Asleep);
             }
         }
     }
@@ -691,9 +691,9 @@ void Slog::M_Run_2_4C6340()
             {
                 Sfx_4C7D30(SlogSound::FastStep_17);
 
-                if (!field_160_flags.Get(Flags_160::eBit8_MovedOffScreen))
+                if (!field_160_flags.Get(Flags_160::eBit8_Asleep))
                 {
-                    field_160_flags.Set(Flags_160::eBit8_MovedOffScreen);
+                    field_160_flags.Set(Flags_160::eBit8_Asleep);
                     MapFollowMe_408D10(FALSE);
                 }
 
@@ -715,7 +715,7 @@ void Slog::M_Run_2_4C6340()
             }
             else
             {
-                field_160_flags.Clear(Flags_160::eBit8_MovedOffScreen);
+                field_160_flags.Clear(Flags_160::eBit8_Asleep);
             }
         }
     }
@@ -2628,7 +2628,7 @@ __int16 Slog::AI_ChasingAbe_State_2_Thinking(BaseAliveGameObject* pTarget)
             if (vIsFacingMe_4254A0(pTarget))
             {
                 if (!CollisionCheck_4C5480(field_CC_sprite_scale * FP_FromInteger(20), pTarget->field_B8_xpos - field_B8_xpos) &&
-                    !field_160_flags.Get(Flags_160::eBit9_Unused))
+                    !field_160_flags.Get(Flags_160::eBit9_MovedOffScreen))
                 {
                     if (pTarget->field_10C_health <= FP_FromInteger(0))
                     {
