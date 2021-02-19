@@ -909,7 +909,7 @@ union intOrBoolPointer
 
 struct IniCustomSaveEntry
 {
-    const char * name;
+    const char* name;
     intOrBoolPointer data;
     bool isBool;
 };
@@ -1011,7 +1011,7 @@ void NewParseSettingsIni()
             
             if (param.size() == 2)
             {
-                LOG_INFO("Value: " << param[0].c_str() << "is" << param[1].c_str());
+                LOG_INFO("Value: " << param[0].c_str() << " = " << param[1].c_str());
 
                 if (currentCategory == IniCategory::eControl)
                 {
