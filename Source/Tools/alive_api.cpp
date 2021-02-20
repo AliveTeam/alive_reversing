@@ -8,7 +8,7 @@
 #include "../AliveLibAO/HoistRocksEffect.hpp"
 
 #include <iostream>
-#include "magic_enum.hpp"
+//#include "magic_enum.hpp"
 #include "JsonDocument.hpp"
 #include "AETlvs.hpp"
 #include "TypesCollection.hpp"
@@ -235,13 +235,3 @@ const std::map<std::string, AO::TlvTypes> kObjectNameToAoTlv =
     { "Hoist", AO::TlvTypes::Hoist_3 },
 };
 
-
-int main(int argc, char* argv[])
-{
-
-    auto ret = AliveAPI::ExportPathBinaryToJson("Output.json", "C:\\GOG Games\\Abes Exoddus\\MI.LVL", 1);
-
-
-
-    return ret.errorCode;
-}
