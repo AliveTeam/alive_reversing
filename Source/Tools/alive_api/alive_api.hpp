@@ -27,6 +27,7 @@ namespace AliveAPI
 
     struct EnumeratePathsResult : public Result
     {
+        std::string pathBndName;
         int numPaths = 0;
     };
 

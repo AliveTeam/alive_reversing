@@ -36,6 +36,7 @@ namespace AliveAPI
 
     struct PathBND
     {
+        std::string mPathBndName;
         Error mResult = Error::None;
         int mNumPaths = 0;
         std::vector<BYTE> mFileData;
@@ -83,6 +84,7 @@ namespace AliveAPI
                                 const PathBlyRec& pBlyRec = pathRoot->field_0_pBlyArrayPtr[*pathId];
                                 if (pBlyRec.field_0_blyName)
                                 {
+                                    ret.mPathBndName = pathRoot->field_38_bnd_name;
                                     ret.mPathInfo.mHeight = pBlyRec.field_4_pPathData->field_10_height;
                                     ret.mPathInfo.mWidth = pBlyRec.field_4_pPathData->field_E_width;
                                     ret.mPathInfo.mIndexTableOffset = pBlyRec.field_4_pPathData->field_16_object_indextable_offset;
@@ -119,6 +121,7 @@ namespace AliveAPI
                                 const AO::PathBlyRec& pBlyRec = pathRoot->field_0_pBlyArrayPtr[*pathId];
                                 if (pBlyRec.field_0_blyName)
                                 {
+                                    ret.mPathBndName = pathRoot->field_38_bnd_name;
                                     ret.mPathInfo.mHeight = pBlyRec.field_4_pPathData->field_A_bBottom;
                                     ret.mPathInfo.mWidth = pBlyRec.field_4_pPathData->field_6_bRight;
                                     ret.mPathInfo.mIndexTableOffset = pBlyRec.field_4_pPathData->field_18_object_index_table_offset;
@@ -221,6 +224,7 @@ namespace AliveAPI
         PathBND pathBnd = OpenPathBnd(inputLvlFile, nullptr);
         ret.mResult = pathBnd.mResult;
         ret.numPaths = pathBnd.mNumPaths;
+        ret.pathBndName = pathBnd.mPathBndName;
         return ret;
     }
 }
