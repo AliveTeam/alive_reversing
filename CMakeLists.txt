@@ -4,7 +4,7 @@ project(relive VERSION 0.1 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set (CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" "${CMAKE_SOURCE_DIR}/cmake")
+set (CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
 find_program(CMAKE cmake)
 if(NOT CMAKE)
@@ -13,8 +13,8 @@ endif()
 
 add_custom_target(
     UpdateConfigHeader
-    COMMAND "${CMAKE}" -D BUILD_NUMBER=${BUILD_NUMBER} -P ${CMAKE_CURRENT_SOURCE_DIR}/options.cmake
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    COMMAND "${CMAKE}" -D BUILD_NUMBER=${BUILD_NUMBER} -P ${CMAKE_CURRENT_LIST_DIR}/options.cmake
+    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
 )
 
 find_package(SDL2 REQUIRED)
@@ -69,18 +69,18 @@ else()
     file(TO_CMAKE_PATH $ENV{AO_ROOT} AO_PATH)
 endif()
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/3rdParty)
-add_subdirectory(${CMAKE_SOURCE_DIR}/Source/AliveLibCommon)
-add_subdirectory(${CMAKE_SOURCE_DIR}/Source/AliveLibAO)
-add_subdirectory(${CMAKE_SOURCE_DIR}/Source/AliveLibAE)
-add_subdirectory(${CMAKE_SOURCE_DIR}/Source/AliveExe)
-add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Tools)
-add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Tools/alive_api)
-add_subdirectory(${CMAKE_SOURCE_DIR}/assets)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/3rdParty)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveLibCommon)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveLibAO)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveLibAE)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveExe)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/alive_api)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/assets)
 
 if (WIN32)
-    add_subdirectory(${CMAKE_SOURCE_DIR}/Source/AliveDllAE)
-    add_subdirectory(${CMAKE_SOURCE_DIR}/Source/AliveDllAO)
+    add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveDllAE)
+    add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveDllAO)
 endif()
 
 add_dependencies(AliveLibCommon UpdateConfigHeader)
