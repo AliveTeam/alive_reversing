@@ -75,6 +75,7 @@ add_subdirectory(Source/AliveLibAO)
 add_subdirectory(Source/AliveLibAE)
 add_subdirectory(Source/AliveExe)
 add_subdirectory(Source/Tools)
+add_subdirectory(Source/Tools/alive_api)
 add_subdirectory(assets)
 
 if (WIN32)

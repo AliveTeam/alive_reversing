@@ -96,7 +96,7 @@ public:
     };
 
     template<class T>
-    auto AddEnum(const std::string& enumName, const std::vector<EnumPair<T>>& enumItems)
+    EnumType<T>* AddEnum(const std::string& enumName, const std::vector<EnumPair<T>>& enumItems)
     {
         EnumType<T>* ret = nullptr;
         if (!TypeName<T>().empty())
@@ -142,7 +142,7 @@ public:
     }
 
     template<class T>
-    auto AddBasicType(const std::string& typeName, int minVal, int maxVal)
+    BasicType<T>* AddBasicType(const std::string& typeName, int minVal, int maxVal)
     {
         BasicType<T>* ret = nullptr;
         if (!TypeName<T>().empty())
