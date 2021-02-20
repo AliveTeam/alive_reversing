@@ -25,7 +25,16 @@ if (WIN32)
     install(TARGETS vab_tool DESTINATION "${BINPATH}")
 endif()
 
-add_executable(alive_api WIN32 alive_api.cpp)
+add_executable(alive_api WIN32
+    TlvObjectBase.hpp
+    AETlvs.hpp
+    ITypeBase.hpp
+    BasicType.hpp
+    EnumType.hpp
+    alive_api.cpp
+    alive_api.hpp
+    JsonDocument.cpp
+    JsonDocument.hpp)
 
 target_include_directories(alive_api PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
