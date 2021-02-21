@@ -37,7 +37,6 @@ namespace AliveAPI
     {
         std::string mPathBndName;
         Error mResult = Error::None;
-        int mNumPaths = 0;
         std::vector<int> mPaths;
         std::vector<BYTE> mFileData;
         PathInfo mPathInfo;
@@ -67,10 +66,9 @@ namespace AliveAPI
                     {
                         ret.mFileData = ReadLvlFile(lvl, *pRec);
                         ret.mResult = Error::None;
-                        ret.mNumPaths = pathRoot->field_18_num_paths;
                         if (pathId)
                         {
-                            if (*pathId >= 0 && *pathId <= ret.mNumPaths)
+                            if (*pathId >= 0 && *pathId <= pathRoot->field_18_num_paths)
                             {
                                 const PathBlyRec& pBlyRec = pathRoot->field_0_pBlyArrayPtr[*pathId];
                                 if (pBlyRec.field_0_blyName)
@@ -90,7 +88,7 @@ namespace AliveAPI
                         else
                         {
                             // Add all path ids
-                            for (int i = 1; i < ret.mNumPaths; i++)
+                            for (int i = 1; i < pathRoot->field_18_num_paths; i++)
                             {
                                 const PathBlyRec& pBlyRec = pathRoot->field_0_pBlyArrayPtr[i];
                                 if (pBlyRec.field_0_blyName)
@@ -117,10 +115,9 @@ namespace AliveAPI
                     {
                         ret.mFileData = ReadLvlFile(lvl, *pRec);
                         ret.mResult = Error::None;
-                        ret.mNumPaths = pathRoot->field_18_num_paths;
                         if (pathId)
                         {
-                            if (*pathId >= 0 && *pathId <= ret.mNumPaths)
+                            if (*pathId >= 0 && *pathId <= pathRoot->field_18_num_paths)
                             {
                                 const AO::PathBlyRec& pBlyRec = pathRoot->field_0_pBlyArrayPtr[*pathId];
                                 if (pBlyRec.field_0_blyName)
@@ -139,18 +136,18 @@ namespace AliveAPI
                             ret.mResult = Error::PathResourceNotFound;
                             return ret;
                         }
-                        return ret;
-                    }
-                    else
-                    {
-                        // Add all path ids
-                        for (int i = 1; i < ret.mNumPaths; i++)
+                        else
                         {
-                            const AO::PathBlyRec& pBlyRec = pathRoot->field_0_pBlyArrayPtr[i];
-                            if (pBlyRec.field_0_blyName)
+                            // Add all path ids
+                            for (int i = 1; i < pathRoot->field_18_num_paths; i++)
                             {
-                                ret.mPaths.push_back(i);
+                                const AO::PathBlyRec& pBlyRec = pathRoot->field_0_pBlyArrayPtr[i];
+                                if (pBlyRec.field_0_blyName)
+                                {
+                                    ret.mPaths.push_back(i);
+                                }
                             }
+                            return ret;
                         }
                     }
                 }
@@ -282,7 +279,6 @@ namespace AliveAPI
         EnumeratePathsResult ret = {};
         PathBND pathBnd = OpenPathBnd(inputLvlFile, nullptr);
         ret.mResult = pathBnd.mResult;
-        ret.numPaths = pathBnd.mNumPaths;
         ret.paths = pathBnd.mPaths;
         ret.pathBndName = pathBnd.mPathBndName;
         return ret;
