@@ -11,6 +11,7 @@
 //#include "magic_enum.hpp"
 #include "JsonDocument.hpp"
 #include "AETlvs.hpp"
+#include "AOTlvs.hpp"
 #include "TypesCollection.hpp"
 #include <gmock/gmock.h>
 #include <type_traits>
@@ -165,7 +166,7 @@ namespace AliveAPI
         return kApiVersion;
     }
 
-    [[nodiscard]] Result ExportPathBinaryToJson(const std::string& /*jsonOutputFile*/, const std::string& inputLvlFile, int pathResourceId)
+    [[nodiscard]] Result ExportPathBinaryToJson(const std::string& jsonOutputFile, const std::string& inputLvlFile, int pathResourceId)
     {
         TypesCollection globalTypes;
 
@@ -178,7 +179,7 @@ namespace AliveAPI
         const int* indexTable = reinterpret_cast<const int*>(pPathData + pathBnd.mPathInfo.mIndexTableOffset);
         int idx = 0;
 
-        std::set<TlvTypes> usedTypes;
+        std::set<AO::TlvTypes> usedTypes;
 
         for (int x = 0; x < pathBnd.mPathInfo.mWidth; x++)
         {
@@ -203,14 +204,13 @@ namespace AliveAPI
                             break;
                         }
 
-                        usedTypes.insert(static_cast<TlvTypes>(pPathTLV->field_4_type));
+                        usedTypes.insert(static_cast<AO::TlvTypes>(pPathTLV->field_4_type));
                         switch (pPathTLV->field_4_type)
                         {
                         case AO::TlvTypes::Hoist_3:
                         {
-                            AETlvs::Path_Hoist hoist(globalTypes, (Path_TLV*)pPathTLV);
+                            AOTlvs::Path_Hoist hoist(globalTypes, pPathTLV);
                             hoist.InstanceToJson(globalTypes);
-
                         }
                         break;
                         }
@@ -224,10 +224,11 @@ namespace AliveAPI
 
         JsonDocument doc;
         doc.mGame = "AE";
-        //doc.SaveAE(1, pathBnd.mPathInfo, pathBnd.mFileData, "lols.json");
+        doc.SaveAE(pathResourceId, pathBnd.mFileData, pathBnd.mPathInfo, jsonOutputFile);
 
+        //ret.mResult = Error::JsonFileNeedsUpgrading;
 
-        return {};
+        return ret;
     }
 
     [[nodiscard]] Result UpgradePathJson(const std::string& /*jsonFile*/)

@@ -11,26 +11,6 @@ public:
     {
         AddBasicType<BYTE>("Byte", 0, 255);
         AddBasicType<short>("UInt16", 0, 65535);
-
-        AddEnum<::Path_Hoist::Type>("Enum_HoistType",
-            {
-                {::Path_Hoist::Type::eNextEdge, "next_edge"},
-                {::Path_Hoist::Type::eNextFloor, "next_floor"},
-                {::Path_Hoist::Type::eOffScreen, "off_screen"},
-            });
-
-        AddEnum<::Path_Hoist::EdgeType>("Enum_HoistEdgeType",
-            {
-                {::Path_Hoist::EdgeType::eBoth, "both"},
-                {::Path_Hoist::EdgeType::eLeft, "left"},
-                {::Path_Hoist::EdgeType::eRight, "right"},
-            });
-
-        AddEnum<::Path_Hoist::Scale>("Enum_HoistScale",
-            {
-                {::Path_Hoist::Scale::eFull, "full"},
-                {::Path_Hoist::Scale::eHalf, "half"}
-            });
     }
 
     jsonxx::Object EnumsToJson() const

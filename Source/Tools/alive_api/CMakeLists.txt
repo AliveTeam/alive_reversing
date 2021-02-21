@@ -11,6 +11,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(alive_api_src
     TlvObjectBase.hpp
     AETlvs.hpp
+    AOTlvs.hpp
     ITypeBase.hpp
     BasicType.hpp
     EnumType.hpp

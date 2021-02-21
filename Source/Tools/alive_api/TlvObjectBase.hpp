@@ -16,8 +16,8 @@
 class TlvObjectBase
 {
 public:
-    TlvObjectBase(const std::string& typeName, Path_TLV& tlv)
-        : mName(typeName), mTlv(tlv)
+    TlvObjectBase(const std::string& typeName)
+        : mName(typeName)
     {
 
     }
@@ -91,31 +91,6 @@ public:
         properties << PropName(&field) << field;
     }
 
-    template<class T>
-    void InstanceFromJsonBase(T& data, jsonxx::Object& obj)
-    {
-        mDescription = obj.get<std::string>("name");
-
-        data.field_8_top_left.field_0_x = obj.get<jsonxx::Number>("xpos");
-        data.field_8_top_left.field_2_y = obj.get<jsonxx::Number>("ypos");
-        data.field_C_bottom_right.field_0_x = obj.get<jsonxx::Number>("width");
-        data.field_C_bottom_right.field_2_y = obj.get<jsonxx::Number>("height");
-    }
-
-    template<class T>
-    void InstanceToJsonBase(T& data, jsonxx::Object& ret)
-    {
-        ret << "name" << mDescription;
-
-        ret << "xpos" << static_cast<int>(data.field_8_top_left.field_0_x);
-        ret << "ypos" << static_cast<int>(data.field_8_top_left.field_2_y);
-        ret << "width" << static_cast<int>(data.field_C_bottom_right.field_0_x);
-        ret << "height" << static_cast<int>(data.field_C_bottom_right.field_2_y);
-
-        ret << "object_structures_type" << Name();
-    }
-
-
     jsonxx::Object StructureToJson()
     {
         jsonxx::Object ret;
@@ -126,7 +101,7 @@ public:
 
     void InstanceFromJson(TypesCollection& types, jsonxx::Object& obj)
     {
-        InstanceFromJsonBase(mTlv, obj);
+        InstanceFromJsonBase(obj);
         jsonxx::Object properties = obj.get<jsonxx::Object>("properties");
         PropertiesFromJson(types, properties);
     }
@@ -136,7 +111,7 @@ public:
     jsonxx::Object InstanceToJson(TypesCollection& types)
     {
         jsonxx::Object ret;
-        InstanceToJsonBase(mTlv, ret);
+        InstanceToJsonBase(ret);
 
         jsonxx::Object properties;
         PropertiesToJson(types, properties);
@@ -146,6 +121,9 @@ public:
 
     virtual void PropertiesToJson(TypesCollection& types, jsonxx::Object& properties) = 0;
 
+    virtual void InstanceFromJsonBase(jsonxx::Object& obj) = 0;
+    virtual void InstanceToJsonBase(jsonxx::Object& ret) = 0;
+
 private:
     struct PropertyInfo
     {
@@ -154,7 +132,77 @@ private:
     };
     std::map<void*, PropertyInfo> mInfo;
     std::string mName;
-    Path_TLV& mTlv;
 protected:
     std::string mDescription;
+};
+
+class TlvObjectBaseAE : public TlvObjectBase
+{
+public:
+    TlvObjectBaseAE(const std::string& typeName, Path_TLV& tlv)
+        : TlvObjectBase(typeName), mTlv(tlv)
+    {
+
+    }
+
+    void InstanceFromJsonBase(jsonxx::Object& obj) override
+    {
+        mDescription = obj.get<std::string>("name");
+
+        mTlv.field_8_top_left.field_0_x = obj.get<jsonxx::Number>("xpos");
+        mTlv.field_8_top_left.field_2_y = obj.get<jsonxx::Number>("ypos");
+        mTlv.field_C_bottom_right.field_0_x = obj.get<jsonxx::Number>("width");
+        mTlv.field_C_bottom_right.field_2_y = obj.get<jsonxx::Number>("height");
+    }
+
+    void InstanceToJsonBase(jsonxx::Object& ret) override
+    {
+        ret << "name" << mDescription;
+
+        ret << "xpos" << static_cast<int>(mTlv.field_8_top_left.field_0_x);
+        ret << "ypos" << static_cast<int>(mTlv.field_8_top_left.field_2_y);
+        ret << "width" << static_cast<int>(mTlv.field_C_bottom_right.field_0_x);
+        ret << "height" << static_cast<int>(mTlv.field_C_bottom_right.field_2_y);
+
+        ret << "object_structures_type" << Name();
+    }
+
+private:
+    Path_TLV& mTlv;
+};
+
+
+class TlvObjectBaseAO : public TlvObjectBase
+{
+public:
+    TlvObjectBaseAO(const std::string& typeName, AO::Path_TLV& tlv)
+        : TlvObjectBase(typeName), mTlv(tlv)
+    {
+
+    }
+
+    void InstanceFromJsonBase(jsonxx::Object& obj) override
+    {
+        mDescription = obj.get<std::string>("name");
+
+        mTlv.field_10_top_left.field_0_x = obj.get<jsonxx::Number>("xpos");
+        mTlv.field_10_top_left.field_2_y = obj.get<jsonxx::Number>("ypos");
+        mTlv.field_14_bottom_right.field_0_x = obj.get<jsonxx::Number>("width");
+        mTlv.field_14_bottom_right.field_2_y = obj.get<jsonxx::Number>("height");
+    }
+
+    void InstanceToJsonBase(jsonxx::Object& ret) override
+    {
+        ret << "name" << mDescription;
+
+        ret << "xpos" << static_cast<int>(mTlv.field_10_top_left.field_0_x);
+        ret << "ypos" << static_cast<int>(mTlv.field_10_top_left.field_2_y);
+        ret << "width" << static_cast<int>(mTlv.field_14_bottom_right.field_0_x);
+        ret << "height" << static_cast<int>(mTlv.field_14_bottom_right.field_2_y);
+
+        ret << "object_structures_type" << Name();
+    }
+
+private:
+    AO::Path_TLV& mTlv;
 };
