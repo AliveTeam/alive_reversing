@@ -1,6 +1,8 @@
 #pragma once
 
 #include "TypesCollection.hpp"
+#include "../AliveLibAE/Path.hpp"
+#include "../AliveLibAO/Map.hpp"
 #include <string>
 
 #define ADD_PROP(name, type) AddProperty(name, globalTypes.TypeName(typeid(type)), &type)
@@ -168,7 +170,7 @@ public:
     }
 
 private:
-    Path_TLV& mTlv;
+    ::Path_TLV& mTlv;
 };
 
 

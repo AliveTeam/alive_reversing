@@ -89,5 +89,5 @@ public:
 
     }
 
-    void SaveAE(int pathId, const std::vector<BYTE>& pathResource, const PathInfo& info, const std::string& fileName) const;
+    void SaveAO(int pathId, const std::vector<BYTE>& pathResource, const PathInfo& info, const std::string& fileName) const;
 };

@@ -17,6 +17,8 @@ set(alive_api_src
     EnumType.hpp
     alive_api.cpp
     alive_api.hpp
+    TypesCollection.hpp
+    TypesCollection.cpp
     JsonDocument.cpp
     JsonDocument.hpp
 )

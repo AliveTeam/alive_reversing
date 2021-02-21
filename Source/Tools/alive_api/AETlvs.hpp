@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TlvObjectBase.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AETlvs
 {

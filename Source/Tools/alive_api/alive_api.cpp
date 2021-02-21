@@ -175,7 +175,7 @@ namespace AliveAPI
         AliveAPI::PathBND pathBnd = AliveAPI::OpenPathBnd(inputLvlFile, &pathResourceId);
         ret.mResult = pathBnd.mResult;
 
-        BYTE* pPathData = pathBnd.mFileData.data();
+        BYTE* pPathData = pathBnd.mFileData.data() + sizeof(::ResourceManager::Header);
         const int* indexTable = reinterpret_cast<const int*>(pPathData + pathBnd.mPathInfo.mIndexTableOffset);
         int idx = 0;
 
@@ -223,8 +223,8 @@ namespace AliveAPI
         }
 
         JsonDocument doc;
-        doc.mGame = "AE";
-        doc.SaveAE(pathResourceId, pathBnd.mFileData, pathBnd.mPathInfo, jsonOutputFile);
+        doc.mGame = "AO";
+        doc.SaveAO(pathResourceId, pathBnd.mFileData, pathBnd.mPathInfo, jsonOutputFile);
 
         //ret.mResult = Error::JsonFileNeedsUpgrading;
 

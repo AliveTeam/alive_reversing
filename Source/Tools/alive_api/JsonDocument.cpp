@@ -1,7 +1,7 @@
 #include "../AliveLibCommon/stdafx_common.h"
 #include "JsonDocument.hpp"
 
-void JsonDocument::SaveAE(int pathId, const std::vector<BYTE>& pathResource, const PathInfo& info, const std::string& fileName) const
+void JsonDocument::SaveAO(int pathId, const std::vector<BYTE>& pathResource, const PathInfo& info, const std::string& fileName) const
 {
     jsonxx::Object rootObject;
 

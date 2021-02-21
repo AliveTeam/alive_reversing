@@ -7,11 +7,7 @@
 class TypesCollection
 {
 public:
-    TypesCollection()
-    {
-        AddBasicType<BYTE>("Byte", 0, 255);
-        AddBasicType<short>("UInt16", 0, 65535);
-    }
+    TypesCollection();
 
     jsonxx::Object EnumsToJson() const
     {
