@@ -76,6 +76,7 @@ namespace AliveAPI
                                 if (pBlyRec.field_0_blyName)
                                 {
                                     ret.mPathBndName = pathRoot->field_38_bnd_name;
+                                    // TODO: Fix fields/size calc
                                     ret.mPathInfo.mHeight = pBlyRec.field_4_pPathData->field_10_height;
                                     ret.mPathInfo.mWidth = pBlyRec.field_4_pPathData->field_E_width;
                                     ret.mPathInfo.mIndexTableOffset = pBlyRec.field_4_pPathData->field_16_object_indextable_offset;
@@ -89,7 +90,7 @@ namespace AliveAPI
                         else
                         {
                             // Add all path ids
-                            for (int i = 0; i < ret.mNumPaths; i++)
+                            for (int i = 1; i < ret.mNumPaths; i++)
                             {
                                 const PathBlyRec& pBlyRec = pathRoot->field_0_pBlyArrayPtr[i];
                                 if (pBlyRec.field_0_blyName)
@@ -125,10 +126,14 @@ namespace AliveAPI
                                 if (pBlyRec.field_0_blyName)
                                 {
                                     ret.mPathBndName = pathRoot->field_38_bnd_name;
-                                    ret.mPathInfo.mHeight = pBlyRec.field_4_pPathData->field_A_bBottom;
-                                    ret.mPathInfo.mWidth = pBlyRec.field_4_pPathData->field_6_bRight;
+                                    ret.mPathInfo.mGridWidth = pBlyRec.field_4_pPathData->field_C_grid_width;
+                                    ret.mPathInfo.mGridHeight = pBlyRec.field_4_pPathData->field_E_grid_height;
+                                    ret.mPathInfo.mWidth = (pBlyRec.field_4_pPathData->field_8_bTop - pBlyRec.field_4_pPathData->field_4_bLeft) / pBlyRec.field_4_pPathData->field_C_grid_width;
+                                    ret.mPathInfo.mHeight = (pBlyRec.field_4_pPathData->field_A_bBottom - pBlyRec.field_4_pPathData->field_6_bRight) / pBlyRec.field_4_pPathData->field_E_grid_height;
                                     ret.mPathInfo.mIndexTableOffset = pBlyRec.field_4_pPathData->field_18_object_index_table_offset;
                                     ret.mPathInfo.mObjectOffset = pBlyRec.field_4_pPathData->field_14_object_offset;
+                                    ret.mResult = Error::None;
+                                    return ret;
                                 }
                             }
                             ret.mResult = Error::PathResourceNotFound;
@@ -139,7 +144,7 @@ namespace AliveAPI
                     else
                     {
                         // Add all path ids
-                        for (int i = 0; i < ret.mNumPaths; i++)
+                        for (int i = 1; i < ret.mNumPaths; i++)
                         {
                             const AO::PathBlyRec& pBlyRec = pathRoot->field_0_pBlyArrayPtr[i];
                             if (pBlyRec.field_0_blyName)
@@ -177,7 +182,6 @@ namespace AliveAPI
 
         BYTE* pPathData = pathBnd.mFileData.data() + sizeof(::ResourceManager::Header);
         const int* indexTable = reinterpret_cast<const int*>(pPathData + pathBnd.mPathInfo.mIndexTableOffset);
-        int idx = 0;
 
         std::set<AO::TlvTypes> usedTypes;
 
@@ -185,7 +189,7 @@ namespace AliveAPI
         {
             for (int y = 0; y < pathBnd.mPathInfo.mHeight; y++)
             {
-                const int objectTableIdx = indexTable[idx++];
+                const int objectTableIdx = indexTable[(x + (y * pathBnd.mPathInfo.mWidth))];
                 if (objectTableIdx == -1 || objectTableIdx >= 0x100000)
                 {
                     continue;
@@ -207,12 +211,32 @@ namespace AliveAPI
                         usedTypes.insert(static_cast<AO::TlvTypes>(pPathTLV->field_4_type));
                         switch (pPathTLV->field_4_type)
                         {
-                        case AO::TlvTypes::Hoist_3:
+                        case AO::TlvTypes::ContinuePoint_0:
                         {
-                            AOTlvs::Path_Hoist hoist(globalTypes, pPathTLV);
-                            hoist.InstanceToJson(globalTypes);
+                            AOTlvs::Path_ContinuePoint obj(globalTypes, pPathTLV);
+                            obj.InstanceToJson(globalTypes);
                         }
                         break;
+
+                        case AO::TlvTypes::Hoist_3:
+                        {
+                            AOTlvs::Path_Hoist obj(globalTypes, pPathTLV);
+                            obj.InstanceToJson(globalTypes);
+                        }
+                        break;
+
+                        default:
+                            switch (pPathTLV->field_4_type)
+                            {
+                            case 37:
+                                LOG_WARNING("Unused abe start object ignored");
+                                break;
+
+                            default:
+                                LOG_WARNING("Ignoring type: " << pPathTLV->field_4_type);
+                                break;
+                            }
+                            break;
                         }
 
                         pPathTLV = AO::Path_TLV::Next_446460(pPathTLV);

@@ -9,5 +9,9 @@ TypesCollection::TypesCollection()
     AddBasicType<short>("UInt16", 0, 65535);
 
     AOTlvs::Path_Hoist::AddTypes(*this);
+    //AOTlvs::Path_ContinuePoint::AddTypes(*this);
+
     AETlvs::Path_Hoist::AddTypes(*this);
+
+
 }
