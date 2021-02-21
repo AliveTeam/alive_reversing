@@ -16,22 +16,20 @@
 #include <type_traits>
 #include <typeindex>
 
-
 bool RunningAsInjectedDll()
 {
     return false;
 }
 
-
 namespace AliveAPI
 {
-    // Increment when a breaking change to the JSON is made and implement an 
-    // upgrade step that converts from the last version to the current.
-    constexpr int kApiVersion = 1;
-
-    [[nodiscard]] int GetApiVersion()
+    [[nodiscard]] static std::vector<unsigned char> ReadLvlFile(LvlArchive& archive, LvlFileRecord& rFileRec)
     {
-        return kApiVersion;
+        std::vector<unsigned char> fileContent;
+        fileContent.resize(rFileRec.field_10_num_sectors * 2048);
+        sLvlArchive_5BC520.Read_File_4330A0(&rFileRec, fileContent.data());
+        fileContent.resize(rFileRec.field_14_file_size);
+        return fileContent;
     }
 
     struct PathBND
@@ -43,15 +41,6 @@ namespace AliveAPI
         std::vector<BYTE> mFileData;
         PathInfo mPathInfo;
     };
-
-    [[nodiscard]] static std::vector<unsigned char> ReadLvlFile(LvlArchive& archive, LvlFileRecord& rFileRec)
-    {
-        std::vector<unsigned char> fileContent;
-        fileContent.resize(rFileRec.field_10_num_sectors * 2048);
-        sLvlArchive_5BC520.Read_File_4330A0(&rFileRec, fileContent.data());
-        fileContent.resize(rFileRec.field_14_file_size);
-        return fileContent;
-    }
 
     [[nodiscard]] static PathBND OpenPathBnd(const std::string& inputLvlFile, int* pathId)
     {
@@ -167,6 +156,15 @@ namespace AliveAPI
         return ret;
     }
 
+    // Increment when a breaking change to the JSON is made and implement an 
+    // upgrade step that converts from the last version to the current.
+    constexpr int kApiVersion = 1;
+
+    [[nodiscard]] int GetApiVersion()
+    {
+        return kApiVersion;
+    }
+
     [[nodiscard]] Result ExportPathBinaryToJson(const std::string& /*jsonOutputFile*/, const std::string& inputLvlFile, int pathResourceId)
     {
         TypesCollection globalTypes;
@@ -254,14 +252,3 @@ namespace AliveAPI
         return ret;
     }
 }
-
-const std::map<std::string, TlvTypes> kObjectNameToAeTlv = 
-{
-    { "Hoist", TlvTypes::Hoist_2 },
-};
-
-const std::map<std::string, AO::TlvTypes> kObjectNameToAoTlv =
-{
-    { "Hoist", AO::TlvTypes::Hoist_3 },
-};
-
