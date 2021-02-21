@@ -51,7 +51,7 @@ namespace AliveAPI
         LvlArchive lvl;
         if (!lvl.Open_Archive_432E80(inputLvlFile.c_str()))
         {
-            ret.mResult = Error::LvlFileReadEror;
+            ret.mResult = Error::LvlFileReadError;
             return ret;
         }
 
@@ -225,11 +225,22 @@ namespace AliveAPI
                         }
                         break;
 
+                        case AO::TlvTypes::Door_6:
+                        {
+                            AOTlvs::Path_Door obj(globalTypes, pPathTLV);
+                            obj.InstanceToJson(globalTypes);
+                        }
+                        break;
+
                         default:
                             switch (pPathTLV->field_4_type)
                             {
                             case 37:
-                                LOG_WARNING("Unused abe start object ignored");
+                                LOG_WARNING("Unused abe start ignored");
+                                break;
+
+                            case 2:
+                                LOG_WARNING("Unused continue zone ignored");
                                 break;
 
                             default:

@@ -10,7 +10,7 @@ namespace AliveAPI
     enum class Error
     {
         None,
-        LvlFileReadEror,
+        LvlFileReadError,
         JsonFileWriteError,
         JsonFileNeedsUpgrading,
         JsonFileReadError,

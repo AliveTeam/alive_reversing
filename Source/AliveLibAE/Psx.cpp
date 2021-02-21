@@ -89,6 +89,13 @@ EXPORT int CC PSX_CD_OpenFile_4FAE80(const char* pFileName, int bTryAllPaths)
                 sCdFileHandle_BD1CC4 = IO_Open_4F2320(fullFilePath, openMode);
                 if (!sCdFileHandle_BD1CC4)
                 {
+                    // Try exact path (normalized lower cases the file which breaks case sensitive file systems)
+                    sCdFileHandle_BD1CC4 = IO_Open_4F2320(pFileName, openMode);
+                    if (sCdFileHandle_BD1CC4)
+                    {
+                        return 1;
+                    }
+
                     // Failed try path 3 - each CD drive in the system
                     strcpy(fullFilePath, sCdEmu_Path3_C145A0);
                     strcat(fullFilePath, pNormalizedName);
