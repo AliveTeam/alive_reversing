@@ -39,6 +39,7 @@ namespace AliveAPI
         std::string mPathBndName;
         Error mResult = Error::None;
         int mNumPaths = 0;
+        std::vector<int> mPaths;
         std::vector<BYTE> mFileData;
         PathInfo mPathInfo;
     };
@@ -95,6 +96,18 @@ namespace AliveAPI
                             ret.mResult = Error::PathResourceNotFound;
                             return ret;
                         }
+                        else
+                        {
+                            // Add all path ids
+                            for (int i = 0; i < ret.mNumPaths; i++)
+                            {
+                                const PathBlyRec& pBlyRec = pathRoot->field_0_pBlyArrayPtr[i];
+                                if (pBlyRec.field_0_blyName)
+                                {
+                                    ret.mPaths.push_back(i);
+                                }
+                            }
+                        }
                         return ret;
                     }
                 }
@@ -132,6 +145,18 @@ namespace AliveAPI
                             return ret;
                         }
                         return ret;
+                    }
+                    else
+                    {
+                        // Add all path ids
+                        for (int i = 0; i < ret.mNumPaths; i++)
+                        {
+                            const AO::PathBlyRec& pBlyRec = pathRoot->field_0_pBlyArrayPtr[i];
+                            if (pBlyRec.field_0_blyName)
+                            {
+                                ret.mPaths.push_back(i);
+                            }
+                        }
                     }
                 }
             }
@@ -224,6 +249,7 @@ namespace AliveAPI
         PathBND pathBnd = OpenPathBnd(inputLvlFile, nullptr);
         ret.mResult = pathBnd.mResult;
         ret.numPaths = pathBnd.mNumPaths;
+        ret.paths = pathBnd.mPaths;
         ret.pathBndName = pathBnd.mPathBndName;
         return ret;
     }

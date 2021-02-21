@@ -29,6 +29,7 @@ namespace AliveAPI
     {
         std::string pathBndName;
         int numPaths = 0;
+        std::vector<int> paths;
     };
 
     API_EXPORT [[nodiscard]] int GetApiVersion();
