@@ -64,6 +64,7 @@ namespace AliveAPI
                     LvlFileRecord* pRec = lvl.Find_File_Record_433160(pathRoot->field_38_bnd_name);
                     if (pRec)
                     {
+                        ret.mPathBndName = pathRoot->field_38_bnd_name;
                         ret.mFileData = ReadLvlFile(lvl, *pRec);
                         ret.mResult = Error::None;
                         if (pathId)
@@ -113,6 +114,7 @@ namespace AliveAPI
                     LvlFileRecord* pRec = lvl.Find_File_Record_433160(pathRoot->field_38_bnd_name);
                     if (pRec)
                     {
+                        ret.mPathBndName = pathRoot->field_38_bnd_name;
                         ret.mFileData = ReadLvlFile(lvl, *pRec);
                         ret.mResult = Error::None;
                         if (pathId)
