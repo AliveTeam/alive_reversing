@@ -7,12 +7,15 @@ namespace AO {
 
 const int dword_4CEE78[30] =
 {
+    // NOTE: diversion from OG!
+    // the sneak - speak1 and run - speak2 pairs are now decoupled
+    // so that they can each be remapped to separate buttons
     InputCommands::eBack,
     InputCommands::eCheatMode,
-    InputCommands::eLeftGamespeak | InputCommands::eSneak,
-    InputCommands::eRightGameSpeak | InputCommands::eRun,
-    InputCommands::eRightGameSpeak | InputCommands::eRun,
-    InputCommands::eLeftGamespeak | InputCommands::eSneak,
+    InputCommands::eLeftGamespeak,
+    InputCommands::eRightGameSpeak,
+    InputCommands::eRun,
+    InputCommands::eSneak,
     InputCommands::eHop,
     InputCommands::eDoAction,
     InputCommands::eThrowItem,

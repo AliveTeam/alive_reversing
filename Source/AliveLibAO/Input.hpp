@@ -30,7 +30,7 @@ enum InputCommands : unsigned int
     eDoAction  = 1u << 7,  // 0x80
     eCheatMode = 1u << 8,  // 0x100
     eUnPause_OrConfirm = 1u << 9, // 0x200 - not present/unused in OG!!
-    //eGameSpeak1 = 1u << 10, // 0x400
+    ePause = 1u << 10, // 0x400 - not present/unused in OG!!
     eBack = 1u << 11, // 0x800
     eUp = 1u << 12, // 0x1000
     eRight = 1u << 13, // 0x2000
@@ -118,7 +118,7 @@ EXPORT void CC Input_Init_44EB60();
 
 EXPORT void Input_DisableInput_48E690();
 
-EXPORT const char* CC Input_GetButtonString_44F1C0(InputCommands input_command);
+EXPORT const char* CC Input_GetButtonString_44F1C0(InputCommands input_command, bool forceKeyboardLookupIfGamepadFails = true);
 
 EXPORT int CC Input_Remap_44F300(InputCommands inputCmd);
 
@@ -130,6 +130,7 @@ EXPORT void Input_Reset_44F2F0();
 
 bool Input_JoyStickEnabled();
 void Input_SetJoyStickEnabled(bool enabled);
+bool Input_JoyStickAvailable();
 
 class InputObject
 {

@@ -61,8 +61,11 @@ const unsigned int AllMenuCommandsMask =
         InputCommands::eConfigure
     );
 
-ALIVE_VAR(1, 0x5C2EF4, bool, sJoystickEnabled_5C2EF4, false);
-ALIVE_VAR(1, 0x5c9f70, int, sJoystickEnabled_5C9F70, 0); // ? Double var? :/
+// Is a joystick plugged in and can be switched to?
+ALIVE_VAR(1, 0x5C2EF4, bool, sJoystickAvailable_5C2EF4, false);
+
+// Is the joystick selected as the active controller device (instead of keyboard)?
+ALIVE_VAR(1, 0x5c9f70, int, sJoystickEnabled_5C9F70, 0);
 
 ALIVE_VAR(1, 0x5C2EFC, int, sJoystickNumButtons_5C2EFC, 0);
 ALIVE_VAR(1, 0x5C2F00, int, sJoystickID_5C2F00, 0);
@@ -100,7 +103,7 @@ ALIVE_VAR(1, 0x5c2ef0, int, bAutoY_5C2EF0, 0);
 ALIVE_VAR(1, 0xbd1878, DWORD, sLastPad_Input_BD1878, 0);
 ALIVE_VAR(1, 0xbd1874, bool, sReadPadEnable_BD1874, false);
 
-ALIVE_ARY(1, 0x55EAD8, InputBinding, 36, sDefaultKeyBindings_55EAD8, {
+ALIVE_ARY(1, 0x55EAD8, InputBinding, 36, sDefaultKeyboardBindings_55EAD8, {
     { VK_LEFT, InputCommands::eLeft },
     { VK_RIGHT, InputCommands::eRight },
     { VK_UP, InputCommands::eUp },
@@ -139,8 +142,18 @@ ALIVE_ARY(1, 0x55EAD8, InputBinding, 36, sDefaultKeyBindings_55EAD8, {
     { 0, static_cast<InputCommands>(0) }
 });
 
-const int sDefaultGameBindings_55EA2C[10] = { 32, 1049088, 128, 2097408, 8388608, 16, 16777216, 64, 0, 1572864 };
-
+ALIVE_ARY(1, 0x55EA2C, const unsigned int, 10, sDefaultGamepadBindings_55EA2C, {
+    InputCommands::eDoAction,                                       // Square / X
+    InputCommands::eFartOrRoll | InputCommands::eUnPause_OrConfirm, // Cross / A
+    InputCommands::eThrowItem,                                      // Circle / B
+    InputCommands::eHop | InputCommands::eBack,                     // Triangle / Y
+    InputCommands::eSpeak1,                                         // L1 / LB
+    InputCommands::eRun,                                            // R1 / RB
+    InputCommands::eSpeak2,                                         // L2 / LT
+    InputCommands::eSneak,                                          // R2 / RT
+    0,
+    InputCommands::ePause | InputCommands::eUnPause_OrConfirm       // Start / Menu
+});
 
 // For joysticks with very little buttons, depending on strength of joystick, will make abe
 // automatically run/sneak.
@@ -308,7 +321,7 @@ EXPORT void CC Input_StickControl_45FF60(float x, float y, DWORD* buttons)
 #if _WIN32
 void Input_GetJoyState_Impl(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButtons)
 {
-    if (!sJoystickEnabled_5C2EF4)
+    if (!sJoystickAvailable_5C2EF4)
     {
         *pY2 = 0.0f;
         *pX2 = 0.0f;
@@ -334,7 +347,7 @@ void Input_GetJoyState_Impl(float *pX1, float *pY1, float *pX2, float *pY2, DWOR
 
         if (joyGetPosEx(sJoystickID_5C2F00, &sJoystickInfo_5C2EA8))
         {
-            sJoystickEnabled_5C2EF4 = false;
+            sJoystickAvailable_5C2EF4 = false;
             return;
         }
     }
@@ -639,11 +652,15 @@ EXPORT void CC Input_Init_Names_491870()
     {
         sprintf(sGamepadDisplayKeyNames_5C9798.keys[18].field_0_name, "%s+%s", sJoyButtonNames_5C9908[eSpeak1idx], sJoyButtonNames_5C9908[eSpeak2idx]);
     }
+
+    // NOTE: diversion from OG!
+    // adding the UnPause_OrConfirm command's own gamepad button string (AE does not use it in menus, but AO does)
+    strcpy(sGamepadDisplayKeyNames_5C9798.keys[20].field_0_name, sJoyButtonNames_5C9908[1]);
 }
 
 const char* CC Input_GetButtonString_492530(const char* idx, int controllerType)
 {
-    const char* ret = nullptr;
+    const char* ret = ""; // don't crash the game if the buttonstring cannot be looked up
     if (controllerType == 0)
     {
         ret = sKeyboardDisplayKeyNames_5C9E30.keys[*idx-1].field_0_name;
@@ -668,6 +685,11 @@ const char* CC Input_GetButtonString_492530(const char* idx, int controllerType)
 EXPORT bool Input_JoyStickEnabled()
 {
     return sJoystickEnabled_5C9F70 ? true : false;
+}
+
+EXPORT bool Input_JoyStickAvailable()
+{
+    return sJoystickAvailable_5C2EF4;
 }
 
 EXPORT void Input_SetJoyStickEnabled(bool enabled)
@@ -1547,7 +1569,7 @@ EXPORT void Input_InitJoyStick_460080()
     gTouchController->Init();
 #endif
 
-    sJoystickEnabled_5C2EF4 = false;
+    sJoystickAvailable_5C2EF4 = false;
 #if USE_SDL2
 
     sGamepadCapFlags_5C2EF8 |= eDisableAutoRun;
@@ -1558,7 +1580,7 @@ EXPORT void Input_InitJoyStick_460080()
             if (SDL_IsGameController(i)) {
                 pSDLController = SDL_GameControllerOpen(i);
                 if (pSDLController) {
-                    sJoystickEnabled_5C2EF4 = true;
+                    sJoystickAvailable_5C2EF4 = true;
                     pSDLControllerHaptic = SDL_HapticOpenFromJoystick(SDL_GameControllerGetJoystick(pSDLController));
                     if (SDL_HapticRumbleInit(pSDLControllerHaptic) < 0)
                     {
@@ -1587,7 +1609,7 @@ EXPORT void Input_InitJoyStick_460080()
         LOG_INFO("Calling joyGetDevCapsA for " << i << " of " << count);
         if (!joyGetDevCapsA(i, &sJoystickCaps_5C2D10, sizeof(tagJOYCAPSA)))
         {
-            sJoystickEnabled_5C2EF4 = true;
+            sJoystickAvailable_5C2EF4 = true;
             sJoystickID_5C2F00 = i;
             break;
         }
@@ -1810,12 +1832,12 @@ EXPORT void CC Input_Init_491BC0()
     Input_InitJoyStick_460080();
     memset(sKeyboardBindings_5C9930, 0, sizeof(*sKeyboardBindings_5C9930) * 256);
 
-    for (InputBinding* kb = sDefaultKeyBindings_55EAD8; kb->key; kb++)
+    for (InputBinding* kb = sDefaultKeyboardBindings_55EAD8; kb->key; kb++)
     {
         sKeyboardBindings_5C9930[kb->key] = kb->command;
     }
 
-    memcpy(sGamePadBindings_5C98E0, &sDefaultGameBindings_55EA2C, sizeof(sDefaultGameBindings_55EA2C));
+    memcpy(sGamePadBindings_5C98E0, sDefaultGamepadBindings_55EA2C, ALIVE_ARY_SIZEOF(sDefaultGamepadBindings_55EA2C));
     Input_LoadSettingsIni_492D40();
     Input_Init_Names_491870();
     Input_SetCallback_4FA910(Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150);
@@ -2044,7 +2066,7 @@ DWORD CC InputObject::Command_To_Raw_45EE40(DWORD cmd)
         rawInput |= InputCommands::eDown;
     }
 
-    if (cmd & eDPadLeft)
+    if (cmd & PsxButtonBits::eDPadLeft)
     {
         rawInput |= InputCommands::eLeft;
     }

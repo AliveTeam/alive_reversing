@@ -64,14 +64,17 @@ struct Buttons
             InputCommands::eRightGameSpeak
         },
         { // gamepad
-            InputCommands::eRun | InputCommands::eRightGameSpeak,
-            InputCommands::eSneak | InputCommands::eLeftGamespeak,
+            // NOTE: diversion from OG!
+            // the sneak - speak1 and run - speak2 pairs are now decoupled
+            // so that they can each be remapped to separate buttons
+            InputCommands::eRun,
+            InputCommands::eSneak,
             InputCommands::eHop,
-            InputCommands::eSneak | InputCommands::eLeftGamespeak,
+            InputCommands::eLeftGamespeak,
             InputCommands::eDoAction,
             InputCommands::eThrowItem,
             InputCommands::eCrouchOrRoll,
-            InputCommands::eRun | InputCommands::eRightGameSpeak,
+            InputCommands::eRightGameSpeak,
         }
     };
 };
@@ -131,44 +134,46 @@ const Menu_Element sBtnArray_AbeMotionsMenuButtons_4D0418[11] =
 {
     { 144, 205, InputCommands::eUnPause_OrConfirm },
     { 288, 203, InputCommands::eBack },
-    { 112, 87, InputCommands::eCrouchOrRoll },
-    { 283, 87, InputCommands::eRun | InputCommands::eRightGameSpeak },
-    { 89, 118, InputCommands::eRun | InputCommands::eRightGameSpeak },
-    { 124, 118, InputCommands::eHop },
-    { 293, 119, InputCommands::eLeftGamespeak | InputCommands::eSneak },
-    { 264, 151, InputCommands::eThrowItem },
-    { 273, 183, InputCommands::eDoAction },
-    { 115, 216, InputCommands::eUnPause_OrConfirm }, // 2nd
-    { 307, 203, InputCommands::eBack }, // 1st
+    { 112, 87, InputCommands::eCrouchOrRoll },          // Crouch
+    { 283, 87, InputCommands::eRun },                   // Run
+    { 89, 118, InputCommands::eRun },                   // Run jump: run
+    { 124, 118, InputCommands::eHop },                  // Run jump: jump
+    { 293, 119, InputCommands::eSneak },                // Sneak
+    { 264, 151, InputCommands::eThrowItem },            // Throw
+    { 273, 183, InputCommands::eDoAction },             // Action
+    { 115, 216, InputCommands::eUnPause_OrConfirm },    // Go to Gamespeak page
+    { 307, 203, InputCommands::eBack },                 // Exit
 };
 
-const Menu_Element stru_4D04A0[33] =
+const Menu_Element sBtnArray_AbeGamespeakMenuButtons_4D04A0[33] =
 {
-    { 115, 216, InputCommands::eUnPause_OrConfirm },
-    { 307, 203, InputCommands::eBack },
-    { 90, 53, InputCommands::eLeftGamespeak | InputCommands::eSneak },
-    { 125, 53, InputCommands::eRun | InputCommands::eRightGameSpeak },
-    { 81, 80, InputCommands::eLeftGamespeak | InputCommands::eSneak },
-    { 125, 80, InputCommands::eHop },
-    { 79, 112, InputCommands::eLeftGamespeak | InputCommands::eSneak },
-    { 122, 112, InputCommands::eThrowItem },
-    { 78, 147, InputCommands::eLeftGamespeak | InputCommands::eSneak },
-    { 119, 147, InputCommands::eUnPause_OrConfirm },
-    { 82, 180, InputCommands::eLeftGamespeak | InputCommands::eSneak },
-    { 120, 180, InputCommands::eDoAction },
-    { 258, 62, InputCommands::eRun | InputCommands::eRightGameSpeak },
-    { 295, 62, InputCommands::eHop },
-    { 253, 98, InputCommands::eRun | InputCommands::eRightGameSpeak },
-    { 294, 98, InputCommands::eThrowItem },
-    { 267, 139, InputCommands::eRun | InputCommands::eRightGameSpeak },
-    { 307, 139, InputCommands::eUnPause_OrConfirm },
-    { 259, 178, InputCommands::eRun | InputCommands::eRightGameSpeak },
-    { 296, 178, InputCommands::eDoAction }, // 1st
+    { 115, 216, InputCommands::eUnPause_OrConfirm },    // Back to Abe Motions
+    { 307, 203, InputCommands::eBack },                 // Exit
+    { 90, 53, InputCommands::eLeftGamespeak },          // Chant first button
+    { 125, 53, InputCommands::eRightGameSpeak },        // Chant second button
+    { 81, 80, InputCommands::eLeftGamespeak },          // Hello shoulder button
+    { 125, 80, InputCommands::eHop },                   // Hello action button
+    { 79, 112, InputCommands::eLeftGamespeak },         // Angry shoulder button
+    { 122, 112, InputCommands::eThrowItem },            // Angry action button
+    { 78, 147, InputCommands::eLeftGamespeak },         // Wait shoulder button
+    { 119, 147, InputCommands::eCrouchOrRoll },         // Wait action button
+    { 82, 180, InputCommands::eLeftGamespeak },         // Follow me shoulder button
+    { 120, 180, InputCommands::eDoAction },             // Follow me action button
+    { 258, 62, InputCommands::eRightGameSpeak },        // Whistle 1 shoulder button
+    { 295, 62, InputCommands::eHop },                   // Whistle 1 action button
+    { 253, 98, InputCommands::eRightGameSpeak },        // Fart shoulder button
+    { 294, 98, InputCommands::eThrowItem },             // Fart action button
+    { 267, 139, InputCommands::eRightGameSpeak },       // Whistle 2 shoulder button
+    { 307, 139, InputCommands::eCrouchOrRoll },         // Whistle 2 action button
+    { 259, 178, InputCommands::eRightGameSpeak },       // Laugh shoulder button
+    { 296, 178, InputCommands::eDoAction },             // Laugh action button
+    // ----
+    // these below seem unused - maybe they are part of a different Menu_Element struct?
     { 308, 205, InputCommands::eBack }, // end
-    { 96, 32, InputCommands::eLeftGamespeak | InputCommands::eSneak },
-    { 305, 32, InputCommands::eRun | InputCommands::eRightGameSpeak },
-    { 157, 29, InputCommands::eLeftGamespeak | InputCommands::eSneak },
-    { 205, 29, InputCommands::eRun | InputCommands::eRightGameSpeak },
+    { 96, 32, InputCommands::eLeftGamespeak },
+    { 305, 32, InputCommands::eRightGameSpeak },
+    { 157, 29, InputCommands::eLeftGamespeak },
+    { 205, 29, InputCommands::eRightGameSpeak },
     { 38, 81, InputCommands::eHop },
     { 42, 118, InputCommands::eThrowItem },
     { 49, 151, InputCommands::eUnPause_OrConfirm },
@@ -179,7 +184,7 @@ const Menu_Element stru_4D04A0[33] =
     { 278, 184, InputCommands::eDoAction }, // 1st
 };
 
-const Menu_Element stru_4D0630[2] = { { 62, 204, InputCommands::eUnPause_OrConfirm }, { 293, 205, InputCommands::eBack } };
+const Menu_Element sBtnArray_LoadGameMenuButtons_4D0630[2] = { { 62, 204, InputCommands::eUnPause_OrConfirm }, { 293, 205, InputCommands::eBack } };
 
 const AIFunctionData<Menu::TUpdateFn> kUpdateTable[] =
 {
@@ -202,8 +207,9 @@ ALIVE_VAR(1, 0x9F2DE0, int, gMainMenuInstanceCount_9F2DE0, 0);
 ALIVE_VAR(1, 0x507688, short, sFontLoaded_507688, 0);
 ALIVE_VAR(1, 0x4D0228, short, sListCount_4D0228, -1);
 
-ALIVE_VAR(1, 0x4CE598, int, dword_4CE598, 0);
-ALIVE_VAR(1, 0x5079A4, int, dword_5079A4, 0);
+// The total number of valid controllers - includes the keyboard as well
+ALIVE_VAR(1, 0x4CE598, int, sAvailableControllers_4CE598, 0);
+ALIVE_VAR(1, 0x5079A4, int, gJoystickAvailable_5079A4, 0);
 
 ALIVE_VAR(1, 0x9F2DDC, int, sSelectedSaveIdx_9F2DDC, 0);
 ALIVE_VAR(1, 0x9F2DD8, int, sSaveIdx_9F2DD8, 0);
@@ -828,11 +834,7 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, int tlvInfo)
             pFrameHeader->field_0_clut_offset);
     }
 
-    dword_4CE598 = (dword_5079A4 != 0) + 1;
-    if ((Input_JoyStickEnabled() ? 1 : 0) > (dword_5079A4 != 0) + 1)
-    {
-        Input_SetJoyStickEnabled(false);
-    }
+    sAvailableControllers_4CE598 = (gJoystickAvailable_5079A4 != 0) + 1;
 
     return this;
 }
@@ -1761,7 +1763,14 @@ void Menu::GameSpeak_Render_47D700(PrimHeader** ppOt)
     const int count = Input_JoyStickEnabled() != 0 ? 13 : 1;
     for (int i = 20; i < 20 + count; i++)
     {
-        RenderElement_47A4E0(stru_4D04A0[i].field_0_xpos, stru_4D04A0[i].field_4_ypos, stru_4D04A0[i].field_8_input_command, ppOt, &field_FC_font, &polyOffset);
+        RenderElement_47A4E0(
+            sBtnArray_AbeGamespeakMenuButtons_4D04A0[i].field_0_xpos,
+            sBtnArray_AbeGamespeakMenuButtons_4D04A0[i].field_4_ypos,
+            sBtnArray_AbeGamespeakMenuButtons_4D04A0[i].field_8_input_command,
+            ppOt,
+            &field_FC_font,
+            &polyOffset
+        );
     }
 }
 
@@ -1975,7 +1984,14 @@ void Menu::Load_Render_47DDA0(PrimHeader** ppOt)
 
     for (int i = 0; i < 2; i++)
     {
-        RenderElement_47A4E0(stru_4D0630[i].field_0_xpos, stru_4D0630[i].field_4_ypos, stru_4D0630[i].field_8_input_command, ppOt, &field_FC_font, &polyOffset);
+        RenderElement_47A4E0(
+            sBtnArray_LoadGameMenuButtons_4D0630[i].field_0_xpos,
+            sBtnArray_LoadGameMenuButtons_4D0630[i].field_4_ypos,
+            sBtnArray_LoadGameMenuButtons_4D0630[i].field_8_input_command,
+            ppOt,
+            &field_FC_font,
+            &polyOffset
+        );
     }
 }
 
@@ -2353,7 +2369,7 @@ void Menu::Options_Controller_Render_47F430(PrimHeader** ppOt)
     for (int i = 0; i < 3; i++)
     {
         int selection = field_1E0_selected_index + i - 1;
-        if (selection >= 0 && selection < dword_4CE598)
+        if (selection >= 0 && selection < sAvailableControllers_4CE598)
         {
             if (selection == 0)
             {
@@ -2960,7 +2976,7 @@ void Menu::Options_Controller_Update_47F210()
     }
     else if (Input().IsAnyPressed(InputObject::PadIndex::First, InputCommands::eDown | InputCommands::eCheatMode))
     {
-        if (field_1E0_selected_index < dword_4CE598 - 1 && field_228 == FP_FromInteger(0))
+        if (field_1E0_selected_index < sAvailableControllers_4CE598 - 1 && field_228 == FP_FromInteger(0))
         {
             field_1E0_selected_index++;
             SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
@@ -3042,18 +3058,18 @@ const Menu_Element chooseAndExitRemapButtons_4D0690[2] =
     { 301, 163, InputCommands::eBack }
 };
 
-const Menu_Button remapButtons_4D0170[10] =
+const Menu_Button sRemapScreenButtons_4D0170[10] =
 {
-    { 172, 78, 6176 },
-    { 172, 109, 6176 },
-    { 172, 138, 6176 },
-    { 172, 169, 6176 },
-    { 258, 77, 6176 },
-    { 258, 109, 6176 },
-    { 258, 138, 6176 },
-    { 258, 169, 6176 },
-    { 41, 69, 6152 },
-    { 302, 199, 6152 }
+    { 172, 78, 6176 },  // Run
+    { 172, 109, 6176 }, // Sneak
+    { 172, 138, 6176 }, // Jump
+    { 172, 169, 6176 }, // Speak 1
+    { 258, 77, 6176 },  // Action
+    { 258, 109, 6176 }, // Throw
+    { 258, 138, 6176 }, // Crouch
+    { 258, 169, 6176 }, // Speak 2
+    { 41, 69, 6152 },   // Choose button
+    { 302, 199, 6152 }  // Exit
 };
 
 const char* inputActions_4D0070[8] =
@@ -3067,20 +3083,20 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
     int frameTable = 0;
     if (field_230_bGoBack == -1)
     {
-        frameTable = remapButtons_4D0170[field_1E0_selected_index].field_4_frame_table;
+        frameTable = sRemapScreenButtons_4D0170[field_1E0_selected_index].field_4_frame_table;
     }
     else
     {
-        frameTable = remapButtons_4D0170[field_230_bGoBack].field_4_frame_table;
+        frameTable = sRemapScreenButtons_4D0170[field_230_bGoBack].field_4_frame_table;
     }
     field_134_anim.Set_Animation_Data_402A40(frameTable, 0);
 
     int polyOffset = 0;
-    for (int i = 0; i < ALIVE_COUNTOF(remapButtons_4D0170) - 2; i++)
+    for (int i = 0; i < ALIVE_COUNTOF(sRemapScreenButtons_4D0170) - 2; i++)
     {
         RenderElement_47A4E0(
-            remapButtons_4D0170[i].field_0_xpos,
-            remapButtons_4D0170[i].field_2_ypos,
+            sRemapScreenButtons_4D0170[i].field_0_xpos,
+            sRemapScreenButtons_4D0170[i].field_2_ypos,
             sRemappableInputs_4D0030.buttons[Input_JoyStickEnabled() != 0][i],
             ppOt,
             &field_FC_font,
@@ -3091,8 +3107,8 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
     if (field_230_bGoBack == -1)
     {
         field_134_anim.VRender_403AE0(
-            remapButtons_4D0170[field_1E0_selected_index].field_0_xpos - 3,
-            remapButtons_4D0170[field_1E0_selected_index].field_2_ypos + 1,
+            sRemapScreenButtons_4D0170[field_1E0_selected_index].field_0_xpos - 3,
+            sRemapScreenButtons_4D0170[field_1E0_selected_index].field_2_ypos + 1,
             ppOt,
             0,
             0
@@ -3101,8 +3117,8 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
     else
     {
         field_134_anim.VRender_403AE0(
-            remapButtons_4D0170[field_230_bGoBack].field_0_xpos,
-            remapButtons_4D0170[field_230_bGoBack].field_2_ypos,
+            sRemapScreenButtons_4D0170[field_230_bGoBack].field_0_xpos,
+            sRemapScreenButtons_4D0170[field_230_bGoBack].field_2_ypos,
             ppOt,
             0,
             0
@@ -3269,7 +3285,7 @@ void Menu::ButtonRemap_Update_47F6F0()
         return;
     }
 
-    if (Input().IsAnyPressed(InputObject::PadIndex::First, InputCommands::eLeft)) // TODO: Input constants
+    if (Input().IsAnyPressed(InputObject::PadIndex::First, InputCommands::eLeft))
     {
         if (field_1E0_selected_index >= 4)
         {
@@ -3606,9 +3622,16 @@ void Menu::ToggleMotions_Render_47CAB0(PrimHeader** ppOt)
         int polyOffset = 0;
         if (Input_JoyStickEnabled())
         {
-            for (int i = 0; i < 19; i++)
+            for (int i = 0; i < 20; i++)
             {
-                RenderElement_47A4E0(stru_4D04A0[i].field_0_xpos, stru_4D04A0[i].field_4_ypos, stru_4D04A0[i].field_8_input_command, ppOt, &field_FC_font, &polyOffset);
+                RenderElement_47A4E0(
+                    sBtnArray_AbeGamespeakMenuButtons_4D04A0[i].field_0_xpos,
+                    sBtnArray_AbeGamespeakMenuButtons_4D04A0[i].field_4_ypos,
+                    sBtnArray_AbeGamespeakMenuButtons_4D04A0[i].field_8_input_command,
+                    ppOt,
+                    &field_FC_font,
+                    &polyOffset
+                );
             }
         }
         else
@@ -3822,7 +3845,7 @@ void CC Menu::OnResourceLoaded_47ADA0(Menu* pMenu)
 void CC Menu::RenderElement_47A4E0(int xpos, int ypos, int input_command, PrimHeader** ot, AliveFont* pFont, int* pPolyOffset)
 {
     char text[32] = {};
-    strcpy(text, Input_GetButtonString_44F1C0(static_cast<InputCommands>(input_command))); // TODO: Strongly type all the way back to the button structure
+    strcpy(text, Input_GetButtonString_44F1C0(static_cast<InputCommands>(input_command), false)); // TODO: Strongly type all the way back to the button structure
     const FP scale_fp = strlen(text) > 1 ? FP_FromDouble(0.64) : FP_FromDouble(0.84);
 
     if (text[0])

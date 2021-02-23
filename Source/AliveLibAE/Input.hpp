@@ -22,6 +22,7 @@ EXPORT const char* CC Input_GetButtonString_492530(const char* idx, int controll
 
 EXPORT bool Input_JoyStickEnabled();
 EXPORT void Input_SetJoyStickEnabled(bool enabled);
+EXPORT bool Input_JoyStickAvailable();
 
 enum InputCommands : unsigned int
 {
@@ -95,6 +96,7 @@ extern const InputCommands sInputKey_Chant;
 #define kStopIt "\x12"
 #define kChant "\x13"
 #define kConfirm "\x15"
+#define kBack "\x16"
 
 #define kFart "\x0a"
 #define kHello "\x0b"

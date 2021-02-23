@@ -120,6 +120,7 @@ static BitField32<InputCommands> AEInputCommandsToAOInputCommands(const BitField
     r.Set(InputCommands::eDoAction, aeInput.Get(::InputCommands::eDoAction));
     r.Set(InputCommands::eBack, aeInput.Get(::InputCommands::eBack));
     r.Set(InputCommands::eUnPause_OrConfirm, aeInput.Get(::InputCommands::eUnPause_OrConfirm));
+    r.Set(InputCommands::ePause, aeInput.Get(::InputCommands::ePause));
     ConvertAEGamespeakAEtoAOGamespeak(r, aeInput);
     return r;
 }
@@ -139,6 +140,7 @@ static BitField32<::InputCommands> AOInputCommandsToAEInputCommands(const BitFie
      r.Set(::InputCommands::eDoAction, aoInput.Get(InputCommands::eDoAction));
      r.Set(::InputCommands::eBack, aoInput.Get(InputCommands::eBack));
      r.Set(::InputCommands::eUnPause_OrConfirm, aoInput.Get(InputCommands::eUnPause_OrConfirm));
+     r.Set(::InputCommands::ePause, aoInput.Get(InputCommands::ePause));
 
      // OG issue - LCD screens says hold alt + shift which is wrong
      r.Set(::InputCommands::eChant, aoInput.Get(InputCommands::eLeftGamespeak) && aoInput.Get(InputCommands::eRightGameSpeak));
@@ -152,6 +154,10 @@ static BitField32<::InputCommands> AOInputCommandsToAEInputCommands(const BitFie
      r.Set(::InputCommands::eGameSpeak7, aoInput.Get(InputCommands::eRightGameSpeak) && aoInput.Get(InputCommands::eThrowItem));
      r.Set(::InputCommands::eGameSpeak8, aoInput.Get(InputCommands::eRightGameSpeak) && aoInput.Get(InputCommands::eCrouchOrRoll));
      r.Set(::InputCommands::eCheatMode, aoInput.Get(InputCommands::eCheatMode));
+
+     // needed for remapping Speak I and Speak II on controllers
+     r.Set(::InputCommands::eSpeak1, aoInput.Get(InputCommands::eLeftGamespeak));
+     r.Set(::InputCommands::eSpeak2, aoInput.Get(InputCommands::eRightGameSpeak));
 
      return r;
 }
@@ -226,6 +232,11 @@ const char* AEInputCommandToAEInputString(::InputCommands input_command)
     if (input_command & ::InputCommands::eUnPause_OrConfirm)
     {
         return kConfirm;
+    }
+
+    if (input_command & ::InputCommands::eBack)
+    {
+        return kBack;
     }
 
     // TODO: Game speaks
@@ -538,9 +549,17 @@ EXPORT char CC Input_IsVKPressed_48E5D0(int key)
     return Input_IsVKPressed_4EDD40(key);
 }
 
+// from the MainMenu class
+ALIVE_VAR_EXTERN(int, gJoystickAvailable_5079A4);
+
 EXPORT void CC Input_Init_44EB60()
 {
     Input_Init_491BC0();
+
+    if (Input_JoyStickAvailable())
+    {
+        gJoystickAvailable_5079A4 = 1;
+    }
 }
 
 EXPORT void Input_DisableInput_48E690()
@@ -559,16 +578,14 @@ void Input_InitKeyStateArray_48E5F0()
     Input_InitKeyStateArray_4EDD60();
 }
 
-EXPORT const char* CC Input_GetButtonString_44F1C0(InputCommands input_command)
+EXPORT const char* CC Input_GetButtonString_44F1C0(InputCommands input_command, bool forceKeyboardLookupIfGamepadFails)
 {
     const auto aeBits = static_cast<::InputCommands>(AOInputCommandsToAEInputCommands(MakeAOInputBits(input_command)).Raw().all);
-    if (aeBits & ::InputCommands::eBack)
-    {
-        return "esc";
-    }
-
-
-    return ::Input_GetButtonString_492530(AEInputCommandToAEInputString(aeBits), Input_JoyStickEnabled() ? 1 : 0);
+    int controller_type = forceKeyboardLookupIfGamepadFails ? 2 : 1;
+    return ::Input_GetButtonString_492530(
+        AEInputCommandToAEInputString(aeBits),
+        Input_JoyStickEnabled() ? controller_type : 0
+    );
 }
 
 EXPORT int CC Input_Remap_44F300(InputCommands inputCmd)
@@ -619,6 +636,11 @@ bool Input_JoyStickEnabled()
 
     // Use AO var
     //return sJoystickEnabled_508A60 ? true : false;
+}
+
+bool Input_JoyStickAvailable()
+{
+    return ::Input_JoyStickAvailable();
 }
 
 void Input_SetJoyStickEnabled(bool enabled)
