@@ -1286,14 +1286,14 @@ const SaveFileRec aKeyboard_1[2] = //used SaveFileRec as workaround for RenderSc
     { "Game Pad", 0 }
 };
 
-ALIVE_VAR(1, 0xBB43D8, int, controllerEntryToSelect_BB43D8, 0);
-ALIVE_VAR(1, 0xBB43F4, int, selectedControllerEntry_BB43F4, 0);
-ALIVE_VAR(1, 0x55E838, int, controllerCount_55E838, ALIVE_COUNTOF(aKeyboard_1));
+ALIVE_VAR(1, 0xBB43D8, int, sControllerEntryToSelect_BB43D8, 0);
+ALIVE_VAR(1, 0xBB43F4, int, sSelectedControllerEntry_BB43F4, 0);
+ALIVE_VAR(1, 0x55E838, int, sControllerCount_55E838, ALIVE_COUNTOF(aKeyboard_1));
 
 void MainMenuController::ControllerMenu_Render_Text_4D26C0(PrimHeader ** ot)
 {
     int polyOffset = 0;
-    RenderScrollableTextEntries(ot, controllerEntryToSelect_BB43D8, selectedControllerEntry_BB43F4, controllerCount_55E838, sTextYPos_BB43F0, dword_BB43E4, field_234_pStr, aKeyboard_1, field_120_font, polyOffset);
+    RenderScrollableTextEntries(ot, sControllerEntryToSelect_BB43D8, sSelectedControllerEntry_BB43F4, sControllerCount_55E838, sTextYPos_BB43F0, dword_BB43E4, field_234_pStr, aKeyboard_1, field_120_font, polyOffset);
 
     for (int i = 0; i < ALIVE_COUNTOF(sControllerMenuButtonCaptions_Text_562628); i++)
     {
@@ -2555,8 +2555,8 @@ void MainMenuController::RemapInput_Load_4D17E0()
 
 void MainMenuController::ControllerMenu_Load_4D16B0()
 {
-    controllerEntryToSelect_BB43D8 = sJoystickEnabled_5C9F70;
-    selectedControllerEntry_BB43F4 = sJoystickEnabled_5C9F70;
+    sControllerEntryToSelect_BB43D8 = sJoystickEnabled_5C9F70;
+    sSelectedControllerEntry_BB43F4 = sJoystickEnabled_5C9F70;
 }
 
 const char* sInputButtonNames_562790[8] =
@@ -2672,17 +2672,17 @@ MainMenuNextCam MainMenuController::ControllerMenu_Update_4D16D0(DWORD input)
 {
     if (input & InputCommands::eUp)
     {
-        if (selectedControllerEntry_BB43F4 > 0 && sTextYPos_BB43F0 == FP_FromInteger(0))
+        if (sSelectedControllerEntry_BB43F4 > 0 && sTextYPos_BB43F0 == FP_FromInteger(0))
         {
-            selectedControllerEntry_BB43F4--;
+            sSelectedControllerEntry_BB43F4--;
             SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
         }
     }
     else if (input & InputCommands::eDown)
     {
-        if (selectedControllerEntry_BB43F4 < controllerCount_55E838 - 1 && sTextYPos_BB43F0 == FP_FromInteger(0))
+        if (sSelectedControllerEntry_BB43F4 < sControllerCount_55E838 - 1 && sTextYPos_BB43F0 == FP_FromInteger(0))
         {
-            selectedControllerEntry_BB43F4++;
+            sSelectedControllerEntry_BB43F4++;
             SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
         }
     }
@@ -2695,7 +2695,7 @@ MainMenuNextCam MainMenuController::ControllerMenu_Update_4D16D0(DWORD input)
     // Enter - set active input device
     if (input & InputCommands::eUnPause_OrConfirm)
     {
-        sJoystickEnabled_5C9F70 = controllerEntryToSelect_BB43D8;
+        sJoystickEnabled_5C9F70 = sControllerEntryToSelect_BB43D8;
         Input_Init_Names_491870();
         Input_SaveSettingsIni_492840();
         return MainMenuNextCam(MainMenuCams::eOptionsCam);
@@ -2704,7 +2704,7 @@ MainMenuNextCam MainMenuController::ControllerMenu_Update_4D16D0(DWORD input)
     if (input & InputCommands::eConfigure)
     {
         // c configure controller
-        sJoystickEnabled_5C9F70 = controllerEntryToSelect_BB43D8;
+        sJoystickEnabled_5C9F70 = sControllerEntryToSelect_BB43D8;
         Input_Init_Names_491870();
         return MainMenuNextCam(MainMenuCams::eRemapInputsCam);
     }

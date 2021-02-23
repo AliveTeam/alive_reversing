@@ -179,7 +179,7 @@ enum PauseMenuPages
 
 void PauseMenu::VUpdate_44DFB0()
 {
-    if (Input().IsAnyHeld(InputCommands::eBack))
+    if (Input().IsAnyHeld(InputCommands::ePause))
     {
         SND_StopAll_4762D0();
         SFX_Play_43AE60(SoundEffect::PossessEffect_21, 40, 2400, 0);
