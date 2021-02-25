@@ -2,6 +2,7 @@
 #include "JsonDocument.hpp"
 #include "alive_api.hpp"
 #include "../AliveLibAO/PathData.hpp"
+#include "../AliveLibAO/Collisions.hpp"
 #include "../AliveLibAO/HoistRocksEffect.hpp"
 #include "../AliveLibAE/ResourceManager.hpp"
 #include "AOTlvs.hpp"
@@ -39,21 +40,28 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
     rootMapObject << "y_grid_size" << mYGridSize;
     rootMapObject << "y_size" << mYSize;
 
+    BYTE* pPathData = pathResource.data() + sizeof(::ResourceManager::Header);
+
+
+    AO::PathLine* pLineIter = reinterpret_cast<AO::PathLine*>(pPathData + info.mCollisionOffset);
+    for (int i = 0; i < info.mNumCollisionItems; i++)
+    {
+        CollisionObject tmpCol;
+        tmpCol.mX1 = pLineIter[i].field_0_rect.x;
+        tmpCol.mY1 = pLineIter[i].field_0_rect.y;
+        tmpCol.mX2 = pLineIter[i].field_0_rect.w;
+        tmpCol.mY2 = pLineIter[i].field_0_rect.h;
+
+
+        mCollisions.push_back(tmpCol);
+    }
+
     jsonxx::Array collisionsArray;
     for (const auto& item : mCollisions)
     {
         collisionsArray << item.ToJsonObject();
     }
     rootMapObject << "collisions" << collisionsArray;
-
-    jsonxx::Array cameraArray;
-    for (const auto& camera : mCameras)
-    {
-        cameraArray << camera.ToJsonObject();
-    }
-    rootMapObject << "cameras" << cameraArray;
-
-    BYTE* pPathData = pathResource.data() + sizeof(::ResourceManager::Header);
 
     const int* indexTable = reinterpret_cast<const int*>(pPathData + info.mIndexTableOffset);
 
@@ -64,10 +72,31 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
     {
         for (int y = 0; y < info.mHeight; y++)
         {
+            auto pCamName = reinterpret_cast<const AO::CameraName*>(&pPathData[(x + (y * info.mWidth)) * sizeof(AO::CameraName)]);
+            if (pCamName->name[0])
+            {
+                CameraObject tmpCamera;
+                tmpCamera.mName = std::string(pCamName->name, 8);
+                tmpCamera.mX = x;
+                tmpCamera.mY = y;
+                tmpCamera.mId = 
+                    1 * (pCamName->name[7] - '0') +
+                    10 * (pCamName->name[6] - '0') +
+                    100 * (pCamName->name[4] - '0') +
+                    1000 * (pCamName->name[3] - '0');
+                mCameras.push_back(tmpCamera);
+            }
+
             const int objectTableIdx = indexTable[(x + (y * info.mWidth))];
             if (objectTableIdx == -1 || objectTableIdx >= 0x100000)
             {
                 continue;
+            }
+
+            if (!pCamName)
+            {
+                // Cant have objects that dont live in a camera
+                abort();
             }
 
             BYTE* ptr = pPathData + objectTableIdx + info.mObjectOffset;
@@ -132,6 +161,12 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
         }
     }
 
+    jsonxx::Array cameraArray;
+    for (const auto& camera : mCameras)
+    {
+        cameraArray << camera.ToJsonObject();
+    }
+    rootMapObject << "cameras" << cameraArray;
 
     /*
     jsonxx::Object objectStructurePropertiesObject;

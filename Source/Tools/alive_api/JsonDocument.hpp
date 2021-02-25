@@ -64,6 +64,9 @@ struct PathInfo
     int mHeight = 0;
     unsigned int mObjectOffset = 0;
     unsigned int mIndexTableOffset = 0;
+
+    int mNumCollisionItems = 0;
+    int mCollisionOffset = 0;
 };
 
 class JsonDocument

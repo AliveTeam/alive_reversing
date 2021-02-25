@@ -78,6 +78,10 @@ namespace AliveAPI
                                     ret.mPathInfo.mWidth = pBlyRec.field_4_pPathData->field_E_width;
                                     ret.mPathInfo.mIndexTableOffset = pBlyRec.field_4_pPathData->field_16_object_indextable_offset;
                                     ret.mPathInfo.mObjectOffset = pBlyRec.field_4_pPathData->field_12_object_offset;
+
+                                    ret.mPathInfo.mNumCollisionItems = pBlyRec.field_8_pCollisionData->field_10_num_collision_items;
+                                    ret.mPathInfo.mCollisionOffset = pBlyRec.field_8_pCollisionData->field_C_collision_offset;
+
                                     return ret;
                                 }
                             }
@@ -129,6 +133,10 @@ namespace AliveAPI
                                     ret.mPathInfo.mHeight = (pBlyRec.field_4_pPathData->field_A_bBottom - pBlyRec.field_4_pPathData->field_6_bRight) / pBlyRec.field_4_pPathData->field_E_grid_height;
                                     ret.mPathInfo.mIndexTableOffset = pBlyRec.field_4_pPathData->field_18_object_index_table_offset;
                                     ret.mPathInfo.mObjectOffset = pBlyRec.field_4_pPathData->field_14_object_offset;
+
+                                    ret.mPathInfo.mNumCollisionItems = pBlyRec.field_8_pCollisionData->field_10_num_collision_items;
+                                    ret.mPathInfo.mCollisionOffset = pBlyRec.field_8_pCollisionData->field_C_collision_offset;
+
                                     ret.mResult = Error::None;
                                     return ret;
                                 }
