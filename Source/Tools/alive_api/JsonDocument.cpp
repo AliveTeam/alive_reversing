@@ -173,28 +173,27 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
 
     rootMapObject << "cameras" << cameraArray;
 
-    /*
-    jsonxx::Object objectStructurePropertiesObject;
-    for (const auto& propertyEnum : mStructureAndTypes.mEnums)
-    {
-        propertyEnum.AddJsonArray(objectStructurePropertiesObject);
-    }
-    rootMapObject << "object_structure_property_enums" << objectStructurePropertiesObject;
+    rootMapObject << "object_structure_property_basic_types" << globalTypes.BasicTypesToJson();
 
-    jsonxx::Array objectStructureBasicTypes;
-    for (const auto& basicType : mStructureAndTypes.mBasicTypes)
-    {
-        basicType.AddToJsonArray(objectStructureBasicTypes);
-    }
-    rootMapObject << "object_structure_property_basic_types" << objectStructureBasicTypes;
+    rootMapObject << "object_structure_property_enums" << globalTypes.EnumsToJson();
 
-    jsonxx::Array objectStructures;
-    for (const auto& objectStructure : mStructureAndTypes.mObjectStructures)
-    {
-        objectStructure.AddToJsonArray(objectStructures);
-    }
-    rootMapObject << "object_structures" << objectStructures;
-    */
+    jsonxx::Array objectStructuresArray;
+    
+    // TODO: Refactor/add all types
+    AO::Path_ContinuePoint hack = {};
+    AOTlvs::Path_ContinuePoint obj(globalTypes, &hack);
+    objectStructuresArray << obj.StructureToJson();
+
+    AO::Path_Hoist hack2 = {};
+    AOTlvs::Path_Hoist hoist(globalTypes, &hack2);
+    objectStructuresArray << hoist.StructureToJson();
+
+    AO::Path_Door hack3 = {};
+    AOTlvs::Path_Door door(globalTypes, &hack3);
+    objectStructuresArray << door.StructureToJson();
+
+
+    rootMapObject << "object_structures" << objectStructuresArray;
 
     rootObject << "map" << rootMapObject;
 
