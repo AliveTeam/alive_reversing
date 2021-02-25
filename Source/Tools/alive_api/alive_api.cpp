@@ -4,8 +4,6 @@
 #include "../AliveLibAE/PathData.hpp"
 #include "../AliveLibAE/LvlArchive.hpp"
 
-#include "../AliveLibAO/PathData.hpp"
-#include "../AliveLibAO/HoistRocksEffect.hpp"
 
 #include <iostream>
 //#include "magic_enum.hpp"
@@ -172,93 +170,15 @@ namespace AliveAPI
 
     [[nodiscard]] Result ExportPathBinaryToJson(const std::string& jsonOutputFile, const std::string& inputLvlFile, int pathResourceId)
     {
-        TypesCollection globalTypes;
-
         ResourceManager::Init_49BCE0();
         AliveAPI::Result ret = {};
         AliveAPI::PathBND pathBnd = AliveAPI::OpenPathBnd(inputLvlFile, &pathResourceId);
         ret.mResult = pathBnd.mResult;
 
-        BYTE* pPathData = pathBnd.mFileData.data() + sizeof(::ResourceManager::Header);
-        const int* indexTable = reinterpret_cast<const int*>(pPathData + pathBnd.mPathInfo.mIndexTableOffset);
-
-        std::set<AO::TlvTypes> usedTypes;
-
-        for (int x = 0; x < pathBnd.mPathInfo.mWidth; x++)
-        {
-            for (int y = 0; y < pathBnd.mPathInfo.mHeight; y++)
-            {
-                const int objectTableIdx = indexTable[(x + (y * pathBnd.mPathInfo.mWidth))];
-                if (objectTableIdx == -1 || objectTableIdx >= 0x100000)
-                {
-                    continue;
-                }
-
-                BYTE* ptr = pPathData + objectTableIdx + pathBnd.mPathInfo.mObjectOffset;
-                AO::Path_TLV* pPathTLV = reinterpret_cast<AO::Path_TLV*>(ptr);
-                pPathTLV->RangeCheck();
-                if (pPathTLV->field_4_type <= 0x100000 && pPathTLV->field_2_length <= 0x2000u && pPathTLV->field_8 <= 0x1000000)
-                {
-                    for (;;)
-                    {
-                        // End of TLV list for current camera
-                        if (pPathTLV->field_0_flags.Get(AO::TLV_Flags::eBit3_End_TLV_List))
-                        {
-                            break;
-                        }
-
-                        usedTypes.insert(static_cast<AO::TlvTypes>(pPathTLV->field_4_type));
-                        switch (pPathTLV->field_4_type)
-                        {
-                        case AO::TlvTypes::ContinuePoint_0:
-                        {
-                            AOTlvs::Path_ContinuePoint obj(globalTypes, pPathTLV);
-                            obj.InstanceToJson(globalTypes);
-                        }
-                        break;
-
-                        case AO::TlvTypes::Hoist_3:
-                        {
-                            AOTlvs::Path_Hoist obj(globalTypes, pPathTLV);
-                            obj.InstanceToJson(globalTypes);
-                        }
-                        break;
-
-                        case AO::TlvTypes::Door_6:
-                        {
-                            AOTlvs::Path_Door obj(globalTypes, pPathTLV);
-                            obj.InstanceToJson(globalTypes);
-                        }
-                        break;
-
-                        default:
-                            switch (pPathTLV->field_4_type)
-                            {
-                            case 37:
-                                LOG_WARNING("Unused abe start ignored");
-                                break;
-
-                            case 2:
-                                LOG_WARNING("Unused continue zone ignored");
-                                break;
-
-                            default:
-                                LOG_WARNING("Ignoring type: " << pPathTLV->field_4_type);
-                                break;
-                            }
-                            break;
-                        }
-
-                        pPathTLV = AO::Path_TLV::Next_446460(pPathTLV);
-                        pPathTLV->RangeCheck();
-                    }
-                }
-            }
-        }
-
         JsonDocument doc;
         doc.mGame = "AO";
-        doc.SaveAO(pathResourceId, pathBnd.mFileData, pathBnd.mPathInfo, jsonOutputFile);
+        doc.SetPathInfo(pathBnd.mPathBndName, pathBnd.mPathInfo);
+        doc.SaveAO(pathResourceId, pathBnd.mPathInfo, pathBnd.mFileData, jsonOutputFile);
 
         //ret.mResult = Error::JsonFileNeedsUpgrading;
 

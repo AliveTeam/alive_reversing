@@ -89,5 +89,7 @@ public:
 
     }
 
-    void SaveAO(int pathId, const std::vector<BYTE>& pathResource, const PathInfo& info, const std::string& fileName) const;
+    void SetPathInfo(const std::string& pathBndName, const PathInfo& info);
+
+    void SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName);
 };
