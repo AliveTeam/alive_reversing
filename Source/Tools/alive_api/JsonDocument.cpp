@@ -68,14 +68,16 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
     TypesCollection globalTypes;
     std::set<AO::TlvTypes> usedTypes;
 
+
+    jsonxx::Array cameraArray;
     for (int x = 0; x < info.mWidth; x++)
     {
         for (int y = 0; y < info.mHeight; y++)
         {
             auto pCamName = reinterpret_cast<const AO::CameraName*>(&pPathData[(x + (y * info.mWidth)) * sizeof(AO::CameraName)]);
+            CameraObject tmpCamera;
             if (pCamName->name[0])
             {
-                CameraObject tmpCamera;
                 tmpCamera.mName = std::string(pCamName->name, 8);
                 tmpCamera.mX = x;
                 tmpCamera.mY = y;
@@ -84,20 +86,25 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
                     10 * (pCamName->name[6] - '0') +
                     100 * (pCamName->name[4] - '0') +
                     1000 * (pCamName->name[3] - '0');
-                mCameras.push_back(tmpCamera);
             }
 
             const int objectTableIdx = indexTable[(x + (y * info.mWidth))];
             if (objectTableIdx == -1 || objectTableIdx >= 0x100000)
             {
+                if (pCamName->name[0])
+                {
+                    cameraArray << tmpCamera.ToJsonObject({});
+                }
                 continue;
             }
 
-            if (!pCamName)
+            if (!pCamName->name[0])
             {
                 // Cant have objects that dont live in a camera
                 abort();
             }
+
+            jsonxx::Array mapObjects;
 
             BYTE* ptr = pPathData + objectTableIdx + info.mObjectOffset;
             AO::Path_TLV* pPathTLV = reinterpret_cast<AO::Path_TLV*>(ptr);
@@ -118,21 +125,21 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
                     case AO::TlvTypes::ContinuePoint_0:
                     {
                         AOTlvs::Path_ContinuePoint obj(globalTypes, pPathTLV);
-                        obj.InstanceToJson(globalTypes);
+                        mapObjects << obj.InstanceToJson(globalTypes);
                     }
                     break;
 
                     case AO::TlvTypes::Hoist_3:
                     {
                         AOTlvs::Path_Hoist obj(globalTypes, pPathTLV);
-                        obj.InstanceToJson(globalTypes);
+                        mapObjects << obj.InstanceToJson(globalTypes);
                     }
                     break;
 
                     case AO::TlvTypes::Door_6:
                     {
                         AOTlvs::Path_Door obj(globalTypes, pPathTLV);
-                        obj.InstanceToJson(globalTypes);
+                        mapObjects << obj.InstanceToJson(globalTypes);
                     }
                     break;
 
@@ -156,16 +163,14 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
 
                     pPathTLV = AO::Path_TLV::Next_446460(pPathTLV);
                     pPathTLV->RangeCheck();
+
                 }
             }
+            LOG_INFO("Add camera " << tmpCamera.mName);
+            cameraArray << tmpCamera.ToJsonObject(mapObjects);
         }
     }
 
-    jsonxx::Array cameraArray;
-    for (const auto& camera : mCameras)
-    {
-        cameraArray << camera.ToJsonObject();
-    }
     rootMapObject << "cameras" << cameraArray;
 
     /*

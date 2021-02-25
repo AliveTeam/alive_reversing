@@ -34,7 +34,7 @@ struct CameraObject
     int mY = 0;
     //std::vector<MapObject> mMapObjects;
 
-    jsonxx::Object ToJsonObject() const
+    jsonxx::Object ToJsonObject(jsonxx::Array mapObjectsArray) const
     {
         jsonxx::Object obj;
 
@@ -48,9 +48,9 @@ struct CameraObject
         {
             mapObjectsArray << mapObject.ToJsonObject();
         }
-
-        obj << "map_objects" << mapObjectsArray;
         */
+        obj << "map_objects" << mapObjectsArray;
+        
         return obj;
     }
 };
