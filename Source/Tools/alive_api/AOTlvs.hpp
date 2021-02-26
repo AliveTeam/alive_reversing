@@ -10,7 +10,7 @@ namespace AOTlvs
     class Path_Door : public TlvObjectBaseAO
     {
     public:
-        static void AddTypes(TypesCollection& types)
+        void AddTypes(TypesCollection& types) override
         {
             types.AddEnum<AO::DoorStates>("Enum_DoorStates",
                 {
@@ -19,6 +19,11 @@ namespace AOTlvs
                     {AO::DoorStates::eOpening_2, "Opening"},
                     {AO::DoorStates::eClosing_3, "Closing"},
                 });
+        }
+
+        Path_Door() : TlvObjectBaseAO("Door", mData)
+        {
+
         }
 
         Path_Door(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO("Door", mData)
@@ -94,6 +99,10 @@ namespace AOTlvs
     class Path_ContinuePoint : public TlvObjectBaseAO
     {
     public:
+        Path_ContinuePoint() : TlvObjectBaseAO("ContinuePoint", mData)
+        {
+
+        }
 
         Path_ContinuePoint(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO("ContinuePoint", mData)
         {
@@ -129,7 +138,7 @@ namespace AOTlvs
     class Path_Hoist : public TlvObjectBaseAO
     {
     public:
-        static void AddTypes(TypesCollection& types)
+        void AddTypes(TypesCollection& types) override
         {
             types.AddEnum<AO::Path_Hoist::Type>("Enum_HoistType",
                 {
@@ -144,6 +153,11 @@ namespace AOTlvs
                     {AO::Path_Hoist::EdgeType::eLeft, "left"},
                     {AO::Path_Hoist::EdgeType::eRight, "right"},
                 });
+        }
+
+        Path_Hoist() : TlvObjectBaseAO("Hoist", mData)
+        {
+
         }
 
         Path_Hoist(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO("Hoist", mData)

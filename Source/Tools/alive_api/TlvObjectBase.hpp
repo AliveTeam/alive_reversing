@@ -182,6 +182,11 @@ public:
 
     }
 
+    virtual void AddTypes(TypesCollection& /*types*/)
+    {
+
+    }
+
     void InstanceFromJsonBase(jsonxx::Object& obj) override
     {
         mDescription = obj.get<std::string>("name");

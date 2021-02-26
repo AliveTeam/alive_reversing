@@ -3,7 +3,6 @@
 #include "AOTlvs.hpp"
 #include "AETlvs.hpp"
 
-std::map<AO::TlvTypes, std::function<jsonxx::Object(TypesCollection&, AO::Path_TLV*)>> gmap;
 
 
 TypesCollection::TypesCollection()
@@ -18,11 +17,20 @@ TypesCollection::TypesCollection()
 
 }
 
+
+#define REGISTER_TYPE(tlvTypeName, classType) mTlvFactory[tlvTypeName] = [this](AO::Path_TLV* pTlv) { return pTlv ? std::make_unique<classType>(*this, pTlv) : std::make_unique<classType>(); }
+
+
 void TypesCollection::AddAOTypes()
 {
-    AOTlvs::Path_Hoist::AddTypes(*this);
-    //AOTlvs::Path_ContinuePoint::AddTypes(*this);
-    AOTlvs::Path_Door::AddTypes(*this);
+    REGISTER_TYPE(AO::TlvTypes::Hoist_3, AOTlvs::Path_Hoist);
+    REGISTER_TYPE(AO::TlvTypes::ContinuePoint_0, AOTlvs::Path_ContinuePoint);
+    REGISTER_TYPE(AO::TlvTypes::Door_6, AOTlvs::Path_Door);
+
+    for (auto& [key, value] : mTlvFactory)
+    {
+        value(nullptr)->AddTypes(*this);
+    }
 
     AddEnum<AO::LevelIds>("Enum_LevelIds",
         {
@@ -45,4 +53,14 @@ void TypesCollection::AddAOTypes()
             {AO::LevelIds::eDesertEscape, "DesertEscape"},
         });
 
+}
+
+std::unique_ptr<TlvObjectBaseAO> TypesCollection::MakeTlv(AO::TlvTypes tlvType, AO::Path_TLV* pTlv)
+{
+    auto it = mTlvFactory.find(tlvType);
+    if (it == std::end(mTlvFactory))
+    {
+        abort();
+    }
+    return it->second(pTlv);
 }

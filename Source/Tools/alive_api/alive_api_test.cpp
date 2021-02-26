@@ -32,17 +32,12 @@ TEST(alive_api, tlv_reflection)
 {
     TypesCollection types;
 
-
-
     AO::Path_Hoist tlv = {};
-    AOTlvs::Path_Hoist hoist(types, &tlv);
+    std::unique_ptr<TlvObjectBaseAO> pHoist = types.MakeTlv(AO::TlvTypes::Hoist_3, &tlv);
 
-    auto obj = hoist.InstanceToJson(types);
-
-    hoist.InstanceFromJson(types, obj);
-
-    hoist.StructureToJson();
-
+    auto obj = pHoist->InstanceToJson(types);
+    pHoist->InstanceFromJson(types, obj);
+    pHoist->StructureToJson();
 }
 
 int main(int argc, char* argv[])

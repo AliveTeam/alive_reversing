@@ -3,6 +3,9 @@
 #include "ITypeBase.hpp"
 #include "EnumType.hpp"
 #include "BasicType.hpp"
+#include "../AliveLibAO/PathData.hpp"
+
+class TlvObjectBaseAO;
 
 class TypesCollection
 {
@@ -10,6 +13,8 @@ public:
     TypesCollection();
 
     void AddAOTypes();
+
+    std::unique_ptr<TlvObjectBaseAO> MakeTlv(AO::TlvTypes tlvType, AO::Path_TLV* pTlv);
 
     jsonxx::Object EnumsToJson() const
     {
@@ -138,4 +143,5 @@ public:
 
 private:
     std::vector<std::unique_ptr<ITypeBase>> mTypes;
+    std::map<AO::TlvTypes, std::function<std::unique_ptr<TlvObjectBaseAO>(AO::Path_TLV*)>> mTlvFactory;
 };
