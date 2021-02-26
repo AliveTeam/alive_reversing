@@ -18,7 +18,7 @@ TypesCollection::TypesCollection()
 }
 
 
-#define REGISTER_TYPE(tlvTypeName, classType) mTlvFactory[tlvTypeName] = [this](AO::Path_TLV* pTlv) { return pTlv ? std::make_unique<classType>(*this, pTlv) : std::make_unique<classType>(); }
+#define REGISTER_TYPE(tlvTypeName, classType) mTlvFactory[tlvTypeName] = [this](AO::Path_TLV* pTlv) { return std::make_unique<classType>(*this, pTlv); }
 
 
 void TypesCollection::AddAOTypes()
@@ -53,6 +53,14 @@ void TypesCollection::AddAOTypes()
             {AO::LevelIds::eDesertEscape, "DesertEscape"},
         });
 
+}
+
+void TypesCollection::AddTlvsToJsonArray(jsonxx::Array& array)
+{
+    for (auto& [key, value] : mTlvFactory)
+    {
+        array << value(nullptr)->StructureToJson();
+    }
 }
 
 std::unique_ptr<TlvObjectBaseAO> TypesCollection::MakeTlv(AO::TlvTypes tlvType, AO::Path_TLV* pTlv)

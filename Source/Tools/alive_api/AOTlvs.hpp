@@ -21,11 +21,6 @@ namespace AOTlvs
                 });
         }
 
-        Path_Door() : TlvObjectBaseAO("Door", mData)
-        {
-
-        }
-
         Path_Door(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO("Door", mData)
         {
             COPY_TLV();
@@ -99,11 +94,6 @@ namespace AOTlvs
     class Path_ContinuePoint : public TlvObjectBaseAO
     {
     public:
-        Path_ContinuePoint() : TlvObjectBaseAO("ContinuePoint", mData)
-        {
-
-        }
-
         Path_ContinuePoint(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO("ContinuePoint", mData)
         {
             COPY_TLV();
@@ -153,11 +143,6 @@ namespace AOTlvs
                     {AO::Path_Hoist::EdgeType::eLeft, "left"},
                     {AO::Path_Hoist::EdgeType::eRight, "right"},
                 });
-        }
-
-        Path_Hoist() : TlvObjectBaseAO("Hoist", mData)
-        {
-
         }
 
         Path_Hoist(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO("Hoist", mData)

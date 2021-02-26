@@ -178,21 +178,7 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
     rootMapObject << "object_structure_property_enums" << globalTypes.EnumsToJson();
 
     jsonxx::Array objectStructuresArray;
-    
-    // TODO: Refactor/add all types
-    AO::Path_ContinuePoint hack = {};
-    AOTlvs::Path_ContinuePoint obj(globalTypes, &hack);
-    objectStructuresArray << obj.StructureToJson();
-
-    AO::Path_Hoist hack2 = {};
-    AOTlvs::Path_Hoist hoist(globalTypes, &hack2);
-    objectStructuresArray << hoist.StructureToJson();
-
-    AO::Path_Door hack3 = {};
-    AOTlvs::Path_Door door(globalTypes, &hack3);
-    objectStructuresArray << door.StructureToJson();
-
-
+    globalTypes.AddTlvsToJsonArray(objectStructuresArray);
     rootMapObject << "object_structures" << objectStructuresArray;
 
     rootObject << "map" << rootMapObject;
