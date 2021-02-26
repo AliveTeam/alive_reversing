@@ -1,6 +1,49 @@
 #include "alive_api.hpp"
 #include "SDL.h"
 #include "logger.hpp"
+#include "AOTlvs.hpp"
+#include <gmock/gmock.h>
+
+TEST(alive_api, ExportPathBinaryToJson)
+{
+
+    auto ret = AliveAPI::ExportPathBinaryToJson("Output.json", "C:\\GOG Games\\Abes Oddysee\\R6.LVL", 6);
+ 
+    ASSERT_EQ(ret.mResult, AliveAPI::Error::None);
+
+}
+
+TEST(alive_api, EnumeratePaths)
+{
+    auto ret = AliveAPI::EnumeratePaths("C:\\GOG Games\\Abes Oddysee\\R1.LVL");
+    ASSERT_EQ(ret.pathBndName, "R1PATH.BND");
+    const std::vector<int> paths {15, 16, 18, 19};
+    ASSERT_EQ(ret.paths, paths);
+    ASSERT_EQ(ret.mResult, AliveAPI::Error::None);
+}
+
+// Get version
+
+// Import
+
+// Upgrade
+
+TEST(alive_api, tlv_reflection)
+{
+    TypesCollection types;
+
+
+
+    AO::Path_Hoist tlv = {};
+    AOTlvs::Path_Hoist hoist(types, &tlv);
+
+    auto obj = hoist.InstanceToJson(types);
+
+    hoist.InstanceFromJson(types, obj);
+
+    hoist.StructureToJson();
+
+}
 
 int main(int argc, char* argv[])
 {
@@ -12,8 +55,7 @@ int main(int argc, char* argv[])
     RedirectIoStream(true);
 #endif
 
-    auto ret = AliveAPI::ExportPathBinaryToJson("Output.json", "C:\\GOG Games\\Abes Oddysee\\R6.LVL", 6);
-    //auto ret = AliveAPI::EnumeratePaths("C:\\GOG Games\\Abes Oddysee\\R1.LVL");
-
-    return ret.errorCode;
+    ::testing::InitGoogleTest(&argc, argv);
+    const auto ret = RUN_ALL_TESTS();
+    return ret;
 }

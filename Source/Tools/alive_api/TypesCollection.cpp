@@ -3,11 +3,23 @@
 #include "AOTlvs.hpp"
 #include "AETlvs.hpp"
 
+std::map<AO::TlvTypes, std::function<jsonxx::Object(TypesCollection&, AO::Path_TLV*)>> gmap;
+
+
 TypesCollection::TypesCollection()
 {
     AddBasicType<BYTE>("Byte", 0, 255);
     AddBasicType<short>("UInt16", 0, 65535);
+    
+    AddAOTypes();
 
+
+    AETlvs::Path_Hoist::AddTypes(*this);
+
+}
+
+void TypesCollection::AddAOTypes()
+{
     AOTlvs::Path_Hoist::AddTypes(*this);
     //AOTlvs::Path_ContinuePoint::AddTypes(*this);
     AOTlvs::Path_Door::AddTypes(*this);
@@ -32,8 +44,5 @@ TypesCollection::TypesCollection()
             {AO::LevelIds::eForestChase, "ForestChase"},
             {AO::LevelIds::eDesertEscape, "DesertEscape"},
         });
-
-
-    AETlvs::Path_Hoist::AddTypes(*this);
 
 }

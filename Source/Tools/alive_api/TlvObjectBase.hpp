@@ -126,7 +126,7 @@ public:
     virtual void InstanceFromJsonBase(jsonxx::Object& obj) = 0;
     virtual void InstanceToJsonBase(jsonxx::Object& ret) = 0;
 
-private:
+protected:
     struct PropertyInfo
     {
         std::string mName;
@@ -134,7 +134,6 @@ private:
     };
     std::map<void*, PropertyInfo> mInfo;
     std::string mName;
-protected:
     std::string mDescription;
 };
 

@@ -41,6 +41,8 @@ namespace AOTlvs
             ADD_PROP("WipeXOrg", mData.field_42_wipe_x_org);
             ADD_PROP("WipeYOrg", mData.field_44_wipe_y_org);
             ADD_PROP("AbeDirection", mData.field_46_abe_direction);
+
+            // TODO: Make read/write automatic
         }
 
         void PropertiesFromJson(TypesCollection& types, jsonxx::Object& properties) override

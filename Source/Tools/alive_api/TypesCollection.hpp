@@ -9,6 +9,8 @@ class TypesCollection
 public:
     TypesCollection();
 
+    void AddAOTypes();
+
     jsonxx::Object EnumsToJson() const
     {
         jsonxx::Object ret;
