@@ -120,30 +120,14 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
                     }
 
                     usedTypes.insert(static_cast<AO::TlvTypes>(pPathTLV->field_4_type));
-                    switch (pPathTLV->field_4_type)
-                    {
-                    case AO::TlvTypes::ContinuePoint_0:
-                    {
-                        AOTlvs::Path_ContinuePoint obj(globalTypes, pPathTLV);
-                        mapObjects << obj.InstanceToJson(globalTypes);
-                    }
-                    break;
 
-                    case AO::TlvTypes::Hoist_3:
+                    auto obj = globalTypes.MakeTlv(static_cast<AO::TlvTypes>(pPathTLV->field_4_type), pPathTLV);
+                    if (obj)
                     {
-                        AOTlvs::Path_Hoist obj(globalTypes, pPathTLV);
-                        mapObjects << obj.InstanceToJson(globalTypes);
+                        mapObjects << obj->InstanceToJson(globalTypes);
                     }
-                    break;
-
-                    case AO::TlvTypes::Door_6:
+                    else
                     {
-                        AOTlvs::Path_Door obj(globalTypes, pPathTLV);
-                        mapObjects << obj.InstanceToJson(globalTypes);
-                    }
-                    break;
-
-                    default:
                         switch (pPathTLV->field_4_type)
                         {
                         case 37:

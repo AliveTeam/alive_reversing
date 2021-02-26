@@ -71,6 +71,12 @@ public:
     {
         const std::string propName = PropName(&field);
         const std::string propType = PropType(&field);
+
+        if (!properties.has<std::string>(propName))
+        {
+            LOG_ERROR("Missing json property " << propName);
+        }
+
         const std::string jsonValue = properties.get<std::string>(propName);
         field = types.EnumValueFromString<T>(propType, jsonValue);
     }
@@ -90,7 +96,7 @@ public:
     template<class T>
     void WriteBasicType(T& field, jsonxx::Object& properties)
     {
-        properties << PropName(&field) << field;
+        properties << PropName(&field) << static_cast<int>(field);
     }
 
     jsonxx::Object StructureToJson()

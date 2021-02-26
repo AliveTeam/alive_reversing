@@ -145,5 +145,5 @@ public:
 
 private:
     std::vector<std::unique_ptr<ITypeBase>> mTypes;
-    std::map<AO::TlvTypes, std::function<std::unique_ptr<TlvObjectBaseAO>(AO::Path_TLV*)>> mTlvFactory;
+    std::map<AO::TlvTypes, std::function<std::unique_ptr<TlvObjectBaseAO>(TypesCollection&, AO::Path_TLV*)>> mTlvFactory;
 };

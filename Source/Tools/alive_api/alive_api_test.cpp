@@ -42,14 +42,6 @@ TEST(alive_api, tlv_reflection)
 
 int main(int argc, char* argv[])
 {
-#if _WIN32
-    ::AllocConsole();
-    ::freopen("CONOUT$", "w", stdout);
-    ::SetConsoleTitleA("Debug Console");
-    ::SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
-    RedirectIoStream(true);
-#endif
-
     ::testing::InitGoogleTest(&argc, argv);
     const auto ret = RUN_ALL_TESTS();
     return ret;

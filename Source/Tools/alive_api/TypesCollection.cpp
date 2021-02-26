@@ -18,7 +18,7 @@ TypesCollection::TypesCollection()
 }
 
 
-#define REGISTER_TYPE(tlvTypeName, classType) mTlvFactory[tlvTypeName] = [this](AO::Path_TLV* pTlv) { return std::make_unique<classType>(*this, pTlv); }
+#define REGISTER_TYPE(tlvTypeName, classType) mTlvFactory[tlvTypeName] = [](TypesCollection& types, AO::Path_TLV* pTlv) { return std::make_unique<classType>(types, pTlv); }
 
 
 void TypesCollection::AddAOTypes()
@@ -29,7 +29,7 @@ void TypesCollection::AddAOTypes()
 
     for (auto& [key, value] : mTlvFactory)
     {
-        value(nullptr)->AddTypes(*this);
+        value(*this, nullptr)->AddTypes(*this);
     }
 
     AddEnum<AO::LevelIds>("Enum_LevelIds",
@@ -59,7 +59,7 @@ void TypesCollection::AddTlvsToJsonArray(jsonxx::Array& array)
 {
     for (auto& [key, value] : mTlvFactory)
     {
-        array << value(nullptr)->StructureToJson();
+        array << value(*this, nullptr)->StructureToJson();
     }
 }
 
@@ -68,7 +68,8 @@ std::unique_ptr<TlvObjectBaseAO> TypesCollection::MakeTlv(AO::TlvTypes tlvType, 
     auto it = mTlvFactory.find(tlvType);
     if (it == std::end(mTlvFactory))
     {
-        abort();
+        LOG_WARNING("Type " << static_cast<int>(tlvType) << " unknown");
+        return nullptr;
     }
-    return it->second(pTlv);
+    return it->second(*this, pTlv);
 }
