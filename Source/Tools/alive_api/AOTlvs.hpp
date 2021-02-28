@@ -97,29 +97,27 @@ namespace AOTlvs
         Path_ContinuePoint(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO("ContinuePoint", mData)
         {
             COPY_TLV();
-            ADD_PROP("ZoneNumber", mData.field_18_zone_number);
-            ADD_PROP("ClearFromId", mData.field_1A_clear_from_id);
-            ADD_PROP("ClearToId", mData.field_1C_clear_to_id);
-            ADD_PROP("ElumRestarts", mData.field_1E_elum_restarts);
-            ADD_PROP("AbeSpawnDirection", mData.field_20_abe_direction);
+            ADD("ZoneNumber", mData.field_18_zone_number);
+            ADD("ClearFromId", mData.field_1A_clear_from_id);
+            ADD("ClearToId", mData.field_1C_clear_to_id);
+            ADD("ElumRestarts", mData.field_1E_elum_restarts);
+            ADD("AbeSpawnDirection", mData.field_20_abe_direction);
         }
 
         void PropertiesFromJson(TypesCollection& types, jsonxx::Object& properties) override
         {
-            READ_BASIC(mData.field_18_zone_number);
-            READ_BASIC(mData.field_1A_clear_from_id);
-            READ_BASIC(mData.field_1C_clear_to_id);
-            READ_BASIC(mData.field_1E_elum_restarts);
-            READ_BASIC(mData.field_20_abe_direction);
+            for (auto& prop : mProperties)
+            {
+                prop->Read(*this, types, properties);
+            }
         }
 
         void PropertiesToJson(TypesCollection& types, jsonxx::Object& properties) override
         {
-            WRITE_BASIC(mData.field_18_zone_number);
-            WRITE_BASIC(mData.field_1A_clear_from_id);
-            WRITE_BASIC(mData.field_1C_clear_to_id);
-            WRITE_BASIC(mData.field_1E_elum_restarts);
-            WRITE_BASIC(mData.field_20_abe_direction);
+            for (auto& prop : mProperties)
+            {
+                prop->Write(*this, types, properties);
+            }
         }
     private:
         AO::Path_ContinuePoint mData = {};

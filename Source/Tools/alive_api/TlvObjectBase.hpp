@@ -13,7 +13,57 @@
 #define READ_BASIC(field) ReadBasicType(field, properties)
 #define READ_ENUMS(field) ReadEnumValue(types, field, properties)
 
+#define ADD(name, prop)  AddProperty(name, globalTypes.TypeName(typeid(prop)), &prop); mProperties.push_back(std::make_unique<TypedProperty<decltype(mData.field_18_zone_number)>>(name, &prop));
+
 #define COPY_TLV() if (pTlv) { mData = *reinterpret_cast<decltype(&mData)>(pTlv); }
+
+class TlvObjectBase;
+
+class BaseProperty
+{
+public:
+    BaseProperty(const std::string& name) : m_name(name) {}
+    virtual ~BaseProperty() {}
+    virtual void Read(TlvObjectBase& tlvObjBase, TypesCollection& types, jsonxx::Object& properties) = 0;
+    virtual void Write(TlvObjectBase& tlvObjBase, TypesCollection& types, jsonxx::Object& properties) = 0;
+private:
+    std::string m_name;
+};
+
+template< typename T >
+class TypedProperty : public BaseProperty
+{
+public:
+    TypedProperty(const std::string& name, T* data) : BaseProperty(name), m_data(data) { }
+
+    void Read(TlvObjectBase& tlvObjBase, TypesCollection& types, jsonxx::Object& properties) override
+    {
+        if (std::is_enum<T>::value)
+        {
+            tlvObjBase.ReadEnumValue(types, *m_data, properties);
+        }
+        else
+        {
+            tlvObjBase.ReadBasicType(*m_data, properties);
+        }
+    }
+
+    void Write(TlvObjectBase& tlvObjBase, TypesCollection& types, jsonxx::Object& properties) override
+    {
+        if (std::is_enum<T>::value)
+        {
+            tlvObjBase.WriteEnumValue(types, properties, *m_data);
+        }
+        else
+        {
+            tlvObjBase.WriteBasicType(*m_data, properties);
+        }
+    }
+
+private:
+    T* m_data = nullptr;
+};
+
 
 class TlvObjectBase
 {
@@ -139,6 +189,7 @@ protected:
         std::string mTypeName;
     };
     std::map<void*, PropertyInfo> mInfo;
+    std::vector<std::unique_ptr<BaseProperty>> mProperties;
     std::string mName;
     std::string mDescription;
 };
