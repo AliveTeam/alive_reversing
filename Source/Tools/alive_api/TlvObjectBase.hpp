@@ -217,10 +217,10 @@ template<class T>
 class TlvObjectBaseAE : public TlvObjectBase
 {
 public:
-    TlvObjectBaseAE(const std::string& typeName)
+    TlvObjectBaseAE(const std::string& typeName, Path_TLV* pTlv)
         : TlvObjectBase(typeName)
     {
-
+        COPY_TLV();
     }
 
     void InstanceFromJsonBase(jsonxx::Object& obj) override
@@ -254,35 +254,35 @@ template<class T>
 class TlvObjectBaseAO : public TlvObjectBase
 {
 public:
-    TlvObjectBaseAO(const std::string& typeName)
-        : TlvObjectBase(typeName), mBase(mTlv)
+    TlvObjectBaseAO(const std::string& typeName, AO::Path_TLV* pTlv)
+        : TlvObjectBase(typeName), mBase(&mTlv)
     {
-
+        COPY_TLV();
     }
 
     void InstanceFromJsonBase(jsonxx::Object& obj) override
     {
         mDescription = obj.get<std::string>("name");
 
-        mBase.field_10_top_left.field_0_x = obj.get<jsonxx::Number>("xpos");
-        mBase.field_10_top_left.field_2_y = obj.get<jsonxx::Number>("ypos");
-        mBase.field_14_bottom_right.field_0_x = obj.get<jsonxx::Number>("width");
-        mBase.field_14_bottom_right.field_2_y = obj.get<jsonxx::Number>("height");
+        mBase->field_10_top_left.field_0_x = obj.get<jsonxx::Number>("xpos");
+        mBase->field_10_top_left.field_2_y = obj.get<jsonxx::Number>("ypos");
+        mBase->field_14_bottom_right.field_0_x = obj.get<jsonxx::Number>("width");
+        mBase->field_14_bottom_right.field_2_y = obj.get<jsonxx::Number>("height");
     }
 
     void InstanceToJsonBase(jsonxx::Object& ret) override
     {
         ret << "name" << mDescription;
 
-        ret << "xpos" << static_cast<int>(mBase.field_10_top_left.field_0_x);
-        ret << "ypos" << static_cast<int>(mBase.field_10_top_left.field_2_y);
-        ret << "width" << static_cast<int>(mBase.field_14_bottom_right.field_0_x);
-        ret << "height" << static_cast<int>(mBase.field_14_bottom_right.field_2_y);
+        ret << "xpos" << static_cast<int>(mBase->field_10_top_left.field_0_x);
+        ret << "ypos" << static_cast<int>(mBase->field_10_top_left.field_2_y);
+        ret << "width" << static_cast<int>(mBase->field_14_bottom_right.field_0_x);
+        ret << "height" << static_cast<int>(mBase->field_14_bottom_right.field_2_y);
 
         ret << "object_structures_type" << Name();
     }
 
 protected:
     T mTlv;
-    AO::Path_TLV& mBase;
+    AO::Path_TLV* mBase;
 };

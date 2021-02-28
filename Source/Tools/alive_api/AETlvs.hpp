@@ -3,7 +3,7 @@
 #include "TlvObjectBase.hpp"
 #include "../AliveLibAE/Path.hpp"
 
-#define CTOR_AE(className, objectTypeName)  className(TypesCollection& globalTypes, Path_TLV* pTlv = nullptr) : TlvObjectBaseAE(objectTypeName)
+#define CTOR_AE(className, objectTypeName)  className(TypesCollection& globalTypes, Path_TLV* pTlv = nullptr) : TlvObjectBaseAE(objectTypeName, pTlv)
 
 namespace AETlvs
 {
@@ -35,7 +35,6 @@ namespace AETlvs
 
         CTOR_AE(Path_Hoist, "Hoist")
         {
-            COPY_TLV();
             ADD("HoistType", mTlv.field_10_type);
             ADD("HoistEdgeType", mTlv.field_12_edge_type);
             ADD("Id", mTlv.field_14_id);

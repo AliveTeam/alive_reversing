@@ -5,7 +5,7 @@
 #include "../AliveLibAO/Abe.hpp"
 #include "../AliveLibAO/Door.hpp"
 
-#define CTOR_AO(className, objectTypeName)  className(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO(objectTypeName)
+#define CTOR_AO(className, objectTypeName)  className(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO(objectTypeName, pTlv)
 
 namespace AOTlvs
 {
@@ -25,7 +25,6 @@ namespace AOTlvs
 
         CTOR_AO(Path_Door, "Door")
         {
-            COPY_TLV();
             ADD("Level", mTlv.field_18_level);
             ADD("Path", mTlv.field_1A_path);
             ADD("Camera", mTlv.field_1C_camera);
@@ -51,7 +50,6 @@ namespace AOTlvs
     public:
         CTOR_AO(Path_ContinuePoint, "ContinuePoint")
         {
-            COPY_TLV();
             ADD("ZoneNumber", mTlv.field_18_zone_number);
             ADD("ClearFromId", mTlv.field_1A_clear_from_id);
             ADD("ClearToId", mTlv.field_1C_clear_to_id);
@@ -82,7 +80,6 @@ namespace AOTlvs
 
         CTOR_AO(Path_Hoist, "Hoist")
         {
-            COPY_TLV();
             ADD("HoistType", mTlv.field_18_hoist_type);
             ADD("HoistEdgeType", mTlv.field_1A_edge_type);
             ADD("Id", mTlv.field_1C_id);
