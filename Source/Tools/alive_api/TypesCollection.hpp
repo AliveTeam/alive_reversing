@@ -5,7 +5,10 @@
 #include "BasicType.hpp"
 #include "../AliveLibAO/PathData.hpp"
 
+template<class T>
 class TlvObjectBaseAO;
+
+class TlvObjectBase;
 
 class TypesCollection
 {
@@ -16,7 +19,7 @@ public:
 
     void AddTlvsToJsonArray(jsonxx::Array& array);
 
-    std::unique_ptr<TlvObjectBaseAO> MakeTlv(AO::TlvTypes tlvType, AO::Path_TLV* pTlv);
+    std::unique_ptr<TlvObjectBase> MakeTlv(AO::TlvTypes tlvType, AO::Path_TLV* pTlv);
 
     jsonxx::Object EnumsToJson() const
     {
@@ -145,5 +148,5 @@ public:
 
 private:
     std::vector<std::unique_ptr<ITypeBase>> mTypes;
-    std::map<AO::TlvTypes, std::function<std::unique_ptr<TlvObjectBaseAO>(TypesCollection&, AO::Path_TLV*)>> mTlvFactory;
+    std::map<AO::TlvTypes, std::function<std::unique_ptr<TlvObjectBase>(TypesCollection&, AO::Path_TLV*)>> mTlvFactory;
 };

@@ -13,7 +13,8 @@ TypesCollection::TypesCollection()
     AddAOTypes();
 
 
-    AETlvs::Path_Hoist::AddTypes(*this);
+    // TODO AE types
+    //AETlvs::Path_Hoist::AddTypes(*this);
 
 }
 
@@ -63,7 +64,7 @@ void TypesCollection::AddTlvsToJsonArray(jsonxx::Array& array)
     }
 }
 
-std::unique_ptr<TlvObjectBaseAO> TypesCollection::MakeTlv(AO::TlvTypes tlvType, AO::Path_TLV* pTlv)
+std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlv(AO::TlvTypes tlvType, AO::Path_TLV* pTlv)
 {
     auto it = mTlvFactory.find(tlvType);
     if (it == std::end(mTlvFactory))

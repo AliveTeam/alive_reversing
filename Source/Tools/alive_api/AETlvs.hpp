@@ -3,12 +3,14 @@
 #include "TlvObjectBase.hpp"
 #include "../AliveLibAE/Path.hpp"
 
+#define CTOR_AE(className, objectTypeName)  className(TypesCollection& globalTypes, Path_TLV* pTlv = nullptr) : TlvObjectBaseAE(objectTypeName)
+
 namespace AETlvs
 {
-    class Path_Hoist : public TlvObjectBaseAE
+    class Path_Hoist : public TlvObjectBaseAE<::Path_Hoist>
     {
     public:
-        static void AddTypes(TypesCollection& types)
+        void AddTypes(TypesCollection& types) override
         {
             types.AddEnum<::Path_Hoist::Type>("Enum_HoistType",
                 {
@@ -31,16 +33,13 @@ namespace AETlvs
                 });
         }
 
-        Path_Hoist(TypesCollection& globalTypes, Path_TLV* pTlv = nullptr) : TlvObjectBaseAE("Hoist", mData)
+        CTOR_AE(Path_Hoist, "Hoist")
         {
             COPY_TLV();
-            ADD("HoistType", mData.field_10_type);
-            ADD("HoistEdgeType", mData.field_12_edge_type);
-            ADD("Id", mData.field_14_id);
-            ADD("Scale", mData.field_16_scale);
+            ADD("HoistType", mTlv.field_10_type);
+            ADD("HoistEdgeType", mTlv.field_12_edge_type);
+            ADD("Id", mTlv.field_14_id);
+            ADD("Scale", mTlv.field_16_scale);
         }
-
-    private:
-        ::Path_Hoist mData = {};
     };
 }

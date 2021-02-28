@@ -15,7 +15,7 @@
 
 #define ADD(name, prop)  AddProperty(name, globalTypes.TypeName(typeid(prop)), &prop); mProperties.push_back(std::make_unique<TypedProperty<decltype(prop)>>(name, &prop));
 
-#define COPY_TLV() if (pTlv) { mData = *reinterpret_cast<decltype(&mData)>(pTlv); }
+#define COPY_TLV() if (pTlv) { mTlv = *reinterpret_cast<decltype(&mTlv)>(pTlv); }
 
 class TlvObjectBase;
 
@@ -75,6 +75,12 @@ public:
     }
 
     virtual ~TlvObjectBase() {}
+
+
+    virtual void AddTypes(TypesCollection& /*types*/)
+    {
+
+    }
 
     std::string Name() const
     {
@@ -200,17 +206,19 @@ protected:
         std::string mName;
         std::string mTypeName;
     };
-    std::map<void*, PropertyInfo> mInfo;
+    std::map<void*, PropertyInfo> mInfo; // TODO: Combine with mProperties
     std::vector<std::unique_ptr<BaseProperty>> mProperties;
     std::string mName;
     std::string mDescription;
 };
 
+
+template<class T>
 class TlvObjectBaseAE : public TlvObjectBase
 {
 public:
-    TlvObjectBaseAE(const std::string& typeName, Path_TLV& tlv)
-        : TlvObjectBase(typeName), mTlv(tlv)
+    TlvObjectBaseAE(const std::string& typeName)
+        : TlvObjectBase(typeName)
     {
 
     }
@@ -237,21 +245,17 @@ public:
         ret << "object_structures_type" << Name();
     }
 
-private:
-    ::Path_TLV& mTlv;
+protected:
+    T mTlv;
 };
 
 
+template<class T>
 class TlvObjectBaseAO : public TlvObjectBase
 {
 public:
-    TlvObjectBaseAO(const std::string& typeName, AO::Path_TLV& tlv)
-        : TlvObjectBase(typeName), mTlv(tlv)
-    {
-
-    }
-
-    virtual void AddTypes(TypesCollection& /*types*/)
+    TlvObjectBaseAO(const std::string& typeName)
+        : TlvObjectBase(typeName), mBase(mTlv)
     {
 
     }
@@ -260,24 +264,25 @@ public:
     {
         mDescription = obj.get<std::string>("name");
 
-        mTlv.field_10_top_left.field_0_x = obj.get<jsonxx::Number>("xpos");
-        mTlv.field_10_top_left.field_2_y = obj.get<jsonxx::Number>("ypos");
-        mTlv.field_14_bottom_right.field_0_x = obj.get<jsonxx::Number>("width");
-        mTlv.field_14_bottom_right.field_2_y = obj.get<jsonxx::Number>("height");
+        mBase.field_10_top_left.field_0_x = obj.get<jsonxx::Number>("xpos");
+        mBase.field_10_top_left.field_2_y = obj.get<jsonxx::Number>("ypos");
+        mBase.field_14_bottom_right.field_0_x = obj.get<jsonxx::Number>("width");
+        mBase.field_14_bottom_right.field_2_y = obj.get<jsonxx::Number>("height");
     }
 
     void InstanceToJsonBase(jsonxx::Object& ret) override
     {
         ret << "name" << mDescription;
 
-        ret << "xpos" << static_cast<int>(mTlv.field_10_top_left.field_0_x);
-        ret << "ypos" << static_cast<int>(mTlv.field_10_top_left.field_2_y);
-        ret << "width" << static_cast<int>(mTlv.field_14_bottom_right.field_0_x);
-        ret << "height" << static_cast<int>(mTlv.field_14_bottom_right.field_2_y);
+        ret << "xpos" << static_cast<int>(mBase.field_10_top_left.field_0_x);
+        ret << "ypos" << static_cast<int>(mBase.field_10_top_left.field_2_y);
+        ret << "width" << static_cast<int>(mBase.field_14_bottom_right.field_0_x);
+        ret << "height" << static_cast<int>(mBase.field_14_bottom_right.field_2_y);
 
         ret << "object_structures_type" << Name();
     }
 
-private:
-    AO::Path_TLV& mTlv;
+protected:
+    T mTlv;
+    AO::Path_TLV& mBase;
 };

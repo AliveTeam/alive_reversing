@@ -5,9 +5,11 @@
 #include "../AliveLibAO/Abe.hpp"
 #include "../AliveLibAO/Door.hpp"
 
+#define CTOR_AO(className, objectTypeName)  className(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO(objectTypeName)
+
 namespace AOTlvs
 {
-    class Path_Door : public TlvObjectBaseAO
+    class Path_Door : public TlvObjectBaseAO<AO::Path_Door>
     {
     public:
         void AddTypes(TypesCollection& types) override
@@ -21,50 +23,44 @@ namespace AOTlvs
                 });
         }
 
-        Path_Door(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO("Door", mData)
+        CTOR_AO(Path_Door, "Door")
         {
             COPY_TLV();
-            ADD("Level", mData.field_18_level);
-            ADD("Path", mData.field_1A_path);
-            ADD("Camera", mData.field_1C_camera);
-            ADD("Scale", mData.field_1E_scale);
-            ADD("DoorNumber", mData.field_20_door_number);
-            ADD("Id", mData.field_22_id);
-            ADD("TargetDoorNumber", mData.field_24_target_door_number);
-            ADD("StartState", mData.field_26_start_state);
-            ADD("DoorClosed", mData.field_28_door_closed);
-            //ADD("Hubs", mData.field_2A_hubs); // TODO: Handle array
-            ADD("WipeEffect", mData.field_3A_wipe_effect);
-            ADD("MovieNumber", mData.field_3C_movie_number);
-            ADD("XOffset", mData.field_3E_x_offset);
-            ADD("YOffset", mData.field_40_y_offset);
-            ADD("WipeXOrg", mData.field_42_wipe_x_org);
-            ADD("WipeYOrg", mData.field_44_wipe_y_org);
-            ADD("AbeDirection", mData.field_46_abe_direction);
+            ADD("Level", mTlv.field_18_level);
+            ADD("Path", mTlv.field_1A_path);
+            ADD("Camera", mTlv.field_1C_camera);
+            ADD("Scale", mTlv.field_1E_scale);
+            ADD("DoorNumber", mTlv.field_20_door_number);
+            ADD("Id", mTlv.field_22_id);
+            ADD("TargetDoorNumber", mTlv.field_24_target_door_number);
+            ADD("StartState", mTlv.field_26_start_state);
+            ADD("DoorClosed", mTlv.field_28_door_closed);
+            //ADD("Hubs", mTlv.field_2A_hubs); // TODO: Handle array
+            ADD("WipeEffect", mTlv.field_3A_wipe_effect);
+            ADD("MovieNumber", mTlv.field_3C_movie_number);
+            ADD("XOffset", mTlv.field_3E_x_offset);
+            ADD("YOffset", mTlv.field_40_y_offset);
+            ADD("WipeXOrg", mTlv.field_42_wipe_x_org);
+            ADD("WipeYOrg", mTlv.field_44_wipe_y_org);
+            ADD("AbeDirection", mTlv.field_46_abe_direction);
         }
-
-    private:
-        AO::Path_Door mData = {};
     };
 
-    class Path_ContinuePoint : public TlvObjectBaseAO
+    class Path_ContinuePoint : public TlvObjectBaseAO<AO::Path_ContinuePoint>
     {
     public:
-        Path_ContinuePoint(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO("ContinuePoint", mData)
+        CTOR_AO(Path_ContinuePoint, "ContinuePoint")
         {
             COPY_TLV();
-            ADD("ZoneNumber", mData.field_18_zone_number);
-            ADD("ClearFromId", mData.field_1A_clear_from_id);
-            ADD("ClearToId", mData.field_1C_clear_to_id);
-            ADD("ElumRestarts", mData.field_1E_elum_restarts);
-            ADD("AbeSpawnDirection", mData.field_20_abe_direction);
+            ADD("ZoneNumber", mTlv.field_18_zone_number);
+            ADD("ClearFromId", mTlv.field_1A_clear_from_id);
+            ADD("ClearToId", mTlv.field_1C_clear_to_id);
+            ADD("ElumRestarts", mTlv.field_1E_elum_restarts);
+            ADD("AbeSpawnDirection", mTlv.field_20_abe_direction);
         }
-
-    private:
-        AO::Path_ContinuePoint mData = {};
     };
 
-    class Path_Hoist : public TlvObjectBaseAO
+    class Path_Hoist : public TlvObjectBaseAO<AO::Path_Hoist>
     {
     public:
         void AddTypes(TypesCollection& types) override
@@ -84,15 +80,12 @@ namespace AOTlvs
                 });
         }
 
-        Path_Hoist(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO("Hoist", mData)
+        CTOR_AO(Path_Hoist, "Hoist")
         {
             COPY_TLV();
-            ADD("HoistType", mData.field_18_hoist_type);
-            ADD("HoistEdgeType", mData.field_1A_edge_type);
-            ADD("Id", mData.field_1C_id);
+            ADD("HoistType", mTlv.field_18_hoist_type);
+            ADD("HoistEdgeType", mTlv.field_1A_edge_type);
+            ADD("Id", mTlv.field_1C_id);
         }
-
-    private:
-        AO::Path_Hoist mData = {};
     };
 }

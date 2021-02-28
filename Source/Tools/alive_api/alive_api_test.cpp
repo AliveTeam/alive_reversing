@@ -33,7 +33,7 @@ TEST(alive_api, tlv_reflection)
     TypesCollection types;
 
     AO::Path_Hoist tlv = {};
-    std::unique_ptr<TlvObjectBaseAO> pHoist = types.MakeTlv(AO::TlvTypes::Hoist_3, &tlv);
+    std::unique_ptr<TlvObjectBase> pHoist = types.MakeTlv(AO::TlvTypes::Hoist_3, &tlv);
 
     auto obj = pHoist->InstanceToJson(types);
     pHoist->InstanceFromJson(types, obj);
