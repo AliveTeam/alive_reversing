@@ -88,8 +88,8 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
                     1000 * (pCamName->name[3] - '0');
             }
 
-            const int objectTableIdx = indexTable[(x + (y * info.mWidth))];
-            if (objectTableIdx == -1 || objectTableIdx >= 0x100000)
+            const int indexTableOffset = indexTable[(x + (y * info.mWidth))];
+            if (indexTableOffset == -1 || indexTableOffset >= 0x100000)
             {
                 if (pCamName->name[0])
                 {
@@ -106,7 +106,7 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
 
             jsonxx::Array mapObjects;
 
-            BYTE* ptr = pPathData + objectTableIdx + info.mObjectOffset;
+            BYTE* ptr = pPathData + indexTableOffset + info.mObjectOffset;
             AO::Path_TLV* pPathTLV = reinterpret_cast<AO::Path_TLV*>(ptr);
             pPathTLV->RangeCheck();
             if (pPathTLV->field_4_type <= 0x100000 && pPathTLV->field_2_length <= 0x2000u && pPathTLV->field_8 <= 0x1000000)
@@ -142,7 +142,6 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
                             LOG_WARNING("Ignoring type: " << pPathTLV->field_4_type);
                             break;
                         }
-                        break;
                     }
 
                     pPathTLV = AO::Path_TLV::Next_446460(pPathTLV);
