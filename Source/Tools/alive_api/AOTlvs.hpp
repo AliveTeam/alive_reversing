@@ -24,67 +24,23 @@ namespace AOTlvs
         Path_Door(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO("Door", mData)
         {
             COPY_TLV();
-            ADD_PROP("Level", mData.field_18_level);
-            ADD_PROP("Path", mData.field_1A_path);
-            ADD_PROP("Camera", mData.field_1C_camera);
-            ADD_PROP("Scale", mData.field_1E_scale);
-            ADD_PROP("DoorNumber", mData.field_20_door_number);
-            ADD_PROP("Id", mData.field_22_id);
-            ADD_PROP("TargetDoorNumber", mData.field_24_target_door_number);
-            ADD_PROP("StartState", mData.field_26_start_state);
-            ADD_PROP("DoorClosed", mData.field_28_door_closed);
-            ADD_PROP("Hubs", mData.field_2A_hubs); // TODO: Handle array
-            ADD_PROP("WipeEffect", mData.field_3A_wipe_effect);
-            ADD_PROP("MovieNumber", mData.field_3C_movie_number);
-            ADD_PROP("XOffset", mData.field_3E_x_offset);
-            ADD_PROP("YOffset", mData.field_40_y_offset);
-            ADD_PROP("WipeXOrg", mData.field_42_wipe_x_org);
-            ADD_PROP("WipeYOrg", mData.field_44_wipe_y_org);
-            ADD_PROP("AbeDirection", mData.field_46_abe_direction);
-
-            // TODO: Make read/write automatic
-        }
-
-        void PropertiesFromJson(TypesCollection& types, jsonxx::Object& properties) override
-        {
-            READ_ENUMS(mData.field_18_level);
-            READ_BASIC(mData.field_1A_path);
-            READ_BASIC(mData.field_1C_camera);
-            READ_BASIC(mData.field_1E_scale);
-            READ_BASIC(mData.field_20_door_number);
-            READ_BASIC(mData.field_22_id);
-            READ_BASIC(mData.field_24_target_door_number);
-            READ_ENUMS(mData.field_26_start_state);
-            READ_BASIC(mData.field_28_door_closed);
-            //READ_BASIC(mData.field_2A_hubs); // TODO
-            READ_BASIC(mData.field_3A_wipe_effect);
-            READ_BASIC(mData.field_3C_movie_number);
-            READ_BASIC(mData.field_3E_x_offset);
-            READ_BASIC(mData.field_40_y_offset);
-            READ_BASIC(mData.field_42_wipe_x_org);
-            READ_BASIC(mData.field_44_wipe_y_org);
-            READ_BASIC(mData.field_46_abe_direction);
-        }
-
-        void PropertiesToJson(TypesCollection& types, jsonxx::Object& properties) override
-        {
-            WRITE_ENUMS(mData.field_18_level);
-            WRITE_BASIC(mData.field_1A_path);
-            WRITE_BASIC(mData.field_1C_camera);
-            WRITE_BASIC(mData.field_1E_scale);
-            WRITE_BASIC(mData.field_20_door_number);
-            WRITE_BASIC(mData.field_22_id);
-            WRITE_BASIC(mData.field_24_target_door_number);
-            WRITE_ENUMS(mData.field_26_start_state);
-            WRITE_BASIC(mData.field_28_door_closed);
-           // WRITE_BASIC(mData.field_2A_hubs); // TODO
-            WRITE_BASIC(mData.field_3A_wipe_effect);
-            WRITE_BASIC(mData.field_3C_movie_number);
-            WRITE_BASIC(mData.field_3E_x_offset);
-            WRITE_BASIC(mData.field_40_y_offset);
-            WRITE_BASIC(mData.field_42_wipe_x_org);
-            WRITE_BASIC(mData.field_44_wipe_y_org);
-            WRITE_BASIC(mData.field_46_abe_direction);
+            ADD("Level", mData.field_18_level);
+            ADD("Path", mData.field_1A_path);
+            ADD("Camera", mData.field_1C_camera);
+            ADD("Scale", mData.field_1E_scale);
+            ADD("DoorNumber", mData.field_20_door_number);
+            ADD("Id", mData.field_22_id);
+            ADD("TargetDoorNumber", mData.field_24_target_door_number);
+            ADD("StartState", mData.field_26_start_state);
+            ADD("DoorClosed", mData.field_28_door_closed);
+            //ADD("Hubs", mData.field_2A_hubs); // TODO: Handle array
+            ADD("WipeEffect", mData.field_3A_wipe_effect);
+            ADD("MovieNumber", mData.field_3C_movie_number);
+            ADD("XOffset", mData.field_3E_x_offset);
+            ADD("YOffset", mData.field_40_y_offset);
+            ADD("WipeXOrg", mData.field_42_wipe_x_org);
+            ADD("WipeYOrg", mData.field_44_wipe_y_org);
+            ADD("AbeDirection", mData.field_46_abe_direction);
         }
 
     private:
@@ -104,21 +60,6 @@ namespace AOTlvs
             ADD("AbeSpawnDirection", mData.field_20_abe_direction);
         }
 
-        void PropertiesFromJson(TypesCollection& types, jsonxx::Object& properties) override
-        {
-            for (auto& prop : mProperties)
-            {
-                prop->Read(*this, types, properties);
-            }
-        }
-
-        void PropertiesToJson(TypesCollection& types, jsonxx::Object& properties) override
-        {
-            for (auto& prop : mProperties)
-            {
-                prop->Write(*this, types, properties);
-            }
-        }
     private:
         AO::Path_ContinuePoint mData = {};
     };
@@ -146,23 +87,9 @@ namespace AOTlvs
         Path_Hoist(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO("Hoist", mData)
         {
             COPY_TLV();
-            ADD_PROP("HoistType", mData.field_18_hoist_type);
-            ADD_PROP("HoistEdgeType", mData.field_1A_edge_type);
-            ADD_PROP("Id", mData.field_1C_id);
-        }
-
-        void PropertiesFromJson(TypesCollection& types, jsonxx::Object& properties) override
-        {
-            READ_ENUMS(mData.field_18_hoist_type);
-            READ_ENUMS(mData.field_1A_edge_type);
-            READ_BASIC(mData.field_1C_id);
-        }
-
-        void PropertiesToJson(TypesCollection& types, jsonxx::Object& properties) override
-        {
-            WRITE_ENUMS(mData.field_18_hoist_type);
-            WRITE_ENUMS(mData.field_1A_edge_type);
-            WRITE_BASIC(mData.field_1C_id);
+            ADD("HoistType", mData.field_18_hoist_type);
+            ADD("HoistEdgeType", mData.field_1A_edge_type);
+            ADD("Id", mData.field_1C_id);
         }
 
     private:

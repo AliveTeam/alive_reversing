@@ -13,7 +13,7 @@
 #define READ_BASIC(field) ReadBasicType(field, properties)
 #define READ_ENUMS(field) ReadEnumValue(types, field, properties)
 
-#define ADD(name, prop)  AddProperty(name, globalTypes.TypeName(typeid(prop)), &prop); mProperties.push_back(std::make_unique<TypedProperty<decltype(mData.field_18_zone_number)>>(name, &prop));
+#define ADD(name, prop)  AddProperty(name, globalTypes.TypeName(typeid(prop)), &prop); mProperties.push_back(std::make_unique<TypedProperty<decltype(prop)>>(name, &prop));
 
 #define COPY_TLV() if (pTlv) { mData = *reinterpret_cast<decltype(&mData)>(pTlv); }
 
@@ -38,7 +38,7 @@ public:
 
     void Read(TlvObjectBase& tlvObjBase, TypesCollection& types, jsonxx::Object& properties) override
     {
-        if (std::is_enum<T>::value)
+        if constexpr (std::is_enum<T>::value)
         {
             tlvObjBase.ReadEnumValue(types, *m_data, properties);
         }
@@ -50,7 +50,7 @@ public:
 
     void Write(TlvObjectBase& tlvObjBase, TypesCollection& types, jsonxx::Object& properties) override
     {
-        if (std::is_enum<T>::value)
+        if constexpr (std::is_enum<T>::value)
         {
             tlvObjBase.WriteEnumValue(types, properties, *m_data);
         }
@@ -164,7 +164,13 @@ public:
         PropertiesFromJson(types, properties);
     }
 
-    virtual void PropertiesFromJson(TypesCollection& types, jsonxx::Object& properties) = 0;
+    void PropertiesFromJson(TypesCollection& types, jsonxx::Object& properties)
+    {
+        for (auto& prop : mProperties)
+        {
+            prop->Read(*this, types, properties);
+        }
+    }
 
     jsonxx::Object InstanceToJson(TypesCollection& types)
     {
@@ -177,7 +183,13 @@ public:
         return ret;
     }
 
-    virtual void PropertiesToJson(TypesCollection& types, jsonxx::Object& properties) = 0;
+    void PropertiesToJson(TypesCollection& types, jsonxx::Object& properties)
+    {
+        for (auto& prop : mProperties)
+        {
+            prop->Write(*this, types, properties);
+        }
+    }
 
     virtual void InstanceFromJsonBase(jsonxx::Object& obj) = 0;
     virtual void InstanceToJsonBase(jsonxx::Object& ret) = 0;

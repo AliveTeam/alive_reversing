@@ -34,26 +34,10 @@ namespace AETlvs
         Path_Hoist(TypesCollection& globalTypes, Path_TLV* pTlv = nullptr) : TlvObjectBaseAE("Hoist", mData)
         {
             COPY_TLV();
-            ADD_PROP("HoistType", mData.field_10_type);
-            ADD_PROP("HoistEdgeType", mData.field_12_edge_type);
-            ADD_PROP("Id", mData.field_14_id);
-            ADD_PROP("Scale", mData.field_16_scale);
-        }
-
-        void PropertiesFromJson(TypesCollection& types, jsonxx::Object& properties) override
-        {
-            READ_ENUMS(mData.field_10_type);
-            READ_ENUMS(mData.field_12_edge_type);
-            READ_BASIC(mData.field_14_id);
-            READ_ENUMS(mData.field_16_scale);
-        }
-
-        void PropertiesToJson(TypesCollection& types, jsonxx::Object& properties) override
-        {
-            WRITE_ENUMS(mData.field_10_type);
-            WRITE_ENUMS(mData.field_12_edge_type);
-            WRITE_BASIC(mData.field_14_id);
-            WRITE_ENUMS(mData.field_16_scale);
+            ADD("HoistType", mData.field_10_type);
+            ADD("HoistEdgeType", mData.field_12_edge_type);
+            ADD("Id", mData.field_14_id);
+            ADD("Scale", mData.field_16_scale);
         }
 
     private:
