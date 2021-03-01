@@ -286,14 +286,14 @@ Door* Door::ctor_40E010(Path_Door* pTlv, int tlvInfo)
 
                 field_BC_sprite_scale = FP_FromInteger(1);
 
-                field_F2_hubs_ids[0] = pTlv->field_2A_hubs[0];
-                field_F2_hubs_ids[1] = pTlv->field_2A_hubs[1];
-                field_F2_hubs_ids[2] = pTlv->field_2A_hubs[2];
-                field_F2_hubs_ids[3] = pTlv->field_2A_hubs[3];
-                field_F2_hubs_ids[4] = pTlv->field_2A_hubs[4];
-                field_F2_hubs_ids[5] = pTlv->field_2A_hubs[5];
-                field_F2_hubs_ids[6] = pTlv->field_2A_hubs[6];
-                field_F2_hubs_ids[7] = pTlv->field_2A_hubs[7];
+                field_F2_hubs_ids[0] = pTlv->field_2A_hub1;
+                field_F2_hubs_ids[1] = pTlv->field_2A_hub2;
+                field_F2_hubs_ids[2] = pTlv->field_2A_hub3;
+                field_F2_hubs_ids[3] = pTlv->field_2A_hub4;
+                field_F2_hubs_ids[4] = pTlv->field_2A_hub5;
+                field_F2_hubs_ids[5] = pTlv->field_2A_hub6;
+                field_F2_hubs_ids[6] = pTlv->field_2A_hub7;
+                field_F2_hubs_ids[7] = pTlv->field_2A_hub8;
                 break;
             }
         }

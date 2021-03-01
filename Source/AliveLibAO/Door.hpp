@@ -28,7 +28,14 @@ struct Path_Door : public Path_TLV
     __int16 field_24_target_door_number;
     DoorStates field_26_start_state;
     __int16 field_28_door_closed;
-    __int16 field_2A_hubs[8];
+    __int16 field_2A_hub1;
+    __int16 field_2A_hub2;
+    __int16 field_2A_hub3;
+    __int16 field_2A_hub4;
+    __int16 field_2A_hub5;
+    __int16 field_2A_hub6;
+    __int16 field_2A_hub7;
+    __int16 field_2A_hub8;
     __int16 field_3A_wipe_effect;
     __int16 field_3C_movie_number;
     __int16 field_3E_x_offset;
