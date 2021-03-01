@@ -160,7 +160,7 @@ BaseGameObject* MovingBomb::dtor_43B2C0()
         field_F8_pLiftPoint = nullptr;
     }
 
-    if (field_10C_state >= States::eBlowingUp_6)
+    if (field_10C_state == States::eBlowingUp_6 || field_10C_state == States::eKillMovingBomb_7)
     {
         gMap_507BA8.TLV_Reset_446870(field_110_tlvInfo, -1, 0, 1);
     }
@@ -278,6 +278,7 @@ void MovingBomb::VOnThrowableHit(BaseGameObject* pFrom)
 
 void MovingBomb::VOnThrowableHit_43B930(BaseGameObject* /*pFrom*/)
 {
+    LOG_INFO("To blow via throwable");
     field_6_flags.Clear(Options::eCanExplode_Bit7);
     field_10C_state = States::eBlowingUp_6;
     field_B8_vely = FP_FromInteger(0);
@@ -309,6 +310,10 @@ __int16 MovingBomb::HitObject_43B970()
                     if (RectsOverlap(ourRect, objRect) &&
                         pObjIter->field_BC_sprite_scale == field_BC_sprite_scale)
                     {
+                        LOG_INFO("Hit object ourRect(" 
+                            << ourRect.x << "," << ourRect.y << "," << ourRect.w << "," << ourRect.h << ") vs objRect("
+                            << objRect.x << "," << objRect.y << "," << objRect.w << "," << objRect.h << ")");
+
                         return 1;
                     }
                 }
@@ -385,15 +390,21 @@ void MovingBomb::VUpdate_43B440()
         field_6_flags.Set(Options::eDead_Bit3);
     }
 
-    if (field_10C_state < States::eBlowingUp_6)
+    if (field_10C_state == States::eTriggeredByAlarm_0 ||
+        field_10C_state == States::eTriggeredBySwitch_1 ||
+        field_10C_state == States::eMoving_2 ||
+        field_10C_state == States::eStopMoving_3 ||
+        field_10C_state == States::eWaitABit_4 ||
+        field_10C_state == States::eToMoving_5)
     {
         if (HitObject_43B970())
         {
             field_6_flags.Clear(Options::eCanExplode_Bit7);
+            LOG_INFO("Blow up after hitting object");
             field_10C_state = States::eBlowingUp_6;
             field_B8_vely = FP_FromInteger(0);
             field_114_timer = gnFrameCount_507670 + 1;
-            SFX_Play_43AD70(3u, 100, 0);
+            SFX_Play_43AD70(SoundEffect::GreenTick_3, 100);
         }
     }
 
@@ -522,6 +533,7 @@ void MovingBomb::VUpdate_43B440()
     case States::eBlowingUp_6:
         if (field_114_timer <= static_cast<int>(gnFrameCount_507670))
         {
+            LOG_INFO("BLOW UP!!");
             SFX_Play_43AD70(SoundEffect::GreenTick_3, 100, 0);
 
             field_100_health = FP_FromInteger(0);
@@ -550,6 +562,10 @@ void MovingBomb::VUpdate_43B440()
             field_10C_state = States::eKillMovingBomb_7;
             field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
             field_114_timer = gnFrameCount_507670 + 4;
+        }
+        else
+        {
+             LOG_INFO("BLOW UP (soon) " << field_114_timer << " vs " << gnFrameCount_507670);
         }
         break;
 
