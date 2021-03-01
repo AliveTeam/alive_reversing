@@ -278,7 +278,6 @@ void MovingBomb::VOnThrowableHit(BaseGameObject* pFrom)
 
 void MovingBomb::VOnThrowableHit_43B930(BaseGameObject* /*pFrom*/)
 {
-    LOG_INFO("To blow via throwable");
     field_6_flags.Clear(Options::eCanExplode_Bit7);
     field_10C_state = States::eBlowingUp_6;
     field_B8_vely = FP_FromInteger(0);
@@ -307,23 +306,11 @@ __int16 MovingBomb::HitObject_43B970()
                     PSX_RECT objRect = {};
                     pObjIter->VGetBoundingRect(&objRect, 1);
 
-                    LOG_INFO("Compare objects " << static_cast<int>(pObjIter->field_4_typeId) << " ourRect("
-                        << ourRect.x << "," << ourRect.y << "," << ourRect.w << "," << ourRect.h << ") vs objRect("
-                        << objRect.x << "," << objRect.y << "," << objRect.w << "," << objRect.h << ")");
-
                     if (RectsOverlap(ourRect, objRect) &&
                         pObjIter->field_BC_sprite_scale == field_BC_sprite_scale)
                     {
-                        LOG_INFO("Hit object ourRect(" 
-                            << ourRect.x << "," << ourRect.y << "," << ourRect.w << "," << ourRect.h << ") vs objRect("
-                            << objRect.x << "," << objRect.y << "," << objRect.w << "," << objRect.h << ")");
-
                         return 1;
                     }
-                }
-                else
-                {
-                    LOG_INFO("Obj " << static_cast<int>(pObjIter->field_4_typeId) << " is rip");
                 }
             }
         }
@@ -408,7 +395,6 @@ void MovingBomb::VUpdate_43B440()
         if (HitObject_43B970())
         {
             field_6_flags.Clear(Options::eCanExplode_Bit7);
-            LOG_INFO("Blow up after hitting object");
             field_10C_state = States::eBlowingUp_6;
             field_B8_vely = FP_FromInteger(0);
             field_114_timer = gnFrameCount_507670 + 1;
@@ -541,7 +527,6 @@ void MovingBomb::VUpdate_43B440()
     case States::eBlowingUp_6:
         if (field_114_timer <= static_cast<int>(gnFrameCount_507670))
         {
-            LOG_INFO("BLOW UP!!");
             SFX_Play_43AD70(SoundEffect::GreenTick_3, 100, 0);
 
             field_100_health = FP_FromInteger(0);
@@ -570,10 +555,6 @@ void MovingBomb::VUpdate_43B440()
             field_10C_state = States::eKillMovingBomb_7;
             field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
             field_114_timer = gnFrameCount_507670 + 4;
-        }
-        else
-        {
-             LOG_INFO("BLOW UP (soon) " << field_114_timer << " vs " << gnFrameCount_507670);
         }
         break;
 
