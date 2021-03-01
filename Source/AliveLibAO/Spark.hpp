@@ -42,7 +42,7 @@ public:
 
     EXPORT void VUpdate_477DB0();
 
-    virtual void VRender(PrimHeader** ppOt);
+    virtual void VRender(PrimHeader** ppOt) override;
 
     EXPORT void VRender_477ED0(PrimHeader** ppOt);
 

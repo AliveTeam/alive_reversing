@@ -7,3 +7,6 @@
 [submodule "3rdParty/magic_enum"]
 	path = 3rdParty/magic_enum
 	url = https://github.com/Neargye/magic_enum.git
+[submodule "3rdParty/jsonxx"]
+	path = 3rdParty/jsonxx
+	url = https://github.com/hjiang/jsonxx

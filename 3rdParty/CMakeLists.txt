@@ -42,6 +42,15 @@ add_library(DxOld INTERFACE)
 target_include_directories(DxOld INTERFACE DxOld/)
 export(TARGETS DxOld FILE DxOld.cmake)
 
+# jsonxx lib
+add_library(jsonxx jsonxx/jsonxx.cc)
+target_include_directories(jsonxx PUBLIC
+    $<BUILD_INTERFACE:
+    ${CMAKE_CURRENT_SOURCE_DIR}/jsonxx)
+export(TARGETS jsonxx FILE jsonxx.cmake)
+set_property(TARGET jsonxx PROPERTY FOLDER "3rdParty")
+
+
 # googletest lib
 add_library(googletest
     googletest/googletest/src/gtest-all.cc
