@@ -89,8 +89,23 @@ int CC Math_SquareRoot_Int_4511B0(int a1)
 
 FP CC Math_SquareRoot_FP_451210(FP v)
 {
-    AE_IMPLEMENTED();
-    return Math_SquareRoot_FP_496E90(v);
+    if (v == FP_FromInteger(0))
+    {
+        return FP_FromInteger(0);
+    }
+
+    if (v == FP_FromInteger(1))
+    {
+        return FP_FromInteger(1);
+    }
+
+    FP v2 = v / FP_FromInteger(2);
+    for (int i = 6; i > 0; i--)
+    {
+        FP v4 = v / v2;
+        v2 = (v2 + v4) / FP_FromInteger(2);
+    }
+    return v2;
 }
 
 }
