@@ -307,6 +307,10 @@ __int16 MovingBomb::HitObject_43B970()
                     PSX_RECT objRect = {};
                     pObjIter->VGetBoundingRect(&objRect, 1);
 
+                    LOG_INFO("Compare objects " << static_cast<int>(pObjIter->field_4_typeId) << " ourRect("
+                        << ourRect.x << "," << ourRect.y << "," << ourRect.w << "," << ourRect.h << ") vs objRect("
+                        << objRect.x << "," << objRect.y << "," << objRect.w << "," << objRect.h << ")");
+
                     if (RectsOverlap(ourRect, objRect) &&
                         pObjIter->field_BC_sprite_scale == field_BC_sprite_scale)
                     {
@@ -316,6 +320,10 @@ __int16 MovingBomb::HitObject_43B970()
 
                         return 1;
                     }
+                }
+                else
+                {
+                    LOG_INFO("Obj " << static_cast<int>(pObjIter->field_4_typeId) << " is rip");
                 }
             }
         }
