@@ -733,7 +733,7 @@ signed __int16 Animation::Set_Animation_Data_402A40(int frameTableOffset, BYTE**
     return 1;
 }
 
-void Animation::SetFrame_402AC0(unsigned __int16 newFrame)
+void Animation::SetFrame_402AC0(__int16 newFrame)
 {
     if (field_20_ppBlock)
     {

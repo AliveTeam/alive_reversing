@@ -216,7 +216,7 @@ public:
 
     EXPORT signed __int16 Set_Animation_Data_402A40(int frameTable, BYTE** resBlock);
 
-    EXPORT void SetFrame_402AC0(unsigned __int16 newFrame);
+    EXPORT void SetFrame_402AC0(__int16 newFrame);
 
     EXPORT signed __int16 Init_402D20(int frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, unsigned __int16 maxW, unsigned __int16 maxH, BYTE** ppAnimData, unsigned __int8 bFlag_17, signed int b_StartingAlternationState, char bEnable_flag10_alternating);
 
