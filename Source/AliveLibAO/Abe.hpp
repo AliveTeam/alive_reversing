@@ -502,7 +502,7 @@ public:
 
     EXPORT __int16 HandleDoAction_429A70();
 
-    virtual __int16 VTakeDamage(BaseGameObject* pFrom);
+    virtual __int16 VTakeDamage(BaseGameObject* pFrom) override;
 
     EXPORT __int16 VTakeDamage_4214E0(BaseGameObject* pFrom);
 

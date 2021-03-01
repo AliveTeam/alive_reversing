@@ -2284,8 +2284,8 @@ void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, int fpY, __int16 bStandToCr
             field_FC_current_motion = eAbeStates::State_127_SlapBomb_429A20;
             if (bStandToCrouch)
             {
+                field_15C_pThrowable->field_C_refCount--;
                 field_15C_pThrowable = nullptr;
-                field_15C_pThrowable->field_C_refCount;
             }
             tryToSlapOrCollect = true;
             break;
@@ -2315,8 +2315,8 @@ void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, int fpY, __int16 bStandToCr
             break;
 
         case Types::eMine_57:
+            field_15C_pThrowable->field_C_refCount--;
             field_15C_pThrowable = nullptr;
-            field_15C_pThrowable->field_C_refCount;
             tryToSlapOrCollect = true;
             break;
 

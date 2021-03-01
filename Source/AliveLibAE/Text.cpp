@@ -191,6 +191,10 @@ EXPORT char CC Display_Full_Screen_Message_Blocking_465820(int /*not_used*/, Mes
             //dword_55C128 = -1;
             break;
 
+        case MessageType::eShortTitle_3:
+            // Do nothing
+            break;
+
         // Dead due to early return ??
         case MessageType::eSkipMovie_1:
             pTextObj2 = ae_new<Text>();
