@@ -17,7 +17,7 @@ public:
     {
         BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
         SetVTable(this, 0x54557C);
-		const AnimRecord& rec = AnimRec(AnimId::Grenade_Machine_Nozzle);
+        const AnimRecord& rec = AnimRec(AnimId::Grenade_Machine_Nozzle);
         BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
         Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 

@@ -111,7 +111,7 @@ public:
         eRightBell_3 = 3,
         eUnused_4 = 4
     };
-    BellPositions field_164_ChimeLock_num[1];
+    BellPositions field_164_ChimeLock_num[2];
 };
 ALIVE_ASSERT_SIZEOF(ChimeLock, 0x168);
 

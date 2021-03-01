@@ -150,7 +150,7 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, int tlvInfo)
     field_AC_ypos -= FP_FromInteger(pTlv->field_1E_max_rise_time);
     field_100_tlvInfo = tlvInfo;
 
-    if (!pTlv->field_2E_inital_position == 0)
+    if (pTlv->field_2E_inital_position != 0)
     {
         field_E4_state = MeatSawStates::eGoingUp_2;
         field_F4 = pTlv->field_1E_max_rise_time + pTlv->field_24_speed - pTlv->field_1E_max_rise_time % pTlv->field_24_speed;

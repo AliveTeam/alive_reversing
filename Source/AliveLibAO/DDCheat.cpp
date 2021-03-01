@@ -550,7 +550,7 @@ void DDCheat::Misc_409E90()
     }
     DebugStr_495990("triangle=invulnerable (%s)\n", invulnerableDisplayText);
 
-    char *invisibleDisplayText = "on";
+    const char *invisibleDisplayText = "on";
     if (!gAbeInvisibleCheat_5076F8)
     {
         invisibleDisplayText = "off";

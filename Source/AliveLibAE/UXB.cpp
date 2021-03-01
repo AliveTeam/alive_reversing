@@ -424,6 +424,10 @@ void UXB::Update_4DF030()
             }
             break;
 
+        case UXBState::eDeactivated_3:
+            // Do nothing
+            break;
+
         case UXBState::eActive_1:
             if (IsColliding_4DF630())
             {

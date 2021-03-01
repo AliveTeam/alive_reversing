@@ -30,7 +30,7 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VUpdate() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
-    virtual void VOnPickUpOrSlapped();
+    virtual void VOnPickUpOrSlapped() override;
 
 private:
     EXPORT void VOnThrowableHit_408B10(BaseGameObject* pFrom);
