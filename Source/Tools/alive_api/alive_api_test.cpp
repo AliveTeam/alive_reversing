@@ -1,3 +1,4 @@
+#include "../AliveLibCommon/stdafx_common.h"
 #include "alive_api.hpp"
 #include "SDL.h"
 #include "logger.hpp"

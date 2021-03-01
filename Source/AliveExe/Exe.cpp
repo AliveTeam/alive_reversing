@@ -80,6 +80,7 @@ namespace AutoSplitterData
         }
 #endif
 
+#ifdef _WIN32
         EXPORT constexpr AEGameInfo kAeInfo =
         {
             "{DBC2AE1C-A5DE-465F-A89A-C385BE1DEFCC}",
@@ -119,7 +120,7 @@ namespace AutoSplitterData
         {
             return &kAoInfo;
         }
-
+#endif
     }
 }
 

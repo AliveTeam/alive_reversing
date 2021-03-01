@@ -89,7 +89,7 @@ namespace Logging
 
         ~AutoLog()
         {
-            if (std::uncaught_exception())
+            if (std::uncaught_exceptions())
             {
                 LOG_("[EXIT_EXCEPTION] " << mFuncName);
             }

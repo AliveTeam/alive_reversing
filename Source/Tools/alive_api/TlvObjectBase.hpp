@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TypesCollection.hpp"
+#include "TypedProperty.hpp"
 #include "../AliveLibAE/Path.hpp"
 #include "../AliveLibAO/Map.hpp"
 #include <string>
@@ -17,19 +18,8 @@
 
 #define COPY_TLV() if (pTlv) { mTlv = *reinterpret_cast<decltype(&mTlv)>(pTlv); }
 
-class TlvObjectBase;
-class TypesCollection;
+class BaseProperty;
 
-class BaseProperty
-{
-public:
-    BaseProperty(const std::string& name) : m_name(name) {}
-    virtual ~BaseProperty() {}
-    virtual void Read(TlvObjectBase& tlvObjBase, TypesCollection& types, jsonxx::Object& properties) = 0;
-    virtual void Write(TlvObjectBase& tlvObjBase, TypesCollection& types, jsonxx::Object& properties) = 0;
-private:
-    std::string m_name;
-};
 
 template< typename T >
 class TypedProperty : public BaseProperty
@@ -37,34 +27,13 @@ class TypedProperty : public BaseProperty
 public:
     TypedProperty(const std::string& name, T* data) : BaseProperty(name), m_data(data) { }
 
-    void Read(TlvObjectBase& tlvObjBase, TypesCollection& types, jsonxx::Object& properties) override
-    {
-        if constexpr (std::is_enum<T>::value)
-        {
-            tlvObjBase.ReadEnumValue(types, *m_data, properties);
-        }
-        else
-        {
-            tlvObjBase.ReadBasicType(*m_data, properties);
-        }
-    }
+    void Read(TlvObjectBase& tlvObjBase, TypesCollection& types, jsonxx::Object& properties) override;
 
-    void Write(TlvObjectBase& tlvObjBase, TypesCollection& types, jsonxx::Object& properties) override
-    {
-        if constexpr (std::is_enum<T>::value)
-        {
-            tlvObjBase.WriteEnumValue(types, properties, *m_data);
-        }
-        else
-        {
-            tlvObjBase.WriteBasicType(*m_data, properties);
-        }
-    }
+    void Write(TlvObjectBase& tlvObjBase, TypesCollection& types, jsonxx::Object& properties) override;
 
 private:
     T* m_data = nullptr;
 };
-
 
 class TlvObjectBase
 {
@@ -171,13 +140,7 @@ public:
         PropertiesFromJson(types, properties);
     }
 
-    void PropertiesFromJson(TypesCollection& types, jsonxx::Object& properties)
-    {
-        for (auto& prop : mProperties)
-        {
-            prop->Read(*this, types, properties);
-        }
-    }
+    void PropertiesFromJson(TypesCollection& types, jsonxx::Object& properties);
 
     jsonxx::Object InstanceToJson(TypesCollection& types)
     {
@@ -190,13 +153,7 @@ public:
         return ret;
     }
 
-    void PropertiesToJson(TypesCollection& types, jsonxx::Object& properties)
-    {
-        for (auto& prop : mProperties)
-        {
-            prop->Write(*this, types, properties);
-        }
-    }
+    void PropertiesToJson(TypesCollection& types, jsonxx::Object& properties);
 
     virtual void InstanceFromJsonBase(jsonxx::Object& obj) = 0;
     virtual void InstanceToJsonBase(jsonxx::Object& ret) = 0;
@@ -212,6 +169,32 @@ protected:
     std::string mName;
     std::string mDescription;
 };
+
+template <class T>
+void TypedProperty<T>::Read(TlvObjectBase& tlvObjBase, TypesCollection& types, jsonxx::Object& properties)
+{
+    if constexpr (std::is_enum<T>::value)
+    {
+        tlvObjBase.ReadEnumValue(types, *m_data, properties);
+    }
+    else
+    {
+        tlvObjBase.ReadBasicType(*m_data, properties);
+    }
+}
+
+template <class T>
+void TypedProperty<T>::Write(TlvObjectBase& tlvObjBase, TypesCollection& types, jsonxx::Object& properties)
+{
+    if constexpr (std::is_enum<T>::value)
+    {
+        tlvObjBase.WriteEnumValue(types, properties, *m_data);
+    }
+    else
+    {
+        tlvObjBase.WriteBasicType(*m_data, properties);
+    }
+}
 
 
 template<class T>

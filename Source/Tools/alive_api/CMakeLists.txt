@@ -10,6 +10,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(alive_api_src
     TlvObjectBase.hpp
+    TlvObjectBase.cpp
     AETlvs.hpp
     AOTlvs.hpp
     ITypeBase.hpp
@@ -21,6 +22,7 @@ set(alive_api_src
     TypesCollection.cpp
     JsonDocument.cpp
     JsonDocument.hpp
+    TypedProperty.hpp
 )
 add_library(alive_api ${alive_api_src})
 target_link_libraries(alive_api jsonxx AliveLibAE AliveLibAO)
