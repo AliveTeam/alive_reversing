@@ -160,7 +160,7 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
     field_15C_voice_pitch_min = 45 * ((Math_NextRandom() % 5) - 2);
 
     field_150_grenade_delay = 0;
-    field_154 = 0;
+    field_154_collision_reaction_timer = 0;
 
     field_17E_flags.Clear(Flags_17E::eBit1_Speaking_flag1);
     field_17E_flags.Clear(Flags_17E::eBit5_Throw);
@@ -173,9 +173,9 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
     field_158_obj_id = -1;
 
     field_288_unused = 0;
-    field_290 = 0;
-    field_284 = FP_FromInteger(0);
-    field_28C = 0;
+    field_290_bobbing_values_index = 0;
+    field_284_bobbing_value = FP_FromInteger(0);
+    field_28C_bobbing_values_table_index = 0;
     field_1E8_unused = 0;
     field_184_xSpeed = FP_FromInteger(0);
     field_188_ySpeed = FP_FromInteger(0);
@@ -407,7 +407,7 @@ int CC FlyingSlig::CreateFromSaveState_437E40(const BYTE* pBuffer)
         pFlyingSlig->field_2B8_max_speed_up = (FP_FromDouble(0.7) * pFlyingSlig->field_CC_sprite_scale);
     }
 
-    pFlyingSlig->field_17C_launch_id = pSaveState->field_38;
+    pFlyingSlig->field_17C_launch_id = pSaveState->field_38_launch_id;
 
 
     pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit5_Throw, pSaveState->field_3A.Get(FlyingSlig_State::eBit2_Throw));
@@ -423,7 +423,7 @@ int CC FlyingSlig::CreateFromSaveState_437E40(const BYTE* pBuffer)
 
     pFlyingSlig->field_14C_timer = pSaveState->field_40_timer;
     pFlyingSlig->field_150_grenade_delay = pSaveState->field_44_grenade_delay;
-    pFlyingSlig->field_154 = pSaveState->field_48;
+    pFlyingSlig->field_154_collision_reaction_timer = pSaveState->field_48_collision_reaction_timer;
     pFlyingSlig->field_184_xSpeed = pSaveState->field_4C_xSpeed;
     pFlyingSlig->field_188_ySpeed = pSaveState->field_50_ySpeed;
     pFlyingSlig->field_17D_next_speak = pSaveState->field_54_next_speak;
@@ -434,8 +434,8 @@ int CC FlyingSlig::CreateFromSaveState_437E40(const BYTE* pBuffer)
     pFlyingSlig->field_194 = pSaveState->field_64;
     pFlyingSlig->field_198_line_length = pSaveState->field_68_line_length;
     pFlyingSlig->field_1C4 = pSaveState->field_6C;
-    pFlyingSlig->field_1C8 = pSaveState->field_70;
-    pFlyingSlig->field_1CC = pSaveState->field_74;
+    pFlyingSlig->field_1C8_lever_pull_range_xpos = pSaveState->field_70_lever_pull_range_xpos;
+    pFlyingSlig->field_1CC_lever_pull_range_ypos = pSaveState->field_74_lever_pull_range_ypos;
     pFlyingSlig->field_1D8_unused = pSaveState->field_78_unused;
     pFlyingSlig->field_1DC_unused = pSaveState->field_7C_unused;
     pFlyingSlig->field_1E0_unused = pSaveState->field_80_unused;
@@ -447,9 +447,9 @@ int CC FlyingSlig::CreateFromSaveState_437E40(const BYTE* pBuffer)
     pFlyingSlig->field_2A0_abe_level = pSaveState->field_9A_abe_level;
     pFlyingSlig->field_2A2_abe_path = pSaveState->field_9C_abe_path;
     pFlyingSlig->field_2A4_abe_camera = pSaveState->field_9E_abe_camera;
-    pFlyingSlig->field_290 = pSaveState->field_A4;
-    pFlyingSlig->field_284 = pSaveState->field_A8;
-    pFlyingSlig->field_28C = pSaveState->field_A0;
+    pFlyingSlig->field_290_bobbing_values_index = pSaveState->field_A4_bobbing_values_index;
+    pFlyingSlig->field_284_bobbing_value = pSaveState->field_A8_bobbing_value;
+    pFlyingSlig->field_28C_bobbing_values_table_index = pSaveState->field_A0_bobbing_values_table_index;
     return sizeof(FlyingSlig_State);
 }
 
@@ -500,7 +500,7 @@ int FlyingSlig::vGetSaveState_43B1E0(FlyingSlig_State* pState)
         pState->field_36_line_idx = static_cast<short>(field_100_pCollisionLine - sCollisions_DArray_5C1128->field_0_pArray);
     }
 
-    pState->field_38 = field_17C_launch_id;
+    pState->field_38_launch_id = field_17C_launch_id;
 
     pState->field_3A.Set(FlyingSlig_State::eBit1_bPossessed, this == sControlledCharacter_5C1B8C);
     pState->field_3A.Set(FlyingSlig_State::eBit2_Throw, field_17E_flags.Get(Flags_17E::eBit5_Throw));
@@ -516,7 +516,7 @@ int FlyingSlig::vGetSaveState_43B1E0(FlyingSlig_State* pState)
     pState->field_3C_tlvInfo = field_148_tlvInfo;
     pState->field_40_timer = field_14C_timer;
     pState->field_44_grenade_delay = field_150_grenade_delay;
-    pState->field_48 = field_154;
+    pState->field_48_collision_reaction_timer = field_154_collision_reaction_timer;
 
     pState->field_4C_xSpeed = field_184_xSpeed;
     pState->field_50_ySpeed = field_188_ySpeed;
@@ -539,8 +539,8 @@ int FlyingSlig::vGetSaveState_43B1E0(FlyingSlig_State* pState)
     pState->field_64 = field_194;
     pState->field_68_line_length = field_198_line_length;
     pState->field_6C = field_1C4;
-    pState->field_70 = field_1C8;
-    pState->field_74 = field_1CC;
+    pState->field_70_lever_pull_range_xpos = field_1C8_lever_pull_range_xpos;
+    pState->field_74_lever_pull_range_ypos = field_1CC_lever_pull_range_ypos;
     pState->field_78_unused = field_1D8_unused;
     pState->field_7C_unused = field_1DC_unused;
     pState->field_80_unused = field_1E0_unused;
@@ -566,9 +566,9 @@ int FlyingSlig::vGetSaveState_43B1E0(FlyingSlig_State* pState)
     pState->field_9C_abe_path = field_2A2_abe_path;
     pState->field_9E_abe_camera = field_2A4_abe_camera;
 
-    pState->field_A4 = field_290;
-    pState->field_A8 = field_284;
-    pState->field_A0 = field_28C;
+    pState->field_A4_bobbing_values_index = field_290_bobbing_values_index;
+    pState->field_A8_bobbing_value = field_284_bobbing_value;
+    pState->field_A0_bobbing_values_table_index = field_28C_bobbing_values_table_index;
 
     return sizeof(FlyingSlig_State);
 }
@@ -739,7 +739,7 @@ void FlyingSlig::sub_4348A0()
     field_17E_flags.Set(Flags_17E::eBit4, field_118_data.field_10_data.field_A_direction == 0);
 }
 
-const int dword_552500[9] =
+const int sBobbingValuesHorizontalMovement_552500[9] =
 {
     -163840,
     -245760,
@@ -752,7 +752,7 @@ const int dword_552500[9] =
     65535999
 };
 
-const int dword_552524[11] =
+const int sBobbingValuesIdle_552524[11] =
 {
     74785,
     85101,
@@ -767,7 +767,7 @@ const int dword_552524[11] =
     65535999
 };
 
-const int dword_552550[11] =
+const int sBobbingValuesTurning_552550[11] =
 {
     38603,
     84930,
@@ -784,7 +784,7 @@ const int dword_552550[11] =
 
 
 
-ALIVE_ARY(1, 0x55257C, const int*, 4, dword_55257C, { nullptr, dword_552500, dword_552524, dword_552550 });
+ALIVE_ARY(1, 0x55257C, const int*, 4, sBobbingValuesTables_55257C, { nullptr, sBobbingValuesHorizontalMovement_552500, sBobbingValuesIdle_552524, sBobbingValuesTurning_552550 });
 
 void FlyingSlig::Movement_4396E0()
 {
@@ -932,51 +932,51 @@ void FlyingSlig::Movement_4396E0()
 
     field_BC_ypos += field_CC_sprite_scale * FP_FromInteger(20);
 
-    if (field_28C)
+    if (field_28C_bobbing_values_table_index)
     {
-        if (field_28C > 3)
+        if (field_28C_bobbing_values_table_index > 3)
         {
             ALIVE_FATAL("FlyingSlig array out of bounds");
         }
-        const FP* pTable = reinterpret_cast<const FP*>(dword_55257C[field_28C]); // TODO: Type conversion !!
+        const FP* pTable = reinterpret_cast<const FP*>(sBobbingValuesTables_55257C[field_28C_bobbing_values_table_index]); // TODO: Type conversion !!
         field_288_unused = pTable;
-        field_284 = pTable[field_290];
-        if (field_284 <= FP_FromInteger(990))
+        field_284_bobbing_value = pTable[field_290_bobbing_values_index];
+        if (field_284_bobbing_value <= FP_FromInteger(990))
         {
-            field_290++;
+            field_290_bobbing_values_index++;
         }
         else
         {
-            field_284 = FP_FromInteger(0);
-            field_28C = 0;
-            field_290 = 0;
+            field_284_bobbing_value = FP_FromInteger(0);
+            field_28C_bobbing_values_table_index = 0;
+            field_290_bobbing_values_index = 0;
         }
-        field_BC_ypos = field_BC_ypos + field_284;
+        field_BC_ypos = field_BC_ypos + field_284_bobbing_value;
     }
     else
     {
-        if (field_284 != FP_FromInteger(0))
+        if (field_284_bobbing_value != FP_FromInteger(0))
         {
-            if (field_284 <= FP_FromInteger(0))
+            if (field_284_bobbing_value <= FP_FromInteger(0))
             {
-                if (field_284 <= FP_FromInteger(-1))
+                if (field_284_bobbing_value <= FP_FromInteger(-1))
                 {
-                    field_284 = field_284 + FP_FromInteger(1);
+                    field_284_bobbing_value = field_284_bobbing_value + FP_FromInteger(1);
                 }
                 else
                 {
-                    field_284 = FP_FromInteger(0);
+                    field_284_bobbing_value = FP_FromInteger(0);
                 }
             }
-            else if (field_284 < FP_FromInteger(1))
+            else if (field_284_bobbing_value < FP_FromInteger(1))
             {
-                field_284 = FP_FromInteger(0);
+                field_284_bobbing_value = FP_FromInteger(0);
             }
             else
             {
-                field_284 = field_284 - FP_FromInteger(1);
+                field_284_bobbing_value = field_284_bobbing_value - FP_FromInteger(1);
             }
-            field_BC_ypos = field_BC_ypos + field_284;
+            field_BC_ypos = field_BC_ypos + field_284_bobbing_value;
         }
     }
 
@@ -1363,15 +1363,15 @@ void FlyingSlig::AI_FlyingSligSpawn_15_4362C0()
         MusicController::PlayMusic_47FD60(MusicController::MusicTypes::ePossessed_9, this, 0, 0);
     }
 
-    if (FP_Abs(field_B8_xpos - field_1C8) >= FP_FromInteger(1) ||
-        FP_Abs(field_BC_ypos - field_1CC) >= FP_FromInteger(1))
+    if (FP_Abs(field_B8_xpos - field_1C8_lever_pull_range_xpos) >= FP_FromInteger(1) ||
+        FP_Abs(field_BC_ypos - field_1CC_lever_pull_range_ypos) >= FP_FromInteger(1))
     {
-        const FP delta1 = field_1C8 - field_B8_xpos;
-        const FP delta2 = field_1CC - field_BC_ypos;
+        const FP delta1 = field_1C8_lever_pull_range_xpos - field_B8_xpos;
+        const FP delta2 = field_1CC_lever_pull_range_ypos - field_BC_ypos;
 
-        if (FP_Abs(field_1C8 - field_B8_xpos) <= FP_FromInteger(2))
+        if (FP_Abs(field_1C8_lever_pull_range_xpos - field_B8_xpos) <= FP_FromInteger(2))
         {
-            field_B8_xpos = field_1C8;
+            field_B8_xpos = field_1C8_lever_pull_range_xpos;
         }
         else if (delta1 >= FP_FromInteger(2))
         {
@@ -1382,9 +1382,9 @@ void FlyingSlig::AI_FlyingSligSpawn_15_4362C0()
             field_B8_xpos -= FP_FromInteger(2);
         }
 
-        if (FP_Abs(field_1CC - field_BC_ypos) <= FP_FromInteger(2))
+        if (FP_Abs(field_1CC_lever_pull_range_ypos - field_BC_ypos) <= FP_FromInteger(2))
         {
-            field_BC_ypos = field_1CC;
+            field_BC_ypos = field_1CC_lever_pull_range_ypos;
         }
         else if (delta2 >= FP_FromInteger(2))
         {
@@ -1395,7 +1395,7 @@ void FlyingSlig::AI_FlyingSligSpawn_15_4362C0()
             field_BC_ypos -= FP_FromInteger(2);
         }
 
-        if ((FP_Abs(field_B8_xpos - field_1C8) < FP_FromInteger(1)) && (FP_Abs(field_BC_ypos - field_1CC) < FP_FromInteger(1)))
+        if ((FP_Abs(field_B8_xpos - field_1C8_lever_pull_range_xpos) < FP_FromInteger(1)) && (FP_Abs(field_BC_ypos - field_1CC_lever_pull_range_ypos) < FP_FromInteger(1)))
         {
             VSetMotion_4081C0(eFlyingSligMotions::M_LeverPull_7_439150);
         }
@@ -1441,19 +1441,19 @@ void FlyingSlig::AI_FromNakedSlig_17_4355E0()
 
 void FlyingSlig::M_Idle_0_4385E0()
 {
-    if (!field_28C)
+    if (!field_28C_bobbing_values_table_index)
     {
-        field_28C = 2;
-        field_290 = 0;
+        field_28C_bobbing_values_table_index = 2;
+        field_290_bobbing_values_index = 0;
     }
 
     if (field_184_xSpeed != FP_FromInteger(0))
     {
-        if (sub_43A510())
+        if (IsFacingMovementDirection_43A510())
         {
             VSetMotion_4081C0(eFlyingSligMotions::M_IdleToHorizontalMovement_16_438730);
-            field_28C = 1;
-            field_290 = 0;
+            field_28C_bobbing_values_table_index = 1;
+            field_290_bobbing_values_index = 0;
         }
         else
         {
@@ -1490,11 +1490,11 @@ void FlyingSlig::M_HorizontalMovement_1_4386A0()
     {
         VSetMotion_4081C0(eFlyingSligMotions::M_EndHorizontalMovement_10_4387D0);
     }
-    else if (!sub_43A510())
+    else if (!IsFacingMovementDirection_43A510())
     {
         VSetMotion_4081C0(eFlyingSligMotions::M_QuickTurn_15_4387F0);
-        field_28C = 3;
-        field_290 = 0;
+        field_28C_bobbing_values_table_index = 3;
+        field_290_bobbing_values_index = 0;
     }
 }
 
@@ -1509,7 +1509,7 @@ void FlyingSlig::M_IdleToTurn_2_4388B0()
             {
                 if (field_188_ySpeed <= FP_FromInteger(0))
                 {
-                    if (sub_43A510())
+                    if (IsFacingMovementDirection_43A510())
                     {
                         field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
                         VSetMotion_4081C0(eFlyingSligMotions::M_TurnToHorizontalMovement_25_4389E0);
@@ -1522,13 +1522,13 @@ void FlyingSlig::M_IdleToTurn_2_4388B0()
                 else
                 {
                     VSetMotion_4081C0(eFlyingSligMotions::M_HorizontalToDownMovement_12_438B10);
-                    field_28C = 0;
+                    field_28C_bobbing_values_table_index = 0;
                 }
             }
             else
             {
                 VSetMotion_4081C0(eFlyingSligMotions::M_HorizontalToUpMovement_24_438D60);
-                field_28C = 0;
+                field_28C_bobbing_values_table_index = 0;
             }
         }
     }
@@ -1555,7 +1555,7 @@ void FlyingSlig::M_IdleToTurn_2_4388B0()
 
 void FlyingSlig::M_DownMovement_3_438AA0()
 {
-    if (field_184_xSpeed == FP_FromInteger(0) || sub_43A510())
+    if (field_184_xSpeed == FP_FromInteger(0) || IsFacingMovementDirection_43A510())
     {
         if (field_188_ySpeed <= FP_FromInteger(0))
         {
@@ -1581,7 +1581,7 @@ void FlyingSlig::M_DownMovementToTurn_4_438CC0()
     {
         field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
 
-        if (field_184_xSpeed == FP_FromInteger(0) || sub_43A510())
+        if (field_184_xSpeed == FP_FromInteger(0) || IsFacingMovementDirection_43A510())
         {
             if (field_188_ySpeed > FP_FromInteger(0))
             {
@@ -1605,7 +1605,7 @@ void FlyingSlig::M_DownMovementToTurn_4_438CC0()
 
 void FlyingSlig::M_UpMovement_5_438DD0()
 {
-    if (field_184_xSpeed == FP_FromInteger(0) || sub_43A510())
+    if (field_184_xSpeed == FP_FromInteger(0) || IsFacingMovementDirection_43A510())
     {
         if (field_188_ySpeed >= FP_FromInteger(0))
         {
@@ -1631,7 +1631,7 @@ void FlyingSlig::M_UpMovementToTurn_6_439030()
     {
         field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
 
-        if (field_184_xSpeed == FP_FromInteger(0) || sub_43A510())
+        if (field_184_xSpeed == FP_FromInteger(0) || IsFacingMovementDirection_43A510())
         {
             if (field_188_ySpeed < FP_FromInteger(0))
             {
@@ -1739,7 +1739,7 @@ void FlyingSlig::M_BeginUpMovement_11_438E40()
     {
         if (field_184_xSpeed > FP_FromInteger(0))
         {
-            if (!sub_43A510())
+            if (!IsFacingMovementDirection_43A510())
             {
                 VSetMotion_4081C0(eFlyingSligMotions::M_UpMovementToTurn_6_439030);
                 return;
@@ -1760,7 +1760,7 @@ void FlyingSlig::M_HorizontalToDownMovement_12_438B10()
     {
         if (field_184_xSpeed != FP_FromInteger(0))
         {
-            if (!sub_43A510())
+            if (!IsFacingMovementDirection_43A510())
             {
                 VSetMotion_4081C0(eFlyingSligMotions::M_DownMovementToTurn_4_438CC0);
                 return;
@@ -1792,18 +1792,18 @@ void FlyingSlig::M_UpToHorizontalMovement_13_438F60()
             if (field_188_ySpeed > FP_FromInteger(0))
             {
                 VSetMotion_4081C0(eFlyingSligMotions::M_HorizontalToDownMovement_12_438B10);
-                field_28C = 0;
+                field_28C_bobbing_values_table_index = 0;
             }
             else if (field_188_ySpeed < FP_FromInteger(0))
             {
                 VSetMotion_4081C0(eFlyingSligMotions::M_HorizontalToUpMovement_24_438D60);
-                field_28C = 0;
+                field_28C_bobbing_values_table_index = 0;
             }
             else if (field_184_xSpeed == FP_FromInteger(0))
             {
                 VSetMotion_4081C0(eFlyingSligMotions::M_EndHorizontalMovement_10_4387D0);
             }
-            else if (sub_43A510())
+            else if (IsFacingMovementDirection_43A510())
             {
                 VSetMotion_4081C0(eFlyingSligMotions::M_HorizontalMovement_1_4386A0);
             }
@@ -1825,7 +1825,7 @@ void FlyingSlig::M_DownToHorizontalMovement_14_438BF0()
             {
                 if (field_184_xSpeed > FP_FromInteger(0))
                 {
-                    if (sub_43A510())
+                    if (IsFacingMovementDirection_43A510())
                     {
                         VSetMotion_4081C0(eFlyingSligMotions::M_HorizontalMovement_1_4386A0);
                     }
@@ -1842,13 +1842,13 @@ void FlyingSlig::M_DownToHorizontalMovement_14_438BF0()
             else
             {
                 VSetMotion_4081C0(eFlyingSligMotions::M_HorizontalToDownMovement_12_438B10);
-                field_28C = 0;
+                field_28C_bobbing_values_table_index = 0;
             }
         }
         else
         {
             VSetMotion_4081C0(eFlyingSligMotions::M_HorizontalToUpMovement_24_438D60);
-            field_28C = 0;
+            field_28C_bobbing_values_table_index = 0;
         }
     }
 }
@@ -1862,18 +1862,18 @@ void FlyingSlig::M_QuickTurn_15_4387F0()
         if (field_188_ySpeed < FP_FromInteger(0))
         {
             VSetMotion_4081C0(eFlyingSligMotions::M_HorizontalToUpMovement_24_438D60);
-            field_28C = 0;
+            field_28C_bobbing_values_table_index = 0;
         }
         else if (field_188_ySpeed > FP_FromInteger(0))
         {
             VSetMotion_4081C0(eFlyingSligMotions::M_HorizontalToDownMovement_12_438B10);
-            field_28C = 0;
+            field_28C_bobbing_values_table_index = 0;
         }
         else if (field_184_xSpeed == FP_FromInteger(0))
         {
             VSetMotion_4081C0(eFlyingSligMotions::M_EndHorizontalMovement_10_4387D0);
         }
-        else if (!sub_43A510())
+        else if (!IsFacingMovementDirection_43A510())
         {
             VSetMotion_4081C0(eFlyingSligMotions::M_QuickTurn_15_4387F0);
         }
@@ -1891,18 +1891,18 @@ void FlyingSlig::M_IdleToHorizontalMovement_16_438730()
         if (field_188_ySpeed < FP_FromInteger(0))
         {
             VSetMotion_4081C0(eFlyingSligMotions::M_HorizontalToUpMovement_24_438D60);
-            field_28C = 0;
+            field_28C_bobbing_values_table_index = 0;
         }
         else if (field_188_ySpeed > FP_FromInteger(0))
         {
             VSetMotion_4081C0(eFlyingSligMotions::M_HorizontalToDownMovement_12_438B10);
-            field_28C = 0;
+            field_28C_bobbing_values_table_index = 0;
         }
         else if (field_184_xSpeed == FP_FromInteger(0))
         {
             VSetMotion_4081C0(eFlyingSligMotions::M_EndHorizontalMovement_10_4387D0);
         }
-        else if (sub_43A510())
+        else if (IsFacingMovementDirection_43A510())
         {
             VSetMotion_4081C0(eFlyingSligMotions::M_HorizontalMovement_1_4386A0);
         }
@@ -1919,7 +1919,7 @@ void FlyingSlig::M_BeginDownMovement_17_438B80()
     {
         if (field_184_xSpeed != FP_FromInteger(0))
         {
-            if (!sub_43A510())
+            if (!IsFacingMovementDirection_43A510())
             {
                 VSetMotion_4081C0(eFlyingSligMotions::M_DownMovementToTurn_4_438CC0);
                 return;
@@ -2004,7 +2004,7 @@ void FlyingSlig::M_HorizontalToUpMovement_24_438D60()
     {
         if (field_184_xSpeed != FP_FromInteger(0))
         {
-            if (!sub_43A510())
+            if (!IsFacingMovementDirection_43A510())
             {
                 VSetMotion_4081C0(eFlyingSligMotions::M_UpMovementToTurn_6_439030);
                 return;
@@ -2031,7 +2031,7 @@ void FlyingSlig::M_TurnToHorizontalMovement_25_4389E0()
             {
                 if (field_184_xSpeed != FP_FromInteger(0))
                 {
-                    if (sub_43A510())
+                    if (IsFacingMovementDirection_43A510())
                     {
                         VSetMotion_4081C0(eFlyingSligMotions::M_HorizontalMovement_1_4386A0);
                     }
@@ -2048,18 +2048,18 @@ void FlyingSlig::M_TurnToHorizontalMovement_25_4389E0()
             else
             {
                 VSetMotion_4081C0(eFlyingSligMotions::M_HorizontalToDownMovement_12_438B10);
-                field_28C = 0;
+                field_28C_bobbing_values_table_index = 0;
             }
         }
         else
         {
             VSetMotion_4081C0(eFlyingSligMotions::M_HorizontalToUpMovement_24_438D60);
-            field_28C = 0;
+            field_28C_bobbing_values_table_index = 0;
         }
     }
 }
 
-signed __int16 FlyingSlig::sub_43A510()
+signed __int16 FlyingSlig::IsFacingMovementDirection_43A510()
 {
     return ((field_184_xSpeed > FP_FromInteger(0) && !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
          || (field_184_xSpeed < FP_FromInteger(0) &&   field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)));
@@ -2742,7 +2742,7 @@ __int16 FlyingSlig::FindLeftOrRightBound_43B0A0(FP xOrY, FP wOrH)
     const FP right =  xOrY + kGridSize;
     const FP bottom = wOrH + kGridSize;
 
-    // TODO: Check left is really Abs'd
+    // TODO: Check left is really Abs'd.
     short found_type = 0;
     if (sPath_dword_BB47C0->TLV_Get_At_4DB4B0(FP_GetExponent(FP_Abs(left)), FP_GetExponent(top), FP_GetExponent(right), FP_GetExponent(bottom), TlvTypes::SligBoundLeft_32))
     {
@@ -2788,7 +2788,7 @@ __int16 FlyingSlig::sub_436C60(PSX_RECT* pRect, __int16 arg_4)
     FP v1 = {};
     if (FP_FromInteger(std::abs(pRect->w - pRect->x)) < FP_FromInteger(1))
     {
-        // Set to a huge value if near 0
+        // Set to a huge value if near 0.
         v1 = FP_FromInteger(9999);
     }
     else
@@ -3147,10 +3147,10 @@ __int16 FlyingSlig::CollisionUp_43A640(FP velY)
             VSetMotion_4081C0(eFlyingSligMotions::M_UpKnockback_20_439110);
         }
 
-        if (static_cast<int>(sGnFrame_5C1B84) > field_154)
+        if (static_cast<int>(sGnFrame_5C1B84) > field_154_collision_reaction_timer)
         {
             Slig_GameSpeak_SFX_4C04F0(sGnFrame_5C1B84 & 1 ? SligSpeak::eOuch2_14 : SligSpeak::eOuch1_13, 127, Math_RandomRange_496AB0(256, 512), this);
-            field_154 = (Math_NextRandom() & 3) + sGnFrame_5C1B84 + 10;
+            field_154_collision_reaction_timer = (Math_NextRandom() & 3) + sGnFrame_5C1B84 + 10;
             auto pBurst = ae_new<ParticleBurst>();
             if (pBurst)
             {
@@ -3222,10 +3222,10 @@ __int16 FlyingSlig::CollisionDown_43A9E0(FP velY)
             VSetMotion_4081C0(eFlyingSligMotions::M_DownKnockback_19_4390D0);
         }
 
-        if (static_cast<int>(sGnFrame_5C1B84) > field_154)
+        if (static_cast<int>(sGnFrame_5C1B84) > field_154_collision_reaction_timer)
         {
             Slig_GameSpeak_SFX_4C04F0(sGnFrame_5C1B84 & 1 ? SligSpeak::eOuch2_14 : SligSpeak::eOuch1_13, 127, Math_RandomRange_496AB0(256, 512), this);
-            field_154 = (Math_NextRandom() & 3) + sGnFrame_5C1B84 + 10;
+            field_154_collision_reaction_timer = (Math_NextRandom() & 3) + sGnFrame_5C1B84 + 10;
         }
 
         field_BC_ypos += velY + hitY - y2;
@@ -3307,10 +3307,10 @@ __int16 FlyingSlig::CollisionLeftRight_43AC80(FP velX)
 
     if (bCollision)
     {
-        if (static_cast<int>(sGnFrame_5C1B84) > field_154)
+        if (static_cast<int>(sGnFrame_5C1B84) > field_154_collision_reaction_timer)
         {
             Slig_GameSpeak_SFX_4C04F0(sGnFrame_5C1B84 & 1 ? SligSpeak::eOuch2_14 : SligSpeak::eOuch1_13, 127, Math_RandomRange_496AB0(256, 512), this);
-            field_154 = (Math_NextRandom() & 3) + sGnFrame_5C1B84 + 10;
+            field_154_collision_reaction_timer = (Math_NextRandom() & 3) + sGnFrame_5C1B84 + 10;
             auto pBurst = ae_new<ParticleBurst>();
             if (pBurst)
             {
@@ -3324,7 +3324,7 @@ __int16 FlyingSlig::CollisionLeftRight_43AC80(FP velX)
     return 0;
 }
 
-void FlyingSlig::sub_436450()
+void FlyingSlig::PullLever_436450()
 {
     field_C4_velx = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);
@@ -3332,8 +3332,8 @@ void FlyingSlig::sub_436450()
     field_184_xSpeed = FP_FromInteger(0);
     field_188_ySpeed = FP_FromInteger(0);
 
-    if ((FP_Abs(field_B8_xpos - field_1C8) < FP_FromInteger(1)) &&
-        (FP_Abs(field_BC_ypos - field_1CC) < FP_FromInteger(1)))
+    if ((FP_Abs(field_B8_xpos - field_1C8_lever_pull_range_xpos) < FP_FromInteger(1)) &&
+        (FP_Abs(field_BC_ypos - field_1CC_lever_pull_range_ypos) < FP_FromInteger(1)))
     {
         VSetMotion_4081C0(eFlyingSligMotions::M_LeverPull_7_439150);
     }
@@ -3363,7 +3363,7 @@ __int16 FlyingSlig::TryPullLever_439DB0()
     const FP k15Scaled = FP_FromInteger(15) * field_CC_sprite_scale;
     const FP k2ScaledDirected = (kGridSizeDirected * FP_FromInteger(2));
 
-    // TODO: These can be replaced with std::min/std::max
+    // TODO: These can be replaced with std::min/std::max.
     FP rect_w_fp = {};
     if (field_B8_xpos + kGridSizeDirected <= field_B8_xpos + k2ScaledDirected)
     {
@@ -3404,7 +3404,7 @@ __int16 FlyingSlig::TryPullLever_439DB0()
         rect_y_fp = k15Scaled + field_BC_ypos;
     }
 
-    // TODO: Can be replaced with FP_Rect and PSX_RECT
+    // TODO: Can be replaced with FP_Rect and PSX_RECT.
     const short rect_w = FP_GetExponent(rect_w_fp);
     const short rect_x = FP_GetExponent(rect_x_fp);
     const short rect_h = FP_GetExponent(rect_h_fp);
@@ -3435,7 +3435,7 @@ __int16 FlyingSlig::TryPullLever_439DB0()
                     {
                         return FALSE;
                     }
-                    field_1C8 = (FP_FromInteger(45) * field_CC_sprite_scale) + pAliveObj->field_B8_xpos;
+                    field_1C8_lever_pull_range_xpos = (FP_FromInteger(45) * field_CC_sprite_scale) + pAliveObj->field_B8_xpos;
                 }
                 else
                 {
@@ -3443,12 +3443,12 @@ __int16 FlyingSlig::TryPullLever_439DB0()
                     {
                         return FALSE;
                     }
-                    field_1C8 = pAliveObj->field_B8_xpos - (FP_FromInteger(47) * field_CC_sprite_scale);
+                    field_1C8_lever_pull_range_xpos = pAliveObj->field_B8_xpos - (FP_FromInteger(47) * field_CC_sprite_scale);
                 }
 
-                field_1CC = pAliveObj->field_BC_ypos - (FP_FromInteger(23) * field_CC_sprite_scale);
+                field_1CC_lever_pull_range_ypos = pAliveObj->field_BC_ypos - (FP_FromInteger(23) * field_CC_sprite_scale);
                 field_158_obj_id = pAliveObj->field_8_object_id;
-                sub_436450();
+                PullLever_436450();
                 return TRUE;
             }
         }

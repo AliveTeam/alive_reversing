@@ -72,8 +72,8 @@ struct FlyingSlig_State
     __int16 field_32_delayed_state;
     __int16 field_34_lastLineYPos;
     __int16 field_36_line_idx;
-    BYTE field_38;
-    BYTE field_39_pad;
+    BYTE field_38_launch_id;
+    BYTE field_39_padding;
     enum Flags_3A
     {
         eBit1_bPossessed = 0x1,
@@ -86,17 +86,17 @@ struct FlyingSlig_State
         eBit8_bLastLine = 0x80,
         eBit9 = 0x100,
         eBit10 = 0x200,
-        eBit11 = 0x400,
+        eBit11_padding = 0x400,
     };
     BitField16<Flags_3A> field_3A;
     int field_3C_tlvInfo;
     int field_40_timer;
     int field_44_grenade_delay;
-    int field_48;
+    int field_48_collision_reaction_timer;
     FP field_4C_xSpeed;
     FP field_50_ySpeed;
     SligSpeak field_54_next_speak;
-    char field_55;
+    char field_55_padding;
     __int16 field_56_voice_pitch_min;
     int field_58_obj_id;
     FP field_5C;
@@ -104,8 +104,8 @@ struct FlyingSlig_State
     FP field_64;
     FP field_68_line_length;
     FP field_6C;
-    FP field_70;
-    FP field_74;
+    FP field_70_lever_pull_range_xpos;
+    FP field_74_lever_pull_range_ypos;
     int field_78_unused;
     int field_7C_unused;
     int field_80_unused;
@@ -113,16 +113,16 @@ struct FlyingSlig_State
     FP field_88_nextXPos;
     FP field_8C_nextYPos;
     int field_90_fns1_idx;
-    __int16 field_94;
-    __int16 field_96;
+    __int16 field_94_padding;
+    __int16 field_96_padding;
     __int16 field_98_unused;
     LevelIds field_9A_abe_level;
     __int16 field_9C_abe_path;
     __int16 field_9E_abe_camera;
-    __int16 field_A0;
-    __int16 field_A2;
-    int field_A4;
-    FP field_A8;
+    __int16 field_A0_bobbing_values_table_index;
+    __int16 field_A2_padding;
+    int field_A4_bobbing_values_index;
+    FP field_A8_bobbing_value;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSlig_State, 0xAC);
 
@@ -220,7 +220,7 @@ public:
     EXPORT void M_HorizontalToUpMovement_24_438D60();
     EXPORT void M_TurnToHorizontalMovement_25_4389E0();
 
-    EXPORT signed __int16 sub_43A510();
+    EXPORT signed __int16 IsFacingMovementDirection_43A510();
 
 public:
     EXPORT void ToPlayerControlled_4360C0();
@@ -295,7 +295,7 @@ public:
 
     EXPORT __int16 CollisionLeftRight_43AC80(FP velX);
 
-    EXPORT void sub_436450();
+    EXPORT void PullLever_436450();
 
     EXPORT __int16 TryPullLever_439DB0();
 
@@ -310,7 +310,7 @@ private:
     int field_148_tlvInfo;
     int field_14C_timer;
     int field_150_grenade_delay;
-    int field_154;
+    int field_154_collision_reaction_timer;
     int field_158_obj_id;
     __int16 field_15C_voice_pitch_min;
     __int16 field_15E_useless;
@@ -367,8 +367,8 @@ private:
     FP field_1BC;
     FP field_1C0;
     FP field_1C4;
-    FP field_1C8;
-    FP field_1CC;
+    FP field_1C8_lever_pull_range_xpos;
+    FP field_1CC_lever_pull_range_ypos;
     __int16 field_1D0_padding;
     __int16 field_1D2_padding;
     __int16 field_1D4_padding;
@@ -387,11 +387,11 @@ private:
     __int16 field_27E_g;
     __int16 field_280_b;
     __int16 field_282_padding;
-    FP field_284;
+    FP field_284_bobbing_value;
     const FP* field_288_unused;
-    __int16 field_28C;
-    __int16 field_28E;
-    int field_290;
+    __int16 field_28C_bobbing_values_table_index;
+    __int16 field_28E_padding;
+    int field_290_bobbing_values_index;
 public:
     FP field_294_nextXPos;
     FP field_298_nextYPos;
@@ -399,7 +399,7 @@ public:
     LevelIds field_2A0_abe_level;
     __int16 field_2A2_abe_path;
     __int16 field_2A4_abe_camera;
-    __int16 field_2A6;
+    __int16 field_2A6_padding;
     FP field_2A8_max_x_speed;
     FP field_2AC_up_vel;
     FP field_2B0_down_vel;
