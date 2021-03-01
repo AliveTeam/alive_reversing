@@ -5,9 +5,6 @@
 #include "BasicType.hpp"
 #include "../AliveLibAO/PathData.hpp"
 
-template<class T>
-class TlvObjectBaseAO;
-
 class TlvObjectBase;
 
 class TypesCollection

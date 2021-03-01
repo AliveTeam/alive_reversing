@@ -18,6 +18,7 @@
 #define COPY_TLV() if (pTlv) { mTlv = *reinterpret_cast<decltype(&mTlv)>(pTlv); }
 
 class TlvObjectBase;
+class TypesCollection;
 
 class BaseProperty
 {
