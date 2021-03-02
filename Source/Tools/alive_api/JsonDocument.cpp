@@ -6,6 +6,74 @@
 #include "../AliveLibAO/HoistRocksEffect.hpp"
 #include "../AliveLibAE/ResourceManager.hpp"
 #include "AOTlvs.hpp"
+#include <fstream>
+#include <streambuf>
+
+void JsonDocument::Load(const std::string& fileName)
+{
+    std::ifstream inputFileStream(fileName.c_str());
+    std::string jsonStr((std::istreambuf_iterator<char>(inputFileStream)), std::istreambuf_iterator<char>());
+
+    jsonxx::Object rootObj;
+    if (!rootObj.parse(jsonStr))
+    {
+        return;
+    }
+
+    if (!rootObj.has<jsonxx::Number>("api_version"))
+    {
+        abort();
+    }
+
+    const int apiVersion = rootObj.get<jsonxx::Number>("api_version");
+    if (apiVersion != AliveAPI::GetApiVersion())
+    {
+        // TODO: Upgrade
+        abort();
+    }
+
+    if (!rootObj.has<jsonxx::Object>("map"))
+    {
+        abort();
+    }
+
+    jsonxx::Object map = rootObj.get<jsonxx::Object>("map");
+
+    if (!map.has<jsonxx::Number>("path_id"))
+    {
+        abort();
+    }
+    mPathId = map.get<jsonxx::Number>("path_id");
+
+
+    if (!map.has<jsonxx::Array>("cameras"))
+    {
+        abort();
+    }
+    
+    jsonxx::Array camerasArray = map.get<jsonxx::Array>("cameras");
+    for (int i = 0; i < camerasArray.values().size(); i++)
+    {
+        jsonxx::Object camera = camerasArray.get<jsonxx::Object>(i);
+        if (!camera.has<jsonxx::Array>("map_objects"))
+        {
+            abort();
+        }
+
+        jsonxx::Array mapObjectsArray = camera.get<jsonxx::Array>("map_objects");
+        for (int j = 0; j < mapObjectsArray.values().size(); j++)
+        {
+            jsonxx::Object mapObject = mapObjectsArray.get<jsonxx::Object>(j);
+            if (!mapObject.has<jsonxx::String>("object_structures_type"))
+            {
+                abort();
+            }
+            std::string structureType = mapObject.get<jsonxx::String>("object_structures_type");
+            LOG_INFO(structureType);
+
+        }
+    }
+}
 
 void JsonDocument::SetPathInfo(const std::string& pathBndName, const PathInfo& info)
 {

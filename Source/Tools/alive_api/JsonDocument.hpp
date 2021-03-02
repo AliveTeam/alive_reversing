@@ -87,10 +87,7 @@ public:
     std::vector<CollisionObject> mCollisions;
     std::vector<CameraObject> mCameras;
 
-    void Load(const std::string& fileName)
-    {
-
-    }
+    void Load(const std::string& fileName);
 
     void SetPathInfo(const std::string& pathBndName, const PathInfo& info);
 
