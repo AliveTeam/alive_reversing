@@ -198,7 +198,7 @@ namespace AliveAPI
         return {};
     }
 
-    [[nodiscard]] Result ImportPathJsonToBinary(const std::string& jsonInputFile, const std::string& /*outputLvlFile*/, int /*pathResourceId*/, const std::vector<std::string>& /*lvlResourceSources*/)
+    [[nodiscard]] Result ImportPathJsonToBinary(const std::string& jsonInputFile, const std::string& /*outputLvlFile*/, const std::vector<std::string>& /*lvlResourceSources*/)
     {
         JsonDocument doc;
         doc.Load(jsonInputFile);

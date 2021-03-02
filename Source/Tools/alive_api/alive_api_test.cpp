@@ -16,7 +16,7 @@ TEST(alive_api, ExportPathBinaryToJson)
 
 TEST(alive_api, ImportPathJsonToBinary)
 {
-    auto ret =  AliveAPI::ImportPathJsonToBinary("Output.json", "C:\\GOG Games\\Abes Oddysee\\R6.LVL", 6, {});
+    auto ret =  AliveAPI::ImportPathJsonToBinary("Output.json", "C:\\GOG Games\\Abes Oddysee\\R6.LVL", {});
     ASSERT_EQ(ret.mResult, AliveAPI::Error::None);
 }
 
