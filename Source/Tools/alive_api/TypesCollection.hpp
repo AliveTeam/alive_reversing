@@ -17,6 +17,7 @@ public:
     void AddTlvsToJsonArray(jsonxx::Array& array);
 
     std::unique_ptr<TlvObjectBase> MakeTlv(AO::TlvTypes tlvType, AO::Path_TLV* pTlv);
+    std::unique_ptr<TlvObjectBase> MakeTlv(const std::string& tlvTypeName, AO::Path_TLV* pTlv);
 
     jsonxx::Object EnumsToJson() const
     {
@@ -146,4 +147,5 @@ public:
 private:
     std::vector<std::unique_ptr<ITypeBase>> mTypes;
     std::map<AO::TlvTypes, std::function<std::unique_ptr<TlvObjectBase>(TypesCollection&, AO::Path_TLV*)>> mTlvFactory;
+    std::map<std::string, std::function<std::unique_ptr<TlvObjectBase>(TypesCollection&, AO::Path_TLV*)>> mReverseTlvFactory;
 };

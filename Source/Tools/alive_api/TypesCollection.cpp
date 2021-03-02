@@ -18,15 +18,26 @@ TypesCollection::TypesCollection()
 
 }
 
+template<class T>
+static void DoRegisterType(std::map<AO::TlvTypes, std::function<std::unique_ptr<TlvObjectBase>(TypesCollection&, AO::Path_TLV*)>>& factory, std::map<std::string, std::function<std::unique_ptr<TlvObjectBase>(TypesCollection&, AO::Path_TLV*)>>& reverseFactory, AO::TlvTypes tlvType, TypesCollection& constructingTypes)
+{ 
+    T tmp(constructingTypes, nullptr);
+    auto fnCreate = [](TypesCollection& types, AO::Path_TLV* pTlv)
+    {
+        return std::make_unique<T>(types, pTlv);
+    };
+    reverseFactory[tmp.Name()] = fnCreate;
+    factory[tlvType] = fnCreate;
+}
 
-#define REGISTER_TYPE(tlvTypeName, classType) mTlvFactory[tlvTypeName] = [](TypesCollection& types, AO::Path_TLV* pTlv) { return std::make_unique<classType>(types, pTlv); }
-
+#define REGISTER_TYPE(TlvWrapperType, TlvType) DoRegisterType<TlvWrapperType>(mTlvFactory, mReverseTlvFactory, TlvType, *this)
 
 void TypesCollection::AddAOTypes()
 {
-    REGISTER_TYPE(AO::TlvTypes::Hoist_3, AOTlvs::Path_Hoist);
-    REGISTER_TYPE(AO::TlvTypes::ContinuePoint_0, AOTlvs::Path_ContinuePoint);
-    REGISTER_TYPE(AO::TlvTypes::Door_6, AOTlvs::Path_Door);
+
+    REGISTER_TYPE(AOTlvs::Path_Hoist, AO::TlvTypes::Hoist_3);
+    REGISTER_TYPE(AOTlvs::Path_ContinuePoint, AO::TlvTypes::ContinuePoint_0);
+    REGISTER_TYPE(AOTlvs::Path_Door, AO::TlvTypes::Door_6);
 
     for (auto& [key, value] : mTlvFactory)
     {
@@ -70,6 +81,17 @@ std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlv(AO::TlvTypes tlvType, AO
     if (it == std::end(mTlvFactory))
     {
         LOG_WARNING("Type " << static_cast<int>(tlvType) << " unknown");
+        return nullptr;
+    }
+    return it->second(*this, pTlv);
+}
+
+std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlv(const std::string& tlvTypeName, AO::Path_TLV* pTlv)
+{
+    auto it = mReverseTlvFactory.find(tlvTypeName);
+    if (it == std::end(mReverseTlvFactory))
+    {
+        LOG_WARNING("Type " << tlvTypeName << " unknown");
         return nullptr;
     }
     return it->second(*this, pTlv);

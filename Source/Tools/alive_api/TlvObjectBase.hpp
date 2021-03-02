@@ -267,6 +267,6 @@ public:
     }
 
 protected:
-    T mTlv;
-    AO::Path_TLV* mBase;
+    T mTlv = {};
+    AO::Path_TLV* mBase = nullptr;
 };

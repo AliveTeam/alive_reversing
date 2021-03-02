@@ -51,6 +51,8 @@ void JsonDocument::Load(const std::string& fileName)
         abort();
     }
     
+    TypesCollection globalTypes;
+
     jsonxx::Array camerasArray = map.get<jsonxx::Array>("cameras");
     for (int i = 0; i < camerasArray.values().size(); i++)
     {
@@ -69,6 +71,14 @@ void JsonDocument::Load(const std::string& fileName)
                 abort();
             }
             std::string structureType = mapObject.get<jsonxx::String>("object_structures_type");
+            auto tlv = globalTypes.MakeTlv(structureType, nullptr);
+            if (!tlv)
+            {
+                abort();
+            }
+
+            tlv->InstanceFromJson(globalTypes, mapObject);
+
             LOG_INFO(structureType);
 
         }
