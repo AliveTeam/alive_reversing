@@ -9,6 +9,11 @@
 #include <fstream>
 #include <streambuf>
 
+int To1dIndex(int width, int x, int y)
+{
+    return (width * x) + y;
+}
+
 void JsonDocument::Load(const std::string& fileName)
 {
     std::ifstream inputFileStream(fileName.c_str());
@@ -43,8 +48,31 @@ void JsonDocument::Load(const std::string& fileName)
     {
         abort();
     }
+
     mPathId = map.get<jsonxx::Number>("path_id");
 
+    mXSize = map.get<jsonxx::Number>("x_size");
+    mYSize = map.get<jsonxx::Number>("y_size");
+
+    mXGridSize = map.get<jsonxx::Number>("x_grid_size");
+    mYGridSize = map.get<jsonxx::Number>("y_grid_size");
+
+    if (!map.has<jsonxx::Array>("collisions"))
+    {
+        abort();
+    }
+    jsonxx::Array collisionsArray = map.get<jsonxx::Array>("collisions");
+    for (int i = 0; i < collisionsArray.values().size(); i++)
+    {
+        jsonxx::Object collision = collisionsArray.get<jsonxx::Object>(i);
+
+        int x1 = collision.get<jsonxx::Number>("x1");
+        collision.get<jsonxx::Number>("y1");
+        
+        collision.get<jsonxx::Number>("x2");
+        collision.get<jsonxx::Number>("y2");
+
+    }
 
     if (!map.has<jsonxx::Array>("cameras"))
     {
@@ -52,6 +80,14 @@ void JsonDocument::Load(const std::string& fileName)
     }
     
     TypesCollection globalTypes;
+
+    struct CameraNameAndTlvBlob
+    {
+        int mId = 0;
+        std::string mName;
+        std::vector<std::vector<BYTE>> mTlvBlobs;
+    };
+    std::vector<CameraNameAndTlvBlob> mapData(mXSize * mYSize);
 
     jsonxx::Array camerasArray = map.get<jsonxx::Array>("cameras");
     for (int i = 0; i < camerasArray.values().size(); i++)
@@ -61,6 +97,17 @@ void JsonDocument::Load(const std::string& fileName)
         {
             abort();
         }
+
+        const int x = camera.get<jsonxx::Number>("x");
+        const int y = camera.get<jsonxx::Number>("y");
+        if (x > mXSize || y > mYSize)
+        {
+            abort();
+        }
+
+        CameraNameAndTlvBlob& cameraNameBlob = mapData[To1dIndex(mXSize, x, y)];
+        cameraNameBlob.mId = camera.get<jsonxx::Number>("id");
+        cameraNameBlob.mName = camera.get<jsonxx::String>("name");
 
         jsonxx::Array mapObjectsArray = camera.get<jsonxx::Array>("map_objects");
         for (int j = 0; j < mapObjectsArray.values().size(); j++)
@@ -78,9 +125,7 @@ void JsonDocument::Load(const std::string& fileName)
             }
 
             tlv->InstanceFromJson(globalTypes, mapObject);
-
-            LOG_INFO(structureType);
-
+            cameraNameBlob.mTlvBlobs.emplace_back(tlv->GetTlvData(j == mapObjectsArray.values().size() - 1));
         }
     }
 }
