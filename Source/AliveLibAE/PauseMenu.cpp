@@ -57,11 +57,11 @@ PauseMenuPageEntry PauseMenu__PageEntryList_Main_55E1C8[11] =
 {
     { 2, 184, 48, 0, "continue", 128u, 16u, 255u, 1u },
     { 2, 184, 70, 0, "quiksave", 128u, 16u, 255u, 1u },
-//#if DEVELOPER_MODE
+#if DEVELOPER_MODE
     { 2, 184, 92, 0, "developer", 33u, 127u, 33u, 1u },
-//#else
-//    { 2, 184, 92, 0, "controls", 128u, 16u, 255u, 1u },
-//#endif
+#else
+    { 2, 184, 92, 0, "controls", 128u, 16u, 255u, 1u },
+#endif
     { 2, 184, 114, 0, "status", 128u, 16u, 255u, 1u },
     { 2, 184, 136, 0, "save", 128u, 16u, 255u, 1u },
     { 2, 184, 158, 0, "load", 128u, 16u, 255u, 1u },
