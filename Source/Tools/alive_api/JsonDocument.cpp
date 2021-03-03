@@ -61,17 +61,25 @@ void JsonDocument::Load(const std::string& fileName)
     {
         abort();
     }
+
+    std::vector<AO::PathLine> lines;
     jsonxx::Array collisionsArray = map.get<jsonxx::Array>("collisions");
     for (int i = 0; i < collisionsArray.values().size(); i++)
     {
         jsonxx::Object collision = collisionsArray.get<jsonxx::Object>(i);
 
-        int x1 = collision.get<jsonxx::Number>("x1");
-        collision.get<jsonxx::Number>("y1");
+        AO::PathLine col = {};
+        col.field_0_rect.x = collision.get<jsonxx::Number>("x1");
+        col.field_0_rect.y = collision.get<jsonxx::Number>("y1");
         
-        collision.get<jsonxx::Number>("x2");
-        collision.get<jsonxx::Number>("y2");
+        col.field_0_rect.w = collision.get<jsonxx::Number>("x2");
+        col.field_0_rect.h = collision.get<jsonxx::Number>("y2");
 
+        //col.field_8_type = 
+        //col.field_10_next = 
+        //col.field_C_previous = 
+
+        lines.emplace_back(col);
     }
 
     if (!map.has<jsonxx::Array>("cameras"))
