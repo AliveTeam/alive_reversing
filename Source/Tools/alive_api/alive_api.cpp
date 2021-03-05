@@ -2,11 +2,9 @@
 #include "alive_api.hpp"
 #include "../AliveLibAE/Path.hpp"
 #include "../AliveLibAE/PathData.hpp"
-#include "../AliveLibAE/LvlArchive.hpp"
-
+#include "LvlReaderWriter.hpp"
 
 #include <iostream>
-//#include "magic_enum.hpp"
 #include "JsonDocument.hpp"
 #include "AETlvs.hpp"
 #include "AOTlvs.hpp"
@@ -22,15 +20,6 @@ bool RunningAsInjectedDll()
 
 namespace AliveAPI
 {
-    [[nodiscard]] static std::vector<unsigned char> ReadLvlFile(LvlArchive& archive, LvlFileRecord& rFileRec)
-    {
-        std::vector<unsigned char> fileContent;
-        fileContent.resize(rFileRec.field_10_num_sectors * 2048);
-        sLvlArchive_5BC520.Read_File_4330A0(&rFileRec, fileContent.data());
-        fileContent.resize(rFileRec.field_14_file_size);
-        return fileContent;
-    }
-
     struct PathBND
     {
         std::string mPathBndName;
@@ -45,8 +34,8 @@ namespace AliveAPI
         PathBND ret = {};
 
         // Open the LVL
-        LvlArchive lvl;
-        if (!lvl.Open_Archive_432E80(inputLvlFile.c_str()))
+        LvlReader lvl(inputLvlFile.c_str());
+        if (!lvl.IsOpen())
         {
             ret.mResult = Error::LvlFileReadError;
             return ret;
@@ -59,11 +48,11 @@ namespace AliveAPI
                 auto pathRoot = &sPathData_559660.paths[i];
                 if (pathRoot->field_38_bnd_name)
                 {
-                    LvlFileRecord* pRec = lvl.Find_File_Record_433160(pathRoot->field_38_bnd_name);
+                    std::optional<std::vector<BYTE>> pRec = lvl.ReadFile(pathRoot->field_38_bnd_name);
                     if (pRec)
                     {
                         ret.mPathBndName = pathRoot->field_38_bnd_name;
-                        ret.mFileData = ReadLvlFile(lvl, *pRec);
+                        ret.mFileData = *pRec;
                         ret.mResult = Error::None;
                         if (pathId)
                         {
@@ -113,11 +102,11 @@ namespace AliveAPI
                 auto pathRoot = &AO::gMapData_4CAB58.paths[i];
                 if (pathRoot->field_38_bnd_name)
                 {
-                    LvlFileRecord* pRec = lvl.Find_File_Record_433160(pathRoot->field_38_bnd_name);
+                    std::optional<std::vector<BYTE>> pRec = lvl.ReadFile(pathRoot->field_38_bnd_name);
                     if (pRec)
                     {
                         ret.mPathBndName = pathRoot->field_38_bnd_name;
-                        ret.mFileData = ReadLvlFile(lvl, *pRec);
+                        ret.mFileData = *pRec;
                         ret.mResult = Error::None;
                         if (pathId)
                         {
@@ -178,17 +167,15 @@ namespace AliveAPI
 
     [[nodiscard]] Result ExportPathBinaryToJson(const std::string& jsonOutputFile, const std::string& inputLvlFile, int pathResourceId)
     {
-        ResourceManager::Init_49BCE0();
         AliveAPI::Result ret = {};
         AliveAPI::PathBND pathBnd = AliveAPI::OpenPathBnd(inputLvlFile, &pathResourceId);
         ret.mResult = pathBnd.mResult;
 
         JsonDocument doc;
+        doc.mVersion = GetApiVersion();
         doc.mGame = "AO";
         doc.SetPathInfo(pathBnd.mPathBndName, pathBnd.mPathInfo);
         doc.SaveAO(pathResourceId, pathBnd.mPathInfo, pathBnd.mFileData, jsonOutputFile);
-
-        //ret.mResult = Error::JsonFileNeedsUpgrading;
 
         return ret;
     }
@@ -198,16 +185,47 @@ namespace AliveAPI
         return {};
     }
 
-    [[nodiscard]] Result ImportPathJsonToBinary(const std::string& jsonInputFile, const std::string& /*outputLvlFile*/, const std::vector<std::string>& /*lvlResourceSources*/)
+    [[nodiscard]] Result ImportPathJsonToBinary(const std::string& jsonInputFile, const std::string& outputLvlFile, const std::vector<std::string>& /*lvlResourceSources*/)
     {
+        Result ret = {};
+
         JsonDocument doc;
-        doc.Load(jsonInputFile);
+        std::vector<CameraNameAndTlvBlob> pathData = doc.Load(jsonInputFile);
+
+        if (doc.mVersion != GetApiVersion())
+        {
+            ret.mResult = Error::JsonFileNeedsUpgrading;
+            return ret;
+        }
+
+        LvlWriter lvl(outputLvlFile.c_str());
+        if (!lvl.IsOpen())
+        {
+            abort();
+        }
+
+        std::optional<std::vector<BYTE>> oldPathBnd = lvl.ReadFile(doc.mPathBnd.c_str());
+        if (!oldPathBnd)
+        {
+            abort();
+        }
+
+        // Create new path resource block from pathData
+
+        // Replace/add file chunk with id of doc.mPathId
+
+        lvl.AddFile(doc.mPathBnd.c_str(), *oldPathBnd);
+
+        if (!lvl.Save())
+        {
+            abort();
+        }
+
         return {};
     }
 
     [[nodiscard]] EnumeratePathsResult EnumeratePaths(const std::string& inputLvlFile)
     {
-        ResourceManager::Init_49BCE0();
         EnumeratePathsResult ret = {};
         PathBND pathBnd = OpenPathBnd(inputLvlFile, nullptr);
         ret.mResult = pathBnd.mResult;

@@ -69,6 +69,13 @@ struct PathInfo
     int mCollisionOffset = 0;
 };
 
+struct CameraNameAndTlvBlob
+{
+    int mId = 0;
+    std::string mName;
+    std::vector<std::vector<BYTE>> mTlvBlobs;
+};
+
 class JsonDocument
 {
 public:
@@ -87,7 +94,7 @@ public:
     std::vector<CollisionObject> mCollisions;
     std::vector<CameraObject> mCameras;
 
-    void Load(const std::string& fileName);
+     std::vector<CameraNameAndTlvBlob> Load(const std::string& fileName);
 
     void SetPathInfo(const std::string& pathBndName, const PathInfo& info);
 

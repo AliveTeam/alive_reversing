@@ -23,6 +23,7 @@ set(alive_api_src
     JsonDocument.cpp
     JsonDocument.hpp
     TypedProperty.hpp
+    LvlReaderWriter.hpp
 )
 add_library(alive_api ${alive_api_src})
 target_link_libraries(alive_api jsonxx AliveLibAE AliveLibAO)

@@ -17,7 +17,7 @@ struct LvlFileRecord
 struct LvlHeader_Sub
 {
     int field_0_num_files;
-    int field_4_unknown1;
+    int field_4_header_size_in_sectors;
     int field_8_unknown2;
     int field_C_unknown3;
     LvlFileRecord field_10_file_recs[1]; // TODO: Strictly UB on >= 1 access

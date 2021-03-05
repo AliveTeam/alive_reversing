@@ -14,7 +14,7 @@ int To1dIndex(int width, int x, int y)
     return (width * x) + y;
 }
 
-void JsonDocument::Load(const std::string& fileName)
+std::vector<CameraNameAndTlvBlob> JsonDocument::Load(const std::string& fileName)
 {
     std::ifstream inputFileStream(fileName.c_str());
     std::string jsonStr((std::istreambuf_iterator<char>(inputFileStream)), std::istreambuf_iterator<char>());
@@ -22,7 +22,7 @@ void JsonDocument::Load(const std::string& fileName)
     jsonxx::Object rootObj;
     if (!rootObj.parse(jsonStr))
     {
-        return;
+        abort();
     }
 
     if (!rootObj.has<jsonxx::Number>("api_version"))
@@ -30,19 +30,26 @@ void JsonDocument::Load(const std::string& fileName)
         abort();
     }
 
-    const int apiVersion = rootObj.get<jsonxx::Number>("api_version");
-    if (apiVersion != AliveAPI::GetApiVersion())
+    mVersion = rootObj.get<jsonxx::Number>("api_version");
+    if (mVersion != AliveAPI::GetApiVersion())
     {
         // TODO: Upgrade
         abort();
     }
 
+  
     if (!rootObj.has<jsonxx::Object>("map"))
     {
         abort();
     }
 
     jsonxx::Object map = rootObj.get<jsonxx::Object>("map");
+
+    if (!map.has<jsonxx::String>("path_bnd"))
+    {
+        abort();
+    }
+    mPathBnd = map.get<jsonxx::String>("path_bnd");
 
     if (!map.has<jsonxx::Number>("path_id"))
     {
@@ -88,13 +95,6 @@ void JsonDocument::Load(const std::string& fileName)
     }
     
     TypesCollection globalTypes;
-
-    struct CameraNameAndTlvBlob
-    {
-        int mId = 0;
-        std::string mName;
-        std::vector<std::vector<BYTE>> mTlvBlobs;
-    };
     std::vector<CameraNameAndTlvBlob> mapData(mXSize * mYSize);
 
     jsonxx::Array camerasArray = map.get<jsonxx::Array>("cameras");
@@ -136,6 +136,7 @@ void JsonDocument::Load(const std::string& fileName)
             cameraNameBlob.mTlvBlobs.emplace_back(tlv->GetTlvData(j == mapObjectsArray.values().size() - 1));
         }
     }
+    return mapData;
 }
 
 void JsonDocument::SetPathInfo(const std::string& pathBndName, const PathInfo& info)
