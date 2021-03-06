@@ -25,6 +25,7 @@ struct LvlHeader_Sub
 
 struct LvlHeader
 {
+    // TODO: Up to field_C is really a ResourceManager::Header
     int field_0_first_file_offset;
     int field_4_ref_count;
     int field_8_magic;

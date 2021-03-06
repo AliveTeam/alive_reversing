@@ -210,11 +210,18 @@ namespace AliveAPI
             abort();
         }
 
-        // Create new path resource block from pathData
+        ChunkedLvlFile pathBndFile(*oldPathBnd);
+        std::optional<LvlFileChunk> chunk = pathBndFile.ChunkById(doc.mPathId);
+        if (!chunk)
+        {
+            abort();
+        }
 
-        // Replace/add file chunk with id of doc.mPathId
+        std::vector<BYTE> newPathResource; // TODO: Convert pathData to a new path resource
+        LvlFileChunk newPathBlock(doc.mPathId, ResourceManager::ResourceType::Resource_Path, newPathResource);
+        pathBndFile.AddChunk(newPathBlock);
 
-        lvl.AddFile(doc.mPathBnd.c_str(), *oldPathBnd);
+        lvl.AddFile(doc.mPathBnd.c_str(), pathBndFile.Data());
 
         if (!lvl.Save())
         {

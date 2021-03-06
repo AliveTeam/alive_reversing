@@ -17,6 +17,130 @@ inline std::string ToString(const LvlFileRecord& rec)
     return std::string(rec.field_0_file_name, i);
 }
 
+class LvlFileChunk
+{
+public:
+    LvlFileChunk(DWORD id, ResourceManager::ResourceType resType, const std::vector<BYTE>& data)
+        : mData(data)
+    {
+        mHeader.field_0_size = static_cast<DWORD>(data.size());
+        mHeader.field_C_id = id;
+        mHeader.field_8_type = resType;
+    }
+
+    DWORD Id() const
+    {
+        return mHeader.field_C_id;
+    }
+
+    DWORD Size() const
+    {
+        return mHeader.field_0_size;
+    }
+
+    const ResourceManager::Header& Header() const
+    {
+        return mHeader;
+    }
+
+    const BYTE* Data() const
+    {
+        return mData.data();
+    }
+
+private:
+    ResourceManager::Header mHeader = {};
+    std::vector<BYTE> mData;
+};
+
+class ChunkedLvlFile
+{
+public:
+    explicit ChunkedLvlFile(const std::vector<BYTE>& data)
+    {
+        Read(data);
+    }
+
+    std::optional<LvlFileChunk> ChunkById(DWORD id) const
+    {
+        for (auto& chunk : mChunks)
+        {
+            if (chunk.Id() == chunk.Id())
+            {
+                return { chunk };
+            }
+        }
+        return {};
+    }
+
+    void AddChunk(LvlFileChunk& chunkToAdd)
+    {
+        for (auto& chunk : mChunks)
+        {
+            if (chunk.Id() == chunk.Id())
+            {
+                chunk = chunkToAdd;
+                return;
+            }
+        }
+        mChunks.push_back(chunkToAdd);
+    }
+
+    std::vector<BYTE> Data() const
+    {
+        std::size_t neededSize = 0;
+        for (auto& chunk : mChunks)
+        {
+            neededSize += chunk.Size();
+        }
+        neededSize += sizeof(ResourceManager::Header) * mChunks.size();
+
+        std::vector<BYTE> ret(neededSize);
+        std::size_t pos = 0;
+        for (auto& chunk : mChunks)
+        {
+            memcpy(&ret[pos], &chunk.Header(), sizeof(ResourceManager::Header));
+            pos += sizeof(ResourceManager::Header);
+
+            if (chunk.Size() > 0)
+            {
+                memcpy(&ret[pos], chunk.Data(), chunk.Size());
+                pos += chunk.Size();
+            }
+        }
+        return ret;
+    }
+
+private:
+    void Read(const std::vector<BYTE>& data)
+    {
+        std::size_t pos = 0;
+        do
+        {
+            auto pHeader = reinterpret_cast<const ResourceManager::Header*>(&data[pos]);
+            pos += sizeof(ResourceManager::Header);
+            if (pos > data.size())
+            {
+                abort();
+            }
+
+            std::vector<BYTE> tmpData(pHeader->field_0_size);
+            if (pos + pHeader->field_0_size > data.size())
+            {
+                abort();
+            }
+
+            memcpy(tmpData.data(), &data[pos], tmpData.size());
+            pos += pHeader->field_0_size;
+
+            LvlFileChunk chunk(pHeader->field_C_id, static_cast<ResourceManager::ResourceType>(pHeader->field_8_type), tmpData);
+            mChunks.push_back(chunk);
+        } while (pos < data.size());
+    }
+
+    std::vector<LvlFileChunk> mChunks;
+};
+
 class LvlReader
 {
 public:
@@ -259,8 +383,6 @@ public:
                 i++;
             }
         }
-
-        // TODO: termination padding
 
         FILE* outFile = ::fopen("new.lvl", "wb");
         if (!outFile)
