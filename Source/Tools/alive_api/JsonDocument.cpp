@@ -11,7 +11,7 @@
 
 int To1dIndex(int width, int x, int y)
 {
-    return (width * x) + y;
+    return (width * y) + x;
 }
 
 std::vector<CameraNameAndTlvBlob> JsonDocument::Load(const std::string& fileName)
@@ -230,11 +230,8 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
                 continue;
             }
 
-            if (!pCamName->name[0])
-            {
-                // Cant have objects that dont live in a camera
-                abort();
-            }
+            // Can have objects that do not live in a camera, as strange as it seems (R1P15)
+            // "blank" cameras just do not have a name set.
 
             jsonxx::Array mapObjects;
 

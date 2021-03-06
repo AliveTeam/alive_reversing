@@ -218,7 +218,7 @@ namespace AliveAPI
         }
 
         // TODO: Need to grab the hard coded PathData record to re-construct
-        std::vector<BYTE> newPathResource = pathBndFile.ChunkById(doc.mPathId)->Data(); // TODO: Convert pathData to a new path resource
+        std::vector<BYTE> newPathResource;// = pathBndFile.ChunkById(doc.mPathId)->Data(); // TODO: Convert pathData to a new path resource
         LvlFileChunk newPathBlock(doc.mPathId, ResourceManager::ResourceType::Resource_Path, newPathResource);
         pathBndFile.AddChunk(newPathBlock);
 
