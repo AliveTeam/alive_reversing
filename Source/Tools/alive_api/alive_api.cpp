@@ -217,6 +217,25 @@ namespace AliveAPI
             abort();
         }
 
+        const AO::PathBlyRec* pPathBlyRec = nullptr;
+        for (int i = 0; i < ALIVE_COUNTOF(AO::gMapData_4CAB58.paths); i++)
+        {
+            auto pathRoot = &AO::gMapData_4CAB58.paths[i];
+            if (doc.mPathBnd == pathRoot->field_38_bnd_name)
+            {
+                if (doc.mPathId >= 0 && doc.mPathId < pathRoot->field_18_num_paths)
+                {
+                    pPathBlyRec = &pathRoot->field_0_pBlyArrayPtr[doc.mPathId];
+                    break;
+                }
+            }
+        }
+
+        if (!pPathBlyRec)
+        {
+            abort();
+        }
+
         // TODO: Need to grab the hard coded PathData record to re-construct
         std::vector<BYTE> newPathResource;// = pathBndFile.ChunkById(doc.mPathId)->Data(); // TODO: Convert pathData to a new path resource
         LvlFileChunk newPathBlock(doc.mPathId, ResourceManager::ResourceType::Resource_Path, newPathResource);
