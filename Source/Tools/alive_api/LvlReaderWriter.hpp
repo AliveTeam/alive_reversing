@@ -43,9 +43,9 @@ public:
         return mHeader;
     }
 
-    const BYTE* Data() const
+    const std::vector<BYTE>& Data() const
     {
-        return mData.data();
+        return mData;
     }
 
 private:
@@ -99,12 +99,17 @@ public:
         std::size_t pos = 0;
         for (auto& chunk : mChunks)
         {
-            memcpy(&ret[pos], &chunk.Header(), sizeof(ResourceManager::Header));
+            auto adjustedHeader = chunk.Header();
+            if (adjustedHeader.field_0_size > 0)
+            {
+                adjustedHeader.field_0_size += sizeof(ResourceManager::Header);
+            }
+            memcpy(&ret[pos], &adjustedHeader, sizeof(ResourceManager::Header));
             pos += sizeof(ResourceManager::Header);
 
             if (chunk.Size() > 0)
             {
-                memcpy(&ret[pos], chunk.Data(), chunk.Size());
+                memcpy(&ret[pos], chunk.Data().data(), chunk.Size());
                 pos += chunk.Size();
             }
         }
@@ -118,23 +123,28 @@ private:
         do
         {
             auto pHeader = reinterpret_cast<const ResourceManager::Header*>(&data[pos]);
-            pos += sizeof(ResourceManager::Header);
-            if (pos > data.size())
-            {
-                abort();
-            }
-
             std::vector<BYTE> tmpData(pHeader->field_0_size);
+            pos += sizeof(ResourceManager::Header);
             if (pos + pHeader->field_0_size > data.size())
             {
                 abort();
             }
 
-            memcpy(tmpData.data(), &data[pos], tmpData.size());
-            pos += pHeader->field_0_size;
+            if (pHeader->field_0_size > 0)
+            {
+                tmpData.resize(tmpData.size() - sizeof(ResourceManager::Header));
+                memcpy(tmpData.data(), &data[pos], tmpData.size());
+                pos += tmpData.size();
+            }
 
             LvlFileChunk chunk(pHeader->field_C_id, static_cast<ResourceManager::ResourceType>(pHeader->field_8_type), tmpData);
             mChunks.push_back(chunk);
+
+            if (pHeader->field_8_type == ResourceManager::ResourceType::Resource_End)
+            {
+                break;
+            }
+
         } while (pos < data.size());
     }
 
