@@ -52,7 +52,16 @@ namespace AliveAPI
                     if (pRec)
                     {
                         ret.mPathBndName = pathRoot->field_38_bnd_name;
-                        ret.mFileData = *pRec;
+                        if (pathId)
+                        {
+                            ChunkedLvlFile pathChunks(*pRec);
+                            std::optional<LvlFileChunk> chunk = pathChunks.ChunkById(*pathId);
+                            if (!chunk)
+                            {
+                                abort();
+                            }
+                            ret.mFileData = chunk->Data();
+                        }
                         ret.mResult = Error::None;
                         if (pathId)
                         {
@@ -106,7 +115,16 @@ namespace AliveAPI
                     if (pRec)
                     {
                         ret.mPathBndName = pathRoot->field_38_bnd_name;
-                        ret.mFileData = *pRec;
+                        if (pathId)
+                        {
+                            ChunkedLvlFile pathChunks(*pRec);
+                            std::optional<LvlFileChunk> chunk = pathChunks.ChunkById(*pathId);
+                            if (!chunk)
+                            {
+                                abort();
+                            }
+                            ret.mFileData = chunk->Data();
+                        }
                         ret.mResult = Error::None;
                         if (pathId)
                         {
@@ -190,7 +208,7 @@ namespace AliveAPI
         Result ret = {};
 
         JsonDocument doc;
-        std::vector<CameraNameAndTlvBlob> pathData = doc.Load(jsonInputFile);
+        auto [camerasAndMapObjects, collisionLines] = doc.Load(jsonInputFile);
 
         if (doc.mVersion != GetApiVersion())
         {
@@ -236,8 +254,18 @@ namespace AliveAPI
             abort();
         }
 
-        // TODO: Need to grab the hard coded PathData record to re-construct
-        std::vector<BYTE> newPathResource;// = pathBndFile.ChunkById(doc.mPathId)->Data(); // TODO: Convert pathData to a new path resource
+        if (collisionLines.size() > pPathBlyRec->field_8_pCollisionData->field_10_num_collision_items)
+        {
+            abort();
+        }
+
+        std::size_t pathResourceLen = 0;
+        pathResourceLen += collisionLines.size() * sizeof(AO::PathLine);
+       // pathResourceLen += pPathBlyRec->field_4_pPathData->
+        std::vector<BYTE> newPathResource(pathResourceLen);
+
+        // TODO: Serialize camerasAndMapObjects and collisionLines
+
         LvlFileChunk newPathBlock(doc.mPathId, ResourceManager::ResourceType::Resource_Path, newPathResource);
         pathBndFile.AddChunk(newPathBlock);
 

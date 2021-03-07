@@ -9,12 +9,12 @@
 #include <fstream>
 #include <streambuf>
 
-int To1dIndex(int width, int x, int y)
+static int To1dIndex(int width, int x, int y)
 {
-    return (width * y) + x;
+    return x + (y * width);
 }
 
-std::vector<CameraNameAndTlvBlob> JsonDocument::Load(const std::string& fileName)
+std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonDocument::Load(const std::string& fileName)
 {
     std::ifstream inputFileStream(fileName.c_str());
     std::string jsonStr((std::istreambuf_iterator<char>(inputFileStream)), std::istreambuf_iterator<char>());
@@ -136,7 +136,7 @@ std::vector<CameraNameAndTlvBlob> JsonDocument::Load(const std::string& fileName
             cameraNameBlob.mTlvBlobs.emplace_back(tlv->GetTlvData(j == mapObjectsArray.values().size() - 1));
         }
     }
-    return mapData;
+    return { mapData, lines };
 }
 
 void JsonDocument::SetPathInfo(const std::string& pathBndName, const PathInfo& info)
@@ -172,7 +172,7 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
     rootMapObject << "y_grid_size" << mYGridSize;
     rootMapObject << "y_size" << mYSize;
 
-    BYTE* pPathData = pathResource.data() + sizeof(::ResourceManager::Header);
+    BYTE* pPathData = pathResource.data();
 
 
     AO::PathLine* pLineIter = reinterpret_cast<AO::PathLine*>(pPathData + info.mCollisionOffset);
@@ -206,7 +206,7 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
     {
         for (int y = 0; y < info.mHeight; y++)
         {
-            auto pCamName = reinterpret_cast<const AO::CameraName*>(&pPathData[(x + (y * info.mWidth)) * sizeof(AO::CameraName)]);
+            auto pCamName = reinterpret_cast<const AO::CameraName*>(&pPathData[To1dIndex(info.mWidth, x, y) * sizeof(AO::CameraName)]);
             CameraObject tmpCamera;
             if (pCamName->name[0])
             {
@@ -220,11 +220,12 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
                     1000 * (pCamName->name[3] - '0');
             }
 
-            const int indexTableOffset = indexTable[(x + (y * info.mWidth))];
+            const int indexTableOffset = indexTable[To1dIndex(info.mWidth, x, y)];
             if (indexTableOffset == -1 || indexTableOffset >= 0x100000)
             {
                 if (pCamName->name[0])
                 {
+                    LOG_INFO("Add camera with no objects " << pCamName->name);
                     cameraArray << tmpCamera.ToJsonObject({});
                 }
                 continue;

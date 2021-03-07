@@ -65,7 +65,7 @@ public:
     {
         for (auto& chunk : mChunks)
         {
-            if (chunk.Id() == chunk.Id())
+            if (chunk.Id() == id)
             {
                 return { chunk };
             }

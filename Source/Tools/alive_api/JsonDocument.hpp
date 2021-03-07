@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <jsonxx/jsonxx.h>
+#include "../AliveLibAO/Collisions.hpp"
 
 struct CollisionObject
 {
@@ -94,7 +95,7 @@ public:
     std::vector<CollisionObject> mCollisions;
     std::vector<CameraObject> mCameras;
 
-     std::vector<CameraNameAndTlvBlob> Load(const std::string& fileName);
+    std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> Load(const std::string& fileName);
 
     void SetPathInfo(const std::string& pathBndName, const PathInfo& info);
 
