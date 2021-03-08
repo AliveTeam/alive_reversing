@@ -255,14 +255,15 @@ protected:
     std::vector<LvlFileRecord> mFileRecords;
 };
 
-inline int RoundUp(int numToRound, int multiple)
+template<class T>
+inline T RoundUp(T numToRound, T multiple)
 {
     if (multiple == 0)
     {
         return numToRound;
     }
 
-    int remainder = numToRound % multiple;
+    auto remainder = numToRound % multiple;
     if (remainder == 0)
     {
         return numToRound;
@@ -271,9 +272,10 @@ inline int RoundUp(int numToRound, int multiple)
     return numToRound + multiple - remainder;
 }
 
-inline int RoundUp(int offset)
+template<class T>
+inline T RoundUp(T offset)
 {
-    return RoundUp(offset, 2048);
+    return RoundUp(offset, static_cast<T>(2048));
 }
 
 class LvlWriter
@@ -436,8 +438,12 @@ public:
         }
 
         // Ensure termination padding to a multiple of the sector size exists at EOF
-        fpos_t pos = {};
-        ::fgetpos(outFile, &pos);
+        const long int pos = ::ftell(outFile);
+        if (pos == -1)
+        {
+            abort();
+        }
+
         if (pos+1 != RoundUp(pos))
         {
             ::fseek(outFile, RoundUp(pos)-1, SEEK_SET);
