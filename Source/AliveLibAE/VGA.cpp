@@ -34,7 +34,7 @@ ALIVE_VAR(1, 0xBD0BC8, HDC, sVga_HDC_BD0BC8, 0);
 ALIVE_VAR(1, 0xBD0BC0, int, sVga_LockPType_BD0BC0, 0);
 ALIVE_VAR(1, 0xBD0BF4, LPVOID, sVgaLockBuffer_BD0BF4, 0);
 
-bool s_VGA_KeepAspectRatio = false;
+bool s_VGA_KeepAspectRatio = true;
 bool s_VGA_FilterScreen = false;
 
 #if USE_SDL2

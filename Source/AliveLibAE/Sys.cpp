@@ -669,6 +669,10 @@ static int Sys_EventFilter(void* /*userData*/, SDL_Event* event)
                 LOG_INFO("Load next frame for " << VK_F6);
                 sQuicksave_LoadNextFrame_5CA4D9 = 1;
             }
+            else if (vk == VK_F10)
+            {
+                s_VGA_FilterScreen = !s_VGA_FilterScreen;
+            }
             else if (vk == VK_F11)
             {
                 s_VGA_KeepAspectRatio = !s_VGA_KeepAspectRatio;
