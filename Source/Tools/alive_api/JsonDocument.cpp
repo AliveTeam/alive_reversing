@@ -9,11 +9,6 @@
 #include <fstream>
 #include <streambuf>
 
-static int To1dIndex(int width, int x, int y)
-{
-    return x + (y * width);
-}
-
 std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonDocument::Load(const std::string& fileName)
 {
     std::ifstream inputFileStream(fileName.c_str());
@@ -116,6 +111,8 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonDocu
         CameraNameAndTlvBlob& cameraNameBlob = mapData[To1dIndex(mXSize, x, y)];
         cameraNameBlob.mId = camera.get<jsonxx::Number>("id");
         cameraNameBlob.mName = camera.get<jsonxx::String>("name");
+        cameraNameBlob.x = x;
+        cameraNameBlob.y = y;
 
         jsonxx::Array mapObjectsArray = camera.get<jsonxx::Array>("map_objects");
         for (int j = 0; j < mapObjectsArray.values().size(); j++)

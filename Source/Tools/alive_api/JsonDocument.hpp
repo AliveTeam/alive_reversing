@@ -5,6 +5,11 @@
 #include <jsonxx/jsonxx.h>
 #include "../AliveLibAO/Collisions.hpp"
 
+inline int To1dIndex(int width, int x, int y)
+{
+    return x + (y * width);
+}
+
 struct CollisionObject
 {
     int mX1 = 0;
@@ -73,6 +78,8 @@ struct PathInfo
 struct CameraNameAndTlvBlob
 {
     int mId = 0;
+    int x = 0;
+    int y = 0;
     std::string mName;
     std::vector<std::vector<BYTE>> mTlvBlobs;
 };

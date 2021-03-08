@@ -29,6 +29,22 @@ namespace AliveAPI
         PathInfo mPathInfo;
     };
 
+    [[nodiscard]] static PathInfo ToPathInfo(const AO::PathData& data, const AO::CollisionInfo& collisionInfo)
+    {
+        PathInfo info = {};
+        info.mGridWidth = data.field_C_grid_width;
+        info.mGridHeight = data.field_E_grid_height;
+        info.mWidth = (data.field_8_bTop - data.field_4_bLeft) / data.field_C_grid_width;
+        info.mHeight = (data.field_A_bBottom - data.field_6_bRight) / data.field_E_grid_height;
+        info.mIndexTableOffset = data.field_18_object_index_table_offset;
+        info.mObjectOffset = data.field_14_object_offset;
+
+        info.mNumCollisionItems = collisionInfo.field_10_num_collision_items;
+        info.mCollisionOffset = collisionInfo.field_C_collision_offset;
+
+        return info;
+    }
+
     [[nodiscard]] static PathBND OpenPathBnd(const std::string& inputLvlFile, int* pathId)
     {
         PathBND ret = {};
@@ -134,16 +150,7 @@ namespace AliveAPI
                                 if (pBlyRec.field_0_blyName)
                                 {
                                     ret.mPathBndName = pathRoot->field_38_bnd_name;
-                                    ret.mPathInfo.mGridWidth = pBlyRec.field_4_pPathData->field_C_grid_width;
-                                    ret.mPathInfo.mGridHeight = pBlyRec.field_4_pPathData->field_E_grid_height;
-                                    ret.mPathInfo.mWidth = (pBlyRec.field_4_pPathData->field_8_bTop - pBlyRec.field_4_pPathData->field_4_bLeft) / pBlyRec.field_4_pPathData->field_C_grid_width;
-                                    ret.mPathInfo.mHeight = (pBlyRec.field_4_pPathData->field_A_bBottom - pBlyRec.field_4_pPathData->field_6_bRight) / pBlyRec.field_4_pPathData->field_E_grid_height;
-                                    ret.mPathInfo.mIndexTableOffset = pBlyRec.field_4_pPathData->field_18_object_index_table_offset;
-                                    ret.mPathInfo.mObjectOffset = pBlyRec.field_4_pPathData->field_14_object_offset;
-
-                                    ret.mPathInfo.mNumCollisionItems = pBlyRec.field_8_pCollisionData->field_10_num_collision_items;
-                                    ret.mPathInfo.mCollisionOffset = pBlyRec.field_8_pCollisionData->field_C_collision_offset;
-
+                                    ret.mPathInfo = ToPathInfo(*pBlyRec.field_4_pPathData, *pBlyRec.field_8_pCollisionData);
                                     ret.mResult = Error::None;
                                     return ret;
                                 }
@@ -253,20 +260,67 @@ namespace AliveAPI
         {
             abort();
         }
+       
+        const PathInfo pathInfo = ToPathInfo(*pPathBlyRec->field_4_pPathData, *pPathBlyRec->field_8_pCollisionData);
 
-        if (collisionLines.size() > pPathBlyRec->field_8_pCollisionData->field_10_num_collision_items)
+        std::size_t pathResourceLen = 0;
+        pathResourceLen += collisionLines.size() * sizeof(AO::PathLine); // TODO: Calc a better estimate
+        
+        ByteStream s;
+        s.ReserveSize(pathResourceLen);
+        for (int x = 0; x < pathInfo.mWidth; x++)
+        {
+            for (int y = 0; y < pathInfo.mHeight; y++)
+            {
+                bool found = false;
+                for (const CameraNameAndTlvBlob& camIter : camerasAndMapObjects)
+                {
+                    if (camIter.x == x && camIter.y == y)
+                    {
+                        if (camIter.mName.length() != 8)
+                        {
+                            abort();
+                        }
+                        s.Write(camIter.mName);
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found)
+                {
+                    const static BYTE blank[8] = {};
+                    s.Write(blank);
+                }
+            }
+        }
+
+        if (collisionLines.size() > pathInfo.mNumCollisionItems)
         {
             abort();
         }
 
-        std::size_t pathResourceLen = 0;
-        pathResourceLen += collisionLines.size() * sizeof(AO::PathLine);
-       // pathResourceLen += pPathBlyRec->field_4_pPathData->
-        std::vector<BYTE> newPathResource(pathResourceLen);
+        for (const AO::PathLine& line : collisionLines)
+        {
+            s.Write(line.field_0_rect.x);
+            s.Write(line.field_0_rect.y);
+            s.Write(line.field_0_rect.w);
+            s.Write(line.field_0_rect.h);
 
-        // TODO: Serialize camerasAndMapObjects and collisionLines
+            s.Write(line.field_8_type);
+            s.Write(line.field_9_pad);
+            s.Write(line.field_A_pad);
+            s.Write(line.field_B_pad);
 
-        LvlFileChunk newPathBlock(doc.mPathId, ResourceManager::ResourceType::Resource_Path, newPathResource);
+            s.Write(line.field_C_previous);
+            s.Write(line.field_10_next);
+        }
+
+        // TODO: Write objects leaving gap for index table
+
+        // TODO: Write index table values
+
+        LvlFileChunk newPathBlock(doc.mPathId, ResourceManager::ResourceType::Resource_Path, s.GetBuffer());
         pathBndFile.AddChunk(newPathBlock);
 
         lvl.AddFile(doc.mPathBnd.c_str(), pathBndFile.Data());
