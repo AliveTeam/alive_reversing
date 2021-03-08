@@ -8,10 +8,16 @@
 TEST(alive_api, ExportPathBinaryToJson)
 {
 
-    auto ret = AliveAPI::ExportPathBinaryToJson("Output.json", "C:\\GOG Games\\Abes Oddysee\\R6.LVL", 6);
+    auto ret = AliveAPI::ExportPathBinaryToJson("Output.json", "C:\\GOG Games\\Abes Oddysee\\R1.LVL", 19);
  
     ASSERT_EQ(ret.mResult, AliveAPI::Error::None);
 
+}
+
+TEST(alive_api, ImportPathJsonToBinary)
+{
+    auto ret =  AliveAPI::ImportPathJsonToBinary("Output.json", "C:\\GOG Games\\Abes Oddysee\\R1.LVL", {});
+    ASSERT_EQ(ret.mResult, AliveAPI::Error::None);
 }
 
 TEST(alive_api, EnumeratePaths)
@@ -24,8 +30,6 @@ TEST(alive_api, EnumeratePaths)
 }
 
 // Get version
-
-// Import
 
 // Upgrade
 

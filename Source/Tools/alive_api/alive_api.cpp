@@ -2,11 +2,9 @@
 #include "alive_api.hpp"
 #include "../AliveLibAE/Path.hpp"
 #include "../AliveLibAE/PathData.hpp"
-#include "../AliveLibAE/LvlArchive.hpp"
-
+#include "LvlReaderWriter.hpp"
 
 #include <iostream>
-//#include "magic_enum.hpp"
 #include "JsonDocument.hpp"
 #include "AETlvs.hpp"
 #include "AOTlvs.hpp"
@@ -22,15 +20,6 @@ bool RunningAsInjectedDll()
 
 namespace AliveAPI
 {
-    [[nodiscard]] static std::vector<unsigned char> ReadLvlFile(LvlArchive& archive, LvlFileRecord& rFileRec)
-    {
-        std::vector<unsigned char> fileContent;
-        fileContent.resize(rFileRec.field_10_num_sectors * 2048);
-        sLvlArchive_5BC520.Read_File_4330A0(&rFileRec, fileContent.data());
-        fileContent.resize(rFileRec.field_14_file_size);
-        return fileContent;
-    }
-
     struct PathBND
     {
         std::string mPathBndName;
@@ -40,13 +29,29 @@ namespace AliveAPI
         PathInfo mPathInfo;
     };
 
+    [[nodiscard]] static PathInfo ToPathInfo(const AO::PathData& data, const AO::CollisionInfo& collisionInfo)
+    {
+        PathInfo info = {};
+        info.mGridWidth = data.field_C_grid_width;
+        info.mGridHeight = data.field_E_grid_height;
+        info.mWidth = (data.field_8_bTop - data.field_4_bLeft) / data.field_C_grid_width;
+        info.mHeight = (data.field_A_bBottom - data.field_6_bRight) / data.field_E_grid_height;
+        info.mIndexTableOffset = data.field_18_object_index_table_offset;
+        info.mObjectOffset = data.field_14_object_offset;
+
+        info.mNumCollisionItems = collisionInfo.field_10_num_collision_items;
+        info.mCollisionOffset = collisionInfo.field_C_collision_offset;
+
+        return info;
+    }
+
     [[nodiscard]] static PathBND OpenPathBnd(const std::string& inputLvlFile, int* pathId)
     {
         PathBND ret = {};
 
         // Open the LVL
-        LvlArchive lvl;
-        if (!lvl.Open_Archive_432E80(inputLvlFile.c_str()))
+        LvlReader lvl(inputLvlFile.c_str());
+        if (!lvl.IsOpen())
         {
             ret.mResult = Error::LvlFileReadError;
             return ret;
@@ -59,11 +64,20 @@ namespace AliveAPI
                 auto pathRoot = &sPathData_559660.paths[i];
                 if (pathRoot->field_38_bnd_name)
                 {
-                    LvlFileRecord* pRec = lvl.Find_File_Record_433160(pathRoot->field_38_bnd_name);
+                    std::optional<std::vector<BYTE>> pRec = lvl.ReadFile(pathRoot->field_38_bnd_name);
                     if (pRec)
                     {
                         ret.mPathBndName = pathRoot->field_38_bnd_name;
-                        ret.mFileData = ReadLvlFile(lvl, *pRec);
+                        if (pathId)
+                        {
+                            ChunkedLvlFile pathChunks(*pRec);
+                            std::optional<LvlFileChunk> chunk = pathChunks.ChunkById(*pathId);
+                            if (!chunk)
+                            {
+                                abort();
+                            }
+                            ret.mFileData = chunk->Data();
+                        }
                         ret.mResult = Error::None;
                         if (pathId)
                         {
@@ -113,11 +127,20 @@ namespace AliveAPI
                 auto pathRoot = &AO::gMapData_4CAB58.paths[i];
                 if (pathRoot->field_38_bnd_name)
                 {
-                    LvlFileRecord* pRec = lvl.Find_File_Record_433160(pathRoot->field_38_bnd_name);
+                    std::optional<std::vector<BYTE>> pRec = lvl.ReadFile(pathRoot->field_38_bnd_name);
                     if (pRec)
                     {
                         ret.mPathBndName = pathRoot->field_38_bnd_name;
-                        ret.mFileData = ReadLvlFile(lvl, *pRec);
+                        if (pathId)
+                        {
+                            ChunkedLvlFile pathChunks(*pRec);
+                            std::optional<LvlFileChunk> chunk = pathChunks.ChunkById(*pathId);
+                            if (!chunk)
+                            {
+                                abort();
+                            }
+                            ret.mFileData = chunk->Data();
+                        }
                         ret.mResult = Error::None;
                         if (pathId)
                         {
@@ -127,16 +150,7 @@ namespace AliveAPI
                                 if (pBlyRec.field_0_blyName)
                                 {
                                     ret.mPathBndName = pathRoot->field_38_bnd_name;
-                                    ret.mPathInfo.mGridWidth = pBlyRec.field_4_pPathData->field_C_grid_width;
-                                    ret.mPathInfo.mGridHeight = pBlyRec.field_4_pPathData->field_E_grid_height;
-                                    ret.mPathInfo.mWidth = (pBlyRec.field_4_pPathData->field_8_bTop - pBlyRec.field_4_pPathData->field_4_bLeft) / pBlyRec.field_4_pPathData->field_C_grid_width;
-                                    ret.mPathInfo.mHeight = (pBlyRec.field_4_pPathData->field_A_bBottom - pBlyRec.field_4_pPathData->field_6_bRight) / pBlyRec.field_4_pPathData->field_E_grid_height;
-                                    ret.mPathInfo.mIndexTableOffset = pBlyRec.field_4_pPathData->field_18_object_index_table_offset;
-                                    ret.mPathInfo.mObjectOffset = pBlyRec.field_4_pPathData->field_14_object_offset;
-
-                                    ret.mPathInfo.mNumCollisionItems = pBlyRec.field_8_pCollisionData->field_10_num_collision_items;
-                                    ret.mPathInfo.mCollisionOffset = pBlyRec.field_8_pCollisionData->field_C_collision_offset;
-
+                                    ret.mPathInfo = ToPathInfo(*pBlyRec.field_4_pPathData, *pBlyRec.field_8_pCollisionData);
                                     ret.mResult = Error::None;
                                     return ret;
                                 }
@@ -178,17 +192,15 @@ namespace AliveAPI
 
     [[nodiscard]] Result ExportPathBinaryToJson(const std::string& jsonOutputFile, const std::string& inputLvlFile, int pathResourceId)
     {
-        ResourceManager::Init_49BCE0();
         AliveAPI::Result ret = {};
         AliveAPI::PathBND pathBnd = AliveAPI::OpenPathBnd(inputLvlFile, &pathResourceId);
         ret.mResult = pathBnd.mResult;
 
         JsonDocument doc;
+        doc.mVersion = GetApiVersion();
         doc.mGame = "AO";
         doc.SetPathInfo(pathBnd.mPathBndName, pathBnd.mPathInfo);
         doc.SaveAO(pathResourceId, pathBnd.mPathInfo, pathBnd.mFileData, jsonOutputFile);
-
-        //ret.mResult = Error::JsonFileNeedsUpgrading;
 
         return ret;
     }
@@ -198,14 +210,131 @@ namespace AliveAPI
         return {};
     }
 
-    [[nodiscard]] Result ImportPathJsonToBinary(const std::string& /*jsonInputFile*/, const std::string& /*outputLvlFile*/, int /*pathResourceId*/, const std::vector<std::string>& /*lvlResourceSources*/)
+    [[nodiscard]] Result ImportPathJsonToBinary(const std::string& jsonInputFile, const std::string& outputLvlFile, const std::vector<std::string>& /*lvlResourceSources*/)
     {
+        Result ret = {};
+
+        JsonDocument doc;
+        auto [camerasAndMapObjects, collisionLines] = doc.Load(jsonInputFile);
+
+        if (doc.mVersion != GetApiVersion())
+        {
+            ret.mResult = Error::JsonFileNeedsUpgrading;
+            return ret;
+        }
+
+        LvlWriter lvl(outputLvlFile.c_str());
+        if (!lvl.IsOpen())
+        {
+            abort();
+        }
+
+        std::optional<std::vector<BYTE>> oldPathBnd = lvl.ReadFile(doc.mPathBnd.c_str());
+        if (!oldPathBnd)
+        {
+            abort();
+        }
+
+        ChunkedLvlFile pathBndFile(*oldPathBnd);
+        std::optional<LvlFileChunk> chunk = pathBndFile.ChunkById(doc.mPathId);
+        if (!chunk)
+        {
+            abort();
+        }
+
+        const AO::PathBlyRec* pPathBlyRec = nullptr;
+        for (int i = 0; i < ALIVE_COUNTOF(AO::gMapData_4CAB58.paths); i++)
+        {
+            auto pathRoot = &AO::gMapData_4CAB58.paths[i];
+            if (doc.mPathBnd == pathRoot->field_38_bnd_name)
+            {
+                if (doc.mPathId >= 0 && doc.mPathId < pathRoot->field_18_num_paths)
+                {
+                    pPathBlyRec = &pathRoot->field_0_pBlyArrayPtr[doc.mPathId];
+                    break;
+                }
+            }
+        }
+
+        if (!pPathBlyRec)
+        {
+            abort();
+        }
+       
+        const PathInfo pathInfo = ToPathInfo(*pPathBlyRec->field_4_pPathData, *pPathBlyRec->field_8_pCollisionData);
+
+        std::size_t pathResourceLen = 0;
+        pathResourceLen += collisionLines.size() * sizeof(AO::PathLine); // TODO: Calc a better estimate
+        
+        ByteStream s;
+        s.ReserveSize(pathResourceLen);
+        for (int x = 0; x < pathInfo.mWidth; x++)
+        {
+            for (int y = 0; y < pathInfo.mHeight; y++)
+            {
+                bool found = false;
+                for (const CameraNameAndTlvBlob& camIter : camerasAndMapObjects)
+                {
+                    if (camIter.x == x && camIter.y == y)
+                    {
+                        if (camIter.mName.length() != 8)
+                        {
+                            abort();
+                        }
+                        s.Write(camIter.mName);
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found)
+                {
+                    const static BYTE blank[8] = {};
+                    s.Write(blank);
+                }
+            }
+        }
+
+        if (collisionLines.size() > pathInfo.mNumCollisionItems)
+        {
+            abort();
+        }
+
+        for (const AO::PathLine& line : collisionLines)
+        {
+            s.Write(line.field_0_rect.x);
+            s.Write(line.field_0_rect.y);
+            s.Write(line.field_0_rect.w);
+            s.Write(line.field_0_rect.h);
+
+            s.Write(line.field_8_type);
+            s.Write(line.field_9_pad);
+            s.Write(line.field_A_pad);
+            s.Write(line.field_B_pad);
+
+            s.Write(line.field_C_previous);
+            s.Write(line.field_10_next);
+        }
+
+        // TODO: Write objects leaving gap for index table
+
+        // TODO: Write index table values
+
+        LvlFileChunk newPathBlock(doc.mPathId, ResourceManager::ResourceType::Resource_Path, s.GetBuffer());
+        pathBndFile.AddChunk(newPathBlock);
+
+        lvl.AddFile(doc.mPathBnd.c_str(), pathBndFile.Data());
+
+        if (!lvl.Save())
+        {
+            abort();
+        }
+
         return {};
     }
 
     [[nodiscard]] EnumeratePathsResult EnumeratePaths(const std::string& inputLvlFile)
     {
-        ResourceManager::Init_49BCE0();
         EnumeratePathsResult ret = {};
         PathBND pathBnd = OpenPathBnd(inputLvlFile, nullptr);
         ret.mResult = pathBnd.mResult;

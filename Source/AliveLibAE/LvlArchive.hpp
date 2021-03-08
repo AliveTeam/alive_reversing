@@ -17,7 +17,7 @@ struct LvlFileRecord
 struct LvlHeader_Sub
 {
     int field_0_num_files;
-    int field_4_unknown1;
+    int field_4_header_size_in_sectors;
     int field_8_unknown2;
     int field_C_unknown3;
     LvlFileRecord field_10_file_recs[1]; // TODO: Strictly UB on >= 1 access
@@ -25,6 +25,7 @@ struct LvlHeader_Sub
 
 struct LvlHeader
 {
+    // TODO: Up to field_C is really a ResourceManager::Header
     int field_0_first_file_offset;
     int field_4_ref_count;
     int field_8_magic;

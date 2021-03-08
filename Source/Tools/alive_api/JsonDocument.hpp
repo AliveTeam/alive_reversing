@@ -3,6 +3,12 @@
 #include <string>
 #include <vector>
 #include <jsonxx/jsonxx.h>
+#include "../AliveLibAO/Collisions.hpp"
+
+inline int To1dIndex(int width, int x, int y)
+{
+    return x + (y * width);
+}
 
 struct CollisionObject
 {
@@ -69,6 +75,15 @@ struct PathInfo
     int mCollisionOffset = 0;
 };
 
+struct CameraNameAndTlvBlob
+{
+    int mId = 0;
+    int x = 0;
+    int y = 0;
+    std::string mName;
+    std::vector<std::vector<BYTE>> mTlvBlobs;
+};
+
 class JsonDocument
 {
 public:
@@ -87,10 +102,7 @@ public:
     std::vector<CollisionObject> mCollisions;
     std::vector<CameraObject> mCameras;
 
-    void Load(const std::string& fileName)
-    {
-
-    }
+    std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> Load(const std::string& fileName);
 
     void SetPathInfo(const std::string& pathBndName, const PathInfo& info);
 

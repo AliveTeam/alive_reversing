@@ -6,6 +6,135 @@
 #include "../AliveLibAO/HoistRocksEffect.hpp"
 #include "../AliveLibAE/ResourceManager.hpp"
 #include "AOTlvs.hpp"
+#include <fstream>
+#include <streambuf>
+
+std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonDocument::Load(const std::string& fileName)
+{
+    std::ifstream inputFileStream(fileName.c_str());
+    std::string jsonStr((std::istreambuf_iterator<char>(inputFileStream)), std::istreambuf_iterator<char>());
+
+    jsonxx::Object rootObj;
+    if (!rootObj.parse(jsonStr))
+    {
+        abort();
+    }
+
+    if (!rootObj.has<jsonxx::Number>("api_version"))
+    {
+        abort();
+    }
+
+    mVersion = rootObj.get<jsonxx::Number>("api_version");
+    if (mVersion != AliveAPI::GetApiVersion())
+    {
+        // TODO: Upgrade
+        abort();
+    }
+
+  
+    if (!rootObj.has<jsonxx::Object>("map"))
+    {
+        abort();
+    }
+
+    jsonxx::Object map = rootObj.get<jsonxx::Object>("map");
+
+    if (!map.has<jsonxx::String>("path_bnd"))
+    {
+        abort();
+    }
+    mPathBnd = map.get<jsonxx::String>("path_bnd");
+
+    if (!map.has<jsonxx::Number>("path_id"))
+    {
+        abort();
+    }
+
+    mPathId = map.get<jsonxx::Number>("path_id");
+
+    mXSize = map.get<jsonxx::Number>("x_size");
+    mYSize = map.get<jsonxx::Number>("y_size");
+
+    mXGridSize = map.get<jsonxx::Number>("x_grid_size");
+    mYGridSize = map.get<jsonxx::Number>("y_grid_size");
+
+    if (!map.has<jsonxx::Array>("collisions"))
+    {
+        abort();
+    }
+
+    std::vector<AO::PathLine> lines;
+    jsonxx::Array collisionsArray = map.get<jsonxx::Array>("collisions");
+    for (int i = 0; i < collisionsArray.values().size(); i++)
+    {
+        jsonxx::Object collision = collisionsArray.get<jsonxx::Object>(i);
+
+        AO::PathLine col = {};
+        col.field_0_rect.x = collision.get<jsonxx::Number>("x1");
+        col.field_0_rect.y = collision.get<jsonxx::Number>("y1");
+        
+        col.field_0_rect.w = collision.get<jsonxx::Number>("x2");
+        col.field_0_rect.h = collision.get<jsonxx::Number>("y2");
+
+        //col.field_8_type = 
+        //col.field_10_next = 
+        //col.field_C_previous = 
+
+        lines.emplace_back(col);
+    }
+
+    if (!map.has<jsonxx::Array>("cameras"))
+    {
+        abort();
+    }
+    
+    TypesCollection globalTypes;
+    std::vector<CameraNameAndTlvBlob> mapData(mXSize * mYSize);
+
+    jsonxx::Array camerasArray = map.get<jsonxx::Array>("cameras");
+    for (int i = 0; i < camerasArray.values().size(); i++)
+    {
+        jsonxx::Object camera = camerasArray.get<jsonxx::Object>(i);
+        if (!camera.has<jsonxx::Array>("map_objects"))
+        {
+            abort();
+        }
+
+        const int x = camera.get<jsonxx::Number>("x");
+        const int y = camera.get<jsonxx::Number>("y");
+        if (x > mXSize || y > mYSize)
+        {
+            abort();
+        }
+
+        CameraNameAndTlvBlob& cameraNameBlob = mapData[To1dIndex(mXSize, x, y)];
+        cameraNameBlob.mId = camera.get<jsonxx::Number>("id");
+        cameraNameBlob.mName = camera.get<jsonxx::String>("name");
+        cameraNameBlob.x = x;
+        cameraNameBlob.y = y;
+
+        jsonxx::Array mapObjectsArray = camera.get<jsonxx::Array>("map_objects");
+        for (int j = 0; j < mapObjectsArray.values().size(); j++)
+        {
+            jsonxx::Object mapObject = mapObjectsArray.get<jsonxx::Object>(j);
+            if (!mapObject.has<jsonxx::String>("object_structures_type"))
+            {
+                abort();
+            }
+            std::string structureType = mapObject.get<jsonxx::String>("object_structures_type");
+            auto tlv = globalTypes.MakeTlv(structureType, nullptr);
+            if (!tlv)
+            {
+                abort();
+            }
+
+            tlv->InstanceFromJson(globalTypes, mapObject);
+            cameraNameBlob.mTlvBlobs.emplace_back(tlv->GetTlvData(j == mapObjectsArray.values().size() - 1));
+        }
+    }
+    return { mapData, lines };
+}
 
 void JsonDocument::SetPathInfo(const std::string& pathBndName, const PathInfo& info)
 {
@@ -40,7 +169,7 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
     rootMapObject << "y_grid_size" << mYGridSize;
     rootMapObject << "y_size" << mYSize;
 
-    BYTE* pPathData = pathResource.data() + sizeof(::ResourceManager::Header);
+    BYTE* pPathData = pathResource.data();
 
 
     AO::PathLine* pLineIter = reinterpret_cast<AO::PathLine*>(pPathData + info.mCollisionOffset);
@@ -74,7 +203,7 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
     {
         for (int y = 0; y < info.mHeight; y++)
         {
-            auto pCamName = reinterpret_cast<const AO::CameraName*>(&pPathData[(x + (y * info.mWidth)) * sizeof(AO::CameraName)]);
+            auto pCamName = reinterpret_cast<const AO::CameraName*>(&pPathData[To1dIndex(info.mWidth, x, y) * sizeof(AO::CameraName)]);
             CameraObject tmpCamera;
             if (pCamName->name[0])
             {
@@ -88,21 +217,19 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
                     1000 * (pCamName->name[3] - '0');
             }
 
-            const int indexTableOffset = indexTable[(x + (y * info.mWidth))];
+            const int indexTableOffset = indexTable[To1dIndex(info.mWidth, x, y)];
             if (indexTableOffset == -1 || indexTableOffset >= 0x100000)
             {
                 if (pCamName->name[0])
                 {
+                    LOG_INFO("Add camera with no objects " << pCamName->name);
                     cameraArray << tmpCamera.ToJsonObject({});
                 }
                 continue;
             }
 
-            if (!pCamName->name[0])
-            {
-                // Cant have objects that dont live in a camera
-                abort();
-            }
+            // Can have objects that do not live in a camera, as strange as it seems (R1P15)
+            // "blank" cameras just do not have a name set.
 
             jsonxx::Array mapObjects;
 
