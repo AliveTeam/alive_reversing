@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <optional>
+#include "ByteStream.hpp"
 #include "../AliveLibAE/LvlArchive.hpp"
 
 inline std::string ToString(const LvlFileRecord& rec)
@@ -77,7 +78,7 @@ public:
     {
         for (auto& chunk : mChunks)
         {
-            if (chunk.Id() == chunk.Id())
+            if (chunk.Id() == chunkToAdd.Id())
             {
                 chunk = chunkToAdd;
                 return;
@@ -95,8 +96,8 @@ public:
         }
         neededSize += sizeof(ResourceManager::Header) * mChunks.size();
 
-        std::vector<BYTE> ret(neededSize);
-        std::size_t pos = 0;
+        ByteStream s;
+        s.ReserveSize(neededSize);
         for (auto& chunk : mChunks)
         {
             auto adjustedHeader = chunk.Header();
@@ -104,48 +105,50 @@ public:
             {
                 adjustedHeader.field_0_size += sizeof(ResourceManager::Header);
             }
-            memcpy(&ret[pos], &adjustedHeader, sizeof(ResourceManager::Header));
-            pos += sizeof(ResourceManager::Header);
+            
+            s.Write(adjustedHeader.field_0_size);
+            s.Write(adjustedHeader.field_4_ref_count);
+            s.Write(adjustedHeader.field_6_flags);
+            s.Write(adjustedHeader.field_8_type);
+            s.Write(adjustedHeader.field_C_id);
 
             if (chunk.Size() > 0)
             {
-                memcpy(&ret[pos], chunk.Data().data(), chunk.Size());
-                pos += chunk.Size();
+                s.Write(chunk.Data());
             }
         }
-        return ret;
+        return s.GetBuffer();
     }
 
 private:
     void Read(const std::vector<BYTE>& data)
     {
-        std::size_t pos = 0;
+        ByteStream s(data);
         do
         {
-            auto pHeader = reinterpret_cast<const ResourceManager::Header*>(&data[pos]);
-            std::vector<BYTE> tmpData(pHeader->field_0_size);
-            pos += sizeof(ResourceManager::Header);
-            if (pos + pHeader->field_0_size > data.size())
-            {
-                abort();
-            }
+            ResourceManager::Header resHeader = {};
+            s.Read(resHeader.field_0_size);
+            s.Read(resHeader.field_4_ref_count);
+            s.Read(resHeader.field_6_flags);
+            s.Read(resHeader.field_8_type);
+            s.Read(resHeader.field_C_id);
 
-            if (pHeader->field_0_size > 0)
+            std::vector<BYTE> tmpData(resHeader.field_0_size);
+            if (resHeader.field_0_size > 0)
             {
                 tmpData.resize(tmpData.size() - sizeof(ResourceManager::Header));
-                memcpy(tmpData.data(), &data[pos], tmpData.size());
-                pos += tmpData.size();
+                s.Read(tmpData);
             }
 
-            LvlFileChunk chunk(pHeader->field_C_id, static_cast<ResourceManager::ResourceType>(pHeader->field_8_type), tmpData);
+            LvlFileChunk chunk(resHeader.field_C_id, static_cast<ResourceManager::ResourceType>(resHeader.field_8_type), tmpData);
             mChunks.push_back(chunk);
 
-            if (pHeader->field_8_type == ResourceManager::ResourceType::Resource_End)
+            if (resHeader.field_8_type == ResourceManager::ResourceType::Resource_End)
             {
                 break;
             }
 
-        } while (pos < data.size());
+        } while (!s.AtReadEnd());
     }
 
     std::vector<LvlFileChunk> mChunks;
