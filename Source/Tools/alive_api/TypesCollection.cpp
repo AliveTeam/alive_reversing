@@ -22,9 +22,11 @@ template<class T>
 static void DoRegisterType(std::map<AO::TlvTypes, std::function<std::unique_ptr<TlvObjectBase>(TypesCollection&, AO::Path_TLV*)>>& factory, std::map<std::string, std::function<std::unique_ptr<TlvObjectBase>(TypesCollection&, AO::Path_TLV*)>>& reverseFactory, AO::TlvTypes tlvType, TypesCollection& constructingTypes)
 { 
     T tmp(constructingTypes, nullptr);
-    auto fnCreate = [](TypesCollection& types, AO::Path_TLV* pTlv)
+    auto fnCreate = [tlvType](TypesCollection& types, AO::Path_TLV* pTlv)
     {
-        return std::make_unique<T>(types, pTlv);
+        auto ret = std::make_unique<T>(types, pTlv);
+        ret->SetType(tlvType);
+        return ret;
     };
     reverseFactory[tmp.Name()] = fnCreate;
     factory[tlvType] = fnCreate;

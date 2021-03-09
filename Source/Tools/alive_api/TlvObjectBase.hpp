@@ -279,6 +279,12 @@ public:
         return ret;
     }
 
+    void SetType(AO::TlvTypes type)
+    {
+        mTlv.field_4_type = type;
+        mTlv.field_2_length = sizeof(T);
+    }
+
 protected:
     T mTlv = {};
     AO::Path_TLV* mBase = nullptr;
