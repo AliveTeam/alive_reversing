@@ -263,10 +263,11 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
                         case 37:
                             LOG_WARNING("Unused abe start ignored");
                             break;
-
+                        /*
                         case 2:
                             LOG_WARNING("Unused continue zone ignored");
                             break;
+                        */
 
                         default:
                             LOG_WARNING("Ignoring type: " << pPathTLV->field_4_type);

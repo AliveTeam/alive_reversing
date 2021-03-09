@@ -2,7 +2,7 @@
 #include "TypesCollection.hpp"
 #include "AOTlvs.hpp"
 #include "AETlvs.hpp"
-
+#include "../AliveLibAO/SwitchStates.hpp"
 
 
 TypesCollection::TypesCollection()
@@ -40,11 +40,26 @@ void TypesCollection::AddAOTypes()
     REGISTER_TYPE(AOTlvs::Path_Hoist, AO::TlvTypes::Hoist_3);
     REGISTER_TYPE(AOTlvs::Path_ContinuePoint, AO::TlvTypes::ContinuePoint_0);
     REGISTER_TYPE(AOTlvs::Path_Door, AO::TlvTypes::Door_6);
+    REGISTER_TYPE(AOTlvs::Path_Change, AO::TlvTypes::PathTransition_1);
+    REGISTER_TYPE(AOTlvs::Path_Switch, AO::TlvTypes::Switch_26);
+    REGISTER_TYPE(AOTlvs::Path_LightEffect, AO::TlvTypes::LightEffect_106);
+    REGISTER_TYPE(AOTlvs::Path_ElectricWall, AO::TlvTypes::ElectricWall_67);
+    REGISTER_TYPE(AOTlvs::Path_ContinueZone, AO::TlvTypes::ContinueZone_2);
+    REGISTER_TYPE(AOTlvs::Path_StartController, AO::TlvTypes::StartController_28);
 
     for (auto& [key, value] : mTlvFactory)
     {
         value(*this, nullptr)->AddTypes(*this);
     }
+
+    AddEnum<AO::SwitchOp>("Enum_SwitchOp",
+        {
+             { AO::SwitchOp::eSetTrue_0, "SetTrue" },
+             { AO::SwitchOp::eSetFalse_1, "SetFalse" },
+             { AO::SwitchOp::eToggle_2, "Toggle" },
+             { AO::SwitchOp::eIncrement_3, "Increment" },
+             { AO::SwitchOp::eDecrement_4, "Decrement" },
+        });
 
     AddEnum<AO::LevelIds>("Enum_LevelIds",
         {

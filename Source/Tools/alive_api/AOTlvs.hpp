@@ -4,8 +4,24 @@
 #include "../AliveLibAO/HoistRocksEffect.hpp"
 #include "../AliveLibAO/Abe.hpp"
 #include "../AliveLibAO/Door.hpp"
+#include "../AliveLibAO/Switch.hpp"
+#include "../AliveLibAO/DoorLight.hpp"
+#include "../AliveLibAO/ElectricWall.hpp"
 
 #define CTOR_AO(className, objectTypeName)  className(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO(objectTypeName, pTlv)
+
+namespace AO
+{
+    struct Path_ContinueZone : public Path_TLV
+    {
+        int field_10_zone_number;
+    };
+
+    struct Path_StartController : public Path_TLV
+    {
+        // No fields
+    };
+}
 
 namespace AOTlvs
 {
@@ -90,6 +106,88 @@ namespace AOTlvs
             ADD("HoistType", mTlv.field_18_hoist_type);
             ADD("HoistEdgeType", mTlv.field_1A_edge_type);
             ADD("Id", mTlv.field_1C_id);
+        }
+    };
+
+    class Path_Change : public TlvObjectBaseAO<AO::Path_ChangeTLV>
+    {
+    public:
+        CTOR_AO(Path_Change, "PathTransition")
+        {
+            ADD("Level", mTlv.field_18_level);
+            ADD("HoistEdgeType", mTlv.field_1A_path);
+            ADD("Camera", mTlv.field_1C_camera);
+            ADD("Movie", mTlv.field_1E_movie); // TODO: Enum
+            ADD("Wipe", mTlv.field_20_wipe); // TODO: Enum
+            ADD("Scale", mTlv.field_22_scale); // TODO: Enum
+        }
+    };
+
+    class Path_Switch : public TlvObjectBaseAO<AO::Path_Switch>
+    {
+    public:
+        CTOR_AO(Path_Switch, "Switch")
+        {
+            ADD("TriggerObject", mTlv.field_18_trigger_object);
+            ADD("TriggerAction", mTlv.field_1A_trigger_object_action);
+            ADD("Scale", mTlv.field_1C_scale);
+            ADD("OnSound", mTlv.field_1E_on_sound); // TODO: Enum
+            ADD("OffSound", mTlv.field_20_off_sound); // TODO: Enum
+            ADD("SoundDirection", mTlv.field_22_sound_direction); // TODO: Enum
+        }
+    };
+
+    class Path_LightEffect : public TlvObjectBaseAO<AO::Path_LightEffect>
+    {
+    public:
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<AO::Path_LightEffect::Type>("Enum_LightType",
+                {
+                    {AO::Path_LightEffect::Type::Star_0, "Star"},
+                    {AO::Path_LightEffect::Type::RedGlow_1, "RedGlow"},
+                    {AO::Path_LightEffect::Type::GreenGlow_2, "GreenGlow"},
+                    {AO::Path_LightEffect::Type::FlintGlow_3, "FlintGlow"},
+                    {AO::Path_LightEffect::Type::Switchable_RedGreenDoorLights_4, "RedGreenDoorLight"},
+                    {AO::Path_LightEffect::Type::Switchable_RedGreenHubLight_5, "RedGreenHubLight"},
+                });
+        }
+
+        CTOR_AO(Path_LightEffect, "LightEffect")
+        {
+            ADD("Type", mTlv.field_18_type);
+            ADD("Size", mTlv.field_1A_size);
+            ADD("Id", mTlv.field_1C_id);
+            ADD("FlipX", mTlv.field_1E_flip_x);
+        }
+    };
+
+    class Path_ElectricWall : public TlvObjectBaseAO<AO::Path_ElectricWall>
+    {
+    public:
+        CTOR_AO(Path_ElectricWall, "ElectricWall")
+        {
+            ADD("Scale", mTlv.field_18_scale);
+            ADD("Id", mTlv.field_1A_id);
+            ADD("State", mTlv.field_1C_start_state); // TODO: Enum
+        }
+    };
+
+    class Path_ContinueZone : public TlvObjectBaseAO<AO::Path_ContinueZone>
+    {
+    public:
+        CTOR_AO(Path_ContinueZone, "ContinueZone")
+        {
+            ADD("ZoneNumber", mTlv.field_10_zone_number);
+        }
+    };
+
+    class Path_StartController : public TlvObjectBaseAO<AO::Path_StartController>
+    {
+    public:
+        CTOR_AO(Path_StartController, "StartController")
+        {
+            // No fields
         }
     };
 }
