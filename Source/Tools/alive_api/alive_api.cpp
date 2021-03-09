@@ -289,7 +289,7 @@ namespace AliveAPI
                     }
                 }
 
-                if (found)
+                if (!found)
                 {
                     const static BYTE blank[8] = {};
                     s.Write(blank);
