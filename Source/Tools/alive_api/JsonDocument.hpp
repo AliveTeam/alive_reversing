@@ -16,7 +16,9 @@ struct CollisionObject
     int mY1 = 0;
     int mX2 = 0;
     int mY2 = 0;
-    // TODO: Other properties
+    int mType = 0;
+    int mNext = 0;
+    int mPrevious = 0;
 
     jsonxx::Object ToJsonObject() const
     {
@@ -27,6 +29,11 @@ struct CollisionObject
 
         obj << "x2" << mX2;
         obj << "y2" << mY2;
+
+        obj << "type" << mType;
+
+        obj << "next" << mNext;
+        obj << "previous" << mPrevious;
 
         return obj;
     }

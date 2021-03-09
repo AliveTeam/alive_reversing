@@ -77,9 +77,9 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonDocu
         col.field_0_rect.w = collision.get<jsonxx::Number>("x2");
         col.field_0_rect.h = collision.get<jsonxx::Number>("y2");
 
-        //col.field_8_type = 
-        //col.field_10_next = 
-        //col.field_C_previous = 
+        col.field_8_type = collision.get<jsonxx::Number>("type");
+        col.field_10_next = collision.get<jsonxx::Number>("next");
+        col.field_C_previous = collision.get<jsonxx::Number>("previous");
 
         lines.emplace_back(col);
     }
@@ -181,6 +181,9 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
         tmpCol.mX2 = pLineIter[i].field_0_rect.w;
         tmpCol.mY2 = pLineIter[i].field_0_rect.h;
 
+        tmpCol.mType = pLineIter[i].field_8_type;
+        tmpCol.mNext = pLineIter[i].field_10_next;
+        tmpCol.mPrevious = pLineIter[i].field_C_previous;
 
         mCollisions.push_back(tmpCol);
     }
