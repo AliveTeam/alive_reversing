@@ -91,9 +91,8 @@ struct CameraNameAndTlvBlob
     std::vector<std::vector<BYTE>> mTlvBlobs;
 };
 
-class JsonDocument
+struct MapRootInfo
 {
-public:
     int mVersion = 0;
     std::string mGame;
 
@@ -105,6 +104,12 @@ public:
 
     int mYGridSize = 0;
     int mYSize = 0;
+};
+
+class JsonDocument
+{
+public:
+    MapRootInfo mRootInfo;
 
     std::vector<CollisionObject> mCollisions;
     std::vector<CameraObject> mCameras;
@@ -114,4 +119,5 @@ public:
     void SetPathInfo(const std::string& pathBndName, const PathInfo& info);
 
     void SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName);
+    void SaveAE(int pathId, const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName);
 };

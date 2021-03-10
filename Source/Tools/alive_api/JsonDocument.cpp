@@ -25,8 +25,8 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonDocu
         abort();
     }
 
-    mVersion = rootObj.get<jsonxx::Number>("api_version");
-    if (mVersion != AliveAPI::GetApiVersion())
+    mRootInfo.mVersion = rootObj.get<jsonxx::Number>("api_version");
+    if (mRootInfo.mVersion != AliveAPI::GetApiVersion())
     {
         // TODO: Upgrade
         abort();
@@ -44,20 +44,20 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonDocu
     {
         abort();
     }
-    mPathBnd = map.get<jsonxx::String>("path_bnd");
+    mRootInfo.mPathBnd = map.get<jsonxx::String>("path_bnd");
 
     if (!map.has<jsonxx::Number>("path_id"))
     {
         abort();
     }
 
-    mPathId = map.get<jsonxx::Number>("path_id");
+    mRootInfo.mPathId = map.get<jsonxx::Number>("path_id");
 
-    mXSize = map.get<jsonxx::Number>("x_size");
-    mYSize = map.get<jsonxx::Number>("y_size");
+    mRootInfo.mXSize = map.get<jsonxx::Number>("x_size");
+    mRootInfo.mYSize = map.get<jsonxx::Number>("y_size");
 
-    mXGridSize = map.get<jsonxx::Number>("x_grid_size");
-    mYGridSize = map.get<jsonxx::Number>("y_grid_size");
+    mRootInfo.mXGridSize = map.get<jsonxx::Number>("x_grid_size");
+    mRootInfo.mYGridSize = map.get<jsonxx::Number>("y_grid_size");
 
     if (!map.has<jsonxx::Array>("collisions"))
     {
@@ -90,7 +90,7 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonDocu
     }
     
     TypesCollection globalTypes;
-    std::vector<CameraNameAndTlvBlob> mapData(mXSize * mYSize);
+    std::vector<CameraNameAndTlvBlob> mapData(mRootInfo.mXSize * mRootInfo.mYSize);
 
     jsonxx::Array camerasArray = map.get<jsonxx::Array>("cameras");
     for (int i = 0; i < camerasArray.values().size(); i++)
@@ -103,12 +103,12 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonDocu
 
         const int x = camera.get<jsonxx::Number>("x");
         const int y = camera.get<jsonxx::Number>("y");
-        if (x > mXSize || y > mYSize)
+        if (x > mRootInfo.mXSize || y > mRootInfo.mYSize)
         {
             abort();
         }
 
-        CameraNameAndTlvBlob& cameraNameBlob = mapData[To1dIndex(mXSize, x, y)];
+        CameraNameAndTlvBlob& cameraNameBlob = mapData[To1dIndex(mRootInfo.mXSize, x, y)];
         cameraNameBlob.mId = camera.get<jsonxx::Number>("id");
         cameraNameBlob.mName = camera.get<jsonxx::String>("name");
         cameraNameBlob.x = x;
@@ -138,39 +138,38 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonDocu
 
 void JsonDocument::SetPathInfo(const std::string& pathBndName, const PathInfo& info)
 {
-    mPathBnd = pathBndName;
-    mXGridSize = info.mGridWidth;
-    mYGridSize = info.mGridHeight;
+    mRootInfo.mPathBnd = pathBndName;
+    mRootInfo.mXGridSize = info.mGridWidth;
+    mRootInfo.mYGridSize = info.mGridHeight;
 
-    mXSize = info.mWidth;
-    mYSize = info.mHeight;
+    mRootInfo.mXSize = info.mWidth;
+    mRootInfo.mYSize = info.mHeight;
 
-    mVersion = AliveAPI::GetApiVersion();
+    mRootInfo.mVersion = AliveAPI::GetApiVersion();
 
 }
 
 void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName)
 {
-    mPathId = pathId;
+    mRootInfo.mPathId = pathId;
 
     jsonxx::Object rootObject;
 
-    rootObject << "api_version" << mVersion;
+    rootObject << "api_version" << mRootInfo.mVersion;
 
-    rootObject << "game" << mGame;
+    rootObject << "game" << mRootInfo.mGame;
 
     jsonxx::Object rootMapObject;
-    rootMapObject << "path_bnd" << mPathBnd;
-    rootMapObject << "path_id" << mPathId;
+    rootMapObject << "path_bnd" << mRootInfo.mPathBnd;
+    rootMapObject << "path_id" << mRootInfo.mPathId;
 
-    rootMapObject << "x_grid_size" << mXGridSize;
-    rootMapObject << "x_size" << mXSize;
+    rootMapObject << "x_grid_size" << mRootInfo.mXGridSize;
+    rootMapObject << "x_size" << mRootInfo.mXSize;
 
-    rootMapObject << "y_grid_size" << mYGridSize;
-    rootMapObject << "y_size" << mYSize;
+    rootMapObject << "y_grid_size" << mRootInfo.mYGridSize;
+    rootMapObject << "y_size" << mRootInfo.mYSize;
 
     BYTE* pPathData = pathResource.data();
-
 
     AO::PathLine* pLineIter = reinterpret_cast<AO::PathLine*>(pPathData + info.mCollisionOffset);
     for (int i = 0; i < info.mNumCollisionItems; i++)
@@ -199,7 +198,6 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
 
     TypesCollection globalTypes;
     std::set<AO::TlvTypes> usedTypes;
-
 
     jsonxx::Array cameraArray;
     for (int x = 0; x < info.mWidth; x++)
@@ -298,4 +296,9 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
     {
         s << rootObject.json();
     }
+}
+
+void JsonDocument::SaveAE(int /*pathId*/, const PathInfo& /*info*/, std::vector<BYTE>& /*pathResource*/, const std::string& /*fileName*/)
+{
+
 }
