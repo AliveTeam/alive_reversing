@@ -4,8 +4,9 @@
 #include "logger.hpp"
 #include "AOTlvs.hpp"
 #include <gmock/gmock.h>
+#include "../AliveLibAE/DebugHelpers.hpp"
 
-TEST(alive_api, ExportPathBinaryToJson)
+TEST(alive_api, ExportPathBinaryToJsonAO)
 {
 
     auto ret = AliveAPI::ExportPathBinaryToJson("Output.json", "C:\\GOG Games\\Abes Oddysee\\R1.LVL", 19);
@@ -14,13 +15,17 @@ TEST(alive_api, ExportPathBinaryToJson)
 
 }
 
-TEST(alive_api, ImportPathJsonToBinary)
+TEST(alive_api, ImportPathJsonToBinaryAO)
 {
     auto ret =  AliveAPI::ImportPathJsonToBinary("Output.json", "C:\\GOG Games\\Abes Oddysee\\R1.LVL", {});
     ASSERT_EQ(ret.mResult, AliveAPI::Error::None);
+
+    const auto ogR1 = FS::ReadFile("C:\\GOG Games\\Abes Oddysee\\R1.LVL");
+    const auto rewrittenR1 = FS::ReadFile("new.lvl");
+    ASSERT_EQ(ogR1, rewrittenR1);
 }
 
-TEST(alive_api, EnumeratePaths)
+TEST(alive_api, EnumeratePathsAO)
 {
     auto ret = AliveAPI::EnumeratePaths("C:\\GOG Games\\Abes Oddysee\\R1.LVL");
     ASSERT_EQ(ret.pathBndName, "R1PATH.BND");
