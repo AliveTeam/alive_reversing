@@ -205,17 +205,15 @@ namespace AliveAPI
         AliveAPI::PathBND pathBnd = AliveAPI::OpenPathBnd(inputLvlFile, game, &pathResourceId);
         ret.mResult = pathBnd.mResult;
 
-        JsonDocument doc;
-        doc.mRootInfo.mVersion = GetApiVersion();
-        doc.mRootInfo.mGame = game == Game::AO ? "AO" : "AE";
-        doc.SetPathInfo(pathBnd.mPathBndName, pathBnd.mPathInfo);
-
         if (game == Game::AO)
         {
+            JsonWriterAO doc(pathBnd.mPathBndName, pathBnd.mPathInfo);
+            doc.mRootInfo.mGame = game == Game::AO ? "AO" : "AE";
             doc.SaveAO(pathResourceId, pathBnd.mPathInfo, pathBnd.mFileData, jsonOutputFile);
         }
         else
         {
+            JsonWriterAE doc;
             doc.SaveAE(pathResourceId, pathBnd.mPathInfo, pathBnd.mFileData, jsonOutputFile);
         }
         return ret;
@@ -230,7 +228,7 @@ namespace AliveAPI
     {
         Result ret = {};
 
-        JsonDocument doc;
+        JsonReaderAO doc;
         auto [camerasAndMapObjects, collisionLines] = doc.Load(jsonInputFile);
 
         if (doc.mRootInfo.mVersion != GetApiVersion())

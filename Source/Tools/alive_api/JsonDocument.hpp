@@ -10,42 +10,12 @@ inline int To1dIndex(int width, int x, int y)
     return x + (y * width);
 }
 
-struct CollisionObject
-{
-    int mX1 = 0;
-    int mY1 = 0;
-    int mX2 = 0;
-    int mY2 = 0;
-    int mType = 0;
-    int mNext = 0;
-    int mPrevious = 0;
-
-    jsonxx::Object ToJsonObject() const
-    {
-        jsonxx::Object obj;
-
-        obj << "x1" << mX1;
-        obj << "y1" << mY1;
-
-        obj << "x2" << mX2;
-        obj << "y2" << mY2;
-
-        obj << "type" << mType;
-
-        obj << "next" << mNext;
-        obj << "previous" << mPrevious;
-
-        return obj;
-    }
-};
-
 struct CameraObject
 {
     std::string mName;
     int mId = 0;
     int mX = 0;
     int mY = 0;
-    //std::vector<MapObject> mMapObjects;
 
     jsonxx::Object ToJsonObject(jsonxx::Array mapObjectsArray) const
     {
@@ -55,13 +25,6 @@ struct CameraObject
         obj << "x" << mX;
         obj << "y" << mY;
         obj << "id" << mId;
-        /*
-        jsonxx::Array mapObjectsArray;
-        for (const auto& mapObject : mMapObjects)
-        {
-            mapObjectsArray << mapObject.ToJsonObject();
-        }
-        */
         obj << "map_objects" << mapObjectsArray;
         
         return obj;
@@ -106,18 +69,27 @@ struct MapRootInfo
     int mYSize = 0;
 };
 
-class JsonDocument
+class JsonReaderAO
+{
+public:
+    std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> Load(const std::string& fileName);
+
+    MapRootInfo mRootInfo;
+};
+
+class JsonWriterAO
 {
 public:
     MapRootInfo mRootInfo;
 
-    std::vector<CollisionObject> mCollisions;
-    std::vector<CameraObject> mCameras;
-
-    std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> Load(const std::string& fileName);
-
-    void SetPathInfo(const std::string& pathBndName, const PathInfo& info);
+    JsonWriterAO(const std::string& pathBndName, const PathInfo& info);
 
     void SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName);
+};
+
+class JsonWriterAE
+{
+public:
+
     void SaveAE(int pathId, const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName);
 };

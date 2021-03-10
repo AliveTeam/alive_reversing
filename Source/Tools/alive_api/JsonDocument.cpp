@@ -9,7 +9,7 @@
 #include <fstream>
 #include <streambuf>
 
-std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonDocument::Load(const std::string& fileName)
+std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonReaderAO::Load(const std::string& fileName)
 {
     std::ifstream inputFileStream(fileName.c_str());
     std::string jsonStr((std::istreambuf_iterator<char>(inputFileStream)), std::istreambuf_iterator<char>());
@@ -123,7 +123,7 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonDocu
                 abort();
             }
             std::string structureType = mapObject.get<jsonxx::String>("object_structures_type");
-            auto tlv = globalTypes.MakeTlv(structureType, nullptr);
+            auto tlv = globalTypes.MakeTlvAO(structureType, nullptr);
             if (!tlv)
             {
                 abort();
@@ -136,7 +136,7 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonDocu
     return { mapData, lines };
 }
 
-void JsonDocument::SetPathInfo(const std::string& pathBndName, const PathInfo& info)
+JsonWriterAO::JsonWriterAO(const std::string& pathBndName, const PathInfo& info)
 {
     mRootInfo.mPathBnd = pathBndName;
     mRootInfo.mXGridSize = info.mGridWidth;
@@ -146,10 +146,27 @@ void JsonDocument::SetPathInfo(const std::string& pathBndName, const PathInfo& i
     mRootInfo.mYSize = info.mHeight;
 
     mRootInfo.mVersion = AliveAPI::GetApiVersion();
-
 }
 
-void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName)
+static jsonxx::Object ToJsonObject(const AO::PathLine& line)
+{
+    jsonxx::Object obj;
+
+    obj << "x1" << line.field_0_rect.x;
+    obj << "y1" << line.field_0_rect.y;
+
+    obj << "x2" << line.field_0_rect.w;
+    obj << "y2" << line.field_0_rect.h;
+
+    obj << "type" << line.field_8_type;
+
+    obj << "next" << line.field_10_next;
+    obj << "previous" << line.field_C_previous;
+
+    return obj;
+}
+
+void JsonWriterAO::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName)
 {
     mRootInfo.mPathId = pathId;
 
@@ -172,26 +189,12 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
     BYTE* pPathData = pathResource.data();
 
     AO::PathLine* pLineIter = reinterpret_cast<AO::PathLine*>(pPathData + info.mCollisionOffset);
+    jsonxx::Array collisionsArray;
     for (int i = 0; i < info.mNumCollisionItems; i++)
     {
-        CollisionObject tmpCol;
-        tmpCol.mX1 = pLineIter[i].field_0_rect.x;
-        tmpCol.mY1 = pLineIter[i].field_0_rect.y;
-        tmpCol.mX2 = pLineIter[i].field_0_rect.w;
-        tmpCol.mY2 = pLineIter[i].field_0_rect.h;
-
-        tmpCol.mType = pLineIter[i].field_8_type;
-        tmpCol.mNext = pLineIter[i].field_10_next;
-        tmpCol.mPrevious = pLineIter[i].field_C_previous;
-
-        mCollisions.push_back(tmpCol);
+        collisionsArray << ToJsonObject(pLineIter[i]);
     }
 
-    jsonxx::Array collisionsArray;
-    for (const auto& item : mCollisions)
-    {
-        collisionsArray << item.ToJsonObject();
-    }
     rootMapObject << "collisions" << collisionsArray;
 
     const int* indexTable = reinterpret_cast<const int*>(pPathData + info.mIndexTableOffset);
@@ -243,7 +246,7 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
                 {
                     usedTypes.insert(static_cast<AO::TlvTypes>(pPathTLV->field_4_type));
 
-                    auto obj = globalTypes.MakeTlv(static_cast<AO::TlvTypes>(pPathTLV->field_4_type), pPathTLV);
+                    auto obj = globalTypes.MakeTlvAO(static_cast<AO::TlvTypes>(pPathTLV->field_4_type), pPathTLV);
                     if (obj)
                     {
                         mapObjects << obj->InstanceToJson(globalTypes);
@@ -298,7 +301,7 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
     }
 }
 
-void JsonDocument::SaveAE(int /*pathId*/, const PathInfo& /*info*/, std::vector<BYTE>& /*pathResource*/, const std::string& /*fileName*/)
+void JsonWriterAE::SaveAE(int /*pathId*/, const PathInfo& /*info*/, std::vector<BYTE>& /*pathResource*/, const std::string& /*fileName*/)
 {
 
 }

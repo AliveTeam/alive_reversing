@@ -16,8 +16,8 @@ public:
 
     void AddTlvsToJsonArray(jsonxx::Array& array);
 
-    std::unique_ptr<TlvObjectBase> MakeTlv(AO::TlvTypes tlvType, AO::Path_TLV* pTlv);
-    std::unique_ptr<TlvObjectBase> MakeTlv(const std::string& tlvTypeName, AO::Path_TLV* pTlv);
+    std::unique_ptr<TlvObjectBase> MakeTlvAO(AO::TlvTypes tlvType, AO::Path_TLV* pTlv);
+    std::unique_ptr<TlvObjectBase> MakeTlvAO(const std::string& tlvTypeName, AO::Path_TLV* pTlv);
 
     jsonxx::Object EnumsToJson() const
     {

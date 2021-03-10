@@ -92,7 +92,7 @@ void TypesCollection::AddTlvsToJsonArray(jsonxx::Array& array)
     }
 }
 
-std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlv(AO::TlvTypes tlvType, AO::Path_TLV* pTlv)
+std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAO(AO::TlvTypes tlvType, AO::Path_TLV* pTlv)
 {
     auto it = mTlvFactory.find(tlvType);
     if (it == std::end(mTlvFactory))
@@ -103,7 +103,7 @@ std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlv(AO::TlvTypes tlvType, AO
     return it->second(*this, pTlv);
 }
 
-std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlv(const std::string& tlvTypeName, AO::Path_TLV* pTlv)
+std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAO(const std::string& tlvTypeName, AO::Path_TLV* pTlv)
 {
     auto it = mReverseTlvFactory.find(tlvTypeName);
     if (it == std::end(mReverseTlvFactory))
