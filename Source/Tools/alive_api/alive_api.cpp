@@ -355,12 +355,13 @@ namespace AliveAPI
                 {
                     if (camIter.x == x && camIter.y == y)
                     {
+                        const int objDataOff = static_cast<int>(s.WritePos()) - static_cast<int>(pathInfo.mObjectOffset);
+
                         for (const auto& tlv : camIter.mTlvBlobs)
                         {
                             s.Write(tlv);
                         }
 
-                        const int objDataOff = static_cast<int>(s.WritePos()) -  static_cast<int>(pathInfo.mObjectOffset);
                         indexTable.push_back({ x, y, objDataOff });
                         found = true;
                         break;
@@ -375,8 +376,7 @@ namespace AliveAPI
         }
 
         // Write index table values we just populated at the correct offset
-        indexTable.pop_back();
-        s.SeekWrite(pathInfo.mIndexTableOffset + 4);
+        s.SeekWrite(pathInfo.mIndexTableOffset);
         for (int x = 0; x < pathInfo.mWidth; x++)
         {
             for (int y = 0; y < pathInfo.mHeight; y++)
