@@ -257,6 +257,9 @@ public:
         mBase->field_10_top_left.field_2_y = obj.get<jsonxx::Number>("ypos");
         mBase->field_14_bottom_right.field_0_x = obj.get<jsonxx::Number>("width");
         mBase->field_14_bottom_right.field_2_y = obj.get<jsonxx::Number>("height");
+
+        mBase->field_C_sound_pos.field_0_x = obj.get<jsonxx::Number>("xpos2");
+        mBase->field_C_sound_pos.field_2_y = obj.get<jsonxx::Number>("ypos2");
     }
 
     void InstanceToJsonBase(jsonxx::Object& ret) override
@@ -267,6 +270,9 @@ public:
         ret << "ypos" << static_cast<int>(mBase->field_10_top_left.field_2_y);
         ret << "width" << static_cast<int>(mBase->field_14_bottom_right.field_0_x);
         ret << "height" << static_cast<int>(mBase->field_14_bottom_right.field_2_y);
+
+        ret << "xpos2" << static_cast<int>(mBase->field_C_sound_pos.field_0_x);
+        ret << "ypos2" << static_cast<int>(mBase->field_C_sound_pos.field_2_y);
 
         ret << "object_structures_type" << Name();
     }
