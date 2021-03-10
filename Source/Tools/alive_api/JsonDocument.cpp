@@ -145,6 +145,8 @@ JsonWriterAO::JsonWriterAO(const std::string& pathBndName, const PathInfo& info)
     mRootInfo.mXSize = info.mWidth;
     mRootInfo.mYSize = info.mHeight;
 
+    mRootInfo.mGame = "AO";
+
     mRootInfo.mVersion = AliveAPI::GetApiVersion();
 }
 
