@@ -375,7 +375,8 @@ namespace AliveAPI
         }
 
         // Write index table values we just populated at the correct offset
-        s.SeekWrite(pathInfo.mIndexTableOffset);
+        indexTable.pop_back();
+        s.SeekWrite(pathInfo.mIndexTableOffset + 4);
         for (int x = 0; x < pathInfo.mWidth; x++)
         {
             for (int y = 0; y < pathInfo.mHeight; y++)

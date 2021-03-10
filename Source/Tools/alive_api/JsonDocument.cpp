@@ -241,14 +241,8 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
             pPathTLV->RangeCheck();
             if (pPathTLV->field_4_type <= 0x100000 && pPathTLV->field_2_length <= 0x2000u && pPathTLV->field_8 <= 0x1000000)
             {
-                for (;;)
+                while(pPathTLV)
                 {
-                    // End of TLV list for current camera
-                    if (pPathTLV->field_0_flags.Get(AO::TLV_Flags::eBit3_End_TLV_List))
-                    {
-                        break;
-                    }
-
                     usedTypes.insert(static_cast<AO::TlvTypes>(pPathTLV->field_4_type));
 
                     auto obj = globalTypes.MakeTlv(static_cast<AO::TlvTypes>(pPathTLV->field_4_type), pPathTLV);
@@ -276,8 +270,10 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
                     }
 
                     pPathTLV = AO::Path_TLV::Next_446460(pPathTLV);
-                    pPathTLV->RangeCheck();
-
+                    if (pPathTLV)
+                    {
+                        pPathTLV->RangeCheck();
+                    }
                 }
             }
             LOG_INFO("Add camera " << tmpCamera.mName);
