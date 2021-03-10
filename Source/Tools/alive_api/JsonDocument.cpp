@@ -152,13 +152,13 @@ static jsonxx::Object ToJsonObject(const AO::PathLine& line)
 {
     jsonxx::Object obj;
 
-    obj << "x1" << line.field_0_rect.x;
-    obj << "y1" << line.field_0_rect.y;
+    obj << "x1" << static_cast<int>(line.field_0_rect.x);
+    obj << "y1" << static_cast<int>(line.field_0_rect.y);
 
-    obj << "x2" << line.field_0_rect.w;
-    obj << "y2" << line.field_0_rect.h;
+    obj << "x2" << static_cast<int>(line.field_0_rect.w);
+    obj << "y2" << static_cast<int>(line.field_0_rect.h);
 
-    obj << "type" << line.field_8_type;
+    obj << "type" << static_cast<int>(line.field_8_type);
 
     obj << "next" << line.field_10_next;
     obj << "previous" << line.field_C_previous;
