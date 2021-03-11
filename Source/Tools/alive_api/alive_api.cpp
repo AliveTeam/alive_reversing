@@ -207,8 +207,8 @@ namespace AliveAPI
 
         if (game == Game::AO)
         {
-            JsonWriterAO doc(pathBnd.mPathBndName, pathBnd.mPathInfo);
-            doc.SaveAO(pathResourceId, pathBnd.mPathInfo, pathBnd.mFileData, jsonOutputFile);
+            JsonWriterAO doc(pathResourceId, pathBnd.mPathBndName, pathBnd.mPathInfo);
+            doc.Save(pathBnd.mPathInfo, pathBnd.mFileData, jsonOutputFile);
         }
         else
         {

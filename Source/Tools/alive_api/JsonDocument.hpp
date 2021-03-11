@@ -79,16 +79,25 @@ public:
 
 class TypesCollection;
 
-class JsonWriterAO
+class JsonWriterBase
 {
 public:
-    JsonWriterAO(const std::string& pathBndName, const PathInfo& info);
-    void SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName);
-private:
-    jsonxx::Array ReadCollisionStream(BYTE* ptr, int numItems);
-    jsonxx::Array ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr);
-
+    virtual ~JsonWriterBase() { }
+    void Save(const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName);
+protected:
+    virtual jsonxx::Array ReadCollisionStream(BYTE* ptr, int numItems) = 0;
+    virtual jsonxx::Array ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr) = 0;
+protected:
     MapRootInfo mRootInfo;
+};
+
+class JsonWriterAO : public JsonWriterBase
+{
+public:
+    JsonWriterAO(int pathId, const std::string& pathBndName, const PathInfo& info);
+private:
+    jsonxx::Array ReadCollisionStream(BYTE* ptr, int numItems) override;
+    jsonxx::Array ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr) override;
 };
 
 class JsonWriterAE

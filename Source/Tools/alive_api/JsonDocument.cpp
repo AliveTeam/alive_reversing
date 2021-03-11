@@ -136,8 +136,9 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonRead
     return { mapData, lines };
 }
 
-JsonWriterAO::JsonWriterAO(const std::string& pathBndName, const PathInfo& info)
+JsonWriterAO::JsonWriterAO(int pathId, const std::string& pathBndName, const PathInfo& info)
 {
+    mRootInfo.mPathId = pathId;
     mRootInfo.mPathBnd = pathBndName;
     mRootInfo.mXGridSize = info.mGridWidth;
     mRootInfo.mYGridSize = info.mGridHeight;
@@ -219,10 +220,9 @@ jsonxx::Array JsonWriterAO::ReadCollisionStream(BYTE* ptr, int numItems)
     return collisionsArray;
 }
 
-void JsonWriterAO::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName)
-{
-    mRootInfo.mPathId = pathId;
 
+void JsonWriterBase::Save(const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName)
+{
     jsonxx::Object rootObject;
 
     rootObject << "api_version" << mRootInfo.mVersion;
