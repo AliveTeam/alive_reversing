@@ -77,12 +77,17 @@ public:
     MapRootInfo mRootInfo;
 };
 
+class TypesCollection;
+
 class JsonWriterAO
 {
 public:
     JsonWriterAO(const std::string& pathBndName, const PathInfo& info);
     void SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName);
 private:
+    jsonxx::Array ReadCollisionStream(BYTE* ptr, int numItems);
+    jsonxx::Array ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr);
+
     MapRootInfo mRootInfo;
 };
 

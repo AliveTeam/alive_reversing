@@ -168,6 +168,57 @@ static jsonxx::Object ToJsonObject(const AO::PathLine& line)
     return obj;
 }
 
+jsonxx::Array JsonWriterAO::ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr)
+{
+    jsonxx::Array mapObjects;
+
+    AO::Path_TLV* pPathTLV = reinterpret_cast<AO::Path_TLV*>(ptr);
+    pPathTLV->RangeCheck();
+    if (pPathTLV->field_4_type <= 0x100000 && pPathTLV->field_2_length <= 0x2000u && pPathTLV->field_8 <= 0x1000000)
+    {
+        while (pPathTLV)
+        {
+            auto obj = globalTypes.MakeTlvAO(static_cast<AO::TlvTypes>(pPathTLV->field_4_type), pPathTLV);
+            if (obj)
+            {
+                mapObjects << obj->InstanceToJson(globalTypes);
+            }
+            else
+            {
+                switch (pPathTLV->field_4_type)
+                {
+                case 37:
+                    LOG_WARNING("Unused abe start ignored");
+                    break;
+
+                default:
+                    LOG_WARNING("Ignoring type: " << pPathTLV->field_4_type);
+                    break;
+                }
+            }
+
+            pPathTLV = AO::Path_TLV::Next_446460(pPathTLV);
+            if (pPathTLV)
+            {
+                pPathTLV->RangeCheck();
+            }
+        }
+    }
+    
+    return mapObjects;
+}
+
+jsonxx::Array JsonWriterAO::ReadCollisionStream(BYTE* ptr, int numItems)
+{
+    jsonxx::Array collisionsArray;
+    AO::PathLine* pLineIter = reinterpret_cast<AO::PathLine*>(ptr);
+    for (int i = 0; i < numItems; i++)
+    {
+        collisionsArray << ToJsonObject(pLineIter[i]);
+    }
+    return collisionsArray;
+}
+
 void JsonWriterAO::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName)
 {
     mRootInfo.mPathId = pathId;
@@ -190,19 +241,13 @@ void JsonWriterAO::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
 
     BYTE* pPathData = pathResource.data();
 
-    AO::PathLine* pLineIter = reinterpret_cast<AO::PathLine*>(pPathData + info.mCollisionOffset);
-    jsonxx::Array collisionsArray;
-    for (int i = 0; i < info.mNumCollisionItems; i++)
-    {
-        collisionsArray << ToJsonObject(pLineIter[i]);
-    }
-
+    BYTE* pLineIter = pPathData + info.mCollisionOffset;
+    jsonxx::Array collisionsArray = ReadCollisionStream(pLineIter, info.mNumCollisionItems);
     rootMapObject << "collisions" << collisionsArray;
 
     const int* indexTable = reinterpret_cast<const int*>(pPathData + info.mIndexTableOffset);
 
     TypesCollection globalTypes;
-    std::set<AO::TlvTypes> usedTypes;
 
     jsonxx::Array cameraArray;
     for (int x = 0; x < info.mWidth; x++)
@@ -231,56 +276,17 @@ void JsonWriterAO::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
                     LOG_INFO("Add camera with no objects " << pCamName->name);
                     cameraArray << tmpCamera.ToJsonObject({});
                 }
-                continue;
             }
-
-            // Can have objects that do not live in a camera, as strange as it seems (R1P15)
-            // "blank" cameras just do not have a name set.
-
-            jsonxx::Array mapObjects;
-
-            BYTE* ptr = pPathData + indexTableOffset + info.mObjectOffset;
-            AO::Path_TLV* pPathTLV = reinterpret_cast<AO::Path_TLV*>(ptr);
-            pPathTLV->RangeCheck();
-            if (pPathTLV->field_4_type <= 0x100000 && pPathTLV->field_2_length <= 0x2000u && pPathTLV->field_8 <= 0x1000000)
+            else
             {
-                while(pPathTLV)
-                {
-                    usedTypes.insert(static_cast<AO::TlvTypes>(pPathTLV->field_4_type));
+                // Can have objects that do not live in a camera, as strange as it seems (R1P15)
+                // "blank" cameras just do not have a name set.
 
-                    auto obj = globalTypes.MakeTlvAO(static_cast<AO::TlvTypes>(pPathTLV->field_4_type), pPathTLV);
-                    if (obj)
-                    {
-                        mapObjects << obj->InstanceToJson(globalTypes);
-                    }
-                    else
-                    {
-                        switch (pPathTLV->field_4_type)
-                        {
-                        case 37:
-                            LOG_WARNING("Unused abe start ignored");
-                            break;
-                        /*
-                        case 2:
-                            LOG_WARNING("Unused continue zone ignored");
-                            break;
-                        */
-
-                        default:
-                            LOG_WARNING("Ignoring type: " << pPathTLV->field_4_type);
-                            break;
-                        }
-                    }
-
-                    pPathTLV = AO::Path_TLV::Next_446460(pPathTLV);
-                    if (pPathTLV)
-                    {
-                        pPathTLV->RangeCheck();
-                    }
-                }
+                BYTE* ptr = pPathData + indexTableOffset + info.mObjectOffset;
+                jsonxx::Array mapObjects = ReadTlvStream(globalTypes, ptr);
+                LOG_INFO("Add camera " << tmpCamera.mName);
+                cameraArray << tmpCamera.ToJsonObject(mapObjects);
             }
-            LOG_INFO("Add camera " << tmpCamera.mName);
-            cameraArray << tmpCamera.ToJsonObject(mapObjects);
         }
     }
 
