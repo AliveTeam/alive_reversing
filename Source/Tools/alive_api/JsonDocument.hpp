@@ -83,6 +83,7 @@ class JsonWriterBase
 {
 public:
     virtual ~JsonWriterBase() { }
+    JsonWriterBase(int pathId, const std::string& pathBndName, const PathInfo& info);
     void Save(const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName);
 protected:
     virtual jsonxx::Array ReadCollisionStream(BYTE* ptr, int numItems) = 0;
@@ -100,9 +101,11 @@ private:
     jsonxx::Array ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr) override;
 };
 
-class JsonWriterAE
+class JsonWriterAE : public JsonWriterBase
 {
 public:
-
-    void SaveAE(int pathId, const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName);
+    JsonWriterAE(int pathId, const std::string& pathBndName, const PathInfo& info);
+private:
+    jsonxx::Array ReadCollisionStream(BYTE* ptr, int numItems) override;
+    jsonxx::Array ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr) override;
 };

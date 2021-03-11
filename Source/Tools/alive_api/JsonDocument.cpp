@@ -137,18 +137,9 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonRead
 }
 
 JsonWriterAO::JsonWriterAO(int pathId, const std::string& pathBndName, const PathInfo& info)
+    : JsonWriterBase(pathId, pathBndName, info)
 {
-    mRootInfo.mPathId = pathId;
-    mRootInfo.mPathBnd = pathBndName;
-    mRootInfo.mXGridSize = info.mGridWidth;
-    mRootInfo.mYGridSize = info.mGridHeight;
-
-    mRootInfo.mXSize = info.mWidth;
-    mRootInfo.mYSize = info.mHeight;
-
     mRootInfo.mGame = "AO";
-
-    mRootInfo.mVersion = AliveAPI::GetApiVersion();
 }
 
 static jsonxx::Object ToJsonObject(const AO::PathLine& line)
@@ -220,6 +211,19 @@ jsonxx::Array JsonWriterAO::ReadCollisionStream(BYTE* ptr, int numItems)
     return collisionsArray;
 }
 
+
+JsonWriterBase::JsonWriterBase(int pathId, const std::string& pathBndName, const PathInfo& info)
+{
+    mRootInfo.mPathId = pathId;
+    mRootInfo.mPathBnd = pathBndName;
+    mRootInfo.mXGridSize = info.mGridWidth;
+    mRootInfo.mYGridSize = info.mGridHeight;
+
+    mRootInfo.mXSize = info.mWidth;
+    mRootInfo.mYSize = info.mHeight;
+
+    mRootInfo.mVersion = AliveAPI::GetApiVersion();
+}
 
 void JsonWriterBase::Save(const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName)
 {
@@ -309,7 +313,18 @@ void JsonWriterBase::Save(const PathInfo& info, std::vector<BYTE>& pathResource,
     }
 }
 
-void JsonWriterAE::SaveAE(int /*pathId*/, const PathInfo& /*info*/, std::vector<BYTE>& /*pathResource*/, const std::string& /*fileName*/)
+JsonWriterAE::JsonWriterAE(int pathId, const std::string& pathBndName, const PathInfo& info)
+    : JsonWriterBase(pathId, pathBndName, info)
 {
+    mRootInfo.mGame = "AE";
+}
 
+jsonxx::Array JsonWriterAE::ReadCollisionStream(BYTE* ptr, int numItems)
+{
+    return {};
+}
+
+jsonxx::Array JsonWriterAE::ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr)
+{
+    return {};
 }
