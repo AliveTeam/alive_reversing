@@ -88,6 +88,7 @@ public:
 protected:
     virtual jsonxx::Array ReadCollisionStream(BYTE* ptr, int numItems) = 0;
     virtual jsonxx::Array ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr) = 0;
+    virtual std::unique_ptr<TypesCollection> MakeTypesCollection() const = 0;
 protected:
     MapRootInfo mRootInfo;
 };
@@ -99,6 +100,7 @@ public:
 private:
     jsonxx::Array ReadCollisionStream(BYTE* ptr, int numItems) override;
     jsonxx::Array ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr) override;
+    std::unique_ptr<TypesCollection> MakeTypesCollection() const override;
 };
 
 class JsonWriterAE : public JsonWriterBase
@@ -108,4 +110,5 @@ public:
 private:
     jsonxx::Array ReadCollisionStream(BYTE* ptr, int numItems) override;
     jsonxx::Array ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr) override;
+    std::unique_ptr<TypesCollection> MakeTypesCollection() const override;
 };

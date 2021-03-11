@@ -89,7 +89,7 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonRead
         abort();
     }
     
-    TypesCollection globalTypes;
+    TypesCollection globalTypes(Game::AO);
     std::vector<CameraNameAndTlvBlob> mapData(mRootInfo.mXSize * mRootInfo.mYSize);
 
     jsonxx::Array camerasArray = map.get<jsonxx::Array>("cameras");
@@ -200,6 +200,11 @@ jsonxx::Array JsonWriterAO::ReadTlvStream(TypesCollection& globalTypes, BYTE* pt
     return mapObjects;
 }
 
+std::unique_ptr<TypesCollection> JsonWriterAO::MakeTypesCollection() const
+{
+    return std::make_unique<TypesCollection>(Game::AO);
+}
+
 jsonxx::Array JsonWriterAO::ReadCollisionStream(BYTE* ptr, int numItems)
 {
     jsonxx::Array collisionsArray;
@@ -251,7 +256,7 @@ void JsonWriterBase::Save(const PathInfo& info, std::vector<BYTE>& pathResource,
 
     const int* indexTable = reinterpret_cast<const int*>(pPathData + info.mIndexTableOffset);
 
-    TypesCollection globalTypes;
+    std::unique_ptr<TypesCollection> globalTypes = MakeTypesCollection();
 
     jsonxx::Array cameraArray;
     for (int x = 0; x < info.mWidth; x++)
@@ -287,7 +292,7 @@ void JsonWriterBase::Save(const PathInfo& info, std::vector<BYTE>& pathResource,
                 // "blank" cameras just do not have a name set.
 
                 BYTE* ptr = pPathData + indexTableOffset + info.mObjectOffset;
-                jsonxx::Array mapObjects = ReadTlvStream(globalTypes, ptr);
+                jsonxx::Array mapObjects = ReadTlvStream(*globalTypes, ptr);
                 LOG_INFO("Add camera " << tmpCamera.mName);
                 cameraArray << tmpCamera.ToJsonObject(mapObjects);
             }
@@ -296,12 +301,12 @@ void JsonWriterBase::Save(const PathInfo& info, std::vector<BYTE>& pathResource,
 
     rootMapObject << "cameras" << cameraArray;
 
-    rootMapObject << "object_structure_property_basic_types" << globalTypes.BasicTypesToJson();
+    rootMapObject << "object_structure_property_basic_types" << globalTypes->BasicTypesToJson();
 
-    rootMapObject << "object_structure_property_enums" << globalTypes.EnumsToJson();
+    rootMapObject << "object_structure_property_enums" << globalTypes->EnumsToJson();
 
     jsonxx::Array objectStructuresArray;
-    globalTypes.AddTlvsToJsonArray(objectStructuresArray);
+    globalTypes->AddTlvsToJsonArray(objectStructuresArray);
     rootMapObject << "object_structures" << objectStructuresArray;
 
     rootObject << "map" << rootMapObject;
@@ -327,4 +332,9 @@ jsonxx::Array JsonWriterAE::ReadCollisionStream(BYTE* ptr, int numItems)
 jsonxx::Array JsonWriterAE::ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr)
 {
     return {};
+}
+
+std::unique_ptr<TypesCollection> JsonWriterAE::MakeTypesCollection() const
+{
+    return std::make_unique<TypesCollection>(Game::AE);
 }

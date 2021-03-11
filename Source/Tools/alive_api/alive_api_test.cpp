@@ -45,7 +45,7 @@ TEST(alive_api, EnumeratePathsAO)
 
 TEST(alive_api, tlv_reflection)
 {
-    TypesCollection types;
+    TypesCollection types(Game::AO);
 
     AO::Path_Hoist tlv = {};
     std::unique_ptr<TlvObjectBase> pHoist = types.MakeTlvAO(AO::TlvTypes::Hoist_3, &tlv);

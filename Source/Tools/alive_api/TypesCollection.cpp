@@ -3,26 +3,30 @@
 #include "AOTlvs.hpp"
 #include "AETlvs.hpp"
 #include "../AliveLibAO/SwitchStates.hpp"
+#include "../AliveLibAE/PathData.hpp"
 
 
-TypesCollection::TypesCollection()
+TypesCollection::TypesCollection(Game gameType) 
+    : mGameType(gameType)
 {
     AddBasicType<BYTE>("Byte", 0, 255);
     AddBasicType<short>("UInt16", 0, 65535);
     
-    AddAOTypes();
-
-
-    // TODO AE types
-    //AETlvs::Path_Hoist::AddTypes(*this);
-
+    if (mGameType == Game::AO)
+    {
+        AddAOTypes();
+    }
+    else
+    {
+        AddAETypes();
+    }
 }
 
-template<class T>
-static void DoRegisterType(std::map<AO::TlvTypes, std::function<std::unique_ptr<TlvObjectBase>(TypesCollection&, AO::Path_TLV*)>>& factory, std::map<std::string, std::function<std::unique_ptr<TlvObjectBase>(TypesCollection&, AO::Path_TLV*)>>& reverseFactory, AO::TlvTypes tlvType, TypesCollection& constructingTypes)
+template<class TlvEnumType, class TlvType, class T>
+static void DoRegisterType(std::map<TlvEnumType, std::function<std::unique_ptr<TlvObjectBase>(TypesCollection&, TlvType*)>>& factory, std::map<std::string, std::function<std::unique_ptr<TlvObjectBase>(TypesCollection&, TlvType*)>>& reverseFactory, TlvEnumType tlvType, TypesCollection& constructingTypes)
 { 
     T tmp(constructingTypes, nullptr);
-    auto fnCreate = [tlvType](TypesCollection& types, AO::Path_TLV* pTlv)
+    auto fnCreate = [tlvType](TypesCollection& types, TlvType* pTlv)
     {
         auto ret = std::make_unique<T>(types, pTlv);
         ret->SetType(tlvType);
@@ -32,22 +36,23 @@ static void DoRegisterType(std::map<AO::TlvTypes, std::function<std::unique_ptr<
     factory[tlvType] = fnCreate;
 }
 
-#define REGISTER_TYPE(TlvWrapperType, TlvType) DoRegisterType<TlvWrapperType>(mTlvFactory, mReverseTlvFactory, TlvType, *this)
+#define REGISTER_TYPE_AO(TlvWrapperType, TlvType) DoRegisterType<AO::TlvTypes, AO::Path_TLV, TlvWrapperType>(mTlvFactoryAO, mReverseTlvFactoryAO, TlvType, *this)
+
+#define REGISTER_TYPE_AE(TlvWrapperType, TlvType) DoRegisterType<TlvTypes, Path_TLV, TlvWrapperType>(mTlvFactoryAE, mReverseTlvFactoryAE, TlvType, *this)
 
 void TypesCollection::AddAOTypes()
 {
+    REGISTER_TYPE_AO(AOTlvs::Path_Hoist, AO::TlvTypes::Hoist_3);
+    REGISTER_TYPE_AO(AOTlvs::Path_ContinuePoint, AO::TlvTypes::ContinuePoint_0);
+    REGISTER_TYPE_AO(AOTlvs::Path_Door, AO::TlvTypes::Door_6);
+    REGISTER_TYPE_AO(AOTlvs::Path_Change, AO::TlvTypes::PathTransition_1);
+    REGISTER_TYPE_AO(AOTlvs::Path_Switch, AO::TlvTypes::Switch_26);
+    REGISTER_TYPE_AO(AOTlvs::Path_LightEffect, AO::TlvTypes::LightEffect_106);
+    REGISTER_TYPE_AO(AOTlvs::Path_ElectricWall, AO::TlvTypes::ElectricWall_67);
+    REGISTER_TYPE_AO(AOTlvs::Path_ContinueZone, AO::TlvTypes::ContinueZone_2);
+    REGISTER_TYPE_AO(AOTlvs::Path_StartController, AO::TlvTypes::StartController_28);
 
-    REGISTER_TYPE(AOTlvs::Path_Hoist, AO::TlvTypes::Hoist_3);
-    REGISTER_TYPE(AOTlvs::Path_ContinuePoint, AO::TlvTypes::ContinuePoint_0);
-    REGISTER_TYPE(AOTlvs::Path_Door, AO::TlvTypes::Door_6);
-    REGISTER_TYPE(AOTlvs::Path_Change, AO::TlvTypes::PathTransition_1);
-    REGISTER_TYPE(AOTlvs::Path_Switch, AO::TlvTypes::Switch_26);
-    REGISTER_TYPE(AOTlvs::Path_LightEffect, AO::TlvTypes::LightEffect_106);
-    REGISTER_TYPE(AOTlvs::Path_ElectricWall, AO::TlvTypes::ElectricWall_67);
-    REGISTER_TYPE(AOTlvs::Path_ContinueZone, AO::TlvTypes::ContinueZone_2);
-    REGISTER_TYPE(AOTlvs::Path_StartController, AO::TlvTypes::StartController_28);
-
-    for (auto& [key, value] : mTlvFactory)
+    for (auto& [key, value] : mTlvFactoryAO)
     {
         value(*this, nullptr)->AddTypes(*this);
     }
@@ -84,18 +89,55 @@ void TypesCollection::AddAOTypes()
 
 }
 
+void TypesCollection::AddAETypes()
+{
+    REGISTER_TYPE_AE(AETlvs::Path_Hoist, TlvTypes::Hoist_2);
+
+    AddEnum<LevelIds>("Enum_LevelIds",
+        {
+            {LevelIds::eNone, "None"},
+            {LevelIds::eMenu_0, "Menu"},
+            {LevelIds::eMines_1, "Mines"},
+            {LevelIds::eNecrum_2, "Necrum"},
+            {LevelIds::eMudomoVault_3, "MudomoVault"},
+            {LevelIds::eMudancheeVault_4, "MudancheeVault"},
+            {LevelIds::eFeeCoDepot_5, "FeeCoDepot"},
+            {LevelIds::eBarracks_6, "Barracks"},
+            {LevelIds::eMudancheeVault_Ender_7, "MudancheeVault_Ender"},
+            {LevelIds::eBonewerkz_8, "Bonewerkz"},
+            {LevelIds::eBrewery_9, "Brewery"},
+            {LevelIds::eBrewery_Ender_10, "Brewery_Ender"},
+            {LevelIds::eMudomoVault_Ender_11, "MudomoVault_Ender"},
+            {LevelIds::eFeeCoDepot_Ender_12, "FeeCoDepot_Ender"},
+            {LevelIds::eBarracks_Ender_13, "Barracks_Ender"},
+            {LevelIds::eBonewerkz_Ender_14, "Bonewerkz_Ender"},
+            {LevelIds::eNotUsed_15, "NotUsed"},
+            {LevelIds::eCredits_16, "Credits"},
+        });
+}
+
 void TypesCollection::AddTlvsToJsonArray(jsonxx::Array& array)
 {
-    for (auto& [key, value] : mTlvFactory)
+    if (mGameType == Game::AO)
     {
-        array << value(*this, nullptr)->StructureToJson();
+        for (auto& [key, value] : mTlvFactoryAO)
+        {
+            array << value(*this, nullptr)->StructureToJson();
+        }
+    }
+    else
+    {
+        for (auto& [key, value] : mTlvFactoryAE)
+        {
+            array << value(*this, nullptr)->StructureToJson();
+        }
     }
 }
 
 std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAO(AO::TlvTypes tlvType, AO::Path_TLV* pTlv)
 {
-    auto it = mTlvFactory.find(tlvType);
-    if (it == std::end(mTlvFactory))
+    auto it = mTlvFactoryAO.find(tlvType);
+    if (it == std::end(mTlvFactoryAO))
     {
         LOG_WARNING("Type " << static_cast<int>(tlvType) << " unknown");
         return nullptr;
@@ -105,8 +147,8 @@ std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAO(AO::TlvTypes tlvType, 
 
 std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAO(const std::string& tlvTypeName, AO::Path_TLV* pTlv)
 {
-    auto it = mReverseTlvFactory.find(tlvTypeName);
-    if (it == std::end(mReverseTlvFactory))
+    auto it = mReverseTlvFactoryAO.find(tlvTypeName);
+    if (it == std::end(mReverseTlvFactoryAO))
     {
         LOG_WARNING("Type " << tlvTypeName << " unknown");
         return nullptr;

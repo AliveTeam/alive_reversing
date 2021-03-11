@@ -234,8 +234,15 @@ public:
         ret << "object_structures_type" << Name();
     }
 
+    void SetType(TlvTypes type)
+    {
+        mTlv.field_4_type = type;
+        mTlv.field_2_length = sizeof(T);
+    }
+
+
 protected:
-    T mTlv;
+    T mTlv = {};
 };
 
 

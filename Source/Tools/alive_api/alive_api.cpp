@@ -62,12 +62,6 @@ namespace AliveAPI
         return info;
     }
 
-    enum class Game
-    {
-        AO,
-        AE
-    };
-
     class PathBlyRecAdapter
     {
     public:
@@ -242,7 +236,7 @@ namespace AliveAPI
         if (!OpenPathBndGeneric(ret, lvl, game, pathId))
         {
             // Failed, look for AO Path BND
-             game = Game::AO;
+            game = Game::AO;
             if (!OpenPathBndGeneric(ret, lvl, game, pathId))
             {
                 // Both failed
