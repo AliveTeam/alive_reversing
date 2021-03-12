@@ -5,6 +5,7 @@
 #include "../AliveLibAO/Collisions.hpp"
 #include "../AliveLibAO/HoistRocksEffect.hpp"
 #include "../AliveLibAE/ResourceManager.hpp"
+#include "../AliveLibAE/Collisions.hpp"
 #include "AOTlvs.hpp"
 #include <fstream>
 #include <streambuf>
@@ -156,6 +157,30 @@ static jsonxx::Object ToJsonObject(const AO::PathLine& line)
 
     obj << "next" << line.field_10_next;
     obj << "previous" << line.field_C_previous;
+
+    return obj;
+}
+
+
+static jsonxx::Object ToJsonObject(const PathLine& line)
+{
+    jsonxx::Object obj;
+
+    obj << "x1" << static_cast<int>(line.field_0_rect.x);
+    obj << "y1" << static_cast<int>(line.field_0_rect.y);
+
+    obj << "x2" << static_cast<int>(line.field_0_rect.w);
+    obj << "y2" << static_cast<int>(line.field_0_rect.h);
+
+    obj << "type" << static_cast<int>(line.field_8_type);
+
+    obj << "previous" << static_cast<int>(line.field_A_previous);
+    obj << "next" << static_cast<int>(line.field_C_next);
+
+    obj << "previous2" << static_cast<int>(line.field_E_previous2);
+    obj << "next2" << static_cast<int>(line.field_10_next2);
+    
+    obj << "length" << static_cast<int>(line.field_12_line_length);
 
     return obj;
 }
@@ -326,7 +351,13 @@ JsonWriterAE::JsonWriterAE(int pathId, const std::string& pathBndName, const Pat
 
 jsonxx::Array JsonWriterAE::ReadCollisionStream(BYTE* ptr, int numItems)
 {
-    return {};
+    jsonxx::Array collisionsArray;
+    PathLine* pLineIter = reinterpret_cast<PathLine*>(ptr);
+    for (int i = 0; i < numItems; i++)
+    {
+        collisionsArray << ToJsonObject(pLineIter[i]);
+    }
+    return collisionsArray;
 }
 
 jsonxx::Array JsonWriterAE::ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr)
