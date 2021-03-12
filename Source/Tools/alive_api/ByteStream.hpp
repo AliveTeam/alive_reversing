@@ -91,9 +91,23 @@ public:
         mData.reserve(len);
     }
 
-    bool AtReadEnd() const
+    [[nodiscard]] bool AtReadEnd() const
     {
         return mReadPos == mData.size();
+    }
+
+    [[nodiscard]] std::size_t WritePos() const
+    {
+        return mWritePos;
+    }
+
+    void SeekWrite(std::size_t pos)
+    {
+        mWritePos = pos;
+        if (mWritePos > mData.size())
+        {
+            mData.resize(mWritePos);
+        }
     }
 
 private:

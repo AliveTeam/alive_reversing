@@ -5,11 +5,12 @@
 #include "../AliveLibAO/Collisions.hpp"
 #include "../AliveLibAO/HoistRocksEffect.hpp"
 #include "../AliveLibAE/ResourceManager.hpp"
+#include "../AliveLibAE/Collisions.hpp"
 #include "AOTlvs.hpp"
 #include <fstream>
 #include <streambuf>
 
-std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonDocument::Load(const std::string& fileName)
+std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonReaderAO::Load(const std::string& fileName)
 {
     std::ifstream inputFileStream(fileName.c_str());
     std::string jsonStr((std::istreambuf_iterator<char>(inputFileStream)), std::istreambuf_iterator<char>());
@@ -25,8 +26,8 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonDocu
         abort();
     }
 
-    mVersion = rootObj.get<jsonxx::Number>("api_version");
-    if (mVersion != AliveAPI::GetApiVersion())
+    mRootInfo.mVersion = rootObj.get<jsonxx::Number>("api_version");
+    if (mRootInfo.mVersion != AliveAPI::GetApiVersion())
     {
         // TODO: Upgrade
         abort();
@@ -44,20 +45,20 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonDocu
     {
         abort();
     }
-    mPathBnd = map.get<jsonxx::String>("path_bnd");
+    mRootInfo.mPathBnd = map.get<jsonxx::String>("path_bnd");
 
     if (!map.has<jsonxx::Number>("path_id"))
     {
         abort();
     }
 
-    mPathId = map.get<jsonxx::Number>("path_id");
+    mRootInfo.mPathId = map.get<jsonxx::Number>("path_id");
 
-    mXSize = map.get<jsonxx::Number>("x_size");
-    mYSize = map.get<jsonxx::Number>("y_size");
+    mRootInfo.mXSize = map.get<jsonxx::Number>("x_size");
+    mRootInfo.mYSize = map.get<jsonxx::Number>("y_size");
 
-    mXGridSize = map.get<jsonxx::Number>("x_grid_size");
-    mYGridSize = map.get<jsonxx::Number>("y_grid_size");
+    mRootInfo.mXGridSize = map.get<jsonxx::Number>("x_grid_size");
+    mRootInfo.mYGridSize = map.get<jsonxx::Number>("y_grid_size");
 
     if (!map.has<jsonxx::Array>("collisions"))
     {
@@ -77,9 +78,9 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonDocu
         col.field_0_rect.w = collision.get<jsonxx::Number>("x2");
         col.field_0_rect.h = collision.get<jsonxx::Number>("y2");
 
-        //col.field_8_type = 
-        //col.field_10_next = 
-        //col.field_C_previous = 
+        col.field_8_type = collision.get<jsonxx::Number>("type");
+        col.field_10_next = collision.get<jsonxx::Number>("next");
+        col.field_C_previous = collision.get<jsonxx::Number>("previous");
 
         lines.emplace_back(col);
     }
@@ -89,8 +90,8 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonDocu
         abort();
     }
     
-    TypesCollection globalTypes;
-    std::vector<CameraNameAndTlvBlob> mapData(mXSize * mYSize);
+    TypesCollection globalTypes(Game::AO);
+    std::vector<CameraNameAndTlvBlob> mapData(mRootInfo.mXSize * mRootInfo.mYSize);
 
     jsonxx::Array camerasArray = map.get<jsonxx::Array>("cameras");
     for (int i = 0; i < camerasArray.values().size(); i++)
@@ -103,12 +104,12 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonDocu
 
         const int x = camera.get<jsonxx::Number>("x");
         const int y = camera.get<jsonxx::Number>("y");
-        if (x > mXSize || y > mYSize)
+        if (x > mRootInfo.mXSize || y > mRootInfo.mYSize)
         {
             abort();
         }
 
-        CameraNameAndTlvBlob& cameraNameBlob = mapData[To1dIndex(mXSize, x, y)];
+        CameraNameAndTlvBlob& cameraNameBlob = mapData[To1dIndex(mRootInfo.mXSize, x, y)];
         cameraNameBlob.mId = camera.get<jsonxx::Number>("id");
         cameraNameBlob.mName = camera.get<jsonxx::String>("name");
         cameraNameBlob.x = x;
@@ -123,7 +124,7 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonDocu
                 abort();
             }
             std::string structureType = mapObject.get<jsonxx::String>("object_structures_type");
-            auto tlv = globalTypes.MakeTlv(structureType, nullptr);
+            auto tlv = globalTypes.MakeTlvAO(structureType, nullptr);
             if (!tlv)
             {
                 abort();
@@ -136,67 +137,151 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonDocu
     return { mapData, lines };
 }
 
-void JsonDocument::SetPathInfo(const std::string& pathBndName, const PathInfo& info)
+JsonWriterAO::JsonWriterAO(int pathId, const std::string& pathBndName, const PathInfo& info)
+    : JsonWriterBase(pathId, pathBndName, info)
 {
-    mPathBnd = pathBndName;
-    mXGridSize = info.mGridWidth;
-    mYGridSize = info.mGridHeight;
-
-    mXSize = info.mWidth;
-    mYSize = info.mHeight;
-
-    mVersion = AliveAPI::GetApiVersion();
-
+    mRootInfo.mGame = "AO";
 }
 
-void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName)
+static jsonxx::Object ToJsonObject(const AO::PathLine& line)
 {
-    mPathId = pathId;
+    jsonxx::Object obj;
 
+    obj << "x1" << static_cast<int>(line.field_0_rect.x);
+    obj << "y1" << static_cast<int>(line.field_0_rect.y);
+
+    obj << "x2" << static_cast<int>(line.field_0_rect.w);
+    obj << "y2" << static_cast<int>(line.field_0_rect.h);
+
+    obj << "type" << static_cast<int>(line.field_8_type);
+
+    obj << "next" << line.field_10_next;
+    obj << "previous" << line.field_C_previous;
+
+    return obj;
+}
+
+
+static jsonxx::Object ToJsonObject(const PathLine& line)
+{
+    jsonxx::Object obj;
+
+    obj << "x1" << static_cast<int>(line.field_0_rect.x);
+    obj << "y1" << static_cast<int>(line.field_0_rect.y);
+
+    obj << "x2" << static_cast<int>(line.field_0_rect.w);
+    obj << "y2" << static_cast<int>(line.field_0_rect.h);
+
+    obj << "type" << static_cast<int>(line.field_8_type);
+
+    obj << "previous" << static_cast<int>(line.field_A_previous);
+    obj << "next" << static_cast<int>(line.field_C_next);
+
+    obj << "previous2" << static_cast<int>(line.field_E_previous2);
+    obj << "next2" << static_cast<int>(line.field_10_next2);
+    
+    obj << "length" << static_cast<int>(line.field_12_line_length);
+
+    return obj;
+}
+
+jsonxx::Array JsonWriterAO::ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr)
+{
+    jsonxx::Array mapObjects;
+
+    AO::Path_TLV* pPathTLV = reinterpret_cast<AO::Path_TLV*>(ptr);
+    pPathTLV->RangeCheck();
+    if (pPathTLV->field_4_type <= 0x100000 && pPathTLV->field_2_length <= 0x2000u && pPathTLV->field_8 <= 0x1000000)
+    {
+        while (pPathTLV)
+        {
+            auto obj = globalTypes.MakeTlvAO(static_cast<AO::TlvTypes>(pPathTLV->field_4_type), pPathTLV);
+            if (obj)
+            {
+                mapObjects << obj->InstanceToJson(globalTypes);
+            }
+            else
+            {
+                switch (pPathTLV->field_4_type)
+                {
+                case 37:
+                    LOG_WARNING("Unused abe start ignored");
+                    break;
+
+                default:
+                    LOG_WARNING("Ignoring type: " << pPathTLV->field_4_type);
+                    break;
+                }
+            }
+
+            pPathTLV = AO::Path_TLV::Next_446460(pPathTLV);
+            if (pPathTLV)
+            {
+                pPathTLV->RangeCheck();
+            }
+        }
+    }
+    
+    return mapObjects;
+}
+
+std::unique_ptr<TypesCollection> JsonWriterAO::MakeTypesCollection() const
+{
+    return std::make_unique<TypesCollection>(Game::AO);
+}
+
+jsonxx::Array JsonWriterAO::ReadCollisionStream(BYTE* ptr, int numItems)
+{
+    jsonxx::Array collisionsArray;
+    AO::PathLine* pLineIter = reinterpret_cast<AO::PathLine*>(ptr);
+    for (int i = 0; i < numItems; i++)
+    {
+        collisionsArray << ToJsonObject(pLineIter[i]);
+    }
+    return collisionsArray;
+}
+
+
+JsonWriterBase::JsonWriterBase(int pathId, const std::string& pathBndName, const PathInfo& info)
+{
+    mRootInfo.mPathId = pathId;
+    mRootInfo.mPathBnd = pathBndName;
+    mRootInfo.mXGridSize = info.mGridWidth;
+    mRootInfo.mYGridSize = info.mGridHeight;
+
+    mRootInfo.mXSize = info.mWidth;
+    mRootInfo.mYSize = info.mHeight;
+
+    mRootInfo.mVersion = AliveAPI::GetApiVersion();
+}
+
+void JsonWriterBase::Save(const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName)
+{
     jsonxx::Object rootObject;
 
-    rootObject << "api_version" << mVersion;
+    rootObject << "api_version" << mRootInfo.mVersion;
 
-    rootObject << "game" << mGame;
+    rootObject << "game" << mRootInfo.mGame;
 
     jsonxx::Object rootMapObject;
-    rootMapObject << "path_bnd" << mPathBnd;
-    rootMapObject << "path_id" << mPathId;
+    rootMapObject << "path_bnd" << mRootInfo.mPathBnd;
+    rootMapObject << "path_id" << mRootInfo.mPathId;
 
-    rootMapObject << "x_grid_size" << mXGridSize;
-    rootMapObject << "x_size" << mXSize;
+    rootMapObject << "x_grid_size" << mRootInfo.mXGridSize;
+    rootMapObject << "x_size" << mRootInfo.mXSize;
 
-    rootMapObject << "y_grid_size" << mYGridSize;
-    rootMapObject << "y_size" << mYSize;
+    rootMapObject << "y_grid_size" << mRootInfo.mYGridSize;
+    rootMapObject << "y_size" << mRootInfo.mYSize;
 
     BYTE* pPathData = pathResource.data();
 
-
-    AO::PathLine* pLineIter = reinterpret_cast<AO::PathLine*>(pPathData + info.mCollisionOffset);
-    for (int i = 0; i < info.mNumCollisionItems; i++)
-    {
-        CollisionObject tmpCol;
-        tmpCol.mX1 = pLineIter[i].field_0_rect.x;
-        tmpCol.mY1 = pLineIter[i].field_0_rect.y;
-        tmpCol.mX2 = pLineIter[i].field_0_rect.w;
-        tmpCol.mY2 = pLineIter[i].field_0_rect.h;
-
-
-        mCollisions.push_back(tmpCol);
-    }
-
-    jsonxx::Array collisionsArray;
-    for (const auto& item : mCollisions)
-    {
-        collisionsArray << item.ToJsonObject();
-    }
+    BYTE* pLineIter = pPathData + info.mCollisionOffset;
+    jsonxx::Array collisionsArray = ReadCollisionStream(pLineIter, info.mNumCollisionItems);
     rootMapObject << "collisions" << collisionsArray;
 
     const int* indexTable = reinterpret_cast<const int*>(pPathData + info.mIndexTableOffset);
 
-    TypesCollection globalTypes;
-    std::set<AO::TlvTypes> usedTypes;
-
+    std::unique_ptr<TypesCollection> globalTypes = MakeTypesCollection();
 
     jsonxx::Array cameraArray;
     for (int x = 0; x < info.mWidth; x++)
@@ -225,70 +310,28 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
                     LOG_INFO("Add camera with no objects " << pCamName->name);
                     cameraArray << tmpCamera.ToJsonObject({});
                 }
-                continue;
             }
-
-            // Can have objects that do not live in a camera, as strange as it seems (R1P15)
-            // "blank" cameras just do not have a name set.
-
-            jsonxx::Array mapObjects;
-
-            BYTE* ptr = pPathData + indexTableOffset + info.mObjectOffset;
-            AO::Path_TLV* pPathTLV = reinterpret_cast<AO::Path_TLV*>(ptr);
-            pPathTLV->RangeCheck();
-            if (pPathTLV->field_4_type <= 0x100000 && pPathTLV->field_2_length <= 0x2000u && pPathTLV->field_8 <= 0x1000000)
+            else
             {
-                for (;;)
-                {
-                    // End of TLV list for current camera
-                    if (pPathTLV->field_0_flags.Get(AO::TLV_Flags::eBit3_End_TLV_List))
-                    {
-                        break;
-                    }
+                // Can have objects that do not live in a camera, as strange as it seems (R1P15)
+                // "blank" cameras just do not have a name set.
 
-                    usedTypes.insert(static_cast<AO::TlvTypes>(pPathTLV->field_4_type));
-
-                    auto obj = globalTypes.MakeTlv(static_cast<AO::TlvTypes>(pPathTLV->field_4_type), pPathTLV);
-                    if (obj)
-                    {
-                        mapObjects << obj->InstanceToJson(globalTypes);
-                    }
-                    else
-                    {
-                        switch (pPathTLV->field_4_type)
-                        {
-                        case 37:
-                            LOG_WARNING("Unused abe start ignored");
-                            break;
-
-                        case 2:
-                            LOG_WARNING("Unused continue zone ignored");
-                            break;
-
-                        default:
-                            LOG_WARNING("Ignoring type: " << pPathTLV->field_4_type);
-                            break;
-                        }
-                    }
-
-                    pPathTLV = AO::Path_TLV::Next_446460(pPathTLV);
-                    pPathTLV->RangeCheck();
-
-                }
+                BYTE* ptr = pPathData + indexTableOffset + info.mObjectOffset;
+                jsonxx::Array mapObjects = ReadTlvStream(*globalTypes, ptr);
+                LOG_INFO("Add camera " << tmpCamera.mName);
+                cameraArray << tmpCamera.ToJsonObject(mapObjects);
             }
-            LOG_INFO("Add camera " << tmpCamera.mName);
-            cameraArray << tmpCamera.ToJsonObject(mapObjects);
         }
     }
 
     rootMapObject << "cameras" << cameraArray;
 
-    rootMapObject << "object_structure_property_basic_types" << globalTypes.BasicTypesToJson();
+    rootMapObject << "object_structure_property_basic_types" << globalTypes->BasicTypesToJson();
 
-    rootMapObject << "object_structure_property_enums" << globalTypes.EnumsToJson();
+    rootMapObject << "object_structure_property_enums" << globalTypes->EnumsToJson();
 
     jsonxx::Array objectStructuresArray;
-    globalTypes.AddTlvsToJsonArray(objectStructuresArray);
+    globalTypes->AddTlvsToJsonArray(objectStructuresArray);
     rootMapObject << "object_structures" << objectStructuresArray;
 
     rootObject << "map" << rootMapObject;
@@ -298,4 +341,54 @@ void JsonDocument::SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& p
     {
         s << rootObject.json();
     }
+}
+
+JsonWriterAE::JsonWriterAE(int pathId, const std::string& pathBndName, const PathInfo& info)
+    : JsonWriterBase(pathId, pathBndName, info)
+{
+    mRootInfo.mGame = "AE";
+}
+
+jsonxx::Array JsonWriterAE::ReadCollisionStream(BYTE* ptr, int numItems)
+{
+    jsonxx::Array collisionsArray;
+    PathLine* pLineIter = reinterpret_cast<PathLine*>(ptr);
+    for (int i = 0; i < numItems; i++)
+    {
+        collisionsArray << ToJsonObject(pLineIter[i]);
+    }
+    return collisionsArray;
+}
+
+jsonxx::Array JsonWriterAE::ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr)
+{
+    jsonxx::Array mapObjects;
+
+    Path_TLV* pPathTLV = reinterpret_cast<Path_TLV*>(ptr);
+    while (pPathTLV)
+    {
+        auto obj = globalTypes.MakeTlvAE(static_cast<TlvTypes>(pPathTLV->field_4_type), pPathTLV);
+        if (obj)
+        {
+            mapObjects << obj->InstanceToJson(globalTypes);
+        }
+        else
+        {
+            switch (pPathTLV->field_4_type)
+            {
+            default:
+                LOG_WARNING("Ignoring type: " << pPathTLV->field_4_type);
+                break;
+            }
+        }
+
+        pPathTLV = Path::Next_TLV_4DB6A0(pPathTLV); // TODO: Will skip the last entry ?? 
+    }
+
+    return mapObjects;
+}
+
+std::unique_ptr<TypesCollection> JsonWriterAE::MakeTypesCollection() const
+{
+    return std::make_unique<TypesCollection>(Game::AE);
 }

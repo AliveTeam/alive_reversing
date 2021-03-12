@@ -7,6 +7,8 @@
 class ITypeBase
 {
 public:
+    virtual ~ITypeBase() { }
+
     explicit ITypeBase(const std::string& typeName) : mName(typeName)
     {
 

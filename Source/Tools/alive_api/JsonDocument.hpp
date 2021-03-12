@@ -10,35 +10,12 @@ inline int To1dIndex(int width, int x, int y)
     return x + (y * width);
 }
 
-struct CollisionObject
-{
-    int mX1 = 0;
-    int mY1 = 0;
-    int mX2 = 0;
-    int mY2 = 0;
-    // TODO: Other properties
-
-    jsonxx::Object ToJsonObject() const
-    {
-        jsonxx::Object obj;
-
-        obj << "x1" << mX1;
-        obj << "y1" << mY1;
-
-        obj << "x2" << mX2;
-        obj << "y2" << mY2;
-
-        return obj;
-    }
-};
-
 struct CameraObject
 {
     std::string mName;
     int mId = 0;
     int mX = 0;
     int mY = 0;
-    //std::vector<MapObject> mMapObjects;
 
     jsonxx::Object ToJsonObject(jsonxx::Array mapObjectsArray) const
     {
@@ -48,13 +25,6 @@ struct CameraObject
         obj << "x" << mX;
         obj << "y" << mY;
         obj << "id" << mId;
-        /*
-        jsonxx::Array mapObjectsArray;
-        for (const auto& mapObject : mMapObjects)
-        {
-            mapObjectsArray << mapObject.ToJsonObject();
-        }
-        */
         obj << "map_objects" << mapObjectsArray;
         
         return obj;
@@ -84,9 +54,8 @@ struct CameraNameAndTlvBlob
     std::vector<std::vector<BYTE>> mTlvBlobs;
 };
 
-class JsonDocument
+struct MapRootInfo
 {
-public:
     int mVersion = 0;
     std::string mGame;
 
@@ -98,13 +67,48 @@ public:
 
     int mYGridSize = 0;
     int mYSize = 0;
+};
 
-    std::vector<CollisionObject> mCollisions;
-    std::vector<CameraObject> mCameras;
-
+class JsonReaderAO
+{
+public:
     std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> Load(const std::string& fileName);
 
-    void SetPathInfo(const std::string& pathBndName, const PathInfo& info);
+    MapRootInfo mRootInfo;
+};
 
-    void SaveAO(int pathId, const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName);
+class TypesCollection;
+
+class JsonWriterBase
+{
+public:
+    virtual ~JsonWriterBase() { }
+    JsonWriterBase(int pathId, const std::string& pathBndName, const PathInfo& info);
+    void Save(const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName);
+protected:
+    virtual jsonxx::Array ReadCollisionStream(BYTE* ptr, int numItems) = 0;
+    virtual jsonxx::Array ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr) = 0;
+    virtual std::unique_ptr<TypesCollection> MakeTypesCollection() const = 0;
+protected:
+    MapRootInfo mRootInfo;
+};
+
+class JsonWriterAO : public JsonWriterBase
+{
+public:
+    JsonWriterAO(int pathId, const std::string& pathBndName, const PathInfo& info);
+private:
+    jsonxx::Array ReadCollisionStream(BYTE* ptr, int numItems) override;
+    jsonxx::Array ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr) override;
+    std::unique_ptr<TypesCollection> MakeTypesCollection() const override;
+};
+
+class JsonWriterAE : public JsonWriterBase
+{
+public:
+    JsonWriterAE(int pathId, const std::string& pathBndName, const PathInfo& info);
+private:
+    jsonxx::Array ReadCollisionStream(BYTE* ptr, int numItems) override;
+    jsonxx::Array ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr) override;
+    std::unique_ptr<TypesCollection> MakeTypesCollection() const override;
 };

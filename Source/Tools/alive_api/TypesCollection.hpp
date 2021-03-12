@@ -4,20 +4,30 @@
 #include "EnumType.hpp"
 #include "BasicType.hpp"
 #include "../AliveLibAO/PathData.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 class TlvObjectBase;
+
+enum class Game
+{
+    AO,
+    AE
+};
 
 class TypesCollection
 {
 public:
-    TypesCollection();
+    explicit TypesCollection(Game gameType);
 
     void AddAOTypes();
+    void AddAETypes();
 
     void AddTlvsToJsonArray(jsonxx::Array& array);
 
-    std::unique_ptr<TlvObjectBase> MakeTlv(AO::TlvTypes tlvType, AO::Path_TLV* pTlv);
-    std::unique_ptr<TlvObjectBase> MakeTlv(const std::string& tlvTypeName, AO::Path_TLV* pTlv);
+    std::unique_ptr<TlvObjectBase> MakeTlvAE(TlvTypes tlvType, Path_TLV* pTlv);
+
+    std::unique_ptr<TlvObjectBase> MakeTlvAO(AO::TlvTypes tlvType, AO::Path_TLV* pTlv);
+    std::unique_ptr<TlvObjectBase> MakeTlvAO(const std::string& tlvTypeName, AO::Path_TLV* pTlv);
 
     jsonxx::Object EnumsToJson() const
     {
@@ -146,6 +156,11 @@ public:
 
 private:
     std::vector<std::unique_ptr<ITypeBase>> mTypes;
-    std::map<AO::TlvTypes, std::function<std::unique_ptr<TlvObjectBase>(TypesCollection&, AO::Path_TLV*)>> mTlvFactory;
-    std::map<std::string, std::function<std::unique_ptr<TlvObjectBase>(TypesCollection&, AO::Path_TLV*)>> mReverseTlvFactory;
+    std::map<AO::TlvTypes, std::function<std::unique_ptr<TlvObjectBase>(TypesCollection&, AO::Path_TLV*)>> mTlvFactoryAO;
+    std::map<std::string, std::function<std::unique_ptr<TlvObjectBase>(TypesCollection&, AO::Path_TLV*)>> mReverseTlvFactoryAO;
+
+    std::map<TlvTypes, std::function<std::unique_ptr<TlvObjectBase>(TypesCollection&, Path_TLV*)>> mTlvFactoryAE;
+    std::map<std::string, std::function<std::unique_ptr<TlvObjectBase>(TypesCollection&, Path_TLV*)>> mReverseTlvFactoryAE;
+
+    Game mGameType = {};
 };

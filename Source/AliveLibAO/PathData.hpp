@@ -30,6 +30,7 @@ enum TlvTypes : __int16
 {
     ContinuePoint_0 = 0,
     PathTransition_1 = 1,
+    ContinueZone_2 = 2, // TODO: Temp - will be removed later because never used by the game (editor api support)
     Hoist_3 = 3,
     Edge_4 = 4,
 
@@ -68,6 +69,7 @@ enum TlvTypes : __int16
     InvisibleZone_58 = 58,
 
     Slig_66 = 66,
+    ElectricWall_67 = 67,
 
     Scrab_72 = 72,
     
@@ -91,6 +93,7 @@ enum TlvTypes : __int16
 
     ElumPathTrans_99 = 99,
     HandStone_100 = 100,
+    LightEffect_106 = 106,
 
     SoftLanding_114 = 114,
     ResetPath_115 = 115,
