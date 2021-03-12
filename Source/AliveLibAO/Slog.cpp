@@ -1167,7 +1167,7 @@ void Slog::State_1_Walk_4743F0()
     }
 }
 
-const FP sSlogRunVelXTable_4BCC70[8] =
+const FP sSlogRunVelXTable_4BCC70[9] =
 {
     FP_FromDouble(8.62),
     FP_FromDouble(3.38),
@@ -1176,7 +1176,8 @@ const FP sSlogRunVelXTable_4BCC70[8] =
     FP_FromDouble(6.74),
     FP_FromDouble(7.82),
     FP_FromDouble(8.39),
-    FP_FromDouble(6.53)
+    FP_FromDouble(6.53),
+    FP_FromDouble(32000)
 };
 
 
@@ -1363,18 +1364,19 @@ void Slog::State_6_MoveHeadUpwards_474220()
     }
 }
 
-const FP sSlogSlideTurnVelXTable_4BCC98[10] =
+const FP sSlogSlideTurnVelXTable_4BCC98[11] =
 {
-  FP_FromDouble(3.46),
-  FP_FromDouble(4.54),
-  FP_FromDouble(8.64),
-  FP_FromDouble(9.31),
-  FP_FromDouble(6.49),
-  FP_FromDouble(4.63),
-  FP_FromDouble(3.91),
-  FP_FromDouble(4.33),
-  FP_FromDouble(3.66),
-  FP_FromDouble(1.28)
+    FP_FromDouble(3.46),
+    FP_FromDouble(4.54),
+    FP_FromDouble(8.64),
+    FP_FromDouble(9.31),
+    FP_FromDouble(6.49),
+    FP_FromDouble(4.63),
+    FP_FromDouble(3.91),
+    FP_FromDouble(4.33),
+    FP_FromDouble(3.66),
+    FP_FromDouble(1.28),
+    FP_FromDouble(32000)
 };
 
 void Slog::State_7_SlideTurn_474DB0()
@@ -1405,7 +1407,7 @@ void Slog::State_7_SlideTurn_474DB0()
     }
 }
 
-const FP sSlogStopRunningVelX_4BCCC8[9] =
+const FP sSlogStopRunningVelX_4BCCC8[] =
 {
     FP_FromDouble(17.19),
     FP_FromDouble(11.90),
@@ -1415,7 +1417,12 @@ const FP sSlogStopRunningVelX_4BCCC8[9] =
     FP_FromDouble(5.31),
     FP_FromDouble(3.81),
     FP_FromDouble(1.50),
-    FP_FromDouble(0.50)
+    FP_FromDouble(0.50),
+    FP_FromDouble(-0.24),
+    FP_FromDouble(-0.60),
+    FP_FromDouble(-1.24),
+    FP_FromDouble(-4.89),
+    FP_FromDouble(32000)
 };
 
 
