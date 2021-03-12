@@ -362,7 +362,30 @@ jsonxx::Array JsonWriterAE::ReadCollisionStream(BYTE* ptr, int numItems)
 
 jsonxx::Array JsonWriterAE::ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr)
 {
-    return {};
+    jsonxx::Array mapObjects;
+
+    Path_TLV* pPathTLV = reinterpret_cast<Path_TLV*>(ptr);
+    while (pPathTLV)
+    {
+        auto obj = globalTypes.MakeTlvAE(static_cast<TlvTypes>(pPathTLV->field_4_type), pPathTLV);
+        if (obj)
+        {
+            mapObjects << obj->InstanceToJson(globalTypes);
+        }
+        else
+        {
+            switch (pPathTLV->field_4_type)
+            {
+            default:
+                LOG_WARNING("Ignoring type: " << pPathTLV->field_4_type);
+                break;
+            }
+        }
+
+        pPathTLV = Path::Next_TLV_4DB6A0(pPathTLV); // TODO: Will skip the last entry ?? 
+    }
+
+    return mapObjects;
 }
 
 std::unique_ptr<TypesCollection> JsonWriterAE::MakeTypesCollection() const

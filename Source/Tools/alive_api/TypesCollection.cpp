@@ -4,7 +4,7 @@
 #include "AETlvs.hpp"
 #include "../AliveLibAO/SwitchStates.hpp"
 #include "../AliveLibAE/PathData.hpp"
-
+#include "magic_enum/include/magic_enum.hpp"
 
 TypesCollection::TypesCollection(Game gameType) 
     : mGameType(gameType)
@@ -93,6 +93,11 @@ void TypesCollection::AddAETypes()
 {
     REGISTER_TYPE_AE(AETlvs::Path_Hoist, TlvTypes::Hoist_2);
 
+    for (auto& [key, value] : mTlvFactoryAE)
+    {
+        value(*this, nullptr)->AddTypes(*this);
+    }
+
     AddEnum<LevelIds>("Enum_LevelIds",
         {
             {LevelIds::eNone, "None"},
@@ -134,12 +139,23 @@ void TypesCollection::AddTlvsToJsonArray(jsonxx::Array& array)
     }
 }
 
+std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAE(TlvTypes tlvType, Path_TLV* pTlv)
+{
+    auto it = mTlvFactoryAE.find(tlvType);
+    if (it == std::end(mTlvFactoryAE))
+    {
+        LOG_WARNING("Type " << magic_enum::enum_name(tlvType) << " unknown");
+        return nullptr;
+    }
+    return it->second(*this, pTlv);
+}
+
 std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAO(AO::TlvTypes tlvType, AO::Path_TLV* pTlv)
 {
     auto it = mTlvFactoryAO.find(tlvType);
     if (it == std::end(mTlvFactoryAO))
     {
-        LOG_WARNING("Type " << static_cast<int>(tlvType) << " unknown");
+        LOG_WARNING("Type " << magic_enum::enum_name(tlvType) << " unknown");
         return nullptr;
     }
     return it->second(*this, pTlv);
