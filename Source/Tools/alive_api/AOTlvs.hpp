@@ -8,7 +8,7 @@
 #include "../AliveLibAO/DoorLight.hpp"
 #include "../AliveLibAO/ElectricWall.hpp"
 
-#define CTOR_AO(className, objectTypeName)  className(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO(objectTypeName, pTlv)
+#define CTOR_AO(className, objectTypeName, tlvType)  className(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO(tlvType, objectTypeName, pTlv)
 
 namespace AO
 {
@@ -39,7 +39,7 @@ namespace AOTlvs
                 });
         }
 
-        CTOR_AO(Path_Door, "Door")
+        CTOR_AO(Path_Door, "Door", AO::TlvTypes::Door_6)
         {
             ADD("Level", mTlv.field_18_level);
             ADD("Path", mTlv.field_1A_path);
@@ -71,7 +71,7 @@ namespace AOTlvs
     class Path_ContinuePoint : public TlvObjectBaseAO<AO::Path_ContinuePoint>
     {
     public:
-        CTOR_AO(Path_ContinuePoint, "ContinuePoint")
+        CTOR_AO(Path_ContinuePoint, "ContinuePoint",  AO::TlvTypes::ContinuePoint_0)
         {
             ADD("ZoneNumber", mTlv.field_18_zone_number);
             ADD("ClearFromId", mTlv.field_1A_clear_from_id);
@@ -101,7 +101,7 @@ namespace AOTlvs
                 });
         }
 
-        CTOR_AO(Path_Hoist, "Hoist")
+        CTOR_AO(Path_Hoist, "Hoist", AO::TlvTypes::Hoist_3)
         {
             ADD("HoistType", mTlv.field_18_hoist_type);
             ADD("HoistEdgeType", mTlv.field_1A_edge_type);
@@ -112,7 +112,7 @@ namespace AOTlvs
     class Path_Change : public TlvObjectBaseAO<AO::Path_ChangeTLV>
     {
     public:
-        CTOR_AO(Path_Change, "PathTransition")
+        CTOR_AO(Path_Change, "PathTransition", AO::TlvTypes::PathTransition_1)
         {
             ADD("Level", mTlv.field_18_level);
             ADD("HoistEdgeType", mTlv.field_1A_path);
@@ -126,7 +126,7 @@ namespace AOTlvs
     class Path_Switch : public TlvObjectBaseAO<AO::Path_Switch>
     {
     public:
-        CTOR_AO(Path_Switch, "Switch")
+        CTOR_AO(Path_Switch, "Switch", AO::TlvTypes::Switch_26)
         {
             ADD("TriggerObject", mTlv.field_18_trigger_object);
             ADD("TriggerAction", mTlv.field_1A_trigger_object_action);
@@ -153,7 +153,7 @@ namespace AOTlvs
                 });
         }
 
-        CTOR_AO(Path_LightEffect, "LightEffect")
+        CTOR_AO(Path_LightEffect, "LightEffect", AO::TlvTypes::LightEffect_106)
         {
             ADD("Type", mTlv.field_18_type);
             ADD("Size", mTlv.field_1A_size);
@@ -165,7 +165,7 @@ namespace AOTlvs
     class Path_ElectricWall : public TlvObjectBaseAO<AO::Path_ElectricWall>
     {
     public:
-        CTOR_AO(Path_ElectricWall, "ElectricWall")
+        CTOR_AO(Path_ElectricWall, "ElectricWall", AO::TlvTypes::ElectricWall_67)
         {
             ADD("Scale", mTlv.field_18_scale);
             ADD("Id", mTlv.field_1A_id);
@@ -176,7 +176,7 @@ namespace AOTlvs
     class Path_ContinueZone : public TlvObjectBaseAO<AO::Path_ContinueZone>
     {
     public:
-        CTOR_AO(Path_ContinueZone, "ContinueZone")
+        CTOR_AO(Path_ContinueZone, "ContinueZone", AO::TlvTypes::ContinueZone_2)
         {
             ADD("ZoneNumber", mTlv.field_10_zone_number);
         }
@@ -185,7 +185,7 @@ namespace AOTlvs
     class Path_StartController : public TlvObjectBaseAO<AO::Path_StartController>
     {
     public:
-        CTOR_AO(Path_StartController, "StartController")
+        CTOR_AO(Path_StartController, "StartController", AO::TlvTypes::StartController_28)
         {
             // No fields
         }

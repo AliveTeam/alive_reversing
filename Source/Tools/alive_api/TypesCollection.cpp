@@ -23,34 +23,33 @@ TypesCollection::TypesCollection(Game gameType)
 }
 
 template<class TlvEnumType, class TlvType, class T>
-static void DoRegisterType(std::map<TlvEnumType, std::function<std::unique_ptr<TlvObjectBase>(TypesCollection&, TlvType*)>>& factory, std::map<std::string, std::function<std::unique_ptr<TlvObjectBase>(TypesCollection&, TlvType*)>>& reverseFactory, TlvEnumType tlvType, TypesCollection& constructingTypes)
+static void DoRegisterType(std::map<TlvEnumType, std::function<std::unique_ptr<TlvObjectBase>(TypesCollection&, TlvType*)>>& factory, std::map<std::string, std::function<std::unique_ptr<TlvObjectBase>(TypesCollection&, TlvType*)>>& reverseFactory, TypesCollection& constructingTypes)
 { 
     T tmp(constructingTypes, nullptr);
-    auto fnCreate = [tlvType](TypesCollection& types, TlvType* pTlv)
+    TlvEnumType tlvType = tmp.TlvType();
+    auto fnCreate = [](TypesCollection& types, TlvType* pTlv)
     {
-        auto ret = std::make_unique<T>(types, pTlv);
-        ret->SetType(tlvType);
-        return ret;
+        return std::make_unique<T>(types, pTlv);
     };
     reverseFactory[tmp.Name()] = fnCreate;
     factory[tlvType] = fnCreate;
 }
 
-#define REGISTER_TYPE_AO(TlvWrapperType, TlvType) DoRegisterType<AO::TlvTypes, AO::Path_TLV, TlvWrapperType>(mTlvFactoryAO, mReverseTlvFactoryAO, TlvType, *this)
+#define REGISTER_TYPE_AO(TlvWrapperType) DoRegisterType<AO::TlvTypes, AO::Path_TLV, TlvWrapperType>(mTlvFactoryAO, mReverseTlvFactoryAO, *this)
 
-#define REGISTER_TYPE_AE(TlvWrapperType, TlvType) DoRegisterType<TlvTypes, Path_TLV, TlvWrapperType>(mTlvFactoryAE, mReverseTlvFactoryAE, TlvType, *this)
+#define REGISTER_TYPE_AE(TlvWrapperType) DoRegisterType<TlvTypes, Path_TLV, TlvWrapperType>(mTlvFactoryAE, mReverseTlvFactoryAE, *this)
 
 void TypesCollection::AddAOTypes()
 {
-    REGISTER_TYPE_AO(AOTlvs::Path_Hoist, AO::TlvTypes::Hoist_3);
-    REGISTER_TYPE_AO(AOTlvs::Path_ContinuePoint, AO::TlvTypes::ContinuePoint_0);
-    REGISTER_TYPE_AO(AOTlvs::Path_Door, AO::TlvTypes::Door_6);
-    REGISTER_TYPE_AO(AOTlvs::Path_Change, AO::TlvTypes::PathTransition_1);
-    REGISTER_TYPE_AO(AOTlvs::Path_Switch, AO::TlvTypes::Switch_26);
-    REGISTER_TYPE_AO(AOTlvs::Path_LightEffect, AO::TlvTypes::LightEffect_106);
-    REGISTER_TYPE_AO(AOTlvs::Path_ElectricWall, AO::TlvTypes::ElectricWall_67);
-    REGISTER_TYPE_AO(AOTlvs::Path_ContinueZone, AO::TlvTypes::ContinueZone_2);
-    REGISTER_TYPE_AO(AOTlvs::Path_StartController, AO::TlvTypes::StartController_28);
+    REGISTER_TYPE_AO(AOTlvs::Path_Hoist);
+    REGISTER_TYPE_AO(AOTlvs::Path_ContinuePoint);
+    REGISTER_TYPE_AO(AOTlvs::Path_Door);
+    REGISTER_TYPE_AO(AOTlvs::Path_Change);
+    REGISTER_TYPE_AO(AOTlvs::Path_Switch);
+    REGISTER_TYPE_AO(AOTlvs::Path_LightEffect);
+    REGISTER_TYPE_AO(AOTlvs::Path_ElectricWall);
+    REGISTER_TYPE_AO(AOTlvs::Path_ContinueZone);
+    REGISTER_TYPE_AO(AOTlvs::Path_StartController);
 
     for (auto& [key, value] : mTlvFactoryAO)
     {
@@ -91,7 +90,8 @@ void TypesCollection::AddAOTypes()
 
 void TypesCollection::AddAETypes()
 {
-    REGISTER_TYPE_AE(AETlvs::Path_Hoist, TlvTypes::Hoist_2);
+    REGISTER_TYPE_AE(AETlvs::Path_Hoist);
+    REGISTER_TYPE_AE(AETlvs::Path_Switch);
 
     for (auto& [key, value] : mTlvFactoryAE)
     {
