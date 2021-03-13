@@ -252,7 +252,7 @@ bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
             break;
         }
 
-        if (pTlv->field_4_type != TlvTypes::ZSligCover_83)
+        if (pTlv->field_4_type.mType != TlvTypes::ZSligCover_83)
         {
             continue;
         }

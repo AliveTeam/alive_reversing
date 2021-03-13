@@ -65,12 +65,26 @@ enum TLV_Flags
     eBit3_End_TLV_List = 0x4,
 };
 
+// ABI fix to allow using the enum as a 32bit type
+struct TlvTypes32
+{
+    TlvTypes mType;
+    short padto32Bits;
+
+    bool operator == (TlvTypes type) const
+    {
+        return mType == type;
+    }
+};
+static_assert(std::is_pod<TlvTypes32>::value, "TlvTypes32 must be pod");
+ALIVE_ASSERT_SIZEOF(TlvTypes32, 4);
+
 struct Path_TLV
 {
     BitField8<TLV_Flags> field_0_flags;
     char field_1_unknown;
     __int16 field_2_length;
-    int field_4_type;
+    TlvTypes32 field_4_type;
     int field_8;
     PSX_Point field_C_sound_pos;
     PSX_Point field_10_top_left;
@@ -80,7 +94,7 @@ struct Path_TLV
     EXPORT static Path_TLV* CCSTD Next_446460(Path_TLV* pTlv);
     static Path_TLV* Next_NoCheck(Path_TLV* pTlv);
 
-    EXPORT static Path_TLV* CCSTD TLV_Next_Of_Type_446500(Path_TLV* pTlv, unsigned __int16 type);
+    EXPORT static Path_TLV* CCSTD TLV_Next_Of_Type_446500(Path_TLV* pTlv, TlvTypes type);
 
     // Some strange self terminate check that is inlined everywhere
     void RangeCheck()
@@ -156,7 +170,7 @@ public:
 
     EXPORT void GoTo_Camera_445050();
 
-    EXPORT void Loader_446590(__int16 camX, __int16 camY, LoadMode loadMode, __int16 typeToLoad);
+    EXPORT void Loader_446590(__int16 camX, __int16 camY, LoadMode loadMode, TlvTypes typeToLoad);
 
     EXPORT void TLV_Reset_446870(unsigned int tlvOffset_levelId_PathId, __int16 hiFlags, char bSetCreated, char bBit2);
 
@@ -183,7 +197,7 @@ public:
 
     EXPORT Path_TLV* TLV_First_Of_Type_In_Camera_4464A0(TlvTypes type, int camX);
 
-    EXPORT Path_TLV* TLV_Get_At_446260(__int16 xpos, __int16 ypos, __int16 width, __int16 height, unsigned __int16 typeToFind);
+    EXPORT Path_TLV* TLV_Get_At_446260(__int16 xpos, __int16 ypos, __int16 width, __int16 height, TlvTypes typeToFind);
 
     EXPORT Path_TLV* TLV_Get_At_446060(Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP height);
 

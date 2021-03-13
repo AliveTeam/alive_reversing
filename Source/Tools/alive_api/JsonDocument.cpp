@@ -9,6 +9,7 @@
 #include "AOTlvs.hpp"
 #include <fstream>
 #include <streambuf>
+#include <magic_enum/include/magic_enum.hpp>
 
 std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonReaderAO::Load(const std::string& fileName)
 {
@@ -191,25 +192,25 @@ jsonxx::Array JsonWriterAO::ReadTlvStream(TypesCollection& globalTypes, BYTE* pt
 
     AO::Path_TLV* pPathTLV = reinterpret_cast<AO::Path_TLV*>(ptr);
     pPathTLV->RangeCheck();
-    if (pPathTLV->field_4_type <= 0x100000 && pPathTLV->field_2_length <= 0x2000u && pPathTLV->field_8 <= 0x1000000)
+    if (static_cast<int>(pPathTLV->field_4_type.mType) <= 0x100000 && pPathTLV->field_2_length <= 0x2000u && pPathTLV->field_8 <= 0x1000000)
     {
         while (pPathTLV)
         {
-            auto obj = globalTypes.MakeTlvAO(static_cast<AO::TlvTypes>(pPathTLV->field_4_type), pPathTLV);
+            auto obj = globalTypes.MakeTlvAO(pPathTLV->field_4_type.mType, pPathTLV);
             if (obj)
             {
                 mapObjects << obj->InstanceToJson(globalTypes);
             }
             else
             {
-                switch (pPathTLV->field_4_type)
+                switch (pPathTLV->field_4_type.mType)
                 {
                 case 37:
                     LOG_WARNING("Unused abe start ignored");
                     break;
 
                 default:
-                    LOG_WARNING("Ignoring type: " << pPathTLV->field_4_type);
+                    LOG_WARNING("Ignoring type: " << magic_enum::enum_name(pPathTLV->field_4_type.mType));
                     break;
                 }
             }

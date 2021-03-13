@@ -138,14 +138,6 @@ struct TlvTypes32
     TlvTypes mType;
     short padTo32Bits;
 
-    
-    TlvTypes32& operator = (TlvTypes type)
-    {
-        mType = type;
-        padTo32Bits = 0;
-        return *this;
-    }
-
     bool operator == (TlvTypes type) const
     {
         return mType == type;

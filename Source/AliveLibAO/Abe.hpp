@@ -709,7 +709,7 @@ public:
     int field_168_ring_pulse_timer;
     __int16 field_16C_bHaveShrykull;
     __int16 field_16E_cameraIdx;
-    int field_170_hand_stone_type;
+    TlvTypes32 field_170_hand_stone_type;
     AllStone field_174_pathStone;
     OrbWhirlWind* field_188_pOrbWhirlWind;
     BaseAliveGameObject* field_18C_pObjToPossess;

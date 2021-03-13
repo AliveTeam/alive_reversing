@@ -182,7 +182,7 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, int tlvInfo)
     SetTint_418750(sMudTints_4CD320, field_B2_lvl_number);
 
     int scale = 0;
-    switch (pTlv->field_4_type)
+    switch (pTlv->field_4_type.mType)
     {
     case TlvTypes::LiftMud_32:
     {
