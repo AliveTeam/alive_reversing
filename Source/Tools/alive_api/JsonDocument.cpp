@@ -205,10 +205,6 @@ jsonxx::Array JsonWriterAO::ReadTlvStream(TypesCollection& globalTypes, BYTE* pt
             {
                 switch (pPathTLV->field_4_type.mType)
                 {
-                case 37:
-                    LOG_WARNING("Unused abe start ignored");
-                    break;
-
                 default:
                     LOG_WARNING("Ignoring type: " << magic_enum::enum_name(pPathTLV->field_4_type.mType));
                     break;
