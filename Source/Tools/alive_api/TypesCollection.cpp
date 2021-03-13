@@ -4,6 +4,7 @@
 #include "AETlvs.hpp"
 #include "../AliveLibAO/SwitchStates.hpp"
 #include "../AliveLibAE/PathData.hpp"
+#include "../AliveLibAE/SwitchStates.hpp"
 #include "magic_enum/include/magic_enum.hpp"
 
 TypesCollection::TypesCollection(Game gameType) 
@@ -92,11 +93,26 @@ void TypesCollection::AddAETypes()
 {
     REGISTER_TYPE_AE(AETlvs::Path_Hoist);
     REGISTER_TYPE_AE(AETlvs::Path_Switch);
+    REGISTER_TYPE_AE(AETlvs::Path_Door);
+    REGISTER_TYPE_AE(AETlvs::Path_StatsSign);
+    REGISTER_TYPE_AE(AETlvs::Path_BirdPortal);
+    REGISTER_TYPE_AE(AETlvs::Path_Mudokon);
+    REGISTER_TYPE_AE(AETlvs::Path_ElectricWall);
 
+    
     for (auto& [key, value] : mTlvFactoryAE)
     {
         value(*this, nullptr)->AddTypes(*this);
     }
+
+    AddEnum<SwitchOp>("Enum_SwitchOp",
+        {
+             { SwitchOp::eSetTrue_0, "SetTrue" },
+             { SwitchOp::eSetFalse_1, "SetFalse" },
+             { SwitchOp::eToggle_2, "Toggle" },
+             { SwitchOp::eIncrement_3, "Increment" },
+             { SwitchOp::eDecrement_4, "Decrement" },
+        });
 
     AddEnum<LevelIds>("Enum_LevelIds",
         {

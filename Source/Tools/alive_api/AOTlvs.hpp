@@ -25,9 +25,8 @@ namespace AO
 
 namespace AOTlvs
 {
-    class Path_Door : public TlvObjectBaseAO<AO::Path_Door>
+    struct Path_Door : public TlvObjectBaseAO<AO::Path_Door>
     {
-    public:
         void AddTypes(TypesCollection& types) override
         {
             types.AddEnum<AO::DoorStates>("Enum_DoorStates",
@@ -68,9 +67,8 @@ namespace AOTlvs
         }
     };
 
-    class Path_ContinuePoint : public TlvObjectBaseAO<AO::Path_ContinuePoint>
+    struct Path_ContinuePoint : public TlvObjectBaseAO<AO::Path_ContinuePoint>
     {
-    public:
         CTOR_AO(Path_ContinuePoint, "ContinuePoint",  AO::TlvTypes::ContinuePoint_0)
         {
             ADD("ZoneNumber", mTlv.field_18_zone_number);
@@ -81,9 +79,8 @@ namespace AOTlvs
         }
     };
 
-    class Path_Hoist : public TlvObjectBaseAO<AO::Path_Hoist>
+    struct Path_Hoist : public TlvObjectBaseAO<AO::Path_Hoist>
     {
-    public:
         void AddTypes(TypesCollection& types) override
         {
             types.AddEnum<AO::Path_Hoist::Type>("Enum_HoistType",
@@ -109,9 +106,8 @@ namespace AOTlvs
         }
     };
 
-    class Path_Change : public TlvObjectBaseAO<AO::Path_ChangeTLV>
+    struct Path_Change : public TlvObjectBaseAO<AO::Path_ChangeTLV>
     {
-    public:
         CTOR_AO(Path_Change, "PathTransition", AO::TlvTypes::PathTransition_1)
         {
             ADD("Level", mTlv.field_18_level);
@@ -123,9 +119,8 @@ namespace AOTlvs
         }
     };
 
-    class Path_Switch : public TlvObjectBaseAO<AO::Path_Switch>
+    struct Path_Switch : public TlvObjectBaseAO<AO::Path_Switch>
     {
-    public:
         CTOR_AO(Path_Switch, "Switch", AO::TlvTypes::Switch_26)
         {
             ADD("TriggerObject", mTlv.field_18_trigger_object);
@@ -137,9 +132,8 @@ namespace AOTlvs
         }
     };
 
-    class Path_LightEffect : public TlvObjectBaseAO<AO::Path_LightEffect>
+    struct Path_LightEffect : public TlvObjectBaseAO<AO::Path_LightEffect>
     {
-    public:
         void AddTypes(TypesCollection& types) override
         {
             types.AddEnum<AO::Path_LightEffect::Type>("Enum_LightType",
@@ -162,9 +156,8 @@ namespace AOTlvs
         }
     };
 
-    class Path_ElectricWall : public TlvObjectBaseAO<AO::Path_ElectricWall>
+    struct Path_ElectricWall : public TlvObjectBaseAO<AO::Path_ElectricWall>
     {
-    public:
         CTOR_AO(Path_ElectricWall, "ElectricWall", AO::TlvTypes::ElectricWall_67)
         {
             ADD("Scale", mTlv.field_18_scale);
@@ -173,18 +166,16 @@ namespace AOTlvs
         }
     };
 
-    class Path_ContinueZone : public TlvObjectBaseAO<AO::Path_ContinueZone>
+    struct Path_ContinueZone : public TlvObjectBaseAO<AO::Path_ContinueZone>
     {
-    public:
         CTOR_AO(Path_ContinueZone, "ContinueZone", AO::TlvTypes::ContinueZone_2)
         {
             ADD("ZoneNumber", mTlv.field_10_zone_number);
         }
     };
 
-    class Path_StartController : public TlvObjectBaseAO<AO::Path_StartController>
+    struct Path_StartController : public TlvObjectBaseAO<AO::Path_StartController>
     {
-    public:
         CTOR_AO(Path_StartController, "StartController", AO::TlvTypes::StartController_28)
         {
             // No fields
