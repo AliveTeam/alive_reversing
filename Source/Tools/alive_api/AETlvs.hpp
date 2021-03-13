@@ -127,32 +127,32 @@ namespace AETlvs
     {
         CTOR_AE(Path_Door, "Door", TlvTypes::Door_5)
         {
-            ADD("Level", mTlv.field_10_level);
-            ADD("Level", mTlv.field_12_path);
-            ADD("Level", mTlv.field_14_camera);
-            ADD("Level", mTlv.field_16_scale);
-            ADD("Level", mTlv.field_18_door_number);
-            ADD("Level", mTlv.field_1A_id);
-            ADD("Level", mTlv.field_1C_target_door_number);
-            ADD("Level", mTlv.field_1E_type);
-            ADD("Level", mTlv.field_20_start_state);
-            ADD("Level", mTlv.field_22_hub1);
-            ADD("Level", mTlv.field_22_hub2);
-            ADD("Level", mTlv.field_22_hub3);
-            ADD("Level", mTlv.field_22_hub4);
-            ADD("Level", mTlv.field_22_hub5);
-            ADD("Level", mTlv.field_22_hub6);
-            ADD("Level", mTlv.field_22_hub7);
-            ADD("Level", mTlv.field_22_hub8);
-            ADD("Level", mTlv.field_32_wipe_effect);
-            ADD("Level", mTlv.field_34_movie_number);
-            ADD("Level", mTlv.field_36_x_offset);
-            ADD("Level", mTlv.field_38_y_offset);
-            ADD("Level", mTlv.field_3A_wipe_x_org);
-            ADD("Level", mTlv.field_3C_wipe_y_org);
-            ADD("Level", mTlv.field_3E_abe_direction);
-            ADD("Level", mTlv.field_40_close_after_use);
-            ADD("Level", mTlv.field_42_cancel_throwables);
+            ADD("level", mTlv.field_10_level);
+            ADD("path", mTlv.field_12_path);
+            ADD("camera", mTlv.field_14_camera);
+            ADD("scale", mTlv.field_16_scale);
+            ADD("door_number", mTlv.field_18_door_number);
+            ADD("id", mTlv.field_1A_id);
+            ADD("target_door_number", mTlv.field_1C_target_door_number);
+            ADD("type", mTlv.field_1E_type);
+            ADD("start_state", mTlv.field_20_start_state);
+            ADD("hub1", mTlv.field_22_hub1);
+            ADD("hub2", mTlv.field_22_hub2);
+            ADD("hub3", mTlv.field_22_hub3);
+            ADD("hub4", mTlv.field_22_hub4);
+            ADD("hub5", mTlv.field_22_hub5);
+            ADD("hub6", mTlv.field_22_hub6);
+            ADD("hub7", mTlv.field_22_hub7);
+            ADD("hub8", mTlv.field_22_hub8);
+            ADD("wipe_effect", mTlv.field_32_wipe_effect);
+            ADD("movie_number", mTlv.field_34_movie_number);
+            ADD("x_offset", mTlv.field_36_x_offset);
+            ADD("y_offset", mTlv.field_38_y_offset);
+            ADD("wipe_x_org", mTlv.field_3A_wipe_x_org);
+            ADD("wipe_y_org", mTlv.field_3C_wipe_y_org);
+            ADD("abe_direction", mTlv.field_3E_abe_direction);
+            ADD("close_after_use", mTlv.field_40_close_after_use);
+            ADD("cancel_throwables", mTlv.field_42_cancel_throwables);
         }
     };
 
@@ -173,13 +173,13 @@ namespace AETlvs
 
         CTOR_AE(Path_Switch, "Switch", TlvTypes::Switch_17)
         {
-            ADD("TargetAction", mTlv.field_10_target_action);
-            ADD("TargetAction", mTlv.field_12_scale);
-            ADD("TargetAction", mTlv.field_14_on_sound);
-            ADD("TargetAction", mTlv.field_16_off_sound);
-            ADD("TargetAction", mTlv.field_18_sound_direction);
-            ADD("TargetAction", mTlv.field_1A_trigger_id);
-            ADD("TargetAction", mTlv.field_1C_persist_offscreen);
+            ADD("target_action", mTlv.field_10_target_action);
+            ADD("scale", mTlv.field_12_scale);
+            ADD("on_sound", mTlv.field_14_on_sound);
+            ADD("off_sound", mTlv.field_16_off_sound);
+            ADD("sound_direction", mTlv.field_18_sound_direction);
+            ADD("trigger_id", mTlv.field_1A_trigger_id);
+            ADD("persist_offscreen", mTlv.field_1C_persist_offscreen);
         }
     };
 

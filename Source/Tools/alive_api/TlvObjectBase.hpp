@@ -64,6 +64,19 @@ public:
 
     void AddProperty(const std::string& name, const std::string& typeName, void* key)
     {
+        for (const auto& [keyIt, valueIt] : mInfo)
+        {
+            if (keyIt == key)
+            {
+                abort(); // dup key
+            }
+
+            if (name == valueIt.mName)
+            {
+                abort(); // dup prop name
+            }
+        }
+
         mInfo[key] = { name, typeName };
     }
 
