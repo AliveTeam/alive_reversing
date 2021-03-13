@@ -10,7 +10,7 @@ struct Path_MusicTrigger : public Path_TLV
     __int16 field_10_type; // TODO: Enum
     short field_12_enabled_by; // TODO: Enum
     __int16 field_14_timer;
-    // pad
+    __int16 field_16_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MusicTrigger, 0x18);
 

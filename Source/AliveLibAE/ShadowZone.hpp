@@ -20,7 +20,7 @@ struct Path_ShadowZone : public Path_TLV
     unsigned __int16 field_18_b;
     __int16 field_1A_id;
     ShadowZoneScale field_1C_scale;
-    //__int16 field_1E_pad;
+    __int16 field_1E_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ShadowZone, 0x20);
 

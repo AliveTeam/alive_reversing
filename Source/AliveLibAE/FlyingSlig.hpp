@@ -277,7 +277,7 @@ public:
 
     EXPORT __int16 sub_437C70(PathLine* pLine);
 
-    EXPORT __int16 FindLeftOrRightBound_43B0A0(FP xOrY, FP wOrH);
+    EXPORT TlvTypes FindLeftOrRightBound_43B0A0(FP xOrY, FP wOrH);
 
     EXPORT void vPossessed_434FB0();
 
@@ -347,8 +347,8 @@ private:
         eBit13_Persistant = 0x1000,
     };
     BitField16<Flags_17E> field_17E_flags;
-    __int16 field_180_bound2;
-    __int16 field_182_bound1;
+    TlvTypes field_180_bound2;
+    TlvTypes field_182_bound1;
     FP field_184_xSpeed;
     FP field_188_ySpeed;
     FP field_18C;

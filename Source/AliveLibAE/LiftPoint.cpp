@@ -616,7 +616,7 @@ void LiftPoint::vUpdate_461AE0()
 
             if (pTlvIter)
             {
-                while (pTlvIter->field_4_type != TlvTypes::LiftPoint_7)
+                while (pTlvIter->field_4_type.mType != TlvTypes::LiftPoint_7)
                 {
                     pTlvIter = sPath_dword_BB47C0->TLV_Get_At_4DB290(
                         pTlvIter,

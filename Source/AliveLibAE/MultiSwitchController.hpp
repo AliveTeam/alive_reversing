@@ -17,7 +17,7 @@ struct Path_MultiSwitchController : public Path_TLV
     unsigned __int16 field_1C_id4;
     unsigned __int16 field_1E_id5;
     unsigned __int16 field_20_id6;
-    //__int16 field_22_pad;
+    __int16 field_22_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MultiSwitchController, 0x24);
 

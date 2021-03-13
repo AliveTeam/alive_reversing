@@ -9,7 +9,7 @@ struct Path_ElectricWall : public Path_TLV
     __int16 field_10_scale;
     __int16 field_12_id;
     __int16 field_14_start_state;
-    // pad
+    __int16 field_16_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ElectricWall, 0x18);
 

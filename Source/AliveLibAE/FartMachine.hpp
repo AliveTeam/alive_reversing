@@ -8,7 +8,7 @@
 struct Path_FartMachine : public Path_TLV
 {
     __int16 field_10_num_brews;
-    // pad
+    __int16 field_12_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FartMachine, 0x14);
 

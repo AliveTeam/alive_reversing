@@ -98,9 +98,9 @@ EXPORT void CC Start_Sounds_for_TLV_4CB530(CameraPos direction, Path_TLV* pTlv)
         return;
     }
 
-    switch (pTlv->field_4_type)
+    switch (pTlv->field_4_type.mType)
     {
-    case Slig_15:
+    case TlvTypes::Slig_15:
     {
         auto pSligTlv = static_cast<Path_Slig*>(pTlv);
         if (pSligTlv->field_12_start_state == Path_Slig::StartState::Paused_1)
@@ -120,7 +120,7 @@ EXPORT void CC Start_Sounds_for_TLV_4CB530(CameraPos direction, Path_TLV* pTlv)
         break;
     }
 
-    case Slog_16:
+    case TlvTypes::Slog_16:
     {
         if (static_cast<Path_Slog*>(pTlv)->field_14_asleep)
         {
@@ -139,21 +139,21 @@ EXPORT void CC Start_Sounds_for_TLV_4CB530(CameraPos direction, Path_TLV* pTlv)
         break;
     }
 
-    case Paramite_26:
+    case TlvTypes::Paramite_26:
         if (!pAmbianceTbl->mArray[5].field_8_pScopedSeq)
         {
             pAmbianceTbl->mArray[5].field_8_pScopedSeq = ae_new<ScopedSeq>()->ctor_4CB210(5, direction);
         }
         break;
 
-    case Scrab_41:
+    case TlvTypes::Scrab_41:
         if (!pAmbianceTbl->mArray[6].field_8_pScopedSeq)
         {
             pAmbianceTbl->mArray[6].field_8_pScopedSeq = ae_new<ScopedSeq>()->ctor_4CB210(6, direction);
         }
         break;
 
-    case Fleech_83:
+    case TlvTypes::Fleech_83:
     {
         auto pFleechTlv = static_cast<Path_Fleech*>(pTlv);
         if ((pFleechTlv->field_14_asleep || pFleechTlv->field_20_hanging))

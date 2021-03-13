@@ -367,17 +367,17 @@ jsonxx::Array JsonWriterAE::ReadTlvStream(TypesCollection& globalTypes, BYTE* pt
     Path_TLV* pPathTLV = reinterpret_cast<Path_TLV*>(ptr);
     while (pPathTLV)
     {
-        auto obj = globalTypes.MakeTlvAE(static_cast<TlvTypes>(pPathTLV->field_4_type), pPathTLV);
+        auto obj = globalTypes.MakeTlvAE(pPathTLV->field_4_type.mType, pPathTLV);
         if (obj)
         {
             mapObjects << obj->InstanceToJson(globalTypes);
         }
         else
         {
-            switch (pPathTLV->field_4_type)
+            switch (pPathTLV->field_4_type.mType)
             {
             default:
-                LOG_WARNING("Ignoring type: " << pPathTLV->field_4_type);
+                LOG_WARNING("Ignoring type: " << pPathTLV->field_4_type.mType);
                 break;
             }
         }

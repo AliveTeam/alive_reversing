@@ -304,7 +304,7 @@ void QuikSave_RestoreBlyData_D481890_4C9BE0(const BYTE* pSaveData)
                         while (pTlv)
                         {
                             // TODO: Convert table to strongly typed flags
-                            const BYTE tableValue = kObjectTypeAttributesTable_byte_547794.mTypes[pTlv->field_4_type];
+                            const BYTE tableValue = kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<short>(pTlv->field_4_type.mType)];
                             if (tableValue == 1 || tableValue == 2) // Type 0 ignored - actually it should never be written here anyway
                             {
                                 pTlv->field_0_flags.Raw().all = *pSrcFlags;
@@ -398,7 +398,7 @@ EXPORT void CCSTD Quicksave_SaveBlyData_4C9660(BYTE* pSaveBuffer)
                         Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(ptr);
                         while (pTlv)
                         {
-                            if (kObjectTypeAttributesTable_byte_547794.mTypes[pTlv->field_4_type] == 1)
+                            if (kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<short>(pTlv->field_4_type.mType)] == 1)
                             {
                                 BitField8<TLV_Flags> flags = pTlv->field_0_flags;
                                 if (flags.Get(TLV_Flags::eBit1_Created))
@@ -408,7 +408,7 @@ EXPORT void CCSTD Quicksave_SaveBlyData_4C9660(BYTE* pSaveBuffer)
                                 }
                                 WriteFlags(pSaveBuffer, pTlv, flags);
                             }
-                            else if (kObjectTypeAttributesTable_byte_547794.mTypes[pTlv->field_4_type] == 2)
+                            else if (kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<short>(pTlv->field_4_type.mType)] == 2)
                             {
                                 WriteFlags(pSaveBuffer, pTlv, pTlv->field_0_flags);
                             }

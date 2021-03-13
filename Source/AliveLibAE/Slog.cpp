@@ -3626,7 +3626,7 @@ __int16 Slog::HandleEnemyStopper_4C5340()
     const auto stopperPath = static_cast<Path_EnemyStopper*>(
         sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
             FP_GetExponent(xToUse), FP_GetExponent(field_BC_ypos),
-            FP_GetExponent(width), FP_GetExponent(field_BC_ypos), EnemyStopper_47
+            FP_GetExponent(width), FP_GetExponent(field_BC_ypos), TlvTypes::EnemyStopper_47
         )
     );
 

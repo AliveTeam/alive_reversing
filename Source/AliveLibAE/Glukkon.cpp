@@ -2568,7 +2568,7 @@ __int16 Glukkon::PathBlocked_4442F0(FP /*a2*/, __int16 checkBounds)
     }
 
     Path_EnemyStopper::StopDirection direction = Path_EnemyStopper::StopDirection::Left_0;
-    short boundType = TlvTypes::ScrabLeftBound_43;
+    TlvTypes boundType = TlvTypes::ScrabLeftBound_43;
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         boundType = TlvTypes::ScrabLeftBound_43;
