@@ -444,7 +444,7 @@ BaseGameObject* Slig::dtor_465320()
         field_174_tlv.field_C_sound_pos.field_2_y,
         field_174_tlv.field_C_sound_pos.field_0_x,
         field_174_tlv.field_C_sound_pos.field_2_y,
-        static_cast<short>(field_174_tlv.field_4_type));
+        field_174_tlv.field_4_type.mType);
 
     if (field_100_health <= FP_FromInteger(0))
     {
@@ -1513,7 +1513,7 @@ __int16 Slig::HandleEnemyStopper_46BF30(int gridBlocks)
         FP_GetExponent(field_AC_ypos),
         FP_GetExponent(dirScaled),
         FP_GetExponent(field_AC_ypos),
-        EnemyStopper_79
+        TlvTypes::EnemyStopper_79
     ));
 
     if (!pStopper)

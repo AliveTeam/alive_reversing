@@ -4425,7 +4425,7 @@ __int16 Scrab::Handle_SlamDoor_or_EnemyStopper_4A4830(FP velX, __int16 bCheckLef
         gridSize = (gridSize * FP_FromInteger(2));
     }
 
-    short objectType = 0;
+    TlvTypes objectType = {};
     Path_EnemyStopper::StopDirection stopDirection = Path_EnemyStopper::StopDirection::Both_2;
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {

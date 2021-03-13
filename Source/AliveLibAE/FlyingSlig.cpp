@@ -596,7 +596,7 @@ void FlyingSlig::dtor_434990()
     Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_148_tlvInfo);
     if (pTlv)
     {
-        if (pTlv->field_4_type != TlvTypes::SligGetWings_105 && pTlv->field_4_type != TlvTypes::FlyingSligSpawner_92)
+        if (pTlv->field_4_type.mType != TlvTypes::SligGetWings_105 && pTlv->field_4_type.mType != TlvTypes::FlyingSligSpawner_92)
         {
             if (field_10C_health <= FP_FromInteger(0))
             {
@@ -2142,7 +2142,7 @@ __int16 FlyingSlig::sub_4374A0(__int16 a2)
 
     if (field_17E_flags.Get(Flags_17E::eBit4))
     {
-        if (!field_17E_flags.Get(Flags_17E::eBit12_bNoNextLine) && (!field_182_bound1 || !a2))
+        if (!field_17E_flags.Get(Flags_17E::eBit12_bNoNextLine) && (field_182_bound1 == TlvTypes::ContinuePoint_0 || !a2)) // todo: change to None when we can break abi
         {
             if (!field_17E_flags.Get(Flags_17E::eBit3))
             {
@@ -2214,7 +2214,7 @@ __int16 FlyingSlig::sub_4374A0(__int16 a2)
     }
     else
     {
-        if (!field_17E_flags.Get(Flags_17E::eBit11_bNoPrevLine) && (!field_180_bound2 || !a2))
+        if (!field_17E_flags.Get(Flags_17E::eBit11_bNoPrevLine) && (field_180_bound2 != TlvTypes::ContinuePoint_0 || !a2)) // todo: change to None when we can break abi
         {
             if (!field_17E_flags.Get(Flags_17E::eBit3))
             {
@@ -2733,7 +2733,7 @@ __int16 FlyingSlig::sub_437C70(PathLine* pLine)
     return 1;
 }
 
-__int16 FlyingSlig::FindLeftOrRightBound_43B0A0(FP xOrY, FP wOrH)
+TlvTypes FlyingSlig::FindLeftOrRightBound_43B0A0(FP xOrY, FP wOrH)
 {
     const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
 
@@ -2743,7 +2743,7 @@ __int16 FlyingSlig::FindLeftOrRightBound_43B0A0(FP xOrY, FP wOrH)
     const FP bottom = wOrH + kGridSize;
 
     // TODO: Check left is really Abs'd
-    short found_type = 0;
+    TlvTypes found_type = {};
     if (sPath_dword_BB47C0->TLV_Get_At_4DB4B0(FP_GetExponent(FP_Abs(left)), FP_GetExponent(top), FP_GetExponent(right), FP_GetExponent(bottom), TlvTypes::SligBoundLeft_32))
     {
         found_type = TlvTypes::SligBoundLeft_32;

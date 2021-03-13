@@ -15,7 +15,7 @@ struct Path_PullRingRope : public Path_TLV
     __int16 field_18_on_sound;
     __int16 field_1A_off_sound;
     __int16 field_1C_sound_direction;
-    // pad
+    __int16 field_1E_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_PullRingRope, 0x20);
 

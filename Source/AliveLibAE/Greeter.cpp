@@ -396,27 +396,27 @@ void Greeter::HandleRollingAlong_447860()
             field_C4_velx + field_B8_xpos + field_C4_velx,
             field_C8_vely + field_BC_ypos + field_C8_vely))
     {
-        switch (pTlv->field_4_type)
+        switch (pTlv->field_4_type.mType)
         {
-        case DeathDrop_4:
+        case TlvTypes::DeathDrop_4:
             BlowUp_447E50();
             break;
 
-        case ScrabLeftBound_43: 
+        case TlvTypes::ScrabLeftBound_43: 
             if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))  && field_13C_state == GreeterStates::eState_0_Patrol)
             {
                 ChangeDirection_447BD0();
             }
             break;
 
-        case ScrabRightBound_44:
+        case TlvTypes::ScrabRightBound_44:
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && field_13C_state == GreeterStates::eState_0_Patrol)
             {
                 ChangeDirection_447BD0();
             }
             break;
 
-        case EnemyStopper_47:
+        case TlvTypes::EnemyStopper_47:
             if (field_13C_state != GreeterStates::eState_7_Fall)
             {
                 ChangeDirection_447BD0();

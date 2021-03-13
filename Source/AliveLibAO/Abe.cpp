@@ -3161,7 +3161,7 @@ __int16 Abe::HandleDoAction_429A70()
 
     while (pTlv)
     {
-        switch (pTlv->field_4_type)
+        switch (pTlv->field_4_type.mType)
         {
         case TlvTypes::LocalWell_11:
             field_F0_pTlv = pTlv;
@@ -3957,7 +3957,7 @@ void Abe::State_0_Idle_423520()
 
         while (pTlv)
         {
-            switch (pTlv->field_4_type)
+            switch (pTlv->field_4_type.mType)
             {
                 case TlvTypes::Door_6:
                 {
@@ -5565,7 +5565,7 @@ void Abe::State_30_HopMid_4264D0()
                 FP_GetExponent(field_AC_ypos - field_BC_sprite_scale * FP_FromInteger(50)),
                 FP_GetExponent(field_B4_velx + field_A8_xpos),
                 FP_GetExponent(field_AC_ypos - field_BC_sprite_scale * FP_FromInteger(50)),
-                38u))
+                TlvTypes::ElumStart_38))
             {
                 SFX_Play_43AD70(SoundEffect::RingBellHammer_9, 0, 0);
             }
@@ -8281,7 +8281,7 @@ void Abe::State_88_HandstoneBegin_430590()
                 if (ptlv)
                 {
                     field_170_hand_stone_type = field_F0_pTlv->field_4_type;
-                    switch (field_170_hand_stone_type)
+                    switch (field_170_hand_stone_type.mType)
                     {
                         case TlvTypes::MovieStone_51:
                         {
@@ -8318,7 +8318,7 @@ void Abe::State_88_HandstoneBegin_430590()
         {
             if (field_164_pCircularFade->VDone_47A4C0())
             {
-                switch (field_170_hand_stone_type)
+                switch (field_170_hand_stone_type.mType)
                 {
                     case TlvTypes::MovieStone_51:
                     {
@@ -9935,7 +9935,7 @@ void Abe::State_156_DoorEnter_42D370()
             field_B2_lvl_number = gMap_507BA8.field_0_current_level;
             field_B0_path_number = gMap_507BA8.field_2_current_path;
             gMap_507BA8.field_1E_door = 0;
-            auto pPathDoor = static_cast<Path_Door*>(gMap_507BA8.TLV_First_Of_Type_In_Camera_4464A0(Door_6, 0));
+            auto pPathDoor = static_cast<Path_Door*>(gMap_507BA8.TLV_First_Of_Type_In_Camera_4464A0(TlvTypes::Door_6, 0));
             field_F0_pTlv = pPathDoor;
 
             while (pPathDoor->field_20_door_number != field_196_door_id)

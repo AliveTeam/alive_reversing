@@ -13,7 +13,7 @@ struct Path_LevelLoader : public Path_TLV
     __int16 field_14_dest_path;
     __int16 field_16_dest_camera;
     __int16 field_18_movie;
-    //__int16 field_1A; // pad
+    __int16 field_1A_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LevelLoader, 0x1C);
 

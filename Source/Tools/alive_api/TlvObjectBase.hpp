@@ -223,7 +223,7 @@ public:
         : TlvObjectBase(typeName), mType(tlvType)
     {
         mTlv.field_2_length = sizeof(T);
-        mTlv.field_4_type = mType;
+        mTlv.field_4_type.mType = mType;
         COPY_TLV();
     }
 
@@ -267,7 +267,7 @@ public:
     TlvObjectBaseAO(AO::TlvTypes tlvType, const std::string& typeName, AO::Path_TLV* pTlv)
         : TlvObjectBase(typeName), mType(tlvType), mBase(&mTlv)
     {
-        mTlv.field_4_type = mType;
+        mTlv.field_4_type.mType = mType;
         mTlv.field_2_length = sizeof(T);
         COPY_TLV();
     }

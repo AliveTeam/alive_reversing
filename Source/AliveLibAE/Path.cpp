@@ -52,7 +52,7 @@ void Path::Init_4DB200(const PathData* pPathData, LevelIds level, __int16 path, 
     field_8_cams_on_y = (field_C_pPathData->field_6_bBottom - field_C_pPathData->field_2_bRight) / field_C_pPathData->field_C_grid_height;
 }
 
-void Path::Loader_4DB800(__int16 xpos, __int16 ypos, LoadMode loadMode, __int16 typeToLoad)
+void Path::Loader_4DB800(__int16 xpos, __int16 ypos, LoadMode loadMode, TlvTypes typeToLoad)
 {
     // Get a pointer to the array of index table offsets
     const int* indexTable = reinterpret_cast<const int*>(*field_10_ppRes + field_C_pPathData->field_16_object_indextable_offset);
@@ -69,7 +69,7 @@ void Path::Loader_4DB800(__int16 xpos, __int16 ypos, LoadMode loadMode, __int16 
     Path_TLV* pPathTLV = reinterpret_cast<Path_TLV*>(ptr);
     while (pPathTLV)
     {
-        if (typeToLoad == -1 || typeToLoad == pPathTLV->field_4_type) 
+        if (typeToLoad == TlvTypes::None_m1 || typeToLoad == pPathTLV->field_4_type.mType) 
         {
             if (loadMode != LoadMode::Mode_0 || !(pPathTLV->field_0_flags.Get(TLV_Flags::eBit1_Created) || pPathTLV->field_0_flags.Get(TLV_Flags::eBit2_Unknown)))
             {
@@ -85,7 +85,7 @@ void Path::Loader_4DB800(__int16 xpos, __int16 ypos, LoadMode loadMode, __int16 
                 data.parts.pathId = static_cast<BYTE>(field_2_pathId);
 
                 // Call the factory to construct the item
-                field_C_pPathData->field_1E_object_funcs.object_funcs[pPathTLV->field_4_type](pPathTLV, this, data, loadMode);
+                field_C_pPathData->field_1E_object_funcs.object_funcs[static_cast<int>(pPathTLV->field_4_type.mType)](pPathTLV, this, data, loadMode);
             }
         }
 
@@ -132,7 +132,7 @@ Path_TLV* CCSTD Path::Next_TLV_4DB6A0(Path_TLV* pTlv)
     return reinterpret_cast<Path_TLV*>(pNext);
 }
 
-Path_TLV* Path::TLV_First_Of_Type_In_Camera_4DB6D0(unsigned __int16 objectType, __int16 camX)
+Path_TLV* Path::TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes objectType, __int16 camX)
 {
     Path_TLV* pTlv = Get_First_TLV_For_Offsetted_Camera_4DB610(camX, 0);
     if (!pTlv)
@@ -140,7 +140,7 @@ Path_TLV* Path::TLV_First_Of_Type_In_Camera_4DB6D0(unsigned __int16 objectType, 
         return nullptr;
     }
 
-    while (pTlv->field_4_type != objectType)
+    while (pTlv->field_4_type.mType != objectType)
     {
         pTlv = Next_TLV_4DB6A0(pTlv);
         if (!pTlv)
@@ -151,7 +151,7 @@ Path_TLV* Path::TLV_First_Of_Type_In_Camera_4DB6D0(unsigned __int16 objectType, 
     return pTlv;
 }
 
-Path_TLV* Path::TLV_Get_At_4DB4B0(__int16 xpos, __int16 ypos, __int16 width, __int16 height, unsigned __int16 objectType)
+Path_TLV* Path::TLV_Get_At_4DB4B0(__int16 xpos, __int16 ypos, __int16 width, __int16 height, TlvTypes objectType)
 {
     // TODO: Can be refactored to use min/max
     __int16 right = 0;
@@ -332,7 +332,7 @@ DWORD Path::TLVInfo_From_TLVPtr_4DB7C0(Path_TLV* pTlv)
     return data.all;
 }
 
-Path_TLV* CCSTD Path::TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, unsigned __int16 type)
+Path_TLV* CCSTD Path::TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, TlvTypes type)
 {
     pTlv = Path::Next_TLV_4DB6A0(pTlv);
     if (!pTlv)
@@ -340,7 +340,7 @@ Path_TLV* CCSTD Path::TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, unsigned __int16 t
         return nullptr;
     }
 
-    while (pTlv->field_4_type != type)
+    while (pTlv->field_4_type.mType != type)
     {
         pTlv = Path::Next_TLV_4DB6A0(pTlv);
         if (!pTlv)

@@ -20,7 +20,7 @@ struct Path_FallingItem : public Path_TLV
     __int16 field_14_delay_time;
     __int16 field_16_number_of_items;
     __int16 field_18_reset_id;
-    // pad
+    __int16 field_20_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FallingItem, 0x1C);
 

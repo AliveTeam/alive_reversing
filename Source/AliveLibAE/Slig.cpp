@@ -4915,7 +4915,7 @@ void Slig::dtor_4B1CF0()
     Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_118_tlvInfo);
     if (pTlv)
     {
-        if (pTlv->field_4_type != SligGetPants_104 && pTlv->field_4_type != SligSpawner_37)
+        if (pTlv->field_4_type.mType != TlvTypes::SligGetPants_104 && pTlv->field_4_type.mType != TlvTypes::SligSpawner_37)
         {
             if (field_10C_health <= FP_FromInteger(0))
             {

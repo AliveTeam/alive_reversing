@@ -30,7 +30,7 @@ struct Path_LiftMover : public Path_TLV
     __int16 field_10_switch_id;
     __int16 field_12_lift_id;
     __int16 field_14_direction_up;
-    //__int16 pad;
+    __int16 field_16_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LiftMover, 0x18);
 

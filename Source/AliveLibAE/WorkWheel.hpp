@@ -25,13 +25,12 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(WorkWheel_SaveState, 0x10);
 
 struct Path_Wheel : public Path_TLV
 {
-    constexpr static int kType = 79;
     __int16 field_10_scale;
     __int16 field_12_id;
     __int16 field_14_duration;
     __int16 field_16_off_time;
     __int16 field_18_off_when_stopped;
-    // pad
+    __int16 field_20_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Wheel, 0x1C);
 

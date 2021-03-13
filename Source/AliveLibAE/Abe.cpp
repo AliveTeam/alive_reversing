@@ -2666,6 +2666,7 @@ struct Path_ResetSwitchRange : public Path_TLV
     __int16 field_18_free_path_res;
     __int16 field_1A_path_to_free_id;
     __int16 field_1C_bEnabled;
+    __int16 field_1E_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ResetSwitchRange, 0x20);
 
@@ -3253,7 +3254,7 @@ void Abe::State_0_Idle_44EEB0()
         // Handle objects that accept "up"
         while (pTlv)
         {
-            switch (pTlv->field_4_type)
+            switch (pTlv->field_4_type.mType)
             {
             case TlvTypes::Door_5:
                 if (NearDoorIsOpen_44EE10() && !field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
@@ -3844,7 +3845,7 @@ void Abe::State_3_Fall_459B60()
         field_100_pCollisionLine = pPathLine;
         field_C8_vely = FP_FromInteger(0);
         field_C4_velx = FP_FromInteger(0);
-        if (field_FC_pPathTLV->field_4_type != TlvTypes::Hoist_2 ||
+        if (field_FC_pPathTLV->field_4_type.mType != TlvTypes::Hoist_2 ||
             (FP_FromInteger(field_FC_pPathTLV->field_C_bottom_right.field_2_y - 1 * field_FC_pPathTLV->field_8_top_left.field_2_y)) >= (field_CC_sprite_scale * FP_FromInteger(70)))
         {
             field_106_current_motion = eAbeStates::State_69_LedgeHangWobble_454EF0;
@@ -4994,7 +4995,7 @@ void Abe::State_31_RunJumpMid_452C10()
                 field_C4_velx = FP_FromInteger(0);
                 field_C8_vely = FP_FromInteger(0);
 
-                if (field_FC_pPathTLV->field_4_type != TlvTypes::Hoist_2 ||
+                if (field_FC_pPathTLV->field_4_type.mType != TlvTypes::Hoist_2 ||
                     FP_FromInteger(field_FC_pPathTLV->field_C_bottom_right.field_2_y - 1 * field_FC_pPathTLV->field_8_top_left.field_2_y) >=
                     field_CC_sprite_scale * FP_FromInteger(70))
                 {
@@ -6976,7 +6977,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
                     SwitchStates_Set_465FF0(static_cast<short>(id), 1);
                 }
 
-                field_180_hand_stone_type = field_FC_pPathTLV->field_4_type;
+                field_180_hand_stone_type = field_FC_pPathTLV->field_4_type.mType;
             }
             else
             {
@@ -8858,7 +8859,7 @@ __int16 Abe::HandleDoAction_455BD0()
 
     for (;;)
     {
-        switch (pTlv->field_4_type)
+        switch (pTlv->field_4_type.mType)
         {
         case TlvTypes::LocalWell_8:
             field_FC_pPathTLV = pTlv;

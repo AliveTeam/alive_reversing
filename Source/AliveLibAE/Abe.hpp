@@ -5,6 +5,8 @@
 #include "BitField.hpp"
 #include "Input.hpp"
 
+enum class TlvTypes : short;
+
 #define ABE_STATES_ENUM(ENTRY) \
     ENTRY(State_0_Idle_44EEB0) \
     ENTRY(State_1_WalkLoop_44FBA0) \
@@ -364,7 +366,7 @@ struct Abe_SaveState
     char field_A4_cam_idx;
     char field_A5_padding;
     __int16 field_A6_padding;
-    DWORD hand_stone_type;
+    TlvTypes hand_stone_type;
     WORD fmv_id;
     WORD cam_id_1;
     WORD cam_id_2;
@@ -662,7 +664,7 @@ public:
     char field_17D_padding;
     char field_17E_padding;
     char field_17F_padding;
-    int field_180_hand_stone_type;
+    TlvTypes field_180_hand_stone_type;
     __int16 field_184_fmv_id;
     __int16 field_186_to_camera_id[3];
     __int16 field_18C_unused;

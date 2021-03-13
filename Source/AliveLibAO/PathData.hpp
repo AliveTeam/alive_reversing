@@ -26,8 +26,9 @@ enum class LevelIds : __int16
     eDesertEscape = 15,
 };
 
-enum TlvTypes : __int16
+enum class TlvTypes : __int16
 {
+    None_m1 = -1,
     ContinuePoint_0 = 0,
     PathTransition_1 = 1,
     ContinueZone_2 = 2, // TODO: Temp - will be removed later because never used by the game (editor api support)
