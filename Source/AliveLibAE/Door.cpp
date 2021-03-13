@@ -137,14 +137,14 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, int tlvInfo)
 
     if (field_F8_door_type == DoorTypes::eTasksDoor_3)
     {
-        field_102_hub_ids[0] = pTlvData->field_22_hubs[0];
-        field_102_hub_ids[1] = pTlvData->field_22_hubs[1];
-        field_102_hub_ids[2] = pTlvData->field_22_hubs[2];
-        field_102_hub_ids[3] = pTlvData->field_22_hubs[3];
-        field_102_hub_ids[4] = pTlvData->field_22_hubs[4];
-        field_102_hub_ids[5] = pTlvData->field_22_hubs[5];
-        field_102_hub_ids[6] = pTlvData->field_22_hubs[6];
-        field_102_hub_ids[7] = pTlvData->field_22_hubs[7];
+        field_102_hub_ids[0] = pTlvData->field_22_hub1;
+        field_102_hub_ids[1] = pTlvData->field_22_hub2;
+        field_102_hub_ids[2] = pTlvData->field_22_hub3;
+        field_102_hub_ids[3] = pTlvData->field_22_hub4;
+        field_102_hub_ids[4] = pTlvData->field_22_hub5;
+        field_102_hub_ids[5] = pTlvData->field_22_hub6;
+        field_102_hub_ids[6] = pTlvData->field_22_hub7;
+        field_102_hub_ids[7] = pTlvData->field_22_hub8;
 
         if (SwitchStates_Get_466020(field_102_hub_ids[0]) &&
             SwitchStates_Get_466020(field_102_hub_ids[1]) &&
@@ -199,14 +199,14 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, int tlvInfo)
 
     if (field_F8_door_type == DoorTypes::eTasksWithSecretMusicDoor_2)
     {
-        field_102_hub_ids[0] = pTlvData->field_22_hubs[0];
-        field_102_hub_ids[1] = pTlvData->field_22_hubs[1];
-        field_102_hub_ids[2] = pTlvData->field_22_hubs[2];
-        field_102_hub_ids[3] = pTlvData->field_22_hubs[3];
-        field_102_hub_ids[4] = pTlvData->field_22_hubs[4];
-        field_102_hub_ids[5] = pTlvData->field_22_hubs[5];
-        field_102_hub_ids[6] = pTlvData->field_22_hubs[6];
-        field_102_hub_ids[7] = pTlvData->field_22_hubs[7];
+        field_102_hub_ids[0] = pTlvData->field_22_hub1;
+        field_102_hub_ids[1] = pTlvData->field_22_hub2;
+        field_102_hub_ids[2] = pTlvData->field_22_hub3;
+        field_102_hub_ids[3] = pTlvData->field_22_hub4;
+        field_102_hub_ids[4] = pTlvData->field_22_hub5;
+        field_102_hub_ids[5] = pTlvData->field_22_hub6;
+        field_102_hub_ids[6] = pTlvData->field_22_hub7;
+        field_102_hub_ids[7] = pTlvData->field_22_hub8;
     }
 
     const AnimRecord& rec_open = AnimRec(sDoorFrameTable[static_cast<int>(gMap_5C3030.field_0_current_level)][0]);

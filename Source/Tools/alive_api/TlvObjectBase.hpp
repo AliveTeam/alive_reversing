@@ -64,6 +64,19 @@ public:
 
     void AddProperty(const std::string& name, const std::string& typeName, void* key)
     {
+        for (const auto& [keyIt, valueIt] : mInfo)
+        {
+            if (keyIt == key)
+            {
+                abort(); // dup key
+            }
+
+            if (name == valueIt.mName)
+            {
+                abort(); // dup prop name
+            }
+        }
+
         mInfo[key] = { name, typeName };
     }
 
@@ -206,9 +219,11 @@ template<class T>
 class TlvObjectBaseAE : public TlvObjectBase
 {
 public:
-    TlvObjectBaseAE(const std::string& typeName, Path_TLV* pTlv)
-        : TlvObjectBase(typeName)
+    TlvObjectBaseAE(TlvTypes tlvType, const std::string& typeName, Path_TLV* pTlv)
+        : TlvObjectBase(typeName), mType(tlvType)
     {
+        mTlv.field_2_length = sizeof(T);
+        mTlv.field_4_type = mType;
         COPY_TLV();
     }
 
@@ -234,14 +249,13 @@ public:
         ret << "object_structures_type" << Name();
     }
 
-    void SetType(TlvTypes type)
+    TlvTypes TlvType() const
     {
-        mTlv.field_4_type = type;
-        mTlv.field_2_length = sizeof(T);
+        return mType;
     }
 
-
 protected:
+    const TlvTypes mType = {};
     T mTlv = {};
 };
 
@@ -250,9 +264,11 @@ template<class T>
 class TlvObjectBaseAO : public TlvObjectBase
 {
 public:
-    TlvObjectBaseAO(const std::string& typeName, AO::Path_TLV* pTlv)
-        : TlvObjectBase(typeName), mBase(&mTlv)
+    TlvObjectBaseAO(AO::TlvTypes tlvType, const std::string& typeName, AO::Path_TLV* pTlv)
+        : TlvObjectBase(typeName), mType(tlvType), mBase(&mTlv)
     {
+        mTlv.field_4_type = mType;
+        mTlv.field_2_length = sizeof(T);
         COPY_TLV();
     }
 
@@ -292,13 +308,13 @@ public:
         return ret;
     }
 
-    void SetType(AO::TlvTypes type)
+    AO::TlvTypes TlvType() const
     {
-        mTlv.field_4_type = type;
-        mTlv.field_2_length = sizeof(T);
+        return mType;
     }
 
 protected:
+    const AO::TlvTypes mType = {};
     T mTlv = {};
     AO::Path_TLV* mBase = nullptr;
 };

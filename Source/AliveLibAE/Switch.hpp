@@ -25,7 +25,6 @@ enum class SwitchOp : __int16;
 
 struct Path_Switch : public Path_TLV
 {
-    static constexpr unsigned short kType = 17; // NOTE: Is this meant to be a TlvType?
     SwitchOp field_10_target_action;
     __int16 field_12_scale;
     SwitchSoundType field_14_on_sound;
