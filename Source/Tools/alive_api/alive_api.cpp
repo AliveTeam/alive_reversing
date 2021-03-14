@@ -186,7 +186,7 @@ namespace AliveAPI
                         if (*pathId >= 0 && *pathId <= pathRoot.PathCount())
                         {
                             // Path at this id have a name?
-                            const PathBlyRecAdapter  pBlyRec = pathRoot.PathAt(*pathId);
+                            const PathBlyRecAdapter pBlyRec = pathRoot.PathAt(*pathId);
                             if (pBlyRec.BlyName())
                             {
                                 // Copy out its info
@@ -281,12 +281,41 @@ namespace AliveAPI
         return {};
     }
 
+    template<typename ReturnType, typename ContainerType>
+    static ReturnType* ItemAtXY(ContainerType& container, int x, int y)
+    {
+        for (auto& iteratedItem : container)
+        {
+            if (iteratedItem.x == x && iteratedItem.y == y)
+            {
+                return &iteratedItem;
+            }
+        }
+        return nullptr;
+    }
+
+    template<typename ItemType, typename ContainerType, typename FnOnItem>
+    static void ForEachItemAtXY(const PathInfo& pathInfo, ContainerType& container, FnOnItem onItem)
+    {
+        for (int x = 0; x < pathInfo.mWidth; x++)
+        {
+            for (int y = 0; y < pathInfo.mHeight; y++)
+            {
+                auto item = ItemAtXY<ItemType>(container, x, y);
+                if (item)
+                {
+                    onItem(*item);
+                }
+            }
+        }
+    }
+
     [[nodiscard]] Result ImportPathJsonToBinary(const std::string& jsonInputFile, const std::string& outputLvlFile, const std::vector<std::string>& /*lvlResourceSources*/)
     {
         Result ret = {};
 
         JsonReaderAO doc;
-        auto [camerasAndMapObjects, collisionLines] = doc.Load(jsonInputFile);
+        auto [camerasAndMapObjects, collisionLines] = doc.LoadAO(jsonInputFile);
 
         if (doc.mRootInfo.mVersion != GetApiVersion())
         {
@@ -345,22 +374,16 @@ namespace AliveAPI
         {
             for (int y = 0; y < pathInfo.mHeight; y++)
             {
-                bool found = false;
-                for (const CameraNameAndTlvBlob& camIter : camerasAndMapObjects)
+                CameraNameAndTlvBlob* pItem = ItemAtXY<CameraNameAndTlvBlob>(camerasAndMapObjects, x, y);
+                if (pItem)
                 {
-                    if (camIter.x == x && camIter.y == y)
+                    if (pItem->mName.length() != 8)
                     {
-                        if (camIter.mName.length() != 8)
-                        {
-                            abort();
-                        }
-                        s.Write(camIter.mName);
-                        found = true;
-                        break;
+                        abort();
                     }
+                    s.Write(pItem->mName);
                 }
-
-                if (!found)
+                else
                 {
                     const static BYTE blank[8] = {};
                     s.Write(blank);
@@ -421,25 +444,17 @@ namespace AliveAPI
         {
             for (int y = 0; y < pathInfo.mHeight; y++)
             {
-                bool found = false;
-                for (const CameraNameAndTlvBlob& camIter : camerasAndMapObjects)
+                CameraNameAndTlvBlob* pItem = ItemAtXY<CameraNameAndTlvBlob>(camerasAndMapObjects, x, y);
+                if (pItem)
                 {
-                    if (camIter.x == x && camIter.y == y)
+                    const int objDataOff = static_cast<int>(s.WritePos()) - static_cast<int>(pathInfo.mObjectOffset);
+                    indexTable.push_back({ x, y, objDataOff });
+                    for (const auto& tlv : pItem->mTlvBlobs)
                     {
-                        const int objDataOff = static_cast<int>(s.WritePos()) - static_cast<int>(pathInfo.mObjectOffset);
-
-                        for (const auto& tlv : camIter.mTlvBlobs)
-                        {
-                            s.Write(tlv);
-                        }
-
-                        indexTable.push_back({ x, y, objDataOff });
-                        found = true;
-                        break;
+                        s.Write(tlv);
                     }
                 }
-
-                if (!found)
+                else
                 {
                     indexTable.push_back({ x, y, -1 });
                 }
@@ -448,19 +463,9 @@ namespace AliveAPI
 
         // Write index table values we just populated at the correct offset
         s.SeekWrite(pathInfo.mIndexTableOffset);
-        for (int x = 0; x < pathInfo.mWidth; x++)
-        {
-            for (int y = 0; y < pathInfo.mHeight; y++)
-            {
-                for (const IndexTableEntry& tableEntry : indexTable)
-                {
-                    if (tableEntry.x == x && tableEntry.y == y)
-                    {
-                        s.Write(tableEntry.objectsOffset);
-                    }
-                }
-            }
-        }
+        ForEachItemAtXY<IndexTableEntry>(pathInfo, indexTable, [&](const IndexTableEntry& tableEntry) {
+            s.Write(tableEntry.objectsOffset);
+        });
 
         // Push the path resource into a file chunk
         LvlFileChunk newPathBlock(doc.mRootInfo.mPathId, ResourceManager::ResourceType::Resource_Path, s.GetBuffer());

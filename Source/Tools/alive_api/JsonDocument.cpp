@@ -11,7 +11,7 @@
 #include <streambuf>
 #include <magic_enum/include/magic_enum.hpp>
 
-std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonReaderAO::Load(const std::string& fileName)
+std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonReaderAO::LoadAO(const std::string& fileName)
 {
     std::ifstream inputFileStream(fileName.c_str());
     std::string jsonStr((std::istreambuf_iterator<char>(inputFileStream)), std::istreambuf_iterator<char>());

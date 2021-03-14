@@ -72,7 +72,7 @@ struct MapRootInfo
 class JsonReaderAO
 {
 public:
-    std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> Load(const std::string& fileName);
+    std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> LoadAO(const std::string& fileName);
 
     MapRootInfo mRootInfo;
 };
