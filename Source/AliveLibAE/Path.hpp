@@ -19,7 +19,7 @@ enum class TlvTypes : short
 {
     None_m1 = -1,
     ContinuePoint_0 = 0,
-    PathTransition_1 = 2,
+    PathTransition_1 = 1,
     Hoist_2 = 2,
     Edge_3 = 3,
     DeathDrop_4 = 4,
