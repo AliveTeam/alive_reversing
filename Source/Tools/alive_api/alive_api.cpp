@@ -365,7 +365,7 @@ namespace AliveAPI
 
         std::size_t pathResourceLen = 0;
         pathResourceLen += collisionLines.size() * sizeof(AO::PathLine); // TODO: Calc a better estimate
-        
+
         ByteStream s;
         s.ReserveSize(pathResourceLen);
 
@@ -427,10 +427,7 @@ namespace AliveAPI
         std::size_t allTlvsLen = 0;
         for (const CameraNameAndTlvBlob& camIter : camerasAndMapObjects)
         {
-            for (const auto& tlv : camIter.mTlvBlobs)
-            {
-                allTlvsLen += tlv.size();
-            }
+            allTlvsLen += camIter.TotalTlvSize();
         }
 
         // Data would overwrite the index table, put everything after it

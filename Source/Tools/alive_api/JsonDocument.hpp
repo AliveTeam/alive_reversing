@@ -52,6 +52,16 @@ struct CameraNameAndTlvBlob
     int y = 0;
     std::string mName;
     std::vector<std::vector<BYTE>> mTlvBlobs;
+
+    std::size_t TotalTlvSize() const
+    {
+        std::size_t allTlvsLen = 0;
+        for (const auto& tlv : mTlvBlobs)
+        {
+            allTlvsLen += tlv.size();
+        }
+        return allTlvsLen;
+    }
 };
 
 struct MapRootInfo
