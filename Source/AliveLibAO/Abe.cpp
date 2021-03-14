@@ -2243,7 +2243,6 @@ void Abe::SyncToElum_42D850(__int16 elumMotion)
 
 void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, int fpY, __int16 bStandToCrouch)
 {
-    LOG_INFO("fpX = " << FP_GetDouble(fpX) << " fpY = " << fpY << " bStandTo = " << bStandToCrouch);
     BaseAliveGameObject* pSlapableOrCollectable = nullptr;
     for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {
