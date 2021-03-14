@@ -310,6 +310,22 @@ namespace AliveAPI
         }
     }
 
+    static void WriteCollisionLine(ByteStream& s, const AO::PathLine& line)
+    {
+        s.Write(line.field_0_rect.x);
+        s.Write(line.field_0_rect.y);
+        s.Write(line.field_0_rect.w);
+        s.Write(line.field_0_rect.h);
+
+        s.Write(line.field_8_type);
+        s.Write(line.field_9_pad);
+        s.Write(line.field_A_pad);
+        s.Write(line.field_B_pad);
+
+        s.Write(line.field_C_previous);
+        s.Write(line.field_10_next);
+    }
+
     [[nodiscard]] Result ImportPathJsonToBinary(const std::string& jsonInputFile, const std::string& outputLvlFile, const std::vector<std::string>& /*lvlResourceSources*/)
     {
         Result ret = {};
@@ -342,15 +358,16 @@ namespace AliveAPI
             abort();
         }
 
-        const AO::PathBlyRec* pPathBlyRec = nullptr;
-        for (int i = 0; i < ALIVE_COUNTOF(AO::gMapData_4CAB58.paths); i++)
+        PathRootContainerAdapter pathRootContainer(Game::AO);
+        const PathBlyRecAdapter* pPathBlyRec = nullptr;
+        for (int i = 0; i < pathRootContainer.PathRootCount(); i++)
         {
-            auto pathRoot = &AO::gMapData_4CAB58.paths[i];
-            if (doc.mRootInfo.mPathBnd == pathRoot->field_38_bnd_name)
+            PathRootAdapter pathRoot = pathRootContainer.PathAt(i);
+            if (doc.mRootInfo.mPathBnd == pathRoot.BndName())
             {
-                if (doc.mRootInfo.mPathId >= 0 && doc.mRootInfo.mPathId < pathRoot->field_18_num_paths)
+                if (doc.mRootInfo.mPathId >= 0 && doc.mRootInfo.mPathId < pathRoot.PathCount())
                 {
-                    pPathBlyRec = &pathRoot->field_0_pBlyArrayPtr[doc.mRootInfo.mPathId];
+                    pPathBlyRec = &pathRoot.PathAt(doc.mRootInfo.mPathId);
                     break;
                 }
             }
@@ -361,7 +378,7 @@ namespace AliveAPI
             abort();
         }
        
-        const PathInfo pathInfo = ToPathInfo(*pPathBlyRec->field_4_pPathData, *pPathBlyRec->field_8_pCollisionData);
+        const PathInfo pathInfo = pPathBlyRec->ConvertPathInfo();
 
         std::size_t pathResourceLen = 0;
         pathResourceLen += collisionLines.size() * sizeof(AO::PathLine); // TODO: Calc a better estimate
@@ -399,18 +416,7 @@ namespace AliveAPI
         // Write collision lines
         for (const AO::PathLine& line : collisionLines)
         {
-            s.Write(line.field_0_rect.x);
-            s.Write(line.field_0_rect.y);
-            s.Write(line.field_0_rect.w);
-            s.Write(line.field_0_rect.h);
-
-            s.Write(line.field_8_type);
-            s.Write(line.field_9_pad);
-            s.Write(line.field_A_pad);
-            s.Write(line.field_B_pad);
-
-            s.Write(line.field_C_previous);
-            s.Write(line.field_10_next);
+            WriteCollisionLine(s, line);
         }
 
         struct IndexTableEntry
