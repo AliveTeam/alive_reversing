@@ -68,7 +68,10 @@ struct MapRootInfo
 {
     int mVersion = 0;
     std::string mGame;
+};
 
+struct MapInfo
+{
     std::string mPathBnd;
     int mPathId = 0;
 
@@ -83,8 +86,8 @@ class JsonReaderAO
 {
 public:
     std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> LoadAO(const std::string& fileName);
-
-    MapRootInfo mRootInfo;
+    MapRootInfo mMapRootInfo;
+    MapInfo mRootInfo;
 };
 
 class TypesCollection;
@@ -100,7 +103,8 @@ protected:
     virtual jsonxx::Array ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr) = 0;
     virtual std::unique_ptr<TypesCollection> MakeTypesCollection() const = 0;
 protected:
-    MapRootInfo mRootInfo;
+    MapRootInfo mMapRootInfo;
+    MapInfo mMapInfo;
 };
 
 class JsonWriterAO : public JsonWriterBase

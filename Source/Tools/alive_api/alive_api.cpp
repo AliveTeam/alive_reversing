@@ -333,7 +333,7 @@ namespace AliveAPI
         JsonReaderAO doc;
         auto [camerasAndMapObjects, collisionLines] = doc.LoadAO(jsonInputFile);
 
-        if (doc.mRootInfo.mVersion != GetApiVersion())
+        if (doc.mMapRootInfo.mVersion != GetApiVersion())
         {
             ret.mResult = Error::JsonFileNeedsUpgrading;
             return ret;
