@@ -130,6 +130,10 @@ void TypesCollection::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_InvisibleZone);
     REGISTER_TYPE_AE(AETlvs::Path_ContinuePoint);
     REGISTER_TYPE_AE(AETlvs::Path_WheelSyncer);
+    REGISTER_TYPE_AE(AETlvs::Path_LevelLoader);
+    REGISTER_TYPE_AE(AETlvs::Path_Pulley);
+    REGISTER_TYPE_AE(AETlvs::Path_FlyingSlig);
+    REGISTER_TYPE_AE(AETlvs::Path_FlyingSligSpawner);
 
     for (auto& [key, value] : mTlvFactoryAE)
     {

@@ -29,10 +29,17 @@
 #include "../AliveLibAE/SecurityOrb.hpp"
 #include "../AliveLibAE/Abe.hpp"
 #include "../AliveLibAE/WheelSyncer.hpp"
+#include "../AliveLibAE/LevelLoader.hpp"
+#include "../AliveLibAE/FlyingSligSpawner.hpp"
 
 #define CTOR_AE(className, objectTypeName, tlvType)  className(TypesCollection& globalTypes, Path_TLV* pTlv = nullptr) : TlvObjectBaseAE(tlvType, objectTypeName, pTlv)
 
 struct Path_InvisibleZone : public Path_TLV
+{
+    // Empty
+};
+
+struct Path_Pulley : public Path_TLV
 {
     // Empty
 };
@@ -763,6 +770,72 @@ namespace AETlvs
             ADD("id_4", mTlv.field_1A_id4);
             ADD("id_5", mTlv.field_1C_id5);
             ADD("id_6", mTlv.field_1E_id6);
+        }
+    };
+
+    struct Path_LevelLoader : public TlvObjectBaseAE<::Path_LevelLoader>
+    {
+        CTOR_AE(Path_LevelLoader, "LevelLoader", TlvTypes::LevelLoader_86)
+        {
+            ADD("id", mTlv.field_10_id);
+            ADD("dest_level", mTlv.field_12_dest_level);
+            ADD("dest_path", mTlv.field_14_dest_path);
+            ADD("dest_camera", mTlv.field_16_dest_camera);
+            ADD("movie", mTlv.field_18_movie);
+        }
+    };
+
+    struct Path_Pulley : public TlvObjectBaseAE<::Path_Pulley>
+    {
+        CTOR_AE(Path_Pulley, "Pulley", TlvTypes::Pulley_21)
+        {
+            // Empty
+        }
+    };
+
+    struct Path_FlyingSlig : public TlvObjectBaseAE<::Path_FlyingSlig>
+    {
+        CTOR_AE(Path_FlyingSlig, "FlyingSlig", TlvTypes::FlyingSlig_82)
+        {
+            ADD("scale", mTlv.field_10_data.field_0_scale);
+            ADD("state", mTlv.field_10_data.field_2_state);
+            ADD("hi_pause_time", mTlv.field_10_data.field_4_hi_pause_time);
+            ADD("patrol_pause_min", mTlv.field_10_data.field_6_patrol_pause_min);
+            ADD("patrol_pause_max", mTlv.field_10_data.field_8_patrol_pause_max);
+            ADD("direction", mTlv.field_10_data.field_A_direction);
+            ADD("panic_delay", mTlv.field_10_data.field_C_panic_delay);
+            ADD("give_up_chase_delay", mTlv.field_10_data.field_E_give_up_chase_delay);
+            ADD("prechase_delay", mTlv.field_10_data.field_10_prechase_delay);
+            ADD("slig_id", mTlv.field_10_data.field_12_slig_id);
+            ADD("listen_time", mTlv.field_10_data.field_14_listen_time);
+            ADD("trigger_id", mTlv.field_10_data.field_16_trigger_id);
+            ADD("grenade_delay", mTlv.field_10_data.field_18_grenade_delay);
+            ADD("max_velocity", mTlv.field_10_data.field_1A_max_velocity);
+            ADD("launch_id", mTlv.field_10_data.field_1C_launch_id);
+            ADD("persistant", mTlv.field_10_data.field_1E_persistant);
+        }
+    };
+
+    struct Path_FlyingSligSpawner : public TlvObjectBaseAE<::Path_FlyingSligSpawner>
+    {
+        CTOR_AE(Path_FlyingSligSpawner, "FlyingSligSpawner", TlvTypes::FlyingSligSpawner_92)
+        {
+            ADD("scale", mTlv.field_10.field_0_scale);
+            ADD("state", mTlv.field_10.field_2_state);
+            ADD("hi_pause_time", mTlv.field_10.field_4_hi_pause_time);
+            ADD("patrol_pause_min", mTlv.field_10.field_6_patrol_pause_min);
+            ADD("patrol_pause_max", mTlv.field_10.field_8_patrol_pause_max);
+            ADD("direction", mTlv.field_10.field_A_direction);
+            ADD("panic_delay", mTlv.field_10.field_C_panic_delay);
+            ADD("give_up_chase_delay", mTlv.field_10.field_E_give_up_chase_delay);
+            ADD("prechase_delay", mTlv.field_10.field_10_prechase_delay);
+            ADD("slig_id", mTlv.field_10.field_12_slig_id);
+            ADD("listen_time", mTlv.field_10.field_14_listen_time);
+            ADD("trigger_id", mTlv.field_10.field_16_trigger_id);
+            ADD("grenade_delay", mTlv.field_10.field_18_grenade_delay);
+            ADD("max_velocity", mTlv.field_10.field_1A_max_velocity);
+            ADD("launch_id", mTlv.field_10.field_1C_launch_id);
+            ADD("persistant", mTlv.field_10.field_1E_persistant);
         }
     };
 }
