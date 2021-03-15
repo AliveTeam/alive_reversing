@@ -110,7 +110,7 @@ void Well::VUpdate()
     VUpdate_48B270();
 }
 
-void Well::WellExpress_Init_48B110(Path_Well_Express* pTlv, FP /*xpos*/, FP ypos)
+void Well::WellExpress_Init_48B110(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
 {
     BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, pTlv->field_1E_res_id, 1, 0);
     if (ppRes)
@@ -227,7 +227,7 @@ void Well::WellLocal_Init_48AFA0(Path_Well_Local* pTlv, FP /*xpos*/, FP ypos)
     }
 }
 
-Well* Well::ctor_48AEE0(Path_Well_Base* pTlv, FP xpos, FP ypos, int tlvInfo)
+Well* Well::ctor_48AEE0(Path_WellBase* pTlv, FP xpos, FP ypos, int tlvInfo)
 {
     ctor_417C10();
     SetVTable(this, 0x4BD730);
@@ -248,7 +248,7 @@ Well* Well::ctor_48AEE0(Path_Well_Base* pTlv, FP xpos, FP ypos, int tlvInfo)
     }
     else
     {
-        WellExpress_Init_48B110(static_cast<Path_Well_Express*>(pTlv), xpos, ypos);
+        WellExpress_Init_48B110(static_cast<Path_WellExpress*>(pTlv), xpos, ypos);
     }
     return this;
 }

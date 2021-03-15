@@ -2651,12 +2651,6 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
     return ret;
 }
 
-struct Path_ContinuePoint : public Path_TLV
-{
-    __int16 field_10_scale;
-    __int16 field_12_save_file_id;
-};
-
 struct Path_ResetSwitchRange : public Path_TLV
 {
     __int16 field_10_set_switches;
@@ -3302,7 +3296,7 @@ void Abe::State_0_Idle_44EEB0()
                 }
 
                 // Bail if scale doesn't match
-                Path_Well_Base* pWell = static_cast<Path_Well_Base*>(pTlv);
+                Path_WellBase* pWell = static_cast<Path_WellBase*>(pTlv);
                 if ((pWell->field_0_scale != 0 || field_CC_sprite_scale != FP_FromDouble(1.0)) && (pWell->field_0_scale != 1 || field_CC_sprite_scale != FP_FromDouble(0.5)))
                 {
                     break;
@@ -3687,7 +3681,7 @@ void Abe::State_3_Fall_459B60()
             if (field_FC_pPathTLV->field_4_type == TlvTypes::LocalWell_8 || field_FC_pPathTLV->field_4_type == TlvTypes::WellExpress_23)
             {
                 // The well must be on the same scale/layer
-                Path_Well_Base* pWellBase = static_cast<Path_Well_Base*>(field_FC_pPathTLV);
+                Path_WellBase* pWellBase = static_cast<Path_WellBase*>(field_FC_pPathTLV);
                 if ((pWellBase->field_0_scale == 0 && field_CC_sprite_scale == FP_FromInteger(1))
                     || (pWellBase->field_0_scale == 1 && field_CC_sprite_scale == FP_FromDouble(0.5)))
                 {
@@ -6593,7 +6587,7 @@ void Abe::State_79_InsideWellLocal_45CA60()
         field_128.field_8_x_vel_slow_by = FP_FromInteger(0);
         field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_WalkToRun);
 
-        Path_Well_Base* pBaseWell = static_cast<Path_Well_Base*>(field_FC_pPathTLV);
+        Path_WellBase* pBaseWell = static_cast<Path_WellBase*>(field_FC_pPathTLV);
         if (pBaseWell->field_4_type == TlvTypes::LocalWell_8)
         {
             Path_Well_Local* pLocal = static_cast<Path_Well_Local*>(pBaseWell);
@@ -6616,7 +6610,7 @@ void Abe::State_79_InsideWellLocal_45CA60()
         }
         else if (pBaseWell->field_4_type == TlvTypes::WellExpress_23)
         {
-            Path_Well_Express* pExpress = static_cast<Path_Well_Express*>(pBaseWell);
+            Path_WellExpress* pExpress = static_cast<Path_WellExpress*>(pBaseWell);
             Calc_Well_Velocity_45C530(
                 FP_GetExponent(field_B8_xpos),
                 FP_GetExponent(field_BC_ypos),
@@ -6725,7 +6719,7 @@ void Abe::State_82_InsideWellExpress_45CC80()
             TlvTypes::WellExpress_23);
     }
 
-    Path_Well_Express* pExpressWell = static_cast<Path_Well_Express*>(field_FC_pPathTLV);
+    Path_WellExpress* pExpressWell = static_cast<Path_WellExpress*>(field_FC_pPathTLV);
     if (SwitchStates_Get_466020(pExpressWell->field_2_trigger_id))
     {
         field_19A_to_level = pExpressWell->field_24_on_level;
@@ -6796,7 +6790,7 @@ void Abe::State_83_WellExpressShotOut_45CF70()
     field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
 
     Path_TLV* pTlvIter = nullptr;
-    Path_Well_Base* pWell = nullptr;
+    Path_WellBase* pWell = nullptr;
     for (;;)
     {
         pTlvIter = sPath_dword_BB47C0->TLV_Get_At_4DB290(
@@ -6816,7 +6810,7 @@ void Abe::State_83_WellExpressShotOut_45CF70()
         if (pTlvIter->field_4_type == TlvTypes::LocalWell_8 || pTlvIter->field_4_type == TlvTypes::WellExpress_23)
         {
             // Is it the target of the previous well?
-            Path_Well_Base* pWellBase = static_cast<Path_Well_Base*>(pTlvIter);
+            Path_WellBase* pWellBase = static_cast<Path_WellBase*>(pTlvIter);
             if (pWellBase->field_4_well_id == field_1A0_door_id)
             {
                 pWell = pWellBase;
@@ -6954,10 +6948,11 @@ void Abe::State_86_HandstoneBegin_45BD00()
                     id = pHandStoneTlv->field_18_trigger_id;
 
                     field_184_fmv_id = pHandStoneTlv->field_10_scale; // TODO: Never used for this type?
-                    for (int i = 0; i < 3; i++)
-                    {
-                        field_186_to_camera_id[i] = pHandStoneTlv->field_12_camera_ids[i];
-                    }
+
+                    field_186_to_camera_id[0] = pHandStoneTlv->field_12_camera_id1;
+                    field_186_to_camera_id[1] = pHandStoneTlv->field_12_camera_id2;
+                    field_186_to_camera_id[2] = pHandStoneTlv->field_12_camera_id3;
+
                     field_18C_unused = static_cast<short>(pHandStoneTlv->field_18_trigger_id); // TODO: Never used?
                 }
             }
@@ -9216,7 +9211,7 @@ __int16 Abe::RunTryEnterWell_451060()
         }
     }
 
-    auto pWellExpress = static_cast<Path_Well_Express*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+    auto pWellExpress = static_cast<Path_WellExpress*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
         FP_GetExponent(field_B8_xpos),
         FP_GetExponent(field_BC_ypos),
         FP_GetExponent(field_B8_xpos),

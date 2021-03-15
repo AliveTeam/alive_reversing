@@ -15,8 +15,34 @@
 #include "../AliveLibAE/LCDScreen.hpp"
 #include "../AliveLibAE/StatusLight.hpp"
 #include "../AliveLibAE/ShadowZone.hpp"
+#include "../AliveLibAE/WorkWheel.hpp"
+#include "../AliveLibAE/MusicTrigger.hpp"
+#include "../AliveLibAE/SlamDoor.hpp"
+#include "../AliveLibAE/LaughingGas.hpp"
+#include "../AliveLibAE/InvisibleSwitch.hpp"
+#include "../AliveLibAE/Water.hpp"
+#include "../AliveLibAE/GasEmitter.hpp"
+#include "../AliveLibAE/BackgroundAnimation.hpp"
+#include "../AliveLibAE/LiftPoint.hpp"
+#include "../AliveLibAE/PullRingRope.hpp"
+#include "../AliveLibAE/MultiSwitchController.hpp"
+#include "../AliveLibAE/SecurityOrb.hpp"
+#include "../AliveLibAE/Abe.hpp"
+#include "../AliveLibAE/WheelSyncer.hpp"
+#include "../AliveLibAE/LevelLoader.hpp"
+#include "../AliveLibAE/FlyingSligSpawner.hpp"
 
 #define CTOR_AE(className, objectTypeName, tlvType)  className(TypesCollection& globalTypes, Path_TLV* pTlv = nullptr) : TlvObjectBaseAE(tlvType, objectTypeName, pTlv)
+
+struct Path_InvisibleZone : public Path_TLV
+{
+    // Empty
+};
+
+struct Path_Pulley : public Path_TLV
+{
+    // Empty
+};
 
 namespace AETlvs
 {
@@ -426,6 +452,390 @@ namespace AETlvs
             ADD("b", mTlv.field_18_b);
             ADD("id", mTlv.field_1A_id);
             ADD("scale", mTlv.field_1C_scale);
+        }
+    };
+
+    struct Path_WorkWheel : public TlvObjectBaseAE<::Path_WorkWheel>
+    {
+        CTOR_AE(Path_WorkWheel, "WorkWheel", TlvTypes::WorkWheel_79)
+        {
+            ADD("scale", mTlv.field_10_scale);
+            ADD("id", mTlv.field_12_id);
+            ADD("duration", mTlv.field_14_duration);
+            ADD("off_time", mTlv.field_16_off_time);
+            ADD("off_when_stopped", mTlv.field_18_off_when_stopped);
+        }
+    };
+
+    struct Path_MusicTrigger : public TlvObjectBaseAE<::Path_MusicTrigger>
+    {
+        CTOR_AE(Path_MusicTrigger, "MusicTrigger", TlvTypes::MusicTrigger_66)
+        {
+            ADD("type", mTlv.field_10_type);
+            ADD("enabled_by", mTlv.field_12_enabled_by);
+            ADD("timer", mTlv.field_14_timer);
+        }
+    };
+
+    struct Path_AbeStart : public TlvObjectBaseAE<::Path_AbeStart>
+    {
+        CTOR_AE(Path_AbeStart, "AbeStart", TlvTypes::AbeStart_22)
+        {
+            ADD("xpos", mTlv.field_10_xpos);
+            ADD("ypos", mTlv.field_12_ypos);
+        }
+    };
+
+    struct Path_SoftLanding : public TlvObjectBaseAE<::Path_SoftLanding>
+    {
+        CTOR_AE(Path_SoftLanding, "SoftLanding", TlvTypes::SoftLanding_75)
+        {
+            ADD("id", mTlv.field_10_id);
+        }
+    };
+
+    struct Path_WellExpress : public TlvObjectBaseAE<::Path_WellExpress>
+    {
+        CTOR_AE(Path_WellExpress, "WellExpress", TlvTypes::WellExpress_23)
+        {
+            ADD("exit_x", mTlv.field_18_exit_x);
+            ADD("exit_y", mTlv.field_1A_exit_y);
+            ADD("off_level", mTlv.field_1C_off_level);
+            ADD("off_path", mTlv.field_1E_off_path);
+            ADD("off_camera", mTlv.field_20_off_camera);
+            ADD("off_well_id", mTlv.field_22_off_well_id);
+            ADD("on_level", mTlv.field_24_on_level);
+            ADD("on_path", mTlv.field_26_on_path);
+            ADD("on_camera", mTlv.field_28_on_camera);
+            ADD("on_well_id", mTlv.field_2A_on_well_id);
+            ADD("emit_leaves", mTlv.field_2C_emit_leaves);
+            ADD("leaf_x", mTlv.field_2E_leaf_x);
+            ADD("leaf_y", mTlv.field_30_leaf_y);
+            ADD("movie_id", mTlv.field_32_movie_id);
+        }
+    };
+
+    struct Path_SlamDoor : public TlvObjectBaseAE<::Path_SlamDoor>
+    {
+        CTOR_AE(Path_SlamDoor, "SlamDoor", TlvTypes::SlamDoor_85)
+        {
+            ADD("starts_shut", mTlv.field_10_starts_shut);
+            ADD("half_scale", mTlv.field_12_half_scale);
+            ADD("id", mTlv.field_14_id);
+            ADD("inverted", mTlv.field_16_inverted);
+            ADD("delete", mTlv.field_18_delete);
+        }
+    };
+
+    struct Path_HandStone : public TlvObjectBaseAE<::Path_HandStone>
+    {
+        CTOR_AE(Path_HandStone, "HandStone", TlvTypes::HandStone_61)
+        {
+            ADD("scale", mTlv.field_10_scale);
+            ADD("camera_id_1", mTlv.field_12_camera_id1);
+            ADD("camera_id_2", mTlv.field_12_camera_id2);
+            ADD("camera_id_3", mTlv.field_12_camera_id3);
+            ADD("trigger_id", mTlv.field_18_trigger_id);
+        }
+    };
+
+    struct Path_LaughingGas : public TlvObjectBaseAE<::Path_LaughingGas>
+    {
+        CTOR_AE(Path_LaughingGas, "LaughingGas", TlvTypes::LaughingGas_81)
+        {
+            ADD("is_laughing_gas", mTlv.field_10_is_laughing_gas);
+            ADD("gas_id", mTlv.field_12_gas_id);
+            ADD("red_percent", mTlv.field_14_red_percent);
+            ADD("green_percent", mTlv.field_16_green_percent);
+            ADD("blue_percent", mTlv.field_18_blue_percent);
+        }
+    };
+
+    struct Path_InvisibleSwitch : public TlvObjectBaseAE<::Path_InvisibleSwitch>
+    {
+        CTOR_AE(Path_InvisibleSwitch, "InvisibleSwitch", TlvTypes::InvisibleSwitch_48)
+        {
+            ADD("id", mTlv.field_10_id);
+            ADD("action", mTlv.field_12_action);
+            ADD("delay", mTlv.field_14_delay);
+            ADD("set_off_alarm", mTlv.field_16_set_off_alarm);
+            ADD("scale", mTlv.field_18_scale);
+        }
+    };
+
+    struct Path_Water : public TlvObjectBaseAE<::Path_Water>
+    {
+        CTOR_AE(Path_Water, "Water", TlvTypes::Water_77)
+        {
+            ADD("max_drops", mTlv.field_10_data.field_10_max_drops);
+            ADD("id", mTlv.field_10_data.field_12_id);
+            ADD("splash_time", mTlv.field_10_data.field_14_splash_time);
+            ADD("splash_x_velocity", mTlv.field_10_data.field_16_splash_x_velocity);
+            ADD("splash_y_velocity", mTlv.field_10_data.field_18_splash_y_velocity);
+            ADD("timeout", mTlv.field_10_data.field_1A_timeout);
+        }
+    };
+
+    struct Path_GasEmitter : public TlvObjectBaseAE<::Path_GasEmitter>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<::GasColour>("Enum_GasColour",
+                {
+                    {::GasColour::Yellow_0, "yellow"},
+                    {::GasColour::Red_1, "red"},
+                    {::GasColour::Green_2, "green"},
+                    {::GasColour::Blue_3, "blue"},
+                    {::GasColour::White_4, "white"},
+                });
+        }
+
+        CTOR_AE(Path_GasEmitter, "GasEmitter", TlvTypes::GasEmitter_71)
+        {
+            ADD("port_id", mTlv.field_10_port_id);
+            ADD("colour", mTlv.field_12_colour);
+        }
+    };
+
+    struct Path_BackgroundAnimation : public TlvObjectBaseAE<::Path_BackgroundAnimation>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<::TPageAbr>("Enum_TPageAbr",
+                {
+                    {::TPageAbr::eBlend_0, "blend_0"},
+                    {::TPageAbr::eBlend_1, "blend_1"},
+                    {::TPageAbr::eBlend_2, "blend_2"},
+                    {::TPageAbr::eBlend_3, "blend_3"},
+                });
+
+            types.AddEnum<::Layer>("Enum_Layer",
+                {
+                    {::Layer::eLayer_0, "Layer_0"},
+                    {::Layer::eLayer_1, "Layer_1"},
+                    {::Layer::eLayer_3, "Layer_3"},
+                    {::Layer::eLayer_4, "Layer_4"},
+                    {::Layer::eLayer_5, "Layer_5"},
+                    {::Layer::eLayer_6, "Layer_6"},
+                    {::Layer::eLayer_7, "Layer_7"},
+                    {::Layer::eLayer_8, "Layer_8"},
+                    {::Layer::eLayer_9, "Layer_9"},
+                    {::Layer::eLayer_10, "Layer_10"},
+                    {::Layer::eLayer_11, "Layer_11"},
+                    {::Layer::eLayer_12, "Layer_12"},
+                    {::Layer::eLayer_13, "Layer_13"},
+                    {::Layer::eLayer_14, "Layer_14"},
+                    {::Layer::eLayer_15, "Layer_15"},
+                    {::Layer::eLayer_16, "Layer_16"},
+                    {::Layer::eLayer_17, "Layer_17"},
+                    {::Layer::eLayer_18, "Layer_18"},
+                    {::Layer::eLayer_20, "Layer_20"},
+                    {::Layer::eLayer_22, "Layer_22"},
+                    {::Layer::eLayer_23, "Layer_23"},
+                    {::Layer::eLayer_24, "Layer_24"},
+                    {::Layer::eLayer_25, "Layer_25"},
+                    {::Layer::eLayer_26, "Layer_26"},
+                    {::Layer::eLayer_27, "Layer_27"},
+                    {::Layer::eLayer_28, "Layer_28"},
+                    {::Layer::eLayer_29, "Layer_29"},
+                    {::Layer::eLayer_30, "Layer_30"},
+                    {::Layer::eLayer_31, "Layer_31"},
+                    {::Layer::eLayer_32, "Layer_32"},
+                    {::Layer::eLayer_33, "Layer_33"},
+                    {::Layer::eLayer_34, "Layer_34"},
+                    {::Layer::eLayer_35, "Layer_35"},
+                    {::Layer::eLayer_36, "Layer_36"},
+                    {::Layer::eLayer_37, "Layer_37"},
+                    {::Layer::eLayer_38, "Layer_38"},
+                    {::Layer::eLayer_39, "Layer_39"},
+                    {::Layer::eLayer_40, "Layer_40"},
+                    {::Layer::eLayer_41, "Layer_41"},
+                    {::Layer::eLayer_42, "Layer_42"},
+
+                });
+        }
+
+
+        CTOR_AE(Path_BackgroundAnimation, "BackgroundAnimation", TlvTypes::BackgroundAnimation_13)
+        {
+            ADD("res_id", mTlv.field_10_res_id);
+            ADD("is_semi_trans", mTlv.field_12_is_semi_trans);
+            ADD("semi_trans_mode", mTlv.field_14_semi_trans_mode);
+            ADD("sound_effect", mTlv.field_16_sound_effect);
+            ADD("id", mTlv.field_18_id);
+            ADD("layer", mTlv.field_1A_layer);
+        }
+    };
+
+    struct Path_LiftPoint : public TlvObjectBaseAE<::Path_LiftPoint>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<::LiftPointStopType>("Enum_LiftPointStopType",
+                {
+                    {::LiftPointStopType::eTopFloor_0, "top_floor"},
+                    {::LiftPointStopType::eBottomFloor_1, "bottom_floor"},
+                    {::LiftPointStopType::eMiddleFloor_2, "middle_floor"},
+                    {::LiftPointStopType::eMiddleLockFloor_3, "middle_lock_floor"},
+                    {::LiftPointStopType::eStartPointOnly_4, "start_point_only"},
+                });
+        }
+
+        CTOR_AE(Path_LiftPoint, "LiftPoint", TlvTypes::LiftPoint_7)
+        {
+            ADD("id", mTlv.field_10_id);
+            ADD("is_start_point", mTlv.field_12_bstart_point);
+            ADD("lift_point_stop_type", mTlv.field_16_lift_point_stop_type);
+            ADD("scale", mTlv.field_18_scale);
+            ADD("ignore_lift_mover", mTlv.field_1A_bIgnore_lift_mover);
+        }
+    };
+
+    struct Path_PullRingRope : public TlvObjectBaseAE<::Path_PullRingRope>
+    {
+        CTOR_AE(Path_PullRingRope, "PullRingRope", TlvTypes::PullRingRope_12)
+        {
+            ADD("id", mTlv.field_10_id);
+            ADD("target_action", mTlv.field_12_target_action);
+            ADD("length_of_rope", mTlv.field_14_length_of_rope);
+            ADD("scale", mTlv.field_16_scale);
+            ADD("on_sound", mTlv.field_18_on_sound);
+            ADD("off_sound", mTlv.field_1A_off_sound);
+            ADD("sound_direction", mTlv.field_1C_sound_direction);
+        }
+    };
+
+    struct Path_MultiSwitchController : public TlvObjectBaseAE<::Path_MultiSwitchController>
+    {
+        CTOR_AE(Path_MultiSwitchController, "MultiSwitchController", TlvTypes::MultiSwitchController_96)
+        {
+            ADD("id", mTlv.field_10_id);
+            ADD("operation", mTlv.field_12_operation);
+            ADD("delay", mTlv.field_14_delay);
+            ADD("id_1", mTlv.field_16_id1);
+            ADD("id_2", mTlv.field_18_id2);
+            ADD("id_3", mTlv.field_1A_id3);
+            ADD("id_4", mTlv.field_1C_id4);
+            ADD("id_5", mTlv.field_1E_id5);
+            ADD("id_6", mTlv.field_20_id6);
+        }
+    };
+
+    struct Path_SecurityOrb : public TlvObjectBaseAE<::Path_SecurityOrb>
+    {
+        CTOR_AE(Path_SecurityOrb, "SecurityOrb", TlvTypes::SecurityOrb_19)
+        {
+            ADD("scale", mTlv.field_10_scale);
+            ADD("disabled_resources", mTlv.field_12_disabled_resources);
+        }
+    };
+
+    struct Path_InvisibleZone : public TlvObjectBaseAE<::Path_InvisibleZone>
+    {
+        CTOR_AE(Path_InvisibleZone, "InvisibleZone", TlvTypes::InvisibleZone_33)
+        {
+            // Empty
+        }
+    };
+
+    struct Path_ContinuePoint : public TlvObjectBaseAE<::Path_ContinuePoint>
+    {
+        CTOR_AE(Path_ContinuePoint, "ContinuePoint", TlvTypes::ContinuePoint_0)
+        {
+            ADD("scale", mTlv.field_10_scale);
+            ADD("save_file_id", mTlv.field_12_save_file_id);
+        }
+    };
+
+    struct Path_WheelSyncer : public TlvObjectBaseAE<::Path_WheelSyncer>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<::WheelSyncerAction>("Enum_WheelSyncerAction",
+                {
+                    {::WheelSyncerAction::eAllOn_0, "all_on"},
+                    {::WheelSyncerAction::eOff_1, "off"},
+                    {::WheelSyncerAction::eToggle_2, "toggle"},
+                    {::WheelSyncerAction::eOn_3, "on"},
+                });
+        }
+
+        CTOR_AE(Path_WheelSyncer, "WheelSyncer", TlvTypes::WheelSyncer_65)
+        {
+            ADD("id_1", mTlv.field_10_id1);
+            ADD("id_2", mTlv.field_12_id2);
+            ADD("trigger_id", mTlv.field_14_trigger_id);
+            ADD("action", mTlv.field_16_action);
+            ADD("id_3", mTlv.field_18_id3);
+            ADD("id_4", mTlv.field_1A_id4);
+            ADD("id_5", mTlv.field_1C_id5);
+            ADD("id_6", mTlv.field_1E_id6);
+        }
+    };
+
+    struct Path_LevelLoader : public TlvObjectBaseAE<::Path_LevelLoader>
+    {
+        CTOR_AE(Path_LevelLoader, "LevelLoader", TlvTypes::LevelLoader_86)
+        {
+            ADD("id", mTlv.field_10_id);
+            ADD("dest_level", mTlv.field_12_dest_level);
+            ADD("dest_path", mTlv.field_14_dest_path);
+            ADD("dest_camera", mTlv.field_16_dest_camera);
+            ADD("movie", mTlv.field_18_movie);
+        }
+    };
+
+    struct Path_Pulley : public TlvObjectBaseAE<::Path_Pulley>
+    {
+        CTOR_AE(Path_Pulley, "Pulley", TlvTypes::Pulley_21)
+        {
+            // Empty
+        }
+    };
+
+    struct Path_FlyingSlig : public TlvObjectBaseAE<::Path_FlyingSlig>
+    {
+        CTOR_AE(Path_FlyingSlig, "FlyingSlig", TlvTypes::FlyingSlig_82)
+        {
+            ADD("scale", mTlv.field_10_data.field_0_scale);
+            ADD("state", mTlv.field_10_data.field_2_state);
+            ADD("hi_pause_time", mTlv.field_10_data.field_4_hi_pause_time);
+            ADD("patrol_pause_min", mTlv.field_10_data.field_6_patrol_pause_min);
+            ADD("patrol_pause_max", mTlv.field_10_data.field_8_patrol_pause_max);
+            ADD("direction", mTlv.field_10_data.field_A_direction);
+            ADD("panic_delay", mTlv.field_10_data.field_C_panic_delay);
+            ADD("give_up_chase_delay", mTlv.field_10_data.field_E_give_up_chase_delay);
+            ADD("prechase_delay", mTlv.field_10_data.field_10_prechase_delay);
+            ADD("slig_id", mTlv.field_10_data.field_12_slig_id);
+            ADD("listen_time", mTlv.field_10_data.field_14_listen_time);
+            ADD("trigger_id", mTlv.field_10_data.field_16_trigger_id);
+            ADD("grenade_delay", mTlv.field_10_data.field_18_grenade_delay);
+            ADD("max_velocity", mTlv.field_10_data.field_1A_max_velocity);
+            ADD("launch_id", mTlv.field_10_data.field_1C_launch_id);
+            ADD("persistant", mTlv.field_10_data.field_1E_persistant);
+        }
+    };
+
+    struct Path_FlyingSligSpawner : public TlvObjectBaseAE<::Path_FlyingSligSpawner>
+    {
+        CTOR_AE(Path_FlyingSligSpawner, "FlyingSligSpawner", TlvTypes::FlyingSligSpawner_92)
+        {
+            ADD("scale", mTlv.field_10.field_0_scale);
+            ADD("state", mTlv.field_10.field_2_state);
+            ADD("hi_pause_time", mTlv.field_10.field_4_hi_pause_time);
+            ADD("patrol_pause_min", mTlv.field_10.field_6_patrol_pause_min);
+            ADD("patrol_pause_max", mTlv.field_10.field_8_patrol_pause_max);
+            ADD("direction", mTlv.field_10.field_A_direction);
+            ADD("panic_delay", mTlv.field_10.field_C_panic_delay);
+            ADD("give_up_chase_delay", mTlv.field_10.field_E_give_up_chase_delay);
+            ADD("prechase_delay", mTlv.field_10.field_10_prechase_delay);
+            ADD("slig_id", mTlv.field_10.field_12_slig_id);
+            ADD("listen_time", mTlv.field_10.field_14_listen_time);
+            ADD("trigger_id", mTlv.field_10.field_16_trigger_id);
+            ADD("grenade_delay", mTlv.field_10.field_18_grenade_delay);
+            ADD("max_velocity", mTlv.field_10.field_1A_max_velocity);
+            ADD("launch_id", mTlv.field_10.field_1C_launch_id);
+            ADD("persistant", mTlv.field_10.field_1E_persistant);
         }
     };
 }

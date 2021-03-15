@@ -1721,7 +1721,7 @@ __int16 Mudokon::TurningWheelHelloOrAllYaResponse()
         return field_190_sub_state;
     }
 
-    auto pWheelTlv = static_cast<Path_Wheel*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+    auto pWheelTlv = static_cast<Path_WorkWheel*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
         FP_GetExponent(field_B8_xpos),
         FP_GetExponent(field_BC_ypos),
         FP_GetExponent(field_B8_xpos),
@@ -7294,7 +7294,7 @@ void Mudokon::ToStand_4724A0()
 
 __int16 Mudokon::FindWheel_4777B0(FP xpos, FP ypos)
 {
-    auto* pWheelTlv = static_cast<Path_Wheel*>(
+    auto* pWheelTlv = static_cast<Path_WorkWheel*>(
         sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
             FP_GetExponent(xpos), FP_GetExponent(ypos), FP_GetExponent(xpos), FP_GetExponent(ypos), TlvTypes::WorkWheel_79));
 

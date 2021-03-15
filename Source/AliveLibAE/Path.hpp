@@ -37,7 +37,7 @@ enum class TlvTypes : short
     Slog_16 = 16,
     Switch_17 = 17,
     Null_18 = 18,
-    ChantSuppressor_19 = 19,
+    SecurityOrb_19 = 19,
     Null_20 = 20,
     Pulley_21 = 21,
     AbeStart_22 = 22,
@@ -297,7 +297,7 @@ struct Path_SoftLanding : public Path_TLV
 // TODO: Size
 
 
-struct Path_Well_Base : public Path_TLV
+struct Path_WellBase : public Path_TLV
 {
     __int16 field_0_scale;
     __int16 field_2_trigger_id;
@@ -306,7 +306,7 @@ struct Path_Well_Base : public Path_TLV
 };
 // TODO: Size
 
-struct Path_Well_Local : public Path_Well_Base
+struct Path_Well_Local : public Path_WellBase
 {
     __int16 field_18_off_dx;
     __int16 field_1A_off_dy;
@@ -319,7 +319,7 @@ struct Path_Well_Local : public Path_Well_Base
 };
 // TODO: Size
 
-struct Path_Well_Express : public Path_Well_Base
+struct Path_WellExpress : public Path_WellBase
 {
     __int16 field_18_exit_x;
     __int16 field_1A_exit_y;
@@ -356,7 +356,9 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovieStone, 0x18);
 struct Path_HandStone : public Path_TLV
 {
     __int16 field_10_scale;
-    __int16 field_12_camera_ids[3];
+    __int16 field_12_camera_id1;
+    __int16 field_12_camera_id2;
+    __int16 field_12_camera_id3;
     int field_18_trigger_id;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_HandStone, 0x1C);

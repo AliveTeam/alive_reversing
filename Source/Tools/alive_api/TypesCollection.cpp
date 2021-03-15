@@ -111,6 +111,29 @@ void TypesCollection::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_Edge);
     REGISTER_TYPE_AE(AETlvs::Path_StatusLight);
     REGISTER_TYPE_AE(AETlvs::Path_ShadowZone);
+    REGISTER_TYPE_AE(AETlvs::Path_WorkWheel);
+    REGISTER_TYPE_AE(AETlvs::Path_MusicTrigger);
+    REGISTER_TYPE_AE(AETlvs::Path_AbeStart);
+    REGISTER_TYPE_AE(AETlvs::Path_SoftLanding);
+    REGISTER_TYPE_AE(AETlvs::Path_WellExpress);
+    REGISTER_TYPE_AE(AETlvs::Path_SlamDoor);
+    REGISTER_TYPE_AE(AETlvs::Path_HandStone);
+    REGISTER_TYPE_AE(AETlvs::Path_LaughingGas);
+    REGISTER_TYPE_AE(AETlvs::Path_InvisibleSwitch);
+    REGISTER_TYPE_AE(AETlvs::Path_Water);
+    REGISTER_TYPE_AE(AETlvs::Path_GasEmitter);
+    REGISTER_TYPE_AE(AETlvs::Path_BackgroundAnimation);
+    REGISTER_TYPE_AE(AETlvs::Path_LiftPoint);
+    REGISTER_TYPE_AE(AETlvs::Path_PullRingRope);
+    REGISTER_TYPE_AE(AETlvs::Path_MultiSwitchController);
+    REGISTER_TYPE_AE(AETlvs::Path_SecurityOrb);
+    REGISTER_TYPE_AE(AETlvs::Path_InvisibleZone);
+    REGISTER_TYPE_AE(AETlvs::Path_ContinuePoint);
+    REGISTER_TYPE_AE(AETlvs::Path_WheelSyncer);
+    REGISTER_TYPE_AE(AETlvs::Path_LevelLoader);
+    REGISTER_TYPE_AE(AETlvs::Path_Pulley);
+    REGISTER_TYPE_AE(AETlvs::Path_FlyingSlig);
+    REGISTER_TYPE_AE(AETlvs::Path_FlyingSligSpawner);
 
     for (auto& [key, value] : mTlvFactoryAE)
     {
