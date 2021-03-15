@@ -21,7 +21,7 @@ static std::string AOPath(const std::string& fileName)
 
 TEST(alive_api, ExportPathBinaryToJsonAE)
 {
-    auto ret = AliveAPI::ExportPathBinaryToJson("OutputAE.json", AEPath("mi.lvl"), 3);
+    auto ret = AliveAPI::ExportPathBinaryToJson("OutputAE.json", AEPath("mi.lvl"), 5);
     ASSERT_EQ(ret.mResult, AliveAPI::Error::None);
 }
 

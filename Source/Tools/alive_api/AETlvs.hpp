@@ -36,6 +36,11 @@
 #include "../AliveLibAE/Mine.hpp"
 #include "../AliveLibAE/Slog.hpp"
 #include "../AliveLibAE/TrapDoor.hpp"
+#include "../AliveLibAE/LiftMover.hpp"
+#include "../AliveLibAE/RockSack.hpp"
+#include "../AliveLibAE/TimerTrigger.hpp"
+#include "../AliveLibAE/MotionDetector.hpp"
+#include "../AliveLibAE/MineCar.hpp"
 
 #define CTOR_AE(className, objectTypeName, tlvType)  className(TypesCollection& globalTypes, Path_TLV* pTlv = nullptr) : TlvObjectBaseAE(tlvType, objectTypeName, pTlv)
 
@@ -1035,6 +1040,75 @@ namespace AETlvs
         CTOR_AE(Path_PathTransition, "PathTransition", TlvTypes::PathTransition_1)
         {
             // Empty
+        }
+    };
+
+    struct Path_LiftMover : public TlvObjectBaseAE<::Path_LiftMover>
+    {
+        CTOR_AE(Path_LiftMover, "LiftMover", TlvTypes::LiftMover_39)
+        {
+            ADD("switch_id", mTlv.field_10_switch_id);
+            ADD("lift_id", mTlv.field_12_lift_id);
+            ADD("direction_up", mTlv.field_14_direction_up);
+        }
+    };
+
+    struct Path_RockSack : public TlvObjectBaseAE<::Path_RockSack>
+    {
+        CTOR_AE(Path_RockSack, "RockSack", TlvTypes::RockSack_10)
+        {
+            ADD("side", mTlv.field_10_side);
+            ADD("x_vel", mTlv.field_12_x_vel);
+            ADD("y_vel", mTlv.field_14_y_vel);
+            ADD("scale", mTlv.field_16_scale);
+            ADD("num_rocks", mTlv.field_18_num_rocks);
+        }
+    };
+
+    struct Path_TimerTrigger : public TlvObjectBaseAE<::Path_TimerTrigger>
+    {
+        CTOR_AE(Path_TimerTrigger, "TimeTrigger", TlvTypes::TimerTrigger_57)
+        {
+            ADD("id", mTlv.field_10_id);
+            ADD("delay_time", mTlv.field_12_delay_time);
+            ADD("id1", mTlv.field_14_id1);
+            ADD("id2", mTlv.field_16_id2);
+            ADD("id3", mTlv.field_18_id3);
+            ADD("id4", mTlv.field_1A_id4);
+        }
+    };
+
+    struct Path_MotionDetector : public TlvObjectBaseAE<::Path_MotionDetector>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<::Path_MotionDetector::StartMoveDirection>("Enum_GrinderBehavior",
+                {
+                    {::Path_MotionDetector::StartMoveDirection::eRight_0, "right"},
+                    {::Path_MotionDetector::StartMoveDirection::eLeft_1, "left"},
+                });
+        }
+
+        CTOR_AE(Path_MotionDetector, "MotionDetector", TlvTypes::MotionDetector_36)
+        {
+            ADD("scale", mTlv.field_10_scale);
+            ADD("device_x", mTlv.field_12_device_x);
+            ADD("device_y", mTlv.field_14_device_y);
+            ADD("speed_x256", mTlv.field_16_speed_x256);
+            ADD("start_move_direction", mTlv.field_18_start_move_direction);
+            ADD("draw_flare", mTlv.field_1A_draw_flare);
+            ADD("disable_id", mTlv.field_1C_disable_id);
+            ADD("alarm_id", mTlv.field_1E_alarm_id);
+            ADD("alarm_ticks", mTlv.field_20_alarm_ticks);
+        }
+    };
+
+    struct Path_MineCar : public TlvObjectBaseAE<::Path_MineCar>
+    {
+        CTOR_AE(Path_MineCar, "MineCar", TlvTypes::MineCar_93)
+        {
+            ADD("scale", mTlv.field_10_scale);
+            ADD("max_damage", mTlv.field_12_max_damage);
         }
     };
 }
