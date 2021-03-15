@@ -142,7 +142,7 @@ static const TintEntry sMudTints_4CD320[] =
 };
 
 ALIVE_VAR(1, 0x507B90, short, sAlertedMudCount_507B90, 0);
-ALIVE_VAR(1, 0x507B94, short, word_507B94, 0);
+ALIVE_VAR(1, 0x507B94, short, sMudRunningToPortalCount_507B94, 0);
 
 Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, int tlvInfo)
 {
@@ -843,8 +843,8 @@ void Mudokon::KillBirdPortal()
 {
     if (field_1AC_pBirdPortal)
     {
-        word_507B94--;
-        if (word_507B94 == 0)
+        sMudRunningToPortalCount_507B94--;
+        if (sMudRunningToPortalCount_507B94 == 0)
         {
             field_1AC_pBirdPortal->VKillPortalClipper();
             field_1AC_pBirdPortal->VGiveShrukull(1);
@@ -1141,7 +1141,7 @@ __int16 Mudokon::FindBirdPortal_440250()
         {
             sActiveHero_507678->ChangeChantState_430510(1);
             field_1AC_pBirdPortal->field_C_refCount++;
-            word_507B94++;
+            sMudRunningToPortalCount_507B94++;
             return 1;
         }
 
@@ -4302,7 +4302,7 @@ short Mudokon::Brain_Escape_12_440FD0()
     BirdPortal* pPortal = field_1AC_pBirdPortal;
     if (!pPortal || pPortal->field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
-        word_507B94--;
+        sMudRunningToPortalCount_507B94--;
         if (pPortal)
         {
             pPortal->field_C_refCount--;
