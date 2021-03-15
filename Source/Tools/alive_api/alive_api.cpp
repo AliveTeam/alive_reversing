@@ -297,9 +297,9 @@ namespace AliveAPI
     template<typename ItemType, typename ContainerType, typename FnOnItem>
     static void ForEachItemAtXY(const PathInfo& pathInfo, ContainerType& container, FnOnItem onItem)
     {
-        for (int x = 0; x < pathInfo.mWidth; x++)
+        for (int y = 0; y < pathInfo.mHeight; y++)
         {
-            for (int y = 0; y < pathInfo.mHeight; y++)
+            for (int x = 0; x < pathInfo.mWidth; x++)
             {
                 auto item = ItemAtXY<ItemType>(container, x, y);
                 if (item)
@@ -399,9 +399,9 @@ namespace AliveAPI
         s.ReserveSize(1024 * 20); // 20 kb estimate
 
         // Write camera array
-        for (int x = 0; x < pathInfo.mWidth; x++)
+        for (int y = 0; y < pathInfo.mHeight; y++)
         {
-            for (int y = 0; y < pathInfo.mHeight; y++)
+            for (int x = 0; x < pathInfo.mWidth; x++)
             {
                 CameraNameAndTlvBlob* pItem = ItemAtXY<CameraNameAndTlvBlob>(camerasAndMapObjects, x, y);
                 if (pItem)
@@ -463,18 +463,26 @@ namespace AliveAPI
         }
 
         std::vector<IndexTableEntry> indexTable;
-        for (int x = 0; x < pathInfo.mWidth; x++)
+        for (int y = 0; y < pathInfo.mHeight; y++)
         {
-            for (int y = 0; y < pathInfo.mHeight; y++)
+            for (int x = 0; x < pathInfo.mWidth; x++)
             {
                 CameraNameAndTlvBlob* pItem = ItemAtXY<CameraNameAndTlvBlob>(camerasAndMapObjects, x, y);
                 if (pItem)
                 {
-                    const int objDataOff = static_cast<int>(s.WritePos()) - static_cast<int>(pathInfo.mObjectOffset);
-                    indexTable.push_back({ x, y, objDataOff });
-                    for (const auto& tlv : pItem->mTlvBlobs)
+                    if (pItem->mTlvBlobs.empty())
                     {
-                        s.Write(tlv);
+                        // Dont add a table entry for a camera that has no TLV data
+                        indexTable.push_back({ x, y, -1 });
+                    }
+                    else
+                    {
+                        const int objDataOff = static_cast<int>(s.WritePos()) - static_cast<int>(pathInfo.mObjectOffset);
+                        indexTable.push_back({ x, y, objDataOff });
+                        for (const auto& tlv : pItem->mTlvBlobs)
+                        {
+                            s.Write(tlv);
+                        }
                     }
                 }
                 else

@@ -157,12 +157,7 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
     }
 
     TypesCollection globalTypes(gameType);
-    std::vector<CameraNameAndTlvBlob> mapData(mRootInfo.mXSize * mRootInfo.mYSize);
-    for (auto& item : mapData)
-    {
-        item.x = -1;
-        item.y = -1;
-    }
+    std::vector<CameraNameAndTlvBlob> mapData;
 
     jsonxx::Array camerasArray = map.get<jsonxx::Array>("cameras");
     for (int i = 0; i < camerasArray.values().size(); i++)
@@ -180,7 +175,7 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
             abort();
         }
 
-        CameraNameAndTlvBlob& cameraNameBlob = mapData[To1dIndex(mRootInfo.mXSize, x, y)];
+        CameraNameAndTlvBlob cameraNameBlob;
         cameraNameBlob.mId = camera.get<jsonxx::Number>("id");
         cameraNameBlob.mName = camera.get<jsonxx::String>("name");
         cameraNameBlob.x = x;
@@ -204,6 +199,7 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
             tlv->InstanceFromJson(globalTypes, mapObject);
             cameraNameBlob.mTlvBlobs.emplace_back(tlv->GetTlvData(j == mapObjectsArray.values().size() - 1));
         }
+        mapData.push_back(cameraNameBlob);
     }
     return { mapData, map };
 }
@@ -337,18 +333,18 @@ void JsonWriterBase::Save(const PathInfo& info, std::vector<BYTE>& pathResource,
     std::unique_ptr<TypesCollection> globalTypes = MakeTypesCollection();
 
     jsonxx::Array cameraArray;
-    for (int x = 0; x < info.mWidth; x++)
+    for (int y = 0; y < info.mHeight; y++)
     {
-        for (int y = 0; y < info.mHeight; y++)
+        for (int x = 0; x < info.mWidth; x++)
         {
             auto pCamName = reinterpret_cast<const AO::CameraName*>(&pPathData[To1dIndex(info.mWidth, x, y) * sizeof(AO::CameraName)]);
             CameraObject tmpCamera;
+            tmpCamera.mX = x;
+            tmpCamera.mY = y;
             if (pCamName->name[0])
             {
                 tmpCamera.mName = std::string(pCamName->name, 8);
-                tmpCamera.mX = x;
-                tmpCamera.mY = y;
-                tmpCamera.mId = 
+                tmpCamera.mId =
                     1 * (pCamName->name[7] - '0') +
                     10 * (pCamName->name[6] - '0') +
                     100 * (pCamName->name[4] - '0') +

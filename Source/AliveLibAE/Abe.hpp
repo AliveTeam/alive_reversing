@@ -175,6 +175,20 @@ struct Path_ContinuePoint : public Path_TLV
     __int16 field_12_save_file_id;
 };
 
+
+struct Path_ResetSwitchRange : public Path_TLV
+{
+    __int16 field_10_set_switches;
+    __int16 field_12_start_id;
+    __int16 field_14_end_id;
+    __int16 field_16_skip_id;
+    __int16 field_18_free_path_res;
+    __int16 field_1A_path_to_free_id;
+    __int16 field_1C_bEnabled;
+    __int16 field_1E_pad;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ResetSwitchRange, 0x20);
+
 enum class MudSounds : __int16
 {
     eNone = -1,
