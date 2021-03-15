@@ -158,6 +158,11 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
 
     TypesCollection globalTypes(gameType);
     std::vector<CameraNameAndTlvBlob> mapData(mRootInfo.mXSize * mRootInfo.mYSize);
+    for (auto& item : mapData)
+    {
+        item.x = -1;
+        item.y = -1;
+    }
 
     jsonxx::Array camerasArray = map.get<jsonxx::Array>("cameras");
     for (int i = 0; i < camerasArray.values().size(); i++)
