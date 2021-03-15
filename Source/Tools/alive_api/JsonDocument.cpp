@@ -190,7 +190,7 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
                 abort();
             }
             std::string structureType = mapObject.get<jsonxx::String>("object_structures_type");
-            auto tlv = globalTypes.MakeTlvAO(structureType, nullptr);
+            std::unique_ptr<TlvObjectBase> tlv = gameType == Game::AO ? globalTypes.MakeTlvAO(structureType, nullptr) : globalTypes.MakeTlvAE(structureType, nullptr);
             if (!tlv)
             {
                 abort();

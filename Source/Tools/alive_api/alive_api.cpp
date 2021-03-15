@@ -377,7 +377,7 @@ namespace AliveAPI
             PathRootAdapter pathRoot = pathRootContainer.PathAt(i);
             if (doc.mRootInfo.mPathBnd == pathRoot.BndName())
             {
-                if (doc.mRootInfo.mPathId >= 0 && doc.mRootInfo.mPathId < pathRoot.PathCount())
+                if (doc.mRootInfo.mPathId >= 0 && doc.mRootInfo.mPathId <= pathRoot.PathCount())
                 {
                     pathBlyRecAdapter = pathRoot.PathAt(doc.mRootInfo.mPathId);
                     break;
