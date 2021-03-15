@@ -80,7 +80,7 @@ enum class TlvTypes : short
     BoomMachine_59 = 59,
     LCD_60 = 60,
     HandStone_61 = 61,
-    CreditsController_62 = 63,
+    CreditsController_62 = 62,
     Null_63 = 63,
     StatusBoard_64 = 64,
     WheelSyncer_65 = 65,

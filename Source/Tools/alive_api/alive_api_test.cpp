@@ -8,6 +8,7 @@
 
 const std::string kAEDir = "C:\\GOG Games\\Abes Exoddus\\";
 const std::string kAODir = "C:\\GOG Games\\Abes Oddysee\\";
+const std::string kAETestLvl = "ba.lvl";
 
 const std::vector<std::string> kAELvls = 
 {
@@ -55,7 +56,9 @@ static std::string AOPath(const std::string& fileName)
 
 TEST(alive_api, ExportPathBinaryToJsonAE)
 {
-    auto ret = AliveAPI::ExportPathBinaryToJson("OutputAE.json", AEPath("ne.lvl"), 3);
+    // finished lvl's: mi.lvl, ne.lvl, cr.lvl
+    // remaining lvl's: ba.lvl, bm.lvl, bw.lvl, fd.lvl, br.lvl, pv.lvl st.lvl, sv.lvl
+    auto ret = AliveAPI::ExportPathBinaryToJson("OutputAE.json", AEPath(kAETestLvl), 4); // 16 paths
     ASSERT_EQ(ret.mResult, AliveAPI::Error::None);
 }
 
@@ -78,12 +81,12 @@ TEST(alive_api, ImportPathJsonToBinaryAO)
 
 TEST(alive_api, ImportPathJsonToBinaryAE)
 {
-    auto ret = AliveAPI::ImportPathJsonToBinary("OutputAE.json", AEPath("ne.LVL"), "newAE.lvl", {});
+    auto ret = AliveAPI::ImportPathJsonToBinary("OutputAE.json", AEPath(kAETestLvl), "newAE.lvl", {});
     ASSERT_EQ(ret.mResult, AliveAPI::Error::None);
 
-    const auto ogBA = FS::ReadFile(AEPath("ne.LVL"));
-    const auto rewrittenBA = FS::ReadFile("newAE.lvl");
-    ASSERT_EQ(ogBA, rewrittenBA);
+    const auto ogLVL = FS::ReadFile(AEPath(kAETestLvl));
+    const auto rewrittenLVL = FS::ReadFile("newAE.lvl");
+    ASSERT_EQ(ogLVL, rewrittenLVL);
 }
 
 TEST(alive_api, EnumeratePathsAO)
