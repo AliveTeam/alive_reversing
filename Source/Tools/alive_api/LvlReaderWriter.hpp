@@ -399,7 +399,7 @@ public:
             }
         }
 
-        FILE* outFile = ::fopen("new.lvl", "wb");
+        FILE* outFile = ::fopen(lvlName, "wb");
         if (!outFile)
         {
             return false;
