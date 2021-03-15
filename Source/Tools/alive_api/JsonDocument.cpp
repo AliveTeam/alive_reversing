@@ -69,7 +69,52 @@ static jsonxx::Object AELineToJsonObject(const PathLine& line)
     return obj;
 }
 
-std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonReaderAO::LoadAO(const std::string& fileName)
+static ::PathLine JsonObjectToAELine(jsonxx::Object& collision)
+{
+    ::PathLine col = {};
+    col.field_0_rect.x = collision.get<jsonxx::Number>("x1");
+    col.field_0_rect.y = collision.get<jsonxx::Number>("y1");
+
+    col.field_0_rect.w = collision.get<jsonxx::Number>("x2");
+    col.field_0_rect.h = collision.get<jsonxx::Number>("y2");
+
+    col.field_8_type = collision.get<jsonxx::Number>("type");
+
+    col.field_A_previous = collision.get<jsonxx::Number>("previous");
+    col.field_C_next = collision.get<jsonxx::Number>("next");
+    
+    col.field_E_previous2 = collision.get<jsonxx::Number>("previous2");
+    col.field_10_next2 = collision.get<jsonxx::Number>("next2");
+
+    col.field_12_line_length = collision.get<jsonxx::Number>("length");
+
+    return col;
+}
+
+
+std::vector<AO::PathLine> JsonReaderBase::ReadAOLines(jsonxx::Array& collisionsArray)
+{
+    std::vector<AO::PathLine> lines;
+    for (int i = 0; i < collisionsArray.values().size(); i++)
+    {
+        jsonxx::Object collision = collisionsArray.get<jsonxx::Object>(i);
+        lines.emplace_back(JsonObjectToAOLine(collision));
+    }
+    return lines;
+}
+
+std::vector<::PathLine> JsonReaderBase::ReadAELines(jsonxx::Array& collisionsArray)
+{
+    std::vector<::PathLine> lines;
+    for (int i = 0; i < collisionsArray.values().size(); i++)
+    {
+        jsonxx::Object collision = collisionsArray.get<jsonxx::Object>(i);
+        lines.emplace_back(JsonObjectToAELine(collision));
+    }
+    return lines;
+}
+
+std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load(Game gameType, const std::string& fileName)
 {
     std::ifstream inputFileStream(fileName.c_str());
     std::string jsonStr((std::istreambuf_iterator<char>(inputFileStream)), std::istreambuf_iterator<char>());
@@ -106,25 +151,12 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonRead
     mRootInfo.mXGridSize = map.get<jsonxx::Number>("x_grid_size");
     mRootInfo.mYGridSize = map.get<jsonxx::Number>("y_grid_size");
 
-    if (!map.has<jsonxx::Array>("collisions"))
-    {
-        abort();
-    }
-
-    std::vector<AO::PathLine> lines;
-    jsonxx::Array collisionsArray = map.get<jsonxx::Array>("collisions");
-    for (int i = 0; i < collisionsArray.values().size(); i++)
-    {
-        jsonxx::Object collision = collisionsArray.get<jsonxx::Object>(i);
-        lines.emplace_back(JsonObjectToAOLine(collision));
-    }
-
     if (!map.has<jsonxx::Array>("cameras"))
     {
         abort();
     }
-    
-    TypesCollection globalTypes(Game::AO);
+
+    TypesCollection globalTypes(gameType);
     std::vector<CameraNameAndTlvBlob> mapData(mRootInfo.mXSize * mRootInfo.mYSize);
 
     jsonxx::Array camerasArray = map.get<jsonxx::Array>("cameras");
@@ -168,6 +200,34 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonRead
             cameraNameBlob.mTlvBlobs.emplace_back(tlv->GetTlvData(j == mapObjectsArray.values().size() - 1));
         }
     }
+    return { mapData, map };
+}
+
+std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonReaderAO::Load(const std::string& fileName)
+{
+    auto [mapData, mapJsonObject] = JsonReaderBase::Load(Game::AO, fileName);
+  
+    if (!mapJsonObject.has<jsonxx::Array>("collisions"))
+    {
+        abort();
+    }
+    jsonxx::Array collisionsArray = mapJsonObject.get<jsonxx::Array>("collisions");
+    std::vector<AO::PathLine> lines = ReadAOLines(collisionsArray);
+
+    return { mapData, lines };
+}
+
+std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<::PathLine>> JsonReaderAE::Load(const std::string& fileName)
+{
+    auto [mapData, mapJsonObject] = JsonReaderBase::Load(Game::AE, fileName);
+
+    if (!mapJsonObject.has<jsonxx::Array>("collisions"))
+    {
+        abort();
+    }
+    jsonxx::Array collisionsArray = mapJsonObject.get<jsonxx::Array>("collisions");
+    std::vector<::PathLine> lines = ReadAELines(collisionsArray);
+
     return { mapData, lines };
 }
 

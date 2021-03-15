@@ -33,7 +33,7 @@ class PathLine
 public:
     PSX_RECT field_0_rect;
     BYTE field_8_type;
-    //__int8 field_9_padding; // Mode is 1 byte, but compiler aligned it to 2
+    __int8 field_9_padding; // Mode is 1 byte, but compiler aligned it to 2
     __int16 field_A_previous;
     __int16 field_C_next;
     __int16 field_E_previous2;
