@@ -26,8 +26,16 @@
 #include "../AliveLibAE/LiftPoint.hpp"
 #include "../AliveLibAE/PullRingRope.hpp"
 #include "../AliveLibAE/MultiSwitchController.hpp"
+#include "../AliveLibAE/SecurityOrb.hpp"
+#include "../AliveLibAE/Abe.hpp"
+#include "../AliveLibAE/WheelSyncer.hpp"
 
 #define CTOR_AE(className, objectTypeName, tlvType)  className(TypesCollection& globalTypes, Path_TLV* pTlv = nullptr) : TlvObjectBaseAE(tlvType, objectTypeName, pTlv)
+
+struct Path_InvisibleZone : public Path_TLV
+{
+    // Empty
+};
 
 namespace AETlvs
 {
@@ -703,6 +711,58 @@ namespace AETlvs
             ADD("id_4", mTlv.field_1C_id4);
             ADD("id_5", mTlv.field_1E_id5);
             ADD("id_6", mTlv.field_20_id6);
+        }
+    };
+
+    struct Path_SecurityOrb : public TlvObjectBaseAE<::Path_SecurityOrb>
+    {
+        CTOR_AE(Path_SecurityOrb, "SecurityOrb", TlvTypes::SecurityOrb_19)
+        {
+            ADD("scale", mTlv.field_10_scale);
+            ADD("disabled_resources", mTlv.field_12_disabled_resources);
+        }
+    };
+
+    struct Path_InvisibleZone : public TlvObjectBaseAE<::Path_InvisibleZone>
+    {
+        CTOR_AE(Path_InvisibleZone, "InvisibleZone", TlvTypes::InvisibleZone_33)
+        {
+            // Empty
+        }
+    };
+
+    struct Path_ContinuePoint : public TlvObjectBaseAE<::Path_ContinuePoint>
+    {
+        CTOR_AE(Path_ContinuePoint, "ContinuePoint", TlvTypes::ContinuePoint_0)
+        {
+            ADD("scale", mTlv.field_10_scale);
+            ADD("save_file_id", mTlv.field_12_save_file_id);
+        }
+    };
+
+    struct Path_WheelSyncer : public TlvObjectBaseAE<::Path_WheelSyncer>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<::WheelSyncerAction>("Enum_WheelSyncerAction",
+                {
+                    {::WheelSyncerAction::eAllOn_0, "all_on"},
+                    {::WheelSyncerAction::eOff_1, "off"},
+                    {::WheelSyncerAction::eToggle_2, "toggle"},
+                    {::WheelSyncerAction::eOn_3, "on"},
+                });
+        }
+
+        CTOR_AE(Path_WheelSyncer, "WheelSyncer", TlvTypes::WheelSyncer_65)
+        {
+            ADD("id_1", mTlv.field_10_id1);
+            ADD("id_2", mTlv.field_12_id2);
+            ADD("trigger_id", mTlv.field_14_trigger_id);
+            ADD("action", mTlv.field_16_action);
+            ADD("id_3", mTlv.field_18_id3);
+            ADD("id_4", mTlv.field_1A_id4);
+            ADD("id_5", mTlv.field_1C_id5);
+            ADD("id_6", mTlv.field_1E_id6);
         }
     };
 }

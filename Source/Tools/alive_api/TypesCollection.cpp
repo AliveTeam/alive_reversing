@@ -126,6 +126,10 @@ void TypesCollection::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_LiftPoint);
     REGISTER_TYPE_AE(AETlvs::Path_PullRingRope);
     REGISTER_TYPE_AE(AETlvs::Path_MultiSwitchController);
+    REGISTER_TYPE_AE(AETlvs::Path_SecurityOrb);
+    REGISTER_TYPE_AE(AETlvs::Path_InvisibleZone);
+    REGISTER_TYPE_AE(AETlvs::Path_ContinuePoint);
+    REGISTER_TYPE_AE(AETlvs::Path_WheelSyncer);
 
     for (auto& [key, value] : mTlvFactoryAE)
     {

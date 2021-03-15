@@ -4,6 +4,7 @@
 #include "FunctionFwd.hpp"
 #include "BitField.hpp"
 #include "Input.hpp"
+#include "Path.hpp"
 
 enum class TlvTypes : short;
 
@@ -167,6 +168,12 @@ extern const InputCommands sInputKey_GameSpeak6_555108;
 extern const InputCommands sInputKey_GameSpeak5_55510C;
 extern const InputCommands sInputKey_GameSpeak8_555110;
 extern const InputCommands sInputKey_GameSpeak7_555114;
+
+struct Path_ContinuePoint : public Path_TLV
+{
+    __int16 field_10_scale;
+    __int16 field_12_save_file_id;
+};
 
 enum class MudSounds : __int16
 {

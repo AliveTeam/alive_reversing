@@ -2651,12 +2651,6 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
     return ret;
 }
 
-struct Path_ContinuePoint : public Path_TLV
-{
-    __int16 field_10_scale;
-    __int16 field_12_save_file_id;
-};
-
 struct Path_ResetSwitchRange : public Path_TLV
 {
     __int16 field_10_set_switches;

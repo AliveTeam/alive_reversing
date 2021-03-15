@@ -37,7 +37,7 @@ enum class TlvTypes : short
     Slog_16 = 16,
     Switch_17 = 17,
     Null_18 = 18,
-    ChantSuppressor_19 = 19,
+    SecurityOrb_19 = 19,
     Null_20 = 20,
     Pulley_21 = 21,
     AbeStart_22 = 22,
