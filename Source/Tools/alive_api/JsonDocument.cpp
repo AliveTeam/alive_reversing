@@ -333,9 +333,9 @@ void JsonWriterBase::Save(const PathInfo& info, std::vector<BYTE>& pathResource,
     std::unique_ptr<TypesCollection> globalTypes = MakeTypesCollection();
 
     jsonxx::Array cameraArray;
-    for (int x = 0; x < info.mWidth; x++)
+    for (int y = 0; y < info.mHeight; y++)
     {
-        for (int y = 0; y < info.mHeight; y++)
+        for (int x = 0; x < info.mWidth; x++)
         {
             auto pCamName = reinterpret_cast<const AO::CameraName*>(&pPathData[To1dIndex(info.mWidth, x, y) * sizeof(AO::CameraName)]);
             CameraObject tmpCamera;
@@ -344,7 +344,7 @@ void JsonWriterBase::Save(const PathInfo& info, std::vector<BYTE>& pathResource,
             if (pCamName->name[0])
             {
                 tmpCamera.mName = std::string(pCamName->name, 8);
-                tmpCamera.mId = 
+                tmpCamera.mId =
                     1 * (pCamName->name[7] - '0') +
                     10 * (pCamName->name[6] - '0') +
                     100 * (pCamName->name[4] - '0') +
