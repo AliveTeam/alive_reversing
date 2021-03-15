@@ -116,6 +116,12 @@ void TypesCollection::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_AbeStart);
     REGISTER_TYPE_AE(AETlvs::Path_SoftLanding);
     REGISTER_TYPE_AE(AETlvs::Path_WellExpress);
+    REGISTER_TYPE_AE(AETlvs::Path_SlamDoor);
+    REGISTER_TYPE_AE(AETlvs::Path_HandStone);
+    REGISTER_TYPE_AE(AETlvs::Path_LaughingGas);
+    REGISTER_TYPE_AE(AETlvs::Path_InvisibleSwitch);
+    REGISTER_TYPE_AE(AETlvs::Path_Water);
+    REGISTER_TYPE_AE(AETlvs::Path_GasEmitter);
 
     for (auto& [key, value] : mTlvFactoryAE)
     {

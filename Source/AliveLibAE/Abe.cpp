@@ -6954,10 +6954,11 @@ void Abe::State_86_HandstoneBegin_45BD00()
                     id = pHandStoneTlv->field_18_trigger_id;
 
                     field_184_fmv_id = pHandStoneTlv->field_10_scale; // TODO: Never used for this type?
-                    for (int i = 0; i < 3; i++)
-                    {
-                        field_186_to_camera_id[i] = pHandStoneTlv->field_12_camera_ids[i];
-                    }
+
+                    field_186_to_camera_id[0] = pHandStoneTlv->field_12_camera_id1;
+                    field_186_to_camera_id[1] = pHandStoneTlv->field_12_camera_id2;
+                    field_186_to_camera_id[2] = pHandStoneTlv->field_12_camera_id3;
+
                     field_18C_unused = static_cast<short>(pHandStoneTlv->field_18_trigger_id); // TODO: Never used?
                 }
             }

@@ -356,7 +356,9 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovieStone, 0x18);
 struct Path_HandStone : public Path_TLV
 {
     __int16 field_10_scale;
-    __int16 field_12_camera_ids[3];
+    __int16 field_12_camera_id1;
+    __int16 field_12_camera_id2;
+    __int16 field_12_camera_id3;
     int field_18_trigger_id;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_HandStone, 0x1C);
