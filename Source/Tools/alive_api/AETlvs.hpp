@@ -41,8 +41,19 @@
 #include "../AliveLibAE/TimerTrigger.hpp"
 #include "../AliveLibAE/MotionDetector.hpp"
 #include "../AliveLibAE/MineCar.hpp"
+#include "../AliveLibAE/ExplosionSet.hpp"
+#include "../AliveLibAE/ColourfulMeter.hpp"
+#include "../AliveLibAE/SlapLock.hpp"
+#include "../AliveLibAE/Slurg.hpp"
+#include "../AliveLibAE/DoorBlocker.hpp"
+#include "../AliveLibAE/Dove.hpp"
 
 #define CTOR_AE(className, objectTypeName, tlvType)  className(TypesCollection& globalTypes, Path_TLV* pTlv = nullptr) : TlvObjectBaseAE(tlvType, objectTypeName, pTlv)
+
+struct Path_DemoSpawnPoint : public Path_TLV
+{
+    // Empty
+};
 
 struct Path_PathTransition : public Path_TLV
 {
@@ -1109,6 +1120,113 @@ namespace AETlvs
         {
             ADD("scale", mTlv.field_10_scale);
             ADD("max_damage", mTlv.field_12_max_damage);
+        }
+    };
+
+    struct Path_ExplosionSet : public TlvObjectBaseAE<::Path_ExplosionSet>
+    {
+        CTOR_AE(Path_ExplosionSet, "ExplosionSet", TlvTypes::ExplosionSet_95)
+        {
+            ADD("start_instantly", mTlv.field_10_start_instantly);
+            ADD("id", mTlv.field_12_id);
+            ADD("big_rocks", mTlv.field_14_big_rocks);
+            ADD("start_delay", mTlv.field_16_start_delay);
+            ADD("direction", mTlv.field_18_direction);
+            ADD("delay", mTlv.field_1A_delay);
+            ADD("grid_spacing", mTlv.field_1C_grid_spacing);
+            ADD("scale1", mTlv.field_1E_scale);
+            ADD("scale2", mTlv.field_20_scale);
+        }
+    };
+
+    struct Path_ColourfulMeter : public TlvObjectBaseAE<::Path_ColourfulMeter>
+    {
+        CTOR_AE(Path_ColourfulMeter, "ColourfulMeter", TlvTypes::ColourfulMeter_91)
+        {
+            ADD("id", mTlv.field_10_id);
+            ADD("number_of_meter_bars", mTlv.field_12_number_of_meter_bars);
+            ADD("timer", mTlv.field_14_timer);
+            ADD("start_full", mTlv.field_16_bStartsFull);
+        }
+    };
+
+    struct Path_Alarm : public TlvObjectBaseAE<::Path_Alarm>
+    {
+        CTOR_AE(Path_Alarm, "Alarm", TlvTypes::Alarm_100)
+        {
+            ADD("id", mTlv.field_10_id);
+            ADD("duration", mTlv.field_12_duration);
+        }
+    };
+
+    struct Path_DemoSpawnPoint : public TlvObjectBaseAE<::Path_DemoSpawnPoint>
+    {
+        CTOR_AE(Path_DemoSpawnPoint, "DemoSpawnPoint", TlvTypes::DemoSpawnPoint_87)
+        {
+            // Empty
+        }
+    };
+
+    struct Path_SlapLock : public TlvObjectBaseAE<::Path_SlapLock>
+    {
+        CTOR_AE(Path_SlapLock, "SlapLock", TlvTypes::SlapLock_98)
+        {
+            ADD("scale", mTlv.field_10_scale);
+            ADD("target_tomb_id1", mTlv.field_12_target_tomb_id1);
+            ADD("target_tomb_id2", mTlv.field_14_target_tomb_id2);
+            ADD("is_persistant", mTlv.field_16_bPersistant);
+            ADD("has_ghost", mTlv.field_18_has_ghost);
+            ADD("has_powerup", mTlv.field_1A_has_powerup);
+            ADD("powerup_id", mTlv.field_1C_powerup_id);
+            ADD("option_id", mTlv.field_1E_option_id);
+        }
+    };
+
+    struct Path_Slurg : public TlvObjectBaseAE<::Path_Slurg>
+    {
+        CTOR_AE(Path_Slurg, "Slurg", TlvTypes::Slurg_84)
+        {
+            ADD("pause_delay", mTlv.field_10_path_data.field_0_pause_delay);
+            ADD("direction", mTlv.field_10_path_data.field_2_direction);
+            ADD("scale", mTlv.field_10_path_data.field_4_scale);
+            ADD("id", mTlv.field_10_path_data.field_6_id);
+        }
+    };
+
+    struct Path_DoorBlocker : public TlvObjectBaseAE<::Path_DoorBlocker>
+    {
+        CTOR_AE(Path_DoorBlocker, "DoorBlocker", TlvTypes::DoorBlocker_109)
+        {
+            ADD("scale", mTlv.field_10_scale);
+            ADD("id", mTlv.field_12_id);
+        }
+    };
+
+    struct Path_Dove : public TlvObjectBaseAE<::Path_Dove>
+    {
+        CTOR_AE(Path_Dove, "Dove", TlvTypes::Dove_9)
+        {
+            ADD("dove_count", mTlv.field_10_dove_count);
+            ADD("pixel_perfect", mTlv.field_12_pixel_perfect);
+            ADD("scale", mTlv.field_14_scale);
+        }
+    };
+
+    struct Path_BirdPortalExit : public TlvObjectBaseAE<::Path_BirdPortalExit>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<::PortalSide>("Enum_PortalSide",
+                {
+                    {::PortalSide::eRight_0, "right"},
+                    {::PortalSide::eLeft_1, "left"},
+                });
+        }
+
+        CTOR_AE(Path_BirdPortalExit, "BirdPortalExit", TlvTypes::BirdPortalExit_29)
+        {
+            ADD("side", mTlv.field_10_side);
+            ADD("scale", mTlv.field_12_scale);
         }
     };
 }

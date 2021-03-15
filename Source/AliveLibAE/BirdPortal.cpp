@@ -931,7 +931,7 @@ void BirdPortal::vExitPortal_499870()
     field_8E_path = gMap_5C3030.field_2_current_path;
     field_8C_level = gMap_5C3030.field_0_current_level;
 
-    auto pPortalExitTlv = static_cast<Path_BirdPortal_Exit*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes::PortalExit_29, 0));
+    auto pPortalExitTlv = static_cast<Path_BirdPortalExit*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes::BirdPortalExit_29, 0));
     if (pPortalExitTlv)
     {
         PathLine* pLine = nullptr;

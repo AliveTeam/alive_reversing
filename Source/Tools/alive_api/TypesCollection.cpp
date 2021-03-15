@@ -153,6 +153,15 @@ void TypesCollection::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_TimerTrigger);
     REGISTER_TYPE_AE(AETlvs::Path_MotionDetector);
     REGISTER_TYPE_AE(AETlvs::Path_MineCar);
+    REGISTER_TYPE_AE(AETlvs::Path_ExplosionSet);
+    REGISTER_TYPE_AE(AETlvs::Path_ColourfulMeter);
+    REGISTER_TYPE_AE(AETlvs::Path_Alarm);
+    REGISTER_TYPE_AE(AETlvs::Path_DemoSpawnPoint);
+    REGISTER_TYPE_AE(AETlvs::Path_SlapLock);
+    REGISTER_TYPE_AE(AETlvs::Path_Slurg);
+    REGISTER_TYPE_AE(AETlvs::Path_DoorBlocker);
+    REGISTER_TYPE_AE(AETlvs::Path_Dove);
+    REGISTER_TYPE_AE(AETlvs::Path_BirdPortalExit);
 
     for (auto& [key, value] : mTlvFactoryAE)
     {
