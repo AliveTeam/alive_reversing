@@ -20,7 +20,7 @@ void BackgroundAnimation::VScreenChanged()
     vScreenChanged_40D550();
 }
 
-BackgroundAnimation* BackgroundAnimation::ctor_40D270(BackgroundAnimation_TLV* pPathParams, TlvItemInfoUnion tlvInfo)
+BackgroundAnimation* BackgroundAnimation::ctor_40D270(Path_BackgroundAnimation* pPathParams, TlvItemInfoUnion tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x5440F0); // vTbl_BackgroundAnimation_5440F0

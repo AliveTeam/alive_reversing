@@ -7,7 +7,7 @@
 #include "Factory.hpp"
 #include "Layer.hpp"
 
-struct BackgroundAnimation_TLV : public Path_TLV
+struct Path_BackgroundAnimation : public Path_TLV
 {
     unsigned __int16 field_10_res_id;
     __int16 field_12_is_semi_trans;
@@ -17,7 +17,7 @@ struct BackgroundAnimation_TLV : public Path_TLV
     __int16 field_18_id;
     Layer field_1A_layer;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(BackgroundAnimation_TLV, 0x1C);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BackgroundAnimation, 0x1C);
 
 class BackgroundAnimation : public BaseAnimatedWithPhysicsGameObject
 {
@@ -26,7 +26,7 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
-    EXPORT BackgroundAnimation* ctor_40D270(BackgroundAnimation_TLV* pPathParams, TlvItemInfoUnion tlvInfo);
+    EXPORT BackgroundAnimation* ctor_40D270(Path_BackgroundAnimation* pPathParams, TlvItemInfoUnion tlvInfo);
     EXPORT void vUpdate_40D450();
     EXPORT void vScreenChanged_40D550();
     EXPORT void dtor_40D4C0();

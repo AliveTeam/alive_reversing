@@ -1278,7 +1278,7 @@ EXPORT void CC Factory_BackgroundAnimation_4D84F0(Path_TLV* pTlv, Path* /*pPath*
         auto pAnim = ae_new<BackgroundAnimation>();
         if (pAnim)
         {
-            pAnim->ctor_40D270(static_cast<BackgroundAnimation_TLV*>(pTlv), tlvOffsetLevelIdPathId);
+            pAnim->ctor_40D270(static_cast<Path_BackgroundAnimation*>(pTlv), tlvOffsetLevelIdPathId);
         }
     }
 }

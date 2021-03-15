@@ -22,6 +22,10 @@
 #include "../AliveLibAE/InvisibleSwitch.hpp"
 #include "../AliveLibAE/Water.hpp"
 #include "../AliveLibAE/GasEmitter.hpp"
+#include "../AliveLibAE/BackgroundAnimation.hpp"
+#include "../AliveLibAE/LiftPoint.hpp"
+#include "../AliveLibAE/PullRingRope.hpp"
+#include "../AliveLibAE/MultiSwitchController.hpp"
 
 #define CTOR_AE(className, objectTypeName, tlvType)  className(TypesCollection& globalTypes, Path_TLV* pTlv = nullptr) : TlvObjectBaseAE(tlvType, objectTypeName, pTlv)
 
@@ -575,6 +579,130 @@ namespace AETlvs
         {
             ADD("port_id", mTlv.field_10_port_id);
             ADD("colour", mTlv.field_12_colour);
+        }
+    };
+
+    struct Path_BackgroundAnimation : public TlvObjectBaseAE<::Path_BackgroundAnimation>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<::TPageAbr>("Enum_TPageAbr",
+                {
+                    {::TPageAbr::eBlend_0, "blend_0"},
+                    {::TPageAbr::eBlend_1, "blend_1"},
+                    {::TPageAbr::eBlend_2, "blend_2"},
+                    {::TPageAbr::eBlend_3, "blend_3"},
+                });
+
+            types.AddEnum<::Layer>("Enum_Layer",
+                {
+                    {::Layer::eLayer_0, "Layer_0"},
+                    {::Layer::eLayer_1, "Layer_1"},
+                    {::Layer::eLayer_3, "Layer_3"},
+                    {::Layer::eLayer_4, "Layer_4"},
+                    {::Layer::eLayer_5, "Layer_5"},
+                    {::Layer::eLayer_6, "Layer_6"},
+                    {::Layer::eLayer_7, "Layer_7"},
+                    {::Layer::eLayer_8, "Layer_8"},
+                    {::Layer::eLayer_9, "Layer_9"},
+                    {::Layer::eLayer_10, "Layer_10"},
+                    {::Layer::eLayer_11, "Layer_11"},
+                    {::Layer::eLayer_12, "Layer_12"},
+                    {::Layer::eLayer_13, "Layer_13"},
+                    {::Layer::eLayer_14, "Layer_14"},
+                    {::Layer::eLayer_15, "Layer_15"},
+                    {::Layer::eLayer_16, "Layer_16"},
+                    {::Layer::eLayer_17, "Layer_17"},
+                    {::Layer::eLayer_18, "Layer_18"},
+                    {::Layer::eLayer_20, "Layer_20"},
+                    {::Layer::eLayer_22, "Layer_22"},
+                    {::Layer::eLayer_23, "Layer_23"},
+                    {::Layer::eLayer_24, "Layer_24"},
+                    {::Layer::eLayer_25, "Layer_25"},
+                    {::Layer::eLayer_26, "Layer_26"},
+                    {::Layer::eLayer_27, "Layer_27"},
+                    {::Layer::eLayer_28, "Layer_28"},
+                    {::Layer::eLayer_29, "Layer_29"},
+                    {::Layer::eLayer_30, "Layer_30"},
+                    {::Layer::eLayer_31, "Layer_31"},
+                    {::Layer::eLayer_32, "Layer_32"},
+                    {::Layer::eLayer_33, "Layer_33"},
+                    {::Layer::eLayer_34, "Layer_34"},
+                    {::Layer::eLayer_35, "Layer_35"},
+                    {::Layer::eLayer_36, "Layer_36"},
+                    {::Layer::eLayer_37, "Layer_37"},
+                    {::Layer::eLayer_38, "Layer_38"},
+                    {::Layer::eLayer_39, "Layer_39"},
+                    {::Layer::eLayer_40, "Layer_40"},
+                    {::Layer::eLayer_41, "Layer_41"},
+                    {::Layer::eLayer_42, "Layer_42"},
+
+                });
+        }
+
+
+        CTOR_AE(Path_BackgroundAnimation, "BackgroundAnimation", TlvTypes::BackgroundAnimation_13)
+        {
+            ADD("res_id", mTlv.field_10_res_id);
+            ADD("is_semi_trans", mTlv.field_12_is_semi_trans);
+            ADD("semi_trans_mode", mTlv.field_14_semi_trans_mode);
+            ADD("sound_effect", mTlv.field_16_sound_effect);
+            ADD("id", mTlv.field_18_id);
+            ADD("layer", mTlv.field_1A_layer);
+        }
+    };
+
+    struct Path_LiftPoint : public TlvObjectBaseAE<::Path_LiftPoint>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<::LiftPointStopType>("Enum_LiftPointStopType",
+                {
+                    {::LiftPointStopType::eTopFloor_0, "top_floor"},
+                    {::LiftPointStopType::eBottomFloor_1, "bottom_floor"},
+                    {::LiftPointStopType::eMiddleFloor_2, "middle_floor"},
+                    {::LiftPointStopType::eMiddleLockFloor_3, "middle_lock_floor"},
+                    {::LiftPointStopType::eStartPointOnly_4, "start_point_only"},
+                });
+        }
+
+        CTOR_AE(Path_LiftPoint, "LiftPoint", TlvTypes::LiftPoint_7)
+        {
+            ADD("id", mTlv.field_10_id);
+            ADD("is_start_point", mTlv.field_12_bstart_point);
+            ADD("lift_point_stop_type", mTlv.field_16_lift_point_stop_type);
+            ADD("scale", mTlv.field_18_scale);
+            ADD("ignore_lift_mover", mTlv.field_1A_bIgnore_lift_mover);
+        }
+    };
+
+    struct Path_PullRingRope : public TlvObjectBaseAE<::Path_PullRingRope>
+    {
+        CTOR_AE(Path_PullRingRope, "PullRingRope", TlvTypes::PullRingRope_12)
+        {
+            ADD("id", mTlv.field_10_id);
+            ADD("target_action", mTlv.field_12_target_action);
+            ADD("length_of_rope", mTlv.field_14_length_of_rope);
+            ADD("scale", mTlv.field_16_scale);
+            ADD("on_sound", mTlv.field_18_on_sound);
+            ADD("off_sound", mTlv.field_1A_off_sound);
+            ADD("sound_direction", mTlv.field_1C_sound_direction);
+        }
+    };
+
+    struct Path_MultiSwitchController : public TlvObjectBaseAE<::Path_MultiSwitchController>
+    {
+        CTOR_AE(Path_MultiSwitchController, "MultiSwitchController", TlvTypes::MultiSwitchController_96)
+        {
+            ADD("id", mTlv.field_10_id);
+            ADD("operation", mTlv.field_12_operation);
+            ADD("delay", mTlv.field_14_delay);
+            ADD("id_1", mTlv.field_16_id1);
+            ADD("id_2", mTlv.field_18_id2);
+            ADD("id_3", mTlv.field_1A_id3);
+            ADD("id_4", mTlv.field_1C_id4);
+            ADD("id_5", mTlv.field_1E_id5);
+            ADD("id_6", mTlv.field_20_id6);
         }
     };
 }
