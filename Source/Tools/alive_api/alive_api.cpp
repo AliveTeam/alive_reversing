@@ -367,7 +367,7 @@ namespace AliveAPI
             }
 
             PathRootContainerAdapter pathRootContainer(Game::AO);
-            const PathBlyRecAdapter* pPathBlyRec = nullptr;
+            std::optional<PathBlyRecAdapter> pathBlyRecAdapter;
             for (int i = 0; i < pathRootContainer.PathRootCount(); i++)
             {
                 PathRootAdapter pathRoot = pathRootContainer.PathAt(i);
@@ -375,18 +375,18 @@ namespace AliveAPI
                 {
                     if (doc.mRootInfo.mPathId >= 0 && doc.mRootInfo.mPathId < pathRoot.PathCount())
                     {
-                        pPathBlyRec = &pathRoot.PathAt(doc.mRootInfo.mPathId);
+                        pathBlyRecAdapter = pathRoot.PathAt(doc.mRootInfo.mPathId);
                         break;
                     }
                 }
             }
 
-            if (!pPathBlyRec)
+            if (!pathBlyRecAdapter)
             {
                 abort();
             }
 
-            const PathInfo pathInfo = pPathBlyRec->ConvertPathInfo();
+            const PathInfo pathInfo = pathBlyRecAdapter->ConvertPathInfo();
 
             std::size_t pathResourceLen = 0;
             pathResourceLen += collisionLines.size() * sizeof(AO::PathLine); // TODO: Calc a better estimate
