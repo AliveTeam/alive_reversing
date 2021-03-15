@@ -343,11 +343,11 @@ void JsonWriterBase::Save(const PathInfo& info, std::vector<BYTE>& pathResource,
         {
             auto pCamName = reinterpret_cast<const AO::CameraName*>(&pPathData[To1dIndex(info.mWidth, x, y) * sizeof(AO::CameraName)]);
             CameraObject tmpCamera;
+            tmpCamera.mX = x;
+            tmpCamera.mY = y;
             if (pCamName->name[0])
             {
                 tmpCamera.mName = std::string(pCamName->name, 8);
-                tmpCamera.mX = x;
-                tmpCamera.mY = y;
                 tmpCamera.mId = 
                     1 * (pCamName->name[7] - '0') +
                     10 * (pCamName->name[6] - '0') +
