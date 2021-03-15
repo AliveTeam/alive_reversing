@@ -29,10 +29,11 @@ set(CompilerFlags
         CMAKE_C_FLAGS_RELEASE
         )
 foreach(CompilerFlag ${CompilerFlags})
-  string(REPLACE "/MD" "/MT /bigobj" ${CompilerFlag} "${${CompilerFlag}}")
+  string(REPLACE "/MD" "/MT" ${CompilerFlag} "${${CompilerFlag}}")
   string(REPLACE "/W3" "" ${CompilerFlag} "${${CompilerFlag}}")
 endforeach()
 
+add_definitions(/bigobj)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 MACRO(ADD_MSVC_PRECOMPILED_HEADER PrecompiledHeader PrecompiledSource SourcesVar)
