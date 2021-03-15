@@ -167,7 +167,7 @@ void Well::WellExpress_Init_48B110(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
     }
 }
 
-void Well::WellLocal_Init_48AFA0(Path_Well_Local* pTlv, FP /*xpos*/, FP ypos)
+void Well::WellLocal_Init_48AFA0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
 {
     BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, pTlv->field_1E_res_id, 1, 0);
     if (ppRes)
@@ -244,7 +244,7 @@ Well* Well::ctor_48AEE0(Path_WellBase* pTlv, FP xpos, FP ypos, int tlvInfo)
 
     if (pTlv->field_4_type == TlvTypes::LocalWell_11)
     {
-        WellLocal_Init_48AFA0(static_cast<Path_Well_Local*>(pTlv), xpos, ypos);
+        WellLocal_Init_48AFA0(static_cast<Path_WellLocal*>(pTlv), xpos, ypos);
     }
     else
     {

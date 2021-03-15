@@ -3276,7 +3276,7 @@ void Abe::State_0_Idle_44EEB0()
                 }
 
                 // Bail if scale doesn't match
-                Path_Well_Local* pWell = static_cast<Path_Well_Local*>(pTlv);
+                Path_WellLocal* pWell = static_cast<Path_WellLocal*>(pTlv);
                 if ((pWell->field_0_scale != 0 || field_CC_sprite_scale != FP_FromDouble(1.0)) && (pWell->field_0_scale != 1 || field_CC_sprite_scale != FP_FromDouble(0.5)))
                 {
                     break;
@@ -6590,7 +6590,7 @@ void Abe::State_79_InsideWellLocal_45CA60()
         Path_WellBase* pBaseWell = static_cast<Path_WellBase*>(field_FC_pPathTLV);
         if (pBaseWell->field_4_type == TlvTypes::LocalWell_8)
         {
-            Path_Well_Local* pLocal = static_cast<Path_Well_Local*>(pBaseWell);
+            Path_WellLocal* pLocal = static_cast<Path_WellLocal*>(pBaseWell);
             if (SwitchStates_Get_466020(pBaseWell->field_2_trigger_id))
             {
                 Calc_Well_Velocity_45C530(
@@ -9190,7 +9190,7 @@ __int16 Abe::RunTryEnterWell_451060()
         return 0;
     }
 
-    auto pWellLocal = static_cast<Path_Well_Local*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+    auto pWellLocal = static_cast<Path_WellLocal*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
         FP_GetExponent(field_B8_xpos),
         FP_GetExponent(field_BC_ypos),
         FP_GetExponent(field_B8_xpos),

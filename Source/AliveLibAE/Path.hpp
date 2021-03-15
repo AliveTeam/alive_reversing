@@ -306,7 +306,7 @@ struct Path_WellBase : public Path_TLV
 };
 // TODO: Size
 
-struct Path_Well_Local : public Path_WellBase
+struct Path_WellLocal : public Path_WellBase
 {
     __int16 field_18_off_dx;
     __int16 field_1A_off_dy;

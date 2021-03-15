@@ -31,8 +31,26 @@
 #include "../AliveLibAE/WheelSyncer.hpp"
 #include "../AliveLibAE/LevelLoader.hpp"
 #include "../AliveLibAE/FlyingSligSpawner.hpp"
+#include "../AliveLibAE/FartMachine.hpp"
+#include "../AliveLibAE/Grinder.hpp"
+#include "../AliveLibAE/Mine.hpp"
 
 #define CTOR_AE(className, objectTypeName, tlvType)  className(TypesCollection& globalTypes, Path_TLV* pTlv = nullptr) : TlvObjectBaseAE(tlvType, objectTypeName, pTlv)
+
+struct Path_ZSligCover : public Path_TLV
+{
+    // Empty
+};
+
+struct Path_SligSpawner : public Path_TLV
+{
+    // Empty
+};
+
+struct Path_DeathDrop : public Path_TLV
+{
+    // Empty
+};
 
 struct Path_InvisibleZone : public Path_TLV
 {
@@ -836,6 +854,127 @@ namespace AETlvs
             ADD("max_velocity", mTlv.field_10.field_1A_max_velocity);
             ADD("launch_id", mTlv.field_10.field_1C_launch_id);
             ADD("persistant", mTlv.field_10.field_1E_persistant);
+        }
+    };
+
+    struct Path_DeathDrop : public TlvObjectBaseAE<::Path_DeathDrop>
+    {
+        CTOR_AE(Path_DeathDrop, "DeathDrop", TlvTypes::DeathDrop_4)
+        {
+            // Empty
+        }
+    };
+
+    struct Path_SligSpawner : public TlvObjectBaseAE<::Path_SligSpawner>
+    {
+        CTOR_AE(Path_SligSpawner, "SligSpawner", TlvTypes::SligSpawner_37)
+        {
+            // Empty
+        }
+    };
+
+    struct Path_Slig_LeftBound : public TlvObjectBaseAE<::Path_Slig_LeftBound>
+    {
+        CTOR_AE(Path_Slig_LeftBound, "SligLeftBound", TlvTypes::SligBoundLeft_32)
+        {
+            ADD("slig_id", mTlv.field_10_slig_id);
+            ADD("disabled_resources", mTlv.field_12_disabled_resources);
+        }
+    };
+
+    struct Path_Slig_RightBound : public TlvObjectBaseAE<::Path_Slig_RightBound>
+    {
+        CTOR_AE(Path_Slig_RightBound, "SligRightBound", TlvTypes::SligBoundRight_45)
+        {
+            ADD("slig_id", mTlv.field_10_slig_id);
+            ADD("disabled_resources", mTlv.field_12_disabled_resources);
+        }
+    };
+
+    struct Path_Slig_Persist : public TlvObjectBaseAE<::Path_Slig_Persist>
+    {
+        CTOR_AE(Path_Slig_Persist, "SligPersist", TlvTypes::SligPersist_46)
+        {
+            ADD("slig_id", mTlv.field_10_slig_id);
+            ADD("disabled_resources", mTlv.field_12_disabled_resources);
+        }
+    };
+
+    struct Path_ZSligCover : public TlvObjectBaseAE<::Path_ZSligCover>
+    {
+        CTOR_AE(Path_ZSligCover, "ZSligCover", TlvTypes::ZSligCover_50)
+        {
+            // Empty
+        }
+    };
+
+    struct Path_WellLocal : public TlvObjectBaseAE<::Path_WellLocal>
+    {
+        CTOR_AE(Path_WellLocal, "WellLocal", TlvTypes::LocalWell_8)
+        {
+            ADD("off_dx", mTlv.field_18_off_dx);
+            ADD("off_dy", mTlv.field_1A_off_dy);
+            ADD("on_dx", mTlv.field_1C_on_dx);
+            ADD("on_dy", mTlv.field_1E_on_dy);
+            ADD("emit_leaves", mTlv.field_20_emit_leaves);
+            ADD("leaf_x", mTlv.field_22_leaf_x);
+            ADD("leaf_y", mTlv.field_24_leaf_y);
+        }
+    };
+
+    struct Path_FartMachine : public TlvObjectBaseAE<::Path_FartMachine>
+    {
+        CTOR_AE(Path_FartMachine, "FartMachine", TlvTypes::FartMachine_101)
+        {
+            ADD("num_brews", mTlv.field_10_num_brews);
+        }
+    };
+
+    struct Path_Grinder : public TlvObjectBaseAE<::Path_Grinder>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<::GrinderBehavior>("Enum_GrinderBehavior",
+                {
+                    {::GrinderBehavior::eUnknown_0, "unknown"},
+                    {::GrinderBehavior::eToggle_1, "toggle"},
+                    {::GrinderBehavior::eUse_2, "use"},
+                });
+
+            types.AddEnum<::GrinderDirection>("Enum_GrinderDirection",
+                {
+                    {::GrinderDirection::eDown_0, "down"},
+                    {::GrinderDirection::eRight_1, "right"},
+                    {::GrinderDirection::eLeft_2, "left"},
+                });
+        }
+
+        CTOR_AE(Path_Grinder, "Grinder", TlvTypes::Grinder_90)
+        {
+            ADD("scale_background", mTlv.field_10_data.field_10_scale_background);
+            ADD("min_off_time", mTlv.field_10_data.field_12_min_off_time);
+            ADD("max_off_time", mTlv.field_10_data.field_14_max_off_time);
+            ADD("id", mTlv.field_10_data.field_16_id);
+            ADD("behavior", mTlv.field_10_data.field_18_behavior);
+            ADD("speed", mTlv.field_10_data.field_1A_speed);
+            ADD("start_state_on", mTlv.field_10_data.field_1C_start_state_on);
+            ADD("off_speed", mTlv.field_10_data.field_1E_off_speed);
+            ADD("min_off_time2", mTlv.field_10_data.field_20_min_off_time2);
+            ADD("max_off_time2", mTlv.field_10_data.field_22_max_off_time2);
+            ADD("start_position", mTlv.field_10_data.field_24_start_position);
+            ADD("direction", mTlv.field_10_data.field_26_direction);
+        }
+    };
+
+    struct Path_Mine : public TlvObjectBaseAE<::Path_Mine>
+    {
+        CTOR_AE(Path_Mine, "Mine", TlvTypes::Mine_24)
+        {
+            ADD("num_patterns", mTlv.field_10_num_patterns);
+            ADD("pattern", mTlv.field_12_pattern);
+            ADD("scale", mTlv.field_14_scale);
+            ADD("disabled_resources", mTlv.field_16_disabled_resources);
+            ADD("persists_offscreen", mTlv.field_18_persists_offscreen);
         }
     };
 }

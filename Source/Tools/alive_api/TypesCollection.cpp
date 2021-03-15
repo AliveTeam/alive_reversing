@@ -134,6 +134,16 @@ void TypesCollection::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_Pulley);
     REGISTER_TYPE_AE(AETlvs::Path_FlyingSlig);
     REGISTER_TYPE_AE(AETlvs::Path_FlyingSligSpawner);
+    REGISTER_TYPE_AE(AETlvs::Path_DeathDrop);
+    REGISTER_TYPE_AE(AETlvs::Path_SligSpawner);
+    REGISTER_TYPE_AE(AETlvs::Path_Slig_LeftBound);
+    REGISTER_TYPE_AE(AETlvs::Path_Slig_RightBound);
+    REGISTER_TYPE_AE(AETlvs::Path_Slig_Persist);
+    REGISTER_TYPE_AE(AETlvs::Path_ZSligCover);
+    REGISTER_TYPE_AE(AETlvs::Path_WellLocal);
+    REGISTER_TYPE_AE(AETlvs::Path_FartMachine);
+    REGISTER_TYPE_AE(AETlvs::Path_Grinder);
+    REGISTER_TYPE_AE(AETlvs::Path_Mine);
 
     for (auto& [key, value] : mTlvFactoryAE)
     {

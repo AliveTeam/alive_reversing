@@ -20,7 +20,7 @@ Well* Well::ctor_4E2BE0(Path_WellBase* pTlv, FP xpos, FP ypos, int tlvInfo)
 
     if (pTlv->field_4_type == TlvTypes::LocalWell_8)
     {
-        WellLocal_Init_4E2CD0(static_cast<Path_Well_Local*>(pTlv), xpos, ypos);
+        WellLocal_Init_4E2CD0(static_cast<Path_WellLocal*>(pTlv), xpos, ypos);
     }
     else
     {
@@ -90,7 +90,7 @@ void Well::WellExpress_Init_4E2E00(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
     }
 }
 
-void Well::WellLocal_Init_4E2CD0(Path_Well_Local* pTlv, FP /*xpos*/, FP ypos)
+void Well::WellLocal_Init_4E2CD0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
 {
     if (pTlv->field_0_scale)
     {
