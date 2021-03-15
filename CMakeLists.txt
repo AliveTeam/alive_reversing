@@ -29,7 +29,7 @@ set(CompilerFlags
         CMAKE_C_FLAGS_RELEASE
         )
 foreach(CompilerFlag ${CompilerFlags})
-  string(REPLACE "/MD" "/MT" ${CompilerFlag} "${${CompilerFlag}}")
+  string(REPLACE "/MD" "/MT /bigobj" ${CompilerFlag} "${${CompilerFlag}}")
   string(REPLACE "/W3" "" ${CompilerFlag} "${${CompilerFlag}}")
 endforeach()
 
