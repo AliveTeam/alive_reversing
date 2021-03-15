@@ -1540,9 +1540,9 @@ __int16 Abe::RunTryEnterWell_425880()
     return 0;
 }
 
-void Abe::ChangeChantState_430510(__int16 toggle)
+void Abe::ChangeChantState_430510(__int16 bKeepChanting)
 {
-    if (toggle)
+    if (bKeepChanting)
     {
         field_110_state.chant = ChantStates::eChantingForBirdPortal_6;
     }

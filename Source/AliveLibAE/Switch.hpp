@@ -13,6 +13,7 @@ enum class SwitchState : __int16
 
 enum class SwitchSoundType : __int16
 {
+    eNone = 0,
     eWell_1 = 1,
     eUnknown_2 = 2,
     eDoor_3 = 3,

@@ -440,7 +440,7 @@ public:
 
     EXPORT __int16 RunTryEnterWell_425880();
 
-    EXPORT void ChangeChantState_430510(__int16 a2);
+    EXPORT void ChangeChantState_430510(__int16 bKeepChanting);
 
     EXPORT static BaseAliveGameObject* CC FindObjectToPossess_421410();
 
