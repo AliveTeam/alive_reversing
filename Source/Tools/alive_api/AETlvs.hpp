@@ -410,7 +410,7 @@ namespace AETlvs
     {
         void AddTypes(TypesCollection& types) override
         {
-            types.AddEnum<::ShadowZoneScale>("Enum_Type",
+            types.AddEnum<::ShadowZoneScale>("Enum_ShadowZoneScale",
                 {
                     {::ShadowZoneScale::eBoth_0, "both"},
                     {::ShadowZoneScale::eHalf_1, "half"},
