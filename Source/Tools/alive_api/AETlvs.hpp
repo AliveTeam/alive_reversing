@@ -8,6 +8,9 @@
 #include "../AliveLibAE/BirdPortal.hpp"
 #include "../AliveLibAE/StatsSign.hpp"
 #include "../AliveLibAE/Door.hpp"
+#include "../AliveLibAE/BoomMachine.hpp"
+#include "../AliveLibAE/Slig.hpp"
+#include "../AliveLibAE/Fleech.hpp"
 
 #define CTOR_AE(className, objectTypeName, tlvType)  className(TypesCollection& globalTypes, Path_TLV* pTlv = nullptr) : TlvObjectBaseAE(tlvType, objectTypeName, pTlv)
 
@@ -162,6 +165,7 @@ namespace AETlvs
         {
             types.AddEnum<::SwitchSoundType>("Enum_SwitchSoundType",
                 {
+                    {::SwitchSoundType::eNone, "none"},
                     {::SwitchSoundType::eWell_1, "well"},
                     {::SwitchSoundType::eUnknown_2, "unknown"},
                     {::SwitchSoundType::eDoor_3, "door"},
@@ -216,4 +220,104 @@ namespace AETlvs
             ADD("Scale", mTlv.field_16_scale);
         }
     };
+
+    struct Path_BoomMachine : public TlvObjectBaseAE<::Path_BoomMachine>
+    {
+        CTOR_AE(Path_BoomMachine, "BoomMachine", TlvTypes::GrenadeMachine_59) // TODO: rename to BoomMachine
+        {
+            ADD("scale", mTlv.field_10_scale);
+            ADD("nozzle_side", mTlv.field_12_nozzle_side);
+            ADD("disabled_resources", mTlv.field_14_disabled_resources);
+            ADD("number_of_grenades", mTlv.field_16_number_of_grenades);
+        }
+    };
+
+    struct Path_Slig : public TlvObjectBaseAE<::Path_Slig>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<::Path_Slig::StartState>("Enum_StartState",
+                {
+                    {::Path_Slig::StartState::Listening_0, "listening"},
+                    {::Path_Slig::StartState::Paused_1, "paused"},
+                    {::Path_Slig::StartState::Sleeping_2, "sleeping"},
+                    {::Path_Slig::StartState::Chase_3, "chase"},
+                    {::Path_Slig::StartState::RunOffScreen_4, "run_off_screen"},
+                    {::Path_Slig::StartState::GameEnder_5, "game_ender"},
+                    {::Path_Slig::StartState::ListeningToGlukkon_6, "listening_to_glukkon"},
+                });
+        }
+
+        CTOR_AE(Path_Slig, "Slig", TlvTypes::Slig_15)
+        {
+            ADD("scale", mTlv.field_10_scale);
+            ADD("pause_time", mTlv.field_14_pause_time);
+            ADD("pause_left_min", mTlv.field_16_pause_left_min);
+            ADD("pause_left_max", mTlv.field_18_pause_left_max);
+            ADD("pause_right_min", mTlv.field_1A_pause_right_min);
+            ADD("pause_right_max", mTlv.field_1C_pause_right_max);
+            ADD("chal_number", mTlv.field_1E_chal_number);
+            ADD("chal_timer", mTlv.field_20_chal_timer);
+            ADD("num_times_to_shot", mTlv.field_22_num_times_to_shoot);
+            ADD("code_1", mTlv.field_26_code1);
+            ADD("code_2", mTlv.field_28_code2);
+            ADD("chase_abe", mTlv.field_2A_chase_abe);
+            ADD("start_direction", mTlv.field_2C_start_direction);
+            ADD("panic_timeout", mTlv.field_2E_panic_timeout);
+            ADD("num_panic_sounds", mTlv.field_30_num_panic_sounds);
+            ADD("panic_sound_timeout", mTlv.field_32_panic_sound_timeout);
+            ADD("stop_chase_delay", mTlv.field_34_stop_chase_delay);
+            ADD("time_to_wait_before_chase", mTlv.field_36_time_to_wait_before_chase);
+            ADD("slig_id", mTlv.field_38_slig_id);
+            ADD("percent_say_what", mTlv.field_3C_percent_say_what);
+            ADD("percent_beat_mud", mTlv.field_3E_percent_beat_mud);
+            ADD("talk_to_abe", mTlv.field_40_talk_to_abe);
+            ADD("dont_shoot", mTlv.field_42_dont_shoot);
+            ADD("z_shoot_delay", mTlv.field_44_Z_shoot_delay);
+            ADD("stay_awake", mTlv.field_46_stay_awake);
+            ADD("disable_resources", mTlv.field_48_disable_resources);
+            ADD("noise_wake_up_distance", mTlv.field_4A_noise_wake_up_distance);
+            ADD("id", mTlv.field_4C_id);
+            ADD("unknown", mTlv.field_4E_unknown);
+        }
+    };
+
+    struct Path_Fleech : public TlvObjectBaseAE<::Path_Fleech>
+    {
+        CTOR_AE(Path_Fleech, "Fleech", TlvTypes::Fleech_83)
+        {
+            ADD("scale", mTlv.field_10_scale);
+            ADD("direction", mTlv.field_12_direction);
+            ADD("asleep", mTlv.field_14_asleep);
+            ADD("attack_anger", mTlv.field_1A_attack_anger);
+            ADD("attack_delay", mTlv.field_1C_attack_delay);
+            ADD("wake_up_id", mTlv.field_1E_wake_up_id);
+            ADD("lost_target_timeout", mTlv.field_22_lost_target_timeout);
+            ADD("goes_to_sleep", mTlv.field_24_goes_to_sleep);
+            ADD("patrol_range_in_grids", mTlv.field_26_patrol_range_in_grids);
+            ADD("allow_wake_up_id", mTlv.field_2A_allow_wake_up_id);
+            ADD("persistant", mTlv.field_2C_persistant);
+        }
+    };
+
+    struct Path_EnemyStopper : public TlvObjectBaseAE<::Path_EnemyStopper>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<::Path_EnemyStopper::StopDirection>("Enum_StopDirection",
+                {
+                    {::Path_EnemyStopper::StopDirection::Left_0, "left"},
+                    {::Path_EnemyStopper::StopDirection::Right_1, "right"},
+                    {::Path_EnemyStopper::StopDirection::Both_2, "both"},
+                });
+        }
+
+        CTOR_AE(Path_EnemyStopper, "EnemyStopper", TlvTypes::EnemyStopper_47)
+        {
+            ADD("stop_direction", mTlv.field_10_stop_direction);
+            ADD("id", mTlv.field_12_id);
+        }
+    };
+
+    
 }

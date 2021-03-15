@@ -98,7 +98,10 @@ void TypesCollection::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_BirdPortal);
     REGISTER_TYPE_AE(AETlvs::Path_Mudokon);
     REGISTER_TYPE_AE(AETlvs::Path_ElectricWall);
-
+    REGISTER_TYPE_AE(AETlvs::Path_BoomMachine);
+    REGISTER_TYPE_AE(AETlvs::Path_Slig);
+    REGISTER_TYPE_AE(AETlvs::Path_Fleech);
+    REGISTER_TYPE_AE(AETlvs::Path_EnemyStopper);
     
     for (auto& [key, value] : mTlvFactoryAE)
     {
