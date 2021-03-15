@@ -167,7 +167,6 @@ EXPORT void CC Start_Sounds_for_TLV_476640(CameraPos direction, Path_TLV* pTlv)
 
         if (bDangerMusic)
         {
-            LOG_INFO("Seems there is some right old danger around, better play some warning jingle");
             auto pMusicTrigger = ao_new<MusicTrigger>();
             if (pMusicTrigger)
             {

@@ -186,7 +186,7 @@ namespace AliveAPI
                         if (*pathId >= 0 && *pathId <= pathRoot.PathCount())
                         {
                             // Path at this id have a name?
-                            const PathBlyRecAdapter  pBlyRec = pathRoot.PathAt(*pathId);
+                            const PathBlyRecAdapter pBlyRec = pathRoot.PathAt(*pathId);
                             if (pBlyRec.BlyName())
                             {
                                 // Copy out its info
@@ -281,200 +281,221 @@ namespace AliveAPI
         return {};
     }
 
+    template<typename ReturnType, typename ContainerType>
+    static ReturnType* ItemAtXY(ContainerType& container, int x, int y)
+    {
+        for (auto& iteratedItem : container)
+        {
+            if (iteratedItem.x == x && iteratedItem.y == y)
+            {
+                return &iteratedItem;
+            }
+        }
+        return nullptr;
+    }
+
+    template<typename ItemType, typename ContainerType, typename FnOnItem>
+    static void ForEachItemAtXY(const PathInfo& pathInfo, ContainerType& container, FnOnItem onItem)
+    {
+        for (int x = 0; x < pathInfo.mWidth; x++)
+        {
+            for (int y = 0; y < pathInfo.mHeight; y++)
+            {
+                auto item = ItemAtXY<ItemType>(container, x, y);
+                if (item)
+                {
+                    onItem(*item);
+                }
+            }
+        }
+    }
+
+    static void WriteCollisionLine(ByteStream& s, const AO::PathLine& line)
+    {
+        s.Write(line.field_0_rect.x);
+        s.Write(line.field_0_rect.y);
+        s.Write(line.field_0_rect.w);
+        s.Write(line.field_0_rect.h);
+
+        s.Write(line.field_8_type);
+        s.Write(line.field_9_pad);
+        s.Write(line.field_A_pad);
+        s.Write(line.field_B_pad);
+
+        s.Write(line.field_C_previous);
+        s.Write(line.field_10_next);
+    }
+
     [[nodiscard]] Result ImportPathJsonToBinary(const std::string& jsonInputFile, const std::string& outputLvlFile, const std::vector<std::string>& /*lvlResourceSources*/)
     {
         Result ret = {};
 
-        JsonReaderAO doc;
-        auto [camerasAndMapObjects, collisionLines] = doc.Load(jsonInputFile);
+        JsonMapRootInfoReader rootInfo;
+        if (!rootInfo.Read(jsonInputFile))
+        {
+            abort();
+        }
 
-        if (doc.mRootInfo.mVersion != GetApiVersion())
+        if (rootInfo.mMapRootInfo.mVersion != GetApiVersion())
         {
             ret.mResult = Error::JsonFileNeedsUpgrading;
             return ret;
         }
 
-        LvlWriter lvl(outputLvlFile.c_str());
-        if (!lvl.IsOpen())
+        if (rootInfo.mMapRootInfo.mGame == "AO")
         {
-            abort();
-        }
+            JsonReaderAO doc;
+            auto [camerasAndMapObjects, collisionLines] = doc.LoadAO(jsonInputFile);
 
-        std::optional<std::vector<BYTE>> oldPathBnd = lvl.ReadFile(doc.mRootInfo.mPathBnd.c_str());
-        if (!oldPathBnd)
-        {
-            abort();
-        }
-
-        ChunkedLvlFile pathBndFile(*oldPathBnd);
-        std::optional<LvlFileChunk> chunk = pathBndFile.ChunkById(doc.mRootInfo.mPathId);
-        if (!chunk)
-        {
-            abort();
-        }
-
-        const AO::PathBlyRec* pPathBlyRec = nullptr;
-        for (int i = 0; i < ALIVE_COUNTOF(AO::gMapData_4CAB58.paths); i++)
-        {
-            auto pathRoot = &AO::gMapData_4CAB58.paths[i];
-            if (doc.mRootInfo.mPathBnd == pathRoot->field_38_bnd_name)
+            LvlWriter lvl(outputLvlFile.c_str());
+            if (!lvl.IsOpen())
             {
-                if (doc.mRootInfo.mPathId >= 0 && doc.mRootInfo.mPathId < pathRoot->field_18_num_paths)
+                abort();
+            }
+
+            std::optional<std::vector<BYTE>> oldPathBnd = lvl.ReadFile(doc.mRootInfo.mPathBnd.c_str());
+            if (!oldPathBnd)
+            {
+                abort();
+            }
+
+            ChunkedLvlFile pathBndFile(*oldPathBnd);
+            std::optional<LvlFileChunk> chunk = pathBndFile.ChunkById(doc.mRootInfo.mPathId);
+            if (!chunk)
+            {
+                abort();
+            }
+
+            PathRootContainerAdapter pathRootContainer(Game::AO);
+            std::optional<PathBlyRecAdapter> pathBlyRecAdapter;
+            for (int i = 0; i < pathRootContainer.PathRootCount(); i++)
+            {
+                PathRootAdapter pathRoot = pathRootContainer.PathAt(i);
+                if (doc.mRootInfo.mPathBnd == pathRoot.BndName())
                 {
-                    pPathBlyRec = &pathRoot->field_0_pBlyArrayPtr[doc.mRootInfo.mPathId];
-                    break;
+                    if (doc.mRootInfo.mPathId >= 0 && doc.mRootInfo.mPathId < pathRoot.PathCount())
+                    {
+                        pathBlyRecAdapter = pathRoot.PathAt(doc.mRootInfo.mPathId);
+                        break;
+                    }
                 }
             }
-        }
 
-        if (!pPathBlyRec)
-        {
-            abort();
-        }
-       
-        const PathInfo pathInfo = ToPathInfo(*pPathBlyRec->field_4_pPathData, *pPathBlyRec->field_8_pCollisionData);
-
-        std::size_t pathResourceLen = 0;
-        pathResourceLen += collisionLines.size() * sizeof(AO::PathLine); // TODO: Calc a better estimate
-        
-        ByteStream s;
-        s.ReserveSize(pathResourceLen);
-
-        // Write camera array
-        for (int x = 0; x < pathInfo.mWidth; x++)
-        {
-            for (int y = 0; y < pathInfo.mHeight; y++)
+            if (!pathBlyRecAdapter)
             {
-                bool found = false;
-                for (const CameraNameAndTlvBlob& camIter : camerasAndMapObjects)
+                abort();
+            }
+
+            const PathInfo pathInfo = pathBlyRecAdapter->ConvertPathInfo();
+
+            std::size_t pathResourceLen = 0;
+            pathResourceLen += collisionLines.size() * sizeof(AO::PathLine); // TODO: Calc a better estimate
+
+            ByteStream s;
+            s.ReserveSize(pathResourceLen);
+
+            // Write camera array
+            for (int x = 0; x < pathInfo.mWidth; x++)
+            {
+                for (int y = 0; y < pathInfo.mHeight; y++)
                 {
-                    if (camIter.x == x && camIter.y == y)
+                    CameraNameAndTlvBlob* pItem = ItemAtXY<CameraNameAndTlvBlob>(camerasAndMapObjects, x, y);
+                    if (pItem)
                     {
-                        if (camIter.mName.length() != 8)
+                        if (pItem->mName.length() != 8)
                         {
                             abort();
                         }
-                        s.Write(camIter.mName);
-                        found = true;
-                        break;
+                        s.Write(pItem->mName);
+                    }
+                    else
+                    {
+                        const static BYTE blank[8] = {};
+                        s.Write(blank);
                     }
                 }
-
-                if (!found)
-                {
-                    const static BYTE blank[8] = {};
-                    s.Write(blank);
-                }
             }
-        }
 
-        if (collisionLines.size() > pathInfo.mNumCollisionItems)
-        {
-            abort();
-        }
-
-        // Write collision lines
-        for (const AO::PathLine& line : collisionLines)
-        {
-            s.Write(line.field_0_rect.x);
-            s.Write(line.field_0_rect.y);
-            s.Write(line.field_0_rect.w);
-            s.Write(line.field_0_rect.h);
-
-            s.Write(line.field_8_type);
-            s.Write(line.field_9_pad);
-            s.Write(line.field_A_pad);
-            s.Write(line.field_B_pad);
-
-            s.Write(line.field_C_previous);
-            s.Write(line.field_10_next);
-        }
-
-        struct IndexTableEntry
-        {
-            int x = 0;
-            int y = 0;
-            int objectsOffset = 0;
-        };
-
-        // Write object lists for each camera, either put everything before the index table if it fits, or put
-        // everything after the index table as the game can enumerate ALL tlvs in one go. Thus splitting it across the index table
-        // area would break that logic.
-        // Additionally construct the index table offsets as we go.
-        std::size_t allTlvsLen = 0;
-        for (const CameraNameAndTlvBlob& camIter : camerasAndMapObjects)
-        {
-            for (const auto& tlv : camIter.mTlvBlobs)
+            if (collisionLines.size() > pathInfo.mNumCollisionItems)
             {
-                allTlvsLen += tlv.size();
+                abort();
             }
-        }
 
-        // Data would overwrite the index table, put everything after it
-        if (allTlvsLen + pathInfo.mObjectOffset > pathInfo.mIndexTableOffset)
-        {
-            s.SeekWrite(pathInfo.mObjectOffset + (sizeof(int) * pathInfo.mWidth * pathInfo.mHeight));
-        }
-
-        std::vector<IndexTableEntry> indexTable;
-        for (int x = 0; x < pathInfo.mWidth; x++)
-        {
-            for (int y = 0; y < pathInfo.mHeight; y++)
+            // Write collision lines
+            for (const AO::PathLine& line : collisionLines)
             {
-                bool found = false;
-                for (const CameraNameAndTlvBlob& camIter : camerasAndMapObjects)
+                WriteCollisionLine(s, line);
+            }
+
+            struct IndexTableEntry
+            {
+                int x = 0;
+                int y = 0;
+                int objectsOffset = 0;
+            };
+
+            // Write object lists for each camera, either put everything before the index table if it fits, or put
+            // everything after the index table as the game can enumerate ALL tlvs in one go. Thus splitting it across the index table
+            // area would break that logic.
+            // Additionally construct the index table offsets as we go.
+            std::size_t allTlvsLen = 0;
+            for (const CameraNameAndTlvBlob& camIter : camerasAndMapObjects)
+            {
+                allTlvsLen += camIter.TotalTlvSize();
+            }
+
+            // Data would overwrite the index table, put everything after it
+            if (allTlvsLen + pathInfo.mObjectOffset > pathInfo.mIndexTableOffset)
+            {
+                s.SeekWrite(pathInfo.mObjectOffset + (sizeof(int) * pathInfo.mWidth * pathInfo.mHeight));
+            }
+
+            std::vector<IndexTableEntry> indexTable;
+            for (int x = 0; x < pathInfo.mWidth; x++)
+            {
+                for (int y = 0; y < pathInfo.mHeight; y++)
                 {
-                    if (camIter.x == x && camIter.y == y)
+                    CameraNameAndTlvBlob* pItem = ItemAtXY<CameraNameAndTlvBlob>(camerasAndMapObjects, x, y);
+                    if (pItem)
                     {
                         const int objDataOff = static_cast<int>(s.WritePos()) - static_cast<int>(pathInfo.mObjectOffset);
-
-                        for (const auto& tlv : camIter.mTlvBlobs)
+                        indexTable.push_back({ x, y, objDataOff });
+                        for (const auto& tlv : pItem->mTlvBlobs)
                         {
                             s.Write(tlv);
                         }
-
-                        indexTable.push_back({ x, y, objDataOff });
-                        found = true;
-                        break;
                     }
-                }
-
-                if (!found)
-                {
-                    indexTable.push_back({ x, y, -1 });
-                }
-            }
-        }
-
-        // Write index table values we just populated at the correct offset
-        s.SeekWrite(pathInfo.mIndexTableOffset);
-        for (int x = 0; x < pathInfo.mWidth; x++)
-        {
-            for (int y = 0; y < pathInfo.mHeight; y++)
-            {
-                for (const IndexTableEntry& tableEntry : indexTable)
-                {
-                    if (tableEntry.x == x && tableEntry.y == y)
+                    else
                     {
-                        s.Write(tableEntry.objectsOffset);
+                        indexTable.push_back({ x, y, -1 });
                     }
                 }
             }
+
+            // Write index table values we just populated at the correct offset
+            s.SeekWrite(pathInfo.mIndexTableOffset);
+            ForEachItemAtXY<IndexTableEntry>(pathInfo, indexTable, [&](const IndexTableEntry& tableEntry) {
+                s.Write(tableEntry.objectsOffset);
+                });
+
+            // Push the path resource into a file chunk
+            LvlFileChunk newPathBlock(doc.mRootInfo.mPathId, ResourceManager::ResourceType::Resource_Path, s.GetBuffer());
+
+            // Add or replace the original file chunk
+            pathBndFile.AddChunk(newPathBlock);
+
+            // Add or replace the original path BND in the lvl
+            lvl.AddFile(doc.mRootInfo.mPathBnd.c_str(), pathBndFile.Data());
+
+            // Write out the updated lvl to disk
+            if (!lvl.Save())
+            {
+                abort();
+            }
         }
-
-        // Push the path resource into a file chunk
-        LvlFileChunk newPathBlock(doc.mRootInfo.mPathId, ResourceManager::ResourceType::Resource_Path, s.GetBuffer());
-
-        // Add or replace the original file chunk
-        pathBndFile.AddChunk(newPathBlock);
-
-        // Add or replace the original path BND in the lvl
-        lvl.AddFile(doc.mRootInfo.mPathBnd.c_str(), pathBndFile.Data());
-
-        // Write out the updated lvl to disk
-        if (!lvl.Save())
+        else
         {
-            abort();
+
         }
 
         return ret;

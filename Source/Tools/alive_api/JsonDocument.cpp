@@ -11,7 +11,65 @@
 #include <streambuf>
 #include <magic_enum/include/magic_enum.hpp>
 
-std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonReaderAO::Load(const std::string& fileName)
+
+static jsonxx::Object AOLineToJsonObject(const AO::PathLine& line)
+{
+    jsonxx::Object obj;
+
+    obj << "x1" << static_cast<int>(line.field_0_rect.x);
+    obj << "y1" << static_cast<int>(line.field_0_rect.y);
+
+    obj << "x2" << static_cast<int>(line.field_0_rect.w);
+    obj << "y2" << static_cast<int>(line.field_0_rect.h);
+
+    obj << "type" << static_cast<int>(line.field_8_type);
+
+    obj << "next" << line.field_10_next;
+    obj << "previous" << line.field_C_previous;
+
+    return obj;
+}
+
+static AO::PathLine JsonObjectToAOLine(jsonxx::Object& collision)
+{
+    AO::PathLine col = {};
+    col.field_0_rect.x = collision.get<jsonxx::Number>("x1");
+    col.field_0_rect.y = collision.get<jsonxx::Number>("y1");
+
+    col.field_0_rect.w = collision.get<jsonxx::Number>("x2");
+    col.field_0_rect.h = collision.get<jsonxx::Number>("y2");
+
+    col.field_8_type = collision.get<jsonxx::Number>("type");
+    col.field_10_next = collision.get<jsonxx::Number>("next");
+    col.field_C_previous = collision.get<jsonxx::Number>("previous");
+
+    return col;
+}
+
+static jsonxx::Object AELineToJsonObject(const PathLine& line)
+{
+    jsonxx::Object obj;
+
+    obj << "x1" << static_cast<int>(line.field_0_rect.x);
+    obj << "y1" << static_cast<int>(line.field_0_rect.y);
+
+    obj << "x2" << static_cast<int>(line.field_0_rect.w);
+    obj << "y2" << static_cast<int>(line.field_0_rect.h);
+
+    obj << "type" << static_cast<int>(line.field_8_type);
+
+    obj << "previous" << static_cast<int>(line.field_A_previous);
+    obj << "next" << static_cast<int>(line.field_C_next);
+
+    obj << "previous2" << static_cast<int>(line.field_E_previous2);
+    obj << "next2" << static_cast<int>(line.field_10_next2);
+
+    obj << "length" << static_cast<int>(line.field_12_line_length);
+
+    return obj;
+}
+
+std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonReaderAO::LoadAO(const std::string& fileName)
 {
     std::ifstream inputFileStream(fileName.c_str());
     std::string jsonStr((std::istreambuf_iterator<char>(inputFileStream)), std::istreambuf_iterator<char>());
@@ -22,19 +80,6 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonRead
         abort();
     }
 
-    if (!rootObj.has<jsonxx::Number>("api_version"))
-    {
-        abort();
-    }
-
-    mRootInfo.mVersion = rootObj.get<jsonxx::Number>("api_version");
-    if (mRootInfo.mVersion != AliveAPI::GetApiVersion())
-    {
-        // TODO: Upgrade
-        abort();
-    }
-
-  
     if (!rootObj.has<jsonxx::Object>("map"))
     {
         abort();
@@ -71,19 +116,7 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonRead
     for (int i = 0; i < collisionsArray.values().size(); i++)
     {
         jsonxx::Object collision = collisionsArray.get<jsonxx::Object>(i);
-
-        AO::PathLine col = {};
-        col.field_0_rect.x = collision.get<jsonxx::Number>("x1");
-        col.field_0_rect.y = collision.get<jsonxx::Number>("y1");
-        
-        col.field_0_rect.w = collision.get<jsonxx::Number>("x2");
-        col.field_0_rect.h = collision.get<jsonxx::Number>("y2");
-
-        col.field_8_type = collision.get<jsonxx::Number>("type");
-        col.field_10_next = collision.get<jsonxx::Number>("next");
-        col.field_C_previous = collision.get<jsonxx::Number>("previous");
-
-        lines.emplace_back(col);
+        lines.emplace_back(JsonObjectToAOLine(collision));
     }
 
     if (!map.has<jsonxx::Array>("cameras"))
@@ -141,49 +174,7 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonRead
 JsonWriterAO::JsonWriterAO(int pathId, const std::string& pathBndName, const PathInfo& info)
     : JsonWriterBase(pathId, pathBndName, info)
 {
-    mRootInfo.mGame = "AO";
-}
-
-static jsonxx::Object ToJsonObject(const AO::PathLine& line)
-{
-    jsonxx::Object obj;
-
-    obj << "x1" << static_cast<int>(line.field_0_rect.x);
-    obj << "y1" << static_cast<int>(line.field_0_rect.y);
-
-    obj << "x2" << static_cast<int>(line.field_0_rect.w);
-    obj << "y2" << static_cast<int>(line.field_0_rect.h);
-
-    obj << "type" << static_cast<int>(line.field_8_type);
-
-    obj << "next" << line.field_10_next;
-    obj << "previous" << line.field_C_previous;
-
-    return obj;
-}
-
-
-static jsonxx::Object ToJsonObject(const PathLine& line)
-{
-    jsonxx::Object obj;
-
-    obj << "x1" << static_cast<int>(line.field_0_rect.x);
-    obj << "y1" << static_cast<int>(line.field_0_rect.y);
-
-    obj << "x2" << static_cast<int>(line.field_0_rect.w);
-    obj << "y2" << static_cast<int>(line.field_0_rect.h);
-
-    obj << "type" << static_cast<int>(line.field_8_type);
-
-    obj << "previous" << static_cast<int>(line.field_A_previous);
-    obj << "next" << static_cast<int>(line.field_C_next);
-
-    obj << "previous2" << static_cast<int>(line.field_E_previous2);
-    obj << "next2" << static_cast<int>(line.field_10_next2);
-    
-    obj << "length" << static_cast<int>(line.field_12_line_length);
-
-    return obj;
+    mMapRootInfo.mGame = "AO";
 }
 
 jsonxx::Array JsonWriterAO::ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr)
@@ -233,7 +224,7 @@ jsonxx::Array JsonWriterAO::ReadCollisionStream(BYTE* ptr, int numItems)
     AO::PathLine* pLineIter = reinterpret_cast<AO::PathLine*>(ptr);
     for (int i = 0; i < numItems; i++)
     {
-        collisionsArray << ToJsonObject(pLineIter[i]);
+        collisionsArray << AOLineToJsonObject(pLineIter[i]);
     }
     return collisionsArray;
 }
@@ -241,34 +232,34 @@ jsonxx::Array JsonWriterAO::ReadCollisionStream(BYTE* ptr, int numItems)
 
 JsonWriterBase::JsonWriterBase(int pathId, const std::string& pathBndName, const PathInfo& info)
 {
-    mRootInfo.mPathId = pathId;
-    mRootInfo.mPathBnd = pathBndName;
-    mRootInfo.mXGridSize = info.mGridWidth;
-    mRootInfo.mYGridSize = info.mGridHeight;
+    mMapInfo.mPathId = pathId;
+    mMapInfo.mPathBnd = pathBndName;
+    mMapInfo.mXGridSize = info.mGridWidth;
+    mMapInfo.mYGridSize = info.mGridHeight;
 
-    mRootInfo.mXSize = info.mWidth;
-    mRootInfo.mYSize = info.mHeight;
+    mMapInfo.mXSize = info.mWidth;
+    mMapInfo.mYSize = info.mHeight;
 
-    mRootInfo.mVersion = AliveAPI::GetApiVersion();
+    mMapRootInfo.mVersion = AliveAPI::GetApiVersion();
 }
 
 void JsonWriterBase::Save(const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName)
 {
     jsonxx::Object rootObject;
 
-    rootObject << "api_version" << mRootInfo.mVersion;
+    rootObject << "api_version" << mMapRootInfo.mVersion;
 
-    rootObject << "game" << mRootInfo.mGame;
+    rootObject << "game" << mMapRootInfo.mGame;
 
     jsonxx::Object rootMapObject;
-    rootMapObject << "path_bnd" << mRootInfo.mPathBnd;
-    rootMapObject << "path_id" << mRootInfo.mPathId;
+    rootMapObject << "path_bnd" << mMapInfo.mPathBnd;
+    rootMapObject << "path_id" << mMapInfo.mPathId;
 
-    rootMapObject << "x_grid_size" << mRootInfo.mXGridSize;
-    rootMapObject << "x_size" << mRootInfo.mXSize;
+    rootMapObject << "x_grid_size" << mMapInfo.mXGridSize;
+    rootMapObject << "x_size" << mMapInfo.mXSize;
 
-    rootMapObject << "y_grid_size" << mRootInfo.mYGridSize;
-    rootMapObject << "y_size" << mRootInfo.mYSize;
+    rootMapObject << "y_grid_size" << mMapInfo.mYGridSize;
+    rootMapObject << "y_size" << mMapInfo.mYSize;
 
     BYTE* pPathData = pathResource.data();
 
@@ -343,7 +334,7 @@ void JsonWriterBase::Save(const PathInfo& info, std::vector<BYTE>& pathResource,
 JsonWriterAE::JsonWriterAE(int pathId, const std::string& pathBndName, const PathInfo& info)
     : JsonWriterBase(pathId, pathBndName, info)
 {
-    mRootInfo.mGame = "AE";
+    mMapRootInfo.mGame = "AE";
 }
 
 jsonxx::Array JsonWriterAE::ReadCollisionStream(BYTE* ptr, int numItems)
@@ -352,7 +343,7 @@ jsonxx::Array JsonWriterAE::ReadCollisionStream(BYTE* ptr, int numItems)
     PathLine* pLineIter = reinterpret_cast<PathLine*>(ptr);
     for (int i = 0; i < numItems; i++)
     {
-        collisionsArray << ToJsonObject(pLineIter[i]);
+        collisionsArray << AELineToJsonObject(pLineIter[i]);
     }
     return collisionsArray;
 }
@@ -388,4 +379,46 @@ jsonxx::Array JsonWriterAE::ReadTlvStream(TypesCollection& globalTypes, BYTE* pt
 std::unique_ptr<TypesCollection> JsonWriterAE::MakeTypesCollection() const
 {
     return std::make_unique<TypesCollection>(Game::AE);
+}
+
+bool JsonMapRootInfoReader::Read(const std::string& fileName)
+{
+    std::ifstream inputFileStream(fileName.c_str());
+    std::string jsonStr((std::istreambuf_iterator<char>(inputFileStream)), std::istreambuf_iterator<char>());
+
+    jsonxx::Object rootObj;
+    if (!rootObj.parse(jsonStr))
+    {
+        abort();
+    }
+
+    if (!rootObj.has<jsonxx::Number>("api_version"))
+    {
+        abort();
+    }
+
+    mMapRootInfo.mVersion = rootObj.get<jsonxx::Number>("api_version");
+    if (mMapRootInfo.mVersion != AliveAPI::GetApiVersion())
+    {
+        // TODO: Upgrade
+        abort();
+    }
+
+    if (!rootObj.has<jsonxx::String>("game"))
+    {
+        abort();
+    }
+    mMapRootInfo.mGame = rootObj.get<jsonxx::String>("game");
+
+    if (mMapRootInfo.mGame == "AO")
+    {
+        return true;
+    }
+
+    if (mMapRootInfo.mGame == "AE")
+    {
+        return true;
+    }
+
+    abort();
 }

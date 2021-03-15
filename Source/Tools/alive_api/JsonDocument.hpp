@@ -52,13 +52,26 @@ struct CameraNameAndTlvBlob
     int y = 0;
     std::string mName;
     std::vector<std::vector<BYTE>> mTlvBlobs;
+
+    std::size_t TotalTlvSize() const
+    {
+        std::size_t allTlvsLen = 0;
+        for (const auto& tlv : mTlvBlobs)
+        {
+            allTlvsLen += tlv.size();
+        }
+        return allTlvsLen;
+    }
 };
 
 struct MapRootInfo
 {
     int mVersion = 0;
     std::string mGame;
+};
 
+struct MapInfo
+{
     std::string mPathBnd;
     int mPathId = 0;
 
@@ -69,12 +82,19 @@ struct MapRootInfo
     int mYSize = 0;
 };
 
+// Reads the root fields to read the version/game type (we need to know this so we can create a game specific reader/do an upgrade of the json).
+class JsonMapRootInfoReader
+{
+public:
+    bool Read(const std::string& fileName);
+    MapRootInfo mMapRootInfo;
+};
+
 class JsonReaderAO
 {
 public:
-    std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> Load(const std::string& fileName);
-
-    MapRootInfo mRootInfo;
+    std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> LoadAO(const std::string& fileName);
+    MapInfo mRootInfo;
 };
 
 class TypesCollection;
@@ -90,7 +110,8 @@ protected:
     virtual jsonxx::Array ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr) = 0;
     virtual std::unique_ptr<TypesCollection> MakeTypesCollection() const = 0;
 protected:
-    MapRootInfo mRootInfo;
+    MapRootInfo mMapRootInfo;
+    MapInfo mMapInfo;
 };
 
 class JsonWriterAO : public JsonWriterBase

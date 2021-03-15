@@ -114,7 +114,6 @@ namespace AETlvs
 
     struct Path_StatsSign : public TlvObjectBaseAE<::Path_StatsSign>
     {
-    public:
         CTOR_AE(Path_StatsSign, "StatsSign", TlvTypes::StatusBoard_64)
         {
             ADD("number_of_muds", mTlv.field_10_number_of_muds);
