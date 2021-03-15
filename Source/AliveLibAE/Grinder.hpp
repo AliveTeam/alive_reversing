@@ -14,6 +14,7 @@ enum class GrinderDirection : __int16
 
 enum class GrinderBehavior : __int16
 {
+    eUnknown_0 = 0,
     eToggle_1 = 1,
     eUse_2 = 2
 };

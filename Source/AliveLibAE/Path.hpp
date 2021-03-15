@@ -47,7 +47,7 @@ enum class TlvTypes : short
     Paramite_26 = 26,
     MovieHandStone_27 = 27,
     BirdPortal_28 = 28,
-    PortalExit_29 = 29,
+    BirdPortalExit_29 = 29,
     TrapDoor_30 = 30,
     RollingRock_31 = 31,
     SligBoundLeft_32 = 32,
@@ -102,14 +102,14 @@ enum class TlvTypes : short
     LaughingGas_81 = 81,
     FlyingSlig_82 = 82,
     Fleech_83 = 83,
-    Slurgs_84 = 84,
+    Slurg_84 = 84,
     SlamDoor_85 = 85,
     LevelLoader_86 = 86,
     DemoSpawnPoint_87 = 87,
     Teleporter_88 = 88,
     SlurgSpawner_89 = 89,
     Grinder_90 = 90,
-    ColorfulMeter_91 = 91,
+    ColourfulMeter_91 = 91,
     FlyingSligSpawner_92 = 92,
     MineCar_93 = 93,
     BoneBag_94 = 94,
@@ -306,7 +306,7 @@ struct Path_WellBase : public Path_TLV
 };
 // TODO: Size
 
-struct Path_Well_Local : public Path_WellBase
+struct Path_WellLocal : public Path_WellBase
 {
     __int16 field_18_off_dx;
     __int16 field_1A_off_dy;

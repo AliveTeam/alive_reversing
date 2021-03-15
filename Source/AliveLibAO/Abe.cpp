@@ -1502,7 +1502,7 @@ __int16 Abe::RunTryEnterWell_425880()
         return 0;
     }
 
-    auto pWellLocal = static_cast<Path_Well_Local*>(gMap_507BA8.TLV_Get_At_446260(
+    auto pWellLocal = static_cast<Path_WellLocal*>(gMap_507BA8.TLV_Get_At_446260(
         FP_GetExponent(field_A8_xpos),
         FP_GetExponent(field_AC_ypos),
         FP_GetExponent(field_A8_xpos),
@@ -3978,7 +3978,7 @@ void Abe::State_0_Idle_423520()
                 }
                 case TlvTypes::LocalWell_11:
                 {
-                    auto well = static_cast<Path_Well_Local*>(pTlv);
+                    auto well = static_cast<Path_WellLocal*>(pTlv);
                     if ((well->field_18_scale || field_BC_sprite_scale != FP_FromInteger(1)) &&
                         (well->field_18_scale != 1 || field_BC_sprite_scale != FP_FromDouble(0.5)))
                     {
@@ -7913,7 +7913,7 @@ void Abe::State_78_InsideWellLocal_4310A0()
         {
             if (SwitchStates_Get(pWellBase->field_1A_trigger_id))
             {
-                auto pLocalWell = static_cast<Path_Well_Local*>(field_F0_pTlv);
+                auto pLocalWell = static_cast<Path_WellLocal*>(field_F0_pTlv);
                 field_B4_velx = (field_BC_sprite_scale * FP_FromInteger(pLocalWell->field_28_on_dx) / FP_FromInteger(100));
                 field_B8_vely = (field_BC_sprite_scale * FP_FromInteger(pLocalWell->field_2A_on_dy) / FP_FromInteger(100));
             }

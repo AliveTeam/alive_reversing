@@ -31,8 +31,54 @@
 #include "../AliveLibAE/WheelSyncer.hpp"
 #include "../AliveLibAE/LevelLoader.hpp"
 #include "../AliveLibAE/FlyingSligSpawner.hpp"
+#include "../AliveLibAE/FartMachine.hpp"
+#include "../AliveLibAE/Grinder.hpp"
+#include "../AliveLibAE/Mine.hpp"
+#include "../AliveLibAE/Slog.hpp"
+#include "../AliveLibAE/TrapDoor.hpp"
+#include "../AliveLibAE/LiftMover.hpp"
+#include "../AliveLibAE/RockSack.hpp"
+#include "../AliveLibAE/TimerTrigger.hpp"
+#include "../AliveLibAE/MotionDetector.hpp"
+#include "../AliveLibAE/MineCar.hpp"
+#include "../AliveLibAE/ExplosionSet.hpp"
+#include "../AliveLibAE/ColourfulMeter.hpp"
+#include "../AliveLibAE/SlapLock.hpp"
+#include "../AliveLibAE/Slurg.hpp"
+#include "../AliveLibAE/DoorBlocker.hpp"
+#include "../AliveLibAE/Dove.hpp"
 
 #define CTOR_AE(className, objectTypeName, tlvType)  className(TypesCollection& globalTypes, Path_TLV* pTlv = nullptr) : TlvObjectBaseAE(tlvType, objectTypeName, pTlv)
+
+struct Path_DemoSpawnPoint : public Path_TLV
+{
+    // Empty
+};
+
+struct Path_PathTransition : public Path_TLV
+{
+    // Empty
+};
+
+struct Path_Null_76 : public Path_TLV
+{
+    // Empty
+};
+
+struct Path_ZSligCover : public Path_TLV
+{
+    // Empty
+};
+
+struct Path_SligSpawner : public Path_TLV
+{
+    // Empty
+};
+
+struct Path_DeathDrop : public Path_TLV
+{
+    // Empty
+};
 
 struct Path_InvisibleZone : public Path_TLV
 {
@@ -836,6 +882,351 @@ namespace AETlvs
             ADD("max_velocity", mTlv.field_10.field_1A_max_velocity);
             ADD("launch_id", mTlv.field_10.field_1C_launch_id);
             ADD("persistant", mTlv.field_10.field_1E_persistant);
+        }
+    };
+
+    struct Path_DeathDrop : public TlvObjectBaseAE<::Path_DeathDrop>
+    {
+        CTOR_AE(Path_DeathDrop, "DeathDrop", TlvTypes::DeathDrop_4)
+        {
+            // Empty
+        }
+    };
+
+    struct Path_SligSpawner : public TlvObjectBaseAE<::Path_SligSpawner>
+    {
+        CTOR_AE(Path_SligSpawner, "SligSpawner", TlvTypes::SligSpawner_37)
+        {
+            // Empty
+        }
+    };
+
+    struct Path_Slig_LeftBound : public TlvObjectBaseAE<::Path_Slig_LeftBound>
+    {
+        CTOR_AE(Path_Slig_LeftBound, "SligLeftBound", TlvTypes::SligBoundLeft_32)
+        {
+            ADD("slig_id", mTlv.field_10_slig_id);
+            ADD("disabled_resources", mTlv.field_12_disabled_resources);
+        }
+    };
+
+    struct Path_Slig_RightBound : public TlvObjectBaseAE<::Path_Slig_RightBound>
+    {
+        CTOR_AE(Path_Slig_RightBound, "SligRightBound", TlvTypes::SligBoundRight_45)
+        {
+            ADD("slig_id", mTlv.field_10_slig_id);
+            ADD("disabled_resources", mTlv.field_12_disabled_resources);
+        }
+    };
+
+    struct Path_Slig_Persist : public TlvObjectBaseAE<::Path_Slig_Persist>
+    {
+        CTOR_AE(Path_Slig_Persist, "SligPersist", TlvTypes::SligPersist_46)
+        {
+            ADD("slig_id", mTlv.field_10_slig_id);
+            ADD("disabled_resources", mTlv.field_12_disabled_resources);
+        }
+    };
+
+    struct Path_ZSligCover : public TlvObjectBaseAE<::Path_ZSligCover>
+    {
+        CTOR_AE(Path_ZSligCover, "ZSligCover", TlvTypes::ZSligCover_50)
+        {
+            // Empty
+        }
+    };
+
+    struct Path_WellLocal : public TlvObjectBaseAE<::Path_WellLocal>
+    {
+        CTOR_AE(Path_WellLocal, "WellLocal", TlvTypes::LocalWell_8)
+        {
+            ADD("off_dx", mTlv.field_18_off_dx);
+            ADD("off_dy", mTlv.field_1A_off_dy);
+            ADD("on_dx", mTlv.field_1C_on_dx);
+            ADD("on_dy", mTlv.field_1E_on_dy);
+            ADD("emit_leaves", mTlv.field_20_emit_leaves);
+            ADD("leaf_x", mTlv.field_22_leaf_x);
+            ADD("leaf_y", mTlv.field_24_leaf_y);
+        }
+    };
+
+    struct Path_FartMachine : public TlvObjectBaseAE<::Path_FartMachine>
+    {
+        CTOR_AE(Path_FartMachine, "FartMachine", TlvTypes::FartMachine_101)
+        {
+            ADD("num_brews", mTlv.field_10_num_brews);
+        }
+    };
+
+    struct Path_Grinder : public TlvObjectBaseAE<::Path_Grinder>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<::GrinderBehavior>("Enum_GrinderBehavior",
+                {
+                    {::GrinderBehavior::eUnknown_0, "unknown"},
+                    {::GrinderBehavior::eToggle_1, "toggle"},
+                    {::GrinderBehavior::eUse_2, "use"},
+                });
+
+            types.AddEnum<::GrinderDirection>("Enum_GrinderDirection",
+                {
+                    {::GrinderDirection::eDown_0, "down"},
+                    {::GrinderDirection::eRight_1, "right"},
+                    {::GrinderDirection::eLeft_2, "left"},
+                });
+        }
+
+        CTOR_AE(Path_Grinder, "Grinder", TlvTypes::Grinder_90)
+        {
+            ADD("scale_background", mTlv.field_10_data.field_10_scale_background);
+            ADD("min_off_time", mTlv.field_10_data.field_12_min_off_time);
+            ADD("max_off_time", mTlv.field_10_data.field_14_max_off_time);
+            ADD("id", mTlv.field_10_data.field_16_id);
+            ADD("behavior", mTlv.field_10_data.field_18_behavior);
+            ADD("speed", mTlv.field_10_data.field_1A_speed);
+            ADD("start_state_on", mTlv.field_10_data.field_1C_start_state_on);
+            ADD("off_speed", mTlv.field_10_data.field_1E_off_speed);
+            ADD("min_off_time2", mTlv.field_10_data.field_20_min_off_time2);
+            ADD("max_off_time2", mTlv.field_10_data.field_22_max_off_time2);
+            ADD("start_position", mTlv.field_10_data.field_24_start_position);
+            ADD("direction", mTlv.field_10_data.field_26_direction);
+        }
+    };
+
+    struct Path_Mine : public TlvObjectBaseAE<::Path_Mine>
+    {
+        CTOR_AE(Path_Mine, "Mine", TlvTypes::Mine_24)
+        {
+            ADD("num_patterns", mTlv.field_10_num_patterns);
+            ADD("pattern", mTlv.field_12_pattern);
+            ADD("scale", mTlv.field_14_scale);
+            ADD("disabled_resources", mTlv.field_16_disabled_resources);
+            ADD("persists_offscreen", mTlv.field_18_persists_offscreen);
+        }
+    };
+
+    struct Path_Slog : public TlvObjectBaseAE<::Path_Slog>
+    {
+        CTOR_AE(Path_Slog, "Slog", TlvTypes::Slog_16)
+        {
+            ADD("scale", mTlv.field_10_scale);
+            ADD("direction", mTlv.field_12_direction);
+            ADD("asleep", mTlv.field_14_asleep);
+            ADD("wake_up_anger", mTlv.field_16_wake_up_anger);
+            ADD("bark_anger", mTlv.field_18_bark_anger);
+            ADD("chase_anger", mTlv.field_1A_chase_anger);
+            ADD("jump_delay", mTlv.field_1C_jump_delay);
+            ADD("disabled_resources", mTlv.field_1E_disabled_resources);
+            ADD("angry_id", mTlv.field_20_angry_id);
+            ADD("bone_eating_time", mTlv.field_22_bone_eating_time);
+        }
+    };
+
+    struct Path_Null_76 : public TlvObjectBaseAE<::Path_Null_76>
+    {
+        CTOR_AE(Path_Null_76, "Null_76", TlvTypes::Null_76)
+        {
+            // Empty
+        }
+    };
+
+    struct Path_TrapDoor : public TlvObjectBaseAE<::Path_TrapDoor>
+    {
+        CTOR_AE(Path_TrapDoor, "TrapDoor", TlvTypes::TrapDoor_30)
+        {
+            ADD("id", mTlv.field_10_id);
+            ADD("start_state", mTlv.field_12_start_state);
+            ADD("self_closing", mTlv.field_14_self_closing);
+            ADD("scale", mTlv.field_16_scale);
+            ADD("dest_level", mTlv.field_18_dest_level);
+            ADD("direction", mTlv.field_1A_direction);
+            ADD("anim_offset", mTlv.field_1C_anim_offset);
+            ADD("stay_open_time", mTlv.field_1E_stay_open_time);
+        }
+    };
+
+    struct Path_PathTransition : public TlvObjectBaseAE<::Path_PathTransition>
+    {
+        CTOR_AE(Path_PathTransition, "PathTransition", TlvTypes::PathTransition_1)
+        {
+            // Empty
+        }
+    };
+
+    struct Path_LiftMover : public TlvObjectBaseAE<::Path_LiftMover>
+    {
+        CTOR_AE(Path_LiftMover, "LiftMover", TlvTypes::LiftMover_39)
+        {
+            ADD("switch_id", mTlv.field_10_switch_id);
+            ADD("lift_id", mTlv.field_12_lift_id);
+            ADD("direction_up", mTlv.field_14_direction_up);
+        }
+    };
+
+    struct Path_RockSack : public TlvObjectBaseAE<::Path_RockSack>
+    {
+        CTOR_AE(Path_RockSack, "RockSack", TlvTypes::RockSack_10)
+        {
+            ADD("side", mTlv.field_10_side);
+            ADD("x_vel", mTlv.field_12_x_vel);
+            ADD("y_vel", mTlv.field_14_y_vel);
+            ADD("scale", mTlv.field_16_scale);
+            ADD("num_rocks", mTlv.field_18_num_rocks);
+        }
+    };
+
+    struct Path_TimerTrigger : public TlvObjectBaseAE<::Path_TimerTrigger>
+    {
+        CTOR_AE(Path_TimerTrigger, "TimeTrigger", TlvTypes::TimerTrigger_57)
+        {
+            ADD("id", mTlv.field_10_id);
+            ADD("delay_time", mTlv.field_12_delay_time);
+            ADD("id1", mTlv.field_14_id1);
+            ADD("id2", mTlv.field_16_id2);
+            ADD("id3", mTlv.field_18_id3);
+            ADD("id4", mTlv.field_1A_id4);
+        }
+    };
+
+    struct Path_MotionDetector : public TlvObjectBaseAE<::Path_MotionDetector>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<::Path_MotionDetector::StartMoveDirection>("Enum_GrinderBehavior",
+                {
+                    {::Path_MotionDetector::StartMoveDirection::eRight_0, "right"},
+                    {::Path_MotionDetector::StartMoveDirection::eLeft_1, "left"},
+                });
+        }
+
+        CTOR_AE(Path_MotionDetector, "MotionDetector", TlvTypes::MotionDetector_36)
+        {
+            ADD("scale", mTlv.field_10_scale);
+            ADD("device_x", mTlv.field_12_device_x);
+            ADD("device_y", mTlv.field_14_device_y);
+            ADD("speed_x256", mTlv.field_16_speed_x256);
+            ADD("start_move_direction", mTlv.field_18_start_move_direction);
+            ADD("draw_flare", mTlv.field_1A_draw_flare);
+            ADD("disable_id", mTlv.field_1C_disable_id);
+            ADD("alarm_id", mTlv.field_1E_alarm_id);
+            ADD("alarm_ticks", mTlv.field_20_alarm_ticks);
+        }
+    };
+
+    struct Path_MineCar : public TlvObjectBaseAE<::Path_MineCar>
+    {
+        CTOR_AE(Path_MineCar, "MineCar", TlvTypes::MineCar_93)
+        {
+            ADD("scale", mTlv.field_10_scale);
+            ADD("max_damage", mTlv.field_12_max_damage);
+        }
+    };
+
+    struct Path_ExplosionSet : public TlvObjectBaseAE<::Path_ExplosionSet>
+    {
+        CTOR_AE(Path_ExplosionSet, "ExplosionSet", TlvTypes::ExplosionSet_95)
+        {
+            ADD("start_instantly", mTlv.field_10_start_instantly);
+            ADD("id", mTlv.field_12_id);
+            ADD("big_rocks", mTlv.field_14_big_rocks);
+            ADD("start_delay", mTlv.field_16_start_delay);
+            ADD("direction", mTlv.field_18_direction);
+            ADD("delay", mTlv.field_1A_delay);
+            ADD("grid_spacing", mTlv.field_1C_grid_spacing);
+            ADD("scale1", mTlv.field_1E_scale);
+            ADD("scale2", mTlv.field_20_scale);
+        }
+    };
+
+    struct Path_ColourfulMeter : public TlvObjectBaseAE<::Path_ColourfulMeter>
+    {
+        CTOR_AE(Path_ColourfulMeter, "ColourfulMeter", TlvTypes::ColourfulMeter_91)
+        {
+            ADD("id", mTlv.field_10_id);
+            ADD("number_of_meter_bars", mTlv.field_12_number_of_meter_bars);
+            ADD("timer", mTlv.field_14_timer);
+            ADD("start_full", mTlv.field_16_bStartsFull);
+        }
+    };
+
+    struct Path_Alarm : public TlvObjectBaseAE<::Path_Alarm>
+    {
+        CTOR_AE(Path_Alarm, "Alarm", TlvTypes::Alarm_100)
+        {
+            ADD("id", mTlv.field_10_id);
+            ADD("duration", mTlv.field_12_duration);
+        }
+    };
+
+    struct Path_DemoSpawnPoint : public TlvObjectBaseAE<::Path_DemoSpawnPoint>
+    {
+        CTOR_AE(Path_DemoSpawnPoint, "DemoSpawnPoint", TlvTypes::DemoSpawnPoint_87)
+        {
+            // Empty
+        }
+    };
+
+    struct Path_SlapLock : public TlvObjectBaseAE<::Path_SlapLock>
+    {
+        CTOR_AE(Path_SlapLock, "SlapLock", TlvTypes::SlapLock_98)
+        {
+            ADD("scale", mTlv.field_10_scale);
+            ADD("target_tomb_id1", mTlv.field_12_target_tomb_id1);
+            ADD("target_tomb_id2", mTlv.field_14_target_tomb_id2);
+            ADD("is_persistant", mTlv.field_16_bPersistant);
+            ADD("has_ghost", mTlv.field_18_has_ghost);
+            ADD("has_powerup", mTlv.field_1A_has_powerup);
+            ADD("powerup_id", mTlv.field_1C_powerup_id);
+            ADD("option_id", mTlv.field_1E_option_id);
+        }
+    };
+
+    struct Path_Slurg : public TlvObjectBaseAE<::Path_Slurg>
+    {
+        CTOR_AE(Path_Slurg, "Slurg", TlvTypes::Slurg_84)
+        {
+            ADD("pause_delay", mTlv.field_10_path_data.field_0_pause_delay);
+            ADD("direction", mTlv.field_10_path_data.field_2_direction);
+            ADD("scale", mTlv.field_10_path_data.field_4_scale);
+            ADD("id", mTlv.field_10_path_data.field_6_id);
+        }
+    };
+
+    struct Path_DoorBlocker : public TlvObjectBaseAE<::Path_DoorBlocker>
+    {
+        CTOR_AE(Path_DoorBlocker, "DoorBlocker", TlvTypes::DoorBlocker_109)
+        {
+            ADD("scale", mTlv.field_10_scale);
+            ADD("id", mTlv.field_12_id);
+        }
+    };
+
+    struct Path_Dove : public TlvObjectBaseAE<::Path_Dove>
+    {
+        CTOR_AE(Path_Dove, "Dove", TlvTypes::Dove_9)
+        {
+            ADD("dove_count", mTlv.field_10_dove_count);
+            ADD("pixel_perfect", mTlv.field_12_pixel_perfect);
+            ADD("scale", mTlv.field_14_scale);
+        }
+    };
+
+    struct Path_BirdPortalExit : public TlvObjectBaseAE<::Path_BirdPortalExit>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<::PortalSide>("Enum_PortalSide",
+                {
+                    {::PortalSide::eRight_0, "right"},
+                    {::PortalSide::eLeft_1, "left"},
+                });
+        }
+
+        CTOR_AE(Path_BirdPortalExit, "BirdPortalExit", TlvTypes::BirdPortalExit_29)
+        {
+            ADD("side", mTlv.field_10_side);
+            ADD("scale", mTlv.field_12_scale);
         }
     };
 }

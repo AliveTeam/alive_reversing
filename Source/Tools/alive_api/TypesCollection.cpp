@@ -134,6 +134,34 @@ void TypesCollection::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_Pulley);
     REGISTER_TYPE_AE(AETlvs::Path_FlyingSlig);
     REGISTER_TYPE_AE(AETlvs::Path_FlyingSligSpawner);
+    REGISTER_TYPE_AE(AETlvs::Path_DeathDrop);
+    REGISTER_TYPE_AE(AETlvs::Path_SligSpawner);
+    REGISTER_TYPE_AE(AETlvs::Path_Slig_LeftBound);
+    REGISTER_TYPE_AE(AETlvs::Path_Slig_RightBound);
+    REGISTER_TYPE_AE(AETlvs::Path_Slig_Persist);
+    REGISTER_TYPE_AE(AETlvs::Path_ZSligCover);
+    REGISTER_TYPE_AE(AETlvs::Path_WellLocal);
+    REGISTER_TYPE_AE(AETlvs::Path_FartMachine);
+    REGISTER_TYPE_AE(AETlvs::Path_Grinder);
+    REGISTER_TYPE_AE(AETlvs::Path_Mine);
+    REGISTER_TYPE_AE(AETlvs::Path_Slog);
+    REGISTER_TYPE_AE(AETlvs::Path_Null_76);
+    REGISTER_TYPE_AE(AETlvs::Path_TrapDoor);
+    REGISTER_TYPE_AE(AETlvs::Path_PathTransition);
+    REGISTER_TYPE_AE(AETlvs::Path_LiftMover);
+    REGISTER_TYPE_AE(AETlvs::Path_RockSack);
+    REGISTER_TYPE_AE(AETlvs::Path_TimerTrigger);
+    REGISTER_TYPE_AE(AETlvs::Path_MotionDetector);
+    REGISTER_TYPE_AE(AETlvs::Path_MineCar);
+    REGISTER_TYPE_AE(AETlvs::Path_ExplosionSet);
+    REGISTER_TYPE_AE(AETlvs::Path_ColourfulMeter);
+    REGISTER_TYPE_AE(AETlvs::Path_Alarm);
+    REGISTER_TYPE_AE(AETlvs::Path_DemoSpawnPoint);
+    REGISTER_TYPE_AE(AETlvs::Path_SlapLock);
+    REGISTER_TYPE_AE(AETlvs::Path_Slurg);
+    REGISTER_TYPE_AE(AETlvs::Path_DoorBlocker);
+    REGISTER_TYPE_AE(AETlvs::Path_Dove);
+    REGISTER_TYPE_AE(AETlvs::Path_BirdPortalExit);
 
     for (auto& [key, value] : mTlvFactoryAE)
     {

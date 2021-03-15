@@ -35,7 +35,7 @@ struct Path_BirdPortal : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BirdPortal, 0x24);
 
-struct Path_BirdPortal_Exit : public Path_TLV
+struct Path_BirdPortalExit : public Path_TLV
 {
     PortalSide field_10_side;
     __int16 field_12_scale;

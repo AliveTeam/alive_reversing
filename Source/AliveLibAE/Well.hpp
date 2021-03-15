@@ -5,7 +5,7 @@
 #include "FunctionFwd.hpp"
 
 struct Path_WellBase;
-struct Path_Well_Local;
+struct Path_WellLocal;
 struct Path_WellExpress;
 
 class Well : public BaseGameObject
@@ -17,7 +17,7 @@ public:
     virtual void VScreenChanged() override;
 private:
     EXPORT void WellExpress_Init_4E2E00(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos);
-    EXPORT void WellLocal_Init_4E2CD0(Path_Well_Local* pTlv, FP /*xpos*/, FP ypos);
+    EXPORT void WellLocal_Init_4E2CD0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos);
     EXPORT Well* vdtor_4E2CA0(signed int flags);
     EXPORT void dtor_4E3090();
     EXPORT void vScreenChanged_4E3070();
