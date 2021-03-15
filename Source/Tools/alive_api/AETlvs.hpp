@@ -11,6 +11,10 @@
 #include "../AliveLibAE/BoomMachine.hpp"
 #include "../AliveLibAE/Slig.hpp"
 #include "../AliveLibAE/Fleech.hpp"
+#include "../AliveLibAE/UXB.hpp"
+#include "../AliveLibAE/LCDScreen.hpp"
+#include "../AliveLibAE/StatusLight.hpp"
+#include "../AliveLibAE/ShadowZone.hpp"
 
 #define CTOR_AE(className, objectTypeName, tlvType)  className(TypesCollection& globalTypes, Path_TLV* pTlv = nullptr) : TlvObjectBaseAE(tlvType, objectTypeName, pTlv)
 
@@ -223,7 +227,7 @@ namespace AETlvs
 
     struct Path_BoomMachine : public TlvObjectBaseAE<::Path_BoomMachine>
     {
-        CTOR_AE(Path_BoomMachine, "BoomMachine", TlvTypes::GrenadeMachine_59) // TODO: rename to BoomMachine
+        CTOR_AE(Path_BoomMachine, "BoomMachine", TlvTypes::BoomMachine_59)
         {
             ADD("scale", mTlv.field_10_scale);
             ADD("nozzle_side", mTlv.field_12_nozzle_side);
@@ -319,5 +323,110 @@ namespace AETlvs
         }
     };
 
-    
+    struct Path_Teleporter : public TlvObjectBaseAE<::Path_Teleporter>
+    {
+        CTOR_AE(Path_Teleporter, "Teleporter", TlvTypes::Teleporter_88)
+        {
+            ADD("id", mTlv.field_10_data.field_10_id);
+            ADD("target_id", mTlv.field_10_data.field_12_target_id);
+            ADD("camera", mTlv.field_10_data.field_14_camera);
+            ADD("path", mTlv.field_10_data.field_16_path);
+            ADD("level", mTlv.field_10_data.field_18_level);
+            ADD("trigger_id", mTlv.field_10_data.field_1A_trigger_id);
+            ADD("scale", mTlv.field_10_data.field_1C_scale);
+            ADD("wipe", mTlv.field_10_data.field_1E_wipe);
+            ADD("movie_number", mTlv.field_10_data.field_20_movie_number);
+            ADD("electric_x", mTlv.field_10_data.field_22_eletric_x);
+            ADD("electric_y", mTlv.field_10_data.field_24_electric_y);
+        }
+    };
+
+    struct Path_UXB : public TlvObjectBaseAE<::Path_UXB>
+    {
+        CTOR_AE(Path_UXB, "UXB", TlvTypes::UXB_25)
+        {
+            ADD("num_patterns", mTlv.field_10_num_patterns);
+            ADD("pattern", mTlv.field_12_pattern);
+            ADD("scale", mTlv.field_14_scale);
+            ADD("state", mTlv.field_16_state);
+            ADD("disabled_resources", mTlv.field_18_disabled_resources);
+        }
+    };
+
+    struct Path_LCDScreen : public TlvObjectBaseAE<::Path_LCDScreen>
+    {
+        CTOR_AE(Path_LCDScreen, "LCDScreen", TlvTypes::LCD_60)
+        {
+            ADD("message_1_id", mTlv.field_10_message_1_id);
+            ADD("message_rand_min", mTlv.field_12_message_rand_min);
+            ADD("message_rand_max", mTlv.field_14_message_rand_max);
+            ADD("message_2_id", mTlv.field_16_message_2_id);
+            ADD("swap_message_sets_switch_id", mTlv.field_18_swap_message_sets_switch_id);
+        }
+    };
+
+    struct Path_Edge : public TlvObjectBaseAE<::Path_Edge>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<::Path_Edge::Type>("Enum_Type",
+                {
+                    {::Path_Edge::Type::eLeft, "left"},
+                    {::Path_Edge::Type::eRight, "right"},
+                    {::Path_Edge::Type::eBoth, "both"},
+                });
+
+            types.AddEnum<::Path_Edge::Scale>("Enum_Scale",
+                {
+                    {::Path_Edge::Scale::eFull, "full"},
+                    {::Path_Edge::Scale::eHalf, "half"},
+                });
+        }
+
+        CTOR_AE(Path_Edge, "Edge", TlvTypes::Edge_3)
+        {
+            ADD("type", mTlv.field_10_type);
+            ADD("can_grab", mTlv.field_12_can_grab);
+            ADD("scale", mTlv.field_14_scale);
+        }
+    };
+
+    struct Path_StatusLight : public TlvObjectBaseAE<::Path_StatusLight>
+    {
+        CTOR_AE(Path_StatusLight, "StatusLight", TlvTypes::StatusLight_97)
+        {
+            ADD("id", mTlv.field_10_id);
+            ADD("scale", mTlv.field_12_scale);
+            ADD("id_1", mTlv.field_14_id1);
+            ADD("id_2", mTlv.field_16_id2);
+            ADD("id_3", mTlv.field_18_id3);
+            ADD("id_4", mTlv.field_1A_id4);
+            ADD("id_5", mTlv.field_1C_id5);
+            ADD("snap_to_grid", mTlv.field_1E_snap_to_grid);
+        }
+    };
+
+    struct Path_ShadowZone : public TlvObjectBaseAE<::Path_ShadowZone>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<::ShadowZoneScale>("Enum_Type",
+                {
+                    {::ShadowZoneScale::eBoth_0, "both"},
+                    {::ShadowZoneScale::eHalf_1, "half"},
+                    {::ShadowZoneScale::eFull_2, "full"},
+                });
+        }
+
+        CTOR_AE(Path_ShadowZone, "ShadowZone", TlvTypes::ShadowZone_6)
+        {
+            ADD("centre_w", mTlv.field_10_centre_w);
+            ADD("center_h", mTlv.field_12_center_h);
+            ADD("r", mTlv.field_14_r);
+            ADD("g", mTlv.field_16_g);
+            ADD("b", mTlv.field_18_b);
+            ADD("id", mTlv.field_1A_id);
+            ADD("scale", mTlv.field_1C_scale);
+        }
+    };
 }
