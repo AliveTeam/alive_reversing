@@ -2651,19 +2651,6 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
     return ret;
 }
 
-struct Path_ResetSwitchRange : public Path_TLV
-{
-    __int16 field_10_set_switches;
-    __int16 field_12_start_id;
-    __int16 field_14_end_id;
-    __int16 field_16_skip_id;
-    __int16 field_18_free_path_res;
-    __int16 field_1A_path_to_free_id;
-    __int16 field_1C_bEnabled;
-    __int16 field_1E_pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ResetSwitchRange, 0x20);
-
 void Abe::vOn_TLV_Collision_44B5D0(Path_TLV* pTlv)
 {
     for (; pTlv;  pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(
@@ -2700,7 +2687,7 @@ void Abe::vOn_TLV_Collision_44B5D0(Path_TLV* pTlv)
                 ToDie_4588D0();
             }
         }
-        else if (pTlv->field_4_type == TlvTypes::Null_76)
+        else if (pTlv->field_4_type == TlvTypes::ResetSwitchRange_76)
         {
             auto pResetSwitchRange = static_cast<Path_ResetSwitchRange*>(pTlv);
             if (pResetSwitchRange->field_1_unknown == 0 || pResetSwitchRange->field_1C_bEnabled)

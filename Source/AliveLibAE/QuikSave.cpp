@@ -460,7 +460,7 @@ EXPORT void CC Quicksave_SaveSwitchResetterStates_4C9870()
                         Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(ptr);
                         while (pTlv)
                         {
-                            if (pTlv->field_4_type == TlvTypes::Null_76)
+                            if (pTlv->field_4_type == TlvTypes::ResetSwitchRange_76)
                             {
                                 if (sQuickSave_saved_switchResetters_count_BB234C < 8)
                                 {
@@ -509,7 +509,7 @@ EXPORT void CC Quicksave_RestoreSwitchResetterStates_4C9A30()
                         Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(ptr);
                         while (pTlv)
                         {
-                            if (pTlv->field_4_type == TlvTypes::Null_76)
+                            if (pTlv->field_4_type == TlvTypes::ResetSwitchRange_76)
                             {
                                 if (idx < 8)
                                 {

@@ -94,7 +94,7 @@ enum class TlvTypes : short
     Glukkon_73 = 73,
     KillUnsavedMudokons_74 = 74,
     SoftLanding_75 = 75,
-    Null_76 = 76,
+    ResetSwitchRange_76 = 76,
     Water_77 = 77,
     Null_78 = 78,
     WorkWheel_79 = 79,

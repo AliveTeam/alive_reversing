@@ -61,11 +61,6 @@ struct Path_PathTransition : public Path_TLV
     // Empty
 };
 
-struct Path_Null_76 : public Path_TLV
-{
-    // Empty
-};
-
 struct Path_ZSligCover : public Path_TLV
 {
     // Empty
@@ -78,7 +73,12 @@ struct Path_SligSpawner : public Path_TLV
 
 struct Path_DeathDrop : public Path_TLV
 {
-    // Empty
+    __int16 field_10_animation;
+    __int16 field_12_sound;
+    __int16 field_14_id;
+    __int16 field_16_action;
+    __int16 field_18_unknown1;
+    __int16 field_1A_unknown2;
 };
 
 struct Path_InvisibleZone : public Path_TLV
@@ -88,7 +88,8 @@ struct Path_InvisibleZone : public Path_TLV
 
 struct Path_Pulley : public Path_TLV
 {
-    // Empty
+    __int16 field_10_unknown1;
+    __int16 field_12_unknown2;
 };
 
 namespace AETlvs
@@ -545,6 +546,13 @@ namespace AETlvs
     {
         CTOR_AE(Path_WellExpress, "WellExpress", TlvTypes::WellExpress_23)
         {
+            // Path_WellBase
+            ADD("scale", mTlv.field_0_scale);
+            ADD("trigger_id", mTlv.field_2_trigger_id);
+            ADD("well_id", mTlv.field_4_well_id);
+            ADD("resource_id", mTlv.field_6_res_id);
+
+            // Path_WellExpress
             ADD("exit_x", mTlv.field_18_exit_x);
             ADD("exit_y", mTlv.field_1A_exit_y);
             ADD("off_level", mTlv.field_1C_off_level);
@@ -836,7 +844,8 @@ namespace AETlvs
     {
         CTOR_AE(Path_Pulley, "Pulley", TlvTypes::Pulley_21)
         {
-            // Empty
+            ADD("unknown1", mTlv.field_10_unknown1);
+            ADD("unknown2", mTlv.field_12_unknown2);
         }
     };
 
@@ -890,7 +899,12 @@ namespace AETlvs
     {
         CTOR_AE(Path_DeathDrop, "DeathDrop", TlvTypes::DeathDrop_4)
         {
-            // Empty
+            ADD("not_used1", mTlv.field_10_animation);
+            ADD("not_used2", mTlv.field_12_sound);
+            ADD("not_used3", mTlv.field_14_id);
+            ADD("not_used4", mTlv.field_16_action);
+            ADD("not_used5", mTlv.field_18_unknown1);
+            ADD("not_used6", mTlv.field_1A_unknown2);
         }
     };
 
@@ -941,6 +955,13 @@ namespace AETlvs
     {
         CTOR_AE(Path_WellLocal, "WellLocal", TlvTypes::LocalWell_8)
         {
+            // Path_WellBase
+            ADD("scale", mTlv.field_0_scale);
+            ADD("trigger_id", mTlv.field_2_trigger_id);
+            ADD("well_id", mTlv.field_4_well_id);
+            ADD("resource_id", mTlv.field_6_res_id);
+
+            // Path_WellLocal
             ADD("off_dx", mTlv.field_18_off_dx);
             ADD("off_dy", mTlv.field_1A_off_dy);
             ADD("on_dx", mTlv.field_1C_on_dx);
@@ -1024,11 +1045,17 @@ namespace AETlvs
         }
     };
 
-    struct Path_Null_76 : public TlvObjectBaseAE<::Path_Null_76>
+    struct Path_ResetSwitchRange : public TlvObjectBaseAE<::Path_ResetSwitchRange>
     {
-        CTOR_AE(Path_Null_76, "Null_76", TlvTypes::Null_76)
+        CTOR_AE(Path_ResetSwitchRange, "ResetSwitchRange", TlvTypes::ResetSwitchRange_76)
         {
-            // Empty
+             ADD("set_switches", mTlv.field_10_set_switches);
+             ADD("start_id", mTlv.field_12_start_id);
+             ADD("end_id", mTlv.field_14_end_id);
+             ADD("skip_id", mTlv.field_16_skip_id);
+             ADD("free_path_resource", mTlv.field_18_free_path_res);
+             ADD("path_resource_to_free_id", mTlv.field_1A_path_to_free_id);
+             ADD("enabled", mTlv.field_1C_bEnabled);
         }
     };
 

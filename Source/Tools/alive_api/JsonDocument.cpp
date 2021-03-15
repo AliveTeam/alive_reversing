@@ -157,12 +157,7 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
     }
 
     TypesCollection globalTypes(gameType);
-    std::vector<CameraNameAndTlvBlob> mapData(mRootInfo.mXSize * mRootInfo.mYSize);
-    for (auto& item : mapData)
-    {
-        item.x = -1;
-        item.y = -1;
-    }
+    std::vector<CameraNameAndTlvBlob> mapData;
 
     jsonxx::Array camerasArray = map.get<jsonxx::Array>("cameras");
     for (int i = 0; i < camerasArray.values().size(); i++)
@@ -180,7 +175,7 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
             abort();
         }
 
-        CameraNameAndTlvBlob& cameraNameBlob = mapData[To1dIndex(mRootInfo.mXSize, x, y)];
+        CameraNameAndTlvBlob cameraNameBlob;
         cameraNameBlob.mId = camera.get<jsonxx::Number>("id");
         cameraNameBlob.mName = camera.get<jsonxx::String>("name");
         cameraNameBlob.x = x;
@@ -204,6 +199,7 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
             tlv->InstanceFromJson(globalTypes, mapObject);
             cameraNameBlob.mTlvBlobs.emplace_back(tlv->GetTlvData(j == mapObjectsArray.values().size() - 1));
         }
+        mapData.push_back(cameraNameBlob);
     }
     return { mapData, map };
 }
