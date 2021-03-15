@@ -14,6 +14,9 @@ enum class Game
     AE
 };
 
+template<class TlvType>
+using FnTlvFactory = std::function<std::unique_ptr<TlvObjectBase>(class TypesCollection&, TlvType*)>;
+
 class TypesCollection
 {
 public:
@@ -156,11 +159,12 @@ public:
 
 private:
     std::vector<std::unique_ptr<ITypeBase>> mTypes;
-    std::map<AO::TlvTypes, std::function<std::unique_ptr<TlvObjectBase>(TypesCollection&, AO::Path_TLV*)>> mTlvFactoryAO;
-    std::map<std::string, std::function<std::unique_ptr<TlvObjectBase>(TypesCollection&, AO::Path_TLV*)>> mReverseTlvFactoryAO;
 
-    std::map<TlvTypes, std::function<std::unique_ptr<TlvObjectBase>(TypesCollection&, Path_TLV*)>> mTlvFactoryAE;
-    std::map<std::string, std::function<std::unique_ptr<TlvObjectBase>(TypesCollection&, Path_TLV*)>> mReverseTlvFactoryAE;
+    std::map<AO::TlvTypes, FnTlvFactory<AO::Path_TLV>> mTlvFactoryAO;
+    std::map<std::string, FnTlvFactory<AO::Path_TLV>> mReverseTlvFactoryAO;
+
+    std::map<TlvTypes, FnTlvFactory<Path_TLV>> mTlvFactoryAE;
+    std::map<std::string, FnTlvFactory<Path_TLV>> mReverseTlvFactoryAE;
 
     Game mGameType = {};
 };

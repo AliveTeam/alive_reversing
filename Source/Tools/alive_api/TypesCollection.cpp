@@ -23,14 +23,17 @@ TypesCollection::TypesCollection(Game gameType)
     }
 }
 
-template<class TlvEnumType, class TlvType, class T>
-static void DoRegisterType(std::map<TlvEnumType, std::function<std::unique_ptr<TlvObjectBase>(TypesCollection&, TlvType*)>>& factory, std::map<std::string, std::function<std::unique_ptr<TlvObjectBase>(TypesCollection&, TlvType*)>>& reverseFactory, TypesCollection& constructingTypes)
-{ 
-    T tmp(constructingTypes, nullptr);
-    TlvEnumType tlvType = tmp.TlvType();
+template<typename TlvEnumType, typename TlvType, typename TlvWrapperType>
+static void DoRegisterType(
+    std::map<TlvEnumType, FnTlvFactory<TlvType>>& factory,
+    std::map<std::string, FnTlvFactory<TlvType>>& reverseFactory,
+    TypesCollection& constructingTypes)
+{
+    TlvWrapperType tmp(constructingTypes, nullptr);
+    const TlvEnumType tlvType = tmp.TlvType();
     auto fnCreate = [](TypesCollection& types, TlvType* pTlv)
     {
-        return std::make_unique<T>(types, pTlv);
+        return std::make_unique<TlvWrapperType>(types, pTlv);
     };
     reverseFactory[tmp.Name()] = fnCreate;
     factory[tlvType] = fnCreate;

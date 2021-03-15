@@ -82,11 +82,18 @@ struct MapInfo
     int mYSize = 0;
 };
 
+// Reads the root fields to read the version/game type (we need to know this so we can create a game specific reader/do an upgrade of the json).
+class JsonMapRootInfoReader
+{
+public:
+    bool Read(const std::string& fileName);
+    MapRootInfo mMapRootInfo;
+};
+
 class JsonReaderAO
 {
 public:
     std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> LoadAO(const std::string& fileName);
-    MapRootInfo mMapRootInfo;
     MapInfo mRootInfo;
 };
 

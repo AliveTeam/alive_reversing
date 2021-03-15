@@ -80,19 +80,6 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonRead
         abort();
     }
 
-    if (!rootObj.has<jsonxx::Number>("api_version"))
-    {
-        abort();
-    }
-
-    mMapRootInfo.mVersion = rootObj.get<jsonxx::Number>("api_version");
-    if (mMapRootInfo.mVersion != AliveAPI::GetApiVersion())
-    {
-        // TODO: Upgrade
-        abort();
-    }
-
-  
     if (!rootObj.has<jsonxx::Object>("map"))
     {
         abort();
@@ -392,4 +379,46 @@ jsonxx::Array JsonWriterAE::ReadTlvStream(TypesCollection& globalTypes, BYTE* pt
 std::unique_ptr<TypesCollection> JsonWriterAE::MakeTypesCollection() const
 {
     return std::make_unique<TypesCollection>(Game::AE);
+}
+
+bool JsonMapRootInfoReader::Read(const std::string& fileName)
+{
+    std::ifstream inputFileStream(fileName.c_str());
+    std::string jsonStr((std::istreambuf_iterator<char>(inputFileStream)), std::istreambuf_iterator<char>());
+
+    jsonxx::Object rootObj;
+    if (!rootObj.parse(jsonStr))
+    {
+        abort();
+    }
+
+    if (!rootObj.has<jsonxx::Number>("api_version"))
+    {
+        abort();
+    }
+
+    mMapRootInfo.mVersion = rootObj.get<jsonxx::Number>("api_version");
+    if (mMapRootInfo.mVersion != AliveAPI::GetApiVersion())
+    {
+        // TODO: Upgrade
+        abort();
+    }
+
+    if (!rootObj.has<jsonxx::String>("game"))
+    {
+        abort();
+    }
+    mMapRootInfo.mGame = rootObj.get<jsonxx::String>("game");
+
+    if (mMapRootInfo.mGame == "AO")
+    {
+        return true;
+    }
+
+    if (mMapRootInfo.mGame == "AE")
+    {
+        return true;
+    }
+
+    abort();
 }
