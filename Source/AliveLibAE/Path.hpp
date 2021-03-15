@@ -297,7 +297,7 @@ struct Path_SoftLanding : public Path_TLV
 // TODO: Size
 
 
-struct Path_Well_Base : public Path_TLV
+struct Path_WellBase : public Path_TLV
 {
     __int16 field_0_scale;
     __int16 field_2_trigger_id;
@@ -306,7 +306,7 @@ struct Path_Well_Base : public Path_TLV
 };
 // TODO: Size
 
-struct Path_Well_Local : public Path_Well_Base
+struct Path_Well_Local : public Path_WellBase
 {
     __int16 field_18_off_dx;
     __int16 field_1A_off_dy;
@@ -319,7 +319,7 @@ struct Path_Well_Local : public Path_Well_Base
 };
 // TODO: Size
 
-struct Path_Well_Express : public Path_Well_Base
+struct Path_WellExpress : public Path_WellBase
 {
     __int16 field_18_exit_x;
     __int16 field_1A_exit_y;

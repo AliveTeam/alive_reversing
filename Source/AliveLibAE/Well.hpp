@@ -4,19 +4,19 @@
 #include "FixedPoint.hpp"
 #include "FunctionFwd.hpp"
 
-struct Path_Well_Base;
+struct Path_WellBase;
 struct Path_Well_Local;
-struct Path_Well_Express;
+struct Path_WellExpress;
 
 class Well : public BaseGameObject
 {
 public:
-    EXPORT Well* ctor_4E2BE0(Path_Well_Base* pTlv, FP xpos, FP ypos, int tlvInfo);
+    EXPORT Well* ctor_4E2BE0(Path_WellBase* pTlv, FP xpos, FP ypos, int tlvInfo);
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 private:
-    EXPORT void WellExpress_Init_4E2E00(Path_Well_Express* pTlv, FP /*xpos*/, FP ypos);
+    EXPORT void WellExpress_Init_4E2E00(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos);
     EXPORT void WellLocal_Init_4E2CD0(Path_Well_Local* pTlv, FP /*xpos*/, FP ypos);
     EXPORT Well* vdtor_4E2CA0(signed int flags);
     EXPORT void dtor_4E3090();

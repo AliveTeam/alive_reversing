@@ -111,6 +111,11 @@ void TypesCollection::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_Edge);
     REGISTER_TYPE_AE(AETlvs::Path_StatusLight);
     REGISTER_TYPE_AE(AETlvs::Path_ShadowZone);
+    REGISTER_TYPE_AE(AETlvs::Path_WorkWheel);
+    REGISTER_TYPE_AE(AETlvs::Path_MusicTrigger);
+    REGISTER_TYPE_AE(AETlvs::Path_AbeStart);
+    REGISTER_TYPE_AE(AETlvs::Path_SoftLanding);
+    REGISTER_TYPE_AE(AETlvs::Path_WellExpress);
 
     for (auto& [key, value] : mTlvFactoryAE)
     {

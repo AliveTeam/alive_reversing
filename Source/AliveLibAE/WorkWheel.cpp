@@ -39,7 +39,7 @@ void WorkWheel::VStopTurning(__int16 bResetSwitch)
     vStopTurning_4E3A60(bResetSwitch);
 }
 
-WorkWheel* WorkWheel::ctor_4E35D0(Path_Wheel* pTlv, int tlvInfo)
+WorkWheel* WorkWheel::ctor_4E35D0(Path_WorkWheel* pTlv, int tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
@@ -129,7 +129,7 @@ int CC WorkWheel::CreateFromSaveState_4E3B10(const BYTE* pState)
 {
     const WorkWheel_SaveState* pData = reinterpret_cast<const WorkWheel_SaveState*>(pState);
 
-    Path_Wheel* pTlv = static_cast<Path_Wheel*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pData->field_4_tlvInfo));
+    Path_WorkWheel* pTlv = static_cast<Path_WorkWheel*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pData->field_4_tlvInfo));
 
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeworkResID, FALSE, FALSE))
     {

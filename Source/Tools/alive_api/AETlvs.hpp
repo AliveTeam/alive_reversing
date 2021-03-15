@@ -15,6 +15,8 @@
 #include "../AliveLibAE/LCDScreen.hpp"
 #include "../AliveLibAE/StatusLight.hpp"
 #include "../AliveLibAE/ShadowZone.hpp"
+#include "../AliveLibAE/WorkWheel.hpp"
+#include "../AliveLibAE/MusicTrigger.hpp"
 
 #define CTOR_AE(className, objectTypeName, tlvType)  className(TypesCollection& globalTypes, Path_TLV* pTlv = nullptr) : TlvObjectBaseAE(tlvType, objectTypeName, pTlv)
 
@@ -426,6 +428,66 @@ namespace AETlvs
             ADD("b", mTlv.field_18_b);
             ADD("id", mTlv.field_1A_id);
             ADD("scale", mTlv.field_1C_scale);
+        }
+    };
+
+    struct Path_WorkWheel : public TlvObjectBaseAE<::Path_WorkWheel>
+    {
+        CTOR_AE(Path_WorkWheel, "WorkWheel", TlvTypes::WorkWheel_79)
+        {
+            ADD("scale", mTlv.field_10_scale);
+            ADD("id", mTlv.field_12_id);
+            ADD("duration", mTlv.field_14_duration);
+            ADD("off_time", mTlv.field_16_off_time);
+            ADD("off_when_stopped", mTlv.field_18_off_when_stopped);
+        }
+    };
+
+    struct Path_MusicTrigger : public TlvObjectBaseAE<::Path_MusicTrigger>
+    {
+        CTOR_AE(Path_MusicTrigger, "MusicTrigger", TlvTypes::MusicTrigger_66)
+        {
+            ADD("type", mTlv.field_10_type);
+            ADD("enabled_by", mTlv.field_12_enabled_by);
+            ADD("timer", mTlv.field_14_timer);
+        }
+    };
+
+    struct Path_AbeStart : public TlvObjectBaseAE<::Path_AbeStart>
+    {
+        CTOR_AE(Path_AbeStart, "AbeStart", TlvTypes::AbeStart_22)
+        {
+            ADD("xpos", mTlv.field_10_xpos);
+            ADD("ypos", mTlv.field_12_ypos);
+        }
+    };
+
+    struct Path_SoftLanding : public TlvObjectBaseAE<::Path_SoftLanding>
+    {
+        CTOR_AE(Path_SoftLanding, "SoftLanding", TlvTypes::SoftLanding_75)
+        {
+            ADD("id", mTlv.field_10_id);
+        }
+    };
+
+    struct Path_WellExpress : public TlvObjectBaseAE<::Path_WellExpress>
+    {
+        CTOR_AE(Path_WellExpress, "WellExpress", TlvTypes::WellExpress_23)
+        {
+            ADD("exit_x", mTlv.field_18_exit_x);
+            ADD("exit_y", mTlv.field_1A_exit_y);
+            ADD("off_level", mTlv.field_1C_off_level);
+            ADD("off_path", mTlv.field_1E_off_path);
+            ADD("off_camera", mTlv.field_20_off_camera);
+            ADD("off_well_id", mTlv.field_22_off_well_id);
+            ADD("on_level", mTlv.field_24_on_level);
+            ADD("on_path", mTlv.field_26_on_path);
+            ADD("on_camera", mTlv.field_28_on_camera);
+            ADD("on_well_id", mTlv.field_2A_on_well_id);
+            ADD("emit_leaves", mTlv.field_2C_emit_leaves);
+            ADD("leaf_x", mTlv.field_2E_leaf_x);
+            ADD("leaf_y", mTlv.field_30_leaf_y);
+            ADD("movie_id", mTlv.field_32_movie_id);
         }
     };
 }

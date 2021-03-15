@@ -1520,7 +1520,7 @@ __int16 Abe::RunTryEnterWell_425880()
         }
     }
 
-    auto pWellExpress = static_cast<Path_Well_Express*>(gMap_507BA8.TLV_Get_At_446260(
+    auto pWellExpress = static_cast<Path_WellExpress*>(gMap_507BA8.TLV_Get_At_446260(
         FP_GetExponent(field_A8_xpos),
         FP_GetExponent(field_AC_ypos),
         FP_GetExponent(field_A8_xpos),
@@ -3991,7 +3991,7 @@ void Abe::State_0_Idle_423520()
                 }
                 case TlvTypes::WellExpress_45:
                 {
-                    auto well = static_cast<Path_Well_Express*>(pTlv);
+                    auto well = static_cast<Path_WellExpress*>(pTlv);
                     if ((well->field_18_scale || field_BC_sprite_scale != FP_FromInteger(1)) &&
                         (well->field_18_scale != 1 || field_BC_sprite_scale != FP_FromDouble(0.5)))
                     {
@@ -4464,7 +4464,7 @@ void Abe::State_3_Fall_42E7F0()
             if (field_F0_pTlv->field_4_type == TlvTypes::LocalWell_11 || field_F0_pTlv->field_4_type == TlvTypes::WellExpress_45)
             {
                 // The well must be on the same scale/layer
-                Path_Well_Base* pWellBase = static_cast<Path_Well_Base*>(field_F0_pTlv);
+                Path_WellBase* pWellBase = static_cast<Path_WellBase*>(field_F0_pTlv);
                 if ((pWellBase->field_18_scale == 0 && field_BC_sprite_scale == FP_FromInteger(1))
                     || (pWellBase->field_18_scale == 1 && field_BC_sprite_scale == FP_FromDouble(0.5)))
                 {
@@ -7898,7 +7898,7 @@ void Abe::State_78_InsideWellLocal_4310A0()
                 TlvTypes::WellExpress_45);
         }
 
-        auto pWellBase = static_cast<Path_Well_Base*>(field_F0_pTlv);
+        auto pWellBase = static_cast<Path_WellBase*>(field_F0_pTlv);
 
         field_120_x_vel_slow_by = FP_FromInteger(0);
 
@@ -8032,7 +8032,7 @@ void Abe::State_81_InsideWellExpress_431320()
         return;
     }
 
-    Path_Well_Express* pExpressWell = static_cast<Path_Well_Express*>(field_F0_pTlv);
+    Path_WellExpress* pExpressWell = static_cast<Path_WellExpress*>(field_F0_pTlv);
     if (SwitchStates_Get(pExpressWell->field_1A_trigger_id))
     {
         field_190_level = pExpressWell->field_2C_on_level;
@@ -8111,7 +8111,7 @@ void Abe::State_82_WellExpressShotOut_4315A0()
 {
     PSX_Point camCoords = {};
     gMap_507BA8.GetCurrentCamCoords_444890(&camCoords);
-    Path_Well_Base* pWell = nullptr;
+    Path_WellBase* pWell = nullptr;
     Path_TLV* pTlvIter = nullptr;
     do
     {
@@ -8127,9 +8127,9 @@ void Abe::State_82_WellExpressShotOut_4315A0()
         }
 
         if ((pTlvIter->field_4_type == TlvTypes::LocalWell_11 || pTlvIter->field_4_type == TlvTypes::WellExpress_45) &&
-            static_cast<Path_Well_Base*>(pTlvIter)->field_1C_well_id == field_196_door_id)
+            static_cast<Path_WellBase*>(pTlvIter)->field_1C_well_id == field_196_door_id)
         {
-            pWell = static_cast<Path_Well_Base*>(pTlvIter);
+            pWell = static_cast<Path_WellBase*>(pTlvIter);
             break;
         }
     } while (pTlvIter);

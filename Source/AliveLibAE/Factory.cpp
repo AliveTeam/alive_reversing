@@ -396,7 +396,7 @@ EXPORT void CC Factory_ExpressWell_4D7D90(Path_TLV* pTlv, Path* /*pPath*/, TlvIt
     }
     else
     {
-        Path_Well_Base* pWellTlv = static_cast<Path_Well_Base*>(pTlv);
+        Path_WellBase* pWellTlv = static_cast<Path_WellBase*>(pTlv);
         const FP xpos = FP_FromInteger(pWellTlv->field_8_top_left.field_0_x);
         const FP ypos = FP_FromInteger(pWellTlv->field_8_top_left.field_2_y + 5);
         auto pExpressWell = ae_new<Well>();
@@ -1516,7 +1516,7 @@ EXPORT void CC Factory_WorkWheel_4D6B20(Path_TLV* pTlv , Path*, TlvItemInfoUnion
         auto pWheel = ae_new<WorkWheel>();
         if (pWheel)
         {
-            pWheel->ctor_4E35D0(static_cast<Path_Wheel*>(pTlv), tlvInfo.all);
+            pWheel->ctor_4E35D0(static_cast<Path_WorkWheel*>(pTlv), tlvInfo.all);
         }
     }
 }

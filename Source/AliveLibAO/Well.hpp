@@ -6,7 +6,7 @@
 
 namespace AO {
 
-struct Path_Well_Base : public Path_TLV
+struct Path_WellBase : public Path_TLV
 {
     __int16 field_18_scale;
     __int16 field_1A_trigger_id;
@@ -17,9 +17,9 @@ struct Path_Well_Base : public Path_TLV
     LevelIds field_24_off_level_or_dx;
     __int16 field_26_off_path_or_dy;
 };
-ALIVE_ASSERT_SIZEOF(Path_Well_Base, 0x28);
+ALIVE_ASSERT_SIZEOF(Path_WellBase, 0x28);
 
-struct Path_Well_Express : public Path_Well_Base
+struct Path_WellExpress : public Path_WellBase
 {
     __int16 field_28_off_camera;
     __int16 field_2A_off_well_id;
@@ -32,9 +32,9 @@ struct Path_Well_Express : public Path_Well_Base
     __int16 field_38_leaf_y;
     __int16 field_3A_movie_id;
 };
-ALIVE_ASSERT_SIZEOF(Path_Well_Express, 0x3C);
+ALIVE_ASSERT_SIZEOF(Path_WellExpress, 0x3C);
 
-struct Path_Well_Local : public Path_Well_Base
+struct Path_Well_Local : public Path_WellBase
 {
     __int16 field_28_on_dx;
     __int16 field_2A_on_dy;
@@ -49,11 +49,11 @@ ALIVE_ASSERT_SIZEOF(Path_Well_Local, 0x34);
 class Well : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Well* ctor_48AEE0(Path_Well_Base* pTlv, FP xpos, FP ypos, int tlvInfo);
+    EXPORT Well* ctor_48AEE0(Path_WellBase* pTlv, FP xpos, FP ypos, int tlvInfo);
 
     EXPORT void WellLocal_Init_48AFA0(Path_Well_Local* pTlv, FP xpos, FP ypos);
 
-    EXPORT void WellExpress_Init_48B110(Path_Well_Express* pTlv, FP xpos, FP ypos);
+    EXPORT void WellExpress_Init_48B110(Path_WellExpress* pTlv, FP xpos, FP ypos);
 
     virtual void VUpdate() override;
 

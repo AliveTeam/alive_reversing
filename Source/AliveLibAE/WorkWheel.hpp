@@ -23,7 +23,7 @@ struct WorkWheel_SaveState
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(WorkWheel_SaveState, 0x10);
 
-struct Path_Wheel : public Path_TLV
+struct Path_WorkWheel : public Path_TLV
 {
     __int16 field_10_scale;
     __int16 field_12_id;
@@ -32,7 +32,7 @@ struct Path_Wheel : public Path_TLV
     __int16 field_18_off_when_stopped;
     __int16 field_20_pad;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Wheel, 0x1C);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WorkWheel, 0x1C);
 
 class WorkWheel : public BaseAnimatedWithPhysicsGameObject
 {
@@ -44,7 +44,7 @@ public:
     virtual void VStartTurning();
     virtual void VStopTurning(__int16 bResetSwitch);
 
-    EXPORT WorkWheel* ctor_4E35D0(Path_Wheel* pTlv, int tlvInfo);
+    EXPORT WorkWheel* ctor_4E35D0(Path_WorkWheel* pTlv, int tlvInfo);
 private:
     EXPORT void dtor_4E3850();
     EXPORT WorkWheel* vdtor_4E3820(signed int flags);
