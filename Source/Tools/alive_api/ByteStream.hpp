@@ -123,12 +123,15 @@ private:
 
     void WriteBytes(const BYTE* buffer, std::size_t len)
     {
-        if (mWritePos + len > mData.size())
+        if (len > 0)
         {
-            mData.resize(mWritePos + len);
+            if (mWritePos + len > mData.size())
+            {
+                mData.resize(mWritePos + len);
+            }
+            memcpy(&mData[mWritePos], buffer, len);
+            mWritePos += len;
         }
-        memcpy(&mData[mWritePos], buffer, len);
-        mWritePos += len;
     }
 
     std::size_t mReadPos = 0;

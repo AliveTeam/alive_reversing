@@ -178,6 +178,17 @@ std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAE(TlvTypes tlvType, Path
     return it->second(*this, pTlv);
 }
 
+std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAE(const std::string& tlvTypeName, Path_TLV* pTlv)
+{
+    auto it = mReverseTlvFactoryAE.find(tlvTypeName);
+    if (it == std::end(mReverseTlvFactoryAE))
+    {
+        LOG_WARNING("Type " << tlvTypeName << " unknown");
+        return nullptr;
+    }
+    return it->second(*this, pTlv);
+}
+
 std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAO(AO::TlvTypes tlvType, AO::Path_TLV* pTlv)
 {
     auto it = mTlvFactoryAO.find(tlvType);

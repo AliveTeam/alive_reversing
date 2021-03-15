@@ -326,6 +326,175 @@ namespace AliveAPI
         s.Write(line.field_10_next);
     }
 
+    static void WriteCollisionLine(ByteStream& s, const ::PathLine& line)
+    {
+        s.Write(line.field_0_rect.x);
+        s.Write(line.field_0_rect.y);
+        s.Write(line.field_0_rect.w);
+        s.Write(line.field_0_rect.h);
+
+        s.Write(line.field_8_type);
+        s.Write(line.field_9_padding);
+
+        s.Write(line.field_A_previous);
+        s.Write(line.field_C_next);
+
+        s.Write(line.field_E_previous2);
+        s.Write(line.field_10_next2);
+
+        s.Write(line.field_12_line_length);
+    }
+
+    template<typename JsonReaderType>
+    static void SaveBinaryPathToLvl(Result& ret, Game gameType, const std::string& jsonInputFile, const std::string& outputLvlFile)
+    {
+        JsonReaderType doc;
+        auto [camerasAndMapObjects, collisionLines] = doc.Load(jsonInputFile);
+
+        LvlWriter lvl(outputLvlFile.c_str());
+        if (!lvl.IsOpen())
+        {
+            abort();
+        }
+
+        std::optional<std::vector<BYTE>> oldPathBnd = lvl.ReadFile(doc.mRootInfo.mPathBnd.c_str());
+        if (!oldPathBnd)
+        {
+            abort();
+        }
+
+        ChunkedLvlFile pathBndFile(*oldPathBnd);
+        std::optional<LvlFileChunk> chunk = pathBndFile.ChunkById(doc.mRootInfo.mPathId);
+        if (!chunk)
+        {
+            abort();
+        }
+
+        PathRootContainerAdapter pathRootContainer(gameType);
+        std::optional<PathBlyRecAdapter> pathBlyRecAdapter;
+        for (int i = 0; i < pathRootContainer.PathRootCount(); i++)
+        {
+            PathRootAdapter pathRoot = pathRootContainer.PathAt(i);
+            if (doc.mRootInfo.mPathBnd == pathRoot.BndName())
+            {
+                if (doc.mRootInfo.mPathId >= 0 && doc.mRootInfo.mPathId <= pathRoot.PathCount())
+                {
+                    pathBlyRecAdapter = pathRoot.PathAt(doc.mRootInfo.mPathId);
+                    break;
+                }
+            }
+        }
+
+        if (!pathBlyRecAdapter)
+        {
+            abort();
+        }
+
+        const PathInfo pathInfo = pathBlyRecAdapter->ConvertPathInfo();
+
+        ByteStream s;
+        s.ReserveSize(1024 * 20); // 20 kb estimate
+
+        // Write camera array
+        for (int x = 0; x < pathInfo.mWidth; x++)
+        {
+            for (int y = 0; y < pathInfo.mHeight; y++)
+            {
+                CameraNameAndTlvBlob* pItem = ItemAtXY<CameraNameAndTlvBlob>(camerasAndMapObjects, x, y);
+                if (pItem)
+                {
+                    if (pItem->mName.length() != 8)
+                    {
+                        abort();
+                    }
+                    s.Write(pItem->mName);
+                }
+                else
+                {
+                    const static BYTE blank[8] = {};
+                    s.Write(blank);
+                }
+            }
+        }
+
+        if (collisionLines.size() > pathInfo.mNumCollisionItems)
+        {
+            abort();
+        }
+
+        // Write collision lines
+        for (const auto& line : collisionLines)
+        {
+            WriteCollisionLine(s, line);
+        }
+
+        struct IndexTableEntry
+        {
+            int x = 0;
+            int y = 0;
+            int objectsOffset = 0;
+        };
+
+        // Write object lists for each camera, either put everything before the index table if it fits, or put
+        // everything after the index table as the game can enumerate ALL tlvs in one go. Thus splitting it across the index table
+        // area would break that logic.
+        // Additionally construct the index table offsets as we go.
+        std::size_t allTlvsLen = 0;
+        for (const CameraNameAndTlvBlob& camIter : camerasAndMapObjects)
+        {
+            allTlvsLen += camIter.TotalTlvSize();
+        }
+
+        // Data would overwrite the index table, put everything after it
+        if (allTlvsLen + pathInfo.mObjectOffset > pathInfo.mIndexTableOffset)
+        {
+            s.SeekWrite(pathInfo.mObjectOffset + (sizeof(int) * pathInfo.mWidth * pathInfo.mHeight));
+        }
+
+        std::vector<IndexTableEntry> indexTable;
+        for (int x = 0; x < pathInfo.mWidth; x++)
+        {
+            for (int y = 0; y < pathInfo.mHeight; y++)
+            {
+                CameraNameAndTlvBlob* pItem = ItemAtXY<CameraNameAndTlvBlob>(camerasAndMapObjects, x, y);
+                if (pItem)
+                {
+                    const int objDataOff = static_cast<int>(s.WritePos()) - static_cast<int>(pathInfo.mObjectOffset);
+                    indexTable.push_back({ x, y, objDataOff });
+                    for (const auto& tlv : pItem->mTlvBlobs)
+                    {
+                        s.Write(tlv);
+                    }
+                }
+                else
+                {
+                    indexTable.push_back({ x, y, -1 });
+                }
+            }
+        }
+
+        // Write index table values we just populated at the correct offset
+        s.SeekWrite(pathInfo.mIndexTableOffset);
+        ForEachItemAtXY<IndexTableEntry>(pathInfo, indexTable, [&](const IndexTableEntry& tableEntry) {
+            s.Write(tableEntry.objectsOffset);
+            });
+
+        // Push the path resource into a file chunk
+        LvlFileChunk newPathBlock(doc.mRootInfo.mPathId, ResourceManager::ResourceType::Resource_Path, s.GetBuffer());
+
+        // Add or replace the original file chunk
+        pathBndFile.AddChunk(newPathBlock);
+
+        // Add or replace the original path BND in the lvl
+        lvl.AddFile(doc.mRootInfo.mPathBnd.c_str(), pathBndFile.Data());
+
+        // Write out the updated lvl to disk
+        if (!lvl.Save())
+        {
+            abort();
+        }
+    }
+
     [[nodiscard]] Result ImportPathJsonToBinary(const std::string& jsonInputFile, const std::string& outputLvlFile, const std::vector<std::string>& /*lvlResourceSources*/)
     {
         Result ret = {};
@@ -344,158 +513,11 @@ namespace AliveAPI
 
         if (rootInfo.mMapRootInfo.mGame == "AO")
         {
-            JsonReaderAO doc;
-            auto [camerasAndMapObjects, collisionLines] = doc.LoadAO(jsonInputFile);
-
-            LvlWriter lvl(outputLvlFile.c_str());
-            if (!lvl.IsOpen())
-            {
-                abort();
-            }
-
-            std::optional<std::vector<BYTE>> oldPathBnd = lvl.ReadFile(doc.mRootInfo.mPathBnd.c_str());
-            if (!oldPathBnd)
-            {
-                abort();
-            }
-
-            ChunkedLvlFile pathBndFile(*oldPathBnd);
-            std::optional<LvlFileChunk> chunk = pathBndFile.ChunkById(doc.mRootInfo.mPathId);
-            if (!chunk)
-            {
-                abort();
-            }
-
-            PathRootContainerAdapter pathRootContainer(Game::AO);
-            std::optional<PathBlyRecAdapter> pathBlyRecAdapter;
-            for (int i = 0; i < pathRootContainer.PathRootCount(); i++)
-            {
-                PathRootAdapter pathRoot = pathRootContainer.PathAt(i);
-                if (doc.mRootInfo.mPathBnd == pathRoot.BndName())
-                {
-                    if (doc.mRootInfo.mPathId >= 0 && doc.mRootInfo.mPathId < pathRoot.PathCount())
-                    {
-                        pathBlyRecAdapter = pathRoot.PathAt(doc.mRootInfo.mPathId);
-                        break;
-                    }
-                }
-            }
-
-            if (!pathBlyRecAdapter)
-            {
-                abort();
-            }
-
-            const PathInfo pathInfo = pathBlyRecAdapter->ConvertPathInfo();
-
-            std::size_t pathResourceLen = 0;
-            pathResourceLen += collisionLines.size() * sizeof(AO::PathLine); // TODO: Calc a better estimate
-
-            ByteStream s;
-            s.ReserveSize(pathResourceLen);
-
-            // Write camera array
-            for (int x = 0; x < pathInfo.mWidth; x++)
-            {
-                for (int y = 0; y < pathInfo.mHeight; y++)
-                {
-                    CameraNameAndTlvBlob* pItem = ItemAtXY<CameraNameAndTlvBlob>(camerasAndMapObjects, x, y);
-                    if (pItem)
-                    {
-                        if (pItem->mName.length() != 8)
-                        {
-                            abort();
-                        }
-                        s.Write(pItem->mName);
-                    }
-                    else
-                    {
-                        const static BYTE blank[8] = {};
-                        s.Write(blank);
-                    }
-                }
-            }
-
-            if (collisionLines.size() > pathInfo.mNumCollisionItems)
-            {
-                abort();
-            }
-
-            // Write collision lines
-            for (const AO::PathLine& line : collisionLines)
-            {
-                WriteCollisionLine(s, line);
-            }
-
-            struct IndexTableEntry
-            {
-                int x = 0;
-                int y = 0;
-                int objectsOffset = 0;
-            };
-
-            // Write object lists for each camera, either put everything before the index table if it fits, or put
-            // everything after the index table as the game can enumerate ALL tlvs in one go. Thus splitting it across the index table
-            // area would break that logic.
-            // Additionally construct the index table offsets as we go.
-            std::size_t allTlvsLen = 0;
-            for (const CameraNameAndTlvBlob& camIter : camerasAndMapObjects)
-            {
-                allTlvsLen += camIter.TotalTlvSize();
-            }
-
-            // Data would overwrite the index table, put everything after it
-            if (allTlvsLen + pathInfo.mObjectOffset > pathInfo.mIndexTableOffset)
-            {
-                s.SeekWrite(pathInfo.mObjectOffset + (sizeof(int) * pathInfo.mWidth * pathInfo.mHeight));
-            }
-
-            std::vector<IndexTableEntry> indexTable;
-            for (int x = 0; x < pathInfo.mWidth; x++)
-            {
-                for (int y = 0; y < pathInfo.mHeight; y++)
-                {
-                    CameraNameAndTlvBlob* pItem = ItemAtXY<CameraNameAndTlvBlob>(camerasAndMapObjects, x, y);
-                    if (pItem)
-                    {
-                        const int objDataOff = static_cast<int>(s.WritePos()) - static_cast<int>(pathInfo.mObjectOffset);
-                        indexTable.push_back({ x, y, objDataOff });
-                        for (const auto& tlv : pItem->mTlvBlobs)
-                        {
-                            s.Write(tlv);
-                        }
-                    }
-                    else
-                    {
-                        indexTable.push_back({ x, y, -1 });
-                    }
-                }
-            }
-
-            // Write index table values we just populated at the correct offset
-            s.SeekWrite(pathInfo.mIndexTableOffset);
-            ForEachItemAtXY<IndexTableEntry>(pathInfo, indexTable, [&](const IndexTableEntry& tableEntry) {
-                s.Write(tableEntry.objectsOffset);
-                });
-
-            // Push the path resource into a file chunk
-            LvlFileChunk newPathBlock(doc.mRootInfo.mPathId, ResourceManager::ResourceType::Resource_Path, s.GetBuffer());
-
-            // Add or replace the original file chunk
-            pathBndFile.AddChunk(newPathBlock);
-
-            // Add or replace the original path BND in the lvl
-            lvl.AddFile(doc.mRootInfo.mPathBnd.c_str(), pathBndFile.Data());
-
-            // Write out the updated lvl to disk
-            if (!lvl.Save())
-            {
-                abort();
-            }
+            SaveBinaryPathToLvl<JsonReaderAO>(ret, Game::AO, jsonInputFile, outputLvlFile);
         }
         else
         {
-
+            SaveBinaryPathToLvl<JsonReaderAE>(ret, Game::AE, jsonInputFile, outputLvlFile);
         }
 
         return ret;

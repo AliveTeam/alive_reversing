@@ -32,13 +32,22 @@ TEST(alive_api, ExportPathBinaryToJsonAO)
     ASSERT_EQ(ret.mResult, AliveAPI::Error::None);
 }
 
-
 TEST(alive_api, ImportPathJsonToBinaryAO)
 {
     auto ret =  AliveAPI::ImportPathJsonToBinary("OutputAO.json", AOPath("R1.LVL"), {});
     ASSERT_EQ(ret.mResult, AliveAPI::Error::None);
 
     const auto ogR1 = FS::ReadFile(AOPath("R1.LVL"));
+    const auto rewrittenR1 = FS::ReadFile("new.lvl");
+    ASSERT_EQ(ogR1, rewrittenR1);
+}
+
+TEST(alive_api, ImportPathJsonToBinaryAE)
+{
+    auto ret = AliveAPI::ImportPathJsonToBinary("OutputAE.json", AEPath("BA.LVL"), {});
+    ASSERT_EQ(ret.mResult, AliveAPI::Error::None);
+
+    const auto ogR1 = FS::ReadFile(AEPath("BA.LVL"));
     const auto rewrittenR1 = FS::ReadFile("new.lvl");
     ASSERT_EQ(ogR1, rewrittenR1);
 }

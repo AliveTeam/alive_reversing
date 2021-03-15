@@ -4,6 +4,7 @@
 #include <vector>
 #include <jsonxx/jsonxx.h>
 #include "../AliveLibAO/Collisions.hpp"
+#include "../AliveLibAE/Collisions.hpp"
 
 inline int To1dIndex(int width, int x, int y)
 {
@@ -90,11 +91,30 @@ public:
     MapRootInfo mMapRootInfo;
 };
 
-class JsonReaderAO
+enum class Game;
+
+class JsonReaderBase
 {
 public:
-    std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> LoadAO(const std::string& fileName);
     MapInfo mRootInfo;
+protected:
+    std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> Load(Game gameType, const std::string& fileName);
+
+    std::vector<AO::PathLine> ReadAOLines(jsonxx::Array& collisionsArray);
+    std::vector<::PathLine> ReadAELines(jsonxx::Array& collisionsArray);
+};
+
+class JsonReaderAO : public JsonReaderBase
+{
+public:
+    std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> Load(const std::string& fileName);
+
+};
+
+class JsonReaderAE : public JsonReaderBase
+{
+public:
+    std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<::PathLine>> Load(const std::string& fileName);
 };
 
 class TypesCollection;

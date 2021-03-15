@@ -52,10 +52,7 @@ public:
 
     }
 
-    virtual std::vector<BYTE> GetTlvData(bool /*setTerminationFlag*/)
-    {
-        return {};
-    }
+    virtual std::vector<BYTE> GetTlvData(bool setTerminationFlag) = 0;
 
     std::string Name() const
     {
@@ -249,6 +246,14 @@ public:
         ret << "object_structures_type" << Name();
     }
 
+    std::vector<BYTE> GetTlvData(bool setTerminationFlag) override
+    {
+        std::vector<BYTE> ret(sizeof(T));
+        mTlv.field_0_flags.Set(TLV_Flags::eBit3_End_TLV_List, setTerminationFlag);
+        memcpy(ret.data(), &mTlv, sizeof(T));
+        return ret;
+    }
+
     TlvTypes TlvType() const
     {
         return mType;
@@ -300,7 +305,7 @@ public:
         ret << "object_structures_type" << Name();
     }
 
-    virtual std::vector<BYTE> GetTlvData(bool setTerminationFlag) override
+    std::vector<BYTE> GetTlvData(bool setTerminationFlag) override
     {
         std::vector<BYTE> ret(sizeof(T));
         mTlv.field_0_flags.Set(AO::TLV_Flags::eBit3_End_TLV_List, setTerminationFlag);
