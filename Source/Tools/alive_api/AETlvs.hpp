@@ -34,8 +34,20 @@
 #include "../AliveLibAE/FartMachine.hpp"
 #include "../AliveLibAE/Grinder.hpp"
 #include "../AliveLibAE/Mine.hpp"
+#include "../AliveLibAE/Slog.hpp"
+#include "../AliveLibAE/TrapDoor.hpp"
 
 #define CTOR_AE(className, objectTypeName, tlvType)  className(TypesCollection& globalTypes, Path_TLV* pTlv = nullptr) : TlvObjectBaseAE(tlvType, objectTypeName, pTlv)
+
+struct Path_PathTransition : public Path_TLV
+{
+    // Empty
+};
+
+struct Path_Null_76 : public Path_TLV
+{
+    // Empty
+};
 
 struct Path_ZSligCover : public Path_TLV
 {
@@ -975,6 +987,54 @@ namespace AETlvs
             ADD("scale", mTlv.field_14_scale);
             ADD("disabled_resources", mTlv.field_16_disabled_resources);
             ADD("persists_offscreen", mTlv.field_18_persists_offscreen);
+        }
+    };
+
+    struct Path_Slog : public TlvObjectBaseAE<::Path_Slog>
+    {
+        CTOR_AE(Path_Slog, "Slog", TlvTypes::Slog_16)
+        {
+            ADD("scale", mTlv.field_10_scale);
+            ADD("direction", mTlv.field_12_direction);
+            ADD("asleep", mTlv.field_14_asleep);
+            ADD("wake_up_anger", mTlv.field_16_wake_up_anger);
+            ADD("bark_anger", mTlv.field_18_bark_anger);
+            ADD("chase_anger", mTlv.field_1A_chase_anger);
+            ADD("jump_delay", mTlv.field_1C_jump_delay);
+            ADD("disabled_resources", mTlv.field_1E_disabled_resources);
+            ADD("angry_id", mTlv.field_20_angry_id);
+            ADD("bone_eating_time", mTlv.field_22_bone_eating_time);
+        }
+    };
+
+    struct Path_Null_76 : public TlvObjectBaseAE<::Path_Null_76>
+    {
+        CTOR_AE(Path_Null_76, "Null_76", TlvTypes::Null_76)
+        {
+            // Empty
+        }
+    };
+
+    struct Path_TrapDoor : public TlvObjectBaseAE<::Path_TrapDoor>
+    {
+        CTOR_AE(Path_TrapDoor, "TrapDoor", TlvTypes::TrapDoor_30)
+        {
+            ADD("id", mTlv.field_10_id);
+            ADD("start_state", mTlv.field_12_start_state);
+            ADD("self_closing", mTlv.field_14_self_closing);
+            ADD("scale", mTlv.field_16_scale);
+            ADD("dest_level", mTlv.field_18_dest_level);
+            ADD("direction", mTlv.field_1A_direction);
+            ADD("anim_offset", mTlv.field_1C_anim_offset);
+            ADD("stay_open_time", mTlv.field_1E_stay_open_time);
+        }
+    };
+
+    struct Path_PathTransition : public TlvObjectBaseAE<::Path_PathTransition>
+    {
+        CTOR_AE(Path_PathTransition, "PathTransition", TlvTypes::PathTransition_1)
+        {
+            // Empty
         }
     };
 }

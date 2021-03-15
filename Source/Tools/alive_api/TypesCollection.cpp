@@ -144,6 +144,10 @@ void TypesCollection::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_FartMachine);
     REGISTER_TYPE_AE(AETlvs::Path_Grinder);
     REGISTER_TYPE_AE(AETlvs::Path_Mine);
+    REGISTER_TYPE_AE(AETlvs::Path_Slog);
+    REGISTER_TYPE_AE(AETlvs::Path_Null_76);
+    REGISTER_TYPE_AE(AETlvs::Path_TrapDoor);
+    REGISTER_TYPE_AE(AETlvs::Path_PathTransition);
 
     for (auto& [key, value] : mTlvFactoryAE)
     {
