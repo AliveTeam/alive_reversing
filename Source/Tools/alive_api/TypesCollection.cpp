@@ -162,6 +162,8 @@ void TypesCollection::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_DoorBlocker);
     REGISTER_TYPE_AE(AETlvs::Path_Dove);
     REGISTER_TYPE_AE(AETlvs::Path_BirdPortalExit);
+    REGISTER_TYPE_AE(AETlvs::Path_DoorFlame);
+    REGISTER_TYPE_AE(AETlvs::Path_TrainDoor);
 
     for (auto& [key, value] : mTlvFactoryAE)
     {

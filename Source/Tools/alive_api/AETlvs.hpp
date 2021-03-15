@@ -47,6 +47,7 @@
 #include "../AliveLibAE/Slurg.hpp"
 #include "../AliveLibAE/DoorBlocker.hpp"
 #include "../AliveLibAE/Dove.hpp"
+#include "../AliveLibAE/DoorFlame.hpp"
 
 #define CTOR_AE(className, objectTypeName, tlvType)  className(TypesCollection& globalTypes, Path_TLV* pTlv = nullptr) : TlvObjectBaseAE(tlvType, objectTypeName, pTlv)
 
@@ -1227,6 +1228,24 @@ namespace AETlvs
         {
             ADD("side", mTlv.field_10_side);
             ADD("scale", mTlv.field_12_scale);
+        }
+    };
+
+    struct Path_DoorFlame : public TlvObjectBaseAE<::Path_DoorFlame>
+    {
+        CTOR_AE(Path_DoorFlame, "DoorFlame", TlvTypes::DoorFlame_51)
+        {
+            ADD("id", mTlv.field_10_id);
+            ADD("scale", mTlv.field_12_scale);
+            ADD("colour", mTlv.field_14_colour);
+        }
+    };
+
+    struct Path_TrainDoor : public TlvObjectBaseAE<::Path_TrainDoor>
+    {
+        CTOR_AE(Path_TrainDoor, "TrainDoor", TlvTypes::TrainDoor_111)
+        {
+            ADD("flip_x", mTlv.field_10_flipX);
         }
     };
 }
