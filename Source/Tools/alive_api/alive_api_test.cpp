@@ -78,10 +78,10 @@ TEST(alive_api, ImportPathJsonToBinaryAO)
 
 TEST(alive_api, ImportPathJsonToBinaryAE)
 {
-    auto ret = AliveAPI::ImportPathJsonToBinary("OutputAE.json", AEPath("BA.LVL"), "newAE.lvl", {});
+    auto ret = AliveAPI::ImportPathJsonToBinary("OutputAE.json", AEPath("ne.LVL"), "newAE.lvl", {});
     ASSERT_EQ(ret.mResult, AliveAPI::Error::None);
 
-    const auto ogBA = FS::ReadFile(AEPath("BA.LVL"));
+    const auto ogBA = FS::ReadFile(AEPath("ne.LVL"));
     const auto rewrittenBA = FS::ReadFile("newAE.lvl");
     ASSERT_EQ(ogBA, rewrittenBA);
 }

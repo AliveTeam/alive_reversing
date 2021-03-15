@@ -360,7 +360,7 @@ void JsonWriterBase::Save(const PathInfo& info, std::vector<BYTE>& pathResource,
             {
                 if (pCamName->name[0])
                 {
-                    LOG_INFO("Add camera with no objects " << pCamName->name);
+                    LOG_INFO("Add camera with no objects " << tmpCamera.mName);
                     cameraArray << tmpCamera.ToJsonObject({});
                 }
             }

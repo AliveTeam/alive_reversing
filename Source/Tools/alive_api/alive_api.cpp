@@ -406,7 +406,12 @@ namespace AliveAPI
                 CameraNameAndTlvBlob* pItem = ItemAtXY<CameraNameAndTlvBlob>(camerasAndMapObjects, x, y);
                 if (pItem)
                 {
-                    if (pItem->mName.length() == 8)
+                    if (pItem->mName.empty())
+                    {
+                        const static BYTE blank[8] = {};
+                        s.Write(blank);
+                    }
+                    else if (pItem->mName.length() == 8)
                     {
                         s.Write(pItem->mName);
                     }
