@@ -56,8 +56,30 @@
 #include "../AliveLibAE/Glukkon.hpp"
 #include "../AliveLibAE/GlukkonSwitch.hpp"
 #include "../AliveLibAE/GasCountDown.hpp"
+#include "../AliveLibAE/FallingItem.hpp"
+#include "../AliveLibAE/Bone.hpp"
+#include "../AliveLibAE/FootSwitch.hpp"
+#include "../AliveLibAE/SlogHut.hpp"
+#include "../AliveLibAE/SlogSpawner.hpp"
+#include "../AliveLibAE/Scrab.hpp"
+#include "../AliveLibAE/ScrabSpawner.hpp"
+#include "../AliveLibAE/SlurgSpawner.hpp"
+#include "../AliveLibAE/Paramite.hpp"
+#include "../AliveLibAE/ParamiteWebLine.hpp"
+#include "../AliveLibAE/Meat.hpp"
+#include "../AliveLibAE/TorturedMudokon.hpp"
 
 #define CTOR_AE(className, objectTypeName, tlvType)  className(TypesCollection& globalTypes, Path_TLV* pTlv = nullptr) : TlvObjectBaseAE(tlvType, objectTypeName, pTlv)
+
+struct Path_Null_63 : public Path_TLV
+{
+    // Empty
+};
+
+struct Path_MainMenuController : public Path_TLV
+{
+    // Empty
+};
 
 struct Path_SligGetWings : public Path_TLV
 {
@@ -706,6 +728,7 @@ namespace AETlvs
                 {
                     {::Layer::eLayer_0, "Layer_0"},
                     {::Layer::eLayer_1, "Layer_1"},
+                    {::Layer::eLayer_2, "Layer_2"},
                     {::Layer::eLayer_3, "Layer_3"},
                     {::Layer::eLayer_4, "Layer_4"},
                     {::Layer::eLayer_5, "Layer_5"},
@@ -722,7 +745,9 @@ namespace AETlvs
                     {::Layer::eLayer_16, "Layer_16"},
                     {::Layer::eLayer_17, "Layer_17"},
                     {::Layer::eLayer_18, "Layer_18"},
+                    {::Layer::eLayer_19, "Layer_19"},
                     {::Layer::eLayer_20, "Layer_20"},
+                    {::Layer::eLayer_21, "Layer_21"},
                     {::Layer::eLayer_22, "Layer_22"},
                     {::Layer::eLayer_23, "Layer_23"},
                     {::Layer::eLayer_24, "Layer_24"},
@@ -744,7 +769,6 @@ namespace AETlvs
                     {::Layer::eLayer_40, "Layer_40"},
                     {::Layer::eLayer_41, "Layer_41"},
                     {::Layer::eLayer_42, "Layer_42"},
-
                 });
         }
 
@@ -1159,7 +1183,7 @@ namespace AETlvs
     {
         void AddTypes(TypesCollection& types) override
         {
-            types.AddEnum<::Path_MotionDetector::StartMoveDirection>("Enum_GrinderBehavior",
+            types.AddEnum<::Path_MotionDetector::StartMoveDirection>("Enum_StartMoveDirection",
                 {
                     {::Path_MotionDetector::StartMoveDirection::eRight_0, "right"},
                     {::Path_MotionDetector::StartMoveDirection::eLeft_1, "left"},
@@ -1280,15 +1304,6 @@ namespace AETlvs
 
     struct Path_BirdPortalExit : public TlvObjectBaseAE<::Path_BirdPortalExit>
     {
-        void AddTypes(TypesCollection& types) override
-        {
-            types.AddEnum<::PortalSide>("Enum_PortalSide",
-                {
-                    {::PortalSide::eRight_0, "right"},
-                    {::PortalSide::eLeft_1, "left"},
-                });
-        }
-
         CTOR_AE(Path_BirdPortalExit, "BirdPortalExit", TlvTypes::BirdPortalExit_29)
         {
             ADD("side", mTlv.field_10_side);
@@ -1513,6 +1528,186 @@ namespace AETlvs
             ADD("start_trigger_id", mTlv.field_10_start_trigger_id);
             ADD("time", mTlv.field_12_time);
             ADD("stop_trigger_id", mTlv.field_14_stop_trigger_id);
+        }
+    };
+
+    struct Path_FallingItem : public TlvObjectBaseAE<::Path_FallingItem>
+    {
+        CTOR_AE(Path_FallingItem, "FallingItem", TlvTypes::FallingItem_11)
+        {
+            ADD("id", mTlv.field_10_id);
+            ADD("scale", mTlv.field_12_scale);
+            ADD("delay_time", mTlv.field_14_delay_time);
+            ADD("number_of_items", mTlv.field_16_number_of_items);
+            ADD("reset_id", mTlv.field_18_reset_id);
+        }
+    };
+
+    struct Path_BoneBag : public TlvObjectBaseAE<::Path_BoneBag>
+    {
+        CTOR_AE(Path_BoneBag, "BoneBag", TlvTypes::BoneBag_94)
+        {
+            ADD("side", mTlv.field_10_side);
+            ADD("x_vel", mTlv.field_12_x_vel);
+            ADD("y_vel", mTlv.field_14_y_vel);
+            ADD("num_bones", mTlv.field_18_num_bones);
+        }
+    };
+
+    struct Path_SecurityClaw : public TlvObjectBaseAE<::Path_SecurityClaw>
+    {
+        CTOR_AE(Path_SecurityClaw, "SecurityClaw", TlvTypes::SecurityClaw_35)
+        {
+            ADD("scale", mTlv.field_10_scale);
+            ADD("disabled_resources", mTlv.field_12_disabled_resources);
+        }
+    };
+
+    struct Path_FootSwitch : public TlvObjectBaseAE<::Path_FootSwitch>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<::FootSwitchTriggerBy>("Enum_FootSwitchTriggeredBy",
+                {
+                    {::FootSwitchTriggerBy::eOnlyAbe_0, "only_abe"},
+                    {::FootSwitchTriggerBy::eAnyone_1, "anyone"},
+                });
+        }
+
+        CTOR_AE(Path_FootSwitch, "FootSwitch", TlvTypes::FootSwitch_34)
+        {
+            ADD("id", mTlv.field_10_id);
+            ADD("scale", mTlv.field_12_scale);
+            ADD("action", mTlv.field_14_action);
+            ADD("trigger_by", mTlv.field_16_trigger_by);
+        }
+    };
+
+    struct Path_SlogHut : public TlvObjectBaseAE<::Path_SlogHut>
+    {
+        CTOR_AE(Path_SlogHut, "SlogHut", TlvTypes::SlogHut_72)
+        {
+            ADD("scale", mTlv.field_10_scale);
+            ADD("switch_id", mTlv.field_12_switch_id);
+            ADD("z_delay", mTlv.field_14_z_delay);
+        }
+    };
+
+    struct Path_SlogSpawner : public TlvObjectBaseAE<::Path_SlogSpawner>
+    {
+        CTOR_AE(Path_SlogSpawner, "SlogSpawner", TlvTypes::SlogSpawner_68)
+        {
+            ADD("scale", mTlv.field_10_scale);
+            ADD("number_of_slogs", mTlv.field_12_number_of_slogs);
+            ADD("at_a_time", mTlv.field_14_at_a_time);
+            ADD("direction", mTlv.field_16_direction);
+            ADD("ticks_between_slog", mTlv.field_18_ticks_between_slogs);
+            ADD("id", mTlv.field_1A_id);
+            ADD("listen_to_sligs", mTlv.field_1C_listen_to_sligs);
+            ADD("jump_attack_delay", mTlv.field_1E_jump_attack_delay);
+        }
+    };
+
+    struct Path_MainMenuController : public TlvObjectBaseAE<::Path_MainMenuController>
+    {
+        CTOR_AE(Path_MainMenuController, "MainMenuController", TlvTypes::MainMenuController_54)
+        {
+            // Empty
+        }
+    };
+
+    struct Path_Null_63 : public TlvObjectBaseAE<::Path_Null_63>
+    {
+        CTOR_AE(Path_Null_63, "Null_63", TlvTypes::Null_63)
+        {
+            // Empty
+        }
+    };
+
+    struct Path_Scrab : public TlvObjectBaseAE<::Path_Scrab>
+    {
+        CTOR_AE(Path_Scrab, "Scrab", TlvTypes::Scrab_41)
+        {
+            ADD("scale", mTlv.field_10_scale);
+            ADD("attack_delay", mTlv.field_12_attack_delay);
+            ADD("patrol_type", mTlv.field_14_patrol_type);
+            ADD("left_min_delay", mTlv.field_16_left_min_delay);
+            ADD("left_max_delay", mTlv.field_18_left_max_delay);
+            ADD("right_min_delay", mTlv.field_1A_right_min_delay);
+            ADD("right_max_delay", mTlv.field_1C_right_max_delay);
+            ADD("attack_duration", mTlv.field_1E_attack_duration);
+            ADD("disabled_resources", mTlv.field_20_disabled_resources);
+            ADD("roar_randomly", mTlv.field_22_roar_randomly);
+            ADD("persistant", mTlv.field_24_persistant);
+            ADD("whirl_attack_duration", mTlv.field_26_whirl_attack_duration);
+            ADD("whirl_attack_recharge", mTlv.field_28_whirl_attack_recharge);
+            ADD("kill_close_fleech", mTlv.field_2A_kill_close_fleech);
+        }
+    };
+
+    struct Path_ScrabSpawner : public TlvObjectBaseAE<::Path_ScrabSpawner>
+    {
+        CTOR_AE(Path_ScrabSpawner, "ScrabSpawner", TlvTypes::ScrabSpawner_102)
+        {
+            ADD("switch_id", mTlv.field_2C_switch_id);
+            ADD("scale", mTlv.field_2E_scale);
+        }
+    };
+
+    struct Path_SlurgSpawner : public TlvObjectBaseAE<::Path_SlurgSpawner>
+    {
+        CTOR_AE(Path_SlurgSpawner, "SlurgSpawner", TlvTypes::SlurgSpawner_89)
+        {
+            ADD("delay_between_slurgs", mTlv.field_18_path_data.field_8_delay_between_slurgs);
+            ADD("max_slurgs", mTlv.field_18_path_data.field_A_max_slurgs);
+            ADD("switch_id", mTlv.field_18_path_data.field_C_switch_id);
+        }
+    };
+
+    struct Path_Paramite : public TlvObjectBaseAE<::Path_Paramite>
+    {
+        CTOR_AE(Path_Paramite, "Paramite", TlvTypes::Paramite_26)
+        {
+            ADD("scale", mTlv.field_10_scale);
+            ADD("entrance_type", mTlv.field_12_entrace_type);
+            ADD("attack_delay", mTlv.field_14_attack_delay);
+            ADD("drop_delay", mTlv.field_16_drop_delay);
+            ADD("meat_eating_time", mTlv.field_18_meat_eating_time);
+            ADD("attack_duration", mTlv.field_1A_attack_duration);
+            ADD("disabled_resources", mTlv.field_1C_disabled_resources);
+            ADD("id", mTlv.field_1E_id);
+            ADD("hiss_before_attack", mTlv.field_20_hiss_before_attack);
+            ADD("delete_when_far_away", mTlv.field_22_delete_when_far_away);
+            ADD("deadly_scratch", mTlv.field_24_deadly_scratch);
+        }
+    };
+
+    struct Path_ParamiteWebLine : public TlvObjectBaseAE<::Path_ParamiteWebLine>
+    {
+        CTOR_AE(Path_ParamiteWebLine, "ParamiteWebLine", TlvTypes::ParamiteWebLine_99)
+        {
+            ADD("scale", mTlv.field_10_scale);
+        }
+    };
+
+    struct Path_MeatSack : public TlvObjectBaseAE<::Path_MeatSack>
+    {
+        CTOR_AE(Path_MeatSack, "MeatSack", TlvTypes::MeatSack_40)
+        {
+            ADD("side", mTlv.field_10_side);
+            ADD("x_vel", mTlv.field_12_xVel);
+            ADD("y_vel", mTlv.field_14_yVel);
+            ADD("scale", mTlv.field_16_scale);
+            ADD("num_items", mTlv.field_18_num_items);
+        }
+    };
+
+    struct Path_TorturedMudokon : public TlvObjectBaseAE<::Path_TorturedMudokon>
+    {
+        CTOR_AE(Path_TorturedMudokon, "TorturedMudokon", TlvTypes::TorturedMudokon_110)
+        {
+            ADD("speed_id", mTlv.field_10_speed_id);
+            ADD("release_id", mTlv.field_12_release_id);
         }
     };
 }

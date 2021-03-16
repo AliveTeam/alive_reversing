@@ -178,6 +178,21 @@ void TypesCollection::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_Glukkon);
     REGISTER_TYPE_AE(AETlvs::Path_GlukkonSwitch);
     REGISTER_TYPE_AE(AETlvs::Path_GasCountDown);
+    REGISTER_TYPE_AE(AETlvs::Path_FallingItem);
+    REGISTER_TYPE_AE(AETlvs::Path_BoneBag);
+    REGISTER_TYPE_AE(AETlvs::Path_SecurityClaw);
+    REGISTER_TYPE_AE(AETlvs::Path_FootSwitch);
+    REGISTER_TYPE_AE(AETlvs::Path_SlogHut);
+    REGISTER_TYPE_AE(AETlvs::Path_SlogSpawner);
+    REGISTER_TYPE_AE(AETlvs::Path_MainMenuController);
+    REGISTER_TYPE_AE(AETlvs::Path_Null_63);
+    REGISTER_TYPE_AE(AETlvs::Path_Scrab);
+    REGISTER_TYPE_AE(AETlvs::Path_ScrabSpawner);
+    REGISTER_TYPE_AE(AETlvs::Path_SlurgSpawner);
+    REGISTER_TYPE_AE(AETlvs::Path_Paramite);
+    REGISTER_TYPE_AE(AETlvs::Path_ParamiteWebLine);
+    REGISTER_TYPE_AE(AETlvs::Path_MeatSack);
+    REGISTER_TYPE_AE(AETlvs::Path_TorturedMudokon);
 
     for (auto& [key, value] : mTlvFactoryAE)
     {

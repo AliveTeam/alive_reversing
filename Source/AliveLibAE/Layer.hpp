@@ -4,6 +4,7 @@ enum class Layer : __int16
 {
     eLayer_0 = 0,
     eLayer_1 = 1,
+    eLayer_2 = 2,
     eLayer_3 = 3,
     eLayer_4 = 4,
     eLayer_5 = 5,
@@ -20,7 +21,9 @@ enum class Layer : __int16
     eLayer_16 = 16,
     eLayer_17 = 17,
     eLayer_18 = 18,
+    eLayer_19 = 19,
     eLayer_20 = 20,
+    eLayer_21 = 21,
     eLayer_22 = 22,
     eLayer_23 = 23,
     eLayer_24 = 24,

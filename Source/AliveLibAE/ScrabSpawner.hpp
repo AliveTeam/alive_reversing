@@ -5,12 +5,12 @@
 #include "Path.hpp"
 #include "Scrab.hpp"
 
-struct Path_Scrab_Spawner : public Path_Scrab
+struct Path_ScrabSpawner : public Path_Scrab
 {
     __int16 field_2C_switch_id;
     __int16 field_2E_scale;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Scrab_Spawner, 0x30);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ScrabSpawner, 0x30);
 
 struct ScrabSpawner_State
 {
@@ -25,7 +25,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(ScrabSpawner_State, 0x10);
 class ScrabSpawner : public BaseGameObject
 {
 public:
-    EXPORT ScrabSpawner* ctor_4AB450(Path_Scrab_Spawner* pTlv, int tlvInfo);
+    EXPORT ScrabSpawner* ctor_4AB450(Path_ScrabSpawner* pTlv, int tlvInfo);
     EXPORT static int CC CreateFromSaveState_4ABEB0(const BYTE* pBuffer);
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
