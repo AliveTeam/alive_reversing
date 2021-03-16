@@ -36,7 +36,7 @@ enum class TlvTypes : __int16
     Edge_4 = 4,
     DeathDrop_5 = 5,
     Door_6 = 6,
-    Shadow_7 = 7,
+    ShadowZone_7 = 7,
     LiftPoint_8 = 8,
 
     WellLocal_11 = 11, // TODO: check if WellLocal and WellExpress are not swapped
@@ -127,7 +127,7 @@ enum class TlvTypes : __int16
     Preloader_102 = 102,
     LcdStatusBoard_103 = 103,
 
-    Music_105 = 105,
+    MusicTrigger_105 = 105,
     LightEffect_106 = 106,
     SlogSpawner_107 = 107,
     DeathClock_108 = 108,

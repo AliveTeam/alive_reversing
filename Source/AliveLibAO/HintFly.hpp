@@ -12,7 +12,7 @@ struct HintFlyParticle;
 
 struct Path_HintFly : public Path_TLV
 {
-    __int16 field_18_mesage_id;
+    __int16 field_18_message_id;
     __int16 field_1A_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_HintFly, 0x1C);
