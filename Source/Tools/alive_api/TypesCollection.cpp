@@ -64,6 +64,14 @@ void TypesCollection::AddAOTypes()
     REGISTER_TYPE_AO(AOTlvs::Path_SligLeftBound);
     REGISTER_TYPE_AO(AOTlvs::Path_SligRightBound);
     REGISTER_TYPE_AO(AOTlvs::Path_SligPersist);
+    REGISTER_TYPE_AO(AOTlvs::Path_SecurityOrb);
+    REGISTER_TYPE_AO(AOTlvs::Path_FallingItem);
+    REGISTER_TYPE_AO(AOTlvs::Path_Mine);
+    REGISTER_TYPE_AO(AOTlvs::Path_Dove);
+    REGISTER_TYPE_AO(AOTlvs::Path_UXB);
+    REGISTER_TYPE_AO(AOTlvs::Path_HintFly);
+    REGISTER_TYPE_AO(AOTlvs::Path_Bat);
+    REGISTER_TYPE_AO(AOTlvs::Path_ShadowZone);
 
     for (auto& [key, value] : mTlvFactoryAO)
     {

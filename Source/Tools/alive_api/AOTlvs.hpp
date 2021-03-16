@@ -9,6 +9,14 @@
 #include "../AliveLibAO/ElectricWall.hpp"
 #include "../AliveLibAO/Well.hpp"
 #include "../AliveLibAO/Slig.hpp"
+#include "../AliveLibAO/SecurityOrb.hpp"
+#include "../AliveLibAO/FallingItem.hpp"
+#include "../AliveLibAO/Mine.hpp"
+#include "../AliveLibAO/Dove.hpp"
+#include "../AliveLibAO/UXB.hpp"
+#include "../AliveLibAO/HintFly.hpp"
+#include "../AliveLibAO/Bat.hpp"
+#include "../AliveLibAO/ShadowZone.hpp"
 
 #define CTOR_AO(className, objectTypeName, tlvType)  className(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO(tlvType, objectTypeName, pTlv)
 
@@ -352,6 +360,103 @@ namespace AOTlvs
         {
             ADD("id", mTlv.field_18_slig_id);
             ADD("disabled_resources", mTlv.field_1A_disabled_resources.Raw().all);
+        }
+    };
+
+    struct Path_SecurityOrb : public TlvObjectBaseAO<AO::Path_SecurityOrb>
+    {
+        CTOR_AO(Path_SecurityOrb, "SecurityOrb", AO::TlvTypes::SecurityOrb_29)
+        {
+            ADD("scale", mTlv.field_18_scale);
+            ADD("disabled_resources", mTlv.field_1A_disable_resources);
+        }
+    };
+
+    struct Path_FallingItem : public TlvObjectBaseAO<AO::Path_FallingItem>
+    {
+        CTOR_AO(Path_FallingItem, "FallingItem", AO::TlvTypes::FallingItem_15)
+        {
+            ADD("id", mTlv.field_18_id);
+            ADD("scale", mTlv.field_1A_scale);
+            ADD("delay_time", mTlv.field_1C_delay_time);
+            ADD("number_of_items", mTlv.field_1E_number_of_items);
+            ADD("reset_id", mTlv.field_20_reset_id);
+        }
+    };
+
+    struct Path_Mine : public TlvObjectBaseAO<AO::Path_Mine>
+    {
+        CTOR_AO(Path_Mine, "Mine", AO::TlvTypes::Mine_46)
+        {
+            ADD("num_patterns", mTlv.field_18_num_patterns);
+            ADD("pattern", mTlv.field_1A_pattern);
+            ADD("scale", mTlv.field_1C_scale);
+            ADD("disabled_resources", mTlv.field_1E_disabled_resources);
+            ADD("persists_offscreen", mTlv.field_20_persists_offscreen);
+        }
+    };
+
+    struct Path_Dove : public TlvObjectBaseAO<AO::Path_Dove>
+    {
+        CTOR_AO(Path_Dove, "Dove", AO::TlvTypes::Dove_12)
+        {
+            ADD("dove_count", mTlv.field_18_dove_count);
+            ADD("pixel_perfect", mTlv.field_1A_pixel_perfect);
+            ADD("scale", mTlv.field_1C_scale);
+        }
+    };
+
+    struct Path_UXB : public TlvObjectBaseAO<AO::Path_UXB>
+    {
+        CTOR_AO(Path_UXB, "UXB", AO::TlvTypes::UXB_47)
+        {
+            ADD("num_patterns", mTlv.field_18_num_patterns);
+            ADD("pattern", mTlv.field_1A_pattern);
+            ADD("scale", mTlv.field_1C_scale);
+            ADD("state", mTlv.field_1E_state);
+        }
+    };
+
+    struct Path_HintFly : public TlvObjectBaseAO<AO::Path_HintFly>
+    {
+        CTOR_AO(Path_HintFly, "HintFly", AO::TlvTypes::HintFly_92)
+        {
+            ADD("message_id", mTlv.field_18_message_id);
+        }
+    };
+
+    struct Path_Bat : public TlvObjectBaseAO<AO::Path_Bat>
+    {
+        CTOR_AO(Path_Bat, "Bat", AO::TlvTypes::Bat_49)
+        {
+            ADD("ticks_before_moving", mTlv.field_18_ticks_before_moving);
+            ADD("speed", mTlv.field_1A_speed);
+            ADD("scale", mTlv.field_1C_scale);
+            ADD("attack_duration", mTlv.field_1E_attack_duration);
+        }
+    };
+
+    struct Path_ShadowZone : public TlvObjectBaseAO<AO::Path_ShadowZone>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<AO::ShadowZoneScale>("Enum_ShadowZoneScale",
+                {
+                    {AO::ShadowZoneScale::eBoth_0, "both"},
+                    {AO::ShadowZoneScale::eHalf_1, "half"},
+                    {AO::ShadowZoneScale::eFull_2, "full"},
+                });
+        }
+
+        CTOR_AO(Path_ShadowZone, "ShadowZone", AO::TlvTypes::ShadowZone_7)
+        {
+            ADD("centre_w", mTlv.field_18_centre_w);
+            ADD("centre_h", mTlv.field_1A_centre_h);
+            ADD("r", mTlv.field_1C_r);
+            ADD("g", mTlv.field_1E_g);
+            ADD("b", mTlv.field_20_b);
+            ADD("id", mTlv.field_22_id);
+            ADD("scale", mTlv.field_24_scale);
         }
     };
 }

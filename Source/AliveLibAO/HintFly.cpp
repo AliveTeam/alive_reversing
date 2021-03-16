@@ -1378,12 +1378,12 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, int tlvInfo)
         field_124_tlvInfo = tlvInfo;
         field_11E_msg_idx = 0;
 
-        field_11C_message_id = pTlv->field_18_mesage_id;
+        field_11C_message_id = pTlv->field_18_message_id;
 
         field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
         field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
 
-        const char* pMsg = gHintFlyMessages_4C6A10[pTlv->field_18_mesage_id];
+        const char* pMsg = gHintFlyMessages_4C6A10[pTlv->field_18_message_id];
 
         field_118_counter = 20;
         field_11A_msg_len = 0;
