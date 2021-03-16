@@ -102,6 +102,8 @@ public:
         if (!TypeName<T>().empty())
         {
             // Type already exists
+            LOG_ERROR(enumName << " exists more than once ");
+            abort();
             return ret;
         }
 
