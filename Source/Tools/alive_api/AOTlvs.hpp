@@ -17,6 +17,11 @@
 #include "../AliveLibAO/HintFly.hpp"
 #include "../AliveLibAO/Bat.hpp"
 #include "../AliveLibAO/ShadowZone.hpp"
+#include "../AliveLibAO/BellHammer.hpp"
+#include "../AliveLibAO/IdSplitter.hpp"
+#include "../AliveLibAO/PullRingRope.hpp"
+#include "../AliveLibAO/MusicTrigger.hpp"
+#include "../AliveLibAO/Elum.hpp"
 
 #define CTOR_AO(className, objectTypeName, tlvType)  className(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO(tlvType, objectTypeName, pTlv)
 
@@ -38,6 +43,16 @@ namespace AO
     };
 
     struct Path_DeathDrop : public Path_TLV
+    {
+        // No fields
+    };
+
+    struct Path_ElumStart : public Path_TLV
+    {
+        // No fields
+    };
+
+    struct Path_ElumWall : public Path_TLV
     {
         // No fields
     };
@@ -457,6 +472,81 @@ namespace AOTlvs
             ADD("b", mTlv.field_20_b);
             ADD("id", mTlv.field_22_id);
             ADD("scale", mTlv.field_24_scale);
+        }
+    };
+
+    struct Path_BellHammer : public TlvObjectBaseAO<AO::Path_BellHammer>
+    {
+        CTOR_AO(Path_BellHammer, "BellHammer", AO::TlvTypes::BellHammer_27)
+        {
+            ADD("id", mTlv.field_18_id);
+            ADD("action", mTlv.field_1A_action);
+            ADD("scale", mTlv.field_1C_scale);
+            ADD("direction", mTlv.field_1E_direction);
+        }
+    };
+
+    struct Path_IdSplitter : public TlvObjectBaseAO<AO::Path_IdSplitter>
+    {
+        CTOR_AO(Path_IdSplitter, "IdSplitter", AO::TlvTypes::IdSplitter_94)
+        {
+            ADD("source_id", mTlv.field_18_source_id);
+            ADD("delay", mTlv.field_1A_delay);
+            ADD("id_1", mTlv.field_1C_id1);
+            ADD("id_2", mTlv.field_1C_id2);
+            ADD("id_3", mTlv.field_1C_id3);
+            ADD("id_4", mTlv.field_1C_id4);
+        }
+    };
+
+    struct Path_PullRingRope : public TlvObjectBaseAO<AO::Path_PullRingRope>
+    {
+        CTOR_AO(Path_PullRingRope, "PullRingRope", AO::TlvTypes::PullRingRope_18)
+        {
+            ADD("id", mTlv.field_18_id);
+            ADD("action", mTlv.field_1A_action);
+            ADD("rope_length", mTlv.field_1C_rope_length);
+            ADD("scale", mTlv.field_1E_scale);
+            ADD("on_sound", mTlv.field_20_on_sound);
+            ADD("off_sound", mTlv.field_22_off_sound);
+            ADD("sound_direction", mTlv.field_24_sound_direction);
+        }
+    };
+
+    struct Path_MusicTrigger : public TlvObjectBaseAO<AO::Path_MusicTrigger>
+    {
+        CTOR_AO(Path_MusicTrigger, "MusicTrigger", AO::TlvTypes::MusicTrigger_105)
+        {
+            ADD("type", mTlv.field_18_type);
+            ADD("enabled_by", mTlv.field_1A_enabled_by);
+            ADD("id", mTlv.field_1C_id);
+            ADD("timer", mTlv.field_1E_timer);
+        }
+    };
+
+    struct Path_ElumPathTrans : public TlvObjectBaseAO<AO::Path_ElumPathTrans>
+    {
+        CTOR_AO(Path_ElumPathTrans, "ElumPathTrans", AO::TlvTypes::ElumPathTrans_99)
+        {
+            ADD("level", mTlv.field_18_level);
+            ADD("path", mTlv.field_1A_path);
+            ADD("camera", mTlv.field_1C_camera);
+        }
+    };
+
+    struct Path_ElumStart : public TlvObjectBaseAO<AO::Path_ElumStart>
+    {
+        CTOR_AO(Path_ElumStart, "ElumStart", AO::TlvTypes::ElumStart_38)
+        {
+            // No fields
+        }
+    };
+
+    struct Path_ElumWall : public TlvObjectBaseAO<AO::Path_ElumWall>
+    {
+        CTOR_AO(Path_ElumWall, "ElumWall", AO::TlvTypes::ElumWall_40)
+        {
+            // No fields
         }
     };
 }

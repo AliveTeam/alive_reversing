@@ -127,7 +127,7 @@ enum class TlvTypes : __int16
     Preloader_102 = 102,
     LcdStatusBoard_103 = 103,
 
-    Music_105 = 105,
+    MusicTrigger_105 = 105,
     LightEffect_106 = 106,
     SlogSpawner_107 = 107,
     DeathClock_108 = 108,

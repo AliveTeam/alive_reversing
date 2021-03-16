@@ -72,6 +72,13 @@ void TypesCollection::AddAOTypes()
     REGISTER_TYPE_AO(AOTlvs::Path_HintFly);
     REGISTER_TYPE_AO(AOTlvs::Path_Bat);
     REGISTER_TYPE_AO(AOTlvs::Path_ShadowZone);
+    REGISTER_TYPE_AO(AOTlvs::Path_BellHammer);
+    REGISTER_TYPE_AO(AOTlvs::Path_IdSplitter);
+    REGISTER_TYPE_AO(AOTlvs::Path_PullRingRope);
+    REGISTER_TYPE_AO(AOTlvs::Path_MusicTrigger);
+    REGISTER_TYPE_AO(AOTlvs::Path_ElumPathTrans);
+    REGISTER_TYPE_AO(AOTlvs::Path_ElumStart);
+    REGISTER_TYPE_AO(AOTlvs::Path_ElumWall);
 
     for (auto& [key, value] : mTlvFactoryAO)
     {

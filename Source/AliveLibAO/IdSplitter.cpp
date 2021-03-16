@@ -60,10 +60,10 @@ IdSplitter* IdSplitter::ctor_479B40(Path_IdSplitter* pTlv, int tlvInfo)
 
     field_24_delay = pTlv->field_1A_delay;
 
-    field_14_ids[0] = pTlv->field_1C_ids[0];
-    field_14_ids[1] = pTlv->field_1C_ids[1];
-    field_14_ids[2] = pTlv->field_1C_ids[2];
-    field_14_ids[3] = pTlv->field_1C_ids[3];
+    field_14_ids[0] = pTlv->field_1C_id1;
+    field_14_ids[1] = pTlv->field_1C_id2;
+    field_14_ids[2] = pTlv->field_1C_id3;
+    field_14_ids[3] = pTlv->field_1C_id4;
 
     field_10_source_id = pTlv->field_18_source_id;
     field_12_state = State::eState_0;

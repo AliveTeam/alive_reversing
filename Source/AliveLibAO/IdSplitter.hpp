@@ -10,7 +10,10 @@ struct Path_IdSplitter : public Path_TLV
 {
     __int16 field_18_source_id;
     unsigned __int16 field_1A_delay;
-    __int16 field_1C_ids[4];
+    __int16 field_1C_id1;
+    __int16 field_1C_id2;
+    __int16 field_1C_id3;
+    __int16 field_1C_id4;
 };
 ALIVE_ASSERT_SIZEOF(Path_IdSplitter, 0x24);
 
