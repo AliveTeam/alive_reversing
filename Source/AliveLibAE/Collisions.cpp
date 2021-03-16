@@ -481,6 +481,7 @@ namespace Test
         {
             { 0x02bc, 0x01cc,  0x0659, 0x01cc},
             0,
+            0,
             -1,
             -1,
             -1,
