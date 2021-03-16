@@ -54,6 +54,16 @@ void TypesCollection::AddAOTypes()
     REGISTER_TYPE_AO(AOTlvs::Path_ElectricWall);
     REGISTER_TYPE_AO(AOTlvs::Path_ContinueZone);
     REGISTER_TYPE_AO(AOTlvs::Path_StartController);
+    REGISTER_TYPE_AO(AOTlvs::Path_Edge);
+    REGISTER_TYPE_AO(AOTlvs::Path_WellLocal);
+    REGISTER_TYPE_AO(AOTlvs::Path_WellExpress);
+    REGISTER_TYPE_AO(AOTlvs::Path_InvisibleZone);
+    REGISTER_TYPE_AO(AOTlvs::Path_EnemyStopper);
+    REGISTER_TYPE_AO(AOTlvs::Path_Slig);
+    REGISTER_TYPE_AO(AOTlvs::Path_DeathDrop);
+    REGISTER_TYPE_AO(AOTlvs::Path_SligLeftBound);
+    REGISTER_TYPE_AO(AOTlvs::Path_SligRightBound);
+    REGISTER_TYPE_AO(AOTlvs::Path_SligPersist);
 
     for (auto& [key, value] : mTlvFactoryAO)
     {
@@ -136,9 +146,9 @@ void TypesCollection::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_FlyingSligSpawner);
     REGISTER_TYPE_AE(AETlvs::Path_DeathDrop);
     REGISTER_TYPE_AE(AETlvs::Path_SligSpawner);
-    REGISTER_TYPE_AE(AETlvs::Path_Slig_LeftBound);
-    REGISTER_TYPE_AE(AETlvs::Path_Slig_RightBound);
-    REGISTER_TYPE_AE(AETlvs::Path_Slig_Persist);
+    REGISTER_TYPE_AE(AETlvs::Path_SligLeftBound);
+    REGISTER_TYPE_AE(AETlvs::Path_SligRightBound);
+    REGISTER_TYPE_AE(AETlvs::Path_SligPersist);
     REGISTER_TYPE_AE(AETlvs::Path_ZSligCover);
     REGISTER_TYPE_AE(AETlvs::Path_WellLocal);
     REGISTER_TYPE_AE(AETlvs::Path_FartMachine);

@@ -331,6 +331,21 @@ enum class EnvironmentSfx : unsigned __int8
 
 struct SaveData;
 
+struct Path_Edge : public Path_TLV
+{
+    enum class Type : __int16
+    {
+        eLeft = 0,
+        eRight = 1,
+        eBoth = 2,
+    };
+    Type field_18_type;
+    __int16 field_1A_can_grab;
+};
+
+struct Path_SoftLanding : public Path_TLV
+{};
+
 struct Path_ContinuePoint : public Path_TLV
 {
     __int16 field_18_zone_number;

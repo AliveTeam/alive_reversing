@@ -1507,7 +1507,7 @@ __int16 Abe::RunTryEnterWell_425880()
         FP_GetExponent(field_AC_ypos),
         FP_GetExponent(field_A8_xpos),
         FP_GetExponent(field_AC_ypos),
-        TlvTypes::LocalWell_11));
+        TlvTypes::WellLocal_11));
     if (pWellLocal)
     {
         if (pWellLocal->field_18_scale == 0 && field_BC_sprite_scale == FP_FromInteger(1) ||
@@ -3162,7 +3162,7 @@ __int16 Abe::HandleDoAction_429A70()
     {
         switch (pTlv->field_4_type.mType)
         {
-        case TlvTypes::LocalWell_11:
+        case TlvTypes::WellLocal_11:
             field_F0_pTlv = pTlv;
             return eAbeStates::State_77_WellBegin_430F10;
 
@@ -3976,7 +3976,7 @@ void Abe::State_0_Idle_423520()
                     }
                     return;
                 }
-                case TlvTypes::LocalWell_11:
+                case TlvTypes::WellLocal_11:
                 {
                     auto well = static_cast<Path_WellLocal*>(pTlv);
                     if ((well->field_18_scale || field_BC_sprite_scale != FP_FromInteger(1)) &&
@@ -4391,21 +4391,6 @@ void Abe::State_2_StandingTurn_426040()
     }
 }
 
-struct Path_Edge : public Path_TLV
-{
-    enum class Type : __int16
-    {
-        eLeft = 0,
-        eRight = 1,
-        eBoth = 2,
-    };
-    Type field_18_type;
-    __int16 field_1A_can_grab;
-};
-
-struct Path_SoftLanding : public Path_TLV
-{};
-
 static bool isEdgeGrabbable(Path_Edge* pEdge, BaseAliveGameObject* pObj)
 {
     if (pEdge->field_18_type == Path_Edge::Type::eLeft && pObj->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -4461,7 +4446,7 @@ void Abe::State_3_Fall_42E7F0()
     {
         if (field_100_health > FP_FromInteger(0))
         {
-            if (field_F0_pTlv->field_4_type == TlvTypes::LocalWell_11 || field_F0_pTlv->field_4_type == TlvTypes::WellExpress_45)
+            if (field_F0_pTlv->field_4_type == TlvTypes::WellLocal_11 || field_F0_pTlv->field_4_type == TlvTypes::WellExpress_45)
             {
                 // The well must be on the same scale/layer
                 Path_WellBase* pWellBase = static_cast<Path_WellBase*>(field_F0_pTlv);
@@ -7800,7 +7785,7 @@ void Abe::State_77_WellBegin_430F10()
             FP_GetExponent(field_AC_ypos),
             FP_GetExponent(field_A8_xpos),
             FP_GetExponent(field_AC_ypos),
-            TlvTypes::LocalWell_11
+            TlvTypes::WellLocal_11
         );
         if (!field_F0_pTlv)
         {
@@ -7886,7 +7871,7 @@ void Abe::State_78_InsideWellLocal_4310A0()
             FP_GetExponent(field_AC_ypos),
             FP_GetExponent(field_A8_xpos),
             FP_GetExponent(field_AC_ypos),
-            TlvTypes::LocalWell_11);
+            TlvTypes::WellLocal_11);
 
         if (!field_F0_pTlv)
         {
@@ -8013,7 +7998,7 @@ void Abe::State_81_InsideWellExpress_431320()
         FP_GetExponent(field_AC_ypos),
         FP_GetExponent(field_A8_xpos),
         FP_GetExponent(field_AC_ypos),
-        TlvTypes::LocalWell_11);
+        TlvTypes::WellLocal_11);
 
     if (!field_F0_pTlv)
     {
@@ -8126,7 +8111,7 @@ void Abe::State_82_WellExpressShotOut_4315A0()
             break;
         }
 
-        if ((pTlvIter->field_4_type == TlvTypes::LocalWell_11 || pTlvIter->field_4_type == TlvTypes::WellExpress_45) &&
+        if ((pTlvIter->field_4_type == TlvTypes::WellLocal_11 || pTlvIter->field_4_type == TlvTypes::WellExpress_45) &&
             static_cast<Path_WellBase*>(pTlvIter)->field_1C_well_id == field_196_door_id)
         {
             pWell = static_cast<Path_WellBase*>(pTlvIter);

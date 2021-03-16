@@ -174,16 +174,16 @@ enum class SligSfx : __int8
 };
 
 // This is a left bound, right bound and a persist.
-struct Path_Slig_Bound : public Path_TLV
+struct Path_SligBound : public Path_TLV
 {
     __int16 field_18_slig_id;
     BitField16<SligFlags_DisabledRes> field_1A_disabled_resources;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slig_Bound, 0x1C);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SligBound, 0x1C);
 
-using Path_Slig_LeftBound = Path_Slig_Bound;
-using Path_Slig_RightBound = Path_Slig_Bound;
-using Path_Slig_Persist = Path_Slig_Bound;
+using Path_SligLeftBound = Path_SligBound;
+using Path_SligRightBound = Path_SligBound;
+using Path_SligPersist = Path_SligBound;
 
 class Slig : public BaseAliveGameObject
 {

@@ -7,6 +7,8 @@
 #include "../AliveLibAO/Switch.hpp"
 #include "../AliveLibAO/DoorLight.hpp"
 #include "../AliveLibAO/ElectricWall.hpp"
+#include "../AliveLibAO/Well.hpp"
+#include "../AliveLibAO/Slig.hpp"
 
 #define CTOR_AO(className, objectTypeName, tlvType)  className(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO(tlvType, objectTypeName, pTlv)
 
@@ -18,6 +20,16 @@ namespace AO
     };
 
     struct Path_StartController : public Path_TLV
+    {
+        // No fields
+    };
+
+    struct Path_InvisibleZone : public Path_TLV
+    {
+        // No fields
+    };
+
+    struct Path_DeathDrop : public Path_TLV
     {
         // No fields
     };
@@ -179,6 +191,167 @@ namespace AOTlvs
         CTOR_AO(Path_StartController, "StartController", AO::TlvTypes::StartController_28)
         {
             // No fields
+        }
+    };
+
+    struct Path_Edge : public TlvObjectBaseAO<AO::Path_Edge>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<AO::Path_Edge::Type>("Enum_EdgeType",
+                {
+                    {AO::Path_Edge::Type::eLeft, "left"},
+                    {AO::Path_Edge::Type::eRight, "right"},
+                    {AO::Path_Edge::Type::eBoth, "both"},
+                });
+        }
+
+        CTOR_AO(Path_Edge, "Edge", AO::TlvTypes::Edge_4)
+        {
+            ADD("type", mTlv.field_18_type);
+            ADD("can_grab", mTlv.field_1A_can_grab);
+        }
+    };
+
+    struct Path_WellLocal : public TlvObjectBaseAO<AO::Path_WellLocal>
+    {
+        CTOR_AO(Path_WellLocal, "WellLocal", AO::TlvTypes::WellLocal_11)
+        {
+            ADD("on_dx", mTlv.field_28_on_dx);
+            ADD("on_dy", mTlv.field_2A_on_dy);
+            ADD("emit_leaves", mTlv.field_2C_emit_leaves);
+            ADD("leaf_x", mTlv.field_2E_leaf_x);
+            ADD("leaf_y", mTlv.field_30_leaf_y);
+        }
+    };
+
+    struct Path_WellExpress : public TlvObjectBaseAO<AO::Path_WellExpress>
+    {
+        CTOR_AO(Path_WellExpress, "WellExpress", AO::TlvTypes::WellExpress_45)
+        {
+            ADD("off_camera", mTlv.field_28_off_camera);
+            ADD("off_well_id", mTlv.field_2A_off_well_id);
+            ADD("on_level", mTlv.field_2C_on_level);
+            ADD("on_path", mTlv.field_2E_on_path);
+            ADD("on_camera", mTlv.field_30_on_camera);
+            ADD("on_well_id", mTlv.field_32_on_well_id);
+            ADD("emit_leaves", mTlv.field_34_emit_leaves);
+            ADD("leaf_x", mTlv.field_36_leaf_x);
+            ADD("leaf_y", mTlv.field_38_leaf_y);
+            ADD("movie_id", mTlv.field_3A_movie_id);
+        }
+    };
+
+    struct Path_InvisibleZone : public TlvObjectBaseAO<AO::Path_InvisibleZone>
+    {
+        CTOR_AO(Path_InvisibleZone, "InvisibleZone", AO::TlvTypes::InvisibleZone_58)
+        {
+            // No fields
+        }
+    };
+
+    struct Path_EnemyStopper : public TlvObjectBaseAO<AO::Path_EnemyStopper>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<AO::Path_EnemyStopper::StopDirection>("Enum_StopDirection",
+                {
+                    {AO::Path_EnemyStopper::StopDirection::Left_0, "left"},
+                    {AO::Path_EnemyStopper::StopDirection::Right_1, "right"},
+                    {AO::Path_EnemyStopper::StopDirection::Both_2, "both"},
+                });
+        }
+
+        CTOR_AO(Path_EnemyStopper, "EnemyStopper", AO::TlvTypes::EnemyStopper_79)
+        {
+            ADD("direction", mTlv.field_18_direction);
+            ADD("id", mTlv.field_1A_id);
+        }
+    };
+
+    struct Path_Slig : public TlvObjectBaseAO<AO::Path_Slig>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<AO::Path_Slig::StartState>("Enum_SligStartState",
+                {
+                    {AO::Path_Slig::StartState::Listening_0, "listening"},
+                    {AO::Path_Slig::StartState::Paused_1, "paused"},
+                    {AO::Path_Slig::StartState::Sleeping_2, "sleeping"},
+                    {AO::Path_Slig::StartState::Chase_3, "chase"},
+                    {AO::Path_Slig::StartState::GameEnder_4, "game_ender"},
+                    {AO::Path_Slig::StartState::Paused_5, "paused"},
+                });
+        }
+
+        CTOR_AO(Path_Slig, "Slig", AO::TlvTypes::Slig_24)
+        {
+            ADD("scale", mTlv.field_18_scale);
+            ADD("start_state", mTlv.field_1A_start_state);
+            ADD("pause_time", mTlv.field_1C_pause_time);
+            ADD("pause_left_min", mTlv.field_1E_pause_left_min);
+            ADD("pause_left_max", mTlv.field_20_pause_left_max);
+            ADD("pause_right_min", mTlv.field_22_pause_right_min);
+            ADD("pause_right_max", mTlv.field_24_pause_right_max);
+            ADD("chal_type", mTlv.field_26_chal_type);
+            ADD("chal_time", mTlv.field_28_chal_time);
+            ADD("number_of_times_to_shoot", mTlv.field_2A_number_of_times_to_shoot);
+            ADD("unknown", mTlv.field_2C_unknown);
+            ADD("code1", mTlv.field_2E_code1);
+            ADD("code2", mTlv.field_30_code2);
+            ADD("chase_abe", mTlv.field_32_chase_abe);
+            ADD("start_direction", mTlv.field_34_start_direction);
+            ADD("panic_timeout", mTlv.field_36_panic_timeout);
+            ADD("num_panic_sounds", mTlv.field_38_num_panic_sounds);
+            ADD("panic_sound_timeout", mTlv.field_3A_panic_sound_timeout);
+            ADD("stop_chase_delay", mTlv.field_3C_stop_chase_delay);
+            ADD("time_to_wait_before_chase", mTlv.field_3E_time_to_wait_before_chase);
+            ADD("slig_id", mTlv.field_40_slig_id);
+            ADD("listen_time", mTlv.field_42_listen_time);
+            ADD("percent_say_what", mTlv.field_44_percent_say_what);
+            ADD("percent_beat_mud", mTlv.field_46_percent_beat_mud);
+            ADD("talk_to_abe", mTlv.field_48_talk_to_abe);
+            ADD("dont_shoot", mTlv.field_4A_dont_shoot);
+            ADD("z_shoot_delay", mTlv.field_4C_z_shoot_delay);
+            ADD("stay_awake", mTlv.field_4E_stay_awake);
+            ADD("disable_resources", mTlv.field_50_disable_resources.Raw().all);
+            ADD("noise_wake_up_distance", mTlv.field_52_noise_wake_up_distance);
+            ADD("id", mTlv.field_54_id);
+        }
+    };
+
+    struct Path_DeathDrop : public TlvObjectBaseAO<AO::Path_DeathDrop>
+    {
+        CTOR_AO(Path_DeathDrop, "DeathDrop", AO::TlvTypes::DeathDrop_5)
+        {
+            // No fields
+        }
+    };
+
+    struct Path_SligLeftBound : public TlvObjectBaseAO<AO::Path_SligLeftBound>
+    {
+        CTOR_AO(Path_SligLeftBound, "SligLeftBound", AO::TlvTypes::eSligBoundLeft_57)
+        {
+            ADD("id", mTlv.field_18_slig_id);
+            ADD("disabled_resources", mTlv.field_1A_disabled_resources.Raw().all);
+        }
+    };
+
+    struct Path_SligRightBound : public TlvObjectBaseAO<AO::Path_SligRightBound>
+    {
+        CTOR_AO(Path_SligRightBound, "SligRightBound", AO::TlvTypes::eSligBoundRight_76)
+        {
+            ADD("id", mTlv.field_18_slig_id);
+            ADD("disabled_resources", mTlv.field_1A_disabled_resources.Raw().all);
+        }
+    };
+
+    struct Path_SligPersist : public TlvObjectBaseAO<AO::Path_SligPersist>
+    {
+        CTOR_AO(Path_SligPersist, "SligPersist", AO::TlvTypes::eSligPersist_77)
+        {
+            ADD("id", mTlv.field_18_slig_id);
+            ADD("disabled_resources", mTlv.field_1A_disabled_resources.Raw().all);
         }
     };
 }

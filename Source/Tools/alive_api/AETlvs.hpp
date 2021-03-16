@@ -978,27 +978,27 @@ namespace AETlvs
         }
     };
 
-    struct Path_Slig_LeftBound : public TlvObjectBaseAE<::Path_Slig_LeftBound>
+    struct Path_SligLeftBound : public TlvObjectBaseAE<::Path_SligLeftBound>
     {
-        CTOR_AE(Path_Slig_LeftBound, "SligLeftBound", TlvTypes::SligBoundLeft_32)
+        CTOR_AE(Path_SligLeftBound, "SligLeftBound", TlvTypes::SligBoundLeft_32)
         {
             ADD("slig_id", mTlv.field_10_slig_id);
             ADD("disabled_resources", mTlv.field_12_disabled_resources);
         }
     };
 
-    struct Path_Slig_RightBound : public TlvObjectBaseAE<::Path_Slig_RightBound>
+    struct Path_SligRightBound : public TlvObjectBaseAE<::Path_SligRightBound>
     {
-        CTOR_AE(Path_Slig_RightBound, "SligRightBound", TlvTypes::SligBoundRight_45)
+        CTOR_AE(Path_SligRightBound, "SligRightBound", TlvTypes::SligBoundRight_45)
         {
             ADD("slig_id", mTlv.field_10_slig_id);
             ADD("disabled_resources", mTlv.field_12_disabled_resources);
         }
     };
 
-    struct Path_Slig_Persist : public TlvObjectBaseAE<::Path_Slig_Persist>
+    struct Path_SligPersist : public TlvObjectBaseAE<::Path_SligPersist>
     {
-        CTOR_AE(Path_Slig_Persist, "SligPersist", TlvTypes::SligPersist_46)
+        CTOR_AE(Path_SligPersist, "SligPersist", TlvTypes::SligPersist_46)
         {
             ADD("slig_id", mTlv.field_10_slig_id);
             ADD("disabled_resources", mTlv.field_12_disabled_resources);
