@@ -164,6 +164,20 @@ void TypesCollection::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_BirdPortalExit);
     REGISTER_TYPE_AE(AETlvs::Path_DoorFlame);
     REGISTER_TYPE_AE(AETlvs::Path_TrainDoor);
+    REGISTER_TYPE_AE(AETlvs::Path_Greeter);
+    REGISTER_TYPE_AE(AETlvs::Path_ScrabLeftBound);
+    REGISTER_TYPE_AE(AETlvs::Path_ScrabRightBound);
+    REGISTER_TYPE_AE(AETlvs::Path_CreditsController);
+    REGISTER_TYPE_AE(AETlvs::Path_MovieHandstone);
+    REGISTER_TYPE_AE(AETlvs::Path_MovingBomb);
+    REGISTER_TYPE_AE(AETlvs::Path_SecurityDoor);
+    REGISTER_TYPE_AE(AETlvs::Path_NakedSlig);
+    REGISTER_TYPE_AE(AETlvs::Path_SligGetPants);
+    REGISTER_TYPE_AE(AETlvs::Path_SligGetWings);
+    REGISTER_TYPE_AE(AETlvs::Path_NakedSligButton);
+    REGISTER_TYPE_AE(AETlvs::Path_Glukkon);
+    REGISTER_TYPE_AE(AETlvs::Path_GlukkonSwitch);
+    REGISTER_TYPE_AE(AETlvs::Path_GasCountDown);
 
     for (auto& [key, value] : mTlvFactoryAE)
     {
