@@ -242,7 +242,7 @@ Well* Well::ctor_48AEE0(Path_WellBase* pTlv, FP xpos, FP ypos, int tlvInfo)
     field_AC_ypos = ypos;
     field_A8_xpos = xpos;
 
-    if (pTlv->field_4_type == TlvTypes::LocalWell_11)
+    if (pTlv->field_4_type == TlvTypes::WellLocal_11)
     {
         WellLocal_Init_48AFA0(static_cast<Path_WellLocal*>(pTlv), xpos, ypos);
     }

@@ -1597,14 +1597,7 @@ EXPORT void Factory_RollingBall_486A60(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
     }
 }
 
-struct Path_SligBound : public Path_TLV
-{
-    __int16 field_18_slig_id;
-    __int16 field_1A_disable_resources;
-};
-ALIVE_ASSERT_SIZEOF(Path_SligBound, 0x1C);
-
-static Path_TLV* FindMatchingSligTLV(Path_TLV* pTlvIter, Path_Slig_Bound* pTlv)
+static Path_TLV* FindMatchingSligTLV(Path_TLV* pTlvIter, Path_SligBound* pTlv)
 {
     while (pTlvIter)
     {
@@ -1621,7 +1614,7 @@ static Path_TLV* FindMatchingSligTLV(Path_TLV* pTlvIter, Path_Slig_Bound* pTlv)
 
 EXPORT void Factory_SligLeftBound_482520(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    auto pBound = static_cast<Path_Slig_Bound*>(pTlv);
+    auto pBound = static_cast<Path_SligBound*>(pTlv);
     LoadWalkingSligResources(loadMode, pBound->field_1A_disabled_resources);
 
     if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)

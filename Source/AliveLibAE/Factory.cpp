@@ -895,7 +895,7 @@ EXPORT void CC Factory_TrapDoor_4D9B90(Path_TLV* pTlv, Path* , TlvItemInfoUnion 
 
 EXPORT void CC Factory_RollingRock_4D9C70(Path_TLV* , Path*, TlvItemInfoUnion, LoadMode) { NOT_IMPLEMENTED(); }
 
-static Path_TLV* FindMatchingSligTLV(Path_TLV* pTlvIter, Path_Slig_Bound* pTlv)
+static Path_TLV* FindMatchingSligTLV(Path_TLV* pTlvIter, Path_SligBound* pTlv)
 {
     while (pTlvIter)
     {
@@ -912,7 +912,7 @@ static Path_TLV* FindMatchingSligTLV(Path_TLV* pTlvIter, Path_Slig_Bound* pTlv)
 
 EXPORT void CC Factory_SligBoundLeft_4D7740(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
-    auto pBound = static_cast<Path_Slig_Bound*>(pTlv);
+    auto pBound = static_cast<Path_SligBound*>(pTlv);
     if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
     {
         LoadWalkingSligResources(pBound->field_12_disabled_resources, loadMode);

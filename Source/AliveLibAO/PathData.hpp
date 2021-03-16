@@ -34,68 +34,108 @@ enum class TlvTypes : __int16
     ContinueZone_2 = 2, // TODO: Temp - will be removed later because never used by the game (editor api support)
     Hoist_3 = 3,
     Edge_4 = 4,
-
-    LocalWell_11 = 11,
-
     DeathDrop_5 = 5,
     Door_6 = 6,
-
+    Shadow_7 = 7,
     LiftPoint_8 = 8,
+
+    WellLocal_11 = 11, // TODO: check if WellLocal and WellExpress are not swapped
+    Dove_12 = 12,
+    RockSack_13 = 13,
+    ZBall_14 = 14,
+    FallingItem_15 = 15,
+    PullRingRope_18 = 18,
+    BackgroundAnimation_19 = 19,
+    Honey_20 = 20,
+
+    TimedMine_22 = 22,
 
     Slig_24 = 24,
     Slog_25 = 25,
     Switch_26 = 26,
-
+    BellHammer_27 = 27,
     StartController_28 = 28,
+    SecurityOrb_29 = 29,
 
     LiftMud_32 = 32,
 
+    SwarmHole_34 = 34,
     Pulley_35 = 35,
-
+    HoneySack_36 = 36,
+    AbeStart_37 = 37,
     ElumStart_38 = 38,
 
+    ElumWall_40 = 40,
+    SlingMud_41 = 41,
     HoneyDripTarget_42 = 42,
+    Bees_43 = 43,
 
-    WellExpress_45 = 45,
-
+    WellExpress_45 = 45, // TODO: check if WellLocal and WellExpress are not swapped
+    Mine_46 = 46,
+    UXB_47 = 47,
     Paramite_48 = 48,
-
+    Bat_49 = 49,
     RingMud_50 = 50,
     MovieStone_51 = 51,
-
+    BirdPortal_52 = 52,
     BirdPortalExit_53 = 53,
     BellSongStone_54 = 54,
-    
+    TrapDoor_55 = 55,
+    RollingBall_56 = 56,
     eSligBoundLeft_57 = 57,
     InvisibleZone_58 = 58,
+    RollingBallStopper_59 = 59,
+    FootSwitch_60 = 60,
+    SecurityClaw_61 = 61,
+    MotionDetector_62 = 62,
 
     Slig_66 = 66,
     ElectricWall_67 = 67,
+    LiftMover_68 = 68,
+    ChimeLock_69 = 69,
 
+    MeatSack_71 = 71,
     Scrab_72 = 72,
-    
+    FlintLockFire_73 = 73,
     ScrabLeftBound_74 = 74,
     ScrabRightBound_75 = 75,
     eSligBoundRight_76 = 76,
     eSligPersist_77 = 77,
     EnemyStopper_79 = 79,
 
+    InvisibleSwitch_81 = 81,
     Mud_82 = 82,
     ZSligCover_83 = 83,
+    DoorFlame_84 = 84,
 
+    MovingBomb_86 = 86,
     MovingBombStopper_87 = 87,
     MeatSaw_88 = 88,
     MudPathTrans_89 = 89,
+    MenuController_90 = 90,
 
+    HintFly_92 = 92,
     ScrabNoFall_93 = 93,
-
+    IdSplitter_94 = 94,
+    SecurityDoor_95 = 95,
     DemoPlaybackStone_96 = 96,
     GrenadeMachine_97 = 97,
-
+    LCDScreen_98 = 98,
     ElumPathTrans_99 = 99,
     HandStone_100 = 100,
-    LightEffect_106 = 106,
+    CreditsController_101 = 101,
+    Preloader_102 = 102,
+    LcdStatusBoard_103 = 103,
 
+    Music_105 = 105,
+    LightEffect_106 = 106,
+    SlogSpawner_107 = 107,
+    DeathClock_108 = 108,
+    RingCancel_109 = 109,
+    GasEmitter_110 = 110,
+    Slog_111 = 111,
+    Glukkon_112 = 112,
+    KillUnsavedMuds_113 = 113,
     SoftLanding_114 = 114,
     ResetPath_115 = 115,
 };
