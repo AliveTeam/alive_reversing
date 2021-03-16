@@ -7,7 +7,7 @@
 #include "SwitchStates.hpp"
 #include "Sfx.hpp"
 
-ScrabSpawner* ScrabSpawner::ctor_4AB450(Path_Scrab_Spawner* pTlv, int tlvInfo)
+ScrabSpawner* ScrabSpawner::ctor_4AB450(Path_ScrabSpawner* pTlv, int tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x546FF0);
@@ -36,7 +36,7 @@ ScrabSpawner* ScrabSpawner::ctor_4AB450(Path_Scrab_Spawner* pTlv, int tlvInfo)
 int CC ScrabSpawner::CreateFromSaveState_4ABEB0(const BYTE* pBuffer)
 {
     const auto pState = reinterpret_cast<const ScrabSpawner_State*>(pBuffer);
-    auto pTlv = static_cast<Path_Scrab_Spawner*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4_tlvInfo));
+    auto pTlv = static_cast<Path_ScrabSpawner*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4_tlvInfo));
     auto pScrabSpawner = ae_new<ScrabSpawner>();
     pScrabSpawner->ctor_4AB450(pTlv, pState->field_4_tlvInfo);
     pScrabSpawner->field_38_state = pState->field_8_state;
@@ -136,7 +136,7 @@ void ScrabSpawner::vUpdate_4AB510()
         {
             if (SwitchStates_Get_466020(field_24_switch_id))
             {
-                auto pTlv = static_cast<Path_Scrab_Spawner*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+                auto pTlv = static_cast<Path_ScrabSpawner*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
                     field_28_tlv_data.field_8_top_left.field_0_x,
                     field_28_tlv_data.field_8_top_left.field_2_y,
                     field_28_tlv_data.field_8_top_left.field_0_x,

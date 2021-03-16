@@ -117,7 +117,7 @@ enum class TlvTypes : short
     MultiSwitchController_96 = 96,
     StatusLight_97 = 97,
     SlapLock_98 = 98,
-    ParamiteWeb_99 = 99,
+    ParamiteWebLine_99 = 99,
     Alarm_100 = 100,
     FartMachine_101 = 101,
     ScrabSpawner_102 = 102,

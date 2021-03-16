@@ -1946,7 +1946,7 @@ EXPORT void CC Factory_ScrabSpawner_4D9270(Path_TLV* pTlv, Path*, TlvItemInfoUni
         auto pScrabSpawner = ae_new<ScrabSpawner>();
         if (pScrabSpawner)
         {
-            pScrabSpawner->ctor_4AB450(static_cast<Path_Scrab_Spawner*>(pTlv), tlvInfo.all);
+            pScrabSpawner->ctor_4AB450(static_cast<Path_ScrabSpawner*>(pTlv), tlvInfo.all);
         }
     }
 }
