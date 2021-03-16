@@ -178,6 +178,12 @@ void TypesCollection::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_Glukkon);
     REGISTER_TYPE_AE(AETlvs::Path_GlukkonSwitch);
     REGISTER_TYPE_AE(AETlvs::Path_GasCountDown);
+    REGISTER_TYPE_AE(AETlvs::Path_FallingItem);
+    REGISTER_TYPE_AE(AETlvs::Path_BoneBag);
+    REGISTER_TYPE_AE(AETlvs::Path_SecurityClaw);
+    REGISTER_TYPE_AE(AETlvs::Path_FootSwitch);
+    REGISTER_TYPE_AE(AETlvs::Path_SlogHut);
+    REGISTER_TYPE_AE(AETlvs::Path_SlogSpawner);
 
     for (auto& [key, value] : mTlvFactoryAE)
     {

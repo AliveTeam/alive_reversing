@@ -53,7 +53,7 @@ enum class TlvTypes : short
     SligBoundLeft_32 = 32,
     InvisibleZone_33 = 33,
     FootSwitch_34 = 34,
-    ChantSuppressor_35 = 35,
+    SecurityClaw_35 = 35,
     MotionDetector_36 = 36,
     SligSpawner_37 = 37,
     ElectricWall_38 = 38,

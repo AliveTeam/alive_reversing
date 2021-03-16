@@ -56,6 +56,11 @@
 #include "../AliveLibAE/Glukkon.hpp"
 #include "../AliveLibAE/GlukkonSwitch.hpp"
 #include "../AliveLibAE/GasCountDown.hpp"
+#include "../AliveLibAE/FallingItem.hpp"
+#include "../AliveLibAE/Bone.hpp"
+#include "../AliveLibAE/FootSwitch.hpp"
+#include "../AliveLibAE/SlogHut.hpp"
+#include "../AliveLibAE/SlogSpawner.hpp"
 
 #define CTOR_AE(className, objectTypeName, tlvType)  className(TypesCollection& globalTypes, Path_TLV* pTlv = nullptr) : TlvObjectBaseAE(tlvType, objectTypeName, pTlv)
 
@@ -1159,7 +1164,7 @@ namespace AETlvs
     {
         void AddTypes(TypesCollection& types) override
         {
-            types.AddEnum<::Path_MotionDetector::StartMoveDirection>("Enum_GrinderBehavior",
+            types.AddEnum<::Path_MotionDetector::StartMoveDirection>("Enum_StartMoveDirection",
                 {
                     {::Path_MotionDetector::StartMoveDirection::eRight_0, "right"},
                     {::Path_MotionDetector::StartMoveDirection::eLeft_1, "left"},
@@ -1280,15 +1285,6 @@ namespace AETlvs
 
     struct Path_BirdPortalExit : public TlvObjectBaseAE<::Path_BirdPortalExit>
     {
-        void AddTypes(TypesCollection& types) override
-        {
-            types.AddEnum<::PortalSide>("Enum_PortalSide",
-                {
-                    {::PortalSide::eRight_0, "right"},
-                    {::PortalSide::eLeft_1, "left"},
-                });
-        }
-
         CTOR_AE(Path_BirdPortalExit, "BirdPortalExit", TlvTypes::BirdPortalExit_29)
         {
             ADD("side", mTlv.field_10_side);
@@ -1513,6 +1509,83 @@ namespace AETlvs
             ADD("start_trigger_id", mTlv.field_10_start_trigger_id);
             ADD("time", mTlv.field_12_time);
             ADD("stop_trigger_id", mTlv.field_14_stop_trigger_id);
+        }
+    };
+
+    struct Path_FallingItem : public TlvObjectBaseAE<::Path_FallingItem>
+    {
+        CTOR_AE(Path_FallingItem, "FallingItem", TlvTypes::FallingItem_11)
+        {
+            ADD("id", mTlv.field_10_id);
+            ADD("scale", mTlv.field_12_scale);
+            ADD("delay_time", mTlv.field_14_delay_time);
+            ADD("number_of_items", mTlv.field_16_number_of_items);
+            ADD("reset_id", mTlv.field_18_reset_id);
+        }
+    };
+
+    struct Path_BoneBag : public TlvObjectBaseAE<::Path_BoneBag>
+    {
+        CTOR_AE(Path_BoneBag, "BoneBag", TlvTypes::BoneBag_94)
+        {
+            ADD("side", mTlv.field_10_side);
+            ADD("x_vel", mTlv.field_12_x_vel);
+            ADD("y_vel", mTlv.field_14_y_vel);
+            ADD("num_bones", mTlv.field_18_num_bones);
+        }
+    };
+
+    struct Path_SecurityClaw : public TlvObjectBaseAE<::Path_SecurityClaw>
+    {
+        CTOR_AE(Path_SecurityClaw, "SecurityClaw", TlvTypes::SecurityClaw_35)
+        {
+            ADD("scale", mTlv.field_10_scale);
+            ADD("disabled_resources", mTlv.field_12_disabled_resources);
+        }
+    };
+
+    struct Path_FootSwitch : public TlvObjectBaseAE<::Path_FootSwitch>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<::FootSwitchTriggerBy>("Enum_FootSwitchTriggeredBy",
+                {
+                    {::FootSwitchTriggerBy::eOnlyAbe_0, "only_abe"},
+                    {::FootSwitchTriggerBy::eAnyone_1, "anyone"},
+                });
+        }
+
+        CTOR_AE(Path_FootSwitch, "FootSwitch", TlvTypes::FootSwitch_34)
+        {
+            ADD("id", mTlv.field_10_id);
+            ADD("scale", mTlv.field_12_scale);
+            ADD("action", mTlv.field_14_action);
+            ADD("trigger_by", mTlv.field_16_trigger_by);
+        }
+    };
+
+    struct Path_SlogHut : public TlvObjectBaseAE<::Path_SlogHut>
+    {
+        CTOR_AE(Path_SlogHut, "SlogHut", TlvTypes::SlogHut_72)
+        {
+            ADD("scale", mTlv.field_10_scale);
+            ADD("switch_id", mTlv.field_12_switch_id);
+            ADD("z_delay", mTlv.field_14_z_delay);
+        }
+    };
+
+    struct Path_SlogSpawner : public TlvObjectBaseAE<::Path_SlogSpawner>
+    {
+        CTOR_AE(Path_SlogSpawner, "SlogSpawner", TlvTypes::SlogSpawner_68)
+        {
+            ADD("scale", mTlv.field_10_scale);
+            ADD("number_of_slogs", mTlv.field_12_number_of_slogs);
+            ADD("at_a_time", mTlv.field_14_at_a_time);
+            ADD("direction", mTlv.field_16_direction);
+            ADD("ticks_between_slog", mTlv.field_18_ticks_between_slogs);
+            ADD("id", mTlv.field_1A_id);
+            ADD("listen_to_sligs", mTlv.field_1C_listen_to_sligs);
+            ADD("jump_attack_delay", mTlv.field_1E_jump_attack_delay);
         }
     };
 }
