@@ -6,10 +6,10 @@
 
 struct Path_SecurityClaw : public Path_TLV
 {
-    __int16 field_10_scale;
+    int field_10_scale;
     __int16 field_12_disabled_resources;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SecurityClaw, 0x14);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SecurityClaw, 0x18);
 
 struct Path_SecurityOrb : public Path_TLV
 {

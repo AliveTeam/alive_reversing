@@ -8,7 +8,7 @@
 
 const std::string kAEDir = "C:\\GOG Games\\Abes Exoddus\\";
 const std::string kAODir = "C:\\GOG Games\\Abes Oddysee\\";
-const std::string kAETestLvl = "ne.lvl";
+const std::string kAETestLvl = "sv.lvl";
 
 const std::vector<std::string> kAELvls = 
 {
@@ -56,7 +56,7 @@ static std::string AOPath(const std::string& fileName)
 
 TEST(alive_api, ExportPathBinaryToJsonAE)
 {
-    auto ret = AliveAPI::ExportPathBinaryToJson("OutputAE.json", AEPath(kAETestLvl), 7);
+    auto ret = AliveAPI::ExportPathBinaryToJson("OutputAE.json", AEPath(kAETestLvl), 14);
     ASSERT_EQ(ret.mResult, AliveAPI::Error::None);
 }
 

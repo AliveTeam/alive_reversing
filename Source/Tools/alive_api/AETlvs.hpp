@@ -73,7 +73,9 @@
 
 struct Path_Null_63 : public Path_TLV
 {
-    // Empty
+    // TODO: check
+    __int16 padding1;
+    __int16 padding2;
 };
 
 struct Path_MainMenuController : public Path_TLV
@@ -83,17 +85,67 @@ struct Path_MainMenuController : public Path_TLV
 
 struct Path_SligGetWings : public Path_TLV
 {
-    // Empty
+    __int16 scale;
+    __int16 state;
+    __int16 hi_pause_time;
+    __int16 patrol_pause_min;
+    __int16 patrol_pause_max;
+    __int16 direction;
+    __int16 panic_delay;
+    __int16 give_up_chase_delay;
+    __int16 prechase_delay;
+    __int16 slig_id;
+    __int16 listen_time;
+    __int16 trigger_id;
+    __int16 grenade_delay;
+    __int16 max_velocity;
+    __int16 launch_id;
+    __int16 persistant;
 };
 
 struct Path_SligGetPants : public Path_TLV
 {
-    // Empty
+    // TODO: check
+    __int16 unknown1;
+    __int16 unknown2;
+    __int16 unknown3;
+    __int16 unknown4;
+    __int16 unknown5;
+    __int16 unknown6;
+    __int16 unknown7;
+    __int16 unknown8;
+    __int16 unknown9;
+    __int16 unknown10;
+    __int16 unknown11;
+    __int16 unknown12;
+    __int16 unknown13;
+    __int16 unknown14;
+    __int16 unknown15;
+    __int16 unknown16;
+    __int16 unknown17;
+    __int16 unknown18;
+    __int16 unknown19;
+    __int16 unknown20;
+    __int16 unknown21;
+    __int16 unknown22;
+    __int16 unknown23;
+    __int16 unknown24;
+    __int16 unknown25;
+    __int16 unknown26;
+    __int16 unknown27;
+    __int16 unknown28;
+    __int16 unknown29;
+    __int16 unknown30;
+    __int16 unknown31;
+    __int16 unknown32;
 };
 
 struct Path_MovieHandstone : public Path_TLV
 {
-    // Empty
+    __int16 padding;
+    __int16 scale;
+    __int16 movie_number;
+    __int16 id;
 };
 
 struct Path_CreditsController : public Path_TLV
@@ -118,7 +170,12 @@ struct Path_DemoSpawnPoint : public Path_TLV
 
 struct Path_PathTransition : public Path_TLV
 {
-    // Empty
+    __int16 level;
+    __int16 path;
+    __int16 camera;
+    __int16 movie;
+    __int16 wipe;
+    __int16 scale;
 };
 
 struct Path_ZSligCover : public Path_TLV
@@ -128,7 +185,38 @@ struct Path_ZSligCover : public Path_TLV
 
 struct Path_SligSpawner : public Path_TLV
 {
-    // Empty
+    __int16 scale;
+    __int16 start_state;
+    __int16 pause_time;
+    __int16 pause_left_min;
+    __int16 pause_left_max;
+    __int16 pause_right_min;
+    __int16 pause_right_max;
+    __int16 chal_number;
+    __int16 chal_timer;
+    __int16 number_of_times_to_shoot;
+    __int16 unknown;
+    __int16 code_1;
+    __int16 code_2;
+    __int16 chase_abe;
+    __int16 start_direction;
+    __int16 panic_timeout;
+    __int16 num_panic_sounds;
+    __int16 panic_sound_timeout;
+    __int16 stop_chase_delay;
+    __int16 time_to_wait_before_chase;
+    __int16 slig_id;
+    __int16 listen_time;
+    __int16 percent_say_what;
+    __int16 percent_beat_mud;
+    __int16 talk_to_abe;
+    __int16 dont_shoot;
+    __int16 z_shoot_delay;
+    __int16 stay_awake;
+    __int16 disable_resources;
+    __int16 noise_wake_up_distance;
+    __int16 id;
+    __int16 spawn_many;
 };
 
 struct Path_DeathDrop : public Path_TLV
@@ -988,7 +1076,38 @@ namespace AETlvs
     {
         CTOR_AE(Path_SligSpawner, "SligSpawner", TlvTypes::SligSpawner_37)
         {
-            // Empty
+            ADD("scale", mTlv.scale);
+            ADD("start_state", mTlv.start_state);
+            ADD("pause_time", mTlv.pause_time);
+            ADD("pause_left_min", mTlv.pause_left_min);
+            ADD("pause_left_max", mTlv.pause_left_max);
+            ADD("pause_right_min", mTlv.pause_right_min);
+            ADD("pause_right_max", mTlv.pause_right_max);
+            ADD("chal_number", mTlv.chal_number);
+            ADD("chal_timer", mTlv.chal_timer);
+            ADD("number_of_times_to_shoot", mTlv.number_of_times_to_shoot);
+            ADD("unknown", mTlv.unknown);
+            ADD("code_1", mTlv.code_1);
+            ADD("code_2", mTlv.code_2);
+            ADD("chase_abe", mTlv.chase_abe);
+            ADD("start_direction", mTlv.start_direction);
+            ADD("panic_timeout", mTlv.panic_timeout);
+            ADD("num_panic_sounds", mTlv.num_panic_sounds);
+            ADD("panic_sound_timeout", mTlv.panic_sound_timeout);
+            ADD("stop_chase_delay", mTlv.stop_chase_delay);
+            ADD("time_to_wait_before_chase", mTlv.time_to_wait_before_chase);
+            ADD("slig_id", mTlv.slig_id);
+            ADD("listen_time", mTlv.listen_time);
+            ADD("percent_say_what", mTlv.percent_say_what);
+            ADD("percent_beat_mud", mTlv.percent_beat_mud);
+            ADD("talk_to_abe", mTlv.talk_to_abe);
+            ADD("dont_shoot", mTlv.dont_shoot);
+            ADD("z_shoot_delay", mTlv.z_shoot_delay);
+            ADD("stay_awake", mTlv.stay_awake);
+            ADD("disable_resources", mTlv.disable_resources);
+            ADD("noise_wake_up_distance", mTlv.noise_wake_up_distance);
+            ADD("id", mTlv.id);
+            ADD("spawn_many", mTlv.spawn_many);
         }
     };
 
@@ -1154,7 +1273,12 @@ namespace AETlvs
     {
         CTOR_AE(Path_PathTransition, "PathTransition", TlvTypes::PathTransition_1)
         {
-            // Empty
+            ADD("level", mTlv.level);
+            ADD("path", mTlv.path);
+            ADD("camera", mTlv.camera);
+            ADD("movie", mTlv.movie);
+            ADD("wipe", mTlv.wipe);
+            ADD("scale", mTlv.scale);
         }
     };
 
@@ -1381,7 +1505,10 @@ namespace AETlvs
     {
         CTOR_AE(Path_MovieHandstone, "MovieHandstone", TlvTypes::MovieHandStone_27)
         {
-            // Empty
+            ADD("scale", mTlv.scale);
+            ADD("number", mTlv.movie_number);
+            ADD("id", mTlv.id);
+            ADD("padding", mTlv.padding);
         }
     };
 
@@ -1465,7 +1592,39 @@ namespace AETlvs
     {
         CTOR_AE(Path_SligGetPants, "SligGetPants", TlvTypes::SligGetPants_104)
         {
-            // Empty
+            ADD("unknown1", mTlv.unknown1);
+            ADD("unknown2", mTlv.unknown2);
+            ADD("unknown3", mTlv.unknown3);
+            ADD("unknown4", mTlv.unknown4);
+            ADD("unknown5", mTlv.unknown5);
+            ADD("unknown6", mTlv.unknown6);
+            ADD("unknown7", mTlv.unknown7);
+            ADD("unknown8", mTlv.unknown8);
+            ADD("unknown9", mTlv.unknown9);
+            ADD("unknown10", mTlv.unknown10);
+            ADD("unknown11", mTlv.unknown11);
+            ADD("unknown12", mTlv.unknown12);
+            ADD("unknown13", mTlv.unknown13);
+            ADD("unknown14", mTlv.unknown14);
+            ADD("unknown15", mTlv.unknown15);
+            ADD("unknown16", mTlv.unknown16);
+            ADD("unknown17", mTlv.unknown17);
+            ADD("unknown18", mTlv.unknown18);
+            ADD("unknown19", mTlv.unknown19);
+            ADD("unknown20", mTlv.unknown20);
+            ADD("unknown21", mTlv.unknown21);
+            ADD("unknown22", mTlv.unknown22);
+            ADD("unknown23", mTlv.unknown23);
+            ADD("unknown24", mTlv.unknown24);
+            ADD("unknown25", mTlv.unknown25);
+            ADD("unknown26", mTlv.unknown26);
+            ADD("unknown27", mTlv.unknown27);
+            ADD("unknown28", mTlv.unknown28);
+            ADD("unknown29", mTlv.unknown29);
+            ADD("unknown30", mTlv.unknown30);
+            ADD("unknown31", mTlv.unknown31);
+            ADD("unknown32", mTlv.unknown32);
+
         }
     };
 
@@ -1473,7 +1632,22 @@ namespace AETlvs
     {
         CTOR_AE(Path_SligGetWings, "SligGetWings", TlvTypes::SligGetWings_105)
         {
-            // Empty
+            ADD("scale", mTlv.scale);
+            ADD("state", mTlv.state);
+            ADD("hi_pause_time", mTlv.hi_pause_time);
+            ADD("patrol_pause_min", mTlv.patrol_pause_min);
+            ADD("patrol_pause_max", mTlv.patrol_pause_max);
+            ADD("direction", mTlv.direction);
+            ADD("panic_delay", mTlv.panic_delay);
+            ADD("give_up_chase_delay", mTlv.give_up_chase_delay);
+            ADD("prechase_delay", mTlv.prechase_delay);
+            ADD("slig_id", mTlv.slig_id);
+            ADD("listen_time", mTlv.listen_time);
+            ADD("trigger_id", mTlv.trigger_id);
+            ADD("grenade_delay", mTlv.grenade_delay);
+            ADD("max_velocity", mTlv.max_velocity);
+            ADD("launch_id", mTlv.launch_id);
+            ADD("persistant", mTlv.persistant);
         }
     };
 
@@ -1634,7 +1808,8 @@ namespace AETlvs
     {
         CTOR_AE(Path_Null_63, "Null_63", TlvTypes::Null_63)
         {
-            // Empty
+            ADD("padding1", mTlv.padding1);
+            ADD("padding2", mTlv.padding2);
         }
     };
 
@@ -1675,6 +1850,7 @@ namespace AETlvs
             ADD("delay_between_slurgs", mTlv.field_18_path_data.field_8_delay_between_slurgs);
             ADD("max_slurgs", mTlv.field_18_path_data.field_A_max_slurgs);
             ADD("switch_id", mTlv.field_18_path_data.field_C_switch_id);
+            ADD("unknown", mTlv.field_18_path_data.field_E_padding);
         }
     };
 

@@ -421,6 +421,7 @@ jsonxx::Array JsonWriterAE::ReadTlvStream(TypesCollection& globalTypes, BYTE* pt
         {
             if (pPathTLV->field_2_length != obj->TlvLen())
             {
+                LOG_ERROR(magic_enum::enum_name(pPathTLV->field_4_type.mType) << " size should be " << pPathTLV->field_2_length << " but got " << obj->TlvLen());
                 abort();
             }
             mapObjects << obj->InstanceToJson(globalTypes);
