@@ -209,7 +209,7 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_118_data.field_10_data.field_A_direction == 0);
 
-    if (field_118_data.field_10_data.field_0_scale == 1)
+    if (field_118_data.field_10_data.field_0_scale == Scale_short::eHalf_1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
         field_20_animation.field_C_render_layer = Layer::eLayer_14;

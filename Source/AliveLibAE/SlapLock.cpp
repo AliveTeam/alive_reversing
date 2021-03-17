@@ -23,7 +23,7 @@ SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, int tlvInfo)
     field_11C_tlvInfo = tlvInfo;
     field_C_objectId = tlvInfo;
 
-    if (pTlv->field_10_scale == 1)
+    if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
     }
@@ -32,7 +32,7 @@ SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, int tlvInfo)
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    if (field_118_pTlv->field_10_scale)
+    if (field_118_pTlv->field_10_scale != Scale_short::eFull_0)
     {
         field_20_animation.field_C_render_layer = Layer::eLayer_6;
     }

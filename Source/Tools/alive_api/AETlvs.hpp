@@ -1675,6 +1675,15 @@ namespace AETlvs
 
     struct Path_GlukkonSwitch : public TlvObjectBaseAE<::Path_GlukkonSwitch>
     {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<::Path_GlukkonSwitch::Scale>("Enum_GlukkonSwitchScale",
+                {
+                    {::Path_GlukkonSwitch::Scale::eHalf_0, "Half"},
+                    {::Path_GlukkonSwitch::Scale::eFull_1 , "Full"},
+                });
+        };
+
         CTOR_AE(Path_GlukkonSwitch, "GlukkonSwitch", TlvTypes::GlukkonSwitch_108)
         {
             ADD("scale", mTlv.field_10_scale);
