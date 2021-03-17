@@ -52,6 +52,7 @@ public:
 
     }
 
+    virtual std::size_t TlvLen() const = 0;
     virtual std::vector<BYTE> GetTlvData(bool setTerminationFlag) = 0;
 
     std::string Name() const
@@ -246,6 +247,11 @@ public:
         ret << "object_structures_type" << Name();
     }
 
+    std::size_t TlvLen() const override
+    {
+        return sizeof(T);
+    }
+
     std::vector<BYTE> GetTlvData(bool setTerminationFlag) override
     {
         std::vector<BYTE> ret(sizeof(T));
@@ -303,6 +309,11 @@ public:
         ret << "ypos2" << static_cast<int>(mBase->field_C_sound_pos.field_2_y);
 
         ret << "object_structures_type" << Name();
+    }
+
+    std::size_t TlvLen() const override
+    {
+        return sizeof(T);
     }
 
     std::vector<BYTE> GetTlvData(bool setTerminationFlag) override

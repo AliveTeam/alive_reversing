@@ -419,6 +419,10 @@ jsonxx::Array JsonWriterAE::ReadTlvStream(TypesCollection& globalTypes, BYTE* pt
         auto obj = globalTypes.MakeTlvAE(pPathTLV->field_4_type.mType, pPathTLV);
         if (obj)
         {
+            if (pPathTLV->field_2_length != obj->TlvLen())
+            {
+                abort();
+            }
             mapObjects << obj->InstanceToJson(globalTypes);
         }
         else
