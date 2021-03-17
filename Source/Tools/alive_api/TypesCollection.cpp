@@ -12,7 +12,8 @@ TypesCollection::TypesCollection(Game gameType)
 {
     AddBasicType<BYTE>("Byte", 0, 255);
     AddBasicType<short>("UInt16", 0, 65535);
-    
+    AddBasicType<int>("Uint32", 0, std::numeric_limits<int>::max());
+
     if (mGameType == Game::AO)
     {
         AddAOTypes();

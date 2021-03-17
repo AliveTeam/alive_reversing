@@ -2128,6 +2128,7 @@ std::vector<BYTE> FS::ReadFile(const std::string& filePath)
         std::vector<BYTE> buffer(fileLen);
         ::fread(buffer.data(), 1, buffer.size(), hFile);
         ::fclose(hFile);
+        return buffer;
     }
     return {};
 }

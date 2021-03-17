@@ -388,6 +388,7 @@ namespace AETlvs
         CTOR_AE(Path_Slig, "Slig", TlvTypes::Slig_15)
         {
             ADD("scale", mTlv.field_10_scale);
+            ADD("start_state", mTlv.field_12_start_state);
             ADD("pause_time", mTlv.field_14_pause_time);
             ADD("pause_left_min", mTlv.field_16_pause_left_min);
             ADD("pause_left_max", mTlv.field_18_pause_left_max);
@@ -396,6 +397,8 @@ namespace AETlvs
             ADD("chal_number", mTlv.field_1E_chal_number);
             ADD("chal_timer", mTlv.field_20_chal_timer);
             ADD("num_times_to_shot", mTlv.field_22_num_times_to_shoot);
+            ADD("unknown1", mTlv.field_24_padding);
+
             ADD("code_1", mTlv.field_26_code1);
             ADD("code_2", mTlv.field_28_code2);
             ADD("chase_abe", mTlv.field_2A_chase_abe);
@@ -406,6 +409,8 @@ namespace AETlvs
             ADD("stop_chase_delay", mTlv.field_34_stop_chase_delay);
             ADD("time_to_wait_before_chase", mTlv.field_36_time_to_wait_before_chase);
             ADD("slig_id", mTlv.field_38_slig_id);
+            ADD("listen_time", mTlv.field_3A_listen_time);
+
             ADD("percent_say_what", mTlv.field_3C_percent_say_what);
             ADD("percent_beat_mud", mTlv.field_3E_percent_beat_mud);
             ADD("talk_to_abe", mTlv.field_40_talk_to_abe);
@@ -415,7 +420,7 @@ namespace AETlvs
             ADD("disable_resources", mTlv.field_48_disable_resources);
             ADD("noise_wake_up_distance", mTlv.field_4A_noise_wake_up_distance);
             ADD("id", mTlv.field_4C_id);
-            ADD("unknown", mTlv.field_4E_unknown);
+            ADD("unknown2", mTlv.field_4E_unknown);
         }
     };
 
@@ -426,14 +431,23 @@ namespace AETlvs
             ADD("scale", mTlv.field_10_scale);
             ADD("direction", mTlv.field_12_direction);
             ADD("asleep", mTlv.field_14_asleep);
+            ADD("wake_up", mTlv.field_16_wake_up);
+            ADD("unknown1", mTlv.field_18_not_used);
+
             ADD("attack_anger", mTlv.field_1A_attack_anger);
             ADD("attack_delay", mTlv.field_1C_attack_delay);
             ADD("wake_up_id", mTlv.field_1E_wake_up_id);
+            ADD("hanging", mTlv.field_20_hanging);
+
             ADD("lost_target_timeout", mTlv.field_22_lost_target_timeout);
             ADD("goes_to_sleep", mTlv.field_24_goes_to_sleep);
             ADD("patrol_range_in_grids", mTlv.field_26_patrol_range_in_grids);
+            ADD("unknown2", mTlv.field_28_unused);
+
             ADD("allow_wake_up_id", mTlv.field_2A_allow_wake_up_id);
             ADD("persistant", mTlv.field_2C_persistant);
+            ADD("unknown3", mTlv.field_2E_padding);
+
         }
     };
 
