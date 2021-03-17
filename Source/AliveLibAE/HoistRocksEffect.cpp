@@ -48,7 +48,7 @@ HoistRocksEffect* HoistRocksEffect::ctor_45D270(Path_Hoist* pTlv, int tlvInfo)
     field_22_ypos = pTlv->field_8_top_left.field_2_y;
     field_28_timer = 0;
 
-    if (pTlv->field_16_scale == Path_Hoist::Scale::eHalf)
+    if (pTlv->field_16_scale == Scale_short::eHalf_1)
     {
         field_2C_scale = FP_FromDouble(0.5);
     }
@@ -80,7 +80,7 @@ HoistRocksEffect* HoistRocksEffect::ctor_45D270(Path_Hoist* pTlv, int tlvInfo)
         particle.field_10_mAnim.field_9_g = 255;
         particle.field_10_mAnim.field_A_b = 255;
 
-        if (pTlv->field_16_scale == Path_Hoist::Scale::eHalf)
+        if (pTlv->field_16_scale == Scale_short::eHalf_1)
         {
             particle.field_10_mAnim.field_C_render_layer = Layer::eLayer_6;
         }

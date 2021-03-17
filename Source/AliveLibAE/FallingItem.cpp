@@ -55,7 +55,7 @@ EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, int tlvInfo
     
     field_11E_id = pTlv->field_10_id;
 
-    if (pTlv->field_12_scale == 1)
+    if (pTlv->field_12_scale == Scale_short::eHalf_1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
         field_D6_scale = 0;

@@ -83,7 +83,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, int tlvInfo)
     field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr_4DB7C0(pTlv);
 
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kLiftResID);
-    if (pTlv->field_18_scale)
+    if (pTlv->field_18_scale != Scale_short::eFull_0)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
         field_D6_scale = 0;
@@ -138,7 +138,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, int tlvInfo)
         0,
         0))
     {
-        if (pTlv->field_18_scale)
+        if (pTlv->field_18_scale != Scale_short::eFull_0)
         {
             field_13C_lift_wheel.field_C_render_layer = Layer::eLayer_6;
             field_13C_lift_wheel.field_14_scale = field_CC_sprite_scale;

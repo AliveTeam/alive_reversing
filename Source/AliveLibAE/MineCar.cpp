@@ -37,7 +37,7 @@ MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, int tlvInfo, int /*a4*/, int /
     field_CC_sprite_scale = FP_FromInteger(1);
     field_D6_scale = 1;
 
-    if (field_11E_scale)
+    if (field_11E_scale != Scale_short::eFull_0)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
         field_20_animation.field_C_render_layer = Layer::eLayer_7;

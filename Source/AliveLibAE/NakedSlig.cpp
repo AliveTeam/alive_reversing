@@ -141,13 +141,13 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo)
     field_118_tlvInfo = tlvInfo;
     field_1E8_tlv = *pTlv;
 
-    if (field_1E8_tlv.field_10_scale == Path_NakedSlig::Scale::Half_1)
+    if (field_1E8_tlv.field_10_scale == Scale_short::eHalf_1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
         field_20_animation.field_C_render_layer = Layer::eLayer_8;
         field_D6_scale = 0;
     }
-    else  if (field_1E8_tlv.field_10_scale == Path_NakedSlig::Scale::Full_0)
+    else  if (field_1E8_tlv.field_10_scale == Scale_short::eFull_0)
     {
         field_CC_sprite_scale = FP_FromInteger(1);
         field_20_animation.field_C_render_layer = Layer::eLayer_27;

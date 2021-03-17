@@ -8,7 +8,7 @@ class Bone;
 
 struct Path_Slog : public Path_TLV
 {
-    __int16 field_10_scale;
+    Scale_short field_10_scale;
     __int16 field_12_direction;
     __int16 field_14_asleep;
     __int16 field_16_wake_up_anger;

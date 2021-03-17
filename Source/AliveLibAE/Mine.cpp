@@ -77,9 +77,9 @@ Mine * Mine::ctor_46B120(Path_Mine * pPath, TlvItemInfoUnion tlv)
     field_6_flags.Set(Options::eInteractive_Bit8);
     field_6_flags.Set(Options::eCanExplode_Bit7);
 
-    if (pPath->field_14_scale)
+    if (pPath->field_14_scale != Scale_short::eFull_0)
     {
-        if (pPath->field_14_scale == 1)
+        if (pPath->field_14_scale == Scale_short::eHalf_1)
         {
             field_CC_sprite_scale = FP_FromDouble(0.5);
             field_20_animation.field_C_render_layer = Layer::eLayer_16;

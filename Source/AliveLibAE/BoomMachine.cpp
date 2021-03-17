@@ -168,11 +168,11 @@ BoomMachine* BoomMachine::ctor_445B30(Path_BoomMachine* pTlv, int tlvInfo)
     field_F4_tlvInfo = tlvInfo;
     field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
 
-    if (pTlv->field_10_scale == 1)
+    if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
     }    
-    else if (pTlv->field_10_scale == 0)
+    else if (pTlv->field_10_scale == Scale_short::eFull_0)
     {
         field_CC_sprite_scale = FP_FromInteger(1);
     }

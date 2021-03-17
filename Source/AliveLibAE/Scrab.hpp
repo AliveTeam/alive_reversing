@@ -67,7 +67,7 @@ enum class ScrabSounds : unsigned __int8
 
 struct Path_Scrab : public Path_TLV
 {
-    __int16 field_10_scale;
+    Scale_short field_10_scale;
     __int16 field_12_attack_delay;
     __int16 field_14_patrol_type;
     __int16 field_16_left_min_delay;

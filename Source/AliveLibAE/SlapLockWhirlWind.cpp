@@ -46,7 +46,7 @@ SlapLockWhirlWind* SlapLockWhirlWind::ctor_43D7E0(__int16 doorNumber, __int16 sw
                     field_2C_door_x = FP_FromInteger((pDoorTlv->field_8_top_left.field_0_x + pDoorTlv->field_C_bottom_right.field_0_x) / 2);
                     field_30_door_y = FP_FromInteger((pDoorTlv->field_8_top_left.field_2_y + pDoorTlv->field_C_bottom_right.field_2_y) / 2);
 
-                    if (pDoorTlv->field_16_scale)
+                    if (pDoorTlv->field_16_scale != Scale_short::eFull_0)
                     {
                         field_34_door_scale = FP_FromDouble(0.5);
                     }

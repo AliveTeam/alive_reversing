@@ -20,7 +20,7 @@ struct Slurg_Path_Data
 {
     __int16 field_0_pause_delay;
     __int16 field_2_direction;
-    __int16 field_4_scale;
+    Scale_short field_4_scale;
     __int16 field_6_id;
 };
 

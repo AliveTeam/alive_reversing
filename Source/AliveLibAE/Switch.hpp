@@ -27,7 +27,7 @@ enum class SwitchOp : __int16;
 struct Path_Switch : public Path_TLV
 {
     SwitchOp field_10_target_action;
-    __int16 field_12_scale;
+    Scale_short field_12_scale;
     SwitchSoundType field_14_on_sound;
     SwitchSoundType field_16_off_sound;
     __int16 field_18_sound_direction;

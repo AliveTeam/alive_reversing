@@ -79,7 +79,7 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvIn
         field_F4_tlvInfo = tlvInfo;
         field_CC_sprite_scale = FP_FromInteger(1);
 
-        if (pTlv->field_10_scale)
+        if (pTlv->field_10_scale != Scale_short::eFull_0)
         {
             field_CC_sprite_scale = FP_FromDouble(0.5);
         }

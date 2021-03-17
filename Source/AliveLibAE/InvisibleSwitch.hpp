@@ -46,7 +46,7 @@ private:
     };
     States field_38_state;
     __int16 field_3A_set_off_alarm;
-    __int16 field_3C_scale;
+    __int16 field_3C_scale; // can be 0, 1 and 2
     __int16 field_3E_pad;
 };
 ALIVE_ASSERT_SIZEOF(InvisibleSwitch, 0x40);

@@ -133,7 +133,7 @@ Fleech* Fleech::ctor_429DC0(Path_Fleech* pTlv, int tlvInfo)
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
     field_C_objectId = tlvInfo;
 
-    if (pTlv->field_10_scale)
+    if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
     }
@@ -2746,7 +2746,7 @@ Path_Hoist* Fleech::TryGetHoist_42AFD0(int xDistance, __int16 bIgnoreDirection)
         return nullptr;
     }
 
-    if (pHoist->field_16_scale != (field_CC_sprite_scale < FP_FromInteger(1) ? Path_Hoist::Scale::eHalf : Path_Hoist::Scale::eFull) ||
+    if (pHoist->field_16_scale != (field_CC_sprite_scale < FP_FromInteger(1) ? Scale_short::eHalf_1 : Scale_short::eFull_0) ||
         field_BC_ypos -  FP_FromInteger(pHoist->field_8_top_left.field_2_y) >
         FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 20 : 10) * FP_FromDouble(5.5))
     {

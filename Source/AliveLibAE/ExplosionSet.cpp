@@ -73,7 +73,7 @@ void ExplosionSet::Init_4151D0(Path_ExplosionSet* pTlv)
     field_48_tlv_rect.w = pTlv->field_C_bottom_right.field_0_x - pTlv->field_8_top_left.field_0_x;
     field_48_tlv_rect.h = pTlv->field_C_bottom_right.field_2_y - pTlv->field_8_top_left.field_2_y;
 
-    if (pTlv->field_20_scale)
+    if (pTlv->field_20_scale != Scale_short::eFull_0)
     {
         field_50_scale = FP_FromDouble(0.5);
     }

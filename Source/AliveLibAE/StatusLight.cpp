@@ -30,9 +30,9 @@ StatusLight* StatusLight::ctor_4D5250(Path_StatusLight* pTlv, DWORD tlvInfo)
     field_F4_tlvInfo = tlvInfo;
     field_F8_input_id = pTlv->field_10_id;
 
-    if (pTlv->field_12_scale)
+    if (pTlv->field_12_scale != Scale_short::eFull_0)
     {
-        if (pTlv->field_12_scale == 1)
+        if (pTlv->field_12_scale == Scale_short::eHalf_1)
         {
             field_CC_sprite_scale = FP_FromDouble(0.5);
             field_20_animation.field_C_render_layer = Layer::eLayer_8;

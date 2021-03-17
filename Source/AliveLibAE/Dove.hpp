@@ -10,7 +10,7 @@ struct Path_Dove : public Path_TLV
 {
     __int16 field_10_dove_count;
     __int16 field_12_pixel_perfect;
-    __int16 field_14_scale;
+    Scale_short field_14_scale;
     __int16 field_16_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Dove, 0x18);

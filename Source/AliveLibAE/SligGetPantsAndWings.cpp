@@ -21,13 +21,13 @@ SligGetPantsAndWings* SligGetPantsAndWings::ctor_465BF0(Path_TLV* pTlv, int tlvI
 
     // HACK: See header for details
     auto pHack = static_cast<Path_Slig*>(pTlv);
-    if (pHack->field_10_scale == 1)
+    if (pHack->field_10_scale == Scale_short::eHalf_1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
         field_D6_scale = 0;
         field_20_animation.field_C_render_layer = Layer::eLayer_6;
     }
-    else if (pHack->field_10_scale == 0)
+    else if (pHack->field_10_scale == Scale_short::eFull_0)
     {
         field_20_animation.field_C_render_layer = Layer::eLayer_25;
     }

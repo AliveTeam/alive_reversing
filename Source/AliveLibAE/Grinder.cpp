@@ -72,7 +72,7 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
         field_128_flags.Set(Flags::eBit2_ToggleStartState_StartOn);
     }
 
-    if (!tlvData.field_10_scale_background)
+    if (tlvData.field_10_scale == Scale_short::eFull_0)
     {
         field_CC_sprite_scale = FP_FromInteger(1);
         field_20_animation.field_C_render_layer = Layer::eLayer_24;

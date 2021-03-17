@@ -26,7 +26,7 @@ struct Path_BirdPortal : public Path_TLV
     LevelIds field_12_dest_level;
     __int16 field_14_dest_path;
     __int16 field_16_dest_camera;
-    __int16 field_18_scale;
+    Scale_short field_18_scale;
     __int16 field_1A_moive_id;
     PortalType field_1C_portal_type;
     __int16 field_1E_num_muds_for_shrykul;
@@ -38,7 +38,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BirdPortal, 0x24);
 struct Path_BirdPortalExit : public Path_TLV
 {
     PortalSide field_10_side;
-    __int16 field_12_scale;
+    Scale_short field_12_scale;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BirdPortal, 0x24);
 

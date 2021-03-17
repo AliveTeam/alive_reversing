@@ -456,9 +456,9 @@ Slig* Slig::ctor_4B1370(Path_Slig* pTlv, int tlvInfo)
 
     field_20_animation.field_1C_fn_ptr_array = kSlig_Anim_Frame_Fns_55EFAC;
 
-    if (pTlv->field_10_scale)
+    if (pTlv->field_10_scale != Scale_short::eFull_0)
     {
-        if (pTlv->field_10_scale == 1)
+        if (pTlv->field_10_scale == Scale_short::eHalf_1)
         {
             field_CC_sprite_scale = FP_FromDouble(0.5);
             field_20_animation.field_C_render_layer = Layer::eLayer_14;

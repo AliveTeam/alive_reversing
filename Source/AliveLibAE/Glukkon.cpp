@@ -2096,13 +2096,13 @@ void Glukkon::Init_43F260()
         field_210_sub_state = 0;
     }
 
-    if (field_1A8_tlvData.field_10_scale == 1)
+    if (field_1A8_tlvData.field_10_scale == Scale_short::eHalf_1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
         field_D6_scale = 0;
         field_20_animation.field_C_render_layer = Layer::eLayer_8;
     }
-    else if (field_1A8_tlvData.field_10_scale == 0)
+    else if (field_1A8_tlvData.field_10_scale == Scale_short::eFull_0)
     {
         field_CC_sprite_scale = FP_FromInteger(1);
         field_D6_scale = 1;

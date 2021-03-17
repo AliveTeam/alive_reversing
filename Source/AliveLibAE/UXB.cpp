@@ -173,9 +173,9 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     // Single out a single digit, and use that digit as the new amount of red blinks before a green one.
     field_1C6_red_blink_count = (field_1C4_pattern / static_cast<int>(pow(10, field_1C0_pattern_length - 1))) % 10;
 
-    if (tlv_params->field_14_scale)
+    if (tlv_params->field_14_scale != Scale_short::eFull_0)
     {
-        if (tlv_params->field_14_scale == 1)
+        if (tlv_params->field_14_scale == Scale_short::eHalf_1)
         {
             field_CC_sprite_scale = FP_FromDouble(0.5);
             field_20_animation.field_C_render_layer = Layer::eLayer_16;

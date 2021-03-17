@@ -6,7 +6,7 @@
 
 struct Path_Greeter : public Path_TLV
 {
-    __int16 field_10_scale;
+    Scale_short field_10_scale;
     __int16 field_12_motion_detector_speed;
     __int16 field_14_direction;
     __int16 field_16_pad;

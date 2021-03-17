@@ -21,7 +21,7 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, int tl
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kWebResID);
     Animation_Init_424E10(148, 5, 16u, ppRes, 1, 1u);
 
-    if (pTlv->field_10_scale)
+    if (pTlv->field_10_scale != Scale_short::eFull_0)
     {
         field_20_animation.field_C_render_layer = Layer::eLayer_5;
         field_20_animation.field_14_scale = FP_FromDouble(0.7);

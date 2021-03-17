@@ -21,7 +21,7 @@ struct Path_UXB : public Path_TLV
 {
     __int16 field_10_num_patterns;
     __int16 field_12_pattern;
-    __int16 field_14_scale;
+    Scale_short field_14_scale;
     __int16 field_16_state;
     int field_18_disabled_resources;
 };

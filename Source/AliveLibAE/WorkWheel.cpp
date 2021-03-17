@@ -58,9 +58,9 @@ WorkWheel* WorkWheel::ctor_4E35D0(Path_WorkWheel* pTlv, int tlvInfo)
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
-    if (pTlv->field_10_scale)
+    if (pTlv->field_10_scale != Scale_short::eFull_0)
     {
-        if (pTlv->field_10_scale == 1)
+        if (pTlv->field_10_scale == Scale_short::eHalf_1)
         {
             field_CC_sprite_scale = FP_FromDouble(0.5);
             field_20_animation.field_C_render_layer = Layer::eLayer_6;

@@ -15,7 +15,7 @@ struct Path_ExplosionSet : public Path_TLV
     __int16 field_1A_delay;
     __int16 field_1C_grid_spacing;
     __int16 field_1E_scale;
-    __int16 field_20_scale;
+    Scale_short field_20_scale;
     __int16 field_22_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ExplosionSet, 0x24);

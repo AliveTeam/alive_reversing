@@ -225,6 +225,18 @@ void TypesCollection::AddAETypes()
         value(*this, nullptr)->AddTypes(*this);
     }
 
+    AddEnum<Scale_short>("Enum_Scale_short",
+        {
+             { Scale_short::eFull_0, "Full" },
+             { Scale_short::eHalf_1, "Half" },
+        });
+
+    AddEnum<Scale_int>("Enum_Scale_int",
+        {
+             { Scale_int::eFull_0, "Full" },
+             { Scale_int::eHalf_1, "Half" },
+        });
+
     AddEnum<SwitchOp>("Enum_SwitchOp",
         {
              { SwitchOp::eSetTrue_0, "SetTrue" },

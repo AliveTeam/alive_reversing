@@ -6,7 +6,7 @@
 
 struct Path_GlukkonSwitch : public Path_TLV
 {
-    __int16 field_10_scale;
+    Scale_short field_10_scale;
     __int16 field_12_ok_id;
     __int16 field_14_fail_id;
     unsigned __int16 field_16_xpos;

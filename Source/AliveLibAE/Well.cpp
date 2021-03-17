@@ -47,7 +47,7 @@ void Well::VScreenChanged()
 
 void Well::WellExpress_Init_4E2E00(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
 {
-    if (pTlv->field_0_scale)
+    if (pTlv->field_0_scale != Scale_short::eFull_0)
     {
         field_28_scale = FP_FromDouble(0.5);
     }
@@ -92,7 +92,7 @@ void Well::WellExpress_Init_4E2E00(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
 
 void Well::WellLocal_Init_4E2CD0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
 {
-    if (pTlv->field_0_scale)
+    if (pTlv->field_0_scale != Scale_short::eFull_0)
     {
         field_28_scale = FP_FromDouble(0.5);
     }

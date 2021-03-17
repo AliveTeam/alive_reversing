@@ -8,7 +8,7 @@ struct Path_RockSack : public Path_TLV
     __int16 field_10_side;
     unsigned __int16 field_12_x_vel;
     unsigned __int16 field_14_y_vel;
-    __int16 field_16_scale;
+    Scale_short field_16_scale;
     __int16 field_18_num_rocks;
     __int16 field_1A_padding;
 };

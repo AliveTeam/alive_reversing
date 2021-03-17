@@ -2984,11 +2984,11 @@ BYTE** Abe::StateToAnimResource_44AAB0(short state)
 
 static bool IsSameScaleAsHoist(Path_Hoist* pHoist, BaseAliveGameObject* pObj)
 {
-    if (pHoist->field_16_scale == Path_Hoist::Scale::eFull && pObj->field_D6_scale == 0)
+    if (pHoist->field_16_scale == Scale_short::eFull_0 && pObj->field_D6_scale == 0)
     {
         return false;
     }
-    else if (pHoist->field_16_scale == Path_Hoist::Scale::eHalf && pObj->field_D6_scale == 1)
+    else if (pHoist->field_16_scale == Scale_short::eHalf_1 && pObj->field_D6_scale == 1)
     {
         return false;
     }
@@ -2997,11 +2997,11 @@ static bool IsSameScaleAsHoist(Path_Hoist* pHoist, BaseAliveGameObject* pObj)
 
 static bool IsSameScaleAsEdge(Path_Edge* pEdge, BaseAliveGameObject* pObj)
 {
-    if (pEdge->field_14_scale == Path_Edge::Scale::eFull && pObj->field_D6_scale == 0)
+    if (pEdge->field_14_scale == Scale_int::eFull_0 && pObj->field_D6_scale == 0)
     {
         return false;
     }
-    else if (pEdge->field_14_scale == Path_Edge::Scale::eHalf && pObj->field_D6_scale == 1)
+    else if (pEdge->field_14_scale == Scale_int::eHalf_1 && pObj->field_D6_scale == 1)
     {
         return false;
     }
@@ -3264,7 +3264,8 @@ void Abe::State_0_Idle_44EEB0()
 
                 // Bail if scale doesn't match
                 Path_WellLocal* pWell = static_cast<Path_WellLocal*>(pTlv);
-                if ((pWell->field_0_scale != 0 || field_CC_sprite_scale != FP_FromDouble(1.0)) && (pWell->field_0_scale != 1 || field_CC_sprite_scale != FP_FromDouble(0.5)))
+                if ((pWell->field_0_scale != Scale_short::eFull_0 || field_CC_sprite_scale != FP_FromDouble(1.0)) &&
+                    (pWell->field_0_scale != Scale_short::eHalf_1 || field_CC_sprite_scale != FP_FromDouble(0.5)))
                 {
                     break;
                 }
@@ -3284,7 +3285,8 @@ void Abe::State_0_Idle_44EEB0()
 
                 // Bail if scale doesn't match
                 Path_WellBase* pWell = static_cast<Path_WellBase*>(pTlv);
-                if ((pWell->field_0_scale != 0 || field_CC_sprite_scale != FP_FromDouble(1.0)) && (pWell->field_0_scale != 1 || field_CC_sprite_scale != FP_FromDouble(0.5)))
+                if ((pWell->field_0_scale != Scale_short::eFull_0 || field_CC_sprite_scale != FP_FromDouble(1.0)) &&
+                    (pWell->field_0_scale != Scale_short::eHalf_1 || field_CC_sprite_scale != FP_FromDouble(0.5)))
                 {
                     break;
                 }
@@ -3669,8 +3671,8 @@ void Abe::State_3_Fall_459B60()
             {
                 // The well must be on the same scale/layer
                 Path_WellBase* pWellBase = static_cast<Path_WellBase*>(field_FC_pPathTLV);
-                if ((pWellBase->field_0_scale == 0 && field_CC_sprite_scale == FP_FromInteger(1))
-                    || (pWellBase->field_0_scale == 1 && field_CC_sprite_scale == FP_FromDouble(0.5)))
+                if ((pWellBase->field_0_scale == Scale_short::eFull_0 && field_CC_sprite_scale == FP_FromInteger(1))
+                    || (pWellBase->field_0_scale == Scale_short::eHalf_1 && field_CC_sprite_scale == FP_FromDouble(0.5)))
                 {
                     field_1AC_flags.Set(Flags_1AC::e1AC_Bit3_WalkToRun);
                     field_106_current_motion = eAbeStates::State_75_JumpIntoWell_45C7B0;
@@ -6811,7 +6813,7 @@ void Abe::State_83_WellExpressShotOut_45CF70()
 
     if (pWell)
     {
-        if (pWell->field_0_scale == 1)
+        if (pWell->field_0_scale == Scale_short::eHalf_1)
         {
             field_CC_sprite_scale = FP_FromDouble(0.5);
             field_D6_scale = 0;
@@ -6948,7 +6950,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
                 id = pMovieStoneTlv->field_14_id;
 
                 field_184_fmv_id = pMovieStoneTlv->field_10_movie_number;
-                field_186_to_camera_id[0] = pMovieStoneTlv->field_12_scale; // TODO: Never used?
+                field_186_to_camera_id[0] = static_cast<short>(pMovieStoneTlv->field_12_scale); // TODO: Never used?
                 field_186_to_camera_id[1] = static_cast<short>(pMovieStoneTlv->field_14_id);    // TODO: Never used?
             }
 
@@ -8072,7 +8074,7 @@ void Abe::State_114_DoorEnter_459470()
             } while (pTargetDoorTlv->field_18_door_number != field_1A0_door_id);
         }
 
-        if (pTargetDoorTlv->field_16_scale == 1)
+        if (pTargetDoorTlv->field_16_scale == Scale_short::eHalf_1)
         {
             field_CC_sprite_scale = FP_FromDouble(0.5);
             field_20_animation.field_C_render_layer = Layer::eLayer_13;
@@ -9187,8 +9189,8 @@ __int16 Abe::RunTryEnterWell_451060()
     {
         if (!(field_114_flags.Get(Flags_114::e114_Bit10_Teleporting)))
         {
-            if ((pWellLocal->field_0_scale == 0 && field_CC_sprite_scale == FP_FromInteger(1)) ||
-                (pWellLocal->field_0_scale == 1 && field_CC_sprite_scale == FP_FromDouble(0.5)))
+            if ((pWellLocal->field_0_scale == Scale_short::eFull_0 && field_CC_sprite_scale == FP_FromInteger(1)) ||
+                (pWellLocal->field_0_scale == Scale_short::eHalf_1 && field_CC_sprite_scale == FP_FromDouble(0.5)))
             {
                 field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_WalkToRun);
                 field_FC_pPathTLV = pWellLocal;
@@ -9208,8 +9210,8 @@ __int16 Abe::RunTryEnterWell_451060()
     {
         if (!(field_114_flags.Get(Flags_114::e114_Bit10_Teleporting)))
         {
-            if ((pWellExpress->field_0_scale == 0 && field_CC_sprite_scale == FP_FromInteger(1)) ||
-                (pWellExpress->field_0_scale == 1 && field_CC_sprite_scale == FP_FromDouble(0.5)))
+            if ((pWellExpress->field_0_scale == Scale_short::eFull_0 && field_CC_sprite_scale == FP_FromInteger(1)) ||
+                (pWellExpress->field_0_scale == Scale_short::eHalf_1 && field_CC_sprite_scale == FP_FromDouble(0.5)))
             {
                 field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_WalkToRun);
                 field_FC_pPathTLV = pWellExpress;

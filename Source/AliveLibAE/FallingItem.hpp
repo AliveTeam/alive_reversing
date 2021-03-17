@@ -16,7 +16,7 @@ ALIVE_ASSERT_SIZEOF(FallingItem_Data, 0xC);
 struct Path_FallingItem : public Path_TLV
 {
     __int16 field_10_id;
-    __int16 field_12_scale;
+    Scale_short field_12_scale;
     __int16 field_14_delay_time;
     __int16 field_16_number_of_items;
     __int16 field_18_reset_id;

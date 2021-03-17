@@ -29,12 +29,13 @@ GlukkonSwitch* GlukkonSwitch::ctor_444E60(Path_GlukkonSwitch* pTlv, int tlvInfo)
     field_F4_tlvInfo = tlvInfo;
     field_20_animation.field_C_render_layer = Layer::eLayer_22;
 
-    if (pTlv->field_10_scale == 1)
+    // TODO: new scale enum because the values are the wrong way around
+    if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {
         field_CC_sprite_scale = FP_FromInteger(1);
         field_D6_scale = 1;
     }
-    else if (pTlv->field_10_scale == 0)
+    else if (pTlv->field_10_scale == Scale_short::eFull_0)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
         field_D6_scale = 0;
