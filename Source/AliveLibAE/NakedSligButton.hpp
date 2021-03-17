@@ -8,7 +8,7 @@ enum class SwitchOp : __int16;
 
 struct Path_NakedSligButton : public Path_TLV
 {
-    __int16 field_10_scale;
+    Scale_short field_10_scale;
     __int16 field_12_id;
     SwitchOp field_14_id_action;
     __int16 field_16_on_sound;

@@ -16,11 +16,11 @@ SlogHut* SlogHut::ctor_4C4070(Path_SlogHut* pTlv, int tlvInfo)
     field_24_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
     field_2C_tlvInfo = tlvInfo;
 
-    if (pTlv->field_10_scale == 1)
+    if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {
         field_28_scale = FP_FromDouble(0.5);
     }
-    else if (pTlv->field_10_scale == 0)
+    else if (pTlv->field_10_scale == Scale_short::eFull_0)
     {
         field_28_scale = FP_FromInteger(1);
     }

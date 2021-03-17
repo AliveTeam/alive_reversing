@@ -69,7 +69,7 @@ enum class GlukkonSpeak : signed char
 
 struct Path_Glukkon : public Path_TLV
 {
-    __int16 field_10_scale;
+    Scale_short field_10_scale;
     __int16 field_12_start_direction;
     __int16 field_14_default_behaviour;
     __int16 field_16_pre_alarmed_delay;

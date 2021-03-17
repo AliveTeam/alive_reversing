@@ -6,7 +6,7 @@
 
 struct Path_ParamiteWebLine : public Path_TLV
 {
-    __int16 field_10_scale;
+    Scale_short field_10_scale;
     __int16 field_12_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ParamiteWebLine, 0x14);

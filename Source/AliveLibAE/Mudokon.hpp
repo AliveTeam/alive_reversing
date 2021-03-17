@@ -7,12 +7,6 @@
 
 enum class RingTypes : __int16;
 
-enum class TLV_Scale : __int16
-{
-    Full_0 = 0,
-    Half_1 = 1,
-};
-
 enum class Mud_State : __int16
 {
     eChisle_0 = 0,
@@ -39,7 +33,7 @@ enum class Mud_TLV_Emotion : __int16
 
 struct Path_Mudokon : public Path_TLV
 {
-    TLV_Scale field_10_scale;
+    Scale_short field_10_scale;
     Mud_State field_12_state;
     Mud_Direction field_14_direction;
     __int16 field_16_voice_pitch;

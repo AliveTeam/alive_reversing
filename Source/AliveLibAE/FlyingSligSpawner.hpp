@@ -6,7 +6,7 @@
 
 struct Path_FlyingSlig_Data
 {
-    __int16 field_0_scale;
+    Scale_short field_0_scale;
     __int16 field_2_state;
     __int16 field_4_hi_pause_time;
     __int16 field_6_patrol_pause_min;

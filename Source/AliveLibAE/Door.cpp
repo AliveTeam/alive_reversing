@@ -242,9 +242,9 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, int tlvInfo)
         }
     }
 
-    if (pTlvData->field_16_scale)
+    if (pTlvData->field_16_scale != Scale_short::eFull_0)
     {
-        if (pTlvData->field_16_scale == 1)
+        if (pTlvData->field_16_scale == Scale_short::eHalf_1)
         {
             field_CC_sprite_scale = FP_FromDouble(0.5);
             field_D6_scale = 0;

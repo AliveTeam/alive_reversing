@@ -97,7 +97,7 @@ struct Path_MeatSack : public Path_TLV
     __int16 field_10_side;
     unsigned __int16 field_12_xVel;
     unsigned __int16 field_14_yVel;
-    __int16 field_16_scale;
+    Scale_short field_16_scale;
     __int16 field_18_num_items;
     __int16 field_1A_pad;
 };

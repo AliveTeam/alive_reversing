@@ -21,7 +21,7 @@ enum class GrinderBehavior : __int16
 
 struct Path_Grinder_Data
 {
-    __int16 field_10_scale_background;
+    Scale_short field_10_scale;
     __int16 field_12_min_off_time;
     __int16 field_14_max_off_time;
     __int16 field_16_id;

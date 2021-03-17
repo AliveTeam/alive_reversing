@@ -19,7 +19,7 @@ struct Path_LiftPoint : public Path_TLV
     __int16 field_12_bstart_point;
     __int16 field_14_lift_type; // TODO: Not actually used
     LiftPointStopType field_16_lift_point_stop_type;
-    __int16 field_18_scale;
+    Scale_short field_18_scale;
     __int16 field_1A_bIgnore_lift_mover;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LiftPoint, 0x1C);

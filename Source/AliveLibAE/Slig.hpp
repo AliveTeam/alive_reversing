@@ -91,7 +91,7 @@ enum class SligSfx : __int16
 
 struct Path_Slig : public Path_TLV
 {
-    __int16 field_10_scale;
+    Scale_short field_10_scale;
 
     // TODO: Check these - GameEnder is probably only AO for instance ?
     enum class StartState : __int16

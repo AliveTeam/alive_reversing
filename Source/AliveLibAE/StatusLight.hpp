@@ -7,7 +7,7 @@
 struct Path_StatusLight : public Path_TLV
 {
     __int16 field_10_id;
-    __int16 field_12_scale;
+    Scale_short field_12_scale;
     __int16 field_14_id1;
     __int16 field_16_id2;
     __int16 field_18_id3;

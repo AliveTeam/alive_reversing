@@ -48,7 +48,7 @@ BaseGameObject* BirdPortal::ctor_497E00(Path_BirdPortal* pTlv, int tlvInfo)
     field_82_num_muds_for_shrykull = pTlv->field_1E_num_muds_for_shrykul;
     field_66_delete_id = pTlv->field_22_delete_id;
     
-    if (pTlv->field_18_scale == 1)
+    if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
         field_60_scale = FP_FromDouble(0.5);
     }
@@ -950,7 +950,7 @@ void BirdPortal::vExitPortal_499870()
         field_30_ypos = field_38_exit_y - FP_FromInteger(55);
         field_26_side = pPortalExitTlv->field_10_side;
 
-        if (pPortalExitTlv->field_12_scale == 1)
+        if (pPortalExitTlv->field_12_scale == Scale_short::eHalf_1)
         {
             field_60_scale = FP_FromDouble(0.5);
             sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_11;

@@ -8,7 +8,7 @@
 
 struct Path_MineCar : public Path_TLV
 {
-    __int16 field_10_scale;
+    Scale_short field_10_scale;
     __int16 field_12_max_damage;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MineCar, 0x14);
@@ -129,7 +129,7 @@ private:
 public:
     MineCarStates field_11C_state;
 private:
-    __int16 field_11E_scale;
+    Scale_short field_11E_scale;
     __int16 field_120_max_damage;
     __int16 field_122_padding;
     Animation field_124_anim;

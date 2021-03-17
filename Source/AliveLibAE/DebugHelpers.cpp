@@ -776,7 +776,7 @@ void Command_Spawn(const std::vector<std::string>& args)
     Path_TLV* factoryTLV = nullptr;
 
     Path_Mudokon mudPath = {};
-    mudPath.field_10_scale = TLV_Scale::Full_0;
+    mudPath.field_10_scale = Scale_short::eFull_0;
     mudPath.field_12_state = Mud_State::eScrub_1;
     mudPath.field_16_voice_pitch = (rand() % 1500) - 600;
     mudPath.field_8_top_left = spawnTopLeft;

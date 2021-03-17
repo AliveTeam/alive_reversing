@@ -7,7 +7,7 @@
 
 struct Path_MotionDetector : public Path_TLV
 {
-    __int16 field_10_scale;
+    Scale_short field_10_scale;
     __int16 field_12_device_x;
     __int16 field_14_device_y;
     __int16 field_16_speed_x256;

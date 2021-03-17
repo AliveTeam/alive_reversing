@@ -6,7 +6,7 @@
 
 struct Path_BoomMachine : public Path_TLV
 {
-    __int16 field_10_scale;
+    Scale_short field_10_scale;
     __int16 field_12_nozzle_side;
     __int16 field_14_disabled_resources;
     __int16 field_16_number_of_grenades;

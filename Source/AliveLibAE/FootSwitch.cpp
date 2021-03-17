@@ -74,7 +74,7 @@ FootSwitch* FootSwitch::ctor_4DE090(Path_FootSwitch* pTlv, int tlvInfo)
 
     field_FA_id = pTlv->field_10_id;
 
-    if (pTlv->field_12_scale == 1)
+    if (pTlv->field_12_scale == Scale_short::eHalf_1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
         field_D6_scale = 0;

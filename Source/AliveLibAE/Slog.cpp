@@ -173,7 +173,7 @@ Slog* Slog::ctor_4C42E0(Path_Slog* pTlv, int tlvInfo)
     field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
-    if (pTlv->field_10_scale)
+    if (pTlv->field_10_scale != Scale_short::eFull_0)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
     }

@@ -487,13 +487,13 @@ MeatSack* MeatSack::ctor_46A410(Path_MeatSack* pTlv, int tlvInfo)
         field_124_velX = -field_124_velX;
     }
 
-    if (pTlv->field_16_scale == 1)
+    if (pTlv->field_16_scale == Scale_short::eHalf_1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
         field_20_animation.field_C_render_layer = Layer::eLayer_8;
         field_D6_scale = 0;
     }
-    else if (pTlv->field_16_scale == 0)
+    else if (pTlv->field_16_scale == Scale_short::eFull_0)
     {
         field_CC_sprite_scale = FP_FromInteger(1);
         field_20_animation.field_C_render_layer = Layer::eLayer_27;

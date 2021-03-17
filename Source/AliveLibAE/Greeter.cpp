@@ -30,7 +30,7 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, int tlvInfo)
 
     field_DC_bApplyShadows |= 2u;
 
-    if (pTlv->field_10_scale)
+    if (pTlv->field_10_scale != Scale_short::eFull_0)
     {
         field_20_animation.field_C_render_layer = Layer::eLayer_14;
         field_CC_sprite_scale = FP_FromDouble(0.5);

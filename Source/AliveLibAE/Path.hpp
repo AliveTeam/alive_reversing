@@ -146,6 +146,24 @@ struct TlvTypes32
 static_assert(std::is_pod<TlvTypes32>::value, "TlvTypes32 must be pod");
 ALIVE_ASSERT_SIZEOF(TlvTypes32, 4);
 
+enum class Scale_short : __int16
+{
+    eFull_0 = 0,
+    eHalf_1 = 1,
+};
+
+enum class Scale_int : int
+{
+    eFull_0 = 0,
+    eHalf_1 = 1,
+};
+
+enum class Direction
+{
+    eLeft = 0,
+    eRight = 1,
+};
+
 struct Path_TLV
 {
     BitField8<TLV_Flags> field_0_flags;
@@ -225,7 +243,7 @@ struct Path_Teleporter_Data
     __int16 field_16_path;
     LevelIds field_18_level;
     __int16 field_1A_trigger_id;
-    __int16 field_1C_scale;
+    Scale_short field_1C_scale;
     __int16 field_1E_wipe;
     __int16 field_20_movie_number;
     __int16 field_22_eletric_x;
@@ -261,12 +279,7 @@ struct Path_Hoist : public Path_TLV
     BYTE field_14_id; // never used
     // pad
 
-    enum class Scale : __int16
-    {
-        eFull = 0,
-        eHalf = 1,
-    };
-    Scale field_16_scale;
+    Scale_short field_16_scale;
 };
 // TODO: Size
 
@@ -281,12 +294,7 @@ struct Path_Edge : public Path_TLV
     Type field_10_type;
     __int16 field_12_can_grab;
 
-    enum class Scale : int
-    {
-        eFull = 0,
-        eHalf = 1,
-    };
-    Scale field_14_scale;
+    Scale_int field_14_scale;
 };
 // TODO: Size
 
@@ -299,7 +307,7 @@ struct Path_SoftLanding : public Path_TLV
 
 struct Path_WellBase : public Path_TLV
 {
-    __int16 field_0_scale;
+    Scale_short field_0_scale;
     __int16 field_2_trigger_id;
     __int16 field_4_well_id;
     __int16 field_6_res_id;
@@ -348,7 +356,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Alarm, 0x14);
 struct Path_MovieStone : public Path_TLV
 {
     __int16 field_10_movie_number;
-    __int16 field_12_scale;
+    Scale_short field_12_scale;
     int field_14_id;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovieStone, 0x18);

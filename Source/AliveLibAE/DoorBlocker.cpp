@@ -26,7 +26,7 @@ DoorBlocker* DoorBlocker::ctor_41F0A0(Path_DoorBlocker* pTlv, int tlvInfo)
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
     field_11C_tlvInfo = tlvInfo;
 
-    if (pTlv->field_10_scale == 1)
+    if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
         field_20_animation.field_C_render_layer = Layer::eLayer_7;

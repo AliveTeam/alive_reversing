@@ -171,7 +171,7 @@ extern const InputCommands sInputKey_GameSpeak7_555114;
 
 struct Path_ContinuePoint : public Path_TLV
 {
-    __int16 field_10_scale;
+    __int16 field_10_scale; // can be 1 and 2
     __int16 field_12_save_file_id;
 };
 

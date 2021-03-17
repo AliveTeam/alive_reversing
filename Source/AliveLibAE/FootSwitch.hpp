@@ -15,7 +15,7 @@ enum class FootSwitchTriggerBy : __int16
 struct Path_FootSwitch : public Path_TLV
 {
     __int16 field_10_id;
-    __int16 field_12_scale;
+    Scale_short field_12_scale;
     SwitchOp field_14_action;
     FootSwitchTriggerBy field_16_trigger_by;
 };

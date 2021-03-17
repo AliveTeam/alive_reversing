@@ -386,7 +386,7 @@ DoorFlame* DoorFlame::ctor_45E460(Path_DoorFlame* pTlv, int tlvInfo)
     
     field_F8_switch_id = pTlv->field_10_id;
 
-    if (pTlv->field_12_scale)
+    if (pTlv->field_12_scale != Scale_short::eFull_0)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
     }

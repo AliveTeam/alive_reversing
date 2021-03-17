@@ -9,7 +9,7 @@ struct Path_Door : public Path_TLV
     LevelIds field_10_level;
     __int16 field_12_path;
     __int16 field_14_camera;
-    __int16 field_16_scale;
+    Scale_short field_16_scale;
     __int16 field_18_door_number;
     __int16 field_1A_id;
     __int16 field_1C_target_door_number;

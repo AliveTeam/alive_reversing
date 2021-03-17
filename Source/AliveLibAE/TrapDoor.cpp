@@ -126,7 +126,7 @@ EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, int tlvIn
     }
 
     field_13E_set_switch_on_dead = pTlv->field_14_self_closing;
-    if (pTlv->field_16_scale == 1)
+    if (pTlv->field_16_scale == Scale_short::eHalf_1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
         field_D6_scale = 0;

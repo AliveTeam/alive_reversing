@@ -112,7 +112,7 @@ void Teleporter::SpawnRingSparks(Path_Teleporter_Data* pTlvData)
     {
         int sparkX = 0;
         int sparkY = 0;
-        if (pTlvData->field_1C_scale)
+        if (pTlvData->field_1C_scale != Scale_short::eFull_0)
         {
             sparkX = xOrg + (sparkOffs.field_0_x / 2);
             sparkY = yOrg + (sparkOffs.field_2_y / 2);
@@ -192,7 +192,7 @@ void Teleporter::vUpdate_4DC400()
             if (!field_54_effect_created)
             {
                 // Spawn the falling "red" sparks from Abe's feet that appear after you enter the teleporter
-                if (field_34_mTlvData.field_1C_scale)
+                if (field_34_mTlvData.field_1C_scale != Scale_short::eFull_0)
                 {
                     // Steam/smoke effect at Abe's body
                     New_Smoke_Particles_426C70(
@@ -294,10 +294,10 @@ void Teleporter::vUpdate_4DC400()
             }
         }
         
-        SFX_Play_46FBA0(SoundEffect::Zap1_49, 60, -300, tlvData.field_1C_scale != 0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
+        SFX_Play_46FBA0(SoundEffect::Zap1_49, 60, -300, tlvData.field_1C_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
         SpawnRingSparks(&tlvData);
 
-        if (tlvData.field_1C_scale)
+        if (tlvData.field_1C_scale != Scale_short::eFull_0)
         {
             if (sControlledCharacter_5C1B8C->field_D6_scale == 1)
             {

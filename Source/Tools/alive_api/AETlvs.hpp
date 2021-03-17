@@ -85,7 +85,7 @@ struct Path_MainMenuController : public Path_TLV
 
 struct Path_SligGetWings : public Path_TLV
 {
-    __int16 scale;
+    Scale_short scale;
     __int16 state;
     __int16 hi_pause_time;
     __int16 patrol_pause_min;
@@ -143,7 +143,7 @@ struct Path_SligGetPants : public Path_TLV
 struct Path_MovieHandstone : public Path_TLV
 {
     __int16 padding;
-    __int16 scale;
+    Scale_short scale;
     __int16 movie_number;
     __int16 id;
 };
@@ -175,7 +175,7 @@ struct Path_PathTransition : public Path_TLV
     __int16 camera;
     __int16 movie;
     __int16 wipe;
-    __int16 scale;
+    Scale_short scale;
 };
 
 struct Path_ZSligCover : public Path_TLV
@@ -185,7 +185,7 @@ struct Path_ZSligCover : public Path_TLV
 
 struct Path_SligSpawner : public Path_TLV
 {
-    __int16 scale;
+    Scale_short scale;
     __int16 start_state;
     __int16 pause_time;
     __int16 pause_left_min;
@@ -263,12 +263,6 @@ namespace AETlvs
                     {::Mud_TLV_Emotion::eSad_2, "sad"},
                     {::Mud_TLV_Emotion::eWired_3, "wired"},
                     {::Mud_TLV_Emotion::eSick_4, "sick"}
-                });
-
-            types.AddEnum<::TLV_Scale>("Enum_TLV_Scale",
-                {
-                    {::TLV_Scale::Full_0, "full"},
-                    {::TLV_Scale::Half_1, "half"}
                 });
 
             types.AddEnum<::Mud_State>("Enum_Mud_State",
@@ -428,12 +422,6 @@ namespace AETlvs
                     {::Path_Hoist::EdgeType::eBoth, "both"},
                     {::Path_Hoist::EdgeType::eLeft, "left"},
                     {::Path_Hoist::EdgeType::eRight, "right"},
-                });
-
-            types.AddEnum<::Path_Hoist::Scale>("Enum_HoistScale",
-                {
-                    {::Path_Hoist::Scale::eFull, "full"},
-                    {::Path_Hoist::Scale::eHalf, "half"}
                 });
         }
 
@@ -609,12 +597,6 @@ namespace AETlvs
                     {::Path_Edge::Type::eLeft, "left"},
                     {::Path_Edge::Type::eRight, "right"},
                     {::Path_Edge::Type::eBoth, "both"},
-                });
-
-            types.AddEnum<::Path_Edge::Scale>("Enum_Scale",
-                {
-                    {::Path_Edge::Scale::eFull, "full"},
-                    {::Path_Edge::Scale::eHalf, "half"},
                 });
         }
 
@@ -1196,7 +1178,7 @@ namespace AETlvs
 
         CTOR_AE(Path_Grinder, "Grinder", TlvTypes::Grinder_90)
         {
-            ADD("scale_background", mTlv.field_10_data.field_10_scale_background);
+            ADD("scale_background", mTlv.field_10_data.field_10_scale);
             ADD("min_off_time", mTlv.field_10_data.field_12_min_off_time);
             ADD("max_off_time", mTlv.field_10_data.field_14_max_off_time);
             ADD("id", mTlv.field_10_data.field_16_id);
@@ -1544,12 +1526,6 @@ namespace AETlvs
     {
         void AddTypes(TypesCollection& types) override
         {
-            types.AddEnum<::Path_NakedSlig::Scale>("Enum_Scale",
-                {
-                    {::Path_NakedSlig::Scale::Full_0, "full"},
-                    {::Path_NakedSlig::Scale::Half_1, "half"},
-                });
-
             types.AddEnum<::Path_NakedSlig::Direction>("Enum_Direction",
                 {
                     {::Path_NakedSlig::Direction::Left_0, "left"},
@@ -1699,6 +1675,15 @@ namespace AETlvs
 
     struct Path_GlukkonSwitch : public TlvObjectBaseAE<::Path_GlukkonSwitch>
     {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<::Path_GlukkonSwitch::Scale>("Enum_GlukkonSwitchScale",
+                {
+                    {::Path_GlukkonSwitch::Scale::eHalf_0, "Half"},
+                    {::Path_GlukkonSwitch::Scale::eFull_1 , "Full"},
+                });
+        };
+
         CTOR_AE(Path_GlukkonSwitch, "GlukkonSwitch", TlvTypes::GlukkonSwitch_108)
         {
             ADD("scale", mTlv.field_10_scale);

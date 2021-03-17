@@ -57,7 +57,7 @@ PullRingRope* PullRingRope::ctor_49B2D0(Path_PullRingRope* pTlv, int tlvInfo)
 
     field_BC_ypos += FP_FromInteger(pTlv->field_14_length_of_rope);
 
-    if (pTlv->field_16_scale == 1)
+    if (pTlv->field_16_scale == Scale_short::eHalf_1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
         field_20_animation.field_C_render_layer = Layer::eLayer_8;

@@ -13,7 +13,7 @@ struct Path_Mine : public Path_TLV
 {
     __int16 field_10_num_patterns;
     __int16 field_12_pattern;
-    __int16 field_14_scale;
+    Scale_short field_14_scale;
     __int16 field_16_disabled_resources;
     __int16 field_18_persists_offscreen;
     __int16 pad;

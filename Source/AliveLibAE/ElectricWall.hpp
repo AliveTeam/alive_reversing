@@ -6,7 +6,7 @@
 
 struct Path_ElectricWall : public Path_TLV
 {
-    __int16 field_10_scale;
+    Scale_short field_10_scale;
     __int16 field_12_id;
     __int16 field_14_start_state;
     __int16 field_16_pad;

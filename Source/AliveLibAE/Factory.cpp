@@ -421,7 +421,7 @@ EXPORT void CC Factory_Dove_4D7E90(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvIn
             auto pDove = ae_new<Dove>();
             if (pDove)
             {
-                pDove->ctor_41F430(5580, 41, 20, 60, tlvInfo.all, pDoveTlv->field_14_scale != 0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
+                pDove->ctor_41F430(5580, 41, 20, 60, tlvInfo.all, pDoveTlv->field_14_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
             }
 
             short ypos = 0;

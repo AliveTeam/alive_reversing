@@ -5,7 +5,7 @@
 
 struct Path_SlapLock : public Path_TLV
 {
-    __int16 field_10_scale;
+    Scale_short field_10_scale;
     __int16 field_12_target_tomb_id1;
     __int16 field_14_target_tomb_id2;
     __int16 field_16_bPersistant;

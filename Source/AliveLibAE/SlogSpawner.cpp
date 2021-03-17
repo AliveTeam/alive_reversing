@@ -78,7 +78,7 @@ void SlogSpawner::vUpdate_4C80D0()
         {
             field_30_spawn_timer = (field_3C_spawn_time + sGnFrame_5C1B84) + Math_NextRandom() % 8;
             auto pSlog = ae_new<Slog>();
-            pSlog->ctor_4C4540(field_28_xpos, field_2C_ypos, field_34_scale != 0 ? FP_FromDouble(0.5) : FP_FromInteger(1), field_40_listen_to_sligs, field_42_jump_delay);
+            pSlog->ctor_4C4540(field_28_xpos, field_2C_ypos, field_34_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1), field_40_listen_to_sligs, field_42_jump_delay);
             pSlog->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_3A_direction & 1);
 
             ++field_24_tlv_saved_slog_count;

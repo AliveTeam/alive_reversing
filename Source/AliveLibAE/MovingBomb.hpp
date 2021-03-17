@@ -9,7 +9,7 @@ struct Path_MovingBomb : public Path_TLV
     unsigned __int16 field_10_speed;
     __int16 field_12_id;
     __int16 field_14_bStart_type_triggered_by_alarm;
-    __int16 field_16_scale;
+    Scale_short field_16_scale;
     __int16 field_18_max_rise;
     __int16 field_1A_disable_resources;
     unsigned __int16 field_1C_start_speed;
