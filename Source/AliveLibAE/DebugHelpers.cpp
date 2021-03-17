@@ -2117,11 +2117,19 @@ void DebugHelpers_Init()
 //#endif
 }
 
-std::vector<BYTE> FS::ReadFile(std::string filePath)
+std::vector<BYTE> FS::ReadFile(const std::string& filePath)
 {
-    std::ifstream f(filePath, std::ios::binary);
-    std::vector<BYTE> v(std::istreambuf_iterator<char>{f}, {});
-    return v;
+    FILE* hFile = ::fopen(filePath.c_str(), "rb");
+    if (hFile)
+    {
+        ::fseek(hFile, 0, SEEK_END); // seek to end of file
+        const std::size_t fileLen = ::ftell(hFile); // get current file pointer
+        ::fseek(hFile, 0, SEEK_SET); // seek back to beginning of file
+        std::vector<BYTE> buffer(fileLen);
+        ::fread(buffer.data(), 1, buffer.size(), hFile);
+        ::fclose(hFile);
+    }
+    return {};
 }
 
 std::string FS::GetPrefPath()

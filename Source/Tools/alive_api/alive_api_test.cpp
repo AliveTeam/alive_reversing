@@ -73,7 +73,11 @@ TEST(alive_api, ImportPathJsonToBinaryAO)
     ASSERT_EQ(ret.mResult, AliveAPI::Error::None);
 
     const auto ogR1 = FS::ReadFile(AOPath("R1.LVL"));
+    ASSERT_NE(ogR1.size(), 0u);
+
     const auto rewrittenR1 = FS::ReadFile("newAO.lvl");
+    ASSERT_NE(rewrittenR1.size(), 0u);
+
     ASSERT_EQ(ogR1, rewrittenR1);
 }
 
@@ -83,7 +87,11 @@ TEST(alive_api, ImportPathJsonToBinaryAE)
     ASSERT_EQ(ret.mResult, AliveAPI::Error::None);
 
     const auto ogLVL = FS::ReadFile(AEPath(kAETestLvl));
+    ASSERT_NE(ogLVL.size(), 0u);
+
     const auto rewrittenLVL = FS::ReadFile("newAE.lvl");
+    ASSERT_NE(rewrittenLVL.size(), 0u);
+
     ASSERT_EQ(ogLVL, rewrittenLVL);
 }
 
@@ -116,7 +124,10 @@ TEST(alive_api, ReSaveAllPathsAO)
             ASSERT_EQ(importRet.mResult, AliveAPI::Error::None);
 
             const auto originalLvlBytes = FS::ReadFile(AOPath(lvl));
+            ASSERT_NE(originalLvlBytes.size(), 0u);
             const auto resavedLvlBytes = FS::ReadFile(lvlName);
+            ASSERT_NE(resavedLvlBytes.size(), 0u);
+
             ASSERT_EQ(originalLvlBytes, resavedLvlBytes);
         }
     }
@@ -143,7 +154,11 @@ TEST(alive_api, ReSaveAllPathsAE)
             ASSERT_EQ(importRet.mResult, AliveAPI::Error::None);
 
             const auto originalLvlBytes = FS::ReadFile(AEPath(lvl));
+            ASSERT_NE(originalLvlBytes.size(), 0u);
+            
             const auto resavedLvlBytes = FS::ReadFile(lvlName);
+            ASSERT_NE(resavedLvlBytes.size(), 0u);
+
             ASSERT_EQ(originalLvlBytes, resavedLvlBytes);
         }
     }
