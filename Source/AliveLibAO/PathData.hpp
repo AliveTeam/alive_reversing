@@ -133,7 +133,7 @@ enum class TlvTypes : __int16
     DeathClock_108 = 108,
     RingCancel_109 = 109,
     GasEmitter_110 = 110,
-    Slog_111 = 111,
+    SlogHut_111 = 111,
     Glukkon_112 = 112,
     KillUnsavedMuds_113 = 113,
     SoftLanding_114 = 114,

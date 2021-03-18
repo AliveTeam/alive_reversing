@@ -37,6 +37,11 @@
 #include "../AliveLibAO/LiftMover.hpp"
 #include "../AliveLibAO/Scrab.hpp"
 #include "../AliveLibAO/SlogSpawner.hpp"
+#include "../AliveLibAO/Rock.hpp"
+#include "../AliveLibAO/SlogHut.hpp"
+#include "../AliveLibAO/SecurityClaw.hpp"
+#include "../AliveLibAO/SecurityDoor.hpp"
+#include "../AliveLibAO/TimedMine.hpp"
 
 #define CTOR_AO(className, objectTypeName, tlvType)  className(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO(tlvType, objectTypeName, pTlv)
 
@@ -825,11 +830,69 @@ namespace AOTlvs
         CTOR_AO(Path_SlogSpawner, "SlogSpawner", AO::TlvTypes::SlogSpawner_107)
         {
             ADD("scale", mTlv.field_18_scale);
-            ADD("attack_delay", mTlv.field_1A_num_slogs);
-            ADD("patrol_type", mTlv.field_1C_num_at_a_time);
-            ADD("left_min_delay", mTlv.field_1E_direction);
-            ADD("left_max_delay", mTlv.field_20_ticks_between_slogs);
-            ADD("right_min_delay", mTlv.field_22_start_id);
+            ADD("num_slogs", mTlv.field_1A_num_slogs);
+            ADD("num_at_a_time", mTlv.field_1C_num_at_a_time);
+            ADD("direction", mTlv.field_1E_direction);
+            ADD("ticks_between_slogs", mTlv.field_20_ticks_between_slogs);
+            ADD("start_id", mTlv.field_22_start_id);
+        }
+    };
+
+    struct Path_RockSack : public TlvObjectBaseAO<AO::Path_RockSack>
+    {
+        CTOR_AO(Path_RockSack, "RockSack", AO::TlvTypes::RockSack_13)
+        {
+            ADD("side", mTlv.field_18_side);
+            ADD("x_vel", mTlv.field_1A_x_vel);
+            ADD("y_vel", mTlv.field_1C_y_vel);
+            ADD("scale", mTlv.field_1E_scale);
+            ADD("num_rocks", mTlv.field_20_num_rocks);
+        }
+    };
+
+    struct Path_SlogHut : public TlvObjectBaseAO<AO::Path_SlogHut>
+    {
+        CTOR_AO(Path_SlogHut, "SlogHut", AO::TlvTypes::SlogHut_111)
+        {
+            ADD("scale", mTlv.field_18_scale);
+            ADD("switch_id", mTlv.field_1A_switch_id);
+            ADD("z_delay", mTlv.field_1C_z_delay);
+        }
+    };
+
+    struct Path_SecurityClaw : public TlvObjectBaseAO<AO::Path_SecurityClaw>
+    {
+        CTOR_AO(Path_SecurityClaw, "SecurityClaw", AO::TlvTypes::SecurityClaw_61)
+        {
+            ADD("scale", mTlv.field_18_scale);
+            ADD("alarm_id", mTlv.field_1A_alarm_id);
+            ADD("alarm_time", mTlv.field_1C_alarm_time);
+            ADD("disabled_resources", mTlv.field_1E_disabled_resources);
+        }
+    };
+
+    struct Path_SecurityDoor : public TlvObjectBaseAO<AO::Path_SecurityDoor>
+    {
+        CTOR_AO(Path_SecurityDoor, "SecurityDoor", AO::TlvTypes::SecurityDoor_95)
+        {
+            ADD("scale", mTlv.field_18_scale);
+            ADD("id", mTlv.field_1A_id);
+            ADD("code_1", mTlv.field_1C_code_1);
+            ADD("code_2", mTlv.field_1E_code2);
+            ADD("xpos", mTlv.field_20_xpos);
+            ADD("ypos", mTlv.field_22_ypos);
+        }
+    };
+
+    struct Path_TimedMine : public TlvObjectBaseAO<AO::Path_TimedMine>
+    {
+        CTOR_AO(Path_TimedMine, "TimedMine", AO::TlvTypes::TimedMine_22)
+        {
+            ADD("id", mTlv.field_18_id);
+            ADD("state", mTlv.field_1A_state);
+            ADD("scale", mTlv.field_1C_scale);
+            ADD("ticks_before_explode", mTlv.field_1E_ticks_before_explode);
+            ADD("disable_resources", mTlv.field_20_disable_resources);
         }
     };
 }

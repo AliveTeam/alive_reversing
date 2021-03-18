@@ -99,6 +99,11 @@ void TypesCollection::AddAOTypes()
     REGISTER_TYPE_AO(AOTlvs::Path_LiftMover);
     REGISTER_TYPE_AO(AOTlvs::Path_Scrab);
     REGISTER_TYPE_AO(AOTlvs::Path_SlogSpawner);
+    REGISTER_TYPE_AO(AOTlvs::Path_RockSack);
+    REGISTER_TYPE_AO(AOTlvs::Path_SlogHut);
+    REGISTER_TYPE_AO(AOTlvs::Path_SecurityClaw);
+    REGISTER_TYPE_AO(AOTlvs::Path_SecurityDoor);
+    REGISTER_TYPE_AO(AOTlvs::Path_TimedMine);
 
     for (auto& [key, value] : mTlvFactoryAO)
     {
