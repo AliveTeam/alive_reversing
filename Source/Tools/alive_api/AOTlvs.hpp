@@ -25,6 +25,11 @@
 #include "../AliveLibAO/LiftPoint.hpp"
 #include "../AliveLibAO/MovingBomb.hpp"
 #include "../AliveLibAO/Mudokon.hpp"
+#include "../AliveLibAO/MeatSaw.hpp"
+#include "../AliveLibAO/LCDScreen.hpp"
+#include "../AliveLibAO/InvisibleSwitch.hpp"
+#include "../AliveLibAO/TrapDoor.hpp"
+#include "../AliveLibAO/BirdPortal.hpp"
 
 #define CTOR_AO(className, objectTypeName, tlvType)  className(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO(tlvType, objectTypeName, pTlv)
 
@@ -611,6 +616,93 @@ namespace AOTlvs
         CTOR_AO(Path_RingCancel, "RingCancel", AO::TlvTypes::RingCancel_109)
         {
             ADD("shrykull_remove", mTlv.field_18_bShrykull_remove);
+        }
+    };
+
+    struct Path_MeatSaw : public TlvObjectBaseAO<AO::Path_MeatSaw>
+    {
+        CTOR_AO(Path_MeatSaw, "MeatSaw", AO::TlvTypes::MeatSaw_88)
+        {
+            ADD("scale", mTlv.field_18_scale_background);
+            ADD("min_time_off1", mTlv.field_1A_min_time_off1);
+            ADD("max_time_off1", mTlv.field_1C_max_time_off1);
+            ADD("max_rise_time", mTlv.field_1E_max_rise_time);
+            ADD("id", mTlv.field_20_id);
+            ADD("type", mTlv.field_22_type);
+            ADD("speed", mTlv.field_24_speed);
+            ADD("start_state", mTlv.field_26_start_state);
+            ADD("off_speed", mTlv.field_28_off_speed);
+            ADD("min_time_off2", mTlv.field_2A_min_time_off2);
+            ADD("max_time_off2", mTlv.field_2C_max_time_off2);
+            ADD("initial_position", mTlv.field_2E_inital_position);
+        }
+    };
+
+    struct Path_LCDScreen : public TlvObjectBaseAO<AO::Path_LCDScreen>
+    {
+        CTOR_AO(Path_LCDScreen, "LCDScreen", AO::TlvTypes::LCDScreen_98)
+        {
+            ADD("message_1_id", mTlv.field_18_message_1_id);
+            ADD("message_rand_min", mTlv.field_1A_message_rand_min);
+            ADD("message_rand_max", mTlv.field_1C_message_rand_max);
+        }
+    };
+
+    struct Path_InvisibleSwitch : public TlvObjectBaseAO<AO::Path_InvisibleSwitch>
+    {
+        CTOR_AO(Path_InvisibleSwitch, "InvisibleSwitch", AO::TlvTypes::InvisibleSwitch_81)
+        {
+            ADD("id", mTlv.field_18_id);
+            ADD("action", mTlv.field_1A_action);
+            ADD("delay", mTlv.field_1C_delay);
+            ADD("set_off_alarm", mTlv.field_1E_set_off_alarm);
+            ADD("scale", mTlv.field_20_scale);
+        }
+    };
+
+    struct Path_TrapDoor : public TlvObjectBaseAO<AO::Path_TrapDoor>
+    {
+        CTOR_AO(Path_TrapDoor, "TrapDoor", AO::TlvTypes::TrapDoor_55)
+        {
+            ADD("id", mTlv.field_18_id);
+            ADD("start_state", mTlv.field_1A_start_state);
+            ADD("self_closing", mTlv.field_1C_self_closing);
+            ADD("scale", mTlv.field_1E_scale);
+            ADD("dest_level", mTlv.field_20_dest_level);
+            ADD("direction", mTlv.field_22_direction);
+            ADD("anim_offset", mTlv.field_24_anim_offset);
+        }
+    };
+
+    struct Path_BirdPortal : public TlvObjectBaseAO<AO::Path_BirdPortal>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<AO::PortalSide>("Enum_PortalSide",
+                {
+                    {AO::PortalSide::eRight_0, "right"},
+                    {AO::PortalSide::eLeft_1, "left"},
+                });
+
+            types.AddEnum<AO::PortalType>("Enum_PortalType",
+                {
+                    {AO::PortalType::eAbe_0, "abe"},
+                    {AO::PortalType::eWorker_1, "worker"},
+                    {AO::PortalType::eShrykull_2, "shrykull"},
+                    {AO::PortalType::eMudTeleport_3, "mud_teleport"},
+                });
+        }
+
+        CTOR_AO(Path_BirdPortal, "BirdPortal", AO::TlvTypes::BirdPortal_52)
+        {
+            ADD("side", mTlv.field_18_side);
+            ADD("dest_level", mTlv.field_1A_dest_level);
+            ADD("dest_path", mTlv.field_1C_dest_path);
+            ADD("dest_camera", mTlv.field_1E_dest_camera);
+            ADD("scale", mTlv.field_20_scale);
+            ADD("movie_id", mTlv.field_22_movie_id);
+            ADD("portal_type", mTlv.field_24_portal_type);
+            ADD("num_muds_for_shrykull", mTlv.field_26_num_muds_for_shrykul);
         }
     };
 }
