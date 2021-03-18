@@ -3215,7 +3215,7 @@ __int16 Abe::HandleDoAction_429A70()
             field_F0_pTlv = pTlv;
             return eAbeStates::State_80_430EF0;
 
-        case TlvTypes::GrenadeMachine_97:
+        case TlvTypes::BoomMachine_97:
         {
             auto pBoomMachine = static_cast<BoomMachine*>(FindObjectOfType_418280(
                 Types::eGrenadeMachine_41,
@@ -4012,7 +4012,7 @@ void Abe::State_0_Idle_423520()
                     field_110_state.stone = StoneStates::eHandstoneStart_0;
                     return;
                 }
-                case TlvTypes::GrenadeMachine_97:
+                case TlvTypes::BoomMachine_97:
                 {
                     auto pMachineButton = static_cast<BoomMachine*>(FindObjectOfType_418280(
                         Types::eGrenadeMachine_41,

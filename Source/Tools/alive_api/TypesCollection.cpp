@@ -83,13 +83,17 @@ void TypesCollection::AddAOTypes()
     REGISTER_TYPE_AO(AOTlvs::Path_LiftPoint);
     REGISTER_TYPE_AO(AOTlvs::Path_MovingBomb);
     REGISTER_TYPE_AO(AOTlvs::Path_MovingBombStopper);
-    REGISTER_TYPE_AO(AOTlvs::Path_RingMud);
+    REGISTER_TYPE_AO(AOTlvs::Path_RingMudokon);
     REGISTER_TYPE_AO(AOTlvs::Path_RingCancel);
     REGISTER_TYPE_AO(AOTlvs::Path_MeatSaw);
     REGISTER_TYPE_AO(AOTlvs::Path_LCDScreen);
     REGISTER_TYPE_AO(AOTlvs::Path_InvisibleSwitch);
     REGISTER_TYPE_AO(AOTlvs::Path_TrapDoor);
     REGISTER_TYPE_AO(AOTlvs::Path_BirdPortal);
+    REGISTER_TYPE_AO(AOTlvs::Path_BoomMachine);
+    REGISTER_TYPE_AO(AOTlvs::Path_Mudokon);
+    REGISTER_TYPE_AO(AOTlvs::Path_BirdPortalExit);
+    REGISTER_TYPE_AO(AOTlvs::Path_Slog);
 
     for (auto& [key, value] : mTlvFactoryAO)
     {

@@ -2014,7 +2014,7 @@ EXPORT void Factory_InvisibleSwitch_481C10(Path_TLV* pTlv, Map* /*pMap*/, TlvIte
 
 EXPORT void Factory_WorkerMud_485B20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    auto pMudTlv = static_cast<Path_Mud*>(pTlv);
+    auto pMudTlv = static_cast<Path_Mudokon*>(pTlv);
     if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
     {
         auto kResources =

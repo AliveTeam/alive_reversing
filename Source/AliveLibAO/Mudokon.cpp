@@ -212,9 +212,9 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, int tlvInfo)
     }
     break;
 
-    case TlvTypes::RingMud_50:
+    case TlvTypes::RingMudokon_50:
     {
-        auto ringMudTlv = static_cast<Path_RingMud*>(pTlv);
+        auto ringMudTlv = static_cast<Path_RingMudokon*>(pTlv);
 
         field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, ringMudTlv->field_18_facing == 0); // TODO: Check
         field_184 = 0;
@@ -248,9 +248,9 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, int tlvInfo)
     }
     break;
 
-    case TlvTypes::Mud_82:
+    case TlvTypes::Mudokon_82:
     {
-        auto mudTlv = static_cast<Path_Mud*>(pTlv);
+        auto mudTlv = static_cast<Path_Mudokon*>(pTlv);
 
         if (mudTlv->field_1A_job == 0)
         {

@@ -30,6 +30,8 @@
 #include "../AliveLibAO/InvisibleSwitch.hpp"
 #include "../AliveLibAO/TrapDoor.hpp"
 #include "../AliveLibAO/BirdPortal.hpp"
+#include "../AliveLibAO/BoomMachine.hpp"
+#include "../AliveLibAO/Slog.hpp"
 
 #define CTOR_AO(className, objectTypeName, tlvType)  className(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO(tlvType, objectTypeName, pTlv)
 
@@ -595,9 +597,9 @@ namespace AOTlvs
         }
     };
 
-    struct Path_RingMud : public TlvObjectBaseAO<AO::Path_RingMud>
+    struct Path_RingMudokon : public TlvObjectBaseAO<AO::Path_RingMudokon>
     {
-        CTOR_AO(Path_RingMud, "RingMud", AO::TlvTypes::RingMud_50)
+        CTOR_AO(Path_RingMudokon, "RingMudokon", AO::TlvTypes::RingMudokon_50)
         {
             ADD("facing", mTlv.field_18_facing);
             ADD("abe_must_be_same_direction", mTlv.field_1A_abe_must_be_same_direction);
@@ -703,6 +705,57 @@ namespace AOTlvs
             ADD("movie_id", mTlv.field_22_movie_id);
             ADD("portal_type", mTlv.field_24_portal_type);
             ADD("num_muds_for_shrykull", mTlv.field_26_num_muds_for_shrykul);
+        }
+    };
+
+    struct Path_BoomMachine : public TlvObjectBaseAO<AO::Path_BoomMachine>
+    {
+        CTOR_AO(Path_BoomMachine, "BoomMachine", AO::TlvTypes::BoomMachine_97)
+        {
+            ADD("scale", mTlv.field_18_scale);
+            ADD("nozzle_side", mTlv.field_1A_nozzle_side);
+            ADD("disabled_resources", mTlv.field_1C_disabled_resources);
+            ADD("number_of_grenades", mTlv.field_1E_number_of_grenades);
+        }
+    };
+
+    struct Path_Mudokon : public TlvObjectBaseAO<AO::Path_Mudokon>
+    {
+        CTOR_AO(Path_Mudokon, "Mudokon", AO::TlvTypes::Mudokon_82)
+        {
+            ADD("scale", mTlv.field_18_scale);
+            ADD("job", mTlv.field_1A_job);
+            ADD("direction", mTlv.field_1C_direction);
+            ADD("voice_adjust", mTlv.field_1E_voice_adjust);
+            ADD("rescue_id", mTlv.field_20_rescue_id);
+            ADD("deaf", mTlv.field_22_deaf);
+            ADD("disabled_resources", mTlv.field_24_disabled_resources);
+            ADD("persist", mTlv.field_26_persist);
+        }
+    };
+
+    struct Path_BirdPortalExit : public TlvObjectBaseAO<AO::Path_BirdPortalExit>
+    {
+        CTOR_AO(Path_BirdPortalExit, "BirdPortalExit", AO::TlvTypes::BirdPortalExit_53)
+        {
+            ADD("side", mTlv.field_18_side);
+            ADD("scale", mTlv.field_1A_scale);
+        }
+    };
+
+    struct Path_Slog : public TlvObjectBaseAO<AO::Path_Slog>
+    {
+        CTOR_AO(Path_Slog, "Slog", AO::TlvTypes::Slog_25)
+        {
+            ADD("scale", mTlv.field_18_scale);
+            ADD("direction", mTlv.field_1A_direction);
+            ADD("wakeup_anger", mTlv.field_1C_wakeup_anger);
+            ADD("bark_anger", mTlv.field_1E_bark_anger);
+            ADD("sleeps", mTlv.field_20_sleeps);
+            ADD("chase_anger", mTlv.field_22_chase_anger);
+            ADD("jump_attack_delay", mTlv.field_24_jump_attack_delay);
+            ADD("disabled_resources", mTlv.field_26_disabled_resources);
+            ADD("anger_trigger_id", mTlv.field_28_anger_trigger_id);
         }
     };
 }
