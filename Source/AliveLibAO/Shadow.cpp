@@ -90,7 +90,7 @@ void Shadow::Calculate_Position_462040(FP xpos, FP ypos, PSX_RECT* frameRect, FP
             field_8_xpos = xpos;
             field_C_ypos = hitY + FP_FromInteger(3);
 
-            field_10_scale = (FP_FromInteger(1) - (((hitY - objY) * FP_FromDouble(0.75)) / FP_FromInteger(240)) * spriteScale);
+            field_10_scale = (FP_FromInteger(1) - (((hitY - objY) * FP_FromDouble(0.75)) / FP_FromInteger(240))) * spriteScale;
 
             // Object is before the line we hit
             if (objX < lineXScreen)
