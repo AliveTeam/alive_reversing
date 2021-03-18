@@ -9,8 +9,6 @@ namespace AO {
 class Path_MovingBomb : public Path_TLV
 {
 public:
-
-
     __int16 field_18_speed;
     __int16 field_1A_id;
     __int16 field_1C_bStart_type_triggered_by_alarm;
@@ -21,6 +19,12 @@ public:
     __int16 field_26_persist_offscreen;
 };
 ALIVE_ASSERT_SIZEOF(Path_MovingBomb, 0x28);
+
+struct Path_MovingBombStopper : public Path_TLV
+{
+    __int16 field_18_min_delay;
+    __int16 field_1A_max_delay;
+};
 
 class MovingBomb : public BaseAliveGameObject
 {

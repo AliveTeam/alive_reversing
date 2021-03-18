@@ -2014,7 +2014,7 @@ EXPORT void Factory_InvisibleSwitch_481C10(Path_TLV* pTlv, Map* /*pMap*/, TlvIte
 
 EXPORT void Factory_WorkerMud_485B20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    auto pMudTlv = static_cast<Path_Mud*>(pTlv);
+    auto pMudTlv = static_cast<Path_Mudokon*>(pTlv);
     if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
     {
         auto kResources =
@@ -2629,12 +2629,7 @@ EXPORT void Factory_GasCountDown_487BE0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
     }
 }
 
-struct Path_RingCancel : public Path_TLV
-{
-    __int16 field_18_bShrykull_remove;
-    __int16 field_1A_pad;
-};
-ALIVE_ASSERT_SIZEOF(Path_RingCancel, 0x1C);
+
 
 EXPORT void Factory_RingCancel_4818D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {

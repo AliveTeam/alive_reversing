@@ -29,12 +29,6 @@ const TintEntry stru_4CD310[4] =
 
 ALIVE_VAR(1, 0x507B8C, MovingBomb*, gMovingBomb_507B8C, nullptr);
 
-struct Path_MovingBombStopper : public Path_TLV
-{
-    __int16 field_18_min_delay;
-    __int16 field_1A_max_delay;
-};
-
 MovingBomb* MovingBomb::ctor_43AFE0(Path_MovingBomb* pTlv, int tlvInfo)
 {
     ctor_401090();
