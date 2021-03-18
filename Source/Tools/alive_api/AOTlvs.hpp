@@ -50,6 +50,28 @@
 
 namespace AO
 {
+    struct Path_AbeStart : public Path_TLV
+    {
+        int scale;
+    };
+
+    struct Path_MudokonPathTrans : public Path_TLV
+    {
+        LevelIds level;
+        __int16 path;
+        int camera;
+    };
+
+    struct Path_Pulley : public Path_TLV
+    {
+        int scale;
+    };
+
+    struct Path_Preloader : public Path_TLV
+    {
+        int unload_cams_ASAP;
+    };
+
     struct Path_SligSpawner : public Path_TLV
     {
         enum class StartState : __int16
@@ -1046,6 +1068,48 @@ namespace AOTlvs
         CTOR_AO(Path_LCDStatusBoard, "LCDStatusBoard", AO::TlvTypes::LCDStatusBoard_103)
         {
             // No fields
+        }
+    };
+
+    struct Path_Preloader : public TlvObjectBaseAO<AO::Path_Preloader>
+    {
+        CTOR_AO(Path_Preloader, "Preloader", AO::TlvTypes::Preloader_102)
+        {
+            // No fields
+        }
+    };
+
+    struct Path_Pulley : public TlvObjectBaseAO<AO::Path_Pulley>
+    {
+        CTOR_AO(Path_Pulley, "Pulley", AO::TlvTypes::Pulley_35)
+        {
+            // No fields
+        }
+    };
+
+    struct Path_SoftLanding : public TlvObjectBaseAO<AO::Path_SoftLanding>
+    {
+        CTOR_AO(Path_SoftLanding, "SoftLanding", AO::TlvTypes::SoftLanding_114)
+        {
+            // No fields
+        }
+    };
+
+    struct Path_MudokonPathTrans : public TlvObjectBaseAO<AO::Path_MudokonPathTrans>
+    {
+        CTOR_AO(Path_MudokonPathTrans, "MudokonPathTrans", AO::TlvTypes::MudokonPathTrans_89)
+        {
+            ADD("level", mTlv.level);
+            ADD("path", mTlv.path);
+            ADD("camera", mTlv.camera);
+        }
+    };
+
+    struct Path_AbeStart : public TlvObjectBaseAO<AO::Path_AbeStart>
+    {
+        CTOR_AO(Path_AbeStart, "AbeStart", AO::TlvTypes::AbeStart_37)
+        {
+            ADD("scale", mTlv.scale);
         }
     };
 }

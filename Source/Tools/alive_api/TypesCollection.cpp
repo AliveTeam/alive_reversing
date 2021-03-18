@@ -108,6 +108,11 @@ void TypesCollection::AddAOTypes()
     REGISTER_TYPE_AO(AOTlvs::Path_MotionDetector);
     REGISTER_TYPE_AO(AOTlvs::Path_BackgroundAnimation);
     REGISTER_TYPE_AO(AOTlvs::Path_LCDStatusBoard);
+    REGISTER_TYPE_AO(AOTlvs::Path_Preloader);
+    REGISTER_TYPE_AO(AOTlvs::Path_Pulley);
+    REGISTER_TYPE_AO(AOTlvs::Path_SoftLanding);
+    REGISTER_TYPE_AO(AOTlvs::Path_MudokonPathTrans);
+    REGISTER_TYPE_AO(AOTlvs::Path_AbeStart);
 
     for (auto& [key, value] : mTlvFactoryAO)
     {

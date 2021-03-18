@@ -111,7 +111,7 @@ enum class TlvTypes : __int16
     MovingBomb_86 = 86,
     MovingBombStopper_87 = 87,
     MeatSaw_88 = 88,
-    MudPathTrans_89 = 89,
+    MudokonPathTrans_89 = 89,
     MenuController_90 = 90,
 
     HintFly_92 = 92,

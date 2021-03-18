@@ -636,7 +636,7 @@ void Mudokon::VScreenChanged_43FFC0()
         auto pTlv = gMap_507BA8.TLV_Get_At_446060(nullptr, field_A8_xpos, field_AC_ypos, field_A8_xpos, field_AC_ypos);
         while (pTlv)
         {
-            if (pTlv->field_4_type == TlvTypes::MudPathTrans_89)
+            if (pTlv->field_4_type == TlvTypes::MudokonPathTrans_89)
             {
                 // Gonna go to the next path
                 field_1C4_bDoPathTrans = TRUE;
