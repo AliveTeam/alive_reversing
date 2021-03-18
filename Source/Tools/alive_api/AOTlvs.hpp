@@ -32,6 +32,11 @@
 #include "../AliveLibAO/BirdPortal.hpp"
 #include "../AliveLibAO/BoomMachine.hpp"
 #include "../AliveLibAO/Slog.hpp"
+#include "../AliveLibAO/ChimeLock.hpp"
+#include "../AliveLibAO/FlintLockFire.hpp"
+#include "../AliveLibAO/LiftMover.hpp"
+#include "../AliveLibAO/Scrab.hpp"
+#include "../AliveLibAO/SlogSpawner.hpp"
 
 #define CTOR_AO(className, objectTypeName, tlvType)  className(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO(tlvType, objectTypeName, pTlv)
 
@@ -54,7 +59,11 @@ namespace AO
 
     struct Path_DeathDrop : public Path_TLV
     {
-        // No fields
+        __int16 animation;
+        __int16 sound;
+        __int16 id;
+        __int16 action;
+        int set_value;
     };
 
     struct Path_ElumStart : public Path_TLV
@@ -357,7 +366,11 @@ namespace AOTlvs
     {
         CTOR_AO(Path_DeathDrop, "DeathDrop", AO::TlvTypes::DeathDrop_5)
         {
-            // No fields
+            ADD("animation", mTlv.animation);
+            ADD("sound", mTlv.sound);
+            ADD("id", mTlv.id);
+            ADD("action", mTlv.action);
+            ADD("set_value", mTlv.set_value);
         }
     };
 
@@ -613,7 +626,7 @@ namespace AOTlvs
         }
     };
 
-    struct Path_RingCancel : public TlvObjectBaseAO<AO::Path_RingCancel>
+    struct Path_RingCancel : public TlvObjectBaseAO<AO::Path_RingCancel> // TODO: correct size is 24 not 28
     {
         CTOR_AO(Path_RingCancel, "RingCancel", AO::TlvTypes::RingCancel_109)
         {
@@ -756,6 +769,67 @@ namespace AOTlvs
             ADD("jump_attack_delay", mTlv.field_24_jump_attack_delay);
             ADD("disabled_resources", mTlv.field_26_disabled_resources);
             ADD("anger_trigger_id", mTlv.field_28_anger_trigger_id);
+        }
+    };
+
+    struct Path_ChimeLock : public TlvObjectBaseAO<AO::Path_ChimeLock>
+    {
+        CTOR_AO(Path_ChimeLock, "ChimeLock", AO::TlvTypes::ChimeLock_69)
+        {
+            ADD("scale", mTlv.field_18_scale);
+            ADD("solve_id", mTlv.field_1A_solve_id);
+            ADD("code1", mTlv.field_1C_code1);
+            ADD("code2", mTlv.field_1E_code2);
+            ADD("id", mTlv.field_20_id);
+        }
+    };
+
+    struct Path_FlintLockFire : public TlvObjectBaseAO<AO::Path_FlintLockFire>
+    {
+        CTOR_AO(Path_FlintLockFire, "FlintLockFire", AO::TlvTypes::FlintLockFire_73)
+        {
+            ADD("scale", mTlv.field_18_scale);
+            ADD("id", mTlv.field_1A_id);
+        }
+    };
+
+    struct Path_LiftMover : public TlvObjectBaseAO<AO::Path_LiftMover>
+    {
+        CTOR_AO(Path_LiftMover, "LiftMover", AO::TlvTypes::LiftMover_68)
+        {
+            ADD("switch_id", mTlv.field_18_switch_id);
+            ADD("lift_id", mTlv.field_1A_lift_id);
+            ADD("direction", mTlv.field_1C_direction);
+        }
+    };
+
+    struct Path_Scrab : public TlvObjectBaseAO<AO::Path_Scrab>
+    {
+        CTOR_AO(Path_Scrab, "Scrab", AO::TlvTypes::Scrab_72)
+        {
+            ADD("scale", mTlv.field_18_scale);
+            ADD("attack_delay", mTlv.field_1A_attack_delay);
+            ADD("patrol_type", mTlv.field_1C_patrol_type);
+            ADD("left_min_delay", mTlv.field_1E_left_min_delay);
+            ADD("left_max_delay", mTlv.field_20_left_max_delay);
+            ADD("right_min_delay", mTlv.field_22_right_min_delay);
+            ADD("right_max_delay", mTlv.field_24_right_max_delay);
+            ADD("attack_duration", mTlv.field_26_attack_duration);
+            ADD("disable_resources", mTlv.field_28_disable_resources);
+            ADD("roar_randomly", mTlv.field_2A_roar_randomly);
+        }
+    };
+
+    struct Path_SlogSpawner : public TlvObjectBaseAO<AO::Path_SlogSpawner>
+    {
+        CTOR_AO(Path_SlogSpawner, "SlogSpawner", AO::TlvTypes::SlogSpawner_107)
+        {
+            ADD("scale", mTlv.field_18_scale);
+            ADD("attack_delay", mTlv.field_1A_num_slogs);
+            ADD("patrol_type", mTlv.field_1C_num_at_a_time);
+            ADD("left_min_delay", mTlv.field_1E_direction);
+            ADD("left_max_delay", mTlv.field_20_ticks_between_slogs);
+            ADD("right_min_delay", mTlv.field_22_start_id);
         }
     };
 }

@@ -94,6 +94,11 @@ void TypesCollection::AddAOTypes()
     REGISTER_TYPE_AO(AOTlvs::Path_Mudokon);
     REGISTER_TYPE_AO(AOTlvs::Path_BirdPortalExit);
     REGISTER_TYPE_AO(AOTlvs::Path_Slog);
+    REGISTER_TYPE_AO(AOTlvs::Path_ChimeLock);
+    REGISTER_TYPE_AO(AOTlvs::Path_FlintLockFire);
+    REGISTER_TYPE_AO(AOTlvs::Path_LiftMover);
+    REGISTER_TYPE_AO(AOTlvs::Path_Scrab);
+    REGISTER_TYPE_AO(AOTlvs::Path_SlogSpawner);
 
     for (auto& [key, value] : mTlvFactoryAO)
     {

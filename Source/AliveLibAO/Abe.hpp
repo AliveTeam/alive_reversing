@@ -336,7 +336,7 @@ struct Path_RingCancel : public Path_TLV
     __int16 field_18_bShrykull_remove;
     __int16 field_1A_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_RingCancel, 0x1C);
+ALIVE_ASSERT_SIZEOF(Path_RingCancel, 0x1C); // TODO: correct size is 24 not 28
 
 struct Path_Edge : public Path_TLV
 {
