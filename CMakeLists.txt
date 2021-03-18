@@ -34,7 +34,7 @@ foreach(CompilerFlag ${CompilerFlags})
 endforeach()
 
 if(MSVC)
-    add_definitions(/bigobj)
+    add_compile_options(/bigobj)
 endif()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
