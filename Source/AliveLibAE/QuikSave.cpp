@@ -9,7 +9,7 @@
 #include "Glukkon.hpp"
 #include "UXB.hpp"
 #include "ThrowableArray.hpp"
-#include "StatsSign.hpp"
+#include "LCDStatusBoard.hpp"
 #include "DDCheat.hpp"
 #include "Events.hpp"
 #include "WorkWheel.hpp"

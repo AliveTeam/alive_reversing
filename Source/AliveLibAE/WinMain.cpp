@@ -27,7 +27,7 @@
 #include "LCDScreen.hpp"
 #include "UXB.hpp"
 #include "Mine.hpp"
-#include "StatsSign.hpp"
+#include "LCDStatusBoard.hpp"
 #include "Sfx.hpp"
 #include "ObjectIds.hpp"
 #include "LvlArchive.hpp"

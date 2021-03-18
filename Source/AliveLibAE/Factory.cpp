@@ -8,7 +8,7 @@
 #include "UXB.hpp"
 #include "Mine.hpp"
 #include "TimedMine.hpp"
-#include "StatsSign.hpp"
+#include "LCDStatusBoard.hpp"
 #include "BackgroundAnimation.hpp"
 #include "HoistRocksEffect.hpp"
 #include "Alarm.hpp"
@@ -1332,10 +1332,10 @@ EXPORT void CC Factory_StatusBoard_4DA3C0(Path_TLV* pTlv, Path* /*pPath*/, TlvIt
         Map::LoadResource_4DBE00("LCDFONT.FNT", ResourceManager::ResourceType::Resource_Font, 2, loadmode); // TODO: Add to resource ID enum
         return;
     }
-    auto pStatsSign = ae_new<StatsSign>();
+    auto pStatsSign = ae_new<LCDStatusBoard>();
     if (pStatsSign)
     {
-        pStatsSign->ctor_47B600(static_cast<Path_StatsSign*>(pTlv), tlvOffsetLevelIdPathId);
+        pStatsSign->ctor_47B600(static_cast<Path_LCDStatusBoard*>(pTlv), tlvOffsetLevelIdPathId);
     }
 }
 

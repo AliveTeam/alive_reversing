@@ -104,6 +104,10 @@ void TypesCollection::AddAOTypes()
     REGISTER_TYPE_AO(AOTlvs::Path_SecurityClaw);
     REGISTER_TYPE_AO(AOTlvs::Path_SecurityDoor);
     REGISTER_TYPE_AO(AOTlvs::Path_TimedMine);
+    REGISTER_TYPE_AO(AOTlvs::Path_SligSpawner);
+    REGISTER_TYPE_AO(AOTlvs::Path_MotionDetector);
+    REGISTER_TYPE_AO(AOTlvs::Path_BackgroundAnimation);
+    REGISTER_TYPE_AO(AOTlvs::Path_LCDStatusBoard);
 
     for (auto& [key, value] : mTlvFactoryAO)
     {
@@ -147,7 +151,7 @@ void TypesCollection::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_Hoist);
     REGISTER_TYPE_AE(AETlvs::Path_Switch);
     REGISTER_TYPE_AE(AETlvs::Path_Door);
-    REGISTER_TYPE_AE(AETlvs::Path_StatsSign);
+    REGISTER_TYPE_AE(AETlvs::Path_LCDStatusBoard);
     REGISTER_TYPE_AE(AETlvs::Path_BirdPortal);
     REGISTER_TYPE_AE(AETlvs::Path_Mudokon);
     REGISTER_TYPE_AE(AETlvs::Path_ElectricWall);

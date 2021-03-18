@@ -89,7 +89,7 @@ enum class TlvTypes : __int16
     SecurityClaw_61 = 61,
     MotionDetector_62 = 62,
 
-    Slig_66 = 66,
+    SligSpawner_66 = 66,
     ElectricWall_67 = 67,
     LiftMover_68 = 68,
     ChimeLock_69 = 69,
@@ -125,7 +125,7 @@ enum class TlvTypes : __int16
     HandStone_100 = 100,
     CreditsController_101 = 101,
     Preloader_102 = 102,
-    LcdStatusBoard_103 = 103,
+    LCDStatusBoard_103 = 103,
 
     MusicTrigger_105 = 105,
     LightEffect_106 = 106,

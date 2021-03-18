@@ -123,8 +123,8 @@ SET(AliveLibAESrc
     MainMenu.cpp
     LCDScreen.hpp
     LCDScreen.cpp
-    StatsSign.hpp
-    StatsSign.cpp
+    LCDStatusBoard.hpp
+    LCDStatusBoard.cpp
     ObjectIds.hpp
     ObjectIds.cpp
     VRam.hpp

@@ -24,7 +24,7 @@
 #include "PossessionFlicker.hpp"
 #include "ScreenShake.hpp"
 #include "MainMenu.hpp"
-#include "StatsSign.hpp"
+#include "LCDStatusBoard.hpp"
 #include "MusicTrigger.hpp"
 #include "Blood.hpp"
 #include "Gibs.hpp"

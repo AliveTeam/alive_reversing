@@ -42,11 +42,58 @@
 #include "../AliveLibAO/SecurityClaw.hpp"
 #include "../AliveLibAO/SecurityDoor.hpp"
 #include "../AliveLibAO/TimedMine.hpp"
+#include "../AliveLibAO/MotionDetector.hpp"
+#include "../AliveLibAO/BackgroundAnimation.hpp"
+#include "../AliveLibAO/LCDStatusBoard.hpp"
 
 #define CTOR_AO(className, objectTypeName, tlvType)  className(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO(tlvType, objectTypeName, pTlv)
 
 namespace AO
 {
+    struct Path_SligSpawner : public Path_TLV
+    {
+        enum class StartState : __int16
+        {
+            Listening_0 = 0,
+            Paused_1 = 1,
+            Sleeping_2 = 2,
+            Chase_3 = 3,
+            GameEnder_4 = 4,
+            Paused_5 = 5,
+        };
+        __int16 field_18_scale;
+        StartState field_1A_start_state;
+        __int16 field_1C_pause_time;
+        __int16 field_1E_pause_left_min;
+        __int16 field_20_pause_left_max;
+        __int16 field_22_pause_right_min;
+        __int16 field_24_pause_right_max;
+        __int16 field_26_chal_type;
+        __int16 field_28_chal_time;
+        __int16 field_2A_number_of_times_to_shoot;
+        __int16 field_2C_unknown; // TODO: Part of above field, check me?
+        __int16 field_2E_code1;
+        __int16 field_30_code2;
+        __int16 field_32_chase_abe;
+        __int16 field_34_start_direction;
+        __int16 field_36_panic_timeout;
+        __int16 field_38_num_panic_sounds;
+        __int16 field_3A_panic_sound_timeout;
+        __int16 field_3C_stop_chase_delay;
+        __int16 field_3E_time_to_wait_before_chase;
+        __int16 field_40_slig_id;
+        __int16 field_42_listen_time;
+        __int16 field_44_percent_say_what;
+        __int16 field_46_percent_beat_mud;
+        __int16 field_48_talk_to_abe;
+        __int16 field_4A_dont_shoot;
+        __int16 field_4C_z_shoot_delay;
+        __int16 field_4E_stay_awake;
+        __int16 field_50_disable_resources;
+        __int16 field_52_noise_wake_up_distance;
+        int field_54_id;
+    };
+
     struct Path_ContinueZone : public Path_TLV
     {
         int field_10_zone_number;
@@ -893,6 +940,112 @@ namespace AOTlvs
             ADD("scale", mTlv.field_1C_scale);
             ADD("ticks_before_explode", mTlv.field_1E_ticks_before_explode);
             ADD("disable_resources", mTlv.field_20_disable_resources);
+        }
+    };
+
+    struct Path_SligSpawner : public TlvObjectBaseAO<AO::Path_SligSpawner>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<AO::Path_SligSpawner::StartState>("Enum_SligSpawnerStartState",
+                {
+                    {AO::Path_SligSpawner::StartState::Listening_0, "listening"},
+                    {AO::Path_SligSpawner::StartState::Paused_1, "paused"},
+                    {AO::Path_SligSpawner::StartState::Sleeping_2, "sleeping"},
+                    {AO::Path_SligSpawner::StartState::Chase_3, "chase"},
+                    {AO::Path_SligSpawner::StartState::GameEnder_4, "game_ender"},
+                    {AO::Path_SligSpawner::StartState::Paused_5, "paused"},
+                });
+        }
+
+        CTOR_AO(Path_SligSpawner, "SligSpawner", AO::TlvTypes::SligSpawner_66)
+        {
+            ADD("scale", mTlv.field_18_scale);
+            ADD("start_state", mTlv.field_1A_start_state);
+            ADD("pause_time", mTlv.field_1C_pause_time);
+            ADD("pause_left_min", mTlv.field_1E_pause_left_min);
+            ADD("pause_left_max", mTlv.field_20_pause_left_max);
+            ADD("pause_right_min", mTlv.field_22_pause_right_min);
+            ADD("pause_right_max", mTlv.field_24_pause_right_max);
+            ADD("chal_type", mTlv.field_26_chal_type);
+            ADD("chal_time", mTlv.field_28_chal_time);
+            ADD("number_of_times_to_shoot", mTlv.field_2A_number_of_times_to_shoot);
+            ADD("unknown", mTlv.field_2C_unknown);
+            ADD("code1", mTlv.field_2E_code1);
+            ADD("code2", mTlv.field_30_code2);
+            ADD("chase_abe", mTlv.field_32_chase_abe);
+            ADD("start_direction", mTlv.field_34_start_direction);
+            ADD("panic_timeout", mTlv.field_36_panic_timeout);
+            ADD("num_panic_sounds", mTlv.field_38_num_panic_sounds);
+            ADD("panic_sound_timeout", mTlv.field_3A_panic_sound_timeout);
+            ADD("stop_chase_delay", mTlv.field_3C_stop_chase_delay);
+            ADD("time_to_wait_before_chase", mTlv.field_3E_time_to_wait_before_chase);
+            ADD("slig_id", mTlv.field_40_slig_id);
+            ADD("listen_time", mTlv.field_42_listen_time);
+            ADD("percent_say_what", mTlv.field_44_percent_say_what);
+            ADD("percent_beat_mud", mTlv.field_46_percent_beat_mud);
+            ADD("talk_to_abe", mTlv.field_48_talk_to_abe);
+            ADD("dont_shoot", mTlv.field_4A_dont_shoot);
+            ADD("z_shoot_delay", mTlv.field_4C_z_shoot_delay);
+            ADD("stay_awake", mTlv.field_4E_stay_awake);
+            ADD("disable_resources", mTlv.field_50_disable_resources);
+            ADD("noise_wake_up_distance", mTlv.field_52_noise_wake_up_distance);
+            ADD("id", mTlv.field_54_id);
+        }
+    };
+
+    struct Path_MotionDetector : public TlvObjectBaseAO<AO::Path_MotionDetector>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<AO::Path_MotionDetector::StartMoveDirection>("Enum_MotionDetectorStartMoveDirection",
+                {
+                    {AO::Path_MotionDetector::StartMoveDirection::eRight_0, "right"},
+                    {AO::Path_MotionDetector::StartMoveDirection::eLeft_1, "left"},
+                });
+        }
+
+        CTOR_AO(Path_MotionDetector, "MotionDetector", AO::TlvTypes::MotionDetector_62)
+        {
+            ADD("scale", mTlv.field_18_scale);
+            ADD("device_x", mTlv.field_1A_device_x);
+            ADD("device_y", mTlv.field_1C_device_y);
+            ADD("speed_x256", mTlv.field_1E_speed_x256);
+            ADD("start_move_direction", mTlv.field_20_start_move_direction);
+            ADD("draw_flare", mTlv.field_22_draw_flare);
+            ADD("disable_id", mTlv.field_24_disable_id);
+            ADD("alarm_id", mTlv.field_26_alarm_id);
+            ADD("alarm_ticks", mTlv.field_28_alarm_ticks);
+        }
+    };
+
+    struct Path_BackgroundAnimation : public TlvObjectBaseAO<AO::Path_BackgroundAnimation>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<AO::TPageAbr>("Enum_TPageAbr",
+                {
+                    {AO::TPageAbr::eBlend_1, "blend_1"},
+                    {AO::TPageAbr::eBlend_2, "blend_2"},
+                    {AO::TPageAbr::eBlend_3, "blend_3"},
+                    {AO::TPageAbr::eBlend_0, "blend_0"},
+                });
+        }
+
+        CTOR_AO(Path_BackgroundAnimation, "BackgroundAnimation", AO::TlvTypes::BackgroundAnimation_19)
+        {
+            ADD("animation_id", mTlv.field_18_animation_id);
+            ADD("is_semi_trans", mTlv.field_1A_is_semi_trans);
+            ADD("semi_trans_mode", mTlv.field_1C_semi_trans_mode);
+            ADD("sound_effect", mTlv.field_1E_sound_effect);
+        }
+    };
+
+    struct Path_LCDStatusBoard : public TlvObjectBaseAO<AO::Path_LCDStatusBoard>
+    {
+        CTOR_AO(Path_LCDStatusBoard, "LCDStatusBoard", AO::TlvTypes::LCDStatusBoard_103)
+        {
+            // No fields
         }
     };
 }

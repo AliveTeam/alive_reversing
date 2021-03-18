@@ -1,6 +1,6 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
-#include "StatsSign.hpp"
+#include "LCDStatusBoard.hpp"
 #include "stdlib.hpp"
 #include "Events.hpp"
 #include "ScreenManager.hpp"
@@ -45,22 +45,22 @@ const BYTE sStatsSignFontPalette_4CD570[32] =
     216u
 };
 
-void StatsSign::VUpdate()
+void LCDStatusBoard::VUpdate()
 {
     VUpdate_441A90();
 }
 
-void StatsSign::VScreenChanged_441C70()
+void LCDStatusBoard::VScreenChanged_441C70()
 {
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-void StatsSign::VScreenChanged()
+void LCDStatusBoard::VScreenChanged()
 {
     VScreenChanged_441C70();
 }
 
-StatsSign* StatsSign::Vdtor_441C80(signed int flags)
+LCDStatusBoard* LCDStatusBoard::Vdtor_441C80(signed int flags)
 {
     dtor_4419E0();
     if (flags & 1)
@@ -70,12 +70,12 @@ StatsSign* StatsSign::Vdtor_441C80(signed int flags)
     return this;
 }
 
-BaseGameObject* StatsSign::VDestructor(signed int flags)
+BaseGameObject* LCDStatusBoard::VDestructor(signed int flags)
 {
     return Vdtor_441C80(flags);
 }
 
-BaseGameObject* StatsSign::dtor_4419E0()
+BaseGameObject* LCDStatusBoard::dtor_4419E0()
 {
     SetVTable(this, 0x4BBB90);
     gObjList_drawables_504618->Remove_Item(this);
@@ -87,7 +87,7 @@ BaseGameObject* StatsSign::dtor_4419E0()
     return dtor_487DF0();
 }
 
-StatsSign* StatsSign::ctor_4418E0(Path_StatusBoard* pTlv, int tlvInfo)
+LCDStatusBoard* LCDStatusBoard::ctor_4418E0(Path_LCDStatusBoard* pTlv, int tlvInfo)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BBB90);
@@ -106,7 +106,7 @@ StatsSign* StatsSign::ctor_4418E0(Path_StatusBoard* pTlv, int tlvInfo)
     return this;
 }
 
-void StatsSign::VUpdate_441A90()
+void LCDStatusBoard::VUpdate_441A90()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
@@ -114,12 +114,12 @@ void StatsSign::VUpdate_441A90()
     }
 }
 
-void StatsSign::VRender(PrimHeader** ppOt)
+void LCDStatusBoard::VRender(PrimHeader** ppOt)
 {
     VRender_441AB0(ppOt);
 }
 
-void StatsSign::VRender_441AB0(PrimHeader** ppOt)
+void LCDStatusBoard::VRender_441AB0(PrimHeader** ppOt)
 {
     char text[12] = {};
     sprintf(text, "%02d", 99 - sRescuedMudokons_5076C0 - sKilledMudokons_5076BC);
