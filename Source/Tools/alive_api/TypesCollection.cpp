@@ -80,6 +80,11 @@ void TypesCollection::AddAOTypes()
     REGISTER_TYPE_AO(AOTlvs::Path_ElumPathTrans);
     REGISTER_TYPE_AO(AOTlvs::Path_ElumStart);
     REGISTER_TYPE_AO(AOTlvs::Path_ElumWall);
+    REGISTER_TYPE_AO(AOTlvs::Path_LiftPoint);
+    REGISTER_TYPE_AO(AOTlvs::Path_MovingBomb);
+    REGISTER_TYPE_AO(AOTlvs::Path_MovingBombStopper);
+    REGISTER_TYPE_AO(AOTlvs::Path_RingMud);
+    REGISTER_TYPE_AO(AOTlvs::Path_RingCancel);
 
     for (auto& [key, value] : mTlvFactoryAO)
     {

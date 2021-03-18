@@ -2629,12 +2629,7 @@ EXPORT void Factory_GasCountDown_487BE0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
     }
 }
 
-struct Path_RingCancel : public Path_TLV
-{
-    __int16 field_18_bShrykull_remove;
-    __int16 field_1A_pad;
-};
-ALIVE_ASSERT_SIZEOF(Path_RingCancel, 0x1C);
+
 
 EXPORT void Factory_RingCancel_4818D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {

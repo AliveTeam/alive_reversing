@@ -92,7 +92,7 @@ struct Path_Mud : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_Mud, 0x28);
 
-struct Path_Ring_Mud : public Path_TLV
+struct Path_RingMud : public Path_TLV
 {
     __int16 field_18_facing;
     __int16 field_1A_abe_must_be_same_direction;
@@ -105,7 +105,7 @@ struct Path_Ring_Mud : public Path_TLV
     __int16 field_28_instant_powerup;
     __int16 field_2A_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_Ring_Mud, 0x2C);
+ALIVE_ASSERT_SIZEOF(Path_RingMud, 0x2C);
 
 struct Path_Lift_Mud : public Path_TLV
 {

@@ -214,7 +214,7 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, int tlvInfo)
 
     case TlvTypes::RingMud_50:
     {
-        auto ringMudTlv = static_cast<Path_Ring_Mud*>(pTlv);
+        auto ringMudTlv = static_cast<Path_RingMud*>(pTlv);
 
         field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, ringMudTlv->field_18_facing == 0); // TODO: Check
         field_184 = 0;

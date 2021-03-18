@@ -22,6 +22,9 @@
 #include "../AliveLibAO/PullRingRope.hpp"
 #include "../AliveLibAO/MusicTrigger.hpp"
 #include "../AliveLibAO/Elum.hpp"
+#include "../AliveLibAO/LiftPoint.hpp"
+#include "../AliveLibAO/MovingBomb.hpp"
+#include "../AliveLibAO/Mudokon.hpp"
 
 #define CTOR_AO(className, objectTypeName, tlvType)  className(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO(tlvType, objectTypeName, pTlv)
 
@@ -547,6 +550,67 @@ namespace AOTlvs
         CTOR_AO(Path_ElumWall, "ElumWall", AO::TlvTypes::ElumWall_40)
         {
             // No fields
+        }
+    };
+
+    struct Path_LiftPoint : public TlvObjectBaseAO<AO::Path_LiftPoint>
+    {
+        CTOR_AO(Path_LiftPoint, "LiftPoint", AO::TlvTypes::LiftPoint_8)
+        {
+            ADD("id", mTlv.field_18_id);
+            ADD("is_start_point", mTlv.field_1A_bstart_point);
+            ADD("lift_type", mTlv.field_1C_lift_type);
+            ADD("lift_point_stop_type", mTlv.field_1E_lift_point_stop_type);
+            ADD("scale", mTlv.field_20_scale);
+            ADD("ignore_lift_mover", mTlv.field_22_bIgnore_lift_mover);
+        }
+    };
+
+    struct Path_MovingBomb : public TlvObjectBaseAO<AO::Path_MovingBomb>
+    {
+        CTOR_AO(Path_MovingBomb, "MovingBomb", AO::TlvTypes::MovingBomb_86)
+        {
+            ADD("speed", mTlv.field_18_speed);
+            ADD("id", mTlv.field_1A_id);
+            ADD("start_type_triggered_by_alarm", mTlv.field_1C_bStart_type_triggered_by_alarm);
+            ADD("scale", mTlv.field_1E_scale);
+            ADD("max_rise", mTlv.field_20_max_rise);
+            ADD("disabled_resources", mTlv.field_22_disabled_resources);
+            ADD("start_speed", mTlv.field_24_start_speed);
+            ADD("persist_offscreen", mTlv.field_26_persist_offscreen);
+        }
+    };
+
+    struct Path_MovingBombStopper : public TlvObjectBaseAO<AO::Path_MovingBombStopper>
+    {
+        CTOR_AO(Path_MovingBombStopper, "MovingBombStopper", AO::TlvTypes::MovingBombStopper_87)
+        {
+            ADD("min_delay", mTlv.field_18_min_delay);
+            ADD("max_delay", mTlv.field_1A_max_delay);
+        }
+    };
+
+    struct Path_RingMud : public TlvObjectBaseAO<AO::Path_RingMud>
+    {
+        CTOR_AO(Path_RingMud, "RingMud", AO::TlvTypes::RingMud_50)
+        {
+            ADD("facing", mTlv.field_18_facing);
+            ADD("abe_must_be_same_direction", mTlv.field_1A_abe_must_be_same_direction);
+            ADD("scale", mTlv.field_1C_scale);
+            ADD("silent", mTlv.field_1E_silent);
+            ADD("code1", mTlv.field_20_code1);
+            ADD("code2", mTlv.field_22_code2);
+            ADD("action", mTlv.field_24_action);
+            ADD("ring_timeout", mTlv.field_26_ring_timeout);
+            ADD("instant_powerup", mTlv.field_28_instant_powerup);
+        }
+    };
+
+    struct Path_RingCancel : public TlvObjectBaseAO<AO::Path_RingCancel>
+    {
+        CTOR_AO(Path_RingCancel, "RingCancel", AO::TlvTypes::RingCancel_109)
+        {
+            ADD("shrykull_remove", mTlv.field_18_bShrykull_remove);
         }
     };
 }

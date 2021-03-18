@@ -331,6 +331,13 @@ enum class EnvironmentSfx : unsigned __int8
 
 struct SaveData;
 
+struct Path_RingCancel : public Path_TLV
+{
+    __int16 field_18_bShrykull_remove;
+    __int16 field_1A_pad;
+};
+ALIVE_ASSERT_SIZEOF(Path_RingCancel, 0x1C);
+
 struct Path_Edge : public Path_TLV
 {
     enum class Type : __int16
