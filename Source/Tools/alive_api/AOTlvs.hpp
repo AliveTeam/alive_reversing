@@ -45,11 +45,32 @@
 #include "../AliveLibAO/MotionDetector.hpp"
 #include "../AliveLibAO/BackgroundAnimation.hpp"
 #include "../AliveLibAO/LCDStatusBoard.hpp"
+#include "../AliveLibAO/HoneySack.hpp"
 
 #define CTOR_AO(className, objectTypeName, tlvType)  className(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO(tlvType, objectTypeName, pTlv)
 
 namespace AO
 {
+    struct Path_ScrabNoFall : public Path_TLV
+    {
+        // No fields
+    };
+
+    struct Path_ScrabLeftBound : public Path_TLV
+    {
+        // No fields
+    };
+
+    struct Path_ScrabRightBound : public Path_TLV
+    {
+        // No fields
+    };
+
+    struct Path_ZSligCover : public Path_TLV
+    {
+        // No fields
+    };
+
     struct Path_AbeStart : public Path_TLV
     {
         int scale;
@@ -1110,6 +1131,61 @@ namespace AOTlvs
         CTOR_AO(Path_AbeStart, "AbeStart", AO::TlvTypes::AbeStart_37)
         {
             ADD("scale", mTlv.scale);
+        }
+    };
+
+    struct Path_ZSligCover : public TlvObjectBaseAO<AO::Path_ZSligCover>
+    {
+        CTOR_AO(Path_ZSligCover, "ZSligCover", AO::TlvTypes::ZSligCover_83)
+        {
+            // No fields
+        }
+    };
+
+    struct Path_ScrabLeftBound : public TlvObjectBaseAO<AO::Path_ScrabLeftBound>
+    {
+        CTOR_AO(Path_ScrabLeftBound, "ScrabLeftBound", AO::TlvTypes::ScrabLeftBound_74)
+        {
+            // No fields
+        }
+    };
+
+    struct Path_ScrabRightBound : public TlvObjectBaseAO<AO::Path_ScrabRightBound>
+    {
+        CTOR_AO(Path_ScrabRightBound, "ScrabRightBound", AO::TlvTypes::ScrabRightBound_75)
+        {
+            // No fields
+        }
+    };
+
+    struct Path_ScrabNoFall : public TlvObjectBaseAO<AO::Path_ScrabNoFall>
+    {
+        CTOR_AO(Path_ScrabNoFall, "ScrabNoFall", AO::TlvTypes::ScrabNoFall_93)
+        {
+            // No fields
+        }
+    };
+
+    struct Path_LiftMudokon : public TlvObjectBaseAO<AO::Path_LiftMudokon>
+    {
+        CTOR_AO(Path_LiftMudokon, "LiftMudokon", AO::TlvTypes::LiftMudokon_32)
+        {
+            ADD("how_far_to_walk", mTlv.field_18_how_far_to_walk);
+            ADD("lift_id", mTlv.field_1A_lift_id);
+            ADD("direction", mTlv.field_1C_direction);
+            ADD("silent", mTlv.field_1E_silent);
+            ADD("scale", mTlv.field_20_scale);
+            ADD("code1", mTlv.field_22_code1);
+            ADD("code2", mTlv.field_24_code2);
+        }
+    };
+
+    struct Path_HoneySack : public TlvObjectBaseAO<AO::Path_HoneySack>
+    {
+        CTOR_AO(Path_HoneySack, "HoneySack", AO::TlvTypes::HoneySack_36)
+        {
+            ADD("chase_ticks", mTlv.field_18_chase_ticks);
+            ADD("scale", mTlv.field_1A_scale);
         }
     };
 }

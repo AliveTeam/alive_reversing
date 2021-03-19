@@ -113,6 +113,12 @@ void TypesCollection::AddAOTypes()
     REGISTER_TYPE_AO(AOTlvs::Path_SoftLanding);
     REGISTER_TYPE_AO(AOTlvs::Path_MudokonPathTrans);
     REGISTER_TYPE_AO(AOTlvs::Path_AbeStart);
+    REGISTER_TYPE_AO(AOTlvs::Path_ZSligCover);
+    REGISTER_TYPE_AO(AOTlvs::Path_ScrabLeftBound);
+    REGISTER_TYPE_AO(AOTlvs::Path_ScrabRightBound);
+    REGISTER_TYPE_AO(AOTlvs::Path_ScrabNoFall);
+    REGISTER_TYPE_AO(AOTlvs::Path_LiftMudokon);
+    REGISTER_TYPE_AO(AOTlvs::Path_HoneySack);
 
     for (auto& [key, value] : mTlvFactoryAO)
     {

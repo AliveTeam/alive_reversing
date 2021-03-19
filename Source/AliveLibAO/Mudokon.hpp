@@ -107,7 +107,7 @@ struct Path_RingMudokon : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_RingMudokon, 0x2C);
 
-struct Path_Lift_Mud : public Path_TLV
+struct Path_LiftMudokon : public Path_TLV
 {
     __int16 field_18_how_far_to_walk;
     __int16 field_1A_lift_id;
@@ -118,7 +118,7 @@ struct Path_Lift_Mud : public Path_TLV
     __int16 field_24_code2;
     __int16 field_26_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_Lift_Mud, 0x28);
+ALIVE_ASSERT_SIZEOF(Path_LiftMudokon, 0x28);
 
 class LiftPoint;
 class BirdPortal;

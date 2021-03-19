@@ -57,7 +57,7 @@ enum class TlvTypes : __int16
     StartController_28 = 28,
     SecurityOrb_29 = 29,
 
-    LiftMud_32 = 32,
+    LiftMudokon_32 = 32,
 
     SwarmHole_34 = 34,
     Pulley_35 = 35,

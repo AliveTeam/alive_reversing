@@ -184,9 +184,9 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, int tlvInfo)
     int scale = 0;
     switch (pTlv->field_4_type.mType)
     {
-    case TlvTypes::LiftMud_32:
+    case TlvTypes::LiftMudokon_32:
     {
-        auto liftMudTlv = static_cast<Path_Lift_Mud*>(pTlv);
+        auto liftMudTlv = static_cast<Path_LiftMudokon*>(pTlv);
 
         field_148_res_array.res[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeliftResID, 1, 0);
 
