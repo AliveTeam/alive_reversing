@@ -67,21 +67,21 @@ Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, DWORD tlvInfo)
     
     field_12C_tlvInfo = tlvInfo;
 
-    if (pTlv->field_10_path_data.field_4_scale == Scale_short::eHalf_1)
+    if (pTlv->field_10_slurg_data.field_4_scale == Scale_short::eHalf_1)
     {
         field_130_scale = FP_FromDouble(0.5);
         field_20_animation.field_C_render_layer = Layer::eLayer_14;
         field_D6_scale = 0;
     }
-    else if (pTlv->field_10_path_data.field_4_scale == Scale_short::eFull_0)
+    else if (pTlv->field_10_slurg_data.field_4_scale == Scale_short::eFull_0)
     {
         field_130_scale = FP_FromInteger(1);
         field_20_animation.field_C_render_layer = Layer::eLayer_33;
         field_D6_scale = 1;
     }
 
-    field_11E_delay_timer = pTlv->field_10_path_data.field_0_pause_delay;
-    field_120_delay_random = pTlv->field_10_path_data.field_0_pause_delay;
+    field_11E_delay_timer = pTlv->field_10_slurg_data.field_0_pause_delay;
+    field_120_delay_random = pTlv->field_10_slurg_data.field_0_pause_delay;
 
     SetTint_425600(&sSlurgTints_560BCC[0], gMap_5C3030.field_0_current_level);
 
@@ -100,11 +100,11 @@ Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, DWORD tlvInfo)
         field_BC_ypos = hitY;
     }
 
-    field_11A_switch_id = pTlv->field_10_path_data.field_6_id;
+    field_11A_switch_id = pTlv->field_10_slurg_data.field_6_id;
 
     field_118_flags.Clear();
 
-    if (pTlv->field_10_path_data.field_2_direction)
+    if (pTlv->field_10_slurg_data.field_2_direction)
     {
         field_118_flags.Set(SlurgFlags::Bit1_Direction);
     }

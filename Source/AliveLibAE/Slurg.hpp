@@ -26,7 +26,7 @@ struct Slurg_Path_Data
 
 struct Path_Slurg : public Path_TLV
 {
-    Slurg_Path_Data field_10_path_data;
+    Slurg_Path_Data field_10_slurg_data;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slurg, 0x18);
 
