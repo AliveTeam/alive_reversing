@@ -133,6 +133,11 @@ TEST(alive_api, ReSaveAllPathsAO)
             const auto resavedLvlBytes = FS::ReadFile(lvlName);
             ASSERT_NE(resavedLvlBytes.size(), 0u);
 
+            if (originalLvlBytes != resavedLvlBytes)
+            {
+                AliveAPI::DebugDumpTlvs("old/", AEPath(lvl), path);
+                AliveAPI::DebugDumpTlvs("new/", lvlName, path);
+            }
             ASSERT_EQ(originalLvlBytes, resavedLvlBytes);
         }
     }

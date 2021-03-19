@@ -238,6 +238,19 @@ JsonWriterAO::JsonWriterAO(int pathId, const std::string& pathBndName, const Pat
     mMapRootInfo.mGame = "AO";
 }
 
+template<typename T>
+static void DumpTlv(const std::string& prefix, int idx, const T& tlv)
+{
+    const std::string fileName = prefix + "_" + std::to_string(static_cast<int>(tlv.field_4_type.mType)) + "_" + std::to_string(idx) + ".dat";
+    FILE* hFile = ::fopen(fileName.c_str(), "wb");
+    if (!hFile)
+    {
+        abort();
+    }
+    ::fwrite(&tlv, tlv.field_2_length, 1, hFile);
+    ::fclose(hFile);
+}
+
 void JsonWriterAO::DumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<BYTE>& pathResource)
 {
     BYTE* pStart = pathResource.data() + info.mIndexTableOffset;
@@ -251,15 +264,7 @@ void JsonWriterAO::DumpTlvs(const std::string& prefix, const PathInfo& info, std
         while (pPathTLV && reinterpret_cast<BYTE*>(pPathTLV) < pEnd)
         {
             idx++;
-            const std::string fileName = prefix + "_" + std::to_string(static_cast<int>(pPathTLV->field_4_type.mType)) + "_" + std::to_string(idx) + ".dat";
-            FILE* hFile = ::fopen(fileName.c_str(), "wb");
-            if (!hFile)
-            {
-                abort();
-            }
-            ::fwrite(pPathTLV, pPathTLV->field_2_length, 1, hFile);
-            ::fclose(hFile);
-
+            DumpTlv(prefix, idx, *pPathTLV);
             pPathTLV = AO::Path_TLV::Next_NoCheck(pPathTLV);
             if (pPathTLV)
             {
@@ -280,14 +285,7 @@ void JsonWriterAE::DumpTlvs(const std::string& prefix, const PathInfo& info, std
     while (pPathTLV && reinterpret_cast<BYTE*>(pPathTLV) < pEnd)
     {
         idx++;
-        const std::string fileName = prefix + "_" + std::to_string(static_cast<int>(pPathTLV->field_4_type.mType)) + "_" + std::to_string(idx) + ".dat";
-        FILE* hFile = ::fopen(fileName.c_str(), "wb");
-        if (!hFile)
-        {
-            abort();
-        }
-        ::fwrite(pPathTLV, pPathTLV->field_2_length, 1, hFile);
-        ::fclose(hFile);
+        DumpTlv(prefix, idx, *pPathTLV);
 
         // Skip length bytes to get to the start of the next TLV
         BYTE* ptr = reinterpret_cast<BYTE*>(pPathTLV);
