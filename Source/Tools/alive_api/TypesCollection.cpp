@@ -124,6 +124,12 @@ void TypesCollection::AddAOTypes()
     REGISTER_TYPE_AO(AOTlvs::Path_MeatSack);
     REGISTER_TYPE_AO(AOTlvs::Path_RollingBall);
     REGISTER_TYPE_AO(AOTlvs::Path_RollingBallStopper);
+    REGISTER_TYPE_AO(AOTlvs::Path_Bees);
+    REGISTER_TYPE_AO(AOTlvs::Path_ZBall);
+    REGISTER_TYPE_AO(AOTlvs::Path_FootSwitch);
+    REGISTER_TYPE_AO(AOTlvs::Path_Paramite);
+    REGISTER_TYPE_AO(AOTlvs::Path_Honey);
+    REGISTER_TYPE_AO(AOTlvs::Path_HoneyDripTarget);
 
     for (auto& [key, value] : mTlvFactoryAO)
     {
