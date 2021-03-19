@@ -14,7 +14,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Slurg_Spawner_Path_Data, 0x8);
 
 struct Path_SlurgSpawner : public Path_Slurg
 {
-    Slurg_Spawner_Path_Data field_18_path_data;
+    Slurg_Spawner_Path_Data field_18_spawner_data;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlurgSpawner, 0x20);
 

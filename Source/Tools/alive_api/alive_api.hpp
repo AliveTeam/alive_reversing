@@ -31,6 +31,8 @@ namespace AliveAPI
         std::vector<int> paths;
     };
 
+    void DebugDumpTlvs(const std::string& prefix, const std::string& lvlFile, int pathId);
+
     API_EXPORT [[nodiscard]] int GetApiVersion();
     API_EXPORT [[nodiscard]] Result ExportPathBinaryToJson(const std::string& jsonOutputFile, const std::string& inputLvlFile, int pathResourceId);
     API_EXPORT [[nodiscard]] Result UpgradePathJson(const std::string& jsonFile);

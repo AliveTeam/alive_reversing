@@ -247,6 +247,25 @@ namespace AliveAPI
         return ret;
     }
 
+    void DebugDumpTlvs(const std::string& prefix, const std::string& lvlFile, int pathId)
+    {
+        AliveAPI::Result ret = {};
+        Game game = {};
+        AliveAPI::PathBND pathBnd = AliveAPI::OpenPathBnd(lvlFile, game, &pathId);
+        ret.mResult = pathBnd.mResult;
+
+        if (game == Game::AO)
+        {
+            JsonWriterAO doc(pathId, pathBnd.mPathBndName, pathBnd.mPathInfo);
+            doc.DumpTlvs(prefix, pathBnd.mPathInfo, pathBnd.mFileData);
+        }
+        else
+        {
+            JsonWriterAE doc(pathId, pathBnd.mPathBndName, pathBnd.mPathInfo);
+            doc.DumpTlvs(prefix, pathBnd.mPathInfo, pathBnd.mFileData);
+        }
+    }
+
     // Increment when a breaking change to the JSON is made and implement an 
     // upgrade step that converts from the last version to the current.
     constexpr int kApiVersion = 1;

@@ -886,6 +886,7 @@ namespace AETlvs
         {
             ADD("id", mTlv.field_10_id);
             ADD("is_start_point", mTlv.field_12_bstart_point);
+            ADD("lift_type", mTlv.field_14_lift_type);
             ADD("lift_point_stop_type", mTlv.field_16_lift_point_stop_type);
             ADD("scale", mTlv.field_18_scale);
             ADD("ignore_lift_mover", mTlv.field_1A_bIgnore_lift_mover);
@@ -1396,10 +1397,10 @@ namespace AETlvs
     {
         CTOR_AE(Path_Slurg, "Slurg", TlvTypes::Slurg_84)
         {
-            ADD("pause_delay", mTlv.field_10_path_data.field_0_pause_delay);
-            ADD("direction", mTlv.field_10_path_data.field_2_direction);
-            ADD("scale", mTlv.field_10_path_data.field_4_scale);
-            ADD("id", mTlv.field_10_path_data.field_6_id);
+            ADD("pause_delay", mTlv.field_10_slurg_data.field_0_pause_delay);
+            ADD("direction", mTlv.field_10_slurg_data.field_2_direction);
+            ADD("scale", mTlv.field_10_slurg_data.field_4_scale);
+            ADD("id", mTlv.field_10_slurg_data.field_6_id);
         }
     };
 
@@ -1723,6 +1724,7 @@ namespace AETlvs
             ADD("side", mTlv.field_10_side);
             ADD("x_vel", mTlv.field_12_x_vel);
             ADD("y_vel", mTlv.field_14_y_vel);
+            ADD("scale", mTlv.field_16_scale);
             ADD("num_bones", mTlv.field_18_num_bones);
         }
     };
@@ -1733,6 +1735,7 @@ namespace AETlvs
         {
             ADD("scale", mTlv.field_10_scale);
             ADD("disabled_resources", mTlv.field_12_disabled_resources);
+            ADD("unknown", mTlv.field_14_unknown);
         }
     };
 
@@ -1823,8 +1826,25 @@ namespace AETlvs
     {
         CTOR_AE(Path_ScrabSpawner, "ScrabSpawner", TlvTypes::ScrabSpawner_102)
         {
-            ADD("switch_id", mTlv.field_2C_switch_id);
-            ADD("scale", mTlv.field_2E_scale);
+            // scrab properties
+            ADD("scrab_scale", mTlv.field_10_scale);
+            ADD("scrab_attack_delay", mTlv.field_12_attack_delay);
+            ADD("scrab_patrol_type", mTlv.field_14_patrol_type);
+            ADD("scrab_left_min_delay", mTlv.field_16_left_min_delay);
+            ADD("scrab_left_max_delay", mTlv.field_18_left_max_delay);
+            ADD("scrab_right_min_delay", mTlv.field_1A_right_min_delay);
+            ADD("scrab_right_max_delay", mTlv.field_1C_right_max_delay);
+            ADD("scrab_attack_duration", mTlv.field_1E_attack_duration);
+            ADD("scrab_disabled_resources", mTlv.field_20_disabled_resources);
+            ADD("scrab_roar_randomly", mTlv.field_22_roar_randomly);
+            ADD("scrab_persistant", mTlv.field_24_persistant);
+            ADD("scrab_whirl_attack_duration", mTlv.field_26_whirl_attack_duration);
+            ADD("scrab_whirl_attack_recharge", mTlv.field_28_whirl_attack_recharge);
+            ADD("scrab_kill_close_fleech", mTlv.field_2A_kill_close_fleech);
+
+            // spawner properties
+            ADD("spawner_switch_id", mTlv.field_2C_switch_id);
+            ADD("spawner_scale", mTlv.field_2E_scale);
         }
     };
 
@@ -1832,10 +1852,14 @@ namespace AETlvs
     {
         CTOR_AE(Path_SlurgSpawner, "SlurgSpawner", TlvTypes::SlurgSpawner_89)
         {
-            ADD("delay_between_slurgs", mTlv.field_18_path_data.field_8_delay_between_slurgs);
-            ADD("max_slurgs", mTlv.field_18_path_data.field_A_max_slurgs);
-            ADD("switch_id", mTlv.field_18_path_data.field_C_switch_id);
-            ADD("unknown", mTlv.field_18_path_data.field_E_padding);
+            ADD("slurg_pause_delay", mTlv.field_10_slurg_data.field_0_pause_delay);
+            ADD("slurg_direction", mTlv.field_10_slurg_data.field_2_direction);
+            ADD("slurg_scale", mTlv.field_10_slurg_data.field_4_scale);
+            ADD("slurg_id", mTlv.field_10_slurg_data.field_6_id);
+
+            ADD("spawner_delay_between_slurgs", mTlv.field_18_spawner_data.field_8_delay_between_slurgs);
+            ADD("spawner_max_slurgs", mTlv.field_18_spawner_data.field_A_max_slurgs);
+            ADD("spawner_switch_id", mTlv.field_18_spawner_data.field_C_switch_id);
         }
     };
 

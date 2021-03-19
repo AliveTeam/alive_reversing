@@ -13,7 +13,7 @@ SlurgSpawner* SlurgSpawner::ctor_4C82E0(Path_SlurgSpawner* pTlv, int tlvInfo)
     field_4_typeId = Types::eSlurgSpawner_128;
     field_20_tlvInfo = tlvInfo;
     field_24_slurg_tlv = pTlv;
-    field_28_path_data = pTlv->field_18_path_data;
+    field_28_path_data = pTlv->field_18_spawner_data;
     field_3E_delay_counter = 0;
     field_40_spawned_count = pTlv->field_1_unknown;
     if ((field_40_spawned_count & 0x80u) != 0)

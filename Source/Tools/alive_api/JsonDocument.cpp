@@ -238,6 +238,64 @@ JsonWriterAO::JsonWriterAO(int pathId, const std::string& pathBndName, const Pat
     mMapRootInfo.mGame = "AO";
 }
 
+void JsonWriterAO::DumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<BYTE>& pathResource)
+{
+    BYTE* pStart = pathResource.data() + info.mIndexTableOffset;
+    BYTE* pEnd = pathResource.data() + info.mObjectOffset;
+
+    AO::Path_TLV* pPathTLV = reinterpret_cast<AO::Path_TLV*>(pStart);
+    pPathTLV->RangeCheck();
+    int idx = 0;
+    if (static_cast<int>(pPathTLV->field_4_type.mType) <= 0x100000 && pPathTLV->field_2_length <= 0x2000u && pPathTLV->field_8 <= 0x1000000)
+    {
+        while (pPathTLV && reinterpret_cast<BYTE*>(pPathTLV) < pEnd)
+        {
+            idx++;
+            const std::string fileName = prefix + "_" + std::to_string(static_cast<int>(pPathTLV->field_4_type.mType)) + "_" + std::to_string(idx) + ".dat";
+            FILE* hFile = ::fopen(fileName.c_str(), "wb");
+            if (!hFile)
+            {
+                abort();
+            }
+            ::fwrite(pPathTLV, pPathTLV->field_2_length, 1, hFile);
+            ::fclose(hFile);
+
+            pPathTLV = AO::Path_TLV::Next_NoCheck(pPathTLV);
+            if (pPathTLV)
+            {
+                pPathTLV->RangeCheck();
+            }
+        }
+    }
+}
+
+void JsonWriterAE::DumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<BYTE>& pathResource)
+{
+    BYTE* pData = pathResource.data();
+    BYTE* pStart = pData + info.mObjectOffset;
+    BYTE* pEnd = pData + info.mIndexTableOffset;
+
+    Path_TLV* pPathTLV = reinterpret_cast<Path_TLV*>(pStart);
+    int idx = 0;
+    while (pPathTLV && reinterpret_cast<BYTE*>(pPathTLV) < pEnd)
+    {
+        idx++;
+        const std::string fileName = prefix + "_" + std::to_string(static_cast<int>(pPathTLV->field_4_type.mType)) + "_" + std::to_string(idx) + ".dat";
+        FILE* hFile = ::fopen(fileName.c_str(), "wb");
+        if (!hFile)
+        {
+            abort();
+        }
+        ::fwrite(pPathTLV, pPathTLV->field_2_length, 1, hFile);
+        ::fclose(hFile);
+
+        // Skip length bytes to get to the start of the next TLV
+        BYTE* ptr = reinterpret_cast<BYTE*>(pPathTLV);
+        BYTE* pNext = ptr + pPathTLV->field_2_length;
+        pPathTLV = reinterpret_cast<Path_TLV*>(pNext);
+    }
+}
+
 jsonxx::Array JsonWriterAO::ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr)
 {
     jsonxx::Array mapObjects;
@@ -429,6 +487,7 @@ jsonxx::Array JsonWriterAE::ReadTlvStream(TypesCollection& globalTypes, BYTE* pt
                 LOG_ERROR(magic_enum::enum_name(pPathTLV->field_4_type.mType) << " size should be " << pPathTLV->field_2_length << " but got " << obj->TlvLen());
                 abort();
             }
+
             mapObjects << obj->InstanceToJson(globalTypes);
         }
         else
