@@ -70,7 +70,9 @@ void SoftwareRenderer::CreateBackBuffer(bool filter, int format, int w, int h)
             SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
         }
 
-        SDL_DestroyTexture(mBackBufferTexture);
+		if (mBackBufferTexture) {
+			SDL_DestroyTexture(mBackBufferTexture);
+		}
         mBackBufferTexture = SDL_CreateTexture(mRenderer, format, SDL_TextureAccess::SDL_TEXTUREACCESS_STREAMING, w, h);
 
         mLastH = w;
