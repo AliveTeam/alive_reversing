@@ -7,21 +7,21 @@
 
 namespace AO {
 
-struct Path_StatusBoard : public Path_TLV
+struct Path_LCDStatusBoard : public Path_TLV
 {
 
 };
 
-class StatsSign : public BaseGameObject
+class LCDStatusBoard : public BaseGameObject
 {
 public:
-    EXPORT StatsSign* ctor_4418E0(Path_StatusBoard* pTlv, int tlvInfo);
+    EXPORT LCDStatusBoard* ctor_4418E0(Path_LCDStatusBoard* pTlv, int tlvInfo);
 
     EXPORT BaseGameObject* dtor_4419E0();
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
-    EXPORT StatsSign* Vdtor_441C80(signed int flags);
+    EXPORT LCDStatusBoard* Vdtor_441C80(signed int flags);
 
     virtual void VScreenChanged() override;
 
@@ -43,7 +43,7 @@ public:
     __int16 field_CC_xpos;
     __int16 field_CE_ypos;
 };
-ALIVE_ASSERT_SIZEOF(StatsSign, 0xD0);
+ALIVE_ASSERT_SIZEOF(LCDStatusBoard, 0xD0);
 
 }
 

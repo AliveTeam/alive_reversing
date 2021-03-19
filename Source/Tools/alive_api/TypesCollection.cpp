@@ -104,6 +104,32 @@ void TypesCollection::AddAOTypes()
     REGISTER_TYPE_AO(AOTlvs::Path_SecurityClaw);
     REGISTER_TYPE_AO(AOTlvs::Path_SecurityDoor);
     REGISTER_TYPE_AO(AOTlvs::Path_TimedMine);
+    REGISTER_TYPE_AO(AOTlvs::Path_SligSpawner);
+    REGISTER_TYPE_AO(AOTlvs::Path_MotionDetector);
+    REGISTER_TYPE_AO(AOTlvs::Path_BackgroundAnimation);
+    REGISTER_TYPE_AO(AOTlvs::Path_LCDStatusBoard);
+    REGISTER_TYPE_AO(AOTlvs::Path_Preloader);
+    REGISTER_TYPE_AO(AOTlvs::Path_Pulley);
+    REGISTER_TYPE_AO(AOTlvs::Path_SoftLanding);
+    REGISTER_TYPE_AO(AOTlvs::Path_MudokonPathTrans);
+    REGISTER_TYPE_AO(AOTlvs::Path_AbeStart);
+    REGISTER_TYPE_AO(AOTlvs::Path_ZSligCover);
+    REGISTER_TYPE_AO(AOTlvs::Path_ScrabLeftBound);
+    REGISTER_TYPE_AO(AOTlvs::Path_ScrabRightBound);
+    REGISTER_TYPE_AO(AOTlvs::Path_ScrabNoFall);
+    REGISTER_TYPE_AO(AOTlvs::Path_LiftMudokon);
+    REGISTER_TYPE_AO(AOTlvs::Path_HoneySack);
+    REGISTER_TYPE_AO(AOTlvs::Path_SlingMudokon);
+    REGISTER_TYPE_AO(AOTlvs::Path_BeeSwarmHole);
+    REGISTER_TYPE_AO(AOTlvs::Path_MeatSack);
+    REGISTER_TYPE_AO(AOTlvs::Path_RollingBall);
+    REGISTER_TYPE_AO(AOTlvs::Path_RollingBallStopper);
+    REGISTER_TYPE_AO(AOTlvs::Path_Bees);
+    REGISTER_TYPE_AO(AOTlvs::Path_ZBall);
+    REGISTER_TYPE_AO(AOTlvs::Path_FootSwitch);
+    REGISTER_TYPE_AO(AOTlvs::Path_Paramite);
+    REGISTER_TYPE_AO(AOTlvs::Path_Honey);
+    REGISTER_TYPE_AO(AOTlvs::Path_HoneyDripTarget);
 
     for (auto& [key, value] : mTlvFactoryAO)
     {
@@ -147,7 +173,7 @@ void TypesCollection::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_Hoist);
     REGISTER_TYPE_AE(AETlvs::Path_Switch);
     REGISTER_TYPE_AE(AETlvs::Path_Door);
-    REGISTER_TYPE_AE(AETlvs::Path_StatsSign);
+    REGISTER_TYPE_AE(AETlvs::Path_LCDStatusBoard);
     REGISTER_TYPE_AE(AETlvs::Path_BirdPortal);
     REGISTER_TYPE_AE(AETlvs::Path_Mudokon);
     REGISTER_TYPE_AE(AETlvs::Path_ElectricWall);

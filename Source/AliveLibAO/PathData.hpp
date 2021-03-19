@@ -57,16 +57,16 @@ enum class TlvTypes : __int16
     StartController_28 = 28,
     SecurityOrb_29 = 29,
 
-    LiftMud_32 = 32,
+    LiftMudokon_32 = 32,
 
-    SwarmHole_34 = 34,
+    BeeSwarmHole_34 = 34,
     Pulley_35 = 35,
     HoneySack_36 = 36,
     AbeStart_37 = 37,
     ElumStart_38 = 38,
 
     ElumWall_40 = 40,
-    SlingMud_41 = 41,
+    SlingMudokon_41 = 41,
     HoneyDripTarget_42 = 42,
     Bees_43 = 43,
 
@@ -89,7 +89,7 @@ enum class TlvTypes : __int16
     SecurityClaw_61 = 61,
     MotionDetector_62 = 62,
 
-    Slig_66 = 66,
+    SligSpawner_66 = 66,
     ElectricWall_67 = 67,
     LiftMover_68 = 68,
     ChimeLock_69 = 69,
@@ -111,7 +111,7 @@ enum class TlvTypes : __int16
     MovingBomb_86 = 86,
     MovingBombStopper_87 = 87,
     MeatSaw_88 = 88,
-    MudPathTrans_89 = 89,
+    MudokonPathTrans_89 = 89,
     MenuController_90 = 90,
 
     HintFly_92 = 92,
@@ -125,7 +125,7 @@ enum class TlvTypes : __int16
     HandStone_100 = 100,
     CreditsController_101 = 101,
     Preloader_102 = 102,
-    LcdStatusBoard_103 = 103,
+    LCDStatusBoard_103 = 103,
 
     MusicTrigger_105 = 105,
     LightEffect_106 = 106,

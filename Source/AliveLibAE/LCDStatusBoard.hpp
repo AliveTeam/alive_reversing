@@ -7,14 +7,14 @@
 
 void StatsSign_ForceLink();
 
-struct Path_StatsSign : public Path_TLV
+struct Path_LCDStatusBoard : public Path_TLV
 {
     __int16 field_10_number_of_muds;
     __int16 field_12_zulag_number;
     int field_14_hidden;
 };
 
-class StatsSign : public BaseGameObject
+class LCDStatusBoard : public BaseGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
@@ -22,7 +22,7 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 
-    EXPORT StatsSign* ctor_47B600(Path_StatsSign* params, TlvItemInfoUnion a3);
+    EXPORT LCDStatusBoard* ctor_47B600(Path_LCDStatusBoard* params, TlvItemInfoUnion a3);
     EXPORT void dtor_47B7E0();
     EXPORT BaseGameObject* vdtor_47B7B0(signed int flags);
     EXPORT void vUpdate_47B8D0();
@@ -39,7 +39,7 @@ public:
     __int16 field_108_is_hidden;
     __int16 field_10A_muds_left_in_area;
 };
-ALIVE_ASSERT_SIZEOF(StatsSign, 0x10C);
+ALIVE_ASSERT_SIZEOF(LCDStatusBoard, 0x10C);
 
 ALIVE_VAR_EXTERN(__int16, sMudokonsInArea_5C1BC4);
 ALIVE_VAR_EXTERN(char, sStatsSignCurrentArea_5C1A20);

@@ -82,7 +82,7 @@ enum class TlvTypes : short
     HandStone_61 = 61,
     CreditsController_62 = 62,
     Null_63 = 63,
-    StatusBoard_64 = 64,
+    LCDStatusBoard_64 = 64,
     WheelSyncer_65 = 65,
     MusicTrigger_66 = 66,
     Light_67 = 67,

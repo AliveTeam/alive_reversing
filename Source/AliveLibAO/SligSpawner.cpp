@@ -58,7 +58,7 @@ EXPORT void SligSpawner::VUpdate_4028A0()
             field_18_tlv.field_C_sound_pos.field_2_y,
             field_18_tlv.field_C_sound_pos.field_0_x,
             field_18_tlv.field_C_sound_pos.field_2_y,
-            TlvTypes::Slig_66));
+            TlvTypes::SligSpawner_66));
 
         if (pTlv)
         {

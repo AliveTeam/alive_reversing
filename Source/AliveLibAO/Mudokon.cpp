@@ -184,9 +184,9 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, int tlvInfo)
     int scale = 0;
     switch (pTlv->field_4_type.mType)
     {
-    case TlvTypes::LiftMud_32:
+    case TlvTypes::LiftMudokon_32:
     {
-        auto liftMudTlv = static_cast<Path_Lift_Mud*>(pTlv);
+        auto liftMudTlv = static_cast<Path_LiftMudokon*>(pTlv);
 
         field_148_res_array.res[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeliftResID, 1, 0);
 
@@ -636,7 +636,7 @@ void Mudokon::VScreenChanged_43FFC0()
         auto pTlv = gMap_507BA8.TLV_Get_At_446060(nullptr, field_A8_xpos, field_AC_ypos, field_A8_xpos, field_AC_ypos);
         while (pTlv)
         {
-            if (pTlv->field_4_type == TlvTypes::MudPathTrans_89)
+            if (pTlv->field_4_type == TlvTypes::MudokonPathTrans_89)
             {
                 // Gonna go to the next path
                 field_1C4_bDoPathTrans = TRUE;

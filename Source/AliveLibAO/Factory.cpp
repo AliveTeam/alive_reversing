@@ -51,7 +51,7 @@
 #include "BoomMachine.hpp"
 #include "GasEmitter.hpp"
 #include "MotionDetector.hpp"
-#include "StatsSign.hpp"
+#include "LCDStatusBoard.hpp"
 #include "FlintLockFire.hpp"
 #include "MeatSaw.hpp"
 #include "TrapDoor.hpp"
@@ -1194,7 +1194,7 @@ EXPORT void Factory_SlingMud_485A30(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUn
         auto pSlingMud = ao_new<SlingMudokon>();
         if (pSlingMud)
         {
-            pSlingMud->ctor_46F940(static_cast<Path_SlingMud*>(pTlv), tlvOffsetLevelIdPathId.all);
+            pSlingMud->ctor_46F940(static_cast<Path_SlingMudokon*>(pTlv), tlvOffsetLevelIdPathId.all);
         }
     }
 }
@@ -2435,10 +2435,10 @@ EXPORT void Factory_StatusBoard_487AF0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
     }
     else
     {
-        auto pStatusBoard = ao_new<StatsSign>();
+        auto pStatusBoard = ao_new<LCDStatusBoard>();
         if (pStatusBoard)
         {
-            pStatusBoard->ctor_4418E0(static_cast<Path_StatusBoard*>(pTlv), tlvOffsetLevelIdPathId.all);
+            pStatusBoard->ctor_4418E0(static_cast<Path_LCDStatusBoard*>(pTlv), tlvOffsetLevelIdPathId.all);
         }
     }
 }

@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "StatsSign.hpp"
+#include "LCDStatusBoard.hpp"
 #include "Function.hpp"
 #include "stdlib.hpp"
 #include "DebugHelpers.hpp"
@@ -29,27 +29,27 @@ ALIVE_VAR(1, 0x5C1BC4, __int16, sMudokonsInArea_5C1BC4, 0);
 ALIVE_VAR(1, 0x5C1A20, char, sStatsSignCurrentArea_5C1A20, 0);
 
 
-BaseGameObject* StatsSign::VDestructor(signed int flags)
+BaseGameObject* LCDStatusBoard::VDestructor(signed int flags)
 {
     return vdtor_47B7B0(flags);
 }
 
-void StatsSign::VUpdate()
+void LCDStatusBoard::VUpdate()
 {
     vUpdate_47B8D0();
 }
 
-void StatsSign::VRender(PrimHeader** ppOt)
+void LCDStatusBoard::VRender(PrimHeader** ppOt)
 {
     vRender_47B900(ppOt);
 }
 
-void StatsSign::VScreenChanged()
+void LCDStatusBoard::VScreenChanged()
 {
     vScreenChanged_47BC40();
 }
 
-StatsSign* StatsSign::ctor_47B600(Path_StatsSign* params, TlvItemInfoUnion a3)
+LCDStatusBoard* LCDStatusBoard::ctor_47B600(Path_LCDStatusBoard* params, TlvItemInfoUnion a3)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x54635C);
@@ -78,7 +78,7 @@ StatsSign* StatsSign::ctor_47B600(Path_StatsSign* params, TlvItemInfoUnion a3)
     return this;
 }
 
-void StatsSign::dtor_47B7E0()
+void LCDStatusBoard::dtor_47B7E0()
 {
     SetVTable(this, 0x54635C);
     gObjList_drawables_5C1124->Remove_Item(this);
@@ -97,7 +97,7 @@ void StatsSign::dtor_47B7E0()
 }
 
 
-BaseGameObject* StatsSign::vdtor_47B7B0(signed int flags)
+BaseGameObject* LCDStatusBoard::vdtor_47B7B0(signed int flags)
 {
     dtor_47B7E0();
     if (flags & 1)
@@ -107,7 +107,7 @@ BaseGameObject* StatsSign::vdtor_47B7B0(signed int flags)
     return this;
 }
 
-void StatsSign::vUpdate_47B8D0()
+void LCDStatusBoard::vUpdate_47B8D0()
 { 
     if (Event_Get_422C00(kEventDeathReset))
     {
@@ -116,7 +116,7 @@ void StatsSign::vUpdate_47B8D0()
 }
 
 // Todo: clean up
-void StatsSign::vRender_47B900(PrimHeader** ppOt)
+void LCDStatusBoard::vRender_47B900(PrimHeader** ppOt)
 {
     if (!field_108_is_hidden)
     {
@@ -222,7 +222,7 @@ void StatsSign::vRender_47B900(PrimHeader** ppOt)
     }
 }
 
-void StatsSign::vScreenChanged_47BC40()
+void LCDStatusBoard::vScreenChanged_47BC40()
 {
     field_6_flags.Set(eDead_Bit3);
 }

@@ -6,7 +6,7 @@
 #include "../AliveLibAE/ElectricWall.hpp"
 #include "../AliveLibAE/Mudokon.hpp"
 #include "../AliveLibAE/BirdPortal.hpp"
-#include "../AliveLibAE/StatsSign.hpp"
+#include "../AliveLibAE/LCDStatusBoard.hpp"
 #include "../AliveLibAE/Door.hpp"
 #include "../AliveLibAE/BoomMachine.hpp"
 #include "../AliveLibAE/Slig.hpp"
@@ -335,9 +335,9 @@ namespace AETlvs
         }
     };
 
-    struct Path_StatsSign : public TlvObjectBaseAE<::Path_StatsSign>
+    struct Path_LCDStatusBoard : public TlvObjectBaseAE<::Path_LCDStatusBoard>
     {
-        CTOR_AE(Path_StatsSign, "StatsSign", TlvTypes::StatusBoard_64)
+        CTOR_AE(Path_LCDStatusBoard, "StatsSign", TlvTypes::LCDStatusBoard_64)
         {
             ADD("number_of_muds", mTlv.field_10_number_of_muds);
             ADD("zulag_number", mTlv.field_12_zulag_number);

@@ -43,7 +43,7 @@ const TSlingMudBrain gSlingMudBrainTable_4CFCE0[] =
     &SlingMudokon::tsub_4707B0
 };
 
-SlingMudokon* SlingMudokon::ctor_46F940(Path_SlingMud* pTlv, int tlvInfo)
+SlingMudokon* SlingMudokon::ctor_46F940(Path_SlingMudokon* pTlv, int tlvInfo)
 {
     ctor_401090();
     SetVTable(this, 0x4BCB40);

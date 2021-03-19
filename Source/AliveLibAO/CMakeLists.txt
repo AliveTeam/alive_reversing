@@ -67,8 +67,8 @@ SET(AliveLibSrcAO
    Scrab.cpp
    Paramite.hpp
    Paramite.cpp
-   StatsSign.hpp
-   StatsSign.cpp
+   LCDStatusBoard.hpp
+   LCDStatusBoard.cpp
    ParamiteWeb.hpp
    ParamiteWeb.cpp
    ZapLine.hpp
