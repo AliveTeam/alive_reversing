@@ -46,6 +46,11 @@
 #include "../AliveLibAO/BackgroundAnimation.hpp"
 #include "../AliveLibAO/LCDStatusBoard.hpp"
 #include "../AliveLibAO/HoneySack.hpp"
+#include "../AliveLibAO/SlingMudokon.hpp"
+#include "../AliveLibAO/BeeSwarmHole.hpp"
+#include "../AliveLibAO/Meat.hpp"
+#include "../AliveLibAO/RollingBall.hpp"
+#include "../AliveLibAO/RollingBallStopper.hpp"
 
 #define CTOR_AO(className, objectTypeName, tlvType)  className(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO(tlvType, objectTypeName, pTlv)
 
@@ -1186,6 +1191,77 @@ namespace AOTlvs
         {
             ADD("chase_ticks", mTlv.field_18_chase_ticks);
             ADD("scale", mTlv.field_1A_scale);
+        }
+    };
+
+    struct Path_SlingMudokon : public TlvObjectBaseAO<AO::Path_SlingMudokon>
+    {
+        CTOR_AO(Path_SlingMudokon, "SlingMudokon", AO::TlvTypes::SlingMudokon_41)
+        {
+            ADD("scale", mTlv.field_18_scale);
+            ADD("silent", mTlv.field_1A_silent);
+            ADD("code1", mTlv.field_1C_code_1);
+            ADD("code2", mTlv.field_1E_code_2);
+        }
+    };
+
+    struct Path_BeeSwarmHole : public TlvObjectBaseAO<AO::Path_BeeSwarmHole>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<AO::Path_BeeSwarmHole::MovementType>("Enum_BeeSwarmHoleMovementType",
+                {
+                    {AO::Path_BeeSwarmHole::MovementType::eHover_0, "hover"},
+                    {AO::Path_BeeSwarmHole::MovementType::eAttack_1, "attack"},
+                    {AO::Path_BeeSwarmHole::MovementType::eFollowPath_2, "follow_path"},
+                });
+        }
+
+        CTOR_AO(Path_BeeSwarmHole, "BeeSwarmHole", AO::TlvTypes::BeeSwarmHole_34)
+        {
+            ADD("what_to_spawn", mTlv.field_18_what_to_spawn);
+            ADD("interval", mTlv.field_1A_interval);
+            ADD("id", mTlv.field_1C_id);
+            ADD("movement_type", mTlv.field_1E_movement_type);
+            ADD("size", mTlv.field_20_size);
+            ADD("chase_time", mTlv.field_22_chase_time);
+            ADD("speed", mTlv.field_24_speed);
+            ADD("scale", mTlv.field_26_scale);
+        }
+    };
+
+    struct Path_MeatSack : public TlvObjectBaseAO<AO::Path_MeatSack>
+    {
+        CTOR_AO(Path_MeatSack, "MeatSack", AO::TlvTypes::MeatSack_71)
+        {
+            ADD("side", mTlv.field_18_side);
+            ADD("x_vel", mTlv.field_1A_x_vel);
+            ADD("y_vel", mTlv.field_1C_y_vel);
+            ADD("scale", mTlv.field_1E_scale);
+            ADD("amount_of_meat", mTlv.field_20_amount_of_meat);
+        }
+    };
+
+    struct Path_RollingBall : public TlvObjectBaseAO<AO::Path_RollingBall>
+    {
+        CTOR_AO(Path_RollingBall, "RollingBall", AO::TlvTypes::RollingBall_56)
+        {
+            ADD("scale", mTlv.field_18_scale);
+            ADD("roll_direction", mTlv.field_1A_roll_direction);
+            ADD("release", mTlv.field_1C_release);
+            ADD("speed", mTlv.field_1E_speed);
+            ADD("acceleration", mTlv.field_20_acceleration);
+        }
+    };
+
+    struct Path_RollingBallStopper : public TlvObjectBaseAO<AO::Path_RollingBallStopper>
+    {
+        CTOR_AO(Path_RollingBallStopper, "RollingBallStopper", AO::TlvTypes::RollingBallStopper_59)
+        {
+            ADD("id_on", mTlv.field_18_id_on);
+            ADD("scale", mTlv.field_1A_scale_background);
+            ADD("id_off", mTlv.field_1C_id_off);
+            ADD("direction", mTlv.field_1E_direction);
         }
     };
 }

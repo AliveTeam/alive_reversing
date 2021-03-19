@@ -1194,7 +1194,7 @@ EXPORT void Factory_SlingMud_485A30(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUn
         auto pSlingMud = ao_new<SlingMudokon>();
         if (pSlingMud)
         {
-            pSlingMud->ctor_46F940(static_cast<Path_SlingMud*>(pTlv), tlvOffsetLevelIdPathId.all);
+            pSlingMud->ctor_46F940(static_cast<Path_SlingMudokon*>(pTlv), tlvOffsetLevelIdPathId.all);
         }
     }
 }

@@ -59,14 +59,14 @@ enum class TlvTypes : __int16
 
     LiftMudokon_32 = 32,
 
-    SwarmHole_34 = 34,
+    BeeSwarmHole_34 = 34,
     Pulley_35 = 35,
     HoneySack_36 = 36,
     AbeStart_37 = 37,
     ElumStart_38 = 38,
 
     ElumWall_40 = 40,
-    SlingMud_41 = 41,
+    SlingMudokon_41 = 41,
     HoneyDripTarget_42 = 42,
     Bees_43 = 43,
 
