@@ -130,6 +130,9 @@ void TypesCollection::AddAOTypes()
     REGISTER_TYPE_AO(AOTlvs::Path_Paramite);
     REGISTER_TYPE_AO(AOTlvs::Path_Honey);
     REGISTER_TYPE_AO(AOTlvs::Path_HoneyDripTarget);
+    REGISTER_TYPE_AO(AOTlvs::Path_HandStone);
+    REGISTER_TYPE_AO(AOTlvs::Path_BellsongStone);
+    REGISTER_TYPE_AO(AOTlvs::Path_MovieStone);
 
     for (auto& [key, value] : mTlvFactoryAO)
     {

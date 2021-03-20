@@ -253,15 +253,15 @@ static void DumpTlv(const std::string& prefix, int idx, const T& tlv)
 
 void JsonWriterAO::DumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<BYTE>& pathResource)
 {
-    BYTE* pStart = pathResource.data() + info.mIndexTableOffset;
-    BYTE* pEnd = pathResource.data() + info.mObjectOffset;
+    BYTE* pStart = pathResource.data() + info.mObjectOffset;
+    BYTE* pEnd = pathResource.data() + info.mIndexTableOffset;
 
     AO::Path_TLV* pPathTLV = reinterpret_cast<AO::Path_TLV*>(pStart);
     pPathTLV->RangeCheck();
     int idx = 0;
     if (static_cast<int>(pPathTLV->field_4_type.mType) <= 0x100000 && pPathTLV->field_2_length <= 0x2000u && pPathTLV->field_8 <= 0x1000000)
     {
-        while (pPathTLV && reinterpret_cast<BYTE*>(pPathTLV) < pEnd)
+        while (pPathTLV)
         {
             idx++;
             DumpTlv(prefix, idx, *pPathTLV);
@@ -269,6 +269,16 @@ void JsonWriterAO::DumpTlvs(const std::string& prefix, const PathInfo& info, std
             if (pPathTLV)
             {
                 pPathTLV->RangeCheck();
+                if (pPathTLV->field_2_length == 0)
+                {
+                    // Dont get stuck in a loop
+                    break;
+                }
+
+                if (reinterpret_cast<BYTE*>(pPathTLV) == pEnd)
+                {
+                    break;
+                }
             }
         }
     }
@@ -307,11 +317,11 @@ jsonxx::Array JsonWriterAO::ReadTlvStream(TypesCollection& globalTypes, BYTE* pt
             auto obj = globalTypes.MakeTlvAO(pPathTLV->field_4_type.mType, pPathTLV);
             if (obj)
             {
-                /*if (pPathTLV->field_2_length != obj->TlvLen())
+                if (pPathTLV->field_2_length != obj->TlvLen())
                 {
                     LOG_ERROR(magic_enum::enum_name(pPathTLV->field_4_type.mType) << " size should be " << pPathTLV->field_2_length << " but got " << obj->TlvLen());
                     abort();
-                }*/
+                }
                 mapObjects << obj->InstanceToJson(globalTypes);
             }
             else
@@ -412,8 +422,8 @@ void JsonWriterBase::Save(const PathInfo& info, std::vector<BYTE>& pathResource,
                     1000 * (pCamName->name[3] - '0');
             }
 
-            const int indexTableOffset = indexTable[To1dIndex(info.mWidth, x, y)];
-            if (indexTableOffset == -1 || indexTableOffset >= 0x100000)
+            const int indexTableEntryOffset = indexTable[To1dIndex(info.mWidth, x, y)];
+            if (indexTableEntryOffset == -1 || indexTableEntryOffset >= 0x100000)
             {
                 if (pCamName->name[0])
                 {
@@ -426,7 +436,7 @@ void JsonWriterBase::Save(const PathInfo& info, std::vector<BYTE>& pathResource,
                 // Can have objects that do not live in a camera, as strange as it seems (R1P15)
                 // "blank" cameras just do not have a name set.
 
-                BYTE* ptr = pPathData + indexTableOffset + info.mObjectOffset;
+                BYTE* ptr = pPathData + indexTableEntryOffset + info.mObjectOffset;
                 jsonxx::Array mapObjects = ReadTlvStream(*globalTypes, ptr);
                 LOG_INFO("Add camera " << tmpCamera.mName);
                 cameraArray << tmpCamera.ToJsonObject(mapObjects);

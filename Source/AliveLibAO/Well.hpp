@@ -6,6 +6,12 @@
 
 namespace AO {
 
+union OffLevelOrDx
+{
+     LevelIds level;
+     __int16 dx;
+};
+
 struct Path_WellBase : public Path_TLV
 {
     __int16 field_18_scale;
@@ -14,7 +20,7 @@ struct Path_WellBase : public Path_TLV
     __int16 field_1E_res_id;
     __int16 field_20_exit_x;
     __int16 field_22_exit_y;
-    LevelIds field_24_off_level_or_dx;
+    OffLevelOrDx field_24_off_level_or_dx;
     __int16 field_26_off_path_or_dy;
 };
 ALIVE_ASSERT_SIZEOF(Path_WellBase, 0x28);

@@ -200,10 +200,75 @@ namespace AO
     {
         // No fields
     };
+
+    struct Path_HandStone : public Path_TLV
+    {
+        Path_Handstone_data mData;
+    };
+
+    struct Path_BellsongStone : public Path_TLV
+    {
+        Path_BellsongStone_data mData;
+    };
+
+    struct Path_MovieStone : public Path_TLV
+    {
+        Path_Moviestone_data mData;
+    };
 }
 
 namespace AOTlvs
 {
+    struct Path_MovieStone : public TlvObjectBaseAO<AO::Path_MovieStone>
+    {
+        CTOR_AO(Path_MovieStone, "MovieStone", AO::TlvTypes::MovieStone_51)
+        {
+            ADD("fmv_id", mTlv.mData.fmvId);
+            ADD("scale", mTlv.mData.scale);
+        }
+    };
+
+    struct Path_BellsongStone : public TlvObjectBaseAO<AO::Path_BellsongStone>
+    {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<AO::BellsongTypes>("Enum_BellsongTypes",
+                {
+                    {AO::BellsongTypes::eWhistle, "whistle"},
+                    {AO::BellsongTypes::eChimes, "chimes"},
+                });
+        }
+
+        CTOR_AO(Path_BellsongStone, "BellSongStone", AO::TlvTypes::BellSongStone_54)
+        {
+            ADD("scale", mTlv.mData.scale);
+            ADD("type", mTlv.mData.type);
+            ADD("code1", mTlv.mData.code1);
+            ADD("code2", mTlv.mData.code2);
+            ADD("id", mTlv.mData.id);
+        }
+    };
+
+    struct Path_HandStone : public TlvObjectBaseAO<AO::Path_HandStone>
+    {
+        CTOR_AO(Path_HandStone, "HandStone", AO::TlvTypes::HandStone_100)
+        {
+            ADD("scale", mTlv.mData.scale);
+
+            ADD("camera1_level", mTlv.mData.camera1.level);
+            ADD("camera1_path", mTlv.mData.camera1.path);
+            ADD("camera1_camera", mTlv.mData.camera1.camera);
+
+            ADD("camera2_level", mTlv.mData.camera2.level);
+            ADD("camera2_path", mTlv.mData.camera2.path);
+            ADD("camera2_camera", mTlv.mData.camera2.camera);
+
+            ADD("camera3_level", mTlv.mData.camera3.level);
+            ADD("camera3_path", mTlv.mData.camera3.path);
+            ADD("camera3_camera", mTlv.mData.camera3.camera);
+        }
+    };
+
     struct Path_Door : public TlvObjectBaseAO<AO::Path_Door>
     {
         void AddTypes(TypesCollection& types) override
@@ -384,6 +449,17 @@ namespace AOTlvs
     {
         CTOR_AO(Path_WellLocal, "WellLocal", AO::TlvTypes::WellLocal_11)
         {
+            // Well base
+            ADD("scale", mTlv.field_18_scale);
+            ADD("trigger_id", mTlv.field_1A_trigger_id);
+            ADD("well_id", mTlv.field_1C_well_id);
+            ADD("resource_id", mTlv.field_1E_res_id);
+            ADD("exit_x", mTlv.field_20_exit_x);
+            ADD("exit_y", mTlv.field_22_exit_y);
+            ADD("dx", mTlv.field_24_off_level_or_dx.dx);
+            ADD("dy", mTlv.field_26_off_path_or_dy);
+
+            // Well local
             ADD("on_dx", mTlv.field_28_on_dx);
             ADD("on_dy", mTlv.field_2A_on_dy);
             ADD("emit_leaves", mTlv.field_2C_emit_leaves);
@@ -396,6 +472,17 @@ namespace AOTlvs
     {
         CTOR_AO(Path_WellExpress, "WellExpress", AO::TlvTypes::WellExpress_45)
         {
+            // Well base
+            ADD("scale", mTlv.field_18_scale);
+            ADD("trigger_id", mTlv.field_1A_trigger_id);
+            ADD("well_id", mTlv.field_1C_well_id);
+            ADD("resource_id", mTlv.field_1E_res_id);
+            ADD("exit_x", mTlv.field_20_exit_x);
+            ADD("exit_y", mTlv.field_22_exit_y);
+            ADD("off_level", mTlv.field_24_off_level_or_dx.level);
+            ADD("off_path", mTlv.field_26_off_path_or_dy);
+
+            // Well express
             ADD("off_camera", mTlv.field_28_off_camera);
             ADD("off_well_id", mTlv.field_2A_off_well_id);
             ADD("on_level", mTlv.field_2C_on_level);
@@ -577,6 +664,7 @@ namespace AOTlvs
             ADD("pattern", mTlv.field_1A_pattern);
             ADD("scale", mTlv.field_1C_scale);
             ADD("state", mTlv.field_1E_state);
+            ADD("disabled_resources", mTlv.field_20_disabled_resources);
         }
     };
 
@@ -755,7 +843,7 @@ namespace AOTlvs
     {
         CTOR_AO(Path_RingCancel, "RingCancel", AO::TlvTypes::RingCancel_109)
         {
-            ADD("shrykull_remove", mTlv.field_18_bShrykull_remove);
+            // No properties
         }
     };
 
@@ -1126,7 +1214,7 @@ namespace AOTlvs
     {
         CTOR_AO(Path_Preloader, "Preloader", AO::TlvTypes::Preloader_102)
         {
-            // No fields
+            ADD("unload_cams_asap", mTlv.unload_cams_ASAP);
         }
     };
 
@@ -1134,7 +1222,7 @@ namespace AOTlvs
     {
         CTOR_AO(Path_Pulley, "Pulley", AO::TlvTypes::Pulley_35)
         {
-            // No fields
+            ADD("scale", mTlv.scale);
         }
     };
 

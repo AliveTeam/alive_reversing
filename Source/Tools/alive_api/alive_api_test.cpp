@@ -135,7 +135,7 @@ TEST(alive_api, ReSaveAllPathsAO)
 
             if (originalLvlBytes != resavedLvlBytes)
             {
-                AliveAPI::DebugDumpTlvs("old/", AEPath(lvl), path);
+                AliveAPI::DebugDumpTlvs("old/", AOPath(lvl), path);
                 AliveAPI::DebugDumpTlvs("new/", lvlName, path);
             }
             ASSERT_EQ(originalLvlBytes, resavedLvlBytes);
