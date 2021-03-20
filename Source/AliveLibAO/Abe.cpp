@@ -7904,7 +7904,7 @@ void Abe::State_78_InsideWellLocal_4310A0()
             }
             else
             {
-                field_B4_velx = (field_BC_sprite_scale * FP_FromInteger(static_cast<int>(pWellBase->field_24_off_level_or_dx)) / FP_FromInteger(100));
+                field_B4_velx = (field_BC_sprite_scale * FP_FromInteger(pWellBase->field_24_off_level_or_dx.dx) / FP_FromInteger(100));
                 field_B8_vely = (field_BC_sprite_scale * FP_FromInteger(pWellBase->field_26_off_path_or_dy) / FP_FromInteger(100));
             }
         }
@@ -8027,7 +8027,7 @@ void Abe::State_81_InsideWellExpress_431320()
     }
     else
     {
-        field_190_level = pExpressWell->field_24_off_level_or_dx;
+        field_190_level = pExpressWell->field_24_off_level_or_dx.level;
         field_192_path = pExpressWell->field_26_off_path_or_dy;
         field_194_camera = pExpressWell->field_28_off_camera;
         field_196_door_id = pExpressWell->field_2A_off_well_id;
@@ -8375,9 +8375,9 @@ void Abe::State_88_HandstoneBegin_430590()
                         field_192_path = gMap_507BA8.field_2_current_path;
                         field_194_camera = gMap_507BA8.field_4_current_camera;
                         gMap_507BA8.SetActiveCam_444660(
-                            field_174_pathStone.dataHandstone.cameras[0].level_1,
-                            field_174_pathStone.dataHandstone.cameras[0].path_2,
-                            field_174_pathStone.dataHandstone.cameras[0].camera_3,
+                            field_174_pathStone.dataHandstone.camera1.level,
+                            field_174_pathStone.dataHandstone.camera1.path,
+                            field_174_pathStone.dataHandstone.camera1.camera,
                             CameraSwapEffects::eEffect0_InstantChange, 0, 0
                         );
                         break;
@@ -8470,8 +8470,25 @@ void Abe::State_88_HandstoneBegin_430590()
         {
             if (field_158_pDeathFadeout->field_6E_bDone)
             {
-                const auto camera = field_174_pathStone.dataHandstone.cameras[field_16E_cameraIdx];
-                if (field_16E_cameraIdx > 2 || (camera.level_1 == LevelIds::eForestChase || camera.level_1 == LevelIds::eDesertEscape ))
+                Path_Stone_camera camera = {};
+                switch (field_16E_cameraIdx)
+                {
+                case 0:
+                    camera = field_174_pathStone.dataHandstone.camera1;
+                    break;
+
+                case 1:
+                    camera = field_174_pathStone.dataHandstone.camera2;
+                    break;
+
+                case 2:
+                    camera = field_174_pathStone.dataHandstone.camera3;
+                    break;
+
+                default:
+                    LOG_ERROR("CameraIdx out of bounds " << field_16E_cameraIdx);
+                }
+                if (field_16E_cameraIdx > 2 || (camera.level == LevelIds::eForestChase || camera.level == LevelIds::eDesertEscape ))
                 {
                     field_110_state.stone = StoneStates::eSetActiveCamToAbe_12;
                 }
@@ -8486,7 +8503,7 @@ void Abe::State_88_HandstoneBegin_430590()
                         pDeathFadeOutMem->ctor_419DB0(Layer::eLayer_40, 0, 0, 8, TPageAbr::eBlend_2);
                     }
                     field_158_pDeathFadeout = pDeathFadeOutMem;
-                    gMap_507BA8.SetActiveCam_444660(camera.level_1, camera.path_2, camera.camera_3, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                    gMap_507BA8.SetActiveCam_444660(camera.level, camera.path, camera.camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
                 }
             }
             break;

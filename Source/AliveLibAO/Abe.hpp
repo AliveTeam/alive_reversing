@@ -371,9 +371,9 @@ struct AbeResources
 
 struct Path_Stone_camera
 {
-    LevelIds level_1;
-    __int16 path_2;
-    __int16 camera_3;
+    LevelIds level;
+    __int16 path;
+    __int16 camera;
 };
 
 struct Path_BellsongStone_data
@@ -390,7 +390,9 @@ ALIVE_ASSERT_SIZEOF(Path_BellsongStone_data, 12);
 struct Path_Handstone_data
 {
     __int16 scale;
-    Path_Stone_camera cameras[3];
+    Path_Stone_camera camera1;
+    Path_Stone_camera camera2;
+    Path_Stone_camera camera3;
 };
 ALIVE_ASSERT_SIZEOF(Path_Handstone_data, 0x14);
 

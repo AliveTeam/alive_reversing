@@ -2646,9 +2646,12 @@ EXPORT void Factory_RingCancel_4818D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
                 }
             }
         }
-        else if (!sActiveHero_507678->field_16C_bHaveShrykull)
+        else
         {
-            sActiveHero_507678->field_168_ring_pulse_timer = 0;
+            if (!sActiveHero_507678->field_16C_bHaveShrykull)
+            {
+                sActiveHero_507678->field_168_ring_pulse_timer = 0;
+            }
         }
         gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
     }
