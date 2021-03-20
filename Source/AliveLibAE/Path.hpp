@@ -142,6 +142,13 @@ struct TlvTypes32
     {
         return mType == type;
     }
+
+    TlvTypes32& operator = (TlvTypes type)
+    {
+        mType = type;
+        padTo32Bits = 0;
+        return *this;
+    }
 };
 static_assert(std::is_pod<TlvTypes32>::value, "TlvTypes32 must be pod");
 ALIVE_ASSERT_SIZEOF(TlvTypes32, 4);

@@ -6,7 +6,6 @@
 #include "Input.hpp"
 #include "Path.hpp"
 
-enum class TlvTypes : short;
 
 #define ABE_STATES_ENUM(ENTRY) \
     ENTRY(State_0_Idle_44EEB0) \
@@ -387,7 +386,7 @@ struct Abe_SaveState
     char field_A4_cam_idx;
     char field_A5_padding;
     __int16 field_A6_padding;
-    TlvTypes hand_stone_type;
+    TlvTypes32 hand_stone_type;
     WORD fmv_id;
     WORD cam_id_1;
     WORD cam_id_2;
@@ -685,7 +684,7 @@ public:
     char field_17D_padding;
     char field_17E_padding;
     char field_17F_padding;
-    TlvTypes field_180_hand_stone_type;
+    TlvTypes32 field_180_hand_stone_type;
     __int16 field_184_fmv_id;
     __int16 field_186_to_camera_id[3];
     __int16 field_18C_unused;
