@@ -314,19 +314,6 @@ jsonxx::Array JsonWriterAO::ReadTlvStream(TypesCollection& globalTypes, BYTE* pt
     {
         while (pPathTLV)
         {
-            if (pPathTLV->field_4_type == AO::TlvTypes::RingCancel_109)
-            {
-                struct Hack_TLV : public AO::Path_TLV
-                {
-                    __int16 whatThis;
-                };
-                auto pHack = reinterpret_cast<Hack_TLV*>(pPathTLV);
-                if (pHack->whatThis != 0)
-                {
-                    abort();
-                }
-            }
-
             auto obj = globalTypes.MakeTlvAO(pPathTLV->field_4_type.mType, pPathTLV);
             if (obj)
             {
