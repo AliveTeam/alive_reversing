@@ -14,9 +14,8 @@ struct Path_BoomMachine : public Path_TLV
     __int16 field_1A_nozzle_side;
     __int16 field_1C_disabled_resources;
     __int16 field_1E_number_of_grenades;
-    __int16 pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_BoomMachine, 0x24);
+ALIVE_ASSERT_SIZEOF(Path_BoomMachine, 0x20);
 
 enum class BoomMachineStates : __int16
 {

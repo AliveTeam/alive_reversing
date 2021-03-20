@@ -210,10 +210,24 @@ namespace AO
     {
         Path_BellsongStone_data mData;
     };
+
+    struct Path_MovieStone : public Path_TLV
+    {
+        Path_Moviestone_data mData;
+    };
 }
 
 namespace AOTlvs
 {
+    struct Path_MovieStone : public TlvObjectBaseAO<AO::Path_MovieStone>
+    {
+        CTOR_AO(Path_MovieStone, "MovieStone", AO::TlvTypes::MovieStone_51)
+        {
+            ADD("fmv_id", mTlv.mData.fmvId);
+            ADD("scale", mTlv.mData.scale);
+        }
+    };
+
     struct Path_BellsongStone : public TlvObjectBaseAO<AO::Path_BellsongStone>
     {
         void AddTypes(TypesCollection& types) override
@@ -829,7 +843,7 @@ namespace AOTlvs
     {
         CTOR_AO(Path_RingCancel, "RingCancel", AO::TlvTypes::RingCancel_109)
         {
-            ADD("shrykull_remove", mTlv.field_18_bShrykull_remove);
+            // No properties
         }
     };
 
@@ -1200,7 +1214,7 @@ namespace AOTlvs
     {
         CTOR_AO(Path_Preloader, "Preloader", AO::TlvTypes::Preloader_102)
         {
-            // No fields
+            ADD("unload_cams_asap", mTlv.unload_cams_ASAP);
         }
     };
 
@@ -1208,7 +1222,7 @@ namespace AOTlvs
     {
         CTOR_AO(Path_Pulley, "Pulley", AO::TlvTypes::Pulley_35)
         {
-            // No fields
+            ADD("scale", mTlv.scale);
         }
     };
 

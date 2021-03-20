@@ -2635,7 +2635,44 @@ EXPORT void Factory_RingCancel_4818D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
 {
     if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
     {
-        if (static_cast<Path_RingCancel*>(pTlv)->field_18_bShrykull_remove)
+        // The field field_18_bShrykull_remove was removed from the Path_RingCancel TLV because it doesnt
+        // actually exist in any path data. The actual value for this field was the 2 bytes after the TLV ended
+        // which is always 0 apart from in the cases below.
+        // However any level saved with the legacy level editor will have this field added which is handled by checking the size.
+        bool bRemovesShrykull = false;
+
+        struct Path_RingCancel_Corrected : public Path_RingCancel
+        {
+            __int16 field_18_bShrykull_remove;
+        };
+
+        if (pTlv->field_2_length == sizeof(Path_RingCancel_Corrected))
+        {
+            bRemovesShrykull = static_cast<Path_RingCancel_Corrected*>(pTlv)->field_18_bShrykull_remove;
+        }
+        else
+        {
+            switch (gMap_507BA8.field_0_current_level)
+            {
+            case LevelIds::eDesert_8: // d1.lvl
+                if (gMap_507BA8.field_2_current_path == 4)
+                {
+                    // original TLV data is -1 part of collision line
+                    bRemovesShrykull = true;
+                }
+                break;
+
+            case LevelIds::eForestTemple_4: // f2.lvl
+                if (gMap_507BA8.field_2_current_path == 6)
+                {
+                    // original TLV data is 4 part of the flags of the next object
+                    bRemovesShrykull = true;
+                }
+                break;
+            }
+        }
+
+        if (bRemovesShrykull)
         {
             if (sActiveHero_507678->field_168_ring_pulse_timer)
             {

@@ -14,9 +14,8 @@ struct Path_LCDScreen : public Path_TLV
     __int16 field_1A_message_rand_min;
     __int16 field_1C_message_rand_max;
     __int16 field_1E_message_2_id_not_used;
-    int field_20_switch_id_not_used;
 };
-ALIVE_ASSERT_SIZEOF(Path_LCDScreen, 0x24);
+ALIVE_ASSERT_SIZEOF(Path_LCDScreen, 0x20);
 
 class LCDScreen : public BaseGameObject
 {
