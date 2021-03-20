@@ -187,11 +187,12 @@ TEST(alive_api, tlv_reflection)
     TypesCollection types(Game::AO);
 
     AO::Path_Hoist tlv = {};
-    std::unique_ptr<TlvObjectBase> pHoist = types.MakeTlvAO(AO::TlvTypes::Hoist_3, &tlv);
+    std::unique_ptr<TlvObjectBase> pHoist = types.MakeTlvAO(AO::TlvTypes::Hoist_3, &tlv, 99);
 
     auto obj = pHoist->InstanceToJson(types);
     pHoist->InstanceFromJson(types, obj);
     pHoist->StructureToJson();
+    ASSERT_EQ(pHoist->InstanceNumber(), 99);
 }
 
 int main(int argc, char* argv[])

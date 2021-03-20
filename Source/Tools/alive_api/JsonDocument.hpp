@@ -6,6 +6,13 @@
 #include "../AliveLibAO/Collisions.hpp"
 #include "../AliveLibAE/Collisions.hpp"
 
+enum class TlvTypes : short;
+
+namespace AO
+{
+    enum class TlvTypes : short;
+}
+
 inline int To1dIndex(int width, int x, int y)
 {
     return x + (y * width);
@@ -130,6 +137,7 @@ protected:
     virtual jsonxx::Array ReadCollisionStream(BYTE* ptr, int numItems) = 0;
     virtual jsonxx::Array ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr) = 0;
     virtual std::unique_ptr<TypesCollection> MakeTypesCollection() const = 0;
+    virtual void ResetTypeCounterMap() = 0;
 protected:
     MapRootInfo mMapRootInfo;
     MapInfo mMapInfo;
@@ -141,9 +149,11 @@ public:
     JsonWriterAO(int pathId, const std::string& pathBndName, const PathInfo& info);
     void DumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<BYTE>& pathResource) override;
 private:
+    void ResetTypeCounterMap() override;
     jsonxx::Array ReadCollisionStream(BYTE* ptr, int numItems) override;
     jsonxx::Array ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr) override;
     std::unique_ptr<TypesCollection> MakeTypesCollection() const override;
+    std::map<AO::TlvTypes, int> mTypeCounterMap;
 };
 
 class JsonWriterAE : public JsonWriterBase
@@ -152,7 +162,10 @@ public:
     JsonWriterAE(int pathId, const std::string& pathBndName, const PathInfo& info);
     void DumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<BYTE>& pathResource) override;
 private:
+    void ResetTypeCounterMap() override;
     jsonxx::Array ReadCollisionStream(BYTE* ptr, int numItems) override;
     jsonxx::Array ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr) override;
     std::unique_ptr<TypesCollection> MakeTypesCollection() const override;
+    std::map<::TlvTypes, int> mTypeCounterMap;
+
 };

@@ -32,9 +32,11 @@ static void DoRegisterType(
 {
     TlvWrapperType tmp(constructingTypes, nullptr);
     const TlvEnumType tlvType = tmp.TlvType();
-    auto fnCreate = [](TypesCollection& types, TlvType* pTlv)
+    auto fnCreate = [](TypesCollection& types, TlvType* pTlv, int instanceCount)
     {
-        return std::make_unique<TlvWrapperType>(types, pTlv);
+        auto ret = std::make_unique<TlvWrapperType>(types, pTlv);
+        ret->SetInstanceNumber(instanceCount);
+        return ret;
     };
     reverseFactory[tmp.Name()] = fnCreate;
     factory[tlvType] = fnCreate;
@@ -136,7 +138,7 @@ void TypesCollection::AddAOTypes()
 
     for (auto& [key, value] : mTlvFactoryAO)
     {
-        value(*this, nullptr)->AddTypes(*this);
+        value(*this, nullptr, 0)->AddTypes(*this);
     }
 
     AddEnum<AO::SwitchOp>("Enum_SwitchOp",
@@ -275,7 +277,7 @@ void TypesCollection::AddAETypes()
 
     for (auto& [key, value] : mTlvFactoryAE)
     {
-        value(*this, nullptr)->AddTypes(*this);
+        value(*this, nullptr, 0)->AddTypes(*this);
     }
 
     AddEnum<Scale_short>("Enum_Scale_short",
@@ -328,58 +330,58 @@ void TypesCollection::AddTlvsToJsonArray(jsonxx::Array& array)
     {
         for (auto& [key, value] : mTlvFactoryAO)
         {
-            array << value(*this, nullptr)->StructureToJson();
+            array << value(*this, nullptr, 0)->StructureToJson();
         }
     }
     else
     {
         for (auto& [key, value] : mTlvFactoryAE)
         {
-            array << value(*this, nullptr)->StructureToJson();
+            array << value(*this, nullptr, 0)->StructureToJson();
         }
     }
 }
 
-std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAE(TlvTypes tlvType, Path_TLV* pTlv)
+template<typename FactoryType, typename PathTlvEnumType, typename PathTlvType>
+static std::unique_ptr<TlvObjectBase> MakeTlv(TypesCollection& typesCollection, FactoryType& factory, PathTlvEnumType tlvType, PathTlvType* pTlv, int instanceCount)
 {
-    auto it = mTlvFactoryAE.find(tlvType);
-    if (it == std::end(mTlvFactoryAE))
+    auto it = factory.find(tlvType);
+    if (it == std::end(factory))
     {
         LOG_WARNING("Type " << magic_enum::enum_name(tlvType) << " unknown");
         return nullptr;
     }
-    return it->second(*this, pTlv);
+    return it->second(typesCollection, pTlv, instanceCount);
+}
+
+std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAE(TlvTypes tlvType, Path_TLV* pTlv, int instanceCount)
+{
+    return MakeTlv(*this, mTlvFactoryAE, tlvType, pTlv, instanceCount);
+}
+
+std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAO(AO::TlvTypes tlvType, AO::Path_TLV* pTlv, int instanceCount)
+{
+    return MakeTlv(*this, mTlvFactoryAO, tlvType, pTlv, instanceCount);
+}
+
+template<typename FactoryType, typename PathTlvType>
+static std::unique_ptr<TlvObjectBase> MakeTlv(TypesCollection& typesCollection, const std::string& tlvTypeName, FactoryType& factory, PathTlvType* pTlv)
+{
+    auto it = factory.find(tlvTypeName);
+    if (it == std::end(factory))
+    {
+        LOG_WARNING("Type " << tlvTypeName << " unknown");
+        return nullptr;
+    }
+    return it->second(typesCollection, pTlv, 0);
 }
 
 std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAE(const std::string& tlvTypeName, Path_TLV* pTlv)
 {
-    auto it = mReverseTlvFactoryAE.find(tlvTypeName);
-    if (it == std::end(mReverseTlvFactoryAE))
-    {
-        LOG_WARNING("Type " << tlvTypeName << " unknown");
-        return nullptr;
-    }
-    return it->second(*this, pTlv);
-}
-
-std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAO(AO::TlvTypes tlvType, AO::Path_TLV* pTlv)
-{
-    auto it = mTlvFactoryAO.find(tlvType);
-    if (it == std::end(mTlvFactoryAO))
-    {
-        LOG_WARNING("Type " << magic_enum::enum_name(tlvType) << " unknown");
-        return nullptr;
-    }
-    return it->second(*this, pTlv);
+    return MakeTlv(*this, tlvTypeName, mReverseTlvFactoryAE, pTlv);
 }
 
 std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAO(const std::string& tlvTypeName, AO::Path_TLV* pTlv)
 {
-    auto it = mReverseTlvFactoryAO.find(tlvTypeName);
-    if (it == std::end(mReverseTlvFactoryAO))
-    {
-        LOG_WARNING("Type " << tlvTypeName << " unknown");
-        return nullptr;
-    }
-    return it->second(*this, pTlv);
+    return MakeTlv(*this, tlvTypeName, mReverseTlvFactoryAO, pTlv);
 }

@@ -310,11 +310,14 @@ jsonxx::Array JsonWriterAO::ReadTlvStream(TypesCollection& globalTypes, BYTE* pt
 
     AO::Path_TLV* pPathTLV = reinterpret_cast<AO::Path_TLV*>(ptr);
     pPathTLV->RangeCheck();
+
     if (static_cast<int>(pPathTLV->field_4_type.mType) <= 0x100000 && pPathTLV->field_2_length <= 0x2000u && pPathTLV->field_8 <= 0x1000000)
     {
         while (pPathTLV)
         {
-            auto obj = globalTypes.MakeTlvAO(pPathTLV->field_4_type.mType, pPathTLV);
+            mTypeCounterMap[pPathTLV->field_4_type.mType]++;
+
+            auto obj = globalTypes.MakeTlvAO(pPathTLV->field_4_type.mType, pPathTLV, mTypeCounterMap[pPathTLV->field_4_type.mType]);
             if (obj)
             {
                 if (pPathTLV->field_2_length != obj->TlvLen())
@@ -350,6 +353,11 @@ std::unique_ptr<TypesCollection> JsonWriterAO::MakeTypesCollection() const
     return std::make_unique<TypesCollection>(Game::AO);
 }
 
+void JsonWriterAO::ResetTypeCounterMap()
+{
+    mTypeCounterMap.clear();
+}
+
 jsonxx::Array JsonWriterAO::ReadCollisionStream(BYTE* ptr, int numItems)
 {
     jsonxx::Array collisionsArray;
@@ -377,6 +385,8 @@ JsonWriterBase::JsonWriterBase(int pathId, const std::string& pathBndName, const
 
 void JsonWriterBase::Save(const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName)
 {
+    ResetTypeCounterMap();
+
     jsonxx::Object rootObject;
 
     rootObject << "api_version" << mMapRootInfo.mVersion;
@@ -469,6 +479,11 @@ JsonWriterAE::JsonWriterAE(int pathId, const std::string& pathBndName, const Pat
     mMapRootInfo.mGame = "AE";
 }
 
+void JsonWriterAE::ResetTypeCounterMap()
+{
+    mTypeCounterMap.clear();
+}
+
 jsonxx::Array JsonWriterAE::ReadCollisionStream(BYTE* ptr, int numItems)
 {
     jsonxx::Array collisionsArray;
@@ -487,7 +502,8 @@ jsonxx::Array JsonWriterAE::ReadTlvStream(TypesCollection& globalTypes, BYTE* pt
     Path_TLV* pPathTLV = reinterpret_cast<Path_TLV*>(ptr);
     while (pPathTLV)
     {
-        auto obj = globalTypes.MakeTlvAE(pPathTLV->field_4_type.mType, pPathTLV);
+        mTypeCounterMap[pPathTLV->field_4_type.mType]++;
+        auto obj = globalTypes.MakeTlvAE(pPathTLV->field_4_type.mType, pPathTLV, mTypeCounterMap[pPathTLV->field_4_type.mType]);
         if (obj)
         {
             if (pPathTLV->field_2_length != obj->TlvLen())
