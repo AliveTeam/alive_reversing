@@ -475,7 +475,7 @@ void BaseAliveGameObject::VOnPathTransition_401470(__int16 camWorldX, int camWor
     gMap_507BA8.GetCurrentCamCoords_444890(&camLoc);
 
     field_A8_xpos = FP_FromInteger((field_F0_pTlv->field_14_bottom_right.field_0_x + field_F0_pTlv->field_10_top_left.field_0_x) / 2);
-    field_AC_ypos = FP_FromInteger(field_F0_pTlv->field_C_sound_pos.field_2_y);
+    field_AC_ypos = FP_FromInteger(field_F0_pTlv->field_10_top_left.field_2_y);
 
     field_A8_xpos = FP_FromInteger(camLoc.field_0_x + SnapToXGrid_41FAA0(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos - FP_FromInteger(camLoc.field_0_x))));
 

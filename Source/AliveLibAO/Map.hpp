@@ -85,8 +85,8 @@ struct Path_TLV
     char field_1_unknown;
     __int16 field_2_length;
     TlvTypes32 field_4_type;
-    int field_8;
-    PSX_Point field_C_sound_pos;
+    int field_8; // only ever used as some sort of hacky memory overwrite check, always 0 in the Path data
+    PSX_Point field_C_sound_pos; // a completely pointless copy of field_10_top_left, the data is always the same in all released Paths
     PSX_Point field_10_top_left;
     PSX_Point field_14_bottom_right;
 

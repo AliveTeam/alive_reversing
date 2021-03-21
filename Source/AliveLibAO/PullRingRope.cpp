@@ -44,8 +44,8 @@ PullRingRope* PullRingRope::ctor_4546B0(Path_PullRingRope* pTlv, int tlvInfo)
     field_EC_state = States::eIdle_0;
     field_E4_stay_in_state_ticks = 0;
 
-    field_AC_ypos += FP_FromInteger(pTlv->field_1C_rope_length + pTlv->field_C_sound_pos.field_2_y + 24);
-    field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x + 12);
+    field_AC_ypos += FP_FromInteger(pTlv->field_1C_rope_length + pTlv->field_10_top_left.field_2_y + 24);
+    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
 
     if (pTlv->field_1E_scale == 1)
     {

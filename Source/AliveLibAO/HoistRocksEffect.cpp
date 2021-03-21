@@ -138,8 +138,8 @@ HoistRocksEffect* HoistRocksEffect::ctor_431820(Path_Hoist* pTlv, int tlvInfo)
     ctor_487E10(1);
     SetVTable(this, 0x4BB270);
     field_18_tlvInfo = tlvInfo;
-    field_10_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x + 12);
-    field_14_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
+    field_10_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
+    field_14_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
     return this;
 }
 

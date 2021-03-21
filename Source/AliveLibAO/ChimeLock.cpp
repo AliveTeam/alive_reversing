@@ -49,8 +49,8 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo)
     {
         field_114_left_bell->ctor_40A650(
             BellSize::eBig_0,
-            FP_FromInteger(pTlv->field_C_sound_pos.field_0_x),
-            FP_FromInteger(pTlv->field_C_sound_pos.field_2_y),
+            FP_FromInteger(pTlv->field_10_top_left.field_0_x),
+            FP_FromInteger(pTlv->field_10_top_left.field_2_y),
             scale);
         field_114_left_bell->field_C_refCount++;
     }
@@ -60,8 +60,8 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo)
     {
         field_118_center_bell->ctor_40A650(
             BellSize::eMedium_1,
-            FP_FromInteger(pTlv->field_C_sound_pos.field_0_x),
-            FP_FromInteger(pTlv->field_C_sound_pos.field_2_y),
+            FP_FromInteger(pTlv->field_10_top_left.field_0_x),
+            FP_FromInteger(pTlv->field_10_top_left.field_2_y),
             scale);
         field_118_center_bell->field_C_refCount++;
     }
@@ -71,8 +71,8 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo)
     {
         field_11C_right_bell->ctor_40A650(
             BellSize::eSmall_2,
-            FP_FromInteger(pTlv->field_C_sound_pos.field_0_x),
-            FP_FromInteger(pTlv->field_C_sound_pos.field_2_y),
+            FP_FromInteger(pTlv->field_10_top_left.field_0_x),
+            FP_FromInteger(pTlv->field_10_top_left.field_2_y),
             scale);
         field_11C_right_bell->field_C_refCount++;
     }
@@ -103,13 +103,13 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo)
 
     field_15E_ball_angle = 0;
 
-    field_140_targetY = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y + 40);
-    field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y + 40);
+    field_140_targetY = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 40);
+    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 40);
    
     field_B8_vely = FP_FromInteger(0);
 
-    field_13C_targetX = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
-    field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
+    field_13C_targetX = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     field_14C_increase_vely_by = FP_FromInteger(1);
 
     field_130_song_matching = 0;

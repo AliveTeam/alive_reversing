@@ -26,8 +26,8 @@ BeeNest* BeeNest::ctor_480E20(Path_BeeNest* pTlv, int tlvInfo)
 
     field_28_switch_id = pTlv->field_18_id;
 
-    field_10_bee_x = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
-    field_14_bee_y = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
+    field_10_bee_x = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    field_14_bee_y = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     field_2C_chase_ticks = pTlv->field_1C_chase_time;
 

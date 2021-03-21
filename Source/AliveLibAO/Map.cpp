@@ -1017,11 +1017,11 @@ void Map::Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos direction, __int16
             // Enumerate the TLVs
             for (;;)
             {
-                if (pTlv->field_C_sound_pos.field_0_x >= cam_global_left &&
-                    pTlv->field_C_sound_pos.field_0_x <= cam_global_right)
+                if (pTlv->field_10_top_left.field_0_x >= cam_global_left &&
+                    pTlv->field_10_top_left.field_0_x <= cam_global_right)
                 {
-                    if (pTlv->field_C_sound_pos.field_2_y >= cam_y_grid_top &&
-                        pTlv->field_C_sound_pos.field_2_y <= cam_y_grid_bottom &&
+                    if (pTlv->field_10_top_left.field_2_y >= cam_y_grid_top &&
+                        pTlv->field_10_top_left.field_2_y <= cam_y_grid_bottom &&
                         (!pTlv->field_0_flags.Get(eBit1_Created) && !pTlv->field_0_flags.Get(eBit2_Unknown)))
                     {
                         Start_Sounds_for_TLV_476640(direction, pTlv);

@@ -301,8 +301,8 @@ public:
         mBase->field_14_bottom_right.field_0_x = obj.get<jsonxx::Number>("width");
         mBase->field_14_bottom_right.field_2_y = obj.get<jsonxx::Number>("height");
 
-        mBase->field_C_sound_pos.field_0_x = obj.get<jsonxx::Number>("xpos2");
-        mBase->field_C_sound_pos.field_2_y = obj.get<jsonxx::Number>("ypos2");
+        mBase->field_C_sound_pos.field_0_x = mBase->field_10_top_left.field_0_x;
+        mBase->field_C_sound_pos.field_2_y = mBase->field_10_top_left.field_2_y;
     }
 
     void InstanceToJsonBase(jsonxx::Object& ret) override
@@ -314,8 +314,16 @@ public:
         ret << "width" << static_cast<int>(mBase->field_14_bottom_right.field_0_x);
         ret << "height" << static_cast<int>(mBase->field_14_bottom_right.field_2_y);
 
-        ret << "xpos2" << static_cast<int>(mBase->field_C_sound_pos.field_0_x);
-        ret << "ypos2" << static_cast<int>(mBase->field_C_sound_pos.field_2_y);
+        // It appears these are the same for all OG levels so its a total waste of time and space
+        if (mBase->field_C_sound_pos.field_0_x != mBase->field_10_top_left.field_0_x)
+        {
+            abort();
+        }
+
+        if (mBase->field_C_sound_pos.field_2_y != mBase->field_10_top_left.field_2_y)
+        {
+            abort();
+        }
 
         ret << "object_structures_type" << Name();
     }

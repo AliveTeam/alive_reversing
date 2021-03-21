@@ -122,8 +122,8 @@ Slog* Slog::ctor_472EE0(Path_Slog* pTlv, int tlvInfo)
 
     field_148 = -1;
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
-    field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
+    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     if (pTlv->field_18_scale == 0)
     {

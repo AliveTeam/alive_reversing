@@ -217,8 +217,8 @@ BoomMachine* BoomMachine::ctor_41E420(Path_BoomMachine* pTlv, int tlvInfo)
         field_BC_sprite_scale = FP_FromInteger(1);
     }
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x) + (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
-    field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
+    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x) + (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
+    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     auto pNozzle = ao_new<GrenadeMachineNozzle>();
     if (pNozzle)

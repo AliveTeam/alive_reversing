@@ -226,7 +226,7 @@ Switch* Switch::ctor_481110(Path_Switch* pTlv, int tlvInfo)
         / 2);
 
     field_E4_switchId = pTlv->field_18_trigger_object;
-    field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
+    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
     field_F2_operation = pTlv->field_1A_trigger_object_action;
 
     if (pTlv->field_1C_scale == 1)

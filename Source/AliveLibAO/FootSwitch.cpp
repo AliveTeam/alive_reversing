@@ -32,8 +32,8 @@ FootSwitch* FootSwitch::ctor_4887F0(Path_FootSwitch* pTlv, int tlvInfo)
     field_EC_action = pTlv->field_1C_action;
     field_EE_trigger_by = pTlv->field_1E_trigger_by;
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x + 12);
-    field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
+    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
+    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     SwitchStates_Set(field_EA_id, 0);
 

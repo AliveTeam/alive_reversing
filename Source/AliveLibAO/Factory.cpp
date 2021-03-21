@@ -350,8 +350,8 @@ EXPORT void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion
                 {
                     if (pTlvIter->field_4_type == TlvTypes::LiftPoint_8)
                     {
-                        const auto tlv_x = pTlv->field_C_sound_pos.field_0_x;
-                        const auto absX = pTlvIter->field_C_sound_pos.field_0_x - tlv_x >= 0 ? pTlvIter->field_C_sound_pos.field_0_x - tlv_x : tlv_x - pTlvIter->field_C_sound_pos.field_0_x;
+                        const auto tlv_x = pTlv->field_10_top_left.field_0_x;
+                        const auto absX = pTlvIter->field_10_top_left.field_0_x - tlv_x >= 0 ? pTlvIter->field_10_top_left.field_0_x - tlv_x : tlv_x - pTlvIter->field_10_top_left.field_0_x;
                         if (absX < 5)
                         {
                             if (pTlvIter->field_1_unknown & 2 ||
@@ -685,8 +685,8 @@ EXPORT void Factory_Honey_4844A0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion
         {
             const auto midPoint = (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2;
             pHoney->ctor_431E30(
-                FP_FromInteger(midPoint + pTlv->field_C_sound_pos.field_0_x),
-                FP_FromInteger(pTlv->field_C_sound_pos.field_2_y + 24));
+                FP_FromInteger(midPoint + pTlv->field_10_top_left.field_0_x),
+                FP_FromInteger(pTlv->field_10_top_left.field_2_y + 24));
 
             pHoney->field_E4_tlvInfo = tlvOffsetLevelIdPathId.all;
         }
@@ -1146,8 +1146,8 @@ EXPORT void Factory_AbeStart_486050(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUn
             if (sActiveHero_507678)
             {
                 sActiveHero_507678->ctor_420770(55888, 85, 57, 55);
-                sActiveHero_507678->field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x + 12);
-                sActiveHero_507678->field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
+                sActiveHero_507678->field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
+                sActiveHero_507678->field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
             }
         }
     }
@@ -1849,8 +1849,8 @@ EXPORT void Factory_ElumStart_Unknown_4873D0(Path_TLV* pTlv, Map* /*pMap*/, TlvI
     else
     {
         Elum::Spawn_410E90(tlvOffsetLevelIdPathId);
-        gElum_507680->field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
-        gElum_507680->field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
+        gElum_507680->field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+        gElum_507680->field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
     }
 }
 

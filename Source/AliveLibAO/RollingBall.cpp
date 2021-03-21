@@ -104,8 +104,8 @@ RollingBall* RollingBall::ctor_4578C0(Path_RollingBall* pTlv, int tlvInfo)
 
     field_11C_acceleration = FP_FromRaw(pTlv->field_20_acceleration << 8);
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
-    field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
+    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     FP castX = {};
     FP castY = {};

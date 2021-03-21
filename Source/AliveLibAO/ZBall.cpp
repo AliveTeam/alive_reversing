@@ -72,8 +72,8 @@ ZBall* ZBall::ctor_478590(Path_ZBall* pTlv, int tlvInfo)
         break;
     }
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
-    field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
+    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     if (gMap_507BA8.field_0_current_level == LevelIds::eForestTemple_4)
     {
