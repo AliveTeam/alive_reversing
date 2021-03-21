@@ -69,7 +69,7 @@
 #include "../AliveLibAE/Meat.hpp"
 #include "../AliveLibAE/TorturedMudokon.hpp"
 
-#define CTOR_AE(className, objectTypeName, tlvType)  className(TypesCollection& globalTypes, Path_TLV* pTlv = nullptr) : TlvObjectBaseAE(tlvType, objectTypeName, pTlv)
+#define CTOR_AE(className, objectTypeName, tlvType) className() : TlvObjectBaseAE(tlvType, objectTypeName) {}  className(TypesCollection& globalTypes, Path_TLV* pTlv = nullptr) : TlvObjectBaseAE(tlvType, objectTypeName, pTlv)
 
 struct Path_Null_63 : public Path_TLV
 {
@@ -106,7 +106,7 @@ struct Path_SligGetWings : public Path_TLV
 struct Path_SligGetPants : public Path_TLV
 {
     // TODO: check
-    __int16 unknown1;
+    Scale_short scale;
     __int16 unknown2;
     __int16 unknown3;
     __int16 unknown4;
@@ -1569,7 +1569,7 @@ namespace AETlvs
     {
         CTOR_AE(Path_SligGetPants, "SligGetPants", TlvTypes::SligGetPants_104)
         {
-            ADD("unknown1", mTlv.unknown1);
+            ADD("scale", mTlv.scale);
             ADD("unknown2", mTlv.unknown2);
             ADD("unknown3", mTlv.unknown3);
             ADD("unknown4", mTlv.unknown4);
