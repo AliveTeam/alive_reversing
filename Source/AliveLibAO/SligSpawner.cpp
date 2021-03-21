@@ -54,10 +54,10 @@ EXPORT void SligSpawner::VUpdate_4028A0()
     if (SwitchStates_Get(field_14_slig_id))
     {
         auto pTlv = static_cast<Path_Slig*>(gMap_507BA8.TLV_Get_At_446260(
-            field_18_tlv.field_C_sound_pos.field_0_x,
-            field_18_tlv.field_C_sound_pos.field_2_y,
-            field_18_tlv.field_C_sound_pos.field_0_x,
-            field_18_tlv.field_C_sound_pos.field_2_y,
+            field_18_tlv.field_10_top_left.field_0_x,
+            field_18_tlv.field_10_top_left.field_2_y,
+            field_18_tlv.field_10_top_left.field_0_x,
+            field_18_tlv.field_10_top_left.field_2_y,
             TlvTypes::SligSpawner_66));
 
         if (pTlv)

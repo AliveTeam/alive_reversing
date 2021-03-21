@@ -85,8 +85,8 @@ FallingItem* FallingItem::ctor_419F30(Path_FallingItem* pTlv, int tlvInfo)
     field_120_reset_id = pTlv->field_20_reset_id;
     field_122_do_sound_in_state_falling = 1;
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
-    field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
+    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     field_128_xpos = FP_FromInteger((pTlv->field_14_bottom_right.field_0_x + pTlv->field_10_top_left.field_0_x) / 2);
     field_12C_ypos = FP_FromInteger(pTlv->field_14_bottom_right.field_2_y);

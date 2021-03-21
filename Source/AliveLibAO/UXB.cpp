@@ -110,8 +110,8 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, int tlvInfo)
         }
     }
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x + 12);
-    field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y + 24);
+    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
+    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 24);
 
     field_114_tlvInfo = tlvInfo;
     field_118_next_state_frame = gnFrameCount_507670;

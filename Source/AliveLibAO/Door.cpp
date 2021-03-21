@@ -133,9 +133,9 @@ Door* Door::ctor_40E010(Path_Door* pTlv, int tlvInfo)
             }
 
             if (sCollisions_DArray_504C6C->RayCast_40C410(
-                FP_FromInteger(pTlv->field_C_sound_pos.field_0_x + (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
+                FP_FromInteger(pTlv->field_10_top_left.field_0_x + (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
                 FP_FromInteger(pTlv->field_10_top_left.field_2_y),
-                FP_FromInteger(pTlv->field_C_sound_pos.field_0_x + (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
+                FP_FromInteger(pTlv->field_10_top_left.field_0_x + (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
                 FP_FromInteger(pTlv->field_14_bottom_right.field_2_y),
                 &pLine,
                 &field_A8_xpos,
@@ -149,8 +149,8 @@ Door* Door::ctor_40E010(Path_Door* pTlv, int tlvInfo)
             }
             else
             {
-                field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x + 12);
-                field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y + 24);
+                field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
+                field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 24);
             }
             break;
         }
@@ -198,9 +198,9 @@ Door* Door::ctor_40E010(Path_Door* pTlv, int tlvInfo)
         }
 
         if (sCollisions_DArray_504C6C->RayCast_40C410(
-            FP_FromInteger(pTlv->field_C_sound_pos.field_0_x) + FP_FromInteger((pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
+            FP_FromInteger(pTlv->field_10_top_left.field_0_x) + FP_FromInteger((pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
             FP_FromInteger(pTlv->field_10_top_left.field_2_y),
-            FP_FromInteger(pTlv->field_C_sound_pos.field_0_x) + FP_FromInteger((pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
+            FP_FromInteger(pTlv->field_10_top_left.field_0_x) + FP_FromInteger((pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
             FP_FromInteger(pTlv->field_14_bottom_right.field_2_y),
             &pLine,
             &field_A8_xpos,
@@ -213,8 +213,8 @@ Door* Door::ctor_40E010(Path_Door* pTlv, int tlvInfo)
         }
         else
         {
-            field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
-            field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
+            field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+            field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
         }
         field_BC_sprite_scale = FP_FromInteger(1);
         break;
@@ -259,9 +259,9 @@ Door* Door::ctor_40E010(Path_Door* pTlv, int tlvInfo)
                     gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1)
                 {
                     if (sCollisions_DArray_504C6C->RayCast_40C410(
-                        FP_FromInteger(pTlv->field_C_sound_pos.field_0_x + (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
+                        FP_FromInteger(pTlv->field_10_top_left.field_0_x + (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
                         FP_FromInteger(pTlv->field_10_top_left.field_2_y),
-                        FP_FromInteger(pTlv->field_C_sound_pos.field_0_x + (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
+                        FP_FromInteger(pTlv->field_10_top_left.field_0_x + (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
                         FP_FromInteger(pTlv->field_14_bottom_right.field_2_y),
                         &pLine,
                         &field_A8_xpos,
@@ -274,14 +274,14 @@ Door* Door::ctor_40E010(Path_Door* pTlv, int tlvInfo)
                     }
                     else
                     {
-                        field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x + 12);
-                        field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y + 24);
+                        field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
+                        field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 24);
                     }
                 }
                 else
                 {
-                    field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x + 9);
-                    field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y + 20);
+                    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 9);
+                    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 20);
                 }
 
                 field_BC_sprite_scale = FP_FromInteger(1);

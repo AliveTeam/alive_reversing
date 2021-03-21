@@ -79,8 +79,8 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, int tlvInfo)
         field_C6_scale = 1;
     }
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x + 8);
-    field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
+    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 8);
+    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     field_F6_min_time_off1 = pTlv->field_1A_min_time_off1;
     field_F8_field_1C_max_time_off1 = pTlv->field_1C_max_time_off1;

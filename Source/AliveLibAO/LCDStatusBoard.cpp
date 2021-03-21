@@ -100,8 +100,8 @@ LCDStatusBoard* LCDStatusBoard::ctor_4418E0(Path_LCDStatusBoard* pTlv, int tlvIn
     field_6_flags.Set(Options::eDrawable_Bit4);
     gObjList_drawables_504618->Push_Back(this);
 
-    field_CC_xpos = (pScreenManager_4FF7C8->field_14_xpos + pTlv->field_C_sound_pos.field_0_x) - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
-    field_CE_ypos = (pScreenManager_4FF7C8->field_16_ypos + pTlv->field_C_sound_pos.field_2_y) - FP_GetExponent
+    field_CC_xpos = (pScreenManager_4FF7C8->field_14_xpos + pTlv->field_10_top_left.field_0_x) - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
+    field_CE_ypos = (pScreenManager_4FF7C8->field_16_ypos + pTlv->field_10_top_left.field_2_y) - FP_GetExponent
         (pScreenManager_4FF7C8->field_10_pCamPos->field_4_y);
     return this;
 }

@@ -31,39 +31,39 @@ BackgroundAnimation* BackgroundAnimation::ctor_405A90(Path_BackgroundAnimation* 
     auto pHeader = reinterpret_cast<AnimHeader*>(*field_E4_res);
 
     // TODO: Refactor to use min/max
-    auto xMax = pTlv->field_C_sound_pos.field_0_x + pHeader->field_0_max_w;
-    if (pTlv->field_C_sound_pos.field_0_x <= pTlv->field_C_sound_pos.field_0_x + pHeader->field_0_max_w)
+    auto xMax = pTlv->field_10_top_left.field_0_x + pHeader->field_0_max_w;
+    if (pTlv->field_10_top_left.field_0_x <= pTlv->field_10_top_left.field_0_x + pHeader->field_0_max_w)
     {
-        xMax = pTlv->field_C_sound_pos.field_0_x;
+        xMax = pTlv->field_10_top_left.field_0_x;
     }
     field_E8_xpos = static_cast<short>(xMax);
 
-    auto wMax = pTlv->field_C_sound_pos.field_0_x + pHeader->field_0_max_w;
-    if (wMax <= pTlv->field_C_sound_pos.field_0_x)
+    auto wMax = pTlv->field_10_top_left.field_0_x + pHeader->field_0_max_w;
+    if (wMax <= pTlv->field_10_top_left.field_0_x)
     {
-        wMax = pTlv->field_C_sound_pos.field_0_x;
+        wMax = pTlv->field_10_top_left.field_0_x;
     }
     field_EC_w = static_cast<short>(wMax);
 
-    auto yMax = pTlv->field_C_sound_pos.field_2_y + pHeader->field_2_max_h;
-    if (pTlv->field_C_sound_pos.field_2_y <= yMax)
+    auto yMax = pTlv->field_10_top_left.field_2_y + pHeader->field_2_max_h;
+    if (pTlv->field_10_top_left.field_2_y <= yMax)
     {
-        yMax = pTlv->field_C_sound_pos.field_2_y;
+        yMax = pTlv->field_10_top_left.field_2_y;
     }
     field_EA_ypos = static_cast<short>(yMax);
 
-    auto hMax = pTlv->field_C_sound_pos.field_2_y + pHeader->field_2_max_h;
-    if (pTlv->field_C_sound_pos.field_2_y + pHeader->field_2_max_h <= pTlv->field_C_sound_pos.field_2_y)
+    auto hMax = pTlv->field_10_top_left.field_2_y + pHeader->field_2_max_h;
+    if (pTlv->field_10_top_left.field_2_y + pHeader->field_2_max_h <= pTlv->field_10_top_left.field_2_y)
     {
-        hMax = pTlv->field_C_sound_pos.field_2_y;
+        hMax = pTlv->field_10_top_left.field_2_y;
     }
     field_EE_h = static_cast<short>(hMax);
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
-    field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
+    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
-    field_F8_animXPos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
-    field_FC_animYPos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
+    field_F8_animXPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    field_FC_animYPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     Animation_Init_417FD0(
         pHeader->field_4_frame_table_offset,

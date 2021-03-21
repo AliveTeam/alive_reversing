@@ -41,8 +41,8 @@ Mine* Mine::ctor_43A330(Path_Mine* pTlv, int tlvInfo)
         field_C6_scale = 1;
     }
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x + 12);
-    field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y + 24);
+    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
+    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 24);
     field_110_tlv = tlvInfo;
     field_114_gnframe = gnFrameCount_507670;
 

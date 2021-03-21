@@ -35,8 +35,8 @@ EXPORT RollingBallStopper* RollingBallStopper::ctor_43BCE0(Path_RollingBallStopp
         field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
     }
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
-    field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
+    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     field_B4_velx = field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(22) : FP_FromInteger(-22);
     field_B8_vely = FP_FromInteger(0);

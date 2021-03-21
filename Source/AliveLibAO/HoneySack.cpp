@@ -79,8 +79,8 @@ HoneySack* HoneySack::ctor_42BD10(Path_HoneySack* pTlv, int tlvInfo)
         Path_TLV* pHoneyDripTarget = gMap_507BA8.TLV_First_Of_Type_In_Camera_4464A0(TlvTypes::HoneyDripTarget_42, 0);
         if (pHoneyDripTarget)
         {
-            field_F4_drip_target_x = FP_FromInteger(pHoneyDripTarget->field_C_sound_pos.field_0_x);
-            field_F8_drip_target_y = FP_FromInteger(pHoneyDripTarget->field_C_sound_pos.field_2_y);
+            field_F4_drip_target_x = FP_FromInteger(pHoneyDripTarget->field_10_top_left.field_0_x);
+            field_F8_drip_target_y = FP_FromInteger(pHoneyDripTarget->field_10_top_left.field_2_y);
         }
     }
     return this;

@@ -38,8 +38,8 @@ MeatSack* MeatSack::ctor_4390F0(Path_MeatSack* pTlv, int tlvInfo)
 
     field_110 = 0;
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
-    field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
+    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     field_118_velX = FP_FromRaw(pTlv->field_1A_x_vel << 8);
 

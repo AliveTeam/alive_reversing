@@ -764,13 +764,13 @@ void LiftPoint::CreatePulleyIfExists_435AE0(short camX, short camY)
     {
         while (1)
         {
-            field_26E_pulley_ypos = pTlv->field_C_sound_pos.field_2_y;
-            field_26C_pulley_xpos = pTlv->field_C_sound_pos.field_0_x;
+            field_26E_pulley_ypos = pTlv->field_10_top_left.field_2_y;
+            field_26C_pulley_xpos = pTlv->field_10_top_left.field_0_x;
 
             if (pTlv->field_4_type == TlvTypes::Pulley_35)
             {
-                if (field_120_pCollisionLine->field_0_rect.x <= pTlv->field_C_sound_pos.field_0_x &&
-                    pTlv->field_C_sound_pos.field_0_x <= field_120_pCollisionLine->field_0_rect.w)
+                if (field_120_pCollisionLine->field_0_rect.x <= pTlv->field_10_top_left.field_0_x &&
+                    pTlv->field_10_top_left.field_0_x <= field_120_pCollisionLine->field_0_rect.w)
                 {
                     break;
                 }

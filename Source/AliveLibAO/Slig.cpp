@@ -340,8 +340,8 @@ Slig* Slig::ctor_464D40(Path_Slig* pTlv, int tlvInfo)
 
     field_F0_pTlv = pTlv;
     field_174_tlv = *pTlv;
-    field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
-    field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
+    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
     field_134_tlvInfo = tlvInfo;
     field_254_prevent_depossession &= ~7u;
     field_126_input = 0;
@@ -440,10 +440,10 @@ BaseGameObject* Slig::dtor_465320()
     }
 
     auto pTlv = gMap_507BA8.TLV_Get_At_446260(
-        field_174_tlv.field_C_sound_pos.field_0_x,
-        field_174_tlv.field_C_sound_pos.field_2_y,
-        field_174_tlv.field_C_sound_pos.field_0_x,
-        field_174_tlv.field_C_sound_pos.field_2_y,
+        field_174_tlv.field_10_top_left.field_0_x,
+        field_174_tlv.field_10_top_left.field_2_y,
+        field_174_tlv.field_10_top_left.field_0_x,
+        field_174_tlv.field_10_top_left.field_2_y,
         field_174_tlv.field_4_type.mType);
 
     if (field_100_health <= FP_FromInteger(0))
@@ -636,7 +636,7 @@ void Slig::Init_46B890()
                 {
                     if (static_cast<Path_SligLeftBound*>(pTlvIter)->field_18_slig_id == field_174_tlv.field_40_slig_id)
                     {
-                        field_13C_zone_rect.x = pTlvIter->field_C_sound_pos.field_0_x;
+                        field_13C_zone_rect.x = pTlvIter->field_10_top_left.field_0_x;
                         addPoint = true;
                         zoneRectSet = true;
                     }
@@ -645,7 +645,7 @@ void Slig::Init_46B890()
                 {
                     if (static_cast<Path_SligRightBound*>(pTlvIter)->field_18_slig_id == field_174_tlv.field_40_slig_id)
                     {
-                        field_13C_zone_rect.w = pTlvIter->field_C_sound_pos.field_0_x;
+                        field_13C_zone_rect.w = pTlvIter->field_10_top_left.field_0_x;
                         addPoint = true;
                         zoneRectSet = true;
                     }
@@ -662,8 +662,8 @@ void Slig::Init_46B890()
                 {
                     if (field_1F4_points_count < ALIVE_COUNTOF(field_1CC_points))
                     {
-                        field_1CC_points[field_1F4_points_count].field_0_x = pTlvIter->field_C_sound_pos.field_0_x;
-                        field_1CC_points[field_1F4_points_count].field_2_y = pTlvIter->field_C_sound_pos.field_2_y;
+                        field_1CC_points[field_1F4_points_count].field_0_x = pTlvIter->field_10_top_left.field_0_x;
+                        field_1CC_points[field_1F4_points_count].field_2_y = pTlvIter->field_10_top_left.field_2_y;
                         field_1F4_points_count++;
                     }
                 }
@@ -4434,10 +4434,10 @@ void Slig::WakeUp()
     SetBrain(&Slig::Brain_WakingUp_46B700);
     MusicController::PlayMusic_443810(MusicController::MusicTypes::eChase_4, this, 0, 0);
     auto pTlv = static_cast<Path_Slig*>(gMap_507BA8.TLV_Get_At_446260(
-        field_174_tlv.field_C_sound_pos.field_0_x,
-        field_174_tlv.field_C_sound_pos.field_2_y,
-        field_174_tlv.field_C_sound_pos.field_0_x,
-        field_174_tlv.field_C_sound_pos.field_2_y,
+        field_174_tlv.field_10_top_left.field_0_x,
+        field_174_tlv.field_10_top_left.field_2_y,
+        field_174_tlv.field_10_top_left.field_0_x,
+        field_174_tlv.field_10_top_left.field_2_y,
         TlvTypes::Slig_24
         ));
     if (pTlv)

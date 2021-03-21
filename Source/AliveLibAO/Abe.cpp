@@ -9978,7 +9978,7 @@ void Abe::State_156_DoorEnter_42D370()
             }
             field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pPathDoor->field_46_abe_direction);
             field_A8_xpos = FP_FromInteger((field_F0_pTlv->field_14_bottom_right.field_0_x - field_F0_pTlv->field_10_top_left.field_0_x) / 2)
-                + FP_FromInteger(field_F0_pTlv->field_C_sound_pos.field_0_x);
+                + FP_FromInteger(field_F0_pTlv->field_10_top_left.field_0_x);
             MapFollowMe_401D30(TRUE);
 
             FP hitX = {};

@@ -157,8 +157,8 @@ Scrab* Scrab::ctor_45B5F0(Path_Scrab* pTlv, int tlvInfo)
 
     field_140_last_shriek_timer = 0;
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x + 12);
-    field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
+    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
+    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     if (pTlv->field_18_scale == 1)
     {

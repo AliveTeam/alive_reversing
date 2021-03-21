@@ -264,8 +264,8 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
             auto dir = gMap_507BA8.GetDirection_444A40(
                 static_cast<int>(gMap_507BA8.field_0_current_level),
                 gMap_507BA8.field_2_current_path,
-                FP_FromInteger(pTlv->field_C_sound_pos.field_0_x),
-                FP_FromInteger(pTlv->field_C_sound_pos.field_2_y)
+                FP_FromInteger(pTlv->field_10_top_left.field_0_x),
+                FP_FromInteger(pTlv->field_10_top_left.field_2_y)
             );
 
             if (dir == CameraPos::eCamLeft_3)

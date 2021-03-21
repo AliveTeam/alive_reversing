@@ -73,8 +73,8 @@ TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, int tlvInfo)
     }
 
     field_10E_explode_timeout = pTlv->field_1E_ticks_before_explode;
-    field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x + 12);
-    field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y + 24);
+    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
+    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 24);
 
     field_114_timer = gnFrameCount_507670;
     field_110_tlvInfo = tlvInfo;

@@ -25,8 +25,8 @@ void PlatformBase::VRemove_451680(BaseAliveGameObject* /*pObj*/)
 
 void PlatformBase::AddDynamicCollision_4512C0(int maxW, int maxH, int frameTableOffset, BYTE** ppAnimData, Path_TLV* pTlv, Map* pMap, int tlvInfo)
 {
-    field_A8_xpos = FP_FromInteger(pTlv->field_C_sound_pos.field_0_x);
-    field_AC_ypos = FP_FromInteger(pTlv->field_C_sound_pos.field_2_y);
+    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     field_128_tlvInfo = tlvInfo;
 
