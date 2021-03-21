@@ -67,6 +67,16 @@ public:
 
     void AddProperty(const std::string& name, const std::string& typeName, void* key)
     {
+        if (name.empty())
+        {
+            abort();
+        }
+
+        if (typeName.empty())
+        {
+            abort();
+        }
+
         for (const auto& [keyIt, valueIt] : mInfo)
         {
             if (keyIt == key)
@@ -226,6 +236,13 @@ template<class T>
 class TlvObjectBaseAE : public TlvObjectBase
 {
 public:
+    // Used only to get "typeName"
+    TlvObjectBaseAE(TlvTypes tlvType, const std::string& typeName)
+        : TlvObjectBase(typeName), mType(tlvType)
+    {
+
+    }
+
     TlvObjectBaseAE(TlvTypes tlvType, const std::string& typeName, Path_TLV* pTlv)
         : TlvObjectBase(typeName), mType(tlvType)
     {
@@ -284,6 +301,13 @@ template<class T>
 class TlvObjectBaseAO : public TlvObjectBase
 {
 public:
+    // Ctor used only to get "typeName"
+    TlvObjectBaseAO(AO::TlvTypes tlvType, const std::string& typeName)
+         : TlvObjectBase(typeName), mType(tlvType), mBase(&mTlv)
+    {
+
+    }
+
     TlvObjectBaseAO(AO::TlvTypes tlvType, const std::string& typeName, AO::Path_TLV* pTlv)
         : TlvObjectBase(typeName), mType(tlvType), mBase(&mTlv)
     {

@@ -7,12 +7,17 @@
 #include "../AliveLibAE/SwitchStates.hpp"
 #include "magic_enum/include/magic_enum.hpp"
 
+#define ADD_BASIC_TYPE(name, type) AddBasicType<type>(name, std::numeric_limits<type>::min(), std::numeric_limits<type>::max());
+
 TypesCollection::TypesCollection(Game gameType) 
     : mGameType(gameType)
 {
-    AddBasicType<BYTE>("Byte", 0, 255);
-    AddBasicType<short>("UInt16", 0, 65535);
-    AddBasicType<int>("Uint32", 0, std::numeric_limits<int>::max());
+    ADD_BASIC_TYPE("Byte", BYTE);
+    ADD_BASIC_TYPE("UInt16", unsigned short);
+    ADD_BASIC_TYPE("Uint32", unsigned int);
+    ADD_BASIC_TYPE("SInt16", signed short);
+    ADD_BASIC_TYPE("SInt32", signed int);
+
 
     if (mGameType == Game::AO)
     {
@@ -30,7 +35,8 @@ static void DoRegisterType(
     std::map<std::string, FnTlvFactory<TlvType>>& reverseFactory,
     TypesCollection& constructingTypes)
 {
-    TlvWrapperType tmp(constructingTypes, nullptr);
+    TlvWrapperType tmp;
+    tmp.AddTypes(constructingTypes);
     const TlvEnumType tlvType = tmp.TlvType();
     auto fnCreate = [](TypesCollection& types, TlvType* pTlv, int instanceCount)
     {
@@ -136,11 +142,6 @@ void TypesCollection::AddAOTypes()
     REGISTER_TYPE_AO(AOTlvs::Path_BellsongStone);
     REGISTER_TYPE_AO(AOTlvs::Path_MovieStone);
 
-    for (auto& [key, value] : mTlvFactoryAO)
-    {
-        value(*this, nullptr, 0)->AddTypes(*this);
-    }
-
     AddEnum<AO::SwitchOp>("Enum_SwitchOp",
         {
              { AO::SwitchOp::eSetTrue_0, "SetTrue" },
@@ -170,7 +171,6 @@ void TypesCollection::AddAOTypes()
             {AO::LevelIds::eForestChase, "ForestChase"},
             {AO::LevelIds::eDesertEscape, "DesertEscape"},
         });
-
 }
 
 void TypesCollection::AddAETypes()
