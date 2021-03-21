@@ -39,7 +39,7 @@ class TlvObjectBase
 {
 public:
     TlvObjectBase(const std::string& typeName)
-        : mName(typeName)
+        : mStructTypeName(typeName)
     {
 
     }
@@ -55,9 +55,14 @@ public:
     virtual std::size_t TlvLen() const = 0;
     virtual std::vector<BYTE> GetTlvData(bool setTerminationFlag) = 0;
 
+    void SetInstanceNumber(int instanceNumber)
+    {
+        mInstanceNumber = instanceNumber;
+    }
+
     std::string Name() const
     {
-        return mName;
+        return mStructTypeName;
     }
 
     void AddProperty(const std::string& name, const std::string& typeName, void* key)
@@ -174,6 +179,10 @@ public:
     virtual void InstanceFromJsonBase(jsonxx::Object& obj) = 0;
     virtual void InstanceToJsonBase(jsonxx::Object& ret) = 0;
 
+    int InstanceNumber() const
+    {
+        return mInstanceNumber;
+    }
 protected:
     struct PropertyInfo
     {
@@ -182,8 +191,8 @@ protected:
     };
     std::map<void*, PropertyInfo> mInfo; // TODO: Combine with mProperties
     std::vector<std::unique_ptr<BaseProperty>> mProperties;
-    std::string mName;
-    std::string mDescription;
+    std::string mStructTypeName;
+    int mInstanceNumber = 0;
 };
 
 template <class T>
@@ -227,7 +236,7 @@ public:
 
     void InstanceFromJsonBase(jsonxx::Object& obj) override
     {
-        mDescription = obj.get<std::string>("name");
+        mStructTypeName = obj.get<std::string>("name");
 
         mTlv.field_8_top_left.field_0_x = obj.get<jsonxx::Number>("xpos");
         mTlv.field_8_top_left.field_2_y = obj.get<jsonxx::Number>("ypos");
@@ -237,7 +246,7 @@ public:
 
     void InstanceToJsonBase(jsonxx::Object& ret) override
     {
-        ret << "name" << mDescription;
+        ret << "name" << Name() + "_" + std::to_string(mInstanceNumber);
 
         ret << "xpos" << static_cast<int>(mTlv.field_8_top_left.field_0_x);
         ret << "ypos" << static_cast<int>(mTlv.field_8_top_left.field_2_y);
@@ -285,7 +294,7 @@ public:
 
     void InstanceFromJsonBase(jsonxx::Object& obj) override
     {
-        mDescription = obj.get<std::string>("name");
+        mStructTypeName = obj.get<std::string>("name");
 
         mBase->field_10_top_left.field_0_x = obj.get<jsonxx::Number>("xpos");
         mBase->field_10_top_left.field_2_y = obj.get<jsonxx::Number>("ypos");
@@ -298,7 +307,7 @@ public:
 
     void InstanceToJsonBase(jsonxx::Object& ret) override
     {
-        ret << "name" << mDescription;
+        ret << "name" << Name() + "_" + std::to_string(mInstanceNumber);
 
         ret << "xpos" << static_cast<int>(mBase->field_10_top_left.field_0_x);
         ret << "ypos" << static_cast<int>(mBase->field_10_top_left.field_2_y);
