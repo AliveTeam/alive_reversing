@@ -275,11 +275,6 @@ void TypesCollection::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_MeatSack);
     REGISTER_TYPE_AE(AETlvs::Path_TorturedMudokon);
 
-    for (auto& [key, value] : mTlvFactoryAE)
-    {
-        value(*this, nullptr, 0)->AddTypes(*this);
-    }
-
     AddEnum<Direction_short>("Enum_Direction_short",
         {
              { Direction_short::eLeft_0, "Left" },
