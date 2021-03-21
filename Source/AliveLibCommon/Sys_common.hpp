@@ -39,7 +39,7 @@ inline const char* BuildString()
 {
 #ifdef BUILD_NUMBER
     // Automated AppVeyor build title
-    return "("CI_PROVIDER " Build: " BUILD_NUMBER ")";
+    return "(" CI_PROVIDER " Build: " BUILD_NUMBER ")";
 #else
     return "";
 #endif
