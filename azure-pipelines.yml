@@ -14,7 +14,7 @@ jobs:
         cmake --version
         mkdir build
         cd build
-        cmake -DBUILD_NUMBER=$(BuildID) -DCI_PROVIDER="Azure DevOps" -G"Unix Makefiles" ..
+        cmake -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="Azure DevOps" -G"Unix Makefiles" ..
         make -j4
         cpack -G DEB
   - publish: $(System.DefaultWorkingDirectory)/build/relive-0.1-Linux.deb
@@ -29,7 +29,7 @@ jobs:
         cmake --version
         mkdir build
         cd build
-        cmake -DBUILD_NUMBER=$(BuildID) -DCI_PROVIDER="Azure DevOps" -G"Unix Makefiles" ..
+        cmake -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="Azure DevOps" -G"Unix Makefiles" ..
         make -j4
         cpack -G DragNDrop
   - publish: $(System.DefaultWorkingDirectory)/build/relive-0.1-Darwin.dmg
@@ -49,11 +49,11 @@ jobs:
         7z x C:\Temp\SDL2-devel-2.0.9-VC.zip -oC:\Temp
         mkdir build
         cd build
-        cmake .. -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DBUILD_NUMBER=$(BuildID) -DCI_PROVIDER="Azure DevOps" -DSDL2_DIR=C:\Temp\SDL2-2.0.9 -G "Visual Studio 16 2019" -A Win32
+        cmake .. -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="Azure DevOps" -DSDL2_DIR=C:\Temp\SDL2-2.0.9 -G "Visual Studio 16 2019" -A Win32
         cmake --build .
         cpack.exe -G ZIP -C X86
-  - publish: $(System.DefaultWorkingDirectory)/build/relive-*.zip
-    artifact: RELIVE-Windows.zip
+  - publish: $(System.DefaultWorkingDirectory)/build/relive-0.1-win32.zip
+    artifact: RELIVE-Windows32.zip
 - job: Windows64
   pool:
     vmImage: 'windows-latest'
@@ -69,6 +69,8 @@ jobs:
         7z x C:\Temp\SDL2-devel-2.0.9-VC.zip -oC:\Temp
         mkdir build
         cd build
-        cmake .. -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DSDL2_DIR=C:\Temp\SDL2-2.0.9 -G "Visual Studio 16 2019" -A x64
+        cmake .. -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="Azure DevOps" -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DSDL2_DIR=C:\Temp\SDL2-2.0.9 -G "Visual Studio 16 2019" -A x64
         cmake --build .
         cpack.exe -G ZIP -C X64
+  - publish: $(System.DefaultWorkingDirectory)/build/relive-0.1-win64.zip
+    artifact: RELIVE-Windows64.zip
