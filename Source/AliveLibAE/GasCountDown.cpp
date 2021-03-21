@@ -75,12 +75,12 @@ GasCountDown* GasCountDown::ctor_417010(Path_GasCountDown* pTlv, int tlvInfo)
     gGasOn_5C1C00 = 0;
 
     field_70_start_trigger_id = pTlv->field_10_start_trigger_id;
-    field_76_time = pTlv->field_12_time;
+    field_76_gas_countdown_timer = pTlv->field_12_gas_countdown_timer;
     field_72_stop_trigger_id = pTlv->field_14_stop_trigger_id;
 
     if (sGasTimer_5C1BE8)
     {
-        field_74_time_left = static_cast<short>((field_76_time - (sGnFrame_5C1B84 - sGasTimer_5C1BE8)) / 30);
+        field_74_time_left = static_cast<short>((field_76_gas_countdown_timer - (sGnFrame_5C1B84 - sGasTimer_5C1BE8)) / 30);
         if (field_74_time_left < 0)
         {
             field_74_time_left = 0;
@@ -89,13 +89,13 @@ GasCountDown* GasCountDown::ctor_417010(Path_GasCountDown* pTlv, int tlvInfo)
         auto pAlarm = ae_new<Alarm>();
         if (pAlarm)
         {
-            pAlarm->ctor_4091F0(field_76_time, 0, 0, Layer::eLayer_39);
+            pAlarm->ctor_4091F0(field_76_gas_countdown_timer, 0, 0, Layer::eLayer_39);
             return this;
         }
     }
     else
     {
-        field_74_time_left = field_76_time / 30;
+        field_74_time_left = field_76_gas_countdown_timer / 30;
     }
 
     return this;
@@ -241,7 +241,7 @@ void GasCountDown::vUpdate_4172E0()
         auto pAlarm = ae_new<Alarm>();
         if (pAlarm)
         {
-            pAlarm->ctor_4091F0(field_76_time, 0, 0, Layer::eLayer_39);
+            pAlarm->ctor_4091F0(field_76_gas_countdown_timer, 0, 0, Layer::eLayer_39);
         }
     }
 
@@ -249,7 +249,7 @@ void GasCountDown::vUpdate_4172E0()
     if (!sGasTimer_5C1BE8)
     {
         // Off/idle
-        field_74_time_left = field_76_time / 30;
+        field_74_time_left = field_76_gas_countdown_timer / 30;
     }
     else
     {
@@ -266,7 +266,7 @@ void GasCountDown::vUpdate_4172E0()
         }
 
         const int old_timer = field_74_time_left;
-        const int new_timer = (field_76_time - static_cast<int>(sGnFrame_5C1B84 - sGasTimer_5C1BE8)) / 30;
+        const int new_timer = (field_76_gas_countdown_timer - static_cast<int>(sGnFrame_5C1B84 - sGasTimer_5C1BE8)) / 30;
         field_74_time_left = static_cast<__int16>(new_timer);
         if (old_timer != field_74_time_left && field_74_time_left > 0)
         {

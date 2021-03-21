@@ -26,7 +26,7 @@ SlogHut* SlogHut::ctor_4C4070(Path_SlogHut* pTlv, int tlvInfo)
     }
 
     field_30_switch_id = pTlv->field_12_switch_id;
-    field_38_Zzz_delay = pTlv->field_14_z_delay;
+    field_38_Zzz_delay = pTlv->field_14_Zzz_delay;
     field_34_Zzz_timer = 0;
 
     return this;

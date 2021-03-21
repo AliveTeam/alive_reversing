@@ -157,7 +157,7 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo)
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
-    if (field_1E8_tlv.field_14_state == Path_NakedSlig::State::State_2)
+    if (field_1E8_tlv.field_14_state == Path_NakedSlig::State::eAwake_2)
     {
         Set_AnimAndMotion_419890(NakedSligMotion::M_Idle_0_41B260, TRUE);
         SetBrain(&NakedSlig::AI_1_Idle_419F60);
@@ -177,13 +177,13 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo)
     }
 
     field_208_brain_sub_state = 0;
-    if (field_1E8_tlv.field_16_locker_direction == Path_NakedSlig::LockerDirection::Search_2)
+    if (field_1E8_tlv.field_16_crawl_direction == Path_NakedSlig::CrawlDirection::eRandom_2)
     {
-        field_1E0_locker_direction = NextRandom_4197D0() ? Path_NakedSlig::LockerDirection::Right_1 : Path_NakedSlig::LockerDirection::Left_0;
+        field_1E0_crawl_direction = NextRandom_4197D0() ? Path_NakedSlig::CrawlDirection::eRight_1 : Path_NakedSlig::CrawlDirection::eLeft_0;
     }
     else
     {
-        field_1E0_locker_direction = field_1E8_tlv.field_16_locker_direction;
+        field_1E0_crawl_direction = field_1E8_tlv.field_16_crawl_direction;
     }
 
     field_1C6_unused = field_1E8_tlv.field_18_panic_id;
@@ -765,7 +765,7 @@ void NakedSlig::dtor_418FE0()
                 0);
         }
     }
-    if (field_10C_health > FP_FromInteger(0) || field_1E8_tlv.field_1A_reset_on_death == Path_NakedSlig::ResetOnDeath::Yes_1)
+    if (field_10C_health > FP_FromInteger(0) || field_1E8_tlv.field_1A_reset_on_death == Choice_short::eYes_1)
     {
         Path::TLV_Reset_4DB8E0(field_118_tlvInfo, -1, 0, 0);
     }
@@ -900,8 +900,8 @@ __int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
     switch (field_208_brain_sub_state)
     {
     case 0:
-        if ((field_1E0_locker_direction != Path_NakedSlig::LockerDirection::Right_1 || !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))) && 
-            (field_1E0_locker_direction != Path_NakedSlig::LockerDirection::Left_0  ||   field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
+        if ((field_1E0_crawl_direction != Path_NakedSlig::CrawlDirection::eRight_1 || !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))) && 
+            (field_1E0_crawl_direction != Path_NakedSlig::CrawlDirection::eLeft_0  ||   field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
         {
             field_108_next_motion = NakedSligMotion::M_Crawling_3_41B280;
             return 2;

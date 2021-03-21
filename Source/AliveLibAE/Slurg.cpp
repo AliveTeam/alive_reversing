@@ -80,8 +80,8 @@ Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, DWORD tlvInfo)
         field_D6_scale = 1;
     }
 
-    field_11E_delay_timer = pTlv->field_10_slurg_data.field_0_pause_delay;
-    field_120_delay_random = pTlv->field_10_slurg_data.field_0_pause_delay;
+    field_11E_moving_timer = pTlv->field_10_slurg_data.field_0_moving_timer;
+    field_120_delay_random = pTlv->field_10_slurg_data.field_0_moving_timer;
 
     SetTint_425600(&sSlurgTints_560BCC[0], gMap_5C3030.field_0_current_level);
 
@@ -104,7 +104,7 @@ Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, DWORD tlvInfo)
 
     field_118_flags.Clear();
 
-    if (pTlv->field_10_slurg_data.field_2_direction)
+    if (pTlv->field_10_slurg_data.field_2_direction == Direction_short::eRight_1)
     {
         field_118_flags.Set(SlurgFlags::Bit1_Direction);
     }
@@ -242,9 +242,9 @@ void Slurg::vUpdate_4C8790()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (field_11E_delay_timer == 0)
+    if (field_11E_moving_timer == 0)
     {
-        field_11E_delay_timer = Math_RandomRange_496AB0(field_120_delay_random, field_120_delay_random + 20);
+        field_11E_moving_timer = Math_RandomRange_496AB0(field_120_delay_random, field_120_delay_random + 20);
         field_11C_state = Slurg_States::State_1_Stopped;
         const AnimRecord& animRec = AnimRec(AnimId::Slurg_Turn_Around);
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
@@ -257,7 +257,7 @@ void Slurg::vUpdate_4C8790()
     {
         const int idx = sSlurg_Step_Watch_Points_Idx_5C1C08 == 0;
         const int max_count = sSlurg_Step_Watch_Points_Count_5BD4DC[idx];
-        for (int i=0; i<max_count; i++)
+        for (int i = 0; i < max_count; i++)
         {
             const Slurg_Step_Watch_Point* pPoint = &sSlurg_Step_Watch_Points_5C1B28[idx].field_0_points[i];
             if (pPoint->field_0_xPos > bRect.x - 2 &&
@@ -271,11 +271,12 @@ void Slurg::vUpdate_4C8790()
             }
         }
     }
-
-    if (field_11C_state == Slurg_States::State_0_Moving)
+    
+    switch (field_11C_state)
     {
+    case Slurg_States::State_0_Moving:
         field_C4_velx = FP_FromInteger(1);
-        field_11E_delay_timer--;
+        field_11E_moving_timer--;
         if (field_118_flags.Get(SlurgFlags::Bit1_Direction))
         {
             field_C4_velx = -FP_FromInteger(1);
@@ -287,11 +288,11 @@ void Slurg::vUpdate_4C8790()
         {
             field_B8_xpos += field_C4_velx;
         }
-    }
-    else if (field_11C_state == Slurg_States::State_1_Stopped)
-    {
+        break;
+
+    case Slurg_States::State_1_Stopped:
         field_C4_velx = FP_FromInteger(0);
-        if (!field_20_animation.field_92_current_frame
+        if (field_20_animation.field_92_current_frame == 0
             && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
         {
             SFX_Play_46FA90(SoundEffect::SlurgStop_90, 0);
@@ -303,13 +304,17 @@ void Slurg::vUpdate_4C8790()
             const AnimRecord& animRec = AnimRec(AnimId::Slurg_Move);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         }
-    }
-    else if (field_11C_state == Slurg_States::State_2_Burst)
-    {
+        break;
+
+    case Slurg_States::State_2_Burst:
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
+        break;
+
+    default:
+        break;
     }
 
     if (oldXPos != field_B8_xpos)

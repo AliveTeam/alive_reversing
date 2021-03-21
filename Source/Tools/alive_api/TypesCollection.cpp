@@ -275,6 +275,12 @@ void TypesCollection::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_MeatSack);
     REGISTER_TYPE_AE(AETlvs::Path_TorturedMudokon);
 
+    AddEnum<Choice_short>("Enum_Choice_short",
+        {
+             { Choice_short::eNo_0, "No" },
+             { Choice_short::eYes_1, "Yes" },
+        });
+
     AddEnum<Direction_short>("Enum_Direction_short",
         {
              { Direction_short::eLeft_0, "Left" },

@@ -8,12 +8,12 @@ struct Path_SlogSpawner : public Path_TLV
 {
     Scale_short field_10_scale;
     __int16 field_12_number_of_slogs;
-    __int16 field_14_at_a_time;
-    __int16 field_16_direction;
-    __int16 field_18_ticks_between_slogs;
+    __int16 field_14_max_slogs_at_a_time;
+    Direction_short field_16_direction;
+    __int16 field_18_slog_spawn_delay;
     __int16 field_1A_id;
-    __int16 field_1C_listen_to_sligs;
-    __int16 field_1E_jump_attack_delay;
+    Choice_short field_1C_listen_to_sligs;
+    __int16 field_1E_chase_delay;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlogSpawner, 0x20);
 
@@ -39,11 +39,11 @@ private:
     int field_30_spawn_timer;
     Scale_short field_34_scale;
     __int16 field_36_max_slogs;
-    __int16 field_38_at_a_time;
-    __int16 field_3A_direction;
-    __int16 field_3C_spawn_time;
+    __int16 field_38_max_slogs_at_a_time;
+    Direction_short field_3A_direction;
+    __int16 field_3C_slog_spawn_delay;
     __int16 field_3E_switch_id;
-    __int16 field_40_listen_to_sligs;
-    __int16 field_42_jump_delay;
+    Choice_short field_40_listen_to_sligs;
+    __int16 field_42_chase_delay;
 };
 ALIVE_ASSERT_SIZEOF(SlogSpawner, 0x44);

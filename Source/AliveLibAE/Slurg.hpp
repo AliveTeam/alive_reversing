@@ -18,8 +18,8 @@ ALIVE_ASSERT_SIZEOF(Slurg_Step_Watch_Points, 0x14);
 
 struct Slurg_Path_Data
 {
-    __int16 field_0_pause_delay;
-    __int16 field_2_direction;
+    __int16 field_0_moving_timer;
+    Direction_short field_2_direction;
     Scale_short field_4_scale;
     __int16 field_6_id;
 };
@@ -99,7 +99,7 @@ private:
     BitField16<SlurgFlags> field_118_flags;
     __int16 field_11A_switch_id;
     Slurg_States field_11C_state;
-    __int16 field_11E_delay_timer;
+    __int16 field_11E_moving_timer;
     __int16 field_120_delay_random;
     //__int16 field_122_padding;
     PathLine* field_124_pLine;

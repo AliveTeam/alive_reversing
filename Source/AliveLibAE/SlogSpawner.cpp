@@ -17,12 +17,12 @@ SlogSpawner* SlogSpawner::ctor_4C7FF0(Path_SlogSpawner* pTlv, int tlvInfo)
 
     field_34_scale = pTlv->field_10_scale;
     field_36_max_slogs = pTlv->field_12_number_of_slogs;
-    field_38_at_a_time = pTlv->field_14_at_a_time;
+    field_38_max_slogs_at_a_time = pTlv->field_14_max_slogs_at_a_time;
     field_3A_direction = pTlv->field_16_direction;
-    field_3C_spawn_time = pTlv->field_18_ticks_between_slogs;
+    field_3C_slog_spawn_delay = pTlv->field_18_slog_spawn_delay;
     field_3E_switch_id = pTlv->field_1A_id;
     field_40_listen_to_sligs = pTlv->field_1C_listen_to_sligs;
-    field_42_jump_delay = pTlv->field_1E_jump_attack_delay;
+    field_42_chase_delay = pTlv->field_1E_chase_delay;
 
     field_24_tlv_saved_slog_count = pTlv->field_1_unknown;
 
@@ -72,14 +72,14 @@ void SlogSpawner::vUpdate_4C80D0()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (static_cast<int>(sGnFrame_5C1B84) > field_30_spawn_timer && sSlogCount_BAF7F2 < field_38_at_a_time)
+    if (static_cast<int>(sGnFrame_5C1B84) > field_30_spawn_timer && sSlogCount_BAF7F2 < field_38_max_slogs_at_a_time)
     {
         if (SwitchStates_Get_466020(field_3E_switch_id))
         {
-            field_30_spawn_timer = (field_3C_spawn_time + sGnFrame_5C1B84) + Math_NextRandom() % 8;
+            field_30_spawn_timer = (field_3C_slog_spawn_delay + sGnFrame_5C1B84) + Math_NextRandom() % 8;
             auto pSlog = ae_new<Slog>();
-            pSlog->ctor_4C4540(field_28_xpos, field_2C_ypos, field_34_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1), field_40_listen_to_sligs, field_42_jump_delay);
-            pSlog->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_3A_direction & 1);
+            pSlog->ctor_4C4540(field_28_xpos, field_2C_ypos, field_34_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1), static_cast<__int16>(field_40_listen_to_sligs), field_42_chase_delay);
+            pSlog->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_3A_direction == Direction_short::eRight_1);
 
             ++field_24_tlv_saved_slog_count;
             SFX_Play_46FA90(SoundEffect::SlogSpawn_115, 0);
