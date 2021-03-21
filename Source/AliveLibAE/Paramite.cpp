@@ -148,19 +148,19 @@ Paramite* Paramite::ctor_4879B0(Path_Paramite* pTlv, int tlvInfo)
 
     switch (pTlv->field_12_entrace_type)
     {
-    case 1:
+    case Path_Paramite::EntranceType::eNormalSurpriseWeb_1:
         field_114_flags.Clear(Flags_114::e114_Bit3_Can_Be_Possessed);
         SetBrain(&Paramite::AI_SurpriseWeb_3_4851B0);
         break;
 
-    case 2:
+    case Path_Paramite::EntranceType::eSlightlyHigherSpawnSurpriseWeb_2:
         SetBrain(&Paramite::AI_ParamiteSpawn_9_48ED80);
         field_BC_ypos -= FP_FromInteger(20);
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         field_114_flags.Clear(Flags_114::e114_Bit3_Can_Be_Possessed);
         break;
 
-    case 3:
+    case Path_Paramite::EntranceType::eUnused_ScaleToLeftGridSize_3:
         SetBrain(&Paramite::AI_ParamiteSpawn_9_48ED80);
         field_B8_xpos -= ScaleToGridSize_4498B0(field_CC_sprite_scale);
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
@@ -168,7 +168,7 @@ Paramite* Paramite::ctor_4879B0(Path_Paramite* pTlv, int tlvInfo)
         field_114_flags.Clear(Flags_114::e114_Bit3_Can_Be_Possessed);
         break;
 
-    case 4:
+    case Path_Paramite::EntranceType::eUnused_ScaleToRightGridSize_4:
         SetBrain(&Paramite::AI_ParamiteSpawn_9_48ED80);
         field_B8_xpos += ScaleToGridSize_4498B0(field_CC_sprite_scale);
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
@@ -181,17 +181,17 @@ Paramite* Paramite::ctor_4879B0(Path_Paramite* pTlv, int tlvInfo)
         break;
     }
 
-    field_136_attack_delay = pTlv->field_14_attack_delay;
-    field_12E_drop_delay = pTlv->field_16_drop_delay;
+    field_136_alone_wait_before_chase_timer = pTlv->field_14_alone_wait_before_chase_timer;
+    field_12E_surprise_web_delay_timer = pTlv->field_16_surprise_web_delay_timer;
     field_134_meat_eating_time = pTlv->field_18_meat_eating_time;
-    field_144_attack_duration = pTlv->field_1A_attack_duration;
+    field_144_group_wait_before_chase_timer = pTlv->field_1A_group_wait_before_chase_timer;
     field_14C_id = pTlv->field_1E_id;
 
-    field_178_flags.Set(Flags_178::eBit1_hissing, pTlv->field_20_hiss_before_attack & 1);
+    field_178_flags.Set(Flags_178::eBit1_hiss_before_attack, pTlv->field_20_hiss_before_attack & 1);
     field_178_flags.Clear(Flags_178::eBit2_running);
     field_178_flags.Set(Flags_178::eBit4_out_of_sight, pTlv->field_22_delete_when_far_away & 1);
     field_178_flags.Clear(Flags_178::eBit5_prevent_depossession);
-    field_178_flags.Set(Flags_178::eBit8_attacking_fleech, pTlv->field_24_deadly_scratch & 1);
+    field_178_flags.Set(Flags_178::eBit8_bAttack_fleeches, pTlv->field_24_bAttack_fleeches & 1);
     field_178_flags.Clear(Flags_178::eBit6_spawned);
     field_178_flags.Clear(Flags_178::eBit7_alerted);
 
@@ -811,7 +811,7 @@ __int16 Paramite::AI_Patrol_State_Idle_12(BaseAliveGameObject* pObj)
                     Sound_48F600(ParamiteSpeak::Howdy_5, 0);
                     field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
                     SetBrain(&Paramite::AI_ChasingAbe_2_4859D0);
-                    field_148_timer = sGnFrame_5C1B84 + field_144_attack_duration;
+                    field_148_timer = sGnFrame_5C1B84 + field_144_group_wait_before_chase_timer;
                     return AI_ChasingAbe::eState2_Inactive_0;
                 }
             }
@@ -866,7 +866,7 @@ __int16 Paramite::AI_Patrol_State_StopApproachingAbe_5(BaseAliveGameObject* pObj
         Sound_48F600(ParamiteSpeak::Howdy_5, 0);
         field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
         SetBrain(&Paramite::AI_ChasingAbe_2_4859D0);
-        field_148_timer = sGnFrame_5C1B84 + field_144_attack_duration;
+        field_148_timer = sGnFrame_5C1B84 + field_144_group_wait_before_chase_timer;
         return AI_ChasingAbe::eState2_Inactive_0;
     }
 
@@ -941,7 +941,7 @@ __int16 Paramite::AI_Patrol_State_ApproachingAbe_4(BaseAliveGameObject* pObj)
         Sound_48F600(ParamiteSpeak::Howdy_5, 0);
         field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
         SetBrain(&Paramite::AI_ChasingAbe_2_4859D0);
-        field_148_timer = sGnFrame_5C1B84 + field_144_attack_duration;
+        field_148_timer = sGnFrame_5C1B84 + field_144_group_wait_before_chase_timer;
         return AI_ChasingAbe::eState2_Inactive_0;
     }
 
@@ -1034,7 +1034,7 @@ __int16 Paramite::AI_Patrol_State_RunningFromAbe_3(BaseAliveGameObject* pObj)
         Sound_48F600(ParamiteSpeak::Howdy_5, 0);
         field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
         SetBrain(&Paramite::AI_ChasingAbe_2_4859D0);
-        field_148_timer = sGnFrame_5C1B84 + field_144_attack_duration;
+        field_148_timer = sGnFrame_5C1B84 + field_144_group_wait_before_chase_timer;
         return AI_ChasingAbe::eState2_Inactive_0;
     }
 
@@ -1157,7 +1157,7 @@ __int16 Paramite::AI_Patrol_State_IdleForAbe_1(BaseAliveGameObject* pObj)
         Sound_48F600(ParamiteSpeak::Howdy_5, 0);
         field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
         SetBrain(&Paramite::AI_ChasingAbe_2_4859D0);
-        field_148_timer = sGnFrame_5C1B84 + field_144_attack_duration;
+        field_148_timer = sGnFrame_5C1B84 + field_144_group_wait_before_chase_timer;
         return AI_ChasingAbe::eState2_Inactive_0;
     }
 
@@ -1281,7 +1281,7 @@ __int16 Paramite::AI_Patrol_State_FearingAbe_2(BaseAliveGameObject* pObj)
         Sound_48F600(ParamiteSpeak::Howdy_5, 0);
         field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
         SetBrain(&Paramite::AI_ChasingAbe_2_4859D0);
-        field_148_timer = sGnFrame_5C1B84 + field_144_attack_duration;
+        field_148_timer = sGnFrame_5C1B84 + field_144_group_wait_before_chase_timer;
         return AI_ChasingAbe::eState2_Inactive_0;
     }
 
@@ -1498,7 +1498,7 @@ __int16 Paramite::AI_ChasingAbe_State_QuickAttack_6()
         return field_12C_brain_ret;
     }
 
-    if (field_178_flags.Get(Flags_178::eBit1_hissing))
+    if (field_178_flags.Get(Flags_178::eBit1_hiss_before_attack))
     {
         field_108_next_motion = eParamiteMotions::M_Hiss1_22_48C3E0;
     }
@@ -1521,14 +1521,14 @@ __int16 Paramite::AI_ChasingAbe_State_CloseAttack_4()
         return field_12C_brain_ret;
     }
 
-    if (field_178_flags.Get(Flags_178::eBit1_hissing))
+    if (field_178_flags.Get(Flags_178::eBit1_hiss_before_attack))
     {
         field_130_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(0, 6);
         return AI_ChasingAbe::eState2_ToWarning_2;
     }
     else
     {
-        field_130_timer = sGnFrame_5C1B84 + field_136_attack_delay;
+        field_130_timer = sGnFrame_5C1B84 + field_136_alone_wait_before_chase_timer;
         return AI_ChasingAbe::eState2_ToChasing_5;
     }
 }
@@ -1540,7 +1540,7 @@ __int16 Paramite::AI_ChasingAbe_State_ToWarning_2()
         return field_12C_brain_ret;
     }
     field_108_next_motion = eParamiteMotions::M_Hiss1_22_48C3E0;
-    field_130_timer = sGnFrame_5C1B84 + field_136_attack_delay;
+    field_130_timer = sGnFrame_5C1B84 + field_136_alone_wait_before_chase_timer;
     return AI_ChasingAbe::eState2_Warning_3;
 }
 
@@ -1777,7 +1777,7 @@ __int16 Paramite::AI_ChasingAbe_State_ToChasing_5(BaseAliveGameObject* pObj)
         }
     }
 
-    if (field_130_timer > static_cast<int>(sGnFrame_5C1B84) && field_178_flags.Get(Flags_178::eBit1_hissing))
+    if (field_130_timer > static_cast<int>(sGnFrame_5C1B84) && field_178_flags.Get(Flags_178::eBit1_hiss_before_attack))
     {
         return field_12C_brain_ret;
     }
@@ -1923,14 +1923,14 @@ __int16 Paramite::AI_ChasingAbe_State_Inactive_0(BaseAliveGameObject * pObj)
     {
         if (vIsFacingMe_4254A0(pObj))
         {
-            if (field_178_flags.Get(Flags_178::eBit1_hissing))
+            if (field_178_flags.Get(Flags_178::eBit1_hiss_before_attack))
             {
                 field_130_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(0, 6);
                 return AI_ChasingAbe::eState2_ToWarning_2;
             }
             else
             {
-                field_130_timer = sGnFrame_5C1B84 + field_136_attack_delay;
+                field_130_timer = sGnFrame_5C1B84 + field_136_alone_wait_before_chase_timer;
                 return AI_ChasingAbe::eState2_ToChasing_5;
             }
         }
@@ -2003,7 +2003,7 @@ __int16 Paramite::AI_SurpriseWeb_3_4851B0()
         {
             field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
-            field_130_timer = sGnFrame_5C1B84 + field_12E_drop_delay;
+            field_130_timer = sGnFrame_5C1B84 + field_12E_surprise_web_delay_timer;
             auto pNewWeb = ae_new<ParamiteWeb>();
             if (pNewWeb)
             {
@@ -2534,7 +2534,7 @@ __int16 Paramite::AI_ControlledByGameSpeak_8_48DFC0()
                 Sound_48F600(ParamiteSpeak::Howdy_5, 0);
                 field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
                 SetBrain(&Paramite::AI_ChasingAbe_2_4859D0);
-                field_148_timer = sGnFrame_5C1B84 + field_144_attack_duration;
+                field_148_timer = sGnFrame_5C1B84 + field_144_group_wait_before_chase_timer;
                 return AI_ChasingAbe::eState2_Inactive_0;
             }
         }
@@ -5044,7 +5044,7 @@ void Paramite::M_Attack_43_48DB70()
                 field_120_obj_id = -1;
             }
         }
-        else if (field_178_flags.Get(Flags_178::eBit8_attacking_fleech))
+        else if (field_178_flags.Get(Flags_178::eBit8_bAttack_fleeches))
         {
             if (!pObj)
             {
@@ -5552,7 +5552,7 @@ __int16 Paramite::vTakeDamage_488250(BaseGameObject* pFrom)
                 {
                     SetBrain(&Paramite::AI_ChasingAbe_2_4859D0);
                     field_12C_brain_ret = 0;
-                    field_148_timer = sGnFrame_5C1B84 + field_144_attack_duration;
+                    field_148_timer = sGnFrame_5C1B84 + field_144_group_wait_before_chase_timer;
                     field_120_obj_id = pFrom->field_8_object_id;
                 }
             }

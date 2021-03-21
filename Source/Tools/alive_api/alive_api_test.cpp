@@ -8,7 +8,7 @@
 
 const std::string kAEDir = "C:\\GOG Games\\Abes Exoddus\\";
 const std::string kAODir = "C:\\GOG Games\\Abes Oddysee\\";
-const std::string kAETestLvl = "sv.lvl";
+const std::string kAETestLvl = "pv.lvl";
 
 const std::vector<std::string> kAELvls = 
 {

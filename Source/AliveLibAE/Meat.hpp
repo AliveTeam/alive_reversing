@@ -94,11 +94,11 @@ ALIVE_ASSERT_SIZEOF(Meat, 0x134);
 
 struct Path_MeatSack : public Path_TLV
 {
-    __int16 field_10_side;
+    Direction_short field_10_meat_fall_direction;
     unsigned __int16 field_12_xVel;
     unsigned __int16 field_14_yVel;
     Scale_short field_16_scale;
-    __int16 field_18_num_items;
+    __int16 field_18_meat_amount;
     __int16 field_1A_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MeatSack, 0x1C);
@@ -121,7 +121,7 @@ private:
 private:
     int field_118_tlvInfo;
     __int16 field_11C;
-    __int16 field_11E_num_items;
+    __int16 field_11E_meat_amount;
     __int16 field_120;
     __int16 field_122;
     FP field_124_velX;

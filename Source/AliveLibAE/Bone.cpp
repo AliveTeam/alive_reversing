@@ -665,7 +665,7 @@ BoneBag* BoneBag::ctor_4125C0(Path_BoneBag* pTlv, int tlvInfo)
     field_124_velX = FP_FromRaw(pTlv->field_12_x_vel << 8);
     field_128_velY = FP_FromRaw(-256 * pTlv->field_14_y_vel); // TODO: << 8 negated ??
 
-    if (!pTlv->field_10_side)
+    if (pTlv->field_10_bone_fall_direction == Direction_short::eLeft_0)
     {
         field_124_velX = -field_124_velX;
     }
@@ -681,7 +681,7 @@ BoneBag* BoneBag::ctor_4125C0(Path_BoneBag* pTlv, int tlvInfo)
         field_D6_scale = 1;
     }
 
-    field_11E_count = pTlv->field_18_num_bones;
+    field_11E_count = pTlv->field_18_bone_amount;
     field_120_allow_sound = 1;
     field_122_force_play_sound = 1;
 
