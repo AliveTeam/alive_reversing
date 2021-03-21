@@ -11,9 +11,13 @@ if(NOT CMAKE)
     message(FATAL_ERROR "CMake binary not found!")
 endif()
 
+if (NOT CI_PROVIDER)
+    set(CI_PROVIDER "private (local build)")
+endif()
+
 add_custom_target(
     UpdateConfigHeader
-    COMMAND "${CMAKE}" -D BUILD_NUMBER=${BUILD_NUMBER} -P ${CMAKE_CURRENT_LIST_DIR}/options.cmake
+    COMMAND "${CMAKE}" -D BUILD_NUMBER=${BUILD_NUMBER} -D CI_PROVIDER=${CI_PROVIDER} -P ${CMAKE_CURRENT_LIST_DIR}/options.cmake
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
 )
 

@@ -209,22 +209,8 @@ static void Main_ParseCommandLineArguments()
 
     PSX_EMU_Set_Cd_Emulation_Paths_49B000(".", cdDrivePath, nullptr);
 
-    std::string windowTitle("R.E.L.I.V.E. Oddworld Abe's Oddysee");
-
-#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
-    std::string kBitness = sizeof(void*) == 4 ? " (32 bit)" : " (64 bit)";
-#ifdef BUILD_NUMBER
-    // Automated AppVeyor build title
-    windowTitle += " (AV Build: " BUILD_NUMBER ")";
-#endif
-    windowTitle += kBitness;
-#endif
-
+    const std::string windowTitle = WindowTitleAO();
     Sys_WindowClass_Register_48E9E0("ABE_WINCLASS", windowTitle.c_str(), 32, 64, 640, 480);
-
-#ifdef _WIN32
-
-#endif
 
     Sys_Set_Hwnd_48E340(Sys_GetWindowHandle_48E930());
 

@@ -35,15 +35,44 @@ enum class MessageBoxButton
 MessageBoxButton CC Sys_MessageBox(TWindowHandleType windowHandle, const char* message, const char* title, MessageBoxType type = MessageBoxType::eStandard);
 void Sys_Main_Common();
 
-inline void Alive_Show_ErrorMsg(const char* msg)
+inline const char* BuildString()
 {
 #ifdef BUILD_NUMBER
     // Automated AppVeyor build title
-#define TITLE_STR "R.E.L.I.V.E. (AV Build: " BUILD_NUMBER ")"
+    return "("CI_PROVIDER " Build: " BUILD_NUMBER ")";
 #else
-#define TITLE_STR "R.E.L.I.V.E."
+    return "";
 #endif
-    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, TITLE_STR, msg, nullptr);
+}
+
+inline std::string BuildAndBitnesString()
+{
+    std::string buildAndBitness;
+    std::string buildStr = BuildString();
+    if (!buildStr.empty())
+    {
+        buildAndBitness += " ";
+        buildAndBitness += buildStr;
+    }
+
+    std::string kBitness = sizeof(void*) == 4 ? " (32 bit)" : " (64 bit)";
+    buildAndBitness += kBitness;
+    return buildAndBitness;
+}
+
+inline std::string WindowTitleAO()
+{
+    return "R.E.L.I.V.E. Oddworld Abe's Oddysee" + BuildAndBitnesString();
+}
+
+inline std::string WindowTitleAE()
+{
+    return "R.E.L.I.V.E. Oddworld Abe's Exoddus" + BuildAndBitnesString();
+}
+
+inline void Alive_Show_ErrorMsg(const char* msg)
+{
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, (std::string("R.E.L.I.V.E. ") + BuildString()).c_str(), msg, nullptr);
 }
 
 [[noreturn]] void ALIVE_FATAL(const char* errMsg);

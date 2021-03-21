@@ -311,18 +311,7 @@ EXPORT void CC Main_ParseCommandLineArguments_494EA0(const char* /*pCmdLineNotUs
 
     PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(".", strDrive, strDrive);
 
-    std::string windowTitle("R.E.L.I.V.E. Oddworld Abe's Exoddus");
-
-#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
-    std::string kBitness = sizeof(void*) == 4 ? " (32 bit)" : " (64 bit)";
-#ifdef BUILD_NUMBER
-    // Automated AppVeyor build title
-    windowTitle += " (AV Build: " BUILD_NUMBER ")";
-#endif
-    windowTitle += kBitness;
-#endif
-
-
+    const std::string windowTitle = WindowTitleAE();
     Sys_WindowClass_Register_4EE22F("ABE_WINCLASS", windowTitle.c_str(), 32, 64, 640, 480);
     Sys_Set_Hwnd_4F2C50(Sys_GetWindowHandle_4EE180());
 

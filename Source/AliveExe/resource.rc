@@ -62,11 +62,8 @@ IDI_MAIN_ICON           ICON                    "app.ico"
 #endif    // English (United Kingdom) resources
 /////////////////////////////////////////////////////////////////////////////
 
-#ifdef BUILD_NUMBER
-    #define BUILD_ID " Appveyor"
-#else
+#ifndef BUILD_NUMBER
     #define BUILD_NUMBER 1
-    #define BUILD_ID " Private (local build)"
 #endif
 
 #define STR_HELPER(x) #x
@@ -81,7 +78,7 @@ VS_VERSION_INFO VERSIONINFO
         BLOCK "040904b0"
         {
             VALUE "CompanyName",        "ALIVE Team.\0"
-            VALUE "FileDescription",    "RELIVE Engine" BUILD_ID "\0"
+            VALUE "FileDescription",    "RELIVE Engine " CI_PROVIDER "\0"
             VALUE "FileVersion",        "1.0." STR(BUILD_NUMBER) "\0"
             VALUE "LegalCopyright",     "2021 paulsapps.com. All Rights Reserved\0"
             VALUE "OriginalFilename",   "relive.exe\0"
