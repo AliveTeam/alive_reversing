@@ -1,6 +1,7 @@
 // Microsoft Visual C++ generated resource script.
 //
 #include "resource.h"
+#include "../Source/AliveLibCommon/config.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -61,7 +62,38 @@ IDI_MAIN_ICON           ICON                    "app.ico"
 #endif    // English (United Kingdom) resources
 /////////////////////////////////////////////////////////////////////////////
 
+#ifdef BUILD_NUMBER
+    #define BUILD_ID " Appveyor"
+#else
+    #define BUILD_NUMBER 1
+    #define BUILD_ID " Private (local build)"
+#endif
 
+#define STR_HELPER(x) #x
+#define STR(x) STR_HELPER(x)
+
+VS_VERSION_INFO VERSIONINFO
+    FILEVERSION    1,0,BUILD_NUMBER,0
+    PRODUCTVERSION 1,0,BUILD_NUMBER,0
+{
+    BLOCK "StringFileInfo"
+    {
+        BLOCK "040904b0"
+        {
+            VALUE "CompanyName",        "ALIVE Team.\0"
+            VALUE "FileDescription",    "RELIVE Engine" BUILD_ID "\0"
+            VALUE "FileVersion",        "1.0." STR(BUILD_NUMBER) "\0"
+            VALUE "LegalCopyright",     "2021 paulsapps.com. All Rights Reserved\0"
+            VALUE "OriginalFilename",   "relive.exe\0"
+            VALUE "ProductName",        "RELIVE Engine\0"
+            VALUE "ProductVersion",     "1.0." STR(BUILD_NUMBER) "\0"
+        }
+    }
+    BLOCK "VarFileInfo"
+    {
+        VALUE "Translation", 0x409, 1200
+    }
+}
 
 #ifndef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
