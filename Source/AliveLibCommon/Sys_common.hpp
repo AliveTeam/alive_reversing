@@ -35,11 +35,11 @@ enum class MessageBoxButton
 MessageBoxButton CC Sys_MessageBox(TWindowHandleType windowHandle, const char* message, const char* title, MessageBoxType type = MessageBoxType::eStandard);
 void Sys_Main_Common();
 
-inline const char* BuildString()
+inline std::string BuildString()
 {
 #ifdef BUILD_NUMBER
     // Automated AppVeyor build title
-    return "(" CI_PROVIDER " Build: " BUILD_NUMBER ")";
+    return "(" CI_PROVIDER " Build: " + std::to_string(BUILD_NUMBER) + ")";
 #else
     return "";
 #endif
@@ -72,7 +72,7 @@ inline std::string WindowTitleAE()
 
 inline void Alive_Show_ErrorMsg(const char* msg)
 {
-    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, (std::string("R.E.L.I.V.E. ") + BuildString()).c_str(), msg, nullptr);
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, ("R.E.L.I.V.E. " + BuildString()).c_str(), msg, nullptr);
 }
 
 [[noreturn]] void ALIVE_FATAL(const char* errMsg);
