@@ -68,9 +68,9 @@ EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, int tlvInfo
         field_20_animation.field_C_render_layer = Layer::eLayer_31;
     }
 
-    field_124_delay_time = pTlv->field_14_delay_time;
-    field_120_num_items = pTlv->field_16_number_of_items;
-    field_122_num_items_remaining = pTlv->field_16_number_of_items;
+    field_124_fall_delay = pTlv->field_14_fall_delay;
+    field_120_max_falling_items = pTlv->field_16_max_falling_items;
+    field_122_remaining_falling_items = pTlv->field_16_max_falling_items;
     field_134_bHitGrinderOrMineCar = FALSE;
     field_12C_reset_id = pTlv->field_18_reset_id;
     field_12E_do_sound_in_state_falling = TRUE;
@@ -142,10 +142,10 @@ FallingItem* FallingItem::ctor_427560(__int16 xpos, __int16 ypos, __int16 scale,
         field_D6_scale = 1;
     }
 
-    field_124_delay_time = delayTime;
+    field_124_fall_delay = delayTime;
     
-    field_120_num_items = numItems;
-    field_122_num_items_remaining = numItems;
+    field_120_max_falling_items = numItems;
+    field_122_remaining_falling_items = numItems;
 
     const FP xFixed = FP_FromInteger(xpos);
     const FP yFixed = FP_FromInteger(ypos);
@@ -270,7 +270,7 @@ EXPORT void FallingItem::vUpdate_427780()
             const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<int>(gMap_5C3030.field_0_current_level)][1]);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             
-            field_128_delay_timer = sGnFrame_5C1B84 + field_124_delay_time;
+            field_128_delay_timer = sGnFrame_5C1B84 + field_124_fall_delay;
         }
         break;
 
@@ -285,7 +285,7 @@ EXPORT void FallingItem::vUpdate_427780()
         const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<int>(gMap_5C3030.field_0_current_level)][1]);
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
-        field_128_delay_timer = sGnFrame_5C1B84 + field_124_delay_time;
+        field_128_delay_timer = sGnFrame_5C1B84 + field_124_fall_delay;
         break;
     }
 
@@ -437,9 +437,9 @@ EXPORT void FallingItem::vUpdate_427780()
             }
         }
 
-        --field_122_num_items_remaining;
+        --field_122_remaining_falling_items;
 
-        if ((field_120_num_items > 0 && field_122_num_items_remaining <= 0) || !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+        if ((field_120_max_falling_items > 0 && field_122_remaining_falling_items <= 0) || !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
             field_C2_lvl_number,
             field_C0_path_number,
             field_138_xpos,

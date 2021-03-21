@@ -91,7 +91,7 @@ ALIVE_ASSERT_SIZEOF(Door, 0x114);
 
 struct Path_TrainDoor : public Path_TLV
 {
-    int field_10_flipX;
+    int field_10_direction;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TrainDoor, 0x14);
 

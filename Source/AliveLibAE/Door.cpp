@@ -567,7 +567,7 @@ TrainDoor* TrainDoor::ctor_4DD090(Path_TrainDoor* pTlv, int tlvInfo)
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         field_FC_current_state = eOpen_0;
     }
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_10_flipX & 1);
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_10_direction & 1);
 
     return this;
 }

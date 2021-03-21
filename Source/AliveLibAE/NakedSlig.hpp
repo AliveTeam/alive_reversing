@@ -7,38 +7,25 @@
 struct Path_NakedSlig : public Path_TLV
 {
     Scale_short field_10_scale;
-
-    enum class Direction : __int16
-    {
-        Left_0 = 0,
-        Right_1 = 1,
-    };
-    Direction field_12_direction;
+    Direction_short field_12_direction;
 
     enum class State : __int16
     {
-        Awake_0 = 0,
-        Sleep_1 = 1,
-        State_2 = 2, // ??
+        eSleeping_0 = 0,
+        eSleeping_1 = 1,
+        eAwake_2 = 2,
     };
     State field_14_state;
 
-    enum class LockerDirection : __int16
+    enum class CrawlDirection : __int16
     {
-        Left_0 = 0,
-        Right_1 = 1,
-        Search_2 = 2,
+        eLeft_0 = 0,
+        eRight_1 = 1,
+        eRandom_2 = 2,
     };
-    LockerDirection field_16_locker_direction;
-
+    CrawlDirection field_16_crawl_direction;
     __int16 field_18_panic_id;
-
-    enum class ResetOnDeath : __int16
-    {
-        Yes_1 = 1,
-        No_0 = 0,
-    };
-    ResetOnDeath field_1A_reset_on_death;
+    Choice_short field_1A_reset_on_death;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_NakedSlig, 0x1C);
 
@@ -258,7 +245,7 @@ private:
     int field_1D4_obj_id;
     int field_1D8_obj_id;
     int field_1DC_unused;
-    Path_NakedSlig::LockerDirection field_1E0_locker_direction;
+    Path_NakedSlig::CrawlDirection field_1E0_crawl_direction;
     __int16 field_1E2_padding;
     Path_TLV* field_1E4_pPantsOrWingsTlv;
     Path_NakedSlig field_1E8_tlv;

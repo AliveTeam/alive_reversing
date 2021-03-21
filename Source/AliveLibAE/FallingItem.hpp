@@ -17,8 +17,8 @@ struct Path_FallingItem : public Path_TLV
 {
     __int16 field_10_id;
     Scale_short field_12_scale;
-    __int16 field_14_delay_time;
-    __int16 field_16_number_of_items;
+    __int16 field_14_fall_delay;
+    __int16 field_16_max_falling_items;
     __int16 field_18_reset_id;
     __int16 field_20_pad;
 };
@@ -65,9 +65,9 @@ private:
     };
     State field_11C_state;
     __int16 field_11E_id;
-    __int16 field_120_num_items;
-    __int16 field_122_num_items_remaining;
-    __int16 field_124_delay_time;
+    __int16 field_120_max_falling_items;
+    __int16 field_122_remaining_falling_items;
+    __int16 field_124_fall_delay;
     //__int16 field_126_pad;
     int field_128_delay_timer;
     __int16 field_12C_reset_id;

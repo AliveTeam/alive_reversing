@@ -46,7 +46,7 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, int tlvInfo)
 
     field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
 
-    if (pTlv->field_14_direction == 0)
+    if (pTlv->field_14_direction == Direction_short::eLeft_0)
     {
         field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
     }

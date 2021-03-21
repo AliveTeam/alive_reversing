@@ -301,7 +301,7 @@ private:
     int field_150_growl_timer;
     __int16 field_154_angry_id;
     __int16 field_156_bone_eating_time;
-    __int16 field_158_jump_delay;
+    __int16 field_158_chase_delay;
     __int16 field_15A_jump_counter;
     int field_15C_bone_id;
     enum Flags_160 : __int16

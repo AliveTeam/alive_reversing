@@ -67,7 +67,7 @@ MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, int tlvInfo)
     field_136_persist_offscreen = pTlv->field_1E_persist_offscreen;
     field_130_sound_channels = 0;
 
-    if (pTlv->field_14_bStart_type_triggered_by_alarm)
+    if (pTlv->field_14_bStart_type_triggered_by_alarm == Choice_short::eYes_1)
     {
         field_118_state = States::eTriggeredByAlarm_0;
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
