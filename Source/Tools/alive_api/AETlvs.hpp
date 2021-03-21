@@ -1721,11 +1721,11 @@ namespace AETlvs
     {
         CTOR_AE(Path_BoneBag, "BoneBag", TlvTypes::BoneBag_94)
         {
-            ADD("side", mTlv.field_10_side);
-            ADD("x_vel", mTlv.field_12_x_vel);
-            ADD("y_vel", mTlv.field_14_y_vel);
-            ADD("scale", mTlv.field_16_scale);
-            ADD("num_bones", mTlv.field_18_num_bones);
+            ADD("Bone Fall Direction", mTlv.field_10_bone_fall_direction);
+            ADD("X Velocity", mTlv.field_12_x_vel);
+            ADD("Y Velocity", mTlv.field_14_y_vel);
+            ADD("Scale", mTlv.field_16_scale);
+            ADD("Bone Amount", mTlv.field_18_bone_amount);
         }
     };
 
@@ -1733,9 +1733,9 @@ namespace AETlvs
     {
         CTOR_AE(Path_SecurityClaw, "SecurityClaw", TlvTypes::SecurityClaw_35)
         {
-            ADD("scale", mTlv.field_10_scale);
-            ADD("disabled_resources", mTlv.field_12_disabled_resources);
-            ADD("unknown", mTlv.field_14_unknown);
+            ADD("Scale", mTlv.field_10_scale);
+            ADD("Disabled Resources", mTlv.field_12_disabled_resources);
+            ADD("Unknown", mTlv.field_14_unknown);
         }
     };
 
@@ -1745,17 +1745,17 @@ namespace AETlvs
         {
             types.AddEnum<::FootSwitchTriggerBy>("Enum_FootSwitchTriggeredBy",
                 {
-                    {::FootSwitchTriggerBy::eOnlyAbe_0, "only_abe"},
-                    {::FootSwitchTriggerBy::eAnyone_1, "anyone"},
+                    {::FootSwitchTriggerBy::eOnlyAbe_0, "Only Abe"},
+                    {::FootSwitchTriggerBy::eAnyone_1, "Anyone"},
                 });
         }
 
         CTOR_AE(Path_FootSwitch, "FootSwitch", TlvTypes::FootSwitch_34)
         {
-            ADD("id", mTlv.field_10_id);
-            ADD("scale", mTlv.field_12_scale);
-            ADD("action", mTlv.field_14_action);
-            ADD("trigger_by", mTlv.field_16_trigger_by);
+            ADD("ID", mTlv.field_10_id);
+            ADD("Scale", mTlv.field_12_scale);
+            ADD("Action", mTlv.field_14_action);
+            ADD("Triggered By", mTlv.field_16_trigger_by);
         }
     };
 
@@ -1763,9 +1763,9 @@ namespace AETlvs
     {
         CTOR_AE(Path_SlogHut, "SlogHut", TlvTypes::SlogHut_72)
         {
-            ADD("scale", mTlv.field_10_scale);
-            ADD("switch_id", mTlv.field_12_switch_id);
-            ADD("z_delay", mTlv.field_14_z_delay);
+            ADD("Scale", mTlv.field_10_scale);
+            ADD("Switch ID", mTlv.field_12_switch_id);
+            ADD("Zzz Delay (Frames)", mTlv.field_14_z_delay);
         }
     };
 
@@ -1827,7 +1827,7 @@ namespace AETlvs
         CTOR_AE(Path_ScrabSpawner, "ScrabSpawner", TlvTypes::ScrabSpawner_102)
         {
             // scrab properties
-            ADD("scrab_scale", mTlv.field_10_scale);
+            ADD("Scrab Scale", mTlv.field_10_scale);
             ADD("scrab_attack_delay", mTlv.field_12_attack_delay);
             ADD("scrab_patrol_type", mTlv.field_14_patrol_type);
             ADD("scrab_left_min_delay", mTlv.field_16_left_min_delay);
@@ -1843,8 +1843,8 @@ namespace AETlvs
             ADD("scrab_kill_close_fleech", mTlv.field_2A_kill_close_fleech);
 
             // spawner properties
-            ADD("spawner_switch_id", mTlv.field_2C_switch_id);
-            ADD("spawner_scale", mTlv.field_2E_scale);
+            ADD("Spawner Switch ID", mTlv.field_2C_switch_id);
+            ADD("Spawner Scale", mTlv.field_2E_scale);
         }
     };
 
@@ -1852,32 +1852,44 @@ namespace AETlvs
     {
         CTOR_AE(Path_SlurgSpawner, "SlurgSpawner", TlvTypes::SlurgSpawner_89)
         {
-            ADD("slurg_pause_delay", mTlv.field_10_slurg_data.field_0_pause_delay);
-            ADD("slurg_direction", mTlv.field_10_slurg_data.field_2_direction);
-            ADD("slurg_scale", mTlv.field_10_slurg_data.field_4_scale);
-            ADD("slurg_id", mTlv.field_10_slurg_data.field_6_id);
+            ADD("Slurg Pause Delay", mTlv.field_10_slurg_data.field_0_pause_delay);
+            ADD("Slurg Direction", mTlv.field_10_slurg_data.field_2_direction);
+            ADD("Slurg Scale", mTlv.field_10_slurg_data.field_4_scale);
+            ADD("Slurg ID", mTlv.field_10_slurg_data.field_6_id);
 
-            ADD("spawner_delay_between_slurgs", mTlv.field_18_spawner_data.field_8_delay_between_slurgs);
-            ADD("spawner_max_slurgs", mTlv.field_18_spawner_data.field_A_max_slurgs);
-            ADD("spawner_switch_id", mTlv.field_18_spawner_data.field_C_switch_id);
+            ADD("Spawn Delay Between Slurgs", mTlv.field_18_spawner_data.field_8_spawn_delay_between_slurgs);
+            ADD("Max Slurgs", mTlv.field_18_spawner_data.field_A_max_slurgs);
+            ADD("Spawner Switch ID", mTlv.field_18_spawner_data.field_C_switch_id);
         }
     };
 
     struct Path_Paramite : public TlvObjectBaseAE<::Path_Paramite>
     {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<::Path_Paramite::EntranceType>("Enum_ParamiteEntranceType",
+                {
+                    {::Path_Paramite::EntranceType::eNormalPatrol_0, "Normal Patrol"},
+                    {::Path_Paramite::EntranceType::eNormalSurpriseWeb_1, "Normal Surprise Web"},
+                    {::Path_Paramite::EntranceType::eSlightlyHigherSpawnSurpriseWeb_2, "Slightly Higher Spawn Surprise Web"},
+                    {::Path_Paramite::EntranceType::eUnused_ScaleToLeftGridSize_3, "Unused Scale To Left Grid Size"},
+                    {::Path_Paramite::EntranceType::eUnused_ScaleToRightGridSize_4, "Unused Scale To Right Grid Size"},
+                });
+        }
+
         CTOR_AE(Path_Paramite, "Paramite", TlvTypes::Paramite_26)
         {
-            ADD("scale", mTlv.field_10_scale);
-            ADD("entrance_type", mTlv.field_12_entrace_type);
-            ADD("attack_delay", mTlv.field_14_attack_delay);
-            ADD("drop_delay", mTlv.field_16_drop_delay);
-            ADD("meat_eating_time", mTlv.field_18_meat_eating_time);
-            ADD("attack_duration", mTlv.field_1A_attack_duration);
-            ADD("disabled_resources", mTlv.field_1C_disabled_resources);
-            ADD("id", mTlv.field_1E_id);
-            ADD("hiss_before_attack", mTlv.field_20_hiss_before_attack);
-            ADD("delete_when_far_away", mTlv.field_22_delete_when_far_away);
-            ADD("deadly_scratch", mTlv.field_24_deadly_scratch);
+            ADD("Scale", mTlv.field_10_scale);
+            ADD("Entrance Type", mTlv.field_12_entrace_type);
+            ADD("Alone Wait Before Chase (Frames)", mTlv.field_14_alone_wait_before_chase_timer);
+            ADD("Surprise Web Delay (Frames)", mTlv.field_16_surprise_web_delay_timer);
+            ADD("Meat Eating Time (Frames)", mTlv.field_18_meat_eating_time);
+            ADD("Group Wait Before Chase (Frames)", mTlv.field_1A_group_wait_before_chase_timer);
+            ADD("Disabled Resources", mTlv.field_1C_disabled_resources);
+            ADD("ID", mTlv.field_1E_id);
+            ADD("Hiss Before Attacking", mTlv.field_20_hiss_before_attack);
+            ADD("Delete When Far Away", mTlv.field_22_delete_when_far_away);
+            ADD("Can Attack Fleeches", mTlv.field_24_bAttack_fleeches);
         }
     };
 
@@ -1885,7 +1897,7 @@ namespace AETlvs
     {
         CTOR_AE(Path_ParamiteWebLine, "ParamiteWebLine", TlvTypes::ParamiteWebLine_99)
         {
-            ADD("scale", mTlv.field_10_scale);
+            ADD("Scale", mTlv.field_10_scale);
         }
     };
 
@@ -1893,11 +1905,11 @@ namespace AETlvs
     {
         CTOR_AE(Path_MeatSack, "MeatSack", TlvTypes::MeatSack_40)
         {
-            ADD("side", mTlv.field_10_side);
-            ADD("x_vel", mTlv.field_12_xVel);
-            ADD("y_vel", mTlv.field_14_yVel);
-            ADD("scale", mTlv.field_16_scale);
-            ADD("num_items", mTlv.field_18_num_items);
+            ADD("Meat Fall Direction", mTlv.field_10_meat_fall_direction);
+            ADD("X Velocity", mTlv.field_12_xVel);
+            ADD("Y Velocity", mTlv.field_14_yVel);
+            ADD("Scale", mTlv.field_16_scale);
+            ADD("Meat Amount", mTlv.field_18_meat_amount);
         }
     };
 

@@ -171,6 +171,12 @@ enum class Direction
     eRight = 1,
 };
 
+enum class Direction_short : __int16
+{
+    eLeft_0 = 0,
+    eRight_1 = 1,
+};
+
 struct Path_TLV
 {
     BitField8<TLV_Flags> field_0_flags;

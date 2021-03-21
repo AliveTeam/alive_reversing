@@ -35,8 +35,8 @@ private:
     int field_2C_tlvInfo;
     __int16 field_30_switch_id;
     __int16 field_32_padding;
-    int field_34_z_timer;
-    __int16 field_38_z_delay;
+    int field_34_Zzz_timer;
+    __int16 field_38_Zzz_delay;
     __int16 field_3A_padding;
 };
 ALIVE_ASSERT_SIZEOF(SlogHut, 0x3C);

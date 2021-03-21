@@ -26,8 +26,8 @@ SlogHut* SlogHut::ctor_4C4070(Path_SlogHut* pTlv, int tlvInfo)
     }
 
     field_30_switch_id = pTlv->field_12_switch_id;
-    field_38_z_delay = pTlv->field_14_z_delay;
-    field_34_z_timer = 0;
+    field_38_Zzz_delay = pTlv->field_14_z_delay;
+    field_34_Zzz_timer = 0;
 
     return this;
 }
@@ -76,7 +76,7 @@ void SlogHut::vUpdate_4C41B0()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (!SwitchStates_Get_466020(field_30_switch_id) && static_cast<int>(sGnFrame_5C1B84) > field_34_z_timer)
+    if (!SwitchStates_Get_466020(field_30_switch_id) && static_cast<int>(sGnFrame_5C1B84) > field_34_Zzz_timer)
     {
         auto pSnoozeParticle = ae_new<SnoozeParticle>();
         if (pSnoozeParticle)
@@ -84,7 +84,7 @@ void SlogHut::vUpdate_4C41B0()
             pSnoozeParticle->ctor_4B06F0(field_20_xpos, field_24_ypos, Layer::eLayer_39, field_28_scale);
         }
 
-        field_34_z_timer = sGnFrame_5C1B84 + field_38_z_delay;
+        field_34_Zzz_timer = sGnFrame_5C1B84 + field_38_Zzz_delay;
     }
 }
 

@@ -48,7 +48,7 @@ void SlurgSpawner::vUpdate_4C83C0()
     const short oldDelay = field_3E_delay_counter;
     field_3E_delay_counter++;
 
-    if (field_3E_delay_counter < field_28_path_data.field_8_delay_between_slurgs && field_40_spawned_count < field_28_path_data.field_A_max_slurgs)
+    if (field_3E_delay_counter < field_28_path_data.field_8_spawn_delay_between_slurgs && field_40_spawned_count < field_28_path_data.field_A_max_slurgs)
     {
         if (SwitchStates_Get_466020(field_28_path_data.field_C_switch_id))
         {

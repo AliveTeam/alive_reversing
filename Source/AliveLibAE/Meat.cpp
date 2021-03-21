@@ -482,7 +482,7 @@ MeatSack* MeatSack::ctor_46A410(Path_MeatSack* pTlv, int tlvInfo)
     // Throw the meat up into the air as it falls from the sack
     field_128_velY = -FP_FromRaw(pTlv->field_14_yVel << 8);
 
-    if (!pTlv->field_10_side)
+    if (pTlv->field_10_meat_fall_direction == Direction_short::eLeft_0)
     {
         field_124_velX = -field_124_velX;
     }
@@ -500,7 +500,7 @@ MeatSack* MeatSack::ctor_46A410(Path_MeatSack* pTlv, int tlvInfo)
         field_D6_scale = 1;
     }
 
-    field_11E_num_items = pTlv->field_18_num_items;
+    field_11E_meat_amount = pTlv->field_18_meat_amount;
 
     field_E0_pShadow = ae_new<Shadow>();
     if (field_E0_pShadow)
@@ -660,12 +660,12 @@ void MeatSack::vUpdate_46A6A0()
                 gpThrowableArray_5D1E2C->ctor_49A630();
             }
 
-            gpThrowableArray_5D1E2C->Add_49A7A0(field_11E_num_items);
+            gpThrowableArray_5D1E2C->Add_49A7A0(field_11E_meat_amount);
 
             auto pMeat = ae_new<Meat>();
             if (pMeat)
             {
-                pMeat->ctor_4694A0(field_B8_xpos, field_BC_ypos - FP_FromInteger(30), field_11E_num_items);
+                pMeat->ctor_4694A0(field_B8_xpos, field_BC_ypos - FP_FromInteger(30), field_11E_meat_amount);
             }
 
             pMeat->VThrow_49E460(field_124_velX, field_128_velY);

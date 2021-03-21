@@ -61,16 +61,24 @@ class Meat;
 struct Path_Paramite : public Path_TLV
 {
     Scale_short field_10_scale;
-    __int16 field_12_entrace_type;
-    __int16 field_14_attack_delay;
-    __int16 field_16_drop_delay;
+    enum class EntranceType : __int16
+    {
+        eNormalPatrol_0 = 0,
+        eNormalSurpriseWeb_1 = 1,
+        eSlightlyHigherSpawnSurpriseWeb_2 = 2,
+        eUnused_ScaleToLeftGridSize_3 = 3,
+        eUnused_ScaleToRightGridSize_4 = 4,
+    };
+    EntranceType field_12_entrace_type;
+    __int16 field_14_alone_wait_before_chase_timer;
+    __int16 field_16_surprise_web_delay_timer;
     __int16 field_18_meat_eating_time;
-    unsigned __int16 field_1A_attack_duration;
+    unsigned __int16 field_1A_group_wait_before_chase_timer;
     __int16 field_1C_disabled_resources;
     __int16 field_1E_id;
     __int16 field_20_hiss_before_attack;
     __int16 field_22_delete_when_far_away;
-    __int16 field_24_deadly_scratch;
+    __int16 field_24_bAttack_fleeches;
     __int16 field_26_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Paramite, 0x28);
@@ -421,14 +429,14 @@ private:
     int field_124_pull_ring_rope_id;
     TParamiteAIFn field_128_fn_brainState;
     __int16 field_12C_brain_ret;
-    __int16 field_12E_drop_delay;
+    __int16 field_12E_surprise_web_delay_timer;
     int field_130_timer;
     __int16 field_134_meat_eating_time;
-    __int16 field_136_attack_delay;
+    __int16 field_136_alone_wait_before_chase_timer;
     int field_138_depossession_timer;
     FP field_13C_velx_offset;
     int field_140_tlvInfo;
-    int field_144_attack_duration;
+    int field_144_group_wait_before_chase_timer;
     int field_148_timer;
     __int16 field_14C_id;
     LevelIds field_14E_return_level;
@@ -452,14 +460,14 @@ private:
     __int16 field_176_unused;
     enum Flags_178 : __int16
     {
-        eBit1_hissing = 0x1,
+        eBit1_hiss_before_attack = 0x1,
         eBit2_running = 0x2,
         eBit3_hissed_or_left_screen = 0x4,
         eBit4_out_of_sight = 0x8,
         eBit5_prevent_depossession = 0x10,
         eBit6_spawned = 0x20,
         eBit7_alerted = 0x40,
-        eBit8_attacking_fleech = 0x80,
+        eBit8_bAttack_fleeches = 0x80,
         eBit9_padding = 0x100,
         eBit10_padding = 0x200,
         eBit11_padding = 0x400,

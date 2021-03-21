@@ -5,7 +5,7 @@
 
 struct Slurg_Spawner_Path_Data
 {
-    __int16 field_8_delay_between_slurgs;
+    __int16 field_8_spawn_delay_between_slurgs;
     __int16 field_A_max_slurgs;
     __int16 field_C_switch_id;
     __int16 field_E_padding;
