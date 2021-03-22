@@ -21,8 +21,8 @@ inline void create_minidump(PEXCEPTION_POINTERS apExceptionInfo)
     char fileNameA[512] = {};
 
 #ifdef BUILD_NUMBER
-   _snwprintf(fileNameW, _countof(fileNameW), L"core_pid_%d_build_%S.dmp", ::GetCurrentProcessId(), BUILD_NUMBER);
-   _snprintf(fileNameA, _countof(fileNameA), "core_pid_%d_build_%s.dmp", ::GetCurrentProcessId(), BUILD_NUMBER);
+   _snwprintf(fileNameW, _countof(fileNameW), L"core_pid_%d_build_%d.dmp", ::GetCurrentProcessId(), BUILD_NUMBER);
+   _snprintf(fileNameA, _countof(fileNameA), "core_pid_%d_build_%d.dmp", ::GetCurrentProcessId(), BUILD_NUMBER);
 #else
    _snwprintf(fileNameW, _countof(fileNameW), L"core_pid_%d.dmp", ::GetCurrentProcessId());
    _snprintf(fileNameA, _countof(fileNameA), "core_pid_%d.dmp", ::GetCurrentProcessId());

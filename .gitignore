@@ -12,3 +12,4 @@ CMakeSettings.json
 Source/AliveLibCommon/config.h
 Scripts/Hex2Bits.py
 
+/Source/AliveExe/resource.aps

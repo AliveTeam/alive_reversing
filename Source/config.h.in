@@ -11,4 +11,5 @@
 #cmakedefine01 USE_SDL2
 #cmakedefine01 USE_SDL2_SOUND
 #cmakedefine01 USE_SDL2_IO
-#cmakedefine BUILD_NUMBER "@BUILD_NUMBER@"
+#cmakedefine BUILD_NUMBER @BUILD_NUMBER@
+#cmakedefine CI_PROVIDER "@CI_PROVIDER@"

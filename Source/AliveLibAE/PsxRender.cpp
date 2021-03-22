@@ -1226,7 +1226,7 @@ EXPORT void CC PSX_ClearOTag_4F6290(PrimHeader** otBuffer, int otBufferSize)
     }
 
     // Terminate the list
-    otBuffer[i] = reinterpret_cast<PrimHeader*>(0xFFFFFFFF);
+    otBuffer[i] = reinterpret_cast<PrimHeader*>(static_cast<size_t>(0xFFFFFFFF));
 }
 
 EXPORT void CC PSX_OrderingTable_SaveRecord_4F62C0(int** otBuffer, int otBufferSize)
@@ -3395,7 +3395,7 @@ static bool DrawOTagImpl(PrimHeader** ppOt, __int16 drawEnv_of0, __int16 drawEnv
     PrimHeader* pOtItem = ppOt[0];
     while (pOtItem)
     {
-        if (pOtItem == reinterpret_cast<PrimHeader*>(0xFFFFFFFF))
+        if (pOtItem == reinterpret_cast<PrimHeader*>(static_cast<size_t>(0xFFFFFFFF)))
         {
             break;
         }

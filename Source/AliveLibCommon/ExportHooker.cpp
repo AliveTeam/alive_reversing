@@ -40,7 +40,10 @@ static BOOL CALLBACK EnumExports(PVOID pContext, ULONG /*nOrdinal*/, PCHAR pszNa
 
 void ExportHooker::Apply(bool saveImplementedFuncs /*= false*/)
 {
-#if defined(_WIN32) && !defined(_WIN64)
+#if defined(_WIN32)
+#if defined(_WIN64)
+    (void)saveImplementedFuncs;
+#else
     if (RunningAsInjectedDll())
     {
         CheckVars(); // Check for dup vars or vars that overlap in address space
@@ -100,7 +103,8 @@ void ExportHooker::Apply(bool saveImplementedFuncs /*= false*/)
 
     LOG_INFO("Hooked (" << mHookedCount << "/" << mExportCount << ") exports");
 
-#endif
+#endif // !_WIN64
+#endif // _WIN32
 }
 
 void ExportHooker::LoadDisabledHooks()
@@ -237,7 +241,11 @@ bool ExportHooker::IsHexDigit(char letter)
 ExportHooker::ExportInformation ExportHooker::GetExportInformation(PVOID pExportedFunctionAddress, const std::string& exportedFunctionName)
 {
     ExportInformation info = {};
-#if defined(_WIN32) && !defined(_WIN64)
+#if defined(_WIN32)
+#if defined(_WIN64)
+    (void)pExportedFunctionAddress;
+    (void)exportedFunctionName;
+#else
     info.mIsImplemented = false;
     info.mExportedFunctionName = exportedFunctionName;
 
@@ -292,12 +300,17 @@ ExportHooker::ExportInformation ExportHooker::GetExportInformation(PVOID pExport
     }
     info.mIsImplemented = true; // Didn't find not impl instruction pattern
 #endif
+#endif
     return info;
 }
 
 void ExportHooker::OnExport(PCHAR pszName, PVOID pCode)
 {
-#if defined(_WIN32) && !defined(_WIN64)
+#if defined(_WIN32)
+#if defined(_WIN64)
+    (void)pszName;
+    (void)pCode;
+#else
     mExportCount++;
 
     std::string exportedFunctionName(pszName);
@@ -393,6 +406,7 @@ void ExportHooker::OnExport(PCHAR pszName, PVOID pCode)
         underScorePos = exportedFunctionName.find('_', underScorePos + 1);
     }
     LOG_WARNING(pszName << " was not hooked");
+#endif
 #endif
 }
 
