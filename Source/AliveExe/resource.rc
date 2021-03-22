@@ -78,7 +78,7 @@ VS_VERSION_INFO VERSIONINFO
         BLOCK "040904b0"
         {
             VALUE "CompanyName",        "ALIVE Team.\0"
-            VALUE "FileDescription",    "RELIVE Engine " CI_PROVIDER "\0"
+            VALUE "FileDescription",    "RELIVE Engine (CI origin: " CI_PROVIDER ")\0"
             VALUE "FileVersion",        "1.0." STR(BUILD_NUMBER) "\0"
             VALUE "LegalCopyright",     "2021 paulsapps.com. All Rights Reserved\0"
             VALUE "OriginalFilename",   "relive.exe\0"
