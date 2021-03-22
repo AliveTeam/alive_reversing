@@ -129,7 +129,7 @@ Mine * Mine::ctor_46B120(Path_Mine * pPath, TlvItemInfoUnion tlv)
     field_11A_disabled_resources = pPath->field_16_disabled_resources;
 
     field_1BC_flags.Clear(Mine_Flags_1BC::eBit1_PersistOffscreen);
-    if (pPath->field_18_persists_offscreen & 1)
+    if (pPath->field_18_persist_offscreen == Choice_short::eYes_1)
     {
         field_1BC_flags.Set(Mine_Flags_1BC::eBit1_PersistOffscreen);
     }

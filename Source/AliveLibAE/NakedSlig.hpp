@@ -7,7 +7,7 @@
 struct Path_NakedSlig : public Path_TLV
 {
     Scale_short field_10_scale;
-    Direction_short field_12_direction;
+    XDirection_short field_12_direction;
 
     enum class State : __int16
     {

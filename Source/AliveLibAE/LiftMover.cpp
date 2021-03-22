@@ -20,7 +20,7 @@ EXPORT LiftMover* LiftMover::ctor_40CCD0(Path_LiftMover* pTlv, int tlvInfo)
     field_20_enabled_by_switch_id = pTlv->field_10_switch_id;
     field_22_target_lift_point_id = pTlv->field_12_lift_id;
 
-    if (pTlv->field_14_direction_up)
+    if (pTlv->field_14_direction == Path_LiftMover::YDirection::eUp_1)
     {
         field_2C_speed = FP_FromInteger(-4);
     }

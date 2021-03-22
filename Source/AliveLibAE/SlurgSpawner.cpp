@@ -15,7 +15,7 @@ SlurgSpawner* SlurgSpawner::ctor_4C82E0(Path_SlurgSpawner* pTlv, int tlvInfo)
     field_24_slurg_tlv = pTlv;
     field_28_path_data = pTlv->field_18_spawner_data;
     field_3E_delay_counter = 0;
-    field_40_spawned_count = pTlv->field_1_unknown;
+    field_40_spawned_count = pTlv->field_1_tlv_state;
     if ((field_40_spawned_count & 0x80u) != 0)
     {
         field_40_spawned_count = 0;

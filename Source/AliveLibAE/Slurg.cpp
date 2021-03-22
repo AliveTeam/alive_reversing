@@ -104,7 +104,7 @@ Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, DWORD tlvInfo)
 
     field_118_flags.Clear();
 
-    if (pTlv->field_10_slurg_data.field_2_direction == Direction_short::eRight_1)
+    if (pTlv->field_10_slurg_data.field_2_direction == XDirection_short::eRight_1)
     {
         field_118_flags.Set(SlurgFlags::Bit1_Direction);
     }

@@ -4766,7 +4766,7 @@ void Slig::Init_4BB0D0()
         break;
 
     case Path_Slig::StartState::Sleeping_2:
-        if (field_218_tlv_data.field_1_unknown && field_218_tlv_data.field_46_stay_awake)
+        if (field_218_tlv_data.field_1_tlv_state && field_218_tlv_data.field_46_stay_awake)
         {
             SetBrain(&Slig::AI_Inactive_32_4B9430);
         }
@@ -5234,7 +5234,7 @@ void Slig::WakeUp_4B93B0()
         TlvTypes::Slig_15);
     if (pTlv)
     {
-        pTlv->field_1_unknown = 1; // TODO: Keep track of these, 1 must keep slig awake ??
+        pTlv->field_1_tlv_state = 1; // TODO: Keep track of these, 1 must keep slig awake ??
     }
 }
 

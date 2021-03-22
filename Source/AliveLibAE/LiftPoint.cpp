@@ -78,7 +78,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, int tlvInfo)
     field_C_objectId = tlvInfo;
     field_4_typeId = Types::eLiftPoint_78;
 
-    pTlv->field_1_unknown = 3;
+    pTlv->field_1_tlv_state = 3;
 
     field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr_4DB7C0(pTlv);
 
@@ -383,14 +383,14 @@ int CC LiftPoint::CreateFromSaveState_4630F0(const BYTE* pData)
         return sizeof(LiftPoint_State);
     }
 
-    pTlv->field_1_unknown = 1;
+    pTlv->field_1_tlv_state = 1;
     if (pState->field_10_pTlv == -1)
     {
         return sizeof(LiftPoint_State);
     }
 
     Path_TLV* pTlv2 = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_10_pTlv);
-    pTlv2->field_1_unknown = 3;
+    pTlv2->field_1_tlv_state = 3;
     return sizeof(LiftPoint_State);
 }
 
@@ -644,7 +644,7 @@ void LiftPoint::vUpdate_461AE0()
                     field_280_flags.Set(LiftFlags::eBit8_bIgnoreLiftMover);
                 }
 
-                if (pLiftTlv->field_1_unknown != pLiftTlv->field_12_bstart_point)
+                if (pLiftTlv->field_1_tlv_state != pLiftTlv->field_12_bstart_point)
                 {
                     field_280_flags.Set(LiftFlags::eBit6);
                 }
@@ -678,7 +678,7 @@ void LiftPoint::vUpdate_461AE0()
                 {
                     if (field_C8_vely != FP_FromInteger(0) || distanceToFloor <= kMinus25Scaled || distanceToFloor >= k30Scaled)
                     {
-                        pLiftTlv->field_1_unknown = 1;
+                        pLiftTlv->field_1_tlv_state = 1;
                         field_280_flags.Clear(LiftFlags::eBit1_bTopFloor);
                         field_27C_pTlv = -1;
                     }
@@ -688,7 +688,7 @@ void LiftPoint::vUpdate_461AE0()
                         field_12C_bMoving |= 1u;
                         field_BC_ypos = field_270_floorYLevel - distanceToFloor;
 
-                        pLiftTlv->field_1_unknown = 3;
+                        pLiftTlv->field_1_tlv_state = 3;
 
                         field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr_4DB7C0(pLiftTlv);
                         pLiftTlv->field_10_id = field_278_lift_point_id;
@@ -707,7 +707,7 @@ void LiftPoint::vUpdate_461AE0()
                 {
                     if (field_C8_vely != FP_FromInteger(0) || distanceToFloor <= kMinus25Scaled || distanceToFloor >= k30Scaled)
                     {
-                        pLiftTlv->field_1_unknown = 1;
+                        pLiftTlv->field_1_tlv_state = 1;
 
                         field_280_flags.Clear(LiftFlags::eBit3_bBottomFloor);
                         field_27C_pTlv = -1;
@@ -718,7 +718,7 @@ void LiftPoint::vUpdate_461AE0()
                         field_280_flags.Set(LiftFlags::eBit5_bMoveToFloorLevel);
                         field_BC_ypos = field_270_floorYLevel - distanceToFloor;
 
-                        pLiftTlv->field_1_unknown = 3;
+                        pLiftTlv->field_1_tlv_state = 3;
 
                         field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr_4DB7C0(pLiftTlv);
                         pLiftTlv->field_10_id = field_278_lift_point_id;
@@ -735,7 +735,7 @@ void LiftPoint::vUpdate_461AE0()
             case LiftPointStopType::eMiddleFloor_2:
                 if (distanceToFloor <= kMinus25Scaled || distanceToFloor >= k30Scaled)
                 {
-                    pLiftTlv->field_1_unknown = 1;
+                    pLiftTlv->field_1_tlv_state = 1;
                     field_27C_pTlv = -1;
                 }
                 else
@@ -753,7 +753,7 @@ void LiftPoint::vUpdate_461AE0()
                         field_BC_ypos = field_270_floorYLevel - distanceToFloor;
                     }
 
-                    pLiftTlv->field_1_unknown = 3;
+                    pLiftTlv->field_1_tlv_state = 3;
                     field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr_4DB7C0(pLiftTlv);
                     pLiftTlv->field_10_id = field_278_lift_point_id;
                     field_280_flags.Set(LiftFlags::eBit2_bMiddleFloor);
@@ -763,7 +763,7 @@ void LiftPoint::vUpdate_461AE0()
             case LiftPointStopType::eStartPointOnly_4:
                 if (pLiftTlv)
                 {
-                    pLiftTlv->field_1_unknown = 1;
+                    pLiftTlv->field_1_tlv_state = 1;
                     field_27C_pTlv = -1;
                 }
                 field_280_flags.Clear(LiftFlags::eBit1_bTopFloor);
@@ -892,7 +892,7 @@ void CCSTD LiftPoint::sub_461000(Path_TLV* pTlv)
 {
     pTlv->field_0_flags.Clear(eBit1_Created);
     pTlv->field_0_flags.Clear(eBit2_Unknown);
-    pTlv->field_1_unknown |= 1;
+    pTlv->field_1_tlv_state |= 1;
 }
 
 void LiftPoint::vStayOnFloor_461A00(__int16 floor, Path_LiftPoint* pTlv)
@@ -905,7 +905,7 @@ void LiftPoint::vStayOnFloor_461A00(__int16 floor, Path_LiftPoint* pTlv)
     }
 
     field_12C_bMoving &= ~1;
-    pTlv->field_1_unknown = 3;
+    pTlv->field_1_tlv_state = 3;
     field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr_4DB7C0(pTlv);
     pTlv->field_10_id = field_278_lift_point_id;
     field_C8_vely = FP_FromInteger(0);
@@ -1089,7 +1089,7 @@ void LiftPoint::dtor_4624E0()
 
     if (pTlv)
     {
-        pTlv->field_1_unknown &= ~3;
+        pTlv->field_1_tlv_state &= ~3;
     }
 
     field_13C_lift_wheel.vCleanUp_40C630();

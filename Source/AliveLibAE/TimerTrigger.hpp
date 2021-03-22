@@ -7,7 +7,7 @@
 struct Path_TimerTrigger : public Path_TLV
 {
     __int16 field_10_id;
-    unsigned __int16 field_12_delay_time;
+    unsigned __int16 field_12_trigger_delay;
     __int16 field_14_id1;
     __int16 field_16_id2;
     __int16 field_18_id3;
@@ -58,8 +58,8 @@ private:
     TimerTriggerStates field_22_state;
     __int16 field_24_ids[4];
     int field_2C_tlvInfo;
-    int field_30_delay_timer;
-    int field_34_delay_time;
+    int field_30_trigger_delay_timer;
+    int field_34_trigger_delay;
     __int16 field_38_starting_switch_state;
 };
 ALIVE_ASSERT_SIZEOF(TimerTrigger, 0x3C);

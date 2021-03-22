@@ -387,7 +387,7 @@ EXPORT void CCSTD Path::TLV_Reset_4DB8E0(unsigned int tlvOffset_levelId_PathId, 
             if (hiFlags != -1)
             {
                 // Seems to be a blob per TLV specific bits
-                pTlv->field_1_unknown = static_cast<BYTE>(hiFlags);
+                pTlv->field_1_tlv_state = static_cast<BYTE>(hiFlags);
             }
             ResourceManager::FreeResource_49C330(ppPathRes);
         }

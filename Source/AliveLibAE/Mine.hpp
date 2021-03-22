@@ -15,7 +15,7 @@ struct Path_Mine : public Path_TLV
     __int16 field_12_pattern;
     Scale_short field_14_scale;
     __int16 field_16_disabled_resources;
-    __int16 field_18_persists_offscreen;
+    Choice_short field_18_persist_offscreen;
     __int16 pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_Mine, 0x1C);

@@ -29,7 +29,12 @@ struct Path_LiftMover : public Path_TLV
 {
     __int16 field_10_switch_id;
     __int16 field_12_lift_id;
-    __int16 field_14_direction_up;
+    enum class YDirection : __int16
+    {
+        eDown_0 = 0,
+        eUp_1 = 1,
+    };
+    YDirection field_14_direction;
     __int16 field_16_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LiftMover, 0x18);

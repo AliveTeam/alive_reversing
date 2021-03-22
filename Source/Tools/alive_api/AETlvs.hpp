@@ -1198,11 +1198,11 @@ namespace AETlvs
     {
         CTOR_AE(Path_Mine, "Mine", TlvTypes::Mine_24)
         {
-            ADD("num_patterns", mTlv.field_10_num_patterns);
-            ADD("pattern", mTlv.field_12_pattern);
-            ADD("scale", mTlv.field_14_scale);
-            ADD("disabled_resources", mTlv.field_16_disabled_resources);
-            ADD("persists_offscreen", mTlv.field_18_persists_offscreen);
+            ADD("Num Patterns (Unused?)", mTlv.field_10_num_patterns);
+            ADD("Pattern (Unused?)", mTlv.field_12_pattern);
+            ADD("Scale", mTlv.field_14_scale);
+            ADD("Disabled Resources", mTlv.field_16_disabled_resources);
+            ADD("Persist Offscreen", mTlv.field_18_persist_offscreen);
         }
     };
 
@@ -1241,13 +1241,13 @@ namespace AETlvs
     {
         CTOR_AE(Path_TrapDoor, "TrapDoor", TlvTypes::TrapDoor_30)
         {
-            ADD("id", mTlv.field_10_id);
-            ADD("start_state", mTlv.field_12_start_state);
-            ADD("self_closing", mTlv.field_14_self_closing);
-            ADD("scale", mTlv.field_16_scale);
-            ADD("dest_level", mTlv.field_18_dest_level);
-            ADD("direction", mTlv.field_1A_direction);
-            ADD("anim_offset", mTlv.field_1C_anim_offset);
+            ADD("ID", mTlv.field_10_id);
+            ADD("Start State", mTlv.field_12_start_state); // TODO: enum
+            ADD("Self Closing", mTlv.field_14_self_closing);
+            ADD("Scale", mTlv.field_16_scale);
+            ADD("Dest Level (Unused?)", mTlv.field_18_dest_level);
+            ADD("Direction", mTlv.field_1A_direction);
+            ADD("X Offset", mTlv.field_1C_xOff);
             ADD("stay_open_time", mTlv.field_1E_stay_open_time);
         }
     };
@@ -1256,22 +1256,31 @@ namespace AETlvs
     {
         CTOR_AE(Path_PathTransition, "PathTransition", TlvTypes::PathTransition_1)
         {
-            ADD("level", mTlv.level);
-            ADD("path", mTlv.path);
-            ADD("camera", mTlv.camera);
-            ADD("movie", mTlv.movie);
-            ADD("wipe", mTlv.wipe);
-            ADD("scale", mTlv.scale);
+            ADD("Level", mTlv.level);
+            ADD("Path", mTlv.path);
+            ADD("Camera", mTlv.camera);
+            ADD("Movie", mTlv.movie);
+            ADD("Wipe", mTlv.wipe);
+            ADD("Scale", mTlv.scale);
         }
     };
 
     struct Path_LiftMover : public TlvObjectBaseAE<::Path_LiftMover>
     {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<::Path_LiftMover::YDirection>("Enum_LiftMoverYDirection",
+                {
+                    {::Path_LiftMover::YDirection::eDown_0, "Down"},
+                    {::Path_LiftMover::YDirection::eUp_1, "Up"},
+                });
+        }
+
         CTOR_AE(Path_LiftMover, "LiftMover", TlvTypes::LiftMover_39)
         {
-            ADD("switch_id", mTlv.field_10_switch_id);
-            ADD("lift_id", mTlv.field_12_lift_id);
-            ADD("direction_up", mTlv.field_14_direction_up);
+            ADD("Switch ID", mTlv.field_10_switch_id);
+            ADD("Lift ID", mTlv.field_12_lift_id);
+            ADD("Direction", mTlv.field_14_direction);
         }
     };
 
@@ -1279,11 +1288,11 @@ namespace AETlvs
     {
         CTOR_AE(Path_RockSack, "RockSack", TlvTypes::RockSack_10)
         {
-            ADD("side", mTlv.field_10_side);
-            ADD("x_vel", mTlv.field_12_x_vel);
-            ADD("y_vel", mTlv.field_14_y_vel);
-            ADD("scale", mTlv.field_16_scale);
-            ADD("num_rocks", mTlv.field_18_num_rocks);
+            ADD("Rock Fall Direction", mTlv.field_10_fall_direction);
+            ADD("X Velocity", mTlv.field_12_x_vel);
+            ADD("Y Velocity", mTlv.field_14_y_vel);
+            ADD("Scale", mTlv.field_16_scale);
+            ADD("Rock Amount", mTlv.field_18_rock_amount);
         }
     };
 
@@ -1291,12 +1300,12 @@ namespace AETlvs
     {
         CTOR_AE(Path_TimerTrigger, "TimeTrigger", TlvTypes::TimerTrigger_57)
         {
-            ADD("id", mTlv.field_10_id);
-            ADD("delay_time", mTlv.field_12_delay_time);
-            ADD("id1", mTlv.field_14_id1);
-            ADD("id2", mTlv.field_16_id2);
-            ADD("id3", mTlv.field_18_id3);
-            ADD("id4", mTlv.field_1A_id4);
+            ADD("ID", mTlv.field_10_id);
+            ADD("Trigger Delay (Frames)", mTlv.field_12_trigger_delay);
+            ADD("ID 1", mTlv.field_14_id1);
+            ADD("ID 2", mTlv.field_16_id2);
+            ADD("ID 3", mTlv.field_18_id3);
+            ADD("ID 4", mTlv.field_1A_id4);
         }
     };
 
@@ -1304,24 +1313,24 @@ namespace AETlvs
     {
         void AddTypes(TypesCollection& types) override
         {
-            types.AddEnum<::Path_MotionDetector::StartMoveDirection>("Enum_StartMoveDirection",
+            types.AddEnum<::Path_MotionDetector::InitialMoveDirection>("Enum_InitialMoveDirection",
                 {
-                    {::Path_MotionDetector::StartMoveDirection::eRight_0, "right"},
-                    {::Path_MotionDetector::StartMoveDirection::eLeft_1, "left"},
+                    {::Path_MotionDetector::InitialMoveDirection::eRight_0, "Right"},
+                    {::Path_MotionDetector::InitialMoveDirection::eLeft_1, "Left"},
                 });
         }
 
         CTOR_AE(Path_MotionDetector, "MotionDetector", TlvTypes::MotionDetector_36)
         {
-            ADD("scale", mTlv.field_10_scale);
-            ADD("device_x", mTlv.field_12_device_x);
-            ADD("device_y", mTlv.field_14_device_y);
-            ADD("speed_x256", mTlv.field_16_speed_x256);
-            ADD("start_move_direction", mTlv.field_18_start_move_direction);
-            ADD("draw_flare", mTlv.field_1A_draw_flare);
-            ADD("disable_id", mTlv.field_1C_disable_id);
-            ADD("alarm_id", mTlv.field_1E_alarm_id);
-            ADD("alarm_ticks", mTlv.field_20_alarm_ticks);
+            ADD("Scale", mTlv.field_10_scale);
+            ADD("Device X", mTlv.field_12_device_x);
+            ADD("Device Y", mTlv.field_14_device_y);
+            ADD("Speed", mTlv.field_16_speed_x256);
+            ADD("Initial Move Direction", mTlv.field_18_initial_move_direction);
+            ADD("Draw Flare", mTlv.field_1A_draw_flare);
+            ADD("Disabled ID", mTlv.field_1C_disable_id);
+            ADD("Alarm ID", mTlv.field_1E_alarm_id);
+            ADD("Alarm Duration (Frames)", mTlv.field_20_alarm_duration);
         }
     };
 
@@ -1329,8 +1338,8 @@ namespace AETlvs
     {
         CTOR_AE(Path_MineCar, "MineCar", TlvTypes::MineCar_93)
         {
-            ADD("scale", mTlv.field_10_scale);
-            ADD("max_damage", mTlv.field_12_max_damage);
+            ADD("Scale", mTlv.field_10_scale);
+            ADD("Max Damage (Unused?)", mTlv.field_12_max_damage);
         }
     };
 
@@ -1354,10 +1363,10 @@ namespace AETlvs
     {
         CTOR_AE(Path_ColourfulMeter, "ColourfulMeter", TlvTypes::ColourfulMeter_91)
         {
-            ADD("id", mTlv.field_10_id);
-            ADD("number_of_meter_bars", mTlv.field_12_number_of_meter_bars);
-            ADD("timer", mTlv.field_14_timer);
-            ADD("start_full", mTlv.field_16_bStartsFull);
+            ADD("ID", mTlv.field_10_id);
+            ADD("Number Of Meter Bars", mTlv.field_12_number_of_meter_bars);
+            ADD("Mines Alarm Countdown (Seconds)", mTlv.field_14_mines_alarm_countdown);
+            ADD("Start Filled", mTlv.field_16_bStartFilled);
         }
     };
 
@@ -1365,8 +1374,8 @@ namespace AETlvs
     {
         CTOR_AE(Path_Alarm, "Alarm", TlvTypes::Alarm_100)
         {
-            ADD("id", mTlv.field_10_id);
-            ADD("duration", mTlv.field_12_duration);
+            ADD("ID", mTlv.field_10_id);
+            ADD("Duration (Frames)", mTlv.field_12_duration);
         }
     };
 
@@ -1382,14 +1391,14 @@ namespace AETlvs
     {
         CTOR_AE(Path_SlapLock, "SlapLock", TlvTypes::SlapLock_98)
         {
-            ADD("scale", mTlv.field_10_scale);
-            ADD("target_tomb_id1", mTlv.field_12_target_tomb_id1);
-            ADD("target_tomb_id2", mTlv.field_14_target_tomb_id2);
-            ADD("is_persistant", mTlv.field_16_bPersistant);
-            ADD("has_ghost", mTlv.field_18_has_ghost);
-            ADD("has_powerup", mTlv.field_1A_has_powerup);
-            ADD("powerup_id", mTlv.field_1C_powerup_id);
-            ADD("option_id", mTlv.field_1E_option_id);
+            ADD("Scale", mTlv.field_10_scale);
+            ADD("Target Tomb ID 1", mTlv.field_12_target_tomb_id1);
+            ADD("Target Tomb ID 2", mTlv.field_14_target_tomb_id2);
+            ADD("Persistant", mTlv.field_16_bPersistant);
+            ADD("Has Ghost", mTlv.field_18_has_ghost);
+            ADD("Give Invisibility Power-up", mTlv.field_1A_give_invisibility_powerup);
+            ADD("Invisibility Power-up ID", mTlv.field_1C_invisibility_id);
+            ADD("Option ID", mTlv.field_1E_option_id);
         }
     };
 
@@ -1545,7 +1554,7 @@ namespace AETlvs
         CTOR_AE(Path_NakedSlig, "NakedSlig", TlvTypes::NakedSlig_103)
         {
             ADD("Scale", mTlv.field_10_scale);
-            ADD("Direction Unused", mTlv.field_12_direction);
+            ADD("Direction (Unused?)", mTlv.field_12_direction);
             ADD("State", mTlv.field_14_state);
             ADD("Crawl Direction", mTlv.field_16_crawl_direction);
             ADD("Panic ID", mTlv.field_18_panic_id);
@@ -1557,7 +1566,7 @@ namespace AETlvs
     {
         CTOR_AE(Path_SligGetPants, "SligGetPants", TlvTypes::SligGetPants_104)
         {
-            ADD("scale", mTlv.scale);
+            ADD("Scale", mTlv.scale);
             ADD("unknown2", mTlv.unknown2);
             ADD("unknown3", mTlv.unknown3);
             ADD("unknown4", mTlv.unknown4);

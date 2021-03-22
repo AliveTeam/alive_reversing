@@ -125,7 +125,7 @@ EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, int tlvIn
         frameTableOffset = sTrapDoorData_547B78[levelIdx].field_4_maxW;
     }
 
-    field_13E_set_switch_on_dead = pTlv->field_14_self_closing;
+    field_13E_self_closing = pTlv->field_14_self_closing;
     if (pTlv->field_16_scale == Scale_short::eHalf_1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
@@ -165,14 +165,14 @@ EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, int tlvIn
 
     field_20_animation.Set_Animation_Data_409C80(frameTableOffset, 0);
 
-    if (pTlv->field_1A_direction)
+    if (pTlv->field_1A_direction == XDirection_short::eRight_1) // TODO: check if this is the correct direction
     {
         field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
     }
 
     field_11C_x_offset = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_0_x) - field_B8_xpos);
     field_11E_width_offset = FP_GetExponent(FP_FromInteger(pTlv->field_C_bottom_right.field_0_x) - field_B8_xpos);
-    field_13A_xOff = pTlv->field_1C_anim_offset;
+    field_13A_xOff = pTlv->field_1C_xOff;
 
     if (field_136_state == TrapDoorState::eOpen_2)
     {
@@ -288,7 +288,7 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
     case TrapDoorState::eOpen_2:
         field_130_stay_open_time2--;
 
-        if ((field_13E_set_switch_on_dead && field_130_stay_open_time2 + 1 <= 0) || SwitchStates_Get_466020(field_134_switch_idx) != field_138_switch_state)
+        if ((field_13E_self_closing == Choice_short::eYes_1 && field_130_stay_open_time2 + 1 <= 0) || SwitchStates_Get_466020(field_134_switch_idx) != field_138_switch_state)
         {
             field_20_animation.Set_Animation_Data_409C80(sTrapDoorData_547B78[static_cast<int>(gMap_5C3030.field_0_current_level)].field_C, 0);
             
@@ -339,7 +339,7 @@ EXPORT void TrapDoor::vScreenChanged_4DDE40()
         gMap_5C3030.field_22_overlayID != gMap_5C3030.GetOverlayId_480710())
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        if (field_13E_set_switch_on_dead)
+        if (field_13E_self_closing == Choice_short::eYes_1)
         {
             SwitchStates_Set_465FF0(field_134_switch_idx, field_138_switch_state == 0);
         }

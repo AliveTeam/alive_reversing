@@ -281,10 +281,10 @@ void TypesCollection::AddAETypes()
              { Choice_short::eYes_1, "Yes" },
         });
 
-    AddEnum<Direction_short>("Enum_Direction_short",
+    AddEnum<XDirection_short>("Enum_XDirection_short",
         {
-             { Direction_short::eLeft_0, "Left" },
-             { Direction_short::eRight_1, "Right" },
+             { XDirection_short::eLeft_0, "Left" },
+             { XDirection_short::eRight_1, "Right" },
         });
 
     AddEnum<Scale_short>("Enum_Scale_short",

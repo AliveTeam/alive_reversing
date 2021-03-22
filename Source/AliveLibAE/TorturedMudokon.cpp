@@ -294,7 +294,7 @@ void TorturedMudokon::vUpdate_47BF80()
         Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_230_tlvInfo);
         if (pTlv)
         {
-            pTlv->field_1_unknown = 1;
+            pTlv->field_1_tlv_state = 1;
         }
     }
 }

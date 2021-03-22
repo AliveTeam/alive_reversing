@@ -9,7 +9,7 @@ struct Path_SlogSpawner : public Path_TLV
     Scale_short field_10_scale;
     __int16 field_12_number_of_slogs;
     __int16 field_14_max_slogs_at_a_time;
-    Direction_short field_16_direction;
+    XDirection_short field_16_direction;
     __int16 field_18_slog_spawn_delay;
     __int16 field_1A_id;
     Choice_short field_1C_listen_to_sligs;
@@ -40,7 +40,7 @@ private:
     Scale_short field_34_scale;
     __int16 field_36_max_slogs;
     __int16 field_38_max_slogs_at_a_time;
-    Direction_short field_3A_direction;
+    XDirection_short field_3A_direction;
     __int16 field_3C_slog_spawn_delay;
     __int16 field_3E_switch_id;
     Choice_short field_40_listen_to_sligs;

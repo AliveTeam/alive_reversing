@@ -171,7 +171,7 @@ enum class Direction
     eRight = 1,
 };
 
-enum class Direction_short : __int16
+enum class XDirection_short : __int16
 {
     eLeft_0 = 0,
     eRight_1 = 1,
@@ -186,7 +186,7 @@ enum class Choice_short : __int16
 struct Path_TLV
 {
     BitField8<TLV_Flags> field_0_flags;
-    BYTE field_1_unknown;
+    BYTE field_1_tlv_state;
     __int16 field_2_length;
     TlvTypes32 field_4_type;
     PSX_Point field_8_top_left;

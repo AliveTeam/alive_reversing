@@ -69,9 +69,9 @@ SecurityDoor* SecurityDoor::ctor_4ABFC0(Path_SecurityDoor* pTlv, int tlvInfo)
         field_BC_ypos = FP_FromInteger((pTlv->field_8_top_left.field_2_y + pTlv->field_C_bottom_right.field_2_y) / 2);
     }
 
-    if (pTlv->field_1_unknown)
+    if (pTlv->field_1_tlv_state)
     {
-        field_F8_state = static_cast<SecurityDoorStates>(pTlv->field_1_unknown - 1);
+        field_F8_state = static_cast<SecurityDoorStates>(pTlv->field_1_tlv_state - 1);
     }
     else
     {

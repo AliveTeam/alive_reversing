@@ -36,7 +36,7 @@ RockSack* RockSack::ctor_49F100(Path_RockSack* pTlv, int tlvInfo)
     field_124_x_vel = FP_FromRaw(pTlv->field_12_x_vel << 8);
     field_128_y_vel = FP_FromRaw(-256 * pTlv->field_14_y_vel);
 
-    if (!pTlv->field_10_side)
+    if (pTlv->field_10_fall_direction == XDirection_short::eLeft_0)
     {
         field_124_x_vel = -field_124_x_vel;
     }
@@ -52,7 +52,7 @@ RockSack* RockSack::ctor_49F100(Path_RockSack* pTlv, int tlvInfo)
         field_D6_scale = 1;
     }
 
-    field_11E_num_rocks = pTlv->field_18_num_rocks;
+    field_11E_rock_amount = pTlv->field_18_rock_amount;
     field_120_can_play_wobble_sound = 1;
     field_122_force_wobble_sound = 1;
 
@@ -179,12 +179,12 @@ void RockSack::vUpdate_49F3A0()
                 gpThrowableArray_5D1E2C->ctor_49A630();
             }
 
-            gpThrowableArray_5D1E2C->Add_49A7A0(field_11E_num_rocks);
+            gpThrowableArray_5D1E2C->Add_49A7A0(field_11E_rock_amount);
 
             auto pRock = ae_new<Rock>();
             if (pRock)
             {
-                pRock->ctor_49E150(field_B8_xpos, field_BC_ypos - FP_FromInteger(30), field_11E_num_rocks);
+                pRock->ctor_49E150(field_B8_xpos, field_BC_ypos - FP_FromInteger(30), field_11E_rock_amount);
             }
 
             pRock->VThrow_49E460(field_124_x_vel, field_128_y_vel);
