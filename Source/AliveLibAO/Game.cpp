@@ -83,11 +83,11 @@ EXPORT int CC Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam
                 "14:32:52");
             Input_InitKeyStateArray_48E5F0();
         }
-        Input_SetKeyState_48E610(wParam, 1);
+        Input_SetKeyState_48E610(static_cast<int>(wParam), 1);
         return 0;
 
     case WM_KEYUP:
-        Input_SetKeyState_48E610(wParam, 0);
+        Input_SetKeyState_48E610(static_cast<int>(wParam), 0);
         break;
 
     case WM_SETCURSOR:
@@ -127,7 +127,7 @@ EXPORT int CC Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam
         {
             ret = -1;
         }
-        Input_SetKeyState_48E610(wParam, 1);
+        Input_SetKeyState_48E610(static_cast<int>(wParam), 1);
         break;
 
     case WM_SYSKEYUP:
@@ -136,15 +136,15 @@ EXPORT int CC Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam
         {
             ret = -1;
         }
-        Input_SetKeyState_48E610(wParam, 0);
+        Input_SetKeyState_48E610(static_cast<int>(wParam), 0);
         break;
 
     case WM_TIMER:
         return 1;
     default:
-        return ret;
+        return static_cast<int>(ret);
     }
-    return ret;
+    return static_cast<int>(ret);
 }
 using TFilter = std::add_pointer<int CC(HWND, UINT, WPARAM, LPARAM)>::type;
 

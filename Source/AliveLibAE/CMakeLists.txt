@@ -394,11 +394,7 @@ target_compile_definitions(AliveLibAE PRIVATE "BEHAVIOUR_CHANGE_FORCE_WINDOW_MOD
 target_compile_definitions(AliveLibAE PRIVATE "BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS")
 
 if (MSVC)
-    if (CMAKE_SIZEOF_VOID_P EQUAL 4)
-        target_compile_options(AliveLibAE PRIVATE /W4 /wd4996 /WX /MP)
-    else()
-        target_compile_options(AliveLibAE PRIVATE /W4 /wd4996 /MP)
-    endif()
+    target_compile_options(AliveLibAE PRIVATE /W4 /wd4996 /WX /MP)
 
     set_target_properties(AliveLibAE PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS /functionpadmin:16")
     set_target_properties(AliveLibAE PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS /functionpadmin:16")

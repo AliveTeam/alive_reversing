@@ -7667,7 +7667,8 @@ int Mudokon::GetResponseEntryIdx_471760()
 {
     if (field_188_pTblEntry)
     {
-        return field_188_pTblEntry - &kMudEmoTable_55C790.field_0_data[0][0];
+        const size_t idx = field_188_pTblEntry - &kMudEmoTable_55C790.field_0_data[0][0];
+        return static_cast<int>(idx); // size_t for 64bit, but we know there isnt over int limits of entries in the table
     }
     return -1;
 }

@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "stdlib.hpp"
 #include "Masher.hpp"
+#include "Sys_common.hpp"
 
 #if !_WIN32
 #include <dirent.h>
@@ -86,7 +87,9 @@ EXPORT IO_Handle* CC IO_Open_4F2320(const char* fileName, int modeFlag)
         if (!(modeFlag & 2))
         {
             // Somehow it can also be passed as string?? I don't think this case ever happens
-            mode = reinterpret_cast<const char*>(modeFlag);
+            //mode = reinterpret_cast<const char*>(modeFlag);
+            LOG_ERROR("Unknown mode flag " << modeFlag);
+            ALIVE_FATAL("Unknow mode flag");
         }
     }
 

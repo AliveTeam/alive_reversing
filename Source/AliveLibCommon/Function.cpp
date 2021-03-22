@@ -16,6 +16,9 @@ void SetVTable(void* thisPtr, DWORD vTable)
     {
         *reinterpret_cast<DWORD**>(thisPtr) = reinterpret_cast<DWORD*>(vTable);
     }
+#else
+    (void)thisPtr;
+    (void)vTable;
 #endif
 }
 
@@ -111,7 +114,12 @@ void ScopedDetour::Construct()
 
 void ScopedDetour::DoDetour(bool attach, PVOID* ppPointer, PVOID detour)
 {
-#if defined(_WIN32) && !defined(_WIN64)
+#if defined(_WIN32)
+#if defined(_WIN64)
+    (void)attach;
+    (void)ppPointer;
+    (void)detour;
+#else
     LONG err = DetourTransactionBegin();
 
     if (err != NO_ERROR)
@@ -137,6 +145,7 @@ void ScopedDetour::DoDetour(bool attach, PVOID* ppPointer, PVOID detour)
     {
         abort();
     }
+#endif
 #endif
 }
 
