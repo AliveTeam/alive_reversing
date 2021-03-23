@@ -149,11 +149,11 @@ Fleech* Fleech::ctor_429DC0(Path_Fleech* pTlv, int tlvInfo)
     field_11C_obj_id = -1;
     field_170_danger_obj = -1;
 
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_12_direction == 0);
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_12_direction == XDirection_short::eLeft_0);
 
-    field_174_flags.Set(Flags_174::eBit5_asleep, pTlv->field_14_asleep & 1);
-    field_174_flags.Set(Flags_174::eBit6_goes_to_sleep, pTlv->field_24_goes_to_sleep & 1);
-    field_174_flags.Set(Flags_174::eBit7_persistant, pTlv->field_2C_persistant & 1);
+    field_174_flags.Set(Flags_174::eBit5_asleep, pTlv->field_14_asleep == Choice_short::eYes_1);
+    field_174_flags.Set(Flags_174::eBit6_goes_to_sleep, pTlv->field_24_goes_to_sleep  == Choice_short::eYes_1);
+    field_174_flags.Set(Flags_174::eBit7_persistant, pTlv->field_2C_persistant == Choice_short::eYes_1);
 
     field_140 = 2;
     field_158 = 10;
@@ -162,7 +162,7 @@ Fleech* Fleech::ctor_429DC0(Path_Fleech* pTlv, int tlvInfo)
     field_144_wake_up_id = pTlv->field_1E_wake_up_id;
     field_146_tlv_28 = pTlv->field_28_unused;
     field_148_wake_up_switch_value = SwitchStates_Get_466020(pTlv->field_1E_wake_up_id) & 0xFFFF;
-    field_14A_allow_wake_up_id = pTlv->field_2A_allow_wake_up_id;
+    field_14A_allow_wake_up_id = pTlv->field_2A_allow_wake_up_id == Choice_short::eYes_1;
     field_150_patrol_range = FP_GetExponent(FP_FromInteger(pTlv->field_26_patrol_range_in_grids) * ScaleToGridSize_4498B0(field_CC_sprite_scale));
     field_15C_lost_target_timeout = pTlv->field_22_lost_target_timeout;
 
@@ -170,7 +170,7 @@ Fleech* Fleech::ctor_429DC0(Path_Fleech* pTlv, int tlvInfo)
 
     field_13E_anger = 0;
 
-    if (pTlv->field_20_hanging)
+    if (pTlv->field_20_hanging == Choice_short::eYes_1)
     {
         field_160_hoistX = (pTlv->field_C_bottom_right.field_0_x + pTlv->field_8_top_left.field_0_x) / 2;
         field_166_angle = Fleech_NextRandom();

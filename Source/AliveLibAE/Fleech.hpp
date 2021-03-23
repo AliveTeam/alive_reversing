@@ -29,20 +29,20 @@ enum class FleechSound : unsigned __int8
 struct Path_Fleech : public Path_TLV
 {
     Scale_short field_10_scale;
-    __int16 field_12_direction;
-    __int16 field_14_asleep;
+    XDirection_short field_12_direction;
+    Choice_short field_14_asleep;
     __int16 field_16_wake_up;
     __int16 field_18_not_used;
     __int16 field_1A_attack_anger;
     __int16 field_1C_attack_delay;
     __int16 field_1E_wake_up_id;
-    __int16 field_20_hanging;
+    Choice_short field_20_hanging;
     __int16 field_22_lost_target_timeout;
-    __int16 field_24_goes_to_sleep;
+    Choice_short field_24_goes_to_sleep;
     __int16 field_26_patrol_range_in_grids;
     __int16 field_28_unused;
-    __int16 field_2A_allow_wake_up_id;
-    __int16 field_2C_persistant;
+    Choice_short field_2A_allow_wake_up_id;
+    Choice_short field_2C_persistant;
     __int16 field_2E_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Fleech, 0x30);
