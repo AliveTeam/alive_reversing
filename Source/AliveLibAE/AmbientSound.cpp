@@ -156,7 +156,7 @@ EXPORT void CC Start_Sounds_for_TLV_4CB530(CameraPos direction, Path_TLV* pTlv)
     case TlvTypes::Fleech_83:
     {
         auto pFleechTlv = static_cast<Path_Fleech*>(pTlv);
-        if ((pFleechTlv->field_14_asleep || pFleechTlv->field_20_hanging))
+        if ((pFleechTlv->field_14_asleep == Choice_short::eYes_1 || pFleechTlv->field_20_hanging == Choice_short::eYes_1))
         {
             if (!pAmbianceTbl->mArray[4].field_8_pScopedSeq)
             {
