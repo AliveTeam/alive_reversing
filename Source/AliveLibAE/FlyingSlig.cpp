@@ -2214,7 +2214,7 @@ __int16 FlyingSlig::sub_4374A0(__int16 a2)
     }
     else
     {
-        if (!field_17E_flags.Get(Flags_17E::eBit11_bNoPrevLine) && (field_180_bound2 != TlvTypes::ContinuePoint_0 || !a2)) // todo: change to None when we can break abi
+        if (!field_17E_flags.Get(Flags_17E::eBit11_bNoPrevLine) && (field_180_bound2 == TlvTypes::ContinuePoint_0 || !a2)) // todo: change to None when we can break abi
         {
             if (!field_17E_flags.Get(Flags_17E::eBit3))
             {
