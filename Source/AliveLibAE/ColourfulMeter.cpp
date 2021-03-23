@@ -53,10 +53,10 @@ ColourfulMeter* ColourfulMeter::ctor_43CE40(Path_ColourfulMeter* pTlv, int tlvIn
     field_78_count = 15;
 
     field_7E_starting_switch_state = static_cast<short>(SwitchStates_Get_466020(field_72_switch_id));
-    field_84_bStartsFull = pTlv->field_16_bStartsFull;
-    field_7C_timer = pTlv->field_14_timer;
+    field_84_bStartFilled = pTlv->field_16_bStartFilled;
+    field_7C_mines_alarm_countdown = pTlv->field_14_mines_alarm_countdown;
 
-    if (field_84_bStartsFull)
+    if (field_84_bStartFilled == Choice_short::eYes_1)
     {
         if (field_7E_starting_switch_state)
         {
@@ -138,7 +138,7 @@ void ColourfulMeter::vUpdate_43D140()
         gbDrawMeterCountDown_5C1BF8 = 0;
     }
 
-    if (field_84_bStartsFull)
+    if (field_84_bStartFilled == Choice_short::eYes_1)
     {
         gbDrawMeterCountDown_5C1BF8 = 0;
 
@@ -184,7 +184,7 @@ void ColourfulMeter::vUpdate_43D140()
         else if (!gbDrawMeterCountDown_5C1BF8)
         {
             gbDrawMeterCountDown_5C1BF8 = 1;
-            MinesAlarm::Create_4177F0(30 * field_7C_timer);
+            MinesAlarm::Create_4177F0(30 * field_7C_mines_alarm_countdown);
         }
     }
 }

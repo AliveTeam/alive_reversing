@@ -327,7 +327,7 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
         }
 
         // TODO: Meaning of the data in field_1_unknown for lift point
-        if (pLiftTlv->field_1_unknown & 2 || (pLiftTlv->field_1_unknown == 0 && pLiftTlv->field_12_bstart_point))
+        if (pLiftTlv->field_1_tlv_state & 2 || (pLiftTlv->field_1_tlv_state == 0 && pLiftTlv->field_12_bstart_point))
         {
             auto pLiftPoint = ae_new<LiftPoint>();
             if (pLiftPoint)
@@ -359,7 +359,7 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
 
                         if (absX < 5 && 
                             pLiftPointIter->field_10_id == pLiftTlv->field_10_id && 
-                            (pLiftPointIter->field_1_unknown & 2 || pLiftPointIter->field_1_unknown == 0) &&
+                            (pLiftPointIter->field_1_tlv_state & 2 || pLiftPointIter->field_1_tlv_state == 0) &&
                             pLiftPointIter->field_12_bstart_point)
                         {
 
@@ -2091,7 +2091,7 @@ EXPORT void CC Factory_DoorBlocker_4DAAE0(Path_TLV* pTlv , Path*, TlvItemInfoUni
 
 EXPORT void CC Factory_TorturedMudokon_4D8430(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
-    if (!pTlv->field_1_unknown)
+    if (!pTlv->field_1_tlv_state)
     {
         if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
         {

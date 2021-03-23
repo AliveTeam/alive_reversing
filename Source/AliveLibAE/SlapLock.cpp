@@ -65,16 +65,16 @@ SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, int tlvInfo)
 
         if (pObj->field_4_typeId == Types::eSlapLock_OrbWhirlWind_60 && static_cast<SlapLockWhirlWind*>(pObj)->SwitchId() == field_118_pTlv->field_14_target_tomb_id2)
         {
-            field_130_has_ghost = 0;
+            field_130_has_ghost = Choice_short::eNo_0;
         }
     }
 
     if (SwitchStates_Get_466020(pTlv->field_14_target_tomb_id2))
     {
-        field_130_has_ghost = 0;
+        field_130_has_ghost = Choice_short::eNo_0;
     }
 
-    if (pTlv->field_1_unknown == 0)
+    if (pTlv->field_1_tlv_state == 0)
     {
         return this;
     }
@@ -84,9 +84,9 @@ SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, int tlvInfo)
     field_124_timer1 = sGnFrame_5C1B84 + 60;
     field_13C_timer2 = sGnFrame_5C1B84 + 30;
 
-    if (field_118_pTlv->field_1A_has_powerup != 0)
+    if (field_118_pTlv->field_1A_give_invisibility_powerup == Choice_short::eYes_1)
     {
-        field_120_state = SlapLockStates::eEmitPowerupRing_4;
+        field_120_state = SlapLockStates::eEmitInvisibilityPowerupRing_4;
     }
     else
     {
@@ -149,7 +149,7 @@ int CC SlapLock::CreateFromSaveState_43EA00(const BYTE* pBuffer)
 
     pSlapLock->field_11C_tlvInfo = pState->field_4_tlvInfo;
 
-    pTlv->field_1_unknown = pState->field_8_tlv_state;
+    pTlv->field_1_tlv_state = pState->field_8_tlv_state;
 
     pSlapLock->field_120_state = pState->field_A_state;
     pSlapLock->field_124_timer1 = pState->field_C_timer1;
@@ -182,7 +182,7 @@ void SlapLock::GiveInvisibility_43E880()
     field_118_pTlv = static_cast<Path_SlapLock*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_11C_tlvInfo));
     if (sActiveHero_5C1B68)
     {
-        sActiveHero_5C1B68->field_176_invisibility_id = field_118_pTlv->field_1C_powerup_id;
+        sActiveHero_5C1B68->field_176_invisibility_id = field_118_pTlv->field_1C_invisibility_id;
         sActiveHero_5C1B68->field_16C_bHaveShrykull = 0;
         sActiveHero_5C1B68->field_16E_bHaveInvisiblity = 1;
         sActiveHero_5C1B68->field_168_ring_pulse_timer = sGnFrame_5C1B84 + 200000;
@@ -194,7 +194,7 @@ signed int SlapLock::vGetSaveState_43EB30(SlapLock_State* pState)
     pState->field_0_type = Types::eLockedSoul_61;
     pState->field_2_render = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render) & 1;
     pState->field_4_tlvInfo = field_11C_tlvInfo;
-    pState->field_8_tlv_state = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_11C_tlvInfo)->field_1_unknown;
+    pState->field_8_tlv_state = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_11C_tlvInfo)->field_1_tlv_state;
     pState->field_A_state = field_120_state;
     pState->field_C_timer1 = field_124_timer1;
     pState->field_14_timer2 = field_13C_timer2;
@@ -227,7 +227,7 @@ void SlapLock::vUpdate_43DF90()
         {
             field_114_flags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
 
-            if (field_118_pTlv->field_1_unknown)
+            if (field_118_pTlv->field_1_tlv_state)
             {
                 SwitchStates_Do_Operation_465F00(field_118_pTlv->field_14_target_tomb_id2, SwitchOp::eSetTrue_0);
             }
@@ -258,7 +258,7 @@ void SlapLock::vUpdate_43DF90()
         {
         case SlapLockStates::eShaking_0:
         {
-            if (field_118_pTlv->field_1A_has_powerup)
+            if (field_118_pTlv->field_1A_give_invisibility_powerup == Choice_short::eYes_1)
             {
                 if (!(sGnFrame_5C1B84 & 63))
                 {
@@ -275,7 +275,7 @@ void SlapLock::vUpdate_43DF90()
                 return;
             }
 
-            if (!field_130_has_ghost)
+            if (field_130_has_ghost == Choice_short::eNo_0)
             {
                 return;
             }
@@ -289,7 +289,7 @@ void SlapLock::vUpdate_43DF90()
         }
         case SlapLockStates::eIdle_1:
         {
-            if (field_118_pTlv->field_1A_has_powerup)
+            if (field_118_pTlv->field_1A_give_invisibility_powerup == Choice_short::eYes_1)
             {
                 if (!(sGnFrame_5C1B84 & 63))
                 {
@@ -322,7 +322,7 @@ void SlapLock::vUpdate_43DF90()
 
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
 
-            if (!field_118_pTlv->field_1A_has_powerup)
+            if (field_118_pTlv->field_1A_give_invisibility_powerup == Choice_short::eNo_0)
             {
                 field_13C_timer2 = sGnFrame_5C1B84 + 60;
                 field_120_state = SlapLockStates::eBroken_3;
@@ -351,7 +351,7 @@ void SlapLock::vUpdate_43DF90()
             field_13C_timer2 = Math_RandomRange_496AB0(-30, 30) + sGnFrame_5C1B84 + 60;
             return;
         }
-        case SlapLockStates::eEmitPowerupRing_4:
+        case SlapLockStates::eEmitInvisibilityPowerupRing_4:
         {
             if (static_cast<int>(sGnFrame_5C1B84) > field_124_timer1)
             {
@@ -373,7 +373,7 @@ void SlapLock::vUpdate_43DF90()
                 }
                 else
                 {
-                    GivePowerUp_43E910();
+                    GiveInvisibilityPowerUp_43E910();
                     field_120_state = SlapLockStates::eFlickerHero_5;
                 }
             }
@@ -441,7 +441,7 @@ void SlapLock::vUpdate_43DF90()
     }
 }
 
-void SlapLock::GivePowerUp_43E910()
+void SlapLock::GiveInvisibilityPowerUp_43E910()
 {
     AbilityRing::Factory_482F80(
         field_B8_xpos,
@@ -492,9 +492,9 @@ __int16 SlapLock::vTakeDamage_43E5D0(BaseGameObject* pFrom)
 
     sActiveHero_5C1B68->ToKnockback_44E700(1, 0);
 
-    if (field_130_has_ghost)
+    if (field_130_has_ghost == Choice_short::eYes_1)
     {
-        field_130_has_ghost = 0;
+        field_130_has_ghost = Choice_short::eNo_0;
         auto pSlapWhirlWind = ae_new<SlapLockWhirlWind>();
         if (pSlapWhirlWind)
         {
@@ -507,9 +507,9 @@ __int16 SlapLock::vTakeDamage_43E5D0(BaseGameObject* pFrom)
         }
     }
 
-    if (field_118_pTlv->field_1A_has_powerup)
+    if (field_118_pTlv->field_1A_give_invisibility_powerup == Choice_short::eYes_1)
     {
-        GivePowerUp_43E910();
+        GiveInvisibilityPowerUp_43E910();
     }
 
     field_120_state = SlapLockStates::eSlapped_2;
@@ -532,6 +532,6 @@ __int16 SlapLock::vTakeDamage_43E5D0(BaseGameObject* pFrom)
     const AnimRecord& animRec = AnimRec(AnimId::Slap_Lock_Idle_B);
     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
-    field_118_pTlv->field_1_unknown = 1;
+    field_118_pTlv->field_1_tlv_state = 1;
     return 1;
 }

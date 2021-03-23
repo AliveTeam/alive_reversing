@@ -19,7 +19,7 @@ ALIVE_ASSERT_SIZEOF(Slurg_Step_Watch_Points, 0x14);
 struct Slurg_Path_Data
 {
     __int16 field_0_moving_timer;
-    Direction_short field_2_direction;
+    XDirection_short field_2_direction;
     Scale_short field_4_scale;
     __int16 field_6_id;
 };

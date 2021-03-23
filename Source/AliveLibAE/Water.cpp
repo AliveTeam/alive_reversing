@@ -59,7 +59,7 @@ Water* Water::ctor_4E02C0(Path_Water* pTlv, int tlvInfo)
         if (field_F4_ppWaterRes)
         {
             field_F8_pWaterRes = reinterpret_cast<Water_Res*>(*field_F4_ppWaterRes);
-            field_FC_state = static_cast<WaterState>(pTlv->field_1_unknown);
+            field_FC_state = static_cast<WaterState>(pTlv->field_1_tlv_state);
 
             if (field_FC_state == WaterState::eFlowing_2)
             {

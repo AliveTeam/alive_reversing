@@ -63,7 +63,7 @@ FartMachine* FartMachine::ctor_413060(Path_FartMachine* pTlv, int tlvInfo)
     field_20_animation.field_C_render_layer = Layer::eLayer_23;
     field_1E4_remaining_brew_count = pTlv->field_10_num_brews;
 
-    const BYTE savedBrewCount = pTlv->field_1_unknown;
+    const BYTE savedBrewCount = pTlv->field_1_tlv_state;
     if (savedBrewCount == 0)
     {
         field_144_total_brew_count = field_1E4_remaining_brew_count;
@@ -125,11 +125,11 @@ void FartMachine::vUpdate_4132C0()
     Path_FartMachine* pTlv = static_cast<Path_FartMachine*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_140_tlvInfo));
     if (field_144_total_brew_count > 0)
     {
-        pTlv->field_1_unknown = static_cast<BYTE>(field_144_total_brew_count);
+        pTlv->field_1_tlv_state = static_cast<BYTE>(field_144_total_brew_count);
     }
     else
     {
-        pTlv->field_1_unknown = 50;
+        pTlv->field_1_tlv_state = 50;
     }
 
     if (Event_Get_422C00(kEventDeathReset))

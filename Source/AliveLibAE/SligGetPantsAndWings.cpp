@@ -64,7 +64,7 @@ void SligGetPantsAndWings::vUpdate_465DD0()
     switch (field_F4_state)
     {
         case State::eWaiting_0:
-            if (pTlv->field_1_unknown)
+            if (pTlv->field_1_tlv_state)
             {
                 field_F4_state = State::eActive_1;
                 field_FC_timer = sGnFrame_5C1B84 + 8;
@@ -85,7 +85,7 @@ void SligGetPantsAndWings::vUpdate_465DD0()
             {
                 field_F4_state = State::eWaiting_0;
                 field_20_animation.Set_Animation_Data_409C80(4352, nullptr);
-                pTlv->field_1_unknown = 0;
+                pTlv->field_1_tlv_state = 0;
             }
             break;
     }

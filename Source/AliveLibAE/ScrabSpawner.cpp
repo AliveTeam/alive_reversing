@@ -16,7 +16,7 @@ ScrabSpawner* ScrabSpawner::ctor_4AB450(Path_ScrabSpawner* pTlv, int tlvInfo)
     field_4_typeId = Types::eScrabSpawner_113;
 
     field_28_tlv_data.field_0_flags = pTlv->field_0_flags;
-    field_28_tlv_data.field_1_unknown = pTlv->field_1_unknown;
+    field_28_tlv_data.field_1_tlv_state = pTlv->field_1_tlv_state;
     field_28_tlv_data.field_2_length = pTlv->field_2_length;
     field_28_tlv_data.field_4_type = pTlv->field_4_type;
     field_28_tlv_data.field_8_top_left = pTlv->field_8_top_left;

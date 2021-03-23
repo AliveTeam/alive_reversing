@@ -55,7 +55,7 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, int tlvInfo)
 
     if (pTlvData->field_40_close_after_use)
     {
-        if (pTlvData->field_1_unknown)
+        if (pTlvData->field_1_tlv_state)
         {
             field_FE_start_state = eClosed_1;
         }
@@ -340,7 +340,7 @@ void Door::vClose_41EB50()
         field_FE_start_state = eClosed_1;
         field_FC_current_state = eClosing_3;
         Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_F4_tlvInfo);
-        pTlv->field_1_unknown = 1;
+        pTlv->field_1_tlv_state = 1;
     }
 }
 
@@ -555,7 +555,7 @@ TrainDoor* TrainDoor::ctor_4DD090(Path_TrainDoor* pTlv, int tlvInfo)
     sTrainDoorXPos_BB4AA0 = field_B8_xpos;
     sTrainDoorYPos_BB4AA4 = field_BC_ypos;
 
-    if (pTlv->field_1_unknown)
+    if (pTlv->field_1_tlv_state)
     {
         const AnimRecord& animRec = AnimRec(AnimId::Door_Train_Closed);
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, 0);

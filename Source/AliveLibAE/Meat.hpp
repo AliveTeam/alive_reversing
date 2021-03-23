@@ -94,7 +94,7 @@ ALIVE_ASSERT_SIZEOF(Meat, 0x134);
 
 struct Path_MeatSack : public Path_TLV
 {
-    Direction_short field_10_meat_fall_direction;
+    XDirection_short field_10_meat_fall_direction;
     unsigned __int16 field_12_xVel;
     unsigned __int16 field_14_yVel;
     Scale_short field_16_scale;

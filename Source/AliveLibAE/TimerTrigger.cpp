@@ -14,7 +14,7 @@ TimerTrigger* TimerTrigger::ctor_4CDC20(Path_TimerTrigger* pTlv, int tlvInfo)
     field_2C_tlvInfo = tlvInfo;
     field_4_typeId = Types::eTimerTrigger_136;
     field_20_id = pTlv->field_10_id;
-    field_34_delay_time = pTlv->field_12_delay_time;
+    field_34_trigger_delay = pTlv->field_12_trigger_delay;
     field_24_ids[0] = pTlv->field_14_id1;
     field_24_ids[1] = pTlv->field_16_id2;
     field_24_ids[2] = pTlv->field_18_id3;
@@ -54,7 +54,7 @@ EXPORT signed int CC TimerTrigger::CreateFromSaveState_4CDF70(const BYTE* pData)
     {
         pTimerTrigger->ctor_4CDC20(pTlv, pState->field_4_tlvInfo);
         pTimerTrigger->field_22_state = pState->field_C_state;
-        pTimerTrigger->field_30_delay_timer = sGnFrame_5C1B84 + pState->field_8_delay_timer_base;
+        pTimerTrigger->field_30_trigger_delay_timer = sGnFrame_5C1B84 + pState->field_8_delay_timer_base;
         pTimerTrigger->field_38_starting_switch_state = pState->field_E_starting_switch_state;
 
     }
@@ -86,12 +86,12 @@ void TimerTrigger::vUpdate_4CDDB0()
         if (SwitchStates_Get_466020(field_20_id) != field_38_starting_switch_state)
         {
             field_22_state = TimerTriggerStates::eWaitForFirstTrigger_1;
-            field_30_delay_timer = sGnFrame_5C1B84 + field_34_delay_time;
+            field_30_trigger_delay_timer = sGnFrame_5C1B84 + field_34_trigger_delay;
         }
         break;
 
     case TimerTriggerStates::eWaitForFirstTrigger_1:
-        if (field_30_delay_timer <= static_cast<int>(sGnFrame_5C1B84))
+        if (field_30_trigger_delay_timer <= static_cast<int>(sGnFrame_5C1B84))
         {
             ToggleAllIds_4CDEC0();
             field_22_state = TimerTriggerStates::eCheckForStartAgain_2;
@@ -102,12 +102,12 @@ void TimerTrigger::vUpdate_4CDDB0()
         if (SwitchStates_Get_466020(field_20_id) == field_38_starting_switch_state)
         {
             field_22_state = TimerTriggerStates::eWaitForSecondTrigger_3;
-            field_30_delay_timer = sGnFrame_5C1B84 + field_34_delay_time;
+            field_30_trigger_delay_timer = sGnFrame_5C1B84 + field_34_trigger_delay;
         }
         break;
 
     case TimerTriggerStates::eWaitForSecondTrigger_3:
-        if (field_30_delay_timer <= (signed int)sGnFrame_5C1B84)
+        if (field_30_trigger_delay_timer <= (signed int)sGnFrame_5C1B84)
         {
             ToggleAllIds_4CDEC0();
             field_22_state = TimerTriggerStates::eWaitForEnabled_0;
@@ -148,7 +148,7 @@ int TimerTrigger::vGetSaveState_4CE030(TimerTrigger_State* pState)
     pState->field_0_type = Types::eTimerTrigger_136;
     pState->field_4_tlvInfo = field_2C_tlvInfo;
     pState->field_C_state = field_22_state;
-    pState->field_8_delay_timer_base = field_30_delay_timer - sGnFrame_5C1B84;
+    pState->field_8_delay_timer_base = field_30_trigger_delay_timer - sGnFrame_5C1B84;
     pState->field_E_starting_switch_state = field_38_starting_switch_state;
     return sizeof(TimerTrigger_State);
 }

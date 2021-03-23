@@ -10,8 +10,8 @@ struct Path_ColourfulMeter : public Path_TLV
 {
     __int16 field_10_id;
     __int16 field_12_number_of_meter_bars;
-    __int16 field_14_timer;
-    __int16 field_16_bStartsFull;
+    __int16 field_14_mines_alarm_countdown;
+    Choice_short field_16_bStartFilled;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ColourfulMeter, 0x18);
 
@@ -53,11 +53,11 @@ private:
     __int16 field_76_tlv_y;
     __int16 field_78_count;
     __int16 field_7A_number_of_meter_bars;
-    __int16 field_7C_timer;
+    __int16 field_7C_mines_alarm_countdown;
     __int16 field_7E_starting_switch_state;
     __int16 field_80;
     __int16 field_82_bar_count;
-    __int16 field_84_bStartsFull;
+    Choice_short field_84_bStartFilled;
     __int16 field_86;
     Poly_G4 field_88_polyG4s[2][kMeterBarsXCount];
 };

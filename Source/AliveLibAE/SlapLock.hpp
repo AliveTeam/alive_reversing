@@ -8,10 +8,10 @@ struct Path_SlapLock : public Path_TLV
     Scale_short field_10_scale;
     __int16 field_12_target_tomb_id1;
     __int16 field_14_target_tomb_id2;
-    __int16 field_16_bPersistant;
-    __int16 field_18_has_ghost;
-    __int16 field_1A_has_powerup;
-    __int16 field_1C_powerup_id;
+    Choice_short field_16_bPersistant;
+    Choice_short field_18_has_ghost;
+    Choice_short field_1A_give_invisibility_powerup;
+    __int16 field_1C_invisibility_id;
     __int16 field_1E_option_id;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlapLock, 0x20);
@@ -22,7 +22,7 @@ enum class SlapLockStates : __int16
     eIdle_1 = 1,
     eSlapped_2 = 2,
     eBroken_3 = 3,
-    eEmitPowerupRing_4 = 4,
+    eEmitInvisibilityPowerupRing_4 = 4,
     eFlickerHero_5 = 5,
     eGiveInvisibilityFromFlicker_6 = 6,
     eGiveInvisibility_7 = 7,
@@ -62,7 +62,7 @@ private:
     EXPORT void GiveInvisibility_43E880();
     EXPORT signed int vGetSaveState_43EB30(SlapLock_State* pState);
     EXPORT void vUpdate_43DF90();
-    EXPORT void GivePowerUp_43E910();
+    EXPORT void GiveInvisibilityPowerUp_43E910();
     EXPORT __int16 vTakeDamage_43E5D0(BaseGameObject* pFrom);
 
 private:
@@ -73,7 +73,7 @@ private:
     int field_124_timer1;
     FP field_128_midX;
     FP field_12C_midY;
-    __int16 field_130_has_ghost;
+    Choice_short field_130_has_ghost;
     __int16 field_132_padding;
     int field_134_id;
     int field_138_possesion_flicker_id;

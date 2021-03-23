@@ -105,7 +105,7 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvIn
         field_174_speed = FP_FromRaw((unsigned __int16)pTlv->field_16_speed_x256 << 8);
 
         MotionDetectorLaser* pLaser = nullptr;
-        if (pTlv->field_18_start_move_direction == Path_MotionDetector::StartMoveDirection::eLeft_1)
+        if (pTlv->field_18_initial_move_direction == Path_MotionDetector::InitialMoveDirection::eLeft_1)
         {
             field_100_state = States::eMoveLeft_2;
             pLaser = ae_new<MotionDetectorLaser>();
@@ -114,7 +114,7 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvIn
                 pLaser->ctor_468290(field_11C_y1_fp, field_120_y2_fp, field_CC_sprite_scale, Layer::eLayer_36);
             }
         }
-        else if (pTlv->field_18_start_move_direction == Path_MotionDetector::StartMoveDirection::eRight_0)
+        else if (pTlv->field_18_initial_move_direction == Path_MotionDetector::InitialMoveDirection::eRight_0)
         {
             field_100_state = States::eMoveRight_0;
             pLaser = ae_new<MotionDetectorLaser>();
@@ -128,7 +128,7 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvIn
             ALIVE_FATAL("couldn't find start move direction for motion detector");
         }
 
-        if (pTlv->field_1A_draw_flare & 1)
+        if (pTlv->field_1A_draw_flare == Choice_short::eYes_1)
         {
             field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
         }
@@ -153,7 +153,7 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvIn
         }
 
         field_10A_alarm_id = pTlv->field_1E_alarm_id;
-        field_10C_alarm_ticks = pTlv->field_20_alarm_ticks;
+        field_10C_alarm_ticks = pTlv->field_20_alarm_duration;
         return this;
     }
 

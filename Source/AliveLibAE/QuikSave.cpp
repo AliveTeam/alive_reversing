@@ -310,7 +310,7 @@ void QuikSave_RestoreBlyData_D481890_4C9BE0(const BYTE* pSaveData)
                                 pTlv->field_0_flags.Raw().all = *pSrcFlags;
                                 pSrcFlags++;
 
-                                pTlv->field_1_unknown = *pSrcFlags;
+                                pTlv->field_1_tlv_state = *pSrcFlags;
                                 pSrcFlags++;
                             }
                             pTlv = Path::Next_TLV_4DB6A0(pTlv);
@@ -370,7 +370,7 @@ static void WriteFlags(BYTE*& pSaveBuffer, const Path_TLV* pTlv, const BitField8
     *pSaveBuffer = flags.Raw().all;
     pSaveBuffer++;
 
-    *pSaveBuffer = pTlv->field_1_unknown;
+    *pSaveBuffer = pTlv->field_1_tlv_state;
     pSaveBuffer++;
 }
 
@@ -465,7 +465,7 @@ EXPORT void CC Quicksave_SaveSwitchResetterStates_4C9870()
                                 if (sQuickSave_saved_switchResetters_count_BB234C < 8)
                                 {
                                     sSwitchReset_Saved_States_BB233C[sQuickSave_saved_switchResetters_count_BB234C].flags = pTlv->field_0_flags;
-                                    sSwitchReset_Saved_States_BB233C[sQuickSave_saved_switchResetters_count_BB234C].data = pTlv->field_1_unknown;
+                                    sSwitchReset_Saved_States_BB233C[sQuickSave_saved_switchResetters_count_BB234C].data = pTlv->field_1_tlv_state;
 
                                     sQuickSave_saved_switchResetters_count_BB234C++;
                                 }
@@ -514,7 +514,7 @@ EXPORT void CC Quicksave_RestoreSwitchResetterStates_4C9A30()
                                 if (idx < 8)
                                 {
                                     pTlv->field_0_flags = sSwitchReset_Saved_States_BB233C[idx].flags;
-                                    pTlv->field_1_unknown = sSwitchReset_Saved_States_BB233C[idx].data ;
+                                    pTlv->field_1_tlv_state = sSwitchReset_Saved_States_BB233C[idx].data ;
 
                                     idx++;
                                 }

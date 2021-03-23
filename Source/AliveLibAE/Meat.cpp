@@ -482,7 +482,7 @@ MeatSack* MeatSack::ctor_46A410(Path_MeatSack* pTlv, int tlvInfo)
     // Throw the meat up into the air as it falls from the sack
     field_128_velY = -FP_FromRaw(pTlv->field_14_yVel << 8);
 
-    if (pTlv->field_10_meat_fall_direction == Direction_short::eLeft_0)
+    if (pTlv->field_10_meat_fall_direction == XDirection_short::eLeft_0)
     {
         field_124_velX = -field_124_velX;
     }

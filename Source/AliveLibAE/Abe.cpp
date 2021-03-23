@@ -2663,13 +2663,13 @@ void Abe::vOn_TLV_Collision_44B5D0(Path_TLV* pTlv)
         if (pTlv->field_4_type == TlvTypes::ContinuePoint_0)
         {
             auto pContinuePoint = static_cast<Path_ContinuePoint*>(pTlv);
-            if (pContinuePoint->field_1_unknown == 0)
+            if (pContinuePoint->field_1_tlv_state == 0)
             {
                 if ((pContinuePoint->field_10_scale != 1 || field_CC_sprite_scale == FP_FromInteger(1)) &&
                     (pContinuePoint->field_10_scale != 2 || field_CC_sprite_scale == FP_FromDouble(0.5))
                     && field_10C_health > FP_FromInteger(0) && !(field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted)))
                 {
-                    pContinuePoint->field_1_unknown = 1;
+                    pContinuePoint->field_1_tlv_state = 1;
                     field_1AE_flags.Set(Flags_1AE::e1AE_Bit2_do_quicksave);
                     field_1B0_save_num = pContinuePoint->field_12_save_file_id;
                 }
@@ -2690,9 +2690,9 @@ void Abe::vOn_TLV_Collision_44B5D0(Path_TLV* pTlv)
         else if (pTlv->field_4_type == TlvTypes::ResetSwitchRange_76)
         {
             auto pResetSwitchRange = static_cast<Path_ResetSwitchRange*>(pTlv);
-            if (pResetSwitchRange->field_1_unknown == 0 || pResetSwitchRange->field_1C_bEnabled)
+            if (pResetSwitchRange->field_1_tlv_state == 0 || pResetSwitchRange->field_1C_bEnabled)
             {
-                pResetSwitchRange->field_1_unknown = 1;
+                pResetSwitchRange->field_1_tlv_state = 1;
                 if (pResetSwitchRange->field_10_set_switches)
                 {
                     for (short i = pResetSwitchRange->field_12_start_id; i <= pResetSwitchRange->field_14_end_id; i++)

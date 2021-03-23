@@ -11,16 +11,16 @@ struct Path_MotionDetector : public Path_TLV
     __int16 field_12_device_x;
     __int16 field_14_device_y;
     __int16 field_16_speed_x256;
-    enum class StartMoveDirection : __int16
+    enum class InitialMoveDirection : __int16
     {
         eRight_0 = 0,
         eLeft_1 = 1
     };
-    StartMoveDirection field_18_start_move_direction;
-    __int16 field_1A_draw_flare;
+    InitialMoveDirection field_18_initial_move_direction;
+    Choice_short field_1A_draw_flare;
     __int16 field_1C_disable_id;
     __int16 field_1E_alarm_id;
-    __int16 field_20_alarm_ticks;
+    __int16 field_20_alarm_duration;
     __int16 field_22_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MotionDetector, 0x24);

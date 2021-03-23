@@ -8,11 +8,11 @@ struct Path_TrapDoor : public Path_TLV
 {
     __int16 field_10_id;
     __int16 field_12_start_state;
-    __int16 field_14_self_closing;
+    Choice_short field_14_self_closing;
     Scale_short field_16_scale;
     __int16 field_18_dest_level;
-    __int16 field_1A_direction;
-    __int16 field_1C_anim_offset;
+    XDirection_short field_1A_direction;
+    __int16 field_1C_xOff;
     __int16 field_1E_stay_open_time;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TrapDoor, 0x20);
@@ -78,7 +78,7 @@ private:
     __int16 field_138_switch_state;
     __int16 field_13A_xOff;
     __int16 field_13C_stay_open_time;
-    __int16 field_13E_set_switch_on_dead;
+    Choice_short field_13E_self_closing;
     FP field_140_x;
     FP field_144_y;
     PSX_RECT field_148_bounding_rect;

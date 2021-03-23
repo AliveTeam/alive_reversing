@@ -984,7 +984,7 @@ __int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
             field_1E4_pPantsOrWingsTlv = FindPantsOrWings_419750();
         }
 
-        if (field_106_current_motion != NakedSligMotion::M_Idle_0_41B260 || (field_1E4_pPantsOrWingsTlv && field_1E4_pPantsOrWingsTlv->field_1_unknown))
+        if (field_106_current_motion != NakedSligMotion::M_Idle_0_41B260 || (field_1E4_pPantsOrWingsTlv && field_1E4_pPantsOrWingsTlv->field_1_tlv_state))
         {
             if (Math_NextRandom() & 1)
             {
@@ -1000,8 +1000,8 @@ __int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
         }
         else
         {
-            field_1E4_pPantsOrWingsTlv->field_1_unknown &= 0xFF;
-            field_1E4_pPantsOrWingsTlv->field_1_unknown |= 1;
+            field_1E4_pPantsOrWingsTlv->field_1_tlv_state &= 0xFF;
+            field_1E4_pPantsOrWingsTlv->field_1_tlv_state |= 1;
 
             field_108_next_motion = NakedSligMotion::M_UsingButton_1_41B890;
             field_1AC_timer = sGnFrame_5C1B84 + 20;
@@ -1840,10 +1840,10 @@ void NakedSlig::HandleCommon_41C0B0()
             field_1E4_pPantsOrWingsTlv = FindPantsOrWings_419750();
             if (field_1E4_pPantsOrWingsTlv)
             {
-                if (!field_1E4_pPantsOrWingsTlv->field_1_unknown)
+                if (!field_1E4_pPantsOrWingsTlv->field_1_tlv_state)
                 {
-                    field_1E4_pPantsOrWingsTlv->field_1_unknown &= 0xFF;
-                    field_1E4_pPantsOrWingsTlv->field_1_unknown |= 1;
+                    field_1E4_pPantsOrWingsTlv->field_1_tlv_state &= 0xFF;
+                    field_1E4_pPantsOrWingsTlv->field_1_tlv_state |= 1;
                     field_108_next_motion = 1;
                     field_1AC_timer = sGnFrame_5C1B84 + 20;
                 }
