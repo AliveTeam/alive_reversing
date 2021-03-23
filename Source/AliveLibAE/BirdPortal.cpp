@@ -43,7 +43,7 @@ BaseGameObject* BirdPortal::ctor_497E00(Path_BirdPortal* pTlv, int tlvInfo)
     field_7C_dest_level = pTlv->field_12_dest_level;
     field_7E_dest_path = pTlv->field_14_dest_path;
     field_80_dest_camera = pTlv->field_16_dest_camera;
-    field_64_movie_id = pTlv->field_1A_moive_id;
+    field_64_movie_id = pTlv->field_1A_movie_id;
     field_24_portal_type = pTlv->field_1C_portal_type;
     field_82_num_muds_for_shrykull = pTlv->field_1E_num_muds_for_shrykul;
     field_66_delete_id = pTlv->field_22_delete_id;

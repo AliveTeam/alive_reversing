@@ -327,7 +327,7 @@ namespace AETlvs
             ADD("dest_path", mTlv.field_14_dest_path);
             ADD("dest_camera", mTlv.field_16_dest_camera);
             ADD("scale", mTlv.field_18_scale);
-            ADD("movie_id", mTlv.field_1A_moive_id);
+            ADD("movie_id", mTlv.field_1A_movie_id);
             ADD("portal_type", mTlv.field_1C_portal_type);
             ADD("num_muds_for_shrykull", mTlv.field_1E_num_muds_for_shrykul);
             ADD("create_id", mTlv.field_20_create_id);

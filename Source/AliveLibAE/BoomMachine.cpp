@@ -184,12 +184,12 @@ BoomMachine* BoomMachine::ctor_445B30(Path_BoomMachine* pTlv, int tlvInfo)
     if (pNozzle)
     {
         pNozzle->ctor_4456F0(
-            ((pTlv->field_12_nozzle_side ? -field_CC_sprite_scale : field_CC_sprite_scale) * FP_FromInteger(30)) + field_B8_xpos,
+            ((pTlv->field_12_nozzle_side == XDirection_short::eRight_1 ? -field_CC_sprite_scale : field_CC_sprite_scale) * FP_FromInteger(30)) + field_B8_xpos,
             (field_CC_sprite_scale * FP_FromInteger(-30)) + field_BC_ypos,
             field_CC_sprite_scale,
             pTlv->field_16_number_of_grenades);
 
-        pNozzle->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_12_nozzle_side & 1);
+        pNozzle->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, static_cast<int>(pTlv->field_12_nozzle_side) & 1);
         field_F8_nozzle_id = pNozzle->field_8_object_id;
     }
 
