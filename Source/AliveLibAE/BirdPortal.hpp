@@ -27,7 +27,7 @@ struct Path_BirdPortal : public Path_TLV
     __int16 field_14_dest_path;
     __int16 field_16_dest_camera;
     Scale_short field_18_scale;
-    __int16 field_1A_moive_id;
+    __int16 field_1A_movie_id;
     PortalType field_1C_portal_type;
     __int16 field_1E_num_muds_for_shrykul;
     __int16 field_20_create_id;
