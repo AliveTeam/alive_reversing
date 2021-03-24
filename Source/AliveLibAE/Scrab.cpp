@@ -1278,7 +1278,6 @@ __int16 Scrab::AI_ChasingEnemy_1_4A6470()
     {
     case AI_ChasingEnemy::eState1_Inactive_0:
     {
-        //return AI_ChasingEnemy_1_REAL_4A6470();
         field_150_attack_delay_timer = sGnFrame_5C1B84 + field_128_attack_delay;
         return AI_ChasingEnemy::eState1_Idle_1;
     }
@@ -1343,8 +1342,6 @@ __int16 Scrab::AI_ChasingEnemy_1_4A6470()
 
     }
     case AI_ChasingEnemy::eState1_Running_2:
-        LOG_INFO("POG");
-        //return AI_ChasingEnemy_1_REAL_4A6470();
         return AI_ChasingEnemy_State_Running_2(pObj);
 
     case AI_ChasingEnemy::eState1_Turning_3:
@@ -1486,7 +1483,6 @@ __int16 Scrab::AI_ChasingEnemy_1_4A6470()
         }
 
     case AI_ChasingEnemy::eState1_Eating_12:
-        //return AI_ChasingEnemy_1_REAL_4A6470();
         if (field_106_current_motion == eScrabMotions::M_FeedToGulp_33_4A9FA0)
         {
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
