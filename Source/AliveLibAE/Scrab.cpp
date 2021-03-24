@@ -1215,12 +1215,6 @@ __int16 Scrab::AI_Patrol_0_4AA630()
     }
 }
 
-__int16 Scrab::AI_ChasingEnemy_1_REAL_4A6470()
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
 __int16 Scrab::AI_ChasingEnemy_1_4A6470()
 {
     Scrab* pScrabToFight = FindScrabToFight_4A4E20();
