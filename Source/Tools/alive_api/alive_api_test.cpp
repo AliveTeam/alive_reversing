@@ -195,9 +195,53 @@ TEST(alive_api, tlv_reflection)
     ASSERT_EQ(pHoist->InstanceNumber(), 99);
 }
 
+class ArgsAdapter
+{
+public:
+    ArgsAdapter(int argc, char* argv[])
+    {
+        for (int i = 0; i < argc; i++)
+        {
+            mArgs.push_back(argv[i]);
+        }
+
+    }
+
+    void Add(const std::string& arg)
+    {
+        mArgs.push_back(arg);
+    }
+
+    int ArgC() const
+    {
+        return static_cast<int>(mArgs.size());
+    }
+
+    std::unique_ptr<char*[]> ArgV() const
+    {
+        auto ptr = std::make_unique<char* []>(mArgs.size());
+
+        int i = 0;
+        for (const auto& arg : mArgs)
+        {
+            ptr[i++] = const_cast<char*>(arg.c_str());
+        }
+        return ptr;
+    }
+
+private:
+    std::vector<std::string> mArgs;
+};
+
 int main(int argc, char* argv[])
 {
-    ::testing::InitGoogleTest(&argc, argv);
+    ArgsAdapter args(argc, argv);
+    args.Add("--gtest_catch_exceptions=0");
+
+    int newArgc = args.ArgC();
+    auto newArgv = args.ArgV();
+
+    ::testing::InitGoogleTest(&newArgc, newArgv.get());
     const auto ret = RUN_ALL_TESTS();
     return ret;
 }
