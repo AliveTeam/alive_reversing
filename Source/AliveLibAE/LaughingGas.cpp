@@ -30,23 +30,24 @@ LaughingGas* LaughingGas::ctor_432400(Layer layer, int /*notUsed*/, Path_Laughin
 
     field_4_typeId = Types::eLaughingGas_31;
     Path_LaughingGas_Data* pData = &field_48_tlv_data;
-    pData->field_0_is_laughing_gas = pTlv->field_10_is_laughing_gas;
-    pData->field_2_gas_id = pTlv->field_12_gas_id;
+    pData->field_0_bLaughing_gas = pTlv->field_10_bLaughing_gas;
+    pData->field_2_laughing_gas_id = pTlv->field_12_laughing_gas_id;
 
     pData->field_4_red_percent = pTlv->field_14_red_percent;
     pData->field_6_blue_percent = pTlv->field_18_blue_percent;
     pData->field_8_green_percent = pTlv->field_18_blue_percent;
 
-    if (field_48_tlv_data.field_0_is_laughing_gas)
+
+    if (field_48_tlv_data.field_0_bLaughing_gas == Choice_short::eYes_1)
     {
-        field_36_bGreen = 1;
+        field_36_bLaughing_gas = Choice_short::eYes_1;
     }
     else
     {
-        field_36_bGreen = 0;
+        field_36_bLaughing_gas = Choice_short::eNo_0;
     }
 
-    if (SwitchStates_Get_466020(field_48_tlv_data.field_2_gas_id))
+    if (SwitchStates_Get_466020(field_48_tlv_data.field_2_laughing_gas_id))
     {
         field_34_bEnabled = 1;
         field_54_amount_on = FP_FromInteger(1);
@@ -192,7 +193,7 @@ LaughingGas* LaughingGas::vdtor_432670(signed int flags)
 
 void LaughingGas::vRender_432D10(PrimHeader** ppOt)
 {
-    if (field_54_amount_on > FP_FromDouble(0.1) || !field_36_bGreen)
+    if (field_54_amount_on > FP_FromDouble(0.1) || field_36_bLaughing_gas == Choice_short::eNo_0)
     {
         if (field_19C_pMem)
         {
@@ -213,7 +214,7 @@ void LaughingGas::DoRender_432740()
     WORD* memPtr = field_19C_pMem;
     int rgb_base = (1 << sRedShift_C215C4) + (1 << sGreenShift_C1D180);
 
-    if (!field_36_bGreen)
+    if (field_36_bLaughing_gas == Choice_short::eNo_0)
     {
         rgb_base = (1 << sBlueShift_C19140) + (1 << sRedShift_C215C4) + (1 << sGreenShift_C1D180);
     }
@@ -265,7 +266,7 @@ void LaughingGas::vUpdate_432C40()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (SwitchStates_Get_466020(field_48_tlv_data.field_2_gas_id))
+    if (SwitchStates_Get_466020(field_48_tlv_data.field_2_laughing_gas_id))
     {
         field_34_bEnabled = 1;
     }
@@ -274,7 +275,7 @@ void LaughingGas::vUpdate_432C40()
         field_34_bEnabled = 0;
     }
 
-    if (field_36_bGreen)
+    if (field_36_bLaughing_gas == Choice_short::eYes_1)
     {
         if (field_34_bEnabled)
         {
@@ -292,7 +293,7 @@ void LaughingGas::vUpdate_432C40()
         }
     }
 
-    if (field_36_bGreen)
+    if (field_36_bLaughing_gas == Choice_short::eYes_1)
     {
         gLaughingGasOn_5C1BA4 = 1;
         if (CounterOver_432DA0())

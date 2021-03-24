@@ -159,10 +159,10 @@ Fleech* Fleech::ctor_429DC0(Path_Fleech* pTlv, int tlvInfo)
     field_158 = 10;
 
     field_142_attack_anger = pTlv->field_1A_attack_anger + 2;
-    field_144_wake_up_id = pTlv->field_1E_wake_up_id;
+    field_144_wake_up_id = pTlv->field_1E_wake_up_id1;
     field_146_tlv_28 = pTlv->field_28_unused;
-    field_148_wake_up_switch_value = SwitchStates_Get_466020(pTlv->field_1E_wake_up_id) & 0xFFFF;
-    field_14A_allow_wake_up_id = pTlv->field_2A_allow_wake_up_id == Choice_short::eYes_1;
+    field_148_wake_up_switch_value = SwitchStates_Get_466020(pTlv->field_1E_wake_up_id1) & 0xFFFF;
+    field_14A_use_wake_up_id = pTlv->field_2A_wake_up_id2;
     field_150_patrol_range = FP_GetExponent(FP_FromInteger(pTlv->field_26_patrol_range_in_grids) * ScaleToGridSize_4498B0(field_CC_sprite_scale));
     field_15C_lost_target_timeout = pTlv->field_22_lost_target_timeout;
 
@@ -356,7 +356,7 @@ int CC Fleech::CreateFromSaveState_42DD50(const BYTE* pBuffer)
     pFleech->field_144_wake_up_id = pState->field_7C_wakeup_id;
     pFleech->field_146_tlv_28 = pState->field_7E_tlv;
     pFleech->field_148_wake_up_switch_value = pState->field_80_wake_up_switch_value;
-    pFleech->field_14A_allow_wake_up_id = pState->field_82_allow_wake_up_id;
+    pFleech->field_14A_use_wake_up_id = pState->field_82_use_wake_up_id;
     pFleech->field_14C = pState->field_84;
     pFleech->field_14E = pState->field_86;
     pFleech->field_150_patrol_range = pState->field_88_patrol_range;
@@ -485,7 +485,7 @@ int Fleech::vGetSaveState_42FF80(Fleech_State* pState)
     pState->field_7C_wakeup_id = field_144_wake_up_id;
     pState->field_7E_tlv = field_146_tlv_28;
     pState->field_80_wake_up_switch_value = field_148_wake_up_switch_value;
-    pState->field_82_allow_wake_up_id = field_14A_allow_wake_up_id;
+    pState->field_82_use_wake_up_id = field_14A_use_wake_up_id;
     pState->field_84 = field_14C;
     pState->field_86 = field_14E;
     pState->field_88_patrol_range = field_150_patrol_range;
@@ -2913,7 +2913,7 @@ __int16 Fleech::AI_Patrol_State_0()
 
 __int16 Fleech::AI_Patrol_State_1()
 {
-    if (!SwitchStates_Get_466020(field_14A_allow_wake_up_id))
+    if (!SwitchStates_Get_466020(field_14A_use_wake_up_id))
     {
         return field_126_state;
     }

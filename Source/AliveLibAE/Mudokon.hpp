@@ -16,12 +16,6 @@ enum class Mud_State : __int16
     eHealthRingGiver_4 = 4,
 };
 
-enum class Mud_Direction : __int16
-{
-    eLeft_0 = 0,
-    eRight_1 = 1,
-};
-
 enum class Mud_TLV_Emotion : __int16
 {
     eNormal_0 = 0,
@@ -35,17 +29,17 @@ struct Path_Mudokon : public Path_TLV
 {
     Scale_short field_10_scale;
     Mud_State field_12_state;
-    Mud_Direction field_14_direction;
+    XDirection_short field_14_direction;
     __int16 field_16_voice_pitch;
     __int16 field_18_rescue_id;
-    __int16 field_1A_bDeaf;
+    Choice_short field_1A_bDeaf;
     __int16 field_1C_disabled_resources;
     __int16 field_1E_save_state;
     Mud_TLV_Emotion field_20_emotion;
-    __int16 field_22_bBlind;
+    Choice_short field_22_bBlind;
     __int16 field_24_angry_trigger;
     __int16 field_26_stop_trigger;
-    __int16 field_28_bGets_depressed;
+    Choice_short field_28_bGets_depressed;
     __int16 field_2A_ring_timeout;
     __int16 field_2C_bInstant_power_up;
     __int16 field_2E_padding;

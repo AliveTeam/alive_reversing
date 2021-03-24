@@ -6,15 +6,30 @@
 
 enum class SwitchOp : __int16;
 
+enum class PullRingSwitchSound : __int16
+{
+    eNone_0 = 0,
+    eWellExit_1 = 1,
+    eRingUnknownTrigger_2 = 2,
+    eDoorEffect_3 = 3,
+};
+
+enum class PullRingSoundDirection : __int16
+{
+    eLeftAndRight_0 = 0,
+    eLeft_1 = 1,
+    eRight_2 = 2,
+};
+
 struct Path_PullRingRope : public Path_TLV
 {
     __int16 field_10_id;
     SwitchOp field_12_target_action;
-    __int16 field_14_length_of_rope;
+    __int16 field_14_rope_length;
     Scale_short field_16_scale;
-    __int16 field_18_on_sound;
-    __int16 field_1A_off_sound;
-    __int16 field_1C_sound_direction;
+    PullRingSwitchSound field_18_on_sound;
+    PullRingSwitchSound field_1A_off_sound;
+    PullRingSoundDirection field_1C_sound_direction;
     __int16 field_1E_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_PullRingRope, 0x20);
@@ -52,9 +67,9 @@ private:
     States field_100_state;
     __int16 field_102_id;
     SwitchOp field_104_target_action;
-    __int16 field_106_on_sound;
-    __int16 field_108_off_sound;
-    __int16 field_10A_sound_direction;
+    PullRingSwitchSound field_106_on_sound;
+    PullRingSwitchSound field_108_off_sound;
+    PullRingSoundDirection field_10A_sound_direction;
     int field_10C_is_pulled;
     int field_110_tlvInfo;
 };

@@ -55,7 +55,7 @@ PullRingRope* PullRingRope::ctor_49B2D0(Path_PullRingRope* pTlv, int tlvInfo)
     field_100_state = States::eIdle_0;
     field_F4_stay_in_state_ticks = 0;
 
-    field_BC_ypos += FP_FromInteger(pTlv->field_14_length_of_rope);
+    field_BC_ypos += FP_FromInteger(pTlv->field_14_rope_length);
 
     if (pTlv->field_16_scale == Scale_short::eHalf_1)
     {
@@ -82,14 +82,13 @@ PullRingRope* PullRingRope::ctor_49B2D0(Path_PullRingRope* pTlv, int tlvInfo)
     {
         pRope->ctor_4A0A70(
             FP_GetExponent(field_B8_xpos + FP_FromInteger(2)),
-            FP_GetExponent(field_BC_ypos) - pTlv->field_14_length_of_rope,
+            FP_GetExponent(field_BC_ypos) - pTlv->field_14_rope_length,
             FP_GetExponent(field_BC_ypos),
             field_CC_sprite_scale);
 
         field_F8_rope_id = pRope->field_8_object_id;
+        pRope->field_BC_ypos = FP_NoFractional(field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(16)));
     }
-
-    pRope->field_BC_ypos = FP_NoFractional(field_BC_ypos- (field_CC_sprite_scale * FP_FromInteger(16)));
 
     field_DC_bApplyShadows |= 2;
     return this;
@@ -210,14 +209,19 @@ void PullRingRope::vUpdate_49B720()
             {
                 int leftVol = 0;
                 int rightVol = 0;
-                if (field_10A_sound_direction == 1)
+                if (field_10A_sound_direction == PullRingSoundDirection::eLeft_1)
                 {
                     leftVol = 1;
                     rightVol = 0;
                 }
+                else if (field_10A_sound_direction == PullRingSoundDirection::eRight_2)
+                {
+                    leftVol = 0;
+                    rightVol = 1;
+                }
                 else
                 {
-                    leftVol = field_10A_sound_direction != 2;
+                    leftVol = 1;
                     rightVol = 1;
                 }
 
@@ -225,13 +229,13 @@ void PullRingRope::vUpdate_49B720()
                 {
                     switch (field_106_on_sound)
                     {
-                    case 1:
+                    case PullRingSwitchSound::eWellExit_1:
                         SFX_Play_46FB10(SoundEffect::WellExit_20, 60 * leftVol + 10, 60 * rightVol + 10);
                         break;
-                    case 2:
+                    case PullRingSwitchSound::eRingUnknownTrigger_2:
                         SFX_Play_46FB10(SoundEffect::RingUnknownTrigger_8, 60 * leftVol + 10, 60 * rightVol + 10);
                         break;
-                    case 3:
+                    case PullRingSwitchSound::eDoorEffect_3:
                         SFX_Play_46FB10(SoundEffect::DoorEffect_57, 75 * leftVol + 15, 75 * rightVol + 15);
                         break;
                     }
@@ -240,13 +244,13 @@ void PullRingRope::vUpdate_49B720()
                 {
                     switch (field_108_off_sound)
                     {
-                    case 1:
+                    case PullRingSwitchSound::eWellExit_1:
                         SFX_Play_46FB10(SoundEffect::WellExit_20, 60 * leftVol + 10, 60 * rightVol + 10);
                         break;
-                    case 2:
+                    case PullRingSwitchSound::eRingUnknownTrigger_2:
                         SFX_Play_46FB10(SoundEffect::RingUnknownTrigger_8, 60 * leftVol + 10, 60 * rightVol + 10);
                         break;
-                    case 3:
+                    case PullRingSwitchSound::eDoorEffect_3:
                         SFX_Play_46FB10(SoundEffect::DoorEffect_57, 75 * leftVol + 15, 75 * rightVol + 15);
                         break;
                     }

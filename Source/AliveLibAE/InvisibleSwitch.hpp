@@ -7,13 +7,20 @@
 
 enum class SwitchOp : __int16;
 
+enum class InvisibleSwitchScale : __int16
+{
+    eHalf_0 = 0,
+    eFull_1 = 1,
+    eAny_2 = 2,
+};
+
 struct Path_InvisibleSwitch : public Path_TLV
 {
     __int16 field_10_id;
     SwitchOp field_12_action;
     __int16 field_14_delay;
-    __int16 field_16_set_off_alarm;
-    __int16 field_18_scale;
+    Choice_short field_16_set_off_alarm;
+    InvisibleSwitchScale field_18_scale;
     __int16 field_1A_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_InvisibleSwitch, 0x1C);
@@ -45,8 +52,8 @@ private:
         eState_WaitForDelayTimer_1 = 1,
     };
     States field_38_state;
-    __int16 field_3A_set_off_alarm;
-    __int16 field_3C_scale; // can be 0, 1 and 2
+    Choice_short field_3A_set_off_alarm;
+    InvisibleSwitchScale field_3C_scale;
     __int16 field_3E_pad;
 };
 ALIVE_ASSERT_SIZEOF(InvisibleSwitch, 0x40);

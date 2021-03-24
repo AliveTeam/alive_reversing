@@ -456,7 +456,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
 
     field_16A_flags.Clear(Flags::eBit2_save_state);
     field_16A_flags.Clear(Flags::eBit3_alerted);
-    field_16A_flags.Set(Flags::eBit4_blind, pTlv->field_22_bBlind & 1);
+    field_16A_flags.Set(Flags::eBit4_blind, pTlv->field_22_bBlind == Choice_short::eYes_1);
     field_16A_flags.Clear(Flags::eBit5_following);
     field_16A_flags.Clear(Flags::eBit6_standing_for_sad_or_angry);
     field_16A_flags.Clear(Flags::eBit7_stopped_at_wheel);
@@ -536,7 +536,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
         SetPal_4772D0(Mud_Emotion::eNormal_0);
     }
 
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_14_direction == Mud_Direction::eLeft_0);
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_14_direction == XDirection_short::eLeft_0);
 
     field_4_typeId = Types::eMudokon_110;
 
@@ -545,7 +545,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
 
     field_16A_flags.Set(Flags::eBit2_save_state, pTlv->field_1E_save_state & 1);
     field_16A_flags.Set(Flags::eBit10_stop_trigger, pTlv->field_26_stop_trigger & 1);
-    field_16A_flags.Set(Flags::eBit11_get_depressed, pTlv->field_28_bGets_depressed & 1);
+    field_16A_flags.Set(Flags::eBit11_get_depressed, pTlv->field_28_bGets_depressed == Choice_short::eYes_1);
     field_16A_flags.Set(Flags::eBit15_ring_timeout, pTlv->field_2A_ring_timeout & 1);
 
     field_17C_stand_idle_timer = 0;
