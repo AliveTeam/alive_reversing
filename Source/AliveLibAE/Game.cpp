@@ -676,7 +676,9 @@ EXPORT signed int CC Init_Input_Timer_And_IO_4F2BF0(bool forceSystemMemorySurfac
     static bool sbGameShutdownSet_BBC560 = false;
     if (!sbGameShutdownSet_BBC560)
     {
-        atexit(Game_Shutdown_4F2C30);
+        // OG: Change - this gets called normally anyway, using atexit results in a double call that
+        // will double free and use freed objects
+        //atexit(Game_Shutdown_4F2C30);
         sbGameShutdownSet_BBC560 = 1;
         gVGA_force_sys_memory_surfaces_BC0BB4 = forceSystemMemorySurfaces;
     }
