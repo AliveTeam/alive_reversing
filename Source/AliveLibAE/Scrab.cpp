@@ -81,8 +81,6 @@ static const AIFunctionData<TScrabAIFn> sScrabAITable[6] =
 
 void Scrab::SetBrain(TScrabAIFn fn)
 {
-    LOG_INFO("My brain is");
-    LOG_INFO(GetOriginalFn(fn, sScrabAITable).fnName);
     ::SetBrain(fn, field_118_brain_state, sScrabAITable);
 }
 
