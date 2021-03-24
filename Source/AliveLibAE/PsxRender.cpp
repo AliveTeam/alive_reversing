@@ -3447,8 +3447,6 @@ static bool DrawOTagImpl(PrimHeader** ppOt, __int16 drawEnv_of0, __int16 drawEnv
         pOtItem = any.mPrimHeader->tag; // offset 0
     }
 
-    renderer.EndFrame();
-
     return false;
 }
 

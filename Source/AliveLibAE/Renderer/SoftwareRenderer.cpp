@@ -22,13 +22,16 @@ void SoftwareRenderer::Clear(BYTE r, BYTE g, BYTE b)
 
 void SoftwareRenderer::StartFrame(int xOff, int yOff)
 {
-    mFrame_xOff = xOff;
-    mFrame_yOff = yOff;
-    if (mFrameStarted)
+    if (!mFrameStarted)
     {
-        ALIVE_FATAL("Start frame called before EndFrame");
+        mFrame_xOff = xOff;
+        mFrame_yOff = yOff;
+        mFrameStarted = true;
     }
-    mFrameStarted = true;
+    else
+    {
+        LOG_WARNING("Start frame called before EndFrame");
+    }
 }
 
 void SoftwareRenderer::EndFrame()
