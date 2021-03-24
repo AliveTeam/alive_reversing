@@ -258,44 +258,38 @@ namespace AETlvs
         {
             types.AddEnum<::Mud_TLV_Emotion>("Enum_Mud_TLV_Emotion",
                 {
-                    {::Mud_TLV_Emotion::eNormal_0, "normal"},
-                    {::Mud_TLV_Emotion::eAngry_1, "angry"},
-                    {::Mud_TLV_Emotion::eSad_2, "sad"},
-                    {::Mud_TLV_Emotion::eWired_3, "wired"},
-                    {::Mud_TLV_Emotion::eSick_4, "sick"}
+                    {::Mud_TLV_Emotion::eNormal_0, "Normal"},
+                    {::Mud_TLV_Emotion::eAngry_1, "Angry"},
+                    {::Mud_TLV_Emotion::eSad_2, "Sad"},
+                    {::Mud_TLV_Emotion::eWired_3, "Wired"},
+                    {::Mud_TLV_Emotion::eSick_4, "Sick"}
                 });
 
             types.AddEnum<::Mud_State>("Enum_Mud_State",
                 {
-                     {::Mud_State::eChisle_0, "chisle"},
-                     {::Mud_State::eScrub_1, "scrub"},
-                     {::Mud_State::eAngryWorker_2, "angry_worker"},
-                     {::Mud_State::eDamageRingGiver_3, "damage_ring_giver"},
-                     {::Mud_State::eHealthRingGiver_4, "health_ring_giver"},
-                });
-
-            types.AddEnum<::Mud_Direction>("Enum_Mud_Direction",
-                {
-                    {::Mud_Direction::eLeft_0, "left"},
-                    {::Mud_Direction::eRight_1, "right"}
+                     {::Mud_State::eChisle_0, "Chisle"},
+                     {::Mud_State::eScrub_1, "Scrub"},
+                     {::Mud_State::eAngryWorker_2, "Angry Worker"},
+                     {::Mud_State::eDamageRingGiver_3, "Damage Ring Giver"},
+                     {::Mud_State::eHealthRingGiver_4, "Health Ring Giver"},
                 });
         }
 
         CTOR_AE(Path_Mudokon, "Mudokon", TlvTypes::Mudokon_49)
         {
-            ADD("scale", mTlv.field_10_scale);
-            ADD("state", mTlv.field_12_state);
-            ADD("direction", mTlv.field_14_direction);
-            ADD("voice_pitch", mTlv.field_16_voice_pitch);
-            ADD("rescue_id", mTlv.field_18_rescue_id);
-            ADD("is_deaf", mTlv.field_1A_bDeaf);
-            ADD("disable_resources", mTlv.field_1C_disabled_resources);
+            ADD("Scale", mTlv.field_10_scale);
+            ADD("State", mTlv.field_12_state);
+            ADD("Direction", mTlv.field_14_direction);
+            ADD("Voice Pitch", mTlv.field_16_voice_pitch);
+            ADD("Rescue ID", mTlv.field_18_rescue_id);
+            ADD("Deaf (Unused?)", mTlv.field_1A_bDeaf);
+            ADD("Disabled Resources", mTlv.field_1C_disabled_resources);
             ADD("save_state", mTlv.field_1E_save_state);
-            ADD("emotion", mTlv.field_20_emotion);
-            ADD("is_blind", mTlv.field_22_bBlind);
-            ADD("angry_trigger_id", mTlv.field_24_angry_trigger);
-            ADD("stop_trigger_id", mTlv.field_26_stop_trigger);
-            ADD("gets_depressed", mTlv.field_28_bGets_depressed);
+            ADD("Emotion", mTlv.field_20_emotion);
+            ADD("Blind", mTlv.field_22_bBlind);
+            ADD("Angry Trigger ID", mTlv.field_24_angry_trigger);
+            ADD("Stop Trigger ID", mTlv.field_26_stop_trigger);
+            ADD("Gets Depressed", mTlv.field_28_bGets_depressed);
             ADD("ring_timeout", mTlv.field_2A_ring_timeout);
             ADD("is_instant_powerup", mTlv.field_2C_bInstant_power_up);
         }
@@ -337,7 +331,7 @@ namespace AETlvs
 
     struct Path_LCDStatusBoard : public TlvObjectBaseAE<::Path_LCDStatusBoard>
     {
-        CTOR_AE(Path_LCDStatusBoard, "StatsSign", TlvTypes::LCDStatusBoard_64)
+        CTOR_AE(Path_LCDStatusBoard, "LCDStatusBoard", TlvTypes::LCDStatusBoard_64)
         {
             ADD("number_of_muds", mTlv.field_10_number_of_muds);
             ADD("zulag_number", mTlv.field_12_zulag_number);
@@ -392,17 +386,24 @@ namespace AETlvs
                     {::SwitchSoundType::eSecurityOrb_5, "security_orb"},
                     {::SwitchSoundType::eLift_6, "lift"}
                 });
+
+            types.AddEnum<::SwitchSoundDirection>("Enum_SwitchSoundDirection",
+                {
+                    {::SwitchSoundDirection::eLeftAndRight_0, "Left And Right"},
+                    {::SwitchSoundDirection::eLeft_1, "Left"},
+                    {::SwitchSoundDirection::eRight_2, "Right"},
+                });
         }
 
         CTOR_AE(Path_Switch, "Switch", TlvTypes::Switch_17)
         {
-            ADD("target_action", mTlv.field_10_target_action);
-            ADD("scale", mTlv.field_12_scale);
-            ADD("on_sound", mTlv.field_14_on_sound);
-            ADD("off_sound", mTlv.field_16_off_sound);
-            ADD("sound_direction", mTlv.field_18_sound_direction);
-            ADD("trigger_id", mTlv.field_1A_trigger_id);
-            ADD("persist_offscreen", mTlv.field_1C_persist_offscreen);
+            ADD("Target Action", mTlv.field_10_target_action);
+            ADD("Scale", mTlv.field_12_scale);
+            ADD("On Sound", mTlv.field_14_on_sound);
+            ADD("Off Sound", mTlv.field_16_off_sound);
+            ADD("Sound Direction", mTlv.field_18_sound_direction);
+            ADD("Trigger ID", mTlv.field_1A_trigger_id);
+            ADD("Persist Offscreen", mTlv.field_1C_persist_offscreen);
         }
     };
 
@@ -504,24 +505,24 @@ namespace AETlvs
     {
         CTOR_AE(Path_Fleech, "Fleech", TlvTypes::Fleech_83)
         {
-            ADD("scale", mTlv.field_10_scale);
-            ADD("direction", mTlv.field_12_direction);
-            ADD("asleep", mTlv.field_14_asleep);
-            ADD("wake_up", mTlv.field_16_wake_up);
+            ADD("Scale", mTlv.field_10_scale);
+            ADD("Direction", mTlv.field_12_direction);
+            ADD("Asleep", mTlv.field_14_asleep);
+            ADD("Wake Up (Unused?)", mTlv.field_16_wake_up);
             ADD("unknown1", mTlv.field_18_not_used);
 
             ADD("attack_anger", mTlv.field_1A_attack_anger);
             ADD("attack_delay", mTlv.field_1C_attack_delay);
-            ADD("wake_up_id", mTlv.field_1E_wake_up_id);
-            ADD("hanging", mTlv.field_20_hanging);
+            ADD("Wake Up ID 1", mTlv.field_1E_wake_up_id1);
+            ADD("Hanging", mTlv.field_20_hanging);
 
             ADD("lost_target_timeout", mTlv.field_22_lost_target_timeout);
-            ADD("goes_to_sleep", mTlv.field_24_goes_to_sleep);
+            ADD("Goes To Sleep", mTlv.field_24_goes_to_sleep);
             ADD("patrol_range_in_grids", mTlv.field_26_patrol_range_in_grids);
             ADD("unknown2", mTlv.field_28_unused);
 
-            ADD("allow_wake_up_id", mTlv.field_2A_allow_wake_up_id);
-            ADD("persistant", mTlv.field_2C_persistant);
+            ADD("Wake Up ID 2", mTlv.field_2A_wake_up_id2);
+            ADD("Persistant", mTlv.field_2C_persistant);
             ADD("unknown3", mTlv.field_2E_padding);
 
         }
@@ -742,23 +743,33 @@ namespace AETlvs
     {
         CTOR_AE(Path_LaughingGas, "LaughingGas", TlvTypes::LaughingGas_81)
         {
-            ADD("is_laughing_gas", mTlv.field_10_is_laughing_gas);
-            ADD("gas_id", mTlv.field_12_gas_id);
-            ADD("red_percent", mTlv.field_14_red_percent);
-            ADD("green_percent", mTlv.field_16_green_percent);
-            ADD("blue_percent", mTlv.field_18_blue_percent);
+            ADD("Is Laughing Gas", mTlv.field_10_bLaughing_gas);
+            ADD("Laughing Gas ID", mTlv.field_12_laughing_gas_id);
+            ADD("Red %", mTlv.field_14_red_percent);
+            ADD("Green %", mTlv.field_16_green_percent);
+            ADD("Blue %", mTlv.field_18_blue_percent);
         }
     };
 
     struct Path_InvisibleSwitch : public TlvObjectBaseAE<::Path_InvisibleSwitch>
     {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<::InvisibleSwitchScale>("Enum_InvisibleSwitchScale",
+                {
+                    {::InvisibleSwitchScale::eHalf_0, "Half"},
+                    {::InvisibleSwitchScale::eFull_1, "Full"},
+                    {::InvisibleSwitchScale::eAny_2, "Any"},
+                });
+        }
+
         CTOR_AE(Path_InvisibleSwitch, "InvisibleSwitch", TlvTypes::InvisibleSwitch_48)
         {
-            ADD("id", mTlv.field_10_id);
-            ADD("action", mTlv.field_12_action);
-            ADD("delay", mTlv.field_14_delay);
-            ADD("set_off_alarm", mTlv.field_16_set_off_alarm);
-            ADD("scale", mTlv.field_18_scale);
+            ADD("ID", mTlv.field_10_id);
+            ADD("Action", mTlv.field_12_action);
+            ADD("Delay (Frames)", mTlv.field_14_delay);
+            ADD("Set Off Alarm", mTlv.field_16_set_off_alarm);
+            ADD("Scale", mTlv.field_18_scale);
         }
     };
 
@@ -766,12 +777,12 @@ namespace AETlvs
     {
         CTOR_AE(Path_Water, "Water", TlvTypes::Water_77)
         {
-            ADD("max_drops", mTlv.field_10_data.field_10_max_drops);
-            ADD("id", mTlv.field_10_data.field_12_id);
-            ADD("splash_time", mTlv.field_10_data.field_14_splash_time);
-            ADD("splash_x_velocity", mTlv.field_10_data.field_16_splash_x_velocity);
-            ADD("splash_y_velocity", mTlv.field_10_data.field_18_splash_y_velocity);
-            ADD("timeout", mTlv.field_10_data.field_1A_timeout);
+            ADD("Max Drops", mTlv.field_10_data.field_10_max_drops);
+            ADD("ID", mTlv.field_10_data.field_12_id);
+            ADD("Splash Time (Frames)", mTlv.field_10_data.field_14_splash_time);
+            ADD("Splash X Velocity", mTlv.field_10_data.field_16_splash_x_velocity);
+            ADD("Splash Y Velocity", mTlv.field_10_data.field_18_splash_y_velocity);
+            ADD("Water Duration (Frames)", mTlv.field_10_data.field_1A_water_duration);
         }
     };
 
@@ -895,15 +906,33 @@ namespace AETlvs
 
     struct Path_PullRingRope : public TlvObjectBaseAE<::Path_PullRingRope>
     {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<::PullRingSwitchSound>("Enum_PullRingSwitchSound",
+                {
+                    {::PullRingSwitchSound::eNone_0, "None"},
+                    {::PullRingSwitchSound::eWellExit_1, "Well Exit"},
+                    {::PullRingSwitchSound::eRingUnknownTrigger_2, "Ring Unknown Trigger"},
+                    {::PullRingSwitchSound::eDoorEffect_3, "Door Effect"},
+                });
+
+            types.AddEnum<::PullRingSoundDirection>("Enum_PullRingSoundDirection",
+                {
+                    {::PullRingSoundDirection::eLeftAndRight_0, "Left And Right"},
+                    {::PullRingSoundDirection::eLeft_1, "Left"},
+                    {::PullRingSoundDirection::eRight_2, "Right"},
+                });
+        }
+
         CTOR_AE(Path_PullRingRope, "PullRingRope", TlvTypes::PullRingRope_12)
         {
-            ADD("id", mTlv.field_10_id);
-            ADD("target_action", mTlv.field_12_target_action);
-            ADD("length_of_rope", mTlv.field_14_length_of_rope);
-            ADD("scale", mTlv.field_16_scale);
-            ADD("on_sound", mTlv.field_18_on_sound);
-            ADD("off_sound", mTlv.field_1A_off_sound);
-            ADD("sound_direction", mTlv.field_1C_sound_direction);
+            ADD("ID", mTlv.field_10_id);
+            ADD("Target Action", mTlv.field_12_target_action);
+            ADD("Rope Length", mTlv.field_14_rope_length);
+            ADD("Scale", mTlv.field_16_scale);
+            ADD("On Sound", mTlv.field_18_on_sound);
+            ADD("Off Sound", mTlv.field_1A_off_sound);
+            ADD("Sound Direction", mTlv.field_1C_sound_direction);
         }
     };
 
@@ -911,15 +940,15 @@ namespace AETlvs
     {
         CTOR_AE(Path_MultiSwitchController, "MultiSwitchController", TlvTypes::MultiSwitchController_96)
         {
-            ADD("id", mTlv.field_10_id);
-            ADD("operation", mTlv.field_12_operation);
-            ADD("delay", mTlv.field_14_delay);
-            ADD("id_1", mTlv.field_16_id1);
-            ADD("id_2", mTlv.field_18_id2);
-            ADD("id_3", mTlv.field_1A_id3);
-            ADD("id_4", mTlv.field_1C_id4);
-            ADD("id_5", mTlv.field_1E_id5);
-            ADD("id_6", mTlv.field_20_id6);
+            ADD("ID", mTlv.field_10_id);
+            ADD("Operation", mTlv.field_12_operation);
+            ADD("Delay", mTlv.field_14_delay);
+            ADD("ID 1", mTlv.field_16_id1);
+            ADD("ID 2", mTlv.field_18_id2);
+            ADD("ID 3", mTlv.field_1A_id3);
+            ADD("ID 4", mTlv.field_1C_id4);
+            ADD("ID 5", mTlv.field_1E_id5);
+            ADD("ID 6", mTlv.field_20_id6);
         }
     };
 
@@ -927,8 +956,8 @@ namespace AETlvs
     {
         CTOR_AE(Path_SecurityOrb, "SecurityOrb", TlvTypes::SecurityOrb_19)
         {
-            ADD("scale", mTlv.field_10_scale);
-            ADD("disabled_resources", mTlv.field_12_disabled_resources);
+            ADD("Scale", mTlv.field_10_scale);
+            ADD("Disabled Resources", mTlv.field_12_disabled_resources);
         }
     };
 

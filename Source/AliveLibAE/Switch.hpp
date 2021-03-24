@@ -24,15 +24,22 @@ enum class SwitchSoundType : __int16
 
 enum class SwitchOp : __int16;
 
+enum class SwitchSoundDirection : __int16
+{
+    eLeftAndRight_0 = 0,
+    eLeft_1 = 1,
+    eRight_2 = 2,
+};
+
 struct Path_Switch : public Path_TLV
 {
     SwitchOp field_10_target_action;
     Scale_short field_12_scale;
     SwitchSoundType field_14_on_sound;
     SwitchSoundType field_16_off_sound;
-    __int16 field_18_sound_direction;
+    SwitchSoundDirection field_18_sound_direction;
     __int16 field_1A_trigger_id;
-    __int16 field_1C_persist_offscreen;
+    Choice_short field_1C_persist_offscreen;
     __int16 field_1E_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Switch, 0x20);
@@ -60,6 +67,6 @@ private:
     SwitchOp field_102_target_action;
     SwitchSoundType field_104_on_sound;
     SwitchSoundType field_106_off_sound;
-    __int16 field_108_sound_direction;
+    SwitchSoundDirection field_108_sound_direction;
 };
 ALIVE_ASSERT_SIZEOF(Switch, 0x10C);

@@ -66,7 +66,7 @@ void InvisibleSwitch::vUpdate_45FBA0()
             SwitchStates_Do_Operation_465F00(field_20_id, field_22_action);
 
             // Fire alarm if set
-            if (field_3A_set_off_alarm)
+            if (field_3A_set_off_alarm == Choice_short::eYes_1)
             {
                 auto pAlarm = ae_new<Alarm>();
                 if (pAlarm)
@@ -98,9 +98,9 @@ void InvisibleSwitch::vUpdate_45FBA0()
                         && sActiveHero_5C1B68->field_106_current_motion != eAbeStates::State_114_DoorEnter_459470))
                     {
                         // Scale matches ?
-                        if (field_3C_scale == 2
-                            || (field_3C_scale == 0 && sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(0.5))
-                            || (field_3C_scale == 1 && sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(1.0)))
+                        if (field_3C_scale == InvisibleSwitchScale::eAny_2
+                            || (field_3C_scale == InvisibleSwitchScale::eHalf_0 && sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(0.5))
+                            || (field_3C_scale == InvisibleSwitchScale::eFull_1 && sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(1.0)))
                         {
                             field_38_state = States::eState_WaitForDelayTimer_1;
                             field_28_delay_timer = sGnFrame_5C1B84 + field_2C_delay;

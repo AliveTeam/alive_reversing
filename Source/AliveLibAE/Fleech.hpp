@@ -35,13 +35,13 @@ struct Path_Fleech : public Path_TLV
     __int16 field_18_not_used;
     __int16 field_1A_attack_anger;
     __int16 field_1C_attack_delay;
-    __int16 field_1E_wake_up_id;
+    __int16 field_1E_wake_up_id1;
     Choice_short field_20_hanging;
     __int16 field_22_lost_target_timeout;
     Choice_short field_24_goes_to_sleep;
     __int16 field_26_patrol_range_in_grids;
     __int16 field_28_unused;
-    Choice_short field_2A_allow_wake_up_id;
+    __int16 field_2A_wake_up_id2;
     Choice_short field_2C_persistant;
     __int16 field_2E_padding;
 };
@@ -104,7 +104,7 @@ struct Fleech_State
     __int16 field_7C_wakeup_id;
     __int16 field_7E_tlv;
     __int16 field_80_wake_up_switch_value;
-    __int16 field_82_allow_wake_up_id;
+    __int16 field_82_use_wake_up_id;
     __int16 field_84;
     __int16 field_86;
     __int16 field_88_patrol_range;
@@ -338,7 +338,7 @@ private:
     __int16 field_144_wake_up_id;
     __int16 field_146_tlv_28;
     __int16 field_148_wake_up_switch_value;
-    __int16 field_14A_allow_wake_up_id;
+    __int16 field_14A_use_wake_up_id;
     __int16 field_14C;
     __int16 field_14E;
     __int16 field_150_patrol_range;

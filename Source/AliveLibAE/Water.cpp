@@ -63,7 +63,7 @@ Water* Water::ctor_4E02C0(Path_Water* pTlv, int tlvInfo)
 
             if (field_FC_state == WaterState::eFlowing_2)
             {
-                field_140_time_on = sGnFrame_5C1B84 + field_124_tlv_data.field_1A_timeout;
+                field_140_water_duration = sGnFrame_5C1B84 + field_124_tlv_data.field_1A_water_duration;
             }
 
             field_148_bHitTimeout &= ~1u;
@@ -340,7 +340,7 @@ void Water::vUpdate_4E0B50()
                 else
                 {
                     field_FC_state = WaterState::eFlowing_2;
-                    field_140_time_on = sGnFrame_5C1B84 + field_124_tlv_data.field_1A_timeout;
+                    field_140_water_duration = sGnFrame_5C1B84 + field_124_tlv_data.field_1A_water_duration;
                     field_144_sound_channels = SFX_Play_46FC20(SoundEffect::WaterFall_95, 40, soundDir);
                 }
                 break;
@@ -370,7 +370,7 @@ void Water::vUpdate_4E0B50()
                 else
                 {
                     field_FC_state = WaterState::eFlowing_2;
-                    field_140_time_on = sGnFrame_5C1B84 + field_124_tlv_data.field_1A_timeout;
+                    field_140_water_duration = sGnFrame_5C1B84 + field_124_tlv_data.field_1A_water_duration;
                 }
                 break;
 
@@ -396,7 +396,7 @@ void Water::vUpdate_4E0B50()
                     field_110_current_drops = field_124_tlv_data.field_10_max_drops >> 5;
                 }
 
-                if (field_124_tlv_data.field_1A_timeout && static_cast<int>(sGnFrame_5C1B84) >= field_140_time_on)
+                if (field_124_tlv_data.field_1A_water_duration && static_cast<int>(sGnFrame_5C1B84) >= field_140_water_duration)
                 {
                     field_148_bHitTimeout |= 1u;
                     field_110_current_drops = field_124_tlv_data.field_10_max_drops >> 5;

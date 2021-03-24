@@ -8,8 +8,8 @@
 // TODO: These can be combined
 struct Path_LaughingGas_Data
 {
-    __int16 field_0_is_laughing_gas;
-    __int16 field_2_gas_id;
+    Choice_short field_0_bLaughing_gas;
+    __int16 field_2_laughing_gas_id;
     __int16 field_4_red_percent;
     __int16 field_6_blue_percent;
     __int16 field_8_green_percent;
@@ -19,8 +19,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LaughingGas_Data, 0xC);
 
 struct Path_LaughingGas : public Path_TLV
 {
-    __int16 field_10_is_laughing_gas;
-    __int16 field_12_gas_id;
+    Choice_short field_10_bLaughing_gas;
+    __int16 field_12_laughing_gas_id;
     __int16 field_14_red_percent;
     __int16 field_16_green_percent;
     __int16 field_18_blue_percent;
@@ -72,7 +72,7 @@ private:
     __int16 field_2E_w;
     int field_30_padding;
     __int16 field_34_bEnabled;
-    __int16 field_36_bGreen;
+    Choice_short field_36_bLaughing_gas;
     int field_38_padding;
     int field_3C_padding;
     int field_40_padding;

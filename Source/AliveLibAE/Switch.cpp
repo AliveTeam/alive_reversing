@@ -65,7 +65,7 @@ Switch* Switch::ctor_4D5860(Path_Switch* pTlv, DWORD tlvInfo)
     field_F4_trigger_id = pTlv->field_1A_trigger_id;
     field_102_target_action = pTlv->field_10_target_action;
     field_100_flags = 0;
-    field_100_flags = 2 * (pTlv->field_1C_persist_offscreen & 1);
+    field_100_flags = 2 * (pTlv->field_1C_persist_offscreen == Choice_short::eYes_1);
 
     if (pTlv->field_12_scale == Scale_short::eHalf_1)
     {
@@ -191,14 +191,19 @@ void Switch::vUpdate_4D5C00()
                 int volLeft = 0;
                 int volRight = 0;
 
-                if (field_108_sound_direction == 1)
+                if (field_108_sound_direction == SwitchSoundDirection::eLeft_1)
                 {
                     volLeft = 1;
                     volRight = 0;
                 }
+                else if (field_108_sound_direction == SwitchSoundDirection::eRight_2)
+                {
+                    volLeft = 0;
+                    volRight = 1;
+                }
                 else
                 {
-                    volLeft = field_108_sound_direction != 2;
+                    volLeft = 1;
                     volRight = 1;
                 }
 

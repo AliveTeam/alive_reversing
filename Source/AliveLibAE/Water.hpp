@@ -27,7 +27,7 @@ struct Path_Water_Data
     __int16 field_14_splash_time;
     __int16 field_16_splash_x_velocity;
     __int16 field_18_splash_y_velocity;
-    __int16 field_1A_timeout;
+    __int16 field_1A_water_duration;
 };
 ALIVE_ASSERT_SIZEOF(Path_Water_Data, 0xC);
 
@@ -88,7 +88,7 @@ private:
     FP field_134_emit_x_vel;
     __int16 field_138_splash_time;
     int field_13C_not_in_camera_count;
-    int field_140_time_on;
+    int field_140_water_duration;
     int field_144_sound_channels;
     __int16 field_148_bHitTimeout;
 };
