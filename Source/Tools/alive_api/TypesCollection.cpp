@@ -171,6 +171,18 @@ void TypesCollection::AddAOTypes()
             {AO::LevelIds::eForestChase, "ForestChase"},
             {AO::LevelIds::eDesertEscape, "DesertEscape"},
         });
+
+    AddEnum<Choice_short>("Enum_Choice_short",
+        {
+             { Choice_short::eNo_0, "No" },
+             { Choice_short::eYes_1, "Yes" },
+        });
+
+    AddEnum<Scale_short>("Enum_Scale_short",
+        {
+             { Scale_short::eFull_0, "Full" },
+             { Scale_short::eHalf_1, "Half" },
+        });
 }
 
 void TypesCollection::AddAETypes()
