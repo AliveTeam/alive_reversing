@@ -81,6 +81,8 @@ static const AIFunctionData<TScrabAIFn> sScrabAITable[6] =
 
 void Scrab::SetBrain(TScrabAIFn fn)
 {
+    LOG_INFO("My brain is");
+    LOG_INFO(GetOriginalFn(fn, sScrabAITable).fnName);
     ::SetBrain(fn, field_118_brain_state, sScrabAITable);
 }
 
@@ -1213,8 +1215,20 @@ __int16 Scrab::AI_Patrol_0_4AA630()
     }
 }
 
+__int16 Scrab::AI_ChasingEnemy_1_REAL_4A6470()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 __int16 Scrab::AI_ChasingEnemy_1_4A6470()
 {
+    //if (field_11C_sub_state == AI_ChasingEnemy::eState1_Eating_12) //>=7 ok //>=10 ok too I guess >=13 bug
+    //{
+    //    //LOG_INFO("KEK");
+    //    return AI_ChasingEnemy_1_REAL_4A6470();
+    //}
+
     Scrab* pScrabToFight = FindScrabToFight_4A4E20();
     if (pScrabToFight)
     {
@@ -1246,15 +1260,18 @@ __int16 Scrab::AI_ChasingEnemy_1_4A6470()
         field_14C_spotting_abe_timer = sGnFrame_5C1B84 + field_148_attack_duration;
     }
 
-    if (Event_Is_Event_In_Range_422C30(kEventAbeOhm, field_B8_xpos, field_BC_ypos, -1) && field_11C_sub_state != 26)
+    if (Event_Is_Event_In_Range_422C30(kEventAbeOhm, field_B8_xpos, field_BC_ypos, -1) && field_11C_sub_state != 26) //field_108_next_motion instead of field_11C_sub_state
     {
         field_108_next_motion = eScrabMotions::M_HowlBegin_26_4A9DA0;
         return AI_ChasingEnemy::eState1_Panic_4;
     }
 
-    LiftPoint* pLiftPoint = static_cast<LiftPoint*>(pObj);
-    if (pLiftPoint && pLiftPoint->field_4_typeId == Types::eLiftPoint_78 && 
-        !pLiftPoint->vOnAnyFloor_461920() && field_11C_sub_state != AI_ChasingEnemy::eState1_Panic_4)
+    LiftPoint* pLiftPoint = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    if (!pLiftPoint || pLiftPoint->field_4_typeId != Types::eLiftPoint_78)
+    {
+        pLiftPoint = nullptr;
+    }
+    if (pLiftPoint && !pLiftPoint->vOnAnyFloor_461920() && field_11C_sub_state != AI_ChasingEnemy::eState1_Panic_4)
     {
         field_108_next_motion = eScrabMotions::M_Stand_0_4A8220;
         return AI_ChasingEnemy::eState1_Panic_4;
@@ -1268,14 +1285,28 @@ __int16 Scrab::AI_ChasingEnemy_1_4A6470()
     {
         MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eChase_8, this, 0, 0);
     }
+    //return AI_ChasingEnemy_1_REAL_4A6470();
+    LOG_INFO("SUBSTATE:");
+    LOG_INFO((int) field_11C_sub_state);
+
+    //if (field_11C_sub_state == AI_ChasingEnemy::eState1_Eating_12) //>=7 ok //>=10 ok too I guess >=13 bug
+    //{
+    //    //LOG_INFO("KEK");
+    //    return AI_ChasingEnemy_1_REAL_4A6470();
+    //}
 
     switch (field_11C_sub_state)
     {
     case AI_ChasingEnemy::eState1_Inactive_0:
+    {
+        //return AI_ChasingEnemy_1_REAL_4A6470();
         field_150_attack_delay_timer = sGnFrame_5C1B84 + field_128_attack_delay;
         return AI_ChasingEnemy::eState1_Idle_1;
-
+    }
     case AI_ChasingEnemy::eState1_Idle_1:
+    {
+
+        //return AI_ChasingEnemy_1_REAL_4A6470();
         if (field_106_current_motion == eScrabMotions::M_Stand_0_4A8220)
         {
             field_194_speak = LastSpeak_4A56F0();
@@ -1333,7 +1364,10 @@ __int16 Scrab::AI_ChasingEnemy_1_4A6470()
             return AI_ChasingEnemy::eState1_Shriek_14;
         }
 
+    }
     case AI_ChasingEnemy::eState1_Running_2:
+        LOG_INFO("POG");
+        //return AI_ChasingEnemy_1_REAL_4A6470();
         return AI_ChasingEnemy_State_Running_2(pObj);
 
     case AI_ChasingEnemy::eState1_Turning_3:
@@ -1372,19 +1406,18 @@ __int16 Scrab::AI_ChasingEnemy_1_4A6470()
             return AI_ChasingEnemy::eState1_Attacking_8;
         }
 
-        if (pObj)
+        if (pLiftPoint)
         {
-            if (pLiftPoint->vOnAnyFloor_461920())
+            if (!pLiftPoint->vOnAnyFloor_461920())
             {
                 return field_11C_sub_state;
             }
-            return AI_ChasingEnemy::eState1_Idle_1;
         }
         else
         {
             field_110_id = -1;
-            return AI_ChasingEnemy::eState1_Idle_1;
         }
+        return AI_ChasingEnemy::eState1_Idle_1;
 
     case AI_ChasingEnemy::eState1_Falling_5:
     case AI_ChasingEnemy::eState1_ToIdle_6:
@@ -1476,9 +1509,10 @@ __int16 Scrab::AI_ChasingEnemy_1_4A6470()
         }
 
     case AI_ChasingEnemy::eState1_Eating_12:
+        //return AI_ChasingEnemy_1_REAL_4A6470();
         if (field_106_current_motion == eScrabMotions::M_FeedToGulp_33_4A9FA0)
         {
-            if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 field_108_next_motion = eScrabMotions::M_StandToFeed_35_4AA010;
             }
@@ -1577,11 +1611,11 @@ __int16 Scrab::AI_ChasingEnemy_State_Running_2(BaseAliveGameObject* pObj)
         {
             xPosition = SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)) - FP_GetExponent(field_B8_xpos);
         }
-        FP xOffset;
+        FP xOffset = (field_C4_velx >= FP_FromInteger(0))? ScaleToGridSize_4498B0(field_CC_sprite_scale)) : -ScaleToGridSize_4498B0(field_CC_sprite_scale);
         if (xPosition < 6
             && Check_IsOnEndOfLine_408E90(field_C4_velx < FP_FromInteger(0), 1)
             && ((pObj->field_BC_ypos - field_BC_ypos < FP_FromInteger(5))
-                || ((field_C4_velx >= FP_FromInteger(0)) ? (xOffset = ScaleToGridSize_4498B0(field_CC_sprite_scale)) : (xOffset = -ScaleToGridSize_4498B0(field_CC_sprite_scale)),
+                || () ? (xOffset =  : (xOffset = ),
                     sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
                         FP_GetExponent(field_B8_xpos + xOffset),
                         FP_GetExponent(field_BC_ypos + FP_FromInteger(10)),

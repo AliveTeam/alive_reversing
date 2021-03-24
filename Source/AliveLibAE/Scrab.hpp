@@ -240,6 +240,7 @@ public:
     
     __int16 AI_ChasingEnemy_State_Running_2(BaseAliveGameObject* pObj);
 
+    EXPORT __int16 AI_ChasingEnemy_1_REAL_4A6470();
     EXPORT __int16 AI_ChasingEnemy_1_4A6470();
     EXPORT __int16 AI_Fighting_2_4A5840();
     EXPORT __int16 AI_Death_3_4A62B0();
