@@ -658,6 +658,15 @@ namespace AOTlvs
 
     struct Path_UXB : public TlvObjectBaseAO<AO::Path_UXB>
     {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<AO::UXB_State>("UXB_State",
+                {
+                    {AO::UXB_State::eArmed_0, "Armed"},
+                    {AO::UXB_State::eDisarmed_1, "Disarmed"},
+                });
+        }
+
         CTOR_AO(Path_UXB, "UXB", AO::TlvTypes::UXB_47)
         {
             ADD("num_patterns", mTlv.field_18_num_patterns);
