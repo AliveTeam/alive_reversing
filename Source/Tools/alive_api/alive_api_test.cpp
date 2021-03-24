@@ -58,7 +58,6 @@ TEST(alive_api, ExportPathBinaryToJsonAE)
 {
     auto ret = AliveAPI::ExportPathBinaryToJson("OutputAE.json", AEPath(kAETestLvl), 14);
     ASSERT_EQ(ret.mResult, AliveAPI::Error::None);
-    abort();
 }
 
 
