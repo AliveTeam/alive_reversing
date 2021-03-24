@@ -28,7 +28,7 @@ Mine* Mine::ctor_43A330(Path_Mine* pTlv, int tlvInfo)
 
     field_10C_detonating = 0;
 
-    if (pTlv->field_1C_scale == 1)
+    if (pTlv->field_1C_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_10_anim.field_C_layer = Layer::eLayer_16;
@@ -71,7 +71,7 @@ Mine* Mine::ctor_43A330(Path_Mine* pTlv, int tlvInfo)
     field_10E_disabled_resources = pTlv->field_1E_disabled_resources;
 
     // TODO
-    field_1B0_flags = 2 * (pTlv->field_20_persists_offscreen & 1) | field_1B0_flags & ~2;
+    field_1B0_flags = 2 * (pTlv->field_20_persists_offscreen == Choice_short::eYes_1) | field_1B0_flags & ~2;
 
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbebombResID, 1, 0);
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDebrisID00, 1, 0);

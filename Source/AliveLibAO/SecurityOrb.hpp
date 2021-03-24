@@ -3,12 +3,13 @@
 #include "FunctionFwd.hpp"
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "Path.hpp"
 
 namespace AO {
 
 struct Path_SecurityOrb : public Path_TLV
 {
-    __int16 field_18_scale;
+    Scale_short field_18_scale;
     __int16 field_1A_disable_resources;
 };
 ALIVE_ASSERT_SIZEOF(Path_SecurityOrb, 0x1C);

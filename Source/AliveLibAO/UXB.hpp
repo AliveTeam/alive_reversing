@@ -3,15 +3,22 @@
 #include "FunctionFwd.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 namespace AO {
+
+enum class UXB_State : __int16
+{
+    eArmed_0 = 0,
+    eDisarmed_1 = 1,
+};
 
 struct Path_UXB : public Path_TLV
 {
     __int16 field_18_num_patterns;
     __int16 field_1A_pattern;
-    __int16 field_1C_scale;
-    __int16 field_1E_state;
+    Scale_short field_1C_scale;
+    UXB_State field_1E_state;
     int field_20_disabled_resources;
 };
 ALIVE_ASSERT_SIZEOF(Path_UXB, 0x24);

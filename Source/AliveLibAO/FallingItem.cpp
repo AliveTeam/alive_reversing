@@ -66,7 +66,7 @@ FallingItem* FallingItem::ctor_419F30(Path_FallingItem* pTlv, int tlvInfo)
     }
 
     field_112_id = pTlv->field_18_id;
-    if (pTlv->field_1A_scale == 1)
+    if (pTlv->field_1A_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_C6_scale = 0;

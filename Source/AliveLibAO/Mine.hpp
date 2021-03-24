@@ -3,6 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "Path.hpp"
 
 namespace AO {
 
@@ -10,9 +11,9 @@ struct Path_Mine : public Path_TLV
 {
     __int16 field_18_num_patterns;
     __int16 field_1A_pattern;
-    __int16 field_1C_scale;
+    Scale_short field_1C_scale;
     __int16 field_1E_disabled_resources;
-    __int16 field_20_persists_offscreen;
+    Choice_short field_20_persists_offscreen;
     __int16 field_22_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_Mine, 0x24);

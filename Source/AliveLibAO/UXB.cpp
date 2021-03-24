@@ -51,7 +51,7 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, int tlvInfo)
     // Single out a single digit, and use that digit as the new amount of red blinks before a green one.
     field_1BA_red_blink_count = (field_1B8_pattern / static_cast<int>(pow(10, field_1B4_pattern_length - 1))) % 10;
 
-    if (pTlv->field_1C_scale == 1)
+    if (pTlv->field_1C_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_10_anim.field_C_layer = Layer::eLayer_16;
@@ -68,7 +68,7 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, int tlvInfo)
 
     if (pTlv->field_1_unknown)  // Stores the activated/deactivated state for UXB
     {
-        if (!pTlv->field_1E_state)
+        if (pTlv->field_1E_state == UXB_State::eArmed_0)
         {
             BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0);
             field_11C_anim.LoadPal_403090(ppRes, 0);
@@ -94,7 +94,7 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, int tlvInfo)
     }
     else
     {
-        if (!pTlv->field_1E_state)
+        if (pTlv->field_1E_state == UXB_State::eArmed_0)
         {
             field_10E_starting_state = 0;
         }
