@@ -508,6 +508,8 @@ namespace Test
         ASSERT_EQ(expectedY, y);
 
         ASSERT_TRUE(memcmp(&test, line, sizeof(PathLine)) == 0);
+
+        c.dtor_4189F0();
     }
 }
 
