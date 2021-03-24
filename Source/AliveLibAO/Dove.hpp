@@ -4,14 +4,15 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
 #include "FixedPoint.hpp"
+#include "Path.hpp"
 
 namespace AO {
 
 struct Path_Dove : public Path_TLV
 {
     __int16 field_18_dove_count;
-    __int16 field_1A_pixel_perfect;
-    __int16 field_1C_scale;
+    Choice_short field_1A_pixel_perfect;
+    Scale_short field_1C_scale;
     __int16 field_1E_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_Dove, 0x20);

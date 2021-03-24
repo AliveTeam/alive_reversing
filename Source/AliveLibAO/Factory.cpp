@@ -438,11 +438,11 @@ EXPORT void Factory_Dove_4834C0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
             if (pDove)
             {
                 pDove->ctor_40EE50(5052, 41, 20, 60, tlvOffsetLevelIdPathId.all, 
-                    pDoveTlv->field_1C_scale != 0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
+                    pDoveTlv->field_1C_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
             }
 
             short ypos = 0;
-            if (pDoveTlv->field_1A_pixel_perfect)
+            if (pDoveTlv->field_1A_pixel_perfect == Choice_short::eYes_1)
             {
                 pDove->field_A8_xpos = FP_FromInteger(pDoveTlv->field_10_top_left.field_0_x);
                 ypos = pDoveTlv->field_10_top_left.field_2_y;

@@ -40,7 +40,7 @@ SecurityOrb* SecurityOrb::ctor_436C80(Path_SecurityOrb* pTlv, int tlvInfo)
 
     field_10C_tlvInfo = tlvInfo;
 
-    if (pTlv->field_18_scale == 1)
+    if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_C6_scale = 0;

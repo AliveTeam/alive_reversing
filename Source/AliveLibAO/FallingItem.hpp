@@ -3,6 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 namespace AO {
 
@@ -18,7 +19,7 @@ ALIVE_ASSERT_SIZEOF(FallingItem_Data, 0xC);
 struct Path_FallingItem : public Path_TLV
 {
     __int16 field_18_id;
-    __int16 field_1A_scale;
+    Scale_short field_1A_scale;
     __int16 field_1C_delay_time;
     __int16 field_1E_number_of_items;
     __int16 field_20_reset_id;
