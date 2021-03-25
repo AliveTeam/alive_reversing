@@ -29,28 +29,8 @@ TypesCollection::TypesCollection(Game gameType)
     }
 }
 
-template<typename TlvEnumType, typename TlvType, typename TlvWrapperType>
-static void DoRegisterType(
-    std::map<TlvEnumType, FnTlvFactory<TlvType>>& factory,
-    std::map<std::string, FnTlvFactory<TlvType>>& reverseFactory,
-    TypesCollection& constructingTypes)
-{
-    TlvWrapperType tmp;
-    tmp.AddTypes(constructingTypes);
-    const TlvEnumType tlvType = tmp.TlvType();
-    auto fnCreate = [](TypesCollection& types, TlvType* pTlv, int instanceCount)
-    {
-        auto ret = std::make_unique<TlvWrapperType>(types, pTlv);
-        ret->SetInstanceNumber(instanceCount);
-        return ret;
-    };
-    reverseFactory[tmp.Name()] = fnCreate;
-    factory[tlvType] = fnCreate;
-}
-
-#define REGISTER_TYPE_AO(TlvWrapperType) DoRegisterType<AO::TlvTypes, AO::Path_TLV, TlvWrapperType>(mTlvFactoryAO, mReverseTlvFactoryAO, *this)
-
-#define REGISTER_TYPE_AE(TlvWrapperType) DoRegisterType<TlvTypes, Path_TLV, TlvWrapperType>(mTlvFactoryAE, mReverseTlvFactoryAE, *this)
+#define REGISTER_TYPE_AO(TlvWrapperType) mTlvFactoryAO.DoRegisterType<TlvWrapperType>(*this)
+#define REGISTER_TYPE_AE(TlvWrapperType) mTlvFactoryAE.DoRegisterType<TlvWrapperType>(*this)
 
 void TypesCollection::AddAOTypes()
 {
@@ -347,60 +327,31 @@ void TypesCollection::AddTlvsToJsonArray(jsonxx::Array& array)
 {
     if (mGameType == Game::AO)
     {
-        for (auto& [key, value] : mTlvFactoryAO)
-        {
-            array << value(*this, nullptr, 0)->StructureToJson();
-        }
+        mTlvFactoryAO.AddTlvsToJsonArray(*this, array);
     }
     else
     {
-        for (auto& [key, value] : mTlvFactoryAE)
-        {
-            array << value(*this, nullptr, 0)->StructureToJson();
-        }
+        mTlvFactoryAE.AddTlvsToJsonArray(*this, array);
     }
 }
 
-template<typename FactoryType, typename PathTlvEnumType, typename PathTlvType>
-static std::unique_ptr<TlvObjectBase> MakeTlv(TypesCollection& typesCollection, FactoryType& factory, PathTlvEnumType tlvType, PathTlvType* pTlv, int instanceCount)
-{
-    auto it = factory.find(tlvType);
-    if (it == std::end(factory))
-    {
-        LOG_WARNING("Type " << magic_enum::enum_name(tlvType) << " unknown");
-        return nullptr;
-    }
-    return it->second(typesCollection, pTlv, instanceCount);
-}
 
 std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAE(TlvTypes tlvType, Path_TLV* pTlv, int instanceCount)
 {
-    return MakeTlv(*this, mTlvFactoryAE, tlvType, pTlv, instanceCount);
+    return mTlvFactoryAE.MakeTlvByEnum(*this, tlvType, pTlv, instanceCount);
 }
 
 std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAO(AO::TlvTypes tlvType, AO::Path_TLV* pTlv, int instanceCount)
 {
-    return MakeTlv(*this, mTlvFactoryAO, tlvType, pTlv, instanceCount);
-}
-
-template<typename FactoryType, typename PathTlvType>
-static std::unique_ptr<TlvObjectBase> MakeTlv(TypesCollection& typesCollection, const std::string& tlvTypeName, FactoryType& factory, PathTlvType* pTlv)
-{
-    auto it = factory.find(tlvTypeName);
-    if (it == std::end(factory))
-    {
-        LOG_WARNING("Type " << tlvTypeName << " unknown");
-        return nullptr;
-    }
-    return it->second(typesCollection, pTlv, 0);
+    return mTlvFactoryAO.MakeTlvByEnum(*this, tlvType, pTlv, instanceCount);
 }
 
 std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAE(const std::string& tlvTypeName, Path_TLV* pTlv)
 {
-    return MakeTlv(*this, tlvTypeName, mReverseTlvFactoryAE, pTlv);
+    return mTlvFactoryAE.MakeTlvByName(*this, tlvTypeName, pTlv);
 }
 
 std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAO(const std::string& tlvTypeName, AO::Path_TLV* pTlv)
 {
-    return MakeTlv(*this, tlvTypeName, mReverseTlvFactoryAO, pTlv);
+    return mTlvFactoryAO.MakeTlvByName(*this, tlvTypeName, pTlv);
 }

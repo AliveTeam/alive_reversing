@@ -17,6 +17,60 @@ enum class Game
 template<class TlvType>
 using FnTlvFactory = std::function<std::unique_ptr<TlvObjectBase>(class TypesCollection&, TlvType*, int)>;
 
+template<typename TlvEnumType, typename PathTlvType>
+class TlvFactory
+{
+public:
+    std::unique_ptr<TlvObjectBase> MakeTlvByEnum(TypesCollection& typesCollection, TlvEnumType tlvType, PathTlvType* pTlv, int instanceCount)
+    {
+        auto it = mTlvFactory.find(tlvType);
+        if (it == std::end(mTlvFactory))
+        {
+            LOG_WARNING("Type " << magic_enum::enum_name(tlvType) << " unknown");
+            return nullptr;
+        }
+        return it->second(typesCollection, pTlv, instanceCount);
+    }
+
+    std::unique_ptr<TlvObjectBase> MakeTlvByName(TypesCollection& typesCollection, const std::string& tlvTypeName, PathTlvType* pTlv)
+    {
+        auto it = mReverseTlvFactory.find(tlvTypeName);
+        if (it == std::end(mReverseTlvFactory))
+        {
+            LOG_WARNING("Type " << tlvTypeName << " unknown");
+            return nullptr;
+        }
+        return it->second(typesCollection, pTlv, 0);
+    }
+
+    void AddTlvsToJsonArray(TypesCollection& typesCollection, jsonxx::Array& array)
+    {
+        for (auto& [key, value] : mTlvFactory)
+        {
+            array << value(typesCollection, nullptr, 0)->StructureToJson();
+        }
+    }
+
+    template<typename TlvWrapperType>
+    void DoRegisterType(TypesCollection& constructingTypes)
+    {
+        TlvWrapperType tmp;
+        tmp.AddTypes(constructingTypes);
+        const TlvEnumType tlvType = tmp.TlvType();
+        auto fnCreate = [](TypesCollection& types, PathTlvType* pTlv, int instanceCount)
+        {
+            auto ret = std::make_unique<TlvWrapperType>(types, pTlv);
+            ret->SetInstanceNumber(instanceCount);
+            return ret;
+        };
+        mReverseTlvFactory[tmp.Name()] = fnCreate;
+        mTlvFactory[tlvType] = fnCreate;
+    }
+
+    std::map<TlvEnumType, FnTlvFactory<PathTlvType>> mTlvFactory;
+    std::map<std::string, FnTlvFactory<PathTlvType>> mReverseTlvFactory;
+};
+
 class TypesCollection
 {
 public:
@@ -163,11 +217,8 @@ public:
 private:
     std::vector<std::unique_ptr<ITypeBase>> mTypes;
 
-    std::map<AO::TlvTypes, FnTlvFactory<AO::Path_TLV>> mTlvFactoryAO;
-    std::map<std::string, FnTlvFactory<AO::Path_TLV>> mReverseTlvFactoryAO;
-
-    std::map<TlvTypes, FnTlvFactory<Path_TLV>> mTlvFactoryAE;
-    std::map<std::string, FnTlvFactory<Path_TLV>> mReverseTlvFactoryAE;
+    TlvFactory<AO::TlvTypes, AO::Path_TLV> mTlvFactoryAO;
+    TlvFactory<TlvTypes, Path_TLV> mTlvFactoryAE;
 
     Game mGameType = {};
 };
