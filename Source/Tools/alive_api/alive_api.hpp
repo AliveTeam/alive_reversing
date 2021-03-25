@@ -31,11 +31,21 @@ namespace AliveAPI
         std::vector<int> paths;
     };
 
+    enum class UpgradeError
+    {
+        None,
+    };
+
+    struct JsonUpgradeResult
+    {
+         UpgradeError mResult = UpgradeError::None;
+    };
+
     void DebugDumpTlvs(const std::string& prefix, const std::string& lvlFile, int pathId);
 
     API_EXPORT [[nodiscard]] int GetApiVersion();
     API_EXPORT [[nodiscard]] Result ExportPathBinaryToJson(const std::string& jsonOutputFile, const std::string& inputLvlFile, int pathResourceId);
-    API_EXPORT [[nodiscard]] Result UpgradePathJson(const std::string& jsonFile);
+    API_EXPORT [[nodiscard]] JsonUpgradeResult UpgradePathJson(const std::string& jsonFile);
     API_EXPORT [[nodiscard]] Result ImportPathJsonToBinary(const std::string& jsonInputFile, const std::string& inputLvl, const std::string& outputLvlFile, const std::vector<std::string>& lvlResourceSources);
     API_EXPORT [[nodiscard]] EnumeratePathsResult EnumeratePaths(const std::string& inputLvlFile);
 
