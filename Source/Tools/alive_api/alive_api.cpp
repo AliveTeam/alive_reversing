@@ -3,6 +3,8 @@
 #include "../AliveLibAE/Path.hpp"
 #include "../AliveLibAE/PathData.hpp"
 #include "LvlReaderWriter.hpp"
+#include "AOJsonUpgrader.hpp"
+#include "AEJsonUpgrader.hpp"
 
 #include <iostream>
 #include "JsonDocument.hpp"
@@ -295,9 +297,27 @@ namespace AliveAPI
         return ret;
     }
 
-    [[nodiscard]] Result UpgradePathJson(const std::string& /*jsonFile*/)
+    [[nodiscard]] JsonUpgradeResult UpgradePathJson(const std::string& jsonFile)
     {
-        return {};
+        JsonUpgradeResult ret = {};
+
+        JsonMapRootInfoReader rootInfo;
+        if (!rootInfo.Read(jsonFile))
+        {
+            abort();
+        }
+
+        if (rootInfo.mMapRootInfo.mGame == "AO")
+        {
+            AOJsonUpgrader upgrader;
+            ret.mResult = upgrader.Upgrade(jsonFile, rootInfo.mMapRootInfo.mVersion, GetApiVersion());
+        }
+        else
+        {
+            AEJsonUpgrader upgrader;
+            ret.mResult = upgrader.Upgrade(jsonFile, rootInfo.mMapRootInfo.mVersion, GetApiVersion());
+        }
+        return ret;
     }
 
     template<typename ReturnType, typename ContainerType>

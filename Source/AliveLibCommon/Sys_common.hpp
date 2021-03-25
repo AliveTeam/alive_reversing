@@ -39,7 +39,7 @@ inline std::string BuildString()
 {
 #ifdef BUILD_NUMBER
     // Automated AppVeyor build title
-    return "(" CI_PROVIDER " Build: " + std::to_string(BUILD_NUMBER) + ")";
+    return std::string("(") + CI_PROVIDER + " Build: " + std::to_string(BUILD_NUMBER) + ")";
 #else
     return "";
 #endif

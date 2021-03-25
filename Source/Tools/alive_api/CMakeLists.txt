@@ -22,6 +22,12 @@ set(alive_api_src
     TypesCollection.cpp
     JsonDocument.cpp
     JsonDocument.hpp
+    JsonUpgrader.hpp
+    JsonUpgrader.cpp
+    AOJsonUpgrader.hpp
+    AOJsonUpgrader.cpp
+    AEJsonUpgrader.hpp
+    AEJsonUpgrader.cpp
     TypedProperty.hpp
     LvlReaderWriter.hpp
     ByteStream.hpp
