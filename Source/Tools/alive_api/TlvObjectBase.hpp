@@ -98,7 +98,11 @@ public:
         jsonxx::Object ret;
         for (const auto& [key, value] : mInfo)
         {
-            ret << value.mName << value.mTypeName;
+            jsonxx::Object property;
+            property << "Type" << value.mTypeName;
+            property << "Visible" << IsVisibleToEditor();
+
+            ret << value.mName << property;
         }
         return ret;
     }
@@ -193,6 +197,11 @@ public:
     {
         return mInstanceNumber;
     }
+
+    bool IsVisibleToEditor() const
+    {
+        return mIsVisibleToEditor;
+    }
 protected:
     struct PropertyInfo
     {
@@ -202,6 +211,7 @@ protected:
     std::map<void*, PropertyInfo> mInfo; // TODO: Combine with mProperties
     std::vector<std::unique_ptr<BaseProperty>> mProperties;
     std::string mStructTypeName;
+    bool mIsVisibleToEditor = true;
     int mInstanceNumber = 0;
 };
 

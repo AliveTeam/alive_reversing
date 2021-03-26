@@ -538,6 +538,11 @@ std::unique_ptr<TypesCollection> JsonWriterAE::MakeTypesCollection() const
 bool JsonMapRootInfoReader::Read(const std::string& fileName)
 {
     std::ifstream inputFileStream(fileName.c_str());
+    if (!inputFileStream.good())
+    {
+        abort();
+    }
+
     std::string jsonStr((std::istreambuf_iterator<char>(inputFileStream)), std::istreambuf_iterator<char>());
 
     jsonxx::Object rootObj;
@@ -550,13 +555,7 @@ bool JsonMapRootInfoReader::Read(const std::string& fileName)
     {
         abort();
     }
-
     mMapRootInfo.mVersion = rootObj.get<jsonxx::Number>("api_version");
-    if (mMapRootInfo.mVersion != AliveAPI::GetApiVersion())
-    {
-        // TODO: Upgrade
-        abort();
-    }
 
     if (!rootObj.has<jsonxx::String>("game"))
     {
@@ -573,6 +572,14 @@ bool JsonMapRootInfoReader::Read(const std::string& fileName)
     {
         return true;
     }
+
+    /*
+    if (mMapRootInfo.mVersion != AliveAPI::GetApiVersion())
+    {
+        // TODO: Upgrade
+        abort();
+    }*/
+
 
     abort();
 }
