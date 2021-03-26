@@ -111,8 +111,8 @@ struct Fleech_State
     __int16 field_8A;
     __int16 field_8C;
     __int16 field_8E;
-    __int16 field_90;
-    __int16 field_92;
+    __int16 field_90_chase_delay;
+    __int16 field_92_chase_timer;
     __int16 field_94_lost_target_timeout;
     __int16 field_96;
     __int16 field_98;
@@ -345,8 +345,8 @@ private:
     __int16 field_152;
     __int16 field_154;
     __int16 field_156;
-    __int16 field_158;
-    __int16 field_15A;
+    __int16 field_158_chase_delay;
+    __int16 field_15A_chase_timer;
     __int16 field_15C_lost_target_timeout;
     __int16 field_15E;
     __int16 field_160_hoistX;

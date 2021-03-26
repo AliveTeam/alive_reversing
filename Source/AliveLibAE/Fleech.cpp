@@ -156,7 +156,7 @@ Fleech* Fleech::ctor_429DC0(Path_Fleech* pTlv, int tlvInfo)
     field_174_flags.Set(Flags_174::eBit7_persistant, pTlv->field_2C_persistant == Choice_short::eYes_1);
 
     field_140_max_anger = 2;
-    field_158 = 10;
+    field_158_chase_delay = 10;
 
     field_142_attack_anger_increaser = pTlv->field_1A_attack_anger_increaser + 2;
     field_144_wake_up_id = pTlv->field_1E_wake_up_id1;
@@ -363,8 +363,8 @@ int CC Fleech::CreateFromSaveState_42DD50(const BYTE* pBuffer)
     pFleech->field_152 = pState->field_8A;
     pFleech->field_154 = pState->field_8C;
     pFleech->field_156 = pState->field_8E;
-    pFleech->field_158 = pState->field_90;
-    pFleech->field_15A = pState->field_92;
+    pFleech->field_158_chase_delay = pState->field_90_chase_delay;
+    pFleech->field_15A_chase_timer = pState->field_92_chase_timer;
     pFleech->field_15C_lost_target_timeout = pState->field_94_lost_target_timeout;
     pFleech->field_15E = pState->field_96;
     pFleech->field_160_hoistX = pState->field_98;
@@ -492,8 +492,8 @@ int Fleech::vGetSaveState_42FF80(Fleech_State* pState)
     pState->field_8A = field_152;
     pState->field_8C = field_154;
     pState->field_8E = field_156;
-    pState->field_90 = field_158;
-    pState->field_92 = field_15A;
+    pState->field_90_chase_delay = field_158_chase_delay;
+    pState->field_92_chase_timer = field_15A_chase_timer;
     pState->field_94_lost_target_timeout = field_15C_lost_target_timeout;
     pState->field_96 = field_15E;
     pState->field_98 = field_160_hoistX;
@@ -2883,7 +2883,7 @@ __int16 Fleech::AI_Patrol_0_430BA0()
 __int16 Fleech::AI_Patrol_State_0()
 {
     field_156 = Fleech_NextRandom() & 0x3F;
-    field_15A = 0;
+    field_15A_chase_timer = 0;
     field_152 = FP_GetExponent(field_B8_xpos);
     field_14C = -1;
     field_14E = -1;
@@ -3106,7 +3106,7 @@ __int16 Fleech::AI_Patrol_State_4(BaseAliveGameObject* pTarget)
         }
     }
 
-    field_15A = 0;
+    field_15A_chase_timer = 0;
     Path_Hoist* pHoist = TryGetHoist_42AFD0(0, 0);
     if (pHoist)
     {
@@ -3309,9 +3309,9 @@ __int16 Fleech::AI_Patrol_State_8(BaseAliveGameObject* pTarget)
         return PatrolStates::State_0_Init;
     }
 
-    if (field_15A < field_158)
+    if (field_15A_chase_timer < field_158_chase_delay)
     {
-        field_15A++;
+        field_15A_chase_timer++;
         return field_126_state;
     }
 
