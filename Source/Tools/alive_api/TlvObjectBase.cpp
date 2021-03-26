@@ -4,16 +4,16 @@
 
 void TlvObjectBase::PropertiesFromJson(TypesCollection& types, jsonxx::Object& properties)
 {
-    for (auto& prop : mProperties)
+    for (auto& [Key, value] : mProperties)
     {
-        prop->Read(*this, types, properties);
+        value->Read(*this, types, properties);
     }
 }
 
 void TlvObjectBase::PropertiesToJson(TypesCollection& types, jsonxx::Object& properties)
 {
-    for (auto& prop : mProperties)
+    for (auto& [Key, value] : mProperties)
     {
-        prop->Write(*this, types, properties);
+        value->Write(*this, types, properties);
     }
 }
