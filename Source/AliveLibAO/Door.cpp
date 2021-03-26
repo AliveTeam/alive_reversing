@@ -70,7 +70,7 @@ Door* Door::ctor_40E010(Path_Door* pTlv, int tlvInfo)
 
     field_EA_door_number = pTlv->field_20_door_number;
 
-    field_EC_current_state = (field_EE_door_closed == 0) == SwitchStates_Get(field_F0_switch_id) ? DoorStates::eClosed_1 : DoorStates::eOpen_0;
+    field_EC_current_state = (field_EE_door_closed == Choice_short::eNo_0) == SwitchStates_Get(field_F0_switch_id) ? DoorStates::eClosed_1 : DoorStates::eOpen_0;
 
     if ((sActiveHero_507678->field_FC_current_motion == eAbeStates::State_156_DoorEnter_42D370 ||
          sActiveHero_507678->field_FC_current_motion == eAbeStates::State_157_DoorExit_42D780) &&
@@ -119,7 +119,7 @@ Door* Door::ctor_40E010(Path_Door* pTlv, int tlvInfo)
                     1);
             }
 
-            if (pTlv->field_1E_scale == 1)
+            if (pTlv->field_1E_scale == Scale_short::eHalf_1)
             {
                 field_BC_sprite_scale = FP_FromDouble(0.5);
                 field_C6_scale = 0;
@@ -458,8 +458,8 @@ void Door::VUpdate_40E870()
         case DoorStates::eOpen_0:
             field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
 
-            if ((field_EE_door_closed == 0 && SwitchStates_Get(field_F0_switch_id)) ||
-                (field_EE_door_closed == 1 && !SwitchStates_Get(field_F0_switch_id)))
+            if ((field_EE_door_closed == Choice_short::eNo_0 && SwitchStates_Get(field_F0_switch_id)) ||
+                (field_EE_door_closed == Choice_short::eYes_1 && !SwitchStates_Get(field_F0_switch_id)))
             {
                 field_EC_current_state = DoorStates::eClosing_3;
 
@@ -488,8 +488,8 @@ void Door::VUpdate_40E870()
             field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
             field_10_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
 
-            if ((field_EE_door_closed == 1 && SwitchStates_Get(field_F0_switch_id)) ||
-                (field_EE_door_closed == 0 && !SwitchStates_Get(field_F0_switch_id)))
+            if ((field_EE_door_closed == Choice_short::eYes_1 && SwitchStates_Get(field_F0_switch_id)) ||
+                (field_EE_door_closed == Choice_short::eNo_0 && !SwitchStates_Get(field_F0_switch_id)))
             {
                 field_EC_current_state = DoorStates::eOpening_2;
 

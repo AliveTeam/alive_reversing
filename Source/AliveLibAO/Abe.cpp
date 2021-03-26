@@ -3077,7 +3077,7 @@ void Abe::VOn_Tlv_Collision_421130(Path_TLV *pTlv)
 
                 field_14C_saved_sprite_scale = field_BC_sprite_scale;
 
-                field_2A8_flags.Set(Flags_2A8::e2A8_eBit16_AbeSpawnDir, pContinuePointTlv->field_20_abe_direction & 1);
+                field_2A8_flags.Set(Flags_2A8::e2A8_eBit16_AbeSpawnDir, pContinuePointTlv->field_20_abe_direction == XDirection_short::eRight_1);
 
                 const auto bHaveShry = field_168_ring_pulse_timer - gnFrameCount_507670;
                 field_150_saved_ring_timer = bHaveShry < 0 ? 0 : bHaveShry;
@@ -9950,7 +9950,7 @@ void Abe::State_156_DoorEnter_42D370()
 
             if (pPathDoor->field_26_start_state == DoorStates::eOpen_0)
             {
-                if (pPathDoor->field_1E_scale == 1)
+                if (pPathDoor->field_1E_scale == Scale_short::eHalf_1)
                 {
                     field_BC_sprite_scale = FP_FromDouble(0.5);
                     field_10_anim.field_C_layer = Layer::eLayer_13;
@@ -9976,7 +9976,7 @@ void Abe::State_156_DoorEnter_42D370()
                     field_C6_scale = 1;
                 }
             }
-            field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pPathDoor->field_46_abe_direction);
+            field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pPathDoor->field_46_abe_direction == XDirection_short::eRight_1);
             field_A8_xpos = FP_FromInteger((field_F0_pTlv->field_14_bottom_right.field_0_x - field_F0_pTlv->field_10_top_left.field_0_x) / 2)
                 + FP_FromInteger(field_F0_pTlv->field_10_top_left.field_0_x);
             MapFollowMe_401D30(TRUE);

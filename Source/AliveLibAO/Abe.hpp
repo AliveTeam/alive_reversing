@@ -6,6 +6,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
 #include "Input.hpp"
+#include "Path.hpp"
 
 namespace AO {
 
@@ -355,8 +356,8 @@ struct Path_ContinuePoint : public Path_TLV
     __int16 field_18_zone_number;
     __int16 field_1A_clear_from_id;
     __int16 field_1C_clear_to_id;
-    __int16 field_1E_elum_restarts;
-    __int16 field_20_abe_direction;
+    Choice_short field_1E_elum_restarts;
+    XDirection_short field_20_abe_direction;
     __int16 field_22_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_ContinuePoint, 0x24);
