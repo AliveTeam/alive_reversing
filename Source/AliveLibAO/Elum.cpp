@@ -211,7 +211,7 @@ void Elum::VOn_TLV_Collision_410F10(Path_TLV* pTlv)
             auto pContinueTlv = static_cast<Path_ContinuePoint*>(pTlv);
             if (field_140_continue_zone_number != pContinueTlv->field_18_zone_number &&
                 pContinueTlv->field_18_zone_number > field_142_zone_number &&
-                pContinueTlv->field_1E_elum_restarts == 1)
+                pContinueTlv->field_1E_elum_restarts == Choice_short::eYes_1)
             {
                 field_140_continue_zone_number = pContinueTlv->field_18_zone_number;
                 field_138_continue_rect.x = pContinueTlv->field_10_top_left.field_0_x;

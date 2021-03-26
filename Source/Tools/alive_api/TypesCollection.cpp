@@ -163,6 +163,12 @@ void TypesCollection::AddAOTypes()
              { Scale_short::eFull_0, "Full" },
              { Scale_short::eHalf_1, "Half" },
         });
+
+    AddEnum<XDirection_short>("Enum_XDirection_short",
+        {
+             { XDirection_short::eLeft_0, "Left" },
+             { XDirection_short::eRight_1, "Right" },
+        });
 }
 
 void TypesCollection::AddAETypes()
