@@ -263,7 +263,7 @@ struct Path_Teleporter_Data
     LevelIds field_18_level;
     __int16 field_1A_trigger_id;
     Scale_short field_1C_scale;
-    __int16 field_1E_wipe;
+    __int16 field_1E_cam_swap_effect;
     __int16 field_20_movie_number;
     __int16 field_22_eletric_x;
     __int16 field_24_electric_y;
@@ -287,13 +287,13 @@ struct Path_Hoist : public Path_TLV
     };
     Type field_10_type;
 
-    enum class EdgeType : __int16
+    enum class GrabDirection : __int16
     {
         eLeft = 0,
         eRight = 1,
         eBoth = 2,
     };
-    EdgeType field_12_edge_type;
+    GrabDirection field_12_grab_direction;
 
     BYTE field_14_id; // never used
     // pad

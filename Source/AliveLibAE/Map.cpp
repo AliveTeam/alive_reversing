@@ -40,7 +40,7 @@ struct Path_ChangeTLV : public Path_TLV
     __int16 field_14_camera;
     __int16 field_16_movie;
     __int16 field_18_wipe;
-    __int16 field_1A_scale;
+    Scale_short field_1A_scale;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ChangeTLV, 0x1C);
 
@@ -55,7 +55,7 @@ const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_55D55C[10]
     CameraSwapEffects::eEffect8_BoxOut,
     CameraSwapEffects::eEffect6_VerticalSplit,
     CameraSwapEffects::eEffect7_HorizontalSplit,
-    CameraSwapEffects::eEffect11,
+    CameraSwapEffects::eEffect11_Unknown,
     CameraSwapEffects::eEffect0_InstantChange
 };
 
@@ -354,18 +354,18 @@ void Map::Handle_PathTransition_481610()
 
         switch (pPathChangeTLV->field_1A_scale)
         {
-        case 0:
+        case Scale_short::eFull_0:
             sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
             sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_32;
             break;
 
-        case 1:
+        case Scale_short::eHalf_1:
             sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(0.5);
             sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_13;
             break;
 
         default:
-            LOG_ERROR("Invalid scale " << pPathChangeTLV->field_1A_scale);
+            LOG_ERROR("Invalid scale " << (int)pPathChangeTLV->field_1A_scale);
             break;
         }
 
@@ -587,7 +587,7 @@ void Map::GoTo_Camera_481890()
         bShowLoadingIcon = TRUE;
     }
 
-    if (field_10_screen_change_effect == CameraSwapEffects::eEffect11)
+    if (field_10_screen_change_effect == CameraSwapEffects::eEffect11_Unknown)
     {
         BaseGameObject* pFmvRet = FMV_Camera_Change_482650(nullptr, this, field_0_current_level);
         do
@@ -892,7 +892,7 @@ void Map::GoTo_Camera_481890()
         Map::FMV_Camera_Change_482650(field_2C_camera_array[0]->field_C_pCamRes, this, field_A_level);
     }
 
-    if (field_10_screen_change_effect == CameraSwapEffects::eEffect11)
+    if (field_10_screen_change_effect == CameraSwapEffects::eEffect11_Unknown)
     {
         pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60(reinterpret_cast<WORD**>(field_2C_camera_array[0]->field_C_pCamRes));
         pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
@@ -905,7 +905,7 @@ void Map::GoTo_Camera_481890()
         pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
     }
 
-    if (field_10_screen_change_effect != CameraSwapEffects::eEffect5_1_FMV && field_10_screen_change_effect != CameraSwapEffects::eEffect11)
+    if (field_10_screen_change_effect != CameraSwapEffects::eEffect5_1_FMV && field_10_screen_change_effect != CameraSwapEffects::eEffect11_Unknown)
     {
         if (field_1E_door)
         {
@@ -1126,7 +1126,7 @@ signed __int16 Map::SetActiveCam_480D30(LevelIds level, __int16 path, __int16 ca
 
     field_6_state = 2;
 
-    if (screenChangeEffect == CameraSwapEffects::eEffect5_1_FMV || screenChangeEffect == CameraSwapEffects::eEffect11)
+    if (screenChangeEffect == CameraSwapEffects::eEffect5_1_FMV || screenChangeEffect == CameraSwapEffects::eEffect11_Unknown)
     {
         sMap_bDoPurpleLightEffect_5C311C = 1;
     }
@@ -1420,7 +1420,7 @@ signed __int16 Map::SetActiveCameraDelayed_4814A0(MapDirections direction, BaseA
     field_6_state = 1;
     sMap_bDoPurpleLightEffect_5C311C = 0;
     
-    if (convertedSwapEffect == CameraSwapEffects::eEffect5_1_FMV || convertedSwapEffect == CameraSwapEffects::eEffect11)
+    if (convertedSwapEffect == CameraSwapEffects::eEffect5_1_FMV || convertedSwapEffect == CameraSwapEffects::eEffect11_Unknown)
     {
         sMap_bDoPurpleLightEffect_5C311C = 1;
     }

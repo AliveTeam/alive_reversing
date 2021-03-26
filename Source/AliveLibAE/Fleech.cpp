@@ -155,10 +155,10 @@ Fleech* Fleech::ctor_429DC0(Path_Fleech* pTlv, int tlvInfo)
     field_174_flags.Set(Flags_174::eBit6_goes_to_sleep, pTlv->field_24_goes_to_sleep == Choice_short::eYes_1);
     field_174_flags.Set(Flags_174::eBit7_persistant, pTlv->field_2C_persistant == Choice_short::eYes_1);
 
-    field_140 = 2;
+    field_140_max_anger = 2;
     field_158 = 10;
 
-    field_142_attack_anger = pTlv->field_1A_attack_anger + 2;
+    field_142_attack_anger_increaser = pTlv->field_1A_attack_anger_increaser + 2;
     field_144_wake_up_id = pTlv->field_1E_wake_up_id1;
     field_146_tlv_28 = pTlv->field_28_unused;
     field_148_wake_up_switch_value = SwitchStates_Get_466020(pTlv->field_1E_wake_up_id1) & 0xFFFF;
@@ -168,7 +168,7 @@ Fleech* Fleech::ctor_429DC0(Path_Fleech* pTlv, int tlvInfo)
 
     InitTonguePolys_42B6E0();
 
-    field_13E_anger = 0;
+    field_13E_current_anger = 0;
 
     if (pTlv->field_20_hanging == Choice_short::eYes_1)
     {
@@ -187,7 +187,7 @@ Fleech* Fleech::ctor_429DC0(Path_Fleech* pTlv, int tlvInfo)
     else
     {
         field_106_current_motion = eFleechMotions::M_Idle_3_42E850;
-        field_13E_anger = field_140 + (field_142_attack_anger - field_140) / 2;
+        field_13E_current_anger = field_140_max_anger + (field_142_attack_anger_increaser - field_140_max_anger) / 2;
     }
 
     return this;
@@ -350,9 +350,9 @@ int CC Fleech::CreateFromSaveState_42DD50(const BYTE* pBuffer)
     pFleech->field_134 = pState->field_6C;
     pFleech->field_138 = pState->field_70;
     pFleech->field_13C = pState->field_74;
-    pFleech->field_13E_anger = pState->field_76_anger;
-    pFleech->field_140 = pState->field_78;
-    pFleech->field_142_attack_anger = pState->field_7A_attack_anger;
+    pFleech->field_13E_current_anger = pState->field_76_current_anger;
+    pFleech->field_140_max_anger = pState->field_78_max_anger;
+    pFleech->field_142_attack_anger_increaser = pState->field_7A_attack_anger;
     pFleech->field_144_wake_up_id = pState->field_7C_wakeup_id;
     pFleech->field_146_tlv_28 = pState->field_7E_tlv;
     pFleech->field_148_wake_up_switch_value = pState->field_80_wake_up_switch_value;
@@ -479,9 +479,9 @@ int Fleech::vGetSaveState_42FF80(Fleech_State* pState)
     pState->field_6C = field_134;
     pState->field_70 = field_138;
     pState->field_74 = field_13C;
-    pState->field_76_anger = field_13E_anger;
-    pState->field_78 = field_140;
-    pState->field_7A_attack_anger = field_142_attack_anger;
+    pState->field_76_current_anger = field_13E_current_anger;
+    pState->field_78_max_anger = field_140_max_anger;
+    pState->field_7A_attack_anger = field_142_attack_anger_increaser;
     pState->field_7C_wakeup_id = field_144_wake_up_id;
     pState->field_7E_tlv = field_146_tlv_28;
     pState->field_80_wake_up_switch_value = field_148_wake_up_switch_value;
@@ -2453,7 +2453,7 @@ void Fleech::IncreaseAnger_430920()
             if ((pEvent != sActiveHero_5C1B68 || !sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible)) &&
                 gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, pEvent->field_B8_xpos, pEvent->field_BC_ypos, 0))
             {
-                field_13E_anger += field_142_attack_anger;
+                field_13E_current_anger += field_142_attack_anger_increaser;
                 if (vOnSameYLevel_425520(pEvent))
                 {
                     if (pEvent->field_4_typeId == Types::eScrab_112 || pEvent->field_4_typeId == Types::eParamite_96)
@@ -2476,7 +2476,7 @@ void Fleech::IncreaseAnger_430920()
                 if ((pEvent != sActiveHero_5C1B68 || !sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))  &&
                     gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, pEvent->field_B8_xpos, pEvent->field_BC_ypos, 0))
                 {
-                    field_13E_anger += field_140;
+                    field_13E_current_anger += field_140_max_anger;
                 }
             }
         }
@@ -2663,7 +2663,7 @@ __int16 Fleech::IsNear_428670(BaseAliveGameObject* pObj)
 
 void Fleech::vOnThrowableHit_42A590(BaseGameObject* /*pFrom*/)
 {
-    field_13E_anger += field_142_attack_anger;
+    field_13E_current_anger += field_142_attack_anger_increaser;
 }
 
 BOOL Fleech::Collision_42B290(__int16 alwaysOne)
@@ -2758,8 +2758,8 @@ Path_Hoist* Fleech::TryGetHoist_42AFD0(int xDistance, __int16 bIgnoreDirection)
         return pHoist;
     }
 
-    if (pHoist->field_12_edge_type == (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? Path_Hoist::EdgeType::eLeft : Path_Hoist::EdgeType::eRight) ||
-        pHoist->field_12_edge_type == Path_Hoist::EdgeType::eBoth)
+    if (pHoist->field_12_grab_direction == (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? Path_Hoist::GrabDirection::eLeft : Path_Hoist::GrabDirection::eRight) ||
+        pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eBoth)
     {
         return pHoist;
     }
@@ -2888,7 +2888,7 @@ __int16 Fleech::AI_Patrol_State_0()
     field_14C = -1;
     field_14E = -1;
 
-    if (field_13E_anger > field_140)
+    if (field_13E_current_anger > field_140_max_anger)
     {
         return PatrolStates::State_4_Alert;
     }
@@ -2920,9 +2920,9 @@ __int16 Fleech::AI_Patrol_State_1()
 
     if (!(static_cast<int>(sGnFrame_5C1B84) % 16))
     {
-        if (field_13E_anger > 0)
+        if (field_13E_current_anger > 0)
         {
-            field_13E_anger--;
+            field_13E_current_anger--;
         }
     }
 
@@ -2930,16 +2930,16 @@ __int16 Fleech::AI_Patrol_State_1()
 
     if (UpdateWakeUpSwitchValue_4308B0())
     {
-        const __int16 v11 = (field_142_attack_anger - field_140) / 2;
-        if (field_13E_anger < v11 + field_140)
+        const __int16 v11 = (field_142_attack_anger_increaser - field_140_max_anger) / 2;
+        if (field_13E_current_anger < v11 + field_140_max_anger)
         {
-            field_13E_anger = field_140 + v11;
+            field_13E_current_anger = field_140_max_anger + v11;
         }
     }
 
     if (!IsScrabOrParamiteNear_42B440(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(8)))
     {
-        if (field_13E_anger <= field_140)
+        if (field_13E_current_anger <= field_140_max_anger)
         {
             return field_126_state;
         }
@@ -2966,7 +2966,7 @@ __int16 Fleech::AI_Patrol_State_1()
         else
         {
             field_170_danger_obj = -1;
-            if (field_13E_anger <= field_140)
+            if (field_13E_current_anger <= field_140_max_anger)
             {
                 return field_126_state;
             }
@@ -3014,7 +3014,7 @@ __int16 Fleech::AI_Patrol_State_3()
         return field_126_state;
     }
 
-    field_13E_anger = 0;
+    field_13E_current_anger = 0;
     field_108_next_motion = eFleechMotions::M_Sleeping_0_42F0B0;
     return PatrolStates::State_1_Sleeping;
 }
@@ -3032,9 +3032,9 @@ __int16 Fleech::AI_Patrol_State_4(BaseAliveGameObject* pTarget)
 
     if (!(static_cast<int>(sGnFrame_5C1B84) % 32))
     {
-        if (field_13E_anger > 0)
+        if (field_13E_current_anger > 0)
         {
-            field_13E_anger--;
+            field_13E_current_anger--;
         }
     }
 
@@ -3049,10 +3049,10 @@ __int16 Fleech::AI_Patrol_State_4(BaseAliveGameObject* pTarget)
 
         if (vIsObjNearby_4253B0(FP_FromInteger(2) * ScaleToGridSize_4498B0(field_CC_sprite_scale), pDangerObj))
         {
-            const __int16 v27 = (field_142_attack_anger - field_140) / 2;
-            if (field_13E_anger < v27 + field_140)
+            const __int16 v27 = (field_142_attack_anger_increaser - field_140_max_anger) / 2;
+            if (field_13E_current_anger < v27 + field_140_max_anger)
             {
-                field_13E_anger = field_140 + v27;
+                field_13E_current_anger = field_140_max_anger + v27;
             }
             field_14E = FP_GetExponent(pDangerObj->field_B8_xpos); // TODO: abs ?
         }
@@ -3080,12 +3080,12 @@ __int16 Fleech::AI_Patrol_State_4(BaseAliveGameObject* pTarget)
 
     if (InRange_4307C0(pTarget))
     {
-        field_13E_anger += field_142_attack_anger;
+        field_13E_current_anger += field_142_attack_anger_increaser;
     }
 
     if (UpdateWakeUpSwitchValue_4308B0())
     {
-        field_13E_anger += field_146_tlv_28;
+        field_13E_current_anger += field_146_tlv_28;
     }
 
     if (pTarget)
@@ -3096,11 +3096,11 @@ __int16 Fleech::AI_Patrol_State_4(BaseAliveGameObject* pTarget)
             gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
             !WallHit_408750(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), pTarget->field_B8_xpos - field_B8_xpos))
         {
-            field_13E_anger = field_142_attack_anger + 1;
+            field_13E_current_anger = field_142_attack_anger_increaser + 1;
             return PatrolStates::State_8;
         }
 
-        if (field_13E_anger > field_142_attack_anger && !pTarget->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && field_170_danger_obj == -1)
+        if (field_13E_current_anger > field_142_attack_anger_increaser && !pTarget->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && field_170_danger_obj == -1)
         {
             return PatrolStates::State_8;
         }
@@ -3230,7 +3230,7 @@ __int16 Fleech::AI_Patrol_State_4(BaseAliveGameObject* pTarget)
     }
 
     if (!field_174_flags.Get(Flags_174::eBit6_goes_to_sleep) ||
-        (field_13E_anger >= field_140 &&
+        (field_13E_current_anger >= field_140_max_anger &&
         gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0)))
     {
         if ((Fleech_NextRandom() % 64) || field_106_current_motion != eFleechMotions::M_Idle_3_42E850)
@@ -3240,7 +3240,7 @@ __int16 Fleech::AI_Patrol_State_4(BaseAliveGameObject* pTarget)
         field_106_current_motion = eFleechMotions::M_PatrolCry_5_42E810;
         return field_126_state;
     }
-    field_13E_anger = 0;
+    field_13E_current_anger = 0;
     field_108_next_motion = eFleechMotions::M_Unknown_2_42F2F0;
     return PatrolStates::State_3_To_Sleep;
 }
@@ -3580,7 +3580,7 @@ __int16 Fleech::AI_ChasingAbe_1_428760()
     case 13u:
         field_108_next_motion = eFleechMotions::M_Idle_3_42E850;
         field_124_brain_state = eFleechBrains::eAI_Patrol_0_430BA0;
-        field_13E_anger = field_140 + (field_142_attack_anger - field_140) / 2;
+        field_13E_current_anger = field_140_max_anger + (field_142_attack_anger_increaser - field_140_max_anger) / 2;
         return 0;
 
     case 14u:
@@ -3743,7 +3743,7 @@ __int16 Fleech::AI_ChasingAbe_State_2(BaseAliveGameObject* pObj)
 
         field_15E = 0;
         field_124_brain_state = eFleechBrains::eAI_Patrol_0_430BA0;
-        field_13E_anger = field_142_attack_anger - 1;
+        field_13E_current_anger = field_142_attack_anger_increaser - 1;
         return 0;
     }
     else if (field_106_current_motion == eFleechMotions::M_Crawl_4_42E960) // TODO: Check v52 was cur motion
@@ -3929,9 +3929,9 @@ __int16 Fleech::AI_ChasingAbe_State_1(BaseAliveGameObject* pObj)
         if (field_106_current_motion == eFleechMotions::M_Idle_3_42E850)
         {
             // TODO: Check left VS flip is correct
-            if ((pHoist->field_12_edge_type == Path_Hoist::EdgeType::eLeft &&
+            if ((pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eLeft &&
                 field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) &&
-                pHoist->field_12_edge_type != Path_Hoist::EdgeType::eBoth)
+                pHoist->field_12_grab_direction != Path_Hoist::GrabDirection::eBoth)
             {
                 field_106_current_motion = eFleechMotions::M_Knockback_6_42EAF0;
             }

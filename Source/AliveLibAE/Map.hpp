@@ -35,7 +35,7 @@ enum class CameraSwapEffects : __int16
     eEffect8_BoxOut = 8,            // A rect "grows" out from the centre of the screen
     eEffect9_2_FMV = 9,             // Play 2 fmvs
     eEffect10_3_FMV = 10,           // Play 3 fmvs - apparently just taking an array of fmvs is too simple ?
-    eEffect11 = 11                  // Unknown, has special handing in the map object
+    eEffect11_Unknown = 11                  // Unknown, has special handing in the map object
 };
 
 struct CameraName

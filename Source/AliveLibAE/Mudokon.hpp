@@ -34,14 +34,14 @@ struct Path_Mudokon : public Path_TLV
     __int16 field_18_rescue_id;
     Choice_short field_1A_bDeaf;
     __int16 field_1C_disabled_resources;
-    __int16 field_1E_save_state;
+    Choice_short field_1E_reset_pos_on_screen_change;
     Mud_TLV_Emotion field_20_emotion;
     Choice_short field_22_bBlind;
     __int16 field_24_angry_trigger;
-    __int16 field_26_stop_trigger;
+    Choice_short field_26_stop_turning_work_wheel;
     Choice_short field_28_bGets_depressed;
     __int16 field_2A_ring_timeout;
-    __int16 field_2C_bInstant_power_up;
+    Choice_short field_2C_bGive_ring_without_password;
     __int16 field_2E_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Mudokon, 0x30);
@@ -516,7 +516,7 @@ private:
     enum Flags
     {
         eBit1_not_rescued = 0x1,
-        eBit2_save_state = 0x2,
+        eBit2_reset_pos_on_screen_change = 0x2,
         eBit3_alerted = 0x4,
         eBit4_blind = 0x8,
         eBit5_following = 0x10,
@@ -524,13 +524,13 @@ private:
         eBit7_stopped_at_wheel = 0x40,
         eBit8_do_angry = 0x80,
         eBit9_seen_while_sick = 0x100,
-        eBit10_stop_trigger = 0x200,
+        eBit10_stop_turning_work_wheel = 0x200,
         eBit11_get_depressed = 0x400,
         eBit12_alert_enemies = 0x800,
         eBit13 = 0x1000, // TODO: It's only unset until it's checked, then set. Relates to MudAction::eUnknown_15 and MudAction::eUnknown_16. It's only set when a Glukkon makes a loud noise on the same screen as the Mudokon.
         eBit14_make_sad_noise = 0x2000,
         eBit15_ring_timeout = 0x4000,
-        eBit16_instant_power_up = 0x8000,
+        eBit16_give_ring_without_password = 0x8000,
         eBit17_padding = 0x10000,
         eBit18_padding = 0x20000,
         eBit19_padding = 0x40000,

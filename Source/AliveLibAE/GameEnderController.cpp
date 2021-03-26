@@ -167,12 +167,12 @@ void GameEnderController::vUpdate_43B920()
 
                     if (sRescuedMudokons_5C1BC2 >= 300)
                     {
-                        gMap_5C3030.SetActiveCam_480D30(LevelIds::eBrewery_Ender_10, 1, 17, CameraSwapEffects::eEffect11, 17, 0);
+                        gMap_5C3030.SetActiveCam_480D30(LevelIds::eBrewery_Ender_10, 1, 17, CameraSwapEffects::eEffect11_Unknown, 17, 0);
                         field_24_state = GameEnderController_States::eAngelicEnding_5;
                     }
                     else
                     {
-                        gMap_5C3030.SetActiveCam_480D30(LevelIds::eBrewery_Ender_10, 1, 18, CameraSwapEffects::eEffect11, 17, 0);
+                        gMap_5C3030.SetActiveCam_480D30(LevelIds::eBrewery_Ender_10, 1, 18, CameraSwapEffects::eEffect11_Unknown, 17, 0);
                         field_24_state = GameEnderController_States::eGoodEnding_4;
                     }
                 }
@@ -181,13 +181,13 @@ void GameEnderController::vUpdate_43B920()
                     if (sKilledMudokons_5C1BC0 >= 255)
                     {
                         gAbeBulletProof_5C1BDA = TRUE;
-                        gMap_5C3030.SetActiveCam_480D30(LevelIds::eBrewery_Ender_10, 1, 15, CameraSwapEffects::eEffect11, 18, 0);
+                        gMap_5C3030.SetActiveCam_480D30(LevelIds::eBrewery_Ender_10, 1, 15, CameraSwapEffects::eEffect11_Unknown, 18, 0);
                         field_24_state = GameEnderController_States::eBadOrBlackEnding_3;
                     }
                     else
                     {
                         gAbeBulletProof_5C1BDA = FALSE;
-                        gMap_5C3030.SetActiveCam_480D30(LevelIds::eBrewery_Ender_10, 1, 16, CameraSwapEffects::eEffect11, 18, 0);
+                        gMap_5C3030.SetActiveCam_480D30(LevelIds::eBrewery_Ender_10, 1, 16, CameraSwapEffects::eEffect11_Unknown, 18, 0);
                         field_24_state = GameEnderController_States::eBadOrBlackEnding_3;
                         sRescuedMudokons_5C1BC2 = sFeecoRestart_SavedMudCount_5C1BC8;
                         sKilledMudokons_5C1BC0 = sFeeco_Restart_KilledMudCount_5C1BC6;

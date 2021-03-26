@@ -33,7 +33,7 @@ struct Path_Fleech : public Path_TLV
     Choice_short field_14_asleep;
     __int16 field_16_wake_up;
     __int16 field_18_not_used;
-    __int16 field_1A_attack_anger;
+    __int16 field_1A_attack_anger_increaser;
     __int16 field_1C_attack_delay;
     __int16 field_1E_wake_up_id1;
     Choice_short field_20_hanging;
@@ -98,8 +98,8 @@ struct Fleech_State
     int field_6C;
     FP field_70;
     __int16 field_74;
-    __int16 field_76_anger;
-    __int16 field_78;
+    __int16 field_76_current_anger;
+    __int16 field_78_max_anger;
     __int16 field_7A_attack_anger;
     __int16 field_7C_wakeup_id;
     __int16 field_7E_tlv;
@@ -332,9 +332,9 @@ private:
     int field_134;
     FP field_138;
     __int16 field_13C;
-    __int16 field_13E_anger;
-    unsigned __int16 field_140;
-    __int16 field_142_attack_anger;
+    __int16 field_13E_current_anger;
+    unsigned __int16 field_140_max_anger;
+    __int16 field_142_attack_anger_increaser;
     __int16 field_144_wake_up_id;
     __int16 field_146_tlv_28;
     __int16 field_148_wake_up_switch_value;

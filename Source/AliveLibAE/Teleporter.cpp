@@ -253,9 +253,9 @@ void Teleporter::vUpdate_4DC400()
 
         gMap_5C3030.field_20 = 1;
 
-        const CameraSwapEffects effect = kPathChangeEffectToInternalScreenChangeEffect_55D55C[field_34_mTlvData.field_1E_wipe];
+        const CameraSwapEffects effect = kPathChangeEffectToInternalScreenChangeEffect_55D55C[field_34_mTlvData.field_1E_cam_swap_effect];
         short bForceChange = 0;
-        if (effect == CameraSwapEffects::eEffect5_1_FMV || effect == CameraSwapEffects::eEffect11)
+        if (effect == CameraSwapEffects::eEffect5_1_FMV || effect == CameraSwapEffects::eEffect11_Unknown)
         {
             bForceChange = 1;
         }
