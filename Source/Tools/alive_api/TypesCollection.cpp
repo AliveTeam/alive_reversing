@@ -273,6 +273,22 @@ void TypesCollection::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_MeatSack);
     REGISTER_TYPE_AE(AETlvs::Path_TorturedMudokon);
 
+    AddEnum<CameraSwapEffects>("Enum_CameraSwapEffects",
+        {
+             { CameraSwapEffects::eEffect0_InstantChange, "Instant Change" },
+             { CameraSwapEffects::eEffect1_LeftToRight, "Left To Right" },
+             { CameraSwapEffects::eEffect2_RightToLeft, "Right To Left" },
+             { CameraSwapEffects::eEffect3_TopToBottom, "Top To Bottom" },
+             { CameraSwapEffects::eEffect4_BottomToTop, "Bottom To Top" },
+             { CameraSwapEffects::eEffect5_1_FMV, "1 FMV" },
+             { CameraSwapEffects::eEffect6_VerticalSplit, "Left To Vertical Split" },
+             { CameraSwapEffects::eEffect7_HorizontalSplit, "Horizontal Split" },
+             { CameraSwapEffects::eEffect8_BoxOut, "Box Out" },
+             { CameraSwapEffects::eEffect9_2_FMV, "2 FMV" },
+             { CameraSwapEffects::eEffect10_3_FMV, "3 FMV" },
+             { CameraSwapEffects::eEffect11_Unknown, "Unknown" },
+        });
+
     AddEnum<Choice_short>("Enum_Choice_short",
         {
              { Choice_short::eNo_0, "No" },

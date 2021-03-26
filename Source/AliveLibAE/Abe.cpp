@@ -3010,11 +3010,11 @@ static bool IsSameScaleAsEdge(Path_Edge* pEdge, BaseAliveGameObject* pObj)
 
 static bool IsFacingSameDirectionAsHoist(Path_Hoist* pHoist, BaseAliveGameObject* pObj)
 {
-    if (pHoist->field_12_edge_type == Path_Hoist::EdgeType::eLeft && !pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eLeft && !pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         return false;
     }
-    else if (pHoist->field_12_edge_type == Path_Hoist::EdgeType::eRight && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    else if (pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eRight && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         return false;
     }
@@ -3136,7 +3136,7 @@ void Abe::State_0_Idle_44EEB0()
             }
             else
             {
-                if (pHoist->field_12_edge_type == Path_Hoist::EdgeType::eBoth)
+                if (pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eBoth)
                 {
                     // We can hoist down from any side
                     field_106_current_motion = eAbeStates::State_66_LedgeDescend_454970;
@@ -4064,7 +4064,7 @@ void Abe::State_14_HoistIdle_452440()
 
     if (pHoist)
     {
-        if (IsSameScaleAsHoist(pHoist, this) && (IsFacingSameDirectionAsHoist(pHoist, this) || pHoist->field_12_edge_type == Path_Hoist::EdgeType::eBoth))
+        if (IsSameScaleAsHoist(pHoist, this) && (IsFacingSameDirectionAsHoist(pHoist, this) || pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eBoth))
         {
             if (pHoist->field_10_type == Path_Hoist::Type::eOffScreen)
             {
@@ -4930,7 +4930,7 @@ void Abe::State_31_RunJumpMid_452C10()
         {
             field_FC_pPathTLV = pHoist;
 
-            if (IsSameScaleAsHoist(pHoist, this) && (IsFacingSameDirectionAsHoist(pHoist, this) || pHoist->field_12_edge_type == Path_Hoist::EdgeType::eBoth) &&
+            if (IsSameScaleAsHoist(pHoist, this) && (IsFacingSameDirectionAsHoist(pHoist, this) || pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eBoth) &&
                 pHoist->field_10_type != Path_Hoist::Type::eOffScreen)
             {
                 checkCollision = true;
@@ -8037,7 +8037,7 @@ void Abe::State_114_DoorEnter_459470()
         gMap_5C3030.field_1E_door = 1;
         __int16 bForceChange = 0;
         const CameraSwapEffects effect = kPathChangeEffectToInternalScreenChangeEffect_55D55C[pDoorTlv->field_32_wipe_effect];
-        if (effect == CameraSwapEffects::eEffect5_1_FMV || effect == CameraSwapEffects::eEffect11)
+        if (effect == CameraSwapEffects::eEffect5_1_FMV || effect == CameraSwapEffects::eEffect11_Unknown)
         {
             bForceChange = 1;
         }
@@ -8741,7 +8741,7 @@ void Abe::TryHoist_44ED30()
     {
         if (IsSameScaleAsHoist(pHoist, this))
         {
-            if (!IsFacingSameDirectionAsHoist(pHoist, this) && pHoist->field_12_edge_type != Path_Hoist::EdgeType::eBoth)
+            if (!IsFacingSameDirectionAsHoist(pHoist, this) && pHoist->field_12_grab_direction != Path_Hoist::GrabDirection::eBoth)
             {
                 // No, so auto turn around to face it.
                 field_108_next_motion = field_106_current_motion;

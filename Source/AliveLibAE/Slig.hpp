@@ -117,8 +117,8 @@ struct Path_Slig : public Path_TLV
     __int16 field_24_padding; // TODO: or part of above field like in AO
     __int16 field_26_code1;
     __int16 field_28_code2;
-    __int16 field_2A_chase_abe;
-    __int16 field_2C_start_direction;
+    Choice_short field_2A_chase_abe_when_spotted;
+    XDirection_short field_2C_start_direction;
     __int16 field_2E_panic_timeout;
     __int16 field_30_num_panic_sounds;
     __int16 field_32_panic_sound_timeout;
@@ -131,7 +131,7 @@ struct Path_Slig : public Path_TLV
     __int16 field_40_talk_to_abe;
     __int16 field_42_dont_shoot;
     __int16 field_44_Z_shoot_delay;
-    __int16 field_46_stay_awake;
+    Choice_short field_46_stay_awake;
     __int16 field_48_disable_resources;
     __int16 field_4A_noise_wake_up_distance;
     __int16 field_4C_id;

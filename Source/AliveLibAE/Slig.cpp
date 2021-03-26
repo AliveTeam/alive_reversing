@@ -3382,7 +3382,7 @@ __int16 Slig::AI_Empty_6_4B3420()
 __int16 Slig::AI_SpottedEnemy_7_4B3240()
 {
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) ||
-        !field_218_tlv_data.field_2A_chase_abe)
+        field_218_tlv_data.field_2A_chase_abe_when_spotted == Choice_short::eNo_0)
     {
         if (vOnSameYLevel_425520(sControlledCharacter_5C1B8C) &&
             vIsObj_GettingNear_425420(sControlledCharacter_5C1B8C) && 
@@ -3689,7 +3689,9 @@ __int16 Slig::AI_PanicYelling_14_4BCA70()
 
 __int16 Slig::AI_Idle_15_4BD800()
 {
-    if ((Event_Get_422C00(kEventAbeOhm) || Event_Get_422C00(kEventAlarm)) && !Event_Get_422C00(kEventResetting) && field_218_tlv_data.field_2E_panic_timeout)
+    if ((Event_Get_422C00(kEventAbeOhm) || Event_Get_422C00(kEventAlarm)) &&
+        !Event_Get_422C00(kEventResetting) &&
+        field_218_tlv_data.field_2E_panic_timeout)
     {
         ToPanicYelling_4BCBA0();
         return 104;
@@ -4468,7 +4470,7 @@ __int16 Slig::AI_Shooting_29_4BF750()
         }
 
         if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && 
-            field_218_tlv_data.field_2A_chase_abe)
+            field_218_tlv_data.field_2A_chase_abe_when_spotted == Choice_short::eYes_1)
         {
             ToChase_4BCFF0();
             return 111;
@@ -4766,7 +4768,7 @@ void Slig::Init_4BB0D0()
         break;
 
     case Path_Slig::StartState::Sleeping_2:
-        if (field_218_tlv_data.field_1_tlv_state && field_218_tlv_data.field_46_stay_awake)
+        if (field_218_tlv_data.field_1_tlv_state && field_218_tlv_data.field_46_stay_awake == Choice_short::eYes_1)
         {
             SetBrain(&Slig::AI_Inactive_32_4B9430);
         }
@@ -4831,7 +4833,7 @@ void Slig::Init_4BB0D0()
         break;
     }
 
-    if (!field_218_tlv_data.field_2C_start_direction)
+    if (field_218_tlv_data.field_2C_start_direction == XDirection_short::eLeft_0)
     {
         field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
     }

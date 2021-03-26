@@ -45,7 +45,7 @@ BaseGameObject* BirdPortal::ctor_497E00(Path_BirdPortal* pTlv, int tlvInfo)
     field_80_dest_camera = pTlv->field_16_dest_camera;
     field_64_movie_id = pTlv->field_1A_movie_id;
     field_24_portal_type = pTlv->field_1C_portal_type;
-    field_82_num_muds_for_shrykull = pTlv->field_1E_num_muds_for_shrykul;
+    field_82_num_muds_for_shrykull = pTlv->field_1E_mudokon_amount_for_shrykull;
     field_66_delete_id = pTlv->field_22_delete_id;
     
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
@@ -466,6 +466,7 @@ void BirdPortal::vUpdate_498280()
                 field_30_ypos,
                 field_60_scale,
                 field_24_portal_type);
+            field_6C_terminator_id = pNewTerminator1->field_8_object_id;
         }
 
         auto pNewTerminator2 = ae_new<BirdPortalTerminator>();
@@ -476,10 +477,9 @@ void BirdPortal::vUpdate_498280()
                 field_30_ypos,
                 field_60_scale,
                 field_24_portal_type);
+            field_70_terminator_id = pNewTerminator2->field_8_object_id;
         }
 
-        field_6C_terminator_id = pNewTerminator1->field_8_object_id;
-        field_70_terminator_id = pNewTerminator2->field_8_object_id;
         field_28_state = PortalStates::PortalExit_CreateTerminators_18;
         field_90_sfx_ret = SFX_Play_46FA90(SoundEffect::PortalOpening_58, 0, field_60_scale);
     }
@@ -631,7 +631,7 @@ signed int BirdPortal::vGetSaveState_499F50(BYTE* pBuffer)
     __int16 numMudsForShrykull = 0;
     if (pTlv)
     {
-        numMudsForShrykull = pTlv->field_1E_num_muds_for_shrykul;
+        numMudsForShrykull = pTlv->field_1E_mudokon_amount_for_shrykull;
     }
 
     pState->field_0_type = Types::eBirdPortal_99;

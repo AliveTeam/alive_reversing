@@ -11,7 +11,7 @@ enum class PortalType : __int16
     eAbe_0 = 0,
     eWorker_1 = 1,
     eShrykull_2 = 2,
-    eMudTeleport_3 = 3,
+    // eMudTeleport_3 = 3, // TODO: not used ??
 };
 
 enum class PortalSide : __int16
@@ -29,7 +29,7 @@ struct Path_BirdPortal : public Path_TLV
     Scale_short field_18_scale;
     __int16 field_1A_movie_id;
     PortalType field_1C_portal_type;
-    __int16 field_1E_num_muds_for_shrykul;
+    __int16 field_1E_mudokon_amount_for_shrykull;
     __int16 field_20_create_id;
     __int16 field_22_delete_id;
 };

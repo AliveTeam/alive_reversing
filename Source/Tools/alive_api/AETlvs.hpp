@@ -244,11 +244,20 @@ namespace AETlvs
 {
     struct Path_ElectricWall : public TlvObjectBaseAE<::Path_ElectricWall>
     {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<::ElectricWallStartState>("Enum_ElectricWallStartState",
+                {
+                    {::ElectricWallStartState::eOff_0, "Off"},
+                    {::ElectricWallStartState::eOn_1, "On"},
+                });
+        }
+
         CTOR_AE(Path_ElectricWall, "ElectricWall", TlvTypes::ElectricWall_38)
         {
-            ADD("scale", mTlv.field_10_scale);
-            ADD("id", mTlv.field_12_id);
-            ADD("start_state", mTlv.field_14_start_state);
+            ADD("Scale", mTlv.field_10_scale);
+            ADD("ID", mTlv.field_12_id);
+            ADD("Start State", mTlv.field_14_start_state);
         }
     };
 
@@ -284,14 +293,14 @@ namespace AETlvs
             ADD("Rescue ID", mTlv.field_18_rescue_id);
             ADD("Deaf (Unused?)", mTlv.field_1A_bDeaf);
             ADD("Disabled Resources", mTlv.field_1C_disabled_resources);
-            ADD("save_state", mTlv.field_1E_save_state);
+            ADD("Reset Position On Screen Change", mTlv.field_1E_reset_pos_on_screen_change);
             ADD("Emotion", mTlv.field_20_emotion);
             ADD("Blind", mTlv.field_22_bBlind);
             ADD("Angry Trigger ID", mTlv.field_24_angry_trigger);
-            ADD("Stop Trigger ID", mTlv.field_26_stop_trigger);
+            ADD("Stop Trigger ID", mTlv.field_26_stop_turning_work_wheel);
             ADD("Gets Depressed", mTlv.field_28_bGets_depressed);
-            ADD("ring_timeout", mTlv.field_2A_ring_timeout);
-            ADD("is_instant_powerup", mTlv.field_2C_bInstant_power_up);
+            ADD("Ring Timeout", mTlv.field_2A_ring_timeout); // TODO: also used for angry worker?
+            ADD("Give Ring Without Password", mTlv.field_2C_bGive_ring_without_password);
         }
     };
 
@@ -301,31 +310,30 @@ namespace AETlvs
         {
             types.AddEnum<::PortalType>("Enum_PortalType",
                 {
-                    {::PortalType::eAbe_0, "abe"},
-                    {::PortalType::eWorker_1, "worker"},
-                    {::PortalType::eShrykull_2, "shrykull"},
-                    {::PortalType::eMudTeleport_3, "mud_teleport"}
+                    {::PortalType::eAbe_0, "Abe"},
+                    {::PortalType::eWorker_1, "Worker"},
+                    {::PortalType::eShrykull_2, "Shrykull"},
                 });
 
             types.AddEnum<::PortalSide>("Enum_PortalSide",
                 {
-                    {::PortalSide::eRight_0, "right"},
-                    {::PortalSide::eLeft_1, "left"},
+                    {::PortalSide::eRight_0, "Right"},
+                    {::PortalSide::eLeft_1, "Left"},
                 });
         }
 
         CTOR_AE(Path_BirdPortal, "BirdPortal", TlvTypes::BirdPortal_28)
         {
-            ADD("side", mTlv.field_10_side);
-            ADD("dest_level", mTlv.field_12_dest_level);
-            ADD("dest_path", mTlv.field_14_dest_path);
-            ADD("dest_camera", mTlv.field_16_dest_camera);
-            ADD("scale", mTlv.field_18_scale);
-            ADD("movie_id", mTlv.field_1A_movie_id);
-            ADD("portal_type", mTlv.field_1C_portal_type);
-            ADD("num_muds_for_shrykull", mTlv.field_1E_num_muds_for_shrykul);
-            ADD("create_id", mTlv.field_20_create_id);
-            ADD("delete_id", mTlv.field_22_delete_id);
+            ADD("Side", mTlv.field_10_side);
+            ADD("Level Destination", mTlv.field_12_dest_level);
+            ADD("Path Destination", mTlv.field_14_dest_path);
+            ADD("Camera Destination", mTlv.field_16_dest_camera);
+            ADD("Scale", mTlv.field_18_scale);
+            ADD("Movie ID", mTlv.field_1A_movie_id);
+            ADD("Portal Type", mTlv.field_1C_portal_type);
+            ADD("Mudokon Amount For Shrykull", mTlv.field_1E_mudokon_amount_for_shrykull);
+            ADD("Portal Create ID (Unused?)", mTlv.field_20_create_id);
+            ADD("Portal Delete ID", mTlv.field_22_delete_id);
         }
     };
 
@@ -333,9 +341,9 @@ namespace AETlvs
     {
         CTOR_AE(Path_LCDStatusBoard, "LCDStatusBoard", TlvTypes::LCDStatusBoard_64)
         {
-            ADD("number_of_muds", mTlv.field_10_number_of_muds);
-            ADD("zulag_number", mTlv.field_12_zulag_number);
-            ADD("is_hidden", mTlv.field_14_hidden);
+            ADD("Number Of Mudokons", mTlv.field_10_number_of_muds);
+            ADD("Zulag Number", mTlv.field_12_zulag_number);
+            ADD("Hidden", mTlv.field_14_hidden);
         }
     };
 
@@ -378,13 +386,13 @@ namespace AETlvs
         {
             types.AddEnum<::SwitchSoundType>("Enum_SwitchSoundType",
                 {
-                    {::SwitchSoundType::eNone, "none"},
-                    {::SwitchSoundType::eWell_1, "well"},
-                    {::SwitchSoundType::eUnknown_2, "unknown"},
-                    {::SwitchSoundType::eDoor_3, "door"},
-                    {::SwitchSoundType::eElectricWall_4, "electric_wall"},
-                    {::SwitchSoundType::eSecurityOrb_5, "security_orb"},
-                    {::SwitchSoundType::eLift_6, "lift"}
+                    {::SwitchSoundType::eNone, "None"},
+                    {::SwitchSoundType::eWell_1, "Well"},
+                    {::SwitchSoundType::eUnknown_2, "Unknown"},
+                    {::SwitchSoundType::eDoor_3, "Door"},
+                    {::SwitchSoundType::eElectricWall_4, "Electric Wall"},
+                    {::SwitchSoundType::eSecurityOrb_5, "Security Orb"},
+                    {::SwitchSoundType::eLift_6, "Lift"}
                 });
 
             types.AddEnum<::SwitchSoundDirection>("Enum_SwitchSoundDirection",
@@ -413,24 +421,24 @@ namespace AETlvs
         {
             types.AddEnum<::Path_Hoist::Type>("Enum_HoistType",
                 {
-                    {::Path_Hoist::Type::eNextEdge, "next_edge"},
-                    {::Path_Hoist::Type::eNextFloor, "next_floor"},
-                    {::Path_Hoist::Type::eOffScreen, "off_screen"},
+                    {::Path_Hoist::Type::eNextEdge, "Next Edge"},
+                    {::Path_Hoist::Type::eNextFloor, "Next Floor"},
+                    {::Path_Hoist::Type::eOffScreen, "Off Screen"},
                 });
 
-            types.AddEnum<::Path_Hoist::EdgeType>("Enum_HoistEdgeType",
+            types.AddEnum<::Path_Hoist::GrabDirection>("Enum_HoistGrabDirection",
                 {
-                    {::Path_Hoist::EdgeType::eBoth, "both"},
-                    {::Path_Hoist::EdgeType::eLeft, "left"},
-                    {::Path_Hoist::EdgeType::eRight, "right"},
+                    {::Path_Hoist::GrabDirection::eBoth, "Both"},
+                    {::Path_Hoist::GrabDirection::eLeft, "Left"},
+                    {::Path_Hoist::GrabDirection::eRight, "Right"},
                 });
         }
 
         CTOR_AE(Path_Hoist, "Hoist", TlvTypes::Hoist_2)
         {
-            ADD("HoistType", mTlv.field_10_type);
-            ADD("HoistEdgeType", mTlv.field_12_edge_type);
-            ADD("Id", mTlv.field_14_id);
+            ADD("Hoist Type", mTlv.field_10_type);
+            ADD("Grab Direction", mTlv.field_12_grab_direction);
+            ADD("ID", mTlv.field_14_id);
             ADD("Scale", mTlv.field_16_scale);
         }
     };
@@ -439,10 +447,10 @@ namespace AETlvs
     {
         CTOR_AE(Path_BoomMachine, "BoomMachine", TlvTypes::BoomMachine_59)
         {
-            ADD("scale", mTlv.field_10_scale);
-            ADD("nozzle_side", mTlv.field_12_nozzle_side);
-            ADD("disabled_resources", mTlv.field_14_disabled_resources);
-            ADD("number_of_grenades", mTlv.field_16_number_of_grenades);
+            ADD("Scale", mTlv.field_10_scale);
+            ADD("Nozzle Side", mTlv.field_12_nozzle_side);
+            ADD("Disabled Resources", mTlv.field_14_disabled_resources);
+            ADD("Number Of Grenades", mTlv.field_16_number_of_grenades);
         }
     };
 
@@ -450,53 +458,53 @@ namespace AETlvs
     {
         void AddTypes(TypesCollection& types) override
         {
-            types.AddEnum<::Path_Slig::StartState>("Enum_StartState",
+            types.AddEnum<::Path_Slig::StartState>("Enum_SligStartState",
                 {
-                    {::Path_Slig::StartState::Listening_0, "listening"},
-                    {::Path_Slig::StartState::Paused_1, "paused"},
-                    {::Path_Slig::StartState::Sleeping_2, "sleeping"},
-                    {::Path_Slig::StartState::Chase_3, "chase"},
-                    {::Path_Slig::StartState::RunOffScreen_4, "run_off_screen"},
-                    {::Path_Slig::StartState::GameEnder_5, "game_ender"},
-                    {::Path_Slig::StartState::ListeningToGlukkon_6, "listening_to_glukkon"},
+                    {::Path_Slig::StartState::Listening_0, "Listening"},
+                    {::Path_Slig::StartState::Paused_1, "Paused"},
+                    {::Path_Slig::StartState::Sleeping_2, "Sleeping"},
+                    {::Path_Slig::StartState::Chase_3, "Chase"},
+                    {::Path_Slig::StartState::RunOffScreen_4, "Run Off Screen"},
+                    {::Path_Slig::StartState::GameEnder_5, "Game Ender"},
+                    {::Path_Slig::StartState::ListeningToGlukkon_6, "Listen To Glukkon"},
                 });
         }
 
         CTOR_AE(Path_Slig, "Slig", TlvTypes::Slig_15)
         {
-            ADD("scale", mTlv.field_10_scale);
-            ADD("start_state", mTlv.field_12_start_state);
-            ADD("pause_time", mTlv.field_14_pause_time);
-            ADD("pause_left_min", mTlv.field_16_pause_left_min);
-            ADD("pause_left_max", mTlv.field_18_pause_left_max);
-            ADD("pause_right_min", mTlv.field_1A_pause_right_min);
-            ADD("pause_right_max", mTlv.field_1C_pause_right_max);
+            ADD("Scale", mTlv.field_10_scale);
+            ADD("Start State", mTlv.field_12_start_state);
+            ADD("Pause Time (Frames)", mTlv.field_14_pause_time);
+            ADD("Pause Left Min (Frames)", mTlv.field_16_pause_left_min);
+            ADD("Pause Left Max (Frames)", mTlv.field_18_pause_left_max);
+            ADD("Pause Right Min (Frames)", mTlv.field_1A_pause_right_min);
+            ADD("Pause Right Max (Frames)", mTlv.field_1C_pause_right_max);
             ADD("chal_number", mTlv.field_1E_chal_number);
             ADD("chal_timer", mTlv.field_20_chal_timer);
-            ADD("num_times_to_shot", mTlv.field_22_num_times_to_shoot);
+            ADD("Bullet Shoot Count", mTlv.field_22_num_times_to_shoot);
             ADD("unknown1", mTlv.field_24_padding);
 
-            ADD("code_1", mTlv.field_26_code1);
-            ADD("code_2", mTlv.field_28_code2);
-            ADD("chase_abe", mTlv.field_2A_chase_abe);
-            ADD("start_direction", mTlv.field_2C_start_direction);
-            ADD("panic_timeout", mTlv.field_2E_panic_timeout);
-            ADD("num_panic_sounds", mTlv.field_30_num_panic_sounds);
-            ADD("panic_sound_timeout", mTlv.field_32_panic_sound_timeout);
-            ADD("stop_chase_delay", mTlv.field_34_stop_chase_delay);
-            ADD("time_to_wait_before_chase", mTlv.field_36_time_to_wait_before_chase);
-            ADD("slig_id", mTlv.field_38_slig_id);
-            ADD("listen_time", mTlv.field_3A_listen_time);
+            ADD("Code 1", mTlv.field_26_code1);
+            ADD("Code 2", mTlv.field_28_code2);
+            ADD("Chase Abe When Spotted", mTlv.field_2A_chase_abe_when_spotted);
+            ADD("Start Direction", mTlv.field_2C_start_direction);
+            ADD("Panic Timeout", mTlv.field_2E_panic_timeout);
+            ADD("Amount Of Panic Sounds (Unused?)", mTlv.field_30_num_panic_sounds);
+            ADD("Panic Sound Timeout (Unused?)", mTlv.field_32_panic_sound_timeout);
+            ADD("Stop Chase Delay (Frames)", mTlv.field_34_stop_chase_delay);
+            ADD("Time To Wait Before Chase (Frames)", mTlv.field_36_time_to_wait_before_chase);
+            ADD("Slig ID", mTlv.field_38_slig_id);
+            ADD("Listen Time (Frames)", mTlv.field_3A_listen_time);
 
-            ADD("percent_say_what", mTlv.field_3C_percent_say_what);
-            ADD("percent_beat_mud", mTlv.field_3E_percent_beat_mud);
-            ADD("talk_to_abe", mTlv.field_40_talk_to_abe);
-            ADD("dont_shoot", mTlv.field_42_dont_shoot);
-            ADD("z_shoot_delay", mTlv.field_44_Z_shoot_delay);
-            ADD("stay_awake", mTlv.field_46_stay_awake);
-            ADD("disable_resources", mTlv.field_48_disable_resources);
-            ADD("noise_wake_up_distance", mTlv.field_4A_noise_wake_up_distance);
-            ADD("id", mTlv.field_4C_id);
+            ADD("Percent Say What", mTlv.field_3C_percent_say_what);
+            ADD("Percent Beat Mudokon", mTlv.field_3E_percent_beat_mud);
+            ADD("Talk To Abe (Unused?)", mTlv.field_40_talk_to_abe);
+            ADD("Don't Shoot (Unused?)", mTlv.field_42_dont_shoot);
+            ADD("Z Shoot Delay (Frames)", mTlv.field_44_Z_shoot_delay);
+            ADD("Stay Awake", mTlv.field_46_stay_awake);
+            ADD("Disable Resources", mTlv.field_48_disable_resources);
+            ADD("Noise Wake Up Distance (Grids)", mTlv.field_4A_noise_wake_up_distance);
+            ADD("ID", mTlv.field_4C_id);
             ADD("unknown2", mTlv.field_4E_unknown);
         }
     };
@@ -511,14 +519,14 @@ namespace AETlvs
             ADD("Wake Up (Unused?)", mTlv.field_16_wake_up);
             ADD("unknown1", mTlv.field_18_not_used);
 
-            ADD("attack_anger", mTlv.field_1A_attack_anger);
-            ADD("attack_delay", mTlv.field_1C_attack_delay);
+            ADD("Attack Anger Increaser", mTlv.field_1A_attack_anger_increaser);
+            ADD("Attack Delay (Unused?)", mTlv.field_1C_attack_delay);
             ADD("Wake Up ID 1", mTlv.field_1E_wake_up_id1);
             ADD("Hanging", mTlv.field_20_hanging);
 
-            ADD("lost_target_timeout", mTlv.field_22_lost_target_timeout);
+            ADD("Lost Target Timeout", mTlv.field_22_lost_target_timeout);
             ADD("Goes To Sleep", mTlv.field_24_goes_to_sleep);
-            ADD("patrol_range_in_grids", mTlv.field_26_patrol_range_in_grids);
+            ADD("Patrol Range (Grids)", mTlv.field_26_patrol_range_in_grids);
             ADD("unknown2", mTlv.field_28_unused);
 
             ADD("Wake Up ID 2", mTlv.field_2A_wake_up_id2);
@@ -534,16 +542,16 @@ namespace AETlvs
         {
             types.AddEnum<::Path_EnemyStopper::StopDirection>("Enum_StopDirection",
                 {
-                    {::Path_EnemyStopper::StopDirection::Left_0, "left"},
-                    {::Path_EnemyStopper::StopDirection::Right_1, "right"},
-                    {::Path_EnemyStopper::StopDirection::Both_2, "both"},
+                    {::Path_EnemyStopper::StopDirection::Left_0, "Left"},
+                    {::Path_EnemyStopper::StopDirection::Right_1, "Right"},
+                    {::Path_EnemyStopper::StopDirection::Both_2, "Both"},
                 });
         }
 
         CTOR_AE(Path_EnemyStopper, "EnemyStopper", TlvTypes::EnemyStopper_47)
         {
-            ADD("stop_direction", mTlv.field_10_stop_direction);
-            ADD("id", mTlv.field_12_id);
+            ADD("Stop Direction", mTlv.field_10_stop_direction);
+            ADD("ID", mTlv.field_12_id);
         }
     };
 
@@ -551,17 +559,17 @@ namespace AETlvs
     {
         CTOR_AE(Path_Teleporter, "Teleporter", TlvTypes::Teleporter_88)
         {
-            ADD("id", mTlv.field_10_data.field_10_id);
-            ADD("target_id", mTlv.field_10_data.field_12_target_id);
-            ADD("camera", mTlv.field_10_data.field_14_camera);
-            ADD("path", mTlv.field_10_data.field_16_path);
-            ADD("level", mTlv.field_10_data.field_18_level);
-            ADD("trigger_id", mTlv.field_10_data.field_1A_trigger_id);
-            ADD("scale", mTlv.field_10_data.field_1C_scale);
-            ADD("wipe", mTlv.field_10_data.field_1E_wipe);
-            ADD("movie_number", mTlv.field_10_data.field_20_movie_number);
-            ADD("electric_x", mTlv.field_10_data.field_22_eletric_x);
-            ADD("electric_y", mTlv.field_10_data.field_24_electric_y);
+            ADD("ID", mTlv.field_10_data.field_10_id);
+            ADD("Target ID", mTlv.field_10_data.field_12_target_id);
+            ADD("Camera", mTlv.field_10_data.field_14_camera);
+            ADD("Path", mTlv.field_10_data.field_16_path);
+            ADD("Level", mTlv.field_10_data.field_18_level);
+            ADD("Trigger ID", mTlv.field_10_data.field_1A_trigger_id);
+            ADD("Scale", mTlv.field_10_data.field_1C_scale);
+            ADD("Camera Swap Effect", mTlv.field_10_data.field_1E_cam_swap_effect);
+            ADD("Movie Number", mTlv.field_10_data.field_20_movie_number);
+            ADD("Electric X", mTlv.field_10_data.field_22_eletric_x);
+            ADD("Electric Y", mTlv.field_10_data.field_24_electric_y);
         }
     };
 
