@@ -195,6 +195,14 @@ TEST(alive_api, tlv_reflection)
     ASSERT_EQ(pHoist->InstanceNumber(), 99);
 }
 
+/*
+TEST(json_upgrade, upgrade_rename_structure)
+{
+    AliveAPI::JsonUpgradeResult r = AliveAPI::UpgradePathJson("rename_field.json");
+    ASSERT_EQ(r.mResult, AliveAPI::UpgradeError::None);
+}
+*/
+
 class ArgsAdapter
 {
 public:

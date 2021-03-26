@@ -14,7 +14,8 @@
 #define READ_BASIC(field) ReadBasicType(field, properties)
 #define READ_ENUMS(field) ReadEnumValue(types, field, properties)
 
-#define ADD(name, prop)  AddProperty(name, globalTypes.TypeName(typeid(prop)), &prop); mProperties.push_back(std::make_unique<TypedProperty<decltype(prop)>>(name, &prop));
+#define ADD(name, prop)  AddProperty<decltype(prop)>(name, globalTypes.TypeName(typeid(prop)), &prop, true)
+#define ADD_HIDDEN(name, prop)  AddProperty<decltype(prop)>(name, globalTypes.TypeName(typeid(prop)), &prop, false)
 
 #define COPY_TLV() if (pTlv) { mTlv = *reinterpret_cast<decltype(&mTlv)>(pTlv); }
 
@@ -25,7 +26,8 @@ template< typename T >
 class TypedProperty : public BaseProperty
 {
 public:
-    TypedProperty(const std::string& name, T* data) : BaseProperty(name), m_data(data) { }
+    TypedProperty(const std::string& name, const std::string& typeName, bool isVisibleToEditor, T* data) 
+        : BaseProperty(name, typeName, isVisibleToEditor), m_data(data) { }
 
     void Read(TlvObjectBase& tlvObjBase, TypesCollection& types, jsonxx::Object& properties) override;
 
@@ -49,7 +51,7 @@ public:
 
     virtual void AddTypes(TypesCollection& /*types*/)
     {
-
+        // Default empty to prevent having to explicitly implement in every TLV wrapper
     }
 
     virtual std::size_t TlvLen() const = 0;
@@ -65,7 +67,8 @@ public:
         return mStructTypeName;
     }
 
-    void AddProperty(const std::string& name, const std::string& typeName, void* key)
+    template<typename PropertyType>
+    void AddProperty(const std::string& name, const std::string& typeName, PropertyType* key, bool visibleInEditor)
     {
         if (name.empty())
         {
@@ -77,50 +80,53 @@ public:
             abort();
         }
 
-        for (const auto& [keyIt, valueIt] : mInfo)
+        for (const auto& [keyIt, valueIt] : mProperties)
         {
             if (keyIt == key)
             {
                 abort(); // dup key
             }
 
-            if (name == valueIt.mName)
+            if (name == valueIt->Name())
             {
                 abort(); // dup prop name
             }
         }
 
-        mInfo[key] = { name, typeName };
+        mProperties[key] = std::make_unique<TypedProperty<PropertyType>>(name, typeName, visibleInEditor, key);
     }
 
     jsonxx::Object PropertiesToJson() const
     {
         jsonxx::Object ret;
-        for (const auto& [key, value] : mInfo)
+        for (const auto& [key, value] : mProperties)
         {
-            ret << value.mName << value.mTypeName;
+            jsonxx::Object property;
+            property << "Type" << value->TypeName();
+            property << "Visible" << value->IsVisibleToEditor();
+            ret << value->Name() << property;
         }
         return ret;
     }
 
     std::string PropName(void* key) const
     {
-        auto it = mInfo.find(key);
-        if (it == std::end(mInfo))
+        auto it = mProperties.find(key);
+        if (it == std::end(mProperties))
         {
             abort();
         }
-        return it->second.mName;
+        return it->second->Name();
     }
 
     std::string PropType(void* key) const
     {
-        auto it = mInfo.find(key);
-        if (it == std::end(mInfo))
+        auto it = mProperties.find(key);
+        if (it == std::end(mProperties))
         {
             abort();
         }
-        return it->second.mTypeName;
+        return it->second->TypeName();
     }
 
     template<class T>
@@ -193,14 +199,9 @@ public:
     {
         return mInstanceNumber;
     }
+
 protected:
-    struct PropertyInfo
-    {
-        std::string mName;
-        std::string mTypeName;
-    };
-    std::map<void*, PropertyInfo> mInfo; // TODO: Combine with mProperties
-    std::vector<std::unique_ptr<BaseProperty>> mProperties;
+    std::map<void*, std::unique_ptr<BaseProperty>> mProperties;
     std::string mStructTypeName;
     int mInstanceNumber = 0;
 };

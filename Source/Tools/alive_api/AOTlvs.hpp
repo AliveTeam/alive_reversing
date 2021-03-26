@@ -578,11 +578,11 @@ namespace AOTlvs
     {
         CTOR_AO(Path_DeathDrop, "DeathDrop", AO::TlvTypes::DeathDrop_5)
         {
-            ADD("animation", mTlv.animation);
-            ADD("sound", mTlv.sound);
-            ADD("id", mTlv.id);
-            ADD("action", mTlv.action);
-            ADD("set_value", mTlv.set_value);
+            ADD_HIDDEN("animation", mTlv.animation);
+            ADD_HIDDEN("sound", mTlv.sound);
+            ADD_HIDDEN("id", mTlv.id);
+            ADD_HIDDEN("action", mTlv.action);
+            ADD_HIDDEN("set_value", mTlv.set_value);
         }
     };
 
