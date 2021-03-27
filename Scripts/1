@@ -1,7 +1,0 @@
-2's comp: 2
-Converting 0x2 bits 10
-0x2
-Done
-
-Converting 0x2 to fixed point calc
-FP_FromDouble(3.0517578125e-05);
