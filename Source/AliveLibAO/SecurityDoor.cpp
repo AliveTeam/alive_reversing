@@ -345,9 +345,7 @@ void SecurityDoor::VUpdate_461AD0()
         break;
 
     default:
-        // Can't seem to make it work?
-        //LOG_WARNING("SecurityDoor field_E8_state was " << magic_enum::enum_name(field_E8_state) << ". This is unhandled.");
-        LOG_WARNING("SecurityDoor field_E8_state encountered an unhandled state.");
+        LOG_WARNING("SecurityDoor field_E8_state was " << field_E8_state << ". This is unhandled.");
         return;
     }
 }
