@@ -11,10 +11,10 @@ extern const char * sLCDMessageTable_555768[101];
 struct Path_LCDScreen : public Path_TLV
 {
     __int16 field_10_message_1_id;
-    __int16 field_12_message_rand_min;
-    __int16 field_14_message_rand_max;
+    __int16 field_12_message_rand_min_id;
+    __int16 field_14_message_rand_max_id;
     __int16 field_16_message_2_id;
-    int field_18_swap_message_sets_switch_id;
+    int field_18_toggle_message_switch_id;
 };
 
 class LCDScreen : public BaseGameObject
@@ -23,7 +23,7 @@ public:
     EXPORT LCDScreen* ctor_460680(Path_LCDScreen *params, TlvItemInfoUnion itemInfo);
     EXPORT void Update_460A00();
     EXPORT void Render_460CB0(PrimHeader** ppOt);
-    EXPORT void vsub_460F10();
+    EXPORT void vSetDead_460F10();
     EXPORT void dtor_460920();
     EXPORT BaseGameObject* vdtor_4608F0(signed int flags);
 
@@ -44,10 +44,10 @@ public:
     __int16 field_2AC_x_offset;
     WORD field_2AE_character_width;
     unsigned __int16 field_2B0_message_2_id;
-    WORD field_2B2_swap_message_sets_switch_id;
+    WORD field_2B2_toggle_message_switch_id;
     WORD field_2B4;
-    WORD field_2B6_message_rand_min;
-    WORD field_2B8_message_rand_max;
+    WORD field_2B6_message_rand_min_id;
+    WORD field_2B8_message_rand_max_id;
     __int16 field_2BA_padding;
     TlvItemInfoUnion field_2BC_tlv_item_info;
     Path_TLV field_2C0_tlv;

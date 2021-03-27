@@ -27,7 +27,7 @@ LevelLoader* LevelLoader::ctor_4DD330(Path_LevelLoader* pTlv, DWORD tlvInfo)
     field_24_level = pTlv->field_12_dest_level;
     field_26_path = pTlv->field_14_dest_path;
     field_28_camera = pTlv->field_16_dest_camera;
-    field_2A_movie = pTlv->field_18_movie;
+    field_2A_movie_id = pTlv->field_18_movie_id;
     field_2C_tlvInfo = tlvInfo;
     field_22_state = States::eIdle_0;
     return this;
@@ -59,14 +59,14 @@ void LevelLoader::vUpdate_4DD400()
             DeathFadeOut* pFade = static_cast<DeathFadeOut*>(sObjectIds_5C1B70.Find_449CF0(field_30_fade_id));
             if (!pFade || pFade->field_7E_bDone)
             {
-                if (field_2A_movie)
+                if (field_2A_movie_id)
                 {
                     gMap_5C3030.SetActiveCam_480D30(
                         field_24_level,
                         field_26_path,
                         field_28_camera,
                         CameraSwapEffects::eEffect5_1_FMV,
-                        field_2A_movie,
+                        field_2A_movie_id,
                         0);
                 }
                 else

@@ -13,7 +13,7 @@ struct Path_StatusLight : public Path_TLV
     __int16 field_18_id3;
     __int16 field_1A_id4;
     __int16 field_1C_id5;
-    __int16 field_1E_snap_to_grid;
+    Choice_short field_1E_bIgnore_grid_snapping;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_StatusLight, 0x20);
 
@@ -38,7 +38,7 @@ private:
     __int16 field_FE_id3;
     __int16 field_100_id4;
     __int16 field_102_id5;
-    __int16 field_104_snap_to_grid;
+    Choice_short field_104_bIgnore_grid_snapping;
     FP field_108_xpos;
     FP field_10C_ypos;
 };

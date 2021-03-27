@@ -13,57 +13,60 @@ EXPORT BaseGameObject* MusicTrigger::ctor_47FE40(Path_MusicTrigger* pTlv, DWORD 
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x5463DC);
 
-    Init_47FFB0(pTlv->field_10_type, pTlv->field_12_enabled_by, pTlv->field_14_timer);
+    Init_47FFB0(pTlv->field_10_music_type, pTlv->field_12_triggered_by, pTlv->field_14_music_delay);
     field_2C_tl = pTlv->field_8_top_left;
     field_30_br = pTlv->field_C_bottom_right;
     field_20_tlvInfo = tlvInfo;
     return this;
 }
 
-EXPORT MusicTrigger* MusicTrigger::ctor_47FF10(__int16 type, __int16 enabledBy, int /*not_used*/, __int16 delay)
+EXPORT MusicTrigger* MusicTrigger::ctor_47FF10(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, int /*not_used*/, __int16 musicDelay)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x5463DC);
-    Init_47FFB0(type, enabledBy, delay);
+    Init_47FFB0(musicType, triggeredBy, musicDelay);
     field_2C_tl = {};
     field_30_br = {};
     field_20_tlvInfo = -1;
     return this;
 }
 
-EXPORT void MusicTrigger::Init_47FFB0(__int16 type, __int16 enabledBy, __int16 delay)
+EXPORT void MusicTrigger::Init_47FFB0(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, __int16 musicDelay)
 {
-    field_24_flags &= ~7u;
+    field_24_flags.Clear(Flags_24::e24_Bit1_TriggeredByTouching);
+    field_24_flags.Clear(Flags_24::e24_Bit2_TriggeredByTimer);
+    field_24_flags.Clear(Flags_24::e24_Bit4_SetMusicToNoneOnDtor);
+
     field_4_typeId = Types::eMusicTrigger_94;
     field_28_counter = 0;
 
-    switch (type)
+    switch (musicType)
     {
-    case 0:
+    case MusicTriggerMusicType::eUnknown_0:
         field_26_music_type = MusicController::MusicTypes::eType3;
         field_28_counter = 400;
         break;
-    case 1:
+    case MusicTriggerMusicType::eDeathShort_1:
         field_26_music_type = MusicController::MusicTypes::eDeathShort_10;
         field_28_counter = 30;
         break;
-    case 2:
+    case MusicTriggerMusicType::eSecretAreaLong_2:
         field_26_music_type = MusicController::MusicTypes::eSecretAreaLong_13;
         field_28_counter = 30;
         break;
-    case 3:
+    case MusicTriggerMusicType::eChase_3:
         field_26_music_type = MusicController::MusicTypes::eChase_8;
-        field_24_flags |= 4;
+        field_24_flags.Set(Flags_24::e24_Bit4_SetMusicToNoneOnDtor);
         break;
-    case 4:
+    case MusicTriggerMusicType::eSlogChase_4:
         field_26_music_type = MusicController::MusicTypes::eSlogChase_7;
-        field_24_flags |= 4;
+        field_24_flags.Set(Flags_24::e24_Bit4_SetMusicToNoneOnDtor);
         break;
-    case 5:
+    case MusicTriggerMusicType::eChime_5:
         field_26_music_type = MusicController::MusicTypes::eChime_2;
-        field_28_counter = delay;
+        field_28_counter = musicDelay;
         break;
-    case 6:
+    case MusicTriggerMusicType::eSecretAreaShort_6:
         field_26_music_type = MusicController::MusicTypes::eSecretAreaShort_12;
         field_28_counter = 30;
         break;
@@ -71,13 +74,13 @@ EXPORT void MusicTrigger::Init_47FFB0(__int16 type, __int16 enabledBy, __int16 d
         break;
     }
 
-    if (enabledBy == 0)
+    if (triggeredBy == TriggeredBy::eTimer_0) // unused
     {
-        field_1C_update_delay = delay;
+        field_1C_update_delay = musicDelay; // OG bug? field_1C_update_delay should've been field_28_counter?
     }
-    else if (enabledBy == 1)
+    else if (triggeredBy == TriggeredBy::eTouching_1)
     {
-        field_24_flags |= 1u;
+        field_24_flags.Set(Flags_24::e24_Bit1_TriggeredByTouching);
     }
 }
 
@@ -94,7 +97,7 @@ EXPORT BaseGameObject* MusicTrigger::vdtor_47FEE0(signed int flags)
 EXPORT void MusicTrigger::dtor_4800C0()
 {
     SetVTable(this, 0x5463DC);
-    if (field_24_flags & 4)
+    if (field_24_flags.Get(Flags_24::e24_Bit4_SetMusicToNoneOnDtor))
     {
         MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
     }
@@ -116,7 +119,7 @@ EXPORT void MusicTrigger::vUpdate_480140()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (field_24_flags & 1)
+    if (field_24_flags.Get(Flags_24::e24_Bit1_TriggeredByTouching))
     {
         FP xpos = sControlledCharacter_5C1B8C->field_B8_xpos;
         FP ypos = sControlledCharacter_5C1B8C->field_BC_ypos;
@@ -124,20 +127,20 @@ EXPORT void MusicTrigger::vUpdate_480140()
         if (xpos >= FP_FromInteger(field_2C_tl.field_0_x) && xpos <= FP_FromInteger(field_30_br.field_0_x) &&
            (ypos >= FP_FromInteger(field_2C_tl.field_2_y) && ypos <= FP_FromInteger(field_30_br.field_2_y)))
         {
-            field_24_flags &= ~1;
-            MusicController::PlayMusic_47FD60(field_26_music_type, this, (field_24_flags >> 2) & 1, 1);
-            field_24_flags |= 2u;
+            field_24_flags.Clear(Flags_24::e24_Bit1_TriggeredByTouching);
+            MusicController::PlayMusic_47FD60(field_26_music_type, this, field_24_flags.Get(Flags_24::e24_Bit3_Unused), 1);
+            field_24_flags.Set(Flags_24::e24_Bit2_TriggeredByTimer);
             if (field_28_counter >= 0)
             {
                 field_28_counter += sGnFrame_5C1B84;
             }
         }
     }
-    else if (field_24_flags & 2)
+    else if (field_24_flags.Get(Flags_24::e24_Bit2_TriggeredByTimer))
     {
         if (field_28_counter < 0 || static_cast<int>(sGnFrame_5C1B84) < field_28_counter)
         {
-            MusicController::PlayMusic_47FD60(field_26_music_type, this, (field_24_flags >> 2) & 1, 0);
+            MusicController::PlayMusic_47FD60(field_26_music_type, this, field_24_flags.Get(Flags_24::e24_Bit3_Unused), 0);
         }
         else
         {
@@ -146,8 +149,8 @@ EXPORT void MusicTrigger::vUpdate_480140()
     }
     else
     {
-        MusicController::PlayMusic_47FD60(field_26_music_type, this, (field_24_flags >> 2) & 1, 1);
-        field_24_flags |= 2u;
+        MusicController::PlayMusic_47FD60(field_26_music_type, this, field_24_flags.Get(Flags_24::e24_Bit3_Unused), 1);
+        field_24_flags.Set(Flags_24::e24_Bit2_TriggeredByTimer);
         field_28_counter += sGnFrame_5C1B84;
     }
 }

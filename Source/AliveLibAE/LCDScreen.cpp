@@ -136,7 +136,7 @@ const char *sLCDMessageTable_555768[101] =
     "",
 };
 
-LCDScreen * LCDScreen::ctor_460680(Path_LCDScreen * params, TlvItemInfoUnion itemInfo)
+LCDScreen * LCDScreen::ctor_460680(Path_LCDScreen* params, TlvItemInfoUnion itemInfo)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x545AAC);
@@ -147,7 +147,7 @@ LCDScreen * LCDScreen::ctor_460680(Path_LCDScreen * params, TlvItemInfoUnion ite
 
     field_2AA_message_1_id = params->field_10_message_1_id;
     field_2B0_message_2_id = params->field_16_message_2_id;
-    field_2B2_swap_message_sets_switch_id = static_cast<WORD>(params->field_18_swap_message_sets_switch_id);
+    field_2B2_toggle_message_switch_id = static_cast<WORD>(params->field_18_toggle_message_switch_id);
     field_2BC_tlv_item_info = itemInfo;
 
     if (!sFontType2LoadCount_5BC5E8)
@@ -161,7 +161,7 @@ LCDScreen * LCDScreen::ctor_460680(Path_LCDScreen * params, TlvItemInfoUnion ite
     const PSX_RECT palSize = { field_98_pal_rect.x , field_98_pal_rect.y, 16, 1 };
     PSX_LoadImage16_4F5E20(&palSize, sLCDScreen_Palette2);
 
-    if (SwitchStates_Get_466020(field_2B2_swap_message_sets_switch_id))
+    if (SwitchStates_Get_466020(field_2B2_toggle_message_switch_id))
     {
         field_A0_message = sLCDMessageTable_555768[field_2B0_message_2_id];
     }
@@ -180,9 +180,9 @@ LCDScreen * LCDScreen::ctor_460680(Path_LCDScreen * params, TlvItemInfoUnion ite
     field_2AE_character_width = static_cast<WORD>(field_60_font.MeasureWidth_433630(*field_A0_message) + 2);
     sFontDrawScreenSpace_5CA4B4 = 0;
     field_2B4 = 0;
-    field_2B6_message_rand_min = params->field_12_message_rand_min;
+    field_2B6_message_rand_min_id = params->field_12_message_rand_min_id;
     field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
-    field_2B8_message_rand_max = params->field_14_message_rand_max;
+    field_2B8_message_rand_max_id = params->field_14_message_rand_max_id;
     field_2A8_play_sound_toggle = 0;
     gObjList_drawables_5C1124->Push_Back_40CAF0(this);
 
@@ -212,12 +212,12 @@ void LCDScreen::Update_460A00()
         {
             if (++field_2B4 == 1)
             {
-                field_A0_message = sLCDMessageTable_555768[Math_RandomRange_496AB0(field_2B6_message_rand_min, field_2B8_message_rand_max)];
+                field_A0_message = sLCDMessageTable_555768[Math_RandomRange_496AB0(field_2B6_message_rand_min_id, field_2B8_message_rand_max_id)];
             }
             else
             {
                 field_2B4 = 0;
-                if (SwitchStates_Get_466020(field_2B2_swap_message_sets_switch_id))
+                if (SwitchStates_Get_466020(field_2B2_toggle_message_switch_id))
                 {
                     field_A0_message = sLCDMessageTable_555768[field_2B0_message_2_id];
                 }
@@ -325,7 +325,7 @@ void LCDScreen::Render_460CB0(PrimHeader** ppOt)
     }
 }
 
-void LCDScreen::vsub_460F10()
+void LCDScreen::vSetDead_460F10()
 {
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
@@ -374,5 +374,5 @@ BaseGameObject* LCDScreen::VDestructor(signed int flags)
 
 void LCDScreen::VScreenChanged()
 {
-    vsub_460F10();
+    vSetDead_460F10();
 }

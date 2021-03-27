@@ -462,7 +462,7 @@ namespace AOTlvs
             // Well local
             ADD("on_dx", mTlv.field_28_on_dx);
             ADD("on_dy", mTlv.field_2A_on_dy);
-            ADD("emit_leaves", mTlv.field_2C_emit_leaves);
+            ADD("emit_leaves", mTlv.field_2C_bEmit_leaves);
             ADD("leaf_x", mTlv.field_2E_leaf_x);
             ADD("leaf_y", mTlv.field_30_leaf_y);
         }

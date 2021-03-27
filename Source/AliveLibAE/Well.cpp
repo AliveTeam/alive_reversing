@@ -61,8 +61,8 @@ void Well::WellExpress_Init_4E2E00(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
     field_2C_exit_x = FP_FromInteger(pTlv->field_18_exit_x) / FP_FromInteger(100);
     field_30_exit_y = FP_FromInteger(pTlv->field_1A_exit_y) / FP_FromInteger(100);
 
-    field_3C_bEmitLeaves = pTlv->field_2C_emit_leaves;
-    if (field_3C_bEmitLeaves)
+    field_3C_bEmitLeaves = pTlv->field_2C_bEmit_leaves;
+    if (field_3C_bEmitLeaves == Choice_short::eYes_1)
     {
         PSX_Point abeSpawnPos = {};
         gMap_5C3030.Get_Abe_Spawn_Pos_4806D0(&abeSpawnPos);
@@ -103,8 +103,8 @@ void Well::WellLocal_Init_4E2CD0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
 
     field_24_trigger_id = pTlv->field_2_trigger_id;
 
-    field_3C_bEmitLeaves = pTlv->field_20_emit_leaves;
-    if (field_3C_bEmitLeaves)
+    field_3C_bEmitLeaves = pTlv->field_20_bEmit_leaves;
+    if (field_3C_bEmitLeaves == Choice_short::eYes_1)
     {
         PSX_Point abeSpawnPos = {};
         gMap_5C3030.Get_Abe_Spawn_Pos_4806D0(&abeSpawnPos);
@@ -181,7 +181,7 @@ void Well::vUpdate_4E2F60()
         Path::TLV_Reset_4DB8E0(field_20_tlvInfo, -1, 0, 0);
     }
 
-    if (field_3C_bEmitLeaves)
+    if (field_3C_bEmitLeaves == Choice_short::eYes_1)
     {
         // Always on or has been enabled?
         if (field_24_trigger_id == 0 || SwitchStates_Get_466020(field_24_trigger_id))

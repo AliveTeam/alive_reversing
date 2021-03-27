@@ -639,12 +639,12 @@ void LiftPoint::vUpdate_461AE0()
                 field_130_lift_point_stop_type = pLiftTlv->field_16_lift_point_stop_type;
 
                 field_280_flags.Clear(LiftFlags::eBit8_bIgnoreLiftMover);
-                if (pLiftTlv->field_1A_bIgnore_lift_mover & 1)
+                if (pLiftTlv->field_1A_bIgnore_lift_mover == Choice_short::eYes_1)
                 {
                     field_280_flags.Set(LiftFlags::eBit8_bIgnoreLiftMover);
                 }
 
-                if (pLiftTlv->field_1_tlv_state != pLiftTlv->field_12_bstart_point)
+                if (pLiftTlv->field_1_tlv_state != static_cast<BYTE>(pLiftTlv->field_12_bStart_point))
                 {
                     field_280_flags.Set(LiftFlags::eBit6);
                 }

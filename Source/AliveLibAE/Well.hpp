@@ -3,6 +3,7 @@
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 #include "FunctionFwd.hpp"
+#include "Path.hpp"
 
 struct Path_WellBase;
 struct Path_WellLocal;
@@ -31,7 +32,7 @@ private:
     FP field_30_exit_y;
     FP field_34_leaf_xpos;
     FP field_38_leaf_ypos;
-    __int16 field_3C_bEmitLeaves;
+    Choice_short field_3C_bEmitLeaves;
     __int16 field_3E_padding;
 };
 ALIVE_ASSERT_SIZEOF(Well, 0x40);
