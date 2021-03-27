@@ -79,6 +79,9 @@ private:
     {
         switch (field_F4_state)
         {
+        case BoomMachineStates::eInactive_0:
+            LOG_WARNING("BoomMachine field_F4_state is eInactive. We're not sure if this should happen.");
+            break;
         case BoomMachineStates::eAlreadyUsed_1:
             if (static_cast<int>(sGnFrame_5C1B84) > field_F8_timer)
             {

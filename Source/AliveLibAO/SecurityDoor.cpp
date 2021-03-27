@@ -13,6 +13,7 @@
 #include "Sfx.hpp"
 #include "SwitchStates.hpp"
 #include "CheatController.hpp"
+#include "magic_enum/include/magic_enum.hpp"
 
 namespace AO {
 
@@ -231,6 +232,7 @@ void SecurityDoor::VUpdate_461AD0()
             Slig::Slig_GameSpeak_SFX_46F560(SligSpeak::eHereBoy_1, 127, -100, 0);
             break;
         default:
+            LOG_WARNING("eSayingPassword_6 code was " << magic_enum::enum_name(code) << ". This is unhandled.");
             break;
         }
 
@@ -343,6 +345,9 @@ void SecurityDoor::VUpdate_461AD0()
         break;
 
     default:
+        // Can't seem to make it work?
+        //LOG_WARNING("SecurityDoor field_E8_state was " << magic_enum::enum_name(field_E8_state) << ". This is unhandled.");
+        LOG_WARNING("SecurityDoor field_E8_state encountered an unhandled state.");
         return;
     }
 }
