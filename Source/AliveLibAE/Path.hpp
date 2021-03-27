@@ -304,14 +304,14 @@ struct Path_Hoist : public Path_TLV
 
 struct Path_Edge : public Path_TLV
 {
-    enum class Type : __int16
+    enum class GrabDirection : __int16
     {
         eLeft = 0,
         eRight = 1,
         eBoth = 2,
     };
-    Type field_10_type;
-    __int16 field_12_can_grab;
+    GrabDirection field_10_grab_direction;
+    __int16 field_12_bCan_grab;
 
     Scale_int field_14_scale;
 };
@@ -339,7 +339,7 @@ struct Path_WellLocal : public Path_WellBase
     __int16 field_1A_off_dy;
     __int16 field_1C_on_dx;
     __int16 field_1E_on_dy;
-    __int16 field_20_emit_leaves;
+    Choice_short field_20_bEmit_leaves;
     __int16 field_22_leaf_x;
     __int16 field_24_leaf_y;
     __int16 field_26_padding;
@@ -350,15 +350,15 @@ struct Path_WellExpress : public Path_WellBase
 {
     __int16 field_18_exit_x;
     __int16 field_1A_exit_y;
-    LevelIds field_1C_off_level;
-    __int16 field_1E_off_path;
-    __int16 field_20_off_camera;
-    __int16 field_22_off_well_id;
-    LevelIds field_24_on_level;
-    __int16 field_26_on_path;
-    __int16 field_28_on_camera;
-    __int16 field_2A_on_well_id;
-    __int16 field_2C_emit_leaves;
+    LevelIds field_1C_disabled_well_level;
+    __int16 field_1E_disabled_well_path;
+    __int16 field_20_disabled_well_camera;
+    __int16 field_22_disabled_well_id;
+    LevelIds field_24_enabled_well_level;
+    __int16 field_26_enabled_well_path;
+    __int16 field_28_enabled_well_camera;
+    __int16 field_2A_enabled_well_id;
+    Choice_short field_2C_bEmit_leaves;
     __int16 field_2E_leaf_x;
     __int16 field_30_leaf_y;
     __int16 field_32_movie_id;
@@ -382,7 +382,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovieStone, 0x18);
 
 struct Path_HandStone : public Path_TLV
 {
-    __int16 field_10_scale;
+    Scale_short field_10_scale;
     __int16 field_12_camera_id1;
     __int16 field_12_camera_id2;
     __int16 field_12_camera_id3;

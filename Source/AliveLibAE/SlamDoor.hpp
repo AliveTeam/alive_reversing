@@ -18,11 +18,11 @@ enum SlamDoor_Flags_118
 
 struct Path_SlamDoor : public Path_TLV
 {
-    __int16 field_10_starts_shut;
-    __int16 field_12_half_scale;
+    Choice_short field_10_bStart_closed;
+    Scale_short field_12_scale;
     __int16 field_14_id;
-    __int16 field_16_inverted;
-    __int16 field_18_delete;
+    Choice_short field_16_bStart_inverted;
+    Choice_short field_18_bDelete;
     __int16 field_1A_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlamDoor, 0x1C);

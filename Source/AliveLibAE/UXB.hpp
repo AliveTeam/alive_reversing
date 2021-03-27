@@ -19,10 +19,15 @@ enum class UXBState : WORD
 
 struct Path_UXB : public Path_TLV
 {
-    __int16 field_10_num_patterns;
+    enum class StartState : __int16
+    {
+        eOn_0 = 0,
+        eOff_1 = 1,
+    };
+    __int16 field_10_pattern_length;
     __int16 field_12_pattern;
     Scale_short field_14_scale;
-    __int16 field_16_state;
+    StartState field_16_start_state;
     int field_18_disabled_resources;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_UXB, 0x1c);

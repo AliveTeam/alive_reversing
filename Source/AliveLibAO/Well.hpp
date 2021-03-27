@@ -44,7 +44,7 @@ struct Path_WellLocal : public Path_WellBase
 {
     __int16 field_28_on_dx;
     __int16 field_2A_on_dy;
-    __int16 field_2C_emit_leaves;
+    __int16 field_2C_bEmit_leaves;
     __int16 field_2E_leaf_x;
     __int16 field_30_leaf_y;
     __int16 field_32_pad;

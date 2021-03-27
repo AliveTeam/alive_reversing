@@ -6470,7 +6470,7 @@ void Mudokon::M_JumpMid_36_474570()
         auto pMusicTrigger = ae_new<MusicTrigger>();
         if (pMusicTrigger)
         {
-            pMusicTrigger->ctor_47FF10(5, 0, 0, 0);
+            pMusicTrigger->ctor_47FF10(MusicTriggerMusicType::eChime_5, TriggeredBy::eTimer_0, 0, 0);
         }
 
         sRescuedMudokons_5C1BC2++;

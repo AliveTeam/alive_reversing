@@ -13,7 +13,7 @@ enum class ShadowZoneScale : __int16
 
 struct Path_ShadowZone : public Path_TLV
 {
-    __int16 field_10_centre_w;
+    __int16 field_10_center_w;
     __int16 field_12_center_h;
     unsigned __int16 field_14_r;
     unsigned __int16 field_16_g;

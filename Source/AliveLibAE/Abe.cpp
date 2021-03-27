@@ -1725,8 +1725,7 @@ void Abe::Update_449DC0()
             field_128.field_18_say = MudSounds::eOops_14;
             field_144_auto_say_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
 
-            // Do the death jingle
-            ae_new<MusicTrigger>()->ctor_47FF10(1, 0, 90, 0);
+            ae_new<MusicTrigger>()->ctor_47FF10(MusicTriggerMusicType::eDeathShort_1, TriggeredBy::eTimer_0, 90, 0);
         }
 
         if (Event_Get_422C00(kEventMudokonComfort))
@@ -2665,8 +2664,8 @@ void Abe::vOn_TLV_Collision_44B5D0(Path_TLV* pTlv)
             auto pContinuePoint = static_cast<Path_ContinuePoint*>(pTlv);
             if (pContinuePoint->field_1_tlv_state == 0)
             {
-                if ((pContinuePoint->field_10_scale != 1 || field_CC_sprite_scale == FP_FromInteger(1)) &&
-                    (pContinuePoint->field_10_scale != 2 || field_CC_sprite_scale == FP_FromDouble(0.5))
+                if ((pContinuePoint->field_10_scale != Path_ContinuePoint::Scale::eHalf_1 || field_CC_sprite_scale == FP_FromInteger(1)) &&
+                    (pContinuePoint->field_10_scale != Path_ContinuePoint::Scale::eFull_2 || field_CC_sprite_scale == FP_FromDouble(0.5))
                     && field_10C_health > FP_FromInteger(0) && !(field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted)))
                 {
                     pContinuePoint->field_1_tlv_state = 1;
@@ -3024,15 +3023,15 @@ static bool IsFacingSameDirectionAsHoist(Path_Hoist* pHoist, BaseAliveGameObject
 
 static bool isEdgeGrabbable(Path_Edge* pEdge, BaseAliveGameObject* pObj)
 {
-    if (pEdge->field_10_type == Path_Edge::Type::eLeft && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (pEdge->field_10_grab_direction == Path_Edge::GrabDirection::eLeft && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         return true;
     }
-    else if (pEdge->field_10_type == Path_Edge::Type::eRight && !pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    else if (pEdge->field_10_grab_direction == Path_Edge::GrabDirection::eRight && !pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         return true;
     }
-    else if (pEdge->field_10_type == Path_Edge::Type::eBoth)
+    else if (pEdge->field_10_grab_direction == Path_Edge::GrabDirection::eBoth)
     {
         return true;
     }
@@ -3772,7 +3771,7 @@ void Abe::State_3_Fall_459B60()
     bool tryToHang = false;
     if (pEdge)
     {
-        if (pEdge->field_12_can_grab && IsSameScaleAsEdge(pEdge, this) &&
+        if (pEdge->field_12_bCan_grab && IsSameScaleAsEdge(pEdge, this) &&
             (isEdgeGrabbable(pEdge, this)))
         {
             tryToHang = true;
@@ -4752,7 +4751,7 @@ void Abe::State_28_HopMid_451C50()
 
         field_FC_pPathTLV = pEdgeTlv;
 
-        if (pEdgeTlv && pEdgeTlv->field_12_can_grab && IsSameScaleAsEdge(pEdgeTlv, this) &&
+        if (pEdgeTlv && pEdgeTlv->field_12_bCan_grab && IsSameScaleAsEdge(pEdgeTlv, this) &&
             ((isEdgeGrabbable(pEdgeTlv, this) && field_C4_velx != FP_FromInteger(0))))
         {
             field_B8_xpos = FP_FromInteger((pEdgeTlv->field_8_top_left.field_0_x + pEdgeTlv->field_C_bottom_right.field_0_x) / 2);
@@ -4947,7 +4946,7 @@ void Abe::State_31_RunJumpMid_452C10()
 
             field_FC_pPathTLV = pEdgeTlv;
 
-            if (pEdgeTlv && pEdgeTlv->field_12_can_grab)
+            if (pEdgeTlv && pEdgeTlv->field_12_bCan_grab)
             {
                 if (IsSameScaleAsEdge(pEdgeTlv, this) && (isEdgeGrabbable(pEdgeTlv, this)))
                 {
@@ -6711,17 +6710,17 @@ void Abe::State_82_InsideWellExpress_45CC80()
     Path_WellExpress* pExpressWell = static_cast<Path_WellExpress*>(field_FC_pPathTLV);
     if (SwitchStates_Get_466020(pExpressWell->field_2_trigger_id))
     {
-        field_19A_to_level = pExpressWell->field_24_on_level;
-        field_19C_to_path = pExpressWell->field_26_on_path;
-        field_19E_to_camera = pExpressWell->field_28_on_camera;
-        field_1A0_door_id = pExpressWell->field_2A_on_well_id;
+        field_19A_to_level = pExpressWell->field_24_enabled_well_level;
+        field_19C_to_path = pExpressWell->field_26_enabled_well_path;
+        field_19E_to_camera = pExpressWell->field_28_enabled_well_camera;
+        field_1A0_door_id = pExpressWell->field_2A_enabled_well_id;
     }
     else
     {
-        field_19A_to_level = pExpressWell->field_1C_off_level;
-        field_19C_to_path = pExpressWell->field_1E_off_path;
-        field_19E_to_camera = pExpressWell->field_20_off_camera;
-        field_1A0_door_id = pExpressWell->field_22_off_well_id;
+        field_19A_to_level = pExpressWell->field_1C_disabled_well_level;
+        field_19C_to_path = pExpressWell->field_1E_disabled_well_path;
+        field_19E_to_camera = pExpressWell->field_20_disabled_well_camera;
+        field_1A0_door_id = pExpressWell->field_22_disabled_well_id;
     }
 
     field_128.field_8_x_vel_slow_by = FP_FromInteger(0);
@@ -6936,7 +6935,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
                 {
                     id = pHandStoneTlv->field_18_trigger_id;
 
-                    field_184_fmv_id = pHandStoneTlv->field_10_scale; // TODO: Never used for this type?
+                    field_184_fmv_id = static_cast<short>(pHandStoneTlv->field_10_scale); // TODO: Never used for this type?
 
                     field_186_to_camera_id[0] = pHandStoneTlv->field_12_camera_id1;
                     field_186_to_camera_id[1] = pHandStoneTlv->field_12_camera_id2;
@@ -8417,7 +8416,7 @@ void Abe::State_127_TurnWheelLoop_456750()
             auto pMusicTrigger = ae_new<MusicTrigger>();
             if (pMusicTrigger)
             {
-                pMusicTrigger->ctor_47FF10(5, 0, 0, 0);
+                pMusicTrigger->ctor_47FF10(MusicTriggerMusicType::eChime_5, TriggeredBy::eTimer_0, 0, 0);
             }
             return;
         }

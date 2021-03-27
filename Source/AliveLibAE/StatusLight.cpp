@@ -51,7 +51,7 @@ StatusLight* StatusLight::ctor_4D5250(Path_StatusLight* pTlv, DWORD tlvInfo)
     field_FE_id3 = pTlv->field_18_id3;
     field_100_id4 = pTlv->field_1A_id4;
     field_102_id5 = pTlv->field_1C_id5;
-    field_104_snap_to_grid = pTlv->field_1E_snap_to_grid;
+    field_104_bIgnore_grid_snapping = pTlv->field_1E_bIgnore_grid_snapping;
 
     const AnimRecord& rec = AnimRec(AnimId::Status_Light_Red);
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -62,7 +62,7 @@ StatusLight* StatusLight::ctor_4D5250(Path_StatusLight* pTlv, DWORD tlvInfo)
 
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
 
-    if (field_104_snap_to_grid == 0)
+    if (field_104_bIgnore_grid_snapping == Choice_short::eNo_0)
     {
         field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
     }
@@ -82,7 +82,7 @@ StatusLight* StatusLight::ctor_4D5250(Path_StatusLight* pTlv, DWORD tlvInfo)
         &hitY,
         field_D6_scale == 1 ? 241 : 16);
 
-    if (!field_104_snap_to_grid)
+    if (field_104_bIgnore_grid_snapping == Choice_short::eNo_0)
     {
         if (bCollision)
         {

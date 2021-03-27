@@ -327,7 +327,8 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
         }
 
         // TODO: Meaning of the data in field_1_unknown for lift point
-        if (pLiftTlv->field_1_tlv_state & 2 || (pLiftTlv->field_1_tlv_state == 0 && pLiftTlv->field_12_bstart_point))
+        if (pLiftTlv->field_1_tlv_state & 2 || (pLiftTlv->field_1_tlv_state == 0 &&
+            pLiftTlv->field_12_bStart_point == Choice_short::eYes_1))
         {
             auto pLiftPoint = ae_new<LiftPoint>();
             if (pLiftPoint)
@@ -360,7 +361,7 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
                         if (absX < 5 && 
                             pLiftPointIter->field_10_id == pLiftTlv->field_10_id && 
                             (pLiftPointIter->field_1_tlv_state & 2 || pLiftPointIter->field_1_tlv_state == 0) &&
-                            pLiftPointIter->field_12_bstart_point)
+                            pLiftPointIter->field_12_bStart_point == Choice_short::eYes_1)
                         {
 
                             auto pLiftPoint = ae_new<LiftPoint>();

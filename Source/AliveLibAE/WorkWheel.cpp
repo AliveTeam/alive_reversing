@@ -75,10 +75,10 @@ WorkWheel* WorkWheel::ctor_4E35D0(Path_WorkWheel* pTlv, int tlvInfo)
     }
 
     field_F8_id = pTlv->field_12_id;
-    field_FE_duration = pTlv->field_14_duration;
+    field_FE_activation_time = pTlv->field_14_activation_time;
     field_102_off_time = pTlv->field_16_off_time;
     field_100_on_counter = 0;
-    field_104_off_when_stopped = pTlv->field_18_off_when_stopped;
+    field_104_turn_off_when_stopped = pTlv->field_18_turn_off_when_stopped;
 
     PathLine* pathLine = nullptr;
     FP hitX = {};
@@ -195,7 +195,7 @@ void WorkWheel::vUpdate_4E38E0()
 
     if (field_F8_id)
     {
-        if (field_100_on_counter > field_FE_duration)
+        if (field_100_on_counter > field_FE_activation_time)
         {
             if (gMap_5C3030.field_0_current_level == LevelIds::eBrewery_Ender_10 && field_F8_id == 100)
             {
@@ -244,7 +244,7 @@ void WorkWheel::vStopTurning_4E3A60(__int16 bResetSwitch)
         const AnimRecord& animRec = AnimRec(AnimId::Work_Wheel_Idle);
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
-        if (field_104_off_when_stopped & 1)
+        if (field_104_turn_off_when_stopped == Choice_short::eYes_1)
         {
             if (bResetSwitch)
             {

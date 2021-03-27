@@ -92,17 +92,17 @@ SlamDoor* SlamDoor::ctor_4AF700(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
     field_118_flags.Clear(SlamDoor_Flags_118::e118_Bit4_Inverted);
     field_118_flags.Clear(SlamDoor_Flags_118::e118_Bit5_Delete);
 
-    if (!pTlv->field_10_starts_shut)
+    if (pTlv->field_10_bStart_closed == Choice_short::eNo_0)
     {
         field_118_flags.Set(SlamDoor_Flags_118::e118_Bit2_Open);
     }
     
-    if (pTlv->field_16_inverted)
+    if (pTlv->field_16_bStart_inverted == Choice_short::eYes_1)
     {
         field_118_flags.Set(SlamDoor_Flags_118::e118_Bit4_Inverted);
     }
 
-    if (pTlv->field_18_delete)
+    if (pTlv->field_18_bDelete == Choice_short::eYes_1)
     {
         field_118_flags.Set(SlamDoor_Flags_118::e118_Bit5_Delete);
     }
@@ -121,11 +121,11 @@ SlamDoor* SlamDoor::ctor_4AF700(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
     field_12C_tlvInfo = tlvInfo;
 
-    if (pTlv->field_12_half_scale && pTlv->field_12_half_scale == 1)
+    if (pTlv->field_12_scale == Scale_short::eHalf_1)
     {
-            field_CC_sprite_scale = FP_FromDouble(0.5);
-            field_20_animation.field_C_render_layer = Layer::eLayer_6;
-            field_D6_scale = 0;
+        field_CC_sprite_scale = FP_FromDouble(0.5);
+        field_20_animation.field_C_render_layer = Layer::eLayer_6;
+        field_D6_scale = 0;
     }
     else
     {

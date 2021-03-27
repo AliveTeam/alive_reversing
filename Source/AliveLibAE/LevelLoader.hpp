@@ -12,7 +12,7 @@ struct Path_LevelLoader : public Path_TLV
     LevelIds field_12_dest_level;
     __int16 field_14_dest_path;
     __int16 field_16_dest_camera;
-    __int16 field_18_movie;
+    __int16 field_18_movie_id;
     __int16 field_1A_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LevelLoader, 0x1C);
@@ -40,7 +40,7 @@ private:
     LevelIds field_24_level;
     __int16 field_26_path;
     __int16 field_28_camera;
-    __int16 field_2A_movie;
+    __int16 field_2A_movie_id;
     DWORD field_2C_tlvInfo;
     int field_30_fade_id;
 };

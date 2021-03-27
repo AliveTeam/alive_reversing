@@ -205,7 +205,7 @@ void Well::WellLocal_Init_48AFA0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
     field_F0_exit_x = FP_FromInteger(pTlv->field_20_exit_x) / FP_FromInteger(100);
     field_F4_exit_y = FP_FromInteger(pTlv->field_22_exit_y) / FP_FromInteger(100);
 
-    field_100_emit_leaves = pTlv->field_2C_emit_leaves;
+    field_100_emit_leaves = pTlv->field_2C_bEmit_leaves;
 
     if (field_100_emit_leaves)
     {

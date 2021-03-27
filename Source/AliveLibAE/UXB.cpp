@@ -156,8 +156,8 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     field_1C8_flags.Clear(UXB_Flags_1C8::eUnused_Bit0);
     field_118_state = UXBState::eDelay_0;
 
-    field_1C0_pattern_length = tlv_params->field_10_num_patterns;
-    if (tlv_params->field_10_num_patterns < 1 || tlv_params->field_10_num_patterns > 4)
+    field_1C0_pattern_length = tlv_params->field_10_pattern_length;
+    if (tlv_params->field_10_pattern_length < 1 || tlv_params->field_10_pattern_length > 4)
     {
         field_1C0_pattern_length = 1;
     }
@@ -190,10 +190,9 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     }
 
     InitBlinkAnim_4DEED0(&field_128_animation);
-
     if (tlv_params->field_1_tlv_state) // Stores the activated/deactivated state for UXB.
     {
-        if (!tlv_params->field_16_state)
+        if (tlv_params->field_16_start_state == Path_UXB::StartState::eOn_0)
         {
             field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0), 0);
             field_1C8_flags.Clear(UXB_Flags_1C8::eIsRed_Bit1);
@@ -212,7 +211,7 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     }
     else
     {
-        if (!tlv_params->field_16_state)
+        if (tlv_params->field_16_start_state == Path_UXB::StartState::eOn_0)
         {
             field_11A_starting_state = UXBState::eDelay_0;
         }

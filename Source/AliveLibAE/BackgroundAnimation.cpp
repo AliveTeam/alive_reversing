@@ -50,7 +50,7 @@ BackgroundAnimation* BackgroundAnimation::ctor_40D270(Path_BackgroundAnimation* 
         1,
         1u);
 
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans, pPathParams->field_12_is_semi_trans & 1);
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans, pPathParams->field_12_is_semi_trans == Choice_short::eYes_1);
     field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
 
     field_20_animation.field_B_render_mode = pPathParams->field_14_semi_trans_mode;

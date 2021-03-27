@@ -22,7 +22,7 @@ GasEmitter* GasEmitter::ctor_43CAA0(Path_GasEmitter* pTlv, int tlvInfo)
 
     field_28_draw_flipper = 1;
 
-    field_2A_switch_id = pTlv->field_10_port_id;
+    field_2A_switch_id = pTlv->field_10_switch_id;
     field_2C_gas_colour = pTlv->field_12_colour;
 
     field_20_tlvInfo = tlvInfo;
