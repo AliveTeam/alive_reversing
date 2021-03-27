@@ -35,7 +35,7 @@ EXPORT void MusicTrigger::Init_47FFB0(MusicTriggerMusicType musicType, Triggered
 {
     field_24_flags.Clear(Flags_24::e24_Bit1_TriggeredByTouching);
     field_24_flags.Clear(Flags_24::e24_Bit2_TriggeredByTimer);
-    field_24_flags.Clear(Flags_24::e24_Bit4_SetMusicToNoneOnDtor);
+    field_24_flags.Clear(Flags_24::e24_Bit3_SetMusicToNoneOnDtor);
 
     field_4_typeId = Types::eMusicTrigger_94;
     field_28_counter = 0;
@@ -56,11 +56,11 @@ EXPORT void MusicTrigger::Init_47FFB0(MusicTriggerMusicType musicType, Triggered
         break;
     case MusicTriggerMusicType::eChase_3:
         field_26_music_type = MusicController::MusicTypes::eChase_8;
-        field_24_flags.Set(Flags_24::e24_Bit4_SetMusicToNoneOnDtor);
+        field_24_flags.Set(Flags_24::e24_Bit3_SetMusicToNoneOnDtor);
         break;
     case MusicTriggerMusicType::eSlogChase_4:
         field_26_music_type = MusicController::MusicTypes::eSlogChase_7;
-        field_24_flags.Set(Flags_24::e24_Bit4_SetMusicToNoneOnDtor);
+        field_24_flags.Set(Flags_24::e24_Bit3_SetMusicToNoneOnDtor);
         break;
     case MusicTriggerMusicType::eChime_5:
         field_26_music_type = MusicController::MusicTypes::eChime_2;
@@ -74,7 +74,7 @@ EXPORT void MusicTrigger::Init_47FFB0(MusicTriggerMusicType musicType, Triggered
         break;
     }
 
-    if (triggeredBy == TriggeredBy::eTimer_0) // unused
+    if (triggeredBy == TriggeredBy::eTimer_0)
     {
         field_1C_update_delay = musicDelay; // OG bug? field_1C_update_delay should've been field_28_counter?
     }
@@ -97,7 +97,7 @@ EXPORT BaseGameObject* MusicTrigger::vdtor_47FEE0(signed int flags)
 EXPORT void MusicTrigger::dtor_4800C0()
 {
     SetVTable(this, 0x5463DC);
-    if (field_24_flags.Get(Flags_24::e24_Bit4_SetMusicToNoneOnDtor))
+    if (field_24_flags.Get(Flags_24::e24_Bit3_SetMusicToNoneOnDtor))
     {
         MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
     }
@@ -128,7 +128,7 @@ EXPORT void MusicTrigger::vUpdate_480140()
            (ypos >= FP_FromInteger(field_2C_tl.field_2_y) && ypos <= FP_FromInteger(field_30_br.field_2_y)))
         {
             field_24_flags.Clear(Flags_24::e24_Bit1_TriggeredByTouching);
-            MusicController::PlayMusic_47FD60(field_26_music_type, this, field_24_flags.Get(Flags_24::e24_Bit3_Unused), 1);
+            MusicController::PlayMusic_47FD60(field_26_music_type, this, field_24_flags.Get(Flags_24::e24_Bit3_SetMusicToNoneOnDtor), 1);
             field_24_flags.Set(Flags_24::e24_Bit2_TriggeredByTimer);
             if (field_28_counter >= 0)
             {
@@ -140,7 +140,7 @@ EXPORT void MusicTrigger::vUpdate_480140()
     {
         if (field_28_counter < 0 || static_cast<int>(sGnFrame_5C1B84) < field_28_counter)
         {
-            MusicController::PlayMusic_47FD60(field_26_music_type, this, field_24_flags.Get(Flags_24::e24_Bit3_Unused), 0);
+            MusicController::PlayMusic_47FD60(field_26_music_type, this, field_24_flags.Get(Flags_24::e24_Bit3_SetMusicToNoneOnDtor), 0);
         }
         else
         {
@@ -149,7 +149,7 @@ EXPORT void MusicTrigger::vUpdate_480140()
     }
     else
     {
-        MusicController::PlayMusic_47FD60(field_26_music_type, this, field_24_flags.Get(Flags_24::e24_Bit3_Unused), 1);
+        MusicController::PlayMusic_47FD60(field_26_music_type, this, field_24_flags.Get(Flags_24::e24_Bit3_SetMusicToNoneOnDtor), 1);
         field_24_flags.Set(Flags_24::e24_Bit2_TriggeredByTimer);
         field_28_counter += sGnFrame_5C1B84;
     }
