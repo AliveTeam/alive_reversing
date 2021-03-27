@@ -28,6 +28,8 @@
 #include "PossessionFlicker.hpp"
 #include "AbilityRing.hpp"
 #include "CheatController.hpp"
+#include "Sys_common.hpp"
+#include "magic_enum/include/magic_enum.hpp"
 
 void Mud_ForceLink() {}
 
@@ -184,6 +186,9 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, int tlvInfo)
     int scale = 0;
     switch (pTlv->field_4_type.mType)
     {
+    case TlvTypes::None_m1:
+        LOG_ERROR("Mudokon ctor pTlv->field_4_type.mType was None_m1. This shouldn't happen.");
+        break;
     case TlvTypes::LiftMudokon_32:
     {
         auto liftMudTlv = static_cast<Path_LiftMudokon*>(pTlv);
@@ -297,6 +302,9 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, int tlvInfo)
 
     }
     break;
+    default:
+        LOG_WARNING("Mudokon ctor pTlv->field_4_type.mType was " << magic_enum::enum_name(pTlv->field_4_type.mType) << ". This is unhandled.");
+        break;
     }
 
     field_FC_current_motion = eMudStates::State_0_Idle_43CA70;

@@ -425,7 +425,7 @@ EXPORT void Factory_Dove_4834C0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
 {
     if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
     {
-        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kDovbasicResID });
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kDovbasicResID);
 
         auto pDoveTlv = static_cast<Path_Dove*>(pTlv);
 
@@ -480,7 +480,7 @@ EXPORT void Factory_RockSack_483680(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUn
     }
     else
     {
-        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kP2c2bagResID });
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kP2c2bagResID);
         auto pRockSack = ao_new<RockSack>();
         if (pRockSack)
         {
@@ -563,21 +563,21 @@ EXPORT void Factory_FallingItem_483940(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
         {
         case LevelIds::eRuptureFarms_1:
         case LevelIds::eRuptureFarmsReturn_13:
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kUnknownResID_6014 });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_6014);
             break;
 
         case LevelIds::eLines_2:
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kDebrisID00 });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kDebrisID00);
             break;
 
         case LevelIds::eStockYards_5:
         case LevelIds::eDesert_8:
         case LevelIds::eDesertTemple_9:
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kDebrisID00 });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kDebrisID00);
             break;
 
         default:
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kDebrisID00 });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kDebrisID00);
         }
 
         auto kResourcesToCheck =
@@ -745,12 +745,12 @@ EXPORT void Factory_TimedMine_484650(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
 
         if (!(disabledResource & 1))
         {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kAbeblowResID });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
         }
 
         if (!(disabledResource & 2))
         {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSlogBlowResID });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID);
         }
 
         auto pTimedMine = ao_new<TimedMine>();
@@ -819,52 +819,52 @@ static void LoadWalkingSligResources(LoadMode loadMode, BitField16<SligFlags_Dis
     {
         if (!(disabledResources.Get(eDisabledRes_Bit1)))
         {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSlgleverResID });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kSlgleverResID);
         }
 
         if (!(disabledResources.Get(eDisabledRes_Bit2)))
         {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSlgliftResID });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kSlgliftResID);
         }
 
         if (!(disabledResources.Get(eDisabledRes_Bit3)))
         {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSlgzshotResID });
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kZflashResID });
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kAbeknokzResID });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kSlgzshotResID);
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kZflashResID);
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kAbeknokzResID);
         }
 
         if (!(disabledResources.Get(eDisabledRes_Bit7)))
         {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSlgsleepResID });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kSlgsleepResID);
         }
 
         if (!(disabledResources.Get(eDisabledRes_Bit9)))
         {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSlgedgeResID });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kSlgedgeResID);
         }
 
         if (!(disabledResources.Get(eDisabledRes_Bit10)))
         {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSlgsmashResID });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kSlgsmashResID);
         }
 
         if (!(disabledResources.Get(eDisabledRes_Bit11)))
         {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSlgbeatResID });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kSlgbeatResID);
         }
 
         if (!(disabledResources.Get(eDisabledRes_Bit8)))
         {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSlgknfdResID });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kSlgknfdResID);
         }
 
-        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kBigflashResID });
-        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kShellResID });
-        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kRockShadowResID });
-        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSligBlowResID });
-        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSlgbasicResID });
-        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSlgknbkResID });
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kBigflashResID);
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kShellResID);
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID);
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kSligBlowResID);
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kSlgbasicResID);
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kSlgknbkResID);
     }
 }
 
@@ -967,7 +967,7 @@ EXPORT void Factory_BellHammer_4854B0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
 {
     if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
     {
-        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kHammerResID });
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kHammerResID);
         auto pBellHammer = ao_new<BellHammer>();
         if (pBellHammer)
         {
@@ -999,28 +999,28 @@ EXPORT void Factory_SecurityOrb_485550(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
     }
     else
     {
-        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kMaimGameResID});
-        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSplineResID });
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kMaimGameResID);
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kSplineResID);
 
 
         if (!(disabledResources & 1))
         {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kAbeblowResID });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
         }
 
         if (!(disabledResources & 2))
         {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSlogBlowResID });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID);
         }
 
         if (!(disabledResources & 0x10))
         {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kMetalGib });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kMetalGib);
         }
 
         if (!(disabledResources & 0x20))
         {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kExplo2ResID });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
         }
 
         auto pSecurityEye = ao_new<SecurityOrb>();
@@ -1349,12 +1349,12 @@ EXPORT void Factory_Uxb_484B70(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
 
         if (!(pUxbTlv->field_20_disabled_resources & 1))
         {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kAbeblowResID });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
         }
 
         if (!(pUxbTlv->field_20_disabled_resources & 2))
         {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSlogBlowResID });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID);
         }
 
         auto pUxb = ao_new<UXB>();
@@ -1415,7 +1415,7 @@ EXPORT void Factory_Bat_486630(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
     }
     else
     {
-        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kBatBasicResID });
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kBatBasicResID);
 
         auto pBat = ao_new<Bat>();
         if (pBat)
@@ -1562,7 +1562,7 @@ EXPORT void Factory_TrapDoor_4868E0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion 
     }
     else
     {
-        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kP6c1trapResID });
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kP6c1trapResID);
 
         auto pTrapDoor = ao_new<TrapDoor>();
         if (pTrapDoor)
@@ -1709,22 +1709,22 @@ EXPORT void Factory_SecurityClaw_486D50(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
 
         if (!(disabledResources & 1))
         {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kAbeblowResID });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
         }
 
         if (!(disabledResources & 2))
         {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSlogBlowResID });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID);
         }
 
         if (!(disabledResources & 0x10))
         {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kMetalGib });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kMetalGib);
         }
 
         if (!(disabledResources & 0x20))
         {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kExplo2ResID });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
         }
 
         auto pSecurityOrb = ao_new<SecurityClaw>();
@@ -1740,7 +1740,7 @@ EXPORT void Factory_MotionDector_486FD0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
 {
     if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
     {
-        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kDeathFlareResID });
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID);
 
         auto pMotionDetector = ao_new<MotionDetector>();
         if (pMotionDetector)
@@ -1792,7 +1792,7 @@ EXPORT void Factory_ElectricWall_4874E0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
 {
     if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
     {
-        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kElecwallResID });
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kElecwallResID);
 
         auto pElectricWall = ao_new<ElectricWall>();
         if (pElectricWall)
@@ -1874,7 +1874,7 @@ EXPORT void Factory_MeatSack_483790(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUn
     }
     else
     {
-        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kD2elumResID });
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kD2elumResID);
 
         auto pMeatSack = ao_new<MeatSack>();
         if (pMeatSack)
@@ -2033,11 +2033,11 @@ EXPORT void Factory_WorkerMud_485B20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
         switch (pMudTlv->field_1A_job)
         {
         case 0:
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kMudchslResID });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kMudchslResID);
             break;
 
         case 2:
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kMudltusResID });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kMudltusResID);
             break;
         }
 
@@ -2174,7 +2174,7 @@ EXPORT void Factory_MovingBomb_484E00(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
 
         if (!(pMovingBombTlv->field_22_disabled_resources & 1))
         {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kAbeblowResID });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
         }
 
         auto pMovingBomb = ao_new<MovingBomb>();
@@ -2304,7 +2304,7 @@ EXPORT void Factory_SecurityDoor_487790(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
     }
     else
     {
-        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kR1sdosResID_6027 });
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kR1sdosResID_6027);
 
         auto pSecurityDoor = ao_new<SecurityDoor>();
         if (pSecurityDoor)
@@ -2357,7 +2357,7 @@ EXPORT void Factory_GrenadeMachine_487860(Path_TLV* pTlv, Map* /*pMap*/, TlvItem
 
     if (!(disabledResources & 2))
     {
-        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kSlogBlowResID });
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID);
     }
 
     auto pGrenadeMachine = ao_new<BoomMachine>();
@@ -2511,7 +2511,7 @@ EXPORT void Factory_LightEffect_484170(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
         {
         case Path_LightEffect::Type::Star_0:
         {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kBGStarResID });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kBGStarResID);
             auto pLight = ao_new<LightEffect>();
             if (pLight)
             {
@@ -2522,7 +2522,7 @@ EXPORT void Factory_LightEffect_484170(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
 
         case Path_LightEffect::Type::RedGlow_1:
         {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kRedGlowResID_6011 });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kRedGlowResID_6011);
             auto pLight = ao_new<DoorLight>();
             if (pLight)
             {
@@ -2533,7 +2533,7 @@ EXPORT void Factory_LightEffect_484170(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
 
         case Path_LightEffect::Type::GreenGlow_2:
         {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kGreenGlowResID_6010 });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kGreenGlowResID_6010);
             auto pLight = ao_new<DoorLight>();
             if (pLight)
             {
@@ -2544,7 +2544,7 @@ EXPORT void Factory_LightEffect_484170(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
 
         case Path_LightEffect::Type::FlintGlow_3:
         {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, { ResourceID::kFlintGlowResID_6028 });
+            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kFlintGlowResID_6028);
             auto pLight = ao_new<DoorLight>();
             if (pLight)
             {

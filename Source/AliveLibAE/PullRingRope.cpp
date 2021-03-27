@@ -229,6 +229,9 @@ void PullRingRope::vUpdate_49B720()
                 {
                     switch (field_106_on_sound)
                     {
+                    case PullRingSwitchSound::eNone_0:
+                        LOG_WARNING("PullRingRope field_106_on_sound was eNone_0. We're not sure if this should happen.");
+                        break;
                     case PullRingSwitchSound::eWellExit_1:
                         SFX_Play_46FB10(SoundEffect::WellExit_20, 60 * leftVol + 10, 60 * rightVol + 10);
                         break;
@@ -244,6 +247,9 @@ void PullRingRope::vUpdate_49B720()
                 {
                     switch (field_108_off_sound)
                     {
+                    case PullRingSwitchSound::eNone_0:
+                        LOG_WARNING("PullRingRope field_108_off_sound was eNone_0. We're not sure if this should happen.");
+                        break;
                     case PullRingSwitchSound::eWellExit_1:
                         SFX_Play_46FB10(SoundEffect::WellExit_20, 60 * leftVol + 10, 60 * rightVol + 10);
                         break;
