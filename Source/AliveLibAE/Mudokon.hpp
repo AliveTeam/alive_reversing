@@ -513,7 +513,7 @@ private:
     int field_164_ring_timeout;
     RingTypes field_168_ring_type;
 
-    enum Flags
+    enum Flags_16A
     {
         eBit1_not_rescued = 0x1,
         eBit2_reset_pos_on_screen_change = 0x2,
@@ -541,8 +541,15 @@ private:
         eBit24_padding = 0x800000,
         eBit25_padding = 0x1000000,
     };
-    BitField16<Flags> field_16A_flags;
-    __int16 field_16C;
+    BitField16<Flags_16A> field_16A_flags;
+
+    enum Flags_16C
+    {
+        eBit1_Unknown = 0x1,
+        eBit2_Unknown = 0x2,
+        eBit3_Unknown = 0x4,
+    };
+    BitField16<Flags_16C> field_16C_flags;
     __int16 field_16E_padding;
     __int16 field_170_padding;
     __int16 field_172_padding;
