@@ -3,6 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 namespace AO {
 
@@ -17,7 +18,7 @@ enum class SwitchOp : __int16;
 struct Path_FootSwitch : public Path_TLV
 {
     __int16 field_18_id;
-    __int16 field_1A_scale;
+    Scale_short field_1A_scale;
     SwitchOp field_1C_action;
     FootSwitchTriggerBy field_1E_trigger_by;
 };

@@ -1468,9 +1468,9 @@ namespace AOTlvs
     {
         CTOR_AO(Path_Honey, "Honey", AO::TlvTypes::Honey_20)
         {
-            ADD("scale", mTlv.id);
-            ADD("enter_from_web", mTlv.state);
-            ADD("attack_delay", mTlv.scale);
+            ADD("id", mTlv.id);
+            ADD("state", mTlv.state);
+            ADD("scale", mTlv.scale);
         }
     };
 

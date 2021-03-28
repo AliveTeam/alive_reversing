@@ -149,7 +149,7 @@ Paramite* Paramite::ctor_44A7A0(Path_Paramite* pTlv, int tlvInfo)
     field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
-    if (pTlv->field_18_scale == 1)
+    if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_10_anim.field_C_layer = Layer::eLayer_8;
@@ -162,7 +162,7 @@ Paramite* Paramite::ctor_44A7A0(Path_Paramite* pTlv, int tlvInfo)
         field_C6_scale = 1;
     }
 
-    if (pTlv->field_1A_bEnter_from_web)
+    if (pTlv->field_1A_bEnter_from_web == Choice_short::eYes_1)
     {
         SetBrain(&Paramite::Brain_SurpriseWeb_448D00);
     }
@@ -543,7 +543,7 @@ void Paramite::VUpdate_44A490()
 
     if (FP_Abs(field_A8_xpos - sActiveHero_507678->field_A8_xpos) > FP_FromInteger(1536) || FP_Abs(field_AC_ypos - sActiveHero_507678->field_AC_ypos) > FP_FromInteger(480))
     {
-        if (field_144_delete_when_far_away)
+        if (field_144_delete_when_far_away == Choice_short::eYes_1)
         {
             field_6_flags.Set(Options::eDead_Bit3);
         }
@@ -1836,7 +1836,7 @@ __int16 Paramite::Brain_ChasingAbe_449170()
         {
             if (VIsFacingMe(sActiveHero_507678))
             {
-                if (field_13E_hiss_before_attack)
+                if (field_13E_hiss_before_attack == Choice_short::eYes_1)
                 {
                     field_114_timer = gnFrameCount_507670 + Math_RandomRange_450F20(0, 6);
                     return AI_ChasingAbe::eState2_ToWarning_2;
@@ -2002,7 +2002,7 @@ __int16 Paramite::Brain_ChasingAbe_449170()
             return field_110_state;
         }
 
-        if (field_13E_hiss_before_attack)
+        if (field_13E_hiss_before_attack == Choice_short::eYes_1)
         {
             field_114_timer = gnFrameCount_507670 + Math_RandomRange_450F20(0, 6);
             return AI_ChasingAbe::eState2_ToWarning_2;
@@ -2061,7 +2061,7 @@ __int16 Paramite::Brain_ChasingAbe_449170()
             }
         }
 
-        if (field_114_timer > static_cast<int>(gnFrameCount_507670) && field_13E_hiss_before_attack)
+        if (field_114_timer > static_cast<int>(gnFrameCount_507670) && field_13E_hiss_before_attack == Choice_short::eYes_1)
         {
             return field_110_state;
         }
@@ -2093,7 +2093,7 @@ __int16 Paramite::Brain_ChasingAbe_449170()
             return field_110_state;
         }
 
-        if (field_13E_hiss_before_attack)
+        if (field_13E_hiss_before_attack == Choice_short::eYes_1)
         {
             field_FE_next_state = eParamiteStates::State_15_Hiss_44D300;
         }

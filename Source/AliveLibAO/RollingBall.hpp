@@ -3,13 +3,14 @@
 #include "FunctionFwd.hpp"
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "Path.hpp"
 
 namespace AO {
 
 struct Path_RollingBall : public Path_TLV
 {
-    __int16 field_18_scale;
-    __int16 field_1A_roll_direction;
+    Scale_short field_18_scale;
+    XDirection_short field_1A_roll_direction;
     __int16 field_1C_release;
     unsigned __int16 field_1E_speed;
     unsigned __int16 field_20_acceleration;
