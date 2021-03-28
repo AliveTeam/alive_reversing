@@ -6984,13 +6984,7 @@ void Mudokon::M_TurnWheelEnd_59_474D30()
 
 __int16 Mudokon::StableDelay_477570()
 {
-    int maxIdx = sAlertedMudCount_5C3010;
-    if (sAlertedMudCount_5C3010 >= ALIVE_COUNTOF(kDelayTable_55CF7C))
-    {
-        maxIdx = ALIVE_COUNTOF(kDelayTable_55CF7C);
-    }
-
-    if (sDelayIdx_5C3014 >= maxIdx)
+    if (sDelayIdx_5C3014 >= ALIVE_COUNTOF(kDelayTable_55CF7C))
     {
         sDelayIdx_5C3014 = 0;
     }
