@@ -22,7 +22,7 @@ EXPORT RollingBallStopper* RollingBallStopper::ctor_43BCE0(Path_RollingBallStopp
     
     field_114_switch_on_id = pTlv->field_18_id_on;
 
-    if (pTlv->field_1A_scale_background == Scale_short::eHalf_1)
+    if (pTlv->field_1A_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_C6_scale = 0;
