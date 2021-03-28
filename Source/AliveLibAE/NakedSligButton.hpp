@@ -10,7 +10,7 @@ struct Path_NakedSligButton : public Path_TLV
 {
     Scale_short field_10_scale;
     __int16 field_12_id;
-    SwitchOp field_14_id_action;
+    SwitchOp field_14_action;
     __int16 field_16_on_sound;
     __int16 field_18_off_sound;
     __int16 field_1A_sound_direction;
@@ -31,7 +31,7 @@ private:
 private:
     int field_F4_tlvInfo;
     __int16 field_F8_id;
-    SwitchOp field_FA_id_action;
+    SwitchOp field_FA_action;
     __int16 field_FC_on_sound;
     __int16 field_FE_off_sound;
     __int16 field_100_sound_direction;

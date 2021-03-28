@@ -346,7 +346,7 @@ namespace AETlvs
             ADD("Hidden", mTlv.field_14_hidden);
         }
     };
-
+    // TODO: finish
     struct Path_Door : public TlvObjectBaseAE<::Path_Door>
     {
         CTOR_AE(Path_Door, "Door", TlvTypes::Door_5)
@@ -1061,7 +1061,7 @@ namespace AETlvs
             ADD("Movie ID", mTlv.field_18_movie_id);
         }
     };
-
+    // TODO: finish
     struct Path_Pulley : public TlvObjectBaseAE<::Path_Pulley>
     {
         CTOR_AE(Path_Pulley, "Pulley", TlvTypes::Pulley_21)
@@ -1070,7 +1070,7 @@ namespace AETlvs
             ADD("unknown2", mTlv.field_12_unknown2);
         }
     };
-
+    // TODO: finish
     struct Path_FlyingSlig : public TlvObjectBaseAE<::Path_FlyingSlig>
     {
         CTOR_AE(Path_FlyingSlig, "FlyingSlig", TlvTypes::FlyingSlig_82)
@@ -1093,7 +1093,7 @@ namespace AETlvs
             ADD("persistant", mTlv.field_10_data.field_1E_persistant);
         }
     };
-
+    // TODO: finish
     struct Path_FlyingSligSpawner : public TlvObjectBaseAE<::Path_FlyingSligSpawner>
     {
         CTOR_AE(Path_FlyingSligSpawner, "FlyingSligSpawner", TlvTypes::FlyingSligSpawner_92)
@@ -1116,7 +1116,7 @@ namespace AETlvs
             ADD("persistant", mTlv.field_10.field_1E_persistant);
         }
     };
-
+    // TODO: finish
     struct Path_DeathDrop : public TlvObjectBaseAE<::Path_DeathDrop>
     {
         CTOR_AE(Path_DeathDrop, "DeathDrop", TlvTypes::DeathDrop_4)
@@ -1129,7 +1129,7 @@ namespace AETlvs
             ADD("not_used6", mTlv.field_1A_unknown2);
         }
     };
-
+    // TODO: finish
     struct Path_SligSpawner : public TlvObjectBaseAE<::Path_SligSpawner>
     {
         CTOR_AE(Path_SligSpawner, "SligSpawner", TlvTypes::SligSpawner_37)
@@ -1168,7 +1168,7 @@ namespace AETlvs
             ADD("spawn_many", mTlv.spawn_many);
         }
     };
-
+    // TODO: finish
     struct Path_SligLeftBound : public TlvObjectBaseAE<::Path_SligLeftBound>
     {
         CTOR_AE(Path_SligLeftBound, "SligLeftBound", TlvTypes::SligBoundLeft_32)
@@ -1177,7 +1177,7 @@ namespace AETlvs
             ADD("disabled_resources", mTlv.field_12_disabled_resources);
         }
     };
-
+    // TODO: finish
     struct Path_SligRightBound : public TlvObjectBaseAE<::Path_SligRightBound>
     {
         CTOR_AE(Path_SligRightBound, "SligRightBound", TlvTypes::SligBoundRight_45)
@@ -1186,7 +1186,7 @@ namespace AETlvs
             ADD("disabled_resources", mTlv.field_12_disabled_resources);
         }
     };
-
+    // TODO: finish
     struct Path_SligPersist : public TlvObjectBaseAE<::Path_SligPersist>
     {
         CTOR_AE(Path_SligPersist, "SligPersist", TlvTypes::SligPersist_46)
@@ -1203,7 +1203,7 @@ namespace AETlvs
             // Empty
         }
     };
-
+    // TODO: finish
     struct Path_WellLocal : public TlvObjectBaseAE<::Path_WellLocal>
     {
         CTOR_AE(Path_WellLocal, "WellLocal", TlvTypes::LocalWell_8)
@@ -1232,7 +1232,7 @@ namespace AETlvs
             ADD("num_brews", mTlv.field_10_num_brews);
         }
     };
-
+    // TODO: finish
     struct Path_Grinder : public TlvObjectBaseAE<::Path_Grinder>
     {
         void AddTypes(TypesCollection& types) override
@@ -1280,12 +1280,12 @@ namespace AETlvs
             ADD("Persist Offscreen", mTlv.field_18_persist_offscreen);
         }
     };
-
+    // TODO: finish
     struct Path_Slog : public TlvObjectBaseAE<::Path_Slog>
     {
         CTOR_AE(Path_Slog, "Slog", TlvTypes::Slog_16)
         {
-            ADD("scale", mTlv.field_10_scale);
+            ADD("Scale", mTlv.field_10_scale);
             ADD("direction", mTlv.field_12_direction);
             ADD("asleep", mTlv.field_14_asleep);
             ADD("wake_up_anger", mTlv.field_16_wake_up_anger);
@@ -1297,7 +1297,7 @@ namespace AETlvs
             ADD("bone_eating_time", mTlv.field_22_bone_eating_time);
         }
     };
-
+    // TODO: finish
     struct Path_ResetSwitchRange : public TlvObjectBaseAE<::Path_ResetSwitchRange>
     {
         CTOR_AE(Path_ResetSwitchRange, "ResetSwitchRange", TlvTypes::ResetSwitchRange_76)
@@ -1422,15 +1422,15 @@ namespace AETlvs
     {
         CTOR_AE(Path_ExplosionSet, "ExplosionSet", TlvTypes::ExplosionSet_95)
         {
-            ADD("start_instantly", mTlv.field_10_start_instantly);
-            ADD("id", mTlv.field_12_id);
-            ADD("big_rocks", mTlv.field_14_big_rocks);
-            ADD("start_delay", mTlv.field_16_start_delay);
-            ADD("direction", mTlv.field_18_direction);
-            ADD("delay", mTlv.field_1A_delay);
-            ADD("grid_spacing", mTlv.field_1C_grid_spacing);
-            ADD("scale1", mTlv.field_1E_scale);
-            ADD("scale2", mTlv.field_20_scale);
+            ADD("Start Enabled", mTlv.field_10_bStart_enabled);
+            ADD("Switch ID", mTlv.field_12_switch_id);
+            ADD("Big Rocks", mTlv.field_14_big_rocks);
+            ADD("Start Delay", mTlv.field_16_start_delay);
+            ADD("Direction", mTlv.field_18_direction);
+            ADD("Start Delay (Frames)", mTlv.field_1A_start_delay);
+            ADD("Grid Spacing", mTlv.field_1C_grid_spacing);
+            ADD("Increasing Grid Spacing", mTlv.field_1E_increasing_grid_spacing);
+            ADD("Scale", mTlv.field_20_scale);
         }
     };
 
@@ -1636,7 +1636,7 @@ namespace AETlvs
             ADD("Reset On Death", mTlv.field_1A_reset_on_death);
         }
     };
-
+    // TODO: finish
     struct Path_SligGetPants : public TlvObjectBaseAE<::Path_SligGetPants>
     {
         CTOR_AE(Path_SligGetPants, "SligGetPants", TlvTypes::SligGetPants_104)
@@ -1676,7 +1676,7 @@ namespace AETlvs
 
         }
     };
-
+    // TODO: finish
     struct Path_SligGetWings : public TlvObjectBaseAE<::Path_SligGetWings>
     {
         CTOR_AE(Path_SligGetWings, "SligGetWings", TlvTypes::SligGetWings_105)
@@ -1704,12 +1704,12 @@ namespace AETlvs
     {
         CTOR_AE(Path_NakedSligButton, "NakedSligButton", TlvTypes::NakedSligButton_107)
         {
-            ADD("scale", mTlv.field_10_scale);
-            ADD("id", mTlv.field_12_id);
-            ADD("id_action", mTlv.field_14_id_action);
-            ADD("on_sound", mTlv.field_16_on_sound);
-            ADD("off_sound", mTlv.field_18_off_sound);
-            ADD("sound_direction", mTlv.field_1A_sound_direction);
+            ADD("Scale", mTlv.field_10_scale);
+            ADD("ID", mTlv.field_12_id);
+            ADD("Action", mTlv.field_14_action);
+            ADD("On Sound", mTlv.field_16_on_sound);
+            ADD("Off Sound", mTlv.field_18_off_sound);
+            ADD("Sound Direction", mTlv.field_1A_sound_direction); // TODO: enum
         }
     };
 
@@ -1727,10 +1727,10 @@ namespace AETlvs
                     {::GlukkonTypes::Normal_5, "normal_5"},
                 });
         }
-
+        // TODO: finish
         CTOR_AE(Path_Glukkon, "Glukkon", TlvTypes::Glukkon_73)
         {
-            ADD("scale", mTlv.field_10_scale);
+            ADD("Scale", mTlv.field_10_scale);
             ADD("start_direction", mTlv.field_12_start_direction);
             ADD("default_behavior", mTlv.field_14_default_behaviour);
             ADD("pre_alarmed_delay", mTlv.field_16_pre_alarmed_delay);
@@ -1872,7 +1872,7 @@ namespace AETlvs
             ADD("padding2", mTlv.padding2);
         }
     };
-
+    // TODO: finish
     struct Path_Scrab : public TlvObjectBaseAE<::Path_Scrab>
     {
         CTOR_AE(Path_Scrab, "Scrab", TlvTypes::Scrab_41)
@@ -1893,7 +1893,7 @@ namespace AETlvs
             ADD("kill_close_fleech", mTlv.field_2A_kill_close_fleech);
         }
     };
-
+    // TODO: finish
     struct Path_ScrabSpawner : public TlvObjectBaseAE<::Path_ScrabSpawner>
     {
         CTOR_AE(Path_ScrabSpawner, "ScrabSpawner", TlvTypes::ScrabSpawner_102)

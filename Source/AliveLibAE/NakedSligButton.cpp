@@ -42,7 +42,7 @@ NakedSligButton* NakedSligButton::ctor_4148F0(Path_NakedSligButton* pTlv, int tl
     }
 
     field_F8_id = pTlv->field_12_id;
-    field_FA_id_action = pTlv->field_14_id_action;
+    field_FA_action = pTlv->field_14_action;
     field_FC_on_sound = pTlv->field_16_on_sound;
     field_FE_off_sound = pTlv->field_18_off_sound;
 
@@ -105,7 +105,7 @@ void NakedSligButton::vUpdate_414B20()
         Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
 
         const int old_switch_state = SwitchStates_Get_466020(field_F8_id);
-        SwitchStates_Do_Operation_465F00(field_F8_id, field_FA_id_action);
+        SwitchStates_Do_Operation_465F00(field_F8_id, field_FA_action);
         const int new_switch_state = SwitchStates_Get_466020(field_F8_id);
 
         if (old_switch_state != new_switch_state)
