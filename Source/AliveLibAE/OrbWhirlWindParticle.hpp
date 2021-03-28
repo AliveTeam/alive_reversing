@@ -25,7 +25,11 @@ private:
     EXPORT void SetActive_4E4340(unsigned __int8 active);
 
 private:
-    __int16 field_4_flags;
+    enum Flags_4
+    {
+        eBit1_is_active = 0x1
+    };
+    BitField16<Flags_4> field_4_flags;
     __int16 field_6_padding;
     Animation field_8_Anim;
     FP field_A0_xpos_render_offset;

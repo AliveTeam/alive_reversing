@@ -64,8 +64,16 @@ Switch* Switch::ctor_4D5860(Path_Switch* pTlv, DWORD tlvInfo)
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_F4_trigger_id = pTlv->field_1A_trigger_id;
     field_102_target_action = pTlv->field_10_target_action;
-    field_100_flags = 0;
-    field_100_flags = 2 * (pTlv->field_1C_persist_offscreen == Choice_short::eYes_1);
+    field_100_flags.Clear(Flags_100::eBit1_switch_anim_left_direction);
+
+    if (pTlv->field_1C_persist_offscreen == Choice_short::eYes_1)
+    {
+        field_100_flags.Set(Flags_100::eBit2_persist_offscreen);
+    }
+    else
+    {
+        field_100_flags.Clear(Flags_100::eBit2_persist_offscreen);
+    }
 
     if (pTlv->field_12_scale == Scale_short::eHalf_1)
     {
@@ -132,7 +140,7 @@ Switch* Switch::vdtor_4D5AD0(signed int flags)
 
 void Switch::vScreenChanged_4D5B90()
 {
-    if (!(field_100_flags & 2) ||
+    if (!field_100_flags.Get(Flags_100::eBit2_persist_offscreen) ||
         gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level ||
         gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path ||
         gMap_5C3030.field_22_overlayID != gMap_5C3030.GetOverlayId_480710())
@@ -172,7 +180,7 @@ void Switch::vUpdate_4D5C00()
 
             field_F8_state = SwitchState::eFinished_2;
 
-            if (field_100_flags & 1)
+            if (field_100_flags.Get(Flags_100::eBit1_switch_anim_left_direction))
             {
 				const AnimRecord& animRec = AnimRec(AnimId::Switch_Pull_Left_B);
                 field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
@@ -318,13 +326,13 @@ __int16 Switch::vPull_4D6050(__int16 bLeftDirection)
     {
         const AnimRecord& animRec = AnimRec(AnimId::Switch_Pull_Left_A);
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
-        field_100_flags |= 1u;
+        field_100_flags.Set(Flags_100::eBit1_switch_anim_left_direction);
     }
     else
     {
         const AnimRecord& animRec = AnimRec(AnimId::Switch_Pull_Right_A);
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
-        field_100_flags &= ~1u;
+        field_100_flags.Clear(Flags_100::eBit1_switch_anim_left_direction);
     }
     
     return 1;

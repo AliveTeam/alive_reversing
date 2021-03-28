@@ -49,7 +49,11 @@ private:
     int field_34_last_switch_on_time;
     int field_38_all_switches_on_or_off_time;
     int field_3C_delay;
-    __int16 field_40_flags_is_on;
+    enum Flags_40
+    {
+        eBit1_is_on = 0x1,
+    };
+    BitField16<Flags_40> field_40_flags;
     //__int16 field_42; // pad
 };
 ALIVE_ASSERT_SIZEOF(MultiSwitchController, 0x44);

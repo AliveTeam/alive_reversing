@@ -63,7 +63,12 @@ private:
     __int16 field_F6_padding;
     SwitchState field_F8_state;
     int field_FC_tlvInfo;
-    __int16 field_100_flags;
+    enum Flags_100
+    {
+        eBit1_switch_anim_left_direction = 0x1,
+        eBit2_persist_offscreen = 0x2,
+    };
+    BitField16<Flags_100> field_100_flags;
     SwitchOp field_102_target_action;
     SwitchSoundType field_104_on_sound;
     SwitchSoundType field_106_off_sound;
