@@ -7,14 +7,14 @@
 
 struct Path_ExplosionSet : public Path_TLV
 {
-    __int16 field_10_start_instantly;
-    __int16 field_12_id;
-    __int16 field_14_big_rocks;
+    Choice_short field_10_bStart_enabled;
+    __int16 field_12_switch_id;
+    Choice_short field_14_big_rocks;
     __int16 field_16_start_delay;
-    __int16 field_18_direction;
-    __int16 field_1A_delay;
+    XDirection_short field_18_direction;
+    __int16 field_1A_start_delay;
     __int16 field_1C_grid_spacing;
-    __int16 field_1E_scale;
+    __int16 field_1E_increasing_grid_spacing;
     Scale_short field_20_scale;
     __int16 field_22_padding;
 };
@@ -50,19 +50,19 @@ private:
     Prim_ScreenOffset field_20[2];
     __int16 field_40;
     __int16 field_42;
-    __int16 field_44_start_delay;
-    __int16 field_46;
+    __int16 field_44_start_delay_counter;
+    __int16 field_46_spacing_multiplicator;
     PSX_RECT field_48_tlv_rect;
     FP field_50_scale;
     __int16 field_54_switch_id;
     __int16 field_56_delay;
     __int16 field_58_grid_spacing;
-    __int16 field_5A_scale;
+    __int16 field_5A_increasing_grid_spacing;
 
     enum Flags_5C
     {
-        eBit1 = 0x1,
-        eBit2 = 0x2,
+        eBit1_big_rocks = 0x1,
+        eBit2_flipX = 0x2,
         eBit3 = 0x4,
         eBit4 = 0x8,
         eBit5 = 0x10,

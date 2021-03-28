@@ -454,7 +454,7 @@ void Door::vUpdate_41EBE0()
                 }
                 else
                 {
-                    const AnimRecord& animRec = AnimRec(sDoorFrameTable[static_cast<int>(gMap_5C3030.field_0_current_level)][0]);
+                    const AnimRecord& animRec = AnimRec(sDoorFrameTable[static_cast<int>(gMap_5C3030.field_0_current_level)][1]);
                     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
                 }
 

@@ -32,8 +32,8 @@ ExplosionSet* ExplosionSet::ctor_414CA0()
         field_50_scale = FP_FromInteger(1);
         field_40 = 0;
         field_42 = 1;
-        field_44_start_delay = 0;
-        field_46 = 0;
+        field_44_start_delay_counter = 0;
+        field_46_spacing_multiplicator = 0;
         bEnabled_5C1BB6 = FALSE;
         field_5C_flags.Clear(Flags_5C::eBit3);
         gObjList_drawables_5C1124->Push_Back(this);
@@ -78,22 +78,22 @@ void ExplosionSet::Init_4151D0(Path_ExplosionSet* pTlv)
         field_50_scale = FP_FromDouble(0.5);
     }
 
-    field_44_start_delay = pTlv->field_16_start_delay;
+    field_44_start_delay_counter = pTlv->field_16_start_delay;
 
-    field_5C_flags.Set(Flags_5C::eBit1, pTlv->field_14_big_rocks & 1);
-    field_5C_flags.Set(Flags_5C::eBit2, pTlv->field_18_direction & 1);
-    field_56_delay = pTlv->field_1A_delay;
+    field_5C_flags.Set(Flags_5C::eBit1_big_rocks, pTlv->field_14_big_rocks == Choice_short::eYes_1);
+    field_5C_flags.Set(Flags_5C::eBit2_flipX, pTlv->field_18_direction == XDirection_short::eRight_1);
+    field_56_delay = pTlv->field_1A_start_delay;
     field_58_grid_spacing = FP_GetExponent(FP_FromInteger(pTlv->field_1C_grid_spacing) * ScaleToGridSize_4498B0(field_50_scale));
-    field_5A_scale = FP_GetExponent(FP_FromInteger(pTlv->field_1E_scale) * ScaleToGridSize_4498B0(field_50_scale));
-    field_54_switch_id = pTlv->field_12_id;
+    field_5A_increasing_grid_spacing = FP_GetExponent(FP_FromInteger(pTlv->field_1E_increasing_grid_spacing) * ScaleToGridSize_4498B0(field_50_scale));
+    field_54_switch_id = pTlv->field_12_switch_id;
 
     if (!bEnabled_5C1BB6)
     {
-        bEnabled_5C1BB6 = pTlv->field_10_start_instantly;
+        bEnabled_5C1BB6 = static_cast<short>(pTlv->field_10_bStart_enabled);
     }
 
     field_5C_flags.Set(Flags_5C::eBit3);
-    field_46 = 0;
+    field_46_spacing_multiplicator = 0;
 }
 
 ExplosionSet* ExplosionSet::vdtor_414D80(signed int flags)
@@ -190,31 +190,31 @@ void ExplosionSet::vUpdate_414E30()
             field_42 = -field_42;
         }
 
-        if (field_5C_flags.Get(Flags_5C::eBit3) && field_5C_flags.Get(Flags_5C::eBit1))
+        if (field_5C_flags.Get(Flags_5C::eBit3) && field_5C_flags.Get(Flags_5C::eBit1_big_rocks))
         {
-            if (field_44_start_delay > 0)
+            if (field_44_start_delay_counter > 0)
             {
-                field_44_start_delay--;
+                field_44_start_delay_counter--;
                 return;
             }
 
             short xpos = 0;
-            if (field_5C_flags.Get(Flags_5C::eBit2))
+            if (field_5C_flags.Get(Flags_5C::eBit2_flipX))
             {
-                xpos = field_48_tlv_rect.w + field_48_tlv_rect.x - (field_46 * field_5A_scale) - field_58_grid_spacing;
+                xpos = field_48_tlv_rect.w + field_48_tlv_rect.x - (field_46_spacing_multiplicator * field_5A_increasing_grid_spacing) - field_58_grid_spacing;
                 if (xpos <= field_48_tlv_rect.x)
                 {
                     xpos = field_48_tlv_rect.w + field_48_tlv_rect.x - field_58_grid_spacing;
-                    field_46 = 0;
+                    field_46_spacing_multiplicator = 0;
                 }
             }
             else
             {
-                xpos = field_58_grid_spacing + field_48_tlv_rect.x + (field_46 * field_5A_scale);
+                xpos = field_58_grid_spacing + field_48_tlv_rect.x + (field_46_spacing_multiplicator * field_5A_increasing_grid_spacing);
                 if (xpos >= field_48_tlv_rect.x + field_48_tlv_rect.w)
                 {
                     xpos = field_48_tlv_rect.x + field_58_grid_spacing;
-                    field_46 = 0;
+                    field_46_spacing_multiplicator = 0;
                 }
             }
 
@@ -224,8 +224,8 @@ void ExplosionSet::vUpdate_414E30()
                 pFallingItem->ctor_427560(xpos, field_48_tlv_rect.y, field_50_scale < FP_FromInteger(1), 0, 0, 1, 0);
             }
             
-            field_46++;
-            field_44_start_delay = field_56_delay;
+            field_46_spacing_multiplicator++;
+            field_44_start_delay_counter = field_56_delay;
 
             if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1 && Math_RandomRange_496AB0(1, 5) >= 4)
             {
