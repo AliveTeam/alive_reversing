@@ -1381,7 +1381,7 @@ namespace AOTlvs
         CTOR_AO(Path_RollingBallStopper, "RollingBallStopper", AO::TlvTypes::RollingBallStopper_59)
         {
             ADD("id_on", mTlv.field_18_id_on);
-            ADD("scale", mTlv.field_1A_scale_background);
+            ADD("scale", mTlv.field_1A_scale);
             ADD("id_off", mTlv.field_1C_id_off);
             ADD("direction", mTlv.field_1E_direction);
         }

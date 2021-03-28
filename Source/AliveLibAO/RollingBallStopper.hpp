@@ -12,7 +12,7 @@ class PathLine;
 struct Path_RollingBallStopper : public Path_TLV
 {
     __int16 field_18_id_on;
-    Scale_short field_1A_scale_background;
+    Scale_short field_1A_scale;
     __int16 field_1C_id_off;
     XDirection_short field_1E_direction;
 };
