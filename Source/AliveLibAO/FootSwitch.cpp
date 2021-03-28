@@ -22,7 +22,7 @@ FootSwitch* FootSwitch::ctor_4887F0(Path_FootSwitch* pTlv, int tlvInfo)
     field_10_anim.field_C_layer = Layer::eLayer_25;
 
     field_EA_id = pTlv->field_18_id;
-    if (pTlv->field_1A_scale == 1)
+    if (pTlv->field_1A_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_C6_scale = 0;

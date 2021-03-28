@@ -3,6 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 namespace AO {
 
@@ -11,9 +12,9 @@ class PathLine;
 struct Path_RollingBallStopper : public Path_TLV
 {
     __int16 field_18_id_on;
-    __int16 field_1A_scale_background;
+    Scale_short field_1A_scale;
     __int16 field_1C_id_off;
-    __int16 field_1E_direction;
+    XDirection_short field_1E_direction;
 };
 ALIVE_ASSERT_SIZEOF(Path_RollingBallStopper, 0x20);
 

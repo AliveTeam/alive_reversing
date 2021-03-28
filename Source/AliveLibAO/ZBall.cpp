@@ -100,7 +100,7 @@ ZBall* ZBall::ctor_478590(Path_ZBall* pTlv, int tlvInfo)
         field_10_anim.vDecode();
     }
 
-    if (pTlv->field_1A_scale != 0)
+    if (pTlv->field_1A_scale != Scale_short::eFull_0)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_C6_scale = 0;

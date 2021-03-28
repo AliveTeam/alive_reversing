@@ -3,6 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 namespace AO {
 
@@ -23,7 +24,7 @@ struct Path_ZBall : public Path_TLV
     };
 
     StartPos field_18_start_pos;
-    __int16 field_1A_scale;
+    Scale_short field_1A_scale;
     Speed field_1C_speed;
     __int16 field_1E_pad;
 };

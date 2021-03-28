@@ -82,14 +82,14 @@ RollingBall* RollingBall::ctor_4578C0(Path_RollingBall* pTlv, int tlvInfo)
 
     field_10_anim.field_C_layer = Layer::eLayer_31;
 
-    if (pTlv->field_18_scale == 1)
+    if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_10_anim.field_C_layer = Layer::eLayer_12;
         field_C6_scale = 0;
     }
 
-    if (!pTlv->field_1A_roll_direction)
+    if (pTlv->field_1A_roll_direction == XDirection_short::eLeft_0)
     {
         field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
     }
