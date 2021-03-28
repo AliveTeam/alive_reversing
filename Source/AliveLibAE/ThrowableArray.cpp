@@ -125,7 +125,9 @@ ThrowableArray* ThrowableArray::ctor_49A630()
     field_6_flags.Clear(BaseGameObject::eUpdatable_Bit2);
     field_20_count = 0;
     gpThrowableArray_5D1E2C = this;
-    field_22_flags &= ~7u;
+    field_22_flags.Clear(Flags_22::eBit1_Unknown);
+    field_22_flags.Clear(Flags_22::eBit2_Unknown);
+    field_22_flags.Clear(Flags_22::eBit3_Unknown);
     return this;
 }
 
@@ -153,10 +155,10 @@ void ThrowableArray::Remove_49AA00(__int16 count)
     field_20_count -= count;
     if (field_20_count > 0)
     {
-        if (field_22_flags & 1 && field_22_flags & 2)
+        if (field_22_flags.Get(Flags_22::eBit1_Unknown) && field_22_flags.Get(Flags_22::eBit2_Unknown))
         {
             FreeResourceArray_49AEC0(&field_10_resources_array);
-            field_22_flags &= ~2u;
+            field_22_flags.Clear(Flags_22::eBit2_Unknown);
         }
     }
     else
@@ -167,11 +169,11 @@ void ThrowableArray::Remove_49AA00(__int16 count)
 
 void ThrowableArray::vUpdate_49AA50()
 {
-    if (field_22_flags & 1)
+    if (field_22_flags.Get(Flags_22::eBit1_Unknown))
     {
         LoadRockTypes_49AB30(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path);
         Add_49A7A0(0);
-        field_22_flags &= ~1u;
+        field_22_flags.Clear(Flags_22::eBit1_Unknown);
         field_6_flags.Clear(BaseGameObject::eUpdatable_Bit2);
     }
 }
@@ -190,10 +192,10 @@ void ThrowableArray::vScreenChange_49AAA0()
     {
         if (throwable_types_55FAFC[gMap_5C3030.field_22_overlayID] != throwable_types_55FAFC[gMap_5C3030.GetOverlayId_480710()])
         {
-            if (!(field_22_flags & 1))
+            if (!(field_22_flags.Get(Flags_22::eBit1_Unknown)))
             {
                 field_6_flags.Set(BaseGameObject::eUpdatable_Bit2);
-                field_22_flags |= 1;
+                field_22_flags.Set(Flags_22::eBit1_Unknown);
                 Remove_49AA00(0);
             }
         }
@@ -214,7 +216,7 @@ void ThrowableArray::Add_49A7A0(__int16 count)
 
     if (field_20_count == 0)
     {
-        if (!(field_22_flags & 4))
+        if (!field_22_flags.Get(Flags_22::eBit3_Unknown))
         {
             BYTE** ppRes1 = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbepickResID, 1, 0);
             if (ppRes1)
@@ -228,13 +230,13 @@ void ThrowableArray::Add_49A7A0(__int16 count)
                 field_24_throwables.Push_Back_40CAF0(ppRes2);
             }
 
-            field_22_flags |= 4u;
+            field_22_flags.Set(Flags_22::eBit3_Unknown);
         }
     }
 
-    if (field_20_count == 0 || (field_22_flags & 1))
+    if (field_20_count == 0 || field_22_flags.Get(Flags_22::eBit1_Unknown))
     {
-        if (!(field_22_flags & 2))
+        if (!field_22_flags.Get(Flags_22::eBit2_Unknown))
         {
             switch (throwable_types_55FAFC[gMap_5C3030.field_22_overlayID])
             {
@@ -270,7 +272,7 @@ void ThrowableArray::Add_49A7A0(__int16 count)
                 break;
             }
 
-            field_22_flags |= 2u;
+            field_22_flags.Set(Flags_22::eBit2_Unknown);
         }
     }
 

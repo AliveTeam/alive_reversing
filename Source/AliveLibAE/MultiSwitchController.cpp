@@ -25,7 +25,7 @@ void MultiSwitchController::VScreenChanged()
 MultiSwitchController* MultiSwitchController::ctor_4D60E0(Path_MultiSwitchController* pTlv, DWORD tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
-    field_40_flags_is_on &= ~1u;
+    field_40_flags.Clear(Flags_40::eBit1_is_on);
     field_C_objectId = tlvInfo;
     field_30_tlvInfo = tlvInfo;
     SetVTable(this, 0x547AA8); // vTbl_MultiSwitchController_547AA8
@@ -82,7 +82,7 @@ void MultiSwitchController::vUpdate_4D6250()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (field_40_flags_is_on & 1)
+    if (field_40_flags.Get(Flags_40::eBit1_is_on))
     {
         WaitingForAllOff_4D65B0();
     }
@@ -170,7 +170,7 @@ EXPORT void MultiSwitchController::WaitingForAllOn_4D6290()
         if (field_38_all_switches_on_or_off_time - field_34_last_switch_on_time <= field_3C_delay)
         {
             SwitchStates_Do_Operation_465F00(field_2C_id, field_2E_operation);
-            field_40_flags_is_on |= 1u;
+            field_40_flags.Set(Flags_40::eBit1_is_on);
             field_34_last_switch_on_time = 0;
             field_38_all_switches_on_or_off_time = 0;
         }
@@ -313,7 +313,7 @@ EXPORT void MultiSwitchController::WaitingForAllOff_4D65B0()
         if (field_38_all_switches_on_or_off_time - field_34_last_switch_on_time <= field_3C_delay)
         {
             SwitchStates_Do_Operation_465F00(field_2C_id, field_2E_operation);
-            field_40_flags_is_on &= ~1u;
+            field_40_flags.Clear(Flags_40::eBit1_is_on);
             field_34_last_switch_on_time = 0;
         }
         // TODO: OG bug, why is this always reset ??

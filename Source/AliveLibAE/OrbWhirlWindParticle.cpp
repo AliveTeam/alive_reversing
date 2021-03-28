@@ -57,7 +57,7 @@ OrbWhirlWindParticle* OrbWhirlWindParticle::ctor_4E40C0(FP xpos, FP ypos, FP sca
 
 int OrbWhirlWindParticle::IsActive_4E4370()
 {
-    return field_4_flags & 1;
+    return field_4_flags.Get(Flags_4::eBit1_is_active);
 }
 
 void OrbWhirlWindParticle::Spin_4E4A10(FP xpos, FP ypos, FP scale, BaseGameObject* pObj)
@@ -276,10 +276,10 @@ void OrbWhirlWindParticle::SetActive_4E4340(unsigned __int8 active)
 {
     if (active)
     {
-        field_4_flags |= 1;
+        field_4_flags.Set(Flags_4::eBit1_is_active);
     }
     else
     {
-        field_4_flags &= ~1;
+        field_4_flags.Clear(Flags_4::eBit1_is_active);
     }
 }

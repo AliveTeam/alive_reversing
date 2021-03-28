@@ -36,7 +36,13 @@ public:
 public:
     __int16 field_20_count;
 private:
-    __int16 field_22_flags;
+    enum Flags_22
+    {
+        eBit1_Unknown = 0x1,
+        eBit2_Unknown = 0x2,
+        eBit3_Unknown = 0x4,
+    };
+    BitField16<Flags_22> field_22_flags;
     DynamicArrayT<BYTE*> field_24_throwables;
 };
 ALIVE_ASSERT_SIZEOF(ThrowableArray, 0x30);
