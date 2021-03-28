@@ -53,8 +53,8 @@ Explosion* Explosion::ctor_458B80(FP xpos, FP ypos, FP scale)
 
     PSX_RECT rect = {};
     rect.x = FP_GetExponent(FP_FromInteger(-10) * scale);
-    rect.y = FP_GetExponent(FP_FromInteger(10) * scale);
-    rect.w = FP_GetExponent(FP_FromInteger(-10) * scale);
+    rect.y = FP_GetExponent(FP_FromInteger(-10) * scale);
+    rect.w = FP_GetExponent(FP_FromInteger(10) * scale);
     rect.h = FP_GetExponent(FP_FromInteger(10) * scale);
 
     DealBlastDamage_459160(&rect);

@@ -61,8 +61,8 @@ Explosion* Explosion::ctor_4A1200(FP xpos, FP ypos, FP scale, __int16 bSmall)
 
     PSX_RECT rect = {};
     rect.x = FP_GetExponent(FP_FromInteger(-10) * field_FC_explosion_size);
-    rect.y = FP_GetExponent(FP_FromInteger(10) * field_FC_explosion_size);
-    rect.w = FP_GetExponent(FP_FromInteger(-10) * field_FC_explosion_size);
+    rect.y = FP_GetExponent(FP_FromInteger(-10) * field_FC_explosion_size);
+    rect.w = FP_GetExponent(FP_FromInteger(10) * field_FC_explosion_size);
     rect.h = FP_GetExponent(FP_FromInteger(10) * field_FC_explosion_size);
 
     DealBlastDamage_4A1BD0(&rect);
