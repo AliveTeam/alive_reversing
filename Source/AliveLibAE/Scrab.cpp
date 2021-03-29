@@ -1253,7 +1253,7 @@ __int16 Scrab::AI_ChasingEnemy_1_4A6470()
     }
 
     LiftPoint* pLiftPoint = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
-    if (pLiftPoint->field_4_typeId != Types::eLiftPoint_78)
+    if (pLiftPoint && pLiftPoint->field_4_typeId != Types::eLiftPoint_78)
     {
         pLiftPoint = nullptr; //OG bug fix: Before it could use the pointer as a LiftPoint even if it, in fact, wasn't one
     }
