@@ -1253,9 +1253,9 @@ __int16 Scrab::AI_ChasingEnemy_1_4A6470()
     }
 
     LiftPoint* pLiftPoint = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
-    if (!pLiftPoint || pLiftPoint->field_4_typeId != Types::eLiftPoint_78)
+    if (pLiftPoint->field_4_typeId != Types::eLiftPoint_78)
     {
-        pLiftPoint = nullptr;
+        pLiftPoint = nullptr; //OG bug fix: Before it could use the pointer as a LiftPoint even if it, in fact, wasn't one
     }
     if (pLiftPoint && !pLiftPoint->vOnAnyFloor_461920() && field_11C_sub_state != AI_ChasingEnemy::eState1_Panic_4)
     {
@@ -1635,7 +1635,7 @@ __int16 Scrab::AI_ChasingEnemy_State_Running_2(BaseAliveGameObject* pObj)
         {
             if (field_106_current_motion != eScrabMotions::M_JumpToFall_8_4A9220)
             {
-                //A patch workaround
+                //A patch workaround: This situation should probably never happen in the first place, but since it does...
                 if (field_106_current_motion == eScrabMotions::M_Stand_0_4A8220 && field_108_next_motion == -1)
                 {
                     field_108_next_motion = eScrabMotions::M_Run_2_4A89C0;
