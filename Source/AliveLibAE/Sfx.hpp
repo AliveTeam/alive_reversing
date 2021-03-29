@@ -119,7 +119,7 @@ enum SoundEffect
     ScrabSpawn_111 = 111,
     GlukkonSpawn_112 = 112,
     FlyingSligSpawn_113 = 113,
-    SligSpawn_114 = 144,
+    SligSpawn_114 = 114,
     SlogSpawn_115 = 115,
     BrewMachineUseStart_116 = 116,
     BrewMachineUseMid_117 = 117,
