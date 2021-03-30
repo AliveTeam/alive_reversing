@@ -25,8 +25,8 @@ ALIVE_ASSERT_SIZEOF(MusicController_Record3_Sub, 4);
 struct MusicController_Record3
 {
     MusicController_Record3_Sub field_0[3];
-    BYTE field_C;
-    BYTE field_D;
+    BYTE field_C_repeat_count;
+    BYTE field_D_padding;
 };
 ALIVE_ASSERT_SIZEOF(MusicController_Record3, 0xE);
 
@@ -53,17 +53,22 @@ const MusicController_Record3 stru_55D1E0[17] =
     { { { -1, 111, 111 },     { -1, 0, 0 },         { -1, 0, 0     } }, 1u, 0u }
 };
 
+enum class AmbientMusic : char
+{
+    eOff = 0,
+    eOn = 1
+};
 
 struct MusicController_Record
 {
-    signed char field_0;
-    signed char field_1;
-    signed char field_2;
-    signed char field_3;
+    signed char field_0_seq_id_idx;
+    signed char field_1_unused;
+    AmbientMusic field_2_bAmbient_music_enabled;
+    signed char field_3_padding;
 };
 ALIVE_ASSERT_SIZEOF(MusicController_Record, 0x4);
 
-const BYTE byte_55D468[17] =
+const BYTE unused_55D468[17] =
 {
     16u,
     20u,
@@ -84,130 +89,130 @@ const BYTE byte_55D468[17] =
     16u
 };
 
-const MusicController_Record stru_55D2D0[17] =
+const MusicController_Record tension_55D2D0[17] =
 {
-    { 111u, 16u, 0u, 0u },
-    { 104u, 20u, 0u, 0u },
-    { 9u, 20u, 0u, 0u },
-    { 18u, 16u, 0u, 0u },
-    { 34u, 16u, 0u, 0u },
-    { 50u, 20u, 0u, 0u },
-    { 63u, 20u, 0u, 0u },
-    { 41u, 28u, 0u, 0u },
-    { 73u, 20u, 0u, 0u },
-    { 89u, 20u, 0u, 0u },
-    { 98u, 20u, 0u, 0u },
-    { 25u, 28u, 0u, 0u },
-    { 57u, 28u, 0u, 0u },
-    { 67u, 28u, 0u, 0u },
-    { 80u, 28u, 0u, 0u },
-    { 104u, 20u, 0u, 0u },
-    { -1, 1u, 1u, 0u }
+    { SeqId::BonewerkzEnderChase2_111, 16u, AmbientMusic::eOff, 0u },
+    { SeqId::BonewerkzChase2_104, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::HitBottomOfDeathPit_9, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::AbeStopIt_18, 16u, AmbientMusic::eOff, 0u },
+    { SeqId::NecrumCalm2_34, 16u, AmbientMusic::eOff, 0u },
+    { SeqId::MudomoSafeTension_50, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::MudancheePossess_63, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::NecrumSafeTension_41, 28u, AmbientMusic::eOff, 0u },
+    { SeqId::MudancheeEnderSafeTension_73, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::BarracksCalm1_89, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::BonewerkzCalm2_98, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::ParamiteNearby_25, 28u, AmbientMusic::eOff, 0u },
+    { SeqId::MudomoEnderSafeTension_57, 28u, AmbientMusic::eOff, 0u },
+    { SeqId::MudancheeEnderCalm_67, 28u, AmbientMusic::eOff, 0u },
+    { SeqId::FeecoTension2_80, 28u, AmbientMusic::eOff, 0u },
+    { SeqId::BonewerkzChase2_104, 20u, AmbientMusic::eOff, 0u },
+    { -1, 1u, AmbientMusic::eOn, 0u }
 };
 
-const MusicController_Record stru_55D314[17] =
+const MusicController_Record chase_55D314[17] =
 {
-    { 112, 16u, 0u, 0u },
-    { 105, 20u, 0u, 0u },
-    { 10, 20u, 0u, 0u },
-    { 19, 16u, 0u, 0u },
-    { 35, 16u, 0u, 0u },
-    { 51, 20u, 0u, 0u },
-    { 64, 20u, 0u, 0u },
-    { 42, 28u, 0u, 0u },
-    { 74, 20u, 0u, 0u },
-    { 90, 20u, 0u, 0u },
-    { 99, 20u, 0u, 0u },
-    { 26, 28u, 0u, 0u },
-    { 58, 28u, 0u, 0u },
-    { 68, 28u, 0u, 0u },
-    { 81, 28u, 0u, 0u },
-    { 105, 20u, 0u, 0u },
-    { -1, 1u, 1u, 0u }
+    { SeqId::BonewerkzEnderSafeTension_112, 16u, AmbientMusic::eOff, 0u },
+    { SeqId::BonewerkzSafeTension_105, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::MudokonChant1_10, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::WheelSqueak_19, 16u, AmbientMusic::eOff, 0u },
+    { SeqId::NecrumCalm1_35, 16u, AmbientMusic::eOff, 0u },
+    { SeqId::MudomoEnderCalm_51, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::MudancheeTension2_64, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::MudomoCalm3_42, 28u, AmbientMusic::eOff, 0u },
+    { SeqId::FeecoCalm3_74, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::BarracksTension_90, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::BonewerkzCalm1_99, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::SleepingFleechOffscreen_26, 28u, AmbientMusic::eOff, 0u },
+    { SeqId::MudancheeCalm3_58, 28u, AmbientMusic::eOff, 0u },
+    { SeqId::MudancheeEnderTension1_68, 28u, AmbientMusic::eOff, 0u },
+    { SeqId::FeecoChase2_81, 28u, AmbientMusic::eOff, 0u },
+    { SeqId::BonewerkzSafeTension_105, 20u, AmbientMusic::eOff, 0u },
+    { -1, 1u, AmbientMusic::eOn, 0u }
 };
 
-const MusicController_Record stru_55D358[17] =
+const MusicController_Record possessed_55D358[17] =
 {
-    { -1, 1u, 1u, 0u },
-    { 106u, 20u, 0u, 0u },
-    { 11u, 20u, 0u, 0u },
-    { 20u, 16u, 0u, 0u },
-    { 36u, 16u, 0u, 0u },
-    { 52u, 20u, 0u, 0u },
-    { 65u, 20u, 0u, 0u },
-    { 43u, 28u, 0u, 0u },
-    { 75u, 20u, 0u, 0u },
-    { 91u, 20u, 0u, 0u },
-    { 100u, 20u, 0u, 0u },
-    { 27u, 28u, 0u, 0u },
-    { 59u, 28u, 0u, 0u },
-    { 69u, 28u, 0u, 0u },
-    { 82u, 28u, 0u, 0u },
-    { 106u, 20u, 0u, 0u },
-    { -1, 1u, 1u, 0u }
+    { -1, 1u, AmbientMusic::eOn, 0u },
+    { SeqId::BonewerkzEnderCalm_106, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::MudokonChant_11, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::MainMenuParamiteAttack_20, 16u, AmbientMusic::eOff, 0u },
+    { SeqId::NecrumTension1_36, 16u, AmbientMusic::eOff, 0u },
+    { SeqId::MudomoEnderTension1_52, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::MudancheeChase2_65, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::MudomoCalm2_43, 28u, AmbientMusic::eOff, 0u },
+    { SeqId::FeecoCalm2_75, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::BarracksPossess_91, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::BonewerkzTension1_100, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::ToCalm1_27, 28u, AmbientMusic::eOff, 0u },
+    { SeqId::MudancheeCalm2_59, 28u, AmbientMusic::eOff, 0u },
+    { SeqId::MudancheePossess_69, 28u, AmbientMusic::eOff, 0u },
+    { SeqId::FeecoSafeTension_82, 28u, AmbientMusic::eOff, 0u },
+    { SeqId::BonewerkzEnderCalm_106, 20u, AmbientMusic::eOff, 0u },
+    { -1, 1u, AmbientMusic::eOn, 0u }
 };
 
-const MusicController_Record stru_55D39C[17] =
+const MusicController_Record slogTension_55D39C[17] =
 {
-    { -1, 1u, 1u, 0u },
-    { 113u, 20u, 0u, 0u },
-    { 12u, 20u, 0u, 0u },
-    { 21u, 20u, 0u, 0u },
-    { 37u, 20u, 0u, 0u },
-    { 53u, 20u, 0u, 0u },
-    { -1, 1u, 0u, 0u },
-    { 44u, 20u, 0u, 0u },
-    { 76u, 20u, 0u, 0u },
-    { 92u, 20u, 0u, 0u },
-    { -1, 1u, 0u, 0u },
-    { 28u, 20u, 0u, 0u },
-    { -1, 1u, 0u, 0u },
-    { -1, 1u, 0u, 0u },
-    { 83u, 20u, 0u, 0u },
-    { 113u, 20u, 0u, 0u },
-    { -1, 1u, 1u, 0u }
+    { -1, 1u, AmbientMusic::eOn, 0u },
+    { SeqId::BreweryCalm3_113, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::Scratching_12, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::WalkingSligOffscreen_21, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::NecrumPossess_37, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::MudomoEnderPossess_53, 20u, AmbientMusic::eOff, 0u },
+    { -1, 1u, AmbientMusic::eOff, 0u },
+    { SeqId::MudomoCalm1_44, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::FeecoCalm1_76, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::BarracksChase_92, 20u, AmbientMusic::eOff, 0u },
+    { -1, 1u, AmbientMusic::eOff, 0u },
+    { SeqId::ToCalm2_28, 20u, AmbientMusic::eOff, 0u },
+    { -1, 1u, AmbientMusic::eOff, 0u },
+    { -1, 1u, AmbientMusic::eOff, 0u },
+    { SeqId::FeecoEnderCalm_83, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::BreweryCalm3_113, 20u, AmbientMusic::eOff, 0u },
+    { -1, 1u, AmbientMusic::eOn, 0u }
 };
 
-const MusicController_Record stru_55D3E0[17] =
+const MusicController_Record slogChase_55D3E0[17] =
 {
-    { -1, 1u, 1u, 0u },
-    { 114u, 20u, 0u, 0u },
-    { 13u, 20u, 0u, 0u },
-    { 22u, 20u, 0u, 0u },
-    { 38u, 20u, 0u, 0u },
-    { 54u, 20u, 0u, 0u },
-    { -1, 1u, 0u, 0u },
-    { 45u, 20u, 0u, 0u },
-    { 77u, 20u, 0u, 0u },
-    { 93u, 20u, 0u, 0u },
-    { -1, 1u, 0u, 0u },
-    { 29u, 20u, 0u, 0u },
-    { -1, 1u, 0u, 0u },
-    { -1, 1u, 0u, 0u },
-    { 84u, 20u, 0u, 0u },
-    { 114u, 20u, 0u, 0u },
-    { -1, 1u, 1u, 0u }
+    { -1, 1u, AmbientMusic::eOn, 0u },
+    { SeqId::BreweryCalm2_114, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::Empty_13, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::SleepingSligOffscreen_22, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::NecrumChase1_38, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::MudomoEnderChase1_54, 20u, AmbientMusic::eOff, 0u },
+    { -1, 1u, AmbientMusic::eOff, 0u },
+    { SeqId::MudomoTension1_45, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::FeecoTension1_77, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::BarracksEnderCalm_93, 20u, AmbientMusic::eOff, 0u },
+    { -1, 1u, AmbientMusic::eOff, 0u },
+    { SeqId::DeathDrums_29, 20u, AmbientMusic::eOff, 0u },
+    { -1, 1u, AmbientMusic::eOff, 0u },
+    { -1, 1u, AmbientMusic::eOff, 0u },
+    { SeqId::FeecoEnderTension_84, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::BreweryCalm2_114, 20u, AmbientMusic::eOff, 0u },
+    { -1, 1u, AmbientMusic::eOn, 0u }
 };
 
-const MusicController_Record stru_55D424[17] =
+const MusicController_Record slogChaseTension_55D424[17] =
 {
-    { -1, 1u, 1u, 0u },
-    { 115u, 20u, 0u, 0u },
-    { 14u, 20u, 0u, 0u },
-    { 23u, 20u, 0u, 0u },
-    { 39u, 20u, 0u, 0u },
-    { 55u, 20u, 0u, 0u },
-    { -1, 1u, 0u, 0u },
-    { 46u, 20u, 0u, 0u },
-    { 78u, 20u, 0u, 0u },
-    { 94u, 20u, 0u, 0u },
-    { -1, 1u, 0u, 0u },
-    { 30u, 20u, 0u, 0u },
-    { -1, 1u, 0u, 0u },
-    { -1, 1u, 0u, 0u },
-    { 85u, 20u, 0u, 0u },
-    { 115u, 20u, 0u, 0u },
-    { -1, 1u, 1u, 0u }
+    { -1, 1u, AmbientMusic::eOn, 0u },
+    { SeqId::BreweryCalm1_115, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::Explosion1_14, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::AwakeSlogOffscreen_23, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::NecrumTension2_39, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::MudomoEnderTension2_55, 20u, AmbientMusic::eOff, 0u },
+    { -1, 1u, AmbientMusic::eOff, 0u },
+    { SeqId::MudomoChase1_46, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::FeecoPossess_78, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::BarracksEnderTension_94, 20u, AmbientMusic::eOff, 0u },
+    { -1, 1u, AmbientMusic::eOff, 0u },
+    { SeqId::AbeDeathDrums_30, 20u, AmbientMusic::eOff, 0u },
+    { -1, 1u, AmbientMusic::eOff, 0u },
+    { -1, 1u, AmbientMusic::eOff, 0u },
+    { SeqId::FeecoEnderPossess_85, 20u, AmbientMusic::eOff, 0u },
+    { SeqId::BreweryCalm1_115, 20u, AmbientMusic::eOff, 0u },
+    { -1, 1u, AmbientMusic::eOn, 0u }
 };
 
 // TODO: 118 = max SEQs?
@@ -777,46 +782,46 @@ void MusicController::UpdateMusic_47F260()
         case MusicTypes::eSlogChaseTension_6: // slog tension 2?
             if (field_42_type == MusicTypes::eTension_4)
             {
-                pRecord = &stru_55D2D0[static_cast<int>(field_24_currentLevelID)];
+                pRecord = &tension_55D2D0[static_cast<int>(field_24_currentLevelID)];
             }
             else if (field_42_type == MusicTypes::eSlogTension_5)
             {
-                pRecord = &stru_55D39C[static_cast<int>(field_24_currentLevelID)];
+                pRecord = &slogTension_55D39C[static_cast<int>(field_24_currentLevelID)];
             }
             else if (field_42_type == MusicTypes::eSlogChaseTension_6)
             {
-                pRecord = &stru_55D424[static_cast<int>(field_24_currentLevelID)];
+                pRecord = &slogChaseTension_55D424[static_cast<int>(field_24_currentLevelID)];
             }
-            idx = pRecord->field_0;
-            field_3C_unused = pRecord->field_1;
+            idx = pRecord->field_0_seq_id_idx;
+            field_3C_unused = pRecord->field_1_unused;
             field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
-            field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5, (pRecord->field_2 & 1));
-            SetMusicVolumeDelayed_47FB00(sSeqData_558D50.mSeqs[stru_55D008[pRecord->field_0].field_0_idx].field_9_volume, 0);
+            field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5, (pRecord->field_2_bAmbient_music_enabled == AmbientMusic::eOn));
+            SetMusicVolumeDelayed_47FB00(sSeqData_558D50.mSeqs[stru_55D008[pRecord->field_0_seq_id_idx].field_0_idx].field_9_volume, 0);
             break;
         case MusicTypes::eSlogChase_7: // chase music
-            pRecord = &stru_55D3E0[static_cast<int>(field_24_currentLevelID)];
-            idx = pRecord->field_0;
-            field_3C_unused = pRecord->field_1;
+            pRecord = &slogChase_55D3E0[static_cast<int>(field_24_currentLevelID)];
+            idx = pRecord->field_0_seq_id_idx;
+            field_3C_unused = pRecord->field_1_unused;
             field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
-            field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5, (pRecord->field_2 & 1));
+            field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5, (pRecord->field_2_bAmbient_music_enabled == AmbientMusic::eOn));
             SetMusicVolumeDelayed_47FB00(sSeqData_558D50.mSeqs[stru_55D008[idx].field_0_idx].field_9_volume, 0);
             break;
         case MusicTypes::eChase_8: // slig chase?
-            pRecord = &stru_55D314[static_cast<int>(field_24_currentLevelID)];
-            field_3C_unused = pRecord->field_1;
-            idx = pRecord->field_0;
+            pRecord = &chase_55D314[static_cast<int>(field_24_currentLevelID)];
+            field_3C_unused = pRecord->field_1_unused;
+            idx = pRecord->field_0_seq_id_idx;
             field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
-            field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5, (pRecord->field_2 & 1));
+            field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5, (pRecord->field_2_bAmbient_music_enabled == AmbientMusic::eOn));
             SetMusicVolumeDelayed_47FB00(sSeqData_558D50.mSeqs[stru_55D008[idx].field_0_idx].field_9_volume, 0);
             break;
         case MusicTypes::ePossessed_9: // slig possesed
             if (field_58_flags.Get(Flags_58::e58_UnPause_Bit6))
             {
-                pRecord = &stru_55D358[static_cast<int>(field_24_currentLevelID)];
-                field_3C_unused = pRecord->field_1;
-                idx = stru_55D358[static_cast<int>(field_24_currentLevelID)].field_0;
+                pRecord = &possessed_55D358[static_cast<int>(field_24_currentLevelID)];
+                field_3C_unused = pRecord->field_1_unused;
+                idx = possessed_55D358[static_cast<int>(field_24_currentLevelID)].field_0_seq_id_idx;
                 field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
-                field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5, (pRecord->field_2 & 1));
+                field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5, (pRecord->field_2_bAmbient_music_enabled == AmbientMusic::eOn));
                 SetMusicVolumeDelayed_47FB00(sSeqData_558D50.mSeqs[stru_55D008[idx].field_0_idx].field_9_volume, 0);
             }
             else
@@ -854,7 +859,7 @@ void MusicController::UpdateMusic_47F260()
         default: // no change ?
             SetMusicVolumeDelayed_47FB00(field_20_vol, 30);
             field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5);
-            field_3C_unused = byte_55D468[static_cast<int>(field_24_currentLevelID)];
+            field_3C_unused = unused_55D468[static_cast<int>(field_24_currentLevelID)];
             break;
         }
 
@@ -950,7 +955,7 @@ void MusicController::UpdateAmbiance_47F0B0()
             else
             {
                 field_2C_flags_and_seq_idx = stru_55D008[random].field_0_idx;
-                SND_SEQ_Play_4CAB10(field_2C_flags_and_seq_idx, stru_55D1E0[static_cast<int>(field_24_currentLevelID)].field_C, field_50_current_vol, field_50_current_vol);
+                SND_SEQ_Play_4CAB10(field_2C_flags_and_seq_idx, stru_55D1E0[static_cast<int>(field_24_currentLevelID)].field_C_repeat_count, field_50_current_vol, field_50_current_vol);
                 field_30_music_time = sMusicTime_5C3024 + stru_55D008[random].field_2_duration;
             }
         }
