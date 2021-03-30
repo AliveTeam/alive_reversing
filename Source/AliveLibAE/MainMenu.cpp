@@ -1712,7 +1712,7 @@ MainMenuNextCam MainMenuController::Page_Front_Update_4D0720(DWORD input)
     }
 
     // Go to loading a demo screen if no input after time out, after one demo plays the next time out is lower if input isn't pressed
-    if (field_1F8_page_timeout > (bLongerTimeoutToNextDemo_5C1B9A ? 1500 : 300))
+    if (field_1F8_page_timeout > (bLongerTimeoutToNextDemo_5C1B9A ? 300 : 1500))
     {
         bLongerTimeoutToNextDemo_5C1B9A = 1;
         field_1FC_button_index = 0;
