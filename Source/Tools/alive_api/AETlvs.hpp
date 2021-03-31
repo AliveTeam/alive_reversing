@@ -1168,31 +1168,31 @@ namespace AETlvs
             ADD("spawn_many", mTlv.spawn_many);
         }
     };
-    // TODO: finish
+
     struct Path_SligLeftBound : public TlvObjectBaseAE<::Path_SligLeftBound>
     {
         CTOR_AE(Path_SligLeftBound, "SligLeftBound", TlvTypes::SligBoundLeft_32)
         {
-            ADD("slig_id", mTlv.field_10_slig_id);
-            ADD("disabled_resources", mTlv.field_12_disabled_resources);
+            ADD("Slig ID", mTlv.field_10_slig_id);
+            ADD("Disabled Resources", mTlv.field_12_disabled_resources);
         }
     };
-    // TODO: finish
+
     struct Path_SligRightBound : public TlvObjectBaseAE<::Path_SligRightBound>
     {
         CTOR_AE(Path_SligRightBound, "SligRightBound", TlvTypes::SligBoundRight_45)
         {
-            ADD("slig_id", mTlv.field_10_slig_id);
-            ADD("disabled_resources", mTlv.field_12_disabled_resources);
+            ADD("Slig ID", mTlv.field_10_slig_id);
+            ADD("Disabled Resources", mTlv.field_12_disabled_resources);
         }
     };
-    // TODO: finish
+
     struct Path_SligPersist : public TlvObjectBaseAE<::Path_SligPersist>
     {
         CTOR_AE(Path_SligPersist, "SligPersist", TlvTypes::SligPersist_46)
         {
-            ADD("slig_id", mTlv.field_10_slig_id);
-            ADD("disabled_resources", mTlv.field_12_disabled_resources);
+            ADD("Slig ID", mTlv.field_10_slig_id);
+            ADD("Disabled Resources", mTlv.field_12_disabled_resources);
         }
     };
 
@@ -1232,40 +1232,40 @@ namespace AETlvs
             ADD("num_brews", mTlv.field_10_num_brews);
         }
     };
-    // TODO: finish
+
     struct Path_Grinder : public TlvObjectBaseAE<::Path_Grinder>
     {
         void AddTypes(TypesCollection& types) override
         {
             types.AddEnum<::GrinderBehavior>("Enum_GrinderBehavior",
                 {
-                    {::GrinderBehavior::eUnknown_0, "unknown"},
-                    {::GrinderBehavior::eToggle_1, "toggle"},
-                    {::GrinderBehavior::eUse_2, "use"},
+                    {::GrinderBehavior::eNotInteractable_0, "Not Interactable"},
+                    {::GrinderBehavior::eToggle_1, "Toggle"},
+                    {::GrinderBehavior::eUse_2, "Use"},
                 });
 
             types.AddEnum<::GrinderDirection>("Enum_GrinderDirection",
                 {
-                    {::GrinderDirection::eDown_0, "down"},
-                    {::GrinderDirection::eRight_1, "right"},
-                    {::GrinderDirection::eLeft_2, "left"},
+                    {::GrinderDirection::eDown_0, "Down"},
+                    {::GrinderDirection::eRight_1, "Right"},
+                    {::GrinderDirection::eLeft_2, "Left"},
                 });
         }
 
         CTOR_AE(Path_Grinder, "Grinder", TlvTypes::Grinder_90)
         {
-            ADD("scale_background", mTlv.field_10_data.field_10_scale);
-            ADD("min_off_time", mTlv.field_10_data.field_12_min_off_time);
-            ADD("max_off_time", mTlv.field_10_data.field_14_max_off_time);
-            ADD("id", mTlv.field_10_data.field_16_id);
-            ADD("behavior", mTlv.field_10_data.field_18_behavior);
-            ADD("speed", mTlv.field_10_data.field_1A_speed);
-            ADD("start_state_on", mTlv.field_10_data.field_1C_start_state_on);
-            ADD("off_speed", mTlv.field_10_data.field_1E_off_speed);
-            ADD("min_off_time2", mTlv.field_10_data.field_20_min_off_time2);
-            ADD("max_off_time2", mTlv.field_10_data.field_22_max_off_time2);
-            ADD("start_position", mTlv.field_10_data.field_24_start_position);
-            ADD("direction", mTlv.field_10_data.field_26_direction);
+            ADD("Scale", mTlv.field_10_data.field_10_scale);
+            ADD("Min Off Time", mTlv.field_10_data.field_12_min_off_time);
+            ADD("Max Off Time", mTlv.field_10_data.field_14_max_off_time);
+            ADD("ID", mTlv.field_10_data.field_16_id);
+            ADD("Behavior", mTlv.field_10_data.field_18_behavior);
+            ADD("Speed", mTlv.field_10_data.field_1A_speed);
+            ADD("Start State On", mTlv.field_10_data.field_1C_bStart_state_on);
+            ADD("Off Speed", mTlv.field_10_data.field_1E_off_speed);
+            ADD("Min Off Time Speed Change", mTlv.field_10_data.field_20_min_off_time_speed_change);
+            ADD("Max Off Time Speed Change", mTlv.field_10_data.field_22_max_off_time_speed_change);
+            ADD("Start Position Bottom", mTlv.field_10_data.field_24_bStart_position_bottom);
+            ADD("Direction", mTlv.field_10_data.field_26_direction);
         }
     };
 
@@ -1681,7 +1681,7 @@ namespace AETlvs
     {
         CTOR_AE(Path_SligGetWings, "SligGetWings", TlvTypes::SligGetWings_105)
         {
-            ADD("scale", mTlv.scale);
+            ADD("Scale", mTlv.scale);
             ADD("state", mTlv.state);
             ADD("hi_pause_time", mTlv.hi_pause_time);
             ADD("patrol_pause_min", mTlv.patrol_pause_min);
@@ -1726,12 +1726,19 @@ namespace AETlvs
                     {::GlukkonTypes::Normal_4, "normal_4"},
                     {::GlukkonTypes::Normal_5, "normal_5"},
                 });
+
+            types.AddEnum<::Path_Glukkon::StartDirection>("Enum_GlukkonStartDirection",
+                {
+                    {::Path_Glukkon::StartDirection::eRight_0, "Right"},
+                    {::Path_Glukkon::StartDirection::eLeft_1, "Left"},
+                });
         }
+
         // TODO: finish
         CTOR_AE(Path_Glukkon, "Glukkon", TlvTypes::Glukkon_73)
         {
             ADD("Scale", mTlv.field_10_scale);
-            ADD("start_direction", mTlv.field_12_start_direction);
+            ADD("Start Direction", mTlv.field_12_start_direction);
             ADD("default_behavior", mTlv.field_14_default_behaviour);
             ADD("pre_alarmed_delay", mTlv.field_16_pre_alarmed_delay);
             ADD("switch_id", mTlv.field_18_switch_id);
@@ -1872,51 +1879,61 @@ namespace AETlvs
             ADD("padding2", mTlv.padding2);
         }
     };
-    // TODO: finish
+
     struct Path_Scrab : public TlvObjectBaseAE<::Path_Scrab>
     {
         CTOR_AE(Path_Scrab, "Scrab", TlvTypes::Scrab_41)
         {
-            ADD("scale", mTlv.field_10_scale);
-            ADD("attack_delay", mTlv.field_12_attack_delay);
-            ADD("patrol_type", mTlv.field_14_patrol_type);
-            ADD("left_min_delay", mTlv.field_16_left_min_delay);
-            ADD("left_max_delay", mTlv.field_18_left_max_delay);
-            ADD("right_min_delay", mTlv.field_1A_right_min_delay);
-            ADD("right_max_delay", mTlv.field_1C_right_max_delay);
-            ADD("attack_duration", mTlv.field_1E_attack_duration);
-            ADD("disabled_resources", mTlv.field_20_disabled_resources);
-            ADD("roar_randomly", mTlv.field_22_roar_randomly);
-            ADD("persistant", mTlv.field_24_persistant);
-            ADD("whirl_attack_duration", mTlv.field_26_whirl_attack_duration);
-            ADD("whirl_attack_recharge", mTlv.field_28_whirl_attack_recharge);
-            ADD("kill_close_fleech", mTlv.field_2A_kill_close_fleech);
+            ADD("Scale", mTlv.field_10_scale);
+            ADD("Attack Delay (Frames)", mTlv.field_12_attack_delay);
+            ADD("Patrol Type Run Or Walk Chance (6 Max)", mTlv.field_14_patrol_type_run_or_walk_chance);
+            ADD("Left Min Delay (Frames)", mTlv.field_16_left_min_delay);
+            ADD("Left Max Delay (Frames)", mTlv.field_18_left_max_delay);
+            ADD("Right Min Delay (Frames)", mTlv.field_1A_right_min_delay);
+            ADD("Right Max Delay (Frames)", mTlv.field_1C_right_max_delay);
+            ADD("Spotting Abe Delay (Frames)", mTlv.field_1E_spotting_abe_delay);
+            ADD("Disabled Resources", mTlv.field_20_disabled_resources);
+            ADD("Roar Randomly", mTlv.field_22_roar_randomly);
+            ADD("Persistant", mTlv.field_24_persistant);
+            ADD("Whirl Attack Duration (Frames)", mTlv.field_26_whirl_attack_duration);
+            ADD("Unused", mTlv.field_28_unused);
+            ADD("Kill Enemy", mTlv.field_2A_bKill_enemy);
         }
     };
-    // TODO: finish
+
     struct Path_ScrabSpawner : public TlvObjectBaseAE<::Path_ScrabSpawner>
     {
+        void AddTypes(TypesCollection& types) override
+        {
+            types.AddEnum<::ScrabSpawnDirection>("Enum_ScrabSpawnDirection",
+                {
+                    {::ScrabSpawnDirection::eNone_0, "None"},
+                    {::ScrabSpawnDirection::eLeft_1, "Left"},
+                    {::ScrabSpawnDirection::eRight_2, "Right"},
+                });
+        }
+
         CTOR_AE(Path_ScrabSpawner, "ScrabSpawner", TlvTypes::ScrabSpawner_102)
         {
-            // scrab properties
+            // Scrab properties
             ADD("Scrab Scale", mTlv.field_10_scale);
-            ADD("scrab_attack_delay", mTlv.field_12_attack_delay);
-            ADD("scrab_patrol_type", mTlv.field_14_patrol_type);
-            ADD("scrab_left_min_delay", mTlv.field_16_left_min_delay);
-            ADD("scrab_left_max_delay", mTlv.field_18_left_max_delay);
-            ADD("scrab_right_min_delay", mTlv.field_1A_right_min_delay);
-            ADD("scrab_right_max_delay", mTlv.field_1C_right_max_delay);
-            ADD("scrab_attack_duration", mTlv.field_1E_attack_duration);
-            ADD("scrab_disabled_resources", mTlv.field_20_disabled_resources);
-            ADD("scrab_roar_randomly", mTlv.field_22_roar_randomly);
-            ADD("scrab_persistant", mTlv.field_24_persistant);
-            ADD("scrab_whirl_attack_duration", mTlv.field_26_whirl_attack_duration);
-            ADD("scrab_whirl_attack_recharge", mTlv.field_28_whirl_attack_recharge);
-            ADD("scrab_kill_close_fleech", mTlv.field_2A_kill_close_fleech);
+            ADD("Scrab Attack Delay (Frames)", mTlv.field_12_attack_delay);
+            ADD("Scrab Patrol Type Run Or Walk Chance (6 Max)", mTlv.field_14_patrol_type_run_or_walk_chance);
+            ADD("Scrab Left Min Delay (Frames)", mTlv.field_16_left_min_delay);
+            ADD("Scrab Left Max Delay (Frames)", mTlv.field_18_left_max_delay);
+            ADD("Scrab Right Min Delay (Frames)", mTlv.field_1A_right_min_delay);
+            ADD("Scrab Right Max Delay (Frames)", mTlv.field_1C_right_max_delay);
+            ADD("Scrab Spotting Abe Delay (Frames)", mTlv.field_1E_spotting_abe_delay);
+            ADD("Scrab Disabled Resources", mTlv.field_20_disabled_resources);
+            ADD("Scrab Roar Randamly", mTlv.field_22_roar_randomly);
+            ADD("Scrab Persistant", mTlv.field_24_persistant);
+            ADD("Scrab Whirl Attack Duration (Frames)", mTlv.field_26_whirl_attack_duration);
+            ADD("Scrab Unused", mTlv.field_28_unused);
+            ADD("Scrab Kill Enemy", mTlv.field_2A_bKill_enemy);
 
-            // spawner properties
+            // Spawner properties
             ADD("Spawner Switch ID", mTlv.field_2C_switch_id);
-            ADD("Spawner Scale", mTlv.field_2E_scale);
+            ADD("Scrab Spawn Direction", mTlv.field_2E_spawn_direction);
         }
     };
 

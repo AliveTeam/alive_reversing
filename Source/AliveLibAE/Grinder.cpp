@@ -56,7 +56,7 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
     field_128_flags.Clear(Flags::eBit5_SpeedChanged);
     field_128_flags.Clear(Flags::eBit4_Toggle);
 
-    if (tlvData.field_1C_start_state_on)
+    if (tlvData.field_1C_bStart_state_on == Choice_short::eYes_1)
     {
         field_128_flags.Clear(Flags::eBit1_StartOff);
     }
@@ -86,7 +86,7 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
     }
 
     field_FA_direction = tlvData.field_26_direction;
-    if (tlvData.field_24_start_position & 1)
+    if (tlvData.field_24_bStart_position_bottom == Choice_short::eYes_1)
     {
         field_128_flags.Set(Flags::eBit6_StartPosIsBottom);
     }
@@ -225,20 +225,20 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
     }
 
     field_118_speed = FP_FromInteger(tlvData.field_1A_speed);
-    if (tlvData.field_1A_speed == 250)
+    if (tlvData.field_1A_speed == 250) // TODO: figure out why this is needed
     {
         field_118_speed = FP_FromDouble(0.2);
     }
 
     field_11C_speed2 = field_118_speed;
     field_120_off_speed = FP_FromInteger(tlvData.field_1E_off_speed);
-    if (tlvData.field_1E_off_speed == 250)
+    if (tlvData.field_1E_off_speed == 250) // TODO: figure out why this is needed
     {
         field_120_off_speed = FP_FromDouble(0.2);
     }
 
-    field_100_min_off_time2 = tlvData.field_20_min_off_time2;
-    field_102_max_off_time2 = tlvData.field_22_max_off_time2;
+    field_100_min_off_time_speed_change = tlvData.field_20_min_off_time_speed_change;
+    field_102_max_off_time_speed_change = tlvData.field_22_max_off_time_speed_change;
     field_108_off_timer = 0;
     field_F4_state = GrinderStates::State_0_Restart_Cycle;
     field_104_tlv = tlvInfo;
@@ -457,8 +457,8 @@ void Grinder::vUpdate_420C50()
             short min_off = 0;
             if (field_128_flags.Get(Flags::eBit5_SpeedChanged))
             {
-                max_off = field_102_max_off_time2;
-                min_off = field_100_min_off_time2;
+                max_off = field_102_max_off_time_speed_change;
+                min_off = field_100_min_off_time_speed_change;
             }
             else
             {
