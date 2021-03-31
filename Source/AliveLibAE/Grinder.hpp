@@ -14,7 +14,7 @@ enum class GrinderDirection : __int16
 
 enum class GrinderBehavior : __int16
 {
-    eUnknown_0 = 0,
+    eNotInteractable_0 = 0,
     eToggle_1 = 1,
     eUse_2 = 2
 };
@@ -27,11 +27,11 @@ struct Path_Grinder_Data
     __int16 field_16_id;
     GrinderBehavior field_18_behavior;
     __int16 field_1A_speed;
-    __int16 field_1C_start_state_on;
+    Choice_short field_1C_bStart_state_on;
     __int16 field_1E_off_speed;
-    __int16 field_20_min_off_time2;
-    __int16 field_22_max_off_time2;
-    __int16 field_24_start_position;
+    __int16 field_20_min_off_time_speed_change;
+    __int16 field_22_max_off_time_speed_change;
+    Choice_short field_24_bStart_position_bottom;
     GrinderDirection field_26_direction;
 };
 ALIVE_ASSERT_SIZEOF(Path_Grinder_Data, 0x18);
@@ -92,8 +92,8 @@ private:
     GrinderDirection field_FA_direction;
     __int16 field_FC_min_off_time;
     __int16 field_FE_max_off_time;
-    __int16 field_100_min_off_time2;
-    __int16 field_102_max_off_time2;
+    __int16 field_100_min_off_time_speed_change;
+    __int16 field_102_max_off_time_speed_change;
     DWORD field_104_tlv;
     int field_108_off_timer;
     int field_10C_audio_channels_mask;

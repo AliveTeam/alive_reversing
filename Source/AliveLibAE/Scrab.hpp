@@ -65,22 +65,29 @@ enum class ScrabSounds : unsigned __int8
     eYell_8 = 8,
 };
 
+enum class ScrabSpawnDirection : __int16
+{
+    eNone_0 = 0,
+    eLeft_1 = 1,
+    eRight_2 = 2,
+};
+
 struct Path_Scrab : public Path_TLV
 {
     Scale_short field_10_scale;
     __int16 field_12_attack_delay;
-    __int16 field_14_patrol_type;
+    __int16 field_14_patrol_type_run_or_walk_chance;
     __int16 field_16_left_min_delay;
     __int16 field_18_left_max_delay;
     __int16 field_1A_right_min_delay;
     __int16 field_1C_right_max_delay;
-    unsigned __int16 field_1E_attack_duration;
+    unsigned __int16 field_1E_spotting_abe_delay;
     __int16 field_20_disabled_resources;
-    __int16 field_22_roar_randomly;
-    __int16 field_24_persistant;
+    Choice_short field_22_roar_randomly;
+    Choice_short field_24_persistant;
     __int16 field_26_whirl_attack_duration;
-    __int16 field_28_whirl_attack_recharge;
-    __int16 field_2A_kill_close_fleech;
+    __int16 field_28_unused;
+    Choice_short field_2A_bKill_enemy;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Scrab, 0x2C);
 
@@ -170,7 +177,7 @@ using TScrabMotionFn = void (Scrab::*)();
 class Scrab : public BaseAliveGameObject
 {
 public:
-    EXPORT Scrab* ctor_4A3C40(Path_Scrab* pTlv, int tlvInfo, __int16 spawnedScale);
+    EXPORT Scrab* ctor_4A3C40(Path_Scrab* pTlv, int tlvInfo, ScrabSpawnDirection spawnDirection);
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
 
@@ -351,7 +358,7 @@ private:
     int field_120_obj_id;
     int field_124_fight_target_obj_id;
     __int16 field_128_attack_delay;
-    __int16 field_12A_patrol_type;
+    __int16 field_12A_patrol_type_run_or_walk_chance;
     int field_12C_timer;
     int field_130_depossession_timer;
     FP field_134_falling_velx_scale_factor;
@@ -360,7 +367,7 @@ private:
     __int16 field_140_motion_resource_block_index;
     __int16 field_142_padding;
     int field_144_tlvInfo;
-    int field_148_attack_duration;
+    int field_148_spotting_abe_delay;
     int field_14C_spotting_abe_timer;
     int field_150_attack_delay_timer;
     int field_154_movement_timer;
@@ -376,7 +383,7 @@ private:
     int field_16C_input;
     int field_170_unused;
     __int16 field_174_whirl_attack_duration;
-    __int16 field_176_whirl_attack_recharge;
+    __int16 field_176_unused;
     __int16 field_178_shred_power_active;
     __int16 field_17A_padding;
     int field_17C_last_event;
@@ -398,7 +405,7 @@ private:
     __int16 field_1A2_speak_counter;
     __int16 field_1A4_unused;
     __int16 field_1A6_unused;
-    __int16 field_1A8_kill_close_fleech;
+    Choice_short field_1A8_bKill_enemy;
 
     enum Flags_1AA : __int16
     {

@@ -23,7 +23,7 @@ ScrabSpawner* ScrabSpawner::ctor_4AB450(Path_ScrabSpawner* pTlv, int tlvInfo)
     field_28_tlv_data.field_C_bottom_right = pTlv->field_C_bottom_right;
 
     field_24_switch_id = pTlv->field_2C_switch_id;
-    field_26_spawn_scale = pTlv->field_2E_scale;
+    field_26_spawn_direction = pTlv->field_2E_spawn_direction;
 
     field_38_state = 0;
 
@@ -146,7 +146,7 @@ void ScrabSpawner::vUpdate_4AB510()
                 if (pTlv)
                 {
                     auto pNewScrab = ae_new<Scrab>();
-                    pNewScrab->ctor_4A3C40(pTlv, field_20_tlvInfo, field_26_spawn_scale);
+                    pNewScrab->ctor_4A3C40(pTlv, field_20_tlvInfo, field_26_spawn_direction);
 
                     SFX_Play_46FA90(SoundEffect::ScrabSpawn_111, 0);
 

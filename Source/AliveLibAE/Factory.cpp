@@ -1093,7 +1093,7 @@ EXPORT void CC Factory_Scrab_4D9200(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvI
         auto pScrab = ae_new<Scrab>();
         if (pScrab)
         {
-            pScrab->ctor_4A3C40(static_cast<Path_Scrab*>(pTlv), tlvInfo.all, 0);
+            pScrab->ctor_4A3C40(static_cast<Path_Scrab*>(pTlv), tlvInfo.all, ScrabSpawnDirection::eNone_0);
         }
     }
 }

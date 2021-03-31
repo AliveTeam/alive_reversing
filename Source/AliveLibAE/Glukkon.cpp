@@ -2065,7 +2065,7 @@ void Glukkon::Init_43F260()
     field_B8_xpos = FP_FromInteger((field_1A8_tlvData.field_8_top_left.field_0_x  + field_1A8_tlvData.field_C_bottom_right.field_0_x) / 2);
     field_BC_ypos = FP_FromInteger(field_1A8_tlvData.field_8_top_left.field_2_y);
     
-    if (field_1A8_tlvData.field_12_start_direction == 1)
+    if (field_1A8_tlvData.field_12_start_direction == Path_Glukkon::StartDirection::eLeft_1)
     {
         field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
     }
