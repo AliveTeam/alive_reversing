@@ -102,9 +102,9 @@ public:
         for (const auto& [key, value] : mProperties)
         {
             jsonxx::Object property;
-            property << "Type" << value->TypeName();
-            property << "Visible" << value->IsVisibleToEditor();
-            ret << value->Name() << property;
+            ret << "Type" << value->TypeName();
+            ret << "Visible" << value->IsVisibleToEditor();
+            ret << "name" << value->Name();
         }
         return ret;
     }
