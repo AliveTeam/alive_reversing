@@ -22,7 +22,7 @@ public:
         return true;
     }
 
-    void ToJson(jsonxx::Object& obj) const override
+    void ToJson(jsonxx::Array& obj) const override
     {
         jsonxx::Object ret;
 

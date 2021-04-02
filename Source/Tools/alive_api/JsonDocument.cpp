@@ -456,15 +456,17 @@ void JsonWriterBase::Save(const PathInfo& info, std::vector<BYTE>& pathResource,
 
     rootMapObject << "cameras" << cameraArray;
 
-    rootMapObject << "object_structure_property_basic_types" << globalTypes->BasicTypesToJson();
+    jsonxx::Object schemaObject;
+    schemaObject << "object_structure_property_basic_types" << globalTypes->BasicTypesToJson();
 
-    rootMapObject << "object_structure_property_enums" << globalTypes->EnumsToJson();
+    schemaObject << "object_structure_property_enums" << globalTypes->EnumsToJson();
 
     jsonxx::Array objectStructuresArray;
     globalTypes->AddTlvsToJsonArray(objectStructuresArray);
-    rootMapObject << "object_structures" << objectStructuresArray;
+    schemaObject << "object_structures" << objectStructuresArray;
 
     rootObject << "map" << rootMapObject;
+    rootObject << "schema" << schemaObject;
 
     std::ofstream s(fileName.c_str());
     if (s)
