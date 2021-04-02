@@ -60,7 +60,8 @@ public:
         }
 
         jsonxx::Object enumObj;
-        enumObj << Name() << enumVals;
+        enumObj << "name" << Name();
+        enumObj << "values" << enumVals;
         obj << enumObj;
     }
 
