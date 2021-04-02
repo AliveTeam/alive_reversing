@@ -51,14 +51,17 @@ public:
         return false;
     }
 
-    void ToJson(jsonxx::Object& obj) const override
+    void ToJson(jsonxx::Array& obj) const override
     {
         jsonxx::Array enumVals;
         for (const auto& [key, value] : mMapping)
         {
             enumVals << value;
         }
-        obj << Name() << enumVals;
+
+        jsonxx::Object enumObj;
+        enumObj << Name() << enumVals;
+        obj << enumObj;
     }
 
 private:

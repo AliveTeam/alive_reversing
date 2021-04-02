@@ -88,9 +88,9 @@ public:
     std::unique_ptr<TlvObjectBase> MakeTlvAO(AO::TlvTypes tlvType, AO::Path_TLV* pTlv, int instanceCount);
     std::unique_ptr<TlvObjectBase> MakeTlvAO(const std::string& tlvTypeName, AO::Path_TLV* pTlv);
 
-    jsonxx::Object EnumsToJson() const
+    jsonxx::Array EnumsToJson() const
     {
-        jsonxx::Object ret;
+        jsonxx::Array ret;
         for (const auto& basicType : mTypes)
         {
             if (!basicType->IsBasicType())
@@ -98,14 +98,12 @@ public:
                 basicType->ToJson(ret);
             }
         }
-        jsonxx::Object t;
-        t << "object_structure_property_enums" << ret;
-        return t;
+        return ret;
     }
 
-    jsonxx::Object BasicTypesToJson() const
+    jsonxx::Array BasicTypesToJson() const
     {
-        jsonxx::Object ret;
+        jsonxx::Array ret;
         for (const auto& basicType : mTypes)
         {
             if (basicType->IsBasicType())
@@ -113,9 +111,7 @@ public:
                 basicType->ToJson(ret);
             }
         }
-        jsonxx::Object t;
-        t << "object_structure_property_basic_types" << ret;
-        return t;
+        return ret;
     }
 
     std::string TypeName(std::type_index typeIndex) const
