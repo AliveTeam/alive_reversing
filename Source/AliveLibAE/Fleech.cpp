@@ -343,11 +343,11 @@ int CC Fleech::CreateFromSaveState_42DD50(const BYTE* pBuffer)
 
     pFleech->field_124_brain_state = pState->field_5E_brain_state;
     pFleech->field_126_state = pState->field_60_state;
-    pFleech->field_12C = pState->field_64;
+    pFleech->field_12C_death_timer = pState->field_64_death_timer;
     pFleech->field_128 = pState->field_62;
     sFleechRandomIdx_5BC20C = pState->field_68_fleech_random_idx;
     pFleech->field_130 = pState->field_6A;
-    pFleech->field_134 = pState->field_6C;
+    pFleech->field_134_unused = pState->field_6C_unused;
     pFleech->field_138 = pState->field_70;
     pFleech->field_13C = pState->field_74;
     pFleech->field_13E_current_anger = pState->field_76_current_anger;
@@ -472,11 +472,11 @@ int Fleech::vGetSaveState_42FF80(Fleech_State* pState)
     pState->field_5D = field_18A.Get(Flags_18A::e18A_Render_Bit2);
     pState->field_5E_brain_state = field_124_brain_state;
     pState->field_60_state = field_126_state;
-    pState->field_64 = field_12C - sGnFrame_5C1B84;
+    pState->field_64_death_timer.mTimer -= sGnFrame_5C1B84;
     pState->field_62 = field_128;
     pState->field_68_fleech_random_idx = sFleechRandomIdx_5BC20C;
     pState->field_6A = field_130;
-    pState->field_6C = field_134;
+    pState->field_6C_unused = field_134_unused;
     pState->field_70 = field_138;
     pState->field_74 = field_13C;
     pState->field_76_current_anger = field_13E_current_anger;
@@ -1132,7 +1132,7 @@ void Fleech::M_DeathByFalling_16_42FCE0()
         field_124_brain_state = eFleechBrains::eAI_Death_3_42D1E0;
         field_174_flags.Set(Flags_174::eBit3);
         field_108_next_motion = -1;
-        field_12C = sGnFrame_5C1B84 + 127;
+        field_12C_death_timer.MakeTimer(127);
         sFleechCount_5BC20E--;
     }
 }
@@ -1753,7 +1753,7 @@ void Fleech::Init_42A170()
 
     field_DC_bApplyShadows |= 2u;
 
-    field_12C = 0;
+    field_12C_death_timer.mTimer = 0;
     field_126_state = 0;
     field_108_next_motion = -1;
     field_110_id = -1;
@@ -2102,7 +2102,7 @@ void Fleech::ToIdle_42E520()
     field_C8_vely = FP_FromInteger(0);
     field_106_current_motion = eFleechMotions::M_Idle_3_42E850;
     field_108_next_motion = -1;
-    field_134 = 60 * sRandomBytes_546744[sFleechRandomIdx_5BC20C++] / 256 + sGnFrame_5C1B84 + 120;
+    // field_134_unused = 60 * sRandomBytes_546744[sFleechRandomIdx_5BC20C++] / 256 + MakeTimer(120);
 }
 
 const SfxDefinition getSfxDef(FleechSound effectId)
@@ -2348,7 +2348,7 @@ __int16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
         field_10C_health = FP_FromInteger(0);
         field_124_brain_state = eFleechBrains::eAI_Death_3_42D1E0;
         field_108_next_motion = -1;
-        field_12C = sGnFrame_5C1B84 + 127;
+        field_12C_death_timer.MakeTimer(127);
         field_106_current_motion = eFleechMotions::M_Idle_3_42E850;
         SetAnim_429D80();
         field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
@@ -2392,7 +2392,7 @@ __int16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
         field_10C_health = FP_FromInteger(0);
         field_124_brain_state = eFleechBrains::eAI_Death_3_42D1E0;
         field_106_current_motion = eFleechMotions::M_Idle_3_42E850;
-        field_12C = sGnFrame_5C1B84 + 127;
+        field_12C_death_timer.MakeTimer(127);
         field_108_next_motion = -1;
         SetAnim_429D80();
         field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
@@ -4448,7 +4448,7 @@ __int16 Fleech::AI_Death_3_42D1E0()
     field_11C_obj_id = -1;
     MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
 
-    if (field_12C < static_cast<int>(sGnFrame_5C1B84 + 80))
+    if (field_12C_death_timer.mTimer < static_cast<int>(sGnFrame_5C1B84 + 80))
     {
         field_CC_sprite_scale -= FP_FromDouble(0.022);
         field_D0_r -= 2;
@@ -4456,7 +4456,7 @@ __int16 Fleech::AI_Death_3_42D1E0()
         field_D4_b -= 2;
     }
 
-    if (static_cast<int>(sGnFrame_5C1B84) < field_12C - 24 && !(sGnFrame_5C1B84 % 5))
+    if (static_cast<int>(sGnFrame_5C1B84) < field_12C_death_timer.mTimer - 24 && !(sGnFrame_5C1B84 % 5))
     {
         const FP xRand = (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale);
         New_Smoke_Particles_426C70(xRand + field_B8_xpos, field_BC_ypos - FP_FromInteger(6), field_CC_sprite_scale / FP_FromInteger(2), 2, 128u, 128u, 128u);

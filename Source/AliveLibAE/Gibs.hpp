@@ -58,7 +58,7 @@ private:
     void* field_F4_not_used; // Used to be gib data, only used in ctor and replaced with AnimRecords
     FP field_F8_z;
     FP field_FC_dz;
-    int field_100_timer;
+    Timer field_100_timer;
     GibPart field_104_parts[7];
     __int16 field_5D4_parts_used_count;
     __int16 field_5D6_bMakeSmaller;

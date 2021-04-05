@@ -43,7 +43,7 @@ struct Bone_SaveState
     __int16 field_2E_volume_modifier;
     FP field_30_xpos;
     FP field_34_ypos;
-    int field_38_time_to_live;
+    Timer field_38_time_to_live;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Bone_SaveState, 0x3C);
 
@@ -85,8 +85,8 @@ private:
     __int16 field_11E_volume_modifier;
     FP field_120_xpos;
     FP field_124_ypos;
-    int field_128_shine_timer;
-    int field_12C_time_to_live;
+    Timer field_128_shine_timer;
+    Timer field_12C_time_to_live;
     __int16 field_130_hit_object;
     __int16 field_132_padding;
 };

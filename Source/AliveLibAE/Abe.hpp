@@ -6,7 +6,6 @@
 #include "Input.hpp"
 #include "Path.hpp"
 
-
 #define ABE_STATES_ENUM(ENTRY) \
     ENTRY(State_0_Idle_44EEB0) \
     ENTRY(State_1_WalkLoop_44FBA0) \
@@ -311,13 +310,13 @@ enum class Mud_Emotion : __int16;
 
 struct Abe_1BC_20_sub_object
 {
-    int field_0_abe_timer;
-    int field_4_regen_health_timer;
+    Timer field_0_abe_timer;
+    Timer field_4_regen_health_timer;
     FP field_8_x_vel_slow_by;
     int field_C_unused;
     unsigned __int16 field_10_resource_index;
     Mud_Emotion field_12_mood;
-    int field_14_rolling_motion_timer;
+    Timer field_14_rolling_motion_timer;
     MudSounds field_18_say;
     __int16 field_1A_padding;
 };
@@ -362,13 +361,13 @@ struct Abe_SaveState
     FP field_48_x_vel_slow_by;
     DWORD field_4C_unused;
     DWORD field_50_state;
-    DWORD field_54_timer;
-    DWORD field_58_abe_timer;
-    DWORD field_5C_regen_health_timer;
+    Timer field_54_timer;
+    Timer field_58_abe_timer;
+    Timer field_5C_regen_health_timer;
     Mud_Emotion mood;
     MudSounds say;
-    DWORD auto_say_timer;
-    DWORD ring_pulse_timer;
+    Timer auto_say_timer;
+    Timer ring_pulse_timer;
     char field_6c_rock_bone_count;
     char bShrivel;
     char bHaveShrykull;
@@ -377,7 +376,7 @@ struct Abe_SaveState
     WORD released_buttons;
     WORD field_74_knockdown_motion;
     __int16 field_76_padding;
-    DWORD field_78_rolling_motion_timer;
+    Timer field_78_rolling_motion_timer;
     DWORD fade_obj_id;
     DWORD circular_fade_id;
     DWORD orb_whirl_wind_id;
@@ -386,7 +385,7 @@ struct Abe_SaveState
     DWORD pull_ring_rope_id;
     DWORD slappable_or_pickup_id;
     DWORD wheel_id;
-    DWORD invisible_timer;
+    Timer invisible_timer;
     WORD field_A0_unused;
     WORD field_A2_invisibility_id;
     char field_A4_cam_idx;
@@ -668,9 +667,9 @@ public:
     int field_11C_released_buttons;
     AllInternalStates field_120_state;
     __int16 field_122_knockdown_motion;
-    int field_124_timer;
+    Timer field_124_timer;
     Abe_1BC_20_sub_object field_128;
-    int field_144_auto_say_timer;
+    Timer field_144_auto_say_timer;
     int field_148_fade_obj_id;
     int field_14C_circular_fade_id;
     int field_150_OrbWhirlWind_id;
@@ -679,10 +678,10 @@ public:
     int field_15C_pull_rope_id;
     int field_160_slappable_or_pick_item_id;
     int field_164_wheel_id;
-    int field_168_ring_pulse_timer;
+    Timer field_168_ring_pulse_timer;
     __int16 field_16C_bHaveShrykull;
     __int16 field_16E_bHaveInvisiblity;
-    int field_170_invisible_timer;
+    Timer field_170_invisible_timer;
     __int16 field_174_unused;
     __int16 field_176_invisibility_id;
     int field_178_invisible_effect_id;

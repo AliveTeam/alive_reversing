@@ -69,7 +69,7 @@ private:
     __int16 field_122_remaining_falling_items;
     __int16 field_124_fall_delay;
     //__int16 field_126_pad;
-    int field_128_delay_timer;
+    Timer field_128_delay_timer;
     __int16 field_12C_reset_id;
     __int16 field_12E_do_sound_in_state_falling;
     FP field_130_yPosStart;

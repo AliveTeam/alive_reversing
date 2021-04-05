@@ -144,7 +144,7 @@ EXPORT Gibs* Gibs::ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yO
     field_B8_xpos = xpos;
     field_BC_ypos = ypos + FP_FromInteger(2);
 
-    field_100_timer = sGnFrame_5C1B84 + 91;
+    field_100_timer.MakeTimer(91);
 
     if (scale == FP_FromInteger(1))
     {
@@ -345,7 +345,7 @@ void Gibs::vUpdate_410210()
         }
     }
 
-    if (static_cast<int>(sGnFrame_5C1B84) > field_100_timer)
+    if (field_100_timer.Expired())
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }

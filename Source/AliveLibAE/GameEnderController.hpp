@@ -24,7 +24,7 @@ struct GameEnderController_State
     Types field_0_type;
     __int16 field_2_padding;
     int field_4_obj_id;
-    int field_8_timer;
+    Timer field_8_timer;
     GameEnderController_States field_C_state;
     __int16 field_E_padding;
 };
@@ -47,7 +47,7 @@ private:
     EXPORT void vUpdate_43B920();
 
 private:
-    int field_20_timer;
+    Timer field_20_timer;
     GameEnderController_States field_24_state;
     __int16 field_26_padding;
 };

@@ -133,7 +133,7 @@ struct Scrab_State
     __int16 field_52_padding;
     int field_54_obj_id;
     int field_58_target_obj_id;
-    int field_5C_timer;
+    Timer field_5C_timer;
     int field_60_depossession_timer;
     FP field_64_falling_velx_scale_factor;
     __int16 field_68_motion_resource_block_index;
@@ -359,7 +359,7 @@ private:
     int field_124_fight_target_obj_id;
     __int16 field_128_attack_delay;
     __int16 field_12A_patrol_type_run_or_walk_chance;
-    int field_12C_timer;
+    Timer field_12C_timer;
     int field_130_depossession_timer;
     FP field_134_falling_velx_scale_factor;
     FP field_138_unused;

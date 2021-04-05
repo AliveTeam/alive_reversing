@@ -1129,11 +1129,11 @@ __int16 Glukkon::AI_0_Calm_WalkAround_440B40()
                 field_BC_ypos,
                 field_D6_scale))
             {
-                field_1D4_timer = sGnFrame_5C1B84 + 10;
+                field_1D4_timer.MakeTimer(10);
             }
             else
             {
-                field_1D4_timer = sGnFrame_5C1B84 + field_1A8_tlvData.field_16_pre_alarmed_delay;
+                field_1D4_timer.MakeTimer(field_1A8_tlvData.field_16_pre_alarmed_delay);
             }
             Speak_444640(GlukkonSpeak::Hey_0);
             SetBrain(&Glukkon::AI_1_Panic_4412F0);
@@ -1147,7 +1147,7 @@ __int16 Glukkon::AI_0_Calm_WalkAround_440B40()
             field_D6_scale);
         if (pEvent17 && pEvent17 != this)
         {
-            field_1D4_timer = sGnFrame_5C1B84 + 20;
+            field_1D4_timer.MakeTimer(20);
             return 9;
         }
 
@@ -1177,11 +1177,11 @@ __int16 Glukkon::AI_0_Calm_WalkAround_440B40()
                 field_BC_ypos,
                 field_D6_scale))
             {
-                field_1D4_timer = sGnFrame_5C1B84 + 10;
+                field_1D4_timer.MakeTimer(10);
             }
             else
             {
-                field_1D4_timer = sGnFrame_5C1B84 + field_1A8_tlvData.field_16_pre_alarmed_delay;
+                field_1D4_timer.MakeTimer(field_1A8_tlvData.field_16_pre_alarmed_delay);
             }
 
             Speak_444640(GlukkonSpeak::Hey_0);
@@ -1197,7 +1197,7 @@ __int16 Glukkon::AI_0_Calm_WalkAround_440B40()
                 field_D6_scale);
             if (pEvent17_1 && pEvent17_1 != this)
             {
-                field_1D4_timer = sGnFrame_5C1B84 + 20;
+                field_1D4_timer.MakeTimer(20);
                 return 9;
             }
 
@@ -1205,15 +1205,15 @@ __int16 Glukkon::AI_0_Calm_WalkAround_440B40()
             {
                 if (Check_IsOnEndOfLine_408E90(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX), 1) || PathBlocked_4442F0(field_C4_velx, 1))
                 {
-                    if (static_cast<int>(sGnFrame_5C1B84) <= field_1F0_randomish_speak_timer)
+                    if (!field_1F0_randomish_speak_timer.Expired2())
                     {
                         field_108_next_motion = eGlukkonMotions::M_Idle_0_442D10;
-                        field_1D4_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(30, 120);
+                        field_1D4_timer.MakeTimer(Math_RandomRange_496AB0(30, 120));
                         return 4;
                     }
                     else
                     {
-                        field_1F0_randomish_speak_timer = sGnFrame_5C1B84 + 120;
+                        field_1F0_randomish_speak_timer.MakeTimer(120);
                         SpeakRandomish_4405D0();
                         return 3;
                     }
@@ -1221,20 +1221,20 @@ __int16 Glukkon::AI_0_Calm_WalkAround_440B40()
             }
             else
             {
-                if (Math_NextRandom() < 5 && static_cast<int>(sGnFrame_5C1B84) > field_1F4_turn_or_help_timer)
+                if (Math_NextRandom() < 5 && field_1F4_turn_or_help_timer.Expired())
                 {
-                    field_1F4_turn_or_help_timer = sGnFrame_5C1B84 + 120;
+                    field_1F4_turn_or_help_timer.MakeTimer(120);
                     field_108_next_motion = eGlukkonMotions::M_Turn_2_442F10;
                     return 2;
                 }
             }
 
-            if (Math_NextRandom() >= 5 || static_cast<int>(sGnFrame_5C1B84) <= field_1F0_randomish_speak_timer)
+            if (Math_NextRandom() >= 5 || !field_1F0_randomish_speak_timer.Expired2())
             {
                 return field_210_sub_state;
             }
 
-            field_1F0_randomish_speak_timer = sGnFrame_5C1B84 + 120;
+            field_1F0_randomish_speak_timer.MakeTimer(120);
             SpeakRandomish_4405D0();
             return 6;
         }
@@ -1253,7 +1253,7 @@ __int16 Glukkon::AI_0_Calm_WalkAround_440B40()
         {
             return field_210_sub_state;
         }
-        field_1D4_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(30, 120);
+        field_1D4_timer.MakeTimer(Math_RandomRange_496AB0(30, 120));
         return 4;
 
     case 4:
@@ -1265,11 +1265,11 @@ __int16 Glukkon::AI_0_Calm_WalkAround_440B40()
                 field_BC_ypos,
                 field_D6_scale))
             {
-                field_1D4_timer = sGnFrame_5C1B84 + 10;
+                field_1D4_timer.MakeTimer(10);
             }
             else
             {
-                field_1D4_timer = sGnFrame_5C1B84 + field_1A8_tlvData.field_16_pre_alarmed_delay;
+                field_1D4_timer.MakeTimer(field_1A8_tlvData.field_16_pre_alarmed_delay);
             }
             Speak_444640(GlukkonSpeak::Hey_0);
             SetBrain(&Glukkon::AI_1_Panic_4412F0);
@@ -1283,12 +1283,12 @@ __int16 Glukkon::AI_0_Calm_WalkAround_440B40()
             field_D6_scale);
         if (pEvent17 && pEvent17 != this)
         {
-            field_1D4_timer = sGnFrame_5C1B84 + 20;
+            field_1D4_timer.MakeTimer(20);
             return 9;
         }
         else
         {
-            if (static_cast<int>(sGnFrame_5C1B84) <= field_1D4_timer)
+            if (!field_1D4_timer.Expired2())
             {
                 return field_210_sub_state;
             }
@@ -1306,11 +1306,11 @@ __int16 Glukkon::AI_0_Calm_WalkAround_440B40()
                 field_BC_ypos,
                 field_D6_scale))
             {
-                field_1D4_timer = sGnFrame_5C1B84 + 10;
+                field_1D4_timer.MakeTimer(10);
             }
             else
             {
-                field_1D4_timer = sGnFrame_5C1B84 + field_1A8_tlvData.field_16_pre_alarmed_delay;
+                field_1D4_timer.MakeTimer(field_1A8_tlvData.field_16_pre_alarmed_delay);
             }
             Speak_444640(GlukkonSpeak::Hey_0);
             SetBrain(&Glukkon::AI_1_Panic_4412F0);
@@ -1325,12 +1325,12 @@ __int16 Glukkon::AI_0_Calm_WalkAround_440B40()
                 field_D6_scale);
             if (pEvent17_3 && pEvent17_3 != this)
             {
-                field_1D4_timer = sGnFrame_5C1B84 + 20;
+                field_1D4_timer.MakeTimer(20);
                 return 9;
             }
             else
             {
-                if (static_cast<int>(sGnFrame_5C1B84) <= field_1D4_timer)
+                if (!field_1D4_timer.Expired2())
                 {
                     return field_210_sub_state;
                 }
@@ -1344,7 +1344,7 @@ __int16 Glukkon::AI_0_Calm_WalkAround_440B40()
         {
             return field_210_sub_state;
         }
-        field_1D4_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(30, 120);
+        field_1D4_timer.MakeTimer(Math_RandomRange_496AB0(30, 120));
         return 5;
 
     case 7:
@@ -1364,7 +1364,7 @@ __int16 Glukkon::AI_0_Calm_WalkAround_440B40()
         break;
 
     case 9:
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_1D4_timer)
+        if (!field_1D4_timer.Expired2())
         {
             return field_210_sub_state;
         }
@@ -1410,11 +1410,11 @@ __int16 Glukkon::AI_1_Panic_4412F0()
     switch (field_210_sub_state)
     {
     case 0:
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_1D4_timer || field_106_current_motion != eGlukkonMotions::M_Idle_0_442D10)
+        if (!field_1D4_timer.Expired2() || field_106_current_motion != eGlukkonMotions::M_Idle_0_442D10)
         {
             return field_210_sub_state;
         }
-        field_1F8_panic_timer = sGnFrame_5C1B84;
+        field_1F8_panic_timer.mTimer = sGnFrame_5C1B84;
         Speak_444640(GlukkonSpeak::Help_6);
         return 4;
 
@@ -1426,9 +1426,9 @@ __int16 Glukkon::AI_1_Panic_4412F0()
 
         if (ShouldPanic_440200(TRUE))
         {
-            field_1F8_panic_timer = sGnFrame_5C1B84;
+            field_1F8_panic_timer.mTimer = sGnFrame_5C1B84;
         }
-        else if (static_cast<int>(sGnFrame_5C1B84) - field_1F8_panic_timer > field_1A8_tlvData.field_1A_post_alarm_delay)
+        else if (static_cast<int>(sGnFrame_5C1B84) - field_1F8_panic_timer.mTimer > field_1A8_tlvData.field_1A_post_alarm_delay)
         {
             SwitchStates_Do_Operation_465F00(field_1A8_tlvData.field_18_switch_id, SwitchOp::eSetFalse_1);
             SetBrain(&Glukkon::AI_0_Calm_WalkAround_440B40);
@@ -1461,14 +1461,15 @@ __int16 Glukkon::AI_1_Panic_4412F0()
         }
         else
         {
-            if (Math_NextRandom() < 5u && static_cast<int>(sGnFrame_5C1B84) > field_1F4_turn_or_help_timer)
+            if (Math_NextRandom() < 5u && field_1F4_turn_or_help_timer.Expired())
             {
-                field_1F4_turn_or_help_timer = sGnFrame_5C1B84 + 120;
+                field_1F4_turn_or_help_timer.MakeTimer(120);
                 Glukkon::Speak_444640(GlukkonSpeak::Help_6);
                 return 5;
             }
         }
-        if (Math_NextRandom() >= 0xAu || static_cast<int>(sGnFrame_5C1B84) <= field_1F0_randomish_speak_timer)
+
+        if (Math_NextRandom() >= 0xAu || !field_1F0_randomish_speak_timer.Expired2())
         {
             return field_210_sub_state;
         }
@@ -1487,7 +1488,7 @@ __int16 Glukkon::AI_1_Panic_4412F0()
         {
             return field_210_sub_state;
         }
-        field_1F0_randomish_speak_timer = sGnFrame_5C1B84 + 60;
+        field_1F0_randomish_speak_timer.MakeTimer(60);
         return 1;
 
     case 5:
@@ -1557,9 +1558,9 @@ __int16 Glukkon::AI_2_Slapped_441720()
 
         if (ShouldPanic_440200(TRUE))
         {
-            field_1F8_panic_timer = sGnFrame_5C1B84;
+            field_1F8_panic_timer.mTimer = sGnFrame_5C1B84;
         }
-        else if ((signed int)(sGnFrame_5C1B84 - field_1F8_panic_timer) > field_1A8_tlvData.field_1A_post_alarm_delay)
+        else if ((signed int)(sGnFrame_5C1B84 - field_1F8_panic_timer.mTimer) > field_1A8_tlvData.field_1A_post_alarm_delay)
         {
             SwitchStates_Do_Operation_465F00(field_1A8_tlvData.field_18_switch_id, SwitchOp::eSetFalse_1);
             SetBrain(&Glukkon::AI_0_Calm_WalkAround_440B40);
@@ -1598,9 +1599,9 @@ __int16 Glukkon::AI_2_Slapped_441720()
     case 1:
         if (ShouldPanic_440200(TRUE))
         {
-            field_1F8_panic_timer = sGnFrame_5C1B84;
+            field_1F8_panic_timer.mTimer = sGnFrame_5C1B84;
         }
-        else if (static_cast<int>(sGnFrame_5C1B84 - field_1F8_panic_timer) > field_1A8_tlvData.field_1A_post_alarm_delay)
+        else if (static_cast<int>(sGnFrame_5C1B84 - field_1F8_panic_timer.mTimer) > field_1A8_tlvData.field_1A_post_alarm_delay)
         {
             field_108_next_motion = eGlukkonMotions::M_Idle_0_442D10;
             return 0;
@@ -1608,12 +1609,12 @@ __int16 Glukkon::AI_2_Slapped_441720()
 
         if (!field_100_pCollisionLine || (!Check_IsOnEndOfLine_408E90(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX), 4) && !PathBlocked_4442F0(field_C4_velx, 0)))
         {
-            if (Math_NextRandom() >= 10u || static_cast<int>(sGnFrame_5C1B84) <= field_1F0_randomish_speak_timer)
+            if (Math_NextRandom() >= 10u || !field_1F0_randomish_speak_timer.Expired2())
             {
                 return field_210_sub_state;
             }
             Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak::Help_6, 0, 0, 0);
-            field_1F0_randomish_speak_timer = sGnFrame_5C1B84 + 40;
+            field_1F0_randomish_speak_timer.MakeTimer(40);
             return field_210_sub_state;
         }
 
@@ -1648,7 +1649,7 @@ __int16 Glukkon::AI_3_PlayerControlled_441A30()
     switch (field_210_sub_state)
     {
     case 0:
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_1D4_timer)
+        if (!field_1D4_timer.Expired2())
         {
             return field_210_sub_state;
         }
@@ -1664,7 +1665,7 @@ __int16 Glukkon::AI_3_PlayerControlled_441A30()
         {
             if (Input_IsChanting_45F260() && field_106_current_motion != eGlukkonMotions::M_Jump_4_443030 && !field_1E2_prevent_depossession)
             {
-                field_1D4_timer = sGnFrame_5C1B84 + 30;
+                field_1D4_timer.MakeTimer(30);
                 SFX_Play_46FA90(SoundEffect::PossessEffect_17, 0);
                 SetAnim_43F9C0(10, TRUE);
                 return 2;
@@ -1711,7 +1712,7 @@ __int16 Glukkon::AI_3_PlayerControlled_441A30()
                     Layer::eLayer_0);
             }
 
-            if (static_cast<int>(sGnFrame_5C1B84) > field_1D4_timer || sActiveHero_5C1B68->field_10C_health <= FP_FromInteger(0))
+            if (field_1D4_timer.Expired() || sActiveHero_5C1B68->field_10C_health <= FP_FromInteger(0))
             {
                 field_114_flags.Clear(Flags_114::e114_Bit4_bPossesed);
                 SetBrain(&Glukkon::AI_4_Death_442010);
@@ -1780,7 +1781,7 @@ __int16 Glukkon::AI_3_PlayerControlled_441A30()
     case 6:
         GetSoundAPI().SND_Restart();
         pScreenManager_5BB5F4->field_40_flags |= 0x10000;
-        field_1D4_timer = sGnFrame_5C1B84 + 30;
+        field_1D4_timer.MakeTimer(30);
         SFX_Play_46FA90(SoundEffect::PossessEffect_17, 0);
         SetAnim_43F9C0(10, TRUE);
         return 2;
@@ -1840,13 +1841,13 @@ __int16 Glukkon::AI_4_Death_442010()
         else
         {
             field_10C_health = FP_FromInteger(0);
-            field_1D4_timer = sGnFrame_5C1B84 + 90;
+            field_1D4_timer.MakeTimer(90);
             return 1;
         }
         break;
 
     case 1:
-        if (static_cast<int>(sGnFrame_5C1B84) > field_1D4_timer)
+        if (field_1D4_timer.Expired())
         {
             ToDead_43F640();
             return field_210_sub_state;
@@ -1920,12 +1921,12 @@ __int16 Glukkon::AI_4_Death_442010()
         field_C8_vely = FP_FromInteger(0);
         field_C4_velx = FP_FromInteger(0);
         field_10C_health = FP_FromInteger(0);
-        field_1D4_timer = sGnFrame_5C1B84 + 40;
+        field_1D4_timer.MakeTimer(40);
     }
         return 3;
 
     case 3:
-        if (static_cast<int>(sGnFrame_5C1B84) > field_1D4_timer)
+        if (field_1D4_timer.Expired())
         {
             ToDead_43F640();
         }
@@ -1941,7 +1942,7 @@ __int16 Glukkon::AI_4_Death_442010()
         }
         else
         {
-            field_1D4_timer = sGnFrame_5C1B84 + 90;
+            field_1D4_timer.MakeTimer(90);
             return 1;
         }
         break;
@@ -1982,7 +1983,7 @@ __int16 Glukkon::AI_5_WaitToSpawn_442490()
         {
             return field_210_sub_state;
         }
-        field_1D4_timer = sGnFrame_5C1B84 + field_1A8_tlvData.field_20_spawn_delay;
+        field_1D4_timer.MakeTimer(field_1A8_tlvData.field_20_spawn_delay);
         return 1;
     }
     else if (field_210_sub_state == 2)
@@ -1997,7 +1998,7 @@ __int16 Glukkon::AI_5_WaitToSpawn_442490()
     }
     else if (field_210_sub_state == 1)
     {
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_1D4_timer)
+        if (!field_1D4_timer.Expired2())
         {
             return field_210_sub_state;
         }
@@ -2128,11 +2129,11 @@ void Glukkon::Init_43F260()
 
     field_208_obj_id = -1;
     field_110_id = -1;
-    field_1D4_timer = 0;
+    field_1D4_timer.mTimer = 0;
     field_10C_health = FP_FromInteger(1);
-    field_1F0_randomish_speak_timer = 0;
-    field_1F4_turn_or_help_timer = 0;
-    field_1F8_panic_timer = 0;
+    field_1F0_randomish_speak_timer.mTimer = 0;
+    field_1F4_turn_or_help_timer.mTimer = 0;
+    field_1F8_panic_timer.mTimer = 0;
     field_1EA_speak = GlukkonSpeak::None;
     field_1E0_gamespeak_pitch = 0;
     field_1FC = 0;
@@ -2276,7 +2277,7 @@ void Glukkon::vPossessed_440160()
     SetAnim_43F9C0(eGlukkonMotions::M_ChantShake_10_443B50, TRUE);
     SetBrain(&Glukkon::AI_3_PlayerControlled_441A30);
     field_210_sub_state = 0;
-    field_1D4_timer = sGnFrame_5C1B84 + 35;
+    field_1D4_timer.MakeTimer(35);
     field_1E4_level = gMap_5C3030.field_0_current_level;
     field_1E6_path = gMap_5C3030.field_2_current_path;
     field_1E8_camera = gMap_5C3030.field_4_current_camera;
@@ -3258,7 +3259,7 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
             {
                 Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak::Hey_0, 0, 0, 0);
             }
-            field_1F8_panic_timer = sGnFrame_5C1B84;
+            field_1F8_panic_timer.mTimer = sGnFrame_5C1B84;
             SetAnim_43F9C0(eGlukkonMotions::M_KnockBack_3_442F40, TRUE);
             SetBrain(&Glukkon::AI_2_Slapped_441720);
             field_210_sub_state = 0;
@@ -3287,7 +3288,7 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
         field_10C_health = FP_FromInteger(0);
         SetBrain(&Glukkon::AI_4_Death_442010);
         field_210_sub_state = 3;
-        field_1D4_timer = sGnFrame_5C1B84 + 1;
+        field_1D4_timer.MakeTimer(1);
         Event_Broadcast_422BC0(kEventMudokonComfort, this);
         break;
 

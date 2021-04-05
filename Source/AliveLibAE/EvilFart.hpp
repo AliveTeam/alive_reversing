@@ -43,8 +43,8 @@ struct EvilFart_State
     __int16 field_2E_alive_timer;
     FartStates field_30_state;
     __int16 field_32_padding;
-    int field_34_timer;
-    int field_38_timer;
+    Timer field_34_timer;
+    Timer field_38_back_to_abe_timer;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(EvilFart_State, 60);
 
@@ -87,8 +87,8 @@ private:
     __int16 field_122_camera;
     FartStates field_124_state;
     __int16 field_126_pad;
-    int field_128_timer;
-    int field_12C_back_to_abe_timer;
+    Timer field_128_timer;
+    Timer field_12C_back_to_abe_timer;
     int field_130_sound_channels;
 };
 ALIVE_ASSERT_SIZEOF(EvilFart, 0x134);

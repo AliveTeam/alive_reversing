@@ -104,7 +104,7 @@ private:
 public:
     GameSpeakEvents field_20_last_event;
     __int16 field_22_padding;
-    unsigned int field_24_last_event_frame;
+    Timer field_24_last_event_timer;
     int field_28_last_event_index;
     char field_2C_event_buffer[32];
 };

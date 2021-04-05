@@ -54,7 +54,7 @@ private:
     State field_FE_state;
     FP field_100_xJoin;
     FP field_104_yJoin;
-    int field_108_timer;
+    Timer field_108_timer;
     char field_10C_angle;
     // 3 byte pad
     FP field_110_prevX;

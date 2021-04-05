@@ -270,7 +270,7 @@ EXPORT void FallingItem::vUpdate_427780()
             const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<int>(gMap_5C3030.field_0_current_level)][1]);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             
-            field_128_delay_timer = sGnFrame_5C1B84 + field_124_fall_delay;
+            field_128_delay_timer.MakeTimer(field_124_fall_delay);
         }
         break;
 
@@ -285,12 +285,12 @@ EXPORT void FallingItem::vUpdate_427780()
         const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<int>(gMap_5C3030.field_0_current_level)][1]);
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
-        field_128_delay_timer = sGnFrame_5C1B84 + field_124_fall_delay;
+        field_128_delay_timer.MakeTimer(field_124_fall_delay);
         break;
     }
 
     case State::eState_2_WaitForFallDelay:
-        if (static_cast<int>(sGnFrame_5C1B84) >= field_128_delay_timer)
+        if (field_128_delay_timer.Expired2())
         {
             field_11C_state = State::eState_3_Falling;
             field_12E_do_sound_in_state_falling = TRUE;

@@ -6,6 +6,28 @@
 
 ALIVE_VAR_EXTERN(unsigned int, sGnFrame_5C1B84);
 
+struct Timer
+{
+    int mTimer;
+
+    // Helper to check if a timer has expired
+    inline bool Expired()
+    {
+        return static_cast<int>(sGnFrame_5C1B84) > mTimer;
+    }
+
+    inline bool Expired2()
+    {
+        return static_cast<int>(sGnFrame_5C1B84) >= mTimer;
+    }
+
+    template<class T>
+    void MakeTimer(const T value)
+    {
+        mTimer = static_cast<int>(sGnFrame_5C1B84) + value;
+    }
+};
+
 enum class Types : __int16
 {
     eNone_0 = 0,
@@ -223,20 +245,6 @@ public:
     EXPORT void BaseGameObject_dtor_4DBEC0();
 
     EXPORT static int CCSTD Find_Flags_4DC170(int objectId);
-
-protected:
-    // Helper to check if a timer has expired
-    template<class T>
-    static inline bool Expired(const T& value)
-    {
-        return static_cast<int>(sGnFrame_5C1B84) > value;
-    }
-
-    template<class T>
-    static int MakeTimer(const T value)
-    {
-        return static_cast<int>(sGnFrame_5C1B84) + value;
-    }
 
 public:
     Types field_4_typeId;

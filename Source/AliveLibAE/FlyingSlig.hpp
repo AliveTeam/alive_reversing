@@ -90,9 +90,9 @@ struct FlyingSlig_State
     };
     BitField16<Flags_3A> field_3A;
     int field_3C_tlvInfo;
-    int field_40_timer;
+    Timer field_40_timer;
     int field_44_grenade_delay;
-    int field_48_collision_reaction_timer;
+    Timer field_48_collision_reaction_timer;
     FP field_4C_xSpeed;
     FP field_50_ySpeed;
     SligSpeak field_54_next_speak;
@@ -308,9 +308,9 @@ public:
 private:
     Path_FlyingSlig field_118_data;
     int field_148_tlvInfo;
-    int field_14C_timer;
+    Timer field_14C_timer;
     int field_150_grenade_delay;
-    int field_154_collision_reaction_timer;
+    Timer field_154_collision_reaction_timer;
     int field_158_obj_id;
     __int16 field_15C_voice_pitch_min;
     __int16 field_15E_useless;

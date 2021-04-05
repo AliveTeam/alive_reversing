@@ -239,7 +239,7 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
 
     field_100_min_off_time_speed_change = tlvData.field_20_min_off_time_speed_change;
     field_102_max_off_time_speed_change = tlvData.field_22_max_off_time_speed_change;
-    field_108_off_timer = 0;
+    field_108_off_timer.mTimer = 0;
     field_F4_state = GrinderStates::State_0_Restart_Cycle;
     field_104_tlv = tlvInfo;
     field_10C_audio_channels_mask = 0;
@@ -350,7 +350,7 @@ void Grinder::vUpdate_420C50()
     switch (field_F4_state)
     {
     case GrinderStates::State_0_Restart_Cycle:
-        if (Expired(field_108_off_timer) || field_128_flags.Get(eBit4_Toggle))
+        if (field_108_off_timer.Expired() || field_128_flags.Get(eBit4_Toggle))
         {
             if ((!field_128_flags.Get(Flags::eBit3_UseId)) || (!!SwitchStates_Get_466020(field_F8_id) == (field_128_flags.Get(eBit1_StartOff))))
             {
@@ -381,7 +381,7 @@ void Grinder::vUpdate_420C50()
         }
 
         if (field_128_flags.Get(Flags::eBit3_UseId) && !field_128_flags.Get(Flags::eBit4_Toggle) && 
-            FP_GetExponent(field_120_off_speed) > 0 && Expired(field_108_off_timer))
+            FP_GetExponent(field_120_off_speed) > 0 && field_108_off_timer.Expired())
         {
             field_F4_state = GrinderStates::State_1_Going_Down;
 
@@ -466,7 +466,7 @@ void Grinder::vUpdate_420C50()
                 min_off = field_FC_min_off_time;
             }
 
-            field_108_off_timer = MakeTimer(Math_RandomRange_496AB0(min_off, max_off));
+            field_108_off_timer.MakeTimer(Math_RandomRange_496AB0(min_off, max_off));
 
             if (field_FA_direction == GrinderDirection::eDown_0)
             {

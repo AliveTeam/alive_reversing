@@ -19,7 +19,7 @@ private:
     EXPORT BaseGameObject* vdtor_418A60(signed int flags);
     EXPORT void Update_418AC0();
 public:
-    int field_20_next_cam_frame;
+    Timer field_20_next_cam_timer;
     __int16 field_24_camera_number;
 };
 #pragma pack(pop)

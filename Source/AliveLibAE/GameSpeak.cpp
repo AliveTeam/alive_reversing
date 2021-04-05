@@ -186,7 +186,7 @@ void GameSpeak::VScreenChanged()
 
 void GameSpeak::Update_421920()
 {
-    if (field_20_last_event != GameSpeakEvents::eNone_m1 && sGnFrame_5C1B84 > field_24_last_event_frame)
+    if (field_20_last_event != GameSpeakEvents::eNone_m1 && field_24_last_event_timer.Expired())
     {
         PushEvent_Impl(GameSpeakEvents::eNone_m1);
     }
@@ -195,7 +195,7 @@ void GameSpeak::Update_421920()
 void GameSpeak::PushEvent_4218D0(GameSpeakEvents event)
 {
     PushEvent_Impl(event);
-    field_24_last_event_frame = sGnFrame_5C1B84 + 60;
+    field_24_last_event_timer.MakeTimer(60);
 }
 
 void GameSpeak::PushEvent_Impl(GameSpeakEvents event)

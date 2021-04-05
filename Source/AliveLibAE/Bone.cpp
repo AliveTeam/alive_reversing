@@ -41,7 +41,7 @@ Bone* Bone::ctor_4112C0(FP xpos, FP ypos, __int16 countId)
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
 
-    field_12C_time_to_live = sGnFrame_5C1B84 + 300;
+    field_12C_time_to_live.MakeTimer(300);
     field_118_count = countId;
     field_11C_state = BoneStates::eState_0_spawned;
     field_11E_volume_modifier = 0;
@@ -143,7 +143,7 @@ int CC Bone::CreateFromSaveState_412C10(const BYTE* pData)
 
     pBone->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
 
-    pBone->field_128_shine_timer = sGnFrame_5C1B84;
+    pBone->field_128_shine_timer.mTimer = sGnFrame_5C1B84;
     
     pBone->field_104_collision_line_type = pState->field_28_line_type;
     pBone->field_118_count = pState->field_2A_count;
@@ -537,7 +537,7 @@ void Bone::vUpdate_411BC0()
                 field_11C_state = BoneStates::eState_3_on_ground;
                 field_6_flags.Set(BaseGameObject::eInteractive_Bit8);
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit8_Loop);
-                field_128_shine_timer = sGnFrame_5C1B84;
+                field_128_shine_timer.mTimer = sGnFrame_5C1B84;
                 AddToPlatform_412310();
                 return;
             }
@@ -557,10 +557,10 @@ void Bone::vUpdate_411BC0()
     case BoneStates::eState_3_on_ground:
         if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
         {
-            field_12C_time_to_live = sGnFrame_5C1B84 + 300;
+            field_12C_time_to_live.MakeTimer(300);
         }
 
-        if (static_cast<int>(sGnFrame_5C1B84) > field_128_shine_timer && !pObj)
+        if (field_128_shine_timer.Expired() && !pObj)
         {
             // For the shiny star twinkle effect.
             New_TintShiny_Particle_426C30(
@@ -569,10 +569,10 @@ void Bone::vUpdate_411BC0()
                     FP_FromDouble(0.3),
                     Layer::eLayer_36);
 
-            field_128_shine_timer = (Math_NextRandom() % 16) + sGnFrame_5C1B84 + 60;
+            field_128_shine_timer.MakeTimer((Math_NextRandom() % 16) + 60);
         }
 
-        if (field_12C_time_to_live < static_cast<int>(sGnFrame_5C1B84))
+        if (field_12C_time_to_live.Expired())
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }

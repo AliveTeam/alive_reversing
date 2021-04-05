@@ -167,7 +167,7 @@ public:
 private:
     int field_40_throwable_indicator_id;
     int field_44_dove_ids[6];
-    int field_5C_timer;
+    Timer field_5C_timer;
     FP field_60_scale;
     __int16 field_64_movie_id;
     __int16 field_66_delete_id;

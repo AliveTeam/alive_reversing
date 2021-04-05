@@ -59,7 +59,7 @@ ElectricWall* ElectricWall::ctor_421DA0(Path_ElectricWall* pTlv, int tlvInfo)
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
     }
 
-    field_FC_sound_timer = 0;
+    field_FC_sound_timer.mTimer = 0;
     return this;
 }
 
@@ -142,10 +142,10 @@ void ElectricWall::vUpdate_422030()
         }
 
         // Play sound every so often
-        if (static_cast<int>(sGnFrame_5C1B84) >= field_FC_sound_timer)
+        if (field_FC_sound_timer.Expired2())
         {
             SFX_Play_46FC20(SoundEffect::BirdPortalSpark_41, 45, soundDirection, field_CC_sprite_scale);
-            field_FC_sound_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(24, 40);
+            field_FC_sound_timer.MakeTimer(Math_RandomRange_496AB0(24, 40));
         }
 
         PSX_RECT bRect = {};

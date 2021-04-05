@@ -169,7 +169,7 @@ int CC EvilFart::CreateFromSaveState_4281C0(const BYTE* pBuffer)
     pFart->field_11C_alive_timer = pState->field_2E_alive_timer;
     pFart->field_124_state = pState->field_30_state;
     pFart->field_128_timer = pState->field_34_timer;
-    pFart->field_12C_back_to_abe_timer = pState->field_38_timer;
+    pFart->field_12C_back_to_abe_timer = pState->field_38_back_to_abe_timer;
     return sizeof(EvilFart_State);
 }
 
@@ -204,7 +204,7 @@ int EvilFart::vGetSaveState_4283F0(EvilFart_State* pState)
     pState->field_2E_alive_timer = field_11C_alive_timer;
     pState->field_30_state = field_124_state;
     pState->field_34_timer = field_128_timer;
-    pState->field_38_timer = field_12C_back_to_abe_timer;
+    pState->field_38_back_to_abe_timer = field_12C_back_to_abe_timer;
     return sizeof(EvilFart_State);
 }
 
@@ -342,12 +342,12 @@ void EvilFart::vUpdate_423100()
             {
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
                 field_118_bBlowUp = 1;
-                field_12C_back_to_abe_timer = sGnFrame_5C1B84 + 35;
+                field_12C_back_to_abe_timer.MakeTimer(35);
             }
         }
     }
 
-    if (field_118_bBlowUp && static_cast<int>(sGnFrame_5C1B84) > field_12C_back_to_abe_timer)
+    if (field_118_bBlowUp && field_12C_back_to_abe_timer.Expired())
     {
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -533,8 +533,8 @@ void EvilFart::vUpdate_423100()
                 if (!field_11A_bPossesed)
                 {
                     field_124_state = FartStates::eDechanting_2;
-                    field_128_timer = sGnFrame_5C1B84 + 15;
-                    field_12C_back_to_abe_timer = sGnFrame_5C1B84 + 50;
+                    field_128_timer.MakeTimer(15);
+                    field_12C_back_to_abe_timer.MakeTimer(50);
                     SFX_Play_46FA90(SoundEffect::PossessEffect_17, 0);
                 }
             }
@@ -568,7 +568,7 @@ void EvilFart::vUpdate_423100()
                 Layer::eLayer_0);
         }
 
-        if (!field_118_bBlowUp && static_cast<int>(sGnFrame_5C1B84) > field_128_timer)
+        if (!field_118_bBlowUp && field_128_timer.Expired())
         {
             BlowUp();
 

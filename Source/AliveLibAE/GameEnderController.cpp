@@ -50,7 +50,7 @@ int CC GameEnderController::CreateFromSaveState_43BD10(const BYTE* pBuffer)
     {
         pGameEnderController->ctor_43B840();
         pGameEnderController->field_C_objectId = pState->field_4_obj_id;
-        pGameEnderController->field_20_timer = sGnFrame_5C1B84 + pState->field_8_timer;
+        pGameEnderController->field_20_timer.MakeTimer(pState->field_8_timer.mTimer);
         pGameEnderController->field_24_state = pState->field_C_state;
     }
     return sizeof(GameEnderController_State);
@@ -116,7 +116,7 @@ int GameEnderController::vGetSaveState_43BCD0(GameEnderController_State* pState)
 {
     pState->field_0_type = Types::eGameEnderController_57;
     pState->field_4_obj_id = field_C_objectId;
-    pState->field_8_timer = field_20_timer - sGnFrame_5C1B84;
+    pState->field_8_timer.mTimer = field_20_timer.mTimer - sGnFrame_5C1B84;
     pState->field_C_state = field_24_state;
     return sizeof(GameEnderController_State);
 }

@@ -185,7 +185,7 @@ void SlapLock::GiveInvisibility_43E880()
         sActiveHero_5C1B68->field_176_invisibility_id = field_118_pTlv->field_1C_invisibility_id;
         sActiveHero_5C1B68->field_16C_bHaveShrykull = 0;
         sActiveHero_5C1B68->field_16E_bHaveInvisiblity = 1;
-        sActiveHero_5C1B68->field_168_ring_pulse_timer = sGnFrame_5C1B84 + 200000;
+        sActiveHero_5C1B68->field_168_ring_pulse_timer.MakeTimer(200000);
     }
 }
 
@@ -361,7 +361,7 @@ void SlapLock::vUpdate_43DF90()
                     sActiveHero_5C1B68->field_B8_xpos,
                     sActiveHero_5C1B68->field_BC_ypos,
                     1)
-                    || sActiveHero_5C1B68->field_168_ring_pulse_timer
+                    || sActiveHero_5C1B68->field_168_ring_pulse_timer.mTimer
                     || sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
                 {
                     AbilityRing::Factory_482F80(

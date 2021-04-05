@@ -91,11 +91,11 @@ struct Fleech_State
     __int16 field_5E_brain_state;
     __int16 field_60_state;
     __int16 field_62;
-    int field_64;
+    Timer field_64_death_timer;
     char field_68_fleech_random_idx;
     char field_69;
     __int16 field_6A;
-    int field_6C;
+    int field_6C_unused;
     FP field_70;
     __int16 field_74;
     __int16 field_76_current_anger;
@@ -326,10 +326,10 @@ private:
     unsigned __int16 field_126_state;
     __int16 field_128;
     __int16 field_12A;
-    int field_12C;
+    Timer field_12C_death_timer;
     __int16 field_130;
     __int16 field_132;
-    int field_134;
+    int field_134_unused;
     FP field_138;
     __int16 field_13C;
     __int16 field_13E_current_anger;

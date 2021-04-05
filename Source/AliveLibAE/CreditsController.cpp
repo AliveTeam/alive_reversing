@@ -20,13 +20,13 @@ void CreditsController::VUpdate()
 
 constexpr int kShowCreditScreenForTicks = 160;
 
-CreditsController * CreditsController::ctor_418A10(Path_TLV* /*pTlv*/, int /*tlvInfo*/)
+CreditsController* CreditsController::ctor_418A10(Path_TLV* /*pTlv*/, int /*tlvInfo*/)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x544618);
 
     field_24_camera_number = gMap_5C3030.field_4_current_camera;
-    field_20_next_cam_frame = sGnFrame_5C1B84 + kShowCreditScreenForTicks;
+    field_20_next_cam_timer.MakeTimer(kShowCreditScreenForTicks);
 
     sDoesCreditsControllerExist_5C1B90 = true;
     
@@ -51,10 +51,10 @@ BaseGameObject* CreditsController::vdtor_418A60(signed int flags)
 
 void CreditsController::Update_418AC0()
 {
-    if (field_20_next_cam_frame <= static_cast<int>(sGnFrame_5C1B84))
+    if (field_20_next_cam_timer.Expired())
     {
         field_24_camera_number++;
-        field_20_next_cam_frame = sGnFrame_5C1B84 + kShowCreditScreenForTicks;
+        field_20_next_cam_timer.MakeTimer(kShowCreditScreenForTicks);
 
         if (gMap_5C3030.field_2_current_path == 2)
         {

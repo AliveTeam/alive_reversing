@@ -59,8 +59,8 @@ Alarm* Alarm::ctor_4091F0(__int16 durationOffset, __int16 switchId, __int16 time
     field_78_r_value = 0;
     field_90_state = States::eAfterConstructed_1;
     field_84_tlvOffsetLevelPathCamId = 0xFFFF;
-    field_7C_15_timer = sGnFrame_5C1B84 + timerOffset;
-    field_80_duration_timer = field_7C_15_timer + durationOffset;
+    field_7C_15_timer.MakeTimer(timerOffset);
+    field_80_duration_timer.mTimer = field_7C_15_timer.mTimer + durationOffset;
     field_88_switch_id = switchId;
 
     alarmInstanceCount_5C1BB4++;
@@ -134,7 +134,7 @@ void Alarm::vUpdate_409460()
     if (field_90_state != States::eWaitForSwitchEnable_0)
     {
         Event_Broadcast_422BC0(kEventAlarm, this);
-        if (static_cast<int>(sGnFrame_5C1B84) > field_80_duration_timer)
+        if (field_80_duration_timer.Expired())
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
             return;
@@ -167,7 +167,7 @@ void Alarm::vUpdate_409460()
 
             field_90_state = States::eEnabling_2;
             SFX_Play_46FA90(SoundEffect::SecurityDoorDeny_38, 0);
-            field_80_duration_timer = sGnFrame_5C1B84 + field_8A_duration;
+            field_80_duration_timer.MakeTimer(field_8A_duration);
             field_6E_r = field_78_r_value;
             break;
 
@@ -178,7 +178,7 @@ void Alarm::vUpdate_409460()
             }
             else
             {
-                if (static_cast<int>(sGnFrame_5C1B84) <= field_7C_15_timer)
+                if (!field_7C_15_timer.Expired())
                 {
                     field_6E_r = field_78_r_value;
                     return;
@@ -209,13 +209,13 @@ void Alarm::vUpdate_409460()
 
             field_78_r_value = 100;
             field_90_state = States::eOnFlash_3;
-            field_7C_15_timer = sGnFrame_5C1B84 + 15;
+            field_7C_15_timer.MakeTimer(15);
             SFX_Play_46FA90(SoundEffect::SecurityDoorDeny_38, 0);
             field_6E_r = field_78_r_value;
             break;
 
         case States::eOnFlash_3:
-            if (static_cast<int>(sGnFrame_5C1B84) <= field_7C_15_timer)
+            if (!field_7C_15_timer.Expired())
             {
                 field_6E_r = field_78_r_value;
                 return;
@@ -235,7 +235,7 @@ void Alarm::vUpdate_409460()
             }
 
             field_78_r_value = 0;
-            field_7C_15_timer = sGnFrame_5C1B84 + 15;
+            field_7C_15_timer.MakeTimer(15);
             field_90_state = States::eDisabled_5;
             field_6E_r = field_78_r_value;
             break;
@@ -247,7 +247,7 @@ void Alarm::vUpdate_409460()
             }
             else
             {
-                if (static_cast<int>(sGnFrame_5C1B84) > field_7C_15_timer)
+                if (field_7C_15_timer.Expired())
                 {
                     field_90_state = States::eEnabling_2;
                     SFX_Play_46FA90(SoundEffect::SecurityDoorDeny_38, 0);

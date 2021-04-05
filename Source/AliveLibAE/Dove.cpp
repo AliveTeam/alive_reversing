@@ -230,7 +230,7 @@ void Dove::AsJoin_41F940(FP xpos, FP ypos)
     field_100_xJoin = xpos;
     field_104_yJoin = ypos;
     field_FE_state = State::State_2_Join;
-    field_108_timer = sGnFrame_5C1B84 + 47;
+    field_108_timer.MakeTimer(47);
 }
 
 void Dove::FlyAway_420020(BOOL spookedInstantly)
@@ -331,7 +331,7 @@ void Dove::vUpdate_41FAE0()
 
     case State::State_2_Join:
     {
-        if (static_cast<int>(sGnFrame_5C1B84) > field_108_timer)
+        if (field_108_timer.Expired())
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }

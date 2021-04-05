@@ -38,6 +38,6 @@ private:
     int field_F4_tlvInfo;
     __int16 field_F8_switch_id;
     ElectricWallStartState field_FA_start_state;
-    int field_FC_sound_timer;
+    Timer field_FC_sound_timer;
 };
 ALIVE_ASSERT_SIZEOF(ElectricWall, 0x100);

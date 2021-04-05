@@ -132,7 +132,7 @@ struct Glukkon_SaveState
     __int32 field_4C_padding;
     __int16 field_50_sub_state;
     __int16 field_52_padding;
-    __int32 field_54_timer;
+    Timer field_54_timer;
     FP field_58_falling_velx_scale_factor;
     __int16 field_5C_padding;
     __int16 field_5E_prevent_depossession;
@@ -143,9 +143,9 @@ struct Glukkon_SaveState
     __int16 field_68_gamespeak_pitch;
     __int16 field_6A_padding;
     FP field_6C_previous_ypos;
-    __int32 field_70_randomish_speak_timer;
-    __int32 field_74_turn_or_help_timer;
-    __int32 field_78_panic_timer;
+    Timer field_70_randomish_speak_timer;
+    Timer field_74_turn_or_help_timer;
+    Timer field_78_panic_timer;
     __int16 field_7C;
     __int16 field_7E_padding;
     __int32 field_80_knockback_delay_after_getting_shot_timer;
@@ -287,7 +287,7 @@ private:
     __int16 field_1A4_blue;
     __int16 field_1A6_padding;
     Path_Glukkon field_1A8_tlvData;
-    __int32 field_1D4_timer;
+    Timer field_1D4_timer;
     FP field_1D8_falling_velx_scale_factor;
     FP field_1DC_previous_ypos;
     __int16 field_1E0_gamespeak_pitch;
@@ -298,9 +298,9 @@ private:
     GlukkonSpeak field_1EA_speak;
     char field_1EB_padding;
     int field_1EC_unused;
-    int field_1F0_randomish_speak_timer;
-    int field_1F4_turn_or_help_timer;
-    int field_1F8_panic_timer;
+    Timer field_1F0_randomish_speak_timer;
+    Timer field_1F4_turn_or_help_timer;
+    Timer field_1F8_panic_timer;
     __int16 field_1FC; // When set to true, broadcasts event kEventUnknown17.
     __int16 field_1FE_padding;
     int field_200_knockback_delay_after_getting_shot_timer;

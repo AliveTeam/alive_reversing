@@ -300,7 +300,7 @@ void SecurityOrb::vUpdate_4665A0()
 
         if (Event_Get_422C00(kEventAbeOhm))
         {
-            if (!sActiveHero_5C1B68->field_168_ring_pulse_timer ||
+            if (!sActiveHero_5C1B68->field_168_ring_pulse_timer.mTimer ||
                 !sActiveHero_5C1B68->field_16C_bHaveShrykull ||
                 sActiveHero_5C1B68->field_CC_sprite_scale != FP_FromInteger(1))
             {

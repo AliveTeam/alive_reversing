@@ -49,7 +49,7 @@ struct Grinder_State
     //__int16 field_2_padding;
     int field_4;
     int field_8_tlvInfo;
-    int field_C_off_timer;
+    Timer field_C_off_timer;
     GrinderStates field_10_state;
     __int16 field_12_xyoff;
 };
@@ -95,7 +95,7 @@ private:
     __int16 field_100_min_off_time_speed_change;
     __int16 field_102_max_off_time_speed_change;
     DWORD field_104_tlv;
-    int field_108_off_timer;
+    Timer field_108_off_timer;
     int field_10C_audio_channels_mask;
     FP field_110_xPos;
     FP field_114_yPos;

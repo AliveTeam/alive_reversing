@@ -1310,11 +1310,11 @@ void Mudokon::dtor_475B60()
     {
         if (field_164_ring_timeout > 0)
         {
-            sActiveHero_5C1B68->field_168_ring_pulse_timer = sGnFrame_5C1B84 + field_164_ring_timeout;
+            sActiveHero_5C1B68->field_168_ring_pulse_timer.MakeTimer(field_164_ring_timeout);
         }
         else
         {
-            sActiveHero_5C1B68->field_168_ring_pulse_timer = sGnFrame_5C1B84 + 200000;
+            sActiveHero_5C1B68->field_168_ring_pulse_timer.MakeTimer(200000);
         }
 
         sActiveHero_5C1B68->field_16C_bHaveShrykull = FALSE;
@@ -1883,7 +1883,7 @@ __int16 Mudokon::AI_GiveRings_0_470C10()
             field_194_timer = sGnFrame_5C1B84 + 60;
             field_108_next_motion = Mud_Motion::M_Idle_0_4724E0;
 
-            if (sActiveHero_5C1B68->field_168_ring_pulse_timer)
+            if (sActiveHero_5C1B68->field_168_ring_pulse_timer.mTimer)
             {
                 field_16C_flags.Set(Flags_16C::eBit1_Unknown);
                 return AI_GiveRings::eState0_Idle_2;
@@ -1923,7 +1923,7 @@ __int16 Mudokon::AI_GiveRings_0_470C10()
                 sActiveHero_5C1B68->field_B8_xpos,
                 sActiveHero_5C1B68->field_BC_ypos,
                 0)
-            && !sActiveHero_5C1B68->field_168_ring_pulse_timer)
+            && !sActiveHero_5C1B68->field_168_ring_pulse_timer.mTimer)
         {
             field_194_timer = StableDelay_477570() + sGnFrame_5C1B84 + 20;
             return AI_GiveRings::eState0_SaysOkay_6;
@@ -1964,7 +1964,7 @@ __int16 Mudokon::AI_GiveRings_0_470C10()
         {
             if (vIsFacingMe_4254A0(sActiveHero_5C1B68))
             {
-                if (sActiveHero_5C1B68->field_168_ring_pulse_timer > 0)
+                if (sActiveHero_5C1B68->field_168_ring_pulse_timer.mTimer > 0)
                 {
                     Sound_475EC0(MudSounds::eHelloNeutral_3);
                 }
@@ -2007,7 +2007,7 @@ __int16 Mudokon::AI_GiveRings_0_470C10()
     case AI_GiveRings::eState0_SaysOkay_6:
         if (field_106_current_motion == Mud_Motion::M_Idle_0_4724E0)
         {
-            if (sActiveHero_5C1B68->field_168_ring_pulse_timer <= 0)
+            if (sActiveHero_5C1B68->field_168_ring_pulse_timer.mTimer <= 0)
             {
                 field_108_next_motion = 50;
                 field_194_timer = sGnFrame_5C1B84 + 30;
@@ -2091,11 +2091,11 @@ __int16 Mudokon::AI_GiveRings_0_470C10()
         {
             if (field_164_ring_timeout > 0)
             {
-                sActiveHero_5C1B68->field_168_ring_pulse_timer = sGnFrame_5C1B84 + field_164_ring_timeout;
+                sActiveHero_5C1B68->field_168_ring_pulse_timer.MakeTimer(field_164_ring_timeout);
             }
             else
             {
-                sActiveHero_5C1B68->field_168_ring_pulse_timer = sGnFrame_5C1B84 + 200000;
+                sActiveHero_5C1B68->field_168_ring_pulse_timer.MakeTimer(200000);
             }
 
             sActiveHero_5C1B68->field_16C_bHaveShrykull = FALSE;
@@ -5466,7 +5466,7 @@ __int16 Mudokon::AI_Sick_9_47A910()
         if (sActiveHero_5C1B68->field_128.field_18_say == MudSounds::eNone)
         {
             sActiveHero_5C1B68->field_128.field_18_say = MudSounds::eSadUgh_28;
-            sActiveHero_5C1B68->field_144_auto_say_timer = sGnFrame_5C1B84 + 10;
+            sActiveHero_5C1B68->field_144_auto_say_timer.MakeTimer(10);
         }
         field_16A_flags.Set(Flags_16A::eBit9_seen_while_sick);
     }

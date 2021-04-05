@@ -41,7 +41,7 @@ public:
         if (field_F4_state == BoomMachineStates::eInactive_0)
         {
             field_F4_state = BoomMachineStates::eDropGrenadeAnimation_2;
-            field_F8_timer = sGnFrame_5C1B84 + 10;
+            field_F8_timer.MakeTimer(10);
         }
     }
 
@@ -50,7 +50,7 @@ public:
         if (field_F4_state == BoomMachineStates::eInactive_0)
         {
             field_F4_state = BoomMachineStates::eAlreadyUsed_1;
-            field_F8_timer = sGnFrame_5C1B84 + 10;
+            field_F8_timer.MakeTimer(10);
         }
     }
 
@@ -83,7 +83,7 @@ private:
             LOG_WARNING("BoomMachine field_F4_state is eInactive. We're not sure if this should happen.");
             break;
         case BoomMachineStates::eAlreadyUsed_1:
-            if (static_cast<int>(sGnFrame_5C1B84) > field_F8_timer)
+            if (field_F8_timer.Expired())
             {
                 SFX_Play_46FBA0(SoundEffect::ZPop_4, 60, -1800);
                 field_F4_state = BoomMachineStates::eInactive_0;
@@ -91,7 +91,7 @@ private:
             break;
 
         case BoomMachineStates::eDropGrenadeAnimation_2:
-            if (static_cast<int>(sGnFrame_5C1B84) > field_F8_timer)
+            if (field_F8_timer.Expired())
             {
                 field_F4_state = BoomMachineStates::eDropGrenade_3;
                 const AnimRecord& animRec = AnimRec(AnimId::Grenade_Machine_Nozzle_Drop_Grenade);
@@ -150,7 +150,7 @@ private:
 private:
     BoomMachineStates field_F4_state;
     __int16 field_F6_pad;
-    int field_F8_timer;
+    Timer field_F8_timer;
     __int16 field_FC_numGrenades;
     __int16 field_FE_pad;
 };

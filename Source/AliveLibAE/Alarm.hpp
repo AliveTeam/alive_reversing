@@ -23,8 +23,8 @@ private:
 private:
     __int16 field_78_r_value;
     __int16 field_7A_padding;
-    int field_7C_15_timer;
-    int field_80_duration_timer;
+    Timer field_7C_15_timer;
+    Timer field_80_duration_timer;
     int field_84_tlvOffsetLevelPathCamId;
     __int16 field_88_switch_id;
     WORD field_8A_duration;
