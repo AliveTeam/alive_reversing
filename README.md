@@ -30,7 +30,7 @@ git clone --recursive https://github.com/AliveTeam/alive_reversing.git
 
 1. `cd build`
 2. `cmake -S .. -B . -DSDL2_DIR=PATH_TO_YOUR_SDL2_DIRECTORY`
-3. `msbuild /p:Configuration=Debug;Platform=Win32 ar.sln /m`
+3. `msbuild /p:Configuration=Debug;Platform=Win32 relive.sln /m`
 
 ### Build on Windows using Visual Studio 2017
 
