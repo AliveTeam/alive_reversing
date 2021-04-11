@@ -25,11 +25,10 @@ public:
     void ToJson(jsonxx::Array& obj) const override
     {
         jsonxx::Object ret;
-
         ret << "min_value" << mMinVal;
         ret << "max_value" << mMaxVal;
-
-        obj << Name() << ret;
+        ret << "name" << Name();
+        obj << ret;
     }
 
 private:

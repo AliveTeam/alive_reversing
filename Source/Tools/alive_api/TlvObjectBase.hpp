@@ -96,15 +96,16 @@ public:
         mProperties[key] = std::make_unique<TypedProperty<PropertyType>>(name, typeName, visibleInEditor, key);
     }
 
-    jsonxx::Object PropertiesToJson() const
+    jsonxx::Array PropertiesToJson() const
     {
-        jsonxx::Object ret;
+        jsonxx::Array ret;
         for (const auto& [key, value] : mProperties)
         {
             jsonxx::Object property;
             property << "Type" << value->TypeName();
             property << "Visible" << value->IsVisibleToEditor();
-            ret << value->Name() << property;
+            property << "name" << value->Name();
+            ret << property;
         }
         return ret;
     }
@@ -258,8 +259,8 @@ public:
 
         mTlv.field_8_top_left.field_0_x = obj.get<jsonxx::Number>("xpos");
         mTlv.field_8_top_left.field_2_y = obj.get<jsonxx::Number>("ypos");
-        mTlv.field_C_bottom_right.field_0_x = obj.get<jsonxx::Number>("width");
-        mTlv.field_C_bottom_right.field_2_y = obj.get<jsonxx::Number>("height");
+        mTlv.field_C_bottom_right.field_0_x = obj.get<jsonxx::Number>("width") + mTlv.field_8_top_left.field_0_x;
+        mTlv.field_C_bottom_right.field_2_y = obj.get<jsonxx::Number>("height") + mTlv.field_8_top_left.field_2_y;
     }
 
     void InstanceToJsonBase(jsonxx::Object& ret) override
@@ -268,8 +269,14 @@ public:
 
         ret << "xpos" << static_cast<int>(mTlv.field_8_top_left.field_0_x);
         ret << "ypos" << static_cast<int>(mTlv.field_8_top_left.field_2_y);
-        ret << "width" << static_cast<int>(mTlv.field_C_bottom_right.field_0_x);
-        ret << "height" << static_cast<int>(mTlv.field_C_bottom_right.field_2_y);
+        ret << "width" << static_cast<int>(mTlv.field_C_bottom_right.field_0_x - mTlv.field_8_top_left.field_0_x);
+        ret << "height" << static_cast<int>(mTlv.field_C_bottom_right.field_2_y - mTlv.field_8_top_left.field_2_y);
+
+        if (mTlv.field_C_bottom_right.field_0_x - mTlv.field_8_top_left.field_0_x < 0 ||
+            mTlv.field_C_bottom_right.field_2_y - mTlv.field_8_top_left.field_2_y < 0)
+        {
+            abort();
+        }
 
         ret << "object_structures_type" << Name();
     }
@@ -323,8 +330,8 @@ public:
 
         mBase->field_10_top_left.field_0_x = obj.get<jsonxx::Number>("xpos");
         mBase->field_10_top_left.field_2_y = obj.get<jsonxx::Number>("ypos");
-        mBase->field_14_bottom_right.field_0_x = obj.get<jsonxx::Number>("width");
-        mBase->field_14_bottom_right.field_2_y = obj.get<jsonxx::Number>("height");
+        mBase->field_14_bottom_right.field_0_x = obj.get<jsonxx::Number>("width") + mBase->field_10_top_left.field_0_x;
+        mBase->field_14_bottom_right.field_2_y = obj.get<jsonxx::Number>("height") + mBase->field_10_top_left.field_2_y;
 
         mBase->field_C_sound_pos.field_0_x = mBase->field_10_top_left.field_0_x;
         mBase->field_C_sound_pos.field_2_y = mBase->field_10_top_left.field_2_y;
@@ -336,16 +343,11 @@ public:
 
         ret << "xpos" << static_cast<int>(mBase->field_10_top_left.field_0_x);
         ret << "ypos" << static_cast<int>(mBase->field_10_top_left.field_2_y);
-        ret << "width" << static_cast<int>(mBase->field_14_bottom_right.field_0_x);
-        ret << "height" << static_cast<int>(mBase->field_14_bottom_right.field_2_y);
+        ret << "width" << static_cast<int>(mBase->field_14_bottom_right.field_0_x - mBase->field_10_top_left.field_0_x);
+        ret << "height" << static_cast<int>(mBase->field_14_bottom_right.field_2_y - mBase->field_10_top_left.field_2_y);
 
-        // It appears these are the same for all OG levels so its a total waste of time and space
-        if (mBase->field_C_sound_pos.field_0_x != mBase->field_10_top_left.field_0_x)
-        {
-            abort();
-        }
-
-        if (mBase->field_C_sound_pos.field_2_y != mBase->field_10_top_left.field_2_y)
+        if (mBase->field_14_bottom_right.field_0_x - mBase->field_10_top_left.field_0_x < 0 ||
+            mBase->field_14_bottom_right.field_2_y - mBase->field_10_top_left.field_2_y < 0)
         {
             abort();
         }
