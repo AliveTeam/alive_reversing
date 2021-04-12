@@ -1,7 +1,5 @@
 #pragma once
 
-#if RENDERER_OPENGL
-
 #include <GL/glew.h>
 #include <SDL_opengl.h>
 #include <GL/GLU.h>
@@ -45,5 +43,3 @@ private:
 
     GLuint CompileShader(const char* source, GLenum shaderType);
 };
-
-#endif

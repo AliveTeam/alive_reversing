@@ -1,7 +1,5 @@
 #pragma once
 
-#if RENDERER_OPENGL
-
 #include "IRenderer.hpp"
 
 #include <GL/glew.h>
@@ -114,5 +112,3 @@ private:
 };
 
 void HackSetBackground(const char* path);
-
-#endif

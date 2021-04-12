@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-#if RENDERER_OPENGL
-
 #include "OpenGLRenderer.hpp"
 #include "Compression.hpp"
 
@@ -1519,5 +1517,3 @@ void HackSetBackground(const char* path)
 
     stbi_image_free((void*)data);
 }
-
-#endif

@@ -1,7 +1,5 @@
 #include "GLShader.hpp"
 
-#if RENDERER_OPENGL
-
 GLShader::GLShader()
 {
     
@@ -208,5 +206,3 @@ void GLShader::Free()
     if (mProgramID != 0)
         glDeleteProgram(mProgramID);
 }
-
-#endif

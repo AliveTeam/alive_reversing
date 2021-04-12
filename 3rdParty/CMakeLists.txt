@@ -113,4 +113,3 @@ target_include_directories(glm INTERFACE
     ${CMAKE_CURRENT_SOURCE_DIR}/glm;
     )
 export(TARGETS glm FILE glm.cmake)
-set_property(TARGET glm PROPERTY FOLDER "3rdParty")
