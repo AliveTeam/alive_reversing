@@ -4,7 +4,6 @@
 
 #include <GL/glew.h>
 #include <SDL_opengl.h>
-#include <gl/glu.h>
 
 #define GLM_FORCE_SILENT_WARNINGS
 
