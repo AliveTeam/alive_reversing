@@ -115,7 +115,7 @@ TextureCache* Renderer_TexFromTPage(WORD tPage, BYTE u, BYTE v)
         break;
     }
 
-    for (int i = 0; i < gRendererTextures.size(); i++)
+    for (size_t i = 0; i < gRendererTextures.size(); i++)
     {
         TextureCache* c = &gRendererTextures[i];
 
@@ -142,7 +142,7 @@ PaletteCache* Renderer_ClutToPalette(int tClut)
     short x = (tClut & 63) << 4;
     short y = ((tClut >> 6) & 0xff);
 
-    for (int i = 0; i < gRendererPals.size(); i++)
+    for (size_t i = 0; i < gRendererPals.size(); i++)
     {
         PaletteCache* c = &gRendererPals[i];
 
@@ -157,7 +157,7 @@ PaletteCache* Renderer_ClutToPalette(int tClut)
 
 TextureCache* Renderer_TexFromVRam(const PSX_RECT& rect)
 {
-    for (int i = 0; i < gRendererTextures.size(); i++)
+    for (size_t i = 0; i < gRendererTextures.size(); i++)
     {
         TextureCache* c = &gRendererTextures[i];
 
@@ -172,7 +172,7 @@ TextureCache* Renderer_TexFromVRam(const PSX_RECT& rect)
 
 void Renderer_FreeTexture(PSX_Point point)
 {
-    for (int i = 0; i < gRendererTextures.size(); i++)
+    for (size_t i = 0; i < gRendererTextures.size(); i++)
     {
         TextureCache* c = &gRendererTextures[i];
 
@@ -587,7 +587,7 @@ void OpenGLRenderer::DebugWindow()
     {
         float widthSpace = ImGui::GetContentRegionAvailWidth();
         float currentWidth = 0;
-        for (int i = 0; i < gRendererTextures.size(); i++)
+        for (size_t i = 0; i < gRendererTextures.size(); i++)
         {
             float textureWidth = static_cast<float>(gRendererTextures[i].mVramRect.w);
             float textureHeight = static_cast<float>(gRendererTextures[i].mVramRect.h);
@@ -639,7 +639,7 @@ void OpenGLRenderer::DebugWindow()
         }
 
 
-        for (int i = 0; i < gRendererTextures.size(); i++)
+        for (size_t i = 0; i < gRendererTextures.size(); i++)
         {
             ImGui::SetCursorPos(ImVec2(static_cast<float>(gRendererTextures[i].mVramRect.x), static_cast<float>(gRendererTextures[i].mVramRect.y + 50)));
             ImVec2 xpos = ImGui::GetCursorScreenPos();
