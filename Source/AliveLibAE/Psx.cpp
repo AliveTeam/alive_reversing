@@ -13,6 +13,7 @@
 #include "PsxRender.hpp"
 #include "Sys.hpp"
 #include "PsxRender.hpp"
+#include "Renderer/IRenderer.hpp"
 #include <gmock/gmock.h>
 
 void Psx_ForceLink() {}
@@ -656,6 +657,10 @@ EXPORT int CC PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, const BYTE* pData)
         return 0;
     }
 
+#if RENDERER_OPENGL
+    IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e8Bit, *pRect, pData);
+    return 1;
+#else
     if (!BMP_Lock_4F1FF0(&sPsxVram_C1D160))
     {
         Error_PushErrorRecord_4F2920(
@@ -684,6 +689,7 @@ EXPORT int CC PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, const BYTE* pData)
     return 1;
 
     // Note: Removed width == 32 optimization case.
+#endif
 }
 
 EXPORT signed int CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, WORD* pData)
@@ -734,6 +740,10 @@ EXPORT signed int CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, WORD* pData)
 
 EXPORT int CC PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, const BYTE* pData)
 {
+#if RENDERER_OPENGL
+    IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e16Bit, *pRect, pData);
+    return 1;
+#else
     const unsigned int pixelCount = pRect->w * pRect->h;
     WORD* pConversionBuffer = reinterpret_cast<WORD*>(ae_malloc_4F4E60(pixelCount * (sPsxVram_C1D160.field_14_bpp / 8)));
     if (!pConversionBuffer)
@@ -746,6 +756,7 @@ EXPORT int CC PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, const BYTE* pData)
     const auto loadImageRet = PSX_LoadImage_4F5FB0(pRect, reinterpret_cast<BYTE*>(pConversionBuffer));
     ae_free_4F4EA0(pConversionBuffer);
     return loadImageRet;
+#endif
 }
 
 EXPORT void CC PSX_SetDrawEnv_Impl_4FE420(int x, int y, int w, int h, int unknown, BYTE* pBuffer)

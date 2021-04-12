@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "PsxDisplay.hpp"
 #include <gmock/gmock.h>
+#include "Renderer/IRenderer.hpp"
 
 const int kMaxAllocs = 512;
 
@@ -198,6 +199,9 @@ EXPORT void CC Vram_alloc_explicit_4955F0(__int16 x, __int16 y, __int16 w, __int
 
 EXPORT void CC Vram_free_495A60(PSX_Point xy, PSX_Point wh)
 {
+#if RENDERER_OPENGL
+    IRenderer::GetRenderer()->Free(xy.field_0_x, xy.field_2_y);
+#endif
     // Find the allocation
     for (int i = 0; i < sVramNumberOfAllocations_5CC888; i++)
     {
@@ -332,6 +336,10 @@ EXPORT signed __int16 CC Pal_Allocate_483110(PSX_RECT* pRect, unsigned int palet
 
 EXPORT void CC Pal_free_483390(PSX_Point xy, __int16 palDepth)
 {
+#if RENDERER_OPENGL
+    IRenderer::GetRenderer()->Free(xy.field_0_x, xy.field_2_y);
+#endif
+
     const int palIdx = xy.field_2_y - pal_ypos_5C9160;
     const int palWidthBits = xy.field_0_x - pal_xpos_5C9162;
 
@@ -394,6 +402,7 @@ namespace Test
 {
     void Test_VRamAllocate()
     {
+#ifndef RENDERER_OPENGL
         PSX_RECT rect;
         Vram_alloc_4956C0(64, 128, 8, &rect);
         ASSERT_EQ(rect.x, 992);
@@ -420,6 +429,7 @@ namespace Test
 
         Vram_free_495A60({ rect.x, rect.y }, { rect.w, rect.h });
         Vram_free_495A60({ rect3.x, rect2.y }, { rect3.w, rect3.h });
+#endif
     }
 
     void VRamTests()

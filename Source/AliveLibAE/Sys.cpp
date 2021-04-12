@@ -859,6 +859,11 @@ EXPORT void CC Sys_SetWindowPos_4EE1B1(int width, int height)
 #if USE_SDL2
 static int CC Sys_WindowClass_Register_SDL(LPCSTR /*lpClassName*/, LPCSTR lpWindowName, int x, int y, int nWidth, int nHeight)
 {
+    int sdlWindowAttributes = 0;
+
+#if RENDERER_OPENGL
+    sdlWindowAttributes |= SDL_WINDOW_OPENGL;
+#endif
 #if __ANDROID__
     SDL_Rect gScreenRect = { 0, 0, 640, 480 };
     SDL_DisplayMode displayMode;
@@ -868,9 +873,9 @@ static int CC Sys_WindowClass_Register_SDL(LPCSTR /*lpClassName*/, LPCSTR lpWind
         gScreenRect.h = displayMode.h;
     }
 
-    sHwnd_BBB9F4 = SDL_CreateWindow(lpWindowName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, gScreenRect.w, gScreenRect.h, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN);
+    sHwnd_BBB9F4 = SDL_CreateWindow(lpWindowName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, gScreenRect.w, gScreenRect.h, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN | sdlWindowAttributes);
 #else
-    sHwnd_BBB9F4 = SDL_CreateWindow(lpWindowName, x, y, nWidth, nHeight, SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
+    sHwnd_BBB9F4 = SDL_CreateWindow(lpWindowName, x, y, nWidth, nHeight, SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | sdlWindowAttributes);
 #endif
 
     Input_InitKeyStateArray_4EDD60();

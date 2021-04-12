@@ -98,6 +98,11 @@ void DirectX9Renderer::OutputSize(int* w, int* h)
     SDL_GetRendererOutputSize(mRenderer, w, h);
 }
 
+void DirectX9Renderer::Free(int /*x*/, int /*y*/)
+{
+    
+}
+
 bool DirectX9Renderer::UpdateBackBuffer(const void* /*pPixels*/, int /*pitch*/)
 {
     return true;
@@ -116,6 +121,10 @@ void DirectX9Renderer::SetTPage(short /*tPage*/)
 void DirectX9Renderer::SetClip(Prim_PrimClipper& /*clipper*/)
 {
 
+}
+
+void DirectX9Renderer::SetScreenOffset(Prim_ScreenOffset& /*offset*/)
+{
 }
 
 void DirectX9Renderer::Draw(Prim_Sprt& /*sprt*/)
@@ -172,6 +181,7 @@ void DirectX9Renderer::Draw(Poly_G4& /*poly*/)
 {
 
 }
+
 
 void DirectX9Renderer::Upload(BitDepth /*bitDepth*/, const PSX_RECT& /*rect*/, const BYTE* /*pPixels*/)
 {

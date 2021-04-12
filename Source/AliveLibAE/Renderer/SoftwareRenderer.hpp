@@ -14,9 +14,10 @@ public:
     void OutputSize(int* w, int* h) override;
     bool UpdateBackBuffer(const void* pPixels, int pitch) override;
     void CreateBackBuffer(bool filter, int format, int w, int h) override;
-
+    void Free(int x, int y) override;
     void SetTPage(short tPage) override;
     void SetClip(Prim_PrimClipper& clipper) override;
+    void SetScreenOffset(Prim_ScreenOffset& offset) override;
     void Draw(Prim_Sprt& sprt) override;
     void Draw(Prim_GasEffect& gasEffect) override;
     void Draw(Prim_Tile& tile) override;

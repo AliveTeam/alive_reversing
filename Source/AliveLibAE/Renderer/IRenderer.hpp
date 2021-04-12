@@ -2,6 +2,7 @@
 
 #include "Sys_common.hpp"
 #include "Primitives.hpp"
+#include "Psx_common.hpp"
 #include <SDL.h>
 
 struct PrimHeader;
@@ -13,6 +14,7 @@ public:
     {
         Software,
         DirectX9,
+        OpenGL,
     };
 
     enum class BitDepth
@@ -41,7 +43,9 @@ public:
     virtual void SetTPage(short tPage) = 0;
 
     virtual void SetClip(Prim_PrimClipper& clipper) = 0;
+    virtual void SetScreenOffset(Prim_ScreenOffset& offset) = 0;
 
+    virtual void Free(int x, int y) = 0; // Use to free textures/pals via a vram point.
     virtual void Upload(BitDepth bitDepth, const PSX_RECT& rect, const BYTE* pPixels) = 0;
 
     // FG1/zaplines/blood/hintfly
@@ -76,4 +80,3 @@ public:
     virtual void Draw(Poly_G4& poly) = 0;
 
 };
-

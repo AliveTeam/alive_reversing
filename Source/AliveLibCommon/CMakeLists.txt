@@ -77,6 +77,9 @@ target_link_libraries(AliveLibCommon
     EasyLogging++
     googletest
     Cinder
+	libglew_static
+	imgui
+	glm
     ${WIN32_LIBS}
     ${SDL2_LIBRARIES}
     )

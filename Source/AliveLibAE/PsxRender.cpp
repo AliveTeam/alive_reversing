@@ -3421,6 +3421,7 @@ static bool DrawOTagImpl(PrimHeader** ppOt, __int16 drawEnv_of0, __int16 drawEnv
             // Always the lowest command in the list
             case PrimTypeCodes::eScreenOffset:
                 // NOTE: Conditional on dword_55EF94 removed as it is constant 1
+                renderer.SetScreenOffset(*any.mScreenOffset);
                 sScreenXOffSet_BD30E4 = any.mScreenOffset->field_C_xoff * 2;
                 sScreenYOffset_BD30A4 = any.mScreenOffset->field_E_yoff;
                 break;

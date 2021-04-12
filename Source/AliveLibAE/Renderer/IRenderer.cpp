@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "IRenderer.hpp"
 #include "SoftwareRenderer.hpp"
+#include "OpenGLRenderer.hpp"
 #include "DirectX9Renderer.hpp"
 
 static IRenderer* gRenderer = nullptr;
@@ -21,6 +22,12 @@ void IRenderer::CreateRenderer(Renderers type)
     {
         gRenderer = new SoftwareRenderer();
     }
+#if RENDERER_OPENGL
+    else if (type == Renderers::OpenGL)
+    {
+        gRenderer = new OpenGLRenderer();
+    }
+#endif
 #ifdef _WIN32
     else if (type == Renderers::DirectX9)
     {

@@ -10,3 +10,12 @@
 [submodule "3rdParty/jsonxx"]
 	path = 3rdParty/jsonxx
 	url = https://github.com/hjiang/jsonxx
+[submodule "3rdParty/glew-cmake"]
+	path = 3rdParty/glew-cmake
+	url = https://github.com/Perlmint/glew-cmake.git
+[submodule "3rdParty/glm"]
+	path = 3rdParty/glm
+	url = https://github.com/g-truc/glm.git
+[submodule "3rdParty/imgui"]
+	path = 3rdParty/imgui
+	url = https://github.com/ocornut/imgui.git

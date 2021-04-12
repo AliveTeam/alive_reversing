@@ -281,7 +281,12 @@ EXPORT signed int CC VGA_DisplaySet_4F32C0(unsigned __int16 width, unsigned __in
         sVGA_Inited_BC0BB8 = 1;
 
         //IRenderer::CreateRenderer(IRenderer::Renderers::DirectX9);
+        
+#if RENDERER_OPENGL
+        IRenderer::CreateRenderer(IRenderer::Renderers::OpenGL);
+#else
         IRenderer::CreateRenderer(IRenderer::Renderers::Software);
+#endif
 
         if (!IRenderer::GetRenderer()->Create(Sys_GetHWnd_4F2C70()))
         {
