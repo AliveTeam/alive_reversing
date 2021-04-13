@@ -33,7 +33,7 @@ void printProgramLog(GLuint program)
     }
     else
     {
-        LOG_WARNING("Name " << program << " is not a program");
+        LOG_ERROR("GL Program passed is NOT a program.");
     }
 }
 
@@ -66,7 +66,7 @@ bool GLShader::LoadSource(const std::string& vertex_Source, const std::string&  
     glGetProgramiv(mProgramID, GL_LINK_STATUS, &programSuccess);
     if (programSuccess != GL_TRUE)
     {
-        LOG_ERROR("Error linking program " << mProgramID);
+        LOG_ERROR("Failed to compile OpenGL Shader program");
         printProgramLog(mProgramID);
         return false;
     }
@@ -181,7 +181,7 @@ std::string shaderReadFile(const char* filePath)
 
     if (!fileStream.is_open()) {
         LOG_ERROR("Could not read file " << filePath << ". File does not exist.");
-        return false;
+        return std::string();
     }
 
     std::string line = "";

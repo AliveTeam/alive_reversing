@@ -10,6 +10,10 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "logger.hpp"
+
+#include <string>
+
 std::string shaderReadFile(const char* filePath);
 
 class GLShader

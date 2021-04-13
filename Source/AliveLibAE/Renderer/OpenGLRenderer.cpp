@@ -6,7 +6,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-#define GL_TO_IMGUI_TEX(v) { *reinterpret_cast<ImTextureID*>(&v) }
+#define GL_TO_IMGUI_TEX(v) *reinterpret_cast<ImTextureID*>(&v)
 
 static GLuint mBackgroundTexture = 0;
 static unsigned char gDecodeBuffer[640 * 256 * 2] = {};
@@ -925,7 +925,7 @@ void OpenGLRenderer::Draw(Prim_Sprt& sprt)
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, 0);
     
-    TextureCache* pTexture = Renderer_TexFromVRam({ (short)(vramPoint.field_0_x + WidthBppDivide(textureMode, sprt.mUv.u)), vramPoint.field_2_y + sprt.mUv.v });
+    TextureCache* pTexture = Renderer_TexFromVRam({ static_cast<short>(vramPoint.field_0_x + WidthBppDivide(textureMode, sprt.mUv.u)), static_cast<short>(vramPoint.field_2_y + sprt.mUv.v) });
     PaletteCache* pPal = Renderer_ClutToPalette(sprt.mUv.tpage_clut_pad);
 
     VertexData verts[4] = {
