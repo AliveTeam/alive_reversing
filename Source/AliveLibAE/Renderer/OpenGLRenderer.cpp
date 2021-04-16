@@ -772,8 +772,8 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     // TODO: Even worth implementing?
     mVRamTexture = Renderer_CreateTexture();
 
-    mTextureShader.LoadFromFile("shaders/texture.vsh", "shaders/texture.fsh");
-
+    //mTextureShader.LoadFromFile("shaders/texture.vsh", "shaders/texture.fsh");
+    mTextureShader.LoadSource(gShader_TextureVSH, gShader_TextureFSH);
     return true;
 }
 

@@ -21,7 +21,7 @@ class GLShader
 public:
     GLShader();
 
-    bool LoadSource(const std::string& vertex_Source, const std::string& fragment_Source);
+    bool LoadSource(const char * vertex_Source, const char* fragment_Source);
     bool LoadFromFile(const char* vertex_Path, const char* fragment_Path);
 
     GLuint GetProgramID();
@@ -46,3 +46,6 @@ private:
 
     GLuint CompileShader(const char* source, GLenum shaderType);
 };
+
+extern const char* gShader_TextureVSH;
+extern const char* gShader_TextureFSH;
