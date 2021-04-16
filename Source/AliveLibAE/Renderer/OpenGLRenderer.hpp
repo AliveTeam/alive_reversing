@@ -82,18 +82,17 @@ public:
 private:
     SDL_Window* mWindow = nullptr;
     SDL_GLContext mContext = nullptr;
-    GLuint mVRamTexture;
-    GLShader mTextureShader;
-    WORD mLastTPage;
-    bool mWireframe;
+    GLShader mTextureShader = {};
+    WORD mLastTPage = 0;
+    bool mWireframe = false;
 
-    glm::mat4 m_View;
+    glm::mat4 m_View = {};
 
-    glm::ivec4 mLastClip;
+    glm::ivec4 mLastClip = {};
 
-    GLuint mVBO;
-    GLuint mIBO;
-    GLuint mVAO;
+    GLuint mVBO = 0;
+    GLuint mIBO = 0;
+    GLuint mVAO = 0;
 
     glm::mat4 GetMVP();
     glm::mat4 GetMVP(float x, float y, float width, float height);

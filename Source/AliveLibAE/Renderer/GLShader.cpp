@@ -5,6 +5,27 @@ GLShader::GLShader()
     
 }
 
+static std::string shaderReadFile(const char* filePath)
+{
+    std::string content;
+    std::ifstream fileStream(filePath, std::ios::in);
+
+    if (!fileStream.is_open()) {
+        LOG_ERROR("Could not read file " << filePath << ". File does not exist.");
+        return std::string();
+    }
+
+    std::string line = "";
+    while (!fileStream.eof()) {
+        std::getline(fileStream, line);
+        content.append(line + "\n");
+    }
+
+    fileStream.close();
+
+    return content;
+}
+
 void printProgramLog(GLuint program)
 {
     //Make sure name is shader
@@ -18,18 +39,15 @@ void printProgramLog(GLuint program)
         glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
 
         //Allocate string
-        char* infoLog = new char[maxLength];
+        std::vector<char> infoLog(maxLength + 1);
 
         //Get info log
-        glGetProgramInfoLog(program, maxLength, &infoLogLength, infoLog);
+        glGetProgramInfoLog(program, maxLength, &infoLogLength, infoLog.data());
         if (infoLogLength > 0)
         {
             //Print Log
-            LOG_WARNING(infoLog);
+            LOG_WARNING(infoLog.data());
         }
-
-        //Deallocate string
-        delete[] infoLog;
     }
     else
     {
@@ -43,11 +61,19 @@ bool GLShader::LoadSource(const char* vertex_Source, const char* fragment_Source
     // so we can delete them
 
     if (mProgramID != 0)
+    {
         glDeleteProgram(mProgramID);
+    }
+
     if (mVertexID != 0)
+    {
         glDeleteShader(mVertexID);
+    }
+
     if (mFragmentID != 0)
+    {
         glDeleteShader(mFragmentID);
+    }
 
     mProgramID = glCreateProgram();
 
@@ -137,18 +163,15 @@ void printShaderLog(GLuint shader)
         glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
 
         //Allocate string
-        char* infoLog = new char[maxLength];
+        std::vector<char> infoLog(maxLength + 1);
 
         //Get info log
-        glGetShaderInfoLog(shader, maxLength, &infoLogLength, infoLog);
+        glGetShaderInfoLog(shader, maxLength, &infoLogLength, infoLog.data());
         if (infoLogLength > 0)
         {
             //Print Log
-            LOG_WARNING(infoLog);
+            LOG_WARNING(infoLog.data());
         }
-
-        //Deallocate string
-        delete[] infoLog;
     }
     else
     {
@@ -174,37 +197,22 @@ GLuint GLShader::CompileShader(const char * source, GLenum shaderType)
     return shaderID;
 }
 
-std::string shaderReadFile(const char* filePath)
-{
-    std::string content;
-    std::ifstream fileStream(filePath, std::ios::in);
-
-    if (!fileStream.is_open()) {
-        LOG_ERROR("Could not read file " << filePath << ". File does not exist.");
-        return std::string();
-    }
-
-    std::string line = "";
-    while (!fileStream.eof()) {
-        std::getline(fileStream, line);
-        content.append(line + "\n");
-    }
-
-    fileStream.close();
-
-    return content;
-}
-
 void GLShader::Free()
 {
     if (mVertexID != 0)
+    {
         glDeleteShader(mVertexID);
+    }
 
     if (mFragmentID != 0)
+    {
         glDeleteShader(mFragmentID);
+    }
 
     if (mProgramID != 0)
+    {
         glDeleteProgram(mProgramID);
+    }
 }
 
 

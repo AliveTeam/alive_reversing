@@ -14,9 +14,7 @@
 
 #include <string>
 
-std::string shaderReadFile(const char* filePath);
-
-class GLShader
+class GLShader final
 {
 public:
     GLShader();
@@ -39,10 +37,10 @@ public:
     void Free();
 
 private:
-    GLuint mVertexID;
-    GLuint mFragmentID;
-    GLuint mProgramID;
-    GLenum mShaderType;
+    GLuint mVertexID = 0;
+    GLuint mFragmentID = 0;
+    GLuint mProgramID = 0;
+    GLenum mShaderType = 0;
 
     GLuint CompileShader(const char* source, GLenum shaderType);
 };

@@ -79,22 +79,22 @@ set_property(TARGET googletest PROPERTY FOLDER "3rdParty")
 add_library(imgui
     imgui/imgui.cpp
     imgui/imgui_draw.cpp
-	imgui/imgui_tables.cpp
-	imgui/imgui_widgets.cpp
-	imgui/imgui_demo.cpp
-	imgui/backends/imgui_impl_sdl.cpp
-	imgui/backends/imgui_impl_opengl3.cpp
+    imgui/imgui_tables.cpp
+    imgui/imgui_widgets.cpp
+    imgui/imgui_demo.cpp
+    imgui/backends/imgui_impl_sdl.cpp
+    imgui/backends/imgui_impl_opengl3.cpp
     )
-	
+    
 target_link_libraries(imgui
-	libglew_static
+    libglew_static
     ${SDL2_LIBRARIES}
     )
 
 target_include_directories(imgui PUBLIC
     $<BUILD_INTERFACE:
     ${CMAKE_CURRENT_SOURCE_DIR}/imgui;
-	${CMAKE_CURRENT_SOURCE_DIR}/imgui/backends;
+    ${CMAKE_CURRENT_SOURCE_DIR}/imgui/backends;
     )
 add_compile_definitions(IMGUI_IMPL_OPENGL_LOADER_GLEW)
 export(TARGETS imgui FILE imgui.cmake)
