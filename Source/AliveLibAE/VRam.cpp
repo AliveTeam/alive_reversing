@@ -336,9 +336,7 @@ EXPORT signed __int16 CC Pal_Allocate_483110(PSX_RECT* pRect, unsigned int palet
 
 EXPORT void CC Pal_free_483390(PSX_Point xy, __int16 palDepth)
 {
-#if RENDERER_OPENGL
     IRenderer::GetRenderer()->Free(xy.field_0_x, xy.field_2_y);
-#endif
 
     const int palIdx = xy.field_2_y - pal_ypos_5C9160;
     const int palWidthBits = xy.field_0_x - pal_xpos_5C9162;

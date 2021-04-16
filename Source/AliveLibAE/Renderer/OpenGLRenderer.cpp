@@ -192,17 +192,12 @@ static void Renderer_DecodePalette(const BYTE* srcPalData, RGBAPixel* dst, int p
     const unsigned short* palShortPtr = reinterpret_cast<const unsigned short*>(srcPalData);
     for (int i = 0; i < palDepth; i++)
     {
-        unsigned short oldPixel = palShortPtr[i];
+        const unsigned short oldPixel = palShortPtr[i];
 
         dst[i].R = static_cast<unsigned char>((((oldPixel >> 0) & 0x1F)) << 2);
         dst[i].G = static_cast<unsigned char>((((oldPixel >> 5) & 0x1F)) << 2);
         dst[i].B = static_cast<unsigned char>((((oldPixel >> 10) & 0x1F)) << 2);
         dst[i].A = static_cast<unsigned char>((((((oldPixel) >> 15) & 0xffff)) ? 127 : 255));
-
-        if (i == 0)
-        {
-            dst[i].A = 0;
-        }
     }
 }
 
@@ -228,6 +223,12 @@ static void Renderer_LoadPalette(PSX_Point point, const BYTE* palData, short pal
         {
             int offset = point.field_0_x - c.mPalPoint.field_0_x;
             Renderer_DecodePalette(palData, c.mPalData + offset, palDepth);
+
+            if (c.mPalDepth > 0)
+            {
+                c.mPalData[0].A = 0;
+            }
+
             return;
         }
     }
@@ -237,6 +238,11 @@ static void Renderer_LoadPalette(PSX_Point point, const BYTE* palData, short pal
     c.mPalPoint = point;
     c.mPalDepth = palDepth;
     Renderer_DecodePalette(palData, c.mPalData, palDepth);
+
+    if (c.mPalDepth > 0)
+    {
+        c.mPalData[0].A = 0;
+    }
 
     gRendererPals.push_back(c);
 }
@@ -904,6 +910,7 @@ void OpenGLRenderer::Draw(Prim_Sprt& sprt)
     if (sprt.mBase.header.rgb_code.r == 255 && sprt.mBase.header.rgb_code.g == 254 && sprt.mBase.header.rgb_code.b == 253)
     {
         RenderBackground();
+        return;
     }
 
     PSX_Point vramPoint = Renderer_VRamFromTPage(mLastTPage);
@@ -945,7 +952,9 @@ void OpenGLRenderer::Draw(Prim_Sprt& sprt)
     mTextureShader.Uniform1i("m_PaletteEnabled", pPal != nullptr);
 
     if (pPal != nullptr)
+    {
         mTextureShader.Uniform1i("m_PaletteDepth", pPal->mPalDepth);
+    }
 
     const GLuint indexData[6] = { 0, 1, 3, 3, 1, 2 };
     DrawTriangles(verts, 4, indexData, 6);
