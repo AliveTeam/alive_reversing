@@ -173,9 +173,9 @@ public:
 
     void InstanceFromJson(TypesCollection& types, jsonxx::Object& obj)
     {
-        InstanceFromJsonBase(obj);
         jsonxx::Object properties = obj.get<jsonxx::Object>("properties");
         PropertiesFromJson(types, properties);
+        InstanceFromJsonBase(obj);
     }
 
     void PropertiesFromJson(TypesCollection& types, jsonxx::Object& properties);
@@ -188,6 +188,7 @@ public:
         jsonxx::Object properties;
         PropertiesToJson(types, properties);
         ret << "properties" << properties;
+
         return ret;
     }
 
@@ -247,32 +248,12 @@ public:
 
     }
 
-    TlvObjectBaseAE(TlvTypes tlvType, const std::string& typeName, Path_TLV* pTlv)
+    TlvObjectBaseAE(TypesCollection& globalTypes, TlvTypes tlvType, const std::string& typeName, Path_TLV* pTlv)
         : TlvObjectBase(typeName), mType(tlvType)
     {
         mTlv.field_2_length = sizeof(T);
         mTlv.field_4_type.mType = mType;
         COPY_TLV();
-    }
-
-    void InstanceFromJsonBase(jsonxx::Object& obj) override
-    {
-        mStructTypeName = obj.get<std::string>("name");
-
-        mTlv.field_8_top_left.field_0_x = static_cast<short>(obj.get<jsonxx::Number>("xpos"));
-        mTlv.field_8_top_left.field_2_y = static_cast<short>(obj.get<jsonxx::Number>("ypos"));
-        mTlv.field_C_bottom_right.field_0_x = static_cast<short>(obj.get<jsonxx::Number>("width") + mTlv.field_8_top_left.field_0_x);
-        mTlv.field_C_bottom_right.field_2_y = static_cast<short>(obj.get<jsonxx::Number>("height") + mTlv.field_8_top_left.field_2_y);
-    }
-
-    void InstanceToJsonBase(jsonxx::Object& ret) override
-    {
-        ret << "name" << Name() + "_" + std::to_string(mInstanceNumber);
-
-        ret << "xpos" << static_cast<int>(mTlv.field_8_top_left.field_0_x);
-        ret << "ypos" << static_cast<int>(mTlv.field_8_top_left.field_2_y);
-        ret << "width" << static_cast<int>(mTlv.field_C_bottom_right.field_0_x - mTlv.field_8_top_left.field_0_x);
-        ret << "height" << static_cast<int>(mTlv.field_C_bottom_right.field_2_y - mTlv.field_8_top_left.field_2_y);
 
         if (mTlv.field_C_bottom_right.field_0_x - mTlv.field_8_top_left.field_0_x < 0 ||
             mTlv.field_C_bottom_right.field_2_y - mTlv.field_8_top_left.field_2_y < 0)
@@ -280,6 +261,27 @@ public:
             abort();
         }
 
+        ADD("xpos", mTlv.field_8_top_left.field_0_x);
+        ADD("ypos", mTlv.field_8_top_left.field_2_y);
+
+        mTlv.field_C_bottom_right.field_0_x -= mTlv.field_8_top_left.field_0_x;
+        mTlv.field_C_bottom_right.field_2_y -= mTlv.field_8_top_left.field_2_y;
+
+        ADD("width", mTlv.field_C_bottom_right.field_0_x);
+        ADD("height", mTlv.field_C_bottom_right.field_2_y);
+    }
+
+    void InstanceFromJsonBase(jsonxx::Object& obj) override
+    {
+        mStructTypeName = obj.get<std::string>("name");
+
+        mTlv.field_C_bottom_right.field_0_x += mTlv.field_8_top_left.field_0_x;
+        mTlv.field_C_bottom_right.field_2_y += mTlv.field_8_top_left.field_2_y;
+    }
+
+    void InstanceToJsonBase(jsonxx::Object& ret) override
+    {
+        ret << "name" << Name() + "_" + std::to_string(mInstanceNumber);
         ret << "object_structures_type" << Name();
     }
 
@@ -318,22 +320,35 @@ public:
 
     }
 
-    TlvObjectBaseAO(AO::TlvTypes tlvType, const std::string& typeName, AO::Path_TLV* pTlv)
+    TlvObjectBaseAO(TypesCollection& globalTypes, AO::TlvTypes tlvType, const std::string& typeName, AO::Path_TLV* pTlv)
         : TlvObjectBase(typeName), mType(tlvType), mBase(&mTlv)
     {
         mTlv.field_4_type.mType = mType;
         mTlv.field_2_length = sizeof(T);
         COPY_TLV();
+
+        if (mBase->field_14_bottom_right.field_0_x - mBase->field_10_top_left.field_0_x < 0 ||
+            mBase->field_14_bottom_right.field_2_y - mBase->field_10_top_left.field_2_y < 0)
+        {
+            abort();
+        }
+
+        ADD("xpos", mBase->field_10_top_left.field_0_x);
+        ADD("ypos", mBase->field_10_top_left.field_2_y);
+
+        mBase->field_14_bottom_right.field_0_x -= mBase->field_10_top_left.field_0_x;
+        mBase->field_14_bottom_right.field_2_y -= mBase->field_10_top_left.field_2_y;
+
+        ADD("width", mBase->field_14_bottom_right.field_0_x);
+        ADD("height", mBase->field_14_bottom_right.field_2_y);
     }
 
     void InstanceFromJsonBase(jsonxx::Object& obj) override
     {
         mStructTypeName = obj.get<std::string>("name");
 
-        mBase->field_10_top_left.field_0_x = static_cast<short>(obj.get<jsonxx::Number>("xpos"));
-        mBase->field_10_top_left.field_2_y = static_cast<short>(obj.get<jsonxx::Number>("ypos"));
-        mBase->field_14_bottom_right.field_0_x = static_cast<short>(obj.get<jsonxx::Number>("width") + mBase->field_10_top_left.field_0_x);
-        mBase->field_14_bottom_right.field_2_y = static_cast<short>(obj.get<jsonxx::Number>("height") + mBase->field_10_top_left.field_2_y);
+        mBase->field_14_bottom_right.field_0_x += mBase->field_10_top_left.field_0_x;
+        mBase->field_14_bottom_right.field_2_y += mBase->field_10_top_left.field_2_y;
 
         mBase->field_C_sound_pos.field_0_x = mBase->field_10_top_left.field_0_x;
         mBase->field_C_sound_pos.field_2_y = mBase->field_10_top_left.field_2_y;
@@ -342,18 +357,6 @@ public:
     void InstanceToJsonBase(jsonxx::Object& ret) override
     {
         ret << "name" << Name() + "_" + std::to_string(mInstanceNumber);
-
-        ret << "xpos" << static_cast<int>(mBase->field_10_top_left.field_0_x);
-        ret << "ypos" << static_cast<int>(mBase->field_10_top_left.field_2_y);
-        ret << "width" << static_cast<int>(mBase->field_14_bottom_right.field_0_x - mBase->field_10_top_left.field_0_x);
-        ret << "height" << static_cast<int>(mBase->field_14_bottom_right.field_2_y - mBase->field_10_top_left.field_2_y);
-
-        if (mBase->field_14_bottom_right.field_0_x - mBase->field_10_top_left.field_0_x < 0 ||
-            mBase->field_14_bottom_right.field_2_y - mBase->field_10_top_left.field_2_y < 0)
-        {
-            abort();
-        }
-
         ret << "object_structures_type" << Name();
     }
 

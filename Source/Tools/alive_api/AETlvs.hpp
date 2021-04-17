@@ -69,8 +69,8 @@
 #include "../AliveLibAE/Meat.hpp"
 #include "../AliveLibAE/TorturedMudokon.hpp"
 
-#define CTOR_AE(className, objectTypeName, tlvType) className() : TlvObjectBaseAE(tlvType, objectTypeName) {}  className(TypesCollection& globalTypes, Path_TLV* pTlv = nullptr) : TlvObjectBaseAE(tlvType, objectTypeName, pTlv)
-#define EMPTY_CTOR_AE() (void)globalTypes
+#define CTOR_AE(className, objectTypeName, tlvType) className() : TlvObjectBaseAE(tlvType, objectTypeName) {}  className(Path_TLV* pTlv = nullptr) : TlvObjectBaseAE(tlvType, objectTypeName, pTlv)
+#define EMPTY_CTOR_AE() (void)
 
 struct Path_Null_63 : public Path_TLV
 {
