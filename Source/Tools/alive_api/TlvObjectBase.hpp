@@ -29,20 +29,18 @@ public:
     TypedProperty(const std::string& name, const std::string& typeName, bool isVisibleToEditor, T* data) 
         : BaseProperty(name, typeName, isVisibleToEditor), m_data(data) { }
 
-    void Read(TlvObjectBase& tlvObjBase, TypesCollection& types, jsonxx::Object& properties) override;
+    void Read(PropertyCollection& propertyCollection, TypesCollection& types, jsonxx::Object& properties) override;
 
-    void Write(TlvObjectBase& tlvObjBase, TypesCollection& types, jsonxx::Object& properties) override;
+    void Write(PropertyCollection& propertyCollection, TypesCollection& types, jsonxx::Object& properties) override;
 
 private:
     T* m_data = nullptr;
 };
 
-class TlvObjectBase
+class PropertyCollection
 {
 public:
-    TlvObjectBase(const std::string& typeName)
-        : mStructTypeName(typeName)
-    {
+    virtual ~PropertyCollection() { }
 
     }
 
@@ -96,6 +94,16 @@ public:
         mProperties[key] = std::make_unique<TypedProperty<PropertyType>>(name, typeName, visibleInEditor, key);
     }
 
+    std::string PropType(void* key) const
+    {
+        auto it = mProperties.find(key);
+        if (it == std::end(mProperties))
+        {
+            abort();
+        }
+        return it->second->TypeName();
+    }
+
     jsonxx::Array PropertiesToJson() const
     {
         jsonxx::Array ret;
@@ -120,15 +128,6 @@ public:
         return it->second->Name();
     }
 
-    std::string PropType(void* key) const
-    {
-        auto it = mProperties.find(key);
-        if (it == std::end(mProperties))
-        {
-            abort();
-        }
-        return it->second->TypeName();
-    }
 
     template<class T>
     void ReadEnumValue(TypesCollection& types, T& field, jsonxx::Object& properties)
@@ -163,6 +162,40 @@ public:
         properties << PropName(&field) << static_cast<int>(field);
     }
 
+    void PropertiesFromJson(TypesCollection& types, jsonxx::Object& properties);
+    void PropertiesToJson(TypesCollection& types, jsonxx::Object& properties);
+
+protected:
+    std::map<void*, std::unique_ptr<BaseProperty>> mProperties;
+};
+
+class TlvObjectBase : public PropertyCollection
+{
+public:
+    TlvObjectBase(const std::string& typeName)
+        : mStructTypeName(typeName)
+    {
+
+    }
+
+    virtual void AddTypes(TypesCollection& /*types*/)
+    {
+        // Default empty to prevent having to explicitly implement in every TLV wrapper
+    }
+
+    virtual std::size_t TlvLen() const = 0;
+    virtual std::vector<BYTE> GetTlvData(bool setTerminationFlag) = 0;
+
+    void SetInstanceNumber(int instanceNumber)
+    {
+        mInstanceNumber = instanceNumber;
+    }
+
+    std::string Name() const
+    {
+        return mStructTypeName;
+    }
+
     jsonxx::Object StructureToJson()
     {
         jsonxx::Object ret;
@@ -178,8 +211,6 @@ public:
         InstanceFromJsonBase(obj);
     }
 
-    void PropertiesFromJson(TypesCollection& types, jsonxx::Object& properties);
-
     jsonxx::Object InstanceToJson(TypesCollection& types)
     {
         jsonxx::Object ret;
@@ -192,8 +223,6 @@ public:
         return ret;
     }
 
-    void PropertiesToJson(TypesCollection& types, jsonxx::Object& properties);
-
     virtual void InstanceFromJsonBase(jsonxx::Object& obj) = 0;
     virtual void InstanceToJsonBase(jsonxx::Object& ret) = 0;
 
@@ -203,35 +232,32 @@ public:
     }
 
 protected:
-    std::map<void*, std::unique_ptr<BaseProperty>> mProperties;
     std::string mStructTypeName;
     int mInstanceNumber = 0;
 };
 
 template <class T>
-void TypedProperty<T>::Read(TlvObjectBase& tlvObjBase, TypesCollection& types, jsonxx::Object& properties)
+void TypedProperty<T>::Read(PropertyCollection& propertyCollection, TypesCollection& types, jsonxx::Object& properties)
 {
     if constexpr (std::is_enum<T>::value)
     {
-        tlvObjBase.ReadEnumValue(types, *m_data, properties);
+        propertyCollection.ReadEnumValue(types, *m_data, properties);
     }
     else
     {
-        (void)types; // not used in this code path (warning because other branch is removed at compile tile)
         tlvObjBase.ReadBasicType(*m_data, properties);
     }
 }
 
 template <class T>
-void TypedProperty<T>::Write(TlvObjectBase& tlvObjBase, TypesCollection& types, jsonxx::Object& properties)
+void TypedProperty<T>::Write(PropertyCollection& propertyCollection, TypesCollection& types, jsonxx::Object& properties)
 {
     if constexpr (std::is_enum<T>::value)
     {
-        tlvObjBase.WriteEnumValue(types, properties, *m_data);
+        propertyCollection.WriteEnumValue(types, properties, *m_data);
     }
     else
     {
-        (void)types; // not used in this branch as the other is removed at compile time
         tlvObjBase.WriteBasicType(*m_data, properties);
     }
 }
