@@ -11,6 +11,33 @@
 #include <streambuf>
 #include <magic_enum/include/magic_enum.hpp>
 
+class AOLine : public PropertyCollection
+{
+public:
+    explicit AOLine(const AO::PathLine& line)
+     : mLine(line)
+    {
+
+    }
+
+    AOLine(TypesCollection& globalTypes)
+    {
+        ADD("x1", mLine.field_0_rect.x);
+        ADD("y1", mLine.field_0_rect.y);
+
+        ADD("x1", mLine.field_0_rect.w);
+        ADD("y1", mLine.field_0_rect.h);
+
+        ADD("type", mLine.field_8_type);
+
+        ADD("next", mLine.field_10_next);
+        ADD("previous", mLine.field_C_previous);
+    }
+
+private:
+    AO::PathLine mLine = {};
+};
+
 
 static jsonxx::Object AOLineToJsonObject(const AO::PathLine& line)
 {
