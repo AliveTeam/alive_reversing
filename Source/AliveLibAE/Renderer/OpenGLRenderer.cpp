@@ -28,6 +28,38 @@ static bool gRenderEnable_F4 = true;
 static bool gRenderEnable_F3 = true;
 static bool gRenderEnable_F2 = true;
 
+static GLuint TextureFromFile(const char* path)
+{
+    GLuint texHandle = 0;
+    FILE* fh = fopen(path, "rb");;
+
+    if (fh == NULL)
+    {
+        return 0;
+    }
+
+    int x = 0, y = 0;
+    int comp = 0;
+    const unsigned char* data = stbi_load_from_file(fh, &x, &y, &comp, 4);
+
+    glGenTextures(1, &texHandle);
+
+    glBindTexture(GL_TEXTURE_2D, texHandle);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+
+    stbi_image_free((void*)data);
+
+    fclose(fh);
+
+    return texHandle;
+}
+
 static GLuint GetBackgroundTexture()
 {
     if (mBackgroundTexture != 0)
@@ -1318,6 +1350,19 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
             mTextureShader.Uniform1i("m_PaletteDepth", pPal->mPalDepth * gFakeTextureCache.mPalNormMulti);
         else
             mTextureShader.Uniform1i("m_PaletteDepth", pPal->mPalDepth);
+    }
+
+    // Hack to use a HD menu font.
+    if (pTexture->mVramRect.w == 64 && pTexture->mVramRect.h == 256)
+    {
+        static GLuint FontTexture = TextureFromFile("menufont.png");
+
+        if (FontTexture != 0)
+        {
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, FontTexture);
+            mTextureShader.Uniform1i("m_PaletteEnabled", false);
+        }
     }
 
     Renderer_ParseTPageBlendMode(poly.mVerts[0].mUv.tpage_clut_pad);
