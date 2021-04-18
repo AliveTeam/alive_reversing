@@ -200,7 +200,11 @@ EXPORT void CC Vram_alloc_explicit_4955F0(__int16 x, __int16 y, __int16 w, __int
 EXPORT void CC Vram_free_495A60(PSX_Point xy, PSX_Point wh)
 {
 #if RENDERER_OPENGL
-    IRenderer::GetRenderer()->Free(xy.field_0_x, xy.field_2_y);
+    auto pRend = IRenderer::GetRenderer();
+    if (pRend)
+    {
+        pRend->PalFree(IRenderer::PalRecord{ xy.field_0_x, xy.field_2_y, 0 });
+    }
 #endif
     // Find the allocation
     for (int i = 0; i < sVramNumberOfAllocations_5CC888; i++)
@@ -336,8 +340,6 @@ EXPORT signed __int16 CC Pal_Allocate_483110(PSX_RECT* pRect, unsigned int palet
 
 EXPORT void CC Pal_free_483390(PSX_Point xy, __int16 palDepth)
 {
-    IRenderer::GetRenderer()->Free(xy.field_0_x, xy.field_2_y);
-
     const int palIdx = xy.field_2_y - pal_ypos_5C9160;
     const int palWidthBits = xy.field_0_x - pal_xpos_5C9162;
 
@@ -391,7 +393,7 @@ EXPORT void CC Pal_Set_483510(PSX_Point xy, __int16 w, const BYTE* palData, PSX_
     rect->y = xy.field_2_y;
     rect->w = w;
     rect->h = 1;
-    PSX_LoadImage16_4F5E20(rect, palData);
+    IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{ xy.field_0_x, xy.field_2_y, w }, palData);
 }
 
 using namespace ::testing;
@@ -400,7 +402,7 @@ namespace Test
 {
     void Test_VRamAllocate()
     {
-#ifndef RENDERER_OPENGL
+        /*
         PSX_RECT rect;
         Vram_alloc_4956C0(64, 128, 8, &rect);
         ASSERT_EQ(rect.x, 992);
@@ -427,7 +429,7 @@ namespace Test
 
         Vram_free_495A60({ rect.x, rect.y }, { rect.w, rect.h });
         Vram_free_495A60({ rect3.x, rect2.y }, { rect3.w, rect3.h });
-#endif
+        */
     }
 
     void VRamTests()

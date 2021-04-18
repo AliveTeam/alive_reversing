@@ -18,6 +18,7 @@
 #include "Blood.hpp"
 #include "ObjectIds.hpp"
 #include "Sys_common.hpp"
+#include "Renderer/IRenderer.hpp"
 
 // Frame call backs ??
 EXPORT int CC Animation_OnFrame_Common_Null_455F40(void*, signed __int16*)
@@ -792,9 +793,9 @@ void Animation::Animation_Pal_Free_40C4C0()
             }
         }
 
-        if (field_90_pal_depth > 0 && field_4_flags.Get(AnimFlags::eBit17))
+        if (field_90_pal_depth > 0 && field_4_flags.Get(AnimFlags::eBit17_bOwnPal))
         {
-            Pal_free_483390(field_8C_pal_vram_xy, field_90_pal_depth);
+            IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{ field_8C_pal_vram_xy.field_0_x, field_8C_pal_vram_xy.field_2_y, field_90_pal_depth });
         }
 
     }
@@ -926,7 +927,7 @@ signed __int16 Animation::Init_40A030(int frameTableOffset, DynamicArray* /*anim
 
     if (bFlag_17)
     {
-        field_4_flags.Set(AnimFlags::eBit17);
+        field_4_flags.Set(AnimFlags::eBit17_bOwnPal);
     }
 
     field_4_flags.Clear(AnimFlags::eBit24);
@@ -972,7 +973,7 @@ signed __int16 Animation::Init_40A030(int frameTableOffset, DynamicArray* /*anim
         return 0;
     }
     
-    WORD pal_depth = 0;
+    __int16 pal_depth = 0;
     char b256Pal = 0;
     int vram_width = 0;
     if (pFrameHeader_1->field_6_colour_depth == 4)
@@ -1018,23 +1019,20 @@ signed __int16 Animation::Init_40A030(int frameTableOffset, DynamicArray* /*anim
 
     field_4_flags.Set(AnimFlags::eBit25_bDecompressDone, b256Pal);
 
-    if (field_4_flags.Get(AnimFlags::eBit17) && !field_4_flags.Get(AnimFlags::eBit24))
+    if (field_4_flags.Get(AnimFlags::eBit17_bOwnPal) && !field_4_flags.Get(AnimFlags::eBit24))
     {
-        PSX_RECT rect = {}; // TODO: Not sure if its really a rect passed here, seems to populate x,y,colour depth?
-        if (!Pal_Allocate_483110(&rect, pal_depth))
+        IRenderer::PalRecord palRec{ 0, 0, pal_depth };
+        if (!IRenderer::GetRenderer()->PalAlloc(palRec))
         {
             Animation_Pal_Free_40C4C0();
             return 0;
         }
 
-        field_8C_pal_vram_xy.field_0_x = rect.x;
-        field_8C_pal_vram_xy.field_2_y = rect.y;
+        field_8C_pal_vram_xy.field_0_x = palRec.x;
+        field_8C_pal_vram_xy.field_2_y = palRec.y;
         field_90_pal_depth = pal_depth;
 
-        rect.w = pal_depth;
-        rect.h = 1;
-
-        PSX_LoadImage16_4F5E20(&rect, pClut + 4); // Skips CLUT len
+        IRenderer::GetRenderer()->PalSetData(palRec, pClut + 4);  // Skips CLUT len
     }
 
     field_28_dbuf_size = maxH * (vram_width + 3);
@@ -1063,14 +1061,9 @@ void Animation::Load_Pal_40A530(BYTE** pAnimData, int palOffset)
         return;
     }
 
-    PSX_RECT rect = {};
-    rect.x = field_8C_pal_vram_xy.field_0_x;
-    rect.y = field_8C_pal_vram_xy.field_2_y;
-    rect.w = field_90_pal_depth; // 16, 64, 256
-    rect.h = 1;
-
-    BYTE* pPal = &(*pAnimData)[palOffset];
-    PSX_LoadImage16_4F5E20(&rect, pPal + 4); // First 4 pal bytes are the length, TODO: Add structure for pallete to avoid this
+    // +4 = skip CLUT len
+    const BYTE* pPal = &(*pAnimData)[palOffset];
+    IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{ field_8C_pal_vram_xy.field_0_x, field_8C_pal_vram_xy.field_2_y, field_90_pal_depth }, pPal + 4);
 }
 
 void Animation::Get_Frame_Offset_40C480(__int16* pBoundingX, __int16* pBoundingY)

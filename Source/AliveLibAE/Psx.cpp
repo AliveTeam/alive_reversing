@@ -660,6 +660,7 @@ EXPORT int CC PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, const BYTE* pData)
 #if RENDERER_OPENGL
     IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e8Bit, *pRect, pData);
 #endif
+
     if (!BMP_Lock_4F1FF0(&sPsxVram_C1D160))
     {
         Error_PushErrorRecord_4F2920(
@@ -698,7 +699,8 @@ EXPORT signed int CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, WORD* pData)
     }
 
 #if RENDERER_OPENGL
-    IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e8Bit, *rect, reinterpret_cast<BYTE * >(pData));
+    // TODO: This is actually download, but we have a copy of it stored in the pal cache
+    //IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e8Bit, *rect, reinterpret_cast<BYTE * >(pData));
 #endif
     if (!BMP_Lock_4F1FF0(&sPsxVram_C1D160))
     {
@@ -741,9 +743,6 @@ EXPORT signed int CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, WORD* pData)
 
 EXPORT int CC PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, const BYTE* pData)
 {
-#if RENDERER_OPENGL
-    IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e16Bit, *pRect, pData);
-#endif
     const unsigned int pixelCount = pRect->w * pRect->h;
     WORD* pConversionBuffer = reinterpret_cast<WORD*>(ae_malloc_4F4E60(pixelCount * (sPsxVram_C1D160.field_14_bpp / 8)));
     if (!pConversionBuffer)

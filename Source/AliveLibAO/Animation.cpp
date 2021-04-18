@@ -654,7 +654,7 @@ void Animation::VCleanUp_403F40()
 
     if (field_90_pal_depth > 0)
     {
-        Pal_Free_447870(field_8C_pal_vram_xy, field_90_pal_depth);
+        IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{ field_8C_pal_vram_xy.field_0_x, field_8C_pal_vram_xy.field_2_y, field_90_pal_depth });
     }
 
     ResourceManager::FreeResource_455550(field_24_dbuf);

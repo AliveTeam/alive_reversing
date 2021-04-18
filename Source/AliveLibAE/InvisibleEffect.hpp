@@ -44,10 +44,10 @@ public:
 private:
     InvisibleState field_20_state_or_op;
     __int16 field_22;
-    WORD* field_24_pAlloc;
-    PSX_RECT field_28;
-    WORD* field_30_pPalAlloc;
-    PSX_RECT field_34;
+    WORD* field_24_pPal1;
+    PSX_RECT field_28_pal_rect1;
+    WORD* field_30_pPal2;
+    PSX_RECT field_34_pal_rect2;
     int field_3C;
     int field_40;
     int field_44_objId;
