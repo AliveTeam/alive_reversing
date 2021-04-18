@@ -6,6 +6,7 @@
 #include "VRam.hpp"
 #include "Resources.hpp"
 #include "Sys_common.hpp"
+#include "Renderer/IRenderer.hpp"
 
 void Font_ForceLink()
 {
@@ -342,6 +343,9 @@ void Font_Context::LoadFontType_433400(short resourceID)
     Vram_alloc_4956C0(fontFile->field_0_width, fontFile->field_2_height, fontFile->field_4_color_depth, &field_0_rect);
     PSX_RECT rect = { field_0_rect.x, field_0_rect.y, static_cast<short>(fontFile->field_0_width / 4), fontFile->field_2_height };
 
+#if RENDERER_OPENGL
+    IRenderer::GetRenderer()->Upload(fontFile->field_4_color_depth == 16 ? IRenderer::BitDepth::e16Bit : IRenderer::BitDepth::e4Bit, rect, fontFile->field_28_pixel_buffer);
+#else
     if (fontFile->field_4_color_depth == 16)
     {
         PSX_LoadImage16_4F5E20(&rect, fontFile->field_28_pixel_buffer);
@@ -350,6 +354,7 @@ void Font_Context::LoadFontType_433400(short resourceID)
     {
         PSX_LoadImage_4F5FB0(&rect, fontFile->field_28_pixel_buffer);
     }
+#endif
     
     // Free our loaded font resource as its now in vram
     ResourceManager::FreeResource_49C330(loadedResource);
@@ -406,6 +411,11 @@ void Font_Context::LoadFontTypeCustom(File_Font * fontFile, Font_AtlasEntry * fo
         memcpy(pPaletteOut, fontFile->field_8_palette, fontFile->field_6_palette_size * 2);
     }
 
+
+
+#if RENDERER_OPENGL
+    IRenderer::GetRenderer()->Upload(fontFile->field_4_color_depth == 16 ? IRenderer::BitDepth::e16Bit : IRenderer::BitDepth::e4Bit, rect, fontFile->field_28_pixel_buffer);
+#else
     if (fontFile->field_4_color_depth == 16)
     {
         PSX_LoadImage16_4F5E20(&rect, fontFile->field_28_pixel_buffer);
@@ -414,6 +424,7 @@ void Font_Context::LoadFontTypeCustom(File_Font * fontFile, Font_AtlasEntry * fo
     {
         PSX_LoadImage_4F5FB0(&rect, fontFile->field_28_pixel_buffer);
     }
+#endif
 
     field_8_atlas_array = fontAtlas;
 }

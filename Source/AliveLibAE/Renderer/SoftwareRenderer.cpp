@@ -34,6 +34,11 @@ void SoftwareRenderer::StartFrame(int xOff, int yOff)
     }
 }
 
+void SoftwareRenderer::Free(int /*x*/, int /*y*/)
+{
+
+}
+
 void SoftwareRenderer::EndFrame()
 {
     SDL_RenderPresent(mRenderer);
@@ -101,6 +106,10 @@ void SoftwareRenderer::SetClip(Prim_PrimClipper& clipper)
         (16 * (clipper.field_E_y + clipper.mBase.header.mRect.h)) - 16,
         1000 / 2,
         nullptr);
+}
+
+void SoftwareRenderer::SetScreenOffset(Prim_ScreenOffset& /*offset*/)
+{
 }
 
 void SoftwareRenderer::Draw(Prim_Sprt& sprt)

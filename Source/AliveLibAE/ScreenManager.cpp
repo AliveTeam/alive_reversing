@@ -8,9 +8,12 @@
 #include "Primitives.hpp"
 #include "VRam.hpp"
 #include "Psx.hpp"
+#include "Renderer/IRenderer.hpp"
 
 ALIVE_VAR(1, 0x5BB5F4, ScreenManager*, pScreenManager_5BB5F4, nullptr);
 ALIVE_ARY(1, 0x5b86c8, SprtTPage, 300, sSpriteTPageBuffer_5B86C8, {});
+
+static unsigned char gCamBuffer[640 * 240 * 2];
 
 void ScreenManager::sub_40EE10()
 {
@@ -358,11 +361,18 @@ void ScreenManager::vlc_decoder(int aR, int aG, int aB, signed int aWidth, int a
     write_4_pixel_block(r, g, b, aVramX, aVramY);
 }
 
+#if RENDERER_OPENGL
+static void SetPixel16(WORD* /*pLocked*/, DWORD /*pitch*/, int x, int y, WORD colour)
+{
+    reinterpret_cast<WORD*>(gCamBuffer)[x + (y * 640)] = colour;
+}
+#else
 static void SetPixel16(WORD* pLocked, DWORD pitch, int x, int y, WORD colour)
 {
-    y += (512/2)+16; // Write to lower half of vram
+    y += (512 / 2) + 16; // Write to lower half of vram
     pLocked[x + (y * pitch)] = colour;
 }
+#endif
 
 void ScreenManager::write_4_pixel_block(const Oddlib::BitsLogic& aR, const Oddlib::BitsLogic& aG, const Oddlib::BitsLogic& aB, int aVramX, int aVramY)
 {
@@ -424,7 +434,7 @@ void ScreenManager::DecompressCameraToVRam_40EF60(WORD** ppBits)
             pIter++;
 
             const PSX_RECT rect = { static_cast<short>(i * kStripSize), 256 + 16, kStripSize, 240 };
-            PSX_LoadImage_4F5FB0(&rect, reinterpret_cast<const BYTE*>(pIter));
+            IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e16Bit, rect, reinterpret_cast<const BYTE*>(pIter));
             pIter += (stripSize / sizeof(WORD));
         }
     }
@@ -433,6 +443,25 @@ void ScreenManager::DecompressCameraToVRam_40EF60(WORD** ppBits)
         BYTE** ppVlc = ResourceManager::Alloc_New_Resource_49BED0(ResourceManager::Resource_VLC, 0, 0x7E00); // 4 KB
         if (ppVlc)
         {
+#if RENDERER_OPENGL
+            WORD* pIter = *ppBits;
+            for (int i = 0; i < kNumStrips; i++)
+            {
+                const WORD stripSize = *pIter;
+                pIter++;
+
+                if (stripSize > 0)
+                {
+                    vlc_decode(pIter, reinterpret_cast<WORD*>(*ppVlc));
+                    process_segment(reinterpret_cast<WORD*>(*ppVlc), i * kStripSize);
+                }
+
+                pIter += (stripSize / sizeof(WORD));
+            }
+
+            const PSX_RECT vramDest = { 0,272, 640,240 };
+            IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e16Bit, vramDest, reinterpret_cast<const BYTE*>(gCamBuffer));
+#else
             if (BMP_Lock_4F1FF0(&sPsxVram_C1D160))
             {
                 WORD* pIter = *ppBits;
@@ -451,6 +480,7 @@ void ScreenManager::DecompressCameraToVRam_40EF60(WORD** ppBits)
                 }
                 BMP_unlock_4F2100(&sPsxVram_C1D160);
             }
+#endif
             ResourceManager::FreeResource_49C330(ppVlc);
         }
     }
@@ -598,6 +628,15 @@ void ScreenManager::VRender_40E6E0(PrimHeader** ppOt)
     {
         return;
     }
+
+#if RENDERER_OPENGL
+    // TODO: A custom sprite prim with magic numbers
+    // to trigger proper order rendering of our cam.
+    static Prim_Sprt MagicBackgroundPrim;
+    Sprt_Init_4F8910(&MagicBackgroundPrim);
+    SetRGB0(&MagicBackgroundPrim, 255, 254, 253);
+    OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_1), &MagicBackgroundPrim.mBase.header);
+#endif
 
     PSX_DrawSync_4F6280(0);
     pCurrent_SprtTPage_5BB5DC = nullptr;

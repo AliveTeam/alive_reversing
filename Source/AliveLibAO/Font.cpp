@@ -267,7 +267,12 @@ void FontContext::LoadFontType_41C040(short resourceID)
     vram_alloc_450B20(fontFile->field_0_width, fontFile->field_2_height, fontFile->field_4_color_depth, &field_0_rect);
     
     const PSX_RECT rect = { field_0_rect.x, field_0_rect.y, static_cast<short>(fontFile->field_0_width / 4), fontFile->field_2_height };
+
+#if RENDERER_OPENGL
+    IRenderer::GetRenderer()->Upload(fontFile->field_4_color_depth == 16 ? IRenderer::BitDepth::e16Bit : IRenderer::BitDepth::e4Bit, rect, fontFile->field_28_pixel_buffer);
+#else
     IRenderer::GetRenderer()->Upload(fontFile->field_4_color_depth == 16 ? IRenderer::BitDepth::e16Bit : IRenderer::BitDepth::e8Bit, rect, fontFile->field_28_pixel_buffer);
+#endif
 
     // Free our loaded font resource as its now in vram
     ResourceManager::FreeResource_455550(loadedResource);
