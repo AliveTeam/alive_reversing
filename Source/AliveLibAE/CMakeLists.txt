@@ -414,16 +414,20 @@ target_compile_features(AliveLibAE
     PRIVATE cxx_auto_type
     PRIVATE cxx_variadic_templates)
 
-if (WIN32)
-    set(WIN32_LIBS
-        Winmm
-        dsound
-        xinput
-    )
-endif()
+if (MINGW)
+    set(WIN32_LIBS "")
+else()
+    if (WIN32)
+        set(WIN32_LIBS
+            Winmm
+            dsound
+            xinput
+        )
+    endif()
 
-if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
-    set(WIN32_LIBS ${WIN32_LIBS} Detours)
+    if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
+        set(WIN32_LIBS ${WIN32_LIBS} Detours)
+    endif()
 endif()
 
 target_link_libraries(AliveLibAE
