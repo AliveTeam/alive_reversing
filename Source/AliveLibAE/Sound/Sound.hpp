@@ -16,16 +16,16 @@
 #ifndef NO_WAVE
 typedef struct tWAVEFORMATEX
 {
-    WORD        wFormatTag;         
-    WORD        nChannels;          
-    DWORD       nSamplesPerSec;     
-    DWORD       nAvgBytesPerSec;    
-    WORD        nBlockAlign;        
-    WORD        wBitsPerSample;     
-    WORD        cbSize;             
-                                    
+    WORD        wFormatTag;
+    WORD        nChannels;
+    DWORD       nSamplesPerSec;
+    DWORD       nAvgBytesPerSec;
+    WORD        nBlockAlign;
+    WORD        wBitsPerSample;
+    WORD        cbSize;
+
 } WAVEFORMATEX, *PWAVEFORMATEX, *NPWAVEFORMATEX, *LPWAVEFORMATEX;
-#endif 
+#endif
 
 /* flags for wFormatTag field of WAVEFORMAT */
 #define WAVE_FORMAT_PCM     1
