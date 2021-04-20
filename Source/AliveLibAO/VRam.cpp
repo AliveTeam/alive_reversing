@@ -2,6 +2,7 @@
 #include "Function.hpp"
 #include "VRam.hpp"
 #include "../AliveLibAE/VRam.hpp"
+#include "Renderer/IRenderer.hpp"
 
 namespace AO {
 
@@ -41,7 +42,7 @@ void CC Pal_Set_447990(PSX_Point xy, __int16 w, const BYTE* palData, PSX_RECT* r
     rect->x = xy.field_0_x;
     rect->w = w;
     rect->h = 1;
-    PSX_LoadImage16_4962A0(rect, palData);
+    IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{xy.field_0_x, xy.field_2_y, w}, palData);
 }
 
 unsigned int CC Pal_Make_Colour_447950(BYTE r, BYTE g, BYTE b, __int16 bOpaque)

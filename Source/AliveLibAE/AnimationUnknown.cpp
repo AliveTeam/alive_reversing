@@ -122,7 +122,7 @@ void AnimationUnknown::vRender_40C690(int xpos, int ypos, PrimHeader** ppOt, int
             static_cast<short>(frameW - 1),
             static_cast<short>(frameH - 1));
 
-        if (pFrameHeader->field_7_compression_type == 3 || pFrameHeader->field_7_compression_type == 6)
+        if (pFrameHeader->field_7_compression_type == CompressionType::eType_3_RLE_Blocks || pFrameHeader->field_7_compression_type == CompressionType::eType_6_RLE)
         {
             SetPrimExtraPointerHack(pPoly, &pFrameHeader->field_8_width2);
         }

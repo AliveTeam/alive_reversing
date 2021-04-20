@@ -271,6 +271,90 @@ TFrameCallBackType kFleech_Anim_Frame_Fns_55EFD0[3] =
 };
 
 // ================================================================
+static IRenderer::BitDepth AnimFlagsToBitDepth(const BitField32<AnimFlags>& flags)
+{
+    if (flags.Get(AnimFlags::eBit14_Is16Bit))
+    {
+        return IRenderer::BitDepth::e16Bit;
+    }
+    else if (flags.Get(AnimFlags::eBit13_Is8Bit))
+    {
+        return IRenderer::BitDepth::e8Bit;
+    }
+    return IRenderer::BitDepth::e4Bit;
+}
+
+void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& vram_rect, short width_bpp_adjusted)
+{
+    IRenderer& renderer = *IRenderer::GetRenderer();
+    switch (pFrameHeader->field_7_compression_type)
+    {
+    case CompressionType::eType_0_NoCompression:
+        // No compression, load the data directly into frame buffer
+        field_4_flags.Set(AnimFlags::eBit25_bDecompressDone);
+        renderer.Upload(AnimFlagsToBitDepth(field_4_flags), vram_rect, reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2)); // TODO: Refactor structure to get pixel data
+        break;
+
+    case CompressionType::eType_1_NotUsed:
+        // This isn't in any of the animation data files on disk, therefore can't ever be used.
+        ALIVE_FATAL("Compression type 1 never expected to be used.");
+        break;
+
+    case CompressionType::eType_2_ThreeToFourBytes:
+        field_4_flags.Set(AnimFlags::eBit25_bDecompressDone);
+        if (EnsureDecompressionBuffer())
+        {
+            // TODO: Refactor structure to get pixel data.
+            CompressionType2_Decompress_40AA50(
+                reinterpret_cast<const BYTE*>(&pFrameHeader[1]),
+                *field_24_dbuf,
+                width_bpp_adjusted * pFrameHeader->field_5_height * 2);
+
+            renderer.Upload(AnimFlagsToBitDepth(field_4_flags), vram_rect, *field_24_dbuf);
+        }
+        break;
+
+    case CompressionType::eType_3_RLE_Blocks:
+        if (field_4_flags.Get(AnimFlags::eBit25_bDecompressDone))
+        {
+            if (EnsureDecompressionBuffer())
+            {
+                // TODO: Refactor structure to get pixel data.
+                CompressionType_3Ae_Decompress_40A6A0(reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2), *field_24_dbuf);
+
+                renderer.Upload(AnimFlagsToBitDepth(field_4_flags), vram_rect, *field_24_dbuf);
+            }
+        }
+        break;
+
+    case CompressionType::eType_4_RLE:
+    case CompressionType::eType_5_RLE:
+        if (EnsureDecompressionBuffer())
+        {
+            // TODO: Refactor structure to get pixel data.
+            CompressionType_4Or5_Decompress_4ABAB0(reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2), *field_24_dbuf);
+            renderer.Upload(AnimFlagsToBitDepth(field_4_flags), vram_rect, *field_24_dbuf);
+        }
+        break;
+
+    case CompressionType::eType_6_RLE:
+        if (field_4_flags.Get(AnimFlags::eBit25_bDecompressDone))
+        {
+            if (EnsureDecompressionBuffer())
+            {
+                // TODO: Refactor structure to get pixel data.
+                CompressionType6Ae_Decompress_40A8A0(reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2), *field_24_dbuf);
+                 renderer.Upload(AnimFlagsToBitDepth(field_4_flags), vram_rect, *field_24_dbuf);
+            }
+        }
+        break;
+
+    case CompressionType::eType_7_NotUsed:
+    case CompressionType::eType_8_NotUsed:
+        ALIVE_FATAL("Decompression 7 and 8 never expected to be used");
+        break;
+    }
+}
 
 bool Animation::EnsureDecompressionBuffer()
 {
@@ -339,72 +423,7 @@ void Animation::DecompressFrame()
         vram_rect.h = field_84_vram_rect.h;
     }
 
-    switch (pFrameHeader->field_7_compression_type)
-    {
-    case 0:
-        // No compression, load the data directly into frame buffer
-        field_4_flags.Set(AnimFlags::eBit25_bDecompressDone);
-        PSX_LoadImage_4F5FB0(&vram_rect, reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2)); // TODO: Refactor structure to get pixel data
-        break;
-
-    case 1:
-        // This isn't in any of the animation data files on disk, therefore can't ever be used.
-        ALIVE_FATAL("Compression type 1 never expected to be used.");
-        break;
-
-    case 2:
-        field_4_flags.Set(AnimFlags::eBit25_bDecompressDone);
-        if (EnsureDecompressionBuffer())
-        {
-            // TODO: Refactor structure to get pixel data.
-            CompressionType2_Decompress_40AA50(
-                reinterpret_cast<const BYTE*>(&pFrameHeader[1]),
-                *field_24_dbuf,
-                width_bpp_adjusted * pFrameHeader->field_5_height * 2);
-
-            PSX_LoadImage_4F5FB0(&vram_rect, *field_24_dbuf);
-        }
-        break;
-
-    case 3:
-        if (field_4_flags.Get(AnimFlags::eBit25_bDecompressDone))
-        {
-            if (EnsureDecompressionBuffer())
-            {
-                // TODO: Refactor structure to get pixel data.
-                CompressionType_3Ae_Decompress_40A6A0(reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2), *field_24_dbuf);
-                PSX_LoadImage_4F5FB0(&vram_rect, *field_24_dbuf);
-            }
-        }
-        break;
-
-    case 4:
-    case 5:
-        if (EnsureDecompressionBuffer())
-        {
-            // TODO: Refactor structure to get pixel data.
-            CompressionType_4Or5_Decompress_4ABAB0(reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2), *field_24_dbuf);
-            PSX_LoadImage_4F5FB0(&vram_rect, *field_24_dbuf);
-        }
-        break;
-
-    case 6:
-        if (field_4_flags.Get(AnimFlags::eBit25_bDecompressDone))
-        {
-            if (EnsureDecompressionBuffer())
-            {
-                // TODO: Refactor structure to get pixel data.
-                CompressionType6Ae_Decompress_40A8A0(reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2), *field_24_dbuf);
-                PSX_LoadImage_4F5FB0(&vram_rect, *field_24_dbuf);
-            }
-        }
-        break;
-
-    case 7:
-    case 8:
-        ALIVE_FATAL("Decompression 7 and 8 never expected to be used");
-        break;
-    }
+    UploadTexture(pFrameHeader, vram_rect, width_bpp_adjusted);
 }
 
 inline short FP_AdjustedToInteger(FP fp, FP adjustment)
@@ -584,7 +603,7 @@ void Animation::vRender_40B820(int xpos, int ypos, PrimHeader** ppOt, __int16 wi
     SetXY2(pPoly, polyXPos, polyYPos + FP_GetExponent(frame_height_fixed - FP_FromDouble(0.501)));
     SetXY3(pPoly, polyXPos + FP_GetExponent(frame_width_fixed - FP_FromDouble(0.501)), polyYPos + FP_GetExponent(frame_height_fixed - FP_FromDouble(0.501)));
 
-    if (pFrameHeader->field_7_compression_type == 3 || pFrameHeader->field_7_compression_type == 6)
+    if (pFrameHeader->field_7_compression_type == CompressionType::eType_3_RLE_Blocks || pFrameHeader->field_7_compression_type == CompressionType::eType_6_RLE)
     {
         SetPrimExtraPointerHack(pPoly, &pFrameHeader->field_8_width2);
     }
@@ -1056,14 +1075,17 @@ signed __int16 Animation::Init_40A030(int frameTableOffset, DynamicArray* /*anim
 
 void Animation::Load_Pal_40A530(BYTE** pAnimData, int palOffset)
 {
-    if (!pAnimData)
+    if (pAnimData)
     {
-        return;
+        // +4 = skip CLUT len
+        const BYTE* pPal = &(*pAnimData)[palOffset];
+        if (field_90_pal_depth != 16 && field_90_pal_depth != 64 && field_90_pal_depth != 256)
+        {
+            LOG_ERROR("Bad pal depth " << field_90_pal_depth);
+            ALIVE_FATAL("Bad pal depth");
+        }
+        IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{ field_8C_pal_vram_xy.field_0_x, field_8C_pal_vram_xy.field_2_y, field_90_pal_depth }, pPal + 4);
     }
-
-    // +4 = skip CLUT len
-    const BYTE* pPal = &(*pAnimData)[palOffset];
-    IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{ field_8C_pal_vram_xy.field_0_x, field_8C_pal_vram_xy.field_2_y, field_90_pal_depth }, pPal + 4);
 }
 
 void Animation::Get_Frame_Offset_40C480(__int16* pBoundingX, __int16* pBoundingY)

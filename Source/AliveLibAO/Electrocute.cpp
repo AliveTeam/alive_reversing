@@ -7,6 +7,7 @@
 #include "stdlib.hpp"
 #include "VRam.hpp"
 #include "Map.hpp"
+#include "Renderer/IRenderer.hpp"
 
 namespace AO {
 
@@ -77,12 +78,8 @@ public:
     {
         if (!field_BE_bDone)
         {
-            PSX_RECT rect = {};
-            rect.y = field_10_pal_xy.field_2_y;
-            rect.x = field_10_pal_xy.field_0_x + field_B8_pal_x_index;
-            rect.w = field_BA_pal_w;
-            rect.h = 1;
-            PSX_LoadImage16_4962A0(&rect, reinterpret_cast<BYTE*>(field_A8_palBuffer)); // Overwrite pal
+             // TODO: FIX ME - abstraction break, the x value is used as an offset as to how much to overwrite, the width isn't isn't the pal depth in this case
+            IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{ field_10_pal_xy.field_2_y, static_cast<short>(field_10_pal_xy.field_0_x + field_B8_pal_x_index), field_BA_pal_w }, reinterpret_cast<BYTE*>(&field_A8_palBuffer[0]));
         }
     }
 

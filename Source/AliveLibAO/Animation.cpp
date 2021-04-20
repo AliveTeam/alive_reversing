@@ -852,23 +852,20 @@ signed __int16 Animation::Init_402D20(int frameTableOffset, DynamicArray* /*anim
         bVramAllocOK = vram_alloc_450B20(maxW, maxH, pFrameHeader->field_6_colour_depth, &field_84_vram_rect);
     }
 
-    int bPalAllocOK = 1;
+    bool bPalAllocOK = true;
     if (pal_depth > 0 && bVramAllocOK)
     {
-        PSX_RECT palVRamRect = {};
-        bPalAllocOK = Pal_Allocate_4476F0(&palVRamRect, pal_depth);
+        IRenderer::PalRecord rec;
+        rec.depth = pal_depth;
+        bPalAllocOK = IRenderer::GetRenderer()->PalAlloc(rec);
 
-        field_8C_pal_vram_xy.field_0_x = palVRamRect.x;
-        field_8C_pal_vram_xy.field_2_y = palVRamRect.y;
-
-        palVRamRect.w = pal_depth;
-        palVRamRect.h = 1;
-
-        field_90_pal_depth = pal_depth;
+        field_8C_pal_vram_xy.field_0_x = rec.x;
+        field_8C_pal_vram_xy.field_2_y = rec.y;
+        field_90_pal_depth = rec.depth;
 
         if (bVramAllocOK && bPalAllocOK)
         {
-            PSX_LoadImage16_4962A0(&palVRamRect, pClut + 4); // +4 Skip len, load pal
+            IRenderer::GetRenderer()->PalSetData(rec, pClut + 4); // +4 Skip len, load pal
         }
     }
 
@@ -945,37 +942,17 @@ FrameInfoHeader* Animation::Get_FrameHeader_403A00(int frame)
     return pFrame;
 }
 
-void Animation::LoadPal_403090(BYTE** pPalData, int palOffset)
+void Animation::LoadPal_403090(BYTE** pAnimData, int palOffset)
 {
-    if (pPalData)
+    if (pAnimData)
     {
-        PSX_RECT rect = {};
-        BYTE* pPalDataOffset = &(*pPalData)[palOffset];
-        switch (field_90_pal_depth)
+        const BYTE* pPalDataOffset = &(*pAnimData)[palOffset];
+        if (field_90_pal_depth != 16 && field_90_pal_depth != 64 && field_90_pal_depth != 256)
         {
-        case 16:
-            rect.x = field_8C_pal_vram_xy.field_0_x;
-            rect.y = field_8C_pal_vram_xy.field_2_y;
-            rect.w = 16;
-            break;
-
-        case 64:
-            rect.x = field_8C_pal_vram_xy.field_0_x;
-            rect.y = field_8C_pal_vram_xy.field_2_y;
-            rect.w = 64;
-            break;
-
-        case 256:
-            rect.x = field_8C_pal_vram_xy.field_0_x;
-            rect.y = field_8C_pal_vram_xy.field_2_y;
-            rect.w = 256;
-            break;
-
-        default:
-            return;
+            LOG_ERROR("Bad pal depth " << field_90_pal_depth);
+            ALIVE_FATAL("Bad pal depth");
         }
-        rect.h = 1;
-        PSX_LoadImage16_4962A0(&rect, pPalDataOffset + 4); // +4 skip len, load pal
+        IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{field_8C_pal_vram_xy.field_0_x, field_8C_pal_vram_xy.field_2_y, field_90_pal_depth}, pPalDataOffset + 4); // +4 skip len, load pal
     }
 }
 

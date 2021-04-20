@@ -300,9 +300,21 @@ void FontContext::dtor_41C110()
 AliveFont* AliveFont::ctor_41C170(int maxCharLength, const BYTE* palette, FontContext* fontContext)
 {
     field_34_font_context = fontContext;
-    Pal_Allocate_4476F0(&field_28_palette_rect, 16u);
-    PSX_RECT rect = { field_28_palette_rect.x, field_28_palette_rect.y, 16, 1 };
-    PSX_LoadImage16_4962A0(&rect, palette); // load font pal
+
+    IRenderer::PalRecord rec;
+    rec.depth = 16;
+    if (!IRenderer::GetRenderer()->PalAlloc(rec))
+    {
+        LOG_ERROR("PalAlloc failed");
+    }
+
+    IRenderer::GetRenderer()->PalSetData(rec, palette);
+
+    field_28_palette_rect.x = rec.x;
+    field_28_palette_rect.y = rec.y;
+    field_28_palette_rect.w = rec.depth;
+    field_28_palette_rect.h = 1;
+
     field_30_poly_count = maxCharLength;
     field_20_fnt_poly_block_ptr = ResourceManager::Allocate_New_Locked_Resource_454F80(
         ResourceManager::Resource_FntP,
