@@ -54,7 +54,7 @@ MACRO(ADD_MSVC_PRECOMPILED_HEADER PrecompiledHeader PrecompiledSource SourcesVar
                                            OBJECT_OUTPUTS "${PrecompiledBinary}")
     SET_SOURCE_FILES_PROPERTIES(${Sources}
                                 PROPERTIES COMPILE_FLAGS "/Yu\"${PrecompiledHeader}\" /FI\"${PrecompiledHeader}\" /Fp\"${PrecompiledBinary}\""
-                                           OBJECT_DEPENDS "${PrecompiledBinary}")  
+                                           OBJECT_DEPENDS "${PrecompiledBinary}")
     # Add precompiled header to SourcesVar
     LIST(APPEND ${SourcesVar} ${PrecompiledSource})
   ENDIF(MSVC)
@@ -68,7 +68,6 @@ if (NOT DEFINED ENV{AE_ROOT})
 else()
     file(TO_CMAKE_PATH $ENV{AE_ROOT} AE_PATH)
 endif()
-
 
 if (NOT DEFINED ENV{AO_ROOT})
     message(WARNING "No AO_ROOT environment variable found, resorting to the default path")
@@ -86,7 +85,7 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/alive_api)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/assets)
 
-if (WIN32)
+if (WIN32 AND NOT MINGW)
     add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveDllAE)
     add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveDllAO)
 endif()
