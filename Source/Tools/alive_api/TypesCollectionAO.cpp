@@ -1,5 +1,6 @@
 #include "../AliveLibCommon/stdafx_common.h"
 #include "TypesCollection.hpp"
+#include "TlvObjectBase.hpp"
 #include "AOTlvs.hpp"
 #include "../AliveLibAO/SwitchStates.hpp"
 #include "../AliveLibAO/PathData.hpp"
