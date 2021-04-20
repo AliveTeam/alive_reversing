@@ -46,7 +46,7 @@ export(TARGETS DxOld FILE DxOld.cmake)
 add_library(jsonxx jsonxx/jsonxx.cc)
 target_include_directories(jsonxx PUBLIC
     $<BUILD_INTERFACE:
-    ${CMAKE_CURRENT_SOURCE_DIR}/jsonxx)
+    ${CMAKE_CURRENT_SOURCE_DIR}/jsonxx>)
 export(TARGETS jsonxx FILE jsonxx.cmake)
 set_property(TARGET jsonxx PROPERTY FOLDER "3rdParty")
 
@@ -94,7 +94,7 @@ target_link_libraries(imgui
 target_include_directories(imgui PUBLIC
     $<BUILD_INTERFACE:
     ${CMAKE_CURRENT_SOURCE_DIR}/imgui;
-    ${CMAKE_CURRENT_SOURCE_DIR}/imgui/backends;
+    ${CMAKE_CURRENT_SOURCE_DIR}/imgui/backends>
     )
 add_compile_definitions(IMGUI_IMPL_OPENGL_LOADER_GLEW)
 export(TARGETS imgui FILE imgui.cmake)
@@ -110,6 +110,6 @@ add_library(glm INTERFACE)
 
 target_include_directories(glm INTERFACE
     $<BUILD_INTERFACE:
-    ${CMAKE_CURRENT_SOURCE_DIR}/glm;
+    ${CMAKE_CURRENT_SOURCE_DIR}/glm>
     )
 export(TARGETS glm FILE glm.cmake)
