@@ -15,9 +15,7 @@
 #include "SDL.h"
 #include "SDL_syswm.h"
 #include "VGA.hpp"
-#endif
-
-#if _WIN32
+#elif _WIN32
 #include <timeapi.h>
 #endif
 
@@ -601,7 +599,7 @@ static int Sys_EventFilter(void* /*userData*/, SDL_Event* event)
 {
     if (event->type == SDL_KEYDOWN)
     {
-       
+
         if (!Input_GetInputEnabled_4EDDE0())
         {
             // "Typing" input
@@ -789,7 +787,7 @@ EXPORT char CC Sys_PumpMessages_4EE4F4()
 {
 #if USE_SDL2
     SDL_Event event;
-    while (SDL_PollEvent(&event)) 
+    while (SDL_PollEvent(&event))
     {
         // Pump events
     }
