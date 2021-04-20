@@ -2,6 +2,7 @@
 
 #include "OpenGLRenderer.hpp"
 #include "Compression.hpp"
+#include "VRam.hpp"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb/stb_image.h"
@@ -852,19 +853,43 @@ void OpenGLRenderer::Clear(BYTE /*r*/, BYTE /*g*/, BYTE /*b*/)
 
     Renderer_SetBlendMode(TPageAbr::eBlend_0);
     if (mBackgroundTexture != 0)
-        DrawTexture(mBackgroundTexture, 0,0, 640, 240);
+    {
+        DrawTexture(mBackgroundTexture, 0, 0, 640, 240);
+    }
 }
 
 void OpenGLRenderer::StartFrame(int /*xOff*/, int /*yOff*/)
 {
-    
+
 }
 
 // This function should free both vrams allocations AND palettes, cause theyre kinda the same thing.
-void OpenGLRenderer::Free(int x, int y)
+void OpenGLRenderer::PalFree(const PalRecord& record)
 {
-    Renderer_FreePalette({ (short)x,(short)y, });
-    Renderer_FreeTexture({ (short)x,(short)y, });
+    Pal_free_483390(PSX_Point{record.x, record.y}, record.depth);   // TODO: Stop depending on this
+
+    Renderer_FreePalette({ record.x, record.y, });
+    Renderer_FreeTexture({ record.x, record.y, });
+}
+
+bool OpenGLRenderer::PalAlloc(PalRecord& record)
+{
+    PSX_RECT rect = {};
+    // TODO: Stop depending on this
+    const bool ret = Pal_Allocate_483110(&rect, record.depth);
+    record.x = rect.x;
+    record.y = rect.y;
+    return ret;
+}
+
+void OpenGLRenderer::PalSetData(const PalRecord& record, const BYTE* pPixels)
+{
+    PSX_RECT rect = {};
+    rect.x = record.x;
+    rect.y = record.y;
+    rect.w = record.depth;
+    rect.h = 1;
+    Upload(IRenderer::BitDepth::e16Bit, rect, pPixels);
 }
 
 void OpenGLRenderer::EndFrame()

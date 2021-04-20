@@ -28,6 +28,12 @@ public:
     EXPORT static void CreateRenderer(Renderers type);
     EXPORT static void FreeRenderer();
 
+    struct PalRecord final
+    {
+        short x = 0;
+        short y = 0;
+        short depth = 0;
+    };
 public:
     virtual ~IRenderer() {}
     virtual void Destroy() = 0;
@@ -45,7 +51,10 @@ public:
     virtual void SetClip(Prim_PrimClipper& clipper) = 0;
     virtual void SetScreenOffset(Prim_ScreenOffset& offset) = 0;
 
-    virtual void Free(int x, int y) = 0; // Use to free textures/pals via a vram point.
+    virtual void PalFree(const PalRecord& record) = 0; // Use to free textures/pals via a vram point.
+    [[nodiscard]] virtual bool PalAlloc(PalRecord& record) = 0;
+    virtual void PalSetData(const PalRecord& record, const BYTE* pPixels) = 0;
+
     virtual void Upload(BitDepth bitDepth, const PSX_RECT& rect, const BYTE* pPixels) = 0;
 
     // FG1/zaplines/blood/hintfly

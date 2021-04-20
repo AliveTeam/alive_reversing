@@ -13,6 +13,7 @@
 #include "StringFormatters.hpp"
 #include "Primitives_common.hpp"
 #include "Input.hpp"
+#include "Renderer/IRenderer.hpp"
 
 namespace AO {
 
@@ -195,10 +196,20 @@ LCDScreen* LCDScreen::ctor_433F60(Path_LCDScreen* pTlv, int tlvInfo)
 
     field_50_font_context.LoadFontType_41C040(2);
     field_60_font.ctor_41C170(60, sLCDScreen_Palette_4C75A8, &field_50_font_context);
-    Pal_Allocate_4476F0(&field_98_pal_rect, 16u);
 
-    const PSX_RECT palSize = { field_98_pal_rect.x, field_98_pal_rect.y,16, 1 };
-    PSX_LoadImage16_4962A0(&palSize, sLCDScreen_Palette2_4C7588); // Load pal
+    IRenderer::PalRecord rec;
+    rec.depth = 16;
+    if (!IRenderer::GetRenderer()->PalAlloc(rec))
+    {
+        LOG_ERROR("PalAlloc failure");
+    }
+
+    field_98_pal_rect.x = rec.x;
+    field_98_pal_rect.y = rec.y;
+    field_98_pal_rect.w = rec.depth;
+    field_98_pal_rect.h = 1;
+
+    IRenderer::GetRenderer()->PalSetData(rec, sLCDScreen_Palette2_4C7588);
 
     if (Input_JoyStickEnabled() || field_2AC_message_1_id != 62)
     {
@@ -235,7 +246,8 @@ LCDScreen* LCDScreen::ctor_433F60(Path_LCDScreen* pTlv, int tlvInfo)
 BaseGameObject* LCDScreen::dtor_434100()
 {
     SetVTable(this, 0x4BB468);
-    Pal_Free_447870({ field_98_pal_rect.x, field_98_pal_rect.y }, field_98_pal_rect.w);
+    IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{ field_98_pal_rect.x, field_98_pal_rect.y, field_98_pal_rect.w });
+
     gObjList_drawables_504618->Remove_Item(this);
     gMap_507BA8.TLV_Reset_446870(field_2B8_tlv_item_info, -1, 0, 0);
     field_60_font.dtor_41C130();

@@ -9,6 +9,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "stdlib.hpp"
 #include "Sys_common.hpp"
+#include "Renderer/IRenderer.hpp"
 
 EXPORT InvisibleEffect* InvisibleEffect::ctor_45F280(BaseAliveGameObject* pTarget)
 {
@@ -19,19 +20,19 @@ EXPORT InvisibleEffect* InvisibleEffect::ctor_45F280(BaseAliveGameObject* pTarge
 
     field_44_objId = pTarget->field_8_object_id;
 
-    field_24_pAlloc = reinterpret_cast<WORD*>(ae_malloc_non_zero_4954F0(pTarget->field_20_animation.field_90_pal_depth * sizeof(WORD)));
+    field_24_pPal1 = reinterpret_cast<WORD*>(ae_malloc_non_zero_4954F0(pTarget->field_20_animation.field_90_pal_depth * sizeof(WORD)));
     Pal_Copy_483560(
         pTarget->field_20_animation.field_8C_pal_vram_xy,
         pTarget->field_20_animation.field_90_pal_depth,
-        field_24_pAlloc,
-        &field_28);
+        field_24_pPal1,
+        &field_28_pal_rect1);
 
-    field_30_pPalAlloc = reinterpret_cast<WORD*>(ae_malloc_non_zero_4954F0(pTarget->field_20_animation.field_90_pal_depth * sizeof(WORD)));
+    field_30_pPal2 = reinterpret_cast<WORD*>(ae_malloc_non_zero_4954F0(pTarget->field_20_animation.field_90_pal_depth * sizeof(WORD)));
     Pal_Copy_483560(
         pTarget->field_20_animation.field_8C_pal_vram_xy,
         pTarget->field_20_animation.field_90_pal_depth,
-        field_30_pPalAlloc,
-        &field_34);
+        field_30_pPal2,
+        &field_34_pal_rect2);
 
     field_4A_flags.Clear();
 
@@ -55,14 +56,14 @@ EXPORT void InvisibleEffect::dtor_45F410()
 {
     SetVTable(this, 0x545A60);
 
-    if (field_24_pAlloc)
+    if (field_24_pPal1)
     {
-        ae_non_zero_free_495560(field_24_pAlloc);
+        ae_non_zero_free_495560(field_24_pPal1);
     }
 
-    if (field_30_pPalAlloc)
+    if (field_30_pPal2)
     {
-        ae_non_zero_free_495560(field_30_pPalAlloc);
+        ae_non_zero_free_495560(field_30_pPal2);
     }
 
     BaseGameObject_dtor_4DBEC0();
@@ -118,7 +119,7 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
             for (int idx2 = 8; idx2 < pTarget->field_20_animation.field_90_pal_depth; idx2++)
             {
                 // Set transparent bit
-                field_30_pPalAlloc[idx2] |= 0x8000u;
+                field_30_pPal2[idx2] |= 0x8000u;
             }
 
             pTarget->field_114_flags.Set(Flags_114::e114_Bit8_bInvisible);
@@ -147,30 +148,30 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
             for (int idx = 8; idx < pTarget->field_20_animation.field_90_pal_depth; idx++)
             {
                 // Red
-                if (field_30_pPalAlloc[idx] & 0x1F)
+                if (field_30_pPal2[idx] & 0x1F)
                 {
                     v3 = true;
-                    field_30_pPalAlloc[idx] = field_30_pPalAlloc[idx] - 1;
+                    field_30_pPal2[idx] = field_30_pPal2[idx] - 1;
                 }
 
                 // Green
-                if (field_30_pPalAlloc[idx] & 0x3E0)
+                if (field_30_pPal2[idx] & 0x3E0)
                 {
                     v3 = true;
-                    field_30_pPalAlloc[idx] = field_30_pPalAlloc[idx] - 32;
+                    field_30_pPal2[idx] = field_30_pPal2[idx] - 32;
                 }
 
                 // Blue
-                if (field_30_pPalAlloc[idx] & 0x7C00)
+                if (field_30_pPal2[idx] & 0x7C00)
                 {
                     v3 = true;
-                    field_30_pPalAlloc[idx] = field_30_pPalAlloc[idx] - 1024;
+                    field_30_pPal2[idx] = field_30_pPal2[idx] - 1024;
                 }
 
                 // Semi trans
-                if (field_30_pPalAlloc[idx] == 0x8000u)
+                if (field_30_pPal2[idx] == 0x8000u)
                 {
-                    field_30_pPalAlloc[idx] = 0;
+                    field_30_pPal2[idx] = 0;
                 }
             }
 
@@ -180,7 +181,7 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
             }
             else
             {
-                Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy, pTarget->field_20_animation.field_90_pal_depth, (BYTE *) field_30_pPalAlloc, &field_34);
+                Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy, pTarget->field_20_animation.field_90_pal_depth, (BYTE *)field_30_pPal2, &field_34_pal_rect2);
                 field_1C_update_delay = 1;
             }
             
@@ -193,10 +194,10 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
             for (int i = 8; i < pTarget->field_20_animation.field_90_pal_depth; i++)
             {
                 // Clear transparent bit
-                field_30_pPalAlloc[i] &= 0x8000u;
+                field_30_pPal2[i] &= 0x8000u;
 
             }
-            Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy, pTarget->field_20_animation.field_90_pal_depth, (BYTE *) field_30_pPalAlloc, &field_34);
+            Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy, pTarget->field_20_animation.field_90_pal_depth, (BYTE *) field_30_pPal2, &field_34_pal_rect2);
             field_4A_flags.Clear(Flags_4A::eIsInvisible_Bit3);
             field_1C_update_delay = 1;
             field_20_state_or_op = InvisibleState::eSetRenderMode1_0;
@@ -213,28 +214,28 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
             bool v3 = false;
             for (int idx4 = 1; idx4 < pTarget->field_20_animation.field_90_pal_depth; idx4++)
             {
-                if ((field_30_pPalAlloc[idx4] ^ (field_24_pAlloc[idx4])) & 0x1F)
+                if ((field_30_pPal2[idx4] ^ (field_24_pPal1[idx4])) & 0x1F)
                 {
                     v3 = true;
-                    field_30_pPalAlloc[idx4] = field_30_pPalAlloc[idx4] + 1;
+                    field_30_pPal2[idx4] = field_30_pPal2[idx4] + 1;
                 }
 
-                if ((field_30_pPalAlloc[idx4] ^ field_24_pAlloc[idx4]) & 0x3E0)
+                if ((field_30_pPal2[idx4] ^ field_24_pPal1[idx4]) & 0x3E0)
                 {
                     v3 = true;
-                    field_30_pPalAlloc[idx4] = field_30_pPalAlloc[idx4] + 32;
+                    field_30_pPal2[idx4] = field_30_pPal2[idx4] + 32;
                 }
 
-                if ((field_30_pPalAlloc[idx4] ^ field_24_pAlloc[idx4]) & 0x7C00)
+                if ((field_30_pPal2[idx4] ^ field_24_pPal1[idx4]) & 0x7C00)
                 {
                     v3 = true;
-                    field_30_pPalAlloc[idx4] = field_30_pPalAlloc[idx4] + 1024;
+                    field_30_pPal2[idx4] = field_30_pPal2[idx4] + 1024;
                 }
             }
 
             if (v3)
             {
-                Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy, pTarget->field_20_animation.field_90_pal_depth, (BYTE *)field_30_pPalAlloc, &field_34);
+                Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy, pTarget->field_20_animation.field_90_pal_depth, (BYTE *)field_30_pPal2, &field_34_pal_rect2);
                 pTarget->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
                 field_1C_update_delay = 5;
             }
@@ -246,7 +247,7 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
         }
         case InvisibleState::eClearInvisibility_5:
         {
-            Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy,  pTarget->field_20_animation.field_90_pal_depth, (BYTE *)field_24_pAlloc, &field_28);
+            Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy,  pTarget->field_20_animation.field_90_pal_depth, (BYTE *)field_24_pPal1, &field_28_pal_rect1);
 
             pTarget->field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans, field_4A_flags.Get(Flags_4A::eSemiTrans_Bit1));
             pTarget->field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending, field_4A_flags.Get(Flags_4A::eBlending_Bit2));

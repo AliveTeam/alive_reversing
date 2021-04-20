@@ -6,6 +6,7 @@
 #include "VRam.hpp"
 #include "Game.hpp"
 #include "Function.hpp"
+#include "Renderer/IRenderer.hpp"
 
 // Overwrites a pallete 8 colours at a time one per update
 class PalleteOverwriter : public BaseGameObject
@@ -112,12 +113,8 @@ private:
     {
         if (!field_CE_bDone)
         {
-            PSX_RECT rect = {};
-            rect.y = field_20_pal_xy.field_2_y;
-            rect.x = field_20_pal_xy.field_0_x + field_C8_pal_x_index;
-            rect.w = field_CA_pal_w;
-            rect.h = 1;
-            PSX_LoadImage16_4F5E20(&rect, reinterpret_cast<BYTE*>(&field_B8_palBuffer[0]));
+            // TODO: FIX ME - abstraction break, the x value is used as an offset as to how much to overwrite, the width isn't isn't the pal depth in this case
+            IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{field_20_pal_xy.field_2_y, static_cast<short>(field_20_pal_xy.field_0_x + field_C8_pal_x_index), field_CA_pal_w}, reinterpret_cast<BYTE*>(&field_B8_palBuffer[0]));
         }
     }
 

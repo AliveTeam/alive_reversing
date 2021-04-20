@@ -268,11 +268,7 @@ void FontContext::LoadFontType_41C040(short resourceID)
     
     const PSX_RECT rect = { field_0_rect.x, field_0_rect.y, static_cast<short>(fontFile->field_0_width / 4), fontFile->field_2_height };
 
-#if RENDERER_OPENGL
     IRenderer::GetRenderer()->Upload(fontFile->field_4_color_depth == 16 ? IRenderer::BitDepth::e16Bit : IRenderer::BitDepth::e4Bit, rect, fontFile->field_28_pixel_buffer);
-#else
-    IRenderer::GetRenderer()->Upload(fontFile->field_4_color_depth == 16 ? IRenderer::BitDepth::e16Bit : IRenderer::BitDepth::e8Bit, rect, fontFile->field_28_pixel_buffer);
-#endif
 
     // Free our loaded font resource as its now in vram
     ResourceManager::FreeResource_455550(loadedResource);
@@ -304,9 +300,21 @@ void FontContext::dtor_41C110()
 AliveFont* AliveFont::ctor_41C170(int maxCharLength, const BYTE* palette, FontContext* fontContext)
 {
     field_34_font_context = fontContext;
-    Pal_Allocate_4476F0(&field_28_palette_rect, 16u);
-    PSX_RECT rect = { field_28_palette_rect.x, field_28_palette_rect.y, 16, 1 };
-    PSX_LoadImage16_4962A0(&rect, palette); // load font pal
+
+    IRenderer::PalRecord rec;
+    rec.depth = 16;
+    if (!IRenderer::GetRenderer()->PalAlloc(rec))
+    {
+        LOG_ERROR("PalAlloc failed");
+    }
+
+    IRenderer::GetRenderer()->PalSetData(rec, palette);
+
+    field_28_palette_rect.x = rec.x;
+    field_28_palette_rect.y = rec.y;
+    field_28_palette_rect.w = rec.depth;
+    field_28_palette_rect.h = 1;
+
     field_30_poly_count = maxCharLength;
     field_20_fnt_poly_block_ptr = ResourceManager::Allocate_New_Locked_Resource_454F80(
         ResourceManager::Resource_FntP,
@@ -493,10 +501,8 @@ EXPORT int AliveFont::DrawString_41C360(PrimHeader** ppOt, const char* text, __i
 
 void AliveFont::dtor_41C130()
 {
-    PSX_Point palPoint = { field_28_palette_rect.x, field_28_palette_rect.y };
-    Pal_Free_447870(palPoint, field_28_palette_rect.w);
+    IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{ field_28_palette_rect.x, field_28_palette_rect.y, field_28_palette_rect.w });
     field_28_palette_rect.x = 0;
-
     ResourceManager::FreeResource_455550(field_20_fnt_poly_block_ptr);
 }
 

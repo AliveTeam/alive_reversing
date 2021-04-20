@@ -75,9 +75,20 @@ namespace Alive
     void Font::ctor_433590(int maxCharLength, const BYTE *palette, Font_Context *fontContext)
     {
         field_34_font_context = fontContext;
-        Pal_Allocate_483110(&field_28_palette_rect, 16u);
-        PSX_RECT rect = { field_28_palette_rect.x , field_28_palette_rect.y, 16, 1 };
-        PSX_LoadImage16_4F5E20(&rect, palette);
+
+        IRenderer::PalRecord rec = { 0, 0, 16 };
+        if (!IRenderer::GetRenderer()->PalAlloc(rec))
+        {
+            LOG_ERROR("PalAlloc failure");
+        }
+
+        IRenderer::GetRenderer()->PalSetData(rec, palette);
+
+        field_28_palette_rect.x = rec.x;
+        field_28_palette_rect.y = rec.y;
+        field_28_palette_rect.w = rec.depth;
+        field_28_palette_rect.h = 1;
+
         field_30_poly_count = maxCharLength;
 #if DEVELOPER_MODE // Use normal memory allocating for fonts, so we don't overload the resource heap
         auto db = new void*[1];
@@ -91,8 +102,7 @@ namespace Alive
 
     void Font::dtor_433540()
     {
-        PSX_Point palPoint = { field_28_palette_rect.x,field_28_palette_rect.y };
-        Pal_free_483390(palPoint, field_28_palette_rect.w);
+        IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{ field_28_palette_rect.x,field_28_palette_rect.y, field_28_palette_rect.w });
         field_28_palette_rect.x = 0;
 
 #if DEVELOPER_MODE 
@@ -123,10 +133,11 @@ namespace Alive
         for (unsigned int i = 0; i < strlen(text); i++)
         {
             if (offsetX >= maxRenderX)
+            {
                 break;
+            }
 
             const unsigned char c = text[i];
-
             if (c <= 0x20u || c > 0xAFu)
             {
                 if (c < 7u || c > 0x1Fu)
@@ -295,7 +306,10 @@ namespace Alive
             int atlasIdx = 0;
             char character = *strPtr;
             if (xOff >= rightWorldSpace)
+            {
                 return strPtr;
+            }
+
             if (character <= 0x20u || character > 0x7Au)
             {
                 if (character < 7u || character > 0x1Fu)
@@ -337,25 +351,14 @@ void Font_Context::LoadFontType_433400(short resourceID)
 
     auto loadedResource = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Font, resourceID, 1u, 0);
     auto fontFile = reinterpret_cast<File_Font*>(*loadedResource);
-    
+
     field_C_resource_id = resourceID;
 
     Vram_alloc_4956C0(fontFile->field_0_width, fontFile->field_2_height, fontFile->field_4_color_depth, &field_0_rect);
-    PSX_RECT rect = { field_0_rect.x, field_0_rect.y, static_cast<short>(fontFile->field_0_width / 4), fontFile->field_2_height };
+    const PSX_RECT vramAllocatedRect = { field_0_rect.x, field_0_rect.y, static_cast<short>(fontFile->field_0_width / 4), fontFile->field_2_height };
 
-#if RENDERER_OPENGL
-    IRenderer::GetRenderer()->Upload(fontFile->field_4_color_depth == 16 ? IRenderer::BitDepth::e16Bit : IRenderer::BitDepth::e4Bit, rect, fontFile->field_28_pixel_buffer);
-#else
-    if (fontFile->field_4_color_depth == 16)
-    {
-        PSX_LoadImage16_4F5E20(&rect, fontFile->field_28_pixel_buffer);
-    }
-    else
-    {
-        PSX_LoadImage_4F5FB0(&rect, fontFile->field_28_pixel_buffer);
-    }
-#endif
-    
+    IRenderer::GetRenderer()->Upload(fontFile->field_4_color_depth == 16 ? IRenderer::BitDepth::e16Bit : IRenderer::BitDepth::e4Bit, vramAllocatedRect, fontFile->field_28_pixel_buffer);
+
     // Free our loaded font resource as its now in vram
     ResourceManager::FreeResource_49C330(loadedResource);
 
@@ -404,7 +407,7 @@ void Font_Context::LoadFontTypeCustom(File_Font * fontFile, Font_AtlasEntry * fo
     field_C_resource_id = 0xff;
 
     Vram_alloc_4956C0(fontFile->field_0_width, fontFile->field_2_height, fontFile->field_4_color_depth, &field_0_rect);
-    PSX_RECT rect = { field_0_rect.x, field_0_rect.y, static_cast<short>(fontFile->field_0_width / 4), fontFile->field_2_height };
+    const PSX_RECT vramAlloctedRect = { field_0_rect.x, field_0_rect.y, static_cast<short>(fontFile->field_0_width / 4), fontFile->field_2_height };
 
     if (pPaletteOut)
     {
@@ -412,19 +415,7 @@ void Font_Context::LoadFontTypeCustom(File_Font * fontFile, Font_AtlasEntry * fo
     }
 
 
-
-#if RENDERER_OPENGL
-    IRenderer::GetRenderer()->Upload(fontFile->field_4_color_depth == 16 ? IRenderer::BitDepth::e16Bit : IRenderer::BitDepth::e4Bit, rect, fontFile->field_28_pixel_buffer);
-#else
-    if (fontFile->field_4_color_depth == 16)
-    {
-        PSX_LoadImage16_4F5E20(&rect, fontFile->field_28_pixel_buffer);
-    }
-    else
-    {
-        PSX_LoadImage_4F5FB0(&rect, fontFile->field_28_pixel_buffer);
-    }
-#endif
+    IRenderer::GetRenderer()->Upload(fontFile->field_4_color_depth == 16 ? IRenderer::BitDepth::e16Bit : IRenderer::BitDepth::e4Bit, vramAlloctedRect, fontFile->field_28_pixel_buffer);
 
     field_8_atlas_array = fontAtlas;
 }

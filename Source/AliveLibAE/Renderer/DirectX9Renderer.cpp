@@ -98,17 +98,28 @@ void DirectX9Renderer::OutputSize(int* w, int* h)
     SDL_GetRendererOutputSize(mRenderer, w, h);
 }
 
-void DirectX9Renderer::Free(int /*x*/, int /*y*/)
-{
-    
-}
-
 bool DirectX9Renderer::UpdateBackBuffer(const void* /*pPixels*/, int /*pitch*/)
 {
     return true;
 }
 
 void DirectX9Renderer::CreateBackBuffer(bool /*filter*/, int /*format*/, int /*w*/, int /*h*/)
+{
+
+}
+
+
+void DirectX9Renderer::PalFree(const PalRecord& /*record*/)
+{
+
+}
+
+bool DirectX9Renderer::PalAlloc(PalRecord& /*record*/)
+{
+    return false;
+}
+
+void DirectX9Renderer::PalSetData(const PalRecord& /*record*/, const BYTE* /*pPixels*/)
 {
 
 }

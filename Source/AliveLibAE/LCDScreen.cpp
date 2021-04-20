@@ -10,6 +10,7 @@
 #include "Sfx.hpp"
 #include "VRam.hpp"
 #include "Game.hpp"
+#include "Renderer/IRenderer.hpp"
 
 unsigned char sLCDScreen_Palette[] =
 {
@@ -154,12 +155,23 @@ LCDScreen * LCDScreen::ctor_460680(Path_LCDScreen* params, TlvItemInfoUnion item
     {
         sFont2Context_5BC5D8.LoadFontType_433400(2);
     }
-    ++sFontType2LoadCount_5BC5E8;
+    sFontType2LoadCount_5BC5E8++;
+
     field_60_font.ctor_433590(60, sLCDScreen_Palette, &sFont2Context_5BC5D8);
 
-    Pal_Allocate_483110(&field_98_pal_rect, 16);
-    const PSX_RECT palSize = { field_98_pal_rect.x , field_98_pal_rect.y, 16, 1 };
-    PSX_LoadImage16_4F5E20(&palSize, sLCDScreen_Palette2);
+    IRenderer::PalRecord rec;
+    rec.depth = 16;
+    if (!IRenderer::GetRenderer()->PalAlloc(rec))
+    {
+        LOG_ERROR("PalAlloc failed");
+    }
+
+    field_98_pal_rect.x = rec.x;
+    field_98_pal_rect.y = rec.y;
+    field_98_pal_rect.w = rec.depth;
+    field_98_pal_rect.h = 1;
+
+    IRenderer::GetRenderer()->PalSetData(rec, sLCDScreen_Palette2);
 
     if (SwitchStates_Get_466020(field_2B2_toggle_message_switch_id))
     {
@@ -334,7 +346,7 @@ void LCDScreen::dtor_460920()
 {
     SetVTable(this, 0x545AAC); // vTbl_LCDScreen_545AAC
 
-    Pal_free_483390({ field_98_pal_rect.x, field_98_pal_rect.y }, field_98_pal_rect.w);
+    IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{ field_98_pal_rect.x, field_98_pal_rect.y, field_98_pal_rect.w });
 
     gObjList_drawables_5C1124->Remove_Item(this);
     Path::TLV_Reset_4DB8E0(field_2BC_tlv_item_info.all, -1, 0, 0);

@@ -88,13 +88,26 @@ struct BanHeader
     DWORD mPaltSize = 0;
 };
 
+enum class CompressionType : BYTE
+{
+    eType_0_NoCompression = 0,
+    eType_1_NotUsed = 1,
+    eType_2_ThreeToFourBytes = 2,
+    eType_3_RLE_Blocks = 3,
+    eType_4_RLE = 4,
+    eType_5_RLE = 5,
+    eType_6_RLE = 6,
+    eType_7_NotUsed = 7,
+    eType_8_NotUsed = 8,
+};
+
 struct FrameHeader
 {
     DWORD field_0_clut_offset;
     BYTE field_4_width;
     BYTE field_5_height;
     BYTE field_6_colour_depth;
-    BYTE field_7_compression_type;
+    CompressionType field_7_compression_type;
     WORD field_8_width2;
     WORD mHeight2;
 };
@@ -116,6 +129,8 @@ public:
     bool DecodeCommon();
 
     EXPORT void Invoke_CallBacks_40B7A0();
+
+    void UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& vram_rect, short width_bpp_adjusted);
 
     WORD field_10_frame_delay;
     WORD field_12_scale; // padding?

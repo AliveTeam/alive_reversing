@@ -142,7 +142,7 @@ Water* Water::ctor_4E02C0(Path_Water* pTlv, int tlvInfo)
 
             // Some sort of hack to set the first 2 pixels to black/transparent?
             const BYTE zeroedData[4] = {};
-            PSX_LoadImage_4F5FB0(&rect, zeroedData);
+            PSX_LoadImage_4F5FB0(&rect, zeroedData);  // TODO: FIX ME - won't work with other renderers
 
             field_144_sound_channels = 0;
         }

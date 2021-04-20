@@ -2,6 +2,7 @@
 #include "SoftwareRenderer.hpp"
 #include "PsxRender.hpp"
 #include "Psx.hpp"
+#include "VRam.hpp"
 
 void SoftwareRenderer::Destroy()
 {
@@ -34,9 +35,28 @@ void SoftwareRenderer::StartFrame(int xOff, int yOff)
     }
 }
 
-void SoftwareRenderer::Free(int /*x*/, int /*y*/)
+void SoftwareRenderer::PalFree(const IRenderer::PalRecord& record)
 {
+     Pal_free_483390(PSX_Point{record.x, record.y}, record.depth);
+}
 
+bool SoftwareRenderer::PalAlloc(IRenderer::PalRecord& record)
+{
+    PSX_RECT rect = {};
+    const bool ret = Pal_Allocate_483110(&rect, record.depth);
+    record.x = rect.x;
+    record.y = rect.y;
+    return ret;
+}
+
+void SoftwareRenderer::PalSetData(const IRenderer::PalRecord& record, const BYTE* pPixels)
+{
+    PSX_RECT rect = {};
+    rect.x = record.x;
+    rect.y = record.y;
+    rect.w = record.depth;
+    rect.h = 1;
+    PSX_LoadImage16_4F5E20(&rect, pPixels);
 }
 
 void SoftwareRenderer::EndFrame()

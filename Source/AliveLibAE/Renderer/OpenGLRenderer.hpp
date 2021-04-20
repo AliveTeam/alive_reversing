@@ -62,7 +62,9 @@ public:
     void OutputSize(int* w, int* h) override;
     bool UpdateBackBuffer(const void* pPixels, int pitch) override;
     void CreateBackBuffer(bool filter, int format, int w, int h) override;
-    void Free(int x, int y) override;
+    void PalFree(const PalRecord& record) override;
+    bool PalAlloc(PalRecord& record) override;
+    void PalSetData(const PalRecord& record, const BYTE* pPixels) override;
     void SetTPage(short tPage) override;
     void SetClip(Prim_PrimClipper& clipper) override;
     void SetScreenOffset(Prim_ScreenOffset& offset) override;
