@@ -17,10 +17,6 @@
 #include "Sfx.hpp"
 #include "../AliveLibAE/Sfx.hpp"
 
-#ifdef _WIN32
-#define NO_WAVE
-#endif
-
 struct IO_FileHandleType;
 
 #include "../AliveLibAE/Sound/PsxSpuApi.hpp"
@@ -147,7 +143,7 @@ ALIVE_VAR(1, 0xA9B8A0, ConvertedVagTable, sConvertedVagTable_A9B8A0, {});
 ALIVE_VAR(1, 0xA928A0, SoundEntryTable, sSoundEntryTable16_A928A0, {});
 ALIVE_VAR(1, 0xAC07C0, MidiChannels, sMidi_Channels_AC07C0, {});
 ALIVE_VAR(1, 0xABFB40, MidiSeqSongsTable, sMidiSeqSongs_ABFB40, {});
-ALIVE_VAR(1, 0xA89198, int, sMidi_Inited_dword_A89198, 0); 
+ALIVE_VAR(1, 0xA89198, int, sMidi_Inited_dword_A89198, 0);
 ALIVE_VAR(1, 0xA89194, unsigned int, sMidiTime_A89194, 0);
 ALIVE_VAR(1, 0xA89190, char, sbDisableSeqs_A89190, 0);
 ALIVE_VAR(1, 0x4E8FD8, DWORD, sLastTime_4E8FD8, 0xFFFFFFFF);
@@ -240,7 +236,7 @@ public:
 
     virtual DWORD& sMidi_WaitUntil() override
     {
-        // Always 0 in AO cause it dont exist 
+        // Always 0 in AO cause it dont exist
         return mMidi_WaitUntil;
     }
 
@@ -259,7 +255,7 @@ public:
     {
         MIDI_ParseMidiMessage_49DD30(idx);
     }
-    
+
     virtual void SsUtKeyOffV(int idx) override
     {
         SsUtKeyOffV_49EE50(static_cast<short>(idx));
@@ -463,7 +459,7 @@ EXPORT int CC MIDI_PlayerPlayMidiNote_49D730(int vabId, int program, int note, i
                     {
                         maxPan = panLeft;
                     }
-                    
+
                     auto midiChannel = MIDI_Allocate_Channel_49D660(maxPan, pVagOff->field_E_priority);
                     auto midiChannel_ = midiChannel;
                     if (midiChannel >= 0)
@@ -781,7 +777,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
 
                         if (!pCtx->field_18_repeatCount)
                         {
-                            SsSeqStop_49E6E0(static_cast<short>(idx)); // Note: inlined 
+                            SsSeqStop_49E6E0(static_cast<short>(idx)); // Note: inlined
                             return 1;
                         }
                     }
@@ -908,7 +904,7 @@ EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, __int16 vabId)
                     {
                         pSrcVB = &IterateVBRecords(pVabBody, i)->field_8_fileOffset;
                     }
-      
+
                     int sampleLen2 = -1;
                     if (pVabHeader && i >= 0)
                     {
@@ -940,14 +936,14 @@ EXPORT signed __int16 CC SND_VAB_Load_476CB0(SoundBlockInfo* pSoundBlockInfo, __
 
     // Find the VH file record
     LvlFileRecord* pVabHeaderFile = sLvlArchive_4FFD60.Find_File_Record_41BED0(pSoundBlockInfo->field_0_vab_header_name);
-    
+
     int headerSize = pVabHeaderFile->field_10_num_sectors << 11;
 
     BYTE** ppVabHeader = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_VabHeader, vabId, headerSize);
 
     pSoundBlockInfo->field_C_pVabHeader = *ppVabHeader;
     sLvlArchive_4FFD60.Read_File_41BE40(pVabHeaderFile, *ppVabHeader);
-    
+
     // Find the VB file record
     LvlFileRecord* pVabBodyFile = sLvlArchive_4FFD60.Find_File_Record_41BED0(pSoundBlockInfo->field_4_vab_body_name);
     if (!pVabBodyFile)

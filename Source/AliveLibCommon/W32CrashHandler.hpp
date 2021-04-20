@@ -13,6 +13,8 @@
 #include "config.h"
 #include "Sys_common.hpp"
 
+#ifndef __MINGW32__
+
 #pragma comment (lib, "dbghelp.lib")
 
 inline void create_minidump(PEXCEPTION_POINTERS apExceptionInfo)
@@ -50,6 +52,17 @@ inline void create_minidump(PEXCEPTION_POINTERS apExceptionInfo)
         Alive_Show_ErrorMsg(errMsg);
     }
 }
+
+#else
+
+inline void create_minidump(PEXCEPTION_POINTERS /* apExceptionInfo */)
+{
+    char errMsg[1024] = {};
+    _snprintf(errMsg, _countof(errMsg), "R.E.L.I.V.E. has crashed, could not write dump file");
+    Alive_Show_ErrorMsg(errMsg);
+}
+
+#endif
 
 inline LONG WINAPI unhandled_handler(PEXCEPTION_POINTERS pExceptionInfo)
 {

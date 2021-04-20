@@ -13,19 +13,20 @@
  *  structure is common to all non-PCM formats.
  */
  // NOTE: Windows type
-#ifndef NO_WAVE
+#ifndef _WAVEFORMATEX_
+#define _WAVEFORMATEX_
 typedef struct tWAVEFORMATEX
 {
-    WORD        wFormatTag;         
-    WORD        nChannels;          
-    DWORD       nSamplesPerSec;     
-    DWORD       nAvgBytesPerSec;    
-    WORD        nBlockAlign;        
-    WORD        wBitsPerSample;     
-    WORD        cbSize;             
-                                    
+    WORD        wFormatTag;
+    WORD        nChannels;
+    DWORD       nSamplesPerSec;
+    DWORD       nAvgBytesPerSec;
+    WORD        nBlockAlign;
+    WORD        wBitsPerSample;
+    WORD        cbSize;
+
 } WAVEFORMATEX, *PWAVEFORMATEX, *NPWAVEFORMATEX, *LPWAVEFORMATEX;
-#endif 
+#endif
 
 /* flags for wFormatTag field of WAVEFORMAT */
 #define WAVE_FORMAT_PCM     1
@@ -44,8 +45,13 @@ typedef struct _DSBUFFERDESC
 } DSBUFFERDESC, *LPDSBUFFERDESC;
 typedef const DSBUFFERDESC *LPCDSBUFFERDESC;
 
+#ifndef FAILED
 #define FAILED(hr) (((HRESULT)(hr)) < 0)
+#endif
+
+#ifndef SUCCEEDED
 #define SUCCEEDED(hr) (((HRESULT)(hr)) >= 0)
+#endif
 
 #ifndef _HRESULT_DEFINED
 typedef int HRESULT;

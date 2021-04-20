@@ -1,5 +1,6 @@
 Output
 .vs
+.vscode
 *.opensdf
 *.sdf
 *.suo

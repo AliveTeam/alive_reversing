@@ -13,13 +13,11 @@
 #include "StringFormatters.hpp"
 #include "TouchController.hpp"
 
-#if _WIN32
-#include <joystickapi.h>
-#endif
-
 #if USE_SDL2
 static SDL_GameController* pSDLController = nullptr;
 static SDL_Haptic* pSDLControllerHaptic = nullptr;
+#elif _WIN32
+#include <joystickapi.h>
 #endif
 
 #if XINPUT_SUPPORT
@@ -73,7 +71,7 @@ ALIVE_VAR(1, 0x5c2edc, int, sJoystickCapFlags_5C2EDC, 0);
 ALIVE_VAR(1, 0x5c2ee0, bool, sJoyStateIsInit_5C2EE0, 0);
 ALIVE_VAR(1, 0x5c2eec, int, sJoyLastTick_5C2EEC, 0);
 ALIVE_VAR(1, 0x5C2EF8, int, sGamepadCapFlags_5C2EF8, 0);
-#if _WIN32
+#if !USE_SDL2 && _WIN32
 ALIVE_VAR(1, 0x5c2d10, tagJOYCAPSA, sJoystickCaps_5C2D10, {});
 ALIVE_VAR(1, 0x5c2ea8, joyinfoex_tag, sJoystickInfo_5C2EA8, {});
 #endif
@@ -264,7 +262,7 @@ EXPORT void CC Input_StickControl_45FF60(float x, float y, DWORD* buttons)
             else if (SDL_GameControllerGetButton(pSDLController, SDL_CONTROLLER_BUTTON_DPAD_DOWN))
                 *pY1 = 1;
 
-            
+
 #define M_SDLGAMEPAD_BIND(BIT, PAD_BUTTON){if (SDL_GameControllerGetButton(pSDLController, PAD_BUTTON) == 1) {*pButtons |= (1 << BIT);} }
 
 
@@ -318,7 +316,7 @@ EXPORT void CC Input_StickControl_45FF60(float x, float y, DWORD* buttons)
     }
 #endif
 
-#if _WIN32
+#if !USE_SDL2 && _WIN32
 void Input_GetJoyState_Impl(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButtons)
 {
     if (!sJoystickAvailable_5C2EF4)
@@ -400,7 +398,7 @@ void Input_GetJoyState_Impl(float *pX1, float *pY1, float *pX2, float *pY2, DWOR
 
     if (sJoystickCapFlags_5C2EDC & JOY_RETURNPOV)
     {
-        if (sJoystickInfo_5C2EA8.dwPOV == JOY_POVBACKWARD) // TODO: Double check if forward and backward are swapped? 
+        if (sJoystickInfo_5C2EA8.dwPOV == JOY_POVBACKWARD) // TODO: Double check if forward and backward are swapped?
         {
             *pX2 = -1.0f;
         }
@@ -511,7 +509,7 @@ void Input_XINPUT(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButton
         {
             vibrationAmount = 1.0f;
         }
-        
+
 
         XINPUT_VIBRATION vib;
         USHORT vibLR = static_cast<USHORT>(vibrationAmount * 65535);
@@ -722,7 +720,7 @@ int CC Input_Remap_492680(InputCommands inputCmd)
         if (buttons)
         {
             int bindIdx = 0;
-            
+
             // get bindIdx from the mask
             for (bindIdx = 0; bindIdx < 10; bindIdx++)
             {
@@ -731,7 +729,7 @@ int CC Input_Remap_492680(InputCommands inputCmd)
                     break;
                 }
             }
-            
+
             // don't allow binding Speak I/II to any of the right-hand side action buttons
             if (inputCmd & (InputCommands::eSpeak1 | InputCommands::eSpeak2) && bindIdx < 4)
             {
@@ -989,7 +987,7 @@ void NewParseSettingsIni()
             }
 
             std::string category = o.substr(1, o.size() - 2);
-            
+
             LOG_INFO("Ini category: " << category.c_str());
             if (category == iniCategories[1])
             {
@@ -1030,7 +1028,7 @@ void NewParseSettingsIni()
         else
         {
             std::vector<std::string> param = Ini_SplitParams(o);
-            
+
             if (param.size() == 2)
             {
                 LOG_INFO("Value: " << param[0].c_str() << " = " << param[1].c_str());
@@ -1281,7 +1279,7 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
     {
         return 0;
     }
-    
+
     int converted_input = 0;
     int pressed_keyboard_keys = 0;
 
@@ -1327,7 +1325,7 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
         }
 
         Input_GetJoyState_460280(&pX1, &pY1, &pX2, &pY2, &pButtons);
-        
+
         if ((sGamepadCapFlags_5C2EF8 & eDisableAutoRun) == 1 && sJoystickNumButtons_5C2EFC <= 4 && fabs(pX1) >= 0.75f)// Auto sprint
         {
             pressed_keyboard_keys |= eRun;

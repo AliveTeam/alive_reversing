@@ -33,7 +33,10 @@ bool RunningAsInjectedDll();
 #define BYTE1(x)   BYTEn(x,  1)
 #define BYTE2(x)   BYTEn(x,  2)
 #define BYTE3(x)   BYTEn(x,  3)
-#define HIWORD(l)           ((WORD)((((DWORD_PTR)(l)) >> 16) & 0xffff))
+
+#ifndef HIWORD
+#define HIWORD(l) ((WORD)((((DWORD_PTR)(l)) >> 16) & 0xffff))
+#endif
 
 class AliveVar
 {

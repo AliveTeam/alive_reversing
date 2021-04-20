@@ -1,6 +1,6 @@
 project(Deps VERSION 0.1 LANGUAGES C CXX)
 
-if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
+if (NOT MINGW AND WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
     # Detours lib
     add_library(Detours
         Detours/src/detours.cpp
@@ -85,7 +85,7 @@ add_library(imgui
     imgui/backends/imgui_impl_sdl.cpp
     imgui/backends/imgui_impl_opengl3.cpp
     )
-    
+
 target_link_libraries(imgui
     libglew_static
     ${SDL2_LIBRARIES}

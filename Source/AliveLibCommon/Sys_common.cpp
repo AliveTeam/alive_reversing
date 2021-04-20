@@ -4,8 +4,6 @@
 #if USE_SDL2
 #include "SDL.h"
 #else
-#define _WAVEFORMATEX_
-
 #include <windows.h>
 #endif
 

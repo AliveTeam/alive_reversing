@@ -355,25 +355,30 @@ target_compile_features(AliveLibAO
     PRIVATE cxx_auto_type
     PRIVATE cxx_variadic_templates)
 
-if (WIN32)
-    set(WIN32_LIBS
-        Winmm
-        dsound
-        xinput
-    )
-endif()
-
-if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
-    set(WIN32_LIBS ${WIN32_LIBS} Detours)
-endif()
-
-if (WIN32)
-    # On windows AO lib uses AE dll for AE funcs which causes AO dll to depend on AE dll
-    # however even though it is linked to the standalone exes it will not cause those to depend on AE dll
-    set(AE_LIB AliveDllAE)
-else()
-    # For linux the dlls are not compiled so it must use the lib instead which is fine for only building standalone
+if (MINGW)
+    set(WIN32_LIBS "")
     set(AE_LIB AliveLibAE)
+else()
+    if (WIN32)
+        set(WIN32_LIBS
+            Winmm
+            dsound
+            xinput
+        )
+    endif()
+
+    if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
+        set(WIN32_LIBS ${WIN32_LIBS} Detours)
+    endif()
+
+    if (WIN32)
+        # On windows AO lib uses AE dll for AE funcs which causes AO dll to depend on AE dll
+        # however even though it is linked to the standalone exes it will not cause those to depend on AE dll
+        set(AE_LIB AliveDllAE)
+    else()
+        # For linux the dlls are not compiled so it must use the lib instead which is fine for only building standalone
+        set(AE_LIB AliveLibAE)
+    endif()
 endif()
 
 target_link_libraries(AliveLibAO
