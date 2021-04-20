@@ -1,14 +1,11 @@
 #pragma once
 
-
 #ifdef _WIN32
     #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
+
+    #ifndef NOMINMAX
     #define NOMINMAX
-
-    // TODO: reference additional headers your program requires here
-    //#include <windows.h>
-    #define _WAVEFORMATEX_
-
+    #endif
 #else
     using PVOID = void*;
     using LPVOID = void*;
@@ -81,10 +78,10 @@
     #define VK_F11            0x7A
     #define VK_F12            0x7B
 
-    #define VK_OEM_3 0xC0 
-    #define VK_OEM_COMMA 0xBC 
-    #define VK_OEM_PERIOD 0xBE 
-    #define VK_OEM_102 0xE2 
+    #define VK_OEM_3 0xC0
+    #define VK_OEM_COMMA 0xBC
+    #define VK_OEM_PERIOD 0xBE
+    #define VK_OEM_102 0xE2
     #define VK_CAPITAL 0x14
     #define VK_PRINT 0x2A
     #define VK_SCROLL 0x91

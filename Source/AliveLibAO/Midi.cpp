@@ -17,16 +17,6 @@
 #include "Sfx.hpp"
 #include "../AliveLibAE/Sfx.hpp"
 
-#ifdef _WIN32
-    #ifndef __MINGW32__
-        #define NO_WAVE
-    #else
-        #ifdef _WINDOWS_
-            #define NO_WAVE
-        #endif
-    #endif
-#endif
-
 struct IO_FileHandleType;
 
 #include "../AliveLibAE/Sound/PsxSpuApi.hpp"

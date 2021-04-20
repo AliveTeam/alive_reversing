@@ -13,7 +13,8 @@
  *  structure is common to all non-PCM formats.
  */
  // NOTE: Windows type
-#ifndef NO_WAVE
+#ifndef _WAVEFORMATEX_
+#define _WAVEFORMATEX_
 typedef struct tWAVEFORMATEX
 {
     WORD        wFormatTag;
@@ -44,8 +45,13 @@ typedef struct _DSBUFFERDESC
 } DSBUFFERDESC, *LPDSBUFFERDESC;
 typedef const DSBUFFERDESC *LPCDSBUFFERDESC;
 
+#ifndef FAILED
 #define FAILED(hr) (((HRESULT)(hr)) < 0)
+#endif
+
+#ifndef SUCCEEDED
 #define SUCCEEDED(hr) (((HRESULT)(hr)) >= 0)
+#endif
 
 #ifndef _HRESULT_DEFINED
 typedef int HRESULT;
