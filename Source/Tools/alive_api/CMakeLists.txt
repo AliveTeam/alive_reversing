@@ -20,6 +20,8 @@ set(alive_api_src
     alive_api.hpp
     TypesCollection.hpp
     TypesCollection.cpp
+    TypesCollectionAO.cpp
+    TypesCollectionAE.cpp
     JsonDocument.cpp
     JsonDocument.hpp
     JsonUpgrader.hpp
