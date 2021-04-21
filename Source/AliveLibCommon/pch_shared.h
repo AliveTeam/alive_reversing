@@ -127,3 +127,9 @@
 #include <map>
 #include <gmock/gmock.h>
 #include "logger.hpp"
+
+#if USE_SDL2
+#include "SDL.h"
+#endif
+
+#include "FixedPoint_common.hpp"
