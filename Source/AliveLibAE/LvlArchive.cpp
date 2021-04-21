@@ -94,7 +94,7 @@ int LvlArchive::Open_Archive_432E80(const char* fileName)
 
     // Open the LVL file
 
-#ifdef BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS
+#if BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS
     char subdirPath[256];
     strcpy(subdirPath, "levels");
     strcat(subdirPath, fileName);

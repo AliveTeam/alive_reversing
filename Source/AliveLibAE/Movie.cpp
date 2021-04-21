@@ -197,7 +197,7 @@ static Masher* Open_DDV(const char* pMovieName)
 
     if (errCode)
     {
-#ifdef BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS
+#if BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS
         // Load movies from a sub folder called "movies"
         strcpy(pFileName, "");
         strcat(pFileName, "movies\\");

@@ -176,14 +176,14 @@ EXPORT int CC PSX_CdLoc_To_Pos_49B3B0(const CdlLOC* pLoc)
 void Init_VGA_AndPsxVram()
 {
     bool bFullScreen = true;
-#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
     LOG_INFO("Force window mode hack");
     bFullScreen = false;
 #endif
     VGA_FullScreenSet_490160(bFullScreen);
 
 #ifdef _WIN32
-#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
     const LONG oldWinStyle = GetWindowLongA((HWND)Sys_GetWindowHandle_48E930(), GWL_STYLE) | WS_OVERLAPPEDWINDOW;
 #endif
 #endif
@@ -192,7 +192,7 @@ void Init_VGA_AndPsxVram()
     VGA_DisplaySet_490230(640u, 480u, 16, 1, 0);
 
 #ifdef _WIN32
-#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
     SetWindowLongA((HWND)Sys_GetWindowHandle_48E930(), GWL_STYLE, oldWinStyle);
 #endif
 #endif

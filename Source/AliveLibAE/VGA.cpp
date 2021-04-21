@@ -49,7 +49,7 @@ EXPORT signed int CC VGA_FullScreenSet_4F31F0(bool /*bFullScreen*/)
 EXPORT void CC VGA_Shutdown_4F3170()
 {
 #if _WIN32
-#ifndef USE_SDL2
+#if !USE_SDL2
     if (sDD_primary_surface_BBC3C8)
     {
         if (!sVGA_own_surfaces_BD0BFA)
@@ -339,7 +339,7 @@ EXPORT LPVOID CC VGA_BuffLockPtr_4F30A0(int /*always3*/)
 
 #else
 
-#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
 EXPORT signed int CC VGA_FullScreenSet_4F31F0(bool /*bFullScreen*/)
 {
   //  NOT_IMPLEMENTED();

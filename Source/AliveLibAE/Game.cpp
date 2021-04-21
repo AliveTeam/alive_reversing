@@ -712,7 +712,7 @@ EXPORT void CC Game_Main_4949F0()
     Main_ParseCommandLineArguments_494EA0(Sys_GetCommandLine_4EE176(), Sys_GetCommandLine_4EE176());
     Game_SetExitCallBack_4F2BA0(Game_ExitGame_4954B0);
 #if _WIN32
-#ifndef USE_SDL2
+#if !USE_SDL2
     Sys_SetWindowProc_Filter_4EE197(Sys_WindowMessageHandler_494A40);
 #endif
 #endif

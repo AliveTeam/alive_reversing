@@ -6,7 +6,7 @@
 
 #if _WIN32
 
-#ifndef USE_SDL2
+#if !USE_SDL2
 #define DIRECTINPUT_VERSION 0x700
 #include <dinput.h>
 #define DIRECTDRAW_VERSION 0x700
@@ -523,7 +523,7 @@ EXPORT int CC DD_SetDisplayMode_4F0730(DWORD width, DWORD height, DWORD bpp)
     {
         newWinStyle = sDD_old_win_style_BBC3E0;
     }
-#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
     // Leave the window style alone in forced window mode
 #else
     ::SetWindowLongA(Sys_GetHWnd_4F2C70(), GWL_STYLE, newWinStyle);
@@ -625,7 +625,7 @@ EXPORT signed int CC DD_Enable_4F0380(HWND /*hwnd*/, int width, int height, int 
         ::ReleaseDC(nullptr, dc);
 
         const LONG oldWinStyle = ::GetWindowLongA(sDD_hWnd_BBC3B0, GWL_STYLE);
-#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
         // Leave the window style alone in forced window mode
 #else
         ::SetWindowLongA(sDD_hWnd_BBC3B0, GWL_STYLE, oldWinStyle & 0xFF39FFFF | 0x80000000); // TODO: use SDK constants
@@ -641,7 +641,7 @@ EXPORT signed int CC DD_Enable_4F0380(HWND /*hwnd*/, int width, int height, int 
         const LONG curStyle = ::GetWindowLongA(sDD_hWnd_BBC3B0, GWL_STYLE);
         ::AdjustWindowRectEx(&rect, curStyle, bMenu, curExStyle);
 
-#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
         // Leave the window pos alone in forced window mode
 #else
         // TODO: use SDK constants

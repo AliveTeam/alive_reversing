@@ -4,7 +4,7 @@
 #include "config.h"
 
 #ifdef _WIN32
-#ifndef USE_SDL2
+#if !USE_SDL2
 #define DIRECTINPUT_VERSION 0x700
 #include <dinput.h>
 #define DIRECTDRAW_VERSION 0x700
