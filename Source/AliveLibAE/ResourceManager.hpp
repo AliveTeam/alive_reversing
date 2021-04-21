@@ -76,7 +76,7 @@ public:
     ALIVE_ASSERT_SIZEOF(ResourcesToLoadList, 12);
 
 
-    using TLoaderFn = std::add_pointer<void CC(Camera*)>::type;
+    using TLoaderFn = AddPointer_t<void CC(Camera*)>;
 
     struct ResourceManager_FilePartRecord_18
     {

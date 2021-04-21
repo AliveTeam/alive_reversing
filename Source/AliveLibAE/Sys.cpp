@@ -48,7 +48,7 @@ EXPORT BOOL CC Sys_IsAnyKeyDown_4EDDF0()
 #if _WIN32
 EXPORT LRESULT CALLBACK Sys_WindowProc_4EE32D(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
     switch (msg)
     {
     case WM_ERASEBKGND:
@@ -914,7 +914,7 @@ static int CC Sys_WindowClass_Register_Win32(LPCSTR lpClassName, LPCSTR lpWindow
     ::RegisterClassA(&windowClass);
 
     DWORD style = WS_CAPTION | WS_VISIBLE;
-#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
     style |= WS_OVERLAPPEDWINDOW;
 #endif
 
@@ -939,7 +939,7 @@ static int CC Sys_WindowClass_Register_Win32(LPCSTR lpClassName, LPCSTR lpWindow
 
     sHwnd_BBB9F4 = hWnd;
 
-#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
     Sys_SetWindowPos_4EE1B1(nWidth, nHeight);
 #else
     RECT rc;

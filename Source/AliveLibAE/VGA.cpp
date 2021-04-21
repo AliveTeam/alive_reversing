@@ -111,11 +111,11 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
     if (pRect)
     {
         copyRect =
-        { 
+        {
             pRect->left,
             pRect->top,
             pRect->right,
-            pRect->bottom 
+            pRect->bottom
         };
     }
 
@@ -167,7 +167,7 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
                 // Make sure our screen shake also sizes with the window.
                 int screenShakeOffsetX = static_cast<int>(sScreenXOffSet_BD30E4 * (renderedWidth / 640.0f));
                 int screenShakeOffsetY = static_cast<int>(sScreenYOffset_BD30A4 * (renderedHeight / 480.0f));
-                
+
                 dst.x = screenShakeOffsetX + ((w - renderedWidth) / 2);
                 dst.y = screenShakeOffsetY + ((h - renderedHeight) / 2);
                 dst.w = renderedWidth;
@@ -281,7 +281,7 @@ EXPORT signed int CC VGA_DisplaySet_4F32C0(unsigned __int16 width, unsigned __in
         sVGA_Inited_BC0BB8 = 1;
 
         //IRenderer::CreateRenderer(IRenderer::Renderers::DirectX9);
-        
+
 #if RENDERER_OPENGL
         IRenderer::CreateRenderer(IRenderer::Renderers::OpenGL);
 #else
@@ -322,7 +322,7 @@ EXPORT signed int CC VGA_DisplaySet_4F32C0(unsigned __int16 width, unsigned __in
         }
     }
 
-  
+
     return 0;
 }
 
@@ -339,7 +339,7 @@ EXPORT LPVOID CC VGA_BuffLockPtr_4F30A0(int /*always3*/)
 
 #else
 
-#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
 EXPORT signed int CC VGA_FullScreenSet_4F31F0(bool /*bFullScreen*/)
 {
   //  NOT_IMPLEMENTED();
@@ -368,7 +368,7 @@ EXPORT void CC VGA_Shutdown_4F3170()
         sDD_primary_surface_BBC3C8 = nullptr;
         sDD_surface_backbuffer_BBC3CC = nullptr;
     }
-    
+
     sVGA_Inited_BC0BB8 = false;
 
     memset(&sVGA_bmp_primary_BD2A20, 0, sizeof(sVGA_bmp_primary_BD2A20));
@@ -666,7 +666,7 @@ EXPORT void CC VGA_CopyToFront_4F3710(Bitmap* pBmp, RECT* pRect)
 EXPORT signed int CC VGA_DisplaySet_4F32C0(unsigned __int16 width, unsigned __int16 height, unsigned __int8 bpp, unsigned __int8 backbufferCount, TSurfaceType** ppSurface)
 {
     signed int result = 0;
-   
+
     // TODO: Window sub classing for VGA_WindowSubClass_4F2F50 removed as it only exists to support 8 bpp mode.
 
     if (sVGA_Inited_BC0BB8)
@@ -687,7 +687,7 @@ EXPORT signed int CC VGA_DisplaySet_4F32C0(unsigned __int16 width, unsigned __in
         {
             sVGA_own_surfaces_BD0BFA = true;
         }
-        
+
         sVGA_BD0BBC = backbufferCount;
         sVGA_bpp_BD0BF9 = bpp;
         memset(&sVGA_bmp_primary_BD2A20, 0, sizeof(sVGA_bmp_primary_BD2A20));

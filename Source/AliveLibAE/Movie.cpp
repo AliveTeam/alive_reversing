@@ -20,10 +20,10 @@ const unsigned int MOVIE_SKIPPER_GAMEPAD_INPUTS = (InputCommands::eUnPause_OrCon
 ALIVE_VAR(1, 0x5ca208, SoundEntry, sDDV_SoundEntry_5CA208, {});
 
 EXPORT Masher * CC Masher_Alloc_4EAB80(
-    const char* pFileName, 
-    Masher_Header** ppMasherHeader, 
-    Masher_VideoHeader **ppMasherVideoHeader, 
-    Masher_AudioHeader** ppMasherAudioHeader, 
+    const char* pFileName,
+    Masher_Header** ppMasherHeader,
+    Masher_VideoHeader **ppMasherVideoHeader,
+    Masher_AudioHeader** ppMasherAudioHeader,
     int* errCode)
 {
     Masher* pMasher = reinterpret_cast<Masher*>(ae_new_malloc_4954D0(sizeof(Masher)));
@@ -197,7 +197,7 @@ static Masher* Open_DDV(const char* pMovieName)
 
     if (errCode)
     {
-#if BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS
+#ifdef BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS
         // Load movies from a sub folder called "movies"
         strcpy(pFileName, "");
         strcat(pFileName, "movies\\");
@@ -376,7 +376,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                 }
             }
             // Decompress the frame and "render" it into the back buffer
-            Masher_MMX_Decode_4EAC40(pMasherInstance_5CA1EC, FAILED(hr) ? nullptr : surfaceDesc.lpSurface);       
+            Masher_MMX_Decode_4EAC40(pMasherInstance_5CA1EC, FAILED(hr) ? nullptr : surfaceDesc.lpSurface);
             // Unlock the back buffer
 
             if (SUCCEEDED(hr))
@@ -482,7 +482,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                         }
 
                         oldBufferPlayPos_5CA22C = soundPlayingPos;
-                        
+
                         ++counter;
 
                         const int dword_5CA200 = gMasher_single_audio_frame_size_5CA240
@@ -633,9 +633,9 @@ void Movie::Init_4DFF60(int id, CdlLOC* pCdPos, __int16 bUnknown, __int16 flags,
     field_45_cd_loc_sec = pCdPos->field_1_second;
     field_20_unused &= ~3;
     field_46_cd_loc_sector = pCdPos->field_2_sector;
-    
+
     sMovie_Kill_SEQs_563A88 = 1;
-    
+
     if (flags & 0x4000)
     {
         sMovie_Kill_SEQs_563A88 = 0;

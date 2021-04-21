@@ -33,6 +33,7 @@
 #include "Events.hpp"
 #include "Sound.hpp"
 #include "../AliveLibAE/Game.hpp"
+#include "AddPointer.hpp"
 
 namespace AO {
 
@@ -146,7 +147,7 @@ EXPORT int CC Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam
     }
     return static_cast<int>(ret);
 }
-using TFilter = std::add_pointer<int CC(HWND, UINT, WPARAM, LPARAM)>::type;
+using TFilter = AddPointer_t<int CC(HWND, UINT, WPARAM, LPARAM)>;
 
 EXPORT void CC Sys_SetWindowProc_Filter_48E950(TFilter)
 {
@@ -197,7 +198,7 @@ static void Main_ParseCommandLineArguments()
 {
     IO_Init_48E1A0(0);
 
-    // TODO: I guess some code got removed that picked the CD-ROM drive like in AE since this 
+    // TODO: I guess some code got removed that picked the CD-ROM drive like in AE since this
     // doesn't really make any sense anymore.
     char cdDrivePath[3] = {};
     cdDrivePath[0] = gDriveLetter_4CECC8[0];
@@ -352,7 +353,7 @@ EXPORT void CC Game_Free_LoadingIcon_445E80()
 }
 
 
-using TExitGameCB = std::add_pointer<void CC()>::type;
+using TExitGameCB = AddPointer_t<void CC()>;
 
 ALIVE_VAR(1, 0x9F664C, TExitGameCB, sGame_OnExitCallback_9F664C, nullptr);
 
