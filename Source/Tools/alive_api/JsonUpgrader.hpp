@@ -1,5 +1,7 @@
 #pragma once
 
+#include "AddPointer.hpp"
+
 namespace AliveAPI
 {
     enum class UpgradeError;
@@ -18,7 +20,7 @@ public:
     AliveAPI::UpgradeError Upgrade() override;
 };
 
-using TUpgradeFactoryFn = std::add_pointer<std::unique_ptr<IJsonUpgrader>()>::type;
+using TUpgradeFactoryFn = AddPointer_t<std::unique_ptr<IJsonUpgrader>()>;
 
 #define ADD_UPGRADE_STEP(version, upgradeObjType)  mUpgraders[version] = []() -> std::unique_ptr<IJsonUpgrader> { return std::make_unique<upgradeObjType>(); }
 

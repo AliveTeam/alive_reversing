@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
-#include <type_traits>
+#include "AddPointer.hpp"
 
 class BaseThrowable;
 
@@ -26,7 +26,7 @@ public:
 
     virtual void VToDead_4114B0();
 
-    using FnTypeMatcher = std::add_pointer<bool(Types type)>::type;
+    using FnTypeMatcher = AddPointer_t<bool(Types type)>;
     void BaseAddToPlatform(FnTypeMatcher cb);
 private:
     EXPORT void vToDead_4114B0();

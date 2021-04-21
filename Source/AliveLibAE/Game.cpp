@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "AddPointer.hpp"
 #include "Game.hpp"
 #include "Sys.hpp"
 #include "VGA.hpp"
@@ -42,7 +43,7 @@
 
 void Game_ForceLink() { }
 
-using TExitGameCallBack = std::add_pointer<void CC()>::type;
+using TExitGameCallBack = AddPointer_t<void CC()>;
 
 ALIVE_VAR(1, 0xBBFB00, TExitGameCallBack, sGame_OnExitCallback_BBFB00, nullptr);
 
@@ -149,8 +150,8 @@ void DestroyObjects_4A1F20()
     for (int iterations =0; iterations < 2; iterations++)
     {
         short idx = 0;
-        
-      
+
+
 
         while (idx < gBaseGameObject_list_BB47C4->Size())
         {
@@ -707,11 +708,11 @@ EXPORT void CC Game_Main_4949F0()
 {
     // Inits
     Init_Input_Timer_And_IO_4F2BF0(false);
-    
+
     Main_ParseCommandLineArguments_494EA0(Sys_GetCommandLine_4EE176(), Sys_GetCommandLine_4EE176());
     Game_SetExitCallBack_4F2BA0(Game_ExitGame_4954B0);
 #if _WIN32
-#ifndef USE_SDL2
+#if !USE_SDL2
     Sys_SetWindowProc_Filter_4EE197(Sys_WindowMessageHandler_494A40);
 #endif
 #endif
@@ -817,14 +818,14 @@ EXPORT void CC Game_Loop_467230()
                 pFG1->VRender(ppOtBuffer);
             }
         }
-        
+
         DebugFont_Flush_4DD050();
         PSX_DrawSync_4F6280(0);
         pScreenManager_5BB5F4->VRender(ppOtBuffer);
         SYS_EventsPump_494580(); // Exit checking?
 
         gPsxDisplay_5C1130.PSX_Display_Render_OT_41DDF0();
-        
+
         // Destroy objects with certain flags
         for (short idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
         {
@@ -864,7 +865,7 @@ EXPORT void CC Game_Loop_467230()
         {
             break;
         }
-        
+
         // Enabled only for ddfast option
         if (byte_5CA4D2)
         {

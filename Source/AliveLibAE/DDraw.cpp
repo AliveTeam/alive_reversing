@@ -6,7 +6,7 @@
 
 #if _WIN32
 
-#ifndef USE_SDL2
+#if !USE_SDL2
 #define DIRECTINPUT_VERSION 0x700
 #include <dinput.h>
 #define DIRECTDRAW_VERSION 0x700
@@ -306,7 +306,7 @@ EXPORT signed int CC DD_Shutdown_4F0790(int bDestroyDD)
             sDD_Pal_BBC3D8->Release();
             sDD_Pal_BBC3D8 = nullptr;
         }*/
-        
+
         if (bDestroyDD)
         {
             sDDraw_BBC3D4->RestoreDisplayMode();
@@ -351,7 +351,7 @@ EXPORT LPDIRECTDRAWSURFACE CC DD_Create_Surface_4F0CB0(int width, int height, in
         colourKey.dwColorSpaceHighValue = sDDColourKey_BBC3C0;
         pSurface->SetColorKey(DDCKEY_SRCBLT, &colourKey); // 8
     }
-    
+
     return pSurface;
 }
 
@@ -469,7 +469,7 @@ EXPORT void CC DD_Flip_4F15D0()
         DD_Blt_4F0170(sDD_surface_backbuffer_BBC3CC, nullptr, sDD_primary_surface_BBC3C8, &screenRect, 0);
         return;
     }
-    
+
     // Full screen path
     if (sbDD_FlipMode_BBC3AC > 1)
     {
@@ -585,7 +585,7 @@ EXPORT signed int CC DD_Enable_4F0380(HWND /*hwnd*/, int width, int height, int 
 
             if (FAILED(hr))
             {
-               
+
                 // 8 bpp not supported
                 if (bitsPerPixelXPlanes != 8)
                 {
@@ -645,7 +645,7 @@ EXPORT signed int CC DD_Enable_4F0380(HWND /*hwnd*/, int width, int height, int 
         // Leave the window pos alone in forced window mode
 #else
         // TODO: use SDK constants
-        ::SetWindowPos(sDD_hWnd_BBC3B0, 0, 0, 0, rect.right - rect.left, rect.bottom - rect.top, 0x16u); 
+        ::SetWindowPos(sDD_hWnd_BBC3B0, 0, 0, 0, rect.right - rect.left, rect.bottom - rect.top, 0x16u);
 
         // TODO: use SDK constants
         ::SetWindowPos(sDD_hWnd_BBC3B0, (HWND)0xFFFFFFFE, 0, 0, 0, 0, 0x13u);
@@ -685,7 +685,7 @@ EXPORT signed int CC DD_Enable_4F0380(HWND /*hwnd*/, int width, int height, int 
 
     // TODO: What cap is this extracting, never read?
     //dword_BBC3B4 = (ddCaps.dwCaps >> 26) & 1;
-    
+
     // TODO: Refactor + use SDK constants
     if (!sbDD_FlipMode_BBC3AC)
     {
@@ -831,7 +831,7 @@ EXPORT signed int CC DD_Init_4F0840(signed int backBufferCount)
 
     surfaceDesc.dwBackBufferCount = backBufferCount - 1;
     surfaceDesc.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE | DDSCAPS_FLIP | DDSCAPS_COMPLEX;
-    
+
     HRESULT hr = sDDraw_BBC3D4->CreateSurface(&surfaceDesc, &sDD_primary_surface_BBC3C8, 0);
     if (FAILED(hr))
     {

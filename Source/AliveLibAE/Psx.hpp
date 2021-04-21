@@ -4,10 +4,11 @@
 #include "bmp.hpp"
 #include "FixedPoint.hpp"
 #include "Psx_common.hpp"
+#include "AddPointer.hpp"
 
 void Psx_ForceLink();
 
-using TPsxEmuCallBack = std::add_pointer<int(DWORD)>::type;
+using TPsxEmuCallBack = AddPointer_t<int(DWORD)>;
 
 EXPORT void CC PSX_DispEnv_Set_4ED960(int mode);
 EXPORT int CC PSX_VSync_4F6170(int mode);

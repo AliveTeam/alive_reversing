@@ -2,10 +2,11 @@
 
 #include "FunctionFwd.hpp"
 #include "Psx_common.hpp"
+#include "AddPointer.hpp"
 
 namespace AO {
 
-using TPsxEmuCallBack = std::add_pointer<int(DWORD)>::type;
+using TPsxEmuCallBack = AddPointer_t<int(DWORD)>;
 
 EXPORT void CC PSX_PutDispEnv_495D30(PSX_DISPENV* pDispEnv);
 

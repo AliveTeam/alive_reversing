@@ -1,5 +1,7 @@
 #pragma once
 
+#include "FunctionFwd.hpp"
+
 struct FixedPoint;
 using FP = FixedPoint;
 

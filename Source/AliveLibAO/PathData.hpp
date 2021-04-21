@@ -2,6 +2,7 @@
 
 #include "FunctionFwd.hpp"
 #include "Factory.hpp"
+#include "AddPointer.hpp"
 
 namespace AO {
 
@@ -163,7 +164,7 @@ struct PathData
 
 struct CollisionInfo;
 
-using TCollisionsFactory = std::add_pointer<void(const CollisionInfo* pCollisionInfo, const BYTE* pPathData)>::type;
+using TCollisionsFactory = AddPointer_t<void(const CollisionInfo* pCollisionInfo, const BYTE* pPathData)>;
 
 struct CollisionInfo
 {
