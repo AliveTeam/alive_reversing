@@ -85,6 +85,20 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/alive_api)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/assets)
 
+# Setup cross-platform PCH
+target_precompile_headers(
+    AliveLibCommon PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/AliveLibCommon/pch_shared.h"
+)
+
+target_precompile_headers(AliveLibAO REUSE_FROM AliveLibCommon)
+target_precompile_headers(AliveLibAE REUSE_FROM AliveLibCommon)
+target_precompile_headers(AliveExe REUSE_FROM AliveLibCommon)
+target_precompile_headers(AliveExeAO REUSE_FROM AliveLibCommon)
+target_precompile_headers(AliveExeAE REUSE_FROM AliveLibCommon)
+# `vab_tool`, `alive_api`, and `alive_api_test` targets cannot make use of PCH
+# due to `CMAKE_CXX_EXTENSIONS` being set to `OFF`
+
 if (WIN32 AND NOT MINGW)
     add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveDllAE)
     add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveDllAO)
