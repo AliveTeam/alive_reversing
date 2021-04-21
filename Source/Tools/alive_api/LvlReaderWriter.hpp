@@ -7,7 +7,7 @@
 
 inline std::string ToString(const LvlFileRecord& rec)
 {
-    int i = 0;
+    size_t i = 0;
     for (i = 0; i < ALIVE_COUNTOF(LvlFileRecord::field_0_file_name); i++)
     {
         if (!rec.field_0_file_name[i])
@@ -356,7 +356,7 @@ public:
         newHeader.field_C_id = 0;
         newHeader.field_10_sub.field_0_num_files = static_cast<int>(fileRecs.size());
 
-        int totalFileOffset = RoundUp((newHeader.field_10_sub.field_0_num_files * sizeof(LvlFileRecord)) + (sizeof(LvlHeader) - sizeof(LvlFileRecord)));
+        int totalFileOffset = static_cast<int>(RoundUp((newHeader.field_10_sub.field_0_num_files * sizeof(LvlFileRecord)) + (sizeof(LvlHeader) - sizeof(LvlFileRecord))));
         newHeader.field_10_sub.field_4_header_size_in_sectors = newHeader.field_0_first_file_offset / 2048;
         if (newHeader.field_10_sub.field_4_header_size_in_sectors < 5)
         {

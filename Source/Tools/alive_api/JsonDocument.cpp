@@ -95,7 +95,7 @@ static ::PathLine JsonObjectToAELine(jsonxx::Object& collision)
 std::vector<AO::PathLine> JsonReaderBase::ReadAOLines(jsonxx::Array& collisionsArray)
 {
     std::vector<AO::PathLine> lines;
-    for (size_t i = 0; i < collisionsArray.values().size(); i++)
+    for (auto i = 0u; i < collisionsArray.values().size(); i++)
     {
         jsonxx::Object collision = collisionsArray.get<jsonxx::Object>(i);
         lines.emplace_back(JsonObjectToAOLine(collision));
@@ -106,7 +106,7 @@ std::vector<AO::PathLine> JsonReaderBase::ReadAOLines(jsonxx::Array& collisionsA
 std::vector<::PathLine> JsonReaderBase::ReadAELines(jsonxx::Array& collisionsArray)
 {
     std::vector<::PathLine> lines;
-    for (size_t i = 0; i < collisionsArray.values().size(); i++)
+    for (auto i = 0u; i < collisionsArray.values().size(); i++)
     {
         jsonxx::Object collision = collisionsArray.get<jsonxx::Object>(i);
         lines.emplace_back(JsonObjectToAELine(collision));
@@ -160,7 +160,7 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
     std::vector<CameraNameAndTlvBlob> mapData;
 
     jsonxx::Array camerasArray = map.get<jsonxx::Array>("cameras");
-    for (size_t i = 0; i < camerasArray.values().size(); i++)
+    for (auto i = 0u; i < camerasArray.values().size(); i++)
     {
         jsonxx::Object camera = camerasArray.get<jsonxx::Object>(i);
         if (!camera.has<jsonxx::Array>("map_objects"))
@@ -182,7 +182,7 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
         cameraNameBlob.y = y;
 
         jsonxx::Array mapObjectsArray = camera.get<jsonxx::Array>("map_objects");
-        for (size_t j = 0; j < mapObjectsArray.values().size(); j++)
+        for (auto j = 0u; j < mapObjectsArray.values().size(); j++)
         {
             jsonxx::Object mapObject = mapObjectsArray.get<jsonxx::Object>(j);
             if (!mapObject.has<jsonxx::String>("object_structures_type"))
