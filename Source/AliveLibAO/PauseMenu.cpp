@@ -147,7 +147,7 @@ ALIVE_VAR(1, 0x5080C6, saveName, saveNameBuffer_5080C6, {});
 
 const char *gLevelNames_4CE1D4[20] =
 {
-    "�",
+    "¸",
     "RuptureFarms",
     "Monsaic Lines",
     "Paramonia",

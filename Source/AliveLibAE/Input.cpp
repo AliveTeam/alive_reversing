@@ -1992,7 +1992,7 @@ void InputObject::Update_45F040()
         {
             const DWORD command = (*field_30_pDemoRes)[field_34_demo_command_index++];
             field_3C_command = command >> 16;
-            field_40_command_duration = (sGnFrame_5C1B84 + command) & 0xFFFF;
+            field_40_command_duration = sGnFrame_5C1B84 + (command & 0xFFFF);
 
             // End demo/quit command
             if (command & 0x8000)
