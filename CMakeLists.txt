@@ -89,11 +89,14 @@ target_precompile_headers(
 )
 
 target_precompile_headers(AliveExeAO     REUSE_FROM AliveLibAO)
-target_precompile_headers(vab_tool       REUSE_FROM AliveLibAO)
 target_precompile_headers(alive_api      REUSE_FROM AliveLibAO)
 target_precompile_headers(alive_api_test REUSE_FROM AliveLibAO)
 target_precompile_headers(AliveExe       REUSE_FROM AliveLibAO)
 target_precompile_headers(AliveExeAE     REUSE_FROM AliveLibAO)
+
+if(WIN32)
+    target_precompile_headers(vab_tool REUSE_FROM AliveLibAO)
+endif()
 # -----------------------------------------------------------------------------
 
 if (WIN32 AND NOT MINGW)
