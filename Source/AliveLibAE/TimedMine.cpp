@@ -61,7 +61,7 @@ TimedMine* TimedMine::ctor_410600(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
     SetVTable(this, 0x5442A8);
     SetVTable(&field_124_animation, 0x544290);
 
-    field_4_typeId = Types::eTimedMine_or_MovingBomb_10;
+    field_4_typeId = AETypes::eTimedMine_or_MovingBomb_10;
 
     const AnimRecord& rec = AnimRec(AnimId::Timed_Mine_Idle);
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -252,7 +252,7 @@ void TimedMine::StickToLiftPoint_411100()
                         break;
                     }
 
-                    if (pObj->field_4_typeId == Types::eLiftPoint_78)
+                    if (pObj->field_4_typeId == AETypes::eLiftPoint_78)
                     {
                         PSX_RECT bRect = {};
                         auto pLiftPoint = static_cast<LiftPoint*>(pObj);
@@ -329,10 +329,10 @@ __int16 TimedMine::vTakeDamage_410FA0(BaseGameObject* pFrom)
 
     switch (pFrom->field_4_typeId)
     {
-        case Types::eAbe_69:
-        case Types::eAbilityRing_104:
-        case Types::eExplosion_109:
-        case Types::eShrykull_121:
+        case AETypes::eAbe_69:
+        case AETypes::eAbilityRing_104:
+        case AETypes::eExplosion_109:
+        case AETypes::eShrykull_121:
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
             auto pExplosion = ae_new<BaseBomb>();

@@ -76,7 +76,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, int tlvInfo)
     SetVTable(this, 0x545CC0); // vTbl_LiftPoint_545CC0
 
     field_C_objectId = tlvInfo;
-    field_4_typeId = Types::eLiftPoint_78;
+    field_4_typeId = AETypes::eLiftPoint_78;
 
     pTlv->field_1_tlv_state = 3;
 
@@ -288,7 +288,7 @@ int CC LiftPoint::CreateFromSaveState_4630F0(const BYTE* pData)
     const LiftPoint_State* pState = reinterpret_cast<const LiftPoint_State*>(pData);
 
     Path_LiftPoint* pTlv = static_cast<Path_LiftPoint*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_C_tlvInfo));
-    
+
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeliftResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("ABELIFT.BAN", nullptr);
@@ -344,8 +344,8 @@ int CC LiftPoint::CreateFromSaveState_4630F0(const BYTE* pData)
     pLiftPoint->field_BC_ypos = pState->field_8_ypos;
     pLiftPoint->SyncCollisionLinePosition_4974E0();
 
-    Rope* pRope2 = static_cast<Rope*>(sObjectIds_5C1B70.Find(pLiftPoint->field_134_rope2_id, Types::eLiftRope_108));
-    Rope* pRope1 = static_cast<Rope*>(sObjectIds_5C1B70.Find(pLiftPoint->field_138_rope1_id, Types::eLiftRope_108));
+    Rope* pRope2 = static_cast<Rope*>(sObjectIds_5C1B70.Find(pLiftPoint->field_134_rope2_id, AETypes::eLiftRope_108));
+    Rope* pRope1 = static_cast<Rope*>(sObjectIds_5C1B70.Find(pLiftPoint->field_138_rope1_id, AETypes::eLiftRope_108));
 
     pRope2->field_106_bottom = FP_GetExponent(FP_FromInteger(pLiftPoint->field_124_pCollisionLine->field_0_rect.y) + (FP_FromInteger(25) * pLiftPoint->field_CC_sprite_scale));
     pRope1->field_106_bottom = FP_GetExponent(FP_FromInteger(pLiftPoint->field_124_pCollisionLine->field_0_rect.y) + (FP_FromInteger(25) * pLiftPoint->field_CC_sprite_scale));
@@ -568,7 +568,7 @@ void LiftPoint::vUpdate_461AE0()
         {
             const bool bOnFloor = field_270_floorYLevel == field_BC_ypos;
             const FP distToFloor = field_270_floorYLevel - field_BC_ypos;
-           
+
             FP absDistToFloor = {};
             if (distToFloor < FP_FromInteger(0) || bOnFloor)
             {
@@ -785,11 +785,11 @@ void LiftPoint::vUpdate_461AE0()
 
         MoveObjectsOnLift_497600(field_C4_velx);
     }
-    
-    Rope* pRope2 = static_cast<Rope*>(sObjectIds_5C1B70.Find(field_134_rope2_id, Types::eLiftRope_108));
+
+    Rope* pRope2 = static_cast<Rope*>(sObjectIds_5C1B70.Find(field_134_rope2_id, AETypes::eLiftRope_108));
     pRope2->field_106_bottom = FP_GetExponent((FP_FromInteger(field_124_pCollisionLine->field_0_rect.y) + (FP_FromInteger(25) * field_CC_sprite_scale)));
 
-    Rope* pRope1 = static_cast<Rope*>(sObjectIds_5C1B70.Find(field_138_rope1_id, Types::eLiftRope_108));
+    Rope* pRope1 = static_cast<Rope*>(sObjectIds_5C1B70.Find(field_138_rope1_id, AETypes::eLiftRope_108));
     pRope1->field_106_bottom = FP_GetExponent((FP_FromInteger(field_124_pCollisionLine->field_0_rect.y) + (FP_FromInteger(25) * field_CC_sprite_scale)));
 
     if (field_280_flags.Get(LiftPoint::eBit4_bHasPulley))
@@ -840,7 +840,7 @@ void LiftPoint::vUpdate_461AE0()
         SFX_Play_46FA90(SoundEffect::WheelSqueak_31, 0);
     }
 
-    if ((field_C2_lvl_number != gMap_5C3030.field_0_current_level || field_C0_path_number != gMap_5C3030.field_2_current_path || Event_Get_422C00(kEventDeathReset)) 
+    if ((field_C2_lvl_number != gMap_5C3030.field_0_current_level || field_C0_path_number != gMap_5C3030.field_2_current_path || Event_Get_422C00(kEventDeathReset))
         && field_118_count <= 0)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -916,7 +916,7 @@ void LiftPoint::vStayOnFloor_461A00(__int16 floor, Path_LiftPoint* pTlv)
 
 signed int LiftPoint::vGetSaveState_4637D0(LiftPoint_State *pState)
 {
-    pState->field_0_type = Types::eLiftPoint_78;
+    pState->field_0_type = AETypes::eLiftPoint_78;
     pState->field_4_xpos = field_B8_xpos;
     pState->field_8_ypos = field_BC_ypos;
     pState->field_C_tlvInfo = field_128_tlvInfo;
@@ -1017,8 +1017,8 @@ void LiftPoint::CreatePulleyIfExists_462C80()
     field_1D4_pulley_anim.field_B_render_mode = TPageAbr::eBlend_0;
 
     // Set the top of the ropes to be the bottom of the pulley
-    Rope* pRope1 = static_cast<Rope*>(sObjectIds_5C1B70.Find(field_134_rope2_id, Types::eLiftRope_108));
-    Rope* pRope2 = static_cast<Rope*>(sObjectIds_5C1B70.Find(field_138_rope1_id, Types::eLiftRope_108));
+    Rope* pRope1 = static_cast<Rope*>(sObjectIds_5C1B70.Find(field_134_rope2_id, AETypes::eLiftRope_108));
+    Rope* pRope2 = static_cast<Rope*>(sObjectIds_5C1B70.Find(field_138_rope1_id, AETypes::eLiftRope_108));
 
     pRope1->field_102_top = FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) + (FP_FromInteger(-19) * field_CC_sprite_scale));
     pRope2->field_102_top = FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) + (FP_FromInteger(-19) * field_CC_sprite_scale));
@@ -1064,8 +1064,8 @@ void LiftPoint::dtor_4624E0()
 {
     SetVTable(this, 0x545CC0); // vTbl_LiftPoint_545CC0
 
-    BaseGameObject* pRope2 = sObjectIds_5C1B70.Find(field_134_rope2_id, Types::eLiftRope_108);
-    BaseGameObject* pRope1 = sObjectIds_5C1B70.Find(field_138_rope1_id, Types::eLiftRope_108);
+    BaseGameObject* pRope2 = sObjectIds_5C1B70.Find(field_134_rope2_id, AETypes::eLiftRope_108);
+    BaseGameObject* pRope1 = sObjectIds_5C1B70.Find(field_138_rope1_id, AETypes::eLiftRope_108);
     if (pRope2)
     {
         pRope2->field_6_flags.Set(BaseGameObject::eDead_Bit3);

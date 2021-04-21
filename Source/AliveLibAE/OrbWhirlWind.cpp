@@ -21,7 +21,7 @@ void OrbWhirlWind::VRender(PrimHeader** ppOt)
 
 OrbWhirlWind* OrbWhirlWind::ctor_4E3C90(FP xpos, FP ypos, FP scale, __int16 bIsMudokonSpirit)
 {
-    field_4_typeId = Types::eNone_0;
+    field_4_typeId = AETypes::eNone_0;
 
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
 

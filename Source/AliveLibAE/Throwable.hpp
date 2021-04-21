@@ -26,7 +26,7 @@ public:
 
     virtual void VToDead_4114B0();
 
-    using FnTypeMatcher = AddPointer_t<bool(Types type)>;
+    using FnTypeMatcher = AddPointer_t<bool(AETypes type)>;
     void BaseAddToPlatform(FnTypeMatcher cb);
 private:
     EXPORT void vToDead_4114B0();
@@ -39,4 +39,4 @@ protected:
 };
 
 ALIVE_VAR_EXTERN(WORD, gInfiniteGrenades_5C1BDE);
-extern const Types throwable_types_55FAFC[252];
+extern const AETypes throwable_types_55FAFC[252];

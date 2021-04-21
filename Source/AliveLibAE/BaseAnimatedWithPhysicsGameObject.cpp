@@ -239,7 +239,7 @@ __int16 BaseAnimatedWithPhysicsGameObject::vOnSameYLevel_425520(BaseAnimatedWith
     return OnSameYLevel_425520(pOther);
 }
 
-void BaseAnimatedWithPhysicsGameObject::vStackOnObjectsOfType_425840(Types typeToFind)
+void BaseAnimatedWithPhysicsGameObject::vStackOnObjectsOfType_425840(AETypes typeToFind)
 {
     StackOnObjectsOfType_425840(typeToFind);
 }
@@ -380,7 +380,7 @@ __int16 BaseAnimatedWithPhysicsGameObject::OnSameYLevel_425520(BaseAnimatedWithP
     return FALSE;
 }
 
-void BaseAnimatedWithPhysicsGameObject::StackOnObjectsOfType_425840(Types typeToFind)
+void BaseAnimatedWithPhysicsGameObject::StackOnObjectsOfType_425840(AETypes typeToFind)
 {
     // For some reason this isn't const in the real game
     const __int16 kData[6] =

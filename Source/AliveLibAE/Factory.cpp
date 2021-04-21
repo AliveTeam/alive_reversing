@@ -157,7 +157,7 @@ EXPORT void CC Factory_Hoist_4D9E90(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfo
 }
 
 EXPORT void CC Factory_Edge_4D68C0(Path_TLV* /*pTlv*/, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
-{ 
+{
     if (loadmode == LoadMode::Mode_1 || loadmode == LoadMode::Mode_2)
     {
         Map::LoadResource_4DBE00("ABEHOIST.BAN", ResourceManager::Resource_Animation, ResourceID::kAbehoistResID, loadmode, 0);
@@ -308,15 +308,15 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
                 break;
             }
 
-            if (!(pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3)) && pObj->field_4_typeId == Types::eLiftPoint_78)
+            if (!(pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3)) && pObj->field_4_typeId == AETypes::eLiftPoint_78)
             {
                 // Is there already an existing LiftPoint object for this TLV?
                 LiftPoint* pLiftPoint = static_cast<LiftPoint*>(pObj);
                 const short xpos = FP_GetExponent(pLiftPoint->field_B8_xpos);
-                if (pTlv->field_8_top_left.field_0_x <= xpos && 
+                if (pTlv->field_8_top_left.field_0_x <= xpos &&
                     xpos <= pTlv->field_C_bottom_right.field_0_x &&
-                    pLiftPoint->field_278_lift_point_id == pLiftTlv->field_10_id && 
-                    pLiftPoint->field_C2_lvl_number == gMap_5C3030.field_0_current_level && 
+                    pLiftPoint->field_278_lift_point_id == pLiftTlv->field_10_id &&
+                    pLiftPoint->field_C2_lvl_number == gMap_5C3030.field_0_current_level &&
                     pLiftPoint->field_C0_path_number == gMap_5C3030.field_2_current_path)
                 {
                     // Yes so just reset its data
@@ -354,12 +354,12 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
                         auto pLiftPointIter = static_cast<Path_LiftPoint*>(pTlvIter);
 
                         const int tlvX = pTlv->field_8_top_left.field_0_x;
-                        const int absX = pTlvIter->field_8_top_left.field_0_x - tlvX >= 0 ? 
-                            pTlvIter->field_8_top_left.field_0_x - tlvX : 
+                        const int absX = pTlvIter->field_8_top_left.field_0_x - tlvX >= 0 ?
+                            pTlvIter->field_8_top_left.field_0_x - tlvX :
                             tlvX - pTlvIter->field_8_top_left.field_0_x;
 
-                        if (absX < 5 && 
-                            pLiftPointIter->field_10_id == pLiftTlv->field_10_id && 
+                        if (absX < 5 &&
+                            pLiftPointIter->field_10_id == pLiftTlv->field_10_id &&
                             (pLiftPointIter->field_1_tlv_state & 2 || pLiftPointIter->field_1_tlv_state == 0) &&
                             pLiftPointIter->field_12_bStart_point == Choice_short::eYes_1)
                         {
@@ -446,10 +446,10 @@ EXPORT void CC Factory_RockSack_4D8040(Path_TLV* pTlv, Path*, TlvItemInfoUnion t
     if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
     {
         static CompileTimeResourceList<3> kResources(
-        { 
+        {
             { ResourceManager::Resource_Animation, 12 },
             { ResourceManager::Resource_Animation, 14 },
-            { ResourceManager::Resource_Animation, 350 } 
+            { ResourceManager::Resource_Animation, 350 }
         });
         gMap_5C3030.LoadResourcesFromList_4DBE70("RTHROW.BND", kResources.AsList(), loadMode);
     }
@@ -525,7 +525,7 @@ EXPORT void CC Factory_PullRingRope_4D8320(Path_TLV* pTlv, Path*, TlvItemInfoUni
 }
 
 EXPORT void CC Factory_TimedMine_4D87C0(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
-{ 
+{
     auto mine_tlv = static_cast<Path_TimedMine*>(pTlv);
 
     if (loadmode == LoadMode::Mode_1 || loadmode == LoadMode::Mode_2)
@@ -637,7 +637,7 @@ EXPORT void CC Factory_Slog_4D8B20(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvIn
 }
 
 EXPORT void CC Factory_Switch_4D8CF0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
-{ 
+{
     if (loadmode == LoadMode::Mode_1 || loadmode == LoadMode::Mode_2)
     {
         Map::LoadResource_4DBE00("SWITCH1.BAN", ResourceManager::Resource_Animation, ResourceID::kSwitchResID, loadmode);
@@ -681,7 +681,7 @@ EXPORT void CC Factory_SecurityOrb_4D8D80(Path_TLV* pTlv, Path*, TlvItemInfoUnio
 
 EXPORT void CC Factory_Null_4D6A00(Path_TLV* , Path*, TlvItemInfoUnion, LoadMode) { NOT_IMPLEMENTED(); }
 
-EXPORT void CC Factory_Pulley_4D6A20(Path_TLV* , Path*, TlvItemInfoUnion, LoadMode) 
+EXPORT void CC Factory_Pulley_4D6A20(Path_TLV* , Path*, TlvItemInfoUnion, LoadMode)
 {
     // Nothing to do.
 }
@@ -751,14 +751,14 @@ EXPORT void CC Factory_Mine_4D8890(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoU
 }
 
 EXPORT void CC Factory_UXB_4D8960(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
-{ 
+{
     auto uxb_tlv = static_cast<Path_UXB*>(pTlv);
 
     if (loadmode == LoadMode::Mode_1 || loadmode == LoadMode::Mode_2)
     {
         Map::LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, kAbeblowResID, loadmode, uxb_tlv->field_18_disabled_resources & 1);
         Map::LoadResource_4DBE00("DOGBLOW.BAN", ResourceManager::Resource_Animation, kSlogBlowResID, loadmode, uxb_tlv->field_18_disabled_resources & 2);
-        
+
         static CompileTimeResourceList<3> sUXBResourceList_563390({
             { ResourceManager::Resource_Animation, kTbombResID },
             { ResourceManager::Resource_Animation, kBombflshResID },
@@ -900,8 +900,8 @@ static Path_TLV* FindMatchingSligTLV(Path_TLV* pTlvIter, Path_SligBound* pTlv)
 {
     while (pTlvIter)
     {
-        if (pTlvIter->field_4_type == TlvTypes::Slig_15 && 
-            pTlv->field_10_slig_id == static_cast<Path_Slig*>(pTlvIter)->field_38_slig_id && 
+        if (pTlvIter->field_4_type == TlvTypes::Slig_15 &&
+            pTlv->field_10_slig_id == static_cast<Path_Slig*>(pTlvIter)->field_38_slig_id &&
             !pTlvIter->field_0_flags.Get(TLV_Flags::eBit2_Unknown))
         {
             return pTlvIter;
@@ -934,9 +934,9 @@ EXPORT void CC Factory_SligBoundLeft_4D7740(Path_TLV* pTlv, Path*, TlvItemInfoUn
                 auto pSlig = ae_new<Slig>();
                 if (pSlig)
                 {
-                    tlvInfo.parts.tlvOffset += 
+                    tlvInfo.parts.tlvOffset +=
                         static_cast<WORD>(
-                            reinterpret_cast<const BYTE*>(pTlvIter) - 
+                            reinterpret_cast<const BYTE*>(pTlvIter) -
                             reinterpret_cast<const BYTE*>(pBound));
                     pSlig->ctor_4B1370(static_cast<Path_Slig*>(pTlvIter), tlvInfo.all);
                 }
@@ -1045,14 +1045,14 @@ EXPORT void CC Factory_LiftMover_4DA090(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
 }
 
 EXPORT void CC Factory_MeatSack_4D8140(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
-{ 
+{
     if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
     {
         static CompileTimeResourceList<3> kResources(
         {
             { ResourceManager::Resource_Animation, 12 },
             { ResourceManager::Resource_Animation, 14 },
-            { ResourceManager::Resource_Animation, 2023 } 
+            { ResourceManager::Resource_Animation, 2023 }
         });
         gMap_5C3030.LoadResourcesFromList_4DBE70("MTHROW.BND", kResources.AsList(), loadMode, 0);
     }
@@ -1253,7 +1253,7 @@ EXPORT void CC Factory_GrenadeMachine_4DA1C0(Path_TLV* pTlv, Path*, TlvItemInfoU
         {
             { ResourceManager::Resource_Animation, 14 },
             { ResourceManager::Resource_Animation, 12 },
-            { ResourceManager::Resource_Animation, 6005 } 
+            { ResourceManager::Resource_Animation, 6005 }
         });
 
         gMap_5C3030.LoadResourcesFromList_4DBE70("GTHROW.BND", kResources.AsList(), loadMode, 0);
@@ -1313,7 +1313,7 @@ EXPORT void CC Factory_HandStone_4D9FA0(Path_TLV*, Path*, TlvItemInfoUnion tlvOf
 }
 
 EXPORT void CC Factory_CreditsController_4D6D60(Path_TLV* pTlv , Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
-{ 
+{
     if (loadmode != LoadMode::Mode_1 && loadmode != LoadMode::Mode_2 && !sDoesCreditsControllerExist_5C1B90)
     {
         auto pCreditsController = ae_new<CreditsController>();
@@ -1402,7 +1402,7 @@ EXPORT void CC Factory_GasCountdown_4DA480(Path_TLV* pTlv, Path*, TlvItemInfoUni
 EXPORT void CC Factory_4D6C50(Path_TLV* , Path*, TlvItemInfoUnion, LoadMode) { NOT_IMPLEMENTED(); }
 
 EXPORT void CC Factory_GasEmitter_4D8540(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
-{ 
+{
     if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
     {
         auto pGasEmitter = ae_new<GasEmitter>();
@@ -1587,8 +1587,8 @@ EXPORT void CC Factory_Fleech_4D8C30(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlv
         gMap_5C3030.LoadResource_4DBE00("FLEEBLOW.BAN", ResourceManager::Resource_Animation, 580, loadMode);
     }
     else if (
-        gMap_5C3030.field_0_current_level != LevelIds::eMudancheeVault_Ender_7 || 
-        gMap_5C3030.field_2_current_path != 9 || 
+        gMap_5C3030.field_0_current_level != LevelIds::eMudancheeVault_Ender_7 ||
+        gMap_5C3030.field_2_current_path != 9 ||
         gMap_5C3030.field_4_current_camera != 4)
     {
         auto pFleech = ae_new<Fleech>();
@@ -1656,7 +1656,7 @@ EXPORT void CC Factory_LevelLoader_4D6BB0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
 }
 
 EXPORT void CC Factory_DemoSpawnPoint_4D6990(Path_TLV* , Path*, TlvItemInfoUnion, LoadMode loadMode)
-{ 
+{
     if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
     {
         if (gAttract_5C1BA0)
@@ -1699,7 +1699,7 @@ EXPORT void CC Factory_SlurgSpawner_4DAB50(Path_TLV* pTlv, Path*, TlvItemInfoUni
 }
 
 EXPORT void CC Factory_Grinder_4DABC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
-{ 
+{
     if (loadmode == LoadMode::Mode_1 || loadmode == LoadMode::Mode_2)
     {
         Map::LoadResource_4DBE00("DRILL.BAN", ResourceManager::Resource_Animation, ResourceID::kDrillResID, loadmode);
@@ -2020,7 +2020,7 @@ EXPORT void CC Factory_SligGetWings_4D9900(Path_TLV* pTlv, Path*, TlvItemInfoUni
 }
 
 EXPORT void CC Factory_Greeter_4DAFE0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
-{ 
+{
     if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
     {
         gMap_5C3030.LoadResource_4DBE00("MFLARE.BAN", ResourceManager::Resource_Animation, ResourceID::kMflareResID, loadMode, 0);

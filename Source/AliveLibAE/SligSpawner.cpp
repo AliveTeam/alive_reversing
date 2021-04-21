@@ -13,7 +13,7 @@ SligSpawner* SligSpawner::ctor_409740(Path_Slig* pTlv, int tlvInfo)
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x544090);
 
-    field_4_typeId = Types::eSligSpawner_2;
+    field_4_typeId = AETypes::eSligSpawner_2;
 
     if (tlvInfo != 0xFFFF)
     {
@@ -27,7 +27,7 @@ SligSpawner* SligSpawner::ctor_409740(Path_Slig* pTlv, int tlvInfo)
 
     field_24_slig_id = pTlv->field_4C_id;
     field_40_bFindSpawnedSlig = 0;
-    
+
     // TODO: Flags
     field_26_flags = (field_26_flags & ~2) | 2 * (pTlv->field_4E_unknown & 1);
 
@@ -86,7 +86,7 @@ void SligSpawner::vUpdate_409830()
                     break;
                 }
 
-                if (pObj->field_4_typeId == Types::eSlig_125 && pObj->field_C_objectId == field_3C_spawned_slig_obj_id)
+                if (pObj->field_4_typeId == AETypes::eSlig_125 && pObj->field_C_objectId == field_3C_spawned_slig_obj_id)
                 {
                     // Seems redundant ?
                     field_3C_spawned_slig_obj_id = pObj->field_8_object_id;
@@ -140,7 +140,7 @@ void SligSpawner::vUpdate_409830()
 
 int SligSpawner::vGetSaveState_409BB0(Slig_Spawner_State* pState)
 {
-    pState->field_0_type = Types::eSligSpawner_2;
+    pState->field_0_type = AETypes::eSligSpawner_2;
     pState->field_4_tlvInfo = field_20_tlv_info;
     pState->field_8_state = field_38_state;
     pState->field_C_spawned_slig_obj_id = -1;

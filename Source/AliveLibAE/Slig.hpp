@@ -160,7 +160,7 @@ using TSligMotionFn = void (Slig::*)();
 
 struct Slig_State
 {
-    Types field_0_type;
+    AETypes field_0_type;
     __int16 field_2_padding;
     FP field_4_xpos;
     FP field_8_ypos;

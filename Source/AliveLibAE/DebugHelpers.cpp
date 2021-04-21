@@ -80,7 +80,7 @@ public:
 
         field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
         field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-        field_4_typeId = Types::eDebugHelper_1001;
+        field_4_typeId = AETypes::eDebugHelper_1001;
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
         mFont.ctor_433590(512, reinterpret_cast<BYTE*>(mFontPalette), &mFontContext);
@@ -286,7 +286,7 @@ public:
         BaseGameObject_ctor_4DBFA0(1, 1);
         field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
         field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-        field_4_typeId = Types::eDebugPathRenderer_1003;
+        field_4_typeId = AETypes::eDebugPathRenderer_1003;
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
         mFont.ctor_433590(128, reinterpret_cast<BYTE*>(mFontPalette), &mFontContext);
@@ -328,7 +328,7 @@ public:
     }
 
     struct LineColor { BYTE r; BYTE g; BYTE b; };
-    std::map<int, LineColor> mLineColors = { 
+    std::map<int, LineColor> mLineColors = {
         { 0,{ 255, 0, 0 } }, // Floor
         { 1,{ 0, 0, 255 } }, // Left Wall
         { 3,{ 255, 0, 0 } }, // Ceiling
@@ -435,7 +435,7 @@ static std::vector<DebugConsoleMessage> sDebugConsoleMessages;
 void ShowDebugConsoleMessage(std::string message, float duration, BYTE r, BYTE g, BYTE b)
 {
     auto lines = SplitString(message, '\n');
-    
+
     for (auto l : lines)
     {
         sDebugConsoleMessages.insert(sDebugConsoleMessages.begin(), { l, static_cast<int>(30 * duration), 250, r, g, b });
@@ -476,8 +476,8 @@ class FakeMeatGrinder : public UXB
 public:
     FakeMeatGrinder()
     {
-        field_4_typeId = Types::eGrinder_30;
-        field_4_typeId = Types::eExplosion_109;
+        field_4_typeId = AETypes::eGrinder_30;
+        field_4_typeId = AETypes::eExplosion_109;
     }
 };
 
@@ -538,7 +538,7 @@ void Command_HelperUpdate()
         FP rX = FP_FromInteger(0);
         FP rY = FP_FromInteger(0);
         PathLine* rUnk = nullptr;
-        
+
         float subDevide = 368 / 10.0f;
         for (int i = 0; i < 10; i++)
         {
@@ -564,7 +564,7 @@ void Command_HelperUpdate()
                 break;
             }
         }
-        
+
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
     }
 }
@@ -594,7 +594,7 @@ void Command_Teleport(const std::vector<std::string>& args)
                 break;
             }
         }
-        
+
         if (!found)
         {
             DEV_CONSOLE_MESSAGE("Cannot find level specified!", 6);
@@ -603,7 +603,7 @@ void Command_Teleport(const std::vector<std::string>& args)
     short path = static_cast<short>(std::stoi(args[1]));
     short cam = static_cast<short>(std::stoi(args[2]));
     gMap_5C3030.SetActiveCam_480D30(static_cast<LevelIds>(level), path, cam, CameraSwapEffects::eEffect5_1_FMV, 0, 0);
-    
+
 
     sHasTeleported = true;
 
@@ -666,7 +666,7 @@ void Command_LoadSave(const std::vector<std::string>& args)
 	{
 		DEV_CONSOLE_PRINTF("Failed to load save %s", filePath.c_str());
 	}
-	
+
 }
 
 void Command_DDV(const std::vector<std::string>& args)
@@ -690,7 +690,7 @@ void Command_DDV(const std::vector<std::string>& args)
 
 void Command_SetState(const std::vector<std::string>& args)
 {
-    if (sControlledCharacter_5C1B8C->field_4_typeId != Types::eAbe_69)
+    if (sControlledCharacter_5C1B8C->field_4_typeId != AETypes::eAbe_69)
     {
         DEV_CONSOLE_MESSAGE_C("Setting state not supported on this object (only allowed for abe)!", 6, 255, 0, 0);
         return;
@@ -893,8 +893,8 @@ public:
         BaseGameObject_ctor_4DBFA0(1, 1);
         field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
         field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-        field_4_typeId = Types::eDebugConsole_1002;
-        
+        field_4_typeId = AETypes::eDebugConsole_1002;
+
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
         mFont.ctor_433590(4096 * 2, reinterpret_cast<BYTE*>(mFontPalette), &mFontContext);
 
@@ -945,7 +945,7 @@ public:
                     {
                         DEV_CONSOLE_MESSAGE_C("Command '" + c.command + "' was expecting " + std::to_string(c.paramsCount) + " args but got " + std::to_string(commandSplit.size()), 6, 127, 0, 0);
                     }
-                    
+
                     return;
                 }
             }
@@ -1028,12 +1028,12 @@ public:
                 Input_EnableInput_4EDDD0();
             }
         }
-        
-        
+
+
 #if USE_SDL2
         static Uint8 keyStatesPrev[256];
         auto keyStates = SDL_GetKeyboardState(nullptr);
-        
+
 
         for (const auto& bind : gDebugKeyBinds)
         {
@@ -1122,7 +1122,7 @@ public:
 
             pIndex = mFont.DrawString_4337D0(ppOt, message->message.c_str(), 0, static_cast<short>(message->y), TPageAbr::eBlend_0, 1, 0, Layer::eLayer_40, message->r, message->g, message->b, pIndex, FP_FromDouble(1.0), 640, 0);
             pIndex = mFont.DrawString_4337D0(ppOt, message->message.c_str(), 1, static_cast<short>(message->y) + 1, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_40, 0, 0, 0, pIndex, FP_FromDouble(1.0), 640, 0);
-        
+
             message->time--;
 
             if (message->time <= 0 || i > 64)
@@ -1947,7 +1947,7 @@ const BYTE kTestImageCompressed[] =
 class AnimRenderTest : public BaseGameObject
 {
 public:
-  
+
     AnimRenderTest()
     {
         DisableVTableHack disableHack;
@@ -2018,7 +2018,7 @@ private:
                 mAnim[i].Init_40A030(7812, gObjList_animations_5C1A24, this, 50, 25, mAnimRes[i], 1, 0, 0);
             }
             // No 16 bit test case because there are simply no 16bit sprites at all in the game data
-           
+
             mAnim[i].field_4_flags.Clear(AnimFlags::eBit16_bBlending);
             mAnim[i].field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
@@ -2032,7 +2032,7 @@ private:
             mAnim[i].field_8_r = 127;
         }
 
-        // 4 bit o 
+        // 4 bit o
         mAnim[0].field_4_flags.Clear(AnimFlags::eBit16_bBlending);
         mAnim[0].field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
         mAnim[0].field_4_flags.Set(AnimFlags::eBit5_FlipX);
@@ -2092,7 +2092,7 @@ private:
     Poly_FT4 mPolyFT4[1];
 };
 
-void DebugHelpers_Init() 
+void DebugHelpers_Init()
 {
 #if DEVELOPER_MODE
     if (Input_IsVKPressed_4EDD40(VK_LCONTROL))
@@ -2217,7 +2217,7 @@ std::string EscapeUnknownCharacters(std::string text)
     return output.str();
 }
 
-BaseGameObject* FindObjectOfType(Types id)
+BaseGameObject* FindObjectOfType(AETypes id)
 {
     for (int baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
     {

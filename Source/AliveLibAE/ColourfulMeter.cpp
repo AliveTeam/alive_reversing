@@ -22,7 +22,7 @@ ColourfulMeter* ColourfulMeter::ctor_43CE40(Path_ColourfulMeter* pTlv, int tlvIn
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x5451EC);
 
-    field_4_typeId = Types::eColourfulMeter_59;
+    field_4_typeId = AETypes::eColourfulMeter_59;
     field_68_tlvInfo = tlvInfo;
 
     field_74_tlv_x = pTlv->field_8_top_left.field_0_x;
@@ -263,7 +263,7 @@ void ColourfulMeter::vRender_43D2B0(PrimHeader** ppOt)
         char text[12] = {};
         sprintf(text, "%01d:%02d", sTimerValue_5C1BFC / 1800u, sTimerValue_5C1BFC / 30u % 60);
         const int textWidth = field_30_font.MeasureWidth_433700(text);
-        
+
         short colourRand = 50;
         if (sDisableFontFlicker_5C9304)
         {
@@ -285,7 +285,7 @@ void ColourfulMeter::vRender_43D2B0(PrimHeader** ppOt)
             field_6C_text_x + textWidth,
             colourRand);
     }
-    
+
     pScreenManager_5BB5F4->InvalidateRect_40EC90(
         PsxToPCX(field_6C_text_x - 50),
         field_6E_text_y - 30,

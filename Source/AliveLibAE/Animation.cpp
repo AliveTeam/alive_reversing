@@ -71,7 +71,7 @@ EXPORT int CC Animation_OnFrame_Common_4561B0(void* pObjPtr, signed __int16* pDa
     {
         ypos -= FP_FromInteger(14);
     }
- 
+
     if (pObj->field_106_current_motion == eAbeStates::State_71_Knockback_455090 && pObj->field_CC_sprite_scale == FP_FromDouble(0.5))
     {
         ypos += FP_FromInteger(5);
@@ -145,7 +145,7 @@ EXPORT int CC Animation_OnFrame_Common_434130(void* pObjPtr, signed __int16* pDa
 
     FP xpos = xOff + pObj->field_B8_xpos;
     FP ypos = (pObj->field_CC_sprite_scale * (FP_FromInteger(pData[1]) + FP_FromInteger(25))) + pObj->field_BC_ypos;
-    
+
     if (Event_Get_422C00(kEventDeathReset))
     {
         pObj->field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -174,7 +174,7 @@ int CC Animation_OnFrame_Slog_4C3030(void* pObjPtr, signed __int16* pPoints)
         return 1;
     }
 
-    if ((pTarget->field_4_typeId == Types::eAbe_69 && pTarget->field_106_current_motion == eAbeStates::State_68_ToOffScreenHoist_454B80) ||
+    if ((pTarget->field_4_typeId == AETypes::eAbe_69 && pTarget->field_106_current_motion == eAbeStates::State_68_ToOffScreenHoist_454B80) ||
         pSlog->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
     {
         return 1;
@@ -212,7 +212,7 @@ int CC Animation_OnFrame_Slog_4C3030(void* pObjPtr, signed __int16* pPoints)
     }
 
     const FP bloodY = (pSlog->field_CC_sprite_scale * FP_FromInteger(pPoints[1])) + pSlog->field_BC_ypos;
-    
+
     auto pBlood = ae_new<Blood>();
     if (pBlood)
     {
@@ -460,7 +460,7 @@ void Animation::vRender_40B820(int xpos, int ypos, PrimHeader** ppOt, __int16 wi
 
     FrameInfoHeader* pFrameInfoHeader = Get_FrameHeader_40B730(-1);
     FrameHeader* pFrameHeader = (FrameHeader *)&(*field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset];
-  
+
     FP frame_width_fixed;
     FP frame_height_fixed;
     if (width_unknown)
@@ -595,7 +595,7 @@ void Animation::vRender_40B820(int xpos, int ypos, PrimHeader** ppOt, __int16 wi
             yPosFixed = yOffset_fixed + FP_FromDouble(0.499);
             polyYPos = static_cast<short>(ypos) + FP_AdjustedToInteger(yOffset_fixed, FP_FromDouble(0.499));
         }
-        
+
     }
 
     SetXY0(pPoly, polyXPos, polyYPos);
@@ -859,7 +859,7 @@ FrameInfoHeader* Animation::Get_FrameHeader_40B730(__int16 frame)
     DWORD frameOffset = pHead->mFrameOffsets[frame];
 
     FrameInfoHeader* pFrame = reinterpret_cast<FrameInfoHeader*>(*field_20_ppBlock + frameOffset);
-    
+
     // Never seen this get hit, perhaps some sort of PSX specific check as addresses have to be aligned there?
     // TODO: Remove it in the future when proven to be not required?
 #if defined(_MSC_VER) && !defined(_WIN64)
@@ -910,7 +910,7 @@ signed __int16 Animation::Init_40A030(int frameTableOffset, DynamicArray* /*anim
 {
     field_4_flags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
     field_4_flags.Set(AnimFlags::eBit21);
-    
+
     field_18_frame_table_offset = frameTableOffset;
     field_20_ppBlock = ppAnimData;
     field_1C_fn_ptr_array = nullptr;
@@ -920,7 +920,7 @@ signed __int16 Animation::Init_40A030(int frameTableOffset, DynamicArray* /*anim
     {
         return 0;
     }
-    
+
     field_94_pGameObj = pGameObj;
     AnimationHeader* pHeader = reinterpret_cast<AnimationHeader*>(&(*ppAnimData)[frameTableOffset]);
 
@@ -984,14 +984,14 @@ signed __int16 Animation::Init_40A030(int frameTableOffset, DynamicArray* /*anim
     BYTE* pAnimData = *field_20_ppBlock;
 
     const FrameHeader* pFrameHeader_1 = reinterpret_cast<const FrameHeader*>(&(*field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
-    
+
     BYTE* pClut = &pAnimData[pFrameHeader_1->field_0_clut_offset];
-  
+
     if (!Vram_alloc_4956C0(maxW, maxH, pFrameHeader_1->field_6_colour_depth, &field_84_vram_rect))
     {
         return 0;
     }
-    
+
     __int16 pal_depth = 0;
     char b256Pal = 0;
     int vram_width = 0;
@@ -1153,7 +1153,7 @@ namespace Test
         anim.field_18_frame_table_offset = 0;
 
         gPsxDisplay_5C1130.field_C_buffer_index = 0;
-      
+
         PrimHeader* ot[256] = {};
         Poly_FT4* pPoly = &anim.field_2C_ot_data[gPsxDisplay_5C1130.field_C_buffer_index];
 

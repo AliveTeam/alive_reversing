@@ -60,11 +60,11 @@ Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, DWORD tlvInfo)
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
-    field_4_typeId = Types::eSlurg_129;
+    field_4_typeId = AETypes::eSlurg_129;
 
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
-    
+
     field_12C_tlvInfo = tlvInfo;
 
     if (pTlv->field_10_slurg_data.field_4_scale == Scale_short::eHalf_1)
@@ -109,7 +109,7 @@ Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, DWORD tlvInfo)
         field_118_flags.Set(SlurgFlags::Bit1_Direction);
     }
 
-    vStackOnObjectsOfType_425840(Types::eSlurg_129);
+    vStackOnObjectsOfType_425840(AETypes::eSlurg_129);
     field_DC_bApplyShadows |= 2u;
     field_E0_pShadow = ae_new<Shadow>();
 
@@ -150,7 +150,7 @@ signed int CC Slurg::CreateFromSaveState_4C8DF0(const BYTE* pData)
 {
     auto pState = reinterpret_cast<const Slurg_State*>(pData);
     auto pTlv = static_cast<Path_Slurg*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_24_tlvInfo));
-    
+
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlurgResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("SLURG.BAN", nullptr);
@@ -212,7 +212,7 @@ void Slurg::Burst_4C8AE0()
     field_11C_state = Slurg_States::State_2_Burst;
     const AnimRecord& animRec = AnimRec(AnimId::Slurg_Burst);
     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
-    
+
     auto pBlood = ae_new<Blood>();
     if (pBlood)
     {
@@ -271,7 +271,7 @@ void Slurg::vUpdate_4C8790()
             }
         }
     }
-    
+
     switch (field_11C_state)
     {
     case Slurg_States::State_0_Moving:
@@ -333,7 +333,7 @@ void Slurg::vUpdate_4C8790()
 __int16 Slurg::vTakeDamage_4C8BF0(BaseGameObject* pFrom)
 {
     // Slurgs are tough little dudes, only Paramites can smack 'em up.
-    if (pFrom->field_4_typeId == Types::eParamite_96)
+    if (pFrom->field_4_typeId == AETypes::eParamite_96)
     {
         Burst_4C8AE0();
         return 1;
@@ -386,7 +386,7 @@ signed int Slurg::vSaveState_4C8FC0(Slurg_State* pState)
         return 0;
     }
 
-    pState->field_0_type = Types::eSlurg_129;
+    pState->field_0_type = AETypes::eSlurg_129;
     pState->field_4_xpos = field_B8_xpos;
     pState->field_8_ypos = field_BC_ypos;
     pState->field_C_velx = field_C4_velx;

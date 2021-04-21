@@ -24,19 +24,19 @@ EvilFart* EvilFart::ctor_422E30()
     ctor_408240(0);
     SetVTable(this, 0x544BE0);
 
-    field_4_typeId = Types::eEvilFart_45;
+    field_4_typeId = AETypes::eEvilFart_45;
 
     const AnimRecord& rec = AnimRec(AnimId::Fart);
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
-    
+
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
 
     field_DC_bApplyShadows &= ~1u;
-    
+
     field_CC_sprite_scale = sActiveHero_5C1B68->field_CC_sprite_scale;
-    
+
     field_D6_scale = sActiveHero_5C1B68->field_D6_scale;
     if (field_D6_scale == 1)
     {
@@ -153,7 +153,7 @@ int CC EvilFart::CreateFromSaveState_4281C0(const BYTE* pBuffer)
 
     pFart->field_20_animation.field_92_current_frame = pState->field_20_anim_cur_frame;
     pFart->field_20_animation.field_E_frame_change_counter = pState->field_22_frame_change_counter;
-    
+
     pFart->field_6_flags.Set(BaseGameObject::eDrawable_Bit4, pState->field_25_bDrawable & 1);
     pFart->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_24_bAnimRender & 1);
 
@@ -175,7 +175,7 @@ int CC EvilFart::CreateFromSaveState_4281C0(const BYTE* pBuffer)
 
 int EvilFart::vGetSaveState_4283F0(EvilFart_State* pState)
 {
-    pState->field_0_type = Types::eEvilFart_45;
+    pState->field_0_type = AETypes::eEvilFart_45;
 
     pState->field_C_xpos = field_B8_xpos;
     pState->field_10_ypos = field_BC_ypos;
@@ -193,7 +193,7 @@ int EvilFart::vGetSaveState_4283F0(EvilFart_State* pState)
     pState->field_2C.Set(EvilFart_State::eBit1_bControlled, sControlledCharacter_5C1B8C == this);
     pState->field_20_anim_cur_frame = field_20_animation.field_92_current_frame;
     pState->field_22_frame_change_counter = field_20_animation.field_E_frame_change_counter;
-    
+
     pState->field_25_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_24_bAnimRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
 
@@ -279,7 +279,7 @@ void EvilFart::vOnPossesed_423DA0()
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
     field_11C_alive_timer = 900;
-    
+
     field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
 
     field_120_level = gMap_5C3030.field_0_current_level;
@@ -309,7 +309,7 @@ __int16 EvilFart::VTakeDamage_423B70(BaseGameObject* pFrom)
         return 0;
     }
 
-    if (pFrom->field_4_typeId == Types::eElectricWall_39)
+    if (pFrom->field_4_typeId == AETypes::eElectricWall_39)
     {
         field_11C_alive_timer = 0;
     }
@@ -399,7 +399,7 @@ void EvilFart::vUpdate_423100()
                 {
                     directedVelY = -directedVelY;
                 }
-                
+
                 FP directedVelX = field_C4_velx;
                 if (directedVelX < FP_FromInteger(0))
                 {
@@ -434,7 +434,7 @@ void EvilFart::vUpdate_423100()
                     static_cast<BYTE>(field_D0_r),
                     static_cast<BYTE>(field_D2_g),
                     0x20u);
-                
+
 
                 if (field_130_sound_channels)
                 {
@@ -457,10 +457,10 @@ void EvilFart::vUpdate_423100()
                 Mudokon_SFX_457EC0(MudSounds::eFart_7, 50, Math_RandomRange_496AB0(-1500, -2000), nullptr);
             }
         }
-        
+
         InputControlFart_423BB0();
         SetActiveCameraDelayedFromDir_408C40();
-        
+
         FP x2Offset = {};
         if (field_C4_velx < FP_FromInteger(0))
         {
@@ -539,7 +539,7 @@ void EvilFart::vUpdate_423100()
                 }
             }
         }
-        
+
         CalculateFartColour();
         return;
     }

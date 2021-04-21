@@ -32,7 +32,7 @@ MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, int tlvInfo)
     field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
 
     SetVTable(this, 0x546270);
-    field_4_typeId = Types::eTimedMine_or_MovingBomb_10;
+    field_4_typeId = AETypes::eTimedMine_or_MovingBomb_10;
 
     const AnimRecord& rec = AnimRec(AnimId::Moving_Bomb);
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -85,7 +85,7 @@ MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, int tlvInfo)
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalGib);
     Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kAbeblowResID);
     Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kSlogBlowResID);
-    
+
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_5C1128->Raycast_417A60(
@@ -241,9 +241,9 @@ __int16 MovingBomb::vTakeDamage_470990(BaseGameObject* pFrom)
 
     switch (pFrom->field_4_typeId)
     {
-    case Types::eAbilityRing_104:
-    case Types::eExplosion_109:
-    case Types::eShrykull_121:
+    case AETypes::eAbilityRing_104:
+    case AETypes::eExplosion_109:
+    case AETypes::eShrykull_121:
     {
         field_10C_health = FP_FromInteger(0);
         auto pExplosion = ae_new<Explosion>();
@@ -265,7 +265,7 @@ __int16 MovingBomb::vTakeDamage_470990(BaseGameObject* pFrom)
     }
         return 0;
 
-    case Types::eElectrocute_150:
+    case AETypes::eElectrocute_150:
         field_118_state = States::eKillMovingBomb_7;
         return 0;
 
@@ -403,9 +403,9 @@ void MovingBomb::vUpdate_4701E0()
         {
             field_C4_velx += (field_CC_sprite_scale * FP_FromDouble(0.5));
         }
-        
+
         FollowLine_470950();
-        
+
         field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
             FP_GetExponent(field_B8_xpos),
             FP_GetExponent(field_BC_ypos),
@@ -445,7 +445,7 @@ void MovingBomb::vUpdate_4701E0()
         {
             field_C4_velx += (field_CC_sprite_scale * FP_FromDouble(0.5));
         }
-        
+
         FollowLine_470950();
 
         field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
@@ -465,7 +465,7 @@ void MovingBomb::vUpdate_4701E0()
         if (field_120_timer <= static_cast<int>(sGnFrame_5C1B84))
         {
             SFX_Play_46FA90(SoundEffect::GreenTick_2, 100, field_CC_sprite_scale);
-            
+
             field_10C_health = FP_FromInteger(0);
 
             auto pExplosion = ae_new<Explosion>();

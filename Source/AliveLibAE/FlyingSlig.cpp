@@ -128,7 +128,7 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
         field_C_objectId = tlvInfo;
     }
 
-    field_4_typeId = Types::eFlyingSlig_54;
+    field_4_typeId = AETypes::eFlyingSlig_54;
 
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kFlySligResID, TRUE, FALSE));
     field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSligBlowResID, TRUE, FALSE));
@@ -465,7 +465,7 @@ int FlyingSlig::vGetSaveState_43B1E0(FlyingSlig_State* pState)
         return 0;
     }
 
-    pState->field_0_type = Types::eFlyingSlig_54;
+    pState->field_0_type = AETypes::eFlyingSlig_54;
 
     pState->field_4_xpos = field_B8_xpos;
     pState->field_8_ypos = field_BC_ypos;
@@ -490,7 +490,7 @@ int FlyingSlig::vGetSaveState_43B1E0(FlyingSlig_State* pState)
     pState->field_2C_current_health = field_10C_health;
     pState->field_30_current_state = field_106_current_motion;
     pState->field_32_delayed_state = field_108_next_motion;
-    
+
     pState->field_34_lastLineYPos = FP_GetExponent(field_F8_LastLineYPos);
 
     pState->field_36_line_idx = -1; // OG bug - actually becomes 0 due to impossible case removed below ?
@@ -586,7 +586,7 @@ void FlyingSlig::dtor_434990()
             gMap_5C3030.SetActiveCam_480D30(
                 field_2A0_abe_level,
                 field_2A2_abe_path,
-                field_2A4_abe_camera, 
+                field_2A4_abe_camera,
                 CameraSwapEffects::eEffect0_InstantChange,
                 0,
                 0);
@@ -872,7 +872,7 @@ void FlyingSlig::Movement_4396E0()
                 field_C8_vely = -field_C8_vely;
             }
         }
-        
+
         if (field_C8_vely > FP_FromInteger(0))
         {
             if (CollisionDown_43A9E0(field_C8_vely))
@@ -1016,7 +1016,7 @@ __int16 FlyingSlig::vTakeDamage_434C90(BaseGameObject* pFrom)
 {
     switch (pFrom->field_4_typeId)
     {
-    case Types::eBullet_15:
+    case AETypes::eBullet_15:
     {
         if (static_cast<Bullet*>(pFrom)->field_20_type == BulletType::ZBullet_3)
         {
@@ -1057,13 +1057,13 @@ __int16 FlyingSlig::vTakeDamage_434C90(BaseGameObject* pFrom)
         }
         // Not in Z-Cover, fall through and be shot
     }
-    case Types::eGrinder_30:
-    case Types::eRockSpawner_48:
-    case Types::eAbe_69:
-    case Types::eMeatSaw_86:
-    case Types::eMineCar_89:
-    case Types::eNeverSet_107:
-    case Types::eSlog_126:
+    case AETypes::eGrinder_30:
+    case AETypes::eRockSpawner_48:
+    case AETypes::eAbe_69:
+    case AETypes::eMeatSaw_86:
+    case AETypes::eMineCar_89:
+    case AETypes::eNeverSet_107:
+    case AETypes::eSlog_126:
     {
         if (BrainIs(&FlyingSlig::AI_Death_1_4364E0))
         {
@@ -1079,19 +1079,19 @@ __int16 FlyingSlig::vTakeDamage_434C90(BaseGameObject* pFrom)
         return 1;
     }
 
-    case Types::eElectricWall_39:
+    case AETypes::eElectricWall_39:
         Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHelp_10, 0, field_15C_voice_pitch_min, this);
         break;
 
-    case Types::eBaseBomb_46:
-    case Types::eExplosion_109:
+    case AETypes::eBaseBomb_46:
+    case AETypes::eExplosion_109:
         if (!BrainIs(&FlyingSlig::AI_Death_1_4364E0))
         {
             BlowUp_436510();
         }
         break;
 
-    case Types::eElectrocute_150:
+    case AETypes::eElectrocute_150:
         if (!BrainIs(&FlyingSlig::AI_Death_1_4364E0))
         {
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
@@ -1170,7 +1170,7 @@ void FlyingSlig::AI_ChasingEnemy_4_435BC0()
         sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) ||
         (!IsWallBetween_43A550(this, sControlledCharacter_5C1B8C) &&
         (sControlledCharacter_5C1B8C != sActiveHero_5C1B68 || sActiveHero_5C1B68->field_106_current_motion != eAbeStates::State_65_LedgeAscend_4548E0) &&
-        sControlledCharacter_5C1B8C->field_4_typeId != Types::eMineCar_89))
+        sControlledCharacter_5C1B8C->field_4_typeId != AETypes::eMineCar_89))
     {
         PatrolDelay_435860();
         return;
@@ -1346,7 +1346,7 @@ void FlyingSlig::AI_DePossession_14_436180()
             New_TintChant_Particle_426BE0(
                 xOff + field_B8_xpos,
                 yOff + field_BC_ypos,
-                field_CC_sprite_scale, 
+                field_CC_sprite_scale,
                 Layer::eLayer_0);
         }
     }
@@ -2104,7 +2104,7 @@ __int16 FlyingSlig::CanChase_436850(BaseAliveGameObject* pObj)
 {
     if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) ||
         !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) ||
-        Event_Get_422C00(kEventResetting) || 
+        Event_Get_422C00(kEventResetting) ||
         IsAbeEnteringDoor_43B030(pObj) ||
         sActiveHero_5C1B68->field_CC_sprite_scale != field_CC_sprite_scale ||
         !IsWallBetween_43A550(this, pObj))
@@ -2478,7 +2478,7 @@ void FlyingSlig::ToPanicMoving_435A50()
 
 __int16 FlyingSlig::IsTurning_436AE0()
 {
-    return 
+    return
         field_106_current_motion == eFlyingSligMotions::M_IdleToTurn_2_4388B0 ||
         field_106_current_motion == eFlyingSligMotions::M_QuickTurn_15_4387F0 ||
         field_106_current_motion == eFlyingSligMotions::M_DownMovementToTurn_4_438CC0 ||
@@ -2543,7 +2543,7 @@ void FlyingSlig::PatrolDelay_435860()
 
 __int16 FlyingSlig::CanThrowGrenade_43A490()
 {
-    return 
+    return
         field_106_current_motion == eFlyingSligMotions::M_Idle_0_4385E0 ||
         field_106_current_motion == eFlyingSligMotions::M_HorizontalMovement_1_4386A0 ||
         field_106_current_motion == eFlyingSligMotions::M_DownMovement_3_438AA0 ||
@@ -2593,12 +2593,12 @@ void FlyingSlig::HandlePlayerControls_439340()
     field_184_xSpeed = FP_FromInteger(0);
     field_188_ySpeed = FP_FromInteger(0);
 
-    if (sInputObject_5BD4E0.isHeld(InputCommands::eThrowItem))
+    if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eThrowItem))
     {
         field_17E_flags.Set(Flags_17E::eBit5_Throw);
     }
 
-    if (sInputObject_5BD4E0.isHeld(InputCommands::eDoAction))
+    if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eDoAction))
     {
         field_17E_flags.Set(Flags_17E::eBit7_DoAction);
     }
@@ -2649,15 +2649,15 @@ void FlyingSlig::HandlePlayerControls_439340()
         }
     }
 
-    if (sInputObject_5BD4E0.isPressed(InputCommands::eUp))
+    if (sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eUp))
     {
-        if (sInputObject_5BD4E0.isPressed(InputCommands::eLeft))
+        if (sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eLeft))
         {
             field_184_xSpeed = (-field_2B8_max_speed_up * FP_FromDouble(0.707));
             field_188_ySpeed = (-field_2B8_max_speed_up * FP_FromDouble(0.707));
             return;
         }
-        if (sInputObject_5BD4E0.isPressed(InputCommands::eRight))
+        if (sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eRight))
         {
             field_184_xSpeed = (field_2B8_max_speed_up * FP_FromDouble(0.707));
             field_188_ySpeed = (-field_2B8_max_speed_up * FP_FromDouble(0.707));
@@ -2666,14 +2666,14 @@ void FlyingSlig::HandlePlayerControls_439340()
         field_184_xSpeed = FP_FromInteger(0);
         field_188_ySpeed = -field_2B8_max_speed_up;
     }
-    else if (sInputObject_5BD4E0.isPressed(InputCommands::eDown))
+    else if (sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eDown))
     {
-        if (sInputObject_5BD4E0.isPressed(InputCommands::eLeft))
+        if (sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eLeft))
         {
             field_184_xSpeed = (-field_2B8_max_speed_up * FP_FromDouble(0.707));
             field_188_ySpeed = (field_2B8_max_speed_up * FP_FromDouble(0.707));
         }
-        else if (sInputObject_5BD4E0.isPressed(InputCommands::eRight))
+        else if (sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eRight))
         {
             field_184_xSpeed = (field_2B8_max_speed_up * FP_FromDouble(0.707));
             field_188_ySpeed = (field_2B8_max_speed_up * FP_FromDouble(0.707));
@@ -2684,12 +2684,12 @@ void FlyingSlig::HandlePlayerControls_439340()
             field_188_ySpeed = field_2B8_max_speed_up;
         }
     }
-    else if (sInputObject_5BD4E0.isPressed(InputCommands::eLeft))
+    else if (sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eLeft))
     {
         field_188_ySpeed = FP_FromInteger(0);
         field_184_xSpeed = -field_2B8_max_speed_up;
     }
-    else if (sInputObject_5BD4E0.isPressed(InputCommands::eRight))
+    else if (sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eRight))
     {
         field_188_ySpeed = FP_FromInteger(0);
         field_184_xSpeed = field_2B8_max_speed_up;
@@ -2769,7 +2769,7 @@ void FlyingSlig::vPossessed_434FB0()
     field_2A0_abe_level = gMap_5C3030.field_0_current_level;
     field_2A2_abe_path = gMap_5C3030.field_2_current_path;
     field_2A4_abe_camera = gMap_5C3030.field_4_current_camera;
-    
+
     field_2A8_max_x_speed = FP_FromDouble(5.5) * field_CC_sprite_scale;
     field_2AC_up_vel = FP_FromDouble(-5.5) * field_CC_sprite_scale;
     field_2B0_down_vel = FP_FromDouble(5.5) * field_CC_sprite_scale;
@@ -3127,7 +3127,7 @@ __int16 FlyingSlig::CollisionUp_43A640(FP velY)
         &hitX,
         &hitY,
         (field_D6_scale != 0 ? 0x20000 : 0x40000) | (field_D6_scale != 0 ? 1 : 0x10) | (field_D6_scale != 0 ? 8 : 0x80));
-    
+
     if (!bCollision)
     {
         bCollision = sCollisions_DArray_5C1128->Raycast_417A60(
@@ -3360,7 +3360,7 @@ __int16 FlyingSlig::TryPullLever_439DB0()
     {
         kGridSizeDirected = ScaleToGridSize_4498B0(field_CC_sprite_scale);
     }
-    
+
     const FP k15Scaled = FP_FromInteger(15) * field_CC_sprite_scale;
     const FP k2ScaledDirected = (kGridSizeDirected * FP_FromInteger(2));
 
@@ -3419,7 +3419,7 @@ __int16 FlyingSlig::TryPullLever_439DB0()
             break;
         }
 
-        if (pObj->field_4_typeId == Types::eLever_139)
+        if (pObj->field_4_typeId == AETypes::eLever_139)
         {
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
 

@@ -18,7 +18,7 @@ Explosion* Explosion::ctor_4A1200(FP xpos, FP ypos, FP scale, __int16 bSmall)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x546CB8);
-    field_4_typeId = Types::eExplosion_109;
+    field_4_typeId = AETypes::eExplosion_109;
 
     field_F4_bSmall = bSmall;
     if (field_F4_bSmall)

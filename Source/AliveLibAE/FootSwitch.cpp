@@ -59,11 +59,11 @@ FootSwitch* FootSwitch::ctor_4DE090(Path_FootSwitch* pTlv, int tlvInfo)
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x547E38);
 
-    field_4_typeId = Types::eFootSwitch_56;
+    field_4_typeId = AETypes::eFootSwitch_56;
     field_100_obj_id = -1;
 
     const int idx = static_cast<int>(gMap_5C3030.field_0_current_level);
-    
+
     const AnimRecord& rec = AnimRec(sFootSwitchData_547D60[idx][0]);
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
@@ -159,7 +159,7 @@ void FootSwitch::vUpdate_4DE270()
 
             const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<int>(gMap_5C3030.field_0_current_level)][1]);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
-            
+
             auto pParticleBurst = ae_new<ParticleBurst>();
             if (pParticleBurst)
             {

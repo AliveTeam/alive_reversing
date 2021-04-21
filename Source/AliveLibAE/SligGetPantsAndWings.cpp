@@ -13,7 +13,7 @@ SligGetPantsAndWings* SligGetPantsAndWings::ctor_465BF0(Path_TLV* pTlv, int tlvI
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x545ED8);
 
-    field_4_typeId = Types::eSligGetPantsOrWings_80;
+    field_4_typeId = AETypes::eSligGetPantsOrWings_80;
     field_F8_tlvInfo = tlvInfo;
 
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_448);

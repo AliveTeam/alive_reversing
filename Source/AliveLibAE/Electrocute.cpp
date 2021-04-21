@@ -18,7 +18,7 @@ public:
 
         SetVTable(this, 0x544BC4); // vTbl_Class_544BC4
 
-        field_4_typeId = Types::ePalOverwriter_44;
+        field_4_typeId = AETypes::ePalOverwriter_44;
 
         gObjList_drawables_5C1124->Push_Back(this);
 
@@ -162,7 +162,7 @@ Electrocute* Electrocute::ctor_4E5E80(BaseAliveGameObject* pTargetObj, __int16 b
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
 
     SetVTable(this, 0x548100); // vTbl_Class_548100
-    field_4_typeId = Types::eElectrocute_150;
+    field_4_typeId = AETypes::eElectrocute_150;
 
     field_20_target_obj_id = pTargetObj->field_8_object_id;
     field_44_state = States::eSetNewColour_0;
@@ -173,10 +173,10 @@ Electrocute* Electrocute::ctor_4E5E80(BaseAliveGameObject* pTargetObj, __int16 b
 
     switch (pTargetObj->field_4_typeId)
     {
-    case Types::eFlyingSlig_54:
-    case Types::eGlukkon_67:
-    case Types::eAbe_69:
-    case Types::eSlig_125:
+    case AETypes::eFlyingSlig_54:
+    case AETypes::eGlukkon_67:
+    case AETypes::eAbe_69:
+    case AETypes::eSlig_125:
         field_40_pPalData = reinterpret_cast<WORD*>(ae_malloc_non_zero_4954F0(sizeof(WORD) * pTargetObj->field_20_animation.field_90_pal_depth));
         Pal_Copy_483560(
             pTargetObj->field_20_animation.field_8C_pal_vram_xy,
@@ -253,7 +253,7 @@ void Electrocute::vUpdate_4E6240()
         switch (field_44_state)
         {
         case States::eSetNewColour_0:
-            if (pTargetObj->field_4_typeId == Types::eAbe_69)
+            if (pTargetObj->field_4_typeId == AETypes::eAbe_69)
             {
                 field_24_r = 127;
                 field_26_g = 127;
@@ -265,7 +265,7 @@ void Electrocute::vUpdate_4E6240()
                 field_26_g = pTargetObj->field_D2_g;
                 field_28_b = pTargetObj->field_D4_b;
             }
-            
+
             pTargetObj->field_114_flags.Set(Flags_114::e114_Bit11_Electrocuting);
 
             pTargetObj->field_D4_b = 255;

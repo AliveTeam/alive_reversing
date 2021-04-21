@@ -49,7 +49,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Fleech, 0x30);
 
 struct Fleech_State
 {
-    Types field_0_type;
+    AETypes field_0_type;
     __int16 field_2;
     int field_4_obj_id;
     FP field_8_xpos;

@@ -56,7 +56,7 @@ Switch* Switch::ctor_4D5860(Path_Switch* pTlv, DWORD tlvInfo)
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x547A5C);
 
-    field_4_typeId = Types::eLever_139;
+    field_4_typeId = AETypes::eLever_139;
     const AnimRecord& rec = AnimRec(AnimId::Switch_Idle);
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
@@ -334,6 +334,6 @@ __int16 Switch::vPull_4D6050(__int16 bLeftDirection)
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         field_100_flags.Clear(Flags_100::eBit1_switch_anim_left_direction);
     }
-    
+
     return 1;
 }

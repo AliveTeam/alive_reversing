@@ -58,7 +58,7 @@ Rope* Rope::ctor_4A0A70(unsigned __int16 left, __int16 top, unsigned __int16 bot
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x546C70); // vTbl_LiftRope_00546C70
 
-    field_4_typeId = Types::eLiftRope_108;
+    field_4_typeId = AETypes::eLiftRope_108;
 
     const AnimRecord& rec = AnimRec(AnimId::Lift_Rope);
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);

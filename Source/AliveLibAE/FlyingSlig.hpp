@@ -49,7 +49,7 @@ enum class SligSpeak : signed char;
 
 struct FlyingSlig_State
 {
-    Types field_0_type;
+    AETypes field_0_type;
     __int16 field_2;
     FP field_4_xpos;
     FP field_8_ypos;
@@ -148,7 +148,7 @@ public:
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
 
     // TODO: Remaining virtuals
-    
+
     EXPORT static int CC CreateFromSaveState_437E40(const BYTE* pBuffer);
 
 private:

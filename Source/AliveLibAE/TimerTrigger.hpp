@@ -25,7 +25,7 @@ enum class TimerTriggerStates : __int16
 
 struct TimerTrigger_State
 {
-    Types field_0_type;
+    AETypes field_0_type;
     int field_4_tlvInfo;
     int field_8_delay_timer_base;
     TimerTriggerStates field_C_state;

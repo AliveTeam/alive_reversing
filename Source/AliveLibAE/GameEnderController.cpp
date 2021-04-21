@@ -27,7 +27,7 @@ EXPORT void CC CreateGameEnderController_43B7A0()
             break;
         }
 
-        if (pObj->field_4_typeId == Types::eGameEnderController_57)
+        if (pObj->field_4_typeId == AETypes::eGameEnderController_57)
         {
             return;
         }
@@ -60,7 +60,7 @@ GameEnderController* GameEnderController::ctor_43B840()
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x545198);
-    field_4_typeId = Types::eGameEnderController_57;
+    field_4_typeId = AETypes::eGameEnderController_57;
     field_24_state = GameEnderController_States::eInit_0;
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID);
     return this;
@@ -114,7 +114,7 @@ void GameEnderController::vScreenChanged_43BC80()
 
 int GameEnderController::vGetSaveState_43BCD0(GameEnderController_State* pState)
 {
-    pState->field_0_type = Types::eGameEnderController_57;
+    pState->field_0_type = AETypes::eGameEnderController_57;
     pState->field_4_obj_id = field_C_objectId;
     pState->field_8_timer = field_20_timer - sGnFrame_5C1B84;
     pState->field_C_state = field_24_state;
@@ -202,7 +202,7 @@ void GameEnderController::vUpdate_43B920()
     break;
 
     case GameEnderController_States::eBadOrBlackEnding_3:
-        if (sInputObject_5BD4E0.isHeld(InputCommands::eUnPause_OrConfirm) || sInputObject_5BD4E0.isHeld(InputCommands::eBack))
+        if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eUnPause_OrConfirm) || sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eBack))
         {
             gMap_5C3030.SetActiveCam_480D30(LevelIds::eFeeCoDepot_5, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             field_24_state = GameEnderController_States::eFinish_2;
@@ -210,7 +210,7 @@ void GameEnderController::vUpdate_43B920()
         break;
 
     case GameEnderController_States::eGoodEnding_4:
-        if (sInputObject_5BD4E0.isHeld(InputCommands::eUnPause_OrConfirm) || sInputObject_5BD4E0.isHeld(InputCommands::eBack))
+        if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eUnPause_OrConfirm) || sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eBack))
         {
             gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             field_24_state = GameEnderController_States::eFinish_2;
@@ -218,7 +218,7 @@ void GameEnderController::vUpdate_43B920()
         break;
 
     case GameEnderController_States::eAngelicEnding_5:
-        if (sInputObject_5BD4E0.isHeld(InputCommands::eUnPause_OrConfirm) || sInputObject_5BD4E0.isHeld(InputCommands::eBack))
+        if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eUnPause_OrConfirm) || sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eBack))
         {
             gMap_5C3030.SetActiveCam_480D30(LevelIds::eBrewery_Ender_10, 1, 20, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             field_24_state = GameEnderController_States::eAngelicEndingCredits_6;
@@ -226,7 +226,7 @@ void GameEnderController::vUpdate_43B920()
         break;
 
     case GameEnderController_States::eAngelicEndingCredits_6:
-        if (sInputObject_5BD4E0.isHeld(InputCommands::eUnPause_OrConfirm) || sInputObject_5BD4E0.isHeld(InputCommands::eBack))
+        if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eUnPause_OrConfirm) || sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eBack))
         {
             gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 2, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             gMap_5C3030.field_CE_free_all_anim_and_palts = TRUE;

@@ -20,7 +20,7 @@ SlapLockWhirlWind* SlapLockWhirlWind::ctor_43D7E0(__int16 doorNumber, __int16 sw
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x545208);
-    field_4_typeId = Types::eSlapLock_OrbWhirlWind_60;
+    field_4_typeId = AETypes::eSlapLock_OrbWhirlWind_60;
 
     field_20_xpos = xpos;
     field_24_ypos = ypos;
@@ -114,7 +114,7 @@ SlapLockWhirlWind* SlapLockWhirlWind::vdtor_43DA40(signed int flags)
 
 signed int SlapLockWhirlWind::vGetSaveState_43DC50(SlapLockWhirlWind_State* pSaveState)
 {
-    pSaveState->field_0_type = Types::eSlapLock_OrbWhirlWind_60;
+    pSaveState->field_0_type = AETypes::eSlapLock_OrbWhirlWind_60;
     pSaveState->field_2_switch_id = field_44_switch_id;
     return sizeof(SlapLockWhirlWind_State);
 }

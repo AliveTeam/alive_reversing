@@ -342,7 +342,7 @@ PauseMenu::PauseMenuPage sPM_Page_Status_5465F8 =
     0u
 };
 
-ALIVE_ARY(1, 0x55DE40, PauseMenuPageEntry*, 6, sControlActionsPages_55DE40, 
+ALIVE_ARY(1, 0x55DE40, PauseMenuPageEntry*, 6, sControlActionsPages_55DE40,
 {
     PauseMenu__PageEntryList_ControlActions_55d820,
     PauseMenu__PageEntryList_GameSpeak_55d930,
@@ -382,7 +382,7 @@ void DumpMenus()
     {
         std::stringstream menuAddr;
         menuAddr << std::hex << a.address;
-        
+
         int count = 0;
         PauseMenuPageEntry* c = reinterpret_cast<PauseMenuPageEntry*>(a.address);
 
@@ -391,9 +391,9 @@ void DumpMenus()
             count++;
             c++;
         }
-        
+
         output << "PauseMenuPageEntry PauseMenu__PageEntryList_" + a.name + "_" + menuAddr.str() + "[" + std::to_string(count + 1) + "] =\n{\n";
-        
+
         PauseMenuPageEntry* e = reinterpret_cast<PauseMenuPageEntry*>(a.address);
 
         while (e->field_8_text)
@@ -478,7 +478,7 @@ PauseMenu * PauseMenu::ctor_48FB80()
     sQuicksave_SaveNextFrame_5CA4D8 = 0;
     sQuicksave_LoadNextFrame_5CA4D9 = 0;
 
-    field_4_typeId = Types::ePauseMenu_95;
+    field_4_typeId = AETypes::ePauseMenu_95;
     field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
     field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     word12C_flags &= ~0xE;
@@ -496,12 +496,12 @@ PauseMenu * PauseMenu::ctor_48FB80()
     field_140_unused = 0;
 
     field_F4_font.ctor_433590(256, pal_554474, &sFont1Context_5BC5C8);
-    
+
     Init_491760();
     sub_4A2BC0();
-    
+
     sDisableFontFlicker_5C9304 = 0;
-    
+
     return this;
 }
 
@@ -556,14 +556,14 @@ void PauseMenu::Render_490BD0(PrimHeader** ot)
 
     // Render the page
     (this->*field_144_active_menu.field_4_fn_render)(ot, &field_144_active_menu);
-    
+
     // Draw a full screen polygon that "dims" out the screen while paused
     Prim_SetTPage* pTPage = &field_1F0_primitives[gPsxDisplay_5C1130.field_C_buffer_index];
     Poly_F4* pPolys = &field_210_polygons[gPsxDisplay_5C1130.field_C_buffer_index];
     PolyF4_Init_4F8830(pPolys);
     Poly_Set_SemiTrans_4F8A60(&pPolys->mBase.header, TRUE);
     Poly_Set_Blending_4F8A20(&pPolys->mBase.header, FALSE);
-    SetRGB0(pPolys, 
+    SetRGB0(pPolys,
         field_144_active_menu.field_E_background_r,
         field_144_active_menu.field_F_background_g,
         field_144_active_menu.field_10_background_b);
@@ -668,7 +668,7 @@ public:
     void Update(PauseMenu* pm)
     {
         auto input = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
-        if (input & InputCommands::eDown)
+        if (input & InputCommandsEnums::InputCommands::eDown)
         {
             if (++index >= static_cast<int>(entries->size()))
             {
@@ -678,7 +678,7 @@ public:
 
             CompileEntries();
         }
-        else if (input & InputCommands::eUp)
+        else if (input & InputCommandsEnums::InputCommands::eUp)
         {
             if (--index < 0)
             {
@@ -688,12 +688,12 @@ public:
 
             CompileEntries();
         }
-        else if (input & InputCommands::eBack)
+        else if (input & InputCommandsEnums::InputCommands::eBack)
         {
             SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
             GoBack(pm);
         }
-        else if (input & InputCommands::eUnPause_OrConfirm)
+        else if (input & InputCommandsEnums::InputCommands::eUnPause_OrConfirm)
         {
             (*entries)[index].callback(this);
             SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
@@ -786,7 +786,7 @@ void DestroyAliveObjects()
             continue;
         }
 
-        if (pObj->field_4_typeId != Types::eAbe_69)
+        if (pObj->field_4_typeId != AETypes::eAbe_69)
         {
             pObj->field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
@@ -805,7 +805,7 @@ void DestroyAllObjects()
             continue;
         }
 
-        if (pObj->field_4_typeId != Types::eAbe_69)
+        if (pObj->field_4_typeId != AETypes::eAbe_69)
         {
             pObj->field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
@@ -970,7 +970,7 @@ void PauseMenu::RestartPath()
     Quicksave_SaveSwitchResetterStates_4C9870();
 
     sSwitchStates_5C1A28 = sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states;
-    
+
     Abe::CreateFromSaveState_44D4F0(sActiveQuicksaveData_BAF7F8.field_284_restart_path_abe_state);
     Quicksave_ReadWorldInfo_4C9490(&sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info);
 
@@ -1008,7 +1008,7 @@ ALIVE_ARY(1, 0x55E398, char, 2, sArrowStr_55E398, { kArrowChar, 0 });
 
 void PauseMenu::Page_Main_Update_4903E0()
 {
-    if (sInputObject_5BD4E0.isHeld(InputCommands::eDown))
+    if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eDown))
     {
         if (++field_134_index_main > MainPages::ePage_Quit_7)
         {
@@ -1017,7 +1017,7 @@ void PauseMenu::Page_Main_Update_4903E0()
         SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
     }
 
-    if (sInputObject_5BD4E0.isHeld(InputCommands::eUp))
+    if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eUp))
     {
         if (--field_134_index_main < MainPages::ePage_Continue_0)
         {
@@ -1028,13 +1028,13 @@ void PauseMenu::Page_Main_Update_4903E0()
 
     field_144_active_menu.field_C_selected_index = field_134_index_main;
 
-    if (sInputObject_5BD4E0.isHeld(InputCommands::eBack))
+    if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eBack))
     {
         word12C_flags &= ~1u;
         SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
         GetSoundAPI().SND_Restart();
     }
-    else if (sInputObject_5BD4E0.isHeld(InputCommands::eUnPause_OrConfirm))
+    else if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eUnPause_OrConfirm))
     {
         switch (field_134_index_main)
         {
@@ -1121,7 +1121,7 @@ void PauseMenu::Page_Main_Update_4903E0()
 
 void PauseMenu::Page_ControlsActions_Update_48FA60()
 {
-    if (sInputObject_5BD4E0.isHeld(InputCommands::eBack))
+    if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eBack))
     {
         field_136_unused = 0;
         field_144_active_menu = sPM_Page_Main_5465B0;
@@ -1148,7 +1148,7 @@ void PauseMenu::Page_ControlsActions_Update_48FA60()
 
 void PauseMenu::Page_ReallyQuit_Update_490930()
 {
-    if (sInputObject_5BD4E0.isHeld(InputCommands::eBack))
+    if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eBack))
     {
         field_136_unused = 0;
         field_144_active_menu = sPM_Page_Main_5465B0;
@@ -1207,14 +1207,14 @@ void PauseMenu::Page_Save_Update_491210()
     }
     else if (field_13C_save_state == SaveState::SaveConfirmOverwrite_8)
     {
-        if (sInputObject_5BD4E0.isHeld(InputCommands::eUnPause_OrConfirm))
+        if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eUnPause_OrConfirm))
         {
             // Enter - do the save and don't return to the confirm overwrite
             SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
             field_13C_save_state = SaveState::DoSave_4;
             bWriteSaveFile_5C937C = true;
         }
-        else if (sInputObject_5BD4E0.isHeld(InputCommands::eBack))
+        else if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eBack))
         {
             // Escape - cancel save
             SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
@@ -1368,7 +1368,7 @@ void PauseMenu::Page_Load_Update_490D50()
     const DWORD inputHeld = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
 
     // Up one save
-    if (inputHeld & InputCommands::eUp)
+    if (inputHeld & InputCommandsEnums::InputCommands::eUp)
     {
         // Don't underflow
         if (sSavedGameToLoadIdx_BB43FC > 0)
@@ -1380,7 +1380,7 @@ void PauseMenu::Page_Load_Update_490D50()
     }
 
     // Down one save
-    if (inputHeld & InputCommands::eDown)
+    if (inputHeld & InputCommandsEnums::InputCommands::eDown)
     {
         // Don't overflow
         if (sSavedGameToLoadIdx_BB43FC < sTotalSaveFilesCount_BB43E0 - 1)
@@ -1420,7 +1420,7 @@ void PauseMenu::Page_Load_Update_490D50()
     }
 
     // Load save (enter)
-    if (inputHeld & InputCommands::eUnPause_OrConfirm)
+    if (inputHeld & InputCommandsEnums::InputCommands::eUnPause_OrConfirm)
     {
         field_136_unused = 0;
         memcpy(&field_144_active_menu, &sPM_Page_Main_5465B0, sizeof(field_144_active_menu));
@@ -1443,7 +1443,7 @@ void PauseMenu::Page_Load_Update_490D50()
         }
     }
     // Go back (esc)
-    else if (inputHeld & InputCommands::eBack)
+    else if (inputHeld & InputCommandsEnums::InputCommands::eBack)
     {
         field_136_unused = 0;
         memcpy(&field_144_active_menu, &sPM_Page_Main_5465B0, sizeof(field_144_active_menu));
@@ -1509,7 +1509,7 @@ void PauseMenu::Update_48FD80()
 {
     Abe* pHero = sActiveHero_5C1B68;
     BaseAliveGameObject* pControlledChar = nullptr;
-    
+
     if (sActiveHero_5C1B68->field_10C_health <= FP_FromInteger(0) || sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
     {
         pControlledChar = sControlledCharacter_5C1B8C;
@@ -1532,7 +1532,7 @@ void PauseMenu::Update_48FD80()
                 && heroState != eAbeStates::jState_81_WellBegin_45C7F0
                 && heroState != eAbeStates::State_82_InsideWellExpress_45CC80
                 && heroState != eAbeStates::State_83_WellExpressShotOut_45CF70
-                && (sControlledCharacter_5C1B8C->field_4_typeId != Types::eEvilFart_45 || LOWORD(static_cast<Abe*>(sControlledCharacter_5C1B8C)->field_124_timer) != 2) // TODO: Cast seems wrong, missing intermediate base class??
+                && (sControlledCharacter_5C1B8C->field_4_typeId != AETypes::eEvilFart_45 || LOWORD(static_cast<Abe*>(sControlledCharacter_5C1B8C)->field_124_timer) != 2) // TODO: Cast seems wrong, missing intermediate base class??
                 && sActiveHero_5C1B68->field_1A8_portal_id == -1)
             {
                 if (sQuicksave_SaveNextFrame_5CA4D8)
@@ -1561,7 +1561,7 @@ void PauseMenu::Update_48FD80()
         }
     }
 
-    if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & InputCommands::ePause)
+    if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & InputCommandsEnums::InputCommands::ePause)
     {
         if (pHero->field_10C_health > FP_FromInteger(0)
             && !(pHero->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
@@ -1580,7 +1580,7 @@ void PauseMenu::Update_48FD80()
                 && heroState != eAbeStates::jState_81_WellBegin_45C7F0
                 && heroState != eAbeStates::State_82_InsideWellExpress_45CC80
                 && heroState != eAbeStates::State_83_WellExpressShotOut_45CF70
-                && (pControlledChar->field_4_typeId != Types::eEvilFart_45 || LOWORD(static_cast<Abe*>(pControlledChar)->field_124_timer) != 2) // TODO: Why LOWORD only ?? TODO: Cast seems wrong, missing intermediate base class??
+                && (pControlledChar->field_4_typeId != AETypes::eEvilFart_45 || LOWORD(static_cast<Abe*>(pControlledChar)->field_124_timer) != 2) // TODO: Why LOWORD only ?? TODO: Cast seems wrong, missing intermediate base class??
                 && pHero->field_1A8_portal_id == -1)
             {
                 SND_StopAll_4CB060();

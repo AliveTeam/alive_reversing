@@ -7,7 +7,7 @@ Sparks* Sparks::ctor_416390(FP xpos, FP ypos, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544534);
-    field_4_typeId = Types::eSparks_22;
+    field_4_typeId = AETypes::eSparks_22;
 
     const AnimRecord& rec = AnimRec(AnimId::Sparks);
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);

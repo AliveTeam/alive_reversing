@@ -28,7 +28,7 @@ LaughingGas* LaughingGas::ctor_432400(Layer layer, int /*notUsed*/, Path_Laughin
 
     gGasInstanceCount_5BC214++;
 
-    field_4_typeId = Types::eLaughingGas_31;
+    field_4_typeId = AETypes::eLaughingGas_31;
     Path_LaughingGas_Data* pData = &field_48_tlv_data;
     pData->field_0_bLaughing_gas = pTlv->field_10_bLaughing_gas;
     pData->field_2_laughing_gas_id = pTlv->field_12_laughing_gas_id;

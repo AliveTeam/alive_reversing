@@ -133,7 +133,7 @@ void Teleporter::SpawnRingSparks(Path_Teleporter_Data* pTlvData)
 
 void Teleporter::vUpdate_4DC400()
 {
-    Electrocute* pObj = static_cast<Electrocute*>(sObjectIds_5C1B70.Find(field_50_objId, Types::eElectrocute_150));
+    Electrocute* pObj = static_cast<Electrocute*>(sObjectIds_5C1B70.Find(field_50_objId, AETypes::eElectrocute_150));
 
     switch (field_30_state)
     {
@@ -171,7 +171,7 @@ void Teleporter::vUpdate_4DC400()
 
         SFX_Play_46FBA0(SoundEffect::Zap1_49, 60, -400);
         sControlledCharacter_5C1B8C->field_114_flags.Set(Flags_114::e114_Bit10_Teleporting);
-        
+
         SpawnRingSparks(&field_34_mTlvData);
     }
     break;
@@ -293,7 +293,7 @@ void Teleporter::vUpdate_4DC400()
                 }
             }
         }
-        
+
         SFX_Play_46FBA0(SoundEffect::Zap1_49, 60, -300, tlvData.field_1C_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
         SpawnRingSparks(&tlvData);
 

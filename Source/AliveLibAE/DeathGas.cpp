@@ -40,7 +40,7 @@ DeathGas* DeathGas::ctor_43C030(Layer layer, __int16 amount)
 
     gDeathGasCount_5BD24C++;
 
-    field_4_typeId = Types::eMainMenuTransistion_116; // wot moment
+    field_4_typeId = AETypes::eMainMenuTransistion_116; // wot moment
     gObjList_drawables_5C1124->Push_Back(this);
     field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
     field_26_flag = 0;
@@ -200,7 +200,7 @@ void DeathGas::vRender_43C350(PrimHeader** ppOt)
         {
             const FP cosVal = Math_Cosine_496CD0(sbyte_1_5BD1E4.data[1][i][j]);
             const short cosMul10 = FP_GetExponent(FP_FromInteger(20) * cosVal);
-          
+
             int tableVal = 0;
             if (!(i & 1) && (j & 1))
             {

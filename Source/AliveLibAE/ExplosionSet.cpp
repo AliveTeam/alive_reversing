@@ -19,7 +19,7 @@ ExplosionSet* ExplosionSet::ctor_414CA0()
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x5444FC);
 
-    field_4_typeId = Types::eExplosionSet_18;
+    field_4_typeId = AETypes::eExplosionSet_18;
 
     if (pExplosionSet_5BBF68)
     {
@@ -223,7 +223,7 @@ void ExplosionSet::vUpdate_414E30()
             {
                 pFallingItem->ctor_427560(xpos, field_48_tlv_rect.y, field_50_scale < FP_FromInteger(1), 0, 0, 1, 0);
             }
-            
+
             field_46_spacing_multiplicator++;
             field_44_start_delay_counter = field_56_delay;
 

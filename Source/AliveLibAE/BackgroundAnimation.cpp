@@ -25,7 +25,7 @@ BackgroundAnimation* BackgroundAnimation::ctor_40D270(Path_BackgroundAnimation* 
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x5440F0); // vTbl_BackgroundAnimation_5440F0
 
-    field_4_typeId = Types::eBackgroundAnimation_7;
+    field_4_typeId = AETypes::eBackgroundAnimation_7;
     field_F8_tlvInfo = tlvInfo;
 
     field_F4_res = reinterpret_cast<AnimHeader**>(Add_Resource_4DC130(ResourceManager::Resource_Animation, pPathParams->field_10_res_id));

@@ -14,7 +14,7 @@ enum class MeatStates : __int16
 
 struct Meat_SaveState
 {
-    Types field_0_type;
+    AETypes field_0_type;
     __int16 field_2_pad;
     int field_4_obj_id;
     FP field_8_xpos;

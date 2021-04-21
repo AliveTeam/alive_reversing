@@ -5,7 +5,7 @@
 
 struct MinesAlarm_State
 {
-    Types field_0_type;
+    AETypes field_0_type;
     __int16 field_2_pad;
     int field_4_timer;
 };

@@ -96,7 +96,7 @@ enum class GameSpeakEvents : __int16;
 
 struct Scrab_State
 {
-    Types field_0_type;
+    AETypes field_0_type;
     __int16 field_2_padding;
     int field_4_obj_id;
     FP field_8_xpos;
@@ -244,7 +244,7 @@ private:
 public:
 
     EXPORT __int16 AI_Patrol_0_4AA630();
-    
+
     __int16 AI_ChasingEnemy_State_Running_2(BaseAliveGameObject* pObj);
 
     EXPORT __int16 AI_ChasingEnemy_1_4A6470();
@@ -346,7 +346,7 @@ private:
     EXPORT static BOOL CCSTD LineOfSightTo_4A52D0(Scrab* pThis, BaseAliveGameObject* pObj);
 
     EXPORT Scrab* FindScrabToFight_4A4E20();
-  
+
     EXPORT __int16 Handle_SlamDoor_or_EnemyStopper_4A4830(FP velX, __int16 bCheckLeftRightBounds);
 
     EXPORT GameSpeakEvents LastSpeak_4A56F0();

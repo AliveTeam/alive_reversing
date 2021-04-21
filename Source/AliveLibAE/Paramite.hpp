@@ -111,7 +111,7 @@ enum class ParamiteSpeak : __int8
 
 struct Paramite_State
 {
-    Types field_0_type;
+    AETypes field_0_type;
     __int16 field_2_pad;
     FP field_4_xpos;
     FP field_8_ypos;

@@ -219,7 +219,7 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0(WORD* pVRam,
 
             if (sTexture_mode_BD0F14 == TextureModes::e8Bit)
             {
-                WriteSinglePixelOfXLine(pVRam, x_left, x_right, [&](WORD* pOut) 
+                WriteSinglePixelOfXLine(pVRam, x_left, x_right, [&](WORD* pOut)
                 {
                     const WORD clut_pixel = pClut_src_BD3270[*((unsigned __int8 *)pTPage_src_BD32C8 + ((signed int)(u_pos + (v_pos & 0x1FE00000)) >> 10))];
                     if (clut_pixel)
@@ -270,7 +270,7 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0(WORD* pVRam,
                 WriteSinglePixelOfXLine(pVRam, x_left, x_right, [&](WORD* pOut)
                 {
                     const unsigned int tpage_nibbles = *((unsigned __int8 *)pTPage_src_BD32C8 + ((signed int)(u_pos + (v_pos & 0x3FC00000)) >> 11));
-                    
+
                     unsigned int nibble = 0;
                     if (u_pos & 0x400)
                     {
@@ -280,7 +280,7 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0(WORD* pVRam,
                     {
                         nibble = tpage_nibbles & 0xF;
                     }
-                    
+
                     const WORD clut_pixel = pClut_src_BD3270[nibble];
                     if (clut_pixel)
                     {
@@ -476,7 +476,7 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_NoBlending_SemiTrans_51E890(WORD* p
 
     const Render_Unknown* pLeft = &left_side_BD3320;
     const Render_Unknown* pRight = &right_side_BD32A0;
-    
+
     const Psx_Test& abr_lut = sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18];
 
     for (int i = 0; i < ySize; i++)
@@ -596,7 +596,7 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_NoBlending_SemiTrans_51E890(WORD* p
 
                         *pOut = pixel4;
                     }
-                    
+
                     u_pos += u_diff;
                     v_pos += v_diff;
                 });
@@ -815,7 +815,7 @@ EXPORT void CC PSX_EMU_Render_Polys_GShaded_NoTexture_Opqaue_51C6E0(WORD* pVRam,
             const int r_scaled = PSX_poly_helper_fixed_point_scale_517FA0(pRight->field_1C_GShadeR - shade_r, sPsxEmu_fixed_point_table_C1D5C0[xdiff_f + 1]);
             const int g_scaled = PSX_poly_helper_fixed_point_scale_517FA0(pRight->field_20_GShadeG - shade_g, sPsxEmu_fixed_point_table_C1D5C0[xdiff_f + 1]);
             const int b_scaled = PSX_poly_helper_fixed_point_scale_517FA0(pRight->field_24_GShadeB - shade_b, sPsxEmu_fixed_point_table_C1D5C0[xdiff_f + 1]);
-            
+
             WORD* pStart = &pVRam[pLeft->field_0_x >> 16];
             WORD* pEnd = &pVRam[pRight->field_0_x >> 16];
             while (pStart < pEnd)
@@ -1075,7 +1075,7 @@ EXPORT void CC Add_Dirty_Area_4ED970(int /*x*/, int /*y*/, int /*w*/, int /*h*/)
 }
 
 template <typename T>
-T clip(const T& n, const T& lower, const T& upper) 
+T clip(const T& n, const T& lower, const T& upper)
 {
     return std::max(lower, std::min(n, upper));
 }
@@ -1135,7 +1135,7 @@ EXPORT int CC PSX_ClearImage_4F5BD0(const PSX_RECT* pRect, unsigned __int8 r, un
         rect_bottom = 511;
     }
 
-    const WORD colour_value = 
+    const WORD colour_value =
         ((1 << sSemiTransShift_C215C0) // TODO: Might be something else
         | (static_cast<unsigned int>(r) >> 3 << sRedShift_C215C4)
         | (static_cast<unsigned int>(g) >> 3 << sGreenShift_C1D180)
@@ -1282,7 +1282,7 @@ void PSX_Render_TILE_Blended_Large_Impl(WORD *pVRam, int width, int height, int 
         || g != sLast_TILE_g_C3D0E0
         || b != sLast_TILE_b_C3D0DC
         || sTexture_page_abr_BD0F18 != sLast_Tile_abr_57832C)
-    {  
+    {
         // NOTE: if (spBitmap_C2D038->field_15_pixel_format == 15) {} case removed as only 16 supported
 
         short* pAbr_R = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18].r[r][0];
@@ -1479,8 +1479,8 @@ static void Scaled_Poly_FT4_Inline_Texture_Render(
     int u_width,
     int width,
     int height,
-    WORD* pVramDst, 
-    signed int vram_pitch, 
+    WORD* pVramDst,
+    signed int vram_pitch,
     const WORD* pCompressedIter,
     const WORD* pClut,
     int bytesToNextPixel,
@@ -1507,7 +1507,7 @@ static void Scaled_Poly_FT4_Inline_Texture_Render(
         // TODO: HACK HACK, some xpos rendering is off by 1
         pVramDst = pVramDst - 1;
     }
-  
+
 
     for (int v_height_counter = 0; v_height_counter < v_height; v_height_counter++)
     {
@@ -1870,7 +1870,7 @@ static void PSX_Render_Poly_FT4_Direct_Impl(bool isSemiTrans, OT_Prim* pPrim, in
             {
                 return Calc_Abr_Pixel(*pAbrLut, vram_value, clut_value);
             }
-            
+
             if (clut_value & 0x20)
             {
                 return Calc_Abr_Pixel(*pAbrLut, vram_value, clut_value);
@@ -1987,7 +1987,7 @@ EXPORT void CC PSX_Render_PolyFT4_16bit_517990(OT_Prim* pPrim, int width, int he
         const unsigned int pitch = spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
         WORD* pDst = (WORD *)spBitmap_C2D038->field_4_pLockedPixels + (1 * xConverted) + (yConverted * pitch);
         WORD* pSrc = (WORD *)spBitmap_C2D038->field_4_pLockedPixels + (pitch * (yoffset + 272)) + xoffset;
-       
+
         for (int yIter = 0; yIter < height_clipped; yIter++)
         {
             DWORD bitMask = (*pFg1Data) >> skipBits;
@@ -2183,7 +2183,7 @@ EXPORT OT_Prim* CC PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pDat
         // TODO: 64bit - can't fit 64bits of data into 32
         // TODO: This seems to be set by Animation::vRender and its a pointer to type 3 or 6 compressed frame data
         // It can also be set by FG1 rendering in which case a its a pointer to FG1 data.
-        
+
         const void* pAnimOrFG1Data = GetPrimExtraPointerHack(pPoly);
         if (pAnimOrFG1Data)
         {
@@ -2243,7 +2243,7 @@ EXPORT OT_Prim* CC PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pDat
 
         Convert_Vertex_XY(pConverted->field_14_verts, pPoly, EPolyType::e4Point);
         Convert_Vertex_RGB_Single(pConverted->field_14_verts, pPoly);
-     
+
         return pConverted;
     }
     else if (kPrimType == ePolyGT3)
@@ -2607,8 +2607,8 @@ EXPORT void CC PSX_Render_Internal_Format_Polygon_4F7960(OT_Prim* prim, int xoff
             if (prim->field_E & 1) // TODO: Dead code? Haven't seen this get written... yet
             {
                 // unknown flag, something to do with specific colours? Maybe optimization case?
-                PSX_Render_Poly_Internal_Generic_517B10(prim, PSX_poly_Textured_Unknown_5180B0, 
-                    (prim->field_B_flags & 2) ? 
+                PSX_Render_Poly_Internal_Generic_517B10(prim, PSX_poly_Textured_Unknown_5180B0,
+                    (prim->field_B_flags & 2) ?
                         PSX_EMU_Render_Polys_Textured_Unknown_SemiTrans_51DC90 : PSX_EMU_Render_Polys_Textured_Unknown_Opqaue_51D890);
             }
             else
@@ -2616,14 +2616,14 @@ EXPORT void CC PSX_Render_Internal_Format_Polygon_4F7960(OT_Prim* prim, int xoff
                 if (prim->field_B_flags & 1)
                 {
                     // Blending enabled
-                    PSX_Render_Poly_Internal_Generic_517B10(prim, PSX_poly_Textured_517FC0, 
-                        (prim->field_B_flags & 2) ? 
+                    PSX_Render_Poly_Internal_Generic_517B10(prim, PSX_poly_Textured_517FC0,
+                        (prim->field_B_flags & 2) ?
                             PSX_EMU_Render_Polys_Textured_Blending_SemiTrans_51D2B0 : PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0);
                 }
                 else
                 {
-                    PSX_Render_Poly_Internal_Generic_517B10(prim, PSX_poly_Textured_517FC0, 
-                        (prim->field_B_flags & 2) ? 
+                    PSX_Render_Poly_Internal_Generic_517B10(prim, PSX_poly_Textured_517FC0,
+                        (prim->field_B_flags & 2) ?
                             PSX_EMU_Render_Polys_Textured_NoBlending_SemiTrans_51E890 : PSX_EMU_Render_Polys_Textured_NoBlending_Opaque_51E140);
                 }
             }
@@ -2635,16 +2635,16 @@ EXPORT void CC PSX_Render_Internal_Format_Polygon_4F7960(OT_Prim* prim, int xoff
         case PrimTypeCodes::ePolyG3:
         case PrimTypeCodes::ePolyG4:
             // G shaded, not textured
-            PSX_Render_Poly_Internal_Generic_517B10(prim, PSX_poly_GShaded_NoTexture_517E60, 
-                (prim->field_B_flags & 2) ? 
+            PSX_Render_Poly_Internal_Generic_517B10(prim, PSX_poly_GShaded_NoTexture_517E60,
+                (prim->field_B_flags & 2) ?
                     PSX_EMU_Render_Polys_GShaded_NoTexture_SemiTrans_51C8D0 : PSX_EMU_Render_Polys_GShaded_NoTexture_Opqaue_51C6E0);
             break;
 
         case PrimTypeCodes::ePolyF3:
         case PrimTypeCodes::ePolyF4:
             // F shaded, not textured
-            PSX_Render_Poly_Internal_Generic_517B10(prim, PSX_poly_FShaded_NoTexture_517DF0, 
-                (prim->field_B_flags & 2) ? 
+            PSX_Render_Poly_Internal_Generic_517B10(prim, PSX_poly_FShaded_NoTexture_517DF0,
+                (prim->field_B_flags & 2) ?
                     PSX_EMU_Render_Polys_FShaded_NoTexture_SemiTrans_51C590 : PSX_EMU_Render_Polys_FShaded_NoTexture_Opqaue_51C4C0);
             break;
         }
@@ -2737,13 +2737,13 @@ EXPORT char CC PSX_Clip_Line_Segments_4FE4F0(int* pX0, int* pY0, int* pX1, int* 
     *pY0 = y0_fixed;
     *pY1 = y1_fixed;
     *pX0 = x0_fixed;
-    
+
     int x_diff_fixed = x1_fixed - x0_fixed;
     int y_diff_fixed = y1_fixed - y0_fixed;
-    
+
     char xy0_clip = PSX_Calc_LineSegment_Clip_Edges_4FE460(x0_fixed, y0_fixed);
     char xy1_clip = PSX_Calc_LineSegment_Clip_Edges_4FE460(x1_fixed, y1_fixed);
-  
+
     if (xy1_clip & xy0_clip)
     {
         return 0;
@@ -2808,7 +2808,7 @@ EXPORT void CC PSX_EMU_Render_G_LineSegment_4F8250(void* pOtPrim1, signed int x0
 
     int x_Diff = x1 - x0;
     int y_Diff = y1 - y0;
- 
+
     OT_Prim* pOtPrim = (OT_Prim*)pOtPrim1;
     Psx_Test* abr_lut = nullptr;
     const bool bSemiTrans = (pOtPrim->field_B_flags & 2) != 0;
@@ -3110,9 +3110,9 @@ EXPORT void CC PSX_Render_Line_Prim_4F7D90(void* pOtPrim, int offX, int offY)
             offX + X0(pLine),
             offY + Y0(pLine),
             offX + X1(pLine),
-            offY + Y1(pLine), 
+            offY + Y1(pLine),
             R0(pLine), G0(pLine), B0(pLine));
-    } 
+    }
     break;
 
     case PrimTypeCodes::eLineF3:
@@ -3320,7 +3320,7 @@ static void DrawOTag_HandlePrimRendering(IRenderer& renderer, PrimAny& any)
     case PrimTypeCodes::ePolyFT3:
         ALIVE_FATAL("Never expected ePolyFT3 to be added to the OT");
         break;
-     
+
     case PrimTypeCodes::ePolyGT3:
         ALIVE_FATAL("Never expected ePolyGT3 to be added to the OT");
         break;
@@ -3589,7 +3589,7 @@ EXPORT void CC PSX_EMU_Render_SPRT_4bit_51F0E0(const PSX_RECT* pRect, int u, int
     const int tpagey = sTexture_page_y_BD0F10 + v;
     const unsigned int rect_w = pRect->w;
     const WORD* pClutSrc1 = (WORD *)((char *)sPsxVram_C1D160.field_4_pLockedPixels  + 32 * ((clut & 63) + ((unsigned int)clut >> 6 << 6)));
-    
+
     Psx_Test* pAbrLut = nullptr;
     if (bSemiTrans)
     {
@@ -3858,7 +3858,7 @@ EXPORT void CC PSX_EMU_Render_SPRT_8bit_51F660(const PSX_RECT* pRect, int u, int
                 if (clut_pixel)
                 {
                     // Semi trans flag
-                    if (clut_pixel & 0x20) 
+                    if (clut_pixel & 0x20)
                     {
                         const BYTE r_lut_idx = (clut_pixel >> 11);
                         const BYTE g_lut_idx = (((clut_pixel >> 6) & 31));
@@ -4071,7 +4071,7 @@ OT_Prim* PSX_clip_polys_impl(OT_Prim* pOt)
         OT_Vert* pLastVert =  GetVert(pOt, pOt->field_C_vert_count);
         OT_Vert* pLastVert1 = GetVert(pOt, pOt->field_C_vert_count - 1);
         OT_Vert* pLastVert2 = GetVert(pOt, pOt->field_C_vert_count - 1);
-        
+
         bool bClip = false;
         switch (idx)
         {
@@ -4154,7 +4154,7 @@ OT_Prim* PSX_clip_polys_impl(OT_Prim* pOt)
                         {
                             x0_diff = 1;
                         }
-                        
+
                         scaleFactor = (float)(sPsx_drawenv_clipw_BDCD48 - pVerts->field_0_x0) / (float)x0_diff;
                         pTmpVert = GetVert(result, result->field_C_vert_count);
                         result->field_C_vert_count++;
@@ -4264,7 +4264,7 @@ EXPORT OT_Prim* CC PSX_clip_polys_4FE710(OT_Prim* pOt)
 
 namespace Test
 {
-    const BYTE kTestPal[] = 
+    const BYTE kTestPal[] =
     {
         0x00, 0x00, 0xC4, 0x98, 0x22, 0x80, 0x83, 0x90, 0x20,
         0x80, 0x00, 0x84, 0x42, 0x88, 0xC6, 0x98, 0xAD, 0x2D,
@@ -4354,7 +4354,7 @@ namespace Test
 
     WORD vramTest[512][1024] = {};
 
-    BYTE kSinglePixel8BitImg[4] = 
+    BYTE kSinglePixel8BitImg[4] =
     {
         0x0,
         0x0,
@@ -4368,7 +4368,7 @@ namespace Test
         sPsxVram_C1D160.field_10_locked_pitch = 2048;
         spBitmap_C2D038 = &sPsxVram_C1D160;
 
-       
+
         OT_Prim otPrim = {};
         otPrim.field_12_clut = static_cast<short>(PSX_getClut_4F6350(0, 256));
         otPrim.field_14_verts[0].field_0_x0 = 0;
@@ -4381,11 +4381,11 @@ namespace Test
 
         otPrim.field_14_verts[0].field_18_v = 0;
         otPrim.field_14_verts[2].field_18_v = 1;
-        
+
 
         // TODO: Clut upload
         WORD* pClut = (WORD *)((char *)sPsxVram_C1D160.field_4_pLockedPixels + 32 * ((otPrim.field_12_clut & 0x3F) + (otPrim.field_12_clut >> 6 << 6)));
-      
+
         otPrim.field_8_r = 127;
         otPrim.field_9_g = 127;
         otPrim.field_A_b = 127;
@@ -4564,7 +4564,7 @@ namespace Test
         ASSERT_EQ(4, PSX_poly_helper_fixed_point_scale_517FA0(0x20002, 2));
         ASSERT_EQ(0xFFFE0, PSX_poly_helper_fixed_point_scale_517FA0(0x7FFF0002, 32));
     }
-    
+
     void PsxRenderTests()
     {
         Test_PSX_Rects_intersect_point_4FA100();

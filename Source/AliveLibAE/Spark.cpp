@@ -36,7 +36,7 @@ Spark* Spark::ctor_4CBBB0(FP xpos, FP ypos, FP scale, unsigned __int8 count, __i
     field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
 
     SetVTable(this, 0x54783C); // vTbl_Spark_54783C
-    field_4_typeId = Types::eNone_0;
+    field_4_typeId = AETypes::eNone_0;
 
     gObjList_drawables_5C1124->Push_Back(this);
 
@@ -212,7 +212,7 @@ void Spark::vRender_4CC050(PrimHeader** ppOt)
             // TODO: Can be refactored much further - looks like min/max stuff
             short x1Short = static_cast<short>(x1);
             short maxX = xy.field_0_x;
-            
+
             if (x1Short <= xy.field_0_x)
             {
                 maxX = x1Short;

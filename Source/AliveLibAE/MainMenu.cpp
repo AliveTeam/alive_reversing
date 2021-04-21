@@ -905,20 +905,20 @@ MainMenuNextCam MainMenuController::AbeSpeak_Update_4D2D20(DWORD input_held)
         return MainMenuNextCam(MainMenuCams::eNoChange);
     }
 
-    return HandleGameSpeakInput(input_held, [&](InputCommands cmd)
+    return HandleGameSpeakInput(input_held, [&](InputCommandsEnums::InputCommands cmd)
     {
         switch (cmd)
         {
-        case InputCommands::eChant: Set_Anim_4D05E0(AnimIds::eAbe_Chant); break;
-        case InputCommands::eGameSpeak1: Set_Anim_4D05E0(AnimIds::eAbe_Hello); break;
-        case InputCommands::eGameSpeak2: Set_Anim_4D05E0(AnimIds::eAbe_FollowMe); break;
-        case InputCommands::eGameSpeak3: Set_Anim_4D05E0(AnimIds::eAbe_Wait); break;
-        case InputCommands::eGameSpeak4: Set_Anim_4D05E0(AnimIds::eAbe_Work); break;
-        case InputCommands::eGameSpeak5: Set_Anim_4D05E0(AnimIds::eAbe_Anger); break;
-        case InputCommands::eGameSpeak6: Set_Anim_4D05E0(AnimIds::eAbe_AllYa); break;
-        case InputCommands::eGameSpeak7: Set_Anim_4D05E0(AnimIds::eAbe_Sympathy); break;
-        case InputCommands::eGameSpeak8: Set_Anim_4D05E0(AnimIds::eAbe_StopIt); break;
-        case InputCommands::eBack:
+        case InputCommandsEnums::InputCommands::eChant: Set_Anim_4D05E0(AnimIds::eAbe_Chant); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak1: Set_Anim_4D05E0(AnimIds::eAbe_Hello); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak2: Set_Anim_4D05E0(AnimIds::eAbe_FollowMe); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak3: Set_Anim_4D05E0(AnimIds::eAbe_Wait); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak4: Set_Anim_4D05E0(AnimIds::eAbe_Work); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak5: Set_Anim_4D05E0(AnimIds::eAbe_Anger); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak6: Set_Anim_4D05E0(AnimIds::eAbe_AllYa); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak7: Set_Anim_4D05E0(AnimIds::eAbe_Sympathy); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak8: Set_Anim_4D05E0(AnimIds::eAbe_StopIt); break;
+        case InputCommandsEnums::InputCommands::eBack:
             Set_Anim_4D05E0(AnimIds::eAbe_GoodBye);
             // Stop chanting music
             SND_SEQ_Stop_4CAE60(SeqId::MudokonChant1_10);
@@ -954,19 +954,19 @@ void MainMenuController::ScrabSpeak_Render_4D2410(PrimHeader** ot)
 
 MainMenuNextCam MainMenuController::SligSpeak_Update_4D3280(DWORD input_held)
 {
-    return HandleGameSpeakInput(input_held, [&](InputCommands cmd)
+    return HandleGameSpeakInput(input_held, [&](InputCommandsEnums::InputCommands cmd)
     {
         switch (cmd)
         {
-        case InputCommands::eGameSpeak1: Set_Anim_4D05E0(AnimIds::eSlig_Hi); break;
-        case InputCommands::eGameSpeak2: Set_Anim_4D05E0(AnimIds::eSlig_HereBoy); break;
-        case InputCommands::eGameSpeak3: Set_Anim_4D05E0(AnimIds::eSlig_Freeze); break;
-        case InputCommands::eGameSpeak4: Set_Anim_4D05E0(AnimIds::eSlig_GetEm); break;
-        case InputCommands::eGameSpeak5: Set_Anim_4D05E0(AnimIds::eSlig_SmoBs); break;
-        case InputCommands::eGameSpeak6: Set_Anim_4D05E0(AnimIds::eSlig_Bs); break;
-        case InputCommands::eGameSpeak7: Set_Anim_4D05E0(AnimIds::eSlig_LookOut); break;
-        case InputCommands::eGameSpeak8: Set_Anim_4D05E0(AnimIds::eSlig_Laugh); break;
-        case InputCommands::eBack:
+        case InputCommandsEnums::InputCommands::eGameSpeak1: Set_Anim_4D05E0(AnimIds::eSlig_Hi); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak2: Set_Anim_4D05E0(AnimIds::eSlig_HereBoy); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak3: Set_Anim_4D05E0(AnimIds::eSlig_Freeze); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak4: Set_Anim_4D05E0(AnimIds::eSlig_GetEm); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak5: Set_Anim_4D05E0(AnimIds::eSlig_SmoBs); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak6: Set_Anim_4D05E0(AnimIds::eSlig_Bs); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak7: Set_Anim_4D05E0(AnimIds::eSlig_LookOut); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak8: Set_Anim_4D05E0(AnimIds::eSlig_Laugh); break;
+        case InputCommandsEnums::InputCommands::eBack:
             Set_Anim_4D05E0(AnimIds::eSlig_Laugh);
             return MainMenuNextCam(MainMenuCams::eGamespeakCharacterSelectionCam, 1);
 
@@ -996,19 +996,19 @@ void MainMenuController::SligSpeak_Load_4D3090()
 
 MainMenuNextCam MainMenuController::GlukkonSpeak_Update_4D3670(DWORD input_held)
 {
-    return HandleGameSpeakInput(input_held, [&](InputCommands cmd)
+    return HandleGameSpeakInput(input_held, [&](InputCommandsEnums::InputCommands cmd)
     {
         switch (cmd)
         {
-        case InputCommands::eGameSpeak1: Set_Anim_4D05E0(AnimIds::eGlukkon_Hey); break;
-        case InputCommands::eGameSpeak2: Set_Anim_4D05E0(AnimIds::eGlukkon_Commere); break;
-        case InputCommands::eGameSpeak3: Set_Anim_4D05E0(AnimIds::eGlukkon_StayHere); break;
-        case InputCommands::eGameSpeak4: Set_Anim_4D05E0(AnimIds::eGlukkon_DoIt); break;
-        case InputCommands::eGameSpeak5: Set_Anim_4D05E0(AnimIds::eGlukkon_KillEm); break;
-        case InputCommands::eGameSpeak6: Set_Anim_4D05E0(AnimIds::eGlukkon_AllOYa); break;
-        case InputCommands::eGameSpeak7: Set_Anim_4D05E0(AnimIds::eGlukkon_Help); break;
-        case InputCommands::eGameSpeak8: Set_Anim_4D05E0(AnimIds::eGlukkon_Laugh); break;
-        case InputCommands::eBack:
+        case InputCommandsEnums::InputCommands::eGameSpeak1: Set_Anim_4D05E0(AnimIds::eGlukkon_Hey); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak2: Set_Anim_4D05E0(AnimIds::eGlukkon_Commere); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak3: Set_Anim_4D05E0(AnimIds::eGlukkon_StayHere); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak4: Set_Anim_4D05E0(AnimIds::eGlukkon_DoIt); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak5: Set_Anim_4D05E0(AnimIds::eGlukkon_KillEm); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak6: Set_Anim_4D05E0(AnimIds::eGlukkon_AllOYa); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak7: Set_Anim_4D05E0(AnimIds::eGlukkon_Help); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak8: Set_Anim_4D05E0(AnimIds::eGlukkon_Laugh); break;
+        case InputCommandsEnums::InputCommands::eBack:
             Set_Anim_4D05E0(AnimIds::eGlukkon_Laugh);
             return MainMenuNextCam(MainMenuCams::eGamespeakCharacterSelectionCam, 2);
 
@@ -1038,19 +1038,19 @@ void MainMenuController::GlukkonSpeak_Load_4D3480()
 
 MainMenuNextCam MainMenuController::ScrabSpeak_Update_4D3A60(DWORD input_held)
 {
-    return HandleGameSpeakInput(input_held, [&](InputCommands cmd)
+    return HandleGameSpeakInput(input_held, [&](InputCommandsEnums::InputCommands cmd)
     {
         switch (cmd)
         {
-        case InputCommands::eGameSpeak1: Set_Anim_4D05E0(AnimIds::eScrab_ShredPower); break;
-        case InputCommands::eGameSpeak2: Set_Anim_4D05E0(AnimIds::eScrab_Howl); break;
-        case InputCommands::eGameSpeak3: break; // Scrabs don't have much to say.
-        case InputCommands::eGameSpeak4: break;
-        case InputCommands::eGameSpeak5: break;
-        case InputCommands::eGameSpeak6: break;
-        case InputCommands::eGameSpeak7: break;
-        case InputCommands::eGameSpeak8: break;
-        case InputCommands::eBack:
+        case InputCommandsEnums::InputCommands::eGameSpeak1: Set_Anim_4D05E0(AnimIds::eScrab_ShredPower); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak2: Set_Anim_4D05E0(AnimIds::eScrab_Howl); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak3: break; // Scrabs don't have much to say.
+        case InputCommandsEnums::InputCommands::eGameSpeak4: break;
+        case InputCommandsEnums::InputCommands::eGameSpeak5: break;
+        case InputCommandsEnums::InputCommands::eGameSpeak6: break;
+        case InputCommandsEnums::InputCommands::eGameSpeak7: break;
+        case InputCommandsEnums::InputCommands::eGameSpeak8: break;
+        case InputCommandsEnums::InputCommands::eBack:
             Set_Anim_4D05E0(AnimIds::eScrab_ShredPower);
             return MainMenuNextCam(MainMenuCams::eGamespeakCharacterSelectionCam, 3);
 
@@ -1085,19 +1085,19 @@ void MainMenuController::ParamiteSpeak_Render_4D2460(PrimHeader** ot)
 
 MainMenuNextCam MainMenuController::ParamiteSpeak_Update_4D3D60(DWORD input_held)
 {
-    return HandleGameSpeakInput(input_held, [&](InputCommands cmd)
+    return HandleGameSpeakInput(input_held, [&](InputCommandsEnums::InputCommands cmd)
     {
         switch (cmd)
         {
-        case InputCommands::eGameSpeak1: Set_Anim_4D05E0(AnimIds::eParamite_Howdy); break;
-        case InputCommands::eGameSpeak2: Set_Anim_4D05E0(AnimIds::eParamite_Cmon); break;
-        case InputCommands::eGameSpeak3: Set_Anim_4D05E0(AnimIds::eParamite_Stay); break;
-        case InputCommands::eGameSpeak4: Set_Anim_4D05E0(AnimIds::eParamite_DoIt); break;
-        case InputCommands::eGameSpeak5: Set_Anim_4D05E0(AnimIds::eParamite_Attack); break;
-        case InputCommands::eGameSpeak6: Set_Anim_4D05E0(AnimIds::eParamite_AllAYa); break;
-        case InputCommands::eGameSpeak7: break; // Paramites don't have as much to say.
-        case InputCommands::eGameSpeak8: break;
-        case InputCommands::eBack:
+        case InputCommandsEnums::InputCommands::eGameSpeak1: Set_Anim_4D05E0(AnimIds::eParamite_Howdy); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak2: Set_Anim_4D05E0(AnimIds::eParamite_Cmon); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak3: Set_Anim_4D05E0(AnimIds::eParamite_Stay); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak4: Set_Anim_4D05E0(AnimIds::eParamite_DoIt); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak5: Set_Anim_4D05E0(AnimIds::eParamite_Attack); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak6: Set_Anim_4D05E0(AnimIds::eParamite_AllAYa); break;
+        case InputCommandsEnums::InputCommands::eGameSpeak7: break; // Paramites don't have as much to say.
+        case InputCommandsEnums::InputCommands::eGameSpeak8: break;
+        case InputCommandsEnums::InputCommands::eBack:
             Set_Anim_4D05E0(AnimIds::eParamite_Attack);
             return MainMenuNextCam(MainMenuCams::eGamespeakCharacterSelectionCam, 4);
 
@@ -1472,7 +1472,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_hel
         inputToUse = input_held;
     }
 
-    if (inputToUse & (InputCommands::eLeft | InputCommands::eUp))
+    if (inputToUse & (InputCommandsEnums::InputCommands::eLeft | InputCommandsEnums::InputCommands::eUp))
     {
         if (field_230_target_entry_index > 0 && field_254 == FP_FromInteger(0))
         {
@@ -1480,7 +1480,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_hel
             SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
-    else if (inputToUse & (InputCommands::eRight | InputCommands::eDown))
+    else if (inputToUse & (InputCommandsEnums::InputCommands::eRight | InputCommandsEnums::InputCommands::eDown))
     {
         if (field_230_target_entry_index < sMenuItemCount_561538 - 1 && field_254 == FP_FromInteger(0))
         {
@@ -1489,7 +1489,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_hel
         }
     }
 
-    if (inputToUse & InputCommands::ePageUp)
+    if (inputToUse & InputCommandsEnums::InputCommands::ePageUp)
     {
         if (field_254 == FP_FromInteger(0))
         {
@@ -1504,7 +1504,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_hel
             SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
-    else if (inputToUse & InputCommands::ePageDown)
+    else if (inputToUse & InputCommandsEnums::InputCommands::ePageDown)
     {
         if (field_254 == FP_FromInteger(0))
         {
@@ -1520,13 +1520,13 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_hel
         }
     }
 
-    if (inputToUse & InputCommands::eBack)
+    if (inputToUse & InputCommandsEnums::InputCommands::eBack)
     {
         field_23C_T80.Clear(Flags::eBit25_CheatLevelSelectLoading);
         return MainMenuNextCam(MainMenuCams::eMainMenuCam);
     }
 
-    if (!(inputToUse & InputCommands::eUnPause_OrConfirm))
+    if (!(inputToUse & InputCommandsEnums::InputCommands::eUnPause_OrConfirm))
     {
         return MainMenuNextCam(MainMenuCams::eNoChange);
     }
@@ -1623,12 +1623,12 @@ MainMenuNextCam MainMenuController::Gamespeak_Update_4D1FC0(DWORD input_held)
 {
     field_230_target_entry_index = 0;
 
-    if (input_held & InputCommands::eBack)
+    if (input_held & InputCommandsEnums::InputCommands::eBack)
     {
         return MainMenuNextCam(MainMenuCams::eMainMenuCam);
     }
 
-    if (!(input_held & InputCommands::eUnPause_OrConfirm))
+    if (!(input_held & InputCommandsEnums::InputCommands::eUnPause_OrConfirm))
     {
         return MainMenuNextCam(MainMenuCams::eNoChange);
     }
@@ -1698,7 +1698,7 @@ MainMenuNextCam MainMenuController::Page_Front_Update_4D0720(DWORD input)
     {
         first = false;
         // Force enter pressed
-        input |= InputCommands::eUnPause_OrConfirm;
+        input |= InputCommandsEnums::InputCommands::eUnPause_OrConfirm;
         // Force load game selected
         field_1FC_button_index = 2;
     }
@@ -1720,7 +1720,7 @@ MainMenuNextCam MainMenuController::Page_Front_Update_4D0720(DWORD input)
     }
 
     // Enter pressed on selected menu item?
-    if (input & InputCommands::eUnPause_OrConfirm)
+    if (input & InputCommandsEnums::InputCommands::eUnPause_OrConfirm)
     {
         if (field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak])
         {
@@ -1946,7 +1946,7 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(DWORD /*input*/)
 
 EXPORT MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(DWORD input_held)
 {
-    if (input_held & InputCommands::eUnPause_OrConfirm)
+    if (input_held & InputCommandsEnums::InputCommands::eUnPause_OrConfirm)
     {
         if (field_1FC_button_index == 0) // Show backstory
         {
@@ -1997,7 +1997,7 @@ EXPORT MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(DW
             return MainMenuNextCam(MainMenuCams::eGameIsLoading_ShaddapCam, NO_SELECTABLE_BUTTONS);
         }
     }
-    else if (input_held & InputCommands::eBack) // Escape/back
+    else if (input_held & InputCommandsEnums::InputCommands::eBack) // Escape/back
     {
         ResourceManager::Reclaim_Memory_49C470(0);
         if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, FALSE, FALSE))
@@ -2246,7 +2246,7 @@ MainMenuNextCam MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
         field_204_prev_pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
     }
 
-    if (input_or_field_204 & (InputCommands::eUp | InputCommands::eLeft))
+    if (input_or_field_204 & (InputCommandsEnums::InputCommands::eUp | InputCommandsEnums::InputCommands::eLeft))
     {
         // move to previous entry
         if (field_230_target_entry_index > 0 && field_254 == FP_FromInteger(0))
@@ -2255,7 +2255,7 @@ MainMenuNextCam MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
             SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
-    else if (input_or_field_204 & (InputCommands::eDown | InputCommands::eRight))
+    else if (input_or_field_204 & (InputCommandsEnums::InputCommands::eDown | InputCommandsEnums::InputCommands::eRight))
     {
         // move to next entry
         if (field_230_target_entry_index < sMenuItemCount_561538 - 1 && field_254 == FP_FromInteger(0))
@@ -2265,7 +2265,7 @@ MainMenuNextCam MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
         }
     }
 
-    if (input_or_field_204 & InputCommands::ePageUp)
+    if (input_or_field_204 & InputCommandsEnums::InputCommands::ePageUp)
     {
         // move one whole page back
         if (field_230_target_entry_index > 0 && field_254 == FP_FromInteger(0))
@@ -2278,7 +2278,7 @@ MainMenuNextCam MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
             SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
-    else if (input_or_field_204 & InputCommands::ePageDown)
+    else if (input_or_field_204 & InputCommandsEnums::InputCommands::ePageDown)
     {
         // move one whole page forward
         if (field_230_target_entry_index < sMenuItemCount_561538 - 1 && field_254 == FP_FromInteger(0))
@@ -2292,12 +2292,12 @@ MainMenuNextCam MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
         }
     }
 
-    if (input_or_field_204 & InputCommands::eBack)
+    if (input_or_field_204 & InputCommandsEnums::InputCommands::eBack)
     {
         return MainMenuNextCam(MainMenuCams::eOptionsCam, 1); //Esc Pressed
     }
 
-    if (input_or_field_204 & InputCommands::eUnPause_OrConfirm)
+    if (input_or_field_204 & InputCommandsEnums::InputCommands::eUnPause_OrConfirm)
     {
         // selected a demo for playing
         gIsDemoStartedManually_5C1B9C = TRUE;
@@ -2313,7 +2313,7 @@ EXPORT MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
     bool indexChanged = false;
 
     // Escape ?
-    if (input & InputCommands::eBack)
+    if (input & InputCommandsEnums::InputCommands::eBack)
     {
         // Go back to start page
         field_23C_T80.Clear(Flags::eBit21_LoadingSave);
@@ -2321,7 +2321,7 @@ EXPORT MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
         return MainMenuNextCam(MainMenuCams::eMainMenuCam, 2);
     }
     // Up a single save
-    else if (input & InputCommands::eUp)
+    else if (input & InputCommandsEnums::InputCommands::eUp)
     {
         if (sSelectedSavedGameIdx_BB43E8 > 0 && !sTextYPos_BB43F0.fpValue)
         {
@@ -2330,7 +2330,7 @@ EXPORT MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
         }
     }
     // Down a single save
-    else if (input & InputCommands::eDown)
+    else if (input & InputCommandsEnums::InputCommands::eDown)
     {
         if (sSelectedSavedGameIdx_BB43E8 < sTotalSaveFilesCount_BB43E0 - 1 && !sTextYPos_BB43F0.fpValue)
         {
@@ -2338,7 +2338,7 @@ EXPORT MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
             indexChanged = true;
         }
     }
-    else if (input & InputCommands::ePageUp)
+    else if (input & InputCommandsEnums::InputCommands::ePageUp)
     {
         // Page up underflow
         if (sSelectedSavedGameIdx_BB43E8 >= 3 && !sTextYPos_BB43F0.fpValue)
@@ -2352,7 +2352,7 @@ EXPORT MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
             indexChanged = true;
         }
     }
-    else if (input & InputCommands::ePageDown)
+    else if (input & InputCommandsEnums::InputCommands::ePageDown)
     {
         // Page down overflow
         if (sSelectedSavedGameIdx_BB43E8 < sTotalSaveFilesCount_BB43E0 - 3 && !sTextYPos_BB43F0.fpValue)
@@ -2372,7 +2372,7 @@ EXPORT MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
         SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
     }
 
-    if (input & InputCommands::eUnPause_OrConfirm)
+    if (input & InputCommandsEnums::InputCommands::eUnPause_OrConfirm)
     {
         // No save to load, go back
         if (sTotalSaveFilesCount_BB43E0 == 0)
@@ -2425,9 +2425,9 @@ EXPORT void sub_4A2D40()
 
 MainMenuNextCam MainMenuController::Options_Update_4D1AB0(DWORD input)
 {
-    if (!(input & InputCommands::eUnPause_OrConfirm))
+    if (!(input & InputCommandsEnums::InputCommands::eUnPause_OrConfirm))
     {
-        if (input & InputCommands::eBack)
+        if (input & InputCommandsEnums::InputCommands::eBack)
         {
             Set_Anim_4D05E0(AnimIds::eAbe_OK, 0);
             return MainMenuNextCam(MainMenuCams::eMainMenuCam);
@@ -2459,7 +2459,7 @@ MainMenuNextCam MainMenuController::Options_Update_4D1AB0(DWORD input)
         }
         default:
         {
-            if (input & InputCommands::eBack)
+            if (input & InputCommandsEnums::InputCommands::eBack)
             {
                 Set_Anim_4D05E0(AnimIds::eAbe_OK, 0);
                 return MainMenuNextCam(MainMenuCams::eMainMenuCam);
@@ -2481,14 +2481,14 @@ MainMenuNextCam MainMenuController::AbeMotions_Update_4D1F50(DWORD input)
     }
 
     // To the game speak screen
-    if (input & InputCommands::eUnPause_OrConfirm)
+    if (input & InputCommandsEnums::InputCommands::eUnPause_OrConfirm)
     {
         SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
         return MainMenuNextCam(MainMenuCams::eGamespeakCharacterSelectionCam);
     }
 
     // Return to previous screen
-    if (input & InputCommands::eBack)
+    if (input & InputCommandsEnums::InputCommands::eBack)
     {
         return MainMenuNextCam(MainMenuCams::eOptionsCam);
     }
@@ -2502,7 +2502,7 @@ MainMenuNextCam MainMenuController::AbeMotions_Update_4D1F50(DWORD input)
 MainMenuNextCam MainMenuController::PSX_Cooperative_Mode_Update_4D49B0(DWORD /*input*/)
 {
     const DWORD held = sInputObject_5BD4E0.field_0_pads[0].field_C_held;
-    if ( held & (InputCommands::eUnPause_OrConfirm | InputCommands::eBack))
+    if ( held & (InputCommandsEnums::InputCommands::eUnPause_OrConfirm | InputCommandsEnums::InputCommands::eBack))
     {
         return MainMenuNextCam(MainMenuCams::eBackstory_Or_NewGameCam);
     }
@@ -2512,7 +2512,7 @@ MainMenuNextCam MainMenuController::PSX_Cooperative_Mode_Update_4D49B0(DWORD /*i
 
 MainMenuNextCam MainMenuController::PSX_Gamemode_Selection_Update_4D48C0(DWORD input)
 {
-    if (input & InputCommands::eUnPause_OrConfirm)
+    if (input & InputCommandsEnums::InputCommands::eUnPause_OrConfirm)
     {
         sGameStartedFrame_5C1B88 = sGnFrame_5C1B84;
         sCurrentControllerIndex_5C1BBE = 0;
@@ -2529,7 +2529,7 @@ MainMenuNextCam MainMenuController::PSX_Gamemode_Selection_Update_4D48C0(DWORD i
         return twoPlayerModeSelected ?
             MainMenuNextCam(MainMenuCams::eDummyBlankCam) : MainMenuNextCam(MainMenuCams::eBackstory_Or_NewGameCam);
     }
-    else if (input & InputCommands::eBack)
+    else if (input & InputCommandsEnums::InputCommands::eBack)
     {
         if (field_23C_T80.Get(Flags::eBit25_CheatLevelSelectLoading))
         {
@@ -2670,7 +2670,7 @@ void MainMenuController::RemapInput_Render_4D2A10(PrimHeader** ppOt)
 
 MainMenuNextCam MainMenuController::ControllerMenu_Update_4D16D0(DWORD input)
 {
-    if (input & InputCommands::eUp)
+    if (input & InputCommandsEnums::InputCommands::eUp)
     {
         if (sSelectedControllerEntry_BB43F4 > 0 && sTextYPos_BB43F0 == FP_FromInteger(0))
         {
@@ -2678,7 +2678,7 @@ MainMenuNextCam MainMenuController::ControllerMenu_Update_4D16D0(DWORD input)
             SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
         }
     }
-    else if (input & InputCommands::eDown)
+    else if (input & InputCommandsEnums::InputCommands::eDown)
     {
         if (sSelectedControllerEntry_BB43F4 < sControllerCount_55E838 - 1 && sTextYPos_BB43F0 == FP_FromInteger(0))
         {
@@ -2687,13 +2687,13 @@ MainMenuNextCam MainMenuController::ControllerMenu_Update_4D16D0(DWORD input)
         }
     }
 
-    if (input & InputCommands::eBack)
+    if (input & InputCommandsEnums::InputCommands::eBack)
     {
         return MainMenuNextCam(MainMenuCams::eOptionsCam);
     }
 
     // Enter - set active input device
-    if (input & InputCommands::eUnPause_OrConfirm)
+    if (input & InputCommandsEnums::InputCommands::eUnPause_OrConfirm)
     {
         sJoystickEnabled_5C9F70 = sControllerEntryToSelect_BB43D8;
         Input_Init_Names_491870();
@@ -2701,7 +2701,7 @@ MainMenuNextCam MainMenuController::ControllerMenu_Update_4D16D0(DWORD input)
         return MainMenuNextCam(MainMenuCams::eOptionsCam);
     }
 
-    if (input & InputCommands::eConfigure)
+    if (input & InputCommandsEnums::InputCommands::eConfigure)
     {
         // c configure controller
         sJoystickEnabled_5C9F70 = sControllerEntryToSelect_BB43D8;
@@ -2715,23 +2715,23 @@ MainMenuNextCam MainMenuController::ControllerMenu_Update_4D16D0(DWORD input)
     }
 }
 
-const InputCommands kIdxToInput_561F14[8] =
+const InputCommandsEnums::InputCommands kIdxToInput_561F14[8] =
 {
-    InputCommands::eRun,
-    InputCommands::eSneak,
-    InputCommands::eHop,
-    InputCommands::eSpeak1,
-    InputCommands::eDoAction,
-    InputCommands::eThrowItem,
-    InputCommands::eFartOrRoll,
-    InputCommands::eSpeak2
+    InputCommandsEnums::InputCommands::eRun,
+    InputCommandsEnums::InputCommands::eSneak,
+    InputCommandsEnums::InputCommands::eHop,
+    InputCommandsEnums::InputCommands::eSpeak1,
+    InputCommandsEnums::InputCommands::eDoAction,
+    InputCommandsEnums::InputCommands::eThrowItem,
+    InputCommandsEnums::InputCommands::eFartOrRoll,
+    InputCommandsEnums::InputCommands::eSpeak2
 };
 
 MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(DWORD input)
 {
     if (dword_BB43F8)
     {
-        if (dword_BB43F8 == 1 && sInputObject_5BD4E0.IsReleased(InputCommands::eUnPause_OrConfirm))
+        if (dword_BB43F8 == 1 && sInputObject_5BD4E0.IsReleased(InputCommandsEnums::InputCommands::eUnPause_OrConfirm))
         {
             dword_BB43F8 = 2;
             return MainMenuNextCam(MainMenuCams::eNoChange);
@@ -2752,7 +2752,7 @@ MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(DWORD input)
         // prepare animating the blinking outline of the rectangular input slots
         field_158_animation.Set_Animation_Data_409C80(13936, nullptr);
 
-        if (input & InputCommands::eUp)
+        if (input & InputCommandsEnums::InputCommands::eUp)
         {
             sButtonToRemapIdx_BB43EC--;
 
@@ -2769,7 +2769,7 @@ MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(DWORD input)
             SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
         }
 
-        if (input & InputCommands::eDown)
+        if (input & InputCommandsEnums::InputCommands::eDown)
         {
             sButtonToRemapIdx_BB43EC++;
 
@@ -2785,7 +2785,7 @@ MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(DWORD input)
             SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
         }
 
-        if (input & InputCommands::eLeft)
+        if (input & InputCommandsEnums::InputCommands::eLeft)
         {
             if (sButtonToRemapIdx_BB43EC >= 4)
             {
@@ -2794,7 +2794,7 @@ MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(DWORD input)
             SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
         }
 
-        if (input & InputCommands::eRight)
+        if (input & InputCommandsEnums::InputCommands::eRight)
         {
             if (sButtonToRemapIdx_BB43EC < 4)
             {
@@ -2803,14 +2803,14 @@ MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(DWORD input)
             SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
         }
 
-        if (input & InputCommands::eBack)
+        if (input & InputCommandsEnums::InputCommands::eBack)
         {
             Input_SaveSettingsIni_492840();
             field_1FC_button_index = NO_SELECTABLE_BUTTONS;
             return MainMenuNextCam(MainMenuCams::eAbesMotionKeysCam);
         }
 
-        if (input & InputCommands::eUnPause_OrConfirm)
+        if (input & InputCommandsEnums::InputCommands::eUnPause_OrConfirm)
         {
             field_208_transition_obj->StartTrans_464370(Layer::eLayer_40, 1, 0, 16);
             dword_BB43F8 = 1;
@@ -2844,7 +2844,7 @@ void MainMenuController::Game_Force_Quit_Load_4D1A90()
     sBreakGameLoop_5C2FE0 = TRUE;
 }
 
-MainMenuNextCam MainMenuController::HandleGameSpeakInput(DWORD input_held, std::function<MainMenuNextCam(InputCommands cmd)> fnOnGameSpeak)
+MainMenuNextCam MainMenuController::HandleGameSpeakInput(DWORD input_held, std::function<MainMenuNextCam(InputCommandsEnums::InputCommands cmd)> fnOnGameSpeak)
 {
     field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
     field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
@@ -2857,57 +2857,57 @@ MainMenuNextCam MainMenuController::HandleGameSpeakInput(DWORD input_held, std::
     if (Input_IsChanting_45F260())
     {
         field_230_target_entry_index = 1;
-        return fnOnGameSpeak(InputCommands::eChant);
+        return fnOnGameSpeak(InputCommandsEnums::InputCommands::eChant);
     }
     // Hi
-    else if (input_held & InputCommands::eGameSpeak1) // 0x400
+    else if (input_held & InputCommandsEnums::InputCommands::eGameSpeak1) // 0x400
     {
         field_230_target_entry_index = 0;
-        return fnOnGameSpeak(InputCommands::eGameSpeak1);
+        return fnOnGameSpeak(InputCommandsEnums::InputCommands::eGameSpeak1);
     }
     // Git 'im
-    else if (input_held & InputCommands::eGameSpeak4) // 0x2000
+    else if (input_held & InputCommandsEnums::InputCommands::eGameSpeak4) // 0x2000
     {
         field_230_target_entry_index = 1;
-        return fnOnGameSpeak(InputCommands::eGameSpeak4);
+        return fnOnGameSpeak(InputCommandsEnums::InputCommands::eGameSpeak4);
     }
     // Freeze
-    else if (input_held & InputCommands::eGameSpeak3) // 0x1000
+    else if (input_held & InputCommandsEnums::InputCommands::eGameSpeak3) // 0x1000
     {
         field_230_target_entry_index = 2;
-        return fnOnGameSpeak(InputCommands::eGameSpeak3);
+        return fnOnGameSpeak(InputCommandsEnums::InputCommands::eGameSpeak3);
     }
     // Here boy
-    else if (input_held & InputCommands::eGameSpeak2) // 0x800
+    else if (input_held & InputCommandsEnums::InputCommands::eGameSpeak2) // 0x800
     {
         field_230_target_entry_index = 3;
-        return fnOnGameSpeak(InputCommands::eGameSpeak2);
+        return fnOnGameSpeak(InputCommandsEnums::InputCommands::eGameSpeak2);
     }
     // Bs
-    else if (input_held & InputCommands::eGameSpeak6) // 0x8000
+    else if (input_held & InputCommandsEnums::InputCommands::eGameSpeak6) // 0x8000
     {
         field_230_target_entry_index = 4;
-        return fnOnGameSpeak(InputCommands::eGameSpeak6);
+        return fnOnGameSpeak(InputCommandsEnums::InputCommands::eGameSpeak6);
     }
     // Look out
-    else if (input_held & InputCommands::eGameSpeak7) // 0x10000
+    else if (input_held & InputCommandsEnums::InputCommands::eGameSpeak7) // 0x10000
     {
         field_230_target_entry_index = 5;
-        return fnOnGameSpeak(InputCommands::eGameSpeak7);
+        return fnOnGameSpeak(InputCommandsEnums::InputCommands::eGameSpeak7);
     }
     // S'mo bs
-    else if (input_held & InputCommands::eGameSpeak5) // 0x4000
+    else if (input_held & InputCommandsEnums::InputCommands::eGameSpeak5) // 0x4000
     {
         field_230_target_entry_index = 6;
-        return fnOnGameSpeak(InputCommands::eGameSpeak5);
+        return fnOnGameSpeak(InputCommandsEnums::InputCommands::eGameSpeak5);
     }
     // Laugh
-    else if (input_held & InputCommands::eGameSpeak8) // 0x20000
+    else if (input_held & InputCommandsEnums::InputCommands::eGameSpeak8) // 0x20000
     {
         field_230_target_entry_index = 7;
-        return fnOnGameSpeak(InputCommands::eGameSpeak8);
+        return fnOnGameSpeak(InputCommandsEnums::InputCommands::eGameSpeak8);
     }
-    else if (input_held & InputCommands::eBack) // 0x200000
+    else if (input_held & InputCommandsEnums::InputCommands::eBack) // 0x200000
     {
         // Exit
 
@@ -2922,7 +2922,7 @@ MainMenuNextCam MainMenuController::HandleGameSpeakInput(DWORD input_held, std::
             field_210_pUnused = nullptr;
         }
 
-        return fnOnGameSpeak(InputCommands::eBack);
+        return fnOnGameSpeak(InputCommandsEnums::InputCommands::eBack);
     }
     else
     {
@@ -2939,7 +2939,7 @@ MainMenuNextCam MainMenuController::HandleGameSpeakInput(DWORD input_held, std::
 
 void MainMenuController::HandleCreditsControllerUpdate()
 {
-    if (sInputObject_5BD4E0.isPressed(InputCommands::eBack))
+    if (sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eBack))
     {
         sDoesCreditsControllerExist_5C1B90 = 0;
         gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 6, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
@@ -3036,7 +3036,7 @@ void MainMenuController::HandleMainMenuUpdate()
         {
             if (field_1FC_button_index != NO_SELECTABLE_BUTTONS)
             {
-                if (inputHeld & (InputCommands::eLeft | InputCommands::eUp))
+                if (inputHeld & (InputCommandsEnums::InputCommands::eLeft | InputCommandsEnums::InputCommands::eUp))
                 {
                     if (pPage->field_0_cam_id != MainMenuCams::eLoadGameMenuCam)
                     {
@@ -3064,7 +3064,7 @@ void MainMenuController::HandleMainMenuUpdate()
                     SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
                 }
 
-                if (inputHeld & (InputCommands::eRight | InputCommands::eDown))
+                if (inputHeld & (InputCommandsEnums::InputCommands::eRight | InputCommandsEnums::InputCommands::eDown))
                 {
                     if (pPage->field_0_cam_id != MainMenuCams::eLoadGameMenuCam)
                     {

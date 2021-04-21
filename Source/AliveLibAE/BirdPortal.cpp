@@ -28,7 +28,7 @@ BaseGameObject* BirdPortal::ctor_497E00(Path_BirdPortal* pTlv, int tlvInfo)
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x546970);
     field_68_doves_exist = 0;
-    field_4_typeId = Types::eBirdPortal_99;
+    field_4_typeId = AETypes::eBirdPortal_99;
     field_C_objectId = tlvInfo;
     field_40_throwable_indicator_id = -1;
 
@@ -47,7 +47,7 @@ BaseGameObject* BirdPortal::ctor_497E00(Path_BirdPortal* pTlv, int tlvInfo)
     field_24_portal_type = pTlv->field_1C_portal_type;
     field_82_num_muds_for_shrykull = pTlv->field_1E_mudokon_amount_for_shrykull;
     field_66_delete_id = pTlv->field_22_delete_id;
-    
+
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
         field_60_scale = FP_FromDouble(0.5);
@@ -256,7 +256,7 @@ void BirdPortal::vUpdate_498280()
                     }
                     pParticle->field_DC_bApplyShadows &= ~1u;
                     pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
-                    pParticle->field_4_typeId = Types::eBirdPortalTerminator_100;
+                    pParticle->field_4_typeId = AETypes::eBirdPortalTerminator_100;
                     pParticle->field_CC_sprite_scale = field_60_scale;
 
                     if (static_cast<int>(sGnFrame_5C1B84) % 2)
@@ -511,7 +511,7 @@ void BirdPortal::vUpdate_498280()
             pTerminator2->field_20_animation.Set_Animation_Data_409C80(4168, 0);
             field_28_state = PortalStates::FadeoutTerminators_22;
             field_5C_timer = sGnFrame_5C1B84 + 30;
-            
+
             if (pClipper1)
             {
                 pClipper1->field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -565,12 +565,12 @@ void BirdPortal::vUpdate_498280()
 
 void BirdPortal::vScreenChanged_499B50()
 {
-    if (field_28_state <= PortalStates::IdlePortal_1 || field_28_state >= PortalStates::KillPortalClipper_21 || 
+    if (field_28_state <= PortalStates::IdlePortal_1 || field_28_state >= PortalStates::KillPortalClipper_21 ||
         ((gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level ||
-         gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path) && 
+         gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path) &&
 
-        (field_28_state != PortalStates::AbeInsidePortal_16 || field_24_portal_type != PortalType::eAbe_0 || 
-            gMap_5C3030.field_A_level != field_7C_dest_level || 
+        (field_28_state != PortalStates::AbeInsidePortal_16 || field_24_portal_type != PortalType::eAbe_0 ||
+            gMap_5C3030.field_A_level != field_7C_dest_level ||
             gMap_5C3030.field_C_path != field_7E_dest_path)))
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -627,14 +627,14 @@ signed int BirdPortal::vGetSaveState_499F50(BYTE* pBuffer)
 {
     auto pState = reinterpret_cast<BirdPortal_State*>(pBuffer);
     auto pTlv = static_cast<Path_BirdPortal*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_20_tlvInfo));
-    
+
     __int16 numMudsForShrykull = 0;
     if (pTlv)
     {
         numMudsForShrykull = pTlv->field_1E_mudokon_amount_for_shrykull;
     }
 
-    pState->field_0_type = Types::eBirdPortal_99;
+    pState->field_0_type = AETypes::eBirdPortal_99;
     pState->field_4_tlvInfo = field_20_tlvInfo;
     pState->field_2_state = static_cast<BYTE>(field_28_state);
     pState->field_3_mud_count = static_cast<BYTE>(numMudsForShrykull - field_82_num_muds_for_shrykull);
@@ -855,7 +855,7 @@ void BirdPortal::vKillPortalClipper_499610()
 {
     BaseGameObject* pClipper1 = sObjectIds_5C1B70.Find_449CF0(field_74_screen_clipper_id);
     BaseGameObject* pClipper2 = sObjectIds_5C1B70.Find_449CF0(field_78_screen_clipper_id);
-    
+
     field_74_screen_clipper_id = -1;
     field_78_screen_clipper_id = -1;
 
@@ -1080,12 +1080,12 @@ signed __int16 BirdPortal::IsScaredAway_4992A0()
 
         switch (pObj->field_4_typeId)
         {
-        case Types::eNeverSet_40:
-        case Types::eAbe_69:
-        case Types::eMudokon2_81:
-        case Types::eParamite_96:
-        case Types::eScrab_112:
-        case Types::eSlig_125:
+        case AETypes::eNeverSet_40:
+        case AETypes::eAbe_69:
+        case AETypes::eMudokon2_81:
+        case AETypes::eParamite_96:
+        case AETypes::eScrab_112:
+        case AETypes::eSlig_125:
             if (pObj->field_C0_path_number != field_8E_path)
             {
                 continue;
@@ -1161,7 +1161,7 @@ void BirdPortal::KillTerminators_499220()
             break;
         }
 
-        if (pObj->field_4_typeId == Types::eBirdPortalTerminator_100)
+        if (pObj->field_4_typeId == AETypes::eBirdPortalTerminator_100)
         {
             pObj->field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
@@ -1195,7 +1195,7 @@ signed __int16 BirdPortal::GetEvent_499A70()
             break;
         }
 
-        if (pObj->field_4_typeId == Types::eBirdPortal_99)
+        if (pObj->field_4_typeId == AETypes::eBirdPortal_99)
         {
             if (pObj == this)
             {
@@ -1215,7 +1215,7 @@ BaseAnimatedWithPhysicsGameObject* BirdPortalTerminator::ctor_497960(FP xpos, FP
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x546928);
 
-    field_4_typeId = Types::eEyeOrbPart_74;
+    field_4_typeId = AETypes::eEyeOrbPart_74;
 
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPortalTerminatorID);
     Animation_Init_424E10(4144, 32, 18, ppRes, 1, 1);

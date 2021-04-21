@@ -455,9 +455,9 @@ MusicController* MusicController::ctor_47EE80()
     field_50_current_vol = 0;
     field_52_target_volume = 0;
     field_54_music_volume_change_time = 0;
-    
-    field_4_typeId = Types::eMusicController_93;
-    
+
+    field_4_typeId = AETypes::eMusicController_93;
+
     field_20_vol = 100;
     field_22_vol = 127;
     field_3C_unused = 1;
@@ -529,7 +529,7 @@ void MusicController::SetMusicVolumeDelayed_47FB00(__int16 vol, __int16 delay)
         field_52_target_volume = (vol <= 0) ? 0 : vol; // Clamp to 0
         field_34_music_start_time = sMusicTime_5C3024;
         field_54_music_volume_change_time = sMusicTime_5C3024 + delay;
-        
+
         if (vol)
         {
             // vol state on?
@@ -645,7 +645,7 @@ void MusicController::Update_47F730()
                 SND_SEQ_Stop_4CAE60(field_40_flags_and_idx);
                 field_40_flags_and_idx = -1;
             }
-            
+
             field_24_currentLevelID = gMap_5C3030.field_0_current_level;
 
             // music on flag ?
@@ -739,7 +739,7 @@ void MusicController::UpdateMusic_47F260()
 {
     int idx = 0;
     const MusicController_Record* pRecord = nullptr;
-   
+
     if (field_40_flags_and_idx < 0
         || !SND_SsIsEos_DeInlined_4CACD0(field_40_flags_and_idx)
         || (field_58_flags.Get(Flags_58::e58_UnPause_Bit6)
@@ -756,7 +756,7 @@ void MusicController::UpdateMusic_47F260()
         {
             SND_SEQ_Stop_4CAE60(field_40_flags_and_idx);
         }
-        
+
         switch (field_42_type)
         {
         case MusicTypes::eChime_2: // Silence/base line only?

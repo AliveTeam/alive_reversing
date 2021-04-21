@@ -99,7 +99,7 @@ using TGlukkonMotionFn = void (Glukkon::*)();
 
 struct Glukkon_SaveState
 {
-    Types field_0_id;
+    AETypes field_0_id;
     __int16 field_2_padding;
     __int32 field_4_object_id;
     FP field_8_xpos;
@@ -152,7 +152,7 @@ struct Glukkon_SaveState
     __int32 field_84_getting_shot_timer;
     __int32 field_88_obj_id;
     __int16 field_8C_can_be_possessed;
-    Types field_8E_type_id;
+    AETypes field_8E_type_id;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Glukkon_SaveState, 144);
 
@@ -274,8 +274,8 @@ private:
     EXPORT void vOnTrapDoorOpen_444120();
 
     EXPORT __int16 vTakeDamage_43FA40(BaseGameObject* pFrom);
-    
-    
+
+
     void SetBrain(TGlukkonAIFn fn);
     bool BrainIs(TGlukkonAIFn fn);
 

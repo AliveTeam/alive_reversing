@@ -61,7 +61,7 @@ GasCountDown* GasCountDown::ctor_417010(Path_GasCountDown* pTlv, int tlvInfo)
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x5445E0);
 
-    field_4_typeId = Types::eGasClock_23;
+    field_4_typeId = AETypes::eGasClock_23;
     field_68_tlvInfo = tlvInfo;
 
     field_20_font_context.LoadFontType_433400(2);
@@ -196,7 +196,7 @@ void GasCountDown::DealDamage()
                 {
                     break;
                 }
-                if (pObj->field_4_typeId == Types::eMudokon_110)
+                if (pObj->field_4_typeId == AETypes::eMudokon_110)
                 {
                     pObj->VTakeDamage_408730(this);
                 }

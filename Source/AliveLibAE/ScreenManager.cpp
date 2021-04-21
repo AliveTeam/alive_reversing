@@ -380,7 +380,7 @@ void ScreenManager::write_4_pixel_block(const Oddlib::BitsLogic& aR, const Oddli
 
     WORD* pData = reinterpret_cast<WORD*>(sPsxVram_C1D160.field_4_pLockedPixels);
     DWORD pitch = sPsxVram_C1D160.field_10_locked_pitch / 2;
-    
+
     // Will go out of bounds due to macro blocks being 16x16, hence bounds check
     if (aVramY < 240)
     {
@@ -510,7 +510,7 @@ void ScreenManager::Init_40E4B0(BYTE** ppBits)
 {
     field_40_flags |= 0x10000;
 
-    field_4_typeId = Types::eScreenManager_6;
+    field_4_typeId = AETypes::eScreenManager_6;
 
     field_2C_upos = 0;
     field_2E_vpos = 272;

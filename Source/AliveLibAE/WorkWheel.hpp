@@ -13,7 +13,7 @@ enum class WheelStates : __int16
 
 struct WorkWheel_SaveState
 {
-    Types field_0_id;
+    AETypes field_0_id;
     // pad
     int field_4_tlvInfo;
     __int16 field_8_snd_counter;

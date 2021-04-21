@@ -38,7 +38,7 @@ class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
 public:
     EXPORT BaseAnimatedWithPhysicsGameObject * BaseAnimatedWithPhysicsGameObject_ctor_424930(signed __int16 resourceArraySize);
     EXPORT void BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
-    
+
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
@@ -56,7 +56,7 @@ public:
     virtual __int16 vIsObj_GettingNear_425420(BaseAnimatedWithPhysicsGameObject* pObj);
     virtual __int16 vIsFacingMe_4254A0(BaseAnimatedWithPhysicsGameObject* pOther);
     virtual __int16 vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther);
-    virtual void vStackOnObjectsOfType_425840(Types typeToFind);
+    virtual void vStackOnObjectsOfType_425840(AETypes typeToFind);
     virtual void VOnPickUpOrSlapped();
     virtual void VOnThrowableHit(BaseGameObject* pFrom);
 
@@ -66,10 +66,10 @@ private:
     EXPORT __int16 IsObj_GettingNear_On_X_425420(BaseAnimatedWithPhysicsGameObject* pOther);
     EXPORT __int16 IsFacingMe_4254A0(BaseAnimatedWithPhysicsGameObject* pOther);
     EXPORT __int16 OnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther);
-    EXPORT void StackOnObjectsOfType_425840(Types typeToFind);
+    EXPORT void StackOnObjectsOfType_425840(AETypes typeToFind);
     EXPORT void vOnPickUpOrSlapped_408180();
     EXPORT void vOnThrowableHit_4081A0(BaseGameObject* pFrom);
-    
+
 public:
     EXPORT CameraPos Is_In_Current_Camera_424A70();
     EXPORT void DealDamageRect_4247A0(const PSX_RECT *pRect);

@@ -69,6 +69,13 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/alive_api)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/assets)
 
 # -----------------------------------------------------------------------------
+# Setup unity builds
+set_target_properties(AliveLibCommon PROPERTIES UNITY_BUILD ON)
+set_target_properties(AliveLibAE     PROPERTIES UNITY_BUILD ON)
+# -----------------------------------------------------------------------------
+
+
+# -----------------------------------------------------------------------------
 # Setup cross-platform PCH
 
 # AE needs its own PCH that can be reused from `AliveLibCommon`, because they

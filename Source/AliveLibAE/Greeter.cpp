@@ -23,7 +23,7 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, int tlvInfo)
     ctor_408240(0);
     SetVTable(this, 0x54566C);
 
-    field_4_typeId = Types::eGreeter_64;
+    field_4_typeId = AETypes::eGreeter_64;
     const AnimRecord& rec = AnimRec(AnimId::Greeter_Idle);
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
@@ -87,7 +87,7 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, int tlvInfo)
 
     field_140_targetOnRight = 0;
     field_13E_targetOnLeft = 0;
-    
+
     field_128_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(70, 210);
 
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalGib);
@@ -231,7 +231,7 @@ int Greeter::vGetSaveState_446400(Greeter_State* pState)
         return 0;
     }
 
-    pState->field_0_type = Types::eGreeter_64;
+    pState->field_0_type = AETypes::eGreeter_64;
 
     pState->field_C_xpos = field_B8_xpos;
     pState->field_10_ypos = field_BC_ypos;
@@ -263,7 +263,7 @@ int Greeter::vGetSaveState_446400(Greeter_State* pState)
     pState->field_44_state = field_13C_state;
     pState->field_46_targetOnLeft = field_13E_targetOnLeft;
     pState->field_48_targetOnRight = field_140_targetOnRight;
-    
+
     auto pMotionDetector = static_cast<MotionDetector*>(sObjectIds_5C1B70.Find_449CF0(field_11C_motionDetectorId));
     auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds_5C1B70.Find_449CF0(pMotionDetector->field_F8_laser_id));
     pState->field_4C_motion_laser_xpos = pLaser->field_B8_xpos;
@@ -327,7 +327,7 @@ void Greeter::dtor_4468E0()
 EXPORT void Greeter::BlowUp_447E50()
 {
     field_10C_health = FP_FromInteger(0);
-    
+
     auto pExplosion = ae_new<Explosion>();
     if (pExplosion)
     {
@@ -367,7 +367,7 @@ void Greeter::ChangeDirection_447BD0()
 void Greeter::BounceBackFromShot_447B10()
 {
     field_13C_state = GreeterStates::eState_5_Knockback;
-   
+
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         field_C4_velx = FP_FromInteger(-2);
@@ -389,7 +389,7 @@ void Greeter::BounceBackFromShot_447B10()
 
 void Greeter::HandleRollingAlong_447860()
 {
-    for (Path_TLV* pTlv = field_138_pTlv; pTlv; 
+    for (Path_TLV* pTlv = field_138_pTlv; pTlv;
         pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(pTlv,
             field_C4_velx + field_B8_xpos + field_C4_velx,
             field_C8_vely + field_BC_ypos + field_C8_vely,
@@ -402,7 +402,7 @@ void Greeter::HandleRollingAlong_447860()
             BlowUp_447E50();
             break;
 
-        case TlvTypes::ScrabLeftBound_43: 
+        case TlvTypes::ScrabLeftBound_43:
             if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))  && field_13C_state == GreeterStates::eState_0_Patrol)
             {
                 ChangeDirection_447BD0();
@@ -456,7 +456,7 @@ EXPORT signed __int16 Greeter::vTakeDamage_447C20(BaseGameObject* pFrom)
 
     switch (pFrom->field_4_typeId)
     {
-    case Types::eBullet_15:
+    case AETypes::eBullet_15:
         if (static_cast<Bullet*>(pFrom)->field_30_x_distance <= FP_FromInteger(0))
         {
             field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
@@ -476,8 +476,8 @@ EXPORT signed __int16 Greeter::vTakeDamage_447C20(BaseGameObject* pFrom)
         }
         return 1;
 
-    case Types::eGrinder_30:
-    case Types::eElectricWall_39:
+    case AETypes::eGrinder_30:
+    case AETypes::eElectricWall_39:
         if (static_cast<BaseAnimatedWithPhysicsGameObject*>(pFrom)->field_20_animation.field_10_frame_delay <= 0)
         {
             field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
@@ -497,20 +497,20 @@ EXPORT signed __int16 Greeter::vTakeDamage_447C20(BaseGameObject* pFrom)
         }
         return 1;
 
-    case Types::eBaseBomb_46:
-    case Types::eRockSpawner_48:
-    case Types::eMeatSaw_86:
-    case Types::eMineCar_89:
-    case Types::eNeverSet_107:
-    case Types::eExplosion_109:
+    case AETypes::eBaseBomb_46:
+    case AETypes::eRockSpawner_48:
+    case AETypes::eMeatSaw_86:
+    case AETypes::eMineCar_89:
+    case AETypes::eNeverSet_107:
+    case AETypes::eExplosion_109:
         BlowUp_447E50();
         return 1;
 
-    case Types::eSlamDoor_122:
+    case AETypes::eSlamDoor_122:
         BounceBackFromShot_447B10();
         return 1;
 
-    case Types::eElectrocute_150:
+    case AETypes::eElectrocute_150:
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         BlowUp_447E50();
         return 1;
@@ -614,7 +614,7 @@ void Greeter::ZapTarget_447320(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
 
     SFX_Play_46FC20(SoundEffect::Zap1_49, 0, soundDirection, field_CC_sprite_scale);
     SFX_Play_46FC20(SoundEffect::Zap2_50, 0, soundDirection, field_CC_sprite_scale);
-    
+
     RandomishSpeak_447A70(GreeterSpeak::Laugh_3);
 
     field_128_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(160, 200);
@@ -674,7 +674,7 @@ BaseAliveGameObject* Greeter::GetMudToZap_447690()
             break;
         }
 
-        if (pObj->field_4_typeId == Types::eMudokon_110)
+        if (pObj->field_4_typeId == AETypes::eMudokon_110)
         {
             PSX_RECT bRect = {};
             pObj->vGetBoundingRect_424FD0(&bRect, 1);
@@ -686,7 +686,7 @@ BaseAliveGameObject* Greeter::GetMudToZap_447690()
                 field_B8_xpos - xMid < (field_CC_sprite_scale * FP_FromInteger(60)) &&
                 yMid - (field_BC_ypos - FP_FromInteger(4)) < (field_CC_sprite_scale * FP_FromInteger(60))&&
                 field_BC_ypos - FP_FromInteger(4) - yMid < (field_CC_sprite_scale * FP_FromInteger(60)) &&
-                !(sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted)) && 
+                !(sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted)) &&
                 !ZapIsNotBlocked_447240(this, pObj))
             {
                 return pObj;

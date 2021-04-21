@@ -6,7 +6,7 @@
 #include "PathData.hpp"
 
 
-const SfxDefinition sSfxEntries_55C2A0[] = 
+const SfxDefinition sSfxEntries_55C2A0[] =
 {
     { 0u, 0u, 66u, 75u, 0, 0 },
     { 0u, 0u, 67u, 75u, 0, 0 },
@@ -228,9 +228,9 @@ EXPORT signed __int16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysic
     if (pObj)
     {
         FP yOff = {};
-        if (pObj->field_4_typeId == Types::eFlyingSlig_54)
+        if (pObj->field_4_typeId == AETypes::eFlyingSlig_54)
         {
-            yOff = FP_FromInteger(20); // 0xffec0000 
+            yOff = FP_FromInteger(20); // 0xffec0000
         }
 
         const CameraPos dir = gMap_5C3030.GetDirection_4811A0(

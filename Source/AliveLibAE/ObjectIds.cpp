@@ -143,7 +143,7 @@ BaseGameObject* ObjectIds::Find_449CF0(TObjectId_KeyType idToFind)
 
 #include "BaseGameObject.hpp"
 
-BaseGameObject* ObjectIds::Find(TObjectId_KeyType idToFind, Types type)
+BaseGameObject* ObjectIds::Find(TObjectId_KeyType idToFind, AETypes type)
 {
     BaseGameObject* pItem = Find_449CF0(idToFind);
     if (pItem && pItem->field_4_typeId != type)
@@ -170,26 +170,26 @@ namespace Test
         ids.ctor_449AE0(101);
 
         FakeGameObject p;
-        p.field_4_typeId = Types::eAlarm_1;
+        p.field_4_typeId = AETypes::eAlarm_1;
         ids.Insert_449C10(1, &p);
 
-        ASSERT_EQ(&p, ids.Find(1, Types::eAlarm_1));
+        ASSERT_EQ(&p, ids.Find(1, AETypes::eAlarm_1));
 
         FakeGameObject p2;
-        p2.field_4_typeId = Types::eAlarm_1;
+        p2.field_4_typeId = AETypes::eAlarm_1;
         ids.Insert_449C10(1, &p2);
 
-        ASSERT_EQ(&p2, ids.Find(1, Types::eAlarm_1));
+        ASSERT_EQ(&p2, ids.Find(1, AETypes::eAlarm_1));
 
         ids.Remove_449C60(1);
 
-        ASSERT_EQ(&p, ids.Find(1, Types::eAlarm_1));
+        ASSERT_EQ(&p, ids.Find(1, AETypes::eAlarm_1));
 
         ids.Remove_449C60(1);
 
-        ASSERT_EQ(nullptr, ids.Find(1, Types::eAlarm_1));
+        ASSERT_EQ(nullptr, ids.Find(1, AETypes::eAlarm_1));
 
-        ASSERT_EQ(nullptr, ids.Find(9999, Types::eAlarm_1));
+        ASSERT_EQ(nullptr, ids.Find(9999, AETypes::eAlarm_1));
 
         for (int i = 0; i < 3000; i++)
         {

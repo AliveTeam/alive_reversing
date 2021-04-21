@@ -17,7 +17,7 @@ struct ObjectId_Record
 ALIVE_ASSERT_SIZEOF(ObjectId_Record, 0xC);
 
 class BaseGameObject;
-enum class Types : __int16;
+enum class AETypes : __int16;
 
 class ObjectIds
 {
@@ -33,7 +33,7 @@ public:
     // Use the "checked" Find() so the types are verified where possible (i.e its to a specific single derived type
     EXPORT BaseGameObject* Find_449CF0(TObjectId_KeyType idToFind);
 public:
-    BaseGameObject* Find(TObjectId_KeyType idToFind, Types type);
+    BaseGameObject* Find(TObjectId_KeyType idToFind, AETypes type);
 
 private:
     unsigned int field_0_buffer_size;

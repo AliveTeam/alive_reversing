@@ -59,7 +59,7 @@ TintEntry sSlamDoorTints_5603B0[18] =
 
 struct Quicksave_Obj_SlamDoor
 {
-    Types field_0_id;
+    AETypes field_0_id;
     TlvItemInfoUnion field_4_tlv;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Quicksave_Obj_SlamDoor, 8);
@@ -96,7 +96,7 @@ SlamDoor* SlamDoor::ctor_4AF700(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
     {
         field_118_flags.Set(SlamDoor_Flags_118::e118_Bit2_Open);
     }
-    
+
     if (pTlv->field_16_bStart_inverted == Choice_short::eYes_1)
     {
         field_118_flags.Set(SlamDoor_Flags_118::e118_Bit4_Inverted);
@@ -111,8 +111,8 @@ SlamDoor* SlamDoor::ctor_4AF700(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
 
     const AnimRecord& rec = AnimRec(sSlamDoorData_547168[currentLevelId][2]);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId), 1, 1u);
-    
-    field_4_typeId = Types::eSlamDoor_122;
+
+    field_4_typeId = AETypes::eSlamDoor_122;
 
     field_B8_xpos = FP_FromInteger(((pTlv->field_8_top_left.field_0_x
         + pTlv->field_C_bottom_right.field_0_x)
@@ -227,7 +227,7 @@ SlamDoor* SlamDoor::ctor_4AF700(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
                 5);
         }
         field_120_pCollisionLine_5_1 = pPathLine;
-        
+
         const AnimRecord& animRec = AnimRec(sSlamDoorData_547168[currentLevelId][1]);
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, 0);
     }
@@ -324,7 +324,7 @@ void SlamDoor::vUpdate_4AFD50()
         if (stateUnchanged)
         {
             field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
-            
+
             const AnimRecord& animRec = AnimRec(sSlamDoorData_547168[static_cast<int>(gMap_5C3030.field_0_current_level)][2]);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
@@ -377,7 +377,7 @@ void SlamDoor::vUpdate_4AFD50()
                 }
                 if (pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
                 {
-                    if (pObj->field_4_typeId != Types::eSlamDoor_122)
+                    if (pObj->field_4_typeId != AETypes::eSlamDoor_122)
                     {
                         PSX_RECT bObjRect = {};
                         pObj->vGetBoundingRect_424FD0(&bObjRect, 1);
@@ -427,7 +427,7 @@ void SlamDoor::vUpdate_4AFD50()
 
             if (pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
             {
-                if (pObj->field_4_typeId != Types::eSlamDoor_122 && pObj->field_4_typeId != Types::eGrenade_65)
+                if (pObj->field_4_typeId != AETypes::eSlamDoor_122 && pObj->field_4_typeId != AETypes::eGrenade_65)
                 {
                     PSX_RECT bObjRect = {};
                     pObj->vGetBoundingRect_424FD0(&bObjRect, 1);
@@ -437,7 +437,7 @@ void SlamDoor::vUpdate_4AFD50()
                         PSX_Rects_overlap_no_adjustment(&bRect, &bObjRect))
                     {
                         if (pObj->field_CC_sprite_scale == field_CC_sprite_scale ||
-                            (pObj->field_4_typeId == Types::eSlog_126 && field_CC_sprite_scale == FP_FromInteger(1)))
+                            (pObj->field_4_typeId == AETypes::eSlog_126 && field_CC_sprite_scale == FP_FromInteger(1)))
                         {
                             ClearInsideSlamDoor_4B0530(pObj, bRect.x, bRect.w);
                         }
@@ -455,7 +455,7 @@ int SlamDoor::vGetSaveState_4C09D0(BYTE* pSaveBuffer)
 {
     Quicksave_Obj_SlamDoor* pSaveState = reinterpret_cast<Quicksave_Obj_SlamDoor*>(pSaveBuffer);
 
-    pSaveState->field_0_id = Types::eSlamDoor_122;
+    pSaveState->field_0_id = AETypes::eSlamDoor_122;
     pSaveState->field_4_tlv = field_12C_tlvInfo;
 
     return sizeof(Quicksave_Obj_SlamDoor);
@@ -472,12 +472,12 @@ void SlamDoor::ClearInsideSlamDoor_4B0530(BaseAliveGameObject* pObj, __int16 xPo
         pObj->field_B8_xpos = pObj->field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromDouble(0.5));
     }
 
-    if (pObj->field_4_typeId == Types::eMudokon2_81 || pObj->field_4_typeId == Types::eMudokon_110 || pObj->field_4_typeId == Types::eAbe_69)
+    if (pObj->field_4_typeId == AETypes::eMudokon2_81 || pObj->field_4_typeId == AETypes::eMudokon_110 || pObj->field_4_typeId == AETypes::eAbe_69)
     {
         pObj->VTakeDamage_408730(this);
     }
 
-    if (pObj->field_4_typeId == Types::eBone_11)
+    if (pObj->field_4_typeId == AETypes::eBone_11)
     {
         pObj->field_C8_vely = FP_FromInteger(-7);
         pObj->field_C4_velx = -pObj->field_C4_velx;

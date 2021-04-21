@@ -15,7 +15,7 @@ EXPORT LiftMover* LiftMover::ctor_40CCD0(Path_LiftMover* pTlv, int tlvInfo)
 
     field_24_tlvInfo = tlvInfo;
     field_28_lift_id = -1;
-    field_4_typeId = Types::eLiftMover_9;
+    field_4_typeId = AETypes::eLiftMover_9;
 
     field_20_enabled_by_switch_id = pTlv->field_10_switch_id;
     field_22_target_lift_point_id = pTlv->field_12_lift_id;
@@ -73,7 +73,7 @@ int LiftMover::VGetSaveState(BYTE* pSaveBuffer)
 void LiftMover::vUpdate_40CE20()
 {
 
-    LiftPoint* pLift = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find(field_28_lift_id, Types::eLiftPoint_78));
+    LiftPoint* pLift = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find(field_28_lift_id, AETypes::eLiftPoint_78));
     if (field_32_bMoveInProgress)
     {
         pLift = GetLiftPoint_40D0F0();
@@ -254,7 +254,7 @@ LiftPoint* LiftMover::GetLiftPoint_40D0F0()
             break;
         }
 
-        if (pObj->field_4_typeId == Types::eLiftPoint_78)
+        if (pObj->field_4_typeId == AETypes::eLiftPoint_78)
         {
             LiftPoint* pLift = static_cast<LiftPoint*>(pObj);
             if (field_22_target_lift_point_id == pLift->field_278_lift_point_id)

@@ -268,7 +268,7 @@ namespace AliveAPI
         }
     }
 
-    // Increment when a breaking change to the JSON is made and implement an 
+    // Increment when a breaking change to the JSON is made and implement an
     // upgrade step that converts from the last version to the current.
     constexpr int kApiVersion = 1;
 

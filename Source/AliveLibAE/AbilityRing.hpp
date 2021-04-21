@@ -10,7 +10,7 @@ enum class RingTypes : __int16
 {
     // Red rings
     eExplosive_Pulse_0 = 0,
-    eExplosive_Emit_1 = 1,        // Actually blows stuff up 
+    eExplosive_Emit_1 = 1,        // Actually blows stuff up
     eExplosive_Emit_Effect_2 = 2, // Graphical effect only
     eExplosive_Give_3 = 3,
 
@@ -34,7 +34,7 @@ enum class RingTypes : __int16
 
 struct AbilityRing_State
 {
-    Types field_0_type;
+    AETypes field_0_type;
     __int16 field_2_pad;
     FP field_4_xpos;
     FP field_8_ypos;

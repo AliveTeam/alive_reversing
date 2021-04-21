@@ -40,12 +40,12 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544AD8);
 
-    field_4_typeId = Types::eGrinder_30;
+    field_4_typeId = AETypes::eGrinder_30;
 
 	const AnimRecord& rec = AnimRec(AnimId::Bone_Saw_Vertical_Off);
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
-	
+
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_B_render_mode = TPageAbr::eBlend_0;
 
@@ -290,7 +290,7 @@ signed int CC Grinder::CreateFromSaveState_421600(const BYTE* pData)
     const Grinder_State* pState = reinterpret_cast<const Grinder_State*>(pData);
 
     Path_Grinder* pTlv = static_cast<Path_Grinder*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_8_tlvInfo));
-    
+
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", 0);
@@ -380,7 +380,7 @@ void Grinder::vUpdate_420C50()
             }
         }
 
-        if (field_128_flags.Get(Flags::eBit3_UseId) && !field_128_flags.Get(Flags::eBit4_Toggle) && 
+        if (field_128_flags.Get(Flags::eBit3_UseId) && !field_128_flags.Get(Flags::eBit4_Toggle) &&
             FP_GetExponent(field_120_off_speed) > 0 && Expired(field_108_off_timer))
         {
             field_F4_state = GrinderStates::State_1_Going_Down;
@@ -743,13 +743,13 @@ __int16 Grinder::DamageTouchingObjects_421060()
             return 0;
         }
 
-        if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) || pObj->field_4_typeId == Types::eRockSpawner_48)
+        if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) || pObj->field_4_typeId == AETypes::eRockSpawner_48)
         {
             if (pObj->field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
             {
-                if (pObj->field_4_typeId != Types::eMeat_84 &&
-                    pObj->field_4_typeId != Types::eEvilFart_45 && 
-                    (pObj->field_4_typeId != Types::eAbe_69 || pObj->field_106_current_motion != eAbeStates::State_68_ToOffScreenHoist_454B80))
+                if (pObj->field_4_typeId != AETypes::eMeat_84 &&
+                    pObj->field_4_typeId != AETypes::eEvilFart_45 &&
+                    (pObj->field_4_typeId != AETypes::eAbe_69 || pObj->field_106_current_motion != eAbeStates::State_68_ToOffScreenHoist_454B80))
                 {
                     PSX_RECT objRect = {};
                     pObj->vGetBoundingRect_424FD0(&objRect, 1);

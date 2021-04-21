@@ -67,7 +67,7 @@ Mine * Mine::ctor_46B120(Path_Mine * pPath, TlvItemInfoUnion tlv)
     SetVTable(this, 0x546164);
     SetVTable(&field_124_animation, 0x544290);
 
-    field_4_typeId = Types::eMine_88;
+    field_4_typeId = AETypes::eMine_88;
 
     const AnimRecord& rec = AnimRec(AnimId::Mine);
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -308,13 +308,13 @@ signed __int16 Mine::vTakeDamage_46BB20(BaseGameObject* pFrom)
     {
     default: return 0;
 
-    case Types::eGreeter_64:
-    case Types::eAbe_69:
-    case Types::eMineCar_89:
-    case Types::eAbilityRing_104:
-    case Types::eExplosion_109:
-    case Types::eMudokon_110:
-    case Types::eShrykull_121:
+    case AETypes::eGreeter_64:
+    case AETypes::eAbe_69:
+    case AETypes::eMineCar_89:
+    case AETypes::eAbilityRing_104:
+    case AETypes::eExplosion_109:
+    case AETypes::eMudokon_110:
+    case AETypes::eShrykull_121:
         auto pBomb = ae_new<BaseBomb>();
         if (pBomb)
         {

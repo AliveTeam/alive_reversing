@@ -5,7 +5,7 @@
 
 struct SlapLockWhirlWind_State
 {
-    Types field_0_type;
+    AETypes field_0_type;
     __int16 field_2_switch_id;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(SlapLockWhirlWind_State, 0x4);

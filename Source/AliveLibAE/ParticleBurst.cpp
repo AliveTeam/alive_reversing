@@ -27,7 +27,7 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int numOfPa
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x5447DC);
 
-    field_4_typeId = Types::eParticleBurst_29;
+    field_4_typeId = AETypes::eParticleBurst_29;
 
     // TODO: Check it
     if (numOfParticles > 5)
@@ -227,7 +227,7 @@ void ParticleBurst::vRender_41D7B0(PrimHeader** ppOt)
         field_20_animation.field_14_scale = field_CC_sprite_scale;
         const FP camX = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x;
         const FP camY = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
-      
+
         for (int i = 0; i < field_FC_number_of_particles; i++)
         {
             if (field_F8_pRes[i].field_0_x < camX)
@@ -244,7 +244,7 @@ void ParticleBurst::vRender_41D7B0(PrimHeader** ppOt)
             {
                 continue;
             }
-            
+
             if (field_F8_pRes[i].field_4_y > camY + FP_FromInteger(240))
             {
                 continue;
@@ -267,7 +267,7 @@ void ParticleBurst::vRender_41D7B0(PrimHeader** ppOt)
                         ppOt,
                         0,
                         0);
-                    
+
                     bFirst = false;
 
                     PSX_RECT frameRect = {};
@@ -323,7 +323,7 @@ void ParticleBurst::vRender_41D7B0(PrimHeader** ppOt)
                         ppOt,
                         0,
                         0);
-                    
+
                     PSX_RECT frameRect = {};
                     field_F8_pRes[i].field_18_anim.GetRenderedSize_40C980(&frameRect);
 

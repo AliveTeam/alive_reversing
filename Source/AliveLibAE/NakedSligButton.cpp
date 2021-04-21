@@ -24,7 +24,7 @@ NakedSligButton* NakedSligButton::ctor_4148F0(Path_NakedSligButton* pTlv, int tl
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x5444B4);
 
-    field_4_typeId = Types::eSligButton_16;
+    field_4_typeId = AETypes::eSligButton_16;
 
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknwonResID_1057);
     Animation_Init_424E10(408, 25, 12, ppRes, 1, 1);

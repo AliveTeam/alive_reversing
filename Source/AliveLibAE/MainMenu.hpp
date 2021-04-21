@@ -278,7 +278,7 @@ public:
     EXPORT MainMenuNextCam LoadDemo_Update_4D1040(DWORD input);
     EXPORT MainMenuNextCam DemoSelect_Update_4D0E10(DWORD input);
     EXPORT MainMenuNextCam Options_Update_4D1AB0(DWORD input);
-    
+
     EXPORT MainMenuNextCam AbeMotions_Update_4D1F50(DWORD input);
 
     EXPORT MainMenuNextCam PSX_Cooperative_Mode_Update_4D49B0(DWORD input);
@@ -297,7 +297,7 @@ public:
 
     EXPORT MainMenuNextCam tLoadGame_Input_4D3EF0(DWORD input);
     EXPORT void tLoadGame_Render_4D44D0(PrimHeader **pOt);
-    
+
     EXPORT void tLoadGame_Load_4D42F0();
     EXPORT static char CC checkIfDemoFileExists_4D1430(char *path);
     EXPORT static void CC remove_ISO9660_Suffix_4D1660(char* out, char* in);
@@ -309,7 +309,7 @@ public:
 
     static MainMenuController * gMainMenuController;
 private:
-    MainMenuNextCam HandleGameSpeakInput(DWORD input_held, std::function<MainMenuNextCam(InputCommands cmd)> fnOnGameSpeak);
+    MainMenuNextCam HandleGameSpeakInput(DWORD input_held, std::function<MainMenuNextCam(InputCommandsEnums::InputCommands cmd)> fnOnGameSpeak);
 
     void HandleCreditsControllerUpdate();
     void HandleMainMenuUpdate();

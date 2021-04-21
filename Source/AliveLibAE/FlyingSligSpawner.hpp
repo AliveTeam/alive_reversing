@@ -39,7 +39,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FlyingSligSpawner, 0x30);
 
 struct FlyingSligSpawner_State
 {
-    Types field_0_type;
+    AETypes field_0_type;
     //__int16 field_2_pad;
     int field_4_tlvInfo;
     int field_8_bSpawned;

@@ -40,7 +40,7 @@ CameraSwapper* CameraSwapper::ctor_4E4DC0(BYTE** ppCamRes, int moviePos1, int mo
     SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
 
     Init_4E50C0(ppCamRes, CameraSwapEffects::eEffect9_2_FMV);
-    
+
     PSX_ResetCallBack_4FAA20();
 
     Movie* pMovie = ae_new<Movie>();
@@ -140,7 +140,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
 {
     field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
 
-    field_4_typeId = Types::eCameraSwapper_149;
+    field_4_typeId = AETypes::eCameraSwapper_149;
 
     field_34_pSubObject = nullptr;
 
@@ -165,7 +165,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         return;
     }
     field_38_changeEffect = changeEffect;
-    
+
     PSX_Point xy = {};
     PSX_Point wh = {};
 
@@ -289,7 +289,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
     {
         field_52_XSlices = (gPsxDisplay_5C1130.field_0_width / 2) / kSliceWidth;
         field_54_YSlices = (gPsxDisplay_5C1130.field_2_height / 2) / kSliceWidth;
-        
+
         short xDiff = gPsxDisplay_5C1130.field_0_width - field_4E_xpos_converted;
         if (xDiff <= field_4E_xpos_converted)
         {
@@ -508,7 +508,7 @@ void CameraSwapper::vUpdate_4E5850()
         {
             pScreenManager_5BB5F4->field_40_flags &= ~1u;
         }
-        
+
         // When no movie is playing start the next one
         if (sMovie_ref_count_BB4AE4 == 0)
         {

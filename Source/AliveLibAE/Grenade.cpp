@@ -139,8 +139,8 @@ int CC Grenade::CreateFromSaveState_449410(const BYTE* pBuffer)
 
 int Grenade::GetSaveState_4496B0(Grenade_SaveState* pState)
 {
-    pState->field_0_type = Types::eGrenade_65;
-    
+    pState->field_0_type = AETypes::eGrenade_65;
+
     pState->field_4_obj_id = field_C_objectId;
 
     pState->field_8_xpos = field_B8_xpos;
@@ -194,7 +194,7 @@ void Grenade::vScreenChanged_449140()
 
 void Grenade::Init_448110(FP xpos, FP ypos)
 {
-    field_4_typeId = Types::eGrenade_65;
+    field_4_typeId = AETypes::eGrenade_65;
 
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID, 0, 0))
     {
@@ -678,7 +678,7 @@ __int16 Grenade::InTheAir_4484F0(__int16 blowUpOnFloorTouch)
 
 void Grenade::AddToPlatform_449210()
 {
-    BaseAddToPlatform([](Types type) { return type == Types::eLiftPoint_78 || type == Types::eTrapDoor_142; });
+    BaseAddToPlatform([](AETypes type) { return type == AETypes::eLiftPoint_78 || type == AETypes::eTrapDoor_142; });
 }
 
 __int16 Grenade::OnCollision_BounceOff_448F90(BaseGameObject* pHit)

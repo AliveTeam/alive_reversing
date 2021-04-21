@@ -151,7 +151,7 @@ EXPORT int CC Vram_alloc_block_4957B0(PSX_RECT* pRect, int depth)
             return 0;
         }
     }
-    
+
     return 1;
 }
 
@@ -303,7 +303,7 @@ EXPORT signed __int16 CC Pal_Allocate_483110(PSX_RECT* pRect, unsigned int palet
     int pal_rect_y = 0;
     int palX_idx = 0;
     int palBitMask = 0;
-    
+
     if (paletteColorCount == 16)
     {
         palBitMask = 1;
@@ -366,7 +366,7 @@ EXPORT void CC Pal_Area_Init_483080(__int16 xpos, __int16 ypos, unsigned __int16
     pal_free_count_5C915E = height;
 
     Vram_alloc_explicit_4955F0(xpos, ypos, xpos + width - 1, ypos + height - 1);
-    
+
     for (int i = 0; i < height; i++)
     {
         sPal_table_5C9164[i] = 0;
@@ -420,7 +420,7 @@ namespace Test
         PSX_RECT rect3;
         Vram_alloc_4956C0(32, 16, 8, &rect3);
 
-        
+
         ASSERT_EQ(sVramNumberOfAllocations_5CC888, 3);
         Vram_free_495A60({ rect2.x, rect2.y }, { rect2.w, rect2.h });
 

@@ -19,7 +19,7 @@ MotionDetectorLaser* MotionDetectorLaser::ctor_468290(FP xpos, FP ypos, FP scale
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x545FB0);
-    field_4_typeId = Types::eRedLaser_111;
+    field_4_typeId = AETypes::eRedLaser_111;
     const AnimRecord& rec = AnimRec(AnimId::Motion_Detector_Laser);
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
@@ -52,7 +52,7 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvIn
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x545FF8);
-    field_4_typeId = Types::eGreeterBody_91;
+    field_4_typeId = AETypes::eGreeterBody_91;
 
     const AnimRecord& rec = AnimRec(AnimId::Motion_Detector_Flare);
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -61,7 +61,7 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvIn
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
     field_20_animation.field_C_render_layer = Layer::eLayer_36;
-    
+
     field_D8_yOffset = 0;
 
     field_D0_r = 64;
@@ -258,7 +258,7 @@ void MotionDetector::vRender_469120(PrimHeader** ppOt)
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
-        auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds_5C1B70.Find(field_F8_laser_id, Types::eRedLaser_111));
+        auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds_5C1B70.Find(field_F8_laser_id, AETypes::eRedLaser_111));
         PSX_RECT bLaserRect = {};
         pLaser->vGetBoundingRect_424FD0(&bLaserRect, 1);
 
@@ -285,13 +285,13 @@ void MotionDetector::vRender_469120(PrimHeader** ppOt)
         // Add triangle
         Poly_Set_SemiTrans_4F8A60(&pPrim->mBase.header, TRUE);
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pPrim->mBase.header);
-        
+
         // Add tpage
         const int tpage = PSX_getTPage_4F60E0(TPageMode::e16Bit_2, field_178_bObjectInLaser != 0 ? TPageAbr::eBlend_1 : TPageAbr::eBlend_3, 0, 0); // When detected transparency is off, gives the "solid red" triangle
         Prim_SetTPage* pTPage = &field_154_tPage[gPsxDisplay_5C1130.field_C_buffer_index];
         Init_SetTPage_4F5B60(pTPage, 0, 0, tpage);
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pTPage->mBase);
-      
+
         pScreenManager_5BB5F4->InvalidateRect_40EC90(
             std::min(x0, std::min(x1, x1)),
             std::min(y0, std::min(y1, y2)),
@@ -303,7 +303,7 @@ void MotionDetector::vRender_469120(PrimHeader** ppOt)
 
 signed __int16 MotionDetector::IsInLaser_468980(BaseAliveGameObject* pWho, BaseGameObject* pOwner)
 {
-    if (pWho->field_4_typeId == Types::eAbe_69)
+    if (pWho->field_4_typeId == AETypes::eAbe_69)
     {
         // Abe is safe in these states or if electrocuted or in ddcheat fly mode.
         if (pWho->field_106_current_motion == eAbeStates::State_0_Idle_44EEB0 ||
@@ -318,7 +318,7 @@ signed __int16 MotionDetector::IsInLaser_468980(BaseAliveGameObject* pWho, BaseG
             return 0;
         }
     }
-    else if (pWho->field_4_typeId == Types::eMudokon_110)
+    else if (pWho->field_4_typeId == AETypes::eMudokon_110)
     {
         // For some reason when ddcheat is on muds are also invincible to lasers?
         if (sDDCheat_FlyingEnabled_5C2C08)
@@ -344,7 +344,7 @@ signed __int16 MotionDetector::IsInLaser_468980(BaseAliveGameObject* pWho, BaseG
         return 0;
     }
 
-    if (pOwner && (pWho->field_4_typeId != Types::eMudokon_110 && pWho->field_4_typeId != Types::eAbe_69))
+    if (pOwner && (pWho->field_4_typeId != AETypes::eMudokon_110 && pWho->field_4_typeId != AETypes::eAbe_69))
     {
         // If there is an owner (such as a greeter) then only muds and abe can set off the beam?
         return 0;
@@ -355,8 +355,8 @@ signed __int16 MotionDetector::IsInLaser_468980(BaseAliveGameObject* pWho, BaseG
 
 void MotionDetector::vUpdate_468A90()
 {
-    MotionDetectorLaser* pLaser = static_cast<MotionDetectorLaser*>(sObjectIds_5C1B70.Find(field_F8_laser_id, Types::eRedLaser_111));
-    Greeter* pOwner = static_cast<Greeter*>(sObjectIds_5C1B70.Find(field_FC_owner_id, Types::eGreeter_64));
+    MotionDetectorLaser* pLaser = static_cast<MotionDetectorLaser*>(sObjectIds_5C1B70.Find(field_F8_laser_id, AETypes::eRedLaser_111));
+    Greeter* pOwner = static_cast<Greeter*>(sObjectIds_5C1B70.Find(field_FC_owner_id, AETypes::eGreeter_64));
 
     if (Event_Get_422C00(kEventDeathReset))
     {
@@ -389,7 +389,7 @@ void MotionDetector::vUpdate_468A90()
                 break;
             }
 
-            if (pObj->field_4_typeId != Types::eTimedMine_or_MovingBomb_10 && (pObj->field_4_typeId == Types::eAbe_69 || pObj->field_4_typeId == Types::eMudokon_110 || !pOwner))
+            if (pObj->field_4_typeId != AETypes::eTimedMine_or_MovingBomb_10 && (pObj->field_4_typeId == AETypes::eAbe_69 || pObj->field_4_typeId == AETypes::eMudokon_110 || !pOwner))
             {
                 PSX_RECT objRect = {};
                 pObj->vGetBoundingRect_424FD0(&objRect, 1);
@@ -412,7 +412,7 @@ void MotionDetector::vUpdate_468A90()
                     if (IsInLaser_468980(pObj, pOwner))
                     {
                         field_178_bObjectInLaser = 1;
-                        
+
                         if (pOwner == nullptr)
                         {
                             // Trigger alarms if its not already blasting

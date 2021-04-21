@@ -30,7 +30,7 @@ enum class SlapLockStates : __int16
 
 struct SlapLock_State
 {
-    Types field_0_type;
+    AETypes field_0_type;
     __int16 field_2_render;
     int field_4_tlvInfo;
     char field_8_tlv_state;
@@ -53,7 +53,7 @@ public:
     virtual void VScreenChanged() override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
     virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
-    
+
     EXPORT static int CC CreateFromSaveState_43EA00(const BYTE* pBuffer);
 
 private:

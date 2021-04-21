@@ -12,7 +12,7 @@ EXPORT ZapLine* ZapLine::ctor_4CC690(FP xPosSource, FP yPosSource, FP xPosDest, 
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     field_12A_type = type;
     SetVTable(this, 0x5478A0);
-    field_4_typeId = Types::eZapLine_135;
+    field_4_typeId = AETypes::eZapLine_135;
 
     if (type == ZapLineType::eThin_1)
     {
@@ -39,16 +39,16 @@ EXPORT ZapLine* ZapLine::ctor_4CC690(FP xPosSource, FP yPosSource, FP xPosDest, 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit25_bDecompressDone); // HIBYTE |= 1
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_C_render_layer = layer;
-    
+
     field_F8_ppRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::ResourceType::Resource_Spline, 0, sizeof(ZapLineSprites) * field_132_number_of_sprites); // Spln (spline?).
-    
+
     field_134_pSprites = reinterpret_cast<ZapLineSprites*>(*field_F8_ppRes);
     field_138_sprite_positions = reinterpret_cast<PSX_Point*>(ae_malloc_non_zero_4954F0(sizeof(PSX_Point) * field_132_number_of_sprites));
     field_13C_zap_points = reinterpret_cast<ZapPoint*>(ae_malloc_non_zero_4954F0(sizeof(ZapPoint) * field_130_number_of_pieces_per_segment));
     field_140_sprite_segment_positions = reinterpret_cast<FP_Point*>(ae_malloc_non_zero_4954F0(sizeof(FP_Point) * field_12E_number_of_segments));
-    
+
     field_128_max_alive_time = aliveTime;
-    
+
     field_B8_xpos = xPosSource;
     field_BC_ypos = yPosSource;
 
@@ -253,7 +253,7 @@ void ZapLine::CalculateThinSpriteSegmentPositions_4CD110()
     field_140_sprite_segment_positions[0].field_4_y = FP_FromInteger(field_11E_y_position_source);
     field_140_sprite_segment_positions[field_12E_number_of_segments - 1].field_0_x = FP_FromInteger(field_120_x_position_destination);
     field_140_sprite_segment_positions[field_12E_number_of_segments - 1].field_4_y = FP_FromInteger(field_122_y_position_destination);
-    
+
     const FP x2Diff = FP_FromInteger(field_120_x_position_destination - field_11C_x_position_source) / FP_FromInteger(field_12E_number_of_segments);
     const FP y2Diff = FP_FromInteger(field_122_y_position_destination - field_11E_y_position_source) / FP_FromInteger(field_12E_number_of_segments);
 

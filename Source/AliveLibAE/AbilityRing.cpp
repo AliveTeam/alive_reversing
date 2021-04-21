@@ -44,7 +44,7 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x546AB0);
 
-    field_4_typeId = Types::eAbilityRing_104;
+    field_4_typeId = AETypes::eAbilityRing_104;
     field_288_target_obj_id = -1;
     gObjList_drawables_5C1124->Push_Back(this);
     field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
@@ -473,7 +473,7 @@ void AbilityRing::CollideWithObjects_49D5E0(__int16 bDealDamage)
                             pObj->VTakeDamage_408730(this);
                         }
                     }
-                    else if (pObj->field_4_typeId == Types::eMudokon_110)
+                    else if (pObj->field_4_typeId == AETypes::eMudokon_110)
                     {
                         if (pObj->field_114_flags.Get(Flags_114::e114_Bit3_Can_Be_Possessed)) // TODO: Clearly this has another meaning for muds
                         {
@@ -593,7 +593,7 @@ void AbilityRing::vScreenChanged_49DE70()
                 break;
             }
 
-            if (pObj->field_4_typeId == Types::eMudokon_110)
+            if (pObj->field_4_typeId == AETypes::eMudokon_110)
             {
                 if (pObj->field_114_flags.Get(Flags_114::e114_Bit3_Can_Be_Possessed))
                 {
@@ -611,7 +611,7 @@ void AbilityRing::vScreenChanged_49DE70()
 
 int AbilityRing::vGetSaveState_49E070(AbilityRing_State* pSaveState)
 {
-    pSaveState->field_0_type = Types::eAbilityRing_104;
+    pSaveState->field_0_type = AETypes::eAbilityRing_104;
     pSaveState->field_4_xpos = field_24C_xpos;
     pSaveState->field_8_ypos = field_250_ypos;
     pSaveState->field_C_ring_type = field_284_ring_type;

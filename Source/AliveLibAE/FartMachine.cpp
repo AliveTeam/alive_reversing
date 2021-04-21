@@ -45,8 +45,8 @@ FartMachine* FartMachine::ctor_413060(Path_FartMachine* pTlv, int tlvInfo)
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544424);
     SetVTable(&field_14C_anim, 0x544290);
-    
-    field_4_typeId = Types::eBrewMachine_13;
+
+    field_4_typeId = AETypes::eBrewMachine_13;
 
     field_F4_font_context.LoadFontType_433400(2);
     field_104_font.ctor_433590(3, byte_550F08, &field_F4_font_context);

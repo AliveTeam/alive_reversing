@@ -18,7 +18,7 @@ SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, int tlvInfo)
     ctor_408240(0);
     SetVTable(this, 0x545224);
 
-    field_4_typeId = Types::eLockedSoul_61;
+    field_4_typeId = AETypes::eLockedSoul_61;
     field_118_pTlv = pTlv;
     field_11C_tlvInfo = tlvInfo;
     field_C_objectId = tlvInfo;
@@ -63,7 +63,7 @@ SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, int tlvInfo)
             break;
         }
 
-        if (pObj->field_4_typeId == Types::eSlapLock_OrbWhirlWind_60 && static_cast<SlapLockWhirlWind*>(pObj)->SwitchId() == field_118_pTlv->field_14_target_tomb_id2)
+        if (pObj->field_4_typeId == AETypes::eSlapLock_OrbWhirlWind_60 && static_cast<SlapLockWhirlWind*>(pObj)->SwitchId() == field_118_pTlv->field_14_target_tomb_id2)
         {
             field_130_has_ghost = Choice_short::eNo_0;
         }
@@ -133,7 +133,7 @@ int CC SlapLock::CreateFromSaveState_43EA00(const BYTE* pBuffer)
     auto pState = reinterpret_cast<const SlapLock_State*>(pBuffer);
 
     auto pTlv = static_cast<Path_SlapLock*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4_tlvInfo));
-  
+
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_1053, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("GHOSTTRP.BAN", nullptr);
@@ -191,7 +191,7 @@ void SlapLock::GiveInvisibility_43E880()
 
 signed int SlapLock::vGetSaveState_43EB30(SlapLock_State* pState)
 {
-    pState->field_0_type = Types::eLockedSoul_61;
+    pState->field_0_type = AETypes::eLockedSoul_61;
     pState->field_2_render = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render) & 1;
     pState->field_4_tlvInfo = field_11C_tlvInfo;
     pState->field_8_tlv_state = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_11C_tlvInfo)->field_1_tlv_state;
@@ -242,7 +242,7 @@ void SlapLock::vUpdate_43DF90()
                         break;
                     }
 
-                    if (pObj->field_4_typeId == Types::eAbilityRing_104 && pObj->field_C_objectId == field_134_id)
+                    if (pObj->field_4_typeId == AETypes::eAbilityRing_104 && pObj->field_C_objectId == field_134_id)
                     {
                         field_134_id = pObj->field_8_object_id;
                         break;
@@ -282,7 +282,7 @@ void SlapLock::vUpdate_43DF90()
 
 			const AnimRecord& animRec = AnimRec(AnimId::Slap_Lock_Shake);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
-            
+
 			field_120_state = SlapLockStates::eIdle_1;
             SFX_Play_46FA90(SoundEffect::SpiritLockShake_105, 0);
             return;
@@ -468,7 +468,7 @@ __int16 SlapLock::vTakeDamage_43E5D0(BaseGameObject* pFrom)
 {
     field_118_pTlv = static_cast<Path_SlapLock*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_11C_tlvInfo));
 
-    if (pFrom->field_4_typeId != Types::eAbe_69)
+    if (pFrom->field_4_typeId != AETypes::eAbe_69)
     {
         // Only Abe can slap me up
         return 0;

@@ -31,7 +31,7 @@ enum class MineCarDirs : __int16
 
 struct MineCar_SaveState
 {
-    Types field_0_type;
+    AETypes field_0_type;
     __int16 field_2_pad;
     FP field_4_xpos;
     FP field_8_ypos;
@@ -105,7 +105,7 @@ private:
     EXPORT void vUpdate_REAL_46C010();
     EXPORT void vRender_46E760(PrimHeader** ppOt);
     EXPORT void Stop_46E570();
-    EXPORT void Move_46E640(unsigned __int16 frameTabeOffset, FP velX, FP velY, InputCommands input, MineCarDirs dir, char bChangeDirection);
+    EXPORT void Move_46E640(unsigned __int16 frameTabeOffset, FP velX, FP velY, InputCommandsEnums::InputCommands input, MineCarDirs dir, char bChangeDirection);
     EXPORT __int16 IsBlocked_46F4A0(__int16 a2, int a3);
     EXPORT __int16 FollowDirection_46EA00();
     EXPORT void RunThingsOver_46F380();
@@ -122,7 +122,7 @@ private:
     void HandleUpDown();
 
     using mineCarFPFunc = BOOL (MineCar::*)(FP, FP);
-    bool HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncArg1, const FP mineCarFPFuncArg2, const FP mineCarFPFuncArg3, unsigned short moveArgument1, MineCarDirs moveArgument2, const char changeDir, FP rayCast1, FP rayCast2, FP rayCast3, FP rayCast4, const int ModelMask1, const int ModelMask2, FP moveX, FP moveY, InputCommands key, bool isVertical, bool verticalFlipXCond);
+    bool HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncArg1, const FP mineCarFPFuncArg2, const FP mineCarFPFuncArg3, unsigned short moveArgument1, MineCarDirs moveArgument2, const char changeDir, FP rayCast1, FP rayCast2, FP rayCast3, FP rayCast4, const int ModelMask1, const int ModelMask2, FP moveX, FP moveY, InputCommandsEnums::InputCommands key, bool isVertical, bool verticalFlipXCond);
 
 private:
     int field_118_tlvInfo;
@@ -145,7 +145,7 @@ private:
     __int16 field_1CC_spawned_path;
     __int16 field_1CE_spawned_camera;
     int field_1D0_sound_channels_mask;
-    __int16 field_1D4_previous_input; //TODO change to InputCommands type when we can drop sizeof assert
-    __int16 field_1D6_continue_move_input; //TODO change to InputCommands type when we can drop sizeof assert
+    __int16 field_1D4_previous_input; //TODO change to InputCommandsEnums::InputCommands type when we can drop sizeof assert
+    __int16 field_1D6_continue_move_input; //TODO change to InputCommandsEnums::InputCommands type when we can drop sizeof assert
 };
 ALIVE_ASSERT_SIZEOF(MineCar, 0x1D8);
