@@ -356,7 +356,12 @@ target_compile_features(AliveLibAO
     PRIVATE cxx_variadic_templates)
 
 if (MINGW)
-    set(WIN32_LIBS "")
+    if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+        set(WIN32_LIBS "imm32")
+    else()
+        set(WIN32_LIBS "")
+    endif()
+
     set(AE_LIB AliveLibAE)
 else()
     if (WIN32)
