@@ -10,6 +10,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 if (WIN32)
     add_executable(vab_tool WIN32 vab_tool.cpp)
 
+    if (MSVC)
+        target_compile_options(vab_tool PRIVATE /W4 /wd4996 /WX /MP)
+    endif()
+
     target_include_directories(vab_tool PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
         $<INSTALL_INTERFACE:include>

@@ -37,7 +37,13 @@ add_library(alive_api ${alive_api_src})
 target_link_libraries(alive_api jsonxx AliveLibAE AliveLibAO)
 export(TARGETS alive_api FILE alive_api.cmake)
 
+
 add_executable(alive_api_test alive_api_test.cpp)
+
+if (MSVC)
+    target_compile_options(alive_api PRIVATE /W4 /wd4996 /WX /MP)
+    target_compile_options(alive_api_test PRIVATE /W4 /wd4996 /WX /MP)
+endif()
 
 target_include_directories(alive_api_test PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>

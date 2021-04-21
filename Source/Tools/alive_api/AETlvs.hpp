@@ -70,6 +70,7 @@
 #include "../AliveLibAE/TorturedMudokon.hpp"
 
 #define CTOR_AE(className, objectTypeName, tlvType) className() : TlvObjectBaseAE(tlvType, objectTypeName) {}  className(TypesCollection& globalTypes, Path_TLV* pTlv = nullptr) : TlvObjectBaseAE(tlvType, objectTypeName, pTlv)
+#define EMPTY_CTOR_AE() (void)globalTypes
 
 struct Path_Null_63 : public Path_TLV
 {
@@ -1001,7 +1002,7 @@ namespace AETlvs
     {
         CTOR_AE(Path_InvisibleZone, "InvisibleZone", TlvTypes::InvisibleZone_33)
         {
-            // Empty
+            EMPTY_CTOR_AE();
         }
     };
 
@@ -1200,10 +1201,10 @@ namespace AETlvs
     {
         CTOR_AE(Path_ZSligCover, "ZSligCover", TlvTypes::ZSligCover_50)
         {
-            // Empty
+            EMPTY_CTOR_AE();
         }
     };
-    // TODO: finish
+
     struct Path_WellLocal : public TlvObjectBaseAE<::Path_WellLocal>
     {
         CTOR_AE(Path_WellLocal, "WellLocal", TlvTypes::LocalWell_8)
@@ -1458,7 +1459,7 @@ namespace AETlvs
     {
         CTOR_AE(Path_DemoSpawnPoint, "DemoSpawnPoint", TlvTypes::DemoSpawnPoint_87)
         {
-            // Empty
+            EMPTY_CTOR_AE();
         }
     };
 
@@ -1548,7 +1549,7 @@ namespace AETlvs
     {
         CTOR_AE(Path_ScrabLeftBound, "ScrabLeftBound", TlvTypes::ScrabLeftBound_43)
         {
-            // Empty
+            EMPTY_CTOR_AE();
         }
     };
 
@@ -1556,7 +1557,7 @@ namespace AETlvs
     {
         CTOR_AE(Path_ScrabRightBound, "ScrabRightBound", TlvTypes::ScrabRightBound_44)
         {
-            // Empty
+            EMPTY_CTOR_AE();
         }
     };
 
@@ -1564,7 +1565,7 @@ namespace AETlvs
     {
         CTOR_AE(Path_CreditsController, "CreditsController", TlvTypes::CreditsController_62)
         {
-            // Empty
+            EMPTY_CTOR_AE();
         }
     };
 
@@ -1867,7 +1868,7 @@ namespace AETlvs
     {
         CTOR_AE(Path_MainMenuController, "MainMenuController", TlvTypes::MainMenuController_54)
         {
-            // Empty
+            EMPTY_CTOR_AE();
         }
     };
 

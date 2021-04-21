@@ -54,7 +54,7 @@ public:
         // Default empty to prevent having to explicitly implement in every TLV wrapper
     }
 
-    virtual std::size_t TlvLen() const = 0;
+    virtual __int16 TlvLen() const = 0;
     virtual std::vector<BYTE> GetTlvData(bool setTerminationFlag) = 0;
 
     void SetInstanceNumber(int instanceNumber)
@@ -154,7 +154,7 @@ public:
     template<class T>
     void ReadBasicType(T& field, jsonxx::Object& properties)
     {
-        field = properties.get<jsonxx::Number>(PropName(&field));
+        field = static_cast<T>(properties.get<jsonxx::Number>(PropName(&field)));
     }
 
     template<class T>
@@ -216,6 +216,7 @@ void TypedProperty<T>::Read(TlvObjectBase& tlvObjBase, TypesCollection& types, j
     }
     else
     {
+        (void)types; // not used in this code path (warning because other branch is removed at compile tile)
         tlvObjBase.ReadBasicType(*m_data, properties);
     }
 }
@@ -229,6 +230,7 @@ void TypedProperty<T>::Write(TlvObjectBase& tlvObjBase, TypesCollection& types, 
     }
     else
     {
+        (void)types; // not used in this branch as the other is removed at compile time
         tlvObjBase.WriteBasicType(*m_data, properties);
     }
 }
@@ -257,10 +259,10 @@ public:
     {
         mStructTypeName = obj.get<std::string>("name");
 
-        mTlv.field_8_top_left.field_0_x = obj.get<jsonxx::Number>("xpos");
-        mTlv.field_8_top_left.field_2_y = obj.get<jsonxx::Number>("ypos");
-        mTlv.field_C_bottom_right.field_0_x = obj.get<jsonxx::Number>("width") + mTlv.field_8_top_left.field_0_x;
-        mTlv.field_C_bottom_right.field_2_y = obj.get<jsonxx::Number>("height") + mTlv.field_8_top_left.field_2_y;
+        mTlv.field_8_top_left.field_0_x = static_cast<short>(obj.get<jsonxx::Number>("xpos"));
+        mTlv.field_8_top_left.field_2_y = static_cast<short>(obj.get<jsonxx::Number>("ypos"));
+        mTlv.field_C_bottom_right.field_0_x = static_cast<short>(obj.get<jsonxx::Number>("width") + mTlv.field_8_top_left.field_0_x);
+        mTlv.field_C_bottom_right.field_2_y = static_cast<short>(obj.get<jsonxx::Number>("height") + mTlv.field_8_top_left.field_2_y);
     }
 
     void InstanceToJsonBase(jsonxx::Object& ret) override
@@ -281,9 +283,9 @@ public:
         ret << "object_structures_type" << Name();
     }
 
-    std::size_t TlvLen() const override
+    __int16 TlvLen() const override
     {
-        return sizeof(T);
+        return static_cast<__int16>(sizeof(T));
     }
 
     std::vector<BYTE> GetTlvData(bool setTerminationFlag) override
@@ -328,10 +330,10 @@ public:
     {
         mStructTypeName = obj.get<std::string>("name");
 
-        mBase->field_10_top_left.field_0_x = obj.get<jsonxx::Number>("xpos");
-        mBase->field_10_top_left.field_2_y = obj.get<jsonxx::Number>("ypos");
-        mBase->field_14_bottom_right.field_0_x = obj.get<jsonxx::Number>("width") + mBase->field_10_top_left.field_0_x;
-        mBase->field_14_bottom_right.field_2_y = obj.get<jsonxx::Number>("height") + mBase->field_10_top_left.field_2_y;
+        mBase->field_10_top_left.field_0_x = static_cast<short>(obj.get<jsonxx::Number>("xpos"));
+        mBase->field_10_top_left.field_2_y = static_cast<short>(obj.get<jsonxx::Number>("ypos"));
+        mBase->field_14_bottom_right.field_0_x = static_cast<short>(obj.get<jsonxx::Number>("width") + mBase->field_10_top_left.field_0_x);
+        mBase->field_14_bottom_right.field_2_y = static_cast<short>(obj.get<jsonxx::Number>("height") + mBase->field_10_top_left.field_2_y);
 
         mBase->field_C_sound_pos.field_0_x = mBase->field_10_top_left.field_0_x;
         mBase->field_C_sound_pos.field_2_y = mBase->field_10_top_left.field_2_y;
@@ -355,9 +357,9 @@ public:
         ret << "object_structures_type" << Name();
     }
 
-    std::size_t TlvLen() const override
+    __int16 TlvLen() const override
     {
-        return sizeof(T);
+        return static_cast<__int16>(sizeof(T));
     }
 
     std::vector<BYTE> GetTlvData(bool setTerminationFlag) override

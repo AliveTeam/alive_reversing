@@ -155,7 +155,7 @@ public:
             // Type already exists
             LOG_ERROR(enumName << " exists more than once ");
             abort();
-            return ret;
+            //return ret;
         }
 
         auto newEnum = std::make_unique<EnumType<T>>(enumName);

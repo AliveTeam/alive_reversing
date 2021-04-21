@@ -114,7 +114,7 @@ static void PCToPsxVab(bool isAe, const char* lvlName, const char* vhName, const
     archive.Free_433130();
 }
 
-int main(int argc, char* argv[])
+int main(int /*argc*/, char** /*argv*/)
 {
 #if _WIN32
     ::AllocConsole();

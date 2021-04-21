@@ -55,3 +55,9 @@ target_compile_definitions(AliveExeAO PRIVATE "_CRT_SECURE_NO_WARNINGS" "AO_EXE"
 target_link_libraries(AliveExeAO AliveLibAE AliveLibAO)
 export(TARGETS AliveExeAO FILE AliveExeAO.cmake)
 install(TARGETS AliveExeAO DESTINATION "${BINPATH}")
+
+if (MSVC)
+    target_compile_options(AliveExeAE PRIVATE /W4 /wd4996 /WX /MP)
+    target_compile_options(AliveExeAO PRIVATE /W4 /wd4996 /WX /MP)
+    target_compile_options(AliveExe PRIVATE /W4 /wd4996 /WX /MP)
+endif()
