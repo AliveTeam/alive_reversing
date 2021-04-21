@@ -258,7 +258,7 @@ EXPORT FP CC Math_Tan_496F70(const FP value1, const FP value2)
     return FP_FromInteger(0);
 }
 
-namespace Test
+namespace AETest::TestsMath
 {
     void Math_Tests()
     {

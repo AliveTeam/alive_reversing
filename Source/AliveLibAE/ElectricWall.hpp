@@ -19,7 +19,7 @@ struct Path_ElectricWall : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ElectricWall, 0x18);
 
-class ElectricWall : public BaseAnimatedWithPhysicsGameObject
+class ElectricWall : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT ElectricWall* ctor_421DA0(Path_ElectricWall* pTlv, int tlvInfo);

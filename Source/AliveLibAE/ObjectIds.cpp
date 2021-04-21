@@ -156,7 +156,7 @@ BaseGameObject* ObjectIds::Find(TObjectId_KeyType idToFind, AETypes type)
 
 #include <gmock/gmock.h>
 
-namespace Test
+namespace AETest::TestsObjectIds
 {
     class FakeGameObject : public BaseGameObject
     {

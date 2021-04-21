@@ -15,7 +15,7 @@ extern TFrameCallBackType kSlog_Anim_Frame_Fns_55EFBC[2];
 extern TFrameCallBackType kFlyingSlig_Anim_Frames_Fns_55EFC4[3];
 extern TFrameCallBackType kFleech_Anim_Frame_Fns_55EFD0[3];
 
-namespace Test
+namespace AETest::TestsAnimation
 {
     void AnimationTests();
 }
@@ -139,7 +139,7 @@ public:
     int(CC **field_1C_fn_ptr_array)(void *, __int16 *);
     BYTE** field_20_ppBlock; // // pointer to a pointer which points to anim data
     BYTE** field_24_dbuf;
-    
+
     DWORD field_28_dbuf_size;
     Poly_FT4 field_2C_ot_data[2];
 

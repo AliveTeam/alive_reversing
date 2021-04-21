@@ -14,7 +14,7 @@ struct BloodParticle
 };
 ALIVE_ASSERT_SIZEOF(BloodParticle, 0x40);
 
-class Blood : public BaseAnimatedWithPhysicsGameObject
+class Blood : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(signed int flags) override;

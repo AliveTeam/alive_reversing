@@ -17,7 +17,7 @@ struct Path_StatusLight : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_StatusLight, 0x20);
 
-class StatusLight : public BaseAnimatedWithPhysicsGameObject
+class StatusLight : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(signed int flags) override;

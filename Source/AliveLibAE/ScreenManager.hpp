@@ -68,15 +68,15 @@ public:
     EXPORT void DecompressCameraToVRam_40EF60(WORD** ppBits);
 
     EXPORT ScreenManager* ctor_40E3E0(BYTE** ppBits, FP_Point* pCameraOffset);
-    
+
     EXPORT void Init_40E4B0(BYTE** ppBits);
-   
+
     EXPORT void dtor_40E490();
     EXPORT BaseGameObject* vdtor_40E460(signed int flags);
     int next_bits();
 
     EXPORT static int CC GetTPage_40F040(TPageMode tp, TPageAbr abr, int* xpos, int* ypos);
-    
+
     virtual void VRender(PrimHeader** ppOt) override;
     EXPORT void Render_Helper_40E9F0(int xpos, int ypos, Layer idx, int sprite_idx, PrimHeader** ppOt);
     EXPORT void sub_40EE50();
@@ -119,7 +119,7 @@ public:
 
 ALIVE_VAR_EXTERN(ScreenManager*, pScreenManager_5BB5F4);
 
-namespace Test
+namespace AETest::TestsScreenManager
 {
     void ScreenManagerTests();
 }

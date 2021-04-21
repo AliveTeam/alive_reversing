@@ -545,9 +545,9 @@ void BaseAnimatedWithPhysicsGameObject::SetRGB(__int16 r, __int16 g, __int16 b)
     field_D4_b = b;
 }
 
-namespace Test
+namespace AETest::TestsBaseAnimatedWithPhysicsGameObject
 {
-    class TestObj : public BaseAnimatedWithPhysicsGameObject
+    class TestObj : public ::BaseAnimatedWithPhysicsGameObject
     {
     public:
         virtual BaseGameObject* VDestructor(signed int) override

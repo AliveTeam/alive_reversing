@@ -909,7 +909,7 @@ EXPORT int CC PSX_DrawSync_4F6280(int /*mode*/)
     return 0;
 }
 
-namespace Test
+namespace AETest::TestsPsx
 {
     static void Test_PSX_ClearOTag_4F6290()
     {

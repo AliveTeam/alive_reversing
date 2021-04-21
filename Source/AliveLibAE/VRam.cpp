@@ -398,7 +398,7 @@ EXPORT void CC Pal_Set_483510(PSX_Point xy, __int16 w, const BYTE* palData, PSX_
 
 using namespace ::testing;
 
-namespace Test
+namespace AETest::TestsVRam
 {
     void Test_VRamAllocate()
     {

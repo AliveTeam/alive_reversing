@@ -43,7 +43,7 @@ ALIVE_ASSERT_SIZEOF(ObjectIds, 0x8);
 
 ALIVE_VAR_EXTERN(ObjectIds, sObjectIds_5C1B70);
 
-namespace Test
+namespace AETest::TestsObjectIds
 {
     void ObjectIdsTests();
 }

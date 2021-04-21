@@ -31,7 +31,7 @@ enum Flags_114
     e114_Bit11_Electrocuting = 0x400,
 };
 
-class BaseAliveGameObject : public BaseAnimatedWithPhysicsGameObject
+class BaseAliveGameObject : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT BaseAliveGameObject* ctor_408240(short resourceArraySize);

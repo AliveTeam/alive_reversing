@@ -144,7 +144,7 @@ struct MainMenuNextCam
 // Indicates a button index value on a given page where there is no button to animate with a glowing outline
 const short NO_SELECTABLE_BUTTONS = -1;
 
-class MainMenuController : public BaseAnimatedWithPhysicsGameObject
+class MainMenuController : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT MainMenuController* ctor_4CE9A0(Path_TLV* pTlv, TlvItemInfoUnion tlvOffsetLevelIdPathId);

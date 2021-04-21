@@ -1113,7 +1113,7 @@ void Animation::Get_Frame_Width_Height_40C400(__int16* pWidth, __int16* pHeight)
 
 // ================================================================
 
-namespace Test
+namespace AETest::TestsAnimation
 {
     struct TestAnimData
     {

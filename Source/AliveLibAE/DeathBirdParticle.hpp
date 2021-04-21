@@ -3,7 +3,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "FunctionFwd.hpp"
 
-class DeathBirdParticle : public BaseAnimatedWithPhysicsGameObject
+class DeathBirdParticle : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(signed int flags) override;

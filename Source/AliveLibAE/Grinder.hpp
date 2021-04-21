@@ -62,11 +62,11 @@ struct Path_Grinder : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Grinder, 0x28);
 
-class Grinder : public BaseAnimatedWithPhysicsGameObject
+class Grinder : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Grinder* ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo);
-    
+
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;

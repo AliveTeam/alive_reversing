@@ -47,7 +47,7 @@ struct PauseMenuPageEntry
 };
 ALIVE_ASSERT_SIZEOF(PauseMenuPageEntry, 0x10);
 
-class PauseMenu : public BaseAnimatedWithPhysicsGameObject
+class PauseMenu : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     struct PauseMenuPage;

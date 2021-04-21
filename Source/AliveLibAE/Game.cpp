@@ -905,7 +905,7 @@ EXPORT void CC Game_Loop_467230()
 }
 
 
-namespace Test
+namespace AETest::TestsGame
 {
     static void Test_PSX_getTPage_4F60E0()
     {

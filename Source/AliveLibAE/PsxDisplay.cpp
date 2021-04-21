@@ -159,7 +159,7 @@ EXPORT void CC DebugFont_Flush_4DD050()
     sDebugFontTmpBuffer_BB47CC[0] = 0;
 }
 
-namespace Test
+namespace AETest::TestsPsxDisplay
 {
     static void Test_DebugFont_4F8AB0()
     {

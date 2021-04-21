@@ -31,7 +31,7 @@ struct FootSwitch_Data
 ALIVE_ASSERT_SIZEOF_ALWAYS(FootSwitch_Data, 0xC);
 
 
-class FootSwitch : public BaseAnimatedWithPhysicsGameObject
+class FootSwitch : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT FootSwitch* ctor_4DE090(Path_FootSwitch* pTlv, int tlvInfo);

@@ -10,7 +10,7 @@
 #include "Throwable.hpp"
 #include "Grenade.hpp"
 
-class GrenadeMachineNozzle : public BaseAnimatedWithPhysicsGameObject
+class GrenadeMachineNozzle : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT GrenadeMachineNozzle* ctor_4456F0(FP xpos, FP ypos, FP scale, __int16 numGrenades)

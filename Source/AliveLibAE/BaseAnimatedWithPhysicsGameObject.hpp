@@ -7,7 +7,7 @@
 #include "AnimationUnknown.hpp"
 #include "Map.hpp"
 
-namespace Test
+namespace AETest::TestsBaseAnimatedWithPhysicsGameObject
 {
     void BaseAnimatedWithPhysicsGameObjectTests();
 }

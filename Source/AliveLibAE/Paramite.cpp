@@ -6304,7 +6304,8 @@ __int16 CC Paramite::StableDelay_48DF80()
     return sParamiteDelayTable_55D7B8[sParamiteDelayIdx_5C92EC++];
 }
 
-const SfxDefinition stru_55D7C0[12] =
+// TODO: repetition with `MainMenu.cpp`
+const SfxDefinition paramite_stru_55D7C0[12] =
 {
     { 0u, 5u, 60u, 90u, -520, -520 },
     { 0u, 5u, 61u, 75u, -520, -520 },
@@ -6327,7 +6328,7 @@ void Paramite::Sound_48F600(ParamiteSpeak soundId, __int16 pitch_min)
     short volRight = 0;
     if (soundId == ParamiteSpeak::Howdy_5)
     {
-        volRight = stru_55D7C0[5].field_3_default_volume;
+        volRight = paramite_stru_55D7C0[5].field_3_default_volume;
         if (sControlledCharacter_5C1B8C == this)
         {
             volRight *= 3;
@@ -6339,7 +6340,7 @@ void Paramite::Sound_48F600(ParamiteSpeak soundId, __int16 pitch_min)
     }
     else
     {
-        volRight = stru_55D7C0[static_cast<int>(soundId)].field_3_default_volume;
+        volRight = paramite_stru_55D7C0[static_cast<int>(soundId)].field_3_default_volume;
     }
 
     if (field_CC_sprite_scale == FP_FromDouble(0.5))
@@ -6360,7 +6361,7 @@ void Paramite::Sound_48F600(ParamiteSpeak soundId, __int16 pitch_min)
     case CameraPos::eCamTop_1:
     case CameraPos::eCamBottom_2:
     {
-        const short v12 = FP_GetExponent(FP_FromRaw(stru_55D7C0[static_cast<int>(soundId)].field_3_default_volume) / FP_FromInteger(3));
+        const short v12 = FP_GetExponent(FP_FromRaw(paramite_stru_55D7C0[static_cast<int>(soundId)].field_3_default_volume) / FP_FromInteger(3));
         volLeft = v12;
         volRight = v12;
         break;
@@ -6394,11 +6395,11 @@ void Paramite::Sound_48F600(ParamiteSpeak soundId, __int16 pitch_min)
     }
     else if (pitch_min > 0)
     {
-        SFX_SfxDefinition_Play_4CA700(&stru_55D7C0[static_cast<int>(soundId)], volLeft, volRight, pitch_min, pitch_min);
+        SFX_SfxDefinition_Play_4CA700(&paramite_stru_55D7C0[static_cast<int>(soundId)], volLeft, volRight, pitch_min, pitch_min);
     }
     else
     {
-        SFX_SfxDefinition_Play_4CA700(&stru_55D7C0[static_cast<int>(soundId)], volLeft, volRight, -520, -520);
+        SFX_SfxDefinition_Play_4CA700(&paramite_stru_55D7C0[static_cast<int>(soundId)], volLeft, volRight, -520, -520);
     }
 }
 

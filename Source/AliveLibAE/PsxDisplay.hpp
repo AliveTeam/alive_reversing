@@ -65,7 +65,7 @@ EXPORT int CC DebugFont_Init_4DCF40();
 
 void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect);
 
-namespace Test
+namespace AETest::TestsPsxDisplay
 {
     void PsxDisplayTests();
 }

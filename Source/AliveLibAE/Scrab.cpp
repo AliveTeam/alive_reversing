@@ -39,7 +39,8 @@ static const TintEntry sScrabTints_560260[15] =
     { -1, 127u, 127u, 127u }
 };
 
-static const SfxDefinition sScrabSfx_560330[9] =
+// TODO: repetition with `MainMenu.cpp`
+static const SfxDefinition scrab_sScrabSfx_560330[9] =
 {
     { 0u, 4u, 60u, 55u, 0, 0 },
     { 0u, 4u, 61u, 70u, 0, 0 },
@@ -4031,7 +4032,7 @@ void Scrab::KnockBack_4AA530()
 
 const SfxDefinition getSfxDef(ScrabSounds effectId)
 {
-    return sScrabSfx_560330[static_cast<int>(effectId)];
+    return scrab_sScrabSfx_560330[static_cast<int>(effectId)];
 }
 
 int Scrab::Scrab_SFX_4AADB0(ScrabSounds soundId, int vol, int pitch, __int16 applyDirection)

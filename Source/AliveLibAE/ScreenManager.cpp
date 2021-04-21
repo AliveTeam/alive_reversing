@@ -716,7 +716,7 @@ void ScreenManager::AddCurrentSPRT_TPage(PrimHeader** ppOt)
     }
 }
 
-namespace Test
+namespace AETest::TestsScreenManager
 {
     void DirtyBitTests()
     {

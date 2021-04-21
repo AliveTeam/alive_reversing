@@ -4262,7 +4262,7 @@ EXPORT OT_Prim* CC PSX_clip_polys_4FE710(OT_Prim* pOt)
     return PSX_clip_polys_impl(pOt);
 }
 
-namespace Test
+namespace AETest::TestsPsxRender
 {
     const BYTE kTestPal[] =
     {

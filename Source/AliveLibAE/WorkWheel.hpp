@@ -34,7 +34,7 @@ struct Path_WorkWheel : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WorkWheel, 0x1C);
 
-class WorkWheel : public BaseAnimatedWithPhysicsGameObject
+class WorkWheel : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(signed int flags) override;

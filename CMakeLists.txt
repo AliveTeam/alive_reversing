@@ -81,6 +81,7 @@ set_target_properties(AliveLibAO     PROPERTIES UNITY_BUILD ON)
 set_target_properties(AliveExe       PROPERTIES UNITY_BUILD ON)
 set_target_properties(AliveExeAO     PROPERTIES UNITY_BUILD ON)
 set_target_properties(AliveExeAE     PROPERTIES UNITY_BUILD ON)
+
 set_target_properties(alive_api      PROPERTIES UNITY_BUILD OFF) # too big
 set_target_properties(alive_api_test PROPERTIES UNITY_BUILD OFF) # too big
 # -----------------------------------------------------------------------------
