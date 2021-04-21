@@ -12,15 +12,15 @@
 
 ALIVE_VAR(1, 0x5C2C6C, DoorFlame*, pFlameControllingTheSound_5C2C6C, nullptr);
 
-class FireBackgroundGlow : public BaseAnimatedWithPhysicsGameObject
+class FireBackgroundGlow : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT FireBackgroundGlow* ctor_45D890(FP xpos, FP ypos, FP scale)
     {
         BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
         SetVTable(this, 0x54592C);
-        field_4_typeId = Types::eNone_0;
-        
+        field_4_typeId = AETypes::eNone_0;
+
         const AnimRecord& rec = AnimRec(AnimId::Door_Flame_Glow);
         BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
         Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
@@ -30,7 +30,7 @@ public:
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
         field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
         field_20_animation.field_4_flags.Set(AnimFlags::eBit20_use_xy_offset);
-        
+
         field_B8_xpos = xpos;
         field_BC_ypos = ypos + FP_FromInteger(4);
 
@@ -42,7 +42,7 @@ public:
         field_D4_b = 53;
 
         field_CC_sprite_scale = scale;
-        
+
         Calc_Rect_45DA00();
         return this;
     }
@@ -156,7 +156,7 @@ struct FlameSpark
 ALIVE_ASSERT_SIZEOF(FlameSpark, 0x84);
 
 // These flame sparks are extremely subtle and are easily missed!
-class FlameSparks : public BaseAnimatedWithPhysicsGameObject
+class FlameSparks : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT FlameSparks* ctor_45DE00(FP xpos, FP ypos)
@@ -168,7 +168,7 @@ public:
         }
 
         SetVTable(this, 0x545974);
-        field_4_typeId = Types::eNone_0;
+        field_4_typeId = AETypes::eNone_0;
 
         const AnimRecord& rec = AnimRec(AnimId::Door_Flame_Spark);
         BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -315,7 +315,7 @@ private:
                         if (anim.field_0_x >= pScreenManager_5BB5F4->field_20_pCamPos->field_0_x &&
                             anim.field_0_x <= pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + FP_FromInteger(368))
                         {
-                            if (anim.field_4_y >= pScreenManager_5BB5F4->field_20_pCamPos->field_4_y && 
+                            if (anim.field_4_y >= pScreenManager_5BB5F4->field_20_pCamPos->field_4_y &&
                                 anim.field_4_y <= pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + FP_FromInteger(240))
                             {
                                 anim.field_14.vRender_40B820(
@@ -371,19 +371,19 @@ DoorFlame* DoorFlame::ctor_45E460(Path_DoorFlame* pTlv, int tlvInfo)
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x5459BC);
 
-    field_4_typeId = Types::eNone_0;
+    field_4_typeId = AETypes::eNone_0;
     field_F4_tlvInfo = tlvInfo;
-    
+
     const AnimRecord& rec = AnimRec(AnimId::Door_Flame);
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
-    
+
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_DC_bApplyShadows |= 1u;
     field_20_animation.field_C_render_layer = Layer::eLayer_17;
     field_FA_frame_count = field_20_animation.Get_Frame_Count_40AC70();
     field_20_animation.SetFrame_409D50(Math_RandomRange_496AB0(0, field_FA_frame_count - 1));
-    
+
     field_F8_switch_id = pTlv->field_10_id;
 
     if (pTlv->field_12_scale != Scale_short::eFull_0)
@@ -405,16 +405,16 @@ DoorFlame* DoorFlame::ctor_45E460(Path_DoorFlame* pTlv, int tlvInfo)
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         field_FC_state = States::eDisabled_0;
     }
-    
+
     field_FE_2_random = Math_NextRandom() % 2;
-    
+
     auto pFlameSparks = ae_new<FlameSparks>();
     if (pFlameSparks)
     {
         pFlameSparks->ctor_45DE00(field_B8_xpos, field_BC_ypos);
         field_10C_flame_sparks_id = pFlameSparks->field_8_object_id;
     }
-    
+
     return this;
 }
 
@@ -434,7 +434,7 @@ void DoorFlame::dtor_45E6C0()
 
     BaseGameObject* pFireBackgroundGlow = sObjectIds_5C1B70.Find_449CF0(field_108_fire_background_glow_id);
     BaseGameObject* pFlameSparks = sObjectIds_5C1B70.Find_449CF0(field_10C_flame_sparks_id);
-    
+
     if (pFireBackgroundGlow)
     {
         pFireBackgroundGlow->field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -469,7 +469,7 @@ void DoorFlame::vScreenChanged_45EA90()
     BaseGameObject* pFlameSparks = sObjectIds_5C1B70.Find_449CF0(field_10C_flame_sparks_id);
 
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
-    
+
     if (pFireBackgroundGlow)
     {
         pFireBackgroundGlow->field_6_flags.Set(BaseGameObject::eDead_Bit3);

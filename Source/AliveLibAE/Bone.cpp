@@ -18,7 +18,7 @@ Bone* Bone::ctor_4112C0(FP xpos, FP ypos, __int16 countId)
     ctor_408240(0);
     field_11A_bDead = 0;
     SetVTable(this, 0x54431C);
-    field_4_typeId = Types::eBone_11;
+    field_4_typeId = AETypes::eBone_11;
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kBoneResID, 0, 0))
     {
         LoadRockTypes_49AB30(field_C2_lvl_number, field_C0_path_number);
@@ -144,11 +144,11 @@ int CC Bone::CreateFromSaveState_412C10(const BYTE* pData)
     pBone->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
 
     pBone->field_128_shine_timer = sGnFrame_5C1B84;
-    
+
     pBone->field_104_collision_line_type = pState->field_28_line_type;
     pBone->field_118_count = pState->field_2A_count;
     pBone->field_11C_state = pState->field_2C_state;
-    
+
     pBone->field_11E_volume_modifier = pState->field_2E_volume_modifier;
     pBone->field_120_xpos = pState->field_30_xpos;
     pBone->field_124_ypos = pState->field_34_ypos;
@@ -192,7 +192,7 @@ void Bone::dtor_4115B0()
 
 void Bone::AddToPlatform_412310()
 {
-    BaseAddToPlatform([](Types type) { return type == Types::eLiftPoint_78 || type == Types::eTrapDoor_142; });
+    BaseAddToPlatform([](AETypes type) { return type == AETypes::eLiftPoint_78 || type == AETypes::eTrapDoor_142; });
 }
 
 void Bone::vThrow_411670(FP velX, FP velY)
@@ -243,12 +243,12 @@ __int16 Bone::OnCollision_412140(BaseAnimatedWithPhysicsGameObject* pObj)
         return 1;
     }
 
-    if (pObj->field_4_typeId != Types::eMine_88 && pObj->field_4_typeId != Types::eUXB_143 && (field_130_hit_object & 1))
+    if (pObj->field_4_typeId != AETypes::eMine_88 && pObj->field_4_typeId != AETypes::eUXB_143 && (field_130_hit_object & 1))
     {
         return 1;
     }
 
-    if (pObj->field_4_typeId == Types::eSecurityOrb_83 && sControlledCharacter_5C1B8C->field_D6_scale != pObj->field_D6_scale)
+    if (pObj->field_4_typeId == AETypes::eSecurityOrb_83 && sControlledCharacter_5C1B8C->field_D6_scale != pObj->field_D6_scale)
     {
         return 1;
     }
@@ -270,13 +270,13 @@ __int16 Bone::OnCollision_412140(BaseAnimatedWithPhysicsGameObject* pObj)
             field_BC_ypos += slowerVelY;
         }
     }
-    
+
     pObj->VOnThrowableHit(this);
 
     field_130_hit_object |= 1u;
     SFX_Play_46FA90(SoundEffect::RockBounceOnMine_24, 80);
 
-    if (pObj->field_4_typeId == Types::eMine_88 || pObj->field_4_typeId == Types::eUXB_143)
+    if (pObj->field_4_typeId == AETypes::eMine_88 || pObj->field_4_typeId == AETypes::eUXB_143)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -300,7 +300,7 @@ BOOL Bone::vCanBeEaten_411560()
 
 int Bone::vGetSaveState_412ED0(Bone_SaveState* pState)
 {
-    pState->field_0_type = Types::eBone_11;
+    pState->field_0_type = AETypes::eBone_11;
     pState->field_4_obj_id = field_C_objectId;
 
     pState->field_8_xpos = field_B8_xpos;
@@ -380,7 +380,7 @@ void Bone::InTheAir_4116C0()
             {
                 break;
             }
-            
+
             field_BC_ypos = hitY;
 
             if (field_C8_vely < FP_FromInteger(1))
@@ -643,7 +643,7 @@ BoneBag* BoneBag::ctor_4125C0(Path_BoneBag* pTlv, int tlvInfo)
 {
     ctor_408240(0);
     SetVTable(this, 0x5443B0);
-    field_4_typeId = Types::eBoneBag_12;
+    field_4_typeId = AETypes::eBoneBag_12;
 
     const AnimRecord& rec = AnimRec(AnimId::Bone_Bag_A);
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -815,15 +815,15 @@ void BoneBag::vUpdate_412880()
         }
 
         gpThrowableArray_5D1E2C->Add_49A7A0(field_11E_count);
-        
+
         auto pBone = ae_new<Bone>();
         pBone->ctor_4112C0(field_B8_xpos, field_BC_ypos - FP_FromInteger(30), field_11E_count);
-        
+
         pBone->field_CC_sprite_scale = field_CC_sprite_scale;
         pBone->field_D6_scale = field_D6_scale;
-        
+
         pBone->VThrow_49E460(field_124_velX, field_128_velY);
-       
+
         SFX_Play_46FA90(SoundEffect::SackHit_25, 0);
         Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 

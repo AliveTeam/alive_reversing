@@ -14,7 +14,7 @@
 #endif
 #endif
 
-namespace Test
+namespace AETest::TestsBmp
 {
     void BmpTests();
 }

@@ -11,38 +11,38 @@ void CheatController_ForceLink() { }
 
 ALIVE_VAR(1, 0x5BC120, CheatController*, pCheatController_5BC120, nullptr);
 
-const InputCommands sCheatKeyArray_MovieSelect_5515C0[8] = 
+const InputCommands::Enum sCheatKeyArray_MovieSelect_5515C0[8] =
 {
-    eUp,
-    eLeft,
-    eRight,
-    eLeft,
-    eRight,
-    eLeft,
-    eRight,
-    eDown
+    InputCommands::Enum::eUp,
+    InputCommands::Enum::eLeft,
+    InputCommands::Enum::eRight,
+    InputCommands::Enum::eLeft,
+    InputCommands::Enum::eRight,
+    InputCommands::Enum::eLeft,
+    InputCommands::Enum::eRight,
+    InputCommands::Enum::eDown
 };
 
-const InputCommands sCheatKeyArray_LevelSelect_5515D0[8] =
+const InputCommands::Enum sCheatKeyArray_LevelSelect_5515D0[8] =
 {
-    eDown,
-    eRight,
-    eLeft,
-    eRight,
-    eLeft,
-    eRight,
-    eLeft,
-    eUp
+    InputCommands::Enum::eDown,
+    InputCommands::Enum::eRight,
+    InputCommands::Enum::eLeft,
+    InputCommands::Enum::eRight,
+    InputCommands::Enum::eLeft,
+    InputCommands::Enum::eRight,
+    InputCommands::Enum::eLeft,
+    InputCommands::Enum::eUp
 };
 
-const InputCommands sCheatKeyArray_PathSkip_5515E8[6] =
+const InputCommands::Enum sCheatKeyArray_PathSkip_5515E8[6] =
 {
-    eLeft,
-    eRight,
-    eUp,
-    eDown,
-    eLeft,
-    eRight
+    InputCommands::Enum::eLeft,
+    InputCommands::Enum::eRight,
+    InputCommands::Enum::eUp,
+    InputCommands::Enum::eDown,
+    InputCommands::Enum::eLeft,
+    InputCommands::Enum::eRight
 };
 
 EXPORT void CC CheatController_Cheat_FMV_421AD0()
@@ -68,7 +68,7 @@ EXPORT void CC CheatController_Cheat_PathSkip_421B30()
     DestroyObjects_4A1F20();
     ResourceManager::Reclaim_Memory_49C470(0);
     sprintf(nameBuffer, "NXTP%04d.SAV", sActiveQuicksaveData_BAF7F8.field_204_world_info.field_A_save_num);
-    ResourceManager::LoadResourceFile_49C170(nameBuffer, 0); 
+    ResourceManager::LoadResourceFile_49C170(nameBuffer, 0);
     BYTE **resource = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_NxtP, ResourceID::kUnknownResID_0, 1u, 0);
     if (resource)
     {
@@ -92,7 +92,7 @@ CheatController* CheatController::ctor_421BD0()
     BaseGameObject_ctor_4DBFA0(1, 0);
     field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     SetVTable(this, 0x544B44);
-    field_4_typeId = Types::eNone_0;
+    field_4_typeId = AETypes::eNone_0;
     field_20 = 0;
     return this;
 }
@@ -121,7 +121,7 @@ void CheatController::Update_421C70()
     if (held)
     {
         // Only do cheat code check if shift is held
-        if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & eRun)
+        if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & InputCommands::Enum::eRun)
         {
             for (auto& cheatEntry : sCheatArray_5515F8)
             {

@@ -5,7 +5,7 @@
 
 class PathLine;
 
-class BulletShell : public BaseAnimatedWithPhysicsGameObject
+class BulletShell : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT BulletShell* ctor_4AD340(FP xpos, FP ypos, __int16 direction, FP scale);

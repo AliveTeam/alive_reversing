@@ -25,7 +25,7 @@ EXPORT unsigned int CC Pal_Make_Colour_4834C0(BYTE r, BYTE g, BYTE b, __int16 bO
 
 EXPORT void CC Pal_Set_483510(PSX_Point xy, __int16 w, const BYTE* palData, PSX_RECT* rect);
 
-namespace Test
+namespace AETest::TestsVRam
 {
     void VRamTests();
 }

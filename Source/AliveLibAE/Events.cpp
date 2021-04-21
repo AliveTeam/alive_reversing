@@ -107,7 +107,7 @@ EXPORT BaseAnimatedWithPhysicsGameObject* CC Event_Is_Event_In_Range_422C30(__in
     {
         return nullptr;
     }
-    
+
     // At this point we known the type must be BaseAnimatedWithPhysicsGameObject
     auto pDerived = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
     if ((scale == -1 || pDerived->field_D6_scale == scale)
@@ -134,7 +134,7 @@ EXPORT void CC Event_Cancel_For_Obj_422DF0(BaseGameObject* pObj)
     }
 }
 
-namespace Test
+namespace AETest::TestsEvent
 {
     void EventTests()
     {
@@ -149,7 +149,7 @@ namespace Test
         Event_Broadcast_422BC0(Event::kEventLoudNoise, &bang);
 
         Events_Reset_Active_422DA0();
-        
+
         ASSERT_EQ(&bang, Event_Get_422C00(Event::kEventLoudNoise));
         ASSERT_EQ(nullptr, Event_Get_422C00(Event::kEventAlarm));
 

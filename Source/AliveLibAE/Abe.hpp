@@ -149,24 +149,24 @@ class PullRingRope;
 
 extern const TintEntry sTintTable_Abe_554D20[15];
 
-extern const InputCommands sInputKey_Right_5550D0;
-extern const InputCommands sInputKey_Left_5550D4;
-extern const InputCommands sInputKey_Up_5550D8;
-extern const InputCommands sInputKey_Down_5550DC;
-extern const InputCommands sInputKey_Hop_5550E0;
-extern const InputCommands sInputKey_DoAction_5550E4;
-extern const InputCommands sInputKey_Run_5550E8;
-extern const InputCommands sInputKey_Sneak_5550EC;
-extern const InputCommands sInputKey_FartRoll_5550F0;
-extern const InputCommands sInputKey_ThrowItem_5550F4;
-extern const InputCommands sInputKey_GameSpeak2_5550F8;
-extern const InputCommands sInputKey_GameSpeak4_5550FC;
-extern const InputCommands sInputKey_GameSpeak3_555100;
-extern const InputCommands sInputKey_GameSpeak1_555104;
-extern const InputCommands sInputKey_GameSpeak6_555108;
-extern const InputCommands sInputKey_GameSpeak5_55510C;
-extern const InputCommands sInputKey_GameSpeak8_555110;
-extern const InputCommands sInputKey_GameSpeak7_555114;
+extern const InputCommands::Enum sInputKey_Right_5550D0;
+extern const InputCommands::Enum sInputKey_Left_5550D4;
+extern const InputCommands::Enum sInputKey_Up_5550D8;
+extern const InputCommands::Enum sInputKey_Down_5550DC;
+extern const InputCommands::Enum sInputKey_Hop_5550E0;
+extern const InputCommands::Enum sInputKey_DoAction_5550E4;
+extern const InputCommands::Enum sInputKey_Run_5550E8;
+extern const InputCommands::Enum sInputKey_Sneak_5550EC;
+extern const InputCommands::Enum sInputKey_FartRoll_5550F0;
+extern const InputCommands::Enum sInputKey_ThrowItem_5550F4;
+extern const InputCommands::Enum sInputKey_GameSpeak2_5550F8;
+extern const InputCommands::Enum sInputKey_GameSpeak4_5550FC;
+extern const InputCommands::Enum sInputKey_GameSpeak3_555100;
+extern const InputCommands::Enum sInputKey_GameSpeak1_555104;
+extern const InputCommands::Enum sInputKey_GameSpeak6_555108;
+extern const InputCommands::Enum sInputKey_GameSpeak5_55510C;
+extern const InputCommands::Enum sInputKey_GameSpeak8_555110;
+extern const InputCommands::Enum sInputKey_GameSpeak7_555114;
 
 struct Path_ContinuePoint : public Path_TLV
 {
@@ -327,7 +327,7 @@ EXPORT void CC Mudokon_SFX_457EC0(MudSounds idx, __int16 volume, int pitch, Base
 
 struct Abe_SaveState
 {
-    Types field_0_id;
+    AETypes field_0_id;
     __int16 field_2_padding;
     FP field_4_xpos;
     FP field_8_ypos;
@@ -451,7 +451,7 @@ public:
     EXPORT void dtor_44B380();
 
     EXPORT static signed int CC CreateFromSaveState_44D4F0(const BYTE* pData);
-    
+
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
@@ -620,7 +620,7 @@ public:
     EXPORT void jState_81_WellBegin_4017F8();
 
     // End states
-    
+
     EXPORT void FleechDeath_459350();
 
     EXPORT void ToDie_4588D0();

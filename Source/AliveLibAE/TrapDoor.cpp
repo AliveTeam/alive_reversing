@@ -102,7 +102,7 @@ EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, int tlvIn
 {
     ctor_408240(0);
     SetVTable(this, 0x547CE0);
-    field_4_typeId = Types::eTrapDoor_142;
+    field_4_typeId = AETypes::eTrapDoor_142;
     field_C_objectId = tlvInfo;
 
     field_12C_unused &= ~1u;
@@ -291,7 +291,7 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
         if ((field_13E_self_closing == Choice_short::eYes_1 && field_130_stay_open_time2 + 1 <= 0) || SwitchStates_Get_466020(field_134_switch_idx) != field_138_switch_state)
         {
             field_20_animation.Set_Animation_Data_409C80(sTrapDoorData_547B78[static_cast<int>(gMap_5C3030.field_0_current_level)].field_C, 0);
-            
+
             field_136_state = TrapDoorState::eClosing_3;
 
             if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1 ||
@@ -348,7 +348,7 @@ EXPORT void TrapDoor::vScreenChanged_4DDE40()
 
 EXPORT int TrapDoor::vGetSaveState_4DE050(TrapDoor_State* pState)
 {
-    pState->field_0_type = Types::eTrapDoor_142;
+    pState->field_0_type = AETypes::eTrapDoor_142;
     pState->field_4_open_time = field_130_stay_open_time2;
     pState->field_2_state = field_136_state;
     pState->field_8_tlvInfo = field_128_tlvInfo;

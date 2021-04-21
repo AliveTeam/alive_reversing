@@ -19,8 +19,8 @@ const __int16 kNum_0_551994[17] =
 };
 
 const __int16 kNum_1_5519B8[5] =
-{ 
-    1, 
+{
+    1,
     2, -4, 2, 4
 };
 
@@ -35,8 +35,8 @@ const __int16 kNum_2_5519C4[21] =
 };
 
 const __int16 kNum_3_5519F0[17] =
-{ 
-    4, 
+{
+    4,
    -5,  -4,  5, -4,
     5,  -3,  5,  3,
     5,   4, -5,  4,
@@ -44,7 +44,7 @@ const __int16 kNum_3_5519F0[17] =
 };
 
 const __int16 kNum_4_551A14[13] =
-{ 
+{
      3,
     -5, -4, -5, -1,
     -5,  0,  4,  0,
@@ -71,8 +71,8 @@ const __int16 kNum_6_551A5C[21] =
 };
 
 const __int16 kNum_7_551A88[9] =
-{ 
-    2, 
+{
+    2,
    -5, -4, 5, -4,
     5, -3, 0,  4
 };
@@ -128,7 +128,7 @@ ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_431CB0(FP xpos, FP ypos, 
     SetVTable(this, 0x544FE4);
 
     field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
-    field_4_typeId = Types::eThrowableTotalIndicator_53;
+    field_4_typeId = AETypes::eThrowableTotalIndicator_53;
 
     gObjList_drawables_5C1124->Push_Back(this);
 
@@ -139,7 +139,7 @@ ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_431CB0(FP xpos, FP ypos, 
     field_2C_cur_ypos = ypos;
 
     field_30_xspeed = FP_FromInteger(0);
-    
+
     field_18E_bFade = bFade;
 
     if (field_18E_bFade)

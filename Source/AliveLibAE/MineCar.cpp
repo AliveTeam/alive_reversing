@@ -19,7 +19,7 @@ MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, int tlvInfo, int /*a4*/, int /
     ctor_408240(0);
     SetVTable(&field_124_anim, 0x544290);
     SetVTable(this, 0x5461FC);
-    field_4_typeId = Types::eMineCar_89;
+    field_4_typeId = AETypes::eMineCar_89;
 
     const AnimRecord& rec = AnimRec(AnimId::Mine_Car_Open);
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -60,7 +60,7 @@ MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, int tlvInfo, int /*a4*/, int /
     {
         field_BC_ypos = hitY;
     }
-    
+
     field_118_tlvInfo = tlvInfo;
     field_11C_state = MineCarStates::eState_0_ParkedWithoutAbe;
 
@@ -197,11 +197,11 @@ int CC MineCar::CreateFromSaveState_467740(const BYTE* pBuffer)
     pMineCar->field_C2_lvl_number = pState->field_1A_lvl_number;
 
     pMineCar->field_CC_sprite_scale = pState->field_14_sprite_scale;
-    
+
     pMineCar->field_D0_r = pState->field_1C_r;
     pMineCar->field_D2_g = pState->field_1E_g;
     pMineCar->field_D4_b = pState->field_20_b;
-    
+
     pMineCar->field_106_current_motion = pState->field_28_current_motion;
 
     int remapped1 = 0;
@@ -291,7 +291,7 @@ int CC MineCar::CreateFromSaveState_467740(const BYTE* pBuffer)
 
     pMineCar->field_10C_health = pState->field_3C_health;
     pMineCar->field_106_current_motion = pState->field_40_current_motion;
-    
+
     pMineCar->field_108_next_motion = pState->field_42_next_motion;
 
     pMineCar->field_F8_LastLineYPos = FP_FromInteger(pState->field_44_last_line_ypos);
@@ -432,7 +432,7 @@ void MineCar::vRender_46E760(PrimHeader** ppOt)
         short r = field_D2_g;
         short g = field_D0_r;
         short b = field_D4_b;
-        
+
         PSX_RECT bRect = {};
         vGetBoundingRect_424FD0(&bRect, 1);
 
@@ -451,7 +451,7 @@ void MineCar::vRender_46E760(PrimHeader** ppOt)
         field_124_anim.field_9_g = static_cast<BYTE>(g);
         field_124_anim.field_A_b = static_cast<BYTE>(b);
 
-        if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos + FP_FromInteger(30), field_BC_ypos, 0)|| 
+        if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos + FP_FromInteger(30), field_BC_ypos, 0)||
             gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(60)), 0) ||
             gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos - FP_FromInteger(30), field_BC_ypos, 0))
         {
@@ -484,7 +484,7 @@ void MineCar::Stop_46E570()
         field_1D0_sound_channels_mask = 0;
     }
     SFX_Play_46FA90(SoundEffect::MinecarStop_101, 127, field_CC_sprite_scale);
-    
+
     const AnimRecord& animRec = AnimRec(AnimId::Mine_Car_Closed);
     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
     const AnimRecord& animRec2 = AnimRec(AnimId::Mine_Car_Tread_Idle);
@@ -493,7 +493,7 @@ void MineCar::Stop_46E570()
     field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
 }
 
-void MineCar::Move_46E640(unsigned __int16 frameTabeOffset, FP velX, FP velY, InputCommands input, MineCarDirs turnDirection, char bChangeDirection)
+void MineCar::Move_46E640(unsigned __int16 frameTabeOffset, FP velX, FP velY, InputCommands::Enum input, MineCarDirs turnDirection, char bChangeDirection)
 {
     field_20_animation.Set_Animation_Data_409C80(frameTabeOffset, nullptr);
     field_11C_state = MineCarStates::eState_2_Moving;
@@ -613,11 +613,11 @@ __int16 MineCar::FollowDirection_46EA00()
     }
     else if (field_1BC_turn_direction == MineCarDirs::eDown_0)
     {
-        const bool bRoofRight = 
+        const bool bRoofRight =
             CheckRoofCollision_46F6B0(k4 - (k12Scaled + kGridSize), -k60Scaled) ||
             CheckRoofCollision_46F6B0(k12Scaled + kGridSize + k2, -k60Scaled);
 
-        const bool bRoofLeft = 
+        const bool bRoofLeft =
             CheckRoofCollision_46F6B0(-(k12Scaled + kGridSize + k2), -k60Scaled) ||
             CheckRoofCollision_46F6B0(k12Scaled + kGridSize - k4, -k60Scaled);
 
@@ -680,10 +680,10 @@ void MineCar::RunThingsOver_46F380()
         if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             // You can't run yourself over with a mine car it seems.
-            if (pObj->field_4_typeId != Types::eAbe_69)
+            if (pObj->field_4_typeId != AETypes::eAbe_69)
             {
                 auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
-                if ((pAliveObj->field_CC_sprite_scale == field_CC_sprite_scale || pAliveObj->field_4_typeId == Types::eSlog_126) && field_CC_sprite_scale != FP_FromDouble(0.5))
+                if ((pAliveObj->field_CC_sprite_scale == field_CC_sprite_scale || pAliveObj->field_4_typeId == AETypes::eSlog_126) && field_CC_sprite_scale != FP_FromDouble(0.5))
                 {
                     PSX_RECT targetRect = {};
                     pAliveObj->vGetBoundingRect_424FD0(&targetRect, 1);
@@ -713,7 +713,7 @@ __int16 MineCar::vTakeDamage_46F7D0(BaseGameObject* /*pFrom*/)
 
 int MineCar::vGetSaveState_467E10(MineCar_SaveState* pState)
 {
-    pState->field_0_type = Types::eMineCar_89;
+    pState->field_0_type = AETypes::eMineCar_89;
 
     pState->field_4_xpos = field_B8_xpos;
     pState->field_8_ypos = field_BC_ypos;
@@ -916,7 +916,7 @@ void MineCar::vUpdate_46C010()
     FP hitY = {};
     PathLine* pPathLine = nullptr;
     if (!sCollisions_DArray_5C1128->Raycast_417A60(
-        field_B8_xpos - (kGridScale + k12Scaled), 
+        field_B8_xpos - (kGridScale + k12Scaled),
         field_BC_ypos + field_C8_vely - ((k12Scaled + kGridScale) * FP_FromDouble(0.5)),
         field_B8_xpos + k12Scaled + kGridScale,
         field_BC_ypos + field_C8_vely - ((k12Scaled + kGridScale) * FP_FromDouble(0.5)),
@@ -935,10 +935,10 @@ void MineCar::State_0_ParkedWithoutAbe()
     sActiveHero_5C1B68->vGetBoundingRect_424FD0(&abeRect, 1);
 
     if (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_117_InMineCar_4587C0 &&
-        PSX_Rects_overlap_4FA0B0(&carRect, &abeRect) && 
+        PSX_Rects_overlap_4FA0B0(&carRect, &abeRect) &&
         sActiveHero_5C1B68->field_CC_sprite_scale == field_CC_sprite_scale)
     {
-        
+
         const AnimRecord& animRec = AnimRec(AnimId::Mine_Car_Closed);
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         field_11C_state = MineCarStates::eState_1_ParkedWithAbe;
@@ -1000,7 +1000,7 @@ void MineCar::State_1_ParkedWithAbe()
     field_C4_velx = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);
 
-    InputCommands inputKey = sInputKey_Right_5550D0;
+    InputCommands::Enum inputKey = sInputKey_Right_5550D0;
 
     if ((sInputObject_5BD4E0.isPressed(inputKey) ||
         (sInputObject_5BD4E0.isPressed(field_1D4_previous_input) &&
@@ -1087,7 +1087,7 @@ void MineCar::State_1_ParkedWithAbe()
 
 bool MineCar::HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncArg1, const FP mineCarFPFuncArg2, const FP mineCarFPFuncArg3,
     unsigned short moveArgument1, MineCarDirs moveArgument2, const char bChangeDir, FP rayCast1, FP rayCast2, FP rayCast3, FP rayCast4, const int ModelMask1, const int ModelMask2,
-    FP velX, FP velY, InputCommands key, bool isVertical, bool verticalFlipXCond)
+    FP velX, FP velY, InputCommands::Enum key, bool isVertical, bool verticalFlipXCond)
 {
     PathLine* pPathLine = nullptr;
     FP hitX = {};
@@ -1147,7 +1147,7 @@ void MineCar::HandleUpDown()
     const FP velY = k5Scaled;
     const unsigned short frameTableOffset = 20836u;
 
-    InputCommands inputKey = sInputKey_Up_5550D8;
+    InputCommands::Enum inputKey = sInputKey_Up_5550D8;
 
     if (sInputObject_5BD4E0.isPressed(inputKey) || (sInputObject_5BD4E0.isPressed(field_1D4_previous_input) &&
         (unsigned __int16) field_1D6_continue_move_input == inputKey &&
@@ -1217,7 +1217,7 @@ void MineCar::HandleUpDown()
 
 // TODO: Probably 7?
 const FP dword_5461D8[9] =
-{ 
+{
     FP_FromInteger(6),
     FP_FromInteger(5),
     FP_FromInteger(4),
@@ -1253,7 +1253,7 @@ void MineCar::State_2_Moving()
     FP hitY = {};
     PathLine* pPathLine = nullptr;
     if (!sCollisions_DArray_5C1128->Raycast_417A60(
-        field_B8_xpos - (kGridScale + (field_CC_sprite_scale * FP_FromInteger(12))), 
+        field_B8_xpos - (kGridScale + (field_CC_sprite_scale * FP_FromInteger(12))),
         field_BC_ypos + field_C8_vely - (((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale) * FP_FromDouble(0.5)),
         (field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale + field_B8_xpos,
         field_BC_ypos + field_C8_vely - (((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale) * FP_FromDouble(0.5)),
@@ -1372,9 +1372,9 @@ void MineCar::State_3_Falling()
             if (pParticleBurst)
             {
                 pParticleBurst->ctor_41CF50(
-                    (field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale + sControlledCharacter_5C1B8C->field_B8_xpos, 
-                    sControlledCharacter_5C1B8C->field_BC_ypos - ((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale * FP_FromDouble(0.5)), 
-                    4u, 
+                    (field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale + sControlledCharacter_5C1B8C->field_B8_xpos,
+                    sControlledCharacter_5C1B8C->field_BC_ypos - ((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale * FP_FromDouble(0.5)),
+                    4u,
                     field_CC_sprite_scale, BurstType::eBigRedSparks_3, 9);
             }
             SFX_Play_46FA90(SoundEffect::FallingItemHit_47, 80, field_CC_sprite_scale);
@@ -1391,9 +1391,9 @@ void MineCar::State_3_Falling()
             if (pParticleBurst2)
             {
                 pParticleBurst2->ctor_41CF50(
-                    sControlledCharacter_5C1B8C->field_B8_xpos - ((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale), 
-                    sControlledCharacter_5C1B8C->field_BC_ypos - (((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale) * FP_FromDouble(0.5)), 
-                    4u, 
+                    sControlledCharacter_5C1B8C->field_B8_xpos - ((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale),
+                    sControlledCharacter_5C1B8C->field_BC_ypos - (((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale) * FP_FromDouble(0.5)),
+                    4u,
                     field_CC_sprite_scale, BurstType::eBigRedSparks_3, 9);
             }
             SFX_Play_46FA90(SoundEffect::FallingItemHit_47, 80, field_CC_sprite_scale);

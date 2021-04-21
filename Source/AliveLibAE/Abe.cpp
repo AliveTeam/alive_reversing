@@ -719,7 +719,7 @@ Abe* Abe::ctor_44AD10(int /*frameTableOffset*/, int /*r*/, int /*g*/, int /*b*/)
 
     SetVTable(this, 0x5457BC); // gVTbl_Abe_5457BC
 
-    field_4_typeId = Types::eAbe_69;
+    field_4_typeId = AETypes::eAbe_69;
 
     field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     field_C_objectId = -65536;
@@ -1441,7 +1441,7 @@ void Abe::Update_449DC0()
         field_106_current_motion = eAbeStates::jState_85_Fall_455070;
         field_100_pCollisionLine = nullptr;
 
-        if (Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & (eRight | eLeft | eDown | eUp))
+        if (Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & (InputCommands::Enum::eRight | InputCommands::Enum::eLeft | InputCommands::Enum::eDown | InputCommands::Enum::eUp))
         {
             field_C4_velx = sAbe_xVel_table_545770[(unsigned __int8)Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
             field_C8_vely = sAbe_yVel_table_545790[(unsigned __int8)Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
@@ -1693,7 +1693,7 @@ void Abe::Update_449DC0()
         }
 
 
-        InvisibleEffect* pObj_field_178 = static_cast<InvisibleEffect*>(sObjectIds_5C1B70.Find(field_178_invisible_effect_id, Types::eInvisibleEffect_75));
+        InvisibleEffect* pObj_field_178 = static_cast<InvisibleEffect*>(sObjectIds_5C1B70.Find(field_178_invisible_effect_id, AETypes::eInvisibleEffect_75));
         if (pObj_field_178 && field_170_invisible_timer > 0)
         {
             if (static_cast<int>(sGnFrame_5C1B84) > field_170_invisible_timer)
@@ -1766,7 +1766,7 @@ void Abe::vOnTrapDoorOpen_45A570()
 {
     // Handles falling when previously was on a platform, stop turning a wheel if we where turning one etc.
     PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
-    WorkWheel* pWheel = static_cast<WorkWheel*>(sObjectIds_5C1B70.Find(field_164_wheel_id, Types::eWheel_148));
+    WorkWheel* pWheel = static_cast<WorkWheel*>(sObjectIds_5C1B70.Find(field_164_wheel_id, AETypes::eWheel_148));
     if (pPlatform)
     {
         if (!(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_shrivel)))
@@ -1790,7 +1790,7 @@ void Abe::ToKnockback_44E700(__int16 bKnockbackSound, __int16 bDelayedAnger)
 {
     OrbWhirlWind* pfield_150 = static_cast<OrbWhirlWind*>(sObjectIds_5C1B70.Find_449CF0(field_150_OrbWhirlWind_id));
     BaseThrowable* pfield_158 = static_cast<BaseThrowable*>(sObjectIds_5C1B70.Find_449CF0(field_158_throwable_id));
-    WorkWheel* pfield_164 = static_cast<WorkWheel*>(sObjectIds_5C1B70.Find(field_164_wheel_id, Types::eWheel_148));
+    WorkWheel* pfield_164 = static_cast<WorkWheel*>(sObjectIds_5C1B70.Find(field_164_wheel_id, AETypes::eWheel_148));
     if (sControlledCharacter_5C1B8C == this || field_10C_health <= FP_FromInteger(0))
     {
         // Chant music/orb kill ?
@@ -1946,7 +1946,7 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
 {
     Abe_SaveState* pSaveState = reinterpret_cast<Abe_SaveState*>(pSaveBuffer);
 
-    pSaveState->field_0_id = Types::eAbe_69;
+    pSaveState->field_0_id = AETypes::eAbe_69;
     pSaveState->field_4_xpos = field_B8_xpos;
     pSaveState->field_8_ypos = field_BC_ypos;
     pSaveState->field_c_velx = field_C4_velx;
@@ -1971,7 +1971,7 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
                 break;
             }
 
-            if (pObj->field_4_typeId == Types::eElectrocute_150)
+            if (pObj->field_4_typeId == AETypes::eElectrocute_150)
             {
                 auto pElectrocute = static_cast<const Electrocute*>(pObj);
                 if (pElectrocute->field_20_target_obj_id == field_8_object_id)
@@ -2230,7 +2230,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
 
     switch (pFrom->field_4_typeId)
     {
-    case Types::eGasClock_23:
+    case AETypes::eGasClock_23:
         if (field_10C_health > FP_FromInteger(0))
         {
             if (ForceDownIfHoisting_44BA30())
@@ -2257,7 +2257,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
         }
         break;
 
-    case Types::eGrinder_30:
+    case AETypes::eGrinder_30:
     {
         if (field_10C_health <= FP_FromInteger(0))
         {
@@ -2297,13 +2297,13 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
     }
     break;
 
-    case Types::eElectricWall_39:
+    case AETypes::eElectricWall_39:
         Mudokon_SFX_457EC0(MudSounds::eOops_14, 0, 0, this);
         break;
 
-    case Types::eBaseBomb_46:
-    case Types::eMineCar_89:
-    case Types::eExplosion_109:
+    case AETypes::eBaseBomb_46:
+    case AETypes::eMineCar_89:
+    case AETypes::eExplosion_109:
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
         {
             if (field_10C_health > FP_FromInteger(0))
@@ -2334,8 +2334,8 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
         }
         break;
 
-    case Types::eSecurityClaw_47:
-    case Types::eSecurityOrb_83:
+    case AETypes::eSecurityClaw_47:
+    case AETypes::eSecurityOrb_83:
         field_128.field_18_say = MudSounds::eAnger_5;
         field_144_auto_say_timer = sGnFrame_5C1B84 + 27;
         if (field_106_current_motion != eAbeStates::State_123_LiftGrabIdle_45A6A0 &&
@@ -2366,7 +2366,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
         field_1A2_throwable_count = 0;
         break;
 
-    case Types::eRockSpawner_48:
+    case AETypes::eRockSpawner_48:
         if (field_10C_health > FP_FromInteger(0))
         {
             field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
@@ -2381,7 +2381,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
         }
         break;
 
-    case Types::eFleech_50:
+    case AETypes::eFleech_50:
         if (field_10C_health > FP_FromInteger(0))
         {
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pFrom);
@@ -2455,7 +2455,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
         }
         break;
 
-    case Types::eGreeter_64:
+    case AETypes::eGreeter_64:
         if (field_10C_health <= FP_FromInteger(0))
         {
             break;
@@ -2474,9 +2474,9 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
         }
         return 1;
 
-    case Types::eParamite_96:
-    case Types::eScrab_112:
-    case Types::eSlog_126:
+    case AETypes::eParamite_96:
+    case AETypes::eScrab_112:
+    case AETypes::eSlog_126:
         if (field_10C_health > FP_FromInteger(0))
         {
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pFrom);
@@ -2534,17 +2534,17 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
 
             SFX_Play_46FA90(SoundEffect::KillEffect_64, 127);
 
-            if (pFrom->field_4_typeId != Types::eParamite_96)
+            if (pFrom->field_4_typeId != AETypes::eParamite_96)
             {
                 SFX_Play_46FA90(SoundEffect::FallingItemHit_47, 90);
             }
         }
         break;
 
-    case Types::eAbilityRing_104:
+    case AETypes::eAbilityRing_104:
         return 0;
 
-    case Types::eNeverSet_107:
+    case AETypes::eNeverSet_107:
         if (field_10C_health > FP_FromInteger(0))
         {
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pFrom);
@@ -2588,7 +2588,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
         }
         break;
 
-    case Types::eMudokon_110:
+    case AETypes::eMudokon_110:
         if (field_10C_health > FP_FromInteger(0) && field_106_current_motion != eAbeStates::State_71_Knockback_455090)
         {
             field_10C_health -= FP_FromDouble(0.07);
@@ -2609,7 +2609,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
         }
         break;
 
-    case Types::eSlamDoor_122:
+    case AETypes::eSlamDoor_122:
         if (field_10C_health > FP_FromInteger(0))
         {
             ToKnockback_44E700(1, 1);
@@ -2618,13 +2618,13 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
         }
         break;
 
-    case Types::eElectrocute_150:
+    case AETypes::eElectrocute_150:
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         ToDieFinal_458910();
         break;
 
     default:
-        if (pFrom->field_4_typeId != Types::eBullet_15)
+        if (pFrom->field_4_typeId != AETypes::eBullet_15)
         {
             LOG_ERROR("Expected default case to be bullets only but got: " << static_cast<int>(pFrom->field_4_typeId));
         }
@@ -2676,7 +2676,7 @@ void Abe::vOn_TLV_Collision_44B5D0(Path_TLV* pTlv)
         }
         else if (pTlv->field_4_type == TlvTypes::DeathDrop_4)
         {
-            if (sControlledCharacter_5C1B8C->field_4_typeId != Types::eMineCar_89 || gMap_5C3030.field_0_current_level != LevelIds::eMines_1)
+            if (sControlledCharacter_5C1B8C->field_4_typeId != AETypes::eMineCar_89 || gMap_5C3030.field_0_current_level != LevelIds::eMines_1)
             {
                 Mudokon_SFX_457EC0(MudSounds::eDeathDropScream_15, 0, 0, this);
                 Event_Broadcast_422BC0(kEventNoise, this);
@@ -2735,11 +2735,11 @@ BaseAliveGameObject* Abe::FindObjectToPossess_44B7B0()
             switch (pObj->field_4_typeId)
             {
                 // Third priority
-            case Types::eCrawlingSlig_26:
-            case Types::eFlyingSlig_54:
-            case Types::eParamite_96:
-            case Types::eScrab_112:
-            case Types::eSlig_125:
+            case AETypes::eCrawlingSlig_26:
+            case AETypes::eFlyingSlig_54:
+            case AETypes::eParamite_96:
+            case AETypes::eScrab_112:
+            case AETypes::eSlig_125:
                 if (pObj->Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0 && pObj->field_10C_health > FP_FromInteger(0))
                 {
                     const short distance = static_cast<short>(Math_Distance_496EB0(
@@ -2772,12 +2772,12 @@ BaseAliveGameObject* Abe::FindObjectToPossess_44B7B0()
                 break;
 
                 // First priority
-            case Types::eEvilFart_45:
+            case AETypes::eEvilFart_45:
                 pInRangeFart = pObj;
                 break;
 
                 // Second priority
-            case Types::eGlukkon_67:
+            case AETypes::eGlukkon_67:
                 if (pObj->Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
                 {
                     pInRangeGlukkon = pObj;
@@ -3060,7 +3060,7 @@ void Abe::State_0_Idle_44EEB0()
 
     // Go to game speak state.
     const DWORD held = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
-    if (held & (eChant | eGameSpeak8 | eGameSpeak7 | eGameSpeak6 | eGameSpeak5 | eGameSpeak4 | eGameSpeak3 | eGameSpeak2 | eGameSpeak1))
+    if (held & (InputCommands::Enum::eChant | InputCommands::Enum::eGameSpeak8 | InputCommands::Enum::eGameSpeak7 | InputCommands::Enum::eGameSpeak6 | InputCommands::Enum::eGameSpeak5 | InputCommands::Enum::eGameSpeak4 | InputCommands::Enum::eGameSpeak3 | InputCommands::Enum::eGameSpeak2 | InputCommands::Enum::eGameSpeak1))
     {
         field_118_prev_held = held;
         field_106_current_motion = eAbeStates::State_11_Speak_45B0A0;
@@ -3100,7 +3100,7 @@ void Abe::State_0_Idle_44EEB0()
         BaseGameObject* pObj_field_110 = sObjectIds_5C1B70.Find_449CF0(field_110_id);
         if (pObj_field_110)
         {
-            if (pObj_field_110->field_4_typeId == Types::eLiftPoint_78)
+            if (pObj_field_110->field_4_typeId == AETypes::eLiftPoint_78)
             {
                 const FP halfGrid = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2);
                 const FP liftPlatformXMidPoint = FP_FromInteger((field_100_pCollisionLine->field_0_rect.x + field_100_pCollisionLine->field_0_rect.w) / 2);
@@ -3210,7 +3210,7 @@ void Abe::State_0_Idle_44EEB0()
         BaseGameObject* pObj_field_110_2 = sObjectIds_5C1B70.Find_449CF0(field_110_id);
         if (pObj_field_110_2)
         {
-            if (pObj_field_110_2->field_4_typeId == Types::eLiftPoint_78)
+            if (pObj_field_110_2->field_4_typeId == AETypes::eLiftPoint_78)
             {
                 const FP halfGrid = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2);
                 const FP liftPlatformXMidPoint = FP_FromInteger((field_100_pCollisionLine->field_0_rect.x + field_100_pCollisionLine->field_0_rect.w) / 2);
@@ -3306,7 +3306,7 @@ void Abe::State_0_Idle_44EEB0()
             case TlvTypes::BoomMachine_59:
             {
                 auto pMachineButton = static_cast<BoomMachine*>(FindObjectOfType_425180(
-                    Types::eGrenadeMachine_66,
+                    AETypes::eGrenadeMachine_66,
                     field_B8_xpos,
                     field_BC_ypos - field_CC_sprite_scale * FP_FromInteger(25)
                 ));
@@ -3333,7 +3333,7 @@ void Abe::State_0_Idle_44EEB0()
                         break;
                     }
 
-                    if (pObj->field_4_typeId == Types::eMudokon_110 && pObj->field_D6_scale == field_D6_scale)
+                    if (pObj->field_4_typeId == AETypes::eMudokon_110 && pObj->field_D6_scale == field_D6_scale)
                     {
                         FP xDiff = pObj->field_B8_xpos - field_B8_xpos;
                         if (xDiff < FP_FromInteger(0))
@@ -3362,7 +3362,7 @@ void Abe::State_0_Idle_44EEB0()
                 if (bCanUseWheel)
                 {
                     field_106_current_motion = eAbeStates::State_126_TurnWheelBegin_456700;
-                    BaseGameObject* pObj_148 = FindObjectOfType_425180(Types::eWheel_148, field_B8_xpos, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50)));
+                    BaseGameObject* pObj_148 = FindObjectOfType_425180(AETypes::eWheel_148, field_B8_xpos, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50)));
                     if (pObj_148)
                     {
                         field_164_wheel_id = pObj_148->field_8_object_id;
@@ -4203,7 +4203,7 @@ void Abe::State_16_LandSoft_45A360()
             field_106_current_motion = eAbeStates::State_112_Chant_45B1C0;
         }
 
-        if (Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & (eRight | eLeft))
+        if (Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & (InputCommands::Enum::eRight | InputCommands::Enum::eLeft))
         {
             ToLeftRightMovement_44E340();
         }
@@ -4365,7 +4365,7 @@ void Abe::State_18_CrouchToStand_454600()
 {
     if (field_20_animation.field_92_current_frame == 3)
     {
-        if (Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & (eRight | eLeft))
+        if (Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & (InputCommands::Enum::eRight | InputCommands::Enum::eLeft))
         {
             ToLeftRightMovement_44E340();
         }
@@ -5771,7 +5771,7 @@ void Abe::State_57_Dead_4589A0()
         {
             field_110_id = -1;
         }
-        else if (pObj->field_4_typeId == Types::eLiftPoint_78)
+        else if (pObj->field_4_typeId == AETypes::eLiftPoint_78)
         {
             static_cast<LiftPoint*>(pObj)->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
         }
@@ -6014,7 +6014,7 @@ void Abe::State_62_Punch_454750()
         }
 
         const FP kFP5 = FP_FromInteger(5);
-        BaseGameObject* pSlapTarget = FindObjectOfType_425180(Types::eMudokon_110, gridSize, field_BC_ypos - kFP5);
+        BaseGameObject* pSlapTarget = FindObjectOfType_425180(AETypes::eMudokon_110, gridSize, field_BC_ypos - kFP5);
         while (pSlapTarget)
         {
             // Is it in a state where we can slap it?
@@ -6026,27 +6026,27 @@ void Abe::State_62_Punch_454750()
             }
 
             // Try to get the next "stacked" mud - e.g if we have like 20 muds on 1 grid block this will iterate through them
-            pSlapTarget = GetStackedSlapTarget_425290(pSlapTarget->field_8_object_id, Types::eMudokon_110, gridSize, field_BC_ypos - kFP5);
+            pSlapTarget = GetStackedSlapTarget_425290(pSlapTarget->field_8_object_id, AETypes::eMudokon_110, gridSize, field_BC_ypos - kFP5);
         }
 
         if (!pSlapTarget)
         {
-            pSlapTarget = FindObjectOfType_425180(Types::eLockedSoul_61, gridSize, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale));
+            pSlapTarget = FindObjectOfType_425180(AETypes::eLockedSoul_61, gridSize, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale));
         }
 
         if (!pSlapTarget)
         {
-            pSlapTarget = FindObjectOfType_425180(Types::eSlig_125, gridSize, field_BC_ypos - kFP5);
+            pSlapTarget = FindObjectOfType_425180(AETypes::eSlig_125, gridSize, field_BC_ypos - kFP5);
         }
 
         if (!pSlapTarget)
         {
-            pSlapTarget = FindObjectOfType_425180(Types::eSlig_125, field_B8_xpos, field_BC_ypos - kFP5);
+            pSlapTarget = FindObjectOfType_425180(AETypes::eSlig_125, field_B8_xpos, field_BC_ypos - kFP5);
         }
 
         if (!pSlapTarget)
         {
-            pSlapTarget = FindObjectOfType_425180(Types::eGlukkon_67, gridSize, field_BC_ypos - kFP5);
+            pSlapTarget = FindObjectOfType_425180(AETypes::eGlukkon_67, gridSize, field_BC_ypos - kFP5);
         }
 
         if (pSlapTarget)
@@ -6078,7 +6078,7 @@ void Abe::State_63_Sorry_454670()
             xOff = ScaleToGridSize_4498B0(field_CC_sprite_scale) + field_B8_xpos;
         }
 
-        auto pMud = static_cast<BaseAliveGameObject*>(FindObjectOfType_425180(Types::eMudokon_110, xOff, yOff));
+        auto pMud = static_cast<BaseAliveGameObject*>(FindObjectOfType_425180(AETypes::eMudokon_110, xOff, yOff));
         if (pMud)
         {
             pMud->VTakeDamage_408730(this);
@@ -7471,7 +7471,7 @@ void Abe::State_107_RockThrowCrouchingHold_454410()
         {
             field_1A3_throw_direction = 4;
             field_106_current_motion = eAbeStates::State_108_RockThrowCrouchingThrow_454500;
-            if (pRock->field_4_typeId == Types::eMeat_84)
+            if (pRock->field_4_typeId == AETypes::eMeat_84)
             {
                 field_1A3_throw_direction = 5;
             }
@@ -7545,7 +7545,7 @@ void Abe::State_110_ZShot_455670()
         if (field_110_id != -1)
         {
             BaseGameObject* pLiftPoint = sObjectIds_5C1B70.Find_449CF0(field_110_id);
-            if (pLiftPoint->field_4_typeId == Types::eLiftPoint_78)
+            if (pLiftPoint->field_4_typeId == AETypes::eLiftPoint_78)
             {
                 static_cast<LiftPoint*>(pLiftPoint)->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
             }
@@ -7674,7 +7674,7 @@ void Abe::State_112_Chant_45B1C0()
                             break;
                         }
 
-                        if (pObjIter->field_4_typeId == Types::eMudokon_110)
+                        if (pObjIter->field_4_typeId == AETypes::eMudokon_110)
                         {
                             if (pObjIter->field_114_flags.Get(Flags_114::e114_Bit3_Can_Be_Possessed)) // TODO: Is sick flag ?
                             {
@@ -7855,10 +7855,10 @@ void Abe::State_112_Chant_45B1C0()
 
         field_154_possessed_object_id = -1;
 
-        if (sControlledCharacter_5C1B8C->field_4_typeId == Types::eSlig_125 ||
-            sControlledCharacter_5C1B8C->field_4_typeId == Types::eFlyingSlig_54 ||
-            sControlledCharacter_5C1B8C->field_4_typeId == Types::eCrawlingSlig_26 ||
-            sControlledCharacter_5C1B8C->field_4_typeId == Types::eGlukkon_67)
+        if (sControlledCharacter_5C1B8C->field_4_typeId == AETypes::eSlig_125 ||
+            sControlledCharacter_5C1B8C->field_4_typeId == AETypes::eFlyingSlig_54 ||
+            sControlledCharacter_5C1B8C->field_4_typeId == AETypes::eCrawlingSlig_26 ||
+            sControlledCharacter_5C1B8C->field_4_typeId == AETypes::eGlukkon_67)
         {
             field_1AC_flags.Set(Flags_1AC::e1AC_Bit9_laugh_at_chant_end);
         }
@@ -8185,7 +8185,7 @@ void Abe::State_115_DoorExit_459A40()
         {
             // TODO: Ret ignored even in real ??
             FindObjectOfType_425180(
-                Types::eDoor_33,
+                AETypes::eDoor_33,
                 field_B8_xpos,
                 field_BC_ypos - FP_FromInteger(5));
 
@@ -8198,7 +8198,7 @@ void Abe::State_115_DoorExit_459A40()
                     break;
                 }
 
-                if (pObj->field_4_typeId == Types::eDoor_33)
+                if (pObj->field_4_typeId == AETypes::eDoor_33)
                 {
                     Door* pDoor = static_cast<Door*>(pObj);
                     if (pDoor->field_FA_door_number == field_1A0_door_id)
@@ -8596,8 +8596,8 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, int fpY, int bStandToCrouch
         bool trySlapOrCollect = false;
         switch (pSlappableOrCollectable->field_4_typeId)
         {
-        case Types::eTimedMine_or_MovingBomb_10:
-        case Types::eUXB_143:
+        case AETypes::eTimedMine_or_MovingBomb_10:
+        case AETypes::eUXB_143:
             field_106_current_motion = eAbeStates::State_100_SlapBomb_455B60;
             if (bStandToCrouch)
             {
@@ -8606,10 +8606,10 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, int fpY, int bStandToCrouch
             trySlapOrCollect = true;
             break;
 
-        case Types::eBone_11:
-        case Types::eGrenade_65:
-        case Types::eMeat_84:
-        case Types::eRock_105:
+        case AETypes::eBone_11:
+        case AETypes::eGrenade_65:
+        case AETypes::eMeat_84:
+        case AETypes::eRock_105:
             field_106_current_motion = eAbeStates::State_111_PickupItem_4564A0;
             field_1A2_throwable_count += static_cast<char>(static_cast<BaseThrowable*>(pSlappableOrCollectable)->VGetCount_448080()); // TODO: Check types are correct.
             if (!bThrowableIndicatorExists_5C112C)
@@ -8631,7 +8631,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, int fpY, int bStandToCrouch
             trySlapOrCollect = true;
             break;
 
-        case Types::eMine_88:
+        case AETypes::eMine_88:
             field_160_slappable_or_pick_item_id = -1;
             trySlapOrCollect = true;
             break;
@@ -8780,7 +8780,7 @@ __int16 Abe::TryEnterMineCar_4569E0()
 
                 if (PSX_Rects_overlap_no_adjustment(&abeRect, &mineCarRect) &&
                     pObj->field_CC_sprite_scale == field_CC_sprite_scale &&
-                    pObj->field_4_typeId == Types::eMineCar_89)
+                    pObj->field_4_typeId == AETypes::eMineCar_89)
                 {
                     const FP distanceCheck = ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromDouble(0.5);
                     if (field_B8_xpos - pObj->field_B8_xpos < distanceCheck)
@@ -8811,7 +8811,7 @@ int Abe::NearDoorIsOpen_44EE10()
             break;
         }
 
-        if (pObj->field_4_typeId == Types::eDoor_33)
+        if (pObj->field_4_typeId == AETypes::eDoor_33)
         {
             auto pDoor = static_cast<Door*>(pObj);
             if (FP_Abs(field_B8_xpos - pDoor->field_B8_xpos) < FP_FromInteger(15) &&
@@ -8863,7 +8863,7 @@ __int16 Abe::HandleDoAction_455BD0()
                 ypos = ScaleToGridSize_4498B0(field_CC_sprite_scale) + field_B8_xpos;
             }
 
-            Switch* pSwitch = static_cast<Switch*>(FindObjectOfType_425180(Types::eLever_139, ypos, xpos));
+            Switch* pSwitch = static_cast<Switch*>(FindObjectOfType_425180(AETypes::eLever_139, ypos, xpos));
             if (!pSwitch || !(pSwitch->VPull_4D6050(field_B8_xpos < pSwitch->field_B8_xpos)))
             {
                 return eAbeStates::State_34_DunnoBegin_44ECF0;
@@ -8878,7 +8878,7 @@ __int16 Abe::HandleDoAction_455BD0()
 
         case TlvTypes::BoomMachine_59:
         {
-            auto pGrenadeMachine = static_cast<BoomMachine*>(FindObjectOfType_425180(Types::eGrenadeMachine_66, field_B8_xpos,  field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(25))));
+            auto pGrenadeMachine = static_cast<BoomMachine*>(FindObjectOfType_425180(AETypes::eGrenadeMachine_66, field_B8_xpos,  field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(25))));
             if (!pGrenadeMachine || !(pGrenadeMachine->VIsButtonOn_445DF0()))
             {
                 return eAbeStates::State_34_DunnoBegin_44ECF0;
@@ -9315,35 +9315,35 @@ short Abe::DoGameSpeak_45AB70(int input)
             gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
         }
 
-        if (FindObjectOfType_425180(Types::eMudokon_110, field_B8_xpos + gridSize, field_BC_ypos - FP_FromInteger(5)))
+        if (FindObjectOfType_425180(AETypes::eMudokon_110, field_B8_xpos + gridSize, field_BC_ypos - FP_FromInteger(5)))
         {
             nextState = eAbeStates::State_62_Punch_454750;
         }
-        else if (FindObjectOfType_425180(Types::eMudokon_110, field_B8_xpos + (gridSize * FP_FromInteger(2)), field_BC_ypos - FP_FromInteger(5)))
+        else if (FindObjectOfType_425180(AETypes::eMudokon_110, field_B8_xpos + (gridSize * FP_FromInteger(2)), field_BC_ypos - FP_FromInteger(5)))
         {
             nextState = eAbeStates::State_62_Punch_454750;
         }
         else
         {
             // NOTE: Extra check for locks, it must also be being rendered in order to for us to try to hit it.
-            BaseAnimatedWithPhysicsGameObject* pLockedSoul = static_cast<BaseAliveGameObject*>(FindObjectOfType_425180(Types::eLockedSoul_61, field_B8_xpos + gridSize, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale)));
+            BaseAnimatedWithPhysicsGameObject* pLockedSoul = static_cast<BaseAliveGameObject*>(FindObjectOfType_425180(AETypes::eLockedSoul_61, field_B8_xpos + gridSize, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale)));
             if (pLockedSoul && pLockedSoul->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
             {
                 nextState = eAbeStates::State_62_Punch_454750;
             }
-            else if (FindObjectOfType_425180(Types::eSlig_125, field_B8_xpos + gridSize, field_BC_ypos - FP_FromInteger(5)))
+            else if (FindObjectOfType_425180(AETypes::eSlig_125, field_B8_xpos + gridSize, field_BC_ypos - FP_FromInteger(5)))
             {
                 nextState = eAbeStates::State_62_Punch_454750;
             }
-            else if (FindObjectOfType_425180(Types::eSlig_125, field_B8_xpos + (gridSize *  FP_FromInteger(2)), field_BC_ypos - FP_FromInteger(5)))
+            else if (FindObjectOfType_425180(AETypes::eSlig_125, field_B8_xpos + (gridSize *  FP_FromInteger(2)), field_BC_ypos - FP_FromInteger(5)))
             {
                 nextState = eAbeStates::State_62_Punch_454750;
             }
-            else if (FindObjectOfType_425180(Types::eGlukkon_67, field_B8_xpos + gridSize, field_BC_ypos - FP_FromInteger(5)))
+            else if (FindObjectOfType_425180(AETypes::eGlukkon_67, field_B8_xpos + gridSize, field_BC_ypos - FP_FromInteger(5)))
             {
                 nextState = eAbeStates::State_62_Punch_454750;
             }
-            else if (FindObjectOfType_425180(Types::eGlukkon_67, field_B8_xpos + (gridSize * FP_FromInteger(2)), field_BC_ypos - FP_FromInteger(5)))
+            else if (FindObjectOfType_425180(AETypes::eGlukkon_67, field_B8_xpos + (gridSize * FP_FromInteger(2)), field_BC_ypos - FP_FromInteger(5)))
             {
                 nextState = eAbeStates::State_62_Punch_454750;
             }
@@ -9375,7 +9375,7 @@ short Abe::DoGameSpeak_45AB70(int input)
         }
 
         pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eSorry_24);
-        if (FindObjectOfType_425180(Types::eMudokon_110, field_B8_xpos + gridSize, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(40))))
+        if (FindObjectOfType_425180(AETypes::eMudokon_110, field_B8_xpos + gridSize, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(40))))
         {
             nextState = eAbeStates::State_63_Sorry_454670;
         }
@@ -9432,7 +9432,7 @@ void Abe::FallOnBombs_44EC10()
             break;
         }
 
-        if (pObj->field_4_typeId == Types::eMine_88 || pObj->field_4_typeId == Types::eUXB_143)
+        if (pObj->field_4_typeId == AETypes::eMine_88 || pObj->field_4_typeId == AETypes::eUXB_143)
         {
             PSX_RECT objRect = {};
             pObj->vGetBoundingRect_424FD0(&objRect, 1);
@@ -9711,7 +9711,7 @@ PullRingRope* Abe::GetPullRope_44D120()
         }
 
         // Find a rope.
-        if (pObj->field_4_typeId == Types::ePullRope_103)
+        if (pObj->field_4_typeId == AETypes::ePullRope_103)
         {
             // Is it on the same scale as us?
             PullRingRope* pRope = static_cast<PullRingRope*>(pObj);
@@ -9983,7 +9983,7 @@ __int16 Abe::GetEvilFart_4585F0(__int16 bDontLoad)
             return 0;
         }
 
-        if (pObj->field_4_typeId == Types::eBrewMachine_13)
+        if (pObj->field_4_typeId == AETypes::eBrewMachine_13)
         {
             pBrewMachine = static_cast<FartMachine*>(pObj);
 

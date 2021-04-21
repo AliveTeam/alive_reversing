@@ -15,7 +15,7 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, int tl
     BaseAnimatedWithPhysicsGameObject_ctor_424930( 0);
     SetVTable(&field_108_anim_flare, 0x544290);
     SetVTable(this, 0x547FA0);
-    field_4_typeId = Types::eWebLine_146;
+    field_4_typeId = AETypes::eWebLine_146;
     field_100_tlv_info = tlvInfo;
 
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kWebResID);
@@ -248,7 +248,7 @@ void ParamiteWebLine::vRender_4E2530(PrimHeader** ppOt)
         field_108_anim_flare.Get_Frame_Rect_409E10(&rect);
         pScreenManager_5BB5F4->InvalidateRect_40EC90(rect.x, rect.y, rect.w, rect.h, pScreenManager_5BB5F4->field_3A_idx);
     }
-    
+
     field_20_animation.vRender_40B820(640, 240, ppOt, 0, 0);
 
     int idx = 0;

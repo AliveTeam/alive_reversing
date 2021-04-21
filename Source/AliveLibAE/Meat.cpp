@@ -19,7 +19,7 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, __int16 count)
     SetVTable(this, 0x546040);
 
     field_11A_bDead = 0;
-    field_4_typeId = Types::eMeat_84;
+    field_4_typeId = AETypes::eMeat_84;
 
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMeatResID, 0, 0))
     {
@@ -119,7 +119,7 @@ void Meat::vScreenChanged_46A130()
 void Meat::AddToPlatform_46A170()
 {
     // TODO: OG bug - why doesn't meat check for trap doors ??
-    BaseAddToPlatform([](Types type) { return type == Types::eLiftPoint_78; });
+    BaseAddToPlatform([](AETypes type) { return type == AETypes::eLiftPoint_78; });
 }
 
 void Meat::vOnTrapDoorOpen_46A2E0()
@@ -294,11 +294,11 @@ __int16 Meat::OnCollision_469FF0(BaseGameObject* pHit)
         return 1;
     }
 
-    if (pHit->field_4_typeId == Types::eMine_88 || pHit->field_4_typeId == Types::eUXB_143 || pHit->field_4_typeId == Types::eTimedMine_or_MovingBomb_10)
+    if (pHit->field_4_typeId == AETypes::eMine_88 || pHit->field_4_typeId == AETypes::eUXB_143 || pHit->field_4_typeId == AETypes::eTimedMine_or_MovingBomb_10)
     {
         return 1;
     }
-    
+
     PSX_RECT bRect = {};
     static_cast<BaseAliveGameObject*>(pHit)->vGetBoundingRect_424FD0(&bRect, 1);
 
@@ -312,7 +312,7 @@ __int16 Meat::OnCollision_469FF0(BaseGameObject* pHit)
         field_BC_ypos -= field_C8_vely;
         field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
     }
-    
+
     static_cast<BaseAliveGameObject*>(pHit)->VOnThrowableHit(this);
 
     SFX_Play_46FBA0(SoundEffect::MeatBounce_36, 0, -650);
@@ -385,7 +385,7 @@ void Meat::vUpdate_469BA0()
             else
             {
                 field_C4_velx = FP_FromInteger(0);
-                
+
                 field_E4_collection_rect.x = field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
                 field_E4_collection_rect.y = field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
                 field_E4_collection_rect.w = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2)) + field_B8_xpos;
@@ -407,7 +407,7 @@ void Meat::vUpdate_469BA0()
                 // That strange "shimmer" the meat gives off
                 New_TintShiny_Particle_426C30(
                     (field_CC_sprite_scale * FP_FromInteger(1)) + field_B8_xpos,
-                    field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(-7)), 
+                    field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(-7)),
                     FP_FromDouble(0.3),
                     Layer::eLayer_36);
                 field_128_timer = Math_NextRandom() % 16 + sGnFrame_5C1B84 + 60;
@@ -463,7 +463,7 @@ MeatSack* MeatSack::ctor_46A410(Path_MeatSack* pTlv, int tlvInfo)
     ctor_408240(0);
     SetVTable(this, 0x5460D4);
 
-    field_4_typeId = Types::eMeatSack_85;
+    field_4_typeId = AETypes::eMeatSack_85;
 
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kD2elumResID);
     Animation_Init_424E10(15848, 93, 86, ppRes, 1, 1);
@@ -682,7 +682,7 @@ void MeatSack::vUpdate_46A6A0()
 
 int Meat::vGetSaveState_46AC40(Meat_SaveState* pState)
 {
-    pState->field_0_type = Types::eMeat_84;
+    pState->field_0_type = AETypes::eMeat_84;
     pState->field_4_obj_id = field_C_objectId;
 
     pState->field_8_xpos = field_B8_xpos;

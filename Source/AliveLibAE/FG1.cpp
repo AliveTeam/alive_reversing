@@ -48,13 +48,13 @@ FG1* FG1::ctor_499FC0(BYTE** pFG1Res)
     field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
 
-    field_4_typeId = Types::eFG1_101;
+    field_4_typeId = AETypes::eFG1_101;
 
     field_24_level_id = gMap_5C3030.field_0_current_level;
     field_26_path_id = gMap_5C3030.field_2_current_path;
 
     gFG1List_5D1E28->Push_Back(this);
-    
+
     // Cast to the actual FG1 resource block format
     FG1ResourceBlockHeader* pHeader = reinterpret_cast<FG1ResourceBlockHeader*>(*pFG1Res);
 
@@ -63,7 +63,7 @@ FG1* FG1::ctor_499FC0(BYTE** pFG1Res)
     field_28_render_block_count = static_cast<short>(pHeader->mCount);
     field_2C_ptr = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_CHNK, 0, pHeader->mCount * sizeof(Fg1Block));
     field_30_chnk_res = reinterpret_cast<Fg1Block*>(*field_2C_ptr);
-    
+
     // And take a pointer to the first chunk to iterate them
     Fg1Chunk* pChunkIter = &pHeader->mChunks;
     int render_block_idx = 0;

@@ -211,7 +211,7 @@ bool Sys_IsMouseButtonDown(MouseButtons button)
     return !!(SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON(SDL_BUTTON_LEFT));
 }
 
-void Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, int nShowCmd)
+void AE_Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, int nShowCmd)
 {
     sInstance_BBB9EC = hInstance;
     sCmdShow_BBB9FC = nShowCmd;

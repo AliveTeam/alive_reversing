@@ -78,10 +78,10 @@ SnoozeParticle* SnoozeParticle::ctor_4B06F0(FP xpos, FP ypos, Layer layer, FP sc
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
-    
+
     SetVTable(this, 0x5472FC);
 
-    field_4_typeId = Types::eSnoozeParticle_124;
+    field_4_typeId = AETypes::eSnoozeParticle_124;
     gObjList_drawables_5C1124->Push_Back(this);
 
     field_20_x_start = xpos;
@@ -153,14 +153,14 @@ void SnoozeParticle::Update_4B0980()
                         field_44_g += 14;
                         field_46_b += 4;
                     }
-                    
+
                     field_38_scale += field_3C_scale_dx;
-                    
+
                     if (field_48_idx > 36)
                     {
                         field_48_idx = 0;
                     }
-                    
+
                     const FP field_48_idx_toFP = FP_FromInteger(xPositionDeltaEntries_560408[field_48_idx]);
                     field_30_dx = field_48_idx_toFP;
                     field_28_x += field_48_idx_toFP;
@@ -172,17 +172,17 @@ void SnoozeParticle::Update_4B0980()
                     field_1E4_state = SnoozeParticleState::BlowingUp_2;
                 }
                 break;
-            
+
             case SnoozeParticleState::Unused_1:
                 break;
-            
+
             case SnoozeParticleState::BlowingUp_2:
                 field_42_r /= 2; //fade to transparent
                 field_44_g /= 2;
                 field_46_b /= 2;
                 field_28_x += field_30_dx;
                 field_2C_y += field_34_dy;
-                
+
                 if (field_4A_count_down > 0)
                 {
                     field_4A_count_down--;
@@ -278,7 +278,7 @@ void SnoozeParticle::Render_4B0AF0(PrimHeader** ppOt)
             rectH_v
         );
 
-        SetRGB0(pZLine, 
+        SetRGB0(pZLine,
             static_cast<BYTE>(field_42_r * 8 / 10),
             static_cast<BYTE>(field_44_g * 8 / 10),
             static_cast<BYTE>(field_46_b * 8 / 10)

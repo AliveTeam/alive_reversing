@@ -360,7 +360,7 @@ int Glukkon::vGetSaveState_444B90(BYTE* pSaveBuffer)
     {
         return 0;
     }
-    pSaveState->field_0_id = Types::eGlukkon_67;
+    pSaveState->field_0_id = AETypes::eGlukkon_67;
     pSaveState->field_4_object_id = field_C_objectId;
     pSaveState->field_8_xpos = field_B8_xpos;
     pSaveState->field_C_ypos = field_BC_ypos;
@@ -474,7 +474,7 @@ void Glukkon::M_Walk_1_442D30()
                     SetAnim_43F9C0(eGlukkonMotions::M_WalkToJump_18_443A00);
                 }
             }
-            else if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & InputCommands::eRun)
+            else if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & InputCommands::Enum::eRun)
             {
                 SetAnim_43F9C0(eGlukkonMotions::M_WalkToJump_18_443A00, TRUE);
             }
@@ -513,9 +513,9 @@ void Glukkon::M_Walk_1_442D30()
             }
             else
             {
-                if ((field_C4_velx > FP_FromInteger(0) && (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & InputCommands::eLeft)) ||
-                    (field_C4_velx < FP_FromInteger(0) && (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & InputCommands::eRight)) ||
-                    !(sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & (InputCommands::eLeft | InputCommands::eRight)))
+                if ((field_C4_velx > FP_FromInteger(0) && (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & InputCommands::Enum::eLeft)) ||
+                    (field_C4_velx < FP_FromInteger(0) && (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & InputCommands::Enum::eRight)) ||
+                    !(sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & (InputCommands::Enum::eLeft | InputCommands::Enum::eRight)))
                 {
                     if (field_20_animation.field_92_current_frame == 8)
                     {
@@ -719,21 +719,21 @@ void Glukkon::JumpHelper()
     {
         const auto input_pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
 
-        if ((field_C4_velx > FP_FromInteger(0) && (input_pressed & InputCommands::eLeft)) ||
-            (field_C4_velx < FP_FromInteger(0) && (input_pressed & InputCommands::eRight)))
+        if ((field_C4_velx > FP_FromInteger(0) && (input_pressed & InputCommands::Enum::eLeft)) ||
+            (field_C4_velx < FP_FromInteger(0) && (input_pressed & InputCommands::Enum::eRight)))
         {
             // Direction changed
             SetAnim_43F9C0(eGlukkonMotions::M_JumpToStand_17_4439D0, TRUE);
         }
-        else if (input_pressed & (InputCommands::eLeft | InputCommands::eRight))
+        else if (input_pressed & (InputCommands::Enum::eLeft | InputCommands::Enum::eRight))
         {
-            if (!(input_pressed & InputCommands::eRun))
+            if (!(input_pressed & InputCommands::Enum::eRun))
             {
                 // Still moving but not running, so start walking
                 SetAnim_43F9C0(eGlukkonMotions::M_JumpToWalk_19_443A30, TRUE);
             }
         }
-        else if (!(input_pressed & InputCommands::eHop))
+        else if (!(input_pressed & InputCommands::Enum::eHop))
         {
             // Not changing direction or trying to move at all, back to standing
             SetAnim_43F9C0(eGlukkonMotions::M_JumpToStand_17_4439D0, TRUE);
@@ -1089,7 +1089,7 @@ __int16 Glukkon::AI_0_Calm_WalkAround_440B40()
 
     auto pObj = sObjectIds_5C1B70.Find_449CF0(field_110_id);
     LiftPoint* pLiftPoint = nullptr;
-    if (pObj && pObj->field_4_typeId == Types::eLiftPoint_78)
+    if (pObj && pObj->field_4_typeId == AETypes::eLiftPoint_78)
     {
         pLiftPoint = static_cast<LiftPoint*>(pObj);
         if (!pLiftPoint->vOnAnyFloor_461920() && field_210_sub_state != 7)
@@ -1389,7 +1389,7 @@ __int16 Glukkon::AI_1_Panic_4412F0()
     }
 
     auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
-    if (pLiftPoint && pLiftPoint->field_4_typeId == Types::eLiftPoint_78 && !pLiftPoint->vOnAnyFloor_461920() && field_210_sub_state != 6)
+    if (pLiftPoint && pLiftPoint->field_4_typeId == AETypes::eLiftPoint_78 && !pLiftPoint->vOnAnyFloor_461920() && field_210_sub_state != 6)
     {
         field_108_next_motion = eGlukkonMotions::M_Idle_0_442D10;
         return 6;
@@ -1737,7 +1737,7 @@ __int16 Glukkon::AI_3_PlayerControlled_441A30()
                 break;
             }
 
-            if (pObj->field_4_typeId == Types::eSlig_125)
+            if (pObj->field_4_typeId == AETypes::eSlig_125)
             {
                 pObj->field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
@@ -2005,7 +2005,7 @@ __int16 Glukkon::AI_5_WaitToSpawn_442490()
         field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
         field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
 
-        field_4_typeId = Types::eGlukkon_67;
+        field_4_typeId = AETypes::eGlukkon_67;
 
         if (field_1A8_tlvData.field_1E_spawn_direction == 3)
         {
@@ -2086,12 +2086,12 @@ void Glukkon::Init_43F260()
         field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
         SetBrain(&Glukkon::AI_5_WaitToSpawn_442490);
         field_210_sub_state = 0;
-        field_4_typeId = Types::eNone_0;
+        field_4_typeId = AETypes::eNone_0;
     }
     else
     {
         field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
-        field_4_typeId = Types::eGlukkon_67;
+        field_4_typeId = AETypes::eGlukkon_67;
         SetBrain(&Glukkon::AI_0_Calm_WalkAround_440B40);
         field_210_sub_state = 0;
     }
@@ -2365,49 +2365,49 @@ void Glukkon::HandleInput_443BB0()
     {
         const auto inputHeld = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
         const auto matchButtons =
-            InputCommands::eGameSpeak1 |
-            InputCommands::eGameSpeak2 |
-            InputCommands::eGameSpeak3 |
-            InputCommands::eGameSpeak4 |
-            InputCommands::eGameSpeak5 |
-            InputCommands::eGameSpeak6 |
-            InputCommands::eGameSpeak7 |
-            InputCommands::eGameSpeak8 |
-            InputCommands::eChant;
+            InputCommands::Enum::eGameSpeak1 |
+            InputCommands::Enum::eGameSpeak2 |
+            InputCommands::Enum::eGameSpeak3 |
+            InputCommands::Enum::eGameSpeak4 |
+            InputCommands::Enum::eGameSpeak5 |
+            InputCommands::Enum::eGameSpeak6 |
+            InputCommands::Enum::eGameSpeak7 |
+            InputCommands::Enum::eGameSpeak8 |
+            InputCommands::Enum::eChant;
 
         if (inputHeld & matchButtons)
         {
             field_1EA_speak = GlukkonSpeak::None;
 
-            if (inputHeld & InputCommands::eGameSpeak1)
+            if (inputHeld & InputCommands::Enum::eGameSpeak1)
             {
                 field_1EA_speak = GlukkonSpeak::Hey_0;
             }
-            else if (inputHeld & InputCommands::eGameSpeak2)
+            else if (inputHeld & InputCommands::Enum::eGameSpeak2)
             {
                 field_1EA_speak = GlukkonSpeak::Commere_3;
             }
-            else if (inputHeld & InputCommands::eGameSpeak3)
+            else if (inputHeld & InputCommands::Enum::eGameSpeak3)
             {
                 field_1EA_speak = GlukkonSpeak::StayHere_2;
             }
-            else if (inputHeld & InputCommands::eGameSpeak4)
+            else if (inputHeld & InputCommands::Enum::eGameSpeak4)
             {
                 field_1EA_speak = GlukkonSpeak::DoIt_1;
             }
-            else if (inputHeld & InputCommands::eGameSpeak5)
+            else if (inputHeld & InputCommands::Enum::eGameSpeak5)
             {
                 field_1EA_speak = GlukkonSpeak::KillEm_8;
             }
-            else if (inputHeld & InputCommands::eGameSpeak7)
+            else if (inputHeld & InputCommands::Enum::eGameSpeak7)
             {
                 field_1EA_speak = GlukkonSpeak::Help_6;
             }
-            else if (inputHeld & InputCommands::eGameSpeak8)
+            else if (inputHeld & InputCommands::Enum::eGameSpeak8)
             {
                 field_1EA_speak = GlukkonSpeak::Laugh_7;
             }
-            else if (inputHeld & InputCommands::eGameSpeak6)
+            else if (inputHeld & InputCommands::Enum::eGameSpeak6)
             {
                 field_1EA_speak = GlukkonSpeak::AllOYa_4;
             }
@@ -2420,7 +2420,7 @@ void Glukkon::HandleInput_443BB0()
         else
         {
             const auto inputPressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
-            if (inputPressed & InputCommands::eRight)
+            if (inputPressed & InputCommands::Enum::eRight)
             {
                 if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                 {
@@ -2431,7 +2431,7 @@ void Glukkon::HandleInput_443BB0()
                     field_108_next_motion = eGlukkonMotions::M_BeginWalk_14_443950;
                 }
             }
-            else if (inputPressed & InputCommands::eLeft)
+            else if (inputPressed & InputCommands::Enum::eLeft)
             {
                 if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                 {
@@ -2443,7 +2443,7 @@ void Glukkon::HandleInput_443BB0()
                 }
             }
 
-            if (inputPressed & InputCommands::eRun)
+            if (inputPressed & InputCommands::Enum::eRun)
             {
                 if (field_108_next_motion == eGlukkonMotions::M_Walk_1_442D30)
                 {
@@ -2451,7 +2451,7 @@ void Glukkon::HandleInput_443BB0()
                 }
             }
 
-            if (inputPressed & InputCommands::eHop)
+            if (inputPressed & InputCommands::Enum::eHop)
             {
                 field_108_next_motion = eGlukkonMotions::M_Jump_4_443030;
             }
@@ -3125,7 +3125,7 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
 
     switch (pFrom->field_4_typeId)
     {
-    case Types::eBullet_15:
+    case AETypes::eBullet_15:
     {
         auto pBullet = static_cast<Bullet*>(pFrom);
         switch (pBullet->field_20_type)
@@ -3225,29 +3225,29 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
     }
         break;
 
-    case Types::eGrinder_30:
-    case Types::eBaseBomb_46:
-    case Types::eMeatSaw_86:
-    case Types::eExplosion_109:
+    case AETypes::eGrinder_30:
+    case AETypes::eBaseBomb_46:
+    case AETypes::eMeatSaw_86:
+    case AETypes::eExplosion_109:
         SetBrain(&Glukkon::AI_4_Death_442010);
         field_210_sub_state = 2;
         Event_Broadcast_422BC0(kEventMudokonComfort, this);
         break;
 
-    case Types::eElectricWall_39:
+    case AETypes::eElectricWall_39:
         Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak::Unused_9, 0, field_1E0_gamespeak_pitch, this);
         return 1;
 
-    case Types::eRockSpawner_48:
-    case Types::eMineCar_89:
-    case Types::eNeverSet_107:
+    case AETypes::eRockSpawner_48:
+    case AETypes::eMineCar_89:
+    case AETypes::eNeverSet_107:
         SetAnim_43F9C0(eGlukkonMotions::M_DeathFall_8_443760, TRUE);
         SetBrain(&Glukkon::AI_4_Death_442010);
         field_210_sub_state = 0;
         Event_Broadcast_422BC0(kEventMudokonComfort, this);
         break;
 
-    case Types::eAbe_69:
+    case AETypes::eAbe_69:
         if (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_62_Punch_454750)
         {
             if (Math_NextRandom() <= 32u)
@@ -3265,7 +3265,7 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
         }
         break;
 
-    case Types::eSlog_126:
+    case AETypes::eSlog_126:
         if (field_106_current_motion != eGlukkonMotions::M_KnockBack_3_442F40)
         {
             field_10C_health = FP_FromInteger(0);
@@ -3282,7 +3282,7 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
         }
         break;
 
-    case Types::eElectrocute_150:
+    case AETypes::eElectrocute_150:
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         field_10C_health = FP_FromInteger(0);
         SetBrain(&Glukkon::AI_4_Death_442010);

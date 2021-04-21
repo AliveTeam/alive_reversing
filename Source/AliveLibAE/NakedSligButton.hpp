@@ -17,7 +17,7 @@ struct Path_NakedSligButton : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_NakedSligButton, 0x1C);
 
-class NakedSligButton : public BaseAnimatedWithPhysicsGameObject
+class NakedSligButton : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT NakedSligButton* ctor_4148F0(Path_NakedSligButton* pTlv, int tlvInfo);

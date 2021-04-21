@@ -239,7 +239,7 @@ __int16 BaseAnimatedWithPhysicsGameObject::vOnSameYLevel_425520(BaseAnimatedWith
     return OnSameYLevel_425520(pOther);
 }
 
-void BaseAnimatedWithPhysicsGameObject::vStackOnObjectsOfType_425840(Types typeToFind)
+void BaseAnimatedWithPhysicsGameObject::vStackOnObjectsOfType_425840(AETypes typeToFind)
 {
     StackOnObjectsOfType_425840(typeToFind);
 }
@@ -380,7 +380,7 @@ __int16 BaseAnimatedWithPhysicsGameObject::OnSameYLevel_425520(BaseAnimatedWithP
     return FALSE;
 }
 
-void BaseAnimatedWithPhysicsGameObject::StackOnObjectsOfType_425840(Types typeToFind)
+void BaseAnimatedWithPhysicsGameObject::StackOnObjectsOfType_425840(AETypes typeToFind)
 {
     // For some reason this isn't const in the real game
     const __int16 kData[6] =
@@ -545,9 +545,9 @@ void BaseAnimatedWithPhysicsGameObject::SetRGB(__int16 r, __int16 g, __int16 b)
     field_D4_b = b;
 }
 
-namespace Test
+namespace AETest::TestsBaseAnimatedWithPhysicsGameObject
 {
-    class TestObj : public BaseAnimatedWithPhysicsGameObject
+    class TestObj : public ::BaseAnimatedWithPhysicsGameObject
     {
     public:
         virtual BaseGameObject* VDestructor(signed int) override

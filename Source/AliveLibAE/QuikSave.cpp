@@ -632,7 +632,7 @@ EXPORT void CC Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
         MEMCARD_Write_Timestamp_SJISC_String_4A2290(&pSave->field_0_header.field_0_frame_1_name[50]);
 
         char src[12] = {};
-        sprintf(src, "%2sP%02dC%02d", 
+        sprintf(src, "%2sP%02dC%02d",
             sPathData_559660.paths[static_cast<int>(gMap_5C3030.field_0_current_level)].field_14_lvl_name,
             gMap_5C3030.field_2_current_path,
             gMap_5C3030.field_4_current_camera);
@@ -713,7 +713,7 @@ void CC Quicksave_SaveWorldInfo_4C9310(Quicksave_WorldInfo* pInfo)
     pInfo->field_6_path = gMap_5C3030.field_2_current_path;
     pInfo->field_8_cam = gMap_5C3030.field_4_current_camera;
     pInfo->field_2E_use_alt_save_header = bUseAltSaveHeader_5C1BBC;
-    
+
     for (int i = 0; i < ALIVE_COUNTOF(pInfo->field_18_saved_killed_muds_per_path); i++)
     {
         pInfo->field_18_saved_killed_muds_per_path[i] = sSavedKilledMudsPerPath_5C1B50.mData[i];
@@ -796,7 +796,7 @@ void CC Quicksave_FindSaves_4D4150()
     }
 }
 
-namespace Test
+namespace AETest::TestsQuikSave
 {
     class AbeSave : public Abe
     {

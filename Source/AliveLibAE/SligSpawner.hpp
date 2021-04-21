@@ -9,7 +9,7 @@ struct Path_Slig;
 
 struct Slig_Spawner_State
 {
-    Types field_0_type;
+    AETypes field_0_type;
     __int16 field_2_padding;
     int field_4_tlvInfo;
     short field_8_state;

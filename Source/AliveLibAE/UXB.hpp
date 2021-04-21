@@ -34,7 +34,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_UXB, 0x1c);
 
 struct SaveState_UXB
 {
-    Types field_0_id;
+    AETypes field_0_id;
     __int16 field_2_padding;
     TlvItemInfoUnion field_4_tlv;
     DWORD field_8_next_state_frame;

@@ -38,7 +38,7 @@ PullRingRope* PullRingRope::ctor_49B2D0(Path_PullRingRope* pTlv, int tlvInfo)
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x546A00);
 
-    field_4_typeId = Types::ePullRope_103;
+    field_4_typeId = AETypes::ePullRope_103;
 
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPullringResID);
     Animation_Init_424E10(3020, 35, 0x16u, ppRes, 1, 1);
@@ -139,8 +139,8 @@ void PullRingRope::dtor_49B660()
     SetVTable(this, 0x546A00);
 
     Path::TLV_Reset_4DB8E0(field_110_tlvInfo, -1, 0, 0);
-    
-    BaseGameObject* pRope = sObjectIds_5C1B70.Find(field_F8_rope_id, Types::eLiftRope_108);
+
+    BaseGameObject* pRope = sObjectIds_5C1B70.Find(field_F8_rope_id, AETypes::eLiftRope_108);
     if (pRope)
     {
         pRope->field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -152,8 +152,8 @@ void PullRingRope::dtor_49B660()
 void PullRingRope::vUpdate_49B720()
 {
     auto pRingPuller = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_FC_ring_puller_id));
-    auto pRope = static_cast<Rope*>(sObjectIds_5C1B70.Find(field_F8_rope_id, Types::eLiftRope_108));
-    
+    auto pRope = static_cast<Rope*>(sObjectIds_5C1B70.Find(field_F8_rope_id, AETypes::eLiftRope_108));
+
     if (Event_Get_422C00(kEventDeathReset))
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);

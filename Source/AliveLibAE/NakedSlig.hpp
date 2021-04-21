@@ -39,7 +39,7 @@ enum class SligSpeak : signed char;
 
 struct NakedSlig_State
 {
-    Types field_0_type;
+    AETypes field_0_type;
     __int16 field_2_padding;
     int field_4_obj_id;
     FP field_8_xpos;
@@ -180,7 +180,7 @@ private:
     EXPORT void ToIdle_41C070();
 
     EXPORT void HandleCommon_41C0B0();
-   
+
     EXPORT __int16 CanCrawl_41C5D0();
 
     EXPORT void MoveOnLine_41C3D0();

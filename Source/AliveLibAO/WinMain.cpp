@@ -92,7 +92,7 @@ EXPORT int CALLBACK WinMain_48EF50(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 {
     LOG_INFO("Main enter");
     ForceLinks();
-    Sys_Main(hInstance, lpCmdLine, nShowCmd);
+    AO_Sys_Main(hInstance, lpCmdLine, nShowCmd);
     sPrevInstance_9F7784 = hPrevInstance;
     Game_Main_450050();
     LOG_INFO("Main exit");

@@ -182,7 +182,7 @@ class BirdPortal;
 
 struct Mudokon_State
 {
-    Types field_0_type;
+    AETypes field_0_type;
     __int16 field_2_pad;
     FP field_4_xpos;
     FP field_8_ypos;
@@ -291,7 +291,7 @@ public:
     {
         vPossessed_4774F0();
     }
- 
+
     virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override
     {
         return vTakeDamage_476270(pFrom);
@@ -463,7 +463,7 @@ private:
     EXPORT void MoveOnLine_4720D0();
 
     EXPORT static const struct MudEmotionTableEntry* CC ResponseTo_471730(Mud_Emotion emotion, MudAction action);
-    
+
     void AddAlerted();
 
     void RemoveAlerted();

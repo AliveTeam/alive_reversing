@@ -37,7 +37,7 @@ void CC LoadRockTypes_49AB30(LevelIds levelNumber, unsigned __int16 pathNumber)
 
     switch (throwable_types_55FAFC[throwableTypeIdx])
     {
-    case Types::eBone_11:
+    case AETypes::eBone_11:
         if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kBoneResID, 0, 0))
         {
             bDoLoadingLoop = TRUE;
@@ -45,7 +45,7 @@ void CC LoadRockTypes_49AB30(LevelIds levelNumber, unsigned __int16 pathNumber)
         }
         break;
 
-    case Types::eMetal_24:
+    case AETypes::eMetal_24:
         if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMetalGib, 0, 0))
         {
             bDoLoadingLoop = TRUE;
@@ -59,7 +59,7 @@ void CC LoadRockTypes_49AB30(LevelIds levelNumber, unsigned __int16 pathNumber)
         }
         break;
 
-    case Types::eGrenade_65:
+    case AETypes::eGrenade_65:
         if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 0, 0))
         {
             bDoLoadingLoop = TRUE;
@@ -91,7 +91,7 @@ void CC LoadRockTypes_49AB30(LevelIds levelNumber, unsigned __int16 pathNumber)
         }
         break;
 
-    case Types::eMeat_84:
+    case AETypes::eMeat_84:
         if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMeatResID, 0, 0))
         {
             bDoLoadingLoop = TRUE;
@@ -99,7 +99,7 @@ void CC LoadRockTypes_49AB30(LevelIds levelNumber, unsigned __int16 pathNumber)
         }
         break;
 
-    case Types::eRock_105:
+    case AETypes::eRock_105:
         if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAberockResID, 0, 0))
         {
             bDoLoadingLoop = TRUE;
@@ -240,17 +240,17 @@ void ThrowableArray::Add_49A7A0(__int16 count)
         {
             switch (throwable_types_55FAFC[gMap_5C3030.field_22_overlayID])
             {
-            case Types::eBone_11:
+            case AETypes::eBone_11:
                 Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kBoneResID);
                 break;
 
-            case Types::eMetal_24:
+            case AETypes::eMetal_24:
                 Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalGib);
                 Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID);
                 Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kGrenadeResID);
                 break;
 
-            case Types::eGrenade_65:
+            case AETypes::eGrenade_65:
                 Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
                 Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
                 Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID);
@@ -259,11 +259,11 @@ void ThrowableArray::Add_49A7A0(__int16 count)
                 Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kGrenadeResID);
                 break;
 
-            case Types::eMeat_84:
+            case AETypes::eMeat_84:
                 Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMeatResID);
                 break;
 
-            case Types::eRock_105:
+            case AETypes::eRock_105:
                 Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAberockResID);
                 Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kAberockResID);
                 break;

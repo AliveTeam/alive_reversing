@@ -44,14 +44,14 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BirdPortal, 0x24);
 
 struct BirdPortal_State
 {
-    Types field_0_type;
+    AETypes field_0_type;
     BYTE field_2_state;
     BYTE field_3_mud_count;
     int field_4_tlvInfo;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(BirdPortal_State, 8);
 
-class BirdPortalTerminator : public BaseAnimatedWithPhysicsGameObject
+class BirdPortalTerminator : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT BaseAnimatedWithPhysicsGameObject* ctor_497960(FP xpos, FP ypos, FP scale, PortalType portalType);

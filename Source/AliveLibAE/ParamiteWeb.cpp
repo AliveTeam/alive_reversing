@@ -11,7 +11,7 @@ ParamiteWeb* ParamiteWeb::ctor_4E1840(FP xpos, __int16 bottom, __int16 top, FP s
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x547F58);
-    field_4_typeId = Types::eLiftRope_108;
+    field_4_typeId = AETypes::eLiftRope_108;
 
     if (scale == FP_FromInteger(1))
     {
@@ -141,7 +141,7 @@ void ParamiteWeb::vRender_4E1BA0(PrimHeader** ppOt)
 
             short minY = FP_GetExponent(FP_FromInteger(field_F8_ttl) - cam_y);
             short maxY = FP_GetExponent(FP_FromInteger(field_FA_ttl_remainder) - cam_y);
-            
+
             short ypos_int = FP_GetExponent(field_BC_ypos);
             if (ypos_int > field_FA_ttl_remainder)
             {
@@ -149,7 +149,7 @@ void ParamiteWeb::vRender_4E1BA0(PrimHeader** ppOt)
             }
 
             const short x_start = FP_GetExponent(field_B8_xpos - cam_x);
-            
+
             short y_start = FP_GetExponent((FP_FromInteger(ypos_int)) - cam_y);
             if (y_start > 240)
             {

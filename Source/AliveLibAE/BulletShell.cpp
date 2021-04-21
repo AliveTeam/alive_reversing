@@ -22,11 +22,11 @@ BulletShell* BulletShell::ctor_4AD340(FP xpos, FP ypos, __int16 direction, FP sc
     }
     else
     {
-        field_4_typeId = Types::eNone_0;
+        field_4_typeId = AETypes::eNone_0;
         const AnimRecord& rec = AnimRec(AnimId::Bullet_Casing);
         BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
         Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
-        
+
         field_CC_sprite_scale = scale;
 
         if (scale == FP_FromInteger(1))
@@ -42,7 +42,7 @@ BulletShell* BulletShell::ctor_4AD340(FP xpos, FP ypos, __int16 direction, FP sc
         field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, direction & 1);
 
         field_FC_hitCount = 0;
-        
+
         field_B8_xpos = xpos;
         field_BC_ypos = ypos;
 

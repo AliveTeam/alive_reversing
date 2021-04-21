@@ -5,7 +5,7 @@
 struct PSX_RECT;
 struct PrimHeader;
 
-namespace Test
+namespace AETest::TestsPsxRender
 {
     void PsxRenderTests();
 }

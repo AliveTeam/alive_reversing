@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-class ParamiteWeb : public BaseAnimatedWithPhysicsGameObject
+class ParamiteWeb : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT ParamiteWeb* ctor_4E1840(FP xpos, __int16 bottom, __int16 top, FP scale);

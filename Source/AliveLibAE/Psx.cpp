@@ -230,7 +230,7 @@ EXPORT void CC PSX_EMU_Init_4F9CD0(bool bShowVRam)
     sPsxEmu_EndFrameFnPtr_C1D17C = nullptr;
     sPsxEmu_put_disp_env_callback_C1D184 = nullptr;
     sPsxEMU_show_vram_BD1465 = bShowVRam;
-    
+
     Psx_Render_Float_Table_Init();
 
     // Note: sPsxEmu_BD1454 removed
@@ -640,7 +640,7 @@ EXPORT int CC PSX_SetDispMask_4F89F0(int /*mode*/)
 
 EXPORT bool CC PSX_Rect_IsInFrameBuffer_4FA050(const PSX_RECT* pRect)
 {
-    return 
+    return
         pRect->x >= 0 && pRect->x < sPsxVram_C1D160.field_8_width
         && pRect->y >= 0
         && pRect->y < sPsxVram_C1D160.field_C_height
@@ -831,15 +831,15 @@ EXPORT void CC PSX_CD_Normalize_FileName_4FAD90(char* pNormalized, const char* p
 
         ++fileNameIter;
         ++pNormalizedIter;
-    } 
+    }
     *pNormalizedIter = 0;
 }
 
 EXPORT BOOL CC PSX_Rects_overlap_4FA0B0(const PSX_RECT* pRect1, const PSX_RECT* pRect2)
 {
-    return pRect1->x < (pRect2->x + pRect2->w) 
-        && pRect1->y < (pRect2->y + pRect2->h) 
-        && pRect2->x < (pRect1->x + pRect1->w) 
+    return pRect1->x < (pRect2->x + pRect2->w)
+        && pRect1->y < (pRect2->y + pRect2->h)
+        && pRect2->x < (pRect1->x + pRect1->w)
         && pRect2->y < (pRect1->y + pRect1->h);
 }
 
@@ -909,7 +909,7 @@ EXPORT int CC PSX_DrawSync_4F6280(int /*mode*/)
     return 0;
 }
 
-namespace Test
+namespace AETest::TestsPsx
 {
     static void Test_PSX_ClearOTag_4F6290()
     {

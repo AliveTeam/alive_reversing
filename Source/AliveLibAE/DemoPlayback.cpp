@@ -27,7 +27,7 @@ void DemoPlayback::ctor()
         DWORD** ppRes = reinterpret_cast<DWORD**>(Add_Resource_4DC130(ResourceManager::Resource_Demo, ResourceID::kDemoResID));
         field_1C_update_delay = 1;
         sInputObject_5BD4E0.SetDemoResource_45F1E0(ppRes);
-        field_4_typeId = Types::eDemoPlayback_98;
+        field_4_typeId = AETypes::eDemoPlayback_98;
     }
 }
 

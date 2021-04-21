@@ -18,7 +18,7 @@ TorturedMudokon* TorturedMudokon::ctor_47BC60(Path_TorturedMudokon* pTlv, int tl
     SetVTable(&field_18C_zap_animation, 0x544290);
     SetVTable(&field_F4_tears_animation, 0x544290);
 
-    field_4_typeId = Types::eTorturedMud_141;
+    field_4_typeId = AETypes::eTorturedMud_141;
     field_230_tlvInfo = tlvInfo;
 
     const AnimRecord& rec = AnimRec(AnimId::Tortured_Modukon);

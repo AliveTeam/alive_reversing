@@ -40,7 +40,7 @@ EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, int tlvInfo
     ctor_408240(0);
     SetVTable(this, 0x544E98);
 
-    field_4_typeId = Types::eRockSpawner_48;
+    field_4_typeId = AETypes::eRockSpawner_48;
 
     field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
     field_118_tlvInfo = tlvInfo;
@@ -48,11 +48,11 @@ EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, int tlvInfo
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
 
     const int lvlIdx = static_cast<int>(gMap_5C3030.field_0_current_level);
-    
+
     const AnimRecord& rec = AnimRec(sFallingItemData_544DC0[lvlIdx][0]);
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
-    
+
     field_11E_id = pTlv->field_10_id;
 
     if (pTlv->field_12_scale == Scale_short::eHalf_1)
@@ -107,15 +107,15 @@ EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, int tlvInfo
 FallingItem* FallingItem::ctor_427560(__int16 xpos, __int16 ypos, __int16 scale, __int16 id, __int16 delayTime, __int16 numItems, __int16 resetId)
 {
     ctor_408240(0);
-   
+
     SetVTable(this, 0x544E98);
-    field_4_typeId = Types::eRockSpawner_48;
+    field_4_typeId = AETypes::eRockSpawner_48;
 
     field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
     field_118_tlvInfo = -1;
 
     const int lvlIdx = static_cast<int>(gMap_5C3030.field_0_current_level);
-    
+
     const AnimRecord& rec = AnimRec(sFallingItemData_544DC0[lvlIdx][0]);
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
@@ -143,7 +143,7 @@ FallingItem* FallingItem::ctor_427560(__int16 xpos, __int16 ypos, __int16 scale,
     }
 
     field_124_fall_delay = delayTime;
-    
+
     field_120_max_falling_items = numItems;
     field_122_remaining_falling_items = numItems;
 
@@ -269,7 +269,7 @@ EXPORT void FallingItem::vUpdate_427780()
 
             const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<int>(gMap_5C3030.field_0_current_level)][1]);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
-            
+
             field_128_delay_timer = sGnFrame_5C1B84 + field_124_fall_delay;
         }
         break;
@@ -304,7 +304,7 @@ EXPORT void FallingItem::vUpdate_427780()
             }
         }
         break;
-    
+
     case State::eState_3_Falling:
     {
         if (field_12E_do_sound_in_state_falling)
@@ -477,7 +477,7 @@ void FallingItem::DamageHitItems_427F40()
 
         if (pObj != this)
         {
-            if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) || pObj->field_4_typeId == Types::eGrinder_30)
+            if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) || pObj->field_4_typeId == AETypes::eGrinder_30)
             {
                 BaseAnimatedWithPhysicsGameObject* pAliveObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
 
@@ -489,7 +489,7 @@ void FallingItem::DamageHitItems_427F40()
 
                 if (pAliveObj->field_CC_sprite_scale == field_CC_sprite_scale)
                 {
-                    if (pAliveObj->field_4_typeId == Types::eGrinder_30 || pAliveObj->field_4_typeId == Types::eMineCar_89)
+                    if (pAliveObj->field_4_typeId == AETypes::eGrinder_30 || pAliveObj->field_4_typeId == AETypes::eMineCar_89)
                     {
                         objRect.x += pAliveObj->field_DA_xOffset;
                         objRect.y += pAliveObj->field_D8_yOffset;
@@ -500,12 +500,12 @@ void FallingItem::DamageHitItems_427F40()
 
                     if (PSX_Rects_overlap_no_adjustment(&fallingItemRect, &objRect))
                     {
-                        if (pAliveObj->field_4_typeId == Types::eGrinder_30)
+                        if (pAliveObj->field_4_typeId == AETypes::eGrinder_30)
                         {
                             // Grinder is not a type that implements VTakeDamage
                             field_134_bHitGrinderOrMineCar = TRUE;
                         }
-                        else if (pAliveObj->field_4_typeId == Types::eMineCar_89)
+                        else if (pAliveObj->field_4_typeId == AETypes::eMineCar_89)
                         {
                             // ?? Could still call VTakeDamage here but OG doesn't ??
                             field_134_bHitGrinderOrMineCar = TRUE;
@@ -513,7 +513,7 @@ void FallingItem::DamageHitItems_427F40()
                         else
                         {
                             bool doDamage = true;
-                            if (pAliveObj->field_4_typeId == Types::eParamite_96)
+                            if (pAliveObj->field_4_typeId == AETypes::eParamite_96)
                             {
                                 // Some strange edge case for paramites - prevents them getting smashed by
                                 // falling items when stood on an edge by their huge heads peeking over a bit.

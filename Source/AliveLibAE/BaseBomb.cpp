@@ -28,7 +28,7 @@ BaseBomb * BaseBomb::ctor_423E70(FP x, FP y, int /*unused*/, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544C54);
-    field_4_typeId = Types::eBaseBomb_46;
+    field_4_typeId = AETypes::eBaseBomb_46;
 
     const AnimRecord& rec = AnimRec(AnimId::Explosion_Mine);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, BaseGameObject::Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId), 1, 1);
@@ -76,7 +76,7 @@ BaseBomb * BaseBomb::ctor_423E70(FP x, FP y, int /*unused*/, FP scale)
             13);
     }
 
-    PSX_RECT damageRect = 
+    PSX_RECT damageRect =
     {
         FP_GetExponent(FP_FromInteger(-10) * field_f4_scale),
         FP_GetExponent(FP_FromInteger(-10) * field_f4_scale),

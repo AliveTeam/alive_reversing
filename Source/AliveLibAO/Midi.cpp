@@ -13,11 +13,10 @@
 #include "AmbientSound.hpp"
 #include "Sound.hpp"
 #include "Sys_common.hpp"
+#include "../AliveLibAE/Io.hpp"
 
 #include "Sfx.hpp"
 #include "../AliveLibAE/Sfx.hpp"
-
-struct IO_FileHandleType;
 
 #include "../AliveLibAE/Sound/PsxSpuApi.hpp"
 #include "../AliveLibAE/Sound/Midi.hpp"

@@ -35,7 +35,7 @@ struct Path_Door : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Door, 0x44);
 
-class Door : public BaseAnimatedWithPhysicsGameObject
+class Door : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     enum eStates

@@ -16,7 +16,7 @@ EXPORT InvisibleEffect* InvisibleEffect::ctor_45F280(BaseAliveGameObject* pTarge
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x545A60);
 
-    field_4_typeId = Types::eInvisibleEffect_75;
+    field_4_typeId = AETypes::eInvisibleEffect_75;
 
     field_44_objId = pTarget->field_8_object_id;
 
@@ -184,7 +184,7 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
                 Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy, pTarget->field_20_animation.field_90_pal_depth, (BYTE *)field_30_pPal2, &field_34_pal_rect2);
                 field_1C_update_delay = 1;
             }
-            
+
 
             break;
         }

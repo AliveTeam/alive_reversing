@@ -78,7 +78,7 @@ ALIVE_VAR_EXTERN(int, sPsx_drawenv_clipw_BDCD48);
 ALIVE_VAR_EXTERN(int, sPsx_drawenv_cliph_BDCD4C);
 
 
-namespace Test
+namespace AETest::TestsPsx
 {
     void PsxTests();
 }

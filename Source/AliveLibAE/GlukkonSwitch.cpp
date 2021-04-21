@@ -19,8 +19,8 @@ GlukkonSwitch* GlukkonSwitch::ctor_444E60(Path_GlukkonSwitch* pTlv, int tlvInfo)
     field_116 = -1;
 
     SetVTable(this, 0x545534);
-    field_4_typeId = Types::eHelpPhone_68;
-    
+    field_4_typeId = AETypes::eHelpPhone_68;
+
     const AnimRecord& rec = AnimRec(AnimId::Security_Door_Idle);
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
@@ -44,7 +44,7 @@ GlukkonSwitch* GlukkonSwitch::ctor_444E60(Path_GlukkonSwitch* pTlv, int tlvInfo)
     field_FC_fail_id = pTlv->field_14_fail_id;
     field_118_top_left = pTlv->field_8_top_left;
     field_11C_bottom_right = pTlv->field_C_bottom_right;
-    
+
     field_B8_xpos = FP_FromInteger(pTlv->field_16_xpos);
     field_BC_ypos = FP_FromInteger(pTlv->field_18_ypos);
 

@@ -34,7 +34,7 @@ struct Path_PullRingRope : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_PullRingRope, 0x20);
 
-class PullRingRope : public BaseAnimatedWithPhysicsGameObject
+class PullRingRope : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT PullRingRope* ctor_49B2D0(Path_PullRingRope* pTlv, int tlvInfo);

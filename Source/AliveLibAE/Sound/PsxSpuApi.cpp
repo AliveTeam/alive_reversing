@@ -7,7 +7,7 @@
 #include "Sound.hpp" // SoundEntry structure
 #include "Sys.hpp" // SYS_GetTicks
 #include "PathData.hpp" // SoundBlockInfo, SeqPathDataRecord
-
+#include "../AliveLibAE/Io.hpp"
 
 struct VagAtr
 {
@@ -1435,7 +1435,7 @@ EXPORT void CC MIDI_ADSR_Update_4FDCE0()
                 {
                     break;
                 }
-                    
+
                 pChannel->field_1C_adsr.field_3_state = 4;
                 pChannel->field_14_time = gSpuVars->sMidiTime();
                 timeDiff1 = 0;

@@ -10,7 +10,7 @@ ScreenClipper* ScreenClipper::ctor_416D60(PSX_Point xy, PSX_Point wh, Layer laye
     BaseGameObject_ctor_4DBFA0(1, 0);
 
     SetVTable(this, 0x5445C4);
-    field_4_typeId = Types::eScreenClipper_114;
+    field_4_typeId = AETypes::eScreenClipper_114;
 
     field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
     field_6_flags.Set(BaseGameObject::eDrawable_Bit4);

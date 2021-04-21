@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "FixedPoint.hpp"
 
-namespace Test
+namespace AETest::TestsEvent
 {
     void EventTests();
 }

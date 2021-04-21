@@ -299,7 +299,7 @@ void BaseAliveGameObject::vOnPathTransition_408320(__int16 cameraWorldXPos, __in
 
     field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
 
-    if (sActiveHero_5C1B68 == this && 
+    if (sActiveHero_5C1B68 == this &&
         gMap_5C3030.field_0_current_level == LevelIds::eNecrum_2 &&
         gMap_5C3030.field_2_current_path == 2 &&
         (field_106_current_motion == eAbeStates::State_23_RollLoop_453A90 || field_106_current_motion == eAbeStates::State_17_CrouchIdle_456BC0))
@@ -423,7 +423,7 @@ void BaseAliveGameObject::vCheckCollisionLineStillValid_408A40(__int16 distance)
     {
         field_100_pCollisionLine = nullptr;
     }
-    
+
 }
 
 BirdPortal* BaseAliveGameObject::vIntoBirdPortal_408FD0(__int16 numGridBlocks)
@@ -436,7 +436,7 @@ BirdPortal* BaseAliveGameObject::vIntoBirdPortal_408FD0(__int16 numGridBlocks)
             break;
         }
 
-        if (pObj->field_4_typeId == Types::eBirdPortal_99)
+        if (pObj->field_4_typeId == AETypes::eBirdPortal_99)
         {
             auto pBirdPortal = static_cast<BirdPortal*>(pObj);
             if (pBirdPortal->field_2C_xpos >= field_B8_xpos)
@@ -527,7 +527,7 @@ BOOL BaseAliveGameObject::Check_IsOnEndOfLine_408E90(__int16 direction, __int16 
         field_D6_scale != 0 ? 0xF : 0xF0) == 0;
 }
 
-BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget_425290(int idToFind, Types typeToFind, FP xpos, FP ypos)
+BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget_425290(int idToFind, AETypes typeToFind, FP xpos, FP ypos)
 {
     const short xposD = FP_GetExponent(xpos);
     const short yposD = FP_GetExponent(ypos);
@@ -686,9 +686,9 @@ BOOL BaseAliveGameObject::InAirCollision_408810(PathLine** ppPathLine, FP* hitX,
     {
         return bCollision;
     }
-    
+
     FP velYClamped = field_C8_vely;
-    if (field_4_typeId == Types::eMudokon_110 && velYClamped >= FP_FromInteger(0) && velYClamped < FP_FromInteger(4))
+    if (field_4_typeId == AETypes::eMudokon_110 && velYClamped >= FP_FromInteger(0) && velYClamped < FP_FromInteger(4))
     {
         velYClamped = FP_FromInteger(4);
     }
@@ -732,7 +732,7 @@ BOOL BaseAliveGameObject::InAirCollision_408810(PathLine** ppPathLine, FP* hitX,
         field_D6_scale != 0 ? 6 : 96);
 }
 
-BaseGameObject* BaseAliveGameObject::FindObjectOfType_425180(Types typeToFind, FP xpos, FP ypos)
+BaseGameObject* BaseAliveGameObject::FindObjectOfType_425180(AETypes typeToFind, FP xpos, FP ypos)
 {
     const int xposI = FP_GetExponent(xpos);
     const int yposI = FP_GetExponent(ypos);

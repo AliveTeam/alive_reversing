@@ -4,7 +4,7 @@
 #include "FixedPoint.hpp"
 #include "Psx.hpp"
 
-namespace Test
+namespace AETest::TestsCollision
 {
     void CollisionTests();
 }

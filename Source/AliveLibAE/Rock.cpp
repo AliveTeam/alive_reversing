@@ -14,7 +14,7 @@ Rock* Rock::ctor_49E150(FP xpos, FP ypos, __int16 count)
 {
     ctor_408240(0);
     SetVTable(this, 0x546AF8);
-    field_4_typeId = Types::eRock_105;
+    field_4_typeId = AETypes::eRock_105;
 
     field_11A_bDead = 0;
 
@@ -431,8 +431,8 @@ void Rock::vUpdate_49E9F0()
         }
         // The strange shimmering that rocks give off.
         New_TintShiny_Particle_426C30(
-            (field_CC_sprite_scale * FP_FromInteger(1)) + field_B8_xpos, 
-            (field_CC_sprite_scale * FP_FromInteger(-7)) + field_BC_ypos, 
+            (field_CC_sprite_scale * FP_FromInteger(1)) + field_B8_xpos,
+            (field_CC_sprite_scale * FP_FromInteger(-7)) + field_BC_ypos,
             FP_FromDouble(0.3),
             Layer::eLayer_36);
         field_128_shimmer_timer = (Math_NextRandom() % 16) + sGnFrame_5C1B84 + 60;
@@ -461,7 +461,7 @@ void Rock::vUpdate_49E9F0()
         field_C8_vely += FP_FromDouble(1.01);
         field_B8_xpos += field_C4_velx;
         field_BC_ypos = field_C8_vely + field_BC_ypos;
-        if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && 
+        if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
             !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos + FP_FromInteger(240), 0))
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -472,7 +472,7 @@ void Rock::vUpdate_49E9F0()
 
 signed int Rock::vGetSaveState_49F9A0(RockSaveState* pState)
 {
-    pState->field_0_type = Types::eRock_105;
+    pState->field_0_type = AETypes::eRock_105;
     pState->field_4_obj_id = field_C_objectId;
 
     pState->field_8_xpos = field_B8_xpos;

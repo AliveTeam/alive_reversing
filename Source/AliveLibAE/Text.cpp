@@ -40,7 +40,7 @@ EXPORT Text* Text::ctor_46ADA0(const char* pMessage, int renderCount, int bShado
     field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
 
-    field_4_typeId = Types::eText_87;
+    field_4_typeId = AETypes::eText_87;
 
     gObjList_drawables_5C1124->Push_Back(this);
 

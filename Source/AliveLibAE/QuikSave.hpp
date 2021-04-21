@@ -4,7 +4,7 @@
 #include "MainMenu.hpp"
 #include "SwitchStates.hpp"
 
-namespace Test
+namespace AETest::TestsQuikSave
 {
     void QuikSave_Tests();
 }

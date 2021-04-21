@@ -14,7 +14,7 @@ enum class State : __int16
 // TODO: HACK - pass in the scale directly at 100%.
 // Either Path_Slig or Path_FlyingSlig with another TLV type value.
 // Both of these start with a scale value which is the only thing this object reads.
-class SligGetPantsAndWings : public BaseAnimatedWithPhysicsGameObject
+class SligGetPantsAndWings : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT SligGetPantsAndWings* ctor_465BF0(Path_TLV* pTlv, int tlvInfo);

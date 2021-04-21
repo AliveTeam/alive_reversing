@@ -6,7 +6,7 @@
 
 ALIVE_VAR_EXTERN(unsigned int, sGnFrame_5C1B84);
 
-enum class Types : __int16
+enum class AETypes : __int16
 {
     eNone_0 = 0,
     eAlarm_1 = 1,
@@ -239,7 +239,7 @@ protected:
     }
 
 public:
-    Types field_4_typeId;
+    AETypes field_4_typeId;
     BitField16<Options> field_6_flags;
     int field_8_object_id;
     __int32 field_C_objectId;

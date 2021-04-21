@@ -13,7 +13,7 @@ enum class WheelStates : __int16
 
 struct WorkWheel_SaveState
 {
-    Types field_0_id;
+    AETypes field_0_id;
     // pad
     int field_4_tlvInfo;
     __int16 field_8_snd_counter;
@@ -34,7 +34,7 @@ struct Path_WorkWheel : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WorkWheel, 0x1C);
 
-class WorkWheel : public BaseAnimatedWithPhysicsGameObject
+class WorkWheel : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(signed int flags) override;

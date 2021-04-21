@@ -27,7 +27,7 @@ enum class TrapDoorState : __int16
 
 struct TrapDoor_State
 {
-    Types field_0_type;
+    AETypes field_0_type;
     TrapDoorState field_2_state;
     int field_4_open_time;
     int field_8_tlvInfo;

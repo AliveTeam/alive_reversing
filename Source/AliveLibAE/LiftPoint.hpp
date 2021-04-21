@@ -26,7 +26,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LiftPoint, 0x1C);
 
 struct LiftPoint_State
 {
-    Types field_0_type;
+    AETypes field_0_type;
     __int16 field_2_pad;
     FP field_4_xpos;
     FP field_8_ypos;

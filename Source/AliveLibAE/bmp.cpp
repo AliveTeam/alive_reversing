@@ -326,7 +326,7 @@ EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, int x, int y, unsigned int /
         letter = letter - '!';
 
         SDL_Rect srcRect = { kLetterWidth * letter, 0, kLetterWidth, kLetterHeight };
-        
+
         if (SDL_BlitSurface(pFontBmp, &srcRect, pBmp->field_0_pSurface, &dstRect) != 0)
         {
             const char* e = SDL_GetError();
@@ -339,7 +339,7 @@ EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, int x, int y, unsigned int /
     SDL_FreeSurface(pFontBmp);
 }
 
-namespace Test
+namespace AETest::TestsBmp
 {
     void BmpTests()
     {
@@ -718,7 +718,7 @@ EXPORT signed int CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int 
     }
     else if (createFlags & 2)
     {
-        pSurfaceDesc.ddsCaps.dwCaps = DDSCAPS_VIDEOMEMORY | DDSCAPS_OFFSCREENPLAIN; // 0x4040 
+        pSurfaceDesc.ddsCaps.dwCaps = DDSCAPS_VIDEOMEMORY | DDSCAPS_OFFSCREENPLAIN; // 0x4040
     }
 
     pSurfaceDesc.dwWidth = width;
@@ -810,9 +810,8 @@ EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, int x, int y, unsigned int f
 
 #include "gmock/gmock.h"
 
-namespace Test
+namespace AETest::TestsBmp
 {
-
     class MockedDirectDraw
     {
     public:

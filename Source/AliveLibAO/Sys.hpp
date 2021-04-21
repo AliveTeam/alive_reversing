@@ -15,7 +15,7 @@ EXPORT void SYS_EventsPump_44FF90();
 
 EXPORT LPSTR CC Sys_GetCommandLine_48E920();
 
-void Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, int nShowCmd);
+void AO_Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, int nShowCmd);
 
 EXPORT int Sys_IsAnyKeyDown_48E6C0();
 

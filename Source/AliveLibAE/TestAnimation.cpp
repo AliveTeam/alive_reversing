@@ -64,7 +64,7 @@ void TestAnimation::ctor()
     DisableVTableHack h;
 
     BaseAnimatedWithPhysicsGameObject_ctor_424930(1);
-    field_4_typeId = Types::eNone_0;
+    field_4_typeId = AETypes::eNone_0;
 
     field_DC_bApplyShadows &= ~1u;
 

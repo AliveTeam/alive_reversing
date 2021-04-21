@@ -45,7 +45,7 @@ WorkWheel* WorkWheel::ctor_4E35D0(Path_WorkWheel* pTlv, int tlvInfo)
 
     SetVTable(this, 0x548064); // vTbl_WorkWheel_548064
 
-    field_4_typeId = Types::eWheel_148;
+    field_4_typeId = AETypes::eWheel_148;
 
     field_C_objectId = tlvInfo;
 
@@ -158,7 +158,7 @@ int CC WorkWheel::CreateFromSaveState_4E3B10(const BYTE* pState)
 
 int WorkWheel::vGetSaveState_4E3C40(WorkWheel_SaveState* pState)
 {
-    pState->field_0_id = Types::eWheel_148;
+    pState->field_0_id = AETypes::eWheel_148;
     pState->field_4_tlvInfo = field_F4_tlv_info;
     pState->field_8_snd_counter = field_100_on_counter;
     pState->field_C_state = field_FC_state;

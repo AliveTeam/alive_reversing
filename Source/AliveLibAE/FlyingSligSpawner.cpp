@@ -17,7 +17,7 @@ FlyingSligSpawner* FlyingSligSpawner::ctor_433D50(Path_FlyingSligSpawner* pTlv, 
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x545090);
 
-    field_4_typeId = Types::eFlyingSligSpawner_55;
+    field_4_typeId = AETypes::eFlyingSligSpawner_55;
 
     if (tlvInfo != -1)
     {
@@ -101,7 +101,7 @@ void FlyingSligSpawner::vUpdate_433E10()
                     break;
                 }
 
-                if (pObj->field_4_typeId == Types::eFlyingSlig_54 && pObj->field_C_objectId == field_24_spawned_slig_id)
+                if (pObj->field_4_typeId == AETypes::eFlyingSlig_54 && pObj->field_C_objectId == field_24_spawned_slig_id)
                 {
                     field_24_spawned_slig_id = pObj->field_8_object_id;
                     break;
@@ -154,7 +154,7 @@ void FlyingSligSpawner::vUpdate_433E10()
 
 signed int FlyingSligSpawner::vGetSaveState_43B730(FlyingSligSpawner_State* pSaveState)
 {
-    pSaveState->field_0_type = Types::eFlyingSligSpawner_55;
+    pSaveState->field_0_type = AETypes::eFlyingSligSpawner_55;
     pSaveState->field_4_tlvInfo = field_20_tlvInfo;
     pSaveState->field_8_bSpawned = field_3C_bSpawned;
     pSaveState->field_C_spawned_slig_obj_id = -1;

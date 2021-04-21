@@ -7,7 +7,6 @@
 #include "Sound/Midi.hpp"
 #include "stdlib.hpp"
 #include <type_traits>
-#include <gmock/gmock.h>
 #include "VRam.hpp"
 #include "DebugHelpers.hpp"
 #include "PsxRender.hpp"
@@ -24,7 +23,7 @@ EXPORT void CC PSX_Calc_FrameSkip_4945D0()
 
     const DWORD currentTime = SYS_GetTicks();
     const int ticks = currentTime - sPreviousTime_5CA4C8 - delta_time_ring_buffer_5CA310[0] + sLastTicks_5CA4CC;
-    
+
     // Move all elements down one, so the the last value is "empty"
     for (int i = 0; i < ALIVE_COUNTOF(delta_time_ring_buffer_5CA310) - 1; i++)
     {
@@ -45,7 +44,7 @@ EXPORT void CC PSX_Calc_FrameSkip_4945D0()
 
     sLastTicks_5CA4CC = ticks;
     sPreviousTime_5CA4C8 = currentTime;
-    
+
     // Override if frame skip is off
     if (sCommandLine_NoFrameSkip_5CA4D1)
     {
@@ -160,7 +159,7 @@ EXPORT void CC DebugFont_Flush_4DD050()
     sDebugFontTmpBuffer_BB47CC[0] = 0;
 }
 
-namespace Test
+namespace AETest::TestsPsxDisplay
 {
     static void Test_DebugFont_4F8AB0()
     {

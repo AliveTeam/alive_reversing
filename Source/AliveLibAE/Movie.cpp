@@ -15,7 +15,7 @@
 #include "VGA.hpp"
 
 // Inputs on the controller that can be used for aborting skippable movies
-const unsigned int MOVIE_SKIPPER_GAMEPAD_INPUTS = (InputCommands::eUnPause_OrConfirm | InputCommands::eBack | InputCommands::ePause);
+const unsigned int MOVIE_SKIPPER_GAMEPAD_INPUTS = (InputCommands::Enum::eUnPause_OrConfirm | InputCommands::Enum::eBack | InputCommands::Enum::ePause);
 
 ALIVE_VAR(1, 0x5ca208, SoundEntry, sDDV_SoundEntry_5CA208, {});
 
@@ -613,7 +613,7 @@ void Movie::Init_4DFF60(int id, CdlLOC* pCdPos, __int16 bUnknown, __int16 flags,
     field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
 
-    field_4_typeId = Types::eMovie_145;
+    field_4_typeId = AETypes::eMovie_145;
 
     ++sMovie_ref_count_BB4AE4;
 

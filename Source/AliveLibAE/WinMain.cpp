@@ -51,20 +51,20 @@ static void RunTests()
     LPSTR cmdLine = Sys_GetCommandLine_4EE176();
     ::testing::InitGoogleMock(&argCount, &cmdLine);
 
-    Test::CollisionTests();
-    Test::VRamTests();
-    Test::AnimationTests();
-    Test::BmpTests();
-    Test::PsxDisplayTests();
-    Test::PsxTests();
-    Test::GameTests();
-    Test::EventTests();
-    Test::ScreenManagerTests();
-    Test::ObjectIdsTests();
-    Test::PsxRenderTests();
-    Test::BaseAnimatedWithPhysicsGameObjectTests();
-    Test::Math_Tests();
-    Test::QuikSave_Tests();
+    AETest::TestsCollision::CollisionTests();
+    AETest::TestsVRam::VRamTests();
+    AETest::TestsAnimation::AnimationTests();
+    AETest::TestsBmp::BmpTests();
+    AETest::TestsPsxDisplay::PsxDisplayTests();
+    AETest::TestsPsx::PsxTests();
+    AETest::TestsGame::GameTests();
+    AETest::TestsEvent::EventTests();
+    AETest::TestsScreenManager::ScreenManagerTests();
+    AETest::TestsObjectIds::ObjectIdsTests();
+    AETest::TestsPsxRender::PsxRenderTests();
+    AETest::TestsBaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObjectTests();
+    AETest::TestsMath::Math_Tests();
+    AETest::TestsQuikSave::QuikSave_Tests();
 }
 
 static void InitOtherHooksAndRunTests()
@@ -118,7 +118,7 @@ EXPORT void Static_Inits_AE()
 EXPORT int CALLBACK WinMain_4EE631(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
     LOG_INFO("Main enter");
-    Sys_Main(hInstance, lpCmdLine, nShowCmd);
+    AE_Sys_Main(hInstance, lpCmdLine, nShowCmd);
     sPrevInstance_BBBA54 = hPrevInstance;
     InitOtherHooksAndRunTests();
     Game_Main_4949F0();

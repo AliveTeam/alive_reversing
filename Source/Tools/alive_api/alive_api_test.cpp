@@ -10,7 +10,7 @@ const std::string kAEDir = "C:\\GOG Games\\Abes Exoddus\\";
 const std::string kAODir = "C:\\GOG Games\\Abes Oddysee\\";
 const std::string kAETestLvl = "pv.lvl";
 
-const std::vector<std::string> kAELvls = 
+const std::vector<std::string> kAELvls =
 {
     "ba.lvl",
     "bm.lvl",
@@ -164,7 +164,7 @@ TEST(alive_api, ReSaveAllPathsAE)
 
             const auto originalLvlBytes = FS::ReadFile(AEPath(lvl));
             ASSERT_NE(originalLvlBytes.size(), 0u);
-            
+
             const auto resavedLvlBytes = FS::ReadFile(lvlName);
             ASSERT_NE(resavedLvlBytes.size(), 0u);
 

@@ -17,8 +17,8 @@ ElectricWall* ElectricWall::ctor_421DA0(Path_ElectricWall* pTlv, int tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544B60);
-    
-    field_4_typeId = Types::eElectricWall_39;
+
+    field_4_typeId = AETypes::eElectricWall_39;
 
     const AnimRecord& rec = AnimRec(AnimId::Electric_Wall);
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -150,7 +150,7 @@ void ElectricWall::vUpdate_422030()
 
         PSX_RECT bRect = {};
         vGetBoundingRect_424FD0(&bRect, 1);
-        
+
         PSX_RECT bRectBigger;
         bRectBigger.x = FP_GetExponent(field_B8_xpos - FP_FromInteger(4));
         bRectBigger.y = static_cast<short>(bRect.y + 5);
@@ -168,11 +168,11 @@ void ElectricWall::vUpdate_422030()
             switch (pObj->field_4_typeId)
             {
             // Can't zap this
-            case Types::eBone_11:
-            case Types::eRockSpawner_48:
-            case Types::eGrenade_65:
-            case Types::eMeat_84:
-            case Types::eRock_105:
+            case AETypes::eBone_11:
+            case AETypes::eRockSpawner_48:
+            case AETypes::eGrenade_65:
+            case AETypes::eMeat_84:
+            case AETypes::eRock_105:
                 break;
 
             default:

@@ -69,6 +69,25 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/alive_api)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/assets)
 
 # -----------------------------------------------------------------------------
+# Setup unity builds
+set_target_properties(EasyLogging++ PROPERTIES UNITY_BUILD ON)
+set_target_properties(jsonxx        PROPERTIES UNITY_BUILD ON)
+set_target_properties(googletest    PROPERTIES UNITY_BUILD ON)
+set_target_properties(imgui         PROPERTIES UNITY_BUILD ON)
+
+set_target_properties(AliveLibCommon PROPERTIES UNITY_BUILD ON)
+set_target_properties(AliveLibAE     PROPERTIES UNITY_BUILD ON)
+set_target_properties(AliveLibAO     PROPERTIES UNITY_BUILD ON)
+set_target_properties(AliveExe       PROPERTIES UNITY_BUILD ON)
+set_target_properties(AliveExeAO     PROPERTIES UNITY_BUILD ON)
+set_target_properties(AliveExeAE     PROPERTIES UNITY_BUILD ON)
+
+set_target_properties(alive_api      PROPERTIES UNITY_BUILD OFF) # too big
+set_target_properties(alive_api_test PROPERTIES UNITY_BUILD OFF) # too big
+# -----------------------------------------------------------------------------
+
+
+# -----------------------------------------------------------------------------
 # Setup cross-platform PCH
 
 # AE needs its own PCH that can be reused from `AliveLibCommon`, because they
@@ -89,10 +108,16 @@ target_precompile_headers(
 )
 
 target_precompile_headers(AliveExeAO     REUSE_FROM AliveLibAO)
-target_precompile_headers(alive_api      REUSE_FROM AliveLibAO)
 target_precompile_headers(alive_api_test REUSE_FROM AliveLibAO)
 target_precompile_headers(AliveExe       REUSE_FROM AliveLibAO)
 target_precompile_headers(AliveExeAE     REUSE_FROM AliveLibAO)
+
+# 'alive_api' needs its own PCH because of different `_CRT_SECURE_NO_WARNINGS`
+# and defines with the rest
+target_precompile_headers(
+    alive_api PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/AliveLibCommon/pch_shared.h"
+)
 
 if(WIN32)
     target_precompile_headers(vab_tool REUSE_FROM AliveLibAO)

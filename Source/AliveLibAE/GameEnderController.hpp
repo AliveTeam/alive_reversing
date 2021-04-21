@@ -21,7 +21,7 @@ enum class GameEnderController_States : __int16
 
 struct GameEnderController_State
 {
-    Types field_0_type;
+    AETypes field_0_type;
     __int16 field_2_padding;
     int field_4_obj_id;
     int field_8_timer;

@@ -31,7 +31,7 @@ enum Flags_114
     e114_Bit11_Electrocuting = 0x400,
 };
 
-class BaseAliveGameObject : public BaseAnimatedWithPhysicsGameObject
+class BaseAliveGameObject : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT BaseAliveGameObject* ctor_408240(short resourceArraySize);
@@ -51,7 +51,7 @@ public:
     virtual void VCheckCollisionLineStillValid_408A40(__int16 distance);
     virtual BirdPortal* VIntoBirdPortal_408FD0(__int16 gridBlocks);
     virtual void VOnTrapDoorOpen();
-  
+
     EXPORT static __int16 CCSTD IsInInvisibleZone_425710(BaseAliveGameObject* pObj);
 private:
     EXPORT void vUnPosses_408F90();
@@ -68,7 +68,7 @@ protected:
 
     EXPORT BOOL Check_IsOnEndOfLine_408E90(__int16 direction, __int16 distance);
 
-    EXPORT BaseAliveGameObject* GetStackedSlapTarget_425290(int idToFind, Types typeToFind, FP xpos, FP ypos);
+    EXPORT BaseAliveGameObject* GetStackedSlapTarget_425290(int idToFind, AETypes typeToFind, FP xpos, FP ypos);
 
 
 public:
@@ -78,7 +78,7 @@ public:
 protected:
     EXPORT BOOL WallHit_408750(FP offY, FP offX);
     EXPORT BOOL InAirCollision_408810(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY);
-    EXPORT BaseGameObject* FindObjectOfType_425180(Types typeToFind, FP xpos, FP ypos);
+    EXPORT BaseGameObject* FindObjectOfType_425180(AETypes typeToFind, FP xpos, FP ypos);
 public:
     EXPORT __int16 OnTrapDoorIntersection_408BA0(PlatformBase* pOther);
 public:

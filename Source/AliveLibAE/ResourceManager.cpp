@@ -91,7 +91,7 @@ ResourceManager* ResourceManager::ctor_464910()
     field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
     SetVTable(this, 0x545EBC); // vTbl_ResourceManager_545EBC
 
-    field_4_typeId = Types::eResourceManager_70;
+    field_4_typeId = AETypes::eResourceManager_70;
     field_2C_pFileItem = nullptr;
     field_30_start_sector = 0;
     field_34_num_sectors = 0;
@@ -130,7 +130,7 @@ void ResourceManager::vLoadFile_StateMachine_464A70()
         if (!field_20_files_pending_loading.IsEmpty())
         {
             field_2C_pFileItem = field_20_files_pending_loading.ItemAt(0);
-            
+
             LvlFileRecord* pLvlFileRec1 = sLvlArchive_5BC520.Find_File_Record_433160(field_2C_pFileItem->field_0_fileName);
             field_34_num_sectors = pLvlFileRec1->field_10_num_sectors;
             field_30_start_sector = pLvlFileRec1->field_C_start_sector + sLvlArchive_5BC520.field_4_cd_pos;
@@ -928,13 +928,13 @@ signed __int16 CC ResourceManager::Move_Resources_To_DArray_49C1C0(BYTE** ppRes,
             }
 
             pHeader = (Header *)((char *)pHeader + pHeader->field_0_size);
-            
+
             // Out of heap space
             if (pHeader->field_0_size >= kResHeapSize)
             {
                 return 1;
             }
-            
+
             ResourceHeapItem* pNewListItem = ResourceManager::Push_List_Item_49BD70();
             pNewListItem->field_4_pNext = pItemToAdd->field_4_pNext;
             pItemToAdd->field_4_pNext = pNewListItem;
@@ -1107,7 +1107,7 @@ void CC ResourceManager::Reclaim_Memory_49C470(unsigned int sizeToReclaim)
                     Header* pNextResHeader = (Header *)((char *)pCurrentHeader + pCurrentHeader->field_0_size);
                     pNextResHeader->field_0_size = savedSize;
                     pNextResHeader->field_8_type = Resource_Free;
-                    
+
                     pNext->field_0_ptr = (BYTE*)&pCurrentHeader[1]; // Data starts after header
                     pListItem->field_0_ptr = (BYTE*)&pNextResHeader[1]; // Data starts after header
                     pListItem->field_4_pNext = pNext->field_4_pNext;
@@ -1169,6 +1169,6 @@ void CC ResourceManager::Free_Resource_Of_Type_49C6B0(DWORD type)
 
 void CC ResourceManager::NoEffect_49C700()
 {
-     // NOTE: Does nothing because the real func just seems to try to tally 
+     // NOTE: Does nothing because the real func just seems to try to tally
      // up some sort of stat that is never used.
 }

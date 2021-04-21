@@ -24,7 +24,9 @@ EXPORT bool Input_JoyStickEnabled();
 EXPORT void Input_SetJoyStickEnabled(bool enabled);
 EXPORT bool Input_JoyStickAvailable();
 
-enum InputCommands : unsigned int
+namespace InputCommands {
+
+enum Enum : unsigned int
 {
     eUp =           1u << 0,  // 0x1
     eDown =         1u << 1,  // 0x2
@@ -60,26 +62,28 @@ enum InputCommands : unsigned int
     eConfigure   = 1u << 31, // 0x80000000
 };
 
-extern const InputCommands sInputKey_Right_5550D0;
-extern const InputCommands sInputKey_Left_5550D4;
-extern const InputCommands sInputKey_Up_5550D8;
-extern const InputCommands sInputKey_Down_5550DC;
-extern const InputCommands sInputKey_Hop_5550E0;
-extern const InputCommands sInputKey_DoAction_5550E4;
-extern const InputCommands sInputKey_Run_5550E8;
-extern const InputCommands sInputKey_Sneak_5550EC;
-extern const InputCommands sInputKey_FartRoll_5550F0;
-extern const InputCommands sInputKey_ThrowItem_5550F4;
-extern const InputCommands sInputKey_GameSpeak2_5550F8;
-extern const InputCommands sInputKey_GameSpeak4_5550FC;
-extern const InputCommands sInputKey_GameSpeak3_555100;
-extern const InputCommands sInputKey_GameSpeak1_555104;
-extern const InputCommands sInputKey_GameSpeak6_555108;
-extern const InputCommands sInputKey_GameSpeak5_55510C;
-extern const InputCommands sInputKey_GameSpeak8_555110;
-extern const InputCommands sInputKey_GameSpeak7_555114;
+}
 
-extern const InputCommands sInputKey_Chant;
+extern const InputCommands::Enum sInputKey_Right_5550D0;
+extern const InputCommands::Enum sInputKey_Left_5550D4;
+extern const InputCommands::Enum sInputKey_Up_5550D8;
+extern const InputCommands::Enum sInputKey_Down_5550DC;
+extern const InputCommands::Enum sInputKey_Hop_5550E0;
+extern const InputCommands::Enum sInputKey_DoAction_5550E4;
+extern const InputCommands::Enum sInputKey_Run_5550E8;
+extern const InputCommands::Enum sInputKey_Sneak_5550EC;
+extern const InputCommands::Enum sInputKey_FartRoll_5550F0;
+extern const InputCommands::Enum sInputKey_ThrowItem_5550F4;
+extern const InputCommands::Enum sInputKey_GameSpeak2_5550F8;
+extern const InputCommands::Enum sInputKey_GameSpeak4_5550FC;
+extern const InputCommands::Enum sInputKey_GameSpeak3_555100;
+extern const InputCommands::Enum sInputKey_GameSpeak1_555104;
+extern const InputCommands::Enum sInputKey_GameSpeak6_555108;
+extern const InputCommands::Enum sInputKey_GameSpeak5_55510C;
+extern const InputCommands::Enum sInputKey_GameSpeak8_555110;
+extern const InputCommands::Enum sInputKey_GameSpeak7_555114;
+
+extern const InputCommands::Enum sInputKey_Chant;
 
 
 #define kUp "\x01"
@@ -111,7 +115,7 @@ extern const InputCommands sInputKey_Chant;
 #define kHoistZTurn "\x1b"
 #define kDPad "\x1a"
 
-EXPORT int CC Input_Remap_492680(InputCommands inputCmd);
+EXPORT int CC Input_Remap_492680(InputCommands::Enum inputCmd);
 EXPORT void CC Input_ResetBinding_4925A0(int input_command, int bIsGamePad);
 EXPORT int CC Input_Read_Pad_4FA9C0(int padNum);
 
@@ -152,7 +156,7 @@ enum PsxButtonBits : unsigned int
 struct InputBinding
 {
     int key;
-    InputCommands command;
+    InputCommands::Enum command;
 };
 
 enum GamepadOptionFlags

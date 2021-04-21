@@ -141,7 +141,7 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     ctor_408240(0);
     SetVTable(&field_128_animation, 0x544290);
     SetVTable(this, 0x547E80);
-    field_4_typeId = Types::eUXB_143;
+    field_4_typeId = AETypes::eUXB_143;
 
     auto pResource = BaseGameObject::Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kTbombResID);
 
@@ -339,18 +339,18 @@ __int16 UXB::vTakeDamage_4DF850(BaseGameObject* pFrom)
 
     switch (pFrom->field_4_typeId)
     {
-    case Types::eAbe_69:
-    case Types::eMudokon_110:
+    case AETypes::eAbe_69:
+    case AETypes::eMudokon_110:
         if (field_118_state == UXBState::eDeactivated_3)
         {
             return 0;
         }
         break;
 
-    case Types::eMineCar_89:
-    case Types::eAbilityRing_104:
-    case Types::eExplosion_109:
-    case Types::eShrykull_121:
+    case AETypes::eMineCar_89:
+    case AETypes::eAbilityRing_104:
+    case AETypes::eExplosion_109:
+    case AETypes::eShrykull_121:
         break;
 
     default:
@@ -368,7 +368,7 @@ __int16 UXB::vTakeDamage_4DF850(BaseGameObject* pFrom)
             0,
             field_CC_sprite_scale);
     }
-    
+
     field_118_state = UXBState::eExploding_2;
     field_124_next_state_frame = sGnFrame_5C1B84;
 
@@ -583,7 +583,7 @@ int UXB::GetSaveState_4DFD40(BYTE* __pSaveBuffer)
 {
     SaveState_UXB* pSaveState = reinterpret_cast<SaveState_UXB*>(__pSaveBuffer);
 
-    pSaveState->field_0_id = Types::eUXB_143;
+    pSaveState->field_0_id = AETypes::eUXB_143;
     pSaveState->field_4_tlv = field_120_tlv;
     pSaveState->field_8_next_state_frame = field_124_next_state_frame;
     pSaveState->field_C_state = field_118_state;
@@ -641,7 +641,7 @@ EXPORT int CC UXB::CreateFromSaveState_4DFAE0(const BYTE* __pSaveState)
     pUXB->field_1C6_red_blink_count = pSaveState->field_14_red_blink_count;
 
     pUXB->field_1C8_flags.Clear(UXB_Flags_1C8::eIsRed_Bit1);
-    
+
     if (pSaveState->field_16_is_red)
     {
         pUXB->field_1C8_flags.Set(UXB_Flags_1C8::eIsRed_Bit1);

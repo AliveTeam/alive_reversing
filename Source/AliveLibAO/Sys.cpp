@@ -20,7 +20,7 @@ int Sys_IsAnyKeyDown_48E6C0()
     //return sIsAKeyDown_A8A600;
 }
 
-void Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, int nShowCmd)
+void AO_Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, int nShowCmd)
 {
     sInstance_9F771C = hInstance;
     sCmdShow_9F772C = nShowCmd;

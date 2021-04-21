@@ -13,48 +13,48 @@
 ALIVE_VAR(1, 0x5c1bde, WORD, gInfiniteGrenades_5C1BDE, 0);
 
 // Overlay to throwable type table ??
-const Types throwable_types_55FAFC[252] =
+const AETypes throwable_types_55FAFC[252] =
 {
-    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eRock_105,   Types::eRock_105,  Types::eRock_105,   Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
-    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eRock_105,   Types::eNone_0,
-    Types::eNone_0,       Types::eNone_0,    Types::eRock_105,     Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eRock_105,   Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
-    Types::eRock_105,     Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eRock_105,   Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
-    Types::eMeat_84,      Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eMeat_84,    Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
-    Types::eMeat_84,      Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eRock_105,   Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
-    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eBone_11,    Types::eNone_0,
-    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eBone_11,    Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eBone_11,    Types::eNone_0,
-    Types::eNone_0,       Types::eNone_0,    Types::eBone_11,      Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eBone_11,    Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
-    Types::eBone_11,      Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eGrenade_65, Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
-    Types::eGrenade_65,   Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eGrenade_65, Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eGrenade_65, Types::eNone_0,
-    Types::eNone_0,       Types::eNone_0,    Types::eGrenade_65,   Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eBone_11,    Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
-    Types::eNone_0,       Types::eNone_0,    Types::eBone_11,      Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eBone_11,    Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
-    Types::eBone_11,      Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eBone_11,    Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eBone_11,    Types::eNone_0,
-    Types::eNone_0,       Types::eNone_0,    Types::eGrenade_65,   Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eGrenade_65, Types::eNone_0,
-    Types::eNone_0,       Types::eNone_0,    Types::eBone_11,      Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eGrenade_65, Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
-    Types::eGrenade_65,   Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eGrenade_65, Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eGrenade_65, Types::eNone_0,
-    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eBone_11,    Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
-    Types::eGrenade_65,   Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eGrenade_65, Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eGrenade_65, Types::eNone_0,
-    Types::eNone_0,       Types::eNone_0,    Types::eGrenade_65,   Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eGrenade_65, Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
-    Types::eGrenade_65,   Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eGrenade_65, Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
-    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
-    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
-    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
-    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
-    Types::eNone_0,       Types::eNone_0 };
+    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eRock_105,   AETypes::eRock_105,  AETypes::eRock_105,   AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
+    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eRock_105,   AETypes::eNone_0,
+    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eRock_105,     AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eRock_105,   AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
+    AETypes::eRock_105,     AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eRock_105,   AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
+    AETypes::eMeat_84,      AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eMeat_84,    AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
+    AETypes::eMeat_84,      AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eRock_105,   AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
+    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eBone_11,    AETypes::eNone_0,
+    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eBone_11,    AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eBone_11,    AETypes::eNone_0,
+    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eBone_11,      AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eBone_11,    AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
+    AETypes::eBone_11,      AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eGrenade_65, AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
+    AETypes::eGrenade_65,   AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eGrenade_65, AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eGrenade_65, AETypes::eNone_0,
+    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eGrenade_65,   AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eBone_11,    AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
+    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eBone_11,      AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eBone_11,    AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
+    AETypes::eBone_11,      AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eBone_11,    AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eBone_11,    AETypes::eNone_0,
+    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eGrenade_65,   AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eGrenade_65, AETypes::eNone_0,
+    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eBone_11,      AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eGrenade_65, AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
+    AETypes::eGrenade_65,   AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eGrenade_65, AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eGrenade_65, AETypes::eNone_0,
+    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eBone_11,    AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
+    AETypes::eGrenade_65,   AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eGrenade_65, AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eGrenade_65, AETypes::eNone_0,
+    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eGrenade_65,   AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eGrenade_65, AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
+    AETypes::eGrenade_65,   AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eGrenade_65, AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
+    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
+    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
+    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
+    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
+    AETypes::eNone_0,       AETypes::eNone_0 };
 
 EXPORT BaseThrowable* CCSTD Make_Throwable_49AF30(FP xpos, FP ypos, short count)
 {
     switch (throwable_types_55FAFC[gMap_5C3030.field_22_overlayID])
     {
-        case Types::eBone_11:
+        case AETypes::eBone_11:
             return ae_new<Bone>()->ctor_4112C0(xpos, ypos, count);
-        case Types::eMetal_24:
+        case AETypes::eMetal_24:
             return ae_new<Grenade>()->ctor_447F70(xpos, ypos, count, 0, 1, 0);
-        case Types::eGrenade_65:
+        case AETypes::eGrenade_65:
             return ae_new<Grenade>()->ctor_447F70(xpos, ypos, count, 0, 0, 0);
-        case Types::eMeat_84:
+        case AETypes::eMeat_84:
             return ae_new<Meat>()->ctor_4694A0(xpos, ypos, count);
-        case Types::eRock_105:
+        case AETypes::eRock_105:
             return ae_new<Rock>()->ctor_49E150(xpos, ypos, count);
         default:
             return nullptr;

@@ -27,7 +27,7 @@ enum class GreeterStates : __int16
 
 struct Greeter_State
 {
-    Types field_0_type;
+    AETypes field_0_type;
     __int16 field_2_r;
     __int16 field_4_g;
     __int16 field_6_b;

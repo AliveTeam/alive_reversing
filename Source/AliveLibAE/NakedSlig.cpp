@@ -111,7 +111,7 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo)
 
     field_1DC_unused = -1;
     SetVTable(this, 0x5446A8);
-    field_4_typeId = Types::eCrawlingSlig_26;
+    field_4_typeId = AETypes::eCrawlingSlig_26;
 
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::bUnknownResID_449, 1, 0));
     field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSligBlowResID, 1, 0));
@@ -350,7 +350,7 @@ int NakedSlig::vGetSaveState_41C9A0(NakedSlig_State* pState)
         return 0;
     }
 
-    pState->field_0_type = Types::eCrawlingSlig_26;
+    pState->field_0_type = AETypes::eCrawlingSlig_26;
     pState->field_4_obj_id = field_C_objectId;
 
     pState->field_8_xpos = field_B8_xpos;
@@ -380,7 +380,7 @@ int NakedSlig::vGetSaveState_41C9A0(NakedSlig_State* pState)
 
     // TODO: Check correct
     pState->field_38_last_line_ypos = FP_GetExponent(field_F8_LastLineYPos);
-  
+
     if (field_100_pCollisionLine)
     {
         pState->field_3A_line_type = field_100_pCollisionLine->field_8_type;
@@ -510,7 +510,7 @@ void NakedSlig::vUpdate_419100()
         const auto oldMotion = field_106_current_motion;
 
         field_208_brain_sub_state = (this->*field_204_brain_state)();
-        
+
         const FP oldX = field_B8_xpos;
         const FP oldY = field_BC_ypos;
 
@@ -579,8 +579,8 @@ __int16 NakedSlig::HandleEnemyStopper_41C740(FP /*velX*/)
         TlvTypes::EnemyStopper_47));
     field_FC_pPathTLV = pStopper;
 
-    return 
-        pStopper && 
+    return
+        pStopper &&
         (pStopper->field_10_stop_direction == direction || pStopper->field_10_stop_direction == Path_EnemyStopper::StopDirection::Both_2) &&
         SwitchStates_Get_466020(pStopper->field_12_id);
 }
@@ -601,7 +601,7 @@ Path_TLV* NakedSlig::FindPantsOrWings_419750()
 
 BaseGameObject* NakedSlig::FindSligButton_419840()
 {
-    return FindObjectOfType_425180(Types::eSligButton_16, field_B8_xpos, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale));
+    return FindObjectOfType_425180(AETypes::eSligButton_16, field_B8_xpos, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale));
 
 }
 
@@ -650,14 +650,14 @@ __int16 NakedSlig::vTakeDamage_4192B0(BaseGameObject* pFrom)
     {
         switch (pFrom->field_4_typeId)
         {
-        case Types::eBullet_15:
-        case Types::eGrinder_30:
-        case Types::eBaseBomb_46:
-        case Types::eRockSpawner_48:
-        case Types::eMeatSaw_86:
-        case Types::eMineCar_89:
-        case Types::eNeverSet_107:
-        case Types::eExplosion_109:
+        case AETypes::eBullet_15:
+        case AETypes::eGrinder_30:
+        case AETypes::eBaseBomb_46:
+        case AETypes::eRockSpawner_48:
+        case AETypes::eMeatSaw_86:
+        case AETypes::eMineCar_89:
+        case AETypes::eNeverSet_107:
+        case AETypes::eExplosion_109:
             if (!BrainIs(&NakedSlig::AI_4_GetKilled_41A880))
             {
                 SetBrain(&NakedSlig::AI_4_GetKilled_41A880);
@@ -666,11 +666,11 @@ __int16 NakedSlig::vTakeDamage_4192B0(BaseGameObject* pFrom)
             }
             return 1;
 
-        case Types::eElectricWall_39:
+        case AETypes::eElectricWall_39:
             Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHelp_10, 0, 0, this);
             return 1;
 
-        case Types::eSlig_125:
+        case AETypes::eSlig_125:
         {
             // Take a BEATING
             field_1AC_timer = sGnFrame_5C1B84 + 20;
@@ -702,7 +702,7 @@ __int16 NakedSlig::vTakeDamage_4192B0(BaseGameObject* pFrom)
         }
             return 1;
 
-        case Types::eSlog_126:
+        case AETypes::eSlog_126:
             if (!BrainIs(&NakedSlig::AI_4_GetKilled_41A880))
             {
                 SetBrain(&NakedSlig::AI_4_GetKilled_41A880);
@@ -717,7 +717,7 @@ __int16 NakedSlig::vTakeDamage_4192B0(BaseGameObject* pFrom)
             }
             return 1;
 
-        case Types::eElectrocute_150:
+        case AETypes::eElectrocute_150:
             if (!BrainIs(&NakedSlig::AI_4_GetKilled_41A880))
             {
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
@@ -811,7 +811,7 @@ __int16 NakedSlig::AI_0_Sleeping_419DE0()
     {
         MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
     }
-    
+
     if (field_208_brain_sub_state == 0)
     {
         if (!(static_cast<int>(sGnFrame_5C1B84) % 16))
@@ -900,7 +900,7 @@ __int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
     switch (field_208_brain_sub_state)
     {
     case 0:
-        if ((field_1E0_crawl_direction != Path_NakedSlig::CrawlDirection::eRight_1 || !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))) && 
+        if ((field_1E0_crawl_direction != Path_NakedSlig::CrawlDirection::eRight_1 || !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))) &&
             (field_1E0_crawl_direction != Path_NakedSlig::CrawlDirection::eLeft_0  ||   field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
         {
             field_108_next_motion = NakedSligMotion::M_Crawling_3_41B280;
@@ -1221,7 +1221,7 @@ __int16 NakedSlig::AI_4_GetKilled_41A880()
                 (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale) + field_B8_xpos,
                 field_BC_ypos - FP_FromInteger(6),
                 field_CC_sprite_scale / FP_FromInteger(2),
-                2, 
+                2,
                 128u, 128u, 128u);
 
             SFX_Play_46FBA0(SoundEffect::Vaporize_79, 25, FP_GetExponent((FP_FromInteger(2200) * field_CC_sprite_scale)));
@@ -1467,7 +1467,7 @@ void NakedSlig::M_UsingButton_1_41B890()
             Set_AnimAndMotion_419890(0, TRUE);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
-            field_4_typeId = Types::eNone_0;
+            field_4_typeId = AETypes::eNone_0;
         }
     }
     else
@@ -1489,7 +1489,7 @@ void NakedSlig::M_WakingUp_2_41BF00()
             break;
         }
 
-        if (pObj->field_4_typeId == Types::eSnoozeParticle_124)
+        if (pObj->field_4_typeId == AETypes::eSnoozeParticle_124)
         {
             static_cast<SnoozeParticle*>(pObj)->field_1E4_state = SnoozeParticle::SnoozeParticleState::BlowingUp_2;
         }
@@ -1523,9 +1523,9 @@ void NakedSlig::M_Crawling_3_41B280()
             }
             else
             {
-                if ((field_C4_velx > FP_FromInteger(0) && sInputObject_5BD4E0.isPressed(InputCommands::eLeft)) ||
-                    (field_C4_velx < FP_FromInteger(0) && sInputObject_5BD4E0.isPressed(InputCommands::eRight)) ||
-                   !(sInputObject_5BD4E0.isPressed(InputCommands::eLeft | InputCommands::eRight)))
+                if ((field_C4_velx > FP_FromInteger(0) && sInputObject_5BD4E0.isPressed(InputCommands::Enum::eLeft)) ||
+                    (field_C4_velx < FP_FromInteger(0) && sInputObject_5BD4E0.isPressed(InputCommands::Enum::eRight)) ||
+                   !(sInputObject_5BD4E0.isPressed(InputCommands::Enum::eLeft | InputCommands::Enum::eRight)))
                 {
                     Set_AnimAndMotion_419890(15, TRUE);
                 }
@@ -1562,7 +1562,7 @@ void NakedSlig::M_Falling_5_41B650()
             field_C4_velx = FP_FromInteger(0);
         }
     }
-    
+
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
@@ -1631,8 +1631,8 @@ void NakedSlig::M_Speaking_8_41BF70()
 {
     if (field_20_animation.field_92_current_frame == 2 && field_1C0_speak != SligSpeak::eNone)
     {
-        if (gMap_5C3030.field_2_current_path == field_C0_path_number && 
-            gMap_5C3030.field_0_current_level == field_C2_lvl_number && 
+        if (gMap_5C3030.field_2_current_path == field_C0_path_number &&
+            gMap_5C3030.field_0_current_level == field_C2_lvl_number &&
             Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
         {
             Slig_GameSpeak_SFX_4C04F0(field_1C0_speak, 0, 0, this);
@@ -1708,9 +1708,9 @@ void NakedSlig::M_PushingWall_10_41B400()
     if(BrainIs(&NakedSlig::AI_3_Possessed_41A5B0))
     {
         const bool flipX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX);
-        if ((!flipX && sInputObject_5BD4E0.isPressed(InputCommands::eLeft)) ||
-            (flipX && sInputObject_5BD4E0.isPressed(InputCommands::eRight)) ||
-            !(sInputObject_5BD4E0.isPressed(InputCommands::eLeft | InputCommands::eRight)))
+        if ((!flipX && sInputObject_5BD4E0.isPressed(InputCommands::Enum::eLeft)) ||
+            (flipX && sInputObject_5BD4E0.isPressed(InputCommands::Enum::eRight)) ||
+            !(sInputObject_5BD4E0.isPressed(InputCommands::Enum::eLeft | InputCommands::Enum::eRight)))
         {
             Set_AnimAndMotion_419890(NakedSligMotion::M_EndPushingWall_17_41B3A0, TRUE);
         }
@@ -1813,7 +1813,7 @@ void NakedSlig::HandleCommon_41C0B0()
 
     if (BrainIs(&NakedSlig::AI_3_Possessed_41A5B0) && field_208_brain_sub_state == 1)
     {
-        if (sInputObject_5BD4E0.isPressed(InputCommands::eRight))
+        if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eRight))
         {
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
@@ -1824,7 +1824,7 @@ void NakedSlig::HandleCommon_41C0B0()
                 field_108_next_motion = NakedSligMotion::M_Crawling_3_41B280;
             }
         }
-        else if (sInputObject_5BD4E0.isPressed(InputCommands::eLeft))
+        else if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eLeft))
         {
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
@@ -1835,7 +1835,7 @@ void NakedSlig::HandleCommon_41C0B0()
                 field_108_next_motion = NakedSligMotion::M_TurnAround_11_41B590;
             }
         }
-        else if (sInputObject_5BD4E0.isHeld(InputCommands::eUp))
+        else if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eUp))
         {
             field_1E4_pPantsOrWingsTlv = FindPantsOrWings_419750();
             if (field_1E4_pPantsOrWingsTlv)
@@ -1863,35 +1863,35 @@ void NakedSlig::HandleCommon_41C0B0()
                 }
             }
         }
-        if (sInputObject_5BD4E0.isHeld(InputCommands::eGameSpeak1))
+        if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eGameSpeak1))
         {
             field_1C0_speak = SligSpeak::eHi_0;
         }
-        else if (sInputObject_5BD4E0.isHeld(InputCommands::eGameSpeak3))
+        else if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eGameSpeak3))
         {
             field_1C0_speak = sInputObject_5BD4E0.Is_Demo_Playing_45F220() != 0 ? SligSpeak::eGetHim_2 : SligSpeak ::eFreeze_8;
         }
-        else if (sInputObject_5BD4E0.isHeld(InputCommands::eGameSpeak4))
+        else if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eGameSpeak4))
         {
             field_1C0_speak = sInputObject_5BD4E0.Is_Demo_Playing_45F220() != 0 ? SligSpeak ::eFreeze_8 : SligSpeak::eGetHim_2;
         }
-        else if (sInputObject_5BD4E0.isHeld(InputCommands::eGameSpeak2))
+        else if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eGameSpeak2))
         {
             field_1C0_speak = SligSpeak::eHereBoy_1;
         }
-        else if (sInputObject_5BD4E0.isHeld(InputCommands::eGameSpeak6))
+        else if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eGameSpeak6))
         {
             field_1C0_speak = SligSpeak::eBullshit_5;
         }
-        else if (sInputObject_5BD4E0.isHeld(InputCommands::eGameSpeak7))
+        else if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eGameSpeak7))
         {
             field_1C0_speak = SligSpeak::eLookOut_6;
         }
-        else if (sInputObject_5BD4E0.isHeld(InputCommands::eGameSpeak5))
+        else if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eGameSpeak5))
         {
             field_1C0_speak = SligSpeak::eBullshit2_7;
         }
-        else if (sInputObject_5BD4E0.isHeld(InputCommands::eGameSpeak8))
+        else if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eGameSpeak8))
         {
             field_1C0_speak = SligSpeak::eLaugh_3;
         }
@@ -1971,7 +1971,7 @@ const FP dword_54471C[15] =
 __int16 NakedSlig::CanCrawl_41C5D0()
 {
     field_C4_velx = dword_54471C[field_20_animation.field_92_current_frame];
-    
+
     FP gridScale = ScaleToGridSize_4498B0(field_CC_sprite_scale);
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
