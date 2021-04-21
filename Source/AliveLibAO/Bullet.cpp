@@ -292,15 +292,15 @@ BaseAliveGameObject* Bullet::ShootObject_409400(PSX_RECT* pRect)
         {
             if (pObjIter->field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
             {
-                if (field_10_type == BulletType::ePossessedSlig_0
+                if ((field_10_type == BulletType::ePossessedSlig_0
                     && (pObjIter->field_4_typeId == Types::eSlig_88
                     || pObjIter->field_4_typeId == Types::eMudokon_75
                     || pObjIter->field_4_typeId == Types::eAbe_43
-                    || pObjIter->field_4_typeId == Types::eSlog_89)
+                    || pObjIter->field_4_typeId == Types::eSlog_89))
 
                     || pObjIter->field_4_typeId == Types::eMudokon_75
                     || pObjIter->field_4_typeId == Types::eAbe_43
-                    || pObjIter->field_4_typeId == Types::eSlig_88 && sControlledCharacter_50767C == pObjIter)
+                    || (pObjIter->field_4_typeId == Types::eSlig_88 && sControlledCharacter_50767C == pObjIter))
                 {
                     PSX_RECT bRect = {};
                     pObjIter->VGetBoundingRect(&bRect, 1);

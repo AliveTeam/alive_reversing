@@ -122,7 +122,7 @@ struct OpenSeqHandleAE // Same as ::OpenSeqHandle
 };
 ALIVE_ASSERT_SIZEOF(OpenSeqHandleAE, 0x10);
 
-// WARNING: The AO and AE OpenSeqHandle are not memory layout compatible 
+// WARNING: The AO and AE OpenSeqHandle are not memory layout compatible
 // since we use the AE funcs for sound we must use the AE definition here
 OpenSeqHandleAE g_SeqTable_4C9E70[165] =
 {
@@ -475,12 +475,12 @@ void Map::Handle_PathTransition_444DD0()
         field_C_path = pTlv->field_1A_path;
         field_E_camera = pTlv->field_1C_camera;
         field_12_fmv_base_id = pTlv->field_1E_movie;
-       
+
         field_10_screenChangeEffect = kPathChangeEffectToInternalScreenChangeEffect_4CDC78[pTlv->field_20_wipe];
-        
+
         field_18_pAliveObj->field_B2_lvl_number = pTlv->field_18_level;
         field_18_pAliveObj->field_B0_path_number = pTlv->field_1A_path;
-        
+
         // TODO: Probably OG bug, when changing camera/path the TLV pointer can become invalid
         // resulting in a corrupted scale value ?
         // Pointer points to the Path res which is invalid after ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Path, i, TRUE, FALSE);
@@ -588,7 +588,7 @@ void Map::Handle_PathTransition_444DD0()
         auto pCameraName = reinterpret_cast<const CameraName*>(pPathRes + pCamNameOffset);
 
         // Convert the 2 digit camera number string to an integer
-        field_E_camera = 
+        field_E_camera =
             1 * (pCameraName->name[7] - '0') +
             10 * (pCameraName->name[6] - '0');
 
@@ -873,7 +873,7 @@ Path_TLV* Map::Get_First_TLV_For_Offsetted_Camera_4463B0(__int16 cam_x_idx, __in
     {
         return nullptr;
     }
-    
+
     BYTE* pPathData = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
     const int* indexTable = reinterpret_cast<const int*>(pPathData + field_D4_pPathData->field_18_object_index_table_offset);
     const int indexTableEntry = indexTable[(camX + (camY * field_24_max_cams_x))];
@@ -956,7 +956,7 @@ void Map::RestoreBlyData_446A90(const BYTE* pSaveData)
         {
             const PathData* pPathData = pPathRec->field_4_pPathData;
             const int* pIndexTable = reinterpret_cast<const int*>(&(*ppPathRes)[pPathData->field_18_object_index_table_offset]);
-            const int totalCameraCount = 
+            const int totalCameraCount =
                 (pPathData->field_8_bTop - pPathData->field_4_bLeft) / pPathData->field_C_grid_width *
                 ((pPathData->field_A_bBottom - pPathData->field_6_bRight) / pPathData->field_E_grid_height);
 
@@ -1133,13 +1133,13 @@ signed __int16 Map::SetActiveCameraDelayed_444CA0(MapDirections direction, BaseA
         field_C_path = field_2_current_path;
         field_A_level = field_0_current_level;
     }
-    
+
     field_14_direction = direction;
     field_18_pAliveObj = pObj;
     field_1C_cameraSwapEffect = convertedSwapEffect;
     field_6_state = 1;
     sMap_bDoPurpleLightEffect_507C9C = 0;
-    
+
     if (field_1C_cameraSwapEffect == CameraSwapEffects::eEffect5_1_FMV || field_1C_cameraSwapEffect == CameraSwapEffects::eEffect11)
     {
         sMap_bDoPurpleLightEffect_507C9C = 1;
@@ -1154,7 +1154,7 @@ __int16 Map::Is_Point_In_Current_Camera_4449C0(int level, int path, FP xpos, FP 
     {
         return FALSE;
     }
-    
+
     PSX_RECT rect = {};
     rect.x = FP_GetExponent(xpos);
     rect.w = FP_GetExponent(xpos);
@@ -1337,7 +1337,7 @@ EXPORT Path_TLV* Map::TLV_Get_At_446260(__int16 xpos, __int16 ypos, __int16 widt
 
     const int grid_cell_y = top / field_D4_pPathData->field_E_grid_height;
     const int grid_cell_x = (right / field_D4_pPathData->field_C_grid_width);
-   
+
     // Check within map bounds
     if (grid_cell_x >= field_24_max_cams_x)
     {
@@ -1427,7 +1427,7 @@ Path_TLV* Map::TLV_Get_At_446060(Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP 
         pTlv = reinterpret_cast<Path_TLV*>(&ppPathRes[pPathData->field_14_object_offset + indexTableEntry]);
         pTlv->RangeCheck();
 
-        if (!bContinue || 
+        if (!bContinue ||
             (xpos_converted <= pTlv->field_14_bottom_right.field_0_x &&
              width_converted >= pTlv->field_10_top_left.field_0_x &&
              height_converted >= pTlv->field_10_top_left.field_2_y &&
@@ -1447,7 +1447,7 @@ Path_TLV* Map::TLV_Get_At_446060(Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP 
         pTlv = Path_TLV::Next_446460(pTlv);
         pTlv->RangeCheck();
 
-        if (!bContinue|| 
+        if (!bContinue||
             (xpos_converted <= pTlv->field_14_bottom_right.field_0_x &&
             width_converted >= pTlv->field_10_top_left.field_0_x &&
             height_converted >= pTlv->field_10_top_left.field_2_y &&
@@ -1714,7 +1714,7 @@ void Map::GoTo_Camera_445050()
     if (field_A_level != field_0_current_level)
     {
         ResourceManager::LoadingLoop_41EAD0(bShowLoadingIcon);
-        
+
         // Free all cameras
         for (int i = 0; i < ALIVE_COUNTOF(field_34_camera_array); i++)
         {
@@ -1801,10 +1801,10 @@ void Map::GoTo_Camera_445050()
     field_D4_pPathData = pPathRecord->field_4_pPathData;
     field_24_max_cams_x = (field_D4_pPathData->field_8_bTop - field_D4_pPathData->field_4_bLeft) / field_D4_pPathData->field_C_grid_width;
     field_26_max_cams_y = (field_D4_pPathData->field_A_bBottom - field_D4_pPathData->field_6_bRight) / field_D4_pPathData->field_E_grid_height;
-    
+
     char camNameBuffer[20] = {};
     Path_Format_CameraName_4346B0(camNameBuffer, field_A_level, field_C_path, field_E_camera);
-    
+
     const auto totalCams = field_26_max_cams_y * field_24_max_cams_x;
 
     int camIdx = 0;
@@ -1824,7 +1824,7 @@ void Map::GoTo_Camera_445050()
 
     const auto camX_idx = static_cast<short>(camIdx % field_24_max_cams_x);
     const auto camY_idx = static_cast<short>(camIdx / field_24_max_cams_x);
-  
+
     field_20_camX_idx = camX_idx;
     field_22_camY_idx = camY_idx;
 
@@ -1913,7 +1913,7 @@ void Map::GoTo_Camera_445050()
         pScreenManager_4FF7C8 = ao_new<ScreenManager>();
         pScreenManager_4FF7C8->ctor_406830(field_34_camera_array[0]->field_C_ppBits, &field_2C_camera_offset);
     }
-    
+
     Loader_446590(field_20_camX_idx, field_22_camY_idx, LoadMode::Mode_0, TlvTypes::None_m1); // none = load all
 
     if (old_current_path != field_2_current_path || old_current_level != field_0_current_level)
@@ -1928,7 +1928,7 @@ void Map::GoTo_Camera_445050()
             gElum_507680->VCheckCollisionLineStillValid(10);
         }
     }
-    
+
     Create_FG1s_4447D0();
 
     if (field_10_screenChangeEffect == CameraSwapEffects::eEffect5_1_FMV)
@@ -1941,7 +1941,7 @@ void Map::GoTo_Camera_445050()
         pScreenManager_4FF7C8->DecompressCameraToVRam_407110(reinterpret_cast<unsigned short**>(field_34_camera_array[0]->field_C_ppBits));
         pScreenManager_4FF7C8->InvalidateRect_406CC0(0, 0, 640, 240);
         pScreenManager_4FF7C8->MoveImage_406C40();
-        pScreenManager_4FF7C8->field_36_flags = pScreenManager_4FF7C8->field_36_flags & ~1 ^ 1;
+        pScreenManager_4FF7C8->field_36_flags = (pScreenManager_4FF7C8->field_36_flags & ~1) ^ 1;
     }
 
     if (field_10_screenChangeEffect != CameraSwapEffects::eEffect5_1_FMV && field_10_screenChangeEffect != CameraSwapEffects::eEffect11)

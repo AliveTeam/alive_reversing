@@ -28,7 +28,7 @@ public:
         field_14_pal_colours_count = palDepth;
 
         field_6_flags.Set(Options::eDrawable_Bit4);
-        
+
         for (auto& palBufferEntry : field_A8_palBuffer)
         {
             palBufferEntry = colour;
@@ -209,7 +209,7 @@ void Electrocute::VScreenChanged_48D8B0()
 {
     // If the map has changed or target we are tracking has died then..
     if (gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0()
-        || field_10_obj_target && field_10_obj_target->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+        || (field_10_obj_target && field_10_obj_target->field_6_flags.Get(BaseGameObject::eDead_Bit3)))
     {
         Stop_48D510();
     }
@@ -282,7 +282,7 @@ void Electrocute::VUpdate_48D5C0()
                 field_10_obj_target->field_10_anim.field_8C_pal_vram_xy,
                 field_10_obj_target->field_10_anim.field_90_pal_depth,
                 static_cast<short>(Pal_Make_Colour_447950(255u, 255, 255, 1)));
- 
+
         field_18_pPalOverwriters[1] = ao_new<PalleteOverwriter>();
         if (field_18_pPalOverwriters[1])
         {

@@ -417,7 +417,7 @@ ALIVE_ASSERT_SIZEOF(Path_Stone, 0x2C);
 
 class Abe : public BaseAliveGameObject
 {
-public: 
+public:
     BOOL Is_Celling_Above();
 
     EXPORT Abe* ctor_420770(int frameTableOffset, int a3, int a4, int a5);
@@ -763,4 +763,4 @@ EXPORT int CC Mudokon_SFX_42A4D0(MudSounds idx, int volume, int pitch, BaseAlive
 
 EXPORT int CC XGrid_Index_To_XPos_41FA60(FP scale, int xGridIndex);
 
-};
+}

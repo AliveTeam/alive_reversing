@@ -128,8 +128,8 @@ void LiftMover::VUpdate_4055C0()
         {
             pLiftPoint->Move_435740(FP_FromInteger(0), field_1C_speed, 0);
 
-            if (field_1C_speed > FP_FromInteger(0) && pLiftPoint->OnBottomFloor() ||
-                field_1C_speed < FP_FromInteger(0) && pLiftPoint->OnTopFloor())
+            if ((field_1C_speed > FP_FromInteger(0) && pLiftPoint->OnBottomFloor()) ||
+                (field_1C_speed < FP_FromInteger(0) && pLiftPoint->OnTopFloor()))
             {
                 field_20_state = 2;
             }
@@ -153,8 +153,8 @@ void LiftMover::VUpdate_4055C0()
         {
             pLiftPoint->Move_435740(FP_FromInteger(0), field_1C_speed, 0);
 
-            if (field_1C_speed > FP_FromInteger(0) && pLiftPoint->OnBottomFloor() ||
-                field_1C_speed < FP_FromInteger(0) && pLiftPoint->OnTopFloor())
+            if ((field_1C_speed > FP_FromInteger(0) && pLiftPoint->OnBottomFloor()) ||
+                (field_1C_speed < FP_FromInteger(0) && pLiftPoint->OnTopFloor()))
             {
                 field_20_state = 2;
             }

@@ -58,7 +58,7 @@ enum eFleechMotions
     M_PatrolCry_5_42E810,
     M_Knockback_6_42EAF0,
     M_StopCrawling_7_42EBB0,
-    M_StopMidCrawlCycle_8_42EB20, 
+    M_StopMidCrawlCycle_8_42EB20,
     M_Fall_9_42ECD0,
     M_Land_10_42F330,
     M_RaiseHead_11_42F590,
@@ -627,7 +627,7 @@ void Fleech::M_Idle_3_42E850()
             FP hitY = {};
             PathLine* pLine = nullptr;
             if (field_106_current_motion == eFleechMotions::M_Idle_3_42E850 &&
-                field_20_animation.field_92_current_frame == 0 && 
+                field_20_animation.field_92_current_frame == 0 &&
                 !sCollisions_DArray_5C1128->Raycast_417A60(
                     field_B8_xpos - FP_FromInteger(5),
                     field_BC_ypos - FP_FromInteger(5),
@@ -983,7 +983,7 @@ void Fleech::M_Climb_12_42F7F0()
         }
 
         const FP pY1 = field_C8_vely + field_BC_ypos - FP_FromInteger(field_CC_sprite_scale < FP_FromInteger(1) ? 10 : 20);
-        
+
         FP pX2;
         if (xOff < FP_FromInteger(0))
         {
@@ -1080,7 +1080,7 @@ void Fleech::M_SettleOnGround_13_42FB00()
 
 void Fleech::M_ExtendTongueFromEnemy_14_42FBD0()
 {
-    if (field_11C_obj_id == sActiveHero_5C1B68->field_8_object_id && 
+    if (field_11C_obj_id == sActiveHero_5C1B68->field_8_object_id &&
         (sActiveHero_5C1B68->CantBeDamaged_44BAB0() || sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible)))
     {
         ToIdle_42E520();
@@ -1094,7 +1094,7 @@ void Fleech::M_ExtendTongueFromEnemy_14_42FBD0()
 
 void Fleech::M_RetractTongueFromEnemey_15_42FC40()
 {
-    if (sObjectIds_5C1B70.Find_449CF0(field_11C_obj_id) == sActiveHero_5C1B68 && 
+    if (sObjectIds_5C1B70.Find_449CF0(field_11C_obj_id) == sActiveHero_5C1B68 &&
         ((sActiveHero_5C1B68->CantBeDamaged_44BAB0()) || sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible)))
     {
         sub_42B8C0();
@@ -1124,10 +1124,10 @@ void Fleech::M_DeathByFalling_16_42FCE0()
         {
             pBlood->ctor_40F0B0(field_B8_xpos, field_BC_ypos - FP_FromInteger(8), FP_FromInteger(0), -FP_FromInteger(5), field_CC_sprite_scale, 50);
         }
-        
+
         Sound_430520(FleechSound::DeathByHeight_12);
         Sound_430520(FleechSound::Scared_7);
-        
+
         field_10C_health = FP_FromInteger(0);
         field_124_brain_state = eFleechBrains::eAI_Death_3_42D1E0;
         field_174_flags.Set(Flags_174::eBit3);
@@ -1373,7 +1373,7 @@ void Fleech::RenderEx_42C5A0(PrimHeader** ot)
         const __int16 camX = FP_GetExponent(camPos->field_0_x);
         const __int16 camY = FP_GetExponent(camPos->field_4_y);
 
-        tongueBlock_X[0] = FP_FromInteger(field_180_tongue_x - camX); 
+        tongueBlock_X[0] = FP_FromInteger(field_180_tongue_x - camX);
         tongueBlock_Y[0] = FP_FromInteger(field_182_tongue_y - camY);
         tongueBlock_X[4] = FP_FromInteger(field_184_target_x - camX);
         tongueBlock_Y[4] = FP_FromInteger(field_186_target_y - camY);
@@ -1609,7 +1609,7 @@ void Fleech::RenderEx_42C5A0(PrimHeader** ot)
 
 void Fleech::vScreenChanged_42A4C0()
 {
-    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || 
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level ||
         gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path ||
         gMap_5C3030.field_22_overlayID != gMap_5C3030.GetOverlayId_480710())
     {
@@ -1738,7 +1738,7 @@ void Fleech::Init_42A170()
 {
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kFleechResID, TRUE, FALSE));
     field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_580, TRUE, FALSE));
-    
+
     Animation_Init_424E10(37704, 73, 35u, field_10_resources_array.ItemAt(0), 1, 1);
 
     field_20_animation.field_1C_fn_ptr_array = kFleech_Anim_Frame_Fns_55EFD0;
@@ -1761,9 +1761,9 @@ void Fleech::Init_42A170()
     field_11C_obj_id = -1;
     field_170_danger_obj = -1;
     field_15E = 0;
-    
+
     SetTint_425600(&stru_551844[0], gMap_5C3030.field_0_current_level);
-    
+
     if (field_CC_sprite_scale == FP_FromInteger(1))
     {
         field_20_animation.field_C_render_layer = Layer::eLayer_34;
@@ -1789,11 +1789,11 @@ void Fleech::Init_42A170()
     {
         field_BC_ypos = hitY;
     }
-    
+
     MapFollowMe_408D10(TRUE);
-    
+
     vStackOnObjectsOfType_425840(Types::eFleech_50);
-    
+
     field_E0_pShadow = ae_new<Shadow>();
     if (field_E0_pShadow)
     {
@@ -1810,7 +1810,7 @@ void Fleech::InitTonguePolys_42B6E0()
 
     field_180_tongue_x = FP_GetExponent(field_B8_xpos);
     field_182_tongue_y = FP_GetExponent(FP_FromInteger(2)*((FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? -10 : -5)) + field_BC_ypos));
-    
+
     field_178_tongue_state = 1;
 
     field_184_target_x = -1;
@@ -2025,7 +2025,7 @@ void Fleech::TongueUpdate_42BD30()
             {
             case 4:
                 field_108_next_motion = eFleechMotions::M_Consume_18_42FDF0;
-                // Fall through
+                [[fallthrough]];
             case 0:
             case 1:
             case 2:
@@ -2247,7 +2247,7 @@ __int16 Fleech::HandleEnemyStopperOrSlamDoor_42ADC0(int velX)
         FP_GetExponent(field_BC_ypos),
         TlvTypes::EnemyStopper_47));
 
-    if (pStopper && 
+    if (pStopper &&
         (pStopper->field_10_stop_direction == (nextXPos >= field_B8_xpos ? Path_EnemyStopper::StopDirection::Right_1 : Path_EnemyStopper::StopDirection::Left_0)) &&
         SwitchStates_Get_466020(pStopper->field_12_id))
     {
@@ -2272,7 +2272,7 @@ __int16 Fleech::HandleEnemyStopperOrSlamDoor_42ADC0(int velX)
         FP_GetExponent(field_BC_ypos),
         TlvTypes::SlamDoor_85));
 
-    return (pSlamDoor && 
+    return (pSlamDoor &&
         ((pSlamDoor->field_10_bStart_closed == Choice_short::eYes_1 && !SwitchStates_Get_466020(pSlamDoor->field_14_id)) ||
          (pSlamDoor->field_10_bStart_closed == Choice_short::eNo_0 && SwitchStates_Get_466020(pSlamDoor->field_14_id))));
 }
@@ -2281,7 +2281,7 @@ int Fleech::UpdateWakeUpSwitchValue_4308B0()
 {
     const __int16 curSwitchValue = static_cast<__int16>(SwitchStates_Get_466020(field_144_wake_up_id));
     const __int16 wakeUpValue = field_148_wake_up_switch_value;
-    
+
     if (curSwitchValue == wakeUpValue)
     {
         return 0;
@@ -2305,10 +2305,10 @@ __int16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
     {
         return 0;
     }
-    
+
     sub_42B8C0();
     ResetTarget_42CF70();
-    
+
     switch (pFrom->field_4_typeId)
     {
     case Types::eBullet_15:
@@ -2356,7 +2356,7 @@ __int16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
 
     case Types::eParamite_96:
         Sound_430520(FleechSound::Dismember_13);
-        // Fall through
+        [[fallthrough]];
 
     case Types::eScrab_112:
     {
@@ -2491,7 +2491,7 @@ __int16 Fleech::InRange_4307C0(BaseAliveGameObject* pObj)
     }
 
     if (FP_Abs(pObj->field_B8_xpos - field_B8_xpos) >= ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(10) ||
-        FP_Abs(pObj->field_BC_ypos - field_BC_ypos) >= ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(1) || 
+        FP_Abs(pObj->field_BC_ypos - field_BC_ypos) >= ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(1) ||
         pObj->field_CC_sprite_scale != field_CC_sprite_scale)
     {
         return FALSE;
@@ -2580,11 +2580,11 @@ BaseAliveGameObject* Fleech::FindMudOrAbe_42CFD0()
                 Math_Distance_496EB0(
                     FP_GetExponent(pObj->field_B8_xpos),
                     FP_GetExponent(pObj->field_BC_ypos),
-                    FP_GetExponent(field_B8_xpos), 
+                    FP_GetExponent(field_B8_xpos),
                     FP_GetExponent(field_BC_ypos)));
 
-            if (dist < lastDist && 
-                FP_GetExponent(field_B8_xpos) / 375 == (FP_GetExponent(pObj->field_B8_xpos) / 375) && 
+            if (dist < lastDist &&
+                FP_GetExponent(field_B8_xpos) / 375 == (FP_GetExponent(pObj->field_B8_xpos) / 375) &&
                 FP_GetExponent(field_BC_ypos) / 260 == (FP_GetExponent(pObj->field_BC_ypos) / 260))
             {
                 lastDist = dist;
@@ -2651,7 +2651,7 @@ void Fleech::MoveAlongFloor_42E600()
 
 __int16 Fleech::IsNear_428670(BaseAliveGameObject* pObj)
 {
-    if (pObj && 
+    if (pObj &&
         field_CC_sprite_scale == pObj->field_CC_sprite_scale &&
         FP_GetExponent(FP_Abs(field_B8_xpos - pObj->field_B8_xpos)) <= 750 &&
         FP_GetExponent(FP_Abs(field_BC_ypos - pObj->field_BC_ypos)) <= 260)
@@ -3433,7 +3433,7 @@ __int16 Fleech::AI_ChasingAbe_1_428760()
             field_162_hoistY = pHoist->field_8_top_left.field_2_y;
             return 14;
         }
-        // Fall through
+        [[fallthrough]];
     }
 
     case 5u:
@@ -3542,9 +3542,9 @@ __int16 Fleech::AI_ChasingAbe_1_428760()
             {
                 return field_126_state;
             }
-            
+
             ResetTarget_42CF70();
-            
+
             if (pObj->field_10C_health <= FP_FromInteger(0))
             {
                 return 13;
@@ -4245,7 +4245,7 @@ __int16 Fleech::AI_Scared_2_42D310()
             field_162_hoistY = pHoist->field_8_top_left.field_2_y;
             return 10;
         }
-        // Fall through
+        [[fallthrough]];
     }
 
     case 4u:
@@ -4373,7 +4373,7 @@ __int16 Fleech::AI_Scared_2_42D310()
             {
                 return field_126_state;
             }
-            
+
             ResetTarget_42CF70();
 
             if (pDangerObj->field_10C_health <= FP_FromInteger(0))

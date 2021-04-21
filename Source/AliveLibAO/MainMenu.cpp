@@ -405,7 +405,7 @@ void MainMenuFade::VRender_42A7A0(PrimHeader** ppOt)
         ppOt,
         0,
         0);
-    
+
     PSX_RECT rect = {};
     field_10_anim.Get_Frame_Rect_402B50(&rect);
     pScreenManager_4FF7C8->InvalidateRect_406E40(
@@ -517,7 +517,7 @@ MainMenuTransition* MainMenuTransition::ctor_436370(Layer layer, __int16 fadeDir
     field_4_typeId = Types::eDeathFadeOut_80;
 
     gObjList_drawables_504618->Push_Back(this);
-   
+
     field_6_flags.Set(Options::eDrawable_Bit4);
 
     for (int i = 0; i < 2; i++)
@@ -724,9 +724,9 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, int tlvInfo)
     ctor_417C10();
     SetVTable(this, 0x4BCE78);
     SetVTable(&field_134_anim, 0x4BA2B8);
-    
+
     gMainMenuInstanceCount_9F2DE0++;
-    
+
     if (sFontLoaded_507688 == 0)
     {
         sFontContext_4FFD68.LoadFontType_41C040(1);
@@ -995,7 +995,7 @@ void Menu::CopyRight_Update_47B4C0()
             gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 10, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
         }
     }
-    else 
+    else
     {
         if (static_cast<int>(gnFrameCount_507670) > field_1D8_timer || gMap_507BA8.field_4_current_camera != 10)
         {
@@ -1029,7 +1029,7 @@ void Menu::FMV_Select_Update_47E8D0()
                 SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
             }
         }
-       
+
         if (Input().IsAnyHeld(InputObject::PadIndex::First, InputCommands::eBack | InputCommands::eHop)) // TODO: Input constants
         {
             // Go back to main screen
@@ -1111,7 +1111,7 @@ void Menu::FMV_Select_Update_47E8D0()
             else
             {
                 const MenuFMV* pRec = &sActiveList_9F2DE4[field_1E0_selected_index];
-                
+
                 field_20E_level = pRec->field_4_level_id;
                 field_210_path = pRec->field_6;
                 field_212_camera =  pRec->field_8;
@@ -1175,14 +1175,14 @@ void NavigateBetweenTwoPoints(FP& a, FP& b)
 
 void Menu::FMV_Or_Level_Select_Render_47EEA0(PrimHeader** ppOt)
 {
-    // Glow hilight 
+    // Glow hilight
     field_134_anim.VRender_403AE0(
         stru_4D00D8.field_0_xpos,
         stru_4D00D8.field_2_ypos,
         ppOt,
         0,
         0);
-    
+
     PSX_RECT rect = {};
     field_134_anim.Get_Frame_Rect_402B50(&rect);
     pScreenManager_4FF7C8->InvalidateRect_406E40(
@@ -1374,7 +1374,7 @@ void Menu::MainScreen_Render_47BED0(PrimHeader** ppOt)
         RenderElement_47A4E0(element.field_0_xpos, element.field_4_ypos, element.field_8_input_command, ppOt, &field_FC_font, &polyOffset);
     }
 }
- 
+
 EXPORT void Menu::MainScreen_Update_47AF60()
 {
     // Calculate idle timers for playing game play demos
@@ -1932,7 +1932,7 @@ void Menu::Load_Render_47DDA0(PrimHeader** ppOt)
 
             const int yAdjust = (FP_GetExponent(field_228 + FP_FromDouble(0.5))) + 26 * start + 120;
             const short text_y = static_cast<short>((yAdjust + FP_GetExponent(FP_FromInteger(-7) * FP_FromInteger(1))) - 1);
-            
+
             BYTE r = 210;
             BYTE g = 150;
             BYTE b = 80;
@@ -2897,7 +2897,7 @@ void Menu::GameSpeak_Update_47CBD0()
     }
 
     field_1CC_fn_update = &Menu::GameSpeakBack_WaitForAbeGoodbye_Update_47D5E0;
-    
+
     if (field_1EC_pObj1)
     {
         field_1EC_pObj1->field_E8_bDestroyOnDone = 1;
@@ -3524,8 +3524,8 @@ void Menu::Load_Update_47D760()
         field_1DC_idle_input_counter++;
     }
 
-    if (Input().IsAnyHeld(InputObject::PadIndex::First, InputCommands::eBack | InputCommands::eHop)
-        && !field_1FE || field_1DC_idle_input_counter > 1000)
+    if ((Input().IsAnyHeld(InputObject::PadIndex::First, InputCommands::eBack | InputCommands::eHop)
+        && !field_1FE) || field_1DC_idle_input_counter > 1000)
     {
         field_1FA = 0;
         field_1E0_selected_index = 1;
@@ -3553,7 +3553,7 @@ void Menu::Load_Update_47D760()
             }
         }
     }
-    else 
+    else
     {
         if (Input().IsAnyPressed(InputObject::PadIndex::First, InputCommands::eDown | InputCommands::eCheatMode))
         {

@@ -85,7 +85,7 @@ public:
     {
         return sGlobalVolumeLevel_left_BD1CDC;
     }
-    
+
     virtual VabUnknown& s512_byte() override
     {
         return s512_byte_C13180;
@@ -899,7 +899,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
                         {
                             tempoByte3 = MIDI_ReadByte_4FD6B0(pCtx) << 16;
                             tempoByte2 = MIDI_ReadByte_4FD6B0(pCtx) << 8;
-                            
+
                             // TODO: This is too short
                             fullTempo = tempoByte3 | tempoByte2 | MIDI_ReadByte_4FD6B0(pCtx);
                             MIDI_SetTempo_4FDB80(static_cast<short>(idx), 0, static_cast<short>(fullTempo));
@@ -1400,14 +1400,7 @@ EXPORT void CC MIDI_ADSR_Update_4FDCE0()
                 }
                 break;
             case 2:
-                if (timeDiff1 >= pChannel->field_1C_adsr.field_4_attack)
-                {
-                    pChannel->field_1C_adsr.field_3_state = 2;
-                    pChannel->field_14_time += pChannel->field_1C_adsr.field_4_attack;
-                    timeDiff1 -= pChannel->field_1C_adsr.field_4_attack;
-                    // Fall through to case 3
-                }
-                else
+                if (timeDiff1 < pChannel->field_1C_adsr.field_4_attack)
                 {
                     MIDI_Set_Volume_4FDE80(
                         pChannel,
@@ -1417,6 +1410,11 @@ EXPORT void CC MIDI_ADSR_Update_4FDCE0()
                             * (double)pChannel->field_C_vol));
                     break;
                 }
+
+                pChannel->field_1C_adsr.field_3_state = 2;
+                pChannel->field_14_time += pChannel->field_1C_adsr.field_4_attack;
+                timeDiff1 -= pChannel->field_1C_adsr.field_4_attack;
+                [[fallthrough]];
             case 3:
                 if (timeDiff1 < pChannel->field_1C_adsr.field_6_sustain)
                 {
@@ -1427,28 +1425,23 @@ EXPORT void CC MIDI_ADSR_Update_4FDCE0()
                 pChannel->field_1C_adsr.field_3_state = 3;
                 pChannel->field_14_time += pChannel->field_1C_adsr.field_6_sustain;
                 timeDiff1 -= pChannel->field_1C_adsr.field_6_sustain;
-                if (MIDI_Set_Volume_4FDE80(pChannel, pChannel->field_C_vol * pChannel->field_1C_adsr.field_8_decay >> 4))
-                {
-                    // Fall through to case 4
-                }
-                else
+                if (!(MIDI_Set_Volume_4FDE80(pChannel, pChannel->field_C_vol * pChannel->field_1C_adsr.field_8_decay >> 4)))
                 {
                     break;
                 }
+                [[fallthrough]];
             case 4:
-                if (timeDiff1 > 15000)
-                {
-                    pChannel->field_1C_adsr.field_3_state = 4;
-                    pChannel->field_14_time = gSpuVars->sMidiTime();
-                    timeDiff1 = 0;
-                    timeDiffSquared = 0;
-                    pChannel->field_C_vol = pChannel->field_8_left_vol;
-                    // Fall through to case 5
-                }
-                else
+                if (timeDiff1 <= 15000)
                 {
                     break;
                 }
+                    
+                pChannel->field_1C_adsr.field_3_state = 4;
+                pChannel->field_14_time = gSpuVars->sMidiTime();
+                timeDiff1 = 0;
+                timeDiffSquared = 0;
+                pChannel->field_C_vol = pChannel->field_8_left_vol;
+                [[fallthrough]];
             case 5:
                 if (timeDiff1 >= pChannel->field_1C_adsr.field_A_release)
                 {

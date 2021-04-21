@@ -54,7 +54,7 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
     if (field_28_ppRes)
     {
         field_24_pRes = reinterpret_cast<AbilityRing_PolyBuffer*>(*field_28_ppRes);
-        
+
         field_24C_xpos = xpos;
         field_250_ypos = ypos;
 
@@ -85,7 +85,7 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
             {
                 r = {};
             }
-            // Fall through
+            [[fallthrough]];
 
         case RingTypes::eExplosive_Emit_Effect_2:
         case RingTypes::eInvisible_Pulse_Emit_9:
@@ -152,7 +152,7 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
         case RingTypes::eInvisible_Pulse_Small_7:
         case RingTypes::eHealing_Pulse_14:
             vSetTarget_49D140(sActiveHero_5C1B68);
-            // Fall through
+            [[fallthrough]];
 
         case RingTypes::eShrykull_Pulse_Large_5:
         case RingTypes::eShrykull_Pulse_Orange_6:
@@ -391,7 +391,7 @@ void AbilityRing::vUpdate_49D160()
         {
             CollideWithObjects_49D5E0(TRUE);
         }
-        // Fall through
+        [[fallthrough]];
 
     case RingTypes::eExplosive_Emit_Effect_2:
     case RingTypes::eInvisible_Pulse_Emit_9:
@@ -504,7 +504,7 @@ void AbilityRing::vRender_49D790(PrimHeader** ppOt)
 
         short x3 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_272_screenXPos) + (field_254_left * field_260_scaleX)), 11);
         short x4 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_272_screenXPos) + (field_258_right * field_260_scaleX)), 11);
-      
+
         BYTE angIncrement = 0;
         if (field_258_right <= FP_FromInteger(150))
         {

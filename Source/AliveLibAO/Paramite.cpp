@@ -260,7 +260,7 @@ BaseGameObject* Paramite::dtor_44AB00()
     }
 
     SND_Seq_Stop_477A60(SeqId::eParamiteNearby_30);
-    
+
     MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 0, 0);
 
     return dtor_401000();
@@ -584,7 +584,7 @@ void Paramite::VUpdate_44A490()
         field_10_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
         field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
 
-       
+
         const auto oldMotion = field_FC_current_motion;
         field_110_state = (this->*field_10C_fn)();
 
@@ -607,9 +607,9 @@ void Paramite::VUpdate_44A490()
 
         const FP oldx = field_A8_xpos;
         const FP oldy = field_AC_ypos;
-        
+
         (this->*sParamiteMotionTable_4CDCB0[field_FC_current_motion])();
-        
+
         if (oldx != field_A8_xpos || oldy != field_AC_ypos)
         {
             field_F0_pTlv = gMap_507BA8.TLV_Get_At_446060(
@@ -661,7 +661,7 @@ void Paramite::ToIdle_44B580()
     field_124_XSpeed = FP_FromInteger(0);
     field_B4_velx = FP_FromInteger(0);
     field_B8_vely = FP_FromInteger(0);
-    
+
     field_FC_current_motion = eParamiteStates::State_0_Idle_44B900;
 
     MapFollowMe_401D30(TRUE);
@@ -790,7 +790,7 @@ void Paramite::ToKnockBack_44B5B0()
 {
     const FP nextX = field_A8_xpos - field_B4_velx;
     field_A8_xpos = FP_FromInteger((FP_GetExponent(nextX) & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, FP_GetExponent(nextX) & 0x3FF));
-    
+
     MapFollowMe_401D30(1);
 
     if (field_B8_vely < FP_FromInteger(0))
@@ -1217,7 +1217,7 @@ __int16 Paramite::Brain_Patrol_447A10()
         field_FE_next_state = eParamiteStates::State_0_Idle_44B900;
         field_128_never_read = 1;
         return AI_Patrol::eState0_IdleForAbe_1;
-   
+
     case AI_Patrol::eState0_RunningFromAbe_3:
         if (!VOnSameYLevel(sActiveHero_507678) || field_BC_sprite_scale != sActiveHero_507678->field_BC_sprite_scale)
         {
@@ -1478,7 +1478,7 @@ __int16 Paramite::Brain_Patrol_447A10()
             field_148_pMeat->field_C_refCount++;
             return 0;
         }
-        
+
         if (VOnSameYLevel(sActiveHero_507678)
             && field_BC_sprite_scale == sActiveHero_507678->field_BC_sprite_scale
             && !WallHit_401930(field_BC_sprite_scale * FP_FromInteger(5), sActiveHero_507678->field_A8_xpos - field_A8_xpos))
@@ -1534,7 +1534,7 @@ __int16 Paramite::Brain_Patrol_447A10()
         }
         field_FE_next_state = eParamiteStates::State_15_Hiss_44D300;
         return field_110_state;
- 
+
     default:
         return field_110_state;
     }
@@ -1650,7 +1650,7 @@ __int16 Paramite::Brain_SurpriseWeb_448D00()
         {
             field_B8_vely += (field_BC_sprite_scale * FP_FromDouble(0.5));
             return field_110_state;
-            
+
         }
         return AI_SurpriseWeb::eState3_StateLoop2_5;
 
@@ -2073,7 +2073,7 @@ __int16 Paramite::Brain_ChasingAbe_449170()
                 field_FE_next_state = eParamiteStates::State_6_Hop_44CB20;
                 return AI_ChasingAbe::eState2_Jumping_8;
             }
-        } 
+        }
         else if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
         {
             if (Check_IsOnEndOfLine_4021A0(0, 1))
@@ -2699,8 +2699,8 @@ void Paramite::State_0_Idle_44B900()
     }
 }
 
-const FP sWalkBeginVelTable_4BBC88[3] = 
-{ 
+const FP sWalkBeginVelTable_4BBC88[3] =
+{
     FP_FromInteger(0),
     FP_FromDouble(1.40),
     FP_FromDouble(9.02)
@@ -2781,7 +2781,7 @@ void Paramite::State_2_Walking_44B9E0()
     switch (field_10_anim.field_92_current_frame)
     {
     case 0:
-        // Fall through
+        [[fallthrough]];
     case 7:
         Sound_44DBB0(field_10_anim.field_92_current_frame == 7 ? 3 : 4);
 
@@ -2797,7 +2797,7 @@ void Paramite::State_2_Walking_44B9E0()
         break;
 
     case 3:
-        // Fall through
+        [[fallthrough]];
     case 10:
         if (field_FE_next_state == eParamiteStates::State_3_Running_44C070)
         {
@@ -3147,7 +3147,7 @@ void Paramite::State_6_Hop_44CB20()
                 break;
             }
         }
-       
+
         if (field_AC_ypos - field_E8_LastLineYPos > FP_FromInteger(5))
         {
             field_124_XSpeed = FP_FromDouble(0.75);
@@ -3166,8 +3166,8 @@ void Paramite::State_6_Hop_44CB20()
     }
 }
 
-const FP State_7_Unknown_VelTable_4BBCA8[2] = 
-{ 
+const FP State_7_Unknown_VelTable_4BBCA8[2] =
+{
     FP_FromDouble(2.25),
     FP_FromDouble(5.63)
 };
@@ -3202,8 +3202,8 @@ void Paramite::State_7_Unknown_44BF10()
     }
 }
 
-const FP sWalkRunTransVelTable_4BBD18[3] = 
-{ 
+const FP sWalkRunTransVelTable_4BBD18[3] =
+{
     FP_FromDouble(5.39),
     FP_FromDouble(5.39),
     FP_FromDouble(5.39)
@@ -3237,8 +3237,8 @@ void Paramite::State_8_WalkRunTransition_44C790()
     }
 }
 
-const FP sWalkEndVelTable_4BBC98[3] = 
-{ 
+const FP sWalkEndVelTable_4BBC98[3] =
+{
     FP_FromDouble(2.33),
     FP_FromDouble(5.03),
     FP_FromDouble(6.70)
@@ -3273,8 +3273,8 @@ void Paramite::State_9_WalkEnd_44BDE0()
     ToIdle_44B580();
 }
 
-const FP sRunBeginVelTable_4BBCF8[3] = 
-{ 
+const FP sRunBeginVelTable_4BBCF8[3] =
+{
     FP_FromDouble(1.87),
     FP_FromDouble(2.15),
     FP_FromDouble(3.33)
@@ -3310,8 +3310,8 @@ void Paramite::State_10_RunBegin_44C4C0()
     }
 }
 
-const FP sRunEndVelTable_4BBD08[3] = 
-{ 
+const FP sRunEndVelTable_4BBD08[3] =
+{
     FP_FromDouble(3.11),
     FP_FromDouble(3.06),
     FP_FromDouble(3.43)
@@ -3808,7 +3808,7 @@ void Paramite::State_22_Unknown_44D8F0()
     {
         sActiveHero_507678->VTakeDamage(this);
     }
-    
+
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         field_FC_current_motion = eParamiteStates::State_14_PreHiss_44D170;

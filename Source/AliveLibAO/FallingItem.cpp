@@ -194,6 +194,7 @@ void FallingItem::VUpdate_41A120()
         {
             return;
         }
+        [[fallthrough]];
 
     case State::eState_1_GoWaitForDelay:
         field_6_flags.Clear(Options::eCanExplode_Bit7);

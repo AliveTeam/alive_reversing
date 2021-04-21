@@ -291,7 +291,7 @@ void TrapDoor::VUpdate_4883E0()
 
     case 2:
         field_130_stay_open_time--;
-        if (field_13C_set_switch_on_dead && !field_130_stay_open_time ||
+        if ((field_13C_set_switch_on_dead && !field_130_stay_open_time) ||
             SwitchStates_Get(field_134_switch_idx) != SwitchStates_Get(field_138_switch_state))
         {
             const int cur_lvl = static_cast<int>(gMap_507BA8.field_0_current_level);

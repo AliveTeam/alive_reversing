@@ -385,7 +385,7 @@ void BirdPortal::VUpdate_4523D0()
         auto pTarget = Abe::FindObjectToPossess_421410();
         if (!Event_Get_417250(8) || pTarget)
         {
-            if (IsScaredAway_4532E0() || Event_Get_417250(2) || Event_Get_417250(8) && pTarget)
+            if (IsScaredAway_4532E0() || Event_Get_417250(2) || (Event_Get_417250(8) && pTarget))
             {
                 for (int i = 0; i < field_4C_pDovesArray->Size(); i++)
                 {
@@ -527,7 +527,7 @@ void BirdPortal::VUpdate_4523D0()
 
     case States::State_6:
         Event_Broadcast_417220(kEvent_18, this);
-        if (field_10_portal_type != PortalType::eWorker_1 && field_10_portal_type != PortalType::eShrykull_2 || Event_Get_417250(8))
+        if ((field_10_portal_type != PortalType::eWorker_1 && field_10_portal_type != PortalType::eShrykull_2) || Event_Get_417250(8))
         {
             if ((Math_NextRandom() % 8) == 0)
             {
@@ -748,7 +748,7 @@ void BirdPortal::VUpdate_4523D0()
 
     case States::State_17:
     {
-        pScreenManager_4FF7C8->field_36_flags = pScreenManager_4FF7C8->field_36_flags & ~1 ^ 1;
+        pScreenManager_4FF7C8->field_36_flags = (pScreenManager_4FF7C8->field_36_flags & ~1) ^ 1;
         pScreenManager_4FF7C8->InvalidateRect_406E40(
             0,
             0,
@@ -947,10 +947,10 @@ void BirdPortal::VScreenChanged()
 void BirdPortal::VScreenChanged_4538E0()
 {
     if (field_14_state <= States::State_1 || field_14_state >= States::State_21 ||
-        (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path) &&
+        ((gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path) &&
         (field_14_state != States::State_16 || field_10_portal_type != PortalType::eAbe_0 ||
             gMap_507BA8.field_A_level != field_50_dest_level ||
-            gMap_507BA8.field_C_path != field_52_dest_path))
+            gMap_507BA8.field_C_path != field_52_dest_path)))
     {
         field_6_flags.Set(Options::eDead_Bit3);
     }
@@ -1031,7 +1031,7 @@ void BirdPortal::VExitPortal_453720()
 {
     field_66_path = gMap_507BA8.field_2_current_path;
     field_64_level = gMap_507BA8.field_0_current_level;
-    
+
     auto pPortalExitTlv = static_cast<Path_BirdPortalExit*>(gMap_507BA8.TLV_First_Of_Type_In_Camera_4464A0(TlvTypes::BirdPortalExit_53, 0));
 
     PathLine* pLine = nullptr;

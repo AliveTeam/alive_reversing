@@ -394,7 +394,7 @@ Slig* Slig::ctor_464D40(Path_Slig* pTlv, int tlvInfo)
     MapFollowMe_401D30(TRUE);
 
     Init_46B890();
-    
+
     VStackOnObjectsOfType(Types::eSlig_88);
 
     field_10A_flags.Set(Flags_10A::e10A_Bit6);
@@ -496,7 +496,7 @@ void Slig::VScreenChanged_465480()
 {
     if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level
         || gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0()
-        || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path && this != sControlledCharacter_50767C)
+        || (gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path && this != sControlledCharacter_50767C))
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -667,7 +667,7 @@ void Slig::Init_46B890()
                         field_1F4_points_count++;
                     }
                 }
-                
+
                 pTlvIter = Path_TLV::Next_446460(pTlvIter);
             }
         }
@@ -755,7 +755,7 @@ void Slig::VUpdate_465050()
             field_B4_velx = FP_FromInteger(0);
             field_B8_vely = FP_FromInteger(0);
         }
-        
+
         SetActiveCameraDelayedFromDir_401C90();
 
         field_E8_LastLineYPos = field_AC_ypos;
@@ -763,7 +763,7 @@ void Slig::VUpdate_465050()
     else
     {
         const auto old_motion = field_FC_current_motion;
-        
+
         const auto oldBrain = field_1F8_fn;
 
         field_10E_brain_state = (this->*field_1F8_fn)();
@@ -790,7 +790,7 @@ void Slig::VUpdate_465050()
 
         const FP new_x = field_A8_xpos;
         const FP new_y = field_AC_ypos;
-        
+
         (this->*sSligMotionTable_4CF960[field_FC_current_motion])();
 
         if (new_x != field_A8_xpos || new_y != field_AC_ypos)
@@ -818,7 +818,7 @@ void Slig::VUpdate_465050()
         else if (field_11E)
         {
             field_FC_current_motion = field_E4_previous_motion;
-            
+
             VUpdateAnimData_464D00();
 
             field_10_anim.SetFrame_402AC0(field_E6_last_anim_frame);
@@ -2532,8 +2532,8 @@ signed __int16 Slig::MainMovement_467020()
     default:
         if (field_FE_next_state < eSligStates::State_21_SpeakHereBoy_467BD0 || field_FE_next_state > eSligStates::State_32_Blurgh_468410)
         {
-            if (field_FE_next_state == eSligStates::State_13_Reload_4687B0 
-                || field_FE_next_state == eSligStates::State_46_PullLever_46A590 
+            if (field_FE_next_state == eSligStates::State_13_Reload_4687B0
+                || field_FE_next_state == eSligStates::State_46_PullLever_46A590
                 || field_FE_next_state == eSligStates::State_52_Beat_46AA90
                 )
             {
@@ -2704,7 +2704,7 @@ void Slig::State_2_Walking_469130()
             }
             break;
         case 11:
-            
+
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
                 v12 = -(ScaleToGridSize_41FA30(field_BC_sprite_scale));
@@ -2732,8 +2732,8 @@ void Slig::State_2_Walking_469130()
             }
             else
             {
-                if (field_B4_velx > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left_4C6594)
-                    || field_B4_velx < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right_4C6590)
+                if ((field_B4_velx > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left_4C6594))
+                    || (field_B4_velx < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right_4C6590))
                     || !(Input().IsAnyPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594)))
                 {
                     field_FC_current_motion = eSligStates::State_19_WalkToStand_469610;
@@ -3185,8 +3185,8 @@ void Slig::State_9_SlidingToStand_469DF0()
                     MainMovement_467020();
                 }
             }
-            else if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Right_4C6590)
-                || !(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX)) && Input().IsAnyPressed(sInputKey_Left_4C6594))
+            else if ((field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Right_4C6590))
+                || (!(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX)) && Input().IsAnyPressed(sInputKey_Left_4C6594)))
             {
                 field_E4_previous_motion = eSligStates::State_10_SlidingTurn_469F10;
                 field_E6_last_anim_frame = field_10_anim.field_92_current_frame;
@@ -3568,7 +3568,7 @@ void Slig::State_34_SleepingToStand_46A5F0()
     {
         Slig_SoundEffect_46F310(SligSfx::eToStand_0);
     }
-    
+
     if (field_10_anim.field_92_current_frame == 9)
     {
         Slig_SoundEffect_46F310(SligSfx::eWalkingStep_2);
@@ -3635,7 +3635,7 @@ void Slig::State_35_Knockback_46A720()
             field_128_timer = gnFrameCount_507670 + 10;
         }
     }
-    
+
     Event_Broadcast_417220(kEventNoise_0, this);
 
     if ((gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1
@@ -3665,7 +3665,7 @@ void Slig::State_35_Knockback_46A720()
 void Slig::State_36_KnockbackToStand_46A7F0()
 {
     Event_Broadcast_417220(kEventNoise_0, this);
-    
+
     if (field_10_anim.field_92_current_frame >= 2 && field_10_anim.field_92_current_frame <= 10)
     {
         Slig_SoundEffect_46F310(SligSfx::eToStand_0);
@@ -3710,7 +3710,7 @@ void Slig::State_36_KnockbackToStand_46A7F0()
             {
                  field_A8_xpos += (field_BC_sprite_scale * field_BC_sprite_scale) * FP_FromInteger(13);
             }
-           
+
             break;
 
         case 11:
@@ -4030,7 +4030,7 @@ void Slig::State_49_LiftGrip_4663A0()
             }
             return;
         }
-        
+
         if (Input().IsAnyPressed(sInputKey_Down_4C659C))
         {
             if (pLiftPoint->OnBottomFloor())
@@ -4356,8 +4356,8 @@ __int16 Slig::Brain_Unknown_46B250()
             field_A8_xpos,
             field_AC_ypos,
             0)
-        || field_20E_spotted_possessed_slig
-        && sControlledCharacter_50767C->field_4_typeId == Types::eSlig_88
+        || (field_20E_spotted_possessed_slig
+        && sControlledCharacter_50767C->field_4_typeId == Types::eSlig_88)
         || Event_Get_417250(kEventResetting_6))
     {
         if (!VOnSameYLevel(
@@ -5003,13 +5003,13 @@ __int16 Slig::Brain_Chasing_46CD60()
 
     if (field_B0_path_number != gMap_507BA8.field_2_current_path
         || field_B2_lvl_number != gMap_507BA8.field_0_current_level
-        || Event_Get_417250(kEventDeathReset_4)
+        || (Event_Get_417250(kEventDeathReset_4)
         && !gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
             field_A8_xpos,
             field_AC_ypos,
-            0))
+            0)))
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -5171,10 +5171,10 @@ __int16 Slig::Brain_Idle_46D6E0()
                 if (pTlv)
                 {
                     FP kScaleGrid = ScaleToGridSize_41FA30(field_BC_sprite_scale);
-                    if (FP_FromInteger(FP_GetExponent(field_A8_xpos) - pTlv->field_10_top_left.field_0_x) < kScaleGrid &&
-                        !(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX)) ||
-                        FP_FromInteger(pTlv->field_14_bottom_right.field_0_x - FP_GetExponent(field_A8_xpos)) < kScaleGrid &&
-                        field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                    if ((FP_FromInteger(FP_GetExponent(field_A8_xpos) - pTlv->field_10_top_left.field_0_x) < kScaleGrid &&
+                        !(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))) ||
+                        (FP_FromInteger(pTlv->field_14_bottom_right.field_0_x - FP_GetExponent(field_A8_xpos)) < kScaleGrid &&
+                        field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
                     {
                         auto pSwitch = static_cast<Switch*>(FindObjectOfType_418280(
                             Types::eLever_97,
@@ -5568,7 +5568,7 @@ __int16 Slig::Brain_GetAlerted_46E800()
             field_A8_xpos,
             field_AC_ypos,
             0)
-        || sControlledCharacter_50767C->field_4_typeId == Types::eSlig_88 && field_20E_spotted_possessed_slig
+        || (sControlledCharacter_50767C->field_4_typeId == Types::eSlig_88 && field_20E_spotted_possessed_slig)
         || IsAbeEnteringDoor_46BEE0(sControlledCharacter_50767C)
         || Event_Get_417250(kEventResetting_6))
     {
@@ -5707,7 +5707,7 @@ __int16 Slig::Brain_BeatingUp_46EC40()
         field_FE_next_state = eSligStates::State_28_SpeakBullshit2_468110;
         return 129;
     }
-    
+
     WaitOrWalk_46E440();
     return 129;
 }

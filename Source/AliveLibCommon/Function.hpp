@@ -42,19 +42,20 @@
 #define ALIVE_ARY(Redirect, Addr, TypeName, Size, VarName, ...)\
 TypeName LocalArray_##VarName[Size]=__VA_ARGS__;\
 AliveVar Var_##VarName(#VarName, Addr, sizeof(LocalArray_##VarName), std::is_pointer<TypeName>::value, std::is_const<TypeName>::value);\
-TypeName* VarName = (Redirect && RunningAsInjectedDll()) ? reinterpret_cast<TypeName*>(Addr) : reinterpret_cast<TypeName*>(&LocalArray_##VarName[0]);
+TypeName* VarName = (Redirect && RunningAsInjectedDll()) ? reinterpret_cast<TypeName*>(Addr) : reinterpret_cast<TypeName*>(&LocalArray_##VarName[0])
+
 #define ALIVE_ARY_SIZEOF(VarName) sizeof(LocalArray_##VarName)
 
 // Only use this for pointers to arrays until it can be changed to ALIVE_ARY (so this is only used when the array size is not yet known)
 #define ALIVE_PTR(Redirect, Addr, TypeName, VarName, Value)\
 TypeName LocalPtr_##VarName = Value;\
 AliveVar Var_##VarName(#VarName, Addr, sizeof(LocalPtr_##VarName), std::is_pointer<TypeName>::value, std::is_const<TypeName>::value);\
-std::remove_pointer<TypeName>::type * VarName = (Redirect && RunningAsInjectedDll()) ? reinterpret_cast<TypeName>(Addr) : LocalPtr_##VarName;
+std::remove_pointer<TypeName>::type * VarName = (Redirect && RunningAsInjectedDll()) ? reinterpret_cast<TypeName>(Addr) : LocalPtr_##VarName
 
 #define ALIVE_VAR(Redirect, Addr, TypeName, VarName, Value)\
 TypeName LocalVar_##VarName = Value;\
 AliveVar Var_##VarName(#VarName, Addr, sizeof(LocalVar_##VarName), std::is_pointer<TypeName>::value, std::is_const<TypeName>::value);\
-TypeName& VarName = (Redirect && RunningAsInjectedDll()) ? *reinterpret_cast<TypeName*>(Addr) : LocalVar_##VarName;
+TypeName& VarName = (Redirect && RunningAsInjectedDll()) ? *reinterpret_cast<TypeName*>(Addr) : LocalVar_##VarName
 
 
 void CheckVars();

@@ -482,7 +482,7 @@ BYTE** Elum::GetResBlock_410D00(short currentMotion)
                 0);
         }
     }
-    
+
     field_126_res_idx = new_idx;
 
     return field_174_resources.res[new_idx];
@@ -658,7 +658,7 @@ void Elum::SetAbeAsPlayer_412520(__int16 abeMotion)
         sControlledCharacter_50767C = sActiveHero_507678;
         sActiveHero_507678->field_FE_next_state = abeMotion;
     }
-    
+
     // re-load some elum resources
     field_104_pending_resource_count += 2;
 
@@ -1948,10 +1948,10 @@ void Elum::State_2_Unknown_412C30()
 void Elum::State_3_WalkLoop_412C90()
 {
     field_10E_pressed |= Input().Pressed();
-    
+
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
-    
+
     MoveOnLine_412580(0);
 
     if (field_FC_current_motion == eElumStates::State_3_WalkLoop_412C90)
@@ -2138,7 +2138,7 @@ void Elum::State_5_WalkToIdle_4132D0()
 {
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
-    
+
     MoveOnLine_412580(0);
 
     if (field_10_anim.field_92_current_frame == 0)
@@ -2186,7 +2186,7 @@ void Elum::State_6_MidWalkToIdle_4133F0()
 {
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
-    
+
     MoveOnLine_412580(0);
 
     if (field_10_anim.field_92_current_frame == 0)
@@ -2834,7 +2834,7 @@ void Elum::RunJumpMidAndHopMid(MidType midType)
                     field_FC_current_motion = eElumStates::State_35_RunJumpLand_415580;
                     MapFollowMe_401D30(TRUE);
                     break;
-                    
+
                 case MidType::eHopMid:
                     field_B8_vely = FP_FromInteger(0);
                     field_B4_velx = FP_FromInteger(0);
@@ -2878,13 +2878,13 @@ void Elum::State_32_HopLand_415140()
         PSX_RECT bRect = {};
         VGetBoundingRect(&bRect, 1);
 
-        VOnCollisionWith( 
+        VOnCollisionWith(
             { bRect.x, static_cast<short>(bRect.y + 5) },
             { bRect.w, static_cast<short>(bRect.h + 5) },
-            ObjListPlatforms_50766C, 
-            1, 
+            ObjListPlatforms_50766C,
+            1,
             (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
-            
+
         MapFollowMe_401D30(TRUE);
 
         if (!ToNextState_4120F0())
@@ -3029,7 +3029,7 @@ void Elum::State_36_RunLoop_413720()
             field_10C_bFootStep2 = 0;
             return;
         }
-        
+
         Elum_SFX_416E10(ElumSounds::eRunningFootstep_1, 0);
 
         if (!field_10C_bFootStep2)
@@ -3138,8 +3138,8 @@ void Elum::State_37_RunSlideStop_4142E0()
 
     if (sControlledCharacter_50767C == this && field_10_anim.field_92_current_frame < 7)
     {
-        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Right_4C6590) ||
-            !field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Left_4C6594))
+        if ((field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Right_4C6590)) ||
+            (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Left_4C6594)))
         {
             field_E4_previous_motion = eElumStates::State_12_RunTurn_414520;
             field_E6_last_anim_frame = field_10_anim.field_92_current_frame;
@@ -3167,7 +3167,7 @@ void Elum::State_38_RunTurnToRun_414810()
 {
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
-    
+
     MoveOnLine_412580(0);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -3465,7 +3465,7 @@ void Elum::State_48_AbeMoutingBegin_415C40()
     if (sActiveHero_507678->field_FC_current_motion == eAbeStates::State_136_ElumMountEnd_42E110)
     {
         VFreeUnmountedResources_4112B0();
-        
+
         field_104_pending_resource_count += 2;
 
         ResourceManager::LoadResourceFile(
@@ -3487,7 +3487,7 @@ void Elum::State_49_AbeUnmountingBegin_415D00()
     if (sActiveHero_507678->field_FC_current_motion != eAbeStates::State_137_ElumUnmountBegin_42E2B0)
     {
         VFreeMountedResources_411200();
-        
+
         field_104_pending_resource_count += 2;
 
         ResourceManager::LoadResourceFile(
@@ -3629,7 +3629,7 @@ void Elum::VUpdate_4102A0()
             field_B4_velx = FP_FromInteger(0);
             field_B8_vely = FP_FromInteger(0);
         }
-        
+
         SetActiveCameraDelayedFromDir_401C90();
 
         sActiveHero_507678->field_A8_xpos = field_A8_xpos;
@@ -3719,11 +3719,11 @@ void Elum::VUpdate_4102A0()
                     field_170_flags.Clear(Elum::Flags_170::eFalling_Bit3);
                 }
             }
-            
+
             (this->*sElum_motion_table_4C5148[field_FC_current_motion])();
 
-            if (oldMotion != field_FC_current_motion &&
-                oldMotion == 2 || oldMotion == 11 ||
+            if ((oldMotion != field_FC_current_motion &&
+                oldMotion == 2) || oldMotion == 11 ||
                 oldMotion == 47)
             {
                 LOG_INFO("old motion: " << oldMotion << " | new motion: " << field_FC_current_motion);
@@ -4009,7 +4009,7 @@ Elum* Elum::ctor_410870(int, anythingForTheTimeBeing, anythingForTheTimeBeing, i
     field_12A_brain_state = 0;
 
     field_10A_flags.Set(Flags_10A::e10A_Bit6);
-  
+
 
     field_170_flags.Clear(Elum::Flags_170::eStrugglingWithBees_Bit1);
     field_170_flags.Clear(Elum::Flags_170::eFalling_Bit3);

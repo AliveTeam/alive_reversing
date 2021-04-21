@@ -78,7 +78,7 @@ void InvisibleSwitch::VUpdate_4335A0()
     {
     case 0:
         // sControlledCharacter_50767C can be nullptr during the game ender
-        if (sControlledCharacter_50767C && 
+        if (sControlledCharacter_50767C &&
             sControlledCharacter_50767C->field_A8_xpos >= FP_FromInteger(field_20_top_left.field_0_x) &&
             sControlledCharacter_50767C->field_A8_xpos <= FP_FromInteger(field_24_bottom_right.field_0_x))
         {
@@ -86,12 +86,12 @@ void InvisibleSwitch::VUpdate_4335A0()
                 sControlledCharacter_50767C->field_AC_ypos <= FP_FromInteger(field_24_bottom_right.field_2_y))
             {
                 if (sControlledCharacter_50767C != sActiveHero_507678 ||
-                    sActiveHero_507678->field_FC_current_motion != eAbeStates::State_157_DoorExit_42D780 &&
-                    sActiveHero_507678->field_FC_current_motion != eAbeStates::State_156_DoorEnter_42D370)
+                    (sActiveHero_507678->field_FC_current_motion != eAbeStates::State_157_DoorExit_42D780 &&
+                    sActiveHero_507678->field_FC_current_motion != eAbeStates::State_156_DoorEnter_42D370))
                 {
                     if (field_2C_scale == 2 ||
-                        field_2C_scale == 0 && sControlledCharacter_50767C->field_BC_sprite_scale == FP_FromDouble(0.5) ||
-                        field_2C_scale == 1 && sControlledCharacter_50767C->field_BC_sprite_scale == FP_FromInteger(1))
+                        (field_2C_scale == 0 && sControlledCharacter_50767C->field_BC_sprite_scale == FP_FromDouble(0.5)) ||
+                        (field_2C_scale == 1 && sControlledCharacter_50767C->field_BC_sprite_scale == FP_FromInteger(1)))
                     {
                         field_28_state = 1;
                         field_18_delay_timer = gnFrameCount_507670 + field_1C_delay;
