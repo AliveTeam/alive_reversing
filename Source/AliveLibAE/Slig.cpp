@@ -158,7 +158,7 @@ int CC Animation_OnFrame_Slig_4C0600(void* pObj, signed __int16* pData)
     Event_Broadcast_422BC0(kEventLoudNoise, pSlig);
 
     pBullet->field_1C_update_delay = 1;
-    
+
     Dove::All_FlyAway_41FA60(0);
     return 1;
 }
@@ -394,7 +394,7 @@ Slig* Slig::ctor_4B1370(Path_Slig* pTlv, int tlvInfo)
     field_160_last_event_index = -1;
     field_176_unused = -1;
     field_174_unused = 0;
-    
+
     SetVTable(this, 0x547460);
 
     if (tlvInfo != 0xFFFF)
@@ -403,7 +403,7 @@ Slig* Slig::ctor_4B1370(Path_Slig* pTlv, int tlvInfo)
     }
 
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgbasicResID, 1, 0));
-    
+
     const AnimRecord& rec = AnimRec(AnimId::Slig_Idle);
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
@@ -431,11 +431,11 @@ Slig* Slig::ctor_4B1370(Path_Slig* pTlv, int tlvInfo)
     field_150_explode_timer = 0;
     field_14C_death_by_being_shot_timer = 0;
     field_FC_pPathTLV = pTlv;
-    
+
     field_218_tlv_data = *pTlv;
 
     field_110_id = -1;
-    
+
     field_106_current_motion = eSligMotions::M_Falling_7_4B42D0;
 
     field_124_return_to_previous_motion = 0;
@@ -491,11 +491,11 @@ Slig* Slig::ctor_4B1370(Path_Slig* pTlv, int tlvInfo)
     }
 
     MapFollowMe_408D10(TRUE);
-    
+
     Init_4BB0D0();
-    
+
     vStackOnObjectsOfType_425840(Types::eSlig_125);
-    
+
     if (gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 && gMap_5C3030.field_2_current_path == 2 && gMap_5C3030.field_4_current_camera == 5)
     {
         field_DA_xOffset = 0;
@@ -794,8 +794,8 @@ int CC Slig::CreateFromSaveState_4B3B50(const BYTE* pBuffer)
     const AnimRecord& animRec = AnimRec(sSligFrameTables_547318[pState->field_26_current_motion]);
     BYTE** ppRes = pSlig->ResForMotion_4B1E90(pSlig->field_106_current_motion);
     pSlig->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
-    
-    
+
+
     pSlig->field_20_animation.field_92_current_frame = pState->field_28_current_frame;
     pSlig->field_20_animation.field_E_frame_change_counter = pState->field_2A_frame_change_counter;
 
@@ -830,7 +830,7 @@ int CC Slig::CreateFromSaveState_4B3B50(const BYTE* pBuffer)
     pSlig->field_118_tlvInfo = pState->field_5C_tlvInfo;
     pSlig->field_134_res_idx = pState->field_60_res_idx;
     pSlig->field_136_shot_motion = pState->field_62_shot_motion;
-    
+
     pSlig->field_138_zone_rect = pState->field_64_zone_rect;
 
     pSlig->field_140_unused = pState->field_6C_unused;
@@ -843,9 +843,9 @@ int CC Slig::CreateFromSaveState_4B3B50(const BYTE* pBuffer)
 
     pSlig->field_14C_death_by_being_shot_timer = pState->field_78_death_by_being_shot_timer;
     pSlig->field_150_explode_timer = pState->field_7C_explode_timer;
-    
+
     pSlig->SetBrain(sSlig_ai_table_5605AC[pState->field_80_brain_state_idx]);
-    
+
     unused_BAF7E4 = pState->field_88_unused;
 
     pSlig->field_158_num_times_to_shoot = static_cast<short>(pState->field_8C_num_times_to_shoot); // TODO: Wrong type ??
@@ -982,7 +982,7 @@ void Slig::M_Walking_2_4B5BC0()
         ToStand_4B4A20();
         return;
     }
-    
+
     MoveOnLine_4B4C40();
 
     if (field_106_current_motion == eSligMotions::M_Walking_2_4B5BC0)
@@ -1086,12 +1086,12 @@ void Slig::M_Running_4_4B6000()
         field_C4_velx = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4));
     }
 
-    if (gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos) >= CameraPos::eCamCurrent_0 && 
+    if (gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos) >= CameraPos::eCamCurrent_0 &&
         MusicController::GetMusicType_47FDA0(0, 0, 0) != MusicController::MusicTypes::ePossessed_9)
     {
         MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eChase_8, this, 0, 0);
     }
-    
+
     field_128_input |= sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
 
     Event_Broadcast_422BC0(kEventNoise, this);
@@ -1219,13 +1219,13 @@ void Slig::M_Shoot_6_4B55A0()
                             &hitY,
                             field_D6_scale != 0 ? 6 : 96) ||
                         sCollisions_DArray_5C1128->Raycast_417A60(
-                            field_B8_xpos, 
-                            field_BC_ypos - k45Scaled, 
-                            field_B8_xpos + (k8 * (kGridSize / k8)), 
-                            field_BC_ypos - k45Scaled, 
+                            field_B8_xpos,
+                            field_BC_ypos - k45Scaled,
+                            field_B8_xpos + (k8 * (kGridSize / k8)),
+                            field_BC_ypos - k45Scaled,
                             &pLine,
-                            &hitX, 
-                            &hitY, 
+                            &hitX,
+                            &hitY,
                             field_D6_scale != 0 ? 6 : 96))
                     {
                         return;
@@ -1251,13 +1251,13 @@ void Slig::M_Shoot_6_4B55A0()
                             &hitY,
                             field_D6_scale != 0 ? 6 : 0x60) ||
                         sCollisions_DArray_5C1128->Raycast_417A60(
-                            field_B8_xpos, 
-                            field_BC_ypos - k45Scaled, 
+                            field_B8_xpos,
+                            field_BC_ypos - k45Scaled,
                             field_B8_xpos - (k8 * (kGridSize / k8)),
                             field_BC_ypos - k45Scaled,
                             &pLine,
                             &hitX,
-                            &hitY, 
+                            &hitY,
                             field_D6_scale != 0 ? 6 : 96))
                     {
                         return;
@@ -1297,12 +1297,12 @@ void Slig::M_Shoot_6_4B55A0()
                             &hitY,
                             field_D6_scale != 0 ? 6 : 96) ||
                         sCollisions_DArray_5C1128->Raycast_417A60(
-                            field_B8_xpos, field_BC_ypos - k45Scaled, 
-                            field_B8_xpos + (k8 * field_C4_velx), 
-                            field_BC_ypos - k45Scaled, 
-                            &pLine, 
-                            &hitX, 
-                            &hitY, 
+                            field_B8_xpos, field_BC_ypos - k45Scaled,
+                            field_B8_xpos + (k8 * field_C4_velx),
+                            field_BC_ypos - k45Scaled,
+                            &pLine,
+                            &hitX,
+                            &hitY,
                             field_D6_scale != 0 ? 6 : 96))
                     {
                         field_C4_velx = FP_FromInteger(0);
@@ -1939,7 +1939,7 @@ void Slig::M_Knockback_34_4B68A0()
         {
             field_C4_velx = FP_FromInteger(0);
 
-            if (field_10C_health > FP_FromInteger(0) && 
+            if (field_10C_health > FP_FromInteger(0) &&
                 field_12C_timer <= static_cast<int>(sGnFrame_5C1B84) &&
                 sActiveHero_5C1B68->field_10C_health > FP_FromInteger(0))
             {
@@ -2466,7 +2466,7 @@ void Slig::M_Beat_51_4B6C00()
                     PSX_RECT bRect = {};
                     pObj->vGetBoundingRect_424FD0(&bRect, 1);
 
-                    if (pObj->field_10C_health > FP_FromInteger(0) && 
+                    if (pObj->field_10C_health > FP_FromInteger(0) &&
                         pObj->field_D6_scale == field_D6_scale &&
                         PSX_Rects_overlap_no_adjustment(&hitRect, &bRect))
                     {
@@ -3268,13 +3268,13 @@ __int16 Slig::AI_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Li
                         field_216_flags.Set(Flags_216::eBit3_GlukkonCalledAllOYa, glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40);
                         return field_11C_ai_sub_state;
                     }
-                    
+
                     if (!FindObjectOfType_425180(Types::eMudokon_110, field_B8_xpos, field_BC_ypos - FP_FromInteger(5)))
                     {
                         const FP scaled = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ?
                             -ScaleToGridSize_4498B0(field_CC_sprite_scale) :
                             ScaleToGridSize_4498B0(field_CC_sprite_scale);
-                    
+
                         if (!FindObjectOfType_425180(Types::eMudokon_110, scaled + field_B8_xpos, field_BC_ypos - FP_FromInteger(5)))
                         {
                             NextCommand_4B9A00(AI_ListeningToGlukkon_GlukkonCommands::DoitGunReload_7, AI_ListeningToGlukkon_States::LostAttention_9);
@@ -3286,7 +3286,7 @@ __int16 Slig::AI_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Li
                     }
 
                     field_108_next_motion = eSligMotions::M_Beat_51_4B6C00;
-                    
+
                     field_11C_ai_sub_state = AI_ListeningToGlukkon_States::IdleListening_1;
                     field_216_flags.Set(Flags_216::eBit3_GlukkonCalledAllOYa, glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40);
                     return field_11C_ai_sub_state;
@@ -3385,7 +3385,7 @@ __int16 Slig::AI_SpottedEnemy_7_4B3240()
         field_218_tlv_data.field_2A_chase_abe_when_spotted == Choice_short::eNo_0)
     {
         if (vOnSameYLevel_425520(sControlledCharacter_5C1B8C) &&
-            vIsObj_GettingNear_425420(sControlledCharacter_5C1B8C) && 
+            vIsObj_GettingNear_425420(sControlledCharacter_5C1B8C) &&
             vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(3), sControlledCharacter_5C1B8C) &&
             !Event_Get_422C00(kEventResetting) &&
             !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
@@ -3394,7 +3394,7 @@ __int16 Slig::AI_SpottedEnemy_7_4B3240()
         }
         else if (
             vOnSameYLevel_425520(sControlledCharacter_5C1B8C) &&
-            Event_Get_422C00(kEventAbeOhm) && 
+            Event_Get_422C00(kEventAbeOhm) &&
             vIsFacingMe_4254A0(sControlledCharacter_5C1B8C))
         {
             ToShoot_4BF9A0();
@@ -3459,7 +3459,7 @@ __int16 Slig::AI_EnemyDead_10_4B3460()
     else
     {
         const auto rnd = Math_NextRandom();
-        
+
         // Say this often
         if (rnd < 25)
         {
@@ -3501,7 +3501,7 @@ __int16 Slig::AI_KilledEnemy_10_4B35C0()
 
 __int16 Slig::AI_PanicTurning_12_4BC490()
 {
-    if (Event_Get_422C00(kEventDeathReset) && 
+    if (Event_Get_422C00(kEventDeathReset) &&
         !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -3593,7 +3593,7 @@ __int16 Slig::AI_PanicTurning_12_4BC490()
 
 __int16 Slig::AI_PanicRunning_13_4BC780()
 {
-    if (field_C4_velx > FP_FromInteger(4) && ((ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(4)) + field_B8_xpos) > FP_FromInteger(field_138_zone_rect.w)) 
+    if (field_C4_velx > FP_FromInteger(4) && ((ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(4)) + field_B8_xpos) > FP_FromInteger(field_138_zone_rect.w))
     {
         ToPanicTurn_4BC750();
     }
@@ -3613,7 +3613,7 @@ __int16 Slig::AI_PanicRunning_13_4BC780()
     {
         ToPanicRunning_4BCA30();
     }
-    else if (vOnSameYLevel_425520(sControlledCharacter_5C1B8C) && 
+    else if (vOnSameYLevel_425520(sControlledCharacter_5C1B8C) &&
         sControlledCharacter_5C1B8C->field_4_typeId != Types::eGlukkon_67 &&
         vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) &&
         !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) &&
@@ -3670,7 +3670,7 @@ __int16 Slig::AI_PanicYelling_14_4BCA70()
 
         const bool kFlipX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX);
         field_120_timer = sGnFrame_5C1B84 + field_218_tlv_data.field_2E_panic_timeout;
-        if ((!kFlipX || field_B8_xpos >= FP_FromInteger((field_138_zone_rect.x + field_138_zone_rect.w) / 2)) && 
+        if ((!kFlipX || field_B8_xpos >= FP_FromInteger((field_138_zone_rect.x + field_138_zone_rect.w) / 2)) &&
              (kFlipX || field_B8_xpos <= FP_FromInteger((field_138_zone_rect.x + field_138_zone_rect.w) / 2)))
         {
             ToPanicRunning_4BCA30();
@@ -3704,14 +3704,14 @@ __int16 Slig::AI_Idle_15_4BD800()
     }
 
     if (vOnSameYLevel_425520(sControlledCharacter_5C1B8C) &&
-        vIsFacingMe_4254A0(sControlledCharacter_5C1B8C)  && 
+        vIsFacingMe_4254A0(sControlledCharacter_5C1B8C)  &&
         !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) &&
         !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) &&
-        !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) && 
+        !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) &&
         (!field_15E_spotted_possessed_slig || sControlledCharacter_5C1B8C->field_4_typeId != Types::eSlig_125) &&
         !IsAbeEnteringDoor_4BB990(sControlledCharacter_5C1B8C) &&
-        !Event_Get_422C00(kEventResetting) && 
-        gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && 
+        !Event_Get_422C00(kEventResetting) &&
+        gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
         sControlledCharacter_5C1B8C->field_4_typeId != Types::eGlukkon_67)
     {
         RespondToEnemyOrPatrol_4B3140();
@@ -3725,7 +3725,7 @@ __int16 Slig::AI_Idle_15_4BD800()
     }
 
     auto pShooter = static_cast<BaseAliveGameObject*>(Event_Get_422C00(kEventShooting));
-    if (pShooter && 
+    if (pShooter &&
         pShooter->field_CC_sprite_scale == field_CC_sprite_scale &&
         gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pShooter->field_C2_lvl_number, pShooter->field_C0_path_number, pShooter->field_B8_xpos, pShooter->field_BC_ypos, 0) &&
         pShooter == sControlledCharacter_5C1B8C &&
@@ -3750,7 +3750,7 @@ __int16 Slig::AI_Idle_15_4BD800()
         pNoiseOrSpeaking = static_cast<BaseAliveGameObject*>(Event_Get_422C00(kEventSpeaking));
     }
 
-    if (pNoiseOrSpeaking && 
+    if (pNoiseOrSpeaking &&
         pNoiseOrSpeaking->field_CC_sprite_scale == field_CC_sprite_scale &&
         gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pNoiseOrSpeaking->field_C2_lvl_number, pNoiseOrSpeaking->field_C0_path_number, pNoiseOrSpeaking->field_B8_xpos, pNoiseOrSpeaking->field_BC_ypos, 0) &&
         pNoiseOrSpeaking != this &&
@@ -3849,8 +3849,8 @@ __int16 Slig::AI_Chasing_17_4BCBD0()
     }
 
     if (field_C0_path_number != gMap_5C3030.field_2_current_path ||
-        field_C2_lvl_number != gMap_5C3030.field_0_current_level || 
-        (Event_Get_422C00(kEventDeathReset) && 
+        field_C2_lvl_number != gMap_5C3030.field_0_current_level ||
+        (Event_Get_422C00(kEventDeathReset) &&
         !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0)))
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -3873,8 +3873,8 @@ __int16 Slig::AI_StartChasing_18_4BCEB0()
             field_C0_path_number,
             field_B8_xpos,
             field_BC_ypos,
-            0) && 
-            !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && 
+            0) &&
+            !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) &&
             sControlledCharacter_5C1B8C->field_4_typeId != Types::eGlukkon_67)
         {
             field_15C_force_alive_state = 0;
@@ -3914,25 +3914,25 @@ __int16 Slig::AI_Turning_19_4BDDD0()
         ToUnderGlukkonCommand_4B9660();
         return 106;
     }
-    
-    if ((field_106_current_motion == eSligMotions::M_TurnAroundStanding_5_4B6390 && 
-        field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)) || 
-        (field_106_current_motion == eSligMotions::M_StandIdle_0_4B4EC0 && 
+
+    if ((field_106_current_motion == eSligMotions::M_TurnAroundStanding_5_4B6390 &&
+        field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)) ||
+        (field_106_current_motion == eSligMotions::M_StandIdle_0_4B4EC0 &&
         field_108_next_motion == -1))
     {
         WaitOrWalk_4BE870();
         return 106;
     }
-    
+
     if (field_20_animation.field_92_current_frame != 4)
     {
         ShouldStilBeAlive_4BBC00();
         return 106;
     }
-    
+
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        if (sControlledCharacter_5C1B8C->field_C4_velx >= FP_FromInteger(0) && 
+        if (sControlledCharacter_5C1B8C->field_C4_velx >= FP_FromInteger(0) &&
            (sControlledCharacter_5C1B8C->field_C4_velx > FP_FromInteger(0) || sControlledCharacter_5C1B8C->field_B8_xpos >= field_B8_xpos))
         {
             ShouldStilBeAlive_4BBC00();
@@ -3941,7 +3941,7 @@ __int16 Slig::AI_Turning_19_4BDDD0()
     }
     else
     {
-        if (sControlledCharacter_5C1B8C->field_C4_velx <= FP_FromInteger(0) && 
+        if (sControlledCharacter_5C1B8C->field_C4_velx <= FP_FromInteger(0) &&
            (sControlledCharacter_5C1B8C->field_C4_velx != FP_FromInteger(0) || sControlledCharacter_5C1B8C->field_B8_xpos <= field_B8_xpos))
         {
             ShouldStilBeAlive_4BBC00();
@@ -4061,7 +4061,7 @@ __int16 Slig::AI_Walking_21_4BE0C0()
         gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
         (!field_15E_spotted_possessed_slig || sControlledCharacter_5C1B8C->field_4_typeId != Types::eSlig_125) &&
         !IsAbeEnteringDoor_4BB990(sControlledCharacter_5C1B8C) &&
-        !Event_Get_422C00(kEventResetting) && 
+        !Event_Get_422C00(kEventResetting) &&
         sControlledCharacter_5C1B8C->field_4_typeId != Types::eGlukkon_67)
     {
         RespondToEnemyOrPatrol_4B3140();
@@ -4111,7 +4111,7 @@ __int16 Slig::AI_Walking_21_4BE0C0()
                 pNoiseOrSpeaker = static_cast<BaseAliveGameObject*>(Event_Get_422C00(kEventSpeaking));
             }
 
-            if (pNoiseOrSpeaker && 
+            if (pNoiseOrSpeaker &&
                 pNoiseOrSpeaker->field_CC_sprite_scale == field_CC_sprite_scale &&
                 gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pNoiseOrSpeaker->field_C2_lvl_number, pNoiseOrSpeaker->field_C0_path_number, pNoiseOrSpeaker->field_B8_xpos, pNoiseOrSpeaker->field_BC_ypos, 0) &&
                 pNoiseOrSpeaker != this &&
@@ -4221,7 +4221,7 @@ __int16 Slig::AI_GetAlertedTurn_22_4BE990()
 
 __int16 Slig::AI_GetAlerted_23_4BEC40()
 {
-    if (field_120_timer != (field_218_tlv_data.field_3A_listen_time + static_cast<int>(sGnFrame_5C1B84) - 2) || 
+    if (field_120_timer != (field_218_tlv_data.field_3A_listen_time + static_cast<int>(sGnFrame_5C1B84) - 2) ||
         Math_RandomRange_496AB0(0, 100) >= field_218_tlv_data.field_3C_percent_say_what)
     {
         if (ListenToGlukkonCommands_4B95D0())
@@ -4456,7 +4456,7 @@ __int16 Slig::AI_Shooting_29_4BF750()
             sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) ||
             IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) ||
             !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) ||
-            !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) || 
+            !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) ||
             Event_Get_422C00(kEventResetting))
         {
             PauseALittle_4BDD00();
@@ -4469,7 +4469,7 @@ __int16 Slig::AI_Shooting_29_4BF750()
             return 111;
         }
 
-        if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && 
+        if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
             field_218_tlv_data.field_2A_chase_abe_when_spotted == Choice_short::eYes_1)
         {
             ToChase_4BCFF0();
@@ -4517,10 +4517,10 @@ __int16 Slig::AI_Inactive_32_4B9430()
         else if (vOnSameYLevel_425520(sControlledCharacter_5C1B8C) &&
                  vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) &&
                  vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(1), sControlledCharacter_5C1B8C) &&
-                 !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) && 
+                 !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) &&
                  !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) &&
                  !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) &&
-                 !Event_Get_422C00(kEventResetting) && 
+                 !Event_Get_422C00(kEventResetting) &&
                  sControlledCharacter_5C1B8C->field_4_typeId != Types::eGlukkon_67)
         {
             ToShoot_4BF9A0();
@@ -4547,12 +4547,12 @@ __int16 Slig::AI_Paused_33_4B8DD0()
 
     if (vOnSameYLevel_425520(sControlledCharacter_5C1B8C) &&
         vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) &&
-        !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) && 
+        !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) &&
         !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) &&
         !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) &&
         gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
         (!field_15E_spotted_possessed_slig || sControlledCharacter_5C1B8C->field_4_typeId != Types::eSlig_125) &&
-        !Event_Get_422C00(kEventResetting) && 
+        !Event_Get_422C00(kEventResetting) &&
         sControlledCharacter_5C1B8C->field_4_typeId != Types::eGlukkon_67
         )
     {
@@ -4584,13 +4584,13 @@ __int16 Slig::AI_Paused_33_4B8DD0()
         }
 
         if (pNoiseOrSpeaking &&
-            pNoiseOrSpeaking->field_CC_sprite_scale == field_CC_sprite_scale && 
-            pNoiseOrSpeaking != this && field_120_timer <= static_cast<int>(sGnFrame_5C1B84) && 
+            pNoiseOrSpeaking->field_CC_sprite_scale == field_CC_sprite_scale &&
+            pNoiseOrSpeaking != this && field_120_timer <= static_cast<int>(sGnFrame_5C1B84) &&
             !Event_Get_422C00(kEventResetting))
         {
             ToTurn_4BE090();
         }
-        else if (sControlledCharacter_5C1B8C->field_CC_sprite_scale > field_CC_sprite_scale && 
+        else if (sControlledCharacter_5C1B8C->field_CC_sprite_scale > field_CC_sprite_scale &&
             vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) &&
             !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) &&
             !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) &&
@@ -4707,7 +4707,7 @@ void Slig::Init_4BB0D0()
     field_10_resources_array.SetAt(12, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kShellResID, 1, 0));
     field_10_resources_array.SetAt(2, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation,  ResourceID::kSlgknbkResID, 1, 0));
     field_10_resources_array.SetAt(16, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSquibSmokeResID, 1, 0));
-    
+
     if (!(field_218_tlv_data.field_48_disable_resources & 0x80))
     {
         field_10_resources_array.SetAt(6, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgknfdResID, 1, 0));
@@ -4717,42 +4717,42 @@ void Slig::Init_4BB0D0()
     {
         field_10_resources_array.SetAt(3, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgedgeResID, 1, 0));
     }
-    
+
     if (!(field_218_tlv_data.field_48_disable_resources & 1))
     {
         field_10_resources_array.SetAt(7, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgleverResID, 1, 0));
     }
-    
+
     if (!(field_218_tlv_data.field_48_disable_resources & 2))
     {
         field_10_resources_array.SetAt(8, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgliftResID, 1, 0));
     }
-    
+
     if (!(field_218_tlv_data.field_48_disable_resources & 0x200))
     {
         field_10_resources_array.SetAt(4, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgsmashResID, 1, 0));
     }
-    
+
     if (!(field_218_tlv_data.field_48_disable_resources & 0x400))
     {
         field_10_resources_array.SetAt(9, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgbeatResID, 1, 0));
     }
-    
+
     if (!(field_218_tlv_data.field_48_disable_resources & 4))
     {
         field_10_resources_array.SetAt(5, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgzshotResID, 1, 0));
     }
-    
+
     if (!(field_218_tlv_data.field_48_disable_resources & 0x40))
     {
         field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgsleepResID, 1, 0));
     }
-    
+
     if (!(field_218_tlv_data.field_48_disable_resources & 8))
     {
         field_10_resources_array.SetAt(13, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kZflashResID, 1, 0));
     }
-    
+
     if (!(field_218_tlv_data.field_48_disable_resources & 0x10))
     {
         field_10_resources_array.SetAt(15, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeknokzResID, 1, 0));
@@ -4837,7 +4837,7 @@ void Slig::Init_4BB0D0()
     {
         field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
     }
-   
+
     field_290_points_count = 0;
 
     field_268_points[field_290_points_count].field_0_x = FP_GetExponent(field_B8_xpos);
@@ -4899,7 +4899,7 @@ void Slig::dtor_4B1CF0()
     if (sControlledCharacter_5C1B8C == this)
     {
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
-        
+
         MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
 
         if (gMap_5C3030.field_A_level != LevelIds::eMenu_0)
@@ -4946,7 +4946,7 @@ Slig* Slig::vdtor_4B1790(signed int flags)
 }
 
 const FP dword_5473E8[8] =
-{ 
+{
     FP_FromInteger(4),
     FP_FromInteger(4),
     FP_FromInteger(0),
@@ -5043,7 +5043,7 @@ void Slig::vUpdate_4B17C0()
         {
             field_C4_velx = dword_5473E8[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
             field_C8_vely = dword_547408[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
-            
+
             if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & 0x10)
             {
                 field_C4_velx += dword_5473E8[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
@@ -5136,7 +5136,7 @@ void Slig::vUpdate_4B17C0()
 
 void Slig::vScreenChanged_4B1E20()
 {
-    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || 
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level ||
         gMap_5C3030.field_22_overlayID != gMap_5C3030.GetOverlayId_480710() ||
         (gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path && this != sControlledCharacter_5C1B8C))
     {
@@ -5591,8 +5591,8 @@ __int16 Slig::LeftRigtMovement(MovementDirection direction)
         break;
     }
 
-    if (direction == MovementDirection::eLeft && !field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ||
-        direction == MovementDirection::eRight && field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if ((direction == MovementDirection::eLeft && !field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) ||
+        (direction == MovementDirection::eRight && field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
     {
         field_106_current_motion = eSligMotions::M_TurnAroundStanding_5_4B6390;
         return 1;
@@ -5867,7 +5867,7 @@ __int16 Slig::GetNextMotionIncGameSpeak_4B5080(int input)
         case eSligMotions::M_SpeakAIFreeze_30_4B54F0:   speak = SligSpeak::eFreeze_8;    break;
         case eSligMotions::M_Blurgh_31_4B5510:          speak = SligSpeak::eBlurgh_11;    break;
         }
- 
+
         Slig_GameSpeak_SFX_4C04F0(speak, 0, field_11E_pitch_min, this);
         field_106_current_motion = field_108_next_motion;
         field_108_next_motion = -1;
@@ -5934,9 +5934,9 @@ BOOL Slig::IsWallBetween_4BB8B0(BaseAliveGameObject* pLeft, BaseAliveGameObject*
     FP hitX = {};
     FP hitY = {};
     return sCollisions_DArray_5C1128->Raycast_417A60(
-        pLeft->field_B8_xpos, 
+        pLeft->field_B8_xpos,
         FP_FromInteger(thisBRect.h - 25),
-        pRight->field_B8_xpos, 
+        pRight->field_B8_xpos,
         FP_FromInteger(rightBRect.h -25),
         &pLine, &hitX, &hitY, pLeft->field_D6_scale != 0 ? 6 : 0x60) == 1;
 }
@@ -6069,8 +6069,8 @@ void Slig::FallKnockBackOrSmash_4B4A90()
 
 void Slig::TurnOrSayWhat_4BEBC0()
 {
-    if (Event_Get_422C00(kEventSpeaking) && 
-        !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) && 
+    if (Event_Get_422C00(kEventSpeaking) &&
+        !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) &&
         !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
     {
         GameSpeakResponse_4BF470();
@@ -6705,7 +6705,7 @@ void Slig::TurnOrWalk_4BD6A0(int a2)
         }
     }
 
-    WaitOrWalk_4BE870(); 
+    WaitOrWalk_4BE870();
 }
 
 void Slig::ToPanicRunning_4BCA30()
@@ -6753,7 +6753,7 @@ void Slig::RespondToEnemyOrPatrol_4B3140()
 
 __int16 CCSTD Slig::IsAbeEnteringDoor_4BB990(BaseAliveGameObject* pThis)
 {
-    if (((pThis->field_4_typeId == Types::eAbe_69) && 
+    if (((pThis->field_4_typeId == Types::eAbe_69) &&
         (pThis->field_106_current_motion == eAbeStates::State_114_DoorEnter_459470 && pThis->field_20_animation.field_92_current_frame > 7)) ||
         (pThis->field_106_current_motion == eAbeStates::State_115_DoorExit_459A40 && pThis->field_20_animation.field_92_current_frame < 4))
     {
@@ -6916,7 +6916,7 @@ __int16 Slig::FindSwitch_4B9A50()
 
 __int16 Slig::NearOrFacingActiveChar_4B9930(BaseAliveGameObject* pObj)
 {
-    if (pObj->vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromDouble(0.5), sControlledCharacter_5C1B8C) || 
+    if (pObj->vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromDouble(0.5), sControlledCharacter_5C1B8C) ||
         sControlledCharacter_5C1B8C->vIsFacingMe_4254A0(pObj))
     {
         return 1;
@@ -6976,7 +6976,7 @@ __int16 Slig::HeardGlukkonToListenTo_4B9690(GameSpeakEvents glukkonSpeak)
         FP_GetExponent(sControlledCharacter_5C1B8C->field_BC_ypos),
         FP_GetExponent(field_B8_xpos),
         FP_GetExponent(field_BC_ypos));
-    
+
     if (!NearOrFacingActiveChar_4B9930(this))
     {
         return 0;
@@ -6993,7 +6993,7 @@ __int16 Slig::HeardGlukkonToListenTo_4B9690(GameSpeakEvents glukkonSpeak)
         if (pObj != this && pObj->field_4_typeId == Types::eSlig_125)
         {
             auto* pOtherSlig = static_cast<Slig*>(pObj);
-            if (pOtherSlig->field_CC_sprite_scale == sControlledCharacter_5C1B8C->field_CC_sprite_scale && 
+            if (pOtherSlig->field_CC_sprite_scale == sControlledCharacter_5C1B8C->field_CC_sprite_scale &&
                 gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
                     pOtherSlig->field_C2_lvl_number,
                     pOtherSlig->field_C0_path_number,
@@ -7300,10 +7300,10 @@ __int16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
 
 __int16 Slig::vIsFacingMe_4B23D0(BaseAnimatedWithPhysicsGameObject* pWho)
 {
-    if (field_106_current_motion != eSligMotions::M_TurnAroundStanding_5_4B6390 || 
+    if (field_106_current_motion != eSligMotions::M_TurnAroundStanding_5_4B6390 ||
         field_20_animation.field_92_current_frame < 6)
     {
-        if (pWho->field_B8_xpos <= field_B8_xpos && 
+        if (pWho->field_B8_xpos <= field_B8_xpos &&
             field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
         {
             return 1;

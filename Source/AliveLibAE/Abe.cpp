@@ -896,11 +896,11 @@ Abe* Abe::ctor_44AD10(int /*frameTableOffset*/, int /*r*/, int /*g*/, int /*b*/)
         field_E0_pShadow->ctor_4AC990();
     }
 
-    
+
     // Animation test code
     //auto testAnim = ae_new<TestAnimation>();
     //testAnim->ctor();
-    
+
 
     return this;
 }
@@ -1086,7 +1086,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_D6_scale = pSaveState->field_1C_scale;
 
     sActiveHero_5C1B68->field_106_current_motion = pSaveState->current_motion;
-    
+
     const AnimRecord& animRec = AnimRec(sAbeFrameTables[sActiveHero_5C1B68->field_106_current_motion]);
     BYTE** animFromState = sActiveHero_5C1B68->StateToAnimResource_44AAB0(sActiveHero_5C1B68->field_106_current_motion);
     if (!animFromState)
@@ -1099,7 +1099,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
 
     sActiveHero_5C1B68->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, animFromState);
     //sActiveHero_5C1B68->field_20_animation.Set_Animation_Data_409C80(sAbeFrameTables[sActiveHero_5C1B68->field_106_current_motion], animFromState);
-    
+
     sActiveHero_5C1B68->field_20_animation.field_92_current_frame = pSaveState->anim_current_frame;
     sActiveHero_5C1B68->field_20_animation.field_E_frame_change_counter = pSaveState->anim_frame_change_counter;
 
@@ -1630,7 +1630,7 @@ void Abe::Update_449DC0()
         if (field_1AC_flags.Get(Flags_1AC::e1AC_Bit2_return_to_previous_motion))
         {
             field_106_current_motion = field_F4_previous_motion;
-            
+
             const AnimRecord& animRec = AnimRec(sAbeFrameTables[field_106_current_motion]);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, StateToAnimResource_44AAB0(field_106_current_motion));
             //field_20_animation.Set_Animation_Data_409C80( sAbeFrameTables[field_106_current_motion], StateToAnimResource_44AAB0(field_106_current_motion));
@@ -4483,8 +4483,8 @@ void Abe::State_23_RollLoop_453A90()
             {
                 MapFollowMe_408D10(TRUE);
 
-                if (field_C4_velx > FP_FromInteger(0) && !Input().isPressed(sInputKey_Right_5550D0) ||
-                    field_C4_velx < FP_FromInteger(0) && !Input().isPressed(sInputKey_Left_5550D4))
+                if ((field_C4_velx > FP_FromInteger(0) && !Input().isPressed(sInputKey_Right_5550D0)) ||
+                    (field_C4_velx < FP_FromInteger(0) && !Input().isPressed(sInputKey_Left_5550D4)))
                 {
                     field_106_current_motion = eAbeStates::State_17_CrouchIdle_456BC0;
                     field_C4_velx = FP_FromInteger(0);
@@ -5211,8 +5211,8 @@ void Abe::State_33_RunLoop_4508E0()
             MapFollowMe_408D10(TRUE);
 
             // Turning around?
-            if (field_C4_velx > FP_FromInteger(0) && Input().isPressed(sInputKey_Left_5550D4) ||
-                field_C4_velx < FP_FromInteger(0) && Input().isPressed(sInputKey_Right_5550D0))
+            if ((field_C4_velx > FP_FromInteger(0) && Input().isPressed(sInputKey_Left_5550D4)) ||
+                (field_C4_velx < FP_FromInteger(0) && Input().isPressed(sInputKey_Right_5550D0)))
             {
                 field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14_unused);
                 field_106_current_motion = eAbeStates::State_26_RunTurn_451500;
@@ -7508,7 +7508,7 @@ void Abe::State_109_ZShotRolling_455550()
     Event_Broadcast_422BC0(kEventNoise, this);
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
     State_3_Fall_459B60();
-    
+
     if (field_106_current_motion != eAbeStates::State_109_ZShotRolling_455550 && !gAbeBulletProof_5C1BDA)
     {
         if (field_110_id != -1)
@@ -7539,7 +7539,7 @@ void Abe::State_110_ZShot_455670()
     Event_Broadcast_422BC0(kEventNoise, this);
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
     State_3_Fall_459B60();
-    
+
     if (field_106_current_motion != eAbeStates::State_110_ZShot_455670 && !gAbeBulletProof_5C1BDA)
     {
         if (field_110_id != -1)
@@ -8289,7 +8289,7 @@ void Abe::State_119_ToShrykull_45A990()
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
 
             field_120_state.raw = 1;
- 
+
             auto pShryZapper = ae_new<Shrykull>();
             if (pShryZapper)
             {
@@ -9592,7 +9592,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
             case ShootKind::eEverythingElse_0:
             {
                 ToKnockback_44E700(1, 1);
-                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) != pBullet->field_30_x_distance > FP_FromInteger(0))
+                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) != (pBullet->field_30_x_distance > FP_FromInteger(0)))
                 {
                     field_106_current_motion = eAbeStates::State_101_KnockForward_455420;
                 }
@@ -9615,7 +9615,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
             }
             case ShootKind::eRolling_2:
             {
-                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) == pBullet->field_30_x_distance > FP_FromInteger(0))
+                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) == (pBullet->field_30_x_distance > FP_FromInteger(0)))
                 {
                     field_108_next_motion = eAbeStates::State_74_RollingKnockback_455290;
                 }
@@ -10102,8 +10102,9 @@ EXPORT void CC Mudokon_SFX_457EC0(MudSounds idx, __int16 volume, int pitch, Base
             {
                 idx = MudSounds::eLaugh_10;
             }
+
+            [[fallthrough]];
         }
-        // Fall through.
         default:
         {
             auto idxToVal = static_cast<unsigned __int8>(idx);

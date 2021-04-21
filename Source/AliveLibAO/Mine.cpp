@@ -71,7 +71,7 @@ Mine* Mine::ctor_43A330(Path_Mine* pTlv, int tlvInfo)
     field_10E_disabled_resources = pTlv->field_1E_disabled_resources;
 
     // TODO
-    field_1B0_flags = 2 * (pTlv->field_20_persists_offscreen == Choice_short::eYes_1) | field_1B0_flags & ~2;
+    field_1B0_flags = 2 * (pTlv->field_20_persists_offscreen == Choice_short::eYes_1) | (field_1B0_flags & ~2);
 
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbebombResID, 1, 0);
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDebrisID00, 1, 0);

@@ -130,16 +130,16 @@ Slog* Slog::ctor_4C4540(FP xpos, FP ypos, FP scale, __int16 bListenToSligs, __in
 
     field_BC_ypos = ypos;
     field_B8_xpos = xpos;
-    
+
     field_CC_sprite_scale = scale;
-    
+
     Init_4C46A0();
-    
+
     field_160_flags.Clear(Flags_160::eBit5_CommandedToAttack);
     field_12C_tlvInfo = 0xFFFF;
     field_120_brain_state_idx = 2;
     field_122_brain_state_result = 0;
-    
+
     BaseAliveGameObject* pTarget = FindTarget_4C33C0(0, 0);
     if (!pTarget)
     {
@@ -183,7 +183,7 @@ Slog* Slog::ctor_4C42E0(Path_Slog* pTlv, int tlvInfo)
     }
 
     field_C_objectId = tlvInfo;
-    
+
     Init_4C46A0();
 
     field_160_flags.Clear(Flags_160::eBit9_MovedOffScreen);
@@ -215,7 +215,7 @@ Slog* Slog::ctor_4C42E0(Path_Slog* pTlv, int tlvInfo)
     {
         field_106_current_motion = eSlogMotions::M_Idle_0_4C5F90;
     }
-    
+
     VUpdate();
 
     return this;
@@ -336,7 +336,7 @@ int CC Slog::CreateFromSaveState_4C54F0(const BYTE* pBuffer)
     BYTE** ppRes = pSlog->ResBlockForMotion_4C4A80(pState->field_28_current_motion);
 	const AnimRecord& animRec = AnimRec(sSlogFrameOffsetTable_5609D8[pSlog->field_106_current_motion]);
     pSlog->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
-	
+
     pSlog->field_20_animation.field_92_current_frame = pState->field_2A_anim_cur_frame;
     pSlog->field_20_animation.field_E_frame_change_counter = pState->field_2C_frame_change_counter;
 
@@ -1266,7 +1266,7 @@ void Slog::M_Eating_20_4C75F0()
             pBlood->ctor_40F0B0(
                 ((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? FP_FromInteger(-25) : FP_FromInteger(25)) * field_CC_sprite_scale + field_B8_xpos,
                 field_BC_ypos - (FP_FromInteger(4) * field_CC_sprite_scale),
-                FP_FromInteger(0), FP_FromInteger(0), 
+                FP_FromInteger(0), FP_FromInteger(0),
                 field_CC_sprite_scale, 12);
         }
     }
@@ -1363,19 +1363,19 @@ const __int16 sSlogResponseMotion_560930[3][10] =
         eSlogMotions::M_Run_2_4C6340,
         eSlogMotions::M_StopRunning_6_4C66C0,
         -2,
-        0, 0, 0, 0, 0, 0 
+        0, 0, 0, 0, 0, 0
     },
     {
         eSlogMotions::M_StartFastBarking_12_4C7880,
         -2,
-        0, 0, 0, 0, 0, 0, 0, 0 
+        0, 0, 0, 0, 0, 0, 0, 0
     }
 };
 
 __int16 Slog::AI_ListeningToSlig_0_4C3790()
 {
     auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_138_listening_to_slig_id));
-    
+
     // TODO: OG bug - return never used?
     //sObjectIds_5C1B70.Find_449CF0(field_118);
 
@@ -1538,7 +1538,7 @@ __int16 Slog::AI_ListeningToSlig_State_2_Listening(const FP xpos1GridAHead, Base
         {
             field_13C_waiting_counter++;
         }
-        // Fall through.
+        [[fallthrough]];
 
     case GameSpeakEvents::Slig_HereBoy_28:
         field_124_timer = sGnFrame_5C1B84 - Math_NextRandom() % 8 + 15;
@@ -1684,7 +1684,7 @@ __int16 Slog::AI_ListeningToSlig_State_0_Init()
 __int16 Slog::AI_Idle_1_4C2830()
 {
     BaseGameObject* pTarget = sObjectIds_5C1B70.Find_449CF0(field_118_target_id);
-    
+
     // OG dead code - return never used
     //sObjectIds_5C1B70.Find_449CF0(field_138);
 
@@ -2350,7 +2350,7 @@ __int16 Slog::AI_ChasingAbe_State_11_ChasingAfterBone()
                 gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
             }
 
-            // TODO: Same check twice ?? 
+            // TODO: Same check twice ??
             if (CollisionCheck_4C5480(field_CC_sprite_scale * FP_FromInteger(20), FP_FromInteger(4) * gridSize))
             {
                 FP gridSize2 = {};
@@ -2891,12 +2891,12 @@ void Slog::Init_4C46A0()
     }
 
     field_D6_scale = 1;
-    
+
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_5C1128->Raycast_417A60(
-        field_B8_xpos, field_BC_ypos, 
-        field_B8_xpos, field_BC_ypos + FP_FromInteger(24), 
+        field_B8_xpos, field_BC_ypos,
+        field_B8_xpos, field_BC_ypos + FP_FromInteger(24),
         &field_100_pCollisionLine, &hitX, &hitY, 1) == 1)
     {
         field_BC_ypos = hitY;
@@ -2975,10 +2975,10 @@ void Slog::vUpdate_4C50D0()
         {
             DDCheat::DebugStr_4F5560("Slog:  Motion=%d  BrainState=%d\n", field_106_current_motion, field_122_brain_state_result);
         }
-        
+
         const FP oldXPos = field_B8_xpos;
         const FP oldYPos = field_BC_ypos;
-        
+
         (this->*sSlog_motion_table_560978[field_106_current_motion])();
 
         if (oldXPos != field_B8_xpos || oldYPos != field_BC_ypos)
@@ -3021,7 +3021,7 @@ void Slog::dtor_4C49A0()
     }
 
     MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
-    
+
     if (!field_160_flags.Get(Flags_160::eBit3_Shot))
     {
         sSlogCount_BAF7F2--;
@@ -3129,7 +3129,7 @@ void Slog::ToJump_4C5C60()
 {
     field_C4_velx = (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromDouble(-10.18) : FP_FromDouble(10.18)) * field_CC_sprite_scale;
     field_C8_vely = FP_FromInteger(-8) * field_CC_sprite_scale;
-    
+
     field_F8_LastLineYPos = field_BC_ypos;
 
     VOnTrapDoorOpen();
@@ -3331,7 +3331,7 @@ BaseAliveGameObject* Slog::FindTarget_4C33C0(__int16 bKillSligs, __int16 bLookin
             case Types::eAbe_69:
             case Types::eMudokon_110:
             case Types::eSlig_125:
-                if (bKillSligs || (!bKillSligs && 
+                if (bKillSligs || (!bKillSligs &&
                     (pObj->field_4_typeId == Types::eAbe_69 ||
                       pObj->field_4_typeId == Types::eCrawlingSlig_26 ||
                       pObj->field_4_typeId == Types::eFlyingSlig_54 ||

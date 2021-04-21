@@ -1584,7 +1584,7 @@ void HintFly::FormWordAndAdvanceToNextWord_42AF90()
 
     const int xBase = field_114_xScreen - (16 * letterCount) / 2;
     const int yBase = field_116_yScreen - 8;
-   
+
     FP xBaseFP = FP_FromInteger(xBase);
     const FP yBaseFP = FP_FromInteger(yBase);
 
@@ -1849,7 +1849,7 @@ void HintFly::VUpdate_42B3D0()
                 field_112_state = State::eIdleWaitForChanting_1;
             }
         }
-        // Fall through
+        [[fallthrough]];
 
     case State::eState_6:
         UpdateParticles_42B1B0();

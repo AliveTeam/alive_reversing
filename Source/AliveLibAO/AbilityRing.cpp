@@ -65,7 +65,7 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, __int16 type)
         field_23C_xpos = xpos;
         field_240_ypos = ypos;
 
- 
+
         field_25E_screenX = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
         field_260_screenY = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
 
@@ -93,7 +93,7 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, __int16 type)
             {
                 r = {};
             }
-            // Fall through
+            [[fallthrough]];
 
         case 2:
             field_258_ring_thickness = FP_FromInteger(8);
@@ -120,7 +120,7 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, __int16 type)
         case 4:
             field_278_pTarget_obj = sActiveHero_507678;
             field_278_pTarget_obj->field_C_refCount++;
-            // Fall through
+            [[fallthrough]];
 
         case 5:
         case 6:
@@ -330,7 +330,7 @@ void AbilityRing::VUpdate_455ED0()
 
     case 1:
         CollideWithObjects_456250();
-        // Fall through
+        [[fallthrough]];
 
     case 2:
         field_248_right += field_24C_speed;

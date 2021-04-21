@@ -147,7 +147,7 @@ ALIVE_VAR(1, 0x5080C6, saveName, saveNameBuffer_5080C6, {});
 
 const char *gLevelNames_4CE1D4[20] =
 {
-    "¸",
+    "ï¿½",
     "RuptureFarms",
     "Monsaic Lines",
     "Paramonia",
@@ -429,7 +429,7 @@ void PauseMenu::VUpdate_44DFB0()
                         {
                             if (strspn(lastPressedKeyNT, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 !-"))
                             {
-                                if (lastPressedKeyNT[0] != 32 || string_len_no_nullterminator != 1 && saveNameBuffer_5080C6.characters[string_len_no_nullterminator] != lastPressedKeyNT[0])
+                                if (lastPressedKeyNT[0] != 32 || (string_len_no_nullterminator != 1 && saveNameBuffer_5080C6.characters[string_len_no_nullterminator] != lastPressedKeyNT[0]))
                                 {
                                     if (string_len_no_nullterminator > 19)
                                     {

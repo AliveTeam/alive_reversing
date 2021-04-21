@@ -7,7 +7,7 @@ bool RunningAsInjectedDll();
 #define CC __cdecl
 #define CCSTD __stdcall
 #if _WIN64
-#define ALIVE_ASSERT_SIZEOF(structureName, expectedSize)
+#define ALIVE_ASSERT_SIZEOF(structureName, expectedSize) static_assert(true)
 #else
 #define ALIVE_ASSERT_SIZEOF(structureName, expectedSize) static_assert(sizeof(structureName) == expectedSize, "sizeof(" #structureName ") must be " #expectedSize)
 #endif
@@ -15,7 +15,7 @@ bool RunningAsInjectedDll();
 #define EXPORT
 #define CC
 #define CCSTD
-#define ALIVE_ASSERT_SIZEOF(structureName, expectedSize)
+#define ALIVE_ASSERT_SIZEOF(structureName, expectedSize) static_assert(true)
 
 // Replace with a function that actually exists but does the same thing
 #define strcmpi strcasecmp
@@ -46,8 +46,8 @@ public:
 
 #define ALIVE_VAR_EXTERN(TypeName, VarName)\
 extern TypeName LocalVar_##VarName;\
-extern TypeName& VarName;
+extern TypeName& VarName
 
 #define ALIVE_ARY_EXTERN(TypeName, Size, VarName)\
 extern AliveVar Var_##VarName;\
-extern TypeName* VarName ;
+extern TypeName* VarName

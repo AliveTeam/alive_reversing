@@ -85,7 +85,7 @@ public:
     {
         return sGlobalVolumeLevel_left_BD1CDC;
     }
-    
+
     virtual VabUnknown& s512_byte() override
     {
         return s512_byte_C13180;
@@ -899,7 +899,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
                         {
                             tempoByte3 = MIDI_ReadByte_4FD6B0(pCtx) << 16;
                             tempoByte2 = MIDI_ReadByte_4FD6B0(pCtx) << 8;
-                            
+
                             // TODO: This is too short
                             fullTempo = tempoByte3 | tempoByte2 | MIDI_ReadByte_4FD6B0(pCtx);
                             MIDI_SetTempo_4FDB80(static_cast<short>(idx), 0, static_cast<short>(fullTempo));
@@ -1405,7 +1405,7 @@ EXPORT void CC MIDI_ADSR_Update_4FDCE0()
                     pChannel->field_1C_adsr.field_3_state = 2;
                     pChannel->field_14_time += pChannel->field_1C_adsr.field_4_attack;
                     timeDiff1 -= pChannel->field_1C_adsr.field_4_attack;
-                    // Fall through to case 3
+                    [[fallthrough]];
                 }
                 else
                 {
@@ -1429,7 +1429,7 @@ EXPORT void CC MIDI_ADSR_Update_4FDCE0()
                 timeDiff1 -= pChannel->field_1C_adsr.field_6_sustain;
                 if (MIDI_Set_Volume_4FDE80(pChannel, pChannel->field_C_vol * pChannel->field_1C_adsr.field_8_decay >> 4))
                 {
-                    // Fall through to case 4
+                    [[fallthrough]];
                 }
                 else
                 {
@@ -1443,7 +1443,7 @@ EXPORT void CC MIDI_ADSR_Update_4FDCE0()
                     timeDiff1 = 0;
                     timeDiffSquared = 0;
                     pChannel->field_C_vol = pChannel->field_8_left_vol;
-                    // Fall through to case 5
+                    [[fallthrough]];
                 }
                 else
                 {

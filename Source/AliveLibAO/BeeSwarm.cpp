@@ -158,8 +158,8 @@ void BeeSwarm::VScreenChange_480D40()
         }
     }
 
-    if (!sActiveHero_507678 || field_D98_pChaseTarget == sActiveHero_507678
-        && sActiveHero_507678->field_FC_current_motion == eAbeStates::State_156_DoorEnter_42D370)
+    if (!sActiveHero_507678 || (field_D98_pChaseTarget == sActiveHero_507678
+        && sActiveHero_507678->field_FC_current_motion == eAbeStates::State_156_DoorEnter_42D370))
     {
         field_6_flags.Set(Options::eDead_Bit3);
     }
@@ -588,7 +588,7 @@ void BeeSwarm::VUpdate_47FF50()
     field_A8_xpos = field_E4_bees.bees[0].field_0_xpos;
     field_AC_ypos = field_E4_bees.bees[0].field_4_ypos;
 }
- 
+
 void BeeSwarm::ToFlyAwayAndDie()
 {
     field_D9C_alive_timer = gnFrameCount_507670 + 120;

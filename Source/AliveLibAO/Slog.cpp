@@ -380,7 +380,7 @@ __int16 Slog::VTakeDamage_473610(BaseGameObject* pFrom)
     case Types::eRockSpawner_32:
     case Types::eRollingBall_72:
         Slog::Sfx_475BD0(9);
-        // Fall through
+        [[fallthrough]];
 
     case Types::eElectrocute_103:
         field_100_health = FP_FromInteger(0);
@@ -597,7 +597,7 @@ void Slog::Init_473130()
     field_184_resources[2] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogattkResID, 1, 0);
     field_184_resources[3] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogknfdResID, 1, 0);
     field_184_resources[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogidleResID, 1, 0);
-    
+
     Animation_Init_417FD0(
         94456,
         121,
@@ -751,7 +751,7 @@ void Slog::ToJump_473FB0()
     field_E8_LastLineYPos = field_AC_ypos;
 
     field_FC_current_motion = eSlogStates::State_19_JumpForwards_475610;
-    
+
     VOnTrapDoorOpen();
 
     field_F4_pLine = nullptr;
@@ -1359,7 +1359,7 @@ void Slog::State_6_MoveHeadUpwards_474220()
         {
             Sfx_475BD0(4);
         }
-        
+
         ToIdle();
     }
 }
@@ -1396,7 +1396,7 @@ void Slog::State_7_SlideTurn_474DB0()
     }
 
 
-    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(20), field_B4_velx) || 
+    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(20), field_B4_velx) ||
         field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         ToIdle();
@@ -1478,7 +1478,7 @@ void Slog::State_9_StartWalking_474690()
     if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(20), field_B4_velx))
     {
         ToIdle();
-        
+
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
         {
             field_A8_xpos += field_B4_velx + (ScaleToGridSize_41FA30(field_BC_sprite_scale) /  FP_FromInteger(2));
@@ -1512,7 +1512,7 @@ void Slog::State_10_EndWalking_4747D0()
 
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
         {
-            field_A8_xpos += field_B4_velx + (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2)); 
+            field_A8_xpos += field_B4_velx + (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
         }
         else
         {
@@ -1701,7 +1701,7 @@ void Slog::State_19_JumpForwards_475610()
 
     const FP oldXPos = field_A8_xpos;
     const FP ypos1 = field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(20));
-    
+
     field_A8_xpos += field_B4_velx;
     field_AC_ypos += field_B8_vely;
 
@@ -1908,7 +1908,7 @@ void Slog::State_24_Growl_475590()
 
 const __int16 sSlogResponseMotion_4CFCF0[3][10] =
 {
-    { 
+    {
         eSlogStates::State_3_TurnAround_474C70,
         eSlogStates::State_2_Run_4749A0,
         eSlogStates::State_8_StopRunning_474EC0,
@@ -2136,7 +2136,7 @@ __int16 Slog::Brain_0_ListeningToSlig_472450()
         {
             field_150_waiting_counter++;
         }
-        // Fall through
+        [[fallthrough]];
     case GameSpeakEvents::Slig_HereBoy_24:
         field_150_waiting_counter++;
         field_11C_timer = gnFrameCount_507670 - (Math_NextRandom() % 8) + 15;
@@ -2524,7 +2524,7 @@ __int16 Slog::Brain_2_ChasingAbe_470F50()
         field_114_brain_idx = 0;
         field_14C_pSlig = sControlledCharacter_50767C;
         field_14C_pSlig->field_C_refCount++;
-      
+
         if (field_10C_pTarget)
         {
             field_10C_pTarget->field_C_refCount--;

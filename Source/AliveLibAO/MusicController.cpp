@@ -169,7 +169,7 @@ const MusicController_Record array_3_stru_4CDB58[] =
     { 67, 0, 16, 0, 0, 0, 0 },
     { 31, 0, 16, 0, 0, 0, 0 },
 
-    // TODO: Are these part of something else? 
+    // TODO: Are these part of something else?
     { 20, 20, 1310736, 16, 16, 16, 1 },
     { 20, 16, 65556, 1, 20, 16, 16 }
 };
@@ -703,7 +703,7 @@ void MusicController::PlayMusic_443460(MusicTypes musicType, BaseGameObject* pOb
             return;
         }
 
-        if (pObj == field_1C_pObj || !field_1C_pObj || !field_20 && (a4 || musicType >= field_3A_type))
+        if (pObj == field_1C_pObj || !field_1C_pObj || (!field_20 && (a4 || musicType >= field_3A_type)))
         {
             field_1C_pObj = pObj;
             field_20 = a4;
@@ -798,7 +798,7 @@ void MusicController::UpdateMusic_442C20()
             break;
 
         case MusicTypes::eChase_4:
-            // Fall through
+            [[fallthrough]];
         case MusicTypes::eSlogChase_5:
         {
             const MusicController_Record* pRec = field_3A_type == MusicTypes::eChase_4 ?
@@ -861,7 +861,7 @@ void MusicController::UpdateMusic_442C20()
             break;
 
         case MusicTypes::eType9:
-            // Fall through
+            [[fallthrough]];
 
         case MusicTypes::eType10:
             idx = field_3A_type == MusicTypes::eType9 ? 121 : 122;
@@ -938,7 +938,7 @@ void MusicController::UpdateMusic_442C20()
             break;
 
         case MusicTypes::eSecretAreaShort_15:
-            // Fall through
+            [[fallthrough]];
 
         case MusicTypes::eSecretAreaLong_16:
             if (field_3A_type == MusicTypes::eSecretAreaShort_15)
