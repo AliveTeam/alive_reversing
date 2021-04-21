@@ -75,7 +75,7 @@ set_target_properties(EasyLogging++ PROPERTIES UNITY_BUILD ON)
 set_target_properties(jsonxx        PROPERTIES UNITY_BUILD ON)
 set_target_properties(googletest    PROPERTIES UNITY_BUILD ON)
 set_target_properties(imgui         PROPERTIES UNITY_BUILD ON)
-set_target_properties(glm         PROPERTIES UNITY_BUILD ON)
+set_target_properties(glm           PROPERTIES UNITY_BUILD ON)
 
 set_target_properties(AliveLibCommon PROPERTIES UNITY_BUILD ON)
 set_target_properties(AliveLibAE     PROPERTIES UNITY_BUILD ON)
