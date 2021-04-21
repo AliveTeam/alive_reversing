@@ -205,13 +205,13 @@ namespace AliveAPI
                     }
 
                     // Add all path ids
-                    for (int i = 1; i < pathRoot.PathCount(); i++)
+                    for (int j = 1; j < pathRoot.PathCount(); j++)
                     {
                         // Only add paths that are not blank entries
-                        const PathBlyRecAdapter pBlyRec = pathRoot.PathAt(i);
+                        const PathBlyRecAdapter pBlyRec = pathRoot.PathAt(j);
                         if (pBlyRec.BlyName())
                         {
-                            ret.mPaths.push_back(i);
+                            ret.mPaths.push_back(j);
                         }
                     }
                     return true;
@@ -393,6 +393,7 @@ namespace AliveAPI
         LvlWriter inputLvl(inputLvlFile.c_str());
         if (!inputLvl.IsOpen())
         {
+            ret.mResult = Error::JsonFileReadError;
             abort();
         }
 
@@ -467,7 +468,7 @@ namespace AliveAPI
             }
         }
 
-        if (collisionLines.size() > pathInfo.mNumCollisionItems)
+        if (static_cast<int>(collisionLines.size()) > pathInfo.mNumCollisionItems)
         {
             abort();
         }

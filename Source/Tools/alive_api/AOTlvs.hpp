@@ -56,6 +56,7 @@
 #include "../AliveLibAO/Paramite.hpp"
 
 #define CTOR_AO(className, objectTypeName, tlvType) className() : TlvObjectBaseAO(tlvType, objectTypeName) {}  className(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO(tlvType, objectTypeName, pTlv)
+#define EMPTY_CTOR_AO() (void)globalTypes
 
 namespace AO
 {
@@ -422,7 +423,7 @@ namespace AOTlvs
     {
         CTOR_AO(Path_StartController, "StartController", AO::TlvTypes::StartController_28)
         {
-            // No fields
+            EMPTY_CTOR_AO();
         }
     };
 
@@ -500,7 +501,7 @@ namespace AOTlvs
     {
         CTOR_AO(Path_InvisibleZone, "InvisibleZone", AO::TlvTypes::InvisibleZone_58)
         {
-            // No fields
+            EMPTY_CTOR_AO();
         }
     };
 
@@ -783,7 +784,7 @@ namespace AOTlvs
     {
         CTOR_AO(Path_ElumStart, "ElumStart", AO::TlvTypes::ElumStart_38)
         {
-            // No fields
+            EMPTY_CTOR_AO();
         }
     };
 
@@ -791,7 +792,7 @@ namespace AOTlvs
     {
         CTOR_AO(Path_ElumWall, "ElumWall", AO::TlvTypes::ElumWall_40)
         {
-            // No fields
+            EMPTY_CTOR_AO();
         }
     };
 
@@ -852,7 +853,7 @@ namespace AOTlvs
     {
         CTOR_AO(Path_RingCancel, "RingCancel", AO::TlvTypes::RingCancel_109)
         {
-            // No properties
+            EMPTY_CTOR_AO();
         }
     };
 
@@ -1215,7 +1216,7 @@ namespace AOTlvs
     {
         CTOR_AO(Path_LCDStatusBoard, "LCDStatusBoard", AO::TlvTypes::LCDStatusBoard_103)
         {
-            // No fields
+            EMPTY_CTOR_AO();
         }
     };
 
@@ -1239,7 +1240,7 @@ namespace AOTlvs
     {
         CTOR_AO(Path_SoftLanding, "SoftLanding", AO::TlvTypes::SoftLanding_114)
         {
-            // No fields
+            EMPTY_CTOR_AO();
         }
     };
 
@@ -1265,7 +1266,7 @@ namespace AOTlvs
     {
         CTOR_AO(Path_ZSligCover, "ZSligCover", AO::TlvTypes::ZSligCover_83)
         {
-            // No fields
+            EMPTY_CTOR_AO();
         }
     };
 
@@ -1273,7 +1274,7 @@ namespace AOTlvs
     {
         CTOR_AO(Path_ScrabLeftBound, "ScrabLeftBound", AO::TlvTypes::ScrabLeftBound_74)
         {
-            // No fields
+            EMPTY_CTOR_AO();
         }
     };
 
@@ -1281,7 +1282,7 @@ namespace AOTlvs
     {
         CTOR_AO(Path_ScrabRightBound, "ScrabRightBound", AO::TlvTypes::ScrabRightBound_75)
         {
-            // No fields
+            EMPTY_CTOR_AO();
         }
     };
 
@@ -1289,7 +1290,7 @@ namespace AOTlvs
     {
         CTOR_AO(Path_ScrabNoFall, "ScrabNoFall", AO::TlvTypes::ScrabNoFall_93)
         {
-            // No fields
+            EMPTY_CTOR_AO();
         }
     };
 
@@ -1478,7 +1479,7 @@ namespace AOTlvs
     {
         CTOR_AO(Path_HoneyDripTarget, "HoneyDripTarget", AO::TlvTypes::HoneyDripTarget_42)
         {
-            // No fields
+            EMPTY_CTOR_AO();
         }
     };
 }

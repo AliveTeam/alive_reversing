@@ -33,15 +33,15 @@ static jsonxx::Object AOLineToJsonObject(const AO::PathLine& line)
 static AO::PathLine JsonObjectToAOLine(jsonxx::Object& collision)
 {
     AO::PathLine col = {};
-    col.field_0_rect.x = collision.get<jsonxx::Number>("x1");
-    col.field_0_rect.y = collision.get<jsonxx::Number>("y1");
+    col.field_0_rect.x = static_cast<short>(collision.get<jsonxx::Number>("x1"));
+    col.field_0_rect.y = static_cast<short>(collision.get<jsonxx::Number>("y1"));
 
-    col.field_0_rect.w = collision.get<jsonxx::Number>("x2");
-    col.field_0_rect.h = collision.get<jsonxx::Number>("y2");
+    col.field_0_rect.w = static_cast<short>(collision.get<jsonxx::Number>("x2"));
+    col.field_0_rect.h = static_cast<short>(collision.get<jsonxx::Number>("y2"));
 
-    col.field_8_type = collision.get<jsonxx::Number>("type");
-    col.field_10_next = collision.get<jsonxx::Number>("next");
-    col.field_C_previous = collision.get<jsonxx::Number>("previous");
+    col.field_8_type = static_cast<BYTE>(collision.get<jsonxx::Number>("type"));
+    col.field_10_next = static_cast<short>(collision.get<jsonxx::Number>("next"));
+    col.field_C_previous = static_cast<short>(collision.get<jsonxx::Number>("previous"));
 
     return col;
 }
@@ -72,21 +72,21 @@ static jsonxx::Object AELineToJsonObject(const PathLine& line)
 static ::PathLine JsonObjectToAELine(jsonxx::Object& collision)
 {
     ::PathLine col = {};
-    col.field_0_rect.x = collision.get<jsonxx::Number>("x1");
-    col.field_0_rect.y = collision.get<jsonxx::Number>("y1");
+    col.field_0_rect.x = static_cast<short>(collision.get<jsonxx::Number>("x1"));
+    col.field_0_rect.y = static_cast<short>(collision.get<jsonxx::Number>("y1"));
 
-    col.field_0_rect.w = collision.get<jsonxx::Number>("x2");
-    col.field_0_rect.h = collision.get<jsonxx::Number>("y2");
+    col.field_0_rect.w = static_cast<short>(collision.get<jsonxx::Number>("x2"));
+    col.field_0_rect.h = static_cast<short>(collision.get<jsonxx::Number>("y2"));
 
-    col.field_8_type = collision.get<jsonxx::Number>("type");
+    col.field_8_type = static_cast<BYTE>(collision.get<jsonxx::Number>("type"));
 
-    col.field_A_previous = collision.get<jsonxx::Number>("previous");
-    col.field_C_next = collision.get<jsonxx::Number>("next");
+    col.field_A_previous = static_cast<short>(collision.get<jsonxx::Number>("previous"));
+    col.field_C_next = static_cast<short>(collision.get<jsonxx::Number>("next"));
     
-    col.field_E_previous2 = collision.get<jsonxx::Number>("previous2");
-    col.field_10_next2 = collision.get<jsonxx::Number>("next2");
+    col.field_E_previous2 = static_cast<short>(collision.get<jsonxx::Number>("previous2"));
+    col.field_10_next2 = static_cast<short>(collision.get<jsonxx::Number>("next2"));
 
-    col.field_12_line_length = collision.get<jsonxx::Number>("length");
+    col.field_12_line_length = static_cast<short>(collision.get<jsonxx::Number>("length"));
 
     return col;
 }
@@ -95,7 +95,7 @@ static ::PathLine JsonObjectToAELine(jsonxx::Object& collision)
 std::vector<AO::PathLine> JsonReaderBase::ReadAOLines(jsonxx::Array& collisionsArray)
 {
     std::vector<AO::PathLine> lines;
-    for (int i = 0; i < collisionsArray.values().size(); i++)
+    for (auto i = 0u; i < collisionsArray.values().size(); i++)
     {
         jsonxx::Object collision = collisionsArray.get<jsonxx::Object>(i);
         lines.emplace_back(JsonObjectToAOLine(collision));
@@ -106,7 +106,7 @@ std::vector<AO::PathLine> JsonReaderBase::ReadAOLines(jsonxx::Array& collisionsA
 std::vector<::PathLine> JsonReaderBase::ReadAELines(jsonxx::Array& collisionsArray)
 {
     std::vector<::PathLine> lines;
-    for (int i = 0; i < collisionsArray.values().size(); i++)
+    for (auto i = 0u; i < collisionsArray.values().size(); i++)
     {
         jsonxx::Object collision = collisionsArray.get<jsonxx::Object>(i);
         lines.emplace_back(JsonObjectToAELine(collision));
@@ -143,13 +143,13 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
         abort();
     }
 
-    mRootInfo.mPathId = map.get<jsonxx::Number>("path_id");
+    mRootInfo.mPathId = static_cast<int>(map.get<jsonxx::Number>("path_id"));
 
-    mRootInfo.mXSize = map.get<jsonxx::Number>("x_size");
-    mRootInfo.mYSize = map.get<jsonxx::Number>("y_size");
+    mRootInfo.mXSize = static_cast<int>(map.get<jsonxx::Number>("x_size"));
+    mRootInfo.mYSize = static_cast<int>(map.get<jsonxx::Number>("y_size"));
 
-    mRootInfo.mXGridSize = map.get<jsonxx::Number>("x_grid_size");
-    mRootInfo.mYGridSize = map.get<jsonxx::Number>("y_grid_size");
+    mRootInfo.mXGridSize = static_cast<int>(map.get<jsonxx::Number>("x_grid_size"));
+    mRootInfo.mYGridSize = static_cast<int>(map.get<jsonxx::Number>("y_grid_size"));
 
     if (!map.has<jsonxx::Array>("cameras"))
     {
@@ -160,7 +160,7 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
     std::vector<CameraNameAndTlvBlob> mapData;
 
     jsonxx::Array camerasArray = map.get<jsonxx::Array>("cameras");
-    for (int i = 0; i < camerasArray.values().size(); i++)
+    for (auto i = 0u; i < camerasArray.values().size(); i++)
     {
         jsonxx::Object camera = camerasArray.get<jsonxx::Object>(i);
         if (!camera.has<jsonxx::Array>("map_objects"))
@@ -168,21 +168,21 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
             abort();
         }
 
-        const int x = camera.get<jsonxx::Number>("x");
-        const int y = camera.get<jsonxx::Number>("y");
+        const int x = static_cast<int>(camera.get<jsonxx::Number>("x"));
+        const int y = static_cast<int>(camera.get<jsonxx::Number>("y"));
         if (x > mRootInfo.mXSize || y > mRootInfo.mYSize)
         {
             abort();
         }
 
         CameraNameAndTlvBlob cameraNameBlob;
-        cameraNameBlob.mId = camera.get<jsonxx::Number>("id");
+        cameraNameBlob.mId = static_cast<int>(camera.get<jsonxx::Number>("id"));
         cameraNameBlob.mName = camera.get<jsonxx::String>("name");
         cameraNameBlob.x = x;
         cameraNameBlob.y = y;
 
         jsonxx::Array mapObjectsArray = camera.get<jsonxx::Array>("map_objects");
-        for (int j = 0; j < mapObjectsArray.values().size(); j++)
+        for (auto j = 0u; j < mapObjectsArray.values().size(); j++)
         {
             jsonxx::Object mapObject = mapObjectsArray.get<jsonxx::Object>(j);
             if (!mapObject.has<jsonxx::String>("object_structures_type"))
@@ -329,12 +329,7 @@ jsonxx::Array JsonWriterAO::ReadTlvStream(TypesCollection& globalTypes, BYTE* pt
             }
             else
             {
-                switch (pPathTLV->field_4_type.mType)
-                {
-                default:
-                    LOG_WARNING("Ignoring type: " << magic_enum::enum_name(pPathTLV->field_4_type.mType));
-                    break;
-                }
+                LOG_WARNING("Ignoring type: " << magic_enum::enum_name(pPathTLV->field_4_type.mType));
             }
 
             pPathTLV = AO::Path_TLV::Next_446460(pPathTLV);
@@ -518,12 +513,7 @@ jsonxx::Array JsonWriterAE::ReadTlvStream(TypesCollection& globalTypes, BYTE* pt
         }
         else
         {
-            switch (pPathTLV->field_4_type.mType)
-            {
-            default:
-                LOG_WARNING("Ignoring type: " << pPathTLV->field_4_type.mType);
-                break;
-            }
+            LOG_WARNING("Ignoring type: " << pPathTLV->field_4_type.mType);
         }
 
         pPathTLV = Path::Next_TLV_4DB6A0(pPathTLV); // TODO: Will skip the last entry ?? 
@@ -557,7 +547,7 @@ bool JsonMapRootInfoReader::Read(const std::string& fileName)
     {
         abort();
     }
-    mMapRootInfo.mVersion = rootObj.get<jsonxx::Number>("api_version");
+    mMapRootInfo.mVersion = static_cast<int>(rootObj.get<jsonxx::Number>("api_version"));
 
     if (!rootObj.has<jsonxx::String>("game"))
     {
