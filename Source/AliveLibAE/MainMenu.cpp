@@ -101,7 +101,7 @@ MainMenuButton sBtnArray_Unknown_5610C0[] =
     { 0, 0, 0, 0, 0 }
 };
 
-MainMenuButton sBtnArray_Game_BackStory_Or_NewGame_561420[] = 
+MainMenuButton sBtnArray_Game_BackStory_Or_NewGame_561420[] =
 {
     { MainMenuButtonType::eCircularSelectableButton, 59, 199, 0, 13912 },  // Show me what happened
     { MainMenuButtonType::eCircularSelectableButton, 248, 199, 0, 13912 }, // Just start the game
@@ -137,7 +137,7 @@ MainMenuButton sBtnArray_PSX_1Player_Or_2Player_NewGame_5613C8[] =
 };
 
 MainMenuButton sBtnArray_Cooperative_Mode_Prompt_5613F8[] =
-{ 
+{
     { MainMenuButtonType::eCircularSelectableButton, 31, 62, 0, 13912 },   // Begin
     { MainMenuButtonType::eUnused_3, 331, 240, 0, 13912 },
     { 0, 0, 0, 0, 0 }
@@ -170,7 +170,7 @@ SfxDefinition stru_55D7C0[] =
     { 0u, 0u, 0u, 0u, 0, 0 }
 };
 
-ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960, 
+ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
 {
     { // Page 0: Controller selection menu
         MainMenuCams::eControllerSelectionCam,
@@ -181,7 +181,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         nullptr,
         &MainMenuController::ControllerMenu_Load_4D16B0,
         nullptr
-    }, 
+    },
     { // Page 1: Input remapping menu
         MainMenuCams::eRemapInputsCam,
         0,        0,        0,       -1,        0,
@@ -191,7 +191,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         nullptr,
         &MainMenuController::RemapInput_Load_4D17E0,
         nullptr
-    }, 
+    },
     { // Page 2: Dummy blank screen for quitting
         MainMenuCams::eDummyBlankCam,
         0,        0,        0,       -1,        0,
@@ -222,7 +222,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         nullptr,
         nullptr
     },
-    { // Page 5: Options 
+    { // Page 5: Options
         MainMenuCams::eOptionsCam,
         0,        900,      1,        0,        3,
         TRUE,
@@ -232,7 +232,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         nullptr,
         nullptr
     },
-    { // Page 6: Abe's motions 
+    { // Page 6: Abe's motions
         MainMenuCams::eAbesMotionKeysCam,
         0,        1600,     3,        0,        0,
         FALSE,
@@ -543,7 +543,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
- 
+
     SetVTable(this, 0x547958);
     SetVTable(&field_158_animation, 0x544290);
 
@@ -586,7 +586,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     field_20_animation.field_9_g = 127;
     field_20_animation.field_8_r = 127;
 
-    
+
     field_F4_resources.field_0_resources[MenuResIds::eResHighLite] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kHighliteResID, TRUE, FALSE);
     field_158_animation.Init_40A030(13912, gObjList_animations_5C1A24, this, 150, 0x41u, field_F4_resources.field_0_resources[MenuResIds::eResHighLite], 1, 0, 0);
 
@@ -680,7 +680,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
         {
             ResourceManager::LoadResourceFile_49C130("ABESPEAK.BAN", reinterpret_cast<ResourceManager::TLoaderFn>(callback_4D06E0), reinterpret_cast<Camera *>(this), 0);
         }
-        
+
         pResourceManager_5C1BB0->LoadingLoop_465590(false);
         field_1FC_button_index = 0;
         field_250_selected_entry_index = sDemoIdChosenFromDemoMenu_5C1B9E;
@@ -741,7 +741,7 @@ void MainMenuController::VRender(PrimHeader** ppOt)
 void MainMenuController::Render_4CF4C0(PrimHeader** ppOt)
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit2_Animate)
-        && sMainMenuPages_561960[field_214_page_index].field_E_show_character 
+        && sMainMenuPages_561960[field_214_page_index].field_E_show_character
         && field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
         field_20_animation.vRender_40B820(184, 162, ppOt, 0, 0);
@@ -773,7 +773,7 @@ void MainMenuController::Render_4CF4C0(PrimHeader** ppOt)
 }
 
 // Main Menu Text Data
-MainMenuText sMMT_FrontPage_5623A0[1] = { 35, 205, "x", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u };
+MainMenuText sMMT_FrontPage_5623A0[1] = { {35, 205, "x", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u} };
 
 // Paramite speak text data
 const MainMenuText sParamiteSpeak_5622C8[9] =
@@ -846,9 +846,9 @@ const MainMenuText sScrabGameSpeak_562268[4] =
 const MainMenuText sAbeMotions_562448[15] =
 {
     { 55, 182, "X", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u },
-    { 153, 211, "esc", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u },            
+    { 153, 211, "esc", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u },
     { 175, 60, kRight, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },            //walk right arrow        //rebindables are in []
-    { 175, 79, kSneak "+ " kRight, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u }, //sneak [alt] + right arrow 
+    { 175, 79, kSneak "+ " kRight, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u }, //sneak [alt] + right arrow
     { 175, 98, kRun "+ " kRight, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },  //run [shift] + right arrow
     { 175, 117, kJump, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },            //jump [space]
     { 175, 136, kRun "+" kJump, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },   //runjump [shift]+[space]
@@ -918,7 +918,7 @@ MainMenuNextCam MainMenuController::AbeSpeak_Update_4D2D20(DWORD input_held)
         case InputCommands::eGameSpeak6: Set_Anim_4D05E0(AnimIds::eAbe_AllYa); break;
         case InputCommands::eGameSpeak7: Set_Anim_4D05E0(AnimIds::eAbe_Sympathy); break;
         case InputCommands::eGameSpeak8: Set_Anim_4D05E0(AnimIds::eAbe_StopIt); break;
-        case InputCommands::eBack: 
+        case InputCommands::eBack:
             Set_Anim_4D05E0(AnimIds::eAbe_GoodBye);
             // Stop chanting music
             SND_SEQ_Stop_4CAE60(SeqId::MudokonChant1_10);
@@ -1352,7 +1352,7 @@ void MainMenuController::Demo_And_FMV_List_Render_4D4F30(PrimHeader** ppOt)
                 field_258 = FP_FromInteger(0);
             }
         }
-    }    
+    }
     else if (field_254 < FP_FromInteger(0))
     {
         field_254 += field_258;
@@ -1371,7 +1371,7 @@ void MainMenuController::Demo_And_FMV_List_Render_4D4F30(PrimHeader** ppOt)
         }
     }
 
-    const MainMenuText stru_5625F8[2] = 
+    const MainMenuText stru_5625F8[2] =
     {
         { 32, 27, "x", 3u, 0u, 0u, 0u,  0.75f, 0u, 0u, 0u, 0u },
         { 331, 204, "esc", 3u, 0u, 0u, 0u,  0.75f, 0u, 0u, 0u, 0u }
@@ -1539,7 +1539,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_hel
             FmvInfo* pFmvRecord = Path_Get_FMV_Record_460F70(v12->field_4_level_id, v12->field_A_fmv_id);
             Get_fmvs_sectors_494460(pFmvRecord->field_0_pName, 0, 0, &input_held, 0, 0);
             sLevelId_dword_5CA408 = static_cast<DWORD>(v12->field_4_level_id);
-            
+
             dword_55C128 = -1;
 
             auto pMovie = ae_new<Movie>();
@@ -1763,7 +1763,7 @@ MainMenuNextCam MainMenuController::Page_Front_Update_4D0720(DWORD input)
         field_258 = FP_FromInteger(0);
         return MainMenuNextCam(MainMenuCams::eCheatMenu_SelectFMVCam, NO_SELECTABLE_BUTTONS);
     }
-    
+
     if (sEnableCheatLevelSelect_5C1BEE)
     {
         // To level select menu
@@ -1806,9 +1806,9 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(DWORD /*input*/)
 
             ResourceManager::FreeResource_49C330(field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak]);
             field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = nullptr;
-            
+
             ResourceManager::Reclaim_Memory_49C470(0);
-            
+
             if (!pPauseMenu_5C9300)
             {
                 pPauseMenu_5C9300 = ae_new<PauseMenu>();
@@ -1843,10 +1843,10 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(DWORD /*input*/)
             }
 
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
-            
+
             sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(0);
             sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(0);
-            
+
             Quicksave_LoadActive_4C9170();
 
             return MainMenuNextCam(MainMenuCams::eNoChange);
@@ -2560,7 +2560,7 @@ void MainMenuController::ControllerMenu_Load_4D16B0()
 }
 
 const char* sInputButtonNames_562790[8] =
-{ 
+{
     "Run",
     "Sneak",
     "Jump",
@@ -2700,7 +2700,7 @@ MainMenuNextCam MainMenuController::ControllerMenu_Update_4D16D0(DWORD input)
         Input_SaveSettingsIni_492840();
         return MainMenuNextCam(MainMenuCams::eOptionsCam);
     }
-    
+
     if (input & InputCommands::eConfigure)
     {
         // c configure controller
@@ -2910,7 +2910,7 @@ MainMenuNextCam MainMenuController::HandleGameSpeakInput(DWORD input_held, std::
     else if (input_held & InputCommands::eBack) // 0x200000
     {
         // Exit
-      
+
         field_230_target_entry_index = 8;
         field_1FC_button_index = NO_SELECTABLE_BUTTONS;
 
@@ -3093,7 +3093,7 @@ void MainMenuController::HandleMainMenuUpdate()
         {
             return;
         }
-        
+
         if (field_23C_T80.Get(Flags::eBit22_GameSpeakPlaying))
         {
             return;
@@ -3106,7 +3106,7 @@ void MainMenuController::HandleMainMenuUpdate()
 
         const MainMenuNextCam pageUpdateReturnedCam = (this->*(pPage->field_10_fn_update))(inputHeld);
 
-        if (pageUpdateReturnedCam.page_update_camera == MainMenuCams::eNoChange || 
+        if (pageUpdateReturnedCam.page_update_camera == MainMenuCams::eNoChange ||
             pageUpdateReturnedCam.page_update_camera == gMap_5C3030.field_4_current_camera)
         {
             // stay on the same screen
@@ -3559,15 +3559,15 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
         case 9: // ??
             field_6_flags.Clear(BaseGameObject::eUpdateDuringCamSwap_Bit10);
             field_22C_T80_animation_delay = 15;
-            
+
             if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, FALSE, FALSE))
             {
                 // TODO: Fix the types
-                ResourceManager::LoadResourceFile_49C130("ABESPEAK.BAN", 
-                    reinterpret_cast<ResourceManager::TLoaderFn>(callback_4D06E0), 
+                ResourceManager::LoadResourceFile_49C130("ABESPEAK.BAN",
+                    reinterpret_cast<ResourceManager::TLoaderFn>(callback_4D06E0),
                     reinterpret_cast<Camera *>(this), nullptr);
             }
-            // Fall through to next case
+            [[fallthrough]];
         case 10: // ??
             ResourceManager::FreeResource_49C330(field_F4_resources.field_0_resources[sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_4_menu_res_id]);
             field_F4_resources.field_0_resources[sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_4_menu_res_id] = nullptr;
@@ -3784,7 +3784,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
                             SND_SEQ_Stop_4CAE60(SeqId::MudokonChant1_10);
                             field_23C_T80.Clear(Flags::eBit24_Chant_Seq_Playing);
                         }
-                        
+
                         field_220_frame_table_idx = field_228_res_idx;
                         field_228_res_idx = 0;
                         field_22A_anim_frame_num = 0;
@@ -3813,7 +3813,7 @@ void MainMenuController::UpdateHighliteGlow_4D0630()
 
 void MainMenuController::callback_4D06E0(MainMenuController* pMenu)
 {
-    pMenu->field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = 
+    pMenu->field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] =
             ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, TRUE, FALSE);
 }
 
@@ -3824,7 +3824,7 @@ void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHead
 
     char textBuffer[32] = {};
     String_FormatString_4969D0(array->field_8_text, textBuffer, ALIVE_COUNTOF(textBuffer), array->field_14 == 0);
-    
+
     if (op2)
     {
         char* plusSignIx = strchr(textBuffer, '+');

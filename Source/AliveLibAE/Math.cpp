@@ -41,7 +41,7 @@ EXPORT unsigned int  CC Math_FixedPoint_Multiply_496C50(signed int op1, signed i
     result = op2a * (op1a >> 16)
         + (unsigned __int16)op1a * (op2a >> 16)
         + ((unsigned __int16)op1a * (unsigned int)(unsigned __int16)op2a >> 16);
-    if (op1 < 0 != op2 < 0)
+    if ((op1 < 0) != (op2 < 0))
         result = -result;
     return result;
 }
@@ -73,7 +73,7 @@ EXPORT unsigned int CC Math_FixedPoint_Divide_496B70(signed int op1, signed int 
     {
         result = ((v5 << 8) % op2a << 8) / op2a + v6 + ((v5 << 8) / op2a << 8);
     }
-    if (op1a < 0 != op2 < 0)
+    if ((op1a < 0) != (op2 < 0))
         result = -result;
     return result;
 }

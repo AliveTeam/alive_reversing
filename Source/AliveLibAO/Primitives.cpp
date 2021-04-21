@@ -20,7 +20,7 @@ void CC Poly_Set_Blending_498A00(PrimHeader* pPrim, int bBlending)
 
 int CC PSX_getClut_496840(int x, int y)
 {
-    return (y << 6) | (x >> 4) & 63;
+    return (y << 6) | ((x >> 4) & 63);
 }
 
 void CC Poly_Set_SemiTrans_498A40(PrimHeader* pPrim, int bSemiTrans)

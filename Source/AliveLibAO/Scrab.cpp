@@ -112,7 +112,7 @@ Scrab* Scrab::ctor_45B5F0(Path_Scrab* pTlv, int tlvInfo)
     SetVTable(this, 0x4BC710);
 
     field_4_typeId = Types::eScrab_77;
-    
+
     for (int i = 0; i < ALIVE_COUNTOF(field_150_resources); i++)
     {
         field_150_resources[i] = nullptr;
@@ -130,7 +130,7 @@ Scrab* Scrab::ctor_45B5F0(Path_Scrab* pTlv, int tlvInfo)
     field_150_resources[3] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArsskwrResID, 1, 0);
     field_150_resources[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArswhirlResID, 1, 0);
     field_150_resources[13] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArscrshResID, 1, 0);
-    
+
     Animation_Init_417FD0(
         168644,
         168,
@@ -138,12 +138,12 @@ Scrab* Scrab::ctor_45B5F0(Path_Scrab* pTlv, int tlvInfo)
         field_150_resources[0],
         1);
 
-    
+
     field_10A_flags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
 
     field_132_res_block_idx = 0;
     field_118_timer = 0;
-    
+
     SetBrain(&Scrab::Brain_Patrol_460020);
 
     field_110_brain_ret = 0;
@@ -182,7 +182,7 @@ Scrab* Scrab::ctor_45B5F0(Path_Scrab* pTlv, int tlvInfo)
 
     field_138_attack_duration = pTlv->field_26_attack_duration;
 
-    field_188_flags = 32 * ( pTlv->field_2A_roar_randomly & 1) | (field_188_flags & ~0x11 | 4) & ~0x28;
+    field_188_flags = 32 * ( pTlv->field_2A_roar_randomly & 1) | ((field_188_flags & ~0x11 | 4) & ~0x28);
 
     FP hitX = {};
     FP hitY = {};
@@ -333,7 +333,7 @@ void Scrab::VUpdate_45B360()
             field_188_flags |= 8u;
         }
     }
-    
+
     const FP hero_xd = FP_Abs(field_A8_xpos - sActiveHero_507678->field_A8_xpos);
     const FP hero_yd = FP_Abs(field_AC_ypos - sActiveHero_507678->field_AC_ypos);
 
@@ -360,7 +360,7 @@ void Scrab::VUpdate_45B360()
             field_10_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
             field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
         }
-        
+
         const auto old_motion = field_FC_current_motion;
 
         field_110_brain_ret = (this->*field_10C_fn)();
@@ -1351,8 +1351,8 @@ void Scrab::State_4_Turn_45EF30()
     }
 }
 
-const FP sRunToStandVelTable_4BC838[10] = 
-{ 
+const FP sRunToStandVelTable_4BC838[10] =
+{
     FP_FromDouble(7.49),
     FP_FromDouble(6.91),
     FP_FromDouble(3.88),
@@ -1423,12 +1423,12 @@ void Scrab::State_5_RunToStand_45ED90()
     }
 }
 
-const FP sHopBeginVelTable_4BC860[4] = 
-{ 
+const FP sHopBeginVelTable_4BC860[4] =
+{
     FP_FromDouble(9.88),
     FP_FromDouble(10.10),
     FP_FromDouble(10.10),
-    FP_FromDouble(9.88) 
+    FP_FromDouble(9.88)
 };
 
 void Scrab::State_6_HopBegin_45F3C0()
@@ -1472,8 +1472,8 @@ void Scrab::State_6_HopBegin_45F3C0()
     }
 }
 
-const FP sHopMidAirVelTable_4BC870[8] = 
-{ 
+const FP sHopMidAirVelTable_4BC870[8] =
+{
     FP_FromDouble(9.45),
     FP_FromDouble(8.81),
     FP_FromDouble(8.11),
@@ -1555,8 +1555,8 @@ void Scrab::State_7_HopMidair_45F1A0()
     }
 }
 
-const FP sLandVelXTable_4BC890[4] = 
-{ 
+const FP sLandVelXTable_4BC890[4] =
+{
     FP_FromDouble(6.10),
     FP_FromDouble(6.07),
     FP_FromDouble(6.13),
@@ -1659,7 +1659,7 @@ void Scrab::State_9_JumpToFall_45EFD0()
     }
 }
 
-const FP sStandToWalkVelTable_4BC778[3] = 
+const FP sStandToWalkVelTable_4BC778[3] =
 {
     FP_FromDouble(1.11),
     FP_FromDouble(2.36),
@@ -1697,8 +1697,8 @@ void Scrab::State_10_StandToWalk_45E670()
     }
 }
 
-const FP sStandToRunVel_4BC7F0[3] = 
-{ 
+const FP sStandToRunVel_4BC7F0[3] =
+{
     FP_FromDouble(2.29),
     FP_FromDouble(2.69),
     FP_FromDouble(3.87)
@@ -1733,8 +1733,8 @@ void Scrab::State_11_StandToRun_45E9F0()
     }
 }
 
-const FP sWalkToStandVel_4BC7E0[3] = 
-{ 
+const FP sWalkToStandVel_4BC7E0[3] =
+{
     FP_FromDouble(1.04),
     FP_FromDouble(3.29),
     FP_FromDouble(2.85)
@@ -1756,7 +1756,7 @@ void Scrab::State_12_WalkToStand_45E930()
         ToStand();
     }
 
-    MoveOnLine_45E450(); 
+    MoveOnLine_45E450();
 
     if (field_FC_current_motion == eScrabStates::State_12_WalkToStand_45E930 && field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame) && !ToNextMotion_45DFB0())
     {
@@ -1861,8 +1861,8 @@ void Scrab::State_13_RunJumpBegin_45F5D0()
     }
 }
 
-const FP sRunJumpEndVelTable_4BC8C0[4] = 
-{ 
+const FP sRunJumpEndVelTable_4BC8C0[4] =
+{
     FP_FromDouble(4.18),
     FP_FromDouble(4.14),
     FP_FromDouble(4.21),
@@ -2262,7 +2262,7 @@ __int16 Scrab::Brain_Fighting_45C370()
                 }
                 field_FE_next_state = eScrabStates::State_20_HowlBegin_45FA60;
                 return 7;
-              
+
             }
             else
             {
@@ -3522,7 +3522,7 @@ __int16 Scrab::Brain_Patrol_460020()
             field_118_timer = gnFrameCount_507670 + 30;
             return 7;
         }
-        
+
         field_FE_next_state = GetMotionForPatrolType(field_116_patrol_type);
         return 4;
 
@@ -3954,8 +3954,8 @@ __int16 Scrab::HandleRunning()
 
     if (pStopper)
     {
-        if (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 && field_120_pTarget->field_A8_xpos < field_A8_xpos ||
-            pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 && field_120_pTarget->field_A8_xpos > field_A8_xpos ||
+        if ((pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 && field_120_pTarget->field_A8_xpos < field_A8_xpos) ||
+            (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 && field_120_pTarget->field_A8_xpos > field_A8_xpos) ||
             pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Both_2)
         {
             if (!SwitchStates_Get(pStopper->field_1A_id))

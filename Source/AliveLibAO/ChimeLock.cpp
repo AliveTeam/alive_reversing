@@ -105,7 +105,7 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo)
 
     field_140_targetY = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 40);
     field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 40);
-   
+
     field_B8_vely = FP_FromInteger(0);
 
     field_13C_targetX = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
@@ -235,7 +235,7 @@ __int16 ChimeLock::DoNote_40BB20(__int16 note)
         return 0;
     }
 
-    if (!field_130_song_matching && !sVoiceCheat_507708 || (field_124_code1 / dword_4C5054[field_120_max_idx]) != note)
+    if ((!field_130_song_matching && !sVoiceCheat_507708) || (field_124_code1 / dword_4C5054[field_120_max_idx]) != note)
     {
         field_128_idx = 0;
         return 0;
@@ -508,7 +508,7 @@ void ChimeLock::VUpdate_40AEF0()
                 field_136_unpossession_timer = 30;
                 field_110_state = ChimeLockStates::eUnPossessing_3;
                 field_134_pressed = Input().Pressed();
-                
+
                 field_164_ChimeLock_num[0] = BellPositions::eNone_0;
                 field_164_ChimeLock_num[1] = BellPositions::eNone_0;
 
