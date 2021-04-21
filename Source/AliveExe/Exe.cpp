@@ -142,14 +142,17 @@ static bool FileExists(const char* fileName)
 
 
 
-static bool CheckRequiredGameFilesExist(GameType gameType)
+static bool CheckRequiredGameFilesExist(GameType gameType, bool showError)
 {
     if (gameType == GameType::eAe)
     {
         if (!FileExists("st.lvl") || !FileExists("mi.lvl"))
         {
-            SDL_Init(SDL_INIT_EVENTS);
-            Alive_Show_ErrorMsg("Abes Exoddus cant start because st.lvl or mi.lvl was not found in the working directory. Copy relive files to the root game directory to fix this.");
+            if (showError)
+            {
+                SDL_Init(SDL_INIT_EVENTS);
+                Alive_Show_ErrorMsg("Abes Exoddus/Abes Oddysee cant start because st.lvl or mi.lvl was not found in the working directory. Copy relive files to the root game directory to fix this.");
+            }
             return false;
         }
         return true;
@@ -158,8 +161,11 @@ static bool CheckRequiredGameFilesExist(GameType gameType)
     {
         if (!FileExists("s1.lvl") || !FileExists("r1.lvl"))
         {
-            SDL_Init(SDL_INIT_EVENTS);
-            Alive_Show_ErrorMsg("Abes Oddysee cant start because s1.lvl or r1.lvl was not found in the working directory. Copy relive files to the root game directory to fix this.");
+            if (showError)
+            {
+                SDL_Init(SDL_INIT_EVENTS);
+                Alive_Show_ErrorMsg("Abes Oddysee/Abes Exoddus cant start because s1.lvl or r1.lvl was not found in the working directory. Copy relive files to the root game directory to fix this.");
+            }
             return false;
         }
         return true;
@@ -168,6 +174,23 @@ static bool CheckRequiredGameFilesExist(GameType gameType)
     {
         return false;
     }
+}
+
+static int AOMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+{
+    LOG_INFO("AO standalone starting...");
+    AO::Static_Inits_AO();
+    PopulateAutoSplitterVars(GameType::eAo);
+    return AO::WinMain_48EF50(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
+}
+
+static int AEMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+{
+    LOG_INFO("AE standalone starting...");
+    // In the real game these are called before main, but shouldn't really matter in this case
+    Static_Inits_AE();
+    PopulateAutoSplitterVars(GameType::eAe);
+    return WinMain_4EE631(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
 }
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
@@ -185,52 +208,40 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     hooker.Apply();
 #endif
 
-#ifdef AE_EXE
-    LOG_INFO("AE standalone starting...");
-    // In the real game these are called before main, but shouldn't really matter in this case
-    Static_Inits_AE();
-    PopulateAutoSplitterVars(GameType::eAe);
-    if (!CheckRequiredGameFilesExist(GameType::eAe))
-    {
-        return 1;
-    }
-    return WinMain_4EE631(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
-#elif AO_EXE
-    LOG_INFO("AO standalone starting...");
-    AO::Static_Inits_AO();
-    PopulateAutoSplitterVars(GameType::eAo);
-    if (!CheckRequiredGameFilesExist(GameType::eAo))
-    {
-        return 1;
-    }
-    return AO::WinMain_48EF50(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
-#else
     // Default to AE but allow switching to AO with a command line, if AO is anywhere in the command line then assume we want to run AO
-    if (strstr(lpCmdLine, "AO"))
+    GameType gameToRun = strstr(lpCmdLine, "AO") ? GameType::eAo : GameType::eAe;
+    if (gameToRun == GameType::eAo)
     {
-        LOG_INFO("AO standalone starting...");
-        AO::Static_Inits_AO();
-        PopulateAutoSplitterVars(GameType::eAo);
-        if (!CheckRequiredGameFilesExist(GameType::eAo))
+        LOG_INFO("Checking AO files are present...");
+        if (!CheckRequiredGameFilesExist(GameType::eAo, false))
         {
-            return 1;
+            gameToRun = GameType::eAe;
+            LOG_INFO("No AO files found, switch to AE");
         }
-        return AO::WinMain_48EF50(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
     }
     else
     {
-        LOG_INFO("AE standalone starting...");
-        // In the real game these are called before main, but shouldn't really matter in this case
-        Static_Inits_AE();
-        PopulateAutoSplitterVars(GameType::eAe);
-        if (!CheckRequiredGameFilesExist(GameType::eAe))
+        LOG_INFO("Checking AE files are present...");
+        if (!CheckRequiredGameFilesExist(GameType::eAe, false))
         {
-            return 1;
+            gameToRun = GameType::eAo;
+            LOG_INFO("No AO files found, switch to AO");
         }
-        return WinMain_4EE631(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
     }
-    return 0;
-#endif
+
+    if (!CheckRequiredGameFilesExist(gameToRun, true))
+    {
+        return 1;
+    }
+
+    if (gameToRun == GameType::eAo)
+    {
+        return AOMain(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
+    }
+    else
+    {
+        return AEMain(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
+    }
 }
 
 #if __ANDROID__
