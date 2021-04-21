@@ -1523,9 +1523,9 @@ void NakedSlig::M_Crawling_3_41B280()
             }
             else
             {
-                if ((field_C4_velx > FP_FromInteger(0) && sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eLeft)) ||
-                    (field_C4_velx < FP_FromInteger(0) && sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eRight)) ||
-                   !(sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eLeft | InputCommandsEnums::InputCommands::eRight)))
+                if ((field_C4_velx > FP_FromInteger(0) && sInputObject_5BD4E0.isPressed(InputCommands::Enum::eLeft)) ||
+                    (field_C4_velx < FP_FromInteger(0) && sInputObject_5BD4E0.isPressed(InputCommands::Enum::eRight)) ||
+                   !(sInputObject_5BD4E0.isPressed(InputCommands::Enum::eLeft | InputCommands::Enum::eRight)))
                 {
                     Set_AnimAndMotion_419890(15, TRUE);
                 }
@@ -1708,9 +1708,9 @@ void NakedSlig::M_PushingWall_10_41B400()
     if(BrainIs(&NakedSlig::AI_3_Possessed_41A5B0))
     {
         const bool flipX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX);
-        if ((!flipX && sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eLeft)) ||
-            (flipX && sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eRight)) ||
-            !(sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eLeft | InputCommandsEnums::InputCommands::eRight)))
+        if ((!flipX && sInputObject_5BD4E0.isPressed(InputCommands::Enum::eLeft)) ||
+            (flipX && sInputObject_5BD4E0.isPressed(InputCommands::Enum::eRight)) ||
+            !(sInputObject_5BD4E0.isPressed(InputCommands::Enum::eLeft | InputCommands::Enum::eRight)))
         {
             Set_AnimAndMotion_419890(NakedSligMotion::M_EndPushingWall_17_41B3A0, TRUE);
         }
@@ -1813,7 +1813,7 @@ void NakedSlig::HandleCommon_41C0B0()
 
     if (BrainIs(&NakedSlig::AI_3_Possessed_41A5B0) && field_208_brain_sub_state == 1)
     {
-        if (sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eRight))
+        if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eRight))
         {
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
@@ -1824,7 +1824,7 @@ void NakedSlig::HandleCommon_41C0B0()
                 field_108_next_motion = NakedSligMotion::M_Crawling_3_41B280;
             }
         }
-        else if (sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eLeft))
+        else if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eLeft))
         {
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
@@ -1835,7 +1835,7 @@ void NakedSlig::HandleCommon_41C0B0()
                 field_108_next_motion = NakedSligMotion::M_TurnAround_11_41B590;
             }
         }
-        else if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eUp))
+        else if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eUp))
         {
             field_1E4_pPantsOrWingsTlv = FindPantsOrWings_419750();
             if (field_1E4_pPantsOrWingsTlv)
@@ -1863,35 +1863,35 @@ void NakedSlig::HandleCommon_41C0B0()
                 }
             }
         }
-        if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eGameSpeak1))
+        if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eGameSpeak1))
         {
             field_1C0_speak = SligSpeak::eHi_0;
         }
-        else if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eGameSpeak3))
+        else if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eGameSpeak3))
         {
             field_1C0_speak = sInputObject_5BD4E0.Is_Demo_Playing_45F220() != 0 ? SligSpeak::eGetHim_2 : SligSpeak ::eFreeze_8;
         }
-        else if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eGameSpeak4))
+        else if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eGameSpeak4))
         {
             field_1C0_speak = sInputObject_5BD4E0.Is_Demo_Playing_45F220() != 0 ? SligSpeak ::eFreeze_8 : SligSpeak::eGetHim_2;
         }
-        else if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eGameSpeak2))
+        else if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eGameSpeak2))
         {
             field_1C0_speak = SligSpeak::eHereBoy_1;
         }
-        else if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eGameSpeak6))
+        else if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eGameSpeak6))
         {
             field_1C0_speak = SligSpeak::eBullshit_5;
         }
-        else if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eGameSpeak7))
+        else if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eGameSpeak7))
         {
             field_1C0_speak = SligSpeak::eLookOut_6;
         }
-        else if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eGameSpeak5))
+        else if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eGameSpeak5))
         {
             field_1C0_speak = SligSpeak::eBullshit2_7;
         }
-        else if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eGameSpeak8))
+        else if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eGameSpeak8))
         {
             field_1C0_speak = SligSpeak::eLaugh_3;
         }

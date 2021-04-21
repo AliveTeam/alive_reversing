@@ -919,15 +919,15 @@ void Slig::M_StandIdle_0_4B4EC0()
             {
                 const auto inputHeld = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
                 const auto gameSpeakCmds =
-                    InputCommandsEnums::InputCommands::eChant |
-                    InputCommandsEnums::InputCommands::eGameSpeak8 |
-                    InputCommandsEnums::InputCommands::eGameSpeak7 |
-                    InputCommandsEnums::InputCommands::eGameSpeak6 |
-                    InputCommandsEnums::InputCommands::eGameSpeak5 |
-                    InputCommandsEnums::InputCommands::eGameSpeak4 |
-                    InputCommandsEnums::InputCommands::eGameSpeak3 |
-                    InputCommandsEnums::InputCommands::eGameSpeak2 |
-                    InputCommandsEnums::InputCommands::eGameSpeak1;
+                    InputCommands::Enum::eChant |
+                    InputCommands::Enum::eGameSpeak8 |
+                    InputCommands::Enum::eGameSpeak7 |
+                    InputCommands::Enum::eGameSpeak6 |
+                    InputCommands::Enum::eGameSpeak5 |
+                    InputCommands::Enum::eGameSpeak4 |
+                    InputCommands::Enum::eGameSpeak3 |
+                    InputCommands::Enum::eGameSpeak2 |
+                    InputCommands::Enum::eGameSpeak1;
 
                 if (inputHeld & gameSpeakCmds)
                 {

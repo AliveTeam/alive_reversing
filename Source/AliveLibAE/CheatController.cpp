@@ -11,38 +11,38 @@ void CheatController_ForceLink() { }
 
 ALIVE_VAR(1, 0x5BC120, CheatController*, pCheatController_5BC120, nullptr);
 
-const InputCommandsEnums::InputCommands sCheatKeyArray_MovieSelect_5515C0[8] =
+const InputCommands::Enum sCheatKeyArray_MovieSelect_5515C0[8] =
 {
-    InputCommandsEnums::InputCommands::eUp,
-    InputCommandsEnums::InputCommands::eLeft,
-    InputCommandsEnums::InputCommands::eRight,
-    InputCommandsEnums::InputCommands::eLeft,
-    InputCommandsEnums::InputCommands::eRight,
-    InputCommandsEnums::InputCommands::eLeft,
-    InputCommandsEnums::InputCommands::eRight,
-    InputCommandsEnums::InputCommands::eDown
+    InputCommands::Enum::eUp,
+    InputCommands::Enum::eLeft,
+    InputCommands::Enum::eRight,
+    InputCommands::Enum::eLeft,
+    InputCommands::Enum::eRight,
+    InputCommands::Enum::eLeft,
+    InputCommands::Enum::eRight,
+    InputCommands::Enum::eDown
 };
 
-const InputCommandsEnums::InputCommands sCheatKeyArray_LevelSelect_5515D0[8] =
+const InputCommands::Enum sCheatKeyArray_LevelSelect_5515D0[8] =
 {
-    InputCommandsEnums::InputCommands::eDown,
-    InputCommandsEnums::InputCommands::eRight,
-    InputCommandsEnums::InputCommands::eLeft,
-    InputCommandsEnums::InputCommands::eRight,
-    InputCommandsEnums::InputCommands::eLeft,
-    InputCommandsEnums::InputCommands::eRight,
-    InputCommandsEnums::InputCommands::eLeft,
-    InputCommandsEnums::InputCommands::eUp
+    InputCommands::Enum::eDown,
+    InputCommands::Enum::eRight,
+    InputCommands::Enum::eLeft,
+    InputCommands::Enum::eRight,
+    InputCommands::Enum::eLeft,
+    InputCommands::Enum::eRight,
+    InputCommands::Enum::eLeft,
+    InputCommands::Enum::eUp
 };
 
-const InputCommandsEnums::InputCommands sCheatKeyArray_PathSkip_5515E8[6] =
+const InputCommands::Enum sCheatKeyArray_PathSkip_5515E8[6] =
 {
-    InputCommandsEnums::InputCommands::eLeft,
-    InputCommandsEnums::InputCommands::eRight,
-    InputCommandsEnums::InputCommands::eUp,
-    InputCommandsEnums::InputCommands::eDown,
-    InputCommandsEnums::InputCommands::eLeft,
-    InputCommandsEnums::InputCommands::eRight
+    InputCommands::Enum::eLeft,
+    InputCommands::Enum::eRight,
+    InputCommands::Enum::eUp,
+    InputCommands::Enum::eDown,
+    InputCommands::Enum::eLeft,
+    InputCommands::Enum::eRight
 };
 
 EXPORT void CC CheatController_Cheat_FMV_421AD0()
@@ -121,7 +121,7 @@ void CheatController::Update_421C70()
     if (held)
     {
         // Only do cheat code check if shift is held
-        if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & InputCommandsEnums::InputCommands::eRun)
+        if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & InputCommands::Enum::eRun)
         {
             for (auto& cheatEntry : sCheatArray_5515F8)
             {

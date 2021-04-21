@@ -89,47 +89,47 @@ void DDCheat::Menu_Teleport_415E20()
 
     field_20 += 6;
 
-    if (field_38_input_pressed & InputCommandsEnums::InputCommands::eGameSpeak1)
+    if (field_38_input_pressed & InputCommands::Enum::eGameSpeak1)
     {
         if (sTeleport_Level_550F5C)
             --sTeleport_Level_550F5C;
     }
-    else if (field_38_input_pressed & InputCommandsEnums::InputCommands::eGameSpeak2)
+    else if (field_38_input_pressed & InputCommands::Enum::eGameSpeak2)
     {
         if (sTeleport_Level_550F5C < static_cast<int>(LevelIds::eCredits_16))
         {
             ++sTeleport_Level_550F5C;
         }
     }
-    else if (field_38_input_pressed & InputCommandsEnums::InputCommands::eUp)
+    else if (field_38_input_pressed & InputCommands::Enum::eUp)
     {
         ++sTeleport_Path_550F5E;
     }
-    else if (field_38_input_pressed & InputCommandsEnums::InputCommands::eDown)
+    else if (field_38_input_pressed & InputCommands::Enum::eDown)
     {
         if (sTeleport_Path_550F5E > 1)
         {
             --sTeleport_Path_550F5E;
         }
     }
-    else if (field_38_input_pressed & InputCommandsEnums::InputCommands::eLeft)
+    else if (field_38_input_pressed & InputCommands::Enum::eLeft)
     {
         if (sTeleport_Cam_550F60 > 1)
         {
             --sTeleport_Cam_550F60;
         }
     }
-    else if (field_38_input_pressed & InputCommandsEnums::InputCommands::eRight)
+    else if (field_38_input_pressed & InputCommands::Enum::eRight)
     {
         ++sTeleport_Cam_550F60;
     }
-    else if (field_38_input_pressed & InputCommandsEnums::InputCommands::eSneak)
+    else if (field_38_input_pressed & InputCommands::Enum::eSneak)
     {
         sTeleport_Level_550F5C = static_cast<int>(gMap_5C3030.field_0_current_level);
         sTeleport_Path_550F5E = gMap_5C3030.field_2_current_path;
         sTeleport_Cam_550F60 = gMap_5C3030.field_4_current_camera;
     }
-    else if (field_38_input_pressed & InputCommandsEnums::InputCommands::eUnPause_OrConfirm)
+    else if (field_38_input_pressed & InputCommands::Enum::eUnPause_OrConfirm)
     {
         sDDCheat_FlyingEnabled_5C2C08 = true;
 
@@ -140,11 +140,11 @@ void DDCheat::Menu_Teleport_415E20()
 
 void DDCheat::Menu_Movies_416000()
 {
-    if (field_38_input_pressed & InputCommandsEnums::InputCommands::eLeft)
+    if (field_38_input_pressed & InputCommands::Enum::eLeft)
     {
         sDDCheat_MovieSelectIdx_5BBFF0--;
     }
-    else if (field_38_input_pressed & InputCommandsEnums::InputCommands::eRight)
+    else if (field_38_input_pressed & InputCommands::Enum::eRight)
     {
         sDDCheat_MovieSelectIdx_5BBFF0++;
     }
@@ -154,11 +154,11 @@ void DDCheat::Menu_Movies_416000()
         sDDCheat_MovieSelectIdx_5BBFF0 = 1;
     }
 
-    if (field_38_input_pressed & InputCommandsEnums::InputCommands::eDown)
+    if (field_38_input_pressed & InputCommands::Enum::eDown)
     {
         Path_Get_FMV_Record_460F70(gMap_5C3030.field_0_current_level, sDDCheat_MovieSelectIdx_5BBFF0)->field_4_id--;
     }
-    if (field_38_input_pressed & InputCommandsEnums::InputCommands::eUp)
+    if (field_38_input_pressed & InputCommands::Enum::eUp)
     {
         FmvInfo *movieToPlayInfo = Path_Get_FMV_Record_460F70(gMap_5C3030.field_0_current_level, sDDCheat_MovieSelectIdx_5BBFF0);
         DWORD pos = 0;
@@ -301,7 +301,7 @@ void DDCheat::Update_415780()
             }
         }
 
-        if ((gMap_5C3030.field_0_current_level != LevelIds::eMenu_0 && gMap_5C3030.field_0_current_level != LevelIds::eNone) && sActiveHero_5C1B68 && activePadPressed & InputCommandsEnums::InputCommands::eCheatMode)
+        if ((gMap_5C3030.field_0_current_level != LevelIds::eMenu_0 && gMap_5C3030.field_0_current_level != LevelIds::eNone) && sActiveHero_5C1B68 && activePadPressed & InputCommands::Enum::eCheatMode)
         {
             sDDCheat_FlyingEnabled_5C2C08 = !sDDCheat_FlyingEnabled_5C2C08;
             if (!sDDCheat_FlyingEnabled_5C2C08)
@@ -385,18 +385,18 @@ void DDCheat::Update_415780()
 
             if (sDDCheat_FlyingEnabled_5C2C08)
             {
-                if (activePadPressed & InputCommandsEnums::InputCommands::eDoAction)
+                if (activePadPressed & InputCommands::Enum::eDoAction)
                 {
                     sDDCheat_ShowAI_Info_5C1BD8 = !sDDCheat_ShowAI_Info_5C1BD8;
                 }
 
-                if ((activePadPressed & InputCommandsEnums::InputCommands::eThrowItem) != 0)
+                if ((activePadPressed & InputCommands::Enum::eThrowItem) != 0)
                 {
                     sPeakedManagedMemUsage_AB4A08 = sManagedMemoryUsedSize_AB4A04;
                     sDDCheat_Unused1_AB4A00 = sDDCheat_Unused2_AB49FC;
                 }
 
-                if (activePadPressed & InputCommandsEnums::InputCommands::eHop)
+                if (activePadPressed & InputCommands::Enum::eHop)
                 {
                     sDDCheat_AlwaysShow_5BC000 = !sDDCheat_AlwaysShow_5BC000;
                 }
@@ -431,36 +431,36 @@ void DDCheat::Update_415780()
             sDDCheat_DebugInputDelay_550FA8 = 10;
         }
 
-        if (field_38_input_pressed & InputCommandsEnums::InputCommands::ePause)
+        if (field_38_input_pressed & InputCommands::Enum::ePause)
         {
             field_3C_flags.Toggle(DDCheat::Flags_3C::e3C_Bit1);
         }
 
         if (field_3C_flags.Get(DDCheat::Flags_3C::e3C_Bit1))
         {
-            if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE == 0].field_0_pressed & InputCommandsEnums::InputCommands::eCheatMode)
+            if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE == 0].field_0_pressed & InputCommands::Enum::eCheatMode)
             {
                 field_24_fn_idx = 0;
             }
-            else if (field_38_input_pressed & InputCommandsEnums::InputCommands::eCheatMode)
+            else if (field_38_input_pressed & InputCommands::Enum::eCheatMode)
             {
                 field_3C_flags.Toggle(DDCheat::Flags_3C::e3C_Bit2);
                 field_26_next_fn_idx = field_24_fn_idx;
             }
 
             // Using hop instead looks like the only way to actually change the menu properly
-            if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE == 0].field_0_pressed & InputCommandsEnums::InputCommands::eHop /*field_3C_flags & 2*/)
+            if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE == 0].field_0_pressed & InputCommands::Enum::eHop /*field_3C_flags & 2*/)
             {
-                if (field_38_input_pressed & InputCommandsEnums::InputCommands::eDown)
+                if (field_38_input_pressed & InputCommands::Enum::eDown)
                 {
                     field_26_next_fn_idx++;
                 }
-                else if (field_38_input_pressed & InputCommandsEnums::InputCommands::eUp)
+                else if (field_38_input_pressed & InputCommands::Enum::eUp)
                 {
                     field_26_next_fn_idx--;
                 }
 
-                if (field_38_input_pressed & InputCommandsEnums::InputCommands::eUnPause_OrConfirm)
+                if (field_38_input_pressed & InputCommands::Enum::eUnPause_OrConfirm)
                 {
                     //field_24_fn_idx = field_26_next_fn_idx; TODO
                     field_3C_flags.Clear(DDCheat::Flags_3C::e3C_Bit2);

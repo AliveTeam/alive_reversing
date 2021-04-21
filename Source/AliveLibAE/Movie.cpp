@@ -15,7 +15,7 @@
 #include "VGA.hpp"
 
 // Inputs on the controller that can be used for aborting skippable movies
-const unsigned int MOVIE_SKIPPER_GAMEPAD_INPUTS = (InputCommandsEnums::InputCommands::eUnPause_OrConfirm | InputCommandsEnums::InputCommands::eBack | InputCommandsEnums::InputCommands::ePause);
+const unsigned int MOVIE_SKIPPER_GAMEPAD_INPUTS = (InputCommands::Enum::eUnPause_OrConfirm | InputCommands::Enum::eBack | InputCommands::Enum::ePause);
 
 ALIVE_VAR(1, 0x5ca208, SoundEntry, sDDV_SoundEntry_5CA208, {});
 

@@ -493,7 +493,7 @@ void MineCar::Stop_46E570()
     field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
 }
 
-void MineCar::Move_46E640(unsigned __int16 frameTabeOffset, FP velX, FP velY, InputCommandsEnums::InputCommands input, MineCarDirs turnDirection, char bChangeDirection)
+void MineCar::Move_46E640(unsigned __int16 frameTabeOffset, FP velX, FP velY, InputCommands::Enum input, MineCarDirs turnDirection, char bChangeDirection)
 {
     field_20_animation.Set_Animation_Data_409C80(frameTabeOffset, nullptr);
     field_11C_state = MineCarStates::eState_2_Moving;
@@ -1000,7 +1000,7 @@ void MineCar::State_1_ParkedWithAbe()
     field_C4_velx = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);
 
-    InputCommandsEnums::InputCommands inputKey = sInputKey_Right_5550D0;
+    InputCommands::Enum inputKey = sInputKey_Right_5550D0;
 
     if ((sInputObject_5BD4E0.isPressed(inputKey) ||
         (sInputObject_5BD4E0.isPressed(field_1D4_previous_input) &&
@@ -1087,7 +1087,7 @@ void MineCar::State_1_ParkedWithAbe()
 
 bool MineCar::HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncArg1, const FP mineCarFPFuncArg2, const FP mineCarFPFuncArg3,
     unsigned short moveArgument1, MineCarDirs moveArgument2, const char bChangeDir, FP rayCast1, FP rayCast2, FP rayCast3, FP rayCast4, const int ModelMask1, const int ModelMask2,
-    FP velX, FP velY, InputCommandsEnums::InputCommands key, bool isVertical, bool verticalFlipXCond)
+    FP velX, FP velY, InputCommands::Enum key, bool isVertical, bool verticalFlipXCond)
 {
     PathLine* pPathLine = nullptr;
     FP hitX = {};
@@ -1147,7 +1147,7 @@ void MineCar::HandleUpDown()
     const FP velY = k5Scaled;
     const unsigned short frameTableOffset = 20836u;
 
-    InputCommandsEnums::InputCommands inputKey = sInputKey_Up_5550D8;
+    InputCommands::Enum inputKey = sInputKey_Up_5550D8;
 
     if (sInputObject_5BD4E0.isPressed(inputKey) || (sInputObject_5BD4E0.isPressed(field_1D4_previous_input) &&
         (unsigned __int16) field_1D6_continue_move_input == inputKey &&

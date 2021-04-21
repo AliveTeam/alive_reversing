@@ -668,7 +668,7 @@ public:
     void Update(PauseMenu* pm)
     {
         auto input = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
-        if (input & InputCommandsEnums::InputCommands::eDown)
+        if (input & InputCommands::Enum::eDown)
         {
             if (++index >= static_cast<int>(entries->size()))
             {
@@ -678,7 +678,7 @@ public:
 
             CompileEntries();
         }
-        else if (input & InputCommandsEnums::InputCommands::eUp)
+        else if (input & InputCommands::Enum::eUp)
         {
             if (--index < 0)
             {
@@ -688,12 +688,12 @@ public:
 
             CompileEntries();
         }
-        else if (input & InputCommandsEnums::InputCommands::eBack)
+        else if (input & InputCommands::Enum::eBack)
         {
             SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
             GoBack(pm);
         }
-        else if (input & InputCommandsEnums::InputCommands::eUnPause_OrConfirm)
+        else if (input & InputCommands::Enum::eUnPause_OrConfirm)
         {
             (*entries)[index].callback(this);
             SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
@@ -1008,7 +1008,7 @@ ALIVE_ARY(1, 0x55E398, char, 2, sArrowStr_55E398, { kArrowChar, 0 });
 
 void PauseMenu::Page_Main_Update_4903E0()
 {
-    if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eDown))
+    if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eDown))
     {
         if (++field_134_index_main > MainPages::ePage_Quit_7)
         {
@@ -1017,7 +1017,7 @@ void PauseMenu::Page_Main_Update_4903E0()
         SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
     }
 
-    if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eUp))
+    if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eUp))
     {
         if (--field_134_index_main < MainPages::ePage_Continue_0)
         {
@@ -1028,13 +1028,13 @@ void PauseMenu::Page_Main_Update_4903E0()
 
     field_144_active_menu.field_C_selected_index = field_134_index_main;
 
-    if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eBack))
+    if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eBack))
     {
         word12C_flags &= ~1u;
         SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
         GetSoundAPI().SND_Restart();
     }
-    else if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eUnPause_OrConfirm))
+    else if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eUnPause_OrConfirm))
     {
         switch (field_134_index_main)
         {
@@ -1121,7 +1121,7 @@ void PauseMenu::Page_Main_Update_4903E0()
 
 void PauseMenu::Page_ControlsActions_Update_48FA60()
 {
-    if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eBack))
+    if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eBack))
     {
         field_136_unused = 0;
         field_144_active_menu = sPM_Page_Main_5465B0;
@@ -1148,7 +1148,7 @@ void PauseMenu::Page_ControlsActions_Update_48FA60()
 
 void PauseMenu::Page_ReallyQuit_Update_490930()
 {
-    if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eBack))
+    if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eBack))
     {
         field_136_unused = 0;
         field_144_active_menu = sPM_Page_Main_5465B0;
@@ -1207,14 +1207,14 @@ void PauseMenu::Page_Save_Update_491210()
     }
     else if (field_13C_save_state == SaveState::SaveConfirmOverwrite_8)
     {
-        if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eUnPause_OrConfirm))
+        if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eUnPause_OrConfirm))
         {
             // Enter - do the save and don't return to the confirm overwrite
             SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
             field_13C_save_state = SaveState::DoSave_4;
             bWriteSaveFile_5C937C = true;
         }
-        else if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eBack))
+        else if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eBack))
         {
             // Escape - cancel save
             SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
@@ -1368,7 +1368,7 @@ void PauseMenu::Page_Load_Update_490D50()
     const DWORD inputHeld = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
 
     // Up one save
-    if (inputHeld & InputCommandsEnums::InputCommands::eUp)
+    if (inputHeld & InputCommands::Enum::eUp)
     {
         // Don't underflow
         if (sSavedGameToLoadIdx_BB43FC > 0)
@@ -1380,7 +1380,7 @@ void PauseMenu::Page_Load_Update_490D50()
     }
 
     // Down one save
-    if (inputHeld & InputCommandsEnums::InputCommands::eDown)
+    if (inputHeld & InputCommands::Enum::eDown)
     {
         // Don't overflow
         if (sSavedGameToLoadIdx_BB43FC < sTotalSaveFilesCount_BB43E0 - 1)
@@ -1420,7 +1420,7 @@ void PauseMenu::Page_Load_Update_490D50()
     }
 
     // Load save (enter)
-    if (inputHeld & InputCommandsEnums::InputCommands::eUnPause_OrConfirm)
+    if (inputHeld & InputCommands::Enum::eUnPause_OrConfirm)
     {
         field_136_unused = 0;
         memcpy(&field_144_active_menu, &sPM_Page_Main_5465B0, sizeof(field_144_active_menu));
@@ -1443,7 +1443,7 @@ void PauseMenu::Page_Load_Update_490D50()
         }
     }
     // Go back (esc)
-    else if (inputHeld & InputCommandsEnums::InputCommands::eBack)
+    else if (inputHeld & InputCommands::Enum::eBack)
     {
         field_136_unused = 0;
         memcpy(&field_144_active_menu, &sPM_Page_Main_5465B0, sizeof(field_144_active_menu));
@@ -1561,7 +1561,7 @@ void PauseMenu::Update_48FD80()
         }
     }
 
-    if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & InputCommandsEnums::InputCommands::ePause)
+    if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & InputCommands::Enum::ePause)
     {
         if (pHero->field_10C_health > FP_FromInteger(0)
             && !(pHero->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))

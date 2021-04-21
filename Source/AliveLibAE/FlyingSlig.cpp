@@ -2593,12 +2593,12 @@ void FlyingSlig::HandlePlayerControls_439340()
     field_184_xSpeed = FP_FromInteger(0);
     field_188_ySpeed = FP_FromInteger(0);
 
-    if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eThrowItem))
+    if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eThrowItem))
     {
         field_17E_flags.Set(Flags_17E::eBit5_Throw);
     }
 
-    if (sInputObject_5BD4E0.isHeld(InputCommandsEnums::InputCommands::eDoAction))
+    if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eDoAction))
     {
         field_17E_flags.Set(Flags_17E::eBit7_DoAction);
     }
@@ -2649,15 +2649,15 @@ void FlyingSlig::HandlePlayerControls_439340()
         }
     }
 
-    if (sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eUp))
+    if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eUp))
     {
-        if (sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eLeft))
+        if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eLeft))
         {
             field_184_xSpeed = (-field_2B8_max_speed_up * FP_FromDouble(0.707));
             field_188_ySpeed = (-field_2B8_max_speed_up * FP_FromDouble(0.707));
             return;
         }
-        if (sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eRight))
+        if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eRight))
         {
             field_184_xSpeed = (field_2B8_max_speed_up * FP_FromDouble(0.707));
             field_188_ySpeed = (-field_2B8_max_speed_up * FP_FromDouble(0.707));
@@ -2666,14 +2666,14 @@ void FlyingSlig::HandlePlayerControls_439340()
         field_184_xSpeed = FP_FromInteger(0);
         field_188_ySpeed = -field_2B8_max_speed_up;
     }
-    else if (sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eDown))
+    else if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eDown))
     {
-        if (sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eLeft))
+        if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eLeft))
         {
             field_184_xSpeed = (-field_2B8_max_speed_up * FP_FromDouble(0.707));
             field_188_ySpeed = (field_2B8_max_speed_up * FP_FromDouble(0.707));
         }
-        else if (sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eRight))
+        else if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eRight))
         {
             field_184_xSpeed = (field_2B8_max_speed_up * FP_FromDouble(0.707));
             field_188_ySpeed = (field_2B8_max_speed_up * FP_FromDouble(0.707));
@@ -2684,12 +2684,12 @@ void FlyingSlig::HandlePlayerControls_439340()
             field_188_ySpeed = field_2B8_max_speed_up;
         }
     }
-    else if (sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eLeft))
+    else if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eLeft))
     {
         field_188_ySpeed = FP_FromInteger(0);
         field_184_xSpeed = -field_2B8_max_speed_up;
     }
-    else if (sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eRight))
+    else if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eRight))
     {
         field_188_ySpeed = FP_FromInteger(0);
         field_184_xSpeed = field_2B8_max_speed_up;

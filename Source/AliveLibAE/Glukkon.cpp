@@ -474,7 +474,7 @@ void Glukkon::M_Walk_1_442D30()
                     SetAnim_43F9C0(eGlukkonMotions::M_WalkToJump_18_443A00);
                 }
             }
-            else if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & InputCommandsEnums::InputCommands::eRun)
+            else if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & InputCommands::Enum::eRun)
             {
                 SetAnim_43F9C0(eGlukkonMotions::M_WalkToJump_18_443A00, TRUE);
             }
@@ -513,9 +513,9 @@ void Glukkon::M_Walk_1_442D30()
             }
             else
             {
-                if ((field_C4_velx > FP_FromInteger(0) && (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & InputCommandsEnums::InputCommands::eLeft)) ||
-                    (field_C4_velx < FP_FromInteger(0) && (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & InputCommandsEnums::InputCommands::eRight)) ||
-                    !(sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & (InputCommandsEnums::InputCommands::eLeft | InputCommandsEnums::InputCommands::eRight)))
+                if ((field_C4_velx > FP_FromInteger(0) && (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & InputCommands::Enum::eLeft)) ||
+                    (field_C4_velx < FP_FromInteger(0) && (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & InputCommands::Enum::eRight)) ||
+                    !(sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & (InputCommands::Enum::eLeft | InputCommands::Enum::eRight)))
                 {
                     if (field_20_animation.field_92_current_frame == 8)
                     {
@@ -719,21 +719,21 @@ void Glukkon::JumpHelper()
     {
         const auto input_pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
 
-        if ((field_C4_velx > FP_FromInteger(0) && (input_pressed & InputCommandsEnums::InputCommands::eLeft)) ||
-            (field_C4_velx < FP_FromInteger(0) && (input_pressed & InputCommandsEnums::InputCommands::eRight)))
+        if ((field_C4_velx > FP_FromInteger(0) && (input_pressed & InputCommands::Enum::eLeft)) ||
+            (field_C4_velx < FP_FromInteger(0) && (input_pressed & InputCommands::Enum::eRight)))
         {
             // Direction changed
             SetAnim_43F9C0(eGlukkonMotions::M_JumpToStand_17_4439D0, TRUE);
         }
-        else if (input_pressed & (InputCommandsEnums::InputCommands::eLeft | InputCommandsEnums::InputCommands::eRight))
+        else if (input_pressed & (InputCommands::Enum::eLeft | InputCommands::Enum::eRight))
         {
-            if (!(input_pressed & InputCommandsEnums::InputCommands::eRun))
+            if (!(input_pressed & InputCommands::Enum::eRun))
             {
                 // Still moving but not running, so start walking
                 SetAnim_43F9C0(eGlukkonMotions::M_JumpToWalk_19_443A30, TRUE);
             }
         }
-        else if (!(input_pressed & InputCommandsEnums::InputCommands::eHop))
+        else if (!(input_pressed & InputCommands::Enum::eHop))
         {
             // Not changing direction or trying to move at all, back to standing
             SetAnim_43F9C0(eGlukkonMotions::M_JumpToStand_17_4439D0, TRUE);
@@ -2365,49 +2365,49 @@ void Glukkon::HandleInput_443BB0()
     {
         const auto inputHeld = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
         const auto matchButtons =
-            InputCommandsEnums::InputCommands::eGameSpeak1 |
-            InputCommandsEnums::InputCommands::eGameSpeak2 |
-            InputCommandsEnums::InputCommands::eGameSpeak3 |
-            InputCommandsEnums::InputCommands::eGameSpeak4 |
-            InputCommandsEnums::InputCommands::eGameSpeak5 |
-            InputCommandsEnums::InputCommands::eGameSpeak6 |
-            InputCommandsEnums::InputCommands::eGameSpeak7 |
-            InputCommandsEnums::InputCommands::eGameSpeak8 |
-            InputCommandsEnums::InputCommands::eChant;
+            InputCommands::Enum::eGameSpeak1 |
+            InputCommands::Enum::eGameSpeak2 |
+            InputCommands::Enum::eGameSpeak3 |
+            InputCommands::Enum::eGameSpeak4 |
+            InputCommands::Enum::eGameSpeak5 |
+            InputCommands::Enum::eGameSpeak6 |
+            InputCommands::Enum::eGameSpeak7 |
+            InputCommands::Enum::eGameSpeak8 |
+            InputCommands::Enum::eChant;
 
         if (inputHeld & matchButtons)
         {
             field_1EA_speak = GlukkonSpeak::None;
 
-            if (inputHeld & InputCommandsEnums::InputCommands::eGameSpeak1)
+            if (inputHeld & InputCommands::Enum::eGameSpeak1)
             {
                 field_1EA_speak = GlukkonSpeak::Hey_0;
             }
-            else if (inputHeld & InputCommandsEnums::InputCommands::eGameSpeak2)
+            else if (inputHeld & InputCommands::Enum::eGameSpeak2)
             {
                 field_1EA_speak = GlukkonSpeak::Commere_3;
             }
-            else if (inputHeld & InputCommandsEnums::InputCommands::eGameSpeak3)
+            else if (inputHeld & InputCommands::Enum::eGameSpeak3)
             {
                 field_1EA_speak = GlukkonSpeak::StayHere_2;
             }
-            else if (inputHeld & InputCommandsEnums::InputCommands::eGameSpeak4)
+            else if (inputHeld & InputCommands::Enum::eGameSpeak4)
             {
                 field_1EA_speak = GlukkonSpeak::DoIt_1;
             }
-            else if (inputHeld & InputCommandsEnums::InputCommands::eGameSpeak5)
+            else if (inputHeld & InputCommands::Enum::eGameSpeak5)
             {
                 field_1EA_speak = GlukkonSpeak::KillEm_8;
             }
-            else if (inputHeld & InputCommandsEnums::InputCommands::eGameSpeak7)
+            else if (inputHeld & InputCommands::Enum::eGameSpeak7)
             {
                 field_1EA_speak = GlukkonSpeak::Help_6;
             }
-            else if (inputHeld & InputCommandsEnums::InputCommands::eGameSpeak8)
+            else if (inputHeld & InputCommands::Enum::eGameSpeak8)
             {
                 field_1EA_speak = GlukkonSpeak::Laugh_7;
             }
-            else if (inputHeld & InputCommandsEnums::InputCommands::eGameSpeak6)
+            else if (inputHeld & InputCommands::Enum::eGameSpeak6)
             {
                 field_1EA_speak = GlukkonSpeak::AllOYa_4;
             }
@@ -2420,7 +2420,7 @@ void Glukkon::HandleInput_443BB0()
         else
         {
             const auto inputPressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
-            if (inputPressed & InputCommandsEnums::InputCommands::eRight)
+            if (inputPressed & InputCommands::Enum::eRight)
             {
                 if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                 {
@@ -2431,7 +2431,7 @@ void Glukkon::HandleInput_443BB0()
                     field_108_next_motion = eGlukkonMotions::M_BeginWalk_14_443950;
                 }
             }
-            else if (inputPressed & InputCommandsEnums::InputCommands::eLeft)
+            else if (inputPressed & InputCommands::Enum::eLeft)
             {
                 if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                 {
@@ -2443,7 +2443,7 @@ void Glukkon::HandleInput_443BB0()
                 }
             }
 
-            if (inputPressed & InputCommandsEnums::InputCommands::eRun)
+            if (inputPressed & InputCommands::Enum::eRun)
             {
                 if (field_108_next_motion == eGlukkonMotions::M_Walk_1_442D30)
                 {
@@ -2451,7 +2451,7 @@ void Glukkon::HandleInput_443BB0()
                 }
             }
 
-            if (inputPressed & InputCommandsEnums::InputCommands::eHop)
+            if (inputPressed & InputCommands::Enum::eHop)
             {
                 field_108_next_motion = eGlukkonMotions::M_Jump_4_443030;
             }

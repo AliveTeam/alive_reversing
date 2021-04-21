@@ -691,13 +691,13 @@ void Scrab::vUpdate_4A3530()
                 // Handle DDCheat mode
                 field_100_pCollisionLine = nullptr;
 
-                if (sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eUp | InputCommandsEnums::InputCommands::eDown | InputCommandsEnums::InputCommands::eLeft | InputCommandsEnums::InputCommands::eRight))
+                if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eUp | InputCommands::Enum::eDown | InputCommands::Enum::eLeft | InputCommands::Enum::eRight))
                 {
                     // TODO: InputCommand constants
                     field_C4_velx = velx_input_entries_546D84[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
                     field_C8_vely = vely_input_entries_546DA4[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
 
-                    if (sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eRun))
+                    if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eRun))
                     {
                         field_C4_velx += velx_input_entries_546D84[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
                         field_C4_velx += velx_input_entries_546D84[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
@@ -2088,7 +2088,7 @@ void Scrab::M_Stand_0_4A8220()
             return;
         }
 
-        if (sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eThrowItem | InputCommandsEnums::InputCommands::eDoAction) && field_178_shred_power_active)
+        if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eThrowItem | InputCommands::Enum::eDoAction) && field_178_shred_power_active)
         {
             field_106_current_motion = eScrabMotions::M_AttackSpin_32_4A8DC0;
             field_108_next_motion = -1;
@@ -2096,7 +2096,7 @@ void Scrab::M_Stand_0_4A8220()
             return;
         }
 
-        if (sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eThrowItem | InputCommandsEnums::InputCommands::eDoAction))
+        if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eThrowItem | InputCommands::Enum::eDoAction))
         {
             field_106_current_motion = eScrabMotions::M_Stamp_21_4A9CC0;
             field_108_next_motion = -1;
@@ -2219,9 +2219,9 @@ void Scrab::M_Walk_1_4A84D0()
         }
         else
         {
-            if ((field_C4_velx > FP_FromInteger(0) && sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eLeft)) ||
-                (field_C4_velx < FP_FromInteger(0) && sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eRight)) ||
-                !sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eRight | InputCommandsEnums::InputCommands::eLeft))
+            if ((field_C4_velx > FP_FromInteger(0) && sInputObject_5BD4E0.isPressed(InputCommands::Enum::eLeft)) ||
+                (field_C4_velx < FP_FromInteger(0) && sInputObject_5BD4E0.isPressed(InputCommands::Enum::eRight)) ||
+                !sInputObject_5BD4E0.isPressed(InputCommands::Enum::eRight | InputCommands::Enum::eLeft))
             {
                 field_106_current_motion = eScrabMotions::M_WalkToStand_11_4A8880;
             }
@@ -2244,7 +2244,7 @@ void Scrab::M_Walk_1_4A84D0()
             return;
         }
 
-        if (sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eThrowItem | InputCommandsEnums::InputCommands::eDoAction) && field_178_shred_power_active)
+        if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eThrowItem | InputCommands::Enum::eDoAction) && field_178_shred_power_active)
         {
             field_106_current_motion = eScrabMotions::M_AttackSpin_32_4A8DC0;
             field_12C_timer = sGnFrame_5C1B84 + field_174_whirl_attack_duration;
@@ -2253,7 +2253,7 @@ void Scrab::M_Walk_1_4A84D0()
             return;
         }
 
-        if (sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eRun))
+        if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eRun))
         {
             field_106_current_motion = eScrabMotions::M_WalkToRun_16_4A8D60;
             field_108_next_motion = -1;
@@ -2261,7 +2261,7 @@ void Scrab::M_Walk_1_4A84D0()
             return;
         }
 
-        if (sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eHop))
+        if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eHop))
         {
             field_106_current_motion = eScrabMotions::M_HopBegin_5_4A96C0;
             field_108_next_motion = -1;
@@ -3285,7 +3285,7 @@ void Scrab::M_AttackSpin_32_4A8DC0()
     }
     else
     {
-        if (sInputObject_5BD4E0.isPressed(InputCommandsEnums::InputCommands::eThrowItem | InputCommandsEnums::InputCommands::eDoAction))
+        if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eThrowItem | InputCommands::Enum::eDoAction))
         {
             if (!sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4 | sInputKey_Right_5550D0))
             {

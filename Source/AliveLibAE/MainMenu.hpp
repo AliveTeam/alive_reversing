@@ -309,7 +309,7 @@ public:
 
     static MainMenuController * gMainMenuController;
 private:
-    MainMenuNextCam HandleGameSpeakInput(DWORD input_held, std::function<MainMenuNextCam(InputCommandsEnums::InputCommands cmd)> fnOnGameSpeak);
+    MainMenuNextCam HandleGameSpeakInput(DWORD input_held, std::function<MainMenuNextCam(InputCommands::Enum cmd)> fnOnGameSpeak);
 
     void HandleCreditsControllerUpdate();
     void HandleMainMenuUpdate();

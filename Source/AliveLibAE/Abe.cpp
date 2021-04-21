@@ -1441,7 +1441,7 @@ void Abe::Update_449DC0()
         field_106_current_motion = eAbeStates::jState_85_Fall_455070;
         field_100_pCollisionLine = nullptr;
 
-        if (Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & (InputCommandsEnums::InputCommands::eRight | InputCommandsEnums::InputCommands::eLeft | InputCommandsEnums::InputCommands::eDown | InputCommandsEnums::InputCommands::eUp))
+        if (Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & (InputCommands::Enum::eRight | InputCommands::Enum::eLeft | InputCommands::Enum::eDown | InputCommands::Enum::eUp))
         {
             field_C4_velx = sAbe_xVel_table_545770[(unsigned __int8)Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
             field_C8_vely = sAbe_yVel_table_545790[(unsigned __int8)Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
@@ -3060,7 +3060,7 @@ void Abe::State_0_Idle_44EEB0()
 
     // Go to game speak state.
     const DWORD held = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
-    if (held & (InputCommandsEnums::InputCommands::eChant | InputCommandsEnums::InputCommands::eGameSpeak8 | InputCommandsEnums::InputCommands::eGameSpeak7 | InputCommandsEnums::InputCommands::eGameSpeak6 | InputCommandsEnums::InputCommands::eGameSpeak5 | InputCommandsEnums::InputCommands::eGameSpeak4 | InputCommandsEnums::InputCommands::eGameSpeak3 | InputCommandsEnums::InputCommands::eGameSpeak2 | InputCommandsEnums::InputCommands::eGameSpeak1))
+    if (held & (InputCommands::Enum::eChant | InputCommands::Enum::eGameSpeak8 | InputCommands::Enum::eGameSpeak7 | InputCommands::Enum::eGameSpeak6 | InputCommands::Enum::eGameSpeak5 | InputCommands::Enum::eGameSpeak4 | InputCommands::Enum::eGameSpeak3 | InputCommands::Enum::eGameSpeak2 | InputCommands::Enum::eGameSpeak1))
     {
         field_118_prev_held = held;
         field_106_current_motion = eAbeStates::State_11_Speak_45B0A0;
@@ -4203,7 +4203,7 @@ void Abe::State_16_LandSoft_45A360()
             field_106_current_motion = eAbeStates::State_112_Chant_45B1C0;
         }
 
-        if (Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & (InputCommandsEnums::InputCommands::eRight | InputCommandsEnums::InputCommands::eLeft))
+        if (Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & (InputCommands::Enum::eRight | InputCommands::Enum::eLeft))
         {
             ToLeftRightMovement_44E340();
         }
@@ -4365,7 +4365,7 @@ void Abe::State_18_CrouchToStand_454600()
 {
     if (field_20_animation.field_92_current_frame == 3)
     {
-        if (Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & (InputCommandsEnums::InputCommands::eRight | InputCommandsEnums::InputCommands::eLeft))
+        if (Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & (InputCommands::Enum::eRight | InputCommands::Enum::eLeft))
         {
             ToLeftRightMovement_44E340();
         }
