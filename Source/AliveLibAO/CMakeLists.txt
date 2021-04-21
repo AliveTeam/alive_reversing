@@ -320,8 +320,6 @@ SET(AliveLibSrcAO
    Layer.hpp
 )
 
-ADD_MSVC_PRECOMPILED_HEADER(stdafx_ao.h stdafx_ao.cpp AliveLibSrcAO)
-
 add_library(AliveLibAO ${AliveLibSrcAO})
 
 target_include_directories(AliveLibAO PUBLIC
@@ -356,12 +354,7 @@ target_compile_features(AliveLibAO
     PRIVATE cxx_variadic_templates)
 
 if (MINGW)
-    if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-        set(WIN32_LIBS "imm32")
-    else()
-        set(WIN32_LIBS "")
-    endif()
-
+    set(WIN32_LIBS "imm32")
     set(AE_LIB AliveLibAE)
 else()
     if (WIN32)

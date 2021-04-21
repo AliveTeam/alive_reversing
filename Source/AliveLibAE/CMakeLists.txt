@@ -384,8 +384,6 @@ SET(AliveLibAESrc
     Layer.hpp
 )
 
-ADD_MSVC_PRECOMPILED_HEADER(stdafx.h stdafx.cpp AliveLibAESrc)
-
 add_library(AliveLibAE ${AliveLibAESrc})
 
 target_include_directories(AliveLibAE PUBLIC
@@ -415,11 +413,7 @@ target_compile_features(AliveLibAE
     PRIVATE cxx_variadic_templates)
 
 if (MINGW)
-    if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-        set(WIN32_LIBS "imm32")
-    else()
-        set(WIN32_LIBS "")
-    endif()
+    set(WIN32_LIBS "imm32")
 else()
     if (WIN32)
         set(WIN32_LIBS

@@ -27,8 +27,6 @@ SET(AliveLibSrcCommon
     W32CrashHandler.hpp
 )
 
-ADD_MSVC_PRECOMPILED_HEADER(stdafx_common.h stdafx_common.cpp AliveLibSrcCommon)
-
 add_library(AliveLibCommon ${AliveLibSrcCommon})
 
 target_include_directories(AliveLibCommon PUBLIC

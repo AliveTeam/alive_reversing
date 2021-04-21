@@ -43,23 +43,6 @@ endif()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-MACRO(ADD_MSVC_PRECOMPILED_HEADER PrecompiledHeader PrecompiledSource SourcesVar)
-  IF(MSVC)
-    GET_FILENAME_COMPONENT(PrecompiledBasename ${PrecompiledHeader} NAME_WE)
-    SET(PrecompiledBinary "${CMAKE_BINARY_DIR}/${PrecompiledBasename}.pch")
-    SET(Sources ${${SourcesVar}})
-
-    SET_SOURCE_FILES_PROPERTIES(${PrecompiledSource}
-                                PROPERTIES COMPILE_FLAGS "/Yc\"${PrecompiledHeader}\" /Fp\"${PrecompiledBinary}\""
-                                           OBJECT_OUTPUTS "${PrecompiledBinary}")
-    SET_SOURCE_FILES_PROPERTIES(${Sources}
-                                PROPERTIES COMPILE_FLAGS "/Yu\"${PrecompiledHeader}\" /FI\"${PrecompiledHeader}\" /Fp\"${PrecompiledBinary}\""
-                                           OBJECT_DEPENDS "${PrecompiledBinary}")
-    # Add precompiled header to SourcesVar
-    LIST(APPEND ${SourcesVar} ${PrecompiledSource})
-  ENDIF(MSVC)
-ENDMACRO(ADD_MSVC_PRECOMPILED_HEADER)
-
 enable_testing()
 
 if (NOT DEFINED ENV{AE_ROOT})
@@ -85,28 +68,36 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/alive_api)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/assets)
 
+# -----------------------------------------------------------------------------
 # Setup cross-platform PCH
-if(NOT MSVC)
-    target_precompile_headers(
-        AliveLibCommon PRIVATE
-        "${CMAKE_CURRENT_SOURCE_DIR}/Source/AliveLibCommon/pch_shared.h"
-    )
 
-    target_precompile_headers(AliveLibAE REUSE_FROM AliveLibCommon)
-    target_precompile_headers(AliveExe REUSE_FROM AliveLibCommon)
-    target_precompile_headers(AliveExeAE REUSE_FROM AliveLibCommon)
+# AE needs its own PCH that can be reused from `AliveLibCommon`, because they
+# both define the same values for `BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE`,
+# `BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS`, and `_CRT_SECURE_NO_WARNINGS'
+target_precompile_headers(
+    AliveLibCommon PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/AliveLibCommon/pch_shared.h"
+)
 
-    # AO needs its own PCH because of different `BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE`
-    # defines with `AliveLibCommon`
-    target_precompile_headers(
-        AliveLibAO PRIVATE
-        "${CMAKE_CURRENT_SOURCE_DIR}/Source/AliveLibCommon/pch_shared.h"
-    )
+target_precompile_headers(AliveLibAE REUSE_FROM AliveLibCommon)
 
-    target_precompile_headers(AliveExeAO REUSE_FROM AliveLibAO)
-    # `vab_tool`, `alive_api`, and `alive_api_test` targets cannot make use of PCH
-    # due to `CMAKE_CXX_EXTENSIONS` being set to `OFF`
+# AO needs its own PCH because of different `BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE`
+# and `BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS` defines with `AliveLibCommon`
+target_precompile_headers(
+    AliveLibAO PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/AliveLibCommon/pch_shared.h"
+)
+
+target_precompile_headers(AliveExeAO     REUSE_FROM AliveLibAO)
+target_precompile_headers(alive_api      REUSE_FROM AliveLibAO)
+target_precompile_headers(alive_api_test REUSE_FROM AliveLibAO)
+target_precompile_headers(AliveExe       REUSE_FROM AliveLibAO)
+target_precompile_headers(AliveExeAE     REUSE_FROM AliveLibAO)
+
+if(WIN32)
+    target_precompile_headers(vab_tool REUSE_FROM AliveLibAO)
 endif()
+# -----------------------------------------------------------------------------
 
 if (WIN32 AND NOT MINGW)
     add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveDllAE)
