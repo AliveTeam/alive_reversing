@@ -1431,19 +1431,17 @@ EXPORT void CC MIDI_ADSR_Update_4FDCE0()
                 }
                 [[fallthrough]];
             case 4:
-                if (timeDiff1 > 15000)
-                {
-                    pChannel->field_1C_adsr.field_3_state = 4;
-                    pChannel->field_14_time = gSpuVars->sMidiTime();
-                    timeDiff1 = 0;
-                    timeDiffSquared = 0;
-                    pChannel->field_C_vol = pChannel->field_8_left_vol;
-                    [[fallthrough]];
-                }
-                else
+                if (timeDiff1 <= 15000)
                 {
                     break;
                 }
+                    
+                pChannel->field_1C_adsr.field_3_state = 4;
+                pChannel->field_14_time = gSpuVars->sMidiTime();
+                timeDiff1 = 0;
+                timeDiffSquared = 0;
+                pChannel->field_C_vol = pChannel->field_8_left_vol;
+                [[fallthrough]];
             case 5:
                 if (timeDiff1 >= pChannel->field_1C_adsr.field_A_release)
                 {
