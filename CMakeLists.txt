@@ -63,7 +63,7 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/3rdParty)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveLibCommon)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveLibAO)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveLibAE)
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveExe)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/relive)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/alive_api)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/assets)
@@ -78,7 +78,7 @@ set_target_properties(imgui         PROPERTIES UNITY_BUILD ON)
 set_target_properties(AliveLibCommon PROPERTIES UNITY_BUILD ON)
 set_target_properties(AliveLibAE     PROPERTIES UNITY_BUILD ON)
 set_target_properties(AliveLibAO     PROPERTIES UNITY_BUILD ON)
-set_target_properties(AliveExe       PROPERTIES UNITY_BUILD ON)
+set_target_properties(relive       PROPERTIES UNITY_BUILD ON)
 
 set_target_properties(alive_api      PROPERTIES UNITY_BUILD OFF) # too big
 set_target_properties(alive_api_test PROPERTIES UNITY_BUILD OFF) # too big
@@ -106,7 +106,7 @@ target_precompile_headers(
 )
 
 target_precompile_headers(alive_api_test REUSE_FROM AliveLibAO)
-target_precompile_headers(AliveExe       REUSE_FROM AliveLibAO)
+target_precompile_headers(relive       REUSE_FROM AliveLibAO)
 
 # 'alive_api' needs its own PCH because of different `_CRT_SECURE_NO_WARNINGS`
 # and defines with the rest
@@ -137,10 +137,10 @@ SET(CPACK_DEBIAN_PACKAGE_HOMEPAGE "https://aliveteam.github.io/")
 SET(CPACK_DEBIAN_PACKAGE_DEPENDS "libsdl2-2.0-0, zenity")
 
 # bash is required to run install hooks
-set(CPACK_RPM_ALIVEEXE_REQUIRES_PRE "bash")
+set(CPACK_RPM_RELIVE_REQUIRES_PRE "bash")
 
 # package name
-set(CPACK_RPM_ALIVEEXE_PACKAGE_NAME "relive")
+set(CPACK_RPM_RELIVE_PACKAGE_NAME "relive")
 
 set(CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION
   /usr/share/applications

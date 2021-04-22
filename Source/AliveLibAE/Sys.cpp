@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include "Input.hpp"
 #include <assert.h>
-#include "../AliveExe/resource.h"
+#include "../relive/resource.h"
 
 #include "PsxRender.hpp"
 #include "Sound/Sound.hpp"
