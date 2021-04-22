@@ -1362,6 +1362,8 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
                 {
                     buttons = pButtons;
 
+                    unsigned int shoulderButtonsPressedCount = 0; // Added for chanting with any shoulder button combo
+
                     for (int i = 0; i < 10; i++)
                     {
                         if (sGamePadBindings_5C98E0[i] & InputCommands::Enum::eSpeak1)
@@ -1370,6 +1372,7 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
                             {
                                 pressed_keyboard_keys = keys_down;
                                 input_command_c_pressed = 1;
+                                ++shoulderButtonsPressedCount; // Added for L1 chanting
                             }
                         }
 
@@ -1379,13 +1382,34 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
                             {
                                 pressed_keyboard_keys = keys_down;
                                 input_command_delete_pressed = 1;
+                                ++shoulderButtonsPressedCount; // Added for L2 chanting
+                            }
+                        }
+
+                        if (sGamePadBindings_5C98E0[i] & InputCommands::Enum::eRun) // Added for R1 chanting
+                        {
+                            if ((1 << i) & pButtons)
+                            {
+                                ++shoulderButtonsPressedCount;
+                            }
+                        }
+
+                        if (sGamePadBindings_5C98E0[i] & InputCommands::Enum::eSneak) // Added for R2 chanting
+                        {
+                            if ((1 << i) & pButtons)
+                            {
+                                ++shoulderButtonsPressedCount;
                             }
                         }
                     }
 
-                    if (input_command_c_pressed)
+                    if (shoulderButtonsPressedCount > 1) // Added functionality for PC - chant with any shoulder button combo
                     {
-                        if (input_command_delete_pressed)
+                        pressed_keyboard_keys |= InputCommands::Enum::eChant;
+                    }
+                    else if (input_command_c_pressed)
+                    {
+                        if (input_command_delete_pressed) // Old way of chanting on PC - no longer called - kept for preservation
                         {
                             pressed_keyboard_keys |= InputCommands::Enum::eChant;
                         }
