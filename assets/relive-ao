@@ -4,7 +4,7 @@
 AODIR="$HOME/.local/share/Steam/steamapps/common/Oddworld Abes Oddysee"
 if test -d "$AODIR"; then
   cd "$AODIR"
-  AliveExeAO
+  relive
   exit
 fi
 
@@ -19,7 +19,7 @@ FILE="$CONFIG/install_folder"
 if test -f "$FILE"; then
   read -r path < "$FILE"
   cd "$path"
-  AliveExeAO
+  relive
 else
   zenity --info --no-wrap --text="R.E.L.I.V.E. can't find the install directory of Abe's Oddysee.\nPlease select the folder containing the .lvl files."
   path="$(zenity --file-selection --directory --title='Select install folder')"
@@ -38,5 +38,5 @@ else
 
   echo "$path" > "$FILE"
   cd "$path"
-  AliveExeAO
+  relive
 fi
