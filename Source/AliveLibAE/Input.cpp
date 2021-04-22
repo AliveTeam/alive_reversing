@@ -1264,6 +1264,24 @@ ALIVE_VAR(1, 0x5c9f74, DWORD, sPrevious_down_keyboard_keys_5C9F74, 0);
 ALIVE_VAR(1, 0x5c9f78, DWORD, dword_5C9F78, 0);
 ALIVE_VAR(1, 0x5c9794, int, sKeyboardBindings_5C9794, 0);
 
+bool IsChantingAnyShoulderButton(int shoulderButtonsPressedCount)
+{
+    if (shoulderButtonsPressedCount > 1)
+    {
+        return true;
+    }
+    return false;
+}
+
+bool IsChanting(char input_command_c_pressed, char input_command_delete_pressed)
+{
+    if (input_command_c_pressed && input_command_delete_pressed)
+    {
+        return true;
+    }
+    return false;
+}
+
 // Temp Hax. Todo: fix up
 EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
 {
@@ -1362,7 +1380,7 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
                 {
                     buttons = pButtons;
 
-                    unsigned int shoulderButtonsPressedCount = 0; // Added for chanting with any shoulder button combo
+                    int shoulderButtonsPressedCount = 0;
 
                     for (int i = 0; i < 10; i++)
                     {
@@ -1372,7 +1390,7 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
                             {
                                 pressed_keyboard_keys = keys_down;
                                 input_command_c_pressed = 1;
-                                ++shoulderButtonsPressedCount; // Added for L1 chanting
+                                ++shoulderButtonsPressedCount;
                             }
                         }
 
@@ -1382,11 +1400,11 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
                             {
                                 pressed_keyboard_keys = keys_down;
                                 input_command_delete_pressed = 1;
-                                ++shoulderButtonsPressedCount; // Added for L2 chanting
+                                ++shoulderButtonsPressedCount;
                             }
                         }
 
-                        if (sGamePadBindings_5C98E0[i] & InputCommands::Enum::eRun) // Added for R1 chanting
+                        if (sGamePadBindings_5C98E0[i] & InputCommands::Enum::eRun)
                         {
                             if ((1 << i) & pButtons)
                             {
@@ -1394,7 +1412,7 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
                             }
                         }
 
-                        if (sGamePadBindings_5C98E0[i] & InputCommands::Enum::eSneak) // Added for R2 chanting
+                        if (sGamePadBindings_5C98E0[i] & InputCommands::Enum::eSneak)
                         {
                             if ((1 << i) & pButtons)
                             {
@@ -1403,37 +1421,34 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
                         }
                     }
 
-                    if (shoulderButtonsPressedCount > 1) // Added functionality for PC - chant with any shoulder button combo
+                    // OG Change - chant with any shoulder button combo
+                    bool isChanting = IsChantingAnyShoulderButton(shoulderButtonsPressedCount);
+                    // Original Method: IsChanting(input_command_c_pressed, input_command_delete_pressed);
+
+                    if (isChanting)
                     {
                         pressed_keyboard_keys |= InputCommands::Enum::eChant;
                     }
                     else if (input_command_c_pressed)
                     {
-                        if (input_command_delete_pressed) // Old way of chanting on PC - no longer called - kept for preservation
+                        if (pButtons & InputCommands::Enum::eUp)
                         {
-                            pressed_keyboard_keys |= InputCommands::Enum::eChant;
+                            pressed_keyboard_keys |= InputCommands::Enum::eGameSpeak2;
                         }
-                        else
+                        if (pButtons & InputCommands::Enum::eDown)
                         {
-                            if (pButtons & InputCommands::Enum::eUp)
-                            {
-                                pressed_keyboard_keys |= InputCommands::Enum::eGameSpeak2;
-                            }
-                            if (pButtons & InputCommands::Enum::eDown)
-                            {
-                                pressed_keyboard_keys |= InputCommands::Enum::eGameSpeak3;
-                            }
-                            if (pButtons & InputCommands::Enum::eLeft)
-                            {
-                                pressed_keyboard_keys |= InputCommands::Enum::eGameSpeak4;
-                            }
-                            if (pButtons & InputCommands::Enum::eRight)
-                            {
-                                pressed_keyboard_keys |= InputCommands::Enum::eGameSpeak1;
-                            }
-                            buttons = pButtons & ~(InputCommands::Enum::eRight | InputCommands::Enum::eLeft | InputCommands::Enum::eDown | InputCommands::Enum::eUp);
-                            pButtons &= ~(InputCommands::Enum::eRight | InputCommands::Enum::eLeft | InputCommands::Enum::eDown | InputCommands::Enum::eUp);
+                            pressed_keyboard_keys |= InputCommands::Enum::eGameSpeak3;
                         }
+                        if (pButtons & InputCommands::Enum::eLeft)
+                        {
+                            pressed_keyboard_keys |= InputCommands::Enum::eGameSpeak4;
+                        }
+                        if (pButtons & InputCommands::Enum::eRight)
+                        {
+                            pressed_keyboard_keys |= InputCommands::Enum::eGameSpeak1;
+                        }
+                        buttons = pButtons & ~(InputCommands::Enum::eRight | InputCommands::Enum::eLeft | InputCommands::Enum::eDown | InputCommands::Enum::eUp);
+                        pButtons &= ~(InputCommands::Enum::eRight | InputCommands::Enum::eLeft | InputCommands::Enum::eDown | InputCommands::Enum::eUp);
                     }
                     else if (input_command_delete_pressed)
                     {
