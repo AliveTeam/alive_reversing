@@ -136,4 +136,16 @@ SET(CPACK_PACKAGE_CONTACT "nemin@oddwords.hu")
 SET(CPACK_DEBIAN_PACKAGE_HOMEPAGE "https://aliveteam.github.io/")
 SET(CPACK_DEBIAN_PACKAGE_DEPENDS "libsdl2-2.0-0, zenity")
 
+# bash is required to run install hooks
+set(CPACK_RPM_ALIVEEXE_REQUIRES_PRE "bash")
+
+# package name
+set(CPACK_RPM_ALIVEEXE_PACKAGE_NAME "relive")
+
+set(CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION
+  /usr/share/applications
+  /usr/share/pixmaps
+  /usr/include/GL
+)
+
 INCLUDE(CPack)
