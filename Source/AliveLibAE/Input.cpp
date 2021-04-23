@@ -1397,12 +1397,20 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
                         }
 
                         if (sGamePadBindings_5C98E0[i] & InputCommands::Enum::eRun)
+                        {
                             if ((1 << i) & pButtons)
+                            {
                                 ++shoulderButtonsPressedCount;
+                            }
+                        }
 
                         if (sGamePadBindings_5C98E0[i] & InputCommands::Enum::eSneak)
+                        {
                             if ((1 << i) & pButtons)
+                            {
                                 ++shoulderButtonsPressedCount;
+                            }
+                        }
                     }
 
                     // OG Change - chant with any shoulder button combo
