@@ -1264,15 +1264,17 @@ ALIVE_VAR(1, 0x5c9f74, DWORD, sPrevious_down_keyboard_keys_5C9F74, 0);
 ALIVE_VAR(1, 0x5c9f78, DWORD, dword_5C9F78, 0);
 ALIVE_VAR(1, 0x5c9794, int, sKeyboardBindings_5C9794, 0);
 
+#if ORIGINAL_PS1_BEHAVIOR
 static bool IsChantingAnyShoulderButton(int shoulderButtonsPressedCount)
 {
     return (shoulderButtonsPressedCount > 1);
 }
-
+#else
 static bool IsChanting(char input_command_c_pressed, char input_command_delete_pressed)
 {
     return (input_command_c_pressed && input_command_delete_pressed);
 }
+#endif
 
 // Temp Hax. Todo: fix up
 EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
@@ -1414,9 +1416,12 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
                     }
 
                     // OG Change - chant with any shoulder button combo
+
+#if ORIGINAL_PS1_BEHAVIOR
                     const bool isChanting = IsChantingAnyShoulderButton(shoulderButtonsPressedCount);
-                    // Original Method:
-                    IsChanting(input_command_c_pressed, input_command_delete_pressed);
+#else
+                    const bool isChanting = IsChanting(input_command_c_pressed, input_command_delete_pressed);
+#endif
 
                     if (isChanting)
                     {
