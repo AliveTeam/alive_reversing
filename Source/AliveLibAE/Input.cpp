@@ -1374,7 +1374,6 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
 
                     int shoulderButtonsPressedCount = 0;
 
-
                     for (int i = 0; i < 10; i++)
                     {
                         if (sGamePadBindings_5C98E0[i] & InputCommands::Enum::eSpeak1)
@@ -1416,7 +1415,8 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
 
                     // OG Change - chant with any shoulder button combo
                     const bool isChanting = IsChantingAnyShoulderButton(shoulderButtonsPressedCount);
-                    // Original Method: IsChanting(input_command_c_pressed, input_command_delete_pressed);
+                    // Original Method:
+                    IsChanting(input_command_c_pressed, input_command_delete_pressed);
 
                     if (isChanting)
                     {
