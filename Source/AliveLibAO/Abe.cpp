@@ -1972,7 +1972,17 @@ short Abe::DoGameSpeak_42F5C0(unsigned __int16 input)
         return eAbeStates::State_150_Chant_42FD50;
     }
 
-    if (Input().IsAnyPressed(sInputKey_LeftGameSpeakEnabler_4C65B8))
+    // OG Change - Faster check for GameSpeak
+
+#if ORIGINAL_PS1_BEHAVIOR
+    const bool leftGameSpeakPressed = (input & eLeftGamespeak);
+    const bool rightGameSpeakPressed = (input & eRightGameSpeak);
+#else
+    const bool leftGameSpeakPressed = Input().IsAnyPressed(sInputKey_LeftGameSpeakEnabler_4C65B8);
+    const bool rightGameSpeakPressed = Input().IsAnyPressed(sInputKey_RightGameSpeakEnabler_4C65DC);
+#endif
+
+    if (leftGameSpeakPressed)
     {
         if (input & sInputKey_GameSpeak2_4C65BC)
         {
@@ -2016,7 +2026,7 @@ short Abe::DoGameSpeak_42F5C0(unsigned __int16 input)
         }
     }
 
-    if (Input().IsAnyPressed(sInputKey_RightGameSpeakEnabler_4C65DC))
+    if (rightGameSpeakPressed)
     {
         if (input & sInputKey_GameSpeak6_4C65E8)
         {
