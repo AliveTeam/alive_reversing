@@ -1264,6 +1264,18 @@ ALIVE_VAR(1, 0x5c9f74, DWORD, sPrevious_down_keyboard_keys_5C9F74, 0);
 ALIVE_VAR(1, 0x5c9f78, DWORD, dword_5C9F78, 0);
 ALIVE_VAR(1, 0x5c9794, int, sKeyboardBindings_5C9794, 0);
 
+#if ORIGINAL_PS1_BEHAVIOR
+static bool IsChantingAnyShoulderButton(int shoulderButtonsPressedCount)
+{
+    return (shoulderButtonsPressedCount > 1);
+}
+#else
+static bool IsChanting(char input_command_c_pressed, char input_command_delete_pressed)
+{
+    return (input_command_c_pressed && input_command_delete_pressed);
+}
+#endif
+
 // Temp Hax. Todo: fix up
 EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
 {
@@ -1362,6 +1374,8 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
                 {
                     buttons = pButtons;
 
+                    int shoulderButtonsPressedCount = 0;
+
                     for (int i = 0; i < 10; i++)
                     {
                         if (sGamePadBindings_5C98E0[i] & InputCommands::Enum::eSpeak1)
@@ -1370,6 +1384,7 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
                             {
                                 pressed_keyboard_keys = keys_down;
                                 input_command_c_pressed = 1;
+                                ++shoulderButtonsPressedCount;
                             }
                         }
 
@@ -1379,37 +1394,59 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
                             {
                                 pressed_keyboard_keys = keys_down;
                                 input_command_delete_pressed = 1;
+                                ++shoulderButtonsPressedCount;
+                            }
+                        }
+
+                        if (sGamePadBindings_5C98E0[i] & InputCommands::Enum::eRun)
+                        {
+                            if ((1 << i) & pButtons)
+                            {
+                                ++shoulderButtonsPressedCount;
+                            }
+                        }
+
+                        if (sGamePadBindings_5C98E0[i] & InputCommands::Enum::eSneak)
+                        {
+                            if ((1 << i) & pButtons)
+                            {
+                                ++shoulderButtonsPressedCount;
                             }
                         }
                     }
 
-                    if (input_command_c_pressed)
+                    // OG Change - chant with any shoulder button combo
+
+#if ORIGINAL_PS1_BEHAVIOR
+                    const bool isChanting = IsChantingAnyShoulderButton(shoulderButtonsPressedCount);
+#else
+                    const bool isChanting = IsChanting(input_command_c_pressed, input_command_delete_pressed);
+#endif
+
+                    if (isChanting)
                     {
-                        if (input_command_delete_pressed)
+                        pressed_keyboard_keys |= InputCommands::Enum::eChant;
+                    }
+                    else if (input_command_c_pressed)
+                    {
+                        if (pButtons & InputCommands::Enum::eUp)
                         {
-                            pressed_keyboard_keys |= InputCommands::Enum::eChant;
+                            pressed_keyboard_keys |= InputCommands::Enum::eGameSpeak2;
                         }
-                        else
+                        if (pButtons & InputCommands::Enum::eDown)
                         {
-                            if (pButtons & InputCommands::Enum::eUp)
-                            {
-                                pressed_keyboard_keys |= InputCommands::Enum::eGameSpeak2;
-                            }
-                            if (pButtons & InputCommands::Enum::eDown)
-                            {
-                                pressed_keyboard_keys |= InputCommands::Enum::eGameSpeak3;
-                            }
-                            if (pButtons & InputCommands::Enum::eLeft)
-                            {
-                                pressed_keyboard_keys |= InputCommands::Enum::eGameSpeak4;
-                            }
-                            if (pButtons & InputCommands::Enum::eRight)
-                            {
-                                pressed_keyboard_keys |= InputCommands::Enum::eGameSpeak1;
-                            }
-                            buttons = pButtons & ~(InputCommands::Enum::eRight | InputCommands::Enum::eLeft | InputCommands::Enum::eDown | InputCommands::Enum::eUp);
-                            pButtons &= ~(InputCommands::Enum::eRight | InputCommands::Enum::eLeft | InputCommands::Enum::eDown | InputCommands::Enum::eUp);
+                            pressed_keyboard_keys |= InputCommands::Enum::eGameSpeak3;
                         }
+                        if (pButtons & InputCommands::Enum::eLeft)
+                        {
+                            pressed_keyboard_keys |= InputCommands::Enum::eGameSpeak4;
+                        }
+                        if (pButtons & InputCommands::Enum::eRight)
+                        {
+                            pressed_keyboard_keys |= InputCommands::Enum::eGameSpeak1;
+                        }
+                        buttons = pButtons & ~(InputCommands::Enum::eRight | InputCommands::Enum::eLeft | InputCommands::Enum::eDown | InputCommands::Enum::eUp);
+                        pButtons &= ~(InputCommands::Enum::eRight | InputCommands::Enum::eLeft | InputCommands::Enum::eDown | InputCommands::Enum::eUp);
                     }
                     else if (input_command_delete_pressed)
                     {
