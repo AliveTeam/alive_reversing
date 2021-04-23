@@ -1264,22 +1264,14 @@ ALIVE_VAR(1, 0x5c9f74, DWORD, sPrevious_down_keyboard_keys_5C9F74, 0);
 ALIVE_VAR(1, 0x5c9f78, DWORD, dword_5C9F78, 0);
 ALIVE_VAR(1, 0x5c9794, int, sKeyboardBindings_5C9794, 0);
 
-bool IsChantingAnyShoulderButton(int shoulderButtonsPressedCount)
+static bool IsChantingAnyShoulderButton(int shoulderButtonsPressedCount)
 {
-    if (shoulderButtonsPressedCount > 1)
-    {
-        return true;
-    }
-    return false;
+    return (shoulderButtonsPressedCount > 1);
 }
 
-bool IsChanting(char input_command_c_pressed, char input_command_delete_pressed)
+static bool IsChanting(char input_command_c_pressed, char input_command_delete_pressed)
 {
-    if (input_command_c_pressed && input_command_delete_pressed)
-    {
-        return true;
-    }
-    return false;
+    return (input_command_c_pressed && input_command_delete_pressed);
 }
 
 // Temp Hax. Todo: fix up
@@ -1382,6 +1374,7 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
 
                     int shoulderButtonsPressedCount = 0;
 
+
                     for (int i = 0; i < 10; i++)
                     {
                         if (sGamePadBindings_5C98E0[i] & InputCommands::Enum::eSpeak1)
@@ -1422,7 +1415,7 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
                     }
 
                     // OG Change - chant with any shoulder button combo
-                    bool isChanting = IsChantingAnyShoulderButton(shoulderButtonsPressedCount);
+                    const bool isChanting = IsChantingAnyShoulderButton(shoulderButtonsPressedCount);
                     // Original Method: IsChanting(input_command_c_pressed, input_command_delete_pressed);
 
                     if (isChanting)
