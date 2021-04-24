@@ -29,6 +29,15 @@ ALIVE_VAR(1, 0xBBB9EC, HINSTANCE, sInstance_BBB9EC, nullptr);
 ALIVE_VAR(1, 0xBBB9FC, int, sCmdShow_BBB9FC, 0);
 ALIVE_VAR(1, 0xBBFB04, TWindowHandleType, hWnd_BBFB04, nullptr);
 
+#if ORIGINAL_PS1_BEHAVIOR
+bool saveMenuOpen = false;
+
+EXPORT void setSaveMenuOpen(bool val)
+{
+    saveMenuOpen = val;
+}
+#endif
+
 EXPORT void CC Sys_Set_Hwnd_4F2C50(TWindowHandleType hwnd)
 {
     hWnd_BBFB04 = hwnd;
@@ -599,8 +608,12 @@ static int Sys_EventFilter(void* /*userData*/, SDL_Event* event)
 {
     if (event->type == SDL_KEYDOWN)
     {
-
-        if (!Input_GetInputEnabled_4EDDE0())
+#if ORIGINAL_PS1_BEHAVIOR // OG Change - Allow for exiting save menu using controller
+        const bool allowTyping = saveMenuOpen; // Allow typing if save menu is open
+#else
+        const bool allowTyping = !Input_GetInputEnabled_4EDDE0(); // Old method: Allow typing only if all other inputs disabled
+#endif
+        if (allowTyping)
         {
             // "Typing" input
             const int vk = sdl_key_to_win32_vkey(event->key.keysym.scancode);

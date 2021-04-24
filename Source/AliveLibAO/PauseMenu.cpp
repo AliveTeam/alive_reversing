@@ -17,6 +17,10 @@
 #include "Sys.hpp"
 #include "Map.hpp"
 
+#if ORIGINAL_PS1_BEHAVIOR
+#include "../AliveLibAE/Sys.hpp"
+#endif
+
 namespace AO {
 
 ALIVE_VAR(1, 0x5080E0, PauseMenu*, pPauseMenu_5080E0, nullptr);
@@ -329,7 +333,11 @@ void PauseMenu::VUpdate_44DFB0()
 
                                 const char aux[2] = { 18, 0 };
                                 strncat(&saveNameBuffer_5080C6.characters[2], aux, 19u);
+#if ORIGINAL_PS1_BEHAVIOR  // OG Change - Allow for exiting save menu using controller
+                                setSaveMenuOpen(true); // Sets saveMenuOpen bool to true, instead of disabling input
+#else
                                 Input_DisableInput_48E690();
+#endif
                                 break;
                             }
                             case Page1Selectables::eControls_2:
@@ -384,6 +392,24 @@ void PauseMenu::VUpdate_44DFB0()
 
                     auto last_pressed = Input_GetLastPressedKey_44F2C0();
                     char lastPressedKeyNT[2] = { last_pressed, 0 };
+
+#if ORIGINAL_PS1_BEHAVIOR // OG Change - Exit save menu using controller
+                    if (last_pressed == VK_ESCAPE || last_pressed == VK_RETURN) // Keyboard ESC or ENTER
+                    {
+                        setSaveMenuOpen(false);
+                    }
+                    else if (Input().IsAnyHeld(InputCommands::eBack)) // Triangle
+                    {
+                        last_pressed = VK_ESCAPE;
+                        setSaveMenuOpen(false);
+                    }
+                    else if (Input().IsAnyHeld(InputCommands::eUnPause_OrConfirm)) // Cross or Start
+                    {
+                        last_pressed = VK_RETURN;
+                        setSaveMenuOpen(false);
+                    }
+#endif
+
                     if (!last_pressed)
                     {
                         break;
