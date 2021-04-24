@@ -99,16 +99,17 @@ public:
 };
 
 enum class Game;
+class TypesCollection;
 
 class JsonReaderBase
 {
 public:
     MapInfo mRootInfo;
 protected:
-    std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> Load(Game gameType, const std::string& fileName);
+    std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> Load(Game gameType, TypesCollection& types, const std::string& fileName);
 
-    std::vector<AO::PathLine> ReadAOLines(jsonxx::Array& collisionsArray);
-    std::vector<::PathLine> ReadAELines(jsonxx::Array& collisionsArray);
+    std::vector<AO::PathLine> ReadAOLines(TypesCollection& types, jsonxx::Array& collisionsArray);
+    std::vector<::PathLine> ReadAELines(TypesCollection& types, jsonxx::Array& collisionsArray);
 };
 
 class JsonReaderAO : public JsonReaderBase
@@ -124,14 +125,13 @@ public:
     std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<::PathLine>> Load(const std::string& fileName);
 };
 
-class TypesCollection;
 
 class JsonWriterBase
 {
 public:
     virtual ~JsonWriterBase() { }
     JsonWriterBase(int pathId, const std::string& pathBndName, const PathInfo& info);
-    void Save(const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName);
+    void Save(Game gameType, const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName);
     virtual void DumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<BYTE>& pathResource) = 0;
 protected:
     virtual jsonxx::Array ReadCollisionStream(BYTE* ptr, int numItems) = 0;

@@ -55,7 +55,7 @@
 #include "../AliveLibAO/FootSwitch.hpp"
 #include "../AliveLibAO/Paramite.hpp"
 
-#define CTOR_AO(className, objectTypeName, tlvType) className() : TlvObjectBaseAO(tlvType, objectTypeName) {}  className(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO(tlvType, objectTypeName, pTlv)
+#define CTOR_AO(className, objectTypeName, tlvType) className() : TlvObjectBaseAO(tlvType, objectTypeName) {}  className(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO(globalTypes, tlvType, objectTypeName, pTlv)
 #define EMPTY_CTOR_AO() (void)globalTypes
 
 namespace AO
@@ -1097,8 +1097,8 @@ namespace AOTlvs
             ADD("id", mTlv.field_1A_id);
             ADD("code_1", mTlv.field_1C_code_1);
             ADD("code_2", mTlv.field_1E_code2);
-            ADD("xpos", mTlv.field_20_xpos);
-            ADD("ypos", mTlv.field_22_ypos);
+            ADD("door_xpos", mTlv.field_20_xpos);
+            ADD("door_ypos", mTlv.field_22_ypos);
         }
     };
 

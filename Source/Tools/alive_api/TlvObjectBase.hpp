@@ -22,50 +22,25 @@
 class BaseProperty;
 
 
-template< typename T >
+template<typename T>
 class TypedProperty : public BaseProperty
 {
 public:
-    TypedProperty(const std::string& name, const std::string& typeName, bool isVisibleToEditor, T* data) 
+    TypedProperty(const std::string& name, const std::string& typeName, bool isVisibleToEditor, T* data)
         : BaseProperty(name, typeName, isVisibleToEditor), m_data(data) { }
 
-    void Read(TlvObjectBase& tlvObjBase, TypesCollection& types, jsonxx::Object& properties) override;
+    void Read(PropertyCollection& propertyCollection, TypesCollection& types, jsonxx::Object& properties) override;
 
-    void Write(TlvObjectBase& tlvObjBase, TypesCollection& types, jsonxx::Object& properties) override;
+    void Write(PropertyCollection& propertyCollection, TypesCollection& types, jsonxx::Object& properties) override;
 
 private:
     T* m_data = nullptr;
 };
 
-class TlvObjectBase
+class PropertyCollection
 {
 public:
-    TlvObjectBase(const std::string& typeName)
-        : mStructTypeName(typeName)
-    {
-
-    }
-
-    virtual ~TlvObjectBase() {}
-
-
-    virtual void AddTypes(TypesCollection& /*types*/)
-    {
-        // Default empty to prevent having to explicitly implement in every TLV wrapper
-    }
-
-    virtual __int16 TlvLen() const = 0;
-    virtual std::vector<BYTE> GetTlvData(bool setTerminationFlag) = 0;
-
-    void SetInstanceNumber(int instanceNumber)
-    {
-        mInstanceNumber = instanceNumber;
-    }
-
-    std::string Name() const
-    {
-        return mStructTypeName;
-    }
+    virtual ~PropertyCollection() { }
 
     template<typename PropertyType>
     void AddProperty(const std::string& name, const std::string& typeName, PropertyType* key, bool visibleInEditor)
@@ -96,6 +71,16 @@ public:
         mProperties[key] = std::make_unique<TypedProperty<PropertyType>>(name, typeName, visibleInEditor, key);
     }
 
+    std::string PropType(void* key) const
+    {
+        auto it = mProperties.find(key);
+        if (it == std::end(mProperties))
+        {
+            abort();
+        }
+        return it->second->TypeName();
+    }
+
     jsonxx::Array PropertiesToJson() const
     {
         jsonxx::Array ret;
@@ -120,15 +105,6 @@ public:
         return it->second->Name();
     }
 
-    std::string PropType(void* key) const
-    {
-        auto it = mProperties.find(key);
-        if (it == std::end(mProperties))
-        {
-            abort();
-        }
-        return it->second->TypeName();
-    }
 
     template<class T>
     void ReadEnumValue(TypesCollection& types, T& field, jsonxx::Object& properties)
@@ -163,6 +139,40 @@ public:
         properties << PropName(&field) << static_cast<int>(field);
     }
 
+    void PropertiesFromJson(TypesCollection& types, jsonxx::Object& properties);
+    void PropertiesToJson(TypesCollection& types, jsonxx::Object& properties);
+
+protected:
+    std::map<void*, std::unique_ptr<BaseProperty>> mProperties;
+};
+
+class TlvObjectBase : public PropertyCollection
+{
+public:
+    TlvObjectBase(const std::string& typeName)
+        : mStructTypeName(typeName)
+    {
+
+    }
+
+    virtual void AddTypes(TypesCollection& /*types*/)
+    {
+        // Default empty to prevent having to explicitly implement in every TLV wrapper
+    }
+
+    virtual __int16 TlvLen() const = 0;
+    virtual std::vector<BYTE> GetTlvData(bool setTerminationFlag) = 0;
+
+    void SetInstanceNumber(int instanceNumber)
+    {
+        mInstanceNumber = instanceNumber;
+    }
+
+    std::string Name() const
+    {
+        return mStructTypeName;
+    }
+
     jsonxx::Object StructureToJson()
     {
         jsonxx::Object ret;
@@ -173,12 +183,10 @@ public:
 
     void InstanceFromJson(TypesCollection& types, jsonxx::Object& obj)
     {
-        InstanceFromJsonBase(obj);
         jsonxx::Object properties = obj.get<jsonxx::Object>("properties");
         PropertiesFromJson(types, properties);
+        InstanceFromJsonBase(obj);
     }
-
-    void PropertiesFromJson(TypesCollection& types, jsonxx::Object& properties);
 
     jsonxx::Object InstanceToJson(TypesCollection& types)
     {
@@ -188,10 +196,9 @@ public:
         jsonxx::Object properties;
         PropertiesToJson(types, properties);
         ret << "properties" << properties;
+
         return ret;
     }
-
-    void PropertiesToJson(TypesCollection& types, jsonxx::Object& properties);
 
     virtual void InstanceFromJsonBase(jsonxx::Object& obj) = 0;
     virtual void InstanceToJsonBase(jsonxx::Object& ret) = 0;
@@ -202,36 +209,35 @@ public:
     }
 
 protected:
-    std::map<void*, std::unique_ptr<BaseProperty>> mProperties;
     std::string mStructTypeName;
     int mInstanceNumber = 0;
 };
 
 template <class T>
-void TypedProperty<T>::Read(TlvObjectBase& tlvObjBase, TypesCollection& types, jsonxx::Object& properties)
+void TypedProperty<T>::Read(PropertyCollection& propertyCollection, TypesCollection& types, jsonxx::Object& properties)
 {
     if constexpr (std::is_enum<T>::value)
     {
-        tlvObjBase.ReadEnumValue(types, *m_data, properties);
+        propertyCollection.ReadEnumValue(types, *m_data, properties);
     }
     else
     {
-        (void)types; // not used in this code path (warning because other branch is removed at compile tile)
-        tlvObjBase.ReadBasicType(*m_data, properties);
+        propertyCollection.ReadBasicType(*m_data, properties);
+        (void)types; // statically compiled out in this branch
     }
 }
 
 template <class T>
-void TypedProperty<T>::Write(TlvObjectBase& tlvObjBase, TypesCollection& types, jsonxx::Object& properties)
+void TypedProperty<T>::Write(PropertyCollection& propertyCollection, TypesCollection& types, jsonxx::Object& properties)
 {
     if constexpr (std::is_enum<T>::value)
     {
-        tlvObjBase.WriteEnumValue(types, properties, *m_data);
+        propertyCollection.WriteEnumValue(types, properties, *m_data);
     }
     else
     {
-        (void)types; // not used in this branch as the other is removed at compile time
-        tlvObjBase.WriteBasicType(*m_data, properties);
+        propertyCollection.WriteBasicType(*m_data, properties);
+        (void)types; // statically compiled out in this branch
     }
 }
 
@@ -247,32 +253,12 @@ public:
 
     }
 
-    TlvObjectBaseAE(TlvTypes tlvType, const std::string& typeName, Path_TLV* pTlv)
+    TlvObjectBaseAE(TypesCollection& globalTypes, TlvTypes tlvType, const std::string& typeName, Path_TLV* pTlv)
         : TlvObjectBase(typeName), mType(tlvType)
     {
         mTlv.field_2_length = sizeof(T);
         mTlv.field_4_type.mType = mType;
         COPY_TLV();
-    }
-
-    void InstanceFromJsonBase(jsonxx::Object& obj) override
-    {
-        mStructTypeName = obj.get<std::string>("name");
-
-        mTlv.field_8_top_left.field_0_x = static_cast<short>(obj.get<jsonxx::Number>("xpos"));
-        mTlv.field_8_top_left.field_2_y = static_cast<short>(obj.get<jsonxx::Number>("ypos"));
-        mTlv.field_C_bottom_right.field_0_x = static_cast<short>(obj.get<jsonxx::Number>("width") + mTlv.field_8_top_left.field_0_x);
-        mTlv.field_C_bottom_right.field_2_y = static_cast<short>(obj.get<jsonxx::Number>("height") + mTlv.field_8_top_left.field_2_y);
-    }
-
-    void InstanceToJsonBase(jsonxx::Object& ret) override
-    {
-        ret << "name" << Name() + "_" + std::to_string(mInstanceNumber);
-
-        ret << "xpos" << static_cast<int>(mTlv.field_8_top_left.field_0_x);
-        ret << "ypos" << static_cast<int>(mTlv.field_8_top_left.field_2_y);
-        ret << "width" << static_cast<int>(mTlv.field_C_bottom_right.field_0_x - mTlv.field_8_top_left.field_0_x);
-        ret << "height" << static_cast<int>(mTlv.field_C_bottom_right.field_2_y - mTlv.field_8_top_left.field_2_y);
 
         if (mTlv.field_C_bottom_right.field_0_x - mTlv.field_8_top_left.field_0_x < 0 ||
             mTlv.field_C_bottom_right.field_2_y - mTlv.field_8_top_left.field_2_y < 0)
@@ -280,6 +266,27 @@ public:
             abort();
         }
 
+        ADD("xpos", mTlv.field_8_top_left.field_0_x);
+        ADD("ypos", mTlv.field_8_top_left.field_2_y);
+
+        mTlv.field_C_bottom_right.field_0_x -= mTlv.field_8_top_left.field_0_x;
+        mTlv.field_C_bottom_right.field_2_y -= mTlv.field_8_top_left.field_2_y;
+
+        ADD("width", mTlv.field_C_bottom_right.field_0_x);
+        ADD("height", mTlv.field_C_bottom_right.field_2_y);
+    }
+
+    void InstanceFromJsonBase(jsonxx::Object& obj) override
+    {
+        mStructTypeName = obj.get<std::string>("name");
+
+        mTlv.field_C_bottom_right.field_0_x += mTlv.field_8_top_left.field_0_x;
+        mTlv.field_C_bottom_right.field_2_y += mTlv.field_8_top_left.field_2_y;
+    }
+
+    void InstanceToJsonBase(jsonxx::Object& ret) override
+    {
+        ret << "name" << Name() + "_" + std::to_string(mInstanceNumber);
         ret << "object_structures_type" << Name();
     }
 
@@ -318,22 +325,35 @@ public:
 
     }
 
-    TlvObjectBaseAO(AO::TlvTypes tlvType, const std::string& typeName, AO::Path_TLV* pTlv)
+    TlvObjectBaseAO(TypesCollection& globalTypes, AO::TlvTypes tlvType, const std::string& typeName, AO::Path_TLV* pTlv)
         : TlvObjectBase(typeName), mType(tlvType), mBase(&mTlv)
     {
         mTlv.field_4_type.mType = mType;
         mTlv.field_2_length = sizeof(T);
         COPY_TLV();
+
+        if (mBase->field_14_bottom_right.field_0_x - mBase->field_10_top_left.field_0_x < 0 ||
+            mBase->field_14_bottom_right.field_2_y - mBase->field_10_top_left.field_2_y < 0)
+        {
+            abort();
+        }
+
+        ADD("xpos", mBase->field_10_top_left.field_0_x);
+        ADD("ypos", mBase->field_10_top_left.field_2_y);
+
+        mBase->field_14_bottom_right.field_0_x -= mBase->field_10_top_left.field_0_x;
+        mBase->field_14_bottom_right.field_2_y -= mBase->field_10_top_left.field_2_y;
+
+        ADD("width", mBase->field_14_bottom_right.field_0_x);
+        ADD("height", mBase->field_14_bottom_right.field_2_y);
     }
 
     void InstanceFromJsonBase(jsonxx::Object& obj) override
     {
         mStructTypeName = obj.get<std::string>("name");
 
-        mBase->field_10_top_left.field_0_x = static_cast<short>(obj.get<jsonxx::Number>("xpos"));
-        mBase->field_10_top_left.field_2_y = static_cast<short>(obj.get<jsonxx::Number>("ypos"));
-        mBase->field_14_bottom_right.field_0_x = static_cast<short>(obj.get<jsonxx::Number>("width") + mBase->field_10_top_left.field_0_x);
-        mBase->field_14_bottom_right.field_2_y = static_cast<short>(obj.get<jsonxx::Number>("height") + mBase->field_10_top_left.field_2_y);
+        mBase->field_14_bottom_right.field_0_x += mBase->field_10_top_left.field_0_x;
+        mBase->field_14_bottom_right.field_2_y += mBase->field_10_top_left.field_2_y;
 
         mBase->field_C_sound_pos.field_0_x = mBase->field_10_top_left.field_0_x;
         mBase->field_C_sound_pos.field_2_y = mBase->field_10_top_left.field_2_y;
@@ -342,18 +362,6 @@ public:
     void InstanceToJsonBase(jsonxx::Object& ret) override
     {
         ret << "name" << Name() + "_" + std::to_string(mInstanceNumber);
-
-        ret << "xpos" << static_cast<int>(mBase->field_10_top_left.field_0_x);
-        ret << "ypos" << static_cast<int>(mBase->field_10_top_left.field_2_y);
-        ret << "width" << static_cast<int>(mBase->field_14_bottom_right.field_0_x - mBase->field_10_top_left.field_0_x);
-        ret << "height" << static_cast<int>(mBase->field_14_bottom_right.field_2_y - mBase->field_10_top_left.field_2_y);
-
-        if (mBase->field_14_bottom_right.field_0_x - mBase->field_10_top_left.field_0_x < 0 ||
-            mBase->field_14_bottom_right.field_2_y - mBase->field_10_top_left.field_2_y < 0)
-        {
-            abort();
-        }
-
         ret << "object_structures_type" << Name();
     }
 

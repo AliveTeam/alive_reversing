@@ -11,110 +11,89 @@
 #include <streambuf>
 #include <magic_enum/include/magic_enum.hpp>
 
-
-static jsonxx::Object AOLineToJsonObject(const AO::PathLine& line)
+class AOLine : public PropertyCollection
 {
-    jsonxx::Object obj;
+public:
+    AOLine(TypesCollection& globalTypes, const AO::PathLine* line = nullptr)
+    {
+        if (line)
+        {
+            mLine = *line;
+        }
 
-    obj << "x1" << static_cast<int>(line.field_0_rect.x);
-    obj << "y1" << static_cast<int>(line.field_0_rect.y);
+        ADD("x1", mLine.field_0_rect.x);
+        ADD("y1", mLine.field_0_rect.y);
 
-    obj << "x2" << static_cast<int>(line.field_0_rect.w);
-    obj << "y2" << static_cast<int>(line.field_0_rect.h);
+        ADD("x2", mLine.field_0_rect.w);
+        ADD("y2", mLine.field_0_rect.h);
 
-    obj << "type" << static_cast<int>(line.field_8_type);
+        ADD("type", mLine.field_8_type);
 
-    obj << "next" << line.field_10_next;
-    obj << "previous" << line.field_C_previous;
+        ADD("next", mLine.field_10_next);
+        ADD("previous", mLine.field_C_previous);
+    }
 
-    return obj;
-}
+    AO::PathLine mLine = {};
+};
 
-static AO::PathLine JsonObjectToAOLine(jsonxx::Object& collision)
+class AELine : public PropertyCollection
 {
-    AO::PathLine col = {};
-    col.field_0_rect.x = static_cast<short>(collision.get<jsonxx::Number>("x1"));
-    col.field_0_rect.y = static_cast<short>(collision.get<jsonxx::Number>("y1"));
+public:
+    AELine(TypesCollection& globalTypes, const PathLine* line = nullptr)
+    {
+        if (line)
+        {
+            mLine = *line;
+        }
 
-    col.field_0_rect.w = static_cast<short>(collision.get<jsonxx::Number>("x2"));
-    col.field_0_rect.h = static_cast<short>(collision.get<jsonxx::Number>("y2"));
+        ADD("x1", mLine.field_0_rect.x);
+        ADD("y1", mLine.field_0_rect.y);
 
-    col.field_8_type = static_cast<BYTE>(collision.get<jsonxx::Number>("type"));
-    col.field_10_next = static_cast<short>(collision.get<jsonxx::Number>("next"));
-    col.field_C_previous = static_cast<short>(collision.get<jsonxx::Number>("previous"));
+        ADD("x2", mLine.field_0_rect.w);
+        ADD("y2", mLine.field_0_rect.h);
 
-    return col;
-}
+        ADD("type", mLine.field_8_type);
 
-static jsonxx::Object AELineToJsonObject(const PathLine& line)
-{
-    jsonxx::Object obj;
+        ADD("next", mLine.field_C_next);
+        ADD("previous", mLine.field_A_previous);
 
-    obj << "x1" << static_cast<int>(line.field_0_rect.x);
-    obj << "y1" << static_cast<int>(line.field_0_rect.y);
+        ADD("next2", mLine.field_10_next2);
+        ADD("previous2", mLine.field_E_previous2);
 
-    obj << "x2" << static_cast<int>(line.field_0_rect.w);
-    obj << "y2" << static_cast<int>(line.field_0_rect.h);
+        ADD("length", mLine.field_12_line_length);
+    }
 
-    obj << "type" << static_cast<int>(line.field_8_type);
-
-    obj << "previous" << static_cast<int>(line.field_A_previous);
-    obj << "next" << static_cast<int>(line.field_C_next);
-
-    obj << "previous2" << static_cast<int>(line.field_E_previous2);
-    obj << "next2" << static_cast<int>(line.field_10_next2);
-
-    obj << "length" << static_cast<int>(line.field_12_line_length);
-
-    return obj;
-}
-
-static ::PathLine JsonObjectToAELine(jsonxx::Object& collision)
-{
-    ::PathLine col = {};
-    col.field_0_rect.x = static_cast<short>(collision.get<jsonxx::Number>("x1"));
-    col.field_0_rect.y = static_cast<short>(collision.get<jsonxx::Number>("y1"));
-
-    col.field_0_rect.w = static_cast<short>(collision.get<jsonxx::Number>("x2"));
-    col.field_0_rect.h = static_cast<short>(collision.get<jsonxx::Number>("y2"));
-
-    col.field_8_type = static_cast<BYTE>(collision.get<jsonxx::Number>("type"));
-
-    col.field_A_previous = static_cast<short>(collision.get<jsonxx::Number>("previous"));
-    col.field_C_next = static_cast<short>(collision.get<jsonxx::Number>("next"));
-    
-    col.field_E_previous2 = static_cast<short>(collision.get<jsonxx::Number>("previous2"));
-    col.field_10_next2 = static_cast<short>(collision.get<jsonxx::Number>("next2"));
-
-    col.field_12_line_length = static_cast<short>(collision.get<jsonxx::Number>("length"));
-
-    return col;
-}
+    PathLine mLine = {};
+};
 
 
-std::vector<AO::PathLine> JsonReaderBase::ReadAOLines(jsonxx::Array& collisionsArray)
+std::vector<AO::PathLine> JsonReaderBase::ReadAOLines(TypesCollection& types, jsonxx::Array& collisionsArray)
 {
     std::vector<AO::PathLine> lines;
     for (auto i = 0u; i < collisionsArray.values().size(); i++)
     {
         jsonxx::Object collision = collisionsArray.get<jsonxx::Object>(i);
-        lines.emplace_back(JsonObjectToAOLine(collision));
+        AOLine tmpLine(types);
+        tmpLine.PropertiesFromJson(types, collision);
+        lines.emplace_back(tmpLine.mLine);
     }
     return lines;
 }
 
-std::vector<::PathLine> JsonReaderBase::ReadAELines(jsonxx::Array& collisionsArray)
+std::vector<::PathLine> JsonReaderBase::ReadAELines(TypesCollection& types, jsonxx::Array& collisionsArray)
 {
     std::vector<::PathLine> lines;
     for (auto i = 0u; i < collisionsArray.values().size(); i++)
     {
         jsonxx::Object collision = collisionsArray.get<jsonxx::Object>(i);
-        lines.emplace_back(JsonObjectToAELine(collision));
+        AELine tmpLine(types);
+        tmpLine.PropertiesFromJson(types, collision);
+        lines.emplace_back(tmpLine.mLine);
     }
     return lines;
 }
 
-std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load(Game gameType, const std::string& fileName)
+std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load(Game gameType, TypesCollection& types, const std::string& fileName)
 {
     std::ifstream inputFileStream(fileName.c_str());
     std::string jsonStr((std::istreambuf_iterator<char>(inputFileStream)), std::istreambuf_iterator<char>());
@@ -156,7 +135,6 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
         abort();
     }
 
-    TypesCollection globalTypes(gameType);
     std::vector<CameraNameAndTlvBlob> mapData;
 
     jsonxx::Array camerasArray = map.get<jsonxx::Array>("cameras");
@@ -190,13 +168,13 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
                 abort();
             }
             std::string structureType = mapObject.get<jsonxx::String>("object_structures_type");
-            std::unique_ptr<TlvObjectBase> tlv = gameType == Game::AO ? globalTypes.MakeTlvAO(structureType, nullptr) : globalTypes.MakeTlvAE(structureType, nullptr);
+            std::unique_ptr<TlvObjectBase> tlv = gameType == Game::AO ? types.MakeTlvAO(structureType, nullptr) : types.MakeTlvAE(structureType, nullptr);
             if (!tlv)
             {
                 abort();
             }
 
-            tlv->InstanceFromJson(globalTypes, mapObject);
+            tlv->InstanceFromJson(types, mapObject);
             cameraNameBlob.mTlvBlobs.emplace_back(tlv->GetTlvData(j == mapObjectsArray.values().size() - 1));
         }
         mapData.push_back(cameraNameBlob);
@@ -206,28 +184,33 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
 
 std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonReaderAO::Load(const std::string& fileName)
 {
-    auto [mapData, mapJsonObject] = JsonReaderBase::Load(Game::AO, fileName);
+    TypesCollection globalTypes(Game::AO);
+    auto [mapData, mapJsonObject] = JsonReaderBase::Load(Game::AO, globalTypes, fileName);
   
-    if (!mapJsonObject.has<jsonxx::Array>("collisions"))
+    if (!mapJsonObject.has<jsonxx::Object>("collisions"))
     {
         abort();
     }
-    jsonxx::Array collisionsArray = mapJsonObject.get<jsonxx::Array>("collisions");
-    std::vector<AO::PathLine> lines = ReadAOLines(collisionsArray);
+    
+    jsonxx::Object collisionsObject = mapJsonObject.get<jsonxx::Object>("collisions");
+    jsonxx::Array collisionsArray = collisionsObject.get<jsonxx::Array>("items");
+    std::vector<AO::PathLine> lines = ReadAOLines(globalTypes, collisionsArray);
 
     return { mapData, lines };
 }
 
 std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<::PathLine>> JsonReaderAE::Load(const std::string& fileName)
 {
-    auto [mapData, mapJsonObject] = JsonReaderBase::Load(Game::AE, fileName);
+    TypesCollection globalTypes(Game::AE);
+    auto [mapData, mapJsonObject] = JsonReaderBase::Load(Game::AE, globalTypes, fileName);
 
-    if (!mapJsonObject.has<jsonxx::Array>("collisions"))
+    if (!mapJsonObject.has<jsonxx::Object>("collisions"))
     {
         abort();
     }
-    jsonxx::Array collisionsArray = mapJsonObject.get<jsonxx::Array>("collisions");
-    std::vector<::PathLine> lines = ReadAELines(collisionsArray);
+    jsonxx::Object collisionsObject = mapJsonObject.get<jsonxx::Object>("collisions");
+    jsonxx::Array collisionsArray = collisionsObject.get<jsonxx::Array>("items");
+    std::vector<::PathLine> lines = ReadAELines(globalTypes, collisionsArray);
 
     return { mapData, lines };
 }
@@ -357,9 +340,16 @@ jsonxx::Array JsonWriterAO::ReadCollisionStream(BYTE* ptr, int numItems)
 {
     jsonxx::Array collisionsArray;
     AO::PathLine* pLineIter = reinterpret_cast<AO::PathLine*>(ptr);
+    TypesCollection types(Game::AO);
+
     for (int i = 0; i < numItems; i++)
     {
-        collisionsArray << AOLineToJsonObject(pLineIter[i]);
+        AOLine tmpLine(types, &pLineIter[i]);
+
+        jsonxx::Object properties;
+        tmpLine.PropertiesToJson(types, properties);
+
+        collisionsArray << properties;
     }
     return collisionsArray;
 }
@@ -378,7 +368,7 @@ JsonWriterBase::JsonWriterBase(int pathId, const std::string& pathBndName, const
     mMapRootInfo.mVersion = AliveAPI::GetApiVersion();
 }
 
-void JsonWriterBase::Save(const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName)
+void JsonWriterBase::Save(Game gameType, const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName)
 {
     ResetTypeCounterMap();
 
@@ -400,13 +390,28 @@ void JsonWriterBase::Save(const PathInfo& info, std::vector<BYTE>& pathResource,
 
     BYTE* pPathData = pathResource.data();
 
+
     BYTE* pLineIter = pPathData + info.mCollisionOffset;
     jsonxx::Array collisionsArray = ReadCollisionStream(pLineIter, info.mNumCollisionItems);
-    rootMapObject << "collisions" << collisionsArray;
+    jsonxx::Object colllisionObject;
+
+    std::unique_ptr<TypesCollection> globalTypes = MakeTypesCollection();
+    if (gameType == Game::AO)
+    {
+        AOLine tmpLine(*globalTypes);
+        colllisionObject << "structure" << tmpLine.PropertiesToJson();
+    }
+    else
+    {
+        AELine tmpLine(*globalTypes);
+        colllisionObject << "structure" << tmpLine.PropertiesToJson();
+    }
+
+    colllisionObject << "items" << collisionsArray;
+    rootMapObject << "collisions" << colllisionObject;
 
     const int* indexTable = reinterpret_cast<const int*>(pPathData + info.mIndexTableOffset);
 
-    std::unique_ptr<TypesCollection> globalTypes = MakeTypesCollection();
 
     jsonxx::Array cameraArray;
     for (int y = 0; y < info.mHeight; y++)
@@ -460,6 +465,8 @@ void JsonWriterBase::Save(const PathInfo& info, std::vector<BYTE>& pathResource,
     globalTypes->AddTlvsToJsonArray(objectStructuresArray);
     schemaObject << "object_structures" << objectStructuresArray;
 
+    // TODO: Collision structure(s)
+
     rootObject << "map" << rootMapObject;
     rootObject << "schema" << schemaObject;
 
@@ -485,9 +492,16 @@ jsonxx::Array JsonWriterAE::ReadCollisionStream(BYTE* ptr, int numItems)
 {
     jsonxx::Array collisionsArray;
     PathLine* pLineIter = reinterpret_cast<PathLine*>(ptr);
+    TypesCollection types(Game::AE);
+
     for (int i = 0; i < numItems; i++)
     {
-        collisionsArray << AELineToJsonObject(pLineIter[i]);
+        AELine tmpLine(types, &pLineIter[i]);
+
+        jsonxx::Object properties;
+        tmpLine.PropertiesToJson(types, properties);
+
+        collisionsArray << properties;
     }
     return collisionsArray;
 }

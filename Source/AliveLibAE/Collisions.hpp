@@ -36,8 +36,8 @@ public:
     __int8 field_9_padding; // Mode is 1 byte, but compiler aligned it to 2
     __int16 field_A_previous;
     __int16 field_C_next;
-    __int16 field_E_previous2;
-    __int16 field_10_next2;
+    __int16 field_E_previous2; // Never used
+    __int16 field_10_next2;    // And... also never used
     __int16 field_12_line_length;
 
     EXPORT PathLine* MoveOnLine_418260(FP* xpos, FP* ypos, FP velX);
